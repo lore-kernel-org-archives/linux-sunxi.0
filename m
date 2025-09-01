@@ -1,438 +1,251 @@
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2085.outbound.protection.outlook.com [40.107.100.85])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D76426FDB3;
-	Sun, 31 Aug 2025 23:33:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.85
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756683199; cv=fail; b=Xon1/l0e9+es9vyTVty5DLhucklNQhyg7MIu7SiKoCRjFfV2Hx9bXZG6KTyDmTLQBN0u/cjld7jfY16oSTFJ7N6Rx+lBOiGICWXry47ZJ3dSXNfG3TV/OLOUsudZ8wKZuvbykSyJgXCWVytbRitAeyHWhiIHet23dtSZk3PeXRs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756683199; c=relaxed/simple;
-	bh=Jp9sAvHL6CX98353pWEllyNpXDMmNK8irA/KH0Z2yZg=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fHf0Yz5Bp0I+uL36rI8tSnK1TdSPtQGuwF0oCJ1IktRGia7NLo59sQEtHK5wyAe6Aa8M4jGATRN97TVyo9S0C96k3QE0zEO8tcCWhRQAjkf1b38ss/hGod0u1IyPMnF+KCt+xAmI1t+BZ/vOlnLUjEB6/TiUd/q6jqK32iPeVuA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=OKKAfkN4; arc=fail smtp.client-ip=40.107.100.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1D1273FD;
+	Mon,  1 Sep 2025 06:54:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756709662; cv=none; b=ScbOMXSztmwI5oDaC1gcr0lgWxaIZv2+eLFac0/zjehZpK1kiHBxmcUOUzrQAG6hpnDoWuldgTebwSgyxVKwmRUNArJzvdn2mFGTvknPvvRuX/4xiDGTVeBPPEiiE9vOs1MLYanzCJaqkYtpbxtbVvF1AbagWhhlb8aG/wkwJ/E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756709662; c=relaxed/simple;
+	bh=fwrdXGVjUYTBQheWc/IsdqXrl6C9veTKc/wEeMzy6Ro=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s9u0rtesyckOHfDf+ZTvb9au48XZcUDDScW+ztlck0qEgGk67vim/oKyNw9oSRKjFcBM8RcbF8XnKCHfj2R7GWJ3GuPRD5BzKIm+YZ0U1Fq4xwLW5fpme5PdHm+5jNk4/lAc/OTUPr5dE5j0zXDv+pqMkTrAd5LW+7idrvXwLGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LmFUTpLl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="OKKAfkN4"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZFcGyiEh9noqs9S0RlRu87ofpYInhqitxRYb3u4tFi7rkDbmJSwX5utrMbcibCaX8WarAd8HyioN3f4xVsWugoDXsMOe46MiGto2BWKORJWEoDQjLJxyoT/S9a5U1v4KeWvcRbF21JHn6YlyKh05wbXDw1xfmUh3Qg8Dv8qxcy39yPHY7k6LU+Tus2wKIXkUFAwRqlfD7HlkUQ7qnikgk6EPS6MiMZxdlITojbBKjxzpCKhDzog30Y9jUFqZefhndWA3bIjE/IoSDt3umcklE+ELUaSbFT6N8fNt+L0dlE8WWU3lCRWJN+rFblgn5VZ0/fl2sCVY3QPOBnEP+iHPYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t7XAfQegnIapW7HTU9nrmLiGfFWJaStkTZMtYA/OKR8=;
- b=wmj6xEUWvErqOB2MfLaSqZbs5fwBSMH94zqcPaGu5w9IZQi1ttIsf49qxneLbk+xn+cKFBNI9IySbSTQk0yniwRgMRFaq4kZ8Ob2QrTwmWvo4HAYF85dcak+nFxfFEqu6B+PSyXVUYW6yZzKnA3/eK+JBHvqjgppTkqM2YbPieADZi57f5wOXVLdYIiEpmEFaMQIqcs66flcUurYccSStdQAuecyA4XbNzPHX5bKYtSIVGUF3AM5yKeULQGLgr6lRZr7sFofLeE8W6DttCBWz/VF7ZXq/MqgvFH3zuvMfTs6qp1AJbNjVUzxZWgRN2CdujwgzV+C4snhGXo6C+lUCQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=8bytes.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t7XAfQegnIapW7HTU9nrmLiGfFWJaStkTZMtYA/OKR8=;
- b=OKKAfkN4gYh7FYE13VwyUVlwLzOP7IXwdcMlonZjMqpUr90U0lRinAnLswM2kAfGt/Og1YrcOjn0AI0sqUhzJY6MFjS9zW0lmfTQKJk/MtjVy7I0tr8HufOhIKzFljUS9tUsLCt0arW3cree9/75IlRaOl+ZrK83MQpkJRpck7R7SqumRX4MzkDubY62EJ7R+RSxw7PLJRu2pbGJO6JexS2oquWZ7N5GX2r5vUem2HWuCGkraLsnA3PgOMBGK4zssmlAta93xCoY/oHXxtBRyV/wwSwmD0KqeLmYTh68e7t8DULugvH619Hpn6YnUFfaaNUpOA6DCaqle3VxFwlrdQ==
-Received: from BY5PR13CA0014.namprd13.prod.outlook.com (2603:10b6:a03:180::27)
- by IA1PR12MB7520.namprd12.prod.outlook.com (2603:10b6:208:42f::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.25; Sun, 31 Aug
- 2025 23:33:13 +0000
-Received: from CY4PEPF0000EE30.namprd05.prod.outlook.com
- (2603:10b6:a03:180:cafe::3) by BY5PR13CA0014.outlook.office365.com
- (2603:10b6:a03:180::27) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9094.15 via Frontend Transport; Sun,
- 31 Aug 2025 23:33:12 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CY4PEPF0000EE30.mail.protection.outlook.com (10.167.242.36) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9094.14 via Frontend Transport; Sun, 31 Aug 2025 23:33:12 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Sun, 31 Aug
- 2025 16:32:51 -0700
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail205.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Sun, 31 Aug
- 2025 16:32:50 -0700
-Received: from Asurada-Nvidia.nvidia.com (10.127.8.14) by mail.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server id 15.2.1544.14 via Frontend
- Transport; Sun, 31 Aug 2025 16:32:46 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: <joro@8bytes.org>, <jgg@nvidia.com>, <bhelgaas@google.com>
-CC: <suravee.suthikulpanit@amd.com>, <will@kernel.org>,
-	<robin.murphy@arm.com>, <sven@kernel.org>, <j@jannau.net>,
-	<alyssa@rosenzweig.io>, <neal@gompa.dev>, <robin.clark@oss.qualcomm.com>,
-	<m.szyprowski@samsung.com>, <krzk@kernel.org>, <alim.akhtar@samsung.com>,
-	<dwmw2@infradead.org>, <baolu.lu@linux.intel.com>, <kevin.tian@intel.com>,
-	<yong.wu@mediatek.com>, <matthias.bgg@gmail.com>,
-	<angelogioacchino.delregno@collabora.com>, <tjeznach@rivosinc.com>,
-	<paul.walmsley@sifive.com>, <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
-	<alex@ghiti.fr>, <heiko@sntech.de>, <schnelle@linux.ibm.com>,
-	<mjrosato@linux.ibm.com>, <gerald.schaefer@linux.ibm.com>,
-	<orsonzhai@gmail.com>, <baolin.wang@linux.alibaba.com>,
-	<zhang.lyra@gmail.com>, <wens@csie.org>, <jernej.skrabec@gmail.com>,
-	<samuel@sholland.org>, <jean-philippe@linaro.org>, <rafael@kernel.org>,
-	<lenb@kernel.org>, <yi.l.liu@intel.com>, <cwabbott0@gmail.com>,
-	<quic_pbrahma@quicinc.com>, <iommu@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, <asahi@lists.linux.dev>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
-	<linux-samsung-soc@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-	<linux-riscv@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
-	<linux-s390@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
-	<linux-tegra@vger.kernel.org>, <virtualization@lists.linux.dev>,
-	<linux-acpi@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-	<patches@lists.linux.dev>, <vsethi@nvidia.com>, <helgaas@kernel.org>,
-	<etzhao1900@gmail.com>
-Subject: [PATCH v4 7/7] pci: Suspend iommu function prior to resetting a device
-Date: Sun, 31 Aug 2025 16:31:59 -0700
-Message-ID: <cbceeb65dd248fd06e5665dbcb6df4484b2d8958.1756682135.git.nicolinc@nvidia.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1756682135.git.nicolinc@nvidia.com>
-References: <cover.1756682135.git.nicolinc@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LmFUTpLl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDC11C4AF0C;
+	Mon,  1 Sep 2025 06:54:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756709661;
+	bh=fwrdXGVjUYTBQheWc/IsdqXrl6C9veTKc/wEeMzy6Ro=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LmFUTpLl5iNLL2/TUwx1oABydVV7GBecXV4IgcoopSl28MYX7ugia5dDbWbet1kRl
+	 2cUHjwsW3S1ULyP/3pVqmTKsG83ZwlsxcbqtcoS+Ri4DqcNDsJfc5SRP4tYq2CRoF6
+	 PIv881LCWriz19Xc0NTpcm53tr9N6JTq6TOgM1EX+vSkoTNFJkBm2apRhZs+a6qXnw
+	 SJE+f2KobYNeXxhWHfGsDH23e5HjX092guokAQUjSCOhALU8BWA2+TOe6hrmoORmJd
+	 LVmQpsWHJLRV97+Xaco5MOtBzfHz0xWnXt9F8njQLdoj1v42qRayegs8nHKmE2UEGC
+	 7NppgdOlpgS9A==
+Date: Mon, 1 Sep 2025 08:54:18 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Samuel Holland <samuel@sholland.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+	Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+	Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
+	Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v2 1/8] drm/connector: let drivers declare infoframes as
+ unsupported
+Message-ID: <20250901-illustrious-dark-kagu-f4ef76@houat>
+References: <20250819-drm-limit-infoframes-v2-0-7595dda24fbd@oss.qualcomm.com>
+ <20250819-drm-limit-infoframes-v2-1-7595dda24fbd@oss.qualcomm.com>
+ <20250820-artichoke-silkworm-of-election-521b5e@houat>
+ <v7w7xkefm6ap7delx7wsvxmc76fwptqhe4ehokzfh4baueb7hr@acrx36exv42v>
+ <20250827-adorable-ocelot-of-adventure-ba88b7@houat>
+ <jrvjvayhjczgb4yx3xshbv3e6ndzkmb7uu3ynoes2maniwjg37@hamxu5mzqmf7>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE30:EE_|IA1PR12MB7520:EE_
-X-MS-Office365-Filtering-Correlation-Id: e96c6974-ef33-4031-2b67-08dde8e6c061
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?sJNl4fQixJTM+mpj0B9nZbfPWHbarYkGcbAg4fePGMtvlMyFYdi5LMDtrQ6r?=
- =?us-ascii?Q?OiiUhNJ7IgLYGG4e+VvMs7ABpEf4pt2CHt6VFbcnGEz0hLOuZklOr82DP6EF?=
- =?us-ascii?Q?HKYhuQX1THvnoeD2ssE3YLiXOVNEAun6CxYMwZZuuNbfPdyPyt+oBWTr4FSc?=
- =?us-ascii?Q?95qLDJy726RxaejX7D2P3SMolhz1Dd7bXt8LSlRPdsEkGPcYT1YOG/8sPjZ8?=
- =?us-ascii?Q?zTwY+CigYrzuZoqJmZkjovqX5WTu/M4YQmS1xUijyhd2Nf4diWpd6cnNRoHO?=
- =?us-ascii?Q?Y2Riv82hW/KkqLlqnihwtZuDffZOF4KBRCAr6eqOqLLNS+LCE1bx3cOqYn12?=
- =?us-ascii?Q?OqeI0IppOrKOBDT/AVj9mVZ+l5GqVBLvcg2M0JptNjiaedmqeDk8N058Iihg?=
- =?us-ascii?Q?cx9SKjoBdTFZbgVEoeYXUNAGtXP47ORBDgLlVJi2Z7xKrFQ6yWQPme19NRey?=
- =?us-ascii?Q?7w8khm355UpENIFWb/LTy09X9BIDWaX+WNRgWvoCr/0PyUrrKww/MM8MpBfq?=
- =?us-ascii?Q?uJdG3/iwumwMrI58nnR7fgJ3jc/qPQJdv2DxFS8EY1rhmMSpKbT8joM05NaY?=
- =?us-ascii?Q?/yqEdhez79nl1Q3pq7d20fs/eSLnV2QXlDgWWEOuTJ+gbGRvDQocP0hR0LDC?=
- =?us-ascii?Q?gmYbnCj4CqjtUGUoSXN++sWNqCVjU7IAGzq6BOqC3RloMLHv9EglC5ovaSfN?=
- =?us-ascii?Q?GHFtLm3xnZNIN8oFERplH41XaVx7gpSd/6MNWRHSIMMN6jOsAjxgxDTxW51D?=
- =?us-ascii?Q?SlXE41oNEKtsr0+mrUks/go1zoxWoLsdYG797rqpENn2sIW76eJSZr74BGmT?=
- =?us-ascii?Q?nCZiKnpGQdW42u5KiH5hocm7hYX1fNZndwLrXEDfc5ANewGZYXSCkU2TDX1G?=
- =?us-ascii?Q?GORrbdz/O8PyS7XX61Aa/QLhTU72oBmHVlAbkz83g8ofmYO8G1uoIQypIrSD?=
- =?us-ascii?Q?5vu0DBkpgBwasjZnRSSu+4zrik61dbnUGe9CsOg1HdAanXfIkjOLhHrjs7OX?=
- =?us-ascii?Q?s5DymIIhw3+n47USZkBIwkAxfoJto2JsDo/2x+5hzHLKeOys/Z5sHRA0z1/O?=
- =?us-ascii?Q?UAgH3YECNmtpUZwALX9uG5mxSu1ctcYsmizFbSUjuZTJy1PAHi893BZPEGeT?=
- =?us-ascii?Q?jeRX7RStkbfPwRepw8vD9hJenjj89wTr18riXWh5BV8rOrlNMTA7MOSsivTi?=
- =?us-ascii?Q?IkaiIPFNgpxZ5d+jQcqJoNjgYjQ4hPtjwGUwz9c7WbQoEAMEnHvglKMhLdWB?=
- =?us-ascii?Q?KrKMgU/WzNrZfqRZ6YErB8F7hxxNmOYKHYl1IbBtgDoEEGCq+v0EjVTu9jdN?=
- =?us-ascii?Q?M1BkX47OXHzmZnv/HID0mBylnGAH3PiBBiaAG7ZZ922Ai3BWL/Pr8X07wFub?=
- =?us-ascii?Q?uIDgeGtbFNO9ChVMO5ISnqKbGye+njJnviJVE4ZG+su2LlYetM6KqezRLHvu?=
- =?us-ascii?Q?EJ00yySqzxzPjOjHCfK/V4QWi1hjH2LqQBXztx0Cy+OePobj28Xh66qmeTKS?=
- =?us-ascii?Q?E9bywo03XOa031v3EBWHt6c7Xf+l9LdlpKre?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2025 23:33:12.2393
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e96c6974-ef33-4031-2b67-08dde8e6c061
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000EE30.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7520
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="y4s6v275ws7f4w3b"
+Content-Disposition: inline
+In-Reply-To: <jrvjvayhjczgb4yx3xshbv3e6ndzkmb7uu3ynoes2maniwjg37@hamxu5mzqmf7>
 
-PCIe permits a device to ignore ATS invalidation TLPs, while processing a
-reset. This creates a problem visible to the OS where an ATS invalidation
-command will time out: e.g. an SVA domain will have no coordination with a
-reset event and can racily issue ATS invalidations to a resetting device.
 
-The PCIe spec in sec 10.3.1 IMPLEMENTATION NOTE recommends to disable and
-block ATS before initiating a Function Level Reset. It also mentions that
-other reset methods could have the same vulnerability as well.
+--y4s6v275ws7f4w3b
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 1/8] drm/connector: let drivers declare infoframes as
+ unsupported
+MIME-Version: 1.0
 
-Now iommu_dev_reset_prepare/done() helpers are introduced for this matter.
-Use them in all the existing reset functions, which will attach the device
-to an IOMMU_DOMAIN_BLOCKED during a reset, so as to allow IOMMU driver to:
- - invoke pci_disable_ats() and pci_enable_ats(), if necessary
- - wait for all ATS invalidations to complete
- - stop issuing new ATS invalidations
- - fence any incoming ATS queries
+On Wed, Aug 27, 2025 at 05:04:53PM +0300, Dmitry Baryshkov wrote:
+> On Wed, Aug 27, 2025 at 09:30:20AM +0200, Maxime Ripard wrote:
+> > On Wed, Aug 20, 2025 at 12:52:44PM +0300, Dmitry Baryshkov wrote:
+> > > On Wed, Aug 20, 2025 at 09:15:36AM +0200, Maxime Ripard wrote:
+> > > > Hi,
+> > > >=20
+> > > > On Tue, Aug 19, 2025 at 09:57:30PM +0300, Dmitry Baryshkov wrote:
+> > > > > Currently DRM framework expects that the HDMI connector driver su=
+pports
+> > > > > all infoframe types: it generates the data as required and calls =
+into
+> > > > > the driver to program all of them, letting the driver to soft-fai=
+l if
+> > > > > the infoframe is unsupported. This has a major drawback on usersp=
+ace
+> > > > > API: the framework also registers debugfs files for all Infoframe=
+ types,
+> > > > > possibly surprising the users when infoframe is visible in the de=
+bugfs
+> > > > > file, but it is not visible on the wire.
+> > > > >=20
+> > > > > Let drivers declare that they support only a subset of infoframes,
+> > > > > creating a more consistent interface.
+> > > > >=20
+> > > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.co=
+m>
+> > > >=20
+> > > > I'm not really convinced. Infoframes aren't really something you sh=
+ould
+> > > > ignore, AVI is effectively mandatory, HDMI kind of is too, AUDIO is=
+ if
+> > > > audio support is enabled, DRM is mandatory if HDR is used.
+> > >=20
+> > > Nevertheless, sun4i, innohdmi, adv7511, it6263 and rk3066 drivers
+> > > provide support only for the AVI infoframe.
+> >=20
+> > Yes, but it's still something we shouldn't paper over. The spec mandates
+> > it, if drivers want to deviate from it it's something we should warn
+> > about, not silence.
+> >=20
+> > sun4i is a good example, to me at least since I have the doc. The
+> > hardware supports AVI, Audio, ACP, and SPD. HDR isn't supported, so DRM
+> > isn't either. The only missing one is HDMI, but the documentation isn't
+> > the best so it might still be supported. In short, it's a driver issue.
+> >=20
+> > adv7511 supports AVI, Audio, ACP, SPD, ACP, and looks to have a
+> > mechanism to send any infoframe as is. So, again, driver issue.
+>=20
+> I've send a patch, enabling SPD and VSI (HDMI) InfoFrames on ADV7511.
+>=20
+> >=20
+> > I couldn't find the other datasheet, but I'd be very surprised if it
+> > wasn't the case for these too.
+> >=20
+> > > Some of them can be extended to support other infoframe kinds (e.g.
+> > > ADV7511 has two spare infoframes which can be used for HDMI and SPD).
+> > >=20
+> > > > SPD is indeed optional though.
+> > > >=20
+> > > > So, it's really dynamic in essence, and not really something we sho=
+uld
+> > > > expect drivers to ignore.
+> > > >=20
+> > > > I do acknowledge that a lot of drivers just silently ignore the
+> > > > infoframes they don't support at the moment, which isn't great eith=
+er.
+> > > >=20
+> > > > Maybe we should standardize and document what drivers should do when
+> > > > they don't support a given infoframe type?
+> > >=20
+> > > The chips might be generating infoframes internally. This series was
+> > > triggered by LT9611UXC, which does all HDMI work under the hood in the
+> > > firmware. See [1]. The series I posted hooks HDMI audio directly into
+> > > the bridge driver, but I'd really prefer to be able to use
+> > > drm_atomic_helper_connector_hdmi_hotplug(), especially if I ever get =
+to
+> > > implementing CEC support for it.
+> > >=20
+> > > ADV7511 likewise generates audio infoframe without Linux
+> > > help (audio-related fields are programmed, but it's not the
+> > > infoframe itself).
+> >=20
+> > Implementing the write_infoframe hooks as a nop with a comment in those
+> > case is totally reasonable to me.
+> >=20
+> > I'd still like to document that drivers should only return 0 if they
+> > programmed the infoframe, and -ENOTSUPP (and the core logging a warning)
+> > otherwise.
+> >=20
+> > That way, we would be able to differentiate between the legimitate
+> > LT9611UXC case, and the "driver is broken" sun4i (and others) case.
+>=20
+> I don't want to end up in a sitation where userspace has a different
+> idea of the InfoFrame being sent than the actual one being present on
+> the wire.
 
-Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
----
- drivers/pci/pci.h      |  2 ++
- drivers/pci/pci-acpi.c | 12 ++++++--
- drivers/pci/pci.c      | 68 ++++++++++++++++++++++++++++++++++++++----
- drivers/pci/quirks.c   | 18 ++++++++++-
- 4 files changed, 92 insertions(+), 8 deletions(-)
+It's not ideal, sure, but also, what's wrong with it? We're doing it
+*all the time*. Modes programmed by userspace are adjusted for the
+hardware, and thus the mode reported by the CRTC turns out different
+than the one actually used in hardware. Audio sampling rates might not
+match exactly what we're doing. The quirks infrastructure disables part
+of the EDID the userspace has access to, etc.
 
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index 34f65d69662e9..9700ebca55771 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -106,6 +106,8 @@ void pci_init_reset_methods(struct pci_dev *dev);
- int pci_bridge_secondary_bus_reset(struct pci_dev *dev);
- int pci_bus_error_reset(struct pci_dev *dev);
- int __pci_reset_bus(struct pci_bus *bus);
-+int pci_reset_iommu_prepare(struct pci_dev *dev);
-+void pci_reset_iommu_done(struct pci_dev *dev);
- 
- struct pci_cap_saved_data {
- 	u16		cap_nr;
-diff --git a/drivers/pci/pci-acpi.c b/drivers/pci/pci-acpi.c
-index ddb25960ea47d..3291424730824 100644
---- a/drivers/pci/pci-acpi.c
-+++ b/drivers/pci/pci-acpi.c
-@@ -969,6 +969,7 @@ void pci_set_acpi_fwnode(struct pci_dev *dev)
- int pci_dev_acpi_reset(struct pci_dev *dev, bool probe)
- {
- 	acpi_handle handle = ACPI_HANDLE(&dev->dev);
-+	int ret = 0;
- 
- 	if (!handle || !acpi_has_method(handle, "_RST"))
- 		return -ENOTTY;
-@@ -976,12 +977,19 @@ int pci_dev_acpi_reset(struct pci_dev *dev, bool probe)
- 	if (probe)
- 		return 0;
- 
-+	ret = pci_reset_iommu_prepare(dev);
-+	if (ret) {
-+		pci_err(dev, "failed to stop IOMMU\n");
-+		return ret;
-+	}
-+
- 	if (ACPI_FAILURE(acpi_evaluate_object(handle, "_RST", NULL, NULL))) {
- 		pci_warn(dev, "ACPI _RST failed\n");
--		return -ENOTTY;
-+		ret = -ENOTTY;
- 	}
- 
--	return 0;
-+	pci_reset_iommu_done(dev);
-+	return ret;
- }
- 
- bool acpi_pci_power_manageable(struct pci_dev *dev)
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index b0f4d98036cdd..b4ca44ea6f494 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -13,6 +13,7 @@
- #include <linux/delay.h>
- #include <linux/dmi.h>
- #include <linux/init.h>
-+#include <linux/iommu.h>
- #include <linux/msi.h>
- #include <linux/of.h>
- #include <linux/pci.h>
-@@ -25,6 +26,7 @@
- #include <linux/logic_pio.h>
- #include <linux/device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/pci-ats.h>
- #include <linux/pci_hotplug.h>
- #include <linux/vmalloc.h>
- #include <asm/dma.h>
-@@ -95,6 +97,23 @@ bool pci_reset_supported(struct pci_dev *dev)
- 	return dev->reset_methods[0] != 0;
- }
- 
-+/*
-+ * Per PCIe r6.3, sec 10.3.1 IMPLEMENTATION NOTE, software disables ATS before
-+ * initiating a reset. Notify the iommu driver that enabled ATS.
-+ */
-+int pci_reset_iommu_prepare(struct pci_dev *dev)
-+{
-+	if (pci_ats_supported(dev))
-+		return iommu_dev_reset_prepare(&dev->dev);
-+	return 0;
-+}
-+
-+void pci_reset_iommu_done(struct pci_dev *dev)
-+{
-+	if (pci_ats_supported(dev))
-+		iommu_dev_reset_done(&dev->dev);
-+}
-+
- #ifdef CONFIG_PCI_DOMAINS
- int pci_domains_supported = 1;
- #endif
-@@ -4529,13 +4548,22 @@ EXPORT_SYMBOL(pci_wait_for_pending_transaction);
-  */
- int pcie_flr(struct pci_dev *dev)
- {
-+	int ret = 0;
-+
- 	if (!pci_wait_for_pending_transaction(dev))
- 		pci_err(dev, "timed out waiting for pending transaction; performing function level reset anyway\n");
- 
-+	/* Have to call it after waiting for pending DMA transaction */
-+	ret = pci_reset_iommu_prepare(dev);
-+	if (ret) {
-+		pci_err(dev, "failed to stop IOMMU\n");
-+		return ret;
-+	}
-+
- 	pcie_capability_set_word(dev, PCI_EXP_DEVCTL, PCI_EXP_DEVCTL_BCR_FLR);
- 
- 	if (dev->imm_ready)
--		return 0;
-+		goto done;
- 
- 	/*
- 	 * Per PCIe r4.0, sec 6.6.2, a device must complete an FLR within
-@@ -4544,7 +4572,10 @@ int pcie_flr(struct pci_dev *dev)
- 	 */
- 	msleep(100);
- 
--	return pci_dev_wait(dev, "FLR", PCIE_RESET_READY_POLL_MS);
-+	ret = pci_dev_wait(dev, "FLR", PCIE_RESET_READY_POLL_MS);
-+done:
-+	pci_reset_iommu_done(dev);
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(pcie_flr);
- 
-@@ -4572,6 +4603,7 @@ EXPORT_SYMBOL_GPL(pcie_reset_flr);
- 
- static int pci_af_flr(struct pci_dev *dev, bool probe)
- {
-+	int ret = 0;
- 	int pos;
- 	u8 cap;
- 
-@@ -4598,10 +4630,17 @@ static int pci_af_flr(struct pci_dev *dev, bool probe)
- 				 PCI_AF_STATUS_TP << 8))
- 		pci_err(dev, "timed out waiting for pending transaction; performing AF function level reset anyway\n");
- 
-+	/* Have to call it after waiting for pending DMA transaction */
-+	ret = pci_reset_iommu_prepare(dev);
-+	if (ret) {
-+		pci_err(dev, "failed to stop IOMMU\n");
-+		return ret;
-+	}
-+
- 	pci_write_config_byte(dev, pos + PCI_AF_CTRL, PCI_AF_CTRL_FLR);
- 
- 	if (dev->imm_ready)
--		return 0;
-+		goto done;
- 
- 	/*
- 	 * Per Advanced Capabilities for Conventional PCI ECN, 13 April 2006,
-@@ -4611,7 +4650,10 @@ static int pci_af_flr(struct pci_dev *dev, bool probe)
- 	 */
- 	msleep(100);
- 
--	return pci_dev_wait(dev, "AF_FLR", PCIE_RESET_READY_POLL_MS);
-+	ret = pci_dev_wait(dev, "AF_FLR", PCIE_RESET_READY_POLL_MS);
-+done:
-+	pci_reset_iommu_done(dev);
-+	return ret;
- }
- 
- /**
-@@ -4632,6 +4674,7 @@ static int pci_af_flr(struct pci_dev *dev, bool probe)
- static int pci_pm_reset(struct pci_dev *dev, bool probe)
- {
- 	u16 csr;
-+	int ret;
- 
- 	if (!dev->pm_cap || dev->dev_flags & PCI_DEV_FLAGS_NO_PM_RESET)
- 		return -ENOTTY;
-@@ -4646,6 +4689,12 @@ static int pci_pm_reset(struct pci_dev *dev, bool probe)
- 	if (dev->current_state != PCI_D0)
- 		return -EINVAL;
- 
-+	ret = pci_reset_iommu_prepare(dev);
-+	if (ret) {
-+		pci_err(dev, "failed to stop IOMMU\n");
-+		return ret;
-+	}
-+
- 	csr &= ~PCI_PM_CTRL_STATE_MASK;
- 	csr |= PCI_D3hot;
- 	pci_write_config_word(dev, dev->pm_cap + PCI_PM_CTRL, csr);
-@@ -4656,7 +4705,9 @@ static int pci_pm_reset(struct pci_dev *dev, bool probe)
- 	pci_write_config_word(dev, dev->pm_cap + PCI_PM_CTRL, csr);
- 	pci_dev_d3_sleep(dev);
- 
--	return pci_dev_wait(dev, "PM D3hot->D0", PCIE_RESET_READY_POLL_MS);
-+	ret = pci_dev_wait(dev, "PM D3hot->D0", PCIE_RESET_READY_POLL_MS);
-+	pci_reset_iommu_done(dev);
-+	return ret;
- }
- 
- /**
-@@ -5111,6 +5162,12 @@ static int cxl_reset_bus_function(struct pci_dev *dev, bool probe)
- 	if (rc)
- 		return -ENOTTY;
- 
-+	rc = pci_reset_iommu_prepare(dev);
-+	if (rc) {
-+		pci_err(dev, "failed to stop IOMMU\n");
-+		return rc;
-+	}
-+
- 	if (reg & PCI_DVSEC_CXL_PORT_CTL_UNMASK_SBR) {
- 		val = reg;
- 	} else {
-@@ -5125,6 +5182,7 @@ static int cxl_reset_bus_function(struct pci_dev *dev, bool probe)
- 		pci_write_config_word(bridge, dvsec + PCI_DVSEC_CXL_PORT_CTL,
- 				      reg);
- 
-+	pci_reset_iommu_done(dev);
- 	return rc;
- }
- 
-diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index d97335a401930..c1c32e57fe267 100644
---- a/drivers/pci/quirks.c
-+++ b/drivers/pci/quirks.c
-@@ -4225,6 +4225,22 @@ static const struct pci_dev_reset_methods pci_dev_reset_methods[] = {
- 	{ 0 }
- };
- 
-+static int __pci_dev_specific_reset(struct pci_dev *dev, bool probe,
-+				    const struct pci_dev_reset_methods *i)
-+{
-+	int ret;
-+
-+	ret = pci_reset_iommu_prepare(dev);
-+	if (ret) {
-+		pci_err(dev, "failed to stop IOMMU\n");
-+		return ret;
-+	}
-+
-+	ret = i->reset(dev, probe);
-+	pci_reset_iommu_done(dev);
-+	return ret;
-+}
-+
- /*
-  * These device-specific reset methods are here rather than in a driver
-  * because when a host assigns a device to a guest VM, the host may need
-@@ -4239,7 +4255,7 @@ int pci_dev_specific_reset(struct pci_dev *dev, bool probe)
- 		     i->vendor == (u16)PCI_ANY_ID) &&
- 		    (i->device == dev->device ||
- 		     i->device == (u16)PCI_ANY_ID))
--			return i->reset(dev, probe);
-+			return __pci_dev_specific_reset(dev, probe, i);
- 	}
- 
- 	return -ENOTTY;
--- 
-2.43.0
+And all those are under the userspace control, which the infoframes
+aren't.
 
+> It seems, we need several states per the infoframe:
+>=20
+> - Not supported
+
+Honestly, I'm not sure we need a state for that one. If that infoframe
+was set by the framework, then the driver must support it. And if it
+wasn't, then there's nothing in debugfs.
+
+> - Autogenerated
+
+Do we have any way to read them back on those?
+
+> - Generated by software
+>=20
+> E.g. in case of ADV7511 we can declare that Audio InfofFrame is
+> autogenerated, AVI, HDMI and SPD as 'software-generated' and DRM (HDR)
+> as unsupported. LT9611UXC will declare all (need to check) frame types
+> as auto.
+>=20
+> This way we can implement the checks and still keep userspace from
+> having irrelevant data in debugfs.
+
+If the only thing you're after is to prevent inconsistent data in
+userpace for devices that can generate it automatically, then I guess we
+could just implement an (optional) callback to read an infoframe from
+the hardware when reading from debugfs. Would that work?
+
+> I will update my patchset to implement this, but I have another question
+> beforehand: should we just declare VSI support or should it be more exact,
+> specifying that the driver support HVS (00:0c:03), HVFS (c4:5d:d8), etc?
+
+I guess you're talking about HDMI 1.4 Vendor specific Infoframe vs HDMI
+2.0 HF-VSIF here?
+
+If so, the toggle should be HDMI 2.0 support. We'll need that toggle for
+other things anyway (scrambler, YUV420, etc.)
+
+> I'm asking, because e.g. MSM HDMI controller has hardware support for
+> generating HVS frames (but only HVS, the OUI is not programmed, register
+> format doesn't match 1:1 frame contents, etc). I instead ended up using
+> GENERIC0, because it was more flexible (it's like SPARE packets on
+> ADV7511, the contents is being sent as is). However if we ever need to
+> send DRM infoframes, we might need to switch from GENERIC0 to HVS, for
+> the price of being unable to send HVFS frames.
+
+Section 10.2 of the HDMI 2.0 states:
+
+  Transmission of the HF-VSIF by Source Devices is optional unless one (or
+  more) of the features listed in Table 10-1 is active 1. If such features
+  are active, transmission of the HF-VSIF is mandatory.
+
+The features in question being 3d.
+
+So unless you're supporting 3d, suppporting VSI only seems ok to me.
+
+Maxime
+
+--y4s6v275ws7f4w3b
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaLVDFgAKCRAnX84Zoj2+
+dsW/AX0U83PxVz2ZFGRVhJWXbdOSlFJaS3ZJB3hJQHhEvUxAjMDyEmsQtJpab64J
+jlTA8AgBgJFA5ObmVPWx35prpq51wIE1WmPfaEIYnyIy9Nwy/I77gfqMjdFA5fGb
+bQYMz+U6mQ==
+=xcRb
+-----END PGP SIGNATURE-----
+
+--y4s6v275ws7f4w3b--
