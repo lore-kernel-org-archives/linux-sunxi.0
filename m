@@ -1,123 +1,159 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A89FD2EBDF0
-	for <linux-sunxi@lists.linux.dev>; Tue,  2 Sep 2025 09:36:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751972E1F1C;
+	Tue,  2 Sep 2025 13:17:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756805797; cv=none; b=hqVQN8LvDhQ3qA3Lo4sjRDeuLqJsgXtdlOrBNqqKSu7yNPH1PDAgoH3EnkJ1FWChzk09zwr0j++6H5USMU4pRmT6sWg2x7H6EpYd3W6e2oUL5T2+7fS4GUd+k1BddvBxCw9uy134RQA764110TqgX+40G343AaoOv6i53UDXT8A=
+	t=1756819072; cv=none; b=sm4/ml5rb8dCnP+GSSAx8NRDc/I006N7rR3+O8u+k2jJD0699kGlyL1hiA9eohucFauJP7jhcrHDxC9qmJLms0BzKCdg5+7XByQ2KUbe+J6XcCHKvoKc9J4+qTACGAQqJA1mU3kVLFem6+dZqbIqRpQMSryDMw0iAPPGhKyw8s4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756805797; c=relaxed/simple;
-	bh=yeV0poUu8BpAChQWv/I5vQlXdhS+Z6/XZIvD0gaRtQ0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VVm9VBXjbbRQ/zrGVCM7oc0OFTnVcfHIQ8SXZx3fzrWayy7AZGXGTHt7p7RLyzEhU6xMk2yuk0LvwocOqPHqnXR8zPsunaYmc2AwHNck39RH/whO5Ay9bD+Yvl0Nye9mjE5AE6hBGTNX43MwU0vEFdUxj4uYIbMDWTtoyFLPBb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jtXYjA6M; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756819072; c=relaxed/simple;
+	bh=0xocXOa6y0rnRdA2Z5T9f2V5CZOoroCxOVuasw3Mk80=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=DJcTsq6YJDC3yuw8yFhFGy4NDATSg4nWsmX4ZRbHXfQDu2rgPdaobbUot+bWkAoul5wi40nobGUV32m1EIDJNhbGQIOSlqp2peG1vJT71ousOVefk+B7v++gq7RUM4A+eWnNochkCbCwjeePEjy38JYgeBVdP/zHIRK4a70Fbcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ov/uQ46s; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jtXYjA6M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38A8EC4CEF9;
-	Tue,  2 Sep 2025 09:36:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ov/uQ46s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D28A0C4CEED;
+	Tue,  2 Sep 2025 13:17:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756805797;
-	bh=yeV0poUu8BpAChQWv/I5vQlXdhS+Z6/XZIvD0gaRtQ0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=jtXYjA6Mt2mntpHJqul9Kp8BOBmB2EU11UR9iEkDM6GvzT5R/sL8Ve0KJoo+jHHL6
-	 sDgX6XkC3xGr6IR/reU1RljhzjsI73Bwwb6VFs3tXFDNFf3HesvqwwvYNMOuCeQEnb
-	 TnlEAoQWGZTlbl/oFCJHwjyDXdrGaKOdwlOLTLPneCTjhQPppxTWmPZwOia67ONwsP
-	 A4hIZQ5Cj4kQ79AaohnqLZ/juDvjOvmAypOno1bEKhCqZIsMjHNN7m9CAr/DBCjltM
-	 Pubhrr28xjcwBZctk9wB9wu99P6FxZCKsJ3c1ID2f6djwVtpCt2sEwy6LcndYAHUe0
-	 q4waFiMRYKCqw==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 02 Sep 2025 11:35:26 +0200
-Subject: [PATCH v2 27/37] drm/sun4i: Switch to
- drm_atomic_get_new_crtc_state()
+	s=k20201202; t=1756819072;
+	bh=0xocXOa6y0rnRdA2Z5T9f2V5CZOoroCxOVuasw3Mk80=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=ov/uQ46s6uLHRT28cJtvqU4C1PYT6pAHKmdPbhEkLxQlRXtMtWdx3n/NT86WxYUNQ
+	 /QemBJckw/cd0Kl7IM9F6QuvSHXE1xkDjxkNDX1RU6bzAnw8GvZJBFagAMj7t9RJ9M
+	 5irkdLBSAGWfn56K8XDFA+9HD217jMMXhBD2QmxEd7NxHslC4kVXBuMX3tbaYS1okJ
+	 c5IpMkelGqNn2SlB3WCRqMLWKbBNSHiG+m//O67IJcgJWMMILEBtsIIEfO04POm8Ps
+	 fsbG2OdRJEAMGPNcPbHwfNMVJuRY6k0ECarHwiOlaL1DmrRVkHAeqE5HfoW+7mKXhC
+	 YZCNwUpN9YqYw==
+Date: Tue, 02 Sep 2025 08:17:49 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250902-drm-no-more-existing-state-v2-27-de98fc5f6d66@kernel.org>
-References: <20250902-drm-no-more-existing-state-v2-0-de98fc5f6d66@kernel.org>
-In-Reply-To: <20250902-drm-no-more-existing-state-v2-0-de98fc5f6d66@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2246; i=mripard@kernel.org;
- h=from:subject:message-id; bh=yeV0poUu8BpAChQWv/I5vQlXdhS+Z6/XZIvD0gaRtQ0=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnbdoV7lkjwHP+rvEF/U9XP5Xfesbteif//VTnAfNX7c
- 8FbdBm/d0xlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJfP/MWM0ybfNxs1XJ/bO2
- 1P+c3qi7I47tkqz3yufzn+xiOs35/EPTya1rT27gd5u0//KEtqVF/n6MDUub+MqnpvZy1Kqv47q
- oIbgz+T/38/srhW/OFGy0ubahx/6jp/Q712DvHbe5nzNW7Fc3AQA=
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Albert Ou <aou@eecs.berkeley.edu>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Conor Dooley <conor+dt@kernel.org>, linux-riscv@lists.infradead.org, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, devicetree@vger.kernel.org, 
+ Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev, 
+ Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, Alexandre Ghiti <alex@ghiti.fr>, 
+ Samuel Holland <samuel@sholland.org>
+To: Lukas Schmid <lukas.schmid@netcube.li>
+In-Reply-To: <20250831162536.2380589-1-lukas.schmid@netcube.li>
+References: <20250831162536.2380589-1-lukas.schmid@netcube.li>
+Message-Id: <175678730955.877897.3145791714848835564.robh@kernel.org>
+Subject: Re: [PATCH v8 0/5] Add support for NetCube Systems Nagami SoM and
+ its carrier boards
 
-The sun4i atomic_check implementation uses the deprecated
-drm_atomic_get_existing_crtc_state() helper.
 
-This hook is called as part of the global atomic_check, thus before the
-states are swapped. The existing state thus points to the new state, and
-we can use drm_atomic_get_new_crtc_state() instead.
+On Sun, 31 Aug 2025 18:25:29 +0200, Lukas Schmid wrote:
+> This series adds support for the NetCube Systems Nagami SoM and its
+> associated carrier boards, the Nagami Basic Carrier and the Nagami Keypad
+> Carrier.
+> 
+> Changes in v8:
+>   - Use a gpio-mux instead of the gpio-hog for the USB0_SEC_EN signal
+>   - Fix the dt-schema issues
+> 
+> Changes in v7:
+>   - Fix the gpio numbering for the USB_SEC_EN gpio hog
+>   - Fix the gpio-line-names for the keypad carrier
+> 
+> Changes in v6:
+>   - Add 'usb0-enable-hog' to the som to enable the USB-OTG port by default
+>   - Update the keypad carrier dts to match actual board revision
+> 
+> Changes in v5:
+>   - Re-add the non-removable property to the ESP32 interface
+>   - Add the mmc-pwrseq node for the ESP32 to initialize the ESP32 correctly
+>   - Remove the unused ehci0 and ohci0 nodes from the Keypad Carrier since
+>     USB port is peripheral only
+> 
+> Changes in v4:
+>   - Disable the default interfaces on the card-edge but keep the pinctrl
+>     definitions for them
+>   - Split the pinctrl definitions for the SPI interface into the basic spi
+>     pins and the hold/wp pins
+>   - Move some mmc0 properties to the Basic Carrier dts
+>   - Remove non-removable property from the ESP32 interface
+>   - Fix typo in the keypad matrix definition
+> 
+> Changes in v3:
+>   - Add missing dcxo node to the SoM dtsi
+>   - Rename the multi-led node
+>   - Change dr_mode to "peripheral" for the Keypad Carrier
+> 
+> Changes in v2:
+>  - Squash the binding patches into one patch
+>  - Fix formatting of the phy node in the SoM dtsi
+>  - Add description on where the phy is located in the SoM dtsi
+>  - Fix the phy address in the SoM dtsi
+>  - Move the carrier bindings into the same description as enums
+> 
+> Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
+> ---
+> Lukas Schmid (5):
+>   dt-bindings: arm: sunxi: Add NetCube Systems Nagami SoM and carrier
+>     board bindings
+>   riscv: dts: allwinner: d1s-t113: Add pinctrl's required by NetCube
+>     Systems Nagami SoM
+>   ARM: dts: sunxi: add support for NetCube Systems Nagami SoM
+>   ARM: dts: sunxi: add support for NetCube Systems Nagami Basic Carrier
+>   ARM: dts: sunxi: add support for NetCube Systems Nagami Keypad Carrier
+> 
+>  .../devicetree/bindings/arm/sunxi.yaml        |   8 +
+>  arch/arm/boot/dts/allwinner/Makefile          |   3 +
+>  ...n8i-t113s-netcube-nagami-basic-carrier.dts |  67 +++++
+>  ...8i-t113s-netcube-nagami-keypad-carrier.dts | 129 +++++++++
+>  .../allwinner/sun8i-t113s-netcube-nagami.dtsi | 250 ++++++++++++++++++
+>  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  48 ++++
+>  6 files changed, 505 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-basic-carrier.dts
+>  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dts
+>  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami.dtsi
+> 
+> --
+> 2.39.5
+> 
+> 
+> 
+> 
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
----
-To: Maxime Ripard <mripard@kernel.org>
-To: Chen-Yu Tsai <wens@csie.org>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-sunxi@lists.linux.dev
----
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 3 +--
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 3 +--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-index f97be0040aab29cb4e138fcceb20e90c72db0252..94ac6ad6f30688a048e594811d2ae72aaa44376d 100644
---- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-@@ -204,12 +204,11 @@ static int sun8i_ui_layer_atomic_check(struct drm_plane *plane,
- 	int min_scale, max_scale;
- 
- 	if (!crtc)
- 		return 0;
- 
--	crtc_state = drm_atomic_get_existing_crtc_state(state,
--							crtc);
-+	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 	if (WARN_ON(!crtc_state))
- 		return -EINVAL;
- 
- 	min_scale = DRM_PLANE_NO_SCALING;
- 	max_scale = DRM_PLANE_NO_SCALING;
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-index a09ee4097537fca8b653f34a833b36b69e343ea5..1f77e1d2984548e746805f8323f537f3b4d93198 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-@@ -325,12 +325,11 @@ static int sun8i_vi_layer_atomic_check(struct drm_plane *plane,
- 	int min_scale, max_scale;
- 
- 	if (!crtc)
- 		return 0;
- 
--	crtc_state = drm_atomic_get_existing_crtc_state(state,
--							crtc);
-+	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 	if (WARN_ON(!crtc_state))
- 		return -EINVAL;
- 
- 	min_scale = DRM_PLANE_NO_SCALING;
- 	max_scale = DRM_PLANE_NO_SCALING;
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
 
--- 
-2.50.1
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+This patch series was applied (using b4) to base:
+ Base: attempting to guess base-commit...
+ Base: tags/next-20250829 (best guess, 2/3 blobs matched)
+
+If this is not the correct base, please add 'base-commit' tag
+(or use b4 which does this automatically)
+
+New warnings running 'make CHECK_DTBS=y for arch/arm/boot/dts/allwinner/' for 20250831162536.2380589-1-lukas.schmid@netcube.li:
+
+arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dtb: /soc/i2c@2502800/keypad@34: failed to match any schema with compatible: ['ti,tca8418']
+
+
+
+
 
