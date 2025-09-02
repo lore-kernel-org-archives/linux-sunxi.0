@@ -1,82 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B5732A81D;
-	Tue,  2 Sep 2025 13:36:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF99E226CF1;
+	Tue,  2 Sep 2025 14:11:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756820203; cv=none; b=k5+8eJsMlTC8jnFn/g71Y1mo97MHLFH6LoZCP5l6qlUSEv2m8rDB8r2KAV06tvtXcPLZoAUp0NCDJ5NQNkCG8dRqwkto2kDgVagdJa3qn2bahnfscFOVHymD2PYNJjKJHLPmYmR1Gzq4Rwyd9Eq93QwfgVWpdYl9U1n/VfHFLHg=
+	t=1756822298; cv=none; b=GHBq8UoOwJaqcZTT5aOxmSEwPIo7vjnKvrPNhOGj4JmlXo79rwbOyuORRYW9lvIoEA98jhU0rVsK1tVs8mH6OJAGRnLyEj0WAD7G4idDNPGVXLsscSYsZ258ty1aFsXNt2kqbG34TcVwFMu+AfGI51zBuGgAHQbf7eKFDwr2mtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756820203; c=relaxed/simple;
-	bh=Z7VRLkLIaiLIAa6wk9u2fF+pQfwD1XWt+K4SKpchlgc=;
+	s=arc-20240116; t=1756822298; c=relaxed/simple;
+	bh=T3wyZ6jtecqFDOGjVL1fyOX/b7Gmqgj53Psy+nVhaxE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KIpohNKytOGj2gIidYsq9uSiU9M8nw29i/a4Azfck40QUo+qCEPxh1i7HlDZwEvgvuh7EbeAwXuhGzd6AuM1tMQjGzDXe7vaC1cLx/QGR1R0hPLKiSpwVx0nvFSzUDUD4IMIwr+ERDeYTfGHv9vUB2zNtKGaRRdB7I/rQWJywSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GYah2HEM; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=TnQ3wrmQCNCZXB0veX2/D6vEWtj3Z83aeSOxoktlA81DmNbPaIySidsD7R5NoOCPcLM6tW9D/xb2xnTI6tYOJtabiBKZbXCpoAPqpep2g+McCD2ZPZYAoetI1h60MI4XdYugNhQipjJPIIQC5/y/iWMIysE2SftZLHNw9oZlV1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PGGOM86H; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GYah2HEM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C556FC4CEED;
-	Tue,  2 Sep 2025 13:36:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PGGOM86H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1832C4CEED;
+	Tue,  2 Sep 2025 14:11:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756820203;
-	bh=Z7VRLkLIaiLIAa6wk9u2fF+pQfwD1XWt+K4SKpchlgc=;
+	s=k20201202; t=1756822298;
+	bh=T3wyZ6jtecqFDOGjVL1fyOX/b7Gmqgj53Psy+nVhaxE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GYah2HEMyor8pWpo2GMyFsi4vh2wZRtT6cruQJ2Gs1oevj6Hb/zM08qzMEwGlNyU4
-	 MGKhgAyFacLfWBd8AgX9O1Y/OGhErCdzrIXKk1quu18LStSuRdaAfzWj+pRSrFKjjP
-	 jaOS7SMTesZdAZklPYcxkyGRQOYNsLUCpy5WJYzsbykKSwhPFDYazJJDlQZcTHJ3CK
-	 figXHRDxIApc/uHxlvqarzaJw7+v9qreTYUrb0YsDGRKrnAZ7731ORGPoIiGt6ZdOs
-	 0XnHUbypoUL00Nlh0rm4rSHePDhwcVXnM2EwWU1lqVINTRPJGPCaGB+lAJv13eWxZQ
-	 gJD78fh6wstVA==
-Date: Tue, 2 Sep 2025 14:36:38 +0100
-From: Lee Jones <lee@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 2/3] mfd: axp20x: Add support for AXP318W PMIC
-Message-ID: <20250902133638.GO2163762@google.com>
-References: <20250813235330.24263-1-andre.przywara@arm.com>
- <20250813235330.24263-3-andre.przywara@arm.com>
+	b=PGGOM86HcFpJ3YVUjeAOSaRCxRnk6EAQ2f9GFx0xl2YwcXWNHKEAJVJ+lRasFvNEo
+	 z6HTyRa9bLS8/m8dWbDjncohPJhC6GhJL6VWIA762BxoY3L7/CbCnl6RZ9Qhlqu/Yx
+	 64PeucOP6FW6oiDD6kzJMuUaGwETnec1ChpGjbODt0C+85o8nea6e8T7EsbfVgysSY
+	 1Pv5bbO+g9W/E+zOwqsKrf3Lm676SKYj3soWjgdy4EM0a+8vz4wyZynCuTda//V8Rj
+	 qOwRGcwlm9N2cYeMRlvDwk6M8YPJ1zoCmcrFKzMSjLmhLlrdACcj6bz42+tDl08JGl
+	 SziNxYvIE6v7w==
+Date: Tue, 2 Sep 2025 16:11:34 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Conley Lee <conleylee@foxmail.com>
+Cc: andrew@lunn.ch, kuba@kernel.org, davem@davemloft.net, wens@csie.org, 
+	netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] arm: dts: add nand device in
+ sun7i-a20-haoyu-marsboard.dts
+Message-ID: <stdtaaoxpnwbinjk72nutik4dsh77iywfqpoogtgxhebkuxcl3@yhnu5u2wvtsb>
+References: <tencent_57056C4B1E98EF5C0517A5685B2E4D060508@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="zip2peffqy3jbkf7"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250813235330.24263-3-andre.przywara@arm.com>
+In-Reply-To: <tencent_57056C4B1E98EF5C0517A5685B2E4D060508@qq.com>
 
-On Thu, 14 Aug 2025, Andre Przywara wrote:
 
-> The AXP318W is a PMIC chip produced by X-Powers, it can be connected to
-> an I2C bus.
-> 
-> It has a large number of regulators: 9(!) DCDC buck converters, and 28
-> LDOs, also some ADCs, interrupts, and a power key.
-> 
-> Describe the regmap and the MFD bits, along with the registers exposed
-> via I2C only. This covers the regulator, interrupts and power key
-> devices for now.
-> Advertise the device using the new compatible string.
-> 
-> We use just "318" for the internal identifiers, for easier typing and
-> less churn, but use "318W" for anything externally visible. If something
-> else other than the "AXP318W" shows up, that's an easy change then.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  drivers/mfd/axp20x-i2c.c   |  2 +
->  drivers/mfd/axp20x.c       | 84 +++++++++++++++++++++++++++++++++++++
->  include/linux/mfd/axp20x.h | 86 ++++++++++++++++++++++++++++++++++++++
->  3 files changed, 172 insertions(+)
+--zip2peffqy3jbkf7
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] arm: dts: add nand device in
+ sun7i-a20-haoyu-marsboard.dts
+MIME-Version: 1.0
 
-Looks okay.  Let me know when you're !RFC.
+On Mon, Sep 01, 2025 at 05:05:21PM +0800, Conley Lee wrote:
+> The Haoyu MarsBoard-A20 comes with an 8G Hynix NAND flash,
+> and this commit adds this NAND device in the device tree.
+>=20
+> Signed-off-by: Conley Lee <conleylee@foxmail.com>
 
--- 
-Lee Jones [李琼斯]
+MLC NANDs are very unreliable, we must not enable them by default in the
+current state of UBI / UBIFS.
+
+Maxime
+
+--zip2peffqy3jbkf7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaLb7BwAKCRAnX84Zoj2+
+dguyAX9u3yR4AN55O69wO/UyeI+BKx82ca33p0QxRMC9v3A6uvffoiSuhq3FxYFT
+tauF1e0Bf2nxCJpegHoktTqCPgJG1BXoVvCkL7sJHt0f6IDGzK+M5LJLOSLE7qap
+ur39lheVPw==
+=Z7CA
+-----END PGP SIGNATURE-----
+
+--zip2peffqy3jbkf7--
