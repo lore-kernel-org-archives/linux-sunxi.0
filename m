@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751972E1F1C;
-	Tue,  2 Sep 2025 13:17:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD03D30ACEB;
+	Tue,  2 Sep 2025 13:18:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756819072; cv=none; b=sm4/ml5rb8dCnP+GSSAx8NRDc/I006N7rR3+O8u+k2jJD0699kGlyL1hiA9eohucFauJP7jhcrHDxC9qmJLms0BzKCdg5+7XByQ2KUbe+J6XcCHKvoKc9J4+qTACGAQqJA1mU3kVLFem6+dZqbIqRpQMSryDMw0iAPPGhKyw8s4=
+	t=1756819106; cv=none; b=ITIS8QfkRJq/nepoZKFRCMldN9RGJ/PF84TnJOMf0AAx2mKUBJt12shFLI+TqtqahbBI2bxrXgg1KVlg/fcQaObVdRC1wAuakgQexWexf7iCmy2QHl5KGNl0iyK16Dis5hH5Ed3VjIAnHdsdEKhcvuvi3du0zCfbmx0br57rARM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756819072; c=relaxed/simple;
-	bh=0xocXOa6y0rnRdA2Z5T9f2V5CZOoroCxOVuasw3Mk80=;
+	s=arc-20240116; t=1756819106; c=relaxed/simple;
+	bh=FGa7ZgDMj8ZzjbgcMztCURZjWDqJpJhpglo5MQK07Tc=;
 	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=DJcTsq6YJDC3yuw8yFhFGy4NDATSg4nWsmX4ZRbHXfQDu2rgPdaobbUot+bWkAoul5wi40nobGUV32m1EIDJNhbGQIOSlqp2peG1vJT71ousOVefk+B7v++gq7RUM4A+eWnNochkCbCwjeePEjy38JYgeBVdP/zHIRK4a70Fbcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ov/uQ46s; arc=none smtp.client-ip=10.30.226.201
+	 Message-Id:Subject; b=i+ykeIPTcrJWVo3XatnzYFBIrqWJzTN4PmDQ4UFCIQ88IlfMJ8JoAByfdGtwNKJckDOJwlaQhAkqRz6q7Rnq7Rrb7XfDetvLizaGOU8mBp9SAI9MuDHRW05wJUsra5gfFZ4JJsLIcek4tiQeepy1AkouItZtnEHCsntilOzs16M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vIG2fMUY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ov/uQ46s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D28A0C4CEED;
-	Tue,  2 Sep 2025 13:17:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vIG2fMUY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD50BC4CEED;
+	Tue,  2 Sep 2025 13:18:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756819072;
-	bh=0xocXOa6y0rnRdA2Z5T9f2V5CZOoroCxOVuasw3Mk80=;
+	s=k20201202; t=1756819106;
+	bh=FGa7ZgDMj8ZzjbgcMztCURZjWDqJpJhpglo5MQK07Tc=;
 	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=ov/uQ46s6uLHRT28cJtvqU4C1PYT6pAHKmdPbhEkLxQlRXtMtWdx3n/NT86WxYUNQ
-	 /QemBJckw/cd0Kl7IM9F6QuvSHXE1xkDjxkNDX1RU6bzAnw8GvZJBFagAMj7t9RJ9M
-	 5irkdLBSAGWfn56K8XDFA+9HD217jMMXhBD2QmxEd7NxHslC4kVXBuMX3tbaYS1okJ
-	 c5IpMkelGqNn2SlB3WCRqMLWKbBNSHiG+m//O67IJcgJWMMILEBtsIIEfO04POm8Ps
-	 fsbG2OdRJEAMGPNcPbHwfNMVJuRY6k0ECarHwiOlaL1DmrRVkHAeqE5HfoW+7mKXhC
-	 YZCNwUpN9YqYw==
-Date: Tue, 02 Sep 2025 08:17:49 -0500
+	b=vIG2fMUYOJGTB+1YSHvjxGf5Q3T8tqmuUCNeaKMpRfHsHGBWnBDv2cUL5UIrEPUcc
+	 BwfgQ5m7FwJ4Iz7GfpdQEsdGZmUrzW0oDbMJZNSCtzIcw4gSCv8ep2sCNCwORgj18L
+	 /6dZN6PIRi0gYetVeUI66IXga2yu1KfMV/Zq1HHkmAaXJgjFHqsXU5upbxm4ZM/e9O
+	 /qXAGi1F9/PEYL1uuFbG9ylCRtdtU0oGDxfjydI9f0NGlLGAP1w2g/DnAVwrXCcgJw
+	 XYCTiJJ3bvliyZ2NoizvFArBO/XaKPdXVeAlOW4uvVONWck3Mazzp4lCsJ+1s/taXZ
+	 rE6Gvn5rdaokg==
+Date: Tue, 02 Sep 2025 08:18:23 -0500
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -36,95 +36,26 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Albert Ou <aou@eecs.berkeley.edu>, 
- Paul Walmsley <paul.walmsley@sifive.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Conor Dooley <conor+dt@kernel.org>, linux-riscv@lists.infradead.org, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>, devicetree@vger.kernel.org, 
- Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev, 
- Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, Alexandre Ghiti <alex@ghiti.fr>, 
- Samuel Holland <samuel@sholland.org>
-To: Lukas Schmid <lukas.schmid@netcube.li>
-In-Reply-To: <20250831162536.2380589-1-lukas.schmid@netcube.li>
-References: <20250831162536.2380589-1-lukas.schmid@netcube.li>
-Message-Id: <175678730955.877897.3145791714848835564.robh@kernel.org>
-Subject: Re: [PATCH v8 0/5] Add support for NetCube Systems Nagami SoM and
- its carrier boards
+Cc: andrew@lunn.ch, davem@davemloft.net, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ kuba@kernel.org, mripard@kernel.org, wens@csie.org, 
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+To: Conley Lee <conleylee@foxmail.com>
+In-Reply-To: <tencent_57056C4B1E98EF5C0517A5685B2E4D060508@qq.com>
+References: <tencent_57056C4B1E98EF5C0517A5685B2E4D060508@qq.com>
+Message-Id: <175678731473.878204.3446095909067556324.robh@kernel.org>
+Subject: Re: [PATCH] arm: dts: add nand device in
+ sun7i-a20-haoyu-marsboard.dts
 
 
-On Sun, 31 Aug 2025 18:25:29 +0200, Lukas Schmid wrote:
-> This series adds support for the NetCube Systems Nagami SoM and its
-> associated carrier boards, the Nagami Basic Carrier and the Nagami Keypad
-> Carrier.
+On Mon, 01 Sep 2025 17:05:21 +0800, Conley Lee wrote:
+> The Haoyu MarsBoard-A20 comes with an 8G Hynix NAND flash,
+> and this commit adds this NAND device in the device tree.
 > 
-> Changes in v8:
->   - Use a gpio-mux instead of the gpio-hog for the USB0_SEC_EN signal
->   - Fix the dt-schema issues
-> 
-> Changes in v7:
->   - Fix the gpio numbering for the USB_SEC_EN gpio hog
->   - Fix the gpio-line-names for the keypad carrier
-> 
-> Changes in v6:
->   - Add 'usb0-enable-hog' to the som to enable the USB-OTG port by default
->   - Update the keypad carrier dts to match actual board revision
-> 
-> Changes in v5:
->   - Re-add the non-removable property to the ESP32 interface
->   - Add the mmc-pwrseq node for the ESP32 to initialize the ESP32 correctly
->   - Remove the unused ehci0 and ohci0 nodes from the Keypad Carrier since
->     USB port is peripheral only
-> 
-> Changes in v4:
->   - Disable the default interfaces on the card-edge but keep the pinctrl
->     definitions for them
->   - Split the pinctrl definitions for the SPI interface into the basic spi
->     pins and the hold/wp pins
->   - Move some mmc0 properties to the Basic Carrier dts
->   - Remove non-removable property from the ESP32 interface
->   - Fix typo in the keypad matrix definition
-> 
-> Changes in v3:
->   - Add missing dcxo node to the SoM dtsi
->   - Rename the multi-led node
->   - Change dr_mode to "peripheral" for the Keypad Carrier
-> 
-> Changes in v2:
->  - Squash the binding patches into one patch
->  - Fix formatting of the phy node in the SoM dtsi
->  - Add description on where the phy is located in the SoM dtsi
->  - Fix the phy address in the SoM dtsi
->  - Move the carrier bindings into the same description as enums
-> 
-> Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
+> Signed-off-by: Conley Lee <conleylee@foxmail.com>
 > ---
-> Lukas Schmid (5):
->   dt-bindings: arm: sunxi: Add NetCube Systems Nagami SoM and carrier
->     board bindings
->   riscv: dts: allwinner: d1s-t113: Add pinctrl's required by NetCube
->     Systems Nagami SoM
->   ARM: dts: sunxi: add support for NetCube Systems Nagami SoM
->   ARM: dts: sunxi: add support for NetCube Systems Nagami Basic Carrier
->   ARM: dts: sunxi: add support for NetCube Systems Nagami Keypad Carrier
-> 
->  .../devicetree/bindings/arm/sunxi.yaml        |   8 +
->  arch/arm/boot/dts/allwinner/Makefile          |   3 +
->  ...n8i-t113s-netcube-nagami-basic-carrier.dts |  67 +++++
->  ...8i-t113s-netcube-nagami-keypad-carrier.dts | 129 +++++++++
->  .../allwinner/sun8i-t113s-netcube-nagami.dtsi | 250 ++++++++++++++++++
->  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  48 ++++
->  6 files changed, 505 insertions(+)
->  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-basic-carrier.dts
->  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dts
->  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami.dtsi
-> 
-> --
-> 2.39.5
-> 
-> 
-> 
+>  .../allwinner/sun7i-a20-haoyu-marsboard.dts   | 67 +++++++++++++++++++
+>  1 file changed, 67 insertions(+)
 > 
 
 
@@ -144,14 +75,15 @@ make sure dt-schema is up to date:
 
 This patch series was applied (using b4) to base:
  Base: attempting to guess base-commit...
- Base: tags/next-20250829 (best guess, 2/3 blobs matched)
+ Base: tags/next-20250829 (exact match)
 
 If this is not the correct base, please add 'base-commit' tag
 (or use b4 which does this automatically)
 
-New warnings running 'make CHECK_DTBS=y for arch/arm/boot/dts/allwinner/' for 20250831162536.2380589-1-lukas.schmid@netcube.li:
+New warnings running 'make CHECK_DTBS=y for arch/arm/boot/dts/allwinner/' for tencent_57056C4B1E98EF5C0517A5685B2E4D060508@qq.com:
 
-arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dtb: /soc/i2c@2502800/keypad@34: failed to match any schema with compatible: ['ti,tca8418']
+arch/arm/boot/dts/allwinner/sun7i-a20-haoyu-marsboard.dtb: pinctrl@1c20800 (allwinner,sun7i-a20-pinctrl): 'nand_base0@0', 'nand_cs@0', 'nand_cs@1', 'nand_cs@2', 'nand_cs@3', 'nand_rb@0', 'nand_rb@1' do not match any of the regexes: '^([rs]-)?(([a-z0-9]{3,}|[a-oq-z][a-z0-9]*?)?-)+?(p[a-ilm][0-9]*?-)??pins?$', '^pinctrl-[0-9]+$', '^vcc-p[a-ilm]-supply$'
+	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun4i-a10-pinctrl.yaml#
 
 
 
