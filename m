@@ -1,62 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D27F2D46CB;
-	Wed,  3 Sep 2025 20:43:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13A4D271469
+	for <linux-sunxi@lists.linux.dev>; Wed,  3 Sep 2025 23:30:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756932214; cv=none; b=iqPfSNLtrm6UCkvKtIh9ue+WO3CNz3dsfEGiBF1bIPM5BbNxBnY3ewFgS6hWquiEiBgSJET81zHvitmwHXRhQZ53llpozen0nBfdGszc6DTEbEtUYFLI0G0monJyInCYGZG/i8IWp8Ata+tl1kz2C0kjyq8W1M5Huw2dXfzjsDk=
+	t=1756942238; cv=none; b=Kb9bsJVkjtezoLsFeAoIIvuvaz9jv9jqnKZvRJcyqXO6efP1rr+dLURUNbq63Wx/imExgC4q8YK0m0ReHdVlTfr8s+VHe404dWjbA3NB5YXUjRYSMhYMzffD59YGKd2RfJmWDpDKezDFJ7RevrcMH9Ppx5Oc2mm5L2E/rFCRlLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756932214; c=relaxed/simple;
-	bh=ZrWBzTUTC9WAJnOWtFKBqgBmqR3PSN/MgEY8CcIWquE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ro7E/cFYbwmAM/QSEC/mnqfzPfbG6TcU9TdJ+usU8kv/2tI4/6Bi2a4cF+16L126t6DkxaMwXRzIo8fpGCNCQZudtYKdkDMnEhDf1AvbG6AJ1OzxmdcXN0PxZzKzxkZzwX0KNxf7Hz11fMaPmrWOlE4zzi1MAV/ehuzneR/FYo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TvJVPQ+H; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TvJVPQ+H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB5E0C4CEE7;
-	Wed,  3 Sep 2025 20:43:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756932214;
-	bh=ZrWBzTUTC9WAJnOWtFKBqgBmqR3PSN/MgEY8CcIWquE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TvJVPQ+HQ/rwtKiosl4LwntAXSfNwkXfqX1dGopbUp7W1REtiKer5OaqMuzAD15WM
-	 QN0Whv2F9y9QSIQwGBaVFwmOLhhw3+5C2x2uvdVSgxmfLbojk7hG1fB2DLdPXQsN8r
-	 VoAB2qJO2XXzWHHtzH6mf3+Jp6Vxu57TCED4bQZgLqnBQiVVhu4jazenSk7SxNENrx
-	 oybCGHLnpntuWEvbT/MTJj5CHsuU0hzYfvhjHKAHBTsqAPfZ+wbKcYvfQiiTnhGlma
-	 xGFKUP7XKMy9btc04i0W7N1+Ee7kOdmn7RCU6sq4w8FYuZQHdnYE0X0WrmzMmu7aLs
-	 quW5rmAQThpxw==
-Date: Wed, 3 Sep 2025 15:43:31 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Conley Lee <conleylee@foxmail.com>
-Cc: linux-sunxi@lists.linux.dev, edumazet@google.com,
-	linux-kernel@vger.kernel.org, mripard@kernel.org,
-	devicetree@vger.kernel.org, andrew+netdev@lunn.ch,
-	netdev@vger.kernel.org, wens@csie.org, davem@davemloft.net,
-	kuba@kernel.org
-Subject: Re: [PATCH] dt-bindings: net: sun4i-emac: add dma support
-Message-ID: <175693221068.2743688.18419126286062022173.robh@kernel.org>
-References: <tencent_4E434174E9D516431365413D1B8047C6BB06@qq.com>
+	s=arc-20240116; t=1756942238; c=relaxed/simple;
+	bh=R77PUmAdq2xcedWiw/KDGLeaR9hcOu5mkKt6gdVeDgg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=ZE0CwNSWFoLb59kISBcK8s7nefg9uSgwoCU/Lkfa/mxe0187UurrG7Cvux0g1dwwKWAgi3wfR5J30Dp52XUDmlTRP1dATq6tHp1Yhb9EcHBdARfnjIDxOJzhOHoGrre89qepX2p73ein3sFkKrFAI6mvvPQKnN1SIap+PI6hoyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DF4A61655;
+	Wed,  3 Sep 2025 16:30:26 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0E1483F694;
+	Wed,  3 Sep 2025 16:30:33 -0700 (PDT)
+Date: Thu, 4 Sep 2025 00:29:24 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Lucas Stach <l.stach@pengutronix.de>, Russell King
+ <linux+etnaviv@armlinux.org.uk>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>, linux-sunxi
+ <linux-sunxi@lists.linux.dev>
+Subject: drm/etnaviv: detecting disabled Vivante GPU?
+Message-ID: <20250904002924.2bc63b73@minigeek.lan>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_4E434174E9D516431365413D1B8047C6BB06@qq.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+Hi,
 
-On Wed, 03 Sep 2025 16:22:38 +0800, Conley Lee wrote:
-> The sun4i EMAC supports DMA for data transmission,
-> so it is necessary to add DMA options to the device tree bindings.
-> 
-> Signed-off-by: Conley Lee <conleylee@foxmail.com>
-> ---
->  .../bindings/net/allwinner,sun4i-a10-emac.yaml           | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
+the Allwinner A523/A527/T527 family of SoCs feature a Vivante
+"VIP9000"(?) NPU, though it seems to be disabled on many SKUs.
+See https://linux-sunxi.org/A523#Family_of_sun55iw3 for a table, the
+row labelled "NPU" indicates which model has the IP. We suspect it's
+all the same die, with the NPU selectively fused off on some packages.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Board vendors seem to use multiple SKUs of the SoC on the same board,
+so it's hard to say which particular board has the NPU or not. We
+figured that on unsupported SoCs all the NPU registers read as 0,
+though, so were wondering if that could be considered as a bail-out
+check for the driver?
+At the moment I get this, on a SoC with a disabled NPU:
+[    1.677612] etnaviv etnaviv: bound 7122000.npu (ops gpu_ops)
+[    1.683849] etnaviv-gpu 7122000.npu: model: GC0, revision: 0
+[    1.690020] etnaviv-gpu 7122000.npu: Unknown GPU model
+[    1.696145] [drm] Initialized etnaviv 1.4.0 for etnaviv on minor 0
+[    1.953053] etnaviv-gpu 7122000.npu: GPU not yet idle, mask: 0x00000000
 
+Chen-Yu got this on his board featuring the NPU:
+    etnaviv-gpu 7122000.npu: model: GC9000, revision: 9003
+
+If I get the code correctly, then etnaviv_gpu_init() correctly detects
+the "unsupported" GPU model, and returns -ENXIO, but load_gpu() in
+etnaviv_drv.c then somewhat ignores this, since it keeps looking for more
+GPUs, and fails to notice that *none* showed up:
+/sys/kernel/debug/dri/etnaviv/gpu is empty in my case.
+
+Quick questions:
+- Is reading 0 from VIVS_HI_CHIP_IDENTITY (or any other of the ID
+  registers) an invalid ID, so we can use that to detect those disabled
+  NPUs? If not, can any other register used to check this? The whole
+  block seems to be RAZ/WI when the NPU is disabled.
+
+- Would it be acceptable to change the logic to error out of the
+  driver's init or probe routine when no GPU/NPU has been found, at
+  best with a proper error message? As it stands at the moment, the
+  driver is loaded, but of course nothing is usable, so it keeps
+  confusing users.
+
+Happy to provide a patch, but just wanted to test the waters.
+
+Cheers,
+Andre
