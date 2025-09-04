@@ -1,84 +1,129 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13A4D271469
-	for <linux-sunxi@lists.linux.dev>; Wed,  3 Sep 2025 23:30:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756942238; cv=none; b=Kb9bsJVkjtezoLsFeAoIIvuvaz9jv9jqnKZvRJcyqXO6efP1rr+dLURUNbq63Wx/imExgC4q8YK0m0ReHdVlTfr8s+VHe404dWjbA3NB5YXUjRYSMhYMzffD59YGKd2RfJmWDpDKezDFJ7RevrcMH9Ppx5Oc2mm5L2E/rFCRlLw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756942238; c=relaxed/simple;
-	bh=R77PUmAdq2xcedWiw/KDGLeaR9hcOu5mkKt6gdVeDgg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=ZE0CwNSWFoLb59kISBcK8s7nefg9uSgwoCU/Lkfa/mxe0187UurrG7Cvux0g1dwwKWAgi3wfR5J30Dp52XUDmlTRP1dATq6tHp1Yhb9EcHBdARfnjIDxOJzhOHoGrre89qepX2p73ein3sFkKrFAI6mvvPQKnN1SIap+PI6hoyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DF4A61655;
-	Wed,  3 Sep 2025 16:30:26 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0E1483F694;
-	Wed,  3 Sep 2025 16:30:33 -0700 (PDT)
-Date: Thu, 4 Sep 2025 00:29:24 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Lucas Stach <l.stach@pengutronix.de>, Russell King
- <linux+etnaviv@armlinux.org.uk>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>, linux-sunxi
- <linux-sunxi@lists.linux.dev>
-Subject: drm/etnaviv: detecting disabled Vivante GPU?
-Message-ID: <20250904002924.2bc63b73@minigeek.lan>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B35285C8C
+	for <linux-sunxi@lists.linux.dev>; Thu,  4 Sep 2025 07:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756969702; cv=pass; b=OZdWZYu6Km6dftVKYgsDaOMZMBMDeJIZcTtWDkoUAxdoV3Giz9VpB1eLo/AIXrICOFht3nxy1rKc+7q54dYdX+eNLSmEBMEqDyXbB5Eug/D54xztjYTzobztWD4GMGLpai/q0IBdXDR1I6AQTBhz2dAXtcWUPIv/3W9ps/QRNnw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756969702; c=relaxed/simple;
+	bh=U92wAadGlZGVk5xT5ZZbqnMlSjqsBe3r1oVXLxvdA00=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=qGgIwhJexzJUIOTpcndKtqmT6Tl97w11E+pozGojBskfMJ52npcZ3Pc6ut6pIAM6DCMZLVuOoFQPRm7/3E8qEeaFnRNOmH3xIFq0ug+/DVUC2GhyzL+U6RGtEIaN+sYYUQaB1VaUjhjqqrT2yIjxV0lAdyrw3qbK3UTJSuDYtUE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=NH7GAz86; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="NH7GAz86"
+ARC-Seal: i=1; a=rsa-sha256; t=1756969689; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=GL62wGC45A2lfwNmxK3TvV+dA8GVYqqoCli0Vfbho9/hiqN6gwieBzshVdY7q7+XiGwf1Anv720UQLPoGHZ5DSXO/uiU1s3mFSLx9WFuyWQ3STE9rLvm45R6yTextg2fFw6d9TLf8Sus+9EbrIDXTXGELJyE9Bk/f//mZGGPE7M=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1756969689; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=U92wAadGlZGVk5xT5ZZbqnMlSjqsBe3r1oVXLxvdA00=; 
+	b=ewN3dqtbOAl9ZapX4b0yMP4Sem5lMGn1cG1tVX9b0bkWPv5d5xC86bF0WN279Xlh8ZA1puhbM2vO6GrBvcL/F3AB7Ny+/JGEMC7vN74V9h08y4gukyqoR3dh+kZ50PfWrybuOj7HRyDAw0ZPTuXHWjIHlhdoEQZFt/38WpYKpBs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756969689;
+	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=U92wAadGlZGVk5xT5ZZbqnMlSjqsBe3r1oVXLxvdA00=;
+	b=NH7GAz864YOPnmwGKqID7Dk4LrahqybEbzr6AYVqgt5aGhbdtm3D4O7YKv+9dcBk
+	9UZlYPWCSr1qoprBDkgKvAT8Qy3LM5RZuz20rE4ocO+ZsXnzUaijXuHDsHVt6PJCZUO
+	CWE0FOfPHG6WOkkeb5oJVVo+Xf7A9I7tKcWfVBNAUyIogOVBlfDk1LiEJ/Gm342qmQb
+	VhR7FO73FSg/oSeGU1i+v0qd041ti3DbW9ybpYY6Gvw7+yaWuLduZ/NDLkmJ1XBOnjc
+	s+5PV7T3S2nki1p08A4AfQkzFbhsJJUVoGjpjmjY4iuhbb+RadaRvaKI1z7Dk0qCqn5
+	AfkiSt4NLA==
+Received: by mx.zohomail.com with SMTPS id 17569696873581023.1645151047042;
+	Thu, 4 Sep 2025 00:08:07 -0700 (PDT)
+Message-ID: <d660ad830b5c1fcafd398049897ab1acd68c5dca.camel@icenowy.me>
+Subject: Re: drm/etnaviv: detecting disabled Vivante GPU?
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Andre Przywara <andre.przywara@arm.com>, Lucas Stach
+	 <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>, linux-sunxi
+	 <linux-sunxi@lists.linux.dev>
+Date: Thu, 04 Sep 2025 15:08:02 +0800
+In-Reply-To: <20250904002924.2bc63b73@minigeek.lan>
+References: <20250904002924.2bc63b73@minigeek.lan>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-Hi,
+=E5=9C=A8 2025-09-04=E6=98=9F=E6=9C=9F=E5=9B=9B=E7=9A=84 00:29 +0100=EF=BC=
+=8CAndre Przywara=E5=86=99=E9=81=93=EF=BC=9A
+> Hi,
+>=20
+> the Allwinner A523/A527/T527 family of SoCs feature a Vivante
+> "VIP9000"(?) NPU, though it seems to be disabled on many SKUs.
+> See https://linux-sunxi.org/A523#Family_of_sun55iw3=C2=A0for a table, the
+> row labelled "NPU" indicates which model has the IP. We suspect it's
+> all the same die, with the NPU selectively fused off on some
+> packages.
+>=20
+> Board vendors seem to use multiple SKUs of the SoC on the same board,
 
-the Allwinner A523/A527/T527 family of SoCs feature a Vivante
-"VIP9000"(?) NPU, though it seems to be disabled on many SKUs.
-See https://linux-sunxi.org/A523#Family_of_sun55iw3 for a table, the
-row labelled "NPU" indicates which model has the IP. We suspect it's
-all the same die, with the NPU selectively fused off on some packages.
+In the case of Amlogic things, they seem to provide different DT's, see
+arch/arm64/boot/dts/amlogic/meson-g12b-a311d-bananapi-m2s.dts and
+arch/arm64/boot/dts/amlogic/meson-g12b-s922x-bananapi-m2s.dts ; the
+A311D is NPU-equipped SKU. (Although I don't know why they included
+different DTSI's and then still enable &npu node in a311d variant of
+board DT)
 
-Board vendors seem to use multiple SKUs of the SoC on the same board,
-so it's hard to say which particular board has the NPU or not. We
-figured that on unsupported SoCs all the NPU registers read as 0,
-though, so were wondering if that could be considered as a bail-out
-check for the driver?
-At the moment I get this, on a SoC with a disabled NPU:
-[    1.677612] etnaviv etnaviv: bound 7122000.npu (ops gpu_ops)
-[    1.683849] etnaviv-gpu 7122000.npu: model: GC0, revision: 0
-[    1.690020] etnaviv-gpu 7122000.npu: Unknown GPU model
-[    1.696145] [drm] Initialized etnaviv 1.4.0 for etnaviv on minor 0
-[    1.953053] etnaviv-gpu 7122000.npu: GPU not yet idle, mask: 0x00000000
+> so it's hard to say which particular board has the NPU or not. We
+> figured that on unsupported SoCs all the NPU registers read as 0,
+> though, so were wondering if that could be considered as a bail-out
+> check for the driver?
+> At the moment I get this, on a SoC with a disabled NPU:
+> [=C2=A0=C2=A0=C2=A0 1.677612] etnaviv etnaviv: bound 7122000.npu (ops gpu=
+_ops)
+> [=C2=A0=C2=A0=C2=A0 1.683849] etnaviv-gpu 7122000.npu: model: GC0, revisi=
+on: 0
+> [=C2=A0=C2=A0=C2=A0 1.690020] etnaviv-gpu 7122000.npu: Unknown GPU model
+> [=C2=A0=C2=A0=C2=A0 1.696145] [drm] Initialized etnaviv 1.4.0 for etnaviv=
+ on minor 0
+> [=C2=A0=C2=A0=C2=A0 1.953053] etnaviv-gpu 7122000.npu: GPU not yet idle, =
+mask:
+> 0x00000000
+>=20
+> Chen-Yu got this on his board featuring the NPU:
+> =C2=A0=C2=A0=C2=A0 etnaviv-gpu 7122000.npu: model: GC9000, revision: 9003
+>=20
+> If I get the code correctly, then etnaviv_gpu_init() correctly
+> detects
+> the "unsupported" GPU model, and returns -ENXIO, but load_gpu() in
+> etnaviv_drv.c then somewhat ignores this, since it keeps looking for
+> more
+> GPUs, and fails to notice that *none* showed up:
+> /sys/kernel/debug/dri/etnaviv/gpu is empty in my case.
+>=20
+> Quick questions:
+> - Is reading 0 from VIVS_HI_CHIP_IDENTITY (or any other of the ID
+> =C2=A0 registers) an invalid ID, so we can use that to detect those
+> disabled
+> =C2=A0 NPUs? If not, can any other register used to check this? The whole
+> =C2=A0 block seems to be RAZ/WI when the NPU is disabled.
+>=20
+> - Would it be acceptable to change the logic to error out of the
+> =C2=A0 driver's init or probe routine when no GPU/NPU has been found, at
+> =C2=A0 best with a proper error message? As it stands at the moment, the
+> =C2=A0 driver is loaded, but of course nothing is usable, so it keeps
+> =C2=A0 confusing users.
+>=20
+> Happy to provide a patch, but just wanted to test the waters.
+>=20
+> Cheers,
+> Andre
 
-Chen-Yu got this on his board featuring the NPU:
-    etnaviv-gpu 7122000.npu: model: GC9000, revision: 9003
-
-If I get the code correctly, then etnaviv_gpu_init() correctly detects
-the "unsupported" GPU model, and returns -ENXIO, but load_gpu() in
-etnaviv_drv.c then somewhat ignores this, since it keeps looking for more
-GPUs, and fails to notice that *none* showed up:
-/sys/kernel/debug/dri/etnaviv/gpu is empty in my case.
-
-Quick questions:
-- Is reading 0 from VIVS_HI_CHIP_IDENTITY (or any other of the ID
-  registers) an invalid ID, so we can use that to detect those disabled
-  NPUs? If not, can any other register used to check this? The whole
-  block seems to be RAZ/WI when the NPU is disabled.
-
-- Would it be acceptable to change the logic to error out of the
-  driver's init or probe routine when no GPU/NPU has been found, at
-  best with a proper error message? As it stands at the moment, the
-  driver is loaded, but of course nothing is usable, so it keeps
-  confusing users.
-
-Happy to provide a patch, but just wanted to test the waters.
-
-Cheers,
-Andre
