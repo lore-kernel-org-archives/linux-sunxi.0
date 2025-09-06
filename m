@@ -1,131 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB1B270EC5;
-	Sat,  6 Sep 2025 04:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D001E1C1F12
+	for <linux-sunxi@lists.linux.dev>; Sat,  6 Sep 2025 04:16:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757132024; cv=none; b=FP1901ioQyUUoITlJYImfXCrGn9MyIFKa6bGf18a1U/H6p50rRMJrMxNfgiLs8lQdc737fbxj0UM2yG66wJ3Jf4Xg95ImrmLdpFLOwzh1XRRGHO7ivlHTgCAwuCMs5Af1CNIylMXaZCHd/wxL4fr5lLEPBjxoPVlwivTs+dY1d0=
+	t=1757132178; cv=none; b=QBTVh4vRymX2tLjAnDMcdNFYrip+0EVMW7P5ERXFAr/3XbVLmF6f1DhPqC6R+TLeZ1HKkev0ksnfm46k+s0ZH2hAoNf+sMu4LsQodJjcVPYTI3J/q/lWLQYbMVHmC8yTL1nj7/gVvfcYstB1YB2SsmfETx49dqjmqMDUhyZO2uQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757132024; c=relaxed/simple;
-	bh=zJ4rq1A7rDmdHeQfB8ynFE9503F7ovKFxfivFN/5hPw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=V7r1VIeXS0+AIACkIWadDw7e/1ooES/8ycyr1LF6exOkEk+EAY8pmk4Ob3fVkSwKsepk4nh52FfJLim/sDYJkpYEbT4TfnH2f8hNvPFeN4yN3frA6F8kutweE3BmkNIWL8cK6QAtbb8Ev0R0hWMOkwBXHDjMrqVcGmvkhhBL5Ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VbR0ETCU; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VbR0ETCU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BD2BC4CEFA;
-	Sat,  6 Sep 2025 04:13:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757132024;
-	bh=zJ4rq1A7rDmdHeQfB8ynFE9503F7ovKFxfivFN/5hPw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VbR0ETCUU5YXKOI/JSjxXA7DY30F2AY9PMf4cVATlrMDMmtUoZ/WgIbnTeXMrUcOc
-	 okbhJLTOmdIYaPITRU/ngiebOfcGVH4OoqAFihK+Aqa7dVwIysDt4q2nqkVSfjHq0s
-	 DXz5OzghxZ/Ry/xpjFhdiKnBG85PAfrIYSfTn8Gz1ES651wN4lgaqIrTphPpgfBzNU
-	 oRw/guM/hoSO8VS5sUC2WqAm0qAkikRLryt5pkLIB/4bCM6aAJHS2P417HK08LbZu1
-	 Jd2MdUQ4XVgNRy5fpRY09ighAACxqCV/2Ue4vfAtUWJzOfbLArRWiHJxV8JI9Vg6X+
-	 u+YT88w5EntvQ==
-Received: by wens.tw (Postfix, from userid 1000)
-	id 1B6A55FF0D; Sat, 06 Sep 2025 12:13:39 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>
-Cc: netdev@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Andre Przywara <andre.przywara@arm.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH net-next v3 10/10] arm64: dts: allwinner: t527: orangepi-4a: Enable Ethernet port
-Date: Sat,  6 Sep 2025 12:13:33 +0800
-Message-Id: <20250906041333.642483-11-wens@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250906041333.642483-1-wens@kernel.org>
-References: <20250906041333.642483-1-wens@kernel.org>
+	s=arc-20240116; t=1757132178; c=relaxed/simple;
+	bh=+AaGa4KY4O7VR1L+5lz7LhtoM1ACUjc5l1vLXnV94tY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=G1fVrVTDK4ftmifCBFq7q6D7zY7RUi8Vf80Ol2E2oAsleTZkbhIjViubP9JZtMRiTtiubrY9KlMBdOi9++gZpaaoDA8vsjmBN9IApClL8y0t9Nu/9SrbRDEfTWrK5kesmpocBKrG5QKCqUBuwnGChu7iV286Bl4vRraepbZyjTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5608bfae95eso3111475e87.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 05 Sep 2025 21:16:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757132172; x=1757736972;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+AaGa4KY4O7VR1L+5lz7LhtoM1ACUjc5l1vLXnV94tY=;
+        b=odqzrdxM7b/qD5rlClAR/K80hz6iDqn1/0s5SnLvmtah2Vz0eH6y9UgNW3cbG3JaJh
+         GG4ZVCH6upFWnMwFloNI/nPMXQsFl2tDBkH31oZGpomYh/e6ORe2k4fXwtFWTN8athJM
+         sx51UeFTiZ/cVTAe15CZyKPNYn2KHo241CWvM3qsk4ygZ7vOFNFMTPjYGYY6zOLEdhaE
+         yJdb6HAWV8G10CrIjCLFFB3kX0zUKFAkTC7taGMaJv3ksnQhZAviNGhGyVgp7qJAuY9v
+         1RUKI7CLgl0Dh44DGbW/y08pcp3Zj6GZB0aJbdxLezXz14ADOEgdyoV+WrbZyynd+Zhe
+         K49w==
+X-Forwarded-Encrypted: i=1; AJvYcCV4kevpSx8bcs0K66s00bZ2r40W+Mi5lcLz9IfmrM9XvaJRkoM2PPKTvuLkvelPO8DE2sOGRRdG9dSB7w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwWuKIOF4MNwQa+b37GycKW6rVcAD3wf2pJcSSbUQ8XgGvNn0Si
+	TpGqhw79+zDbw2ok9kub7a6SpUCvg6dtPLT1qlArVny8Nal+RQ3VvT7lRjSpXBEKxXg=
+X-Gm-Gg: ASbGncuUlefu0IQND4esMZwJUihFNvzW+d8OpDoueR6Ep7kHsoPzsYzCjFWTDna32jr
+	jY1WXNeZ/PJzDgyCoHW9IXPiAxM6uoMDdka7TO5DQ131KgfBbuDhG+CxW/jHWCSl5z3KzfqYzBL
+	XucsZlxtCNGqe22TYTE4Ra4bZqf09bMSnuBR00A/DgfMb+S8fY+xilSKFrjjCrOh3GABqtUbidI
+	58T8ipGUIHSoVNpZ3elb8zlXgenPROK4eOucOBs+2gWaZFsywbVRbxbo1H1XUpA18PrsTWWeIiv
+	wzGpIGJnChBSxVb6Zy6cAv4+ShbDZIjMfgmsNTsnpPYUdwv4jvrqe9ChmjdwOOmHpKOE5oIs4FW
+	iqDNvWhMXbNpvX+WtqaFe9EOQn/uJOoww/72As1AvSxqenCEc+U05QPM=
+X-Google-Smtp-Source: AGHT+IGNusYmYe2hwA4EF2Sb4RIr3f7J0a4+patQ/Bvnzbd+wybw+4f+oD3ozdbdmO9n+UGWSLI2Rg==
+X-Received: by 2002:a05:6512:220f:b0:55f:4c9c:27d3 with SMTP id 2adb3069b0e04-5625eb95700mr350708e87.10.1757132171412;
+        Fri, 05 Sep 2025 21:16:11 -0700 (PDT)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com. [209.85.208.172])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5608ace9c71sm2103457e87.73.2025.09.05.21.16.10
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Sep 2025 21:16:10 -0700 (PDT)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-33ca74c62acso368801fa.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 05 Sep 2025 21:16:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXeSBCoRa8jX3MrbmhodycEf4LPx/BuwFy0m7Mq/bARJ/ON6QXnWHHGXRk9TEVbOd3OHkVL61KfdFeoNA==@lists.linux.dev
+X-Received: by 2002:a2e:a547:0:b0:337:f786:2f4a with SMTP id
+ 38308e7fff4ca-33b4d8cb2bbmr3431571fa.18.1757132169950; Fri, 05 Sep 2025
+ 21:16:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-
+References: <20250903000910.4860-1-andre.przywara@arm.com> <20250903000910.4860-3-andre.przywara@arm.com>
+In-Reply-To: <20250903000910.4860-3-andre.przywara@arm.com>
+Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
+Date: Sat, 6 Sep 2025 12:15:57 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65rRqTWvn2NR-OSeP-zVJzheJ=L0YeG5DOrCTPJ8Haiyg@mail.gmail.com>
+X-Gm-Features: Ac12FXxA73ZfGI4H5Rgtw7dq1dOBGNO-B8ktFeY3H3nm-PBpHd0UB2GulbKMsHM
+Message-ID: <CAGb2v65rRqTWvn2NR-OSeP-zVJzheJ=L0YeG5DOrCTPJ8Haiyg@mail.gmail.com>
+Subject: Re: [PATCH 2/5] clk: sunxi-ng: generalise update bit
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Mikhail Kalashnikov <iuncuim@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On the Orangepi 4A board, the second Ethernet controller, aka the GMAC200,
-is connected to an external Motorcomm YT8531 PHY. The PHY uses an external
-25MHz crystal, has the SoC's PI15 pin connected to its reset pin, and
-the PI16 pin for its interrupt pin.
+On Wed, Sep 3, 2025 at 8:09=E2=80=AFAM Andre Przywara <andre.przywara@arm.c=
+om> wrote:
+>
+> A few of the Allwinner A523 CCU clock registers introduced an "update" bi=
+t,
+> which must be set for changes to the other bits to take effect.
+> Of the three clocks where this was used, it was always bit 27, so we just
+> encoded this as a single bit feature flag.
+>
+> Now the CPU PLL also features the update bit, but puts it at bit 26, so
+> this flag trick won't work anymore.
+>
+> Add an "update_bit" field to the common sunxi clock struct, which takes a
+> bitmask, so we can encode any bit to use, even potentially multiple of
+> them. As uninitialised fields are set to 0, we can use this as a default
+> bitmask to set, so can OR this in unconditionally.
+>
+> Change the existing update bit users to use this new encoding, and add
+> support for the ccu_nm clock on the way, since we will need it there
+> shortly.
+>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-Enable it.
-
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Chen-Yu Tsai <wens@csie.org>
----
-
-Changes since v1:
-- Switch to generic (tx|rx)-internal-delay-ps properties
----
- .../dts/allwinner/sun55i-t527-orangepi-4a.dts | 23 +++++++++++++++++++
- 1 file changed, 23 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-index 38cd8c7e92da..7afd6e57fe86 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-@@ -15,6 +15,7 @@ / {
- 	compatible = "xunlong,orangepi-4a", "allwinner,sun55i-t527";
- 
- 	aliases {
-+		ethernet0 = &gmac1;
- 		serial0 = &uart0;
- 	};
- 
-@@ -95,11 +96,33 @@ &ehci1 {
- 	status = "okay";
- };
- 
-+&gmac1 {
-+	phy-mode = "rgmii-id";
-+	phy-handle = <&ext_rgmii_phy>;
-+	phy-supply = <&reg_cldo4>;
-+
-+	tx-internal-delay-ps = <0>;
-+	rx-internal-delay-ps = <300>;
-+
-+	status = "okay";
-+};
-+
- &gpu {
- 	mali-supply = <&reg_dcdc2>;
- 	status = "okay";
- };
- 
-+&mdio1 {
-+	ext_rgmii_phy: ethernet-phy@1 {
-+		compatible = "ethernet-phy-ieee802.3-c22";
-+		reg = <1>;
-+		interrupts-extended = <&pio 8 16 IRQ_TYPE_LEVEL_LOW>; /* PI16 */
-+		reset-gpios = <&pio 8 15 GPIO_ACTIVE_LOW>; /* PI15 */
-+		reset-assert-us = <10000>;
-+		reset-deassert-us = <150000>;
-+	};
-+};
-+
- &mmc0 {
- 	vmmc-supply = <&reg_cldo3>;
- 	cd-gpios = <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF6 */
--- 
-2.39.5
-
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
