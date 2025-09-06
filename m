@@ -1,204 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7538C2AE97
-	for <linux-sunxi@lists.linux.dev>; Sat,  6 Sep 2025 15:19:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31FA71FE44B;
+	Sat,  6 Sep 2025 21:16:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757171998; cv=none; b=dCnxHM9jANh2ETXs9Pp+rv0QkHum64Ux+8tNs+WcgzccSY+62s8Fg4VR7V699fffQ1ThkwlSKQjxaD7HCZCeVZ4xymLfVEVJxVHz8L9Oo9Y9PMzyRcc1tlJ3uuQMwi+Jy0yALWgpZniq4cZD83tSXAMHOY/GzdRFbYKEWnKu9y8=
+	t=1757193394; cv=none; b=mt+JJnNeFtp3Wo8nnpf8LFSLAx64QX6nY0+zvnluM4Q7ct+yPvZ3c2e9ZLZUmfVtd0K+TUAsVdyF518KJodBYSmFd7nHffEpPVz0V/zEA3u+oX877LTPXaC4hp5jE/TpLj8aKQCcWX8dCvUV7kpNIktm0xX9WyrKWBcT+pvYEs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757171998; c=relaxed/simple;
-	bh=3iOPrN74xVEBO/vjQdWGykSlHCyKwX8oXZwsfk42NFQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CXPJRNnmIsIZMwiMXq5jDA8FLBm79rAgdybih56XCJZ3mzNjhvzDTsMNLUVj70YBfugLyPRXzU+W8YzdFtipkfiKJ/xkLQIpd2pvf6tsedrP5OK6uwNeNWThnLEKMNYFiz2n7Nbx3G1g0M+7Z78mYKh7id9FV1zZQkR9qmxveO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gkjD6QR7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757193394; c=relaxed/simple;
+	bh=rBLI7ukQHDWS6AwQcN6I5VytRlnwi7WAZKTS9iyO0tI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nr1M/9Y3zRTCR61tnsPDiBakLWWjed2oNnRdRllTYKBS5pMXvLlNsbL+fHkijWy4+yfBhv/gbyX6jxKsy5MyVrHk+/FKPIkWH9yM6E98Zg41qar1W6OzzUMkuGbIm4s9LIK6r7cXvKVDMQxmnn1crAO2yxGCC3sZo06VZ+OhHk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I5TTURoZ; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gkjD6QR7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2526FC4CEF7
-	for <linux-sunxi@lists.linux.dev>; Sat,  6 Sep 2025 15:19:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757171998;
-	bh=3iOPrN74xVEBO/vjQdWGykSlHCyKwX8oXZwsfk42NFQ=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=gkjD6QR7YJzsrUwSIaXUj90MJ3QfIW6WOmF4eIkOrWl2CMY8fuurur0OkhQdg3Xq4
-	 NHZre41UYop/d7lmQ8LonzvT/5iKf5fkE9+cERJKBja0qmIkB9wapmg/obtZVIznxr
-	 qYyUxzcaKmIQYGHC/ZZfsbfHgWZ9xDhV5o6VZ2XNJ45JhxsBofwuL7hedTJs3MsZPA
-	 HfTcUuyBuL4e0tYt3ylMhCe2pbYg7pv42JRRjYbekEY1pNBGAn5YR56xUq2lONN80c
-	 59eMwWlnfFsVXDMP8bwdtCW4Z5BhlzCDGRDwzaEID5NhQxnMHsHPXgfhvMjHrF59HA
-	 DpvC8FPzdWWzw==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-55f6bdcc195so3494648e87.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 06 Sep 2025 08:19:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW4BlidqF9hETL4KglVtE6/p/d7HYEQP5FYlwlFrAoTsAl3muq7P8Xoyxyrmttr6J54doQanvwoJWq+oA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzyA7Bsm+2Du/07mprXgcwoiTT931khoEocEj8zvzGds7alrGd6
-	F2YVvjtPzFEFX6V7sJhrWoN0I89ovOXh7glc4C33lSC19ZraG1kpk/STNtLlP5vQHQxw8ZduGuj
-	94fmwJknAoG1jHDCR9vTfplaYspNAjCc=
-X-Google-Smtp-Source: AGHT+IHpDYVkVnfYFDnax1QMKGYderiLaGjKlKTAyHREe9npSmqRYhhRbtxlMlcuC4mrm2GRTCrRggKSNMNWOBmjBaQ=
-X-Received: by 2002:a05:651c:20cc:20b0:32b:a9a4:cd58 with SMTP id
- 38308e7fff4ca-33baef74c92mr4112521fa.15.1757171996500; Sat, 06 Sep 2025
- 08:19:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I5TTURoZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757193393; x=1788729393;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rBLI7ukQHDWS6AwQcN6I5VytRlnwi7WAZKTS9iyO0tI=;
+  b=I5TTURoZvLRKKRS2lsIxbGqi0qVvUGVa0Dbi2cuywtDE7okj0lq2stJ3
+   ZRg8kHId1s0YJ6vDMZ8zcA1vL9kgH90vZg3pWLF2YMVfBrutWR9d9pex5
+   H3SF0n1Xwgf8nEYpihJ/tT+Qeysi6TvaE3xm1tn9CBK6iTd/j9rSBej+0
+   xCEAbAIO9C7rFBfIjk3BgwKQM8xSdnFQq8/5LvCPvsP4zXUZV55czu7u0
+   cwsOpynD2tDPWlFnf3YiaqKUV/9mGkNpDMR5HGAFBTcsvqcQoTaeGryca
+   vrYR6L5HI60EMV1Q1yPSlS2+Gg17n2KTy1WKeN2wAQWe1CHM0FB+2gyoO
+   A==;
+X-CSE-ConnectionGUID: b0ghaXAYS0SP1X9Obud/VQ==
+X-CSE-MsgGUID: AatpIWy4STa5JTLpq7S9zA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11545"; a="62131851"
+X-IronPort-AV: E=Sophos;i="6.18,245,1751266800"; 
+   d="scan'208";a="62131851"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2025 14:16:31 -0700
+X-CSE-ConnectionGUID: m/SS9zIhS4m6vaHeaN13bg==
+X-CSE-MsgGUID: iPkamp7WRvKSUK+pal2eOw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,245,1751266800"; 
+   d="scan'208";a="172366458"
+Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 06 Sep 2025 14:16:27 -0700
+Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uv0Gm-0001nX-2E;
+	Sat, 06 Sep 2025 21:16:24 +0000
+Date: Sun, 7 Sep 2025 05:15:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chen-Yu Tsai <wens@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andre Przywara <andre.przywara@arm.com>
+Subject: Re: [PATCH net-next v3 02/10] net: stmmac: Add support for Allwinner
+ A523 GMAC200
+Message-ID: <202509070456.CKA8CXUt-lkp@intel.com>
+References: <20250906041333.642483-3-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250906041333.642483-1-wens@kernel.org> <20250906041333.642483-11-wens@kernel.org>
- <DU0P190MB244586AE96B47F85AFE7A702BC02A@DU0P190MB2445.EURP190.PROD.OUTLOOK.COM>
-In-Reply-To: <DU0P190MB244586AE96B47F85AFE7A702BC02A@DU0P190MB2445.EURP190.PROD.OUTLOOK.COM>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sat, 6 Sep 2025 23:19:43 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64w0Hr+hrDoNjSOx=m8hZ37-jM=jDseygmxiRQmtNszEg@mail.gmail.com>
-X-Gm-Features: Ac12FXz53VnrcQofrnLM0LEbOU6QTn8gTf2cydyfh9lYODHUFGAWC0ZWxvt-xSQ
-Message-ID: <CAGb2v64w0Hr+hrDoNjSOx=m8hZ37-jM=jDseygmxiRQmtNszEg@mail.gmail.com>
-Subject: Re: arm64: allwinner: a523: Enable MCU PRCM and NPU
-To: Muhammed Subair <msubair@hotmail.com>
-Cc: Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Andre Przywara <andre.przywara@arm.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250906041333.642483-3-wens@kernel.org>
 
-Dropping network and DT folks and mailing lists. Please report issues on
-the relevant thread.
+Hi Chen-Yu,
 
-On Sat, Sep 6, 2025 at 3:30=E2=80=AFPM Muhammed Subair <msubair@hotmail.com=
-> wrote:
->
-> Hello
->
-> I have a board with A527 chip , and NPU is detected in  legacy while the =
-new patches shows below message
->
-> upstream 6.17-rc4
-> # dmesg | grep [   21.988215] etnaviv-gpu 7122000.npu: probe with driver =
-etnaviv-gpu failed with error -110
->  7122000
-> [   21.988173] etnaviv-gpu 7122000.npu: deferred probe timeout, ignoring =
-dependency
-> [   21.988215] etnaviv-gpu 7122000.npu: probe with driver etnaviv-gpu fai=
-led with error -110
+kernel test robot noticed the following build warnings:
 
-This shows that the driver is waiting for some resource to appear and timed
-out. Do you have all needed device drivers enabled? I think you need to hav=
-e
-the power domain drivers and the MCU clk driver enabled.
+[auto build test WARNING on net-next/main]
 
-ChenYu
+url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Yu-Tsai/dt-bindings-net-sun8i-emac-Add-A523-GMAC200-compatible/20250906-121610
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250906041333.642483-3-wens%40kernel.org
+patch subject: [PATCH net-next v3 02/10] net: stmmac: Add support for Allwinner A523 GMAC200
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20250907/202509070456.CKA8CXUt-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250907/202509070456.CKA8CXUt-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509070456.CKA8CXUt-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c: In function 'sun55i_gmac200_set_syscon':
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c:60:89: warning: format '%d' expects argument of type 'int', but argument 5 has type 'long unsigned int' [-Wformat=]
+      60 |                                              "TX clock delay exceeds maximum (%d00ps > %d00ps)\n",
+         |                                                                                        ~^
+         |                                                                                         |
+         |                                                                                         int
+         |                                                                                        %ld
+   drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c:74:89: warning: format '%d' expects argument of type 'int', but argument 5 has type 'long unsigned int' [-Wformat=]
+      74 |                                              "RX clock delay exceeds maximum (%d00ps > %d00ps)\n",
+         |                                                                                        ~^
+         |                                                                                         |
+         |                                                                                         int
+         |                                                                                        %ld
 
 
-> legacy 5.15
->
-> [   13.887892] npu[106][106] vipcore, platform device compatible=3Dallwin=
-ner,npu
-> [   13.890322] npu[106][106] vipcore, platform driver device=3D0xffffff80=
-c1a11c10
-> [   13.890394] npu[106][106] vipcore irq number is 116.
-> [   13.890471] vipcore 7122000.npu: supply npu not found, using dummy reg=
-ulator
-> [   13.892589] npu[106][106] NPU Use VF3, use freq 696
-> [   13.892754] npu[106][106] Get NPU Regulator Control FAIL!
-> [   13.892766] npu[106][106] Want set npu vol(1000000) now vol(-22)
-> [   13.938664] npu[106][106] core_0, request irqline=3D116, name=3Dvipcor=
-e_0
-> [   13.938889] npu[106][106] vipcore, allocate page for video memory, siz=
-e: 0x2000000bytes
-> [   13.938900] npu[106][106] vipcore, video memory heap size is more than=
- 4Mbyte,only can allocate 4M byte from page
-> [   13.938948] npu[106][106] vipcore, cpu_physical=3D0x10cc00000, vip_phy=
-sical=3D0x10cc00000, vip_memsize=3D0x400000
-> [   13.940230] npu[106][106] VIPLite driver version 1.13.0.0-AW-2023-01-0=
-9
-> [   25.090905] sunxi:sunxi_pd_test-0.pd-npu-test:[WARN]: runtime_suspend =
-disable clock
->
-> -----Original Message-----
-> From: Chen-Yu Tsai <wens@kernel.org>
-> Sent: Saturday, 6 September 2025 8:14 AM
-> To: Andrew Lunn <andrew+netdev@lunn.ch>; David S. Miller <davem@davemloft=
-.net>; Eric Dumazet <edumazet@google.com>; Jakub Kicinski <kuba@kernel.org>=
-; Paolo Abeni <pabeni@redhat.com>; Rob Herring <robh@kernel.org>; Krzysztof=
- Kozlowski <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Chen-Y=
-u Tsai <wens@csie.org>; Jernej Skrabec <jernej@kernel.org>; Samuel Holland =
-<samuel@sholland.org>
-> Cc: netdev@vger.kernel.org; devicetree@vger.kernel.org; linux-arm-kernel@=
-lists.infradead.org; linux-sunxi@lists.linux.dev; linux-kernel@vger.kernel.=
-org; Andre Przywara <andre.przywara@arm.com>; Jernej Skrabec <jernej.skrabe=
-c@gmail.com>
-> Subject: [PATCH net-next v3 10/10] arm64: dts: allwinner: t527: orangepi-=
-4a: Enable Ethernet port
->
-> From: Chen-Yu Tsai <wens@csie.org>
->
-> On the Orangepi 4A board, the second Ethernet controller, aka the GMAC200=
-, is connected to an external Motorcomm YT8531 PHY. The PHY uses an externa=
-l 25MHz crystal, has the SoC's PI15 pin connected to its reset pin, and the=
- PI16 pin for its interrupt pin.
->
-> Enable it.
->
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
-> ---
->
-> Changes since v1:
-> - Switch to generic (tx|rx)-internal-delay-ps properties
-> ---
->  .../dts/allwinner/sun55i-t527-orangepi-4a.dts | 23 +++++++++++++++++++
->  1 file changed, 23 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts b/=
-arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-> index 38cd8c7e92da..7afd6e57fe86 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-> @@ -15,6 +15,7 @@ / {
->         compatible =3D "xunlong,orangepi-4a", "allwinner,sun55i-t527";
->
->         aliases {
-> +               ethernet0 =3D &gmac1;
->                 serial0 =3D &uart0;
->         };
->
-> @@ -95,11 +96,33 @@ &ehci1 {
->         status =3D "okay";
->  };
->
-> +&gmac1 {
-> +       phy-mode =3D "rgmii-id";
-> +       phy-handle =3D <&ext_rgmii_phy>;
-> +       phy-supply =3D <&reg_cldo4>;
-> +
-> +       tx-internal-delay-ps =3D <0>;
-> +       rx-internal-delay-ps =3D <300>;
-> +
-> +       status =3D "okay";
-> +};
-> +
->  &gpu {
->         mali-supply =3D <&reg_dcdc2>;
->         status =3D "okay";
->  };
->
-> +&mdio1 {
-> +       ext_rgmii_phy: ethernet-phy@1 {
-> +               compatible =3D "ethernet-phy-ieee802.3-c22";
-> +               reg =3D <1>;
-> +               interrupts-extended =3D <&pio 8 16 IRQ_TYPE_LEVEL_LOW>; /=
-* PI16 */
-> +               reset-gpios =3D <&pio 8 15 GPIO_ACTIVE_LOW>; /* PI15 */
-> +               reset-assert-us =3D <10000>;
-> +               reset-deassert-us =3D <150000>;
-> +       };
-> +};
-> +
->  &mmc0 {
->         vmmc-supply =3D <&reg_cldo3>;
->         cd-gpios =3D <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF6 =
-*/
-> --
-> 2.39.5
->
->
+vim +60 drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c
+
+    39	
+    40	static int sun55i_gmac200_set_syscon(struct device *dev,
+    41					     struct plat_stmmacenet_data *plat)
+    42	{
+    43		struct device_node *node = dev->of_node;
+    44		struct regmap *regmap;
+    45		u32 val, reg = 0;
+    46		int ret;
+    47	
+    48		regmap = syscon_regmap_lookup_by_phandle(node, "syscon");
+    49		if (IS_ERR(regmap))
+    50			return dev_err_probe(dev, PTR_ERR(regmap), "Unable to map syscon\n");
+    51	
+    52		if (!of_property_read_u32(node, "tx-internal-delay-ps", &val)) {
+    53			if (val % 100)
+    54				return dev_err_probe(dev, -EINVAL,
+    55						     "tx-delay must be a multiple of 100ps\n");
+    56			val /= 100;
+    57			dev_dbg(dev, "set tx-delay to %x\n", val);
+    58			if (!FIELD_FIT(SYSCON_ETXDC_MASK, val))
+    59				return dev_err_probe(dev, -EINVAL,
+  > 60						     "TX clock delay exceeds maximum (%d00ps > %d00ps)\n",
+    61						     val, FIELD_MAX(SYSCON_ETXDC_MASK));
+    62	
+    63			reg |= FIELD_PREP(SYSCON_ETXDC_MASK, val);
+    64		}
+    65	
+    66		if (!of_property_read_u32(node, "rx-internal-delay-ps", &val)) {
+    67			if (val % 100)
+    68				return dev_err_probe(dev, -EINVAL,
+    69						     "rx-delay must be a multiple of 100ps\n");
+    70			val /= 100;
+    71			dev_dbg(dev, "set rx-delay to %x\n", val);
+    72			if (!FIELD_FIT(SYSCON_ERXDC_MASK, val))
+    73				return dev_err_probe(dev, -EINVAL,
+    74						     "RX clock delay exceeds maximum (%d00ps > %d00ps)\n",
+    75						     val, FIELD_MAX(SYSCON_ERXDC_MASK));
+    76	
+    77			reg |= FIELD_PREP(SYSCON_ERXDC_MASK, val);
+    78		}
+    79	
+    80		switch (plat->mac_interface) {
+    81		case PHY_INTERFACE_MODE_MII:
+    82			/* default */
+    83			break;
+    84		case PHY_INTERFACE_MODE_RGMII:
+    85		case PHY_INTERFACE_MODE_RGMII_ID:
+    86		case PHY_INTERFACE_MODE_RGMII_RXID:
+    87		case PHY_INTERFACE_MODE_RGMII_TXID:
+    88			reg |= SYSCON_EPIT | SYSCON_ETCS_INT_GMII;
+    89			break;
+    90		case PHY_INTERFACE_MODE_RMII:
+    91			reg |= SYSCON_RMII_EN;
+    92			break;
+    93		default:
+    94			return dev_err_probe(dev, -EINVAL, "Unsupported interface mode: %s",
+    95					     phy_modes(plat->mac_interface));
+    96		}
+    97	
+    98		ret = regmap_write(regmap, SYSCON_REG, reg);
+    99		if (ret < 0)
+   100			return dev_err_probe(dev, ret, "Failed to write to syscon\n");
+   101	
+   102		return 0;
+   103	}
+   104	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
