@@ -1,186 +1,284 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazolkn19012042.outbound.protection.outlook.com [52.103.32.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31FA71FE44B;
-	Sat,  6 Sep 2025 21:16:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757193394; cv=none; b=mt+JJnNeFtp3Wo8nnpf8LFSLAx64QX6nY0+zvnluM4Q7ct+yPvZ3c2e9ZLZUmfVtd0K+TUAsVdyF518KJodBYSmFd7nHffEpPVz0V/zEA3u+oX877LTPXaC4hp5jE/TpLj8aKQCcWX8dCvUV7kpNIktm0xX9WyrKWBcT+pvYEs4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757193394; c=relaxed/simple;
-	bh=rBLI7ukQHDWS6AwQcN6I5VytRlnwi7WAZKTS9iyO0tI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nr1M/9Y3zRTCR61tnsPDiBakLWWjed2oNnRdRllTYKBS5pMXvLlNsbL+fHkijWy4+yfBhv/gbyX6jxKsy5MyVrHk+/FKPIkWH9yM6E98Zg41qar1W6OzzUMkuGbIm4s9LIK6r7cXvKVDMQxmnn1crAO2yxGCC3sZo06VZ+OhHk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I5TTURoZ; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D710D1DB377
+	for <linux-sunxi@lists.linux.dev>; Sun,  7 Sep 2025 06:10:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.32.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757225442; cv=fail; b=kwtkVrmlZKH3xpWMl70ZrKpyLt8zEQcLkr3fXUcqwOsfPwBiWgZp58C/AZsO4fGrwQcR0IRW8KY2rUBKBGQiSHmKTtgiAXGEXEUhlrbMt/hBt+XcgyyCheaDtM2URr7P1NZZh1D7D+lyJsRSPhXKiKrRRyQupELlR02VUv3la2g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757225442; c=relaxed/simple;
+	bh=ZrTTHJDTikDAC0ziaLs1+Bp7NH9GjYoEcKtRsHO/egg=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=I0OMamCNXEImQ3cDQmNJ9YYKb4jm/mNPC6Cu4sxrhH/CzhJzkbgpyk63frNRgUm8fT9hDdPvbpjr+XyQe64mRhRXx+gzoYmgO8stZXHNLpr4HC6gT7ENl/4Z6yIZTmUHlQbng3CnM9LECTa9cd/21BifyRQy7XXktaHegBPriWg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=hotmail.com; dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b=IMbPcnBt; arc=fail smtp.client-ip=52.103.32.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I5TTURoZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757193393; x=1788729393;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rBLI7ukQHDWS6AwQcN6I5VytRlnwi7WAZKTS9iyO0tI=;
-  b=I5TTURoZvLRKKRS2lsIxbGqi0qVvUGVa0Dbi2cuywtDE7okj0lq2stJ3
-   ZRg8kHId1s0YJ6vDMZ8zcA1vL9kgH90vZg3pWLF2YMVfBrutWR9d9pex5
-   H3SF0n1Xwgf8nEYpihJ/tT+Qeysi6TvaE3xm1tn9CBK6iTd/j9rSBej+0
-   xCEAbAIO9C7rFBfIjk3BgwKQM8xSdnFQq8/5LvCPvsP4zXUZV55czu7u0
-   cwsOpynD2tDPWlFnf3YiaqKUV/9mGkNpDMR5HGAFBTcsvqcQoTaeGryca
-   vrYR6L5HI60EMV1Q1yPSlS2+Gg17n2KTy1WKeN2wAQWe1CHM0FB+2gyoO
-   A==;
-X-CSE-ConnectionGUID: b0ghaXAYS0SP1X9Obud/VQ==
-X-CSE-MsgGUID: AatpIWy4STa5JTLpq7S9zA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11545"; a="62131851"
-X-IronPort-AV: E=Sophos;i="6.18,245,1751266800"; 
-   d="scan'208";a="62131851"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2025 14:16:31 -0700
-X-CSE-ConnectionGUID: m/SS9zIhS4m6vaHeaN13bg==
-X-CSE-MsgGUID: iPkamp7WRvKSUK+pal2eOw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,245,1751266800"; 
-   d="scan'208";a="172366458"
-Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 06 Sep 2025 14:16:27 -0700
-Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uv0Gm-0001nX-2E;
-	Sat, 06 Sep 2025 21:16:24 +0000
-Date: Sun, 7 Sep 2025 05:15:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chen-Yu Tsai <wens@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andre Przywara <andre.przywara@arm.com>
-Subject: Re: [PATCH net-next v3 02/10] net: stmmac: Add support for Allwinner
- A523 GMAC200
-Message-ID: <202509070456.CKA8CXUt-lkp@intel.com>
-References: <20250906041333.642483-3-wens@kernel.org>
+	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="IMbPcnBt"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WkQWjg4JY9Dbr9jDXBx8osJlb7yJ1EgmAHPMgnHHOXe7o/PPbVuRNaAbDZekq7LMxfkf1cYptK5BDaE+yti32cgFhQmlXIsSVHvQ4sXaDTN9fS8uqNU+755a4u829UFhwwNwx4USpMYRQgeQDMFC021HlcHgt6jDm4IF/WmTlrWXRWt26X+R9Lij98ZBiVew53QKSk+faEqoLPtCXfpTduUajJKtDs/0OjVA4nqCvW5rj5rcRXpW6rE3EbiKPOR/eGs6cZHaSRnRqRNi6X/keVCnYw2DWpKUvkbToU9kpI/GhX0U1ORbG4lOW447xawN+Tse71lbyqrkFCMPqNHQCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N/WqvDl9L2FDsC5IvsSUcaa3QqelfDTYK4MzY5dl/6k=;
+ b=JFDDJjdnQbi4/Q3icBh4NktxtOzg+YvrTjrOaJDoWayVR48NNjuoeGl9agYQSqwn/WgtunM5p/cVthU8E4TKAODKFcU2ypKlbO5PTCAbZfyqejYrsOwZI4xVOscYfuImVMYRLvNONpfVEUE66XWiK4vqp6sctVDdhV1D36NNjBOj05Kq26KEqSZy6E8hnWS7gqgFnoSwnWdPhSkTep6bSm9I/BLGCxgximCW5fVsK43vjpz4keeHDK+Rbv2c6KLsWqszuzzu+b1WRrN6rc5zNohfOz0OreIL3XF/PQPPdmOH6B3kI+pIkiGOSlpJgJt//9TaEJwe7dF2yhwZF6Q2+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N/WqvDl9L2FDsC5IvsSUcaa3QqelfDTYK4MzY5dl/6k=;
+ b=IMbPcnBtnyWD3EpJ6fu3iQFSAbn20+Ov32IF2fP969+jWzNKxC0zzuwwtwRTE7m5HBsmPUFJiX1NwBzSfzfA6l6nWU1Ftq0X7PusrCMycODjwLqtJjobSP4xuKPO/u6RIcSF4EXIPbYUFqXipJ+BMKxbZyKehrCRhOhRks8CPiQYdpMYcIRfnykyk+bWyx2BeJXwMYLVav7t/ksAUozMvWr7BfQiMbtXKHS25km8oXMpRtstnYePn6mfzCK0/uWm4IW4lI00kv9svkkcQ/NDCXNZSPo4J8xCYTwsgj8NVyT8wXnEMuuIs1Iwz7bH3QVRvDBytS06REa8KbxNfe5ocQ==
+Received: from DU0P190MB2445.EURP190.PROD.OUTLOOK.COM (2603:10a6:10:5a5::8) by
+ AS8P190MB1032.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:2e7::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9094.19; Sun, 7 Sep 2025 06:10:38 +0000
+Received: from DU0P190MB2445.EURP190.PROD.OUTLOOK.COM
+ ([fe80::5dcd:351e:4e91:2380]) by DU0P190MB2445.EURP190.PROD.OUTLOOK.COM
+ ([fe80::5dcd:351e:4e91:2380%5]) with mapi id 15.20.9094.018; Sun, 7 Sep 2025
+ 06:10:38 +0000
+From: Muhammed Subair <msubair@hotmail.com>
+To: Andre Przywara <andre.przywara@arm.com>, Christian Gmeiner
+	<christian.gmeiner@gmail.com>
+CC: "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
+	"l.stach@pengutronix.de" <l.stach@pengutronix.de>,
+	"linux+etnaviv@armlinux.org.uk" <linux+etnaviv@armlinux.org.uk>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, linux-sunxi
+	<linux-sunxi@lists.linux.dev>, Chen-Yu Tsai <wens@csie.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: Re: drm/etnaviv: detecting disabled Vivante GPU?
+Thread-Topic: Re: drm/etnaviv: detecting disabled Vivante GPU?
+Thread-Index: AdwftZRL4V/ycwT/ShypPIPQ1UB47Q==
+Date: Sun, 7 Sep 2025 06:10:38 +0000
+Message-ID:
+ <DU0P190MB2445D1343E4FF538B0AA1E29BC0DA@DU0P190MB2445.EURP190.PROD.OUTLOOK.COM>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DU0P190MB2445:EE_|AS8P190MB1032:EE_
+x-ms-office365-filtering-correlation-id: 487c60d2-7b14-45f6-efd3-08ddedd543fc
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|31061999003|15080799012|15030799006|461199028|8062599012|8060799015|19110799012|4295299021|51005399003|3412199025|40105399003|440099028|10035399007|102099032|12091999003;
+x-microsoft-antispam-message-info:
+ =?Windows-1252?Q?Qw39ytonmtLYi7KYUawF+KQYJaenRRNrNE0aLsleRDrJxA2PUqukRMm/?=
+ =?Windows-1252?Q?YScVcchy5ki0pDaww/ZKABJO8ASfPEKMWQ8f93J+FtCRW1y2NfN42fru?=
+ =?Windows-1252?Q?qGONJSJoQPIAGumSc1clTSl+Y8+OdsaCIj+lJQGdsFyzzYnI/hQ8XAuC?=
+ =?Windows-1252?Q?a+nzUOu45qtNoPMtWEfFMHDrpwsq2C60dLXF8On9YPSo/2uwrCzbTUUC?=
+ =?Windows-1252?Q?p+MYo/nvDWtmLUnlLAT9/aUheI/sKK+qvkjGd2Hf0HNdIb/EcEbQChx7?=
+ =?Windows-1252?Q?k6zZKd5j93Dg9gdaGVh33ZZp0mOqHUwcnBLWsjL6qX91zLTJgZyxIGZ7?=
+ =?Windows-1252?Q?hDbupcPnSNuXrraJaB9H7y1iJQufKDuoBf4Duc2X5D931gfZ04EB3Pid?=
+ =?Windows-1252?Q?7zZqAs3pGkQ2gwRfKY4pkye9N60qrSdnzR+3Wp1g1XBGCqLQiQVp0t/Q?=
+ =?Windows-1252?Q?qcqI2uPEn5T0i989q4/u2Ys46BGu733sN8CJtTZxPj1eJAlgrUgj0TpD?=
+ =?Windows-1252?Q?mr1cu+TfsIDM22qkh67CDnLra2/I2aNO/KUHFTDffgN2GPDZLk2bUliM?=
+ =?Windows-1252?Q?UkCQxENM2vmsuUSz3IEWOYwC2rLsEgK09heA/40Apsiif9cpvLH8TNM0?=
+ =?Windows-1252?Q?V0OvJilNO+kb1cXCzOI9mSAHdLXD0dwMvEuK2thQ33NcLHIJ1Jh7amJM?=
+ =?Windows-1252?Q?vfZShtd54PPKzqefu8aLkdGcPazmacp6mxOQh+gD/3zDp2yCpp3VXAvG?=
+ =?Windows-1252?Q?uqTJUB4bnDxDQxt8kUv2f6IrAY7S0aMV5J+ZiyyaFLbydOf+PV8inFMm?=
+ =?Windows-1252?Q?vZXlDdRjJg8FMyFEK6YBP6Gd6fuzs5gH74ccRounB6Ejx5yvOlqNBBoO?=
+ =?Windows-1252?Q?3dh9skE/RVK5WwY9Czb5xcUPWupl9D5g8pKhZ6sgi9cgaSqVOvNEdfC8?=
+ =?Windows-1252?Q?4WZgF+RG1mvp0PSB2L45KKGixVXz3RAhyh3dK3r8SGdU+08jzK+0onzX?=
+ =?Windows-1252?Q?e0IIMkkfhSPSDzNYWPUlNzXdk5v7M0Fli3pXPlKinIpwmvQIqCvIkVNn?=
+ =?Windows-1252?Q?lZGodV71YkzirvlHwwcGUiMzjZYe68nJvyCklDLUfgAshMV6D+fzTaML?=
+ =?Windows-1252?Q?6F4hujv1gbhLkQAqMKgP/70pzvVpV+cXheF7P6NlHa/LF4fSas7Sddnn?=
+ =?Windows-1252?Q?eql7JSajv4MgPBuYaFn4neWgTc/bZ3YjWBsu9ohEPKoEJWEeb4qhnUe4?=
+ =?Windows-1252?Q?b9UKmQ/rV5HRU9oEa5pRBpayjqZSxJnNM65FcUDIJV9ljRpm8Pr95KrD?=
+ =?Windows-1252?Q?9M9+308ikjue3Cdbi/Q5Ll9mExGJxKTnPhUVAoOJ5sNhNLbx?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?Windows-1252?Q?jDJTdkWWo7v05u+TnbrPriPY9IhIOmjQe1gL8IfNJv00NjbwIhQEdn7q?=
+ =?Windows-1252?Q?Ebp9sh1y9gYIF3Czz74Cq/ScCOGNTNVxY6zcAqxkn+P+P2HKvCetPvNQ?=
+ =?Windows-1252?Q?rbbih2Nrq5ho6kqvgXUN51TW+B7fQwTWdxyez9o3SP8z5r6aZfq2Mm6d?=
+ =?Windows-1252?Q?TtQlhfGUjKpF3und9utOcZDWzyy8f8Kf5gXl1Bq7qZyj3zXqkqpnvSFm?=
+ =?Windows-1252?Q?bWAnaZW33FHoF2tom0svTqJCuYLonGkGk5Zc3/I5XL+UEZASU8pN7w3t?=
+ =?Windows-1252?Q?eCjOGrAc5DDUbpGJVDSkFAxuNLTv1C2Dcxy8NVoDPH2V1bwa8Fe7xae2?=
+ =?Windows-1252?Q?e7VgpFcUR3HfFZEfHhtE6I4bUv4NtQBq0MU7RvofIU6uGY8WJySTS4g/?=
+ =?Windows-1252?Q?Xe0zN+ey6zi+7EIuHKfcN+91LzkIRRjFMTO6MfhXMTqGwtvWiCVaXSgL?=
+ =?Windows-1252?Q?4l3cdcK4s2UtXm+g9/ay4rh4/NmF+0dbcbgx5BOcKeuFUn8b7TOZZ/Do?=
+ =?Windows-1252?Q?RQZF8R6ECXcuutVP1RwZbN8CQmB1h1pybq5eEqSpbOxQDEMdh6WPuQtZ?=
+ =?Windows-1252?Q?RXG7lnMdUqxMa2n1bQXHys+J7harmm8JpXpLZV2tusFnki34/ZcjpxqU?=
+ =?Windows-1252?Q?Q0eoSFGkq/a0oSIhk64UOFgaUM5S4IV+LYzUzkHw1t0S5OmtILaDIVUX?=
+ =?Windows-1252?Q?6VyBd09eC9n3GBNe7G+4zTNvbAtsafQ1AK8HsVVrMcAaQbduJTLCfF//?=
+ =?Windows-1252?Q?tNSVivFaoYY8hFhYsIo5dLq0u0lWqto6WD7oeoPITKJHIwbiclMyPsko?=
+ =?Windows-1252?Q?rvAwxVLaZ0MU4plaCFHo8TaEWPxHlaUp5gTXLqg8eWGN59PNxAWZqgF9?=
+ =?Windows-1252?Q?y0lLLCrx+HsEBU8lGyeKRMoK16itf6grMbxuxSeLb2EHsCHLSoriubx2?=
+ =?Windows-1252?Q?OlwgVc7c2WWxwEOnuPAqLEHxNiqBRK6J/bw4RYwND5FaQoGG5SsLJBbw?=
+ =?Windows-1252?Q?q1ikfaPata3LYlDbdx3+qMJ70qu4/sIfeNtXywn9Ph2H61G/7xAKZxFZ?=
+ =?Windows-1252?Q?PJpeWehA1jaogNGya5BIRfe4yV5sh2RC/u51lqifChMQ80kEWEtS0pBG?=
+ =?Windows-1252?Q?TPvY5hab+ksKGligWqUH3TVwcYlgeKiWO2dh+Vsi87c5ZEUlmmKf0I3w?=
+ =?Windows-1252?Q?gXnpSVDQUs9yW+FySb/vY2FmAsMIjYLxiFzlx/xLIxuejYktVSA/LMFh?=
+ =?Windows-1252?Q?y3lEjki5ztrD/IjSMLfDPbd8m6/UEn4HEfyzbsR2H9792f1VDfBnQXJa?=
+ =?Windows-1252?Q?jIRitw=3D=3D?=
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250906041333.642483-3-wens@kernel.org>
+X-OriginatorOrg: sct-15-20-8534-20-msonline-outlook-e6540.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DU0P190MB2445.EURP190.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 487c60d2-7b14-45f6-efd3-08ddedd543fc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Sep 2025 06:10:38.0871
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P190MB1032
 
-Hi Chen-Yu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Yu-Tsai/dt-bindings-net-sun8i-emac-Add-A523-GMAC200-compatible/20250906-121610
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250906041333.642483-3-wens%40kernel.org
-patch subject: [PATCH net-next v3 02/10] net: stmmac: Add support for Allwinner A523 GMAC200
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20250907/202509070456.CKA8CXUt-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250907/202509070456.CKA8CXUt-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509070456.CKA8CXUt-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c: In function 'sun55i_gmac200_set_syscon':
->> drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c:60:89: warning: format '%d' expects argument of type 'int', but argument 5 has type 'long unsigned int' [-Wformat=]
-      60 |                                              "TX clock delay exceeds maximum (%d00ps > %d00ps)\n",
-         |                                                                                        ~^
-         |                                                                                         |
-         |                                                                                         int
-         |                                                                                        %ld
-   drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c:74:89: warning: format '%d' expects argument of type 'int', but argument 5 has type 'long unsigned int' [-Wformat=]
-      74 |                                              "RX clock delay exceeds maximum (%d00ps > %d00ps)\n",
-         |                                                                                        ~^
-         |                                                                                         |
-         |                                                                                         int
-         |                                                                                        %ld
-
-
-vim +60 drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c
-
-    39	
-    40	static int sun55i_gmac200_set_syscon(struct device *dev,
-    41					     struct plat_stmmacenet_data *plat)
-    42	{
-    43		struct device_node *node = dev->of_node;
-    44		struct regmap *regmap;
-    45		u32 val, reg = 0;
-    46		int ret;
-    47	
-    48		regmap = syscon_regmap_lookup_by_phandle(node, "syscon");
-    49		if (IS_ERR(regmap))
-    50			return dev_err_probe(dev, PTR_ERR(regmap), "Unable to map syscon\n");
-    51	
-    52		if (!of_property_read_u32(node, "tx-internal-delay-ps", &val)) {
-    53			if (val % 100)
-    54				return dev_err_probe(dev, -EINVAL,
-    55						     "tx-delay must be a multiple of 100ps\n");
-    56			val /= 100;
-    57			dev_dbg(dev, "set tx-delay to %x\n", val);
-    58			if (!FIELD_FIT(SYSCON_ETXDC_MASK, val))
-    59				return dev_err_probe(dev, -EINVAL,
-  > 60						     "TX clock delay exceeds maximum (%d00ps > %d00ps)\n",
-    61						     val, FIELD_MAX(SYSCON_ETXDC_MASK));
-    62	
-    63			reg |= FIELD_PREP(SYSCON_ETXDC_MASK, val);
-    64		}
-    65	
-    66		if (!of_property_read_u32(node, "rx-internal-delay-ps", &val)) {
-    67			if (val % 100)
-    68				return dev_err_probe(dev, -EINVAL,
-    69						     "rx-delay must be a multiple of 100ps\n");
-    70			val /= 100;
-    71			dev_dbg(dev, "set rx-delay to %x\n", val);
-    72			if (!FIELD_FIT(SYSCON_ERXDC_MASK, val))
-    73				return dev_err_probe(dev, -EINVAL,
-    74						     "RX clock delay exceeds maximum (%d00ps > %d00ps)\n",
-    75						     val, FIELD_MAX(SYSCON_ERXDC_MASK));
-    76	
-    77			reg |= FIELD_PREP(SYSCON_ERXDC_MASK, val);
-    78		}
-    79	
-    80		switch (plat->mac_interface) {
-    81		case PHY_INTERFACE_MODE_MII:
-    82			/* default */
-    83			break;
-    84		case PHY_INTERFACE_MODE_RGMII:
-    85		case PHY_INTERFACE_MODE_RGMII_ID:
-    86		case PHY_INTERFACE_MODE_RGMII_RXID:
-    87		case PHY_INTERFACE_MODE_RGMII_TXID:
-    88			reg |= SYSCON_EPIT | SYSCON_ETCS_INT_GMII;
-    89			break;
-    90		case PHY_INTERFACE_MODE_RMII:
-    91			reg |= SYSCON_RMII_EN;
-    92			break;
-    93		default:
-    94			return dev_err_probe(dev, -EINVAL, "Unsupported interface mode: %s",
-    95					     phy_modes(plat->mac_interface));
-    96		}
-    97	
-    98		ret = regmap_write(regmap, SYSCON_REG, reg);
-    99		if (ret < 0)
-   100			return dev_err_probe(dev, ret, "Failed to write to syscon\n");
-   101	
-   102		return 0;
-   103	}
-   104	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Hello=0A=
+=0A=
+The board I have is A527 , and the legacy (5.15.147)  kernel detecting npu =
+as shown below,=0A=
+However https://linux-sunxi.org/A523#Family_of_sun55iw3 shows that there is=
+ no npu, not sure whether information is correct in this link.=0A=
+=0A=
+[   13.887892] npu[106][106] vipcore, platform device compatible=3Dallwinne=
+r,npu=0A=
+[   13.890322] npu[106][106] vipcore, platform driver device=3D0xffffff80c1=
+a11c10=0A=
+[   13.890394] npu[106][106] vipcore irq number is 116.=0A=
+[   13.890471] vipcore 7122000.npu: supply npu not found, using dummy regul=
+ator=0A=
+[   13.892589] npu[106][106] NPU Use VF3, use freq 696=0A=
+[   13.892754] npu[106][106] Get NPU Regulator Control FAIL!=0A=
+[   13.892766] npu[106][106] Want set npu vol(1000000) now vol(-22)=0A=
+[   13.938664] npu[106][106] core_0, request irqline=3D116, name=3Dvipcore_=
+0=0A=
+[   13.938889] npu[106][106] vipcore, allocate page for video memory, size:=
+ 0x2000000bytes=0A=
+[   13.938900] npu[106][106] vipcore, video memory heap size is more than 4=
+Mbyte,only can allocate 4M byte from page=0A=
+[   13.938948] npu[106][106] vipcore, cpu_physical=3D0x10cc00000, vip_physi=
+cal=3D0x10cc00000, vip_memsize=3D0x400000=0A=
+[   13.940230] npu[106][106] VIPLite driver version 1.13.0.0-AW-2023-01-09=
+=0A=
+[   25.090905] sunxi:sunxi_pd_test-0.pd-npu-test:[WARN]: runtime_suspend di=
+sable clock=0A=
+=0A=
+While with new patches in upstream 6.17.rc4 shows below ,=0A=
+=0A=
+# dmesg | grep  7122000 =0A=
+[   21.988215] etnaviv-gpu 7122000.npu: probe with driver etnaviv-gpu faile=
+d with error -110=0A=
+[   21.988173] etnaviv-gpu 7122000.npu: deferred probe timeout, ignoring de=
+pendency=0A=
+[   21.988215] etnaviv-gpu 7122000.npu: probe with driver etnaviv-gpu faile=
+d with error -110=0A=
+=0A=
+Have the full source code and schematic, happy to provide any support requi=
+red.=0A=
+=0A=
+Subair=0A=
+=0A=
+* Re: drm/etnaviv: detecting disabled Vivante GPU?=0A=
+  2025-09-04 10:10 ` Christian Gmeiner=0A=
+@ 2025-09-04 10:36   ` Andre Przywara=0A=
+  0 siblings, 0 replies; 4+ messages in thread=0A=
+From: Andre Przywara @ 2025-09-04 10:36 UTC (permalink / raw)=0A=
+  To: Christian Gmeiner=0A=
+  Cc: Lucas Stach, Russell King, etnaviv, dri-devel, linux-kernel,=0A=
+	Chen-Yu Tsai, linux-sunxi=0A=
+=0A=
+On Thu, 4 Sep 2025 12:10:30 +0200=0A=
+Christian Gmeiner  wrote:=0A=
+=0A=
+&gt; Hi=0A=
+&gt; =0A=
+&gt; &gt;=0A=
+&gt; &gt; the Allwinner A523/A527/T527 family of SoCs feature a Vivante=0A=
+&gt; &gt; "VIP9000"(?) NPU, though it seems to be disabled on many SKUs.=0A=
+&gt; &gt; See https://linux-sunxi.org/A523#Family_of_sun55iw3 for a table, =
+the=0A=
+&gt; &gt; row labelled "NPU" indicates which model has the IP. We suspect i=
+t's=0A=
+&gt; &gt; all the same die, with the NPU selectively fused off on some pack=
+ages.=0A=
+&gt; &gt;=0A=
+&gt; &gt; Board vendors seem to use multiple SKUs of the SoC on the same bo=
+ard,=0A=
+&gt; &gt; so it's hard to say which particular board has the NPU or not. We=
+=0A=
+&gt; &gt; figured that on unsupported SoCs all the NPU registers read as 0,=
+=0A=
+&gt; &gt; though, so were wondering if that could be considered as a bail-o=
+ut=0A=
+&gt; &gt; check for the driver?=0A=
+&gt; &gt; At the moment I get this, on a SoC with a disabled NPU:=0A=
+&gt; &gt; [    1.677612] etnaviv etnaviv: bound 7122000.npu (ops gpu_ops)=
+=0A=
+&gt; &gt; [    1.683849] etnaviv-gpu 7122000.npu: model: GC0, revision: 0=
+=0A=
+&gt; &gt; [    1.690020] etnaviv-gpu 7122000.npu: Unknown GPU model=0A=
+&gt; &gt; [    1.696145] [drm] Initialized etnaviv 1.4.0 for etnaviv on min=
+or 0=0A=
+&gt; &gt; [    1.953053] etnaviv-gpu 7122000.npu: GPU not yet idle, mask: 0=
+x00000000=0A=
+&gt; &gt;=0A=
+&gt; &gt; Chen-Yu got this on his board featuring the NPU:=0A=
+&gt; &gt;     etnaviv-gpu 7122000.npu: model: GC9000, revision: 9003=0A=
+&gt; &gt;=0A=
+&gt; &gt; If I get the code correctly, then etnaviv_gpu_init() correctly de=
+tects=0A=
+&gt; &gt; the "unsupported" GPU model, and returns -ENXIO, but load_gpu() i=
+n=0A=
+&gt; &gt; etnaviv_drv.c then somewhat ignores this, since it keeps looking =
+for more=0A=
+&gt; &gt; GPUs, and fails to notice that *none* showed up:=0A=
+&gt; &gt; /sys/kernel/debug/dri/etnaviv/gpu is empty in my case.=0A=
+&gt; &gt;  =0A=
+&gt; =0A=
+&gt; Looks fine to me - no wrong behavior.=0A=
+&gt; =0A=
+&gt; &gt; Quick questions:=0A=
+&gt; &gt; - Is reading 0 from VIVS_HI_CHIP_IDENTITY (or any other of the ID=
+=0A=
+&gt; &gt;   registers) an invalid ID, so we can use that to detect those di=
+sabled=0A=
+&gt; &gt;   NPUs? If not, can any other register used to check this? The wh=
+ole=0A=
+&gt; &gt;   block seems to be RAZ/WI when the NPU is disabled.=0A=
+&gt; &gt;=0A=
+&gt; &gt; - Would it be acceptable to change the logic to error out of the=
+=0A=
+&gt; &gt;   driver's init or probe routine when no GPU/NPU has been found, =
+at=0A=
+&gt; &gt;   best with a proper error message? As it stands at the moment, t=
+he=0A=
+&gt; &gt;   driver is loaded, but of course nothing is usable, so it keeps=
+=0A=
+&gt; &gt;   confusing users.=0A=
+&gt; &gt;  =0A=
+&gt; =0A=
+&gt; From an application standpoint, it=92s not confusing since there is no=
+ etnaviv=0A=
+&gt; device to interact with. The user might wonder about the kernel messag=
+es,=0A=
+&gt; but that=92s actually caused by an incorrect device tree. If the SoC d=
+oesn=92t=0A=
+&gt; have an NPU, it shouldn=92t be enabled in the DTS.=0A=
+=0A=
+You have a point there, but as I mentioned above, that sounds tricky to=0A=
+do: I have two boards that looks otherwise identical, but one has an A527,=
+=0A=
+the other an T527. And still both don't have the NPU, since only some=0A=
+T527s feature it. So putting this on the user to use the right DT (or=0A=
+U-Boot defconfig) does not sound very nice.=0A=
+=0A=
+And in contrast to many other devices described in DTs, we *can* safely=0A=
+detect the existence of this NPU: each of the SoCs have all the clock=0A=
+gates and resets, and accesses to the MMIO frame do not fault - and the=0A=
+kernel code apparently can cope with this situation already. So yeah, we=0A=
+could smear something into U-Boot, to put a status =3D "disabled"; in there=
+,=0A=
+but I would like to avoid that, especially if the kernel is almost there=0A=
+already.=0A=
+=0A=
+Cheers,=0A=
+Andre=0A=
