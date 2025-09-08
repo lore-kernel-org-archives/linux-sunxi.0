@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3352B3191B4;
-	Mon,  8 Sep 2025 18:11:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3341A3191A8;
+	Mon,  8 Sep 2025 18:11:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757355074; cv=none; b=SKYUUjABGfqncUGRrnchJpJ7Odh7Dbwu4mJpSPe3qHZfFj1UkwBkvpfAYP7LH/ZPZ91zNnABE0/Q6LewOyJXfb85yeGUpzU9cp7nM3z4Up3qY8xkJlFhDCnhuQTvf4FxjRzySX2AYb4hNQqc7m8P/yq+D3KKcCwMaFT2aIgJRCA=
+	t=1757355074; cv=none; b=NAyaK1dxm+KWQ6c17d8wr53d/yINwWSDIZBs8DNLg6nnGZCHvJ96QE4ujtDDroCMExR4SjgmpxGHl4oTzLFnuxzYImmtS5+cOJt7WNbDmia1/csjz/ZBmx0KVWrH6vL7CUbOZxpvg7F0O8Jj2q/go5ha6R2E5EO7kCH8u5o8dsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1757355074; c=relaxed/simple;
-	bh=zJ4rq1A7rDmdHeQfB8ynFE9503F7ovKFxfivFN/5hPw=;
+	bh=CBUxzfQMcURd9xrdRX1X6MkdC4HdUWPC7RS7d5q4rC8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=MTdBgKXtpS9zOVRtuaRBxVuqWwZRJaJXd5UQB4Blp86rWkwFQ/6LDcLNpgMt4QXjwkVqi/cyl/Z+Mg2TWkn5EFPiIhY669oDytsIxU14tMH/GXXPOAgF9WwTYITPLVjULfK67PoD/21g6CQ0zpvV6PSjOYy7wPiNztS4uRlT/D4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hQ7y1IxU; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=iaLgfuGM5DPpIFSsMHsQKxTvsSEUa2LsytsXAxUIEvh4nvLitwY2Svwz41Meyc4MnML3fNvxT0S3tukQMef807zOTHg3AcsIGoDFREDMIsRvJPPgv789n98K47DDG9wotUh/OWLiM8O6JqknX1cKHEG0vByConOOcwLz7jvDAZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QoL2bmsq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hQ7y1IxU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5601C4CEFC;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QoL2bmsq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5ECCC113D0;
 	Mon,  8 Sep 2025 18:11:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757355073;
-	bh=zJ4rq1A7rDmdHeQfB8ynFE9503F7ovKFxfivFN/5hPw=;
+	s=k20201202; t=1757355074;
+	bh=CBUxzfQMcURd9xrdRX1X6MkdC4HdUWPC7RS7d5q4rC8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hQ7y1IxUPVquvYgy5yUlyXqwhJc6iLQCwcSIFcqEjolAZNOyLB6+v3SRR2bxwaYTP
-	 dn0GnEftM+3JCtzI28l+z6EtBy2t2V6M8qGgtDu2XsnUSIndOr5LBM5CrRiHyydBaa
-	 TIg6n5G33v5pQ3tM7uVIf5GiGEXvIbGmX/+3Ece2SGgRMdinljCU6As5Kipc/H9xL7
-	 1/dxb+RAntzX9qc8L12Z5ARFPiZvngI4B9DbAd6h+8DdXN7peM19tvbGyUens0F9KP
-	 21lN9HzQQNf4b6c52XDkRRmKGzgGQpDPabLAx5UYqUM9TZJSga7yj07X5355fSPi98
-	 x8R6mDUh6svYQ==
+	b=QoL2bmsqrFTDNcyXn7/rTjjoOHFY6ciexniXAGJBY7IucNkeX0wgA6GiCd8cZHN29
+	 AA4U4DT/VLcYDXhOo/lMdy72Ar+URZpgr/De5S9DLgQn9d7lnsZf2WXCyiqT283ZUv
+	 M7GFK+G1c+I2bWFQzXb2NdhjgkKGzjgX7FFLjT8f//1RW2VEwQtaAFPON6VK8eZC9T
+	 SFpeTw+/tJYvgVOQl1dBYRuMztB69btsD2Tl8IdTrI49iolxDvCHW+uvWYBwvIosaU
+	 sMHPNEO2WBDkpO7OUviTpug9ymTFTKPww357bSotk4KK5SOIbCnINggjAkVFKiX0Ts
+	 8EQ2gPtn+/fVg==
 Received: by wens.tw (Postfix, from userid 1000)
-	id 68C9B5FFA1; Tue, 09 Sep 2025 02:11:09 +0800 (CST)
+	id 423F65FEEF; Tue, 09 Sep 2025 02:11:09 +0800 (CST)
 From: Chen-Yu Tsai <wens@kernel.org>
 To: Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S. Miller" <davem@davemloft.net>,
@@ -47,9 +47,9 @@ Cc: netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Andre Przywara <andre.przywara@arm.com>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH net-next v4 10/10] arm64: dts: allwinner: t527: orangepi-4a: Enable Ethernet port
-Date: Tue,  9 Sep 2025 02:10:59 +0800
-Message-Id: <20250908181059.1785605-11-wens@kernel.org>
+Subject: [PATCH net-next v4 06/10] arm64: dts: allwinner: a527: cubie-a5e: Add ethernet PHY reset setting
+Date: Tue,  9 Sep 2025 02:10:55 +0800
+Message-Id: <20250908181059.1785605-7-wens@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250908181059.1785605-1-wens@kernel.org>
 References: <20250908181059.1785605-1-wens@kernel.org>
@@ -63,69 +63,32 @@ Content-Transfer-Encoding: 8bit
 
 From: Chen-Yu Tsai <wens@csie.org>
 
-On the Orangepi 4A board, the second Ethernet controller, aka the GMAC200,
-is connected to an external Motorcomm YT8531 PHY. The PHY uses an external
-25MHz crystal, has the SoC's PI15 pin connected to its reset pin, and
-the PI16 pin for its interrupt pin.
+The external Ethernet PHY has a reset pin that is connected to the SoC.
+It is missing from the original submission.
 
-Enable it.
+Add it to complete the description.
 
+Fixes: acca163f3f51 ("arm64: dts: allwinner: a527: add EMAC0 to Radxa A5E board")
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 ---
+ arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Changes since v1:
-- Switch to generic (tx|rx)-internal-delay-ps properties
----
- .../dts/allwinner/sun55i-t527-orangepi-4a.dts | 23 +++++++++++++++++++
- 1 file changed, 23 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-index 38cd8c7e92da..7afd6e57fe86 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-@@ -15,6 +15,7 @@ / {
- 	compatible = "xunlong,orangepi-4a", "allwinner,sun55i-t527";
- 
- 	aliases {
-+		ethernet0 = &gmac1;
- 		serial0 = &uart0;
- 	};
- 
-@@ -95,11 +96,33 @@ &ehci1 {
- 	status = "okay";
- };
- 
-+&gmac1 {
-+	phy-mode = "rgmii-id";
-+	phy-handle = <&ext_rgmii_phy>;
-+	phy-supply = <&reg_cldo4>;
-+
-+	tx-internal-delay-ps = <0>;
-+	rx-internal-delay-ps = <300>;
-+
-+	status = "okay";
-+};
-+
- &gpu {
- 	mali-supply = <&reg_dcdc2>;
- 	status = "okay";
- };
- 
-+&mdio1 {
-+	ext_rgmii_phy: ethernet-phy@1 {
-+		compatible = "ethernet-phy-ieee802.3-c22";
-+		reg = <1>;
-+		interrupts-extended = <&pio 8 16 IRQ_TYPE_LEVEL_LOW>; /* PI16 */
-+		reset-gpios = <&pio 8 15 GPIO_ACTIVE_LOW>; /* PI15 */
+diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+index 70d439bc845c..d4cee2222104 100644
+--- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
++++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+@@ -94,6 +94,9 @@ &mdio0 {
+ 	ext_rgmii_phy: ethernet-phy@1 {
+ 		compatible = "ethernet-phy-ieee802.3-c22";
+ 		reg = <1>;
++		reset-gpios = <&pio 7 8 GPIO_ACTIVE_LOW>; /* PH8 */
 +		reset-assert-us = <10000>;
 +		reset-deassert-us = <150000>;
-+	};
-+};
-+
- &mmc0 {
- 	vmmc-supply = <&reg_cldo3>;
- 	cd-gpios = <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF6 */
+ 	};
+ };
+ 
 -- 
 2.39.5
 
