@@ -1,79 +1,77 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6914730C611
-	for <linux-sunxi@lists.linux.dev>; Mon,  8 Sep 2025 13:53:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE62730C621
+	for <linux-sunxi@lists.linux.dev>; Mon,  8 Sep 2025 14:11:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757339596; cv=none; b=AKFmYJMr9NYZF75iGP8j6iYSyx6vSLqaD27CaKWnFiLWvHnNRlKg4vDuOVkA/jhBD4ikS22PrsUz1yqcPZZATI1q5bB2oIFv9dnmjQP4f2JkfvAuh3/8qYRnsD8hvZx+OyJ/anvB5gicuc3XYecWtWvjvVUyZ3Tkun7hAtfSM1M=
+	t=1757340706; cv=none; b=Xpsje83su9Hwql2RzQ6sztcoGcDgk9WmmOlVaPoW6semh9T+u6W/1gAqRoa0+fppsXh+I9Yqqa039oZsh731OB7reHyTBJPnqdKHEaRqvAIP+/9O5j3CRTBZ4xTOldKrARvliWoQA2RNFYLlgB0LH7sHQg0fothzjyiCO1k3o5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757339596; c=relaxed/simple;
-	bh=XHCWMZvvdtWa1+WbwLMOHSGAMdRjcSr+YUaIUbFqFFI=;
+	s=arc-20240116; t=1757340706; c=relaxed/simple;
+	bh=DRJs7cuS/Uz2IznpN5HdtER2WQNJ7nR26zFyNfponKU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=j/O2SxdA5Yp5mw/rXGtfLHNuvI0xb7gfwko1upPjudK4saL9DrPr5JcOkza1pi26CpwZrdlf9RcGtbLklCgnOuFkxAafpJuTvo2rP5YWv5qLhq85+gg3u77QgkfC3uc/AemV2q70cQA7VXScgeTU0+Kga0vgvyHCpwqTaou5Q2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A3yJzYpK; arc=none smtp.client-ip=209.85.128.41
+	 MIME-Version:Content-Type; b=Hx/B9lr4e2mWgVY2CEpmSIRjBKbKL9zon6bg4ik7vmk1380ZmBYWyfuUsDm5Clck6jF+IBN46H/6NcPLhez+OXBMtxzQVJQhTPPBtlLLuFsG9tYa6AaKi/pACsQ2CfGdfST08XpuhCjy+iq4V6aNzGsPTXMQWYWmNc/5sQ0dxjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Km6VMuj2; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A3yJzYpK"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45dcff2f313so26779755e9.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 08 Sep 2025 06:53:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Km6VMuj2"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3dad6252eacso1959608f8f.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 08 Sep 2025 07:11:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757339593; x=1757944393; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1757340703; x=1757945503; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Bi8yTXJoOBwCylt9q6MtHjP7YgyhzTMi3lxmixfzTvA=;
-        b=A3yJzYpKzIz8857XzaoJw4r7loXYGBZzw8QSaX3AYOKWnXrhYAIruOUYAoha0Mmgkb
-         QsPJDWugRpD+jT6ma08/RoXQ4bqJwLrLs1Q4XlP1e6cTiVxbIkDmaejKxG51Xv7RETpP
-         46Drr39URbpxx6fpFFZv6/aoiu68ie1+F3TTPBjy03zzwxHhKdLinPuh/zlfyDElshyF
-         VKqsp8v7iWAaFlwlhRcOHSsJgjgjj2Rf0yatAGn9sE+L9EKxQnBKCqNXMMbJpYMVgpUr
-         OE8nrn0cmpEVWDpbU+VKFFRIzWO4RPWvZCCYGPCN1qb+DZHYaARutKXm08bkECKoSXLi
-         9FUQ==
+        bh=N8OjmRy1zdV1TcewZUm4b5+QVniQB8Uid6EOl4nKsOM=;
+        b=Km6VMuj2mlc/MGbXifca50QOW9FMt7SrmvLEDPL0lQ7tjOE91U84lirEFZjAizvASv
+         wOLpJmiZmotV84l+Silp4zHhj0OBOdtyEq3hWMoTjSQCSuNHjC0kdWBxN2RUfEnqjphi
+         GUdvk149bU9gdW0eMRiFDR2lrPY75nBcTI4TQf4EBEQE3vxyseOEDLViBA3wL6fcfdMJ
+         hblPGuVPb3xDb89AKQxpPiQuoIiMUi3SMaBNYIkKN65w1RqhjneCmvEYERVu1BUNB6hr
+         2VtA4J7gz/RKTXwz9miwFF/TTEomGL6C8TQjCDPs+Jfko1qRiTzaePCWplR3vxefAxLK
+         56jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757339593; x=1757944393;
+        d=1e100.net; s=20230601; t=1757340703; x=1757945503;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Bi8yTXJoOBwCylt9q6MtHjP7YgyhzTMi3lxmixfzTvA=;
-        b=lJisRaAkj+OtScd5vMPxyPxL85dWD38Fd2JgevyRSLXwMBp9PgOZzFMYE2bLJ68nh6
-         Tau8B9Hj/sOwe1ydkEHY+doLmXHWMWrdHa6cEijLLNbRgOAG3jpN8tn6mtRs3mnMGbAQ
-         VrMpN7aOxP56qG/jp6ZNj/97DAK4G9W2LKp5K10srBORxBUQoamcQoABUiGMWBtJfZ8z
-         LMTej45N182yuYJJiydaXslfMAzuK9knjM4Ewnm8bNcFCW5V0PiRFDPrW73ZHtzLEM4R
-         YL603Pai9GSXdjLiamEHLbQVHl0Evb6SVvU1E6r7ERHbkoyuUHqSNdw22baGErklDoxF
-         3IoA==
-X-Forwarded-Encrypted: i=1; AJvYcCVnmILSujqXhOMyRpP3fHYlRLQpOWF1+TaUkBSJcn1ms5u4U6o0nm/Om17fKPwHwADtZwBduCY1OACfjQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywh1B/CHSlTd0sNF2U8aMm1y6XDFj8BOsSvpE2yxSy/0pFYxjHc
-	0zVbh4sJTJgqgvjSP9lC/qrOi3ahk8v6kBigj+mGSqM2ugViAv7cx03W
-X-Gm-Gg: ASbGncs1I6+d14plFJana/+UWX2EIS2zDaRfPbZbgMnRITIZ7pAOL2wc4Cgwqu6m0yv
-	lLRTKLBe30K8JfNW60teXVVddrJqeTBmTjUyVODSRufHbC2a+gqluwZG6Zk9FE4I39LEszZUqfJ
-	tXKdry0yrky6NcecFdTJ9eHFNRbgmvyHtAvnzSCxKS7CtxklnNR1OAOeNZyK7ICTFNwHeWN2scx
-	w0WcTJKiY4Ol1Ir8ufEX30fLkA3Ifgsa5vtRUZjsGflsFy85oihIQS+0ckVl07WUwVFbT6GXbPk
-	dwCTIgXtSlhKIt4++tYsVbYPtkUqeRmPlNRDmJVP6IY8h6GMbIcCIVHvD+imqhalz+ezvO3+6nM
-	kVOyqLrzehlnRW1ICFq7plJ8ZoUw5ljTQdYKbdL/7VmliEJxZl1+9HRL/WQzPDT/cS67m0veRnP
+        bh=N8OjmRy1zdV1TcewZUm4b5+QVniQB8Uid6EOl4nKsOM=;
+        b=YK7Tx0HWYLO50bo0NSr3STfLfglolVvrtFvhTFkQURtURS63th2R17m/sTwHqv8s0o
+         DfB87nqMPXDm1hHCtWs2uo6ZTXLfMljrE0lYMeg/uFQ5XDnb8aeZUUHxFxABPRaFG2K7
+         PuvPT2c1ykzI6ed5jUlJSvl2alRQae8dLE/XZS6JpCmwi+aC1ZAoYgoFosUyHrrEhMru
+         IpNnYgbH8grBX+2Bpqp+ghROUKsYMRpuoHBVj4B2G2GpbpQQ89qGaBv8w6IT4cDhIk7x
+         xLpYIHSAkVwOLwQGgkYUnLEZBr4Nwn/jwmlQH8rHIjJ8TfmAMwOO1m5j2cSyF2+hWO9B
+         oqrg==
+X-Forwarded-Encrypted: i=1; AJvYcCXhfYlR+2mCa3uLXWCtGZZc9/y/iXNMes4zeQsJ6ZvkG8f8lllFtO4MBYqVnGcH2EJ8oBmBTGTwaQ85Cg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzp5E8/yWEoN95nz69PAZkyuiXyoIMIP4qzkbJYgs173eEgKzjp
+	/6nJH7gagXALCcv0EEHujzjmjpdy4n25PjRFkJ73d2pE+YOvD32izm9bNMaSFBUrkAM=
+X-Gm-Gg: ASbGncsxGEmnVJf/Iy6WaRZ2rK7W6cRhWMB0KEh3pjgSJU2zC0xy3WZL34F7muyjEnA
+	svDdSU5igAmrz2OTe6qezO5+vem/WGDstKUG9OL16VkUSpetfa5NMnCXcNlqjz92vOeRY99El6m
+	BHEAPud1NpfuVcfhziHBFPhp1zp6sY2PdtC/9fq05nEToLl3mzVKtPF4wqj92I4GdF3Kk0a02RE
+	o6+1QF//3T3592PB6zASC5Yzvic9TueRAGMpxZ0z7diGatzgfePJzO15Py4ufUcTf5KIJ035iWx
+	kJygx/Nw41C8fKQ8MMdN5fcggqrFBpTOloLp9ObrynxwhbJxKV/fuMBHuag23OrjRncaQzRMm5a
+	+TPMcH2Ing6Jvmwc5YmrZN6d4XHqMOjSF27fpm7S52zmVBWq6GCfQB1YWoi9o2fZ8ODjLwNXXjL
 	k=
-X-Google-Smtp-Source: AGHT+IFymJM5Q/838u4sNcO2o9XEJ5qNZ4BhV9dGgjKVBrrKdv1vk6q5UfzwHAK51v7oPTW2ilOY8A==
-X-Received: by 2002:a05:600c:3b8b:b0:45d:d356:c358 with SMTP id 5b1f17b1804b1-45dddec3b92mr84964785e9.16.1757339592629;
-        Mon, 08 Sep 2025 06:53:12 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGWLz19Vl0+/eQms2Pj3llONuuT8W5neNk/5fI3E0hR9P0m01Pnim45kDUcIUT2hLRLIFiUUQ==
+X-Received: by 2002:a05:6000:2c0d:b0:3e7:441e:c9e1 with SMTP id ffacd0b85a97d-3e7441ecde8mr3711285f8f.18.1757340702896;
+        Mon, 08 Sep 2025 07:11:42 -0700 (PDT)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45d468dbf48sm206620575e9.11.2025.09.08.06.53.11
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3cf34494776sm41513743f8f.61.2025.09.08.07.11.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Sep 2025 06:53:12 -0700 (PDT)
+        Mon, 08 Sep 2025 07:11:42 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Linus Walleij <linus.walleij@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@gentoo.org>,
- linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject:
- Re: [RFC PATCH 1/9] pinctrl: sunxi: rename SUNXI_PINCTRL_NEW_REG_LAYOUT
-Date: Mon, 08 Sep 2025 15:53:11 +0200
-Message-ID: <5037008.31r3eYUQgx@jernej-laptop>
-In-Reply-To: <20250821004232.8134-2-andre.przywara@arm.com>
+To: Rudi Horn <dyn-git@rudi-horn.de>
+Cc: u-boot@lists.denx.de, Andre Przywara <andre.przywara@arm.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ linux-sunxi <linux-sunxi@lists.linux.dev>
+Subject: Re: [PATCH] Fix detection of odd memory configurations on sunxi
+Date: Mon, 08 Sep 2025 16:11:41 +0200
+Message-ID: <2234613.irdbgypaU6@jernej-laptop>
+In-Reply-To: <9c947490-a571-4b35-b3a9-66c8174a7490@rudi-horn.de>
 References:
- <20250821004232.8134-1-andre.przywara@arm.com>
- <20250821004232.8134-2-andre.przywara@arm.com>
+ <56f44755-fca8-4364-905e-685e79fd1aea@rudi-horn.de>
+ <1927944.tdWV9SEqCh@jernej-laptop>
+ <9c947490-a571-4b35-b3a9-66c8174a7490@rudi-horn.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -83,112 +81,39 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne =C4=8Detrtek, 21. avgust 2025 ob 02:42:24 Srednjeevropski poletni =C4=
-=8Das je Andre Przywara napisal(a):
-> After keeping the pinctrl IP mostly register compatible for almost a
-> decade, in 2021 Allwinner introduced some changes to the register
-> layout, which made us use a flag called SUNXI_PINCTRL_NEW_REG_LAYOUT.
-> Now with their latest SoC (A733), Allwinner changed the pinctrl IP
-> again, so "NEW" isn't really a fitting name anymore.
-
-That was bound to happen.
-
+Dne sobota, 16. avgust 2025 ob 14:18:44 Srednjeevropski poletni =C4=8Das je=
+ Rudi Horn napisal(a):
+> Hi Jernej,
 >=20
-> Rename the symbol to SUNXI_PINCTRL_NCAT2_REG_LAYOUT, with "NCAT2" being
-> a name often used in vendor source code to signify this "new" generation
-> of SoCs.
+> thanks for the comments on the patch.
 >=20
-> Just a rename of the symbol, no actual code changes.
+>  > I don't see a benefit for public function here, since it's unlikely=20
+> to be > used anywhere else. Just mark it static. Compiler can optimize=20
+> it better.
 >=20
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> My motivation for this was that the implementation relies on subtracting
+> `sizeof(u32)` from the address. This is an implementation detail that rel=
+ies
+> on the internals of `mctl_mem_matches_base`, and so I wanted to place
+> it in the same file as `mctl_mem_matches_base`, preventing it from being
+> static. It will only be called twice, so I don't think optimization is=20
+> too much
+> of an issue. However I don't feel strongly on this if you would still pre=
+fer
+> it in the same file.
+>=20
+> Once this is resolved, I will submit another patch with all of the other
+> comments addressed.
 
-Reviwed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Ah, right. You can leave as it is.
 
 Best regards,
 Jernej
 
-> ---
->  drivers/pinctrl/sunxi/pinctrl-sun20i-d1.c     | 2 +-
->  drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c | 2 +-
->  drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c   | 2 +-
->  drivers/pinctrl/sunxi/pinctrl-sunxi.c         | 2 +-
->  drivers/pinctrl/sunxi/pinctrl-sunxi.h         | 2 +-
->  5 files changed, 5 insertions(+), 5 deletions(-)
 >=20
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun20i-d1.c b/drivers/pinctrl/=
-sunxi/pinctrl-sun20i-d1.c
-> index 8efe35b77af4d..37a60e5d1163b 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sun20i-d1.c
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sun20i-d1.c
-> @@ -821,7 +821,7 @@ static const struct sunxi_pinctrl_desc d1_pinctrl_dat=
-a =3D {
->  static int d1_pinctrl_probe(struct platform_device *pdev)
->  {
->  	return sunxi_pinctrl_init_with_flags(pdev, &d1_pinctrl_data,
-> -					     SUNXI_PINCTRL_NEW_REG_LAYOUT);
-> +					     SUNXI_PINCTRL_NCAT2_REG_LAYOUT);
->  }
-> =20
->  static const struct of_device_id d1_pinctrl_match[] =3D {
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c b/drivers/pinc=
-trl/sunxi/pinctrl-sun55i-a523-r.c
-> index 69cd2b4ebd7d7..86a12bce0e335 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
-> @@ -36,7 +36,7 @@ static int a523_r_pinctrl_probe(struct platform_device =
-*pdev)
->  	return sunxi_pinctrl_dt_table_init(pdev, a523_r_nr_bank_pins,
->  					   a523_r_irq_bank_muxes,
->  					   &a523_r_pinctrl_data,
-> -					   SUNXI_PINCTRL_NEW_REG_LAYOUT);
-> +					   SUNXI_PINCTRL_NCAT2_REG_LAYOUT);
->  }
-> =20
->  static const struct of_device_id a523_r_pinctrl_match[] =3D {
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c b/drivers/pinctr=
-l/sunxi/pinctrl-sun55i-a523.c
-> index 7d2308c37d29e..0f703cacfe5e3 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c
-> @@ -35,7 +35,7 @@ static int a523_pinctrl_probe(struct platform_device *p=
-dev)
->  	return sunxi_pinctrl_dt_table_init(pdev, a523_nr_bank_pins,
->  					   a523_irq_bank_muxes,
->  					   &a523_pinctrl_data,
-> -					   SUNXI_PINCTRL_NEW_REG_LAYOUT |
-> +					   SUNXI_PINCTRL_NCAT2_REG_LAYOUT |
->  					   SUNXI_PINCTRL_ELEVEN_BANKS);
->  }
-> =20
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunx=
-i/pinctrl-sunxi.c
-> index 0fb057a07dccb..0a5acbd978da9 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> @@ -1521,7 +1521,7 @@ int sunxi_pinctrl_init_with_flags(struct platform_d=
-evice *pdev,
->  	pctl->dev =3D &pdev->dev;
->  	pctl->desc =3D desc;
->  	pctl->variant =3D flags & SUNXI_PINCTRL_VARIANT_MASK;
-> -	if (flags & SUNXI_PINCTRL_NEW_REG_LAYOUT) {
-> +	if (flags & SUNXI_PINCTRL_NCAT2_REG_LAYOUT) {
->  		pctl->bank_mem_size =3D D1_BANK_MEM_SIZE;
->  		pctl->pull_regs_offset =3D D1_PULL_REGS_OFFSET;
->  		pctl->dlevel_field_width =3D D1_DLEVEL_FIELD_WIDTH;
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.h b/drivers/pinctrl/sunx=
-i/pinctrl-sunxi.h
-> index ad26e4de16a85..fb17fae2dab69 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.h
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
-> @@ -88,7 +88,7 @@
->  #define SUN4I_FUNC_IRQ		6
-> =20
->  #define SUNXI_PINCTRL_VARIANT_MASK	GENMASK(7, 0)
-> -#define SUNXI_PINCTRL_NEW_REG_LAYOUT	BIT(8)
-> +#define SUNXI_PINCTRL_NCAT2_REG_LAYOUT	BIT(8)
->  #define SUNXI_PINCTRL_PORTF_SWITCH	BIT(9)
->  #define SUNXI_PINCTRL_ELEVEN_BANKS	BIT(10)
-> =20
+> Thanks,
+> Rudi
+>=20
 >=20
 
 
