@@ -1,148 +1,177 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C9F225415
-	for <linux-sunxi@lists.linux.dev>; Mon,  8 Sep 2025 14:45:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D941C54A9;
+	Mon,  8 Sep 2025 18:11:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757342714; cv=none; b=bmm4Tc+eTgwGBFzwv/f7aHALLnQhm8xBDlG6AcbABOwIuM8LCOCGJlsFYYMAWUN9zSxZZBOoDvUg2O6l/rgJOxxPJUcSvuGuPcltddyd/4RTk1jzjojDOgzSOoc6uxRHPfJUX3GjIcB7KxEuBv1Zi06Wa/ww8/lKmYcLscxPajA=
+	t=1757355072; cv=none; b=bt09Dk7C3VxxzMIBfxY1z86c2SKqglCuUcl+G+2O++fGG315OpGt0Zc2inFVvO8vfKDoaUYuvcgAVHd81valJTr1WnIqDyPIUOKnFmjVDJnHxccDCPYQsv3jZAsrYPXtSLLJ5ApgWJxBzQI0pCRUTtAaVq0YvUEW00jGhl0TJuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757342714; c=relaxed/simple;
-	bh=wI6SpAffNdI2VJI2r6W6mIMJ6ctpCyKFmqkR9gg+2vE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ybq1MK+AsjY3ErLGGMolZ4gzzBF1tSO4JHepDyplw4FIJeP95lofrCcHG3a/wmpZR8SLWQsQP+YWjRZnYYS6QPfs11v8Z7qBMFKC40i15xEpZV3/oDuCnzau1AkqT31FB5rNWj41xDCU7E2lIoIPt39qlYkUQ/Cy/YH+wHCil8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KOSa+d6E; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757355072; c=relaxed/simple;
+	bh=MAMdQhbmM82flEwTwLg9BOOP2ELCiw2qUxgNoGhVtSA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JgFloYOeYPPOgGgHf3x8AymkORRhTg1oNJfpRCNqla2PwhPY+ABNxyXXL+twdfKHVYx9meMvZHaZUt+GUrHh+33frd/NDUmJRykSV603OVIlpDJTBJiCV7optDIW+GIyw0QTx47WFEucQ+fdwvK4PpsQAN34JNTtsnCWdir+gf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PjUiOm2a; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KOSa+d6E"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-45de56a042dso8369985e9.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 08 Sep 2025 07:45:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757342710; x=1757947510; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NBXXUhb2BmggesthHwWGiC3WVEvKONX11k5/N5kirYY=;
-        b=KOSa+d6EBpgFOs5A/5ak41SsnFbAVQ6prD6FuMAz1J9zJ3hoNzcZfBQ+Z3rMz4RK6p
-         cq0s8GRSA+TAZU16QAsBaXCbwMdqPG+2YfphZ9wNPYr5CnraUaVE8Bg/YcMpvk8RDxsl
-         SYYuFvVjO33JsW8cWNotcKl08mPt9p4hmgD3c0LO4atlHzY5jZAboJdEF6nl751GiXGP
-         nKrCETS1N+zIkORzb1zjbFshnFomUgN7UCEeD1PSB2EwkfkCcfPKy7iy7Agn9WktkvIi
-         +331TsUItcF5YF4kR5MxB3efqOOSHkzRB/xZt9qr+3ZUxQJgOLxXxNhyngnAs2g7vxeM
-         2hTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757342710; x=1757947510;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NBXXUhb2BmggesthHwWGiC3WVEvKONX11k5/N5kirYY=;
-        b=VpS9i5nagO5zWrS26y0TMyH0KdWpooMsD6ot+T/AYNA3T2Ex7nNL8S1bnN2Rweagl6
-         Fqw4P8zBxEEvT1X1Rqk6sRG4C0kdXpK8atvZ7cx9WCn+QH21Y6ban+ubPLYD/2VXycCl
-         ljvglYlx1pwe1qSTg1RYc5cZhoDQQes5q8en53JdmDIeFJSFI9A/Sz75qJsyDv593Syw
-         XUVEHSx3wuBw3WVPHCvY5jWuDFiAZ5+kI1kysXigtPcBd6lYFWbmJj8luVjVX3NQcwaS
-         NYmwmiCljo3uWVgn8qAQf9Qonh8LdKUhD1Sm91fiEvfxX2MJSaNl6StSpo1R8fUFsjfV
-         FlGw==
-X-Forwarded-Encrypted: i=1; AJvYcCUqVLHO0qxacECA8gFAbW+Sq+oP2DkiTAkJySHvVynDL2y8dPWKIuyjix7QbRuHt1tQ6F+D2CaxgrbrfQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzeJkvORi8UURU76eqq2PXn8cuMxntyC4pRx0dfUiW6J+A/ay+C
-	WzekRasqJaqPWU2oh9wONHs9QsJHWbjnT6kc1ikH60nuerajd/jdHEPE
-X-Gm-Gg: ASbGncsdwEM9sqPL8xH+gDsd1pHbwzjbPQyPD1ARjOtq5VBalNYPZlCA76Yg5nhy1jN
-	ZEr4idK6yBt6Fiz0ebNwc2UWv+7aPV4B1M9cIRbK5TNU+w14ej3T4k/gRrCY5kgH9zb+JsWTUIq
-	Y67o/3Newwn1bVpV0BGMyHh5tiLvHl0oAOn3bdAVYsEtdQUR90RlGTuK1D3+6VhgLkPDhKtZ3zh
-	5areAPAuNoPL+zRNgIk/eiwwnVBMjyTeFQ2vr5YClSLX4duv/SsVpC3c11a8ARW0Pv+Hw+j4Bya
-	e7/AMk0fafdlFaDd9ROPOTxfK5ouheRhkLU0RArSHrxRK4a+JzrDHAPlZd5DHPYnPo39TKLCi6F
-	DK3zP9X5t7GykgBY0PHv6HCXOX5YXEEPbzg6Dg6glBBXLW1II+v0QCDV8t6LC8NQ3PrP/rOcYp9
-	g=
-X-Google-Smtp-Source: AGHT+IHoH/kzU+cENxZgae4niFxHNIBgU2yBvIXmO8kprk/rkDniF9PtdgAaS1TlIlleNmcUNrw0ug==
-X-Received: by 2002:a05:600c:5249:b0:45d:d68c:2a43 with SMTP id 5b1f17b1804b1-45de3c66dd3mr52823045e9.33.1757342709588;
-        Mon, 08 Sep 2025 07:45:09 -0700 (PDT)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45ddb779eb6sm130993655e9.8.2025.09.08.07.45.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Sep 2025 07:45:09 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, wens@csie.org,
- samuel@sholland.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Aleksander Jan Bajkowski <olek2@wp.pl>
-Cc: Aleksander Jan Bajkowski <olek2@wp.pl>
-Subject: Re: [PATCH] arm64: dts: allwiner: h5: OrangePi PC2: add ethernet LEDs
-Date: Mon, 08 Sep 2025 16:45:07 +0200
-Message-ID: <2012341.PYKUYFuaPT@jernej-laptop>
-In-Reply-To: <20250818163520.1004528-1-olek2@wp.pl>
-References: <20250818163520.1004528-1-olek2@wp.pl>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PjUiOm2a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DA35C4CEF5;
+	Mon,  8 Sep 2025 18:11:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757355071;
+	bh=MAMdQhbmM82flEwTwLg9BOOP2ELCiw2qUxgNoGhVtSA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=PjUiOm2a1XukIdafrFe8/83EYwLJWZdlIs73VBcipHOWXSozvMNlw1gz9+1rQfr5k
+	 /t67zoD8RzOsllRan6aspkPUBHxOsXzodL4EtUlasksO0TIVhnmTZlys3Lhs1C8CrE
+	 Xv2ltmFBWWQ+gZPXMLsjgF5KzmYmmfgV/bC7elwPvAYo2n3ITzj293rdLaaZZqMZ+6
+	 6E+RGATr95MivN+9BnMgKWjM4BoiRA8go1e2bSP2lg347TIZfa7ZhczLQm2bPUbpat
+	 qV3HxY1mF6rgNIaZwrej7I0z8xp3Hv6jGEFoFF9valVslGjJI3tBoO/mWPV2elJ3GS
+	 ZiLt7Qo/dtB4g==
+Received: by wens.tw (Postfix, from userid 1000)
+	id DCCB55FE60; Tue, 09 Sep 2025 02:11:08 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>
+Cc: netdev@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andre Przywara <andre.przywara@arm.com>
+Subject: [PATCH net-next v4 00/10] net: stmmac: Add support for Allwinner A523 GMAC200
+Date: Tue,  9 Sep 2025 02:10:49 +0800
+Message-Id: <20250908181059.1785605-1-wens@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Dne ponedeljek, 18. avgust 2025 ob 18:35:13 Srednjeevropski poletni =C4=8Da=
-s je Aleksander Jan Bajkowski napisal(a):
-> This patch adds support for Ethernet LEDs.
+From: Chen-Yu Tsai <wens@csie.org>
 
-How did you tested this? According to linux-sunxi wiki, this board has
-RTL8211E, while LED control is supported only with RTL8211F driver.
+Hi everyone,
 
->=20
-> Signed-off-by: Aleksander Jan Bajkowski <olek2@wp.pl>
-> ---
->  .../dts/allwinner/sun50i-h5-orangepi-pc2.dts  | 20 +++++++++++++++++++
->  1 file changed, 20 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dts b/a=
-rch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dts
-> index 0f29da7d51e6..7688f565ec9b 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dts
-> @@ -7,6 +7,7 @@
-> =20
->  #include <dt-bindings/gpio/gpio.h>
->  #include <dt-bindings/input/input.h>
-> +#include <dt-bindings/leds/common.h>
->  #include <dt-bindings/pinctrl/sun4i-a10.h>
-> =20
->  / {
-> @@ -132,6 +133,25 @@ &external_mdio {
->  	ext_rgmii_phy: ethernet-phy@1 {
->  		compatible =3D "ethernet-phy-ieee802.3-c22";
->  		reg =3D <1>;
-> +
-> +		leds {
-> +			#address-cells =3D <1>;
-> +			#size-cells =3D <0>;
-> +
-> +			led@0 {
-> +				reg =3D <0>;
-> +				color =3D <LED_COLOR_ID_GREEN>;
-> +				function =3D LED_FUNCTION_LAN;
-> +				linux,default-trigger =3D "netdev";
-> +			};
-> +
-> +			led@1 {
-> +				reg =3D <1>;
-> +				color =3D <LED_COLOR_ID_AMBER>;
-> +				function =3D LED_FUNCTION_LAN;
-> +				linux,default-trigger =3D "netdev";
-> +			};
+This is v4 of my Allwinner A523 GMAC200 support series.
 
-Schematic says LED0 is "Yellow" or Amber in this DT. So LED1 should be gree=
-n.
+Changes since v3:
+- driver
+  - Fixed printf format specifier warning
+- Link to v3
+  https://lore.kernel.org/all/20250906041333.642483-1-wens@kernel.org/
 
-Also, I'm not sure if trigger really needs to be added, since PHY network
-will set it as such.
+Changes since v2:
+- DT binding
+  - Added "select" to avoid matching against all dwmac entries
+- driver
+  - Include "ps" unit in "... must be multiple of ..." error message
+  - Use FIELD_FIT to check if delay value is in range and FIELD_MAX to get
+    the maximum value
+  - Reword error message for delay value exceeding maximum
+  - Drop MASK_TO_VAL
+- Link to v2:
+  https://lore.kernel.org/all/20250813145540.2577789-1-wens@kernel.org/
 
-Best regards,
-Jernej
+Changes since v1:
+- Dropped RFT tag
+- Switched to generic (tx|rx)-internal-delay-ps 
+- dwmac-sun55i driver bits
+  - Changed dev_err() + return to dev_err_probe()
+  - Added check of return value from syscon regmap write
+  - Changed driver name to match file name
+- sram driver bits
+  - Fixed check on return value
+  - Expanded commit message
+- dtsi
+  - Fixed typo in tx-queues-config
+- cubie a5e
+  - Add PHY regulator delay
+- Link to v1:
+  https://lore.kernel.org/all/20250701165756.258356-1-wens@kernel.org/
 
-> +		};
->  	};
->  };
-> =20
->=20
+This series adds support for the second Ethernet controller found on the
+Allwinner A523 SoC family. This controller, dubbed GMAC200, is a DWMAC4
+core with an integration layer around it. The integration layer is
+similar to older Allwinner generations, but with an extra memory bus
+gate and separate power domain.
+
+Patch 1 adds a new compatible string combo to the existing Allwinner
+EMAC binding.
+
+Patch 2 adds a new driver for this core and integration combo.
+
+Patch 3 extends the sunxi SRAM driver to allow access to the clock delay
+controls for the second Ethernet controller.
+
+Patch 4 registers the special regmap for the clock delay controls as a
+syscon. This allows the new network driver to use the syscon interface,
+instead of the following dance which the existing dwmac-sun8i driver
+does:
+
+    of_parse_phandle();
+    of_find_device_by_node();
+    dev_get_regmap();
+
+With this change in place we can also drop the above from the
+dwmac-sun8i driver.
+
+Patch 5 adds a device node and pinmux settings for the GMAC200.
+
+Patches 6 and 8 add missing Ethernet PHY reset settings for the
+already enabled controller.
+
+Patches 7, 9, and 10 enable the GMAC200 on three boards. I only
+have the Orangepi 4A, so I am asking for people to help test the
+two other boards. The RX/TX clock delay settings were taken from
+their respective BSPs, though those numbers don't always work, as
+is was the case for the Orangepi 4A.
 
 
+Please have a look and help test on the Avaota A1. I don't expect
+any issues there though, since the PHY is always on, unlike on the
+Cubie A5E.
 
+Patches 1 and 2 should go through net-next, and I will take all the
+other patches through the sunxi tree.
+
+
+Thanks
+ChenYu
+
+
+Chen-Yu Tsai (10):
+  dt-bindings: net: sun8i-emac: Add A523 GMAC200 compatible
+  net: stmmac: Add support for Allwinner A523 GMAC200
+  soc: sunxi: sram: add entry for a523
+  soc: sunxi: sram: register regmap as syscon
+  arm64: dts: allwinner: a523: Add GMAC200 ethernet controller
+  arm64: dts: allwinner: a527: cubie-a5e: Add ethernet PHY reset setting
+  arm64: dts: allwinner: a527: cubie-a5e: Enable second Ethernet port
+  arm64: dts: allwinner: t527: avaota-a1: Add ethernet PHY reset setting
+  arm64: dts: allwinner: t527: avaota-a1: enable second Ethernet port
+  arm64: dts: allwinner: t527: orangepi-4a: Enable Ethernet port
+
+ .../net/allwinner,sun8i-a83t-emac.yaml        |  96 ++++++++++-
+ .../arm64/boot/dts/allwinner/sun55i-a523.dtsi |  55 ++++++
+ .../dts/allwinner/sun55i-a527-cubie-a5e.dts   |  31 +++-
+ .../dts/allwinner/sun55i-t527-avaota-a1.dts   |  29 +++-
+ .../dts/allwinner/sun55i-t527-orangepi-4a.dts |  23 +++
+ drivers/net/ethernet/stmicro/stmmac/Kconfig   |  12 ++
+ drivers/net/ethernet/stmicro/stmmac/Makefile  |   1 +
+ .../ethernet/stmicro/stmmac/dwmac-sun55i.c    | 159 ++++++++++++++++++
+ drivers/soc/sunxi/sunxi_sram.c                |  14 ++
+ 9 files changed, 414 insertions(+), 6 deletions(-)
+ create mode 100644 drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c
+
+-- 
+2.39.5
 
