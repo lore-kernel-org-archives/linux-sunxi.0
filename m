@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428EA31283B;
-	Mon,  8 Sep 2025 18:11:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4298531354C;
+	Mon,  8 Sep 2025 18:11:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757355072; cv=none; b=bWds5oYsiSr7NvZ9TgXl5ejMbpSzGzGrPCGOYTzWzXtoIUZ0SGFInIaEB9Ih45GmSvwReQaukiXU38feRDxkfu04PvMeleRZicGMW6iIifet8AOQuE7nmzK0gVsA9mI9QSM+W3E9ZO+bEgthUXxnEEQNAHsyd4KkNmSk3qBPVBY=
+	t=1757355072; cv=none; b=As/ZO/7Duhkw0AUHjpOjWGfQMa0H1Em6bv8HTp4lRxmvtEPnk/D8sADXtJj4p23R/02MEXJk4JXABD9GOzU+d+Bh6D3PofDVXygCWA0bPKGp5Nb/Hw7tCoHQUm/8kdizHi47dB5JVnZ0WTtPcJKgg8TBIr4HgCnX46d9OZVDZQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1757355072; c=relaxed/simple;
-	bh=lfdtXInB87tu2kO8lr4PclPJGDu1MGh0UniOZ5ZFUPg=;
+	bh=cGn/A6pv5/QIRUIvcflPGOg7C3keUUcnpZ16rUvo3ZA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=s7S4jX3rcKbfbrRZFvDAB4jj6/raXXNQOQfo02r1H2zFd45SN/TEmHojtVdwzLjyyYOnc4FsEIxjflG3AjGXW8Y9gk0HG3Ti/dNi/LJcEsZbfOnBcy0dbgxF8U/N6vw5Eqe7vWqhEgqXQoKZ+QmwFaDjezIrl8V19icotHxYI2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SsJSXMDA; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=ksEjIXA7DYSFrdoPbNJbfOq7G+G3e48BRAgqjQKHy30z6fHyKdC1V1I9W0x0kVqOnG+6HP0RPAdcTHkY71NS5pFxECVjGY4+E58XY4B4895p1e9FG4acs0kHxpm2TW/QyQk4MR3RvaAO3B3VATb5f5YaqGjDpYxVlVolPsMsmnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iTsHVkd/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SsJSXMDA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3BF2C4AF0B;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iTsHVkd/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC703C4CEFA;
 	Mon,  8 Sep 2025 18:11:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1757355071;
-	bh=lfdtXInB87tu2kO8lr4PclPJGDu1MGh0UniOZ5ZFUPg=;
+	bh=cGn/A6pv5/QIRUIvcflPGOg7C3keUUcnpZ16rUvo3ZA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SsJSXMDAgjrWt/CinApi/kfH/8IGCgQE9y6YylGIBATS7IcSBWWNry81z2gxcwVWB
-	 tM7RDdrsu+8LA94mFbNDO1MFtYTTIzlMBb2MGExtX0mkOfWrNM76q+d5ZXEgtaAoQL
-	 v6dPuMeNcBwaY8UzZiqj2blSBxgH/gBS6+jLsSDSXY1tdaa0m1JmpwlcMf9XtEfvvg
-	 h7L7tYWk0ld31Pi5kjxGMkOrVOH7uLPL9EE4/dk2dM1Elm/Fqhhq3OV7WohSU+MLMr
-	 RK9e7/6nvodl34f1VixxghUpbatZbmcdPbJnP4KOGfDWAl+RPVD0jbobHFISuYgtnq
-	 IawI8k8rQj62A==
+	b=iTsHVkd/xAiEInulAS4bF8zpVoN6XGPuDUUFQZs+hCL9rnxBu0i1DufqlYaUoKLNj
+	 coMaVH9dRdgwsChsdIcxE8M/khzYKa5FxCWQSuugEU8ef7+IzSCnkj87RBY6Ci9+hW
+	 bQv2RfAQbTjZkYO/9fOxruLgGOdpibOE9RhdkzVQ5VNHLKwiN87Zx3kthAWxV8zHIf
+	 pFuLhFnsh0uVhmdIYdt+KjKYt2TzMTaTVHncum15VAiZR9CJ6dybknY6M+R4DI3y8k
+	 NXcahZD56qhwzYqkDmP5ODqdS7KfUKYdYMXFPxavbpnnCA+zYMiT+FshtUgEThJDVg
+	 XeYTWddIzw3gA==
 Received: by wens.tw (Postfix, from userid 1000)
-	id 1BF805FEB3; Tue, 09 Sep 2025 02:11:09 +0800 (CST)
+	id EBF2C5FAC5; Tue, 09 Sep 2025 02:11:08 +0800 (CST)
 From: Chen-Yu Tsai <wens@kernel.org>
 To: Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S. Miller" <davem@davemloft.net>,
@@ -45,11 +45,10 @@ Cc: netdev@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Andre Przywara <andre.przywara@arm.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH net-next v4 04/10] soc: sunxi: sram: register regmap as syscon
-Date: Tue,  9 Sep 2025 02:10:53 +0800
-Message-Id: <20250908181059.1785605-5-wens@kernel.org>
+	Andre Przywara <andre.przywara@arm.com>
+Subject: [PATCH net-next v4 01/10] dt-bindings: net: sun8i-emac: Add A523 GMAC200 compatible
+Date: Tue,  9 Sep 2025 02:10:50 +0800
+Message-Id: <20250908181059.1785605-2-wens@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250908181059.1785605-1-wens@kernel.org>
 References: <20250908181059.1785605-1-wens@kernel.org>
@@ -63,61 +62,169 @@ Content-Transfer-Encoding: 8bit
 
 From: Chen-Yu Tsai <wens@csie.org>
 
-If the system controller had a ethernet controller glue layer control
-register, a limited access regmap would be registered and tied to the
-system controller struct device for the ethernet driver to use.
+The Allwinner A523 SoC family has a second Ethernet controller, called
+the GMAC200 in the BSP and T527 datasheet, and referred to as GMAC1 for
+numbering. This controller, according to BSP sources, is fully
+compatible with a slightly newer version of the Synopsys DWMAC core.
+The glue layer around the controller is the same as found around older
+DWMAC cores on Allwinner SoCs. The only slight difference is that since
+this is the second controller on the SoC, the register for the clock
+delay controls is at a different offset. Last, the integration includes
+a dedicated clock gate for the memory bus and the whole thing is put in
+a separately controllable power domain.
 
-Until now, for the ethernet driver to acquire this regmap, it had to
-do a of_parse_phandle() + find device + dev_get_regmap() sequence.
-Since the syscon framework allows a provider to register a custom
-regmap for its device node, and the ethernet driver already uses
-syscon for one platform, this provides a much more easier way to
-pass the regmap.
+Add a compatible string entry for it, and work in the requirements for
+a second clock and a power domain.
 
-Use of_syscon_register_regmap() to register our regmap with the
-syscon framework so that consumers can retrieve it that way.
-
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 ---
+Changes since v2:
+- Added "select" to avoid matching against all dwmac entries
 Changes since v1:
-- Fix check on return value
-- Expand commit message
+- Switch to generic (tx|rx)-internal-delay-ps properties
 ---
- drivers/soc/sunxi/sunxi_sram.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../net/allwinner,sun8i-a83t-emac.yaml        | 96 ++++++++++++++++++-
+ 1 file changed, 94 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
-index 4f8d510b7e1e..1837e1b5dce8 100644
---- a/drivers/soc/sunxi/sunxi_sram.c
-+++ b/drivers/soc/sunxi/sunxi_sram.c
-@@ -12,6 +12,7 @@
+diff --git a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
+index 2ac709a4c472..9d205c5d93ca 100644
+--- a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
++++ b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
+@@ -10,6 +10,21 @@ maintainers:
+   - Chen-Yu Tsai <wens@csie.org>
+   - Maxime Ripard <mripard@kernel.org>
  
- #include <linux/debugfs.h>
- #include <linux/io.h>
-+#include <linux/mfd/syscon.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_address.h>
-@@ -377,6 +378,7 @@ static int __init sunxi_sram_probe(struct platform_device *pdev)
- 	const struct sunxi_sramc_variant *variant;
- 	struct device *dev = &pdev->dev;
- 	struct regmap *regmap;
-+	int ret;
- 
- 	sram_dev = &pdev->dev;
- 
-@@ -394,6 +396,10 @@ static int __init sunxi_sram_probe(struct platform_device *pdev)
- 		regmap = devm_regmap_init_mmio(dev, base, &sunxi_sram_regmap_config);
- 		if (IS_ERR(regmap))
- 			return PTR_ERR(regmap);
++# We need a select here so we don't match all nodes with 'snps,dwmac'
++select:
++  properties:
++    compatible:
++      contains:
++        enum:
++          - allwinner,sun8i-a83t-emac
++          - allwinner,sun8i-h3-emac
++          - allwinner,sun8i-r40-gmac
++          - allwinner,sun8i-v3s-emac
++          - allwinner,sun50i-a64-emac
++          - allwinner,sun55i-a523-gmac200
++  required:
++    - compatible
 +
-+		ret = of_syscon_register_regmap(dev->of_node, regmap);
-+		if (ret)
-+			return ret;
- 	}
+ properties:
+   compatible:
+     oneOf:
+@@ -26,6 +41,9 @@ properties:
+               - allwinner,sun50i-h616-emac0
+               - allwinner,sun55i-a523-gmac0
+           - const: allwinner,sun50i-a64-emac
++      - items:
++          - const: allwinner,sun55i-a523-gmac200
++          - const: snps,dwmac-4.20a
  
- 	of_platform_populate(dev->of_node, NULL, NULL, dev);
+   reg:
+     maxItems: 1
+@@ -37,14 +55,19 @@ properties:
+     const: macirq
+ 
+   clocks:
+-    maxItems: 1
++    minItems: 1
++    maxItems: 2
+ 
+   clock-names:
+-    const: stmmaceth
++    minItems: 1
++    maxItems: 2
+ 
+   phy-supply:
+     description: PHY regulator
+ 
++  power-domains:
++    maxItems: 1
++
+   syscon:
+     $ref: /schemas/types.yaml#/definitions/phandle
+     description:
+@@ -191,6 +214,45 @@ allOf:
+             - mdio-parent-bus
+             - mdio@1
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: allwinner,sun55i-a523-gmac200
++    then:
++      properties:
++        clocks:
++          minItems: 2
++        clock-names:
++          items:
++            - const: stmmaceth
++            - const: mbus
++        tx-internal-delay-ps:
++          default: 0
++          minimum: 0
++          maximum: 700
++          multipleOf: 100
++          description:
++            External RGMII PHY TX clock delay chain value in ps.
++        rx-internal-delay-ps:
++          default: 0
++          minimum: 0
++          maximum: 3100
++          multipleOf: 100
++          description:
++            External RGMII PHY TX clock delay chain value in ps.
++      required:
++        - power-domains
++    else:
++      properties:
++        clocks:
++          maxItems: 1
++        clock-names:
++          items:
++            - const: stmmaceth
++        power-domains: false
++
++
+ unevaluatedProperties: false
+ 
+ examples:
+@@ -323,4 +385,34 @@ examples:
+         };
+     };
+ 
++  - |
++    ethernet@4510000 {
++        compatible = "allwinner,sun55i-a523-gmac200",
++                     "snps,dwmac-4.20a";
++        reg = <0x04510000 0x10000>;
++        clocks = <&ccu 117>, <&ccu 79>;
++        clock-names = "stmmaceth", "mbus";
++        resets = <&ccu 43>;
++        reset-names = "stmmaceth";
++        interrupts = <0 47 4>;
++        interrupt-names = "macirq";
++        pinctrl-names = "default";
++        pinctrl-0 = <&rgmii1_pins>;
++        power-domains = <&pck600 4>;
++        syscon = <&syscon>;
++        phy-handle = <&ext_rgmii_phy_1>;
++        phy-mode = "rgmii-id";
++        snps,fixed-burst;
++        snps,axi-config = <&gmac1_stmmac_axi_setup>;
++
++        mdio {
++            compatible = "snps,dwmac-mdio";
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            ext_rgmii_phy_1: ethernet-phy@1 {
++                reg = <1>;
++            };
++        };
++    };
+ ...
 -- 
 2.39.5
 
