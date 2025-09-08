@@ -1,162 +1,164 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F4731A059;
-	Mon,  8 Sep 2025 18:11:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201F92EBDEB
+	for <linux-sunxi@lists.linux.dev>; Mon,  8 Sep 2025 22:57:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757355074; cv=none; b=Wd6UOvkwqwKaR2NhmRi88klzKRqGyp993liH8SeMUgiYf2rNn0+Gy2IOAhD0VAJLLK3rvX0StJKAiz3uGRoq2R5EY/fzizzs5VOnwkuj05QW48bBHQRvsz9AYZaWb48k4xO+lmfeiKuTYrIBfQzbUaWF6Y1CXeYF0skEgDuYC8Y=
+	t=1757372272; cv=none; b=HDM4Yv3q08f7uaJDtFL9gphMlrUpUGjIFn9851sHFYQLsUOj4biHrDtYCV1MZhtw9p7h9azVuTeaRFTdt2H7sXlIJXUbXzKJN5+E3uYqu7GWS7eK3o6NNAajIs21Yo/xh5KX3VPkSQiWMzx/FNBjeRNpk/pskg4uvNy2T7ms1hE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757355074; c=relaxed/simple;
-	bh=1u87rs46+m5wL1Xw7aZOQ0O0nwgjPdStsou5RO+mPyc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ErAH5ro/DcvLnArjYAnCxcqaZciX+0nwO7UHYD0/bweHma5Q9r5VdtI2/WIyjSQ2NmFjRjUUcOdKi/q/6i6Eh1RboRPKIwYpazbljdY+dXMLzMUvcrY3pN2qcC15cRgHTzZga5V2mplnBAU5i7eL1KOvN69LuEP6o4WU0IaIq5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FKZ6t9Ej; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757372272; c=relaxed/simple;
+	bh=1jo1Vv0Vs8hahvZP85nSL0Whq/0i4fskm9cB+6S7Sb0=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DrDo4rGWFyujbrktezThUxVWZ4cybbanSMRSUlEqQ3OHAT5DvTqhOKtj611MlO/QL8cwWDnRmIOFmpVziXUtalKTruH5HsBvaT8QiE+WRpELRqLWTtnNg4CrWLuVy878r/jQk6d3TM1Lq/SUO4RsglBniQD2Zi3bFrAisSETBaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UAB7E2Oa; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FKZ6t9Ej"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A1B3C4AF09;
-	Mon,  8 Sep 2025 18:11:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757355074;
-	bh=1u87rs46+m5wL1Xw7aZOQ0O0nwgjPdStsou5RO+mPyc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FKZ6t9EjeuFvlVYPdDV/X+7qVUk2cnIERi/G538DAyJOBxjxV6FcKDDgdgCatWZ4t
-	 lgRIzBxM+rRSlpqOBAII07Km0nbFQ630X3TBGwXLkLQsOg50eb8+0XhBfPamJE1h88
-	 6h9Ji0RrmxPn+S7W+Ty86a0oPZGFc644RaF+6mPpG1tn9oyxHk8qIr8qdnhp83aZpL
-	 lHhxN5FMwq9kDSYlhk6iDTb27U346M+bFMDPzGbsPSce/CfKesb9rhLkZncD9dtFbw
-	 TJdY3SygngoKrc51mD8RkFSaxHG7SNzAnQbdHlY2cqsciQC5xft1+9NSaAidS6xHDy
-	 dQ1ldaaEfBuPQ==
-Received: by wens.tw (Postfix, from userid 1000)
-	id 4E4555FF0D; Tue, 09 Sep 2025 02:11:09 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>
-Cc: netdev@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Andre Przywara <andre.przywara@arm.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH net-next v4 07/10] arm64: dts: allwinner: a527: cubie-a5e: Enable second Ethernet port
-Date: Tue,  9 Sep 2025 02:10:56 +0800
-Message-Id: <20250908181059.1785605-8-wens@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250908181059.1785605-1-wens@kernel.org>
-References: <20250908181059.1785605-1-wens@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UAB7E2Oa"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3e34dbc38easo2046417f8f.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 08 Sep 2025 15:57:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757372268; x=1757977068; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cUvupcsRCkQfs+P8J05KpMp2C799/IJHD4VTsiVCzQU=;
+        b=UAB7E2OaaFg/RIyUhz62JqBIAoMWgieL1DzXaJtvXvxtbpZ6ObbGW6jnjyhX3H+cKX
+         TjvH6qfDGE7YZftfciNtPQQMLtCnmZUNteeFPLAelbDkCYFgWj2+yL0vbPPuNdvtzEXs
+         hEACrnrx0ztTNGN8sJ7V2SeQBIwagih6DhQVZGSqc72xO4jk7gqi7W5O4EkKNdqSU54c
+         JpHnOlmrvEwEu+QbNNYYzF2TpjasFVLCby+GTbVbM8LAnPelmN4bJh1OrEwrL70eaKzL
+         48GnqmPw2Jdf5cAAtvTS/TjUkaSiAgBnyHSfmLsTKv+pDa6PyCgasfVv9AQytL61+HMI
+         0n9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757372268; x=1757977068;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cUvupcsRCkQfs+P8J05KpMp2C799/IJHD4VTsiVCzQU=;
+        b=FlAiOLRhg3lbFjMVMxCJIs47a6Ni0QnHxofZhIKZhW1M8g2a0VYmsRKVUsYSyEjMjk
+         vommK5Nkx/UqCSSiJLziHwbxE5/8rSNDALoW2SKr5h8h76Oi6EuDwK7wg6XGUrc+84Ud
+         jkiJvmrbax1MMifQ+JEyCAJTeP5RJYa5NkJ7RjSCY+JHpho3OVyJfY2OLZf9BFD9J6uc
+         kx0fGVGACA7zBdqJwepiDrHiA/Pgnun9Ey8BAJKiQRq3wbkYLgwjRQDP08Xd3R8Y/Gu6
+         OXQGRlORnQZUH002TDrgwZV/Qxbw1GKR6K3X7kBjvqO4JsH6zfZEYSfz3w56VDz6g13a
+         qcyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX7wEceT9q05t7reqw6oOc6IaS/gyA2syK5TOe7Evpr2Pfi+OKtjOVzXUIhFzidChmwPwzV73iwegVzxw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz6c8G6CJieJ2P4dJ/myQ89FABrVAOjmTSUbNa4is5nXkUXNbU/
+	k2mStXPjcS9TzKrNVY/xhfmFiQE0OhdmxQ/ZSvjxlJEczCHUA20hymw1X++6Sw==
+X-Gm-Gg: ASbGncsXp1Pmv3Ct6XEBrtLIyw4KQxREwmdjJk61G2pbGElcY6+ZUayRrfMXiDzO0Ig
+	EnQH/gD1DRF3pQiijM+dDO9P7JzAb9NsdxaOblJQxZzbPCR8Qe7Y8BcxHXNHIQ6/po6KGZr8qsl
+	I9tISZA079L2qhMF2WuC1a9//trQ3q+/8IEv4Wx8UIHSKQTHNaxEFonCuZCYlXNUdiuLUyCBmcK
+	e1eHkafPb5lky5KVC6H5SK8mdXyGaIgDRTn4QNTe/HYQrqU7UMy3mBssCVmJwsQMoVKib68rwyz
+	/fdCpKRQUqDaz4cxlzSnjewFnPQTXBfJs0uBg5jMX+pLX7KXvINTdZN+UfBYDDG88+tgoSOmdwv
+	DmDuKtBUcekQ71gP/yLMnAXAMoilkh1Kt5Z41e1ij9pndvVXDX4o1ukWltWS9bPmfEGuN7J42D1
+	kZ/pmp2oQ/
+X-Google-Smtp-Source: AGHT+IHNyN6qy4Z/EdCypF+HkDEY2JT93OD46/zVWVzUsfkBn/dv6BYtFe56OQfZXkQXUnUBziSXtw==
+X-Received: by 2002:a05:6000:2f87:b0:3d9:2fa8:1009 with SMTP id ffacd0b85a97d-3e64c3acf34mr7435111f8f.45.1757372268165;
+        Mon, 08 Sep 2025 15:57:48 -0700 (PDT)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e7521ca2aesm56321f8f.26.2025.09.08.15.57.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Sep 2025 15:57:47 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, wens@csie.org,
+ samuel@sholland.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Aleksander Jan Bajkowski <olek2@wp.pl>
+Subject: Re: [PATCH] arm64: dts: allwiner: h5: OrangePi PC2: add ethernet LEDs
+Date: Tue, 09 Sep 2025 00:57:46 +0200
+Message-ID: <12736197.O9o76ZdvQC@jernej-laptop>
+In-Reply-To: <5617fd78-32aa-44f4-9f9c-16349b3f8450@wp.pl>
+References:
+ <20250818163520.1004528-1-olek2@wp.pl> <2012341.PYKUYFuaPT@jernej-laptop>
+ <5617fd78-32aa-44f4-9f9c-16349b3f8450@wp.pl>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-From: Chen-Yu Tsai <wens@csie.org>
+Dne torek, 9. september 2025 ob 00:11:46 Srednjeevropski poletni =C4=8Das j=
+e Aleksander Jan Bajkowski napisal(a):
+> Hi Jernej,
+>=20
+> On 9/8/25 16:45, Jernej =C5=A0krabec wrote:
+> > Dne ponedeljek, 18. avgust 2025 ob 18:35:13 Srednjeevropski poletni =C4=
+=8Das je Aleksander Jan Bajkowski napisal(a):
+> >> This patch adds support for Ethernet LEDs.
+> > How did you tested this? According to linux-sunxi wiki, this board has
+> > RTL8211E, while LED control is supported only with RTL8211F driver.
+>=20
+>=20
+> For testing, I used OpenWRT snapshot with kernel 6.12. OpenWRT backported
+> patches from kernel 6.16 that add LED control support. Realtek RTL8211E
+> supports LED control since commit:
+> 708686132ba02659267c0cebcc414348ece389a5 ("net: phy: realtek: Add=20
+> support for PHY LEDs on RTL8211E")
 
-On the Radxa Cubie A5E board, the second Ethernet controller, aka the
-GMAC200, is connected to a second external Maxio MAE0621A PHY. The PHY
-uses an external 25MHz crystal, and has the SoC's PJ16 pin connected to
-its reset pin.
+Ah, I haven't checked the latest code. Alright.
 
-Enable the second Ethernet port. Also fix up the label for the existing
-external PHY connected to the first Ethernet port. An enable delay for the
-PHY supply regulator is added to make sure the PHY's internal regulators
-are fully powered and the PHY is operational.
+>=20
+> >
+> >> Signed-off-by: Aleksander Jan Bajkowski<olek2@wp.pl>
+> >> ---
+> >>   .../dts/allwinner/sun50i-h5-orangepi-pc2.dts  | 20 +++++++++++++++++=
+++
+> >>   1 file changed, 20 insertions(+)
+> >>
+> >> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dts =
+b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dts
+> >> index 0f29da7d51e6..7688f565ec9b 100644
+> >> --- a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dts
+> >> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dts
+> >> @@ -7,6 +7,7 @@
+> >>  =20
+> >>   #include <dt-bindings/gpio/gpio.h>
+> >>   #include <dt-bindings/input/input.h>
+> >> +#include <dt-bindings/leds/common.h>
+> >>   #include <dt-bindings/pinctrl/sun4i-a10.h>
+> >>  =20
+> >>   / {
+> >> @@ -132,6 +133,25 @@ &external_mdio {
+> >>   	ext_rgmii_phy: ethernet-phy@1 {
+> >>   		compatible =3D "ethernet-phy-ieee802.3-c22";
+> >>   		reg =3D <1>;
+> >> +
+> >> +		leds {
+> >> +			#address-cells =3D <1>;
+> >> +			#size-cells =3D <0>;
+> >> +
+> >> +			led@0 {
+> >> +				reg =3D <0>;
+> >> +				color =3D <LED_COLOR_ID_GREEN>;
+> >> +				function =3D LED_FUNCTION_LAN;
+> >> +				linux,default-trigger =3D "netdev";
+> >> +			};
+> >> +
+> >> +			led@1 {
+> >> +				reg =3D <1>;
+> >> +				color =3D <LED_COLOR_ID_AMBER>;
+> >> +				function =3D LED_FUNCTION_LAN;
+> >> +				linux,default-trigger =3D "netdev";
+> >> +			};
+> > Schematic says LED0 is "Yellow" or Amber in this DT. So LED1 should be =
+green.
+> >
+> > Also, I'm not sure if trigger really needs to be added, since PHY netwo=
+rk
+> > will set it as such.
+>=20
+> I think there is a mistake in the schematic. Setting the trigger on LED0
+> illuminates the green LED. My tests found that the netdev trigger isn't
+> set by default.
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Chen-Yu Tsai <wens@csie.org>
----
+Ok.
 
-Changes since v1:
-- Switch to generic (tx|rx)-internal-delay-ps properties
-- Add PHY regulator delay
----
- .../dts/allwinner/sun55i-a527-cubie-a5e.dts   | 28 +++++++++++++++++--
- 1 file changed, 26 insertions(+), 2 deletions(-)
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-index d4cee2222104..e96a419faf21 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-@@ -14,6 +14,7 @@ / {
- 
- 	aliases {
- 		ethernet0 = &gmac0;
-+		ethernet1 = &gmac1;
- 		serial0 = &uart0;
- 	};
- 
-@@ -76,7 +77,7 @@ &ehci1 {
- 
- &gmac0 {
- 	phy-mode = "rgmii-id";
--	phy-handle = <&ext_rgmii_phy>;
-+	phy-handle = <&ext_rgmii0_phy>;
- 	phy-supply = <&reg_cldo3>;
- 
- 	allwinner,tx-delay-ps = <300>;
-@@ -85,13 +86,24 @@ &gmac0 {
- 	status = "okay";
- };
- 
-+&gmac1 {
-+	phy-mode = "rgmii-id";
-+	phy-handle = <&ext_rgmii1_phy>;
-+	phy-supply = <&reg_cldo4>;
-+
-+	tx-internal-delay-ps = <300>;
-+	rx-internal-delay-ps = <400>;
-+
-+	status = "okay";
-+};
-+
- &gpu {
- 	mali-supply = <&reg_dcdc2>;
- 	status = "okay";
- };
- 
- &mdio0 {
--	ext_rgmii_phy: ethernet-phy@1 {
-+	ext_rgmii0_phy: ethernet-phy@1 {
- 		compatible = "ethernet-phy-ieee802.3-c22";
- 		reg = <1>;
- 		reset-gpios = <&pio 7 8 GPIO_ACTIVE_LOW>; /* PH8 */
-@@ -100,6 +112,16 @@ ext_rgmii_phy: ethernet-phy@1 {
- 	};
- };
- 
-+&mdio1 {
-+	ext_rgmii1_phy: ethernet-phy@1 {
-+		compatible = "ethernet-phy-ieee802.3-c22";
-+		reg = <1>;
-+		reset-gpios = <&pio 9 16 GPIO_ACTIVE_LOW>; /* PJ16 */
-+		reset-assert-us = <10000>;
-+		reset-deassert-us = <150000>;
-+	};
-+};
-+
- &mmc0 {
- 	vmmc-supply = <&reg_cldo3>;
- 	cd-gpios = <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF6 */
-@@ -240,6 +262,8 @@ reg_cldo4: cldo4 {
- 				regulator-min-microvolt = <3300000>;
- 				regulator-max-microvolt = <3300000>;
- 				regulator-name = "vcc-pj-phy";
-+				/* enough time for the PHY to fully power on */
-+				regulator-enable-ramp-delay = <150000>;
- 			};
- 
- 			reg_cpusldo: cpusldo {
--- 
-2.39.5
+Best regards,
+Jernej
+
 
