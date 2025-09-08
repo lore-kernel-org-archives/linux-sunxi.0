@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A42313E14;
-	Mon,  8 Sep 2025 18:11:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188FA31815E;
+	Mon,  8 Sep 2025 18:11:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757355072; cv=none; b=cDTAvEw4n4fTnC0p8E9j2zaWtmEJsQBlfaW7dzsov9WWXD2SN3HRumEiutHo5nLKVIeG/Kvi3C/PHKnxuWaThdVkiDiPhlE8MuOopAbHrxjJJsU9+0tYtjBQYloT7LkM5sUlYQMY/fF7jqAcCT5erHVT9ppCqbkFVsb1FVLbK/I=
+	t=1757355074; cv=none; b=OKQ2XXpdvQmwgfSAeT1EmNXTcZN8k034pU6+qpMziE/OMNCIeq2X267LFmuRrQUFW8785FHrtnQvecNts8IrfJvLnCbdjeYFkZE5bGEyDpqj472YwSN/hN7+su4eTzGns3EYL1mVYSci0uFbYIQhHsMGBLHPtCMlzH5bYu2rLFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757355072; c=relaxed/simple;
-	bh=e0tQSO9pJI2jVvlvL9W4OBbAj83puHTjG+o0KV+3bdg=;
+	s=arc-20240116; t=1757355074; c=relaxed/simple;
+	bh=KwQ33/Me6CtoPqF903pwWNvdntE/FNahw7BHgwIWeoE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=mrqC9XtdVm8tKf3j5BUeehx14NCoo/kDv+9MoWVb4VypYPUMPuHSW63ms5k/8nGxCGx/5omvYiHyG1XMTW/fkQfefZ/0Gio7BsPoKkqnDH8S8793crcDpFyI8tn7506grIWGWtKOJqgF2jdA2c9Sz/lLGFyTmYlYu2S43xIhn6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XGfuiBkn; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=KJOBZ1vQk2zsIXrvx0INiPEQ/YLCVOEFvj+WU3R1Zl9WsrPDQe6QlrMZXmH+tP7Kue7x0hE1/ZEK+EiZIvdpnJQFdj78WKX+yq1arpOFk3swOVW/82DP6ixUd+XU5w5Mr7o/4WAJTQXXldASlZuQTa2THBFboLGPJDVEKE1L044=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZnJYmZan; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XGfuiBkn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC6C8C4CEF9;
-	Mon,  8 Sep 2025 18:11:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZnJYmZan"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5638C113CF;
+	Mon,  8 Sep 2025 18:11:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757355071;
-	bh=e0tQSO9pJI2jVvlvL9W4OBbAj83puHTjG+o0KV+3bdg=;
+	s=k20201202; t=1757355074;
+	bh=KwQ33/Me6CtoPqF903pwWNvdntE/FNahw7BHgwIWeoE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XGfuiBknyZewEytJ/+sWeCVFnZqN99cWs8KQAMSWVX2/XB7wV2n64s5ROdA62JhqR
-	 KKtEEZ/ZLQQpfU6N8wJpYtSca+N88owhvtfBytXnInqufA4EK/og1+MmVdTz8WH7d9
-	 5kXTctapjv6J0Bs7F7vdvegV6PAnddgqiEcYjT2/1mHbh8ftEuBK/JXmSEGzF/470O
-	 sQpaJpjCeD9YUKES5Na8l69N/gSoFIm3ZoLdxmRW1Csa6uCUxCknH4OZcxOhSc44/9
-	 9T4PIJZDmP648eKZWZtuP2EXiTsTkssAkmRzGI7DHrXgXKv0xx4lWLz7FDAJVXPybM
-	 X5OEvD5qwQZkQ==
+	b=ZnJYmZanz8ySftbkC/oRaB91MOOJ+Q5iana60PBbjbCfhuFHokJiwySTIEzDmbOtI
+	 ThtyYccx76x53Juj+YHXCRhoMY19EeavtFsarTd6xCj73D4ft7M8kjYcrrxVAJGf0f
+	 KcYH+H2Q7/MST6LAC19+2z6PhSb5saxWW4udOJb4dcxCYgy00ueX3pefFX9YgXq2bz
+	 LgkD79/NiPtbsu+NyR0C7w++0JhyM0UxMx9FW8dYY6dOAK+kSmcdIMPowK8ZmxaybH
+	 8O0amtnyo9iMtiXtbZCmynq85sPNMQA+xyNarzczzaeTPDfdXizgfyN1mZiD5FX0kh
+	 3cIw6HyRKMroQ==
 Received: by wens.tw (Postfix, from userid 1000)
-	id 342895FEF5; Tue, 09 Sep 2025 02:11:08 +0800 (CST)
+	id 645E85FF75; Tue, 09 Sep 2025 02:11:09 +0800 (CST)
 From: Chen-Yu Tsai <wens@kernel.org>
 To: Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S. Miller" <davem@davemloft.net>,
@@ -47,9 +47,9 @@ Cc: netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Andre Przywara <andre.przywara@arm.com>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH net-next v4 03/10] soc: sunxi: sram: add entry for a523
-Date: Tue,  9 Sep 2025 02:10:52 +0800
-Message-Id: <20250908181059.1785605-4-wens@kernel.org>
+Subject: [PATCH net-next v4 09/10] arm64: dts: allwinner: t527: avaota-a1: enable second Ethernet port
+Date: Tue,  9 Sep 2025 02:10:58 +0800
+Message-Id: <20250908181059.1785605-10-wens@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250908181059.1785605-1-wens@kernel.org>
 References: <20250908181059.1785605-1-wens@kernel.org>
@@ -63,45 +63,88 @@ Content-Transfer-Encoding: 8bit
 
 From: Chen-Yu Tsai <wens@csie.org>
 
-The A523 has two Ethernet controllers. So in the system controller
-address space, there are two registers for Ethernet clock delays,
-one for each controller.
+On the Avaota A1 board, the second Ethernet controller, aka the GMAC200,
+is connected to a second external RTL8211F-CG PHY. The PHY uses an
+external 25MHz crystal, and has the SoC's PJ16 pin connected to its
+reset pin.
 
-Add a new entry for the A523 system controller that allows access to
-the second register.
+Enable the second Ethernet port. Also fix up the label for the existing
+external PHY connected to the first Ethernet port.
 
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 ---
- drivers/soc/sunxi/sunxi_sram.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
-index 08e264ea0697..4f8d510b7e1e 100644
---- a/drivers/soc/sunxi/sunxi_sram.c
-+++ b/drivers/soc/sunxi/sunxi_sram.c
-@@ -320,6 +320,10 @@ static const struct sunxi_sramc_variant sun50i_h616_sramc_variant = {
- 	.has_ths_offset = true,
+Changes since v1:
+- Switch to generic (tx|rx)-internal-delay-ps properties
+---
+ .../dts/allwinner/sun55i-t527-avaota-a1.dts   | 26 +++++++++++++++++--
+ 1 file changed, 24 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
+index e7713678208d..f540965ffaa4 100644
+--- a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
++++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
+@@ -13,6 +13,7 @@ / {
+ 
+ 	aliases {
+ 		ethernet0 = &gmac0;
++		ethernet1 = &gmac1;
+ 		serial0 = &uart0;
+ 	};
+ 
+@@ -67,7 +68,7 @@ &ehci1 {
+ 
+ &gmac0 {
+ 	phy-mode = "rgmii-id";
+-	phy-handle = <&ext_rgmii_phy>;
++	phy-handle = <&ext_rgmii0_phy>;
+ 	phy-supply = <&reg_dcdc4>;
+ 
+ 	allwinner,tx-delay-ps = <100>;
+@@ -76,13 +77,24 @@ &gmac0 {
+ 	status = "okay";
  };
  
-+static const struct sunxi_sramc_variant sun55i_a523_sramc_variant = {
-+	.num_emac_clocks = 2,
++&gmac1 {
++	phy-mode = "rgmii-id";
++	phy-handle = <&ext_rgmii1_phy>;
++	phy-supply = <&reg_dcdc4>;
++
++	tx-internal-delay-ps = <100>;
++	rx-internal-delay-ps = <100>;
++
++	status = "okay";
 +};
 +
- #define SUNXI_SRAM_THS_OFFSET_REG	0x0
- #define SUNXI_SRAM_EMAC_CLOCK_REG	0x30
- #define SUNXI_SYS_LDO_CTRL_REG		0x150
-@@ -440,6 +444,10 @@ static const struct of_device_id sunxi_sram_dt_match[] = {
- 		.compatible = "allwinner,sun50i-h616-system-control",
- 		.data = &sun50i_h616_sramc_variant,
- 	},
-+	{
-+		.compatible = "allwinner,sun55i-a523-system-control",
-+		.data = &sun55i_a523_sramc_variant,
-+	},
- 	{ },
+ &gpu {
+ 	mali-supply = <&reg_dcdc2>;
+ 	status = "okay";
  };
- MODULE_DEVICE_TABLE(of, sunxi_sram_dt_match);
+ 
+ &mdio0 {
+-	ext_rgmii_phy: ethernet-phy@1 {
++	ext_rgmii0_phy: ethernet-phy@1 {
+ 		compatible = "ethernet-phy-ieee802.3-c22";
+ 		reg = <1>;
+ 		reset-gpios = <&pio 7 8 GPIO_ACTIVE_LOW>; /* PH8 */
+@@ -91,6 +103,16 @@ ext_rgmii_phy: ethernet-phy@1 {
+ 	};
+ };
+ 
++&mdio1 {
++	ext_rgmii1_phy: ethernet-phy@1 {
++		compatible = "ethernet-phy-ieee802.3-c22";
++		reg = <1>;
++		reset-gpios = <&pio 9 16 GPIO_ACTIVE_LOW>; /* PJ16 */
++		reset-assert-us = <10000>;
++		reset-deassert-us = <150000>;
++	};
++};
++
+ &mmc0 {
+ 	vmmc-supply = <&reg_cldo3>;
+ 	cd-gpios = <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF6 */
 -- 
 2.39.5
 
