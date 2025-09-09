@@ -1,93 +1,97 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0A9633EB14
-	for <linux-sunxi@lists.linux.dev>; Tue,  9 Sep 2025 16:39:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2929E33471C;
+	Tue,  9 Sep 2025 17:09:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757435950; cv=none; b=p90fYoGjvdZeVQ1/NZWDNyXkVp5Px4mKfJqPg5pfb4WNM3+JUOoWZMl2b3hI3sz8wanFbfGtiJLS5tIfhBARjSbCG/Ew/SZmXyzIryAwrMIA4P9jbDbiyE46P+DG7judHkqeeDfJwPGNI0qUhkRkYBm4MicbfZA+6hjadkQVNmQ=
+	t=1757437792; cv=none; b=FYegB0x6UB8mCpp5BQc8lvkO9jxya0AA4W0s1UoA6K0urSBmzkzmp0LQPHdJItCZMbhlEVX41Qx+hHAL6dqaaexd6OXDe39KNhsQ8ZVzAQz1rduCh3EjC3AtzYc/VsdoF7j46NAZkQG4wl7Pic7NOaFiszOZv/BeZD2PBaS7Zfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757435950; c=relaxed/simple;
-	bh=sa+YtCD3kLuoHOYbn1YCfWKsVdW9XBp8FtQkfySgPZQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sd6nkBECYEg8r3dsI2zMyS9leCgehW4ssggSUymJBDX2KfF+lRI1bvo36qSZXQpdtgPGhZ5/DT/iuS1A6QQvY1or8RhKVvoU9UoJR37/I1cHaNRZ1+1Qusg+9/jqyzj7Obwh4bhECcYI5ruOg3ebOk5V3cGdwKM0fBkUx1ECrUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AC05515A1;
-	Tue,  9 Sep 2025 09:38:59 -0700 (PDT)
-Received: from donnerap (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0C6853F66E;
-	Tue,  9 Sep 2025 09:39:05 -0700 (PDT)
-Date: Tue, 9 Sep 2025 17:39:02 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- <linux-clk@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
- Mikhail Kalashnikov <iuncuim@gmail.com>
-Subject: Re: [PATCH 2/5] clk: sunxi-ng: generalise update bit
-Message-ID: <20250909173903.6b78cd9c@donnerap>
-In-Reply-To: <CAGb2v66DEh3ZGTsBkX6RELRs+0ZPbMq7bsNQhdUcpxHHMxDhhQ@mail.gmail.com>
-References: <20250903000910.4860-1-andre.przywara@arm.com>
-	<20250903000910.4860-3-andre.przywara@arm.com>
-	<CAGb2v65rRqTWvn2NR-OSeP-zVJzheJ=L0YeG5DOrCTPJ8Haiyg@mail.gmail.com>
-	<CAGb2v66DEh3ZGTsBkX6RELRs+0ZPbMq7bsNQhdUcpxHHMxDhhQ@mail.gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1757437792; c=relaxed/simple;
+	bh=mTZCk0YysupG4SdzVgITyMExGpzb1FzxUWWrQIt6Ems=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NRdeJGZt4CJaw8v7om7QwbpAHWL8U7rUFQ730haj5p5b7xbS17Lu1G7hqzgTWNE8IRraVIUHfzy7oc66ORzaLY1ANorMG0VD4OuVm71eviS5PFMRusXQIBD5ffH16dhjhfEyDdhCcVNVY51TcWUux7g4A0I52K47h/H/6v5DCoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fLqacjB/; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fLqacjB/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E981C4CEF4;
+	Tue,  9 Sep 2025 17:09:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757437791;
+	bh=mTZCk0YysupG4SdzVgITyMExGpzb1FzxUWWrQIt6Ems=;
+	h=From:To:Cc:Subject:Date:From;
+	b=fLqacjB/h0fG+akp9RST3Ff6Luym6SCgdiy7wjkfyuN98O3vrwCZaW/rLjH6rRvb8
+	 ywSA+nWhQxsDkO1BVXDOVGeCncv2id+7aGjJZ3/KY6TL0ODioV8UtraKBpYaF8kmpO
+	 0pezqDLCZxc3w4tr/38lhzD7PY5JjaZ2Q529Wa7V5NKUg8p1iz9nkCy+HW87GhHKhu
+	 4F1kJCSHuLj+AeUcoq4qdQ9hC4KCvDfxT5UjeTEObe6V0Y6QtJi9I7SK3pjEYt1Pq/
+	 ogn08k779XKvwra9EKgWjcnXnJs+3dVZhIa/LOAKm5+p4AEiKS0pGd919l0a0Byqs6
+	 pRRlDd+6yNnCg==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 8146B5FD80; Wed, 10 Sep 2025 01:09:48 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: linux-sunxi@lists.linux.dev,
+	linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] clk: sunxi-ng: sun6i-rtc: Add A523 specifics
+Date: Wed, 10 Sep 2025 01:09:47 +0800
+Message-Id: <20250909170947.2221611-1-wens@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, 10 Sep 2025 00:06:07 +0800
-Chen-Yu Tsai <wens@csie.org> wrote:
+From: Chen-Yu Tsai <wens@csie.org>
 
-> On Sat, Sep 6, 2025 at 12:15=E2=80=AFPM Chen-Yu Tsai <wens@csie.org> wrot=
-e:
-> >
-> > On Wed, Sep 3, 2025 at 8:09=E2=80=AFAM Andre Przywara <andre.przywara@a=
-rm.com> wrote: =20
-> > >
-> > > A few of the Allwinner A523 CCU clock registers introduced an "update=
-" bit,
-> > > which must be set for changes to the other bits to take effect.
-> > > Of the three clocks where this was used, it was always bit 27, so we =
-just
-> > > encoded this as a single bit feature flag.
-> > >
-> > > Now the CPU PLL also features the update bit, but puts it at bit 26, =
-so
-> > > this flag trick won't work anymore.
-> > >
-> > > Add an "update_bit" field to the common sunxi clock struct, which tak=
-es a
-> > > bitmask, so we can encode any bit to use, even potentially multiple of
-> > > them. As uninitialised fields are set to 0, we can use this as a defa=
-ult
-> > > bitmask to set, so can OR this in unconditionally.
-> > >
-> > > Change the existing update bit users to use this new encoding, and add
-> > > support for the ccu_nm clock on the way, since we will need it there
-> > > shortly.
-> > >
-> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com> =20
-> >
-> > Reviewed-by: Chen-Yu Tsai <wens@csie.org> =20
->=20
-> Hmm, actually, we also have the "key field" feature. Maybe we should
-> generalize that one and merge the two?
+The A523's RTC block is backward compatible with the R329's, but it also
+has a calibration function for its internal oscillator, which would
+allow it to provide a clock rate closer to the desired 32.768 KHz. This
+is useful on the Radxa Cubie A5E, which does not have an external 32.768
+KHz crystal.
 
-Ah, that's a good idea! Somewhat obvious now when looking at the code in
-ccu_mux.c, where there are two "reg |=3D MAGIC_VALUE;" lines next to each o=
-ther.
-Will hack something up for this.
+Add new compatible-specific data for it.
 
-Thanks,
-Andre
+Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+---
+ drivers/clk/sunxi-ng/ccu-sun6i-rtc.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+index 0536e880b80f..f6bfeba009e8 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
++++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+@@ -325,6 +325,13 @@ static const struct sun6i_rtc_match_data sun50i_r329_rtc_ccu_data = {
+ 	.osc32k_fanout_nparents	= ARRAY_SIZE(sun50i_r329_osc32k_fanout_parents),
+ };
+ 
++static const struct sun6i_rtc_match_data sun55i_a523_rtc_ccu_data = {
++	.have_ext_osc32k	= true,
++	.have_iosc_calibration	= true,
++	.osc32k_fanout_parents	= sun50i_r329_osc32k_fanout_parents,
++	.osc32k_fanout_nparents	= ARRAY_SIZE(sun50i_r329_osc32k_fanout_parents),
++};
++
+ static const struct of_device_id sun6i_rtc_ccu_match[] = {
+ 	{
+ 		.compatible	= "allwinner,sun50i-h616-rtc",
+@@ -334,6 +341,10 @@ static const struct of_device_id sun6i_rtc_ccu_match[] = {
+ 		.compatible	= "allwinner,sun50i-r329-rtc",
+ 		.data		= &sun50i_r329_rtc_ccu_data,
+ 	},
++	{
++		.compatible	= "allwinner,sun55i-a523-rtc",
++		.data		= &sun55i_a523_rtc_ccu_data,
++	},
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, sun6i_rtc_ccu_match);
+-- 
+2.39.5
+
