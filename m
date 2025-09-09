@@ -1,124 +1,171 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77363203B2
-	for <linux-sunxi@lists.linux.dev>; Tue,  9 Sep 2025 11:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEAA83451BF
+	for <linux-sunxi@lists.linux.dev>; Tue,  9 Sep 2025 13:33:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757417348; cv=none; b=PNjqK9PvSmYxwvE2KZ2+cG+NM1yV4v2KRd+sJkMLq5qp+qMICXgKczJZiqBWL3sElQOxThGvTKvOmi4rIMBcopJqDiQoo+2K3TnD7fZXS61nSt/sgSrDFEZjTGe8j9f20QxmsFCZPBXwG+TqQES4wOl+4QETMSllGLzA2/PV3ko=
+	t=1757424798; cv=none; b=jcKXvyN2WQDPUdP4h4Jhztvq0n+vMVemwwCHSLLpT7QmafnF7FlkLyQiuuPZxE6N6NNoYn7tKNl6mVfrlZViSxJY0ovZtJgPCoSRWNPS66A0XtqcPYeEQ12U0WokcgXotWnDiYKg2PpR8fSqIZzjMFic8UJL3aP/vZGrBVWI6CA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757417348; c=relaxed/simple;
-	bh=UsvqM3BvXaxvpr7HcsqbbmUjuygpPNM05UVXcP+zk6M=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=LsOMmDmlXQOKfIRj1qw+HTiWtvzk9SnNUCEPbTiWkyc7ffmvDScSqN5dPZGZDCSF5ZN208yuuEACsQ8vZwcafgZpwu8ssR3cNb1X7dxue8VbZ+ZaMFbT4UQELHmyl9zZMFZcUwm85XtMC3PyCfIfO/BjFGHbV/lsQFNKw59Pcck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JfGhZbUX; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JfGhZbUX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A351C4CEF4;
-	Tue,  9 Sep 2025 11:29:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757417348;
-	bh=UsvqM3BvXaxvpr7HcsqbbmUjuygpPNM05UVXcP+zk6M=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=JfGhZbUXLGpgm8rpE3DoAq1yWTgRZRTgHJPTRLXqaWMw5x+NPjdxYaU5ueXbro99R
-	 DeQptjkBcM7N4w8tArpGzS/0muKochPMZEQNfW5FVQYb5pbJMh5DyWXdUfYB+ljnwN
-	 t6Z64i4LIvmuUIsrbroo9IT//wPzeophVos2Nfs3jAgfYhc5ATzYDWNKbJqFVRTW+m
-	 BnccXopkxy8pwW7BThJqbWwZkB9+X3CVYQ9bblgC2yt4hKLtu7wzB1JayObQMOIFuX
-	 CE5dszNFhaSyZufKOD31e+LNPmeaqTQEPytWYGov1K5OdP2iY41xeUb1PXWXfpWWH0
-	 aUVQ+H8MUWVqA==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 09 Sep 2025 13:27:47 +0200
-Subject: [PATCH v3 28/39] drm/sun4i: Switch to
- drm_atomic_get_new_crtc_state()
+	s=arc-20240116; t=1757424798; c=relaxed/simple;
+	bh=HvqrxfVpH7iJhCYu7YCrbtWJo9St/OC+LmsQzVrb2yI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uDQlNJNuNhOknMHyP61HVuP03zOOQpkCie0m6K9kRc1TNhLZ6mgxQt7jVPp70C5h12BxmqbD8JdIL4GsUOPDiCOK8AVE6VIHjOWnBwHEm8ib6UoBVPt/u01xAiKk65n/2vBbr11UHejZSjbp9kDBgFkLVBG6AOTgtvsVdGZSAe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-55f74c6d316so3139639e87.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 09 Sep 2025 06:33:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757424793; x=1758029593;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OiPDvR6ZseDfZONnWJWsyImGvwysMua8qOuAT6/itt0=;
+        b=Q9znP+kmiE5EYwn41U9Ru8z2aBtxAGd4ctr2D+YHHOMl3qOS0x/zxHs1EVjzGyQY7L
+         VwzOxthwwUzJr7wbBzTltaSlWOj7RdtbdFhXuZg+g+i6nAu6tMrn98UCcl1eC3AY8+4x
+         WewFp0DNxwCTCj49ms3dLqZwSB/kxyEdi+4R578q82F6Ohur5FTeTHfbyM/LSjm0KniW
+         XrJWb0532FEdTIYPSq/uKH2c/HTB2IP95SUwxLgTXYQmMkf+k4JzpVtpT3zt5n3Wxfdm
+         mauyJJHS7fpse8yilEGDhJSLtdPoRfPMymzvRj6eCL4+SyUiuYUQ2weSHrDzsR9kDvEg
+         1s/A==
+X-Forwarded-Encrypted: i=1; AJvYcCXN1yip9kcajuxJfpcswPoy9IzTpWAkoWFYt3V6YtiDGWXHht5GXPN6wig/ljykvJN0EwJQsGTL84t9qQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwjLNVglwyfki/2B+aEEtyXVvgqgDMaN6K1QzPNm9AxL34ZC0ny
+	0u5zqVQyF/tax8eVBLY01WXLxILNAyOV5MRztQ+fXBxyPOXLsiIzxaIk0P6MkZzC
+X-Gm-Gg: ASbGnctSj+v5XYWHAmvW3d+KtORVqdxrpbRel9jfz96NMv+RbKNp/+p+4emZQ+CoAYv
+	ETYMHFYdpVcMMPNJvS99mHhZeSLbUaVMdLSfnPVo3tFTeLs9A1U1U9QOY5q3Q7DmwG8xqGNp9c2
+	q/RYpmVYWBFwQnJkEzJ47WWcTUrEpFY/tFDwGqOWHRguFfkrAi4MC9Mx5Mug++befgKji8suao6
+	+/3m0e8WFX2FextSU+YRU6Pk5KcV5MaRaOVC0PkJVic8bBP8thrBtV6w9upC8eOL+gCS6GeiLBq
+	BvABYvcbrrD/UXt9n+2gkxYtE/MFZyl87OUJEvahw/TgEoBCnlmo+A7xwcRv6dFJhhgT5ii685A
+	spTPKTi+ZqCE7blSSi6E9MWUEkY7s6gc5eaFX8TR3OUza0ZhIyDWf29TfUcu7kNZ2HA==
+X-Google-Smtp-Source: AGHT+IHB24yXCdxDjr1s+TvPEqjPlBWPj8LqLRCgpsoYCaDuKZsAh8mzJR5QzRVMor7ZbKV50u90vQ==
+X-Received: by 2002:a05:651c:2221:b0:336:8267:c1fa with SMTP id 38308e7fff4ca-33b4dab7931mr29261501fa.19.1757424792561;
+        Tue, 09 Sep 2025 06:33:12 -0700 (PDT)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com. [209.85.208.180])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-337f5032caasm41107931fa.35.2025.09.09.06.33.10
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Sep 2025 06:33:11 -0700 (PDT)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-336b071e7e5so45935411fa.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 09 Sep 2025 06:33:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUpFMCEa5US9tqruox00IRE1fJhOOjnTl6RtiGA7V83p4gadgyXcenT7LsbLXuBrLJyVxgXZMbt0Z6T2A==@lists.linux.dev
+X-Received: by 2002:a2e:a54a:0:b0:338:a33:96e0 with SMTP id
+ 38308e7fff4ca-33b52891786mr32184271fa.21.1757424790514; Tue, 09 Sep 2025
+ 06:33:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250909-drm-no-more-existing-state-v3-28-1c7a7d960c33@kernel.org>
-References: <20250909-drm-no-more-existing-state-v3-0-1c7a7d960c33@kernel.org>
-In-Reply-To: <20250909-drm-no-more-existing-state-v3-0-1c7a7d960c33@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2306; i=mripard@kernel.org;
- h=from:subject:message-id; bh=UsvqM3BvXaxvpr7HcsqbbmUjuygpPNM05UVXcP+zk6M=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBkH+PVW//rAxfWsP6XwVd5VZZ4XFodK3DlFEw79sZ20q
- e7d1Z+7OqayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBElkgyNmwNPC992y1tDldQ
- 39wwuXlV/H3y36JsupPczXg+3JoauNvJuEq6UXR9l0vGpk0m8nPLGOs07QxnpKyMv5GveSdJs+0
- /48LMc5+m1T/e9O4Z0y2B3TMeePe0rzyyc/WqbtsOtmezQ04BAA==
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+References: <20250903000910.4860-1-andre.przywara@arm.com> <20250903000910.4860-4-andre.przywara@arm.com>
+ <CAGb2v66DHvE5gcWDvHwoiiCgNEnPiGjB6ash407PwJr8oMwyhw@mail.gmail.com> <20250903112054.173fe7b8@donnerap>
+In-Reply-To: <20250903112054.173fe7b8@donnerap>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Tue, 9 Sep 2025 21:32:57 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64Cv4BUiwq2kX4OSeRcMU=YC=-CxQTtnQG_-0=B=tsaYg@mail.gmail.com>
+X-Gm-Features: Ac12FXwVCVC7-rgwvVDgpfgKJIONLlDmlW4y0Cq7K_8SdacVRdO0XPJ7BtdhumE
+Message-ID: <CAGb2v64Cv4BUiwq2kX4OSeRcMU=YC=-CxQTtnQG_-0=B=tsaYg@mail.gmail.com>
+Subject: Re: [PATCH 3/5] clk: sunxi-ng: mp: support clocks with just a shift register
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Mikhail Kalashnikov <iuncuim@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The sun4i atomic_check implementation uses the deprecated
-drm_atomic_get_existing_crtc_state() helper.
+On Wed, Sep 3, 2025 at 6:21=E2=80=AFPM Andre Przywara <andre.przywara@arm.c=
+om> wrote:
+>
+> On Wed, 3 Sep 2025 12:20:55 +0800
+> Chen-Yu Tsai <wens@csie.org> wrote:
+>
+> > On Wed, Sep 3, 2025 at 8:09=E2=80=AFAM Andre Przywara <andre.przywara@a=
+rm.com> wrote:
+> > >
+> > > The "mp" clock models a mod clock with divider and a shift field. At
+> > > least one clock in the Allwinner A523 features just a power-of-2 divi=
+der
+> > > field, so support an initialisation of the clock without providing an
+> > > actual divider field.
+> > >
+> > > Add a check whether the "width" field is 0, and skip the divider
+> > > handling in this case, as the GENMASK macro will not work with a zero
+> > > length.
+> > >
+> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > > ---
+> >
+> > In my series I have a patch that adds this to the divider clocks,
+> > thus adding a P-clock type to the M-clock bits.
+>
+> Yeah, I saw that, but wasn't convinced this would be better. Hence wanted
+> to post my version as an alternative.
+>
+> > Maybe use that instead? I prefer we use actual matching types instead
+> > of disabling one part of a complex clock type.
+>
+> Good that you bring up that topic: when looking for matching clocks I saw
+> we have a lot of them, though often one is just a subset of some others,
+> with some code duplication. And we use the pattern of "use type A, but
+> without feature X" already, for instance for "NKMP without the K".
+>
+> So I was wondering if we should revisit this and clean this up. IIUC thos=
+e
+> clocks were all modelled after the H3 and earlier generation, and the
+> clocks have changed since then. For instance I don't see PLLs with two
+> multipliers (NK) after the A64 anymore.
+>
+> So what about we consolidate the various types into just a few distinct
+> ones, like NKMP for all PLLs, for instance, and provides macros that
+> disable fields as needed? This could ideally be done under the hood,
+> leaving the per-SoC drivers mostly alone, hopefully.
+>
+> What do people think about that?
 
-This hook is called as part of the global atomic_check, thus before the
-states are swapped. The existing state thus points to the new state, and
-we can use drm_atomic_get_new_crtc_state() instead.
+I guess we could combine the NK* types, since those are relatively few.
 
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
-To: Maxime Ripard <mripard@kernel.org>
-To: Chen-Yu Tsai <wens@csie.org>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-sunxi@lists.linux.dev
----
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 3 +--
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 3 +--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+I would like to keep the basic ones, those with just one multiplier or
+one divider, possibly combined with a mux and/or a gate, alone. These
+are based on core clk helpers. We only add features like fixed post
+dividers or update bit support on top of them.
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-index f97be0040aab29cb4e138fcceb20e90c72db0252..94ac6ad6f30688a048e594811d2ae72aaa44376d 100644
---- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-@@ -204,12 +204,11 @@ static int sun8i_ui_layer_atomic_check(struct drm_plane *plane,
- 	int min_scale, max_scale;
- 
- 	if (!crtc)
- 		return 0;
- 
--	crtc_state = drm_atomic_get_existing_crtc_state(state,
--							crtc);
-+	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 	if (WARN_ON(!crtc_state))
- 		return -EINVAL;
- 
- 	min_scale = DRM_PLANE_NO_SCALING;
- 	max_scale = DRM_PLANE_NO_SCALING;
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-index a09ee4097537fca8b653f34a833b36b69e343ea5..1f77e1d2984548e746805f8323f537f3b4d93198 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-@@ -325,12 +325,11 @@ static int sun8i_vi_layer_atomic_check(struct drm_plane *plane,
- 	int min_scale, max_scale;
- 
- 	if (!crtc)
- 		return 0;
- 
--	crtc_state = drm_atomic_get_existing_crtc_state(state,
--							crtc);
-+	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 	if (WARN_ON(!crtc_state))
- 		return -EINVAL;
- 
- 	min_scale = DRM_PLANE_NO_SCALING;
- 	max_scale = DRM_PLANE_NO_SCALING;
 
--- 
-2.50.1
+ChenYu
 
+> Cheers,
+> Andre
+>
+> > >  drivers/clk/sunxi-ng/ccu_mp.c | 6 ++++--
+> > >  1 file changed, 4 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/drivers/clk/sunxi-ng/ccu_mp.c b/drivers/clk/sunxi-ng/ccu=
+_mp.c
+> > > index 354c981943b6f..a03dac294d048 100644
+> > > --- a/drivers/clk/sunxi-ng/ccu_mp.c
+> > > +++ b/drivers/clk/sunxi-ng/ccu_mp.c
+> > > @@ -236,9 +236,11 @@ static int ccu_mp_set_rate(struct clk_hw *hw, un=
+signed long rate,
+> > >         spin_lock_irqsave(cmp->common.lock, flags);
+> > >
+> > >         reg =3D readl(cmp->common.base + cmp->common.reg);
+> > > -       reg &=3D ~GENMASK(cmp->m.width + cmp->m.shift - 1, cmp->m.shi=
+ft);
+> > > +       if (cmp->m.width)
+> > > +               reg &=3D ~GENMASK(cmp->m.width + cmp->m.shift - 1, cm=
+p->m.shift);
+> > >         reg &=3D ~GENMASK(cmp->p.width + cmp->p.shift - 1, cmp->p.shi=
+ft);
+> > > -       reg |=3D (m - cmp->m.offset) << cmp->m.shift;
+> > > +       if (cmp->m.width)
+> > > +               reg |=3D (m - cmp->m.offset) << cmp->m.shift;
+> > >         if (shift)
+> > >                 reg |=3D ilog2(p) << cmp->p.shift;
+> > >         else
+> > > --
+> > > 2.46.3
+> > >
+>
