@@ -1,142 +1,98 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D50625A32E
-	for <linux-sunxi@lists.linux.dev>; Tue,  9 Sep 2025 17:41:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13AC225415;
+	Tue,  9 Sep 2025 19:58:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757439671; cv=none; b=LtVeCJ++y1jS+jo3VYc1gvyZBlBsB/3eD9CauWrZSsYaQQxnrKngiHL/eUmBMVh+MOlUWdeq1k5Cy0/YZeGvn7ybONZxWOoNbQ84IScoLPsilkvz599n9tWm3E7ydDuTcfNgznvTp7ErutV+K523/i3T5/CbH3tdOLbuui64XjU=
+	t=1757447906; cv=none; b=cyAc6PyumReXC5Y7xTnEyn4aFx69z3fY6tt7og14FN/Ws69a4MlAKQ0fhC9oe0ZRgdVWzQqjPnHX5TwinXwoZLvmAhT/56mJ+jJTGzzasf9RRyPD8EglOXyVAPH6hYhNI9pCz4jfvU3rH7EKo5fay8tB90VdMNIZTjrh/h0f33I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757439671; c=relaxed/simple;
-	bh=iMqzuo60ZLuJFOqTZIOoW/WODE7m+60kgAFLvDECvRA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TZMuEjg56QI8rqc/ZoejXfAt2V0mBIFLtxVmMJFYvTjEJDQQCMxhgjJefGxh/hEzpPr75Qk6EMW//H9hl1h4tK9CnL6gi+sguTmEmZBwCtQwp8FcXBOAx73Rh3nCaPN2D3BQQAkWeMUC0sW8NXIZHQHr9X8aMrtQc1vZe4Gw2Vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fBMl0+Vf; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757447906; c=relaxed/simple;
+	bh=coVjTOw4sLHDfBakjSlveG2TDtwJq/PpPGElv5zd+KY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GEAo5rTQhoVwFOkyU10LsMxx3r0N63PWwhSCfwBpOFihmyA7bTIH5yVsGMaAtvqz4MOssWsuFNwCfnMMN+kW71FWF8Cu0YSwSmTyMskSnQc3JPLEBZmNUN4rl5kFgDh2S5Mrl5p70UF/CUlEcwdYdkXOk8MYFPP/8hwtlG7uJfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OEpAQBFa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fBMl0+Vf"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3df15fdf0caso4527920f8f.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 09 Sep 2025 10:41:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757439668; x=1758044468; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ry5FSpI7dPZc6Kq1cRRqL+tbhUwVxII5JV+3rpol5sI=;
-        b=fBMl0+Vf8SPmYKKjysv8GpnypUiOK42LseBUt+LXhHePkULLRokNeucWfGkUPb7cKx
-         mLkZdf4PrqTkmm0kc4epUmPaK7yUgb7Yq8Vt8PWSMf4A3G7ApC1lOLLB3dXu7t2hE/+p
-         G5+m8XNKzkZj3PWOdQevm/UpL8pxxvgvDrjWHs1mNG59uAin7f/Rh5yAAUYG0atFojq/
-         acjfsPrjv52/fffHHVqxhgaqE1arvv/rl8gArlGQ1ZdOh/48RTe13h4hLWehxXmKL07M
-         r9U5J18mYbj6vBmWpKndSJ73fAp8UGy2n9lTdnqDjGID3a/0K/pe0Swhy6XaKqzvhzVp
-         aVGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757439668; x=1758044468;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ry5FSpI7dPZc6Kq1cRRqL+tbhUwVxII5JV+3rpol5sI=;
-        b=fQLSVDtyUelvHdFL/vlE2UmytUmG0XIr+/xSLYJotJYnFFoz2yAoOcGlXuOCWPZTjJ
-         krXDseB90a9vg5AV0HuA+z0L2Y74T+trAutM4jyCSvH6hBkamJPrcAqqfPavyczLgiZd
-         cckS992xQ6/CoeQk/WIRKVfLkur/lT5mV1KIkjBXpOL4Zo/c7OZ5TFhXpr2jhHZfCeTx
-         hEesa5A2n3CfG0HdqWdfK08GdqGAs7PtZO2AKHBO5xSWbyyPrYsWCsNMlE64yVdbb/73
-         vbJBEwYi1QtmX7AQho7P9t60se7q5AYvxZRC/UAmm2GFDIETxILS1BZ3tUInI2ZtnlnO
-         BMjw==
-X-Gm-Message-State: AOJu0Yw7pNUF0G7yluqXexH/XHu8QGADNvQhXPqkbWFuQNtI0JTF/6Ga
-	MxhhthEDlyASJDYRPJmtM9haanZbBmDdtgG0N9pt9aTsHdxbFy4AdVAi
-X-Gm-Gg: ASbGnctLUMEdjkn6KTMUVJ7yt9pc7dLTikNncagVQ+0VEg7qXVXVxCKMAKLdWJ8gdIR
-	6fPlXCv6PKTrMlw7q1/C4TRdJmmBlRjYyJ6/+9MEx0FvWYSO0C1flcDbH/z+VteIVvausNJJP2u
-	M3Yy96ULhi1F1MKmSDcwGRDHn1dCMAuKQFY+f0UleuFu/gyYefPxRkEx/75xtpbWTL0u/kww+nl
-	Him+2fFzcJADZznG8R4iBRkxLPJNpLX2HRrRhK0tHSAqujTZx2JT/MTE/a8M30zUyqUZVyyt2M7
-	HIRYqisPHALLWFIiDPpbFPMR+nry1MMqn6vc5+smPXggSDzRESXZlocfbEN/3o1c9t2dsFVmrR9
-	8cGlzW0KOwnDmwRWj9C17dBrMXH0xGn5unrA84eGUveO55PAcxtmZFs2rk9yNjo0WVbX1WoNQ7A
-	TWW1irmTVYWQyu19RZ+wY=
-X-Google-Smtp-Source: AGHT+IG2uQ4FJ9P3y+p4jrZc5L4f0i9TvG505+l+khrDgQ8Fx5vRm9E1UHocXbYiO2BBq31vpy9atw==
-X-Received: by 2002:a05:6000:2383:b0:3e7:438e:cddb with SMTP id ffacd0b85a97d-3e7438ed1c0mr10407637f8f.45.1757439668124;
-        Tue, 09 Sep 2025 10:41:08 -0700 (PDT)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e75224db20sm3366103f8f.60.2025.09.09.10.41.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Sep 2025 10:41:07 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>,
- Chen-Yu Tsai <wens@kernel.org>
-Cc: linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] clk: sunxi-ng: sun6i-rtc: Add A523 specifics
-Date: Tue, 09 Sep 2025 19:41:06 +0200
-Message-ID: <6189783.lOV4Wx5bFT@jernej-laptop>
-In-Reply-To: <20250909170947.2221611-1-wens@kernel.org>
-References: <20250909170947.2221611-1-wens@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OEpAQBFa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5D6AC4CEF4;
+	Tue,  9 Sep 2025 19:58:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757447905;
+	bh=coVjTOw4sLHDfBakjSlveG2TDtwJq/PpPGElv5zd+KY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=OEpAQBFaCqld1Z/XsKuXeu0kO0sa+Eh9Qoysb/M5+3/BBWMKwbB6dN/6XEyN+Tc7V
+	 mCcOr4FjmzLrd5hbcMs8JkBlA0S6hO+cHQ2Q3XHJ2HT4G//LKnXw4gL7gmOT2o5Dpg
+	 XIchr89SnWuwewzlGUMjNqsARy7RBFlt4pcD+MDFDX5QkpHXpEtsJhlTBLUswGF9lU
+	 DPtgAkIx6bexUGwQtxEucONXZLmk+I/WAn75kVbdnTEl/wol/mn1U6lp/FRYp/mM+G
+	 BhAhJkEBkhJasqwGrkLMl5embSN6vDd/s6+27NPTpwiZljwxnHtDlc0EMgmtCw7feV
+	 zU0K+hiOdaTwg==
+From: Conor Dooley <conor@kernel.org>
+To: linux-sunxi@lists.linux.dev
+Cc: conor@kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1] riscv: dts: allwinner: rename devterm i2c-gpio node to comply with binding
+Date: Tue,  9 Sep 2025 20:58:17 +0100
+Message-ID: <20250909-frown-wrinkle-f16df243a970@spud>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1568; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=5nDAh3oXDhRSMzBY7Xh2+riGNHudXRKLDRxiREafnqA=; b=owGbwMvMwCVWscWwfUFT0iXG02pJDBkH2m4UsH88fsjnefHviMCq9wUFX3/bNdvdm5BXeKxyw 5I75Yn3OkpZGMS4GGTFFFkSb/e1SK3/47LDuectzBxWJpAhDFycAjCR1uuMDEe5C7KOJ+xJ4XiU vXnG7Ddz7p/8zshouSTBp3D1VZuEZZEM/9OONv9zyDQr5W6R0cwXudnEXRMhUfl5mors35MzD27 azgAA
+X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
+Content-Transfer-Encoding: 8bit
 
-Dne torek, 9. september 2025 ob 19:09:47 Srednjeevropski poletni =C4=8Das j=
-e Chen-Yu Tsai napisal(a):
-> From: Chen-Yu Tsai <wens@csie.org>
->=20
-> The A523's RTC block is backward compatible with the R329's, but it also
-> has a calibration function for its internal oscillator, which would
-> allow it to provide a clock rate closer to the desired 32.768 KHz. This
-> is useful on the Radxa Cubie A5E, which does not have an external 32.768
-> KHz crystal.
->=20
-> Add new compatible-specific data for it.
->=20
-> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+From: Conor Dooley <conor.dooley@microchip.com>
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+The i2c controller binding does not permit permit the node name to
+contain "gpio", resulting in two warnings:
 
-Best regards,
-Jernej
+i2c-gpio-0 (i2c-gpio): $nodename:0: 'i2c-gpio-0' does not match '^i2c(@.+|-[a-z0-9]+)?$'
+i2c-gpio-0 (i2c-gpio): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'adc@54' were unexpected)
 
-> ---
->  drivers/clk/sunxi-ng/ccu-sun6i-rtc.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->=20
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c b/drivers/clk/sunxi-ng/=
-ccu-sun6i-rtc.c
-> index 0536e880b80f..f6bfeba009e8 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-> @@ -325,6 +325,13 @@ static const struct sun6i_rtc_match_data sun50i_r329=
-_rtc_ccu_data =3D {
->  	.osc32k_fanout_nparents	=3D ARRAY_SIZE(sun50i_r329_osc32k_fanout_parent=
-s),
->  };
-> =20
-> +static const struct sun6i_rtc_match_data sun55i_a523_rtc_ccu_data =3D {
-> +	.have_ext_osc32k	=3D true,
-> +	.have_iosc_calibration	=3D true,
-> +	.osc32k_fanout_parents	=3D sun50i_r329_osc32k_fanout_parents,
-> +	.osc32k_fanout_nparents	=3D ARRAY_SIZE(sun50i_r329_osc32k_fanout_parent=
-s),
-> +};
-> +
->  static const struct of_device_id sun6i_rtc_ccu_match[] =3D {
->  	{
->  		.compatible	=3D "allwinner,sun50i-h616-rtc",
-> @@ -334,6 +341,10 @@ static const struct of_device_id sun6i_rtc_ccu_match=
-[] =3D {
->  		.compatible	=3D "allwinner,sun50i-r329-rtc",
->  		.data		=3D &sun50i_r329_rtc_ccu_data,
->  	},
-> +	{
-> +		.compatible	=3D "allwinner,sun55i-a523-rtc",
-> +		.data		=3D &sun55i_a523_rtc_ccu_data,
-> +	},
->  	{},
->  };
->  MODULE_DEVICE_TABLE(of, sun6i_rtc_ccu_match);
->=20
+Drop it to satisfy dtbs_check.
 
+Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+---
+CC: Rob Herring <robh@kernel.org>
+CC: Krzysztof Kozlowski <krzk+dt@kernel.org>
+CC: Conor Dooley <conor+dt@kernel.org>
+CC: Chen-Yu Tsai <wens@csie.org>
+CC: Jernej Skrabec <jernej.skrabec@gmail.com>
+CC: Samuel Holland <samuel@sholland.org>
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-sunxi@lists.linux.dev
+CC: linux-riscv@lists.infradead.org
+CC: linux-kernel@vger.kernel.org
+---
+ arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
+diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dts
+index bc5c84f227622..5f2e5cc3e3d55 100644
+--- a/arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dts
++++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dts
+@@ -17,7 +17,7 @@ fan {
+ 		#cooling-cells = <2>;
+ 	};
+ 
+-	i2c-gpio-0 {
++	i2c-0 {
+ 		compatible = "i2c-gpio";
+ 		sda-gpios = <&pio 3 14 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>; /* PD14/GPIO44 */
+ 		scl-gpios = <&pio 3 15 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>; /* PD15/GPIO45 */
+-- 
+2.47.2
 
