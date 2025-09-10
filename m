@@ -1,123 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9069B31690C;
-	Wed, 10 Sep 2025 11:08:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113D231CA4C;
+	Wed, 10 Sep 2025 12:52:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757502513; cv=none; b=b7javr6P1pol3gm1pgZ9/LmEcpSUjMwedHGcIqawsLtQ28hns0dC9D/LCXPL+RiCWarbHa0BrWvBQlNDNMLHONHYXVkwLzjvCpRUKTz71v0T6QMjwZSLk9An57VxLPj7Ya/8GvcCS/yhR0ZRqxi6xRYsQ81iWQfXukpd9VhM+9o=
+	t=1757508742; cv=none; b=dKLur58brTPcKpMrNap91jY1+9GQPHlmxPiXVCGOsGRcbIAp1H8Imduh/Fj4CHAxoqV57xUe2VEzrDPBd2sRNzGoii7+4Y9TvqrEfTC3pjzPL1fK7J51ulmuMAMXEYd5HxQZjBPRAX97zMyopJep8EOlbNzXsfoZWOgDw9QGDtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757502513; c=relaxed/simple;
-	bh=eT+fM0/l96U9E80CByHY3UpL1VMyoPh2jRe5J041drA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VdYeI9I81ny6eawsHXL4gHusrdFcfqWdahyddvQuidDG4SYN5qzD7lIJwoi1qmxVI/bPq9M4tNVOTaYIhpjruubHtxaGlXkGF/IliGTVLb8e7lF26cjTF0fBUqFKn+kPPnG+/zfoKDwUhYDSBwOtgOibfeAl/7NO9OOeswO/YGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GZg4a9Pz; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GZg4a9Pz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D442C4CEF8;
-	Wed, 10 Sep 2025 11:08:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757502513;
-	bh=eT+fM0/l96U9E80CByHY3UpL1VMyoPh2jRe5J041drA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GZg4a9PzOThwfZJWjmmg1do+BJcK6fKqRVNE1sq+YdWBDlnHaURSjrRlxZ7+9DH4N
-	 Db+CuYerpenQhklpoGj+sHRilAxDRpInKvZJFpf3X1NCOLLQCBlcF189fa3pyP4fw4
-	 ufx5Lufwft1vqYQ0u4pu16D0r5dE6FepR8/Y2m7Bl1iWB50ud8cl9nr4fE/W1LSLys
-	 FYy4EKSZ0zBJNrEh6t7tmcyrIUrM+yDEihmZQ6+XVKFqbhMuCNH5+DEntCodxdQULf
-	 ZowH6/I7RWxU+6aGkzICbmkk9ffdQk6E6ckIxF6EdRydu3MVPbheSr9BgPt07IhG8H
-	 9PwdxdvRijCMA==
-Date: Wed, 10 Sep 2025 13:08:30 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Samuel Holland <samuel@sholland.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
-	Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
-	Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
-	Daniel Stone <daniels@collabora.com>
-Subject: Re: [PATCH v4 09/10] drm/connector: verify that HDMI connectors
- support necessary InfoFrames
-Message-ID: <20250910-courageous-warthog-of-refinement-aced6f@houat>
-References: <20250909-drm-limit-infoframes-v4-0-53fd0a65a4a2@oss.qualcomm.com>
- <20250909-drm-limit-infoframes-v4-9-53fd0a65a4a2@oss.qualcomm.com>
+	s=arc-20240116; t=1757508742; c=relaxed/simple;
+	bh=u4MtrbVggNOeGuUPoasRtsmuiD+SWq522C5ibLwqSjY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Q77q1Yf/g2brHd6hN69qUfdjUvNzLhDvXbhxr4WsPJq6n1ej6K8H/Qk2lCR0F1EG7SLohj/wNiTysvuQ1MXHmiPc/RVWGPjO/2bE/h71fgfMk/JdGPc4oG3MPAASm6tg+nKJJX/yyPCuWEtDKhQpFIU6a/TkuSAdR2MoAATQDAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A3C4C4CEF8;
+	Wed, 10 Sep 2025 12:52:21 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id 12CEE5F846;
+	Wed, 10 Sep 2025 20:52:19 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
+Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20250908181059.1785605-1-wens@kernel.org>
+References: <20250908181059.1785605-1-wens@kernel.org>
+Subject: Re: (subset) [PATCH net-next v4 00/10] net: stmmac: Add support
+ for Allwinner A523 GMAC200
+Message-Id: <175750873902.2588463.10161966012825754065.b4-ty@csie.org>
+Date: Wed, 10 Sep 2025 20:52:19 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="xkhodzl7phtwfggk"
-Content-Disposition: inline
-In-Reply-To: <20250909-drm-limit-infoframes-v4-9-53fd0a65a4a2@oss.qualcomm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
+On Tue, 09 Sep 2025 02:10:49 +0800, Chen-Yu Tsai wrote:
+> From: Chen-Yu Tsai <wens@csie.org>
+> 
+> Hi everyone,
+> 
+> This is v4 of my Allwinner A523 GMAC200 support series.
+> 
+> Changes since v3:
+> - driver
+>   - Fixed printf format specifier warning
+> - Link to v3
+>   https://lore.kernel.org/all/20250906041333.642483-1-wens@kernel.org/
+> 
+> [...]
 
---xkhodzl7phtwfggk
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 09/10] drm/connector: verify that HDMI connectors
- support necessary InfoFrames
-MIME-Version: 1.0
+Applied to sunxi/drivers-for-6.18 in local tree, thanks!
 
-On Tue, Sep 09, 2025 at 05:52:07PM +0300, Dmitry Baryshkov wrote:
-> Check that connector initialized by drmm_connector_hdmi_init() supports
-> AVI InfoFrames and warn if it doesn't support Vendor-Specific
-> InfofRames (HDMI InfoFrames are more or less required).
->=20
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
-> Acked-by: Daniel Stone <daniels@collabora.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/drm_connector.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
-tor.c
-> index 92a75684a0f7375d3a94e8c666cb71064ecc8035..222a0ef66d9fdbdb56108ceeb=
-40e7f369d810350 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -602,6 +602,13 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
->  	if (!(max_bpc =3D=3D 8 || max_bpc =3D=3D 10 || max_bpc =3D=3D 12))
->  		return -EINVAL;
-> =20
-> +	/* AVI is required */
-> +	if (!(supported_infoframes & DRM_CONNECTOR_INFOFRAME_AVI))
-> +		return -EINVAL;
-> +
-> +	if (!(supported_infoframes & DRM_CONNECTOR_INFOFRAME_VENDOR))
-> +		drm_info(dev, "HDMI connector with no support for Vendor-Specific Info=
-Frame\n");
-> +
+[03/10] soc: sunxi: sram: add entry for a523
+        commit: 30849ab484f7397c9902082c7567ca4cd4eb03d3
+[04/10] soc: sunxi: sram: register regmap as syscon
+        commit: e6b84cc2a6fe62b4070d73f2d2d7b2544a11df87
 
-Same remark than on patch 10. It's not something we can check at init
-time, and we should check (and document!) that if we expect an infoframe
-to be written but the write_infoframe hook doesn't support it, it's an
-error.
+Best regards,
+-- 
+Chen-Yu Tsai <wens@csie.org>
 
-Maxime
-
---xkhodzl7phtwfggk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMFcLgAKCRAnX84Zoj2+
-do1pAXoDY9Dzn6G/ClMn6Qt9h6baw0nSCc1SPEDOnOlKYoD9BSE05V70x5Sqi0rR
-wJwIv2ABgME+k6f+wI13qd1Ah1huLB0li8xpIpRZTte9l8GEmuSdXIv2pGQJKmjF
-/tLAINKY3g==
-=JQzw
------END PGP SIGNATURE-----
-
---xkhodzl7phtwfggk--
