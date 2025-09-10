@@ -1,238 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7243815E5D4;
-	Wed, 10 Sep 2025 02:22:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1980263F54
+	for <linux-sunxi@lists.linux.dev>; Wed, 10 Sep 2025 07:28:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757470954; cv=none; b=apeIf/1sZDxenY/06RlqiMz7DGnKPcLvjEvjqAmuKhmgUBqq5rwRs1iCqXVpoIJZaW9pKQwDFzm/kc7r82iEuqpOl9OPFVBc533/ReZfHQtiGOwkYylxNdxHkdJHEpg9J2fXfLZJtndRtIlwaF3Cs0hA4erN3bsnJ5fxbUcdPFo=
+	t=1757489317; cv=none; b=fAp1k/DRqJ7dMttxvhtYRgRoTDC9Uj0uJ+fI3cRTY+R0MuMpo5m7r/MQ9n/noJnX0/95guUORHuFRSmvCHxq5gF0GVIYbaQeG70ZBV8p4XoiKUUphKxYyRQqqD3ww2DUeOTiUFvg+ouBbPINK1290zoN8jo7UppIJD2Fgf6OHiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757470954; c=relaxed/simple;
-	bh=oWlqndBd3eq4k+3ghnP4AOom/bFf4tXLD4z+QR1ca4o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KWOS5Q4HYodnmFrLO1cylmDQa/sPZDQYflOz/kfEJRq6z/J0D1TmdSgpAwZUcf3xj9jcJqdVBzWd8m9DkrelsBjO7irQTSpsq86I+HhyoxTCVvKUnvGbAd0mEMbHWs7TzQ147NZYQHGsp54WeJne0nc85xwc8ajz3YYOXbLqpLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fQxScFZM; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fQxScFZM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFFFDC4CEF4;
-	Wed, 10 Sep 2025 02:22:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757470952;
-	bh=oWlqndBd3eq4k+3ghnP4AOom/bFf4tXLD4z+QR1ca4o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fQxScFZMdOBLa3xHO6K22mBmbwmsx3oPkoU+o85x9RyqQziu16MlTeR8NTPBNM4bG
-	 W1x/PEx8BWo+PJB9oSS7l5WD+NbswC8bv7KasFvlkgPsvMOOhyP54e0h8D97ShEf9f
-	 +0V8m5zbdbCL33CT5osJinQ6zV8lrjs7kiVul4tSdj+j8V6pEjuoxZBmdi0XtAy6MX
-	 6s3g33HrDbaq5k862b9kZlug+CQouoB92Qm5WtkmJOuHWiNoc5zw0Xc6t3OySodd7j
-	 MYsNJU2AC1OG2O8gtn0qcOPy0W64oldeZM+ssA5MF5Qo6G9CfKZzCALwR6W3ZJ5pSl
-	 Pl4A7et32MwMA==
-Date: Tue, 9 Sep 2025 21:22:30 -0500
-From: Rob Herring <robh@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andre Przywara <andre.przywara@arm.com>
-Subject: Re: [PATCH net-next v4 01/10] dt-bindings: net: sun8i-emac: Add A523
- GMAC200 compatible
-Message-ID: <20250910022230.GA3646514-robh@kernel.org>
-References: <20250908181059.1785605-1-wens@kernel.org>
- <20250908181059.1785605-2-wens@kernel.org>
+	s=arc-20240116; t=1757489317; c=relaxed/simple;
+	bh=qdQgkRjRa/9lwYUupnKPCQ2uwXYMz+1y2L/jjbq1EAE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=fl3igYTHL1wLdOhPx0xZ7X9P5MRxLSObHXXocKG7nHcgi/2HIzGeAUz0vfNpsNue7ZN4BJ6Dq6wZWz3z2I6aZiZk35OeZstZ8pDnlmAvOiYjy32POaTRKdtkamrumcNBQIkXkDPbnLrBBo3WuxZDw+sAyMKm2s/nRF7YsDzv9e4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <l.stach@pengutronix.de>)
+	id 1uwFFc-0000tx-T8; Wed, 10 Sep 2025 09:28:20 +0200
+Message-ID: <8192c4d04f1640f140a8f2cb43e694a7476bb0ca.camel@pengutronix.de>
+Subject: Re: drm/etnaviv: detecting disabled Vivante GPU?
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Andre Przywara <andre.przywara@arm.com>, Russell King
+	 <linux+etnaviv@armlinux.org.uk>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>, linux-sunxi
+	 <linux-sunxi@lists.linux.dev>
+Date: Wed, 10 Sep 2025 09:28:19 +0200
+In-Reply-To: <20250904002924.2bc63b73@minigeek.lan>
+References: <20250904002924.2bc63b73@minigeek.lan>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250908181059.1785605-2-wens@kernel.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On Tue, Sep 09, 2025 at 02:10:50AM +0800, Chen-Yu Tsai wrote:
-> From: Chen-Yu Tsai <wens@csie.org>
-> 
-> The Allwinner A523 SoC family has a second Ethernet controller, called
-> the GMAC200 in the BSP and T527 datasheet, and referred to as GMAC1 for
-> numbering. This controller, according to BSP sources, is fully
-> compatible with a slightly newer version of the Synopsys DWMAC core.
-> The glue layer around the controller is the same as found around older
-> DWMAC cores on Allwinner SoCs. The only slight difference is that since
-> this is the second controller on the SoC, the register for the clock
-> delay controls is at a different offset. Last, the integration includes
-> a dedicated clock gate for the memory bus and the whole thing is put in
-> a separately controllable power domain.
-> 
-> Add a compatible string entry for it, and work in the requirements for
-> a second clock and a power domain.
-> 
-> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
-> ---
-> Changes since v2:
-> - Added "select" to avoid matching against all dwmac entries
-> Changes since v1:
-> - Switch to generic (tx|rx)-internal-delay-ps properties
-> ---
->  .../net/allwinner,sun8i-a83t-emac.yaml        | 96 ++++++++++++++++++-
->  1 file changed, 94 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-> index 2ac709a4c472..9d205c5d93ca 100644
-> --- a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-> +++ b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-> @@ -10,6 +10,21 @@ maintainers:
->    - Chen-Yu Tsai <wens@csie.org>
->    - Maxime Ripard <mripard@kernel.org>
->  
-> +# We need a select here so we don't match all nodes with 'snps,dwmac'
-> +select:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        enum:
-> +          - allwinner,sun8i-a83t-emac
-> +          - allwinner,sun8i-h3-emac
-> +          - allwinner,sun8i-r40-gmac
-> +          - allwinner,sun8i-v3s-emac
-> +          - allwinner,sun50i-a64-emac
-> +          - allwinner,sun55i-a523-gmac200
-> +  required:
-> +    - compatible
-> +
->  properties:
->    compatible:
->      oneOf:
-> @@ -26,6 +41,9 @@ properties:
->                - allwinner,sun50i-h616-emac0
->                - allwinner,sun55i-a523-gmac0
->            - const: allwinner,sun50i-a64-emac
-> +      - items:
-> +          - const: allwinner,sun55i-a523-gmac200
-> +          - const: snps,dwmac-4.20a
->  
->    reg:
->      maxItems: 1
-> @@ -37,14 +55,19 @@ properties:
->      const: macirq
->  
->    clocks:
-> -    maxItems: 1
-> +    minItems: 1
-> +    maxItems: 2
->  
->    clock-names:
-> -    const: stmmaceth
-> +    minItems: 1
-> +    maxItems: 2
+Hi Andre,
 
-minItems: 1
-items:
-  - const: stmmaceth
-  - const: mbus
+Am Donnerstag, dem 04.09.2025 um 00:29 +0100 schrieb Andre Przywara:
+> Hi,
+>=20
+> the Allwinner A523/A527/T527 family of SoCs feature a Vivante
+> "VIP9000"(?) NPU, though it seems to be disabled on many SKUs.
+> See https://linux-sunxi.org/A523#Family_of_sun55iw3 for a table, the
+> row labelled "NPU" indicates which model has the IP. We suspect it's
+> all the same die, with the NPU selectively fused off on some packages.
+>=20
+> Board vendors seem to use multiple SKUs of the SoC on the same board,
+> so it's hard to say which particular board has the NPU or not. We
+> figured that on unsupported SoCs all the NPU registers read as 0,
+> though, so were wondering if that could be considered as a bail-out
+> check for the driver?
+> At the moment I get this, on a SoC with a disabled NPU:
+> [    1.677612] etnaviv etnaviv: bound 7122000.npu (ops gpu_ops)
+> [    1.683849] etnaviv-gpu 7122000.npu: model: GC0, revision: 0
+> [    1.690020] etnaviv-gpu 7122000.npu: Unknown GPU model
+> [    1.696145] [drm] Initialized etnaviv 1.4.0 for etnaviv on minor 0
+> [    1.953053] etnaviv-gpu 7122000.npu: GPU not yet idle, mask: 0x0000000=
+0
+>=20
+> Chen-Yu got this on his board featuring the NPU:
+>     etnaviv-gpu 7122000.npu: model: GC9000, revision: 9003
+>=20
+> If I get the code correctly, then etnaviv_gpu_init() correctly detects
+> the "unsupported" GPU model, and returns -ENXIO, but load_gpu() in
+> etnaviv_drv.c then somewhat ignores this, since it keeps looking for more
+> GPUs, and fails to notice that *none* showed up:
+> /sys/kernel/debug/dri/etnaviv/gpu is empty in my case.
+>=20
+> Quick questions:
+> - Is reading 0 from VIVS_HI_CHIP_IDENTITY (or any other of the ID
+>   registers) an invalid ID, so we can use that to detect those disabled
+>   NPUs? If not, can any other register used to check this? The whole
+>   block seems to be RAZ/WI when the NPU is disabled.
+>=20
+Yes, 0 is not a valid core ID.
 
->  
->    phy-supply:
->      description: PHY regulator
->  
-> +  power-domains:
-> +    maxItems: 1
-> +
->    syscon:
->      $ref: /schemas/types.yaml#/definitions/phandle
->      description:
-> @@ -191,6 +214,45 @@ allOf:
->              - mdio-parent-bus
->              - mdio@1
->  
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: allwinner,sun55i-a523-gmac200
-> +    then:
-> +      properties:
-> +        clocks:
-> +          minItems: 2
-> +        clock-names:
-> +          items:
-> +            - const: stmmaceth
-> +            - const: mbus
+> - Would it be acceptable to change the logic to error out of the
+>   driver's init or probe routine when no GPU/NPU has been found, at
+>   best with a proper error message? As it stands at the moment, the
+>   driver is loaded, but of course nothing is usable, so it keeps
+>   confusing users.
 
-Just 'minItems: 2' here.
+Yes, I think it would be fine to not expose the DRM device at all if no
+usable GPU core has been found.
 
-> +        tx-internal-delay-ps:
-> +          default: 0
-> +          minimum: 0
-> +          maximum: 700
-> +          multipleOf: 100
-> +          description:
-> +            External RGMII PHY TX clock delay chain value in ps.
-> +        rx-internal-delay-ps:
-> +          default: 0
-> +          minimum: 0
-> +          maximum: 3100
-> +          multipleOf: 100
-> +          description:
-> +            External RGMII PHY TX clock delay chain value in ps.
-> +      required:
-> +        - power-domains
-> +    else:
-> +      properties:
-> +        clocks:
-> +          maxItems: 1
-> +        clock-names:
-> +          items:
-> +            - const: stmmaceth
+However, I think it would still be good if your bootloader would fix up
+the DT to avoid probing the driver at all if possible. It may work on
+your system but access to a disabled GPU MMIO is not RAZ/WI everywhere.
 
-maxItems: 1
+On i.MX8M* we have a similar situation with disabled peripherals. There
+the bootloader can detect which peripherals are active by looking at
+the SoC fuses and fixes up the DT status property accordingly. Not sure
+if you may have something similar on the Allwinner.
 
-> +        power-domains: false
-> +
-> +
->  unevaluatedProperties: false
->  
->  examples:
-> @@ -323,4 +385,34 @@ examples:
->          };
->      };
->  
-> +  - |
-> +    ethernet@4510000 {
-> +        compatible = "allwinner,sun55i-a523-gmac200",
-> +                     "snps,dwmac-4.20a";
-> +        reg = <0x04510000 0x10000>;
-> +        clocks = <&ccu 117>, <&ccu 79>;
-> +        clock-names = "stmmaceth", "mbus";
-> +        resets = <&ccu 43>;
-> +        reset-names = "stmmaceth";
-> +        interrupts = <0 47 4>;
-> +        interrupt-names = "macirq";
-> +        pinctrl-names = "default";
-> +        pinctrl-0 = <&rgmii1_pins>;
-> +        power-domains = <&pck600 4>;
-> +        syscon = <&syscon>;
-> +        phy-handle = <&ext_rgmii_phy_1>;
-> +        phy-mode = "rgmii-id";
-> +        snps,fixed-burst;
-> +        snps,axi-config = <&gmac1_stmmac_axi_setup>;
-> +
-> +        mdio {
-> +            compatible = "snps,dwmac-mdio";
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            ext_rgmii_phy_1: ethernet-phy@1 {
-> +                reg = <1>;
-> +            };
-> +        };
-> +    };
->  ...
-> -- 
-> 2.39.5
-> 
+Regards,
+Lucas
