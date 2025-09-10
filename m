@@ -1,71 +1,71 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0865C31E0E4
-	for <linux-sunxi@lists.linux.dev>; Wed, 10 Sep 2025 13:43:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B36E24C692
+	for <linux-sunxi@lists.linux.dev>; Wed, 10 Sep 2025 15:16:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757511801; cv=none; b=YQ+c1i12n+8SRVj3VN8jEdzrImu0wLFSwQ8oxWROE0Iv34J2tKUDpq303p3w65HBXOhjRFF+O7ai3AgXE/FYnJvDb9T6fqfPf0DLw6CHoLW27vHifkSPGa2IIzliwIp4dBFbsMl7pRgDcY4/gJQELYcqKiEK8SQ0GdT0i50Eyf0=
+	t=1757517394; cv=none; b=eOyY7TeIdUsfxXUQjZq7XokiWg0bK5PBQeu8b90wK9UT87Ei5gLhzVHPCUiKKMH/6JBxg35ddAtatS8UwNiBt/XHkTno9v0U7Rvo3BAA3YWXGnD8QsCrZqw25h7iYZTIkXQPf/GjDvvQbG+T2NGnJaww1B2MavvlM7bF2CuzpxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757511801; c=relaxed/simple;
-	bh=FaoC9FE73l9rVXL86nM2CVRZSz8t/nV5eIPjehZkKRk=;
+	s=arc-20240116; t=1757517394; c=relaxed/simple;
+	bh=CMr+Yyb64ouHjg8enQXwO9zPKrjmmn+0fLcun1xcNsI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ogdm2NJ05w3gVpxv9IRVv9p1GoBwyYoUd7Z3WMoJgVeZsITywU22bycrditSlWGqvcwSDw5186GtmtCFbp6OLx3xC6ryYUT2do1It812RenM+MLODznRGAuhWt+149hb2RHw3DwUThoaPYQQh23PAYgNJgJIxOfEMaYAE75fpFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=CMj36H+T; arc=none smtp.client-ip=205.220.168.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=m6hLt0Bp3dQyivaKrK7pMDQJbN1SG+tJ5a3mxQosFBz77zsYh84AxTzZJj1Xp9175kmYuxezrR+yY/fiQ+5LjekU/5tIrykuXZ6pmXnbFo2kkjs/Sg+7b9R88BXKFfnXH8s5J7PEFAIlrJCSoRNuXI71SE6hII+F0e9PF050s4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=p5Fq26fY; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="CMj36H+T"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="p5Fq26fY"
 Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58ACgPjI001423
-	for <linux-sunxi@lists.linux.dev>; Wed, 10 Sep 2025 13:43:18 GMT
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58ACgDLe001315
+	for <linux-sunxi@lists.linux.dev>; Wed, 10 Sep 2025 15:16:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=5nQ4xWao/W1S9JuuivQg6TVz
-	V1TXFvvS01+Hu/ewF2o=; b=CMj36H+TbjJBbjGtUj0Ww+XkCiSfcr453ccD4RI3
-	hTtPq14K7WLeczHyI3OgAOvTURohBosbgyEm6KyyTR1RRzEjx7OtROVcxmf8UQLP
-	0VKsVvp8OptJoxAa45jIjayw4Rwpnz5wXobNCFeoYDLZb3nZdYV95mTZUZwToUDO
-	qW/9hCsr/xLIau/U8M2P76aKr/mPj0RtK5OTWevRpYpqqqYNkJCG3pQOJxM0n6oG
-	UrIwfu6uMWp5ZqJjKH3ssj53PvqM6DXgXBWp2n3qp1ab9yS+3PK3cuzipo0xtLJR
-	kdomeuFiz78IGAYiv5uzR7f4OsOvt7AbGymNwg/318RmmA==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 491qhe0svw-1
+	:references:subject:to; s=qcppdkim1; bh=kKm0FaL1IsnsJ1lRYNU+N3Fz
+	JdUYvVMh5dXRjU0QCk8=; b=p5Fq26fYWFQBv4jsqwoICAN3BPzWKiJ1nDETM99M
+	qYaJAlGyDaaHmKO1z93fcVW5AWkmOt1ObtdBYRcfscs2Dt3fBbzvs/SnkRo7Ifc7
+	7qQs49X1iUmV7tciI/bLswt8v/1P0apmUMCxq2pWlPemmfz0K+EN1BqxZmDlcNZl
+	bLdSmNTQrd3J1EQJDwspX2Q9ESFL4yeilX8M+0j6cs5FnriK3LpIIxOF/IS2qvFW
+	h2XMguo7EqCiriV+JKtDR6nQZ029MA6bgpufcFu2wyf6OrdEfBOOq63E4qNt7jkc
+	OXyLqkyUxTB3D9koO2CbE2l2L4cEK+a9ar/TSU1vg9bq9Q==
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com [209.85.221.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 491qhe12n0-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sunxi@lists.linux.dev>; Wed, 10 Sep 2025 13:43:18 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-7585b6deccaso31879436d6.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 10 Sep 2025 06:43:17 -0700 (PDT)
+	for <linux-sunxi@lists.linux.dev>; Wed, 10 Sep 2025 15:16:30 +0000 (GMT)
+Received: by mail-vk1-f199.google.com with SMTP id 71dfb90a1353d-5449c8c855cso9885263e0c.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 10 Sep 2025 08:16:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757511797; x=1758116597;
+        d=1e100.net; s=20230601; t=1757517389; x=1758122189;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5nQ4xWao/W1S9JuuivQg6TVzV1TXFvvS01+Hu/ewF2o=;
-        b=s2JkC7b6ffMgUOEyx9yYTzRZcyGplPUcKdY1/Qvo6vwaPKSMzyg8vaBVisHQoEf+FY
-         RZkB3jJQGwGPusgj8wqy+JYUqWt/wJS69AsCoWqg43XpqBG03ZAUvlC4qVIa+vG+naYs
-         I56VFuubtg/SGcwG3AB9YP3q+LW2jvxXH3DhQgPdGtCK/X5n08fEBhGEmPrGG/pnifxz
-         CkTspP7GQ3+DkKP0m4S56MhV/qGiaZDbcSG1ZJ0DpJ9l80qzl6fVuxtbg+CjPYga1yFY
-         8CwNpnQtn74rObEzZPlo72/o/Ez6Kd10iHJeCju3X8atQ52/j7bhY3hEJhM7F4cQ5F1n
-         WTwA==
-X-Forwarded-Encrypted: i=1; AJvYcCUoSSHUNS8FPiNUUJT6Pj9gFFjht6l5eFPQmGR5OKhPU7HHTFvkOYXZjVRa6aCsI7z2VdjtBUN73fUa0Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzqR4POeREQd8ooNu2US1Pe7B6K1eAAqnGfeVDHMWVg74oxknAx
-	u3OcNTq/oFqAhX/P7joBnpjO07fXqN+ezhNfszyFFdDLquTk5FrCUv7G5RJRh5Q7wzJZAnkuDV0
-	IHqe0X/NbFatzXlhsR+P9a9ty+l2XqfEZW9E9fDqArbzdjbSmfSyMhOQxY+y2Gr5Gog==
-X-Gm-Gg: ASbGnctfRroQXLAZxoBuv4fYVCt8Y9htYwJvhzACo5LGXixttTEijek3DWCjXlTdPTx
-	j947OAw7o/mRlH/sIKLeZvDdjb0gHHbzNlvxGvKATfS1CaitDw/GDVrn7V5gAfmU3PbphkFrvIO
-	D2WxZp16Zypv5vdxEx2V7I8vhx6A5w65KqeBuXRfV0997ZbWO31IaWEgnOPWXVIgu9iWdWJc/Fk
-	cmowd8im/6R+MJpc9tWFrIC1rFIzzKggwK09abwTkCdf8uYGbfo/JUkaZ33DzAsTLpHUk4kCx3l
-	lk4nuej85Hqn/BaKUA8DuAINemdeSsfa+K8DTRrtqn000l8/quqUv7gxkw6hoKqGXnm62xZQLUI
-	EXxLM17dd7+RNNkcprSN/MATGOUbmfQS2uxWbfDRPXmeE1eoA7moZ
-X-Received: by 2002:ad4:5945:0:b0:70d:cc1b:68d8 with SMTP id 6a1803df08f44-73946e7c091mr163021776d6.60.1757511796345;
-        Wed, 10 Sep 2025 06:43:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG6PHZIhUDI560woSHXbXEfXTfCiGlJ/BbPfkyDjwFSiQx7owU5WH313TRjCymTd7ql0gFT6Q==
-X-Received: by 2002:ad4:5945:0:b0:70d:cc1b:68d8 with SMTP id 6a1803df08f44-73946e7c091mr163021196d6.60.1757511795562;
-        Wed, 10 Sep 2025 06:43:15 -0700 (PDT)
+        bh=kKm0FaL1IsnsJ1lRYNU+N3FzJdUYvVMh5dXRjU0QCk8=;
+        b=KUXcj1GunFOiKZNG/nfj8p9GZv94VDVfcJ00sfirzoRlKcvNvj6QKE5KhykJN7MHEm
+         JGmpeX/Avq0pp9MQswoI2j/CAGWqSR8GxOWzDjTm2PG2DDRTv8nBGNahA1+QlETUn6Rv
+         jr4hZAGecxktvS1D99HeZzwttKY4NpysfHD4BSWQ8gNQtxqXrQpwnWkj1T0Bqk5zVBtZ
+         qnCGHMJL5nGGxwlZKZOfDVYk6aTounR6PCnqUD0fpj9ebBJ7QXEpGbMX4P21QAA3SMVW
+         OPRFTIyHTscjYStErjkwc76x05kiHrAbNhBRyf0oAQNH5wUFK9Irv8f43TVmrn7UqiGk
+         Upaw==
+X-Forwarded-Encrypted: i=1; AJvYcCUnyTUQ+gxKv9P6pqHRkTBmkimD4KunrvyZzCcQ1MqdHguAPeLTr4rHe2U1bdMV9VZcwNsG8bk2uLZW1g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwzVRaS5zFJP6Sro4MfNMhbcCYQ3zEFgHgDslTS/SugFrQFspC4
+	slhb5bifNSnHQwadKfVO0cKpH4bV9GFxltLQXzbzT23RBgyge0hng/xHODM6HiflKHVhxT282/2
+	HlVp4zLqLfbDWKb+rU4fOlMTuxGvtixIfmozY6UE4LjQD0E65qYOT8deaEpu8N98Mpw==
+X-Gm-Gg: ASbGncsnzhsg3SfZmKPu1OvKEnKQknBjTqTxaVHNSN/I5Nu1YtGYvxXidls6XeXAUWQ
+	fEeFsbhrD6cF/D1qEWgdWua23uAOBQlZfhHF+LyMLv49CMpbYvTUMLjIwjmpDX0fyrDGQhwQP18
+	KDewJJHazfyEILDzGhNvQ93CM3lpk3QwnNevgbDA0z1xB1cRszeNHsnHt7J8m32E9SZGRsDZarV
+	91I8Qxr6wEIbUr2lzs9KU5XF/V0dVcd/LB4NKNiR5BqD0NNku5ehPm/Ss988rStpg/ex+yJH4D6
+	dDoPPMqtO8ItyTnXmNymW39TOI7GKh6FFAtcnv4cXnYJXYlLobIgYRUs7hiNW1EfdiFT4LoLrhY
+	aQWNFwWwd1v90u8bUakunJSkz60f/9h7g/IHatEQ5NwDtYsPXvk9Q
+X-Received: by 2002:a05:6122:2a42:b0:543:6ff8:d6d7 with SMTP id 71dfb90a1353d-5472a0088bfmr5155437e0c.1.1757517388960;
+        Wed, 10 Sep 2025 08:16:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEV+Ok0B9ImEfUJn+5MDsBCd0a1EnbrepGzoV/kCIfMR/JnpVKik3JbAUvvY8M2wWHlz+5tjQ==
+X-Received: by 2002:a05:6122:2a42:b0:543:6ff8:d6d7 with SMTP id 71dfb90a1353d-5472a0088bfmr5155361e0c.1.1757517388194;
+        Wed, 10 Sep 2025 08:16:28 -0700 (PDT)
 Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-337f4c4ed3csm43091651fa.4.2025.09.10.06.43.14
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5680c4246c2sm1301330e87.17.2025.09.10.08.16.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Sep 2025 06:43:14 -0700 (PDT)
-Date: Wed, 10 Sep 2025 16:43:12 +0300
+        Wed, 10 Sep 2025 08:16:27 -0700 (PDT)
+Date: Wed, 10 Sep 2025 18:16:25 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -96,12 +96,12 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
         linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
         linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
         Daniel Stone <daniels@collabora.com>
-Subject: Re: [PATCH v4 10/10] drm/display: hdmi-audio: warn if HDMI connector
- doesn't support Audio IF
-Message-ID: <zjfnbabmnpopxy3r2dbpiiuhspoapc4mvpkha6bfses2mf6gpi@tmp4konlmimh>
+Subject: Re: [PATCH v4 01/10] drm/connector: let drivers declare infoframes
+ as unsupported
+Message-ID: <z333ysst5ifakomo35jtbpydj44epqwwn4da76rcnsq4are62m@32gsmgx2pcdi>
 References: <20250909-drm-limit-infoframes-v4-0-53fd0a65a4a2@oss.qualcomm.com>
- <20250909-drm-limit-infoframes-v4-10-53fd0a65a4a2@oss.qualcomm.com>
- <20250910-magic-natural-saluki-4aca9d@houat>
+ <20250909-drm-limit-infoframes-v4-1-53fd0a65a4a2@oss.qualcomm.com>
+ <20250910-furry-singing-axolotl-9aceac@houat>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -110,21 +110,21 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250910-magic-natural-saluki-4aca9d@houat>
-X-Proofpoint-GUID: Dw61qaM4NVYmZdfBL6BysIaedS-E043C
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDAzNCBTYWx0ZWRfX4OtggRJw6XnV
- zZieDDAAQG6tC34ilOjdyvSX/P/fB0xD4g65PvBY1ZjY74XQ2aRAOIhPo8fVakqsYw8/UcXFZCZ
- K+iuZn0KBNHBLE1JUBmJLjh9+NowvJT35K1OBYBc82bQ8/8hkRgzNrgPWV+T54eRhk7KH0Kv9/B
- Q8pgW7XEfjK7gUIvtnCX5sXgsC+HG9vnOjjMInAo/31ODT20CZsxMVlAHI/XSNhOmr/l2wIhe5G
- xzpaxaLJA7PhPmptd5/a+A5RpnBTRdGWc0qZ9m9zebHY/v7mPU32hwhpKDaAyT88HRaCtaai59i
- Fz0SU0JrIASIGAniC95CJG4D3cA6EWeVSMv/Zx7ymtMq50OwZ5GBhAvVVYfHlmIqkGPO7PeCclY
- WOWewvVv
-X-Authority-Analysis: v=2.4 cv=YOCfyQGx c=1 sm=1 tr=0 ts=68c18076 cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=QX4gbG5DAAAA:8 a=EUspDBNiAAAA:8
- a=41mUuBG4nv7vr-MJPacA:9 a=CjuIK1q_8ugA:10 a=1HOtulTD9v-eNWfpl4qZ:22
- a=AbAUZ8qAyYyZVLSsDulk:22
-X-Proofpoint-ORIG-GUID: Dw61qaM4NVYmZdfBL6BysIaedS-E043C
+In-Reply-To: <20250910-furry-singing-axolotl-9aceac@houat>
+X-Proofpoint-GUID: Vo9H_RsdgGr7dXQwVBhMWv0aP1_Nx86J
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDAzNCBTYWx0ZWRfXzpLGpLgejqNU
+ 6vNer4nkd4FBfU8ziYQmWEclFlK5hfBgPGeSFqQ/05q4qwzs0YpYEK5ynMCxdoYZRejqSiPOFYD
+ 4j1oeYp3n9d6kFJIylOb2Nmjhv6z9D8Ih37s4WO/F9uAqJjENNmWqFLhYwp+FdioO/mUEKfroOK
+ E/jIevDES6Sjc2MiiGHyNzkwkxDccnA+Qjprw0SARNtvsh5xaDjYLNd6cOCkFQPCtqiwzBfvFDv
+ ckHS1dbYfb0iSk6h6gaKQvHvriYbMlZqaHQf3efNnyx/ZU15W2Up0yChFHbgEJBGOEh2gIndilv
+ dZUJJkp/qBTlfiy22zugO55xXJpwrkBu7lkmHTENiDpJBdIaTDnf9/rbU647ThTrSUd5DrKUVOR
+ WdaumqWU
+X-Authority-Analysis: v=2.4 cv=YOCfyQGx c=1 sm=1 tr=0 ts=68c1964e cx=c_pps
+ a=+D9SDfe9YZWTjADjLiQY5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=8AirrxEcAAAA:8 a=QX4gbG5DAAAA:8 a=EUspDBNiAAAA:8
+ a=Hspkq7dj2dKET-HI0ioA:9 a=CjuIK1q_8ugA:10 a=vmgOmaN-Xu0dpDh8OwbV:22
+ a=ST-jHhOKWsTCqRlWije3:22 a=AbAUZ8qAyYyZVLSsDulk:22
+X-Proofpoint-ORIG-GUID: Vo9H_RsdgGr7dXQwVBhMWv0aP1_Nx86J
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-10_02,2025-09-10_01,2025-03-28_01
@@ -134,54 +134,85 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509080034
 
-On Wed, Sep 10, 2025 at 01:05:47PM +0200, Maxime Ripard wrote:
-> On Tue, Sep 09, 2025 at 05:52:08PM +0300, Dmitry Baryshkov wrote:
-> > Sending Audio InfoFrames is mandatory for getting audio to work over the
-> > HDMI link. Warn if the driver requests HDMI audio support for the HDMI
-> > connector, but there is no support for Audio InfoFrames.
+On Wed, Sep 10, 2025 at 01:03:47PM +0200, Maxime Ripard wrote:
+> On Tue, Sep 09, 2025 at 05:51:59PM +0300, Dmitry Baryshkov wrote:
+> > Currently DRM framework expects that the HDMI connector driver supports
+> > all infoframe types: it generates the data as required and calls into
+> > the driver to program all of them, letting the driver to soft-fail if
+> > the infoframe is unsupported. This has a major drawback on userspace
+> > API: the framework also registers debugfs files for all Infoframe types,
+> > possibly surprising the users when infoframe is visible in the debugfs
+> > file, but it is not visible on the wire. Drivers are also expected to
+> > return success even for unsuppoted InfoFrame types.
 > > 
-> > Suggested-by: Maxime Ripard <mripard@kernel.org>
+> > Let drivers declare that they support only a subset of infoframes,
+> > creating a more consistent interface. Make the affected drivers return
+> > -EOPNOTSUPP if they are asked to program (or clear) InfoFrames which are
+> > not supported.
+> > 
+> > Acked-by: Liu Ying <victor.liu@nxp.com>
 > > Acked-by: Daniel Stone <daniels@collabora.com>
 > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > ---
-> >  drivers/gpu/drm/display/drm_hdmi_audio_helper.c | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/display/drm_hdmi_audio_helper.c b/drivers/gpu/drm/display/drm_hdmi_audio_helper.c
-> > index 7d78b02c144621de528b40b1425f25e465edd1ae..35e0e79cb683a68af813344aa86c154c3a5531fe 100644
-> > --- a/drivers/gpu/drm/display/drm_hdmi_audio_helper.c
-> > +++ b/drivers/gpu/drm/display/drm_hdmi_audio_helper.c
-> > @@ -10,6 +10,7 @@
-> >  
-> >  #include <drm/drm_connector.h>
-> >  #include <drm/drm_device.h>
-> > +#include <drm/drm_print.h>
-> >  #include <drm/display/drm_hdmi_audio_helper.h>
-> >  
-> >  #include <sound/hdmi-codec.h>
-> > @@ -178,6 +179,17 @@ int drm_connector_hdmi_audio_init(struct drm_connector *connector,
-> >  	    !funcs->shutdown)
-> >  		return -EINVAL;
-> >  
-> > +	if (connector->connector_type == DRM_MODE_CONNECTOR_HDMIA ||
-> > +	    connector->connector_type == DRM_MODE_CONNECTOR_HDMIB) {
-> > +		unsigned long supported_infoframes =
-> > +			connector->hdmi.supported_infoframes;
-> > +
-> > +		if (supported_infoframes &&
-> > +		    !(supported_infoframes & DRM_CONNECTOR_INFOFRAME_AUDIO))
-> > +			drm_warn(connector->dev, "HDMI Audio with no support for Audio InfoFrames\n");
-> > +	}
-> > +
-> > +
 > 
-> That's not what I suggested. What I suggested was that we tould check
-> the return code of write_infoframe, and warn if it is set by the
-> framework, but returns EOPNOTSUPP.
+> Again, I still believe that it's a bad idea, goes against what the spec
+> states, and the framework was meant to be.
 
-I see, I misunderstood you then. I will respond to the comment at patch
-1.
+Please correct me if I'm wrong. The specs (HDMI & CEA) define several
+infoframes and whether we should be sending them. If I'm reading it
+correctrly, CEA spec explicitly says 'If the Source supports the
+transmission of [foo] InfoFrame..." (6.4 - AVI, 6.6 - Audio, 6.7 MPEG,
+6.9 - DRM). For other InfoFrames (6.5 SPD, 6.8 NTSC VBI) it just defines
+that sending those frames is optional.
 
+We can't even infer support for InfoFrames from the Source features.
+E.g. CEA 6.6.1 defines a case when digital audio is allowed to be sent,
+without sending Audio InfoFrame.
+
+As we will be getting more and more features, some of the InfoFrames
+or data packets will be 'good to have, but not required'.
+
+> 
+> So, no, sorry. That's still a no for me. Please stop sending that patch
+
+Oops :-)
+
+> unless we have a discussion about it and you convince me that it's
+> actually something that we'd need.
+
+My main concern is that the drivers should not opt-out of the features.
+E.g. if we start supporting ISRC packets or MPEG or NTSC VBI InfoFrames
+(yes, stupid examples), it should not be required to go through all the
+drivers, making sure that they disable those. Instead the DRM framework
+should be able to make decisions like:
+
+- The driver supports SPD and the VSDB defines SPD, enable this
+  InfoFrame (BTW, this needs to be done anyway, we should not be sending
+  SPD if it's not defined in VSDB, if I read it correctly).
+
+- The driver hints that the pixel data has only 10 meaninful bits of
+  data per component (e.g. out of 12 for DeepColor 36), the Sink has
+  HF-VSDB, send HF-VSIF.
+
+- The driver has enabled 3D stereo mode, but it doesn't declare support
+  for HF-VSIF. Send only H14b-VSIF.
+
+Similarly (no, I don't have these on my TODO list, these are just
+examples):
+- The driver defines support for NTSC VBI, register a VBI device.
+
+- The driver defines support for ISRC packets, register ISRC-related
+  properties.
+
+- The driver defines support for MPEG Source InfoFrame, provide a way
+  for media players to report frame type and bit rate.
+
+- The driver provides limited support for Extended HDR DM InfoFrames,
+  select the correct frame type according to driver capabilities.
+
+Without the 'supported' information we should change atomic_check()
+functions to set infoframe->set to false for all unsupported InfoFrames
+_and_ go through all the drivers again each time we add support for a
+feature (e.g. after adding HF-VSIF support).
 
 -- 
 With best wishes
