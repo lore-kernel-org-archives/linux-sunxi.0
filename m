@@ -1,110 +1,64 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5462BE65A
-	for <linux-sunxi@lists.linux.dev>; Wed, 10 Sep 2025 12:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A385431CA4C;
+	Wed, 10 Sep 2025 12:57:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757508938; cv=none; b=AIW5cAO6ZUxi6WFGBQ/y9zLZcVqcIg3nGWlEklua6Uq1uv+vogWO4BApy4WciiafOiq8QxLXMahXnDeSmmLcStMvksTpDNSINbVHdvUI+CPEbo/OS/xXzJZOBvSBCj3CSy4G20y9Fb3FSh5uDZGqcSEzzVElZfZwa2Qj44Dclx8=
+	t=1757509025; cv=none; b=p8QKKaLDPtVI7XcutQOtyICwiAlqZdxxHhIunOO4lJEpKBfoz+gVuWY/NBWsAU7pk6lRGGxGYM8a9fNb4HKC3VAOhE2C0A6iHYmiGSNzK27mZ4XiPtaqGuY2HWfymEbfAGe5avwaOyJ4ZA58wHWnavoD+oapbtnJknDAHazD2Zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757508938; c=relaxed/simple;
-	bh=VRd6OHvO1zviiH8/zWIWyTR5W4kJN7wrHP1CDmkx7/Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CKLI7usZrUsu9EkSVXzZeB/aMpkwDnK72ykAXhnUc60qZoiwCC2rz5ZskIclX5p/6Vg2MyTmXzPw6YUNiPZQhuIOmClMGIz5AAbSQjekYDMspFzo/JYqmit7TWGYXplKTfwycHwzZzAWXO5N6yIMTAFvMnUgYY3uP/ETQVgcMQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-336c2194a65so52633861fa.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 10 Sep 2025 05:55:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757508932; x=1758113732;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=czL3Mu97JDNqFcpEdZAJCI1Ps8ECPwFG6/c6zc3mY50=;
-        b=KZV0zxAVuMqg9o7+TxkumkGynFQoItGUnUe0SL/PMpVo4LUGc3larnAwNI2ljJRtFC
-         6noNiNkFOfSr2sYJHtcjfM39LimuRVWNTXzLPwGB2QwX4XuSw1Mga3Ri2BHiSdJDA1S7
-         Qc2U4VAbkBNvHiT5XXoZLfXiRQ2lpRhdYXuN368kLHVaAVQvCZBHg/kM0WnNPc60sA8Q
-         crl2z8SnBEXiKqDPTC36+Z6oyKfjzxv9kgUwkA82OEm5mgyO445dNaxo5gSdjxXJtxbQ
-         aD1zBZZ8spSrXC4ojSGqAHjBpQTjO8nN1jv+GAn59yrhciydpyYPPhL3bqbsmqgKDa4V
-         oyCw==
-X-Forwarded-Encrypted: i=1; AJvYcCXqKOK8DLZxUjZqLCHcBHYoxiuthJwSRwjXSQ7dvWcidcmogE9ZQt9Wksk7+aG+nY9P5nb/kbAZ02rrew==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyzY6kAlW/HVQna1miBE0BCg4iSjYHDB8a04l5dgb1xx7CoAse3
-	FEub8ON2OZmtRH7V1Za268IvNl/0YCEzo/P73gnr7j6GdkHhmoaa967jB+V2r0mi
-X-Gm-Gg: ASbGncs6oZl19PCkcLp+iuZYpDdDLH4Ycs/fwNgvWLL6A2C8QujFgEZJU17D9/WPGzm
-	9l+ZUwGPkNvXZI/dqPawJUl94OezFYINS1gScGY9voIAyb4pBhkgxgVpwAnCC144/amB8fPrW2S
-	OksVb/3c3ZF8mnSUcinPwRmvKfogts725jRfr2iICshu+eyvBJfKaBkMG7xWNjUik1mkn/vyXEn
-	D8Pw7b8lNtB78kuTQ0DWl7uEUbCU47eM4/3a2wq7XAPSEtA9ziZffhz0OOOE+JYgiRjhCZwtsyQ
-	w2KzHODquisden04ZBVljxmtnpfGMUOZHzer9m7rVR5bpze1JhFdfFDtNDb+c4RAjv+0K8fVMIL
-	Yn1lsDLnokqyze5GgfLrtowt5gMmKHx9sLinVe65bh9nokD2A/HVHuU8=
-X-Google-Smtp-Source: AGHT+IFCWF4E+ym8uQZAQMJguopQ3L2xI48EHUVHtT0/jc9bQOTD5X0y8xs5sHlzehHHYcxu2pBN3w==
-X-Received: by 2002:a05:6512:2244:b0:55f:4839:d049 with SMTP id 2adb3069b0e04-56262d23b1bmr4688190e87.39.1757508932148;
-        Wed, 10 Sep 2025 05:55:32 -0700 (PDT)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com. [209.85.208.172])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-56818a11806sm1222398e87.129.2025.09.10.05.55.30
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Sep 2025 05:55:31 -0700 (PDT)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-336d84b58edso69012411fa.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 10 Sep 2025 05:55:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUo9uU2e+kTL2lHQ0PfJPVHk45+zeTuRPeqHbAK4Zy818b63baF6e3HNIpWUhstmFaOUcGpkOvHxR3v1w==@lists.linux.dev
-X-Received: by 2002:a2e:a54c:0:b0:336:e199:6d95 with SMTP id
- 38308e7fff4ca-33b4e07f1e7mr46456191fa.17.1757508930395; Wed, 10 Sep 2025
- 05:55:30 -0700 (PDT)
+	s=arc-20240116; t=1757509025; c=relaxed/simple;
+	bh=qUZIaEMOpAAX5nB+LWnvw1yBKa2r99u5B5jZB+7HDLg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Pbqr1Sa4dY+UpRNpjJgGxEF7/+Mg3eDwl+wCaQgSNxw6x/nZzN2M7UzkW/tYeBaGJL2YCV2HL6eP1BUicUdxWE0OFjaoizn2aaTLQ3iqJgRCzZblk2J5UqJW109VBuTJxL2eQdFRFgpYR15KTRumR7dL30tcSOuoXWC0Y71O06w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FA3AC4CEF0;
+	Wed, 10 Sep 2025 12:57:05 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id 2A4245FA46;
+	Wed, 10 Sep 2025 20:57:02 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: linux-sunxi@lists.linux.dev, Conor Dooley <conor@kernel.org>
+Cc: Conor Dooley <conor.dooley@microchip.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250909-frown-wrinkle-f16df243a970@spud>
+References: <20250909-frown-wrinkle-f16df243a970@spud>
+Subject: Re: [PATCH v1] riscv: dts: allwinner: rename devterm i2c-gpio node
+ to comply with binding
+Message-Id: <175750902214.2590389.9826563009120753959.b4-ty@csie.org>
+Date: Wed, 10 Sep 2025 20:57:02 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250901120020.181414-1-amadeus@jmu.edu.cn>
-In-Reply-To: <20250901120020.181414-1-amadeus@jmu.edu.cn>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Wed, 10 Sep 2025 20:55:16 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66wnhyv0x31bO2S1fWeJZzeQgdEze7ChcFb0VGjq5AjJQ@mail.gmail.com>
-X-Gm-Features: Ac12FXxzgckCvK2PU-Ug8oHKsMc01hfEJlK1a7HMQ13AEF91phM76xhzrUy-R_I
-Message-ID: <CAGb2v66wnhyv0x31bO2S1fWeJZzeQgdEze7ChcFb0VGjq5AjJQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1] arm64: dts: allwinner: a523: drop redundant status=okay
-To: Chukun Pan <amadeus@jmu.edu.cn>
-Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Mon, Sep 1, 2025 at 8:01=E2=80=AFPM Chukun Pan <amadeus@jmu.edu.cn> wrot=
-e:
->
-> Device nodes are enabled by default, so no need for
-> status=3D"okay" property.
->
+On Tue, 09 Sep 2025 20:58:17 +0100, Conor Dooley wrote:
+> The i2c controller binding does not permit permit the node name to
+> contain "gpio", resulting in two warnings:
+> 
+> i2c-gpio-0 (i2c-gpio): $nodename:0: 'i2c-gpio-0' does not match '^i2c(@.+|-[a-z0-9]+)?$'
+> i2c-gpio-0 (i2c-gpio): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'adc@54' were unexpected)
+> 
+> Drop it to satisfy dtbs_check.
+> 
+> [...]
 
-Fixes: 35ac96f79664 ("arm64: dts: allwinner: Add Allwinner A523 .dtsi file"=
-)
+Applied to sunxi/fixes-for-6.17 in local tree, thanks!
 
-Will be added when applying.
+[1/1] riscv: dts: allwinner: rename devterm i2c-gpio node to comply with binding
+      commit: a5d7a8ab4b21747173a2f8f0ebf71d72692793c3
 
-> Signed-off-by: Chukun Pan <amadeus@jmu.edu.cn>
-> ---
->  arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/=
-boot/dts/allwinner/sun55i-a523.dtsi
-> index 6b6f2296bdff..cdf844eb8e05 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> @@ -218,7 +218,6 @@ wdt: watchdog@2050000 {
->                         interrupts =3D <GIC_SPI 63 IRQ_TYPE_LEVEL_HIGH>;
->                         clocks =3D <&osc24M>, <&rtc CLK_OSC32K>;
->                         clock-names =3D "hosc", "losc";
-> -                       status =3D "okay";
->                 };
->
->                 uart0: serial@2500000 {
-> --
-> 2.25.1
->
->
+Best regards,
+-- 
+Chen-Yu Tsai <wens@csie.org>
+
