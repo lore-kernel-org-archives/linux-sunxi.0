@@ -1,240 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034FE31D392;
-	Wed, 10 Sep 2025 07:30:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21751314B95
+	for <linux-sunxi@lists.linux.dev>; Wed, 10 Sep 2025 10:48:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757489423; cv=none; b=Ubq+L5D2YHj1FA4IAMTdIxo3KI/HUMtRS/kOeqOJilWan3RD2h6iFbF7EAcO9HfrWMDl8hRsxRjod44IJLGJqs6VGed4CHTUHwaZT0qOu4k3288qZMkoMx84oLZ6p2OKbIKTSnbDk0cm+OWGQL1IUUm2QZIE8EL4qLfwhUI9Qb8=
+	t=1757501306; cv=none; b=Egx/E4A32sPJtVDGgYbURbPFBELJ5bPaQw2ZKQTm5mexoEePxOgwVUzZhibEVdiwijDQHYkdfm9z46JANFh16RaWpf+VMWH+vto8INYzRiBJ6YHhgCwjxbb0si73ibtj7jvJdyASP9f+FDnVHe5WDUie7kj+ltH7Ts0Z2yUGBME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757489423; c=relaxed/simple;
-	bh=4M0n9dhFOjwBsj8qa6KbJmB5wbmUTZbKFbxuZfgxy5k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I2gqeVqj5rzxTmkfyr77vLJeswh+5e7ycY87ZTrIjoyQsTcB8XJiexjyd7n55VzyNv5nTHUtwQb1/qjhqL1/WctyxDQVAvolF0pIzCIRe41h1KqN4m4s4EvXH+DN/nv+wMZnzp/pJ25WVsEf/kshJxuRtdGJkljK2D9LZjaNjoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H52COcov; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H52COcov"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6F48C4CEF0;
-	Wed, 10 Sep 2025 07:30:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757489422;
-	bh=4M0n9dhFOjwBsj8qa6KbJmB5wbmUTZbKFbxuZfgxy5k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H52COcovNyEFke9kN5TRvK+aXvcGWR0DW8t0vyXltz5YkgDgbdfmugoXAeNqj5n6l
-	 4EdhUkZmusQ1bC3N02hSR4UAumXQZYg64Pup1df1R50HDGZVH+iyMXxcQT0dbAU6uT
-	 sbm24X5W0+2OvonjNTX5qwj79dBfLUYXehFAf9iFWp24PRaNm2vfrkBd7JO8Zx+ktv
-	 2j09guNySeBdqawEv2hoZq9ZzY+QmY9Xw4xP7T3AhYEvXbikCC+COb760BxC5U4Abo
-	 XRcIpL1qW9ooSqdLXY+9j61tqnqOalFbz5MXw4PvtdB47nmwOV4wCgS+GLgnNnrTl4
-	 3n/DfqBBqC48w==
-Date: Wed, 10 Sep 2025 09:30:19 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Daniel Stone <daniel@fooishbar.org>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Samuel Holland <samuel@sholland.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
-	Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
-	Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v3 00/11] drm/connector: hdmi: limit infoframes per
- driver capabilities
-Message-ID: <20250910-didactic-honored-chachalaca-f233b2@houat>
-References: <20250830-drm-limit-infoframes-v3-0-32fcbec4634e@oss.qualcomm.com>
- <CAPj87rNDtfEYV88Ue0bFXJwQop-zy++Ty7uQ9XfrQ2TbAijeRg@mail.gmail.com>
- <57ekub6uba7iee34sviadareqxv234zbmkr7avqofxes4mqnru@vgkppexnj6cb>
- <20250901-voracious-classy-hedgehog-ee28ef@houat>
- <voknqdv3zte2jzue5yxmysdiixxkogvpblvrccp5gu55x5ycca@srrcscly4ch4>
- <st6wob5hden6ypxt2emzokfhl3ezpbuypv2kdtf5zdrdhlyjfw@l2neflb4uupo>
- <pe6g2fanw65p67kfy5blbtiytngxmr6nkbazymojs4a66yvpl3@7j4ccnsvc6az>
+	s=arc-20240116; t=1757501306; c=relaxed/simple;
+	bh=v3t3dz9WKFUZfR1BayWJSIHs1QiJt5x5lxPwsAnPAmM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sO7/+QbENrrufGWuZmez+T7F8l/VDzBg8hQQYdYcatojWMQKV7e75ynj41xwJZLuKz20TmHkYyCxbBV6rNKIPjfKts5bw4Oq/S64rtp9BXfga1AO9lDcSSKY3qnriPLLJSfPYRXNihjFzVrzpEevIGjdAGrZmD8s0MKUhxX/9NM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 41F8B16F8;
+	Wed, 10 Sep 2025 03:48:15 -0700 (PDT)
+Received: from donnerap (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 67B503F66E;
+	Wed, 10 Sep 2025 03:48:22 -0700 (PDT)
+Date: Wed, 10 Sep 2025 11:48:19 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Lucas Stach <l.stach@pengutronix.de>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
+ <etnaviv@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@csie.org>, linux-sunxi
+ <linux-sunxi@lists.linux.dev>
+Subject: Re: drm/etnaviv: detecting disabled Vivante GPU?
+Message-ID: <20250910114819.00dfe07a@donnerap>
+In-Reply-To: <8192c4d04f1640f140a8f2cb43e694a7476bb0ca.camel@pengutronix.de>
+References: <20250904002924.2bc63b73@minigeek.lan>
+	<8192c4d04f1640f140a8f2cb43e694a7476bb0ca.camel@pengutronix.de>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="xcyykjy7tru36lrv"
-Content-Disposition: inline
-In-Reply-To: <pe6g2fanw65p67kfy5blbtiytngxmr6nkbazymojs4a66yvpl3@7j4ccnsvc6az>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+
+On Wed, 10 Sep 2025 09:28:19 +0200
+Lucas Stach <l.stach@pengutronix.de> wrote:
+
+> Hi Andre,
+> 
+> Am Donnerstag, dem 04.09.2025 um 00:29 +0100 schrieb Andre Przywara:
+> > Hi,
+> > 
+> > the Allwinner A523/A527/T527 family of SoCs feature a Vivante
+> > "VIP9000"(?) NPU, though it seems to be disabled on many SKUs.
+> > See https://linux-sunxi.org/A523#Family_of_sun55iw3 for a table, the
+> > row labelled "NPU" indicates which model has the IP. We suspect it's
+> > all the same die, with the NPU selectively fused off on some packages.
+> > 
+> > Board vendors seem to use multiple SKUs of the SoC on the same board,
+> > so it's hard to say which particular board has the NPU or not. We
+> > figured that on unsupported SoCs all the NPU registers read as 0,
+> > though, so were wondering if that could be considered as a bail-out
+> > check for the driver?
+> > At the moment I get this, on a SoC with a disabled NPU:
+> > [    1.677612] etnaviv etnaviv: bound 7122000.npu (ops gpu_ops)
+> > [    1.683849] etnaviv-gpu 7122000.npu: model: GC0, revision: 0
+> > [    1.690020] etnaviv-gpu 7122000.npu: Unknown GPU model
+> > [    1.696145] [drm] Initialized etnaviv 1.4.0 for etnaviv on minor 0
+> > [    1.953053] etnaviv-gpu 7122000.npu: GPU not yet idle, mask: 0x00000000
+> > 
+> > Chen-Yu got this on his board featuring the NPU:
+> >     etnaviv-gpu 7122000.npu: model: GC9000, revision: 9003
+> > 
+> > If I get the code correctly, then etnaviv_gpu_init() correctly detects
+> > the "unsupported" GPU model, and returns -ENXIO, but load_gpu() in
+> > etnaviv_drv.c then somewhat ignores this, since it keeps looking for more
+> > GPUs, and fails to notice that *none* showed up:
+> > /sys/kernel/debug/dri/etnaviv/gpu is empty in my case.
+> > 
+> > Quick questions:
+> > - Is reading 0 from VIVS_HI_CHIP_IDENTITY (or any other of the ID
+> >   registers) an invalid ID, so we can use that to detect those disabled
+> >   NPUs? If not, can any other register used to check this? The whole
+> >   block seems to be RAZ/WI when the NPU is disabled.
+> >   
+> Yes, 0 is not a valid core ID.
+
+Ah, thanks, that helps to identify the situation (see below).
+
+> > - Would it be acceptable to change the logic to error out of the
+> >   driver's init or probe routine when no GPU/NPU has been found, at
+> >   best with a proper error message? As it stands at the moment, the
+> >   driver is loaded, but of course nothing is usable, so it keeps
+> >   confusing users.  
+> 
+> Yes, I think it would be fine to not expose the DRM device at all if no
+> usable GPU core has been found.
+> 
+> However, I think it would still be good if your bootloader would fix up
+> the DT to avoid probing the driver at all if possible. It may work on
+> your system but access to a disabled GPU MMIO is not RAZ/WI everywhere.
+
+Yes, I agree, Allwinner is "nice" by using RAZ/WI if possible, but indeed
+most other platforms SERROR out when touching an address without a device.
+
+> On i.MX8M* we have a similar situation with disabled peripherals. There
+> the bootloader can detect which peripherals are active by looking at
+> the SoC fuses and fixes up the DT status property accordingly. Not sure
+> if you may have something similar on the Allwinner.
+
+We have code for DT patching in U-Boot, and use that already for some
+Allwinner boards. I don't know if we can identify the actual fuse used. We
+could use the SoC package identifier (first word of the SID eFUSE device,
+cf. the second row in here [1]), but that would require maintenance, as new
+IDs will show up, and we don't know every single one even now.
+Another method would be to just ungate the clock and de-assert the reset,
+then read the NPU ID register (0x18?) to see if it's zero or not. Probably
+the most robust, but involves a bit more code, as we probably would need
+some pseudo-device to fetch those reset/clock details from the DT.
+
+I guess the current situation works as well, for now, but I will look at a
+U-Boot patch, just wanted to check if we can avoid that.
+
+Cheers,
+Andre
 
 
---xcyykjy7tru36lrv
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 00/11] drm/connector: hdmi: limit infoframes per
- driver capabilities
-MIME-Version: 1.0
-
-On Wed, Sep 03, 2025 at 03:03:43AM +0300, Dmitry Baryshkov wrote:
-> On Tue, Sep 02, 2025 at 08:06:54PM +0200, Maxime Ripard wrote:
-> > On Tue, Sep 02, 2025 at 06:45:44AM +0300, Dmitry Baryshkov wrote:
-> > > On Mon, Sep 01, 2025 at 09:07:02AM +0200, Maxime Ripard wrote:
-> > > > On Sun, Aug 31, 2025 at 01:29:13AM +0300, Dmitry Baryshkov wrote:
-> > > > > On Sat, Aug 30, 2025 at 09:30:01AM +0200, Daniel Stone wrote:
-> > > > > > Hi Dmitry,
-> > > > > >=20
-> > > > > > On Sat, 30 Aug 2025 at 02:23, Dmitry Baryshkov
-> > > > > > <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> > > > > > > It's not uncommon for the particular device to support only a=
- subset of
-> > > > > > > HDMI InfoFrames. It's not a big problem for the kernel, since=
- we adopted
-> > > > > > > a model of ignoring the unsupported Infoframes, but it's a bi=
-gger
-> > > > > > > problem for the userspace: we end up having files in debugfs =
-which do
-> > > > > > > mot match what is being sent on the wire.
-> > > > > > >
-> > > > > > > Sort that out, making sure that all interfaces are consistent.
-> > > > > >=20
-> > > > > > Thanks for the series, it's a really good cleanup.
-> > > > > >=20
-> > > > > > I know that dw-hdmi-qp can support _any_ infoframe, by manually
-> > > > > > packing it into the two GHDMI banks. So the supported set there=
- is
-> > > > > > 'all of the currently well-known ones, plus any two others, but=
- only
-> > > > > > two and not more'. I wonder if that has any effect on the inter=
-face
-> > > > > > you were thinking about for userspace?
-> > > > >=20
-> > > > > I was mostly concerned with the existing debugfs interface (as it=
- is
-> > > > > also used e.g. for edid-decode, etc).
-> > > > >=20
-> > > > > It seems "everything + 2 spare" is more or less common (ADV7511, =
-MSM
-> > > > > HDMI also have those. I don't have at hand the proper datasheet f=
-or
-> > > > > LT9611 (non-UXC one), but I think its InfoFrames are also more or=
- less
-> > > > > generic).  Maybe we should change debugfs integration to register=
- the
-> > > > > file when the frame is being enabled and removing it when it gets=
- unset.
-> > > >=20
-> > > > But, like, for what benefit?
-> > > >=20
-> > > > It's a debugfs interface for userspace to consume. The current setup
-> > > > works fine with edid-decode already. Why should we complicate the d=
-esign
-> > > > that much and create fun races like "I'm running edid-decode in par=
-allel
-> > > > to a modeset that would remove the file I just opened, what is the =
-file
-> > > > now?".
-> > >=20
-> > > Aren't we trading that with the 'I'm running edid-decode in paralle w=
-ith
-> > > to a modeset and the file suddenly becomes empty'?
-> >=20
-> > In that case, you know what the file is going to be: empty. And you went
-> > from a racy, straightforward, design to a racy, complicated, design.
-> >=20
-> > It was my question before, but I still don't really see what benefits it
-> > would have, and why we need to care about it in the core, when it could
-> > be dealt with in the drivers just fine on a case by case basis.
->=20
-> Actually it can not: debugfs files are registered from the core, not
-> from the drivers. That's why I needed all the supported_infoframes
-> (which later became software_infoframes).
-
-That's one thing we can change then.
-
-> Anyway, I'm fine with having empty files there.
->=20
-> > > > > Then in the long run we can add 'slots' and allocate some of the =
-frames
-> > > > > to the slots. E.g. ADV7511 would get 'software AVI', 'software SP=
-D',
-> > > > > 'auto AUDIO' + 2 generic slots (and MPEG InfoFrame which can prob=
-ably be
-> > > > > salvaged as another generic one)). MSM HDMI would get 'software A=
-VI',
-> > > > > 'software AUDIO' + 2 generic slots (+MPEG + obsucre HDMI which I =
-don't
-> > > > > want to use). Then the framework might be able to prioritize whet=
-her to
-> > > > > use generic slots for important data (as DRM HDR, HDMI) or less i=
-mportant
-> > > > > (SPD).
-> > > >=20
-> > > > Why is it something for the framework to deal with? If you want to =
-have
-> > > > extra infoframes in there, just go ahead and create additional debu=
-gfs
-> > > > files in your driver.
-> > > >=20
-> > > > If you want to have the slot mechanism, check in your atomic_check =
-that
-> > > > only $NUM_SLOT at most infoframes are set.
-> > >=20
-> > > The driver can only decide that 'we have VSI, SPD and DRM InfoFrames
-> > > which is -ETOOMUCH for 2 generic slots'. The framework should be able=
- to
-> > > decide 'the device has 2 generic slots, we have HDR data, use VSI and
-> > > DRM InfoFrames and disable SPD for now'.
-> >=20
-> > I mean... the spec does? The spec says when a particular feature
-> > requires to send a particular infoframe. If your device cannot support
-> > to have more than two "features" enabled at the same time, so be it. It
-> > something that should be checked in that driver atomic_check.
->=20
-> Sounds good to me. Let's have those checks in the drivers until we
-> actually have seveal drivers performing generic frame allocation.
->=20
-> > Or just don't register the SPD debugfs file, ignore it, put a comment
-> > there, and we're done too.
->=20
-> It's generic code.
->=20
-> > > But... We are not there yet and I don't have clear usecase (we support
-> > > HDR neither on ADV7511 nor on MSM HDMI, after carefully reading the
-> > > guide I realised that ADV7511 has normal audio infoframes). Maybe I
-> > > should drop all the 'auto' features, simplifying this series and land
-> > > [1] for LT9611UXC as I wanted origianlly.
-> > >=20
-> > > [1] https://lore.kernel.org/dri-devel/20250803-lt9611uxc-hdmi-v1-2-cb=
-9ce1793acf@oss.qualcomm.com/
-> >=20
-> > Looking back at that series, I think it still has value to rely on the
-> > HDMI infrastructure at the very least for the atomic_check sanitization.
-> >=20
-> > But since you wouldn't use the generated infoframes, just skip the
-> > debugfs files registration. You're not lying to userspace anymore, and
-> > you get the benefits of the HDMI framework.
->=20
-> We create all infoframe files for all HDMI connectors.
-
-Then we can provide a debugfs_init helper to register all of them, or
-only some of them, and let the drivers figure it out.
-
-Worst case scenario, debugfs files will not get created, which is a much
-better outcome than having to put boilerplate in every driver that will
-get inconsistent over time.
-
-Maxime
-
---xcyykjy7tru36lrv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMEpAwAKCRAnX84Zoj2+
-dk8gAX9rbNWwNIwKSB0+wgpd+2lgIwy4gt6EhhgTtTz3dzSxqsa2u+1FhrsGsBJE
-FiMw/LgBgIGnPFV/ZqY6NuZQ8Z6fwsK5cORWCjwaLn48kjvnTHE5U3qynIeE7xuQ
-mP9pD1yh4A==
-=X/3+
------END PGP SIGNATURE-----
-
---xcyykjy7tru36lrv--
