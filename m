@@ -1,87 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC1F02E1EE1
-	for <linux-sunxi@lists.linux.dev>; Thu, 11 Sep 2025 08:32:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CDE534AAE8
+	for <linux-sunxi@lists.linux.dev>; Thu, 11 Sep 2025 15:16:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757579548; cv=none; b=ooYXZxYMKXXjtpYQVpSL6W2VQfnk+WLxRJ+4DUkoATKU3Pwn/+cFpqp1Y4AooR0+ASyyu67BsljL5uOGyedlV7+ZCJP3n7dafY4txxRGua0fUYQiE/aqo7omBFx4Cz1kM62GEMT4pVjoqcKEYG7P+h1TfS4P9dsDAdfx5o0Ey5E=
+	t=1757603808; cv=none; b=gOhyNOI6acKqo4WxCftclrvlPtmTcAAHXu30jnC1VY6xavx7s7gG7JNAR7p20+fr9n3Xmhrhk1orPx7n1sEpTuTONbPLHSBiHpsWHlKbvLFwpUuVTkKDgsbHMw+bUdiQRTWhK0K/JAo250uRM3sU1jtDWWp7Bw/COsc6AmMY19k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757579548; c=relaxed/simple;
-	bh=b2VdI0oiFgANIQ5EcSr5TSR36SCbiu1w6XGUxBLPye0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OT8EV7w8tT6wyDRmF8s7ArRN6loCejvo7vMBCtqgdXEfZVCs06hb6tH24WWun2dWiOY8YA1eaVCs1upkGA5gQ5TZ8w7m9kRAhTaFt+flMR9tyvPTwVIb6zSfQU0hVEa/dTZP9NZyw/3Cg7tpT1iB0G8fy/4gh36mjOBeQyaBIf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ggwfqerC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757603808; c=relaxed/simple;
+	bh=hc3dUcHCaVL6mfc+FqBmuvBNY/4uYw4lI6GvjoLkpE4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LYpjffY7cpITrfYBeKKfpH3Zme/FZ53FOTpYPaATBogARGTKSENJkrhhUI/mnGiDVEOHxeV/eUWV/6ziMGWBbPOIoh1LkFFhkEm2gqLoZcAAi+P3WmT8oB9vfSCBa5wyfAFnVLlQYFJTzjNhfafum5sAEfoq/GnvStAC67Ja37s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=ZUe3bjsr; arc=none smtp.client-ip=185.67.36.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ggwfqerC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A7F4C4CEF1
-	for <linux-sunxi@lists.linux.dev>; Thu, 11 Sep 2025 08:32:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757579548;
-	bh=b2VdI0oiFgANIQ5EcSr5TSR36SCbiu1w6XGUxBLPye0=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=ggwfqerCBJ1oYsXw0auys/TMtk4zaG9x7lznAz0fZd/PEGMVwaFpxx0uC/OsvO39x
-	 SiawMvf9VZHE+ShtVyxyx3ND5AFG23QTZC6RqijxgWVv7A/iT4xT3WqwkD+9SQjEFV
-	 G16eIdL1mlAZGfESCa+MEFecoFzqyCZppbIosb/lkhblLK68WwNSwX/LhJzLFhlYSQ
-	 cnkSQ7m6QIysXsCxnQM0mTpbpbScGyq/sDikZDPvF605zIhC/8WqxkIpOxdRp6pYBm
-	 4ArupEjs/BkGtlCSwwFWRUXEfBCrPlMM1jVV/+yVuPaNFSJVB58j8RrqE8DEIo6Wx1
-	 2ISRg3UigNqNA==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-56a04f7691aso1414606e87.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 11 Sep 2025 01:32:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVfgXnnhXdHplvRoLiSqWmtTBRHkuQEoWYO11viF2yepVNqGbaa1W/UlZR/Y6rqMXZntJe0S/Pi4sQEPw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz7+LZg7CWJzx4GF0eeSABRH3pYRQKgRSFuxqKOK3zwbXukWg1X
-	VHY48ddgOYhY3PzCGCHdnI2B8nwYrm0Kzo3Ds0kZei9X/LpJCQJrcGBTic7BOqF5Wwd4u7nQCDo
-	bUEtRXUSwLcZnWNapQIF8YEuF4SvwRCA=
-X-Google-Smtp-Source: AGHT+IEz1m0zWqpjfWD3q5Mpqcxnmo7hPZOolLE36cs3jks02zZUBgKBjW6cLa1Fu1krMrNSe+ZBiHzMUOEzh8/ZDyU=
-X-Received: by 2002:a2e:a78a:0:b0:336:e03d:6f2e with SMTP id
- 38308e7fff4ca-34e315d71a6mr9066571fa.1.1757579546741; Thu, 11 Sep 2025
- 01:32:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="ZUe3bjsr"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id DBED4240028
+	for <linux-sunxi@lists.linux.dev>; Thu, 11 Sep 2025 17:11:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.net; s=2017;
+	t=1757603481; bh=Ffc678fQhzI/pdu+hLX+ARqrXJLZH6TSQWiX1NPHrZM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:From;
+	b=ZUe3bjsruZMS8OXPHTu+2WWZgnBbjttVjalAmo3H50EDD8LdFL/vHH16DHk6xH1uM
+	 JjqtvD4jO7w2SM1VFWTjZMD7Gtpq3mCxoEUu4Xk3zfisSzPXDqH4v4emcH576iS7C1
+	 WdynKmINw+wjEnNNZCNA+P+y25JIx2bfWp2yk5Y2X84VbyJniX7Jn9YXVatSCJz1qN
+	 ORWjKl77pm5xTbxOoFbztrxhFkgxBZbMCFR8iQ+IF5cf9qZbTZp2pP1QFqfxABRwKV
+	 uzk4K1a04rwPO1GFPj44GpCNmLyTTvAedDfSJQPk46JWcKneiqPalhpaTEkZQ+d/1x
+	 DEj8LrGHULeuA==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4cN1Gt4zm0z6v15;
+	Thu, 11 Sep 2025 17:11:18 +0200 (CEST)
+Date: Thu, 11 Sep 2025 15:11:21 +0000
+From: =?utf-8?Q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
+To: Chen-Yu Tsai <wens@csie.org>
+Cc: j.ne@posteo.net, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] ARM: dts: allwinner: orangepi-zero2: Add default
+ audio routing
+Message-ID: <aMLmlsZimgKVeiUF@probook>
+References: <20250809-opz-audio-v2-0-f4fd15552a82@posteo.net>
+ <20250809-opz-audio-v2-2-f4fd15552a82@posteo.net>
+ <CAGb2v671xTaWkRD0xVPsgGWvykAwPESXuBLgDz-oo4ywOJ=5Xg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250830170901.1996227-1-wens@kernel.org> <175751929795.2643345.10671677254490584515.b4-ty@csie.org>
-In-Reply-To: <175751929795.2643345.10671677254490584515.b4-ty@csie.org>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Thu, 11 Sep 2025 16:32:14 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64i8fU-KTE8A0sE+ZL2++c3faUPKyGp51S7_rWV9ydOGQ@mail.gmail.com>
-X-Gm-Features: Ac12FXyr2JevaeRf3qm7Q61BcimJDVOxLg7_etSYLuUPLWauqufXTtpAA-OUUag
-Message-ID: <CAGb2v64i8fU-KTE8A0sE+ZL2++c3faUPKyGp51S7_rWV9ydOGQ@mail.gmail.com>
-Subject: Re: (subset) [PATCH 0/8] arm64: allwinner: a523: Enable MCU PRCM and NPU
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
-	Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
-Cc: Andre Przywara <andre.przywara@arm.com>, linux-sunxi@lists.linux.dev, 
-	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGb2v671xTaWkRD0xVPsgGWvykAwPESXuBLgDz-oo4ywOJ=5Xg@mail.gmail.com>
 
-On Wed, Sep 10, 2025 at 11:48=E2=80=AFPM Chen-Yu Tsai <wens@csie.org> wrote=
-:
->
-> On Sun, 31 Aug 2025 01:08:53 +0800, Chen-Yu Tsai wrote:
-> > From: Chen-Yu Tsai <wens@csie.org>
+On Wed, Sep 10, 2025 at 08:58:49PM +0800, Chen-Yu Tsai wrote:
+> On Sun, Aug 10, 2025 at 12:18 AM J. Neuschäfer via B4 Relay
+> <devnull+j.ne.posteo.net@kernel.org> wrote:
 > >
-> > Hi folks,
-> >
-> > This series adds support for the MCU PRCM and the NPU.
-> >
-> > The MCU PRCM is a Power, Reset & Clock Management block that has some
-> > clock and reset controls for the MCU, DSP and some peripherals that the
-> > MCU could use.
-> >
-> > [...]
->
-> Applied to sunxi/clk-for-6.18 in local tree, thanks!
->
-> [4/8] clk: sunxi-ng: sun55i-a523-ccu: Add missing NPU module clock
->       commit: 1ec8e9ba1f663d6ca5e71ab9f5e919c338075ff0
+> > From: "J. Neuschäfer" <j.ne@posteo.net>
+> 
+> 
+> The subject is misleading. The Orange Pi Zero2 is a different board with
+> the H616 SoC.
 
-I forgot this needs a bit of work and a new version sent. Backing this
-one out (facepalm).
+Oh, indeed. I got confused. Thank you for catching this error!
 
-ChenYu
+J. Neuschäfer
+
+> 
+> ChenYu
+> 
+> > The Orange Pi Zero Plus 2 has the same pinout[1] as the Orange Pi
+> > Zero[2] (with the possible exception of line-out left/right being
+> > swapped), and the Orange Pi Zero Interface Board is sold[3] as
+> > compatible with both of them. We can thus use the same audio routing.
+> >
+> > [1]: http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-Zero-Plus-2.html
+> > [2]: https://linux-sunxi.org/Xunlong_Orange_Pi_Zero#Expansion_Port
+> > [3]: https://orangepi.com/index.php?route=product/product&product_id=871
+> >
+> > Signed-off-by: J. Neuschäfer <j.ne@posteo.net>
+> > ---
+> >
+> > v2:
+> > - new patch
+> > ---
+> >  .../boot/dts/allwinner/sun8i-h3-orangepi-zero-plus2.dts    | 14 ++++++++++++++
+> >  1 file changed, 14 insertions(+)
+> >
+> > diff --git a/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-zero-plus2.dts b/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-zero-plus2.dts
+> > index 7a6444a10e2534458b7380882ea4fd42bd54fea8..97a3565ac7a819be6b18d324fa6f65d0d1d2b2ad 100644
+> > --- a/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-zero-plus2.dts
+> > +++ b/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-zero-plus2.dts
+> > @@ -99,6 +99,20 @@ wifi_pwrseq: pwrseq {
+> >         };
+> >  };
+> >
+> > +/*
+> > + * Audio input/output is exposed on the 13-pin header and can't be used for
+> > + * anything else. However, adapter boards may use different audio routing.
+> > + * - http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-Zero-Plus-2.html
+> > + * - Allwinner H3 Datasheet, section 3.1. Pin Characteristics
+> > + */
+> > +&codec {
+> > +       allwinner,audio-routing =
+> > +               "Line Out", "LINEOUT",
+> > +               "MIC1", "Mic",
+> > +               "Mic",  "MBIAS";
+> > +       status = "disabled";
+> > +};
+> > +
+> >  &de {
+> >         status = "okay";
+> >  };
+> >
+> > --
+> > 2.48.0.rc1.219.gb6b6757d772
+> >
+> >
+> >
