@@ -1,103 +1,103 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79FF53680B9
-	for <linux-sunxi@lists.linux.dev>; Thu, 11 Sep 2025 18:09:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00D6362081
+	for <linux-sunxi@lists.linux.dev>; Thu, 11 Sep 2025 18:18:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757614181; cv=none; b=S/Yp0NxouCZscq+/nUVWpPktLy4qo9mzfbAyxKcwmTM/buV9EGOXa8iIMq8eMHLGBEkFtrojipKQrQF5Y0Qlr8XxLBN0veJHP2K8PagdVY1bFU8Z9wPWC8BXY4H+iavnNnSlaifN7QFBq8Gd9m/7we6i/Hk17m9xq8NxCRHsT/U=
+	t=1757614690; cv=none; b=Bao2QMI85MgGkgcI6EZ+JLN3MfhekfqRCdnVfVrTU1f+rqG2YUj0XTD9paRo2Ghwr5jsxRKAtWaWZBsl3j1oGZTH7zQxwq3Cug9rAP7Ap4vBHsAuEv3M8/PuQqYuH9ADC2oeBvqE/pOkwPc4cen4c+o9rFIZc6F/jJvf1b8J46E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757614181; c=relaxed/simple;
-	bh=7gyBEPCZbqL0kKqBIVT/lC6z6mvxa3onrOUFzkyl4KI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JmOyT3dHPoTBkBtVJ4cOJX3oLnYzpxslZ2jWsgAgRfihK24ySsfhFMdQL3bYQSshiTQre7INY9FE8g1OW4IoBWtYJ5vMsSJlBPgr/Bz4kTFqnijvkXWmCs/i4qo+u5ElPk8jnO7/r5OezkQ6l4n6hXkSYnqU4DDHTS2/ZPW5byI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=yrojD4qb; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1757614690; c=relaxed/simple;
+	bh=clA8GqiEaZLpxSps/Zg9+uXbFOxSOUyl+6EIrGzL37g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SiJP2fXkdRQWGddupsbVTJ+mGKKd6Ht6SkHRxNxvXM29h78aKDvMfkW55GL9Mt0UnSSDWcXbCWwKKTc2aTOOvaZX8GhP8qp2wb3TzcOW2R6X4g0EbioE71HyzUhBdhubPrYgJifgQTQIWVjJ42XqFAl5gCTy2WuiLF18/r8K2PM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QLfIzDYC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="yrojD4qb"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=VOf/scVy2/G7nPu4vUJje7URYboKIf5FDPfqbmkuw4I=; b=yrojD4qbElqBAA+wqTnlfX3xdH
-	tDMGY8wVO1Lpn3f53UpM/T2uQ1OSY2ePxsyvi/UQjR8SqTMVg6ZPMCpMrc0QgPFLBx0Xj2bDEdqIq
-	0EYxG60KEWIh5KFszlghcXAswWB6OLonPDIhtEwbOEa8cBfJeym1PdxqdJyUodql16E8vb1DlINni
-	xhzLu2bjiSb5tBnZ++rO44wmSq5DOJLviLdvfno3H9e1R4Kq4tybrImmuGHLPjEvV4qNcoLO5Iodw
-	/pyHPI/IQcmHZiGHOQCgptmRJqk8XCn6j1D50gAzuFWbt6SAHFBbmYTtmoDxjZx7VjtMZ2QW5hPsf
-	Y7SxxKIA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:53308)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1uwljS-000000003Rb-0HkQ;
-	Thu, 11 Sep 2025 19:09:18 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1uwljN-000000002Y4-3cKS;
-	Thu, 11 Sep 2025 19:09:13 +0100
-Date: Thu, 11 Sep 2025 19:09:13 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andre Przywara <andre.przywara@arm.com>
-Subject: Re: [PATCH net-next v4 02/10] net: stmmac: Add support for Allwinner
- A523 GMAC200
-Message-ID: <aMMQSR7yYBQkY4CI@shell.armlinux.org.uk>
-References: <20250908181059.1785605-1-wens@kernel.org>
- <20250908181059.1785605-3-wens@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QLfIzDYC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E925C4CEFF
+	for <linux-sunxi@lists.linux.dev>; Thu, 11 Sep 2025 18:18:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757614690;
+	bh=clA8GqiEaZLpxSps/Zg9+uXbFOxSOUyl+6EIrGzL37g=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=QLfIzDYCHc0/UNmTxImRu5nZHNoGCtg5/JZmaRjEOnoKDCf3RLPNrxMTvHsBDzTqp
+	 BVCYw0Yf15yTITpxUrhGNq6uiB8uIpZnuUBoIHTYQ3k8VgYxIvT/gZ0UW5aCS96Zv4
+	 lKHsAsgVa7Hh8yO8oKxyekmV1cK1niIt6gZzgYU9tWbIpevjl2fUF5UxWBqiXMbrxP
+	 CGpCtxfmeQIOi6F6Nl6sIeBYPwRID+E1Ya2Embdk8AaFxaLylcLD46Me15Re57e6xI
+	 WIjC79qlRk/xHIzDFsKMHDNsH5eU5uStSYF9Zn3YHMBOjfzrKRkRo0D97+JMF/k1xG
+	 BByAcFeZ22png==
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-336d2b0ea8dso8170601fa.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 11 Sep 2025 11:18:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVwfujAtobcWodbZ3plPkRfYl+nmVUMRYettz5vBgZ+XHbov//vhFSkXeTY2lG21aAZge/a5Z3HSg4aeg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywt4559m570c59kMyXKzWweXvCVBFqOUgR0KkRJ1SsCjK3qzUTS
+	wZc/CnZDbKeLlAtXH2UBS2ffpGPP4YdPN1mS7mTQjKXxvCduUVzkYpoaQE8lIMN6fp21bqCkq09
+	8FsW/tk6p3ZIoq5HYAeClvsx+CTpL+tk=
+X-Google-Smtp-Source: AGHT+IFNhBqlOYMX7VhHL/3/WsyBugQCqv4OR+B6SohRHQQkUzEv33t/qS3NjuPROvGHTdFWqUdjtxSUm5WWLxfziaM=
+X-Received: by 2002:a05:651c:4386:20b0:338:1ce5:4034 with SMTP id
+ 38308e7fff4ca-3513d96a5femr123181fa.32.1757614688354; Thu, 11 Sep 2025
+ 11:18:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250908181059.1785605-3-wens@kernel.org>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+References: <20250908181059.1785605-1-wens@kernel.org> <20250908181059.1785605-3-wens@kernel.org>
+ <aMMQSR7yYBQkY4CI@shell.armlinux.org.uk>
+In-Reply-To: <aMMQSR7yYBQkY4CI@shell.armlinux.org.uk>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Fri, 12 Sep 2025 02:17:55 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64n_eMBiUaT1S=V6v4Bqv5hLP8vP3=20sp4w4Fxh7RcOQ@mail.gmail.com>
+X-Gm-Features: Ac12FXyLWsyObIH64arQzyilGb9hj5BcnDeSxUoNsS-pX-JbEZMJGsbKHCxIoyA
+Message-ID: <CAGb2v64n_eMBiUaT1S=V6v4Bqv5hLP8vP3=20sp4w4Fxh7RcOQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v4 02/10] net: stmmac: Add support for Allwinner
+ A523 GMAC200
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Andre Przywara <andre.przywara@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Fri, Sep 12, 2025 at 2:09=E2=80=AFAM Russell King (Oracle)
+<linux@armlinux.org.uk> wrote:
+>
+> Hi,
+>
+> I drafted this but never sent it and can't remember why, but it's
+> relevant for v5 that you recently posted. Same concern with v5.
+>
+> On Tue, Sep 09, 2025 at 02:10:51AM +0800, Chen-Yu Tsai wrote:
+> > +     switch (plat->mac_interface) {
+> > +     case PHY_INTERFACE_MODE_MII:
+> > +             /* default */
+> > +             break;
+> > +     case PHY_INTERFACE_MODE_RGMII:
+> > +     case PHY_INTERFACE_MODE_RGMII_ID:
+> > +     case PHY_INTERFACE_MODE_RGMII_RXID:
+> > +     case PHY_INTERFACE_MODE_RGMII_TXID:
+> > +             reg |=3D SYSCON_EPIT | SYSCON_ETCS_INT_GMII;
+> > +             break;
+> > +     case PHY_INTERFACE_MODE_RMII:
+> > +             reg |=3D SYSCON_RMII_EN;
+> > +             break;
+> > +     default:
+> > +             return dev_err_probe(dev, -EINVAL, "Unsupported interface=
+ mode: %s",
+> > +                                  phy_modes(plat->mac_interface));
+>
+> I'm guessing that there's no way that plat->phy_interface !=3D
+> plat->mac_interface on this platform? If so, please use
+> plat->phy_interface here.
 
-I drafted this but never sent it and can't remember why, but it's
-relevant for v5 that you recently posted. Same concern with v5.
+Makes sense. Looking at stmmac_platform.c, for us mac_interface only comes
+from phy_interface.
 
-On Tue, Sep 09, 2025 at 02:10:51AM +0800, Chen-Yu Tsai wrote:
-> +	switch (plat->mac_interface) {
-> +	case PHY_INTERFACE_MODE_MII:
-> +		/* default */
-> +		break;
-> +	case PHY_INTERFACE_MODE_RGMII:
-> +	case PHY_INTERFACE_MODE_RGMII_ID:
-> +	case PHY_INTERFACE_MODE_RGMII_RXID:
-> +	case PHY_INTERFACE_MODE_RGMII_TXID:
-> +		reg |= SYSCON_EPIT | SYSCON_ETCS_INT_GMII;
-> +		break;
-> +	case PHY_INTERFACE_MODE_RMII:
-> +		reg |= SYSCON_RMII_EN;
-> +		break;
-> +	default:
-> +		return dev_err_probe(dev, -EINVAL, "Unsupported interface mode: %s",
-> +				     phy_modes(plat->mac_interface));
+I'll wait a day before sending yet another version.
 
-I'm guessing that there's no way that plat->phy_interface !=
-plat->mac_interface on this platform? If so, please use
-plat->phy_interface here.
-
-Thanks.
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+ChenYu
