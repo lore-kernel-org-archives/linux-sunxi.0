@@ -1,127 +1,162 @@
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CDE534AAE8
-	for <linux-sunxi@lists.linux.dev>; Thu, 11 Sep 2025 15:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323A413EFE3;
+	Thu, 11 Sep 2025 17:40:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757603808; cv=none; b=gOhyNOI6acKqo4WxCftclrvlPtmTcAAHXu30jnC1VY6xavx7s7gG7JNAR7p20+fr9n3Xmhrhk1orPx7n1sEpTuTONbPLHSBiHpsWHlKbvLFwpUuVTkKDgsbHMw+bUdiQRTWhK0K/JAo250uRM3sU1jtDWWp7Bw/COsc6AmMY19k=
+	t=1757612436; cv=none; b=okfDXK1w8E4rmcJJ5aJ/BxXPGqBU8eibkiavakb14/vtFJeF4BQX8wCgJVCduuOsLesoeRcIl44MTYEYlpFphrBb3Sfuk65aXsWTm+dapl8o/YKQnZzH1ORZ3/R1zf27Xjh/ebQiw3y7sd+Vxxt9NpyyNTSakEEB2+vctBGL68Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757603808; c=relaxed/simple;
-	bh=hc3dUcHCaVL6mfc+FqBmuvBNY/4uYw4lI6GvjoLkpE4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LYpjffY7cpITrfYBeKKfpH3Zme/FZ53FOTpYPaATBogARGTKSENJkrhhUI/mnGiDVEOHxeV/eUWV/6ziMGWBbPOIoh1LkFFhkEm2gqLoZcAAi+P3WmT8oB9vfSCBa5wyfAFnVLlQYFJTzjNhfafum5sAEfoq/GnvStAC67Ja37s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=ZUe3bjsr; arc=none smtp.client-ip=185.67.36.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
+	s=arc-20240116; t=1757612436; c=relaxed/simple;
+	bh=1u87rs46+m5wL1Xw7aZOQ0O0nwgjPdStsou5RO+mPyc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=GWiuciWvb+Y4pWcw/+v1+2bapcyixiO6qmGLWHkStMFCD8kE8GbJVRPQYw6EVBbKJ9QiFbuJOzAs2/1GzPr2UjbA+3/Ovn+RimfZzpnrgPgaYuC5d8271AT0F047dfk/WAU5EwLACWgZHIgapRZwqNpo8DYNwRXkuiULCILj1C0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J3OAc8qp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="ZUe3bjsr"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id DBED4240028
-	for <linux-sunxi@lists.linux.dev>; Thu, 11 Sep 2025 17:11:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.net; s=2017;
-	t=1757603481; bh=Ffc678fQhzI/pdu+hLX+ARqrXJLZH6TSQWiX1NPHrZM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:From;
-	b=ZUe3bjsruZMS8OXPHTu+2WWZgnBbjttVjalAmo3H50EDD8LdFL/vHH16DHk6xH1uM
-	 JjqtvD4jO7w2SM1VFWTjZMD7Gtpq3mCxoEUu4Xk3zfisSzPXDqH4v4emcH576iS7C1
-	 WdynKmINw+wjEnNNZCNA+P+y25JIx2bfWp2yk5Y2X84VbyJniX7Jn9YXVatSCJz1qN
-	 ORWjKl77pm5xTbxOoFbztrxhFkgxBZbMCFR8iQ+IF5cf9qZbTZp2pP1QFqfxABRwKV
-	 uzk4K1a04rwPO1GFPj44GpCNmLyTTvAedDfSJQPk46JWcKneiqPalhpaTEkZQ+d/1x
-	 DEj8LrGHULeuA==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4cN1Gt4zm0z6v15;
-	Thu, 11 Sep 2025 17:11:18 +0200 (CEST)
-Date: Thu, 11 Sep 2025 15:11:21 +0000
-From: =?utf-8?Q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: j.ne@posteo.net, Rob Herring <robh@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J3OAc8qp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DEE2C4CEF0;
+	Thu, 11 Sep 2025 17:40:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757612435;
+	bh=1u87rs46+m5wL1Xw7aZOQ0O0nwgjPdStsou5RO+mPyc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=J3OAc8qp1KiA1CZHIl/mxpQmfaf0LBkm05l6rgra71v40rJFpYh4yTAUOfkhldGgh
+	 9tpbsteyyE0tEPylyozQ9BTW2RM33xhGUWgJGopW0iBSZYi4fywTtYXcYKglBKMKKl
+	 /Ydmaedu4JcXjnxszRmE/5yu96eTdDQ0AJ8AUVjN4qb+GAixwMocQKBEcMthA3GL9D
+	 1AAon2O4bBGTEiLvYxftkKxJToxIqueHhK/0F5VMOhqyF6S7F0q2X8KQEiFPSMPUWI
+	 kxCkgPLQR0mJto9O3bcIzy2OupspxJkX/UA/FTmfCy8lcoBH0jDmGlAJd+cLXiMYxC
+	 BZeQbxayJmtVg==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 3A20D5FEE9; Fri, 12 Sep 2025 01:40:33 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] ARM: dts: allwinner: orangepi-zero2: Add default
- audio routing
-Message-ID: <aMLmlsZimgKVeiUF@probook>
-References: <20250809-opz-audio-v2-0-f4fd15552a82@posteo.net>
- <20250809-opz-audio-v2-2-f4fd15552a82@posteo.net>
- <CAGb2v671xTaWkRD0xVPsgGWvykAwPESXuBLgDz-oo4ywOJ=5Xg@mail.gmail.com>
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>
+Cc: netdev@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andre Przywara <andre.przywara@arm.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH net-next v5 4/6] arm64: dts: allwinner: a527: cubie-a5e: Enable second Ethernet port
+Date: Fri, 12 Sep 2025 01:40:30 +0800
+Message-Id: <20250911174032.3147192-5-wens@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250911174032.3147192-1-wens@kernel.org>
+References: <20250911174032.3147192-1-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGb2v671xTaWkRD0xVPsgGWvykAwPESXuBLgDz-oo4ywOJ=5Xg@mail.gmail.com>
 
-On Wed, Sep 10, 2025 at 08:58:49PM +0800, Chen-Yu Tsai wrote:
-> On Sun, Aug 10, 2025 at 12:18 AM J. Neuschäfer via B4 Relay
-> <devnull+j.ne.posteo.net@kernel.org> wrote:
-> >
-> > From: "J. Neuschäfer" <j.ne@posteo.net>
-> 
-> 
-> The subject is misleading. The Orange Pi Zero2 is a different board with
-> the H616 SoC.
+From: Chen-Yu Tsai <wens@csie.org>
 
-Oh, indeed. I got confused. Thank you for catching this error!
+On the Radxa Cubie A5E board, the second Ethernet controller, aka the
+GMAC200, is connected to a second external Maxio MAE0621A PHY. The PHY
+uses an external 25MHz crystal, and has the SoC's PJ16 pin connected to
+its reset pin.
 
-J. Neuschäfer
+Enable the second Ethernet port. Also fix up the label for the existing
+external PHY connected to the first Ethernet port. An enable delay for the
+PHY supply regulator is added to make sure the PHY's internal regulators
+are fully powered and the PHY is operational.
 
-> 
-> ChenYu
-> 
-> > The Orange Pi Zero Plus 2 has the same pinout[1] as the Orange Pi
-> > Zero[2] (with the possible exception of line-out left/right being
-> > swapped), and the Orange Pi Zero Interface Board is sold[3] as
-> > compatible with both of them. We can thus use the same audio routing.
-> >
-> > [1]: http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-Zero-Plus-2.html
-> > [2]: https://linux-sunxi.org/Xunlong_Orange_Pi_Zero#Expansion_Port
-> > [3]: https://orangepi.com/index.php?route=product/product&product_id=871
-> >
-> > Signed-off-by: J. Neuschäfer <j.ne@posteo.net>
-> > ---
-> >
-> > v2:
-> > - new patch
-> > ---
-> >  .../boot/dts/allwinner/sun8i-h3-orangepi-zero-plus2.dts    | 14 ++++++++++++++
-> >  1 file changed, 14 insertions(+)
-> >
-> > diff --git a/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-zero-plus2.dts b/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-zero-plus2.dts
-> > index 7a6444a10e2534458b7380882ea4fd42bd54fea8..97a3565ac7a819be6b18d324fa6f65d0d1d2b2ad 100644
-> > --- a/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-zero-plus2.dts
-> > +++ b/arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-zero-plus2.dts
-> > @@ -99,6 +99,20 @@ wifi_pwrseq: pwrseq {
-> >         };
-> >  };
-> >
-> > +/*
-> > + * Audio input/output is exposed on the 13-pin header and can't be used for
-> > + * anything else. However, adapter boards may use different audio routing.
-> > + * - http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-Zero-Plus-2.html
-> > + * - Allwinner H3 Datasheet, section 3.1. Pin Characteristics
-> > + */
-> > +&codec {
-> > +       allwinner,audio-routing =
-> > +               "Line Out", "LINEOUT",
-> > +               "MIC1", "Mic",
-> > +               "Mic",  "MBIAS";
-> > +       status = "disabled";
-> > +};
-> > +
-> >  &de {
-> >         status = "okay";
-> >  };
-> >
-> > --
-> > 2.48.0.rc1.219.gb6b6757d772
-> >
-> >
-> >
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+---
+
+Changes since v1:
+- Switch to generic (tx|rx)-internal-delay-ps properties
+- Add PHY regulator delay
+---
+ .../dts/allwinner/sun55i-a527-cubie-a5e.dts   | 28 +++++++++++++++++--
+ 1 file changed, 26 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+index d4cee2222104..e96a419faf21 100644
+--- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
++++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+@@ -14,6 +14,7 @@ / {
+ 
+ 	aliases {
+ 		ethernet0 = &gmac0;
++		ethernet1 = &gmac1;
+ 		serial0 = &uart0;
+ 	};
+ 
+@@ -76,7 +77,7 @@ &ehci1 {
+ 
+ &gmac0 {
+ 	phy-mode = "rgmii-id";
+-	phy-handle = <&ext_rgmii_phy>;
++	phy-handle = <&ext_rgmii0_phy>;
+ 	phy-supply = <&reg_cldo3>;
+ 
+ 	allwinner,tx-delay-ps = <300>;
+@@ -85,13 +86,24 @@ &gmac0 {
+ 	status = "okay";
+ };
+ 
++&gmac1 {
++	phy-mode = "rgmii-id";
++	phy-handle = <&ext_rgmii1_phy>;
++	phy-supply = <&reg_cldo4>;
++
++	tx-internal-delay-ps = <300>;
++	rx-internal-delay-ps = <400>;
++
++	status = "okay";
++};
++
+ &gpu {
+ 	mali-supply = <&reg_dcdc2>;
+ 	status = "okay";
+ };
+ 
+ &mdio0 {
+-	ext_rgmii_phy: ethernet-phy@1 {
++	ext_rgmii0_phy: ethernet-phy@1 {
+ 		compatible = "ethernet-phy-ieee802.3-c22";
+ 		reg = <1>;
+ 		reset-gpios = <&pio 7 8 GPIO_ACTIVE_LOW>; /* PH8 */
+@@ -100,6 +112,16 @@ ext_rgmii_phy: ethernet-phy@1 {
+ 	};
+ };
+ 
++&mdio1 {
++	ext_rgmii1_phy: ethernet-phy@1 {
++		compatible = "ethernet-phy-ieee802.3-c22";
++		reg = <1>;
++		reset-gpios = <&pio 9 16 GPIO_ACTIVE_LOW>; /* PJ16 */
++		reset-assert-us = <10000>;
++		reset-deassert-us = <150000>;
++	};
++};
++
+ &mmc0 {
+ 	vmmc-supply = <&reg_cldo3>;
+ 	cd-gpios = <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF6 */
+@@ -240,6 +262,8 @@ reg_cldo4: cldo4 {
+ 				regulator-min-microvolt = <3300000>;
+ 				regulator-max-microvolt = <3300000>;
+ 				regulator-name = "vcc-pj-phy";
++				/* enough time for the PHY to fully power on */
++				regulator-enable-ramp-delay = <150000>;
+ 			};
+ 
+ 			reg_cpusldo: cpusldo {
+-- 
+2.39.5
+
