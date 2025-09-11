@@ -1,85 +1,87 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1129F1EF091
-	for <linux-sunxi@lists.linux.dev>; Wed, 10 Sep 2025 16:25:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC1F02E1EE1
+	for <linux-sunxi@lists.linux.dev>; Thu, 11 Sep 2025 08:32:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757521505; cv=none; b=mH1pdfnfVNY/lEqOiJBNZl4+5IF3k6abHxuepsO3vAwUzO6cqahudLmdRQUf8t1OXt17y3y6n29hZLPWbvYsC5q+w6BahH4L+qEqcBWCjXERB01I0Gbh88jPSIzR2eC874vfRDAByKsKP2LAwLWMhFHapf18Vt+Sd6faeCl2rSA=
+	t=1757579548; cv=none; b=ooYXZxYMKXXjtpYQVpSL6W2VQfnk+WLxRJ+4DUkoATKU3Pwn/+cFpqp1Y4AooR0+ASyyu67BsljL5uOGyedlV7+ZCJP3n7dafY4txxRGua0fUYQiE/aqo7omBFx4Cz1kM62GEMT4pVjoqcKEYG7P+h1TfS4P9dsDAdfx5o0Ey5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757521505; c=relaxed/simple;
-	bh=PVVvBseAPUlU4+sGMSyOwKlOi8Ht8hVrKPWpcILrkL8=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=Gvf1EpvICxuCotHMM+ZwKK9raIFb49U6olYkUsGMhGHrLUBTj4Giv8/5ruq9p74qx6tbSfdCNJssG+o+Ns0HKQ4Yk/QmNWfO92idIsRnFw+HNbHyn2+R7Hx5r4Ev6rNHE0xDtiaThloE3O/BuyGe8JOtIyKRkG9snQzHNiEYYTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RP6vDIcD; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757579548; c=relaxed/simple;
+	bh=b2VdI0oiFgANIQ5EcSr5TSR36SCbiu1w6XGUxBLPye0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OT8EV7w8tT6wyDRmF8s7ArRN6loCejvo7vMBCtqgdXEfZVCs06hb6tH24WWun2dWiOY8YA1eaVCs1upkGA5gQ5TZ8w7m9kRAhTaFt+flMR9tyvPTwVIb6zSfQU0hVEa/dTZP9NZyw/3Cg7tpT1iB0G8fy/4gh36mjOBeQyaBIf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ggwfqerC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RP6vDIcD"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-244580523a0so75568405ad.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 10 Sep 2025 09:25:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757521503; x=1758126303; darn=lists.linux.dev;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=bRPjaWUaJdPF4pn/4mDFNAtPsYAEZhzRiP398Jfiy2I=;
-        b=RP6vDIcDqoWUd975oSqbwMHRDMb8dqf1SUfKr7SBqAf/fJZuLcfoTE10p2OTdqMGA+
-         NsIMIapl84B6kB4mU72c2KiJAaNVqq5sMU8D7o9JgnbdV60Yu/Z0yp9i26mzAdSgg2Ru
-         bKDaMvwxqirXSxeLQY111SIBDnZPKdvr8GQcbd4rZsPrY3ejGXlrcyArrdq/uNFYCWgI
-         0kJTwhbSGPYJe8DdjejI2clawU6Qrv8q5BAxkgmTEssmWxzFsEH5kF0MWm25vCu7BcG2
-         x7p02qVKlM3yBEzeWMqHsOD9tEIB2CpLf41gx9DxEGny5DkdvvhIyr0NEHws8JrW06Gu
-         SxYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757521503; x=1758126303;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bRPjaWUaJdPF4pn/4mDFNAtPsYAEZhzRiP398Jfiy2I=;
-        b=toZo5YUCcRSsabAiOV1fYXEMdgPgG6gGgUHBxvnyVogTdfxtIwZCfp0prilUqb06KL
-         RAKimNQVppTT2C6dlWWOXDmGOZhFTUIbG+vbkePK7X/dp00bvp/mHNudNXrAI72+NUcQ
-         Xq52JyAih8sem1zGPwgw0iQGmlKElvLdUv2tVNZq+d7RpolaA27cSR8ZtiT8jHHP8k3f
-         klHOzi/U0ncr7Dd61/166FFFCIS6868GEH3xJAyncSRtz6XqqhsdFndhhzo8NscGVl8p
-         VvwGaK270lEWAGHX2M8GzE6HHNfsYyM0dA8y2Q95gwcMKYCvoY4v10O6tJh2AWATUBAe
-         uyLg==
-X-Gm-Message-State: AOJu0Yw1kI1tEdVhkMOYRWFy9ASR98s9OM8AY0v6NV4/eZ3n9+2PKQyh
-	PMsbhMCluzlVGjdMf1d3tRfPkw9o/dxBBSeiyg9WMDiIXe/mjoN6GJpZJl52TV45RW1w+sZoKH7
-	adISNBtle9YsGOoeDioVkqSnt0u9Npvav8rSV
-X-Gm-Gg: ASbGnctsmp/ZoAfSSei8ivoquIuwf1uJBHL2oVPLl0RiyfLcS0sfe/6YFM7LTn/kkRQ
-	fUV0yxedL9g8uEwwgkC/SOOHjTy7/BQShf671txnH1mfqqdU1nKlhUjuAAvh/5thM3HHmmZnuqU
-	CRlO6QDOA2NgQ8sPE9L8pn2VeOXrE/L3Ic/OUSH2ida8zNvo/L/cRIXlHzH7/3RCLFFxjju9wZ0
-	FQBkKpB3ZyqaHiLnWZGL6aQFf2MOyuL6IKf9uwumuEx9jvhRQ==
-X-Google-Smtp-Source: AGHT+IFPiVd1k2neNDPLrFwe+LzjA9CI1cMRhfGKm2ApKooO/1rQjnbS5APMralMPTi0/nTLSG04X/23/8IXWBF79GE=
-X-Received: by 2002:a17:902:d501:b0:24e:3cf2:2457 with SMTP id
- d9443c01a7336-2516e69aee6mr243991265ad.24.1757521503147; Wed, 10 Sep 2025
- 09:25:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ggwfqerC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A7F4C4CEF1
+	for <linux-sunxi@lists.linux.dev>; Thu, 11 Sep 2025 08:32:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757579548;
+	bh=b2VdI0oiFgANIQ5EcSr5TSR36SCbiu1w6XGUxBLPye0=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=ggwfqerCBJ1oYsXw0auys/TMtk4zaG9x7lznAz0fZd/PEGMVwaFpxx0uC/OsvO39x
+	 SiawMvf9VZHE+ShtVyxyx3ND5AFG23QTZC6RqijxgWVv7A/iT4xT3WqwkD+9SQjEFV
+	 G16eIdL1mlAZGfESCa+MEFecoFzqyCZppbIosb/lkhblLK68WwNSwX/LhJzLFhlYSQ
+	 cnkSQ7m6QIysXsCxnQM0mTpbpbScGyq/sDikZDPvF605zIhC/8WqxkIpOxdRp6pYBm
+	 4ArupEjs/BkGtlCSwwFWRUXEfBCrPlMM1jVV/+yVuPaNFSJVB58j8RrqE8DEIo6Wx1
+	 2ISRg3UigNqNA==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-56a04f7691aso1414606e87.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 11 Sep 2025 01:32:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVfgXnnhXdHplvRoLiSqWmtTBRHkuQEoWYO11viF2yepVNqGbaa1W/UlZR/Y6rqMXZntJe0S/Pi4sQEPw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz7+LZg7CWJzx4GF0eeSABRH3pYRQKgRSFuxqKOK3zwbXukWg1X
+	VHY48ddgOYhY3PzCGCHdnI2B8nwYrm0Kzo3Ds0kZei9X/LpJCQJrcGBTic7BOqF5Wwd4u7nQCDo
+	bUEtRXUSwLcZnWNapQIF8YEuF4SvwRCA=
+X-Google-Smtp-Source: AGHT+IEz1m0zWqpjfWD3q5Mpqcxnmo7hPZOolLE36cs3jks02zZUBgKBjW6cLa1Fu1krMrNSe+ZBiHzMUOEzh8/ZDyU=
+X-Received: by 2002:a2e:a78a:0:b0:336:e03d:6f2e with SMTP id
+ 38308e7fff4ca-34e315d71a6mr9066571fa.1.1757579546741; Thu, 11 Sep 2025
+ 01:32:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: =?UTF-8?Q?Horv=C3=A1th_Csaba?= <horvathcsabalaszlo@gmail.com>
-Date: Wed, 10 Sep 2025 18:24:26 +0200
-X-Gm-Features: AS18NWBszoCpiAyzK2ER1C0EKvdjtADboA5EU5ny8bOat2X1lzTOcivmwbZxPJ0
-Message-ID: <CADGuG04vCTWJNDj-fPaEO-dQmk_P_Z-E+AYbZBeYt+GJ8Dtqtg@mail.gmail.com>
-Subject: Colorly e708q1 and AXP20x support
-To: linux-sunxi@lists.linux.dev
+References: <20250830170901.1996227-1-wens@kernel.org> <175751929795.2643345.10671677254490584515.b4-ty@csie.org>
+In-Reply-To: <175751929795.2643345.10671677254490584515.b4-ty@csie.org>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Thu, 11 Sep 2025 16:32:14 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64i8fU-KTE8A0sE+ZL2++c3faUPKyGp51S7_rWV9ydOGQ@mail.gmail.com>
+X-Gm-Features: Ac12FXyr2JevaeRf3qm7Q61BcimJDVOxLg7_etSYLuUPLWauqufXTtpAA-OUUag
+Message-ID: <CAGb2v64i8fU-KTE8A0sE+ZL2++c3faUPKyGp51S7_rWV9ydOGQ@mail.gmail.com>
+Subject: Re: (subset) [PATCH 0/8] arm64: allwinner: a523: Enable MCU PRCM and NPU
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+	Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
+Cc: Andre Przywara <andre.przywara@arm.com>, linux-sunxi@lists.linux.dev, 
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Wed, Sep 10, 2025 at 11:48=E2=80=AFPM Chen-Yu Tsai <wens@csie.org> wrote=
+:
+>
+> On Sun, 31 Aug 2025 01:08:53 +0800, Chen-Yu Tsai wrote:
+> > From: Chen-Yu Tsai <wens@csie.org>
+> >
+> > Hi folks,
+> >
+> > This series adds support for the MCU PRCM and the NPU.
+> >
+> > The MCU PRCM is a Power, Reset & Clock Management block that has some
+> > clock and reset controls for the MCU, DSP and some peripherals that the
+> > MCU could use.
+> >
+> > [...]
+>
+> Applied to sunxi/clk-for-6.18 in local tree, thanks!
+>
+> [4/8] clk: sunxi-ng: sun55i-a523-ccu: Add missing NPU module clock
+>       commit: 1ec8e9ba1f663d6ca5e71ab9f5e919c338075ff0
 
-I'm building a wireless display on a Colorfly e708q1 tablet. This is
-an A31s device, supported by Linux-Sunxi.
-I have managed to install Arch and get Wifi with an 5.x (stock)
-kernel, because with newer kernels compiled according to the guide at
-https://linux-sunxi.org/Colorfly_e708q1 i had no display.  Debian also
-works, but the device overheats, or freezes because of other cause.
+I forgot this needs a bit of work and a new version sent. Backing this
+one out (facepalm).
 
-With this kernel, the only problem is that the AXP20x power controller
-is not working, therefore the device is very hot. I could not find any
-information about how to get the AXP working. Basically i have no BAT
-device, or any trace of working power management in the /dev or /sys.
-
-Can someone please guide me how to get this working...?
-
-Thanks in advance :)
-
-Cs.
+ChenYu
