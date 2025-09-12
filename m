@@ -1,24 +1,24 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B13862DE6F3
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Sep 2025 10:02:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B18F02DEA82
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Sep 2025 10:04:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757671349; cv=none; b=d6Ecjfo0KMCLZHjtxbZlFZelgpqNdSly8iCpiupsyXZ8S7Gb5CygkCBTeC4ayfXzgNR/LvB/MkpriWGxZsuB3/mUIuLV0JyXmFrAc5aHSblwMBtoJGtWQt0DME0TBLPueZF5Uza8bXq2EeE9lw3ECRkoRBF6FI1nIBFjYb1PYHI=
+	t=1757671481; cv=none; b=ZdedN31enp7VX/P/gFZReqz3t1PBamLLXHivB1pYiSE+L66C7xcn/WStyg4JVpXWIkbaArlUVHKv9aqwdbYd/T6iSWN06Dj+4MGeS2NO8ZghVGft5Zbe/jRQ52tHkHOJjNsruL9WhwaTNIvUPWK6n3X2gNsJtN6Muu9Y4k/fD7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757671349; c=relaxed/simple;
-	bh=9fd4moaFirXIgIXD/PREJNEJShmx3iq+ajpwK/yIZeU=;
+	s=arc-20240116; t=1757671481; c=relaxed/simple;
+	bh=XElUX9esLbtxbckqyV9wGffWqX28r4dwpXWVkfhm/Bw=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LBH8oZ69FhEDz41Q4/g9B3LPqdiv2Ew++2glhBUj4eVwvDOU1kzQyB7WSRGYuKsWxGpM1tnatgC8A1MMlgol8dhuAlyTHOPdD2rOEiWIntOypqzJFx+v1lyLBgulujFZN8R+Ysd1pnqOvH53GOrfGrbYkioUsAhBKXUB8H7PdCs=
+	 MIME-Version:Content-Type; b=NEENHQs43z/vH0/WNgLHn8VgYvu6ul3w9nPcEFeVubF0P9RMESyKV7SJa6606PeE9SBl6iYlfg46Aw6ApBTdVuhTHozAFMYkjWGlhnwbMXcDgCINWa6qjT74YHk9pIRoFUzCHBq2MOu5K8rGKM4e0qxwpypyLGlEHsHMZ0SWR2w=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8A59116A3;
-	Fri, 12 Sep 2025 03:02:18 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9E2A716A3;
+	Fri, 12 Sep 2025 03:04:30 -0700 (PDT)
 Received: from donnerap (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2FED53F66E;
-	Fri, 12 Sep 2025 03:02:25 -0700 (PDT)
-Date: Fri, 12 Sep 2025 11:02:22 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 392C63F66E;
+	Fri, 12 Sep 2025 03:04:37 -0700 (PDT)
+Date: Fri, 12 Sep 2025 11:04:34 +0100
 From: Andre Przywara <andre.przywara@arm.com>
 To: "J. =?UTF-8?B?TmV1c2Now6RmZXI=?= via B4 Relay"
  <devnull+j.ne.posteo.net@kernel.org>
@@ -28,11 +28,11 @@ Cc: j.ne@posteo.net, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
  <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] Initial Amediatech X96Q support based on Allwinner
- H313
-Message-ID: <20250912110222.5e4153ec@donnerap>
-In-Reply-To: <20250912-x96q-v1-0-8471daaf39db@posteo.net>
+Subject: Re: [PATCH 1/2] dt-bindings: arm: sunxi: Add Amediatech X96Q
+Message-ID: <20250912110434.2a520acc@donnerap>
+In-Reply-To: <20250912-x96q-v1-1-8471daaf39db@posteo.net>
 References: <20250912-x96q-v1-0-8471daaf39db@posteo.net>
+	<20250912-x96q-v1-1-8471daaf39db@posteo.net>
 Organization: ARM
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
@@ -44,43 +44,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 12 Sep 2025 01:52:08 +0200
+On Fri, 12 Sep 2025 01:52:09 +0200
 J. Neusch=C3=A4fer via B4 Relay <devnull+j.ne.posteo.net@kernel.org> wrote:
 
-Hi,
+> From: "J. Neusch=C3=A4fer" <j.ne@posteo.net>
+>=20
+> The X96Q is a set-top box with an H313 SoC, AXP305 PMIC, 1 or 2 GiB RAM,
+> 8 or 16 GiB eMMC flash, 2x USB A, Micro-SD, HDMI, Ethernet, audio/video
+> output, and infrared input.
+>=20
+>   https://x96mini.com/products/x96q-tv-box-android-10-set-top-box
+>=20
+> Signed-off-by: J. Neusch=C3=A4fer <j.ne@posteo.net>
 
-> This patchset adds an initial devicetree for the X96Q set-top box.
-> WiFi, Ethernet, and HDMI depend on drivers that are currently not
-> available in mainline Linux, and I didn't enable them in the devicetree.
-> The builtin infrared receiver produces IRQs when a nearby remote sends
-> events, but I have not checked whether the events are decoded correctly.
-
-You can either do a simple "cat /dev/input/event<x>", then check whether
-keypresses generate (unreadable) output, or you use the "evtest" tool to
-decode some information:
-https://cgit.freedesktop.org/evtest/
-
-But I guess if you see interrupts consistent with remote keypresses, it's
-a good enough indication it should work.
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
 Cheers,
 Andre
 
->=20
-> Signed-off-by: J. Neusch=C3=A4fer <j.ne@posteo.net>
 > ---
-> J. Neusch=C3=A4fer (2):
->       dt-bindings: arm: sunxi: Add Amediatech X96Q
->       arm64: dts: allwinner: h313: Add Amediatech X96Q
+>  Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
 >=20
->  Documentation/devicetree/bindings/arm/sunxi.yaml   |   5 +
->  arch/arm64/boot/dts/allwinner/Makefile             |   1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dts | 235 +++++++++++++++=
-++++++
->  3 files changed, 241 insertions(+)
-> ---
-> base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
-> change-id: 20250911-x96q-57e63380804e
+> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documenta=
+tion/devicetree/bindings/arm/sunxi.yaml
+> index c25a22fe4d25cbd8a8132689f1326548f7f43f2c..c9940b44bc888f7ab81ace671=
+040bd663556c113 100644
+> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
+> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> @@ -963,6 +963,11 @@ properties:
+>            - const: hechuang,x96-mate
+>            - const: allwinner,sun50i-h616
+> =20
+> +      - description: X96Q
+> +        items:
+> +          - const: amediatech,x96q
+> +          - const: allwinner,sun50i-h616
+> +
+>        - description: X96Q Pro+
+>          items:
+>            - const: amediatech,x96q-pro-plus
 >=20
-> Best regards,
 
