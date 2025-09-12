@@ -1,170 +1,93 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09B172EA72B
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Sep 2025 10:19:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A940319D8A3
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Sep 2025 12:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757672386; cv=none; b=VlftYUSR4e4yVfetFiJatcagfvnHsER11tfWBAiqchW4fdU3xbUS7HIxMs6V/cuylrfhk9HxFju1D1w2kGzSEwmKvc4do4zKPSx1bhGRcJODikcn2lHIXoSrY/MGHCu7tzBgqqkFc1zolTIVGJjaIpLvZeclKiBM3jHX5yHzrLY=
+	t=1757679698; cv=none; b=dN0ZbpXFmeimfnP4acIB+cIwLljJepakzq66RDJw9SC33egjllKna6UpNVoR16IG828ItW6rIm4cG72va5/FPCI91lC9xox+4ebTKX45OU9gfC3fbf4srHdk5P6RIw/R4+tRUYkG/yklj5stH/I0XiqK2Lq3rkfp8Ovirls/I+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757672386; c=relaxed/simple;
-	bh=80VD8j953rabZpdH+qBSUDke5/D1/YIn00wR201HN5w=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UgTOgAkI/D0HMCwphOKuNrpnzrQHJK/Y4jiQ6nauHOHbCyHa4bEMwCOKmLfqjyF6eRMVvf/BPUYEE9nCfu4zFoqHnSMg8sVjyB7gedSbnsdjC2RUKNdRNEyQwpTIzBc+AeEJHLj6OYNCejqPcSwjf6FBasUHWgTgb4gbARpcEFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1E3F616A3;
-	Fri, 12 Sep 2025 03:19:36 -0700 (PDT)
-Received: from donnerap (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0B5E53F66E;
-	Fri, 12 Sep 2025 03:19:42 -0700 (PDT)
-Date: Fri, 12 Sep 2025 11:19:40 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>,
- linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/7] clk: sunxi-ng: sun55i-a523-ccu: Add missing NPU
- module clock
-Message-ID: <20250912111940.61f87a3e@donnerap>
-In-Reply-To: <20250911174710.3149589-4-wens@kernel.org>
-References: <20250911174710.3149589-1-wens@kernel.org>
-	<20250911174710.3149589-4-wens@kernel.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1757679698; c=relaxed/simple;
+	bh=yht0MzjKwXPqfzMkTMQkKpkg4jWPJryjUJrJkqlBlvA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iK1fTStdjEchB66n0FR0knz9un7nIGbBAepHOed+vMehvYYJcWWAh2/UgEYMBjT4QFZEkG1fvWGGRtS3iCdVVuF4EO0yeCUOOn+SUdfJU5jaPNwlKjwHf2dAR5y7I430/LQZsYJ1m6uHSsu/ebuJMQk8mJFNY5h4MXE7qJ5dk5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EhWGqdJj; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EhWGqdJj"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-337e714b3b4so14727961fa.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 12 Sep 2025 05:21:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1757679695; x=1758284495; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yht0MzjKwXPqfzMkTMQkKpkg4jWPJryjUJrJkqlBlvA=;
+        b=EhWGqdJjOOzF1vdYdJR+kAfdteJ13844xy6qbathujbk3YysxkFWvKoHb6E7a2Wf6Z
+         ZqJNp/xRj3JuqzRgDbcCU+bErRWUDqyxwjhoOLrbm7lmYmvLJA40G8oTWPBvAQYWpYFH
+         9/OzpHxpbNQVg6U7DKN9QvhHL3dP0v4u6VbuTdlPR6EMoFN7VvaWWY0ZP94oGzQTzg3b
+         ygxP+r/5Xo1KvvPqiDXdXSXLN4sO8Gkl6lkJ02w5A6e8qYWMb0nDKNVx2l9M/V1DtOjm
+         /IGJIRrdat8oU7VGxvbc4pgho88qqtKI50T54zyErBFa0W5PtxwyH6LssiPp7RZmVhIK
+         H4Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757679695; x=1758284495;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yht0MzjKwXPqfzMkTMQkKpkg4jWPJryjUJrJkqlBlvA=;
+        b=GUk09cgfFjn1sdeGBsldZqmhA5+rodbDUt8HoS0SDLCkqcztrvk3HiTrQ8QOFNd0ky
+         pFnsXRe+SaupMvK/t9K/unjQoa7/hfLAhKSvPswb3E5K7F+wZpNiQX/IHWHG7ixacCZ2
+         WIJUPzscaP3Fhhr29ebi6/Ctztd7qFMh5b2kc0lD0IvAbYAQ1Hpsf2htpGADQfoanFa7
+         wsSqliStinZ3PefI5nWbWDOckbY51yyUxDzIzrPphSUHOnk1j1qy8fKT/q1Gb0e18U3o
+         nUFGeuLyiqVT+D3zO//2GvwhF8mqFL4VDzW2zLHYiMUQ1h5AlrSB8nBrXJR0xd84qwBM
+         msiA==
+X-Forwarded-Encrypted: i=1; AJvYcCWozKseFNFvq88xt0v7UI18Tu7Xsvi3Xt6K3Hzc0ryg4BG6dYnIvLv005kGVIpR+2Nzwz32TES99haOtA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwAEttW132bdOC9Uz9gv1vyVGe6PZUeSjqvpQR/c+0eBddnjonC
+	uXe28aQsGf3oYqJpmcHVChiRf62zwN3G/k4S+xCr+hdyIKjg0jWGdUV/HNPyvvr9mfLOtdh+Aqs
+	VHSMjx9SqwLfh+kMm5ILIifRhDKypaSYybojZPpc1ig==
+X-Gm-Gg: ASbGnct3fBQ0Pcedg94ks8PwOgOclyHQZg9zsETtrtQRsaETnKYjA67x3BeSCB51eS5
+	Mt/3jVrPWItF/GSne92btpOI7/jz4xJyhEuv4lZO/2AERBDth/iJesssJBPSkBubOLDhiITtDkd
+	rWZ/iCwuW2tG+eZjnQwV1X6gEhWNh1198uYcw1IspmChFxDy8iUNZcJZuJuGnRHI42HCDgT57Ng
+	I0CBhI=
+X-Google-Smtp-Source: AGHT+IGIryVwwWle5BuCNtAg9SWHOa9Fynk/RUJtYWpT4Bd8pqtmMPa6Br277pH3nUbppV/EZnHRiOtwLb2ws10wbU8=
+X-Received: by 2002:a2e:a9a4:0:b0:336:cce2:fa5d with SMTP id
+ 38308e7fff4ca-3513a8ee15dmr9949001fa.11.1757679694596; Fri, 12 Sep 2025
+ 05:21:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20250912092351.162307-2-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20250912092351.162307-2-krzysztof.kozlowski@linaro.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 12 Sep 2025 14:21:23 +0200
+X-Gm-Features: Ac12FXyVfQQZrEJmw9O1A4dKUe7GIFb_xvJhZW4e_4RrQjwp91fxqMFdqNnM--Q
+Message-ID: <CACRpkdY8-j0aCoz+akWHOX6WQ7nNLMbN50A=_7cgNPSUBuQb-Q@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: Simplify printks with pOF format
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 12 Sep 2025 01:47:06 +0800
-Chen-Yu Tsai <wens@kernel.org> wrote:
+On Fri, Sep 12, 2025 at 11:24=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
 
-> From: Chen-Yu Tsai <wens@csie.org>
-> 
-> The main clock controller on the A523/T527 has the NPU's module clock.
-> It was missing from the original submission, likely because that was
-> based on the A523 user manual; the A523 is marketed without the NPU.
-> 
-> Also, merge the private header back into the driver code itself. The
-> header only contains a macro containing the total number of clocks.
-> This has to be updated every time a missing clock gets added. Having
-> it in a separate file doesn't help the process. Instead just drop the
-> macro, and thus the header no longer has any reason to exist.
-> 
-> Also move the .num value to after the list of clks to make it obvious
-> that it should be updated when new clks are added.
-> 
-> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+> Print full device node name with %pOF format, so the code will be a bit
+> simpler.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Patch applied.
 
-Thanks for the change!
+For the follow-up remark, I think it's an improvement with the
+full path, this is better.
 
-Cheers,
-Andre
-
-> ---
-> Changes since v1:
-> - Move .num to after list of clks
-> ---
->  drivers/clk/sunxi-ng/ccu-sun55i-a523.c | 21 ++++++++++++++++++---
->  drivers/clk/sunxi-ng/ccu-sun55i-a523.h | 14 --------------
->  2 files changed, 18 insertions(+), 17 deletions(-)
->  delete mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523.h
-> 
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-> index 1a9a1cb869e2..acb532f8361b 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-> @@ -11,6 +11,9 @@
->  #include <linux/module.h>
->  #include <linux/platform_device.h>
->  
-> +#include <dt-bindings/clock/sun55i-a523-ccu.h>
-> +#include <dt-bindings/reset/sun55i-a523-ccu.h>
-> +
->  #include "../clk.h"
->  
->  #include "ccu_common.h"
-> @@ -25,8 +28,6 @@
->  #include "ccu_nkmp.h"
->  #include "ccu_nm.h"
->  
-> -#include "ccu-sun55i-a523.h"
-> -
->  /*
->   * The 24 MHz oscillator, the root of most of the clock tree.
->   * .fw_name is the string used in the DT "clock-names" property, used to
-> @@ -486,6 +487,18 @@ static SUNXI_CCU_M_HW_WITH_MUX_GATE(ve_clk, "ve", ve_parents, 0x690,
->  
->  static SUNXI_CCU_GATE_HWS(bus_ve_clk, "bus-ve", ahb_hws, 0x69c, BIT(0), 0);
->  
-> +static const struct clk_hw *npu_parents[] = {
-> +	&pll_periph0_480M_clk.common.hw,
-> +	&pll_periph0_600M_clk.hw,
-> +	&pll_periph0_800M_clk.common.hw,
-> +	&pll_npu_2x_clk.hw,
-> +};
-> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(npu_clk, "npu", npu_parents, 0x6e0,
-> +				    0, 5,	/* M */
-> +				    24, 3,	/* mux */
-> +				    BIT(31),	/* gate */
-> +				    CLK_SET_RATE_PARENT);
-> +
->  static SUNXI_CCU_GATE_HWS(bus_dma_clk, "bus-dma", ahb_hws, 0x70c, BIT(0), 0);
->  
->  static SUNXI_CCU_GATE_HWS(bus_msgbox_clk, "bus-msgbox", ahb_hws, 0x71c,
-> @@ -1217,6 +1230,7 @@ static struct ccu_common *sun55i_a523_ccu_clks[] = {
->  	&bus_ce_sys_clk.common,
->  	&ve_clk.common,
->  	&bus_ve_clk.common,
-> +	&npu_clk.common,
->  	&bus_dma_clk.common,
->  	&bus_msgbox_clk.common,
->  	&bus_spinlock_clk.common,
-> @@ -1343,7 +1357,6 @@ static struct ccu_common *sun55i_a523_ccu_clks[] = {
->  };
->  
->  static struct clk_hw_onecell_data sun55i_a523_hw_clks = {
-> -	.num	= CLK_NUMBER,
->  	.hws	= {
->  		[CLK_PLL_DDR0]		= &pll_ddr_clk.common.hw,
->  		[CLK_PLL_PERIPH0_4X]	= &pll_periph0_4x_clk.common.hw,
-> @@ -1524,7 +1537,9 @@ static struct clk_hw_onecell_data sun55i_a523_hw_clks = {
->  		[CLK_FANOUT0]		= &fanout0_clk.common.hw,
->  		[CLK_FANOUT1]		= &fanout1_clk.common.hw,
->  		[CLK_FANOUT2]		= &fanout2_clk.common.hw,
-> +		[CLK_NPU]		= &npu_clk.common.hw,
->  	},
-> +	.num	= CLK_NPU + 1,
->  };
->  
->  static struct ccu_reset_map sun55i_a523_ccu_resets[] = {
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523.h b/drivers/clk/sunxi-ng/ccu-sun55i-a523.h
-> deleted file mode 100644
-> index fc8dd42f1b47..000000000000
-> --- a/drivers/clk/sunxi-ng/ccu-sun55i-a523.h
-> +++ /dev/null
-> @@ -1,14 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0 */
-> -/*
-> - * Copyright 2024 Arm Ltd.
-> - */
-> -
-> -#ifndef _CCU_SUN55I_A523_H
-> -#define _CCU_SUN55I_A523_H
-> -
-> -#include <dt-bindings/clock/sun55i-a523-ccu.h>
-> -#include <dt-bindings/reset/sun55i-a523-ccu.h>
-> -
-> -#define CLK_NUMBER	(CLK_FANOUT2 + 1)
-> -
-> -#endif /* _CCU_SUN55I_A523_H */
-
+Yours,
+Linus Walleij
