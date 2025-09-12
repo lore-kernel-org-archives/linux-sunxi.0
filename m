@@ -1,38 +1,37 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B18F02DEA82
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Sep 2025 10:04:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09B172EA72B
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Sep 2025 10:19:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757671481; cv=none; b=ZdedN31enp7VX/P/gFZReqz3t1PBamLLXHivB1pYiSE+L66C7xcn/WStyg4JVpXWIkbaArlUVHKv9aqwdbYd/T6iSWN06Dj+4MGeS2NO8ZghVGft5Zbe/jRQ52tHkHOJjNsruL9WhwaTNIvUPWK6n3X2gNsJtN6Muu9Y4k/fD7U=
+	t=1757672386; cv=none; b=VlftYUSR4e4yVfetFiJatcagfvnHsER11tfWBAiqchW4fdU3xbUS7HIxMs6V/cuylrfhk9HxFju1D1w2kGzSEwmKvc4do4zKPSx1bhGRcJODikcn2lHIXoSrY/MGHCu7tzBgqqkFc1zolTIVGJjaIpLvZeclKiBM3jHX5yHzrLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757671481; c=relaxed/simple;
-	bh=XElUX9esLbtxbckqyV9wGffWqX28r4dwpXWVkfhm/Bw=;
+	s=arc-20240116; t=1757672386; c=relaxed/simple;
+	bh=80VD8j953rabZpdH+qBSUDke5/D1/YIn00wR201HN5w=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NEENHQs43z/vH0/WNgLHn8VgYvu6ul3w9nPcEFeVubF0P9RMESyKV7SJa6606PeE9SBl6iYlfg46Aw6ApBTdVuhTHozAFMYkjWGlhnwbMXcDgCINWa6qjT74YHk9pIRoFUzCHBq2MOu5K8rGKM4e0qxwpypyLGlEHsHMZ0SWR2w=
+	 MIME-Version:Content-Type; b=UgTOgAkI/D0HMCwphOKuNrpnzrQHJK/Y4jiQ6nauHOHbCyHa4bEMwCOKmLfqjyF6eRMVvf/BPUYEE9nCfu4zFoqHnSMg8sVjyB7gedSbnsdjC2RUKNdRNEyQwpTIzBc+AeEJHLj6OYNCejqPcSwjf6FBasUHWgTgb4gbARpcEFc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9E2A716A3;
-	Fri, 12 Sep 2025 03:04:30 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1E3F616A3;
+	Fri, 12 Sep 2025 03:19:36 -0700 (PDT)
 Received: from donnerap (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 392C63F66E;
-	Fri, 12 Sep 2025 03:04:37 -0700 (PDT)
-Date: Fri, 12 Sep 2025 11:04:34 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0B5E53F66E;
+	Fri, 12 Sep 2025 03:19:42 -0700 (PDT)
+Date: Fri, 12 Sep 2025 11:19:40 +0100
 From: Andre Przywara <andre.przywara@arm.com>
-To: "J. =?UTF-8?B?TmV1c2Now6RmZXI=?= via B4 Relay"
- <devnull+j.ne.posteo.net@kernel.org>
-Cc: j.ne@posteo.net, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: arm: sunxi: Add Amediatech X96Q
-Message-ID: <20250912110434.2a520acc@donnerap>
-In-Reply-To: <20250912-x96q-v1-1-8471daaf39db@posteo.net>
-References: <20250912-x96q-v1-0-8471daaf39db@posteo.net>
-	<20250912-x96q-v1-1-8471daaf39db@posteo.net>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/7] clk: sunxi-ng: sun55i-a523-ccu: Add missing NPU
+ module clock
+Message-ID: <20250912111940.61f87a3e@donnerap>
+In-Reply-To: <20250911174710.3149589-4-wens@kernel.org>
+References: <20250911174710.3149589-1-wens@kernel.org>
+	<20250911174710.3149589-4-wens@kernel.org>
 Organization: ARM
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
@@ -41,48 +40,131 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, 12 Sep 2025 01:52:09 +0200
-J. Neusch=C3=A4fer via B4 Relay <devnull+j.ne.posteo.net@kernel.org> wrote:
+On Fri, 12 Sep 2025 01:47:06 +0800
+Chen-Yu Tsai <wens@kernel.org> wrote:
 
-> From: "J. Neusch=C3=A4fer" <j.ne@posteo.net>
->=20
-> The X96Q is a set-top box with an H313 SoC, AXP305 PMIC, 1 or 2 GiB RAM,
-> 8 or 16 GiB eMMC flash, 2x USB A, Micro-SD, HDMI, Ethernet, audio/video
-> output, and infrared input.
->=20
->   https://x96mini.com/products/x96q-tv-box-android-10-set-top-box
->=20
-> Signed-off-by: J. Neusch=C3=A4fer <j.ne@posteo.net>
+> From: Chen-Yu Tsai <wens@csie.org>
+> 
+> The main clock controller on the A523/T527 has the NPU's module clock.
+> It was missing from the original submission, likely because that was
+> based on the A523 user manual; the A523 is marketed without the NPU.
+> 
+> Also, merge the private header back into the driver code itself. The
+> header only contains a macro containing the total number of clocks.
+> This has to be updated every time a missing clock gets added. Having
+> it in a separate file doesn't help the process. Instead just drop the
+> macro, and thus the header no longer has any reason to exist.
+> 
+> Also move the .num value to after the list of clks to make it obvious
+> that it should be updated when new clks are added.
+> 
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 
 Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Thanks for the change!
 
 Cheers,
 Andre
 
 > ---
->  Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documenta=
-tion/devicetree/bindings/arm/sunxi.yaml
-> index c25a22fe4d25cbd8a8132689f1326548f7f43f2c..c9940b44bc888f7ab81ace671=
-040bd663556c113 100644
-> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-> @@ -963,6 +963,11 @@ properties:
->            - const: hechuang,x96-mate
->            - const: allwinner,sun50i-h616
-> =20
-> +      - description: X96Q
-> +        items:
-> +          - const: amediatech,x96q
-> +          - const: allwinner,sun50i-h616
+> Changes since v1:
+> - Move .num to after list of clks
+> ---
+>  drivers/clk/sunxi-ng/ccu-sun55i-a523.c | 21 ++++++++++++++++++---
+>  drivers/clk/sunxi-ng/ccu-sun55i-a523.h | 14 --------------
+>  2 files changed, 18 insertions(+), 17 deletions(-)
+>  delete mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523.h
+> 
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
+> index 1a9a1cb869e2..acb532f8361b 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
+> @@ -11,6 +11,9 @@
+>  #include <linux/module.h>
+>  #include <linux/platform_device.h>
+>  
+> +#include <dt-bindings/clock/sun55i-a523-ccu.h>
+> +#include <dt-bindings/reset/sun55i-a523-ccu.h>
 > +
->        - description: X96Q Pro+
->          items:
->            - const: amediatech,x96q-pro-plus
->=20
+>  #include "../clk.h"
+>  
+>  #include "ccu_common.h"
+> @@ -25,8 +28,6 @@
+>  #include "ccu_nkmp.h"
+>  #include "ccu_nm.h"
+>  
+> -#include "ccu-sun55i-a523.h"
+> -
+>  /*
+>   * The 24 MHz oscillator, the root of most of the clock tree.
+>   * .fw_name is the string used in the DT "clock-names" property, used to
+> @@ -486,6 +487,18 @@ static SUNXI_CCU_M_HW_WITH_MUX_GATE(ve_clk, "ve", ve_parents, 0x690,
+>  
+>  static SUNXI_CCU_GATE_HWS(bus_ve_clk, "bus-ve", ahb_hws, 0x69c, BIT(0), 0);
+>  
+> +static const struct clk_hw *npu_parents[] = {
+> +	&pll_periph0_480M_clk.common.hw,
+> +	&pll_periph0_600M_clk.hw,
+> +	&pll_periph0_800M_clk.common.hw,
+> +	&pll_npu_2x_clk.hw,
+> +};
+> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(npu_clk, "npu", npu_parents, 0x6e0,
+> +				    0, 5,	/* M */
+> +				    24, 3,	/* mux */
+> +				    BIT(31),	/* gate */
+> +				    CLK_SET_RATE_PARENT);
+> +
+>  static SUNXI_CCU_GATE_HWS(bus_dma_clk, "bus-dma", ahb_hws, 0x70c, BIT(0), 0);
+>  
+>  static SUNXI_CCU_GATE_HWS(bus_msgbox_clk, "bus-msgbox", ahb_hws, 0x71c,
+> @@ -1217,6 +1230,7 @@ static struct ccu_common *sun55i_a523_ccu_clks[] = {
+>  	&bus_ce_sys_clk.common,
+>  	&ve_clk.common,
+>  	&bus_ve_clk.common,
+> +	&npu_clk.common,
+>  	&bus_dma_clk.common,
+>  	&bus_msgbox_clk.common,
+>  	&bus_spinlock_clk.common,
+> @@ -1343,7 +1357,6 @@ static struct ccu_common *sun55i_a523_ccu_clks[] = {
+>  };
+>  
+>  static struct clk_hw_onecell_data sun55i_a523_hw_clks = {
+> -	.num	= CLK_NUMBER,
+>  	.hws	= {
+>  		[CLK_PLL_DDR0]		= &pll_ddr_clk.common.hw,
+>  		[CLK_PLL_PERIPH0_4X]	= &pll_periph0_4x_clk.common.hw,
+> @@ -1524,7 +1537,9 @@ static struct clk_hw_onecell_data sun55i_a523_hw_clks = {
+>  		[CLK_FANOUT0]		= &fanout0_clk.common.hw,
+>  		[CLK_FANOUT1]		= &fanout1_clk.common.hw,
+>  		[CLK_FANOUT2]		= &fanout2_clk.common.hw,
+> +		[CLK_NPU]		= &npu_clk.common.hw,
+>  	},
+> +	.num	= CLK_NPU + 1,
+>  };
+>  
+>  static struct ccu_reset_map sun55i_a523_ccu_resets[] = {
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523.h b/drivers/clk/sunxi-ng/ccu-sun55i-a523.h
+> deleted file mode 100644
+> index fc8dd42f1b47..000000000000
+> --- a/drivers/clk/sunxi-ng/ccu-sun55i-a523.h
+> +++ /dev/null
+> @@ -1,14 +0,0 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> -/*
+> - * Copyright 2024 Arm Ltd.
+> - */
+> -
+> -#ifndef _CCU_SUN55I_A523_H
+> -#define _CCU_SUN55I_A523_H
+> -
+> -#include <dt-bindings/clock/sun55i-a523-ccu.h>
+> -#include <dt-bindings/reset/sun55i-a523-ccu.h>
+> -
+> -#define CLK_NUMBER	(CLK_FANOUT2 + 1)
+> -
+> -#endif /* _CCU_SUN55I_A523_H */
 
