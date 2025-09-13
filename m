@@ -1,62 +1,62 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20DBB2727E0
-	for <linux-sunxi@lists.linux.dev>; Sat, 13 Sep 2025 11:30:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA3BD26AD9
+	for <linux-sunxi@lists.linux.dev>; Sat, 13 Sep 2025 11:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757763016; cv=none; b=gprWeobSB8st7+8SdZyfLSDRxd1ZsJdlbK/QIrSiDc0qFsQQYsqU9/r1rVe8x0p4aGx5wdpau0OJMWKxRzcXpZlv+Qi/p62UlfUEG8mZgl+6dPIteGIYlEOqXTS2AU547kTarYbCnIwrgu9kdsMom3uIDMmpGrwHpAWMj9EEOWA=
+	t=1757763075; cv=none; b=nOQ22UDgnyXchaCY4MDRtVyGkfZ0vpfVBZVd2EZWA7IyQejW3iijs8Q8z8D3T4Xlr4s/bNZzelJ4NmjTduww5FPb0ZDqHSz9IwKm5p0JdzDj0mo/qLYUhyj5v2drnVay+C+0HWpLpItB8PAh1ACrZCIrmMSym2V3LTSdxNnatmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757763016; c=relaxed/simple;
-	bh=x7djyqcnacv1DN7MFD9deVtmkZvxAh8dRtXGYaZoXno=;
+	s=arc-20240116; t=1757763075; c=relaxed/simple;
+	bh=Bgi/LtOZegcBC2paPEdpNuoA8uNY2waphFWpS0NN/k0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ON8upZbej6a6fzeYYdF/O/iSKcwSWFf6eM6ABtSBRPOXf87z+57Sh+swJEx7q6vDMrbnHLbjecbePu5L4gRpQk2MrfCivmkQtGg2edaak1HGCvTUWqWRA9q8B3m7j7qcrJzuQm2FVixuUH66f8e0qjCNunfi7VhuigOLctQzpU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XaEPjrvw; arc=none smtp.client-ip=209.85.218.47
+	 MIME-Version:Content-Type; b=qhWNlanfoLIZt+wg2oc9f6QYblgw48kaBqg2FSFscsEylS7VahwYZV8j55y60WiMPpDcmTGHsL7XEDgS20OGo57H1YvqxZ1ErCNwsVMdZFCaKFLaZjv3vIoIKtGs4T0XdcsJTSnQKF5SaGc955lEJu3Yhpk6a4vo8Q4ODx9pEPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fBwYmJLA; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XaEPjrvw"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b0aaa7ea90fso33007366b.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 13 Sep 2025 04:30:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fBwYmJLA"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b07c28f390eso301381966b.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 13 Sep 2025 04:31:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757763013; x=1758367813; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1757763072; x=1758367872; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vM/wOHbGgB/+niDKSnNnlcAAPUzV0FZzOUIFNQXZ5cc=;
-        b=XaEPjrvwgpnfyceXwBMt6wZ45+qEV7dBQmjSgD3Z7dVQTfiTuB6lNO5Gu/a3VtPEcf
-         XR81OxumwwhKbMeMa8R0rLRC2G7Z4qpk+M/iKPGEWO+XVa7gNASxVcO6Mn61r8bika3N
-         xOgQ1AdV1toDbHJR79UdgTtQ0+Lg11x6IU4v5L68C3YB2TRoqgiaoyj40UqskGsxULzs
-         dO9UvyPX1DXdQopA+oCEjbiJmNOmmiftWgoQ0ap9Ld/fc418ZkaV3Q2n/4+qPOoe6aDr
-         D+teqY+OU/wFkeC16M0SEdNSo4r2uQzGBnNoE0Qo3r0YGhJ0nxbg5qXMzt3+h3Pchbn8
-         6j8Q==
+        bh=BbaWkghAVJNKzBV/Fp3pj0pkQCQlDE9HrxdJcUrmDgM=;
+        b=fBwYmJLAlnJMmu8QoAFSuXGaw5kSNo84UX/HLTbL6Wq5IOBvYavqdu/KEaJkTWLXbF
+         WltNe5guJ98A8LPu/hgSrk4HZeE/7z3TP7u+yOJHAODD7ism7EGVIni1ezJ59rygbuDp
+         iMrPLVwAsXTi4xEw7HegZ0qKGbNV51dCL08y+CXcAnCBWDfTUevGfyGfXvD43rQUAZx6
+         itkaSfd3+C2JNS08QA4Eq4XvO82zhwiyRjWuyMfVswWvy3fdWRxMcvbqU0ERKnmQt73m
+         yZdggoLi2pVpTEhUC1x+KLP2QBrVd81vT9KMd9ZkD9+JafLX/WGVNd0rNbUQCopKHWIY
+         stzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757763013; x=1758367813;
+        d=1e100.net; s=20230601; t=1757763072; x=1758367872;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vM/wOHbGgB/+niDKSnNnlcAAPUzV0FZzOUIFNQXZ5cc=;
-        b=P9BMLjxP3w38kjOjSzm2INhriFIE/7AHrDk1Av12rBJhO3DbHfvoJ727SlXzEVFvP4
-         wtAUZtbpuD+jWUAwGx7J03+rh5ddydTSwPfAmMq8iFOlf0rCwe0raprRv54a21guawhN
-         z1pyXTH3jVedGMLznhTTom4hp45qtGQFjZo5v3zFeI72B4d+oH4hu6YChMWzs+f5/+Wr
-         h/+k27vlZeMR2O1q3clbC0UlhD3lndk9kErjUWSXBy4x3PDolN/NrELUa67dK5kCVJ6r
-         grTBjmBMDoZ+ytnF0KYCsTAw5sCr7rJYE8UOctv7rCfftmiqJ5GZxZolhzQeu4i9U2m6
-         tkzQ==
-X-Gm-Message-State: AOJu0YzkSqSm2f3NzhGemnnPuS2uaaA8XHAE5QdOXMcW3DgevwfGVveB
-	C/YO7U/stEp7dzRgIrZx+I00vVnTze1aKfH4wdYNDDtTtanq5sOS4tNM
-X-Gm-Gg: ASbGncvfJz3llx6zLCEY74Tzqomm/D0Oww8PgzXmuu9ME1evV/9VTBgSIPTIsxk0Jpl
-	FWoPR/OonaqLXDFCRWrIMHaPAYxorSQLAbfcggkhfjWn6LGKZ2RdKabFAkkMJDpdj8tmjPotMZ1
-	1H7zxSXHN74x9/u9YMSQbQFQkzNG4iehyeQgnIRvWxhdPGzoNN2SBpDQNbsI0QXUAoTvQ4DS8Wq
-	tCkQmdA8Yw7BVbmE3PCznThICGPLdNUz2nSgap7nzMDuhDGJJp2GNeuKSOaILZ/gPk8tpCyN/wQ
-	fpu/TO8B4HK8FtltH6KMwZLOnmn5Bd6RiTOHasJ/NWFAzXLmbgFba0znZDgNbQktbPYx1PNDn9W
-	4cCqsQQmQENj7ZOG4cj0+emkIo0tsCMazyRq17LOSfagTuOG9fX9QePw=
-X-Google-Smtp-Source: AGHT+IHGrkQn7+NmuVgBdc10MUVOT+vd1j8NXgn0gL8ncYy9IeCu/BFaE0KTAPOvNiL0g93r6GOAgw==
-X-Received: by 2002:a17:907:3f16:b0:b04:5a74:b674 with SMTP id a640c23a62f3a-b07c3a88730mr640143666b.58.1757763013249;
-        Sat, 13 Sep 2025 04:30:13 -0700 (PDT)
+        bh=BbaWkghAVJNKzBV/Fp3pj0pkQCQlDE9HrxdJcUrmDgM=;
+        b=NGCPk3997y31BRhTS0HLAxE0Bl6ShFwl+BfO+8H4wLmSXakFRHIt3k4wFy9ZeKMLIY
+         0dIwIYcVFfWoi9iCZ5vrevht9sJHa646i3Usxu9/vDtR3le8md9s13DxWx3CHJoqUpfJ
+         cmbwu3Li/Rg6pGip4HfwBWIpXlynj/Z8y2VNIBCnCZtfhPs5+yQ+nMw9U9JWBBpP5BQc
+         hgU66vkudjlZhCy3qF4VE5b0Cqu7GnTphnI7fOvx9LPyaZD7YGPkJWpzc/+3U4eYyXjs
+         lP1IuSxN/k2KBJNtbeBumzHaNdTZD83WYz5KXoTg1L8AT3KpUCNBVlEymzqxRZAtp/jE
+         C8JQ==
+X-Gm-Message-State: AOJu0YwiYFTlb9mrC7IRrzVVp2ytB41Tz5HZXw3u7sNNYa04g+hYsSHj
+	yWIio9Jf2j5SlzPIUqEvkJLdEreSDvVoBmH9tzuJ78rcID6HEHQpEVmJ
+X-Gm-Gg: ASbGncu/K9T2Xa86rDBwx2jZCXaRe+mAIf4GKnQfQBk4uskoA9I28uPMK9dpeW+NzkZ
+	p/+4/WB5wXkVSds8xeRXKS8Rq27fIyh+UXpkXqO5OI3X26qhRpOyxKnlg4+zlC+602hBFrTIdLZ
+	04dYFLbVGE4PfztFh0zUccQOGpzRMk4qGogWsKuSPOXNVXICVqZ2x1Fc5xTByfkFsXPDSoJgSLW
+	rZw4JsUinfkHKqNBGop9IAPNS8Ry9d91btaO7YzXYdAr/CD40VI7pWhdm6l0COrxdliCU8iK+DZ
+	2OvaUEwEo/Yk/3Axei2qZW8Mn9az7ewOU6FeEB9TmrcWWi5A7ATJj/lvETx3RmP0V9wEanphuHI
+	zA0fMQI4O0vpcd7Z0Tyt92XMM1Ju+PQAGq33n65EDY0xl3GGbt/ARoWE=
+X-Google-Smtp-Source: AGHT+IGo8CziTZlFFDXaGrQNSM6imSKcLrT5E0r4aNs8WHUFIZfpN9rTwSz+1wD/ImFHnj2/i6E30Q==
+X-Received: by 2002:a17:906:ca56:b0:b07:cd08:ff34 with SMTP id a640c23a62f3a-b07cd08ffe4mr358053766b.51.1757763072002;
+        Sat, 13 Sep 2025 04:31:12 -0700 (PDT)
 Received: from jernej-laptop.localnet ([188.159.248.16])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07b334e720sm551560166b.104.2025.09.13.04.30.11
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07b30da327sm560756966b.11.2025.09.13.04.31.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Sep 2025 04:30:12 -0700 (PDT)
+        Sat, 13 Sep 2025 04:31:11 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>,
  Samuel Holland <samuel@sholland.org>,
@@ -64,12 +64,14 @@ To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>,
 Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Subject:
- Re: [PATCH 1/3] arm64: dts: allwinner: a527: cubie-a5e: Drop external 32.768
- KHz crystal
-Date: Sat, 13 Sep 2025 13:30:10 +0200
-Message-ID: <6190895.lOV4Wx5bFT@jernej-laptop>
-In-Reply-To: <20250913102450.3935943-1-wens@kernel.org>
-References: <20250913102450.3935943-1-wens@kernel.org>
+ Re: [PATCH 2/3] arm64: dts: allwinner: t527: avaota-a1: hook up external 32k
+ crystal
+Date: Sat, 13 Sep 2025 13:31:09 +0200
+Message-ID: <4676490.LvFx2qVVIh@jernej-laptop>
+In-Reply-To: <20250913102450.3935943-2-wens@kernel.org>
+References:
+ <20250913102450.3935943-1-wens@kernel.org>
+ <20250913102450.3935943-2-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -79,49 +81,51 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne sobota, 13. september 2025 ob 12:24:48 Srednjeevropski poletni =C4=8Das=
+Dne sobota, 13. september 2025 ob 12:24:49 Srednjeevropski poletni =C4=8Das=
  je Chen-Yu Tsai napisal(a):
 > From: Chen-Yu Tsai <wens@csie.org>
 >=20
-> The Radxa Cubie A5E has empty pads for a 32.768 KHz crystal, but it is
-> left unpopulated, as per the schematics and seen on board images. A dead
-> give away is the RTC's LOSC auto switch register showing the external
-> OSC to be abnormal.
+> When the board was added, its external 32.768 KHz crystal was described
+> but not hooked up correctly. This meant the device had to fall back to
+> the SoC's internal oscillator or divide a 32 KHz clock from the main
+> oscillator, neither of which are accurate for the RTC. As a result the
+> RTC clock will drift badly.
 >=20
-> Drop the external crystal from the device tree. It was not referenced
-> anyway.
+> Hook the crystal up to the RTC block and request the correct clock rate.
 >=20
-> Fixes: c2520cd032ae ("arm64: dts: allwinner: a523: add Radxa A5E support")
+> Fixes: dbe54efa32af ("arm64: dts: allwinner: a523: add Avaota-A1 router s=
+upport")
 > Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
 > ---
->  arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts | 7 -------
->  1 file changed, 7 deletions(-)
+>  arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 >=20
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts b/ar=
-ch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-> index 71074b072184..e333bbaf01d3 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-> @@ -24,13 +24,6 @@ chosen {
->  		stdout-path =3D "serial0:115200n8";
->  	};
+> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts b/ar=
+ch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
+> index 535387912d9b..054d0357c139 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
+> @@ -354,6 +354,14 @@ &r_pio {
+>  	vcc-pm-supply =3D <&reg_aldo3>;
+>  };
 > =20
-> -	ext_osc32k: ext-osc32k-clk {
-> -		#clock-cells =3D <0>;
-> -		compatible =3D "fixed-clock";
-> -		clock-frequency =3D <32768>;
-> -		clock-output-names =3D "ext_osc32k";
-> -	};
-> -
->  	leds {
->  		compatible =3D "gpio-leds";
-> =20
+> +&rtc {
+> +	clocks =3D <&r_ccu CLK_BUS_R_RTC>, <&osc24M>,
+> +		 <&r_ccu CLK_R_AHB>, <&ext_osc32k>;
+> +	clock-names =3D "bus", "hosc", "ahb", "ext-osc32k";
+> +	assigned-clocks =3D <&rtc CLK_OSC32K>;
+> +	assigned-clock-rates =3D <32768>;
+> +};
+> +
+>  &uart0 {
+>  	pinctrl-names =3D "default";
+>  	pinctrl-0 =3D <&uart0_pb_pins>;
 >=20
 
 
