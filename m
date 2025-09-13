@@ -1,178 +1,98 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F852EA725
-	for <linux-sunxi@lists.linux.dev>; Sat, 13 Sep 2025 09:09:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB353B186;
+	Sat, 13 Sep 2025 09:30:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757754568; cv=none; b=USrfiTYy07ikDg89M3XnuiiTe2HFk0PI/W3VWr4oj7LEFtGq/0KbKPDD+2ySDPxDPogDcFlbuk07W7LT9hYcuQY7lvhS2J5DkgoPFGdEuOc+CzKVrojDa5HgZho8RHDKrQEy6x/wPmuBr0PCEog5m2832uMWRf6qfO3DpeFrpec=
+	t=1757755820; cv=none; b=F3Scj5xZEMTENqoi/oio0jnoEQV2lxdR3hiI2rap64n/sxyLDNfvTZuQA84uH3/g5GoJ6CLY3FGe6UwSpsxMAoH4/D6WjwzQu6PQtjC84lgclXFPMHV6xXwr+7lP3ibCA9yNPHmwmSqreolqIek9pd3lu/5pJn0FEFbUtlkDnJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757754568; c=relaxed/simple;
-	bh=3axRdzUJe+dWuKW8fyKBAG7j/3hD2bAE41+RVxf3jAo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=M9tDQk8Wrlg0NM9l9AyoUdxh+feMHN43DCJrVr9letUt2XNw4s4dPgSe3S7UXtZ/IEu+wEfNb+n4KZWYps0p5R5K7yKv3KvXCgh7EMX5dLwUwaM6F4GqF11GfGgC3fyrwLpLxZwBLjfxU65WnTNcParvJ3y2np9C+xAW36g0lyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-336ce4a8bfcso20765841fa.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 13 Sep 2025 02:09:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757754560; x=1758359360;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4M9q1sBtoJdbch2HX+0f+gEgUbmufQuxtOpAtokmLRw=;
-        b=ZO0E4jKG1iXsTvCLNxGjPU+Dsx20DBukMsBLXArnmJ3AYZPb47ylVzd2mcH9fXVHia
-         pXbOOomjFTT3VzGKtmociYeDV9zh2MQHDn94FkElzIBhjvRu7Y/oLMDjf9XfcRPPH2LL
-         NcAiBHxLCXNr91RHtY28hQgS++hkH+Z9gnLe0FYCAc4s9LDKLxU+7gPGnySgkIkW5L29
-         sjbtbkutejw/T3g5Itv9IaoQbamqNnpkYOamDjbh6HypB4iA2aiyrNhMWD0t+j2NoKWw
-         8SplDemMsUHuChLexUHzlKwnpVqKYNS3ME1YWQK/yddmcmbgHcCeuyB2ymAZaRkn+AGs
-         uelQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUbwqU4FZGealy6+2yHjdv9JdeCPnntHr6oUn28XoB7Al7rDll+tUpnlg94QdqG45VNHNCXSIUXzRwCxw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyKCoXqXlNrBQ+AzSpk47UWM7KagcmfW4Da4o0+6MqWGMfuVMIl
-	t3Y7hFgHmGm3aGao+q+mAL5oFEK3ml5ICgEd74Wk8q7fvgQDSjKWF0A2dmgLlb2u
-X-Gm-Gg: ASbGnctJMFGKroKe+Z3mhkrS9StGeCCAWZ/XyL6oK+dl3Yh3gIyXOUmEQwQz08xnYiP
-	z5wL6yTXCPHEzM/0huQE6XuiYi9SBThb87H8pDhrZ9Q3zbUOhFyuDcei4leyTIYa1yFmst1Loh2
-	rdPKIWanZ/MtSkditP/CHZqLnkbZiM4EeolVmlrf9sc++9Dps3n1jYFQnvEFkx++2jMs80CReax
-	zH9krFCzflb1VQ8NRCi8Js1O7XmrC1NUEztfuN65UsfKHT6O9zUkHDGMtwnEoWei4y1TSX7jgWv
-	HbQxljRU310gdZPTFiqVm9QIymVL/qkcuVL8fXVtJM2ADMnVwccw0dgm7dCqVYyRnZUsW3gKiOZ
-	r16ElxbukL9gRmeIAgQ8jvlDQ8+2MJ6wk3X//T4q87bImQQOUeQVHdyMq9HuyW6Jm5g==
-X-Google-Smtp-Source: AGHT+IEcSOQMOSpfRbhxJRMmi/WiCH+Ec8CIIiEe+2FTzIUFtWrEkdV6VM0i5ppP2rKfv0SCk75khQ==
-X-Received: by 2002:a05:651c:20dc:20b0:336:df07:95dd with SMTP id 38308e7fff4ca-3513b2966abmr12267901fa.15.1757754559372;
-        Sat, 13 Sep 2025 02:09:19 -0700 (PDT)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com. [209.85.208.173])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-34f1bf1a45csm13787451fa.60.2025.09.13.02.09.18
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 13 Sep 2025 02:09:18 -0700 (PDT)
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-336ce4a8bfcso20765381fa.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 13 Sep 2025 02:09:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVpfY2ogn6khlamFXechEJlGrAGThh6pdn3gYF+vGJ97HqgaiEWOXYLSa3PqyaAyzFt+6lx0nrOyt1lBg==@lists.linux.dev
-X-Received: by 2002:a2e:bc13:0:b0:336:ed88:f3b1 with SMTP id
- 38308e7fff4ca-3513a042fe1mr16058841fa.7.1757754557881; Sat, 13 Sep 2025
- 02:09:17 -0700 (PDT)
+	s=arc-20240116; t=1757755820; c=relaxed/simple;
+	bh=c12/xNUXslNQin2axApjPv7ljtSkh0GTCsEFL44BFio=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BZMX51F+BFoNOYGtPokYFCo2e5jvKi3v/OtpEBsDUE0/X8xWiH9PxI3sl2mTGPPA74zlyQQSGLLXurq6drttFHiZVkfoj8cVm6xCc5+u4XEmbqKrMiDP9kBlINcweXXib1BZpj6XixA6V8lhSgN+AEbKvy+OYmxerwMC1MGxxlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sjvqPnzq; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sjvqPnzq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3766C4CEEB;
+	Sat, 13 Sep 2025 09:30:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757755820;
+	bh=c12/xNUXslNQin2axApjPv7ljtSkh0GTCsEFL44BFio=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=sjvqPnzqsYnWNxyxRDIBh+NQRy7Qf3VKRmVD4aWDVkjjK3X2qgB0ociCTcXT7rRE6
+	 KfyVY9CT/R53w5AbTPrvFD6V+X7BNzx6nA8630xM3lyo8BOak1vIoZ7am0QF8RKhOs
+	 YcRJqaB/bFH3UuSVFOUszO9gxEu6jkHslv5dqfv0khkLOnOaSQlAHXStkj0rNlV1wq
+	 rA2ezBsW7mDqHW1IPxDgNFl9oqv6vAp+GhPcd+HnrE3KU/CpvrvJZjkj57WajF+u01
+	 iA95YWsidRyYVZrbjeQ3EGCSG1VJKBgAdFMQJxUtrJQ+unTyhnye6JG0AaPKbqlKrF
+	 b0eH7QGVeY3OA==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 7C2145FC8D; Sat, 13 Sep 2025 17:30:17 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Maxime Ripard <mripard@kernel.org>,
+	Lukas Schmid <lukas.schmid@netcube.li>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v8 0/5] Add support for NetCube Systems Nagami SoM and its carrier boards
+Date: Sat, 13 Sep 2025 17:30:16 +0800
+Message-Id: <175775572870.3891284.1456456718289976149.b4-ty@csie.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250831162536.2380589-1-lukas.schmid@netcube.li>
+References: <20250831162536.2380589-1-lukas.schmid@netcube.li>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250831162536.2380589-1-lukas.schmid@netcube.li> <20250831162536.2380589-3-lukas.schmid@netcube.li>
-In-Reply-To: <20250831162536.2380589-3-lukas.schmid@netcube.li>
-Reply-To: wens@csie.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Sat, 13 Sep 2025 17:09:05 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67fwg0x8HNE6Dp-M-LDyon1YipeonqvSvSY-BFH+f4E9w@mail.gmail.com>
-X-Gm-Features: Ac12FXypVtt3w9R-5_aPJlDVL7mEoeRUisSDiiTl2jorYCCDiG8XoTwLb6M_2sQ
-Message-ID: <CAGb2v67fwg0x8HNE6Dp-M-LDyon1YipeonqvSvSY-BFH+f4E9w@mail.gmail.com>
-Subject: Re: [PATCH v8 2/5] riscv: dts: allwinner: d1s-t113: Add pinctrl's
- required by NetCube Systems Nagami SoM
-To: Lukas Schmid <lukas.schmid@netcube.li>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 1, 2025 at 12:26=E2=80=AFAM Lukas Schmid <lukas.schmid@netcube.=
-li> wrote:
->
-> Added the following pinctrl's used by the NetCube Systems Nagami SoM
->   * i2c2_pins
->   * i2c3_pins
->   * i2s1_pins, i2s1_din_pins, i2s1_dout_pins
->   * spi1_pins, spi1_hold_pin, spi1_wp_pin
->
-> Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
-> ---
->  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 48 +++++++++++++++++++
->  1 file changed, 48 insertions(+)
->
-> diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/ris=
-cv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-> index e4175adb028da..c00996d6275c5 100644
-> --- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-> +++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-> @@ -78,6 +78,36 @@ dsi_4lane_pins: dsi-4lane-pins {
->                                 function =3D "dsi";
->                         };
->
-> +                       /omit-if-no-ref/
-> +                       i2c2_pins: i2c2-pins {
-> +                               pins =3D "PD20", "PD21";
-> +                               function =3D "i2c2";
-> +                       };
-> +
-> +                       /omit-if-no-ref/
-> +                       i2c3_pins: i2c3-pins {
-> +                               pins =3D "PG10", "PG11";
-> +                               function =3D "i2c3";
-> +                       };
+On Sun, 31 Aug 2025 18:25:29 +0200, Lukas Schmid wrote:
+> This series adds support for the NetCube Systems Nagami SoM and its
+> associated carrier boards, the Nagami Basic Carrier and the Nagami Keypad
+> Carrier.
+> 
+> Changes in v8:
+>   - Use a gpio-mux instead of the gpio-hog for the USB0_SEC_EN signal
+>   - Fix the dt-schema issues
+> 
+> [...]
 
-Because i2c2 and i2c3 have multiple options, they should be named
-appropriately, like i2c2-pd-pins and i2c3-pg-pins
+Applied to sunxi/dt-for-6.18 in local tree, thanks!
 
-> +
-> +                       /omit-if-no-ref/
-> +                       i2s1_pins: i2s1-pins {
-> +                               pins =3D "PG12", "PG13";
-> +                               function =3D "i2s1";
-> +                       };
-> +
-> +                       /omit-if-no-ref/
-> +                       i2s1_din_pins: i2s1-din-pins {
-> +                               pins =3D "PG14";
-> +                               function =3D "i2s1_din";
-> +                       };
-> +
-> +                       /omit-if-no-ref/
-> +                       i2s1_dout_pins: i2s1-dout-pins {
-> +                               pins =3D "PG15";
-> +                               function =3D "i2s1_dout";
-> +                       };
+[1/5] dt-bindings: arm: sunxi: Add NetCube Systems Nagami SoM and carrier board bindings
+      commit: db5796c5c5c6db72339e818b54e6a2e043f7032c
+[2/5] riscv: dts: allwinner: d1s-t113: Add pinctrl's required by NetCube Systems Nagami SoM
+      commit: cbce6d5326b116f55dc29f7fc0a7d56a9a03d9e5
+[3/5] ARM: dts: sunxi: add support for NetCube Systems Nagami SoM
+      commit: cba2febbd6465aabdff157fb95b1c07d090af1f0
+[4/5] ARM: dts: sunxi: add support for NetCube Systems Nagami Basic Carrier
+      commit: e36d4d54eefb60144666b27754007e1c0dd0a581
+[5/5] ARM: dts: sunxi: add support for NetCube Systems Nagami Keypad Carrier
+      commit: caffed0800ef4dd29cc29ee17a89d015e867e03a
 
-Should be *din0* and *dout0*, since you have din1 and dout1 on the same pin=
-s
-but swapped around.
+Note that there were some cases in the device tree files where lines were
+indented more than necessary, like for gpio-line-names and the board level
+fallback compatible string. Wrapped lines for lists of items should align
+with the first item on the first line.
 
 
-ChenYu
-
-> +
->                         /omit-if-no-ref/
->                         lcd_rgb666_pins: lcd-rgb666-pins {
->                                 pins =3D "PD0", "PD1", "PD2", "PD3", "PD4=
-", "PD5",
-> @@ -126,6 +156,24 @@ spi0_pins: spi0-pins {
->                                 function =3D "spi0";
->                         };
->
-> +                       /omit-if-no-ref/
-> +                       spi1_pins: spi1-pins {
-> +                               pins =3D "PD10", "PD11", "PD12", "PD13";
-> +                               function =3D "spi1";
-> +                       };
-> +
-> +                       /omit-if-no-ref/
-> +                       spi1_hold_pin: spi1-hold-pin {
-> +                               pins =3D "PD14";
-> +                               function =3D "spi1";
-> +                       };
-> +
-> +                       /omit-if-no-ref/
-> +                       spi1_wp_pin: spi1-wp-pin {
-> +                               pins =3D "PD15";
-> +                               function =3D "spi1";
-> +                       };
-> +
->                         /omit-if-no-ref/
->                         uart1_pg6_pins: uart1-pg6-pins {
->                                 pins =3D "PG6", "PG7";
-> --
-> 2.39.5
->
->
+Best regards,
+-- 
+Chen-Yu Tsai <wens@csie.org>
