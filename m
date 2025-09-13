@@ -1,34 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D03F1CEAC2;
-	Sat, 13 Sep 2025 06:16:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E0E2E88AA;
+	Sat, 13 Sep 2025 08:59:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757744176; cv=none; b=RbziXZmyJqJdV1UprVuXiOZZCQmbowcRXbXxr6riMvC3NCirGaZtyWhWtdA0Vscmx06M3qVmFTbW936V0BabiUZU0Sq7TmLb1k3+Lh4i5xG2RvxDSxW3eTB4lxz63Mu6/sr3/q0tFNyCB1sjhUsfTknWqf+KDmmL3UweZVomV0c=
+	t=1757753965; cv=none; b=m6Va2HTkts5c3izUrHUOofOscCmVvmF4vkwk0nVt5Ip9X9Dh968c8308LVYBQTw6aPuofX5LYhXS/BCSn8ubfWC/5eHCGrqmvcFpL/UG4b3GYJXyx0SulRBYmvrTcO08n7Pm7/RH2oENmiusC1jJoeVQGitwaE7jxm830ZsEaQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757744176; c=relaxed/simple;
-	bh=rYv4Fr76t3a44M/s2LvUW75/HndXzjF+VNPnxzZh54s=;
+	s=arc-20240116; t=1757753965; c=relaxed/simple;
+	bh=jWB2GqmGUMZZQL98Ra2BRA9oHDlw8v2daG3Wt5fn8F4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=j3Xl8ReqnmEvuCkq/JOR62Ryj+mnKEPYyxiK9+ekTXnsaC9zxYC2gfJwO2NCieCoBPtuqT73f0foI+fAmI/ngRZxnjaDP9Q8A1/bBCDXVxWhaGx1FBxcOShf5D5CFgxaMB33bTifMKkYsbHkqiWBwaSYkujd99mO5N5XpGO9xd0=
+	 MIME-Version:Content-Type; b=Y05AW91k45sP/biRTF5Xt33e9B1ODeswZI7QAdUNUUkq6oFLuqNkaSUATDggeG0A9dT9kLocCb4qVDD0d/XMsY+tq1ZHB+2FD6vyfg39z6J59S5y+6WRiVk/8eEaUXCAf7+SPWygBdOYkspPhQWZDYAwAEbrpB4aFRSH3+4EACc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE707C4CEEB;
-	Sat, 13 Sep 2025 06:16:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26727C4CEEB;
+	Sat, 13 Sep 2025 08:59:25 +0000 (UTC)
 Received: from wens.tw (localhost [127.0.0.1])
-	by wens.tw (Postfix) with ESMTP id 344A95FBD7;
-	Sat, 13 Sep 2025 14:16:12 +0800 (CST)
+	by wens.tw (Postfix) with ESMTP id C5A065F846;
+	Sat, 13 Sep 2025 16:59:22 +0800 (CST)
 From: Chen-Yu Tsai <wens@csie.org>
-To: Stephen Boyd <sboyd@kernel.org>, Jernej Skrabec <jernej@kernel.org>, 
- Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
-Cc: Andre Przywara <andre.przywara@arm.com>, linux-sunxi@lists.linux.dev, 
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250911174710.3149589-1-wens@kernel.org>
-References: <20250911174710.3149589-1-wens@kernel.org>
-Subject: Re: (subset) [PATCH v2 0/7] arm64: allwinner: a523: Enable MCU
- PRCM and NPU
-Message-Id: <175774417218.3827849.2965288836170499623.b4-ty@csie.org>
-Date: Sat, 13 Sep 2025 14:16:12 +0800
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ =?utf-8?q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20250911-opz-audio-v3-0-9dfd317a8163@posteo.net>
+References: <20250911-opz-audio-v3-0-9dfd317a8163@posteo.net>
+Subject: Re: [PATCH v3 0/3] Audio and other peripherals on Orange Pi Zero
+Message-Id: <175775396278.3880749.17054923060896114061.b4-ty@csie.org>
+Date: Sat, 13 Sep 2025 16:59:22 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -36,47 +37,21 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.14.2
 
-On Fri, 12 Sep 2025 01:47:03 +0800, Chen-Yu Tsai wrote:
-> From: Chen-Yu Tsai <wens@csie.org>
+On Thu, 11 Sep 2025 22:23:54 +0200, J. Neuschäfer wrote:
 > 
-> Hi folks,
-> 
-> This is v2 of my A523 MCU PRCM and NPU support series.
-> 
-> Changes since v1:
-> - Dropped dual divider clock rate read-back fix that is already merged
-> - DT binding
->   - Moved "r-ahb" clock to the end of the list and added "r-apb0" clock
-> - Add NPU clk
->   - Move .num to after list of clks
-> - MCU CCU clk driver
->   - Added comment for "fixed" dividers in audio PLL clock
->   - Corrected variable names for audio PLL divider clocks
->   - Added comment for the reversed order of some of the DSP clock's
->     parents when compared to the manual
->   - Added comments for clocks and resets only found in the BSP driver
->   - Corrected register offset for i2s3-asrc and bus-mcu-pwm0 clocks
->   - Made "r-ahb" and new "r-apb0" external bus clocks the parents of the
->     bus gate clocks, with comments if guessed which one applies
->   - Moved .num_clks to after the list of clocks, making it obvious that
->     the value needs to be added if more clocks are added to the list
-> - MCU CCU DT node
->   - Enlarged MCU PRCM register range to 0x200
->   - Moved "r-ahb" clock to the end of the list and added "r-apb0" clock
-> - Link to v1
->   https://lore.kernel.org/all/20250830170901.1996227-1-wens@kernel.org/
-> 
-> [...]
+
 
 Applied to sunxi/dt-for-6.18 in local tree, thanks!
 
-[6/7] arm64: dts: allwinner: a523: Add MCU PRCM CCU node
-      commit: edd63e54e516b54c0b7071463d6e839445efab68
-[7/7] arm64: dts: allwinner: a523: Add NPU device node
-      commit: a1845487afd06899502714a3500b60f815d98203
+[1/3] ARM: dts: allwinner: orangepi-zero: Add default audio routing
+      commit: 3173a760021b9340923831aa5edc5530d61a6b9b
+[2/3] ARM: dts: allwinner: orangepi-zero-plus2: Add default audio routing
+      commit: fd5c7bf8ddb51373a6c9456865b3af99f53642a2
+[3/3] ARM: dts: allwinner: Add Orange Pi Zero Interface Board overlay
+      commit: b65ee02e77cb14486cf30709e978430e91f74d2e
 
 Best regards,
 -- 
