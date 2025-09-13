@@ -1,111 +1,89 @@
-Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6AAB1D88D7;
-	Sat, 13 Sep 2025 04:26:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.181.231.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7173B2E2DD8;
+	Sat, 13 Sep 2025 05:55:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757737597; cv=none; b=lYYoHlZ5a6K/L7Vbfnwc52m07xiplBCkKUal0YRAOZGiDLWdNYpsYn4CbEJQTDgfeLgqGGGTFlBpSdX6dSif6aQs2/AiUDPLtwRWbwF11Eu6XvfXAgUN/pcLVNDpEdJ+MpeoXQ9rKHUlvgalOSAnmzAxDCneQK5/hoRcMPuJNw4=
+	t=1757742935; cv=none; b=caGFun8RVS/5O3KrFPE0XHnEuQvSA5ig8qJkneNtr1hdZujRw2ekL28+uUOmfoiuH8OwDdA1Ltd8xVYd9tIA0mn3ZkkMiwV57CaI6loh3ueZnZljuWGv2Bv6UXR3V7cjoG61mXC+K1IzaNCOC0MF5e8FquFDvYnfz4DQSrQtTms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757737597; c=relaxed/simple;
-	bh=SI6qYbGtTZ+uBCkzeOyv60NcU4kjXBnoLD9zdEo3zPI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FrnXviAGhnMjcWDhAJaFMRZSLyJdRqEM8e+HlachSM+JalKCZNx3HdGmTjg11jWWglNVSzLk8ymH3qFI5lygGDBbB8gbi05MLhqsLXq5D0J2sNHO2NHstIpKfa7Yrt/pXbDU2reXs9Uch0E52s+wxrHUX+aOcS5/g/UBUfofEJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=YoBNIwpw; arc=none smtp.client-ip=180.181.231.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="YoBNIwpw"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
-	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=yHbu/VpA1M6tYXJjA1n95RXGK7JDygip5jRKebV1vEs=; b=YoBNIwpwcb/iN3H15zASzEM8pK
-	CEuLIKj3lHP4uwq3usELwRnIFPlBxKM/aOTzZfIh7x/so+Ur1TyMXsgzvDx2kCALvEOkzcEs6mJaB
-	na1KHjdOTa8hd3iY6PrXvhyWSF5uFlcDgA463oJj5+B25JwMsQqCvONiHdwiAGHF3Xj+lG42qaq0a
-	j+biXWJbes+wy4kTYIPMxcb8QjHS+94J51CQ3elmxWhsQp/izA+C9HHAPFk+iGh3AObYF85KDqWHt
-	epGw7t9fccySNHenfNH2DhcrjFZZcBR/ghkwdWKdqxE3213NSKApJaPjHX2qLDVszbEWzIPjUhqkH
-	fY7LsphA==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1uxHad-0053nK-08;
-	Sat, 13 Sep 2025 12:26:16 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Sat, 13 Sep 2025 12:26:15 +0800
-Date: Sat, 13 Sep 2025 12:26:15 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-Cc: clabbe.montjoie@gmail.com, davem@davemloft.net,
-	linux-crypto@vger.kernel.org, wens@csie.org,
-	jernej.skrabec@gmail.com, samuel@sholland.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/9] sun8i-ce: small cleanups/refactoring
-Message-ID: <aMTyZz_keDm_WOoR@gondor.apana.org.au>
-References: <20250902132134.3287515-1-ovidiu.panait.oss@gmail.com>
+	s=arc-20240116; t=1757742935; c=relaxed/simple;
+	bh=DQfsESmj7Ce6z0+PXfSGkMPULcTYQxPru4tBSh4sXiA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=WKo5BsYPsv7lVXv+LwV1xFW6Mg0AXjdWPXFq4Q/4B0aR6g+GTDnOTE314No0aMa6CiX74wUgC8P7sgoXju9vjy19jxK33bQkw+aMdKE5ptVSpYLqIciDU6rWW+oTLZpkT/+iH+jJH1X+Wd3XG+FIQu0Omoag2LTrN24rYOahu+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA4F9C4CEEB;
+	Sat, 13 Sep 2025 05:55:34 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id F1B455FBEB;
+	Sat, 13 Sep 2025 13:55:31 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: Stephen Boyd <sboyd@kernel.org>, Jernej Skrabec <jernej@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
+Cc: Andre Przywara <andre.przywara@arm.com>, linux-sunxi@lists.linux.dev, 
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20250911174710.3149589-1-wens@kernel.org>
+References: <20250911174710.3149589-1-wens@kernel.org>
+Subject: Re: [PATCH v2 0/7] arm64: allwinner: a523: Enable MCU PRCM and NPU
+Message-Id: <175774293191.3795761.5114630927586047824.b4-ty@csie.org>
+Date: Sat, 13 Sep 2025 13:55:31 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250902132134.3287515-1-ovidiu.panait.oss@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Tue, Sep 02, 2025 at 04:21:25PM +0300, Ovidiu Panait wrote:
-> This series includes only the refactoring commits from [1]. The batching
-> related changes were dropped since they are no longer relevant (batching
-> support in crypto_engine was retired in [2]).
+On Fri, 12 Sep 2025 01:47:03 +0800, Chen-Yu Tsai wrote:
+> This is v2 of my A523 MCU PRCM and NPU support series.
 > 
-> This series includes various small cleanups and refactoring:
-> - move request-specific skcipher and hash data to request context,
->   eliminating the need to allocate extra memory in the digest path
-> - make the hashing code more clear and modular
-> - reduce a bit of boilerplate/duplicated code
+> Changes since v1:
+> - Dropped dual divider clock rate read-back fix that is already merged
+> - DT binding
+>   - Moved "r-ahb" clock to the end of the list and added "r-apb0" clock
+> - Add NPU clk
+>   - Move .num to after list of clks
+> - MCU CCU clk driver
+>   - Added comment for "fixed" dividers in audio PLL clock
+>   - Corrected variable names for audio PLL divider clocks
+>   - Added comment for the reversed order of some of the DSP clock's
+>     parents when compared to the manual
+>   - Added comments for clocks and resets only found in the BSP driver
+>   - Corrected register offset for i2s3-asrc and bus-mcu-pwm0 clocks
+>   - Made "r-ahb" and new "r-apb0" external bus clocks the parents of the
+>     bus gate clocks, with comments if guessed which one applies
+>   - Moved .num_clks to after the list of clocks, making it obvious that
+>     the value needs to be added if more clocks are added to the list
+> - MCU CCU DT node
+>   - Enlarged MCU PRCM register range to 0x200
+>   - Moved "r-ahb" clock to the end of the list and added "r-apb0" clock
+> - Link to v1
+>   https://lore.kernel.org/all/20250830170901.1996227-1-wens@kernel.org/
 > 
-> Changes in v3:
->    - dropped ____cacheline_aligned attributes from buffers used for
->      to-device DMA only
->    - set up proper alignment for ahash reqctx, in order to allow from-device DMA
->      into reqctx buffer:
->       * increased ahash reqsize by CRYPTO_DMA_PADDING
->       * added __aligned(CRYPTO_DMA_ALIGN) attribute for the 'result' buffer
->       * converted all ahash_request_ctx_dma() calls to ahash_request_ctx_dma()
-> 
-> Changes in v2:
->    - fixed [-Wunused-but-set-variable] warning reported by kernel test robot
-> 
-> [1] https://lore.kernel.org/linux-crypto/20250626095813.83963-1-ovidiu.panait.oss@gmail.com/
-> [2] c470ffa6f486 ("crypto: engine - remove request batching support")
-> 
-> Ovidiu Panait (9):
->   crypto: sun8i-ce - remove channel timeout field
->   crypto: sun8i-ce - remove boilerplate in sun8i_ce_hash_digest()
->   crypto: sun8i-ce - remove unnecessary __maybe_unused annotations
->   crypto: sun8i-ce - add a new function for dumping task descriptors
->   crypto: sun8i-ce - move bounce_iv and backup_iv to request context
->   crypto: sun8i-ce - fold sun8i_ce_cipher_run() into
->     sun8i_ce_cipher_do_one()
->   crypto: sun8i-ce - pass task descriptor to cipher prepare/unprepare
->   crypto: sun8i-ce - save hash buffers and dma info to request context
->   crytpo: sun8i-ce - factor out prepare/unprepare from
->     sun8i_ce_hash_run()
-> 
->  .../allwinner/sun8i-ce/sun8i-ce-cipher.c      |  85 +++++-----
->  .../crypto/allwinner/sun8i-ce/sun8i-ce-core.c |  35 ++---
->  .../crypto/allwinner/sun8i-ce/sun8i-ce-hash.c | 145 ++++++++++--------
->  .../crypto/allwinner/sun8i-ce/sun8i-ce-prng.c |   1 -
->  .../crypto/allwinner/sun8i-ce/sun8i-ce-trng.c |   1 -
->  drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h  |  27 +++-
->  6 files changed, 147 insertions(+), 147 deletions(-)
-> 
-> -- 
-> 2.50.0
+> [...]
 
-All applied.  Thanks.
+Applied to sunxi/shared-dt-headers-for-6.18 in local tree, thanks!
+
+[1/7] dt-bindings: clock: sun55i-a523-ccu: Add missing NPU module clock
+      commit: e9671ddd82eee96146a7359431a4e1f04ac2b076
+[2/7] dt-bindings: clock: sun55i-a523-ccu: Add A523 MCU CCU clock controller
+      commit: 0f610e650d4e979490ccfa4c22ca29ca547f41e7
+[3/7] clk: sunxi-ng: sun55i-a523-ccu: Add missing NPU module clock
+      (no commit info)
+[4/7] clk: sunxi-ng: div: support power-of-two dividers
+      (no commit info)
+[5/7] clk: sunxi-ng: add support for the A523/T527 MCU CCU
+      (no commit info)
+[6/7] arm64: dts: allwinner: a523: Add MCU PRCM CCU node
+      (no commit info)
+[7/7] arm64: dts: allwinner: a523: Add NPU device node
+      (no commit info)
+
+Best regards,
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+Chen-Yu Tsai <wens@csie.org>
+
