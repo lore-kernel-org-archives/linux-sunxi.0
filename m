@@ -1,142 +1,111 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B940261B7F
-	for <linux-sunxi@lists.linux.dev>; Sun, 14 Sep 2025 12:08:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7518A26562D
+	for <linux-sunxi@lists.linux.dev>; Sun, 14 Sep 2025 12:22:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757851722; cv=none; b=GS/ar5W5z4888sYPGSo7vANBPuiJ7qYrwwsj931DWNniChVr1ayE2igG/dn2b1WXNWLmJeEQwVEDfth4hicK2eRF88rewgMrNcXadASw3jNojKpH3l74nxziORww6vvuvVDAjLgj1CiXzBm6r1E9bznaS7GNlskzvUGwhQR5gHQ=
+	t=1757852540; cv=none; b=mJu4WCl7MRS6Vj+l01/HIpRpLsh7E3TNLcTTvl5005W3fWjRFfKoLlj4Rlvf8hM+cyX7oczPfNlup9jGguMg6927szgZp6A34ruCZJu3GdimA9m88QzjzDWgkccoL3Vyo/oQ13L6TBko3bDqo5hZsCIX5gY5m9oDsXrRhokICXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757851722; c=relaxed/simple;
-	bh=/vAVhu/ngR4yHd05XqGLRzyRf/JzOKMB5L/10fK0Kk0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=dLZuPjBf36XGk0zDmS+hrXG2Zvx9tOzQoj273ILDfevi3oyYP/C7vhznTvsNoGpRfxhIHxJnzUTKr6+8MHFh+1AcPcsRbp/HaDDhIKPZcWEEbAxdxZWhjWm88bphNWfvrmFzSOlxreZTPIGh1riCG05MTK1PhzcZQ2DBwt7tegM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FUeAnkDJ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1757852540; c=relaxed/simple;
+	bh=EaiqKlnq9eFO6In87JrKFVDnVqzBVAZnAQlyc/I9aYc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=tIwVve1fDH8ObG0CQ0HeYIGAlIaCCTY6UDY3j7IMT+8QkCgFOK1JAUMHHes8I+VOdJozYWr78xM3D0pmMlyFjubogO71nM983DBwWv6SWn7H6lC3fVMYP49xiG01HAR/vqLsgViaDo4SrdZr41XpoghoE7gj4TaRWEP301JD0S0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ClLKFI3d; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FUeAnkDJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757851720;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TGC4WoAJlpX9tdCXckzAZr5W3saj1ZSsINit3PsYuzA=;
-	b=FUeAnkDJW2mk8y1fOisF489Z0IOpfqgbpu9XulN49RNI288zmCFbSBfrEfRjRpKAZ5tK44
-	7S/gQlysYWIHns+MG2wcxt9+q3ixxGadaflWsIYiKMs7qVeMvsM0b8LrcdYK46TWPA8Mgn
-	GU8DJINiIk3yZCr1VyN3F7dsLXU/Lvs=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-381-2ZNTkKkYNmeaHmhq0AtSag-1; Sun, 14 Sep 2025 08:08:38 -0400
-X-MC-Unique: 2ZNTkKkYNmeaHmhq0AtSag-1
-X-Mimecast-MFC-AGG-ID: 2ZNTkKkYNmeaHmhq0AtSag_1757851718
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8178135137fso949522785a.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 14 Sep 2025 05:08:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ClLKFI3d"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-24c89867a17so33340975ad.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 14 Sep 2025 05:22:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757852539; x=1758457339; darn=lists.linux.dev;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9QaqFDm968hxgUBIhZprbXUlWRJcjVcI14Y1ubOyU+E=;
+        b=ClLKFI3dA1jTH1sXPd8XL/csuIfjyBAJYjUNxkGXhAwpwhnUAGZ4fLbf2mmXvQRWrU
+         hyDDhqY9JDo/ayn2VH8kLM3itXxLrigU1Wm1SYP+nImM5oVCeDdRaqCdH3cX8OwDlM+P
+         +W+y1Suk1eO/uAqKDBhbeSZhMm0jDr5hYRY66z78zR1L5gO/GuJPSwyIY0xjldlkpI6m
+         /0NUuRfGefBcZ3e0hYeWYMDE/mY/Dy9zGU7K2w0vuWzNjhaaHRRpYG+35+kDyQ+lQuRN
+         HMHRp0EHhBGKsucRD0hEMJpoCV4KC3hDVX/zGVSTDVre/Cw90zXWuQqd73S7OIYOQQM/
+         ObHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757851718; x=1758456518;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TGC4WoAJlpX9tdCXckzAZr5W3saj1ZSsINit3PsYuzA=;
-        b=hldrXB/4lBZ2Bk1tSfbDEnuVPGyBz29hJY9gwaQ6R3Xd9mepr1I3Zpnq7BJSh6QBGv
-         5aNtZ1e0OtGLvqVDmv9DKPDO1Z+ntc+48BLFHl74+vEdLUkEP0OATI5iH3rd8v7eQqNh
-         +jYO7R0gg43gcg5+Iq7kFNd/OsGyq2SDHyKMeStTKh++TCglnPvwkIFoUpKnXJ76P7R0
-         KzhR0yawZBauSu599TivSg1x6K/lODpBIu0f3wvSczIuqHZsO0BrZXcDiAbSv6WAJWy5
-         a9jxu1648BbUqmMsIQuRMtlaS0UzHIGDam8s0NuLGAxfC4wk87k2rFmjeeSeiE20/WR0
-         8ohg==
-X-Forwarded-Encrypted: i=1; AJvYcCW/wK2M/URNwswFFsHu4u7YgsrMzDhOg29gkXz4GsQZ6iN3kRRFoKr/cv+VDDmK/OeV7PLNSTvf++ZdWg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzg14BafhX6yJU5YClHaafitKzIowFO4SZeI0K3BIVvBGEYma4W
-	vAavNuRkGzwi+EKAW1RXSYXcne3d8lhvxnhdcDeBTMyLhdLLbEpLZbf6i312EKS/1GULnKIEJnP
-	88OYETrhTgvJ++Bk4WgtOukjGuWsgwhP4EXLExara4wCpWsoz6dod4xkK6Iu4cmRX
-X-Gm-Gg: ASbGncvriS5VMeZtfOBrAKhy9pMpmcj1R6z4V/0R1r4DaMIVk2hu8k22v29HbFah6y6
-	VArvN0njgB94GU4td+flzZRDekscyxGSt8EdXaAUt1of/PNhzmEYCPWQNlfZ+0BBG7y60IyyTB2
-	0DZzsoawleM1dD8vFnr4hJOsKTvcm8m0BMVR/WNHH1ckj1uqKPqjMDEiVApK0qj6i1vk4j1Cq+E
-	GR1rUEnRAhgedPT9YPA+r1VZT45f0iMsu64r/3d58PUo3DKDWDmkJE1KihTUuxkos3Rz00GSxky
-	2jlsMh7vPbuVEIVPUsP8cTHRyW7BgZxfJz3a6yFBO/JBfz7zZNnOhMNzaEvxkUGFZSsG3Fegxk3
-	sfHLXAtzP4urvOtyKoluiubmrGPhCQY0=
-X-Received: by 2002:a05:620a:c4f:b0:815:9bd3:72a4 with SMTP id af79cd13be357-82401a95c9bmr1036167985a.69.1757851718230;
-        Sun, 14 Sep 2025 05:08:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFRdCKGXPgtbhvJpUCdDwCaaC2B0DLna/CzbBAvfkLzYJU98qL9IvUSFcqawGBto49lPMPxgQ==
-X-Received: by 2002:a05:620a:c4f:b0:815:9bd3:72a4 with SMTP id af79cd13be357-82401a95c9bmr1036164085a.69.1757851717778;
-        Sun, 14 Sep 2025 05:08:37 -0700 (PDT)
-Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-820cfcaca15sm580413985a.71.2025.09.14.05.08.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Sep 2025 05:08:37 -0700 (PDT)
-Date: Sun, 14 Sep 2025 08:08:33 -0400
-From: Brian Masney <bmasney@redhat.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
-	Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Yannick Fertre <yannick.fertre@foss.st.com>,
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
-	Philippe Cornu <philippe.cornu@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v2 0/9] drm: convert from clk round_rate() to
- determine_rate()
-Message-ID: <aMawQYUIjPw9m4IO@redhat.com>
-References: <20250811-drm-clk-round-rate-v2-0-4a91ccf239cf@redhat.com>
+        d=1e100.net; s=20230601; t=1757852539; x=1758457339;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9QaqFDm968hxgUBIhZprbXUlWRJcjVcI14Y1ubOyU+E=;
+        b=sKKVd7/KAJ4G2tPVe1Z9FxDndRn+3OfkOkVxm6WKGmbTyUy23Fn50bJJ5aE3/qB46j
+         znLcSRyORka4LeBfQFpLSxvSRWJuC7+/N3NjTma72rQH2P3IZN7UQ3UnjcccI3PYm1dD
+         bshKfVg+mtx3MwIf3/ELyT2pFajPluobCPBtcHB1hYuQJLp0YQtkItCp27Qso5oRhQBy
+         v+NGC/kflgv+X0SNV4AutlrkLsgZHfZWnBwizsJTCo4QVzfSwp3ugggDn2blMw4CrNvu
+         tNLiyjOmz4hdbuupSV7wsnNOOysCX8GfCoOuqbwtueMSMEgLFZ3qVLue1yYhnwscgaLY
+         HWYg==
+X-Gm-Message-State: AOJu0YzaDou7byCx0RkTcHr+lHg30Xuc/8DXFrvfr3Kq/EJfWUSskSIN
+	V8U8iK1vkLSu8D2lWdHLP2LsOg0LKJ73uf9CFs6ZgGX6v4Cb8iRPZQ6Me7g5rRLjFnGfxZpTeI9
+	afkqpYBPU7vov4Y9ovJyYllSE8fNt35/ykyub
+X-Gm-Gg: ASbGnctmk8iCLp1r3oP0NVnkvvPNMp7KpfLxN4pBkg95duRxkx0Ra/rm5ykAWRmptE+
+	XIHi6IbuWvuQBeRWXNKkJ3wHMa3LyI0Xt1IAwYm7jHKPFJQ2XpbPfN4WRMPPukWv261EQ1ln+2s
+	4K9JnQFvf5fIH1nrpyyRZ0me8KXSokOt8fFKAp9v1R6RknRUqMCOKzuRatJL2Yj9xPUKdbEaKQN
+	WBRJcny4lJwJoq0+3JeoE/mi3lB97pZjH3z/XA=
+X-Google-Smtp-Source: AGHT+IGnnpcDYjfzqCmAvkJlUscOmtnOwoqYEMRfNulP5Z+tb8ffiu+a84Bvwq5DBYtP9x+/uaQH6vm7gB1sxAvooNM=
+X-Received: by 2002:a17:903:1b4d:b0:250:643e:c947 with SMTP id
+ d9443c01a7336-25d26864f83mr112051975ad.28.1757852538680; Sun, 14 Sep 2025
+ 05:22:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20250811-drm-clk-round-rate-v2-0-4a91ccf239cf@redhat.com>
-User-Agent: Mutt/2.2.14 (2025-02-20)
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 6_q5FuCuFNZ5ZkyH_1srHztZCg-Ckz51KPq0PJXmemw_1757851718
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <CADGuG04vCTWJNDj-fPaEO-dQmk_P_Z-E+AYbZBeYt+GJ8Dtqtg@mail.gmail.com>
+ <DU0P190MB244572B5A5516B6BB3E053EEBC0EA@DU0P190MB2445.EURP190.PROD.OUTLOOK.COM>
+ <CADGuG04Bc8Dcv=GCZGsjkW7taS4VR0yTkp=BC9tC90HtkssVRw@mail.gmail.com>
+In-Reply-To: <CADGuG04Bc8Dcv=GCZGsjkW7taS4VR0yTkp=BC9tC90HtkssVRw@mail.gmail.com>
+From: =?UTF-8?Q?Horv=C3=A1th_Csaba?= <horvathcsabalaszlo@gmail.com>
+Date: Sun, 14 Sep 2025 14:21:41 +0200
+X-Gm-Features: AS18NWCV6CCFecVv1L-mdnWhUFpI15mZkN7fXPVpb-5ZLrKSN_JiSeOWBBN3a4c
+Message-ID: <CADGuG06z=_JCGeC7oG565_GeXYtQrY63m8sVAycq_WZQLz+QXA@mail.gmail.com>
+Subject: Re: Colorly e708q1 and AXP20x support
+To: linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi all,
+Hi,
 
-On Mon, Aug 11, 2025 at 06:56:04AM -0400, Brian Masney wrote:
-> The round_rate() clk ops is deprecated in the clk framework in favor
-> of the determine_rate() clk ops, so let's go ahead and convert the
-> drivers in the drm subsystem using the Coccinelle semantic patch
-> posted below. I did a few minor cosmetic cleanups of the code in a
-> few cases.
-> 
-> Changes since v1:
-> - Drop space after the cast (Maxime)
-> - Added various Acked-by and Reviewed-by tags
+Sorry, if anyone answered to my questions, but i got a message from
+the mailing list that some mails were not accepted by my address. I
+guess those were sent to trash or spam. (Although i haven't seen any
+related to this in spam).
+So about mainline support, i discovered in the past that someone
+changed in the 6.x kernels and the Colorfly is having issues with the
+latest. But it's not a problem, i'm fine with an older kernel, or
+would be, if it works.
 
-Would it be possible to get this picked up for v6.18? I'd like to remove
-this API from drivers/clk in v6.19.
+I set up another SD card for the tablet with 4.17 kernel based Arch.
+The symptoms are the same. Tablet runs hot, and battery related
+devnodes are not existing.
 
-I'm not sure which tree(s) this should go through. All of the patches
-except patch 1 have at least one Acked-by or Reviewed-by.
+Did some research, but got nothing. So now
+- The tablet runs at fixed 1GHz, so i need to lower the frequency
+(tablet is too hot now). Cpupower does not work, as soon i set the
+frequency or governor, the device freezes. It would be enough for me
+if i can set a powersave/ondemand governor or a lower frequency.
+(Tried in /etc/default, kernel parameter, echoing to /sys/class...)
+On the 5.5 kernel, setting the scaling works, it lowers the frequency
+(at least in the /sys/clas... files), but the tablet is still very
+hot. (53-59 Celsius)
+- I cannot download a kernel source for the old kernels i use, because
+Arch Gitlab is not accepting registrations now...  would try to
+compile a kernel, if i had the source.
+- I have seen that in dts, the battery is disabled. I tried to enable,
+but has no effect (simply compiled to dtb and copied to boot - is this
+enough...?).
+  The dts is containing a lot of settings for the AXP208  (if i'm
+right) chip, but device nodes are not created for battery and so on.
+Modules can be loaded, but no effect. This is strange.
 
-Thanks,
+Can someone please guide me what can i do in order to get a lower
+frequency/temperature and maybe get battery properties?
 
-Brian
+Thanks in advance,
 
+Cs.
