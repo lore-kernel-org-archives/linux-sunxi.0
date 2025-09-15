@@ -1,73 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076DC2F2906;
-	Mon, 15 Sep 2025 11:02:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24DE023E347
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Sep 2025 11:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757934160; cv=none; b=jFaB2oxc9mS0bBeKqtjyRY0SOol+bYdde1+SEskqWqd+KKVpS7fGE1phgTruNZeFkbchlwQN/amXJsVaS0em0FSlkj1obwLxumfLPZpVXQan7p1sTyg44NzQvCOKfW/b2zlCaT17u/jz9bBRMa5lpKdQ17P1XsvHX3YxV2X2n8c=
+	t=1757934983; cv=none; b=qLzRVQYI4GdTbbS1KiszV+ZmPJKWCsiY3nBuDknyOorEQBNUTW0bCcdzr7yOI3DzMvPsJKuN2IWCngelK38enYsBJ4oRiFMlGx0+klccXfMm/xReI0CwyaurcGnnsbINM8ZFAiFd2pG6ectBOoIrilPOuovFhcyZ/lPc2YiKVA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757934160; c=relaxed/simple;
-	bh=NuAPghNBbEeMoQfj/KDPyEmoT7CNKEs46PUUsk73Hxk=;
+	s=arc-20240116; t=1757934983; c=relaxed/simple;
+	bh=F9mIgF95+g7qxIu51oprAqeiRAaBYGZLzrOrNew79ug=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TUhz2M1o1wYNVX1fSQti4YEQKFjYS+ab7U9My1vy0V76UCnDPJSsCAqNfj5H2+q2FHzc8Lv5Dr2wcJW578ge5PK8GP8tNfQweSB/BO2k5WRSOcgIXxjnsay45Wbue8kIB4tY0ny0cShiCDIMjUnr4oYHm+s2TMZ0UhB3xVzBIfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sf81PQ1U; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ERTu0/eTtHpe7LU1GuC+gOTJWavIYWmezDUkgEUrRlEw0BDZilc2dTaONBbbo3Ag3QFlLHGNiFNrWGWfRW3evPkhOz9G43sgitcoL/VxAdFYgUPbOh5+wGbk0RoOuKArHyxe1PSXaTRnKVxgYVHs+OnnCI4a/wNEa3jma9Efo7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=D2h/Heah; arc=none smtp.client-ip=185.67.36.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sf81PQ1U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3162AC4CEF1;
-	Mon, 15 Sep 2025 11:02:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757934159;
-	bh=NuAPghNBbEeMoQfj/KDPyEmoT7CNKEs46PUUsk73Hxk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Sf81PQ1US69vWJJL6Gp2AQ2dASB+blYHnLKq2DXxAnO9p2xk/km516ZQhePj0wG+e
-	 3C+EDslmHIlL3TihkcrL3gmA0bAHyAizd/ZhCVT6nIULkHhEVZIY0VamT4F5deB66j
-	 lFOrSV5d+knmwiwJEvy8Uv/rWoSA5hGkgS+HSUzihVE0ssIHG5IVahlmoM9zu2algM
-	 CWh3f9TjqS+j5KDUxG2EJ8JoWtQWbmrZ6BvjBa3855KpKaXlSDudQD1qiQJajd3U7G
-	 FSGQj+JlzFV25rRBdDYXr7BHACeJuru4PgRBLdRhdRTAR4scwOKhbsUWrJcZVI3WWY
-	 1EbltiwzcZW9Q==
-Date: Mon, 15 Sep 2025 12:02:34 +0100
-From: Simon Horman <horms@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="D2h/Heah"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 6B4B0240027
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Sep 2025 13:16:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.net; s=2017;
+	t=1757934980; bh=ohvDP8osKuunTpp4VuXEGFMj1lvZubJde5NjZIldsbA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:From;
+	b=D2h/HeahBUJoV9e7i6ZjabjYV9YkJLUI08L7wunHCU2gdYWjIqt3KOCaUQeaNq6vB
+	 MwUjSY21HeZorgKxCuL0LZI1SCq1BOBF5xefM+Orkpx0WbFT9pj3D4bfoUEmgXkZgo
+	 1afrMT2ZEJcIYnEZjuzDCzFB5InUp3VxIuIQik1gpVPVbeOIbK77XCvK2ekY286TTp
+	 TtzGzoQA3bE0GhPXRl9BTlgRnqXvMglZ+19AzlTtUXeJ30MVQhWdO/mSeM0HkLcESG
+	 wHtr1BBG71epZ61Kk0pH50jXl4vh2z4R2U9spFYrM6hLUTuylUtmtkbiN/wuhbQsb1
+	 lobUgdruberiA==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4cQMst0r15z6twB;
+	Mon, 15 Sep 2025 13:16:17 +0200 (CEST)
+Date: Mon, 15 Sep 2025 11:16:19 +0000
+From: =?utf-8?Q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
+To: Chen-Yu Tsai <wens@csie.org>
+Cc: =?utf-8?Q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andre Przywara <andre.przywara@arm.com>
-Subject: Re: [PATCH net-next v6 0/6] net: stmmac: Add support for Allwinner
- A523 GMAC200
-Message-ID: <20250915110234.GT224143@horms.kernel.org>
-References: <20250913101349.3932677-1-wens@kernel.org>
+	Conor Dooley <conor+dt@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] arm64: dts: allwinner: h313: Add Amediatech X96Q
+Message-ID: <aMf1gYbEfWerO7_J@probook>
+References: <20250912-x96q-v1-0-8471daaf39db@posteo.net>
+ <20250912-x96q-v1-2-8471daaf39db@posteo.net>
+ <aMPftsaf4x61-bGY@probook>
+ <CAGb2v66khAeP5pCq6RCrPUwQr=tDqJ6O6cs0gokbMNjpTejuvw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250913101349.3932677-1-wens@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGb2v66khAeP5pCq6RCrPUwQr=tDqJ6O6cs0gokbMNjpTejuvw@mail.gmail.com>
 
-On Sat, Sep 13, 2025 at 06:13:43PM +0800, Chen-Yu Tsai wrote:
-> From: Chen-Yu Tsai <wens@csie.org>
+On Fri, Sep 12, 2025 at 04:56:36PM +0800, Chen-Yu Tsai wrote:
+> On Fri, Sep 12, 2025 at 4:54 PM J. Neuschäfer <j.ne@posteo.net> wrote:
+> >
+> > On Fri, Sep 12, 2025 at 01:52:10AM +0200, J. Neuschäfer via B4 Relay wrote:
+> > > From: "J. Neuschäfer" <j.ne@posteo.net>
+> > >
+> > > The X96Q is a set-top box with an H313 SoC, AXP305 PMIC, 1 or 2 GiB RAM,
+> > > 8 or 16 GiB eMMC flash, 2x USB A, Micro-SD, HDMI, Ethernet, audio/video
+> > > output, and infrared input.
+> > >
+> > >   https://x96mini.com/products/x96q-tv-box-android-10-set-top-box
+> > [...]
+> > > +&gpu {
+> > > +     mali-supply = <&reg_dcdcc>;
+> > > +     status = "okay";
+> > > +};
+> >
+> > Note for v2: The GPU gets stuck in probe deferral, and I forgot to
+> > investigate why.
 > 
-> Hi everyone,
-> 
-> This is v6 of my Allwinner A523 GMAC200 support series.
+> You are probably missing the GPU power domain driver?
 
-Hi,
+Indeed, with CONFIG_SUN50I_H6_PRCM_PPU=y the GPU probes successfully:
 
-Unfortunately this series does not apply cleanly to net-next.
-So, after waiting for review, please rebase and repost.
+[    1.396826] panfrost 1800000.gpu: clock rate = 432000000
+[    1.396859] panfrost 1800000.gpu: bus_clock rate = 200000000
+[    1.400125] panfrost 1800000.gpu: clock rate = 432000000
+[    1.400158] panfrost 1800000.gpu: bus_clock rate = 200000000
+[    1.403263] panfrost 1800000.gpu: clock rate = 432000000
+[    1.403297] panfrost 1800000.gpu: bus_clock rate = 200000000
+[    1.406582] panfrost 1800000.gpu: clock rate = 432000000
+[    1.428046] panfrost 1800000.gpu: bus_clock rate = 200000000
+[    1.442411] panfrost 1800000.gpu: clock rate = 432000000
+[    1.455175] panfrost 1800000.gpu: bus_clock rate = 200000000
+[    1.466484] panfrost 1800000.gpu: mali-g31 id 0x7093 major 0x0 minor 0x0 status 0x0
+[    1.476828] panfrost 1800000.gpu: features: 00000000,000027f7, issues: 00000000,00000400
+[    1.493284] panfrost 1800000.gpu: Features: L2:0x07100206 Shader:0x00000000 Tiler:0x00000209 Mem:0x1 MMU:0x00002821 AS:0xff JS:0x7
+[    1.493297] panfrost 1800000.gpu: shader_present=0x1 l2_present=0x1
+[    1.506114] [drm] Initialized panfrost 1.4.0 for 1800000.gpu on minor 0
 
-Thanks!
 
--- 
-pw-bot: changes-requested
+Thanks,
+J. Neuschäfer
