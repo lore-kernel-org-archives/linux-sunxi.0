@@ -1,234 +1,285 @@
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4235B86353;
-	Mon, 15 Sep 2025 13:29:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=91.207.212.93
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757942961; cv=fail; b=GouMvJP3ot8Xdnselwg2x1D5GAjyFmAYvaIxhEmffBEPpgm79QJluFw3I1kyrFBrePZ1sar9DGvcsK1GVos8KT9uWXrf/j/KK0NsTnX9vbjkG1YWasmNycL/ZlkxuYtnXHAKzhx2b+ByS4niOVVfalVsgDKgUivLOhyrXJJD38Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757942961; c=relaxed/simple;
-	bh=ZaUz7ZEBDMzByDNkUthlMYmTICq6uPMKhHRu8ZOZJ4w=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JzLJQrMh68TM1CJf1hBOdncTPpi9Ffrll/wXhLoG3va4jGKjq+FHW3vxkaQ7Hty5QNXUyvpm3/JvzpJJlYfCpVEQaOcdlPJ3X+Fw5ofZFVkhEnRi30tdKRN57qx67ZXjLELnsMHk0BLINb/CgisvINiMzrE8dU1eBrG73drRgEs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=Lw7RPPNv; arc=fail smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B46531A071
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Sep 2025 13:40:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757943625; cv=none; b=K2l/zsqLu91BVlXMs5UbnyW9XiaBrCAOW5vHQiDyprSQgWKa3SfvxLUjwBcD27NPxtqVohDbjrKVq+jLn1BL1nK8d4toB8rfp8Nomkd7D+t0JeieohkVpOAxpSagyK+kkT7e3j4iHCe8q1qPk6xHMBLXn7Qa6AG3U1yP/BtNXI0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757943625; c=relaxed/simple;
+	bh=gwbwO91bOoSE4JZaR8T48G6qaL5x/i7NOANaiN8rcN8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sBpHCCRIl9qKnIyYo1wPUKZJMnWbPuaKA/528kv8XZDmIdEwcVPR8MOOJ9M1HMOGujYGAf4n0BQLfOQVAA29je12zVio/NwNuk4YsyipgU2hodursvOHYlkbMWklOF49yXsCK3r1/66/De0Vp4P+wNUklIQvFn5Xy2zjrRRBNaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=N2mUKg64; arc=none smtp.client-ip=185.67.36.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="Lw7RPPNv"
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58FDIGbo019429;
-	Mon, 15 Sep 2025 15:28:38 +0200
-Received: from am0pr83cu005.outbound.protection.outlook.com (mail-westeuropeazon11010042.outbound.protection.outlook.com [52.101.69.42])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 495kjnmrsa-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 15 Sep 2025 15:28:37 +0200 (MEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kVhe1zw4QVgQfw1ILD6tmgBeG2YGkzXWnTNId3XGJ8r2uAznKNxRgvbfBei3eFc5uItdHeDDD3qtyTCnWE5ulUup0pYR59y3yp0CRbIMHPY8PJgaLzObolga8hdfcnugUeF5IttEZXZl4tg97rMmf0BkNNtCNNd8mrPgh+fh1fEAkWnJ8pzW7fwOFPxJnlCiV5U9UZO/Gn32Gjm8tUkQHkT+5a7AD7u1XiKiH8HVpIwf9O7BVzvJ4XVEuv47oQLLLJ68YXz2wqvGAQyxR0goxdt3nv1RTt0prWIWRx3u6E7uLHwvrMhwGtIZNtApiPPOP7M70NfSvOfg056FjX8ZRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xURLGZAjjQQBCPYQuugUccBippYjNT0wEEWc2VORfsg=;
- b=kGAUYMxmO/dVs7citwooJtuArsiD8aGRVOvZxoq59N2qupbEFOj3YWoH8EgcXxHlpwTL2sB29BxUl9o+d/5lLfBCNq9giKgE9qwZc6h5yvgv0eNAnZev3MKuicksJ6yYWxJic1A1vsGnogbz2X13pG1COz95Y+6RTcTZvceK5tI9/94XG7a1D53MGAWTVNM3ELnOkKeI2WAtXWKDWXNfLx9StAlnQZEpw51VttXqQaPgGgZgVlNaWCUNHl1xaFly2DgPTVoqsetvQlY79Gpt66gwlr+vZ70yeuDYpWo3/eCVSHWIOa9dD0MVNTGTo/U33O3tQ6r4fGDvgeKTG63/IA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 164.130.1.43) smtp.rcpttodomain=pengutronix.de smtp.mailfrom=foss.st.com;
- dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xURLGZAjjQQBCPYQuugUccBippYjNT0wEEWc2VORfsg=;
- b=Lw7RPPNvuHjnHaV3dQBEly/Ef1yUutQIuoILpawMmuTFcBxa/uWKO9UjNi2Z6wWu98nCtsHe1mTR5XfY/tb72j5ITOsXvIwO9z3qq53ZVGinigSkvxwLKYb1E/tRbLvjwSGcFg+ej+robJbTFvC4AJyY5Ey8XVq3FR0ed/41OQY8LQvjOF1T1FZb6vrtKYm5ZLPh1ejqP7/Jk5UF2rBhHCreZpWwDYIbhM1gvvM0rFpbUi4S2Clv/viIHcRX7qL2cQdsgzEouYGVVWS2j+slDM1GTqeYpttys95B3e2deJ1HKsPNclh9wOyGQop2n4SSXErELjZJfcJ9pWaD8HVBIA==
-Received: from AM0PR07CA0006.eurprd07.prod.outlook.com (2603:10a6:208:ac::19)
- by DU0PR10MB5409.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:328::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.19; Mon, 15 Sep
- 2025 13:28:35 +0000
-Received: from AM4PEPF00027A64.eurprd04.prod.outlook.com
- (2603:10a6:208:ac:cafe::44) by AM0PR07CA0006.outlook.office365.com
- (2603:10a6:208:ac::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.11 via Frontend Transport; Mon,
- 15 Sep 2025 13:28:35 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.43)
- smtp.mailfrom=foss.st.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=foss.st.com;
-Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
- designate 164.130.1.43 as permitted sender) receiver=protection.outlook.com;
- client-ip=164.130.1.43; helo=smtpO365.st.com;
-Received: from smtpO365.st.com (164.130.1.43) by
- AM4PEPF00027A64.mail.protection.outlook.com (10.167.16.75) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9137.12 via Frontend Transport; Mon, 15 Sep 2025 13:28:34 +0000
-Received: from SHFDAG1NODE2.st.com (10.75.129.70) by smtpO365.st.com
- (10.250.44.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.57; Mon, 15 Sep
- 2025 15:26:11 +0200
-Received: from localhost (10.130.74.180) by SHFDAG1NODE2.st.com (10.75.129.70)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.57; Mon, 15 Sep
- 2025 15:28:34 +0200
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>,
-        Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Shawn Guo <shawnguo@kernel.org>,
-        "Sascha
- Hauer" <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team
-	<kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Linus Walleij
-	<linus.walleij@linaro.org>,
-        Rob Clark <robin.clark@oss.qualcomm.com>,
-        "Dmitry
- Baryshkov" <lumag@kernel.org>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
-        Sean Paul <sean@poorly.run>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Yannick Fertre
-	<yannick.fertre@foss.st.com>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue
-	<alexandre.torgue@foss.st.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec
-	<jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        "Stephen
- Boyd" <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>
-CC: <linux-clk@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <freedreno@lists.freedesktop.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-sunxi@lists.linux.dev>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Konrad Dybcio
-	<konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v2 0/9] drm: convert from clk round_rate() to determine_rate()
-Date: Mon, 15 Sep 2025 15:27:37 +0200
-Message-ID: <175794279818.2497305.12426037384808947423.b4-ty@foss.st.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250811-drm-clk-round-rate-v2-0-4a91ccf239cf@redhat.com>
-References: <20250811-drm-clk-round-rate-v2-0-4a91ccf239cf@redhat.com>
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="N2mUKg64"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 27A31240028
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Sep 2025 15:40:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.net; s=2017;
+	t=1757943616; bh=zPpCQPE4eMkTvvxsIdtpPEd1CfQJpfQRp57YufKsBb0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:From;
+	b=N2mUKg64WNyJI3q802YHsTS8/IcI2Ea7tSFbvbDiTgGj504U4mpFgQt9zXFBny2m2
+	 UTPWKoLs/KlFaVcZXk8ACWoT2z2IjO9xqLdy+z9p7QxRNKIJXP9GPq4hB/0L+1sF1n
+	 ala3jjYFgm2tiKWfmWa4rzKNQHoRe0f601iie5PUqnk4AjBEZgeMkr3uinnnjXxbHh
+	 9O7dw133aqVG811+w21fKN+WJ+t8Wpy95oCrVleOS7WFe1YPT3EqoC2SsmY3Org/G8
+	 W9PMeyJshZP62O7SjqJdVIV1CqFt42MMpKmN0/JrjNDU6t9izbIctkgvCgNCLs9A7m
+	 4q5RK1qa7PzQw==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4cQR3w2hDqz9rxV;
+	Mon, 15 Sep 2025 15:40:12 +0200 (CEST)
+Date: Mon, 15 Sep 2025 13:40:15 +0000
+From: =?utf-8?Q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: =?utf-8?Q?J=2E_Neusch=C3=A4fer?= via B4 Relay <devnull+j.ne.posteo.net@kernel.org>,
+	j.ne@posteo.net, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] arm64: dts: allwinner: h313: Add Amediatech X96Q
+Message-ID: <aMgXPPn3D3epmAua@probook>
+References: <20250912-x96q-v1-0-8471daaf39db@posteo.net>
+ <20250912-x96q-v1-2-8471daaf39db@posteo.net>
+ <20250912105449.70717d80@donnerap>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM4PEPF00027A64:EE_|DU0PR10MB5409:EE_
-X-MS-Office365-Filtering-Correlation-Id: 24c9daf4-e4ba-4f60-fba1-08ddf45bc56e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|7416014|376014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?RHJwVkZXbUVMckYxNmNmQTNLbU5Fb1FOUlNzUDNxWFkxNzdqYzVuZ2VwS3dI?=
- =?utf-8?B?L0piYXpCTEJtMkIwMWNxbmVjWEE1eWN4Z0RzVUlFaUpDcnh2RlRoZy9JT21V?=
- =?utf-8?B?ZXd5dGdWU3JNTmlMSXB6TDB1SUFsMk9IMWk1MkhGSDErM2dqR3gvOWJtK2NB?=
- =?utf-8?B?S2VCRFE0SGVySXVETXJxSHVPek1HSFJIeUhkbVNRdXk4aGVrblZIVXdneS9B?=
- =?utf-8?B?V1ZvbGtLc3VVeEh5WmZzQ1dydUEyenovU0ZDdHVnK1dXdmxrVXdEMzlLMTJR?=
- =?utf-8?B?MXZZVHpGUXVQbjZuV2NXZUFzbUdiVnRvYklVRWJOOG9MTkxzZDFySXdnUkFx?=
- =?utf-8?B?eEM1RTEvUktwbE84TnQxVExLZ1ZwU1BEaHpFZmV4RkVzMG5PQ21iREFMYjhL?=
- =?utf-8?B?cVU5ZTRRYUMzc3hGMlFhT2N4WnloVlRoNnlCeEFyTjM0WnhwRVNBMGFiZ25G?=
- =?utf-8?B?ZEdjVk1nR0Jpb3Ntdzh1MVNidytlRVFXZVZpZ0w5VTYxVXVnR1N1NzJqSlR2?=
- =?utf-8?B?S1oycklVbm41MG5IQ1ZvM3FBRE1pYW1PVFIxdnNFSzMvcWVLYmhYcVdoVjla?=
- =?utf-8?B?YU45Njgxb0dSMERVR2RXR3F4cS9TQnZqT21tUmFkL2lBSUJFTys3QnVXbWha?=
- =?utf-8?B?cjZxQ1RraFFMQXVDOHV6b3FkNFQ1RmxYdEJFcjIwNCt4S25GZmRLcGtpS2xE?=
- =?utf-8?B?WS95MDZqcHJRbjBFTGxNdW5mN3l0MmFOMEczZFpndksxTmtWWEEyNUMwU2wv?=
- =?utf-8?B?cDZkRkR3dWVmQzJUWm5sNlNKc3J5NWdkN0JHcFpnMkN2RHJZNDdVWkJUQ0or?=
- =?utf-8?B?ZVg2ZXp1eDV1b043SENKV2NUbEVtd0E2MGlQRm5GSURSQS9Yck1aMHlnZUxa?=
- =?utf-8?B?U05hUjFIZit4ajdPU3hUQndkcElKb214OHRQajZCaWhteW8rTkRIelN4SC9G?=
- =?utf-8?B?cXU2d3hyaTV4bHE3dFMrSURoRXBuUkNZeFhhU01UOWtUSjVraXRtdDBGM3Zm?=
- =?utf-8?B?OWJvVVhSdGxRZTJEemxmeGtkL2kzTE13TEhsOFBwZUhXZHFtUC9IeU1tS1dZ?=
- =?utf-8?B?Y1d4dEZ6NlVodkZxTllGYUpoWEd2YlVBRzQyRXU1K2M1ZGs0ZFdOYkdMZ3ZJ?=
- =?utf-8?B?dU16Tk1Fa2dZejlpbGl3NklHem9tTVlNN0l6YU5XUUYxcEE5MUdrY3BraUdp?=
- =?utf-8?B?aFp0anZQWnVqc0RCOGljUEVieUNyWUVLQXZISWl4dHpHNHZDdW5WVTVFUVNk?=
- =?utf-8?B?TzQ4QnU1UTE4VE9CQ3F2QlRTTjdXV2F2VGVseGVSdmdiKy9uVnNEV3VtTm1M?=
- =?utf-8?B?N3k5R3FWbTM0ZDVUMUZJNnYwOFA2OFhZNDBkRTQvbFZ2SUEwalVpdkJqakcw?=
- =?utf-8?B?NGFueDYxaTc0OFRtNUc3bTFTRG83N0lwWjkyK2VUQ3lCYXRqdnpjTmUxSkpG?=
- =?utf-8?B?VVFtVGNjRzlSRkNKemhuRXB3eEo5YXlzbVo5TnJIaTVyU21FcXo5a0c2VEox?=
- =?utf-8?B?MlFpc0pQU05EV1o1NW9oRGwrV0xIWDMvdVBBQVg1Q0txTzllN3BpZnBiL2tw?=
- =?utf-8?B?NFJlT29ZeDdiUlhLcFZJZ2RZY0Q2ODVxb2NWVmMzT21tdDlhRmlHcGxYdHVJ?=
- =?utf-8?B?UFIwQ09PczEzQ0xKaHpDQzFCMGxCcE4zUDhodGxvdnI3MGpPRmFreWpGSy9y?=
- =?utf-8?B?bjJPdVdRbkY1eTFIYmJ3L2xCbFdWNGRBNWsxa0tJbFEwVWhCZkR5VjYvcVFk?=
- =?utf-8?B?V0dDZWlhQlpmN0dLdGhMM0tKc0pldnZvM2RRNWExM09PbEZtKy9qdW9ZWGdq?=
- =?utf-8?B?VGJWUUR6YzEzdHVQQWFRektVbTJoS3BubDVvQTJaeThVQ0VDYUpHZE90L1ZB?=
- =?utf-8?B?VG9IVytqbTVKc0pnSGJsVUV1M0JyY2VQRERpT3RlNEZqMmpld250MW81V29u?=
- =?utf-8?B?YWR6SVFHQ2h1L05TNzhTMlZnZHA5NFQ1ZXBRaHBqbVNMS1ZURE1yUzFsVU1x?=
- =?utf-8?B?RXlIbHNFWTd6RWQ1ZVArcHY5RCtFK3ZXWHh5ckRaT0pueWZwaWNhbHJZMC9Y?=
- =?utf-8?B?L294R05HV2VTejRwai9kQVdxSW5ZYml2MTJ0dz09?=
-X-Forefront-Antispam-Report:
-	CIP:164.130.1.43;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(7416014)(376014)(921020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2025 13:28:34.7625
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 24c9daf4-e4ba-4f60-fba1-08ddf45bc56e
-X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.43];Helo=[smtpO365.st.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AM4PEPF00027A64.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB5409
-X-Authority-Analysis: v=2.4 cv=ObaYDgTY c=1 sm=1 tr=0 ts=68c81485 cx=c_pps a=9cf4UBy+eSfSr5bZysPU/w==:117 a=peP7VJn1Wk7OJvVWh4ABVQ==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=h8e1o3o8w34MuCiiGQrqVE4VwXA=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=XKbaJabmtZkA:10 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=s63m1ICgrNkA:10 a=KrXZwBdWH7kA:10 a=8b9GpE9nAAAA:8 a=0a06FGITD3Oua5La8VcA:9 a=QEXdDO2ut3YA:10 a=T3LWEMljR5ZiDmsYVIUa:22
-X-Proofpoint-GUID: pEIQtG2hyHKj2zodCEJR_6yZ0FrAwuz7
-X-Proofpoint-ORIG-GUID: pEIQtG2hyHKj2zodCEJR_6yZ0FrAwuz7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE0MDAwNSBTYWx0ZWRfXynv6LxIVDVx/ Md8SV5ruOU4qszyi2sDh/Q0/+sMunnECDSZGAc71h/mBzlUXAMEKFRgujfjRoACGQyMEqppdCy7 iNFjVzBN/xuRPTs31bm4lYqaPUuast3V0+aI6YrqKIpWla6Ww+QeZi0M72OeI1gAQYyfgdg/QnB
- vm7L6KPnAlz7B5csFHn5uzkRRTY9P7KGJlLxFGYI4QusRnI/Pv4lYGVLSXMq7XmttK/7iZ9+Wjz PoSiFUVMPbu/sAGwVsvGZ0qK71EfU8PjGnrKWInctE4TJkEU+9oUcFjPrGtfTl4rscboiRQ0aQ/ 0S9gg0S5TblroLRoZHpBaaWa8pNGiN0pYrEUVYHeSBi8AgaTJmJnfgd5EWe33WuHb2Zt6bNofgQ rxPNp18d
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-15_05,2025-09-12_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 spamscore=0 phishscore=0
- suspectscore=0 priorityscore=1501 malwarescore=0 bulkscore=0 clxscore=1015
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2507300000
- definitions=main-2509140005
+In-Reply-To: <20250912105449.70717d80@donnerap>
 
-
-On Mon, 11 Aug 2025 06:56:04 -0400, Brian Masney wrote:
-> The round_rate() clk ops is deprecated in the clk framework in favor
-> of the determine_rate() clk ops, so let's go ahead and convert the
-> drivers in the drm subsystem using the Coccinelle semantic patch
-> posted below. I did a few minor cosmetic cleanups of the code in a
-> few cases.
+On Fri, Sep 12, 2025 at 10:54:49AM +0100, Andre Przywara wrote:
+> On Fri, 12 Sep 2025 01:52:10 +0200
+> J. Neuschäfer via B4 Relay <devnull+j.ne.posteo.net@kernel.org> wrote:
 > 
-> Changes since v1:
-> - Drop space after the cast (Maxime)
-> - Added various Acked-by and Reviewed-by tags
+> Hi,
 > 
-> [...]
+> many thanks for posting the DT, I really wish more people would do that!
+> 
+> > From: "J. Neuschäfer" <j.ne@posteo.net>
+> > 
+> > The X96Q is a set-top box with an H313 SoC, AXP305 PMIC, 1 or 2 GiB RAM,
+> > 8 or 16 GiB eMMC flash, 2x USB A, Micro-SD, HDMI, Ethernet, audio/video
+> > output, and infrared input.
+> > 
+> >   https://x96mini.com/products/x96q-tv-box-android-10-set-top-box
+> > 
+> > Tested, works:
+> > - debug UART
+> > - status LED
+> > - USB ports in host mode
+> > - MicroSD
+> > - eMMC
+> > - recovery button hidden behind audio/video port
+> > - analog audio (line out)
+> > 
+> > Does not work:
+> > - Ethernet (requires AC200 MFD/EPHY driver)
+> > - analog video output (requires AC200 driver)
+> > - HDMI audio/video output
+> > 
+> > Untested:
+> > - "OTG" USB port in device mode
+> > - built-in IR receiver
+> > - external IR receiver
+> > - WLAN (requires out-of-tree XRadio driver)
+> > 
+> > Table of regulators on the downstream kernel, for reference:
+> > 
+> >  vcc-5v      1   15      0 unknown  5000mV     0mA  5000mV  5000mV
+> >     dcdca    0    0      0 unknown   900mV     0mA     0mV     0mV
+> >     dcdcb    0    0      0 unknown  1350mV     0mA     0mV     0mV
+> >     dcdcc    0    0      0 unknown   900mV     0mA     0mV     0mV
+> >     dcdcd    0    0      0 unknown  1500mV     0mA     0mV     0mV
+> >     dcdce    0    0      0 unknown  3300mV     0mA     0mV     0mV
+> >     aldo1    0    0      0 unknown  3300mV     0mA     0mV     0mV
+> >     aldo2    0    0      0 unknown   700mV     0mA     0mV     0mV
+> >     aldo3    0    0      0 unknown   700mV     0mA     0mV     0mV
+> >     bldo1    0    0      0 unknown  1800mV     0mA     0mV     0mV
+> >     bldo2    0    0      0 unknown  1800mV     0mA     0mV     0mV
+> >     bldo3    0    0      0 unknown   700mV     0mA     0mV     0mV
+> >     bldo4    0    0      0 unknown   700mV     0mA     0mV     0mV
+> >     cldo1    0    0      0 unknown  2500mV     0mA     0mV     0mV
+> >     cldo2    0    0      0 unknown   700mV     0mA     0mV     0mV
+> >     cldo3    0    0      0 unknown   700mV     0mA     0mV     0mV
+> > 
+> > Signed-off-by: J. Neuschäfer <j.ne@posteo.net>
+> > ---
+> >  arch/arm64/boot/dts/allwinner/Makefile             |   1 +
+> >  arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dts | 235 +++++++++++++++++++++
+> >  2 files changed, 236 insertions(+)
+> > 
+> > diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+> > index 780aeba0f3a4e14d69c9602e37b8d299165507b9..2edfa7bf4ab31c4aa934da98e5e042edc9aaf600 100644
+> > --- a/arch/arm64/boot/dts/allwinner/Makefile
+> > +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> > @@ -41,6 +41,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64-model-b.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h313-tanix-tx1.dtb
+> > +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h313-x96q.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-cb1-manta.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-pi.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dts b/arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dts
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..9534eb03b89557f2545af5af7cf43390be722cf0
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dts
+> > @@ -0,0 +1,235 @@
+> > +// SPDX-License-Identifier: (GPL-2.0-or-later OR MIT)
+> > +/*
+> > + * Copyright (C) 2025 J. Neuschäfer <j.ne@posteo.net>
+> > + */
+> > +
+> > +/dts-v1/;
+> > +
+> > +#include "sun50i-h616.dtsi"
+> > +#include "sun50i-h616-cpu-opp.dtsi"
+> > +
+> > +#include <dt-bindings/gpio/gpio.h>
+> > +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +#include <dt-bindings/input/linux-event-codes.h>
+> > +#include <dt-bindings/leds/common.h>
+> > +
+> > +/ {
+> > +	model = "X96Q";
+> > +	compatible = "amediatech,x96q", "allwinner,sun50i-h616";
+> > +
+> > +	aliases {
+> > +		mmc0 = &mmc0;
+> > +		mmc1 = &mmc1;
+> > +		mmc2 = &mmc2;
+> 
+> We don't do mmc aliases in the upstream DTs. Long story, but you should
+> not need them. I guess you want to disagree ;-),
 
-Applied, thanks!
+I've seen mmc aliases before, and I've seen the annoying effects of an
+unstable probe order, so this is mostly of thing of habit.
 
-[1/9] drm/imx/ipuv3/imx-tve: convert from round_rate() to determine_rate()
-      commit: 6a1977472f6be561aa613d0ee969cb7e268faf5c
-[2/9] drm/mcde/mcde_clk_div: convert from round_rate() to determine_rate()
-      commit: a3e12b9c84e25fc7b0e3ff1ea4ba17512a791386
-[5/9] drm/pl111: convert from round_rate() to determine_rate()
-      commit: b1a122f404d4467623f66b596f8aba0e1ca9d14e
-[6/9] drm/stm/dw_mipi_dsi-stm: convert from round_rate() to determine_rate()
-      commit: 5ccf442ecd419e90f9f74a708d41e56b684eff40
-[7/9] drm/stm/lvds: convert from round_rate() to determine_rate()
-      commit: 1dc50bc8a3f14789b76e58a4590cd4e9595d6e7d
-[8/9] drm/sun4i/sun4i_hdmi_ddc_clk: convert from round_rate() to determine_rate()
-      commit: 5c04f4812782e861166401458b6cf16dfe1be264
-[9/9] drm/sun4i/sun4i_tcon_dclk: convert from round_rate() to determine_rate()
-      commit: a076fe9f126fbc0c52795db4ae21501e6f8fd03d
+> in this case U-Boot has
+> you covered, by adding the aliases during build time: just use
+> $fdtcontroladdr, as you should do anyway.
 
-Best regards,
--- 
-Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+I'm using a recent upstream U-Boot with a FIT image ('make image.fit' in
+the Linux source tree). In this case U-Boot does not add mmc aliases.
+Is there a special Kconfig option I need to enable in U-Boot?
+
+What do you mean by 'build time'? U-Boot's?
+
+
+> 
+> > +		serial0 = &uart0;
+> > +	};
+[...]
+> > +&mmc0 {
+> > +	vmmc-supply = <&reg_aldo1>;
+> > +	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
+> > +	disable-wp;
+> > +	bus-width = <4>;
+> > +	max-frequency = <150000000>;
+> 
+> That line is already in the .dtsi file, so redundant.
+
+Good point, removing.
+> 
+> > +	status = "okay";
+> > +	/* µSD */
+> 
+> If we really need this comment, it should be above, right after the
+> "&mmc0 {". And I wonder if it should be "microSD" instead.
+
+Good points, I'll do both.
+
+> > +};
+> > +
+> > +&mmc1 {
+> > +	/* TODO: XRadio XR819 WLAN */
+> 
+> Either you just keep the comment, an mention mmc1, but don't reference the
+> node, or you add the properties that you know of already, like
+> vmmc-supply, vqmmc-supply, mmc-pwrseq, bus-width, non-removable.
+> But this "empty reference with a comment" is somewhat odd.
+
+I'll change it to a pure comment for now.
+
+> > +};
+> > +
+> > +&mmc2 {
+> > +	vmmc-supply = <&reg_aldo1>;
+> > +	vqmmc-supply = <&reg_bldo1>;
+> > +	non-removable;
+> > +	cap-mmc-hw-reset;
+> > +	mmc-ddr-1_8v;
+> > +	mmc-hs200-1_8v;
+> > +	bus-width = <8>;
+> > +	max-frequency = <100000000>;
+> 
+> Are you sure you need that?
+
+I found it in the downstream DT. The eMMC probes fine without it, so
+I'll remove it. The eMMC datasheet (assuming I found the right one),
+claims a maximum of 200 MHz, so the 100 MHz restriction seems
+unnecessary.
+
+> 
+> > +	status = "okay";
+> > +	/* eMMC */
+> 
+> Please move that comment up.
+
+Will do.
+
+
+[...]
+> > +		regulators {
+> > +			reg_dcdca: dcdca {
+> > +				regulator-always-on;
+> > +				regulator-min-microvolt = <810000>;
+> > +				regulator-max-microvolt = <1100000>;
+> > +				regulator-name = "vdd-cpu";
+> > +			};
+> > +
+> > +			dcdcb {
+> > +				/* unused */
+> > +			};
+> > +
+> > +			reg_dcdcc: dcdcc {
+> > +				regulator-always-on;
+> > +				regulator-min-microvolt = <810000>;
+> > +				regulator-max-microvolt = <990000>;
+> > +				regulator-name = "vdd-gpu-sys";
+> > +			};
+> > +
+> > +			dcdcd {
+> > +				regulator-always-on;
+> 
+> Why is this always on? What happens if you remove that line or turn it off?
+> For always-on regulators we either need a comment saying why, or, better,
+> have an explanatory regulator-name (like above).
+> Is that for DRAM, by any chance (1.5V for DDR3 chips)?
+
+The observed behavior is that the system halts when dcdcd is disabled.
+The relationship is a bit hard to determine without schematics, but the
+DDR3 chips (Micron MT41J256M4) do indeed use 1.5V. Since this is the
+only source of 1.5V, I think it's a safe guess that this is indeed the
+DRAM regulator.
+
+> 
+> Cheers,
+> Andre
+
+Thanks for the review!
+J. Neuschäfer
