@@ -1,139 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF2028312D;
-	Wed, 17 Sep 2025 17:19:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9D56266B67
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Sep 2025 20:05:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758129596; cv=none; b=Ck4wyXszp4Ah3dyPjZk7NpNQkM6MwBx5SEsEpGzINIEs4g098u2B28qWoEg/sUveQgQMx8ltoxhshzDjvqBXhbCd2Vpvr3yw10tG7AYLCeEaA94cvMJ4bMINjJtrScUxp1cHgec2cmKhq5yL6xkVQqechZYQzYaEvsEULHLNlyk=
+	t=1758139520; cv=none; b=IjP/qev9d9GXlN5n7eykyCQ3PhSmVVUpvlDOd5+sDfMf03cMUpNd/KKpwIvrK7oPkreeaeUlzaC3tu9R3+bQGErUz7KxQOZ+d+XT1SehRmnfQ3s6NJAfOSgktj2yGZkS9wYOlEeuxqwF03M8fwKOA0QKDdGtG6QtcLeQdtowlKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758129596; c=relaxed/simple;
-	bh=PaQc8EUNl7CQtcyysbGlpZNQUgJZzBiTvE4agvsSPa8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EJ947JVBXcEggflKdKPgv7Iil1IaED8r3fiEep3Bl1feq/lTMlhLdu//BOc+44F/gEh/CNaLFhuLfVFbgLikSwyqPc92vckfbPdoasjiOVttUHmph+Wa6EEBQxkg5NbvRlDLsD1SNb921WMNz0NpFW7Nh+GVvmZdTYFwHDO/1qI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R4kufLm3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758139520; c=relaxed/simple;
+	bh=kYZJ8XH9TpQR/GBBcTiu1HXEqK3YpLmRga9YsUpB1HY=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=ItAAGDmWN4nomfg4nLqeuJTmhtykUBpft4FPUOryEnr14vxSAMYRiacY/iqePxP6iajtMQk6zQA6IgKV2h7LDo1vsN4wkhAIoG/LU7BPP6mZmoC0PhLvsjkHiehzRGEM8Jpl5Y/J/v3IQGuo9UUw36t403dPX6PgQfTnW9ZAadM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EotmgKV1; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R4kufLm3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD8B5C4CEE7;
-	Wed, 17 Sep 2025 17:19:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758129595;
-	bh=PaQc8EUNl7CQtcyysbGlpZNQUgJZzBiTvE4agvsSPa8=;
-	h=Date:From:To:Cc:Subject:From;
-	b=R4kufLm3DABZvpjbm0zHczD0JiihXYiw4z07kFCIgX0wrm/yZ13NQcOc7ZOcwlQ9n
-	 QOJxC5nD9L/yAnbtJWY/fkcoLbZ/mqotCWfKxP7gUumrj58/lgm5riTHGXI9Qejj9a
-	 uWLzIY2U6noLvIRjSZpIrCof6+7sxvYuBaPQKb/3LDGZlRc22DGnVWiWpqrEgLTjhU
-	 BUxN+z+if1W2BrB6JnBYiuDzNSPdbu1pJXcKT8o54zaO+A007t6U5bN7zDbR1UaTIN
-	 18TTBCLKVOGw5bD10waxcHETpLOGLRXNJrzC8yS657QXwDK8NnEhskRA9Iiv187ZZi
-	 xiW/v9ckPrERg==
-Received: by wens.tw (Postfix, from userid 1000)
-	id 9FF465FDA7; Thu, 18 Sep 2025 01:19:53 +0800 (CST)
-Date: Thu, 18 Sep 2025 01:19:53 +0800
-From: Chen-Yu Tsai <wens@kernel.org>
-To: soc@kernel.org
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Subject: [GIT PULL] Allwinner Device Tree changes for 6.18
-Message-ID: <aMrtuZg8HlR--TAt@wens.tw>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EotmgKV1"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-24456ce0b96so2830615ad.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 17 Sep 2025 13:05:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758139518; x=1758744318; darn=lists.linux.dev;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=59LVzR+CfxMoH1jXVRwI+RBlyM8qRvPks1Fm/SLyr/c=;
+        b=EotmgKV1Yo3KYa2C5FgSz/tKURBQ81EVlGJpJc7wAfOT0e2Zz5OMyrzUxFvu4uH4bj
+         vsdDbc8Zv/F+aBTRL+uRjsuVHEyVwdjEij0DidNIYigbstiJeGStosfY263IhGRwjb5b
+         0EGk+eaW4Sf4OkOK7+AXWX1ekmXkmfByeg06EzmmOHhJVaDyVskTVwlirC8vrYjJCJeb
+         kYSWuQUfWIBRmqxQZSKTBnTkl9GslpycnkP6eMw0rl/hKtPnbk/J7RS3GZflCv6TAUic
+         VCPLvD+ek6BaRWZdvHkHqBA5TwVzwd593mBYd7NRDCgjTcZfyuAw0EBff4iiWks6wJt8
+         7VBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758139518; x=1758744318;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=59LVzR+CfxMoH1jXVRwI+RBlyM8qRvPks1Fm/SLyr/c=;
+        b=eWRLvbTCQSvW/7A15FvkDMp8T2JfsNzML4SANcvplYGw/04WOCXegYwJWXwLTU80bP
+         gzK9/PrFNaJmTq2S4wALaBuVQzIiluPhu7v8MDU1gbSYdzWAqaURdBxLlTRUFY+luK7v
+         pqwtxZowoKDokcPeWBqtlm+VYMr2wIKYX6v19Cs7GuEJVgFLjuvDSYBmjEgyMV/5elbe
+         sgjR0dQ/nLOj6jEasgURWPib0mouI3GoG0aq8Fen590yNiVqr0mUwxRi2g3A/Bvy/S35
+         kJZK6twlCeKgCkpwi/X53Np8KRmYeJTYJrtNMhv02TomioUjORVKr3YeXeJ91dX+iCN2
+         A5zA==
+X-Gm-Message-State: AOJu0YxE5pybvats+YoN705H5oU2nzy7Wfrw3kXwPy5p5te4rfA3fXt/
+	WY43PXPdOcvQxxsJj2P2GuMKlWmgP/20jXxD4fqVYI3Gvxu+oTATlPOvcpLa1Ws8i0Z6BxAN2Lf
+	8BbSfi7XF6b8fzRs1exkBhu17RowBqxb2/L6n
+X-Gm-Gg: ASbGncstbJTMdUTMfyrTbCNkHexnSVclashLJTGkvymmdE72qzoJTHwVEDLLxb0BthO
+	hyDtFmgfMQMArL5r2OLJrlSnOBYX0ysxsvmLtUmcNrnmhdu0gV7Lz1pBRHHdqPCzk5fRQ1zzNhW
+	96Fcg0OTlPzSk0450qc1onRVZ/Im+3w3UzIhY14mdtPGsvgHRKbGNsWLt+xKv4W8GL5ln6Jt5pe
+	cNQuPhlzzggSvV/471GLqBHytKN/vz7sKN4xqJJS8T2nlkaqAFxNGdfHn/u5mUIUOv8
+X-Google-Smtp-Source: AGHT+IElQCs19++P5pzmp+Y0ggYUxokMesCDC7Twem0Myex/imeqeLrf48U8yR0THAPLsS37P762kGrwv+HEG7+Pijk=
+X-Received: by 2002:a17:902:eccc:b0:267:44e6:11d6 with SMTP id
+ d9443c01a7336-2697c7f1808mr11496725ad.6.1758139517824; Wed, 17 Sep 2025
+ 13:05:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+From: =?UTF-8?Q?Horv=C3=A1th_Csaba?= <horvathcsabalaszlo@gmail.com>
+Date: Wed, 17 Sep 2025 22:04:41 +0200
+X-Gm-Features: AS18NWB-778AExZVxPs8UDI7Add0eVVHTdXizaOnLMqKZM2cY2--XyZQ-Dg8Avc
+Message-ID: <CADGuG06ugs-jnUD+WZJ+Udgi-3-UdmfQDC27vsqZ+OFLiH_PRA@mail.gmail.com>
+Subject: DTS fix/help needed
+To: linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-The following changes since commit 8f5ae30d69d7543eee0d70083daf4de8fe15d585:
+Hi,
 
-  Linux 6.17-rc1 (2025-08-10 19:41:16 +0300)
+I have posted about my Colorfly E708q1 tablet a while ago.
+Since then, i identified that the power chip, AXP221 (as i know) may
+be not correctly handled, maybe on DTS level.
 
-are available in the Git repository at:
+The below messages are in my dmesg. So only dummy regulators were
+created, and maybe this is the root cause why the cpufreq-dt cannot
+adjust the CPU clock, and therefore the tablet is heating up at 1GHz
+fixed clock. (If i try to change the frequency or the governor, the
+device freezes.)
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-dt-for-6.18
+I used the .dtb file from the Sunxi guide for Colorfly (from the
+U-Boot compilation step), but the resulting file is seemingly not
+working. (I can attach or upload it somewhere. If i try to decompile
+and recompile the .dts file, there are a lot of missing phandle
+warnings.)
+(Also the mainline kernel support is broken, as with a latest mainline
+kernel, the built-in display is not working - with mainline 5.5 and
+4.17 works, except the cpufreq-dt and power regulation.)
 
-for you to fetch changes up to cca07ac2b5f7838b8ff612b53b9f82ac8cb58312:
+Can someone please help to get cpufreq and power adjustments working?
 
-  arm64: dts: allwinner: sun55i: Complete AXP717A sub-functions (2025-09-15 00:04:32 +0800)
+Cs.
 
-----------------------------------------------------------------
-Allwinner Device Tree changes for 6.18
 
-This tag contains two DT binding header changes that are shared with
-the clk tree.
+[alarm@alarm ~]$ dmesg|grep "axp\|egulator"
+[    2.036326] sun6i-a31-pinctrl 1c20800.pinctrl: 1c20800.pinctrl
+supply vcc-pf not found, using dummy regulator
+[    2.112666] sun6i-a31-pinctrl 1c20800.pinctrl: 1c20800.pinctrl
+supply vcc-pa not found, using dummy regulator
+[    2.120124] sun6i-a31-r-pinctrl 1f02c00.pinctrl: 1f02c00.pinctrl
+supply vcc-pl not found, using dummy regulator
+[    2.121215] axp20x-i2c 0-0068: AXP20x variant AXP221 found
+[    2.130814] dcdc1: supplied by regulator-dummy
+[    2.132268] dcdc2: supplied by regulator-dummy
+[    2.133096] dcdc3: supplied by regulator-dummy
+[    2.133944] dcdc4: supplied by regulator-dummy
+[    2.134775] dcdc5: supplied by regulator-dummy
+[    2.136735] aldo1: supplied by regulator-dummy
+[    2.137592] aldo2: supplied by regulator-dummy
+[    2.138423] aldo3: supplied by regulator-dummy
+[    2.139814] eldo1: supplied by regulator-dummy
+[    2.140663] eldo2: supplied by regulator-dummy
+[    2.141502] eldo3: supplied by regulator-dummy
+[    2.142346] dldo1: supplied by regulator-dummy
+[    2.143187] dldo2: supplied by regulator-dummy
+[    2.145191] dldo3: supplied by regulator-dummy
+[    2.146038] dldo4: supplied by regulator-dummy
+[    2.146904] rtc_ldo: supplied by regulator-dummy
+[    2.147221] ldo_io0: supplied by regulator-dummy
+[    2.148034] ldo_io1: supplied by regulator-dummy
+[    2.151870] axp20x-usb-power-supply axp20x-usb-power-supply: DMA mask not set
+[    2.164889] axp20x-i2c 0-0068: AXP20X driver loaded
+[    2.167651] sun6i-a31-pinctrl 1c20800.pinctrl: 1c20800.pinctrl
+supply vcc-pf not found, using dummy regulator
+[    2.168606] sun6i-a31-pinctrl 1c20800.pinctrl: 1c20800.pinctrl
+supply vcc-pa not found, using dummy regulator
+[    2.229315] usb_phy_generic usb_phy_generic.1.auto:
+usb_phy_generic.1.auto supply vcc not found, using dummy regulator
+[   10.559063] input: axp20x-pek as
+/devices/platform/soc/1f03400.i2c/i2c-0/0-0068/axp221-pek/input/input1
+[   10.695614] axp20x-adc axp22x-adc: DMA mask not set
 
-In this cycle we gained support for the MCU PRCM clock and reset
-controller on the A523/A527/T527 family of SoCs, the NPU which is a
-Vivante GC9000 IP block, and the NPU clock that was missing. The other
-PRCM clock controller gained default bus clock rate settings. These
-were not configured in the upstream U-boot bootloader, leading to them
-running at slower rates. The assigned rates are from the user manual.
-
-There is also a new board, the NetCube Systems Nagami SoM and two of
-its carrier boards.
-
-The A523 family development boards now have their internal RTC clocks
-configured correctly, so that the RTC does not drift wildly. The missing
-functions for the AXP717 on these boards are added. Missing reset GPIOs
-and delays for Ethernet PHYs are added. Last, the Cubie A5E now has its
-LEDs described and usable.
-
-An overlay for the Orange Pi Zero interface (addon) board was added.
-This can be used with the Orange Pi Zero and Zero Plus 2. Default audio
-routing for these two boards (to be used with the addon) were added to
-complement the overlay.
-
-----------------------------------------------------------------
-Chen-Yu Tsai (13):
-      arm64: dts: allwinner: a527: cubie-a5e: Add LEDs
-      arm64: dts: allwinner: a527: cubie-a5e: Add ethernet PHY reset setting
-      arm64: dts: allwinner: t527: avaota-a1: Add ethernet PHY reset setting
-      dt-bindings: clock: sun55i-a523-ccu: Add missing NPU module clock
-      dt-bindings: clock: sun55i-a523-ccu: Add A523 MCU CCU clock controller
-      Merge branch 'sunxi/shared-dt-headers-for-6.18' into sunxi/dt-for-6.18
-      arm64: dts: allwinner: a523: Add MCU PRCM CCU node
-      arm64: dts: allwinner: a523: Add NPU device node
-      arm64: dts: sun55i: a523: Assign standard clock rates to PRCM bus clocks
-      arm64: dts: allwinner: a527: cubie-a5e: Drop external 32.768 KHz crystal
-      arm64: dts: allwinner: t527: avaota-a1: hook up external 32k crystal
-      arm64: dts: allwinner: t527: orangepi-4a: hook up external 32k crystal
-      arm64: dts: allwinner: sun55i: Complete AXP717A sub-functions
-
-J. Neuschäfer (3):
-      ARM: dts: allwinner: orangepi-zero: Add default audio routing
-      ARM: dts: allwinner: orangepi-zero-plus2: Add default audio routing
-      ARM: dts: allwinner: Add Orange Pi Zero Interface Board overlay
-
-Lukas Schmid (5):
-      dt-bindings: arm: sunxi: Add NetCube Systems Nagami SoM and carrier board bindings
-      riscv: dts: allwinner: d1s-t113: Add pinctrl's required by NetCube Systems Nagami SoM
-      ARM: dts: sunxi: add support for NetCube Systems Nagami SoM
-      ARM: dts: sunxi: add support for NetCube Systems Nagami Basic Carrier
-      ARM: dts: sunxi: add support for NetCube Systems Nagami Keypad Carrier
-
- Documentation/devicetree/bindings/arm/sunxi.yaml   |   8 +
- .../bindings/clock/allwinner,sun55i-a523-ccu.yaml  |  37 ++-
- arch/arm/boot/dts/allwinner/Makefile               |  10 +
- .../dts/allwinner/sun8i-h2-plus-orangepi-zero.dts  |  14 ++
- .../dts/allwinner/sun8i-h3-orangepi-zero-plus2.dts |  14 ++
- .../sun8i-orangepi-zero-interface-board.dtso       |  46 ++++
- .../sun8i-t113s-netcube-nagami-basic-carrier.dts   |  67 ++++++
- .../sun8i-t113s-netcube-nagami-keypad-carrier.dts  | 129 +++++++++++
- .../dts/allwinner/sun8i-t113s-netcube-nagami.dtsi  | 250 +++++++++++++++++++++
- arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi     |  41 ++++
- .../boot/dts/allwinner/sun55i-a527-cubie-a5e.dts   |  46 +++-
- .../boot/dts/allwinner/sun55i-t527-avaota-a1.dts   |  34 +++
- .../boot/dts/allwinner/sun55i-t527-orangepi-4a.dts |  31 +++
- arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi  |  48 ++++
- include/dt-bindings/clock/sun55i-a523-ccu.h        |   1 +
- include/dt-bindings/clock/sun55i-a523-mcu-ccu.h    |  54 +++++
- include/dt-bindings/reset/sun55i-a523-mcu-ccu.h    |  30 +++
- 17 files changed, 853 insertions(+), 7 deletions(-)
- create mode 100644 arch/arm/boot/dts/allwinner/sun8i-orangepi-zero-interface-board.dtso
- create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-basic-carrier.dts
- create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dts
- create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami.dtsi
- create mode 100644 include/dt-bindings/clock/sun55i-a523-mcu-ccu.h
- create mode 100644 include/dt-bindings/reset/sun55i-a523-mcu-ccu.h
+Cs.
