@@ -1,191 +1,93 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A74130C10D
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Sep 2025 15:29:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931F82F4A17
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Sep 2025 16:28:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758122985; cv=none; b=CGSaMamjxjBF+6X73X/KsAK+MqgLyFVhocYhJVHmq2y07V5+plafFaBxDTugFrNNYUxgFuqNcxqFIIfHX3dYtQHYN6rtWqwyI+cFjN0KieyKhvQ2QcMaOhV/ru/oQz+TzJGh0TALf3r5HKEt4q0WsGFhIFhjGEgVcagSxG4BbxY=
+	t=1758126528; cv=none; b=asSuwV+5AFrxYtJQXs2R26OORI6OIUquPtavKCmI4NJpdtHxQ+/UvFsu6cyWQBG3cWV+g82y98orpI5pgcW+Er2j4yvm4WodyK+7MF13ky/oCVA/LOg6R4xNNpDeZ/N7iULFQLH2ft8fYqkLGCO72QXoa4Xv+VuJ34141LUmtiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758122985; c=relaxed/simple;
-	bh=UdW3ae6sTPDx44OpTpreWT5On9qNKbtCzO7LHscts0I=;
-	h=In-Reply-To:References:From:To:Cc:Subject:MIME-Version:
-	 Content-Disposition:Content-Type:Message-Id:Date; b=hkwIeDEskULWyKMlWjY15PwXY/jgKBy4miuuDiae+JJ9bbfXbuAgJbVE2xOXhRfvWF8NWV6/+iTragICQoDRl+kqxab8aOfs071+XBJ4DnyJoX5kDpMwkcChGsls+GFeezhFBD6qsEBWuELea4EvbZ487tQqUV5HXWtlX5BcOj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=0YjQF4VT; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1758126528; c=relaxed/simple;
+	bh=8WYWD+Yg3r5DNPBLtc+iIfIV8PKCZAmtTgmqbUSnjcw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rp0Mo4MoF8+Jy+TlylVo0k3DzmyLmdpmdffFmc0wJe40+B0yoUDx44r8wBfhiJ6KMRfaarL0lSF9KMccqjurR9s+PI837Vp2qt8jlutIydSkP93i0wTHHoeshXc57CE1VA+9KydPAhO+vH2VpMbeYGPJBOUPHEb4LyvZJONu+0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nLaotlWD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="0YjQF4VT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:References:
-	In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=JRAJRW4WfloKke+sA3cXYCgUSWJDPjglxO5sAwdnW9Y=; b=0YjQF4VTUahjY2yLEZTHLsirA9
-	PmtQnLqyIa+N9Biz3pWT4UPa3AVij5qesBfp0YDnwdGc7Wq/WQ1+HwQdPkENVqDIksW9znV3+9a1f
-	ISQo4WIImUOMmHsM8Emuf9P0MCwoxa9RL6W22jfMyjn+1s9PO1SsErOlhang4vSFhpbtPRs8dVGQp
-	0wJvgqB+ECAtCKkcn3K0P85Yls1KJnJij/sQSIbuA/LTdqLRxtrAnUeEZ3MPg26dAqFC1MPz3/QRg
-	3j1ZDLRaIkCR2+CcgGv6s86gtpKnLs63wPqVlWK29iTQXbWglpSXwCtqk/uszytdKzEvu+lrUirz3
-	9KJyp2Nw==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:42810 helo=rmk-PC.armlinux.org.uk)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <rmk@armlinux.org.uk>)
-	id 1uytpu-000000004mr-1r1L;
-	Wed, 17 Sep 2025 16:12:46 +0100
-Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
-	id 1uytpq-00000006H2q-0ajY;
-	Wed, 17 Sep 2025 16:12:42 +0100
-In-Reply-To: <aMrPpc8oRxqGtVPJ@shell.armlinux.org.uk>
-References: <aMrPpc8oRxqGtVPJ@shell.armlinux.org.uk>
-From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-To: Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Chen-Yu Tsai <wens@csie.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Drew Fustini <fustini@kernel.org>,
-	Emil Renner Berthing <kernel@esmil.dk>,
-	Eric Dumazet <edumazet@google.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Fu Wei <wefu@redhat.com>,
-	Guo Ren <guoren@kernel.org>,
-	imx@lists.linux.dev,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Minda Chen <minda.chen@starfivetech.com>,
-	Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>,
-	netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Samuel Holland <samuel@sholland.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Vladimir Zapolskiy <vz@mleia.com>
-Subject: [PATCH net-next 09/10] net: stmmac: thead: convert to use
- phy_interface
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nLaotlWD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52915C4CEFB
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Sep 2025 16:28:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758126528;
+	bh=8WYWD+Yg3r5DNPBLtc+iIfIV8PKCZAmtTgmqbUSnjcw=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=nLaotlWDzcMTfulQNPk3qQwpCoGdwW9Kcqa5cYlubED+oDPVCoj0ub+tq7QnX8XHc
+	 Y1NfN2TiQphOkNi7+H9rT+5hbipIwghPNVqKexaaeAURhRdjhT/5rq1VCAIK2kDuS4
+	 zlTbPQzdha+c/T8TkRDx6Kz/Op92ojdw9W5ZLOSugg+FK5l6X+E20U96G0jTl+bfMx
+	 V0n6AsJsRDWwMJNn32OSP0DlDARr3uOIf9vxPBOfSS1cO4o/XTZimCwgIKbNLE7yJ7
+	 AT+GenebK92wJErPQ89tXCyhNQwGdW0xDkkd4G7N3qsf1qYUZwjxgkr2cx5k4wuCtU
+	 UKS1Xq0+hjztw==
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-3610cb77a2aso2772661fa.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 17 Sep 2025 09:28:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXs0gMwkybUKrFC3v0UXtXPIBB/J9qRBUT7CqJI3NtC10NNsVzpKHPKy56tBt+r8nCTKSn/Pb75hKM7/w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzF5ubN7JOl3QzMzVVAY0u7A43b9DEVxOZ0dseevcSZgWffuW78
+	dIG005Uel6GXBqH3EzMff5gmSlC0zOrMfqaXT/A9ly7XbE+vskROKe8qKSyGEdWrdRL0yNQTYbj
+	UD2A7gU55IrE9vMMerzJhfuM9Fgy9rTU=
+X-Google-Smtp-Source: AGHT+IHoBsplIvCjqYj/yd32eJ5y7UncFKdYSr9f2zWqIlD/MP5kkZiUcMymkpPWIbDco8wmroHbHHYIHkrfiSTkdT8=
+X-Received: by 2002:a05:651c:31ca:10b0:336:e22d:804a with SMTP id
+ 38308e7fff4ca-3617d39f44cmr216041fa.17.1758126526406; Wed, 17 Sep 2025
+ 09:28:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1uytpq-00000006H2q-0ajY@rmk-PC.armlinux.org.uk>
-Sender: Russell King <rmk@armlinux.org.uk>
-Date: Wed, 17 Sep 2025 16:12:42 +0100
+References: <20250913101349.3932677-3-wens@kernel.org> <20250917070020.728420-1-amadeus@jmu.edu.cn>
+In-Reply-To: <20250917070020.728420-1-amadeus@jmu.edu.cn>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Thu, 18 Sep 2025 00:28:35 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64E+CEjnGmnnSyGhkFm=qHrpMeR+sLv_54qkmnKc1AvdQ@mail.gmail.com>
+X-Gm-Features: AS18NWCQ3OVkCviedj6oOCUdjxysf8UgGXGPw_nPV7UJfZIHedYkcadQwVeRPl4
+Message-ID: <CAGb2v64E+CEjnGmnnSyGhkFm=qHrpMeR+sLv_54qkmnKc1AvdQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v6 2/6] net: stmmac: Add support for Allwinner
+ A523 GMAC200
+To: Chukun Pan <amadeus@jmu.edu.cn>
+Cc: andre.przywara@arm.com, andrew+netdev@lunn.ch, conor+dt@kernel.org, 
+	davem@davemloft.net, devicetree@vger.kernel.org, edumazet@google.com, 
+	jernej@kernel.org, krzk+dt@kernel.org, kuba@kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, netdev@vger.kernel.org, pabeni@redhat.com, 
+	robh@kernel.org, samuel@sholland.org, 
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-dwmac-thead supports either MII or RGMII interface modes only.
+On Wed, Sep 17, 2025 at 3:00=E2=80=AFPM Chukun Pan <amadeus@jmu.edu.cn> wro=
+te:
+>
+> Hi,
+>
+> I tested this on Radxa Cubie A5E and there seems to be a small issue:
+>
+> When VLAN_8021Q is enabled (CONFIG_VLAN_8021Q=3Dy), down the eth1 interfa=
+ce:
+>
+> ~ # ifconfig eth1 down
+> [   96.695463] dwmac-sun55i 4510000.ethernet eth1: Timeout accessing MAC_=
+VLAN_Tag_Filter
+> [   96.703356] dwmac-sun55i 4510000.ethernet eth1: failed to kill vid 008=
+1/0
+>
+> Is this a known issue?
 
-None of the DTS files set "mac-mode", so mac_interface will be
-identical to phy_interface.
+There's a comment above stmmac_vlan_rx_kill_vid:
 
-Convert dwmac-thead to use phy_interface when determining the
-interface mode rather than mac_interface.
+/* FIXME: This may need RXC to be running, but it may be called with BH
+ * disabled, which means we can't call phylink_rx_clk_stop*().
+ */
 
-Also convert the error prints to use phy_modes() so that we get a
-meaningful string rather than a number for the interface mode.
+So maybe this is a known issue? Looks like the comment was left by Russell.
 
-Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
----
- .../net/ethernet/stmicro/stmmac/dwmac-thead.c | 24 +++++++++----------
- 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c
-index 6c6c49e4b66f..a3378046b061 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c
-@@ -56,7 +56,7 @@ static int thead_dwmac_set_phy_if(struct plat_stmmacenet_data *plat)
- 	struct thead_dwmac *dwmac = plat->bsp_priv;
- 	u32 phyif;
- 
--	switch (plat->mac_interface) {
-+	switch (plat->phy_interface) {
- 	case PHY_INTERFACE_MODE_MII:
- 		phyif = PHY_INTF_MII_GMII;
- 		break;
-@@ -67,8 +67,8 @@ static int thead_dwmac_set_phy_if(struct plat_stmmacenet_data *plat)
- 		phyif = PHY_INTF_RGMII;
- 		break;
- 	default:
--		dev_err(dwmac->dev, "unsupported phy interface %d\n",
--			plat->mac_interface);
-+		dev_err(dwmac->dev, "unsupported phy interface %s\n",
-+			phy_modes(plat->phy_interface));
- 		return -EINVAL;
- 	}
- 
-@@ -81,7 +81,7 @@ static int thead_dwmac_set_txclk_dir(struct plat_stmmacenet_data *plat)
- 	struct thead_dwmac *dwmac = plat->bsp_priv;
- 	u32 txclk_dir;
- 
--	switch (plat->mac_interface) {
-+	switch (plat->phy_interface) {
- 	case PHY_INTERFACE_MODE_MII:
- 		txclk_dir = TXCLK_DIR_INPUT;
- 		break;
-@@ -92,8 +92,8 @@ static int thead_dwmac_set_txclk_dir(struct plat_stmmacenet_data *plat)
- 		txclk_dir = TXCLK_DIR_OUTPUT;
- 		break;
- 	default:
--		dev_err(dwmac->dev, "unsupported phy interface %d\n",
--			plat->mac_interface);
-+		dev_err(dwmac->dev, "unsupported phy interface %s\n",
-+			phy_modes(plat->phy_interface));
- 		return -EINVAL;
- 	}
- 
-@@ -112,7 +112,7 @@ static int thead_set_clk_tx_rate(void *bsp_priv, struct clk *clk_tx_i,
- 
- 	plat = dwmac->plat;
- 
--	switch (plat->mac_interface) {
-+	switch (plat->phy_interface) {
- 	/* For MII, rxc/txc is provided by phy */
- 	case PHY_INTERFACE_MODE_MII:
- 		return 0;
-@@ -143,8 +143,8 @@ static int thead_set_clk_tx_rate(void *bsp_priv, struct clk *clk_tx_i,
- 		return 0;
- 
- 	default:
--		dev_err(dwmac->dev, "unsupported phy interface %d\n",
--			plat->mac_interface);
-+		dev_err(dwmac->dev, "unsupported phy interface %s\n",
-+			phy_modes(plat->phy_interface));
- 		return -EINVAL;
- 	}
- }
-@@ -154,7 +154,7 @@ static int thead_dwmac_enable_clk(struct plat_stmmacenet_data *plat)
- 	struct thead_dwmac *dwmac = plat->bsp_priv;
- 	u32 reg, div;
- 
--	switch (plat->mac_interface) {
-+	switch (plat->phy_interface) {
- 	case PHY_INTERFACE_MODE_MII:
- 		reg = GMAC_RX_CLK_EN | GMAC_TX_CLK_EN;
- 		break;
-@@ -177,8 +177,8 @@ static int thead_dwmac_enable_clk(struct plat_stmmacenet_data *plat)
- 		break;
- 
- 	default:
--		dev_err(dwmac->dev, "unsupported phy interface %d\n",
--			plat->mac_interface);
-+		dev_err(dwmac->dev, "unsupported phy interface %s\n",
-+			phy_modes(plat->phy_interface));
- 		return -EINVAL;
- 	}
- 
--- 
-2.47.3
-
+ChenYu
