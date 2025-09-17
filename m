@@ -1,124 +1,173 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A87D2E0901
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Sep 2025 14:47:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235E321B19D
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Sep 2025 15:12:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758120450; cv=none; b=YL5EIELhCuL/3q5Pcx+XpTncqeYF1f2yXZpaN+vcElycFGKd9t8HORJ2AYhO5aHVwOBDdFNSH7AyPJ3eiKB50u/g5Y/Y1GaY6vlvJdzOF3X8oSICZXnuOvme4z721uGuDPzK6yCt/gg2Xin3lZZixioMAdmOQ20GJT0s4pDMaNg=
+	t=1758121925; cv=none; b=PB9ZjH+ljKGQ1hGZI29mQFWJUvwzRJTNEBS0JstmiKQllPr4ptC9TiwroviVYjvLXkFBnk7UNe5G7sG3OEuAXKKjUTohaF4gKH9IAKcp0gr7eUA7usxp3MBSZyvxUD8sF3qqW9O96/uV8MxFBJ5zZx2YEJ4a2AKX3ipeK6iEAnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758120450; c=relaxed/simple;
-	bh=UsvqM3BvXaxvpr7HcsqbbmUjuygpPNM05UVXcP+zk6M=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=d5OXVXwC8RRokNRcbs+lkQlSPbMrMZjuyW4IXC4otB+ESffnBK33VhHY954MCTuLjKJf9xZlPRed/Id6aiiMgW8HN8qme4CTfEgCpAY80JrwHEHBn3JcT6QvOp894l6IPWw2hfSSar4f0s7E2bRBDq2AAYmAnB9RcfsgsFC4lvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L+vkl+WR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758121925; c=relaxed/simple;
+	bh=QyTOxYYLGB6ntQjZDZCZZywA+7fBl0fJN0sLN9wVR0Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sR1aX+8d7g5o9yEr02foqz+yJr/9uYEroRIU9Ko4FeQbhwT+JvMHj9dM1/n4NR9Q1X03Mc4WZnzUJJfGqeHxUWdWRmZsyKArvF5E/E5vsCkw8tCEM+jWd71AaRul6TgD7tjfMC5BP981UgnAP682E6QKbF7V8dbQnewlHb8pRB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=paOB4LDX; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L+vkl+WR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEA07C4CEFB;
-	Wed, 17 Sep 2025 14:47:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758120450;
-	bh=UsvqM3BvXaxvpr7HcsqbbmUjuygpPNM05UVXcP+zk6M=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=L+vkl+WRX+RwuuuQdI2+Wgwhhb0lUMGCWbP3A7X7y+wiK02Zo6sHbS5q9f1gUW2qz
-	 y86XSnfb4EgtzOcayxJKTkaqss7p76y8weDFbFpvkDSsn57q9Er3M2UyQXRzWVI4SL
-	 lIti72CV7h8pbr9LKrGcY5mF8lJ0Vky8UpdM/RWVJzXdZGTLe8rk4APiD9z0xkxcjY
-	 mKujQ9Y9fO3j1waL3N1IcK74/LlnvvAgqUNctymUPp/rgY/7gBKnjgboSGDg5kcnjZ
-	 3RXMaqWXSo8yX1ObUrqQ7VYSvZL7Rck+s/bLNPFo/t2I1p9l1qJQymrRO8UUfVmkr6
-	 1MsJ7cMU9+2cw==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 17 Sep 2025 16:46:09 +0200
-Subject: [PATCH v4 28/39] drm/sun4i: Switch to
- drm_atomic_get_new_crtc_state()
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="paOB4LDX"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Z9DCHnUskoAQsh4r0zX0pM3YjsFlNAkxg7COa2SK03s=; b=paOB4LDXN15KG0UXWrMKam+OMH
+	aZOO7D2SyGG0TEQzk8TvwQx527ujk+cjVaq9dB5vejyXfhPCSkTUJs64LU/CTQ9tZThfqn88jGwO8
+	5wR9xFtWLStSP/S1t5sY9e6o64ps6PeMAJZYb8HxbyPmmhvY0fy1s2iKuXnGotbZEEAJkyS58BUHC
+	Qun28H6WmBZUyEPcX2PntSb2b1KeGYKAvV63EpVbPs4MLVG4js2lHn1wNFqUU1cHEDDPwpqasmdj3
+	9NcyfYEEP1QUudsP4DznsTI7pEdsn5dJeYOyBJ7cC7Zj1oI4BWiC+boI55TDbz201JJx0ijh+qH0Z
+	1ZyX2ONA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:43408)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1uytot-000000004jS-0P44;
+	Wed, 17 Sep 2025 16:11:43 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1uytoj-000000000Hx-11GN;
+	Wed, 17 Sep 2025 16:11:33 +0100
+Date: Wed, 17 Sep 2025 16:11:33 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, Chen-Yu Tsai <wens@csie.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Drew Fustini <fustini@kernel.org>,
+	Emil Renner Berthing <kernel@esmil.dk>,
+	Eric Dumazet <edumazet@google.com>,
+	Fabio Estevam <festevam@gmail.com>, Fu Wei <wefu@redhat.com>,
+	Guo Ren <guoren@kernel.org>, imx@lists.linux.dev,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Minda Chen <minda.chen@starfivetech.com>,
+	Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>,
+	netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Samuel Holland <samuel@sholland.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>, Vladimir Zapolskiy <vz@mleia.com>
+Subject: [PATCH net-next 00/10] net: stmmac: remove mac_interface
+Message-ID: <aMrPpc8oRxqGtVPJ@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250917-drm-no-more-existing-state-v4-28-5d4b9889c3c8@kernel.org>
-References: <20250917-drm-no-more-existing-state-v4-0-5d4b9889c3c8@kernel.org>
-In-Reply-To: <20250917-drm-no-more-existing-state-v4-0-5d4b9889c3c8@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2306; i=mripard@kernel.org;
- h=from:subject:message-id; bh=UsvqM3BvXaxvpr7HcsqbbmUjuygpPNM05UVXcP+zk6M=;
- b=kA0DAAkTJ1/OGaI9vnYByyZiAGjKyauhrL8l3cXNO4WKlEB+G598lDdUtXjMpVPbkdcVQ/6zJ
- oiVBAATCQAdFiEE5BxWy6eHo3pAP6n4J1/OGaI9vnYFAmjKyasACgkQJ1/OGaI9vnbkQQF/RNGI
- cLDT3RQaytHwVcB+pY5gOFXtEUqHgpWmbe1C4sL7MCPOi2+iBInpgl/raxOAAYDFWbJt+aJayUR
- cKvyoixGXLolpOpG4PIC3pyxqwjjDCrcAVjGnqfVw909mQQ4M8ME=
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-The sun4i atomic_check implementation uses the deprecated
-drm_atomic_get_existing_crtc_state() helper.
+The dwmac core supports a range of interfaces, but when it comes to
+SerDes interfaces, the core itself does not include the SerDes block.
+Consequently, it has to provide an interface suitable to interface such
+a block to, and uses TBI for this.
 
-This hook is called as part of the global atomic_check, thus before the
-states are swapped. The existing state thus points to the new state, and
-we can use drm_atomic_get_new_crtc_state() instead.
+The driver also uses "PCS" for RGMII, even though the dwmac PCS block
+is not present for this interface type - it was a convenice for the
+code structure as RGMII includes inband signalling of the PHY state,
+much like Cisco SGMII does at a high level.
 
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
-To: Maxime Ripard <mripard@kernel.org>
-To: Chen-Yu Tsai <wens@csie.org>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-sunxi@lists.linux.dev
----
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 3 +--
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 3 +--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+As such, the code refers to RGMII and SGMII modes for the PCS, and
+there used to be STMMAC_PCS_TBI and STMMAC_PCS_RTBI constants as well
+but these were never set, although they were used in the code.
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-index f97be0040aab29cb4e138fcceb20e90c72db0252..94ac6ad6f30688a048e594811d2ae72aaa44376d 100644
---- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-@@ -204,12 +204,11 @@ static int sun8i_ui_layer_atomic_check(struct drm_plane *plane,
- 	int min_scale, max_scale;
- 
- 	if (!crtc)
- 		return 0;
- 
--	crtc_state = drm_atomic_get_existing_crtc_state(state,
--							crtc);
-+	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 	if (WARN_ON(!crtc_state))
- 		return -EINVAL;
- 
- 	min_scale = DRM_PLANE_NO_SCALING;
- 	max_scale = DRM_PLANE_NO_SCALING;
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-index a09ee4097537fca8b653f34a833b36b69e343ea5..1f77e1d2984548e746805f8323f537f3b4d93198 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-@@ -325,12 +325,11 @@ static int sun8i_vi_layer_atomic_check(struct drm_plane *plane,
- 	int min_scale, max_scale;
- 
- 	if (!crtc)
- 		return 0;
- 
--	crtc_state = drm_atomic_get_existing_crtc_state(state,
--							crtc);
-+	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 	if (WARN_ON(!crtc_state))
- 		return -EINVAL;
- 
- 	min_scale = DRM_PLANE_NO_SCALING;
- 	max_scale = DRM_PLANE_NO_SCALING;
+The selection of the PCS mode was from mac_interface. Thus, it seems
+that the original intention was for mac_interface to describe the
+interface mode used within the dwmac core, and phy_interface to
+describe the external world-accessible interface (e.g. which would
+connect to a PHY or SFP cage.)
+
+It appears that many glue drivers misinterpret these. A good exmple
+is socfpga. This supports SGMII and 1000BASE-X, but does not include
+the dwmac PCS, relying on the Lynx PCS instead. However, it makes use
+of mac_interface to configure the dwmac core to its GMII/MII mode.
+
+So, when operating in either of these modes, the dwmac is configured
+for GMII mode to communicate with the Lynx PCS which then provides
+the SGMII or 1000BASE-X interface mode to the external world.
+
+Given that phy_interface is the external world interface, and
+mac_interface is the dwmac core interface, selecting the interface
+mode based on mac_interface being 1000BASEX makes no sense.
+
+Moreover, mac_interface is initialised by the stmmac core code. If
+the "mac-mode" property is set in DT, this will be used. Otherwise,
+it will reflect the "phy-mode" property - meaning that it defaults
+to phy_interface. As no in-kernel DT makes reference to a "mac-mode"
+property, we can assume that for all in-kernel platforms, these two
+interface variables are the same. The exception are those platform
+glues which I reviwed and suggested they use phy_interface, setting
+mac_interface to PHY_INTERFACE_MODE_NA.
+
+The conclusion to all of this is that mac_interface serves no useful
+purpose, and causes confusion as the platform glue code doesn't seem
+to know which one should be used.
+
+Thus, let's get rid of mac_interface, which makes all this code more
+understandable. It also helps to untangle some of the questions such
+as:
+- should this be using the interface passed from phylink
+- should we set the range of phylink supported interfaces to be
+  more than one
+- when we get phylink PCS support for the dwmac PCS, should we be
+  selecting it based on mac_interface or phy_interface, and how
+  should we populate the PCS' supported_interface bitmap.
+
+Having converted socfpga to use phy_interface, this turns out to
+feel like "the right way" to do this - convert the external world
+"phy_interface" to whatever phy_intf_sel value that the dwmac core
+needs to achieve the connection to whatever hardware blocks are
+integrated inside the SoC to achieve the requested external world
+interface.
+
+As an illustration why - consider that in the case of socfpga, it
+_could_ have been implemented such that the dwmac PCS was used for
+SGMII, and the Lynx PCS for 1000BASE-X, or vice versa. Only the
+platform glue would know which it is.
+
+I will also note that several cores provide their currently configured
+interface mode via the ACTPHYIF field of Hardware Feature 0, and thus
+can be read back in the platform-independent parts of the driver to
+decide whether the internal PCS or the RGMII (or actually SMII) "PCS"
+should be used.
+
+This is hot-off-the-press, and has only been build tested. As I have
+none of these platforms, this series has not been run-tested, so
+please test on your hardware. Thanks.
+
+ drivers/net/ethernet/stmicro/stmmac/dwmac-imx.c    | 20 +++++++-------
+ .../net/ethernet/stmicro/stmmac/dwmac-ingenic.c    | 25 ++++++++++-------
+ .../net/ethernet/stmicro/stmmac/dwmac-loongson.c   |  2 --
+ .../net/ethernet/stmicro/stmmac/dwmac-lpc18xx.c    |  1 -
+ .../net/ethernet/stmicro/stmmac/dwmac-socfpga.c    |  2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-starfive.c   |  6 ++---
+ drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c  | 26 +++++++++---------
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c  |  4 +--
+ drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c  | 24 ++++++++---------
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c  |  2 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_platform.c  |  6 ++++-
+ include/linux/stmmac.h                             | 31 ++++++++++++++--------
+ 12 files changed, 82 insertions(+), 67 deletions(-)
 
 -- 
-2.50.1
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
