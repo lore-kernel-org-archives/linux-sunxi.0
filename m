@@ -1,88 +1,100 @@
-Received: from mail-m49198.qiye.163.com (mail-m49198.qiye.163.com [45.254.49.198])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15F52D73A7
-	for <linux-sunxi@lists.linux.dev>; Thu, 18 Sep 2025 06:50:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B5529D292;
+	Thu, 18 Sep 2025 09:01:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758178223; cv=none; b=bqTJNHuMq72HRHDR42UEETxVaixu08ODAHvCKpkx4W8vPjiH5UrOb4Dk4q7xTH2K604OE41dgzGTu9YbcxQIw6HizBoxTB4e3yh5oMr1o7ntLMJO7qJdETLXt87KpOg/zz3sCd6XbZJttsemKzlgD4eLS4NGuZ3JeLcC40mZqY8=
+	t=1758186108; cv=none; b=uhqpHy+kYNcN4+dxTJ2eRhktQbW8ocDC4gQ8DkwoTzHrejR+qLyOnJzq4wqc3n8wUwjxHh6zG5NAlKkXiLywm2a0N5va6DV2hytc/dcciIOhIc9joeNrX6jW5pBzEVdrX84Cu/sfBsAO1JBbXoAG/QZNuRe/0zPYOLWyzWzVb3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758178223; c=relaxed/simple;
-	bh=E61AklOCat9VCLqMef8JiiENaQpUakUCY+88tvDoJDg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=WPHFZLq/SEf6euXTl2OUI+76fE52qp2f/MWX4cb5lUTEf4aLgwC7tDU5aT12B9jjCU8OzOnkBdpbqvAkRHg/vsj4bPFzBZ1It20fw7AJ02bY8MF+W1pDkhF16BSA7jECzHCfs1IxBJnO0q/SCptEo9R2zcD2UBkPTsdmA1b2kC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jmu.edu.cn; spf=pass smtp.mailfrom=jmu.edu.cn; arc=none smtp.client-ip=45.254.49.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jmu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jmu.edu.cn
-Received: from localhost.localdomain (unknown [119.122.213.2])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 233a88a56;
-	Thu, 18 Sep 2025 14:50:15 +0800 (GMT+08:00)
-From: Chukun Pan <amadeus@jmu.edu.cn>
-To: wens@kernel.org
-Cc: amadeus@jmu.edu.cn,
-	andre.przywara@arm.com,
-	andrew+netdev@lunn.ch,
-	conor+dt@kernel.org,
-	davem@davemloft.net,
-	devicetree@vger.kernel.org,
-	edumazet@google.com,
-	jernej@kernel.org,
-	krzk+dt@kernel.org,
-	kuba@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	netdev@vger.kernel.org,
-	pabeni@redhat.com,
-	robh@kernel.org,
-	samuel@sholland.org
-Subject: Re: [PATCH net-next v6 2/6] net: stmmac: Add support for Allwinner A523 GMAC200
-Date: Thu, 18 Sep 2025 14:50:06 +0800
-Message-Id: <20250918065006.476860-1-amadeus@jmu.edu.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <CAGb2v640r+TwB7O+UAB9PehZ2FaXDjhVerK6j_CZ2+caJoJ9zA@mail.gmail.com>
-References: <CAGb2v640r+TwB7O+UAB9PehZ2FaXDjhVerK6j_CZ2+caJoJ9zA@mail.gmail.com>
+	s=arc-20240116; t=1758186108; c=relaxed/simple;
+	bh=5rMvlimJ4W4wdpXOBkk6k7g6cY89cXqZ2dvZK554a0U=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=IZHDjtWRtul0iN2Kp9BU1JY5XCAchRdhl0kWyQESybWuOlkroYs7kt2yi2UFRBfgPZeyJS24K8CVZdwNM6uqoW1ACXxdau0OWxj8FTJzX8/zqV1uHk2QEt0ibEHgGx/ImOm+JptI9ZFtmqXt04zXylI95PkMe4qtJDb9/sPfq2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fvtLc8mW; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fvtLc8mW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80CA4C4CEE7;
+	Thu, 18 Sep 2025 09:01:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758186106;
+	bh=5rMvlimJ4W4wdpXOBkk6k7g6cY89cXqZ2dvZK554a0U=;
+	h=From:Subject:Date:To:Cc:From;
+	b=fvtLc8mWA99MkR1KcXW1Izmu9ujGbv8e7xYbBtE60LDXg7JFhQ9ZmuwsHQpAc5rfO
+	 kG1xtFLR9dx/2DJUVSBGk/BNs6/+c+UQEMCXaTKph/Xbfr6w9MHu2AkGX0ZAlz7NFl
+	 B+2Uj88Ro5eR6Dsk4lvljcTdAGy36gCQ913SDe7/GBWyxfPrtDddJE6195A4bU62M3
+	 G6rNraF+R5zbSzR/p4/wuBtv8zAYWrjRNBlG8f/6Ib24cMDkBZfJqpqCSxDB2X2kBs
+	 613xR/1lzWhzq+uJ3bVEhuP9xdCnDVa14Cqi+Yo05XPHibzGZmU7oO/XgWWAHrMf81
+	 /8bcduPo4XRHg==
+From: Vincent Mailhol <mailhol@kernel.org>
+Subject: [PATCH 0/4] can: populate ndo_change_mtu() to prevent buffer
+ overflow
+Date: Thu, 18 Sep 2025 18:00:23 +0900
+Message-Id: <20250918-can-fix-mtu-v1-0-0d1cada9393b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a995b96860203a2kunmec52b10073125
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZGktDVh4dGEJPThlOThkYTlYeHw5VEwETFhoSFy
-	QUDg9ZV1kYEgtZQVlKSkJVSklJVUlKSFVJWVdZFhoPEhUdFFlBWU9LSFVKS0lIQkhCVUpLS1VKQk
-	tLWQY+
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACjKy2gC/x2MQQqAIBAAvyJ7bsEVguwr0cF0qz1koRVB+Pek4
+ zDMvJA5CWfo1QuJb8myxwrUKPCriwujhMpgtGm1pQ69izjLg9t54dQaYuJAzlioxZG4qv82jKV
+ 86NIHbl0AAAA=
+X-Change-ID: 20250918-can-fix-mtu-b521e1ed1a29
+To: Marc Kleine-Budde <mkl@pengutronix.de>, 
+ Oliver Hartkopp <socketcan@hartkopp.net>
+Cc: Arunachalam Santhanam <arunachalam.santhanam@in.bosch.com>, 
+ Akshay Bhat <akshay.bhat@timesys.com>, 
+ Wolfgang Grandegger <wg@grandegger.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
+ Gerhard Bertelsmann <info@gerhard-bertelsmann.de>, 
+ Yasushi SHOJI <yashi@spacecubics.com>, 
+ =?utf-8?q?Remigiusz_Ko=C5=82=C5=82=C4=85taj?= <remigiusz.kollataj@mobica.com>, 
+ linux-can@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ Vincent Mailhol <mailhol@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1393; i=mailhol@kernel.org;
+ h=from:subject:message-id; bh=5rMvlimJ4W4wdpXOBkk6k7g6cY89cXqZ2dvZK554a0U=;
+ b=owGbwMvMwCV2McXO4Xp97WbG02pJDBmnT2VySv215XKrFNlufMix5qL+53Wf9p0LSQzambRxC
+ d/uPU7bO0pZGMS4GGTFFFmWlXNyK3QUeocd+msJM4eVCWQIAxenAEyk4wIjwzwdy03yEWF7r/91
+ do/2FZNYwRHqnL9D2ogrevWtZzsVohn+Rzv28Yr+/3Gh9GNmZxWLiBLjufQ0br36fat9Mzf93c/
+ NCAA=
+X-Developer-Key: i=mailhol@kernel.org; a=openpgp;
+ fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
 
-Hi,
+Four drivers, namely etas_es58x, hi311x, sun4i_can and mcba_usb forgot
+to populate their net_device_ops->ndo_change_mtu(). Because of that,
+the user is free to configure any MTU on these interfaces.
 
-> I don't have 802.1q enabled so I didn't see this.
->
-> Can you provide the base commit you applied the patches to?
+This can be abused by an attacker who could craft some skbs and send
+them through PF_PACKET to perform a buffer overflow of up to 247 bytes
+in each of these drivers.
 
-Based on the latest linux-next, 20250917
-with these enabled configurations:
+This series contains four patches, one for each of the drivers, to add
+the missing ndo_change_mtu() callback. The descriptions contain
+detailed explanations of how the buffer overflow could be triggered.
 
-CONFIG_IPV6=y
-CONFIG_STP=y
-CONFIG_GARP=y
-CONFIG_MRP=y
-CONFIG_BRIDGE=y
-CONFIG_VLAN_8021Q=y
-CONFIG_STMMAC_ETH=y
-CONFIG_STMMAC_PLATFORM=y
-CONFIG_DWMAC_SUN8I=y
-CONFIG_DWMAC_SUN55I=y
-CONFIG_PCS_XPCS=y
+Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
+---
+Vincent Mailhol (4):
+      can: etas_es58x: populate ndo_change_mtu() to prevent buffer overflow
+      can: hi311x: populate ndo_change_mtu() to prevent buffer overflow
+      can: sun4i_can: populate ndo_change_mtu() to prevent buffer overflow
+      can: mcba_usb: populate ndo_change_mtu() to prevent buffer overflow
 
-[   38.818801] 8021q: adding VLAN 0 to HW filter on device eth1
+ drivers/net/can/spi/hi311x.c                | 1 +
+ drivers/net/can/sun4i_can.c                 | 1 +
+ drivers/net/can/usb/etas_es58x/es58x_core.c | 3 ++-
+ drivers/net/can/usb/mcba_usb.c              | 1 +
+ 4 files changed, 5 insertions(+), 1 deletion(-)
+---
+base-commit: f83ec76bf285bea5727f478a68b894f5543ca76e
+change-id: 20250918-can-fix-mtu-b521e1ed1a29
 
-When the interface is down:
-~ # ifconfig eth1 down
-[   69.181869] dwmac-sun55i 4510000.ethernet eth1: Timeout accessing MAC_VLAN_Tag_Filter
-[   69.189827] dwmac-sun55i 4510000.ethernet eth1: failed to kill vid 0081/0
+Best regards,
+-- 
+Vincent Mailhol <mailhol@kernel.org>
 
-Thanks,
-Chukun
