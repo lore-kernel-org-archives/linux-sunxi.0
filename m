@@ -1,99 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.mleia.com (mleia.com [178.79.152.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC0030BBB2;
-	Thu, 18 Sep 2025 16:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D88430FF3B;
+	Thu, 18 Sep 2025 20:20:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.79.152.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758212111; cv=none; b=e4l/l2c0nOf/U7V1KCB+xcJmSLnaOK4KrYBKCppab/1nu0/9xRC68hblDDQPRLn9t4BBmBXBjTbunFGfw4XT7ZGd+Srcc0sf+rB0J+Sjj4qhO/DHxU7KjWSpmRLJpqPGTjaaU2va2GL4/zHYs19NX6V0GiYjHrwaFTGBsAVfrcI=
+	t=1758226832; cv=none; b=LshlxGdBhdbGTP93Cs2vWYWcE36j02fmIL8HkuaI9pHkikH3tkJu9miTvzdpY1rU1fZBtI09EZ/AEXOL6OfpejmsqsPL75Q6lh0jc1Aaztcj8P41i7R6TCYj6d4sUmsdY35mjhBwVr/1NlsCNkKwc7CUYCt/BEJ2rczucGGosWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758212111; c=relaxed/simple;
-	bh=NUmiPw09iI+MO0x6EdrHq4XKUr4BBz9df2qFPG/8Quc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aWwd8QF11sRpp8038sd90v5kia+9IWxOcTuUwHWBErwcMkoMlmFk2k2Pa7yl5RaeDkSgTiOS0TgYn19dcrYWk/lVWjvjcMnOFa6H6zDm+mjcaX0UnVl+qMbJrI4nx3jYMkEss4r17f47xA7AOXw9qu0uMbhY2LkvZjYz3Z5yyXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tW4woGZb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758226832; c=relaxed/simple;
+	bh=Iz1O6jfjq1q9VqakNVUVO7uZ4sHU1u3uu4IY4c2AODg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ep5wmJ00VxN0MdrIVpCjbb7OjSMABPFyEbD41snCtCnFnAGez6IfO3rsK29y6F+MtdgmaOsQHnPgZPIfPHI1cOHjmfMwbRlHy01hkZuTW2P8Gxd8D30SlY4W8rTsUuDB3IlG+qWWgSBxeNrqB6ayvpBcWeQpFlKupUOH8h/mL0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mleia.com; spf=none smtp.mailfrom=mleia.com; dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b=idkAdHuL; dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b=idkAdHuL; arc=none smtp.client-ip=178.79.152.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mleia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mleia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tW4woGZb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7FBFC4CEE7;
-	Thu, 18 Sep 2025 16:15:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758212110;
-	bh=NUmiPw09iI+MO0x6EdrHq4XKUr4BBz9df2qFPG/8Quc=;
-	h=Date:From:To:Cc:Subject:From;
-	b=tW4woGZb23aELC+Scntq/1zwGWdLICpBTyNbSycVDjmQ/sdiklfvhLVGGRLjLhqBa
-	 Q0RBbq1Da5GRL3de5de5xQN1o/KgFQCVl0M9w8NeenWqHbBZrYgOdhh8YEu+KoVL1d
-	 X+fXup15BMXPSmlciFl4aKB/9nlF6zOVhowIn9EmyZkYY5Oippe/FiysslAaFY9KIi
-	 jku44GXwtQWS7Vr6w18gBvTCNqGw7Hro5fQw2SvH3Y2h0RikV3pCI38Ivs9xarQed5
-	 dkEM3QwFnCLQbbdQ4DkxqWD7dOxirMwTk9QAUDq1lgYVaOZL58KTII3xRsrhUAnAS2
-	 Ay9sQdZCyW0SA==
-Received: by wens.tw (Postfix, from userid 1000)
-	id 7525960427; Fri, 19 Sep 2025 00:15:08 +0800 (CST)
-Date: Fri, 19 Sep 2025 00:15:08 +0800
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Stephen Boyd <sboyd@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
-	linux-clk@vger.kernel.org
-Subject: [GIT PULL] Allwinner clock changes for 6.18
-Message-ID: <aMwwDAnj4QshEHdI@wens.tw>
+	dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b="idkAdHuL";
+	dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b="idkAdHuL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mleia.com; s=mail;
+	t=1758226287; bh=Iz1O6jfjq1q9VqakNVUVO7uZ4sHU1u3uu4IY4c2AODg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=idkAdHuL3LERu69pldFSTewZEkM2ke2QlZR8x3wLMExFHvq3v28C00mmuWZtn+QUn
+	 eiTw4pD2Od7CeYDMMY7vXIPAw4MFLnzMkpIhAjgCNiCsxwH3SPv4NSgYOvS6Q/Hr6v
+	 N08Xf1Nc8bcps8ZPB1eq+PKJC8WOnA+j+ztxd4GZFj94zHDwE9VAY4Ra4B4GJ7eemL
+	 fYs8OfYQ53jk3W64OD8//weQjsy47BKG4k4YxDN1Wz4lr7iKZqIL57hF3XU89wyI/8
+	 yhcPYwZ3ibt0CiwmEzBEcTmatzqkJvTXZ7c6y+2Jd+WIsSOInaj66atOwHNfi9bJ3y
+	 vU1qIJ0k/wCWw==
+Received: from mail.mleia.com (localhost [127.0.0.1])
+	by mail.mleia.com (Postfix) with ESMTP id 762393D55C1;
+	Thu, 18 Sep 2025 20:11:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mleia.com; s=mail;
+	t=1758226287; bh=Iz1O6jfjq1q9VqakNVUVO7uZ4sHU1u3uu4IY4c2AODg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=idkAdHuL3LERu69pldFSTewZEkM2ke2QlZR8x3wLMExFHvq3v28C00mmuWZtn+QUn
+	 eiTw4pD2Od7CeYDMMY7vXIPAw4MFLnzMkpIhAjgCNiCsxwH3SPv4NSgYOvS6Q/Hr6v
+	 N08Xf1Nc8bcps8ZPB1eq+PKJC8WOnA+j+ztxd4GZFj94zHDwE9VAY4Ra4B4GJ7eemL
+	 fYs8OfYQ53jk3W64OD8//weQjsy47BKG4k4YxDN1Wz4lr7iKZqIL57hF3XU89wyI/8
+	 yhcPYwZ3ibt0CiwmEzBEcTmatzqkJvTXZ7c6y+2Jd+WIsSOInaj66atOwHNfi9bJ3y
+	 vU1qIJ0k/wCWw==
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi [91.159.24.186])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.mleia.com (Postfix) with ESMTPSA id F04BE3D4D3E;
+	Thu, 18 Sep 2025 20:11:25 +0000 (UTC)
+Message-ID: <64ea0259-30a2-4264-8c05-8fd7df113bb5@mleia.com>
+Date: Thu, 18 Sep 2025 23:11:20 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 10/10] net: stmmac: remove mac_interface
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+ Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Chen-Yu Tsai <wens@csie.org>,
+ "David S. Miller" <davem@davemloft.net>, Drew Fustini <fustini@kernel.org>,
+ Emil Renner Berthing <kernel@esmil.dk>, Eric Dumazet <edumazet@google.com>,
+ Fabio Estevam <festevam@gmail.com>, Fu Wei <wefu@redhat.com>,
+ Guo Ren <guoren@kernel.org>, imx@lists.linux.dev,
+ Jakub Kicinski <kuba@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Minda Chen <minda.chen@starfivetech.com>,
+ Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>, netdev@vger.kernel.org,
+ Paolo Abeni <pabeni@redhat.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Samuel Holland <samuel@sholland.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>
+References: <aMrPpc8oRxqGtVPJ@shell.armlinux.org.uk>
+ <E1uytpv-00000006H2x-196h@rmk-PC.armlinux.org.uk>
+From: Vladimir Zapolskiy <vz@mleia.com>
+In-Reply-To: <E1uytpv-00000006H2x-196h@rmk-PC.armlinux.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-49551924 
+X-CRM114-CacheID: sfid-20250918_201127_506365_0BB65E3C 
+X-CRM114-Status: GOOD (  11.00  )
 
-The following changes since commit 8f5ae30d69d7543eee0d70083daf4de8fe15d585:
+On 9/17/25 18:12, Russell King (Oracle) wrote:
+> mac_interface has served little purpose, and has only caused confusion.
+> Now that we have cleaned up all platform glue drivers which should not
+> have been using mac_interface, there are no users remaining. Remove
+> mac_interface.
+> 
+> This results in the special dwmac specific "mac-mode" DT property
+> becoming redundant, and an in case, no DTS files in the kernel make use
+> of this property. Add a warning if the property is set, and it is
+> different from the "phy-mode".
+> 
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 
-  Linux 6.17-rc1 (2025-08-10 19:41:16 +0300)
+Acked-by: Vladimir Zapolskiy <vz@mleia.com>
 
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-clk-for-6.18
-
-for you to fetch changes up to 598e4b6713b54267acc257b3c66a269079ee4d8f:
-
-  clk: sunxi-ng: add support for the A523/T527 MCU CCU (2025-09-13 13:50:52 +0800)
-
-----------------------------------------------------------------
-Allwinner Clock changes for 6.18
-
-This tag contains two commits that are shared with the soc tree.
-
-In this cycle support for power-of-two single divider clocks was added.
-This covers some of the clocks found in the A523 MCU PRCM clock and
-reset controller, for which support was added as well.
-
-Besides the new controller, a missing clock was added for the A523's
-main clock controller. The RTC clock driver gained specifics for the
-A523's RTC block for tweaking the clock rate of the internal oscillator
-to get it closer to what the RTC needs.
-
-----------------------------------------------------------------
-Chen-Yu Tsai (7):
-      clk: sunxi-ng: sun6i-rtc: Add A523 specifics
-      dt-bindings: clock: sun55i-a523-ccu: Add missing NPU module clock
-      dt-bindings: clock: sun55i-a523-ccu: Add A523 MCU CCU clock controller
-      Merge branch 'sunxi/shared-dt-headers-for-6.18' into sunxi/clk-for-6.18
-      clk: sunxi-ng: sun55i-a523-ccu: Add missing NPU module clock
-      clk: sunxi-ng: div: support power-of-two dividers
-      clk: sunxi-ng: add support for the A523/T527 MCU CCU
-
- .../bindings/clock/allwinner,sun55i-a523-ccu.yaml  |  37 +-
- drivers/clk/sunxi-ng/Kconfig                       |   5 +
- drivers/clk/sunxi-ng/Makefile                      |   2 +
- drivers/clk/sunxi-ng/ccu-sun55i-a523-mcu.c         | 469 +++++++++++++++++++++
- drivers/clk/sunxi-ng/ccu-sun55i-a523.c             |  21 +-
- drivers/clk/sunxi-ng/ccu-sun55i-a523.h             |  14 -
- drivers/clk/sunxi-ng/ccu-sun6i-rtc.c               |  11 +
- drivers/clk/sunxi-ng/ccu_div.h                     |  18 +
- include/dt-bindings/clock/sun55i-a523-ccu.h        |   1 +
- include/dt-bindings/clock/sun55i-a523-mcu-ccu.h    |  54 +++
- include/dt-bindings/reset/sun55i-a523-mcu-ccu.h    |  30 ++
- 11 files changed, 643 insertions(+), 19 deletions(-)
- create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523-mcu.c
- delete mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523.h
- create mode 100644 include/dt-bindings/clock/sun55i-a523-mcu-ccu.h
- create mode 100644 include/dt-bindings/reset/sun55i-a523-mcu-ccu.h
+-- 
+Best wishes,
+Vladimir
