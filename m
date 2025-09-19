@@ -1,48 +1,52 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F2A14A60C;
-	Fri, 19 Sep 2025 13:02:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1318D31FEE7
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 Sep 2025 17:05:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758286978; cv=none; b=Y5Oo6ehA5qBAwlJEbDKJ2z7Gs36a4Rjy9TYgjGbX5Mz2pogMU2pFZjk/NdH7W6HKD+o7pufSKle7d+xhnmhIGYJJpUuKCxMMvJq7LACUdJ0TdLWgNyeMbhohZ0GPhZhgt8qyYgTFeK6ovYg5MLVWW64MB5qiXtBcO1gvtq5A214=
+	t=1758301518; cv=none; b=Rz3G+8zuwha0Fy1pzYGngNCxoUag1hoEREtgTiNSpmksW6b5yPJB2zB4KjaT1RzTflSRFaKIoDz4xMhs6snLwa38Ji9GLPfY/3uSLrMM/UtWYFSK1KxVY/Aq4q1Qt2iEhCqZSHk5BTPxCORQndTR+8Jt6o/Ls41jj17oiNdzQfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758286978; c=relaxed/simple;
-	bh=ibYmE2c5M3NgxmUOwRdDFk5cC2rztRoRsEoywjcKAMQ=;
+	s=arc-20240116; t=1758301518; c=relaxed/simple;
+	bh=Mvxr5986z8SC05lluub2hgg11scs2HtbyBBn90Ioodg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MFn/I/OfBnKgyIIu9Cf9/Yej4WZ01ky92lpHGSYKw0kbSPb4SoApVBfa2UEPB+kuvLyCOXc5VE12IrUMejsq8R+V2pQVTCSSDpr7JQoCQ6p+zzYA++N4U63bMhmRePHluPtf85H60V58ooOnLqt93cbGAveJmIH+a7VgC5qezHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r/e3udmL; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r/e3udmL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DEEDC4CEF0;
-	Fri, 19 Sep 2025 13:02:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758286977;
-	bh=ibYmE2c5M3NgxmUOwRdDFk5cC2rztRoRsEoywjcKAMQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r/e3udmLj860i+05ckqO8nQvBT79iD52i+tZNxoFDRrsFNkGLSi5Gv33SC+M1pXe3
-	 cq3Cl8UFAFviE4KDMbF2gjWY0arWyXk4Jww1eJNKGK8bHQ7yTT9eDtajeG3tz9saqL
-	 JjZtgMZExYZ2AqWRaVMAcOkK8Fr1IdO2dPuZOIVizFvHC5jX2hp8sXG4FmWhyZXvGQ
-	 qr4g4gKjynLjoMZpjo/sLfoCDO7HC4T/BZXYkK12BsHVE+E6js2QC+4cR56F4zxcDR
-	 yikESUKUNJfhY/qJLQDCzuvniHkRuUC5f80UZjuyo7NYVjiyqkbopMkI4GAUM+EVmq
-	 k3csGPdgauMLA==
-Date: Fri, 19 Sep 2025 14:02:51 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Mikhail Kalashnikov <iuncuim@gmail.com>
-Subject: Re: [RFC PATCH 4/5] mfd: axp20x: Support tri-phase setup
-Message-ID: <024aab2f-6ede-4fc8-ac13-195a8038c365@sirena.org.uk>
-References: <20250919000020.16969-1-andre.przywara@arm.com>
- <20250919000020.16969-5-andre.przywara@arm.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=e0Ta5se3eqiWD5zxKRgCyS6XaOalZwJtYsV2JKu0whoIbl5R1B1rd5YMMvqVBTp4UTwRVxkZMuWhPnHvQ/w2jjxxCHCfjbrEmPgRuVEhVlvr7+fX4Q7iB4Zfc2SJWZKbOg9iyerMPNJYkJsT6ZgHHatFKR5jdn6BA16+x6zsr6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1uzeXP-0001QP-4w; Fri, 19 Sep 2025 19:04:47 +0200
+Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1uzeXK-0028ck-2G;
+	Fri, 19 Sep 2025 19:04:42 +0200
+Received: from pengutronix.de (ip-185-104-138-125.ptr.icomera.net [185.104.138.125])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id BB2044750C5;
+	Fri, 19 Sep 2025 17:04:40 +0000 (UTC)
+Date: Fri, 19 Sep 2025 19:04:39 +0200
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Vincent Mailhol <mailhol@kernel.org>
+Cc: Oliver Hartkopp <socketcan@hartkopp.net>, 
+	Arunachalam Santhanam <arunachalam.santhanam@in.bosch.com>, Akshay Bhat <akshay.bhat@timesys.com>, 
+	Wolfgang Grandegger <wg@grandegger.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Maxime Ripard <mripard@kernel.org>, Gerhard Bertelsmann <info@gerhard-bertelsmann.de>, 
+	Yasushi SHOJI <yashi@spacecubics.com>, 
+	Remigiusz =?utf-8?B?S2/FgsWCxIV0YWo=?= <remigiusz.kollataj@mobica.com>, linux-can@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 0/4] can: populate ndo_change_mtu() to prevent buffer
+ overflow
+Message-ID: <20250919-portable-rat-of-dew-32b5e9-mkl@pengutronix.de>
+References: <20250918-can-fix-mtu-v1-0-0d1cada9393b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -50,43 +54,62 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="QEwzfm6fqE7756VS"
+	protocol="application/pgp-signature"; boundary="idh7qp6reuygcmse"
 Content-Disposition: inline
-In-Reply-To: <20250919000020.16969-5-andre.przywara@arm.com>
-X-Cookie: Don't read everything you believe.
+In-Reply-To: <20250918-can-fix-mtu-v1-0-0d1cada9393b@kernel.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
 
---QEwzfm6fqE7756VS
-Content-Type: text/plain; charset=us-ascii
+--idh7qp6reuygcmse
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 0/4] can: populate ndo_change_mtu() to prevent buffer
+ overflow
+MIME-Version: 1.0
 
-On Fri, Sep 19, 2025 at 01:00:19AM +0100, Andre Przywara wrote:
-> Of the PMICs that support multi-phased regulators, all but one just
-> support a dual-phase setup, with exactly two regulators tied together.
-> This allows for a simple data model, since just two is somewhat of a
-> special case.
+On 18.09.2025 18:00:23, Vincent Mailhol wrote:
+> Four drivers, namely etas_es58x, hi311x, sun4i_can and mcba_usb forgot
+> to populate their net_device_ops->ndo_change_mtu(). Because of that,
+> the user is free to configure any MTU on these interfaces.
+>=20
+> This can be abused by an attacker who could craft some skbs and send
+> them through PF_PACKET to perform a buffer overflow of up to 247 bytes
+> in each of these drivers.
+>=20
+> This series contains four patches, one for each of the drivers, to add
+> the missing ndo_change_mtu() callback. The descriptions contain
+> detailed explanations of how the buffer overflow could be triggered.
+>=20
+> Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
 
-Oh, and:
+Added to linux-can.
 
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
+Thanks,
+Marc
 
---QEwzfm6fqE7756VS
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde          |
+Embedded Linux                   | https://www.pengutronix.de |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+
+--idh7qp6reuygcmse
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjNVHoACgkQJNaLcl1U
-h9BKiAf/Wfi4z0/1wQlJeEAkzU+AA3Az2DHqSd/9A2+/XEzSHToQ06Xl1pyTQuwW
-2CQ0DXfwYG0hTC8JpVdj/bibLHQxj2pgHTJPDeg4nNzwEiP1xj+imFfpOTYI0Hhe
-oWcJ+tKBBqQbMaOXESqZF9Qt2J3wpB5F7XivX03+jCPL8/nQxGkZB3SiwiHrxrjy
-vsRWdMjKDpNvvNHRYnzfFCX6gY8rtajCLjzoEpAUVzX/b0HIzw2OnXr5E44qsjSa
-uiyIibxcGqPjhLqmDuFs7g5BzBNEuKVDFcTsSwd2kVBDA39CO7SxbEkiXCVpcKRG
-A5cJCrY0PNQfgc50w9aOgorckZemmw==
-=ugUS
+iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAmjNjSQACgkQDHRl3/mQ
+kZybWwf/dkqGg8VI+ORuB/Iv9jFds/SZ0a+AmPu0ZAlenrV4u1OLUBbd2avtEd+T
+KaYO6CuAzlpTZP6vx6S3XQ1M0qy4Z5EtQbgbrVETQ/Z6ZN106WXaOj7iYrGkWc4V
+CvSbll8GBD2cP0qQrR+2DAV27Z7UHty6U1qOfqb8y0afoeqh1Bhq3ODivlAtejuE
+azZd1kmiX5HdWUD2d7GQBiAZ6cBDWH70C5oMYaH7J9kiCiHKt4yqL1R1o2tlc6n7
+WN3xrUIERmq9aM9x7Dh2+67tnEnfZdL10uFxUIq6Z9USZR8hn/oEI/2lOk5Fd3ZK
+inQU0iQq8JWngpplUukaDeiKO/EitA==
+=2zvn
 -----END PGP SIGNATURE-----
 
---QEwzfm6fqE7756VS--
+--idh7qp6reuygcmse--
