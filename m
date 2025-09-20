@@ -1,34 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54D1200BA1;
-	Sat, 20 Sep 2025 00:30:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11BB91A9F8E;
+	Sat, 20 Sep 2025 04:30:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758328221; cv=none; b=EeIVVpd4nhyl+6nsThObhA75oM9j5HdwV/qd+U/rl6Zg7txGlMSn5zB8hgYOnEvO8ADv1N8pY27Omk6HSqQYRjcxfnt2RZt0EbkxlgXad/xOgVnXsR7nok3+yj3rKIia0Sld170LtgyCPd1KsFg5ftjWq93cbhjbeLccTt7A1bE=
+	t=1758342605; cv=none; b=rNaIRjICCS6Gqz+R8/nU0D9S9Kx6/E5L+KK8pOQoePf2zok90quD06NjJwimp1howI7qSE6+qDmxLOQvMdIlA0uC5zC86GwfeBY6Eh55uA1ZFKfNPE4AZ1sNUqneWQNmm0GHlXGgA7nAgJj/N84Yy3T2U5sfXtoaRQmkXjlnqfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758328221; c=relaxed/simple;
-	bh=Yes7uCAJIf1OW9O4lN6N9kWrrNuylVquEJn5lf44T44=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=HyN3Qkrs5ov9NiaJ3BYtA72WfuiISNBYZjWbTHU3f9HgtaG95EglQ4W8bMBXqxkANincqG7yVMGjP576nzwiS5kKWork5Ek9ELr88Yo2vJsaHBox7LwUDTWFvmAbI1Eh3tg478MBzRlr/oHIn0eDa/cpBVHRlZAcMLuOlHrVgkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LlSAb8P8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758342605; c=relaxed/simple;
+	bh=WWtb5RmMLMkuX91JUtNIkegxuPuEXNBdboc6g1v5k7k=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=Kyt7yaVm3TL6KMZDkxWB0sRB2lvZxHE6GLiA5HjjL/MrTBa/McscRB9QwE9V2ni/TEttLIIEaSFMw0WFFG1FbHyv9h9cBqiNCp3/HymhiPM/TV7mtget2YX2WsXIbQf5RSphPSZODBrcEw8yWj+uj88+xFVholdc+T34XyPDFBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rtxsaKzE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LlSAb8P8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49A72C4CEF0;
-	Sat, 20 Sep 2025 00:30:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rtxsaKzE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A693AC4CEEB;
+	Sat, 20 Sep 2025 04:30:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758328219;
-	bh=Yes7uCAJIf1OW9O4lN6N9kWrrNuylVquEJn5lf44T44=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=LlSAb8P8UrBmrtodlL0ShRrL0RB/FGZLzl+svKgxt3WY1vou6qUJwz7D00B/ZXSle
-	 dmmeHMKIrCaZPNQYJ+hbARFCLF3BeG7+mz+dA8iu16BHLxtWaMVYHn18eynY59S/H9
-	 /yJYfv6NkCmIc8bZBwewQOWosl+jp9OATHySy4BBchEKejpLe42R6GnT0ArMrcZcQl
-	 7KvspaiqADgBilZFJk9CxI1SLjT2ttZ6NdGhUs5mUL1c8a84R8T5jqZSj0cStOifYd
-	 T2cP/YDSwrwUsiYhSxYdupE+K5NMm8whtP8u94NItPIpXVKTOcTvlB1gTfV4WKbTHf
-	 PN2u2DiCDEE6w==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADFF439D0C20;
-	Sat, 20 Sep 2025 00:30:19 +0000 (UTC)
+	s=k20201202; t=1758342604;
+	bh=WWtb5RmMLMkuX91JUtNIkegxuPuEXNBdboc6g1v5k7k=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=rtxsaKzE6lPTY+7/FvmoXMMZcVILaOTEE/7C8k57aGfBNEh86mmmivNMrRUgwJzxV
+	 /VNPhAJX7q9Bb5TPejFzL1s2zNJ86agmmR7HdLxiGgnbseTUBmAdtfnt1WVznBxsO1
+	 +fVp6en/DYfnsiDyMe34pcnd6hSPYgX9JHpsO1xbWrE6QlA6I0nXUTmMvWKJ7GJkc/
+	 W9CV5YUhrTPtQB5ns3RbFIz0v3i+5FPpN1eA5HvKgE0TPHZ3hMGhcjU4tHSpeKtfUX
+	 KYJCRBKJgfat17jgITMK4afPlqVmewLkYNHAVJv7SQwjx7WhUwEz9+8W310mLSn9SO
+	 Qddtl6eg5HnMQ==
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -36,70 +33,33 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next 00/10] net: stmmac: remove mac_interface
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <175832821850.3748897.10411784128279455244.git-patchwork-notify@kernel.org>
-Date: Sat, 20 Sep 2025 00:30:18 +0000
-References: <aMrPpc8oRxqGtVPJ@shell.armlinux.org.uk>
-In-Reply-To: <aMrPpc8oRxqGtVPJ@shell.armlinux.org.uk>
-To: Russell King (Oracle) <linux@armlinux.org.uk>
-Cc: andrew@lunn.ch, hkallweit1@gmail.com, alexandre.torgue@foss.st.com,
- andrew+netdev@lunn.ch, wens@csie.org, davem@davemloft.net,
- fustini@kernel.org, kernel@esmil.dk, edumazet@google.com, festevam@gmail.com,
- wefu@redhat.com, guoren@kernel.org, imx@lists.linux.dev, kuba@kernel.org,
- jernej.skrabec@gmail.com, linux-arm-kernel@lists.infradead.org,
- linux-riscv@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-sunxi@lists.linux.dev, maxime.chevallier@bootlin.com,
- mcoquelin.stm32@gmail.com, minda.chen@starfivetech.com,
- mohd.anwar@oss.qualcomm.com, netdev@vger.kernel.org, pabeni@redhat.com,
- kernel@pengutronix.de, samuel@sholland.org, s.hauer@pengutronix.de,
- shawnguo@kernel.org, vz@mleia.com
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <aMwv9a0BjBfEsL-3@wens.tw>
+References: <aMwv9a0BjBfEsL-3@wens.tw>
+Subject: Re: [GIT PULL] Allwinner clock fixes for 6.17
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org
+To: Chen-Yu Tsai <wens@kernel.org>
+Date: Fri, 19 Sep 2025 21:30:03 -0700
+Message-ID: <175834260343.4354.15752239467014722270@lazor>
+User-Agent: alot/0.11
 
-Hello:
+Quoting Chen-Yu Tsai (2025-09-18 09:14:45)
+> The following changes since commit 8f5ae30d69d7543eee0d70083daf4de8fe15d5=
+85:
+>=20
+>   Linux 6.17-rc1 (2025-08-10 19:41:16 +0300)
+>=20
+> are available in the Git repository at:
+>=20
+>   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/su=
+nxi-clk-fixes-for-6.17
+>=20
+> for you to fetch changes up to 25fbbaf515acd13399589bd5ee6de5f35740cef2:
+>=20
+>   clk: sunxi-ng: mp: Fix dual-divider clock rate readback (2025-09-10 23:=
+45:48 +0800)
+>=20
+> ----------------------------------------------------------------
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Wed, 17 Sep 2025 16:11:33 +0100 you wrote:
-> The dwmac core supports a range of interfaces, but when it comes to
-> SerDes interfaces, the core itself does not include the SerDes block.
-> Consequently, it has to provide an interface suitable to interface such
-> a block to, and uses TBI for this.
-> 
-> The driver also uses "PCS" for RGMII, even though the dwmac PCS block
-> is not present for this interface type - it was a convenice for the
-> code structure as RGMII includes inband signalling of the PHY state,
-> much like Cisco SGMII does at a high level.
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next,01/10] net: stmmac: rework mac_interface and phy_interface documentation
-    https://git.kernel.org/netdev/net-next/c/32a8d2a197c1
-  - [net-next,02/10] net: stmmac: use phy_interface in stmmac_check_pcs_mode()
-    https://git.kernel.org/netdev/net-next/c/0522f152a2c9
-  - [net-next,03/10] net: stmmac: imx: convert to use phy_interface
-    https://git.kernel.org/netdev/net-next/c/db1948da6860
-  - [net-next,04/10] net: stmmac: ingenic: convert to use phy_interface
-    https://git.kernel.org/netdev/net-next/c/9ff682b4a28f
-  - [net-next,05/10] net: stmmac: socfpga: convert to use phy_interface
-    https://git.kernel.org/netdev/net-next/c/de696c63c1dc
-  - [net-next,06/10] net: stmmac: starfive: convert to use phy_interface
-    https://git.kernel.org/netdev/net-next/c/6cb2b69c3419
-  - [net-next,07/10] net: stmmac: stm32: convert to use phy_interface
-    https://git.kernel.org/netdev/net-next/c/0ca60c26f655
-  - [net-next,08/10] net: stmmac: sun8i: convert to use phy_interface
-    https://git.kernel.org/netdev/net-next/c/0fe080fa884e
-  - [net-next,09/10] net: stmmac: thead: convert to use phy_interface
-    https://git.kernel.org/netdev/net-next/c/3a94ecdf1afb
-  - [net-next,10/10] net: stmmac: remove mac_interface
-    https://git.kernel.org/netdev/net-next/c/6b0ed6a3a89c
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Thanks. Pulled into clk-fixes
