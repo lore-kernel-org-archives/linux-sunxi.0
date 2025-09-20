@@ -1,65 +1,222 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F142F872;
-	Sat, 20 Sep 2025 04:56:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80B5287255
+	for <linux-sunxi@lists.linux.dev>; Sat, 20 Sep 2025 10:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758344169; cv=none; b=OB4BhICcVPqtlMwe6uosCZV8Yxlq3x1vNnp6uI6vm59oAdcrH758ByULzy8DahILysI+TCH+arbLaAUUXGF7Gnw1EAOQ5zye2nBNozXRSEUnUDnoSqAdfvxvrslDtD2HBErCsiezujBlM2YXqTDRab8Y3ES/6Dqzl3Xh79n79Mc=
+	t=1758365378; cv=none; b=T65CWO+68zrdsp5wfdoeu9h0h2W8d403s9y7W6rTDItjUQIDb7TBhDy1XnrjAKANzivbUZNwV6da80q+ePcDo6gubj7bBcTYjbWb0b6G94WWSCzb8c3+/ZLdOGPVhMozplDJNE5/IMPmSL1emmfFqePG4byPNgz7AYasjXBNqK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758344169; c=relaxed/simple;
-	bh=Biu5/nSCam/FzFzH8JNl9oaXp+deF2hXBG6jQYyiLho=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=U3/MBjGayRuQFEJyXJMsur92jzDj6OKQr70++aA4F3ULkEYjzzZGlBJzOS485mA41EqZvdl5LSZA3qnPueSMoXTcs1gsPQfxfwkAdRIunyB7sYAsFQei81zuCsD/wMsFi2VSx77kMiT7NJYxlYJy2vTz72LIfikbedF6LwTBEBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KR/rSk8v; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758365378; c=relaxed/simple;
+	bh=LeD+Kp6HPaiggwjhXT1KWVi4MySo4T2YgcXx0PkGZ0A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=P3NGKBPFeYPnjwx4tMjRug9VLaSTSWP4cdyMzMdXr3QYHoC3S6ZmcvFVF8NURObZnCkQAQCMl3H7+sIKeEVw26roDvjsQ9drPP8XejPpl/9qBX1Zoqxf1qX7+MFj4S3BJ3My3Yh0hicce30Z3+hbo6kQuhQPqJaO7sGEktyjeAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AdGGL++Q; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KR/rSk8v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50109C4CEEB;
-	Sat, 20 Sep 2025 04:56:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758344169;
-	bh=Biu5/nSCam/FzFzH8JNl9oaXp+deF2hXBG6jQYyiLho=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=KR/rSk8vwcuEgNinJuRzFYBdKSb2yo2RURiv7olE/CtuMxgMRHDyB95VwQob7NLJF
-	 uK6yMFsqfaI/stgUzpvNla3ZPLuzJU3ytPkE/9ha04U7Y+qARSl/Yez0rY8RlkOARa
-	 9k6dX8ResNW1l4HA/B0nmSEze4O7QDdElSBkATChulxCCPGezNSF8Sa/+eilepH5EG
-	 SPjAc+NhoPbrQVEHMPJ6s2sJ4BEm9zYbwfiagsKfEbj1oLaYczmYrMx7CUOfKm7T+w
-	 5Ks2M5zjS0/n4SsRl12Sv3s0+6udOHYu/3LsatBIuHCPF0bbHakQCAULAxkBtCXZvY
-	 4gP9iRwnmnxEQ==
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AdGGL++Q"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b07d4d24d09so480494366b.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 20 Sep 2025 03:49:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758365374; x=1758970174; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QJc0EGzS/+BK6QuDuFmI2nY7ewfLLXuJxl0wU299He8=;
+        b=AdGGL++Qr7XfJxx84FGJOGK2guISw5ZFuXgAvTSfgBIEPKzyjPuq6Q0hjISoOne/MY
+         AmISi9hpx4dNOLamtNpxg9dt+vv7btgqAnYilHBA33gyIw6A1jwNKqenCSfdXeA/NqDe
+         ByKFYVCGcEYh0IeUVIRFHXvJkUFqFcGxRjReYsV3rF93MLbgTmZ5ZjFqziPjz9JAeZqO
+         I7UZRt4vT7GuXkkDs+JPTRHgEf8+zeNVksY0RIJDZb2NnJtiu6MRRE5QGnhOkCs4LOf1
+         VjbCLk1XXIhAlA3k04Fxuqpg27mP9y/VIMFkMAa43qqLWYnWioK8Vkqu6FhfiCywIxOs
+         x99w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758365374; x=1758970174;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QJc0EGzS/+BK6QuDuFmI2nY7ewfLLXuJxl0wU299He8=;
+        b=Y7H5bszF2VX/fbk6TALsbyRuTCcZCdmrH+/2F5Vx4vd3gmXIuLJh8YjCbUbFywdEye
+         71F9H/7M3sklzPQhoav/XHU9Od2mbG/drBNC16viPMDe6IacPmTHxVHnxpZIfvHsim01
+         GW2QiiVV2WAl9m5OKZZ28hBPgCLTzoFSZKoTh/zTjjLW23UADMk2Ndi9HKmNnrV1TRWN
+         nzzCnkEF/ZomKY0LiUc/IgYx8/sIT5GMYHlIYEmM6pVqemSH8V/A7SdUVhi5rOc3FHqo
+         +/EqhwAfEobd+EldrWBxSItsYb/JYUE1qn7xX3jgO45/4hoADQYxlQOvE3nKuiF4dH5y
+         /nQw==
+X-Forwarded-Encrypted: i=1; AJvYcCWYI4XTFiVhRYWVrKdM4yceP2za5XZrowlLGr/kWNssse+v2+tjOHX/Fhq+BZ04qhpIPHivwB2B8g+HEg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxRtJ8V6hx+DNMlSHlrXMhmeT9TTohr2HasMfJtpxXbpmsiP/mo
+	O/3D0wRbkWAAIkF7lfNx75B8HwAWmmZJSd7iP96jgvvWc1h6qgph77ZwlZIaNOzdpzQ1RkWfYG3
+	f9xEcRol2DtG/LRfWhN7j7TlRiGyy8wE=
+X-Gm-Gg: ASbGncuhHo6eZAwZtfFAH0qIP1SvMDn80pXGEPn9BkwdAIU9i/awudAZIgADV1mNhif
+	uXmD893pMW4UayvzPVwuQEKF6vGDEW1k3hfqYT5GVVgen51bPyOi1PuwarEblUEMqQbbQCHngiA
+	QnOJZAmjBW2ksOiEGDcIV98aA5dPhK2VxFQKucYRCTSHC2qLFAjcCZCNZJVLoj/j1INHBu7IQMb
+	UaGpAI=
+X-Google-Smtp-Source: AGHT+IHHbhBTYGUaEQMbVjyA0lAj2luPxy2XsbzoJZ2rvsPEEjKDVfN8Ekg2zTb0h70UHa/ky/mxQ7DHX1RPk/WuHD8=
+X-Received: by 2002:a17:907:2d86:b0:afe:f418:2294 with SMTP id
+ a640c23a62f3a-b24f4cd1612mr662812666b.49.1758365373591; Sat, 20 Sep 2025
+ 03:49:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20250919-vdev-state-v2-0-b2c42426965c@ideasonboard.com>
+In-Reply-To: <20250919-vdev-state-v2-0-b2c42426965c@ideasonboard.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sat, 20 Sep 2025 13:48:57 +0300
+X-Gm-Features: AS18NWAsgghzm2kBTHVAUWgTvM4Rjv6fz5BEJyNeWi6WNSHflPsd2h04LFjYcyQ
+Message-ID: <CAHp75Vfx9kyP-rVtfvyyMK4VH+oiRVjP1fZOtbVH14iLh98Jxw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/10] media: Introduce video device state management
+To: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org, 
+	Ricardo Ribalda <ribalda@chromium.org>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Ma Ke <make24@iscas.ac.cn>, 
+	linux-kernel@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Hans de Goede <hansg@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Nick Dyer <nick@shmanahar.org>, 
+	Tomasz Figa <tfiga@chromium.org>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Matt Ranostay <matt@ranostay.sg>, Andy Walls <awalls@md.metrocast.net>, 
+	Yong Zhi <yong.zhi@intel.com>, Bingbu Cao <bingbu.cao@intel.com>, 
+	Dan Scally <djrscally@gmail.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
+	Martin Tuma <martin.tuma@digiteqautomotive.com>, 
+	Bluecherry Maintainers <maintainers@bluecherrydvr.com>, Andrey Utkin <andrey_utkin@fastmail.com>, 
+	Ismael Luceno <ismael@iodev.co.uk>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+	Corentin Labbe <clabbe@baylibre.com>, Michael Tretter <m.tretter@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Keke Li <keke.li@amlogic.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Ming Qian <ming.qian@nxp.com>, 
+	Zhou Peng <eagle.zhou@nxp.com>, Eddie James <eajames@linux.ibm.com>, 
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+	Eugen Hristev <eugen.hristev@linaro.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Nas Chung <nas.chung@chipsnmedia.com>, Jackson Lee <jackson.lee@chipsnmedia.com>, 
+	Devarsh Thakkar <devarsht@ti.com>, Bin Liu <bin.liu@mediatek.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>, Houlong Wei <houlong.wei@mediatek.com>, 
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Tiffany Lin <tiffany.lin@mediatek.com>, 
+	Yunfei Dong <yunfei.dong@mediatek.com>, Joseph Liu <kwliu@nuvoton.com>, 
+	Marvin Lin <kflin@nuvoton.com>, Dmitry Osipenko <digetx@gmail.com>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Xavier Roumegue <xavier.roumegue@oss.nxp.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Rui Miguel Silva <rmfrfs@gmail.com>, 
+	Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>, Robert Foss <rfoss@kernel.org>, 
+	Todor Tomov <todor.too@gmail.com>, "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
+	Vikash Garodia <vikash.garodia@oss.qualcomm.com>, 
+	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Nikita Yushchenko <nikita.yoush@cogentembedded.com>, Jacob Chen <jacob-chen@iotwrt.com>, 
+	Heiko Stuebner <heiko@sntech.de>, Dafna Hirschfeld <dafna@fastmail.com>, 
+	Detlev Casanova <detlev.casanova@collabora.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+	=?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>, 
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>, Jacek Anaszewski <jacek.anaszewski@gmail.com>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Fabien Dessenne <fabien.dessenne@foss.st.com>, 
+	Hugues Fruchet <hugues.fruchet@foss.st.com>, 
+	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Alain Volmat <alain.volmat@foss.st.com>, Maxime Ripard <mripard@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Yong Deng <yong.deng@magewell.com>, 
+	Paul Kocialkowski <paulk@sys-base.io>, Shreeya Patel <shreeya.patel@collabora.com>, 
+	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>, 
+	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, Jai Luthra <jai.luthra@linux.dev>, 
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Michal Simek <michal.simek@amd.com>, 
+	Alexey Klimov <alexey.klimov@linaro.org>, Eduardo Valentin <edubezval@gmail.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Michael Krufky <mkrufky@linuxtv.org>, Mike Isely <isely@pobox.com>, Andy Shevchenko <andy@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Steve Longerbeam <slongerbeam@gmail.com>, 
+	Jack Zhu <jack.zhu@starfivetech.com>, 
+	Changhuang Liang <changhuang.liang@starfivetech.com>, 
+	Sowjanya Komatineni <skomatineni@nvidia.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, 
+	Christian Gromm <christian.gromm@microchip.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Plamen Atanasov <tigerment@mail.bg>, Sean Young <sean@mess.org>, 
+	Ariel Otilibili <ariel.otilibili-anieli@eurecom.fr>, 
+	"Dr. David Alan Gilbert" <linux@treblig.org>, Jiasheng Jiang <jiashengjiangcool@gmail.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Daniel Scally <dan.scally+renesas@ideasonboard.com>, 
+	Matthew Majewski <mattwmajewski@gmail.com>, Yunseong Kim <ysk@kzalloc.com>, Chen Ni <nichen@iscas.ac.cn>, 
+	Fabio Luongo <f.langufo.l@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Yang Yingliang <yangyingliang@huawei.com>, Ludwig Disterhof <ludwig@disterhof.eu>, 
+	"Everest K.C." <everestkc@everestkc.com.np>, Stefan Wahren <wahrenst@gmx.net>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Michael Grzeschik <m.grzeschik@pengutronix.de>, Akash Kumar <quic_akakum@quicinc.com>, 
+	linux-input@vger.kernel.org, mjpeg-users@lists.sourceforge.net, 
+	linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-tegra@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+	kernel@collabora.com, linux-staging@lists.linux.dev, 
+	linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <aMwwDAnj4QshEHdI@wens.tw>
-References: <aMwwDAnj4QshEHdI@wens.tw>
-Subject: Re: [GIT PULL] Allwinner clock changes for 6.18
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org
-To: Chen-Yu Tsai <wens@kernel.org>
-Date: Fri, 19 Sep 2025 21:56:08 -0700
-Message-ID: <175834416841.4354.1771947113977046836@lazor>
-User-Agent: alot/0.11
 
-Quoting Chen-Yu Tsai (2025-09-18 09:15:08)
-> The following changes since commit 8f5ae30d69d7543eee0d70083daf4de8fe15d5=
-85:
->=20
->   Linux 6.17-rc1 (2025-08-10 19:41:16 +0300)
->=20
-> are available in the Git repository at:
->=20
->   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/su=
-nxi-clk-for-6.18
->=20
-> for you to fetch changes up to 598e4b6713b54267acc257b3c66a269079ee4d8f:
->=20
->   clk: sunxi-ng: add support for the A523/T527 MCU CCU (2025-09-13 13:50:=
-52 +0800)
->=20
-> ----------------------------------------------------------------
+On Fri, Sep 19, 2025 at 12:57=E2=80=AFPM Jai Luthra <jai.luthra@ideasonboar=
+d.com> wrote:
+>
+> Hi,
+>
+> This patch series introduces state management for video devices.
+>
+> Currently, V4L2 subdevices have a well-established state management
+> system [1] that allows the framework to store the subdevice state
+> at a central location.
+>
+> Video devices however lack this, leading to inconsistent state handling
+> across drivers and making it difficult to implement features like
+> hardware multiplexing in complex media pipelines [2].
+>
+> The series is composed of three parts:
+>
+> - Core Infrastructure (PATCH 1-4)
+>         Introduces the basic state structure, try state support,
+>         initialization callbacks, and driver helpers
+> - Framework Integration (PATCH 5-7)
+>         Integrates state passing through the ioctl wrappers and driver
+>         implementations
+> - Driver Examples (PATCH 8-10)
+>         Use the state to store formats in TI J721E CSI2RX and Rockchip
+>         RKISP1 drivers
+>
+> This should also provide a foundation for drivers to extend or subclass
+> the state structure with device-specific variables in future.
+>
+> I have tested capture and format negotiation with the converted drivers
+> on SK AM62A (j721e-csi2rx) and Debix Model A (rkisp1).
+>
+> [1]: https://lore.kernel.org/linux-media/20210610145606.3468235-1-tomi.va=
+lkeinen@ideasonboard.com/
+> [2]: https://lore.kernel.org/linux-media/20250724-multicontext-mainline-2=
+025-v2-0-c9b316773486@ideasonboard.com/
 
-Thanks. Pulled into clk-next
+When you add a Cc list., do it after the '---' (three minus signs)
+line, otherwise that huge unneeded noise will become part of the
+commit message.
+
+
+--=20
+With Best Regards,
+Andy Shevchenko
