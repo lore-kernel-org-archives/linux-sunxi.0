@@ -1,80 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7A0A281378;
-	Mon, 22 Sep 2025 14:45:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D3CC2FB;
+	Mon, 22 Sep 2025 18:16:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758552305; cv=none; b=UMOfz+kNvIJ44PkTDdislT4qQsZABt1n2W59DOW+n1pAvgbJXi+13rvGbGML1yp/u62aYMFz1oBCNZ4uTsv44UvjYTnKNMWW8oRz973v3trSkzKzr/j2ahgupI0G6eWnI1Wv3qUturnoOIA/YNhUDX2/AuAnP4uJ5WUpb+/EvEw=
+	t=1758564973; cv=none; b=VDPGicRuWz2tloLG6Mtm/xtuWwinb0DnITSRj9j3rz6gL5UO2VY8p7ednuvYZZrOyn5we2gKLbS7hN5d7vh6dj4n5GcXaaNcW73VzAMupg9XoCbNLkv2paQ4s+nVJwUYNeAS1zXjzhTbvZaISkbXhI2ULHreSjqDlMFe94Bqwis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758552305; c=relaxed/simple;
-	bh=D+LNgfJNYzCpnFJGwhR+lwXuJ0ILIQoGT35vh4i2XBQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WSasQNjvWcbPQBvItv28Zkwqhe0reBCz0gi0FovuyQJ/4jSh0i0xABfA4uTtyODUEW/V/56fmrLf4q8bYCpfvWpivx+7Q7USVCzsfX7RO09COR6L4mbiiZsL5UYjvxHyRgRnsR4yd2NIoZyLsNUjlMGNomylCNBgfwGUpdkeie4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dbZ8P5og; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758564973; c=relaxed/simple;
+	bh=B27HomHuhJBTrQOAEO4poRW47y74aiAoiPzAwmJBk+U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lMtU4bQBTYkNHVQwVoUYIhobTNMGy9wl4rNeVpGL9u6fFE65vkyLoEt30Yd7StTXKbKvhe7HfOZlcAsfllBcToRvLIZJwpc/mgRPnac1xCQljGSd9GeRxrFDpoPp5MihtSgQr6OMzbEszL2yPxhGkwHKgtO5/2+h0TSVbRtYCSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l30ktzbZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dbZ8P5og"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41F36C4CEF0;
-	Mon, 22 Sep 2025 14:45:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l30ktzbZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50281C4CEF0;
+	Mon, 22 Sep 2025 18:16:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758552305;
-	bh=D+LNgfJNYzCpnFJGwhR+lwXuJ0ILIQoGT35vh4i2XBQ=;
-	h=Date:From:To:Cc:Subject:From;
-	b=dbZ8P5ogAQJxFbT4EfBs9j5q1ngbONMN+GPGjDS72pZp8K5Iu7yqjJzx8x50lU1Vr
-	 PPcpXXiat/SkwL2/JWZ7dflR4RJQBQrwyVKAkh7pJ7K/UmpBgiKcs65+TwIATHeW9t
-	 9MPbNQVtV2sVFRKFdG+9SLw5RPWb7xLiY8Ox8pzArKUr5SRrhkF7WuX6ThVcaGWL3A
-	 /fHW211aJfaIA0Ttx8Lk3nowZIF+aQdUcEIZwWHMXF4rJvWDI+vGhXEuFTZSPJ8I+h
-	 SO7+HOTB9X9vQsoDM1E5KtVw5bYfUyHi22g9eNVL52DROhD2zC277PW8XWd5gDwpTF
-	 odCCKaXxNnU8w==
-Received: by wens.tw (Postfix, from userid 1000)
-	id B2EED5FC15; Mon, 22 Sep 2025 22:45:02 +0800 (CST)
-Date: Mon, 22 Sep 2025 22:45:02 +0800
-From: Chen-Yu Tsai <wens@kernel.org>
-To: soc@kernel.org
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Subject: [GIT PULL] Allwinner Device Tree changes for 6.18 part 2
-Message-ID: <aNFg7iuBtyWkCZg6@wens.tw>
+	s=k20201202; t=1758564972;
+	bh=B27HomHuhJBTrQOAEO4poRW47y74aiAoiPzAwmJBk+U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=l30ktzbZF077F855O0xutvYLVis5e2kFa2zr5BK0uU49ekrNDOoOQLBOA34o5wvkd
+	 lMkdIigJT6NGy45DFVdaagNhbioDHCJrIffvCjXqSUF3nRogRh+fdXQWxxlOUgb+hj
+	 SfRWCroIxZR6dbzrqOIilUwA/f3LsnMB9Ch4OrCN7PF+whQvwqPvZvfm1MMvs9slPD
+	 i2QkoELimpXiFIVj6O+hl97UNXIsOMlPWADFQJz3zVxzKH19EV23qPVRw7Z+G7Em9r
+	 IJk1e8RhcOCT9I7sk72jMzp7viNPNOLxSCQzvb0fWOmi68xtbcVPDSxSUr5Pt1kwx+
+	 Ak2BDG4SqdATg==
+Date: Mon, 22 Sep 2025 13:16:11 -0500
+From: Rob Herring <robh@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Mikhail Kalashnikov <iuncuim@gmail.com>
+Subject: Re: [RFC PATCH 1/5] dt-bindings: mfd: x-powers,axp152: Add
+ polyphased property
+Message-ID: <20250922181611.GA567602-robh@kernel.org>
+References: <20250919000020.16969-1-andre.przywara@arm.com>
+ <20250919000020.16969-2-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250919000020.16969-2-andre.przywara@arm.com>
 
-Hi,
+On Fri, Sep 19, 2025 at 01:00:16AM +0100, Andre Przywara wrote:
+> Some X-Powers AXP PMICs can combine some of their DC/DC buck converter
+> outputs in a multi-phase fashion, to achieve higher currents and
+> decrease the output ripple. The datasheets call this poly-phase. This is
+> programmable in the PMIC, although often set up as the PMIC's reset
+> default.
+> 
+> Add the "x-powers,polyphased" property to the binding, to describe those
+> pairs or tuples of regulators that should work together. In the lead
+> regulator node, the property lists the phandles of the connected
+> regulators. Just an empty property means no poly-phasing.
 
-Here's a very late pull request, adding support for another board.
-This is already included in linux-next, and doesn't show any issues.
+Don't we have a coupled regulator binding already?
 
-The following changes since commit cca07ac2b5f7838b8ff612b53b9f82ac8cb58312:
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  .../devicetree/bindings/mfd/x-powers,axp152.yaml   | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml b/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
+> index 45f015d63df16..260c4c0afc475 100644
+> --- a/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
+> @@ -304,6 +304,15 @@ properties:
+>                noise. This probably makes sense for HiFi audio related
+>                applications that aren't battery constrained.
+>  
+> +          x-powers,polyphased:
+> +            $ref: /schemas/types.yaml#/definitions/phandle-array
+> +            description:
+> +              A list of phandles pointing to other regulators that should be
+> +              polyphased with this regulator. The linked regulators will be
+> +              synchronised with this regulator, within the PMIC, but only if
+> +              supported by the PMIC. An empty list means this regulator
+> +              should be configured in a single-phase setup.
 
-  arm64: dts: allwinner: sun55i: Complete AXP717A sub-functions (2025-09-15 00:04:32 +0800)
+phandle-array is poorly named and is really a matrix because you can 
+have arg cells. So you need:
 
-are available in the Git repository at:
+items:
+  maxItems: 1
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-dt-for-6.18-2
+And is there an outer max for linked regulators?
 
-for you to fetch changes up to 07c7f4f4e9504da240ef68adfd95a1150d3a6fd4:
-
-  arm64: dts: allwinner: h313: Add Amediatech X96Q (2025-09-19 12:37:16 +0800)
-
-----------------------------------------------------------------
-Allwinner Device Tree changes for 6.18 - part 2
-
-A new board, the Amediatech X96Q, was added.
-
-----------------------------------------------------------------
-J. Neuschäfer (2):
-      dt-bindings: arm: sunxi: Add Amediatech X96Q
-      arm64: dts: allwinner: h313: Add Amediatech X96Q
-
- Documentation/devicetree/bindings/arm/sunxi.yaml   |   5 +
- arch/arm64/boot/dts/allwinner/Makefile             |   1 +
- arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dts | 230 +++++++++++++++++++++
- 3 files changed, 236 insertions(+)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dts
+Rob
