@@ -1,133 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF5525A357;
-	Tue, 23 Sep 2025 14:02:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091822571DE
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Sep 2025 14:22:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758636173; cv=none; b=JyNIMoEm+jU0go1iwKkZjsZ537rfCpQyUBchXTrhoDHzG419RYCyqnBiMPBvG9s9O8mKXT5qtZFLWplpDnMt3ns+BbkbfAGeLTED9N+BM/Z2RUsrhZt0rhzSZ/s+1yR2H9xqGhC5yiBOl3uM3h6+DAZk3wEb8ssgjrRCNFiRYMg=
+	t=1758637353; cv=none; b=XjlJCaGO76V5KoSDsLvvgMqVk8s7TRSUlO8vC/r6MNdlyKJmZ2hr9EenFzaekjPnkFM6F3REZOAMjfFjnDKN6wRbV/kRfTPuQoqPl3vZ2va7SH2Q8R32dd76KHPph3GWz5eFiN5Z3hk5SMcqFItAt0KUtfn3wdSeSkRG6eNFvuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758636173; c=relaxed/simple;
-	bh=Qg34C9exkp2NB8HBKF6gQRoaPUtMAb5daqSaeZ5VcOE=;
+	s=arc-20240116; t=1758637353; c=relaxed/simple;
+	bh=jxex2Vy8xhpU4HlbEMJEgN+VUIJscyKji7VvhhBioyw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=s6r3vhW6ZbBw0Kk+CDuTSXIWSVMjCxT6Kgl64pqUVqug3K7LpPV7zzFDM67gUN/QyinONtSqEOIj9955opwH+CXgXcqJXo3RQWqxKWThSb2iJ3j9vl3Io/oLPiTAOqQgrfc1NKqPPXk9HehswBKySDPl9V2Hg+U6M6ZMU5qI7J8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rUp0aMdO; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=fvuUwhSy3aBcF4Y5+tKfb1uQ+Tx/y/0NXW8uQv2wlLKo8GCFJpmPMUAzVEHD86VD1eGiR1gbdvt2YdhIKfcW5/3K5owfp4x+T+t5WPrbF9GSBzWDsWz5+dOKy69dynn3x44xyZTMZwVj6R8+m4VXObcUFtP2K41w7bzd7BC4+bg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aGYI1BOa; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rUp0aMdO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDB2DC19423;
-	Tue, 23 Sep 2025 14:02:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758636172;
-	bh=Qg34C9exkp2NB8HBKF6gQRoaPUtMAb5daqSaeZ5VcOE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rUp0aMdO5ZtjRnqrzLLuX8BbdqZ+4uxgtW6rUXzh7F5DBC2rNEc23n8NM7BBRfEPY
-	 3gpkUuh4eD2ptjdd26nk7U/r/5JuikR3D6gHHeQ3RamrOLtQlJfwSN44tWkPzM/2D1
-	 mNhNCrVt8zPLR/qaoPBhd+JZ25zPjqamL1qaH7b+YrFi4nc10BgnrE3vneIAvvU/El
-	 kGrAoWZDbv9H5NOe08sexZnoWw1cgC1A/Uv5JbqoK0y4TI9YziSUlaC9zfC3L5oYUZ
-	 po3V4AgAaq9+aDwy+0V84jRVo3snDhnVpJi1Hv6Wi4gG2QOAARoxY+JAFrqfgOKQb2
-	 vj2j8SxtbHXZQ==
-Received: by wens.tw (Postfix, from userid 1000)
-	id 50B67606B2; Tue, 23 Sep 2025 22:02:48 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aGYI1BOa"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3ecde0be34eso3405239f8f.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 23 Sep 2025 07:22:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758637349; x=1759242149; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jxex2Vy8xhpU4HlbEMJEgN+VUIJscyKji7VvhhBioyw=;
+        b=aGYI1BOaBtnPMaPdldCglUvzrAtMVHKa/7v6CIENbDIdSMu2Pc6/o8IXMst7nCV9V3
+         DwyxXvi1JU20QozXDlurwLH/VasQrLvk4RO787RT7Rw4RNZpRg+ifD3lFVpur0QezXdJ
+         PH4eijUr/5Way2QZqM51rFWb163jJAX8Aj8K3OqhpeBtnGM/PO9DxYICiRZL9WwfFior
+         YahM+ffVq2fYsJfD8ugtFmwJz82dsXtV/L6tGbh/uhzwaZOHRxRBAvak7qhCsbQM/zW0
+         o047zNH7PLyO+0+rhhqg/2E8JcE5PTNEDBA3ALOSywFDLvSnWpydWk99ZsP3+ZFtdwxK
+         cobQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758637349; x=1759242149;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jxex2Vy8xhpU4HlbEMJEgN+VUIJscyKji7VvhhBioyw=;
+        b=FuUPwZHyg0e2mEVCvpq1nETpRZgu71alkttifVeAdTFBnEdTpMlKCKKkuyWYfoDt4o
+         rxgRoQVtne8Pd/Ni2rp7TsXAq+xBbzbBpRMbgqxtDc9DOt5Koh+/AkcL4sq3YInKLPCx
+         DXyf8Jl8TgL/1JauuNsuVUBT1fEtfnzrvGfOz33rNc3seJ2A3qSQTqbMwocM6RWsBglD
+         GEuZdvqgemKYRrqWZL0zrVtlU9MutH9ZekssgH6d1K2bu8Hw8Lvobmiu1U3c9Eb8KL5E
+         zMqkEfGzP5cnco2Vg8BUi/F6fYD+UrIqUorO7JaCmzvaW8Z3sA60KGllQ1TzVnokOGUO
+         U5iA==
+X-Forwarded-Encrypted: i=1; AJvYcCU0zePYMP6r/PDjZw9OtAB0lcph7CZSvToYAkP5X3QH1zVE4b/BF9VnoLtOpZWO6nOJWtPw93ewoErOIA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxAJL9rZzFlAx3gdQBzNhR1DyRWb7ajg2ZpWCcmvcUtCp4CqUNx
+	ML62xp8GxVg//hgbC3cSpe/XqawR/d8beR1E7KFmFljxkGrAhOjUWr0c
+X-Gm-Gg: ASbGncuBDt3A0AhubsWK0C8DwS06VhWZ1eT15uvKG0pWL4vCodrkD+Vn/2b+ansvZcE
+	wWGR5xyqxsZ9lZ+G+RKKTdi6dgEFhhiJWTPdS7qf86AS27UdjNyNl6TjjjZCiHGKueJoToVdgUR
+	yM80gYzqdNKRdjOG/6lbNasBajVYfCOJ0pz2qF06m/33CVJuhm87LFS10x0uXUDzoR0E1OKYO3W
+	7r1JSRtr7nAyCNyvL0g+q99iahGc/D4Eu6KdtbwYrJqLaKhHA+YSewaSgSnTJlHOVZYnX2no7wr
+	YytuvOUWZU2xd4Nm1aEVpOyVNXs2tcM3XBo9eO2fpDeJFhVswAIDNSIN/o71d9Cy4BjMOtVD84a
+	3AqncKk/FcTXI1wXMKC5gKlFIzyE6/2BfYIDHzwQa+QZn1O9I32CSMOV7ULTyaPyTp3rK60Jd/+
+	gWFLA6
+X-Google-Smtp-Source: AGHT+IGjet5wQJA7x9sBQkHVST1A9uu//deoXDFw+WZ7o8/Afi/1TjeFJpy7+SiHbPkDBXjldSD9Ag==
+X-Received: by 2002:a05:6000:290a:b0:3e8:f67:894f with SMTP id ffacd0b85a97d-405d299fc65mr2558272f8f.26.1758637349101;
+        Tue, 23 Sep 2025 07:22:29 -0700 (PDT)
+Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3ee074121b2sm24139332f8f.27.2025.09.23.07.22.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Sep 2025 07:22:28 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>
-Cc: netdev@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Andre Przywara <andre.przywara@arm.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>
-Subject: [PATCH net-next v7 6/6] arm64: dts: allwinner: t527: orangepi-4a: Enable Ethernet port
-Date: Tue, 23 Sep 2025 22:02:46 +0800
-Message-ID: <20250923140247.2622602-7-wens@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20250923140247.2622602-1-wens@kernel.org>
-References: <20250923140247.2622602-1-wens@kernel.org>
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Chen-Yu Tsai <wens@kernel.org>
+Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>
+Subject:
+ Re: [PATCH net-next v7 2/6] net: stmmac: Add support for Allwinner A523
+ GMAC200
+Date: Tue, 23 Sep 2025 16:22:26 +0200
+Message-ID: <2797545.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <20250923140247.2622602-3-wens@kernel.org>
+References:
+ <20250923140247.2622602-1-wens@kernel.org>
+ <20250923140247.2622602-3-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-From: Chen-Yu Tsai <wens@csie.org>
+Dne torek, 23. september 2025 ob 16:02:42 Srednjeevropski poletni =C4=8Das =
+je Chen-Yu Tsai napisal(a):
+> From: Chen-Yu Tsai <wens@csie.org>
+>=20
+> The Allwinner A523 SoC family has a second Ethernet controller, called
+> the GMAC200 in the BSP and T527 datasheet, and referred to as GMAC1 for
+> numbering. This controller, according to BSP sources, is fully
+> compatible with a slightly newer version of the Synopsys DWMAC core.
+> The glue layer around the controller is the same as found around older
+> DWMAC cores on Allwinner SoCs. The only slight difference is that since
+> this is the second controller on the SoC, the register for the clock
+> delay controls is at a different offset. Last, the integration includes
+> a dedicated clock gate for the memory bus and the whole thing is put in
+> a separately controllable power domain.
+>=20
+> Add a new driver for this hardware supporting the integration layer.
+>=20
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 
-On the Orangepi 4A board, the second Ethernet controller, aka the GMAC200,
-is connected to an external Motorcomm YT8531 PHY. The PHY uses an external
-25MHz crystal, has the SoC's PI15 pin connected to its reset pin, and
-the PI16 pin for its interrupt pin.
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Enable it.
+Best regards,
+Jernej
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-Signed-off-by: Chen-Yu Tsai <wens@csie.org>
----
-
-Changes since v1:
-- Switch to generic (tx|rx)-internal-delay-ps properties
----
- .../dts/allwinner/sun55i-t527-orangepi-4a.dts | 23 +++++++++++++++++++
- 1 file changed, 23 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-index 39a4e194712a..9e6b21cf293e 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-@@ -15,6 +15,7 @@ / {
- 	compatible = "xunlong,orangepi-4a", "allwinner,sun55i-t527";
- 
- 	aliases {
-+		ethernet0 = &gmac1;
- 		serial0 = &uart0;
- 	};
- 
-@@ -102,11 +103,33 @@ &ehci1 {
- 	status = "okay";
- };
- 
-+&gmac1 {
-+	phy-mode = "rgmii-id";
-+	phy-handle = <&ext_rgmii_phy>;
-+	phy-supply = <&reg_cldo4>;
-+
-+	tx-internal-delay-ps = <0>;
-+	rx-internal-delay-ps = <300>;
-+
-+	status = "okay";
-+};
-+
- &gpu {
- 	mali-supply = <&reg_dcdc2>;
- 	status = "okay";
- };
- 
-+&mdio1 {
-+	ext_rgmii_phy: ethernet-phy@1 {
-+		compatible = "ethernet-phy-ieee802.3-c22";
-+		reg = <1>;
-+		interrupts-extended = <&pio 8 16 IRQ_TYPE_LEVEL_LOW>; /* PI16 */
-+		reset-gpios = <&pio 8 15 GPIO_ACTIVE_LOW>; /* PI15 */
-+		reset-assert-us = <10000>;
-+		reset-deassert-us = <150000>;
-+	};
-+};
-+
- &mmc0 {
- 	vmmc-supply = <&reg_cldo3>;
- 	cd-gpios = <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF6 */
--- 
-2.47.3
 
