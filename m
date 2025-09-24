@@ -1,180 +1,224 @@
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010028.outbound.protection.outlook.com [40.93.198.28])
+Received: from fra-out-011.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-011.esa.eu-central-1.outbound.mail-perimeter.amazon.com [52.28.197.132])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007DE3218D2;
-	Wed, 24 Sep 2025 20:03:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.28
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758744225; cv=fail; b=MeAPSW/UaWY+Kb1WD5PLnFjLsBnys9eYXhQbs8BhDy4VQL1e+HZ1CIKcfJkr6NrWRs48PXflUQ9gWIShXl/BYkNBhOJMHZDNcNwSbqD6TVNO/z8rHi68CwBMWTUoHB2Qm6GJ/qVBsziMgYtzHFftnShYEi2XxN6Vi5k184wHuos=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758744225; c=relaxed/simple;
-	bh=2wHdTdvoM8LThkzpXVAWNYiqcjTXd1HDWNHt5hxKdH0=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mQnOoBOnbSCGNVDdNfh6J7Ro85I8jKxjpDrekc4U8yujxUF7QlfN4eEFG0J7+JkfxI0lIiNbZuIPhgUVQdO5Qo1nLUZHRzz+nsalzicGmOWqMQuc84S/o6S27BZLNB5+fiOJolabQ83v8duUnId5v4lBeltSGHrEB1QXbm5XWwQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=MSc8Drj8; arc=fail smtp.client-ip=40.93.198.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A8EA258EF3;
+	Wed, 24 Sep 2025 20:24:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.28.197.132
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758745454; cv=none; b=aQErDprDhDTxS7iSfLj9Dm5TWJhco3L2lOEzfUKmoIyh6pMcq5y1LDeBun2CpB56CaNNjjByGCYpPRJOkUWTv9VarJY2SUrvAdfUVVBBQv7TyX90me6qMCrXe3HcLh3GHReX8eeeVWzJcY5sJ4NDB67eQdul2uNd3GV18N6j0zw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758745454; c=relaxed/simple;
+	bh=bJ2FSaaKMPkQa5IN2Pe/chyVzGb8Ref4DvUThRMU4z0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=s5au0gLasZKKjx5PACyWxKSh1QBtcQUeejnl3YI/GsHIgJuncvCeIo1nF+gq1arH0yj9662SWIc+VdUppkLJwfZrB/BrqaypGMtwCjXgx4rcPC8QOoK2OlxOQq98iZizuSWXUjAA9HGSlvUROhuRfYUaJvRH7EYEcJUcPt2xEYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=iKl7Yx0j; arc=none smtp.client-ip=52.28.197.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="MSc8Drj8"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JMFmCTq4P2nAzaESWg5Uhjean1/uQMAXZnmc2d+s0HmLAqY+42LfEYu/PNm16Q//55J8lncvbHPJGvKkA9JXAvtDA3AQle7KKGxQkPnV2jMHw7ZkCAedabeTIJdB42ImjP+JR4hQkpBIv73/7xlzNOK0i/YQOMwvSurWGXvUEpmd9atFdIIWhHTMJAtAWV9PljuW+8EuX9oqs8hYVBDyCL23pWyT7i+WUjN6YfZUtsjmUAHGZgAGIKGdl/titOCA8N9h6Zs2IVUjZHJ1pFSVNeryL+d0dFG4XNCpq4kXp4mBD6/MwR8WwV26X7j1Ak2RJeB1+ocAtJSUqjOjFi6tFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zR+BrAxFQqT400X38afdiL7uX4G6s1XjWRQM6wKJsLA=;
- b=sWFzwG311e+k1y8Rfm0ySrLJNpZnLSnlHUiYiK+m2s2M7yErpbbbxmSBXZFqsO92IInh2ntXfTjGpGXVP4+CVI/aIjr96ded4NfLsJKE2OZ5Ht/7RNHz5GttCh80BVUjE+UGlAaLE23HwR761kM8XCAwAagaUp6w1o2tiDjZotV19DYb6ZHhvOyG12RCqBSpqz9JFo27ErzwgZyKoI2rPL5qzah9f300XAo+6OdFCfG+4RByzmOGn1ER7ylLZZ60Yy7M3n9Qbd6OMKb8aWXD3b9iDQFcgNFDWNXq4+lI7a6DXyaYx8HD6Z19elUeIVid7+Ok2saYnAR/56lvAYBjcg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.233) smtp.rcpttodomain=csie.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zR+BrAxFQqT400X38afdiL7uX4G6s1XjWRQM6wKJsLA=;
- b=MSc8Drj8xU2vPvZHpn9SM4qBeaW8Lfcq/z4PFNc3T7E6+Vedrj57Y8MRtMcP8BE//Jaa8q041DJVFTUBrTuCCq/zal1WRIzZNEtcKs3iJywNPtEpZ/QlCv3wkO15PBJGL6yC/xeK07HGUjlIo38Xwk92b+FrEoMFiUbysbRLXq+er+9DM1TO05oU5vdyhAqMICfRAmK0xCb0Xe0tr8Gdkfj/QYioPmNe9xKrlnvnrNiaq9i95eEmaCV9CyUgwcHIi8ezAxY0SoTxFv+mSQs0nCyEly1JWJggIAjK69lu0hpwB/TXp3B5LO4+U7/hq3fcJYvhd+wOnb/i/VyuCXhUXQ==
-Received: from BYAPR08CA0015.namprd08.prod.outlook.com (2603:10b6:a03:100::28)
- by MN0PR12MB5810.namprd12.prod.outlook.com (2603:10b6:208:376::6) with
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="iKl7Yx0j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1758745452; x=1790281452;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=KzVc5pQt1xJae1laTHwFTkgfsVttwXUFIKNqt4L9XFg=;
+  b=iKl7Yx0j8trtbJHYCUBM26/WGsW6y0WFt3RtbrEyyz8KfTRBQVXiIl9m
+   QDcIXTFdt+XkiqzNhNri8NDhwVSO1mohXIhvOLCpXn1BQtvsqATwhkaWB
+   ctvfLoDRxjZfm2a4VUbalZeN50ecubOJWB161l3dZceAVQoIT22+1icP5
+   09ramX30wmj9yw2mFtVwzdZo/8Nw2kKptzZNiDWZkMwroepFdis3m5AKx
+   ODJx+YTZQ0j+Mj6C0E/CCCSB0vfSQvN7zrHtwjTRI80aTjdysJ/nrWrgf
+   oqnv5p/olt45hBErGgq9cdD8h3C5H4lZ/NNKQ04Z/JypwZKVrzXwkvJ+G
+   g==;
+X-CSE-ConnectionGUID: +bpb7ezGQtmV8E8VA8qXRA==
+X-CSE-MsgGUID: SFde7s01RFKi6zh/6W6ZSQ==
+X-IronPort-AV: E=Sophos;i="6.18,291,1751241600"; 
+   d="scan'208";a="2525915"
+Received: from ip-10-6-11-83.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.11.83])
+  by internal-fra-out-011.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 20:24:01 +0000
+Received: from EX19MTAEUB002.ant.amazon.com [54.240.197.232:12397]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.5.254:2525] with esmtp (Farcaster)
+ id d8c58b1d-ca7d-4c1f-a53d-72dcf5ba6a6f; Wed, 24 Sep 2025 20:24:01 +0000 (UTC)
+X-Farcaster-Flow-ID: d8c58b1d-ca7d-4c1f-a53d-72dcf5ba6a6f
+Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
+ EX19MTAEUB002.ant.amazon.com (10.252.51.59) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
+ Wed, 24 Sep 2025 20:24:00 +0000
+Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
+ (172.19.116.181) by EX19D018EUA004.ant.amazon.com (10.252.50.85) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.20; Wed, 24 Sep
- 2025 20:03:10 +0000
-Received: from BY1PEPF0001AE1B.namprd04.prod.outlook.com
- (2603:10b6:a03:100:cafe::1d) by BYAPR08CA0015.outlook.office365.com
- (2603:10b6:a03:100::28) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.21 via Frontend Transport; Wed,
- 24 Sep 2025 20:03:09 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.233) by
- BY1PEPF0001AE1B.mail.protection.outlook.com (10.167.242.103) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9160.9 via Frontend Transport; Wed, 24 Sep 2025 20:03:09 +0000
-Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
- (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 24 Sep
- 2025 13:02:59 -0700
-Received: from drhqmail203.nvidia.com (10.126.190.182) by
- drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.20; Wed, 24 Sep 2025 13:02:58 -0700
-Received: from Asurada-Nvidia (10.127.8.11) by mail.nvidia.com
- (10.126.190.182) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Wed, 24 Sep 2025 13:02:56 -0700
-Date: Wed, 24 Sep 2025 13:02:54 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: <joro@8bytes.org>, <bhelgaas@google.com>, <suravee.suthikulpanit@amd.com>,
-	<will@kernel.org>, <robin.murphy@arm.com>, <sven@kernel.org>, <j@jannau.net>,
-	<alyssa@rosenzweig.io>, <neal@gompa.dev>, <robin.clark@oss.qualcomm.com>,
-	<m.szyprowski@samsung.com>, <krzk@kernel.org>, <alim.akhtar@samsung.com>,
-	<dwmw2@infradead.org>, <baolu.lu@linux.intel.com>, <kevin.tian@intel.com>,
-	<yong.wu@mediatek.com>, <matthias.bgg@gmail.com>,
-	<angelogioacchino.delregno@collabora.com>, <tjeznach@rivosinc.com>,
-	<paul.walmsley@sifive.com>, <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
-	<alex@ghiti.fr>, <heiko@sntech.de>, <schnelle@linux.ibm.com>,
-	<mjrosato@linux.ibm.com>, <gerald.schaefer@linux.ibm.com>,
-	<orsonzhai@gmail.com>, <baolin.wang@linux.alibaba.com>,
-	<zhang.lyra@gmail.com>, <wens@csie.org>, <jernej.skrabec@gmail.com>,
-	<samuel@sholland.org>, <jean-philippe@linaro.org>, <rafael@kernel.org>,
-	<lenb@kernel.org>, <yi.l.liu@intel.com>, <cwabbott0@gmail.com>,
-	<quic_pbrahma@quicinc.com>, <iommu@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, <asahi@lists.linux.dev>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
-	<linux-samsung-soc@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-	<linux-riscv@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
-	<linux-s390@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
-	<linux-tegra@vger.kernel.org>, <virtualization@lists.linux.dev>,
-	<linux-acpi@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-	<patches@lists.linux.dev>, <vsethi@nvidia.com>, <helgaas@kernel.org>,
-	<etzhao1900@gmail.com>
-Subject: Re: [PATCH v4 5/7] iommu: Add iommu_get_domain_for_dev_locked()
- helper
-Message-ID: <aNRObmtcUkYTworw@Asurada-Nvidia>
-References: <cover.1756682135.git.nicolinc@nvidia.com>
- <c9daeafb9046bed9e915fdafe20fe28a8c427d29.1756682135.git.nicolinc@nvidia.com>
- <20250924191055.GJ2617119@nvidia.com>
- <aNRLOsomtHNumaSY@Asurada-Nvidia>
- <20250924195254.GL2617119@nvidia.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Wed, 24 Sep 2025
+ 20:23:26 +0000
+From: Eliav Farber <farbere@amazon.com>
+To: <linux@armlinux.org.uk>, <richard@nod.at>,
+	<anton.ivanov@cambridgegreys.com>, <johannes@sipsolutions.net>,
+	<dave.hansen@linux.intel.com>, <luto@kernel.org>, <peterz@infradead.org>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>,
+	<hpa@zytor.com>, <tony.luck@intel.com>, <qiuxu.zhuo@intel.com>,
+	<mchehab@kernel.org>, <james.morse@arm.com>, <rric@kernel.org>,
+	<harry.wentland@amd.com>, <sunpeng.li@amd.com>, <Rodrigo.Siqueira@amd.com>,
+	<alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+	<Xinhui.Pan@amd.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+	<evan.quan@amd.com>, <james.qian.wang@arm.com>, <liviu.dudau@arm.com>,
+	<mihail.atanassov@arm.com>, <brian.starkey@arm.com>,
+	<maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+	<tzimmermann@suse.de>, <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>,
+	<dmitry.baryshkov@linaro.org>, <sean@poorly.run>, <jdelvare@suse.com>,
+	<linux@roeck-us.net>, <linus.walleij@linaro.org>,
+	<dmitry.torokhov@gmail.com>, <maz@kernel.org>, <wens@csie.org>,
+	<jernej.skrabec@gmail.com>, <samuel@sholland.org>, <agk@redhat.com>,
+	<snitzer@kernel.org>, <dm-devel@redhat.com>, <rajur@chelsio.com>,
+	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, <peppe.cavallaro@st.com>,
+	<alexandre.torgue@foss.st.com>, <joabreu@synopsys.com>,
+	<mcoquelin.stm32@gmail.com>, <krzysztof.kozlowski@linaro.org>,
+	<malattia@linux.it>, <hdegoede@redhat.com>, <markgross@kernel.org>,
+	<artur.paszkiewicz@intel.com>, <jejb@linux.ibm.com>,
+	<martin.petersen@oracle.com>, <sakari.ailus@linux.intel.com>,
+	<gregkh@linuxfoundation.org>, <fei1.li@intel.com>, <clm@fb.com>,
+	<josef@toxicpanda.com>, <dsterba@suse.com>, <jack@suse.com>, <tytso@mit.edu>,
+	<adilger.kernel@dilger.ca>, <dushistov@mail.ru>,
+	<luc.vanoostenryck@gmail.com>, <rostedt@goodmis.org>, <mhiramat@kernel.org>,
+	<pmladek@suse.com>, <senozhatsky@chromium.org>,
+	<andriy.shevchenko@linux.intel.com>, <linux@rasmusvillemoes.dk>,
+	<minchan@kernel.org>, <ngupta@vflare.org>, <akpm@linux-foundation.org>,
+	<yoshfuji@linux-ipv6.org>, <dsahern@kernel.org>, <pablo@netfilter.org>,
+	<kadlec@netfilter.org>, <fw@strlen.de>, <jmaloy@redhat.com>,
+	<ying.xue@windriver.com>, <andrii@kernel.org>, <mykolal@fb.com>,
+	<ast@kernel.org>, <daniel@iogearbox.net>, <martin.lau@linux.dev>,
+	<song@kernel.org>, <yhs@fb.com>, <john.fastabend@gmail.com>,
+	<kpsingh@kernel.org>, <sdf@google.com>, <haoluo@google.com>,
+	<jolsa@kernel.org>, <shuah@kernel.org>, <keescook@chromium.org>,
+	<wad@chromium.org>, <willy@infradead.org>, <farbere@amazon.com>,
+	<sashal@kernel.org>, <ruanjinjie@huawei.com>, <quic_akhilpo@quicinc.com>,
+	<David.Laight@ACULAB.COM>, <herve.codina@bootlin.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-um@lists.infradead.org>, <linux-edac@vger.kernel.org>,
+	<amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+	<linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
+	<linux-hwmon@vger.kernel.org>, <linux-input@vger.kernel.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-media@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
+	<platform-driver-x86@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>, <linux-btrfs@vger.kernel.org>,
+	<linux-ext4@vger.kernel.org>, <linux-sparse@vger.kernel.org>,
+	<linux-mm@kvack.org>, <netfilter-devel@vger.kernel.org>,
+	<coreteam@netfilter.org>, <tipc-discussion@lists.sourceforge.net>,
+	<bpf@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<stable@vger.kernel.org>
+Subject: [PATCH 00/19 v6.1.y] Backport minmax.h updates from v6.17-rc7
+Date: Wed, 24 Sep 2025 20:23:01 +0000
+Message-ID: <20250924202320.32333-1-farbere@amazon.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250924195254.GL2617119@nvidia.com>
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY1PEPF0001AE1B:EE_|MN0PR12MB5810:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5153b8ce-63fc-4122-5443-08ddfba56259
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|7416014|376014|36860700013|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?d0VmmuWWEgFqCknLNqMPD6I2UkGIGTK80hMjjM5Lpgpo9VEOpLQM+6MQuZrC?=
- =?us-ascii?Q?7U7Tb9IN8Wai+h1wu4FZ9efH4dg5krNQfpg4h/Hlw1kdI763rPNYjaQk52O9?=
- =?us-ascii?Q?OZyA33srousTNfNIHfqA3DyWzYRT0vAgQyUkZ28rYxKFawn1IiV0PSulcfHg?=
- =?us-ascii?Q?+/wvOSqV75rTDzvGS+dLuHe6J6LkGRTLzLArjXaqk9AXh9kT/EKrAde5YdHg?=
- =?us-ascii?Q?QAiNafIeXEwzzjW/NqbYBnXle2tdf1TatT3/6cP3JXNZhfmyz/ZYO/ezZAUB?=
- =?us-ascii?Q?5tKJwKqaZ+Pe72sa64ORCySmElFpkEQtW6fqmky359Zpf2xI47dTcVfs24m8?=
- =?us-ascii?Q?OZ/VMdssZvhrbeFtJd5aRHWHs/1izC6hHA06Uw1gZgmxPxiy48UCY1191LsT?=
- =?us-ascii?Q?6GQFNovQSUmULxpaGvkgsyXJBsUXNsj3oeTaZd/smk61vBDjh0XAeNDhnHCi?=
- =?us-ascii?Q?dO7xWYb9R0GpniAVnirpMHWRedqrLVrh4cyUw1SYOBlxDth1YS3ZcnbGckPE?=
- =?us-ascii?Q?4c3tRDaRP1ZvPYhoJAb/wNqcPlltIYwQEDXCLQ5trAiLDnE4NWwbtH1HtjSl?=
- =?us-ascii?Q?5vIsYcbo+LSj5IqbZrmcVvU0jZbSlHDH46MT1AmjgzJtp6fE7bwMBOavTadL?=
- =?us-ascii?Q?gPULiNinATMFWQCq5oC60EsedtKIFDR/uh6QGCyRudiYMgntu3qRhZQ6nF9V?=
- =?us-ascii?Q?cZbxeol/gVCdpswHYgR56BHH4R785eGThmSNWTgF+peSaioJaU/8pB3VpkLa?=
- =?us-ascii?Q?L8qQ70d9Lhkgefu/F0n3p0vtUOcxQGjmYuHfqYCcEVlsJrcMh5LwpPGV+LZf?=
- =?us-ascii?Q?TpNqlA69JGAQU7tQNqgHAXbSE8o4W1ReycDzRzg3Dv4/E4KyIOwPSHhGtWG3?=
- =?us-ascii?Q?IU4h/pynaVEN0OVLZ38NHt6aqIROBBbIjHLySgM/14jxuvQk40p9qMzkj/Ts?=
- =?us-ascii?Q?oho1h4acB7u9Zi8AhGdAZSZL1+CPXtuKhBnLJ4voV2VXFmm+vdXNsPrSZbq3?=
- =?us-ascii?Q?a5cM1Z9QSDs4eWS896bLiHJ2PXTK8FzD8ULtAxTe2ZyEiypiN0qjbg8/MgXn?=
- =?us-ascii?Q?krtcc6QK6v0DBWt4mXWCbm3eLV7YiFQKKSAoY5rJ/aQOITHZWQTX7olQX5iY?=
- =?us-ascii?Q?3deHGW1/g1bw1fn/Yu28G7Hs3Qw4XGrALLqtgVN+JI3YWC8W1aoYxr4O5K0t?=
- =?us-ascii?Q?4ZfaE+4DDzFVMwsReRnmurAzsIXA6vDc0ENAQ5jPy40gYisHcZHdvyV/WipD?=
- =?us-ascii?Q?SQpnRgIKIuxf8ZLDTb805WQngUuYTyEIGHbKKNyTR1WJnQCGyPl4G65CBPUd?=
- =?us-ascii?Q?fSKYYyVw6BKe9qNkLBpZ0S1AqoiAchUjsDa7jP5XzEYUcez3wepIalP4IvCI?=
- =?us-ascii?Q?E6WhLtmg0rfNK12Oavz7aLURK5i3YERcmrV/JjzpAnvHPagp2XcXLcSipI+/?=
- =?us-ascii?Q?OTvsGjYYEopMbcXMSQ/hLVr6EwMVAzqtAQTNXlUy++zQox+7CAuOvNaUzQw3?=
- =?us-ascii?Q?UTnfnkunVTfNyryqbOIMcHm+bag8s6Y2NICJ?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(376014)(36860700013)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2025 20:03:09.4241
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5153b8ce-63fc-4122-5443-08ddfba56259
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BY1PEPF0001AE1B.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5810
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D043UWC004.ant.amazon.com (10.13.139.206) To
+ EX19D018EUA004.ant.amazon.com (10.252.50.85)
 
-On Wed, Sep 24, 2025 at 04:52:54PM -0300, Jason Gunthorpe wrote:
-> On Wed, Sep 24, 2025 at 12:49:14PM -0700, Nicolin Chen wrote:
-> > > I really wanted to say this should just always return the
-> > > default_domain, but it looks like host1x_client_iommu_detach() is the
-> > > only place outside the iommu drivers that would be unhappy with that.
-> > 
-> > I suppose any external user that allocates/attaches a domain has a
-> > risk of potentially using this helper, in which case group->domain
-> > may not be default_domain?
-> 
-> Yes, host1x seemed to be the only place that had that intersection.
+This series backports 19 patches to update minmax.h in the 6.1.y branch,
+aligning it with v6.17-rc7.
 
-I meant, we cannot prevent others from calling it like host1x does?
+The ultimate goal is to synchronize all longterm branches so that they
+include the full set of minmax.h changes.
 
-Even if we have those replacement APIs that we discussed last time,
-such a driver might still want its own domain v.s. default_domain,
-for pgsize or other use?
+Previous work to update 6.12.48:
+https://lore.kernel.org/stable/20250922103123.14538-1-farbere@amazon.com/T/#t
+and 6.6.107:
+https://lore.kernel.org/stable/20250922103241.16213-1-farbere@amazon.com/T/#t
 
-Thanks
-Nicolin
+The key motivation is to bring in commit d03eba99f5bf ("minmax: allow
+min()/max()/clamp() if the arguments have the same signedness"), which
+is missing in older kernels.
+
+In mainline, this change enables min()/max()/clamp() to accept mixed
+argument types, provided both have the same signedness. Without it,
+backported patches that use these forms may trigger compiler warnings,
+which escalate to build failures when -Werror is enabled.
+
+Andy Shevchenko (1):
+  minmax: deduplicate __unconst_integer_typeof()
+
+David Laight (8):
+  minmax: fix indentation of __cmp_once() and __clamp_once()
+  minmax.h: add whitespace around operators and after commas
+  minmax.h: update some comments
+  minmax.h: reduce the #define expansion of min(), max() and clamp()
+  minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()
+  minmax.h: move all the clamp() definitions after the min/max() ones
+  minmax.h: simplify the variants of clamp()
+  minmax.h: remove some #defines that are only expanded once
+
+Herve Codina (1):
+  minmax: Introduce {min,max}_array()
+
+Linus Torvalds (8):
+  minmax: avoid overly complicated constant expressions in VM code
+  minmax: simplify and clarify min_t()/max_t() implementation
+  minmax: make generic MIN() and MAX() macros available everywhere
+  minmax: add a few more MIN_T/MAX_T users
+  minmax: simplify min()/max()/clamp() implementation
+  minmax: don't use max() in situations that want a C constant
+    expression
+  minmax: improve macro expansion and type checking
+  minmax: fix up min3() and max3() too
+
+Matthew Wilcox (Oracle) (1):
+  minmax: add in_range() macro
+
+ arch/arm/mm/pageattr.c                        |   6 +-
+ arch/um/drivers/mconsole_user.c               |   2 +
+ arch/x86/mm/pgtable.c                         |   2 +-
+ drivers/edac/sb_edac.c                        |   4 +-
+ drivers/edac/skx_common.h                     |   1 -
+ .../drm/amd/display/modules/hdcp/hdcp_ddc.c   |   2 +
+ .../drm/amd/pm/powerplay/hwmgr/ppevvmath.h    |  14 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c        |   2 +-
+ .../drm/arm/display/include/malidp_utils.h    |   2 +-
+ .../display/komeda/komeda_pipeline_state.c    |  24 +-
+ drivers/gpu/drm/drm_color_mgmt.c              |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   6 -
+ drivers/gpu/drm/radeon/evergreen_cs.c         |   2 +
+ drivers/hwmon/adt7475.c                       |  24 +-
+ drivers/input/touchscreen/cyttsp4_core.c      |   2 +-
+ drivers/irqchip/irq-sun6i-r.c                 |   2 +-
+ drivers/md/dm-integrity.c                     |   2 +-
+ drivers/media/dvb-frontends/stv0367_priv.h    |   3 +
+ .../net/ethernet/chelsio/cxgb3/cxgb3_main.c   |  18 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c |   2 +-
+ drivers/net/fjes/fjes_main.c                  |   4 +-
+ drivers/nfc/pn544/i2c.c                       |   2 -
+ drivers/platform/x86/sony-laptop.c            |   1 -
+ drivers/scsi/isci/init.c                      |   6 +-
+ .../pci/hive_isp_css_include/math_support.h   |   5 -
+ drivers/virt/acrn/ioreq.c                     |   4 +-
+ fs/btrfs/misc.h                               |   2 -
+ fs/btrfs/tree-checker.c                       |   2 +-
+ fs/ext2/balloc.c                              |   2 -
+ fs/ext4/ext4.h                                |   2 -
+ fs/ufs/util.h                                 |   6 -
+ include/linux/compiler.h                      |   9 +
+ include/linux/minmax.h                        | 264 +++++++++++++-----
+ include/linux/pageblock-flags.h               |   2 +-
+ kernel/trace/preemptirq_delay_test.c          |   2 -
+ lib/btree.c                                   |   1 -
+ lib/decompress_unlzma.c                       |   2 +
+ lib/logic_pio.c                               |   3 -
+ lib/vsprintf.c                                |   2 +-
+ mm/zsmalloc.c                                 |   1 -
+ net/ipv4/proc.c                               |   2 +-
+ net/ipv6/proc.c                               |   2 +-
+ net/netfilter/nf_nat_core.c                   |   6 +-
+ net/tipc/core.h                               |   2 +-
+ net/tipc/link.c                               |  10 +-
+ .../selftests/bpf/progs/get_branch_snapshot.c |   4 +-
+ tools/testing/selftests/seccomp/seccomp_bpf.c |   2 +
+ tools/testing/selftests/vm/mremap_test.c      |   2 +
+ 48 files changed, 290 insertions(+), 184 deletions(-)
+
+-- 
+2.47.3
+
