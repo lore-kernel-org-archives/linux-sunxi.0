@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB3F282F1;
-	Thu, 25 Sep 2025 12:36:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00BE218AAB;
+	Thu, 25 Sep 2025 13:13:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758803812; cv=none; b=Q1LpynVM/N63nEOebvoBE0K7D3V+kPHmu13MpmGeyzacXjSzjr5hMGvEnxVDerCRmG50OO8Y4RfEvLayWmqvfHNaqO2o5cvM41UMNFqD3DpTOL/fEoP2kSbDIG516yJJ5PNWm0QgD6S3cIJvO5cPzxp2V8sWC0EhI5UCW8Rc1gY=
+	t=1758806033; cv=none; b=eZxI2gaB30+oQQXrFBGoNqOOD37AnxFhz07At1bbTquyDa79UZP7SihOSQCDe2fUsES9dcd9oYZpvrnFRssrJHgriJKyuxiplzk22KRmUO3qSInyDSfqJtcKznZdPttV2IZ7ZeD0ducmyzUYjZNL1zA/THrKb7rL/I32eQET/5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758803812; c=relaxed/simple;
-	bh=IBUAnul7b8BQqt3zLS4cohInRJ5Mx15MT7PNd8Nz5R4=;
+	s=arc-20240116; t=1758806033; c=relaxed/simple;
+	bh=cCZgUIBrVeQH4Qj0/UtZsu52PYBfU0dJ0NUtJq+jcIk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=deFSqZbxg9K4bM44m6cWC4w6LHYQEgIs0yKPBO+Q2N6TzOfj1uP5zYOLdNvCBkwbsbbUBbIupVNOlWK+Htyt/kuYhLdnHIKo1KbrGQbY3PGJ82hC2DnqGJ2BhYAiKDzQZSE+nho9d2tPKok6n8qd3GRqab6hDiX0xf2oEekA8e0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XkvQ1go5; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=GPY3oeviRofe3I2+YUxjpY2g41otnT7eHPaZrNLEKDgUb5LjwCvVkRCuG8HhEe/vyVuAYP7H0p9doE8G19qhNtBkVKkgSj+lN4gLMAabrb5KlRF3kA7pFXNzzhDJ5EQsWD/060CWOIjF3s0sJE2hQqYTDYBYEv6ytjDGLGhnid8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gzvovU8t; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XkvQ1go5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 054A8C4CEF0;
-	Thu, 25 Sep 2025 12:36:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gzvovU8t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 353DBC4CEF0;
+	Thu, 25 Sep 2025 13:13:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758803811;
-	bh=IBUAnul7b8BQqt3zLS4cohInRJ5Mx15MT7PNd8Nz5R4=;
+	s=k20201202; t=1758806032;
+	bh=cCZgUIBrVeQH4Qj0/UtZsu52PYBfU0dJ0NUtJq+jcIk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XkvQ1go55VUCHLla+6DHun6ac9iHj597k6xHzW2ehbWZf1qu17advzm0DOfLaJdX2
-	 CFK1pTszoqCLJrUFasnXEbhaA+1f/RSAgXuAlCqIPBFAunLcZSLWGiS/DqtgPo1lAz
-	 vd59DiKljlaDbik78b3p69oUNn/NqxQnsAOZKEj9miVMPRGtAD7JdxnTW3ZYETd/id
-	 3l8YdBfhuJ0+fEQ/tfJEwaZ73jeDNCtDBWibnzrzLBuVvq+35kOG7RWoaJ9NZ0Zvhk
-	 QMPN3eI4qbedD4PN9VBWseCLjfv6KabHrHPVkDmVcJZq2VK9elqC28msll8ZwXvERx
-	 rJPYbUQBQg33g==
-Date: Thu, 25 Sep 2025 14:36:46 +0200
+	b=gzvovU8tXrqfJt7d6aeUUFY+RJDGux/jscGSa8kMdbXrO/rLqorUBaansDgXq0g66
+	 +qUHg/JyGfTpq9TADKP0RffbTAgoXOhhdZPvdBNIlgcAmyq8QaXlkHlJxMVcuAKMqq
+	 xjRJGpygehWcRqb3Dqcoc7EzAv/tYrh4A0M8NkYQWE11HKia4PLREibsncp4SJaKDG
+	 AuRjUTtUrJHGqxWKD7uGDXieqRsB3ysR5EsSCarQXzdKf8YVh05JZtV9hilmo9DECy
+	 734oPrXfMxJDyrsv0LtH6uYwj0Aq9rK3JHSlznQ6AtMdfk+jNVIz7o6WMc/XJBQ6BT
+	 cngn53msxiODg==
+Date: Thu, 25 Sep 2025 15:13:47 +0200
 From: Maxime Ripard <mripard@kernel.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
+Cc: Daniel Stone <daniel@fooishbar.org>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
 	Samuel Holland <samuel@sholland.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
 	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
 	Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
@@ -43,15 +44,19 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
 	Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
 	Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
-	Daniel Stone <daniels@collabora.com>
-Subject: Re: [PATCH v4 01/10] drm/connector: let drivers declare infoframes
- as unsupported
-Message-ID: <20250925-didactic-spiked-lobster-fefabe@penduick>
-References: <20250909-drm-limit-infoframes-v4-0-53fd0a65a4a2@oss.qualcomm.com>
- <20250909-drm-limit-infoframes-v4-1-53fd0a65a4a2@oss.qualcomm.com>
- <20250910-furry-singing-axolotl-9aceac@houat>
- <z333ysst5ifakomo35jtbpydj44epqwwn4da76rcnsq4are62m@32gsmgx2pcdi>
+	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v3 00/11] drm/connector: hdmi: limit infoframes per
+ driver capabilities
+Message-ID: <20250925-fervent-merry-beagle-2baba3@penduick>
+References: <20250830-drm-limit-infoframes-v3-0-32fcbec4634e@oss.qualcomm.com>
+ <CAPj87rNDtfEYV88Ue0bFXJwQop-zy++Ty7uQ9XfrQ2TbAijeRg@mail.gmail.com>
+ <57ekub6uba7iee34sviadareqxv234zbmkr7avqofxes4mqnru@vgkppexnj6cb>
+ <20250901-voracious-classy-hedgehog-ee28ef@houat>
+ <voknqdv3zte2jzue5yxmysdiixxkogvpblvrccp5gu55x5ycca@srrcscly4ch4>
+ <st6wob5hden6ypxt2emzokfhl3ezpbuypv2kdtf5zdrdhlyjfw@l2neflb4uupo>
+ <pe6g2fanw65p67kfy5blbtiytngxmr6nkbazymojs4a66yvpl3@7j4ccnsvc6az>
+ <20250910-didactic-honored-chachalaca-f233b2@houat>
+ <x562ueky2z5deqqmhl222moyrbylfwi35u4hb34dpl3z52ra4c@dyw4iayrewnz>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -59,178 +64,207 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="5gspsh2yhbs7pucv"
+	protocol="application/pgp-signature"; boundary="66hnrwbpjdue4aou"
 Content-Disposition: inline
-In-Reply-To: <z333ysst5ifakomo35jtbpydj44epqwwn4da76rcnsq4are62m@32gsmgx2pcdi>
+In-Reply-To: <x562ueky2z5deqqmhl222moyrbylfwi35u4hb34dpl3z52ra4c@dyw4iayrewnz>
 
 
---5gspsh2yhbs7pucv
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
+--66hnrwbpjdue4aou
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 01/10] drm/connector: let drivers declare infoframes
- as unsupported
+Subject: Re: [PATCH v3 00/11] drm/connector: hdmi: limit infoframes per
+ driver capabilities
 MIME-Version: 1.0
 
-On Wed, Sep 10, 2025 at 06:16:25PM +0300, Dmitry Baryshkov wrote:
-> On Wed, Sep 10, 2025 at 01:03:47PM +0200, Maxime Ripard wrote:
-> > On Tue, Sep 09, 2025 at 05:51:59PM +0300, Dmitry Baryshkov wrote:
-> > > Currently DRM framework expects that the HDMI connector driver suppor=
-ts
-> > > all infoframe types: it generates the data as required and calls into
-> > > the driver to program all of them, letting the driver to soft-fail if
-> > > the infoframe is unsupported. This has a major drawback on userspace
-> > > API: the framework also registers debugfs files for all Infoframe typ=
-es,
-> > > possibly surprising the users when infoframe is visible in the debugfs
-> > > file, but it is not visible on the wire. Drivers are also expected to
-> > > return success even for unsuppoted InfoFrame types.
+On Wed, Sep 10, 2025 at 06:26:56PM +0300, Dmitry Baryshkov wrote:
+> On Wed, Sep 10, 2025 at 09:30:19AM +0200, Maxime Ripard wrote:
+> > On Wed, Sep 03, 2025 at 03:03:43AM +0300, Dmitry Baryshkov wrote:
+> > > On Tue, Sep 02, 2025 at 08:06:54PM +0200, Maxime Ripard wrote:
+> > > > On Tue, Sep 02, 2025 at 06:45:44AM +0300, Dmitry Baryshkov wrote:
+> > > > > On Mon, Sep 01, 2025 at 09:07:02AM +0200, Maxime Ripard wrote:
+> > > > > > On Sun, Aug 31, 2025 at 01:29:13AM +0300, Dmitry Baryshkov wrot=
+e:
+> > > > > > > On Sat, Aug 30, 2025 at 09:30:01AM +0200, Daniel Stone wrote:
+> > > > > > > > Hi Dmitry,
+> > > > > > > >=20
+> > > > > > > > On Sat, 30 Aug 2025 at 02:23, Dmitry Baryshkov
+> > > > > > > > <dmitry.baryshkov@oss.qualcomm.com> wrote:
+> > > > > > > > > It's not uncommon for the particular device to support on=
+ly a subset of
+> > > > > > > > > HDMI InfoFrames. It's not a big problem for the kernel, s=
+ince we adopted
+> > > > > > > > > a model of ignoring the unsupported Infoframes, but it's =
+a bigger
+> > > > > > > > > problem for the userspace: we end up having files in debu=
+gfs which do
+> > > > > > > > > mot match what is being sent on the wire.
+> > > > > > > > >
+> > > > > > > > > Sort that out, making sure that all interfaces are consis=
+tent.
+> > > > > > > >=20
+> > > > > > > > Thanks for the series, it's a really good cleanup.
+> > > > > > > >=20
+> > > > > > > > I know that dw-hdmi-qp can support _any_ infoframe, by manu=
+ally
+> > > > > > > > packing it into the two GHDMI banks. So the supported set t=
+here is
+> > > > > > > > 'all of the currently well-known ones, plus any two others,=
+ but only
+> > > > > > > > two and not more'. I wonder if that has any effect on the i=
+nterface
+> > > > > > > > you were thinking about for userspace?
+> > > > > > >=20
+> > > > > > > I was mostly concerned with the existing debugfs interface (a=
+s it is
+> > > > > > > also used e.g. for edid-decode, etc).
+> > > > > > >=20
+> > > > > > > It seems "everything + 2 spare" is more or less common (ADV75=
+11, MSM
+> > > > > > > HDMI also have those. I don't have at hand the proper datashe=
+et for
+> > > > > > > LT9611 (non-UXC one), but I think its InfoFrames are also mor=
+e or less
+> > > > > > > generic).  Maybe we should change debugfs integration to regi=
+ster the
+> > > > > > > file when the frame is being enabled and removing it when it =
+gets unset.
+> > > > > >=20
+> > > > > > But, like, for what benefit?
+> > > > > >=20
+> > > > > > It's a debugfs interface for userspace to consume. The current =
+setup
+> > > > > > works fine with edid-decode already. Why should we complicate t=
+he design
+> > > > > > that much and create fun races like "I'm running edid-decode in=
+ parallel
+> > > > > > to a modeset that would remove the file I just opened, what is =
+the file
+> > > > > > now?".
+> > > > >=20
+> > > > > Aren't we trading that with the 'I'm running edid-decode in paral=
+le with
+> > > > > to a modeset and the file suddenly becomes empty'?
+> > > >=20
+> > > > In that case, you know what the file is going to be: empty. And you=
+ went
+> > > > from a racy, straightforward, design to a racy, complicated, design.
+> > > >=20
+> > > > It was my question before, but I still don't really see what benefi=
+ts it
+> > > > would have, and why we need to care about it in the core, when it c=
+ould
+> > > > be dealt with in the drivers just fine on a case by case basis.
 > > >=20
-> > > Let drivers declare that they support only a subset of infoframes,
-> > > creating a more consistent interface. Make the affected drivers return
-> > > -EOPNOTSUPP if they are asked to program (or clear) InfoFrames which =
-are
-> > > not supported.
-> > >=20
-> > > Acked-by: Liu Ying <victor.liu@nxp.com>
-> > > Acked-by: Daniel Stone <daniels@collabora.com>
-> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > > Actually it can not: debugfs files are registered from the core, not
+> > > from the drivers. That's why I needed all the supported_infoframes
+> > > (which later became software_infoframes).
 > >=20
-> > Again, I still believe that it's a bad idea, goes against what the spec
-> > states, and the framework was meant to be.
+> > That's one thing we can change then.
+> >=20
+> > > Anyway, I'm fine with having empty files there.
+> > >=20
+> > > > > > > Then in the long run we can add 'slots' and allocate some of =
+the frames
+> > > > > > > to the slots. E.g. ADV7511 would get 'software AVI', 'softwar=
+e SPD',
+> > > > > > > 'auto AUDIO' + 2 generic slots (and MPEG InfoFrame which can =
+probably be
+> > > > > > > salvaged as another generic one)). MSM HDMI would get 'softwa=
+re AVI',
+> > > > > > > 'software AUDIO' + 2 generic slots (+MPEG + obsucre HDMI whic=
+h I don't
+> > > > > > > want to use). Then the framework might be able to prioritize =
+whether to
+> > > > > > > use generic slots for important data (as DRM HDR, HDMI) or le=
+ss important
+> > > > > > > (SPD).
+> > > > > >=20
+> > > > > > Why is it something for the framework to deal with? If you want=
+ to have
+> > > > > > extra infoframes in there, just go ahead and create additional =
+debugfs
+> > > > > > files in your driver.
+> > > > > >=20
+> > > > > > If you want to have the slot mechanism, check in your atomic_ch=
+eck that
+> > > > > > only $NUM_SLOT at most infoframes are set.
+> > > > >=20
+> > > > > The driver can only decide that 'we have VSI, SPD and DRM InfoFra=
+mes
+> > > > > which is -ETOOMUCH for 2 generic slots'. The framework should be =
+able to
+> > > > > decide 'the device has 2 generic slots, we have HDR data, use VSI=
+ and
+> > > > > DRM InfoFrames and disable SPD for now'.
+> > > >=20
+> > > > I mean... the spec does? The spec says when a particular feature
+> > > > requires to send a particular infoframe. If your device cannot supp=
+ort
+> > > > to have more than two "features" enabled at the same time, so be it=
+=2E It
+> > > > something that should be checked in that driver atomic_check.
+> > >=20
+> > > Sounds good to me. Let's have those checks in the drivers until we
+> > > actually have seveal drivers performing generic frame allocation.
+> > >=20
+> > > > Or just don't register the SPD debugfs file, ignore it, put a comme=
+nt
+> > > > there, and we're done too.
+> > >=20
+> > > It's generic code.
+> > >=20
+> > > > > But... We are not there yet and I don't have clear usecase (we su=
+pport
+> > > > > HDR neither on ADV7511 nor on MSM HDMI, after carefully reading t=
+he
+> > > > > guide I realised that ADV7511 has normal audio infoframes). Maybe=
+ I
+> > > > > should drop all the 'auto' features, simplifying this series and =
+land
+> > > > > [1] for LT9611UXC as I wanted origianlly.
+> > > > >=20
+> > > > > [1] https://lore.kernel.org/dri-devel/20250803-lt9611uxc-hdmi-v1-=
+2-cb9ce1793acf@oss.qualcomm.com/
+> > > >=20
+> > > > Looking back at that series, I think it still has value to rely on =
+the
+> > > > HDMI infrastructure at the very least for the atomic_check sanitiza=
+tion.
+> > > >=20
+> > > > But since you wouldn't use the generated infoframes, just skip the
+> > > > debugfs files registration. You're not lying to userspace anymore, =
+and
+> > > > you get the benefits of the HDMI framework.
+> > >=20
+> > > We create all infoframe files for all HDMI connectors.
+> >=20
+> > Then we can provide a debugfs_init helper to register all of them, or
+> > only some of them, and let the drivers figure it out.
+> >=20
+> > Worst case scenario, debugfs files will not get created, which is a much
+> > better outcome than having to put boilerplate in every driver that will
+> > get inconsistent over time.
 >=20
-> Please correct me if I'm wrong. The specs (HDMI & CEA) define several
-> infoframes and whether we should be sending them. If I'm reading it
-> correctrly, CEA spec explicitly says 'If the Source supports the
-> transmission of [foo] InfoFrame..." (6.4 - AVI, 6.6 - Audio, 6.7 MPEG,
-> 6.9 - DRM). For other InfoFrames (6.5 SPD, 6.8 NTSC VBI) it just defines
-> that sending those frames is optional.
+> debugfs_init() for each infoframe or taking some kind of bitmask?
 
-SPD is indeed optional, but the HDMI spec, (HDMI 1.4b, Section 8.2.1 -
-Auxiliary Video information (AVI) InfoFrame) states that:
-
-  A Source shall always transmit an AVI InfoFrame at least once per two
-  Video Fields if the Source:
-
-   * is ever capable of transmitting an AVI InfoFrame or,
-   * is ever capable of transmitting YCBCR pixel encoding or,
-   * is ever capable of transmitting any colorimetry other than the
-     transmitted video format=E2=80=99s default colorimetry or,
-   * is ever capable of transmitting any xvYCC or future enhanced
-     colorimetry or,
-   * is ever capable of transmitting any Gamut Metadata packet or,
-   * is ever capable of transmitting any video format with multiple
-     allowed pixel repetitions or,
-   * is ever capable of transmitting Content Type other than =E2=80=9Cno da=
-ta=E2=80=9D or,
-   * is ever capable of transmitting YCC Quantization Range.
-
-  The AVI InfoFrame shall be transmitted even while such a Source is
-  transmitting RGB and non-pixel-repeated video. When a Source is not
-  explicitly required to transmit AVI InfoFrames, it is recommended that
-  the Source transmit AVI InfoFrames.
-
-So it's recommended in every case, and the list kind of makes it
-mandatory for how Linux uses HDMI.
-
-Also, did we ever encounter some hardware that couldn't send AVI?
-
-Audio is mandatory when streaming audio, DRM when using HDR, and we
-don't support the others yet.
-
-So the only we support but don't have to send is SPD.
-
-> We can't even infer support for InfoFrames from the Source features.
-> E.g. CEA 6.6.1 defines a case when digital audio is allowed to be sent,
-> without sending Audio InfoFrame.
-
-HDMI 1.4 section 8.2.2 - Audio Infoframe states that:
-
-  Whenever an active audio stream is being transmitted, an accurate
-  Audio InfoFrame shall be transmitted at least once per two Video
-  Fields.
-
-I'd say it takes precedence over CTA-861.
-
-> As we will be getting more and more features, some of the InfoFrames
-> or data packets will be 'good to have, but not required'.
-
-And drivers would be free to ignore those.
-
-> > So, no, sorry. That's still a no for me. Please stop sending that patch
->=20
-> Oops :-)
->=20
-> > unless we have a discussion about it and you convince me that it's
-> > actually something that we'd need.
->=20
-> My main concern is that the drivers should not opt-out of the features.
-> E.g. if we start supporting ISRC packets or MPEG or NTSC VBI InfoFrames
-> (yes, stupid examples), it should not be required to go through all the
-> drivers, making sure that they disable those. Instead the DRM framework
-> should be able to make decisions like:
->=20
-> - The driver supports SPD and the VSDB defines SPD, enable this
->   InfoFrame (BTW, this needs to be done anyway, we should not be sending
->   SPD if it's not defined in VSDB, if I read it correctly).
->=20
-> - The driver hints that the pixel data has only 10 meaninful bits of
->   data per component (e.g. out of 12 for DeepColor 36), the Sink has
->   HF-VSDB, send HF-VSIF.
->=20
-> - The driver has enabled 3D stereo mode, but it doesn't declare support
->   for HF-VSIF. Send only H14b-VSIF.
->=20
-> Similarly (no, I don't have these on my TODO list, these are just
-> examples):
-> - The driver defines support for NTSC VBI, register a VBI device.
->=20
-> - The driver defines support for ISRC packets, register ISRC-related
->   properties.
->=20
-> - The driver defines support for MPEG Source InfoFrame, provide a way
->   for media players to report frame type and bit rate.
->=20
-> - The driver provides limited support for Extended HDR DM InfoFrames,
->   select the correct frame type according to driver capabilities.
->=20
-> Without the 'supported' information we should change atomic_check()
-> functions to set infoframe->set to false for all unsupported InfoFrames
-> _and_ go through all the drivers again each time we add support for a
-> feature (e.g. after adding HF-VSIF support).
-
-=46rom what you described here, I think we share a similar goal and have
-somewhat similar concerns (thanks, btw, it wasn't obvious to me before),
-we just disagree on the trade-offs and ideal solution :)
-
-I agree that we need to sanity check the drivers, and I don't want to go
-back to the situation we had before where drivers could just ignore
-infoframes and take the easy way out.
-
-It should be hard, and easy to catch during review.
-
-I don't think bitflag are a solution because, to me, it kind of fails
-both.
-
-What if, just like the debugfs discussion, we split write_infoframe into
-write_avi_infoframe (mandatory), write_spd_infoframe (optional),
-write_audio_infoframe (checked by drm_connector_hdmi_audio_init?) and
-write_hdr_infoframe (checked in drmm_connector_hdmi_init if max_bpc > 8)
-
-How does that sound?
+I meant turning hdmi_debugfs_add and create_hdmi_*_infoframe_file into
+public helpers. That way, drivers that don't care can use the (renamed)
+hdmi_debugfs_add, and drivers with different constraints can register
+the relevant infoframes directly.
 
 Maxime
 
---5gspsh2yhbs7pucv
+--66hnrwbpjdue4aou
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaNU3XQAKCRAnX84Zoj2+
-duiWAYCEQHaNpq1acegbRGgnWK7idyco+oNyb5OKUdG2mSrF8iG51+HcmQ30rpWH
-OmNB+HsBf3AD+4uAstcClyYSies8sQ9MYWjuxdp67l9l23iryEuQM410hwJTA3iL
-XSaP3z9ISQ==
-=35Cr
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaNVACgAKCRAnX84Zoj2+
+ds6HAXwJ9eLLOI2EVfkUrhuPlQF7nB91vMzwx0YCbF2Y3KTVXHoq9v0iFjyXhrM4
+GmFpCPgBf2tLzAYHz6J1tzDAdY2RnzoszUG2nVuosViqzP8jS1sDd3QWoW+sEQlD
+GWljMh3wRQ==
+=dtph
 -----END PGP SIGNATURE-----
 
---5gspsh2yhbs7pucv--
+--66hnrwbpjdue4aou--
