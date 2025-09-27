@@ -1,286 +1,187 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31502D05D;
-	Fri, 26 Sep 2025 15:31:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4179B1DFE0B
+	for <linux-sunxi@lists.linux.dev>; Sat, 27 Sep 2025 01:04:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758900692; cv=none; b=NqbfLLwLp3PLGBBd74kHD/a+KyzXuCHrpkI365Mm6cUmdTZQcnYPY92iKAysf1uQOp05yvMJWJAH6gx2TDhvn28rSntHPRJDbjV7/taW5CZpVTaYzrIkdyBsFU9OxV40bQtnrXX0eHNathRel5VB6xl1Yi0OM1cb/4k5Snun1Pw=
+	t=1758935083; cv=none; b=Irg2DZJgjOtNVoVQ0O67SFZQUIoEmAoHDVb8GTcT883cNpAIeZQJ1Mz3iwXtfVoBeAr36ytcSnqxoLiYE2PdfQ/zPNLDDaH82R3OIK860V63o3ZNseK6wDc2VufN9xAPeoM+Po9eZR24BdJ1Dm5hLDU0QhMTSVEosliOqcwJ4vA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758900692; c=relaxed/simple;
-	bh=rc/jpfAY8wcvvPU5WptaN2/wAE1PpsPV8FsU14vGZgM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=drmdBr1fEaPT1gksqIgvDDWttzlXZE3/Jx0YUqYMPShda4UxAfB4rA7iFvDPaUVYeo2IQtfu7htiBZdVZLkgwNUQfOuVS9FlljJo9F2kMfkD/Q4OHR1KA5D1dacKU9C/R9495geYrthixqp66SdeG9rHONoMpfOvtUzTEbJojIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WJp/kIZW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758935083; c=relaxed/simple;
+	bh=Q78XSS/y8JtPNnJI6s3J7ArXOP9v75Iaz+LCtP6FojY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ffeFBXy2abOA6RvvGIk9TUL7Wo5EXoTLYnvMIbuKoeO3KerkopBAhrP/MwzKtJVlZalYNl+kZgNCb0aKAWJoo3Miua7B86H76bvsn+JaCHT4o9YBVZn0ZyVrD7fUI8x9epBW6Ma8taWAhNM/16TnQj402irewz59zAJpzqMIf2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XXxXeZpQ; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WJp/kIZW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EB81C4CEF4;
-	Fri, 26 Sep 2025 15:31:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758900692;
-	bh=rc/jpfAY8wcvvPU5WptaN2/wAE1PpsPV8FsU14vGZgM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WJp/kIZWGdHhRFsUcP4YIQrGr5D2uTHmFtqOoAqvLJ7mlq46CO+IOVmEY+HjpIANq
-	 THVFBCGdCSF8A+WQTgo04u9V04pidogUuLvcd6qclJk2ocsxOSvoMZdD4pEk76VSMh
-	 uI9Rtr8fuH7WGnOYkw+AgO2oaTDTZTo7+z8vNB9oSYIVm4EGYrU0wImNOwZdXprgte
-	 AD4N0VCK3ClSV2/gZrmWF7POY6gLCWXNTz5oWpyFlVCEw/s4daXEwjAdxapxXZJzSr
-	 xgirncy8jWIUnWKcoeUs/9PQuObMmwYgXgentO8u+9+ztG5hhQ/2nSMqt06IcDIwfw
-	 PaDvFX5keUlZQ==
-Date: Fri, 26 Sep 2025 16:31:25 +0100
-From: Mark Brown <broonie@kernel.org>
-To: =?iso-8859-1?Q?Baltaz=E1r?= Radics <baltazar.radics@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	=?iso-8859-1?B?Q3Pza+Fz?= Bence <csokas.bence@prolan.hu>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Ondrej Jirman <megi@xff.cz>
-Subject: Re: ASoC: sun4i-codec: Missing snd_soc_component_driver names
- causing NULL pointer dereference
-Message-ID: <391d0e76-93bb-48a4-a6d5-2938766710a0@sirena.org.uk>
-References: <ffef657cce57b7bce005b99f9b14dc81c9ae4535.camel@gmail.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="XXxXeZpQ"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58QEXGQa011449
+	for <linux-sunxi@lists.linux.dev>; Sat, 27 Sep 2025 01:04:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=Qc5ocY3tSciWpBAvhCZm/2
+	AVYNgu26K/bDoBWBIx65s=; b=XXxXeZpQoQZGfQAi2J3GHrxvHFMaIqSGA8mLTB
+	rnF2pRGvy4DfAWzwdfPwq1G1VkzwbRpa+DNA/e4Mod/7Hg5r4jyvIHCBDIYiVxjJ
+	pnYpMjy6S9CKxRLa2Og1MkeO64/smHZWkYXXCODCFETfDud3kKM3TPx0WD0OBwx1
+	NrFXorE+zOCSYPwPageBqGT23TBYlS4T4FXqsup/uf0BepZ1JVUjM0G3PFXYZyAf
+	0yhiJZ3JSKwjWYtM02HVQDEVOTT9FMznbznv042MZBgS0UH23Ek/vnQs9A+7P7pr
+	aaZWbwxX+5336Ur9HGVIokMuoMj+yfa3ZP+n8mBet6CxwVJA==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49db324g9e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sunxi@lists.linux.dev>; Sat, 27 Sep 2025 01:04:39 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4d602229d20so49456251cf.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 26 Sep 2025 18:04:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758935078; x=1759539878;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Qc5ocY3tSciWpBAvhCZm/2AVYNgu26K/bDoBWBIx65s=;
+        b=kJU0/6Ly3sCRUwgt1pxpFNRVhONvSqeSrFLPMNT1946iO5gQw2R8tJ3y0CPtJpgpF5
+         8atNST9rwZIRbT2SwegxcethkpJJf+bZT/dV0C2yfzq+88covkmlY1peMs+OC5golSRq
+         NYX0oFjPjB1uoRhCq6xoRNgcgLGBsv6gpx2wEONGPt+JCLT9b46Fs0B2H/RNlNgwCJ12
+         BcsyCvv1FFTpC+wRVWsu9aRkcLdlS3Eb8B8nHTJEcUwAr3MkgbB3XMt6WN3Nl0JvHHpa
+         j3nFfz7xD1/VUe64DJOLi2qk46rfT3/7imsygOUZu3o8TVvGbGIUHagd2SuWKFkEdsOw
+         mgDA==
+X-Forwarded-Encrypted: i=1; AJvYcCU9RkDaON9XcPZu4Ka7sO3x1pTXVxDoKvPpVEwE3Y8dpsnLsjfqNJaRVsoJRsjxwrP2idDwpwWtDR64wQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YybrV85widb+WtwR8vTKGxV3VqekZneQTyUT3+IyzV8YrFgw2wI
+	KDx0+lVCLMSECKK0ymR0xkjuYCd9Y0+TOycTlxNB+OlNN99iOOOz+ZLEJaZFv395/6mnAIIedWb
+	/AtUQT/5DGhv/Wete3l4CQ570iwELzMJLWlPVQgdud44bR35P2j2dppAiuMVjcZXBaw==
+X-Gm-Gg: ASbGncuGSwRbSmZ3mib2c4dOmr3tyYPhznphFqcRv2Ejz6FmIaus53Ob6UVCt4Txd87
+	kHIlpZhKj02eeLr4K5ytPhu719zmJ1BmP5GvELFSs8wBoI0uBYiRULdW4o1D3Engwd9H1nHKsi7
+	bUk8sR/kNlO390X4sdA+SArU/j/TjO2DJpy1yMpyswoIT/BAGg/LvsYU3Fk3Hg6u88iSHE68QR1
+	uIuJBpl6ISTqWum88YGl+vt0c0ntNv1X4sUa2gwNvIEXfcgVvRg9cvHKaenq412hRaj82lX3u8C
+	q+dUeDDycrUnQIaKtJUkcYAnnWLGv/j+CcstgmYM6tjYNTP0iZwsMt0Jmvn4gPhRsorrwEGbSpe
+	3XcDcNcYnihFKPZaf2WufL99ytiYTTaNeVSAQv1FSYgvSKAmyk/mM
+X-Received: by 2002:a05:622a:4087:b0:4b0:677d:d8e1 with SMTP id d75a77b69052e-4da481d940dmr135262791cf.17.1758935077866;
+        Fri, 26 Sep 2025 18:04:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHfLcwV5gyaQhWH6cMHnOYm2QjhypSrV9zAMf4Mjq0wafZNaibNe24/I99cJs5+682pxDxsRQ==
+X-Received: by 2002:a05:622a:4087:b0:4b0:677d:d8e1 with SMTP id d75a77b69052e-4da481d940dmr135262141cf.17.1758935077228;
+        Fri, 26 Sep 2025 18:04:37 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-583139f99c1sm2156143e87.35.2025.09.26.18.04.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Sep 2025 18:04:35 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH 0/9] drm/connector: hdmi: limit infoframes per driver
+ capabilities, second approach
+Date: Sat, 27 Sep 2025 04:04:29 +0300
+Message-Id: <20250927-limit-infoframes-2-v1-0-697511bd050b@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/QeibYHYX2lRIksV"
-Content-Disposition: inline
-In-Reply-To: <ffef657cce57b7bce005b99f9b14dc81c9ae4535.camel@gmail.com>
-X-Cookie: Your canceled check is your receipt.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAB0412gC/x3MQQqAIBBA0avErBsww2S6SrSwGmugLDQiiO6et
+ HyL/x9IHIUTtMUDkS9JsoeMqixgXFyYGWXKBq20UaQtrrLJiRL87qPbOKHGZqCaDRFbcpDDI7K
+ X+592/ft+cVBFNmQAAAA=
+X-Change-ID: 20250927-limit-infoframes-2-6b93e599e79a
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Rob Clark <robin.clark@oss.qualcomm.com>,
+        Dmitry Baryshkov <lumag@kernel.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+        Sean Paul <sean@poorly.run>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Sandy Huang <hjc@rock-chips.com>,
+        =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+        Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2197;
+ i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
+ bh=Q78XSS/y8JtPNnJI6s3J7ArXOP9v75Iaz+LCtP6FojY=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBo1zgfvqV9tNwSDjjNu1bYmTuEZAt+bf4bJeYD4
+ z1GvExeq5aJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaNc4HwAKCRCLPIo+Aiko
+ 1YkbB/9JgqkHjaGTaOuUPOXbyqKe3xWoHX6CP+gZcmjWeLTPttNPll9tRPecwLTPJJzjqwb0Tpd
+ eqnyT/OKyrEuPOjBZfBfYDV81Oe7BwMvlG9l+8UZrv7ek4sTJTW213DoX/sXyAsI9Pv4Xl9cAD/
+ YZdFvqbUbR/PCDvU8iqBDjexW24uxIMybn+ywBSLeIRCCWkLYAkFXuvFTxTv+zAD/rqZXMfU/1J
+ uxHBoTMU2CSIFXyngR6Ai9qcFLfRK8BZqqdUtMEVYvWvtKnlcfrNLyu0/IuFaKyobHtojURMCfr
+ 0qoCsi5cPINJIPi0VMgx0EIAwXBhbcnQKrtLOHJq5CDQ8gDA
+X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Authority-Analysis: v=2.4 cv=ao6/yCZV c=1 sm=1 tr=0 ts=68d73827 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=BiG78YgtQv3mHEaFN1cA:9 a=QEXdDO2ut3YA:10
+ a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-ORIG-GUID: nzWYFid4u6m6PcWKGoNrf15ZCi0ww4P0
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI1MDE3MiBTYWx0ZWRfX332zXH+Sn2Zz
+ EiauIhQ1Zdx1OvrTSIzBO4PTaiU41SHfWmOh7oPA6JIBNVWdueQ5NnMO9I+kZZBlFhKfsY/gDYL
+ mnjbRCi6S44VYgx+OMAmRpiQ8jCDf8ylhNUmbA0FxKy1rA9YbI5ukItG+Uuwhn1QAGilDCDXAjI
+ p6jLberIwtIriOwXR8+oC+aBPUmvyyGvaxeopZOgcjjz6gPIHkKcCj+2HAK9knoxG4ZfRjnQswh
+ GyY5ShdLWITukqlDgQtJmlIOJLg0oGm02jFp+UPulhQ2KPzhmepbP+RdUAhBQLyAELy5WWhXXGK
+ Cj+4gnTZnfdSZEbx3RbjPv5mnobQwqxV+54GYNwa1hey+tWTJeY038X0e6QB7xbpan/fZs2g3Wj
+ hrJAg0sORT9MmxKx0bFWdTFOdFk4Ow==
+X-Proofpoint-GUID: nzWYFid4u6m6PcWKGoNrf15ZCi0ww4P0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-26_08,2025-09-26_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0 priorityscore=1501 suspectscore=0 phishscore=0
+ adultscore=0 spamscore=0 clxscore=1015 lowpriorityscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509250172
 
+It's not uncommon for the particular device to support only a subset of
+HDMI InfoFrames. Currently it's mostly ignored by the framework: it
+calls write_infoframe() / clear_infoframe() callbacks for all frames and
+expects them to return success even if the InfoFrame is not supported.
 
---/QeibYHYX2lRIksV
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Sort that out, making sure that all interfaces are consistent:
+- In atomic_check() callback verify and disable unsupported InfoFrames.
+- In write_infoframe() / clear_infoframe() callbacks return -EOPNOTSUPP
+  for unsupported InfoFrames.
+- In write_device_infoframe() / clear_infoframe() functions warn if the
+  callback returns -EOPNOTSUPP for the frame which is set (or was set
+  beforehand).
 
-On Fri, Sep 26, 2025 at 05:10:30PM +0200, Baltaz=E1r Radics wrote:
-> I ran into an issue where the kernel would panic depending on sun4i-
-> codec vs sun8i-codec-analog driver load order. (If both are compiled-
-> in, the default order does reproduce the crash.)If sun4i-codec was
-> loaded before its analog component, snd_soc_register_card would return
-> -EPROBE_DEFER. During cleanup snd_soc_unregister_component_by_driver
-> tries to find components by driver name leading to the following oops:
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+Dmitry Baryshkov (9):
+      drm/display: hdmi-state-helpers: warn on unsupported InfoFrame types
+      drm/bridge: adv7511: handle unsupported InfoFrames
+      drm/bridge: ite-it6263: handle unsupported InfoFrames
+      drm/bridge: lontium-lt9611: handle unsupported InfoFrames
+      drm/bridge: synopsys/dw-hdmi-qp: handle unsupported InfoFrames
+      drm/msm: hdmi: handle unsupported InfoFrames
+      drm/rockchip: rk3066_hdmi: handle unsupported InfoFrames
+      drm/rockchip: inno-hdmi: handle unsupported InfoFrames
+      drm/sun4i: hdmi: handle unsupported InfoFrames
 
-Copying in some of the people who work on sunxi.  It seems clear that we
-should handle missing names more gracefully here.
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c    | 20 ++++++++--
+ drivers/gpu/drm/bridge/ite-it6263.c             | 27 +++++++++++++-
+ drivers/gpu/drm/bridge/lontium-lt9611.c         | 22 ++++++++---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c    | 20 ++++++++--
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c |  4 ++
+ drivers/gpu/drm/msm/hdmi/hdmi_bridge.c          | 19 ++++++++--
+ drivers/gpu/drm/rockchip/inno_hdmi.c            | 46 +++++++++++++++++------
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c          | 38 +++++++++++++++----
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c          | 49 ++++++++++++++++++++++---
+ 9 files changed, 202 insertions(+), 43 deletions(-)
+---
+base-commit: bf2602a3cb2381fb1a04bf1c39a290518d2538d1
+change-id: 20250927-limit-infoframes-2-6b93e599e79a
 
->=20
-> [    0.841199] 8<--- cut here ---
-> [    0.844315] Unable to handle kernel NULL pointer dereference at virtua=
-l address 00000000 when read
-> [    0.853268] [00000000] *pgd=3D00000000
-> [    0.856885] Internal error: Oops: 5 [#1] SMP ARM
-> [    0.861507] Modules linked in:
-> [    0.864569] CPU: 3 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.16.5 #1=
- NONE=20
-> [    0.871617] Hardware name: Allwinner sun8i Family
-> [    0.876316] PC is at strcmp+0x0/0x34
-> [    0.879911] LR is at snd_soc_lookup_component_nolocked+0x64/0xa4
-> [    0.885923] pc : [<c08e8824>]    lr : [<c075679c>]    psr: 00000013
-> [    0.892184] sp : e0821de0  ip : 00000000  fp : c0c615e8
-> [    0.897404] r10: 00000006  r9 : c0c49854  r8 : 0000001b
-> [    0.902624] r7 : c0b04de8  r6 : c125b010  r5 : c0dde7e8  r4 : c1a95a40
-> [    0.909146] r3 : c09b1d50  r2 : 0000006e  r1 : c0b04de8  r0 : 00000000
-> [    0.915669] Flags: nzcv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segme=
-nt none
-> [    0.922802] Control: 10c5387d  Table: 4000406a  DAC: 00000051
-> [    0.928541] Register r0 information: NULL pointer
-> [    0.933250] Register r1 information: non-slab/vmalloc memory
-> [    0.938908] Register r2 information: non-paged memory
-> [    0.943958] Register r3 information: non-slab/vmalloc memory
-> [    0.949615] Register r4 information: slab kmalloc-256 start c1a95a00 p=
-ointer offset 64 size 256
-> [    0.958327] Register r5 information: non-slab/vmalloc memory
-> [    0.963984] Register r6 information: slab kmalloc-1k start c125b000 po=
-inter offset 16 size 1024
-> [    0.972693] Register r7 information: non-slab/vmalloc memory
-> [    0.978350] Register r8 information: non-paged memory
-> [    0.983400] Register r9 information: non-slab/vmalloc memory
-> [    0.989057] Register r10 information: non-paged memory
-> [    0.994193] Register r11 information: non-slab/vmalloc memory
-> [    0.999937] Register r12 information: NULL pointer
-> [    1.004726] Process swapper/0 (pid: 1, stack limit =3D 0x(ptrval))
-> [    1.010730] Stack: (0xe0821de0 to 0xe0822000)
-> [    1.015091] 1de0: c0b04de8 c125b010 c125b010 e0821e18 0000001b c0758f2=
-0 c1a95c0c c125b010
-> [    1.023264] 1e00: c125b010 c076c86c c1a9bc00 c1a9bc80 c125b010 c058804=
-c c112b780 c1a95d00
-> [    1.031436] 1e20: 00000007 75b58edd c125b010 00000205 c0ddec6c 0000000=
-0 c1a9b3b8 c05821b0
-> [    1.039608] 1e40: c125b010 c0582960 c125b010 c0ddec6c c125b010 0000000=
-0 c1a9b3b8 c0582a90
-> [    1.047781] 1e60: 60000013 c0c49854 c0e25818 c0ddec6c c125b010 0000000=
-0 c1a9b3b8 c0582c74
-> [    1.055953] 1e80: c125b010 c0ddec6c c125b054 c1016000 c1a9b3b8 c0582ee=
-c 00000000 c0ddec6c
-> [    1.064126] 1ea0: c0582e5c c0580950 c1016000 c1016058 c10f7234 75b58ed=
-d c1016000 c0ddec6c
-> [    1.072298] 1ec0: c1a9b380 00000000 c1016000 c0581b74 c0b0534c 0000000=
-0 c0ddec6c c1050000
-> [    1.080471] 1ee0: 00000000 c0deb000 c0deb000 c0583bf8 c0c2ddd8 c105000=
-0 00000000 c010e26c
-> [    1.088643] 1f00: 000004bf 00000000 00000000 00000000 00000000 0000000=
-0 00000000 00000000
-> [    1.096814] 1f20: 00000000 00000000 00000000 00000000 00000000 0000000=
-0 00000000 00000000
-> [    1.104986] 1f40: 00000000 00000000 00000000 75b58edd c11a6200 000000f=
-3 c11a6200 c0c49834
-> [    1.113158] 1f60: c0deb000 c0b14140 c0c49854 c0c01264 00000006 0000000=
-6 00000000 c0c004d0
-> [    1.121331] 1f80: c08f37a8 c0d04e80 c08f37a8 00000000 00000000 0000000=
-0 00000000 00000000
-> [    1.129503] 1fa0: 00000000 c08f37c4 00000000 c010014c 00000000 0000000=
-0 00000000 00000000
-> [    1.137674] 1fc0: 00000000 00000000 00000000 00000000 00000000 0000000=
-0 00000000 00000000
-> [    1.145846] 1fe0: 00000000 00000000 00000000 00000000 00000013 0000000=
-0 00000000 00000000
-> [    1.154014] Call trace:=20
-> [    1.154030]  strcmp from snd_soc_lookup_component_nolocked+0x64/0xa4
-> [    1.162926]  snd_soc_lookup_component_nolocked from snd_soc_unregister=
-_component_by_driver+0x2c/0x44
-> [    1.172065]  snd_soc_unregister_component_by_driver from snd_dmaengine=
-_pcm_unregister+0x28/0x64
-> [    1.180773]  snd_dmaengine_pcm_unregister from devres_release_all+0x98=
-/0xfc
-> [    1.187749]  devres_release_all from device_unbind_cleanup+0xc/0x60
-> [    1.194028]  device_unbind_cleanup from really_probe+0x220/0x2c8
-> [    1.200046]  really_probe from __driver_probe_device+0x88/0x1a0
-> [    1.205977]  __driver_probe_device from driver_probe_device+0x30/0x110
-> [    1.212515]  driver_probe_device from __driver_attach+0x90/0x178
-> [    1.218533]  __driver_attach from bus_for_each_dev+0x7c/0xcc
-> [    1.224203]  bus_for_each_dev from bus_add_driver+0xcc/0x1ec
-> [    1.229871]  bus_add_driver from driver_register+0x80/0x11c
-> [    1.235457]  driver_register from do_one_initcall+0x58/0x23c
-> [    1.241134]  do_one_initcall from kernel_init_freeable+0x1dc/0x238
-> [    1.247324]  kernel_init_freeable from kernel_init+0x1c/0x12c
-> [    1.253079]  kernel_init from ret_from_fork+0x14/0x28
-> [    1.258137] Exception stack(0xe0821fb0 to 0xe0821ff8)
-> [    1.263187] 1fa0:                                     00000000 0000000=
-0 00000000 00000000
-> [    1.271359] 1fc0: 00000000 00000000 00000000 00000000 00000000 0000000=
-0 00000000 00000000
-> [    1.279530] 1fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-> [    1.286145] Code: e5e32001 e3520000 1afffffb e12fff1e (e4d03001)=20
-> [    1.292290] ---[ end trace 0000000000000000 ]---
->=20
-> The specific hardware in my case is a FriendlyARM NanoPi Duo2. Note
-> that the current device tree has the relevant node disabled, so I'm
-> running with the following patch applied:
->=20
-> ---
-> arch/arm/boot/dts/allwinner/sun8i-h3-nanopi-duo2.dts | 8 ++++++++
->  1 file changed, 8 insertions(+)
->=20
-> diff --git a/arch/arm/boot/dts/allwinner/sun8i-h3-nanopi-duo2.dts b/arch/=
-arm/boot/dts/allwinner/sun8i-h3-nanopi-duo2.dts
-> index 2b0566d4b386..6301b1a78301 100644
-> --- a/arch/arm/boot/dts/allwinner/sun8i-h3-nanopi-duo2.dts
-> +++ b/arch/arm/boot/dts/allwinner/sun8i-h3-nanopi-duo2.dts
-> @@ -137,6 +137,14 @@ &reg_usb0_vbus {
->  	status =3D "okay";
->  };
-> =20
-> +&codec {
-> +	status =3D "okay";
-> +	allwinner,audio-routing =3D
-> +	       "Line Out", "LINEOUT",
-> +	       "MIC1", "Mic",
-> +	       "Mic", "MBIAS";
-> +};
-> +
->  &uart0 {
->  	pinctrl-names =3D "default";
->  	pinctrl-0 =3D <&uart0_pa_pins>;
-> --
->=20
->=20
-> I'm not sure if it's the correct solution, but setting the names of
-> these snd_soc_component_driver instances does seem to fix my issue:
->=20
-> ---
->  sound/soc/sunxi/sun4i-codec.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
-> index 93733ff2e32a..f00537f7f97d 100644
-> --- a/sound/soc/sunxi/sun4i-codec.c
-> +++ b/sound/soc/sunxi/sun4i-codec.c
-> @@ -959,6 +959,7 @@ static const struct snd_soc_dapm_route sun4i_codec_co=
-dec_dapm_routes[] =3D {
->  };
-> =20
->  static const struct snd_soc_component_driver sun4i_codec_codec =3D {
-> +	.name			=3D "sun4i-codec-codec",
->  	.controls		=3D sun4i_codec_controls,
->  	.num_controls		=3D ARRAY_SIZE(sun4i_codec_controls),
->  	.dapm_widgets		=3D sun4i_codec_codec_dapm_widgets,
-> @@ -971,6 +972,7 @@ static const struct snd_soc_component_driver sun4i_co=
-dec_codec =3D {
->  };
-> =20
->  static const struct snd_soc_component_driver sun7i_codec_codec =3D {
-> +	.name			=3D "sun7i-codec-codec",
->  	.controls		=3D sun7i_codec_controls,
->  	.num_controls		=3D ARRAY_SIZE(sun7i_codec_controls),
->  	.dapm_widgets		=3D sun4i_codec_codec_dapm_widgets,
-> @@ -1278,6 +1280,7 @@ static const struct snd_soc_dapm_route sun6i_codec_=
-codec_dapm_routes[] =3D {
->  };
-> =20
->  static const struct snd_soc_component_driver sun6i_codec_codec =3D {
-> +	.name			=3D "sun6i-codec-codec",
->  	.controls		=3D sun6i_codec_codec_widgets,
->  	.num_controls		=3D ARRAY_SIZE(sun6i_codec_codec_widgets),
->  	.dapm_widgets		=3D sun6i_codec_codec_dapm_widgets,
-> @@ -1307,6 +1310,7 @@ static const struct snd_soc_dapm_widget sun8i_a23_c=
-odec_codec_widgets[] =3D {
->  };
-> =20
->  static const struct snd_soc_component_driver sun8i_a23_codec_codec =3D {
-> +	.name			=3D "sun8i-a23-codec-codec",
->  	.controls		=3D sun8i_a23_codec_codec_controls,
->  	.num_controls		=3D ARRAY_SIZE(sun8i_a23_codec_codec_controls),
->  	.dapm_widgets		=3D sun8i_a23_codec_codec_widgets,
-> @@ -1527,6 +1531,7 @@ static const struct snd_soc_dapm_route suniv_codec_=
-codec_dapm_routes[] =3D {
->  };
-> =20
->  static const struct snd_soc_component_driver suniv_codec_codec =3D {
-> +	.name			=3D "suniv-codec-codec",
->  	.controls		=3D suniv_codec_codec_widgets,
->  	.num_controls		=3D ARRAY_SIZE(suniv_codec_codec_widgets),
->  	.dapm_widgets		=3D suniv_codec_codec_dapm_widgets,
-> @@ -1952,6 +1957,7 @@ static const struct snd_soc_dapm_widget sun50i_h616=
-_codec_codec_widgets[] =3D {
->  };
-> =20
->  static const struct snd_soc_component_driver sun50i_h616_codec_codec =3D=
- {
-> +	.name       =3D "sun50i-h616-codec-codec",
->  	.controls   =3D sun50i_h616_codec_codec_controls,
->  	.num_controls   =3D ARRAY_SIZE(sun50i_h616_codec_codec_controls),
->  	.dapm_widgets   =3D sun50i_h616_codec_codec_widgets,
-> --=20
-> 2.51.0
+Best regards,
+-- 
+With best wishes
+Dmitry
 
---/QeibYHYX2lRIksV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjWsc0ACgkQJNaLcl1U
-h9BZaQf9FoZQA24EobKR8qYHyDjNbKm/E5mx7NACSSNCv2cKFWwpgKy28GL/RJZb
-WWT9+HeTEMzG37LzTs7vIHLgMTmC85HzyCFavZHAa+LAtSTcoc1ha3zIn1LcJWwZ
-Hc1l8LJpocT7sBJc8bWrYFURTbY1yxDXXcGpunqTJ5GQLWQeTPkw3JClqzYZ+N8e
-ImfQd8duiIX3sXbhGMMf/dofPy0zTJAwD0MQd4asinZhhUxE1m5RCZXO0bBDajx2
-RdmYmPy9GzvUNQNrFOsJLmCNxMbbXQ9/oWx8bBmsIGzw+OAV4mxQ0oTmKB+3EVhZ
-Otkr5ui0tf6y1rKgjcoWMkPLj6RfHA==
-=Iyqo
------END PGP SIGNATURE-----
-
---/QeibYHYX2lRIksV--
