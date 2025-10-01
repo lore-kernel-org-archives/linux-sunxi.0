@@ -1,72 +1,72 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51646277CB6
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Oct 2025 07:59:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26FD9258CD0
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Oct 2025 08:06:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759305548; cv=none; b=FDj6NF3W3X0uxVLexLQH0ZEBRf9+dkxnFLgdpmP7xecE7gOgIENf5zM7X2+wASiGAJCgLLgIVzmNUsh3rdJjb0Au583GP2BSbQvDsNW1UJSP+7a+QGAz10UustqvTxY/3Gstlx8+94yRAonLwsw53iABqylTd+yCHKyh2UMGyGs=
+	t=1759305966; cv=none; b=uhHZVgu/d3kZjxZc/QzT1sWlrMmG8sJCVYOgYLYqe4ghJvuyLRx47eys0Zqn8y/PMGJ/JVZrUnzL+PTr1Ja+d9ohbli2YLOO6jrR8EF3bvyjDc7Ai2TgfP2JZMECcwyDfOhArtiOvn1g7l9q+wnDeY1fYpj9HXh5+cyWv1os7+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759305548; c=relaxed/simple;
-	bh=32+dcV5KCnlxSs5GB9v7s7dAz1V61Qe0s4V0xusvslI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oxQ/3RKBjeqc+3ERN3ia5CJYnwtDg+iWAaqWy6QsXHfbNPN91HOVCV7v4nqm0t/qx85sgNjDFy4+qWElWXefQI3LTEWXPFGY4TOOtU5oaLjJ7EZQf+TKiPt+7ZieOymfbaVcj+tubLUvLfnsrWWazTGgirphXxkns7zBshEJAYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=R9IbUTfL; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1759305966; c=relaxed/simple;
+	bh=5haNAEiXLgQzh1JAlqW9TjWwiFhiqV+0nJNKffjfNHQ=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=oa8w0Ab2T6G2oW4tfr6ARRKdE9a0WGRpB50jK5kj2fD3ltPFzcJarjQQy+J6NJcu7wFiit4Nt48za9MidX4eUvjLRyBwbUFBt+h6RNiHab1UeeQeQyxoApa71B/wQfmX6Y1QlmUhkH+li/jdblaV6bTOcQGVlSZySrRKStfqNwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RYFQvCgB; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="R9IbUTfL"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RYFQvCgB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1759305545;
+	s=mimecast20190719; t=1759305963;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6JRYgwl0T5IpgOuDkp0yF08iEAoUfTslJUqiB0DRs8I=;
-	b=R9IbUTfL4xB9I5KgqSokOYTFzqZkaN5sYyaMftBvHjTnU96zRg6u4IPMTBnoTY5v2fvMEd
-	sLM1V5w/nne1MfqdhX9mpvJL8yAq+FsygD2kK5QmAq9T8ffG91pu3VNX9Fg70CiHGCTcXJ
-	FUU50YJ/feDoA+ttAoAFmfo/nnCwMUE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=CTb+HR144WzaCHAGjWTq7YSgDtzJUyYbacPJ6jqxs7k=;
+	b=RYFQvCgBjvCWTmhmfO/Zp0FOLy7LUsBpTSlTXh554mEkorTULdlw9ZIY2hjQRR6//lwhQ7
+	b46x26+aN6YKsm2iGaYeG/abR7LdruBNYFtKQJSjSHaO0MJ+7CaeNaqVZktiLcWOVb677G
+	26CrlheO5qw8Ze+v+OfeyI81cVq/fng=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-296-3GdDJnUNOAyO91C6NtyVsw-1; Wed, 01 Oct 2025 03:59:04 -0400
-X-MC-Unique: 3GdDJnUNOAyO91C6NtyVsw-1
-X-Mimecast-MFC-AGG-ID: 3GdDJnUNOAyO91C6NtyVsw_1759305543
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3efa77de998so4124465f8f.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 01 Oct 2025 00:59:03 -0700 (PDT)
+ us-mta-654-rHgE3WJqMrOc3CKrHGDtng-1; Wed, 01 Oct 2025 04:06:01 -0400
+X-MC-Unique: rHgE3WJqMrOc3CKrHGDtng-1
+X-Mimecast-MFC-AGG-ID: rHgE3WJqMrOc3CKrHGDtng_1759305961
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-46e3d9bf9e1so28731515e9.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 01 Oct 2025 01:06:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759305543; x=1759910343;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1759305960; x=1759910760;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6JRYgwl0T5IpgOuDkp0yF08iEAoUfTslJUqiB0DRs8I=;
-        b=jR14V8FpeJuOUxJtbz5Objfe1Uq7FhqSHSynC739xokP2GZ0v0L1BfiIlDdryGFrOH
-         knMfPhwLKvuaeJFBbxxvnSnGeNJi1xhC7AC63nKNbPLOqXhsbpM+/p4HUxi7VZJWFWga
-         yOFHjmepuCe040opcN7ULina/9Yiy8CXgUJcsI94WyrB0cZKKx59vaE6uzuaTnr6dY20
-         V88AoJjPyBCxXeUE8QpDFIfJ8QACozjV9k4IHrZxArjvUDz8BE8w3JlGzCLRGkAUXy0p
-         cv3TIeFMKvQXOtzwZ29RxEu20voYKDHEi2j7Je6p1UNNNxfuYoMUITdWIo+3X15WV7Mj
-         y4AA==
-X-Forwarded-Encrypted: i=1; AJvYcCX+abB16P+9IfN+q6ERYnhbw78Cus2ZfevFJhuar+mD3HqxCU2uM399QPUgny+kZ7osi5wQ23xS7F6Gbw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwM2gx0AU9nERjKAYBYkUTsXxzcDru+l2mAmMfagAenA2nf29fl
-	uNiJ49kNuTRK7Dkssn65LmUy4Q4jKOadxYGk9maJ33vu2+KiigTQPcHwmp8keNglDpqSjkKUjgT
-	aLzeYfD3OjCu0GAGIp7aQH/AytSLxIF4qJtLaEN0KIsvvrGU9Fj5A5nhIqBNBCKLz
-X-Gm-Gg: ASbGncstIAZJzTgTkZSEWLhCrVd0sPVzVmPyj05II2Abqxq2zi9m4JDt8B2vwBrkEqF
-	ZxQP8+n4eIWEtej/nO+sK1KpvCZk5tZGnA1oOUCgiYEyCQ8NsbaodddiLkZ1RAfNyA/OJLjEx/8
-	NsvABCqxzsgCFYzeYHJTRAh7pLsa+I7pveml0Wwpz+TkpwK4hRyhSNPxzljJQONh+tgZ5IEhpxL
-	BdEJ7esTdZxFFxmlXYzHV3zD9k2SdenUp0gY+hrdbZhIHiyBlEz5pXv+tzxdsDRhStKbvNjOKXX
-	QxWUNOxkUz+gNFUHCWIljdOFSm4gHUV3vd9PS9ISnLsY92glREwp7p7db/ihLxr9j6toc25L1jc
-	xmAwtWhaaxQuSiWas4Q==
-X-Received: by 2002:a5d:5f55:0:b0:424:2275:63c2 with SMTP id ffacd0b85a97d-42557816e2fmr1739111f8f.33.1759305542750;
-        Wed, 01 Oct 2025 00:59:02 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFmThKjj9QWZgUZye0EGBRbRcpzbrXizq8/t5RuSNwiL8WkyRG5/i9RJlh4f2Y+zEs9wXkX5Q==
-X-Received: by 2002:a5d:5f55:0:b0:424:2275:63c2 with SMTP id ffacd0b85a97d-42557816e2fmr1739074f8f.33.1759305542103;
-        Wed, 01 Oct 2025 00:59:02 -0700 (PDT)
+        bh=CTb+HR144WzaCHAGjWTq7YSgDtzJUyYbacPJ6jqxs7k=;
+        b=HF0Z/l+Vk4rm7IC2rCH9tKcsc6MumpDxNeAyRDhlroMbW8yOzR2TrTZGsCbqEIP8Ce
+         LTHMugJFZAAyJtfezjQ+wdW3bjQXGExIggNHscfTsH5Vie692PLVCCRnXMzGbNoJtGM9
+         lGjud2Z7wqzwmIA4d14FvOjt8Jj/XEChhjJf+icEVh/GwiE0VDQJ1UlCT/+UFwGsFdqI
+         88GizA0z4VvDTbzEdEPGS/s5OvDedbKjf5A0hsKqM0VfCmOAPrLKT3RTpqMxibvn/KbD
+         ax6sP04LCIPPkafK0JdTzyZlrlPMOKTzsMMImy0L+P2M/Ah3KlZN1xt37NV+28b3i9FS
+         LqwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVjRFYMOVm9MUW14+bccYOyZgrQcp8kDCpWJDQKkhS+WcRW9B/OCb25zMt6ETFfQX60N1n/8CavNm2f3A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwzEA6OrDLKya+vZY1R7XyRm2Grc3TqJahCoZWgUaxfsz1B53+S
+	Izo/MllsmLgdQRysxpOOlzqwjto09Y3IohHZETJHJ3sN9i+Hw7TOTgpI/AqQJRMu+ep5vpZ7YoV
+	69S5frCEMVYHzkESbCdNDEh46Nr4KOaTF0Teqk8Sf21TLwUq+RpVPp6E57OPW4acq
+X-Gm-Gg: ASbGncttPIPPN5x5j6XX3SimAqo6/YssqiiBvYQkfeHBIisN/gXNWi9CtBproW0aDxB
+	faspZ2jXYeAvfxQAf8Jmrftp3WWEOnPBVk8N/8YZGUcF5ByH9wuJg75Tm4ftgpdKad61hXi9I8J
+	PQth8QMqesaLfGZjDhAh2Spz8NUhYs5VXf7swE/Zkq27fiOm0KgxV57PIQS6cJWNGt4XpmF64oQ
+	H+dpZ6TmYB/PPMfBFLH4YVn4h1xYdJOKDgQAEoGeUZmoyu0/bgl1x7tdGnMFP8bLAHfhD61Wsja
+	DuL+AI1G7fXZO9s3yskfaJWXHaWZu7QC3LSMblkraGix3btCp0+kSz7gO+iY8Ki6eF2y50DOTTS
+	sz2AqhqiZldB7VAAEbg==
+X-Received: by 2002:a05:600c:a404:b0:46e:6339:79d1 with SMTP id 5b1f17b1804b1-46e63397ae5mr11782825e9.5.1759305960538;
+        Wed, 01 Oct 2025 01:06:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFK0k0YsqKjJ0KQb6IWjzPtVVlPN29UZlYbY/QuFx9mxVtSijrKT1lChFjdgZCBijgjZoxIGg==
+X-Received: by 2002:a05:600c:a404:b0:46e:6339:79d1 with SMTP id 5b1f17b1804b1-46e63397ae5mr11782525e9.5.1759305960082;
+        Wed, 01 Oct 2025 01:06:00 -0700 (PDT)
 Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e619a6fc8sm26932675e9.13.2025.10.01.00.59.00
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e5c44bd75sm30723575e9.4.2025.10.01.01.05.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Oct 2025 00:59:01 -0700 (PDT)
-Message-ID: <a1f2c541-01c3-4c02-9caa-d061b1ec81f3@redhat.com>
-Date: Wed, 1 Oct 2025 09:58:59 +0200
+        Wed, 01 Oct 2025 01:05:59 -0700 (PDT)
+Message-ID: <02355e42-9b63-4ea5-a75f-0f4e20323379@redhat.com>
+Date: Wed, 1 Oct 2025 10:05:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -76,10 +76,11 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH net-next v8 2/2] net: stmmac: Add support for Allwinner
  A523 GMAC200
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Jakub Kicinski <kuba@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>,
- Chen-Yu Tsai <wens@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+From: Paolo Abeni <pabeni@redhat.com>
+To: Jakub Kicinski <kuba@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, Chen-Yu Tsai <wens@kernel.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>,
@@ -91,56 +92,47 @@ References: <20250925191600.3306595-1-wens@kernel.org>
  <20250925191600.3306595-3-wens@kernel.org>
  <20250929180804.3bd18dd9@kernel.org> <20250930172022.3a6dd03e@kernel.org>
  <d5aaff54-04dd-4631-847c-a2e9bd5ad038@redhat.com>
- <aNzc17ZW56gLX87v@shell.armlinux.org.uk>
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <aNzc17ZW56gLX87v@shell.armlinux.org.uk>
+In-Reply-To: <d5aaff54-04dd-4631-847c-a2e9bd5ad038@redhat.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 7NSGEPaB0PwOMJw4y4Kj0xT2ip7cZTu0tY-PjJFdm78_1759305543
+X-Mimecast-MFC-PROC-ID: 93FnIiAe3gpMQKw98yPVLEv1AOl4F-LiWhccNdYM39c_1759305961
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 10/1/25 9:48 AM, Russell King (Oracle) wrote:
-> On Wed, Oct 01, 2025 at 09:25:07AM +0200, Paolo Abeni wrote:
->> On 10/1/25 2:20 AM, Jakub Kicinski wrote:
->>> On Mon, 29 Sep 2025 18:08:04 -0700 Jakub Kicinski wrote:
->>>> On Fri, 26 Sep 2025 03:15:59 +0800 Chen-Yu Tsai wrote:
->>>>> The Allwinner A523 SoC family has a second Ethernet controller, called
->>>>> the GMAC200 in the BSP and T527 datasheet, and referred to as GMAC1 for
->>>>> numbering. This controller, according to BSP sources, is fully
->>>>> compatible with a slightly newer version of the Synopsys DWMAC core.
->>>>> The glue layer around the controller is the same as found around older
->>>>> DWMAC cores on Allwinner SoCs. The only slight difference is that since
->>>>> this is the second controller on the SoC, the register for the clock
->>>>> delay controls is at a different offset. Last, the integration includes
->>>>> a dedicated clock gate for the memory bus and the whole thing is put in
->>>>> a separately controllable power domain.  
->>>>
->>>> Hi Andrew, does this look good ?
->>>>
->>>> thread: https://lore.kernel.org/20250925191600.3306595-3-wens@kernel.org
+On 10/1/25 9:25 AM, Paolo Abeni wrote:
+> On 10/1/25 2:20 AM, Jakub Kicinski wrote:
+>> On Mon, 29 Sep 2025 18:08:04 -0700 Jakub Kicinski wrote:
+>>> On Fri, 26 Sep 2025 03:15:59 +0800 Chen-Yu Tsai wrote:
+>>>> The Allwinner A523 SoC family has a second Ethernet controller, called
+>>>> the GMAC200 in the BSP and T527 datasheet, and referred to as GMAC1 for
+>>>> numbering. This controller, according to BSP sources, is fully
+>>>> compatible with a slightly newer version of the Synopsys DWMAC core.
+>>>> The glue layer around the controller is the same as found around older
+>>>> DWMAC cores on Allwinner SoCs. The only slight difference is that since
+>>>> this is the second controller on the SoC, the register for the clock
+>>>> delay controls is at a different offset. Last, the integration includes
+>>>> a dedicated clock gate for the memory bus and the whole thing is put in
+>>>> a separately controllable power domain.  
 >>>
->>> Adding Heiner and Russell, in case Andrew is AFK.
+>>> Hi Andrew, does this look good ?
 >>>
->>> We need an ack from PHY maintainers, the patch seems to be setting
->>> delays regardless of the exact RMII mode. I don't know these things..
+>>> thread: https://lore.kernel.org/20250925191600.3306595-3-wens@kernel.org
 >>
->> The net-next PR is upon us, let's defer even this series to the next cycle.
+>> Adding Heiner and Russell, in case Andrew is AFK.
+>>
+>> We need an ack from PHY maintainers, the patch seems to be setting
+>> delays regardless of the exact RMII mode. I don't know these things..
 > 
-> Would've been nice to have been given the opportunity to respond to
-> Jakub's email before that decision was made. Not all of us are in
-> the US timezone. (Jakub's email came in gone 1am my time.)
+> The net-next PR is upon us, let's defer even this series to the next cycle.
+> 
+> @Chen-Yu Tsai: please re-post it when net-next will reopen after Oct
+> 12th, thanks!
 
-I'm sorry, the time constraint is very strict. The PR is already in
-late. My message's goal was to give you the needed and deserve time for
-reviewing the series, not to pressure you.
+To be clear: given Russell's ack I'm applying the series now, no need to
+repost.
 
-Note that to merge the series at this point I need to undo some of the
-work already done.
-
-Cheers,
+Thanks,
 
 Paolo
-
 
