@@ -1,51 +1,51 @@
 Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B80F274B34
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Oct 2025 07:47:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB03F275854
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Oct 2025 07:48:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759304852; cv=none; b=rxM7tFUxroR4LRdtG9EAdlvi3gRS3nY0qWQMzcLWMiOw76KM5T1ZUrPBxCOg0ToBBzXZqSQVSUwiheOYijZw5wZ8DLs1NSauSCvHpVHuOAQrmXl0KJUYGyS08KGwXcwwJ9EXMGl613oLF0QYQT49eRekjINHhhbqS1ObrSSx3rA=
+	t=1759304936; cv=none; b=ukVFwePx4PqmPV7ZG2WQv/LhNWMz6yB0GJffxyhNpuKHP0Z8gKpBRG3WXhUV0ii4PrLsj2mFB+4cfJU1Ujp7CuC9biSKay9TKUNGn5r/DXI1qCv069dSQk/ko4rS+/qpfj2AZ11EskNZDUqK5roFWQCLuA/fmrtGAKi3fAd4+AY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759304852; c=relaxed/simple;
-	bh=/TXXlcoWRO3uhx6NqU/tasfMOaR1DNWerhS82iCQ4Jk=;
+	s=arc-20240116; t=1759304936; c=relaxed/simple;
+	bh=xanXrnd+paLIxbBH8CYU/83eubfWkVKYzJ5W+YVzdvE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nHQGP1OSERxjW1z6m93nH9/TkrnTKlbMdZlAiNsv42/qQXlEv4vWnJ+dKkBGQMeBx81XrXflUrzzMB6qlwPziFQUYo5YZ6/hwQV1+1xXaH91zmwlRU9Thbt93Htfpr6QeO3dXnZFsxZSzQqYKLWzwcePSDVXisAigXcpMSr8iUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=N1RNaG89; arc=none smtp.client-ip=78.32.30.218
+	 Content-Type:Content-Disposition:In-Reply-To; b=H/da/SrOfYkU9kc8dD3flCdK0YSsU582qcnQA/Ug8w03eFuYlweFuTX9AcVacwLoYKBPBWDkxcq3jBW0fHdNhnYkrUxGQef0vda2HLQzIajn2JJS0CQUNbZKr2xjwjez4CawxknobyRDEcHZHokzwmkmfdBw7qDGZG2x4sJQL5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=EwIHvDe2; arc=none smtp.client-ip=78.32.30.218
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="N1RNaG89"
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="EwIHvDe2"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
 	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=GO9r6nTqLr2tVA0A8M90x9kRo7dOno/9gKwYAl3CwRk=; b=N1RNaG894XdDdK0mI83+kc5Ajm
-	Z8NqCdllVlqLGkDMQ4dDaQxGkmyS7j5adsiRmA6gIj1QMjn7J/ytNoV7fDPBh5WNADhPrAOTgCT/N
-	M9H/35Knojmj2po/LyBnnHKtacH0aLXS+dqXcG3j3MU7vieuRSkEu4P5yUAM/LEnW/tyV8N57ZyUm
-	RtHk1ZzeirzYSdCxuqoP2Zq/oxa9oF6iJA8F/1ZFpv3ZJ88sgCF3+6YQSDDZZ49ewDy3OHSNn1kpd
-	9GgIrVuGpCDeu2FFrlNo/4SQnQ6zEkk2yp5i9w0uCHiOx1Mc9Iq+sIONJ5VzBb1jsC9tRfLTJj6Zk
-	SoCvxfdQ==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:40816)
+	bh=yWirnlgUqsih5agjfKLNMjvXyjJWT1GudlldLMjLJAE=; b=EwIHvDe29Y/0FaTlnyxYT5CQfP
+	ml164IF5wdv/3j8q8YWcPrwHGW20AGyWUk81CksirHPTMUmDpWSwCdnKgTQgpwTJHQJ3rmbs8kOjG
+	YJk8JOGNK3NKp6k8z+j75aCB5paTDJA60bCoHOfI2WMAZMPW3jdoAQeOOaDo5UV8nyCBTtb7Ks+ym
+	oaqe6xR4e1Ne+68rElBtwSwCoEwczUHcu90Oc53yaL6aK6V4upb6MU9zdB+Vb0M/L0ucvLp5u1jQu
+	P3ufPMZ5kg4ImM/9grAYs3aI76n3ovKFV9ll+jH0qj08I875wEveobVBve+PDGx4H4AVQoxagUO7q
+	NM8Uq8Eg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:33724)
 	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.98.2)
 	(envelope-from <linux@armlinux.org.uk>)
-	id 1v3rYN-000000000Aj-0u3G;
-	Wed, 01 Oct 2025 08:47:11 +0100
+	id 1v3rZp-000000000BF-100I;
+	Wed, 01 Oct 2025 08:48:41 +0100
 Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
 	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1v3rYJ-000000005J3-0T0K;
-	Wed, 01 Oct 2025 08:47:07 +0100
-Date: Wed, 1 Oct 2025 08:47:06 +0100
+	id 1v3rZn-000000005JE-3RiQ;
+	Wed, 01 Oct 2025 08:48:39 +0100
+Date: Wed, 1 Oct 2025 08:48:39 +0100
 From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, Chen-Yu Tsai <wens@kernel.org>,
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Chen-Yu Tsai <wens@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
+	Eric Dumazet <edumazet@google.com>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej@kernel.org>,
@@ -56,11 +56,12 @@ Cc: Heiner Kallweit <hkallweit1@gmail.com>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
 Subject: Re: [PATCH net-next v8 2/2] net: stmmac: Add support for Allwinner
  A523 GMAC200
-Message-ID: <aNzcehZ7ALayP48B@shell.armlinux.org.uk>
+Message-ID: <aNzc17ZW56gLX87v@shell.armlinux.org.uk>
 References: <20250925191600.3306595-1-wens@kernel.org>
  <20250925191600.3306595-3-wens@kernel.org>
  <20250929180804.3bd18dd9@kernel.org>
  <20250930172022.3a6dd03e@kernel.org>
+ <d5aaff54-04dd-4631-847c-a2e9bd5ad038@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -69,38 +70,38 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250930172022.3a6dd03e@kernel.org>
+In-Reply-To: <d5aaff54-04dd-4631-847c-a2e9bd5ad038@redhat.com>
 Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Tue, Sep 30, 2025 at 05:20:22PM -0700, Jakub Kicinski wrote:
-> On Mon, 29 Sep 2025 18:08:04 -0700 Jakub Kicinski wrote:
-> > On Fri, 26 Sep 2025 03:15:59 +0800 Chen-Yu Tsai wrote:
-> > > The Allwinner A523 SoC family has a second Ethernet controller, called
-> > > the GMAC200 in the BSP and T527 datasheet, and referred to as GMAC1 for
-> > > numbering. This controller, according to BSP sources, is fully
-> > > compatible with a slightly newer version of the Synopsys DWMAC core.
-> > > The glue layer around the controller is the same as found around older
-> > > DWMAC cores on Allwinner SoCs. The only slight difference is that since
-> > > this is the second controller on the SoC, the register for the clock
-> > > delay controls is at a different offset. Last, the integration includes
-> > > a dedicated clock gate for the memory bus and the whole thing is put in
-> > > a separately controllable power domain.  
+On Wed, Oct 01, 2025 at 09:25:07AM +0200, Paolo Abeni wrote:
+> On 10/1/25 2:20 AM, Jakub Kicinski wrote:
+> > On Mon, 29 Sep 2025 18:08:04 -0700 Jakub Kicinski wrote:
+> >> On Fri, 26 Sep 2025 03:15:59 +0800 Chen-Yu Tsai wrote:
+> >>> The Allwinner A523 SoC family has a second Ethernet controller, called
+> >>> the GMAC200 in the BSP and T527 datasheet, and referred to as GMAC1 for
+> >>> numbering. This controller, according to BSP sources, is fully
+> >>> compatible with a slightly newer version of the Synopsys DWMAC core.
+> >>> The glue layer around the controller is the same as found around older
+> >>> DWMAC cores on Allwinner SoCs. The only slight difference is that since
+> >>> this is the second controller on the SoC, the register for the clock
+> >>> delay controls is at a different offset. Last, the integration includes
+> >>> a dedicated clock gate for the memory bus and the whole thing is put in
+> >>> a separately controllable power domain.  
+> >>
+> >> Hi Andrew, does this look good ?
+> >>
+> >> thread: https://lore.kernel.org/20250925191600.3306595-3-wens@kernel.org
 > > 
-> > Hi Andrew, does this look good ?
+> > Adding Heiner and Russell, in case Andrew is AFK.
 > > 
-> > thread: https://lore.kernel.org/20250925191600.3306595-3-wens@kernel.org
+> > We need an ack from PHY maintainers, the patch seems to be setting
+> > delays regardless of the exact RMII mode. I don't know these things..
 > 
-> Adding Heiner and Russell, in case Andrew is AFK.
+> The net-next PR is upon us, let's defer even this series to the next cycle.
 
-I believe it's fine. Applying the delays irrespective of the RGMII mode
-is what I think needs to be done to allow the delays to be fine-tuned.
-
-The author hsa confirmed that the delays don't apply to RMII, so that
-isn't a concern. So,
-
-Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-
-Thanks!
+Would've been nice to have been given the opportunity to respond to
+Jakub's email before that decision was made. Not all of us are in
+the US timezone. (Jakub's email came in gone 1am my time.)
 
 -- 
 RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
