@@ -1,138 +1,158 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26FD9258CD0
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Oct 2025 08:06:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5BD22A7E5
+	for <linux-sunxi@lists.linux.dev>; Thu,  2 Oct 2025 16:22:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759305966; cv=none; b=uhHZVgu/d3kZjxZc/QzT1sWlrMmG8sJCVYOgYLYqe4ghJvuyLRx47eys0Zqn8y/PMGJ/JVZrUnzL+PTr1Ja+d9ohbli2YLOO6jrR8EF3bvyjDc7Ai2TgfP2JZMECcwyDfOhArtiOvn1g7l9q+wnDeY1fYpj9HXh5+cyWv1os7+8=
+	t=1759422160; cv=none; b=hWVLqqSMHVXuhn9FBRYQfQU3btv8PS1ivSIAFII181hX0BDh3qv/mUBmjhGfe1EMqOwqWZ2vdU3crfWboWLBANVCasSNEfsVHM9b1LO7+8rptpfNYmkqUbykWV3BmA9+kbyajS53eIVYppBo1MYBOo+w+dXD1jQMLasADj458Bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759305966; c=relaxed/simple;
-	bh=5haNAEiXLgQzh1JAlqW9TjWwiFhiqV+0nJNKffjfNHQ=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=oa8w0Ab2T6G2oW4tfr6ARRKdE9a0WGRpB50jK5kj2fD3ltPFzcJarjQQy+J6NJcu7wFiit4Nt48za9MidX4eUvjLRyBwbUFBt+h6RNiHab1UeeQeQyxoApa71B/wQfmX6Y1QlmUhkH+li/jdblaV6bTOcQGVlSZySrRKStfqNwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RYFQvCgB; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1759422160; c=relaxed/simple;
+	bh=HpaP3TCDX68OcDypYmYu4LEO9PSfR4XHL0EswYJIQCs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TY17fSP7HxARDhjIUYE6WAzwOelcTU6axeyGzqR3yXVZn1NsGvY0HfVJ+rPzwvJH3STYdQGvl+fR9yLJozCdwadFw4yQbBlgHhMABWU0Pr0Mp+iQYJr/brJ9SrzPE6eIeXfT4c/0nyErmjVMUMYk6hlpjDH5s4Qcl+IhSBlIaBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CWPxluD4; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RYFQvCgB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1759305963;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CTb+HR144WzaCHAGjWTq7YSgDtzJUyYbacPJ6jqxs7k=;
-	b=RYFQvCgBjvCWTmhmfO/Zp0FOLy7LUsBpTSlTXh554mEkorTULdlw9ZIY2hjQRR6//lwhQ7
-	b46x26+aN6YKsm2iGaYeG/abR7LdruBNYFtKQJSjSHaO0MJ+7CaeNaqVZktiLcWOVb677G
-	26CrlheO5qw8Ze+v+OfeyI81cVq/fng=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-654-rHgE3WJqMrOc3CKrHGDtng-1; Wed, 01 Oct 2025 04:06:01 -0400
-X-MC-Unique: rHgE3WJqMrOc3CKrHGDtng-1
-X-Mimecast-MFC-AGG-ID: rHgE3WJqMrOc3CKrHGDtng_1759305961
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-46e3d9bf9e1so28731515e9.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 01 Oct 2025 01:06:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CWPxluD4"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2698384978dso8722895ad.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 02 Oct 2025 09:22:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759422158; x=1760026958; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2LbxYgnEojJ93c8rsOWf/bBt3bhhAFbsmGgZt+eHULs=;
+        b=CWPxluD4zP6zgtVdM0tT7BsA1dGP2riGNcu0kALhrNjYavsOjbUVskZ95Hl2i5dpU+
+         bd3+KG6O29C0FWq4s8V0ZxzdQrukPPu5QIcj7wyhwrYXWj57zP4pxsoTkMSxFvgMEr9x
+         ty8M+X607kqUw5u5XtmJRlqmRK80KcXkN1rFXzWSdNw5SlA7s1PE6nMDGhsxOR9dR4An
+         ZKIwkelELPd/Y0KTDb5LN3Y5gOeSbOoHaiSr1cuLOgeq9BP1pRh/tpTlh0B1F49HJ62z
+         5UxRFWX8CcBqJE7+BqwLVJodPnWZoMTVucyNwho5Dq/BZKWfcRzoW+KbAvm4eZEmvmmJ
+         Ylsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759305960; x=1759910760;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CTb+HR144WzaCHAGjWTq7YSgDtzJUyYbacPJ6jqxs7k=;
-        b=HF0Z/l+Vk4rm7IC2rCH9tKcsc6MumpDxNeAyRDhlroMbW8yOzR2TrTZGsCbqEIP8Ce
-         LTHMugJFZAAyJtfezjQ+wdW3bjQXGExIggNHscfTsH5Vie692PLVCCRnXMzGbNoJtGM9
-         lGjud2Z7wqzwmIA4d14FvOjt8Jj/XEChhjJf+icEVh/GwiE0VDQJ1UlCT/+UFwGsFdqI
-         88GizA0z4VvDTbzEdEPGS/s5OvDedbKjf5A0hsKqM0VfCmOAPrLKT3RTpqMxibvn/KbD
-         ax6sP04LCIPPkafK0JdTzyZlrlPMOKTzsMMImy0L+P2M/Ah3KlZN1xt37NV+28b3i9FS
-         LqwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVjRFYMOVm9MUW14+bccYOyZgrQcp8kDCpWJDQKkhS+WcRW9B/OCb25zMt6ETFfQX60N1n/8CavNm2f3A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwzEA6OrDLKya+vZY1R7XyRm2Grc3TqJahCoZWgUaxfsz1B53+S
-	Izo/MllsmLgdQRysxpOOlzqwjto09Y3IohHZETJHJ3sN9i+Hw7TOTgpI/AqQJRMu+ep5vpZ7YoV
-	69S5frCEMVYHzkESbCdNDEh46Nr4KOaTF0Teqk8Sf21TLwUq+RpVPp6E57OPW4acq
-X-Gm-Gg: ASbGncttPIPPN5x5j6XX3SimAqo6/YssqiiBvYQkfeHBIisN/gXNWi9CtBproW0aDxB
-	faspZ2jXYeAvfxQAf8Jmrftp3WWEOnPBVk8N/8YZGUcF5ByH9wuJg75Tm4ftgpdKad61hXi9I8J
-	PQth8QMqesaLfGZjDhAh2Spz8NUhYs5VXf7swE/Zkq27fiOm0KgxV57PIQS6cJWNGt4XpmF64oQ
-	H+dpZ6TmYB/PPMfBFLH4YVn4h1xYdJOKDgQAEoGeUZmoyu0/bgl1x7tdGnMFP8bLAHfhD61Wsja
-	DuL+AI1G7fXZO9s3yskfaJWXHaWZu7QC3LSMblkraGix3btCp0+kSz7gO+iY8Ki6eF2y50DOTTS
-	sz2AqhqiZldB7VAAEbg==
-X-Received: by 2002:a05:600c:a404:b0:46e:6339:79d1 with SMTP id 5b1f17b1804b1-46e63397ae5mr11782825e9.5.1759305960538;
-        Wed, 01 Oct 2025 01:06:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFK0k0YsqKjJ0KQb6IWjzPtVVlPN29UZlYbY/QuFx9mxVtSijrKT1lChFjdgZCBijgjZoxIGg==
-X-Received: by 2002:a05:600c:a404:b0:46e:6339:79d1 with SMTP id 5b1f17b1804b1-46e63397ae5mr11782525e9.5.1759305960082;
-        Wed, 01 Oct 2025 01:06:00 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e5c44bd75sm30723575e9.4.2025.10.01.01.05.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Oct 2025 01:05:59 -0700 (PDT)
-Message-ID: <02355e42-9b63-4ea5-a75f-0f4e20323379@redhat.com>
-Date: Wed, 1 Oct 2025 10:05:58 +0200
+        d=1e100.net; s=20230601; t=1759422158; x=1760026958;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2LbxYgnEojJ93c8rsOWf/bBt3bhhAFbsmGgZt+eHULs=;
+        b=RT8vvk25Sy1gL98mGJsoH/Jf6x0HYIIpeuUnDCtLuymVJGjoGQE9k7feVi7WQucxrU
+         GNKEwMoh6jwleHnJGECS08qz8Esz+dEnWGmnhYhvo9kAR3LVZb+DgiHGmun7By7wVv0H
+         7ULVvc2poceVBWUljw3JZEhLEgFWPBcu5dyAvi+MQaVBXoHCI44Qfv8Qs33kw07fCM97
+         z4IhntZmdMdFP44tkeA6XXCIhrwlf958BcMCUZHGU+y5We4iliHZyUseVGKtPMXvJ9v+
+         lyWpCKLFVkpOt3BZ13DkI9vWDRALidLjfctag1A3nrlNCUt7ARSHn8WWa0GGU+2sLd/q
+         PRhA==
+X-Forwarded-Encrypted: i=1; AJvYcCXoSRIZ5QhKKXqb/KVqNEL19cZI245CEuFsSfkwkcjb2GJPLQbo8LFxcnMht4f97pZupLP4aGso9wY/NA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzgOW2L89CXhdrZo6WoULgy/VB3kacLwM3PJIeBekAj+CuNIyUr
+	I7JiNy2GD4JV9n++2eNdLwmGDf1Xzj/K5zwV5xrAKt0QZPVvLWLlIgu7gfkmwCSJ150MSGlRiHO
+	ov3Fya499u1DuUfkCBEdIKGWuRzWPXsI=
+X-Gm-Gg: ASbGncv7z6q4sCFdpjPMgw6tRVvij/3in21IfvhvV0/Tjd921DogzWODfWiyV6vl+nY
+	w20hU8Je8f8D+8Q5/EIc6Lgz5HIF7KY9k9gsjvJ2GmctGLFxe2clVyr3oMOrhxru7yeW675C71N
+	EUvvf7Smbg42yOOM65NCHyIxpa6oCBUx4Sgm2a1bnMjgFXz4b3mcufVJkvkQ+Unrb1XdxkPlWbp
+	kvleQxrO689sRUu1aLP8ZBzQuXbDy0=
+X-Google-Smtp-Source: AGHT+IGRvLPIfPId+ThviLGcDguWvaiXYJhGL7lLP2ZYkgJ5H9fCJdaZmo7Lu2lqeUHQNIJJrKq42s7JgSMOk7shsiY=
+X-Received: by 2002:a17:903:2ece:b0:275:81ca:2c5 with SMTP id
+ d9443c01a7336-28e7f47a3f2mr86332225ad.59.1759422158111; Thu, 02 Oct 2025
+ 09:22:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v8 2/2] net: stmmac: Add support for Allwinner
- A523 GMAC200
-From: Paolo Abeni <pabeni@redhat.com>
-To: Jakub Kicinski <kuba@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Chen-Yu Tsai <wens@kernel.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>,
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-References: <20250925191600.3306595-1-wens@kernel.org>
- <20250925191600.3306595-3-wens@kernel.org>
- <20250929180804.3bd18dd9@kernel.org> <20250930172022.3a6dd03e@kernel.org>
- <d5aaff54-04dd-4631-847c-a2e9bd5ad038@redhat.com>
-In-Reply-To: <d5aaff54-04dd-4631-847c-a2e9bd5ad038@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 93FnIiAe3gpMQKw98yPVLEv1AOl4F-LiWhccNdYM39c_1759305961
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250819131752.86948-2-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20250819131752.86948-2-krzysztof.kozlowski@linaro.org>
+From: ChaosEsque Team <chaosesqueteam@gmail.com>
+Date: Thu, 2 Oct 2025 12:27:35 -0400
+X-Gm-Features: AS18NWDLQ6hD1LnWbuZES13_YjRj4m-0ztzOfBvznDKgHuJ8g5udlLpfwGDslIY
+Message-ID: <CALC8CXf+FJDcYLr4NwZMesa0kaPABw4j5Jy1bOU3XX7UJ1VcqA@mail.gmail.com>
+Subject: Re: [PATCH] ARM: dts: allwinner: Minor whitespace cleanup
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/1/25 9:25 AM, Paolo Abeni wrote:
-> On 10/1/25 2:20 AM, Jakub Kicinski wrote:
->> On Mon, 29 Sep 2025 18:08:04 -0700 Jakub Kicinski wrote:
->>> On Fri, 26 Sep 2025 03:15:59 +0800 Chen-Yu Tsai wrote:
->>>> The Allwinner A523 SoC family has a second Ethernet controller, called
->>>> the GMAC200 in the BSP and T527 datasheet, and referred to as GMAC1 for
->>>> numbering. This controller, according to BSP sources, is fully
->>>> compatible with a slightly newer version of the Synopsys DWMAC core.
->>>> The glue layer around the controller is the same as found around older
->>>> DWMAC cores on Allwinner SoCs. The only slight difference is that since
->>>> this is the second controller on the SoC, the register for the clock
->>>> delay controls is at a different offset. Last, the integration includes
->>>> a dedicated clock gate for the memory bus and the whole thing is put in
->>>> a separately controllable power domain.  
->>>
->>> Hi Andrew, does this look good ?
->>>
->>> thread: https://lore.kernel.org/20250925191600.3306595-3-wens@kernel.org
->>
->> Adding Heiner and Russell, in case Andrew is AFK.
->>
->> We need an ack from PHY maintainers, the patch seems to be setting
->> delays regardless of the exact RMII mode. I don't know these things..
-> 
-> The net-next PR is upon us, let's defer even this series to the next cycle.
-> 
-> @Chen-Yu Tsai: please re-post it when net-next will reopen after Oct
-> 12th, thanks!
+KRZYSZTOF KOZLOWSKI... So... Kyrgastani Polish guy?
+Doesn't sound Russkie. Bet the ethnic Russians (Rysskiy) oppress your
+ancestors. Who had to just TAKE IT. How does that make you feel?
 
-To be clear: given Russell's ack I'm applying the series now, no need to
-repost.
-
-Thanks,
-
-Paolo
-
+On Tue, Aug 19, 2025 at 9:25=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> The DTS code coding style expects exactly one space around '=3D' or '{'
+> characters.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  arch/arm/boot/dts/allwinner/sun4i-a10-olinuxino-lime.dts  | 2 +-
+>  arch/arm/boot/dts/allwinner/sun8i-q8-common.dtsi          | 2 +-
+>  arch/arm/boot/dts/allwinner/sun8i-r40.dtsi                | 2 +-
+>  arch/arm/boot/dts/allwinner/sun8i-v3s-netcube-kumquat.dts | 2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/arch/arm/boot/dts/allwinner/sun4i-a10-olinuxino-lime.dts b/a=
+rch/arm/boot/dts/allwinner/sun4i-a10-olinuxino-lime.dts
+> index 83d283cf6633..d425d9ee83db 100644
+> --- a/arch/arm/boot/dts/allwinner/sun4i-a10-olinuxino-lime.dts
+> +++ b/arch/arm/boot/dts/allwinner/sun4i-a10-olinuxino-lime.dts
+> @@ -218,7 +218,7 @@ &usb_otg {
+>  &usbphy {
+>         usb0_id_det-gpios =3D <&pio 7 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)=
+>; /* PH4 */
+>         usb0_vbus_det-gpios =3D <&pio 7 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_U=
+P)>; /* PH5 */
+> -       usb0_vbus-supply   =3D <&reg_usb0_vbus>;
+> +       usb0_vbus-supply =3D <&reg_usb0_vbus>;
+>         usb1_vbus-supply =3D <&reg_usb1_vbus>;
+>         usb2_vbus-supply =3D <&reg_usb2_vbus>;
+>         status =3D "okay";
+> diff --git a/arch/arm/boot/dts/allwinner/sun8i-q8-common.dtsi b/arch/arm/=
+boot/dts/allwinner/sun8i-q8-common.dtsi
+> index 272584881bb2..a0f787581dd9 100644
+> --- a/arch/arm/boot/dts/allwinner/sun8i-q8-common.dtsi
+> +++ b/arch/arm/boot/dts/allwinner/sun8i-q8-common.dtsi
+> @@ -82,7 +82,7 @@ &de {
+>  };
+>
+>  &ehci0 {
+> -       status  =3D "okay";
+> +       status =3D "okay";
+>  };
+>
+>  &mmc1 {
+> diff --git a/arch/arm/boot/dts/allwinner/sun8i-r40.dtsi b/arch/arm/boot/d=
+ts/allwinner/sun8i-r40.dtsi
+> index fa162f7fa9f0..f0ed802a9d08 100644
+> --- a/arch/arm/boot/dts/allwinner/sun8i-r40.dtsi
+> +++ b/arch/arm/boot/dts/allwinner/sun8i-r40.dtsi
+> @@ -705,7 +705,7 @@ uart2_pi_pins: uart2-pi-pins {
+>                         };
+>
+>                         /omit-if-no-ref/
+> -                       uart2_rts_cts_pi_pins: uart2-rts-cts-pi-pins{
+> +                       uart2_rts_cts_pi_pins: uart2-rts-cts-pi-pins {
+>                                 pins =3D "PI16", "PI17";
+>                                 function =3D "uart2";
+>                         };
+> diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s-netcube-kumquat.dts b/=
+arch/arm/boot/dts/allwinner/sun8i-v3s-netcube-kumquat.dts
+> index 5143cb4e7b78..cb6292319f39 100644
+> --- a/arch/arm/boot/dts/allwinner/sun8i-v3s-netcube-kumquat.dts
+> +++ b/arch/arm/boot/dts/allwinner/sun8i-v3s-netcube-kumquat.dts
+> @@ -29,7 +29,7 @@ chosen {
+>         clk_can0: clock-can0 {
+>                 compatible =3D "fixed-clock";
+>                 #clock-cells =3D <0>;
+> -               clock-frequency  =3D <40000000>;
+> +               clock-frequency =3D <40000000>;
+>         };
+>
+>         gpio-keys {
+> --
+> 2.48.1
+>
+>
