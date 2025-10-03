@@ -1,172 +1,67 @@
-Received: from fra-out-003.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-003.esa.eu-central-1.outbound.mail-perimeter.amazon.com [3.72.182.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C31192B84;
-	Fri,  3 Oct 2025 13:03:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=3.72.182.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2540319CCEC;
+	Fri,  3 Oct 2025 13:03:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759496592; cv=none; b=dwENLYL7nqVaKxyp+f5oRG0YXd6MQmFejpMGnud0orNCE0OS6o1QPR/g/FLG+/ote8I/8qbRIYIdszuVfQn8uafSHEsHgDFqB355NIu8InhaYGTuMNe7p2QA/UdvRv7kYA3Ko33IdgqpE3RIlnWhiRHvuBuSl6PniEQvZe8sE+s=
+	t=1759496607; cv=none; b=Ln+FjE/0LpdSWJsIqd2srnZWG9yVMoPk38nci5/ACvxTh+M3VSflOPePCdp/KVLWuCAEZSH+kiNCSEsoDjK+e05fIttZUemswHkcs/2YSzZI67asI0y9IuPZr/X69qyx/mAqvkoKYecQzTPZcuWM+bbqOdcHHxI3pUDN8KfdO3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759496592; c=relaxed/simple;
-	bh=c8CkUW1Wymk66rGG5tsvWtIDgSEWGpXx8+69cD8zAvI=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QBeXof/vSE3qR5GpNfZVsNaM9ENAR+wmMRiy+HKqwAXqkFAYUFPvoAPps12ezfaeXi2zPnxrQtBBSGQYqKcZAEJ21yNRb/RhqgBkAxX1AaceQQb/1f5XCJ2PmIt4VmCiMgr4fnDA05Sj4tKDat/knsjG6K2AqVwP+YeVMJHV3UQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=ONLuCUo7; arc=none smtp.client-ip=3.72.182.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	s=arc-20240116; t=1759496607; c=relaxed/simple;
+	bh=Gd7Oq5ZU+13w8PNpzBPg8aE98Rba9qJgv1pDoDLal7Q=;
+	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=VJG5iK+hsUEfXg2vxKllNH8vZPNyveMiSak3uBp4W5LvaOkXTHDP7p+FvzYWEn9N8jvdvobKeowXtCYeEhqVVt5g+rvO/l4LVhLeCOqKeorMfG8KFySJzIAqN+Osycv4TF0eNs/vYT2sIERe4OqmYydnlQv2RV+dBzS4w2RT33k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tfbXoc6i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="ONLuCUo7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1759496590; x=1791032590;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=jvk2RBzXwrA99Hwxay/jSQlk3gLjsVti9lJHvH/pTPQ=;
-  b=ONLuCUo71OqpN0mVMHq17OOMi/5xeVksbpuu43zxK53ZTplFCg3YwF4s
-   9DI1KAKpiS6ajfnBQwJpaGrj0E+bBBnPouBz3Jc038G45Ll2iK2COf6Wy
-   WlBUayQ5sFzHyTQfb4CdIyTKVEQntwu+O28FSaXNPe7+eC0XBZYfQlySG
-   GweCL6mNUVBnkyHigQTbD4iGFxKv64GUAVUE0x/1P4JBdClkgFbDfeB/b
-   GZoh/R663z3KGhBOt44vVNmRryqnKjDLYiBrXk9ncEdHcanyxpsXPt96L
-   innUxct6549292HNjciQipA2xH57kI61IM17q/Z/Gs8dbACfbHEYE9dyS
-   Q==;
-X-CSE-ConnectionGUID: MwIUxTVmTm2YN8SyUS1pbQ==
-X-CSE-MsgGUID: jal+YITiTyelbtfVkZKBgg==
-X-IronPort-AV: E=Sophos;i="6.18,312,1751241600"; 
-   d="scan'208";a="3064009"
-Received: from ip-10-6-11-83.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.11.83])
-  by internal-fra-out-003.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 13:02:59 +0000
-Received: from EX19MTAEUC001.ant.amazon.com [54.240.197.225:7814]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.44.161:2525] with esmtp (Farcaster)
- id 64d906d2-0ad8-49c2-b23a-b923a61bb69a; Fri, 3 Oct 2025 13:02:59 +0000 (UTC)
-X-Farcaster-Flow-ID: 64d906d2-0ad8-49c2-b23a-b923a61bb69a
-Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
- EX19MTAEUC001.ant.amazon.com (10.252.51.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Fri, 3 Oct 2025 13:02:57 +0000
-Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
- (172.19.116.181) by EX19D018EUA004.ant.amazon.com (10.252.50.85) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Fri, 3 Oct 2025
- 13:02:31 +0000
-From: Eliav Farber <farbere@amazon.com>
-To: <gregkh@linuxfoundation.org>, <jdike@addtoit.com>, <richard@nod.at>,
-	<anton.ivanov@cambridgegreys.com>, <dave.hansen@linux.intel.com>,
-	<luto@kernel.org>, <peterz@infradead.org>, <tglx@linutronix.de>,
-	<mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>, <hpa@zytor.com>,
-	<tony.luck@intel.com>, <qiuxu.zhuo@intel.com>, <james.morse@arm.com>,
-	<rric@kernel.org>, <airlied@linux.ie>, <daniel@ffwll.ch>,
-	<maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
-	<tzimmermann@suse.de>, <robdclark@gmail.com>, <sean@poorly.run>,
-	<jdelvare@suse.com>, <linux@roeck-us.net>, <linus.walleij@linaro.org>,
-	<dmitry.torokhov@gmail.com>, <maz@kernel.org>, <wens@csie.org>,
-	<jernej.skrabec@gmail.com>, <agk@redhat.com>, <snitzer@redhat.com>,
-	<dm-devel@redhat.com>, <davem@davemloft.net>, <kuba@kernel.org>,
-	<mcoquelin.stm32@gmail.com>, <krzysztof.kozlowski@canonical.com>,
-	<malattia@linux.it>, <hdegoede@redhat.com>, <mgross@linux.intel.com>,
-	<jejb@linux.ibm.com>, <martin.petersen@oracle.com>,
-	<sakari.ailus@linux.intel.com>, <clm@fb.com>, <josef@toxicpanda.com>,
-	<dsterba@suse.com>, <jack@suse.com>, <tytso@mit.edu>,
-	<adilger.kernel@dilger.ca>, <dushistov@mail.ru>,
-	<luc.vanoostenryck@gmail.com>, <rostedt@goodmis.org>, <pmladek@suse.com>,
-	<senozhatsky@chromium.org>, <andriy.shevchenko@linux.intel.com>,
-	<linux@rasmusvillemoes.dk>, <minchan@kernel.org>, <ngupta@vflare.org>,
-	<akpm@linux-foundation.org>, <yoshfuji@linux-ipv6.org>, <dsahern@kernel.org>,
-	<pablo@netfilter.org>, <kadlec@netfilter.org>, <fw@strlen.de>,
-	<jmaloy@redhat.com>, <ying.xue@windriver.com>, <shuah@kernel.org>,
-	<willy@infradead.org>, <farbere@amazon.com>, <sashal@kernel.org>,
-	<quic_akhilpo@quicinc.com>, <ruanjinjie@huawei.com>,
-	<David.Laight@ACULAB.COM>, <herve.codina@bootlin.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-um@lists.infradead.org>, <linux-edac@vger.kernel.org>,
-	<amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
-	<linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
-	<linux-hwmon@vger.kernel.org>, <linux-input@vger.kernel.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-media@vger.kernel.org>,
-	<netdev@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
-	<platform-driver-x86@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
-	<linux-staging@lists.linux.dev>, <linux-btrfs@vger.kernel.org>,
-	<linux-ext4@vger.kernel.org>, <linux-sparse@vger.kernel.org>,
-	<linux-mm@kvack.org>, <netfilter-devel@vger.kernel.org>,
-	<coreteam@netfilter.org>, <tipc-discussion@lists.sourceforge.net>,
-	<linux-kselftest@vger.kernel.org>, <stable@vger.kernel.org>
-CC: Linus Torvalds <torvalds@linux-foundation.org>, Lorenzo Stoakes
-	<lorenzo.stoakes@oracle.com>, David Laight <David.Laight@aculab.com>
-Subject: [PATCH v2 05/19 5.15.y] minmax: avoid overly complicated constant expressions in VM code
-Date: Fri, 3 Oct 2025 12:59:52 +0000
-Message-ID: <20251003130006.41681-6-farbere@amazon.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251003130006.41681-1-farbere@amazon.com>
-References: <20251003130006.41681-1-farbere@amazon.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tfbXoc6i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21C28C4CEFB;
+	Fri,  3 Oct 2025 13:03:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759496605;
+	bh=Gd7Oq5ZU+13w8PNpzBPg8aE98Rba9qJgv1pDoDLal7Q=;
+	h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+	b=tfbXoc6iH2ebCBIYmywEqOfOL/br7+yO0pTJ1zHz+lzYWI4OM+43mHTAer5bdl6eg
+	 343HXDFp8oVnTSn8W9v8ePX8PQuPAVggFPOOjvqRHK8W1/a5+tX5Z99Z8NtRsS0kmz
+	 0rPGKsA0kInxjb1wqWndhnavSx5EzOMBYz2157XwoNY11ApGGHNWOfdsI5pxfqT6si
+	 bfiokh0TN7SjphfFMa9UP3cx5TsWqeAtHZZuuLnY6j0b5bKV8GnrrMk7LDMbhHnwfj
+	 Gr1hossT+lKhqL09Zkl7sCKn3mvSr4Oc1TuqCYPItKtmSstLQM2bhWrZ+ihVaTNDfp
+	 2sbvGsJMbhn8g==
+Message-ID: <795f1dc6b340cc75c40c957ef8d38b0d@kernel.org>
+Date: Fri, 03 Oct 2025 13:03:22 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
+Subject: Re: [PATCH v2 1/9] drm/display: hdmi-state-helpers: warn on
+ unsupported InfoFrame types
+In-Reply-To: <20250928-limit-infoframes-2-v2-1-6f8f5fd04214@oss.qualcomm.com>
+References: <20250928-limit-infoframes-2-v2-1-6f8f5fd04214@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, "Abhinav
+ Kumar" <abhinav.kumar@linux.dev>, "Andrzej Hajda" <andrzej.hajda@intel.com>, "Andy
+ Yan" <andy.yan@rock-chips.com>, "David Airlie" <airlied@gmail.com>, "Dmitry
+ Baryshkov" <lumag@kernel.org>, =?utf-8?b?SGVpa28gU3TDvGJuZXI=?= <heiko@sntech.de>, "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>, "Jessica Zhang" <jessica.zhang@oss.qualcomm.com>, "Jonas
+ Karlman" <jonas@kwiboo.se>, "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Liu
+ Ying" <victor.liu@nxp.com>, "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Marijn
+ Suijten" <marijn.suijten@somainline.org>, "Maxime Ripard" <mripard@kernel.org>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>, "Rob Clark" <robin.clark@oss.qualcomm.com>, "Robert
+ Foss" <rfoss@kernel.org>, "Samuel Holland" <samuel@sholland.org>, "Sandy
+ Huang" <hjc@rock-chips.com>, "Sean Paul" <sean@poorly.run>, "Simona Vetter" <simona@ffwll.ch>, "Thomas
+ Zimmermann" <tzimmermann@suse.de>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D043UWA002.ant.amazon.com (10.13.139.53) To
- EX19D018EUA004.ant.amazon.com (10.252.50.85)
 
-From: Linus Torvalds <torvalds@linux-foundation.org>
+On Sun, 28 Sep 2025 11:24:46 +0300, Dmitry Baryshkov wrote:
+> In preparation to tightening driver control over generated InfoFrames,
+> make sure to warn the user if the driver rejects the InfoFrames on the
+> grounds of it being unsupported.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> 
+> [ ... ]
 
-[ Upstream commit 3a7e02c040b130b5545e4b115aada7bacd80a2b6 ]
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
-The minmax infrastructure is overkill for simple constants, and can
-cause huge expansions because those simple constants are then used by
-other things.
-
-For example, 'pageblock_order' is a core VM constant, but because it was
-implemented using 'min_t()' and all the type-checking that involves, it
-actually expanded to something like 2.5kB of preprocessor noise.
-
-And when that simple constant was then used inside other expansions:
-
-  #define pageblock_nr_pages      (1UL << pageblock_order)
-  #define pageblock_start_pfn(pfn)  ALIGN_DOWN((pfn), pageblock_nr_pages)
-
-and we then use that inside a 'max()' macro:
-
-	case ISOLATE_SUCCESS:
-		update_cached = false;
-		last_migrated_pfn = max(cc->zone->zone_start_pfn,
-			pageblock_start_pfn(cc->migrate_pfn - 1));
-
-the end result was that one statement expanding to 253kB in size.
-
-There are probably other cases of this, but this one case certainly
-stood out.
-
-I've added 'MIN_T()' and 'MAX_T()' macros for this kind of "core simple
-constant with specific type" use.  These macros skip the type checking,
-and as such need to be very sparingly used only for obvious cases that
-have active issues like this.
-
-Reported-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Link: https://lore.kernel.org/all/36aa2cad-1db1-4abf-8dd2-fb20484aabc3@lucifer.local/
-Cc: David Laight <David.Laight@aculab.com>
-Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Eliav Farber <farbere@amazon.com>
----
- include/linux/minmax.h | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/include/linux/minmax.h b/include/linux/minmax.h
-index 2ec559284a9f..a7ef65f78933 100644
---- a/include/linux/minmax.h
-+++ b/include/linux/minmax.h
-@@ -270,4 +270,11 @@ static inline bool in_range32(u32 val, u32 start, u32 len)
- #define swap(a, b) \
- 	do { typeof(a) __tmp = (a); (a) = (b); (b) = __tmp; } while (0)
- 
-+/*
-+ * Use these carefully: no type checking, and uses the arguments
-+ * multiple times. Use for obvious constants only.
-+ */
-+#define MIN_T(type,a,b) __cmp(min,(type)(a),(type)(b))
-+#define MAX_T(type,a,b) __cmp(max,(type)(a),(type)(b))
-+
- #endif	/* _LINUX_MINMAX_H */
--- 
-2.47.3
-
+Thanks!
+Maxime
