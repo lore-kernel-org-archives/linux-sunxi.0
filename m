@@ -1,87 +1,50 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B5818A956
-	for <linux-sunxi@lists.linux.dev>; Sun,  5 Oct 2025 06:38:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 017D7288C2A
+	for <linux-sunxi@lists.linux.dev>; Sun,  5 Oct 2025 16:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759646317; cv=none; b=VKzn7GnYVMs/OOMHYgafA13sbWzhv1rzmnGLfB+ThlWZADEZmcUe+itH6lGFp+ZP87ouwuSIGqrROQz4ODyWz+ytYQYiQN2URtJ+KbGaJDFQpo20AyED5HMC/fdQVs/2qK+7nmJuCMDqG5jiYtOBwZD1nYDdyC2FHcdePA8owsk=
+	t=1759681019; cv=none; b=lk9gRpobrdh03RU5dyMpTNVgoxrcuuanODYVUzDg+ZxbAxrJiJD+Yfp55c/SAvOGiCErX5AA839vkDAKU2vJVr1dZ3zA23FRAw9X5KI/c8/J1WIWUz83aqNV2OzNMI+ZjLEhny28KlVA5LN4EvX7DpSTPdGMHQlbW+c2Ss4cq5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759646317; c=relaxed/simple;
-	bh=8LGtkA1Fsv4KuMAbGY2gjAZt8ua9M0SWQiKLf/6kRcM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qycsy+t3lcW2VlPRtRViPqCYDJrv5/uMN+YnBJeh53UKKJAw9GsvhUOe8y6WVmhLW9Dwa6paRBE0rMSXzFuNnhyFsdsDSFyHUTSxa5dQSOWlBcCx9jjOVnJdN4zp4ZzMEUEiOkFCi0vgYtIriO1kdZ7Uel4S3QRCwlFlQ9YoJJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D4ht4iNq; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D4ht4iNq"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-46e430494ccso22004255e9.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 04 Oct 2025 23:38:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759646314; x=1760251114; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b2VZ7EfE9AUggSem9zhcRWBhzrHYADLpTsqQqot4tQ8=;
-        b=D4ht4iNqsOPjaKqnaxO/iVHReHiPSQYQNWYqJX+TZUMQvtO7+/BSfzCFu/17XGkKLN
-         4kVt9uq3+C6kvcdV7D78QT8IWK9q6x8wmobGBvnTi6mQfE1cHPbXuLUScx3Ml3dvkrVh
-         5sFsALEOEkmd7nZWZ1Kn09ZwvQ7UjsVNDANWOFg74tvT3brGsLvxGXn+4SmuJ0nKaQoW
-         iReNebSJzCjRW2Vf+uQTuAMS3A74Sely9eD1vw5I+UBufxg9a4lqZWvvtY+X7KPFnmYc
-         AtzqerQQGPhS1/eDvWaKFuNS4gF6YDhoMycwWJnyP8mdhCJ/a4DZ88CNrZZwZi+mlj/d
-         tPYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759646314; x=1760251114;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b2VZ7EfE9AUggSem9zhcRWBhzrHYADLpTsqQqot4tQ8=;
-        b=pJGwWUgORmUOfkA9t72SmrThhZyWVqgKjCerigC8ghpkvPJwxmb2FzxAFeUUrbKVB3
-         YoToZXoBCPyj8b/M5W5Zr2e3LG3bYKg7aDDbGKQTPAkvEj+7XzM9XKlvz2A0Bi+6n40h
-         9PFJGTYXFYnpyBXRKRh5Qkms0MSG8TiRwfxeRfyFNuPf+E52vAty/etSKqUsKERZKit9
-         riXiVIHgq0VY13L2sl9vx0npeRl+SXbHVpNNH++ZPsgluK2K19Bxk4mUtW70FI9qnmOC
-         Z/jTXig5ecAPkFsKaohbIkru31Ak2Zs+y8F6mC/xPVKraTjjOPCVunxDiE6Szr3AuIWm
-         0tqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVDRFydvb9gfsfXW1GVaenJbEqliHuiUc2Z2wpNMG39IQsfhQOLYh0Lf17g0bqU7T3NrAUrxfU/ol/yAQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwAQ46D0AtzNE+Ht2iC4HhpXExZ9fBi8NPnBIFxwPXTptnRO5Jj
-	Vw2uEdXszemunN7TWVgWAmLb81cGDyl118556DqLlS7VnrB3HMMUAys6
-X-Gm-Gg: ASbGnctjms3yeHWAiDa/nDTI+pbxACSrdlylTkzv6heK8mToelh9v/AryPUc7zzOyRF
-	IoxiH4Rtlh6rXPkUQ2GBrRpmDapKsJdXI/PlrzR4Q6sQ0QV843BxQmd7snKYFkMb9tn1aAOKFxv
-	B6lweDcMgxSKcDmksTeIt/59pQsblA+g+s17TFwbjcEcKC46H6n1fU9OH8AgarXI0aNWFcmiG5V
-	2XTGVibJiP3pGSulVbkHidMgvY0qAZnRb2tfo+9ema9GABhNRiwv5fmxjqOzzZPYWcsF4U9ykFW
-	bFt55TVsjv914bHT5iJ61BZgssgoF9eJgC+je49TmvTCZ3aN64Ho8+5/k+3KBI+swbz1gWROVtH
-	MhJ4AzgEt+1xQUGTb1MI/JqJHMjYJRqq5EE4XcuaQZ1/5DIdFrCzL/y2wc/w8sYz7i9VK6um5gm
-	0ICioY9v7sJ6TM5FbrSvz2HeDc7xa8
-X-Google-Smtp-Source: AGHT+IEEepuRZbTCL1qHdTwFrRwuVSeeABI6mNBxdPlXeLjcarbbq5KCkmIjoB8PR+tnQKJHPED96w==
-X-Received: by 2002:a05:600c:8409:b0:46e:5aac:54f9 with SMTP id 5b1f17b1804b1-46e7115c89fmr60446995e9.37.1759646313661;
-        Sat, 04 Oct 2025 23:38:33 -0700 (PDT)
-Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4255d8ac750sm15313849f8f.24.2025.10.04.23.38.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Oct 2025 23:38:33 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rudi Horn <dyn-git@rudi-horn.de>, Andre Przywara <andre.przywara@arm.com>
-Cc: u-boot@lists.denx.de, linux-sunxi <linux-sunxi@lists.linux.dev>
+	s=arc-20240116; t=1759681019; c=relaxed/simple;
+	bh=7ujCWKKGI4szmQbONj4wjAVf3f6RMEhyJkxuM/6qbQY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YfBPr19FjgDzQOcVwc3IXoJ8KfG6sM4hcc1o9WEruU+1GKvj0IFQUD49WJPLcdOgZYQyVcEh5RAjs47sdhtz521OvaUsJ/7HUs8/IhGg4jwHquNe47g/wCFVvOk2LHwoKfiqhjiQWP4FaHMHSJ5qrDmDFRO2i8Lx3Ab+LwYI7dI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 00BFF1C14;
+	Sun,  5 Oct 2025 09:16:47 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 518BD3F59E;
+	Sun,  5 Oct 2025 09:16:54 -0700 (PDT)
+Date: Sun, 5 Oct 2025 17:16:35 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+Cc: Rudi Horn <dyn-git@rudi-horn.de>, u-boot@lists.denx.de, linux-sunxi
+ <linux-sunxi@lists.linux.dev>
 Subject: Re: [PATCH] Fix detection of odd memory configurations on sunxi
-Date: Sun, 05 Oct 2025 08:38:32 +0200
-Message-ID: <10731113.nUPlyArG6x@jernej-laptop>
+Message-ID: <20251005171635.1374da9d@minigeek.lan>
 In-Reply-To: <13857032.uLZWGnKmhe@jernej-laptop>
-References:
- <56f44755-fca8-4364-905e-685e79fd1aea@rudi-horn.de>
- <20251005014021.4b1b035a@minigeek.lan> <13857032.uLZWGnKmhe@jernej-laptop>
+References: <56f44755-fca8-4364-905e-685e79fd1aea@rudi-horn.de>
+	<20251005014021.4b1b035a@minigeek.lan>
+	<13857032.uLZWGnKmhe@jernej-laptop>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-Dne nedelja, 5. oktober 2025 ob 08:10:27 Srednjeevropski poletni =C4=8Das j=
-e Jernej =C5=A0krabec napisal(a):
-> Hi Andre!
->=20
+On Sun, 05 Oct 2025 08:10:27 +0200
+Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
+
+Hi,
+
 > Dne nedelja, 5. oktober 2025 ob 02:40:21 Srednjeevropski poletni =C4=8Das=
  je Andre Przywara napisal(a):
 > > On Mon, 11 Aug 2025 09:35:19 +0200
@@ -92,14 +55,14 @@ e Jernej =C5=A0krabec napisal(a):
 > > thanks for sending a patch to address this long-standing issue!
 > >=20
 > > But ... ;-)
-> >=20
+> >  =20
 > > > I encountered a bug where u-boot detects that my OrangePI zero 3 (wit=
 h=20
-> > > 1.5GB) has 2GB and crashes.
+> > > 1.5GB) has 2GB and crashes. =20
 > >=20
 > > As Jernej already said, this is a known limitation: we simply don't
 > > support not-power-of-2 DRAM sizes at the moment.
-> >=20
+> >  =20
 > > > The orangepi u-boot source code contains an additional
 > > > modification in the `mctl_calc_size` which removes a quarter of the=20
 > > > memory the
@@ -110,7 +73,7 @@ h/arm/mach-sunxi/dram_sun50i_h616.c#L1365-L1368
 > > >=20
 > > > I'm not entirely sure if there is some specific logic that applies to=
  this
-> > > modifier, but it does fix the issue on my system.
+> > > modifier, but it does fix the issue on my system. =20
 > >=20
 > > So can someone shed some light on how this is supposed to work? If I
 > > understand the code correctly, it checks for *aliasing* between the
@@ -118,33 +81,25 @@ h/arm/mach-sunxi/dram_sun50i_h616.c#L1365-L1368
 > > would expect a simple write/verify to see if the last quarter of DRAM
 > > is for real, or to check for a known aliasing pattern with this "odd"
 > > setup (as in: last quarter is aliased to first or third quarter or
-> > something), but checking those two words for aliasing seems wrong.
+> > something), but checking those two words for aliasing seems wrong. =20
 >=20
 > Hm... I've never tested this patch on HW, so you might have a point. Stil=
 l,
 > I think testing for aliasing makes sense. Just writing and reading might
 > not be enough due to possible caching (not necessarily in CPU).
 
-I see where the confusion comes from. Rudi tried to replicate OrangePi code
-but inadvertently used function for aliasing check instead of write/verify
-as noticed by Andre.
+Sure, aliasing trumps verifying, but it might be easier to test the
+latter?
 
-While probably using OrangePi approach [1] would work fine, I learned to
-distrust simple write/verify checks, especially when size is only 1 word.
-I would be still more confortable to use current aliasing check, which uses
-16 words check.
-
-Best regards,
-Jernej
-
-[1] https://github.com/orangepi-xunlong/u-boot-orangepi/blob/v2024.01/arch/=
-arm/mach-sunxi/dram_helpers.c#L48-L63
-
->=20
 > I should have some board with non-power-of-2 RAM size somewhere. I'll try
 > to find it and test this.
->=20
-> >=20
+
+I just realised that my Cubie A7A has 12GB(!) of DRAM, so I can actually do
+some experiments here, in U-Boot proper, after boot0 has initialised the DR=
+AM:
+[5912]DRAM SIZE =3D12288 MBytes, para1 =3D a11a, para2 =3D 30001001, dram_t=
+pr13 =3D 10065
+
 > > And indeed the code also fires on a board with 512MB and 4GB, capping
 > > the memory there as well (resulting in 384 MB and 3GB, respectively).
 > > This is somewhat expected, as we never would expect aliasing between
@@ -163,14 +118,29 @@ arm/mach-sunxi/dram_helpers.c#L48-L63
 > >   the DRAM array.
 > >=20
 > > Jernej, do you happen to know how those DRAM chips are organised? Do
-> > they just feature a non-power-of-2 number of rows or columns?
+> > they just feature a non-power-of-2 number of rows or columns? =20
 >=20
 > I don't know details how such chips are organized internally. However,
 > number of rows and columns was never power-of-2.
->=20
+
+Ah right, brain fart on my end, those are of course the exponents in the
+calculation, so result in the eventual power-of-2 number. I then wonder
+where the factor of 3 comes in, are there 6 banks, or 3 ranks (doubt
+that)? I could not find a datasheet of one of those 12Gbit Samsung
+chips yet.
+
 > Btw, I think I saw 3 GB DRAM boards too somewhere, but not sure where.
 > Quick search confirms that 24 Gb DRAM chips also exists, so I would leave
 > this check as general 3/4 size fixup, not limited to any capacity.
+
+Oh, definitely, the only constant here would be the 3/4th. So the plan
+would be to detect some oddity (either through aliasing or because of
+missing DRAM cells at the end), then assume it's 3/4 of the detected
+capacity.
+
+Cheers,
+Andre
+
 >=20
 > >=20
 > > Oh, and also this patch was heavily malformed - line breaks and spaces
@@ -182,7 +152,7 @@ arm/mach-sunxi/dram_helpers.c#L48-L63
 > > Cheers,
 > > Andre
 > >=20
-> >=20
+> >  =20
 > > >=20
 > > > I propose the following patch, but am open to any further suggestions.
 > > >=20
@@ -272,15 +242,12 @@ were
 > > >   #endif
 > > > --
 > > > 2.43.0
-> > >=20
+> > >  =20
 > >=20
-> >=20
+> >  =20
 >=20
 >=20
 >=20
 >=20
 >=20
-
-
-
 
