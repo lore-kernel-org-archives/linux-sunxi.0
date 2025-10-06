@@ -1,132 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2EDD10FD;
-	Mon,  6 Oct 2025 12:02:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC6027E07A
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Oct 2025 13:09:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759752168; cv=none; b=QlERonl441m9+rSOEYkJpR8r8aVoTgqhyj49v6ry3HH5nM0LFb2QkvsWWDlX18Cco+DsWOdCpbQ0H5y9YGQEh5qOhwe59D0QGwLYRAd0gfJn5fl8Fxg9fzfZtoV1M3CNcxMaDQ3So5uGMua4M6oT2qWY/LbkuHCRGOGXoeCLe0g=
+	t=1759756184; cv=none; b=QDjzcqEMZopWj3gOZSiTBW5/W/pfisraqQXULWOgcLdtScP8xGQFPByvkQTTdplU0F6hKbNk41hm+Zr+OJ+pnKkPax0e43c7gYB666JnYD8RUKpBxisxNpgnz2hntX1P0cCuBYDheFGpx2D1dLA8PpVq64PY56xH5XzWg3LLymE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759752168; c=relaxed/simple;
-	bh=cUe8CtrafWoQsXn9fWcPDQv7fF4kzWcQD9k5yUC/Uwg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LKJz7zaQiJkV6OrMvdjmY6zhERdhkahIu/nFBq+RjAIwjMW+Yz/7Y9WEkT++5yuzGIv1l5HiDyD6Zd9aX3nNe/37XI0W6jgQNIi4o8ybwhvRhlNxxC+hsUWBo7oRItT/RHK3TVl8bvfLLlVy4NvgUAffS53R1S3tazxvb6FWRmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XrCExbDG; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XrCExbDG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB346C4CEF5;
-	Mon,  6 Oct 2025 12:02:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759752167;
-	bh=cUe8CtrafWoQsXn9fWcPDQv7fF4kzWcQD9k5yUC/Uwg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XrCExbDGUw0LYXohARq0wj5ixhBkiguFlV69LWhd/t5NkqihItIxVGgkJYVYebHeS
-	 bbGyaUuLZY+rwJSwZdtdSVGYP6I24TmlPhVDqN3Wu92pv+ho39wr+IsgKQ4bTbIXIF
-	 /rxkzb2rUvpt4jA4wBfhlKXw9LrjD5ZY3pm0GvalCYvKo8YZv0RDduhtmOOi5uTZcr
-	 5QGgim6xn/vbzvVz0I6jiD9IgFzb0QM0DR+KeRrjaciAgfDTBhDRWzcUBYkJdaez7v
-	 oj403k6Xyt+lqNwWRmPTY+GWjQCnvIg51e+wjQY/qGWc5qLIda+gQeEaowTaVrk0Rs
-	 AiZqBRuYNrzoQ==
-From: Maxime Ripard <mripard@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	=?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
-	Louis Chauvet <louis.chauvet@bootlin.com>,
-	Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Jyri Sarha <jyri.sarha@iki.fi>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	linux-mips@vger.kernel.org,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Manikandan Muralidharan <manikandan.m@microchip.com>,
-	Dharma Balasubiramani <dharma.b@microchip.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	linux-arm-kernel@lists.infradead.org,
-	Inki Dae <inki.dae@samsung.com>,
-	Seung-Woo Kim <sw0312.kim@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	linux-samsung-soc@vger.kernel.org,
-	Liu Ying <victor.liu@nxp.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	imx@lists.linux.dev,
-	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-	Edmund Dea <edmund.j.dea@intel.com>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Sui Jingfeng <suijingfeng@loongson.cn>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
-	Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org,
-	Sandy Huang <hjc@rock-chips.com>,
-	=?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	linux-rockchip@lists.infradead.org,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-sunxi@lists.linux.dev,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	linux-tegra@vger.kernel.org,
-	Hans de Goede <hansg@kernel.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Subject: Re: [PATCH v5 00/39] drm/atomic: Get rid of existing states (not really)
-Date: Mon,  6 Oct 2025 14:02:42 +0200
-Message-ID: <175975215493.792368.2468724280200785252.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250930-drm-no-more-existing-state-v5-0-eeb9e1287907@kernel.org>
-References: <20250930-drm-no-more-existing-state-v5-0-eeb9e1287907@kernel.org>
+	s=arc-20240116; t=1759756184; c=relaxed/simple;
+	bh=V1jL8Cp578efegsvBAdKZXpkptOyBF9OHb3REHf49JI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ofbkblW7KiQmSAP5TQ4eFmCcM+VkeraIy1VxemD+TMpeZWg9EP+D79FbVfEkH23WETOvI5sT8gNjYPcPsTu5aAO/+JaXsHMMCK6bo/VCXi3CeVi+HhMLr+mNwYvBCHyFDCpYVPPLmop8tSqC/YzwceThWVGRf9MU6X3IpwSZf00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1v5ky3-0006IW-7H; Mon, 06 Oct 2025 15:09:31 +0200
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1v5ky0-002Eb3-38;
+	Mon, 06 Oct 2025 15:09:28 +0200
+Received: from pza by lupine with local (Exim 4.98.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1v5kxv-000000009q1-3bRt;
+	Mon, 06 Oct 2025 15:09:23 +0200
+Message-ID: <bf3de9ecf10a3f6a63a6f2e235369519cb2f63e8.camel@pengutronix.de>
+Subject: Re: [PATCH] reset: core: reset-gpio: Suppress registration error
+ for optional resets
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Andre Przywara <andre.przywara@arm.com>, Krzysztof Kozlowski
+	 <krzysztof.kozlowski@linaro.org>
+Cc: linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org
+Date: Mon, 06 Oct 2025 15:09:23 +0200
+In-Reply-To: <20251002222826.16516-1-andre.przywara@arm.com>
+References: <20251002222826.16516-1-andre.przywara@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1-1 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On Tue, 30 Sep 2025 12:59:15 +0200, Maxime Ripard wrote:
-> Here's a series to get rid of the drm_atomic_helper_get_existing_*_state
-> accessors.
-> 
-> The initial intent was to remove the __drm_*_state->state pointer to
-> only rely on old and new states, but we still need it now to know which
-> of the two we need to free: if a state has not been committed (either
-> dropped or checked only), then we need to free the new one, if it has
-> been committed we need to free the old state.
-> 
-> [...]
+Hi Andre,
 
-Applied to misc/kernel.git (drm-misc-next).
+On Do, 2025-10-02 at 23:28 +0100, Andre Przywara wrote:
+> For reset controllers that are marked as optional, we should skip errors
+> during probing and return NULL, to avoid unnecessary failures. The
+> reset-gpio controller does this mostly, but returns the true error in
+> case the __reset_add_reset_gpio_device() call fails. Treat this call the
+> same as the other registration errors, and consider the optional flag.
+>=20
+> One could argue that at this point it's a proper error that should not
+> be ignored anymore, but in case of the reset-gpio controller this is not
+> entirely true, since the code at the moment does not support GPIO
+> controllers with three #gpio-cells - there is a TODO comment about this
+> in that said function. So to avoid unnecessary probe fails for devices
+> using reset-gpios (it's an optional reset after all), let's treat an
+> error as still optional at this point.
+>=20
+> This fixes operation of WiFi chips on Allwinner boards, where some use
+> reset-gpios, and which currently fail because all Allwinner SoCs use
+> GPIO controllers with 3 cells.
+>=20
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  drivers/reset/core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/reset/core.c b/drivers/reset/core.c
+> index 22f67fc77ae53..c2ccd08fb36e1 100644
+> --- a/drivers/reset/core.c
+> +++ b/drivers/reset/core.c
+> @@ -1044,7 +1044,7 @@ __of_reset_control_get(struct device_node *node, co=
+nst char *id, int index,
+> =20
+>  		ret =3D __reset_add_reset_gpio_device(&args);
+>  		if (ret) {
+> -			rstc =3D ERR_PTR(ret);
+> +			rstc =3D optional ? NULL : ERR_PTR(ret);
 
-Thanks!
-Maxime
+Please move this into __reset_add_reset_gpio_device() and pass flags
+into it. Only the -ENOENT return value mentioned in the commit
+description should be suppressed by the optional flag, not any -ENOMEM.
+And especially not the return value of __reset_add_reset_gpio_lookup(),
+which may be -EPROBE_DEFER.
+
+regards
+Philipp
