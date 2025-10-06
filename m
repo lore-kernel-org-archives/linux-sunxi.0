@@ -1,112 +1,37 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB7CA2DEA62
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 Oct 2025 20:35:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB75F15667D
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Oct 2025 23:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759782912; cv=none; b=UbcMud1C71rrK9auZxvhyLyaFMX7SD6KvDw5w1lTy+LCHDlecJe/qmYZmyMZ9Jc6ORPGxNwQP/fRAhrv9e1iE2xm/ICubyKb2iGoNK7A2n3w0CCy8u/uwnCn95HEivB8ncew/cRH/Rw3NxqySV+MuZaT21HLfFvnWIOuNEW66Wc=
+	t=1759792203; cv=none; b=BKXJAE2zCUUHgGANnWBk7GSf694hwbvA43zRLWl/EKWbLXNSUwVnYW9VkUS9Hqop+5xio10CjY9NyGCIyQ7wOXRCWnTDV3xXdGt5H2pm5QM88TRilaAlB1tXy8lLhBGaFLfQ0prGn67CLDpsmdFoS6kyRE9WYKkOMsfsZaCb7/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759782912; c=relaxed/simple;
-	bh=wRqM1wL0rtVZzWbUB1vZjAZ//+DX1ksR98VvmNXh1Ag=;
+	s=arc-20240116; t=1759792203; c=relaxed/simple;
+	bh=f/7OuhEsypozEZU2yy4A4j7AwYgoi2PshJMhHdenDCs=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aj0NB/1BKUwtM2gmBegLjdwse0nahaGMqw1QAc6dowD7KIVJhIzFQzdSDEA5yrU8uV0jd9ZHa25QLd1CSaP90OLBDuhJKsMOJnG9+GnAInIkyd7IngvPRAB/tcoAvoypFRHpM2DnhuYFRApyWElhXDRZOr8VZerEJ+suGJGo9uI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R+mXkEXK; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R+mXkEXK"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-46e326e4e99so33435885e9.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 06 Oct 2025 13:35:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759782907; x=1760387707; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=w8A8mrbjHOp4I+EQv9aLZuINyxZFXeZgTqLUL4/gbts=;
-        b=R+mXkEXKjkSjQaC2W1AyLHH9VP3lG3mH3aziTUpeUv1Nr0x85i1lSqgRJrXgaAvvXj
-         izI6ocbbR5UyP91nS8ImGRGSJ4NLODfm6xrvhFciG2bJ8ckNOpCesES2tfde4aZLARNq
-         9u9mH2QqDhsdLD+hdKkKQsHvLbf6nnxSH36uX+869ZQ78PC8iHI/icoA1/kbW1QcPsfI
-         5N+RS9Imnrdllnsymk3zCrkV5I52reeOpHV4QOUGTznBZdKvyAcmJO3G5gU1A8svmZ2H
-         DJACDzm1pjsbumTp/ev/NWYYOAZYw6F+p1AHhfxEelzm37gNol6E1VbpmAVdO7vhYGR7
-         PgLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759782907; x=1760387707;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=w8A8mrbjHOp4I+EQv9aLZuINyxZFXeZgTqLUL4/gbts=;
-        b=pgaEnjRy0ZehzAcqinV0f3rk33iF3AyThVNPfXPY5MBU6bm1yYHDu6RGRejnkX9EKv
-         2R6hUtBRWn3JmCYR1x5ERFt9HepMoQL14o/PVoTErZZsEG6s8r4Znv29W4VlkhPj/m2S
-         laVHqAAvDTTtxYKiCTvfvZWLuBqKwaTl4PFjdLYCE8rTXFMNFzH0z2yAWEcbdslqZ6XI
-         vNjVD8Oxx5SvPqvjBDunXhF0AnLjLZlENuq3nfujF3vPaITf2sDRSf5MuHjvKoi33TbB
-         v1gAblQUt/UYSYkDSmEFpoPegI78XrAvDDUF9SAQZpEEflgZTuTOFiYp/cNfLthmTFex
-         TgOg==
-X-Forwarded-Encrypted: i=1; AJvYcCWkmxmPqo+U68RAOz4Gt3mRBnacc8j+YkXmyUmhxACt8ZpiUe1iskG0PQz6b01tyTqiykY81S10oBQyzg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz4f/574mELQ5i9KsgO5TTwYwl16aDdxxamUDwqE/QsuJUgiGcb
-	nSOnwnlnEsk2ynOS3SpNkTEDarEv+jEfEuQk7N+YXNmioLlI5NGcOioz
-X-Gm-Gg: ASbGnctLNh3JeOHHHYArzt815VVtYS0vsWdRIVw9Yq2VXca0JXOEFQiYUXsXGzON4Ej
-	O/tGZCb4pDJpQLk1Ooyfdj32sB+FogY7NYzTIy4HPIEyTrX6IEScKU1IcXZ9y8ieu7uXXdyyNAG
-	5xaPC5KfDlTsziclC/8KPF1zVlGRvymUwdjeQwhAR5qd3IF2ienUhqiF8A4GlcvxFpJw9u1tl2k
-	6rqBNZrcSwKaz2/dQJwMwfOmmey3AFLv0ArXrpN0AGkYj+Y7gbpigKsgKkyoLyRMlJrTj5yQTu3
-	RBa9VhK84hFgwtepT8c4w1PV144bArs+VOic8ACRqR2ZFdPRJDwuLx5udUhwib9zBZylGzqQqCQ
-	vuLwRx2ZgL/wh02T7bzScY9YFeGiSB39HwAR49hwjFZNAZGKBdD9i7R67bz7Rufnzq09AYnXWUi
-	Ahix08b/ncTWAX
-X-Google-Smtp-Source: AGHT+IEnzSpQE+ROtayFnE2b4dPjTQF2CaZO9TdUfVNFcX6ejR4aNYCswD7XdVH/ajIMwYylIXY+YQ==
-X-Received: by 2002:a05:600c:2287:b0:45d:d86b:b386 with SMTP id 5b1f17b1804b1-46fa29f13dfmr4596085e9.14.1759782906754;
-        Mon, 06 Oct 2025 13:35:06 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e723591fcsm172334545e9.10.2025.10.06.13.35.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Oct 2025 13:35:06 -0700 (PDT)
-Date: Mon, 6 Oct 2025 21:35:03 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Eliav Farber <farbere@amazon.com>, dave.hansen@linux.intel.com,
- peterz@infradead.org, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- x86@kernel.org, hpa@zytor.com, james.morse@arm.com, rric@kernel.org,
- daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, sean@poorly.run, jdelvare@suse.com,
- linux@roeck-us.net, linus.walleij@linaro.org, dmitry.torokhov@gmail.com,
- maz@kernel.org, wens@csie.org, jernej.skrabec@gmail.com, agk@redhat.com,
- snitzer@redhat.com, dm-devel@redhat.com, davem@davemloft.net,
- kuba@kernel.org, mcoquelin.stm32@gmail.com,
- krzysztof.kozlowski@canonical.com, malattia@linux.it, hdegoede@redhat.com,
- mgross@linux.intel.com, jejb@linux.ibm.com, martin.petersen@oracle.com,
- sakari.ailus@linux.intel.com, clm@fb.com, josef@toxicpanda.com,
- dsterba@suse.com, jack@suse.com, tytso@mit.edu, adilger.kernel@dilger.ca,
- dushistov@mail.ru, luc.vanoostenryck@gmail.com, rostedt@goodmis.org,
- pmladek@suse.com, senozhatsky@chromium.org,
- andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
- minchan@kernel.org, ngupta@vflare.org, akpm@linux-foundation.org,
- yoshfuji@linux-ipv6.org, dsahern@kernel.org, pablo@netfilter.org,
- kadlec@netfilter.org, fw@strlen.de, jmaloy@redhat.com,
- ying.xue@windriver.com, shuah@kernel.org, willy@infradead.org,
- sashal@kernel.org, quic_akhilpo@quicinc.com, ruanjinjie@huawei.com,
- David.Laight@aculab.com, herve.codina@bootlin.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-um@lists.infradead.org, linux-edac@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
- netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-btrfs@vger.kernel.org,
- linux-ext4@vger.kernel.org, linux-sparse@vger.kernel.org,
- linux-mm@kvack.org, netfilter-devel@vger.kernel.org,
- coreteam@netfilter.org, tipc-discussion@lists.sourceforge.net,
- linux-kselftest@vger.kernel.org, stable@vger.kernel.org, Linus Torvalds
- <torvalds@linux-foundation.org>, Lorenzo Stoakes
- <lorenzo.stoakes@oracle.com>
-Subject: Re: [PATCH v2 07/19 5.15.y] minmax: simplify and clarify
- min_t()/max_t() implementation
-Message-ID: <20251006213242.3462e746@pumpkin>
-In-Reply-To: <2025100648-capable-register-101b@gregkh>
-References: <20251003130006.41681-1-farbere@amazon.com>
-	<20251003130006.41681-8-farbere@amazon.com>
-	<2025100648-capable-register-101b@gregkh>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	 MIME-Version:Content-Type; b=RXWj52XHZt5NrriNfAogLYnO9p01lvRsCoVYNEAMd19rYMeiNLGIMBD/pZKkTyVo94rdDj9W5hKTXc5XTtXZ2yCLXhQtYb/r9v+U5EmTZJff7Yrj0nIUYu/JfFQ5EV1v0myT1L9AM2RONw0XfhAf98NdneHss/WfAmvWth9fzmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BA898150C;
+	Mon,  6 Oct 2025 16:09:50 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EE31D3F66E;
+	Mon,  6 Oct 2025 16:09:57 -0700 (PDT)
+Date: Tue, 7 Oct 2025 00:09:37 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+Cc: Rudi Horn <dyn-git@rudi-horn.de>, u-boot@lists.denx.de, linux-sunxi
+ <linux-sunxi@lists.linux.dev>
+Subject: Re: [PATCH] Fix detection of odd memory configurations on sunxi
+Message-ID: <20251007000937.5487380c@minigeek.lan>
+In-Reply-To: <20251005171635.1374da9d@minigeek.lan>
+References: <56f44755-fca8-4364-905e-685e79fd1aea@rudi-horn.de>
+	<20251005014021.4b1b035a@minigeek.lan>
+	<13857032.uLZWGnKmhe@jernej-laptop>
+	<20251005171635.1374da9d@minigeek.lan>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -116,86 +41,283 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 6 Oct 2025 12:47:45 +0200
-Greg KH <gregkh@linuxfoundation.org> wrote:
+On Sun, 5 Oct 2025 17:16:35 +0100
+Andre Przywara <andre.przywara@arm.com> wrote:
 
-(I've had to trim the 'To' list to send this...)
+Hi,
 
-> On Fri, Oct 03, 2025 at 12:59:54PM +0000, Eliav Farber wrote:
-> > From: Linus Torvalds <torvalds@linux-foundation.org>
+> On Sun, 05 Oct 2025 08:10:27 +0200
+> Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
+>=20
+> Hi,
+>=20
+> > Dne nedelja, 5. oktober 2025 ob 02:40:21 Srednjeevropski poletni =C4=8D=
+as je Andre Przywara napisal(a): =20
+> > > On Mon, 11 Aug 2025 09:35:19 +0200
+> > > Rudi Horn <dyn-git@rudi-horn.de> wrote:
+> > >=20
+> > > Hi Rudi,
+> > >=20
+> > > thanks for sending a patch to address this long-standing issue!
+> > >=20
+> > > But ... ;-)
+> > >    =20
+> > > > I encountered a bug where u-boot detects that my OrangePI zero 3 (w=
+ith=20
+> > > > 1.5GB) has 2GB and crashes.   =20
+> > >=20
+> > > As Jernej already said, this is a known limitation: we simply don't
+> > > support not-power-of-2 DRAM sizes at the moment.
+> > >    =20
+> > > > The orangepi u-boot source code contains an additional
+> > > > modification in the `mctl_calc_size` which removes a quarter of the=
+=20
+> > > > memory the
+> > > > calculated last address cannot be written to:
+> > > >=20
+> > > > https://github.com/orangepi-xunlong/u-boot-orangepi/blob/v2024.01/a=
+rch/arm/mach-sunxi/dram_sun50i_h616.c#L1365-L1368
+> > > >=20
+> > > > I'm not entirely sure if there is some specific logic that applies =
+to this
+> > > > modifier, but it does fix the issue on my system.   =20
+> > >=20
+> > > So can someone shed some light on how this is supposed to work? If I
+> > > understand the code correctly, it checks for *aliasing* between the
+> > > first and the last word of DRAM, which doesn't make much sense to me:=
+ I
+> > > would expect a simple write/verify to see if the last quarter of DRAM
+> > > is for real, or to check for a known aliasing pattern with this "odd"
+> > > setup (as in: last quarter is aliased to first or third quarter or
+> > > something), but checking those two words for aliasing seems wrong.   =
+=20
 > >=20
-> > [ Upstream commit 017fa3e89187848fd056af757769c9e66ac3e93d ]
+> > Hm... I've never tested this patch on HW, so you might have a point. St=
+ill,
+> > I think testing for aliasing makes sense. Just writing and reading might
+> > not be enough due to possible caching (not necessarily in CPU). =20
+>=20
+> Sure, aliasing trumps verifying, but it might be easier to test the
+> latter?
+>=20
+> > I should have some board with non-power-of-2 RAM size somewhere. I'll t=
+ry
+> > to find it and test this. =20
+>=20
+> I just realised that my Cubie A7A has 12GB(!) of DRAM, so I can actually =
+do
+> some experiments here, in U-Boot proper, after boot0 has initialised the =
+DRAM:
+> [5912]DRAM SIZE =3D12288 MBytes, para1 =3D a11a, para2 =3D 30001001, dram=
+_tpr13 =3D 10065
+
+So I did some experiments on my board:
+I booted boot0 from SD card, to let it initialise all 12GB of DRAM,
+then to go to FEL. After that I loaded U-Boot into DRAM and started it.
+I hacked U-Boot to assume 16GB of DRAM, and mapped all memory above 4GB
+as device (non-cacheable). The observations are:
+- Memory beyond the 12GB real DRAM contains one of two distinct 32
+  byte long patterns, which alternate every 512MB:
+35fffffc0: 66666666 66666666 66666666 66666666  ffffffffffffffff
+35fffffd0: 66666666 66666666 66666666 66662626  ffffffffffff&&ff
+35fffffe0: 66666666 66666666 66666666 66666666  ffffffffffffffff
+35ffffff0: 66666666 66666666 66666666 66662626  ffffffffffff&&ff
+360000000: 99999999 99999999 99999999 99999999  ................
+360000010: 99999999 99999999 99999999 9b9b9999  ................
+360000020: 99999999 99999999 99999999 99999999  ................
+360000030: 99999999 99999999 99999999 9b9b9999  ................
+- values written there are ignored, the content stays at this initial patte=
+rn
+- with caches enabled, writes seem to stick, but that's in the cache only
+- this pattern does not appear anywhere else in DRAM
+
+So this means any aliasing test wouldn't work, but we can do an
+accessibility test, I think the algorithm should be:
+
+bool test_last_quarter(size_t size)
+{
+	uintptr_t addr =3D CFG_SYS_SDRAM_BASE + size / 4 * 3;
+	uint32_t orig, val;
+
+	orig =3D readl(addr);
+	writel(~orig, addr);
+	val =3D readl(addr);
+	writel(orig, addr);
+
+	return ~orig =3D=3D val;
+}
+
+This would be SPL code, so with the MMU and thus caches off, and since
+all accesses go to the same memory address on the same core, we
+shouldn't need extra barriers (I think even the _relaxed versions
+should work).
+
+Can someone test this on a board with an "odd" memory size? It worked
+on a normal 4GB board (passing the test), and failed on my 12GB board,
+albeit running only in U-Boot proper.
+
+If this works, I will send a proper patch.
+
+Cheers,
+Andre
+
+>=20
+> > > And indeed the code also fires on a board with 512MB and 4GB, capping
+> > > the memory there as well (resulting in 384 MB and 3GB, respectively).
+> > > This is somewhat expected, as we never would expect aliasing between
+> > > those two particular words, I'd say.
+> > >=20
+> > > So since I don't have a board with an "uneven" DRAM size, can you
+> > > please test some ideas to detect this RAM setup?
+> > > - Read the content of the first word to not exist (@1.5GB), then write
+> > >   something else there, and see if you can read this back? Don't forg=
+et
+> > >   a write barrier (dsb();) when doing so.
+> > > - Write some test pattern to some known good DRAM locations, like the
+> > >   beginning of DRAM, @512MB, @1GB, and see if any of those values pop
+> > >   up @1.5GB, to see if there is an aliasing pattern?
+> > > - Can you post the exact label on that DRAM chip, so that we can see =
+if
+> > >   we find a datasheet? I'd be curious about the actual organisation of
+> > >   the DRAM array.
+> > >=20
+> > > Jernej, do you happen to know how those DRAM chips are organised? Do
+> > > they just feature a non-power-of-2 number of rows or columns?   =20
 > >=20
-> > This simplifies the min_t() and max_t() macros by no longer making them
-> > work in the context of a C constant expression.
+> > I don't know details how such chips are organized internally. However,
+> > number of rows and columns was never power-of-2. =20
+>=20
+> Ah right, brain fart on my end, those are of course the exponents in the
+> calculation, so result in the eventual power-of-2 number. I then wonder
+> where the factor of 3 comes in, are there 6 banks, or 3 ranks (doubt
+> that)? I could not find a datasheet of one of those 12Gbit Samsung
+> chips yet.
+>=20
+> > Btw, I think I saw 3 GB DRAM boards too somewhere, but not sure where.
+> > Quick search confirms that 24 Gb DRAM chips also exists, so I would lea=
+ve
+> > this check as general 3/4 size fixup, not limited to any capacity. =20
+>=20
+> Oh, definitely, the only constant here would be the 3/4th. So the plan
+> would be to detect some oddity (either through aliasing or because of
+> missing DRAM cells at the end), then assume it's 3/4 of the detected
+> capacity.
+>=20
+> Cheers,
+> Andre
+>=20
+> >  =20
+> > >=20
+> > > Oh, and also this patch was heavily malformed - line breaks and spaces
+> > > instead of tabs. Please try to fix this. Simplest is probably "git
+> > > format-patch", then sending this via "git send-email". Your email
+> > > server seems to be postfix, so you could just give the SMTP details a=
+nd
+> > > credentials to git.
+> > >=20
+> > > Cheers,
+> > > Andre
+> > >=20
+> > >    =20
+> > > >=20
+> > > > I propose the following patch, but am open to any further suggestio=
+ns.
+> > > >=20
+> > > > Thanks,
+> > > > Rudi Horn
+> > > >=20
+> > > > Note: Submitted in my personal capacity and is not affiliated with =
+my=20
+> > > > employer.
+> > > >=20
+> > > >=20
+> > > >  From 2199f3b28e5fc853ed1921586358c33f3f1502d3 Mon Sep 17 00:00:00 =
+2001
+> > > > From: Rudi Horn <dyn-git@rudi-horn.de>
+> > > > Date: Mon, 11 Aug 2025 08:58:34 +0200
+> > > > Subject: [PATCH] arch: arm: mach-sonxi: Fix detection of odd memory
+> > > >   configurations
+> > > >=20
+> > > > Fix detection of odd memory configurations. Previously 1.5GB device=
+s were
+> > > > incorrectly detected as 2GB devices, causing u-boot to crash.
+> > > >=20
+> > > > Signed-off-by: Rudi Horn <dyn-git@rudi-horn.de>
+> > > > ---
+> > > >   arch/arm/include/asm/arch-sunxi/dram.h |  1 +
+> > > >   arch/arm/mach-sunxi/dram_dw_helpers.c  | 10 +++++++++-
+> > > >   arch/arm/mach-sunxi/dram_helpers.c     |  8 ++++++++
+> > > >   3 files changed, 18 insertions(+), 1 deletion(-)
+> > > >=20
+> > > > diff --git a/arch/arm/include/asm/arch-sunxi/dram.h=20
+> > > > b/arch/arm/include/asm/arch-sunxi/dram.h
+> > > > index 0eccb1e6c28..7580421ca77 100644
+> > > > --- a/arch/arm/include/asm/arch-sunxi/dram.h
+> > > > +++ b/arch/arm/include/asm/arch-sunxi/dram.h
+> > > > @@ -44,6 +44,7 @@
+> > > >   unsigned long sunxi_dram_init(void);
+> > > >   void mctl_await_completion(u32 *reg, u32 mask, u32 val);
+> > > >   bool mctl_mem_matches(u32 offset);
+> > > > +bool mctl_mem_matches_upto(u32 offset);
+> > > >   bool mctl_mem_matches_base(u32 offset, ulong base);
+> > > >=20
+> > > >   #endif /* _SUNXI_DRAM_H */
+> > > > diff --git a/arch/arm/mach-sunxi/dram_dw_helpers.c=20
+> > > > b/arch/arm/mach-sunxi/dram_dw_helpers.c
+> > > > index 24767354935..5bcd2672465 100644
+> > > > --- a/arch/arm/mach-sunxi/dram_dw_helpers.c
+> > > > +++ b/arch/arm/mach-sunxi/dram_dw_helpers.c
+> > > > @@ -146,5 +146,13 @@ unsigned long mctl_calc_size(const struct=20
+> > > > dram_config *config)
+> > > >          u8 width =3D config->bus_full_width ? 4 : 2;
+> > > >=20
+> > > >          /* 8 banks */
+> > > > -       return (1ULL << (config->cols + config->rows + 3)) * width =
+*=20
+> > > > config->ranks;
+> > > > +       unsigned long size =3D (1ULL << (config->cols + config->row=
+s + 3))=20
+> > > > * width * config->ranks;
+> > > > +
+> > > > +       /* some memory configurations such as 1.5GB rely on this to=
+=20
+> > > > compute the correct size */
+> > > > +       if (!mctl_mem_matches_upto(size)) {
+> > > > +               size =3D (size * 3) / 4;
+> > > > +               debug("capping memory at 0x%lx\n", size);
+> > > > +       }
+> > > > +
+> > > > +  return size;
+> > > >   }
+> > > > diff --git a/arch/arm/mach-sunxi/dram_helpers.c=20
+> > > > b/arch/arm/mach-sunxi/dram_helpers.c
+> > > > index 83dbe4ca98f..68c75fa07a6 100644
+> > > > --- a/arch/arm/mach-sunxi/dram_helpers.c
+> > > > +++ b/arch/arm/mach-sunxi/dram_helpers.c
+> > > > @@ -61,4 +61,12 @@ bool mctl_mem_matches(u32 offset)
+> > > >   {
+> > > >          return mctl_mem_matches_base(offset, CFG_SYS_SDRAM_BASE);
+> > > >   }
+> > > > +
+> > > > +/*
+> > > > + * Test if memory at offset matches memory at end of DRAM
+> > > > + */
+> > > > +bool mctl_mem_matches_upto(u32 offset)
+> > > > +{
+> > > > +       return mctl_mem_matches_base(offset - sizeof(u32),=20
+> > > > CFG_SYS_SDRAM_BASE);
+> > > > +}
+> > > >   #endif
+> > > > --
+> > > > 2.43.0
+> > > >    =20
+> > >=20
+> > >    =20
 > >=20
-> > That means that you can no longer use them for static initializers or
-> > for array sizes in type definitions, but there were only a couple of
-> > such uses, and all of them were converted (famous last words) to use
-> > MIN_T/MAX_T instead.
 > >=20
-> > Cc: David Laight <David.Laight@aculab.com>
-> > Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> > Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-> > Signed-off-by: Eliav Farber <farbere@amazon.com> =20
+> >=20
+> >=20
+> >  =20
 >=20
-> Eliav, your testing infrastructure needs some work, this patch breaks
-> the build on this kernel tree:
->=20
-> In file included from ./include/linux/kernel.h:16,
->                  from ./include/linux/list.h:9,
->                  from ./include/linux/wait.h:7,
->                  from ./include/linux/wait_bit.h:8,
->                  from ./include/linux/fs.h:6,
->                  from fs/erofs/internal.h:10,
->                  from fs/erofs/zdata.h:9,
->                  from fs/erofs/zdata.c:6:
-> fs/erofs/zdata.c: In function =E2=80=98z_erofs_decompress_pcluster=E2=80=
-=99:
-> fs/erofs/zdata.h:185:61: error: ISO C90 forbids variable length array =E2=
-=80=98pages_onstack=E2=80=99 [-Werror=3Dvla]
->   185 |         min_t(unsigned int, THREAD_SIZE / 8 / sizeof(struct page =
-*), 96U)
->       |                                                             ^~~~
-
-That constant seems to get (renamed and) changed to 32 in a later patch.
-I'm not sure of the rational for the min() at all.
-I think THREAD_SIZE is the size of the kernel stack? Or at least related to=
- it.
-The default seems to be 8k on x86-64 and 4k or 8k on i386.
-So it is pretty much always going to be 96.
-
-Linus added MIN() that can be used for array sizes.
-But I'd guess this could just be changed to 32 - need to ask the erofs guys.
-
-	David
-
-
-> ./include/linux/minmax.h:49:23: note: in definition of macro =E2=80=98__c=
-mp_once_unique=E2=80=99
->    49 |         ({ type ux =3D (x); type uy =3D (y); __cmp(op, ux, uy); })
->       |                       ^
-> ./include/linux/minmax.h:164:27: note: in expansion of macro =E2=80=98__c=
-mp_once=E2=80=99
->   164 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
->       |                           ^~~~~~~~~~
-> fs/erofs/zdata.h:185:9: note: in expansion of macro =E2=80=98min_t=E2=80=
-=99
->   185 |         min_t(unsigned int, THREAD_SIZE / 8 / sizeof(struct page =
-*), 96U)
->       |         ^~~~~
-> fs/erofs/zdata.c:847:36: note: in expansion of macro =E2=80=98Z_EROFS_VMA=
-P_ONSTACK_PAGES=E2=80=99
->   847 |         struct page *pages_onstack[Z_EROFS_VMAP_ONSTACK_PAGES];
->       |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
-> cc1: all warnings being treated as errors
->=20
->=20
-> I'll drop this whole series, please do a bit more testing before sending
-> out a new version.
->=20
-> thanks,
->=20
-> greg k-h
 >=20
 
