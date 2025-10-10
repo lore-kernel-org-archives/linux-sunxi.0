@@ -1,33 +1,40 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83ED423ABA1;
-	Fri, 10 Oct 2025 08:49:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 771FD230BCC
+	for <linux-sunxi@lists.linux.dev>; Fri, 10 Oct 2025 10:16:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760086151; cv=none; b=PNT/q+nk4IgLKAEoTkNPOZ5qlq4c8knuCGQbxZ2ckHSNWspyB71gmIgGJQHM4uWZBNGqEWTGXLw1z+RB3DL1GKeBGZiTMCfO6jOG9aSoGL00DOC0VpMcaQfcv3dFx/jHFDfjvZozNcqUG4T0gZiM/Unst8JqfWIAeFHTd1jSYwk=
+	t=1760091389; cv=none; b=H+X253W+wk1/id1LUzZQk9u+9Wz/FnsN8CLI4V6bxH2PSc5927ZbkyeCGuqJh0kqNmjrU/L0YHCas8egzaPpn3y44ZSzhlGAJ0M2xkMxpt73b3qF+AR9QoIbyD+PcswbHQZKctcafrP3El3mOelJ3FQ/gmQyatNyH30b5xf1PzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760086151; c=relaxed/simple;
-	bh=a0RRr6OOdtVYcLYaZeReQC7vOkfUX13MwvuWF9/B8CU=;
+	s=arc-20240116; t=1760091389; c=relaxed/simple;
+	bh=5wd9tQUREC1eEyCsnMEodU1pS2RoWFi1973rUIhTsdE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=htPbOaAy6SLmEHuOImweBT7M83mViGyRJhiaBoWcRuEX79+VicUy9SY2NoMotvXjrec7C7g0QDa8T2mHH2d5mb8NkzBvdeH3EMjwoZ9sCF+BSUiEqAIUA0FyPbQ0O4pzbRrsDBqYfaIUGoXKj84Y07QtzR4l7S4Cxe9BpT2qc+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gV1PWpU1; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=QUMoZ4WA8WebzUAT1ygKpaSPp3g7pxoUkLr45z2EE6Qi1j4M3lDfzR3jmxC7XN0vL6dr6ySz1inwqpMn8sZ2Pf0Y40fBRZGbVh6NQqriuoyxlX767q/SnlbVWWzMjGsCBwL2rJvm566Cl/4cH5Fj1OeImDaqFFcef1fD9o+4Qbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=AA+qF05a; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gV1PWpU1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 552BBC4CEF1;
-	Fri, 10 Oct 2025 08:49:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760086150;
-	bh=a0RRr6OOdtVYcLYaZeReQC7vOkfUX13MwvuWF9/B8CU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gV1PWpU1uqJZj/+si8MbW1bv7yiRllIj9UxLg7JJrkJRaN7hL0KQ+xCLvQKcyXg4A
-	 m7t8CfNFgkdAXb7GgnG8skaN0XbnjSfGpQL/IQ8bQUPkQacjeMK17N1W4bAhwbztcb
-	 KBe30BcfXSye0825Gzv7QUqk63WtkwXRpG4/R/J4gRRiBN03OI3HEBmWJcPbqnvuFL
-	 8hV+f+UHcaZ7edZZhoWKUOkB6sGlWSRPpK8gonDyivR0ZXAMDOvQFGYdAeQ0PE/IZ/
-	 YC9LMWmy+PEW6yVkrzJWrRDF4YQaOkDMqCCmS5pr0eaDsF5camsEGZ/T0zhlozPP2j
-	 KgsOKO/L2l79Q==
-Message-ID: <02864e41-cbf7-42e1-87ba-95bdac6d9e6d@kernel.org>
-Date: Fri, 10 Oct 2025 10:49:00 +0200
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="AA+qF05a"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id BC1EB1A127A;
+	Fri, 10 Oct 2025 10:16:24 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8BD1360667;
+	Fri, 10 Oct 2025 10:16:24 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 154DD102F220B;
+	Fri, 10 Oct 2025 12:16:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1760091383; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=n6HazN1sAWLIGVuPB5Q33kUmi4chDMBKIuv8XrJPLYE=;
+	b=AA+qF05a9hf8XgayaG9t7T6DbV/WtbQkquFY9zFxQEJ/DdGBMziJQNqBRxPG5qTeOVSpvN
+	uwzClc0Ux+cYTSI+IDMaAGevIWNlkkYOyDFH/CEnmBrAT1YW2OWmBceZlOu4MQAa+JOkUn
+	u7Tw0fVKzGgHj3FQ96Ug3/TB6NJIkI5cMRN8pBNYi50mWGvk5RpbFpOIZispudvlRzSMnY
+	JwoJMfpbikfmJrTEf8HhVzW3d3uc6uzk5hNLYAQbnvRqFAvm01uxxRA50uonqAeTKCkXn1
+	LBqZsuSFzTrlLYLDlP5AhW5q1V96m4SjMuduf9sJ/J0KA1UAKq1WL+4J61gwYA==
+Message-ID: <76033f73-4a8f-45c1-90a3-63a4eae2adaa@bootlin.com>
+Date: Fri, 10 Oct 2025 12:16:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -36,7 +43,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 02/15] dt-bindings: mtd: sunxi: Add new compatible
-To: Richard Genoud <richard.genoud@bootlin.com>,
+To: Krzysztof Kozlowski <krzk@kernel.org>,
  Miquel Raynal <miquel.raynal@bootlin.com>,
  Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -52,70 +59,140 @@ Cc: Wentao Liang <vulab@iscas.ac.cn>,
  linux-kernel@vger.kernel.org
 References: <20251010084042.341224-1-richard.genoud@bootlin.com>
  <20251010084042.341224-3-richard.genoud@bootlin.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251010084042.341224-3-richard.genoud@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <414c16db-cdd1-433d-b0ae-915e11d964f0@kernel.org>
+From: Richard GENOUD <richard.genoud@bootlin.com>
+Content-Language: en-US, fr
+Organization: Bootlin
+In-Reply-To: <414c16db-cdd1-433d-b0ae-915e11d964f0@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 10/10/2025 10:40, Richard Genoud wrote:
-> +
->  properties:
->    compatible:
->      enum:
->        - allwinner,sun4i-a10-nand
->        - allwinner,sun8i-a23-nand-controller
-> +      - allwinner,sun50i-h616-nand-controller
+Hi Krzysztof,
+
+Le 10/10/2025 à 10:45, Krzysztof Kozlowski a écrit :
+> On 10/10/2025 10:40, Richard Genoud wrote:
+>> The H616 NAND controller is quite different from the A10 and A23 ones,
+>> some registers offset changed, and some new one are introduced.
+>> Also, the DMA handling is different (it uses chained descriptors)
+>>
+> 
+> 
+> Subject: not new compatible, but "H616" or whatever device is called.
+> Otherwise every commit would be called like that making git log
+> --oneline useless.
+Indeed.
+
+> 
+>> So, introduce a new compatible to represent this version of the IP.
+>>
+>> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+>> ---
+>>   .../mtd/allwinner,sun4i-a10-nand.yaml         | 56 ++++++++++++++-----
+>>   1 file changed, 43 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/mtd/allwinner,sun4i-a10-nand.yaml b/Documentation/devicetree/bindings/mtd/allwinner,sun4i-a10-nand.yaml
+>> index 054b6b8bf9b9..cc63091fe936 100644
+>> --- a/Documentation/devicetree/bindings/mtd/allwinner,sun4i-a10-nand.yaml
+>> +++ b/Documentation/devicetree/bindings/mtd/allwinner,sun4i-a10-nand.yaml
+>> @@ -6,34 +6,64 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+>>   
+>>   title: Allwinner A10 NAND Controller
+>>   
+>> -allOf:
+>> -  - $ref: nand-controller.yaml
+>> -
+>>   maintainers:
+>>     - Chen-Yu Tsai <wens@csie.org>
+>>     - Maxime Ripard <mripard@kernel.org>
+>>   
+>> +allOf:
+>> +  - $ref: nand-controller.yaml
+> 
+> 
+> If moving it, can you place it like in example-schema, so at the bottom,
+> above unevaluatedProps?
+Yes, absolutely.
+
+> 
+>> +
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            enum:
+>> +              - allwinner,sun4i-a10-nand
+>> +              - allwinner,sun8i-a23-nand-controller
+>> +    then:
+>> +      properties:
+>> +        clocks:
+>> +          items:
+>> +            - description: Bus Clock
+>> +            - description: Module Clock
+>> +        clock-names:
+>> +          items:
+>> +            - const: ahb
+>> +            - const: mod
+>> +
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            enum:
+>> +              - allwinner,sun50i-h616-nand-controller
+>> +    then:
+>> +      properties:
+>> +        clocks:
+>> +          items:
+>> +            - description: Bus Clock
+>> +            - description: Module Clock
+>> +            - description: ECC Clock
+>> +            - description: MBus Clock
+>> +        clock-names:
+>> +          items:
+>> +            - const: ahb
+>> +            - const: mod
+>> +            - const: ecc
+>> +            - const: mbus
+>> +
+>>   properties:
+>>     compatible:
+>>       enum:
+>>         - allwinner,sun4i-a10-nand
+>>         - allwinner,sun8i-a23-nand-controller
+>> +      - allwinner,sun50i-h616-nand-controller
+>>     reg:
+>>       maxItems: 1
+>>   
+>>     interrupts:
+>>       maxItems: 1
+>>   
+>> -  clocks:
+>> -    items:
+>> -      - description: Bus Clock
+>> -      - description: Module Clock
+>> -
+>> -  clock-names:
+>> -    items:
+>> -      - const: ahb
+>> -      - const: mod
+> 
+> 
+> You cannot remove it. Broadest constraints, see writing schema.
+> 
+> or my standard reference example:
+> https://elixir.bootlin.com/linux/v6.11-rc6/source/Documentation/devicetree/bindings/ufs/qcom,ufs.yaml#L127
+Ok
+
+Thanks!
+
+> 
+> 
+> Best regards,
+> Krzysztof
 
 
-Also:
-1. missing new line - why did you remove it?
-2. Keep existing sunxi preferred order of entries. In other platforms it
-is alphanumerical, not natural. In case sunxi uses something else, just
-be sure you use sunxi order.
-
-Best regards,
-Krzysztof
+-- 
+Richard Genoud, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
