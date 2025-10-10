@@ -1,49 +1,60 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97482512C8
-	for <linux-sunxi@lists.linux.dev>; Thu,  9 Oct 2025 18:38:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119E0231830
+	for <linux-sunxi@lists.linux.dev>; Fri, 10 Oct 2025 08:41:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760035122; cv=none; b=YyAdvHfK+raoi0tWsdIXaxSvYJNCO8vByxAPjk4sBgebcDj6p4QJQFo0NuvRQx2Nj9qUXR0u4Smm1brAXBfFNfUZxdwCHtMrXhbtSEdjTvkudp4GAja8Bb3OImOZmhInrlMGl+2OsP1J/VqPLsm1l9q/N01cJROdxeKCvg6CWcw=
+	t=1760085692; cv=none; b=Z/R4N6cwWhckRG7VV+I9hFALZVqk8TJPvQCxUS1QvhNgBqaa8zkVrEOLWTh2Qf0AU2uJMjedobU6cecqL4xMVK24+YC6S+IGn1SEAdDHd/UA2y2oW78cdAumQsf89ZAP+S+x8A4v0zXNSaaSu0SSdhZH7TUpsY2boHj4DZ2XN2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760035122; c=relaxed/simple;
-	bh=QKGvWaeDJkJxuusZziJoVd5/CEJsgeWfRZb6SmpD1Ug=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O5ldS4cdciMXNN4Ofjjpc3Ncbc3VqlKZQmdkS2Hhgfh5mV989o5MXw9Tq6U5ATSgTBOrLQdzzNuiwLgV3zvShgPoYM+OLidIuBTdEdR0SHtnPvKI1bRxdpwwYvgyv3jxY/dgsyx4xIpfsA8EF+YX9msZExgz0ypaAcb0MEf5X4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=DWu2wiyN; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1760085692; c=relaxed/simple;
+	bh=N0jaLxs10v/mZlLsQ6XLvJPnyxIcUayb+m47AW552WY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Dli11/7PkNU/WPhLspZ3dvfTOTgP2poPk2wUbg2dDz6qKv7Os5yh6KaSSh6Ib0xbpFmfxyUJkTEXXa/EsNNT49MvHtmUxFxeuWqhhI7boYxd5No6k0bQYkIXynG1Wq4KaTv5RGRYIELGYTp1X5lU7xiVrNAc1drzYttvEB7bwvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Lj2r5OGq; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="DWu2wiyN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=WLoRyTdOAzdrgD
-	Qu6Y9H3IPEVEhQZSzdy1Zv7I7aZiQ=; b=DWu2wiyNjhwAWbbOJBef4xB/CnSshK
-	zMoP+yRSokij6/qzgL72FYMtsV3S7W8uQnH/GN2s9iOnj+jXwX5wNQi1/AkA7zhK
-	S5zopw7SMn5p9xia4w2aj/d/1+4VjIpPEEDfiXMZL4Xqg4cLqBcPnqiR+mxvs6nT
-	z1k280dSnqPwUtH00Oo5QnW0ltETgaAnX1Q3/bg9xLdTytTLzixQaMWjBRFUmUof
-	dxA71hZORo4qFRpRe+eFntYtnlx+cPm5/+Jtjpg9hwBFRQD1LYxW10crIHU5YTsR
-	Gyj1pOvLy04iBSFUrmLlg8C8Pq865jUs097buDMWpTVhlJ0xLw2OTkWw==
-Received: (qmail 1186477 invoked from network); 9 Oct 2025 20:38:38 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Oct 2025 20:38:38 +0200
-X-UD-Smtp-Session: l3s3148p1@iiAIHL5ATJ4ujnv2
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Lj2r5OGq"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 9011EC08CC1;
+	Fri, 10 Oct 2025 08:41:08 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 20FCE60667;
+	Fri, 10 Oct 2025 08:41:27 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 35FFF102F21F6;
+	Fri, 10 Oct 2025 10:41:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1760085686; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=VlNW7Be15vPzXytv5j+MryEbpzdAb9uI6s31TlFZlxk=;
+	b=Lj2r5OGqlb6pAwKRb6ymYRsKb/WCiIrt5ExubUC7yOt0wyvxJ4w5iJ869x5DHqNWvNQfeM
+	FSMCV7eBLKWlcScPxqAP1b4FEOL+DhOZbiFAkIO5S3aPcPLeN3oQKTqWiejlZn5KINLrwc
+	06GDruTOHWg7A0NCjy81rtgJQ51o04bogC/WcemZEN+KSpKFOg7NAqm5E1WA3dK9E46eZe
+	OdzyxpaKVs5qz4L/zKgsoN04U+iVN2Hb9O+nUGld5CydqxL0fT1Cgo5PaI+67AxwVNYYZd
+	UDAaaqKmaVkiy/VUGMUvRhZPAP2Myzata1cZvomNiapd06GgqUaZdyEc6oSuag==
+From: Richard Genoud <richard.genoud@bootlin.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Wentao Liang <vulab@iscas.ac.cn>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
 	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-mtd@lists.infradead.org,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2] dt-bindings: bus: allwinner,sun50i-a64-de2: don't check node names
-Date: Thu,  9 Oct 2025 20:37:43 +0200
-Message-ID: <20251009183835.5533-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Richard Genoud <richard.genoud@bootlin.com>
+Subject: [PATCH 00/15] Introduce Allwinner H6/H616 NAND controller support
+Date: Fri, 10 Oct 2025 10:40:27 +0200
+Message-ID: <20251010084042.341224-1-richard.genoud@bootlin.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -51,31 +62,70 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Node names are already and properly checked by the core schema. No need
-to do it again.
+Hi everyone,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
-Changes since v1:
-* dropped superfluous '^.*' from the regex
+This patch series introduce H6/H616 NAND controller support (but not yet
+the DMA/MDMA part).
 
- .../devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml       | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+All the work was done on a H616 board with a Kioxia TC58NVG1S3HTA00 NAND
+chip.
+ECC is supported, as well as scrambling.
 
-diff --git a/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml b/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
-index 9845a187bdf6..ff8dbc684bbc 100644
---- a/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
-+++ b/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
-@@ -44,7 +44,7 @@ properties:
- 
- patternProperties:
-   # All other properties should be child nodes with unit-address and 'reg'
--  "^[a-zA-Z][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+$":
-+  "@[0-9a-fA-F]+$":
-     type: object
-     additionalProperties: true
-     properties:
+H6 SoC has not been tested, but it shares all registers with H616, plus
+some registers dedicated to Embedded Crypto Engine that H616 lacks.
+
+This IP has quite some register fields modified from the A10/A23, but in
+the end, it works more or less the same.
+Main differences with A10/A23 are:
+- The need for 2 more clocks (for ECC and MBUS)
+- The use of a new USER_DATA_LEN register
+- More ECC strengths (44, 52, 68, 72, 76 and 80 bits / 1KB)
+- MDMA based on chained buffers
+- some registers layouts have changed (mainly due do the stronger ECC)
+
+Patch 1 removes a superfluous call, and is independent from the others.
+
+Patch 2 introduces allwinner,sun50i-h616-nand-controller compatible
+in order to differentiate from the A10 and A23.
+
+Patch 3 adds the NAND controller node to sun50i-h616.dtsi
+
+Patches 4-14 are paving the way to the introduction of H616 NAND
+controller support.
+They are small, without functional change and easier to review than a
+big patch.
+They move a fixed value (register offset, field mask, SRAM size) into
+the struct sunxi_nfc_caps when those values are different on H6/H616.
+
+Patch 15 introduce the support for H6/H616 NAND controller.
+
+Regards,
+Richard
+
+Richard Genoud (15):
+  mtd: rawnand: sunxi: Remove superfluous register readings
+  dt-bindings: mtd: sunxi: Add new compatible
+  arm64: dts: allwinner: h616: add NAND controller
+  mtd: nand: sunxi: move ecc strenghts in sunxi_nfc_caps
+  mtd: nand: sunxi: introduce reg_ecc_err_cnt in sunxi_nfc_caps
+  mtd: nand: sunxi: introduce reg_user_data in sunxi_nfc_caps
+  mtd: nand: sunxi: rework pattern found registers
+  mtd: nand: sunxi: add has_ecc_block_512 capability
+  mtd: nand: sunxi: introduce ecc_mode_mask in sunxi_nfc_caps
+  mtd: nand: sunxi: introduce random en/dir in sunxi_nfc_caps
+  mtd: nand: sunxi: introduce reg_pat_id in sunxi_nfc_caps
+  mtd: nand: sunxi: introduce reg_spare_area in sunxi_nfc_caps
+  mtd: nand: sunxi: introduce ecc_err_mask in sunxi_nfc_caps
+  mtd: nand: sunxi: introduce sram_size in sunxi_nfc_caps
+  mtd: rawnand: sunxi: Add support for H616 nand controller
+
+ .../mtd/allwinner,sun4i-a10-nand.yaml         |  56 ++-
+ .../arm64/boot/dts/allwinner/sun50i-h616.dtsi |  50 +++
+ drivers/mtd/nand/raw/sunxi_nand.c             | 342 +++++++++++++++---
+ 3 files changed, 390 insertions(+), 58 deletions(-)
+
 -- 
-2.47.2
+2.47.3
 
