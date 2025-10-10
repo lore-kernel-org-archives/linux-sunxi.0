@@ -1,40 +1,33 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 036642820A4
-	for <linux-sunxi@lists.linux.dev>; Fri, 10 Oct 2025 10:22:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C0B222587;
+	Fri, 10 Oct 2025 10:24:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760091741; cv=none; b=HRWAWAppUky4oJZkm/JIc71ttulNWz1jCI7nA1Z+JEy1fNx24+kmMSthpAD0oXSVflZDEbNbHlR0Bhsk5zBRE49pZKDAlVi+gmLiFMSVinumzq31u9f8hqEE7xl/FWh7b9Hxm88fySNR6scJVHwa0XzUIqAZ8qvNZB4d4TzOQuw=
+	t=1760091894; cv=none; b=J0abNd33m8nGJMAgI+3A8g5WZMj4ZmdNHAspoEeOALN5LANFu1HerOV2zpvqbirO7EXCa4xu3pHrM4/FOgPANBvDtqZsR28zC0NAYaen6P+8oIm7CFrmK98gV6PSbYRxWKp1GxPSV+SXKA/cQTlnllnon1Heu+J7IDcxaVh+OzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760091741; c=relaxed/simple;
-	bh=NMynMGbKCGoXa3+zfRY4wTd8ZErpDMWLsVJVcoFNU5w=;
+	s=arc-20240116; t=1760091894; c=relaxed/simple;
+	bh=lkp7nBjKgabSK8PsTTWM8Xy19DTPV1PKwluvMWdpwEc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZrawNB8DIrUPPqiDb6oVaAYUYjmc+yzf9OrPeGn+c7xIg3sHNILjSQuSsqySosB8k32jJZjnFgYHMisogPlFSzgD3BLF8j+ONM2+5VI+nbNiFK2QfSLsE6/ax+1/pv3Oz1G1yYdnd/wBEJbLDnQgJLf6XnB73Job6NFw/fohteE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ksoo2ILU; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	 In-Reply-To:Content-Type; b=GHAPjvSEvZI9gQt5KzKlj0MniKuIyscWywHKFRaJkqPrZWK2rfFZsbyNeqCUJBIPNciBzJI8JR3TpTPONNq8sl6Zys7qeuDs5p+Bq7x+BPV+wl1k3wfJLKCLmlogV8biDRn2Dl5Ylw4OmUPXZZfTEQCrbbHtVgCoPOLz3h/pH8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=glXvUSWg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ksoo2ILU"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 5405B4E40FB3;
-	Fri, 10 Oct 2025 10:22:18 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 28C3B60667;
-	Fri, 10 Oct 2025 10:22:18 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 581C7102F220E;
-	Fri, 10 Oct 2025 12:22:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760091737; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=LVAJyNJ/atriVmfO2odOrzCoxOhZwl6Ix4PMrqVToYk=;
-	b=ksoo2ILUKZ/ObF21JtYOUO92T+BCdn2ME3maRCv+7sMurv6VEfraalOYLbpMQ0EjylyjBy
-	WSTKA30jtDXWGYPIHWrBKYrwe3m2XDMq7maal7YBMI7cz9ycXn+pxMlr1VGgRR0nRjsly7
-	hXK69PIxeuPJ5mH29t35/QtLoAmMV59TS8V4pJzoJuZZdJrGk7Jz/dFwIcKYDD9gTG+alr
-	K2GnEemfK10+4rzRvNMtk9M68xllsp32Vh4XDqhEcyXBCSLGq0GZuWFrWO050Th0dh5yy4
-	ajEW4kvqmx7w7KzVSpcPZ6XJ+yZjmVuxZovTWslvdn0E2RMkY9G0HBHXrk3VGQ==
-Message-ID: <00f6ec33-bd86-4f57-8011-1c067e9321b4@bootlin.com>
-Date: Fri, 10 Oct 2025 12:22:13 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="glXvUSWg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B87FC4CEF5;
+	Fri, 10 Oct 2025 10:24:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760091894;
+	bh=lkp7nBjKgabSK8PsTTWM8Xy19DTPV1PKwluvMWdpwEc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=glXvUSWgFb1yy1sTSCRyN9iSvA8I4MMK1MojB6Cl+mX/H78DqWicqILYkwFz8lcSs
+	 L3ci45itZ004KXLa6WwpdO1qQjF6u88xKKYW/JFyh5Up2hbx88imcMPV2p2XMPn/mb
+	 M2szSqlAKW5JEqynQ4z/y+VVe1vlvNi3Yb29GFPiSas+CAPuWo0orwSeLG8Q4uyyT0
+	 RG3xNkc3IwX2JYHMgInkwq3iQy/7NRohVEEElJgbp+n/o/kDyFRowzJX6TOGpop9ZS
+	 j8NDUJp2En1dsq1gBKQ8V3msZ+y+xaNUDCDroZ+Qo7JaIMPW76YKz/+QQ9j4Ou+H4/
+	 AfSFuJ+WVjEAw==
+Message-ID: <a4a7f625-a276-4534-983c-15560dee350c@kernel.org>
+Date: Fri, 10 Oct 2025 12:24:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -43,7 +36,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 03/15] arm64: dts: allwinner: h616: add NAND controller
-To: Krzysztof Kozlowski <krzk@kernel.org>,
+To: Richard GENOUD <richard.genoud@bootlin.com>,
  Miquel Raynal <miquel.raynal@bootlin.com>,
  Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -60,53 +53,74 @@ Cc: Wentao Liang <vulab@iscas.ac.cn>,
 References: <20251010084042.341224-1-richard.genoud@bootlin.com>
  <20251010084042.341224-4-richard.genoud@bootlin.com>
  <82bcd40f-7e94-43ca-99c9-234458011b9b@kernel.org>
-From: Richard GENOUD <richard.genoud@bootlin.com>
-Content-Language: en-US, fr
-Organization: Bootlin
-In-Reply-To: <82bcd40f-7e94-43ca-99c9-234458011b9b@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+ <00f6ec33-bd86-4f57-8011-1c067e9321b4@bootlin.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <00f6ec33-bd86-4f57-8011-1c067e9321b4@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Le 10/10/2025 à 10:47, Krzysztof Kozlowski a écrit :
-> On 10/10/2025 10:40, Richard Genoud wrote:
->> The H616 has a NAND controller quite similar to the A10/A23 ones, but
->> with some register differences, more clocks (for ECC and MBUS), more ECC
->> strengths, so this requires a new compatible string.
+On 10/10/2025 12:22, Richard GENOUD wrote:
+>>> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+>>> ---
 >>
->> This patch adds the NAND controller node and pins in the device tree.
-> 
-> 
-> Please do not use "This commit/patch/change", but imperative mood. See
-> longer explanation here:
-> https://elixir.bootlin.com/linux/v6.16/source/Documentation/process/submitting-patches.rst#L94
-You're right, I'll reformulate that.
-
-
-> 
+>> Confusing order of patches. Driver code cannot depend on DTS.
 >>
->> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
->> ---
+>> See submitting patches in DT. It is VERY explicit about it. Please also
+>> read maintainer soc profile.
+> Indeed, it's quite explicit in
+> Documentation/devicetree/bindings/submitting-patches.rst
+> Sorry for that.
 > 
-> Confusing order of patches. Driver code cannot depend on DTS.
-> 
-> See submitting patches in DT. It is VERY explicit about it. Please also
-> read maintainer soc profile.
-Indeed, it's quite explicit in
-Documentation/devicetree/bindings/submitting-patches.rst
-Sorry for that.
+> But I don't know what you are referring to as "maintainer soc profile"
+> I guess soc here doesn't stand for system on chip :)
 
-But I don't know what you are referring to as "maintainer soc profile"
-I guess soc here doesn't stand for system on chip :)
+Here:
 
-Thanks!
+Documentation/process/maintainer-soc.rst
 
-> 
-> Best regards,
-> Krzysztof
-
-
--- 
-Richard Genoud, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Best regards,
+Krzysztof
