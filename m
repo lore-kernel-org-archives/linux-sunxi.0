@@ -1,38 +1,38 @@
 Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E4426C3BF
-	for <linux-sunxi@lists.linux.dev>; Fri, 10 Oct 2025 08:42:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26FA6283FFA
+	for <linux-sunxi@lists.linux.dev>; Fri, 10 Oct 2025 08:42:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760085725; cv=none; b=EvnD3jekKOm7lqB+JZKktXlrHAUn3zqqt8sHcwKtdwqPFpXffdqTLHDrgbFtZGz+vEqgNvgnWB7s8ATri1YylxPiEBIhZurSyVbIpEgS72X1/+jDy7+/14WOM8/OXJSwqqUw/kiKECeF4GoAceQeHwJFCfxM0fzbFeNBF8/LsLs=
+	t=1760085727; cv=none; b=FaMXFuHpqQVS5AT11QC7i6rCOqxZfNPjch6l2BQC6GkR4NzFKnv1AQYXh+dj6af2Qq2KSr9hbCcuC8D/bcLiZnrzHuwyNcBRekGDXi0JBvtd+f65AAm+up7B7Owe36s8qFADYBvnDsK4di5uAf5FFqu39Ms+f8v/dnUvqLVABmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760085725; c=relaxed/simple;
-	bh=l4WAsmsuOz7Jsf+sdax9q2EP3I81f3d3ZdfPgBi4e6I=;
+	s=arc-20240116; t=1760085727; c=relaxed/simple;
+	bh=cEQn29jCxybp0mc+vVYJ7BrpJTmfe1Rgs0CG30Yzy9M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TPk6BDkH28AZ5e1VoCUFS6NlgEaQpbOaCQo4dxEdFoMHAyO5BQ+Z5QyPE3EqYcPOP9WFWGAvE01sL8jWz+ckJBpU8zGc/FYIGcvBVXwOtgl1kv9yrp5mxwlsIy++HlVip8cCB40DSZj/uK+p7lhUb86NV2Iy6uDSgm4SRcEId1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=0HaMos45; arc=none smtp.client-ip=185.171.202.116
+	 MIME-Version; b=VNZglxsUrSCACxL0yW+CI7IUVauB2UbAKo8if5x9NLVpj5IKAVZuVFZsbvniBoMn5SQ6kRRuqY5m54smu0QONHIuvmfSTFZ35bt7riCivIcJLMwT8NWSng0F/oCgY6ZHL098WnNQxsbgw803eECBFWHcChT39o67JyYT/wj4xkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Tkd4UNkK; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="0HaMos45"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Tkd4UNkK"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 76786C08CCB;
-	Fri, 10 Oct 2025 08:41:43 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 50506C08CCA;
+	Fri, 10 Oct 2025 08:41:46 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 2073860667;
-	Fri, 10 Oct 2025 08:42:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D39B1102F21F6;
-	Fri, 10 Oct 2025 10:41:58 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id EDA4860667;
+	Fri, 10 Oct 2025 08:42:04 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 52819102F2207;
+	Fri, 10 Oct 2025 10:42:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760085720; h=from:subject:date:message-id:to:cc:mime-version:
+	t=1760085723; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=xBC8LNngzpgWuLk6Iaxw78Ekk5fw7GlULT04baQhk6A=;
-	b=0HaMos45nHtmvcPEgvdxfUvSvNERAh0a4+FTd8TKlvL9WGObj5JEeNfO96cRJboo4xUElo
-	vYvhVBBDORZahnmNc9q6goXzKfGYYOsD16spyFb+Wffjl9StdFrWfe/Hh3m8Qq4mfKViic
-	xrOPe68/TlfY9MK8HM3RUhZEwKhJwAk6TcJUdLD3OJNvZo3JM/IEOERR/doz5znqkHblWr
-	PUKZWObVdJCg3wBm7Y/JE6cSnLGZwntoHuSZTk+QlGfJ8Ju4CoeZQxZv+Vy0eXZtNxW9mt
-	stdJi/uEqmsvTsauB84razb99kccAdRRJlJiQ53hDhZq7PXTkepMeCobX2ybPg==
+	bh=rRUQJ34yBDEQRJECh1MeBCDCN7q5t1MV6jZLuQSFP2g=;
+	b=Tkd4UNkK3WjiPjOrsD0l9gsyO2oU43kzmJwd3LHFb5HHG3HmadoK0OTbXbe2yvNPk2hcTy
+	JGpakH+FT1KoYPYtrpn7V3jmk/e5jMCjRWtz53dAoAhKaX/ZEthzuHEheFrjo+g8rAPXv9
+	+8ucUMMklbhZtdNIMZ2nmmMa3b1Zu3wuuGWIqNUxc+JxmxwuEYupIcBV+66dIpidQo/liK
+	Rij+nA4++61e7BDEGN+3ppJ5wRH76YzwdLw4ak8BzoQafHvuGbLEPK+gUjE1EagJ5Wg7nX
+	U4/T5VQHAsuxGBvS/j9/S/nNmPrceAyLBJGp3aYDeh5zMzED/DoXHg3jdyE/kQ==
 From: Richard Genoud <richard.genoud@bootlin.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>,
 	Richard Weinberger <richard@nod.at>,
@@ -53,9 +53,9 @@ Cc: Wentao Liang <vulab@iscas.ac.cn>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Richard Genoud <richard.genoud@bootlin.com>
-Subject: [PATCH 13/15] mtd: nand: sunxi: introduce ecc_err_mask in sunxi_nfc_caps
-Date: Fri, 10 Oct 2025 10:40:40 +0200
-Message-ID: <20251010084042.341224-14-richard.genoud@bootlin.com>
+Subject: [PATCH 14/15] mtd: nand: sunxi: introduce sram_size in sunxi_nfc_caps
+Date: Fri, 10 Oct 2025 10:40:41 +0200
+Message-ID: <20251010084042.341224-15-richard.genoud@bootlin.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251010084042.341224-1-richard.genoud@bootlin.com>
 References: <20251010084042.341224-1-richard.genoud@bootlin.com>
@@ -68,70 +68,88 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-The H6/H616 error mask register is bigger than the A10/A23 one, so move
-its mask into sunxi_nfc_caps.
+The H6/H616 the SRAM is bigger than the A10/A23 one, so move its size
+into sunxi_nfc_caps.
 
 No functional change
 
 Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
 ---
- drivers/mtd/nand/raw/sunxi_nand.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/mtd/nand/raw/sunxi_nand.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
-index 80aafa4e1844..3912878e7645 100644
+index 3912878e7645..e81d74c6633a 100644
 --- a/drivers/mtd/nand/raw/sunxi_nand.c
 +++ b/drivers/mtd/nand/raw/sunxi_nand.c
-@@ -155,7 +155,7 @@
+@@ -167,8 +167,6 @@
  
- /* define bit use in NFC_ECC_ST */
- #define NFC_ECC_ERR(x)		BIT(x)
--#define NFC_ECC_ERR_MSK		GENMASK(15, 0)
-+#define NFC_ECC_ERR_MSK(nfc)	(nfc->caps->ecc_err_mask)
+ #define NFC_DEFAULT_TIMEOUT_MS	1000
  
- /*
-  * define bit use in NFC_REG_PAT_FOUND
-@@ -235,6 +235,7 @@ static inline struct sunxi_nand_chip *to_sunxi_nand(struct nand_chip *nand)
-  * @random_en_mask:	RANDOM_EN mask in NFC_ECC_CTL register
-  * @random_dir_mask:	RANDOM_DIRECTION mask in NFC_ECC_CTL register
-  * @ecc_mode_mask:	ECC_MODE mask in NFC_ECC_CTL register
-+ * @ecc_err_mask:	NFC_ECC_ERR mask in NFC_ECC_ST register
-  * @pat_found_mask:	ECC_PAT_FOUND mask in NFC_REG_PAT_FOUND register
+-#define NFC_SRAM_SIZE		1024
+-
+ #define NFC_MAX_CS		7
+ 
+ /**
+@@ -240,6 +238,7 @@ static inline struct sunxi_nand_chip *to_sunxi_nand(struct nand_chip *nand)
   * @dma_maxburst:	DMA maxburst
   * @ecc_strengths:	Available ECC strengths array
-@@ -252,6 +253,7 @@ struct sunxi_nfc_caps {
- 	unsigned int random_en_mask;
- 	unsigned int random_dir_mask;
- 	unsigned int ecc_mode_mask;
-+	unsigned int ecc_err_mask;
- 	unsigned int pat_found_mask;
+  * @nstrengths:		Size of @ecc_strengths
++ * @sram_size:		Size of the NAND controller SRAM
+  */
+ struct sunxi_nfc_caps {
+ 	bool has_mdma;
+@@ -258,6 +257,7 @@ struct sunxi_nfc_caps {
  	unsigned int dma_maxburst;
  	const u8 *ecc_strengths;
-@@ -1030,7 +1032,7 @@ static int sunxi_nfc_hw_ecc_read_chunks_dma(struct nand_chip *nand, uint8_t *buf
- 		sunxi_nfc_hw_ecc_update_stats(nand, &max_bitflips, ret);
- 	}
+ 	unsigned int nstrengths;
++	int sram_size;
+ };
  
--	if (status & NFC_ECC_ERR_MSK) {
-+	if (status & NFC_ECC_ERR_MSK(nfc)) {
- 		for (i = 0; i < nchunks; i++) {
- 			int data_off = i * ecc->size;
- 			int oob_off = i * (ecc->bytes + 4);
-@@ -2235,6 +2237,7 @@ static const struct sunxi_nfc_caps sunxi_nfc_a10_caps = {
- 	.random_en_mask = BIT(9),
- 	.random_dir_mask = BIT(10),
- 	.ecc_mode_mask = GENMASK(15, 12),
-+	.ecc_err_mask = GENMASK(15, 0),
- 	.pat_found_mask = GENMASK(31, 16),
+ /**
+@@ -495,7 +495,7 @@ static void sunxi_nfc_read_buf(struct nand_chip *nand, uint8_t *buf, int len)
+ 	while (len > offs) {
+ 		bool poll = false;
+ 
+-		cnt = min(len - offs, NFC_SRAM_SIZE);
++		cnt = min(len - offs, nfc->caps->sram_size);
+ 
+ 		ret = sunxi_nfc_wait_cmd_fifo_empty(nfc);
+ 		if (ret)
+@@ -533,7 +533,7 @@ static void sunxi_nfc_write_buf(struct nand_chip *nand, const uint8_t *buf,
+ 	while (len > offs) {
+ 		bool poll = false;
+ 
+-		cnt = min(len - offs, NFC_SRAM_SIZE);
++		cnt = min(len - offs, nfc->caps->sram_size);
+ 
+ 		ret = sunxi_nfc_wait_cmd_fifo_empty(nfc);
+ 		if (ret)
+@@ -1861,7 +1861,7 @@ static int sunxi_nfc_exec_subop(struct nand_chip *nand,
+ 		case NAND_OP_DATA_OUT_INSTR:
+ 			start = nand_subop_get_data_start_off(subop, i);
+ 			remaining = nand_subop_get_data_len(subop, i);
+-			cnt = min_t(u32, remaining, NFC_SRAM_SIZE);
++			cnt = min_t(u32, remaining, nfc->caps->sram_size);
+ 			cmd |= NFC_DATA_TRANS | NFC_DATA_SWAP_METHOD;
+ 
+ 			if (instr->type == NAND_OP_DATA_OUT_INSTR) {
+@@ -2242,6 +2242,7 @@ static const struct sunxi_nfc_caps sunxi_nfc_a10_caps = {
  	.dma_maxburst = 4,
  	.ecc_strengths = sunxi_ecc_strengths_a10,
-@@ -2253,6 +2256,7 @@ static const struct sunxi_nfc_caps sunxi_nfc_a23_caps = {
- 	.random_en_mask = BIT(9),
- 	.random_dir_mask = BIT(10),
- 	.ecc_mode_mask = GENMASK(15, 12),
-+	.ecc_err_mask = GENMASK(15, 0),
- 	.pat_found_mask = GENMASK(31, 16),
+ 	.nstrengths = ARRAY_SIZE(sunxi_ecc_strengths_a10),
++	.sram_size = 1024,
+ };
+ 
+ static const struct sunxi_nfc_caps sunxi_nfc_a23_caps = {
+@@ -2261,6 +2262,7 @@ static const struct sunxi_nfc_caps sunxi_nfc_a23_caps = {
  	.dma_maxburst = 8,
  	.ecc_strengths = sunxi_ecc_strengths_a10,
+ 	.nstrengths = ARRAY_SIZE(sunxi_ecc_strengths_a10),
++	.sram_size = 1024,
+ };
+ 
+ static const struct of_device_id sunxi_nfc_ids[] = {
 -- 
 2.47.3
 
