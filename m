@@ -1,46 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7F332C8B;
-	Fri, 10 Oct 2025 18:46:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6040C13B;
+	Sat, 11 Oct 2025 01:01:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760121963; cv=none; b=rfLYUC7/tJ/nua+aMweTRmW8AQX+eiUHNapzgnjrEpBoQEU3WsyL3pUqbn2QhpfbOxCGx7RTgmVlC5hZ6mpgF5LE71U0qOwgnc5cV1PSDNDqMEAriWo/UuYXlVe6EwHxdBndOCUSWL9N7iK6QGGKbxBeUgF25h04GHnGG0SQQhE=
+	t=1760144515; cv=none; b=F06o6f+275IQb+xY9iBTHDJhKTgOA0GwjUJDQqLJ15WS3qvaMwQLFmkdY6SuNa3qnB81saSfm+UTtoLhXsB5m0X8kq1sradq0H70R20r4WYUE3cv3R5K+3msxsmXL7Oxd0aPfEnbKxaGa/TAfYIaFeYgEbJYbRxJ33lTDLepBdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760121963; c=relaxed/simple;
-	bh=/RQkKmofIpTcP5IxDbViET4LQva955Hk1A6mQ8+698A=;
+	s=arc-20240116; t=1760144515; c=relaxed/simple;
+	bh=p7fX/+rgWeulRXhHhTpwOa6jJqqMEZgpg+PPc1ne51Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rjDKSZG52+Vp0lgqPena47g3dqaNd39Jkri5fw9yJHGvSLV8GppO29Mnde5YMedCSzyLFmmSx6jQJtIHyiLAy7y+CPod36OWB7Ac9IFAXoTbuQVOoa3GKUPrJfY67ar6QB5AAWdEIzCmBSoMZPedgNS6EA5xaRBm2d/a9Z745MA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GJpSuy6Q; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=C7/qTVTGAHMMSyF7zlOf3jIALv4rEBix6lfBztecZ9cEsj+yRwSyWulYqplUb6ZtemIhS1o3Rqb0EhjTSSsJOZ4BPOm7QILUq+thn/TW202WlqXNQPx/McJ2NpQhzdYzwCExyDqtb5xSvOL8Ef01Z8tFgs5wyuYZc3OAcXub1X4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EmxIyes0; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GJpSuy6Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 880D9C4CEF1;
-	Fri, 10 Oct 2025 18:46:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760121962;
-	bh=/RQkKmofIpTcP5IxDbViET4LQva955Hk1A6mQ8+698A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GJpSuy6QLNiZepjO1i/r9yn4XyKjK8af2RMEVi9vJQPOa0cQBGykqdlOd7ezfx4Qm
-	 VQO3orKj+KV4q88mxx4V5o0G/RZ96P4dPmuaMIEBgZkCcFoHg1hqwRKzxo7FC+jWCL
-	 bTLHHdOu7OoNEAUpHCynugIsv/3xe6w2/ja6emg0JRBnLatxMx9WUCruDnQzIZoeiM
-	 r/MPvV0zCUiU4/bDOSe2zqfReyPbY3X4ZlnBVHFxI/HU3BPOy6tozCndzzuQPr3zOt
-	 PynJpJjbpWo7WGC2TC4qe5rFzVNLnmSiIQRnZ60mz+WvclrN541aqTH20dg4epely8
-	 Nyolnk19KiaQw==
-Date: Fri, 10 Oct 2025 13:46:00 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-sunxi@lists.linux.dev, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Samuel Holland <samuel@sholland.org>,
-	linux-renesas-soc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EmxIyes0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760144514; x=1791680514;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=p7fX/+rgWeulRXhHhTpwOa6jJqqMEZgpg+PPc1ne51Y=;
+  b=EmxIyes0w1kUjAD2FiorTNK8oRNSeLoMVnzZWRZwza3Hqbn5RiPqire4
+   V/cOK+T9Gg1GISlnx+Vbzy2CvWsXPaqWSvNnEGBkth0PEws8szGeiEtOE
+   lewCG25lR3lSnke6a4GX5CpXbzXrobvfwYUTkj7ZU+LadCd5CqmodOIZQ
+   cPLIw92ZbtLTyNGu94quvyFgJdIG7h5/icS/PmAy2cSIpXU2PJdwDxPpW
+   opbXKBEw0h/VKUjCuaKtB3DKC79nSD94jjDm5hFx4z2p214HW2AGRmfqS
+   nl9L5WMKDNmLQBZ8NbDrYAUR6vydT7NnvRu2mbYF8v2wON2SJVu2wys+g
+   w==;
+X-CSE-ConnectionGUID: ytYfctsaScut3qsD3e0KqQ==
+X-CSE-MsgGUID: Vzi/7P/eT++gNwkNLJDisQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="66195389"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="66195389"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 18:01:54 -0700
+X-CSE-ConnectionGUID: YYXD5VaDQ4OSv0yvz6dJvg==
+X-CSE-MsgGUID: HyLT0645TUShK87mEYH45g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
+   d="scan'208";a="186222886"
+Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 10 Oct 2025 18:01:49 -0700
+Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v7NzW-0003M3-13;
+	Sat, 11 Oct 2025 01:01:46 +0000
+Date: Sat, 11 Oct 2025 09:00:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Richard Genoud <richard.genoud@bootlin.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org,
-	Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v2] dt-bindings: bus: allwinner,sun50i-a64-de2: don't
- check node names
-Message-ID: <176012195864.688896.9808018119386389754.robh@kernel.org>
-References: <20251009183835.5533-2-wsa+renesas@sang-engineering.com>
+	Samuel Holland <samuel@sholland.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Wentao Liang <vulab@iscas.ac.cn>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Richard Genoud <richard.genoud@bootlin.com>
+Subject: Re: [PATCH 15/15] mtd: rawnand: sunxi: Add support for H616 nand
+ controller
+Message-ID: <202510110828.Xb6hqQvx-lkp@intel.com>
+References: <20251010084042.341224-16-richard.genoud@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -49,21 +79,35 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251009183835.5533-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20251010084042.341224-16-richard.genoud@bootlin.com>
 
+Hi Richard,
 
-On Thu, 09 Oct 2025 20:37:43 +0200, Wolfram Sang wrote:
-> Node names are already and properly checked by the core schema. No need
-> to do it again.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
-> Changes since v1:
-> * dropped superfluous '^.*' from the regex
-> 
->  .../devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml       | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+kernel test robot noticed the following build warnings:
 
-Applied, thanks!
+[auto build test WARNING on mtd/nand/next]
+[also build test WARNING on mtd/mtd/next mtd/mtd/fixes sunxi/sunxi/for-next robh/for-next linus/master v6.17 next-20251010]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Genoud/mtd-rawnand-sunxi-Remove-superfluous-register-readings/20251010-164637
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
+patch link:    https://lore.kernel.org/r/20251010084042.341224-16-richard.genoud%40bootlin.com
+patch subject: [PATCH 15/15] mtd: rawnand: sunxi: Add support for H616 nand controller
+config: riscv-randconfig-002-20251011 (https://download.01.org/0day-ci/archive/20251011/202510110828.Xb6hqQvx-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510110828.Xb6hqQvx-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510110828.Xb6hqQvx-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: drivers/mtd/nand/raw/sunxi_nand.c:351 struct member 'mbus_clk' not described in 'sunxi_nfc'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
