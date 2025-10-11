@@ -1,113 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6040C13B;
-	Sat, 11 Oct 2025 01:01:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F8372566F2
+	for <linux-sunxi@lists.linux.dev>; Sat, 11 Oct 2025 10:20:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760144515; cv=none; b=F06o6f+275IQb+xY9iBTHDJhKTgOA0GwjUJDQqLJ15WS3qvaMwQLFmkdY6SuNa3qnB81saSfm+UTtoLhXsB5m0X8kq1sradq0H70R20r4WYUE3cv3R5K+3msxsmXL7Oxd0aPfEnbKxaGa/TAfYIaFeYgEbJYbRxJ33lTDLepBdM=
+	t=1760178024; cv=none; b=gyLDbyuZ5uksFkD8Bx9B772aMkm6maCMrRy8XpZ7MiAZDcVB72G7TeYFb5SB/2AjsIUnHr3Pe2u92JiIpNBkYsiIurNaP2UizeYU9WnBA9ZSuOgNfKyb9CPAd2ho8dUXw9RBFS0y9Wh0Oa2pNExDbqY9Oj8cBwQwBmj0RkgIx7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760144515; c=relaxed/simple;
-	bh=p7fX/+rgWeulRXhHhTpwOa6jJqqMEZgpg+PPc1ne51Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C7/qTVTGAHMMSyF7zlOf3jIALv4rEBix6lfBztecZ9cEsj+yRwSyWulYqplUb6ZtemIhS1o3Rqb0EhjTSSsJOZ4BPOm7QILUq+thn/TW202WlqXNQPx/McJ2NpQhzdYzwCExyDqtb5xSvOL8Ef01Z8tFgs5wyuYZc3OAcXub1X4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EmxIyes0; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1760178024; c=relaxed/simple;
+	bh=kH6m3q9Go+WlNJw/7g8dG1h/aaEJpSAxzZprEUvs9Nc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uqNFE6fUdGhjaB1wKbYCseaN9sjlr8tP0ZZBxBGkMHtHau/7TlrglRXWjY2Pz71y8Ph5qQH0ZGzh5uETtBrlrIPvZLGscCSMKcLnjelIXar6SWabDYC/a8JcQAGGIovm9jZPbsfbllw03AyUivKlelNdO+KsPS0Ij/9bjlnQuns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OaayvvqW; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EmxIyes0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760144514; x=1791680514;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=p7fX/+rgWeulRXhHhTpwOa6jJqqMEZgpg+PPc1ne51Y=;
-  b=EmxIyes0w1kUjAD2FiorTNK8oRNSeLoMVnzZWRZwza3Hqbn5RiPqire4
-   V/cOK+T9Gg1GISlnx+Vbzy2CvWsXPaqWSvNnEGBkth0PEws8szGeiEtOE
-   lewCG25lR3lSnke6a4GX5CpXbzXrobvfwYUTkj7ZU+LadCd5CqmodOIZQ
-   cPLIw92ZbtLTyNGu94quvyFgJdIG7h5/icS/PmAy2cSIpXU2PJdwDxPpW
-   opbXKBEw0h/VKUjCuaKtB3DKC79nSD94jjDm5hFx4z2p214HW2AGRmfqS
-   nl9L5WMKDNmLQBZ8NbDrYAUR6vydT7NnvRu2mbYF8v2wON2SJVu2wys+g
-   w==;
-X-CSE-ConnectionGUID: ytYfctsaScut3qsD3e0KqQ==
-X-CSE-MsgGUID: Vzi/7P/eT++gNwkNLJDisQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="66195389"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="66195389"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 18:01:54 -0700
-X-CSE-ConnectionGUID: YYXD5VaDQ4OSv0yvz6dJvg==
-X-CSE-MsgGUID: HyLT0645TUShK87mEYH45g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
-   d="scan'208";a="186222886"
-Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 10 Oct 2025 18:01:49 -0700
-Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v7NzW-0003M3-13;
-	Sat, 11 Oct 2025 01:01:46 +0000
-Date: Sat, 11 Oct 2025 09:00:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Richard Genoud <richard.genoud@bootlin.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Wentao Liang <vulab@iscas.ac.cn>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Richard Genoud <richard.genoud@bootlin.com>
-Subject: Re: [PATCH 15/15] mtd: rawnand: sunxi: Add support for H616 nand
- controller
-Message-ID: <202510110828.Xb6hqQvx-lkp@intel.com>
-References: <20251010084042.341224-16-richard.genoud@bootlin.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OaayvvqW"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b3b3a6f4dd4so520279566b.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 11 Oct 2025 03:20:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760178017; x=1760782817; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kH6m3q9Go+WlNJw/7g8dG1h/aaEJpSAxzZprEUvs9Nc=;
+        b=OaayvvqWa48Gs8FgTNcUtV+rGQ+xLxc0Tkpmkeck+Dtgvob4MvDX8fg4xJro6rsZCc
+         mY3Ci3cP9KYDIo09aGVZu219J6cSQDquNyQIjq+e7HwHQ7rCOgjMJu8FP29veK2fp754
+         bxlFOWy34LQ24SJ/edXO+Q2k6kP7m1emPWd4JYpPgeToBs5ezhkNfTP9LfitJFZ4NY9F
+         15Apnfl9/ukgW+t/VFkkTkhEXX1HsPYE6IE65YE/fvXt8LMUguc+SqphmZP6sVucx1i0
+         oVssuxx644Wtp0q+fs1TVkm9DMo8//it7B9SvCFD/3ETGDdO1XT56WPtgK75uwqSsFxZ
+         5yeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760178017; x=1760782817;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kH6m3q9Go+WlNJw/7g8dG1h/aaEJpSAxzZprEUvs9Nc=;
+        b=PHL19+9o/xzH69rb7WuoRpS385Jf68UqXHk4WWSLpjuwdUN36qbMrNea1dkiPOQzaV
+         I8r7smtOMg5DQ81A++IFmRMw20noQehcj+MTmSLB0W0tem/vhyNtFLC0IKvxIgYVgWmO
+         SvFXUBVNnEHJUuV1IhTnqeL3k1yaWV+tVhkm5ufwcGYNajR2U/UwNNJRugP/nr1EtNMe
+         EOMMtYlz0V1e1W5aXLF60opT5NkUJi9Zs1JHA/WENpU2u/rdrRYmoIXRTV3wih0HiWk1
+         MGiqCiF6J2acw4O9MULqQICk4uz21csVwdpm/U0oWJb9Jsk17zr0k4Gq9pgcOZi60VC5
+         nfDA==
+X-Forwarded-Encrypted: i=1; AJvYcCU338BjoMCBjsotL3V0/fXkMM04Jdl/UeHOQm/bir3mBWxT9qFvowPzAfWJyUB2x010XM708H+xoqO4WA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzhezIzpWOdY1LhbAUi7lbPZMVLC8KWESaxukwXeqW97Ms8k7d4
+	9GBPEtAcw8nJARvpjSURdB9Yaq1j55gokz7aeCbn4ijr0ixHSJxGL1LB
+X-Gm-Gg: ASbGncuksYZfVJVcNC+hmgKAlZL/Laa0dq5umILCKBLnPHIlXoQhlmM0Y/JWYFe/quH
+	o3KCBboAB6VJzikIoAYep63FKKLM/DiSMZWu8i5wE5OsbAk1O6GG5mskPh5PCdMzAbLbbxHyfwM
+	1fS7vSUUrun38vs7j7xTySmiSvQPG8be2p61RFrnFct/qeO2LdLjJHxgNAUKyGAvjcfFSBDaonK
+	EOB0yIPrsFC8dkH2R4iop1Q+EuElKUp5zoFsnrqyKPhgYVH6yuszibX9JScnvubxAbJECWQWH03
+	Kzvd2swvI3JAnOJm5dtpyCrIB8L1XgH+VJ5FJSi6jqPHnwydd2xRMhOePyj3j2u58bwB2fLHfzV
+	7nB9f2poyBPxmSxUacOZAcG9hrFUkOPa3MUc9XwLOavm4wSGdyy+RL2V9cEiVxOw=
+X-Google-Smtp-Source: AGHT+IHolFmrbsPL01Gij9mDgcL6wtIFQuNZ62CxZG1hurbWV+WEoYmcgYDEtNQjTwVOdmXwqzHL9A==
+X-Received: by 2002:a17:907:6d25:b0:b40:52:19c2 with SMTP id a640c23a62f3a-b50aaa9c937mr1500673066b.20.1760178016637;
+        Sat, 11 Oct 2025 03:20:16 -0700 (PDT)
+Received: from jernej-laptop.localnet ([188.159.248.16])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b55d8c12a8esm454077866b.42.2025.10.11.03.20.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Oct 2025 03:20:16 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Richard Genoud <richard.genoud@bootlin.com>
+Cc: Wentao Liang <vulab@iscas.ac.cn>,
+ Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Richard Genoud <richard.genoud@bootlin.com>
+Subject:
+ Re: [PATCH 01/15] mtd: rawnand: sunxi: Remove superfluous register readings
+Date: Sat, 11 Oct 2025 12:15:03 +0200
+Message-ID: <12756386.O9o76ZdvQC@jernej-laptop>
+In-Reply-To: <20251010084042.341224-2-richard.genoud@bootlin.com>
+References:
+ <20251010084042.341224-1-richard.genoud@bootlin.com>
+ <20251010084042.341224-2-richard.genoud@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251010084042.341224-16-richard.genoud@bootlin.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Hi Richard,
+Dne petek, 10. oktober 2025 ob 10:40:28 Srednjeevropski poletni =C4=8Das je=
+ Richard Genoud napisal(a):
+> The register NFC_REG_ECC_CTL was read twice and the result was not used,
+> then a third time with a mask applied.
+> Removing those calls didn't change the behavior.
+>=20
+> Tested on H616 SoC, scrambling enabled.
+>=20
+> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
 
-kernel test robot noticed the following build warnings:
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-[auto build test WARNING on mtd/nand/next]
-[also build test WARNING on mtd/mtd/next mtd/mtd/fixes sunxi/sunxi/for-next robh/for-next linus/master v6.17 next-20251010]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Best regards,
+Jernej
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Genoud/mtd-rawnand-sunxi-Remove-superfluous-register-readings/20251010-164637
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
-patch link:    https://lore.kernel.org/r/20251010084042.341224-16-richard.genoud%40bootlin.com
-patch subject: [PATCH 15/15] mtd: rawnand: sunxi: Add support for H616 nand controller
-config: riscv-randconfig-002-20251011 (https://download.01.org/0day-ci/archive/20251011/202510110828.Xb6hqQvx-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510110828.Xb6hqQvx-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510110828.Xb6hqQvx-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Warning: drivers/mtd/nand/raw/sunxi_nand.c:351 struct member 'mbus_clk' not described in 'sunxi_nfc'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
