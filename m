@@ -1,64 +1,64 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC511E3DDB
-	for <linux-sunxi@lists.linux.dev>; Sun, 12 Oct 2025 19:23:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7E92F1FDF
+	for <linux-sunxi@lists.linux.dev>; Sun, 12 Oct 2025 19:23:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760297025; cv=none; b=qGAMwHFKFNL12IioIV3vHFMdL69AYRocqqqIOA3+8fswaFguiX+RSICVMm4Yd1IujKYa7E6uvn+HcK0Vf0m/b8vUNf2Q+5H+2rN58ZJDe8MtpD56faiMsXEReXiH5Q6NmeMhELWMDOEwAC3LXGhG3ftoWsoC5+pEWTww9m3JvQE=
+	t=1760297026; cv=none; b=UBRB/I9AoMqKmaqk59AlSVPttU3ZEcDNXDptSFtrUpPFFw2CgFcvlaqMRMrIeuWv/vpV7thslLRaFU3pZJqpangndnEVw6mUoMWats2UwM7EwhY7q9lrJotMZIYgULvActIFzpFQre5/1/Kh1WL9aOiJUzgyr4IWBeMlTYh6dfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760297025; c=relaxed/simple;
-	bh=NgcvXnqcgYXjrcWR7jLLpOQ3cQB6p2pkTov3MyQ+eCE=;
+	s=arc-20240116; t=1760297026; c=relaxed/simple;
+	bh=tT1h4I4+dPWk/KoNyiQ6dHE5u1ti8FQV1X36C3i1/1w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lsfey/Uv4gS+bJrZV1tfn1966+VPJ7BZMdw/6eMIqRsR/JWjyzx6gtAgPxnZbjjKCzwXjP9OnrwqJ7M+nA2QeRZtqf1q0HDlqYhOGJ/RnTQ5WKC3MoUFHy3WJX0k3aqHHdpBS0hcBBYtqxQmisrfTw6aYLPwbjSfiENbR108d48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nhrKSx8A; arc=none smtp.client-ip=209.85.218.54
+	 MIME-Version; b=CTUbHE7UZem1yPZzjOGcylSZpL/j/kZJ4g9QausYSSQBLTJOGOB9I3JKhjPVKidA1AzN6eIHCUqWftHm7jeZIQkj/4ZlUrmFfGVdSiN5zgQlJJjQfoV0VHNVCU3UDxSDSAp8A4cZZcd522SXligE7g/f9Iy7f/f87oM8xVd1zqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gNvw7V8p; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nhrKSx8A"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b50206773adso841304166b.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 12 Oct 2025 12:23:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gNvw7V8p"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b3b27b50090so653277666b.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 12 Oct 2025 12:23:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760297022; x=1760901822; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1760297023; x=1760901823; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=O9pllFFRdLbfJa3CzMw9MDenjUagmZAUwkBtCn+ZhPI=;
-        b=nhrKSx8AjIzYf2wmc9YrwoZhy6d6g8MD9ivotnlNSdXoox/nO3kqz8zvZeTunGa45x
-         3CUITKk8q2pG4xpkDLsXqqacoVgkZd7tbZzqwjjXdDSiHRtmWhrmOpQsY5Nbfl+tFOLr
-         mUg9o8Z4S5z2cQpfRg5Cn8NfBs1QDWhVuwIxe3UlcYjRlGX1xnAKx+1avKKZEFwx9lcd
-         PRUK60kiSqtedHigHHWIKH0Hb+S6VBD9QTMdHlAbwYMV/QRdepPQcamgoSkwsJdd+JCs
-         ye0gSf4Bam/UhkRPUrIDE/gCIJxwpuRsYTfrmYfPIp6a/gyn1umf4cTIKMK8EF1e2RD1
-         8a1A==
+        bh=b/RwR7PkAt08sGqCqdeSYXHmOvdiEO3Sen57EH3VrWU=;
+        b=gNvw7V8pyMhskcgWumUCOTZeTaHH9ZvcwTNat9rbmSG6H2ftrHVLBRBFXHJL8jPBpo
+         iJHXS064u7SZ9xXD0UMTMjrnS790+s8k1v5ysvk9wONaR3JFcjQjjSXC6IArIbf3UTIc
+         9yhSuuiy2Nlf8mb5msB0xhghMwgm063moWxRchL1SCOKByjP1ykviJysrRT77GSt2Xbl
+         SKOV1QIUJavFTpKTGGVjFuh09LjLzlqjnOIdRLCKLJqrFWfl42zeZIofGsLKV2ZnXPiu
+         4DEeZDKp7y15BjsZSywY18LsUWXNpU7js6erWx7ne20xFZig1xD3tLT3ajKZekrEUyaO
+         FYgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760297022; x=1760901822;
+        d=1e100.net; s=20230601; t=1760297023; x=1760901823;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=O9pllFFRdLbfJa3CzMw9MDenjUagmZAUwkBtCn+ZhPI=;
-        b=n31hKk48h2rgHNg1AqxqryPEpWj0Dk0faO+L38w+9yiXugX2TJpSGS0oMvovPX0zT5
-         jnf1kduRaQBQrpZiZ5acyVPpaQVuZ7CkDVh5MdID4jpTG6tjw0vwzooI5YdVgHoJc30R
-         zsaNDZ+pZh01CcnHFP+sqNyzulK99gXTEdZ0snpf92wrYZ1fan1jI3RxZw80SWGlpiQ9
-         hhdfWW1mDeLk1kc8GFZoJcci5ecT9tmC+rOhjqq3+QT1X6ALdpqABvfIUjImylERPcAf
-         bqRsFOHnqCRc0owdgETipDixiG9JEeliFfMXiwcroq2tnfVQ+LOpTeLI3l2Hd2yt+Yes
-         FORg==
-X-Forwarded-Encrypted: i=1; AJvYcCW/F/VXTf3X0nCC3Qn4NERyIWfD2nzdtXGFSccvGg9P9BpNEOFJoIjI/NCUg3FIRBKPdRWvJNjHkvx/4g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwNF6JIDdhgFq7wBvZ7nBtDHNlgNfeoc4rJg1BoCM93++acFwNM
-	zTiXRhieQ+7TmB5j7lhmWuxgDkn7cWUxgqvijC7Xzaa0Oc7zFX0eEufi
-X-Gm-Gg: ASbGnctrY8W5I1MDTuNX3rpHWuCrC+9Qidu8UjbMWWAunLFEGTfyzWlAOJ8ZDiDUPj7
-	VHY68jtXkeNAW2HXdCsv40IivSuN28anOhqCA8pc3DXrz0iTLPKJyd13GTf78zw+kHs+9vKnQ7B
-	ex6wFxipM4m/+Zx3wD/6hfrZUyN5tRkWExwbLieBhjN3/N0UIAj7axHmvvqem6zCGwIU8Lfe+6Z
-	odOsCNNKBfZcBwGEpJ468o8Ga87R7VVTry5rTnxT/gLdjcxup7eZpEdPLk4Ox9NrWID8obcVhyM
-	PPhG/ZMqQ4xrDN87RwrnSg8ZfKUJqrD2fW/RJVQ+2lKUg4noXeE5XXb5KL9/+7V4ElAHpr7/cJ6
-	cPgp9LhX4LFgE3PSdNvRRBtoiA7+iRK54rCwqzp3Gxr00c9AE8VHwz7iRH+8Wmsw/r9cvm1yyt0
-	e+xA9uurdnjDw4J60nNBMo
-X-Google-Smtp-Source: AGHT+IHSovbe/H5UYTgSA1JPDJbOFUPVXMxcZWI/chJwYDsAxjOuahQb+OA171YuZ238MSsvaekD/g==
-X-Received: by 2002:a17:906:6a16:b0:b23:20e7:b480 with SMTP id a640c23a62f3a-b50bedbf4f1mr2357634066b.18.1760297021975;
-        Sun, 12 Oct 2025 12:23:41 -0700 (PDT)
+        bh=b/RwR7PkAt08sGqCqdeSYXHmOvdiEO3Sen57EH3VrWU=;
+        b=ZghUgOjGA1BqsC021TYsOpj+/JAX43IFtJ0OiPVnvPPrODTzrAFG7o9VEN83qlGhuO
+         w21qBYRN6JU4NzWzNfpM7EMWRE0vgG8JTv6NpZ0WTIlWIZVUpcb007pvDXP5V4WkJ0y2
+         e2ZmnwkylzjueRlmBKk6gO7UCJDaJkLAL79ObAql4LrvikTui23HXjJOO+9Jzg71yjd2
+         yyKX1wXhEdXHIpimDbJ7rEbBqZ4au4nb1ciQIHU7VLpS/E34PemBDQO3S4fWuWfqGXiI
+         bBOHyrLIF4PcSsWuptXrZ2s2r6WayedegQoKDTZwUGMbQABivNrqA3TP0uPiX376aIFs
+         KxPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX/BYlT4LLQFs4s3/ReuvLghmKv0i+VJRHS2JmVoNDJGsj/p7ah/6n1cuXnSvplqteY7loAujt8L7ANMQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yws9gFNvoSllEd3NbyCKsiqzVi6fTI39lHbFnflJ20cGsY+EabZ
+	Kcta2V05i2I506lyUy4WaVctspJnxChK3toDD/rn779q4tWvJq7Nd8vB
+X-Gm-Gg: ASbGnctN25OtGDgtnFuJUp94H5G11fum6pkmuzlsv6EHtskmEIoJX/6KsVX79Zh41zm
+	5ZdcUbh5G6UFmlNAV6lpOWCTRQaD4w/Mg3Th84QCv7FdVhIjVe9/FmkYX2gK4Ccs9CWGF7po6KZ
+	s5SR492HF7lH6Svwcbk+N0T+F+VacnAz+XZMQX9dwnxR/LUX7KY3UXhvUnM1wUw24TOX1VDYi51
+	MhXmg7dwmO0xf4YmETma0v+mqKPQONQj8s6hWxUTa435bMyvJ56bwVbUqpD5BmJwJ29i4BwIUJ0
+	3A0/LrRoJV7IFiEE+Gp/CQAFCyOPwGUPq4BMLTN+W+QeuAkdwtFPC4KgBlVbcreFr1Td+1RpAdL
+	PCCotb13pKlV1OA6XSs5xzqzzsghRcTWIuRjeav7thUaRHQFm1/qe/CCHlvTRbME+7WrrGZy6TB
+	yZkcNnm1hf2XuJJ4bEHhgLvahrV3DkX7k=
+X-Google-Smtp-Source: AGHT+IFr7DIU5+0XZbE3hR+c44DsyFKY1NvkxnYeQndJ+rW32FEQNP/zDp5N5Glq490y6QrN3W54Mw==
+X-Received: by 2002:a17:907:c09:b0:b2b:63a9:223b with SMTP id a640c23a62f3a-b50ac1c5db0mr1978491866b.31.1760297023111;
+        Sun, 12 Oct 2025 12:23:43 -0700 (PDT)
 Received: from jernej-laptop (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b55d67d8283sm760176466b.38.2025.10.12.12.23.41
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b55d67d8283sm760176466b.38.2025.10.12.12.23.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Oct 2025 12:23:41 -0700 (PDT)
+        Sun, 12 Oct 2025 12:23:42 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: mripard@kernel.org,
 	wens@csie.org
@@ -72,9 +72,9 @@ Cc: maarten.lankhorst@linux.intel.com,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 02/30] drm/sun4i: mixer: Remove ccsc cfg for >= DE3
-Date: Sun, 12 Oct 2025 21:23:02 +0200
-Message-ID: <20251012192330.6903-3-jernej.skrabec@gmail.com>
+Subject: [PATCH 03/30] drm/sun4i: de2: Initialize layer fields earlier
+Date: Sun, 12 Oct 2025 21:23:03 +0200
+Message-ID: <20251012192330.6903-4-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251012192330.6903-1-jernej.skrabec@gmail.com>
 References: <20251012192330.6903-1-jernej.skrabec@gmail.com>
@@ -86,34 +86,70 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Those engine versions don't need ccsc argument, since CSC units are
-located on different position and for each layer.
+drm_universal_plane_init() can already call some callbacks, like
+format_mod_supported, during initialization. Because of that, fields
+should be initialized beforehand.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/gpu/drm/sun4i/sun8i_mixer.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 9 +++++----
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 9 +++++----
+ 2 files changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 31a8409b98f4..f7f210a925f8 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -790,7 +790,6 @@ static const struct sun8i_mixer_cfg sun50i_a64_mixer1_cfg = {
- };
+diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+index f97be0040aab..9b786e5c7f3c 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+@@ -304,6 +304,11 @@ struct sun8i_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
+ 	if (!layer)
+ 		return ERR_PTR(-ENOMEM);
  
- static const struct sun8i_mixer_cfg sun50i_h6_mixer0_cfg = {
--	.ccsc		= CCSC_MIXER0_LAYOUT,
- 	.de_type	= SUN8I_MIXER_DE3,
- 	.mod_rate	= 600000000,
- 	.scaler_mask	= 0xf,
-@@ -800,7 +799,6 @@ static const struct sun8i_mixer_cfg sun50i_h6_mixer0_cfg = {
- };
++	layer->mixer = mixer;
++	layer->type = SUN8I_LAYER_TYPE_UI;
++	layer->channel = channel;
++	layer->overlay = 0;
++
+ 	if (index == 0)
+ 		type = DRM_PLANE_TYPE_PRIMARY;
  
- static const struct sun8i_mixer_cfg sun50i_h616_mixer0_cfg = {
--	.ccsc		= CCSC_MIXER0_LAYOUT,
- 	.de_type	= SUN8I_MIXER_DE33,
- 	.mod_rate	= 600000000,
- 	.scaler_mask	= 0xf,
+@@ -334,10 +339,6 @@ struct sun8i_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
+ 	}
+ 
+ 	drm_plane_helper_add(&layer->plane, &sun8i_ui_layer_helper_funcs);
+-	layer->mixer = mixer;
+-	layer->type = SUN8I_LAYER_TYPE_UI;
+-	layer->channel = channel;
+-	layer->overlay = 0;
+ 
+ 	return layer;
+ }
+diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+index a09ee4097537..bd6c7915bbc4 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+@@ -485,6 +485,11 @@ struct sun8i_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
+ 	if (!layer)
+ 		return ERR_PTR(-ENOMEM);
+ 
++	layer->mixer = mixer;
++	layer->type = SUN8I_LAYER_TYPE_VI;
++	layer->channel = index;
++	layer->overlay = 0;
++
+ 	if (mixer->cfg->de_type >= SUN8I_MIXER_DE3) {
+ 		formats = sun8i_vi_layer_de3_formats;
+ 		format_count = ARRAY_SIZE(sun8i_vi_layer_de3_formats);
+@@ -543,10 +548,6 @@ struct sun8i_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
+ 	}
+ 
+ 	drm_plane_helper_add(&layer->plane, &sun8i_vi_layer_helper_funcs);
+-	layer->mixer = mixer;
+-	layer->type = SUN8I_LAYER_TYPE_VI;
+-	layer->channel = index;
+-	layer->overlay = 0;
+ 
+ 	return layer;
+ }
 -- 
 2.51.0
 
