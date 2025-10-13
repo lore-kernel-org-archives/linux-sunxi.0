@@ -1,95 +1,173 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A77E30F54A
-	for <linux-sunxi@lists.linux.dev>; Mon, 13 Oct 2025 15:54:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 630852BCFB
+	for <linux-sunxi@lists.linux.dev>; Mon, 13 Oct 2025 15:59:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760370886; cv=none; b=ihfdGF8Wa8AlfBrt8lYzBxnppXlxLxLMx5TH3GnX3J2ff+JaJAJl0p1cKH2xVuVhq1ZnzlkvdM0cPGfFJ0WLh9zBf3KwnUD4oURd5hLVjgA4rqb3eQyGS6uTchiDBxg5AW4m8ONnX2kB8uuQCt9E82mP5ewMOLCO481Cxnxyi1Q=
+	t=1760371195; cv=none; b=Is6eo9z3Dq0qD8HwPbpBGKsLmSXCChKgTpPoM14IZLTooJ2SE2dCit1RJtM+tG5uD/xDdeV6N4LHByzTvHXPE4sA5ij6uiR5v/Lqc+Vt0OnPQBbv4CfHBDiGimW0+gxJo4D+4F+5ljXFeJudWvTkhbUzI8JSof3SQtV37xzkwNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760370886; c=relaxed/simple;
-	bh=+UssLPOno9XWeKCQGJZY3GRGKSjKPPao4Ev4zfFKhM8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z9Uw96ho6friLNcSVHipIg4d8BvNiJfuznLfMylKoESj239z0EIg4QfQmsTox17E8uveMC+ZBnEEYSnEqaQqOgUFmrA/xiN59z6sUKOUra9ClPa6nPWOVgPbx8z/fQZYaFxI2XGT2zK322rOVf+xbY6uT4X59YD38+4jadnQieQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-58d29830058so5384794e87.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 13 Oct 2025 08:54:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760370879; x=1760975679;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+UssLPOno9XWeKCQGJZY3GRGKSjKPPao4Ev4zfFKhM8=;
-        b=jafbyWIckz8aIPRG8Gqilw6kB/B//zMGjlw7z5tmPZ/JEw5C0YtVyTDqcwrDu66Axk
-         cKEmboUcqAGkH0+vxU860qW3KnpLMMa1YBcUudEvSRvNVTzuglY+BcP+9YauisINIVL2
-         eI1ZW+aDPv1gghZqD+Abryhc2CsfC3xs/alx1IVkQeiRs71zm8oIS/w+GwqQ3okaI1oi
-         3QvH0XBXIeTm2eAqwmsBeBIuEhfPUEn3atPFoO6L6XOXM3fqomxA7MJJ72x7ziOI49BZ
-         q/tUihI3Ix6jg1Qfn8S9ofUqkT0qTEeULQW9acUmnPf8r8QWi4wqLg9LWsCu/m38/pFw
-         9nQg==
-X-Forwarded-Encrypted: i=1; AJvYcCUC1i2VQs0S+7iuEIMKntvipAPWST7Qm4VcJ5AiDf8OZzlTbQsVSey/1TQxGMchoTsKhRkifB3nhrAhHw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyH4j1Txp17HhD8BamW/m4VylJD85L53/CwrOLgM+1lqgF99XO2
-	nt+dpohIhxClDeRM6QOlazGwHTgmwMvftymLrYxqlTGaT2nN+dC/x+N8F62qe7Op
-X-Gm-Gg: ASbGncv3iLj6EHydeKBPHpWjwh0Qc4kMR7cGeifMTv9KZSNFl7KDcTICP+kff7WiNsC
-	moTmleAiJawDAz01HM+7MhcXojQuvpykOeHXkG7T245HtB6H5bcoVRpB5ztOQpqcb7Mpo7H595+
-	KKJIQUyxQw4V/pV5Jmf838lkiBVd6Gp4w95nwzsDCy55hEnoOmtrmnulwpeslUfb3UxWNCOfBXd
-	7s4Cn19F5fiyMTQqwGNaxNwGvPRqr5D6CzBmqR1ZN3zxFw4HsTLeStCfkSWsc3jaU/PhGv2xWyn
-	CdkrMZHGoErad6hSVGjQuqzJh7MY4uNQoKe9Aa6qZF6kRaIhclwFVmalGfNGWa3uSA5gjcgrBFj
-	Ct0/0JwDCDreB9O5pCvzxHQlZzq7/ushe3totLj6hyZQIMRDyXReFJCluetGje+6/mwYP+qeS/y
-	RF73aR
-X-Google-Smtp-Source: AGHT+IHwhfJ7+KDnJoh9WyzM1MP2yb/ziPLMiX2tyUDfTXMDOAwfZjiZX+ajYuVoYQo8U+8W0foBIQ==
-X-Received: by 2002:a05:6512:239d:b0:57d:2796:6b0a with SMTP id 2adb3069b0e04-5906d88b31emr6123527e87.22.1760370878924;
-        Mon, 13 Oct 2025 08:54:38 -0700 (PDT)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com. [209.85.167.42])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59088577571sm4229731e87.102.2025.10.13.08.54.35
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Oct 2025 08:54:38 -0700 (PDT)
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-58d29830058so5384657e87.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 13 Oct 2025 08:54:35 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVD03c+3SE6s6ZcTM5lp/HSAlslQ07QjceVwLVJHZ+FKvEYkk4XPGwdecnK1+GxleLprIyGnd8pQF3ylw==@lists.linux.dev
-X-Received: by 2002:a05:6512:3e0e:b0:55f:71ad:590f with SMTP id
- 2adb3069b0e04-5906daea8f6mr6270458e87.53.1760370875744; Mon, 13 Oct 2025
- 08:54:35 -0700 (PDT)
+	s=arc-20240116; t=1760371195; c=relaxed/simple;
+	bh=jESTcv3YFhUmlOUv44t8wTXwwkxRnt3JglffHaglMWE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NkSmxX1mBT8J8RcbDniQFVT2t4knjhAeKFcJFlMFf0bsMjDI+Gb7EgyD3SwGLx7SLvLNqtUN9EnUj1cM9XObfJaih7ab7QZ7dKIVK2GYgb0/X/kc65dJz8faD9GPU99DgkNL9cDrOeCtBVRfSn2go2CzO757oSl2jzegjwI7f4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=iTUvBUFv; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="iTUvBUFv"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 9B6864E41063;
+	Mon, 13 Oct 2025 15:59:50 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 663A66067B;
+	Mon, 13 Oct 2025 15:59:50 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F18D3102F2273;
+	Mon, 13 Oct 2025 17:59:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1760371189; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=F9tnRL1o3FmzbH3rPOyKULKn/hk3zU9MNzUIZBbOh80=;
+	b=iTUvBUFvI/itbMlmJ0x0WrNzyi3QeiZvBxNdzyILfJ7IH3MWnWJYdtUDDzRm/s1Oe50Qsx
+	S50pmM6ZNqZ/t4QvTvRlAE5J968iQN3WpJ8KeQ7Sei/efTMN/EXd4tY9drQHat9TNT63LT
+	kJ1dQGrfmrjAuJJ+vZAX9+tkap3RpYHzUGZ/ia9xXCZch8QszvcJrPkyu1TE15dECyKWgF
+	igGuZWbbLVAo95qPbdNjUPGGTBhxylCrwmu3DL+6HkZFc/5pR+xyxrgq+U6odYq+7yaR3t
+	xJR/eJjTd9DVWPwo4sMzBwBIaRuZeK2fWtLndnSXGUsnJyQl9MZi6mBjU7SVBQ==
+Message-ID: <7293f682-7ba7-420c-9997-eec0d5cb09e1@bootlin.com>
+Date: Mon, 13 Oct 2025 17:59:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251013152645.1119308-1-richard.genoud@bootlin.com> <20251013152645.1119308-3-richard.genoud@bootlin.com>
-In-Reply-To: <20251013152645.1119308-3-richard.genoud@bootlin.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 13 Oct 2025 23:54:22 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66nojdOfU5oDOCTDummqpcXYuu5665MKJRee2-QfhS36A@mail.gmail.com>
-X-Gm-Features: AS18NWDKdIBd1rTcxTVsXd-_vXNa-9kC6YbGbqd54hyWKYs7fg_lZoQPdbhPU9g
-Message-ID: <CAGb2v66nojdOfU5oDOCTDummqpcXYuu5665MKJRee2-QfhS36A@mail.gmail.com>
-Subject: Re: [PATCH v2 02/15] mtd: rawnand: sunxi: move ECC strenghts in sunxi_nfc_caps
-To: Richard Genoud <richard.genoud@bootlin.com>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	Wentao Liang <vulab@iscas.ac.cn>, Johan Hovold <johan@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-mtd@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 15/15] arm64: dts: allwinner: h616: add NAND controller
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>
+Cc: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Wentao Liang <vulab@iscas.ac.cn>, Johan Hovold <johan@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20251013152645.1119308-1-richard.genoud@bootlin.com>
+ <20251013152645.1119308-16-richard.genoud@bootlin.com>
+ <2800174.mvXUDI8C0e@jernej-laptop>
+From: Richard GENOUD <richard.genoud@bootlin.com>
+Content-Language: en-US, fr
+Organization: Bootlin
+In-Reply-To: <2800174.mvXUDI8C0e@jernej-laptop>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, Oct 13, 2025 at 11:27=E2=80=AFPM Richard Genoud
-<richard.genoud@bootlin.com> wrote:
->
-> H6/H616 has more ECC strenghts than A10/A23.
->
-> Move the ECC strenghts array to sunxi_nfc_caps to make it ready for
-> H6/H616 support.
->
-> No functional change.
->
-> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+Le 13/10/2025 à 17:43, Jernej Škrabec a écrit :
+> Dne ponedeljek, 13. oktober 2025 ob 17:26:45 Srednjeevropski poletni čas je Richard Genoud napisal(a):
+>> The H616 has a NAND controller quite similar to the A10/A23 ones, but
+>> with some register differences, more clocks (for ECC and MBUS), more ECC
+>> strengths, so this requires a new compatible string.
+>>
+>> Add the NAND controller node and pins in the device tree.
+>>
+>> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+>> ---
+>>   .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 51 +++++++++++++++++++
+>>   1 file changed, 51 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+>> index ceedae9e399b..bb53c6c63836 100644
+>> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+>> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+>> @@ -304,6 +304,42 @@ mmc2_pins: mmc2-pins {
+>>   				bias-pull-up;
+>>   			};
+>>   
+>> +			/omit-if-no-ref/
+>> +			nand_pins: nand-pins {
+>> +				pins = "PC0", "PC1", "PC2", "PC5", "PC8", "PC9",
+>> +				       "PC10", "PC11", "PC12", "PC13", "PC14",
+>> +				       "PC15", "PC16";
+>> +				function = "nand0";
+>> +			};
+>> +
+>> +			/omit-if-no-ref/
+>> +			nand_cs0_pin: nand-cs0-pin {
+>> +				pins = "PC4";
+>> +				function = "nand0";
+>> +				bias-pull-up;
+>> +			};
+>> +
+>> +			/omit-if-no-ref/
+>> +			nand_cs1_pin: nand-cs1-pin {
+>> +				pins = "PC3";
+>> +				function = "nand0";
+>> +				bias-pull-up;
+>> +			};
+>> +
+>> +			/omit-if-no-ref/
+>> +			nand_rb0_pin: nand-rb0-pin {
+>> +				pins = "PC6";
+>> +				function = "nand0";
+>> +				bias-pull-up;
+>> +			};
+>> +
+>> +			/omit-if-no-ref/
+>> +			nand_rb1_pin: nand-rb1-pin {
+>> +				pins = "PC7";
+>> +				function = "nand0";
+>> +				bias-pull-up;
+>> +			};
+>> +
+>>   			/omit-if-no-ref/
+>>   			spi0_pins: spi0-pins {
+>>   				pins = "PC0", "PC2", "PC4";
+>> @@ -377,6 +413,21 @@ iommu: iommu@30f0000 {
+>>   			#iommu-cells = <1>;
+>>   		};
+>>   
+>> +		nfc: nand-controller@4011000 {
+>> +			compatible = "allwinner,sun50i-h616-nand-controller";
+>> +			reg = <0x04011000 0x1000>;
+>> +			interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
+>> +			clocks = <&ccu CLK_BUS_NAND>, <&ccu CLK_NAND0>,
+>> +				<&ccu CLK_NAND1>, <&ccu CLK_MBUS_NAND>;
+>> +			clock-names = "ahb", "mod", "ecc", "mbus";
+>> +			resets = <&ccu RST_BUS_NAND>;
+>> +			reset-names = "ahb";
+>> +			dmas = <&dma 10>;
+>> +			dma-names = "rxtx";
+>> +			#address-cells = <1>;
+>> +			#size-cells = <0>;
+>> +		};
+> 
+> Sorry, forgot to mention. This should be marked as disabled, as most of
+> the boards don't have NAND connected.
+arg! of course, I forgot that.
 
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+Thanks!
+
+> 
+> Best regards,
+> Jernej
+> 
+>> +
+>>   		mmc0: mmc@4020000 {
+>>   			compatible = "allwinner,sun50i-h616-mmc",
+>>   				     "allwinner,sun50i-a100-mmc";
+>>
+> 
+> 
+> 
+> 
+
+
+-- 
+Richard Genoud, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
