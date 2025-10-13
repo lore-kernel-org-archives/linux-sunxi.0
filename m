@@ -1,186 +1,95 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B376D28D83E
-	for <linux-sunxi@lists.linux.dev>; Mon, 13 Oct 2025 15:43:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A77E30F54A
+	for <linux-sunxi@lists.linux.dev>; Mon, 13 Oct 2025 15:54:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760370226; cv=none; b=gsb8rY7Bjbl8+3pUHquidwFQtTKO6oKPIQy+i57sMGlhpeCZ4xUi1CWWhrIIdG0dJpR3RrVXy1Bz18knH4Bd4YH69Qw5d+x/uStHlvZlFwPNV1BQCUyeZIKinlWRdc4JXfZBtAQ6KQNAcPDjYvwGJ1j+bDxEvmpr9jknH6aXvN8=
+	t=1760370886; cv=none; b=ihfdGF8Wa8AlfBrt8lYzBxnppXlxLxLMx5TH3GnX3J2ff+JaJAJl0p1cKH2xVuVhq1ZnzlkvdM0cPGfFJ0WLh9zBf3KwnUD4oURd5hLVjgA4rqb3eQyGS6uTchiDBxg5AW4m8ONnX2kB8uuQCt9E82mP5ewMOLCO481Cxnxyi1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760370226; c=relaxed/simple;
-	bh=yN4I19Z/Zxa0OAvQeCoXidtC7w6Fi4uf1d42DNqijxI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hTSK/g5UC2cjKOJ0OhA9FLv6rBUio7slNaY2S40Ewa14cfj3ztcRQdfjmBr+1yE7DIXK50ppS46Ey90mdvNFwjv6aFMnyxwXWXPDfg5QVNB9VuvMaEU1d4KNiZ1zA4ad/tapvrCK3BayX9qOLF+sqVRBAZU05hVEJfXzIexBkrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b6e/W9bJ; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1760370886; c=relaxed/simple;
+	bh=+UssLPOno9XWeKCQGJZY3GRGKSjKPPao4Ev4zfFKhM8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Z9Uw96ho6friLNcSVHipIg4d8BvNiJfuznLfMylKoESj239z0EIg4QfQmsTox17E8uveMC+ZBnEEYSnEqaQqOgUFmrA/xiN59z6sUKOUra9ClPa6nPWOVgPbx8z/fQZYaFxI2XGT2zK322rOVf+xbY6uT4X59YD38+4jadnQieQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b6e/W9bJ"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6394938e0ecso7130617a12.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 13 Oct 2025 08:43:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760370223; x=1760975023; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YJ71KTvKAMUC1AACHaaj8OA3SEI5NusmyGpJc9+nnWQ=;
-        b=b6e/W9bJZ6ZwCXhyCjTPnuHyrowLE081RoAzQH1ydq5Q5At7QmUq8xBHsS6nmmipRL
-         KRnpn8RXBQkN6OhblIiSqLWCshY6JSzDs9YHxMWv6WcaKFpDleN6v1MRx6j6OISxW3VI
-         S6sYARE+R0DX+IZGwmIBmPCMF8PwV9H7vziw+m9yyaTZiXZ+4UKC9uGHYnpyQsO1GXkl
-         iub+ruFxeLVylHcqoCo2k2OgcOfJuSoTr3cpw1UnKvZ+bLWdpsges9AoGEnEl2rg9Oef
-         VfKEDQ8Q7DoTi5z6w6nCY42oZzsgKAOWRiFd6xyyheZ5rOlFMCAogfmPSyRag2sDEb0N
-         Shqg==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-58d29830058so5384794e87.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 13 Oct 2025 08:54:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760370223; x=1760975023;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YJ71KTvKAMUC1AACHaaj8OA3SEI5NusmyGpJc9+nnWQ=;
-        b=HtXtO4guWcOSb2XBtn8xKjaEWhLOXVFrFWwJrdeNw9HugseOAkxtSpL7PYwHMCGFwq
-         76ZLWgrcuYIflZBAqLNsKjpixhtesZKHVnP2tSK5Lgq2wCUBQoNMcb1w7/HfcDpsRAj6
-         BTrjEIZontISLW7LOwbTJl8xVt8uf1dI8JguNJJiUkTzDqUuPQFHiKSNatNn78jf0oXc
-         DfQbW9GQ9X+bUw3Srras/iGBl3brWXqpTBBc6I7DCuMTVh6dfqNMxvSRnD6pusV29rMs
-         Udid9FatDSz8QACl3b0E+cyCB1KO+YchLuFOy6PF7+IQaEXsxS0rKl5SUV81jtNSgfUO
-         P+sg==
-X-Forwarded-Encrypted: i=1; AJvYcCUNnEtgjR33i0ubqFSV9R2dSzb3KT33MCxiIV5C+LekpAnUh3BKNGLMNMIsCSzyH4oYwoJ6/qMo2OifIQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwepBdoJtYu/UdI/nxI6h47OrwkZqJ89kGau0ZSCREymo/XS2hU
-	oJCpwzHRYADmlGGEbLJ+PLXT87ACW4/iVk8ZoEAskJ2f+u8Gj21P3eC6
-X-Gm-Gg: ASbGncv0YW542725kSn5brLfY3csu86FZHKejRUJLjhsjhnz2GpT+QwvvEddjGxe2O/
-	2Lzxf9ZYtyERfW9doZvNzJSk915ytGC036psy8mFFRNauErrUMtjj0iL4wBCn+uoDLWCwWijn4r
-	yAS/e7j/DcEKnoivkgeImucxyQ5aE4F0s58OvzJYbu7koDsQ+RYK2DmIDfk7Au1ww1g5SEeDi0V
-	2XGVqp2qeCf+CqJ7k+eoC5KIHGTs2hf5+Wx8l7x6Dn6ALyd5FVPqsjeYyCh/yLejUtsqkjd5KlT
-	BTfMlC+tqS/xyJ+RW5iwBobhdD1HJ5QzhOzNFUDt/j3X93Jb2X1qaF7nci/9TlkIrEggBDg6OWT
-	dYkhedbHP+O+M63leEhnw7lKtKZX+CdZHSWIwzXSgbhA8iIK+ZMcKBD1+5gk826x673tmdsXiJr
-	CyXET08WSdZu/JixA7oCwDmak=
-X-Google-Smtp-Source: AGHT+IG3FRsw4wCBnmi9CngEI7WoVxEvQAt2WNJU3I/XEDcpUDTwP0J77KuXRMbbHoTA+pSwJQSXNw==
-X-Received: by 2002:a05:6402:b28:b0:634:6d87:1d28 with SMTP id 4fb4d7f45d1cf-639d5c74a9fmr13775050a12.35.1760370222659;
-        Mon, 13 Oct 2025 08:43:42 -0700 (PDT)
-Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-63a5c133f58sm9091983a12.30.2025.10.13.08.43.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Oct 2025 08:43:42 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Richard Genoud <richard.genoud@bootlin.com>
-Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>,
- Wentao Liang <vulab@iscas.ac.cn>, Johan Hovold <johan@kernel.org>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Richard Genoud <richard.genoud@bootlin.com>
-Subject: Re: [PATCH v2 15/15] arm64: dts: allwinner: h616: add NAND controller
-Date: Mon, 13 Oct 2025 17:43:39 +0200
-Message-ID: <2800174.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20251013152645.1119308-16-richard.genoud@bootlin.com>
-References:
- <20251013152645.1119308-1-richard.genoud@bootlin.com>
- <20251013152645.1119308-16-richard.genoud@bootlin.com>
+        d=1e100.net; s=20230601; t=1760370879; x=1760975679;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+UssLPOno9XWeKCQGJZY3GRGKSjKPPao4Ev4zfFKhM8=;
+        b=jafbyWIckz8aIPRG8Gqilw6kB/B//zMGjlw7z5tmPZ/JEw5C0YtVyTDqcwrDu66Axk
+         cKEmboUcqAGkH0+vxU860qW3KnpLMMa1YBcUudEvSRvNVTzuglY+BcP+9YauisINIVL2
+         eI1ZW+aDPv1gghZqD+Abryhc2CsfC3xs/alx1IVkQeiRs71zm8oIS/w+GwqQ3okaI1oi
+         3QvH0XBXIeTm2eAqwmsBeBIuEhfPUEn3atPFoO6L6XOXM3fqomxA7MJJ72x7ziOI49BZ
+         q/tUihI3Ix6jg1Qfn8S9ofUqkT0qTEeULQW9acUmnPf8r8QWi4wqLg9LWsCu/m38/pFw
+         9nQg==
+X-Forwarded-Encrypted: i=1; AJvYcCUC1i2VQs0S+7iuEIMKntvipAPWST7Qm4VcJ5AiDf8OZzlTbQsVSey/1TQxGMchoTsKhRkifB3nhrAhHw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyH4j1Txp17HhD8BamW/m4VylJD85L53/CwrOLgM+1lqgF99XO2
+	nt+dpohIhxClDeRM6QOlazGwHTgmwMvftymLrYxqlTGaT2nN+dC/x+N8F62qe7Op
+X-Gm-Gg: ASbGncv3iLj6EHydeKBPHpWjwh0Qc4kMR7cGeifMTv9KZSNFl7KDcTICP+kff7WiNsC
+	moTmleAiJawDAz01HM+7MhcXojQuvpykOeHXkG7T245HtB6H5bcoVRpB5ztOQpqcb7Mpo7H595+
+	KKJIQUyxQw4V/pV5Jmf838lkiBVd6Gp4w95nwzsDCy55hEnoOmtrmnulwpeslUfb3UxWNCOfBXd
+	7s4Cn19F5fiyMTQqwGNaxNwGvPRqr5D6CzBmqR1ZN3zxFw4HsTLeStCfkSWsc3jaU/PhGv2xWyn
+	CdkrMZHGoErad6hSVGjQuqzJh7MY4uNQoKe9Aa6qZF6kRaIhclwFVmalGfNGWa3uSA5gjcgrBFj
+	Ct0/0JwDCDreB9O5pCvzxHQlZzq7/ushe3totLj6hyZQIMRDyXReFJCluetGje+6/mwYP+qeS/y
+	RF73aR
+X-Google-Smtp-Source: AGHT+IHwhfJ7+KDnJoh9WyzM1MP2yb/ziPLMiX2tyUDfTXMDOAwfZjiZX+ajYuVoYQo8U+8W0foBIQ==
+X-Received: by 2002:a05:6512:239d:b0:57d:2796:6b0a with SMTP id 2adb3069b0e04-5906d88b31emr6123527e87.22.1760370878924;
+        Mon, 13 Oct 2025 08:54:38 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com. [209.85.167.42])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59088577571sm4229731e87.102.2025.10.13.08.54.35
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Oct 2025 08:54:38 -0700 (PDT)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-58d29830058so5384657e87.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 13 Oct 2025 08:54:35 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVD03c+3SE6s6ZcTM5lp/HSAlslQ07QjceVwLVJHZ+FKvEYkk4XPGwdecnK1+GxleLprIyGnd8pQF3ylw==@lists.linux.dev
+X-Received: by 2002:a05:6512:3e0e:b0:55f:71ad:590f with SMTP id
+ 2adb3069b0e04-5906daea8f6mr6270458e87.53.1760370875744; Mon, 13 Oct 2025
+ 08:54:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20251013152645.1119308-1-richard.genoud@bootlin.com> <20251013152645.1119308-3-richard.genoud@bootlin.com>
+In-Reply-To: <20251013152645.1119308-3-richard.genoud@bootlin.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Mon, 13 Oct 2025 23:54:22 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66nojdOfU5oDOCTDummqpcXYuu5665MKJRee2-QfhS36A@mail.gmail.com>
+X-Gm-Features: AS18NWDKdIBd1rTcxTVsXd-_vXNa-9kC6YbGbqd54hyWKYs7fg_lZoQPdbhPU9g
+Message-ID: <CAGb2v66nojdOfU5oDOCTDummqpcXYuu5665MKJRee2-QfhS36A@mail.gmail.com>
+Subject: Re: [PATCH v2 02/15] mtd: rawnand: sunxi: move ECC strenghts in sunxi_nfc_caps
+To: Richard Genoud <richard.genoud@bootlin.com>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	Wentao Liang <vulab@iscas.ac.cn>, Johan Hovold <johan@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-mtd@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-Dne ponedeljek, 13. oktober 2025 ob 17:26:45 Srednjeevropski poletni =C4=8D=
-as je Richard Genoud napisal(a):
-> The H616 has a NAND controller quite similar to the A10/A23 ones, but
-> with some register differences, more clocks (for ECC and MBUS), more ECC
-> strengths, so this requires a new compatible string.
->=20
-> Add the NAND controller node and pins in the device tree.
->=20
+On Mon, Oct 13, 2025 at 11:27=E2=80=AFPM Richard Genoud
+<richard.genoud@bootlin.com> wrote:
+>
+> H6/H616 has more ECC strenghts than A10/A23.
+>
+> Move the ECC strenghts array to sunxi_nfc_caps to make it ready for
+> H6/H616 support.
+>
+> No functional change.
+>
 > Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
-> ---
->  .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 51 +++++++++++++++++++
->  1 file changed, 51 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/=
-boot/dts/allwinner/sun50i-h616.dtsi
-> index ceedae9e399b..bb53c6c63836 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> @@ -304,6 +304,42 @@ mmc2_pins: mmc2-pins {
->  				bias-pull-up;
->  			};
-> =20
-> +			/omit-if-no-ref/
-> +			nand_pins: nand-pins {
-> +				pins =3D "PC0", "PC1", "PC2", "PC5", "PC8", "PC9",
-> +				       "PC10", "PC11", "PC12", "PC13", "PC14",
-> +				       "PC15", "PC16";
-> +				function =3D "nand0";
-> +			};
-> +
-> +			/omit-if-no-ref/
-> +			nand_cs0_pin: nand-cs0-pin {
-> +				pins =3D "PC4";
-> +				function =3D "nand0";
-> +				bias-pull-up;
-> +			};
-> +
-> +			/omit-if-no-ref/
-> +			nand_cs1_pin: nand-cs1-pin {
-> +				pins =3D "PC3";
-> +				function =3D "nand0";
-> +				bias-pull-up;
-> +			};
-> +
-> +			/omit-if-no-ref/
-> +			nand_rb0_pin: nand-rb0-pin {
-> +				pins =3D "PC6";
-> +				function =3D "nand0";
-> +				bias-pull-up;
-> +			};
-> +
-> +			/omit-if-no-ref/
-> +			nand_rb1_pin: nand-rb1-pin {
-> +				pins =3D "PC7";
-> +				function =3D "nand0";
-> +				bias-pull-up;
-> +			};
-> +
->  			/omit-if-no-ref/
->  			spi0_pins: spi0-pins {
->  				pins =3D "PC0", "PC2", "PC4";
-> @@ -377,6 +413,21 @@ iommu: iommu@30f0000 {
->  			#iommu-cells =3D <1>;
->  		};
-> =20
-> +		nfc: nand-controller@4011000 {
-> +			compatible =3D "allwinner,sun50i-h616-nand-controller";
-> +			reg =3D <0x04011000 0x1000>;
-> +			interrupts =3D <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks =3D <&ccu CLK_BUS_NAND>, <&ccu CLK_NAND0>,
-> +				<&ccu CLK_NAND1>, <&ccu CLK_MBUS_NAND>;
-> +			clock-names =3D "ahb", "mod", "ecc", "mbus";
-> +			resets =3D <&ccu RST_BUS_NAND>;
-> +			reset-names =3D "ahb";
-> +			dmas =3D <&dma 10>;
-> +			dma-names =3D "rxtx";
-> +			#address-cells =3D <1>;
-> +			#size-cells =3D <0>;
-> +		};
 
-Sorry, forgot to mention. This should be marked as disabled, as most of
-the boards don't have NAND connected.
-
-Best regards,
-Jernej
-
-> +
->  		mmc0: mmc@4020000 {
->  			compatible =3D "allwinner,sun50i-h616-mmc",
->  				     "allwinner,sun50i-a100-mmc";
->=20
-
-
-
-
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
