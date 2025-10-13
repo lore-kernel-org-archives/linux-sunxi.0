@@ -1,36 +1,38 @@
 Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B6328D83E
-	for <linux-sunxi@lists.linux.dev>; Mon, 13 Oct 2025 15:27:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2305325A63D
+	for <linux-sunxi@lists.linux.dev>; Mon, 13 Oct 2025 15:27:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760369250; cv=none; b=SUta//+IvZgq7MHEOpyWvSYamun8Pb+jTPwMyTyPOFPdclKEEk07yXtp7NJTXEqxhF1c9gMb4T73U05riIZAynKKzaMDmtN1hDj0S46O/O3SM9uBYKVLwB7CE3e4jUmEa0pgZBHHWngXlpQpfwrUPak4mpGL/Fq2/Nz2jAJT3Ic=
+	t=1760369251; cv=none; b=s/P54090izwnNlZEgyybQZoBgBLsYrXdr+aYVKWyT6ozJHsPqSOhWHgntRX+5mY3gVLm0zmxoPyRG7RDVxclx0xv+wp2P24lDxGhOLw04V1hpPann6U2WlCK0XUftStw1XzKX7/qRA1gZ9vRsxKuGyiXfg2IG/btewExoXRbp9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760369250; c=relaxed/simple;
-	bh=0/9WuBOtVzbwvasIhv2yl9J8bXpAkxeZj97IdX6gANQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X9ds2xKP+jsc5iL5qLR3pOuy2yPn84ROO9Q2Cq/UiMMzyE4a6zmJAPEKMwiN+7HG+eMPt7tQl+7SO2XI9bfoKYDm7utwVkJ5WuiMGV05XeN7b6xvZ8FBaR+O/fZboaRxCTU6uBqGZUghgICkNTK6gWZcAWf0emSnk4S00M/MPiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=QGFbD/jC; arc=none smtp.client-ip=185.171.202.116
+	s=arc-20240116; t=1760369251; c=relaxed/simple;
+	bh=uV3J+ukDhk15H89nr/D2cVuC6yRnOiEZ9jjzajCXzKA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TiqbhKGbrtCQXfd7Ft6WslQozWUjw+HTD/RvUrXepaG9iRxDFnhQcJNGw2scmrxXMyu6SR5+uBexIL8fLtqxVgkUPThcb2JFib9gN12JHiUy/4WCW/7RJv0fyVv87aNNjSGUUTbhwq9a94tm4dP5iUJhpj9npgmS055IsmZLZX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=nmtuxVis; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="QGFbD/jC"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nmtuxVis"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id A19B3C093AE;
-	Mon, 13 Oct 2025 15:27:05 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 93A88C093AF;
+	Mon, 13 Oct 2025 15:27:08 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 923B86067B;
-	Mon, 13 Oct 2025 15:27:24 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DA7AF102F226E;
-	Mon, 13 Oct 2025 17:27:05 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 87E226067B;
+	Mon, 13 Oct 2025 15:27:27 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1A6DF102F1D5C;
+	Mon, 13 Oct 2025 17:27:24 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760369243; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=IWdsfjj5jpQbVUBEF3JNVK8XtUjBuYa8SUR1XN8C/40=;
-	b=QGFbD/jCtgA18dea4eicPYCp27fIQfV28kOkO5geNkZtVwVYY/OtySER9JAODMiCs2Wz8a
-	pJJlYjsBDG4xCNGm6rh4j5VOXDoVAXJa0FbeoHIULkVsP7kd8BqFMdU8UAd9u7Nu26UsFG
-	nhscsQS+FI5wQbqC+fYoPAPsc28qzFcUR127lQrWRH7ucpqjEvSViNfSyf13xTJmxh0rCW
-	PWZH4DycrEAv5VS6+cuJOtPTfc8Kxx6GW4ZaRAAW4wGK909H+aBm5sDX6+iyQLWsaTkzuu
-	5mHVVq2Yj/oKRwqMKfEW7U9C0s3ug5mFFj5Rb5Ch7j9OjIvIHYoj21mgd4h7fw==
+	t=1760369245; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=j9UGTJcWYSBAqp5JJLufyhsbLELsj0ohBAucYdJtZ1o=;
+	b=nmtuxVisKyZjIHulDLUKYBbUvhnneHIQkbm/QxsomgvOTckqW21U/qV47R+cuxQz+aGelx
+	wnXpsK8PmsjCiGxQZzHZlxTC0MVqceM1MQnWiir1XzM2mW5Zqg2+wHIWbcyTk6+a9Sw0tQ
+	cebrpI507mFLHBxz42FMW62LzC0F5snBRpSo+iK4cSNtTXSmoAh3SAOvuqSoQ7VbVP3RmR
+	w8yPk4FfxITQkCtHpiNhdM3BhQOxZkuX2qhLdcAFcOwETotp+WsO7nWo6efRu1lZKfgaAG
+	QOpl+q/f67D2SkrFbst4lxKntnPYWb3jhpsVcr1XYbTf1S+ePVRE3xmErxahCg==
 From: Richard Genoud <richard.genoud@bootlin.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>,
 	Richard Weinberger <richard@nod.at>,
@@ -52,10 +54,12 @@ Cc: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Richard Genoud <richard.genoud@bootlin.com>
-Subject: [PATCH v2 00/15] Introduce Allwinner H6/H616 NAND controller support
-Date: Mon, 13 Oct 2025 17:26:30 +0200
-Message-ID: <20251013152645.1119308-1-richard.genoud@bootlin.com>
+Subject: [PATCH v2 01/15] mtd: rawnand: sunxi: Remove superfluous register readings
+Date: Mon, 13 Oct 2025 17:26:31 +0200
+Message-ID: <20251013152645.1119308-2-richard.genoud@bootlin.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251013152645.1119308-1-richard.genoud@bootlin.com>
+References: <20251013152645.1119308-1-richard.genoud@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -65,83 +69,34 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi everyone,
+The register NFC_REG_ECC_CTL was read twice and the result was not used,
+then a third time with a mask applied.
+Removing those calls didn't change the behavior.
 
-This patch series introduce H6/H616 NAND controller support (but not yet
-the DMA/MDMA part).
+Tested on H616 SoC, scrambling enabled.
 
-All the work was done on a H616 board with a Kioxia TC58NVG1S3HTA00 NAND
-chip.
-ECC is supported, as well as scrambling.
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+---
+ drivers/mtd/nand/raw/sunxi_nand.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-H6 SoC has not been tested, but it shares all registers with H616, plus
-some registers dedicated to Embedded Crypto Engine that H616 lacks.
-
-This IP has quite some register fields modified from the A10/A23, but in
-the end, it works more or less the same.
-Main differences with A10/A23 are:
-- The need for 2 more clocks (for ECC and MBUS)
-- The use of a new USER_DATA_LEN register
-- More ECC strengths (44, 52, 68, 72, 76 and 80 bits / 1KB)
-- MDMA based on chained buffers
-- some registers layouts have changed (mainly due do the stronger ECC)
-
-Patch 1 removes a superfluous call, and is independent from the others.
-
-Patches 2-12 are paving the way to the introduction of H616 NAND
-controller support.
-They are small, without functional change and easier to review than a
-big patch.
-They move a fixed value (register offset, field mask, SRAM size) into
-the struct sunxi_nfc_caps when this value is different on H6/H616.
-
-Patch 13 introduces the support for H6/H616 NAND controller.
-
-Patch 14 introduces allwinner,sun50i-h616-nand-controller compatible
-in order to differentiate from the A10 and A23.
-
-Patch 15 adds the NAND controller node to sun50i-h616.dtsi
-
-Changes from V1:
-- reorder patches to have dtsi/bindings patches at the end.
-- reorder nand-controller and pins nodes to respect the order.
-- add /omit-if-no-ref/ on pins that may be unused.
-- remove pinctrl from nand controller node (this should be added to device
- DT).
-- rework dt binding.
-- fix H616 comment on chained descriptors support.
-- add missing mbus_clk description.
-- make ECC clock mandatory for H6 (because it's indeed mandatory).
-- harmonize new clock retrieving error messages with older ones.
-- harmonize commits subjects (mtd: rawnand: sunxi).
-- reword commit messages to use imperative mood.
-
-Thanks Krzysztof and Jernej for the reviews!
-
-Regards,
-Richard
-
-Richard Genoud (15):
-  mtd: rawnand: sunxi: Remove superfluous register readings
-  mtd: rawnand: sunxi: move ECC strenghts in sunxi_nfc_caps
-  mtd: rawnand: sunxi: introduce reg_ecc_err_cnt in sunxi_nfc_caps
-  mtd: rawnand: sunxi: introduce reg_user_data in sunxi_nfc_caps
-  mtd: rawnand: sunxi: rework pattern found registers
-  mtd: rawnand: sunxi: add has_ecc_block_512 capability
-  mtd: rawnand: sunxi: introduce ecc_mode_mask in sunxi_nfc_caps
-  mtd: rawnand: sunxi: introduce random en/dir in sunxi_nfc_caps
-  mtd: rawnand: sunxi: introduce reg_pat_id in sunxi_nfc_caps
-  mtd: rawnand: sunxi: introduce reg_spare_area in sunxi_nfc_caps
-  mtd: rawnand: sunxi: introduce ecc_err_mask in sunxi_nfc_caps
-  mtd: rawnand: sunxi: introduce sram_size in sunxi_nfc_caps
-  mtd: rawnand: sunxi: Add support for H616 nand controller
-  dt-bindings: mtd: sunxi: Add H616 compatible
-  arm64: dts: allwinner: h616: add NAND controller
-
- .../mtd/allwinner,sun4i-a10-nand.yaml         |  57 ++-
- .../arm64/boot/dts/allwinner/sun50i-h616.dtsi |  51 +++
- drivers/mtd/nand/raw/sunxi_nand.c             | 350 +++++++++++++++---
- 3 files changed, 404 insertions(+), 54 deletions(-)
-
-
-base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
+index f6a8e8ae819d..cb12179b63a5 100644
+--- a/drivers/mtd/nand/raw/sunxi_nand.c
++++ b/drivers/mtd/nand/raw/sunxi_nand.c
+@@ -623,13 +623,12 @@ static void sunxi_nfc_randomizer_config(struct nand_chip *nand, int page,
+ 					bool ecc)
+ {
+ 	struct sunxi_nfc *nfc = to_sunxi_nfc(nand->controller);
+-	u32 ecc_ctl = readl(nfc->regs + NFC_REG_ECC_CTL);
++	u32 ecc_ctl;
+ 	u16 state;
+ 
+ 	if (!(nand->options & NAND_NEED_SCRAMBLING))
+ 		return;
+ 
+-	ecc_ctl = readl(nfc->regs + NFC_REG_ECC_CTL);
+ 	state = sunxi_nfc_randomizer_state(nand, page, ecc);
+ 	ecc_ctl = readl(nfc->regs + NFC_REG_ECC_CTL) & ~NFC_RANDOM_SEED_MSK;
+ 	writel(ecc_ctl | NFC_RANDOM_SEED(state), nfc->regs + NFC_REG_ECC_CTL);
