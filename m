@@ -1,196 +1,209 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DED30DECD
-	for <linux-sunxi@lists.linux.dev>; Tue, 14 Oct 2025 07:14:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5144313E10;
+	Tue, 14 Oct 2025 12:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760426045; cv=none; b=iowXMTYtyR4EMtaHgoGlpMQZlcdxKazplLg1zAy8N2ZzCdQp89nQANp0h4maiJq4AKkX4+0AX5eBGG5efVRPxy5Hhl7LYB29LB+Mfig5p12Et2sW04RVOdZCEirIGh3Z6PL7ED8uZ9JWpTD2lkKI5UFSXDTMN+nxnKffu+EmgqQ=
+	t=1760445841; cv=none; b=giSdTHVaerhsvqF/wv93CnI9DiUTx9o3G1DDd3x3qlI6/zuguhwMKzDdTC0gJooRVqXud1PtUY7cuz5tDwewRk0pAjgRUzE8EQRFO/OXJdFlrPFivbxD2iIq/TvEt5up1K2AmiVWVN+WpDqTPvLvoDg32LrzLn6cjB+7Jiiepok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760426045; c=relaxed/simple;
-	bh=ofrRWHTc0iq5SR+suJzAIcoxSg/tlD3mx3P7zHJZZBo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WXEMlDPfd9RtuTqntWhZx3bIPo21tSQqw+q8Kw2/zEyngYjrjwAkUB/5XVJeFO0/uF+JX0915K9cUxeOr7Bi3tYiX/dKoysjBTBXpClo2U8ys9Xzjlu4p416dLPod4LTej2LStNqcJKmBe6FDKBFc9dSGzkuIxeT03UYe12RoDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZZvdEf6I; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1760445841; c=relaxed/simple;
+	bh=/tXEkBV2iz6VIBxhFaqv+T+Om6XqiroS3jlzqMPzr7k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q3Nl3YTIVm7NoBTd4rDDSfQpdwaDqofl2lmObHBLkvuzjh2ys1TxP1lAoNqKd4t/SzW8klQiPzwuOx8nCwW5SNBQnQNtpGKqpLpCUoyaFco30Prx984b6iavICiVNSxYhkCx8O6E2h50IQQGiODk1xlOSaHY0DgtB6ZzE961tLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dxRmkO54; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZZvdEf6I"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 0C806C08CFF;
-	Tue, 14 Oct 2025 07:13:41 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 09945606EC;
-	Tue, 14 Oct 2025 07:14:00 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B48C7102F224B;
-	Tue, 14 Oct 2025 09:13:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760426038; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=1rQPGkIVi3ODkc5CC6srqTaTWUcBBf3OLgjQBFg0e8Q=;
-	b=ZZvdEf6IsnbwHKU53mCP/OJVvqaMjPPYJ6LVInAyhJAnoY5WHLT0aiiBaULt3scVtTDLfT
-	MrlZ2yAeFbtlptpU58fw1BkWZsNgWzGhTJ53QT8KpCGw2yl/YYNSD3Q3ufDZmne+1ywRl5
-	+7gNdp6rf94tvaKq84k92Xn+G5h3/XhB46xtaTO8T9w0Ln60XmksgF7Zne+VIN0SHmaltX
-	Lm1J8uJKhiwBAJqKn7WReaj1cst9KJkCySbLwSdL0TEiEPXatY3WzkjuFpipKViGtJ+T1E
-	NAcTO+x1RMvIk/TYApPpC2NoR5ozDBKtwvAZuoI/B9y6QBNHphj6Q6YLHYrMmQ==
-Message-ID: <72d9b0f3-da27-4e30-b07b-d85be23b1407@bootlin.com>
-Date: Tue, 14 Oct 2025 09:13:43 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dxRmkO54"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3621C4CEE7;
+	Tue, 14 Oct 2025 12:44:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760445841;
+	bh=/tXEkBV2iz6VIBxhFaqv+T+Om6XqiroS3jlzqMPzr7k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dxRmkO541/EHC4Q2cqeAFfz8gm88AZdpTPJSlXAulRZhX0venAuYbb/iSkyCZREtT
+	 C5JGgvwTCDbvLkeOOsDEKk1h+tYXp67GJ4d2nLjbsirGWWecG9SPOon/ziGm5HL70k
+	 aJ5r7SyidsW2sp/mJfdDoL1sflQE8QcI/E7NotdNBaC/SiIpuOF8OYReJGskFT9R6Y
+	 xYpGfj2ndPjQCgtFq8V4KgtBnA3eYPEbzP9wnJi6b4HypRvkyY6vaKUB/3XCHUfbKi
+	 i5qAWfahu1WlH5/65MQCbo2IbJY+ylmDK9NXQI1uEt5vx52js8gnIvddcVWxI+fqLh
+	 hDvmXlZwdrmNQ==
+Date: Tue, 14 Oct 2025 14:43:58 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Samuel Holland <samuel@sholland.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+	Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+	Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
+	Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+	Daniel Stone <daniels@collabora.com>
+Subject: Re: [PATCH v4 01/10] drm/connector: let drivers declare infoframes
+ as unsupported
+Message-ID: <5cc5l2dihgdbgnwyugelwrklpaiiy5yaczqllu4bi6asvlt354@kib3flskh34g>
+References: <20250909-drm-limit-infoframes-v4-0-53fd0a65a4a2@oss.qualcomm.com>
+ <20250909-drm-limit-infoframes-v4-1-53fd0a65a4a2@oss.qualcomm.com>
+ <20250910-furry-singing-axolotl-9aceac@houat>
+ <z333ysst5ifakomo35jtbpydj44epqwwn4da76rcnsq4are62m@32gsmgx2pcdi>
+ <20250925-didactic-spiked-lobster-fefabe@penduick>
+ <jfxtcvh4l5kzyv74llmzz3bbt6m4mhzhhwl6lh5kfeqgqhkrhi@jzfvtxpedmyf>
+ <20251003-primitive-sepia-griffin-cfca55@houat>
+ <54a06852-4897-4dae-ab9c-330d99f3bf42@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 14/15] dt-bindings: mtd: sunxi: Add H616 compatible
-To: Conor Dooley <conor@kernel.org>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- Wentao Liang <vulab@iscas.ac.cn>, Johan Hovold <johan@kernel.org>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20251013152645.1119308-1-richard.genoud@bootlin.com>
- <20251013152645.1119308-15-richard.genoud@bootlin.com>
- <20251013-parrot-sandpaper-4e31d2d1a6b3@spud>
-From: Richard GENOUD <richard.genoud@bootlin.com>
-Content-Language: en-US, fr
-Organization: Bootlin
-In-Reply-To: <20251013-parrot-sandpaper-4e31d2d1a6b3@spud>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
-
-Le 13/10/2025 à 21:44, Conor Dooley a écrit :
-> On Mon, Oct 13, 2025 at 05:26:44PM +0200, Richard Genoud wrote:
->> The H616 NAND controller is quite different from the A10 and A23 ones,
->> some registers offset changed, and some new one are introduced.
->> Also, the DMA handling is different (it uses chained descriptors)
->>
->> So, introduce a new compatible to represent this version of the IP.
->>
->> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
->> ---
->>   .../mtd/allwinner,sun4i-a10-nand.yaml         | 57 ++++++++++++++++---
->>   1 file changed, 48 insertions(+), 9 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/mtd/allwinner,sun4i-a10-nand.yaml b/Documentation/devicetree/bindings/mtd/allwinner,sun4i-a10-nand.yaml
->> index 054b6b8bf9b9..4b82de9fae17 100644
->> --- a/Documentation/devicetree/bindings/mtd/allwinner,sun4i-a10-nand.yaml
->> +++ b/Documentation/devicetree/bindings/mtd/allwinner,sun4i-a10-nand.yaml
->> @@ -6,9 +6,6 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
->>   
->>   title: Allwinner A10 NAND Controller
->>   
->> -allOf:
->> -  - $ref: nand-controller.yaml
->> -
->>   maintainers:
->>     - Chen-Yu Tsai <wens@csie.org>
->>     - Maxime Ripard <mripard@kernel.org>
->> @@ -18,6 +15,8 @@ properties:
->>       enum:
->>         - allwinner,sun4i-a10-nand
->>         - allwinner,sun8i-a23-nand-controller
->> +      - allwinner,sun50i-h616-nand-controller
->> +
->>     reg:
->>       maxItems: 1
->>   
->> @@ -25,14 +24,12 @@ properties:
->>       maxItems: 1
->>   
->>     clocks:
->> -    items:
->> -      - description: Bus Clock
->> -      - description: Module Clock
->> +    minItems: 2
->> +    maxItems: 4
->>   
->>     clock-names:
->> -    items:
->> -      - const: ahb
->> -      - const: mod
->> +    minItems: 2
->> +    maxItems: 4
-> 
-> The clock descriptions and names should remain out here, with your new
-> min/max constraints, since they're identical at indices 0 and 1 to for
-> both types of device. The if/then should only set the min to 4 for the
-> new device and the max to 2 for the existing ones.
-
-Indeed.
-
-Thanks!
-
-> 
-> Cheers,
-> Conor.
-> 
-> pw-bot: changes-requested
-> 
->>   
->>     resets:
->>       maxItems: 1
->> @@ -85,6 +82,48 @@ required:
->>   
->>   unevaluatedProperties: false
->>   
->> +allOf:
->> +  - $ref: nand-controller.yaml
->> +
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            enum:
->> +              - allwinner,sun4i-a10-nand
->> +              - allwinner,sun8i-a23-nand-controller
->> +    then:
->> +      properties:
->> +        clocks:
->> +          items:
->> +            - description: Bus Clock
->> +            - description: Module Clock
->> +        clock-names:
->> +          items:
->> +            - const: ahb
->> +            - const: mod
->> +
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            enum:
->> +              - allwinner,sun50i-h616-nand-controller
->> +    then:
->> +      properties:
->> +        clocks:
->> +          items:
->> +            - description: Bus Clock
->> +            - description: Module Clock
->> +            - description: ECC Clock
->> +            - description: MBus Clock
->> +        clock-names:
->> +          items:
->> +            - const: ahb
->> +            - const: mod
->> +            - const: ecc
->> +            - const: mbus
->> +
->>   examples:
->>     - |
->>       #include <dt-bindings/interrupt-controller/arm-gic.h>
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="sfmxdzujh2ysmgjl"
+Content-Disposition: inline
+In-Reply-To: <54a06852-4897-4dae-ab9c-330d99f3bf42@oss.qualcomm.com>
 
 
--- 
-Richard Genoud, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--sfmxdzujh2ysmgjl
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 01/10] drm/connector: let drivers declare infoframes
+ as unsupported
+MIME-Version: 1.0
+
+On Fri, Oct 03, 2025 at 06:41:58PM +0300, Dmitry Baryshkov wrote:
+> On 03/10/2025 17:23, Maxime Ripard wrote:
+> > On Thu, Sep 25, 2025 at 05:55:06PM +0300, Dmitry Baryshkov wrote:
+> > > > > As we will be getting more and more features, some of the InfoFra=
+mes
+> > > > > or data packets will be 'good to have, but not required'.
+> > > >=20
+> > > > And drivers would be free to ignore those.
+> > > >=20
+> > > > > > So, no, sorry. That's still a no for me. Please stop sending th=
+at patch
+> > > > >=20
+> > > > > Oops :-)
+> > > > >=20
+> > > > > > unless we have a discussion about it and you convince me that i=
+t's
+> > > > > > actually something that we'd need.
+> > > > >=20
+> > > > > My main concern is that the drivers should not opt-out of the fea=
+tures.
+> > > > > E.g. if we start supporting ISRC packets or MPEG or NTSC VBI Info=
+Frames
+> > > > > (yes, stupid examples), it should not be required to go through a=
+ll the
+> > > > > drivers, making sure that they disable those. Instead the DRM fra=
+mework
+> > > > > should be able to make decisions like:
+> > > > >=20
+> > > > > - The driver supports SPD and the VSDB defines SPD, enable this
+> > > > >    InfoFrame (BTW, this needs to be done anyway, we should not be=
+ sending
+> > > > >    SPD if it's not defined in VSDB, if I read it correctly).
+> > > > >=20
+> > > > > - The driver hints that the pixel data has only 10 meaninful bits=
+ of
+> > > > >    data per component (e.g. out of 12 for DeepColor 36), the Sink=
+ has
+> > > > >    HF-VSDB, send HF-VSIF.
+> > > > >=20
+> > > > > - The driver has enabled 3D stereo mode, but it doesn't declare s=
+upport
+> > > > >    for HF-VSIF. Send only H14b-VSIF.
+> > > > >=20
+> > > > > Similarly (no, I don't have these on my TODO list, these are just
+> > > > > examples):
+> > > > > - The driver defines support for NTSC VBI, register a VBI device.
+> > > > >=20
+> > > > > - The driver defines support for ISRC packets, register ISRC-rela=
+ted
+> > > > >    properties.
+> > > > >=20
+> > > > > - The driver defines support for MPEG Source InfoFrame, provide a=
+ way
+> > > > >    for media players to report frame type and bit rate.
+> > > > >=20
+> > > > > - The driver provides limited support for Extended HDR DM InfoFra=
+mes,
+> > > > >    select the correct frame type according to driver capabilities.
+> > > > >=20
+> > > > > Without the 'supported' information we should change atomic_check=
+()
+> > > > > functions to set infoframe->set to false for all unsupported Info=
+Frames
+> > > > > _and_ go through all the drivers again each time we add support f=
+or a
+> > > > > feature (e.g. after adding HF-VSIF support).
+> > > >=20
+> > > >  From what you described here, I think we share a similar goal and =
+have
+> > > > somewhat similar concerns (thanks, btw, it wasn't obvious to me bef=
+ore),
+> > > > we just disagree on the trade-offs and ideal solution :)
+> > > >=20
+> > > > I agree that we need to sanity check the drivers, and I don't want =
+to go
+> > > > back to the situation we had before where drivers could just ignore
+> > > > infoframes and take the easy way out.
+> > > >=20
+> > > > It should be hard, and easy to catch during review.
+> > > >=20
+> > > > I don't think bitflag are a solution because, to me, it kind of fai=
+ls
+> > > > both.
+> > > >=20
+> > > > What if, just like the debugfs discussion, we split write_infoframe=
+ into
+> > > > write_avi_infoframe (mandatory), write_spd_infoframe (optional),
+> > > > write_audio_infoframe (checked by drm_connector_hdmi_audio_init?) a=
+nd
+> > > > write_hdr_infoframe (checked in drmm_connector_hdmi_init if max_bpc=
+ > 8)
+> > > >=20
+> > > > How does that sound?
+> > >=20
+> > > I'd say, I really like the single function to be called for writing t=
+he
+> > > infoframes. It makes it much harder for drivers to misbehave or to sk=
+ip
+> > > something.
+> >=20
+> >  From a driver PoV, I believe we should still have that single function
+> > indeed. It would be drm_atomic_helper_connector_hdmi_update_infoframes's
+> > job to fan out and call the multiple callbacks, not the drivers.
+>=20
+> I like this idea, however it stops at the drm_bridge_connector abstractio=
+n.
+> The only way to handle this I can foresee is to make individual bridges
+> provide struct drm_connector_hdmi_funcs implementation (which I'm fine wi=
+th)
+> and store void *data or struct drm_bridge *hdmi_bridge somewhere inside
+> struct drm_connector_hdmi in order to let bridge drivers find their data.
+
+Does it change anything? The last HDMI bridge should implement all the
+infoframes it supports. I don't think we should take care of one bridge
+with one infoframe type and some other with another?
+
+Maxime
+
+--sfmxdzujh2ysmgjl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaO5FigAKCRAnX84Zoj2+
+dsJzAYDfo6ak7CwTSlc4o7ed4CNYZ1L2YAhtwDiaUffpOTN/dXXcROoKHGgFXSFc
+pvUUc7gBf0zB/jj7BZZ+x1NVnSNKuXdhcpZfp7zgGMTrLBClgApQMqJ+ODdDvpPq
+p8TSGgZYKw==
+=gAKl
+-----END PGP SIGNATURE-----
+
+--sfmxdzujh2ysmgjl--
