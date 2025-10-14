@@ -1,249 +1,341 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 430F42030A;
-	Tue, 14 Oct 2025 14:21:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703962FBDE9
+	for <linux-sunxi@lists.linux.dev>; Tue, 14 Oct 2025 15:48:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760451690; cv=none; b=UTba3ahNSoBLgY1xrKHVNxW8pujw9U5qdfj+l6wjDhuEhV5OHcacQvizrxoWMN3Cv5KXdRQWKpjaBZrPPMT2+gBx3uAQsQwQezXl6o1BKl6mWTQGg7boR9R97fve5UFYpCsJ1dBTF/WskE12Ns+VmkQWGzYt623Ms8ijd+sKnSI=
+	t=1760456908; cv=none; b=mV0bwSiNJqSh/BZ97B05WMwAZgW5KNl0eqPpLn0XV1mz1F3d/uUCqw929wfTsiDf9NS6QgUq+lEs0VKsek31myOFsgb8L4PjmWNkT7eMWP9PSnokXzv/jTsmeslma05uihF6DPU8v/7QS5QAxL78KGpwpzRZ5dFQPlOteRNQc+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760451690; c=relaxed/simple;
-	bh=UqzsvwMp3V0i7PDSlVhWanfYCUH2uWNbSf0hNoLES9Q=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=rNky51nqeLI5qQ2V/IEmOi0MpAFyxwhc2YzBeap8kT2hckHHpvjLzAmOmIarXAqfc6IFyyyajEySQIZxlXZA1oOeDbKDjDd4qZoJqGUtlD0vGNcHheUHD6iJqbxJ8J2mR7arqNmEUd8flnknrbOMNgeF3PqRG6Mu5iMEcNx3cZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=e+iErGsK; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1760456908; c=relaxed/simple;
+	bh=AnyUasWkeoB8jjew4eeBbK3ca6UTXtNvks6eEnN1E58=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Il78dtcJiauRovYRTmDy7IxqE7tsiB/la9Nqd93gl08O0XsYVryIAl9uvTeHpZ4bVf81ZZMIYsddSXISCUJ1qbkOGTemlviRyGPOXw8ekRbH6ubpSp3KDkSh8DXFfP812SaFHzFkjADCHgobRR7WnMiL5f3LViPgECDPtr9113c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hKjkkwy1; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="e+iErGsK"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59EB7WPm015294;
-	Tue, 14 Oct 2025 14:20:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=2EBKHt
-	oFBxc6VeU5knOorwmqOfQ2r5EFkZDTHtXao5E=; b=e+iErGsKOcPSWwqu9PWl+V
-	fkDZNS6kdV7P2KCoLq1fa7FBu0rykqEZgBU+rOfEoQHCPSO4ZzAP8Zz900qrEQps
-	tkOQzIVN5/KI1gfTqOdHd3M2zoH1vf7mXU8vpYmq1iaemnW78g7AlLmcp9GTlyYc
-	yjqv1WmnHnxmQClIlgK/XYpB4D5H0y/juE2t8gq1crr96GS8HgmbyhykU7ddEoNs
-	9+ut4mXXV7h37EzEaFNYEEBARSVYr7Gd9axEWeJR2Uike+Qdu91Qg8SHfxKri2/f
-	UVY8jSF0EEcuOm4sdu5HQv4d2f6DYvu97LE3nnPTj2P0qWuoSD7EUBq4btwwdsmg
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49qdnperrq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Oct 2025 14:20:54 +0000 (GMT)
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 59EDwQXc002823;
-	Tue, 14 Oct 2025 14:20:53 GMT
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49qdnperrk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Oct 2025 14:20:53 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 59ECK0J5015016;
-	Tue, 14 Oct 2025 14:20:52 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 49r3sjb467-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Oct 2025 14:20:52 +0000
-Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
-	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 59EEKput32637650
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 Oct 2025 14:20:52 GMT
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CD13F58045;
-	Tue, 14 Oct 2025 14:20:51 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8B33958050;
-	Tue, 14 Oct 2025 14:20:45 +0000 (GMT)
-Received: from [9.152.212.179] (unknown [9.152.212.179])
-	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 14 Oct 2025 14:20:45 +0000 (GMT)
-Message-ID: <21f4afb4069489729cf90469abf2d1321ed17bec.camel@linux.ibm.com>
-Subject: Re: [PATCH v1 02/20] iommu: Introduce a test_dev domain op and an
- internal helper
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: joro@8bytes.org, jgg@nvidia.com, kevin.tian@intel.com,
-        suravee.suthikulpanit@amd.com, will@kernel.org, robin.murphy@arm.com,
-        sven@kernel.org, j@jannau.net, jean-philippe@linaro.org,
-        robin.clark@oss.qualcomm.com, dwmw2@infradead.org,
-        baolu.lu@linux.intel.com, yong.wu@mediatek.com, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.com, tjeznach@rivosinc.com,
-        pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu,
-        heiko@sntech.de, mjrosato@linux.ibm.com, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, iommu@lists.linux.dev,
-        linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        virtualization@lists.linux.dev, patches@lists.linux.dev
-Date: Tue, 14 Oct 2025 16:20:44 +0200
-In-Reply-To: <aO01TkkA7ZLDgqXg@Asurada-Nvidia>
-References: <cover.1760312725.git.nicolinc@nvidia.com>
-	 <32ce256a2ece5d63e99d5858f953586859818ffc.1760312725.git.nicolinc@nvidia.com>
-	 <5165448792268e184e508a9c76fa0ce382a4a389.camel@linux.ibm.com>
-	 <aO01TkkA7ZLDgqXg@Asurada-Nvidia>
-Autocrypt: addr=schnelle@linux.ibm.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hKjkkwy1"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59E87Hq9005377
+	for <linux-sunxi@lists.linux.dev>; Tue, 14 Oct 2025 15:48:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=bnUd9WqqTC6gg1NeEhBqMnCO
+	5PDnLeEfEL4vvYOYjD8=; b=hKjkkwy1uKNr0ggYlgTQObOeDp6guhKz/etIqcij
+	MYvHfh3wvPphite+QMe/OB7W8Cjs/6SXnqBp4D2aqRnmooKmp/ITECvo8QQO4/DR
+	nOts7Rqq9O3L2g5cFMGaZINOIMx3zeremL+MJtBgM6TWzFcbwGTwAJeqVSRfD94h
+	xqe5T2wcbsZQhMvURH/eASTgGUnT4ehOVSWWsZmDoDqBZ83QbA+JTJ9cqujcHPV7
+	oHT29VVuff8nfWz4FstI6wMC/8M6XbbLWaTx64duHptIuTTuIig7JGXs6DfkFqv7
+	jpr6yIP9SM8xO/cJkBu33lh1T7wfAdiv1CZF6TY66BDabg==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfbj13nx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sunxi@lists.linux.dev>; Tue, 14 Oct 2025 15:48:25 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-872d1a88c7dso1004654685a.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 14 Oct 2025 08:48:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760456904; x=1761061704;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bnUd9WqqTC6gg1NeEhBqMnCO5PDnLeEfEL4vvYOYjD8=;
+        b=tEYK/guX1ORbtQnV16/C+gUFWdGzz2ZU3wWpgYSk2SxyLViYgUi72S1q5cZTuvu9D+
+         zIAbyMCEBULr2taWG2BGA1Ul6sLssccFvvwKEBWCLUeGJl1hO9+8mB0zm6ibfpg2/WAl
+         kKV4wgIMa7X/9zWThJdgiCq6ddCf9mOb8Lvdv+kq1RCPGfVfM4iJ4m+UDlHOXk1dbjg1
+         OerQCS6W/Au6Ku9uswd0wQUgBOUaFyFqnlh+29vstfxmL4yr5DriaSPY5418MlbSH5+P
+         nXVf6ZEb7RRUYj1hhdgrISGg/1Y2TKLTg9ETBJXuDkjfUggsZnlJN93rzII3EuKIXZwB
+         d3Jg==
+X-Forwarded-Encrypted: i=1; AJvYcCVkoTLdVCiwMxLqP2F3F2U+2AFC7Nzcq0jW2kN+WcD9Z10efmLchyRPuN4JFJep8vfFNcpuIKCeOnHdYw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz1H7NLuklQT9D1x8u8ovP9YMHJeT7OLOgsowEEzVyLYKTQ60gw
+	72zEp1A0l4osV0GY65P3tK2dQXHv9P3bL+bis1INPV3joyeoECFuIxZGKXb+UukuIFeBtLDJSWg
+	Ne9v2oSYXt7XPGxs06o+xUDCOMF/iAwelGkJpJKKVcqt9Nd521V/5eYqP2ocTO4gpDQ==
+X-Gm-Gg: ASbGncsX6nzc5d9QaRPW3yPGRkjsRetUmCxLTNRKsjfT23+knn3CZulY+jPe32F7Zwy
+	0wML810Qnku8xs1ymnqXD/P9Y1wvXVww0vdHx3eB3Ua5DFlOGbRa5SLrPhv68nSf56C828EHVGR
+	qHBJR2AAUqOOix8AESHH32vuEC+rXE8Jt12VCXhMqXhMDFLTWp27CFetohIhN39W/Q7zPJAVEFK
+	wx+EIyKL4+tVDSHcnv7+imqHZWe+uq8LWYnMQp+Y8VvZjRXI00zTKLix0yH9YccCayLoEdj9sLK
+	usnTbPXct4E0buOuFs/avAwOEe5fr/vjo5TzX5PTo6zftETjsFO7rWU+iU2bHgyjN7W/wrVGglj
+	KpbrJQF6rCxr3NO0WXxwUyNaewsZLnnnINXyUmqF0iPcxM3eTzYHv
+X-Received: by 2002:a05:620a:1a13:b0:85c:bb2:ad8e with SMTP id af79cd13be357-88353b341admr3454180985a.48.1760456903968;
+        Tue, 14 Oct 2025 08:48:23 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH1kVRNLAt5bA1+d0KSwa3ylw1lBL0Up7cJNOapKT1tEcg4YRx4k8gLeEELCdscxWsjHRglgw==
+X-Received: by 2002:a05:620a:1a13:b0:85c:bb2:ad8e with SMTP id af79cd13be357-88353b341admr3454175485a.48.1760456903342;
+        Tue, 14 Oct 2025 08:48:23 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-590881f919fsm5367578e87.36.2025.10.14.08.48.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Oct 2025 08:48:21 -0700 (PDT)
+Date: Tue, 14 Oct 2025 18:48:19 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Daniel Stone <daniel@fooishbar.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sandy Huang <hjc@rock-chips.com>,
+        Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+        Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+        Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+        Liu Ying <victor.liu@nxp.com>,
+        Rob Clark <robin.clark@oss.qualcomm.com>,
+        Dmitry Baryshkov <lumag@kernel.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+        Sean Paul <sean@poorly.run>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v3 00/11] drm/connector: hdmi: limit infoframes per
+ driver capabilities
+Message-ID: <pibxhl5hlcpuk3zsgyienfdlda5cwuxrnofwlw356scuzzplqy@zw3ofelgvwik>
+References: <pe6g2fanw65p67kfy5blbtiytngxmr6nkbazymojs4a66yvpl3@7j4ccnsvc6az>
+ <20250910-didactic-honored-chachalaca-f233b2@houat>
+ <x562ueky2z5deqqmhl222moyrbylfwi35u4hb34dpl3z52ra4c@dyw4iayrewnz>
+ <20250925-fervent-merry-beagle-2baba3@penduick>
+ <qx5ashx62pufott6hnsfna3qntnoyvxwxze4rihhuxcsdxi37s@bbdvc3sfsgne>
+ <20250929-gregarious-worm-of-memory-c5354d@houat>
+ <itgffxygopi7etkt7xhvmyuvyl5ad3k43nsxvjzw3ubtwiikn7@ocugfdaigtu7>
+ <20251003-uptight-echidna-of-stamina-815305@houat>
+ <zpygq4kapil3swsmhhqkdwny4ry2dznnzixsw5rkza5p2kqnvp@abvf2vxlbwif>
+ <2a5fitdzr2bz235fj6rvqzxr6ckszkjbazjfszlvnizdh2cvbt@w3ypjo7vahhs>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAwNSBTYWx0ZWRfXyPWIZGa5NMw1
- 5v70l2Ww8AWvh621mUnLUAYE/ED96Pe5OBNjx+T+yOpOYZKOVbv5c+zNL4MaaidGUUewI4h+RPc
- g0E1F3gK1wLubbLBdsog5mLrvfjitsIwvDRw75KLemF9SeNqT+G/Nuaa8d/vXw6iSbw2kh17CRZ
- 8lLEmCLHmxUaCudFgXf/K/0irflo7WFbZpZ1QUigJlnLverbUXD5o/E7tnTxrPgEkC6C4OywGtj
- PQuPcCwTBFc+7x9EPB4tqKNkif80ZpbnF//ZeD1HHYGjalO0z/Y1T7BbNR53Vqzy3t2rP0aEixa
- DKgQERlLbCZoUhlBsi6Ruc63AXeG3F/UsYACHqqLTA9xlaPB1vkKXEQtm6PhTC8grABEzCx0x+p
- Z81k8ypovNnBaN/uwtOLeHGJBdtXyQ==
-X-Proofpoint-ORIG-GUID: 8Tn8OuynM52x8dQ7re618PDx0uY-TkIk
-X-Proofpoint-GUID: r6fD6B6EQarBaIKpq995teTAJbSfnKM6
-X-Authority-Analysis: v=2.4 cv=MoxfKmae c=1 sm=1 tr=0 ts=68ee5c46 cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=cyMajOFANgF3YnkSg8AA:9 a=QEXdDO2ut3YA:10 a=DXsff8QfwkrTrK3sU8N1:22
- a=Z5ABNNGmrOfJ6cZ5bIyy:22 a=bWyr8ysk75zN3GCy5bjg:22
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2a5fitdzr2bz235fj6rvqzxr6ckszkjbazjfszlvnizdh2cvbt@w3ypjo7vahhs>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxOCBTYWx0ZWRfXww+XsmTwhlYZ
+ YCY6+L922ykrTIYStjvJz7DTVwiBqglA5RzkLLKr60cI+4W9DXmCTReAom32BU8pHOl0JtTmkmN
+ zf5u2Deww41ppu2yor2lpsMukNBiUxV7mzwhenBPME73vxU0XYhefWqolAxHbv5tjEuyS3VGHXs
+ UiYOiMbrMe26BE/6ExScjg9P78Y03x3crWpMo9MQ+vnysdt3PT3kkPoTJkbuHUYrgAWsLaZAWdd
+ lullDh6Gpw5JhowX4Ujb99uazfEQo8N7gceHsDHAy+QbZqvV7al4mYkxNRHMiZ9KhOxnTd1fHXh
+ N+fi5rivp7nzN+S1nrIgVVgx2eSyOsMjGKdClGg9XBPLXSwx65hMKjbtKCAI3Jhqt1SzixuAWzE
+ b3YE5vGvvA42QvdKYdrRITi4QdbRIA==
+X-Proofpoint-ORIG-GUID: nOU8eRF8atCjuZzIVVRKc0UcUH8yGdVJ
+X-Authority-Analysis: v=2.4 cv=bodBxUai c=1 sm=1 tr=0 ts=68ee70c9 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=Vph1PE5xcNG2gXNXWn0A:9 a=CjuIK1q_8ugA:10 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-GUID: nOU8eRF8atCjuZzIVVRKc0UcUH8yGdVJ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-14_02,2025-10-13_01,2025-03-28_01
+ definitions=2025-10-14_03,2025-10-13_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0 phishscore=0
- bulkscore=0 priorityscore=1501 malwarescore=0 clxscore=1015 adultscore=0
+ phishscore=0 lowpriorityscore=0 adultscore=0 impostorscore=0 suspectscore=0
+ bulkscore=0 priorityscore=1501 clxscore=1015 malwarescore=0 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110005
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110018
 
-On Mon, 2025-10-13 at 10:22 -0700, Nicolin Chen wrote:
-> Hi Niklas,
->=20
-> On Mon, Oct 13, 2025 at 11:53:55AM +0200, Niklas Schnelle wrote:
-> > On Sun, 2025-10-12 at 17:04 -0700, Nicolin Chen wrote:
-> > > Add a new test_dev domain op for driver to test the compatibility bet=
-ween
-> > > a domain and a device at the driver level, before calling into the ac=
-tual
-> > > attachment/replacement of a domain. Support pasid for set_dev_pasid c=
-all.
-> > >=20
-> > > Move existing core-level compatibility tests to a helper function. In=
-voke
-> > > it prior to:
-> > >  * __iommu_attach_device() or its wrapper __iommu_device_set_domain()
-> > >  * __iommu_set_group_pasid()
-> >=20
-> > Should this list also include iommu_deferred_attach()? The code does
-> > include it.
->=20
-> iommu_deferred_attach() invokes __iommu_attach_device(), so it is
-> already included in the list :)
+On Tue, Oct 14, 2025 at 02:59:43PM +0200, Maxime Ripard wrote:
+> On Fri, Oct 03, 2025 at 06:54:47PM +0300, Dmitry Baryshkov wrote:
+> > On Fri, Oct 03, 2025 at 03:22:23PM +0200, Maxime Ripard wrote:
+> > > On Tue, Sep 30, 2025 at 10:02:28AM +0300, Dmitry Baryshkov wrote:
+> > > > On Mon, Sep 29, 2025 at 03:00:04PM +0200, Maxime Ripard wrote:
+> > > > > On Thu, Sep 25, 2025 at 05:16:07PM +0300, Dmitry Baryshkov wrote:
+> > > > > > On Thu, Sep 25, 2025 at 03:13:47PM +0200, Maxime Ripard wrote:
+> > > > > > > On Wed, Sep 10, 2025 at 06:26:56PM +0300, Dmitry Baryshkov wrote:
+> > > > > > > > On Wed, Sep 10, 2025 at 09:30:19AM +0200, Maxime Ripard wrote:
+> > > > > > > > > On Wed, Sep 03, 2025 at 03:03:43AM +0300, Dmitry Baryshkov wrote:
+> > > > > > > > > > On Tue, Sep 02, 2025 at 08:06:54PM +0200, Maxime Ripard wrote:
+> > > > > > > > > > > On Tue, Sep 02, 2025 at 06:45:44AM +0300, Dmitry Baryshkov wrote:
+> > > > > > > > > > > > On Mon, Sep 01, 2025 at 09:07:02AM +0200, Maxime Ripard wrote:
+> > > > > > > > > > > > > On Sun, Aug 31, 2025 at 01:29:13AM +0300, Dmitry Baryshkov wrote:
+> > > > > > > > > > > > > > On Sat, Aug 30, 2025 at 09:30:01AM +0200, Daniel Stone wrote:
+> > > > > > > > > > > > > > > Hi Dmitry,
+> > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > On Sat, 30 Aug 2025 at 02:23, Dmitry Baryshkov
+> > > > > > > > > > > > > > > <dmitry.baryshkov@oss.qualcomm.com> wrote:
+> > > > > > > > > > > > > > > > It's not uncommon for the particular device to support only a subset of
+> > > > > > > > > > > > > > > > HDMI InfoFrames. It's not a big problem for the kernel, since we adopted
+> > > > > > > > > > > > > > > > a model of ignoring the unsupported Infoframes, but it's a bigger
+> > > > > > > > > > > > > > > > problem for the userspace: we end up having files in debugfs which do
+> > > > > > > > > > > > > > > > mot match what is being sent on the wire.
+> > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > Sort that out, making sure that all interfaces are consistent.
+> > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > Thanks for the series, it's a really good cleanup.
+> > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > I know that dw-hdmi-qp can support _any_ infoframe, by manually
+> > > > > > > > > > > > > > > packing it into the two GHDMI banks. So the supported set there is
+> > > > > > > > > > > > > > > 'all of the currently well-known ones, plus any two others, but only
+> > > > > > > > > > > > > > > two and not more'. I wonder if that has any effect on the interface
+> > > > > > > > > > > > > > > you were thinking about for userspace?
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > I was mostly concerned with the existing debugfs interface (as it is
+> > > > > > > > > > > > > > also used e.g. for edid-decode, etc).
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > It seems "everything + 2 spare" is more or less common (ADV7511, MSM
+> > > > > > > > > > > > > > HDMI also have those. I don't have at hand the proper datasheet for
+> > > > > > > > > > > > > > LT9611 (non-UXC one), but I think its InfoFrames are also more or less
+> > > > > > > > > > > > > > generic).  Maybe we should change debugfs integration to register the
+> > > > > > > > > > > > > > file when the frame is being enabled and removing it when it gets unset.
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > But, like, for what benefit?
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > It's a debugfs interface for userspace to consume. The current setup
+> > > > > > > > > > > > > works fine with edid-decode already. Why should we complicate the design
+> > > > > > > > > > > > > that much and create fun races like "I'm running edid-decode in parallel
+> > > > > > > > > > > > > to a modeset that would remove the file I just opened, what is the file
+> > > > > > > > > > > > > now?".
+> > > > > > > > > > > > 
+> > > > > > > > > > > > Aren't we trading that with the 'I'm running edid-decode in paralle with
+> > > > > > > > > > > > to a modeset and the file suddenly becomes empty'?
+> > > > > > > > > > > 
+> > > > > > > > > > > In that case, you know what the file is going to be: empty. And you went
+> > > > > > > > > > > from a racy, straightforward, design to a racy, complicated, design.
+> > > > > > > > > > > 
+> > > > > > > > > > > It was my question before, but I still don't really see what benefits it
+> > > > > > > > > > > would have, and why we need to care about it in the core, when it could
+> > > > > > > > > > > be dealt with in the drivers just fine on a case by case basis.
+> > > > > > > > > > 
+> > > > > > > > > > Actually it can not: debugfs files are registered from the core, not
+> > > > > > > > > > from the drivers. That's why I needed all the supported_infoframes
+> > > > > > > > > > (which later became software_infoframes).
+> > > > > > > > > 
+> > > > > > > > > That's one thing we can change then.
+> > > > > > > > > 
+> > > > > > > > > > Anyway, I'm fine with having empty files there.
+> > > > > > > > > > 
+> > > > > > > > > > > > > > Then in the long run we can add 'slots' and allocate some of the frames
+> > > > > > > > > > > > > > to the slots. E.g. ADV7511 would get 'software AVI', 'software SPD',
+> > > > > > > > > > > > > > 'auto AUDIO' + 2 generic slots (and MPEG InfoFrame which can probably be
+> > > > > > > > > > > > > > salvaged as another generic one)). MSM HDMI would get 'software AVI',
+> > > > > > > > > > > > > > 'software AUDIO' + 2 generic slots (+MPEG + obsucre HDMI which I don't
+> > > > > > > > > > > > > > want to use). Then the framework might be able to prioritize whether to
+> > > > > > > > > > > > > > use generic slots for important data (as DRM HDR, HDMI) or less important
+> > > > > > > > > > > > > > (SPD).
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > Why is it something for the framework to deal with? If you want to have
+> > > > > > > > > > > > > extra infoframes in there, just go ahead and create additional debugfs
+> > > > > > > > > > > > > files in your driver.
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > If you want to have the slot mechanism, check in your atomic_check that
+> > > > > > > > > > > > > only $NUM_SLOT at most infoframes are set.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > The driver can only decide that 'we have VSI, SPD and DRM InfoFrames
+> > > > > > > > > > > > which is -ETOOMUCH for 2 generic slots'. The framework should be able to
+> > > > > > > > > > > > decide 'the device has 2 generic slots, we have HDR data, use VSI and
+> > > > > > > > > > > > DRM InfoFrames and disable SPD for now'.
+> > > > > > > > > > > 
+> > > > > > > > > > > I mean... the spec does? The spec says when a particular feature
+> > > > > > > > > > > requires to send a particular infoframe. If your device cannot support
+> > > > > > > > > > > to have more than two "features" enabled at the same time, so be it. It
+> > > > > > > > > > > something that should be checked in that driver atomic_check.
+> > > > > > > > > > 
+> > > > > > > > > > Sounds good to me. Let's have those checks in the drivers until we
+> > > > > > > > > > actually have seveal drivers performing generic frame allocation.
+> > > > > > > > > > 
+> > > > > > > > > > > Or just don't register the SPD debugfs file, ignore it, put a comment
+> > > > > > > > > > > there, and we're done too.
+> > > > > > > > > > 
+> > > > > > > > > > It's generic code.
+> > > > > > > > > > 
+> > > > > > > > > > > > But... We are not there yet and I don't have clear usecase (we support
+> > > > > > > > > > > > HDR neither on ADV7511 nor on MSM HDMI, after carefully reading the
+> > > > > > > > > > > > guide I realised that ADV7511 has normal audio infoframes). Maybe I
+> > > > > > > > > > > > should drop all the 'auto' features, simplifying this series and land
+> > > > > > > > > > > > [1] for LT9611UXC as I wanted origianlly.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > [1] https://lore.kernel.org/dri-devel/20250803-lt9611uxc-hdmi-v1-2-cb9ce1793acf@oss.qualcomm.com/
+> > > > > > > > > > > 
+> > > > > > > > > > > Looking back at that series, I think it still has value to rely on the
+> > > > > > > > > > > HDMI infrastructure at the very least for the atomic_check sanitization.
+> > > > > > > > > > > 
+> > > > > > > > > > > But since you wouldn't use the generated infoframes, just skip the
+> > > > > > > > > > > debugfs files registration. You're not lying to userspace anymore, and
+> > > > > > > > > > > you get the benefits of the HDMI framework.
+> > > > > > > > > > 
+> > > > > > > > > > We create all infoframe files for all HDMI connectors.
+> > > > > > > > > 
+> > > > > > > > > Then we can provide a debugfs_init helper to register all of them, or
+> > > > > > > > > only some of them, and let the drivers figure it out.
+> > > > > > > > > 
+> > > > > > > > > Worst case scenario, debugfs files will not get created, which is a much
+> > > > > > > > > better outcome than having to put boilerplate in every driver that will
+> > > > > > > > > get inconsistent over time.
+> > > > > > > > 
+> > > > > > > > debugfs_init() for each infoframe or taking some kind of bitmask?
+> > > > > > > 
+> > > > > > > I meant turning hdmi_debugfs_add and create_hdmi_*_infoframe_file into
+> > > > > > > public helpers. That way, drivers that don't care can use the (renamed)
+> > > > > > > hdmi_debugfs_add, and drivers with different constraints can register
+> > > > > > > the relevant infoframes directly.
+> > > > > > 
+> > > > > > Doesn't that mean more boilerplate?
+> > > > > 
+> > > > > I don't think it would? In the general case, it wouldn't change
+> > > > > anything, and in special cases, then it's probably going to be different
+> > > > > from one driver to the next so there's not much we can do.
+> > > > > 
+> > > > > > In the end, LT9611UXC is a special case, for which I'm totally fine
+> > > > > > not to use HDMI helpers at this point: we don't control infoframes
+> > > > > > (hopefully that can change), we don't care about the TMDS clock, no
+> > > > > > CEC, etc.
+> > > > > 
+> > > > > Not using the helpers sound pretty reasonable here too.
+> > > > > 
+> > > > > > For all other usecases I'm fine with having atomic_check() unset all
+> > > > > > unsupported infoframes and having empty files in debugfs. Then we can
+> > > > > > evolve over the time, once we see a pattern. We had several drivers
+> > > > > > which had very limited infoframes support, but I think this now gets
+> > > > > > sorted over the time.
+> > > > > 
+> > > > > I never talked about atomic_check()? You were initially concerned that
+> > > > > the framework would expose data in debugfs that it's not using. Not
+> > > > > registering anything in debugfs solves that, but I'm not sure we need to
+> > > > > special case atomic_check.
+> > > > 
+> > > > Well... I ended up with [1], handling infoframes in the atomic_check()
+> > > > rather than registering fewer infoframe debugfs files. This way device
+> > > > state is consistent, we don't have enabled instances, etc. However it
+> > > > results in repetetive code in atomic_check().
+> > > > 
+> > > > [1] https://lore.kernel.org/dri-devel/20250928-limit-infoframes-2-v2-0-6f8f5fd04214@oss.qualcomm.com/
+> > > 
+> > > I guess we can continue the discussion there, but I'm not sure we want
+> > > to have more boilerplate in drivers, and especially in the atomic_check
+> > > part. If drivers are inconsistent or wrong in the debugfs path, there's
+> > > no major issue. If they are wrong in the atomic_check path, it will lead
+> > > to regressions, possibly in paths that are pretty hard to test.
+> > 
+> > You've responded there and I can drop the extra handling for HDR DRM and
+> > audio infoframes in the atomic_check(). What is your opinion about the
+> > atomic_check() unsetting the infoframe->set for SPD and HDMI infoframes?
+> 
+> HDMI infoframes are mandatory, so that's a big no-no.
 
-Ok makes sense, though it does list __iommu_device_set_domain()
-separately. Either way is fine for me.
+Nevertheless... There are drivers (sun4i, inno_hdmi, rk3066, dw_hdmi_qp)
+which don't (yet) implement VSI support.
 
->=20
-> > >  /**
-> > >   * struct iommu_domain_ops - domain specific operations
-> > > - * @attach_dev: attach an iommu domain to a device
-> > > + * @test_dev: Test compatibility prior to an @attach_dev or @set_dev=
-_pasid call.
-> > > + *            A driver-level callback of this op should do a thoroug=
-h sanity, to
-> >=20
-> > You're missing the word "check" above.
->=20
-> Ack.
->=20
-> > > + *            make sure a device is compatible with the domain. So t=
-he following
-> > > + *            @attach_dev and @set_dev_pasid functions would likely =
-succeed with
-> > > + *            only one exception due to a temporary failure like out=
- of memory.
-> >=20
-> > Nit: "=E2=80=A6 only one exception =E2=80=A6" / "=E2=80=A6 like out of =
-memory =E2=80=A6" this sounds a
-> > bit odd to me because on the one hand it's one exception but then also
-> > a group (temporary failures).
-> >=20
-> > Maybe better:
-> > "=E2=80=A6 would likely succeed with only the exception of temporary fa=
-ilures
-> > like out of memory."?
->=20
-> Sure. I can do that. Fixing both parts, it would be:
->=20
->  * @test_dev: Test compatibility prior to an @attach_dev or @set_dev_pasi=
-d call.
->  *            A driver callback of this op should do a thorough sanity ch=
-eck, to
->  *            make sure a device is compatible with the domain, so the fo=
-llowing
->  *            @attach_dev and @set_dev_pasid functions would likely succe=
-ed with
->  *            only the exception of temporary failures like out of memory=
-.
->=20
+> For SPD, It's really not clear to me why atomic_check should do that in
+> the first place. Your initial concern was about exposing infoframes in
+> debugfs that wouldn't be used by the driver.
+> 
+> If the driver doesn't register a debugfs file for SPD, and ignores
+> whatever is in the atomic state, what's should we force drivers to do
+> that?
 
-Sounds good, thanks!
+I really don't think that drivers should mess up with debugfs on their
+own. Making atomic_check() disable the unsupported InfoFrames makes the
+picture perfect: the DRM no longer tries to program them to the
+hardware, DebugFS files stay empty, so the whole state becomes
+consistent.
+
+
+-- 
+With best wishes
+Dmitry
