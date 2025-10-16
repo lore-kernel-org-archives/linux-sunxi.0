@@ -1,174 +1,246 @@
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010005.outbound.protection.outlook.com [52.101.193.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6030304BA6;
-	Wed, 15 Oct 2025 22:02:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.5
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760565773; cv=fail; b=PsVGV6MQE8Jm9YCFg4EjE8+JYPHG7aoISa1ghf96/WTuEsVEml44/kVuRIzDP8Ir5tKqZVX7QIdSX2cA1HJEGDDivzl8oSdhpC/ihCrebQKbWLEX2Dmso+Jy6sg/pGXTpw4Yxgm91Uix2QIb2D3U7Hga+sPK8zsQ2gr4FAGO/iU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760565773; c=relaxed/simple;
-	bh=BrqOiolYMzctS38ZgCjXclWlSQhG4w55qXi4fBQcKgw=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l8BykD0DKCQqZry+I/xw5Ob4pi8P5mMnbYMoYSXIpY5wz2YxCzew8zwsxXcCoG6ExkAAxWOtHd6S8PHXk+7KCLZ+a+Lw/dwV5me8sQvFDs4KH6pt+qlJbDcDuJOp5yu/qmnLFjGCKX52egQDI47v6G3KedBhUA7DpS4uv5Rmd68=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=maGviLPj; arc=fail smtp.client-ip=52.101.193.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF4832D0E1
+	for <linux-sunxi@lists.linux.dev>; Thu, 16 Oct 2025 16:31:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760632316; cv=none; b=NC7Iz8u+j+WSjFlLn1g8Uk6P1cjClRcWUJtTTl/rF3OAwRmq4cuWUcjO7wOSzkMuHUlRA8crF/vmg4Ycfjua8w2f8JK6XQj1oW5SUkaQTi04eeb221DKHTGhveQ+EKpy2bVqo2RZdNGsZq0lHjFlBZ7yT3A8WwX2Q63UR7R3qh0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760632316; c=relaxed/simple;
+	bh=26LXw/Uay4yARaomIanXCI7ops+joQmJnhTYF2Zd684=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lAaM4Z8ZsShFxLHXbhFGhrTIdkCbviL+spmh2ikrnuw6wnJKWE4Nf6WMmFKRl/U7WnjCvyHkCFmLLD8K/EPpWijrQxCVZcuMTfOcKMen73Ib8SztrStBKuf727QL1k1GCHD/YMrZkqd7qwU1fi2ir0QZOF5YRqQd6hDgscEq/vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=c84W+KDQ; arc=none smtp.client-ip=173.249.15.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="maGviLPj"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mGsr+VdtLSjMMNDEgCEkujsMAfyuGbFWZ0oT5z7QJ0pq8KpR5gs23fmcWbq5awqQQjUp7oLfQ3WcxejVbFf0M3UXx1ChRA6kU5SXUmKU9hQ6U2twNNJN63y4luN8zQ26wB02bPBtBvZDln5NPdk0VNjCKH1BkLMovNfOJBNR/ExCOUimSnM5chKEVzRjlECrEoyAuMz1IbbrG/E9fjmBtBAnxgYDkzkKjS/mx10Qi/aErAlxEf+dciKh/alaRGGIkMPJUKotFW4K9CUTtBoIbJ3J/qe0/1r+yr9LfgKLSB0/ynah20sQrXT0f1FeJA4WIllu2RqjEddpae5rTnajBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7SGRrPS3HdagIo/c2OYsBv+ocTyBUS7cJdVp/ApU4Ww=;
- b=itv+XtdYBgxoeQBwLYfTsLMX6A5Kmr7PE6m06cSF/XPwPEDSVUQ1eALkgRMH2eIyddZoMIVyXdU5elWqqKvQO7TWeshd/3zmj9KuI2h64O7VjV67PJXK+4HNryP1/NBbElP6aoF/thCEy1/WDzqdJR5hA6GQMVae5QzZhv5W2ySr3sRJqwk0vY2eXyNYfk8Q1Ywr2f/ZQaajQpKr0nH5kDFbjr/RtMGFXKObshU3zSXQ9Q3+2lUNjwV+J19j/cYGB4S+hLjNjrNzoutPgSYIm/05Yx+nT8vF5oEmt8VudWIhFYMvW7MC3D23tjBjcHcfG1Tu/BGl3pxc8ikvFj5FCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.232) smtp.rcpttodomain=8bytes.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7SGRrPS3HdagIo/c2OYsBv+ocTyBUS7cJdVp/ApU4Ww=;
- b=maGviLPjtdymgUrpwbT7HAu6eSV7myau0SyhSc3EO6EC9+wczrlf4ZB73LqloDZRUHyDMqPz2MwOIZ14il6LeCBjuO4Qf+Xbyyyv8IrHRgZxPRxdwI7PvdsVL9dnMfnpZf3nfJ99oahutHnfkcONyyJkpsPApzYcG4L0rUuMFqNLkgaiBFK5JYpIijn2KTbKPQCDCC6YsMcDw5AfYhtpbfjDXzwv5pgqepo/IHTImgTZ3mO3Sa5NR1TuLT6k33XNpY62zfuD+PGdZvaVSRwskFI3EFnZMuJuM1vqDif+wx5aikjtNRKXlve0JYVGGt2ahCLXBHScM49IExoLmiE5zQ==
-Received: from SJ0PR05CA0152.namprd05.prod.outlook.com (2603:10b6:a03:339::7)
- by CY8PR12MB7586.namprd12.prod.outlook.com (2603:10b6:930:99::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.10; Wed, 15 Oct
- 2025 22:02:47 +0000
-Received: from SJ5PEPF000001ED.namprd05.prod.outlook.com
- (2603:10b6:a03:339:cafe::dc) by SJ0PR05CA0152.outlook.office365.com
- (2603:10b6:a03:339::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.4 via Frontend Transport; Wed,
- 15 Oct 2025 22:02:47 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.232) by
- SJ5PEPF000001ED.mail.protection.outlook.com (10.167.242.201) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9228.7 via Frontend Transport; Wed, 15 Oct 2025 22:02:47 +0000
-Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
- (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 15 Oct
- 2025 15:02:38 -0700
-Received: from drhqmail203.nvidia.com (10.126.190.182) by
- drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.20; Wed, 15 Oct 2025 15:02:37 -0700
-Received: from Asurada-Nvidia (10.127.8.12) by mail.nvidia.com
- (10.126.190.182) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Wed, 15 Oct 2025 15:02:35 -0700
-Date: Wed, 15 Oct 2025 15:02:34 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: <joro@8bytes.org>, <jgg@nvidia.com>, <kevin.tian@intel.com>
-CC: <suravee.suthikulpanit@amd.com>, <will@kernel.org>,
-	<robin.murphy@arm.com>, <sven@kernel.org>, <j@jannau.net>,
-	<jean-philippe@linaro.org>, <robin.clark@oss.qualcomm.com>,
-	<dwmw2@infradead.org>, <baolu.lu@linux.intel.com>, <yong.wu@mediatek.com>,
-	<matthias.bgg@gmail.com>, <angelogioacchino.delregno@collabora.com>,
-	<tjeznach@rivosinc.com>, <pjw@kernel.org>, <palmer@dabbelt.com>,
-	<aou@eecs.berkeley.edu>, <heiko@sntech.de>, <schnelle@linux.ibm.com>,
-	<mjrosato@linux.ibm.com>, <wens@csie.org>, <jernej.skrabec@gmail.com>,
-	<samuel@sholland.org>, <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-	<iommu@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<asahi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-arm-msm@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-	<linux-riscv@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
-	<linux-s390@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
-	<linux-tegra@vger.kernel.org>, <virtualization@lists.linux.dev>,
-	<patches@lists.linux.dev>
-Subject: Re: [PATCH v1 15/20] iommu/fsl_pamu_domain: Implement
- fsl_pamu_domain_test_device
-Message-ID: <aPAZ+hknPmn7GSns@Asurada-Nvidia>
-References: <cover.1760312725.git.nicolinc@nvidia.com>
- <a54211182e22db598b2a26f589e8f5f34ad78f98.1760312725.git.nicolinc@nvidia.com>
+	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="c84W+KDQ"
+dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
+	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:In-Reply-To:References;
+	bh=PIVRulVtEzPjC/Ds3SEYGBBeE1CgixAC6xS7Famj5/4=;
+	b=c84W+KDQ7yMOAlJPZ+DJwkcGCAM8p8wl5Z23RSvmkgH0bSbSdJlWhc2Ay8H0sF9lgkCVtmo2Xbc80P81EVz+CjlUIQWIjKUGDmVGrCPUUxO8bSyAwb0Bb3llsC63kJWFtcdbhPN26fmGsr2sjMbsJufSLEVHReJ0bIRjgcrcXtU=
+Received: from lukas-hpz440workstation.localnet (cm70-231.liwest.at [212.241.70.231])
+	by mail.netcube.li with ESMTPSA
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256)
+	; Thu, 16 Oct 2025 17:30:42 +0200
+From: Lukas Schmid <lukas.schmid@netcube.li>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Tom Rini <trini@konsulko.com>, linux-sunxi@lists.linux.dev,
+ John Watts <contact@jookia.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ u-boot@lists.denx.de
+Subject: Re: [PATCH v2] sunxi: extend R528/T113-s3/D1(s) DRAM initialisation
+Date: Thu, 16 Oct 2025 17:30:41 +0200
+Message-ID: <5396890.31r3eYUQgx@lukas-hpz440workstation>
+In-Reply-To: <20250917224826.7837663c@minigeek.lan>
+References:
+ <20250915192036.323741-1-lukas.schmid@netcube.li>
+ <20250917224826.7837663c@minigeek.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <a54211182e22db598b2a26f589e8f5f34ad78f98.1760312725.git.nicolinc@nvidia.com>
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001ED:EE_|CY8PR12MB7586:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9b86166e-0e94-4460-4e10-08de0c369370
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700013|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?DEm0E062OZeDr7Kx+MIKv7FX+QtY7de0TPFI30lACvZPV0ZDNM8T3+VAr4OH?=
- =?us-ascii?Q?zCuVB2yM89Q3zz6ga1y1GIwptgqdw9ALXvLpiFZUY3aFcZOnd+khIjfYM4uN?=
- =?us-ascii?Q?2p1qmNH33WE/R7dvVhl7ZPEdITCOzPnRk47hJlXeNZlWa6rpwMyBK+nap7v7?=
- =?us-ascii?Q?HFIqV1RI0o3AIB6OuQi4pQCAcODUGfnrthUXtyBBCeN1AGQwo6JVCNamOygM?=
- =?us-ascii?Q?e9hrWHLuqSWJoRaMMPvYr7OIN+2mTbhX6o/Pj7rhU4sNthpD5Q8eU14dztLk?=
- =?us-ascii?Q?vtzosnkyrUVkvVcMYI3650biT5SeS+sFr08sNpoGCggjt63HzHLU+6h7PSsc?=
- =?us-ascii?Q?gGMF0GqJd4rSL+jXJAZE0aOvj/dVnWQnaNeyWz5kKhJ1eMOfJu7aMMX71rhN?=
- =?us-ascii?Q?mIq8RANuPtLajMyaSPMOyUU/5ckZNQHIptC3PUkAQZY5VR2b8TrMyu7G3jMq?=
- =?us-ascii?Q?hUccut6BEUxsLDlz0mHNrM4EVgxtvUbQe+sVkrjmoawriKs5IXBiIqEOotj5?=
- =?us-ascii?Q?HkC6BfBMTNZRxBkBUjO1HWxyP6p0kcfh2vpKcGmKFz1ylbUlzTIUPZymY7rR?=
- =?us-ascii?Q?hbK7/FTEuWq7egEQWHK8nNMnwgiboeCSwtmB8whWLYTyYT9/ucDbuDMSqQ3H?=
- =?us-ascii?Q?rWXGsjLeBEG5OktuGX2fJydIG8c4IaNDjIbBVHJ7VTQDLwAnG7DiiYp/+GkR?=
- =?us-ascii?Q?P3lUEo6vMO1hQ2E8TEF1IpHiCWac90FXWRG7Uk5TMkoY2OJtXhe/NUhRXqoM?=
- =?us-ascii?Q?NWGhwHMh1SP1SHeZ+L19PJ3ZSwZN8MUx0UUYsnAOepV3msUFl69SpqEYOffn?=
- =?us-ascii?Q?aJu1XFa1dbnt2hIXQZxUc70sI9eOtaMj9052s9lmI469wKM1HZBKArdyPgeP?=
- =?us-ascii?Q?9nPOTEUkgXEY70vbY9bfF9YBR3Rj6HvPBvN+0wXJA7yFWYcDvRR4tQc/g/xb?=
- =?us-ascii?Q?fjCMlEtlijhVqIO7OVS42LrkyjqdGyT4g10l9E7v+q4ryBA+5Qe1QBCV2Mxn?=
- =?us-ascii?Q?qOr0mUUtyu4p8dKM3Xwjmyl2Je8g+onb0BmboltkCPzOpP/bZyREH6vvrIZd?=
- =?us-ascii?Q?Giy7ANM323Cva97iZew9lrlBp23WLEYBj2SPPl/J8tCtGsvffRKjAANOadXN?=
- =?us-ascii?Q?5WgJ0ttHdO1FyMOyDyHq5Fnll/xld5dHUwlkngK8pPgx8j4nG0Wq8v5qX+1L?=
- =?us-ascii?Q?EkIGJmPGL5cHWwUQtBY0CGYcJ40Zg4lHTYVCBIuUSYtnj659zV2q00o6XxEO?=
- =?us-ascii?Q?YoaEocPesTdf5GNbxPkK3mXMvvlSe2BAJYLl/CCtYNCgq1c180eX+WIr9hK5?=
- =?us-ascii?Q?DUOisyNnpZnqVZG0NTzw2iHp2VLFmUbvOsOCsDIH/08knEP8Xs//Q6SIO++x?=
- =?us-ascii?Q?tB/1RiDJZfEm+NnOlq4fJculdL/iuRPfYkIbTg+YBcTEAApQfS/n1d3v4z/o?=
- =?us-ascii?Q?iLTjAdxzrPISKaWBL4RMu0oZjjOJipqD0+4E7poQtB3R7uLAex3QZQO9WbKD?=
- =?us-ascii?Q?BEVlTXGsi42QwDjHQvCzhFE9sTzF6B96LFNjcQnaOjKqnHvOTu1Lds5P2hf8?=
- =?us-ascii?Q?MEdh4WjGsZ1DubHsImA=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2025 22:02:47.4353
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b86166e-0e94-4460-4e10-08de0c369370
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF000001ED.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7586
+Content-Type: multipart/signed; boundary="nextPart5034631.LvFx2qVVIh";
+ micalg="pgp-sha512"; protocol="application/pgp-signature"
 
-On Sun, Oct 12, 2025 at 05:05:12PM -0700, Nicolin Chen wrote:
-> +static int fsl_pamu_domain_test_device(struct iommu_domain *domain,
-> +				       struct device *dev, ioasid_t pasid,
-> +				       struct iommu_domain *old)
-> +{
-...
-> +	liodn = of_get_property(dev->of_node, "fsl,liodn", &len);
-> +	if (!liodn) {
-> +		pr_debug("missing fsl,liodn property at %pOF\n", dev->of_node);
-> +		return -ENODEV;
-> +	}
-> +
-> +	guard(spin_lock_irqsave)(&dma_domain->domain_lock);
+--nextPart5034631.LvFx2qVVIh
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
+From: Lukas Schmid <lukas.schmid@netcube.li>
+To: Andre Przywara <andre.przywara@arm.com>
+Date: Thu, 16 Oct 2025 17:30:41 +0200
+Message-ID: <5396890.31r3eYUQgx@lukas-hpz440workstation>
+In-Reply-To: <20250917224826.7837663c@minigeek.lan>
+MIME-Version: 1.0
 
-Sorry. This should be:
-	guard(spinlock_irqsave)(&dma_domain->domain_lock);
+On Mittwoch, 17. September 2025 23:48:26 Mitteleurop=C3=A4ische Sommerzeit =
+Andre=20
+Przywara wrote:
+> On Mon, 15 Sep 2025 21:20:35 +0200
+> Lukas Schmid <lukas.schmid@netcube.li> wrote:
+>=20
+> Hi Lukas, John,
+>=20
+> so looking at the code again, table 0 is special in that it's all 0's,
+> which apparently means no remapping, according to some comments.
+> We already bail out earlier of this function for configurations that do
+> not require remapping, so can you test whether this works here as well?
+> Just do the chip ID test early, after the DRAM type check, and before
+> the fuse is read. And if it's 0x7200, then just return;
+>=20
+> I think that would look better than the odd fuse special case.
+>=20
+> Thanks,
+> Andre
+>=20
+> > Extend the DRAM initialisation code to add support for the T113-S4 aka
+> > T113M4020DC0 by checking the SoC's CHIPID.
+> >=20
+> > The list of Chip-IDs came from
+> > https://github.com/ua1arn/hftrx/blob/25d8cb9e4cfe1d7d0e4a2f641025c88a9e=
+c5e
+> > 758/inc/clocks.h#L250
+> >=20
+> > And the chipid register address was something I heard through apritzel
+> > altough it seems that, according to Jookia, the Tina Device Tree seems
+> > to agree:
+> >=20
+> > sid@3006000 {
+> >=20
+> > 	compatible =3D "allwinner,sun20iw1p1-sid", "allwinner,sunxi-sid";
+> > 	reg =3D <0x0 0x03006000 0 0x1000>;
+> > 	#address-cells =3D <1>;
+> > 	#size-cells =3D <1>;
+> > =09
+> > 	chipid {
+> > =09
+> > 		reg =3D <0x0 0>;
+> > 		offset =3D <0x200>;
+> > 		size =3D <0x10>;
+> > =09
+> > 	};
+> > 	...
+> >=20
+> > };
+> >=20
+> > Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
+> > Tested-by: John Watts <contact@jookia.org>
+> > Reviewed-by: John Watts <contact@jookia.org>
+> > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > ---
+> >=20
+> > Changes in v2:
+> >   - Use uint32_t instead of u32 for sid_read_soc_chipid return type
+> >   - Add descriptive comment about source of Chip-ID list and register
+> > =20
+> >  drivers/ram/sunxi/dram_sun20i_d1.c | 13 ++++++++++++-
+> >  drivers/ram/sunxi/dram_sun20i_d1.h |  7 +++++++
+> >  2 files changed, 19 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/ram/sunxi/dram_sun20i_d1.c
+> > b/drivers/ram/sunxi/dram_sun20i_d1.c index a1794032f3b..381eeb87e2e
+> > 100644
+> > --- a/drivers/ram/sunxi/dram_sun20i_d1.c
+> > +++ b/drivers/ram/sunxi/dram_sun20i_d1.c
+> > @@ -54,6 +54,11 @@ static void sid_read_ldoB_cal(const dram_para_t *par=
+a)
+> >=20
+> >  	clrsetbits_le32(0x3000150, 0xff00, reg << 8);
+> > =20
+> >  }
+> >=20
+> > +static uint32_t sid_read_soc_chipid(void)
+> > +{
+> > +	return readl(SUNXI_SID_BASE + 0x00) & 0xffff;
+> > +}
+> > +
+> >=20
+> >  static void dram_voltage_set(const dram_para_t *para)
+> >  {
+> > =20
+> >  	int vol;
+> >=20
+> > @@ -663,6 +668,7 @@ static void mctl_phy_ac_remapping(const dram_para_t
+> > *para,>=20
+> >  	fuse =3D (readl(SUNXI_SID_BASE + 0x28) & 0xf00) >> 8;
+> >  	debug("DDR efuse: 0x%x\n", fuse);
+> >=20
+> > +	debug("SoC Chip ID: 0x%08x\n", sid_read_soc_chipid());
+> >=20
+> >  	if (para->dram_type =3D=3D SUNXI_DRAM_TYPE_DDR2) {
+> >  =09
+> >  		if (fuse =3D=3D 15)
+> >=20
+> > @@ -675,7 +681,12 @@ static void mctl_phy_ac_remapping(const dram_para_t
+> > *para,>=20
+> >  			switch (fuse) {
+> >  			case 8: cfg =3D ac_remapping_tables[2]; break;
+> >  			case 9: cfg =3D ac_remapping_tables[3]; break;
+> >=20
+> > -			case 10: cfg =3D ac_remapping_tables[5];=20
+break;
+> > +			case 10:
+> > +				if (sid_read_soc_chipid() =3D=3D=20
+SUNXI_CHIPID_T113M4020DC0)
+> > +					cfg =3D=20
+ac_remapping_tables[0];
+> > +				else
+> > +					cfg =3D=20
+ac_remapping_tables[5];
+> > +				break;
+> >=20
+> >  			case 11: cfg =3D ac_remapping_tables[4];=20
+break;
+> >  			default:
+> >  			case 12: cfg =3D ac_remapping_tables[1];=20
+break;
+> >=20
+> > diff --git a/drivers/ram/sunxi/dram_sun20i_d1.h
+> > b/drivers/ram/sunxi/dram_sun20i_d1.h index 91383f6cf10..7bd8f67a77a
+> > 100644
+> > --- a/drivers/ram/sunxi/dram_sun20i_d1.h
+> > +++ b/drivers/ram/sunxi/dram_sun20i_d1.h
+> > @@ -19,6 +19,13 @@ enum sunxi_dram_type {
+> >=20
+> >  	SUNXI_DRAM_TYPE_LPDDR3 =3D 7,
+> > =20
+> >  };
+> >=20
+> > +enum sunxi_soc_chipid {
+> > +	SUNXI_CHIPID_F133A =3D 0x5C00,
+> > +	SUNXI_CHIPID_D1S =3D 0x5E00,
+> > +	SUNXI_CHIPID_T113S3 =3D 0x6000,
+> > +	SUNXI_CHIPID_T113M4020DC0 =3D 0x7200,
+> > +};
+> > +
+> >=20
+> >  /*
+> > =20
+> >   * This structure contains a mixture of fixed configuration settings,
+> >   * variables that are used at runtime to communicate settings between
 
-I have fixed this locally, and did the full build tests on all
-impacted arches.
+Hi Andre,
 
-I will send a v2 next week while collecting review comments here.
+I finally got some time to look into this patch again.
 
-Thanks
-Nicolin
+Dropping out of the DRAM type check earlier sounds like a good move here. I=
+=20
+can definitely do that and also test it on my board.=20
+
+About the other changes. Is the patch itself in a good state right now (exc=
+ept=20
+the commit message) or would you (or anyone else here for that matter) like=
+ to=20
+see something changed?
+
+I'll change/update the commit message to have a smaller footprint regarding=
+=20
+the SID chip ID, and also remove the reference to the "random" git repo.
+
+Best regards,
+Lukas
+
+--nextPart5034631.LvFx2qVVIh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEPv6dcBmn59ssZMkSJnN+drMVRtgFAmjxD6EACgkQJnN+drMV
+Rth8VQf/T6m1BoJu0cJC9cMpiuqvt1R+GnQvOHrYthaISQ9XQlaaBFNjRKcEGM7P
+ZqSOLkMW1csEIR4NZ55cbKWN0sU32M7wwhfzmBlLT6T/XU2mF5mkNRxB9ql8m1Xp
+ksZ15Q/1EuHG9EUi/kw41uH8HDaMyRW4Ew+ICd5FSHwRgoqLVapEGDRIUXeZfwKX
+JJGKa9/GNISfG6XALJBt34Rf6POh5NtAPIZvLHpmsk8H8NCeNVKAjLxbymrxkXNn
+Afo33yk0NS3Llj2a2WttTfSrhPtX0zA0ojVdMSEUhdGSrq1yg5/daLgeYM2hYQun
+pZBqiGzGij/pqv8uv5pZFwBNZ9XP6Q==
+=gFfn
+-----END PGP SIGNATURE-----
+
+--nextPart5034631.LvFx2qVVIh--
+
+
+
+
