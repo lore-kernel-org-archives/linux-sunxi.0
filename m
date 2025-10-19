@@ -1,88 +1,109 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F8126F295
-	for <linux-sunxi@lists.linux.dev>; Sun, 19 Oct 2025 08:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C6D72AE70
+	for <linux-sunxi@lists.linux.dev>; Sun, 19 Oct 2025 17:26:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760863905; cv=none; b=icI/rADA//QgPg+x3SQmenPUKpG7nAQQgLv5q9ZnmzTToRqhr49dxZc132pZcNPfTDlGvGqiLMd3iu2B/FMLQZviJ2Sw+io9HTyeVAR4vja21TDJLadVoD+gcOa1WLBf6OFB3votGifRQiUFrzo7XkL6pjMjIk7mFMEAkWcEHog=
+	t=1760894815; cv=none; b=pLcAt0wrREOsto7IPJDpXLVnbSfuZz+udl7BuNP6gTIVC/IWIzmCA+TypFyJ+KWxbUKxTVGNKZQMmtYPOOudxKpZ4fllv1ZGSwf4lPWXLTKgvO8c8AA4G/FHrEEcggkDXikqsE9iKjCB6xU90dUe9mEwpXpOucun8DRL+RlP8PI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760863905; c=relaxed/simple;
-	bh=XqqRnamX48XVhgy/cSJowCbYmZ8Q51GIp96qBAj+mSU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XSeklayiOAGUi+xP9z8kGVKr2IyCvMLSECjUrjhWStbt+3kzI0cAX5nxgnbzY/TQtss2x2XifJHHrXDfVNazP2PErc7pBDCpbWT+QdLe94UU0lytUYELyC7LTr81BHEaYy6oSFvUTOmwS1u6WwyLG+NCo7vujpIMzyo5/ip1md0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=csie.org
+	s=arc-20240116; t=1760894815; c=relaxed/simple;
+	bh=WKISn3FBpc6krbzD+pqM1hrHFUEYtLB5hDapFGbIkww=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rie/1U5xxeX7GtCbeQuyj+uG33OqXL9B4hEBJcO++coGjqtVpdFxk4VK39CwHUumvauj6rcndfuJWL+9eFdHRDfZzizkjjXJCRHDAKNZKu+2whiFIazXjkkKgynsBWGsAMYmf/45KGlMRy3CGQd5DJFE2JxG+rjavzDmp0sYR0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QhepkgoU; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-57d8ff3944dso3913920e87.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 19 Oct 2025 01:51:42 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QhepkgoU"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-471191ac79dso27597865e9.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 19 Oct 2025 10:26:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760894812; x=1761499612; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rfk3Iz74iG04i8jgiAEKJ+IUy9T7n6c85dOHEZsHbEw=;
+        b=QhepkgoU5puSDpEceB0sqk7zihYu0VRb7lLJp9WfEPZHHBV2kpgt3MNUFBgup37aw7
+         Cq8WTuZyjTN/xL85qX0VauRk4kX/nk5m+a269ISMDRBq6TLtmrW3+DO+WQHJ8lbi0EHX
+         rieewaMIoo/+LJxrmgVRlGEhcekRX8uu1w1q3AlkPTs1E7ie/KLBap4VWJtovdD3iCg1
+         9/ymRmfq1TyrxmnBP9E9SbNXHUlFrrHC/8qxIa75TZyBghX3OTa4an/lRdBKRhjqQYB1
+         VtzFl0lYVTWN9dDVCKAJPNP2BZDzcwXXM6FZfh4iJoSxBcg3J0RB+56n16TuRUbirwXh
+         aKhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760863898; x=1761468698;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XqqRnamX48XVhgy/cSJowCbYmZ8Q51GIp96qBAj+mSU=;
-        b=ahADlgzZ25fXW9EeJMsDZSuXVTswULRaZ7bFQ59QROSYoWeA/f5oigA+Drkaq37TVh
-         u/KReYJoDgqYtwvPgIbJr0s2+Ulj+mLVtEXuYsSNhKjwP5Vhs7+dKBvrUgx7yd5RAefU
-         I190TXQNerUMT4haWdY0T+z4Wa9DafZer+rsFLzo0JI1l9btwicy0uAZ+VYoz6SxJv5y
-         ae/pXTS9j7Kr1DZm6Rt9MKtCiPdHGc0MKEalB94CmOYFtE0pQsIuynq3ze4JVeU4uhch
-         l1CGmRh2gsPLhjCErQCQzQ/9NXtoUFnm9EE5viem3jD+l7h1fALE16kNMBEp1DcBPSYm
-         0s+A==
-X-Forwarded-Encrypted: i=1; AJvYcCW33s1cIZ0S2F5s1BybrMaHtyAVhyT8rXWzCUwbPXZkBdXi/ZaAjb+dEgeOIttUy1hJsxtM/6aqdz+Tng==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz1fvAgDVtXiGAxuH46Kl8PiGRyI8cPl50EioHSRBkthneeDHY+
-	819E8hgIUYaxNalm3S8jCZVvCyhX4zQP3VXafgxP7w1o/kp6wSEX5JsL1aBVbUXA
-X-Gm-Gg: ASbGncvKwVhvGz/IqKiMRAJwQbFl/7yrkae9IuAPXdCkYiEu7o9/S7a0syCGamGqOvA
-	pKNTj93iVjjxZjgtG6YU56ICs8wyC+1ub4z3nuhzjnvGqzs7OoEOKW8e8Mrvud+/zxd4RJpf/FF
-	hpCcYNZq1vK5nPx0iIgLyab9uCPcH1S5TGw4jtyUmhNgnTx3w92TroaQKCki7qGz+hemUBAzp6n
-	to5Z+Ssz8MyESJMoeXtKnXwr+6NIpq/yEPJ9fmhfH5C18GzxwCymECFH1WoDnZ+0BzkcctxWkn4
-	VIx3L3fq+pC/a3upqB6sRTTZr+3Fc4FxqNMZE5PO8B+P5ExyIfJ7o06Bme6eMoz1KAEY250GDC4
-	8rbwDqIUQhep9FLPCIPRmwP7MGGHilyBu4jlxTgqHmt0p8YvL4V+kYLFUFuV2bwvrYsa3lDD/gR
-	yhNW9CiUpxb1SM3IqngMgNGdCAG0hh9u6O9HUtsaoodjY=
-X-Google-Smtp-Source: AGHT+IFJwc5RvE9ia6kYWCtL5euxLq+I5wUdMaCWou47nsLX495ww28qgYwajCPPNAar5XECyOkPSw==
-X-Received: by 2002:a05:651c:1989:b0:372:628b:5cb4 with SMTP id 38308e7fff4ca-37797a8d5dbmr26913681fa.45.1760863897621;
-        Sun, 19 Oct 2025 01:51:37 -0700 (PDT)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com. [209.85.208.180])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-377a91b7106sm12593821fa.8.2025.10.19.01.51.36
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Oct 2025 01:51:37 -0700 (PDT)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-36a6a3974fdso35234851fa.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 19 Oct 2025 01:51:36 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXqo/hQGkTACMEHsiDtVfZY7ZZKUpWDmwn6wj3cMoojDcweGLwUFk1bfsTWNRnIEOyCxh5T20M3doO91A==@lists.linux.dev
-X-Received: by 2002:a05:651c:988:b0:337:e0e1:d11e with SMTP id
- 38308e7fff4ca-377978ab8d6mr27450931fa.18.1760863896800; Sun, 19 Oct 2025
- 01:51:36 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760894812; x=1761499612;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rfk3Iz74iG04i8jgiAEKJ+IUy9T7n6c85dOHEZsHbEw=;
+        b=m35iFSqBKvZ5kksTnMtxs82P8h/Hdw5UZg+576OI17pK1SaZcMbaoJiRMcFTV3s79a
+         BZE0oOSjV1/hNc1uCqsvsaAgJAzLt6BhaCU4s9gi/jGPSzaMY758vBXWBT/7M8B9bjXr
+         /zeuuYXUNkQEWaxm+VwuDZ0xRcgl3xfV7B13uqf5lCMB7kX4fjU6fPNHQZBRAyX8eNIN
+         SC3GednmbOP0Zm5QOuWYRAHCl7CskZBfjwQILeKJy8wBx5k2tAajrq3xDOpBFNABS9EE
+         G4VX8QtAnf0Z0j1D0fUWe48zjByVK0B88h06ari9HcOoEiKlwkHyU6QvPzLnabHjNeGa
+         LrzA==
+X-Forwarded-Encrypted: i=1; AJvYcCWpUFudZYWfPUlNIzAzRxsT7yrR37V4aHtEAqlfgtqJXdUwqbuSbwG9D+T8Fyw1QtpuJOx4Br5wWLydjA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzWbHH7+T2m+i6qX7K/HwDV8MX9TyMoiRaVpwSYzNV2CVGoLTY9
+	+ezrRN6p1dFNNA5lIFQncNkHZEwsH1mLjvhmvcprClm/DtFLRzBXOdD9
+X-Gm-Gg: ASbGncuo6PT2hAZDyE0WbAwV37ebmCgTTjL55fXb1bYCOaGcIsx42yeOEecttmhECPx
+	KNTEOd6CZdIC/prI7PXtQdMNjAbCTU5YT6SOTcp2nWvgff641fKrMh3m1Ego+yppZ9O6600xwYG
+	Qmecj/LG/Qowf3qFQh1F1MFT+zIujFeNN73W8Lxh60bMoh4/RC+3goLn1cmyFe/Ki+O2WjmHp5I
+	lCp+UFCYCcIHbEJHXicSef5R1VNbCjVQuWiDWXXUehU66mk8kTwTRfQnX7Qd1LVPw9h09u++25y
+	SN3aC7Wriuu/2Ql8oTvPCQ4VfFsp1bRiUxEfsedQdTZqL5MqlFoMaKOtebspeTZMGhZOwa/FZlN
+	vzxl3y20v7mh7csLNcEuANz+ovYqLTkn+iFDFuG1Rx3VZr+WkN3+BwHdL5I31tSOFb7PG3hrofL
+	Nmu4jlC3pbbKCpcROPLD4mPy69RQU4kE3d8UwwdwAr3jsPiACLRFmPSFzRHmLMtZhVWIuApa98w
+	fNd
+X-Google-Smtp-Source: AGHT+IEPw1kFE6Cr0CGLWoQL6JabKMRRHciBsQ11hcnzheTmiOhMaQJbH3sEDwu47c9YBtVmkqG8uQ==
+X-Received: by 2002:a05:600c:3b8d:b0:46e:35a0:3587 with SMTP id 5b1f17b1804b1-471179174cfmr75189675e9.27.1760894812237;
+        Sun, 19 Oct 2025 10:26:52 -0700 (PDT)
+Received: from jernej-laptop (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4715257d916sm101069715e9.4.2025.10.19.10.26.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Oct 2025 10:26:51 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: wens@csie.org,
+	samuel@sholland.org
+Cc: mturquette@baylibre.com,
+	sboyd@kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] clk: sunxi-ng: Mark A523 bus-r-cpucfg clock as critical
+Date: Sun, 19 Oct 2025 19:26:47 +0200
+Message-ID: <20251019172647.80379-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.51.1.dirty
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251012192330.6903-1-jernej.skrabec@gmail.com> <20251012192330.6903-7-jernej.skrabec@gmail.com>
-In-Reply-To: <20251012192330.6903-7-jernej.skrabec@gmail.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Sun, 19 Oct 2025 16:51:23 +0800
-X-Gmail-Original-Message-ID: <CAGb2v661kowYSSNYJ5Bb05mRFJR7pZFym95Oyj7-R5kkPrzNzw@mail.gmail.com>
-X-Gm-Features: AS18NWDXIVTjeyhWFEjy65wFSPD-aqsq49LxTr6pJCNafi4Ajfc1OGiZzxQr0Ms
-Message-ID: <CAGb2v661kowYSSNYJ5Bb05mRFJR7pZFym95Oyj7-R5kkPrzNzw@mail.gmail.com>
-Subject: Re: [PATCH 06/30] drm/sun4i: layers: Make atomic commit functions void
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, 
-	airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 13, 2025 at 3:23=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
-l.com> wrote:
->
-> Functions called by atomic_commit callback should not fail. None of them
-> actually returns error, so make them void.
->
-> No functional change.
->
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+bus-r-cpucfg clock is important for peripheral which takes care for
+powering CPU cores on and off. Since this operation is done by firmware
+(TF-A), mark is as critical. That way Linux won't interfere with that
+clock.
 
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+Fixes: 8cea339cfb81 ("clk: sunxi-ng: add support for the A523/T527 PRCM CCU")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c b/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
+index 70ce0ca0cb7d..c5b0d4a2e397 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
++++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
+@@ -125,7 +125,7 @@ static SUNXI_CCU_GATE_HW(bus_r_dma_clk, "bus-r-dma",
+ static SUNXI_CCU_GATE_HW(bus_r_rtc_clk, "bus-r-rtc",
+ 			 &r_apb0_clk.common.hw, 0x20c, BIT(0), 0);
+ static SUNXI_CCU_GATE_HW(bus_r_cpucfg_clk, "bus-r-cpucfg",
+-			 &r_apb0_clk.common.hw, 0x22c, BIT(0), 0);
++			 &r_apb0_clk.common.hw, 0x22c, BIT(0), CLK_IS_CRITICAL);
+ 
+ static struct ccu_common *sun55i_a523_r_ccu_clks[] = {
+ 	&r_ahb_clk.common,
+-- 
+2.51.1.dirty
+
