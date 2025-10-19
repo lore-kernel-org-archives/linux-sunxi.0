@@ -1,104 +1,240 @@
-Received: from m101-out-mua-6.websupport.se (m101-out-mua-6.websupport.se [109.235.175.106])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824182EA178
-	for <linux-sunxi@lists.linux.dev>; Sun, 19 Oct 2025 18:56:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.235.175.106
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB52E9476
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 00:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760900206; cv=none; b=DCCIsXnbyn9HnzVMsR/oghIUnqmP30zn+xBwGb9/13M1nVJEOWgJM6NRdOwIEfKXZdButsvkKYuGNLOFyxBnQbqpb4rTAjOn2tUF+J0Ar3WeTghdj1levaP59QmiwA6TTVYYoxL33xGotsnk1Guu3em9qm/I/Vfn2uRnHUIhSl0=
+	t=1760918437; cv=none; b=QFiws/Z71KZu+gE37nfq+n0Uq57ChbxhE4BBUBgVASRhfAsIvu7nT2NAChq1yllUPlgCUQRRCjWcK9WRDsK+c9l9WB5m/g5PsF3c5lGtI+WQo+8jQf5st22QmjAsr0kNCg0Ta8Gvvo2kqSINTuGmX49JU4c5cm/Inm8rCH9zOjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760900206; c=relaxed/simple;
-	bh=Gdh005VVFFUWHPDhsTxgWCztIj/mGn5sbNvKcgzI9xY=;
+	s=arc-20240116; t=1760918437; c=relaxed/simple;
+	bh=S8W/rhAgx3P0vm6n1fFfEmXajCzaXfUtTW9BOLWvkho=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MOHush85VFKotBYkxX+9nMbk2mpuajETGDoZvbu8Q4qltSwbyoS2Zzhxi6OYiPmdTIGOENMHZZz45fyPDhA6MTq3xdSbsw6d8eeiYHsTVWQQThvG2NlkKhfLH2ly1BmVn+hPr6zEYgtEKeLSnsvAUDp6sebpJFV1EhXuFUQI2aY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=palvencia.se; spf=pass smtp.mailfrom=palvencia.se; dkim=pass (2048-bit key) header.d=palvencia.se header.i=@palvencia.se header.b=nC28rg7a; arc=none smtp.client-ip=109.235.175.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=palvencia.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=palvencia.se
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=palvencia.se header.i=@palvencia.se header.b="nC28rg7a"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=palvencia.se;
-	s=mail; t=1760899479;
-	bh=GdCruKGnpf4W6CfP6MEmI9h0iCjx15NxA8dwOmLuHsc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=nC28rg7apx6pR5kRZM8gmR7UOqCmqBLQAmRWtNe8trIAo699ysmYJ6A1zMx5Xd5/R
-	 TpQrrWP8w96stwWvigu4tR6wvmB+1lGSDQsW1lAiDHD72HLTJR1sq5v43qLYpi89Tc
-	 8cScU4/MG1wpyLqad4I+Z4GWgNd5ZX5AuRw/RHvyFXMxmt4hxaPzHW5JVOzUgggi41
-	 BTJg5IIW0hv2FSKLBoXVk8z4tUYWAZ1SVzhPnI3+BIvhQoE/U4OMGdWdBZoZEp+1s9
-	 /KsQaAuKIsbXjhwxDTVHPfGMhD8PKtK2mhMvtv9XybXRwz44w7mzVEhc8upyy5L7ya
-	 EHKLvAFOJSUxA==
-Received: from m101-u5-ing.websupport.se (unknown [10.30.5.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	by m101-out-mua-6.websupport.se (Postfix) with ESMTPS id 4cqSCW1zFWz1Ccc;
-	Sun, 19 Oct 2025 20:44:39 +0200 (CEST)
-X-Authenticated-Sender: per@palvencia.se
-Authentication-Results: m101-u5-ing.websupport.se;
-	auth=pass smtp.auth=per@palvencia.se smtp.mailfrom=per@palvencia.se
-Received: from rpi (unknown [193.180.91.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: per@palvencia.se)
-	by m101-u5-ing.websupport.se (Postfix) with ESMTPSA id 4cqSCR4QFhz1fWs;
-	Sun, 19 Oct 2025 20:44:35 +0200 (CEST)
-Date: Sun, 19 Oct 2025 20:44:31 +0200
-From: Per Larsson <per@palvencia.se>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: wens@csie.org, samuel@sholland.org, mturquette@baylibre.com,
- sboyd@kernel.org, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] clk: sunxi-ng: Mark A523 bus-r-cpucfg clock as critical
-Message-ID: <20251019204431.32254cb4@rpi>
-In-Reply-To: <20251019172647.80379-1-jernej.skrabec@gmail.com>
-References: <20251019172647.80379-1-jernej.skrabec@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	 MIME-Version:Content-Type; b=HXIXWV8BRUtM3WumvAXhbFD+JnNdQRNF/QTX3dGBeSp8TupZFaQvR1YuzT0oCt9REBqhdHJmqX+u20wNcpDQijHhPtSO/RwwJiUaTAP87TP1/IXQhlN+M84IvbP8HHp236ds7ji9e/4TThyznkVHigJdHH3qvZQUgFdPYfVpPtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 019CB1063;
+	Sun, 19 Oct 2025 17:00:25 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F2BB53F59E;
+	Sun, 19 Oct 2025 17:00:31 -0700 (PDT)
+Date: Mon, 20 Oct 2025 00:59:52 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Lukas Schmid <lukas.schmid@netcube.li>
+Cc: Tom Rini <trini@konsulko.com>, linux-sunxi@lists.linux.dev, John Watts
+ <contact@jookia.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ u-boot@lists.denx.de
+Subject: Re: [PATCH v2] sunxi: extend R528/T113-s3/D1(s) DRAM initialisation
+Message-ID: <20251020005924.73e41909@minigeek.lan>
+In-Reply-To: <5396890.31r3eYUQgx@lukas-hpz440workstation>
+References: <20250915192036.323741-1-lukas.schmid@netcube.li>
+	<20250917224826.7837663c@minigeek.lan>
+	<5396890.31r3eYUQgx@lukas-hpz440workstation>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Out-Spamd-Result: default: False [1.90 / 1000.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_COUNT_ZERO(0.00)[0];
-	TAGGED_RCPT(0.00)[];
-	ASN(0.00)[asn:35790, ipnet:193.180.91.0/24, country:SE];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	HAS_X_AS(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+]
-X-Out-Rspamd-Queue-Id: 4cqSCR4QFhz1fWs
-X-Out-Rspamd-Server: m101-rspamd-out-4
-X-Rspamd-Action: no action
-X-purgate-type: clean
-X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
-X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
-X-purgate: clean
-X-purgate-size: 423
-X-purgate-ID: 155908::1760899479-A035718D-94DDE7B4/0/0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 19 Oct 2025 19:26:47 +0200
-Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
+On Thu, 16 Oct 2025 17:30:41 +0200
+Lukas Schmid <lukas.schmid@netcube.li> wrote:
 
-> bus-r-cpucfg clock is important for peripheral which takes care for
-> powering CPU cores on and off. Since this operation is done by
-> firmware (TF-A), mark is as critical. That way Linux won't interfere
-> with that clock.
- 
-"mark it"
-Also, I think it's "takes care of"
+Hi Lukas,
 
-The change itself looks good as far as I can tell.
+> I finally got some time to look into this patch again.
+>=20
+> Dropping out of the DRAM type check earlier sounds like a good move here.=
+ I=20
+> can definitely do that and also test it on my board.=20
+
+Yes, please do, and send a v3 if that works for you.
+=20
+> About the other changes. Is the patch itself in a good state right now (e=
+xcept=20
+> the commit message) or would you (or anyone else here for that matter) li=
+ke to=20
+> see something changed?
+>=20
+> I'll change/update the commit message to have a smaller footprint regardi=
+ng=20
+> the SID chip ID, and also remove the reference to the "random" git repo.
+
+What's more important than the sources is some background and some
+description about what the patch does, like this:
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+The T113-s4 SoC is using the same die as the T113-s3, but comes with
+256MiB of co-packaged DRAM. Besides the doubled size, the DRAM chip
+seems to be connected slightly differently, which requires to use a
+different pin remapping.
+
+Extend the DRAM initialisation code to add support for the T113-S4 aka
+T113M4020DC0 by checking the SoC's CHIPID, which is stored in the first
+word of the SID efuses.
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+So no lengthy dumps or links. You might want to put the link to the
+github repo as a comment before the enum in dram_sun20i_d1.h.
+
+Thanks,
+Andre
+
+>=20
+> Best regards,
+> Lukas
+
+> On Mittwoch, 17. September 2025 23:48:26 Mitteleurop=C3=A4ische Sommerzei=
+t Andre=20
+> Przywara wrote:
+> > On Mon, 15 Sep 2025 21:20:35 +0200
+> > Lukas Schmid <lukas.schmid@netcube.li> wrote:
+> >=20
+> > Hi Lukas, John,
+> >=20
+> > so looking at the code again, table 0 is special in that it's all 0's,
+> > which apparently means no remapping, according to some comments.
+> > We already bail out earlier of this function for configurations that do
+> > not require remapping, so can you test whether this works here as well?
+> > Just do the chip ID test early, after the DRAM type check, and before
+> > the fuse is read. And if it's 0x7200, then just return;
+> >=20
+> > I think that would look better than the odd fuse special case.
+> >=20
+> > Thanks,
+> > Andre
+> >  =20
+> > > Extend the DRAM initialisation code to add support for the T113-S4 aka
+> > > T113M4020DC0 by checking the SoC's CHIPID.
+> > >=20
+> > > The list of Chip-IDs came from
+> > > https://github.com/ua1arn/hftrx/blob/25d8cb9e4cfe1d7d0e4a2f641025c88a=
+9ec5e
+> > > 758/inc/clocks.h#L250
+> > >=20
+> > > And the chipid register address was something I heard through apritzel
+> > > altough it seems that, according to Jookia, the Tina Device Tree seems
+> > > to agree:
+> > >=20
+> > > sid@3006000 {
+> > >=20
+> > > 	compatible =3D "allwinner,sun20iw1p1-sid", "allwinner,sunxi-sid";
+> > > 	reg =3D <0x0 0x03006000 0 0x1000>;
+> > > 	#address-cells =3D <1>;
+> > > 	#size-cells =3D <1>;
+> > > =09
+> > > 	chipid {
+> > > =09
+> > > 		reg =3D <0x0 0>;
+> > > 		offset =3D <0x200>;
+> > > 		size =3D <0x10>;
+> > > =09
+> > > 	};
+> > > 	...
+> > >=20
+> > > };
+> > >=20
+> > > Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
+> > > Tested-by: John Watts <contact@jookia.org>
+> > > Reviewed-by: John Watts <contact@jookia.org>
+> > > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > ---
+> > >=20
+> > > Changes in v2:
+> > >   - Use uint32_t instead of u32 for sid_read_soc_chipid return type
+> > >   - Add descriptive comment about source of Chip-ID list and register
+> > > =20
+> > >  drivers/ram/sunxi/dram_sun20i_d1.c | 13 ++++++++++++-
+> > >  drivers/ram/sunxi/dram_sun20i_d1.h |  7 +++++++
+> > >  2 files changed, 19 insertions(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/drivers/ram/sunxi/dram_sun20i_d1.c
+> > > b/drivers/ram/sunxi/dram_sun20i_d1.c index a1794032f3b..381eeb87e2e
+> > > 100644
+> > > --- a/drivers/ram/sunxi/dram_sun20i_d1.c
+> > > +++ b/drivers/ram/sunxi/dram_sun20i_d1.c
+> > > @@ -54,6 +54,11 @@ static void sid_read_ldoB_cal(const dram_para_t *p=
+ara)
+> > >=20
+> > >  	clrsetbits_le32(0x3000150, 0xff00, reg << 8);
+> > > =20
+> > >  }
+> > >=20
+> > > +static uint32_t sid_read_soc_chipid(void)
+> > > +{
+> > > +	return readl(SUNXI_SID_BASE + 0x00) & 0xffff;
+> > > +}
+> > > +
+> > >=20
+> > >  static void dram_voltage_set(const dram_para_t *para)
+> > >  {
+> > > =20
+> > >  	int vol;
+> > >=20
+> > > @@ -663,6 +668,7 @@ static void mctl_phy_ac_remapping(const dram_para=
+_t =20
+> > > *para,>  =20
+> > >  	fuse =3D (readl(SUNXI_SID_BASE + 0x28) & 0xf00) >> 8;
+> > >  	debug("DDR efuse: 0x%x\n", fuse);
+> > >=20
+> > > +	debug("SoC Chip ID: 0x%08x\n", sid_read_soc_chipid());
+> > >=20
+> > >  	if (para->dram_type =3D=3D SUNXI_DRAM_TYPE_DDR2) {
+> > >  =09
+> > >  		if (fuse =3D=3D 15)
+> > >=20
+> > > @@ -675,7 +681,12 @@ static void mctl_phy_ac_remapping(const dram_par=
+a_t =20
+> > > *para,>  =20
+> > >  			switch (fuse) {
+> > >  			case 8: cfg =3D ac_remapping_tables[2]; break;
+> > >  			case 9: cfg =3D ac_remapping_tables[3]; break;
+> > >=20
+> > > -			case 10: cfg =3D ac_remapping_tables[5];  =20
+> break;
+> > > +			case 10:
+> > > +				if (sid_read_soc_chipid() =3D=3D  =20
+> SUNXI_CHIPID_T113M4020DC0)
+> > > +					cfg =3D  =20
+> ac_remapping_tables[0];
+> > > +				else
+> > > +					cfg =3D  =20
+> ac_remapping_tables[5];
+> > > +				break;
+> > >=20
+> > >  			case 11: cfg =3D ac_remapping_tables[4];  =20
+> break;
+> > >  			default:
+> > >  			case 12: cfg =3D ac_remapping_tables[1];  =20
+> break;
+> > >=20
+> > > diff --git a/drivers/ram/sunxi/dram_sun20i_d1.h
+> > > b/drivers/ram/sunxi/dram_sun20i_d1.h index 91383f6cf10..7bd8f67a77a
+> > > 100644
+> > > --- a/drivers/ram/sunxi/dram_sun20i_d1.h
+> > > +++ b/drivers/ram/sunxi/dram_sun20i_d1.h
+> > > @@ -19,6 +19,13 @@ enum sunxi_dram_type {
+> > >=20
+> > >  	SUNXI_DRAM_TYPE_LPDDR3 =3D 7,
+> > > =20
+> > >  };
+> > >=20
+> > > +enum sunxi_soc_chipid {
+> > > +	SUNXI_CHIPID_F133A =3D 0x5C00,
+> > > +	SUNXI_CHIPID_D1S =3D 0x5E00,
+> > > +	SUNXI_CHIPID_T113S3 =3D 0x6000,
+> > > +	SUNXI_CHIPID_T113M4020DC0 =3D 0x7200,
+> > > +};
+> > > +
+> > >=20
+> > >  /*
+> > > =20
+> > >   * This structure contains a mixture of fixed configuration settings,
+> > >   * variables that are used at runtime to communicate settings betwee=
+n =20
+>=20
 
