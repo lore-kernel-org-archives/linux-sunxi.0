@@ -1,179 +1,275 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013005.outbound.protection.outlook.com [40.93.201.5])
+Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6272C0299;
-	Mon, 20 Oct 2025 18:47:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.5
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760986042; cv=fail; b=pNHbXO8FcuNTZpW//qWWY+k3CUOc2D8wJVO80s33BI7XMYHpizMCNK9R8TIwmGqLcCQ9PWlazXAmsfdGnsKClcbj9FDveqwL8DaNuYsWimipkZmWd98E1pPz+16cJ/w63EjyUbUyCxhA+JrsydGaCa2d/mdK7EDJxo28DDhyI6M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760986042; c=relaxed/simple;
-	bh=wuY8b0KdSWnk+4uxel5Y0BGNC7AmPb1/JIMznK3SpME=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=VlYlANIqef0mddCV09qsuHuecQ2D5BJc4z3uh1viuMwY7sl9OTBx9/bOH9ukf4yKQHsAuxGGVSCDbNANGPHEZOPxKWTonvSon1XdD1E9ZTtlcy9y3YzBDrkp0n1hpPAorXlJvZoci3+s2RbC2r6pOTeIn9dlHL5q0PoS0UlKopg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=kdf+fjZa; arc=fail smtp.client-ip=40.93.201.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4ECF27C178
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 18:51:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760986311; cv=none; b=bRWZDtk7loqU6pfMl05o504vkkTS1w6Quplp9PdE8cZsDjmvj4Un0htgIYpggb35HNzdGA2psNLJ6Yrlx28stKLGxCAioV+dY7fHZC+IeLnoe+N5hOWNHQQ+iTKogMLbK4mCqhG+ovQwtTBNTBcfcAoRtTnam8U1j2bUNbKb7w4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760986311; c=relaxed/simple;
+	bh=6JA1ExNso5AC8Lz2LuIaux3EINuFqKqUMBnVoo57q/w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K4NOZ8Gq0P84sCIriJ8pKUKDs1LEGOjA5x4x3KZ3+CNaFrmlc3gDfoPUdw1vC2i0fp5JqSyfXs7QNeE5pcaQ4e4WmwSW5g+4aemLfRsvGryhpXBh7d8+GV1tIirVRt9TkfEMsS2V8FAHUu+puECtPgv30DIiwfP3k5jb131CW9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=pass smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=EJXowC8A; arc=none smtp.client-ip=95.215.58.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jookia.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="kdf+fjZa"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=m0QOrttW24P4rAZo/KUo0kCRNhY4u0rAiFVu8T4LypPxL99+OxXjaaKtTYuadv1JTgTAZJcY6TgHKZT1CYw80EW0d7clp5FS6QHqt+18JoLxDv6yflg/ITWwC+qX1V9c8C5rUw90Nx+TocDDdWZKQsdkpvWtn6PAKJgNqDrdoDyplIu4L5qfQ4LAbyQGWn+Pef8IrsjcpeYgvBQ3WrmGLbGlxTmVaPGeCPVq9WzBeKZmIC08mzEm3Vvzw7tdJV7RvdMPRXkHmBBFAJn9YXC7Eyga2kIqsVP4Frzqv2K08H9ZBUBadpQmh6gJ5Et3ywyTovwW93yI/EOg/bh7y/5OrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CilgOmB3PmmJBXdjPACzYWmzSaC6FSXbe7AKUnZ3sjA=;
- b=WzrrtElVW5RZuMp3VxUGuaz4+4huF07o0pjclGGjLJXxs4ZXytEd653p6gnXQA1FcRkSXKLr6CWEqQ4sMctyM4LOujpHZT0ihQ2GHJhkGUQSd1+9K+6fO/JAYaajXrYP1ApL/U9llZRXd2RK73yIXELRC9ixhuW9kfQXlW3coXAkTxVdfTRALs+V0dIQLLPuIy2/IUNPy317MZoc+aSXR3rN0tCnO4PPSCWDMnlEsu8qNHnhT8qUAsvKl3l5kmbiLSWLj/TfVTcw97MiVr0iqEySbIWCzCoPYXbjGcX2uDDPl8ONaHMV+rujJyTzE+KMygzc3Bemzh0aFyUM3+26RA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CilgOmB3PmmJBXdjPACzYWmzSaC6FSXbe7AKUnZ3sjA=;
- b=kdf+fjZafKK+Z9VgDoejv0iwN4UHMz63FYGzWoL9XtqIkw4ocCftk8VHdodcmkzc67Yyh8nLStUlHKp+l8/S83v3Lb5l9i4tJnr9UIsK4ewUZd58vdvcw9ZP0uji1hUmtome1qORnCcLv30BQwRs/OK00wlTqBA8a9saWbbcOndWJZMOR4NmvpHcfRy0Ip7AGS9G0uvwezJu7VpIljfiOW72HvuFnRSQpoYLz3ZQcdEsyxXkkwGG3xVxzNHo3cQA4Z5GAUPWkbE/O3D8rF7SC14lKxER8WQ2GCN4pztp9I7NY2xH7BzaT3D5T2kBD2XvVAzo9mcNpgao6bCLlCu+Xw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
- by IA1PR12MB6650.namprd12.prod.outlook.com (2603:10b6:208:3a1::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.14; Mon, 20 Oct
- 2025 18:47:17 +0000
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9228.015; Mon, 20 Oct 2025
- 18:47:17 +0000
-Date: Mon, 20 Oct 2025 15:47:15 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: joro@8bytes.org, kevin.tian@intel.com, suravee.suthikulpanit@amd.com,
-	will@kernel.org, robin.murphy@arm.com, sven@kernel.org,
-	j@jannau.net, robin.clark@oss.qualcomm.com,
-	m.szyprowski@samsung.com, krzk@kernel.org, dwmw2@infradead.org,
-	baolu.lu@linux.intel.com, yong.wu@mediatek.com,
-	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-	tjeznach@rivosinc.com, pjw@kernel.org, palmer@dabbelt.com,
-	aou@eecs.berkeley.edu, heiko@sntech.de, schnelle@linux.ibm.com,
-	mjrosato@linux.ibm.com, orsonzhai@gmail.com,
-	baolin.wang@linux.alibaba.com, wens@csie.org,
-	jernej.skrabec@gmail.com, samuel@sholland.org,
-	thierry.reding@gmail.com, jonathanh@nvidia.com,
-	jean-philippe@linaro.org, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	virtualization@lists.linux.dev, patches@lists.linux.dev
-Subject: Re: [PATCH v1 5/6] iommu: Do not revert set_domain for the last gdev
-Message-ID: <20251020184715.GE316284@nvidia.com>
-References: <cover.1760312540.git.nicolinc@nvidia.com>
- <691771cd72daf8d6c813d25067c6c521d834e350.1760312540.git.nicolinc@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <691771cd72daf8d6c813d25067c6c521d834e350.1760312540.git.nicolinc@nvidia.com>
-X-ClientProxiedBy: PH8P221CA0044.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:510:346::22) To MN2PR12MB3613.namprd12.prod.outlook.com
- (2603:10b6:208:c1::17)
+	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="EJXowC8A"
+Date: Tue, 21 Oct 2025 05:51:10 +1100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
+	t=1760986304;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PPagEHqm/qqwCIVsdCif1UZjGuCnCtcusNr/3qOn4B0=;
+	b=EJXowC8AiBo0essG7Eu19Jm3kUKWmGztW8WZr6Rg969TXfBKl8iOfCWpvoDVWiOcisP28T
+	IZw8nuRyTTqaTc9nPANjGYgBbMrGNn2kfWZIueLrgnmKd2jVjgLUAWOXEKjd+UQnBX2KQz
+	J+Nf1N4HG7NscZ+mY30zXqYBKl592EKnr58lV2+sGo09qIjMFr7rSmJAAnokLSNL2FbFCn
+	v8G7C0fDN2mUAhfl1i4dxE4LSJp4aJ9vLBFjIV6F4wBlTZyfgZbPKdzzVTs22bJUOCEmu7
+	kWQsyxfl2OmjeQW0rwpQ55BGzxirc/3/XbGcwDFHsePOdzzWdfXerFuT4Nhg3A==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: John Watts <contact@jookia.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Lukas Schmid <lukas.schmid@netcube.li>, Tom Rini <trini@konsulko.com>,
+	linux-sunxi@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>, u-boot@lists.denx.de
+Subject: Re: [PATCH v2] sunxi: extend R528/T113-s3/D1(s) DRAM initialisation
+Message-ID: <aPaEnhPUtrqzYzOe@titan>
+References: <20250915192036.323741-1-lukas.schmid@netcube.li>
+ <20250917224826.7837663c@minigeek.lan>
+ <5396890.31r3eYUQgx@lukas-hpz440workstation>
+ <20251020005924.73e41909@minigeek.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|IA1PR12MB6650:EE_
-X-MS-Office365-Filtering-Correlation-Id: 18a6681d-8b7a-4dfb-df52-08de100917dd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?LGTXyFOX5UFLztirMGyyGtqByiufqwqBWymR94WP7MaE3bSBjoWFdciZxisW?=
- =?us-ascii?Q?ZQKJ/EHC9BdNJFEC4nt3dIptdjn/qIic3B2QOjx0mX/ATushtvstYZeHE+uJ?=
- =?us-ascii?Q?XvCtwbJZI3yMICaPKRRfP+IkbMGae8g2K2RGx0CwapQPTeBwxnYG62FKwwAd?=
- =?us-ascii?Q?W+LAX4DeksXlUxrfOMj/KTvqv1mpMUtOYt4QrK2YTU2OfxqFCxxMfWagBUjv?=
- =?us-ascii?Q?zoGSJPwxvWEe9LQK9TZH+Nzbgbl73XY31R2GOVDld6HolaagkW9+hiehRrxv?=
- =?us-ascii?Q?YZ5M7kS2fhhHqk37dN6dMhBeIu/EI3iQzN+dXfn7lCIjlUK0+2XlEXkHdMwV?=
- =?us-ascii?Q?qlAsOF8VcM19wP5fCBexAuaoVTduqvjB8uAM6GT6XzdoBiFKEoMiYL0drZkN?=
- =?us-ascii?Q?Jr8VFEcLwmnMf/mkSx5lVtdEjuHLJQ4ko/2TSqgwrQ9hOPcm0fzryglCjGSI?=
- =?us-ascii?Q?W+wGQg9+CPLgFkQXe2j+VZ5lQUA7lqwV4PIe2PEROg6z4/19fzhz9CXYgmjb?=
- =?us-ascii?Q?lLtGIfgHucqtd75P0iwS8MF3bJ+hAdADlH7+fH0GCwir4e5Dq4krSseWZML1?=
- =?us-ascii?Q?Qp2sgjM3dSkTR54k7E/k38xVGEigtMlmtq7/Lxp63D/iFa9f7MkGrNb2hauC?=
- =?us-ascii?Q?/YnExkGCs3ZEyz3AyhswjNuoHnMhfunlsLoZ2556Jy6dDYXodb/0QbG4TyuD?=
- =?us-ascii?Q?fq+kiXly8ZAvNBiUBVzlNa2J233MeYLQblRLQ2nVlk3b5B/rC9+EPzbRw7fl?=
- =?us-ascii?Q?/iV7MAEBNdAohljsc0sWw6t4CF0CSoXmQYP99SP/Qk6RWqO4DjkfOgCMZgR8?=
- =?us-ascii?Q?59mY5lyCrz6G530FkQSIyyi+1ZY/PWcgPITOU6pZYxXU42qKYHQtXSA8ZCwL?=
- =?us-ascii?Q?vthcNSIG5ptiCkDH6/Ay9CUGbRvopefqwkUCEEfqzr0ksYGargppCTkgiQpR?=
- =?us-ascii?Q?JxC6DqMpZRlebzzvaahSKbvlYD8iVN/Wk4roWQKmYjYYCvqqPcPaHl7a6wkl?=
- =?us-ascii?Q?Y9VyNzxTXG7uzmuekQkmPIIcGXvTJ8udnty29AHab84iitWNAAiJWYlLADzO?=
- =?us-ascii?Q?Bw2c/mkw19eM7p05U0Hc6m3T0p7f7dTJnbiiJUkwzrPa9e9R9+jCiUScV2u/?=
- =?us-ascii?Q?BeQi7lb/gew0mCP4dtSNWRLV6hE2vq016hHCvFo27wUqrOYu9UgN1+mNh3t+?=
- =?us-ascii?Q?YhR/S5QumUSAqrseYuwWYekQCRtqpePHZYj3GyERvc9B/fQc/9zKcKc++Cpl?=
- =?us-ascii?Q?u0WLKPd1y8YYoVJDoClb+heQ/yVGKHY1rjKfnro1MppfDRQuJ9SfIly5nJV3?=
- =?us-ascii?Q?du49PzkfGeDpTGWuIg1gLaeTzags4t5KX+4hh+U2o3m/0LBqzh1lyIPEGD5V?=
- =?us-ascii?Q?hqD5hYgoU6j1KtbQOHCOmkDKMdvJRg5lP6VHXTJG0+oZJK/znnDvuVcEsIww?=
- =?us-ascii?Q?Jnx0mBB06jgAOrglPJhgI+dvy1ZxQj+i?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3613.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?pgj4/Oy2enlBvTPd5jnAmEdkLxWJvv3mTgJzm+FDjbhAaUFJD6rifYWlMGl3?=
- =?us-ascii?Q?dT4n04eE5Mf6B5JN+tMMWis1Df5ZybcjhQrCCcVj/4pRaqCh0aFQ4zSToECE?=
- =?us-ascii?Q?8Hju/EdpP3P6gfKFSav7sOGL1Iz+TiCNk1jFYxsWmpZtDf1iygE21Q6/Mvpk?=
- =?us-ascii?Q?nKjQyoILVDKIuns7RSPW7DjxGURgO1LR64mK6TLXvfGXXWHtWw1u7QFwBUQu?=
- =?us-ascii?Q?LoDDrqWZO86q3HNceiIIVvql3uQZBSMenEyNITAvpynPV/2x+uvRt9Pnjuqq?=
- =?us-ascii?Q?OxoTSEpU4BxEeugxEHaNmzKJFsHZNKh9s1V0o2Zo4+Jq+5RAJtNx6LPEGvBn?=
- =?us-ascii?Q?GhbKavbqI7O1EefwbbN9aDKuQYRL2TiQ51JobNXjl5FxqCm2jTMBFCGmdiSM?=
- =?us-ascii?Q?0SRxIyE1WK15JJwJeEaTZ///0KDCD4fN3TuNsj79It3FUmWeETk54chpDEzV?=
- =?us-ascii?Q?iS9snB/7Z3K0anQ+C6KTLgSmYm+FSwXKtwN3WK8iGTJZ0cxwpDLIJSaObBHa?=
- =?us-ascii?Q?KtMpgu2zQq7RvwhT0mRKyn4jPMau/h87hfbvA/tzALpI19tstfuXQV8H161U?=
- =?us-ascii?Q?zvnXt00zrbnnNkQKt5Oe8swoT5kyRmXCrWClQZEPbQ601pTJvbaOBcSJzgTU?=
- =?us-ascii?Q?C58qwU43bm9clC9S2FJdD2CCbwrF+TqlMNRPIMoUtmE17Md4O+GxkdsVGu59?=
- =?us-ascii?Q?7B1RJA6RXitRw4SWVBzSOTlASDUCPl9Unt0MUu9lgMCYAPP9TjtHBztDlYls?=
- =?us-ascii?Q?VML1mK5JDPw7mNNnTbExQXI7Unfx9p/28xrKCLICis1JWpiHBGm+4uPOxHVG?=
- =?us-ascii?Q?8/SUbzp6Z902o9LsB4nQPzuKenqnXAWAPi6aZ6bTESs/KLypIlktuMNYf2ya?=
- =?us-ascii?Q?/sX/b2SpFkkmXeJCqb7q8eB4Ae2b0WjpGY4+1xsYfxIB8ut71V9yXH7tZkB6?=
- =?us-ascii?Q?PeXwVxw5FFJo7BCwaGFq14wlG0SztV7IZxwuTuoy9sGINZHOJiuDgJzLxSSg?=
- =?us-ascii?Q?VatpDZ/svuZTiWwi3NkfnOGkfquE+xOZKTyTuW55k2YPNQOuEWpPqJiE4fQO?=
- =?us-ascii?Q?LMH6W7nkksW8s1E4cowot1GBxbmykj944yn2kihx7NpOJ1NF13d2jogeqBF2?=
- =?us-ascii?Q?Sic6Jv9is0PZo8Wnf8od+kp62aBVZy+xWbPj/fxdquyRUR2vgM53C/L+zuOY?=
- =?us-ascii?Q?bi4Cy+VaVQb9wA1xrPUoOz+c1vMJyA70fQqFHPdEkmAsgmFkA+fdob+jo/hZ?=
- =?us-ascii?Q?Gl6G1SU5qyCHOQW0VIqbCWCYlStHaYdarbwi8R4gJ2m+covkOj6pa7M4FHTF?=
- =?us-ascii?Q?DSrRwK5ZqfXKgO5AyKNBx2KcqjMRcacvhVgjRK/O9DPT0kJd1f5zVukggvhq?=
- =?us-ascii?Q?Qb2ThJ9Aztd0CxKYVBNvibvyee6WWC/KRTRHozPyX9p4Zkina58OwVJlV43N?=
- =?us-ascii?Q?A1yG8H6RVrt3dT6QBsHLu8Ui5VASg7LZh20Lb1VXEbtliVhGK/oqbhhFUVGK?=
- =?us-ascii?Q?xOKd8WgzYpEmpjedA1pBMRIkPib5S3hA7dhueLotM5gNY3t9FcJGO/SSPlOh?=
- =?us-ascii?Q?dyu3+nn2B+5l51LWzOprJdqqOK5OVFlHoBFpMGrz?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 18a6681d-8b7a-4dfb-df52-08de100917dd
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2025 18:47:17.5548
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EMpzJRKPYhzTvnFeJl49fJn+CXUYGKPTBtWG7GDi8ItdiWRCTplLMhYCDIyCXLPY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6650
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251020005924.73e41909@minigeek.lan>
+X-Migadu-Flow: FLOW_OUT
 
-On Sun, Oct 12, 2025 at 04:57:41PM -0700, Nicolin Chen wrote:
-> The last gdev is the device that failed the __iommu_device_set_domain().
-> So, it doesn't need to be reverted, given it's attached to group->domain
-> already.
-> 
-> This is not a problem currently, since it's a simply re-attach. However,
-> the core will need to pass in the old domain to __iommu_device_set_domain
-> so the old domain pointers would be inconsistent between a failed device
-> and all its prior succeeded devices, as all the prior devices need to be
-> reverted.
-> 
-> Avoid the re-attach for the last gdev, by breaking before the revert.
-> 
-> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
-> ---
->  drivers/iommu/iommu.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+Hi,
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+I can confirm this code works:
 
-Jason
+	fuse = (readl(SUNXI_SID_BASE + 0x28) & 0xf00) >> 8;
+	debug("DDR efuse: 0x%x\n", fuse);
+	debug("SoC Chip ID: 0x%08x\n", sid_read_soc_chipid());
+
+	if (sid_read_soc_chipid() == SUNXI_CHIPID_T113M4020DC0)
+		return;
+
+	if (para->dram_type == SUNXI_DRAM_TYPE_DDR2) {
+		if (fuse == 15)
+			return;
+		cfg = ac_remapping_tables[6];
+	} else {
+		if (config->dram_tpr13 & 0xc0000) {
+			cfg = ac_remapping_tables[7];
+		} else {
+			switch (fuse) {
+			case 8: cfg = ac_remapping_tables[2]; break;
+			case 9: cfg = ac_remapping_tables[3]; break;
+			case 10: cfg = ac_remapping_tables[5]; break;
+			case 11: cfg = ac_remapping_tables[4]; break;
+			default:
+			case 12: cfg = ac_remapping_tables[1]; break;
+			case 13:
+			case 14: cfg = ac_remapping_tables[0]; break;
+			}
+
+John.
+
+On Mon, Oct 20, 2025 at 12:59:52AM +0100, Andre Przywara wrote:
+> On Thu, 16 Oct 2025 17:30:41 +0200
+> Lukas Schmid <lukas.schmid@netcube.li> wrote:
+> 
+> Hi Lukas,
+> 
+> > I finally got some time to look into this patch again.
+> > 
+> > Dropping out of the DRAM type check earlier sounds like a good move here. I 
+> > can definitely do that and also test it on my board. 
+> 
+> Yes, please do, and send a v3 if that works for you.
+>  
+> > About the other changes. Is the patch itself in a good state right now (except 
+> > the commit message) or would you (or anyone else here for that matter) like to 
+> > see something changed?
+> > 
+> > I'll change/update the commit message to have a smaller footprint regarding 
+> > the SID chip ID, and also remove the reference to the "random" git repo.
+> 
+> What's more important than the sources is some background and some
+> description about what the patch does, like this:
+> 
+> ==================
+> The T113-s4 SoC is using the same die as the T113-s3, but comes with
+> 256MiB of co-packaged DRAM. Besides the doubled size, the DRAM chip
+> seems to be connected slightly differently, which requires to use a
+> different pin remapping.
+> 
+> Extend the DRAM initialisation code to add support for the T113-S4 aka
+> T113M4020DC0 by checking the SoC's CHIPID, which is stored in the first
+> word of the SID efuses.
+> ==================
+> 
+> So no lengthy dumps or links. You might want to put the link to the
+> github repo as a comment before the enum in dram_sun20i_d1.h.
+> 
+> Thanks,
+> Andre
+> 
+> > 
+> > Best regards,
+> > Lukas
+> 
+> > On Mittwoch, 17. September 2025 23:48:26 Mitteleuropäische Sommerzeit Andre 
+> > Przywara wrote:
+> > > On Mon, 15 Sep 2025 21:20:35 +0200
+> > > Lukas Schmid <lukas.schmid@netcube.li> wrote:
+> > > 
+> > > Hi Lukas, John,
+> > > 
+> > > so looking at the code again, table 0 is special in that it's all 0's,
+> > > which apparently means no remapping, according to some comments.
+> > > We already bail out earlier of this function for configurations that do
+> > > not require remapping, so can you test whether this works here as well?
+> > > Just do the chip ID test early, after the DRAM type check, and before
+> > > the fuse is read. And if it's 0x7200, then just return;
+> > > 
+> > > I think that would look better than the odd fuse special case.
+> > > 
+> > > Thanks,
+> > > Andre
+> > >   
+> > > > Extend the DRAM initialisation code to add support for the T113-S4 aka
+> > > > T113M4020DC0 by checking the SoC's CHIPID.
+> > > > 
+> > > > The list of Chip-IDs came from
+> > > > https://github.com/ua1arn/hftrx/blob/25d8cb9e4cfe1d7d0e4a2f641025c88a9ec5e
+> > > > 758/inc/clocks.h#L250
+> > > > 
+> > > > And the chipid register address was something I heard through apritzel
+> > > > altough it seems that, according to Jookia, the Tina Device Tree seems
+> > > > to agree:
+> > > > 
+> > > > sid@3006000 {
+> > > > 
+> > > > 	compatible = "allwinner,sun20iw1p1-sid", "allwinner,sunxi-sid";
+> > > > 	reg = <0x0 0x03006000 0 0x1000>;
+> > > > 	#address-cells = <1>;
+> > > > 	#size-cells = <1>;
+> > > > 	
+> > > > 	chipid {
+> > > > 	
+> > > > 		reg = <0x0 0>;
+> > > > 		offset = <0x200>;
+> > > > 		size = <0x10>;
+> > > > 	
+> > > > 	};
+> > > > 	...
+> > > > 
+> > > > };
+> > > > 
+> > > > Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
+> > > > Tested-by: John Watts <contact@jookia.org>
+> > > > Reviewed-by: John Watts <contact@jookia.org>
+> > > > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > > ---
+> > > > 
+> > > > Changes in v2:
+> > > >   - Use uint32_t instead of u32 for sid_read_soc_chipid return type
+> > > >   - Add descriptive comment about source of Chip-ID list and register
+> > > >  
+> > > >  drivers/ram/sunxi/dram_sun20i_d1.c | 13 ++++++++++++-
+> > > >  drivers/ram/sunxi/dram_sun20i_d1.h |  7 +++++++
+> > > >  2 files changed, 19 insertions(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/drivers/ram/sunxi/dram_sun20i_d1.c
+> > > > b/drivers/ram/sunxi/dram_sun20i_d1.c index a1794032f3b..381eeb87e2e
+> > > > 100644
+> > > > --- a/drivers/ram/sunxi/dram_sun20i_d1.c
+> > > > +++ b/drivers/ram/sunxi/dram_sun20i_d1.c
+> > > > @@ -54,6 +54,11 @@ static void sid_read_ldoB_cal(const dram_para_t *para)
+> > > > 
+> > > >  	clrsetbits_le32(0x3000150, 0xff00, reg << 8);
+> > > >  
+> > > >  }
+> > > > 
+> > > > +static uint32_t sid_read_soc_chipid(void)
+> > > > +{
+> > > > +	return readl(SUNXI_SID_BASE + 0x00) & 0xffff;
+> > > > +}
+> > > > +
+> > > > 
+> > > >  static void dram_voltage_set(const dram_para_t *para)
+> > > >  {
+> > > >  
+> > > >  	int vol;
+> > > > 
+> > > > @@ -663,6 +668,7 @@ static void mctl_phy_ac_remapping(const dram_para_t  
+> > > > *para,>   
+> > > >  	fuse = (readl(SUNXI_SID_BASE + 0x28) & 0xf00) >> 8;
+> > > >  	debug("DDR efuse: 0x%x\n", fuse);
+> > > > 
+> > > > +	debug("SoC Chip ID: 0x%08x\n", sid_read_soc_chipid());
+> > > > 
+> > > >  	if (para->dram_type == SUNXI_DRAM_TYPE_DDR2) {
+> > > >  	
+> > > >  		if (fuse == 15)
+> > > > 
+> > > > @@ -675,7 +681,12 @@ static void mctl_phy_ac_remapping(const dram_para_t  
+> > > > *para,>   
+> > > >  			switch (fuse) {
+> > > >  			case 8: cfg = ac_remapping_tables[2]; break;
+> > > >  			case 9: cfg = ac_remapping_tables[3]; break;
+> > > > 
+> > > > -			case 10: cfg = ac_remapping_tables[5];   
+> > break;
+> > > > +			case 10:
+> > > > +				if (sid_read_soc_chipid() ==   
+> > SUNXI_CHIPID_T113M4020DC0)
+> > > > +					cfg =   
+> > ac_remapping_tables[0];
+> > > > +				else
+> > > > +					cfg =   
+> > ac_remapping_tables[5];
+> > > > +				break;
+> > > > 
+> > > >  			case 11: cfg = ac_remapping_tables[4];   
+> > break;
+> > > >  			default:
+> > > >  			case 12: cfg = ac_remapping_tables[1];   
+> > break;
+> > > > 
+> > > > diff --git a/drivers/ram/sunxi/dram_sun20i_d1.h
+> > > > b/drivers/ram/sunxi/dram_sun20i_d1.h index 91383f6cf10..7bd8f67a77a
+> > > > 100644
+> > > > --- a/drivers/ram/sunxi/dram_sun20i_d1.h
+> > > > +++ b/drivers/ram/sunxi/dram_sun20i_d1.h
+> > > > @@ -19,6 +19,13 @@ enum sunxi_dram_type {
+> > > > 
+> > > >  	SUNXI_DRAM_TYPE_LPDDR3 = 7,
+> > > >  
+> > > >  };
+> > > > 
+> > > > +enum sunxi_soc_chipid {
+> > > > +	SUNXI_CHIPID_F133A = 0x5C00,
+> > > > +	SUNXI_CHIPID_D1S = 0x5E00,
+> > > > +	SUNXI_CHIPID_T113S3 = 0x6000,
+> > > > +	SUNXI_CHIPID_T113M4020DC0 = 0x7200,
+> > > > +};
+> > > > +
+> > > > 
+> > > >  /*
+> > > >  
+> > > >   * This structure contains a mixture of fixed configuration settings,
+> > > >   * variables that are used at runtime to communicate settings between  
+> > 
+> 
