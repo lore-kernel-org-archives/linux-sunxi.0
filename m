@@ -1,87 +1,73 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1854A258CFF
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 15:18:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D7A7260B
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 15:19:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760973508; cv=none; b=EtdR5OA5/uFGuZmDd4XBKyCa4x6AUMtQTaMUt++E2p9QOUyxJiDb+M3h3G06Gq5JDD4T4MoQruPzpsRHiMUL+p0Ipfqk+Acll+iR9VR124e5il3I+415Q6WD6peXcKZg+NzGxlPnGf+jwsUXhFSOYZtF54hm45qHEu9o5xrO5N4=
+	t=1760973542; cv=none; b=SazRxHKJByyytdyKq8R8qYTYm8aJgSUeYE94wKUf4wwxNIb2D0Lm/SEKSQS/n7TxIW+c/TZWIx+pa2/VVXgwvfVg1ZukpSbtmPX2Ik6kpsO7LpauHWHneRtXscAoUzGz/96/ceFfaeTKNiOaxIx+sB1qw++td0kRDPIVt1iaeu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760973508; c=relaxed/simple;
-	bh=Jyxeti9uUZ9Fw4cj51QB7FVlE2BcnZaTFx9SeNp0Vgg=;
+	s=arc-20240116; t=1760973542; c=relaxed/simple;
+	bh=BQZAzTg1V0/v9S4chDcvdz+MPQEzBV0e1QEKSP5JqTQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RyMULciJJHvNN4Yg8zzh8mBhdi6poMqOS+GZyHLC5zXe8h+yR0B+LrZv6x1Os6AeyLDmS8komURV79Km2AwS48RnqWvQGYlP68y5DpM5Kd3NSSCw/E/nw5pMv66Jp5o+QRKhrndLfVAh37eVebx1BrqEGlvz0xQjHcxqL927C0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hqgbKL97; arc=none smtp.client-ip=209.85.128.41
+	 MIME-Version:Content-Type; b=TJJDmMx45iyMsy+ThHd+CPxY01ig9xNzff0ngItmVYMnhai0/gx24ALhQU+wxv587ujxHxDE3XVzRymKgj0RTA6tKW1kZux8/0oBvqw1SriGKqIldR5JAKhBa2Dge2SZkRFhYMKSFQetHIoK1hN3C1mDTbpOEXB5QGx7uu0zuhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m4ZjHkoZ; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hqgbKL97"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-471b80b994bso25015165e9.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 08:18:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m4ZjHkoZ"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-47114a40161so1166295e9.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 08:18:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760973505; x=1761578305; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1760973538; x=1761578338; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EIri8gPwCvgxzuVNcP5Ad0/5z9CcdBUeY3ByihuZDbc=;
-        b=hqgbKL97H7QzEizoEnvMdnKe8n/HD7CXu/gFp2Y1U3ACZ4bZd8g30+p9G681BlkHyM
-         gDb1JsltorNl+SwLrvGKeaKJ7bim78puKAzI3SDwTMopf/90bwtHEpe2ZvUCqQ63H5Rl
-         aN8SZldAahP3mkYaEr9M78ZCMg+G0g4qCuiZrHmIGYmj/B7ZcXACB7XroST27HGm9/ak
-         s+Bk+tKP7zA+y67S5V+AcN9a3u4UG7ZPrTIsJv17+K8cwYI2G1cIdyPZO+kNaHRti5ge
-         DxdqS1OqXKSF05VFHdd04+86y8TDj3DpHthfMus+ItnEa12LyZ9XBbNwYzpsNCiQ0EmH
-         EMcg==
+        bh=gE/zXH7oj8luuojug2mx0yUjKnI3txoF+d9+NmJbjas=;
+        b=m4ZjHkoZFr7gXKJdmypH41SFR0oYEQ9XT3uMXudoqN5DGeAdqAqnN0929h6lxexqGt
+         ZPHM42vzLpSEjb075EXFgXu1iEiEqpBD0EB27bCozol+qsAntRLudHl2HCJ3MRmU/t62
+         6QTM4v34e1tMyR3KVGYd1eXhCHu9dAIFIgrtRe9gCxC6RCxOKWCwpkdpHr5DrA2Yku/L
+         Qx6IohOzNISU9qXlakWCmde9KZjKu8IL5rAIlUO1sh8pIli4C2CbQWmFeeItwli8xNtC
+         lS3l8/OxhmbYbivGI7c32fHNbBrPJmtFTvDIpEXZARQOdpfjIjbMzBGxXDy4UYIVPp59
+         IgOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760973505; x=1761578305;
+        d=1e100.net; s=20230601; t=1760973538; x=1761578338;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EIri8gPwCvgxzuVNcP5Ad0/5z9CcdBUeY3ByihuZDbc=;
-        b=oTvwcQL77U2o8EVVR5nxqQnbXCF0wWcQJxqRk4gaSWsYBnHJVu4ZOnZt63nTP07JOM
-         hQ1sB4xeUTmLzxcrLNY2YGieIzWVzMTcI/nAZjbBRWgJgvNSqdkhr2afuxZ+UvH+nIZL
-         m+XzaUVbFqK8ylHzyD6unUBjRm+oY6pVanBEaPZTjRvhhBo1BeCkxRQ5ArNh4lwMdbzR
-         +qvzvFyiHfRgyAOTpkUzFz/Ce50iK6E32EYIPQReehhTXh3hpgJ9dIWEQC7DkW/2b7DI
-         yi0LNt30nHiXy73u1f4hznjXJoGJKkW6EtjrzducCnijYIIWsfwQ6wadjLWOXrALwOYx
-         NHpA==
-X-Forwarded-Encrypted: i=1; AJvYcCWYjrJ5w9uwgvqDMSsIji9gO1gOzIxdRuRAEhcTiy3hBa083uvq0aYLPsl7IxtaLEL3xhfE1UWWcmvhXQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxqNWZANEgRrBw/amwRJS8sSgpFUs4lBvcMJsWjLuMrvbKw5+Ea
-	quAGajIWwQYazlI1t9JlMsBty3uomWJFNemsKEGI2qYfK+3m2x38lmm/
-X-Gm-Gg: ASbGncsM7W2aCXahRj05l5mBTaZdME2mEUsHIF40QR6G+DF7x3iwFGyEBJx6OosGirb
-	q0gTNbB5jDtp7Um0A6KceFVl6qDzTAS6KG+qEWIy5YI42EnSwvcsrrtTBdDQfIjR9cZqwTsvsYo
-	MyAA+iEtJiK5RFb087N/mbEo0ufuXYIEgfHTwNTS6YoG9tF8gEkMlRrm4Avcm4c8aKBIvaYEdnk
-	MPDzGBaRmIju14HE2cFEfSnv0XfwJ4jL+Fi8UN4yHGP3xFkraD0+Zs9vpf0i0DRKiMLm9cYoKk7
-	rp+m+giAiXqEzSJgEsNL9cB0pjOUG6gk5Wv2uSXuiobxjjX1UghgrF9Y55nWwDj5ly0B50lAhoS
-	VcFIBmIbyNCD6r/qUA0851ELy+ySKZTN8j47LI+dfJTzbL0IChNXn2FXAjijPQHhAMoYui3RJGl
-	Mqrg0BkKmXCE+dE3QWwZpubalAp8mkFjs/Ru6zYLsJWa7fVUZeH/QUdgzf+aCN02umGzgp
-X-Google-Smtp-Source: AGHT+IHQEYoBMcfx1b6Nsx/IivzRuTLpzyAZ455r3ZJisHcjzwPbpeFkoct3AeG4wC3jqAyj6VhBUA==
-X-Received: by 2002:a05:600c:45c9:b0:471:115e:87bd with SMTP id 5b1f17b1804b1-4711791c601mr98951155e9.26.1760973505153;
-        Mon, 20 Oct 2025 08:18:25 -0700 (PDT)
+        bh=gE/zXH7oj8luuojug2mx0yUjKnI3txoF+d9+NmJbjas=;
+        b=Hyjs3NK5rA4/og2K7J7CL+U0Qs8fB8hZMXdmE7bVQWr27me0A43tb9fDK/PobNPi6p
+         6eeST4aZaeQFhj70H/uPeYOAVMUrzDKO5DgTF8ZZ+7xXHiMAY9ufvNKfU/nlo+tHoWVQ
+         Xmp93QSzaZdLEQ9l/cfWoKI7Q5AWHB2WD8L7RyQWA4Lnwychy91pLg4fwdV3t4D4o+Lh
+         t9L64hq69TneAnhh+NsSIq14z/EjNw8+RIui1/scFvZM6ArB8yDTcD0iMM7ijAkrREYc
+         EnBt/6WKC8dklFXxKPUIWC6AGnKZ3pN93za2EGc6IKIajs/NqxWhcvKY0XHV5fGdQ8u8
+         4fXA==
+X-Forwarded-Encrypted: i=1; AJvYcCUFjKACx3Aav6pcA5pXI25vm6edlx87BV1slPxBol9RGGKnoaGVl1SeClE4T53/5vrdcIksZnAcg/Os3A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyu4QeiergotYOe4iZMJqu93eKO9MGxRQ2LrJJaY5sw4Fsn2Y43
+	aS+fte3To4tsFJsH0GR3e+At8DhOtZaSiHIwgzmyWa+PcqMOgCLqlh2YicawvA==
+X-Gm-Gg: ASbGncsF7T9X74Ab6PVXzGF7IQRPUNuDizeYQKQhk3fRYTb8CEuB582jo2owUsS2nf9
+	jyCNUezkHie6vWs8x99WBxGQu7/ziP3XwLk0nIUCoaedBlsjnIioTMCXRBbNKBX1uqKNI67R0Dy
+	yD1MBfVfDd/hhLOE5aiha3BaIyViyvdZ+rNIZvuZKnWOfEEJWL2Rg0JCQX5TfXVblBuzkhMHum2
+	GSGuxAOkhH+oDMbWYbOjzueNxrlYKSKqoDEMIEa7HhH4KX7hHFMu+uZGgfQp/j2VPPmUDi49wDW
+	5EWbJ1ZRX0fB/VWsDW/q0A8lwPphDOeGsRtRt0dVshHC+QoRppI2EQvPOJrvy0INNZHA2J8Mpl7
+	YNv5G5lAvaMQD6bEv5Cuox9+kz9Rju5ykSmSEO2pBJBmGs7wNBaOfMZvAWo85MtvavTvYWdR5Mi
+	in6VD7/JZln1rNdYm+n6dUkuVLMFjOQ6M9NnAt2HdnkYH9aBRYNwuwrhh3ME2SFdPmSfgv
+X-Google-Smtp-Source: AGHT+IH5qaGiohHu1jrL8Sfsr2c1k7P4tZGm1c6prBnxmOD+RBX2uP8H/wW7wKCjofz+j3EUhUgieA==
+X-Received: by 2002:a05:600c:64cf:b0:471:12ed:f698 with SMTP id 5b1f17b1804b1-4711786c793mr106360845e9.8.1760973538344;
+        Mon, 20 Oct 2025 08:18:58 -0700 (PDT)
 Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427f00ce178sm15617638f8f.46.2025.10.20.08.18.23
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4715520d753sm150384595e9.13.2025.10.20.08.18.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Oct 2025 08:18:24 -0700 (PDT)
+        Mon, 20 Oct 2025 08:18:58 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: devicetree@vger.kernel.org,
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Maxime Ripard <mripard@kernel.org>, Liu Ying <victor.liu@nxp.com>,
- Gatien Chevallier <gatien.chevallier@foss.st.com>,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- imx@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH 1/4] dt-bindings: bus: don't check node names
-Date: Mon, 20 Oct 2025 17:18:23 +0200
-Message-ID: <5930653.DvuYhMxLoT@jernej-laptop>
-In-Reply-To: <20251020060951.30776-7-wsa+renesas@sang-engineering.com>
-References:
- <20251020060951.30776-6-wsa+renesas@sang-engineering.com>
- <20251020060951.30776-7-wsa+renesas@sang-engineering.com>
+To: u-boot@lists.denx.de, Chen-Yu Tsai <wens@kernel.org>
+Cc: Chen-Yu Tsai <wens@kernel.org>, Andre Przywara <andre.przywara@arm.com>,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] .mailmap: update email address for Chen-Yu Tsai
+Date: Mon, 20 Oct 2025 17:18:57 +0200
+Message-ID: <5047219.31r3eYUQgx@jernej-laptop>
+In-Reply-To: <20251020145527.2702250-1-wens@kernel.org>
+References: <20251020145527.2702250-1-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -91,28 +77,38 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne ponedeljek, 20. oktober 2025 ob 08:09:50 Srednjeevropski poletni =C4=8D=
-as je Wolfram Sang napisal(a):
-> Node names are already and properly checked by the core schema. No need
-> to do it again.
+Dne ponedeljek, 20. oktober 2025 ob 16:55:27 Srednjeevropski poletni =C4=8D=
+as je Chen-Yu Tsai napisal(a):
+> The email forwarder I'm using has run into severe problems with Gmail
+> lately. Switch over to my kernel.org address.
 >=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
-> I'd suggest to give subsystems some time to pick this patch before
-> Rob applies it?
->=20
->  .../devicetree/bindings/bus/allwinner,sun8i-a23-rsb.yaml        | 2 +-
+> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 
-=46or allwinner:
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
->  .../devicetree/bindings/bus/fsl,imx8qxp-pixel-link-msi-bus.yaml | 2 +-
->  Documentation/devicetree/bindings/bus/st,stm32-etzpc.yaml       | 2 +-
->  Documentation/devicetree/bindings/bus/st,stm32mp25-rifsc.yaml   | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
+> ---
+>  .mailmap | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/.mailmap b/.mailmap
+> index f1b93d168e90..e08dfd3a5263 100644
+> --- a/.mailmap
+> +++ b/.mailmap
+> @@ -36,6 +36,7 @@ Bin Meng <bmeng.cn@gmail.com> <bin.meng@windriver.com>
+>  Boris Brezillon <bbrezillon@kernel.org> <boris.brezillon@bootlin.com>
+>  Boris Brezillon <bbrezillon@kernel.org> <boris.brezillon@free-electrons.=
+com>
+>  Casey Connolly <casey.connolly@linaro.org> <caleb.connolly@linaro.org>
+> +Chen-Yu Tsai <wens@kernel.org> <wens@csie.org>
+>  Christian Kohn <chris.kohn@amd.com> <christian.kohn@xilinx.com>
+>  Christopher Obbard <christopher.obbard@linaro.org> <chris.obbard@collabo=
+ra.com>
+>  Dirk Behme <dirk.behme@googlemail.com>
+>=20
+
 
 
 
