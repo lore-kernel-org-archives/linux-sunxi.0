@@ -1,152 +1,83 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D3C2FE59F
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 10:14:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1A5C314D00
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 13:24:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760955258; cv=none; b=BztkR62HeMaFnwYNgqUpak80j/PnClQxWgciyxM3pEZt7DCub2Fxchazpi/9tsOJ6eHct7zS02edOH9B9aoF83XSYvUKFAD1oHoYGicy+V80uDrYh2WuSUgRxPS3wkPhz+29xPQXBxmDFC8WGPHlUHm6kwVURAJoHA9fUT3+SLE=
+	t=1760966688; cv=none; b=lxhWwDqCc8hO7wCUwt9rn4XPO9AaRj0cRR0TPAAc5YSPe5XvNyulfv0mqo/j8dCG7vQZiU8BJVBJbQ3wqGR6fH9058XBN1rYN7i57moURdJltYK/5nGByw0Od6CiaulhgjsM/I8EcocE+gkdrqpNMFn7rPI8n45Ip2r1VvUaOeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760955258; c=relaxed/simple;
-	bh=GgwJ7fWaulAietrHBtr8pXhbFEbm/bkrRwvdjItYaJI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XHZO/D9pcXjfl0c1QwIeb2/ERBsT1zD8HOJPmPXzaguNev7Ks9mA8BuCsC++XPUgGl1Vlz2WTCaU5LU+Pwy6QsT5akz6LIiEXM/Sxg5Dtbk7GIVBD7UukhIausrpaqGV4wcVX4pYUFpuE/RzWqf00H5YFum46zN/UVMld/73ddI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mOLWAHZM; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mOLWAHZM"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 654BD4E411F6;
-	Mon, 20 Oct 2025 10:14:15 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3A2E7606D5;
-	Mon, 20 Oct 2025 10:14:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B2346102F23B3;
-	Mon, 20 Oct 2025 12:14:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760955254; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=rZByAZ4a1Es55m5EId/mrhQ7knVrzCU0ipEljdw7k+I=;
-	b=mOLWAHZMEHaJ5DWrJzd5+jqoy2/ZuEto+BJiYKEPYIpIZznZ1Qpmclm7yQxwlw9M1ZrM4f
-	QntYP/j3GqyB/SyXjRR16YLDSWgkO0vEQWE3zXUCzWYHZ1RBUmq3XAMBtgVf5m3OacbPlF
-	1LBUPIQp3Ovz4QkHPu8ukKB1TOjDgPxU7aqf3wsAHT7busdUDwGc18E0eUwS/Wyzf68+k3
-	s2vkBLgrjp000yuOw46dETNd/O81ldxNW15bxro6cfvCCl94KF3oYctxWNsFbEG0JHPQLY
-	IaS36Q+uq5lzXVUouUtuWUlp+z1iVWIi3SSPWg0uKkf1a1gLLnJyaSb9Ve71pw==
-From: Richard Genoud <richard.genoud@bootlin.com>
-To: Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	Wentao Liang <vulab@iscas.ac.cn>,
-	Johan Hovold <johan@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-mtd@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Richard Genoud <richard.genoud@bootlin.com>
-Subject: [PATCH v3 15/15] arm64: dts: allwinner: h616: add NAND controller
-Date: Mon, 20 Oct 2025 12:13:11 +0200
-Message-ID: <20251020101311.256819-16-richard.genoud@bootlin.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251020101311.256819-1-richard.genoud@bootlin.com>
-References: <20251020101311.256819-1-richard.genoud@bootlin.com>
+	s=arc-20240116; t=1760966688; c=relaxed/simple;
+	bh=57e2mVImHOH5lb+qBMy58ZLJTwYxPeo4lARKG2XJmLQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Gspsy9B/pxflQcJR7IXg93Eeh6DoBICeeVDAkZt7f+o/UopZL8WsPmq6ZEi05xC0wvI13R7z+aGLlgfk7iS8K4+86T5pJRV1w1y7jN4t5f9eGoKLp19dLkM2wyVubWO3iMR38wg5/st2CCojjsuX8ttAayQWFfKihBzEMxnEw0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 609F71063;
+	Mon, 20 Oct 2025 06:24:38 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 083B23F66E;
+	Mon, 20 Oct 2025 06:24:44 -0700 (PDT)
+Date: Mon, 20 Oct 2025 14:24:34 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: wens@csie.org, samuel@sholland.org, mturquette@baylibre.com,
+ sboyd@kernel.org, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] clk: sunxi-ng: Mark A523 bus-r-cpucfg clock as critical
+Message-ID: <20251020142434.066f53b8@donnerap.manchester.arm.com>
+In-Reply-To: <20251019172647.80379-1-jernej.skrabec@gmail.com>
+References: <20251019172647.80379-1-jernej.skrabec@gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The H616 has a NAND controller quite similar to the A10/A23 ones, but
-with some register differences, more clocks (for ECC and MBUS), more ECC
-strengths, so this requires a new compatible string.
+On Sun, 19 Oct 2025 19:26:47 +0200
+Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
 
-Add the NAND controller node and pins in the device tree.
+> bus-r-cpucfg clock is important for peripheral which takes care for
+> powering CPU cores on and off. Since this operation is done by firmware
+> (TF-A), mark is as critical. That way Linux won't interfere with that
+> clock.
 
-Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
----
- .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 52 +++++++++++++++++++
- 1 file changed, 52 insertions(+)
+Many thanks, makes sense. I hammered /sys/devices/system/cpu/cpu<x>/online
+like a 1000 times in a random loop now, and it survived - after I excluded
+CPU0 from this. Offlining CPU0 works, but it doesn't come back online
+again. But that's probably something in TF-A, so nothing that affects this
+patch:
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-index ceedae9e399b..2a4d70298655 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-@@ -304,6 +304,42 @@ mmc2_pins: mmc2-pins {
- 				bias-pull-up;
- 			};
- 
-+			/omit-if-no-ref/
-+			nand_pins: nand-pins {
-+				pins = "PC0", "PC1", "PC2", "PC5", "PC8", "PC9",
-+				       "PC10", "PC11", "PC12", "PC13", "PC14",
-+				       "PC15", "PC16";
-+				function = "nand0";
-+			};
-+
-+			/omit-if-no-ref/
-+			nand_cs0_pin: nand-cs0-pin {
-+				pins = "PC4";
-+				function = "nand0";
-+				bias-pull-up;
-+			};
-+
-+			/omit-if-no-ref/
-+			nand_cs1_pin: nand-cs1-pin {
-+				pins = "PC3";
-+				function = "nand0";
-+				bias-pull-up;
-+			};
-+
-+			/omit-if-no-ref/
-+			nand_rb0_pin: nand-rb0-pin {
-+				pins = "PC6";
-+				function = "nand0";
-+				bias-pull-up;
-+			};
-+
-+			/omit-if-no-ref/
-+			nand_rb1_pin: nand-rb1-pin {
-+				pins = "PC7";
-+				function = "nand0";
-+				bias-pull-up;
-+			};
-+
- 			/omit-if-no-ref/
- 			spi0_pins: spi0-pins {
- 				pins = "PC0", "PC2", "PC4";
-@@ -377,6 +413,22 @@ iommu: iommu@30f0000 {
- 			#iommu-cells = <1>;
- 		};
- 
-+		nfc: nand-controller@4011000 {
-+			compatible = "allwinner,sun50i-h616-nand-controller";
-+			reg = <0x04011000 0x1000>;
-+			interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_NAND>, <&ccu CLK_NAND0>,
-+				<&ccu CLK_NAND1>, <&ccu CLK_MBUS_NAND>;
-+			clock-names = "ahb", "mod", "ecc", "mbus";
-+			resets = <&ccu RST_BUS_NAND>;
-+			reset-names = "ahb";
-+			dmas = <&dma 10>;
-+			dma-names = "rxtx";
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
- 		mmc0: mmc@4020000 {
- 			compatible = "allwinner,sun50i-h616-mmc",
- 				     "allwinner,sun50i-a100-mmc";
+> Fixes: 8cea339cfb81 ("clk: sunxi-ng: add support for the A523/T527 PRCM CCU")
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Tested-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+> ---
+>  drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c b/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
+> index 70ce0ca0cb7d..c5b0d4a2e397 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
+> @@ -125,7 +125,7 @@ static SUNXI_CCU_GATE_HW(bus_r_dma_clk, "bus-r-dma",
+>  static SUNXI_CCU_GATE_HW(bus_r_rtc_clk, "bus-r-rtc",
+>  			 &r_apb0_clk.common.hw, 0x20c, BIT(0), 0);
+>  static SUNXI_CCU_GATE_HW(bus_r_cpucfg_clk, "bus-r-cpucfg",
+> -			 &r_apb0_clk.common.hw, 0x22c, BIT(0), 0);
+> +			 &r_apb0_clk.common.hw, 0x22c, BIT(0), CLK_IS_CRITICAL);
+>  
+>  static struct ccu_common *sun55i_a523_r_ccu_clks[] = {
+>  	&r_ahb_clk.common,
+
