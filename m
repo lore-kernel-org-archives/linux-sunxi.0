@@ -1,53 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E2FC8FE;
-	Mon, 20 Oct 2025 17:18:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C13283FC3;
+	Mon, 20 Oct 2025 17:37:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760980692; cv=none; b=ExFXWEv85bGihZDor/VFoeUjKKJdVn+lipO1zuYDgWMId4R6oB2JhImsFmNMKhjfrKWtYL9tW88eRmzBUsdkGxJEmlfSS4z3oO3lQbYBzLRJheQSfQZsLTHvyil0gLqyH/ub+5diY4gsehLHnHHvOsd14rN4fXT433KUFwANodQ=
+	t=1760981850; cv=none; b=deYOkUcKNisetqSyzTy2RZ28wULYiO3KdrgCDgFAh0VnkFvIHB04BxwXQwmSlf7J53FA/J5AIOihA6RGUeAkgZ2M0gpsWqAWQr+wYlr/pcCCbMjWl9O85n5ZJeJxDBhyCnHI5SqO1eR0s8fNuKOXBZIIryS4+WYrILSg8T6v6QE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760980692; c=relaxed/simple;
-	bh=XiFkPjpbRb4EvxWHzM2pnBZEEJZd3/pqX3IeZ6qKzeA=;
+	s=arc-20240116; t=1760981850; c=relaxed/simple;
+	bh=xzTURFtPy3dzPi4sBnNAvBJIr7LYeKbmO3mMPxuwgq8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lriG+nrcq2lRnWNLUKBANgl6as0cWpt880d9UiWtD6V2WMccDkVLk9hGRr2xbmy2lXNvQrso3kCWm84sIx6t7Uj41x3kkJ4bz3BzUoupZbaC+cvXNx//09zybGLLG5AS1CdyitR7CNtpsijlxfd3KQ2rjBbjXb8cw1GXkfdhJz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gl5LTmHI; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=OtjTkyljlukWYNIc2rcDYSZ2opvtD93KRrdq6neRYMaY+/UIo6OmTDeg1a/3JG9eeQvWt8r6S7/1/6mYYclANhpjWPDe6VnoViS8AgxpkdNEtyebSBkpVn13wBrMu+s33qMEzvmdUCfrX/+ipDeXprZCH0zzsQ8khNpoJkGV+vY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iVkBH+w1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gl5LTmHI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F8D5C4CEFE;
-	Mon, 20 Oct 2025 17:18:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iVkBH+w1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1D34C4CEF9;
+	Mon, 20 Oct 2025 17:37:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760980692;
-	bh=XiFkPjpbRb4EvxWHzM2pnBZEEJZd3/pqX3IeZ6qKzeA=;
+	s=k20201202; t=1760981850;
+	bh=xzTURFtPy3dzPi4sBnNAvBJIr7LYeKbmO3mMPxuwgq8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Gl5LTmHInpyxPFKLcyUsCYaiT0yTRN+G+x1IBw6hObRVmPn3hR8ZI3mddOUsa0MJ/
-	 EfkhMjLRk5dPlCKaI0mJY/QoaOEk3/c2zrzBr9KjPzJPZjuF/FdI7BZNGlDoFVhgvq
-	 2xQ3RNEUwc9Pc8MduggMdUO+Nc/eNn0zPPq9NLDAJmlyqdJKIkrSaE1R94vVCmWc/1
-	 iP/xoUTk1geJluzVdSqbzIPIiNKFv+XqmdPTj3HJ1Qc2NAUgj3k4mMuHaIvTWAIxpu
-	 GnV1nSGyD9I8cvJvmuKmESSfhFBw8hjlNYBB2Yuk6AR1PL6JSp5Q4lAY2y/d+lVKiy
-	 0TPW3GLwSPQxw==
-Date: Mon, 20 Oct 2025 18:18:06 +0100
+	b=iVkBH+w1fTEx4moPwmvsaZPHd/pQBjIgBsR4HG4CBwAny4SdL/16DogGkAfE3wHoM
+	 xztKTxM+IdtyzuT7kvBYuyVbV2th6ja3FArLJYeAhGtRo8Kt6eKL4cOp3EvYz8vcxo
+	 2wpIljowvQB+YzjpRDNhGPqR8TCWvrbRw1hSsLLaD2UY07iXGerspqfRwdtdoNEWhr
+	 RoeQJNGSWRKU0+fZQQiTRYTnY9INojc7E/xO6QomGquL7tLDPyDCAY+AiCuN+R4pyk
+	 EwK5BdN7WAsDeURgbF5BosNRt/8yFmBgnhzfi3ZyTKpaU5FPzbL9drpCJR9eMNmZgR
+	 WTktnvdL8RO0g==
+Date: Mon, 20 Oct 2025 18:37:24 +0100
 From: Conor Dooley <conor@kernel.org>
-To: Richard Genoud <richard.genoud@bootlin.com>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Mark Brown <broonie@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Wentao Liang <vulab@iscas.ac.cn>, Johan Hovold <johan@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 14/15] dt-bindings: mtd: sunxi: Add H616 compatible
-Message-ID: <20251020-caring-aftermath-32ed83db9a7a@spud>
-References: <20251020101311.256819-1-richard.genoud@bootlin.com>
- <20251020101311.256819-15-richard.genoud@bootlin.com>
+	Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev,
+	linux-sound@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 01/11] dt-bindings: dma: allwinner,sun50i-a64-dma: Add
+ compatibles for A523
+Message-ID: <20251020-unviable-barometer-b32b5b4dd3ca@spud>
+References: <20251020171059.2786070-1-wens@kernel.org>
+ <20251020171059.2786070-2-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -55,27 +51,27 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ugH87F6woIwS5I8f"
+	protocol="application/pgp-signature"; boundary="Xq0vNRfTQ6DP6xaL"
 Content-Disposition: inline
-In-Reply-To: <20251020101311.256819-15-richard.genoud@bootlin.com>
+In-Reply-To: <20251020171059.2786070-2-wens@kernel.org>
 
 
---ugH87F6woIwS5I8f
+--Xq0vNRfTQ6DP6xaL
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 Acked-by: Conor Dooley <conor.dooley@microchip.com>
 pw-bot: not-applicable
 
---ugH87F6woIwS5I8f
+--Xq0vNRfTQ6DP6xaL
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaPZuzgAKCRB4tDGHoIJi
-0mWmAQCXkfmlRLPpkpogtOPLDai3zd1cQMUD4dehkb1qSH2wTwD/TyAWdD6k93SK
-AeF6ryJefcHUqunzW+LtLTOwecmIFQQ=
-=YaUV
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaPZzVAAKCRB4tDGHoIJi
+0m6ZAP4iu3Q03foC7HmRU3ggvY+2blVh8J/CJceLcdTKFy2W0AD/f9wPk9NUjSXW
+z8j7PlblLCw8HPglqC+pskZiHoBQswk=
+=OHda
 -----END PGP SIGNATURE-----
 
---ugH87F6woIwS5I8f--
+--Xq0vNRfTQ6DP6xaL--
