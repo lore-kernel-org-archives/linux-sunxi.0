@@ -1,83 +1,83 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50449330322
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 17:52:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC85A331A6C
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 17:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760982746; cv=none; b=T1+m2NxNysEtFT9r8ePNqSoj7sHtRhIlBAOgbNTI9QkdmwEU3cmd6ujkEnIoh3zSyLrbNOAmBaMz3Oze3MRMALFELp+EEgPbjc1wVrBD0s9iBgw6JOmZaPv3aT5zwso79Z3Z/A3eR3lUEl8NYAanXh7xtz5+QiSPzpliquVd2wc=
+	t=1760983083; cv=none; b=CwOsWg3tNuqOTOvL7y7SBbYWZZ66y7PmxWb5Kh9OV0jSAyPWaNM1eNc+Zbcy3JRxoi+qUQuDNyX1yrT9qGiC9ITpGTj5Z9Ey/0fy1POHx3RHYFkoCLWaQD7Z4c1AxNanz1NpueGh3EMtLD1fV1+LAIg7Q884lBu+UpF3TU9blQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760982746; c=relaxed/simple;
-	bh=pdYHJcuACjLxyUbGtQJb6l+Qo8ulOoDOXrsmHol9Lt0=;
+	s=arc-20240116; t=1760983083; c=relaxed/simple;
+	bh=iJYNXDViBNg9H23IU+cEG/iUlaVVosMhC4bKdCUk1To=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PSK6VxLivjgSBTczmQj+TnEP3+UDg5CUjb7WV+ozBl8etnImsIeHrQbxLwciC7+2vNfTuzfh/p0JDnES/L7QJj857vtG3rJzDmXcEim/q8MSV06D9YmBZasafrsvMnYKDebdjqETJ+E38UEQD4su2ky3TSE+an0HWBls95NvZPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LAbhQA9i; arc=none smtp.client-ip=209.85.128.53
+	 MIME-Version:Content-Type; b=bDn33FF0obxYwj54Xbk5aoPs1VZp8aDlvR8sYegukbeV/OR4dxxBoBrjcpVUqhnL7vIWn9ucncUogCXT+sxzAyN4Vx05yE1wCe/UQsVPdUaXAyt5XFlFbCmJsm/r/TYqDdmw5AZXffRm3+Lh9BHi7xiyZdsbj4TAO/a7FRC/Qpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zi48pHKu; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LAbhQA9i"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4712c6d9495so1760345e9.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 10:52:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zi48pHKu"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-426edfffc66so3444012f8f.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 10:58:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760982743; x=1761587543; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1760983080; x=1761587880; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0hPztYo4gHaE9LtG99gGwWjUyFltd44jOHvoR42cvBk=;
-        b=LAbhQA9i9gfU78vrGPKfsvqOsxSclAwY3mx/A3z1xPVVzhHC7xwkEU+YIy2iAYLDvX
-         gcxzydfpcQES7JAtt1nmnOUPzkBFjHE3dzVKDZ1V6yqO5OxBMko5NuCNGzfweC9L+o4s
-         Y97oUnYXsfN6l7so4dwrptrev0bZc+SIcuNe5HPY8SMtTRIq6it5FFY+d3+bHvLnXfKA
-         aIwMMYmOmKaOkDBgcVC4N4EnctwhR7tY/50jjTOTO/BF8KhqMvli/RsjHTMEcUd0ogA1
-         8XOzHeys5slIcZ+PjNPn8VZLKGxvkI3926qsr7DL3T+0opohN9MMVQlAG/jRUv+5WeR8
-         dCBw==
+        bh=iJYNXDViBNg9H23IU+cEG/iUlaVVosMhC4bKdCUk1To=;
+        b=Zi48pHKumTkLTcL8ycGWHgjrYagN4z8UVSIGRKfN8jVlTl/2tDTU4M4QbuunB2STnY
+         exIVH6kqYTizcX1l/MqPweH25JB8ZY9taYu2Rybs8BCIEbGfiiOJFVXkZXG/YZAcHQ8R
+         0Zp5O5mCqWZJOr0WDrEo/XUJ+oMof3elEBn8mVAmkBAucP5FYkHuch2KxQyobgC6yAvn
+         INQuJxAsgLd3+T5M+p90SFfDsdL3oFTpV8U1oaG3WOREs7qeJrGBfWK5ft9HxaQ9C1KR
+         ZQpMMCxgseFaPtg1pilWdz1vJECuHWpc9jjMOqMjx5sXa5PEjkfsFUobqypHyc6WdZTu
+         ZnVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760982743; x=1761587543;
+        d=1e100.net; s=20230601; t=1760983080; x=1761587880;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0hPztYo4gHaE9LtG99gGwWjUyFltd44jOHvoR42cvBk=;
-        b=VDSXbVvRAdIBQkiMgZCb/cmPXXjGkwCApJrB1aIRoMsA7W2ks1LePx6kvOrrOqHRRh
-         T8NWGDa/VcYQFoqafW70VVhBgZ1jA+MD26pykU/jkMT4wzILEMQPzq0lfpMOq57q/mOb
-         48TIGiI5XJ4yWAF0vMh07R+UegYJHRhKfglI9xpJmMOmMLoezNJCCLQyHLlE/4JLQTuJ
-         QBfyvrjJWSKkYfnrGF/D6Tkl3iNykbPE+f4R5cb7T0mi3IbqfNQFUjm1EvikTHPCK/aF
-         019JMVKaRx8oUGBJZHucF2pcUYMtukQYc8CUM8gouB0SCcSquAC5RqIeIoza3mn7GZn6
-         XUvA==
-X-Gm-Message-State: AOJu0YygNN27gwt5f73Zh68FBbtLk96M1iJRihIBsAYhgLkoADke25w1
-	sUHuiSg/5KDM07o6ELLrpOOfPI0wtDNb7wyZpZegGNHFsU8p3lxiHm0F
-X-Gm-Gg: ASbGncuJEhJVWdHIFi3ucyAwXg6z/9MeG0N3Tptf/nqRcE4cXnZRetxCUUYcpjZ3QJt
-	5Xtx7saM8KD8OxV8kXD+wjTkZuHO1r2QQUwcyhkGYmUI7G7x2SnhisGsY5aDAG7AY/AaSFgAHix
-	ELYGl7gtMZebeZB19V4rRdqE6+e1Xvf14P9mk1Niq6+T/2hKTRV1+0+LYces1elHNwwyJuOpLAO
-	q4+1K3TmRnNgOJ9il8G8telaIWSZmamW2zJgtHjBkzgz1mbDjRo1IJM3hsWsNInGVOaIe871WDI
-	E2BSdFJr4upGJs0MRCuCtlAGbZJa6QMMBruOQ3zHLlzLgyRmqOck2Ysqj8icB1W1rt083V96ZRd
-	3Dn3BzdWuSECZz6/bysXvoRvusesH3ibmlsVynfMXQqTQyOzKK4HZPmUcNqrIKWOIquyAlRMcAV
-	rNpOpotqydFc3vwVPfby+uxxIuub5Kxn8qLa6j1YKWFt5s1dGmt64783DhiUd67c+hWGI1eJUAv
-	/iRkg==
-X-Google-Smtp-Source: AGHT+IGEpXcGziVc/IPeVNYdyzKmZC+YRn2Z3nf2tImqr8LtU1jXE0yH1+EHM8IBNjLdRoUankugUA==
-X-Received: by 2002:a05:6000:26d2:b0:3e6:f91e:fa72 with SMTP id ffacd0b85a97d-42704d83dfdmr8290390f8f.7.1760982742464;
-        Mon, 20 Oct 2025 10:52:22 -0700 (PDT)
+        bh=iJYNXDViBNg9H23IU+cEG/iUlaVVosMhC4bKdCUk1To=;
+        b=rYQoHtN56Vo6n8AyYJGSSL2yYgfrp5ajyBRhCq0GL80EwrYc//bzH5hMN0v7mBK5vr
+         dEeljgWjvAjA90nbmtcrCd+nfCuNQue/su0p//9M/NODYOwEEeBMvY1IKdsjZAgwmxOQ
+         6QtxvOoxW/IqCRZnik6HLvH+2Qz8PEATS5k2tltEXaKlXa9C7cRQyunZFEJtpqWQeSGQ
+         bArdGhASC5r8i0oZcXDUT8YlHYMCoc5j+dvpjnoo+1c0z6PzuKKYCd6ITAL8hdOfsid3
+         ARuMwrlI4BZKnLe3cwiS+AHLJBK4AjwkAltlfiSlQ9e3VAu1kWFnZfpHsSe3CybkuMWh
+         4srg==
+X-Forwarded-Encrypted: i=1; AJvYcCWNzMms67CL4KPNxPpK+E2hZQy7XRw/cf9PzMNTqDTuwANyobF9yjAJ403qMwfRJpoqroGPoU3MBltG9w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz5X/3FUHxkOT3hzzqSGmdPjQlczTDYW2o/ykYiSoXTHKHrOLnP
+	RjOeBkLQZgyqo1p4z7hyVTxYpRdcSmmBh78u8UvgbirWekbPm82L9Z0y
+X-Gm-Gg: ASbGnctLhWDAinBk2sJnte0yE/Pll7NTe6naWNF9sPbBkKXVSZzKMa3tm/U5VEKT+5i
+	WOaiMM4bAJM8b4ps/QglQM2Cgs4GducXSxmNhzM5079OsNAm9FsDYq+3FRPUMRq0SL/SzW51Dgg
+	/koHMATgLltlRffgdSitAllBDI85zfhOAXcJcgBqZdLqCxe2SODIjAv91/DcJXbsMLMw+1Z0qi3
+	TSa6JAwgDcGfCYF8F4r6BJz9CeQZBA3rohQvh+OdX6QHfStI5iKHKD5yYBMEERajkqc9JyEk6v9
+	vTNgQ7ZqaSG1Y/jajYHAXQFgpPmnFB//zkCbNIQkQQTl1HxWyLdZVPSjZ5bOlXVyzTC7gGmUJgU
+	4PQthzNYWTLEZpga5YJuBrQpaX3FrlIU7MozcBqWrb9ZGOsJUW63IqgO9jfoRyoUQ7b0sSTROSL
+	PpefjKLZU40/hdOutghHcF1k88VAzw1IfmvKdHtacO2+OzyVu5mAFNwwZ6itgR7reLsOim
+X-Google-Smtp-Source: AGHT+IEQQl9YZkR1BgzZ6Z2Nufpu9HBikDewEvyF4EuaS29j/RILS2DM6SBqWX87g+1TkKzsAinQ/A==
+X-Received: by 2002:a05:6000:705:b0:426:f9d3:2feb with SMTP id ffacd0b85a97d-42704beea1emr10367539f8f.23.1760983080172;
+        Mon, 20 Oct 2025 10:58:00 -0700 (PDT)
 Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427ea5b3c34sm16222568f8f.17.2025.10.20.10.52.21
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427f00ce08asm16294878f8f.44.2025.10.20.10.57.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Oct 2025 10:52:22 -0700 (PDT)
+        Mon, 20 Oct 2025 10:57:59 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
  Samuel Holland <samuel@sholland.org>, Mark Brown <broonie@kernel.org>,
  Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
  Vinod Koul <vkoul@kernel.org>, Chen-Yu Tsai <wens@kernel.org>
-Cc: linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-kernel@vger.kernel.org
+Cc: Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev,
+ linux-sound@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject:
- Re: [PATCH 06/11] clk: sunxi-ng: sun55i-a523-ccu: Lower audio0 pll minimum
- rate
-Date: Mon, 20 Oct 2025 19:52:20 +0200
-Message-ID: <8591609.T7Z3S40VBb@jernej-laptop>
-In-Reply-To: <20251020171059.2786070-7-wens@kernel.org>
+ Re: [PATCH 07/11] arm64: dts: allwinner: a523: Add DMA controller device
+ nodes
+Date: Mon, 20 Oct 2025 19:57:58 +0200
+Message-ID: <2324646.iZASKD2KPV@jernej-laptop>
+In-Reply-To: <20251020171059.2786070-8-wens@kernel.org>
 References:
  <20251020171059.2786070-1-wens@kernel.org>
- <20251020171059.2786070-7-wens@kernel.org>
+ <20251020171059.2786070-8-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -87,48 +87,18 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne ponedeljek, 20. oktober 2025 ob 19:10:52 Srednjeevropski poletni =C4=8D=
+Dne ponedeljek, 20. oktober 2025 ob 19:10:53 Srednjeevropski poletni =C4=8D=
 as je Chen-Yu Tsai napisal(a):
-> While the user manual states that the PLL's rate should be between 180
-> MHz and 3 GHz in the register defninition section, it also says the
-> actual operating frequency is 22.5792*4 MHz in the PLL features table.
+> From: Chen-Yu Tsai <wens@csie.org>
 >=20
-> 22.5792*4 MHz is one of the actual clock rates that we want and is
-> is available in the SDM table. Lower the minimum clock rate to 90 MHz
-> so that both rates in the SDM table can be used.
-
-So factor of 2 could be missed somewhere?
-
+> The A523 has two DMA controllers. Add device nodes for both. Also hook
+> up DMA for existing devices.
 >=20
-> Fixes: 7cae1e2b5544 ("clk: sunxi-ng: Add support for the A523/T527 CCU PL=
-Ls")
-> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
-
-> ---
->  drivers/clk/sunxi-ng/ccu-sun55i-a523.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c b/drivers/clk/sunxi-n=
-g/ccu-sun55i-a523.c
-> index acb532f8361b..20dad06b37ca 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-> @@ -300,7 +300,7 @@ static struct ccu_nm pll_audio0_4x_clk =3D {
->  	.m		=3D _SUNXI_CCU_DIV(16, 6),
->  	.sdm		=3D _SUNXI_CCU_SDM(pll_audio0_sdm_table, BIT(24),
->  					 0x178, BIT(31)),
-> -	.min_rate	=3D 180000000U,
-> +	.min_rate	=3D 90000000U,
->  	.max_rate	=3D 3000000000U,
->  	.common		=3D {
->  		.reg		=3D 0x078,
->=20
-
-
 
 
