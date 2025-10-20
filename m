@@ -1,142 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34553333434;
-	Mon, 20 Oct 2025 17:11:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E2FC8FE;
+	Mon, 20 Oct 2025 17:18:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760980283; cv=none; b=WsDRUfoHv/nO7ng7UiGTTIpqLo2KQOot0iGEcw66/2041+lmRDlEFbCQEauTqpYoUjR6tLMSB76m4xk0cgJqXxLt/POOGoNrpKp7oRC26LG5RlnXomWoBDS9UK6j6RwEBxxao7vpfOPi/vC162nyYDkz5I1Z3u9l9OHsh5zLh+0=
+	t=1760980692; cv=none; b=ExFXWEv85bGihZDor/VFoeUjKKJdVn+lipO1zuYDgWMId4R6oB2JhImsFmNMKhjfrKWtYL9tW88eRmzBUsdkGxJEmlfSS4z3oO3lQbYBzLRJheQSfQZsLTHvyil0gLqyH/ub+5diY4gsehLHnHHvOsd14rN4fXT433KUFwANodQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760980283; c=relaxed/simple;
-	bh=DgO/6s23HKe1T0jTyCsYw+u/wOfS3lW2Y2hvszSMnJM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lt4QU4v4tXglBZXdZusJlyyrZMbIYB16eiDLATfS7BzQhMRVWJAuaWLft90soCIro7yG93DT3c2f3tFwPSpilAklSW6NfwJoucEg7qs1b10xzp1b8mp2o3OhkBmEMWv/auMbRO/4tyek1FmLOLPB6KqvEwYQo8L2mhktqX6cRVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QSEnPIoh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760980692; c=relaxed/simple;
+	bh=XiFkPjpbRb4EvxWHzM2pnBZEEJZd3/pqX3IeZ6qKzeA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lriG+nrcq2lRnWNLUKBANgl6as0cWpt880d9UiWtD6V2WMccDkVLk9hGRr2xbmy2lXNvQrso3kCWm84sIx6t7Uj41x3kkJ4bz3BzUoupZbaC+cvXNx//09zybGLLG5AS1CdyitR7CNtpsijlxfd3KQ2rjBbjXb8cw1GXkfdhJz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gl5LTmHI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QSEnPIoh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD3C4C2BC86;
-	Mon, 20 Oct 2025 17:11:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gl5LTmHI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F8D5C4CEFE;
+	Mon, 20 Oct 2025 17:18:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760980282;
-	bh=DgO/6s23HKe1T0jTyCsYw+u/wOfS3lW2Y2hvszSMnJM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QSEnPIohF37wfJmmGhUvzPGg+MuBGgtVAEMgt9nAUiAoBxrLCPMejbRItaDmliCiA
-	 Q/7GkHNyA4K4CWwbFBBQYLDtY7jDfhUMI91zGcQTeDEMj0XA3B2L7+ul+lAcAVmw0i
-	 jHgL8FolkHsEemQu+GNtvQGRtpgd0Vciwh4CAKFjoSwowjYpRbII7fxZgOTEry6WGd
-	 ZX/qXI7nC/DUoU+oJjsHuCE1IRXAXZwQ+BlQF6W06Heny0x2fIqDuRojAOdlAXFNce
-	 pJjf6FSzv6sRTA0uwKLeWbvPgh7AbqGYkEgQMDzncjxuo+meIf9DrNxFN5FOR9FZkb
-	 6/Zc/BO4VKzbA==
-Received: by wens.tw (Postfix, from userid 1000)
-	id 7039A5FF03; Tue, 21 Oct 2025 01:11:18 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Mark Brown <broonie@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>,
+	s=k20201202; t=1760980692;
+	bh=XiFkPjpbRb4EvxWHzM2pnBZEEJZd3/pqX3IeZ6qKzeA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Gl5LTmHInpyxPFKLcyUsCYaiT0yTRN+G+x1IBw6hObRVmPn3hR8ZI3mddOUsa0MJ/
+	 EfkhMjLRk5dPlCKaI0mJY/QoaOEk3/c2zrzBr9KjPzJPZjuF/FdI7BZNGlDoFVhgvq
+	 2xQ3RNEUwc9Pc8MduggMdUO+Nc/eNn0zPPq9NLDAJmlyqdJKIkrSaE1R94vVCmWc/1
+	 iP/xoUTk1geJluzVdSqbzIPIiNKFv+XqmdPTj3HJ1Qc2NAUgj3k4mMuHaIvTWAIxpu
+	 GnV1nSGyD9I8cvJvmuKmESSfhFBw8hjlNYBB2Yuk6AR1PL6JSp5Q4lAY2y/d+lVKiy
+	 0TPW3GLwSPQxw==
+Date: Mon, 20 Oct 2025 18:18:06 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Richard Genoud <richard.genoud@bootlin.com>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>
-Cc: linux-sunxi@lists.linux.dev,
-	linux-sound@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	dmaengine@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Wentao Liang <vulab@iscas.ac.cn>, Johan Hovold <johan@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 09/11] arm64: dts: allwinner: a523: Add device nodes for I2S controllers
-Date: Tue, 21 Oct 2025 01:10:55 +0800
-Message-ID: <20251020171059.2786070-10-wens@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251020171059.2786070-1-wens@kernel.org>
-References: <20251020171059.2786070-1-wens@kernel.org>
+Subject: Re: [PATCH v3 14/15] dt-bindings: mtd: sunxi: Add H616 compatible
+Message-ID: <20251020-caring-aftermath-32ed83db9a7a@spud>
+References: <20251020101311.256819-1-richard.genoud@bootlin.com>
+ <20251020101311.256819-15-richard.genoud@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ugH87F6woIwS5I8f"
+Content-Disposition: inline
+In-Reply-To: <20251020101311.256819-15-richard.genoud@bootlin.com>
 
-The A523 family of SoCs have four I2S controllers capable of both
-playback and capture. The user manual also implies that I2S2 also
-outputs to the eDP interface controller.
 
-Add device nodes for all of them.
+--ugH87F6woIwS5I8f
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
----
- .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 56 +++++++++++++++++++
- 1 file changed, 56 insertions(+)
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-index 33f991dbd00b..eea9ce83783c 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-@@ -818,6 +818,62 @@ mcu_ccu: clock-controller@7102000 {
- 			#reset-cells = <1>;
- 		};
- 
-+		i2s0: i2s@7112000 {
-+			compatible = "allwinner,sun55i-a523-i2s",
-+				     "allwinner,sun50i-r329-i2s";
-+			reg = <0x07112000 0x1000>;
-+			interrupts = <GIC_SPI 192 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&mcu_ccu CLK_BUS_MCU_I2S0>, <&mcu_ccu CLK_MCU_I2S0>;
-+			clock-names = "apb", "mod";
-+			resets = <&mcu_ccu RST_BUS_MCU_I2S0>;
-+			dmas = <&mcu_dma 3>, <&mcu_dma 3>;
-+			dma-names = "rx", "tx";
-+			#sound-dai-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		i2s1: i2s@7113000 {
-+			compatible = "allwinner,sun55i-a523-i2s",
-+				     "allwinner,sun50i-r329-i2s";
-+			reg = <0x07113000 0x1000>;
-+			interrupts = <GIC_SPI 193 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&mcu_ccu CLK_BUS_MCU_I2S1>, <&mcu_ccu CLK_MCU_I2S1>;
-+			clock-names = "apb", "mod";
-+			resets = <&mcu_ccu RST_BUS_MCU_I2S1>;
-+			dmas = <&mcu_dma 4>, <&mcu_dma 4>;
-+			dma-names = "rx", "tx";
-+			#sound-dai-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		i2s2: i2s@7114000 {
-+			compatible = "allwinner,sun55i-a523-i2s",
-+				     "allwinner,sun50i-r329-i2s";
-+			reg = <0x07114000 0x1000>;
-+			interrupts = <GIC_SPI 194 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&mcu_ccu CLK_BUS_MCU_I2S2>, <&mcu_ccu CLK_MCU_I2S2>;
-+			clock-names = "apb", "mod";
-+			resets = <&mcu_ccu RST_BUS_MCU_I2S2>;
-+			dmas = <&mcu_dma 5>, <&mcu_dma 5>;
-+			dma-names = "rx", "tx";
-+			#sound-dai-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		i2s3: i2s@7115000 {
-+			compatible = "allwinner,sun55i-a523-i2s",
-+				     "allwinner,sun50i-r329-i2s";
-+			reg = <0x07115000 0x1000>;
-+			interrupts = <GIC_SPI 195 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&mcu_ccu CLK_BUS_MCU_I2S3>, <&mcu_ccu CLK_MCU_I2S3>;
-+			clock-names = "apb", "mod";
-+			resets = <&mcu_ccu RST_BUS_MCU_I2S3>;
-+			dmas = <&mcu_dma 6>, <&mcu_dma 6>;
-+			dma-names = "rx", "tx";
-+			#sound-dai-cells = <0>;
-+			status = "disabled";
-+		};
-+
- 		spdif: spdif@7116000 {
- 			compatible = "allwinner,sun55i-a523-spdif";
- 			reg = <0x07116000 0x400>;
--- 
-2.47.3
+--ugH87F6woIwS5I8f
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaPZuzgAKCRB4tDGHoIJi
+0mWmAQCXkfmlRLPpkpogtOPLDai3zd1cQMUD4dehkb1qSH2wTwD/TyAWdD6k93SK
+AeF6ryJefcHUqunzW+LtLTOwecmIFQQ=
+=YaUV
+-----END PGP SIGNATURE-----
+
+--ugH87F6woIwS5I8f--
