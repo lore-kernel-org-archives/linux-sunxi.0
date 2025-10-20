@@ -1,31 +1,41 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEF012EC0A0
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 14:26:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CBED226CF0
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 14:55:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760970405; cv=none; b=J7AQglXLTWFLgcPlQErZTt6z2Lz/Nh7JWmKLqodw08RwnScTd3baYP4KgcYxqCr0qvljmTB9OUiRnPS6euTkSnwVb/B5JfR6TtWeOiLB8ENwtPGhQ63+r87vYPZDhVzsF0DfexkeZzDcZqZnYdhj6sN+4D9cO1RhWpTZ1ofqLjw=
+	t=1760972134; cv=none; b=dzfbAQx9leYGO1fq7OJhi8E3NPE6Yb+B3ClzGeQbe9Xe97dpMkjQPXy4E5cKgmiemJHhHhwGbwfMwXzgTeztNoEw/8qnuzRBL1exRG3hG9Nc7wOHK1N61sUF0p4M0UkKx51Dzxn/Z7UtUmRiBZOrsDqK8ebSF1bULLcmS4f2B9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760970405; c=relaxed/simple;
-	bh=lV2dRjkdNkPGWA2SazQ+3r+dwekW1DBkAwSqCuRgHhg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UUPPo+/fqsGSvgFUeT2R64p/tYvMH5OS9kXVtb5JVARJd9JHXXyCJ9u863P+JmmY/tulKOZytwAMY4/JHiL8z3rtpHy1YpBpCOiQ9KpFE6Nx15+YqMgpIgTlwG4geeKGuYCt6UhFaQp9jUTslaltMap3IKZp+eCZ8U6vDpJ3aN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0A3D81063;
-	Mon, 20 Oct 2025 07:26:34 -0700 (PDT)
-Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.33.8.67])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2A8403F63F;
-	Mon, 20 Oct 2025 07:26:41 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
+	s=arc-20240116; t=1760972134; c=relaxed/simple;
+	bh=D3xSBBXS02HL9nFCouhbwvSZ519y0dFEkxLudgP50E4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WXOP+LyOXzynrnpIg9apz57okLMyq0Vlaz8bh0do258MGra+WW7d11YND8n3+OlysIviZZOfZT7LlzHXzg70aVaHuKnv1kodq7DFsyfAqQSd1JIhnMclcbqFb9bWxeYq08ee5o7jHv2kmm/EN9tknDLgasR8aKUuBZPRNUx8KPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=plIj/WmJ; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="plIj/WmJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF3B3C4CEF9;
+	Mon, 20 Oct 2025 14:55:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760972134;
+	bh=D3xSBBXS02HL9nFCouhbwvSZ519y0dFEkxLudgP50E4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=plIj/WmJNW87jAJIvltWLTPMOi9+1c/hO9T6to240V+jtR9WvlNPbN4Pp029or0AD
+	 YmOx1FNgFSFj2GFz24+woNofnmzZOhF6Hm9mUDaYlX7zjm50PLDL4lAm6WDFfZrekD
+	 75FXaPnFbUdO6LPBPu9T/D6Udx6D14jjXAbhDPeEpQcqUiO9TWgBw31q9y6IhF9UpQ
+	 JYHWSEwVL/9iQVzwlz+mb+KZNJcv2rqjHlOh181JoJmB1HFKqCDKvHdk2gHyI9a4B7
+	 6SR4LVKBxnGchMUY3UKrutqbm0LUcv1ajALZeEEZZUQye83XulounP/NOrnOr4AcFw
+	 9JztpBOrHQDZA==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 888875FDC3; Mon, 20 Oct 2025 22:55:31 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
 To: u-boot@lists.denx.de
-Cc: linux-sunxi@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Mikhail Kalashnikov <iuncuim@gmail.com>
-Subject: [PATCH] sunxi: a523: Re-use H6/H616 DRAM size detection method
-Date: Mon, 20 Oct 2025 15:26:22 +0100
-Message-Id: <20251020142622.1849108-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Chen-Yu Tsai <wens@kernel.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] .mailmap: update email address for Chen-Yu Tsai
+Date: Mon, 20 Oct 2025 22:55:27 +0800
+Message-ID: <20251020145527.2702250-1-wens@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -34,137 +44,26 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The H6 and H616 DRAM initialisation code recently gained a joint and
-improved size detection routine, which helped to avoid the occasional
-DRAM size misdetection.
+The email forwarder I'm using has run into severe problems with Gmail
+lately. Switch over to my kernel.org address.
 
-Use the same code for the A523 DRAM initialisation as well, which
-suffers from the same misdetection at times.
-
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 ---
- arch/arm/mach-sunxi/Makefile           |  2 +-
- arch/arm/mach-sunxi/dram_sun55i_a523.c | 82 +-------------------------
- 2 files changed, 4 insertions(+), 80 deletions(-)
+ .mailmap | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm/mach-sunxi/Makefile b/arch/arm/mach-sunxi/Makefile
-index 579530f27e3..9c79b55abf3 100644
---- a/arch/arm/mach-sunxi/Makefile
-+++ b/arch/arm/mach-sunxi/Makefile
-@@ -47,6 +47,6 @@ obj-$(CONFIG_DRAM_SUN50I_H616)	+= dram_sun50i_h616.o dram_dw_helpers.o
- obj-$(CONFIG_DRAM_SUN50I_H616)	+= dram_timings/
- obj-$(CONFIG_DRAM_SUN50I_A133)	+= dram_sun50i_a133.o
- obj-$(CONFIG_DRAM_SUN50I_A133)	+= dram_timings/
--obj-$(CONFIG_MACH_SUN55I_A523)	+= dram_sun55i_a523.o
-+obj-$(CONFIG_MACH_SUN55I_A523)	+= dram_sun55i_a523.o dram_dw_helpers.o
- obj-$(CONFIG_DRAM_SUN55I_A523)	+= dram_timings/
- endif
-diff --git a/arch/arm/mach-sunxi/dram_sun55i_a523.c b/arch/arm/mach-sunxi/dram_sun55i_a523.c
-index 30bbeb40d0b..1ffb62863e2 100644
---- a/arch/arm/mach-sunxi/dram_sun55i_a523.c
-+++ b/arch/arm/mach-sunxi/dram_sun55i_a523.c
-@@ -12,6 +12,7 @@
- #include <asm/io.h>
- #include <asm/arch/clock.h>
- #include <asm/arch/dram.h>
-+#include <asm/arch/dram_dw_helpers.h>
- #include <asm/arch/cpu.h>
- #include <asm/arch/prcm.h>
- #include <linux/bitops.h>
-@@ -1387,91 +1388,14 @@ static bool mctl_ctrl_init(const struct dram_para *para,
- 	return true;
- }
- 
--static bool mctl_core_init(const struct dram_para *para,
--			   const struct dram_config *config)
-+bool mctl_core_init(const struct dram_para *para,
-+		    const struct dram_config *config)
- {
- 	mctl_sys_init(config->clk);
- 
- 	return mctl_ctrl_init(para, config);
- }
- 
--static void mctl_auto_detect_rank_width(const struct dram_para *para,
--					struct dram_config *config)
--{
--	/* this is minimum size that it's supported */
--	config->cols = 8;
--	config->rows = 13;
--
--	/*
--	 * Strategy here is to test most demanding combination first and least
--	 * demanding last, otherwise HW might not be fully utilized. For
--	 * example, half bus width and rank = 1 combination would also work
--	 * on HW with full bus width and rank = 2, but only 1/4 RAM would be
--	 * visible.
--	 */
--
--	debug("testing 32-bit width, rank = 2\n");
--	config->bus_full_width = 1;
--	config->ranks = 2;
--	if (mctl_core_init(para, config))
--		return;
--
--	debug("testing 32-bit width, rank = 1\n");
--	config->bus_full_width = 1;
--	config->ranks = 1;
--	if (mctl_core_init(para, config))
--		return;
--
--	debug("testing 16-bit width, rank = 2\n");
--	config->bus_full_width = 0;
--	config->ranks = 2;
--	if (mctl_core_init(para, config))
--		return;
--
--	debug("testing 16-bit width, rank = 1\n");
--	config->bus_full_width = 0;
--	config->ranks = 1;
--	if (mctl_core_init(para, config))
--		return;
--
--	panic("This DRAM setup is currently not supported.\n");
--}
--
--static void mctl_auto_detect_dram_size(const struct dram_para *para,
--				       struct dram_config *config)
--{
--	/* detect row address bits */
--	config->cols = 8;
--	config->rows = 16;
--	mctl_core_init(para, config);
--
--	for (config->rows = 13; config->rows < 16; config->rows++) {
--		/* 8 banks, 8 bit per byte and 16/32 bit width */
--		if (mctl_mem_matches((1 << (config->rows + config->cols +
--					    4 + config->bus_full_width))))
--			break;
--	}
--
--	/* detect column address bits */
--	config->cols = 11;
--	mctl_core_init(para, config);
--
--	for (config->cols = 8; config->cols < 11; config->cols++) {
--		/* 8 bits per byte and 16/32 bit width */
--		if (mctl_mem_matches(1 << (config->cols + 1 +
--					   config->bus_full_width)))
--			break;
--	}
--}
--
--static unsigned long long mctl_calc_size(const struct dram_config *config)
--{
--	u8 width = config->bus_full_width ? 4 : 2;
--
--	/* 8 banks */
--	return (1ULL << (config->cols + config->rows + 3)) * width * config->ranks;
--}
--
- static const struct dram_para para = {
- #ifdef CONFIG_SUNXI_DRAM_A523_DDR3
- 	.type = SUNXI_DRAM_TYPE_DDR3,
+diff --git a/.mailmap b/.mailmap
+index f1b93d168e90..e08dfd3a5263 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -36,6 +36,7 @@ Bin Meng <bmeng.cn@gmail.com> <bin.meng@windriver.com>
+ Boris Brezillon <bbrezillon@kernel.org> <boris.brezillon@bootlin.com>
+ Boris Brezillon <bbrezillon@kernel.org> <boris.brezillon@free-electrons.com>
+ Casey Connolly <casey.connolly@linaro.org> <caleb.connolly@linaro.org>
++Chen-Yu Tsai <wens@kernel.org> <wens@csie.org>
+ Christian Kohn <chris.kohn@amd.com> <christian.kohn@xilinx.com>
+ Christopher Obbard <christopher.obbard@linaro.org> <chris.obbard@collabora.com>
+ Dirk Behme <dirk.behme@googlemail.com>
 -- 
-2.25.1
+2.47.3
 
