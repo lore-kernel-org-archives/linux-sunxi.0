@@ -1,98 +1,91 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76EA32C30A
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 17:07:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D952D1F44;
+	Mon, 20 Oct 2025 17:11:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760980054; cv=none; b=bw2hjSmof2IXLsVTmpkA3+AGoDKm/kS5DzIAz+DXtIalujjA1DzgIh1/sax267EoWD4VxYgz0/zoG4nAEvbGq/ca0PAIabByLkPnLvd/6RrXRX6NyH2+CBRkCSEoOOun8PFCVQiOpL6iK3ek+yqjJRwgQyIHs/32QKwTjsS2ZfI=
+	t=1760980280; cv=none; b=aElnK2fiSE50XDhFWTfYs4La9TKdqfGoCEthFmQKywdhab6E05CzcMJy0RpXIea1Fx2j53X5EDuJLohwGwIf5Z34peimWHjpcsaRy8mGV5tS9cgS+6ZYUSNTZ17pG79uE3p0bVcii/9qW8zZCL7J6LPYSwy55T3GF5CJdYkgPyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760980054; c=relaxed/simple;
-	bh=9640FzO+7LwBWDEDlYQ6XFq5rpeqGgD5bICG4rK6d/M=;
+	s=arc-20240116; t=1760980280; c=relaxed/simple;
+	bh=scg+/vO8bFxkmmzsBeRqdeZzJ1dGRrmJ/AeHk9Ng2s0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PU0h/fHgkqpgAwVzk/JUQzGO5PMcmV0M2/RPjpqfqn0LiLgyiK9vsYHxjqKblgzeyIvkYXgLgeifNlx+HD/R/CivkNxOeDlWdkNbriQCbbYwDSZ3GCJbE+mr6MNEkOVxI5Smtxs0X+LbNjGi0iDgPEDhtG31acZCtAIPfjvdZ1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y9+P30XV; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 MIME-Version; b=LqgvjlYkJ0vf+Vvbh3pTI7sf4pptuFH/IvdUAMBbVobDnq3MZVff1kCjluifU4jienBiVI7nPf3gf4aKN7FcMXp2aoWqigWEzizj5TPCWzjrzFMQqCksbKM5c0KCF9AdNt59bwepoVf/EgC4XiP2HEaEyQSzruN7xwEwL7cfVms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gy4iVDXJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y9+P30XV"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-46b303f7469so36415105e9.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 10:07:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760980051; x=1761584851; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9640FzO+7LwBWDEDlYQ6XFq5rpeqGgD5bICG4rK6d/M=;
-        b=Y9+P30XV6Dhe13vlAxHuwqEvqEJO1snpsR4hGAgWgrZqIFvkuFliNbLvI39R/gW1Vd
-         e5wmyYGiObu15YMYZXGShtuc39E7rwRKFvkeedvSdDipmDIeBOx6APLDCt6r0d4nuY9R
-         gtum/73NtnQIPl/awGi4MtZFtcdPYpPaCfEuPIkR1tCPGhEdMVOUGWyRui/ltD6fz6j9
-         NdIAlFU1BiR5bKcq7WR7GkZk05Uyt1oDswSvc0F/TPqU20mzd50ydNA6cex0loVheXjk
-         hSrkN8zOQ4Hr0FBcjhptJ3dqaurk3obOWenekvexUZxKLYVivjv41S95BwlIktw4fzIg
-         eIWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760980051; x=1761584851;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9640FzO+7LwBWDEDlYQ6XFq5rpeqGgD5bICG4rK6d/M=;
-        b=ikssDDedel75svKlZlMVHKK0IvMW2sdG4nmeSuM0qMJkDQMXawuURUcBY0DvF+VKqx
-         FB4gpwQG/SMmaZJYPE6yIVkPdC47eQuPRBIWgA85p9JkIYE21z5PjPeFbIH2N+RZSXW7
-         d3hMRSghbkbKhlnnXN47fasuxFCwV2Y6zV0o0luLrwYN873dTLYuVqwR0AYsYkBb86g2
-         ImhnCFaDpj2+IYL8Gz1pfJbuucK/m9ZspgMYKWsBlxSxzNQZC4SYMNCaMOGIb4xK/r5Q
-         WODVtgJ8Myb2vTa49CShOnh1j5r7khK1mnctdrNmkC2tDjl0da+PIB/FZo7XR3xqyHp4
-         JuQQ==
-X-Gm-Message-State: AOJu0YzfvtbEXUwGXvQH4D6GvLjuVJibz4Cj8FIAiZy9zNoiUwOo9pGH
-	ewiQEDqO+yWMWjlXoqSiBZ8Hc4D1MCD3HijM+k2RxnWZ/hO03dd5YHMb
-X-Gm-Gg: ASbGncsEAHg4NOk01k8s1h6khcY0/309MP/ns2N5K3N40LsrrN2ZwMLgMlm3CC29ozH
-	fbG6M3jovK9gCinKL5abFViRW0r4kDwzlgcDLUAqfa9JrAFAQaojhZoX/Oqr+DJpcEHWzkIfZoN
-	Y+sh6XWDzprGn5jcqHjoYxWsDG/4INzi9ms89hnkf+wlZn0UDLHSk9vihzihZZI8FFffNHudQ1+
-	QDLDmNui6LDznuJuMnkRhRQKqTpXz8HBVdS1bC8uI1rpR9bjksnAUEbrqmKCbDpP4p1Fz/GOe52
-	LSRN29Fr4CNKCCAa90rrDo1zZ1nm2ZzVA+L/ed0LqqnKs9TiemsALDzO+A+qH8Dpt0EQK0s1Ndq
-	DuL417zaNHpD/m8V4ag7Uo8nhsWnCy4NJzX7gGWmLEaa30RZWAiKYxzxbg0yolk5MmWkPvA9uEu
-	VBqhx24QypFv9NSxIHmmxE7OODrTVR5F/Xo3er+Qw2Lc9pBBUOUX0so46XTYBGfPTfvkt+
-X-Google-Smtp-Source: AGHT+IF71H05NxO/mN75w8LXTuLNlvDg53UBaWFoqKaZMqlp8yMREG6PcbIoHKXwfd7uM03lA2vPNA==
-X-Received: by 2002:a05:600c:524f:b0:471:115e:624f with SMTP id 5b1f17b1804b1-4711790c2d6mr98843065e9.21.1760980050861;
-        Mon, 20 Oct 2025 10:07:30 -0700 (PDT)
-Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-471144b5c34sm252921305e9.10.2025.10.20.10.07.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Oct 2025 10:07:30 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Vinod Koul <vkoul@kernel.org>,
- Chen-Yu Tsai <wens@kernel.org>
-Cc: linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- dmaengine@vger.kernel.org
-Subject:
- Re: [PATCH] dmaengine: sun6i: Add debug messages for cyclic DMA prepare
-Date: Mon, 20 Oct 2025 19:07:29 +0200
-Message-ID: <1934468.tdWV9SEqCh@jernej-laptop>
-In-Reply-To: <20251020170147.2783867-1-wens@kernel.org>
-References: <20251020170147.2783867-1-wens@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gy4iVDXJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 482EEC113D0;
+	Mon, 20 Oct 2025 17:11:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760980280;
+	bh=scg+/vO8bFxkmmzsBeRqdeZzJ1dGRrmJ/AeHk9Ng2s0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Gy4iVDXJWPC5L6y6UGyZNPo1lTkIFG+bSMJ3dmQuCn4YSDVdoZO6n7pLVV7CmH4RA
+	 K2IdzWv4HUJdz6a7QyNz6Fkz3s5IEm22PF1bQQo+GXfG6rW2u6ADBT9Kd5tEPIyA9I
+	 SAqqzGT62WZfYIC8H87SqEnyyJT7Qep5vR9wvouCiHE6gJqodbcrY/OpOlMCInb5G6
+	 PNW9S6EsKppFRgFGqBHMMN4dT/HmB8AjB9bWiufu+0VZJj2QatzvL2TlHqtN2DvAo+
+	 zcxZK5zdadGd2C6f75ZqiasnwzAwdr7mNjrqcUJJqHkXOB/QTFmFy821qOGMn/v3TW
+	 lriRxPotYO48g==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 344895FE2C; Tue, 21 Oct 2025 01:11:18 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Mark Brown <broonie@kernel.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>
+Cc: linux-sunxi@lists.linux.dev,
+	linux-sound@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 02/11] ASoC: dt-bindings: allwinner,sun4i-a10-i2s: Add compatible for A523
+Date: Tue, 21 Oct 2025 01:10:48 +0800
+Message-ID: <20251020171059.2786070-3-wens@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251020171059.2786070-1-wens@kernel.org>
+References: <20251020171059.2786070-1-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Dne ponedeljek, 20. oktober 2025 ob 19:01:45 Srednjeevropski poletni =C4=8D=
-as je Chen-Yu Tsai napisal(a):
-> The driver already has debug messages for memcpy and linear transfers,
-> but is missing them for cyclic transfers.
->=20
-> Cyclic transfers are one of the main uses of the DMA controller, used
-> for audio data transfers. And since these are likely the first DMA
-> peripherals to be enabled, it helps to have these debug messages.
->=20
-> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+As far as the author can tell, based on their respective manuals,
+the I2S interface controllers found in the Allwinner A523 SoC is the
+same as ones in the R329 SoC.
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Add a SoC-specific compatible for it, with a fallback to the R329's
+compatible.
 
-Best regards,
-Jernej
+Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+---
+ .../devicetree/bindings/sound/allwinner,sun4i-a10-i2s.yaml    | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-i2s.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-i2s.yaml
+index 739114fb6549..ae86cb5f0a74 100644
+--- a/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-i2s.yaml
++++ b/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-i2s.yaml
+@@ -33,7 +33,9 @@ properties:
+       - const: allwinner,sun50i-h6-i2s
+       - const: allwinner,sun50i-r329-i2s
+       - items:
+-          - const: allwinner,sun20i-d1-i2s
++          - enum:
++              - allwinner,sun20i-d1-i2s
++              - allwinner,sun55i-a523-i2s
+           - const: allwinner,sun50i-r329-i2s
+ 
+   reg:
+-- 
+2.47.3
 
