@@ -1,103 +1,116 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503D328751A
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 18:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45AAA2C17B4
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 18:09:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760983214; cv=none; b=NbmUdB5q4Ua0mNQxfeT/fa1vtsjAvJos6kLT9wdtjW/o8XhyG9wXyYDGVozVPSpZ39Ezt3pbwNDy3Y1ouLmyF5oEU8Jh95z0MovLdi1ungTs0r8quYx6fySZ3++Iu6JRD4qGalCV8G/vgnLdEF4M9qy4VIwx8MY7M+RwKdSF1lo=
+	t=1760983773; cv=none; b=tTgeyXu5QevcaBixewb6aFFtcyNsar7eVdWyORvK6i7bYZCW8vxJnG3vpklWjUAtXFvUFalh0N9dyFceR6yk8QrQv2pb/NpyGmX5Afya32wBC6Sd7JxtQTGTo2b4LmVU/xjm6vJrtEU2DAdwgKdoGusiScdaoxbwm+ttvMddwjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760983214; c=relaxed/simple;
-	bh=l0zP/IswWls5tUEjRW4gHHMAJEe54gk5KhQpTRSbZKo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=i3zT6KujqLC+xGCJnB8lhYIeReHgLkN/+VtSd3p2xB1GWeae4y5t0nkwerit1jSQkVUB21fUxJ41G2PwoW584GkIbNtUdPKjYAyEXMDgJcmPB9HsESOj1f0aW2yEkg5xFr2/yNKeW0ywUEqJVivtOe1vZUVbsGRQWUC7jF52AFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lvw0evu0; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760983773; c=relaxed/simple;
+	bh=oKPrwAwmPcFNZGmDx1ZWXy1ZmIL+sig1bBBsB/7aJUU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ks8zwkZ904kZXSlzdXSbHbp58yWQiBJ913BrsXAvKwnlxzyObPyszObliRate/uX2UlQWZD31JB0U0RdSIC1UfnM+PUyl1JXSPnORcy7D+Y7CRHNsr05dy82EF354AY+x+9xvhxLCclqt092jnY0+iwWAl7KqdgOR1S6RFrnVoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YFCCCb70; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lvw0evu0"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4710022571cso39574595e9.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 11:00:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760983211; x=1761588011; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l0zP/IswWls5tUEjRW4gHHMAJEe54gk5KhQpTRSbZKo=;
-        b=lvw0evu0Hz9Sc/+dqv9oGKfgaNuY0uiVxBg2fCNh4ZDtDn9l3yEbLzqi7VkcK2Uy8n
-         3ITzsoxfxasmAjGE5m6e7wIBVbhkpN4q+HXIN42/YwRZG0bwP+WA/uHDqMp52uoYcn8c
-         pssLN9MVDSCqeEW5XzfavN7Hh26bo3adOQIpn8LzggO/a8G54g9gi9CtG4O/Vq6fpt9v
-         JjEkmGibXfHCDnry5YN/3pThK3GvtzprB2F46mfz+baAIbG5hforQg4CkbJJIblmTwfd
-         iWzvhpWmeR57AmlpL5iVpa+0WsMqa9Qv0AUn7PQPcQd6d8wDW3VLOoHvdc7DQOSLk190
-         wC5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760983211; x=1761588011;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=l0zP/IswWls5tUEjRW4gHHMAJEe54gk5KhQpTRSbZKo=;
-        b=gbQ7hOtSVbc32xDnWI7FA01/u6wIZkD8hSbO2oe9L8wM7Xns/3gGVF2GJwR3OT5i56
-         fSo+hdo0v3chlXBUf+wHhhoJ4cO/qKEVbgay+rz4qOAh/FX3TJSwhLasM8moIHVWDLhQ
-         pPJyk8SS11JGDM63fj/oqIVjSy6Nzznj97VOYKClwVsIAWNB3CfZOi/Serl0q48nNVAs
-         xBrxezrTWJLLPKf73QCQg8GRBgeLurfJhScRjEzTHz6nXhlx+AH/PcHBegWrHH497Z5q
-         C44Oqr5qJVmZcsH47elVnmCONhMAfzxsU4NQqETotBJNy1J2pRoSfzdrnNKegfGNSpEj
-         8atg==
-X-Gm-Message-State: AOJu0YyWn2j1qYKMn+37gCBUBGB86n/Mr+JVhDSTdBhcwJTSiEb1lg+y
-	kNpq9XoJqmZImDRnhOd73d3lmP623NeKMUR/Y9ApGuF20eZc7mjWKQZG
-X-Gm-Gg: ASbGncvlw7Qgpwp3iOt52qO7qcFUJcvaweZ9QwKTb2jIxfwzVOy2NEPT711h0mfKakV
-	v2jjAaY/8Q+laxKu5wBf7U+T12T9QQPZKNcWLv1qJ5jds7vrD9hXc66aZ7ODp7a/h+x7p7ve/2T
-	iXn+Sh9Fn+vE2fjEmThGaSeKLYaAjLgaotkrlsM2VQ2UVnpCmvJ5pB9gkPjTFOqofU41+5gK9FI
-	ZVpYbhExbYGTY7YiAVexlLIiu24wWLnsUmswoFZYycDx07jrhk/B2hTA9Nxn98tyWez2GJp23Rv
-	2uTomaxyXlKZwy8LkFMLCK8tEJRJGK2xZ64vxq77TsQh6bVcqKXPR7Z0C5nDZSJ/h6dVMn6g52t
-	h49VsF/gif0wttnJT6udob0CcXXXOecHgJ1pQ/bGunbUlIIkddNZuMjZftBvfdC77XszPKv+DSk
-	rS8kT3oPJ7tLx0jMrAZ6cOpUJhXbtEIsHavUoAzs9ZpwKjVz4bXAE+nvrZgSBSvIRf15Y=
-X-Google-Smtp-Source: AGHT+IGVeYcgA+CwUr1r7hUy/8iCaT15cDHaEmoGMtDm9YvbEjOd+dz5rkW55YdwDONL4X5PTcG3yg==
-X-Received: by 2002:a05:600c:3b8d:b0:46d:27b7:e7e5 with SMTP id 5b1f17b1804b1-47117917572mr126637915e9.32.1760983210516;
-        Mon, 20 Oct 2025 11:00:10 -0700 (PDT)
-Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-471144238easm248496085e9.4.2025.10.20.11.00.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Oct 2025 11:00:10 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Mark Brown <broonie@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Chen-Yu Tsai <wens@kernel.org>
-Cc: linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH 10/11] arm64: dts: allwinner: a523: Add I2S2 pins on PI pin group
-Date: Mon, 20 Oct 2025 20:00:08 +0200
-Message-ID: <9520278.CDJkKcVGEf@jernej-laptop>
-In-Reply-To: <20251020171059.2786070-11-wens@kernel.org>
-References:
- <20251020171059.2786070-1-wens@kernel.org>
- <20251020171059.2786070-11-wens@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YFCCCb70"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9420C19424
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 18:09:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760983772;
+	bh=oKPrwAwmPcFNZGmDx1ZWXy1ZmIL+sig1bBBsB/7aJUU=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=YFCCCb70vIR/5gJ36RNiA/JDPEl3fZvL6qcwk9wKH0wvoqATkcCmg3pv5UIF+wzGw
+	 do6F3awmohobatU2HIq2Ul1Bg+i/lZ2yTCWSG4CFKYlGtm8riBCmBIVx/Qy9vN0HZM
+	 VBZbg6k7n7aE5qoAnvGU0fUC9x4UBhZpg0Svq2j9PTAWyL0M4SWF3+YgMiUVNYbBLl
+	 dJCfUj2Q4g/FMX+UZGK1SYrZpmhmL2o1ZMnRbUCeFhp14A3Mu3PcfnP6TatWi+Y/CS
+	 dCMdAB4krYqV9W65NKHT9KkEFwj9WwOsLT7wmwOs2gT6S/YwtSLop3wL7QvZ/EwfXe
+	 hQIw35Pb8vSxQ==
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-3761e5287c9so53529281fa.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 11:09:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV/IuqUVXZZPfWXRLAoohJy4iI3QWLrt7aU8R9DktxGywTeFuiK4/PAG8PvXY0boPsxQCw9kAwXiAB+IQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxM4JJwCob2jw3Soh/VkVHBuLG42oCxKVcCNXdDH7f84X9fiYut
+	LaN6MmLrgSRelbB+YkJBjyZJK4m9Pv9BE/cVTJzFlZSap26se+3Yvf9E7S6YeLFDJZCpngKr5qi
+	9IKVhB1eq/Jk96xsODer5bHBWQR5pvVo=
+X-Google-Smtp-Source: AGHT+IFuWmZV6QNucFFpgj1UEioCDpFc0/s3jbB+5BwfcLRxENd3iLjRFZ6WKCDjV8YIsE8qTPZM2NSG8F6Mb8oD9G4=
+X-Received: by 2002:a2e:bcc4:0:b0:36d:6ae3:8158 with SMTP id
+ 38308e7fff4ca-37797a0daa8mr37580611fa.25.1760983771244; Mon, 20 Oct 2025
+ 11:09:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20251020171059.2786070-1-wens@kernel.org> <20251020171059.2786070-7-wens@kernel.org>
+ <8591609.T7Z3S40VBb@jernej-laptop>
+In-Reply-To: <8591609.T7Z3S40VBb@jernej-laptop>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 21 Oct 2025 02:09:18 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66osdLJa=_nTxz9wppUkxvu2fuS=NgYN8fKOUOLHw6-Ag@mail.gmail.com>
+X-Gm-Features: AS18NWCT7E5mgPMwg3ZEBu9fYAxffaDigDTAPFUYOPP5rokDOnq4gkBQ9OJvhcg
+Message-ID: <CAGb2v66osdLJa=_nTxz9wppUkxvu2fuS=NgYN8fKOUOLHw6-Ag@mail.gmail.com>
+Subject: Re: [PATCH 06/11] clk: sunxi-ng: sun55i-a523-ccu: Lower audio0 pll
+ minimum rate
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+	Mark Brown <broonie@kernel.org>, Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+	linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	devicetree@vger.kernel.org, dmaengine@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-Dne ponedeljek, 20. oktober 2025 ob 19:10:56 Srednjeevropski poletni =C4=8D=
-as je Chen-Yu Tsai napisal(a):
-> The Radxa Cubie A5E exposes I2S2 through the PI pin group on the 40-pin
-> GPIO header.
->=20
-> Add a pinmux setting for it so potential users can directly reference
-> it.
->=20
-> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+On Tue, Oct 21, 2025 at 1:52=E2=80=AFAM Jernej =C5=A0krabec <jernej.skrabec=
+@gmail.com> wrote:
+>
+> Dne ponedeljek, 20. oktober 2025 ob 19:10:52 Srednjeevropski poletni =C4=
+=8Das je Chen-Yu Tsai napisal(a):
+> > While the user manual states that the PLL's rate should be between 180
+> > MHz and 3 GHz in the register defninition section, it also says the
+> > actual operating frequency is 22.5792*4 MHz in the PLL features table.
+> >
+> > 22.5792*4 MHz is one of the actual clock rates that we want and is
+> > is available in the SDM table. Lower the minimum clock rate to 90 MHz
+> > so that both rates in the SDM table can be used.
+>
+> So factor of 2 could be missed somewhere?
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Not sure what you mean? This PLL only gives *4 and *1 outputs.
 
-Best regards,
-Jernej
-
-
+> >
+> > Fixes: 7cae1e2b5544 ("clk: sunxi-ng: Add support for the A523/T527 CCU =
+PLLs")
+> > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+>
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>
+> Best regards,
+> Jernej
+>
+> > ---
+> >  drivers/clk/sunxi-ng/ccu-sun55i-a523.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c b/drivers/clk/sunxi=
+-ng/ccu-sun55i-a523.c
+> > index acb532f8361b..20dad06b37ca 100644
+> > --- a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
+> > +++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
+> > @@ -300,7 +300,7 @@ static struct ccu_nm pll_audio0_4x_clk =3D {
+> >       .m              =3D _SUNXI_CCU_DIV(16, 6),
+> >       .sdm            =3D _SUNXI_CCU_SDM(pll_audio0_sdm_table, BIT(24),
+> >                                        0x178, BIT(31)),
+> > -     .min_rate       =3D 180000000U,
+> > +     .min_rate       =3D 90000000U,
+> >       .max_rate       =3D 3000000000U,
+> >       .common         =3D {
+> >               .reg            =3D 0x078,
+> >
+>
+>
+>
+>
