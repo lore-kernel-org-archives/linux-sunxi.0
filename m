@@ -1,43 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C051E9919;
-	Mon, 20 Oct 2025 04:54:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18BCD29D267;
+	Mon, 20 Oct 2025 04:56:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760936052; cv=none; b=HwLe3EdFFcS1oFkuwbSKIplZZ2liwHJltCp8ouqHbzjEa775BfbKCXvcEzPNql/i//2DObQ2QpoZFBrcmAKcdogOTJ2QDjIqH3KBJrw6cnbPe15kVhNFQhf+TJRyrOZW9gSr9nCRsiwAmHDEFhEu7PhkNKIXbh/g1RYztwANRKk=
+	t=1760936180; cv=none; b=k6a3eQ9Kb15AAcwM6gkTziRxjgYel5onGP59vYkleyuij9UPKRDkpSTdvqCjXC7+klGC7aLDbqtG4oEmSR3srvLyJtlFSOE7J8gdJkPemT3Gz/AAl4/b0r76jJR7cv4xVOTz7AqSQBgRJlomvVefZ2UvPF5oiS0+GA6jp2C8Xlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760936052; c=relaxed/simple;
-	bh=rQCfnU4y+Ys/8EJZN1Gwn/4+w69oR2ZqZEduSGJk0xQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LK8Z3coWS+5R76Oxss8LK82JTqbyFWyAViNwE/4AA6tw0D4rYo/4LhbcnNozXlpHZrGyA4ekNiDwFgq9PUjVcnXWtwtoiln0NeT639d/Rb355YObysoFAmnOqQIB0YkF34YN/wEYa0RWBhp1GBShDoVWAeo539sJc63PavQgq4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IUPJaQtU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760936180; c=relaxed/simple;
+	bh=nrXnqlV7dTZ3tYdmSQOtQfvcxz6jaOoC+0u6XE9jwfs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jDTkPQzDf2V2n+iJ9mqN2xg51INxNoCYOXQ2S07JKyZDP7lTluQ6pZ94JfAof/Wum4sDhrYHAvu1rAJQCyYtxxi83hFvGwC57tEi+c+0+arQb80nxUyQEFWrteunjNtN/1LuLdsz3ZtS0F6OZcD5kTAXWkKxR6fi4Bv7ZPCc1YQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ksOg13+z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IUPJaQtU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 996F8C4CEF9;
-	Mon, 20 Oct 2025 04:54:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ksOg13+z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52A0CC4CEF9;
+	Mon, 20 Oct 2025 04:56:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760936051;
-	bh=rQCfnU4y+Ys/8EJZN1Gwn/4+w69oR2ZqZEduSGJk0xQ=;
+	s=k20201202; t=1760936179;
+	bh=nrXnqlV7dTZ3tYdmSQOtQfvcxz6jaOoC+0u6XE9jwfs=;
 	h=From:To:Cc:Subject:Date:From;
-	b=IUPJaQtUaPSbtanPTgHj1Itiw9rm+IYwpzLnLJnx9IyqzXI2CN2XvQvPh90RhHeV4
-	 jQm7kauBT69LGdZq5nAL917ZszzAW2PUlzGJpTDPCnGW//mX4zPw7qGlvLWDnhXDH9
-	 +CBjbPStxohPDAh1f71VC5H9/GvkFihm5aMgMyYy7UDVCZos8J7kuZiaPOgugQNTzp
-	 GUZ8XTJsElpe5QCs4X9Oqhrki3s5P0PFnUKyCxpE3hT/Mss8m9LXUcEHts4vxytib7
-	 ifdUcqSlgWVRW1hsqZtzty1IbuzknsdpG3M0gU0OVVMVPu4oPPdzMdsTefFCKicpkZ
-	 D+hUCZ2iNx6XQ==
+	b=ksOg13+zPrC8xxnakzV8VSglMoxWAQWwFCALpTQZjBj0uaOZIuqs5AsDrSQUiLu5x
+	 deqimQfqaWCXc0ydoHo0xutavQJactWCZFIOkNG3dmJuEq1ATiLiyWJmqvY3p4ekxS
+	 ofr1Tr34OLOxkZBFWSuMQJBhPDa1aPkTMMk2cVDaaXsWtxrXEEPHVv4E/LbiW+0+hJ
+	 NKf0S6a3qxhC8E81lhMuVcv6BpRsEU6yCMsggk5MQYpbdHgn5L8x+1OcBvgnzeaWOA
+	 wpmzEMM56UTcnailUMcW+r2o8ywQIkRyy+CHlCoZTT/IgDfg1hHI4JXls+exi+HCmA
+	 Yk12jphbh2PCQ==
 Received: by wens.tw (Postfix, from userid 1000)
-	id 2B37B5FDC3; Mon, 20 Oct 2025 12:54:09 +0800 (CST)
+	id 4EC1B5FDC3; Mon, 20 Oct 2025 12:56:17 +0800 (CST)
 From: Chen-Yu Tsai <wens@kernel.org>
-To: Chen-Yu Tsai <wens@csie.org>,
+To: Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej@kernel.org>,
 	Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@kernel.org>, Lee Jones <lee@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>, linux-sunxi@lists.linux.dev,
-	dri-devel@wens.tw, linux-arm-kernel@lists.infradead.org,
+Cc: Lee Jones <lee@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	linux-sunxi@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] MAINTAINERS: Update Chen-Yu's email address
-Date: Mon, 20 Oct 2025 12:53:37 +0800
-Message-ID: <20251020045340.2572507-1-wens@kernel.org>
+Subject: [PATCH resend] MAINTAINERS: Update Chen-Yu's email address
+Date: Mon, 20 Oct 2025 12:56:02 +0800
+Message-ID: <20251020045603.2573544-1-wens@kernel.org>
 X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -52,6 +54,8 @@ lately. Switch over to my kernel.org address for kernel development.
 
 Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 ---
+(resent to correct dri-devel mailing list address)
+
 This likely needs to go through drm-misc-next following a patch from
 Maxime that removed himself from the Allwinner DRM driver entries.
 
