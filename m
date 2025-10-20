@@ -1,38 +1,38 @@
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007082F7445
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 10:13:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9ECF2F7ACB
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 10:13:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760955235; cv=none; b=Tz5bNJOZeFmA160RVYMg1BSuboItzYe5nRA5q9pVW7G1YKu3eBbA8+BwTl8swNfgVhRS438vULY426WsGLX33epnVl2YZPdtmu0v8Ageq2iY7mRdCF4fqSvRUbA4q4QBRY0kHb7ILUN0ChcqAOFNC3KkofNOBgIyUWbkbHLcQo8=
+	t=1760955237; cv=none; b=Ok9UngwrZrPilKGQTpZiVVRU95eXYNkf3nby+10AXGc5S6rFYiVUok2v25lpWrQgTgKuu88akPjEQ5HempJ98Nj/f3NKkcVqlFR/lDucsclesK3yeqfEJKxssYGYhnWK5altdOwFD++ScjVX4hMVRbn8ItnHlK6nfXuitkMlfW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760955235; c=relaxed/simple;
-	bh=zCdVIfT3/lJV5ewa+JtXbF/AwV1pJJ2zuoy9j7fYm4o=;
+	s=arc-20240116; t=1760955237; c=relaxed/simple;
+	bh=sKdPTZKVDf9izgHjArzrMu00cTpmD5hXprgFF+zlBd8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WMKA+3hU2Kd1vZHjEBYG7Qb37pkaKzM+FUI+0qkY8tQLpr6FZ2Q+qjF7dDdF3hwh5uF7uXt3EN4VCH431/XEMritUq33Gajm9XfEPm6TO2nw0vPtBPdSNeyk3+rzzIj+P4N6rQ6KWBUs4MVHYSbHreLDn8eSkCovAOfoB/w51mE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=icZmtu8+; arc=none smtp.client-ip=185.246.85.4
+	 MIME-Version; b=QoPsc0/3QbmoGwPkPyEyaYch6vv5piEw3BvXoNmTP0vNlrIS1NMygp7HEi/PS3OCRBFZLn/6vPah5BFq1IFrrW+nHa4U4FrP/1pozFlCN7xUPx88SHCOQLtrLbNMEINgPVsDF+W4JR+JwxzxP2BllBIy5a1W2+BBhkZIzbdsJ94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Xob6Lfmk; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="icZmtu8+"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Xob6Lfmk"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 656864E411F6;
-	Mon, 20 Oct 2025 10:13:52 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 79A364E411EF;
+	Mon, 20 Oct 2025 10:13:54 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3ACD1606D5;
-	Mon, 20 Oct 2025 10:13:52 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B5A9D102F23A5;
-	Mon, 20 Oct 2025 12:13:49 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 4F586606D5;
+	Mon, 20 Oct 2025 10:13:54 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B0A33102F0848;
+	Mon, 20 Oct 2025 12:13:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760955231; h=from:subject:date:message-id:to:cc:mime-version:
+	t=1760955233; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=+2C6Y7QvX0FPwTw070QW7rXZAP/U111s0G+dQuIpjU4=;
-	b=icZmtu8+UOcMIKbJlpOsd4Wwa8U0D2ooOjfKcMW6ymE//hYV+rxK6iJjRSiumgNqjj/yBi
-	knaQNIVCZBlutE9wrHRms+1WzXrH/2vHog6XtRgD2bS6sSgOQHGIo3siPx5utQ3Q1F5v9I
-	MjbyrD2SyqZElX5LXWRHvzwpvvH7zoyGn8fEp96WGB93Nm8YjudKQb1o+Y/j7TSOsmax8w
-	a8KmuuYUCcsJTiTffmyaQLpd0ygPRq2kj7gVoRvux73ls9uy4kRMsEhFUOrUWd9pARg27q
-	BcYm/UAijOHd1y7GIgLYiBt14y6ykLh+y6BFvoxcJ0NtOchL8uIrB/nZ+rV/CQ==
+	bh=WVNi494X9+FHAVQizYRHT85ozYcDOUl/u6KHDtPy1K4=;
+	b=Xob6LfmkEnoUjVj+hfPxFoXxUsffTqAa6eshmbcjTVmoEYZZXoh+/2KnSp5o24WWudlIOk
+	URMh/f9vVxEWhHAiVu5h2MtP14wSjKgZ2W/4eUfPG6X4kpUQQycIe9YiQ5CEAjjiNgmSLR
+	1nw94UELD5dS4ZjlFc8W77Yc3i/o8dcv+eU99j7yiZt3jc+UoVg93rvik1dl3HISYxp6Rb
+	3KNBloUQjgxDeN5HlRPvInVZcfb0ABfKW3RsvNziPYfidXMQcWCXeK513h9xKuUvjMdBkP
+	Eet9+xyQk8IlUR42L52WBO/ZYRkvxpql5wGKA/liX+ZtsYcDB0tFOG2Wkapn8g==
 From: Richard Genoud <richard.genoud@bootlin.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>,
 	Richard Weinberger <richard@nod.at>,
@@ -54,9 +54,9 @@ Cc: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Richard Genoud <richard.genoud@bootlin.com>
-Subject: [PATCH v3 03/15] mtd: rawnand: sunxi: introduce reg_ecc_err_cnt in sunxi_nfc_caps
-Date: Mon, 20 Oct 2025 12:12:59 +0200
-Message-ID: <20251020101311.256819-4-richard.genoud@bootlin.com>
+Subject: [PATCH v3 04/15] mtd: rawnand: sunxi: introduce reg_user_data in sunxi_nfc_caps
+Date: Mon, 20 Oct 2025 12:13:00 +0200
+Message-ID: <20251020101311.256819-5-richard.genoud@bootlin.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251020101311.256819-1-richard.genoud@bootlin.com>
 References: <20251020101311.256819-1-richard.genoud@bootlin.com>
@@ -69,68 +69,79 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-The H6/H616 ECC_ERR_CNT register is not at the same offset as the
+The H6/H616 USER_DATA register is not at the same offset as the
 A10/A23 one, so move its offset into sunxi_nfc_caps
 
 No functional change.
 
 Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
 ---
- drivers/mtd/nand/raw/sunxi_nand.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/mtd/nand/raw/sunxi_nand.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
-index d3b17d54f04c..0285e4d0ca7f 100644
+index 0285e4d0ca7f..8f5d8df19e33 100644
 --- a/drivers/mtd/nand/raw/sunxi_nand.c
 +++ b/drivers/mtd/nand/raw/sunxi_nand.c
-@@ -46,7 +46,8 @@
- #define NFC_REG_ECC_CTL		0x0034
- #define NFC_REG_ECC_ST		0x0038
+@@ -48,7 +48,8 @@
  #define NFC_REG_DEBUG		0x003C
--#define NFC_REG_ECC_ERR_CNT(x)	((0x0040 + (x)) & ~0x3)
-+#define NFC_REG_A10_ECC_ERR_CNT	0x0040
-+#define NFC_REG_ECC_ERR_CNT(nfc, x)	((nfc->caps->reg_ecc_err_cnt + (x)) & ~0x3)
- #define NFC_REG_USER_DATA(x)	(0x0050 + ((x) * 4))
+ #define NFC_REG_A10_ECC_ERR_CNT	0x0040
+ #define NFC_REG_ECC_ERR_CNT(nfc, x)	((nfc->caps->reg_ecc_err_cnt + (x)) & ~0x3)
+-#define NFC_REG_USER_DATA(x)	(0x0050 + ((x) * 4))
++#define NFC_REG_A10_USER_DATA	0x0050
++#define NFC_REG_USER_DATA(nfc, x)	(nfc->caps->reg_user_data + ((x) * 4))
  #define NFC_REG_SPARE_AREA	0x00A0
  #define NFC_REG_PAT_ID		0x00A4
-@@ -212,6 +213,7 @@ static inline struct sunxi_nand_chip *to_sunxi_nand(struct nand_chip *nand)
-  * @has_mdma:		Use mbus dma mode, otherwise general dma
+ #define NFC_REG_MDMA_ADDR	0x00C0
+@@ -214,6 +215,7 @@ static inline struct sunxi_nand_chip *to_sunxi_nand(struct nand_chip *nand)
   *			through MBUS on A23/A33 needs extra configuration.
   * @reg_io_data:	I/O data register
-+ * @reg_ecc_err_cnt:	ECC error counter register
+  * @reg_ecc_err_cnt:	ECC error counter register
++ * @reg_user_data:	User data register
   * @dma_maxburst:	DMA maxburst
   * @ecc_strengths:	Available ECC strengths array
   * @nstrengths:		Size of @ecc_strengths
-@@ -219,6 +221,7 @@ static inline struct sunxi_nand_chip *to_sunxi_nand(struct nand_chip *nand)
- struct sunxi_nfc_caps {
+@@ -222,6 +224,7 @@ struct sunxi_nfc_caps {
  	bool has_mdma;
  	unsigned int reg_io_data;
-+	unsigned int reg_ecc_err_cnt;
+ 	unsigned int reg_ecc_err_cnt;
++	unsigned int reg_user_data;
  	unsigned int dma_maxburst;
  	const u8 *ecc_strengths;
  	unsigned int nstrengths;
-@@ -790,7 +793,7 @@ static int sunxi_nfc_hw_ecc_correct(struct nand_chip *nand, u8 *data, u8 *oob,
- 		return 0;
+@@ -723,8 +726,8 @@ static void sunxi_nfc_hw_ecc_get_prot_oob_bytes(struct nand_chip *nand, u8 *oob,
+ {
+ 	struct sunxi_nfc *nfc = to_sunxi_nfc(nand->controller);
+ 
+-	sunxi_nfc_user_data_to_buf(readl(nfc->regs + NFC_REG_USER_DATA(step)),
+-				   oob);
++	sunxi_nfc_user_data_to_buf(readl(nfc->regs +
++					 NFC_REG_USER_DATA(nfc, step)), oob);
+ 
+ 	/* De-randomize the Bad Block Marker. */
+ 	if (bbm && (nand->options & NAND_NEED_SCRAMBLING))
+@@ -746,7 +749,7 @@ static void sunxi_nfc_hw_ecc_set_prot_oob_bytes(struct nand_chip *nand,
  	}
  
--	tmp = readl(nfc->regs + NFC_REG_ECC_ERR_CNT(step));
-+	tmp = readl(nfc->regs + NFC_REG_ECC_ERR_CNT(nfc, step));
- 
- 	return NFC_ECC_ERR_CNT(step, tmp);
+ 	writel(sunxi_nfc_buf_to_user_data(oob),
+-	       nfc->regs + NFC_REG_USER_DATA(step));
++	       nfc->regs + NFC_REG_USER_DATA(nfc, step));
  }
-@@ -2177,6 +2180,7 @@ static const u8 sunxi_ecc_strengths_a10[] = {
  
+ static void sunxi_nfc_hw_ecc_update_stats(struct nand_chip *nand,
+@@ -2181,6 +2184,7 @@ static const u8 sunxi_ecc_strengths_a10[] = {
  static const struct sunxi_nfc_caps sunxi_nfc_a10_caps = {
  	.reg_io_data = NFC_REG_A10_IO_DATA,
-+	.reg_ecc_err_cnt = NFC_REG_A10_ECC_ERR_CNT,
+ 	.reg_ecc_err_cnt = NFC_REG_A10_ECC_ERR_CNT,
++	.reg_user_data = NFC_REG_A10_USER_DATA,
  	.dma_maxburst = 4,
  	.ecc_strengths = sunxi_ecc_strengths_a10,
  	.nstrengths = ARRAY_SIZE(sunxi_ecc_strengths_a10),
-@@ -2185,6 +2189,7 @@ static const struct sunxi_nfc_caps sunxi_nfc_a10_caps = {
- static const struct sunxi_nfc_caps sunxi_nfc_a23_caps = {
+@@ -2190,6 +2194,7 @@ static const struct sunxi_nfc_caps sunxi_nfc_a23_caps = {
  	.has_mdma = true,
  	.reg_io_data = NFC_REG_A23_IO_DATA,
-+	.reg_ecc_err_cnt = NFC_REG_A10_ECC_ERR_CNT,
+ 	.reg_ecc_err_cnt = NFC_REG_A10_ECC_ERR_CNT,
++	.reg_user_data = NFC_REG_A10_USER_DATA,
  	.dma_maxburst = 8,
  	.ecc_strengths = sunxi_ecc_strengths_a10,
  	.nstrengths = ARRAY_SIZE(sunxi_ecc_strengths_a10),
