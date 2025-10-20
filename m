@@ -1,64 +1,64 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC9F12BF3F4
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 17:49:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C6A632860D
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 17:51:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760982579; cv=none; b=G8AV5zxHILHv6Shdd17GbhpE1RYG/BC+Ttkh0ow0EfwtAOW/1/ExD940j6C9/7TMq4lp4juTJc2eVCnxZ/uPNFZl/rpMYXUSrljFIhymMwAMVqSXPEdD8WMj6lic/yinDp/qEbNutgg2UKk+PuJ29TKR0KCQtJDob3tFe/LDgMY=
+	t=1760982666; cv=none; b=jJi3rEX5hxQIuYoqkCtkHfsPzQgVYEx/7+fShsq/OGrS2LsDHA0dj0gOS5owrR3YKGrVdebY8O4YaGhAolN0wYaLjV8D2RCc+vLTaNK78J3j+jMsn1RUOh5WbQZTVnGDDBNbQFjuzvQbI87+FAhatHAew7Dl2jetPnCr7bbqNnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760982579; c=relaxed/simple;
-	bh=xOrPsbGqKSS2XyeFNV4ELqt4UHoe2WbEgpv+4VqM/Is=;
+	s=arc-20240116; t=1760982666; c=relaxed/simple;
+	bh=KnROEUass2/iW7GccrgtsymOuPjezhPd1bODirEEn90=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S0O1Sj3p8s1TzmUHxKooBKYT7H4nWibuz+7MB/UzZlYzcysYPXkn7stPTOKsEZoOsrPLaQORSH0B3XBOXZqFe732Puk25RZOG483+d8QwXwfWkdepMB1uloiEEq84EG3ZtS8gG89PKH05HRgU54MGfIbv2cQiBDvGw6nPZLcBjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ShpT8QCu; arc=none smtp.client-ip=209.85.221.42
+	 MIME-Version:Content-Type; b=FqjlVpiy3GUNfK3zH8/s4bT3n07XmvVDQNnIAD0l/06JS9J7Fwzmo6qjBAxCKEYH+26qge0E5ZlxxunXRwxgQKhgPrR1AsVoy1S887rQA8NiMzcqoPY8StvA1KOLZkV80NKP0pEKBBR2MRy7E6szD3UB2VZx2AnrROl1knfaibw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e7gmol1q; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ShpT8QCu"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3ee64bc6b85so6342830f8f.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 10:49:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e7gmol1q"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4711f156326so33658415e9.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 10:51:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760982576; x=1761587376; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1760982663; x=1761587463; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uyCd/4JIj55gxSeGf4+DJdNpJNeCwDGuxusuHQkGxZw=;
-        b=ShpT8QCuTn5s+cpDDwBwwp34IQ8xT7LH5YYf1TjmWUKR5iN0KGkwOhKw2gvb/DseAU
-         ozQ9X9kAd8MGTa/d5dpywVih7Sjbsv+nRDzRbTsz3ZbBV6PksKtZiOqMjtthBE9dc6Xf
-         MTX6QPS0Hehl14mfGfkC5C0Lk18D1hYV+gXsLeMTKxfxvGwwtjQ7vNTVRenSl+30Hsws
-         hJYb5DJPbExJhG7o30cSZMh++opGDfwdGs+vMjS3aJSkSPM5w2GeolV/rcARdA52buyC
-         avl3B7D84bkzKEJsE8Btm506ILO6VY7om+2nGYrnWYM3jrXTmKtMfG4WERGVd0eccnOk
-         c+zg==
+        bh=qTAyakvLktp/e+AMviKRZMNRnJVDyQcT2DmQsBGK+VQ=;
+        b=e7gmol1qSMqHd0bIdaleUeyMsSTXk0DI0sqpBXXDxBENANYdf0gzE2x/jxSRLRjUP+
+         U5T2gVoKOS6Hwei7SeTmRPoIX/riWZP8mJB3vAkJuFLyD9c99LDrPwHWghlubuQtOLov
+         7/dUEV0w80MvYT9DKkLrcp1eAf6pIxLdXN/Pwkxe3A/HNaxZ5lyLEwZpcqjrwdPFS9D3
+         UMMaHWfaNX/Rke/Q21v9I78101zVRA/iC7kO2TBZJfAxLmIDljK6qQiLIWhlbOGgBBhy
+         h5LVEmMQA+7DW+ahLBrexHE5bM0v6iJLDtnOHZc3zE/AtlLusFvxlT6zxaiHYWiCYVrX
+         4Gpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760982576; x=1761587376;
+        d=1e100.net; s=20230601; t=1760982663; x=1761587463;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uyCd/4JIj55gxSeGf4+DJdNpJNeCwDGuxusuHQkGxZw=;
-        b=gEokIRoiJxyyZrMwb/pQZL4AVVu6ohgFWb3WpLuKRIybNQDLxZrm6aOta0XTHOsI7g
-         Py4XcebYq3Co+Q7Gr8Fj0ojWO1aXlcIcFr3efTtFX0tBw4JSyuMQhwiVUE/SUPiVzwkk
-         FBzIOffOmzKkewJ138vIpUgigTjGmvN6+SMvqD3gqVVYYDpYCkyQMxPQMlijdYRn4Uvl
-         6/tIsqV+6KIHrJEnXpRw67aWTKM/uZTXIxVwR1VjWe6pTQB2BCUdY3JK1oYFjp3Go6XM
-         Z1VViG3UdyaQgtU+u9FuWxXLa2WgKXfEd1DzSHmeMyIO1uqI1NKUWe67E7KPfPChPyiF
-         C7UA==
-X-Gm-Message-State: AOJu0Yyp4GH0Wa3BsW+/TTulv6CwMeiCltf2UDVIG6Y2y2bZ5M5ywPJX
-	KFpeg8iXjAFigiZE8ew7Mq28oXNKBCd616PG3YSyQkmLxwzauvjCPsIf
-X-Gm-Gg: ASbGnctYj3Cn1Cjr5uwriMwyXXsiyTA6N7FreyP8KV2VXYS2GdMXJCEOcZz6gkWjjDt
-	nA54lSk/KTjGuTKgr6DUv7HUdsscJrrlQW9MJgPogzKwOEMKHkYpXiBgP73ZvB+uMi++rSiKb4i
-	nWhXIsiLdvSW5T8PcppulDizhddW3BcWykSi9dzN58vEuTyzfP9ZDuJDfPsnJoYTmUZZS1o9bzg
-	Ok3CjTt2mBO8vQVtsi+sAbqdnq1TGHHYiv9b2zhVWb+JvbFjhfz7vFYSQZIShqlQuZuix9hM8K3
-	DTKO6+KEX1t93P8Lyuv8uQXfOilr+u8ZLVn/ixmhTru9A84uDCmjZ+rHiEbdvCD6P+XZnmk9vCr
-	usl3AW+ZRxnuLkbWXPUALzpk8swYt2Vg5jc2Fwu8LQGyReTJNNAhuchnPY9L/AXSdETryb3CYlX
-	EwrKrZaUZLDNIUR8arQ7zd6XIV8fcIBSQSXPrB4Rauf7a/MaWvKm0QXzV3jiPa1UVtMdU4XaYao
-	g31cw==
-X-Google-Smtp-Source: AGHT+IFVJfltDBGpXshwdA6ycK/H046cTrEtcv4sm/ksCoAaIUW3ZG+YpLxzBGC+3OrZRm/196984w==
-X-Received: by 2002:a05:6000:4021:b0:427:8b:441a with SMTP id ffacd0b85a97d-42704d7e960mr9407198f8f.11.1760982575740;
-        Mon, 20 Oct 2025 10:49:35 -0700 (PDT)
+        bh=qTAyakvLktp/e+AMviKRZMNRnJVDyQcT2DmQsBGK+VQ=;
+        b=mfVBzGRpX/752pDfpTeC+CbBSidVLQRpa5opFp/UXkL3VRu86mPVlL1vqoT/BPkf8k
+         9NhowDKV/cAI6sfeNZ4g54gRTuhZp1EhXDK2AO1tOIWiUpDnWe4TdP2/iRgXesbhdi8s
+         dyI5IXwCiGguFWE038aWBxuLxMWA6DfIFSgKLfArMpc7NQ9wfMMtEvUGKV+nYP8lnXnN
+         YyDMP7rM5F6r1VUx5j3NNxWO8iU8ndn4IkpFjQDZTvW6INHjch7JiOB+0C/+/eZKcwTo
+         1qE3c8PsJAR2eZwgPtbCwo5wcPOv7qjGKe+3MaWiVMTwZvzwEG2jLS6NceyWyKGnr9og
+         9qig==
+X-Gm-Message-State: AOJu0YxDgULYZZI8Ezcm+fYsP/mcPBzZ6ac+3NP8i+4ce/6mKfT0YReQ
+	hDcyhZlp0P5X8/IA36GCNRXT9K6X3SziXrW5SeTsGe8dIlmNXihIJyqz
+X-Gm-Gg: ASbGncvvY4AdT0qKiHffHzOqi5bfRXtdqpKkGD55GoBz2cB/cz7P+MRHMEUiNY0S79A
+	av5s6H9GMiIF6iYhcJ1N8zg0Xd9wexOqxu1FR/JRWm8ODrHaUmaY4PKBbUqOFCF/vxAlE7OhvGm
+	OjtExXsxRU/qbaRCgd2JwodAtbcUhArHryMj6wWGMQc7tTQ2ahgxiURWao35LzVFp6L3wAfIwsK
+	+Kd5hiRzG5RkOfUwi6oClvbM3CGbW0EanPByidS1MPzqeSlHH2sRKrtYuCBcUF5yrZHIvcMbFMK
+	1g93g/2VpuyIA46oILpXm2TZK6Wy2I28qo+lGyJxSXCcDk69yzgTFG0FSMX9MeiLC+ovjLdy1Wb
+	y4B2otjoJ42ykFzXi5AkTHvEJ63uDKgSwDztJs68WLSkPS6nPo9B7BdmqCAe6jyNTEL/EOJtAWZ
+	kNx8E5uELnaE0pq5nPv4egzR4pcX0cRJBzvs6hy5J17hkM9PwNEtM/9LZPPoY3aID+sDqfPdS5J
+	hVAlnU=
+X-Google-Smtp-Source: AGHT+IEf+pLydZZJlPsNS9klI6Ppz7HfqYBrVGwlK2LGcq8ett6vc+FT1k0DRHTRyZXn1XwlZQ3W5w==
+X-Received: by 2002:a05:600c:444d:b0:46e:4cd3:7d54 with SMTP id 5b1f17b1804b1-471178b124amr91678925e9.18.1760982662640;
+        Mon, 20 Oct 2025 10:51:02 -0700 (PDT)
 Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427ea5b3c34sm16212597f8f.17.2025.10.20.10.49.34
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4715257d8b2sm187794005e9.3.2025.10.20.10.51.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Oct 2025 10:49:35 -0700 (PDT)
+        Mon, 20 Oct 2025 10:51:02 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
  Samuel Holland <samuel@sholland.org>, Mark Brown <broonie@kernel.org>,
@@ -70,13 +70,14 @@ Cc: linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org,
  devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
  linux-kernel@vger.kernel.org
 Subject:
- Re: [PATCH 04/11] ASoC: sun4i-spdif: Support SPDIF output on A523 family
-Date: Mon, 20 Oct 2025 19:49:34 +0200
-Message-ID: <13867454.uLZWGnKmhe@jernej-laptop>
-In-Reply-To: <20251020171059.2786070-5-wens@kernel.org>
+ Re: [PATCH 05/11] clk: sunxi-ng: sun55i-a523-r-ccu: Mark bus-r-dma as
+ critical
+Date: Mon, 20 Oct 2025 19:51:00 +0200
+Message-ID: <3374980.aeNJFYEL58@jernej-laptop>
+In-Reply-To: <20251020171059.2786070-6-wens@kernel.org>
 References:
  <20251020171059.2786070-1-wens@kernel.org>
- <20251020171059.2786070-5-wens@kernel.org>
+ <20251020171059.2786070-6-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -86,121 +87,46 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Hi,
-
-Dne ponedeljek, 20. oktober 2025 ob 19:10:50 Srednjeevropski poletni =C4=8D=
+Dne ponedeljek, 20. oktober 2025 ob 19:10:51 Srednjeevropski poletni =C4=8D=
 as je Chen-Yu Tsai napisal(a):
-> The TX side of the SPDIF block on the A523 is almost the same the
-> previous generations, the only difference being that it has separate
-> module clock inputs for the TX and RX side.
+> The "bus-r-dma" clock in the A523's PRCM clock controller is also
+> referred to as "DMA_CLKEN_SW" or "DMA ADB400 gating". It is unclear how
+> this ties into the DMA controller MBUS clock gate; however if the clock
+> is not enabled, the DMA controller in the MCU block will fail to access
+> DRAM, even failing to retrieve the DMA descriptors.
 >=20
-> Since this driver currently only supports TX, add support for a
-> different clock name so that TX and RX clocks can be separated
-> if RX support is ever added. Then add support for the A523.
+> Mark this clock as critical. This sort of mirrors what is done for the
+> main DMA controller's MBUS clock, which has a separate toggle that is
+> currently left out of the main clock controller driver.
 >=20
+> Fixes: 8cea339cfb81 ("clk: sunxi-ng: add support for the A523/T527 PRCM C=
+CU")
 > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
-> ---
->  sound/soc/sunxi/sun4i-spdif.c | 28 +++++++++++++++++++++++++---
->  1 file changed, 25 insertions(+), 3 deletions(-)
->=20
-> diff --git a/sound/soc/sunxi/sun4i-spdif.c b/sound/soc/sunxi/sun4i-spdif.c
-> index 34e5bd94e9af..6a58dc4311de 100644
-> --- a/sound/soc/sunxi/sun4i-spdif.c
-> +++ b/sound/soc/sunxi/sun4i-spdif.c
-> @@ -177,6 +177,7 @@ struct sun4i_spdif_quirks {
->  	bool has_reset;
->  	unsigned int val_fctl_ftx;
->  	unsigned int mclk_multiplier;
-> +	const char *tx_clk_name;
->  };
-> =20
->  struct sun4i_spdif_dev {
-> @@ -323,6 +324,7 @@ static int sun4i_spdif_hw_params(struct snd_pcm_subst=
-ream *substream,
->  	}
->  	mclk *=3D host->quirks->mclk_multiplier;
-> =20
-> +	dev_info(&pdev->dev, "Setting SPDIF clock rate to %u\n", mclk);
->  	ret =3D clk_set_rate(host->spdif_clk, mclk);
->  	if (ret < 0) {
->  		dev_err(&pdev->dev,
-> @@ -542,7 +544,6 @@ static struct snd_soc_dai_driver sun4i_spdif_dai =3D {
->  		.formats =3D SUN4I_FORMATS,
->  	},
->  	.ops =3D &sun4i_spdif_dai_ops,
-> -	.name =3D "spdif",
 
-Why this change?
-
->  };
-> =20
->  static const struct sun4i_spdif_quirks sun4i_a10_spdif_quirks =3D {
-> @@ -572,6 +573,14 @@ static const struct sun4i_spdif_quirks sun50i_h6_spd=
-if_quirks =3D {
->  	.mclk_multiplier =3D 1,
->  };
-> =20
-> +static const struct sun4i_spdif_quirks sun55i_a523_spdif_quirks =3D {
-> +	.reg_dac_txdata =3D SUN8I_SPDIF_TXFIFO,
-> +	.val_fctl_ftx   =3D SUN50I_H6_SPDIF_FCTL_FTX,
-> +	.has_reset      =3D true,
-> +	.mclk_multiplier =3D 1,
-> +	.tx_clk_name	=3D "tx",
-> +};
-> +
->  static const struct of_device_id sun4i_spdif_of_match[] =3D {
->  	{
->  		.compatible =3D "allwinner,sun4i-a10-spdif",
-> @@ -594,6 +603,15 @@ static const struct of_device_id sun4i_spdif_of_matc=
-h[] =3D {
->  		/* Essentially the same as the H6, but without RX */
->  		.data =3D &sun50i_h6_spdif_quirks,
->  	},
-> +	{
-> +		.compatible =3D "allwinner,sun55i-a523-spdif",
-> +		/*
-> +		 * Almost the same as H6, but has split the TX and RX clocks,
-> +		 * has a separate reset bit for the RX side, and has some
-> +		 * expanded features for the RX side.
-> +		 */
-> +		.data =3D &sun55i_a523_spdif_quirks,
-> +	},
->  	{ /* sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(of, sun4i_spdif_of_match);
-> @@ -635,6 +653,7 @@ static int sun4i_spdif_probe(struct platform_device *=
-pdev)
->  	const struct sun4i_spdif_quirks *quirks;
->  	int ret;
->  	void __iomem *base;
-> +	const char *tx_clk_name =3D "spdif";
-
-Reverse tree?
-
-Otherwise it looks good.
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
+> ---
+>  drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c b/drivers/clk/sunxi=
+=2Dng/ccu-sun55i-a523-r.c
+> index 70ce0ca0cb7d..fdcdcccd0939 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
+> @@ -121,7 +121,7 @@ static SUNXI_CCU_GATE_HW(bus_r_ir_rx_clk, "bus-r-ir-r=
+x",
+>  			 &r_apb0_clk.common.hw, 0x1cc, BIT(0), 0);
 > =20
->  	dev_dbg(&pdev->dev, "Entered %s\n", __func__);
-> =20
-> @@ -671,9 +690,12 @@ static int sun4i_spdif_probe(struct platform_device =
-*pdev)
->  		return PTR_ERR(host->apb_clk);
->  	}
-> =20
-> -	host->spdif_clk =3D devm_clk_get(&pdev->dev, "spdif");
-> +	if (quirks->tx_clk_name)
-> +		tx_clk_name =3D quirks->tx_clk_name;
-> +	host->spdif_clk =3D devm_clk_get(&pdev->dev, tx_clk_name);
->  	if (IS_ERR(host->spdif_clk)) {
-> -		dev_err(&pdev->dev, "failed to get a spdif clock.\n");
-> +		dev_err(&pdev->dev, "failed to get the \"%s\" clock.\n",
-> +			tx_clk_name);
->  		return PTR_ERR(host->spdif_clk);
->  	}
-> =20
+>  static SUNXI_CCU_GATE_HW(bus_r_dma_clk, "bus-r-dma",
+> -			 &r_apb0_clk.common.hw, 0x1dc, BIT(0), 0);
+> +			 &r_apb0_clk.common.hw, 0x1dc, BIT(0), CLK_IS_CRITICAL);
+>  static SUNXI_CCU_GATE_HW(bus_r_rtc_clk, "bus-r-rtc",
+>  			 &r_apb0_clk.common.hw, 0x20c, BIT(0), 0);
+>  static SUNXI_CCU_GATE_HW(bus_r_cpucfg_clk, "bus-r-cpucfg",
 >=20
 
 
