@@ -1,107 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D520331A79;
-	Mon, 20 Oct 2025 17:58:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240373321B3
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 17:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760983091; cv=none; b=sFoVMs3293o9xUeEggwa6W2oMh9o/ObI3I6VlNtTsbrZJSmY+xwChQhNFgnbVfvso5aurPfwr6JxXxjC0eQuCsZRFJOtlsqRVYxn1WpZu927wbLiQ3UrGWKIYx5Qynfu6k8tIZXi85JMpYet5iF1UH9OlXwFoJbmXkgof5Nc4Qw=
+	t=1760983124; cv=none; b=gKwVsazpfe6pFHPG2V3AGKrTn16ZmT6K7UQzxGIENGwHyToBRP8JjGj7BzhaoMyecGigyoMcRSaStTmGNIoyPI8PTZ5qNhG91sMnI+WtZp1omfqhPPWCpNXoHOwGjeKnAMGPafuUeWVQhzekxjGymRyjzxjRGMqfJn4qHDWlVtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760983091; c=relaxed/simple;
-	bh=3eybZrHiTS9wZG23hXV62FCDJFtCcIIaUJqij9JPSCA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EVYAHVOVoQgJZ2Ub1P1/RLMiEQZx08buB1zvnl/gwDh7D1I5Zwj+Dbe+6FO03GHeZ/qbBADpdCc4MF/1mHcD7vumYXC+uXoxffYVglLx0zhGjeJsTm+/+4aJNsdUI0pj7EvxUOo+h43oDqR9X31ZqYE1UuPkLIgisMr6emlxnCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=txdlpjK2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760983124; c=relaxed/simple;
+	bh=V0ywM16huaA6vxoSrQo9VcxXEvOPk2Rt5CdRZIoeNHY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Hth/FJjKvc926Fwb/Fod1YKG/Fu79xpNCpe1aarsT0vqqTerwi+q67FY2AgVzBC6ZRSFfEYJfHsP/dm1gpc8VTKuMI+hi+5WcPfGCQAjF+NCQoEh1Ww4g6NXjZzkALbxhM8ehEj5xFIk6nIh+qLejhUzgYWmNbCdlyZHNOk7/uE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YWSKrRAq; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="txdlpjK2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 000F9C113D0;
-	Mon, 20 Oct 2025 17:58:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760983091;
-	bh=3eybZrHiTS9wZG23hXV62FCDJFtCcIIaUJqij9JPSCA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=txdlpjK24x3VCahUT9ZDmp1hV0WioZsFGhVrgeWjDL9cx419PRG+z1aKhv4F5V0L9
-	 JapR/jG2vy2nXcja7HIJQuklXNawrWVBoUolmzXHNRskdSKILmpFmLNOHEd+Btk5Pd
-	 qyn6a8t3q415LXmmbB0OmJ+br+Yk6RQ1zNWN7tT8gECh7sss9pQprEy62S4/LcnEEi
-	 bzGWKnucEFvyT7CGRoAUWazf3X6ltNAtyfv4e0VnzA2dTCxa2eFGSqKKQxR/kr6l2F
-	 ZCkJiMMNO3p8R/OE5SRiIEDOKEE+VOtTJOVUdsPeE+y1j3RcqM8+8331BV2BKQeHCp
-	 idWOt9+MTZi2g==
-Date: Mon, 20 Oct 2025 18:58:02 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: devicetree@vger.kernel.org,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>, Conor Dooley <conor+dt@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Gatien Chevallier <gatien.chevallier@foss.st.com>,
-	imx@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, Liu Ying <victor.liu@nxp.com>,
-	Mark Brown <broonie@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Srinivas Kandagatla <srini@kernel.org>
-Subject: Re: [PATCH 0/4] dt-bindings: treewide: don't check node names
-Message-ID: <20251020-coroner-headstone-c8685f6e3868@spud>
-References: <20251020060951.30776-6-wsa+renesas@sang-engineering.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YWSKrRAq"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3f0ae439b56so3499713f8f.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 10:58:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760983119; x=1761587919; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V0ywM16huaA6vxoSrQo9VcxXEvOPk2Rt5CdRZIoeNHY=;
+        b=YWSKrRAq/aivJ8khqUtWHM1IIRnHOw2friJrgTHxVOvCjDN0I0b1oo8UPVYyi1kW30
+         w9S9DkB2pC6u1wjHd+TS9s71S2XYFKuIapDYn4LHl7l4LGt0UcKN5yNk/0x6iISV6N93
+         4LQQOXU9AnFHYmqznrS++4nROqnhDvwzm3VYYBY5zrj5+WjVQ649ixEHEnYjLu6CoPP7
+         BtNdvp+5HtL6b4sntjNjccPbnBxUD+qd4bexA2K6+6DunUpQo2oZHLFXgxqwk7mDP3sq
+         kk8YfwBgMEuX78kxSWe7uVNJEKB3OMQ8fx15pv4LeVkZtDvax3oLow5ASuveSJ331WLm
+         t/eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760983119; x=1761587919;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=V0ywM16huaA6vxoSrQo9VcxXEvOPk2Rt5CdRZIoeNHY=;
+        b=DISz2RGEPUzbTcWBbpPD96zRpKyPPvyHDG+a3jSA66NU1sHGFZFCGzthbhiI6H0HuV
+         d3BHPfNXCndF9vxt3kgyuWPnjDh7p2IA+JWb0VR5czTLxrSZYp+CVWiyYBjTbW3FWbwQ
+         bANAUpXValQz1uinvdq2LsEnB74xRXdK21ytGEgx5YEjYMZZd7Jt6Q5hBZmO33qpGve4
+         yVdXY+67NBbGRHjaScSxXwx2NVWm9VX3eoIv9lHDeJIY28Ts+TiMT+akaDHCHt+cDkOH
+         lgK/QU8yZZMZgbb346wZR69RUKPo8QIFlJoZcBlKM8buW2FRdXgX3E/Gehpgdkifed3V
+         6muQ==
+X-Gm-Message-State: AOJu0YzLV+Tn0uCup5PCdcKkqs5Jat//6yRTMPT7HqX4GkfBU+3v8XoX
+	fVyM4ICRQ87aGzFWXSpKSHOtYe4zCp7BYQOxS78YLtO5kX0LWF/nIM94
+X-Gm-Gg: ASbGncsL6USZcpLMry7WoHfM/1hA8tt8e4m9jWD+Xy1kbxnumVfVQMzAIMG7MzXJPhZ
+	QGNYUtWPKrTtC77HfKGwBFUAP02uXf7r8YySBhPp8X7L85DRb2e5rW0mVOthak+5RUkhKITX0t6
+	oUMXmXtW+2ObfpnSDGVEBElTBfupFGdNA1b7uN5Idl1+2rg5+676mF5tRVAnGU7kazq1ghxEqip
+	OWJ+g4AKG38lsUI/3aiOVHuPNBbbxDlds4Q+L97INja1eeeSovgCLBmbAMXmYqdQFUvJPtTxzNr
+	6EAzeLFoLmzq2RZktaZZnXk9AbZO6KfuDEhLfLNx5Chbg1CXf/br9nU3U6hXDQBpOjogbQs4C+G
+	IZoG64CcmTqT7DdXF6gK+6AaMoPzuCpD070YDKoDRBrQD0MVASg4+SjKPyLUQx31XUNH7bitV2U
+	6kDo7t30WzJAKam13KSVL2mYqhcoqi27hxlv/V2AgCfS+D/X9UKg/Stfq3jIw3kQHsHYirjBvo+
+	SPEMQ==
+X-Google-Smtp-Source: AGHT+IFevLoNtuerBsIw1VuRArXCqqtvXfnOs340pTPBnyLhuRUJ7DD12vxDIIoA4Zumvg8MBc0QBg==
+X-Received: by 2002:a05:6000:2406:b0:427:a27:3a6c with SMTP id ffacd0b85a97d-4270a273c43mr7686143f8f.63.1760983119338;
+        Mon, 20 Oct 2025 10:58:39 -0700 (PDT)
+Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427ea5a0f7dsm16168108f8f.4.2025.10.20.10.58.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Oct 2025 10:58:39 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, Mark Brown <broonie@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Chen-Yu Tsai <wens@kernel.org>
+Cc: linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH 08/11] arm64: dts: allwinner: a523: Add device node for SPDIF
+ block
+Date: Mon, 20 Oct 2025 19:58:37 +0200
+Message-ID: <22871360.EfDdHjke4D@jernej-laptop>
+In-Reply-To: <20251020171059.2786070-9-wens@kernel.org>
+References:
+ <20251020171059.2786070-1-wens@kernel.org>
+ <20251020171059.2786070-9-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ifIYyPcG9nWKLWH/"
-Content-Disposition: inline
-In-Reply-To: <20251020060951.30776-6-wsa+renesas@sang-engineering.com>
-
-
---ifIYyPcG9nWKLWH/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Mon, Oct 20, 2025 at 08:09:49AM +0200, Wolfram Sang wrote:
-> Node names are already and properly checked by the core schema. No need
-> to do it again.
+Dne ponedeljek, 20. oktober 2025 ob 19:10:54 Srednjeevropski poletni =C4=8D=
+as je Chen-Yu Tsai napisal(a):
+> The A523 has a SPDIF interface that is capable of both playback and
+> capture.
 >=20
-> These are all occurrences I found in linux-next as of 20251015. I did
-> run dt_bindings_check successfully. I haven't done a way to run
-> dtbs_check yet because I would need to identify the proper architecture
-> first, right? Is there some tool which tests all DTs of a certain
-> binding? At least build bot is happy, I don't know if it checks DTs as
-> well, though.
+> Add a node for it.
 >=20
-> I'd suggest to give subsystems some time to pick these patches before
-> Rob applies the remaining ones?
->=20
->=20
-> Wolfram Sang (4):
->   dt-bindings: bus: don't check node names
->   dt-bindings: nvmem: don't check node names
->   ASoC: dt-bindings: don't check node names
->   dt-bindings: spi: don't check node names
+> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
---ifIYyPcG9nWKLWH/
-Content-Type: application/pgp-signature; name="signature.asc"
+Best regards,
+Jernej
 
------BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaPZ4KgAKCRB4tDGHoIJi
-0nQOAP9zt58K2r6VVxQGAjEOeExklSakIE1QYNmtoG9DXBZsvAEAw5tz28SP3wVF
-gblhCrRV4FJmV7bWABaDA6WjOT5AlAI=
-=dLoT
------END PGP SIGNATURE-----
-
---ifIYyPcG9nWKLWH/--
