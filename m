@@ -1,83 +1,170 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1A5C314D00
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 13:24:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEF012EC0A0
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Oct 2025 14:26:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760966688; cv=none; b=lxhWwDqCc8hO7wCUwt9rn4XPO9AaRj0cRR0TPAAc5YSPe5XvNyulfv0mqo/j8dCG7vQZiU8BJVBJbQ3wqGR6fH9058XBN1rYN7i57moURdJltYK/5nGByw0Od6CiaulhgjsM/I8EcocE+gkdrqpNMFn7rPI8n45Ip2r1VvUaOeU=
+	t=1760970405; cv=none; b=J7AQglXLTWFLgcPlQErZTt6z2Lz/Nh7JWmKLqodw08RwnScTd3baYP4KgcYxqCr0qvljmTB9OUiRnPS6euTkSnwVb/B5JfR6TtWeOiLB8ENwtPGhQ63+r87vYPZDhVzsF0DfexkeZzDcZqZnYdhj6sN+4D9cO1RhWpTZ1ofqLjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760966688; c=relaxed/simple;
-	bh=57e2mVImHOH5lb+qBMy58ZLJTwYxPeo4lARKG2XJmLQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Gspsy9B/pxflQcJR7IXg93Eeh6DoBICeeVDAkZt7f+o/UopZL8WsPmq6ZEi05xC0wvI13R7z+aGLlgfk7iS8K4+86T5pJRV1w1y7jN4t5f9eGoKLp19dLkM2wyVubWO3iMR38wg5/st2CCojjsuX8ttAayQWFfKihBzEMxnEw0Y=
+	s=arc-20240116; t=1760970405; c=relaxed/simple;
+	bh=lV2dRjkdNkPGWA2SazQ+3r+dwekW1DBkAwSqCuRgHhg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UUPPo+/fqsGSvgFUeT2R64p/tYvMH5OS9kXVtb5JVARJd9JHXXyCJ9u863P+JmmY/tulKOZytwAMY4/JHiL8z3rtpHy1YpBpCOiQ9KpFE6Nx15+YqMgpIgTlwG4geeKGuYCt6UhFaQp9jUTslaltMap3IKZp+eCZ8U6vDpJ3aN0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 609F71063;
-	Mon, 20 Oct 2025 06:24:38 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 083B23F66E;
-	Mon, 20 Oct 2025 06:24:44 -0700 (PDT)
-Date: Mon, 20 Oct 2025 14:24:34 +0100
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0A3D81063;
+	Mon, 20 Oct 2025 07:26:34 -0700 (PDT)
+Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.33.8.67])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2A8403F63F;
+	Mon, 20 Oct 2025 07:26:41 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: wens@csie.org, samuel@sholland.org, mturquette@baylibre.com,
- sboyd@kernel.org, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] clk: sunxi-ng: Mark A523 bus-r-cpucfg clock as critical
-Message-ID: <20251020142434.066f53b8@donnerap.manchester.arm.com>
-In-Reply-To: <20251019172647.80379-1-jernej.skrabec@gmail.com>
-References: <20251019172647.80379-1-jernej.skrabec@gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+To: u-boot@lists.denx.de
+Cc: linux-sunxi@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Mikhail Kalashnikov <iuncuim@gmail.com>
+Subject: [PATCH] sunxi: a523: Re-use H6/H616 DRAM size detection method
+Date: Mon, 20 Oct 2025 15:26:22 +0100
+Message-Id: <20251020142622.1849108-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sun, 19 Oct 2025 19:26:47 +0200
-Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
+The H6 and H616 DRAM initialisation code recently gained a joint and
+improved size detection routine, which helped to avoid the occasional
+DRAM size misdetection.
 
-> bus-r-cpucfg clock is important for peripheral which takes care for
-> powering CPU cores on and off. Since this operation is done by firmware
-> (TF-A), mark is as critical. That way Linux won't interfere with that
-> clock.
+Use the same code for the A523 DRAM initialisation as well, which
+suffers from the same misdetection at times.
 
-Many thanks, makes sense. I hammered /sys/devices/system/cpu/cpu<x>/online
-like a 1000 times in a random loop now, and it survived - after I excluded
-CPU0 from this. Offlining CPU0 works, but it doesn't come back online
-again. But that's probably something in TF-A, so nothing that affects this
-patch:
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+ arch/arm/mach-sunxi/Makefile           |  2 +-
+ arch/arm/mach-sunxi/dram_sun55i_a523.c | 82 +-------------------------
+ 2 files changed, 4 insertions(+), 80 deletions(-)
 
-> Fixes: 8cea339cfb81 ("clk: sunxi-ng: add support for the A523/T527 PRCM CCU")
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Tested-by: Andre Przywara <andre.przywara@arm.com>
-
-Cheers,
-Andre
-
-> ---
->  drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c b/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
-> index 70ce0ca0cb7d..c5b0d4a2e397 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
-> @@ -125,7 +125,7 @@ static SUNXI_CCU_GATE_HW(bus_r_dma_clk, "bus-r-dma",
->  static SUNXI_CCU_GATE_HW(bus_r_rtc_clk, "bus-r-rtc",
->  			 &r_apb0_clk.common.hw, 0x20c, BIT(0), 0);
->  static SUNXI_CCU_GATE_HW(bus_r_cpucfg_clk, "bus-r-cpucfg",
-> -			 &r_apb0_clk.common.hw, 0x22c, BIT(0), 0);
-> +			 &r_apb0_clk.common.hw, 0x22c, BIT(0), CLK_IS_CRITICAL);
->  
->  static struct ccu_common *sun55i_a523_r_ccu_clks[] = {
->  	&r_ahb_clk.common,
+diff --git a/arch/arm/mach-sunxi/Makefile b/arch/arm/mach-sunxi/Makefile
+index 579530f27e3..9c79b55abf3 100644
+--- a/arch/arm/mach-sunxi/Makefile
++++ b/arch/arm/mach-sunxi/Makefile
+@@ -47,6 +47,6 @@ obj-$(CONFIG_DRAM_SUN50I_H616)	+= dram_sun50i_h616.o dram_dw_helpers.o
+ obj-$(CONFIG_DRAM_SUN50I_H616)	+= dram_timings/
+ obj-$(CONFIG_DRAM_SUN50I_A133)	+= dram_sun50i_a133.o
+ obj-$(CONFIG_DRAM_SUN50I_A133)	+= dram_timings/
+-obj-$(CONFIG_MACH_SUN55I_A523)	+= dram_sun55i_a523.o
++obj-$(CONFIG_MACH_SUN55I_A523)	+= dram_sun55i_a523.o dram_dw_helpers.o
+ obj-$(CONFIG_DRAM_SUN55I_A523)	+= dram_timings/
+ endif
+diff --git a/arch/arm/mach-sunxi/dram_sun55i_a523.c b/arch/arm/mach-sunxi/dram_sun55i_a523.c
+index 30bbeb40d0b..1ffb62863e2 100644
+--- a/arch/arm/mach-sunxi/dram_sun55i_a523.c
++++ b/arch/arm/mach-sunxi/dram_sun55i_a523.c
+@@ -12,6 +12,7 @@
+ #include <asm/io.h>
+ #include <asm/arch/clock.h>
+ #include <asm/arch/dram.h>
++#include <asm/arch/dram_dw_helpers.h>
+ #include <asm/arch/cpu.h>
+ #include <asm/arch/prcm.h>
+ #include <linux/bitops.h>
+@@ -1387,91 +1388,14 @@ static bool mctl_ctrl_init(const struct dram_para *para,
+ 	return true;
+ }
+ 
+-static bool mctl_core_init(const struct dram_para *para,
+-			   const struct dram_config *config)
++bool mctl_core_init(const struct dram_para *para,
++		    const struct dram_config *config)
+ {
+ 	mctl_sys_init(config->clk);
+ 
+ 	return mctl_ctrl_init(para, config);
+ }
+ 
+-static void mctl_auto_detect_rank_width(const struct dram_para *para,
+-					struct dram_config *config)
+-{
+-	/* this is minimum size that it's supported */
+-	config->cols = 8;
+-	config->rows = 13;
+-
+-	/*
+-	 * Strategy here is to test most demanding combination first and least
+-	 * demanding last, otherwise HW might not be fully utilized. For
+-	 * example, half bus width and rank = 1 combination would also work
+-	 * on HW with full bus width and rank = 2, but only 1/4 RAM would be
+-	 * visible.
+-	 */
+-
+-	debug("testing 32-bit width, rank = 2\n");
+-	config->bus_full_width = 1;
+-	config->ranks = 2;
+-	if (mctl_core_init(para, config))
+-		return;
+-
+-	debug("testing 32-bit width, rank = 1\n");
+-	config->bus_full_width = 1;
+-	config->ranks = 1;
+-	if (mctl_core_init(para, config))
+-		return;
+-
+-	debug("testing 16-bit width, rank = 2\n");
+-	config->bus_full_width = 0;
+-	config->ranks = 2;
+-	if (mctl_core_init(para, config))
+-		return;
+-
+-	debug("testing 16-bit width, rank = 1\n");
+-	config->bus_full_width = 0;
+-	config->ranks = 1;
+-	if (mctl_core_init(para, config))
+-		return;
+-
+-	panic("This DRAM setup is currently not supported.\n");
+-}
+-
+-static void mctl_auto_detect_dram_size(const struct dram_para *para,
+-				       struct dram_config *config)
+-{
+-	/* detect row address bits */
+-	config->cols = 8;
+-	config->rows = 16;
+-	mctl_core_init(para, config);
+-
+-	for (config->rows = 13; config->rows < 16; config->rows++) {
+-		/* 8 banks, 8 bit per byte and 16/32 bit width */
+-		if (mctl_mem_matches((1 << (config->rows + config->cols +
+-					    4 + config->bus_full_width))))
+-			break;
+-	}
+-
+-	/* detect column address bits */
+-	config->cols = 11;
+-	mctl_core_init(para, config);
+-
+-	for (config->cols = 8; config->cols < 11; config->cols++) {
+-		/* 8 bits per byte and 16/32 bit width */
+-		if (mctl_mem_matches(1 << (config->cols + 1 +
+-					   config->bus_full_width)))
+-			break;
+-	}
+-}
+-
+-static unsigned long long mctl_calc_size(const struct dram_config *config)
+-{
+-	u8 width = config->bus_full_width ? 4 : 2;
+-
+-	/* 8 banks */
+-	return (1ULL << (config->cols + config->rows + 3)) * width * config->ranks;
+-}
+-
+ static const struct dram_para para = {
+ #ifdef CONFIG_SUNXI_DRAM_A523_DDR3
+ 	.type = SUNXI_DRAM_TYPE_DDR3,
+-- 
+2.25.1
 
