@@ -1,872 +1,519 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F7B324B16
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Oct 2025 13:08:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9D0F32D446
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Oct 2025 14:02:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761052101; cv=none; b=X+3tTRlHnzaMvhHRv0o9Kpq0HB+SjlXLryjKMgQ3NbovqaF09er7hikXUCV1gYYpUCgEqmZ75h4UoL59xZcLyCLabsDayWbp2riUbzFEdhlcsngAqctm8nTJZw5wguzArprrw3wnW5FK+ZrWNNeLvY3HJP6+ToJRradw8J+LNc4=
+	t=1761055373; cv=none; b=hepRAkJG7N5CJk2tFE/T6k6pyt2EAe0r8KcDDX9/Y0CGSxG+Xg8ERj7j1+vI6KFoi2ogQsDrWYBQA7otZb5kwTKY7GYQp77f5ramjS7oPP1SgZ7vlkpldSe7wn6Py80sA8LquHu6u7vosgS1Ae9LgTf0jm0SSv3yHMuX6Ez3W3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761052101; c=relaxed/simple;
-	bh=p2zaRmVuCAHagPKAYh0aP7ZFk2lHzEpTKOE0DW5MWo8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YVT5zslcUi0Ev6LVt3QqtPyTiuqdkbAa43S3tEeGLtmAWJL0gvLz5Ig49ErwQRTG2TauXxvYTQtl9Leg76E3EZHMDsfxmxNTpdiOLOUGjBhOAXQfBx7mmrWnsA2JqTdeQtytGGA7BbSZIXemil2JWFG0VLWpR/EgDuTCuRuvdqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ljsF9Q2H; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ljsF9Q2H"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id B9822C0B887;
-	Tue, 21 Oct 2025 13:07:54 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 555C160680;
-	Tue, 21 Oct 2025 13:08:14 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3BC5C102F2405;
-	Tue, 21 Oct 2025 15:07:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761052092; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=Rf8f7iN+zdPJjpvslAi61m5B606kP8sZNhrq5EX/9SM=;
-	b=ljsF9Q2HwSevx95sta5VTBqGk23s+EnD0v+d5liC19//jAqWMcHLGrfmYmnRy9prPVTDID
-	RKK+JGWIYpr0eT89QhclOIJvTSAlaEeHmPvGlu8Rtq0kGWsf/tcfcWcxerbaENDgxGjXln
-	Rbp0UXD9++fvVXy3pVzZQeeYzr3m9mzmnsbcWvl21SEDVd0dKpCsexAT1qLjdBtujA9cfV
-	xmIEPZZS3kv6DTYw28EBQl06MY6oSe+Uci5f6FxIkkttSEXp93CQ7f+xdOghqtFUIT38Xj
-	Av5u3tXHoj1+LxiufqAdqY35mFiADI2oEspRcTzh2QTJLJ9wugQD56h1UktI/Q==
-Message-ID: <3583225c-178e-44ed-9bd0-1375a5af10dc@bootlin.com>
-Date: Tue, 21 Oct 2025 15:07:48 +0200
+	s=arc-20240116; t=1761055373; c=relaxed/simple;
+	bh=gzlZ6RalMUQ7gyaVzXlPuedsMUbIyY5ObRjcRensH5s=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Xv3mYw9kWTNla8qpHqrRk0uRZFHZ0rXAkuykzHw9G8Siqbxs2kGsOgqB6/HHfKTQkV2GmS3nXPy8MR6BvWieCAo5bnzi3X3kcAdEHi4RFA9++Rkv4cV+g2/TvSJB3WOfnxzNfTdswSTfKVG1MZH6MH3FPiU+nM2OalH3JxNJA1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 280BA150C;
+	Tue, 21 Oct 2025 07:02:42 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E2A413F66E;
+	Tue, 21 Oct 2025 07:02:48 -0700 (PDT)
+Date: Tue, 21 Oct 2025 15:02:46 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: linux-sunxi <linux-sunxi@lists.linux.dev>, <u-boot@lists.denx.de>, Tom
+ Rini <trini@konsulko.com>, Jagan Teki <jagan@amarulasolutions.com>, Chen-Yu
+ Tsai <wens@csie.org>, Icenowy Zheng <icenowy@aosc.xyz>, Paul Kocialkowski
+ <contact@paulk.fr>
+Subject: Re: [PATCH v2 02/11] sunxi: Split V3 and V3s support with a common
+ option
+Message-ID: <20251021150246.5d2e2e50@donnerap.manchester.arm.com>
+In-Reply-To: <aJOP3wAAw0ZqibpX@collins>
+References: <20250805174827.3696191-1-paulk@sys-base.io>
+	<20250805174827.3696191-3-paulk@sys-base.io>
+	<20250806012146.26121400@minigeek.lan>
+	<aJOP3wAAw0ZqibpX@collins>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2] net: stmmac: replace has_xxxx with core_type
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
- Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, Chen-Yu Tsai <wens@csie.org>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Jan Petrous <jan.petrous@oss.nxp.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
- Richard Cochran <richardcochran@gmail.com>, s32@nxp.com,
- Samuel Holland <samuel@sholland.org>,
- Thierry Reding <thierry.reding@gmail.com>, Vinod Koul <vkoul@kernel.org>,
- Vladimir Zapolskiy <vz@mleia.com>
-References: <E1vB6ld-0000000BIPy-2Qi4@rmk-PC.armlinux.org.uk>
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Content-Language: en-US
-In-Reply-To: <E1vB6ld-0000000BIPy-2Qi4@rmk-PC.armlinux.org.uk>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, 6 Aug 2025 19:24:47 +0200
+Paul Kocialkowski <paulk@sys-base.io> wrote:
 
+Hi,
 
-On 21/10/2025 09:26, Russell King (Oracle) wrote:
-> Replace the has_gmac, has_gmac4 and has_xgmac ints, of which only one
-> can be set when matching a core to its driver backend, with an
-> enumerated type carrying the DWMAC core type.
-> 
-> Tested-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> ---
-> v2:
-> - fix conflict with removal with STMMAC_FLAG_HAS_INTEGRATED_PCS removal
-> - wrap 88 char line in stmmac_xmit()
-> - add Maxime's tested-by
-> 
-> I haven't added Maxime's r-b because the patch has changed subtly, but
-> not in a way that invalidates testing. Given the minor changes and it's
-> possibilities for further conflicts, can we get this in sooner please?
-> Thanks.
+sorry for the late reply, had to think a bit about this.
 
-Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
+> Le Wed 06 Aug 25, 01:21, Andre Przywara a =C3=A9crit :
+> > On Tue,  5 Aug 2025 19:48:18 +0200
+> > Paul Kocialkowski <paulk@sys-base.io> wrote:
+> >=20
+> > Hi Paul,
+> >  =20
+> > > From: Paul Kocialkowski <contact@paulk.fr>
+> > >=20
+> > > There are a few notable differences that are relevant to U-Boot, incl=
+uding:
+> > > - different DRAM configuration due to the co-packaged DRAM chip in V3=
+s;
+> > > - use of an external PMIC (typically an AXP209) on V3;
+> > > - extra pins available on V3, e.g. for UART1. =20
+> >=20
+> > Mmmh, to be honest I am not really convinced this is useful. The patch
+> > below looks roughly like a big s/MACH_SUN8I_V3S/MACH_SUN8I_V3_V3S/,
+> > which I am not sure is really worth it. We had not super accurate names
+> > before, after all those are just marketing names that Allwinner once
+> > came up with. So we use MACH_SUN55I_A523, even though it's mostly
+> > A527 or T527 chips, really, for instance. =20
+>=20
+> Yes I think this case is a bit different because there is actually a diff=
+erence
+> not just in the packaging and pins available but also because a dram die =
+is
+> co-packaged with the sun8i chip.
 
-Maxime
+I still think it's an edge case of the normal DRAM-is-on-the-board scheme.
+We can just treat is to be the same DRAM on all boards, which from a pure
+DRAM init point of view is often the case anyway, even for non-co-packaged
+DRAM. As Icenowy mentioned, we treat it like this for the F1C100s and
+T113-s[34] (now).
+So what is the actual DRAM difference? I am probably missing it, but I
+can't seem to find any separate handling about this in this series?
 
-> 
->  drivers/net/ethernet/stmicro/stmmac/common.h  |  5 ++
->  .../stmicro/stmmac/dwmac-dwc-qos-eth.c        |  2 +-
->  .../net/ethernet/stmicro/stmmac/dwmac-intel.c |  5 +-
->  .../ethernet/stmicro/stmmac/dwmac-ipq806x.c   |  2 +-
->  .../ethernet/stmicro/stmmac/dwmac-loongson.c  |  2 +-
->  .../ethernet/stmicro/stmmac/dwmac-lpc18xx.c   |  2 +-
->  .../stmicro/stmmac/dwmac-qcom-ethqos.c        |  2 +-
->  .../net/ethernet/stmicro/stmmac/dwmac-rk.c    |  4 +-
->  .../net/ethernet/stmicro/stmmac/dwmac-s32.c   |  2 +-
->  .../ethernet/stmicro/stmmac/dwmac-socfpga.c   |  2 +-
->  .../net/ethernet/stmicro/stmmac/dwmac-sunxi.c |  2 +-
->  .../net/ethernet/stmicro/stmmac/dwmac-tegra.c |  2 +-
->  drivers/net/ethernet/stmicro/stmmac/hwif.c    | 73 +++++++------------
->  .../net/ethernet/stmicro/stmmac/stmmac_est.c  |  4 +-
->  .../ethernet/stmicro/stmmac/stmmac_ethtool.c  | 13 ++--
->  .../net/ethernet/stmicro/stmmac/stmmac_main.c | 34 +++++----
->  .../net/ethernet/stmicro/stmmac/stmmac_mdio.c | 14 ++--
->  .../net/ethernet/stmicro/stmmac/stmmac_pci.c  |  4 +-
->  .../ethernet/stmicro/stmmac/stmmac_platform.c |  9 +--
->  .../net/ethernet/stmicro/stmmac/stmmac_ptp.c  |  4 +-
->  include/linux/stmmac.h                        | 11 ++-
->  21 files changed, 94 insertions(+), 104 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/common.h b/drivers/net/ethernet/stmicro/stmmac/common.h
-> index fee7021246b1..31254ba525d5 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/common.h
-> +++ b/drivers/net/ethernet/stmicro/stmmac/common.h
-> @@ -43,6 +43,11 @@
->  #define DWXGMAC_ID		0x76
->  #define DWXLGMAC_ID		0x27
->  
-> +static inline bool dwmac_is_xmac(enum dwmac_core_type core_type)
-> +{
-> +	return core_type == DWMAC_CORE_GMAC4 || core_type == DWMAC_CORE_XGMAC;
-> +}
-> +
->  #define STMMAC_CHAN0	0	/* Always supported and default for all chips */
->  
->  /* TX and RX Descriptor Length, these need to be power of two.
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
-> index f1c2e35badf7..c7cd6497d42d 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
-> @@ -109,7 +109,7 @@ static int dwc_eth_dwmac_config_dt(struct platform_device *pdev,
->  	}
->  
->  	/* dwc-qos needs GMAC4, AAL, TSO and PMT */
-> -	plat_dat->has_gmac4 = 1;
-> +	plat_dat->core_type = DWMAC_CORE_GMAC4;
->  	plat_dat->dma_cfg->aal = 1;
->  	plat_dat->flags |= STMMAC_FLAG_TSO_EN;
->  	plat_dat->pmt = 1;
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
-> index e74d00984b88..b2194e414ec1 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
-> @@ -565,7 +565,7 @@ static void common_default_data(struct plat_stmmacenet_data *plat)
->  {
->  	/* clk_csr_i = 20-35MHz & MDC = clk_csr_i/16 */
->  	plat->clk_csr = STMMAC_CSR_20_35M;
-> -	plat->has_gmac = 1;
-> +	plat->core_type = DWMAC_CORE_GMAC;
->  	plat->force_sf_dma_mode = 1;
->  
->  	plat->mdio_bus_data->needs_reset = true;
-> @@ -612,8 +612,7 @@ static int intel_mgbe_common_data(struct pci_dev *pdev,
->  	plat->pdev = pdev;
->  	plat->phy_addr = -1;
->  	plat->clk_csr = STMMAC_CSR_250_300M;
-> -	plat->has_gmac = 0;
-> -	plat->has_gmac4 = 1;
-> +	plat->core_type = DWMAC_CORE_GMAC4;
->  	plat->force_sf_dma_mode = 0;
->  	plat->flags |= (STMMAC_FLAG_TSO_EN | STMMAC_FLAG_SPH_DISABLE);
->  
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-ipq806x.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-ipq806x.c
-> index ca4035cbb55b..c05f85534f0c 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-ipq806x.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-ipq806x.c
-> @@ -473,7 +473,7 @@ static int ipq806x_gmac_probe(struct platform_device *pdev)
->  			return err;
->  	}
->  
-> -	plat_dat->has_gmac = true;
-> +	plat_dat->core_type = DWMAC_CORE_GMAC;
->  	plat_dat->bsp_priv = gmac;
->  	plat_dat->set_clk_tx_rate = ipq806x_gmac_set_clk_tx_rate;
->  	plat_dat->multicast_filter_bins = 0;
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
-> index 592aa9d636e5..2a3ac0136cdb 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
-> @@ -92,7 +92,7 @@ static void loongson_default_data(struct pci_dev *pdev,
->  
->  	/* clk_csr_i = 20-35MHz & MDC = clk_csr_i/16 */
->  	plat->clk_csr = STMMAC_CSR_20_35M;
-> -	plat->has_gmac = 1;
-> +	plat->core_type = DWMAC_CORE_GMAC;
->  	plat->force_sf_dma_mode = 1;
->  
->  	/* Set default value for multicast hash bins */
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-lpc18xx.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-lpc18xx.c
-> index 2562a6d036a2..6fffc9dfbae5 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-lpc18xx.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-lpc18xx.c
-> @@ -41,7 +41,7 @@ static int lpc18xx_dwmac_probe(struct platform_device *pdev)
->  	if (IS_ERR(plat_dat))
->  		return PTR_ERR(plat_dat);
->  
-> -	plat_dat->has_gmac = true;
-> +	plat_dat->core_type = DWMAC_CORE_GMAC;
->  
->  	reg = syscon_regmap_lookup_by_compatible("nxp,lpc1850-creg");
->  	if (IS_ERR(reg)) {
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-> index 32244217d952..d1e48b524d7a 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-> @@ -846,7 +846,7 @@ static int qcom_ethqos_probe(struct platform_device *pdev)
->  	plat_dat->fix_mac_speed = ethqos_fix_mac_speed;
->  	plat_dat->dump_debug_regs = rgmii_dump;
->  	plat_dat->ptp_clk_freq_config = ethqos_ptp_clk_freq_config;
-> -	plat_dat->has_gmac4 = 1;
-> +	plat_dat->core_type = DWMAC_CORE_GMAC4;
->  	if (ethqos->has_emac_ge_3)
->  		plat_dat->dwmac4_addrs = &data->dwmac4_addrs;
->  	plat_dat->pmt = 1;
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c
-> index 51ea0caf16c1..9b92f4d335cc 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c
-> @@ -1750,8 +1750,8 @@ static int rk_gmac_probe(struct platform_device *pdev)
->  	/* If the stmmac is not already selected as gmac4,
->  	 * then make sure we fallback to gmac.
->  	 */
-> -	if (!plat_dat->has_gmac4) {
-> -		plat_dat->has_gmac = true;
-> +	if (plat_dat->core_type != DWMAC_CORE_GMAC4) {
-> +		plat_dat->core_type = DWMAC_CORE_GMAC;
->  		plat_dat->rx_fifo_size = 4096;
->  		plat_dat->tx_fifo_size = 2048;
->  	}
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-s32.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-s32.c
-> index 221539d760bc..ee095ac13203 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-s32.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-s32.c
-> @@ -146,7 +146,7 @@ static int s32_dwmac_probe(struct platform_device *pdev)
->  	gmac->ioaddr = res.addr;
->  
->  	/* S32CC core feature set */
-> -	plat->has_gmac4 = true;
-> +	plat->core_type = DWMAC_CORE_GMAC4;
->  	plat->pmt = 1;
->  	plat->flags |= STMMAC_FLAG_SPH_DISABLE;
->  	plat->rx_fifo_size = 20480;
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c
-> index 354f01184e6c..2ff5db6d41ca 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c
-> @@ -497,7 +497,7 @@ static int socfpga_dwmac_probe(struct platform_device *pdev)
->  	plat_dat->pcs_init = socfpga_dwmac_pcs_init;
->  	plat_dat->pcs_exit = socfpga_dwmac_pcs_exit;
->  	plat_dat->select_pcs = socfpga_dwmac_select_pcs;
-> -	plat_dat->has_gmac = true;
-> +	plat_dat->core_type = DWMAC_CORE_GMAC;
->  
->  	plat_dat->riwt_off = 1;
->  
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sunxi.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sunxi.c
-> index 1eadcf5d1ad6..7f560d78209d 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sunxi.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sunxi.c
-> @@ -136,7 +136,7 @@ static int sun7i_gmac_probe(struct platform_device *pdev)
->  	/* platform data specifying hardware features and callbacks.
->  	 * hardware features were copied from Allwinner drivers. */
->  	plat_dat->tx_coe = 1;
-> -	plat_dat->has_gmac = true;
-> +	plat_dat->core_type = DWMAC_CORE_GMAC;
->  	plat_dat->bsp_priv = gmac;
->  	plat_dat->init = sun7i_gmac_init;
->  	plat_dat->exit = sun7i_gmac_exit;
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-tegra.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-tegra.c
-> index dc903b846b1b..d765acbe3754 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-tegra.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-tegra.c
-> @@ -308,7 +308,7 @@ static int tegra_mgbe_probe(struct platform_device *pdev)
->  		goto disable_clks;
->  	}
->  
-> -	plat->has_xgmac = 1;
-> +	plat->core_type = DWMAC_CORE_XGMAC;
->  	plat->flags |= STMMAC_FLAG_TSO_EN;
->  	plat->pmt = 1;
->  	plat->bsp_priv = mgbe;
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/hwif.c b/drivers/net/ethernet/stmicro/stmmac/hwif.c
-> index 3f7c765dcb79..00083ce52549 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/hwif.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/hwif.c
-> @@ -106,9 +106,7 @@ int stmmac_reset(struct stmmac_priv *priv, void __iomem *ioaddr)
->  }
->  
->  static const struct stmmac_hwif_entry {
-> -	bool gmac;
-> -	bool gmac4;
-> -	bool xgmac;
-> +	enum dwmac_core_type core_type;
->  	u32 min_id;
->  	u32 dev_id;
->  	const struct stmmac_regs_off regs;
-> @@ -127,9 +125,7 @@ static const struct stmmac_hwif_entry {
->  } stmmac_hw[] = {
->  	/* NOTE: New HW versions shall go to the end of this table */
->  	{
-> -		.gmac = false,
-> -		.gmac4 = false,
-> -		.xgmac = false,
-> +		.core_type = DWMAC_CORE_MAC100,
->  		.min_id = 0,
->  		.regs = {
->  			.ptp_off = PTP_GMAC3_X_OFFSET,
-> @@ -146,9 +142,7 @@ static const struct stmmac_hwif_entry {
->  		.setup = dwmac100_setup,
->  		.quirks = stmmac_dwmac1_quirks,
->  	}, {
-> -		.gmac = true,
-> -		.gmac4 = false,
-> -		.xgmac = false,
-> +		.core_type = DWMAC_CORE_GMAC,
->  		.min_id = 0,
->  		.regs = {
->  			.ptp_off = PTP_GMAC3_X_OFFSET,
-> @@ -165,9 +159,7 @@ static const struct stmmac_hwif_entry {
->  		.setup = dwmac1000_setup,
->  		.quirks = stmmac_dwmac1_quirks,
->  	}, {
-> -		.gmac = false,
-> -		.gmac4 = true,
-> -		.xgmac = false,
-> +		.core_type = DWMAC_CORE_GMAC4,
->  		.min_id = 0,
->  		.regs = {
->  			.ptp_off = PTP_GMAC4_OFFSET,
-> @@ -187,9 +179,7 @@ static const struct stmmac_hwif_entry {
->  		.setup = dwmac4_setup,
->  		.quirks = stmmac_dwmac4_quirks,
->  	}, {
-> -		.gmac = false,
-> -		.gmac4 = true,
-> -		.xgmac = false,
-> +		.core_type = DWMAC_CORE_GMAC4,
->  		.min_id = DWMAC_CORE_4_00,
->  		.regs = {
->  			.ptp_off = PTP_GMAC4_OFFSET,
-> @@ -210,9 +200,7 @@ static const struct stmmac_hwif_entry {
->  		.setup = dwmac4_setup,
->  		.quirks = NULL,
->  	}, {
-> -		.gmac = false,
-> -		.gmac4 = true,
-> -		.xgmac = false,
-> +		.core_type = DWMAC_CORE_GMAC4,
->  		.min_id = DWMAC_CORE_4_10,
->  		.regs = {
->  			.ptp_off = PTP_GMAC4_OFFSET,
-> @@ -233,9 +221,7 @@ static const struct stmmac_hwif_entry {
->  		.setup = dwmac4_setup,
->  		.quirks = NULL,
->  	}, {
-> -		.gmac = false,
-> -		.gmac4 = true,
-> -		.xgmac = false,
-> +		.core_type = DWMAC_CORE_GMAC4,
->  		.min_id = DWMAC_CORE_5_10,
->  		.regs = {
->  			.ptp_off = PTP_GMAC4_OFFSET,
-> @@ -256,9 +242,7 @@ static const struct stmmac_hwif_entry {
->  		.setup = dwmac4_setup,
->  		.quirks = NULL,
->  	}, {
-> -		.gmac = false,
-> -		.gmac4 = false,
-> -		.xgmac = true,
-> +		.core_type = DWMAC_CORE_XGMAC,
->  		.min_id = DWXGMAC_CORE_2_10,
->  		.dev_id = DWXGMAC_ID,
->  		.regs = {
-> @@ -280,9 +264,7 @@ static const struct stmmac_hwif_entry {
->  		.setup = dwxgmac2_setup,
->  		.quirks = NULL,
->  	}, {
-> -		.gmac = false,
-> -		.gmac4 = false,
-> -		.xgmac = true,
-> +		.core_type = DWMAC_CORE_XGMAC,
->  		.min_id = DWXLGMAC_CORE_2_00,
->  		.dev_id = DWXLGMAC_ID,
->  		.regs = {
-> @@ -308,20 +290,18 @@ static const struct stmmac_hwif_entry {
->  
->  int stmmac_hwif_init(struct stmmac_priv *priv)
->  {
-> -	bool needs_xgmac = priv->plat->has_xgmac;
-> -	bool needs_gmac4 = priv->plat->has_gmac4;
-> -	bool needs_gmac = priv->plat->has_gmac;
-> +	enum dwmac_core_type core_type = priv->plat->core_type;
->  	const struct stmmac_hwif_entry *entry;
->  	struct mac_device_info *mac;
->  	bool needs_setup = true;
->  	u32 id, dev_id = 0;
->  	int i, ret;
->  
-> -	if (needs_gmac) {
-> +	if (core_type == DWMAC_CORE_GMAC) {
->  		id = stmmac_get_id(priv, GMAC_VERSION);
-> -	} else if (needs_gmac4 || needs_xgmac) {
-> +	} else if (dwmac_is_xmac(core_type)) {
->  		id = stmmac_get_id(priv, GMAC4_VERSION);
-> -		if (needs_xgmac)
-> +		if (core_type == DWMAC_CORE_XGMAC)
->  			dev_id = stmmac_get_dev_id(priv, GMAC4_VERSION);
->  	} else {
->  		id = 0;
-> @@ -331,14 +311,16 @@ int stmmac_hwif_init(struct stmmac_priv *priv)
->  	priv->synopsys_id = id;
->  
->  	/* Lets assume some safe values first */
-> -	priv->ptpaddr = priv->ioaddr +
-> -		(needs_gmac4 ? PTP_GMAC4_OFFSET : PTP_GMAC3_X_OFFSET);
-> -	priv->mmcaddr = priv->ioaddr +
-> -		(needs_gmac4 ? MMC_GMAC4_OFFSET : MMC_GMAC3_X_OFFSET);
-> -	if (needs_gmac4)
-> +	if (core_type == DWMAC_CORE_GMAC4) {
-> +		priv->ptpaddr = priv->ioaddr + PTP_GMAC4_OFFSET;
-> +		priv->mmcaddr = priv->ioaddr + MMC_GMAC4_OFFSET;
->  		priv->estaddr = priv->ioaddr + EST_GMAC4_OFFSET;
-> -	else if (needs_xgmac)
-> -		priv->estaddr = priv->ioaddr + EST_XGMAC_OFFSET;
-> +	} else {
-> +		priv->ptpaddr = priv->ioaddr + PTP_GMAC3_X_OFFSET;
-> +		priv->mmcaddr = priv->ioaddr + MMC_GMAC3_X_OFFSET;
-> +		if (core_type == DWMAC_CORE_XGMAC)
-> +			priv->estaddr = priv->ioaddr + EST_XGMAC_OFFSET;
-> +	}
->  
->  	/* Check for HW specific setup first */
->  	if (priv->plat->setup) {
-> @@ -355,16 +337,12 @@ int stmmac_hwif_init(struct stmmac_priv *priv)
->  	for (i = ARRAY_SIZE(stmmac_hw) - 1; i >= 0; i--) {
->  		entry = &stmmac_hw[i];
->  
-> -		if (needs_gmac ^ entry->gmac)
-> -			continue;
-> -		if (needs_gmac4 ^ entry->gmac4)
-> -			continue;
-> -		if (needs_xgmac ^ entry->xgmac)
-> +		if (core_type != entry->core_type)
->  			continue;
->  		/* Use synopsys_id var because some setups can override this */
->  		if (priv->synopsys_id < entry->min_id)
->  			continue;
-> -		if (needs_xgmac && (dev_id ^ entry->dev_id))
-> +		if (core_type == DWMAC_CORE_XGMAC && (dev_id ^ entry->dev_id))
->  			continue;
->  
->  		/* Only use generic HW helpers if needed */
-> @@ -400,6 +378,7 @@ int stmmac_hwif_init(struct stmmac_priv *priv)
->  	}
->  
->  	dev_err(priv->device, "Failed to find HW IF (id=0x%x, gmac=%d/%d)\n",
-> -			id, needs_gmac, needs_gmac4);
-> +		id, core_type == DWMAC_CORE_GMAC,
-> +		core_type == DWMAC_CORE_GMAC4);
->  	return -EINVAL;
->  }
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_est.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_est.c
-> index 4b513d27a988..afc516059b89 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_est.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_est.c
-> @@ -53,7 +53,7 @@ static int est_configure(struct stmmac_priv *priv, struct stmmac_est *cfg,
->  	}
->  
->  	ctrl = readl(est_addr + EST_CONTROL);
-> -	if (priv->plat->has_xgmac) {
-> +	if (priv->plat->core_type == DWMAC_CORE_XGMAC) {
->  		ctrl &= ~EST_XGMAC_PTOV;
->  		ctrl |= ((NSEC_PER_SEC / ptp_rate) * EST_XGMAC_PTOV_MUL) <<
->  			 EST_XGMAC_PTOV_SHIFT;
-> @@ -148,7 +148,7 @@ static void est_irq_status(struct stmmac_priv *priv, struct net_device *dev,
->  	}
->  
->  	if (status & EST_BTRE) {
-> -		if (priv->plat->has_xgmac) {
-> +		if (priv->plat->core_type == DWMAC_CORE_XGMAC) {
->  			btrl = FIELD_GET(EST_XGMAC_BTRL, status);
->  			btrl_max = FIELD_MAX(EST_XGMAC_BTRL);
->  		} else {
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c
-> index c60cd948311e..df016c4eb710 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c
-> @@ -303,9 +303,10 @@ static void stmmac_ethtool_getdrvinfo(struct net_device *dev,
->  {
->  	struct stmmac_priv *priv = netdev_priv(dev);
->  
-> -	if (priv->plat->has_gmac || priv->plat->has_gmac4)
-> +	if (priv->plat->core_type == DWMAC_CORE_GMAC ||
-> +	    priv->plat->core_type == DWMAC_CORE_GMAC4)
->  		strscpy(info->driver, GMAC_ETHTOOL_NAME, sizeof(info->driver));
-> -	else if (priv->plat->has_xgmac)
-> +	else if (priv->plat->core_type == DWMAC_CORE_XGMAC)
->  		strscpy(info->driver, XGMAC_ETHTOOL_NAME, sizeof(info->driver));
->  	else
->  		strscpy(info->driver, MAC100_ETHTOOL_NAME,
-> @@ -351,9 +352,9 @@ static int stmmac_ethtool_get_regs_len(struct net_device *dev)
->  {
->  	struct stmmac_priv *priv = netdev_priv(dev);
->  
-> -	if (priv->plat->has_xgmac)
-> +	if (priv->plat->core_type == DWMAC_CORE_XGMAC)
->  		return XGMAC_REGSIZE * 4;
-> -	else if (priv->plat->has_gmac4)
-> +	else if (priv->plat->core_type == DWMAC_CORE_GMAC4)
->  		return GMAC4_REG_SPACE_SIZE;
->  	return REG_SPACE_SIZE;
->  }
-> @@ -368,12 +369,12 @@ static void stmmac_ethtool_gregs(struct net_device *dev,
->  	stmmac_dump_dma_regs(priv, priv->ioaddr, reg_space);
->  
->  	/* Copy DMA registers to where ethtool expects them */
-> -	if (priv->plat->has_gmac4) {
-> +	if (priv->plat->core_type == DWMAC_CORE_GMAC4) {
->  		/* GMAC4 dumps its DMA registers at its DMA_CHAN_BASE_ADDR */
->  		memcpy(&reg_space[ETHTOOL_DMA_OFFSET],
->  		       &reg_space[GMAC4_DMA_CHAN_BASE_ADDR / 4],
->  		       NUM_DWMAC4_DMA_REGS * 4);
-> -	} else if (!priv->plat->has_xgmac) {
-> +	} else if (priv->plat->core_type != DWMAC_CORE_XGMAC) {
->  		memcpy(&reg_space[ETHTOOL_DMA_OFFSET],
->  		       &reg_space[DMA_BUS_MODE / 4],
->  		       NUM_DWMAC1000_DMA_REGS * 4);
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> index 5e6aaead5894..9fa3c221a0c3 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> @@ -446,7 +446,7 @@ static void stmmac_get_rx_hwtstamp(struct stmmac_priv *priv, struct dma_desc *p,
->  	if (!priv->hwts_rx_en)
->  		return;
->  	/* For GMAC4, the valid timestamp is from CTX next desc. */
-> -	if (priv->plat->has_gmac4 || priv->plat->has_xgmac)
-> +	if (dwmac_is_xmac(priv->plat->core_type))
->  		desc = np;
->  
->  	/* Check if timestamp is available */
-> @@ -697,7 +697,7 @@ static int stmmac_hwtstamp_get(struct net_device *dev,
->  static int stmmac_init_tstamp_counter(struct stmmac_priv *priv,
->  				      u32 systime_flags)
->  {
-> -	bool xmac = priv->plat->has_gmac4 || priv->plat->has_xgmac;
-> +	bool xmac = dwmac_is_xmac(priv->plat->core_type);
->  	struct timespec64 now;
->  	u32 sec_inc = 0;
->  	u64 temp = 0;
-> @@ -746,7 +746,7 @@ static int stmmac_init_tstamp_counter(struct stmmac_priv *priv,
->   */
->  static int stmmac_init_timestamping(struct stmmac_priv *priv)
->  {
-> -	bool xmac = priv->plat->has_gmac4 || priv->plat->has_xgmac;
-> +	bool xmac = dwmac_is_xmac(priv->plat->core_type);
->  	int ret;
->  
->  	if (priv->plat->ptp_clk_freq_config)
-> @@ -2413,7 +2413,7 @@ static void stmmac_dma_operation_mode(struct stmmac_priv *priv)
->  		txfifosz = priv->dma_cap.tx_fifo_size;
->  
->  	/* Split up the shared Tx/Rx FIFO memory on DW QoS Eth and DW XGMAC */
-> -	if (priv->plat->has_gmac4 || priv->plat->has_xgmac) {
-> +	if (dwmac_is_xmac(priv->plat->core_type)) {
->  		rxfifosz /= rx_channels_count;
->  		txfifosz /= tx_channels_count;
->  	}
-> @@ -4520,7 +4520,8 @@ static netdev_tx_t stmmac_xmit(struct sk_buff *skb, struct net_device *dev)
->  	if (skb_is_gso(skb) && priv->tso) {
->  		if (gso & (SKB_GSO_TCPV4 | SKB_GSO_TCPV6))
->  			return stmmac_tso_xmit(skb, dev);
-> -		if (priv->plat->has_gmac4 && (gso & SKB_GSO_UDP_L4))
-> +		if (priv->plat->core_type == DWMAC_CORE_GMAC4 &&
-> +		    (gso & SKB_GSO_UDP_L4))
->  			return stmmac_tso_xmit(skb, dev);
->  	}
->  
-> @@ -5973,7 +5974,7 @@ static void stmmac_common_interrupt(struct stmmac_priv *priv)
->  	u32 queue;
->  	bool xmac;
->  
-> -	xmac = priv->plat->has_gmac4 || priv->plat->has_xgmac;
-> +	xmac = dwmac_is_xmac(priv->plat->core_type);
->  	queues_count = (rx_cnt > tx_cnt) ? rx_cnt : tx_cnt;
->  
->  	if (priv->irq_wake)
-> @@ -5987,7 +5988,7 @@ static void stmmac_common_interrupt(struct stmmac_priv *priv)
->  		stmmac_fpe_irq_status(priv);
->  
->  	/* To handle GMAC own interrupts */
-> -	if ((priv->plat->has_gmac) || xmac) {
-> +	if (priv->plat->core_type == DWMAC_CORE_GMAC || xmac) {
->  		int status = stmmac_host_irq_status(priv, priv->hw, &priv->xstats);
->  
->  		if (unlikely(status)) {
-> @@ -6348,7 +6349,7 @@ static int stmmac_dma_cap_show(struct seq_file *seq, void *v)
->  		   (priv->dma_cap.mbps_1000) ? "Y" : "N");
->  	seq_printf(seq, "\tHalf duplex: %s\n",
->  		   (priv->dma_cap.half_duplex) ? "Y" : "N");
-> -	if (priv->plat->has_xgmac) {
-> +	if (priv->plat->core_type == DWMAC_CORE_XGMAC) {
->  		seq_printf(seq,
->  			   "\tNumber of Additional MAC address registers: %d\n",
->  			   priv->dma_cap.multi_addr);
-> @@ -6372,7 +6373,7 @@ static int stmmac_dma_cap_show(struct seq_file *seq, void *v)
->  		   (priv->dma_cap.time_stamp) ? "Y" : "N");
->  	seq_printf(seq, "\tIEEE 1588-2008 Advanced Time Stamp: %s\n",
->  		   (priv->dma_cap.atime_stamp) ? "Y" : "N");
-> -	if (priv->plat->has_xgmac)
-> +	if (priv->plat->core_type == DWMAC_CORE_XGMAC)
->  		seq_printf(seq, "\tTimestamp System Time Source: %s\n",
->  			   dwxgmac_timestamp_source[priv->dma_cap.tssrc]);
->  	seq_printf(seq, "\t802.3az - Energy-Efficient Ethernet (EEE): %s\n",
-> @@ -6381,7 +6382,7 @@ static int stmmac_dma_cap_show(struct seq_file *seq, void *v)
->  	seq_printf(seq, "\tChecksum Offload in TX: %s\n",
->  		   (priv->dma_cap.tx_coe) ? "Y" : "N");
->  	if (priv->synopsys_id >= DWMAC_CORE_4_00 ||
-> -	    priv->plat->has_xgmac) {
-> +	    priv->plat->core_type == DWMAC_CORE_XGMAC) {
->  		seq_printf(seq, "\tIP Checksum Offload in RX: %s\n",
->  			   (priv->dma_cap.rx_coe) ? "Y" : "N");
->  	} else {
-> @@ -7233,8 +7234,9 @@ static int stmmac_hw_init(struct stmmac_priv *priv)
->  	 * has to be disable and this can be done by passing the
->  	 * riwt_off field from the platform.
->  	 */
-> -	if (((priv->synopsys_id >= DWMAC_CORE_3_50) ||
-> -	    (priv->plat->has_xgmac)) && (!priv->plat->riwt_off)) {
-> +	if ((priv->synopsys_id >= DWMAC_CORE_3_50 ||
-> +	     priv->plat->core_type == DWMAC_CORE_XGMAC) &&
-> +	    !priv->plat->riwt_off) {
->  		priv->use_riwt = 1;
->  		dev_info(priv->device,
->  			 "Enable RX Mitigation via HW Watchdog Timer\n");
-> @@ -7355,7 +7357,7 @@ static int stmmac_xdp_rx_timestamp(const struct xdp_md *_ctx, u64 *timestamp)
->  		return -ENODATA;
->  
->  	/* For GMAC4, the valid timestamp is from CTX next desc. */
-> -	if (priv->plat->has_gmac4 || priv->plat->has_xgmac)
-> +	if (dwmac_is_xmac(priv->plat->core_type))
->  		desc_contains_ts = ndesc;
->  
->  	/* Check if timestamp is available */
-> @@ -7511,7 +7513,7 @@ int stmmac_dvr_probe(struct device *device,
->  
->  	if ((priv->plat->flags & STMMAC_FLAG_TSO_EN) && (priv->dma_cap.tsoen)) {
->  		ndev->hw_features |= NETIF_F_TSO | NETIF_F_TSO6;
-> -		if (priv->plat->has_gmac4)
-> +		if (priv->plat->core_type == DWMAC_CORE_GMAC4)
->  			ndev->hw_features |= NETIF_F_GSO_UDP_L4;
->  		priv->tso = true;
->  		dev_info(priv->device, "TSO feature enabled\n");
-> @@ -7564,7 +7566,7 @@ int stmmac_dvr_probe(struct device *device,
->  #ifdef STMMAC_VLAN_TAG_USED
->  	/* Both mac100 and gmac support receive VLAN tag detection */
->  	ndev->features |= NETIF_F_HW_VLAN_CTAG_RX | NETIF_F_HW_VLAN_STAG_RX;
-> -	if (priv->plat->has_gmac4 || priv->plat->has_xgmac) {
-> +	if (dwmac_is_xmac(priv->plat->core_type)) {
->  		ndev->hw_features |= NETIF_F_HW_VLAN_CTAG_RX;
->  		priv->hw->hw_vlan_en = true;
->  	}
-> @@ -7595,7 +7597,7 @@ int stmmac_dvr_probe(struct device *device,
->  
->  	/* MTU range: 46 - hw-specific max */
->  	ndev->min_mtu = ETH_ZLEN - ETH_HLEN;
-> -	if (priv->plat->has_xgmac)
-> +	if (priv->plat->core_type == DWMAC_CORE_XGMAC)
->  		ndev->max_mtu = XGMAC_JUMBO_LEN;
->  	else if ((priv->plat->enh_desc) || (priv->synopsys_id >= DWMAC_CORE_4_00))
->  		ndev->max_mtu = JUMBO_LEN;
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-> index d62b2870899d..6b03ea98dced 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-> @@ -301,7 +301,7 @@ static int stmmac_mdio_read_c22(struct mii_bus *bus, int phyaddr, int phyreg)
->  	struct stmmac_priv *priv = netdev_priv(bus->priv);
->  	u32 cmd;
->  
-> -	if (priv->plat->has_gmac4)
-> +	if (priv->plat->core_type == DWMAC_CORE_GMAC4)
->  		cmd = MII_GMAC4_READ;
->  	else
->  		cmd = 0;
-> @@ -344,7 +344,7 @@ static int stmmac_mdio_write_c22(struct mii_bus *bus, int phyaddr, int phyreg,
->  	struct stmmac_priv *priv = netdev_priv(bus->priv);
->  	u32 cmd;
->  
-> -	if (priv->plat->has_gmac4)
-> +	if (priv->plat->core_type == DWMAC_CORE_GMAC4)
->  		cmd = MII_GMAC4_WRITE;
->  	else
->  		cmd = MII_ADDR_GWRITE;
-> @@ -417,7 +417,7 @@ int stmmac_mdio_reset(struct mii_bus *bus)
->  	 * on MDC, so perform a dummy mdio read. To be updated for GMAC4
->  	 * if needed.
->  	 */
-> -	if (!priv->plat->has_gmac4)
-> +	if (priv->plat->core_type != DWMAC_CORE_GMAC4)
->  		writel(0, priv->ioaddr + mii_address);
->  #endif
->  	return 0;
-> @@ -528,7 +528,7 @@ static u32 stmmac_clk_csr_set(struct stmmac_priv *priv)
->  			value = 0;
->  	}
->  
-> -	if (priv->plat->has_xgmac) {
-> +	if (priv->plat->core_type == DWMAC_CORE_XGMAC) {
->  		if (clk_rate > 400000000)
->  			value = 0x5;
->  		else if (clk_rate > 350000000)
-> @@ -600,7 +600,7 @@ int stmmac_mdio_register(struct net_device *ndev)
->  
->  	new_bus->name = "stmmac";
->  
-> -	if (priv->plat->has_xgmac) {
-> +	if (priv->plat->core_type == DWMAC_CORE_XGMAC) {
->  		new_bus->read = &stmmac_xgmac2_mdio_read_c22;
->  		new_bus->write = &stmmac_xgmac2_mdio_write_c22;
->  		new_bus->read_c45 = &stmmac_xgmac2_mdio_read_c45;
-> @@ -621,7 +621,7 @@ int stmmac_mdio_register(struct net_device *ndev)
->  	} else {
->  		new_bus->read = &stmmac_mdio_read_c22;
->  		new_bus->write = &stmmac_mdio_write_c22;
-> -		if (priv->plat->has_gmac4) {
-> +		if (priv->plat->core_type == DWMAC_CORE_GMAC4) {
->  			new_bus->read_c45 = &stmmac_mdio_read_c45;
->  			new_bus->write_c45 = &stmmac_mdio_write_c45;
->  		}
-> @@ -649,7 +649,7 @@ int stmmac_mdio_register(struct net_device *ndev)
->  	}
->  
->  	/* Looks like we need a dummy read for XGMAC only and C45 PHYs */
-> -	if (priv->plat->has_xgmac)
-> +	if (priv->plat->core_type == DWMAC_CORE_XGMAC)
->  		stmmac_xgmac2_mdio_read_c45(new_bus, 0, 0, 0);
->  
->  	/* If fixed-link is set, skip PHY scanning */
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c
-> index 4e3aa611fda8..94b3a3b27270 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c
-> @@ -23,7 +23,7 @@ static void common_default_data(struct plat_stmmacenet_data *plat)
->  {
->  	/* clk_csr_i = 20-35MHz & MDC = clk_csr_i/16 */
->  	plat->clk_csr = STMMAC_CSR_20_35M;
-> -	plat->has_gmac = 1;
-> +	plat->core_type = DWMAC_CORE_GMAC;
->  	plat->force_sf_dma_mode = 1;
->  
->  	plat->mdio_bus_data->needs_reset = true;
-> @@ -76,7 +76,7 @@ static int snps_gmac5_default_data(struct pci_dev *pdev,
->  	int i;
->  
->  	plat->clk_csr = STMMAC_CSR_250_300M;
-> -	plat->has_gmac4 = 1;
-> +	plat->core_type = DWMAC_CORE_GMAC4;
->  	plat->force_sf_dma_mode = 1;
->  	plat->flags |= STMMAC_FLAG_TSO_EN;
->  	plat->pmt = 1;
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
-> index 27bcaae07a7f..fbb92cc6ab59 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
-> @@ -552,12 +552,12 @@ stmmac_probe_config_dt(struct platform_device *pdev, u8 *mac)
->  				&pdev->dev, plat->unicast_filter_entries);
->  		plat->multicast_filter_bins = dwmac1000_validate_mcast_bins(
->  				&pdev->dev, plat->multicast_filter_bins);
-> -		plat->has_gmac = 1;
-> +		plat->core_type = DWMAC_CORE_GMAC;
->  		plat->pmt = 1;
->  	}
->  
->  	if (of_device_is_compatible(np, "snps,dwmac-3.40a")) {
-> -		plat->has_gmac = 1;
-> +		plat->core_type = DWMAC_CORE_GMAC;
->  		plat->enh_desc = 1;
->  		plat->tx_coe = 1;
->  		plat->bugged_jumbo = 1;
-> @@ -565,8 +565,7 @@ stmmac_probe_config_dt(struct platform_device *pdev, u8 *mac)
->  	}
->  
->  	if (of_device_compatible_match(np, stmmac_gmac4_compats)) {
-> -		plat->has_gmac4 = 1;
-> -		plat->has_gmac = 0;
-> +		plat->core_type = DWMAC_CORE_GMAC4;
->  		plat->pmt = 1;
->  		if (of_property_read_bool(np, "snps,tso"))
->  			plat->flags |= STMMAC_FLAG_TSO_EN;
-> @@ -580,7 +579,7 @@ stmmac_probe_config_dt(struct platform_device *pdev, u8 *mac)
->  	}
->  
->  	if (of_device_is_compatible(np, "snps,dwxgmac")) {
-> -		plat->has_xgmac = 1;
-> +		plat->core_type = DWMAC_CORE_XGMAC;
->  		plat->pmt = 1;
->  		if (of_property_read_bool(np, "snps,tso"))
->  			plat->flags |= STMMAC_FLAG_TSO_EN;
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c
-> index 993ff4e87e55..3e30172fa129 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c
-> @@ -57,7 +57,7 @@ static int stmmac_adjust_time(struct ptp_clock_info *ptp, s64 delta)
->  	bool xmac, est_rst = false;
->  	int ret;
->  
-> -	xmac = priv->plat->has_gmac4 || priv->plat->has_xgmac;
-> +	xmac = dwmac_is_xmac(priv->plat->core_type);
->  
->  	if (delta < 0) {
->  		neg_adj = 1;
-> @@ -344,7 +344,7 @@ void stmmac_ptp_register(struct stmmac_priv *priv)
->  
->  	/* Calculate the clock domain crossing (CDC) error if necessary */
->  	priv->plat->cdc_error_adj = 0;
-> -	if (priv->plat->has_gmac4)
-> +	if (priv->plat->core_type == DWMAC_CORE_GMAC4)
->  		priv->plat->cdc_error_adj = (2 * NSEC_PER_SEC) / priv->plat->clk_ptp_rate;
->  
->  	/* Update the ptp clock parameters based on feature discovery, when
-> diff --git a/include/linux/stmmac.h b/include/linux/stmmac.h
-> index 99022620457a..151c81c560c8 100644
-> --- a/include/linux/stmmac.h
-> +++ b/include/linux/stmmac.h
-> @@ -171,6 +171,13 @@ struct dwmac4_addrs {
->  	u32 mtl_low_cred_offset;
->  };
->  
-> +enum dwmac_core_type {
-> +	DWMAC_CORE_MAC100,
-> +	DWMAC_CORE_GMAC,
-> +	DWMAC_CORE_GMAC4,
-> +	DWMAC_CORE_XGMAC,
-> +};
-> +
->  #define STMMAC_FLAG_SPH_DISABLE			BIT(1)
->  #define STMMAC_FLAG_USE_PHY_WOL			BIT(2)
->  #define STMMAC_FLAG_HAS_SUN8I			BIT(3)
-> @@ -186,6 +193,7 @@ struct dwmac4_addrs {
->  #define STMMAC_FLAG_HWTSTAMP_CORRECT_LATENCY	BIT(13)
->  
->  struct plat_stmmacenet_data {
-> +	enum dwmac_core_type core_type;
->  	int bus_id;
->  	int phy_addr;
->  	/* MAC ----- optional PCS ----- SerDes ----- optional PHY ----- Media
-> @@ -219,7 +227,6 @@ struct plat_stmmacenet_data {
->  	struct stmmac_dma_cfg *dma_cfg;
->  	struct stmmac_safety_feature_cfg *safety_feat_cfg;
->  	int clk_csr;
-> -	int has_gmac;
->  	int enh_desc;
->  	int tx_coe;
->  	int rx_coe;
-> @@ -282,10 +289,8 @@ struct plat_stmmacenet_data {
->  	struct reset_control *stmmac_rst;
->  	struct reset_control *stmmac_ahb_rst;
->  	struct stmmac_axi *axi;
-> -	int has_gmac4;
->  	int rss_en;
->  	int mac_port_sel_speed;
-> -	int has_xgmac;
->  	u8 vlan_fail_q;
->  	struct pci_dev *pdev;
->  	int int_snapshot_num;
+> > For the three actually differing items you mention above: I think we
+> > can treat the DRAM and external PMIC like board options, and could
+> > describe the extra pins either unconditionally or drop them at all (see
+> > my comment there).
+> >=20
+> > What do you think? Is that distinction on the Kconfig level really
+> > necessary? =20
+>=20
+> I think it is preferable because the DRAM die co-packaged with the chip is
+> definitely not a board-specific choice, so I would rather see the DRAM-re=
+lated
+> details handled by the common Kconfig rather than duplicated over each V3s
+> board.
+>
+> For the PMIC it mostly remains a board-specific option and is not enabled=
+ by
+> default anyway, it's just the defaults that are updated. Apparently there=
+ are
+> designs with V3s that use an AXP209 PMIC so the defaults could actually go
+> to the common option.
+>=20
+> Another approach here could be to keep a single MACH_SUN8I_V3 option and =
+have
+> an extra one to select the co-packaged DRAM that only V3s boards would se=
+lect
+> in their config. If it's the rename that bothers you we could keep the
+> MACH_SUN8I_V3S name but I think it would be significantly more confusing.
+
+Yes, I would prefer that: reduce the churn by keeping the current option,
+even if the naming is not fully correct. We often go with the name of the
+first available chip, and then I like to keep that even in light of new
+names showing up: H616->H313/H618/H700, or A523->A527/T527, and
+especially R528->T113, which is basically this very same case.=20
+
+And then have a special option to select the DRAM configs common to the V3s
+or V3, maybe. But again, what would that be, exactly? Is this outside of
+this series?
+
+Cheers,
+Andre
+
+>=20
+> What do you think?
+>=20
+> Paul
+>=20
+> > Cheers,
+> > Andre
+> >  =20
+> > > Move the exiting V3s config to a common option and introduce specific=
+ options
+> > > for V3s and V3 to set specific aspects and reflect this all round the=
+ tree.
+> > >=20
+> > > Also update the pinecube config to reflect the updated defaults.
+> > >=20
+> > > Signed-off-by: Paul Kocialkowski <contact@paulk.fr>
+> > > ---
+> > >  arch/arm/dts/Makefile                       |  2 +-
+> > >  arch/arm/include/asm/arch-sunxi/cpu.h       |  2 +-
+> > >  arch/arm/include/asm/arch-sunxi/cpu_sun4i.h |  2 +-
+> > >  arch/arm/mach-sunxi/Kconfig                 | 41 +++++++++++++------=
+--
+> > >  arch/arm/mach-sunxi/board.c                 |  2 +-
+> > >  arch/arm/mach-sunxi/cpu_info.c              |  2 +
+> > >  arch/arm/mach-sunxi/dram_sunxi_dw.c         | 18 ++++-----
+> > >  arch/arm/mach-sunxi/spl_spi_sunxi.c         |  2 +-
+> > >  board/sunxi/board.c                         |  2 +-
+> > >  configs/pinecube_defconfig                  |  3 +-
+> > >  drivers/clk/sunxi/Kconfig                   |  2 +-
+> > >  drivers/phy/allwinner/Kconfig               |  2 +-
+> > >  drivers/pinctrl/sunxi/Kconfig               |  2 +-
+> > >  drivers/power/Kconfig                       |  2 +-
+> > >  14 files changed, 47 insertions(+), 37 deletions(-)
+> > >=20
+> > > diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+> > > index 0dc7e190eb93..3d93679058c8 100644
+> > > --- a/arch/arm/dts/Makefile
+> > > +++ b/arch/arm/dts/Makefile
+> > > @@ -646,7 +646,7 @@ dtb-$(CONFIG_MACH_SUN8I_R40) +=3D \
+> > >  	sun8i-r40-oka40i-c.dtb \
+> > >  	sun8i-t3-cqa3t-bv3.dtb \
+> > >  	sun8i-v40-bananapi-m2-berry.dtb
+> > > -dtb-$(CONFIG_MACH_SUN8I_V3S) +=3D \
+> > > +dtb-$(CONFIG_MACH_SUN8I_V3_V3S) +=3D \
+> > >  	sun8i-s3-elimo-initium.dtb \
+> > >  	sun8i-s3-pinecube.dtb \
+> > >  	sun8i-v3-sl631-imx179.dtb \
+> > > diff --git a/arch/arm/include/asm/arch-sunxi/cpu.h b/arch/arm/include=
+/asm/arch-sunxi/cpu.h
+> > > index 768c6572d6b7..bd9dd97b890b 100644
+> > > --- a/arch/arm/include/asm/arch-sunxi/cpu.h
+> > > +++ b/arch/arm/include/asm/arch-sunxi/cpu.h
+> > > @@ -18,7 +18,7 @@
+> > > =20
+> > >  #define SOCID_A64	0x1689
+> > >  #define SOCID_H3	0x1680
+> > > -#define SOCID_V3S	0x1681
+> > > +#define SOCID_V3_V3S	0x1681
+> > >  #define SOCID_H5	0x1718
+> > >  #define SOCID_R40	0x1701
+> > > =20
+> > > diff --git a/arch/arm/include/asm/arch-sunxi/cpu_sun4i.h b/arch/arm/i=
+nclude/asm/arch-sunxi/cpu_sun4i.h
+> > > index f023a4cfd934..3212b818286c 100644
+> > > --- a/arch/arm/include/asm/arch-sunxi/cpu_sun4i.h
+> > > +++ b/arch/arm/include/asm/arch-sunxi/cpu_sun4i.h
+> > > @@ -13,7 +13,7 @@
+> > > =20
+> > >  #if defined(CONFIG_SUNXI_GEN_SUN6I) && \
+> > >      !defined(CONFIG_MACH_SUN8I_R40) && \
+> > > -    !defined(CONFIG_MACH_SUN8I_V3S)
+> > > +    !defined(CONFIG_MACH_SUN8I_V3_V3S)
+> > >  #define SUNXI_SRAM_A2_BASE		0x00040000
+> > >  #ifdef CONFIG_MACH_SUN8I_H3
+> > >  #define SUNXI_SRAM_A2_SIZE		(48 * 1024)	/* 16+32 kiB */
+> > > diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+> > > index 5a696095586e..f0faa9f80a23 100644
+> > > --- a/arch/arm/mach-sunxi/Kconfig
+> > > +++ b/arch/arm/mach-sunxi/Kconfig
+> > > @@ -476,17 +476,13 @@ config MACH_SUN8I_R528
+> > >  	select SUPPORT_SPL
+> > >  	select DRAM_SUN20I_D1
+> > > =20
+> > > +config MACH_SUN8I_V3
+> > > +	bool "sun8i (Allwinner V3/S3/S3L)"
+> > > +	select MACH_SUN8I_V3_V3S
+> > > +
+> > >  config MACH_SUN8I_V3S
+> > > -	bool "sun8i (Allwinner V3/V3s/S3/S3L)"
+> > > -	select CPU_V7A
+> > > -	select CPU_V7_HAS_NONSEC
+> > > -	select CPU_V7_HAS_VIRT
+> > > -	select ARCH_SUPPORT_PSCI
+> > > -	select SUNXI_GEN_SUN6I
+> > > -	select SUNXI_DRAM_DW
+> > > -	select SUNXI_DRAM_DW_16BIT
+> > > -	select SUPPORT_SPL
+> > > -	select ARMV7_BOOT_SEC_DEFAULT if OLD_SUNXI_KERNEL_COMPAT
+> > > +	bool "sun8i (Allwinner V3s)"
+> > > +	select MACH_SUN8I_V3_V3S
+> > > =20
+> > >  config MACH_SUN9I
+> > >  	bool "sun9i (Allwinner A80)"
+> > > @@ -562,7 +558,20 @@ config MACH_SUN8I
+> > >  	default y if MACH_SUN8I_A83T
+> > >  	default y if MACH_SUNXI_H3_H5
+> > >  	default y if MACH_SUN8I_R40
+> > > -	default y if MACH_SUN8I_V3S
+> > > +	default y if MACH_SUN8I_V3_V3S
+> > > +
+> > > +config MACH_SUN8I_V3_V3S
+> > > +	bool "sun8i (Allwinner V3/V3s/S3/S3L)"
+> > > +	depends on MACH_SUN8I_V3 || MACH_SUN8I_V3S
+> > > +	select CPU_V7A
+> > > +	select CPU_V7_HAS_NONSEC
+> > > +	select CPU_V7_HAS_VIRT
+> > > +	select ARCH_SUPPORT_PSCI
+> > > +	select SUNXI_GEN_SUN6I
+> > > +	select SUNXI_DRAM_DW
+> > > +	select SUNXI_DRAM_DW_16BIT
+> > > +	select SUPPORT_SPL
+> > > +	select ARMV7_BOOT_SEC_DEFAULT if OLD_SUNXI_KERNEL_COMPAT
+> > > =20
+> > >  config RESERVE_ALLWINNER_BOOT0_HEADER
+> > >  	bool "reserve space for Allwinner boot0 header"
+> > > @@ -719,7 +728,7 @@ config DRAM_CLK
+> > >  	default 792 if MACH_SUN9I
+> > >  	default 648 if MACH_SUN8I_R40
+> > >  	default 360 if MACH_SUN4I || MACH_SUN5I || MACH_SUN7I || \
+> > > -		       MACH_SUN8I_V3S
+> > > +		       MACH_SUN8I_V3_V3S
+> > >  	default 312 if MACH_SUN6I || MACH_SUN8I
+> > >  	default 672 if MACH_SUN50I
+> > >  	default 744 if MACH_SUN50I_H6
+> > > @@ -747,7 +756,7 @@ config DRAM_ZQ
+> > >  	default 123 if MACH_SUN4I || MACH_SUN5I || MACH_SUN6I || \
+> > >  		       MACH_SUN8I_A23 || MACH_SUN8I_A33 || MACH_SUN8I_A83T
+> > >  	default 127 if MACH_SUN7I
+> > > -	default 14779 if MACH_SUN8I_V3S
+> > > +	default 14779 if MACH_SUN8I_V3_V3S
+> > >  	default 3881979 if MACH_SUNXI_H3_H5 || MACH_SUN8I_R40 || MACH_SUN50=
+I_H6
+> > >  	default 4145117 if MACH_SUN9I
+> > >  	default 3881915 if MACH_SUN50I
+> > > @@ -877,7 +886,7 @@ config SYS_SOC
+> > >  config SUNXI_MINIMUM_DRAM_MB
+> > >  	int "minimum DRAM size"
+> > >  	default 32 if MACH_SUNIV
+> > > -	default 64 if MACH_SUN8I_V3S
+> > > +	default 64 if MACH_SUN8I_V3_V3S
+> > >  	default 256
+> > >  	---help---
+> > >  	Minimum DRAM size expected on the board. Traditionally we assumed
+> > > @@ -963,7 +972,7 @@ config VIDEO_SUNXI
+> > >  	depends on !MACH_SUN8I_A83T
+> > >  	depends on !MACH_SUNXI_H3_H5
+> > >  	depends on !MACH_SUN8I_R40
+> > > -	depends on !MACH_SUN8I_V3S
+> > > +	depends on !MACH_SUN8I_V3_V3S
+> > >  	depends on !MACH_SUN9I
+> > >  	depends on !MACH_SUN50I
+> > >  	depends on !SUN50I_GEN_H6
+> > > @@ -1186,7 +1195,7 @@ config SPL_STACK_R_ADDR
+> > > =20
+> > >  config SPL_SPI_SUNXI
+> > >  	bool "Support for SPI Flash on Allwinner SoCs in SPL"
+> > > -	depends on MACH_SUN4I || MACH_SUN5I || MACH_SUN7I || MACH_SUNXI_H3_=
+H5 || MACH_SUN50I || MACH_SUN8I_R40 || MACH_SUN8I_V3S || SUN50I_GEN_H6 || M=
+ACH_SUNIV || SUNXI_GEN_NCAT2
+> > > +	depends on MACH_SUN4I || MACH_SUN5I || MACH_SUN7I || MACH_SUNXI_H3_=
+H5 || MACH_SUN50I || MACH_SUN8I_R40 || MACH_SUN8I_V3_V3S || SUN50I_GEN_H6 |=
+| MACH_SUNIV || SUNXI_GEN_NCAT2
+> > >  	help
+> > >  	  Enable support for SPI Flash. This option allows SPL to read from
+> > >  	  sunxi SPI Flash. It uses the same method as the boot ROM, so does
+> > > diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
+> > > index fb4837c2082d..a1a02b0fae50 100644
+> > > --- a/arch/arm/mach-sunxi/board.c
+> > > +++ b/arch/arm/mach-sunxi/board.c
+> > > @@ -149,7 +149,7 @@ static int gpio_init(void)
+> > >  	sunxi_gpio_set_cfgpin(SUNXI_GPB(9), SUN8I_A83T_GPB_UART0);
+> > >  	sunxi_gpio_set_cfgpin(SUNXI_GPB(10), SUN8I_A83T_GPB_UART0);
+> > >  	sunxi_gpio_set_pull(SUNXI_GPB(10), SUNXI_GPIO_PULL_UP);
+> > > -#elif CONFIG_CONS_INDEX =3D=3D 1 && defined(CONFIG_MACH_SUN8I_V3S)
+> > > +#elif CONFIG_CONS_INDEX =3D=3D 1 && defined(CONFIG_MACH_SUN8I_V3_V3S)
+> > >  	sunxi_gpio_set_cfgpin(SUNXI_GPB(8), SUN8I_V3S_GPB_UART0);
+> > >  	sunxi_gpio_set_cfgpin(SUNXI_GPB(9), SUN8I_V3S_GPB_UART0);
+> > >  	sunxi_gpio_set_pull(SUNXI_GPB(9), SUNXI_GPIO_PULL_UP);
+> > > diff --git a/arch/arm/mach-sunxi/cpu_info.c b/arch/arm/mach-sunxi/cpu=
+_info.c
+> > > index c3a51d9956ec..5b03dcdc354d 100644
+> > > --- a/arch/arm/mach-sunxi/cpu_info.c
+> > > +++ b/arch/arm/mach-sunxi/cpu_info.c
+> > > @@ -90,6 +90,8 @@ int print_cpuinfo(void)
+> > >  	printf("CPU:   Allwinner H3 (SUN8I %04x)\n", sunxi_get_sram_id());
+> > >  #elif defined CONFIG_MACH_SUN8I_R40
+> > >  	printf("CPU:   Allwinner R40 (SUN8I %04x)\n", sunxi_get_sram_id());
+> > > +#elif defined CONFIG_MACH_SUN8I_V3
+> > > +	printf("CPU:   Allwinner V3/S3/S3L (SUN8I %04x)\n", sunxi_get_sram_=
+id());
+> > >  #elif defined CONFIG_MACH_SUN8I_V3S
+> > >  	printf("CPU:   Allwinner V3s (SUN8I %04x)\n", sunxi_get_sram_id());
+> > >  #elif defined CONFIG_MACH_SUN8I_R528
+> > > diff --git a/arch/arm/mach-sunxi/dram_sunxi_dw.c b/arch/arm/mach-sunx=
+i/dram_sunxi_dw.c
+> > > index 4ed295909ceb..56d03027b933 100644
+> > > --- a/arch/arm/mach-sunxi/dram_sunxi_dw.c
+> > > +++ b/arch/arm/mach-sunxi/dram_sunxi_dw.c
+> > > @@ -254,7 +254,7 @@ static void mctl_set_master_priority(uint16_t soc=
+id)
+> > >  	case SOCID_H3:
+> > >  		mctl_set_master_priority_h3();
+> > >  		return;
+> > > -	case SOCID_V3S:
+> > > +	case SOCID_V3_V3S:
+> > >  		mctl_set_master_priority_v3s();
+> > >  		return;
+> > >  	case SOCID_A64:
+> > > @@ -445,7 +445,7 @@ static void mctl_sys_init(uint16_t socid, struct =
+dram_para *para)
+> > >  				CCM_DRAMCLK_CFG_DIV(1) |
+> > >  				CCM_DRAMCLK_CFG_SRC_PLL11 |
+> > >  				CCM_DRAMCLK_CFG_UPD);
+> > > -	} else if (socid =3D=3D SOCID_H3 || socid =3D=3D SOCID_H5 || socid =
+=3D=3D SOCID_V3S) {
+> > > +	} else if (socid =3D=3D SOCID_H3 || socid =3D=3D SOCID_H5 || socid =
+=3D=3D SOCID_V3_V3S) {
+> > >  		clock_set_pll5(CONFIG_DRAM_CLK * 2 * 1000000, false);
+> > >  		clrsetbits_le32(&ccm->dram_clk_cfg,
+> > >  				CCM_DRAMCLK_CFG_DIV_MASK |
+> > > @@ -528,7 +528,7 @@ static int mctl_channel_init(uint16_t socid, stru=
+ct dram_para *para)
+> > >  		/* dphy & aphy phase select 270 degree */
+> > >  		clrsetbits_le32(&mctl_ctl->pgcr[2], (0x3 << 10) | (0x3 << 8),
+> > >  				(0x1 << 10) | (0x2 << 8));
+> > > -	} else if (socid =3D=3D SOCID_V3S) {
+> > > +	} else if (socid =3D=3D SOCID_V3_V3S) {
+> > >  		/* dx ddr_clk & hdr_clk dynamic mode */
+> > >  		clrbits_le32(&mctl_ctl->pgcr[0], (0x3 << 14) | (0x3 << 12));
+> > > =20
+> > > @@ -567,7 +567,7 @@ static int mctl_channel_init(uint16_t socid, stru=
+ct dram_para *para)
+> > >  	mctl_set_bit_delays(para);
+> > >  	udelay(50);
+> > > =20
+> > > -	if (socid =3D=3D SOCID_V3S) {
+> > > +	if (socid =3D=3D SOCID_V3_V3S) {
+> > >  		mctl_v3s_zq_calibration_quirk(para);
+> > > =20
+> > >  		mctl_phy_init(PIR_PLLINIT | PIR_DCAL | PIR_PHYRST |
+> > > @@ -636,7 +636,7 @@ static int mctl_channel_init(uint16_t socid, stru=
+ct dram_para *para)
+> > >  	udelay(10);
+> > > =20
+> > >  	/* set PGCR3, CKE polarity */
+> > > -	if (socid =3D=3D SOCID_H3 || socid =3D=3D SOCID_V3S)
+> > > +	if (socid =3D=3D SOCID_H3 || socid =3D=3D SOCID_V3_V3S)
+> > >  		writel(0x00aa0060, &mctl_ctl->pgcr[3]);
+> > >  	else if (socid =3D=3D SOCID_A64 || socid =3D=3D SOCID_H5 || socid =
+=3D=3D SOCID_R40)
+> > >  		writel(0xc0aa0060, &mctl_ctl->pgcr[3]);
+> > > @@ -758,7 +758,7 @@ static void mctl_auto_detect_dram_size(uint16_t s=
+ocid, struct dram_para *para)
+> > >  	   0,  0,  0,  0,  0,  0,  0,  0,			\
+> > >  	   0,  0,  0,  0,  0,  0,  0      }
+> > > =20
+> > > -#define SUN8I_V3S_DX_READ_DELAYS					\
+> > > +#define SUN8I_V3S_DX_READ_DELAYS				\
+> > >  	{{  8,  8,  8,  8,  8,  8,  8,  8,  8,  0,  0 },	\
+> > >  	 {  7,  7,  7,  7,  7,  7,  7,  7,  7,  0,  0 },	\
+> > >  	 {  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 },	\
+> > > @@ -851,7 +851,7 @@ unsigned long sunxi_dram_init(void)
+> > >  		.dx_read_delays  =3D SUN8I_H3_DX_READ_DELAYS,
+> > >  		.dx_write_delays =3D SUN8I_H3_DX_WRITE_DELAYS,
+> > >  		.ac_delays	 =3D SUN8I_H3_AC_DELAYS,
+> > > -#elif defined(CONFIG_MACH_SUN8I_V3S)
+> > > +#elif defined(CONFIG_MACH_SUN8I_V3_V3S)
+> > >  		.dx_read_delays  =3D SUN8I_V3S_DX_READ_DELAYS,
+> > >  		.dx_write_delays =3D SUN8I_V3S_DX_WRITE_DELAYS,
+> > >  		.ac_delays	 =3D SUN8I_V3S_AC_DELAYS,
+> > > @@ -878,8 +878,8 @@ unsigned long sunxi_dram_init(void)
+> > >  	uint16_t socid =3D SOCID_H3;
+> > >  #elif defined(CONFIG_MACH_SUN8I_R40)
+> > >  	uint16_t socid =3D SOCID_R40;
+> > > -#elif defined(CONFIG_MACH_SUN8I_V3S)
+> > > -	uint16_t socid =3D SOCID_V3S;
+> > > +#elif defined(CONFIG_MACH_SUN8I_V3_V3S)
+> > > +	uint16_t socid =3D SOCID_V3_V3S;
+> > >  #elif defined(CONFIG_MACH_SUN50I)
+> > >  	uint16_t socid =3D SOCID_A64;
+> > >  #elif defined(CONFIG_MACH_SUN50I_H5)
+> > > diff --git a/arch/arm/mach-sunxi/spl_spi_sunxi.c b/arch/arm/mach-sunx=
+i/spl_spi_sunxi.c
+> > > index 5f72e809952b..f6650652b42a 100644
+> > > --- a/arch/arm/mach-sunxi/spl_spi_sunxi.c
+> > > +++ b/arch/arm/mach-sunxi/spl_spi_sunxi.c
+> > > @@ -141,7 +141,7 @@ static bool is_sun6i_gen_spi(void)
+> > >  	return IS_ENABLED(CONFIG_SUNXI_GEN_SUN6I) ||
+> > >  	       IS_ENABLED(CONFIG_SUN50I_GEN_H6) ||
+> > >  	       IS_ENABLED(CONFIG_SUNXI_GEN_NCAT2) ||
+> > > -	       IS_ENABLED(CONFIG_MACH_SUN8I_V3S);
+> > > +	       IS_ENABLED(CONFIG_MACH_SUN8I_V3_V3S);
+> > >  }
+> > > =20
+> > >  static uintptr_t spi0_base_address(void)
+> > > diff --git a/board/sunxi/board.c b/board/sunxi/board.c
+> > > index 2929bc17f084..6520636ffab5 100644
+> > > --- a/board/sunxi/board.c
+> > > +++ b/board/sunxi/board.c
+> > > @@ -68,7 +68,7 @@ void i2c_init_board(void)
+> > >  	sunxi_gpio_set_cfgpin(SUNXI_GPH(14), SUN6I_GPH_TWI0);
+> > >  	sunxi_gpio_set_cfgpin(SUNXI_GPH(15), SUN6I_GPH_TWI0);
+> > >  	clock_twi_onoff(0, 1);
+> > > -#elif defined(CONFIG_MACH_SUN8I_V3S)
+> > > +#elif defined(CONFIG_MACH_SUN8I_V3_V3S)
+> > >  	sunxi_gpio_set_cfgpin(SUNXI_GPB(6), SUN8I_V3S_GPB_TWI0);
+> > >  	sunxi_gpio_set_cfgpin(SUNXI_GPB(7), SUN8I_V3S_GPB_TWI0);
+> > >  	clock_twi_onoff(0, 1);
+> > > diff --git a/configs/pinecube_defconfig b/configs/pinecube_defconfig
+> > > index 7567a6aa7394..088dd6f8630a 100644
+> > > --- a/configs/pinecube_defconfig
+> > > +++ b/configs/pinecube_defconfig
+> > > @@ -2,8 +2,7 @@ CONFIG_ARM=3Dy
+> > >  CONFIG_ARCH_SUNXI=3Dy
+> > >  CONFIG_DEFAULT_DEVICE_TREE=3D"sun8i-s3-pinecube"
+> > >  CONFIG_SPL=3Dy
+> > > -CONFIG_MACH_SUN8I_V3S=3Dy
+> > > -CONFIG_SUNXI_DRAM_DDR3_1333=3Dy
+> > > +CONFIG_MACH_SUN8I_V3=3Dy
+> > >  CONFIG_DRAM_CLK=3D504
+> > >  CONFIG_DRAM_ODT_EN=3Dy
+> > >  CONFIG_I2C0_ENABLE=3Dy
+> > > diff --git a/drivers/clk/sunxi/Kconfig b/drivers/clk/sunxi/Kconfig
+> > > index 1c1cc82719cd..207d3bed7922 100644
+> > > --- a/drivers/clk/sunxi/Kconfig
+> > > +++ b/drivers/clk/sunxi/Kconfig
+> > > @@ -68,7 +68,7 @@ config CLK_SUN8I_R40
+> > > =20
+> > >  config CLK_SUN8I_V3S
+> > >  	bool "Clock driver for Allwinner V3S"
+> > > -	default MACH_SUN8I_V3S
+> > > +	default MACH_SUN8I_V3_V3S
+> > >  	help
+> > >  	  This enables common clock driver support for platforms based
+> > >  	  on Allwinner V3S SoC.
+> > > diff --git a/drivers/phy/allwinner/Kconfig b/drivers/phy/allwinner/Kc=
+onfig
+> > > index bb0bd8d5f812..335eff0a8bac 100644
+> > > --- a/drivers/phy/allwinner/Kconfig
+> > > +++ b/drivers/phy/allwinner/Kconfig
+> > > @@ -5,7 +5,7 @@ config PHY_SUN4I_USB
+> > >  	bool "Allwinner Sun4I USB PHY driver"
+> > >  	depends on ARCH_SUNXI
+> > >  	depends on !MACH_SUN9I
+> > > -	default n if MACH_SUN8I_V3S
+> > > +	default n if MACH_SUN8I_V3_V3S
+> > >  	default y
+> > >  	select DM_REGULATOR
+> > >  	select PHY
+> > > diff --git a/drivers/pinctrl/sunxi/Kconfig b/drivers/pinctrl/sunxi/Kc=
+onfig
+> > > index 543149922998..59039917158e 100644
+> > > --- a/drivers/pinctrl/sunxi/Kconfig
+> > > +++ b/drivers/pinctrl/sunxi/Kconfig
+> > > @@ -76,7 +76,7 @@ config PINCTRL_SUN8I_H3_R
+> > > =20
+> > >  config PINCTRL_SUN8I_V3S
+> > >  	bool "Support for the Allwinner V3s PIO"
+> > > -	default MACH_SUN8I_V3S
+> > > +	default MACH_SUN8I_V3_V3S
+> > >  	select PINCTRL_SUNXI
+> > > =20
+> > >  config PINCTRL_SUN9I_A80
+> > > diff --git a/drivers/power/Kconfig b/drivers/power/Kconfig
+> > > index eed65058e667..cdb3d712389c 100644
+> > > --- a/drivers/power/Kconfig
+> > > +++ b/drivers/power/Kconfig
+> > > @@ -75,7 +75,7 @@ config AXP152_POWER
+> > > =20
+> > >  config AXP209_POWER
+> > >  	bool "axp209 pmic support"
+> > > -	depends on MACH_SUN4I || MACH_SUN5I || MACH_SUN7I || MACH_SUN8I_V3S
+> > > +	depends on MACH_SUN4I || MACH_SUN5I || MACH_SUN7I || MACH_SUN8I_V3
+> > >  	select AXP_PMIC_BUS
+> > >  	select CMD_POWEROFF
+> > >  	---help--- =20
+> >  =20
+>=20
 
