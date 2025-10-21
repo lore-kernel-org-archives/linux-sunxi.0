@@ -1,46 +1,57 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60FBC348869;
-	Tue, 21 Oct 2025 16:54:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2985334A3D4;
+	Tue, 21 Oct 2025 18:52:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761065692; cv=none; b=jWs3+IKB5lZifijL2LqezswPHVX+k2FRCFlrzSWW42atdnRmO/gthUHARRAQr83PzksB8gpjNsaTGVTX7dRHeXG3bwuoCxKGLuUq+AHbun5kL6ncgrwu9zBQoMkiBr5No2npO8KBveST06sLrltvite/2RbxMWwsCQmFKXY6M9E=
+	t=1761072742; cv=none; b=Rx3KgA1aWeZ4/OG0xt62N/eGAjai7F3wxEJhWNwfU7htKM3bXA6CLmOh9AGvz7+vIjKMeYHE3GV+HvjdIHjyz1g0WAkYiGqoafR+ysJEmZxc8yI5tfZczybpRSnXuVRLJG7Bt/ds7H8toy165pV3BBOsBXvHb06eyxnY1Lc1k3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761065692; c=relaxed/simple;
-	bh=kcJe89EUvp59KaUJ7RAP9IH7lYX00mLmtsiVqwhSc4c=;
+	s=arc-20240116; t=1761072742; c=relaxed/simple;
+	bh=/CjlmkvSVehb9uKQ22ITRCOwatYs4Z+DyN9C4O9799g=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=E+UxFoadWNNgMnL6Vo0vXmdwanE8TPe85QebRVsSiL2tRmK5QeYdZlpPpleSHTNRZzZeCsACV6jFiqYtq9R5kC379jNh4MO4gBjbIk+cQ+T9wEGZKBvILrRkf6gQ3bodkT8fjZHsopVfqvJ1RYiBWxK8lNGWsQG+gER1X2JiDmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oYBpIhKL; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Mxb1X7JRuY5nNUPbvvk26lWAZPpnkMN/eZjW0tYjJEPWCKw5Eob7xEsJyPKCikckBifEM7fL8Xk1gp3WZSxi1Zv6oPWN7VIHdHswCVJ/cWOG2dLAM2nlwl5tgt3o7TBLMhWrQjxFkcQHrW+KlbExrU/15r9PY+8ZNgM0fQik8lM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F411smwq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oYBpIhKL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5B5BC4CEF5;
-	Tue, 21 Oct 2025 16:54:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F411smwq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAADFC4CEF5;
+	Tue, 21 Oct 2025 18:52:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761065691;
-	bh=kcJe89EUvp59KaUJ7RAP9IH7lYX00mLmtsiVqwhSc4c=;
+	s=k20201202; t=1761072739;
+	bh=/CjlmkvSVehb9uKQ22ITRCOwatYs4Z+DyN9C4O9799g=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=oYBpIhKLxjvi6aQi1PUCD8cDzSPRZZ3c1fX2T8pHwltHk42aIqAM0qvDpKkD+HAfO
-	 GHkAgLKzPV5OkBlO9bdFHELLZrIbQlesC2RkfVeBNZniAdfbHY8LIKorsZNwcIlhI6
-	 tovf2fK83OEhMhFU9Gu/7tX4FInFo6K6wk2EormtE0eDX5Gq65jBAQdo1jp2VdJOTn
-	 y0D0CgvSjhYN4dpdjBuxiPcotHG/wzKeHIj6MKc96PHQwxEHp9g+qxfWpSnG9inQ2/
-	 tUwvxljR9/TM3gfjwAZNXVkD3Wb9rW3TcHTZBIIHToJ3YCgAOSnpxitnQjeaTTlUAU
-	 v1NGmzaRRZDlg==
-Received: from wens.tw (localhost [127.0.0.1])
-	by wens.tw (Postfix) with ESMTP id E4A4C5FBE4;
-	Wed, 22 Oct 2025 00:54:48 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
-To: wens@csie.org, samuel@sholland.org, 
- Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, linux-clk@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20251020152704.4804-1-jernej.skrabec@gmail.com>
-References: <20251020152704.4804-1-jernej.skrabec@gmail.com>
-Subject: Re: [PATCH v2] clk: sunxi-ng: Mark A523 bus-r-cpucfg clock as
- critical
-Message-Id: <176106568889.3123154.11081141825428499092.b4-ty@kernel.org>
-Date: Wed, 22 Oct 2025 00:54:48 +0800
+	b=F411smwqWcOG0d2J5NZJxXys/QHFqMqfadrXHqCOrLNcMA8WW8cRWSk5m/BcXF9zx
+	 jZCozPqw0LLbKMe9Xg/7Q/5qNkvpUcFxLmVtHtolTatemNDXN1nSJTjrUI9VuvXwq7
+	 WKFwmr+7x/pp0G6AK4RBsvqGwJnVh2cymY/fGszwyWytaKA9KDj4sVfS+KG78BgSZY
+	 bcEELUX1vIfLE0lvoGBje+ts88QjDTQ9wZrrgDSKAnoSPNtxc3GvyBNpQxBQo8hSIt
+	 06Xj4Zp0li6SsLoBTKYt5YN1COKgyPPPWPNwy3+TOWEwT4Yde6TiJdiW4MfOXFPNpO
+	 KQR4u8ujsV9Eg==
+From: Mark Brown <broonie@kernel.org>
+To: devicetree@vger.kernel.org, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Chen-Yu Tsai <wens@csie.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
+ Gatien Chevallier <gatien.chevallier@foss.st.com>, imx@lists.linux.dev, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, linux-arm-kernel@lists.infradead.org, 
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-sunxi@lists.linux.dev, Liu Ying <victor.liu@nxp.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+ Srinivas Kandagatla <srini@kernel.org>
+In-Reply-To: <20251020060951.30776-6-wsa+renesas@sang-engineering.com>
+References: <20251020060951.30776-6-wsa+renesas@sang-engineering.com>
+Subject: Re: (subset) [PATCH 0/4] dt-bindings: treewide: don't check node
+ names
+Message-Id: <176107273462.196841.10566474992325623883.b4-ty@kernel.org>
+Date: Tue, 21 Oct 2025 19:52:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -49,22 +60,46 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
+X-Mailer: b4 0.15-dev-2a268
 
-On Mon, 20 Oct 2025 17:27:04 +0200, Jernej Skrabec wrote:
-> bus-r-cpucfg clock is important for peripheral which takes care of
-> powering CPU cores on and off. Since this operation is done by firmware
-> (TF-A), mark it as critical. That way Linux won't interfere with that
-> clock.
+On Mon, 20 Oct 2025 08:09:49 +0200, Wolfram Sang wrote:
+> Node names are already and properly checked by the core schema. No need
+> to do it again.
 > 
+> These are all occurrences I found in linux-next as of 20251015. I did
+> run dt_bindings_check successfully. I haven't done a way to run
+> dtbs_check yet because I would need to identify the proper architecture
+> first, right? Is there some tool which tests all DTs of a certain
+> binding? At least build bot is happy, I don't know if it checks DTs as
+> well, though.
 > 
+> [...]
 
-Applied to sunxi/clk-fixes-for-6.18 in local tree, thanks!
+Applied to
 
-[1/1] clk: sunxi-ng: Mark A523 bus-r-cpucfg clock as critical
-      commit: 1dba74abf3e2fa4484b924d8ba6e54e64ebb8c82
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Best regards,
--- 
-Chen-Yu Tsai <wens@kernel.org>
+Thanks!
+
+[3/4] ASoC: dt-bindings: don't check node names
+      commit: 6a4f29bc66294d44d61a294e5bdc623eae74587b
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
