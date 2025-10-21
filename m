@@ -1,105 +1,70 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5012A28466D
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Oct 2025 07:43:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD171DE3A4;
+	Tue, 21 Oct 2025 10:39:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761032626; cv=none; b=tPJvIctCsMAngOUtyBrPtTmdG0j5p0VJZEEhPAoD4TRvFYPRgSIGSE35ViSziBcar5Ouv8+n3VOLeumRskITIc3kIHh+UNKJfNAtg3NuFNG1kv11fMqhiogwAH/XIMSEG0wqIPHjQ0tx8sqEtA1OvTf7OY5kvpifd/Jsq0RV67I=
+	t=1761043147; cv=none; b=bA8ENCCKufrMTN/NF0GPRd4r/z5f2MCTG9HasMgOrtCj525VtTV3QdxIr/AbJLWsP1MY4bF36FCFbA3rU/OX7BNjH2ZubC17BzlbahXiMQndWwJwp99l5k75lrE0tatYkKTdsvElzs/gcFxJvAcNX1pDTyGaOWIj/EPlnXz5az8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761032626; c=relaxed/simple;
-	bh=L3OSHu/zykUUrMf0jhQiVo+5X5Tp4yjmsTRArUNbg40=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TETHzLPueOQp4s+JhuRllSsP+H16TaTDNTiEbUxR1Lm42I23Stur4/VQN2qsXEenD+Qr4Y5H4iwBySmUo3rUTfdC56gMmkiQFtsFAy+RefEnXicH8NjVQ44fxPP5G6ckU/oj7sWq/jWT7BpZUlal8h3x2EFrLqe3WUwTbKRYQ1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D3WmNV5O; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761043147; c=relaxed/simple;
+	bh=3q6sXrG7VRtYkwyyX371flcjfB6mMLFODYR2Y1GJ5ro=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GsEGff+Lw/yR9VIvndhC78tyTQgqg3kdMPzKmbBRcwBdJEeKhFQkCUboWmqpU1qkc5NvGtyZ1T5begPtIfrNkk98eFt4Lp7uwZr7mdQhxKyOKwR6XBMEjUphY3ZEs6RSkWMwi0W1LhkemZmb2TH+BDevwqqChYeyEtzdlKhBF1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lzCFh0QC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D3WmNV5O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC6ECC4CEF7
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Oct 2025 07:43:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lzCFh0QC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 719B0C4CEF1;
+	Tue, 21 Oct 2025 10:39:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761032625;
-	bh=L3OSHu/zykUUrMf0jhQiVo+5X5Tp4yjmsTRArUNbg40=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=D3WmNV5OqWaI36RDmwCXD2zHkNsqyRVCkAn+v3D9hIPGqFKrFzO6zLhOlJXqH0tul
-	 z2283fXiVPnJ7hDSqqg2M+HjvVhmN56pYo48edn5tkLY5Vicm/mg/XjRNHgS0WVnSN
-	 7XEcS/bevwfx8IyxgFijllQXrY6eoIRkx+yCvGhVrHL/CCcXmWMCiJBkM1w81VqTYa
-	 OKEa7Alhk4YQI+8xGmJm2DQ7zD13K8lLbv4/CvcRVwYp/StS+FjZ2U/jxWJ2dU+H+h
-	 x/SRcfVdH1RQ+8bXR8NLU1FvCv5EYUTBr3q8S9eAR2OwLHCDiqP79GOaaB/3gXiPz/
-	 NIhnH7cZbDlIA==
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-363f137bbf8so46893291fa.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 21 Oct 2025 00:43:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWVqs4rzDaqx8TLHj3F+s8BdSgS8GhQQQOHE02b2r/Rq23GtDe7t5RJYrsvmuc/r4My8TEivhsCv/BJQQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwtHKvwxtZOKjdkgGq0p6qYQHKHJJqdrRQ6HP7ranUq3HqZcSR2
-	aukvlalDwEixgqszChY5B1Ml1VxndUBysIvq+lwi9BBbo0bqHLJzMM7rsEzJeomr7tnO9gcpiks
-	9xgnb0X4HIGtSEwdLEGYKHlx0yhN7W+M=
-X-Google-Smtp-Source: AGHT+IGdlueTEgM73EYjdJJ7MYdcpYR/rotWSKlN7mFY5uUlnnqxOjkAfgQUxRhc1E7On08N06u+r1J6has1Jnhp3yI=
-X-Received: by 2002:a2e:9fcb:0:b0:375:ebfa:2986 with SMTP id
- 38308e7fff4ca-37797a728f1mr44182921fa.34.1761032624223; Tue, 21 Oct 2025
- 00:43:44 -0700 (PDT)
+	s=k20201202; t=1761043144;
+	bh=3q6sXrG7VRtYkwyyX371flcjfB6mMLFODYR2Y1GJ5ro=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lzCFh0QCeSof5RGIYPgGsaVe+nfXHn62yajRTCSVY6Y5LBFLXL7w8glp6OxLn0Ql1
+	 Hc+Wp5iftVS8nioy0xmGRMec1B77StL0+tw4bf91loDKoDzJzgv36l3oX48nXFaQVd
+	 o13FxnAfXbR7x5ewNSPsHfi1WVA5GkKcvTNlSIDovjH1rZuBTvOR6T585csT4M9YnS
+	 Ke9zX83BafZh1gPaY8LFPoqgsWh2dIlqaw+rW4M86Slz5kU+9fcG+O5piM6SmiTeRl
+	 lQulycs9DTZDyOmG9PFRuKgc7yY68DnfnMf3U94ZOUm4fvAbJuvyADTbkM6LDb+Rcw
+	 XzfAdkChKjTSg==
+Date: Tue, 21 Oct 2025 11:38:59 +0100
+From: Lee Jones <lee@kernel.org>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>, linux-sunxi@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH resend] MAINTAINERS: Update Chen-Yu's email address
+Message-ID: <20251021103859.GB475031@google.com>
+References: <20251020045603.2573544-1-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <E1vB6ld-0000000BIPy-2Qi4@rmk-PC.armlinux.org.uk>
-In-Reply-To: <E1vB6ld-0000000BIPy-2Qi4@rmk-PC.armlinux.org.uk>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 21 Oct 2025 15:43:29 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67U1KUeEvQ8yhSHP5NY1-9hGuwuTwgKMWGJB2LZn5pwqw@mail.gmail.com>
-X-Gm-Features: AS18NWBVywV_yRWAV-n1YGVmZIEA5XvU8OAR8wbCjrwgr8Xivfn8oNIG-rClQ6c
-Message-ID: <CAGb2v67U1KUeEvQ8yhSHP5NY1-9hGuwuTwgKMWGJB2LZn5pwqw@mail.gmail.com>
-Subject: Re: [PATCH net-next v2] net: stmmac: replace has_xxxx with core_type
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Jan Petrous <jan.petrous@oss.nxp.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, 
-	Maxime Chevallier <maxime.chevallier@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>, 
-	Richard Cochran <richardcochran@gmail.com>, s32@nxp.com, 
-	Samuel Holland <samuel@sholland.org>, Thierry Reding <thierry.reding@gmail.com>, 
-	Vinod Koul <vkoul@kernel.org>, Vladimir Zapolskiy <vz@mleia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251020045603.2573544-1-wens@kernel.org>
 
-On Tue, Oct 21, 2025 at 3:27=E2=80=AFPM Russell King (Oracle)
-<rmk+kernel@armlinux.org.uk> wrote:
->
-> Replace the has_gmac, has_gmac4 and has_xgmac ints, of which only one
-> can be set when matching a core to its driver backend, with an
-> enumerated type carrying the DWMAC core type.
->
-> Tested-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+On Mon, 20 Oct 2025, Chen-Yu Tsai wrote:
+
+> The email forwarder I'm using has run into severe problems with Gmail
+> lately. Switch over to my kernel.org address for kernel development.
+> 
+> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 > ---
-> v2:
-> - fix conflict with removal with STMMAC_FLAG_HAS_INTEGRATED_PCS removal
-> - wrap 88 char line in stmmac_xmit()
-> - add Maxime's tested-by
->
-> I haven't added Maxime's r-b because the patch has changed subtly, but
-> not in a way that invalidates testing. Given the minor changes and it's
-> possibilities for further conflicts, can we get this in sooner please?
-> Thanks.
->
->  drivers/net/ethernet/stmicro/stmmac/common.h  |  5 ++
->  .../stmicro/stmmac/dwmac-dwc-qos-eth.c        |  2 +-
->  .../net/ethernet/stmicro/stmmac/dwmac-intel.c |  5 +-
->  .../ethernet/stmicro/stmmac/dwmac-ipq806x.c   |  2 +-
->  .../ethernet/stmicro/stmmac/dwmac-loongson.c  |  2 +-
->  .../ethernet/stmicro/stmmac/dwmac-lpc18xx.c   |  2 +-
->  .../stmicro/stmmac/dwmac-qcom-ethqos.c        |  2 +-
->  .../net/ethernet/stmicro/stmmac/dwmac-rk.c    |  4 +-
->  .../net/ethernet/stmicro/stmmac/dwmac-s32.c   |  2 +-
->  .../ethernet/stmicro/stmmac/dwmac-socfpga.c   |  2 +-
->  .../net/ethernet/stmicro/stmmac/dwmac-sunxi.c |  2 +-
+> (resent to correct dri-devel mailing list address)
+> 
+> This likely needs to go through drm-misc-next following a patch from
+> Maxime that removed himself from the Allwinner DRM driver entries.
+> 
+>  .mailmap    | 1 +
+>  MAINTAINERS | 8 ++++----
+>  2 files changed, 5 insertions(+), 4 deletions(-)
 
-For sunxi,
+Acked-by: Lee Jones <lee@kernel.org>
 
-Acked-by: Chen-Yu Tsai <wens@kernel.org>
+-- 
+Lee Jones [李琼斯]
