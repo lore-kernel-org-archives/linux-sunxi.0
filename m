@@ -1,92 +1,95 @@
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 194822877C3
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Oct 2025 17:26:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2D22D540D;
+	Wed, 22 Oct 2025 17:39:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761153979; cv=none; b=sYNT+csCnO/S7I7Lbxr5pNVbGPKYDixFgyWFKLYK6yP1qGnKRfEujrID5Fnhk0mKw6+xION6k7UPOLhHqiibrviLezN0VDKKMiAIkffhDb5H+1j97vuVLAg+eyukO0OxmKs84QS0l4wXfITkAbAXiiIKG/LRQw4JYZVSb87fJls=
+	t=1761154744; cv=none; b=qyT1Usttm43JAEArFWBAu3Su62cS8z05nfoxLBPAEHFvb+DDc7YqNRV2E+ThlUKmZNByrG7BU97GgHXZWT87Tk68HUHAvIXd+WS6QnAVVB36BH0nqDBM58A+mY+hOf1sk79a3b4JoyJFG3xe8sAI7CfL+yAg7XC/v0XldCdW9rY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761153979; c=relaxed/simple;
-	bh=N+XnrBcK0ukSHGJYM3JWeUhyMWUzVh5xSMBaBGyWtfo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=gJ1GQHe0xvQ/l5clru7hwk4M7s89otj5QvxR6YCP6m8uqAzcsCYWYVnVBXSOhPQ6XXZhH76/vPCrV23yRpAiaWbHNqB52xh+cDXyV/0Em7grbT+RCBNV6YeaTGa9caiwzLZzYyN1ONUOztPMzainl273vwb/2M2QWlhOQCAWZf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com; spf=pass smtp.mailfrom=konsulko.com; dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b=etGzxJb2; arc=none smtp.client-ip=209.85.167.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=konsulko.com
+	s=arc-20240116; t=1761154744; c=relaxed/simple;
+	bh=5ufcd2XFtZqf7AMXlnvjyGcs49YRZ4UBHGJV3PCi3YY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hJv3Qw8jYyzKw+yeWcjqxVQg9I7QVRM8ZQxLfxP6bic3zdG5AdVng5EIjYYHqsXpQo451U9zmkEcuJCzO0yqENWBIeHc/INolVAuuEvuJCZCVFbUhNBfQpd7uR2XV1XEhK++nOc5K2xDTKZQYoLyTv4rHe2KgrAVgsJjd4MAssE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GtmSF+Ob; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b="etGzxJb2"
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-442009be84eso1892087b6e.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 22 Oct 2025 10:26:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1761153977; x=1761758777; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yTsP0NdqvJ7U7DbfTpPoF8XgczivzwEGFSISsQIiQzM=;
-        b=etGzxJb2pUcLzkUNgUM8ZDDZFJ1IlFCkeGOosYqP7SeNT+bvLPbiS4KXwAo2csHq4X
-         lzCNPYJ1IjhybeTszT6F9xh+bdCxzUQvhrRBll7ccuzG+KSSlmtknE+r2JLKjXV6wPA0
-         NMRLrw1DMtweFcyTtyeFDkEv/dEXxvyiXvH0E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761153977; x=1761758777;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yTsP0NdqvJ7U7DbfTpPoF8XgczivzwEGFSISsQIiQzM=;
-        b=INjzOWBTmygSONbUb1P3QdPwJ4vlqZm1B0jlMZdzAZLMeICr92kWP1CrDSKC6z55Q8
-         XLFS/+lA3bqWXRvpjuy8X3fz5e3mhlWHff6acYpdfpqDZOaqgsjMhsUSj4aXHvkMpfN/
-         yZvRggzE6iTlpZ+uVtRcsSlWjhquoWRFVldNWBCkqYSR7oW5aWaqVZE/JUaz9O8/d+zJ
-         kaxCawk5fVj57RTL2hxxamOzeSjtncJA8TdHILb8iW2VAHAWK/4n1j8jy98xxNdUv9Rz
-         iIZUA+VfKMk60eRf+50RjbyHBFL3zzzxC0bABJCsrnZrCScFZQSkHFAQW+9Lld7ThkTi
-         e6Jg==
-X-Forwarded-Encrypted: i=1; AJvYcCW7cxqX7RGMwkN8bGvBIPCwL7gCgFJlpg6yt4/KO5qHIaH7J7lcbnWO2hgS9zoQbfOwV5GdWKztH99Cag==@lists.linux.dev
-X-Gm-Message-State: AOJu0YynWFkSV9yRpvvFCqvwyqRlDRn9N9oZuWU4ehaQErhstfHo0L5t
-	QWXAwRlVAHOXstg5Vhi9jo1+rr3uR7YnYv6mOUt9PMZzSwdYcsv7hyHtl9fcANOH+mLAIiJmAKj
-	uOxsAg3ZwzA==
-X-Gm-Gg: ASbGncv3MpW2ap+CTkCbjiF7FGmDEVVV1Na6zL8FsumWdUq079qm9DpScVTUqadfcvZ
-	rd7ZeV21wgRhQsrchDD6SESrxt8CvZVLLf/RG3ENB+IBD3ZvHX0r3Qi7MMBSfQ5MyznbIBsiYY/
-	Htjt13PqhasFwx/EKca7+JYY8F6sGK0QTlwMUErt2pQDBkp23+vdFF5NB3RnDTS95u4s7w8C8LQ
-	VtgoGc8IWl6Qgaa1J/uVtzyKOUtaL5zBlV33CVwyg4vdOdcU+f5du+T42p+98folwyz0Z7bjj82
-	YJ/KewuYs395WhWUfq6vYpg9Sxt64S2qYAjpQX5j6G4aBjSGme53qVRTx3iR8VC+k6w0Xqxmlov
-	tF+GBtKYWHDDH4h1fnUrsuELw7fLZhU8NzgqJ9dnoB5yiRL5zibDGUwGeuZabe1bl0oe2L9EN79
-	VDNzxd8AIagfgQ0rRpeB/pKW4vMuHOPd0e/Q2hAnbapRjTyFU1BlNZwPogKqA=
-X-Google-Smtp-Source: AGHT+IHAo22A7SwMxI6Hxkf20V1a86XQiXsYswzi51SyYTNyUgF7/DbDyFJp6Ax++3JPFTGyjj/gbg==
-X-Received: by 2002:a05:6808:1929:b0:441:8f74:e7a with SMTP id 5614622812f47-443a30144a0mr9002970b6e.52.1761153976860;
-        Wed, 22 Oct 2025 10:26:16 -0700 (PDT)
-Received: from [127.0.1.1] (fixed-187-190-202-235.totalplay.net. [187.190.202.235])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-443df20786fsm3453493b6e.18.2025.10.22.10.26.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Oct 2025 10:26:15 -0700 (PDT)
-From: Tom Rini <trini@konsulko.com>
-To: u-boot@lists.denx.de, Chen-Yu Tsai <wens@kernel.org>
-Cc: Andre Przywara <andre.przywara@arm.com>, linux-sunxi@lists.linux.dev
-In-Reply-To: <20251020145527.2702250-1-wens@kernel.org>
-References: <20251020145527.2702250-1-wens@kernel.org>
-Subject: Re: [PATCH] .mailmap: update email address for Chen-Yu Tsai
-Message-Id: <176115397535.1634412.1042663139010164553.b4-ty@konsulko.com>
-Date: Wed, 22 Oct 2025 11:26:15 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GtmSF+Ob"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DB28C4CEE7;
+	Wed, 22 Oct 2025 17:39:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761154742;
+	bh=5ufcd2XFtZqf7AMXlnvjyGcs49YRZ4UBHGJV3PCi3YY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GtmSF+ObqbjyTc8tPaU3QnvRIVqcJvH0xcum7MwpWTI64LXWChY9ih7+2AOv85fUW
+	 o1RwpeIPFgIOP0dF3R5an0FKCsJPZfcSQ2ypW2sm49fkS8NN2TG73ANaals0kxMEpi
+	 24K3o29bA+SrcbO/JpembcPVSXpYHv4nzxUjjH3MUUuOqcVlFLpkyzTTq5u845QJsU
+	 p7ChHVYsGsfAffbAOzb/9Vr2bC6cDzHX0h/X2jr/1lMOC8vEFMxHqXs1nFgRdL6VvG
+	 ekfZQkV7L8Xx/v0ku6ymSz2yjzTciUDq+8bp0TIw8cBdEGeC/3mSi8Gz2UCn0YITxd
+	 YMFRZM3vSmQ2A==
+Date: Wed, 22 Oct 2025 18:38:58 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@gentoo.org>,
+	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: mfd: x-powers,axp152: Document AXP318W
+Message-ID: <20251022-banish-synopsis-9d6a4246cbf6@spud>
+References: <20251021112013.2710903-1-andre.przywara@arm.com>
+ <20251021112013.2710903-2-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
-
-On Mon, 20 Oct 2025 22:55:27 +0800, Chen-Yu Tsai wrote:
-
-> The email forwarder I'm using has run into severe problems with Gmail
-> lately. Switch over to my kernel.org address.
-> 
-> 
-
-Applied to u-boot/master, thanks!
-
-[1/1] .mailmap: update email address for Chen-Yu Tsai
-      commit: b27705b9094d349882e6c7411c325c9308f68e63
--- 
-Tom
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="aoExz7rlvJNu+SsF"
+Content-Disposition: inline
+In-Reply-To: <20251021112013.2710903-2-andre.przywara@arm.com>
 
 
+--aoExz7rlvJNu+SsF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Oct 21, 2025 at 12:20:10PM +0100, Andre Przywara wrote:
+> The X-Powers AXP318W is a PMIC used on some newer Allwinner devices.
+> Among a large number of both DCDC and LDO regulators it features the usual
+> ADC/IRQ/power key parts.
+> Like other recent PMICs, it lacks the DC/DC converter PWM frequency contr=
+ol
+> register, that rate is fixed here (1.5MHz on DCDC1, 3 MHz on the others).
+>=20
+> Add the new compatible string, and add that to the list of PMICs without
+> the PWM frequency property.
+> Also add more input supply properties, for the split DCDC and ALDO
+> supplies.
+> The PMIC features *two* switched outputs, hanging of DCDC1, and the
+> manual calls them swout1 and swout2, so follow suit here and add those
+> names to the pattern for matching the node names.
+>=20
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
+
+--aoExz7rlvJNu+SsF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaPkWsQAKCRB4tDGHoIJi
+0hgnAQC9rHIOh4RCOGU7WXT8nZI8Nq6Q8RIMk8ji5PyOlInHswEA5FCGgke8b1gy
+9PHv971+yN1Hr0+8LcrYj3AH6vt+xAQ=
+=VO+b
+-----END PGP SIGNATURE-----
+
+--aoExz7rlvJNu+SsF--
