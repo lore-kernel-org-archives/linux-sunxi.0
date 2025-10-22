@@ -1,96 +1,135 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0052E8882
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Oct 2025 08:01:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3AEB1FC8
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Oct 2025 08:54:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761120109; cv=none; b=OJs6Pb+hM/XkcB+D8torl3U/we7yO0yI+3067VkTWVkLymxEIcwNollqAriossjilSz+1rVWwJKv7swi3y0mK9P/vP1JMrQNPoiLREabt+A0ARn9Uq4m9UKmlkZKTyL6vIPmmxTpU0e9jD+KPx5AEdy9I+y+6ct7Dq/BosD8yHQ=
+	t=1761123257; cv=none; b=T3rWmSCZVwmyhhvHIcf1eX8o0XW7MrSZxsIPCA6+fnSiNx5LUb2+1aXCbrnr7Lz/M9OnQSKg4AvAbNEBaaEBmCoa+Wxlyj7cnBWwAFYfcxDfzgjpFoumUu2aIcuIuIXoEE0NwsFgg0o3oVsIF/pEDDbwSRKy2NdIyilREo3ta0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761120109; c=relaxed/simple;
-	bh=38r9xfZLwLJKROmeDdkyUpNf+YWWc4TDY/dD0X8glqs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=EsS3D+4ORP/OIjDmL6NUnL6PPJUt930ruotNcUP0+44UW8tB77nyX5rsjvIeH+6nyjNxZy/ggGiOS6E9x6uvqFomMo1Vl7m6VzWq/15rrTD5BhRrNEBt071V/lc8pygaJ33KyE9HDiDvgAkbhQrnPVd94HiDB6uqi1gjiUSRHKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=HS+VOTVC; arc=none smtp.client-ip=209.85.215.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1761123257; c=relaxed/simple;
+	bh=DEYRFaSu1tmNBtnf/PK4zwzFUdG2RV3KAPhG/SSA4/E=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=shEIVhhAzcV4wFW0fL6Xi5q4jxQddFIX/OT//HbGX43LUzIaEqtxHaB+ryVIURDLfzo5aHZMtbmhH2YLHrxKzfYgOvk9lZA//gQEabflSbXCRTZL+s51OwtbOgm9qiwGqQawLGOSHrFFPB+InMomoYdec0Ei6A9zi33xGYwC+XM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=sz9Wv6lq; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HS+VOTVC"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b6cea7c527bso100833a12.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 22 Oct 2025 01:01:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1761120107; x=1761724907; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2Czcihnqa+RdFrhOYT/oFUcxYUUGz6vVNGz6e5p2QTY=;
-        b=HS+VOTVC6ykcb8yV76NqpMZBDGknb/MXwfytrDhOxtXy/OccEJnEGDjK7UH1fAs5ZW
-         MI96ovnKyDRpii2gATZHYFkdickAzDYk4FUlPT+muxYOao/IsS8eg7Mm3XIocDBGIE+4
-         ifUH8x5v9wmc2P61dgVcl8toTaUyaDXvDEf9g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761120107; x=1761724907;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2Czcihnqa+RdFrhOYT/oFUcxYUUGz6vVNGz6e5p2QTY=;
-        b=Tizb9UKdhfnnhh9Zj/JK0AcwM4f9Jfch++mwLUXc75EzQSNNIcWjsZdEJJqUHOi9OE
-         PfIyepGoNNb6a1NS9Rr845ZrtoZo2mppQvnbu49BBSHO4BRmjsbOVjw4z/TwqCtNebVu
-         q+3eav7G5iCqDZdVXUXKak1R/go9IG5704EB/d63aTOVp0dVyt9/keWEjEAG6FndXTrY
-         /ZHdk03H7yluBnHGDX/goqKgAslGe6qMJToRBCBgcnUDs76bxfQmVVvJaH2g9Dp1THBd
-         9IL5nJH++Jy/wrt8YIHafT1GE/g1MlpFlBG590GulIjg8C3I5eqKDGTFV8E40UU2dp7R
-         U7iQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWvspYadU89F+Y95UB+7prkBWC7/Q4Nfohi0IMZzbk/bVm33Q/yS1O6fRLYUdnkQfX7TOcm1bZqII5RIA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwA47w5loYyGKvKG8sJYKl6noKhbyIjXY3o9+pvFIWdOBkpjlSy
-	u1SJ1fR3v/SujOS0o/HIGQruLkdDnORXMIFVOlwjdKzyRZxRf/eA8aeO/mueZBHfoA==
-X-Gm-Gg: ASbGncuasNh10KLbFUMlTboW0gi7YMLwpOrJiTMyfsT3K0+KmHRQiRFCdY08CZE6G8d
-	hHlNb8KALpYUHaN9cH9Q11CaBuxyrLbBnLl26dVeI/T0sSZmwIIQOPXHbUEx/Q4Z22FUIBj00Pc
-	LC/4aUk8zVngPdUDJVysDpd5RAs574IizR2s2Dkd+iQvkIEke4m9jJfHpYnVsOFLSdcENXDnfLy
-	TJJIPK8cwiO2+wlYEuhZrBhHE01VgLIurkza0/T0pj2ToxEaPsk5WkE+6NdCmq8lVCCqVnOM7KV
-	wRIUzHcGzAhzUKfmzwpwelPVtXC2iOXFDV5oCa3Tjizc3wPQj2h2Du98np31+OTKUaad1VffHU8
-	zNvkkkH2fqVuvVouri7uZJJ5Big9M5C/elWiwlTpmeyvll+9YhHlpAsXvpOpxgz6GxUGX0b5txu
-	kYKfdUZZqCgaCNtKuGGLULMAxbXeMw08tr+N+1/QxZCAIQpGCRmpBA
-X-Google-Smtp-Source: AGHT+IEt15ezmGTqR4A8CJGFXTvCgrS4gO8P9rtkeOmGm46bHNcAFHWrZsKB4y1EeUubGMyQT47cig==
-X-Received: by 2002:a17:90b:1dcb:b0:33b:b033:d7e5 with SMTP id 98e67ed59e1d1-33bcf9186f0mr29084769a91.35.1761120106936;
-        Wed, 22 Oct 2025 01:01:46 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:5534:56e9:528e:f9b4])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33e223dfaacsm1771401a91.10.2025.10.22.01.01.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Oct 2025 01:01:46 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-X-Google-Original-From: Chen-Yu Tsai <wens@kernel.org>
-To: Jernej Skrabec <jernej@kernel.org>, 
- Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
- linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20251020045603.2573544-1-wens@kernel.org>
-References: <20251020045603.2573544-1-wens@kernel.org>
-Subject: Re: [PATCH resend] MAINTAINERS: Update Chen-Yu's email address
-Message-Id: <176112010476.488381.11368848750305962943.b4-ty@kernel.org>
-Date: Wed, 22 Oct 2025 16:01:44 +0800
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="sz9Wv6lq"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 69BC5C0B8B2;
+	Wed, 22 Oct 2025 08:53:52 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 0E381606DC;
+	Wed, 22 Oct 2025 08:54:12 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 557A8102F242F;
+	Wed, 22 Oct 2025 10:54:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1761123251; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=UdkqHbshapC7nZY4/zFoditcNqEk/iGcG2EMytEmpUc=;
+	b=sz9Wv6lqYxBw+efub1O+67sRO5hj1GJKSrnQlOg8RP6sH79keyWGAzsK4Q+4n1BMEdB7VS
+	TYOlusTcal3NLBThus+SARMOan5OGVRHZIorH9GQCpJoigQOUA9yFIoEoNLMT3yx+Sjvdd
+	aWFll3rPZFjgq12I1YFpGxjlTEjVrsIAMG94T945WWTouRh4oilP/lVIsQ9J9DYlk3fS0D
+	RCns2kaBXugtb8nVvJoIciKphHOiT+lUAdK7dT+UZflZ4C4hdMp+ZOrBIv5J5MOX5exH06
+	3pUkH8Zf3TmQhgbiLKKoyN6L/DLMNpHiQDj1Jx5+laX7Shvkj31BB/uuvktcWg==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Richard Genoud <richard.genoud@bootlin.com>
+Cc: Richard Weinberger <richard@nod.at>,  Vignesh Raghavendra
+ <vigneshr@ti.com>,  Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski
+ <krzk+dt@kernel.org>,  Conor Dooley <conor+dt@kernel.org>,  Chen-Yu Tsai
+ <wens@csie.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>,  Samuel
+ Holland <samuel@sholland.org>,  Uwe =?utf-8?Q?Kleine-K=C3=B6nig?=
+ <u.kleine-koenig@baylibre.com>,  Wentao Liang <vulab@iscas.ac.cn>,  Johan
+ Hovold <johan@kernel.org>,  Maxime Ripard <mripard@kernel.org>,  Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>,  linux-mtd@lists.infradead.org,
+  devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+  linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 04/15] mtd: rawnand: sunxi: introduce reg_user_data
+ in sunxi_nfc_caps
+In-Reply-To: <20251020101311.256819-5-richard.genoud@bootlin.com> (Richard
+	Genoud's message of "Mon, 20 Oct 2025 12:13:00 +0200")
+References: <20251020101311.256819-1-richard.genoud@bootlin.com>
+	<20251020101311.256819-5-richard.genoud@bootlin.com>
+User-Agent: mu4e 1.12.7; emacs 30.2
+Date: Wed, 22 Oct 2025 10:54:02 +0200
+Message-ID: <87y0p3tiz9.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
+Hi Richard,
 
-On Mon, 20 Oct 2025 12:56:02 +0800, Chen-Yu Tsai wrote:
-> The email forwarder I'm using has run into severe problems with Gmail
-> lately. Switch over to my kernel.org address for kernel development.
-> 
-> 
+On 20/10/2025 at 12:13:00 +02, Richard Genoud <richard.genoud@bootlin.com> =
+wrote:
 
-Applied, thanks!
+> The H6/H616 USER_DATA register is not at the same offset as the
+> A10/A23 one, so move its offset into sunxi_nfc_caps
+>
+> No functional change.
+>
+> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+> ---
+>  drivers/mtd/nand/raw/sunxi_nand.c | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sun=
+xi_nand.c
+> index 0285e4d0ca7f..8f5d8df19e33 100644
+> --- a/drivers/mtd/nand/raw/sunxi_nand.c
+> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
+> @@ -48,7 +48,8 @@
+>  #define NFC_REG_DEBUG		0x003C
+>  #define NFC_REG_A10_ECC_ERR_CNT	0x0040
+>  #define NFC_REG_ECC_ERR_CNT(nfc, x)	((nfc->caps->reg_ecc_err_cnt + (x)) =
+& ~0x3)
+> -#define NFC_REG_USER_DATA(x)	(0x0050 + ((x) * 4))
+> +#define NFC_REG_A10_USER_DATA	0x0050
+> +#define NFC_REG_USER_DATA(nfc, x)	(nfc->caps->reg_user_data + ((x) * 4))
+>  #define NFC_REG_SPARE_AREA	0x00A0
+>  #define NFC_REG_PAT_ID		0x00A4
+>  #define NFC_REG_MDMA_ADDR	0x00C0
+> @@ -214,6 +215,7 @@ static inline struct sunxi_nand_chip *to_sunxi_nand(s=
+truct nand_chip *nand)
+>   *			through MBUS on A23/A33 needs extra configuration.
+>   * @reg_io_data:	I/O data register
+>   * @reg_ecc_err_cnt:	ECC error counter register
+> + * @reg_user_data:	User data register
+>   * @dma_maxburst:	DMA maxburst
+>   * @ecc_strengths:	Available ECC strengths array
+>   * @nstrengths:		Size of @ecc_strengths
+> @@ -222,6 +224,7 @@ struct sunxi_nfc_caps {
+>  	bool has_mdma;
+>  	unsigned int reg_io_data;
+>  	unsigned int reg_ecc_err_cnt;
+> +	unsigned int reg_user_data;
+>  	unsigned int dma_maxburst;
+>  	const u8 *ecc_strengths;
+>  	unsigned int nstrengths;
+> @@ -723,8 +726,8 @@ static void sunxi_nfc_hw_ecc_get_prot_oob_bytes(struc=
+t nand_chip *nand, u8 *oob,
+>  {
+>  	struct sunxi_nfc *nfc =3D to_sunxi_nfc(nand->controller);
+>=20=20
+> -	sunxi_nfc_user_data_to_buf(readl(nfc->regs + NFC_REG_USER_DATA(step)),
+> -				   oob);
+> +	sunxi_nfc_user_data_to_buf(readl(nfc->regs +
+> +					 NFC_REG_USER_DATA(nfc, step)),
+> oob);
 
-[1/1] MAINTAINERS: Update Chen-Yu's email address
-      commit: caa2f6ee91d4e2dab39b30de34d2c74b6f45d0a3
+Minor nit, column limit is 100 now, so typically for this kind of
+situation everything would fit on a single line.
 
-Best regards,
--- 
-Chen-Yu Tsai <wens@kernel.org>
+Don't respin just for that if there is nothing else later, but if a v4
+is needed you can change it.
 
+Looks neat otherwise so far.
+
+Thanks,
+Miqu=C3=A8l
