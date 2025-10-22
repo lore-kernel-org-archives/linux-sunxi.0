@@ -1,95 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2D22D540D;
-	Wed, 22 Oct 2025 17:39:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE82F169AD2;
+	Wed, 22 Oct 2025 19:07:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761154744; cv=none; b=qyT1Usttm43JAEArFWBAu3Su62cS8z05nfoxLBPAEHFvb+DDc7YqNRV2E+ThlUKmZNByrG7BU97GgHXZWT87Tk68HUHAvIXd+WS6QnAVVB36BH0nqDBM58A+mY+hOf1sk79a3b4JoyJFG3xe8sAI7CfL+yAg7XC/v0XldCdW9rY=
+	t=1761160062; cv=none; b=t6XXS8/TmEXERn4QOgM/pJ7tH/XWZ3jHo5yKjUl5LATwMXiAmtOVCaYpVMqS/lqNgimvd25BJj2tgtpMpNYeJISsAHMYXlQjzmTQ36J+IkWLu/SHBoBPWR7y0QFc9gbIYtkAZdJkSXWlmPLzPS7g7I/x9dTPkpOPa7z6xsB3cjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761154744; c=relaxed/simple;
-	bh=5ufcd2XFtZqf7AMXlnvjyGcs49YRZ4UBHGJV3PCi3YY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hJv3Qw8jYyzKw+yeWcjqxVQg9I7QVRM8ZQxLfxP6bic3zdG5AdVng5EIjYYHqsXpQo451U9zmkEcuJCzO0yqENWBIeHc/INolVAuuEvuJCZCVFbUhNBfQpd7uR2XV1XEhK++nOc5K2xDTKZQYoLyTv4rHe2KgrAVgsJjd4MAssE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GtmSF+Ob; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761160062; c=relaxed/simple;
+	bh=MhikHcHibevNQwj+BN+1cIYd/DKSbUvhjASlY7USh2I=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=PjQRY4sB5y8Qjf04Kc7tsCsQbWmvhPAZ4ULBVfciyhODhyLvUVgEUm840RuNLmrw7es1doFpGUJg+GTuT+CK1kr6Tw+32/+VUiSHJ3Y26ywia3hQA1gLy3j53S4CKvt1/c3mzHqdyJXDvR7iJDzVwWBhY7hUzvShWZVzngh0xhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F9miCQTQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GtmSF+Ob"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DB28C4CEE7;
-	Wed, 22 Oct 2025 17:39:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F9miCQTQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50AB5C4CEE7;
+	Wed, 22 Oct 2025 19:07:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761154742;
-	bh=5ufcd2XFtZqf7AMXlnvjyGcs49YRZ4UBHGJV3PCi3YY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GtmSF+ObqbjyTc8tPaU3QnvRIVqcJvH0xcum7MwpWTI64LXWChY9ih7+2AOv85fUW
-	 o1RwpeIPFgIOP0dF3R5an0FKCsJPZfcSQ2ypW2sm49fkS8NN2TG73ANaals0kxMEpi
-	 24K3o29bA+SrcbO/JpembcPVSXpYHv4nzxUjjH3MUUuOqcVlFLpkyzTTq5u845QJsU
-	 p7ChHVYsGsfAffbAOzb/9Vr2bC6cDzHX0h/X2jr/1lMOC8vEFMxHqXs1nFgRdL6VvG
-	 ekfZQkV7L8Xx/v0ku6ymSz2yjzTciUDq+8bp0TIw8cBdEGeC/3mSi8Gz2UCn0YITxd
-	 YMFRZM3vSmQ2A==
-Date: Wed, 22 Oct 2025 18:38:58 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@gentoo.org>,
-	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: mfd: x-powers,axp152: Document AXP318W
-Message-ID: <20251022-banish-synopsis-9d6a4246cbf6@spud>
-References: <20251021112013.2710903-1-andre.przywara@arm.com>
- <20251021112013.2710903-2-andre.przywara@arm.com>
+	s=k20201202; t=1761160061;
+	bh=MhikHcHibevNQwj+BN+1cIYd/DKSbUvhjASlY7USh2I=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=F9miCQTQy14eYv+G7sJbojMRVwwyrJRzB0o2GZHQKS0qKMOyst/6rYHsNjj07SrzV
+	 Fb0dkWL7Zq0ov7ZxRcJOlIR/vf3Kggf3cGt7DTZ4cdsZS8ONKzkcVd9Jsz8Wrq4U5y
+	 0jaYNouJSYD4QSRM8Dv8E7uTfb4tf4011jX9NkUzrrxPi/QSZwPL63VpaOFJ/wrizq
+	 vwtojQKQ+xxRDWp/4jPX0sT1D4FrZo0KbKhJhj/DJSSGc7UTiSrZ2rN9TiX7THz1ZP
+	 b8uH7YcopmBnh+vGj/e+9Hum9RJNMb/FLvcoihktILJq+t44xxWhwHQBQVC9ui75o9
+	 dTajyQwN79FvQ==
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id B91885FB54;
+	Thu, 23 Oct 2025 03:07:38 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Jernej Skrabec <jernej@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, Mark Brown <broonie@kernel.org>, 
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+ Chen-Yu Tsai <wens@kernel.org>
+Cc: linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org, 
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, dmaengine@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20251020171059.2786070-1-wens@kernel.org>
+References: <20251020171059.2786070-1-wens@kernel.org>
+Subject: Re: (subset) [PATCH 00/11] allwinner: a523: Enable I2S and SPDIF
+ TX
+Message-Id: <176116005873.3514774.12511738732010312757.b4-ty@kernel.org>
+Date: Thu, 23 Oct 2025 03:07:38 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="aoExz7rlvJNu+SsF"
-Content-Disposition: inline
-In-Reply-To: <20251021112013.2710903-2-andre.przywara@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 
+On Tue, 21 Oct 2025 01:10:46 +0800, Chen-Yu Tsai wrote:
+> This series enables the SPDIF and I2S hardware found on the Allwinner
+> A523/A527/T527 family SoCs. These SoCs have one SPDIF interface and
+> four I2S interfaces. All of them are capable of both playback and
+> capture, however the SPDIF driver only supports playback.
+> 
+> The series is organized by subsystem, so each maintainer can find the
+> patches they need to take.
+> 
+> [...]
 
---aoExz7rlvJNu+SsF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to sunxi/clk-fixes-for-6.18 in local tree, thanks!
 
-On Tue, Oct 21, 2025 at 12:20:10PM +0100, Andre Przywara wrote:
-> The X-Powers AXP318W is a PMIC used on some newer Allwinner devices.
-> Among a large number of both DCDC and LDO regulators it features the usual
-> ADC/IRQ/power key parts.
-> Like other recent PMICs, it lacks the DC/DC converter PWM frequency contr=
-ol
-> register, that rate is fixed here (1.5MHz on DCDC1, 3 MHz on the others).
->=20
-> Add the new compatible string, and add that to the list of PMICs without
-> the PWM frequency property.
-> Also add more input supply properties, for the split DCDC and ALDO
-> supplies.
-> The PMIC features *two* switched outputs, hanging of DCDC1, and the
-> manual calls them swout1 and swout2, so follow suit here and add those
-> names to the pattern for matching the node names.
->=20
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+[05/11] clk: sunxi-ng: sun55i-a523-r-ccu: Mark bus-r-dma as critical
+        commit: 5888533c6011de319c5f23ae147f1f291ce81582
+[06/11] clk: sunxi-ng: sun55i-a523-ccu: Lower audio0 pll minimum rate
+        commit: 2050280a4bb660b47f8cccf75a69293ae7cbb087
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: not-applicable
+Best regards,
+-- 
+Chen-Yu Tsai <wens@kernel.org>
 
---aoExz7rlvJNu+SsF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaPkWsQAKCRB4tDGHoIJi
-0hgnAQC9rHIOh4RCOGU7WXT8nZI8Nq6Q8RIMk8ji5PyOlInHswEA5FCGgke8b1gy
-9PHv971+yN1Hr0+8LcrYj3AH6vt+xAQ=
-=VO+b
------END PGP SIGNATURE-----
-
---aoExz7rlvJNu+SsF--
