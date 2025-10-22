@@ -1,38 +1,38 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF452FFDC9
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Oct 2025 09:18:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993E62F99AA
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Oct 2025 09:20:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761124705; cv=none; b=rHqSGdbN/dryOQLQEHIHwU9g9WhlWaicP8UdHzHzYajlVoSbmWp3jbIryeu8dAGHn34WyGBudR4zpoBohi0+4fkKZFrl8sr8ebuaZYInQ2dH/Lf+0/Y4NtsiW9/FaW0dbm8F+68zGkycxY8JgVZ0Ej1BrIt53zBHB3H/mHEciPY=
+	t=1761124859; cv=none; b=cXsL0j337UIpt7Zfqen6QeOWG7LM+uvWP7f557VnnTnbbLp68qQMuagkNoCcYVZtbTr34bMvXFPj1HzSzaf2Fnwo3Y/Er2gf1Mgo+2gPknHqAofjYf2aO3UYt0P5RJEbnwL6VwfDQMyRLcTOWRmxcT+cbKXbMSjrUzfNyV64Bag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761124705; c=relaxed/simple;
-	bh=FGCr1siS9EZNF4C9OKmn3apBGtbCDYLUAtCd/WlrkcM=;
+	s=arc-20240116; t=1761124859; c=relaxed/simple;
+	bh=lhFpU/Ya2FpFsQ5qefHEf4YDuzs6g5hk1JCUojxtVao=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=KLlNo3/gGLZyPpfsihLbas1qJT30n1/sBR0Su+VztHWZR0OJZwBNGpEBEiO6Wc9L7ykKWJNtbgzWdj5bLsDfTl8a6/YQ0Cwi23OlVL86+o3co3GKtTg/LD8xG2R/wYMf8ePc3j2Ag0OtZgxh0P8lhP+7q5aCpWkBwL9I6HK6mcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=OF2J3E5A; arc=none smtp.client-ip=185.246.84.56
+	 MIME-Version:Content-Type; b=rwOkxhHFM3joeemvShj7SOM0dkF4slllH3U2TG8zVMr/xXtVxhe8URyUlgLqe88ZlAhfRZwrnRty94RQ1lp6El08kdLCH64FSeEHuAZ+FJ8od0Wp8EYjh1tC+cn+wJZSE5n55H1ekuWAQWl2dmgKjqgPjtkRFt9pxTUamZBsy5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=erNkwFCA; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="OF2J3E5A"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="erNkwFCA"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 565301A15CD;
-	Wed, 22 Oct 2025 09:18:20 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id DC1804E41268;
+	Wed, 22 Oct 2025 09:20:55 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 1FD07606DC;
-	Wed, 22 Oct 2025 09:18:20 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BB8D8102F2424;
-	Wed, 22 Oct 2025 11:18:09 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B0D45606DC;
+	Wed, 22 Oct 2025 09:20:55 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1794D102F2431;
+	Wed, 22 Oct 2025 11:20:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761124698; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1761124854; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=LNEtH9lG/yvOebKMsji3DJq4oD0CU5SvCjoqyEyuZJY=;
-	b=OF2J3E5AqsRwJZUe/GRi6I4GRKXFbvqbO/tcH7qL3QxWQQyacXCI2N81rs8SHmBRk42pei
-	mDcgLvkOpYtZ128tfw0QgBcbY/E2k4MUV7t/gHmWJHKhdVhNl+2JV4byn2kuJ3Fb38Zsif
-	wpRUDMbFz+ApprQLi2TiA/7Lx9AvfUPkrFwOFsBlUEtUARyAwZIjKZ2yNUEO0IVZruZaFf
-	6hL7qd09YkaJz04E2Nuj0oSbPtlR8xHZsN9HavVDoyhWhsS2LPUifxn/pvZzIR5unzRj2j
-	YtuqYc8IuOEKk7cQUYupHAyPUGw8jaHFhFGi667+wSvG5a5gvBhR5n9ZA2yHfw==
+	bh=eHlP+N8MaWcT1YqqHBfX7bz2ZZfGvtWUZIn+21jD6Gs=;
+	b=erNkwFCAkRFjaCf2oyUivOub+gdPX16PZmEEWEZLvuhwpXm6I/Z3WCmtWxue3XYiY8380i
+	rAzFBUTDYvUDqzgowQ/DS841hHO6nYltJgJufahq0+5u1e5TskGHD/Y8zUfFFoNcgzfdSi
+	9gsG+qjYOzLgcP53U5M1YbGBvZJOs/Fd28fTd/8uPlLQ1j6zaLF6i3nRO6xMRP/ufiIfxQ
+	YRdniBbR92fgQ0dnLBLOaaJeWJyocvvfIUefMp/OYFov2NQzQ3QYy1RpopqLq5OPATFKbn
+	FPJluRTC+HambRECsW4lb8MOpQnitaTKBF8z9IDTH1WGp17XnXVQFuPJkCONnw==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
 To: Richard Genoud <richard.genoud@bootlin.com>
 Cc: Richard Weinberger <richard@nod.at>,  Vignesh Raghavendra
@@ -45,15 +45,14 @@ Cc: Richard Weinberger <richard@nod.at>,  Vignesh Raghavendra
  Petazzoni <thomas.petazzoni@bootlin.com>,  linux-mtd@lists.infradead.org,
   devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
   linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 13/15] mtd: rawnand: sunxi: Add support for H616 nand
- controller
-In-Reply-To: <20251020101311.256819-14-richard.genoud@bootlin.com> (Richard
-	Genoud's message of "Mon, 20 Oct 2025 12:13:09 +0200")
+Subject: Re: [PATCH v3 14/15] dt-bindings: mtd: sunxi: Add H616 compatible
+In-Reply-To: <20251020101311.256819-15-richard.genoud@bootlin.com> (Richard
+	Genoud's message of "Mon, 20 Oct 2025 12:13:10 +0200")
 References: <20251020101311.256819-1-richard.genoud@bootlin.com>
-	<20251020101311.256819-14-richard.genoud@bootlin.com>
+	<20251020101311.256819-15-richard.genoud@bootlin.com>
 User-Agent: mu4e 1.12.7; emacs 30.2
-Date: Wed, 22 Oct 2025 11:18:07 +0200
-Message-ID: <87ecqvthv4.fsf@bootlin.com>
+Date: Wed, 22 Oct 2025 11:20:47 +0200
+Message-ID: <878qh3thqo.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -64,163 +63,25 @@ Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hello Richard,
+Hi Richard,
 
-On 20/10/2025 at 12:13:09 +02, Richard Genoud <richard.genoud@bootlin.com> =
+On 20/10/2025 at 12:13:10 +02, Richard Genoud <richard.genoud@bootlin.com> =
 wrote:
 
-> The H616 nand controller has the same base as A10/A23, with some
-> differences:
-> - mdma is based on chained buffers
-> - its ECC supports up to 80bit per 1024bytes
-> - some registers layouts are a bit different, mainly due do the stronger
->   ECC.
-> - it uses USER_DATA_LEN registers along USER_DATA registers.
-> - it needs a specific clock for ECC and MBUS.
+> The H616 NAND controller is quite different from the A10 and A23 ones,
+> some registers offset changed, and some new one are introduced.
+> Also, the DMA handling is different (it uses chained descriptors)
 >
-> Introduce the basic support, with ECC and scrambling, but without
-> DMA/MDMA.
->
-> Tested on Whatsminer H616 board (with and without scrambling, ECC)
+> So, introduce a new compatible to represent this version of the IP.
 >
 > Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+> ---
+>  .../mtd/allwinner,sun4i-a10-nand.yaml         | 41 +++++++++++++++++--
+>  1 file changed, 38 insertions(+), 3 deletions(-)
 
-...
-
->=20=20
-> +#define NFC_TIMING_CFG2(tCDQSS, tSC, tCLHZ, tCSS, tWC)		\
-> +	((((tCDQSS) & 0x1) << 11) | (((tSC) & 0x3) << 12) |	\
-> +	 (((tCLHZ) & 0x3) << 14) | (((tCSS) & 0x3) << 16) |	\
-> +	 (((tWC) & 0x3) << 18))
-> +
->  /* define bit use in NFC_CMD */
->  #define NFC_CMD_LOW_BYTE_MSK	GENMASK(7, 0)
-> -#define NFC_CMD_HIGH_BYTE_MSK	GENMASK(15, 8)
-> +#define NFC_CMD_HIGH_BYTE_MSK	GENMASK(15, 8)  // 15-10 reserved on H6
-
-Wrong comment type :-)
-
-> +#define NFC_CMD_ADR_NUM_MSK	GENMASK(9, 8)
->  #define NFC_CMD(x)		(x)
->  #define NFC_ADR_NUM_MSK		GENMASK(18, 16)
->  #define NFC_ADR_NUM(x)		(((x) - 1) << 16)
-> @@ -122,6 +156,7 @@
->  #define NFC_SEQ			BIT(25)
->  #define NFC_DATA_SWAP_METHOD	BIT(26)
->  #define NFC_ROW_AUTO_INC	BIT(27)
-> +#define NFC_H6_SEND_RND_CMD2	BIT(27)
->  #define NFC_SEND_CMD3		BIT(28)
->  #define NFC_SEND_CMD4		BIT(29)
->  #define NFC_CMD_TYPE_MSK	GENMASK(31, 30)
-> @@ -133,6 +168,7 @@
->  #define NFC_READ_CMD_MSK	GENMASK(7, 0)
->  #define NFC_RND_READ_CMD0_MSK	GENMASK(15, 8)
->  #define NFC_RND_READ_CMD1_MSK	GENMASK(23, 16)
-> +#define NFC_RND_READ_CMD2_MSK	GENMASK(31, 24)
-
-...
-
-> @@ -858,6 +967,8 @@ static int sunxi_nfc_hw_ecc_read_chunk(struct nand_ch=
-ip *nand,
->  	if (ret)
->  		return ret;
->=20=20
-> +	sunxi_nfc_reset_user_data_len(nfc);
-> +	sunxi_nfc_set_user_data_len(nfc, 4, 0);
-
-I'm not sure I understand this properly. Why isn't this a fixed setting?
-Also, what is 4? It is not obvious to me and my require either a comment
-or a define (or maybe a sizeof()).
-
->  	sunxi_nfc_randomizer_config(nand, page, false);
->  	sunxi_nfc_randomizer_enable(nand);
->  	writel(NFC_DATA_TRANS | NFC_DATA_SWAP_METHOD | NFC_ECC_OP,
-> @@ -968,6 +1079,8 @@ static int sunxi_nfc_hw_ecc_read_chunks_dma(struct n=
-and_chip *nand, uint8_t *buf
->  		return ret;
->=20=20
->  	sunxi_nfc_hw_ecc_enable(nand);
-> +	sunxi_nfc_reset_user_data_len(nfc);
-> +	sunxi_nfc_set_user_data_len(nfc, 4, 0);
->  	sunxi_nfc_randomizer_config(nand, page, false);
->  	sunxi_nfc_randomizer_enable(nand);
->=20=20
-> @@ -1100,6 +1213,8 @@ static int sunxi_nfc_hw_ecc_write_chunk(struct nand=
-_chip *nand,
->=20=20
->  	sunxi_nfc_randomizer_config(nand, page, false);
->  	sunxi_nfc_randomizer_enable(nand);
-> +	sunxi_nfc_reset_user_data_len(nfc);
-> +	sunxi_nfc_set_user_data_len(nfc, 4, 0);
->  	sunxi_nfc_hw_ecc_set_prot_oob_bytes(nand, oob, 0, bbm, page);
->=20=20
->  	writel(NFC_DATA_TRANS | NFC_DATA_SWAP_METHOD |
-> @@ -1344,10 +1459,12 @@ static int sunxi_nfc_hw_ecc_write_page_dma(struct=
- nand_chip *nand,
->  	if (ret)
->  		goto pio_fallback;
->=20=20
-> +	sunxi_nfc_reset_user_data_len(nfc);
->  	for (i =3D 0; i < ecc->steps; i++) {
->  		const u8 *oob =3D nand->oob_poi + (i * (ecc->bytes + 4));
->=20=20
->  		sunxi_nfc_hw_ecc_set_prot_oob_bytes(nand, oob, i, !i, page);
-> +		sunxi_nfc_set_user_data_len(nfc, 4, i);
-
-Here you use it differently, maybe a bit of explanation in a comment
-could help.
-
->  	}
->=20=20
->  	nand_prog_page_begin_op(nand, page, 0, NULL, 0);
-> @@ -2148,6 +2265,10 @@ static int sunxi_nfc_probe(struct platform_device =
-*pdev)
->  	if (irq < 0)
->  		return irq;
->=20=20
-> +	nfc->caps =3D of_device_get_match_data(dev);
-> +	if (!nfc->caps)
-> +		return -EINVAL;
-> +
->  	nfc->ahb_clk =3D devm_clk_get_enabled(dev, "ahb");
->  	if (IS_ERR(nfc->ahb_clk)) {
->  		dev_err(dev, "failed to retrieve ahb clk\n");
-> @@ -2160,6 +2281,22 @@ static int sunxi_nfc_probe(struct platform_device =
-*pdev)
->  		return PTR_ERR(nfc->mod_clk);
->  	}
->=20=20
-
-...
-
->  static const struct sunxi_nfc_caps sunxi_nfc_a10_caps =3D {
->  	.has_ecc_block_512 =3D true,
-> +	.has_ecc_clk =3D false,
-> +	.has_mbus_clk =3D false,
-
-As you want, but setting these fields (and below) to false is not
-strictly required as they will be set to 0 (which means false,
-automatically).
-
->  	.reg_io_data =3D NFC_REG_A10_IO_DATA,
->  	.reg_ecc_err_cnt =3D NFC_REG_A10_ECC_ERR_CNT,
->  	.reg_user_data =3D NFC_REG_A10_USER_DATA,
-> @@ -2242,11 +2383,14 @@ static const struct sunxi_nfc_caps sunxi_nfc_a10_=
-caps =3D {
->  	.dma_maxburst =3D 4,
->  	.ecc_strengths =3D sunxi_ecc_strengths_a10,
->  	.nstrengths =3D ARRAY_SIZE(sunxi_ecc_strengths_a10),
-> +	.max_ecc_steps =3D 16,
->  	.sram_size =3D 1024,
->  };
->=20=20
-
-> +static const struct sunxi_nfc_caps sunxi_nfc_h616_caps =3D {
-> +	.has_mdma =3D false, // H616 supports only chained descriptors
-
-Wrong comment type :-)
-
-LGTM otherwise.
+Please move the binding patch first in your series (binding then driver
+changes aligned with the introduced binding and then DT changes using
+it).
 
 Thanks,
 Miqu=C3=A8l
