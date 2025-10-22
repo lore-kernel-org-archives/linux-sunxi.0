@@ -1,201 +1,199 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012039.outbound.protection.outlook.com [52.101.48.39])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D400238C2A
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Oct 2025 15:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761148113; cv=none; b=RbEthE4yG+gl2yLc/U/Tq/dVt5ggqxcSWpr6HuSGdOBsaOCP9kKT9oaAfKC6fc6FdiTw5bDDH1DKEkg/z5zNXG3SKoIsDCcT5+YdCkPo4Hv8qtfy1OOirjgS6lslEp4ch7qecGBw+TjqNB33Ysd0mSpPmNPQZZ9Rz5kYXm5U8ls=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761148113; c=relaxed/simple;
-	bh=MYzkj2EAfbjS5/yTfRBo+9A84zHOms8aeMazzrMuuDA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uX8UV0UyTnwzNJvNhoWSx0IPu2k8fWYtB5GQNEViN2vZcJHl4tDQpxziKbc4uVjnSA6SQOgguxVeR1KijuU527pRL9YRiQ4WzXdiSEV7NidcdHCQapmfrYXEguGenuF8Vxx3f/u7KnnBWqTulOu5XdFd7ar3BT0IZWTbipSBan0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OCzcw6hg; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8FAF28643A;
+	Wed, 22 Oct 2025 17:12:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.39
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761153180; cv=fail; b=aRnazmhMD/a3HP/0lzlsv4fnpqqcnr0OoywucXckbEAokpvHa9UeSTR6DMmh2cEK1SqSsss4M2dz1ovKiS7PRCP7vYkgqqD1Mq+lUx1HmKFNHhbyLwCmPcTBjktYNHQYDULn7Ub8wB9Hh2tkxbTcb6il8ZYXEIZNJc1xY75/1nQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761153180; c=relaxed/simple;
+	bh=JDDZR8d4NoFk5wKXrm8pBa5m+Mi7WPXjxHLH7GlBpKs=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=NXGs8PZX2/c3S9hMrnBguSqM8utch+x/vEziodUEYA/h3sJgSVjd/oRf6fkXjFRog8IZx8NSFX/bnJHsxCXufNWAaZA4sWrJtfTtGKglm/1zKBKSuNQm7mluUJq1nksvuJrSvfE9Jb0FS5rmfsajwQL6vHxXRX9eN57bGIbRvDg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=FzGIlU3a; arc=fail smtp.client-ip=52.101.48.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OCzcw6hg"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-427084a641aso3474241f8f.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 22 Oct 2025 08:48:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761148110; x=1761752910; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UUhnfyAoo5ilFrAqmyIWfhfovaY9inNRMwx+n1ZoeVs=;
-        b=OCzcw6hgAtYy4z8UkfrfL8SuqXrt1yC6Nv38HBvJZrY1mJu66+PKXE3fJBOvyHj5hB
-         DAUAC8y6pgxaA55vVdmVnnqukciqYMN+1AOSVysQI4Sdgf0KtSX0SJ6MSwboHyt8ulLF
-         f6dA9tAcBeXVzPinHgjQYfbhaai4QfIECdpCKMt58ga8QZVzP6YOSVpUTGEUAI9WdDaC
-         EVj6oLNpQqM/TdtGQRcveYiMoXxwgfNWHhkJMmPzZ6KPCYk8NeiOgLTh1zvrLYIYL42b
-         8PM33D9BK9unt2uB++0GC4/uxUSo1vdXwbf7q2/TJU81Xt8w/2j1x3fUalM8CCTqVGH4
-         zWOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761148110; x=1761752910;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UUhnfyAoo5ilFrAqmyIWfhfovaY9inNRMwx+n1ZoeVs=;
-        b=brRlTH4+m0LCMkKgEfdNJ73flnA5CE4ICrLTfj7guKAPsnvqJfiWwK0qxm+SR2WSSN
-         ZFU7ykQ1O2YcrCxFkOaFcuj9cWxJ4pLiOqqJ1dHsPC1chgMjb9DKsFRnL+cCS3fauqsd
-         LR1Wk14ZAvRBIQ4lEGL09c1LEfHMLkI0AnwAogHNW+38UfDp/a4gqy6SVZGUw25sGRNh
-         9DWXgjjriu4AiyyYwlJgQD8QI3ylWSXNZ5HEVGsC75gTwhCHSD1Hsclc8o+TCxgSafLl
-         AjSqee5UBPL+QWuqvZfFjDlppWkZpbkJcb5so9Dl2d3xjwtxS3OPJqN30tBkt65jbSde
-         ITJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVIkn7ai8oWRpfbFqa9XaCojOGhnoFzfiFyEA9s+ndVwec2Jx7qI8KYnTzALfFwGnUQW9fONnLAza/aRg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxJQf3JgNinqNl7JLH3YP4AQS2QDeKdbfa5WQjEcq2TpREICnuJ
-	dmq/gvaJphfxlPXYnZOFuoc0lJIidw8x1ea8LxwSbGnm5cJUTxgD00jZq/y4YQ==
-X-Gm-Gg: ASbGncsPCQ8dIjZ7LVbcn618ZbaP79pz/MnAJX/L5Z79W7DadsQqRWKINl87a3HiQ56
-	53vbQdpirRfx8Q61/yj80bfK8+lBhAGcpQ0IaQDmnw2OzCJ2IJOAyGROUDoJPDift4lCsYonVQB
-	ppJq72GcSAcVy1JQHwKbCTmtb68CpqNm6lbQf8ihQaO+3xk1/cGbLhaX4Q9DpEsiLWAoXM06vIA
-	mc34uQW4ohJsQ6tiwK98BzSUgq2QhahL+DGQ+CuPKVIx9QrvCEVVb7wfZxD48Y/HWRJpSk+z8Si
-	zM/wNw4FvcPkFnjiG7XHjK3IFvSEtYXi4LfD4RbGcsTHQhgALqnpCEem67mPvV0oetP2OYrThWe
-	5Vq4/rrUxwRJ0vETPyRyEy83MORuAgxl5+r7dv4DW3CimhsyMCQGHH5gvWtghkHpQhJrPc+PPMl
-	fNpOPW08lPEBR8NqEGOpbhv+0RHNhfpCwnJGb7Q1qu/jXjvp/Cvg9qkmB6CA3pcHZU7Qxk5qh5t
-	ZNU6w==
-X-Google-Smtp-Source: AGHT+IGceNZC+hsDU5iNf4hy7oHNmkb8i7YV/yTP5Anzziu3s6OU669Yv3tn9CnVwmUwCH6ADfRs+g==
-X-Received: by 2002:a05:6000:22c6:b0:427:23a:c339 with SMTP id ffacd0b85a97d-42704d6c507mr15006637f8f.14.1761148109425;
-        Wed, 22 Oct 2025 08:48:29 -0700 (PDT)
-Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427f009a993sm25826848f8f.24.2025.10.22.08.48.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Oct 2025 08:48:29 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: u-boot@lists.denx.de, Andre Przywara <andre.przywara@arm.com>
-Cc: Rudi Horn <dyn-git@rudi-horn.de>, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] sunxi: dram: detect non-power-of-2 sized DRAM chips
-Date: Wed, 22 Oct 2025 17:48:27 +0200
-Message-ID: <12763423.O9o76ZdvQC@jernej-laptop>
-In-Reply-To: <20251021235334.7557-1-andre.przywara@arm.com>
-References: <20251021235334.7557-1-andre.przywara@arm.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="FzGIlU3a"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=n8zhsZP+yz6h+eVG/wc2pxnqU13YbMKQq0cE/5AAO3BUcEWZPxnAvc9OIi2IzqRGayaQ+1dKxrZpaY9xbDLqfJ/ICfxBhpk9ob6lR9vCl23ALjUEQE3m2uGtXkBZSr6UeVlmyXZQxmbudyNtHvbzoOo+KUcB2wfEIUVlhR3Yo723EjD609EA8/qeiUxzUq/Uu/qdCmG/vZaxZO/fSSpc/+FrXuFA9FmeljcUHLVHAXmPJIpQJvey8pFSovmBuxpcnyDh6qEAAcV/E6D9PbyTdZSJXiO3Wh7iCEFrRy+iixI1tL5PxD1KmQdL3gycOCoo1ZyWWVCSslpjIdt7IwrGNQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RiTt3OgHrGAQDAhQX+n6580eNFiVH+JPN7EjoxCvlZ8=;
+ b=XmzEGNvJxD1965RWB1rJcrG3yeIiEcF2bwL5Xsp35GAASobPKpPzxP5K2XHzmHM+fifNWMxy6HFMejpBZF+hepjMZ77JiamdLF/qjpIOUOwnJCMcqCKW5C/zRCUtNWYVKqpDn8br/+I+j9TUvCMo24gTS2dqMINcs6HVjMaBuOjU9SBelU8ia1TBGAXAmfzOIqqTGfaanbFwVTcX56mVS5gjUoibR/Yuf3z3T4cvwNpk77Je9JGav06ViLYqOfHn+yvE06QlLvxJlXG1byLkKHU8uHO1Q0aLdeiJCc/fZmhAqii5Rsdo/JnVXIShAq/ykk77tXhpL4TX1CAcCKc4eg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RiTt3OgHrGAQDAhQX+n6580eNFiVH+JPN7EjoxCvlZ8=;
+ b=FzGIlU3aatuZnmumdSOmMbvzo0jIx5HRxGEYG67utXH1z5RuIFP8n10CDrWX73JiUlUcMLc2wS3lU9iAjDVx4x8cMUI9FRjhbsM5k9vakOrsBdNrOsvl6E8jnVX9SIC+gjem2mMbDHUSZ16VuJcMu/ReGgl6Dr0IB2F548gk2RBL6Z7+Cw08wp4rCjXtNIuTtM2yrShCk3b/C169DTAvEWK2NZ3+B6keGtcNF+7p0w+CrvxTgGSLLa36/eqchnK9tu+Jrgvv2Q6s75HwyPgFLORqR1O0E78tnl1Bp5NR28MitIAAUy6bq9CWA/aAkE+DlriJS/khmdMHNqdrZ6Wi+A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
+ by MN2PR12MB4125.namprd12.prod.outlook.com (2603:10b6:208:1d9::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.13; Wed, 22 Oct
+ 2025 17:12:53 +0000
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9253.011; Wed, 22 Oct 2025
+ 17:12:53 +0000
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Christian Benvenuti <benve@cisco.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	iommu@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Leon Romanovsky <leon@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rdma@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Nelson Escobar <neescoba@cisco.com>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Will Deacon <will@kernel.org>,
+	Yong Wu <yong.wu@mediatek.com>
+Cc: patches@lists.linux.dev
+Subject: [PATCH 0/3] Cleanup around iommu_set_fault_handler()
+Date: Wed, 22 Oct 2025 14:12:49 -0300
+Message-ID: <0-v1-391058a85f30+14b-iommu_set_fault_jgg@nvidia.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MN0P223CA0024.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:208:52b::31) To MN2PR12MB3613.namprd12.prod.outlook.com
+ (2603:10b6:208:c1::17)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|MN2PR12MB4125:EE_
+X-MS-Office365-Filtering-Correlation-Id: c81ccd42-623a-4562-64ef-08de118e3cb0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|1800799024|376014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?J/heM5aejHKpPZgtslO0kEHKC9wqL9cBe1Nxss/qMeVG+/BMqIHd45Ssv+i4?=
+ =?us-ascii?Q?zUR8huftgWe+5jRHWQ/ylvE97D/RsAQLLW+JWRUa0lTJj+mbumsNpfkTcx+S?=
+ =?us-ascii?Q?XAnyPGaT2GXwyQN+ItA+bSpwkekapG4jU08YQnZKCendTC0La9rwiaGx/icL?=
+ =?us-ascii?Q?Sk1/uLc0Jk2HP9Nwm7nbF+XWxjDZJhnAUBixJ7r7NpiyBeqUhvROtMSRCEvv?=
+ =?us-ascii?Q?vL0xG1U2yZX5113wktAbyS3yXoAqG5vNP/vPqtlqUIJwRuU2kgFBxWJ1YriK?=
+ =?us-ascii?Q?gGXG1l5pncqsZ2OI0vdVpobA3prcSYpoPVqm+SgHrrsVd9BsTTY7+tZYnFkP?=
+ =?us-ascii?Q?U64xTw3kDfapxbSOEmPiMjTeRNhrBhqp/ps+zfQhXjcpqmuFBJbC24dUbNl0?=
+ =?us-ascii?Q?32qBUUeVAgTLEfT9l7Ors5ODkFUqUxAJ7IWR/jftWojYUvywJ15MpqIEgkTs?=
+ =?us-ascii?Q?KiAKS7r4YZRPwure6UceHoN5qLVYNmlNbWw3XuyMMJ+TGfnvgPNTLuZ/Wlx7?=
+ =?us-ascii?Q?VCkbZfP4ICpawM86AL0Y0FISur7m1ly8EXqZzNaoYEydeOrSzxpBGNYupl+J?=
+ =?us-ascii?Q?+6KYhxx8AsaWn/hlZIfiBk1VixI6D74um/cwYR2sPkcVm59IDiiTyaU5+GIx?=
+ =?us-ascii?Q?/bs5U1nrKzoEZrolSdJQaxbzh2Of+Hvv8eCyxLqoGWWTMcRl/EIp0QAps3J9?=
+ =?us-ascii?Q?Fqdpd1AMC2Iwyn2oOfI3oejAQXon+Utj5BD2zCgaQeG2nSAyLFWcalsxI/o6?=
+ =?us-ascii?Q?xDusoEeTeheWc7qlykX/nnGJE/2ZQE8Z1YMnq0yycYUtM+kOFD3vj3VM9qMT?=
+ =?us-ascii?Q?GxJdYms46Mr70NSs8QS2NXBCnoOuWsXOnYMdi6R5FpCfTX05/rBVmEa39jNq?=
+ =?us-ascii?Q?/IPXEDIcSLeF49lfh72PMW41MwFwbF0qwY44HhrazfzNsj4FzA7BkvWbFAmt?=
+ =?us-ascii?Q?sRvRvFykCquaTpB0HZHbzOr9+mRbGhVwf4AYskI9RSBYhKNypBaynH4s0YnO?=
+ =?us-ascii?Q?e2Zd4jOuHAE1nckaUeo+wRcbT6roMdRYrCxfA+onozM7diaTMp4AxcutZ97b?=
+ =?us-ascii?Q?9NfACQKUqEM99qrbUCGTA3ZjJVYHbDddS9CZAY5qIuDXMNAyOBUtXxutAHuX?=
+ =?us-ascii?Q?cf5yoBtdSQvn0WjhdqDBV2LGZuyg+R0B8gwd/AYx5UBzpK5vvtwqvqgW/jkG?=
+ =?us-ascii?Q?MK9e6yT8yMO4zE3xoWwOMKfihN4pQA7qK1bl+1C3wyJLr6+t6FIOHPCb/8wV?=
+ =?us-ascii?Q?x0Vy7VdDnlRIAKCK2i1l1qNr+3X+xQhxbqkfh/QU5MlM9lZEkQqKZGTDeRt8?=
+ =?us-ascii?Q?WMsa0kRbl3nioZ0BDfBxIvFxdLPcOzM/dhUVuP28GLVxYvpIj0PtfwNul2rc?=
+ =?us-ascii?Q?5fFTxXxG7pNCS1+BEG1hPvQ9ZRiZe0+mnQItI70jKIlB+OqdaGpINU70+3NS?=
+ =?us-ascii?Q?ym7s5gWvNRUMGEent+h4nzidXmnArJDuP7thHTjEI1Tdol7q4fxjT+DnzB5/?=
+ =?us-ascii?Q?6HHpYi1wI+2WZ64=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3613.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?OtO9mMBnFOtWKe8FyILQZz01ScD3aizQi7OOX7SV6pnqH2yeafZe41vlFRW7?=
+ =?us-ascii?Q?KeFahGTOcRIT8CX3NHvv6dp9t/5h9/IdKKDQ2cgJwWuIBfnR+WiOK5kfeBAH?=
+ =?us-ascii?Q?u3T3k9Zt3EE0eE6QQQ6GEonnsCaganJ76dPkaoimRvSetDgmiYl6luewR+we?=
+ =?us-ascii?Q?TeuhjfNb3azoQgFdxQrJiknpLH7bTB83oMw3o4B2gCbUx+WXhWU861V4YZF/?=
+ =?us-ascii?Q?BcnwQZbFYk4FjRl44oz/WnQ206SC4WpItPGeRqG/fO8TvADGrOqyU12HJvXa?=
+ =?us-ascii?Q?jLRC8ZScUtD+8xS6ZGpFPKuFD3YGPjaDW3ku+NbEoNqf0lnSQCw2Mb3cMZVs?=
+ =?us-ascii?Q?1c+Mh4FPmKzPCfcx+fuW/rGj0T4Aeiz98qGJZJrUXe+F82iwgHWkVegmVQkQ?=
+ =?us-ascii?Q?gbpbgM9hs0UDG9KGdbqlYS7bB37f0qWiJd5IxmNQpLF2ggMydPwpg8vOZuxe?=
+ =?us-ascii?Q?CgiZLRDpPUL37CyHJpCFUjoQrtbpHkhAk3CnhFf0PndJkdMrJjr2DxTlAF1U?=
+ =?us-ascii?Q?1UpgX/d6wCj7Z21LieKMggVzErCi5NNgHLsiVX0+/+3ytU0j4deEGsvFMHaH?=
+ =?us-ascii?Q?n1Pz5VBpCMDU2X6ezmkOR8brXrZeiRKLCPBlCh0PkAQh60yLeZaWZUAs2vY/?=
+ =?us-ascii?Q?sG2ip6O5XE13dsEKLXXjhF4k31spajnzfcGLUow8P6SdBNFRZ4Dqrk2+1Yze?=
+ =?us-ascii?Q?s1hKPyN9GPiyxRk9Q32bkPvrEgnn9ijOXDe3gHmpUkzchw+xv8TvacAA7Vzt?=
+ =?us-ascii?Q?P44GGqLsWSZRXvOL+QU53J32MvergZhOljCIckXiwAWjQiB87cxGFjq95lBJ?=
+ =?us-ascii?Q?/eMABBcSd3U0InT81y647gfyj8Z+m2U4f/9ZAhR6+DBFCFOAck/W/qBu0Ipg?=
+ =?us-ascii?Q?/W8tyQpR5ngyzMvH8up/wDjj+1QsuZAWzz99Es6SnPXyN5RC4P3L/3g+7Ltq?=
+ =?us-ascii?Q?jwFvIINpBTWIoA7oVw6t907cnivYw10GooA2mwFxkmTm04DekViE0ec6XIT+?=
+ =?us-ascii?Q?PA+c8RrXr1uX9ozFrKOQSZNEOErYzoG2iZ961rk7fzkwmqrf/a3eXmn7Rq1j?=
+ =?us-ascii?Q?S1BVlsYRiTqUnOeNY0U8ZwTcGb945lewgZ8/Nn+vVNNdKk0iQ56isAAsYM5j?=
+ =?us-ascii?Q?Ni06td10t3NCk9XmZ7w7u1cyyWv4NECEDJIkyFLNeUNxgokJBhmCl1LzhOJV?=
+ =?us-ascii?Q?Dadg5FqYwGXyfyUevf56ItMLtep9SqlxiLaGzqEG50r1Sgp0+4lR4Q0B/VlT?=
+ =?us-ascii?Q?Uhrbjx8ZNoXdfPO/QBykbtYQLjnZ7DMzo5tx8QhdWvYomsPippMunc7Tn02w?=
+ =?us-ascii?Q?xIeGvptpi/mqh4AukDxq/Q9uIESyUJf1iIYJLclnU2nX4GGoC0U8o7AhAWXM?=
+ =?us-ascii?Q?jw+2fo8V037rLBIiopV1MPbaHsuo4PCu+z5iMUG6cng2tLenEG3TTGMZOjWT?=
+ =?us-ascii?Q?yaYK5jFoQTajaI2EqmR6VvL/8h+oGj12EV2dEf/Ojz4oqEdjd0ya4AOLQ1KC?=
+ =?us-ascii?Q?vbd1MH/q1rCNhb90TkZ1AnKNJWtZd9yCf47qnSGdXWcEb/k6Vw6QxyAZbt21?=
+ =?us-ascii?Q?F9S+AlGpI7jsNuEgCMo=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c81ccd42-623a-4562-64ef-08de118e3cb0
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2025 17:12:53.6306
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pLBCTP0qB1d+VEFmf0SlB2ASyvzWsIzoF/QKri6mUOvtiuP4Xx2qvzswqOQ39tjC
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4125
 
-Dne sreda, 22. oktober 2025 ob 01:53:34 Srednjeevropski poletni =C4=8Das je=
- Andre Przywara napisal(a):
-> Some boards feature an "odd" DRAM size, where the total RAM is 1.5GB or
-> 3GB. Our existing DRAM size detection routines can only detect power-of-2
-> sized configuration, and on those boards the DRAM size is overestimated,
-> so this typically breaks the boot quite early.
->=20
-> There doesn't seem to be an easy explicit way to detect those odd-sized
-> chips, but we can test whether the later part of the memory behaves like
-> memory, by verifying that a written pattern can be read back.
-> Experiments show that there is no aliasing effect here, as all locations
-> in the unimplemented range always return some fixed pattern, and cannot
-> be changed.
->=20
-> Also so far all those boards use a factor of 3 of some lower power-of-2
-> number, or 3/4th of some higher number. The size detection routine
-> discovers the higher number, so we can check for some memory cells beyond
-> 75% of the detected size to be legit.
->=20
-> Add a routine the inverts all bits at a given location in memory, and
-> reads that back to prove that the new value was stored.
-> Then test the memory cell at exactly 3/4th of the detected size, and cap
-> the size of the memory to 75% when this test fails.
->=20
-> This enables boards which ship with such odd memory sizes.
->=20
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
-> Hi,
->=20
-> I don't really have a board with such an odd size to test that, though the
-> function worked on a 12GB A733 board. But that's not supporting the SPL
-> or any kind of DRAM init yet, so was tested out of context.
-> I would be grateful if anyone with a 1.5GB or 3GB board could test this.
->=20
-> Thanks,
-> Andre
->=20
->  arch/arm/include/asm/arch-sunxi/dram.h |  1 +
->  arch/arm/mach-sunxi/dram_dw_helpers.c  | 16 +++++++++++++++-
->  arch/arm/mach-sunxi/dram_helpers.c     | 12 ++++++++++++
->  3 files changed, 28 insertions(+), 1 deletion(-)
->=20
-> diff --git a/arch/arm/include/asm/arch-sunxi/dram.h b/arch/arm/include/as=
-m/arch-sunxi/dram.h
-> index 0eccb1e6c28..59e2e980bfa 100644
-> --- a/arch/arm/include/asm/arch-sunxi/dram.h
-> +++ b/arch/arm/include/asm/arch-sunxi/dram.h
-> @@ -45,5 +45,6 @@ unsigned long sunxi_dram_init(void);
->  void mctl_await_completion(u32 *reg, u32 mask, u32 val);
->  bool mctl_mem_matches(u32 offset);
->  bool mctl_mem_matches_base(u32 offset, ulong base);
-> +bool mctl_check_memory(phys_addr_t addr);
-> =20
->  #endif /* _SUNXI_DRAM_H */
-> diff --git a/arch/arm/mach-sunxi/dram_dw_helpers.c b/arch/arm/mach-sunxi/=
-dram_dw_helpers.c
-> index 24767354935..14f6b24c30f 100644
-> --- a/arch/arm/mach-sunxi/dram_dw_helpers.c
-> +++ b/arch/arm/mach-sunxi/dram_dw_helpers.c
-> @@ -143,8 +143,22 @@ void mctl_auto_detect_dram_size(const struct dram_pa=
-ra *para,
-> =20
->  unsigned long mctl_calc_size(const struct dram_config *config)
->  {
-> +	unsigned long size;
->  	u8 width =3D config->bus_full_width ? 4 : 2;
-> =20
->  	/* 8 banks */
-> -	return (1ULL << (config->cols + config->rows + 3)) * width * config->ra=
-nks;
-> +	size =3D (1ULL << (config->cols + config->rows + 3)) * width *
-> +		config->ranks;
-> +
-> +	/*
-> +	 * There are boards with non-power-of-2 sized DRAM chips, like 1.5GB
-> +	 * or 3GB. They are detected as the larger power-of-2 (2GB and 4GB),
-> +	 * so test the last quarter for being able to store values.
-> +	 */
-> +	if (!mctl_check_memory(CFG_SYS_SDRAM_BASE + size / 4 * 3)) {
-> +		size =3D (size / 4) * 3;
-> +		debug("capping memory at %ld MB\n", size >> 20);
+report_iommu_fault() is an older API that has been superseded by
+iommu_report_device_fault() which is capable to support PRI.
 
-As I already commented in first version of this change, wouldn't it be good=
- to
-add additional check here, just to be sure there is no misconfiguration? In=
- such
-case it would be better to panic than continue with unstable system.
+Only three external drivers consume this via iommu_set_fault_handler()
+  drivers/remoteproc
+  drivers/gpu/drm/msm
+  drivers/infiniband/hw/usnic
 
-Best regards,
-Jernej
+Remove the use in usnic as the iommu driver logging is good enough these
+days.
 
-> +	}
-> +
-> +	return size;
->  }
-> diff --git a/arch/arm/mach-sunxi/dram_helpers.c b/arch/arm/mach-sunxi/dra=
-m_helpers.c
-> index 83dbe4ca98f..376b7d14f86 100644
-> --- a/arch/arm/mach-sunxi/dram_helpers.c
-> +++ b/arch/arm/mach-sunxi/dram_helpers.c
-> @@ -62,3 +62,15 @@ bool mctl_mem_matches(u32 offset)
->  	return mctl_mem_matches_base(offset, CFG_SYS_SDRAM_BASE);
->  }
->  #endif
-> +
-> +bool mctl_check_memory(phys_addr_t addr)
-> +{
-> +	uint32_t orig, val;
-> +
-> +	orig =3D readl(addr);
-> +	writel(~orig, addr);
-> +	val =3D readl(addr);
-> +	writel(orig, addr);
-> +
-> +	return ~orig =3D=3D val;
-> +}
->=20
+Remove generation support from the AMD iommu driver since msm and
+remoteproc are not used on AMD x86 CPUs.
+
+Fail iommu_set_fault_handler() if the underlying iommu driver does not
+support it.
+
+Jason Gunthorpe (3):
+  RDMA/usnic: Remove iommu_set_fault_handler()
+  iommu/amd: Don't call report_iommu_fault()
+  iommu: Allow drivers to say if they use report_iommu_fault()
+
+ drivers/infiniband/hw/usnic/usnic_uiom.c | 13 -------------
+ drivers/iommu/amd/iommu.c                | 24 ------------------------
+ drivers/iommu/arm/arm-smmu/arm-smmu.c    |  1 +
+ drivers/iommu/arm/arm-smmu/qcom_iommu.c  |  1 +
+ drivers/iommu/iommu.c                    |  6 +++++-
+ drivers/iommu/ipmmu-vmsa.c               |  1 +
+ drivers/iommu/mtk_iommu.c                |  1 +
+ drivers/iommu/mtk_iommu_v1.c             |  1 +
+ drivers/iommu/omap-iommu.c               |  1 +
+ drivers/iommu/rockchip-iommu.c           |  1 +
+ drivers/iommu/sun50i-iommu.c             |  1 +
+ include/linux/iommu.h                    |  3 +++
+ 12 files changed, 16 insertions(+), 38 deletions(-)
 
 
-
+base-commit: 211ddde0823f1442e4ad052a2f30f050145ccada
+-- 
+2.43.0
 
