@@ -1,175 +1,96 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875612FB0B9
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Oct 2025 07:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0052E8882
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Oct 2025 08:01:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761119903; cv=none; b=pFK2fReWI5lCRh3Nd6Rk4y/NOdikn6fqJCajX3DoXXVyAI84YmZz/MqMQXB3P4Dn4T7PXFWr1g7+xFMz6Vd+bvAaVtpeznfxSd1ATzAN9Zx4PRhjZqkVNbFqrDcoOuai/SHJQY8YSCsWPjuMavfjAb7WxhpmlQJJdIfSwU5KTe0=
+	t=1761120109; cv=none; b=OJs6Pb+hM/XkcB+D8torl3U/we7yO0yI+3067VkTWVkLymxEIcwNollqAriossjilSz+1rVWwJKv7swi3y0mK9P/vP1JMrQNPoiLREabt+A0ARn9Uq4m9UKmlkZKTyL6vIPmmxTpU0e9jD+KPx5AEdy9I+y+6ct7Dq/BosD8yHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761119903; c=relaxed/simple;
-	bh=4UGFq1170WVAIkupsDNq6rGzRNKdY+KUwaehb3h3gFg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CQLdMOiX5uUyJYZKOt0Dt+2Q5dNLG2QODGSqR1OCMQYgkbs0ht8jFdMnNkzggI9uO8Tvi+Vh29ORCWjqQjv350LTn8xDEEHaNy8O1ANcZTevGLq1bHTBHx5lUKsp1hj3qrbviAKKtpfIiWf+eXrAnl1hWh9Dut/2decFAWS9v4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from localhost (unknown [116.232.147.23])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dlan)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id 86374340D20;
-	Wed, 22 Oct 2025 07:58:20 +0000 (UTC)
-Date: Wed, 22 Oct 2025 15:58:16 +0800
-From: Yixun Lan <dlan@gentoo.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] regulator: axp20x: add support for the AXP318W
-Message-ID: <20251022075816-GYC1522542@gentoo.org>
-References: <20251021112013.2710903-1-andre.przywara@arm.com>
- <20251021112013.2710903-4-andre.przywara@arm.com>
- <20251022001420-GYA1522542@gentoo.org>
- <20251022014706.2475539d@minigeek.lan>
+	s=arc-20240116; t=1761120109; c=relaxed/simple;
+	bh=38r9xfZLwLJKROmeDdkyUpNf+YWWc4TDY/dD0X8glqs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=EsS3D+4ORP/OIjDmL6NUnL6PPJUt930ruotNcUP0+44UW8tB77nyX5rsjvIeH+6nyjNxZy/ggGiOS6E9x6uvqFomMo1Vl7m6VzWq/15rrTD5BhRrNEBt071V/lc8pygaJ33KyE9HDiDvgAkbhQrnPVd94HiDB6uqi1gjiUSRHKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=HS+VOTVC; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HS+VOTVC"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b6cea7c527bso100833a12.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 22 Oct 2025 01:01:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1761120107; x=1761724907; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2Czcihnqa+RdFrhOYT/oFUcxYUUGz6vVNGz6e5p2QTY=;
+        b=HS+VOTVC6ykcb8yV76NqpMZBDGknb/MXwfytrDhOxtXy/OccEJnEGDjK7UH1fAs5ZW
+         MI96ovnKyDRpii2gATZHYFkdickAzDYk4FUlPT+muxYOao/IsS8eg7Mm3XIocDBGIE+4
+         ifUH8x5v9wmc2P61dgVcl8toTaUyaDXvDEf9g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761120107; x=1761724907;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2Czcihnqa+RdFrhOYT/oFUcxYUUGz6vVNGz6e5p2QTY=;
+        b=Tizb9UKdhfnnhh9Zj/JK0AcwM4f9Jfch++mwLUXc75EzQSNNIcWjsZdEJJqUHOi9OE
+         PfIyepGoNNb6a1NS9Rr845ZrtoZo2mppQvnbu49BBSHO4BRmjsbOVjw4z/TwqCtNebVu
+         q+3eav7G5iCqDZdVXUXKak1R/go9IG5704EB/d63aTOVp0dVyt9/keWEjEAG6FndXTrY
+         /ZHdk03H7yluBnHGDX/goqKgAslGe6qMJToRBCBgcnUDs76bxfQmVVvJaH2g9Dp1THBd
+         9IL5nJH++Jy/wrt8YIHafT1GE/g1MlpFlBG590GulIjg8C3I5eqKDGTFV8E40UU2dp7R
+         U7iQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWvspYadU89F+Y95UB+7prkBWC7/Q4Nfohi0IMZzbk/bVm33Q/yS1O6fRLYUdnkQfX7TOcm1bZqII5RIA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwA47w5loYyGKvKG8sJYKl6noKhbyIjXY3o9+pvFIWdOBkpjlSy
+	u1SJ1fR3v/SujOS0o/HIGQruLkdDnORXMIFVOlwjdKzyRZxRf/eA8aeO/mueZBHfoA==
+X-Gm-Gg: ASbGncuasNh10KLbFUMlTboW0gi7YMLwpOrJiTMyfsT3K0+KmHRQiRFCdY08CZE6G8d
+	hHlNb8KALpYUHaN9cH9Q11CaBuxyrLbBnLl26dVeI/T0sSZmwIIQOPXHbUEx/Q4Z22FUIBj00Pc
+	LC/4aUk8zVngPdUDJVysDpd5RAs574IizR2s2Dkd+iQvkIEke4m9jJfHpYnVsOFLSdcENXDnfLy
+	TJJIPK8cwiO2+wlYEuhZrBhHE01VgLIurkza0/T0pj2ToxEaPsk5WkE+6NdCmq8lVCCqVnOM7KV
+	wRIUzHcGzAhzUKfmzwpwelPVtXC2iOXFDV5oCa3Tjizc3wPQj2h2Du98np31+OTKUaad1VffHU8
+	zNvkkkH2fqVuvVouri7uZJJ5Big9M5C/elWiwlTpmeyvll+9YhHlpAsXvpOpxgz6GxUGX0b5txu
+	kYKfdUZZqCgaCNtKuGGLULMAxbXeMw08tr+N+1/QxZCAIQpGCRmpBA
+X-Google-Smtp-Source: AGHT+IEt15ezmGTqR4A8CJGFXTvCgrS4gO8P9rtkeOmGm46bHNcAFHWrZsKB4y1EeUubGMyQT47cig==
+X-Received: by 2002:a17:90b:1dcb:b0:33b:b033:d7e5 with SMTP id 98e67ed59e1d1-33bcf9186f0mr29084769a91.35.1761120106936;
+        Wed, 22 Oct 2025 01:01:46 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:5534:56e9:528e:f9b4])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33e223dfaacsm1771401a91.10.2025.10.22.01.01.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Oct 2025 01:01:46 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+X-Google-Original-From: Chen-Yu Tsai <wens@kernel.org>
+To: Jernej Skrabec <jernej@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
+ linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20251020045603.2573544-1-wens@kernel.org>
+References: <20251020045603.2573544-1-wens@kernel.org>
+Subject: Re: [PATCH resend] MAINTAINERS: Update Chen-Yu's email address
+Message-Id: <176112010476.488381.11368848750305962943.b4-ty@kernel.org>
+Date: Wed, 22 Oct 2025 16:01:44 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251022014706.2475539d@minigeek.lan>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-Hi Andre,
 
-On 01:47 Wed 22 Oct     , Andre Przywara wrote:
-> On Wed, 22 Oct 2025 08:14:20 +0800
-> Yixun Lan <dlan@gentoo.org> wrote:
+On Mon, 20 Oct 2025 12:56:02 +0800, Chen-Yu Tsai wrote:
+> The email forwarder I'm using has run into severe problems with Gmail
+> lately. Switch over to my kernel.org address for kernel development.
 > 
-> Hi,
-> 
-> thanks for having a look!
-> 
-> > Hi Andre,
-> > 
-> > On 12:20 Tue 21 Oct     , Andre Przywara wrote:
-> > > The X-Powers AXP318W is a typical PMIC from X-Powers, featuring nine
-> > > DC/DC converters and 28 LDOs, on the regulator side.
-> > > 
-> > > Describe the chip's voltage settings and switch registers, how the
-> > > voltages are encoded, and connect this to the MFD device via its
-> > > regulator ID.
-> > > We use just "318" for the internal identifiers, for easier typing and
-> > > less churn. If something else other than the "AXP318W" shows up, that's
-> > > an easy change, externally visible strings carry the additional letter
-> > > already.
-> > > 
-> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > > ---
-> > >  drivers/regulator/axp20x-regulator.c | 170 ++++++++++++++++++++++++++-
-> > >  include/linux/mfd/axp20x.h           |  43 +++++++
-> > >  2 files changed, 211 insertions(+), 2 deletions(-)
-> > > 
-..
-> > > +
-> > > +static const struct linear_range axp318_dcdc8_ranges[] = {
-> > > +	REGULATOR_LINEAR_RANGE(500000,    0,  70,  10000),
-> > > +	REGULATOR_LINEAR_RANGE(1220000,  71, 102,  20000),
-> > > +	REGULATOR_LINEAR_RANGE(1900000, 103, 118, 100000),
-> > > +};  
-> > 
-> > In the AXP318W datasheet, it says:
-> > section 7.1 DCDC/LCO desgin
-> >  8. DCDC6/7/8/9 only able to tune at two voltage ranges which are
-> >  <1.54v and >1.54v, the tuning voltage should not step cross 1.54v
-> >  (I translate the original doc into english)
-> 
-> Thanks, I now read something similar in my Google translated copy of the
-> datasheet. But I don't understand what this is supposed to mean? That
-> exactly 1.54V does not work, so the value of 87 is invalid? But any
-> other value can be set?
-I did a hard chinese - english translation..
-
-No, I think it's probably a mistake that if user interpret value 87 as invalid,
-from my understanding, DCDC6-9 only able to tune the voltage in two ranges:
-(if user need to adjust the voltage dynamically)
-
-a) range 0.5v - 1.54v (probably include 1.54v)
-b) range 1.54v - 1.9v (probably also include 1.54v)
-
-but can not tune in this case, example from range 1.5v - 1.6v which will
-cross 1.54v point
-
-I don't understand the logic behind but guess it's up to the HW/SoC
-restriction in the design perspective..
-> 
-> > 
-> > so, with this restricition, should we split the range into two?
-> > one is dcdc6_lo_range, another dcdc6_hi_range
-> > 
-> > or what do you think?
-> > 
-> > ..
-> > > +	AXP_DESC(AXP318, ELDO1, "eldo1", "eldoin", 500, 1500, 25,
-> > > +		 AXP318_ELDO1_CONTROL, AXP318_ELDO_V_OUT_MASK,
-> > > +		 AXP318_LDO_OUTPUT_CONTROL3, BIT(6)),
-> > > +	AXP_DESC(AXP318, ELDO2, "eldo2", "eldoin", 500, 1500, 25,
-> > > +		 AXP318_ELDO2_CONTROL, AXP318_ELDO_V_OUT_MASK,
-> > > +		 AXP318_LDO_OUTPUT_CONTROL3, BIT(7)),
-> > > +	AXP_DESC(AXP318, ELDO3, "eldo3", "eldoin", 500, 1500, 25,
-> > > +		 AXP318_ELDO3_CONTROL, AXP318_ELDO_V_OUT_MASK,
-> > > +		 AXP318_LDO_OUTPUT_CONTROL4, BIT(0)),
-> > > +	AXP_DESC(AXP318, ELDO4, "eldo4", "eldoin", 500, 1500, 25,
-> > > +		 AXP318_ELDO4_CONTROL, AXP318_ELDO_V_OUT_MASK,
-> > > +		 AXP318_LDO_OUTPUT_CONTROL4, BIT(1)),
-> > > +	AXP_DESC(AXP318, ELDO5, "eldo5", "eldoin", 500, 1500, 25,
-> > > +		 AXP318_ELDO5_CONTROL, AXP318_ELDO_V_OUT_MASK,
-> > > +		 AXP318_LDO_OUTPUT_CONTROL4, BIT(2)),
-> > > +	AXP_DESC(AXP318, ELDO6, "eldo6", "eldoin", 500, 1500, 25,
-> > > +		 AXP318_ELDO6_CONTROL, AXP318_ELDO_V_OUT_MASK,
-> > > +		 AXP318_LDO_OUTPUT_CONTROL4, BIT(3)),  
-> > 
-> > also, in section 7.1 DCDC/LCO desgin
-> >  3. ELDOIN can use DCDC's output as the voltage input, once in this case,
-> >  the LDO (output?) config voltage should lower than DCDC input voltage.
-> > 
-> > Note: ELDOIN can use PS(Power Supply, should be equal to DCIN) or DCDC as input
-> > 
-> > in case of Radxa A7A (A733) board, it use DCDC9 as ELDOIN,
-> > Should we do something in the driver level? or leave up to user
-> 
-> "User" really means board vendor here, right? As the actual board
-could be user from software level perspective, who use or design this
-
-> user is not meant to adjust those voltages anyway, and any range
-> limitations should be considered during the board design phase.
-I'd be fine if push these up to designer, and blame them for wrong usage
-
-> So yes, DCDC9 is at 1.24V on the Radxa, and ELDOIN is connected to
-> that, but only ELDO1 and ELDO6 are used, and they are fixed to 900mV
-> and 800mV, respectively, and connected to SoC pins that require exactly
-> those voltages. So there is no room for change or to adjust things
-> here, and the requirements are met.
-for this single case, right, we shouldn't worry about..
-
-> If board designers/people ignore that, that it just won't work, and
-> they get to keep the pieces. Nothing the driver can do here.
-> 
-from a driver level, at least we can emit an error message to alert 
-user of the wrong voltage value set..
-
-> Cheers,
-> Andre
 > 
 
+Applied, thanks!
+
+[1/1] MAINTAINERS: Update Chen-Yu's email address
+      commit: caa2f6ee91d4e2dab39b30de34d2c74b6f45d0a3
+
+Best regards,
 -- 
-Yixun Lan (dlan)
+Chen-Yu Tsai <wens@kernel.org>
+
