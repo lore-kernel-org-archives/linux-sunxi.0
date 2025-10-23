@@ -1,188 +1,209 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B40CD27702D
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Oct 2025 20:34:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761165259; cv=none; b=UqaKS6dEIkg6K6gCwDE6Cm6l125L47XNLaldMTJniLKJ3PJ6xVqF7KU76/0ZcUqCX0FJIaiRwJlhcLOQQcugPoTJ/kUTkU6SfzvDVpAlRoOScT2eWL5qU7mtHtw2j95iP5YpE9RuzbAOAcddR0D/HmSYRmVKExXubPXbtpKDsc0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761165259; c=relaxed/simple;
-	bh=ZR9S9h5qBj4Q0x4frgo2DbK5WXKAGsOqnz0kgLbsxFQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=re4OhoL7t0AQdAoF82md9rhyiL6EPFG26012vso9cuDuLyBQr2YmmIygvgcnXl0C/+YfzWcJqxDIYZUco0aiT8sVjtEKvSZXLfU68RbzubP9Peu3BiAGyFtEuxuyClHmJSKlyWy9CVxLNNWBoDWgavPJg1uypHXfh/i6Y1PeO5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3C8891655;
-	Wed, 22 Oct 2025 13:34:09 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4F93C3F66E;
-	Wed, 22 Oct 2025 13:34:16 -0700 (PDT)
-Date: Wed, 22 Oct 2025 21:33:39 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-Cc: u-boot@lists.denx.de, Rudi Horn <dyn-git@rudi-horn.de>,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] sunxi: dram: detect non-power-of-2 sized DRAM chips
-Message-ID: <20251022213339.2b9cb140@minigeek.lan>
-In-Reply-To: <12763423.O9o76ZdvQC@jernej-laptop>
-References: <20251021235334.7557-1-andre.przywara@arm.com>
-	<12763423.O9o76ZdvQC@jernej-laptop>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010013.outbound.protection.outlook.com [52.101.46.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C5E1DF25C;
+	Thu, 23 Oct 2025 02:22:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761186147; cv=fail; b=CEIAatrFAgtCI+C+Htii2D+rqcMef3elkuJ08Plj3vKu6v2uvvs7JHwmhpx5Pv4fPItsSEMCSd4bPEEftWL0djyWC0K0eNdu929jdQ3IS5pVhCBp4CH5F7/RAoYo0alfeA5VPMWLX7iIaINL2m57spdA0R6SVWYho3QLnbYe10E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761186147; c=relaxed/simple;
+	bh=7rATca/5ftm7MiMlcmqYN4QhZwtdmQpiiPHnuKQWu20=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=m3scw0DuFnHT3isawlB3fx7HTcodJfgSd+RGjHVwzZjYVjqFSYEsdGSd6IvHdqDvNgBKAerCRUC6LBVC8u2dZYaUI5jwSCsSt2xDnX0RhiymHyxYOHgtrceOBE85jEt9fCaU7jmqFwnR8aQUDhWwUcyTc7TXD3fmYTKpijYeZVI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Enkkhrtm; arc=fail smtp.client-ip=52.101.46.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Enkkhrtm"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AATngSbQnH2/2xRAx4r6eNaadMxLp4RfJ6oprX9O+UKu2aH6V5yjEcCrwt2fgTSL4Ijv8KiEsEA0hZ9Yq8V5e/TYcQqN10PyaRnbjFdtXbC/pZ8ZbsmYe/dVLoat+dWz+oqnuEXOx9k9KRAcy0lwDdZMcpLHJsDegs/8M5Ea+GTbtSZKikOyAc5uUkKPFZC30v2i94x26sJgMqmWNtjDWH7/XvXM7h+tOiplPndr56uOX0sqs/At+SB3LdWhJMn4KKB3pTnEUfhUvun3lWXrZuCYTU03OpdkYazKRLanx+IY0mioD9+Z8Ps2awIhIIcirxBPJscqTf0xE2qpCEo02g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sAVwymAGTAdQk5Ef+A4GanmI5VpeyPBDf20KGUBcGpI=;
+ b=RFUXzEaEOLIaR5NJbbfSM2l9U1oMlimiOMRUmSGgHX9laCsIiFHhSXVU/+lrur1s5zMwcF9qzxHFlBtOzQD1oUox0jiLcP79IrO3RZjOLLdnc9Y7Gl4wIqQ/Dr6t9kgUd3cGF8ygGWQFE6GvFMH1QN2Yu3lwzw8DogaLP8SSSfrmLiJM3vGLdT6F+1n0/LfPL0C1zE9a/ojF29Wfy5rX1budawpj8+IrZ3hReroqDwAINcLpmW7cPHE7Tk3tzyg4lDegThW3MtsMcAs7FJY8Tt/qP3Sp3LzOgfHgIXhTEfFDxlNsVQtl0NgqHfExDm9loGGMUcz7cZy7HHxywRcLaQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=8bytes.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sAVwymAGTAdQk5Ef+A4GanmI5VpeyPBDf20KGUBcGpI=;
+ b=EnkkhrtmeI+klOY4DLDMYApJPOilTOeibkmo9Po49EuKQGygx8n9IyibGxg5volowqqeBD1k/LPFqzvygA/B8D0fP6l9MQ8/U+NvmjFLka6a1hmvaVH1TyWWpBZrGP1ZW/Eg2WatKnFYWYiI9nKRGh3fNlVQpsbN9fuOLWrKGgdejgbskH2uXVWvBz6TSG1PfrXKX/B0ybxqS1nNZ+stoCeuv+JetQOnM2mmuHfT6w8m4HDm1AOJxXBM+RoXKbk7GleHwY9l4vCVbjK4tlYsqIF+Y6fyoboIWy8v2Smdjg85yS7mcoxOe9r0gaj4igLUbTrK/vwmyvTcMdsLY0fqNw==
+Received: from PH8P220CA0033.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:348::11)
+ by SN7PR12MB6929.namprd12.prod.outlook.com (2603:10b6:806:263::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.12; Thu, 23 Oct
+ 2025 02:22:20 +0000
+Received: from SA2PEPF000015CB.namprd03.prod.outlook.com
+ (2603:10b6:510:348:cafe::c4) by PH8P220CA0033.outlook.office365.com
+ (2603:10b6:510:348::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.13 via Frontend Transport; Thu,
+ 23 Oct 2025 02:22:23 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SA2PEPF000015CB.mail.protection.outlook.com (10.167.241.201) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9253.7 via Frontend Transport; Thu, 23 Oct 2025 02:22:19 +0000
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 22 Oct
+ 2025 19:22:08 -0700
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail203.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 22 Oct
+ 2025 19:22:07 -0700
+Received: from Asurada-Nvidia.nvidia.com (10.127.8.9) by mail.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
+ Transport; Wed, 22 Oct 2025 19:22:05 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: <joro@8bytes.org>, <jgg@nvidia.com>, <kevin.tian@intel.com>
+CC: <suravee.suthikulpanit@amd.com>, <will@kernel.org>,
+	<robin.murphy@arm.com>, <sven@kernel.org>, <j@jannau.net>,
+	<robin.clark@oss.qualcomm.com>, <m.szyprowski@samsung.com>,
+	<krzk@kernel.org>, <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
+	<yong.wu@mediatek.com>, <matthias.bgg@gmail.com>,
+	<angelogioacchino.delregno@collabora.com>, <tjeznach@rivosinc.com>,
+	<pjw@kernel.org>, <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
+	<heiko@sntech.de>, <schnelle@linux.ibm.com>, <mjrosato@linux.ibm.com>,
+	<orsonzhai@gmail.com>, <baolin.wang@linux.alibaba.com>, <wens@csie.org>,
+	<jernej.skrabec@gmail.com>, <samuel@sholland.org>,
+	<thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+	<jean-philippe@linaro.org>, <iommu@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, <asahi@lists.linux.dev>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
+	<linux-samsung-soc@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+	<linux-riscv@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
+	<linux-s390@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
+	<linux-tegra@vger.kernel.org>, <virtualization@lists.linux.dev>,
+	<patches@lists.linux.dev>
+Subject: [PATCH v2 0/6] iommu: Pass in old_domain pointer to attach_dev
+Date: Wed, 22 Oct 2025 19:21:03 -0700
+Message-ID: <cover.1761017765.git.nicolinc@nvidia.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF000015CB:EE_|SN7PR12MB6929:EE_
+X-MS-Office365-Filtering-Correlation-Id: bfadc637-fa12-463f-997b-08de11dafe51
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|36860700013|7416014|376014|1800799024|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?m7CS3jco3MuGnv9X+NjxvXS9UcmmsktQfmtxRjz/0G8znD4q//qbpZDCPxKu?=
+ =?us-ascii?Q?6dEirr5lYzcRNfmIgSL8gj8XmBhgCWVRv7p7HEvX3mBQORrXZfrvMGG5sred?=
+ =?us-ascii?Q?q/p9BFP988CG9hCDj7/ivfyCg+ipnDGpEjQ9GRQWWuUIQhrZHKjseaXG3Byh?=
+ =?us-ascii?Q?bM/61Hx/umgf/GaEUi9rhnZX7apTCz9/XLZgmjTRrIpWk6zKvpuzXYBN1oMX?=
+ =?us-ascii?Q?UlBDXU0Y5rNQRMvh2VGiREH8NnA5hR3VTnah9R9Rfk3blmS70xnP4bIBcQww?=
+ =?us-ascii?Q?ekELOu/KVwhIc9N/8q/8YbVMR4WxZp1SYfg1k03H9NoB4o0m30WiKzSdteOs?=
+ =?us-ascii?Q?UZz7JoTUOpEsMGKvj7vu53bc+5mNiYH0HA1bVYoB2O3EUyBG4dsxodJhQaI2?=
+ =?us-ascii?Q?G7CNbDme0peh/7a8DkPjwRKq+xrFtexDi4flJm7+erFmde+A0f9F/tQlF0sH?=
+ =?us-ascii?Q?e4Byc/zTTnMR2DmWFaTXJlVKLRwa+BMmHfivZmB1Z3FNMUgDHtH4N8vj+ASq?=
+ =?us-ascii?Q?T74oIOQdLKA8eYlJxhNl7FDPrSKp1S+8UXVUtIEUPDZGMDjkVC3/rIh9U0oi?=
+ =?us-ascii?Q?9mLYi2JlMy4qM7i1zdd/+zBXmZNldEbtyIuOkraUDENkcqU2v0bSETbCK0OL?=
+ =?us-ascii?Q?CtK/1+1oYeMe+Y2O2qkCmNL2wSnYQsNb33R7KQ+Wk9njkKjxdE8GwK3im/td?=
+ =?us-ascii?Q?jJz+VeGmLyJ7K/u9Azrs5WV3/uai+c0p+r8qWof80VAXNoDkxtO9PurR+6r8?=
+ =?us-ascii?Q?zfnI08iAzFDNqyaIyvF4vloEiIwu1gd8mgkoI2n5AMl+Y7iBBPnyVjcgmNxv?=
+ =?us-ascii?Q?/30JMwxOSYxqUl16vH3AkGQwgPTpnodTxHEZTMh5tyvaR0t3sKhI4fhpaNqj?=
+ =?us-ascii?Q?wA+WjCP+yhMXlu52Y0qsuWGuaiXr8ef8Jn5ndte+ImU6jxf0sRKapzShhVjy?=
+ =?us-ascii?Q?9Jkp1jWgflciOFvjN9eMdk2YNUi1ZlCNlLu4QdFRchDVNX+g4rYByhyC4ZLd?=
+ =?us-ascii?Q?cYhdZFiIp9agdRjhtKRfZBUfFuKl9V215Lm1t96oWabdlhzajU4wXCmICuca?=
+ =?us-ascii?Q?I/jvYWOnurtxq1Ku+yoDz9oipdQXD3DmepScARn4HB8QL8RZNwbC6H7SjqYb?=
+ =?us-ascii?Q?g5YQukkZso0Y0qC5Q81tkspqz4iiMWfCWJPQ6sI0/FnZ11VlSNTQS0sLBD66?=
+ =?us-ascii?Q?bTvCfVUUySmQ3BRRAqTD9wtXVfHjMq5W8RoI5iDNb4ykSbxELlOERk3Ipero?=
+ =?us-ascii?Q?jgYJqyrfVPFDHHgy0Zh9pC6SoblsEnytIaIZ8La279ldBaegTIuhwlNJSpDZ?=
+ =?us-ascii?Q?h4WipAh9cbWPDvXkv7UrIaxAIJerScx0nf3Bx1gLkFKXHw8lBMb5Hdf2ozxX?=
+ =?us-ascii?Q?orJDG3bl4SgyS9CYDMg5dCFFKi95g7+75auOlrrk/8K5YKNPb6v8LoNPm4AR?=
+ =?us-ascii?Q?rdOlbW1Bu6JG5RFXBMX8/JDYZXUPCZZt7mauKB/baH5IOezqRAI6xvjk3yBv?=
+ =?us-ascii?Q?1d4/IL4Z0MKfaLxyAJfHMNh8gOZfgqKj6zhrRFAzphox8/csAf3GYsH67Am1?=
+ =?us-ascii?Q?YcNohyLPTx7Oc6+qPwtLdZhvGs/rvd2/UkeSidmt?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(7416014)(376014)(1800799024)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2025 02:22:19.9354
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bfadc637-fa12-463f-997b-08de11dafe51
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF000015CB.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6929
 
-On Wed, 22 Oct 2025 17:48:27 +0200
-Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
+Tidy the release_device callbacks in the drivers and switch to the core
+managed release_domain.
 
-Hi Jernej,
+This allows the core further to pass in the old domain pointer into the
+attach_dev callbacks to reduce the use of iommu_get_domain_for_dev().
 
-> Dne sreda, 22. oktober 2025 ob 01:53:34 Srednjeevropski poletni =C4=8Das =
-je Andre Przywara napisal(a):
-> > Some boards feature an "odd" DRAM size, where the total RAM is 1.5GB or
-> > 3GB. Our existing DRAM size detection routines can only detect power-of=
--2
-> > sized configuration, and on those boards the DRAM size is overestimated,
-> > so this typically breaks the boot quite early.
-> >=20
-> > There doesn't seem to be an easy explicit way to detect those odd-sized
-> > chips, but we can test whether the later part of the memory behaves like
-> > memory, by verifying that a written pattern can be read back.
-> > Experiments show that there is no aliasing effect here, as all locations
-> > in the unimplemented range always return some fixed pattern, and cannot
-> > be changed.
-> >=20
-> > Also so far all those boards use a factor of 3 of some lower power-of-2
-> > number, or 3/4th of some higher number. The size detection routine
-> > discovers the higher number, so we can check for some memory cells beyo=
-nd
-> > 75% of the detected size to be legit.
-> >=20
-> > Add a routine the inverts all bits at a given location in memory, and
-> > reads that back to prove that the new value was stored.
-> > Then test the memory cell at exactly 3/4th of the detected size, and cap
-> > the size of the memory to 75% when this test fails.
-> >=20
-> > This enables boards which ship with such odd memory sizes.
-> >=20
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> > Hi,
-> >=20
-> > I don't really have a board with such an odd size to test that, though =
-the
-> > function worked on a 12GB A733 board. But that's not supporting the SPL
-> > or any kind of DRAM init yet, so was tested out of context.
-> > I would be grateful if anyone with a 1.5GB or 3GB board could test this.
-> >=20
-> > Thanks,
-> > Andre
-> >=20
-> >  arch/arm/include/asm/arch-sunxi/dram.h |  1 +
-> >  arch/arm/mach-sunxi/dram_dw_helpers.c  | 16 +++++++++++++++-
-> >  arch/arm/mach-sunxi/dram_helpers.c     | 12 ++++++++++++
-> >  3 files changed, 28 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/arch/arm/include/asm/arch-sunxi/dram.h b/arch/arm/include/=
-asm/arch-sunxi/dram.h
-> > index 0eccb1e6c28..59e2e980bfa 100644
-> > --- a/arch/arm/include/asm/arch-sunxi/dram.h
-> > +++ b/arch/arm/include/asm/arch-sunxi/dram.h
-> > @@ -45,5 +45,6 @@ unsigned long sunxi_dram_init(void);
-> >  void mctl_await_completion(u32 *reg, u32 mask, u32 val);
-> >  bool mctl_mem_matches(u32 offset);
-> >  bool mctl_mem_matches_base(u32 offset, ulong base);
-> > +bool mctl_check_memory(phys_addr_t addr);
-> > =20
-> >  #endif /* _SUNXI_DRAM_H */
-> > diff --git a/arch/arm/mach-sunxi/dram_dw_helpers.c b/arch/arm/mach-sunx=
-i/dram_dw_helpers.c
-> > index 24767354935..14f6b24c30f 100644
-> > --- a/arch/arm/mach-sunxi/dram_dw_helpers.c
-> > +++ b/arch/arm/mach-sunxi/dram_dw_helpers.c
-> > @@ -143,8 +143,22 @@ void mctl_auto_detect_dram_size(const struct dram_=
-para *para,
-> > =20
-> >  unsigned long mctl_calc_size(const struct dram_config *config)
-> >  {
-> > +	unsigned long size;
-> >  	u8 width =3D config->bus_full_width ? 4 : 2;
-> > =20
-> >  	/* 8 banks */
-> > -	return (1ULL << (config->cols + config->rows + 3)) * width * config->=
-ranks;
-> > +	size =3D (1ULL << (config->cols + config->rows + 3)) * width *
-> > +		config->ranks;
-> > +
-> > +	/*
-> > +	 * There are boards with non-power-of-2 sized DRAM chips, like 1.5GB
-> > +	 * or 3GB. They are detected as the larger power-of-2 (2GB and 4GB),
-> > +	 * so test the last quarter for being able to store values.
-> > +	 */
-> > +	if (!mctl_check_memory(CFG_SYS_SDRAM_BASE + size / 4 * 3)) {
-> > +		size =3D (size / 4) * 3;
-> > +		debug("capping memory at %ld MB\n", size >> 20); =20
->=20
-> As I already commented in first version of this change, wouldn't it be go=
-od to
-> add additional check here, just to be sure there is no misconfiguration? =
-In such
-> case it would be better to panic than continue with unstable system.
+This is a preparatory series for new iommu_dev_reset APIs:
+https://lore.kernel.org/all/cover.1756682135.git.nicolinc@nvidia.com/
 
-Mmmh, but what check would that be? I mean this is mctl_calc_size(),
-which is only called once, just at the end, before we return from
-sunxi_dram_init(). And it just calculates the size, there is no probing
-anymore, this has been done earlier, elsewhere.
-At this point we assume everything is fine and properly setup, so I
-don't understand what additional check we should do here. If we cannot
-read back what we have written, we are in deeper trouble anyway, but we
-would have missed that before anyway here, and it would have crashed
-sooner or later, so I don't see a problem.
+This is on github:
+https://github.com/nicolinc/iommufd/tree/iommu_attach_old_dom-v2
 
-Cheers,
-Andre
+Changelog
+v2
+ * Add "Acked-by" from Marek
+ * Add "Reviewed-by" from Jason
+ * Fix build break in s390-iommu
+v1
+ https://lore.kernel.org/all/cover.1760312540.git.nicolinc@nvidia.com/
 
+Jason Gunthorpe (1):
+  iommu: Generic support for RMRs during device release
 
->=20
-> Best regards,
-> Jernej
->=20
-> > +	}
-> > +
-> > +	return size;
-> >  }
-> > diff --git a/arch/arm/mach-sunxi/dram_helpers.c b/arch/arm/mach-sunxi/d=
-ram_helpers.c
-> > index 83dbe4ca98f..376b7d14f86 100644
-> > --- a/arch/arm/mach-sunxi/dram_helpers.c
-> > +++ b/arch/arm/mach-sunxi/dram_helpers.c
-> > @@ -62,3 +62,15 @@ bool mctl_mem_matches(u32 offset)
-> >  	return mctl_mem_matches_base(offset, CFG_SYS_SDRAM_BASE);
-> >  }
-> >  #endif
-> > +
-> > +bool mctl_check_memory(phys_addr_t addr)
-> > +{
-> > +	uint32_t orig, val;
-> > +
-> > +	orig =3D readl(addr);
-> > +	writel(~orig, addr);
-> > +	val =3D readl(addr);
-> > +	writel(orig, addr);
-> > +
-> > +	return ~orig =3D=3D val;
-> > +}
-> >  =20
->=20
->=20
->=20
->=20
->=20
+Nicolin Chen (5):
+  iommu/arm-smmu-v3: Set release_domain to arm_smmu_blocked_domain
+  iommu/exynos-iommu: Set release_domain to exynos_identity_domain
+  iommu/amd: Set release_domain to blocked_domain
+  iommu: Do not revert set_domain for the last gdev
+  iommu: Pass in old domain to attach_dev callback functions
+
+ include/linux/iommu.h                         |  3 +-
+ arch/powerpc/kernel/iommu.c                   |  5 ++-
+ drivers/iommu/amd/iommu.c                     | 21 +++------
+ drivers/iommu/apple-dart.c                    |  9 ++--
+ .../arm/arm-smmu-v3/arm-smmu-v3-iommufd.c     |  5 ++-
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 31 ++++++-------
+ drivers/iommu/arm/arm-smmu/arm-smmu.c         |  9 ++--
+ drivers/iommu/arm/arm-smmu/qcom_iommu.c       | 11 ++---
+ drivers/iommu/exynos-iommu.c                  | 11 ++---
+ drivers/iommu/fsl_pamu_domain.c               | 12 ++---
+ drivers/iommu/intel/iommu.c                   | 10 +++--
+ drivers/iommu/intel/nested.c                  |  2 +-
+ drivers/iommu/iommu.c                         | 44 +++++++++++++------
+ drivers/iommu/iommufd/selftest.c              |  2 +-
+ drivers/iommu/ipmmu-vmsa.c                    | 10 ++---
+ drivers/iommu/msm_iommu.c                     | 11 ++---
+ drivers/iommu/mtk_iommu.c                     |  8 ++--
+ drivers/iommu/mtk_iommu_v1.c                  |  7 ++-
+ drivers/iommu/omap-iommu.c                    | 12 ++---
+ drivers/iommu/riscv/iommu.c                   |  9 ++--
+ drivers/iommu/rockchip-iommu.c                | 20 ++++++---
+ drivers/iommu/s390-iommu.c                    | 13 +++---
+ drivers/iommu/sprd-iommu.c                    |  3 +-
+ drivers/iommu/sun50i-iommu.c                  |  8 ++--
+ drivers/iommu/tegra-smmu.c                    | 10 ++---
+ drivers/iommu/virtio-iommu.c                  |  6 ++-
+ 26 files changed, 172 insertions(+), 120 deletions(-)
+
+-- 
+2.43.0
 
