@@ -1,50 +1,25 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA6B261B8C;
-	Thu, 23 Oct 2025 05:10:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74B6A3016F4;
+	Thu, 23 Oct 2025 11:24:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761196255; cv=none; b=ldfpv4V20kZ8aSfa5xFWQ/abLNq/3SMCQxSMOjobOOGuo/mVYxx+HQenpomKNMqUt7acBVcSRdcO+iJ/tsCN+w3Udd0mILMZqgrXJIMe6LxOk6d25ETwsQgOIvEAGNQZsgHJOYDEf1jdyOiU/jncDIcEFgMwO9h1e+ki+TYpRD8=
+	t=1761218657; cv=none; b=k+sfGHcjXJiZA6g3fycQytWNOuTfCj3032YDeEr9ynd5KkfhFUHJWXukE5jfaJw43qX45Q+SMS3cRKII1uCnOmH2AcIeNIb8IGNLAOxAD8zMap2KGaqTbrg+7mnXcWhEJdNVldDT9NuZBdzsA3RYej8xSLh9XBr0aCJhcdDu3VY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761196255; c=relaxed/simple;
-	bh=aKhXAgLHi9hmESNfGrTuSyyU3uGYkrJW93/qzCuJl3Y=;
+	s=arc-20240116; t=1761218657; c=relaxed/simple;
+	bh=a3aNs6vrR4psypDkWMqYmRy2IIe82SusVNMrEZ3tF3g=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QWQ4F8hbLDPAKEvcsOjVd5mDmG0NspSyQZqmsYh6n9jaxeJTxw1YgEyc+hiBnyfQ9lvEU+e0h1GAzrnZerU1GMUlhU0TvG3d7AqcfRaFDSAaaqSRzdi9gBjmIuL5/fnm2MIbDryRAbOtRldRSI1U3VFHxwUrqYS6PGwCHf378Bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cI3E5xq9; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cI3E5xq9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761196252; x=1792732252;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=aKhXAgLHi9hmESNfGrTuSyyU3uGYkrJW93/qzCuJl3Y=;
-  b=cI3E5xq9YVzHxpiUfle5500mgRwE3k645t9R66NHVZjd70kCaC0yHDqI
-   y1jeAWx3JwQJPpYuxFOz/CmLUo34LDHVnrTNN0tC5vNDF4PRqfti+aQLD
-   62CSD+Dmny/zUCIRrpl6+OUkvpvPPZwHah8s91d3DKr/8sQv9D/7V6az4
-   30KmaXle4UP+cECN/aDlur+nsioRFvfjGIfVclctru3hF9jF9KZrS0JHW
-   KxIgMIm3eMxUmhbIOVbOLlNM1Y/liqhVU7bTGvM8GHRlr4afHwl75GHmc
-   U+cnfeIDGJh0smZpPYDX5s7erxHwDJQHRHH/43kqSRvmV08CbqIL8MtUo
-   w==;
-X-CSE-ConnectionGUID: g2g1B6PXR8ezqydpmibI7g==
-X-CSE-MsgGUID: UdyddruqSpyoFJdYk6EXtw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73645430"
-X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="73645430"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 22:10:52 -0700
-X-CSE-ConnectionGUID: Z+VhdaUHRuSq6XPL/6mgHA==
-X-CSE-MsgGUID: PVLbJFWUT5qWiIesV7OmAg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="214988427"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 22:10:47 -0700
-Message-ID: <9292db0f-74cd-4ce5-8797-cc2a88449768@linux.intel.com>
-Date: Thu, 23 Oct 2025 13:06:53 +0800
+	 In-Reply-To:Content-Type; b=TB2MNpPHCctM/RzB5I+vA/oX6L6FS1StQQItmKSnvtzHszQrI1qPaIWhd7ITDRO5Np8PqkaEJ/FdhH2Xtvnh73iUjp00WTNSZz6U6CZjrr8mVI0xMT7iNHbgQPdBlPn4XaX7qnr97MRStB3KgX+3ycokPmwdntnal5lEI3bBXbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BDFE31516;
+	Thu, 23 Oct 2025 04:23:59 -0700 (PDT)
+Received: from [10.57.36.157] (unknown [10.57.36.157])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 30F673F63F;
+	Thu, 23 Oct 2025 04:24:04 -0700 (PDT)
+Message-ID: <d594cdf2-5aab-4539-8d44-f7e57770df72@arm.com>
+Date: Thu, 23 Oct 2025 12:24:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -64,20 +39,19 @@ To: Jason Gunthorpe <jgg@nvidia.com>,
  linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
  Matthias Brugger <matthias.bgg@gmail.com>,
  Nelson Escobar <neescoba@cisco.com>, Rob Clark
- <robin.clark@oss.qualcomm.com>, Robin Murphy <robin.murphy@arm.com>,
- Samuel Holland <samuel@sholland.org>,
+ <robin.clark@oss.qualcomm.com>, Samuel Holland <samuel@sholland.org>,
  Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
  Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>,
  Yong Wu <yong.wu@mediatek.com>
 Cc: patches@lists.linux.dev
 References: <3-v1-391058a85f30+14b-iommu_set_fault_jgg@nvidia.com>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
 In-Reply-To: <3-v1-391058a85f30+14b-iommu_set_fault_jgg@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/23/25 01:12, Jason Gunthorpe wrote:
+On 2025-10-22 6:12 pm, Jason Gunthorpe wrote:
 > report_iommu_fault() is an older API that has been superseded by
 > iommu_report_device_fault() which is capable to support PRI.
 > 
@@ -91,8 +65,17 @@ On 10/23/25 01:12, Jason Gunthorpe wrote:
 > 
 > Include a flag in the domain_ops if it calls report_iommu_fault() and
 > block iommu_set_fault_handler() on iommu's that can't support it.
-> 
-> Signed-off-by: Jason Gunthorpe<jgg@nvidia.com>
+
+This isn't a domain operation though; depending on how you look at it, 
+supporting a legacy fault_handler is either a capability of the IOMMU 
+driver (that would be reachable via domain->owner->capable) or a 
+property of the iommu_domain itself that the drivers can set at 
+allocation time (basically this same patch just with the lines in 
+slightly different places).
+
+Thanks,
+Robin.
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 > ---
 >   drivers/iommu/arm/arm-smmu/arm-smmu.c   | 1 +
 >   drivers/iommu/arm/arm-smmu/qcom_iommu.c | 1 +
@@ -105,5 +88,145 @@ On 10/23/25 01:12, Jason Gunthorpe wrote:
 >   drivers/iommu/sun50i-iommu.c            | 1 +
 >   include/linux/iommu.h                   | 3 +++
 >   10 files changed, 16 insertions(+), 1 deletion(-)
-
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+> 
+> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+> index 4ced4b5bee4df3..5ce8f82ddb534b 100644
+> --- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
+> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+> @@ -1644,6 +1644,7 @@ static const struct iommu_ops arm_smmu_ops = {
+>   	.def_domain_type	= arm_smmu_def_domain_type,
+>   	.owner			= THIS_MODULE,
+>   	.default_domain_ops = &(const struct iommu_domain_ops) {
+> +		.report_iommu_fault_supported = true,
+>   		.attach_dev		= arm_smmu_attach_dev,
+>   		.map_pages		= arm_smmu_map_pages,
+>   		.unmap_pages		= arm_smmu_unmap_pages,
+> diff --git a/drivers/iommu/arm/arm-smmu/qcom_iommu.c b/drivers/iommu/arm/arm-smmu/qcom_iommu.c
+> index c5be95e560317e..3163a23fcbaa4f 100644
+> --- a/drivers/iommu/arm/arm-smmu/qcom_iommu.c
+> +++ b/drivers/iommu/arm/arm-smmu/qcom_iommu.c
+> @@ -598,6 +598,7 @@ static const struct iommu_ops qcom_iommu_ops = {
+>   	.device_group	= generic_device_group,
+>   	.of_xlate	= qcom_iommu_of_xlate,
+>   	.default_domain_ops = &(const struct iommu_domain_ops) {
+> +		.report_iommu_fault_supported = true,
+>   		.attach_dev	= qcom_iommu_attach_dev,
+>   		.map_pages	= qcom_iommu_map,
+>   		.unmap_pages	= qcom_iommu_unmap,
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index 59244c744eabd2..34546a70fb5279 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -2005,6 +2005,9 @@ EXPORT_SYMBOL_GPL(iommu_group_has_isolated_msi);
+>    * This function should be used by IOMMU users which want to be notified
+>    * whenever an IOMMU fault happens.
+>    *
+> + * This is a legacy API not supported by all drivers. New users should look
+> + * to using domain->iopf_handler for the modern API.
+> + *
+>    * The fault handler itself should return 0 on success, and an appropriate
+>    * error code otherwise.
+>    */
+> @@ -2012,7 +2015,8 @@ void iommu_set_fault_handler(struct iommu_domain *domain,
+>   					iommu_fault_handler_t handler,
+>   					void *token)
+>   {
+> -	if (WARN_ON(!domain || domain->cookie_type != IOMMU_COOKIE_NONE))
+> +	if (WARN_ON(!domain || domain->cookie_type != IOMMU_COOKIE_NONE ||
+> +		    !domain->ops->report_iommu_fault_supported))
+>   		return;
+>   
+>   	domain->cookie_type = IOMMU_COOKIE_FAULT_HANDLER;
+> diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
+> index ffa892f6571406..770fa248e30477 100644
+> --- a/drivers/iommu/ipmmu-vmsa.c
+> +++ b/drivers/iommu/ipmmu-vmsa.c
+> @@ -885,6 +885,7 @@ static const struct iommu_ops ipmmu_ops = {
+>   			? generic_device_group : generic_single_device_group,
+>   	.of_xlate = ipmmu_of_xlate,
+>   	.default_domain_ops = &(const struct iommu_domain_ops) {
+> +		.report_iommu_fault_supported = true,
+>   		.attach_dev	= ipmmu_attach_device,
+>   		.map_pages	= ipmmu_map,
+>   		.unmap_pages	= ipmmu_unmap,
+> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+> index 0e0285348d2b8e..0f44993eaadce3 100644
+> --- a/drivers/iommu/mtk_iommu.c
+> +++ b/drivers/iommu/mtk_iommu.c
+> @@ -1019,6 +1019,7 @@ static const struct iommu_ops mtk_iommu_ops = {
+>   	.get_resv_regions = mtk_iommu_get_resv_regions,
+>   	.owner		= THIS_MODULE,
+>   	.default_domain_ops = &(const struct iommu_domain_ops) {
+> +		.report_iommu_fault_supported = true,
+>   		.attach_dev	= mtk_iommu_attach_device,
+>   		.map_pages	= mtk_iommu_map,
+>   		.unmap_pages	= mtk_iommu_unmap,
+> diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
+> index 10cc0b1197e801..279e7acfd5c6d3 100644
+> --- a/drivers/iommu/mtk_iommu_v1.c
+> +++ b/drivers/iommu/mtk_iommu_v1.c
+> @@ -582,6 +582,7 @@ static const struct iommu_ops mtk_iommu_v1_ops = {
+>   	.device_group	= generic_device_group,
+>   	.owner          = THIS_MODULE,
+>   	.default_domain_ops = &(const struct iommu_domain_ops) {
+> +		.report_iommu_fault_supported = true,
+>   		.attach_dev	= mtk_iommu_v1_attach_device,
+>   		.map_pages	= mtk_iommu_v1_map,
+>   		.unmap_pages	= mtk_iommu_v1_unmap,
+> diff --git a/drivers/iommu/omap-iommu.c b/drivers/iommu/omap-iommu.c
+> index 5c6f5943f44b1f..3f3193de3ecd86 100644
+> --- a/drivers/iommu/omap-iommu.c
+> +++ b/drivers/iommu/omap-iommu.c
+> @@ -1724,6 +1724,7 @@ static const struct iommu_ops omap_iommu_ops = {
+>   	.device_group	= generic_single_device_group,
+>   	.of_xlate	= omap_iommu_of_xlate,
+>   	.default_domain_ops = &(const struct iommu_domain_ops) {
+> +		.report_iommu_fault_supported = true,
+>   		.attach_dev	= omap_iommu_attach_dev,
+>   		.map_pages	= omap_iommu_map,
+>   		.unmap_pages	= omap_iommu_unmap,
+> diff --git a/drivers/iommu/rockchip-iommu.c b/drivers/iommu/rockchip-iommu.c
+> index 0861dd469bd866..0053f5aa2cb781 100644
+> --- a/drivers/iommu/rockchip-iommu.c
+> +++ b/drivers/iommu/rockchip-iommu.c
+> @@ -1174,6 +1174,7 @@ static const struct iommu_ops rk_iommu_ops = {
+>   	.device_group = generic_single_device_group,
+>   	.of_xlate = rk_iommu_of_xlate,
+>   	.default_domain_ops = &(const struct iommu_domain_ops) {
+> +		.report_iommu_fault_supported = true,
+>   		.attach_dev	= rk_iommu_attach_device,
+>   		.map_pages	= rk_iommu_map,
+>   		.unmap_pages	= rk_iommu_unmap,
+> diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
+> index de10b569d9a940..29b230050906a2 100644
+> --- a/drivers/iommu/sun50i-iommu.c
+> +++ b/drivers/iommu/sun50i-iommu.c
+> @@ -849,6 +849,7 @@ static const struct iommu_ops sun50i_iommu_ops = {
+>   	.of_xlate	= sun50i_iommu_of_xlate,
+>   	.probe_device	= sun50i_iommu_probe_device,
+>   	.default_domain_ops = &(const struct iommu_domain_ops) {
+> +		.report_iommu_fault_supported = true,
+>   		.attach_dev	= sun50i_iommu_attach_device,
+>   		.flush_iotlb_all = sun50i_iommu_flush_iotlb_all,
+>   		.iotlb_sync_map = sun50i_iommu_iotlb_sync_map,
+> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+> index c30d12e16473df..e2bf7885287fac 100644
+> --- a/include/linux/iommu.h
+> +++ b/include/linux/iommu.h
+> @@ -714,6 +714,8 @@ struct iommu_ops {
+>   
+>   /**
+>    * struct iommu_domain_ops - domain specific operations
+> + * @report_iommu_fault_supported: True if the domain supports
+> + *                                iommu_set_fault_handler()
+>    * @attach_dev: attach an iommu domain to a device
+>    *  Return:
+>    * * 0		- success
+> @@ -751,6 +753,7 @@ struct iommu_ops {
+>    * @free: Release the domain after use.
+>    */
+>   struct iommu_domain_ops {
+> +	bool report_iommu_fault_supported : 1;
+>   	int (*attach_dev)(struct iommu_domain *domain, struct device *dev);
+>   	int (*set_dev_pasid)(struct iommu_domain *domain, struct device *dev,
+>   			     ioasid_t pasid, struct iommu_domain *old);
