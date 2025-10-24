@@ -1,252 +1,149 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7EC254876
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Oct 2025 21:04:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C24772E54BF
+	for <linux-sunxi@lists.linux.dev>; Fri, 24 Oct 2025 07:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761253497; cv=none; b=guCbxLJstKP+gEwpJGYBkmuCdxRLveABjIYoqMoO0TS0iD5SORg9IGXRLFUAOABKe2If8hjwd1dGkQIoDy1eaPZuu4+ju9Pfrwqw4XnbTp1DWngMKOvecacM09f4p5sw3Wtk4z29KiszqWhnhCzIedl1uU2a82MuDHjF7sSu2V4=
+	t=1761290484; cv=none; b=FgqRUdriCLwuwDUXuo67oYMomk2NfbtOM7aioFy5NhXPHhcHs8tNU2WfSpvM5RG6UPaFrfrF1d/XFL3lNv/69Wo2YA/cEKIKU9uMhGvPyQhzUgOImF3rOrDMT53s2hX0lCC3CHSrOTuVZHeD8DomJYSqyeZqbOK3D/GTR52TxNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761253497; c=relaxed/simple;
-	bh=eG0Xq+BSZ0efiLa3hAjZqEQeBgBG1Y/dFRy0JpdHusY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CJYKunYlBd0Ev9Qi3KkoiyDn/D882jaDqIdOO7c6aXMr3i9uMNIgc8WPi1bXTWmLHbaEL3NNL982IuPMAPiMx/qwjne4tiar1FBN7rHExkdl21W/uxlSupyeT+8GAvmPQ5K7OTfXzZSUSfKQhjwNC4thiE9UOt7BqSHnBBdg3lA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mKRDPN3W; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761290484; c=relaxed/simple;
+	bh=lcb3dVn0iym9zJMs4diWzppG9w2vAuX9XMaRZbiaA4I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZduII09R0yI26+f7OAhBUJCJwOCIMBTUerjicIP9GvJwDlFv5U7d0Ex0viwV4JHXZ0XRa3kfbtZE7w0b5GIc8CuqqudmseXOOWmN3QlQicY9f/iPs0XtqwVE6qo03G6qYPR/9+eihczYUtff3bchuaJDAazSuZeKCQaZqlkrf/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=puPpxBP2; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mKRDPN3W"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4711f3c386eso9807575e9.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 23 Oct 2025 14:04:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761253494; x=1761858294; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FEw9u6+7wd8kxtSfp2gSzlQkmdIcBQ0M/sxgzy4+a3o=;
-        b=mKRDPN3WYUZiw67Up0tW224Xa9s7bwR0qGTKDB25/4e5RktykRBx3DvaKoMzs35KdF
-         KkV5CXiQvAZTDmKuK1/YhlNdPn+YKQ2zoMBFfyaj0+19mi2ta16gxcvOIfRApmPfwmjg
-         xY91SZYZnpR9vFIG+J9H5HZqCv2C1mtsSnYuz7cQHERmaMfPv+uufxZrQOaQbBLKGGz4
-         8wNjuTI33uyRzcdv3t04P4R3+KKlFMF6Z43MqTtV/iCH/TyBEdTwP5wXEN8Edkz9we5h
-         tCkazun0SqSt2MpZONZPkDHhdNL5hOdGknOK9HGMbhesXhoGQ3Vrl8v0c3vcz5EiAta/
-         fIgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761253494; x=1761858294;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FEw9u6+7wd8kxtSfp2gSzlQkmdIcBQ0M/sxgzy4+a3o=;
-        b=frmECgkmAUX9j8shhx0UDRiOBMc7DSyIzye8KeigDTxiU7lDiqPIjnPbwSYKcoZrxB
-         INQAZMuBpYYuj4Q0tUt2qga48w02tW6gqzzEs6qYJAscUnOz9JiGtQ1j+hSxVnGonmt2
-         vi5bN9wsdGRUT5sunvgs715k/8Ll57MmCrjSZO6/K6618y0H2IfPF2NZ9ty/FxPvuvDO
-         T2uUPRgFpRcsPmMZHd0Hh7ol/pHeyRkQZOTIrBZafJOaB2IiVKWqKwQmTdo24ghwyrXp
-         g3b4Ipl70OjkWCmOBCUGm2QnfQTCYesIXJ34KyoquobJQSrc7MrIEUPP1PTB4PGnjyR0
-         g66Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXDUjFvJdlN5UJ9UlTiEJxuuzYghh1nHe5Re3kNzUgqU1RU29whX0UAF6iG+AD707YYd3ffJ04NL5QtuA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyFFuHPRuGkjY2WiWXnty45Q/2ioyg3uoxR1tPvXXRwV6U7GfeM
-	KsQiFTU8WSOpBfhrCMp9wjtFNhOiqu7Yt98lTaWxkWY3xTzYoGLyWGtc
-X-Gm-Gg: ASbGnct2Lf0MJRFWQbbAajVTMNFyNM8bTxaw/wKM2S6zt3qui2gZHjCU9liWZt2/11n
-	Dw4av1Z2IJWa6uTS6bpeLDkQJWVozNc6nvLDAIH9iI8jwEhTPSy+/Mt85Pl7KvCjoZz5A1Hfb3R
-	urZOt51Rv38tMqEuzOWlulmRxyGPBOgzzSfSlmeSe0+KDodyHr+MjdvUdlnlFAeA+97/CJVDQHz
-	Bb9cZzIs+8S0EC+ObzRcYfyHunp5x+ddfZaURq56WG14Jd5OOEhx0QqIbntxlnzmSFuN68DR2gz
-	CfVOyIf6Q13jaiRpUNVrbu1+Ft5GYX1Y5DYdHz6PDk3EgPPcFwGS3W3QmcH9K11doQK7tFJLDE/
-	NFf6SS7FR8vc+df2NIEHpUAk4j6o6kSeJ9FrXNIXOaA5oVVfOBpEFQmm8uQnpUT1XnWDzMf8Uu3
-	4Zvv/DMnDdxteT/pAso4OdLIg0vSHDdbJTWcmRSTVoaH9p4GMvJfjnEJg7Gw==
-X-Google-Smtp-Source: AGHT+IEqnzJFSiJxfI8VSEACqCfsTrWdSx38TCVnb497YLE0Hl/ZVjjHoElr0xaOc0kG8ZVF+r62vA==
-X-Received: by 2002:a05:600c:1d9b:b0:465:a51d:d4 with SMTP id 5b1f17b1804b1-471178784c2mr208988935e9.6.1761253494156;
-        Thu, 23 Oct 2025 14:04:54 -0700 (PDT)
-Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-474949dd479sm73213055e9.0.2025.10.23.14.04.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Oct 2025 14:04:53 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: u-boot@lists.denx.de, Rudi Horn <dyn-git@rudi-horn.de>,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] sunxi: dram: detect non-power-of-2 sized DRAM chips
-Date: Thu, 23 Oct 2025 23:04:52 +0200
-Message-ID: <13869618.uLZWGnKmhe@jernej-laptop>
-In-Reply-To: <20251022213339.2b9cb140@minigeek.lan>
-References:
- <20251021235334.7557-1-andre.przywara@arm.com>
- <12763423.O9o76ZdvQC@jernej-laptop> <20251022213339.2b9cb140@minigeek.lan>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="puPpxBP2"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 026101A1638;
+	Fri, 24 Oct 2025 07:21:20 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C4F6760703;
+	Fri, 24 Oct 2025 07:21:19 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2EB30102F244A;
+	Fri, 24 Oct 2025 09:21:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1761290478; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=n2SfjqX6lNSkj1H/YLHGctb/htiBAD/kfjrbeKtoNe8=;
+	b=puPpxBP2v/7GBLcTgiHZwflmwE+c7IIPgQnODmI+9FPa5WOXR1bQd1A8CnbxM3Q5gmoVsN
+	W11z0YLDO+Hyl0+f1X0L3BRgUfkWUSA0Nk5meqcbJoQjvbpBVFLrkmhPMY5WtbbqkVsEBb
+	g3D1EP4iu7g1a4P90Fi3n8fG/OTWe3/qunL0k9zXx3auk86Ki2ksYKvUxD6D1OCs3N/B+G
+	kOfBP/AWnWTknh6ErkZfBhvn30fLexAoFDqVkvGnVnzcW1Ope7DSeuv1ahBltn9ngXH36U
+	agAthTSviB78yes0nszNAjig8JoB75pyIOsYrn9m+byEn2fvIXgiWILHHQCr2A==
+Message-ID: <f076f6a6-372a-41ff-a78a-48d1af4ec33d@bootlin.com>
+Date: Fri, 24 Oct 2025 09:20:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 04/15] mtd: rawnand: sunxi: introduce reg_user_data in
+ sunxi_nfc_caps
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra
+ <vigneshr@ti.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Wentao Liang <vulab@iscas.ac.cn>, Johan Hovold <johan@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20251020101311.256819-1-richard.genoud@bootlin.com>
+ <20251020101311.256819-5-richard.genoud@bootlin.com>
+ <87y0p3tiz9.fsf@bootlin.com>
+From: Richard GENOUD <richard.genoud@bootlin.com>
+Content-Language: en-US, fr
+Organization: Bootlin
+In-Reply-To: <87y0p3tiz9.fsf@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Dne sreda, 22. oktober 2025 ob 22:33:39 Srednjeevropski poletni =C4=8Das je=
- Andre Przywara napisal(a):
-> On Wed, 22 Oct 2025 17:48:27 +0200
-> Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
->=20
-> Hi Jernej,
->=20
-> > Dne sreda, 22. oktober 2025 ob 01:53:34 Srednjeevropski poletni =C4=8Da=
-s je Andre Przywara napisal(a):
-> > > Some boards feature an "odd" DRAM size, where the total RAM is 1.5GB =
-or
-> > > 3GB. Our existing DRAM size detection routines can only detect power-=
-of-2
-> > > sized configuration, and on those boards the DRAM size is overestimat=
-ed,
-> > > so this typically breaks the boot quite early.
-> > >=20
-> > > There doesn't seem to be an easy explicit way to detect those odd-siz=
-ed
-> > > chips, but we can test whether the later part of the memory behaves l=
-ike
-> > > memory, by verifying that a written pattern can be read back.
-> > > Experiments show that there is no aliasing effect here, as all locati=
-ons
-> > > in the unimplemented range always return some fixed pattern, and cann=
-ot
-> > > be changed.
-> > >=20
-> > > Also so far all those boards use a factor of 3 of some lower power-of=
-=2D2
-> > > number, or 3/4th of some higher number. The size detection routine
-> > > discovers the higher number, so we can check for some memory cells be=
-yond
-> > > 75% of the detected size to be legit.
-> > >=20
-> > > Add a routine the inverts all bits at a given location in memory, and
-> > > reads that back to prove that the new value was stored.
-> > > Then test the memory cell at exactly 3/4th of the detected size, and =
-cap
-> > > the size of the memory to 75% when this test fails.
-> > >=20
-> > > This enables boards which ship with such odd memory sizes.
-> > >=20
-> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > > ---
-> > > Hi,
-> > >=20
-> > > I don't really have a board with such an odd size to test that, thoug=
-h the
-> > > function worked on a 12GB A733 board. But that's not supporting the S=
-PL
-> > > or any kind of DRAM init yet, so was tested out of context.
-> > > I would be grateful if anyone with a 1.5GB or 3GB board could test th=
-is.
-> > >=20
-> > > Thanks,
-> > > Andre
-> > >=20
-> > >  arch/arm/include/asm/arch-sunxi/dram.h |  1 +
-> > >  arch/arm/mach-sunxi/dram_dw_helpers.c  | 16 +++++++++++++++-
-> > >  arch/arm/mach-sunxi/dram_helpers.c     | 12 ++++++++++++
-> > >  3 files changed, 28 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/arch/arm/include/asm/arch-sunxi/dram.h b/arch/arm/includ=
-e/asm/arch-sunxi/dram.h
-> > > index 0eccb1e6c28..59e2e980bfa 100644
-> > > --- a/arch/arm/include/asm/arch-sunxi/dram.h
-> > > +++ b/arch/arm/include/asm/arch-sunxi/dram.h
-> > > @@ -45,5 +45,6 @@ unsigned long sunxi_dram_init(void);
-> > >  void mctl_await_completion(u32 *reg, u32 mask, u32 val);
-> > >  bool mctl_mem_matches(u32 offset);
-> > >  bool mctl_mem_matches_base(u32 offset, ulong base);
-> > > +bool mctl_check_memory(phys_addr_t addr);
-> > > =20
-> > >  #endif /* _SUNXI_DRAM_H */
-> > > diff --git a/arch/arm/mach-sunxi/dram_dw_helpers.c b/arch/arm/mach-su=
-nxi/dram_dw_helpers.c
-> > > index 24767354935..14f6b24c30f 100644
-> > > --- a/arch/arm/mach-sunxi/dram_dw_helpers.c
-> > > +++ b/arch/arm/mach-sunxi/dram_dw_helpers.c
-> > > @@ -143,8 +143,22 @@ void mctl_auto_detect_dram_size(const struct dra=
-m_para *para,
-> > > =20
-> > >  unsigned long mctl_calc_size(const struct dram_config *config)
-> > >  {
-> > > +	unsigned long size;
-> > >  	u8 width =3D config->bus_full_width ? 4 : 2;
-> > > =20
-> > >  	/* 8 banks */
-> > > -	return (1ULL << (config->cols + config->rows + 3)) * width * config=
-=2D>ranks;
-> > > +	size =3D (1ULL << (config->cols + config->rows + 3)) * width *
-> > > +		config->ranks;
-> > > +
-> > > +	/*
-> > > +	 * There are boards with non-power-of-2 sized DRAM chips, like 1.5GB
-> > > +	 * or 3GB. They are detected as the larger power-of-2 (2GB and 4GB),
-> > > +	 * so test the last quarter for being able to store values.
-> > > +	 */
-> > > +	if (!mctl_check_memory(CFG_SYS_SDRAM_BASE + size / 4 * 3)) {
-> > > +		size =3D (size / 4) * 3;
-> > > +		debug("capping memory at %ld MB\n", size >> 20); =20
-> >=20
-> > As I already commented in first version of this change, wouldn't it be =
-good to
-> > add additional check here, just to be sure there is no misconfiguration=
-? In such
-> > case it would be better to panic than continue with unstable system.
->=20
-> Mmmh, but what check would that be? I mean this is mctl_calc_size(),
-> which is only called once, just at the end, before we return from
-> sunxi_dram_init(). And it just calculates the size, there is no probing
-> anymore, this has been done earlier, elsewhere.
-> At this point we assume everything is fine and properly setup, so I
-> don't understand what additional check we should do here. If we cannot
-> read back what we have written, we are in deeper trouble anyway, but we
-> would have missed that before anyway here, and it would have crashed
-> sooner or later, so I don't see a problem.
+Hi,
+Le 22/10/2025 à 10:54, Miquel Raynal a écrit :
+> Hi Richard,
+> 
+> On 20/10/2025 at 12:13:00 +02, Richard Genoud <richard.genoud@bootlin.com> wrote:
+> 
+>> The H6/H616 USER_DATA register is not at the same offset as the
+>> A10/A23 one, so move its offset into sunxi_nfc_caps
+>>
+>> No functional change.
+>>
+>> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+>> ---
+>>   drivers/mtd/nand/raw/sunxi_nand.c | 13 +++++++++----
+>>   1 file changed, 9 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
+>> index 0285e4d0ca7f..8f5d8df19e33 100644
+>> --- a/drivers/mtd/nand/raw/sunxi_nand.c
+>> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
+>> @@ -48,7 +48,8 @@
+>>   #define NFC_REG_DEBUG		0x003C
+>>   #define NFC_REG_A10_ECC_ERR_CNT	0x0040
+>>   #define NFC_REG_ECC_ERR_CNT(nfc, x)	((nfc->caps->reg_ecc_err_cnt + (x)) & ~0x3)
+>> -#define NFC_REG_USER_DATA(x)	(0x0050 + ((x) * 4))
+>> +#define NFC_REG_A10_USER_DATA	0x0050
+>> +#define NFC_REG_USER_DATA(nfc, x)	(nfc->caps->reg_user_data + ((x) * 4))
+>>   #define NFC_REG_SPARE_AREA	0x00A0
+>>   #define NFC_REG_PAT_ID		0x00A4
+>>   #define NFC_REG_MDMA_ADDR	0x00C0
+>> @@ -214,6 +215,7 @@ static inline struct sunxi_nand_chip *to_sunxi_nand(struct nand_chip *nand)
+>>    *			through MBUS on A23/A33 needs extra configuration.
+>>    * @reg_io_data:	I/O data register
+>>    * @reg_ecc_err_cnt:	ECC error counter register
+>> + * @reg_user_data:	User data register
+>>    * @dma_maxburst:	DMA maxburst
+>>    * @ecc_strengths:	Available ECC strengths array
+>>    * @nstrengths:		Size of @ecc_strengths
+>> @@ -222,6 +224,7 @@ struct sunxi_nfc_caps {
+>>   	bool has_mdma;
+>>   	unsigned int reg_io_data;
+>>   	unsigned int reg_ecc_err_cnt;
+>> +	unsigned int reg_user_data;
+>>   	unsigned int dma_maxburst;
+>>   	const u8 *ecc_strengths;
+>>   	unsigned int nstrengths;
+>> @@ -723,8 +726,8 @@ static void sunxi_nfc_hw_ecc_get_prot_oob_bytes(struct nand_chip *nand, u8 *oob,
+>>   {
+>>   	struct sunxi_nfc *nfc = to_sunxi_nfc(nand->controller);
+>>   
+>> -	sunxi_nfc_user_data_to_buf(readl(nfc->regs + NFC_REG_USER_DATA(step)),
+>> -				   oob);
+>> +	sunxi_nfc_user_data_to_buf(readl(nfc->regs +
+>> +					 NFC_REG_USER_DATA(nfc, step)),
+>> oob);
+> 
+> Minor nit, column limit is 100 now, so typically for this kind of
+> situation everything would fit on a single line.
+Indeed, the 80 column limit has been loosened (but braille displays are 
+still 80 cells max AFAIK).
+Anyway, you're right, the 80-rule could be bent here for readability.
 
-My suggestion is to additionally check memory location size / 4 * 3 - 4,
-which should be valid in case everything is configured properly.
+> 
+> Don't respin just for that if there is nothing else later, but if a v4
+> is needed you can change it.
+> 
+> Looks neat otherwise so far.
+> 
+> Thanks,
+> Miquèl
 
-Best regards,
-Jernej
-
->=20
-> Cheers,
-> Andre
->=20
->=20
-> >=20
-> > Best regards,
-> > Jernej
-> >=20
-> > > +	}
-> > > +
-> > > +	return size;
-> > >  }
-> > > diff --git a/arch/arm/mach-sunxi/dram_helpers.c b/arch/arm/mach-sunxi=
-/dram_helpers.c
-> > > index 83dbe4ca98f..376b7d14f86 100644
-> > > --- a/arch/arm/mach-sunxi/dram_helpers.c
-> > > +++ b/arch/arm/mach-sunxi/dram_helpers.c
-> > > @@ -62,3 +62,15 @@ bool mctl_mem_matches(u32 offset)
-> > >  	return mctl_mem_matches_base(offset, CFG_SYS_SDRAM_BASE);
-> > >  }
-> > >  #endif
-> > > +
-> > > +bool mctl_check_memory(phys_addr_t addr)
-> > > +{
-> > > +	uint32_t orig, val;
-> > > +
-> > > +	orig =3D readl(addr);
-> > > +	writel(~orig, addr);
-> > > +	val =3D readl(addr);
-> > > +	writel(orig, addr);
-> > > +
-> > > +	return ~orig =3D=3D val;
-> > > +}
-> > >  =20
-> >=20
-> >=20
-> >=20
-> >=20
-> >=20
->=20
->=20
+Thanks!
 
 
-
-
+-- 
+Richard Genoud, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
