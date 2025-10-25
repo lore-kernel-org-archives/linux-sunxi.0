@@ -1,63 +1,64 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1776C267F57
-	for <linux-sunxi@lists.linux.dev>; Sat, 25 Oct 2025 04:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF1BF273D75
+	for <linux-sunxi@lists.linux.dev>; Sat, 25 Oct 2025 04:32:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761366764; cv=none; b=kKeo7C+jgMUesykXKV/kYk7S++UG/vOrCDCroi82rdUYvVfSk5IpNZn+TbuB52zNJ0mEQD0EmSZc+emuhzUCgYSwfIrwbhLLsX1GQJUshM4G61baC7CHQ46uOwUFSzQbMRyYC0goJ3YQ5HnpTyQ+aJ8uoUib1AM/ncHycmPLrUY=
+	t=1761366778; cv=none; b=NIVANlmXo+h+rbfz6H/OPGu7MG714dYcLi2sFlW27fytpqturDYsjGfSRAA+h3B+YiVE3+cx0SivzI7OvGA7QNGHGRg727xxlHsfP/SMXbgoxLRk3bi/7rxJLYnjCyo/mrhId6ZJTI4OFznVt/N/PQrnkDwmJL6y/dfpNDBRhkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761366764; c=relaxed/simple;
-	bh=JFlSRxXwWBQ3XACpCIXATa+zwXHpyzhtFajoU+nnbIg=;
+	s=arc-20240116; t=1761366778; c=relaxed/simple;
+	bh=J/zzc1ja43MRTCgO8LF4bp6opHtC/iF4Lw9TqE0/ybQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dUabEoWY86NRzQ1lORKaDjHcJBehz6VbSvQD/Tn1HU26gvipX2D8EOamOIOTw5fU3NmB2EyqPO9EbCHbLDnzqpNVzSiVeAViWDJ01S2zTShTH4Zd2PcIrWgRcsOPO79JBE9sUgs31zo4FATEJs4NhZDGP0YLAYGPDa8hv3lEWMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gN3a5aQK; arc=none smtp.client-ip=209.85.208.173
+	 MIME-Version; b=HY9SsCwD/yqoRPBLeS6RPcFT3+NyAy/ghJt/j5abwTgqTMrLZ5KW4VdqjD6yxXZqCg+2bpNVIBMQvqRm3oNUcyj/lL5gJ/VVJwRGRsMj+1PMUQaAg21hrsKtdhNaUNnxEJYm8DDwCM0B/3VYtH6jc3hEJeOjfcbWOoM1O1aSSJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BpVAiOu0; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gN3a5aQK"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-3761e5287c9so32387371fa.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 24 Oct 2025 21:32:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BpVAiOu0"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-592f5736693so2811847e87.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 24 Oct 2025 21:32:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761366761; x=1761971561; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1761366775; x=1761971575; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=i3+BmyLOtp7xUTMRQtQMY1TWwM+wvGI7ScMcGnjI6fc=;
-        b=gN3a5aQKjEFuJrIXb3yS5v/I0iavFqdgz5tWkhTaT3ief6t0tEnmJY2Iy9DQG078V0
-         6zWXUSYepZYAyoH8PFVcUQ4ivwy7aAgeE2/SK7PEra4FATljAfuQS1xJGBrvZ+wNSUll
-         1VrVZKwy10lMq8Y/vW3ibD8tCoxRn4qz3Thm36ugJrCrXNIPg2AeJp2wH+cDIhWVzjTL
-         4dhctp3WPvv4Kycc19yN9eePyKnZsrBQy+PzC/B3WcoEe1bDR5vbN1D8JWJpMPTgSBrV
-         I5vTbD/9aJ3HKjeLx935k0tziz2Ca0CLMnvfUJ2iqma8al0mNGkIisFrY5Utco10IMzB
-         S2tg==
+        bh=aU3qD3/P4X3aGl+GxoTABgHAWYmZmNCs4mQEkZTLmtc=;
+        b=BpVAiOu01kUDl5PBYhAc1oox1mfJRAR0mWzsJvErh7ey4I2C7vDxZG9O3xk+qqa6Af
+         Kge6NLWv/RxxAl4VP8ZU9B3VC0EeGUofj9pgkx2yXYH+vIkezvCiRSnNeNbIwusQOo+s
+         K8spbIAmg3vI2fYGMNSKm5WqvgXEUtFITwlD2OZjyfFIPJ926qqDefjGaCGisk+msayn
+         gALR/kduqlY8rVj0lJYE5EdNRrsvWjCfVwtbvvtDhH40vA0seIB71hM7nhMgRhihHFkq
+         Gh7w+IRTPN8tJwDiYpG7VPbizt2eI5QTg57qKDozvOp4xO7vI6cEhrxoCaprUa6pkOk8
+         jdng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761366761; x=1761971561;
+        d=1e100.net; s=20230601; t=1761366775; x=1761971575;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=i3+BmyLOtp7xUTMRQtQMY1TWwM+wvGI7ScMcGnjI6fc=;
-        b=xRvBV6NicvyQARn9KpIqXGpAF+TxV6JCkfNPBt49t9c27uCRwCe/v6YM5Uz0accf/q
-         4TEykPD7TtU+j8k9Ai3aoiohCakGEXSjTHZwACguqRWMKTzoToEmS/A3bcM20TxShYkL
-         jqaZcoiCuRGA6EGR1AvJNOjVnw6Mo2eDOlH4CZVcTRBEe9eLYBVG0uxJx1USCDrlXCoe
-         0OrNqhqxzWeirvTigr5eMe0gw9PhuC+B/1ekMc+BNHnGGrd13gu/n51stzsEPngF1/NX
-         MR5hv41/TYVFP/SEaeU2kVjBDeYHt/4y21VwcYbwjhCsHcivtx60krSOMt9fxubvxDnv
-         36QQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUDlMUrIGC3PHU3vq8JqQSBskgSt9oGTCHkGj2O0Fs0bfA4I2AHlb8MbeMCKCZh+talC6r8ZG5WtRBemQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyqpHOupo82I7QlDNftGVEFY1suZucrIH4nPxE7VjLLNc4dVQKl
-	pZSZg/y+jay3itU+F+w0ELaZO84r+KlHjCmud1ZCXd+FigFMLKIdFkzV
-X-Gm-Gg: ASbGncskwPEKJiJwSHEUmTN5CkvXBjaOhvMLxUFN9PuRxgTa7ZxyqB4WlpkUWfVzgIE
-	Cy9zj+SjM2wv0VQHLFPBsnwoLY44iS/kfD2zto/JSogyEJiC8xTaH8tgRSfgZ0rI/UYkqmj/FNe
-	zod3igy00+BetoRi2/RF6kxdgs5VcyLom/uPEcM3WkVHdACWFmVEPLDn2v7Cy38BRW2Gz4qIESu
-	kfcHm+p0GHZWp/9aQ/HLUOacMXZz0Zg9mNtiINlY6z1rhCNcUCl8/t/8ektnTFt5OdaBHKBBg/Y
-	kCKBp5qsgf/9QNae77VZWbOTewakhUgWUVxqAwqXa1gmGTAAlmg1EDGH1hs5tPnolWQSifygZUy
-	DxPaQw4E2kZNYohQ4jC7+r4LFRzzjJcDkIylMKQggZR1X5KR/6Wo+jRcJZXoqj+OsnQ==
-X-Google-Smtp-Source: AGHT+IEKvrwo7BMcvdLr8sMnPaVHb2OI/tgnv1kSKzQDgd1sc7jso2BrG2SWkbje2QobtPqCs0yKQw==
-X-Received: by 2002:a2e:bd17:0:b0:36c:2367:b3c1 with SMTP id 38308e7fff4ca-37797a58f18mr88205231fa.35.1761366760931;
-        Fri, 24 Oct 2025 21:32:40 -0700 (PDT)
+        bh=aU3qD3/P4X3aGl+GxoTABgHAWYmZmNCs4mQEkZTLmtc=;
+        b=BVdXzOIoRQhSQEp70t6k7glMZqgxVJEmylGcPG8tWqemCixPGaCxA5BugxdTAoJdFR
+         ixjh6ybIq5zJFD4ztt3/hv0J7M56Yztbp81UOucp3LdILKM3/9qjq1zjGYAD+Qx3+gt9
+         hRmR5Jy7pmYpjx8YYS8CAFNe6vy9pshmv5qbVu4poyhD/lzRMlsKjxM0d0m2hWK/heaT
+         Rx7QslnYLaCeTBL5EFTSrT7WaWR87d3WsC04qocElTLNCdI4pIe12Efl9krfJSKscGIO
+         2yt1gEB6HbvdQBVsjiRfWUfehtBWkDPKmJAXy21gLSj9T0R7WHQL/E8y9X/bBN1n+9J7
+         GfBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWA5ScmZgqnlU0m3AEolR90Dj6AZPSEZ3mW34hj/6ODzGfYY1yosSbCU8g9GBakoyN9BtltdaLCoHeOeQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyE+kUOYTZzKeKwaRXYjUPwxN+JZYyqpMRQ/Ev3yXFmgHTlBify
+	j4QlDNzE/v/CprFaIvtKLweY/ccXqc3oYTacbIa7wJwr3+ivY1EzcQOY
+X-Gm-Gg: ASbGncs/W5YbLUi+98xu22G9Rh32qhARrk5/xbDEYQ/BgzR9XQV1CgJwprN3kxhq/5O
+	oPjp+W93wftNS6oXle06va84Xdl6d8yLmVQK/spfOGdXopDglpj5F3jAvM0MbYv3uC2QKT9w6SE
+	PpqcHcuYNksXRyntAjqAU/i4FkG/uHmAaHbwRN3ZgPCDj6yOm7aoOwbU1yPyHp81z+EagC9s+43
+	U6Cbngsi2YEprJIu2b5/p8OUj+1ZQW/e/QuAVlreSgyk5Is6ZFK3h5vzUqIDl5GpbBTMU7/8U8a
+	lCfPbLBqDuXGFjygo0mJUxFI90VbS0QerxQ8UVVGIAxFZc9KvTC1ONxetubnXkEzql6dZJA2MUJ
+	A3nL1kiiP8/PiZ9NsiadxeAXdhRkaaORqHsBiZS0Ofl8kho0UHO0/Dz94BgE9RTPwo6CZnv/LuY
+	PL
+X-Google-Smtp-Source: AGHT+IH/eF1EDfMQXoqCn1NhnMmPtXp6P1wcPRtuabMRfy3u2y12SFECgEV2LqHRoicJ+PYpOzbYLg==
+X-Received: by 2002:a2e:a916:0:b0:376:4430:b545 with SMTP id 38308e7fff4ca-378e4648542mr13765001fa.49.1761366774636;
+        Fri, 24 Oct 2025 21:32:54 -0700 (PDT)
 Received: from junAIR ([176.106.241.81])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-378ee0ca7a0sm3409241fa.33.2025.10.24.21.32.25
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-378ee0ca7a0sm3409241fa.33.2025.10.24.21.32.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Oct 2025 21:32:40 -0700 (PDT)
+        Fri, 24 Oct 2025 21:32:54 -0700 (PDT)
 From: iuncuim <iuncuim@gmail.com>
 To: Vasily Khoruzhick <anarsoul@gmail.com>,
 	Yangtao Li <tiny.windzz@gmail.com>,
@@ -78,9 +79,9 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 3/6] thermal/drivers/sun8i: replace devm_reset_control_get  to devm_reset_control_get_shared_deasserted
-Date: Sat, 25 Oct 2025 12:31:26 +0800
-Message-ID: <20251025043129.160454-4-iuncuim@gmail.com>
+Subject: [PATCH v3 4/6] thermal/drivers/sun8i: get calibration data from two nvmem cells
+Date: Sat, 25 Oct 2025 12:31:27 +0800
+Message-ID: <20251025043129.160454-5-iuncuim@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251025043129.160454-1-iuncuim@gmail.com>
 References: <20251025043129.160454-1-iuncuim@gmail.com>
@@ -94,54 +95,115 @@ Content-Transfer-Encoding: 8bit
 
 From: Mikhail Kalashnikov <iuncuim@gmail.com>
 
-The A523 processor has two temperature controllers, but they share a
-common reset line. Make it shared with the shared variant of
-devm_reset_control_get(), and also simplify the driver by switching to
-devm_reset_control_get_shared_deasserted().
+The A523 processor has calibration data in two nvmem cell. To be able to
+add support, the ability to add data from two cells into one array must be
+added.
 
 Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
 ---
- drivers/thermal/sun8i_thermal.c | 16 +---------------
- 1 file changed, 1 insertion(+), 15 deletions(-)
+ drivers/thermal/sun8i_thermal.c | 77 ++++++++++++++++++++++-----------
+ 1 file changed, 52 insertions(+), 25 deletions(-)
 
 diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
-index c02c398b0..aa496e1ba 100644
+index aa496e1ba..d6d8e13e5 100644
 --- a/drivers/thermal/sun8i_thermal.c
 +++ b/drivers/thermal/sun8i_thermal.c
-@@ -344,11 +344,6 @@ static int sun8i_ths_calibrate(struct ths_device *tmdev)
+@@ -303,43 +303,70 @@ static int sun50i_h6_ths_calibrate(struct ths_device *tmdev,
+ 
+ static int sun8i_ths_calibrate(struct ths_device *tmdev)
+ {
+-	struct nvmem_cell *calcell;
++	struct nvmem_cell *calcell = NULL;
+ 	struct device *dev = tmdev->dev;
+-	u16 *caldata;
+-	size_t callen;
++	struct device_node *np = dev_of_node(dev);
++	struct property *prop;
++	const char *cellname;
++	u8 *caldata = NULL;
++	size_t callen = 0;
+ 	int ret = 0;
+ 
+-	calcell = nvmem_cell_get(dev, "calibration");
+-	if (IS_ERR(calcell)) {
+-		if (PTR_ERR(calcell) == -EPROBE_DEFER)
+-			return -EPROBE_DEFER;
+-		/*
+-		 * Even if the external calibration data stored in sid is
+-		 * not accessible, the THS hardware can still work, although
+-		 * the data won't be so accurate.
+-		 *
+-		 * The default value of calibration register is 0x800 for
+-		 * every sensor, and the calibration value is usually 0x7xx
+-		 * or 0x8xx, so they won't be away from the default value
+-		 * for a lot.
+-		 *
+-		 * So here we do not return error if the calibration data is
+-		 * not available, except the probe needs deferring.
+-		 */
+-		goto out;
++	of_property_for_each_string(np, "nvmem-cell-names", prop, cellname) {
++		size_t len;
++		u8 *caldatapart;
++
++		calcell = of_nvmem_cell_get(np, cellname);
++		if (IS_ERR(calcell)) {
++			if (PTR_ERR(calcell) == -EPROBE_DEFER)
++				return -EPROBE_DEFER;
++			/*
++			 * Even if the external calibration data stored in sid is
++			 * not accessible, the THS hardware can still work, although
++			 * the data won't be so accurate.
++			 *
++			 * The default value of calibration register is 0x800 for
++			 * every sensor, and the calibration value is usually 0x7xx
++			 * or 0x8xx, so they won't be away from the default value
++			 * for a lot.
++			 *
++			 * So here we do not return error if the calibration data is
++			 * not available, except the probe needs deferring.
++			 */
++			goto out;
++		}
++
++		caldatapart = nvmem_cell_read(calcell, &len);
++		nvmem_cell_put(calcell);
++		calcell = NULL;
++		if (IS_ERR(caldatapart)) {
++			ret = PTR_ERR(caldatapart);
++			goto out;
++		}
++
++		caldata = devm_krealloc(dev, caldata, callen + len, GFP_KERNEL);
++		if (!caldata) {
++			kfree(caldatapart);
++			ret = -ENOMEM;
++			goto out;
++		}
++
++		memcpy(caldata + callen, caldatapart, len);
++		callen += len;
++		kfree(caldatapart);
+ 	}
+ 
+-	caldata = nvmem_cell_read(calcell, &callen);
+ 	if (IS_ERR(caldata)) {
+ 		ret = PTR_ERR(caldata);
+ 		goto out;
+ 	}
+ 
+-	tmdev->chip->calibrate(tmdev, caldata, callen);
++	tmdev->chip->calibrate(tmdev, (u16 *)caldata, callen);
+ 
+-	kfree(caldata);
++	devm_kfree(dev, caldata);
++	caldata = NULL;
+ out:
+-	if (!IS_ERR(calcell))
++	if (calcell && !IS_ERR(calcell))
+ 		nvmem_cell_put(calcell);
  	return ret;
  }
- 
--static void sun8i_ths_reset_control_assert(void *data)
--{
--	reset_control_assert(data);
--}
--
- static struct regmap *sun8i_ths_get_sram_regmap(struct device_node *node)
- {
- 	struct platform_device *sram_pdev;
-@@ -391,19 +386,10 @@ static int sun8i_ths_resource_init(struct ths_device *tmdev)
- 		return PTR_ERR(tmdev->regmap);
- 
- 	if (tmdev->chip->has_bus_clk_reset) {
--		tmdev->reset = devm_reset_control_get(dev, NULL);
-+		tmdev->reset = devm_reset_control_get_shared_deasserted(dev, NULL);
- 		if (IS_ERR(tmdev->reset))
- 			return PTR_ERR(tmdev->reset);
- 
--		ret = reset_control_deassert(tmdev->reset);
--		if (ret)
--			return ret;
--
--		ret = devm_add_action_or_reset(dev, sun8i_ths_reset_control_assert,
--					       tmdev->reset);
--		if (ret)
--			return ret;
--
- 		tmdev->bus_clk = devm_clk_get_enabled(&pdev->dev, "bus");
- 		if (IS_ERR(tmdev->bus_clk))
- 			return PTR_ERR(tmdev->bus_clk);
 -- 
 2.51.0
 
