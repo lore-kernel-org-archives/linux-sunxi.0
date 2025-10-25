@@ -1,64 +1,64 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB6F9262FCB
-	for <linux-sunxi@lists.linux.dev>; Sat, 25 Oct 2025 04:33:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EECCA26D4DD
+	for <linux-sunxi@lists.linux.dev>; Sat, 25 Oct 2025 04:33:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761366793; cv=none; b=kqYr9tpdOnLn4VpFqbVe+WgQ9q15QmR+7gDf6FRsdnnK867LPHtFF5mvJzkm7AnvlRPDjcSSVX4ZRO0njqDr5gD6OiqaNes8OqJ2aIl3TGAO//so9WuoXstcH/uFTSrdPvXD53VCtOBmT2+YmjfDM3jWyLwOXkNhlWLRr0A8kxw=
+	t=1761366807; cv=none; b=W87BPCXSE+Yeu7JY9O2rNwXy9dp5BR/MBfQ1GVAax+VgZ23rNqLfbDTIwhqU90EdYj8PP7wyin4OWKDOgJoyian8PqHrRGSTYGHDu2UMWmg+XU5qMbvqgDfgkkYzG2cAGWT+z1vR+HiUwMCpXY51BRSuCzwbC7eGJQmx0wrk0Eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761366793; c=relaxed/simple;
-	bh=vKwIkRtVEbLiJY2BlW4E9oyIfD48LqL7a3hDQ3iAOsA=;
+	s=arc-20240116; t=1761366807; c=relaxed/simple;
+	bh=HLkZrRq3NGY0xnF3Ajij+/FlY5p+nZpDzyvy6gl4718=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PP6GjYAIPSCQz1jjL/KO9exdSHNwlIX0NohpMlR/15KUliJVPSkRtzVQ1/ca49dk6PuR6DM4B3vFoWPYFWBAlHUEat5vbXfdGqY0C5k1S/xLbZC6AbKrbIG3py3R5Fg6AkLwh9vY2yHjzv1GjryJzvLYpUxNvAUBp3FTkvg3C80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fCi7RqZH; arc=none smtp.client-ip=209.85.167.47
+	 MIME-Version; b=skqD26hkRaiRM4/7Sa1ll0b6WKpZA2vof8fZ+QCKcVkdRW+g8ZaM2mPcGEPUF5jN5r9V37at1nPd6xCcpp2OU53IOgMNIN/TZxBIyOLJUkGHwmatAqmkcgwRZdmVl3uzL/R1buJc51WIUojFZtvTVe1Pz9yvzHbq8CoMZwEsw4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c09F8Bc5; arc=none smtp.client-ip=209.85.208.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fCi7RqZH"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-57bd04f2e84so3388555e87.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 24 Oct 2025 21:33:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c09F8Bc5"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-378d65d8184so37589561fa.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 24 Oct 2025 21:33:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761366790; x=1761971590; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1761366804; x=1761971604; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BpucFmLklCdqMhA9C9XyPHvfCwLqk6dMk7FGikdB0lU=;
-        b=fCi7RqZHSJll7m0e7vYEYQCFlHwowa16GtqUdWiZQnayxfLD5TxeLRGIb+1CCz/w4Y
-         vrcFvmjLe6bFZYH++lXprD1pGKRAkd+kIni/VWP/t5XO5r5tChsxNDQQWXSm1zMYPOsd
-         d+MU8uGJl3v+g5SuI+sq9irladJ2QBejX7rg48ZSI4ltY6ZDNKKEW0ikSVod8f8ntr9f
-         FrDN76OkBHcV+t2XzImS04uagSIm9EJJ4dW06Cqfn9acCElQ/Ru6rNNyWeqDZkIyGO9d
-         Re+hcM/PU3cpaVfu5bAS7hUOjRST0AYlP7+1t+HHP+Xavoh0jPQri1uYO43JnInimLdu
-         CSZQ==
+        bh=nGpVSnY2YGnC6StYjZi+g05NBMCnFA0794RPi3L6J+s=;
+        b=c09F8Bc57O8yXAts7RYjF72o54jCvCbZ9pMzZD5VJ9eW4Js6I4jruOXwVydSaX6Gv4
+         fV4G5uXF+VpuoPz4SP/JOdKiKMOl0Gso6Z0NIGaxQ5ou/FnjIPjqTa1e9kRr8Rgrxep8
+         6/tNUNDDp6v9vHYrrlMEvXE+qVhTdt3LzkCGpMZgcGRTo++1I2dFsKFteyLTm/SkMGdF
+         Fb9Dono92L9hpLtzqSVe3ceisRaPsM2eYF6z3fHD0pC1vcAc726mpnG+LhDm8tyZYfXj
+         84173szYpzpLmGzYgINiB+1Gr1TUE6yUlz9J6zHUYLEAa7flYSa/zAfDWmhMIzxULgVn
+         V7Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761366790; x=1761971590;
+        d=1e100.net; s=20230601; t=1761366804; x=1761971604;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BpucFmLklCdqMhA9C9XyPHvfCwLqk6dMk7FGikdB0lU=;
-        b=NPpXf3dHQ05PUpwZOBnLwCdKCBoka8XKW67gXJDDxoKbii9USKIS41W1XY3zTSYtdd
-         7r9zs2CUZ0jnchJSAdrGuG2hoJaMoK74Z9ZobIxRhEzjpHWmCHsSByVO3bSkFx2O+HJf
-         bKJ0GX5qx5EhIxuXvZTFKtS7Yt+EQSwQwKQN72jJOi9qIqCsfeMZ2dNXNwF+g/huCULE
-         3mDhrVEMWVXMMsTZL92UfkrRqkwhJ89e0ciDRJKOV5KuswC06Kii+iiM8/wB5nEYykoB
-         HFA7O/HiLueGXMG+8LzSVrLxisyvSyxVTrPLZLsx62Y2uREaafBpDkTQrtjbP2V9fmKD
-         9XwA==
-X-Forwarded-Encrypted: i=1; AJvYcCUhJeJdViEL4Px4o9YJuU1kUB2osUAzO9hWV6FgXt2UpImVvTFapxnt1vxpLUdshRxb1UoT+p1ekwLF7g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzBIl36mozN682cHd53UotxbhtXfrmJL7zRDDyZMqcC7AeFha2x
-	XCVPQ1h6JNIjD+6xg3g6v1X5N93b//nUWzUyxPr/9P76+iEwUpfumoNi
-X-Gm-Gg: ASbGncsqpv+YG7d4ECDKYJVcAADO3MAcsX9hw8HcXUYZdxGjqm0dLgvjN00b+hWJZd3
-	M/OEbhrWneuNL14/1e+mVM2R15Wy3EAivBQEntNAwdQ2SBqXz0fCgW9fhtWJTv0addnWgkyOt8+
-	r196PDso7lVGIx62dKdWR7zqCpu22ZuCBGO/AcSjJdjEZYDlBlELFXpnFkfjbMMJjzznzrdV2by
-	D4m5ZJymHGCaTMiSompiCJoDJyJw8HkcQySBRguj3MG8p5LqHLq8hwWYm5+G6SQeQ686kY9iCm9
-	nsO6nNei6AiN8E8AkkVkTfcBAP5q5GLleApg6xW5Ei/i78YzZHAIEaV7uMlnK+vuZTTP93sfXV5
-	tg9irp7u9tURpvhQPrLs1XlGbhsA4QAm4nsuSKfva+MjkiVpYijZDaJzJ78B8sojLF9/FfVG1o8
-	T1
-X-Google-Smtp-Source: AGHT+IGI1bkGkIs+m+mcDg1QheXEpjkKTfwp/CVg0HfjhPonvg/HY7Zg24J0VSwSVIiajjlFuNgFMg==
-X-Received: by 2002:a05:651c:150c:b0:378:e58f:5f10 with SMTP id 38308e7fff4ca-378e58f613dmr12893371fa.35.1761366789881;
-        Fri, 24 Oct 2025 21:33:09 -0700 (PDT)
+        bh=nGpVSnY2YGnC6StYjZi+g05NBMCnFA0794RPi3L6J+s=;
+        b=WUPjiqgQx7IinnBlozFHFN9i0cXS8iq7+sNxj8O7/YWxCcC3iyM2WRGvu2TZAzwMxz
+         U2vgMP+L8u178uxU5peC1OZZOPy36Odsc49gb70VLnvjx0BuMzn/HESqfCq1Tzexor7p
+         gop0K44YCFjz2ORy8I6x7Hl1+Rtkn8rwXDNvF3Ivr9PIGOY3yGtpL5XRraHfXvrZvu3T
+         FpP/mkgSahHgcUZFiDrZ4JvHdckLPf/93RyoKtCZSyO34KF3NvHYmpAY58XqDHzX4Srb
+         p/WlkElDu6WaPn/IzHmIEgag2cFMiFPrVstjJGbfuboI1d7A4nhzH2q0e4OhykdSYtzd
+         418g==
+X-Forwarded-Encrypted: i=1; AJvYcCWhPK5mZS4e/XKeK1RjOoy4Huh2ygF67Ao3yvn+Lznftn1HVoAC2KVhPg3ntvIb8TYELqnmAWISqc1Gaw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyP4eqnYu0fuV/MC4aviJKlFscz5SMRuFuIDBSh+X3/oP0DNHKi
+	kdUtKDvaxcNVhwfQK9O7KQt2IP68heiYEAB36SW4wSy3+7FHlD0ILQr/
+X-Gm-Gg: ASbGncsIaL1aETZG8xpZcL3+m+VFScpfybZfvXyRasHMQnrKuhJI1Wy97GJSOS/GcPu
+	xG4byZsse7xihbuNOqC8IDe462n+uVlQ4oUjpAr71B8tVziDj74V7vrBkgQMzm+RE4FD402xOrR
+	7YYV6eV5xhJmqaHGUd+LRH1yHTNu1Brx9Had25s1ijKyf8MLBSYG5MYbaINktiQJ50Z93DexrkM
+	Kh6bY35tySETQG6m182ODq1B2RhWrmvDj3eAB4GWWmVm2eHsxUMIgepRWKLGA4kHFce3dWRfjwV
+	a/DQTbedKM5OQc9udm/33EefCPks2JWInU6BgG/1OCeby1DYOZi1YR6/Ux/6L4KY9jF7+XEbeR0
+	EKKXguzsidyJBi5wUqVLdTiiJhe+HqPEwPmVVslI4NqWxyamgWf/YItJ01lVlv6M7Q6BfRsLV4V
+	ua
+X-Google-Smtp-Source: AGHT+IGj8aCrZj29Rg9HWwRsU0X1CDkriVFw8huU9nZ548l08naKsaur1apTfOMiV+X0MeyojMrrVA==
+X-Received: by 2002:a2e:b8cc:0:b0:36a:925e:cf3c with SMTP id 38308e7fff4ca-37797a39146mr98679831fa.31.1761366803946;
+        Fri, 24 Oct 2025 21:33:23 -0700 (PDT)
 Received: from junAIR ([176.106.241.81])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-378ee0ca7a0sm3409241fa.33.2025.10.24.21.32.55
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-378ee0ca7a0sm3409241fa.33.2025.10.24.21.33.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Oct 2025 21:33:09 -0700 (PDT)
+        Fri, 24 Oct 2025 21:33:23 -0700 (PDT)
 From: iuncuim <iuncuim@gmail.com>
 To: Vasily Khoruzhick <anarsoul@gmail.com>,
 	Yangtao Li <tiny.windzz@gmail.com>,
@@ -79,9 +79,9 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 5/6] thermal/drivers/sun8i: Add support for A523 THS0/1 controllers
-Date: Sat, 25 Oct 2025 12:31:28 +0800
-Message-ID: <20251025043129.160454-6-iuncuim@gmail.com>
+Subject: [PATCH v3 6/6] Allwinner: A523: add support for A523 THS0/1 controllers
+Date: Sat, 25 Oct 2025 12:31:29 +0800
+Message-ID: <20251025043129.160454-7-iuncuim@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251025043129.160454-1-iuncuim@gmail.com>
 References: <20251025043129.160454-1-iuncuim@gmail.com>
@@ -96,7 +96,6 @@ Content-Transfer-Encoding: 8bit
 From: Mikhail Kalashnikov <iuncuim@gmail.com>
 
 The A523 processor has two temperature controllers, THS0 and THS1.
-
 THS0 has only one temperature sensor, which is located in the DRAM.
 
 THS1 does have 3 sensors:
@@ -104,188 +103,254 @@ ths1_0 - "big" cores
 ths1_1 - "little" cores
 ths1_2 - gpu
 
-The datasheet mentions a fourth sensor in the NPU, but lacks any registers
-for operation other than calibration registers. The vendor code reads the
-value from ths1_2, but uses separate calibration data, so we get two
-different values from real one.
+Add the thermal sensor configuration and the thermal zones.
+Trips temperature, polling-delay and sustainable-power parameters are
+derived from the manufacturer's BSP.
 
 Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
 ---
- drivers/thermal/sun8i_thermal.c | 133 ++++++++++++++++++++++++++++++++
- 1 file changed, 133 insertions(+)
+ .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 154 ++++++++++++++++++
+ 1 file changed, 154 insertions(+)
 
-diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
-index d6d8e13e5..7d35ea3c4 100644
---- a/drivers/thermal/sun8i_thermal.c
-+++ b/drivers/thermal/sun8i_thermal.c
-@@ -59,6 +59,12 @@
- #define SUN50I_H6_THS_PC_TEMP_PERIOD(x)		((GENMASK(19, 0) & (x)) << 12)
- #define SUN50I_H6_THS_DATA_IRQ_STS(x)		BIT(x)
+diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+index 7b36c47a3..0cbe73601 100644
+--- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+@@ -11,6 +11,7 @@
+ #include <dt-bindings/reset/sun55i-a523-r-ccu.h>
+ #include <dt-bindings/power/allwinner,sun55i-a523-ppu.h>
+ #include <dt-bindings/power/allwinner,sun55i-a523-pck-600.h>
++#include <dt-bindings/thermal/thermal.h>
  
-+#define SUN55I_A523_DELIMITER			0x7c8
-+#define SUN55I_A523_OFFSET_ABOVE		2736
-+#define SUN55I_A523_OFFSET_BELOW		2825
-+#define SUN55I_A523_SCALE_ABOVE			74
-+#define SUN55I_A523_SCALE_BELOW			65
-+
- struct tsensor {
- 	struct ths_device		*tmdev;
- 	struct thermal_zone_device	*tzd;
-@@ -116,6 +122,15 @@ static int sun50i_h5_calc_temp(struct ths_device *tmdev,
- 		return -1590 * reg / 10 + 276000;
- }
+ / {
+ 	interrupt-parent = <&gic>;
+@@ -26,6 +27,7 @@ cpu0: cpu@0 {
+ 			device_type = "cpu";
+ 			reg = <0x000>;
+ 			enable-method = "psci";
++			#cooling-cells = <2>;
+ 		};
  
-+static int sun55i_a523_calc_temp(struct ths_device *tmdev,
-+				 int id, int reg)
-+{
-+	if (reg >= SUN55I_A523_DELIMITER)
-+		return SUN55I_A523_SCALE_ABOVE * (SUN55I_A523_OFFSET_ABOVE - reg);
-+	else
-+		return SUN55I_A523_SCALE_BELOW * (SUN55I_A523_OFFSET_BELOW - reg);
-+}
-+
- static int sun8i_ths_get_temp(struct thermal_zone_device *tz, int *temp)
- {
- 	struct tsensor *s = thermal_zone_device_priv(tz);
-@@ -301,6 +316,97 @@ static int sun50i_h6_ths_calibrate(struct ths_device *tmdev,
- 	return 0;
- }
+ 		cpu1: cpu@100 {
+@@ -33,6 +35,7 @@ cpu1: cpu@100 {
+ 			device_type = "cpu";
+ 			reg = <0x100>;
+ 			enable-method = "psci";
++			#cooling-cells = <2>;
+ 		};
  
-+/*
-+ * The A523 nvmem calibration values. The ths1_3 is not used as it
-+ * doesn't have its own sensor and doesn't have any internal switch.
-+ * Instead, the value from the ths1_2 sensor is used, which gives the
-+ * illusion of an independent sensor for NPU and GPU when using
-+ * different calibration values.
-+ *
-+ * efuse layout 0x38-0x3F (caldata[0..3]):
-+ *     caldata[0]      caldata[1]      caldata[2]      caldata[3]
-+ * 0               16      24      32  36          48          60 64
-+ * +---------------+---------------+---------------+---------------+
-+ * |               |       |   temp    |  ths1_0   |  ths1_1   |   +
-+ * +---------------+---------------+---------------+---------------+
-+ *
-+ * efuse layout 0x44-0x4B (caldata[4..7]):
-+ *     caldata[4]      caldata[5]      caldata[6]      caldata[7]
-+ * 0           12  16      24      32  36          48             64
-+ * +---------------+---------------+---------------+---------------+
-+ * |  ths1_2   |  ths1_3   |    ths0   |           |               +
-+ * +---------------+---------------+---------------+---------------+
-+ */
-+static int sun55i_a523_ths_calibrate(struct ths_device *tmdev,
-+				     u16 *caldata, int callen)
-+{
-+	struct device *dev = tmdev->dev;
-+	int i, ft_temp;
+ 		cpu2: cpu@200 {
+@@ -40,6 +43,7 @@ cpu2: cpu@200 {
+ 			device_type = "cpu";
+ 			reg = <0x200>;
+ 			enable-method = "psci";
++			#cooling-cells = <2>;
+ 		};
+ 
+ 		cpu3: cpu@300 {
+@@ -47,6 +51,7 @@ cpu3: cpu@300 {
+ 			device_type = "cpu";
+ 			reg = <0x300>;
+ 			enable-method = "psci";
++			#cooling-cells = <2>;
+ 		};
+ 
+ 		cpu4: cpu@400 {
+@@ -54,6 +59,7 @@ cpu4: cpu@400 {
+ 			device_type = "cpu";
+ 			reg = <0x400>;
+ 			enable-method = "psci";
++			#cooling-cells = <2>;
+ 		};
+ 
+ 		cpu5: cpu@500 {
+@@ -61,6 +67,7 @@ cpu5: cpu@500 {
+ 			device_type = "cpu";
+ 			reg = <0x500>;
+ 			enable-method = "psci";
++			#cooling-cells = <2>;
+ 		};
+ 
+ 		cpu6: cpu@600 {
+@@ -68,6 +75,7 @@ cpu6: cpu@600 {
+ 			device_type = "cpu";
+ 			reg = <0x600>;
+ 			enable-method = "psci";
++			#cooling-cells = <2>;
+ 		};
+ 
+ 		cpu7: cpu@700 {
+@@ -75,6 +83,7 @@ cpu7: cpu@700 {
+ 			device_type = "cpu";
+ 			reg = <0x700>;
+ 			enable-method = "psci";
++			#cooling-cells = <2>;
+ 		};
+ 	};
+ 
+@@ -398,12 +407,46 @@ syscon: syscon@3000000 {
+ 			ranges;
+ 		};
+ 
++		ths1: thermal-sensor@2009400 {
++			compatible = "allwinner,sun55i-a523-ths1";
++			reg = <0x02009400 0x400>;
++			interrupts = <GIC_SPI 62 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_THS>, <&ccu CLK_GPADC1>;
++			clock-names = "bus", "gpadc";
++			resets = <&ccu RST_BUS_THS>;
++			nvmem-cells = <&ths_calibration0>, <&ths_calibration1>;
++			nvmem-cell-names = "calibration",
++				     "calibration-second-part";
++			#thermal-sensor-cells = <1>;
++		};
 +
-+	if (!caldata[0])
-+		return -EINVAL;
++		ths0: thermal-sensor@200a000 {
++			compatible = "allwinner,sun55i-a523-ths0";
++			reg = <0x0200a000 0x400>;
++			interrupts = <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_THS>, <&ccu CLK_GPADC0>;
++			clock-names = "bus", "gpadc";
++			resets = <&ccu RST_BUS_THS>;
++			nvmem-cells = <&ths_calibration0>, <&ths_calibration1>;
++			nvmem-cell-names = "calibration",
++				     "calibration-second-part";
++			#thermal-sensor-cells = <0>;
++		};
 +
-+	ft_temp = (((caldata[2] << 8) | (caldata[1] >> 8)) & FT_TEMP_MASK) * 100;
+ 		sid: efuse@3006000 {
+ 			compatible = "allwinner,sun55i-a523-sid",
+ 				     "allwinner,sun50i-a64-sid";
+ 			reg = <0x03006000 0x1000>;
+ 			#address-cells = <1>;
+ 			#size-cells = <1>;
 +
-+	for (i = 0; i < tmdev->chip->sensor_num; i++) {
-+		int sensor_reg, sensor_temp, cdata, offset;
-+		/*
-+		 * Chips ths0 and ths1 have common parameters for value
-+		 * calibration. To separate them we can use the number of
-+		 * temperature sensors on each chip.
-+		 * For ths0 this value is 1.
-+		 */
-+		if (tmdev->chip->sensor_num == 1) {
-+			sensor_reg = ((caldata[5] >> 8) | (caldata[6] << 8)) & TEMP_CALIB_MASK;
-+		} else {
-+			switch (i) {
-+			case 0:
-+				sensor_reg = (caldata[2] >> 4) & TEMP_CALIB_MASK;
-+				break;
-+			case 1:
-+				sensor_reg = caldata[3] & TEMP_CALIB_MASK;
-+				break;
-+			case 2:
-+				sensor_reg = caldata[4] & TEMP_CALIB_MASK;
-+				break;
-+			default:
-+				sensor_reg = 0;
-+				break;
-+			}
-+		}
++			ths_calibration0: ths-calibration0@38 {
++				reg = <0x38 0x8>;
++			};
 +
-+		sensor_temp = tmdev->chip->calc_temp(tmdev, i, sensor_reg);
++			ths_calibration1: ths-calibration1@44 {
++				reg = <0x44 0x8>;
++			};
+ 		};
+ 
+ 		gic: interrupt-controller@3400000 {
+@@ -732,4 +775,115 @@ npu: npu@7122000 {
+ 			power-domains = <&ppu PD_NPU>;
+ 		};
+ 	};
 +
-+		/*
-+		 * Calibration data is CALIBRATE_DEFAULT - (calculated
-+		 * temperature from sensor reading at factory temperature
-+		 * minus actual factory temperature) * X (scale from
-+		 * temperature to register values)
-+		 */
-+		cdata = CALIBRATE_DEFAULT -
-+			((sensor_temp - ft_temp) / SUN55I_A523_SCALE_ABOVE);
++	thermal-zones {
++		cpu0_thermal: cpu0-thermal {
++			polling-delay-passive = <100>;
++			polling-delay = <1000>;
++			thermal-sensors = <&ths1 1>;
++			sustainable-power = <1200>;
 +
-+		if (cdata & ~TEMP_CALIB_MASK) {
-+			/*
-+			 * Calibration value more than 12-bit, but calibration
-+			 * register is 12-bit. In this case, ths hardware can
-+			 * still work without calibration, although the data
-+			 * won't be so accurate.
-+			 */
-+			dev_warn(dev, "sensor%d is not calibrated.\n", i);
-+			continue;
-+		}
++			trips {
++				cpu0_threshold: cpu-trip-0 {
++					temperature = <70000>;
++					type = "passive";
++					hysteresis = <0>;
++				};
++				cpu0_target: cpu-trip-1 {
++					temperature = <90000>;
++					type = "passive";
++					hysteresis = <0>;
++				};
++				cpu0_critical: cpu-trip-2 {
++					temperature = <110000>;
++					type = "critical";
++					hysteresis = <0>;
++				};
++			};
 +
-+		offset = (i % 2) * 16;
-+		regmap_update_bits(tmdev->regmap,
-+				   SUN50I_H6_THS_TEMP_CALIB + (i / 2 * 4),
-+				   TEMP_CALIB_MASK << offset,
-+				   cdata << offset);
-+	}
++			cooling-maps {
++				map0 {
++					trip = <&cpu0_target>;
++					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
++							 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
++							 <&cpu2 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
++							 <&cpu3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
++				};
++			};
++		};
 +
-+	return 0;
-+}
++		cpu4_thermal: cpu4-thermal {
++			polling-delay-passive = <100>;
++			polling-delay = <1000>;
++			thermal-sensors = <&ths1 0>;
++			sustainable-power = <1600>;
 +
- static int sun8i_ths_calibrate(struct ths_device *tmdev)
- {
- 	struct nvmem_cell *calcell = NULL;
-@@ -730,6 +836,31 @@ static const struct ths_thermal_chip sun50i_h616_ths = {
- 	.calc_temp = sun8i_ths_calc_temp,
++			trips {
++				cpu4_threshold: cpu-trip-0 {
++					temperature = <70000>;
++					type = "passive";
++					hysteresis = <0>;
++				};
++				cpu4_target: cpu-trip-1 {
++					temperature = <90000>;
++					type = "passive";
++					hysteresis = <0>;
++				};
++				cpu4_critical: cpu-trip-2 {
++					temperature = <110000>;
++					type = "critical";
++					hysteresis = <0>;
++				};
++			};
++
++			cooling-maps {
++				map0 {
++					trip = <&cpu4_target>;
++					cooling-device = <&cpu4 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
++							 <&cpu5 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
++							 <&cpu6 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
++							 <&cpu7 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
++				};
++			};
++		};
++
++		gpu-thermal {
++			polling-delay-passive = <100>;
++			polling-delay = <1000>;
++			thermal-sensors = <&ths1 2>;
++			sustainable-power = <2400>;
++
++			gpu-trips {
++				gpu_temp_threshold: gpu-trip-0 {
++					temperature = <60000>;
++					type = "passive";
++					hysteresis = <0>;
++				};
++				gpu_temp_target: gpu-trip-1 {
++					temperature = <90000>;
++					type = "passive";
++					hysteresis = <0>;
++				};
++				gpu_temp_critical: gpu-trip-2 {
++					temperature = <110000>;
++					type = "critical";
++					hysteresis = <0>;
++				};
++			};
++		};
++
++		ddr-thermal {
++			polling-delay-passive = <0>;
++			polling-delay = <0>;
++			thermal-sensors = <&ths0>;
++
++			trips {
++				ddr_temp_critical: ddr-trip-0 {
++					temperature = <110000>;
++					type = "critical";
++					hysteresis = <0>;
++				};
++			};
++		};
++	};
  };
- 
-+/* The A523 has a shared reset line for both chips */
-+static const struct ths_thermal_chip sun55i_a523_ths0 = {
-+	.sensor_num = 1,
-+	.has_bus_clk_reset = true,
-+	.has_gpadc_clk = true,
-+	.ft_deviation = 5000,
-+	.temp_data_base = SUN50I_H6_THS_TEMP_DATA,
-+	.calibrate = sun55i_a523_ths_calibrate,
-+	.init = sun50i_h6_thermal_init,
-+	.irq_ack = sun50i_h6_irq_ack,
-+	.calc_temp = sun55i_a523_calc_temp,
-+};
-+
-+static const struct ths_thermal_chip sun55i_a523_ths1 = {
-+	.sensor_num = 3,
-+	.has_bus_clk_reset = true,
-+	.has_gpadc_clk = true,
-+	.ft_deviation = 5000,
-+	.temp_data_base = SUN50I_H6_THS_TEMP_DATA,
-+	.calibrate = sun55i_a523_ths_calibrate,
-+	.init = sun50i_h6_thermal_init,
-+	.irq_ack = sun50i_h6_irq_ack,
-+	.calc_temp = sun55i_a523_calc_temp,
-+};
-+
- static const struct of_device_id of_ths_match[] = {
- 	{ .compatible = "allwinner,sun8i-a83t-ths", .data = &sun8i_a83t_ths },
- 	{ .compatible = "allwinner,sun8i-h3-ths", .data = &sun8i_h3_ths },
-@@ -740,6 +871,8 @@ static const struct of_device_id of_ths_match[] = {
- 	{ .compatible = "allwinner,sun50i-h6-ths", .data = &sun50i_h6_ths },
- 	{ .compatible = "allwinner,sun20i-d1-ths", .data = &sun20i_d1_ths },
- 	{ .compatible = "allwinner,sun50i-h616-ths", .data = &sun50i_h616_ths },
-+	{ .compatible = "allwinner,sun55i-a523-ths0", .data = &sun55i_a523_ths0 },
-+	{ .compatible = "allwinner,sun55i-a523-ths1", .data = &sun55i_a523_ths1 },
- 	{ /* sentinel */ },
- };
- MODULE_DEVICE_TABLE(of, of_ths_match);
 -- 
 2.51.0
 
