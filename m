@@ -1,64 +1,63 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3436E1411DE
-	for <linux-sunxi@lists.linux.dev>; Sat, 25 Oct 2025 04:32:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1776C267F57
+	for <linux-sunxi@lists.linux.dev>; Sat, 25 Oct 2025 04:32:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761366748; cv=none; b=Oy/xK9N06mKaIe4spmNNlD+IizeI4988cFlQSh7gA+1Nli5h8ba67Mh6xKqCuoplpCzDIukcDcLCtSOuZeAJG6bzDSzLreeFlxBJaqXGRN7lrLNDKjIeJ9ZyLAgYbs62Bx7md/kEhkO9hRLkYqCQIw7gK85e1mPAiu+bc+Llgg8=
+	t=1761366764; cv=none; b=kKeo7C+jgMUesykXKV/kYk7S++UG/vOrCDCroi82rdUYvVfSk5IpNZn+TbuB52zNJ0mEQD0EmSZc+emuhzUCgYSwfIrwbhLLsX1GQJUshM4G61baC7CHQ46uOwUFSzQbMRyYC0goJ3YQ5HnpTyQ+aJ8uoUib1AM/ncHycmPLrUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761366748; c=relaxed/simple;
-	bh=OXisvb9gi/TE1J28fYKNKmNR9Heo/ymBioo9V+DNdQY=;
+	s=arc-20240116; t=1761366764; c=relaxed/simple;
+	bh=JFlSRxXwWBQ3XACpCIXATa+zwXHpyzhtFajoU+nnbIg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iSiyxSGiNFrZE/r0VfgAcUr3z4cRYLk+UbkWq5LGA6RQ/y/nMyrs7IsTbDqas4yKCTqZBzFMjntLjkSaoy1IvTb2G2Z0bCjOpBoHEWbF4oVD+Lm9AjxFudpHNn/Unp1zClv1O/V/GAk67wQawDbwzbchYCfjo4DWaHEEzAOD/O0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q37piOZo; arc=none smtp.client-ip=209.85.167.46
+	 MIME-Version; b=dUabEoWY86NRzQ1lORKaDjHcJBehz6VbSvQD/Tn1HU26gvipX2D8EOamOIOTw5fU3NmB2EyqPO9EbCHbLDnzqpNVzSiVeAViWDJ01S2zTShTH4Zd2PcIrWgRcsOPO79JBE9sUgs31zo4FATEJs4NhZDGP0YLAYGPDa8hv3lEWMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gN3a5aQK; arc=none smtp.client-ip=209.85.208.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q37piOZo"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-592f3d2d068so3286245e87.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 24 Oct 2025 21:32:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gN3a5aQK"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-3761e5287c9so32387371fa.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 24 Oct 2025 21:32:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761366745; x=1761971545; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1761366761; x=1761971561; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bw4z9PVBnrl74pcQ+V85ZiVa2r5TmKnZAhW/Uv6GfHQ=;
-        b=Q37piOZoXp/o7xXATa0X6Yk32FZywtUwLeSr/M7QAtdjeLZ3CYsn49AMVkQgd7OqKp
-         1MVNfMvQxP5tFAdmUeGrGVKgCLeDoBmNCIgHDzdAykufS7TthgR4/hKCZ5nNEaaM8bkY
-         HEAlQDOf4S94FrqzwmF/mgK+otl7MAidm8KTxzylM0UeQI7IzTXcmvvkd7uOhiJESRXC
-         sBO5LMBsgLjtAIp1hwxs9fsrNASO3zOiL7j/enCIAYVeq441QZcnlsHNfrdMUeZc/5K7
-         if+0rD6TTvs0fghQUGPSy+BtmfFU6j+t7ECHr3P9iEmliX5XLd6YThpNNz3ZaqOU4t10
-         qFnA==
+        bh=i3+BmyLOtp7xUTMRQtQMY1TWwM+wvGI7ScMcGnjI6fc=;
+        b=gN3a5aQKjEFuJrIXb3yS5v/I0iavFqdgz5tWkhTaT3ief6t0tEnmJY2Iy9DQG078V0
+         6zWXUSYepZYAyoH8PFVcUQ4ivwy7aAgeE2/SK7PEra4FATljAfuQS1xJGBrvZ+wNSUll
+         1VrVZKwy10lMq8Y/vW3ibD8tCoxRn4qz3Thm36ugJrCrXNIPg2AeJp2wH+cDIhWVzjTL
+         4dhctp3WPvv4Kycc19yN9eePyKnZsrBQy+PzC/B3WcoEe1bDR5vbN1D8JWJpMPTgSBrV
+         I5vTbD/9aJ3HKjeLx935k0tziz2Ca0CLMnvfUJ2iqma8al0mNGkIisFrY5Utco10IMzB
+         S2tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761366745; x=1761971545;
+        d=1e100.net; s=20230601; t=1761366761; x=1761971561;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bw4z9PVBnrl74pcQ+V85ZiVa2r5TmKnZAhW/Uv6GfHQ=;
-        b=QuGHptAT+c2TCxPzlHgBe4hbgJNDZxtqmHQxXMS1xq38Fhd8z9PYdDWFazfp+k79V7
-         y/HkITYbP2gnGO2s48alHU8XDCGDzjM7HeOqx5lmtagh426RpyoOJNY82+cc7UDRdeun
-         DMYNUJV0bpwfGP4yHVhyWBmjwi8SH8T4hDYNnGx5hHUhKg8tUIJeTfUvNRH43KJJ47GN
-         VWqYVmCafL+7rC+kARZ9C1Dc/LGkCp0IZPJHapj3O6uC/Eg968jofHhax8B3lzfYhTIP
-         FwGC0gZkXXb+3M/LgI0VId1SvYdsOYfmjzmNY4ygdZRb2qq3NI51PjcsLu3jRNJkevYO
-         +8ZA==
-X-Forwarded-Encrypted: i=1; AJvYcCVVRn32AKz+3yQjMcOJlBbSz0781DCM6VU854O7C50xwm1dMdjoNYTINBKODc9iIrWdGHjezyTE1T0weA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyNXOisTgXdwtVdP9bMjXNjCl3M1Bw583N2o7TWcI3137AFKFcF
-	p0Ux9UGRgd3NNCSIcWul8pILXQZJsjDJ1CczfmoHRH7DljilKmpnDQ4c
-X-Gm-Gg: ASbGncvX4BKf9a22VsZ2kxOuVbG5Z/G6Q1VabfvME+wGiX+IxnyGes6qBY290X3jiDG
-	6kxmkRV1gjqBzFj4XWQdj+xZ6BU4nD42SoGOQK7DJgsSvMvZTodn21HI0OQ+DeKjYSIGX0o0vsh
-	CTwV1qM9iJDQkOwOp0IeGIJYyxHvg1ExSjNfV1MWzb84WX47NO+wBqM8nEU98CdaOC73sSl/gU/
-	Gb6jBfg1R/8B9ixdswIx4xq7cjQPJr5GrHWYNFeFi9hke+kaMzQCB+4SOVLGLD5vMba9qjXHHgP
-	RM5xhTkr2vgRdWaSqR8gzFhxGrOn++jPeNJfCJG0m0otPCGn1S3dDwsQpmgE6iWrHDJyYub3zlK
-	dC9kqHby4P4C5iMd3qBe3t1AHjt4byGGqSBhvtKqaIPBbpTFMSmn1bV45dQ5O+hw1ShLyoOZr5j
-	DX
-X-Google-Smtp-Source: AGHT+IFIlO0Xnz3NfsASBS+sA6Ogolz52/zgOOHUf1BRiQNX9JIhdrYW1iCIFtP2vXKndrvpB2lUXQ==
-X-Received: by 2002:a05:651c:221f:b0:375:db6e:fac9 with SMTP id 38308e7fff4ca-37797a0dab3mr93162251fa.31.1761366745177;
-        Fri, 24 Oct 2025 21:32:25 -0700 (PDT)
+        bh=i3+BmyLOtp7xUTMRQtQMY1TWwM+wvGI7ScMcGnjI6fc=;
+        b=xRvBV6NicvyQARn9KpIqXGpAF+TxV6JCkfNPBt49t9c27uCRwCe/v6YM5Uz0accf/q
+         4TEykPD7TtU+j8k9Ai3aoiohCakGEXSjTHZwACguqRWMKTzoToEmS/A3bcM20TxShYkL
+         jqaZcoiCuRGA6EGR1AvJNOjVnw6Mo2eDOlH4CZVcTRBEe9eLYBVG0uxJx1USCDrlXCoe
+         0OrNqhqxzWeirvTigr5eMe0gw9PhuC+B/1ekMc+BNHnGGrd13gu/n51stzsEPngF1/NX
+         MR5hv41/TYVFP/SEaeU2kVjBDeYHt/4y21VwcYbwjhCsHcivtx60krSOMt9fxubvxDnv
+         36QQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUDlMUrIGC3PHU3vq8JqQSBskgSt9oGTCHkGj2O0Fs0bfA4I2AHlb8MbeMCKCZh+talC6r8ZG5WtRBemQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyqpHOupo82I7QlDNftGVEFY1suZucrIH4nPxE7VjLLNc4dVQKl
+	pZSZg/y+jay3itU+F+w0ELaZO84r+KlHjCmud1ZCXd+FigFMLKIdFkzV
+X-Gm-Gg: ASbGncskwPEKJiJwSHEUmTN5CkvXBjaOhvMLxUFN9PuRxgTa7ZxyqB4WlpkUWfVzgIE
+	Cy9zj+SjM2wv0VQHLFPBsnwoLY44iS/kfD2zto/JSogyEJiC8xTaH8tgRSfgZ0rI/UYkqmj/FNe
+	zod3igy00+BetoRi2/RF6kxdgs5VcyLom/uPEcM3WkVHdACWFmVEPLDn2v7Cy38BRW2Gz4qIESu
+	kfcHm+p0GHZWp/9aQ/HLUOacMXZz0Zg9mNtiINlY6z1rhCNcUCl8/t/8ektnTFt5OdaBHKBBg/Y
+	kCKBp5qsgf/9QNae77VZWbOTewakhUgWUVxqAwqXa1gmGTAAlmg1EDGH1hs5tPnolWQSifygZUy
+	DxPaQw4E2kZNYohQ4jC7+r4LFRzzjJcDkIylMKQggZR1X5KR/6Wo+jRcJZXoqj+OsnQ==
+X-Google-Smtp-Source: AGHT+IEKvrwo7BMcvdLr8sMnPaVHb2OI/tgnv1kSKzQDgd1sc7jso2BrG2SWkbje2QobtPqCs0yKQw==
+X-Received: by 2002:a2e:bd17:0:b0:36c:2367:b3c1 with SMTP id 38308e7fff4ca-37797a58f18mr88205231fa.35.1761366760931;
+        Fri, 24 Oct 2025 21:32:40 -0700 (PDT)
 Received: from junAIR ([176.106.241.81])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-378ee0ca7a0sm3409241fa.33.2025.10.24.21.32.11
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-378ee0ca7a0sm3409241fa.33.2025.10.24.21.32.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Oct 2025 21:32:24 -0700 (PDT)
+        Fri, 24 Oct 2025 21:32:40 -0700 (PDT)
 From: iuncuim <iuncuim@gmail.com>
 To: Vasily Khoruzhick <anarsoul@gmail.com>,
 	Yangtao Li <tiny.windzz@gmail.com>,
@@ -79,9 +78,9 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/6] thermal/drivers/sun8i: add gpadc clock
-Date: Sat, 25 Oct 2025 12:31:25 +0800
-Message-ID: <20251025043129.160454-3-iuncuim@gmail.com>
+Subject: [PATCH v3 3/6] thermal/drivers/sun8i: replace devm_reset_control_get  to devm_reset_control_get_shared_deasserted
+Date: Sat, 25 Oct 2025 12:31:26 +0800
+Message-ID: <20251025043129.160454-4-iuncuim@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251025043129.160454-1-iuncuim@gmail.com>
 References: <20251025043129.160454-1-iuncuim@gmail.com>
@@ -95,47 +94,54 @@ Content-Transfer-Encoding: 8bit
 
 From: Mikhail Kalashnikov <iuncuim@gmail.com>
 
-Some processors (e.g. Allwinner A523) require GPADC clocking activation for
-temperature sensors to work. So let's add support for enabling it.
+The A523 processor has two temperature controllers, but they share a
+common reset line. Make it shared with the shared variant of
+devm_reset_control_get(), and also simplify the driver by switching to
+devm_reset_control_get_shared_deasserted().
 
 Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
 ---
- drivers/thermal/sun8i_thermal.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/thermal/sun8i_thermal.c | 16 +---------------
+ 1 file changed, 1 insertion(+), 15 deletions(-)
 
 diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
-index 226747906..c02c398b0 100644
+index c02c398b0..aa496e1ba 100644
 --- a/drivers/thermal/sun8i_thermal.c
 +++ b/drivers/thermal/sun8i_thermal.c
-@@ -66,6 +66,7 @@ struct tsensor {
- };
+@@ -344,11 +344,6 @@ static int sun8i_ths_calibrate(struct ths_device *tmdev)
+ 	return ret;
+ }
  
- struct ths_thermal_chip {
-+	bool		has_gpadc_clk;
- 	bool            has_mod_clk;
- 	bool            has_bus_clk_reset;
- 	bool		needs_sram;
-@@ -89,6 +90,7 @@ struct ths_device {
- 	struct regmap_field			*sram_regmap_field;
- 	struct reset_control			*reset;
- 	struct clk				*bus_clk;
-+	struct clk				*gpadc_clk;
- 	struct clk                              *mod_clk;
- 	struct tsensor				sensor[MAX_SENSOR_NUM];
- };
-@@ -417,6 +419,12 @@ static int sun8i_ths_resource_init(struct ths_device *tmdev)
- 	if (ret)
- 		return ret;
+-static void sun8i_ths_reset_control_assert(void *data)
+-{
+-	reset_control_assert(data);
+-}
+-
+ static struct regmap *sun8i_ths_get_sram_regmap(struct device_node *node)
+ {
+ 	struct platform_device *sram_pdev;
+@@ -391,19 +386,10 @@ static int sun8i_ths_resource_init(struct ths_device *tmdev)
+ 		return PTR_ERR(tmdev->regmap);
  
-+	if (tmdev->chip->has_gpadc_clk) {
-+		tmdev->gpadc_clk = devm_clk_get_enabled(&pdev->dev, "gpadc");
-+		if (IS_ERR(tmdev->gpadc_clk))
-+			return PTR_ERR(tmdev->gpadc_clk);
-+	}
-+
- 	if (tmdev->chip->needs_sram) {
- 		struct regmap *regmap;
+ 	if (tmdev->chip->has_bus_clk_reset) {
+-		tmdev->reset = devm_reset_control_get(dev, NULL);
++		tmdev->reset = devm_reset_control_get_shared_deasserted(dev, NULL);
+ 		if (IS_ERR(tmdev->reset))
+ 			return PTR_ERR(tmdev->reset);
  
+-		ret = reset_control_deassert(tmdev->reset);
+-		if (ret)
+-			return ret;
+-
+-		ret = devm_add_action_or_reset(dev, sun8i_ths_reset_control_assert,
+-					       tmdev->reset);
+-		if (ret)
+-			return ret;
+-
+ 		tmdev->bus_clk = devm_clk_get_enabled(&pdev->dev, "bus");
+ 		if (IS_ERR(tmdev->bus_clk))
+ 			return PTR_ERR(tmdev->bus_clk);
 -- 
 2.51.0
 
