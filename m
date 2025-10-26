@@ -1,657 +1,101 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A16481F8723
-	for <linux-sunxi@lists.linux.dev>; Sun, 26 Oct 2025 01:24:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D75F23185D
+	for <linux-sunxi@lists.linux.dev>; Sun, 26 Oct 2025 05:59:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761441892; cv=none; b=bHczpN3H/XFjnnKz3EM+B3EQtZ+8HIlZQUTZpQy8jnEmYJSzLJ4m3GLRXNP653uztFFzNjAkS29bza15d09087cq5m+W7pLz+/BhBJRYR+8kKmDLBPYdfghG67LkY0ekIufK2IDjwq0HsX4mPC5cOZweM2cXhGs7Ho/I5IiLM1Y=
+	t=1761458386; cv=none; b=nvF+P27J3Q3hgsccOasdmaBaQAiqppYI3W/y3X2ZnPf10YVMy+27sWhyuLI7xvAUdu5esh17Mn7xUiXISFjC3HbLHUA49M0mPftmpd4kL22hAP9cVdjYuazpLGpK1mT2Bk5fBvVR+AHgzvSH5bv1Q8MtWyhNP2bGFyDONgHfXBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761441892; c=relaxed/simple;
-	bh=OZFNRCiM3QyhfqIq9/tPy0GaWJWA9KVEui9hT4K/DWU=;
+	s=arc-20240116; t=1761458386; c=relaxed/simple;
+	bh=A6NZo4xjZn6VpoDmgTXQPGhDEhgFnksDmFJRaagzP1w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uLHsalSLqAtdFDULV8I8rykJpaJdSLMQwYigfGjx/r/qWHeCYGgTtP9irvrGJSlXAilr4E/T4fqRkX6ocX0dwv+mURXL9T2bCVs1N9C1A4SmC3MyZMpQMgoFvvtzdEaTfMyX6nodVO5PYEKfOp22zrM4v+fYbNPxROo0p6o3uAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3671D176A;
-	Sat, 25 Oct 2025 18:24:36 -0700 (PDT)
-Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0A53E3F59E;
-	Sat, 25 Oct 2025 18:24:42 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: u-boot@lists.denx.de,
-	Tom Rini <trini@konsulko.com>
-Cc: linux-sunxi@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chen-Yu Tsai <wens@kernel.org>
-Subject: [PATCH 4/4] sunxi: dts: arm: update devicetree files from Linux kernel tree
-Date: Sun, 26 Oct 2025 01:23:56 +0000
-Message-ID: <20251026012357.16773-5-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.46.4
-In-Reply-To: <20251026012357.16773-1-andre.przywara@arm.com>
-References: <20251026012357.16773-1-andre.przywara@arm.com>
+	 MIME-Version:Content-Type; b=ZezSqOyUmqbkfEA0Oew5U5uRfMd5o8mPTsS4y794/FYznVJrXIS5HwPrK6Cg2fWaKZMk1N50HjSdT7cMjaSpyzMuG+f8/f6QVv47dM2Yb4ZrcPyoVvizwSTLkaL2qnDlhDIFb/FYc/HTWUxkWKAJJkrExCiZJBL2PHu3l0sSUuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cN4iPhxd; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cN4iPhxd"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b4539dddd99so745161966b.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 25 Oct 2025 22:59:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761458383; x=1762063183; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A6NZo4xjZn6VpoDmgTXQPGhDEhgFnksDmFJRaagzP1w=;
+        b=cN4iPhxd9oEM/FiWqF4qSCimx+XNfkA34lEtwPPlyGpkZwnuyrpVXRUdTaj6ssae7W
+         V/eqCsdhcn4Ph6/7pkFeqRqgSUZfP6i64KeVfyl0MuAiTehI4YwHEB5QalDr8+l4Qtwf
+         RyUBHxSMTD956GqWaXs5nN/6NelZOdxlq+ocUZBTnmT/22AA3NyNrjCgFRmwNX5gsfSz
+         E5Qs0jjtEhzrbb1XZlFcEisaT8MRU8t2tsi1uXRfVHGHOxk3qZQavt6A+4/6Qf8nhguq
+         hSWxKnIOhUGPNyhD5DTwn3akEhE/M4AZkKPBG4mDc57uwcpnO3GOkdkoTtgtygmN1lfG
+         wxeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761458383; x=1762063183;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=A6NZo4xjZn6VpoDmgTXQPGhDEhgFnksDmFJRaagzP1w=;
+        b=bmU4Qxdc3N/dWAp8CEAh0yKklvR9SbVua8NlhFEUb+M142mxRLYb986sOaz3gWQNpL
+         tXPesK1ARDBE2AkLnCTq2TyTmZeKfLvEILx7PXIxbKYBG4KOxCV+EiDvsQqX4LkKQu5k
+         NiHHopH/VI1oyOGIC7TWMHd4DZDfugvL8nJyerW/cH0i4Y2iG+6A4O0LCx/RHHlErRwG
+         NTulJh35v9IgHZR8CB0rEbyQQMENWA0Kps78+g0a/6oA5TwNn9UGc6hJO72wRJaaHa/0
+         zTG6EXPk+DG4yJJoriA0fmX8gsXmfY+uU2rzybGQGW/Y/5Hh6ZFCJpZNkL0//0jmyYZD
+         gnYw==
+X-Gm-Message-State: AOJu0YyZbL5ev94vzuYP18tRbqzZRE++Tqr4cVatRuwcGG3+Fwc1nel+
+	xd75fe159rJxzl94lv9HW9cD0M1F+m0bV8fe4hWTZ9oHfm22p9GJrdD/
+X-Gm-Gg: ASbGnctixP1lGsR4cLZ2w1wrV41/xlKhAPSKj5g7R6MEw3ipgyrWmna37zmtySEguTb
+	HNvA5PRKes4kMLc/1Oux6OI82X9k6sqtrR7mj2NzLZIAjtDfZ/bR0DuFtpKh/da8/E8JW9k7KHu
+	F0fMkikKeRDmO1HeS2fL1I288L81BSTr+och4y6+8b018m0cL2kXXZGIlma/PBZShZMqeGvJzvf
+	H2QZwmsqRk7QxWFtWIwZTKdADHCslOZTcIZpiFUIbtSJVwuJGTokCpyL6XGbKdWJfUoIqr22awA
+	JIY2Joz3MYzS78dy6x1xL83iE5zMkD6xrL9qzoQds9yYVcnn8U2nKYnXZY0CGw51IxHh3XyKfOG
+	eYFDeqxNxImzxVuN8gc6wFrcI+lOuS5+c3304rX4YFwEwrndGAU8ad3KjKsTNKwXQ1mbqfNq48k
+	CeMeP+Ii4LVYf4m/cIU2n2xQ==
+X-Google-Smtp-Source: AGHT+IHskUzJ+v07K8gkLP0h32BSIFq0ZCZoEpPqqhZkGYDv/82+sS9TmsErXWD82UWmubewSnK+BA==
+X-Received: by 2002:a17:907:9415:b0:b46:31be:e8f0 with SMTP id a640c23a62f3a-b6d51aeff5bmr1340800466b.3.1761458383172;
+        Sat, 25 Oct 2025 22:59:43 -0700 (PDT)
+Received: from jernej-laptop.localnet ([188.159.248.16])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b6d85308c82sm381232466b.5.2025.10.25.22.59.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Oct 2025 22:59:42 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: u-boot@lists.denx.de, Tom Rini <trini@konsulko.com>,
+ Andre Przywara <andre.przywara@arm.com>
+Cc: linux-sunxi@lists.linux.dev, Chen-Yu Tsai <wens@kernel.org>
+Subject: Re: [PATCH 1/4] sunxi: switch the Allwinner T113 SoC to OF_UPSTREAM
+Date: Sun, 26 Oct 2025 06:59:41 +0100
+Message-ID: <2801929.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <20251026012357.16773-2-andre.przywara@arm.com>
+References:
+ <20251026012357.16773-1-andre.przywara@arm.com>
+ <20251026012357.16773-2-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Sync the kernel devicetree source files for the Allwinner SoCs with
-32-bit cores that do not use OF_UPSTREAM yet. The files were taken
-from a v6.18-rc1 tree.
+Dne nedelja, 26. oktober 2025 ob 02:23:53 Srednjeevropski standardni =C4=8D=
+as je Andre Przywara napisal(a):
+> In contrast to some other Allwinner SoCs, there is no difference between
+> the DTs for the Allwinner T113-s3 SoC (sun20i) between the U-Boot and the
+> Linux kernel repository.
+>=20
+> Remove the old copies of the T113-s3 related .dts and .dtsi files, and
+> switch the whole SoC (represented by just one board) over to use
+> OF_UPSTREAM.
+>=20
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-To maintain ABI compatibility with existing LTS kernels, one change
-moving some IP blocks to the r_intc interrupt controller is excluded.
-This effectively reverts Linux commits 994e5818392c and 9fdef3c3d8c2.
+While I haven't actually compared files, those weren't changed for some
+time now. It makes sense to switch them over:
 
-This commit also adds a new board devicetree for the A33 Vstar board,
-plus one DT overlay for the OrangePi Zero interface board.
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-This update should not impact any existing U-Boot functionality.
+Best regards,
+Jernej
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- arch/arm/dts/sun7i-a20-bananapi.dts           |  27 +++
- arch/arm/dts/sun8i-a23-a33.dtsi               |  20 ++
- arch/arm/dts/sun8i-a33-vstar-core1.dtsi       |  96 ++++++++
- arch/arm/dts/sun8i-a33-vstar.dts              | 205 ++++++++++++++++++
- arch/arm/dts/sun8i-a83t.dtsi                  |   4 +-
- arch/arm/dts/sun8i-h2-plus-orangepi-zero.dts  |  14 ++
- arch/arm/dts/sun8i-h3-nanopi-neo-air.dts      |   2 +-
- arch/arm/dts/sun8i-h3-orangepi-zero-plus2.dts |  14 ++
- arch/arm/dts/sun8i-h3.dtsi                    |   2 +-
- .../sun8i-orangepi-zero-interface-board.dtso  |  46 ++++
- arch/arm/dts/sun8i-q8-common.dtsi             |   2 +-
- arch/arm/dts/sun8i-r40.dtsi                   |   4 +-
- 12 files changed, 429 insertions(+), 7 deletions(-)
- create mode 100644 arch/arm/dts/sun8i-a33-vstar-core1.dtsi
- create mode 100644 arch/arm/dts/sun8i-a33-vstar.dts
- create mode 100644 arch/arm/dts/sun8i-orangepi-zero-interface-board.dtso
-
-diff --git a/arch/arm/dts/sun7i-a20-bananapi.dts b/arch/arm/dts/sun7i-a20-bananapi.dts
-index 46ecf9db232..d8b362c9661 100644
---- a/arch/arm/dts/sun7i-a20-bananapi.dts
-+++ b/arch/arm/dts/sun7i-a20-bananapi.dts
-@@ -48,6 +48,7 @@
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/leds/common.h>
- 
- / {
- 	model = "LeMaker Banana Pi";
-@@ -169,6 +170,32 @@
- &gmac_mdio {
- 	phy1: ethernet-phy@1 {
- 		reg = <1>;
-+
-+		leds {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			led@0 {
-+				reg = <0>;
-+				color = <LED_COLOR_ID_GREEN>;
-+				function = LED_FUNCTION_LAN;
-+				linux,default-trigger = "netdev";
-+			};
-+
-+			led@1 {
-+				reg = <1>;
-+				color = <LED_COLOR_ID_AMBER>;
-+				function = LED_FUNCTION_LAN;
-+				linux,default-trigger = "netdev";
-+			};
-+
-+			led@2 {
-+				reg = <2>;
-+				color = <LED_COLOR_ID_BLUE>;
-+				function = LED_FUNCTION_LAN;
-+				linux,default-trigger = "netdev";
-+			};
-+		};
- 	};
- };
- 
-diff --git a/arch/arm/dts/sun8i-a23-a33.dtsi b/arch/arm/dts/sun8i-a23-a33.dtsi
-index 4ebb0a7a78f..cca585c3829 100644
---- a/arch/arm/dts/sun8i-a23-a33.dtsi
-+++ b/arch/arm/dts/sun8i-a23-a33.dtsi
-@@ -433,6 +433,11 @@
- 				function = "pwm0";
- 			};
- 
-+			spi0_pc_pins: spi0-pc-pins {
-+				pins = "PC0", "PC1", "PC2", "PC3";
-+				function = "spi0";
-+			};
-+
- 			uart0_pf_pins: uart0-pf-pins {
- 				pins = "PF2", "PF4";
- 				function = "uart0";
-@@ -610,6 +615,21 @@
- 			assigned-clock-rates = <384000000>;
- 		};
- 
-+		spi0: spi@1c68000 {
-+			compatible = "allwinner,sun8i-a23-spi",
-+				     "allwinner,sun8i-h3-spi";
-+			reg = <0x01c68000 0x1000>;
-+			interrupts = <GIC_SPI 65 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_SPI0>, <&ccu CLK_SPI0>;
-+			clock-names = "ahb", "mod";
-+			dmas = <&dma 23>, <&dma 23>;
-+			dma-names = "rx", "tx";
-+			resets = <&ccu RST_BUS_SPI0>;
-+			status = "disabled";
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+
- 		gic: interrupt-controller@1c81000 {
- 			compatible = "arm,gic-400";
- 			reg = <0x01c81000 0x1000>,
-diff --git a/arch/arm/dts/sun8i-a33-vstar-core1.dtsi b/arch/arm/dts/sun8i-a33-vstar-core1.dtsi
-new file mode 100644
-index 00000000000..ba794b842ec
---- /dev/null
-+++ b/arch/arm/dts/sun8i-a33-vstar-core1.dtsi
-@@ -0,0 +1,96 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright (C) 2024 Icenowy Zheng <uwu@icenowy.me>
-+ */
-+
-+#include "sun8i-a33.dtsi"
-+
-+&mmc2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&mmc2_8bit_pins>;
-+	vmmc-supply = <&reg_dcdc1>;
-+	bus-width = <8>;
-+	non-removable;
-+	cap-mmc-hw-reset;
-+	status = "okay";
-+};
-+
-+&mmc2_8bit_pins {
-+	/* Increase drive strength for DDR modes */
-+	drive-strength = <40>;
-+};
-+
-+&r_rsb {
-+	status = "okay";
-+
-+	axp22x: pmic@3a3 {
-+		compatible = "x-powers,axp223";
-+		reg = <0x3a3>;
-+		interrupt-parent = <&r_intc>;
-+		interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_LOW>;
-+		eldoin-supply = <&reg_dcdc1>;
-+		x-powers,drive-vbus-en;
-+	};
-+};
-+
-+#include "axp223.dtsi"
-+
-+&reg_aldo1 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <3300000>;
-+	regulator-max-microvolt = <3300000>;
-+	regulator-name = "vcc-io";
-+};
-+
-+&reg_aldo2 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <2350000>;
-+	regulator-max-microvolt = <2650000>;
-+	regulator-name = "vdd-dll";
-+};
-+
-+&reg_aldo3 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <3300000>;
-+	regulator-max-microvolt = <3300000>;
-+	regulator-name = "vcc-avcc";
-+};
-+
-+&reg_dc5ldo {
-+	regulator-always-on;
-+	regulator-min-microvolt = <900000>;
-+	regulator-max-microvolt = <1400000>;
-+	regulator-name = "vdd-cpus";
-+};
-+
-+&reg_dcdc1 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <3300000>;
-+	regulator-max-microvolt = <3300000>;
-+	regulator-name = "vcc-3v3";
-+};
-+
-+&reg_dcdc2 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <900000>;
-+	regulator-max-microvolt = <1400000>;
-+	regulator-name = "vdd-sys";
-+};
-+
-+&reg_dcdc3 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <900000>;
-+	regulator-max-microvolt = <1400000>;
-+	regulator-name = "vdd-cpu";
-+};
-+
-+&reg_dcdc5 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <1500000>;
-+	regulator-max-microvolt = <1500000>;
-+	regulator-name = "vcc-dram";
-+};
-+
-+&reg_rtc_ldo {
-+	regulator-name = "vcc-rtc";
-+};
-diff --git a/arch/arm/dts/sun8i-a33-vstar.dts b/arch/arm/dts/sun8i-a33-vstar.dts
-new file mode 100644
-index 00000000000..9f5c29b3df4
---- /dev/null
-+++ b/arch/arm/dts/sun8i-a33-vstar.dts
-@@ -0,0 +1,205 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright (C) 2024 Icenowy Zheng <uwu@icenowy.me>
-+ */
-+
-+/dts-v1/;
-+#include "sun8i-a33-vstar-core1.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/input/input.h>
-+
-+/ {
-+	model = "Rervision A33-Vstar";
-+	compatible = "rervision,a33-vstar",
-+		     "rervision,a33-core1",
-+		     "allwinner,sun8i-a33";
-+
-+	aliases {
-+		serial0 = &uart0;
-+		ethernet0 = &r8152;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	reg_usb1_vbus: regulator-usb1-vbus {
-+		compatible = "regulator-fixed";
-+		regulator-name = "usb1-vbus";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-boot-on;
-+		enable-active-high;
-+		gpio = <&pio 1 2 GPIO_ACTIVE_HIGH>; /* PB2 */
-+	};
-+
-+	wifi_pwrseq: pwrseq {
-+		compatible = "mmc-pwrseq-simple";
-+		reset-gpios = <&r_pio 0 6 GPIO_ACTIVE_LOW>; /* PL6 */
-+		clocks = <&rtc CLK_OSC32K_FANOUT>;
-+		clock-names = "ext_clock";
-+	};
-+};
-+
-+&ac_power_supply {
-+	status = "okay";
-+};
-+
-+&codec {
-+	status = "okay";
-+};
-+
-+&dai {
-+	status = "okay";
-+};
-+
-+&ehci0 {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+	status = "okay";
-+
-+	hub@1 {
-+		/* Onboard GL850G hub which needs no extra power sequence */
-+		compatible = "usb5e3,608";
-+		reg = <1>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		r8152: ethernet@4 {
-+			/*
-+			 * Onboard Realtek RTL8152 USB Ethernet,
-+			 * with no MAC address programmed
-+			 */
-+			compatible = "usbbda,8152";
-+			reg = <4>;
-+		};
-+	};
-+};
-+
-+&lradc {
-+	vref-supply = <&reg_aldo3>;
-+	status = "okay";
-+
-+	button-191 {
-+		label = "V+";
-+		linux,code = <KEY_VOLUMEUP>;
-+		channel = <0>;
-+		voltage = <191011>;
-+	};
-+
-+	button-391 {
-+		label = "V-";
-+		linux,code = <KEY_VOLUMEDOWN>;
-+		channel = <0>;
-+		voltage = <391304>;
-+	};
-+
-+	button-600 {
-+		label = "BACK";
-+		linux,code = <KEY_BACK>;
-+		channel = <0>;
-+		voltage = <600000>;
-+	};
-+};
-+
-+&mmc0 {
-+	vmmc-supply = <&reg_dcdc1>;
-+	bus-width = <4>;
-+	cd-gpios = <&pio 1 4 GPIO_ACTIVE_LOW>; /* PB4 */
-+	status = "okay";
-+};
-+
-+&mmc1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&mmc1_pg_pins>;
-+	vmmc-supply = <&reg_dldo1>;
-+	mmc-pwrseq = <&wifi_pwrseq>;
-+	bus-width = <4>;
-+	non-removable;
-+	status = "okay";
-+
-+	brcmf: wifi@1 {
-+		reg = <1>;
-+		compatible = "brcm,bcm4329-fmac";
-+		interrupt-parent = <&r_pio>;
-+		interrupts = <0 7 IRQ_TYPE_LEVEL_LOW>; /* PL7 */
-+		interrupt-names = "host-wake";
-+	};
-+};
-+
-+/*
-+ * Our WiFi chip needs both DLDO1 and DLDO2 to be powered at the same
-+ * time, with the two being in sync. Since this is not really
-+ * supported right now, just use the two as always on, and we will fix
-+ * it later.
-+ */
-+&reg_dldo1 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <3300000>;
-+	regulator-max-microvolt = <3300000>;
-+	regulator-name = "vcc-wifi0";
-+};
-+
-+&reg_dldo2 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <3300000>;
-+	regulator-max-microvolt = <3300000>;
-+	regulator-name = "vcc-wifi1";
-+};
-+
-+&reg_drivevbus {
-+	regulator-name = "usb0-vbus";
-+	status = "okay";
-+};
-+
-+&sound {
-+	/* TODO: on-board microphone */
-+
-+	simple-audio-card,widgets = "Headphone", "Headphone Jack";
-+	simple-audio-card,routing =
-+		"Left DAC", "DACL",
-+		"Right DAC", "DACR",
-+		"Headphone Jack", "HP";
-+	status = "okay";
-+};
-+
-+&uart0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart0_pb_pins>;
-+	status = "okay";
-+};
-+
-+&uart1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart1_pg_pins>, <&uart1_cts_rts_pg_pins>;
-+	uart-has-rtscts;
-+	status = "okay";
-+
-+	bluetooth {
-+		compatible = "brcm,bcm43438-bt";
-+		clocks = <&rtc CLK_OSC32K_FANOUT>;
-+		clock-names = "lpo";
-+		vbat-supply = <&reg_dldo1>;
-+		device-wakeup-gpios = <&r_pio 0 10 GPIO_ACTIVE_HIGH>; /* PL10 */
-+		host-wakeup-gpios = <&r_pio 0 9 GPIO_ACTIVE_HIGH>; /* PL9 */
-+		shutdown-gpios = <&r_pio 0 8 GPIO_ACTIVE_HIGH>; /* PL8 */
-+	};
-+};
-+
-+&usb_otg {
-+	dr_mode = "otg";
-+	status = "okay";
-+};
-+
-+&usb_power_supply {
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	usb0_id_det-gpios = <&pio 7 8 GPIO_ACTIVE_HIGH>; /* PH8 */
-+	usb0_vbus_power-supply = <&usb_power_supply>;
-+	usb0_vbus-supply = <&reg_drivevbus>;
-+	usb1_vbus-supply = <&reg_usb1_vbus>;
-+	status = "okay";
-+};
-diff --git a/arch/arm/dts/sun8i-a83t.dtsi b/arch/arm/dts/sun8i-a83t.dtsi
-index 90f2c08d051..be01620a2c5 100644
---- a/arch/arm/dts/sun8i-a83t.dtsi
-+++ b/arch/arm/dts/sun8i-a83t.dtsi
-@@ -1222,7 +1222,7 @@
- 			};
- 
- 			cooling-maps {
--				cpu-hot-limit {
-+				map0 {
- 					trip = <&cpu0_hot>;
- 					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
- 							 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-@@ -1252,7 +1252,7 @@
- 			};
- 
- 			cooling-maps {
--				cpu-hot-limit {
-+				map0 {
- 					trip = <&cpu1_hot>;
- 					cooling-device = <&cpu100 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
- 							 <&cpu101 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-diff --git a/arch/arm/dts/sun8i-h2-plus-orangepi-zero.dts b/arch/arm/dts/sun8i-h2-plus-orangepi-zero.dts
-index 1b001f2ad0e..b23cec5b89e 100644
---- a/arch/arm/dts/sun8i-h2-plus-orangepi-zero.dts
-+++ b/arch/arm/dts/sun8i-h2-plus-orangepi-zero.dts
-@@ -112,6 +112,20 @@
- 	};
- };
- 
-+/*
-+ * Audio input/output is exposed on the 13-pin header and can't be used for
-+ * anything else. However, adapter boards may use different audio routing.
-+ * - https://linux-sunxi.org/Xunlong_Orange_Pi_Zero#Expansion_Port
-+ * - Allwinner H3 Datasheet, section 3.1. Pin Characteristics
-+ */
-+&codec {
-+	allwinner,audio-routing =
-+		"Line Out", "LINEOUT",
-+		"MIC1", "Mic",
-+		"Mic",  "MBIAS";
-+	status = "disabled";
-+};
-+
- &cpu0 {
- 	cpu-supply = <&reg_vdd_cpux>;
- };
-diff --git a/arch/arm/dts/sun8i-h3-nanopi-neo-air.dts b/arch/arm/dts/sun8i-h3-nanopi-neo-air.dts
-index 6d85370e04f..9a2742363cd 100644
---- a/arch/arm/dts/sun8i-h3-nanopi-neo-air.dts
-+++ b/arch/arm/dts/sun8i-h3-nanopi-neo-air.dts
-@@ -94,7 +94,7 @@
- 	non-removable;
- 	status = "okay";
- 
--	brcmf: bcrmf@1 {
-+	brcmf: wifi@1 {
- 		reg = <1>;
- 		compatible = "brcm,bcm4329-fmac";
- 		interrupt-parent = <&pio>;
-diff --git a/arch/arm/dts/sun8i-h3-orangepi-zero-plus2.dts b/arch/arm/dts/sun8i-h3-orangepi-zero-plus2.dts
-index 7a6444a10e2..97a3565ac7a 100644
---- a/arch/arm/dts/sun8i-h3-orangepi-zero-plus2.dts
-+++ b/arch/arm/dts/sun8i-h3-orangepi-zero-plus2.dts
-@@ -99,6 +99,20 @@
- 	};
- };
- 
-+/*
-+ * Audio input/output is exposed on the 13-pin header and can't be used for
-+ * anything else. However, adapter boards may use different audio routing.
-+ * - http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-Zero-Plus-2.html
-+ * - Allwinner H3 Datasheet, section 3.1. Pin Characteristics
-+ */
-+&codec {
-+	allwinner,audio-routing =
-+		"Line Out", "LINEOUT",
-+		"MIC1", "Mic",
-+		"Mic",  "MBIAS";
-+	status = "disabled";
-+};
-+
- &de {
- 	status = "okay";
- };
-diff --git a/arch/arm/dts/sun8i-h3.dtsi b/arch/arm/dts/sun8i-h3.dtsi
-index eac2349a238..cfd039840b4 100644
---- a/arch/arm/dts/sun8i-h3.dtsi
-+++ b/arch/arm/dts/sun8i-h3.dtsi
-@@ -262,7 +262,7 @@
- 			};
- 
- 			cooling-maps {
--				cpu-hot-limit {
-+				map0 {
- 					trip = <&cpu_hot_trip>;
- 					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
- 							 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-diff --git a/arch/arm/dts/sun8i-orangepi-zero-interface-board.dtso b/arch/arm/dts/sun8i-orangepi-zero-interface-board.dtso
-new file mode 100644
-index 00000000000..e137eefee34
---- /dev/null
-+++ b/arch/arm/dts/sun8i-orangepi-zero-interface-board.dtso
-@@ -0,0 +1,46 @@
-+// SPDX-License-Identifier: (GPL-2.0-or-later OR X11)
-+/*
-+ * Copyright (C) 2025 J. Neuschäfer <j.ne@posteo.net>
-+ *
-+ * Devicetree overlay for the Orange Pi Zero Interface board (OP0014).
-+ *
-+ *   https://orangepi.com/index.php?route=product/product&product_id=871
-+ *
-+ * This overlay applies to the following base files:
-+ *
-+ * - arch/arm/boot/dts/allwinner/sun8i-h2-plus-orangepi-zero.dts
-+ * - arch/arm/boot/dts/allwinner/sun8i-h3-orangepi-zero-plus2.dts
-+ */
-+
-+/dts-v1/;
-+/plugin/;
-+
-+&codec {
-+	status = "okay";
-+};
-+
-+&de {
-+	status = "okay";
-+};
-+
-+&ehci2 {
-+	status = "okay";
-+};
-+
-+&ehci3 {
-+	status = "okay";
-+};
-+
-+&ir {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&r_ir_rx_pin>;
-+	status = "okay";
-+};
-+
-+&ohci2 {
-+	status = "okay";
-+};
-+
-+&ohci3 {
-+	status = "okay";
-+};
-diff --git a/arch/arm/dts/sun8i-q8-common.dtsi b/arch/arm/dts/sun8i-q8-common.dtsi
-index 272584881bb..a0f787581dd 100644
---- a/arch/arm/dts/sun8i-q8-common.dtsi
-+++ b/arch/arm/dts/sun8i-q8-common.dtsi
-@@ -82,7 +82,7 @@
- };
- 
- &ehci0 {
--	status  = "okay";
-+	status = "okay";
- };
- 
- &mmc1 {
-diff --git a/arch/arm/dts/sun8i-r40.dtsi b/arch/arm/dts/sun8i-r40.dtsi
-index a5b1f1e3900..f0ed802a9d0 100644
---- a/arch/arm/dts/sun8i-r40.dtsi
-+++ b/arch/arm/dts/sun8i-r40.dtsi
-@@ -146,7 +146,7 @@
- 			};
- 
- 			cooling-maps {
--				cpu-hot-limit {
-+				map0 {
- 					trip = <&cpu_hot_trip>;
- 					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
- 							 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-@@ -705,7 +705,7 @@
- 			};
- 
- 			/omit-if-no-ref/
--			uart2_rts_cts_pi_pins: uart2-rts-cts-pi-pins{
-+			uart2_rts_cts_pi_pins: uart2-rts-cts-pi-pins {
- 				pins = "PI16", "PI17";
- 				function = "uart2";
- 			};
--- 
-2.46.4
 
