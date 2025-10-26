@@ -1,108 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFEC972633;
-	Sun, 26 Oct 2025 21:09:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B9CF2FF177
+	for <linux-sunxi@lists.linux.dev>; Sun, 26 Oct 2025 23:07:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761512947; cv=none; b=m5rYzDYAkIP/0VpoRwDVJde95OaAmNV3kyQeCO1UgB9HhB+FmSFoYZ/K6StsMj9ZJ6pYfCSZL4POA+nP1zPNisqxyOhoHy640rt0yP2jQDYYC5uzUAuKK9BBXxtpgiOroe6D+4aFUUcyB768EMLqU1u8YNQzCOKR7IqE5Wdt/Og=
+	t=1761520046; cv=none; b=Oh9FdmMrpz3lEHGuITwLQe4Y8NHqutW2ev9ph3zIFVFO+fxbj843CHX4d81aBLa9nXe/AccgZbbVt/Cd0LyVuPEkoyVmBdJ7+GYnDN2FwBujnHBWk05rDwbY4iIY8ieAQ4rGs49NVhlPJi9DLnhjIGGR8h+mVWKmx6GPYcn1dDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761512947; c=relaxed/simple;
-	bh=PgGZkxx9eVXClCW73EbY+KTGYweRYJk4TsXoUCP0ekU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S8bH4Ahtv/DplOi7oWo/kFnHRmFjGTAqidTbsIQ9ikV++cM0jC0i20tqLrAxi17a/hl9voxG6C7ts+9CQfsMUPUG+B9ifUNwZ3Ci1QAPkss1OKAjUNI5aJ13G/md+VECHuaPQ7/uPXb5p/KGY9aDVfFFtnDFmIJcJcWfumyqgAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lUR1M4l/; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lUR1M4l/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0288BC4CEE7;
-	Sun, 26 Oct 2025 21:09:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761512947;
-	bh=PgGZkxx9eVXClCW73EbY+KTGYweRYJk4TsXoUCP0ekU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lUR1M4l/hP8HpiVUCzrPwKHQLA71phjUp7BimzWp+4GClN0UQGwSfzsd8fVfX8wRV
-	 0KoytM0amuJJnfRidVHRhWF4gVgqbUjaYBkx0UgwbwhUxE7brFWpTs3cfPKaXZM/I8
-	 n6dJKg1SqGyGQ0zzhY5F6uCksj42hmsX7iazM8feVgjyg6S9EWHkRQHbXDLxKUzJbJ
-	 c3RU3rCDY8rckM0EqsfDfWfpuz1NJQluvNWhvQ0sPexN6jKfSq5Uibhp/z7R5ims10
-	 /y4N93U9eb/LS2ZoU9sCmehKWKB0ja+59U53OG8NS5eVEGuiB3tGhyqAPKBeWVZ09p
-	 VJDTdJX0SgnXw==
-Date: Sun, 26 Oct 2025 16:09:05 -0500
-From: Rob Herring <robh@kernel.org>
-To: iuncuim <iuncuim@gmail.com>
-Cc: Vasily Khoruzhick <anarsoul@gmail.com>,
-	Yangtao Li <tiny.windzz@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Andre Przywara <andre.przywara@arm.com>, linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/6] dt-bindings: thermal: sun8i: Add A523 THS0/1
- controllers
-Message-ID: <20251026210905.GA2941518-robh@kernel.org>
-References: <20251025043129.160454-1-iuncuim@gmail.com>
- <20251025043129.160454-2-iuncuim@gmail.com>
+	s=arc-20240116; t=1761520046; c=relaxed/simple;
+	bh=zdUKiD+Qz3TeQYdX3eqJFbV7RW9fuDUgGBiICtPMnVo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IFkZZtr2Ka3V9Q9HIMNoGwMv+63bGJuFR6uaK1KbwmskKESx3CKuq0oKUy4lYUfSJH5MoBPvNnJOGvPUmEvQjUq2KxnU5gGYHYPq97jYoqt0Y+WBxxEZgCR0qF5fvCZQpfRMHP/QudJMkvthngtuxGl3hWhVBkWaNipR7uHwVKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 796981764;
+	Sun, 26 Oct 2025 16:07:15 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AA43B3F673;
+	Sun, 26 Oct 2025 16:07:22 -0700 (PDT)
+Date: Sun, 26 Oct 2025 23:06:42 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] sunxi: a523: Add OrangePi 4A defconfig
+Message-ID: <20251026230642.276fb54f@minigeek.lan>
+In-Reply-To: <20251020161930.2761929-1-wens@kernel.org>
+References: <20251020161930.2761929-1-wens@kernel.org>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251025043129.160454-2-iuncuim@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, Oct 25, 2025 at 12:31:24PM +0800, iuncuim wrote:
-> From: Mikhail Kalashnikov <iuncuim@gmail.com>
+On Tue, 21 Oct 2025 00:19:30 +0800
+Chen-Yu Tsai <wens@kernel.org> wrote:
+
+Hi Chen-Yu,
+
+> The OrangePi 4A is a typical Raspberry Pi model B sized development
+> board from Xunlong designed around an Allwinner T527 SoC.
 > 
-> Add a binding for D1/T113s thermal sensor controller. Add dt-bindings
-> description of the thermal sensors in the A523 processor.
-> The controllers require activation of the additional frequency of the
-> associated gpadc controller, so a new clock property has been added.
+> The board has the following features:
+> - Allwinner T527 SoC
+> - AXP717B + AXP323 PMICs
+> - Up to 4GB LPDDR4 DRAM
+> - micro SD slot
+> - optional eMMC module
+> - M.2 slot for PCIe 2.0 x1
+> - 16 MB SPI-NOR flash
+> - 4x USB 2.0 type-A ports (one can be used in gadget mode)
+> - 1x Gigabit ethernet w/ Motorcomm PHY (through yet to be supported GMAC200)
+> - 3.5mm audio jack via internal audio codec
+> - HDMI 2.0 output
+> - eDP, MIPI CSI (2-lane and 4-lane) and MIPI DSI (4-lane) connectors
+> - USB type-C port purely for power
+> - AP6256 (Broadcom BCM4345) WiFi 5.0 + BT 5.0
+> - unsoldered headers for ADC and an additional USB 2.0 host port
+> - 40-pin GPIO header
 > 
-> The calibration data is split into two cells that are in different areas
-> of nvmem. Both controllers require access to both memory cell, so a new
-> property nvmem-cells has been added. To maintain backward compatibility,
-> the name of the old cell remains the same and the new nvmem-cell-names is
-> called calibration-second-part
-> 
-> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+> Add defconfig for it.
+>
+
+This looks good to me, queued for the PR.
+
+> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
 > ---
->  .../thermal/allwinner,sun8i-a83t-ths.yaml     | 56 ++++++++++++++++++-
->  1 file changed, 53 insertions(+), 3 deletions(-)
+>  board/sunxi/MAINTAINERS       |  5 +++++
+>  configs/orangepi_4a_defconfig | 32 ++++++++++++++++++++++++++++++++
+>  2 files changed, 37 insertions(+)
+>  create mode 100644 configs/orangepi_4a_defconfig
 > 
-> diff --git a/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml b/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml
-> index 3e61689f6..b2f750ef2 100644
-> --- a/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml
-> +++ b/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml
-> @@ -24,18 +24,23 @@ properties:
->        - allwinner,sun50i-h5-ths
->        - allwinner,sun50i-h6-ths
->        - allwinner,sun50i-h616-ths
-> +      - allwinner,sun55i-a523-ths0
-> +      - allwinner,sun55i-a523-ths1
+> diff --git a/board/sunxi/MAINTAINERS b/board/sunxi/MAINTAINERS
+> index e00b54f45356..897f4009b29d 100644
+> --- a/board/sunxi/MAINTAINERS
+> +++ b/board/sunxi/MAINTAINERS
+> @@ -435,6 +435,11 @@ M:	Andre Heider <a.heider@gmail.com>
+>  S:	Maintained
+>  F:	configs/orangepi_3_defconfig
 >  
->    clocks:
->      minItems: 1
->      items:
->        - description: Bus Clock
->        - description: Module Clock
-> +      - description: GPADC Clock
->  
->    clock-names:
->      minItems: 1
-> +    maxItems: 2
+> +ORANGEPI 4A BOARD
+> +M:	Chen-Yu Tsai <wens@kernel.org>
+> +S:	Maintained
+> +F:	configs/orangepi_4a_defconfig
+> +
+>  ORANGEPI LITE2 BOARD
+>  M:	Jagan Teki <jagan@amarulasolutions.com>
+>  S:	Maintained
+> diff --git a/configs/orangepi_4a_defconfig b/configs/orangepi_4a_defconfig
+> new file mode 100644
+> index 000000000000..6a44dd979590
+> --- /dev/null
+> +++ b/configs/orangepi_4a_defconfig
+> @@ -0,0 +1,32 @@
+> +CONFIG_ARM=y
+> +CONFIG_ARCH_SUNXI=y
+> +CONFIG_DEFAULT_DEVICE_TREE="allwinner/sun55i-t527-orangepi-4a"
+> +CONFIG_SPL=y
+> +CONFIG_DRAM_SUNXI_DX_ODT=0x07070707
+> +CONFIG_DRAM_SUNXI_DX_DRI=0x0d0d0d0d
+> +CONFIG_DRAM_SUNXI_CA_DRI=0x0e0e
+> +CONFIG_DRAM_SUNXI_ODT_EN=0x84848484
+> +CONFIG_DRAM_SUNXI_TPR0=0x80808080
+> +CONFIG_DRAM_SUNXI_TPR1=0x06060606
+> +CONFIG_DRAM_SUNXI_TPR2=0x5f090503
+> +CONFIG_DRAM_SUNXI_TPR6=0x38000000
+> +CONFIG_DRAM_SUNXI_TPR10=0x802f3333
+> +CONFIG_DRAM_SUNXI_TPR11=0xc6c4c2c0
+> +CONFIG_DRAM_SUNXI_TPR12=0x3a373233
+> +CONFIG_MACH_SUN55I_A523=y
+> +CONFIG_MMC_SUNXI_SLOT_EXTRA=2
+> +CONFIG_R_I2C_ENABLE=y
+> +# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> +CONFIG_SPL_I2C=y
+> +CONFIG_SPL_SYS_I2C_LEGACY=y
+> +CONFIG_SYS_I2C_MVTWSI=y
+> +CONFIG_SYS_I2C_SLAVE=0x7f
+> +CONFIG_SYS_I2C_SPEED=400000
+> +CONFIG_SUPPORT_EMMC_BOOT=y
+> +CONFIG_REGULATOR_AXP=y
+> +CONFIG_AXP717_POWER=y
+> +CONFIG_AXP_I2C_ADDRESS=0x35
+> +CONFIG_AXP_DCDC2_VOLT=920
+> +CONFIG_AXP_DCDC3_VOLT=1160
+> +CONFIG_USB_EHCI_HCD=y
+> +CONFIG_USB_OHCI_HCD=y
 
-How can the max be both 2 and...
-
->      items:
->        - const: bus
->        - const: mod
-> +      - const: gpadc
-
-...3 entries?
