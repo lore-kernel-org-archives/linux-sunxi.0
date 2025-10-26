@@ -1,136 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1944C21255B;
-	Sun, 26 Oct 2025 14:51:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA9381367
+	for <linux-sunxi@lists.linux.dev>; Sun, 26 Oct 2025 16:18:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761490283; cv=none; b=pvsDp/YThwwy0QDbJZcMT67bqHvArFMXvjI3oUHOzHYgFGqsuVXUb55RTBIlrCgwcVziXcSXfMf7okvR+NMcExklSYpr8FQQ7uzkdyTVBzlpaxKhnQc2qS0bpfEm2rRltc/fEAWK8ESWmBaGjYHj25yOfD35gU8dGmy6nefDqsY=
+	t=1761495518; cv=none; b=Hr0D1FlNmWcvEmiyQmcAKCS8V+AbNKHOwvady3jMNAZGVD16rmxQSEuzMkseV9sEvff/Svskaut+GTHMX4wFYwaa2kSrprKqzuVKlRJJggCXD86bP2Poenldd6d0C1PG7BqLPw3FWiJQ7CRZAZjkoZ5o183TJd8neXbIkIeqTD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761490283; c=relaxed/simple;
-	bh=6TWHTS7reub2A02Su6wGVDL/IsI4EyEuJgfG8j6eSR0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eFrA4bf7V2398LEVvutJcvfWXna6rzXjUCemYWJnP8i1Jyjs8bzul1F0UqjxJwkZ1c984pp15MR8Ct8qQU6H0hAPKgc48spJr7qvwoY35yxKHrG2CL6u2flO7NKACk+BxtxgQ9O3l3mVXToxzBh83soFwjyZnpNYwXGlghnDp3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HKMQXkDZ; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HKMQXkDZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F826C4CEF1;
-	Sun, 26 Oct 2025 14:51:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761490283;
-	bh=6TWHTS7reub2A02Su6wGVDL/IsI4EyEuJgfG8j6eSR0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HKMQXkDZR8iRmAzhaf5BY+bG0Xm3tI+zQGBvB1U4g19NIsqwMjL//j8Ok7Y6ltNpx
-	 7msvA5TH1b4mbohAgDyTedG6IT8mkNVSwIYa6L1NZzIl+BprysTPjU4zL9FACaFLLk
-	 dSRil39mhZugxxI0JmW3L7aT3V+7IDgQprbNe6OSZhENXKe/ucg0v35SzUbLDwEAV6
-	 U6cdsxLpdd1mUzJeiO/RBQl/DQATfJ7+vPO9A3qLntRHeICcEXJnL4Q91zUxXTzfuJ
-	 /bq381fHjH69kjKxlvw1+NoNhONqmjuyLZmvkOInNnlVTf87KdrxGPq58He/6JDcxa
-	 J4179SZA1Pdog==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Sasha Levin <sashal@kernel.org>,
-	samuel@sholland.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.17-6.1] clk: sunxi-ng: sun6i-rtc: Add A523 specifics
-Date: Sun, 26 Oct 2025 10:49:16 -0400
-Message-ID: <20251026144958.26750-38-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251026144958.26750-1-sashal@kernel.org>
-References: <20251026144958.26750-1-sashal@kernel.org>
+	s=arc-20240116; t=1761495518; c=relaxed/simple;
+	bh=4rbvCO/u2S1emPah3QX4cH12GrqL21EYzEaImRTm0zM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eY57oS+PA/eCLLU5KE+tySsFPK4ZMKaluceLyjrGhuj+9FRxj8KSx2ESRT3UXKzgk2N56Rw0u5K62e9nZGW04UGlv3ZZQTs5onWqDjKQrGOci+qoGDYysCb4ZdoZGUhvWbAZoe0epPWt4sWjD17px8PZx8hxOJRMpFUPzMuhSsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6D55A1A9A;
+	Sun, 26 Oct 2025 09:08:58 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5FD3E3F63F;
+	Sun, 26 Oct 2025 09:09:05 -0700 (PDT)
+Date: Sun, 26 Oct 2025 16:08:20 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Lukas Schmid <lukas.schmid@netcube.li>
+Cc: Tom Rini <trini@konsulko.com>, linux-sunxi@lists.linux.dev, John Watts
+ <contact@jookia.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ u-boot@lists.denx.de
+Subject: Re: [PATCH v3] sunxi: extend R528/T113-s3/D1(s) DRAM initialisation
+Message-ID: <20251026160820.1947e762@minigeek.lan>
+In-Reply-To: <20251026114118.3922714-1-lukas.schmid@netcube.li>
+References: <20251026114118.3922714-1-lukas.schmid@netcube.li>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.17.5
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Chen-Yu Tsai <wens@csie.org>
+On Sun, 26 Oct 2025 12:41:17 +0100
+Lukas Schmid <lukas.schmid@netcube.li> wrote:
 
-[ Upstream commit 7aa8781f379c32c31bd78f1408a31765b2297c43 ]
+Hi,
 
-The A523's RTC block is backward compatible with the R329's, but it also
-has a calibration function for its internal oscillator, which would
-allow it to provide a clock rate closer to the desired 32.768 KHz. This
-is useful on the Radxa Cubie A5E, which does not have an external 32.768
-KHz crystal.
+> The T113-s4 SoC is using the same die as the T113-s3, but comes with
+> 256MiB of co-packaged DRAM. Besides the doubled size, the DRAM chip
+> seems to be connected slightly differently, which requires to use a
+> different pin remapping.
+> 
+> Extend the DRAM initialisation code to add support for the T113-S4 aka
+> T113M4020DC0 by checking the SoC's CHIPID, which is stored in the first
+> word of the SID efuses.
+> 
+> Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
+> Tested-by: John Watts <contact@jookia.org>
+> Reviewed-by: John Watts <contact@jookia.org>
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Add new compatible-specific data for it.
+Careful with those tags: those were given for quite a different version
+of the patch, I wouldn't carry them over, since there were quite some
+changes since then.
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Link: https://patch.msgid.link/20250909170947.2221611-1-wens@kernel.org
-Signed-off-by: Chen-Yu Tsai <wens@csie.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
+> ---
+> Changes in v3:
+>   - Move the Chip-ID list link to a comment in the header file
+>   - Use andre's suggested commit message
+>   - Drop out of remapping early for T113M4020DC0 instead of doing it in the
+>     switch-case
+> 
+> Changes in v2:
+>   - Use uint32_t instead of u32 for sid_read_soc_chipid return type
+>   - Add descriptive comment about source of Chip-ID list and register
+> 
+>  drivers/ram/sunxi/dram_sun20i_d1.c | 10 ++++++++++
+>  drivers/ram/sunxi/dram_sun20i_d1.h | 11 +++++++++++
+>  2 files changed, 21 insertions(+)
+> 
+> diff --git a/drivers/ram/sunxi/dram_sun20i_d1.c b/drivers/ram/sunxi/dram_sun20i_d1.c
+> index a1794032f3b..d851deac7a5 100644
+> --- a/drivers/ram/sunxi/dram_sun20i_d1.c
+> +++ b/drivers/ram/sunxi/dram_sun20i_d1.c
+> @@ -54,6 +54,11 @@ static void sid_read_ldoB_cal(const dram_para_t *para)
+>  	clrsetbits_le32(0x3000150, 0xff00, reg << 8);
+>  }
+>  
+> +static uint32_t sid_read_soc_chipid(void)
+> +{
+> +	return readl(SUNXI_SID_BASE + 0x00) & 0xffff;
+> +}
+> +
+>  static void dram_voltage_set(const dram_para_t *para)
+>  {
+>  	int vol;
+> @@ -663,6 +668,11 @@ static void mctl_phy_ac_remapping(const dram_para_t *para,
+>  
+>  	fuse = (readl(SUNXI_SID_BASE + 0x28) & 0xf00) >> 8;
+>  	debug("DDR efuse: 0x%x\n", fuse);
+> +	debug("SoC Chip ID: 0x%08x\n", sid_read_soc_chipid());
+> +
+> +	if (sid_read_soc_chipid() == SUNXI_CHIPID_T113M4020DC0) {
 
-LLM Generated explanations, may be completely bogus:
+You don't need braces for a single statement in the "if" branch (but I
+can fix this up).
 
-YES
-- `drivers/clk/sunxi-ng/ccu-sun6i-rtc.c:328-346` adds a dedicated
-  `sun55i_a523_rtc_ccu_data` entry and wires the
-  `"allwinner,sun55i-a523-rtc"` compatible to it, which is already used
-  by the SoC DT (`arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:683`).
-  Without this entry the node falls back to the R329 table and leaves
-  `have_iosc_calibration` unset, so the SoC never enables its oscillator
-  calibration logic.
-- The calibration flag drives the guard checks in
-  `ccu_iosc_recalc_rate()` and `ccu_iosc_32k_prepare()`
-  (`drivers/clk/sunxi-ng/ccu-sun6i-rtc.c:83-178`). With the flag cleared
-  the internal 32 kHz path keeps the default ±30 % accuracy
-  (`IOSC_ACCURACY`), which is a severe timekeeping bug on boards like
-  the Radxa Cubie A5E that ship without an external 32 kHz crystal.
-- Once the new match data sets `have_iosc_calibration = true`, the probe
-  stores it via `have_iosc_calibration = data->have_iosc_calibration;`
-  in `sun6i_rtc_ccu_probe()` (`drivers/clk/sunxi-ng/ccu-
-  sun6i-rtc.c:352-360`), letting the prepare hook enable
-  `IOSC_CLK_CALI_EN` so the RTC clock actually converges to 32.768 kHz.
-  This directly fixes the observed drift.
-- Risk is minimal: the change is limited to a new compatible entry that
-  reuses the existing R329 parent set and does not alter behaviour for
-  any other SoC. All other compatibles keep their prior data, so
-  regression surface is effectively isolated to hardware that already
-  depends on the new compatible.
+Other than that this looks quite good to me now. If someone with a
+board (John?) could confirm that this works, I am happy to take it.
 
- drivers/clk/sunxi-ng/ccu-sun6i-rtc.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Thanks,
+Andre
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-index 0536e880b80fe..f6bfeba009e8e 100644
---- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-@@ -325,6 +325,13 @@ static const struct sun6i_rtc_match_data sun50i_r329_rtc_ccu_data = {
- 	.osc32k_fanout_nparents	= ARRAY_SIZE(sun50i_r329_osc32k_fanout_parents),
- };
- 
-+static const struct sun6i_rtc_match_data sun55i_a523_rtc_ccu_data = {
-+	.have_ext_osc32k	= true,
-+	.have_iosc_calibration	= true,
-+	.osc32k_fanout_parents	= sun50i_r329_osc32k_fanout_parents,
-+	.osc32k_fanout_nparents	= ARRAY_SIZE(sun50i_r329_osc32k_fanout_parents),
-+};
-+
- static const struct of_device_id sun6i_rtc_ccu_match[] = {
- 	{
- 		.compatible	= "allwinner,sun50i-h616-rtc",
-@@ -334,6 +341,10 @@ static const struct of_device_id sun6i_rtc_ccu_match[] = {
- 		.compatible	= "allwinner,sun50i-r329-rtc",
- 		.data		= &sun50i_r329_rtc_ccu_data,
- 	},
-+	{
-+		.compatible	= "allwinner,sun55i-a523-rtc",
-+		.data		= &sun55i_a523_rtc_ccu_data,
-+	},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, sun6i_rtc_ccu_match);
--- 
-2.51.0
+
+> +		return;
+> +	}
+>  
+>  	if (para->dram_type == SUNXI_DRAM_TYPE_DDR2) {
+>  		if (fuse == 15)
+> diff --git a/drivers/ram/sunxi/dram_sun20i_d1.h b/drivers/ram/sunxi/dram_sun20i_d1.h
+> index 91383f6cf10..83ae7eb36cd 100644
+> --- a/drivers/ram/sunxi/dram_sun20i_d1.h
+> +++ b/drivers/ram/sunxi/dram_sun20i_d1.h
+> @@ -19,6 +19,17 @@ enum sunxi_dram_type {
+>  	SUNXI_DRAM_TYPE_LPDDR3 = 7,
+>  };
+>  
+> +/*
+> + * Chip-IDs taken from
+> + * https://github.com/ua1arn/hftrx/blob/25d8cb9e4cfe1d7d0e4a2f641025c88a9ec5e758/inc/clocks.h#L250
+> + */
+> +enum sunxi_soc_chipid {
+> +	SUNXI_CHIPID_F133A = 0x5C00,
+> +	SUNXI_CHIPID_D1S = 0x5E00,
+> +	SUNXI_CHIPID_T113S3 = 0x6000,
+> +	SUNXI_CHIPID_T113M4020DC0 = 0x7200,
+> +};
+> +
+>  /*
+>   * This structure contains a mixture of fixed configuration settings,
+>   * variables that are used at runtime to communicate settings between
 
