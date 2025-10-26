@@ -1,74 +1,74 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D75F23185D
-	for <linux-sunxi@lists.linux.dev>; Sun, 26 Oct 2025 05:59:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E73288D6
+	for <linux-sunxi@lists.linux.dev>; Sun, 26 Oct 2025 06:06:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761458386; cv=none; b=nvF+P27J3Q3hgsccOasdmaBaQAiqppYI3W/y3X2ZnPf10YVMy+27sWhyuLI7xvAUdu5esh17Mn7xUiXISFjC3HbLHUA49M0mPftmpd4kL22hAP9cVdjYuazpLGpK1mT2Bk5fBvVR+AHgzvSH5bv1Q8MtWyhNP2bGFyDONgHfXBo=
+	t=1761458768; cv=none; b=XjSI9Gfk6qYhIoFw2vI1FV95YuSEnrEVY1sA0TFoLiBIiCXWqaUClOMNcqJVdFSEQvvY1nJGLbnudd8dJLdhDUVIYSUIJfxeyKpnyX/pJWreyeu0ex38r6VNYYy/iQT9oUud1B99iE+2fBvkdKj6FkKl44dkjI8Xb/4jfFkRlqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761458386; c=relaxed/simple;
-	bh=A6NZo4xjZn6VpoDmgTXQPGhDEhgFnksDmFJRaagzP1w=;
+	s=arc-20240116; t=1761458768; c=relaxed/simple;
+	bh=EjHxDnFq6hWj06vQPtexXZ2zxvyOAy7rfygMeOh2J9Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZezSqOyUmqbkfEA0Oew5U5uRfMd5o8mPTsS4y794/FYznVJrXIS5HwPrK6Cg2fWaKZMk1N50HjSdT7cMjaSpyzMuG+f8/f6QVv47dM2Yb4ZrcPyoVvizwSTLkaL2qnDlhDIFb/FYc/HTWUxkWKAJJkrExCiZJBL2PHu3l0sSUuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cN4iPhxd; arc=none smtp.client-ip=209.85.218.51
+	 MIME-Version:Content-Type; b=QxhjEzbWrcnO27KikVQ/jBSRJ5ok8NUg9ceVuCYFKK33no/ESErOCC6gwYARihIYA5P8Lw3+JqJIK51aeGJs0jLyrqBQCWFpdG7svBCq4VIyUnjSrPbY/dL98n1tC1WIiGVnWugz7upm0Y+N5oeu09dgFkNEU42LvudaRfEHIAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=laP7c+Yy; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cN4iPhxd"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b4539dddd99so745161966b.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 25 Oct 2025 22:59:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="laP7c+Yy"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b3f5e0e2bf7so795171566b.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 25 Oct 2025 23:06:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761458383; x=1762063183; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1761458765; x=1762063565; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=A6NZo4xjZn6VpoDmgTXQPGhDEhgFnksDmFJRaagzP1w=;
-        b=cN4iPhxd9oEM/FiWqF4qSCimx+XNfkA34lEtwPPlyGpkZwnuyrpVXRUdTaj6ssae7W
-         V/eqCsdhcn4Ph6/7pkFeqRqgSUZfP6i64KeVfyl0MuAiTehI4YwHEB5QalDr8+l4Qtwf
-         RyUBHxSMTD956GqWaXs5nN/6NelZOdxlq+ocUZBTnmT/22AA3NyNrjCgFRmwNX5gsfSz
-         E5Qs0jjtEhzrbb1XZlFcEisaT8MRU8t2tsi1uXRfVHGHOxk3qZQavt6A+4/6Qf8nhguq
-         hSWxKnIOhUGPNyhD5DTwn3akEhE/M4AZkKPBG4mDc57uwcpnO3GOkdkoTtgtygmN1lfG
-         wxeA==
+        bh=EjHxDnFq6hWj06vQPtexXZ2zxvyOAy7rfygMeOh2J9Y=;
+        b=laP7c+Yyo9ozS2UDJPoyYC751CHGZDLx7HzuVdEurtMZo6KZNvB0505WTIYp0PfO6B
+         oRm+gHBpX5EwsG8LPtNa1Knlx4apbAW4us8vsMmio6X9zn+bUbsjlTyUVibmZDTXMATv
+         dmhpoVGgq34y5N8Yvqz2SFZ1qEcf0CIgJiDy4ZYKIpjfZxjB9P5aDnfh22Rg7zrNZMqL
+         f1WRc70d/4i9fw9AgAuNBcXJyuaq4deIDp9DFDDRMwQu2mjRIT0FY9eyvh66jQdPOQPS
+         uZsyAKoAocrhPC0y+mOjadz3faGDkhfuHAPweZ4byOH2VFtTf2zgkKLVOKJYrPdSII0G
+         s3/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761458383; x=1762063183;
+        d=1e100.net; s=20230601; t=1761458765; x=1762063565;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=A6NZo4xjZn6VpoDmgTXQPGhDEhgFnksDmFJRaagzP1w=;
-        b=bmU4Qxdc3N/dWAp8CEAh0yKklvR9SbVua8NlhFEUb+M142mxRLYb986sOaz3gWQNpL
-         tXPesK1ARDBE2AkLnCTq2TyTmZeKfLvEILx7PXIxbKYBG4KOxCV+EiDvsQqX4LkKQu5k
-         NiHHopH/VI1oyOGIC7TWMHd4DZDfugvL8nJyerW/cH0i4Y2iG+6A4O0LCx/RHHlErRwG
-         NTulJh35v9IgHZR8CB0rEbyQQMENWA0Kps78+g0a/6oA5TwNn9UGc6hJO72wRJaaHa/0
-         zTG6EXPk+DG4yJJoriA0fmX8gsXmfY+uU2rzybGQGW/Y/5Hh6ZFCJpZNkL0//0jmyYZD
-         gnYw==
-X-Gm-Message-State: AOJu0YyZbL5ev94vzuYP18tRbqzZRE++Tqr4cVatRuwcGG3+Fwc1nel+
-	xd75fe159rJxzl94lv9HW9cD0M1F+m0bV8fe4hWTZ9oHfm22p9GJrdD/
-X-Gm-Gg: ASbGnctixP1lGsR4cLZ2w1wrV41/xlKhAPSKj5g7R6MEw3ipgyrWmna37zmtySEguTb
-	HNvA5PRKes4kMLc/1Oux6OI82X9k6sqtrR7mj2NzLZIAjtDfZ/bR0DuFtpKh/da8/E8JW9k7KHu
-	F0fMkikKeRDmO1HeS2fL1I288L81BSTr+och4y6+8b018m0cL2kXXZGIlma/PBZShZMqeGvJzvf
-	H2QZwmsqRk7QxWFtWIwZTKdADHCslOZTcIZpiFUIbtSJVwuJGTokCpyL6XGbKdWJfUoIqr22awA
-	JIY2Joz3MYzS78dy6x1xL83iE5zMkD6xrL9qzoQds9yYVcnn8U2nKYnXZY0CGw51IxHh3XyKfOG
-	eYFDeqxNxImzxVuN8gc6wFrcI+lOuS5+c3304rX4YFwEwrndGAU8ad3KjKsTNKwXQ1mbqfNq48k
-	CeMeP+Ii4LVYf4m/cIU2n2xQ==
-X-Google-Smtp-Source: AGHT+IHskUzJ+v07K8gkLP0h32BSIFq0ZCZoEpPqqhZkGYDv/82+sS9TmsErXWD82UWmubewSnK+BA==
-X-Received: by 2002:a17:907:9415:b0:b46:31be:e8f0 with SMTP id a640c23a62f3a-b6d51aeff5bmr1340800466b.3.1761458383172;
-        Sat, 25 Oct 2025 22:59:43 -0700 (PDT)
+        bh=EjHxDnFq6hWj06vQPtexXZ2zxvyOAy7rfygMeOh2J9Y=;
+        b=oq+739kBGopNVfXwMkfMTpY8Mrh1tVF+mX7ueR/RV8jS5m1iKOcxoXD9I6US8j+FWJ
+         7c2HbHJrSuk4IreP/vBUei33Vui+TNwVFSP11D2wOkfrWnymkdmQJ5dp1ogtxowZGF19
+         IuJLj0hQEhhzbKcPHGgnYdOED1FKxhq4I2McQRBsuRNXBzpjk4DS4jXaIVz/aWPgDkWE
+         fpQfFdTFFr8Qk5F3oVdHilW1IgerZsnOmNqRGqsS5iBkAi1PLo266svviKIrsN9awdQg
+         3vGEUrjv5FkX0k3JF5pErSaLUSfNMahbcTdF0lsZNoJK9XfKgoqSErz9yB43NuBVt2kH
+         rPjQ==
+X-Gm-Message-State: AOJu0Yyg8zEA0JIg3xLPNvneYj3arjZmKcj478MQ+7Uycy/134DH6wl7
+	VjY31PF4kubZ+eLaknFw9Q2Gdx+u+sO9fzkmsIs+rZdAAKXdVb2BJG56
+X-Gm-Gg: ASbGnctfLZOr1ynGZy7zabYPrAPILbiou9E5G2W3MFxgILgyWsMmOB5k+luNk1gMLWX
+	g2ccHjmPZeimcfbCkH5oJ8SNBBQyHzOuDlJfIpkdf2w3HTJ9RpxeTaGLH00/O2650eJ2mhlzFcb
+	BDDDZXHkbsYw2j5OVsPsnwDN8Zh55hHGG/o3kju3TG3VX/t8JAnffBKu4sIEOX7QjIElx8H8i0F
+	rpxv43I98le3d2hhZhYVgp8uT8DzOdl09BBpI7DHI4T35MiOqCOqgN8IIPuM3h6OCfx87zKlpPK
+	fhR6XE6t8i8cYYzN8k9jTEZVUGI/cly3AKR0ojBide902aDQskRz4Wpjh4PsUxPv71m53NKQ7RY
+	XDI2v6TfYcb9BK8q7uzUMnZOrsKvjtm7fkE8ltZcVZQu3IDpqDmotFhew0pnF+aR3LQKEPIBIJr
+	4tHs/X7e9eci6vENScsmqm4ht4Z68gRSlb
+X-Google-Smtp-Source: AGHT+IEahd1gKXwaxuSI6Ez7+8D1h3ePdjJtLLs2kMEhingxxl9Gc2tP5pgtxBmeiAugD3qcnIjxgg==
+X-Received: by 2002:a17:907:c11:b0:b32:8943:7884 with SMTP id a640c23a62f3a-b647500ee9amr3536092666b.45.1761458764756;
+        Sat, 25 Oct 2025 23:06:04 -0700 (PDT)
 Received: from jernej-laptop.localnet ([188.159.248.16])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b6d85308c82sm381232466b.5.2025.10.25.22.59.42
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-63e7ef6c13fsm3233783a12.7.2025.10.25.23.06.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Oct 2025 22:59:42 -0700 (PDT)
+        Sat, 25 Oct 2025 23:06:04 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: u-boot@lists.denx.de, Tom Rini <trini@konsulko.com>,
  Andre Przywara <andre.przywara@arm.com>
 Cc: linux-sunxi@lists.linux.dev, Chen-Yu Tsai <wens@kernel.org>
-Subject: Re: [PATCH 1/4] sunxi: switch the Allwinner T113 SoC to OF_UPSTREAM
-Date: Sun, 26 Oct 2025 06:59:41 +0100
-Message-ID: <2801929.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20251026012357.16773-2-andre.przywara@arm.com>
+Subject: Re: [PATCH 2/4] sunxi: switch Allwinner A80 boards to OF_UPSTREAM
+Date: Sun, 26 Oct 2025 07:06:03 +0100
+Message-ID: <6203838.lOV4Wx5bFT@jernej-laptop>
+In-Reply-To: <20251026012357.16773-3-andre.przywara@arm.com>
 References:
  <20251026012357.16773-1-andre.przywara@arm.com>
- <20251026012357.16773-2-andre.przywara@arm.com>
+ <20251026012357.16773-3-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -78,20 +78,26 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne nedelja, 26. oktober 2025 ob 02:23:53 Srednjeevropski standardni =C4=8D=
+Dne nedelja, 26. oktober 2025 ob 02:23:54 Srednjeevropski standardni =C4=8D=
 as je Andre Przywara napisal(a):
 > In contrast to some other Allwinner SoCs, there is no difference between
-> the DTs for the Allwinner T113-s3 SoC (sun20i) between the U-Boot and the
+> the DTs for the Allwinner A80 SoCs (sun9i) between the U-Boot and the
 > Linux kernel repository.
 >=20
-> Remove the old copies of the T113-s3 related .dts and .dtsi files, and
-> switch the whole SoC (represented by just one board) over to use
-> OF_UPSTREAM.
+> Remove the old copies of the A80 related .dts and .dtsi files, and switch
+> most of sun9i boards over to use OF_UPSTREAM.
+>=20
+> There is the Sunchip CX-A99 (family of) board(s) for which we don't have
+> a DT in the kernel tree. Keep the .dts file in the legacy U-Boot DT
+> directory, and let the board's defconfig opt out of OF_UPSTREAM.
 >=20
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-While I haven't actually compared files, those weren't changed for some
-time now. It makes sense to switch them over:
+Same comment as previous patch.
+
+I'm not sure keeping Sunchip CX-A99 makes much sense. This means that
+there were never enough interest in it to at least upstream DT file to
+Linux.
 
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
