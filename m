@@ -1,54 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9945F2D8792;
-	Mon, 27 Oct 2025 12:57:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 140052264AD
+	for <linux-sunxi@lists.linux.dev>; Mon, 27 Oct 2025 13:34:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761569822; cv=none; b=m1WqNcEgYFGubV3Jt5Enoq01mFVfEq2szRj1uFVCM7PfJhKTzTwfFmKkYWrEeJg5HO8MNfB78u44FwYMcsJYSLn5a4pURd5ckumazRDSafHHebiY1H2KZaQFHMeoNHiW8qkdMHgO7AJJlfb0tVoEzCpxolFXvU9MHgCeTAtcbi0=
+	t=1761572069; cv=none; b=cGSzFJwROdzNaAdzwC83c9cq7eEzkVkB5BSPr5DAELIko2B6EmH0WJnntfVMcmDvloV8oKvXNSS+1S8zVut7mzun/IKHUE1hWKx2o4winM2IsyrP6hB9wZpkG2L5dc0JyqkVDiEO5vQrP8kfy+CG4OE+GkZaqUmds6ui6/o+Yjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761569822; c=relaxed/simple;
-	bh=7WylpHCfl5v2xSL09jxwrG9Ik/L6u+sN2kDjKM+sdbI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sPplHthEXJKouMLRFkFj1H0ofXkGUpjNNC/Pzn9TRtlqic38iKEOPf+PzYDJUD9FYWOmQAR5mr0d2YvlWbaETMWNIrk+h6cZnhJncnw+9pWl3JkMTzV5fkFU8xKgNxSyKqgjLCRwHqAwEEg70h3YWa/3tApJlOKc7wygHb3wpcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AytX+UM2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761572069; c=relaxed/simple;
+	bh=pDOIWQm2Pb2yaskYb7YG9zNBNAaV4QP98n/IzFf/fTs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AbGZLOkR0fV5wDs0pOd4MvvQhU7wJ+F4+XKRYSUHjh++++yGhyv4htGxpMI+MqYbc3ViFzDOBDXOO0vNTV79KWJk56BH5+pDATf8StjJf9+CdA1SIvjzTniA/cL3Tt/wYpXx/HlXHNzYdnSmr7HrWY8rDuU9F3XGIeCudGHm794=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IoTBSSds; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AytX+UM2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE1EFC2BC87;
-	Mon, 27 Oct 2025 12:57:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761569822;
-	bh=7WylpHCfl5v2xSL09jxwrG9Ik/L6u+sN2kDjKM+sdbI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AytX+UM2VJpPevBJmVH1Guw+dpV6MPA9jbKvvQQHiS7kw9AfqGTx0FrICPKUZUkXe
-	 6e4CkYRLhzVMvy9sfDOv4HX/uKFcb2Xhp8o3JgnjwFvQbtA0Cw+EzT64dtVckmdoFz
-	 6asLarvlAUHXRrNNH4kghjBNEsz1CdIdiLz9bhFE8+cyEPA3z3C+C9omB/nvfR6C2R
-	 GLLFeU4geEafPxvRycr9XsIIfF6i4j2bCzOclYbNvEb0XEmyTJ6R4py5QrsHBDFZeJ
-	 btAiPlc5igKle+32Ffzt5Se1r0B2XjcnRSvWzPd+xuKic36v1TwvSYeduYk3jdLebl
-	 2Q73IV9Kql5Fw==
-Received: by wens.tw (Postfix, from userid 1000)
-	id C5E7E5FFAB; Mon, 27 Oct 2025 20:56:57 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej@kernel.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IoTBSSds"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761572068; x=1793108068;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=pDOIWQm2Pb2yaskYb7YG9zNBNAaV4QP98n/IzFf/fTs=;
+  b=IoTBSSds6HqsF0FVeVyKrA8BcYwy9Ri1kqzfV727ozuyWGcswWFry+GF
+   QPmPV5EMNwN9o5d6CCiasXsiZeIP3Q3WzhtR/Ipz3hvfOWdS1dvtpdf6o
+   Ymh6NEqqDoJH/oBLjScNx0I673ftT3w8mPin/8bwyS2h+f4OruBD+Ur5I
+   1YR0FsJ9u/J7fyOp+r+wRqr9QLzSbWMn3RFH2HYSki4OxQZ9OMZbMUEuz
+   LOn4XmzYizWxHOISLWDHq1e0+eL6u8uzVa/rQ0ZWr7AIlhnQKadPSGvwB
+   5FZ2HN8XHfs+968gVX3k3hge7hAF/dzXEqRVuQBdl+XbDO4ekGmslRxqf
+   w==;
+X-CSE-ConnectionGUID: Oq6xmJKwQpaS3dUl/11PmQ==
+X-CSE-MsgGUID: QxZakUdYTNOHgAhFisoC9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63549471"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="63549471"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 06:34:03 -0700
+X-CSE-ConnectionGUID: MAweIGDcR+6Uu4QLokWN1Q==
+X-CSE-MsgGUID: oyiT45llT5+5Seg48/7Xrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
+   d="scan'208";a="190256817"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.31])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 06:34:01 -0700
+Received: from punajuuri.localdomain (unknown [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 2898B11FADA;
+	Mon, 27 Oct 2025 15:33:59 +0200 (EET)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1vDNMF-00000001eEe-0bu7;
+	Mon, 27 Oct 2025 15:33:59 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-arm-kernel@lists.infradead.org
+Cc: Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Mark Brown <broonie@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-sunxi@lists.linux.dev,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 10/10] [EXAMPLE] arm64: dts: allwinner: a527-cubie-a5e: Enable I2S and SPDIF output
-Date: Mon, 27 Oct 2025 20:56:51 +0800
-Message-ID: <20251027125655.793277-11-wens@kernel.org>
+	Arnd Bergmann <arnd@arndb.de>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 1/1] bus: sunxi-rsb: Remove redundant pm_runtime_mark_last_busy() calls
+Date: Mon, 27 Oct 2025 15:33:59 +0200
+Message-ID: <20251027133359.392984-1-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251027125655.793277-1-wens@kernel.org>
-References: <20251027125655.793277-1-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -57,99 +70,36 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is an example change.
+pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
+pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
+to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
+pm_runtime_mark_last_busy().
 
-The Radxa Cubie A5E exposes I2S2 and SPDIF on the 40-pin header. Enable
-both.
-
-In this example, I2S2 is connected to adafruit speaker bonnet, which
-sports a pair of MAX98357A for speaker amplication. SPDIF is connected
-to a SPDIF interface card for PCs, which has both coaxial and optical
-outputs. The output was connected via optical cable to a dumb SPDIF to
-analog audio converter.
-
-Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- .../dts/allwinner/sun55i-a527-cubie-a5e.dts   | 52 +++++++++++++++++++
- 1 file changed, 52 insertions(+)
+ drivers/bus/sunxi-rsb.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-index bfdf1728cd14..828d101d28e8 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-@@ -64,6 +64,46 @@ reg_usb_vbus: vbus {
- 		gpio = <&r_pio 0 8 GPIO_ACTIVE_HIGH>;	/* PL8 */
- 		enable-active-high;
- 	};
-+
-+	codec: audio-codec {
-+		compatible = "maxim,max98360a";
-+		#sound-dai-cells = <0>;
-+	};
-+
-+	sound-i2s {
-+		compatible = "simple-audio-card";
-+		simple-audio-card,name = "I2S";
-+		simple-audio-card,format = "left_j";
-+		simple-audio-card,bitclock-master = <&dailink_cpu>;
-+		simple-audio-card,frame-master = <&dailink_cpu>;
-+		simple-audio-card,mclk-fs = <128>;
-+
-+		dailink_cpu: simple-audio-card,cpu {
-+			sound-dai = <&i2s2>;
-+		};
-+
-+		dailink0_master: simple-audio-card,codec {
-+			sound-dai = <&codec>;
-+		};
-+	};
-+
-+	sound-spdif {
-+		compatible = "simple-audio-card";
-+		simple-audio-card,name = "spdif-out";
-+
-+		simple-audio-card,cpu {
-+			sound-dai = <&spdif>;
-+		};
-+
-+		simple-audio-card,codec {
-+			sound-dai = <&spdif_out>;
-+		};
-+	};
-+
-+	spdif_out: spdif-out {
-+		#sound-dai-cells = <0>;
-+		compatible = "linux,spdif-dit";
-+	};
- };
+diff --git a/drivers/bus/sunxi-rsb.c b/drivers/bus/sunxi-rsb.c
+index 7a33c3b31d1e..82735c58be11 100644
+--- a/drivers/bus/sunxi-rsb.c
++++ b/drivers/bus/sunxi-rsb.c
+@@ -373,7 +373,6 @@ static int sunxi_rsb_read(struct sunxi_rsb *rsb, u8 rtaddr, u8 addr,
+ unlock:
+ 	mutex_unlock(&rsb->lock);
  
- &ehci0 {
-@@ -101,6 +141,12 @@ &gpu {
- 	status = "okay";
- };
+-	pm_runtime_mark_last_busy(rsb->dev);
+ 	pm_runtime_put_autosuspend(rsb->dev);
  
-+&i2s2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&i2s2_pi_pins>;
-+	status = "okay";
-+};
-+
- &mdio0 {
- 	ext_rgmii0_phy: ethernet-phy@1 {
- 		compatible = "ethernet-phy-ieee802.3-c22";
-@@ -344,6 +390,12 @@ &r_pio {
- 	vcc-pm-supply = <&reg_aldo3>;
- };
+ 	return ret;
+@@ -417,7 +416,6 @@ static int sunxi_rsb_write(struct sunxi_rsb *rsb, u8 rtaddr, u8 addr,
  
-+&spdif {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&spdif_out_pi_pin>;
-+	status = "okay";
-+};
-+
- &uart0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&uart0_pb_pins>;
+ 	mutex_unlock(&rsb->lock);
+ 
+-	pm_runtime_mark_last_busy(rsb->dev);
+ 	pm_runtime_put_autosuspend(rsb->dev);
+ 
+ 	return ret;
 -- 
 2.47.3
 
