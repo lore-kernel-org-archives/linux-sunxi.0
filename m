@@ -1,146 +1,102 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263902D24AD
-	for <linux-sunxi@lists.linux.dev>; Mon, 27 Oct 2025 02:39:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF4F624DCED;
+	Mon, 27 Oct 2025 12:55:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761532761; cv=none; b=FyjhoK0avAUvsF2Wt3oSBqEoaivKvwECbu9LBY2eYMIcMSi9+8BInHeXYnnfBr3Yve+mUaHBnGvPz3liEtbeS770DPQjur5u3R5UZe4YiP63f5wqOYucxLws/562FdM+smhc7lf3+3ypE7pj188voDmREkMq+skCspj2AxmwN9Y=
+	t=1761569759; cv=none; b=isT81xFxsGKsHMiUdQmGhicigFp4PhSC8JOZiFcsHVrthgzlr/X8gPmy63Xj/RFF1nerD1+R187PcLAuzTbRvpwfEFz9zvijO54gHbsz94BnJCvv8GXI4/Xmp6Q7EeRsAuFv7OXgQ/phCUKFCsw6se0lxc8i8m04mRX02SjC7J0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761532761; c=relaxed/simple;
-	bh=evQekrEcmyRdqKp1jJZClGlbzLxhN98LFdFpjeGdBkg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NZRAvevpCcMHNNu0RdwbVmh5AyPxfH4rxy9MrilGR6NCWY+QKhm78nbjbPE3WTvtqc77v5o1voHDWIDFA53VtP1MTbPQUl2Fjm8Vrvie9uujhSlmLdlNYXLcJMAE680BSRuPy/rrXroigOtZ5PHHC9Jd90qZLmKP5Nom7hyLCi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-3637d6e9923so40202751fa.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 26 Oct 2025 19:39:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761532757; x=1762137557;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=V0xO3eccx9J1JFeRrYmbh54SIcFbkNO2ChisP5DHSmA=;
-        b=JJjEhTqL6k0Y0ZcEhu+pQ/OTTQzVozs89zq72tuyBrrhyoERMKT4TKlMskVRvH21yL
-         pRT8IcxLcSMvPlbmWSLrGbL9ESobmKPufwlukbjp8+C2HihrPdbi/AXm3haTxCK4ZgNt
-         KXF8tYvIztUkw08px+HD1GFcBK9Hg5fRtWUGpFw4FtHsFFkWfIdptel0nbjEHo6/z5Rt
-         /aLYFNyu5bBvg4xsQ7+vL3kXHfwilxrpNgyr1w/DVDrWcgH7ud0GoJF3a7tyZaereVbE
-         L2EMo2gzzhxHwL+ByMjbquGgqATlkdAzpxWQJnzXXKkpb8PkC6BKb/pjHdKCtusovEWp
-         v7Kg==
-X-Forwarded-Encrypted: i=1; AJvYcCUiIjhGharGGu71qQrCBarUxijFntZbzpPC/bHr26UaSRpV/3R5KE9moFPy36jCEursemnG7rbuG0yJwA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxZ6UWedltIEJ9fA4z574NOnVlls584UA+hqQZKP6OsZCnJ/xN7
-	RZhGmFVZ7lppd7o9E1sY5iAH0CsvH1+1+FphkVT2GGZWWjw2TqNbZjgbEWE6ndTfvx0=
-X-Gm-Gg: ASbGncsuOQj8M2dFQtgpUftQjczlR7yfFaMaWfkZxF0HfLMQfHTcpTHTVaVbcjEMTp8
-	bjU7i2mNYI4bGLGoGXfa8fW3zbY2+37cSS1FLEwGCasdLQBi9Leb/zydgweLauzOCgEhvyEt3H4
-	h7x+tNXg2QG26C01KE29MIEiOUwvKKkKRmq3GU7fSqRjGhBeUZpBwtm2MJcLWeiR60zWNiOizAQ
-	GPCwVvLdRWRgZpKto1406jRImkjL9/Eu2M0MNRL7gsoOBFfHAEi4Rxud7CouPdFr+BbP2APJyi8
-	kJcci3W7MfeOrD/I+uMLD3GESwlIcCXcuXZkHU/Zdeh3x20SgKkpK8jUKHqWL3L9Zy6OP80PaQ/
-	NX667v5pBjcZ9iqaVX9Y7b5dBHxjNglLNNDjod/ndqAwFr66ypWtGbtLMBc2Bxb9O8NVLoGK12b
-	jGmSWBivsJ8PfD+2ep+JUoFuZ7Hk1fbhfP/qKrnv8e4e0=
-X-Google-Smtp-Source: AGHT+IGw1ApWsMm3oB6SBr+XXuqcTAPz8Hnsq97nYiTY/pOaQWZzfbrJHeY0LGnTbETagmj5ZrZREw==
-X-Received: by 2002:a2e:be27:0:b0:36b:b0eb:9d64 with SMTP id 38308e7fff4ca-378d6d1c70dmr38424331fa.30.1761532756305;
-        Sun, 26 Oct 2025 19:39:16 -0700 (PDT)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-378ee09cba7sm16922671fa.11.2025.10.26.19.39.14
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Oct 2025 19:39:14 -0700 (PDT)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-3637d6e9923so40202041fa.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 26 Oct 2025 19:39:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW7+2nVo7p3AeqDvKfRk4xkOuAHJ/XzHsKbzd8lUT2uUUgxquTe5FvGnJzFaQeKjHyyawO8CIyhJ6FaWA==@lists.linux.dev
-X-Received: by 2002:a05:651c:1509:b0:376:2802:84a8 with SMTP id
- 38308e7fff4ca-378d6f87cf1mr39477651fa.46.1761532753914; Sun, 26 Oct 2025
- 19:39:13 -0700 (PDT)
+	s=arc-20240116; t=1761569759; c=relaxed/simple;
+	bh=wdPrvvPNgCJ92pfYnd82XapNMb2/K9Lk7SnMdXsPwYo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EcxjKKuroC0M+JM/6H3PTXelv5YUJUaRVBaBlump9zUQEFADlhhcYntmpeub5vf3hjGcblHLCpBw9dccC5iPf1B+yXbbwXj4vbf0GKyH+bhl3QV31b90Tf1EuP7MOHgTSfjncgROJu/kG0BgyCmumZifBhOlpdDp5F/lWEw2ej8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=HA4IsI57; arc=none smtp.client-ip=85.214.250.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="HA4IsI57"
+Received: from 8bytes.org (p549214ac.dip0.t-ipconnect.de [84.146.20.172])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.8bytes.org (Postfix) with ESMTPSA id 574F959993;
+	Mon, 27 Oct 2025 13:55:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1761569756;
+	bh=wdPrvvPNgCJ92pfYnd82XapNMb2/K9Lk7SnMdXsPwYo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HA4IsI57/crRJKm5huZnz2yM9cueuQ83JrqqF31F0g7mwiTfeSnd43x0jF6LZthZc
+	 xInJr7Dl8APiu4Qf/1dKwgAOW7EJNTBxKaqeF3SCeMWstoORITwx7nsvUeINWh5k+9
+	 Ny8WfW/m0sLSzi4YzjffMfU5XZZBpghT634JsVKbHjtinJ84F0IqokpBXMlZ9vPJO6
+	 HareDmhYXldiDUpmdDec87KCRVmJXWOlsHVldVZQAV6o+WAdhsPOkS6ZLKvwvFxjCx
+	 iZSNYPT42T4jbU1r7D4nVssf6XfXSjG7/V3tsl+vP1evUijU+Z9RswofRmqxeAExhN
+	 NJmXcf6NEl0nQ==
+Date: Mon, 27 Oct 2025 13:55:55 +0100
+From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: jgg@nvidia.com, kevin.tian@intel.com, suravee.suthikulpanit@amd.com, 
+	will@kernel.org, robin.murphy@arm.com, sven@kernel.org, j@jannau.net, 
+	robin.clark@oss.qualcomm.com, m.szyprowski@samsung.com, krzk@kernel.org, dwmw2@infradead.org, 
+	baolu.lu@linux.intel.com, yong.wu@mediatek.com, matthias.bgg@gmail.com, 
+	angelogioacchino.delregno@collabora.com, tjeznach@rivosinc.com, pjw@kernel.org, palmer@dabbelt.com, 
+	aou@eecs.berkeley.edu, heiko@sntech.de, schnelle@linux.ibm.com, mjrosato@linux.ibm.com, 
+	orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, wens@csie.org, 
+	jernej.skrabec@gmail.com, samuel@sholland.org, thierry.reding@gmail.com, 
+	jonathanh@nvidia.com, jean-philippe@linaro.org, iommu@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, virtualization@lists.linux.dev, patches@lists.linux.dev
+Subject: Re: [PATCH v2 0/6] iommu: Pass in old_domain pointer to attach_dev
+Message-ID: <xlu227m6u3wubnexhxh2cpx7nwudhvbmgqcqoas57a6sqgvege@p4s5i5p77v7a>
+References: <cover.1761017765.git.nicolinc@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251025043129.160454-1-iuncuim@gmail.com> <20251025043129.160454-3-iuncuim@gmail.com>
-In-Reply-To: <20251025043129.160454-3-iuncuim@gmail.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 27 Oct 2025 10:39:00 +0800
-X-Gmail-Original-Message-ID: <CAGb2v656qzX3YrcuTt++=-r5JCyDKgGB8NYTAM3TpyRtAwdibw@mail.gmail.com>
-X-Gm-Features: AWmQ_bltF2M2RvHvljsl22XgW5kEnSwcYVFG9c-kdXV1SwRk_st0sy4RKS89u_w
-Message-ID: <CAGb2v656qzX3YrcuTt++=-r5JCyDKgGB8NYTAM3TpyRtAwdibw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/6] thermal/drivers/sun8i: add gpadc clock
-To: iuncuim <iuncuim@gmail.com>
-Cc: Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Andre Przywara <andre.przywara@arm.com>, 
-	linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1761017765.git.nicolinc@nvidia.com>
 
-On Sat, Oct 25, 2025 at 12:32=E2=80=AFPM iuncuim <iuncuim@gmail.com> wrote:
->
-> From: Mikhail Kalashnikov <iuncuim@gmail.com>
->
-> Some processors (e.g. Allwinner A523) require GPADC clocking activation f=
-or
-> temperature sensors to work. So let's add support for enabling it.
->
-> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+On Wed, Oct 22, 2025 at 07:21:03PM -0700, Nicolin Chen wrote:
+> Jason Gunthorpe (1):
+>   iommu: Generic support for RMRs during device release
+> 
+> Nicolin Chen (5):
+>   iommu/arm-smmu-v3: Set release_domain to arm_smmu_blocked_domain
+>   iommu/exynos-iommu: Set release_domain to exynos_identity_domain
+>   iommu/amd: Set release_domain to blocked_domain
+>   iommu: Do not revert set_domain for the last gdev
+>   iommu: Pass in old domain to attach_dev callback functions
+> 
+>  include/linux/iommu.h                         |  3 +-
+>  arch/powerpc/kernel/iommu.c                   |  5 ++-
+>  drivers/iommu/amd/iommu.c                     | 21 +++------
+>  drivers/iommu/apple-dart.c                    |  9 ++--
+>  .../arm/arm-smmu-v3/arm-smmu-v3-iommufd.c     |  5 ++-
+>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 31 ++++++-------
+>  drivers/iommu/arm/arm-smmu/arm-smmu.c         |  9 ++--
+>  drivers/iommu/arm/arm-smmu/qcom_iommu.c       | 11 ++---
+>  drivers/iommu/exynos-iommu.c                  | 11 ++---
+>  drivers/iommu/fsl_pamu_domain.c               | 12 ++---
+>  drivers/iommu/intel/iommu.c                   | 10 +++--
+>  drivers/iommu/intel/nested.c                  |  2 +-
+>  drivers/iommu/iommu.c                         | 44 +++++++++++++------
+>  drivers/iommu/iommufd/selftest.c              |  2 +-
+>  drivers/iommu/ipmmu-vmsa.c                    | 10 ++---
+>  drivers/iommu/msm_iommu.c                     | 11 ++---
+>  drivers/iommu/mtk_iommu.c                     |  8 ++--
+>  drivers/iommu/mtk_iommu_v1.c                  |  7 ++-
+>  drivers/iommu/omap-iommu.c                    | 12 ++---
+>  drivers/iommu/riscv/iommu.c                   |  9 ++--
+>  drivers/iommu/rockchip-iommu.c                | 20 ++++++---
+>  drivers/iommu/s390-iommu.c                    | 13 +++---
+>  drivers/iommu/sprd-iommu.c                    |  3 +-
+>  drivers/iommu/sun50i-iommu.c                  |  8 ++--
+>  drivers/iommu/tegra-smmu.c                    | 10 ++---
+>  drivers/iommu/virtio-iommu.c                  |  6 ++-
+>  26 files changed, 172 insertions(+), 120 deletions(-)
 
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
-
-> ---
->  drivers/thermal/sun8i_thermal.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_ther=
-mal.c
-> index 226747906..c02c398b0 100644
-> --- a/drivers/thermal/sun8i_thermal.c
-> +++ b/drivers/thermal/sun8i_thermal.c
-> @@ -66,6 +66,7 @@ struct tsensor {
->  };
->
->  struct ths_thermal_chip {
-> +       bool            has_gpadc_clk;
->         bool            has_mod_clk;
->         bool            has_bus_clk_reset;
->         bool            needs_sram;
-
-We could optimize this using bit fields instead. This can be done in a late=
-r
-patch if you want to do it.
-
-
-ChenYu
-
-> @@ -89,6 +90,7 @@ struct ths_device {
->         struct regmap_field                     *sram_regmap_field;
->         struct reset_control                    *reset;
->         struct clk                              *bus_clk;
-> +       struct clk                              *gpadc_clk;
->         struct clk                              *mod_clk;
->         struct tsensor                          sensor[MAX_SENSOR_NUM];
->  };
-> @@ -417,6 +419,12 @@ static int sun8i_ths_resource_init(struct ths_device=
- *tmdev)
->         if (ret)
->                 return ret;
->
-> +       if (tmdev->chip->has_gpadc_clk) {
-> +               tmdev->gpadc_clk =3D devm_clk_get_enabled(&pdev->dev, "gp=
-adc");
-> +               if (IS_ERR(tmdev->gpadc_clk))
-> +                       return PTR_ERR(tmdev->gpadc_clk);
-> +       }
-> +
->         if (tmdev->chip->needs_sram) {
->                 struct regmap *regmap;
->
-> --
-> 2.51.0
->
->
+Applied, thanks.
