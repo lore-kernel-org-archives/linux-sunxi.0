@@ -1,72 +1,72 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A1927A130
-	for <linux-sunxi@lists.linux.dev>; Mon, 27 Oct 2025 16:00:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B0930CDA9
+	for <linux-sunxi@lists.linux.dev>; Mon, 27 Oct 2025 16:04:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761580827; cv=none; b=G3CHxTalLlJmjnKMpFemCPptLlZAXQadmWkyewsov2dd7jgXxvjnxpT71EXeVQTAmvKIHZREkhUAYEydQlkQnBBsCUc4295BJAonX25Tfq5iKbQBCaCreVswPgX3tlEOng8dsYX9vcecpYpOhugLGGoAIkI0yGf6U0S47UCpNqQ=
+	t=1761581098; cv=none; b=a1LNVahMqAmRBZa27IF/avm9uWm4aX1GK5AYZi9LDtYcgREgTgAUbTimewhVaB6cQKJULjcIVv6npIoeT4Y1EmUADlXloeCF2x5+pwObS6eSYkseEkVE21I8t5F3XarI2hEYbN3T7Mbbsccbip1YHK/PNR3W/Lk9SMLgxJtRAZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761580827; c=relaxed/simple;
-	bh=TruC5Rz7hFXrB8am5aWkkTb/6jKbCZdXFPpjwUZibfA=;
+	s=arc-20240116; t=1761581098; c=relaxed/simple;
+	bh=NlwHw11BUjTJkh2dFsD8uZbhbzSybLPxCVNh/rquY7k=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RaWaPCvctxsdQxAvlMoc2uJ5HNSzvlMi5rUnzw0VHoPGWzTMU5OC7PWc8QSlhk/CIwnKZGGKYaEVRbgxomw+5YZg4oURp3PAtshuc4JFu+21eAkZHI0E44ag33BTVmcwA4An6c8bwnuVvoDT3ioyHJEaFakq2LAB+OSh1j+vxFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.48
+	 To:Cc:Content-Type; b=IJJQh4mXsSxve8g0LqCPpUwZOb/jzkNQVUFQpZ6X9FWp7/IsBy1f2uAbb+qFWOQFV8Vh5AyaKJTOCEEXDcXK1aQewazPiOiV62ikPR0OT5lRdp14ualftsVpOtixkk383utRm+O0s5hHuHJDRCqYXgigVey7zhwE9+S2+RJ0d4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-591ea9ccfc2so6198106e87.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 27 Oct 2025 09:00:24 -0700 (PDT)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-57f0aa38aadso5718316e87.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 27 Oct 2025 09:04:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761580821; x=1762185621;
+        d=1e100.net; s=20230601; t=1761581093; x=1762185893;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=6YwhOXZKSbw/QgDI8R5plvx25chz++lg8tg98IFV5D8=;
-        b=WMB3ySn+W8K4QY+lnovXIdEfGFr6D05g/307KZve42G9Nz9wCaWkX4vDsA5JPQ0Ase
-         q/6BWBLxw5FFFL6Zsy391IuJry7i8INarT/o15fvVExkoJVUn7JCfASP7wkf8HLVu1qy
-         dDipj01QZp+6drcaL6Chh0ypu5Z1J/aTmVEw3Y+HV3oidHbKwJz/xlKkSY22MYCzKasj
-         XP//eWhiWQlZbcaZuASIuEoSWLLjcE0oHlTVnGOkPG4hAT2Bp/wKFhm14j/8ZVV2oCiT
-         bo2DKXZTouGctu4OBYJHZhvks8faJLxT2FJcAGT6I6ZyrGo9xWBXviEatB+cqjy/qZyd
-         RL3g==
-X-Forwarded-Encrypted: i=1; AJvYcCXLa71B9koZ4jN8mxYzWINJ3s4qx9awL8cHhjUb6nBroBOsCTPxojaePRF8Z0Pei0me7CR4ZDmyhQlyoQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzNSXuAx2K1yckn+x2xMnnW/f43lasIf+u3Wf8Q8yVLjWg8n/JB
-	Sa0kmYbq6S/G6BrLHQdjTwjGrg9duPTgy5I3oZ9errwNK1k/fsp+A9jojzl0pOR0JCQ=
-X-Gm-Gg: ASbGncuqwYBWWdPJ73bHgpRilqVXwAXqL7ZwT0dzl9QgI5S6dMeVON/hXRMttd7eeoZ
-	FgPqCmgBoGGeg52SIHYTJ3CRGSt7nyeg4naLN5VEVEwuqxXpFt1bJhRJCfsLhO6OmqvVyiz96zW
-	mJUsrU+zqBFbv83/ZlN9CYZsLKiIW0+yqbiDsdbXIe7QWIWmetCVKXYBOiMBhdHO85oG4409+5+
-	XPN3poNk8YckgcPLwkwvbnv2jUyu1Adf39wd2h9RwtKEdpm0KQ0wD1r8efe0JNy4qdtp+jSxsnc
-	KUsGfGa+USa98jZqpjsnkDDB2/dgpK9lVPS6ZsNnbQUFlooxYuScNwVzl468YlGsjq/NCmQxLYU
-	FykMHdJDcx/2zjFb8m2UmxXSp/ScCToUMIOtP73msg2POihpdoVG/COZlHL35U5DAkJ7O1m6Nwp
-	0LUwAlHHWQ6mev0hatwPlV70GJrvsafntn
-X-Google-Smtp-Source: AGHT+IGThqGeCZ76jQqBvNg79DRy/z+1Sdv/2/EKaVBJJev8L0c0bJsnBgidS747Pmv7eJrQoUX5cg==
-X-Received: by 2002:a05:6512:3b9c:b0:592:f2ba:b6a with SMTP id 2adb3069b0e04-5930e8afac9mr209338e87.13.1761580820401;
-        Mon, 27 Oct 2025 09:00:20 -0700 (PDT)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59301f6c042sm2472662e87.77.2025.10.27.09.00.19
+        bh=aBt+IECqNVtAsegMkIX7fm58vbKYt/6Urfpjeenw3Ow=;
+        b=o1UfEWE2Nf2gdFnYv+JFGiuai+4aFcAwIJzCSzouU/ZciAGo4xbK/jiMT/yLlvcepO
+         gcWbFIbwaKliizs5hXcYMDi3coU1GvdVIovT2b1tSIxFbTcX+D4JEZP7c9jCaMFBTW8f
+         EekMs9t9vMt1N4tel8sZo9Eyhr3JyV5LfnP1B7uTicMMGh0XUmCGh+TqRTxmGMrT7t5n
+         cq+0GZFAoRhTRv2hmtpRpdlFXhQpMSbNJ7qBTH0q0BwzCAq80KvSIzC1CrBUNu7SpKpK
+         oKgYFk2W3JEja78hC4XRUjY3TsC8UrsU2GvSJ/0X2tXIpVoN+xnehihjQeChpuFdTz0x
+         cwsw==
+X-Forwarded-Encrypted: i=1; AJvYcCXxA4px1sw+EOY6p9mntQGhxc0GQAVyjg3CIiwQSUuHHqgdhX//Yo0yvTSKnm9Z61tACCAQVxXT//MgUg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YycogMvqVJro1f53DmcPQ2g2E3zoGnjW/7g1TLL+ys5/HEqpDxu
+	O2ogAJU+xgl4lZa3zyr+lmnOE6uCwJa3hBMBBBaOScdYnlv6dWzAX6EFl/rm5+xgQNg=
+X-Gm-Gg: ASbGncuCf/oOz6H4zLvhcWMj2R1TySs8cvSSq9Orsgmk6QmYQ0nyzPeELD1boQgkaAm
+	DEGCpxAjCAG0WEUiF1awf0azYXKnb8ceOT4inV9zMWAcds2lNgk73uJrLZWrAn0O8kT/aJA3zby
+	jPKeWsP2lOKOiZgeiUbJE4ki8xYMDRO+8tNofe849ksFQKNIxlutWn4UTkkXeo/5AB6xKRqnCzM
+	pnzU4i8jePQtjNTf+KAdvCSHifr3j6OFsY4fWz24myv20WSp8FQpk3HnL4EQ6Av3PYw4T+WBH6R
+	B/cyNFLVzkV1eQJhSKgF4e7ZGshT5LGhwx+LQLd5cyQFLiWSC0opD/Pa32u3iqfP6G+ZYGrZ18k
+	9B5Wem3lSRuKy/oD+o4OraJnraNNFxGDM3rmgs4PCFzbyugt2uApZ4qdrqLgUmzjhXQ37/fUbNn
+	MDQmNIDiutMcGZksuEHx5Yzpae5bPg0B+F/cG34zJa1x6a6Rcb0o3OQg==
+X-Google-Smtp-Source: AGHT+IHALU60CA91Oi6W8pnaYXjoh9BJLHX5m9Zey//gUFmSA7wRmQyAYb57tlIXgcBHl14Sf80wfg==
+X-Received: by 2002:a05:6512:3dac:b0:55f:71ad:590f with SMTP id 2adb3069b0e04-5930e9f991dmr155218e87.53.1761581093118;
+        Mon, 27 Oct 2025 09:04:53 -0700 (PDT)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com. [209.85.208.180])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59303607f54sm2191297e87.41.2025.10.27.09.04.52
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Oct 2025 09:00:19 -0700 (PDT)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-378f010bf18so20738501fa.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 27 Oct 2025 09:00:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUmZGeFoB4dd6K1ycv1XeAebx7/eKXVXDkchbRu1la4nweJkG6o+OZXbTJQjFV+Ws70GRaSYu168MYsPQ==@lists.linux.dev
-X-Received: by 2002:a2e:a7ca:0:b0:377:d151:c090 with SMTP id
- 38308e7fff4ca-378e3e0adfdmr38098431fa.1.1761580819015; Mon, 27 Oct 2025
- 09:00:19 -0700 (PDT)
+        Mon, 27 Oct 2025 09:04:52 -0700 (PDT)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-378d50e1cccso51028751fa.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 27 Oct 2025 09:04:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVNLt4TzXmzyWOadIzdyB9SlOIpJL/K6s6g21WZ2vOpqTpxiTQpd1+JS2o5JcziYNi7KrYl7xT08TLTkA==@lists.linux.dev
+X-Received: by 2002:a05:651c:222c:b0:378:d499:d34d with SMTP id
+ 38308e7fff4ca-379076d8741mr539671fa.15.1761581092345; Mon, 27 Oct 2025
+ 09:04:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251012192330.6903-1-jernej.skrabec@gmail.com> <20251012192330.6903-8-jernej.skrabec@gmail.com>
-In-Reply-To: <20251012192330.6903-8-jernej.skrabec@gmail.com>
+References: <20251012192330.6903-1-jernej.skrabec@gmail.com> <20251012192330.6903-9-jernej.skrabec@gmail.com>
+In-Reply-To: <20251012192330.6903-9-jernej.skrabec@gmail.com>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Tue, 28 Oct 2025 00:00:05 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65KEKPtg=WZw9su_DBc5JKsjjYV3DmpUD+LXGhX96sEfA@mail.gmail.com>
-X-Gm-Features: AWmQ_bkrUs29MfoNSjd071G9lNzBwjNkUIcpLZfwjGgRDO3VQYGwungCMVXDTOo
-Message-ID: <CAGb2v65KEKPtg=WZw9su_DBc5JKsjjYV3DmpUD+LXGhX96sEfA@mail.gmail.com>
-Subject: Re: [PATCH 07/30] drm/sun4i: Move blender config from layers to mixer
+Date: Tue, 28 Oct 2025 00:04:38 +0800
+X-Gmail-Original-Message-ID: <CAGb2v668p+GOAA=Kgr6dhbkJb33artbPnYsiwEygq7O+92sovQ@mail.gmail.com>
+X-Gm-Features: AWmQ_bm99AcS6yMWuT9w2DAubuMwkVTQftsOHcXhHkfhxsBt-ffhIxUo7tu2w44
+Message-ID: <CAGb2v668p+GOAA=Kgr6dhbkJb33artbPnYsiwEygq7O+92sovQ@mail.gmail.com>
+Subject: Re: [PATCH 08/30] drm/sun4i: ui layer: Write attributes in one go
 To: Jernej Skrabec <jernej.skrabec@gmail.com>
 Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, 
 	airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
@@ -78,20 +78,124 @@ Content-Transfer-Encoding: quoted-printable
 On Mon, Oct 13, 2025 at 3:23=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
 l.com> wrote:
 >
-> With upcoming DE33 support, layer management must be decoupled from
-> other operations like blender configuration. There are two reasons:
-> - DE33 will have separate driver for planes and thus it will be harder
->   to manage different register spaces
-
-So if I understand correctly:
-
-- the "layer" is from DMA up to CSC, which is the last stage before routing
-- in DE30 and before, routing was limited to within one mixer
-- in DE33 and onward, routing is global
-
-> - Architecturaly it's better to split access by modules. Blender is now
->   exclusively managed by mixer.
+> It turns out that none of the UI channel registers were meant to be
+> read. Mostly it works fine but sometimes it returns incorrect values.
+>
+> Rework UI layer code to write all registers in one go to avoid reads.
+>
+> This rework will also allow proper code separation.
 >
 > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+
+> ---
+>  drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 50 +++++++++-----------------
+>  1 file changed, 16 insertions(+), 34 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun=
+4i/sun8i_ui_layer.c
+> index 12c83c54f9bc..8634d2ee613a 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> @@ -25,25 +25,27 @@
+>  #include "sun8i_ui_scaler.h"
+>  #include "sun8i_vi_scaler.h"
+>
+> -static void sun8i_ui_layer_update_alpha(struct sun8i_mixer *mixer, int c=
+hannel,
+> -                                       int overlay, struct drm_plane *pl=
+ane)
+> +static void sun8i_ui_layer_update_attributes(struct sun8i_mixer *mixer,
+> +                                            int channel, int overlay,
+> +                                            struct drm_plane *plane)
+>  {
+> -       u32 mask, val, ch_base;
+> +       struct drm_plane_state *state =3D plane->state;
+> +       const struct drm_format_info *fmt;
+> +       u32 val, ch_base, hw_fmt;
+>
+>         ch_base =3D sun8i_channel_base(mixer, channel);
+> +       fmt =3D state->fb->format;
+> +       sun8i_mixer_drm_format_to_hw(fmt->format, &hw_fmt);
+>
+> -       mask =3D SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_MASK |
+> -               SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MASK;
+> -
+> -       val =3D SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA(plane->state->alpha =
+>> 8);
+> -
+> -       val |=3D (plane->state->alpha =3D=3D DRM_BLEND_ALPHA_OPAQUE) ?
+> +       val =3D SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA(state->alpha >> 8);
+> +       val |=3D (state->alpha =3D=3D DRM_BLEND_ALPHA_OPAQUE) ?
+
+Changing "plane->state" to "state" made the diff somewhat harder to read.
+
+>                 SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_PIXEL :
+>                 SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_COMBINED;
+> +       val |=3D hw_fmt << SUN8I_MIXER_CHAN_UI_LAYER_ATTR_FBFMT_OFFSET;
+> +       val |=3D SUN8I_MIXER_CHAN_UI_LAYER_ATTR_EN;
+>
+> -       regmap_update_bits(mixer->engine.regs,
+> -                          SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base, overla=
+y),
+> -                          mask, val);
+> +       regmap_write(mixer->engine.regs,
+> +                    SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base, overlay), va=
+l);
+>  }
+>
+>  static void sun8i_ui_layer_update_coord(struct sun8i_mixer *mixer, int c=
+hannel,
+> @@ -111,24 +113,6 @@ static void sun8i_ui_layer_update_coord(struct sun8i=
+_mixer *mixer, int channel,
+>         }
+>  }
+>
+> -static void sun8i_ui_layer_update_formats(struct sun8i_mixer *mixer, int=
+ channel,
+> -                                         int overlay, struct drm_plane *=
+plane)
+> -{
+> -       struct drm_plane_state *state =3D plane->state;
+> -       const struct drm_format_info *fmt;
+> -       u32 val, ch_base, hw_fmt;
+> -
+> -       ch_base =3D sun8i_channel_base(mixer, channel);
+> -
+> -       fmt =3D state->fb->format;
+> -       sun8i_mixer_drm_format_to_hw(fmt->format, &hw_fmt);
+> -
+> -       val =3D hw_fmt << SUN8I_MIXER_CHAN_UI_LAYER_ATTR_FBFMT_OFFSET;
+> -       regmap_update_bits(mixer->engine.regs,
+> -                          SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base, overla=
+y),
+> -                          SUN8I_MIXER_CHAN_UI_LAYER_ATTR_FBFMT_MASK, val=
+);
+> -}
+> -
+>  static void sun8i_ui_layer_update_buffer(struct sun8i_mixer *mixer, int =
+channel,
+>                                          int overlay, struct drm_plane *p=
+lane)
+>  {
+> @@ -220,12 +204,10 @@ static void sun8i_ui_layer_atomic_update(struct drm=
+_plane *plane,
+>         if (!new_state->crtc || !new_state->visible)
+>                 return;
+>
+> +       sun8i_ui_layer_update_attributes(mixer, layer->channel,
+> +                                        layer->overlay, plane);
+>         sun8i_ui_layer_update_coord(mixer, layer->channel,
+>                                     layer->overlay, plane);
+> -       sun8i_ui_layer_update_alpha(mixer, layer->channel,
+> -                                   layer->overlay, plane);
+> -       sun8i_ui_layer_update_formats(mixer, layer->channel,
+> -                                     layer->overlay, plane);
+>         sun8i_ui_layer_update_buffer(mixer, layer->channel,
+>                                      layer->overlay, plane);
+>  }
+> --
+> 2.51.0
+>
+>
