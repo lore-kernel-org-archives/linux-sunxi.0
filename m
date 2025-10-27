@@ -1,102 +1,140 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF4F624DCED;
-	Mon, 27 Oct 2025 12:55:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761569759; cv=none; b=isT81xFxsGKsHMiUdQmGhicigFp4PhSC8JOZiFcsHVrthgzlr/X8gPmy63Xj/RFF1nerD1+R187PcLAuzTbRvpwfEFz9zvijO54gHbsz94BnJCvv8GXI4/Xmp6Q7EeRsAuFv7OXgQ/phCUKFCsw6se0lxc8i8m04mRX02SjC7J0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761569759; c=relaxed/simple;
-	bh=wdPrvvPNgCJ92pfYnd82XapNMb2/K9Lk7SnMdXsPwYo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EcxjKKuroC0M+JM/6H3PTXelv5YUJUaRVBaBlump9zUQEFADlhhcYntmpeub5vf3hjGcblHLCpBw9dccC5iPf1B+yXbbwXj4vbf0GKyH+bhl3QV31b90Tf1EuP7MOHgTSfjncgROJu/kG0BgyCmumZifBhOlpdDp5F/lWEw2ej8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=HA4IsI57; arc=none smtp.client-ip=85.214.250.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="HA4IsI57"
-Received: from 8bytes.org (p549214ac.dip0.t-ipconnect.de [84.146.20.172])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 574F959993;
-	Mon, 27 Oct 2025 13:55:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1761569756;
-	bh=wdPrvvPNgCJ92pfYnd82XapNMb2/K9Lk7SnMdXsPwYo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HA4IsI57/crRJKm5huZnz2yM9cueuQ83JrqqF31F0g7mwiTfeSnd43x0jF6LZthZc
-	 xInJr7Dl8APiu4Qf/1dKwgAOW7EJNTBxKaqeF3SCeMWstoORITwx7nsvUeINWh5k+9
-	 Ny8WfW/m0sLSzi4YzjffMfU5XZZBpghT634JsVKbHjtinJ84F0IqokpBXMlZ9vPJO6
-	 HareDmhYXldiDUpmdDec87KCRVmJXWOlsHVldVZQAV6o+WAdhsPOkS6ZLKvwvFxjCx
-	 iZSNYPT42T4jbU1r7D4nVssf6XfXSjG7/V3tsl+vP1evUijU+Z9RswofRmqxeAExhN
-	 NJmXcf6NEl0nQ==
-Date: Mon, 27 Oct 2025 13:55:55 +0100
-From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: jgg@nvidia.com, kevin.tian@intel.com, suravee.suthikulpanit@amd.com, 
-	will@kernel.org, robin.murphy@arm.com, sven@kernel.org, j@jannau.net, 
-	robin.clark@oss.qualcomm.com, m.szyprowski@samsung.com, krzk@kernel.org, dwmw2@infradead.org, 
-	baolu.lu@linux.intel.com, yong.wu@mediatek.com, matthias.bgg@gmail.com, 
-	angelogioacchino.delregno@collabora.com, tjeznach@rivosinc.com, pjw@kernel.org, palmer@dabbelt.com, 
-	aou@eecs.berkeley.edu, heiko@sntech.de, schnelle@linux.ibm.com, mjrosato@linux.ibm.com, 
-	orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, wens@csie.org, 
-	jernej.skrabec@gmail.com, samuel@sholland.org, thierry.reding@gmail.com, 
-	jonathanh@nvidia.com, jean-philippe@linaro.org, iommu@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, virtualization@lists.linux.dev, patches@lists.linux.dev
-Subject: Re: [PATCH v2 0/6] iommu: Pass in old_domain pointer to attach_dev
-Message-ID: <xlu227m6u3wubnexhxh2cpx7nwudhvbmgqcqoas57a6sqgvege@p4s5i5p77v7a>
-References: <cover.1761017765.git.nicolinc@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB79924397A;
+	Mon, 27 Oct 2025 12:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761569820; cv=none; b=Al5FnptjUqhrGYT841Q4FhscJO1zUQ5LuvH2APRO4vMKO5odxqzb+t5GkY5RwRPNM53k1SjxIO4gcYCxdfyGsn8F6sqbibfOSXQip3M/gi1emVesij/Huy1YsJ3D9D9xKrRpZJKC6P8PN5wZCPvoYkAvMikoqmWU5d0p0VHJefY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761569820; c=relaxed/simple;
+	bh=jc28/M+RNzFr0Zbyp//cvE+46yBuDnf2OXIpuegk+vs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aXfS161cGdBBXU6EAhaoPQ5Y74Rcf/0H1nexW2Bq3t4NLRU6dl6ShySL04lr4JkKcsoO4ZOSLa7+CEP20Dt8wfKiKye+WQYrAZbcT3+NAe2uEvUKwmyjp7KyZtMKVFIdcPb2ooT+NGoloTH/HggFOEh+a9kIzMdtCDo4UXVVDmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZT4zYMCs; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZT4zYMCs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C2E6C4CEF1;
+	Mon, 27 Oct 2025 12:56:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761569819;
+	bh=jc28/M+RNzFr0Zbyp//cvE+46yBuDnf2OXIpuegk+vs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ZT4zYMCsCgCJWd9fI+KJCO2uu0gxjzCv+pZgMdoPtPMf5cR3GCV8+zN2STgSIPD3z
+	 A5mucLn4z4Qd74SiZ1MydHMX+QXknZBCSkcoV+DLAjYSL1AYA+4G50ugM2sz00CjAw
+	 v1M6ffWPotRBMZH9+NiNubGym6fPdUXEoNDkoCE+C+ytJT9ljyf6wRNMiZE+J8oT6+
+	 sYuRxYI+9E4E8CPwxVtkCrIMH8fhG+XzIOcYeTDc17jwzLrTgU5ScbmXt1ck/psm+b
+	 wjVEPu0IKGcIU+4FXxE1UJowNlO5sY+6a8bbEQJazcQNEPa6Yq/Gvl4RSvOCwBwsc3
+	 Mz6eC0pGT5Byg==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 6215D5FE2C; Mon, 27 Oct 2025 20:56:57 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Mark Brown <broonie@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-sunxi@lists.linux.dev,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 00/10] allwinner: a523: Enable I2S and SPDIF TX
+Date: Mon, 27 Oct 2025 20:56:41 +0800
+Message-ID: <20251027125655.793277-1-wens@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1761017765.git.nicolinc@nvidia.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 22, 2025 at 07:21:03PM -0700, Nicolin Chen wrote:
-> Jason Gunthorpe (1):
->   iommu: Generic support for RMRs during device release
-> 
-> Nicolin Chen (5):
->   iommu/arm-smmu-v3: Set release_domain to arm_smmu_blocked_domain
->   iommu/exynos-iommu: Set release_domain to exynos_identity_domain
->   iommu/amd: Set release_domain to blocked_domain
->   iommu: Do not revert set_domain for the last gdev
->   iommu: Pass in old domain to attach_dev callback functions
-> 
->  include/linux/iommu.h                         |  3 +-
->  arch/powerpc/kernel/iommu.c                   |  5 ++-
->  drivers/iommu/amd/iommu.c                     | 21 +++------
->  drivers/iommu/apple-dart.c                    |  9 ++--
->  .../arm/arm-smmu-v3/arm-smmu-v3-iommufd.c     |  5 ++-
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 31 ++++++-------
->  drivers/iommu/arm/arm-smmu/arm-smmu.c         |  9 ++--
->  drivers/iommu/arm/arm-smmu/qcom_iommu.c       | 11 ++---
->  drivers/iommu/exynos-iommu.c                  | 11 ++---
->  drivers/iommu/fsl_pamu_domain.c               | 12 ++---
->  drivers/iommu/intel/iommu.c                   | 10 +++--
->  drivers/iommu/intel/nested.c                  |  2 +-
->  drivers/iommu/iommu.c                         | 44 +++++++++++++------
->  drivers/iommu/iommufd/selftest.c              |  2 +-
->  drivers/iommu/ipmmu-vmsa.c                    | 10 ++---
->  drivers/iommu/msm_iommu.c                     | 11 ++---
->  drivers/iommu/mtk_iommu.c                     |  8 ++--
->  drivers/iommu/mtk_iommu_v1.c                  |  7 ++-
->  drivers/iommu/omap-iommu.c                    | 12 ++---
->  drivers/iommu/riscv/iommu.c                   |  9 ++--
->  drivers/iommu/rockchip-iommu.c                | 20 ++++++---
->  drivers/iommu/s390-iommu.c                    | 13 +++---
->  drivers/iommu/sprd-iommu.c                    |  3 +-
->  drivers/iommu/sun50i-iommu.c                  |  8 ++--
->  drivers/iommu/tegra-smmu.c                    | 10 ++---
->  drivers/iommu/virtio-iommu.c                  |  6 ++-
->  26 files changed, 172 insertions(+), 120 deletions(-)
+Hi folks,
 
-Applied, thanks.
+This is v2 of my Allwinner A523 family I2S and SPDIF enablement series.
+
+Changes since v1:
+- Collected tags
+- Dropped clk patches that were merged
+- Added patch for SPDIF pinmux settings that was missing in v1
+- Dropped bogus change to DAI name in SPDIF driver
+- Dropped clk rate message in SPDIF driver
+- Switched my email to kernel.org one
+
+This series enables the SPDIF and I2S hardware found on the Allwinner
+A523/A527/T527 family SoCs. These SoCs have one SPDIF interface and
+four I2S interfaces. All of them are capable of both playback and
+capture, however the SPDIF driver only supports playback.
+
+The series is organized by subsystem, so each maintainer can find the
+patches they need to take.
+
+Patch 1 adds SoC/hardware specific compatibles for the two DMA
+controllers in the A523 SoC.
+
+Patch 2 adds an SoC specific compatible for the I2S interface
+controllers in the A523 SoC.
+
+Patch 3 adds an SoC specific compatible for the SPDIF interface
+controller in the A523 SoC.
+
+Patch 4 adds driver support for the SPDIF interface.
+
+Patch 5 adds devices nodes for the DMA controllers.
+
+Patch 6 adds a devices node for the SPDIF interface controller.
+
+Patch 7 adds device nodes for the I2S interface controllers.
+
+Patch 8 adds one set of pinmux settings for I2S2.
+
+Patch 9 adds pinmux settings for SPDIF.
+
+Patch 10 is what I used to test the changes, and serves as an example
+for how to use these new interfaces.
+
+
+Patch 1 can go through the dmaengine tree, or I can take it through the
+sunxi tree.
+
+Patches 2 through 4 should go through the ASoC tree.
+
+The rest, except the example, will go through the sunxi tree.
+
+
+Please take a look.
+
+
+Thanks
+ChenYu
+
+
+Chen-Yu Tsai (10):
+  dt-bindings: dma: allwinner,sun50i-a64-dma: Add compatibles for A523
+  ASoC: dt-bindings: allwinner,sun4i-a10-i2s: Add compatible for A523
+  ASoC: dt-bindings: allwinner,sun4i-a10-spdif: Add compatible for A523
+  ASoC: sun4i-spdif: Support SPDIF output on A523 family
+  arm64: dts: allwinner: a523: Add DMA controller device nodes
+  arm64: dts: allwinner: a523: Add device node for SPDIF block
+  arm64: dts: allwinner: a523: Add device nodes for I2S controllers
+  arm64: dts: allwinner: a523: Add I2S2 pins on PI pin group
+  arm64: dts: allwinner: a523: Add SPDIF TX pin on PB and PI pins
+  [EXAMPLE] arm64: dts: allwinner: a527-cubie-a5e: Enable I2S and SPDIF
+    output
+
+ .../dma/allwinner,sun50i-a64-dma.yaml         |   5 +-
+ .../sound/allwinner,sun4i-a10-i2s.yaml        |   4 +-
+ .../sound/allwinner,sun4i-a10-spdif.yaml      |  44 +++++-
+ .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 149 ++++++++++++++++++
+ .../dts/allwinner/sun55i-a527-cubie-a5e.dts   |  52 ++++++
+ sound/soc/sunxi/sun4i-spdif.c                 |  26 ++-
+ 6 files changed, 270 insertions(+), 10 deletions(-)
+
+-- 
+2.47.3
+
