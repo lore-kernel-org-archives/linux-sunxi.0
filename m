@@ -1,57 +1,57 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1332D6E60
-	for <linux-sunxi@lists.linux.dev>; Mon, 27 Oct 2025 17:45:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D316296BC5
+	for <linux-sunxi@lists.linux.dev>; Mon, 27 Oct 2025 17:49:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761587129; cv=none; b=HYiY4bCAa3hwZZq7swN8N7WRUgbSruSSRWKZ/i4vg4Ol0sNuRldR66mxZcYokyZvZQaPk2VTbBz8AuRUE39PzMNFsuH/fSJIUEgTIX4DSeHEYmzArUei7var6JROo6vv+d7guKaFdGgU6/TQPZVh56vVRCP0EOmBa9m4G2H3Ibw=
+	t=1761587371; cv=none; b=j4ipO9BVYCzNWICMBzO1GIxp/0kQAgVqKFfwdnz/Pd0SBZQVl2Vg0QO+WoYxdYFK3E3C60RvJ0nC2vkAyUv1GIT9NcfVQbJt7m1YZdiRU/41aDck0Yy+QptQMXaSDQRwfqeFJO9onfh7wej5TG4ouI/qTxgrqz+iNkZfnosUhE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761587129; c=relaxed/simple;
-	bh=upm4Fx4Zyity5YEegKY8XfpMcrJf2ls4KbygxA0gOhs=;
+	s=arc-20240116; t=1761587371; c=relaxed/simple;
+	bh=jc/356FpIO5fq3wbVBLhYJF7QyfRlww33yCqXERm6yM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o5ToZlcHnItuvmrQzLP3uBzAhxKfj4K2V+/NeMuQfYkvwOw/NzHFA9A+AymgJucK5+UVx+nr4G4idEAMdTNCUUjR0+3ohcgVvpc2JV9d2yXcX+lgKG1rvofwJJC1RLJ0NHF92uKAbC7uXtWeiaPtjJF5Q/C+KGr/Scdyxl3Km5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cj14kJH+; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=O8WsQYJ4LHV9arY/n1SA5MwhbHVhZyOLSvJSjNTr1cOdwyhrX2YTHopIOw/a0nwpRqBzkJh/vrHUIuiONoIoAknzB0x5LtR3QX+F/yg4gI7U5zE/4tQm22Q8RqFMKmGzVAmeDDZWYrzet7LBrV7htzUpAU1sFFtUp+G9AOXOfsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nmDs5Ea2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cj14kJH+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21979C4CEFD
-	for <linux-sunxi@lists.linux.dev>; Mon, 27 Oct 2025 17:45:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nmDs5Ea2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4488C19421
+	for <linux-sunxi@lists.linux.dev>; Mon, 27 Oct 2025 17:49:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761587129;
-	bh=upm4Fx4Zyity5YEegKY8XfpMcrJf2ls4KbygxA0gOhs=;
+	s=k20201202; t=1761587370;
+	bh=jc/356FpIO5fq3wbVBLhYJF7QyfRlww33yCqXERm6yM=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=Cj14kJH+FRFQaq800dK+D2JysmG7w5AjqVnjQRupPGzirc9wn/yrC5Rcfe1Hx+95T
-	 8iu2ONvQEsgLyKRwOVIy65cPnLYM87isb/TqYx6dNp2YI5CFb7lGyM6HHqrPsp5fZu
-	 2b7feUFVAi8CrHg+TlVk+BlhzGBH4hQDO+RpV6FmDilwGj+/wpIUbRhOcaIcKMcFpV
-	 ayfn++vB+0q1DQxHh1Yasy9l4D+BMOzs5zMCMbQF/j9d5I4hsR3Zz/Wse260cUKvCO
-	 U7I0mY2P44ao6p/8ZDTqX3bF2L7mwgtBxky0EyTZVZJr2jU/xeXuJ1sBzpvidAmMXO
-	 JI3WWuk0m5LVQ==
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-37775ed97daso59930631fa.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 27 Oct 2025 10:45:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUZAIHeiSYFZm5oCHfyAatYFMvZAjaStaFy7gjsrIy6nqYQkehsv07/dkp5+NzKTmn952mxmNKiHTiiEw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6id79BmVjPRrKQpx97aXo6b5EP0FWQeT7Lzej2hVkDJhUASKb
-	6nw7CNRon9WG5Ru5GQ8UIj4QMrM8/H1lqJTEQE3FNnq8ZanVyQlVgGhDaoSQz4CSKkeEKj4E2U6
-	EAHM12vLc62XAiByeP8SI+ixqwAg2FEE=
-X-Google-Smtp-Source: AGHT+IFjlWIjfh9UvXhgPZoLIWaWRXGD/zpbLYult3MgsNK73imA2OTtKPUOEvbbhsWdoXcemdcDtRY3/9kK67MPTXU=
-X-Received: by 2002:a05:651c:1585:b0:378:cd2b:5040 with SMTP id
- 38308e7fff4ca-37907cb3b9cmr967131fa.21.1761587127507; Mon, 27 Oct 2025
- 10:45:27 -0700 (PDT)
+	b=nmDs5Ea2BJ0QWZz2Fnj6YnJCwAGH9ivTFSEKB7hbsxg40ESYbuLp5lADWA+AVBpAI
+	 yt3wp0PEAGmkqI0b9jM1OEM115cLxrFqjqAADUnRlb4lCnM4qxEOhBG50l4Ht6QJoH
+	 dPGJjWkTO+ZdnKTxP4Kr542JJT2c0n6l/hXpRMNsrK1UhiHuAYpCx/n+DNSh7fneiQ
+	 Xz71EBZIifFB8BGItaAtKMD982nX1dWQP7diMxUr8JpHi/7iL9EtY6An6BUSDDg6uw
+	 pPF1l5md43z77yxjTWXZLF6zRcHg0m25WL5tXIR2qgz3nf8MDh3xga2Jx7QEOhWMtc
+	 kLpCppO/X+xlQ==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-378ccb8f84aso53148321fa.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 27 Oct 2025 10:49:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWKwva+OatL8CMS4Z4LuYog8eacaSKDhfCiX2RrjSReCG8hMk3p8X1CtfMXeT6UeOdq7ullS7M5qlmqxw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyx/+J+CG0F2JM27Jz0niWbkeFZ3w/0mo2nH+8EYNeBeiGe9nVs
+	B0ko5PT049ljK0l24NATxEZoKnDPxmvsUP7uX6bsMCjtvhdLjEyLhX9m8cMeWzGwcKZADbL9K2A
+	mvoeuOuhbyQRyEmsAVPcl21g13rFnfTg=
+X-Google-Smtp-Source: AGHT+IGvL3+rmUcT/vmlGB6JqgMLiakuW0wtgocLdITSs5J6YhIhu+bJ3QUjjP/Dh4NLN0bmdcv0CpnIkj1evrKbsNk=
+X-Received: by 2002:a05:651c:234c:10b0:378:e097:e16e with SMTP id
+ 38308e7fff4ca-3790777de3cmr1218271fa.36.1761587369224; Mon, 27 Oct 2025
+ 10:49:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251012192330.6903-1-jernej.skrabec@gmail.com> <20251012192330.6903-18-jernej.skrabec@gmail.com>
-In-Reply-To: <20251012192330.6903-18-jernej.skrabec@gmail.com>
+References: <20251012192330.6903-1-jernej.skrabec@gmail.com> <20251012192330.6903-19-jernej.skrabec@gmail.com>
+In-Reply-To: <20251012192330.6903-19-jernej.skrabec@gmail.com>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 28 Oct 2025 01:45:14 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66KBHkZZEkORAyFO5LPqSChBm8mUFS6bgiRZopze7JuKQ@mail.gmail.com>
-X-Gm-Features: AWmQ_bmRMHRbSFfLfGrgGggasJXji4AX31snSt1AiPTxbTOpwyHoYhtiWgiL24Q
-Message-ID: <CAGb2v66KBHkZZEkORAyFO5LPqSChBm8mUFS6bgiRZopze7JuKQ@mail.gmail.com>
-Subject: Re: [PATCH 17/30] drm/sun4i: vi_layer: use layer struct instead of
- multiple args
+Date: Tue, 28 Oct 2025 01:49:15 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65aY11Hi5JN1PEMyFCoYK9Z11V=xYXLcSLqQizwdVOarA@mail.gmail.com>
+X-Gm-Features: AWmQ_bkqzQW934j8vgxNIiz1K6pixo4CW7R1IQZPgknoWpc_MwhACwyMTj6ZI0U
+Message-ID: <CAGb2v65aY11Hi5JN1PEMyFCoYK9Z11V=xYXLcSLqQizwdVOarA@mail.gmail.com>
+Subject: Re: [PATCH 18/30] drm/sun4i: ui_scaler: use layer instead of mixer
+ for args
 To: Jernej Skrabec <jernej.skrabec@gmail.com>
 Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, 
 	airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
@@ -63,10 +63,8 @@ Content-Transfer-Encoding: quoted-printable
 On Mon, Oct 13, 2025 at 3:24=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
 l.com> wrote:
 >
-> This change is equally a cleanup (less arguments) and preparation for
-> DE33 separate plane driver. It will introduce additional register space.
->
-> No functional changes.
+> Layer related peripherals should take layer struct as a input. This
+> looks cleaner and also necessary for proper DE33 support later.
 >
 > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
