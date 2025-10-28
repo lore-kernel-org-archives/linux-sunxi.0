@@ -1,155 +1,112 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2012DF714
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Oct 2025 07:36:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C1E342CB4
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Oct 2025 15:35:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761636998; cv=none; b=pw4RRf8/PtHKWS6eVaYaAZkg7t0QB7wWJwprVKA/Fnt1ycXwxTmCraeH5q+ygXni2c3pdnZZ9+WjjaFF1yfeRjNxqTuMm/z070CyhP/r76O+XU1QOcV0uPjkYWSKEGe9/pK0/+5DzQwDi4Bn2NqiALpCbeRiglIXG2SXNM6Ls7I=
+	t=1761665702; cv=none; b=nyL2SpA0M2kpSXxSPFgvHKMSyFBuWngBKBARI9cJx5kTgyGuBNELgGqVkkWvuy9J1Qb1WwQmRCtc/ukWkztBV80+uCUluSnbQKvDtDFzUBC5L0UvkVYzLo1Ci4HJcdh8ydX2+tGImjSzocE1QRazULFXEIl7SdicURVFMcUQznc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761636998; c=relaxed/simple;
-	bh=Om0lvRWPDe6Ehq3RNTwvwbhIRct+e1KTrLwqUuXzyS8=;
+	s=arc-20240116; t=1761665702; c=relaxed/simple;
+	bh=+zf/L6+BpO5HiQmCsVmEtAAefad0gqPlx28ytnkqVYY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kEmJBtdjZ7eoZ2gpnXdTsAh/6ILEGkzWDaFuXBAAbIc/JLdo5i25Qg95G+K8+t4rJSXX5jRIj9lsbiHGb5/v+LTkP0KLidJVONeQ0ND/Rxdh39+Qt8xiT6JNNPcaUWK/ERtYMs/dPk9GGlayXgGLPJMlQCTcmY86B4+Uy58BdsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VfW+i13n; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	 MIME-Version:Content-Type; b=QioKwnK3pwUtbPMcuDUch8GualuGgG84ci5w/DhJ8o2T/9Iw7pGxdvhEu7MZ+6RwxSGEYgCqTydpPJQh4pPzCAsxO43EM151JCT6MtnzBbpLa62Z+/P5pk188yCnVIdd/IueWUiGMOoUrMH9lTmLypN/uR0WxGzOp3LlCtX9iO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PJqeRy3p; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VfW+i13n"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 811D84E41392;
-	Tue, 28 Oct 2025 07:36:35 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 56327606AB;
-	Tue, 28 Oct 2025 07:36:35 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 935F4102F251B;
-	Tue, 28 Oct 2025 08:36:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761636994; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=HDL+cduKGo0iwjImHuxRFOSxsiEzs6TUgE6gWmABSIg=;
-	b=VfW+i13nyaovNMhOgJDRHw3FVtH49cPKUE/qlj/T3LX2zoZz8OaUuNkQidN4SvX+UxhxmX
-	zAlRe30kXPqneuD46fPFB1Sk3osgunGsMn4ln0on/w604ivEwkGk7XIQ8ffKdyPByVRoh2
-	sjAZ72dzOLO+ScPme5ueaQGv27fjYaS7fCQVMW5RNdCiOH7vxCWzgc9ASauxrcPEjo5AyR
-	jxKqDPwBmDk64gC5RjIViG5XKDYfZVA92J7upzyz1QJPKOcyJNRuU0I52g1yri0xsPqVBI
-	oPc5ufrAS98mXp0AihVw9/N3ukKYmO5bv0+K/hA/14f8Xgvy1DVsYP5IoR83iA==
-From: Richard Genoud <richard.genoud@bootlin.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PJqeRy3p"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4270a0127e1so4871933f8f.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 28 Oct 2025 08:35:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761665699; x=1762270499; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+zf/L6+BpO5HiQmCsVmEtAAefad0gqPlx28ytnkqVYY=;
+        b=PJqeRy3pWz1FSpF0MA4B/85ukUK7svLV8qNCbKipJXzXx0ob2G/GP4uZNO5bhvZ0CC
+         ey76Bzf9MND450DhzBMq6Vvq6t4M5co8jxd2EUnKfizHZkF0dSKQXA5EAppfiD8FL2QM
+         f1tc8k7mRGLmRX7t6LVSt/XF0NowBKfsE1TeyZ5jKSA252VUBocDD46YgaJo7+75dxsr
+         UgFrXASI2Fl8NsQQeHJbMWpOx9EE3U1V890W3OanTknDzyh8/5Nb+77GwvvdJGRUgHA5
+         NDLr3PnTH2Qg/gfAxoH5pKF310iBcmgaOO476R3AdYoIRMELSYpWx0ZRaalxQEP7DyTs
+         tGgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761665699; x=1762270499;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+zf/L6+BpO5HiQmCsVmEtAAefad0gqPlx28ytnkqVYY=;
+        b=sXj4OLbTIoTobPTXy88PrlQMj+7KaI7n7Wz7fK4kFwXjjA354y0Dv1njdCd/iO9KSB
+         CLrzxnVy3KCzrEOfr+Mnx3o1LyRPiD8Bg89S9iye4KOArFFAI13u/XXv1fYI5JCl/R/V
+         xdRc/IwR9eiIXzA6R0/63kCYHqKZ8OlspFPO+OZVuHhDogPA7ceboY+PUV1g12BXjlNR
+         89IsZQqmpBi7b61d0xstNKbNYzcbf8Rk5LsdINTDgK1RVmNKOmEvloVy8Gva80oDq3j6
+         4477yMX3t5feZNSrhKy1S0z2cUwMCDk0wilYG0MtlgLzAMxHgyXrrhJv4+ilJWSSvsr/
+         Iqxw==
+X-Forwarded-Encrypted: i=1; AJvYcCWcoIShMWLq7mXHLtZRT8ik9rgfthV/vfMHoDztBe5HUTEjQA3OD/RSMuUDrytu2TZe9fx7JgUzusyTbQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxkFbGxLZ/DUbVzp4kVzMT5UM8Hm9rM4ZBMjr/2HslIFnAx8sw3
+	lGks7niVFocSTCRGk+LIudn64pJAPavyhUB7ZjEMSIBd1rU3h2pybec0
+X-Gm-Gg: ASbGncuuEoZxtS1gqE2IUsg4nAPQUGx5Yt03oe4kxIqYpghBOY3mkaNnstqXSoyWBSA
+	riyPaUJkFaayfOo4gzc7EF8h9BzcEeCNizCXC5JV3mH9QIFWlrEN4daxPBht/w/B6Zy47VVqOyp
+	aamSDZ1u2SdhJzBP1Bgw618LKvhttjQAgIzWlPypXheaqxXSECojiXicQo812x3Up74jb3BybmL
+	0S2a+trvF0GqnTGI2wI8iNbwBHkrn4csJBlCCvdd/S/WpnMw6q9aglgZvvYui4sqjLMgZk1wdNs
+	vU7z9fMXsY5NsY4x6l9PUTE3oaL7fdyIesRFVKSo/0BYYIL5d5OwbyAWiwQpWjV/G+eP3DUaQpk
+	uzbiXYJOnPYr515/o2SOuft2O/cEsMAoLH0KiFZ1YOzw+P+m3zKB0YQLmnrgFpuVU72jEOnkn/1
+	xTg5jhFKnrHdQiWEl6IiclPL8aN4BWQdKJYjpcg7kQyr9Dc9Z7tgC3oTDCqQ==
+X-Google-Smtp-Source: AGHT+IHQaqAyFKg0dIVlFNzHvuX0zpZSii67laWQ5yWofyqAlv0IPJ4MzzJSDYza6+cEoyhxJ1y+9w==
+X-Received: by 2002:a5d:5c89:0:b0:428:3f7c:bcf3 with SMTP id ffacd0b85a97d-429a7e86b07mr3600391f8f.49.1761665698923;
+        Tue, 28 Oct 2025 08:34:58 -0700 (PDT)
+Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952b7b43sm21334532f8f.6.2025.10.28.08.34.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Oct 2025 08:34:58 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	Wentao Liang <vulab@iscas.ac.cn>,
-	Johan Hovold <johan@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-mtd@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Richard Genoud <richard.genoud@bootlin.com>
-Subject: [PATCH v4 16/16] arm64: dts: allwinner: h616: add NAND controller
-Date: Tue, 28 Oct 2025 08:35:09 +0100
-Message-ID: <20251028073534.526992-17-richard.genoud@bootlin.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251028073534.526992-1-richard.genoud@bootlin.com>
-References: <20251028073534.526992-1-richard.genoud@bootlin.com>
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Richard Genoud <richard.genoud@bootlin.com>
+Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>,
+ Wentao Liang <vulab@iscas.ac.cn>, Johan Hovold <johan@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Richard Genoud <richard.genoud@bootlin.com>
+Subject:
+ Re: [PATCH v4 03/16] mtd: rawnand: sunxi: Replace hard coded value by a
+ define
+Date: Tue, 28 Oct 2025 16:34:57 +0100
+Message-ID: <2017172.PYKUYFuaPT@jernej-laptop>
+In-Reply-To: <20251028073534.526992-4-richard.genoud@bootlin.com>
+References:
+ <20251028073534.526992-1-richard.genoud@bootlin.com>
+ <20251028073534.526992-4-richard.genoud@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-The H616 has a NAND controller quite similar to the A10/A23 ones, but
-with some register differences, more clocks (for ECC and MBUS), more ECC
-strengths, so this requires a new compatible string.
+Dne torek, 28. oktober 2025 ob 08:34:56 Srednjeevropski standardni =C4=8Das=
+ je Richard Genoud napisal(a):
+> The user data length (4) used all over the code hard coded.
+> And sometimes, it's not that trivial to know that it's the user data
+> length and not something else.
+> Moreover, for the H6/H616 this value is no more fixed by hardware, but
+> could be modified.
+>=20
+> Using a define here makes the code more readable.
+>=20
+> Suggested-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
 
-Add the NAND controller node and pins in the device tree.
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
----
- .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 52 +++++++++++++++++++
- 1 file changed, 52 insertions(+)
+Best regards,
+Jernej
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-index ceedae9e399b..2a4d70298655 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-@@ -304,6 +304,42 @@ mmc2_pins: mmc2-pins {
- 				bias-pull-up;
- 			};
- 
-+			/omit-if-no-ref/
-+			nand_pins: nand-pins {
-+				pins = "PC0", "PC1", "PC2", "PC5", "PC8", "PC9",
-+				       "PC10", "PC11", "PC12", "PC13", "PC14",
-+				       "PC15", "PC16";
-+				function = "nand0";
-+			};
-+
-+			/omit-if-no-ref/
-+			nand_cs0_pin: nand-cs0-pin {
-+				pins = "PC4";
-+				function = "nand0";
-+				bias-pull-up;
-+			};
-+
-+			/omit-if-no-ref/
-+			nand_cs1_pin: nand-cs1-pin {
-+				pins = "PC3";
-+				function = "nand0";
-+				bias-pull-up;
-+			};
-+
-+			/omit-if-no-ref/
-+			nand_rb0_pin: nand-rb0-pin {
-+				pins = "PC6";
-+				function = "nand0";
-+				bias-pull-up;
-+			};
-+
-+			/omit-if-no-ref/
-+			nand_rb1_pin: nand-rb1-pin {
-+				pins = "PC7";
-+				function = "nand0";
-+				bias-pull-up;
-+			};
-+
- 			/omit-if-no-ref/
- 			spi0_pins: spi0-pins {
- 				pins = "PC0", "PC2", "PC4";
-@@ -377,6 +413,22 @@ iommu: iommu@30f0000 {
- 			#iommu-cells = <1>;
- 		};
- 
-+		nfc: nand-controller@4011000 {
-+			compatible = "allwinner,sun50i-h616-nand-controller";
-+			reg = <0x04011000 0x1000>;
-+			interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_NAND>, <&ccu CLK_NAND0>,
-+				<&ccu CLK_NAND1>, <&ccu CLK_MBUS_NAND>;
-+			clock-names = "ahb", "mod", "ecc", "mbus";
-+			resets = <&ccu RST_BUS_NAND>;
-+			reset-names = "ahb";
-+			dmas = <&dma 10>;
-+			dma-names = "rxtx";
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
- 		mmc0: mmc@4020000 {
- 			compatible = "allwinner,sun50i-h616-mmc",
- 				     "allwinner,sun50i-a100-mmc";
--- 
-2.47.3
 
