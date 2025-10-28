@@ -1,108 +1,98 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770CB3451C9
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Oct 2025 15:46:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25992346A0F;
+	Tue, 28 Oct 2025 16:09:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761666371; cv=none; b=Y+NpJdpd6n1+h42eLpmi8SPjJvuCk7u1jUrhAqxbvcLhs1BzfNs1p7bQLifHGrIqsnnLhwobJVR7PJRXUdtq+QzYSSPruuGblw6bDMeEc0iPiLhJyHbW3hTJF3s1f4sllawTVKpmJeWahP8ZKsma3xcXE6Z9OmZ9fW7QT9R40Xc=
+	t=1761667799; cv=none; b=Pl6R1yniyprb60OuuADozUbqOCxOGSAKzYuTg93NWIkL0F7YBj2eJBpxIwvTa+imNVVOo/byPr/tOs5N8IXof3ilqFO/tfCE+nKHNAFHmFIKJkBiGgDK7kJZIraY1IhB8wQTMGT5z+9zxohsv+A8tYQU0N1JZdzdI7kjuAGAqgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761666371; c=relaxed/simple;
-	bh=C67F/J05mAe+rfgJ6AOhDZKKwYuaYMQaqkEjs240jaM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=u9cwWwXzm7wBKgRYq0v7bGFSNYmosmQ9PGkkUGy2F/MrrME6iwluNmVX4zLrB6F3SYmBIkE1oCbek/LQWx/rrKuY4P7VvA7ysOWPOjaTMTW7JJ6or0BPwi9v+rsSzf1jAAwL5hkL8AnJHONkDvvG1bKWt5OrwrgKcUYkN79sYkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mqEnkrxz; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761667799; c=relaxed/simple;
+	bh=yS9M85o0R1tVxIA9C9jEiGOV1H8VwCUJawV1LHO0FmI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=lS0YWxnOmJQ+x9j5u5Bxg9KJg4Ewj06ar3EjM25qBQSBh1M1FB0rQE42TciuEjuedF416sXUdlrOMEoXZi1/O3LCHcu8kCyM9/Shgg2RvYKNN3AWp7QsamwcDuujc/0tnd1/vGpSxRJ35K/gSShGBLu1dpV6ogBoEaKLmmrgj8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Klvoy4DM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mqEnkrxz"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3ed20bdfdffso6191628f8f.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 Oct 2025 08:46:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761666368; x=1762271168; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C67F/J05mAe+rfgJ6AOhDZKKwYuaYMQaqkEjs240jaM=;
-        b=mqEnkrxzBFTcMLAbNkMKeJaeTPlApbXpwJmsB96wcZ1SYU9+a10exZT7ApJhWZPksM
-         89VYBA1cF2WwL39+5u3arPO8rJK6vOlHXhgGwvJARo2xHazYMt5kahIRD7OrVZlOyCpo
-         IHpaAsuU2xDtPhT4CvX5b8lTYTo77FW/ZPwodJlYzc1Sy8Y86vVHYFcV4+JROvI/kjdB
-         XwOWKEzzG3syknpyz+9MO2C2YQGPPGSx7pRmowoHQTO6D4LqRMrE9016XfBOlRZ5heZa
-         idKbcSeJitLXPWB/gLgac3UaE1mUHzCmZ5ZJ66oQ1pzYmwp0/3oJ6f1xMTvdea6Uv23v
-         dzfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761666368; x=1762271168;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C67F/J05mAe+rfgJ6AOhDZKKwYuaYMQaqkEjs240jaM=;
-        b=mXMEo9rIOy6BDFyCz0cGa6d+Vdqr+WUWhp/ZtcSYuMWoyuIsHlOuU6B6dAFsApdfZc
-         N7J3KOy90BF3Mo02id3FaGNqB8wmjYQySU55B9pJ1DkC5FFbgZZ8P9UaFrlPBbTgKK7s
-         pkUNUwSJlurFQI+uGh38bItgcB/jcDFtY7xXXRRi9lRdJewg0dHO1PooTv4XO3r532PB
-         G8u/OutIprM8OOgjIxXcbycZtXsCEUDcVQJSvhizgNzpAwkJbe/KVm1HHcrTXpfoZBh4
-         ZC5oowupekspaUzRBQeDuFIquUM8iWIDoYBTOBqVl7Pa36MbPH8GmkpmTbhYacpysMND
-         YaUw==
-X-Forwarded-Encrypted: i=1; AJvYcCV7GYCf0demoIe/JuyoqsU9cXJCbwp7iJ4UHXIdPQWPwThQyOWowbkRrlXza0fMrKoTbwNjVmdCeiRiEg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwjqPbE3SXdKRlDEpry5atWzQWAud0mV+417eEKVmHFVz7ItQYq
-	7dm1UZB2ZvLzO4lpPxSyI3nQYbEAvoVOQ7o/ukv55xWlIxcoom5bF8s4
-X-Gm-Gg: ASbGnctP3baKUiQi+WD7HhdS7dE+PJES05ydUrdeZ36+LfA/BLMM+57Z0jNlwIAxolN
-	TxHcaFmdpx+MtzUOR+Qh5BSgQ6Xy+LNsFvA2uQb2QH74F/HvDtNnLaFBE5nvXXKbPit0zbzlpOg
-	XDbtNJEx7mrEsWLOjtoxCWV8OvXZHmDAe8FaWuDStBYN+6e5LcMZiMHSmrRR4louciSUzD6MVGC
-	P/GYD/gFg4X3yocUg9rFEAXCSgovimupoZOg9bB5iVxWzkgtUJIgyww1IFMEepYbCbFiPdgpA6C
-	nO/SBbOHeCKCL78+SawchoIk1lgZ6UdC8big5zthHzqKBfDXomLlEgg5Wf5Z8M9iBhScrp+oU8i
-	94mU/cKh+O7MsZnqW/l03eZFlOvoMw+GrlwqFO4rbixYbX/MwaZm3JtCsNiz3KboW808JXQb8Oh
-	n13IZksfNy+15BMvykPZjA0rq36vNsb0teSy2g56ijrr4BQikS+8tY1/1OS8gB5+kqhSvw
-X-Google-Smtp-Source: AGHT+IHosnjBq+7lnXCkpH/VCvR/dfjIj3WsAxDBH3sVvdzDiErsKruO/jAMqh6ugeSBky6z5EKP1g==
-X-Received: by 2002:a05:6000:144e:b0:429:7693:884f with SMTP id ffacd0b85a97d-429a7e35c26mr4283497f8f.5.1761666367549;
-        Tue, 28 Oct 2025 08:46:07 -0700 (PDT)
-Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952cbb20sm20964431f8f.18.2025.10.28.08.46.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Oct 2025 08:46:07 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Richard Genoud <richard.genoud@bootlin.com>
-Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>,
- Wentao Liang <vulab@iscas.ac.cn>, Johan Hovold <johan@kernel.org>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Richard Genoud <richard.genoud@bootlin.com>
-Subject:
- Re: [PATCH v4 14/16] mtd: rawnand: sunxi: introduce sram_size in
- sunxi_nfc_caps
-Date: Tue, 28 Oct 2025 16:46:05 +0100
-Message-ID: <4461451.ejJDZkT8p0@jernej-laptop>
-In-Reply-To: <20251028073534.526992-15-richard.genoud@bootlin.com>
-References:
- <20251028073534.526992-1-richard.genoud@bootlin.com>
- <20251028073534.526992-15-richard.genoud@bootlin.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Klvoy4DM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 713ECC113D0;
+	Tue, 28 Oct 2025 16:09:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761667798;
+	bh=yS9M85o0R1tVxIA9C9jEiGOV1H8VwCUJawV1LHO0FmI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Klvoy4DM0bfRyYdMUJy+zBkWNEL+Q2goNadja/TnrTf4DM91nNMBozc1k89jNw1Of
+	 pC7+YdVRhVKTlzhIA5Y38VSaMSCqAJX3RU1Dx9ltV548c6zTJ+UhdQejy919N8WQX2
+	 x86YaAuQDf99auJcSlOv9y7wAtAmwKiXSVkTg2mAFOkAiLdcQ5Yfeuctn4bSwtVL2n
+	 bL/iCAd35vlxMFBvU1MPX34VzDWiqB9KEde1exDoHxv35O1dF5BBoKNdwWcXuPm4wE
+	 Gg7tJ8EZ3KIOFONRcW03HRdTmdN/z8oMvto6rRoIQrdmHD1/LKdQCUUgORlsTIuXkE
+	 bhbVwN8bkHmOQ==
+From: Mark Brown <broonie@kernel.org>
+To: Jernej Skrabec <jernej@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, Vinod Koul <vkoul@kernel.org>, 
+ Chen-Yu Tsai <wens@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, linux-sunxi@lists.linux.dev, 
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, dmaengine@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20251027125655.793277-1-wens@kernel.org>
+References: <20251027125655.793277-1-wens@kernel.org>
+Subject: Re: (subset) [PATCH v2 00/10] allwinner: a523: Enable I2S and
+ SPDIF TX
+Message-Id: <176166779616.143847.10303188319180115816.b4-ty@kernel.org>
+Date: Tue, 28 Oct 2025 16:09:56 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-88d78
 
-Dne torek, 28. oktober 2025 ob 08:35:07 Srednjeevropski standardni =C4=8Das=
- je Richard Genoud napisal(a):
-> The H6/H616 the SRAM is bigger than the A10/A23 one, so move its size
-> into sunxi_nfc_caps.
->=20
-> No functional change
->=20
-> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+On Mon, 27 Oct 2025 20:56:41 +0800, Chen-Yu Tsai wrote:
+> This is v2 of my Allwinner A523 family I2S and SPDIF enablement series.
+> 
+> Changes since v1:
+> - Collected tags
+> - Dropped clk patches that were merged
+> - Added patch for SPDIF pinmux settings that was missing in v1
+> - Dropped bogus change to DAI name in SPDIF driver
+> - Dropped clk rate message in SPDIF driver
+> - Switched my email to kernel.org one
+> 
+> [...]
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Applied to
 
-Best regards,
-Jernej
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
+Thanks!
+
+[02/10] ASoC: dt-bindings: allwinner,sun4i-a10-i2s: Add compatible for A523
+        commit: 67e4b0dfcc6702a31fbb6a3015c0dc867e295eb4
+[03/10] ASoC: dt-bindings: allwinner,sun4i-a10-spdif: Add compatible for A523
+        commit: 6ddcd78aa7f85e1d94ab7f90c72d1ad0c0c7b6ea
+[04/10] ASoC: sun4i-spdif: Support SPDIF output on A523 family
+        commit: 4a5ac6cd05a7e54f1585d7779464d6ed6272c134
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
