@@ -1,40 +1,36 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 572487081E
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Oct 2025 16:23:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660F87081E;
+	Tue, 28 Oct 2025 17:05:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761668595; cv=none; b=tuuF4om4E+AvxIUsgo0fEdkU2PPwgCu94jArP8sGk9fOuZRf/DbflRS0iBuh177ar3ai/02iChLtL2L0TnIEnk8enO7EDijySRl2ppMujwjwvRhcfKrzhxCt0AawvdnSweiPqSZfJB5POFR7Xp7e7DIBZGin7o1z3ctqHtm7krw=
+	t=1761671135; cv=none; b=G5/ZJ4Q6XrPwn4RquQ0EjeCX+Zx2Vxef47ExoCSV+qDdV4YKPtpamkiMYS6viTp4devQAso6MZB/PeCFC4OVA6bmLHy3imxeRAdij94/Z3Q5jX0GP/3nKdgrC9zBSNC7V+b/IXCevIKCN2bSE82S86wOvHRch795cvKJCTMbfJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761668595; c=relaxed/simple;
-	bh=QgyPv8AyxMxEy78bNJxB/fdACx3L2Hi+FDtNBndD2NI=;
+	s=arc-20240116; t=1761671135; c=relaxed/simple;
+	bh=oL0rXXmMHbcR3EvMkdJ0IKxdFjgk39YWymPhTwNMDgw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=o/d883Iokb8ObZtzQg5sAJkz0Rl318CeXxd8EN+E5XprQaAIo6EokgvI9sWcSuNSIjxVRABq1XY/Mc4UKnq4IN6YaohFKNmdq0ItUfqwfyn7E5fMCDT98ZmuKNW2MD0yINIJYhC5+yMGh3jYJQxWD4QwGjgZfVeZjqR530aNozk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ldOj4Yzd; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	 MIME-Version:Content-Type; b=GUYuObwHAo7hCum6Xh+dZkNXf8yCmJn/pHDjfco3GuViCmvnFL9riRNAWsXcdcMtN0a8qWKraNqxJBlWuHJ+ARD058M3OKYjQmjunm1ROT5OXb5YX5wSJqpSJQZEaZP65aLyWz3YmU6MOawZNGi4CIz66+p8TPpBdDt2aSG0SOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GAc4R7Rr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ldOj4Yzd"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 509AEC0BEA7;
-	Tue, 28 Oct 2025 16:22:51 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 958E4606AB;
-	Tue, 28 Oct 2025 16:23:11 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D24BA117AC5D9;
-	Tue, 28 Oct 2025 17:23:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761668590; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=39Q4QJAbuaHwdppokZlTMSHTUZpVg9kkFS9isAIE9G0=;
-	b=ldOj4Yzdmox9S8RzQVtCR1Pl/eps9aaUcg+kOLQRCh6F0fGqutlY7MBEcwLDtqX2WSMAyn
-	BWbNdnoXCq/KnEmVcfE0C2IJB8DaED/lNqryn8HTZ9rJDwg6212YWyqrHBczBgelTiSWE+
-	JilJPeNXAYSCN59mw8RLo9MbNd/wgh8A1UDKzdBX7+vqOCnLQAOcjS+6stgVBMqJeKLUye
-	VG3ow2UkTPfMF+/UCPxrY53QKtuHESI6Ggky06v2QvN13H2LQ+jnefQyi91tw2NZCb7hyD
-	/Cl2bBeT8MaT9kEDLU63bN//W3k7IFey7jBOuiQC8yIUr+WkDYlqO0WOulL6Jg==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Richard Weinberger <richard@nod.at>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GAc4R7Rr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0592C4CEE7;
+	Tue, 28 Oct 2025 17:05:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761671134;
+	bh=oL0rXXmMHbcR3EvMkdJ0IKxdFjgk39YWymPhTwNMDgw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=GAc4R7RrcicVl5PeahubF+TfLli3xATxMXRSgNiesCP4FlAu9VGhv4daehI46gO3t
+	 YdHl4NcawireCvk/sBo4Azw3sJfkZADoxK7hWgThsdwGxQv0LWx37SyEnoFJXQnFkc
+	 fg+aaheIUkRocD6+64eu7paqvkKQ/DSpVWcEiTuJElMCyfGc2LiclFQDx+zdVYqojG
+	 anSZI/vwWlsw3nc1UUGe3i9AKZ5Ft4y514OUiwYDcbSXE2I9ALHWxC1Q4sd7rB8FvQ
+	 jv7/p0goh4MSQI0HzGXw0pyIkbio0QbHKE8itMZ7ybLs90DcIHeYH/iNvG5rpkGqxU
+	 DHXj6ifX+xy5A==
+Received: by wens.tw (Postfix, from userid 1000)
+	id D9CDC5FCB3; Wed, 29 Oct 2025 01:05:31 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
 	Vignesh Raghavendra <vigneshr@ti.com>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -43,7 +39,7 @@ To: Richard Weinberger <richard@nod.at>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
 	Richard Genoud <richard.genoud@bootlin.com>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
+Cc: Chen-Yu Tsai <wens@kernel.org>,
 	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
 	Wentao Liang <vulab@iscas.ac.cn>,
 	Johan Hovold <johan@kernel.org>,
@@ -54,10 +50,10 @@ Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 00/16] Introduce Allwinner H6/H616 NAND controller support
-Date: Tue, 28 Oct 2025 17:23:02 +0100
-Message-ID: <176166832292.369296.13474664579564092602.b4-ty@bootlin.com>
-X-Mailer: git-send-email 2.51.0
+Subject: Re: (subset) [PATCH v4 00/16] Introduce Allwinner H6/H616 NAND controller support
+Date: Wed, 29 Oct 2025 01:05:29 +0800
+Message-ID: <176167109288.1159653.8613197052957076565.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251028073534.526992-1-richard.genoud@bootlin.com>
 References: <20251028073534.526992-1-richard.genoud@bootlin.com>
 Precedence: bulk
@@ -68,7 +64,6 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 
 On Tue, 28 Oct 2025 08:34:53 +0100, Richard Genoud wrote:
 > This patch series introduce H6/H616 NAND controller support (but not yet
@@ -80,41 +75,14 @@ On Tue, 28 Oct 2025 08:34:53 +0100, Richard Genoud wrote:
 > 
 > [...]
 
-Applied to nand/next after fixing the Links:, thanks!
+Applied to sunxi/dt-for-6.19 in local tree, thanks!
 
-[01/16] dt-bindings: mtd: sunxi: Add H616 compatible
-        commit: 7c99743a0b10d18abe6895c01843aa5d7f8a2a6f
-[02/16] mtd: rawnand: sunxi: Remove superfluous register readings
-        commit: deaa77ed66bf6ed1f7c06c183bd7a5bc0d931c62
-[03/16] mtd: rawnand: sunxi: Replace hard coded value by a define
-        commit: 1be7ac78b72f25e0e2ae2288944da31d08edc2f6
-[04/16] mtd: rawnand: sunxi: move ECC strenghts in sunxi_nfc_caps
-        commit: 94dc08adaf927b8a1d4de606055cf1a9c7256425
-[05/16] mtd: rawnand: sunxi: introduce reg_ecc_err_cnt in sunxi_nfc_caps
-        commit: 4a3a05681432c4a3bf9f7af3c813baf33bb143e8
-[06/16] mtd: rawnand: sunxi: introduce reg_user_data in sunxi_nfc_caps
-        commit: f53c74d0577426bcf604dd2f087da812812a6538
-[07/16] mtd: rawnand: sunxi: rework pattern found registers
-        commit: 6fc2619af1eb6f5994a27e8617ac0911cdba81b8
-[08/16] mtd: rawnand: sunxi: add has_ecc_block_512 capability
-        commit: 8c1b28ab3e4ec8d709c47928e1e6ecaee873d74b
-[09/16] mtd: rawnand: sunxi: introduce ecc_mode_mask in sunxi_nfc_caps
-        commit: d21b4338159ff7d796e0c809a29d3425b2864115
-[10/16] mtd: rawnand: sunxi: introduce random en/dir in sunxi_nfc_caps
-        commit: 1340fa872102cd7eebdcc358965381d5928803c0
-[11/16] mtd: rawnand: sunxi: introduce reg_pat_id in sunxi_nfc_caps
-        commit: ee61bba4ee7ca6a862ec8c8e76b2051606f25e97
-[12/16] mtd: rawnand: sunxi: introduce reg_spare_area in sunxi_nfc_caps
-        commit: 6208274d0a27b81ae5425c819810fcd7bf89636a
-[13/16] mtd: rawnand: sunxi: introduce ecc_err_mask in sunxi_nfc_caps
-        commit: 97d13bcea2306f47d5e54e5a347d5ca5817deb0d
-[14/16] mtd: rawnand: sunxi: introduce sram_size in sunxi_nfc_caps
-        commit: 5ddfbc68ec7ac92ff64d8420909b1258be3ca8a1
-[15/16] mtd: rawnand: sunxi: Add support for H616 nand controller
-        commit: 88fd4e4deae87fa66e0e00e2bf6a4c362d241215
+[16/16] arm64: dts: allwinner: h616: add NAND controller
+        commit: f55a2526317aca8ecc1b21b346dbdebbc6aad97d
 
-Patche(s) should be available on mtd/linux.git and will be
-part of the next PR (provided that no robot complains by then).
+I also fixed up alignment of the clocks property in the nand-controller
+node.
 
-Kind regards,
-Miquèl
+Best regards,
+-- 
+Chen-Yu Tsai <wens@kernel.org>
