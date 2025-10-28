@@ -1,98 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25992346A0F;
-	Tue, 28 Oct 2025 16:09:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C667F345CDE
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Oct 2025 16:14:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761667799; cv=none; b=Pl6R1yniyprb60OuuADozUbqOCxOGSAKzYuTg93NWIkL0F7YBj2eJBpxIwvTa+imNVVOo/byPr/tOs5N8IXof3ilqFO/tfCE+nKHNAFHmFIKJkBiGgDK7kJZIraY1IhB8wQTMGT5z+9zxohsv+A8tYQU0N1JZdzdI7kjuAGAqgs=
+	t=1761668065; cv=none; b=QuOlIq2O8XH3DE7WJVqpUMB77DsVmeGYB0Lz9vWmVRK2jjolKJraAH4qRZqEIB+2DPyHS8uVuhvVy6bnWizKo9PQajZ8xDlkayo4W7CKqprbPEIXrSUlyX912kiCZDEm/KFZEq4G0iV3ALLbv6+X5RHec6VWtXLG2+U9vpYSIhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761667799; c=relaxed/simple;
-	bh=yS9M85o0R1tVxIA9C9jEiGOV1H8VwCUJawV1LHO0FmI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=lS0YWxnOmJQ+x9j5u5Bxg9KJg4Ewj06ar3EjM25qBQSBh1M1FB0rQE42TciuEjuedF416sXUdlrOMEoXZi1/O3LCHcu8kCyM9/Shgg2RvYKNN3AWp7QsamwcDuujc/0tnd1/vGpSxRJ35K/gSShGBLu1dpV6ogBoEaKLmmrgj8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Klvoy4DM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761668065; c=relaxed/simple;
+	bh=ZUd3F24Aep/+7cTFQ97wf/UBkrskt0cFfzmp0C2FBPA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RBeB6FaU7bZrBy38xj37tNjpyRZ2HtxyofYGj71n2LT7Ug5dnzMYU5DvP8o6foFxeLdl/iM6nRglDf15dwWN4WMkYWe9ie2Q90C3zaflzra5ynuRR3+v+oh53pvAw/JHb7BkEreSyFtAUQ+IFVSWDcoiuDlEkPkVcSfYm0vg/eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=pass smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=lNuap1qS; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jookia.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Klvoy4DM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 713ECC113D0;
-	Tue, 28 Oct 2025 16:09:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761667798;
-	bh=yS9M85o0R1tVxIA9C9jEiGOV1H8VwCUJawV1LHO0FmI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Klvoy4DM0bfRyYdMUJy+zBkWNEL+Q2goNadja/TnrTf4DM91nNMBozc1k89jNw1Of
-	 pC7+YdVRhVKTlzhIA5Y38VSaMSCqAJX3RU1Dx9ltV548c6zTJ+UhdQejy919N8WQX2
-	 x86YaAuQDf99auJcSlOv9y7wAtAmwKiXSVkTg2mAFOkAiLdcQ5Yfeuctn4bSwtVL2n
-	 bL/iCAd35vlxMFBvU1MPX34VzDWiqB9KEde1exDoHxv35O1dF5BBoKNdwWcXuPm4wE
-	 Gg7tJ8EZ3KIOFONRcW03HRdTmdN/z8oMvto6rRoIQrdmHD1/LKdQCUUgORlsTIuXkE
-	 bhbVwN8bkHmOQ==
-From: Mark Brown <broonie@kernel.org>
-To: Jernej Skrabec <jernej@kernel.org>, 
- Samuel Holland <samuel@sholland.org>, Vinod Koul <vkoul@kernel.org>, 
- Chen-Yu Tsai <wens@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, linux-sunxi@lists.linux.dev, 
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, dmaengine@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20251027125655.793277-1-wens@kernel.org>
-References: <20251027125655.793277-1-wens@kernel.org>
-Subject: Re: (subset) [PATCH v2 00/10] allwinner: a523: Enable I2S and
- SPDIF TX
-Message-Id: <176166779616.143847.10303188319180115816.b4-ty@kernel.org>
-Date: Tue, 28 Oct 2025 16:09:56 +0000
+	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="lNuap1qS"
+Date: Wed, 29 Oct 2025 03:11:48 +1100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
+	t=1761668057;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NuCR3lo6Nd/kjORbeNKQIwXUm0LJEtYEUOanCS5SH30=;
+	b=lNuap1qSEeWae72yNxZtwWeE+k/V8bUoYRUigq3QsRdJRj8rHFcxiIRbzkqwgnm13nT6qC
+	/4YdgscdPwT1hp9ac0uc+hGsl9g4v8MVMmATo5CmBGACfNWhWnV376MV2uClGA+t9NTK+e
+	+blJPLFXb9iJpb6l8w1dw4ObVnRarAffjlz8JWf2674eHlo5LyJGCPM3VSJvKIWCmbdKn6
+	FysAuPL8rBARX6ID42Tr1p9BoZ9uFQNVJKHH+chj7ofmuHSFPZUFCI2/m4LQC+GCf7Mr3W
+	TubUmiUHeAw2/msPBl3/rgDJnL6ZN4nyzsa9G7t8tOqjy5QyhvczWVyh/6Shjw==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: John Watts <contact@jookia.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Lukas Schmid <lukas.schmid@netcube.li>, Tom Rini <trini@konsulko.com>,
+	linux-sunxi@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>, u-boot@lists.denx.de
+Subject: Re: [PATCH v3] sunxi: extend R528/T113-s3/D1(s) DRAM initialisation
+Message-ID: <aQDrRHmBntmylpoL@titan>
+References: <20251026114118.3922714-1-lukas.schmid@netcube.li>
+ <20251026160820.1947e762@minigeek.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-88d78
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251026160820.1947e762@minigeek.lan>
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, 27 Oct 2025 20:56:41 +0800, Chen-Yu Tsai wrote:
-> This is v2 of my Allwinner A523 family I2S and SPDIF enablement series.
+On Sun, Oct 26, 2025 at 04:08:20PM +0000, Andre Przywara wrote:
+> On Sun, 26 Oct 2025 12:41:17 +0100
+> Lukas Schmid <lukas.schmid@netcube.li> wrote:
 > 
-> Changes since v1:
-> - Collected tags
-> - Dropped clk patches that were merged
-> - Added patch for SPDIF pinmux settings that was missing in v1
-> - Dropped bogus change to DAI name in SPDIF driver
-> - Dropped clk rate message in SPDIF driver
-> - Switched my email to kernel.org one
+> Hi,
 > 
-> [...]
+> > The T113-s4 SoC is using the same die as the T113-s3, but comes with
+> > 256MiB of co-packaged DRAM. Besides the doubled size, the DRAM chip
+> > seems to be connected slightly differently, which requires to use a
+> > different pin remapping.
+> > 
+> > Extend the DRAM initialisation code to add support for the T113-S4 aka
+> > T113M4020DC0 by checking the SoC's CHIPID, which is stored in the first
+> > word of the SID efuses.
+> > 
+> > Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
+> > Tested-by: John Watts <contact@jookia.org>
+> > Reviewed-by: John Watts <contact@jookia.org>
+> > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> 
+> Careful with those tags: those were given for quite a different version
+> of the patch, I wouldn't carry them over, since there were quite some
+> changes since then.
+> 
+> > ---
+> > Changes in v3:
+> >   - Move the Chip-ID list link to a comment in the header file
+> >   - Use andre's suggested commit message
+> >   - Drop out of remapping early for T113M4020DC0 instead of doing it in the
+> >     switch-case
+> > 
+> > Changes in v2:
+> >   - Use uint32_t instead of u32 for sid_read_soc_chipid return type
+> >   - Add descriptive comment about source of Chip-ID list and register
+> > 
+> >  drivers/ram/sunxi/dram_sun20i_d1.c | 10 ++++++++++
+> >  drivers/ram/sunxi/dram_sun20i_d1.h | 11 +++++++++++
+> >  2 files changed, 21 insertions(+)
+> > 
+> > diff --git a/drivers/ram/sunxi/dram_sun20i_d1.c b/drivers/ram/sunxi/dram_sun20i_d1.c
+> > index a1794032f3b..d851deac7a5 100644
+> > --- a/drivers/ram/sunxi/dram_sun20i_d1.c
+> > +++ b/drivers/ram/sunxi/dram_sun20i_d1.c
+> > @@ -54,6 +54,11 @@ static void sid_read_ldoB_cal(const dram_para_t *para)
+> >  	clrsetbits_le32(0x3000150, 0xff00, reg << 8);
+> >  }
+> >  
+> > +static uint32_t sid_read_soc_chipid(void)
+> > +{
+> > +	return readl(SUNXI_SID_BASE + 0x00) & 0xffff;
+> > +}
+> > +
+> >  static void dram_voltage_set(const dram_para_t *para)
+> >  {
+> >  	int vol;
+> > @@ -663,6 +668,11 @@ static void mctl_phy_ac_remapping(const dram_para_t *para,
+> >  
+> >  	fuse = (readl(SUNXI_SID_BASE + 0x28) & 0xf00) >> 8;
+> >  	debug("DDR efuse: 0x%x\n", fuse);
+> > +	debug("SoC Chip ID: 0x%08x\n", sid_read_soc_chipid());
+> > +
+> > +	if (sid_read_soc_chipid() == SUNXI_CHIPID_T113M4020DC0) {
+> 
+> You don't need braces for a single statement in the "if" branch (but I
+> can fix this up).
+> 
+> Other than that this looks quite good to me now. If someone with a
+> board (John?) could confirm that this works, I am happy to take it.
 
-Applied to
+Tested on the same T113-S4 and T113-S3 boards as before.
+Works great in both cases.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Reviewed-by: John Watts <contact@jookia.org>
+Tested-by: John Watts <contact@jookia.org>
 
-Thanks!
+John.
 
-[02/10] ASoC: dt-bindings: allwinner,sun4i-a10-i2s: Add compatible for A523
-        commit: 67e4b0dfcc6702a31fbb6a3015c0dc867e295eb4
-[03/10] ASoC: dt-bindings: allwinner,sun4i-a10-spdif: Add compatible for A523
-        commit: 6ddcd78aa7f85e1d94ab7f90c72d1ad0c0c7b6ea
-[04/10] ASoC: sun4i-spdif: Support SPDIF output on A523 family
-        commit: 4a5ac6cd05a7e54f1585d7779464d6ed6272c134
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+> 
+> Thanks,
+> Andre
+> 
+> 
+> > +		return;
+> > +	}
+> >  
+> >  	if (para->dram_type == SUNXI_DRAM_TYPE_DDR2) {
+> >  		if (fuse == 15)
+> > diff --git a/drivers/ram/sunxi/dram_sun20i_d1.h b/drivers/ram/sunxi/dram_sun20i_d1.h
+> > index 91383f6cf10..83ae7eb36cd 100644
+> > --- a/drivers/ram/sunxi/dram_sun20i_d1.h
+> > +++ b/drivers/ram/sunxi/dram_sun20i_d1.h
+> > @@ -19,6 +19,17 @@ enum sunxi_dram_type {
+> >  	SUNXI_DRAM_TYPE_LPDDR3 = 7,
+> >  };
+> >  
+> > +/*
+> > + * Chip-IDs taken from
+> > + * https://github.com/ua1arn/hftrx/blob/25d8cb9e4cfe1d7d0e4a2f641025c88a9ec5e758/inc/clocks.h#L250
+> > + */
+> > +enum sunxi_soc_chipid {
+> > +	SUNXI_CHIPID_F133A = 0x5C00,
+> > +	SUNXI_CHIPID_D1S = 0x5E00,
+> > +	SUNXI_CHIPID_T113S3 = 0x6000,
+> > +	SUNXI_CHIPID_T113M4020DC0 = 0x7200,
+> > +};
+> > +
+> >  /*
+> >   * This structure contains a mixture of fixed configuration settings,
+> >   * variables that are used at runtime to communicate settings between
+> 
