@@ -1,64 +1,64 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04B42857EA
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Oct 2025 15:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF093342C95
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Oct 2025 15:43:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761666114; cv=none; b=qLIMLRHfrJLgRFZ0CrWqBGIv7NLNna74ua+A5zhmdLODYY/J1ul0gYqgyUkskOqzYJnSNRGe5X5lYmClnhfkhWC7uL9fTXu0MP2KNV51A3lyCHeEdj4wCRAXBCgOUvX3Lp59Bs4HE+Qs2yTADip2QOTs8Rb/fqekvWYYPVmARyI=
+	t=1761666214; cv=none; b=GkPxyQyFjAMX2lZwgbNVy12UJQ4WqWTuUtc0hJWK068CDMcGYniMQb5YDpgw4+ULn01boIoMPbcM3cPvqOXtHmd7eA5r2ndkMp4LhMZOtASaYJGRCbKWyLufTGTPBI8SsIe25zy84sExcc+mzv7pR0ue5YgWTkyAdyvmOJPIuPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761666114; c=relaxed/simple;
-	bh=bEbBGo6SDi3T7IlWHXIwQmSF5urPM5A7yPazEXssXV4=;
+	s=arc-20240116; t=1761666214; c=relaxed/simple;
+	bh=0OdKjf6E11PLhTN47izQgrYewu6DAaBIZBsxLqLrIEE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tg2WC6TWDn1KI+ivlg/vGMXoZmDDs5qpVffjpQk0JRHuiYta5qi0+RpDntteMiQrPRoOehy4/FTQQm6yVwDsHNio6+ftX48DuVh+GMVGp3DV9Z3GWEKKmTz3+cDgu/kO7g+16DUKv2YuAATuR3X+cCOOhHgRvl31pOlwbWMbZOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=muaG1CTW; arc=none smtp.client-ip=209.85.128.42
+	 MIME-Version:Content-Type; b=Oq6W+MtxYpcf9gCwXdK64nxYBanL1wgLQXB76FyoBi5J/Z3vhgtQrJ7I1bGE6p0nVPFYXbu6iF9mhf1NmnxMvfwe+xri7hoMdQsf4iD+xjjskGMp2tJ4KiqUxCahWRxrWRSt1en28Z1a55yce8CG/CpoC4NfrWTdHprbBvMN0u0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EjsKOcgL; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="muaG1CTW"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-47117f92e32so56075005e9.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 Oct 2025 08:41:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EjsKOcgL"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-475db4ad7e4so16232045e9.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 28 Oct 2025 08:43:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761666111; x=1762270911; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1761666211; x=1762271011; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3rER/cj499mXACNSk+6J53aPnWJLF10EoyWFEaSt4oo=;
-        b=muaG1CTWHNdII2iqNsWGpH++0hiaYfQgIT4I1JTv6S8q+B39tCBXEe69ptA/YFYwTY
-         YReYSYFQ3u0nL/sq50HYMqG01ChnDMi5wl1g1omoK1Tqm9r9z4l3M8fI4EyIQ4vpvSM2
-         omCghwt6aSh66hSbg8StzKT8DtIs3XFSaXXD5YNd1dGlvYGAKjrV98P0LskZPJf6Oc6c
-         dUzyR61awS+FEL9cQiHotGLHwVQ3kFHYD/MXKi6g8hj/0vB2gqLPuePK9bpuuW6ncPhI
-         ZWSLiz7ADOJh8LBzZcBrQleRzFs2qVTYNrNqCU3+7LrflXxuA8zStMWecPbf7IncaM+O
-         A4zw==
+        bh=0OdKjf6E11PLhTN47izQgrYewu6DAaBIZBsxLqLrIEE=;
+        b=EjsKOcgLT7tA3dtWC78UpV5wppVsR1sz+3/mR36t7oRWPGt3b7WdG1yudpPpwXYwFK
+         XDEcDcAvTr7bj/0UuoWU3fu6E7aCLMO0IrtSPrAxcJnH1MlZH62UkuWW2Xhpn1s7ZA3M
+         FNTal4KHfTIiyrXLNrsG0OzENsna+EAtqPY/XATCgp2JJbmhhitIK9EyrhjiQzy2EnYI
+         3wuTFJ+yBeIpBT85cmJhR8cr9Oae4UpmanQ16agyjPUL1y0/iSJAuGTclnfeJbdYxZp2
+         WwF6bNyHhGHzDc0KkSrSH3/ioQL8QegfupIlD4QTsfwr/NaWKlhKFJJUA1/5zAIDcqEH
+         BI0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761666111; x=1762270911;
+        d=1e100.net; s=20230601; t=1761666211; x=1762271011;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3rER/cj499mXACNSk+6J53aPnWJLF10EoyWFEaSt4oo=;
-        b=vvBKHvAV6v53tyj8od/lXPetq9KRvmyLSiAKgKLmbTtqBBn+D/Th46lmrppFmEQwi1
-         8lV1xUvU1tmzlJSD9uBQkTDyn0FcsRRqZi2fpcTG3KsZ16XRnzObmd75Lmi8erdhHgXb
-         gj+5AuLi+ncCvLvfGGaqvXcGFYg66yF6gLSF8FDq6mo9ipFFMrAgpoFNOxr/Xd2Je2JN
-         q2IeWkuVMf3GlxoXz0gYVkWDqLjviIMWtbRrW6AIRgvdLGd2I18dMZhMCy17Evc7rDuL
-         AIMbaCPhnE6rKkhYvaO3/MwSn2ssW9UK/TboMgZjcn4ovLcHO8aFJxCmOh85yS+CFiGn
-         2DZw==
-X-Forwarded-Encrypted: i=1; AJvYcCWVf7iBzLNdNMIMi6I/6et/rBthrDLIqsfBZdi5vg8XyI/UYuovtIz4tWgLTvfVyeJwOYXznnLbQnQL5w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz2SstCWF7VlY7YMibvVnS1h3ar6XkttbavJB33y9hlFiWjoHpK
-	DYurWFzD8C6XBqALhhS+cqFFOzmY3ArE4NvZhUtfHcJGiwRgv9xHUqz5
-X-Gm-Gg: ASbGncvGaCy5XZgohT6RAKdL8BmV0Bk7i2ZfVp/Z8T7VlGtp5uyCDDTvyk6d3kwgwii
-	JvotTXSVTRcLbvUnaa4/lOTOKkIxzmpYqlDdktonBgb7rqJhYj5EnmIaRYjD1m5ZQePlH9cWHRv
-	wkgsDT3ORIaUWNJ+1bM+cvf9xjrV9z0CHWNCPcjbt8yWGiIGbVyHxqTBDtIys7qdCn7fchTMKSK
-	Cr0WCapoHNaQmzBYBQ7RZmngBWqO9ZDW07pfTjoDdeNy0jUhG8mGXxzQWtghF+Vrw4CdnfZMlwf
-	mgr8jg4VqIiGgE6W59U8xChaXATbXVPZGvw7LE7m1dXU435O+I8qDuKI3VscbzqBWhpcbNN3LNd
-	YhvQ8+k5SK6bbR13euY0QzNW96uq2JCrYliMlUuvLefIJZmfl1Hpkxczj1EXDRB0ufWqn9z5iE1
-	JtBNg33Uhz6re8VYeUAQbWhwHYt8nYQ36GHdrT1zXcC+MliKrQTZGHmX+gDA==
-X-Google-Smtp-Source: AGHT+IHebAO0DlmEIORl7j8QOrOeKPGgCfKBhqbrcWGKnJH7ybidW69hal8hNOSPewAyQmQdvtJXuA==
-X-Received: by 2002:a05:600c:1d1e:b0:46e:6a6a:5cec with SMTP id 5b1f17b1804b1-47717def7b5mr42201915e9.2.1761666110720;
-        Tue, 28 Oct 2025 08:41:50 -0700 (PDT)
+        bh=0OdKjf6E11PLhTN47izQgrYewu6DAaBIZBsxLqLrIEE=;
+        b=Q6MESEz++EDi6hjqB5eFUCaZvaBkUSQx1hrSCilCQLFuToOO9JscttyhiTBPKVT04s
+         25qGC7hJ2YLY0uZh1IQLbTwjmW6AOwd6KpR0hCSto7OAvsGns7XX0FGVyj4kYQ8/db/7
+         6mgugCxjcSd7neV1Sa8eNZkbvgWiPsfzZeA9suqk8oBzto7NyD/i0WrMWAhY1GlWBe+3
+         IdLt3hJlxWyAMHc/Mj8zvNjNhmiZG/zJacdiIM+ENHlm9tKzdktMYVMtyQXaIir89Xyj
+         sIVGyIuFlbw6OY6oumGKMab3RJDpv6VxuUkoVWVlYr5O5H1L6T1bw8Cyx6ph/4kODH/q
+         Ikfg==
+X-Forwarded-Encrypted: i=1; AJvYcCUiMenZuHiJSGrbWRylc/c4gb7kIG5AiWCalCJTbaWLI2EcxSzuNV7JlZ9oWehozo2etMDY64WssKnH5Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwsKUdsskTPskULnht1PjV+LLPUW/5fEquCd9M0VU14CWdq98lp
+	myjwjcd6mSfrngKIqA3QYGS3HCJH1pXpR8Y6v3jnjktLXwDHzMa1ooZK
+X-Gm-Gg: ASbGncsJJqcTbn6pEmXMuM6Yqa1ZrE+5CLKCfOB8j7+42dl3uINiRLzHkfrRwPmdAG9
+	DtkKmdLJhsL40Q0lk3n3J2xL5GolWgTka+H6MnR9VHz+JdW1QM3ix0++LJh2u959+5OzABp1Zo1
+	VSuwyrAKQOpp3JBgT8ZOawOVXNhCFGIMRReQnpV3LIbnPuXQE7hMTa3aQ/gt6PBK0oBPiIyu+JH
+	5w+yc9wKj/7YUDIZqLOKIBjQCBpB9aAXsueRiu8PC8P5JHrihqQax6xyZ2fHwWvMfs9fHFs6JIF
+	UgA2Ge+knGhVo3dNAknyxRCluUHcbztZ5nCYe5nwgTJ7cREc9iFZk3kFVFnjsTweH3Y5OH3i66F
+	e13CpWtkzntQYFaruVHNkk8zmZF4dO/kArfc/OlhAgDX03Jk9YwGdk5BTHCGgofJXpTWFiVhG4w
+	9FNdgLln8c5mF10sCaL3tLjMC9d8cMMKOi7lqGDcx7+I2puOjptw4AMwM4kw==
+X-Google-Smtp-Source: AGHT+IGQT1sWn537O9lUQH0SeyIcZJ4uWohxTzjPx9kV6HFu78PmQQbglpth1JWOPqlEUpT9jeFZgg==
+X-Received: by 2002:a05:600c:4e02:b0:475:dd04:128a with SMTP id 5b1f17b1804b1-47717e6b4c8mr33281395e9.31.1761666210763;
+        Tue, 28 Oct 2025 08:43:30 -0700 (PDT)
 Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4771843eabfsm23130265e9.2.2025.10.28.08.41.49
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475dd02cd6dsm210045835e9.2.2025.10.28.08.43.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Oct 2025 08:41:50 -0700 (PDT)
+        Tue, 28 Oct 2025 08:43:30 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>,
  Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
@@ -74,13 +74,13 @@ Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org, Richard Genoud <richard.genoud@bootlin.com>
 Subject:
- Re: [PATCH v4 07/16] mtd: rawnand: sunxi: rework pattern found registers
-Date: Tue, 28 Oct 2025 16:41:48 +0100
-Message-ID: <6097267.MhkbZ0Pkbq@jernej-laptop>
-In-Reply-To: <20251028073534.526992-8-richard.genoud@bootlin.com>
+ Re: [PATCH v4 08/16] mtd: rawnand: sunxi: add has_ecc_block_512 capability
+Date: Tue, 28 Oct 2025 16:43:29 +0100
+Message-ID: <8637155.NyiUUSuA9g@jernej-laptop>
+In-Reply-To: <20251028073534.526992-9-richard.genoud@bootlin.com>
 References:
  <20251028073534.526992-1-richard.genoud@bootlin.com>
- <20251028073534.526992-8-richard.genoud@bootlin.com>
+ <20251028073534.526992-9-richard.genoud@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -90,180 +90,22 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne torek, 28. oktober 2025 ob 08:35:00 Srednjeevropski standardni =C4=8Das=
+Dne torek, 28. oktober 2025 ob 08:35:01 Srednjeevropski standardni =C4=8Das=
  je Richard Genoud napisal(a):
-> On H6/H616, the register ECC_PAT_FOUND is at its own address, and not
-> part of ECC status register.
-> So, introduce the pattern found register offset in sunxi_nfc_caps, along
-> with its mask.
+> The H616 controller can't handle 512 bytes ECC block size. The
+> NFC_ECC_BLOCK_512 bit disappeared in H6, and NDFC_RANDOM_EN took its
+> place.
 >=20
-> Also, introduce a non compile-time field_get() because FIELD_GET() and
-> u32_get_bits() don't work with non compile-time constant.
-> https://lore.kernel.org/all/cover.1761588465.git.geert+renesas@glider.be
-
-Urls should use Link: tag and be placed at the bottom.
-
-Code itself looks fine.
-
-Best regards,
-Jernej
-
+> So, add has_ecc_block_512 capability to only set this bit on SoC having
+> it.
 >=20
 > No functional change.
 >=20
 > Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
-> ---
->  drivers/mtd/nand/raw/sunxi_nand.c | 36 ++++++++++++++++++++++++++-----
->  1 file changed, 31 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sun=
-xi_nand.c
-> index 89495d786293..021034a761b7 100644
-> --- a/drivers/mtd/nand/raw/sunxi_nand.c
-> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
-> @@ -29,6 +29,9 @@
->  #include <linux/iopoll.h>
->  #include <linux/reset.h>
-> =20
-> +/* non compile-time field get */
-> +#define field_get(_mask, _reg) (((_reg) & (_mask)) >> (ffs(_mask) - 1))
-> +
->  #define NFC_REG_CTL		0x0000
->  #define NFC_REG_ST		0x0004
->  #define NFC_REG_INT		0x0008
-> @@ -150,7 +153,13 @@
->  /* define bit use in NFC_ECC_ST */
->  #define NFC_ECC_ERR(x)		BIT(x)
->  #define NFC_ECC_ERR_MSK		GENMASK(15, 0)
-> -#define NFC_ECC_PAT_FOUND(x)	BIT(x + 16)
-> +
-> +/*
-> + * define bit use in NFC_REG_PAT_FOUND
-> + * For A10/A23, NFC_REG_PAT_FOUND =3D=3D NFC_ECC_ST register
-> + */
-> +#define NFC_ECC_PAT_FOUND_MSK(nfc) (nfc->caps->pat_found_mask)
-> +
->  #define NFC_ECC_ERR_CNT(b, x)	(((x) >> (((b) % 4) * 8)) & 0xff)
-> =20
->  #define NFC_DEFAULT_TIMEOUT_MS	1000
-> @@ -227,6 +236,8 @@ static inline struct sunxi_nand_chip *to_sunxi_nand(s=
-truct nand_chip *nand)
->   * @reg_io_data:	I/O data register
->   * @reg_ecc_err_cnt:	ECC error counter register
->   * @reg_user_data:	User data register
-> + * @reg_pat_found:	Data Pattern Status Register
-> + * @pat_found_mask:	ECC_PAT_FOUND mask in NFC_REG_PAT_FOUND register
->   * @dma_maxburst:	DMA maxburst
->   * @ecc_strengths:	Available ECC strengths array
->   * @nstrengths:		Size of @ecc_strengths
-> @@ -236,6 +247,8 @@ struct sunxi_nfc_caps {
->  	unsigned int reg_io_data;
->  	unsigned int reg_ecc_err_cnt;
->  	unsigned int reg_user_data;
-> +	unsigned int reg_pat_found;
-> +	unsigned int pat_found_mask;
->  	unsigned int dma_maxburst;
->  	const u8 *ecc_strengths;
->  	unsigned int nstrengths;
-> @@ -776,7 +789,8 @@ static void sunxi_nfc_hw_ecc_update_stats(struct nand=
-_chip *nand,
->  }
-> =20
->  static int sunxi_nfc_hw_ecc_correct(struct nand_chip *nand, u8 *data, u8=
- *oob,
-> -				    int step, u32 status, bool *erased)
-> +				    int step, u32 status, u32 pattern_found,
-> +				    bool *erased)
->  {
->  	struct sunxi_nfc *nfc =3D to_sunxi_nfc(nand->controller);
->  	struct nand_ecc_ctrl *ecc =3D &nand->ecc;
-> @@ -787,7 +801,7 @@ static int sunxi_nfc_hw_ecc_correct(struct nand_chip =
-*nand, u8 *data, u8 *oob,
->  	if (status & NFC_ECC_ERR(step))
->  		return -EBADMSG;
-> =20
-> -	if (status & NFC_ECC_PAT_FOUND(step)) {
-> +	if (pattern_found & BIT(step)) {
->  		u8 pattern;
-> =20
->  		if (unlikely(!(readl(nfc->regs + NFC_REG_PAT_ID) & 0x1))) {
-> @@ -821,6 +835,7 @@ static int sunxi_nfc_hw_ecc_read_chunk(struct nand_ch=
-ip *nand,
->  	struct sunxi_nfc *nfc =3D to_sunxi_nfc(nand->controller);
->  	struct nand_ecc_ctrl *ecc =3D &nand->ecc;
->  	int raw_mode =3D 0;
-> +	u32 pattern_found;
->  	bool erased;
->  	int ret;
-> =20
-> @@ -848,8 +863,12 @@ static int sunxi_nfc_hw_ecc_read_chunk(struct nand_c=
-hip *nand,
-> =20
->  	*cur_off =3D oob_off + ecc->bytes + USER_DATA_SZ;
-> =20
-> +	pattern_found =3D readl(nfc->regs + nfc->caps->reg_pat_found);
-> +	pattern_found =3D field_get(NFC_ECC_PAT_FOUND_MSK(nfc), pattern_found);
-> +
->  	ret =3D sunxi_nfc_hw_ecc_correct(nand, data, oob_required ? oob : NULL,=
- 0,
->  				       readl(nfc->regs + NFC_REG_ECC_ST),
-> +				       pattern_found,
->  				       &erased);
->  	if (erased)
->  		return 1;
-> @@ -930,7 +949,7 @@ static int sunxi_nfc_hw_ecc_read_chunks_dma(struct na=
-nd_chip *nand, uint8_t *buf
->  	unsigned int max_bitflips =3D 0;
->  	int ret, i, raw_mode =3D 0;
->  	struct scatterlist sg;
-> -	u32 status, wait;
-> +	u32 status, pattern_found, wait;
-> =20
->  	ret =3D sunxi_nfc_wait_cmd_fifo_empty(nfc);
->  	if (ret)
-> @@ -971,6 +990,8 @@ static int sunxi_nfc_hw_ecc_read_chunks_dma(struct na=
-nd_chip *nand, uint8_t *buf
->  		return ret;
-> =20
->  	status =3D readl(nfc->regs + NFC_REG_ECC_ST);
-> +	pattern_found =3D readl(nfc->regs + nfc->caps->reg_pat_found);
-> +	pattern_found =3D field_get(NFC_ECC_PAT_FOUND_MSK(nfc), pattern_found);
-> =20
->  	for (i =3D 0; i < nchunks; i++) {
->  		int data_off =3D i * ecc->size;
-> @@ -981,7 +1002,8 @@ static int sunxi_nfc_hw_ecc_read_chunks_dma(struct n=
-and_chip *nand, uint8_t *buf
-> =20
->  		ret =3D sunxi_nfc_hw_ecc_correct(nand, randomized ? data : NULL,
->  					       oob_required ? oob : NULL,
-> -					       i, status, &erased);
-> +					       i, status, pattern_found,
-> +					       &erased);
-> =20
->  		/* ECC errors are handled in the second loop. */
->  		if (ret < 0)
-> @@ -2195,6 +2217,8 @@ static const struct sunxi_nfc_caps sunxi_nfc_a10_ca=
-ps =3D {
->  	.reg_io_data =3D NFC_REG_A10_IO_DATA,
->  	.reg_ecc_err_cnt =3D NFC_REG_A10_ECC_ERR_CNT,
->  	.reg_user_data =3D NFC_REG_A10_USER_DATA,
-> +	.reg_pat_found =3D NFC_REG_ECC_ST,
-> +	.pat_found_mask =3D GENMASK(31, 16),
->  	.dma_maxburst =3D 4,
->  	.ecc_strengths =3D sunxi_ecc_strengths_a10,
->  	.nstrengths =3D ARRAY_SIZE(sunxi_ecc_strengths_a10),
-> @@ -2205,6 +2229,8 @@ static const struct sunxi_nfc_caps sunxi_nfc_a23_ca=
-ps =3D {
->  	.reg_io_data =3D NFC_REG_A23_IO_DATA,
->  	.reg_ecc_err_cnt =3D NFC_REG_A10_ECC_ERR_CNT,
->  	.reg_user_data =3D NFC_REG_A10_USER_DATA,
-> +	.reg_pat_found =3D NFC_REG_ECC_ST,
-> +	.pat_found_mask =3D GENMASK(31, 16),
->  	.dma_maxburst =3D 8,
->  	.ecc_strengths =3D sunxi_ecc_strengths_a10,
->  	.nstrengths =3D ARRAY_SIZE(sunxi_ecc_strengths_a10),
->=20
 
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
+Best regards,
+Jernej
 
 
