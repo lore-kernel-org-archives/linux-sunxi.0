@@ -1,64 +1,64 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C1E342CB4
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Oct 2025 15:35:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43075340DAD
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Oct 2025 15:36:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761665702; cv=none; b=nyL2SpA0M2kpSXxSPFgvHKMSyFBuWngBKBARI9cJx5kTgyGuBNELgGqVkkWvuy9J1Qb1WwQmRCtc/ukWkztBV80+uCUluSnbQKvDtDFzUBC5L0UvkVYzLo1Ci4HJcdh8ydX2+tGImjSzocE1QRazULFXEIl7SdicURVFMcUQznc=
+	t=1761665815; cv=none; b=aOzipv+9Bv/gzvCMDnMBk3g8S68Zra0snIV1QPzYQjDTNyQuGY3QewFj0JiEc65RFiVs6lNbM047Cyxfy9Kt/XTfJ76rILo8Q6MSPzFA0nMoutE8LjXSsLIG+IpEQLs1sQ4N6s4S/13bMcfvNen+ezYrP5HAipmcE5w1P/+cQLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761665702; c=relaxed/simple;
-	bh=+zf/L6+BpO5HiQmCsVmEtAAefad0gqPlx28ytnkqVYY=;
+	s=arc-20240116; t=1761665815; c=relaxed/simple;
+	bh=bRHCOkh4N5PCb53quDW9/VegPwopMuUXUgLMaF1jWbo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QioKwnK3pwUtbPMcuDUch8GualuGgG84ci5w/DhJ8o2T/9Iw7pGxdvhEu7MZ+6RwxSGEYgCqTydpPJQh4pPzCAsxO43EM151JCT6MtnzBbpLa62Z+/P5pk188yCnVIdd/IueWUiGMOoUrMH9lTmLypN/uR0WxGzOp3LlCtX9iO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PJqeRy3p; arc=none smtp.client-ip=209.85.221.51
+	 MIME-Version:Content-Type; b=A/KFRCkU12TymIjXbN6YSIf0fcKiFGthaPXG3aKp/D1Gdf2w0E+X34CWmOs3XAgTGbOLTc7YAA+pYK0KmEbNXz51CIwRMF8zAxSOCj1Cu53B4hm1N0JDvODPprWoDeOydw5ELTpkB4W/+gt70EasgmOiHGm4zFcvN5X8YikKXvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gd+72GWY; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PJqeRy3p"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4270a0127e1so4871933f8f.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 Oct 2025 08:35:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gd+72GWY"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-47710acf715so13274645e9.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 28 Oct 2025 08:36:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761665699; x=1762270499; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1761665810; x=1762270610; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+zf/L6+BpO5HiQmCsVmEtAAefad0gqPlx28ytnkqVYY=;
-        b=PJqeRy3pWz1FSpF0MA4B/85ukUK7svLV8qNCbKipJXzXx0ob2G/GP4uZNO5bhvZ0CC
-         ey76Bzf9MND450DhzBMq6Vvq6t4M5co8jxd2EUnKfizHZkF0dSKQXA5EAppfiD8FL2QM
-         f1tc8k7mRGLmRX7t6LVSt/XF0NowBKfsE1TeyZ5jKSA252VUBocDD46YgaJo7+75dxsr
-         UgFrXASI2Fl8NsQQeHJbMWpOx9EE3U1V890W3OanTknDzyh8/5Nb+77GwvvdJGRUgHA5
-         NDLr3PnTH2Qg/gfAxoH5pKF310iBcmgaOO476R3AdYoIRMELSYpWx0ZRaalxQEP7DyTs
-         tGgA==
+        bh=bRHCOkh4N5PCb53quDW9/VegPwopMuUXUgLMaF1jWbo=;
+        b=gd+72GWYkARkuczub+EiJqqo4iPogYoqS3xIlCv9a5UorzuS1vAXyQ+Hr5VZ1VbGo8
+         Jm3BpNvzyxIRQKXQqzxb5Mpv5OOQYeHk1rsJW30AmUJzq/UtriYoUeNfLU0D8XQQ+6SD
+         RRQHR6yxKdgAMlPr65uiAE/sW/BWaGXF0h0XgvPm5tr/Fy1PfwmrCqjad0f0iyzGoCBA
+         JsOcW50LA4S0Ulr2Y2Bzfxc3BC0VRq0amyyUQqdZLklt3Coixzgr1QHG2QFtl1zxbf3b
+         GLOkpGrPaYirf0WnBGewSS+tBMZrKkodBuZD2ShiUpscgN8iuWEWfMF1OTE8HKDBtekf
+         HZXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761665699; x=1762270499;
+        d=1e100.net; s=20230601; t=1761665810; x=1762270610;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+zf/L6+BpO5HiQmCsVmEtAAefad0gqPlx28ytnkqVYY=;
-        b=sXj4OLbTIoTobPTXy88PrlQMj+7KaI7n7Wz7fK4kFwXjjA354y0Dv1njdCd/iO9KSB
-         CLrzxnVy3KCzrEOfr+Mnx3o1LyRPiD8Bg89S9iye4KOArFFAI13u/XXv1fYI5JCl/R/V
-         xdRc/IwR9eiIXzA6R0/63kCYHqKZ8OlspFPO+OZVuHhDogPA7ceboY+PUV1g12BXjlNR
-         89IsZQqmpBi7b61d0xstNKbNYzcbf8Rk5LsdINTDgK1RVmNKOmEvloVy8Gva80oDq3j6
-         4477yMX3t5feZNSrhKy1S0z2cUwMCDk0wilYG0MtlgLzAMxHgyXrrhJv4+ilJWSSvsr/
-         Iqxw==
-X-Forwarded-Encrypted: i=1; AJvYcCWcoIShMWLq7mXHLtZRT8ik9rgfthV/vfMHoDztBe5HUTEjQA3OD/RSMuUDrytu2TZe9fx7JgUzusyTbQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxkFbGxLZ/DUbVzp4kVzMT5UM8Hm9rM4ZBMjr/2HslIFnAx8sw3
-	lGks7niVFocSTCRGk+LIudn64pJAPavyhUB7ZjEMSIBd1rU3h2pybec0
-X-Gm-Gg: ASbGncuuEoZxtS1gqE2IUsg4nAPQUGx5Yt03oe4kxIqYpghBOY3mkaNnstqXSoyWBSA
-	riyPaUJkFaayfOo4gzc7EF8h9BzcEeCNizCXC5JV3mH9QIFWlrEN4daxPBht/w/B6Zy47VVqOyp
-	aamSDZ1u2SdhJzBP1Bgw618LKvhttjQAgIzWlPypXheaqxXSECojiXicQo812x3Up74jb3BybmL
-	0S2a+trvF0GqnTGI2wI8iNbwBHkrn4csJBlCCvdd/S/WpnMw6q9aglgZvvYui4sqjLMgZk1wdNs
-	vU7z9fMXsY5NsY4x6l9PUTE3oaL7fdyIesRFVKSo/0BYYIL5d5OwbyAWiwQpWjV/G+eP3DUaQpk
-	uzbiXYJOnPYr515/o2SOuft2O/cEsMAoLH0KiFZ1YOzw+P+m3zKB0YQLmnrgFpuVU72jEOnkn/1
-	xTg5jhFKnrHdQiWEl6IiclPL8aN4BWQdKJYjpcg7kQyr9Dc9Z7tgC3oTDCqQ==
-X-Google-Smtp-Source: AGHT+IHQaqAyFKg0dIVlFNzHvuX0zpZSii67laWQ5yWofyqAlv0IPJ4MzzJSDYza6+cEoyhxJ1y+9w==
-X-Received: by 2002:a5d:5c89:0:b0:428:3f7c:bcf3 with SMTP id ffacd0b85a97d-429a7e86b07mr3600391f8f.49.1761665698923;
-        Tue, 28 Oct 2025 08:34:58 -0700 (PDT)
+        bh=bRHCOkh4N5PCb53quDW9/VegPwopMuUXUgLMaF1jWbo=;
+        b=JC9LEkLTxB4EIfFPlS+cXYHI1ghcZtMGfDhBzqNDn11NjhY2K7dVWP000enyKSqHlE
+         NtudX9tPN3WdLp6BEAU+2Olf+EFPd2/BIhZP4fTM387gvvouou8AUMfW1Ug+AlhsDslS
+         QJB8SIagKSXLP9kyoXbLEcaVBHD7ImDTBYhrlrJqPqYnL74f/Ye1kE317uzsb+6tXESM
+         8fJVqSIWJzpoAkFpioKijn4h7gLqhw2Vagq4H/YC3O4hoKBNSkiQ0b7YUHwDfozHQ9Wr
+         ZLkiaKUZTDNoYP4zDKqb0ciyh9ysWLHEQwIZj76bCQWf/ri2wH2o0vM4HWW+9wZmhVpR
+         U5tA==
+X-Forwarded-Encrypted: i=1; AJvYcCVzOZNZ4/AZZwD04V4v7wsiB7J70cxjcIFpl7fonvo4R7zEuz4yTumzEdwou/Mo1ygT4YDdNdb9CvPAig==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyArk17PjcMlWrFwHnlTnr1fQOxJuss6cKRWXZ6bum8i8qIkcl/
+	jzN9+JnIsHd/tdvUdkikVgUrV7+bh+wk5MLjvjC+/QnLuSsdvhJqTAzbnNuAGD9x
+X-Gm-Gg: ASbGncvdApLRuni4RxwpMPbRemoH9u2p9+kSoOsJmiiLxZH2MPGDW8oyMwKghkbFk+n
+	YDkcfiyz1kUk6+zHsFqpCNTnt5PzY7Y1y9R9LRv8O4+d5bk/lhCz4FaE1YfCSLqvmRfOp8qIvzX
+	ftqriYQIu2uYJCUYZt85N4DS9sxHqm837EYLJ6frw5faHsZpoEUfWB8hYFBRLM6IPkLAb4AZWwR
+	SoqkIdhy3p32r8WB42+bRILykfWL+a3uwEOGa0CKIIv+9ZmDb2CQPc/dW/SxCXNyrWah/9ef98l
+	SJ8SkNvb2zYrGRUaw+SxSU8bQLHCu0zUGAREZCXkSJiCwP6XXNhUc65r6vUeVbutR0HLnXy+jXW
+	0nn9PY7Dx/Po3rwLRgyfvATekHEBwcKqaNi200fxwTknCYC/0LXPilBBT2IMFIH4vJczuDhwSTb
+	KADHoq9q1UW61Y0tfK21CE8n6qI7QW34cQED9mIbwHz/xLqAlq0TtrsPYYrw==
+X-Google-Smtp-Source: AGHT+IHcEqxrDGNbCr9Qf3fhYUvlJSJPyM3H2iUm9WQHT2tvvW1arfoNj1Bg06ZOGX1vRi4tbPm82Q==
+X-Received: by 2002:a05:600c:8216:b0:471:d2f:7987 with SMTP id 5b1f17b1804b1-47717e30970mr33449425e9.26.1761665810438;
+        Tue, 28 Oct 2025 08:36:50 -0700 (PDT)
 Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952b7b43sm21334532f8f.6.2025.10.28.08.34.57
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475dd374e41sm202105775e9.12.2025.10.28.08.36.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Oct 2025 08:34:58 -0700 (PDT)
+        Tue, 28 Oct 2025 08:36:50 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>,
  Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
@@ -74,14 +74,14 @@ Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org, Richard Genoud <richard.genoud@bootlin.com>
 Subject:
- Re: [PATCH v4 03/16] mtd: rawnand: sunxi: Replace hard coded value by a
- define
-Date: Tue, 28 Oct 2025 16:34:57 +0100
-Message-ID: <2017172.PYKUYFuaPT@jernej-laptop>
-In-Reply-To: <20251028073534.526992-4-richard.genoud@bootlin.com>
+ Re: [PATCH v4 05/16] mtd: rawnand: sunxi: introduce reg_ecc_err_cnt in
+ sunxi_nfc_caps
+Date: Tue, 28 Oct 2025 16:36:48 +0100
+Message-ID: <7866116.EvYhyI6sBW@jernej-laptop>
+In-Reply-To: <20251028073534.526992-6-richard.genoud@bootlin.com>
 References:
  <20251028073534.526992-1-richard.genoud@bootlin.com>
- <20251028073534.526992-4-richard.genoud@bootlin.com>
+ <20251028073534.526992-6-richard.genoud@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -91,20 +91,16 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne torek, 28. oktober 2025 ob 08:34:56 Srednjeevropski standardni =C4=8Das=
+Dne torek, 28. oktober 2025 ob 08:34:58 Srednjeevropski standardni =C4=8Das=
  je Richard Genoud napisal(a):
-> The user data length (4) used all over the code hard coded.
-> And sometimes, it's not that trivial to know that it's the user data
-> length and not something else.
-> Moreover, for the H6/H616 this value is no more fixed by hardware, but
-> could be modified.
+> The H6/H616 ECC_ERR_CNT register is not at the same offset as the
+> A10/A23 one, so move its offset into sunxi_nfc_caps
 >=20
-> Using a define here makes the code more readable.
+> No functional change.
 >=20
-> Suggested-by: Miquel Raynal <miquel.raynal@bootlin.com>
 > Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
