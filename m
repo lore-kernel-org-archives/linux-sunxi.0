@@ -1,64 +1,64 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF093342C95
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Oct 2025 15:43:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC973446C5
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Oct 2025 15:45:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761666214; cv=none; b=GkPxyQyFjAMX2lZwgbNVy12UJQ4WqWTuUtc0hJWK068CDMcGYniMQb5YDpgw4+ULn01boIoMPbcM3cPvqOXtHmd7eA5r2ndkMp4LhMZOtASaYJGRCbKWyLufTGTPBI8SsIe25zy84sExcc+mzv7pR0ue5YgWTkyAdyvmOJPIuPU=
+	t=1761666311; cv=none; b=KWebtb7lJ5oXkOz1i8HEw8vlP9G7a6IC/V87C0Vcf3kyS21fnTfUi1pa4JNvnUrzCjqsgKQyn+2EbRi4FXjULXSjBw31DsAAkxz6OsEuWu54LQ0dMkDMZktRCXsBi6xz0CVCVt5Dj6RFAUpP14n8OxqOmBn14jM9Iiy4Pjp7lYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761666214; c=relaxed/simple;
-	bh=0OdKjf6E11PLhTN47izQgrYewu6DAaBIZBsxLqLrIEE=;
+	s=arc-20240116; t=1761666311; c=relaxed/simple;
+	bh=GAqSgVsTThU3vtmlukZG8xLx1H3wk+zWeretWdrZ53k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Oq6W+MtxYpcf9gCwXdK64nxYBanL1wgLQXB76FyoBi5J/Z3vhgtQrJ7I1bGE6p0nVPFYXbu6iF9mhf1NmnxMvfwe+xri7hoMdQsf4iD+xjjskGMp2tJ4KiqUxCahWRxrWRSt1en28Z1a55yce8CG/CpoC4NfrWTdHprbBvMN0u0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EjsKOcgL; arc=none smtp.client-ip=209.85.128.53
+	 MIME-Version:Content-Type; b=pAcvVD+FrfRAkiYu8hsJPWfZ1G1fOI6hVuwE8nvGEsJlmhxSOTjqMDj8km8aKGkwf9W3+NAs9WaWA2U5shDW+GFiJ5H9UZYJIGXLCM+mE2SfftzrY7RTVN+d+Oc705ev+PP5nqtPItQHdbPOUwN7W+mN9Df4SIcyP5uCz/ybSsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=anlod0Qb; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EjsKOcgL"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-475db4ad7e4so16232045e9.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 Oct 2025 08:43:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="anlod0Qb"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4711810948aso45863555e9.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 28 Oct 2025 08:45:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761666211; x=1762271011; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1761666307; x=1762271107; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0OdKjf6E11PLhTN47izQgrYewu6DAaBIZBsxLqLrIEE=;
-        b=EjsKOcgLT7tA3dtWC78UpV5wppVsR1sz+3/mR36t7oRWPGt3b7WdG1yudpPpwXYwFK
-         XDEcDcAvTr7bj/0UuoWU3fu6E7aCLMO0IrtSPrAxcJnH1MlZH62UkuWW2Xhpn1s7ZA3M
-         FNTal4KHfTIiyrXLNrsG0OzENsna+EAtqPY/XATCgp2JJbmhhitIK9EyrhjiQzy2EnYI
-         3wuTFJ+yBeIpBT85cmJhR8cr9Oae4UpmanQ16agyjPUL1y0/iSJAuGTclnfeJbdYxZp2
-         WwF6bNyHhGHzDc0KkSrSH3/ioQL8QegfupIlD4QTsfwr/NaWKlhKFJJUA1/5zAIDcqEH
-         BI0Q==
+        bh=GAqSgVsTThU3vtmlukZG8xLx1H3wk+zWeretWdrZ53k=;
+        b=anlod0QbaTCeFtyksLDjOlPncqFlpYFPq12Jj1N7WCTW1+146gBy/WmT+cZ+rg8G7b
+         kgUHd4ZGDeBcgDoirLVRc5GyabvvNf7uPLvVm1gaUP/iEJyO3ShAd0cqe4vHJn7CFynO
+         7bKJr/vl1Vs2XoWweRzJjX2i9B1eckk0le6qCPCSjs1mykCgRKr4MmkKDqsLVMT7y2DU
+         uCBIcJeRL/20Z9v4ohMtUL7cdQQn5uiiA18RdsWED5LaGdosuWeeWJRc9+3zNsOZUKor
+         rS4B3QoZ7CXBioNQoFScBTqGyXMAALLY+jWXioBsJcZnwvsiCPrQmrgGVLBdeP+0jD9t
+         7rCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761666211; x=1762271011;
+        d=1e100.net; s=20230601; t=1761666307; x=1762271107;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0OdKjf6E11PLhTN47izQgrYewu6DAaBIZBsxLqLrIEE=;
-        b=Q6MESEz++EDi6hjqB5eFUCaZvaBkUSQx1hrSCilCQLFuToOO9JscttyhiTBPKVT04s
-         25qGC7hJ2YLY0uZh1IQLbTwjmW6AOwd6KpR0hCSto7OAvsGns7XX0FGVyj4kYQ8/db/7
-         6mgugCxjcSd7neV1Sa8eNZkbvgWiPsfzZeA9suqk8oBzto7NyD/i0WrMWAhY1GlWBe+3
-         IdLt3hJlxWyAMHc/Mj8zvNjNhmiZG/zJacdiIM+ENHlm9tKzdktMYVMtyQXaIir89Xyj
-         sIVGyIuFlbw6OY6oumGKMab3RJDpv6VxuUkoVWVlYr5O5H1L6T1bw8Cyx6ph/4kODH/q
-         Ikfg==
-X-Forwarded-Encrypted: i=1; AJvYcCUiMenZuHiJSGrbWRylc/c4gb7kIG5AiWCalCJTbaWLI2EcxSzuNV7JlZ9oWehozo2etMDY64WssKnH5Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwsKUdsskTPskULnht1PjV+LLPUW/5fEquCd9M0VU14CWdq98lp
-	myjwjcd6mSfrngKIqA3QYGS3HCJH1pXpR8Y6v3jnjktLXwDHzMa1ooZK
-X-Gm-Gg: ASbGncsJJqcTbn6pEmXMuM6Yqa1ZrE+5CLKCfOB8j7+42dl3uINiRLzHkfrRwPmdAG9
-	DtkKmdLJhsL40Q0lk3n3J2xL5GolWgTka+H6MnR9VHz+JdW1QM3ix0++LJh2u959+5OzABp1Zo1
-	VSuwyrAKQOpp3JBgT8ZOawOVXNhCFGIMRReQnpV3LIbnPuXQE7hMTa3aQ/gt6PBK0oBPiIyu+JH
-	5w+yc9wKj/7YUDIZqLOKIBjQCBpB9aAXsueRiu8PC8P5JHrihqQax6xyZ2fHwWvMfs9fHFs6JIF
-	UgA2Ge+knGhVo3dNAknyxRCluUHcbztZ5nCYe5nwgTJ7cREc9iFZk3kFVFnjsTweH3Y5OH3i66F
-	e13CpWtkzntQYFaruVHNkk8zmZF4dO/kArfc/OlhAgDX03Jk9YwGdk5BTHCGgofJXpTWFiVhG4w
-	9FNdgLln8c5mF10sCaL3tLjMC9d8cMMKOi7lqGDcx7+I2puOjptw4AMwM4kw==
-X-Google-Smtp-Source: AGHT+IGQT1sWn537O9lUQH0SeyIcZJ4uWohxTzjPx9kV6HFu78PmQQbglpth1JWOPqlEUpT9jeFZgg==
-X-Received: by 2002:a05:600c:4e02:b0:475:dd04:128a with SMTP id 5b1f17b1804b1-47717e6b4c8mr33281395e9.31.1761666210763;
-        Tue, 28 Oct 2025 08:43:30 -0700 (PDT)
+        bh=GAqSgVsTThU3vtmlukZG8xLx1H3wk+zWeretWdrZ53k=;
+        b=o3V6onQ7G1o6sGzSuIozA1GVwuOV7khBBpfRkkyZKn9mXe9drTOLQ6FjWPCgGXQ8ZE
+         urOR8Nhjqk4do88nl2LhZQAe3pvsU9IIKVSeLj14EMUL4DlL+U7mDOrKKX1uMD2uf4FE
+         qotvxrtY7EYBikjZc1oL0qMAx3M842uguN27wKepXfpqRgSJJB5UJIkNP09Aj0+0uONN
+         PA8E6a3g3Ts+yX/GPkQTyAMCPqA7euchNFsff+JAF6afo8Daur1U8cowjqOEkA2a9gBL
+         nu4tPGU36xjfsH6WQlsQXCy1OOotn3f6hMeQnH0XYd5qeoQsmz6QmxfYEPhXzLeLOHFM
+         agcw==
+X-Forwarded-Encrypted: i=1; AJvYcCWX8qBlEjyLTou2ChQHBQUBN2BVAHstXOoXXj7Rz7vgS/reMA20bvqzTcFhfU5Ho+GvQdyRwcKN43YPbQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyuaHT5VTmgTXC4YN89SBAgFR9qo+tCUXOGwdrbNJHPcK3ZicwI
+	ljjfxZVsVvg8qs9pbljYNB5lpiyYGDpIGJe3f15KMv32OQeIIMh1Mjxx
+X-Gm-Gg: ASbGncswOdaHyTa/JKowt93OkOPowz/6jFU+p/U9XOIhzS/2ZiXGGhnqt47ek3J5WOz
+	Zri6z9Ik4dbwFZgr+ymrZR3uCd5zkNyT9VMmf17MJC0Gy89XDjiCgnaORgoMwH3WFyEKOlWm3Z9
+	JxTADEZmeFZqp7R1TZB1I5Q7k3o6l2v40XVzy0i/FttfdX/VfQKRjPK5uPKuJ32fIL8bFwWsJ/8
+	oIqCHIQERe5Y66MjFfgivPqcUKaKfTv+Wq1uyZ1xWeQvvMjmzN/elyzsqyb2ibIArp96e5feg+o
+	KwGHnLuYfxQFZhQwd1pkDaueQoagj8U38hSAVl3c7ni9ee/5svy+eWySvzGcHBG8RT/E5buhMlx
+	jf6gESf9LiJ5p2KgDiieMUCOPmAbCnNmOBKyggM7Vy17SH9jsX3qWfve8pFzfRHCN7/yfFKeRq0
+	rPCbRjinqigmMswB8W+bh1nbldFo/WTqRCn4AH52i21eoIZTl8lMMsaPjotg==
+X-Google-Smtp-Source: AGHT+IHar4ykqVMzVnQnpMNRdCULBt0TW79PeUZzYouW3L2ifb97HosTgMs4SMM16AylRCMZ0rMIQA==
+X-Received: by 2002:a05:6000:1862:b0:428:3ef4:9a10 with SMTP id ffacd0b85a97d-429a7e8500cmr3696482f8f.54.1761666306579;
+        Tue, 28 Oct 2025 08:45:06 -0700 (PDT)
 Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475dd02cd6dsm210045835e9.2.2025.10.28.08.43.29
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952ca569sm20562147f8f.12.2025.10.28.08.45.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Oct 2025 08:43:30 -0700 (PDT)
+        Tue, 28 Oct 2025 08:45:06 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>,
  Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
@@ -74,13 +74,14 @@ Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org, Richard Genoud <richard.genoud@bootlin.com>
 Subject:
- Re: [PATCH v4 08/16] mtd: rawnand: sunxi: add has_ecc_block_512 capability
-Date: Tue, 28 Oct 2025 16:43:29 +0100
-Message-ID: <8637155.NyiUUSuA9g@jernej-laptop>
-In-Reply-To: <20251028073534.526992-9-richard.genoud@bootlin.com>
+ Re: [PATCH v4 11/16] mtd: rawnand: sunxi: introduce reg_pat_id in
+ sunxi_nfc_caps
+Date: Tue, 28 Oct 2025 16:45:04 +0100
+Message-ID: <3574896.QJadu78ljV@jernej-laptop>
+In-Reply-To: <20251028073534.526992-12-richard.genoud@bootlin.com>
 References:
  <20251028073534.526992-1-richard.genoud@bootlin.com>
- <20251028073534.526992-9-richard.genoud@bootlin.com>
+ <20251028073534.526992-12-richard.genoud@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -90,14 +91,10 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne torek, 28. oktober 2025 ob 08:35:01 Srednjeevropski standardni =C4=8Das=
+Dne torek, 28. oktober 2025 ob 08:35:04 Srednjeevropski standardni =C4=8Das=
  je Richard Genoud napisal(a):
-> The H616 controller can't handle 512 bytes ECC block size. The
-> NFC_ECC_BLOCK_512 bit disappeared in H6, and NDFC_RANDOM_EN took its
-> place.
->=20
-> So, add has_ecc_block_512 capability to only set this bit on SoC having
-> it.
+> The H6/H616 pattern ID register is not at the same offset as the
+> A10/A23 one, so move its offset into sunxi_nfc_caps.
 >=20
 > No functional change.
 >=20
