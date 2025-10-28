@@ -1,92 +1,120 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3472C271A6D
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Oct 2025 16:21:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 572487081E
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Oct 2025 16:23:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761668463; cv=none; b=NxZ3GLofyI7dTJPV1K2AdghQGgN1wwQWXfZdXc2lRuTmqesjgzVK0vz44TZdUBGwVYe9JxjajhJrncttZfNsTVLhg8ro40Yt5u9lhANUL5WnFGgmVuqxIezNNniF0TOr3I46KU/ysmSz1jyfxkEuF4vu8UURmlSE0NwYD/z1r8A=
+	t=1761668595; cv=none; b=tuuF4om4E+AvxIUsgo0fEdkU2PPwgCu94jArP8sGk9fOuZRf/DbflRS0iBuh177ar3ai/02iChLtL2L0TnIEnk8enO7EDijySRl2ppMujwjwvRhcfKrzhxCt0AawvdnSweiPqSZfJB5POFR7Xp7e7DIBZGin7o1z3ctqHtm7krw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761668463; c=relaxed/simple;
-	bh=z2gmi5A9sdMhOB9KSfIt5x+ZIc+vGxgYVE8BEvo1P9M=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=pCQ+jDzESaAPkiEnZKa96bp21A4PoRtMTvNxV9ToL6z6rfSIN6o20FrsGPmEHyl/GYSJHr4yuqusnFTKiyd7+8edNyRd+zp7Ub2LcZrzeDZBLGmWrZ9uKEte/Ts6jsru4Y5RrZ2raLJNr/XLE70NfjE0JRWlta/auQTiC9aIRLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=KCJnb7ZS; arc=none smtp.client-ip=185.246.85.4
+	s=arc-20240116; t=1761668595; c=relaxed/simple;
+	bh=QgyPv8AyxMxEy78bNJxB/fdACx3L2Hi+FDtNBndD2NI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=o/d883Iokb8ObZtzQg5sAJkz0Rl318CeXxd8EN+E5XprQaAIo6EokgvI9sWcSuNSIjxVRABq1XY/Mc4UKnq4IN6YaohFKNmdq0ItUfqwfyn7E5fMCDT98ZmuKNW2MD0yINIJYhC5+yMGh3jYJQxWD4QwGjgZfVeZjqR530aNozk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ldOj4Yzd; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="KCJnb7ZS"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ldOj4Yzd"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 834434E4139F;
-	Tue, 28 Oct 2025 16:20:58 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 509AEC0BEA7;
+	Tue, 28 Oct 2025 16:22:51 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 40FF0606AB;
-	Tue, 28 Oct 2025 16:20:58 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9DA7B117AC2F7;
-	Tue, 28 Oct 2025 17:20:44 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 958E4606AB;
+	Tue, 28 Oct 2025 16:23:11 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D24BA117AC5D9;
+	Tue, 28 Oct 2025 17:23:03 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761668457; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1761668590; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=z2gmi5A9sdMhOB9KSfIt5x+ZIc+vGxgYVE8BEvo1P9M=;
-	b=KCJnb7ZSsKeg4swbTs2c0T6Pg/HT+ws9lWd6MSyvhjUkIl7Q6MhbEsl/T5zqMTATMJAGI9
-	+AcpEDrRx7loU39FZ/fM5LH4yxFqJEosm00gIDdispbgdjpE/aNCbUav02KAsaG7c/13jT
-	gHJlm6Ea/1YV8NSJFbWcHzUCpgyxgxXA+eJqksWBGk7EGFLut/Z+1aKbo7ZoudjToC6PZD
-	84QFupfTS0L5VwpWLPVW++YDZoKCVqr1YoCfSWwVb74hAa8l3PV0jvm0EF+nnf5eTXRLwk
-	taILyzLFkR6wt/aT5PaWbxhw9YFJwIHQJ6TnsjXc8197SvOSRQ9kkhOJdF/7rQ==
+	bh=39Q4QJAbuaHwdppokZlTMSHTUZpVg9kkFS9isAIE9G0=;
+	b=ldOj4Yzdmox9S8RzQVtCR1Pl/eps9aaUcg+kOLQRCh6F0fGqutlY7MBEcwLDtqX2WSMAyn
+	BWbNdnoXCq/KnEmVcfE0C2IJB8DaED/lNqryn8HTZ9rJDwg6212YWyqrHBczBgelTiSWE+
+	JilJPeNXAYSCN59mw8RLo9MbNd/wgh8A1UDKzdBX7+vqOCnLQAOcjS+6stgVBMqJeKLUye
+	VG3ow2UkTPfMF+/UCPxrY53QKtuHESI6Ggky06v2QvN13H2LQ+jnefQyi91tw2NZCb7hyD
+	/Cl2bBeT8MaT9kEDLU63bN//W3k7IFey7jBOuiQC8yIUr+WkDYlqO0WOulL6Jg==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Richard Weinberger <richard@nod.at>,  Vignesh Raghavendra
- <vigneshr@ti.com>,  Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski
- <krzk+dt@kernel.org>,  Conor Dooley <conor+dt@kernel.org>,  Chen-Yu Tsai
- <wens@csie.org>,  Samuel Holland <samuel@sholland.org>,  Richard Genoud
- <richard.genoud@bootlin.com>,  Uwe =?utf-8?Q?Kleine-K=C3=B6nig?=
- <u.kleine-koenig@baylibre.com>,  Wentao Liang <vulab@iscas.ac.cn>,  Johan
- Hovold <johan@kernel.org>,  Maxime Ripard <mripard@kernel.org>,  Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>,  linux-mtd@lists.infradead.org,
-  devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
-  linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 07/16] mtd: rawnand: sunxi: rework pattern found
- registers
-In-Reply-To: <6097267.MhkbZ0Pkbq@jernej-laptop> ("Jernej =?utf-8?Q?=C5=A0k?=
- =?utf-8?Q?rabec=22's?= message of
-	"Tue, 28 Oct 2025 16:41:48 +0100")
+To: Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Richard Genoud <richard.genoud@bootlin.com>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Wentao Liang <vulab@iscas.ac.cn>,
+	Johan Hovold <johan@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-mtd@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 00/16] Introduce Allwinner H6/H616 NAND controller support
+Date: Tue, 28 Oct 2025 17:23:02 +0100
+Message-ID: <176166832292.369296.13474664579564092602.b4-ty@bootlin.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251028073534.526992-1-richard.genoud@bootlin.com>
 References: <20251028073534.526992-1-richard.genoud@bootlin.com>
-	<20251028073534.526992-8-richard.genoud@bootlin.com>
-	<6097267.MhkbZ0Pkbq@jernej-laptop>
-User-Agent: mu4e 1.12.7; emacs 30.2
-Date: Tue, 28 Oct 2025 17:20:41 +0100
-Message-ID: <87v7jz576u.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-On 28/10/2025 at 16:41:48 +01, Jernej =C5=A0krabec <jernej.skrabec@gmail.co=
-m> wrote:
+On Tue, 28 Oct 2025 08:34:53 +0100, Richard Genoud wrote:
+> This patch series introduce H6/H616 NAND controller support (but not yet
+> the DMA/MDMA part).
+> 
+> All the work was done on a H616 board with a Kioxia TC58NVG1S3HTA00 NAND
+> chip.
+> ECC is supported, as well as scrambling.
+> 
+> [...]
 
-> Dne torek, 28. oktober 2025 ob 08:35:00 Srednjeevropski standardni =C4=8D=
-as je Richard Genoud napisal(a):
->> On H6/H616, the register ECC_PAT_FOUND is at its own address, and not
->> part of ECC status register.
->> So, introduce the pattern found register offset in sunxi_nfc_caps, along
->> with its mask.
->>=20
->> Also, introduce a non compile-time field_get() because FIELD_GET() and
->> u32_get_bits() don't work with non compile-time constant.
->> https://lore.kernel.org/all/cover.1761588465.git.geert+renesas@glider.be
->
-> Urls should use Link: tag and be placed at the bottom.
+Applied to nand/next after fixing the Links:, thanks!
 
-I was about to apply, so I'll fix this while applying.
+[01/16] dt-bindings: mtd: sunxi: Add H616 compatible
+        commit: 7c99743a0b10d18abe6895c01843aa5d7f8a2a6f
+[02/16] mtd: rawnand: sunxi: Remove superfluous register readings
+        commit: deaa77ed66bf6ed1f7c06c183bd7a5bc0d931c62
+[03/16] mtd: rawnand: sunxi: Replace hard coded value by a define
+        commit: 1be7ac78b72f25e0e2ae2288944da31d08edc2f6
+[04/16] mtd: rawnand: sunxi: move ECC strenghts in sunxi_nfc_caps
+        commit: 94dc08adaf927b8a1d4de606055cf1a9c7256425
+[05/16] mtd: rawnand: sunxi: introduce reg_ecc_err_cnt in sunxi_nfc_caps
+        commit: 4a3a05681432c4a3bf9f7af3c813baf33bb143e8
+[06/16] mtd: rawnand: sunxi: introduce reg_user_data in sunxi_nfc_caps
+        commit: f53c74d0577426bcf604dd2f087da812812a6538
+[07/16] mtd: rawnand: sunxi: rework pattern found registers
+        commit: 6fc2619af1eb6f5994a27e8617ac0911cdba81b8
+[08/16] mtd: rawnand: sunxi: add has_ecc_block_512 capability
+        commit: 8c1b28ab3e4ec8d709c47928e1e6ecaee873d74b
+[09/16] mtd: rawnand: sunxi: introduce ecc_mode_mask in sunxi_nfc_caps
+        commit: d21b4338159ff7d796e0c809a29d3425b2864115
+[10/16] mtd: rawnand: sunxi: introduce random en/dir in sunxi_nfc_caps
+        commit: 1340fa872102cd7eebdcc358965381d5928803c0
+[11/16] mtd: rawnand: sunxi: introduce reg_pat_id in sunxi_nfc_caps
+        commit: ee61bba4ee7ca6a862ec8c8e76b2051606f25e97
+[12/16] mtd: rawnand: sunxi: introduce reg_spare_area in sunxi_nfc_caps
+        commit: 6208274d0a27b81ae5425c819810fcd7bf89636a
+[13/16] mtd: rawnand: sunxi: introduce ecc_err_mask in sunxi_nfc_caps
+        commit: 97d13bcea2306f47d5e54e5a347d5ca5817deb0d
+[14/16] mtd: rawnand: sunxi: introduce sram_size in sunxi_nfc_caps
+        commit: 5ddfbc68ec7ac92ff64d8420909b1258be3ca8a1
+[15/16] mtd: rawnand: sunxi: Add support for H616 nand controller
+        commit: 88fd4e4deae87fa66e0e00e2bf6a4c362d241215
 
->
-> Code itself looks fine.
+Patche(s) should be available on mtd/linux.git and will be
+part of the next PR (provided that no robot complains by then).
 
-Thanks for the review!
-
-Miqu=C3=A8l
+Kind regards,
+Miquèl
