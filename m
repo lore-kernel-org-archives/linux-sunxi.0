@@ -1,61 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660F87081E;
-	Tue, 28 Oct 2025 17:05:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2DAD2848B4;
+	Tue, 28 Oct 2025 17:08:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761671135; cv=none; b=G5/ZJ4Q6XrPwn4RquQ0EjeCX+Zx2Vxef47ExoCSV+qDdV4YKPtpamkiMYS6viTp4devQAso6MZB/PeCFC4OVA6bmLHy3imxeRAdij94/Z3Q5jX0GP/3nKdgrC9zBSNC7V+b/IXCevIKCN2bSE82S86wOvHRch795cvKJCTMbfJg=
+	t=1761671307; cv=none; b=XNKQGk1jiycmo4RGQZ4euCyJ9K5Zv5YoxwZb6+ecLlSwzz8kSyyc4bpAch75yTb9cTvhMZzXcPZhUB2TMMBx6pyE8JZ+6MqjtNG4BOxRFej0XyQZsoH67mWeNHb9xdBp0KvvzVVG/Zq+ysI3uDvbvQgzP9EQfFpEqcLlBtAVGrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761671135; c=relaxed/simple;
-	bh=oL0rXXmMHbcR3EvMkdJ0IKxdFjgk39YWymPhTwNMDgw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GUYuObwHAo7hCum6Xh+dZkNXf8yCmJn/pHDjfco3GuViCmvnFL9riRNAWsXcdcMtN0a8qWKraNqxJBlWuHJ+ARD058M3OKYjQmjunm1ROT5OXb5YX5wSJqpSJQZEaZP65aLyWz3YmU6MOawZNGi4CIz66+p8TPpBdDt2aSG0SOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GAc4R7Rr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761671307; c=relaxed/simple;
+	bh=9eUztxr0c5bs9J7IDIf5az3dpnFzy5BKhJ7flVcVeA4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=gAOpV1tyKQ2g8fYxWG/2ttiNil1sMkOGHUoYqpQHznKejggbNPJg6DxJ+1J2pzN2wfk1mi1bXvkqQOlOIpDtG09sgqjZF1HGmXy5Ur5X1M7VLpRo3Mh4yJJNF0m4FQWFmsFe/o3zLYE6oN/j0utVPNS8iwvRZtzzBvCnYFJ2itc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G3aAavwg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GAc4R7Rr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0592C4CEE7;
-	Tue, 28 Oct 2025 17:05:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G3aAavwg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 416F7C4CEE7;
+	Tue, 28 Oct 2025 17:08:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761671134;
-	bh=oL0rXXmMHbcR3EvMkdJ0IKxdFjgk39YWymPhTwNMDgw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GAc4R7RrcicVl5PeahubF+TfLli3xATxMXRSgNiesCP4FlAu9VGhv4daehI46gO3t
-	 YdHl4NcawireCvk/sBo4Azw3sJfkZADoxK7hWgThsdwGxQv0LWx37SyEnoFJXQnFkc
-	 fg+aaheIUkRocD6+64eu7paqvkKQ/DSpVWcEiTuJElMCyfGc2LiclFQDx+zdVYqojG
-	 anSZI/vwWlsw3nc1UUGe3i9AKZ5Ft4y514OUiwYDcbSXE2I9ALHWxC1Q4sd7rB8FvQ
-	 jv7/p0goh4MSQI0HzGXw0pyIkbio0QbHKE8itMZ7ybLs90DcIHeYH/iNvG5rpkGqxU
-	 DHXj6ifX+xy5A==
-Received: by wens.tw (Postfix, from userid 1000)
-	id D9CDC5FCB3; Wed, 29 Oct 2025 01:05:31 +0800 (CST)
+	s=k20201202; t=1761671306;
+	bh=9eUztxr0c5bs9J7IDIf5az3dpnFzy5BKhJ7flVcVeA4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=G3aAavwgwh9gFQLPVh9gLVrbNzRS7vPP3F+iQSp8h7oFGi/a7/yqzJfeel5KMYXsZ
+	 KpuDQ0bMz3eRPrsH5hF8bxUgyVuWDZNiuBNnncLYHSskrhU59hpxcbMAs+U/ORnhX4
+	 cFViZ0VLpddZJri4lwfTgaoaq4GFjJGin85kOhI0KI7y7XOJdonF9+NA3m+S/rmAR2
+	 epCaae+HjNGigmqsb/lLq2jpIbwTzqpg6XVZFmtN6cCesFNPM5hi66tA7KMBQTlYmr
+	 iYkt5jKvntMutcqKZt55xBvRKamuIEdVWHAWSULx5ePb6CUpiIn24DYPseHSvXgE53
+	 v8MIH7c1UBflA==
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id 7E3F25F863;
+	Wed, 29 Oct 2025 01:08:23 +0800 (CST)
 From: Chen-Yu Tsai <wens@kernel.org>
-To: Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Richard Genoud <richard.genoud@bootlin.com>
-Cc: Chen-Yu Tsai <wens@kernel.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	Wentao Liang <vulab@iscas.ac.cn>,
-	Johan Hovold <johan@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-mtd@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: (subset) [PATCH v4 00/16] Introduce Allwinner H6/H616 NAND controller support
-Date: Wed, 29 Oct 2025 01:05:29 +0800
-Message-ID: <176167109288.1159653.8613197052957076565.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251028073534.526992-1-richard.genoud@bootlin.com>
-References: <20251028073534.526992-1-richard.genoud@bootlin.com>
+To: Jernej Skrabec <jernej@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, Mark Brown <broonie@kernel.org>, 
+ Vinod Koul <vkoul@kernel.org>, Chen-Yu Tsai <wens@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, linux-sunxi@lists.linux.dev, 
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, dmaengine@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20251027125655.793277-1-wens@kernel.org>
+References: <20251027125655.793277-1-wens@kernel.org>
+Subject: Re: (subset) [PATCH v2 00/10] allwinner: a523: Enable I2S and
+ SPDIF TX
+Message-Id: <176167130349.1161173.2622009044232312995.b4-ty@kernel.org>
+Date: Wed, 29 Oct 2025 01:08:23 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -63,26 +51,38 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 
-On Tue, 28 Oct 2025 08:34:53 +0100, Richard Genoud wrote:
-> This patch series introduce H6/H616 NAND controller support (but not yet
-> the DMA/MDMA part).
+On Mon, 27 Oct 2025 20:56:41 +0800, Chen-Yu Tsai wrote:
+> This is v2 of my Allwinner A523 family I2S and SPDIF enablement series.
 > 
-> All the work was done on a H616 board with a Kioxia TC58NVG1S3HTA00 NAND
-> chip.
-> ECC is supported, as well as scrambling.
+> Changes since v1:
+> - Collected tags
+> - Dropped clk patches that were merged
+> - Added patch for SPDIF pinmux settings that was missing in v1
+> - Dropped bogus change to DAI name in SPDIF driver
+> - Dropped clk rate message in SPDIF driver
+> - Switched my email to kernel.org one
 > 
 > [...]
 
 Applied to sunxi/dt-for-6.19 in local tree, thanks!
 
-[16/16] arm64: dts: allwinner: h616: add NAND controller
-        commit: f55a2526317aca8ecc1b21b346dbdebbc6aad97d
-
-I also fixed up alignment of the clocks property in the nand-controller
-node.
+[01/10] dt-bindings: dma: allwinner,sun50i-a64-dma: Add compatibles for A523
+        commit: 697fbb43aba6dae48cbe5e1fa0d3023a0b12ab73
+[05/10] arm64: dts: allwinner: a523: Add DMA controller device nodes
+        commit: 55d43ef77712e3b7fd4c3db5715be1f405afe31e
+[06/10] arm64: dts: allwinner: a523: Add device node for SPDIF block
+        commit: e51b773798ea1dece229b44854256ec38d35cc41
+[07/10] arm64: dts: allwinner: a523: Add device nodes for I2S controllers
+        commit: 1fe1e9b67166e304e8c3e46bdd1104519d6d1bd7
+[08/10] arm64: dts: allwinner: a523: Add I2S2 pins on PI pin group
+        commit: a9050236f81c43fc2eaa2e13098c7fb53c3aba34
+[09/10] arm64: dts: allwinner: a523: Add SPDIF TX pin on PB and PI pins
+        commit: ae0d3f1e6dd2c6404db2fbd7556b93eddd6c87b8
 
 Best regards,
 -- 
 Chen-Yu Tsai <wens@kernel.org>
+
