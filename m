@@ -1,201 +1,141 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52A0F1F75A6
-	for <linux-sunxi@lists.linux.dev>; Fri, 31 Oct 2025 01:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256C12868B0
+	for <linux-sunxi@lists.linux.dev>; Fri, 31 Oct 2025 07:50:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761873791; cv=none; b=QRoWcESCy4BfGpcDcLOCkHWoTOJu83iDLAcRyrn2r+cijQ+N1QxNgskdKItmz6hjMjqMYeLISjpHLWS1Auy6+iSGSKKY5mj79EFDdnqjdNBddMIdqnldTYiv+qIUxMJ+k9kjUyVcXcxw6i4MN6Rme9NMpFVH8CCPV1293T4NxIw=
+	t=1761897050; cv=none; b=Noz2lFElh/3FW/K0jbTg/zCjYgGl3enhXfwMN/ioYL08P91IikzQvI9O3FkwxL9tbXd4pOoOsueLwzQu2cPwdkCMkDH6P+YyUWNmcm2YEV7UlZk5Z/vucBasHhPzn/tMwxBUYlpn8T0n1MiM9lT49b+dzfHEBOrN/ipgZVKGgik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761873791; c=relaxed/simple;
-	bh=jlmxFQimafhqBmUJkzBJtgtW68QKJSyDSZXPPeuZ/wY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JkfCTcNzHjhWvakayIvi+7QUHjAkpGaAaTxlgspuBnLkx4wf1hObGHng/6fDfVwCd4zyOF8tc746GEovfgGMAjr5ah94zPgtxHGeX6deSD6sMHiExVsUqO+8oz4VPiKku1DtLPJ9ZneJPW4bJ8gxUa9uIRqDm90k65XHHjrVEEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7370D15A1;
-	Thu, 30 Oct 2025 18:22:59 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 99D013F63F;
-	Thu, 30 Oct 2025 18:23:05 -0700 (PDT)
-Date: Fri, 31 Oct 2025 01:22:18 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Yixun Lan <dlan@gentoo.org>
-Cc: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Liam
- Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Samuel
- Holland <samuel@sholland.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] regulator: axp20x: add support for the AXP318W
-Message-ID: <20251031012218.7cc86801@minigeek.lan>
-In-Reply-To: <20251022075816-GYC1522542@gentoo.org>
-References: <20251021112013.2710903-1-andre.przywara@arm.com>
-	<20251021112013.2710903-4-andre.przywara@arm.com>
-	<20251022001420-GYA1522542@gentoo.org>
-	<20251022014706.2475539d@minigeek.lan>
-	<20251022075816-GYC1522542@gentoo.org>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1761897050; c=relaxed/simple;
+	bh=SMtMJt9229H5PjTDv6S5YGs3DXegSlRLe7j1ltiWon0=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=Z2/Fr8EJayp2O8hnLwnYb+UopaU/FQejzWc3pVvBibuuuelM/8mw2+ZF5MlnFaAwBogJoUmg8p9MNLAjgJLGjxXvBVN0wxitY2lhYr06yZVuQSmQZcxYgFR3z5npFys3KuVK9fDG6PD9fdUL+qU4f0gsuRk0NC4nEfR+DmnwcOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=OB+1MkaC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jCj8OVxd; arc=none smtp.client-ip=202.12.124.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="OB+1MkaC";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jCj8OVxd"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 0F78A7A016A;
+	Fri, 31 Oct 2025 03:50:47 -0400 (EDT)
+Received: from phl-imap-17 ([10.202.2.105])
+  by phl-compute-05.internal (MEProxy); Fri, 31 Oct 2025 03:50:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+	 t=1761897046; x=1761983446; bh=SMtMJt9229H5PjTDv6S5YGs3DXegSlRL
+	e7j1ltiWon0=; b=OB+1MkaCVWJdu474hTwAov/7B/NxRFLvIVtnUhsIeK0sQtLp
+	yknoVs2AECKZXFEWcBcEO5Q7QeEdJ4k2cFpK8ZZX13BgjJBxda7ofogMPwSjA1zd
+	EvmUxfTxe+os/y0Iyw5z5FId6NozzLeeku4OGJz2XeMkijXkIUa7vJPIFMnsABK4
+	MwbDkh+0T3lJqSXzUf5p6EFEJ56JaNAV7dxZUoV2IYLdYUmgvwYnweLxi2VBkQ7R
+	aN+Ls/yN133hmiN2GuEDIKGP2ondpXTm209AB91WpIM1DAkc/SKxXJ3Du3HYnZ7Y
+	7eeptWFZpnLIObY5SfivJz1FhHXcKVi3GHVKzw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1761897046; x=
+	1761983446; bh=SMtMJt9229H5PjTDv6S5YGs3DXegSlRLe7j1ltiWon0=; b=j
+	Cj8OVxd1qClL8je34LdIaiNeVR74mLhSNue1Vdv7RDWAt2tRL81dzEbIZKiEQ5aw
+	z71FFci3hY+oWohmd6H2cLSXRH2nbzFLj52wNbUpJg/H3gRM6w3U133cDxAcUZW0
+	m0F7+Bmb/BgHESK3M1zVRxiWT1jKJHDFqhBGcGuTJfCEfJqoP/m3arxOUaQYJepS
+	wxfnxyFHAuHwjqJ3oy5i782/Ve5fJnItjYkD0BXqtbRl317bdeTDiXNSCO3//vYZ
+	TxT307a/ZQe1UX9kte4zq0Pda7akUljwF9STLloxvQTEUVuHFzN6PHmEgdEZVixn
+	n74Lj1piIj90OhJXb405g==
+X-ME-Sender: <xms:VWoEaZc-EVrGLSTj6lpolqjshjtG6sQ6diIq-D_qg8wNJvcK8jxdcA>
+    <xme:VWoEaSAkVliCLoSx0OI0T-xKP6XGuBUgJ8uRfOhiVJiuq5jdjzFnfddpPJUFmmCYK
+    A0rBNOqQN8k7A7iiFLX-fNHW7R19PIwfC2l2tl0VDPXJHUOK4wgjQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduieekleefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftfihrghn
+    ucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecuggftrf
+    grthhtvghrnhepjefhueekjeejgfduvdffheevveejhfdtuddthfduuddvveefjeffgfdv
+    leefuefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    eprhihrghnsehtvghsthhtohgrshhtrdgtohhmpdhnsggprhgtphhtthhopeduvddpmhho
+    uggvpehsmhhtphhouhhtpdhrtghpthhtohepfigvnhhssegtshhivgdrohhrghdprhgtph
+    htthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghirhhlihgvuges
+    ghhmrghilhdrtghomhdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrg
+    hilhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgt
+    phhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrd
+    gtohhmpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhk
+    thhophdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhish
+    htshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehlihhnuhigqdhsuhhngihi
+    sehlihhsthhsrdhlihhnuhigrdguvghv
+X-ME-Proxy: <xmx:VWoEadQZHgRdyPiy2BkK6XNrlf-V3We4qlYVrQYbWcgbycQzDPe3iQ>
+    <xmx:VWoEaTfDH4HDoLDN7Y9tLn4_42UlWlcvPSlHsNdWoFn8xCnqEIqzPw>
+    <xmx:VWoEaWtri6bahWOI8KkZ9AHJMqqeyRswKe4Awru-zvqZibiqzejCAw>
+    <xmx:VWoEafLRSJr789YZa1LVKQO3D0l4yhDVoc0oshnGtDIxTnbH5R1tfA>
+    <xmx:VmoEafI-Zdjb1igu5VB4L0qBPslqvbA2_v_nmQGK38gfVU9fzUG23UFI>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 6CAECC40054; Fri, 31 Oct 2025 03:50:45 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+X-ThreadId: AzHZpsL-MR1k
+Date: Fri, 31 Oct 2025 20:50:23 +1300
+From: "Ryan Walklin" <ryan@testtoast.com>
+To: "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Maxime Ripard" <mripard@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>
+Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "David Airlie" <airlied@gmail.com>, simona@ffwll.ch,
+ "Samuel Holland" <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Message-Id: <64c0a4e1-15a5-4f41-9fba-852b0e83fd6f@app.fastmail.com>
+In-Reply-To: <20251012192330.6903-1-jernej.skrabec@gmail.com>
+References: <20251012192330.6903-1-jernej.skrabec@gmail.com>
+Subject: Re: [PATCH 00/30] drm/sun4i: Refactor layer code for proper DE33 support
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
-On Wed, 22 Oct 2025 15:58:16 +0800
-Yixun Lan <dlan@gentoo.org> wrote:
+On Mon, 13 Oct 2025, at 8:23 AM, Jernej Skrabec wrote:
+> Current DE33 support in sun4i-drm driver is based on my PoC code. It was
+> written with *a lot* of hacks, because it was never meant to be upstreamed.
+> Fortunately, DT parts were never merged which give us a chance to do it
+> right.
+>
+> This is first of three series with proper DE33 support for H616 SoC. It's
+> the longest, since it prepares terrain for new drivers in remaining series.
+> Point of this work is to completely decouple mixer and layer code. Till
+> DE3, mixer and layers were intimately connected. However, from DE33
+> onwards, this is no longer the case. DE33 and upcoming DE35 planes are
+> shared comodity between all mixers and can be assigned in any way driver
+> (or user) prefers. This requires planes code to be completely independent
+> from mixer. The only exception is mixer clock frequency which is used in
+> VI scaler, but in that case mixer pointer is obtained through currently
+> assigned CRTC.
+>
+> Second series will introduce separate driver for DE33 planes and adjust
+> mixer code to new DT bindings. Third series will introduce TCON(-TOP)
+> adjustments, HDMI PHY and finally, DT updates for several boards.
+>
+> Current WIP code for remaining two series can be found at [1]. Code has
+> been tested on Tanix TX6, which has DE3, for any regressions and on Myir
+> MYD-YT507H board [2], which has DE33, with HDMI and LVDS panel outputs
+> running simultaneously and independently. This confirms that plane code
+> is properly decoupled.
+>
+> Please review.
 
-Hi,
+Thanks Jernej, can confirm that this patch series, when overlaid with the remaining out-of-tree patches and my previous LCD DT patch series, allows simultaneous HDMI and LCD output with separate framebuffers on the Anbernic RG35XX series of devices with the Allwinner H700.
 
-> Hi Andre,
-> 
-> On 01:47 Wed 22 Oct     , Andre Przywara wrote:
-> > On Wed, 22 Oct 2025 08:14:20 +0800
-> > Yixun Lan <dlan@gentoo.org> wrote:
-> > 
-> > Hi,
-> > 
-> > thanks for having a look!
-> >   
-> > > Hi Andre,
-> > > 
-> > > On 12:20 Tue 21 Oct     , Andre Przywara wrote:  
-> > > > The X-Powers AXP318W is a typical PMIC from X-Powers, featuring nine
-> > > > DC/DC converters and 28 LDOs, on the regulator side.
-> > > > 
-> > > > Describe the chip's voltage settings and switch registers, how the
-> > > > voltages are encoded, and connect this to the MFD device via its
-> > > > regulator ID.
-> > > > We use just "318" for the internal identifiers, for easier typing and
-> > > > less churn. If something else other than the "AXP318W" shows up, that's
-> > > > an easy change, externally visible strings carry the additional letter
-> > > > already.
-> > > > 
-> > > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > > > ---
-> > > >  drivers/regulator/axp20x-regulator.c | 170 ++++++++++++++++++++++++++-
-> > > >  include/linux/mfd/axp20x.h           |  43 +++++++
-> > > >  2 files changed, 211 insertions(+), 2 deletions(-)
-> > > >   
-> ..
-> > > > +
-> > > > +static const struct linear_range axp318_dcdc8_ranges[] = {
-> > > > +	REGULATOR_LINEAR_RANGE(500000,    0,  70,  10000),
-> > > > +	REGULATOR_LINEAR_RANGE(1220000,  71, 102,  20000),
-> > > > +	REGULATOR_LINEAR_RANGE(1900000, 103, 118, 100000),
-> > > > +};    
-> > > 
-> > > In the AXP318W datasheet, it says:
-> > > section 7.1 DCDC/LCO desgin
-> > >  8. DCDC6/7/8/9 only able to tune at two voltage ranges which are
-> > >  <1.54v and >1.54v, the tuning voltage should not step cross 1.54v
-> > >  (I translate the original doc into english)  
-> > 
-> > Thanks, I now read something similar in my Google translated copy of the
-> > datasheet. But I don't understand what this is supposed to mean? That
-> > exactly 1.54V does not work, so the value of 87 is invalid? But any
-> > other value can be set?  
-> I did a hard chinese - english translation..
-> 
-> No, I think it's probably a mistake that if user interpret value 87 as invalid,
-> from my understanding, DCDC6-9 only able to tune the voltage in two ranges:
-> (if user need to adjust the voltage dynamically)
-> 
-> a) range 0.5v - 1.54v (probably include 1.54v)
-> b) range 1.54v - 1.9v (probably also include 1.54v)
-> 
-> but can not tune in this case, example from range 1.5v - 1.6v which will
-> cross 1.54v point.
+> Best regards,
+> Jernej
+>
 
-I am not sure I fully understand: as far is this driver is concerned,
-these are just translations from target voltages to register values,
-there is no notion of some transition or slope. The upper layer is
-free to program any value it wants. So I don't know what the
-restriction is, really: is it that the first value programmed to this
-register sets a limit? So if you set something below 1.54V, you
-cannot program anything higher than that later? And how do you get out
-of this, by disabling the output, and re-programming? And do we really
-know that, or has someone verified that, or is that just what written
-in the manual?
+Tested-by: Ryan Walklin <ryan@testtoast.com>
 
-And if that's the case, I don't see how we can model this with the
-current driver. It's highly irrelevant anyway, since most voltages
-programmed are fixed anyways, and for instance on the Radxa A7E are all
-well below 1.54V.
+Regards,
 
-So long story short: I would ignore this until someone reports an
-actual issue. For the boards at hand I don't expect any.
-
-> I don't understand the logic behind but guess it's up to the HW/SoC
-> restriction in the design perspective..
-> >   
-> > > 
-> > > so, with this restricition, should we split the range into two?
-> > > one is dcdc6_lo_range, another dcdc6_hi_range
-> > > 
-> > > or what do you think?
-> > > 
-> > > ..  
-> > > > +	AXP_DESC(AXP318, ELDO1, "eldo1", "eldoin", 500, 1500, 25,
-> > > > +		 AXP318_ELDO1_CONTROL, AXP318_ELDO_V_OUT_MASK,
-> > > > +		 AXP318_LDO_OUTPUT_CONTROL3, BIT(6)),
-> > > > +	AXP_DESC(AXP318, ELDO2, "eldo2", "eldoin", 500, 1500, 25,
-> > > > +		 AXP318_ELDO2_CONTROL, AXP318_ELDO_V_OUT_MASK,
-> > > > +		 AXP318_LDO_OUTPUT_CONTROL3, BIT(7)),
-> > > > +	AXP_DESC(AXP318, ELDO3, "eldo3", "eldoin", 500, 1500, 25,
-> > > > +		 AXP318_ELDO3_CONTROL, AXP318_ELDO_V_OUT_MASK,
-> > > > +		 AXP318_LDO_OUTPUT_CONTROL4, BIT(0)),
-> > > > +	AXP_DESC(AXP318, ELDO4, "eldo4", "eldoin", 500, 1500, 25,
-> > > > +		 AXP318_ELDO4_CONTROL, AXP318_ELDO_V_OUT_MASK,
-> > > > +		 AXP318_LDO_OUTPUT_CONTROL4, BIT(1)),
-> > > > +	AXP_DESC(AXP318, ELDO5, "eldo5", "eldoin", 500, 1500, 25,
-> > > > +		 AXP318_ELDO5_CONTROL, AXP318_ELDO_V_OUT_MASK,
-> > > > +		 AXP318_LDO_OUTPUT_CONTROL4, BIT(2)),
-> > > > +	AXP_DESC(AXP318, ELDO6, "eldo6", "eldoin", 500, 1500, 25,
-> > > > +		 AXP318_ELDO6_CONTROL, AXP318_ELDO_V_OUT_MASK,
-> > > > +		 AXP318_LDO_OUTPUT_CONTROL4, BIT(3)),    
-> > > 
-> > > also, in section 7.1 DCDC/LCO desgin
-> > >  3. ELDOIN can use DCDC's output as the voltage input, once in this case,
-> > >  the LDO (output?) config voltage should lower than DCDC input voltage.
-> > > 
-> > > Note: ELDOIN can use PS(Power Supply, should be equal to DCIN) or DCDC as input
-> > > 
-> > > in case of Radxa A7A (A733) board, it use DCDC9 as ELDOIN,
-> > > Should we do something in the driver level? or leave up to user  
-> > 
-> > "User" really means board vendor here, right? As the actual board  
-> could be user from software level perspective, who use or design this
-
-No actual *user* on the software side would program those voltages,
-those are all described in the DT. Again, if the board designer didn't
-consider this, it's a major fault, and it just wouldn't work.
-
-> > user is not meant to adjust those voltages anyway, and any range
-> > limitations should be considered during the board design phase.  
-> I'd be fine if push these up to designer, and blame them for wrong usage
-
-Yes.
-
-> > So yes, DCDC9 is at 1.24V on the Radxa, and ELDOIN is connected to
-> > that, but only ELDO1 and ELDO6 are used, and they are fixed to 900mV
-> > and 800mV, respectively, and connected to SoC pins that require exactly
-> > those voltages. So there is no room for change or to adjust things
-> > here, and the requirements are met.  
-> for this single case, right, we shouldn't worry about..
-> 
-> > If board designers/people ignore that, that it just won't work, and
-> > they get to keep the pieces. Nothing the driver can do here.
-> >   
-> from a driver level, at least we can emit an error message to alert 
-> user of the wrong voltage value set..
-
-But where would you do that? Is there a callback or hook, where we
-could check this? I don't see any.
-
-Cheers,
-Andre
+Ryan
