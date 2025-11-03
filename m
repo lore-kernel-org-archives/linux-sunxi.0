@@ -1,56 +1,56 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DAF319879
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Nov 2025 17:11:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CFBE26F293
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Nov 2025 17:20:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762189883; cv=none; b=ICjgn8hyFuKXyfTAmG2yiomPbV5j/EtZ/ock7wUHBxB4iWioAYL2zcfbYaeqHwZg6xaz0cHS+GjQpSJG3OBo4NTwTAkbhnU38/vkSG6Ue4dFJ+29Cz5eCc0uDVWa9kX9gRQcTmM3UW9ezeLLszbWnRYQuGtW9JT7GAOku3F4CE4=
+	t=1762190457; cv=none; b=atMCnZtU0zQ6rD9z43jiGbuQlel/s4ZGj/+iIz8rS71LNNob8rj5YU+PQyGl9nIU0AxYAKv4NPYznkkTtnJUdJ3bYnuSN9UeCIlsIGZr4b1Z65tmwcAp1SdTy9lLeLlW5mMuN/OYxwlBzbA+qbVnXqJG05F5FJcsAj5DOqlSa5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762189883; c=relaxed/simple;
-	bh=Sv9FQL3Mzv+xYf8NoCGm6lqnm9197fwnn5s+c0L/OC4=;
+	s=arc-20240116; t=1762190457; c=relaxed/simple;
+	bh=Cw8Tr0pt0izwPilVv5nGs/i4ufdA9dFbRs4VQY6zikM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P7/JzIOGmNaDteK0VLf00y9Q8MSkQBa0AxJAGHkWOQZNSd+dnZYr5VtIcLT6OI56/3oyltY3yzP14VCw/UCzjOe3SPt/Xpr5bEkjRUW6apIHW94pni57+NKKYA+4+pfqtRzCy3vULbfDOpu65jcbOHOQl1mwG/63RdO3cekqK1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SlqXc6fd; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=iu59oiSTrEk/5bwUZK4Dvmwp40RTQfCRT574Tz8kilpGOOS7RFr2i7DnGdoLu4A9axf5Uk+8CI1CALVf2d3+VbhBiKV/zWB/JrMWBNv617knHR1LNWsXdBtG8vFXPknNKhVcsJPbm5EvGuQbImK3ZKOnPNW7PqGdgDVX5XoGZ3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gMmcAhiB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SlqXc6fd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B02CEC19421
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Nov 2025 17:11:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gMmcAhiB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D06DBC4AF0D
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Nov 2025 17:20:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762189882;
-	bh=Sv9FQL3Mzv+xYf8NoCGm6lqnm9197fwnn5s+c0L/OC4=;
+	s=k20201202; t=1762190456;
+	bh=Cw8Tr0pt0izwPilVv5nGs/i4ufdA9dFbRs4VQY6zikM=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=SlqXc6fdFdwZKkA3NGn+gW1fT8efWP2Pq9Eay/W3Z/vvEZfuiMhms2HFuhmciuSLQ
-	 1Kh7RRyWB29Umachh4f15d/U7AQqP3zYHMeYH5OC3ZppNDS1UKTAdPsHgevXW/WW55
-	 ve9P/zKD57n3O8qju8FiYDzLkoTNe2h4N+7x0a2rVJjuzTYWH53qtGyPu87G5HYLDv
-	 eCmzAwVZo6J+LklFDGA4aj3LdeXYHdHp3670uap8kl2GfnATtEfPe4pICSzf4/kbdD
-	 thKd8mjau7IIw+u35stL/MSUdmOQNyQ03rET2COozaTLSqLRDjZQlLrDM1E0HNe3q2
-	 pDtzVyQqo3pug==
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-3737d09d123so60508771fa.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 03 Nov 2025 09:11:22 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUqhjb5p4OE9Y6v/HsAxaEVQUojlu7VD9CYN6qeHcRtiipAr+EFZKsRC9U3P2hUU5ZPw9o1FUZs2U0AhQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy30Lr7dsZGAtfogJE0zYi+OEVXN1K6IVqltTVa3OpoxuqLqjHF
-	tRXIhAb85nXUc1Z2dfe7wukptCUlcQqJt2Lt+5DLfZpphRZZNC5QSv7dJ31Jhc3ST16swaZC+KT
-	IGNvQThx3wrApTKYzplyr69uCl21dkbA=
-X-Google-Smtp-Source: AGHT+IGj3r9zUjzPzn9IEygYQzEgz7ukM/+Lp4b6fW21ZV+0fJdeLDp4noFAI8Yrq2hHKB7s/nRse2db5Ak/8EyGv8Q=
-X-Received: by 2002:a2e:9205:0:b0:337:e29c:b0d2 with SMTP id
- 38308e7fff4ca-37a18de1e52mr34298411fa.41.1762189881006; Mon, 03 Nov 2025
- 09:11:21 -0800 (PST)
+	b=gMmcAhiBsVSyCkOM0mRYgkYZA9tJDSvK2wgh3qZwFULWhvuXi8erf2rkr/MwaAaKA
+	 fw2ML9KSCqXlPeZgkwSyurKcuqLMA35nwK2qQ0C+4tXt6DCRv6SBnvnR3Y0ZzRJ2is
+	 xEMh5Fex5rWkiAKYDk1zV0DJro/oYmo46qNlrrule9GFz1EZ2d+i9bGQhCeC76L2cR
+	 LSaGQGR0st+3+0WNqNJbdF2+qKzGRo9WavHL/e95h245XBEB2hF+uuN2wWEAWpdWKg
+	 bFcHCnLRxBqbLvNmg4iYxqhyRLpJbGgWx3uKZI/NAhWbpgI8Beyv1bk0jQe5hkUZSh
+	 UxBEpH8miuwgw==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-37a2d9cf22aso19812601fa.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 03 Nov 2025 09:20:56 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWGpgSlJ1NmpV8SDlLRApTOdUXTUuMg4860W03sAtmrJAE+jgNscDREF+I3loIdDpCxcNg8WyRbERCepQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyinE9Nhw076JRgsij6bu0rFvgkgYm8O3jr65TeA8SMoWqWOwXL
+	NlgsEGdWzvF3jHGpUrJY0+xoYuodCANHTjCHl8dR6WzWD5HGVlYcSsuB+NSg5TSeX18g+91/K3t
+	lwqxe6N7x2RAZmTjloe2ae1I8GSxeiSY=
+X-Google-Smtp-Source: AGHT+IHRUi6EAD6pMQNRdNYhSlcQIuKYSqaTxdXDqRJl9lmDDHFEVrdVEd5CRyApfZOE2sDZkcCOjtV9/2hQgNU4yLg=
+X-Received: by 2002:a05:651c:23d3:10b0:378:f3b6:f762 with SMTP id
+ 38308e7fff4ca-37a430aa81amr317571fa.8.1762190455235; Mon, 03 Nov 2025
+ 09:20:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251012192330.6903-1-jernej.skrabec@gmail.com> <20251012192330.6903-27-jernej.skrabec@gmail.com>
-In-Reply-To: <20251012192330.6903-27-jernej.skrabec@gmail.com>
+References: <20251012192330.6903-1-jernej.skrabec@gmail.com> <20251012192330.6903-28-jernej.skrabec@gmail.com>
+In-Reply-To: <20251012192330.6903-28-jernej.skrabec@gmail.com>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 4 Nov 2025 01:11:07 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65RecyHZVUN--oSmtzPDpmUHALd3Pqf79a1fKP9yxD8cA@mail.gmail.com>
-X-Gm-Features: AWmQ_bkNL0jahcEQaqn8bSZ19J8F-ktWPPiEchcfhtJA1Ye9Nhc1HXJ4hMb0Q_M
-Message-ID: <CAGb2v65RecyHZVUN--oSmtzPDpmUHALd3Pqf79a1fKP9yxD8cA@mail.gmail.com>
-Subject: Re: [PATCH 26/30] drm/sun4i: mixer: Add quirk for number of VI scalers
+Date: Tue, 4 Nov 2025 01:20:39 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65x+b8FXUfM_XbaSxKbKb2bMydmwAHZCm+AMd5f1gW1Aw@mail.gmail.com>
+X-Gm-Features: AWmQ_bkmnwYwJfDQIAiND4eRiNPut9jjWdyj2va-IjgdPAkREnfrJWQqH0QGSVs
+Message-ID: <CAGb2v65x+b8FXUfM_XbaSxKbKb2bMydmwAHZCm+AMd5f1gW1Aw@mail.gmail.com>
+Subject: Re: [PATCH 27/30] drm/sun4i: mixer: split out layer config
 To: Jernej Skrabec <jernej.skrabec@gmail.com>
 Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, 
 	airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
@@ -62,150 +62,68 @@ Content-Transfer-Encoding: quoted-printable
 On Mon, Oct 13, 2025 at 3:24=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
 l.com> wrote:
 >
-> On DE2 and DE3, UI scalers are located right after VI scalers. So in
-> order to calculate proper UI scaler base address, number of VI scalers
-> must be known. In practice, it is same as number of VI channels, but it
-> doesn't need to be.
->
-> Let's make a quirk for this number. Code for configuring channels and
-> associated functions won't have access to vi_num quirk anymore after
-> rework for independent planes.
+> Later special plane only driver for DE33 will provide separate
+> configuration. This change will also help layer driver migrate away from
+> mixer structure.
 >
 > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > ---
->  drivers/gpu/drm/sun4i/sun8i_mixer.c     | 11 +++++++++++
->  drivers/gpu/drm/sun4i/sun8i_mixer.h     |  2 ++
->  drivers/gpu/drm/sun4i/sun8i_ui_scaler.c | 10 +++++-----
->  3 files changed, 18 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/=
-sun8i_mixer.c
-> index 78bbfbe62833..f9131396f22f 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> @@ -708,6 +708,7 @@ static const struct sun8i_mixer_cfg sun8i_a83t_mixer0=
-_cfg =3D {
->         .scaler_mask    =3D 0xf,
->         .scanline_yuv   =3D 2048,
->         .de2_fcc_alpha  =3D 1,
-> +       .vi_scaler_num  =3D 1,
->         .ui_num         =3D 3,
->         .vi_num         =3D 1,
->  };
-> @@ -718,6 +719,7 @@ static const struct sun8i_mixer_cfg sun8i_a83t_mixer1=
-_cfg =3D {
->         .scaler_mask    =3D 0x3,
->         .scanline_yuv   =3D 2048,
->         .de2_fcc_alpha  =3D 1,
-> +       .vi_scaler_num  =3D 1,
->         .ui_num         =3D 1,
->         .vi_num         =3D 1,
->  };
-> @@ -729,6 +731,7 @@ static const struct sun8i_mixer_cfg sun8i_h3_mixer0_c=
-fg =3D {
->         .scaler_mask    =3D 0xf,
->         .scanline_yuv   =3D 2048,
->         .de2_fcc_alpha  =3D 1,
-> +       .vi_scaler_num  =3D 1,
->         .ui_num         =3D 3,
->         .vi_num         =3D 1,
->  };
-> @@ -740,6 +743,7 @@ static const struct sun8i_mixer_cfg sun8i_r40_mixer0_=
-cfg =3D {
->         .scaler_mask    =3D 0xf,
->         .scanline_yuv   =3D 2048,
->         .de2_fcc_alpha  =3D 1,
-> +       .vi_scaler_num  =3D 1,
->         .ui_num         =3D 3,
->         .vi_num         =3D 1,
->  };
-> @@ -751,6 +755,7 @@ static const struct sun8i_mixer_cfg sun8i_r40_mixer1_=
-cfg =3D {
->         .scaler_mask    =3D 0x3,
->         .scanline_yuv   =3D 2048,
->         .de2_fcc_alpha  =3D 1,
-> +       .vi_scaler_num  =3D 1,
->         .ui_num         =3D 1,
->         .vi_num         =3D 1,
->  };
-> @@ -761,6 +766,7 @@ static const struct sun8i_mixer_cfg sun8i_v3s_mixer_c=
-fg =3D {
->         .ui_num =3D 1,
->         .scaler_mask =3D 0x3,
->         .scanline_yuv =3D 2048,
-> +       .vi_scaler_num  =3D 2,
->         .ccsc =3D CCSC_MIXER0_LAYOUT,
->         .mod_rate =3D 150000000,
->  };
-> @@ -772,6 +778,7 @@ static const struct sun8i_mixer_cfg sun20i_d1_mixer0_=
-cfg =3D {
->         .scaler_mask    =3D 0x3,
->         .scanline_yuv   =3D 2048,
->         .de2_fcc_alpha  =3D 1,
-> +       .vi_scaler_num  =3D 1,
->         .ui_num         =3D 1,
->         .vi_num         =3D 1,
->  };
-> @@ -783,6 +790,7 @@ static const struct sun8i_mixer_cfg sun20i_d1_mixer1_=
-cfg =3D {
->         .scaler_mask    =3D 0x1,
->         .scanline_yuv   =3D 1024,
->         .de2_fcc_alpha  =3D 1,
-> +       .vi_scaler_num  =3D 1,
->         .ui_num         =3D 0,
->         .vi_num         =3D 1,
->  };
-> @@ -794,6 +802,7 @@ static const struct sun8i_mixer_cfg sun50i_a64_mixer0=
-_cfg =3D {
->         .scaler_mask    =3D 0xf,
->         .scanline_yuv   =3D 4096,
->         .de2_fcc_alpha  =3D 1,
-> +       .vi_scaler_num  =3D 1,
->         .ui_num         =3D 3,
->         .vi_num         =3D 1,
->  };
-> @@ -805,6 +814,7 @@ static const struct sun8i_mixer_cfg sun50i_a64_mixer1=
-_cfg =3D {
->         .scaler_mask    =3D 0x3,
->         .scanline_yuv   =3D 2048,
->         .de2_fcc_alpha  =3D 1,
-> +       .vi_scaler_num  =3D 1,
->         .ui_num         =3D 1,
->         .vi_num         =3D 1,
->  };
-> @@ -814,6 +824,7 @@ static const struct sun8i_mixer_cfg sun50i_h6_mixer0_=
-cfg =3D {
->         .mod_rate       =3D 600000000,
->         .scaler_mask    =3D 0xf,
->         .scanline_yuv   =3D 4096,
-> +       .vi_scaler_num  =3D 1,
->         .ui_num         =3D 3,
->         .vi_num         =3D 1,
->  };
+
+[...]
+
 > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/=
 sun8i_mixer.h
-> index def07afd37e1..40b800022237 100644
+> index 40b800022237..8629e21f9cf6 100644
 > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
 > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> @@ -178,6 +178,7 @@ enum sun8i_mixer_type {
+> @@ -164,34 +164,44 @@ enum sun8i_mixer_type {
+>  };
+>
+>  /**
+> - * struct sun8i_mixer_cfg - mixer HW configuration
+> - * @vi_num: number of VI channels
+> - * @ui_num: number of UI channels
+> + * struct sun8i_layer_cfg - layer configuration
+>   * @scaler_mask: bitmask which tells which channel supports scaling
+>   *     First, scaler supports for VI channels is defined and after that,=
+ scaler
+>   *     support for UI channels. For example, if mixer has 2 VI channels =
+without
+>   *     scaler and 2 UI channels with scaler, bitmask would be 0xC.
+>   * @ccsc: select set of CCSC base addresses from the enumeration above.
+> - * @mod_rate: module clock rate that needs to be set in order to have
+> - *     a functional block.
+>   * @de_type: sun8i_mixer_type enum representing the display engine gener=
+ation.
 >   * @scaline_yuv: size of a scanline for VI scaler for YUV formats.
 >   * @de2_fcc_alpha: use FCC for missing DE2 VI alpha capability
 >   *     Most DE2 cores has FCC. If number of VI planes is one, enable thi=
 s.
-> + * @vi_scaler_num: Number of VI scalers. Used on DE2 and DE3.
->   * @map: channel map for DE variants processing YUV separately (DE33)
+>   * @vi_scaler_num: Number of VI scalers. Used on DE2 and DE3.
+> - * @map: channel map for DE variants processing YUV separately (DE33)
 >   */
->  struct sun8i_mixer_cfg {
-> @@ -189,6 +190,7 @@ struct sun8i_mixer_cfg {
+> -struct sun8i_mixer_cfg {
+> -       int             vi_num;
+> -       int             ui_num;
+> +struct sun8i_layer_cfg {
+>         int             scaler_mask;
+>         int             ccsc;
+> -       unsigned long   mod_rate;
 >         unsigned int    de_type;
 >         unsigned int    scanline_yuv;
 >         unsigned int    de2_fcc_alpha : 1;
-> +       unsigned int    vi_scaler_num;
+>         unsigned int    vi_scaler_num;
+> -       unsigned int    map[6];
+> +};
+> +
+> +/**
+> + * struct sun8i_mixer_cfg - mixer HW configuration
+> + * @lay_cfg: layer configuration
+> + * @vi_num: number of VI channels
+> + * @ui_num: number of UI channels
 
-This could be a smaller type. Please do a sweep of the struct after the
-refactoring is done and see if any of the types could be shrunk.
+Missing kerneldoc for .de_type field.
 
-And just a nitpick, but I would probably insert it above scaler_mask.
-
+Once fixed,
 
 Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
