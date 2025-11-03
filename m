@@ -1,56 +1,56 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE73C320A14
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Nov 2025 17:00:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5210E72610
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Nov 2025 17:05:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762189231; cv=none; b=HOr32lhgjzXHhFfMHV1u3E6C13frk63Qog5Q1AuB7zqYdUUPKYatrGVG2p9YA7llEGcR+7xTKZGB8hKe+6Xc7fdnXkKrEswoLbR4E9o+p6HEuKWpVO8gQHtebhrlSImDE99jEqmcDayqaeQo2UNw5iloP3F2Mmvc0dljvIAVLuM=
+	t=1762189520; cv=none; b=GGBWXm6xhnz8tPmIzIrJSM7jI7uKYGUBHwIuHzzPVBEE87politEAntW/6A8jipIvkWuaOmSn0CO+6WJstR3k7fm4TBBN2Xqqn9atWtFDmYSmj49f75a6i9WW3F0Y5ln201XIwn+fp6i+NxhckxkXWy7YS/M8+UdzdDAc7j/QPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762189231; c=relaxed/simple;
-	bh=7CyzY1gi2utCnEO0mIJFk4I0teKsCJNbeXckClXmjAw=;
+	s=arc-20240116; t=1762189520; c=relaxed/simple;
+	bh=fzn2uWklE5tGYSA7UDjLpALgXVTdhEXtVy9R7XntaPQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RS6NPraQCKDYOjMW5MJrGudmNqGhX7IK8hPfYk5eC/ztapNXGJ88BvD99qZSAyY/wLSusPW7EXqcEto9KLyP4H47ui12o2VUwNxgvkQMfJ7eFFVCo4752CENpC9RRLClvPWEwsF5O1E1Kse6XcxQorNMMdiVU1sUEIFSFKWaJ9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JP30ELTU; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=NNG2mbiGy+M81HA0u6l0xc4q0GiSEasfFvhp/4Dqh736uYnbS4kBe12eP+G3AJ/ZiWP41hxFAdRT2lLBtpIeT4S9HYlGZ3iV3J+hD24hLzk83SR9EQ+7hUdBBT2R1LJjvaQP5DeBrIsPPcm0YdVq078Wp0Zxc4PuqVnnB/QntKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Moy1kA+m; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JP30ELTU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B038C16AAE
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Nov 2025 17:00:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Moy1kA+m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1813C4AF0C
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Nov 2025 17:05:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762189231;
-	bh=7CyzY1gi2utCnEO0mIJFk4I0teKsCJNbeXckClXmjAw=;
+	s=k20201202; t=1762189519;
+	bh=fzn2uWklE5tGYSA7UDjLpALgXVTdhEXtVy9R7XntaPQ=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=JP30ELTUudyhVsNf8Z28HixNPHuIblFoxzdt+6GKSZNVKcm68JNvQJpbCm5SoD3Li
-	 kPxz8aWYeBVNE/ybrjfVw8WChw3rExRtt0RqqRSX1f+YILweTNONW4VyLITZhAesmr
-	 0XHx5b0Tqh3VHviyGrZQLx+GK2gMq5LGyTNxvp2cymGy7ex7+LggtONVv8SoC8saRF
-	 ixOV6B3iUvawEuT2FJpdS2T+ecjF/RANMvXFrf+FWtPAGYqiJhA4ND+zS/Tlu4rCTG
-	 awXxUZuzNKA+t0tiQbE3IJAH12nHGyqht1iGtxLFt6HAN4CG1GjGT42F5yiox5+U82
-	 j+khydXWxwLVg==
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-378d50e1c82so44497691fa.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 03 Nov 2025 09:00:31 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUmfBhUb1nLDQ71LMc1uSdfUozQagZI+hpDiyr9h2kwQWjhQrvbcLsR0Hip1wYWbrtcT5Wg7+gTKGX/7w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzw59bxDnaa1N7cATsbSyez9oHuoGBq5KnYhrcXT3PhJ+FuTLOw
-	646JdB2VymVmiC5uLPMpy5sT4NTFBnojMgqtRYNsAnnqHpde15wjodnEA+isWubj1lmts5ht/9B
-	hj1NF8++KUMoYeXTV1QNN4RYQaDPkwv0=
-X-Google-Smtp-Source: AGHT+IHVjRCJBpIQ0AkwGUkv1Oc/Iw1YpvgPMizZQAfItAe7f0KiKtYYqyVs+d6rQlc0MN+lNmy1tI7ZB9JGHs18oQ8=
-X-Received: by 2002:a2e:7c18:0:b0:376:39eb:21d8 with SMTP id
- 38308e7fff4ca-37a18db1eeemr34990161fa.15.1762189229761; Mon, 03 Nov 2025
- 09:00:29 -0800 (PST)
+	b=Moy1kA+m4ZkdW/LzH1xyE/9+86gsPTHKrOH8jRBFBqZRN3YQfRNdfPbf0gwAF8PFr
+	 ldywhFyZ+il75QEUGBHD5qy0Q5P6iAjprxkIiisaa3agzK7IuOieEVGkNvx72lbSBJ
+	 9zcti1IB/wDWdbmbxtAubd3NWcHjRkseF6WYC31lob/vcjnlM9ifUZksvgKUkj/frI
+	 h3HtmdNluGkRe+kb9Ya19jrgYUoY7rF7I2bg3Tmx1j6CCjPlufmJbIHM7EYc6pYxhQ
+	 fA2gjmgvNFtHugs3kFAb0CG4r8Ow09gZxMlBJGKReGx9aBApEUUdP9oxjlC1dYmWKc
+	 GJ2FyqarjRWDQ==
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-378d50e1c77so39025531fa.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 03 Nov 2025 09:05:19 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXZT4488/tFF/XAbrzmENk2knpflMS/92fGKGLxCAW21LDF5+Khvu8kFoRlhzA/gGIExjI6pyTpdwLGSQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyg+5WagHbvSCzBvC6mWy+jLYm3wpPDigLYeBemJ/ZsT0GUs8wx
+	FxfaqhPeSaKr9vr1IPmb+FJZii1GN7Iko+iShHh6cPDywoaSHlnIfF5bp48vY7HkEdprtZTtmDF
+	i5DrvAUSEdhZTH10t25w85AGeJSVqfBE=
+X-Google-Smtp-Source: AGHT+IFFecWvcK1jARo7+vH1i0fdkgcM3ym8hNovbJFPh3GHwmoUFl+ITibWVEcnlLM/g4nfPOjXXktiS+ImC6As/Vk=
+X-Received: by 2002:a05:651c:211a:b0:36e:4481:9e89 with SMTP id
+ 38308e7fff4ca-37a18d91342mr40664941fa.11.1762189518224; Mon, 03 Nov 2025
+ 09:05:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251012192330.6903-1-jernej.skrabec@gmail.com> <20251012192330.6903-24-jernej.skrabec@gmail.com>
-In-Reply-To: <20251012192330.6903-24-jernej.skrabec@gmail.com>
+References: <20251012192330.6903-1-jernej.skrabec@gmail.com> <20251012192330.6903-25-jernej.skrabec@gmail.com>
+In-Reply-To: <20251012192330.6903-25-jernej.skrabec@gmail.com>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 4 Nov 2025 01:00:15 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64sMNZQEjZdofw_=pWYZ7VPa5zjFjrRBZu4tH+HrusZdA@mail.gmail.com>
-X-Gm-Features: AWmQ_bnJun-VQPYKNpyT8f9hlvvkp9be9LX1bH3OeeZGxyWdWrG0bvZZDFNJw7w
-Message-ID: <CAGb2v64sMNZQEjZdofw_=pWYZ7VPa5zjFjrRBZu4tH+HrusZdA@mail.gmail.com>
-Subject: Re: [PATCH 23/30] drm/sun4i: vi_scaler: Update DE33 base calculation
+Date: Tue, 4 Nov 2025 01:05:05 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67o69htsbDDn7XY=dhVFcGvaz2CUApdPkcrZHX-rL1Xzg@mail.gmail.com>
+X-Gm-Features: AWmQ_bn7ssL-pDpY0rKLqDen2nEYYfFMIRhfqe36gObds6juuxJVT53N-TRZXDY
+Message-ID: <CAGb2v67o69htsbDDn7XY=dhVFcGvaz2CUApdPkcrZHX-rL1Xzg@mail.gmail.com>
+Subject: Re: [PATCH 24/30] drm/sun4i: mixer: Convert heuristics to quirk
 To: Jernej Skrabec <jernej.skrabec@gmail.com>
 Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, 
 	airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
@@ -62,17 +62,160 @@ Content-Transfer-Encoding: quoted-printable
 On Mon, Oct 13, 2025 at 3:24=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
 l.com> wrote:
 >
-> Now that channel base calculation is straightforward, let's update VI
-> scaler base calculation to be simpler. At the same time, also introduce
-> macro to avoid magic numbers.
->
-> Note, reason why current magic value and new macro value isn't the same
-> is because sun8i_channel_base() already introduces offset to channel
-> registers. Previous value is just the difference to VI scaler registers.
-> However, new code calculates scaler base from channel base. This is also
-> easier to understand when looking into BSP driver. Macro value can be
-> easily found whereas old diff value was not.
+> Determination if FCC unit can be used for VI layer alpha depends on
+> number of VI channels. This info won't be available anymore in future
+> to VI layer driver because of DE33 way of allocating planes from same
+> pool to different mixers.
 >
 > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  drivers/gpu/drm/sun4i/sun8i_mixer.c    |  9 +++++++++
+>  drivers/gpu/drm/sun4i/sun8i_mixer.h    |  3 +++
+>  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 12 +++++++-----
+>  3 files changed, 19 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/=
+sun8i_mixer.c
+> index 267a6f75feb2..78bbfbe62833 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> @@ -707,6 +707,7 @@ static const struct sun8i_mixer_cfg sun8i_a83t_mixer0=
+_cfg =3D {
+>         .de_type        =3D SUN8I_MIXER_DE2,
+>         .scaler_mask    =3D 0xf,
+>         .scanline_yuv   =3D 2048,
+> +       .de2_fcc_alpha  =3D 1,
+>         .ui_num         =3D 3,
+>         .vi_num         =3D 1,
+>  };
+> @@ -716,6 +717,7 @@ static const struct sun8i_mixer_cfg sun8i_a83t_mixer1=
+_cfg =3D {
+>         .de_type        =3D SUN8I_MIXER_DE2,
+>         .scaler_mask    =3D 0x3,
+>         .scanline_yuv   =3D 2048,
+> +       .de2_fcc_alpha  =3D 1,
+>         .ui_num         =3D 1,
+>         .vi_num         =3D 1,
+>  };
+> @@ -726,6 +728,7 @@ static const struct sun8i_mixer_cfg sun8i_h3_mixer0_c=
+fg =3D {
+>         .mod_rate       =3D 432000000,
+>         .scaler_mask    =3D 0xf,
+>         .scanline_yuv   =3D 2048,
+> +       .de2_fcc_alpha  =3D 1,
+>         .ui_num         =3D 3,
+>         .vi_num         =3D 1,
+>  };
+> @@ -736,6 +739,7 @@ static const struct sun8i_mixer_cfg sun8i_r40_mixer0_=
+cfg =3D {
+>         .mod_rate       =3D 297000000,
+>         .scaler_mask    =3D 0xf,
+>         .scanline_yuv   =3D 2048,
+> +       .de2_fcc_alpha  =3D 1,
+>         .ui_num         =3D 3,
+>         .vi_num         =3D 1,
+>  };
+> @@ -746,6 +750,7 @@ static const struct sun8i_mixer_cfg sun8i_r40_mixer1_=
+cfg =3D {
+>         .mod_rate       =3D 297000000,
+>         .scaler_mask    =3D 0x3,
+>         .scanline_yuv   =3D 2048,
+> +       .de2_fcc_alpha  =3D 1,
+>         .ui_num         =3D 1,
+>         .vi_num         =3D 1,
+>  };
+> @@ -766,6 +771,7 @@ static const struct sun8i_mixer_cfg sun20i_d1_mixer0_=
+cfg =3D {
+>         .mod_rate       =3D 297000000,
+>         .scaler_mask    =3D 0x3,
+>         .scanline_yuv   =3D 2048,
+> +       .de2_fcc_alpha  =3D 1,
+>         .ui_num         =3D 1,
+>         .vi_num         =3D 1,
+>  };
+> @@ -776,6 +782,7 @@ static const struct sun8i_mixer_cfg sun20i_d1_mixer1_=
+cfg =3D {
+>         .mod_rate       =3D 297000000,
+>         .scaler_mask    =3D 0x1,
+>         .scanline_yuv   =3D 1024,
+> +       .de2_fcc_alpha  =3D 1,
+>         .ui_num         =3D 0,
+>         .vi_num         =3D 1,
+>  };
+> @@ -786,6 +793,7 @@ static const struct sun8i_mixer_cfg sun50i_a64_mixer0=
+_cfg =3D {
+>         .mod_rate       =3D 297000000,
+>         .scaler_mask    =3D 0xf,
+>         .scanline_yuv   =3D 4096,
+> +       .de2_fcc_alpha  =3D 1,
+>         .ui_num         =3D 3,
+>         .vi_num         =3D 1,
+>  };
+> @@ -796,6 +804,7 @@ static const struct sun8i_mixer_cfg sun50i_a64_mixer1=
+_cfg =3D {
+>         .mod_rate       =3D 297000000,
+>         .scaler_mask    =3D 0x3,
+>         .scanline_yuv   =3D 2048,
+> +       .de2_fcc_alpha  =3D 1,
+>         .ui_num         =3D 1,
+>         .vi_num         =3D 1,
+>  };
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/=
+sun8i_mixer.h
+> index d14188cdfab3..def07afd37e1 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
+> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+> @@ -176,6 +176,8 @@ enum sun8i_mixer_type {
+>   *     a functional block.
+>   * @de_type: sun8i_mixer_type enum representing the display engine gener=
+ation.
+>   * @scaline_yuv: size of a scanline for VI scaler for YUV formats.
+> + * @de2_fcc_alpha: use FCC for missing DE2 VI alpha capability
+> + *     Most DE2 cores has FCC. If number of VI planes is one, enable thi=
+s.
+>   * @map: channel map for DE variants processing YUV separately (DE33)
+>   */
+>  struct sun8i_mixer_cfg {
+> @@ -186,6 +188,7 @@ struct sun8i_mixer_cfg {
+>         unsigned long   mod_rate;
+>         unsigned int    de_type;
+>         unsigned int    scanline_yuv;
+> +       unsigned int    de2_fcc_alpha : 1;
+>         unsigned int    map[6];
+>  };
+>
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun=
+4i/sun8i_vi_layer.c
+> index 44e699910b70..8eb3f167e664 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> @@ -48,14 +48,16 @@ static void sun8i_vi_layer_update_attributes(struct s=
+un8i_layer *layer,
+>                 val |=3D (state->alpha =3D=3D DRM_BLEND_ALPHA_OPAQUE) ?
+>                         SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_PIXEL =
+:
+>                         SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_COMBIN=
+ED;
+> -       } else if (mixer->cfg->vi_num =3D=3D 1) {
+> +       }
+> +
+> +       regmap_write(layer->regs,
+> +                    SUN8I_MIXER_CHAN_VI_LAYER_ATTR(ch_base, layer->overl=
+ay), val);
+> +
+> +       if (mixer->cfg->de2_fcc_alpha) {
+>                 regmap_write(layer->regs,
+>                              SUN8I_MIXER_FCC_GLOBAL_ALPHA_REG,
+>                              SUN8I_MIXER_FCC_GLOBAL_ALPHA(state->alpha >>=
+ 8));
+>         }
+> -
+> -       regmap_write(layer->regs,
+> -                    SUN8I_MIXER_CHAN_VI_LAYER_ATTR(ch_base, layer->overl=
+ay), val);
+
+Should probably mention why the order is reversed here, and why it is OK.
+
+Otherwise,
 
 Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
