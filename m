@@ -1,70 +1,184 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A523195E0
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Nov 2025 15:14:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC2D314A64
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Nov 2025 15:32:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762182894; cv=none; b=og8oeZvmfkopdVaLFjJ3lTrQnSdywOEBCLeAAED+tOkbxn4AmAJFfKiu0aDWgc/+rSqAoNnpZ+RZ51TVLtBWzPmSjRYhcisVAH2GzQLD6rDIbgzWeXqW45gvztwsn6e8r5ECJhxzjDjS5v9jpsByQpDPMZHvI/W/SAB9Oxepu8A=
+	t=1762183926; cv=none; b=N76xXncn0ExKRkmL7johK5sjs3/NDlSnoaXow/mMQOzaJVDEy8OQIvrpdwy8bv0ang8Ti5Z0mjZco3k5Oj4SoCDmU7rEQvx9UK9PjdxlwytgnjGZIARUcmECb9lNyyHsKhwZ4LY+LDuEslOop7mNMbBqXHdBR10igXIdhUAItyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762182894; c=relaxed/simple;
-	bh=X1lQDIOUYsjBlo4ocs57kAT3XVTll6xW8NP/rqlaXgw=;
+	s=arc-20240116; t=1762183926; c=relaxed/simple;
+	bh=ldTrccz1k3zG5hsrIjcrfaT0TLAHWdfHQVOzowj7t4c=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nqHGt2NaUILeQEVPnvVY1/EaFZ2+Ti0jaxXPlr0iMzXHCdtYT+63IzZLN57VP2sCbdCaEag6XoPxktVNQwBLYZljmNAop589ktnsXpekk4rsyHl/g+s4qz8m4L+tktsF1KmxaqU2I7sPMB2xGD9MswLY/qiN8ZAwWjY/V5ZNbCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d9DZanYu; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=omZEYyrlRlUjQ8TxEEA2giHgNYA7Y4h/lucT5ETbUT2OoqL1r74Ezv8S73mARUaPH5NNfFbODJVyj23FUBtoxjvShBlJusxWpQN9eLiL0rn0rHTPulqDtSDUrM8FtWlPybP6TbHb5eSQL+nh94UDMVdzEcZQTsVSSHboeMiTNfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iHW1bptP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d9DZanYu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 261D1C116C6
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Nov 2025 15:14:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iHW1bptP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A924C116B1
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Nov 2025 15:32:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762182894;
-	bh=X1lQDIOUYsjBlo4ocs57kAT3XVTll6xW8NP/rqlaXgw=;
+	s=k20201202; t=1762183926;
+	bh=ldTrccz1k3zG5hsrIjcrfaT0TLAHWdfHQVOzowj7t4c=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=d9DZanYu1Du0MYDLUS/92X+Uwvd7DmItGjVLn7l92ZW9DEUb8dEouTlqUwbuYBZIG
-	 pH1gQX7ZxOuFzhDCHe1s9G1KSvbw67fwVhKmCxVsahiM4x5/rVqHu+u0zq2W8ODsoz
-	 WJKUcHd5pr5oqkT/iQb5R4T4g6WV2iAa1ZTE1eSPGtr4DTB6shuHq5kXqIQZd1KCoy
-	 Ncb+AIiWy6F51l7Sq/I7eO7jQ7OQXP2ga3CqRE2OYEinAFBBmjD7g9EP+9O7cTMeDs
-	 JLxEmg5g4qWSllg5lno1JojlPBPckXZm0wq2CI5DsZSfACxyfyaUpu5nVc7Vg9Fqyq
-	 bGk2N7GSrgBCw==
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3737d0920e6so28076011fa.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 03 Nov 2025 07:14:54 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWY99dD80CDbIm9OWKkvc7TW8x7cFgfDsK65+7gTjAAxJUvBu+FN1R5ZNc1tVU0l+oERUTLvmp9ubfGxA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzbHpf19zG20PfO8upluWu9g+QldUBaRQnzZ5Bv2Du5A1Ak5qUR
-	Hhuy2qpulyQhMM6Yym9zv6Xv/UeVt8XD+OFEWoL+A8SN7PhmI8j/5xidgThQARLFVbFOHAFaQqg
-	/L2bmfyv4y4QH6Z3ac1OI5sE8qIcs6lg=
-X-Google-Smtp-Source: AGHT+IHZDkoXxNdhZHooF7In6ZS/umouiKh+BmptD052LhPp+RR7HY7bCHqMPN8dvQ1n5W4zzJk3EOAaNxVFM3Xu/nE=
-X-Received: by 2002:a05:651c:b11:b0:37a:2c50:c437 with SMTP id
- 38308e7fff4ca-37a2c50c5c6mr22032461fa.14.1762182892512; Mon, 03 Nov 2025
- 07:14:52 -0800 (PST)
+	b=iHW1bptPTj7YcLVlF7Jt/biFtxge9HcXhz/k8iwgSRk/ELpPj3CQsOZfDkVDGZIKw
+	 hcZQmD2WevfvmzZ/Bm5vb0i4IuE5nVtL1YZSdx54qMvtdERFNOSBveIqySY/k6oGko
+	 tObBC9oSBAxW3d7IsW49ZRTQmQTKbvhtbHYHK8jXdMkRRfDBVWoQ1R64vYJlwMHYGI
+	 BPSbJ4rWBbeOentQ4m30iNFTt6+253ob5ivrwEshGQAwU3Fr8hGzdN87mX76fkQLTU
+	 oixZZVPgoVYXHSHrWAzm2BmdfGQhIQuaqgdvvTkC0tM34+RAPoH9RuYOG8TmpeNa/Z
+	 jvb9zkgpBlHrg==
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-591eb980286so4399737e87.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 03 Nov 2025 07:32:06 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXtUQ8G6MfeZTIiFk3H0C3Xk8Mifw+0DQV77RtSvX303oxpAetrGV4xkQrYbuz0EyhjWTZO1QULrVxXwA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyuZRsYqZcW/DItlOsZv+SFYy69Nwh23QDZ9ak3O3Dmtzdh/vIW
+	5FADm5qVcIvPIUpEmMhU1e1Y/t4DbIrG0r3y4C7Ir+vGFKPNGpebw2dFBV1RR+wSZqMdv3LYH2J
+	W7WKELNDqphzTjL18DrryojUJKkWNOxo=
+X-Google-Smtp-Source: AGHT+IGuWwcsHwoNWGeiPIp0twN/5zmHhQZ8LukItMA7GwGypBE7eupUKitovFzPUZOvSlsivgqP0/+UP9fA+PX7v6c=
+X-Received: by 2002:a05:6512:1102:b0:594:18cf:14ba with SMTP id
+ 2adb3069b0e04-5941d549648mr3516863e87.46.1762183924565; Mon, 03 Nov 2025
+ 07:32:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251012192330.6903-1-jernej.skrabec@gmail.com> <20251012192330.6903-21-jernej.skrabec@gmail.com>
-In-Reply-To: <20251012192330.6903-21-jernej.skrabec@gmail.com>
+References: <20251021112013.2710903-1-andre.przywara@arm.com> <20251021112013.2710903-2-andre.przywara@arm.com>
+In-Reply-To: <20251021112013.2710903-2-andre.przywara@arm.com>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Mon, 3 Nov 2025 23:14:39 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65ubpB5sKnfQVej3AOtNSX=xAfh+RDL+=qZ3oz0j8-rDQ@mail.gmail.com>
-X-Gm-Features: AWmQ_bk5XxIurfQd85eS3oxbla8XyM5TbCCjYCsGGsUnTgr3dnC2wC7GmAAQMwA
-Message-ID: <CAGb2v65ubpB5sKnfQVej3AOtNSX=xAfh+RDL+=qZ3oz0j8-rDQ@mail.gmail.com>
-Subject: Re: [PATCH 20/30] drm/sun4i: layers: Make regmap for layers configurable
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, 
-	airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Mon, 3 Nov 2025 23:31:52 +0800
+X-Gmail-Original-Message-ID: <CAGb2v657XU2wnhNHCgpLnXQrRkVBu1v5SNLUhnXcbj3RfCBN7g@mail.gmail.com>
+X-Gm-Features: AWmQ_bnVIYEAzXsQB-a8g3OFWbeWjAuTTfVmtcOlhHp2hFHoVPwHRCT0lX6q-_g
+Message-ID: <CAGb2v657XU2wnhNHCgpLnXQrRkVBu1v5SNLUhnXcbj3RfCBN7g@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: mfd: x-powers,axp152: Document AXP318W
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Samuel Holland <samuel@sholland.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Yixun Lan <dlan@gentoo.org>, devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 13, 2025 at 3:24=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
-l.com> wrote:
+On Tue, Oct 21, 2025 at 7:20=E2=80=AFPM Andre Przywara <andre.przywara@arm.=
+com> wrote:
 >
-> Till DE33, there were no reason to decouple registers from mixer.
-> However, with future new plane driver, this will be necessary.
+> The X-Powers AXP318W is a PMIC used on some newer Allwinner devices.
+> Among a large number of both DCDC and LDO regulators it features the usua=
+l
+> ADC/IRQ/power key parts.
+> Like other recent PMICs, it lacks the DC/DC converter PWM frequency contr=
+ol
+> register, that rate is fixed here (1.5MHz on DCDC1, 3 MHz on the others).
 >
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Add the new compatible string, and add that to the list of PMICs without
+> the PWM frequency property.
+> Also add more input supply properties, for the split DCDC and ALDO
+> supplies.
+> The PMIC features *two* switched outputs, hanging of DCDC1, and the
+> manual calls them swout1 and swout2, so follow suit here and add those
+> names to the pattern for matching the node names.
+>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  .../bindings/mfd/x-powers,axp152.yaml         | 28 ++++++++++++++++++-
+>  1 file changed, 27 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml b=
+/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
+> index 45f015d63df16..1bed19fc91ec4 100644
+> --- a/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
+> @@ -83,6 +83,7 @@ allOf:
+>            contains:
+>              enum:
+>                - x-powers,axp313a
+> +              - x-powers,axp318w
+>                - x-powers,axp323
+>                - x-powers,axp15060
+>                - x-powers,axp717
+> @@ -102,6 +103,7 @@ properties:
+>            - x-powers,axp221
+>            - x-powers,axp223
+>            - x-powers,axp313a
+> +          - x-powers,axp318w
+>            - x-powers,axp323
+>            - x-powers,axp717
+>            - x-powers,axp803
+> @@ -156,10 +158,18 @@ properties:
+>      description: >
+>        DCDC1 power supply node, if present.
+>
+> +  vin19-supply:
+> +    description: >
+> +      Combined DCDC1/DCDC9 power supply node, if present.
+> +
+>    vin2-supply:
+>      description: >
+>        DCDC2 power supply node, if present.
+>
+> +  vin23-supply:
+> +    description: >
+> +      Combined DCDC2/DCDC3 power supply node, if present.
+> +
+>    vin3-supply:
+>      description: >
+>        DCDC3 power supply node, if present.
+> @@ -168,6 +178,10 @@ properties:
+>      description: >
+>        DCDC4 power supply node, if present.
+>
+> +  vin45-supply:
+> +    description: >
+> +      Combined DCDC4/DCDC5 power supply node, if present.
+> +
+>    vin5-supply:
+>      description: >
+>        DCDC5 power supply node, if present.
+> @@ -176,6 +190,10 @@ properties:
+>      description: >
+>        DCDC6 power supply node, if present.
+>
+> +  vin678-supply:
+> +    description: >
+> +      Combined DCDC6/DCDC7/DCDC8 power supply node, if present.
+> +
+>    vin7-supply:
+>      description: >
+>        DCDC7 power supply node, if present.
+> @@ -220,6 +238,14 @@ properties:
+>      description: >
+>        ALDO* power supply node, if present.
+>
+> +  aldo156in-supply:
+> +    description: >
+> +      ALDO* power supply node, if present.
+> +
+> +  aldo234in-supply:
+> +    description: >
+> +      ALDO* power supply node, if present.
+> +
+>    bldoin-supply:
+>      description: >
+>        BLDO* power supply node, if present.
+> @@ -277,7 +303,7 @@ properties:
+>            Defines the work frequency of DC-DC in kHz.
+>
+>      patternProperties:
+> -      "^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)=
+ldo|cpusldo|drivevbus|dc5ldo|boost)$":
+> +      "^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|swout[1-=
+9]|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo|boost)$":
+
+This and the ever growing list of *-supply properties makes me wonder
+whether we should expand the conditional blocks to enforce which names
+are valid for whichever models. That could be done later though.
 
 Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+
+>          $ref: /schemas/regulator/regulator.yaml#
+>          type: object
+>          unevaluatedProperties: false
+> --
+> 2.25.1
+>
