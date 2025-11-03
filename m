@@ -1,70 +1,242 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 269DD314B9F
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Nov 2025 17:34:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4783231B10E
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Nov 2025 17:40:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762191265; cv=none; b=j7d5vHZN1+4YdJTw/oTYxORIXtKKBniJhcEXXtP1COxBM6XVO98uE1fF4N2VN3+wxqFKRnv58g3UA3gwsYWUlOU9rH5MLL2lZhYR5FkCVOS2i7U0y6E/v9qgQveG1pgTXGNCysleZ+zxvCpNeNB/BZMhUjCSDJYG3I/l4r7XaXI=
+	t=1762191650; cv=none; b=Wv9/0sN6v5lveuqclE2Z/ST0LoUGrhbLVt4vOgBoFltiquSnrOEYmrYELFapjoWL/hebkPiXN2CR/W1CKtu35eOnpRLyHkj7WRf4eNqxXDNfHzwXDnlz0XPH2BRRb2mI84xR9Mwk/QNpPFcOWibSzKcd0ukorvqDECm9M1Goge4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762191265; c=relaxed/simple;
-	bh=U+aH8lUB+El5hnIWJORr7k8qBwm8VSBJwZFvW25Fg/I=;
+	s=arc-20240116; t=1762191650; c=relaxed/simple;
+	bh=bAC+I9yHYiPTep/W58Jpx44UyXtlzHsX0xnfav+6hxE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GX4qgVXUwJgq624JR13aGvLgnKTXbG5Z4riCHKy8p1m9r6jEioTIBh4CyRiOZLKGEnUFyFctK1cnksdFXRO0pS9LK879mcoOc5zFJrI1+lkysk79DlJpNpwfeYmzz57sQJB9TKZ4a4o0pjosqFZO2uIWvQoLYDGb3JQdzQ2LXfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tUx4q78T; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=K5BECdG4RfTcaPGTORfRj/EUdHXcaZgsqYue0xHRAa5Zfr1i8LUPRJoVETZaqPj68JXrXOaE9LvLm7LMaqWrLl4mWxxMhXKV7u12uIOO8Z2c2ysfQQpvaKyZFWJEdgH3TDsVEgtzWEPa0KCAdJt0hEftn6QsqTumdubw6UvzjK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HNXd2oOy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tUx4q78T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6CF0C4AF0B
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Nov 2025 17:34:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HNXd2oOy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7CA3C19421
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Nov 2025 17:40:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762191264;
-	bh=U+aH8lUB+El5hnIWJORr7k8qBwm8VSBJwZFvW25Fg/I=;
+	s=k20201202; t=1762191649;
+	bh=bAC+I9yHYiPTep/W58Jpx44UyXtlzHsX0xnfav+6hxE=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=tUx4q78TJlms91B8kVH3OS4mBEXWsvYo6gIgV6Y0heRMq8vOm1cDId7gsHmz7W3tE
-	 7GiOz3MF6wlKLkRekNZ6ukVR+qYIJP7pj1+1I+C0fnW31LlA6+pgdgbsu1yqVjE6lO
-	 bvjS/eBSerrLyAuAqTfYt/Jm0i0W3o6czTZv7Ca+Eea98ojf4VLlcwUKvJpLKTQR+W
-	 n81B/gcvOWkCN1B1qUtJ1ul7lv3noAm5/SH0L9mrkqMLY/tBb/mPjuKZcG2t902EXh
-	 l4Xsnxt08jqN5XmqKhFuD5XCXr1TRB1nQaD8aChq4XcRvAOuYvyd3fS0LpCKAQlOPK
-	 kksI4DjMOPIUA==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-378d6fa5aebso46799541fa.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 03 Nov 2025 09:34:24 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWtA2qVBqWr52rR7c3zI6sxRkQ0PZmsgrpXsr8IVRvqPlrFByPL4f0aW5tDxIvmMglTJ8GExS3ldZHykw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwOV1T+Xw8yQcCdJEu82OQkwyx3uk1q+FddZigPfqhDmocHUQh7
-	DNw33fYHPx9oSKSz4swPoNJmbP5HWKrMBBFEM1/msd2Ejjj8vrbWnXKwGpQAmSny2wOujFRdEow
-	JQxOzqyXgi2+6G49eh73Qg7KLIokX4E8=
-X-Google-Smtp-Source: AGHT+IEqIvI6roVKypuJ/8lmOG6ruLu/sT6I8PoGyCI0UGJODSsC0TE29OXF/Zmg59uD8vy8TPsUZtJtVFNrzZBQfWQ=
-X-Received: by 2002:a2e:960f:0:b0:378:ec14:f79d with SMTP id
- 38308e7fff4ca-37a18da804fmr30699451fa.22.1762191263229; Mon, 03 Nov 2025
- 09:34:23 -0800 (PST)
+	b=HNXd2oOyPwdxCg9OopUp1c+JGxDgCMJ3EO1V/5/5vF+EopC8BDIY+H1YmxUmu7qSV
+	 74Q9zRcbzJzu8aHfYeKP7UPNeYeu6eHw5T9atdj82zwn0froApdCd4ch2au3vEsXpd
+	 rj3QxmQKD6lQ1k5wnoZK99V3xu1HTtsBCJzkMEPOk4qGBvgjMDG54W5851vpfieNAw
+	 IUJmQ3ZHIq0+WcACoW6rIck/nLuKqcOoDrm5Jp6/lG2ckdVK6ah4DTYiixGCZlSPrF
+	 FYwtp1HDOQWoOjEX3servcLNLBt4V5vf1opZbMOYMGoWs3+Rukc08FKftPaC1fU8Ch
+	 olHM5YTmqcgMg==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-37a2dcc52aeso23361151fa.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 03 Nov 2025 09:40:49 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUnyMhdCfO2IWO21jmHV+/uagrbeEX5easOHEB3cAaLZaTllIz+mrCSiLJ1zAUUlU4xKiUXsU4uAybwSg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw1jViQ7Cv4GnHsng7LO0IlekvmLU0SGp7FAUH2qipvco4F8a5c
+	0ISvr47twLpWvjgz15NzY0/fk9Xz3axjFAyteDdJQzIN504NWycEFPvGQCbt/GwOyZIgTYPEdJT
+	mh9zCz1BEuerimb5tSETRtCSLSFztMSQ=
+X-Google-Smtp-Source: AGHT+IEc88SO6nneu3mvccJA8ezZBwOU2YjkaaiL7uhb80v1EC13ZDp7lMH56bUG79DqRoPd94c85myfP2EF56tTjdc=
+X-Received: by 2002:a2e:be8a:0:b0:37a:2b71:482e with SMTP id
+ 38308e7fff4ca-37a2b714a58mr22345201fa.24.1762191648173; Mon, 03 Nov 2025
+ 09:40:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251012192330.6903-1-jernej.skrabec@gmail.com> <20251012192330.6903-31-jernej.skrabec@gmail.com>
-In-Reply-To: <20251012192330.6903-31-jernej.skrabec@gmail.com>
+References: <20250919000020.16969-1-andre.przywara@arm.com> <20250919000020.16969-3-andre.przywara@arm.com>
+In-Reply-To: <20250919000020.16969-3-andre.przywara@arm.com>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 4 Nov 2025 01:34:11 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65v3_uNohrH6PgDaRdVcKzEL0n824kqxGC+m_ZMOjLiNQ@mail.gmail.com>
-X-Gm-Features: AWmQ_bkqC2MlJ3l_GaAyIVAX7lpWibpo3rNv2SEIDf6NmFqmG-ysp_S5fUsi28A
-Message-ID: <CAGb2v65v3_uNohrH6PgDaRdVcKzEL0n824kqxGC+m_ZMOjLiNQ@mail.gmail.com>
-Subject: Re: [PATCH 30/30] drm/sun4i: Nuke mixer pointer from layer code
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, 
-	airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Tue, 4 Nov 2025 01:40:34 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67v9fXC-11WAy0-VjJVVz3BVtvbBKiEQu1VVBay6RyFTw@mail.gmail.com>
+X-Gm-Features: AWmQ_bnG9nI8bojm5LxU6ZA-iDlt8LXyt_CZ5Wum2wbzIMhk62qrTul3kat7W-4
+Message-ID: <CAGb2v67v9fXC-11WAy0-VjJVVz3BVtvbBKiEQu1VVBay6RyFTw@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/5] mfd: axp20x: Refactor axp20x_is_polyphase_slave()
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Mikhail Kalashnikov <iuncuim@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 13, 2025 at 3:24=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
-l.com> wrote:
+On Fri, Sep 19, 2025 at 8:01=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
+com> wrote:
 >
-> It's not used anymore, so remove it. This allows trully independent
-> layer state from mixer.
->
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Some X-Powers AXP PMICs allow to combine certain DC/DC rails together in
+> a multi-phase fashion. So far we don't actively program those
+> connections, but we detect the existing setup, and prevent the connected
+> regulators from being re-programmed or turned off.
 
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+This last part is a bit incorrect. We simply don't register the secondary
+phases as separate regulators anymore. The hardware ignores any changes
+to their independent configuration (I assume, since otherwise the hardware
+would be really hard to program...).
+
+
+> At the moment this is
+> done in a switch/case construct, listing the known regulator pairs for
+> those PMICs supported.
+>
+> To get rid of this ever growing code section, create a data structure
+> that describes the relationship, and have generic code that iterates
+> over the entries and checks for matches.
+>
+> This not only cleans that function up and makes extensions much simpler,
+> but also allows to reuse this information for the upcoming programming
+> of those poly-phase setups.
+>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  drivers/regulator/axp20x-regulator.c | 91 ++++++++++++++--------------
+>  1 file changed, 45 insertions(+), 46 deletions(-)
+>
+> diff --git a/drivers/regulator/axp20x-regulator.c b/drivers/regulator/axp=
+20x-regulator.c
+> index da891415efc0b..19c9a98d1835a 100644
+> --- a/drivers/regulator/axp20x-regulator.c
+> +++ b/drivers/regulator/axp20x-regulator.c
+> @@ -1481,70 +1481,69 @@ static int axp20x_set_dcdc_workmode(struct regula=
+tor_dev *rdev, int id, u32 work
+>         return regmap_update_bits(rdev->regmap, reg, mask, workmode);
+>  }
+>
+> +struct dualphase_regulator {
+> +       int axp_id;
+> +       int reg1, reg2;
+
+We don't care about the primary phase. The point is to make the secondary
+phases disappear from the kernel's view.
+
+reg1 should be part of the next patch, where you actually care.
+
+> +       unsigned int polyphase_reg;
+> +       unsigned int bitmask;
+> +} dualphase_regulators[] =3D {
+> +       { AXP323_ID, AXP313A_DCDC1, AXP313A_DCDC2,
+> +               AXP323_DCDC_MODE_CTRL2, BIT(1), },
+> +       { AXP803_ID, AXP803_DCDC2, AXP803_DCDC3, AXP803_POLYPHASE_CTRL,
+> +               AXP803_DCDC23_POLYPHASE_DUAL, },
+> +       { AXP803_ID, AXP803_DCDC5, AXP803_DCDC6, AXP803_POLYPHASE_CTRL,
+> +               AXP803_DCDC56_POLYPHASE_DUAL, },
+> +       /* AXP806's DCDC-A/B/C is a tri-phase regulator */
+
+TODO: ?
+
+ChenYu
+
+> +       { AXP806_ID, AXP806_DCDCD, AXP806_DCDCE, AXP806_DCDC_MODE_CTRL2,
+> +               AXP806_DCDCDE_POLYPHASE_DUAL, },
+> +       { AXP813_ID, AXP803_DCDC2, AXP803_DCDC3, AXP803_POLYPHASE_CTRL,
+> +               AXP803_DCDC23_POLYPHASE_DUAL, },
+> +       { AXP813_ID, AXP803_DCDC5, AXP803_DCDC6, AXP803_POLYPHASE_CTRL,
+> +               AXP803_DCDC56_POLYPHASE_DUAL, },
+> +       { AXP15060_ID, AXP15060_DCDC2, AXP15060_DCDC3, AXP15060_DCDC_MODE=
+_CTRL1,
+> +               AXP15060_DCDC23_POLYPHASE_DUAL_MASK, },
+> +       { AXP15060_ID, AXP15060_DCDC4, AXP15060_DCDC6, AXP15060_DCDC_MODE=
+_CTRL1,
+> +               AXP15060_DCDC46_POLYPHASE_DUAL_MASK, },
+> +};
+> +
+>  /*
+>   * This function checks whether a regulator is part of a poly-phase
+>   * output setup based on the registers settings. Returns true if it is.
+>   */
+>  static bool axp20x_is_polyphase_slave(struct axp20x_dev *axp20x, int id)
+>  {
+> +       struct dualphase_regulator *dpreg;
+>         u32 reg =3D 0;
+> +       int i;
+>
+> -       /*
+> -        * Currently in our supported AXP variants, only AXP803, AXP806,
+> -        * AXP813 and AXP15060 have polyphase regulators.
+> -        */
+> -       switch (axp20x->variant) {
+> -       case AXP803_ID:
+> -       case AXP813_ID:
+> -               regmap_read(axp20x->regmap, AXP803_POLYPHASE_CTRL, &reg);
+> +       for (i =3D 0; i < ARRAY_SIZE(dualphase_regulators); i++) {
+> +               dpreg =3D &dualphase_regulators[i];
+>
+> -               switch (id) {
+> -               case AXP803_DCDC3:
+> -                       return !!(reg & AXP803_DCDC23_POLYPHASE_DUAL);
+> -               case AXP803_DCDC6:
+> -                       return !!(reg & AXP803_DCDC56_POLYPHASE_DUAL);
+> +               if (axp20x->variant !=3D dpreg->axp_id)
+> +                       continue;
+> +               /* Is this the second regulator from a dual-phase pair? *=
+/
+> +               if (id =3D=3D dpreg->reg2) {
+> +                       regmap_read(axp20x->regmap, dpreg->polyphase_reg,=
+ &reg);
+> +
+> +                       return !!(reg & dpreg->bitmask);
+>                 }
+> -               break;
+> +       }
+>
+> -       case AXP806_ID:
+> +       /*
+> +        * DCDC-A/B/C can be configured either as a dual-phase (A+B) or
+> +        * as a triple-phase regulator (A+B+C), but not in any other
+> +        * combination. Treat this as a special case here.
+> +        */
+> +       if (axp20x->variant =3D=3D AXP806_ID) {
+>                 regmap_read(axp20x->regmap, AXP806_DCDC_MODE_CTRL2, &reg)=
+;
+> -
+> -               switch (id) {
+> -               case AXP806_DCDCB:
+> +               if (id =3D=3D AXP806_DCDCB)
+>                         return (((reg & AXP806_DCDCABC_POLYPHASE_MASK) =
+=3D=3D
+>                                 AXP806_DCDCAB_POLYPHASE_DUAL) ||
+>                                 ((reg & AXP806_DCDCABC_POLYPHASE_MASK) =
+=3D=3D
+>                                 AXP806_DCDCABC_POLYPHASE_TRI));
+> -               case AXP806_DCDCC:
+> +               if (id =3D=3D AXP806_DCDCC)
+>                         return ((reg & AXP806_DCDCABC_POLYPHASE_MASK) =3D=
+=3D
+>                                 AXP806_DCDCABC_POLYPHASE_TRI);
+> -               case AXP806_DCDCE:
+> -                       return !!(reg & AXP806_DCDCDE_POLYPHASE_DUAL);
+> -               }
+> -               break;
+> -
+> -       case AXP15060_ID:
+> -               regmap_read(axp20x->regmap, AXP15060_DCDC_MODE_CTRL1, &re=
+g);
+> -
+> -               switch (id) {
+> -               case AXP15060_DCDC3:
+> -                       return !!(reg & AXP15060_DCDC23_POLYPHASE_DUAL_MA=
+SK);
+> -               case AXP15060_DCDC6:
+> -                       return !!(reg & AXP15060_DCDC46_POLYPHASE_DUAL_MA=
+SK);
+> -               }
+> -               break;
+> -
+> -       case AXP323_ID:
+> -               regmap_read(axp20x->regmap, AXP323_DCDC_MODE_CTRL2, &reg)=
+;
+> -
+> -               switch (id) {
+> -               case AXP313A_DCDC2:
+> -                       return !!(reg & BIT(1));
+> -               }
+> -               break;
+> -
+> -       default:
+> -               return false;
+>         }
+>
+>         return false;
+> --
+> 2.46.4
+>
