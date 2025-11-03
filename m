@@ -1,141 +1,85 @@
-Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256C12868B0
-	for <linux-sunxi@lists.linux.dev>; Fri, 31 Oct 2025 07:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D17F3346BC
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Nov 2025 14:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761897050; cv=none; b=Noz2lFElh/3FW/K0jbTg/zCjYgGl3enhXfwMN/ioYL08P91IikzQvI9O3FkwxL9tbXd4pOoOsueLwzQu2cPwdkCMkDH6P+YyUWNmcm2YEV7UlZk5Z/vucBasHhPzn/tMwxBUYlpn8T0n1MiM9lT49b+dzfHEBOrN/ipgZVKGgik=
+	t=1762181796; cv=none; b=sVmhgiLoMzzTAuJ3S8wxSwh6OUhyvou8NuyweU+9JBUi5UCEGt050+ugrKNwFdcpUMh2wNrDZKZq7FTM9wUa18RV9Tji5/fcPeux6/ApODOidnyWZA76hdQA9ma+5oi2QoTW1nR67mfZhL1glhuDyc3gz2Y0SVm5+faO/Hbh7g8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761897050; c=relaxed/simple;
-	bh=SMtMJt9229H5PjTDv6S5YGs3DXegSlRLe7j1ltiWon0=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=Z2/Fr8EJayp2O8hnLwnYb+UopaU/FQejzWc3pVvBibuuuelM/8mw2+ZF5MlnFaAwBogJoUmg8p9MNLAjgJLGjxXvBVN0wxitY2lhYr06yZVuQSmQZcxYgFR3z5npFys3KuVK9fDG6PD9fdUL+qU4f0gsuRk0NC4nEfR+DmnwcOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=OB+1MkaC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jCj8OVxd; arc=none smtp.client-ip=202.12.124.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="OB+1MkaC";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jCj8OVxd"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 0F78A7A016A;
-	Fri, 31 Oct 2025 03:50:47 -0400 (EDT)
-Received: from phl-imap-17 ([10.202.2.105])
-  by phl-compute-05.internal (MEProxy); Fri, 31 Oct 2025 03:50:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1761897046; x=1761983446; bh=SMtMJt9229H5PjTDv6S5YGs3DXegSlRL
-	e7j1ltiWon0=; b=OB+1MkaCVWJdu474hTwAov/7B/NxRFLvIVtnUhsIeK0sQtLp
-	yknoVs2AECKZXFEWcBcEO5Q7QeEdJ4k2cFpK8ZZX13BgjJBxda7ofogMPwSjA1zd
-	EvmUxfTxe+os/y0Iyw5z5FId6NozzLeeku4OGJz2XeMkijXkIUa7vJPIFMnsABK4
-	MwbDkh+0T3lJqSXzUf5p6EFEJ56JaNAV7dxZUoV2IYLdYUmgvwYnweLxi2VBkQ7R
-	aN+Ls/yN133hmiN2GuEDIKGP2ondpXTm209AB91WpIM1DAkc/SKxXJ3Du3HYnZ7Y
-	7eeptWFZpnLIObY5SfivJz1FhHXcKVi3GHVKzw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1761897046; x=
-	1761983446; bh=SMtMJt9229H5PjTDv6S5YGs3DXegSlRLe7j1ltiWon0=; b=j
-	Cj8OVxd1qClL8je34LdIaiNeVR74mLhSNue1Vdv7RDWAt2tRL81dzEbIZKiEQ5aw
-	z71FFci3hY+oWohmd6H2cLSXRH2nbzFLj52wNbUpJg/H3gRM6w3U133cDxAcUZW0
-	m0F7+Bmb/BgHESK3M1zVRxiWT1jKJHDFqhBGcGuTJfCEfJqoP/m3arxOUaQYJepS
-	wxfnxyFHAuHwjqJ3oy5i782/Ve5fJnItjYkD0BXqtbRl317bdeTDiXNSCO3//vYZ
-	TxT307a/ZQe1UX9kte4zq0Pda7akUljwF9STLloxvQTEUVuHFzN6PHmEgdEZVixn
-	n74Lj1piIj90OhJXb405g==
-X-ME-Sender: <xms:VWoEaZc-EVrGLSTj6lpolqjshjtG6sQ6diIq-D_qg8wNJvcK8jxdcA>
-    <xme:VWoEaSAkVliCLoSx0OI0T-xKP6XGuBUgJ8uRfOhiVJiuq5jdjzFnfddpPJUFmmCYK
-    A0rBNOqQN8k7A7iiFLX-fNHW7R19PIwfC2l2tl0VDPXJHUOK4wgjQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduieekleefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftfihrghn
-    ucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecuggftrf
-    grthhtvghrnhepjefhueekjeejgfduvdffheevveejhfdtuddthfduuddvveefjeffgfdv
-    leefuefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    eprhihrghnsehtvghsthhtohgrshhtrdgtohhmpdhnsggprhgtphhtthhopeduvddpmhho
-    uggvpehsmhhtphhouhhtpdhrtghpthhtohepfigvnhhssegtshhivgdrohhrghdprhgtph
-    htthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghirhhlihgvuges
-    ghhmrghilhdrtghomhdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrg
-    hilhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrd
-    gtohhmpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhk
-    thhophdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhish
-    htshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehlihhnuhigqdhsuhhngihi
-    sehlihhsthhsrdhlihhnuhigrdguvghv
-X-ME-Proxy: <xmx:VWoEadQZHgRdyPiy2BkK6XNrlf-V3We4qlYVrQYbWcgbycQzDPe3iQ>
-    <xmx:VWoEaTfDH4HDoLDN7Y9tLn4_42UlWlcvPSlHsNdWoFn8xCnqEIqzPw>
-    <xmx:VWoEaWtri6bahWOI8KkZ9AHJMqqeyRswKe4Awru-zvqZibiqzejCAw>
-    <xmx:VWoEafLRSJr789YZa1LVKQO3D0l4yhDVoc0oshnGtDIxTnbH5R1tfA>
-    <xmx:VmoEafI-Zdjb1igu5VB4L0qBPslqvbA2_v_nmQGK38gfVU9fzUG23UFI>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 6CAECC40054; Fri, 31 Oct 2025 03:50:45 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1762181796; c=relaxed/simple;
+	bh=s5HhCqdsQfAH71nlBy5jT8rmemhezTVFDs0Da9TumsU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kcDZpoj2hTERMSkBaiescEV2q/YyJ5tyulLFMsumRsKJCYhXSsITsfIncRe8lF7WoauiX8qx40ca7/1JXx2aUDu0DwphxwtQ8prc3RorlDb2lYWKn4j/QtAprmM7bRsTU3INPttehryKIz+lWa8XI9t0ngQEqIB2UFVg5/5LlDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-592f29e273bso3924935e87.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 03 Nov 2025 06:56:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762181789; x=1762786589;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=s5HhCqdsQfAH71nlBy5jT8rmemhezTVFDs0Da9TumsU=;
+        b=WXcL5D6K092Pd6Vf497MQrHDX099838/FNyKRKp4rkf7m2H7sEmJVGyqdSE4UDtXdH
+         B5yY4Z2O1E2QH2ffp+Egn4T/txBkqL/D0QMrQtU/SLSfV3ChGB9y9pdzUO1cA0fa/ErV
+         ohSOj4rBRr3p+Ikd/XXjtciWL30jwL7EZ6VtM+gcD3F1nSlgmxz9wKu+ILuXZd2VN1H3
+         vwTWE8CiIZHh0QXMybaKluN/grGQ7HucWvHAL8fzaRGraFnsevnvpHigzhvzkD0VDXte
+         sq9UeLqZFtWyU9RsYvKwlye/34bBFNujSydoY1fRQabpQOQ7RWR2NxACL6RYZ6lrwE/w
+         rP3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUbgf4AHnzOeVw+6QWwCKFLNSr6dNhcspLt06k/ydaVF7gPnTNQYE1w64lVz9msJ1aAOUYkHPZE2N5aSQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyvZYiKyZ/IB/wHdSWkB3o/zrH42MgcaU9RdPq69xKspkvIuGS7
+	GYb24Vdw1J5HL8Ko1WHcRR87f4P27dAdIADNsbupxs11laf7yUgMQnShSDXNnGde
+X-Gm-Gg: ASbGnct4GH3WWCyXGN73ZSva8lY053Zn5pspw0pqmpPxZ0EUOcXLNZ4tyietpKuGla7
+	bA5zH/ks1R2LunVEY1WP+bTmi9e8zQzfXgVQGw/7/Mgc5jAMTUJB/vkmjysgTOZIzbXt9OSN1Aq
+	F6PWDwZV7cPWvLVO2y+GyMWND7QmXOXzp1DXOMlQSpi2NTHM4Zl6QKCxsrP2BJUI5XbqPIXRmX1
+	On5NhwqR55mwRfLLYHP3XmgRwvOGbGT+ZdEIjbv+/eoahSu3H31acI8A3bb3JmXq5+d0b3CFtY+
+	FpHfEzuRmNDPUZMmKjyMqeVKfbtl+mDS6rwFB2AAJw+dpkj8pelLt3SeMTB12F2rrvvOO41imG1
+	v0ReW8RO/I6iJNvaRjVq3Qwt6Y1mmvrGvpLBjMcU208kUFbBxEOzgnE57Y5XYA4OgWwIpomHRCX
+	YqLDr75CwVxUGBhQfzCUHGQqkrFYovPYSD+ObZo1lcKlw=
+X-Google-Smtp-Source: AGHT+IGCe6KnPEhOZofbB7fJy63MunLzWypWJiISCgxfmdofytffcvRWDf/g109rozRVVIfAHwNPsg==
+X-Received: by 2002:a05:6512:3089:b0:55b:9796:5d5a with SMTP id 2adb3069b0e04-5941d559b65mr3348832e87.26.1762181788550;
+        Mon, 03 Nov 2025 06:56:28 -0800 (PST)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com. [209.85.208.179])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5941f38d570sm2892073e87.19.2025.11.03.06.56.27
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Nov 2025 06:56:27 -0800 (PST)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-376466f1280so57013391fa.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 03 Nov 2025 06:56:27 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVfrNk/nzvZVX8UGyBsLRYnAvt5fFky85Z2/0lj1HoWVDL905SB+qtQddjTLGeo5NL/ytLefQFiHnCj+A==@lists.linux.dev
+X-Received: by 2002:a2e:8317:0:b0:375:fa47:14a8 with SMTP id
+ 38308e7fff4ca-37a18dc644fmr33438281fa.31.1762181787126; Mon, 03 Nov 2025
+ 06:56:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: AzHZpsL-MR1k
-Date: Fri, 31 Oct 2025 20:50:23 +1300
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Maxime Ripard" <mripard@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>
-Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "David Airlie" <airlied@gmail.com>, simona@ffwll.ch,
- "Samuel Holland" <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Message-Id: <64c0a4e1-15a5-4f41-9fba-852b0e83fd6f@app.fastmail.com>
-In-Reply-To: <20251012192330.6903-1-jernej.skrabec@gmail.com>
-References: <20251012192330.6903-1-jernej.skrabec@gmail.com>
-Subject: Re: [PATCH 00/30] drm/sun4i: Refactor layer code for proper DE33 support
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+References: <20251012192330.6903-1-jernej.skrabec@gmail.com> <20251012192330.6903-22-jernej.skrabec@gmail.com>
+In-Reply-To: <20251012192330.6903-22-jernej.skrabec@gmail.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Mon, 3 Nov 2025 22:56:14 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64Sfk7WvEXNnRfKRehtyn-4KhPBER9tV0E2_pX4JxGC8g@mail.gmail.com>
+X-Gm-Features: AWmQ_bmDRSdirXrFZY61Rit-O4eYxqlNFv0KMpQajaon1izsKkp3c6YIV8hGfRk
+Message-ID: <CAGb2v64Sfk7WvEXNnRfKRehtyn-4KhPBER9tV0E2_pX4JxGC8g@mail.gmail.com>
+Subject: Re: [PATCH 21/30] drm/sun4i: csc: use layer arg instead of mixer
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, 
+	airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 13 Oct 2025, at 8:23 AM, Jernej Skrabec wrote:
-> Current DE33 support in sun4i-drm driver is based on my PoC code. It was
-> written with *a lot* of hacks, because it was never meant to be upstreamed.
-> Fortunately, DT parts were never merged which give us a chance to do it
-> right.
+On Mon, Oct 13, 2025 at 3:24=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
+l.com> wrote:
 >
-> This is first of three series with proper DE33 support for H616 SoC. It's
-> the longest, since it prepares terrain for new drivers in remaining series.
-> Point of this work is to completely decouple mixer and layer code. Till
-> DE3, mixer and layers were intimately connected. However, from DE33
-> onwards, this is no longer the case. DE33 and upcoming DE35 planes are
-> shared comodity between all mixers and can be assigned in any way driver
-> (or user) prefers. This requires planes code to be completely independent
-> from mixer. The only exception is mixer clock frequency which is used in
-> VI scaler, but in that case mixer pointer is obtained through currently
-> assigned CRTC.
+> Layer will be more universal, due to DE33 support.
 >
-> Second series will introduce separate driver for DE33 planes and adjust
-> mixer code to new DT bindings. Third series will introduce TCON(-TOP)
-> adjustments, HDMI PHY and finally, DT updates for several boards.
->
-> Current WIP code for remaining two series can be found at [1]. Code has
-> been tested on Tanix TX6, which has DE3, for any regressions and on Myir
-> MYD-YT507H board [2], which has DE33, with HDMI and LVDS panel outputs
-> running simultaneously and independently. This confirms that plane code
-> is properly decoupled.
->
-> Please review.
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Thanks Jernej, can confirm that this patch series, when overlaid with the remaining out-of-tree patches and my previous LCD DT patch series, allows simultaneous HDMI and LCD output with separate framebuffers on the Anbernic RG35XX series of devices with the Allwinner H700.
-
-> Best regards,
-> Jernej
->
-
-Tested-by: Ryan Walklin <ryan@testtoast.com>
-
-Regards,
-
-Ryan
+Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
