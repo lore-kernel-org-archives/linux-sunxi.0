@@ -1,491 +1,261 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC6D313E00
-	for <linux-sunxi@lists.linux.dev>; Tue,  4 Nov 2025 13:09:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652BB1C3BE0
+	for <linux-sunxi@lists.linux.dev>; Tue,  4 Nov 2025 16:50:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762261793; cv=none; b=KfceVd+tZqgedjZ7LWZJ4NUU7XRRj8UzGs9T8TkdCS5VZ8m39ccmgNFrSovBle3CBp9D74Li9E4Uuo8npjMNhaX0C3bOJyl0j3nH0o5aY+jLIzR2QzgjKFmPJ+pd9D74hosKiU3H/qMjpdJ+703natY4DBFD5CHcwiguSOOCTW4=
+	t=1762275020; cv=none; b=NTUF9DzjtXr+euQNqktQUlKmeAcUZ+l9MfnOl+TCTYosPA7n2qvkXOKzr+N0EqIREKw07afjOFmQ4/tmgO42826AWr2UkE+FC6Yad8ANK+Y9p9ROhoLl8MFzoXXuZXkPuUOpqmAeUg6Fr1GswVpUtVMHKlKH+QI6yGio2jHKSxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762261793; c=relaxed/simple;
-	bh=gEzNn/jOktAUjBhwkJimsV4dFL+5O/s4EfBdKgdkB0Q=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=iZIukEKoT5Ts6Xp9lgPv5+ntsHSdJEOvTFyHsqqMR7jOoMuGHzXvVvXk+sc+wpTdUsiW8jChHrwfF0g9Py7qMDy7iVaK/dlE+y7dHtimNvzoQ0ie39wS7lpB2xfqolGVewh9IzcvODlexsXeHmoPDQFKNkF7YXcQt9ImkB1fRu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=Et8rCyVS; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1762275020; c=relaxed/simple;
+	bh=eBpkPlO29A8M7ikSKjAPGZMl8dFPu0v4vf3XdWRDI7o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DQBbAY66OXtqT21MmrMEiqRmACK3KkD6eR8vQRQ6FOKcnPQgbn0thZgR5nz8UkotPMrdo28ghZjcGEja0pYfos/8i9jlrWZ3tIfNA0CjPbx7wqF00m9DI3BlsPKodcKEDeX/bgkXPI6nWTM0F1JkYr5WLMoDo1j10CVhUyhNugQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ck0QS2+d; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="Et8rCyVS"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-426f1574a14so3362315f8f.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 04 Nov 2025 05:09:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ck0QS2+d"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3f0ae439b56so3013033f8f.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 04 Nov 2025 08:50:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1762261788; x=1762866588; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RYc8z4PcZ9T49QURApQLtXvrbC8JQdZPwHKl+MXpn3g=;
-        b=Et8rCyVSVuce5Ss7Oja5+71EwcN6YRvPSIj8ewYmEp9m1wRbxR4NwXRvFDt1luziL5
-         AosTr8Sap9G5cn31sPAqMCkSaESSy3yZb1EqKI3YrCujt3wqCmlj8BFSxRidMY+0HFdZ
-         MgRdBUKCVKl1hCMY3jWB4HHiRKMbAJcVVP44KLWtR5FUMHDw+V5oJnwCcAZOdyJF9BXX
-         ONOrqWVXVLjFQcU+9bNsruQ/8Fwzyij9CX8jJSSfnzkfeIm5Vny31CwiuNR32BhJxvQJ
-         9/eWse4eRuoB3BwrnBO4P6ilGvvJhPtWA6/3SNupIpvfgI1vW6iHigP03aHKY1MaCnB3
-         GMkw==
+        d=gmail.com; s=20230601; t=1762275007; x=1762879807; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GdZgp8rFwisH6sL9hW06vie32Q/MJPgK1VmXTcKs3fA=;
+        b=ck0QS2+dDQasqJusXUbwtPlGfrowmxAHn3sZejfkk9hD/+z+bzYNNyAs6x/rMKTPzu
+         k7q+YN3F1QeZ940HMgkFFUAiRyiZ+pUO4EliYQT4v7Ii+SFQmcx1elvHsqvy/yIPQD6z
+         +Gp6q7KO3JzpK+heq+Iaf4JoGknxPqsQessXIPAe+rOKo1YEGjetUJn4ToOe1fUHmZaW
+         Defh6mDGHwNUoa2ykxlCjweDCjmj+BZwMhS6W5sA+ygsxAulUaSu8dqaX0xPLToIiEaN
+         8bRbFHsHLQRZiTqDaQQj5rROqkNrDvLa6Q1fojQiN2sBwd1zGqbCP1JXd07wQejU2E1p
+         DK1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762261788; x=1762866588;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1762275007; x=1762879807;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RYc8z4PcZ9T49QURApQLtXvrbC8JQdZPwHKl+MXpn3g=;
-        b=PKdwFateW5dyAp4H+zTYiAsyBXi/vGQdTbDnozXepwM2q0GSZ+sXk5XaeD7ihKMvOg
-         m2qk/6nFIWlhHcS2fCkB1bR8rNoqpE9NfDiMG5EG6kJnkzJTXjNGtE7T59jGYnFrH+bl
-         0M4iV5i5wUDI6dWgtK2G9LEYZOHtQJhubVZfCYXsWTmy99AGyA9IW8TdcWBzmwFp8/D0
-         BdvUEf7VW37w8mPu7M8PdhnDrPDSDorIgBAAHuOjLaAyJkKSTsEK0pRz/syiDqPvLtfN
-         VTSST7+EhfU4trlglJAFN/c+miF/1ihu5beENgbHEGKEA+hl+9vJHJFCHelcVLtILkgF
-         Itpg==
-X-Forwarded-Encrypted: i=1; AJvYcCUvSmkE5q73ogWdNnCDA8Vz/r9pUrGSAgLnWliLRq6501tfw/SOfP0fdvd9fllMUy6HfhPXVbqyNyL8kw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzSXqSUybErWbeWt1ZAPCFQJuVt+QZ8PgI43rKJKIUxUItr/fpb
-	MoiYHK9YI5XP+2ea/JRlGMzOTccb30D05ZRjSX2OWF2ymy1OsTilJ5LD43nYkDfHIUA=
-X-Gm-Gg: ASbGncvOM+X2W3Yr4i7PRlAqzZoXecVKnmsOKatYPcUAUM1w11yzW6dsQwi2Z4QuT6c
-	NOgIqLWlWf66kmegR3M/wUmfZ4Y3LsLkQz3VPx2XX8w20xCJaXBQqspLXHaq44Dp0/oycZ8MD4j
-	auOAH+V7G2kG9mu5vvoIxfK1gZ3+i350YgkwBAMtFJLiBvU4i7ohoOpn3j3H4BwefYXZR0QchaR
-	lOlmdlV4nhSkfP920MtyNZfjSnw3LPjBesrTImYR3T2SWp59J3ZQxCOHZj1OyytkbHY8GERDHyK
-	b8iogClKNbvneRqL2s/kAvoqfKfwvKqQ3NdyGP7aht6eOvX7NJ92f35gxrwAn+D8OxmLYpVUmp1
-	3wJGK+MwF3Trt2JiSgFiTpLqbDyZW+jY4S5u4N9Ecwy4/ru9i3eh/GC/uu1DjS7LNYF79FQ==
-X-Google-Smtp-Source: AGHT+IHPpON6LYi1/Q8aXjFmURJbxcrY+l8z8FiJePOjNwnG1FKRukzxqD0pp8zNbhw6M6VPHhOkIg==
-X-Received: by 2002:a05:6000:26d2:b0:429:c5db:f50f with SMTP id ffacd0b85a97d-429c5dbf6a0mr11233740f8f.29.1762261787616;
-        Tue, 04 Nov 2025 05:09:47 -0800 (PST)
-Received: from [127.0.1.1] ([2a01:cb1d:dc:7e00:9ea1:7ab7:4748:cae3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429dc18efd3sm4554431f8f.5.2025.11.04.05.09.42
+        bh=GdZgp8rFwisH6sL9hW06vie32Q/MJPgK1VmXTcKs3fA=;
+        b=SpBoKI/W6hoq93Oi4Ek3uY/NIyixDKyjs2XcBmLSfymaKnoUf+WuhaW6PmluQ6y53P
+         R2qKXZW48ZfLhWp6ufiMlCKFETShnjbWhDHcGp28xFIMJ6JhoDIesJCrC2AGzcw2XVia
+         8nWQtxa6ULvgrSA+IL5GD/+T5+2IW9acHjGBQ/S55A8fvDnWWRg6zzUPlkke/97vSasA
+         UlKUBsMh3DDRHH8yZOJj0uq92qUovHjG3lm4/3g+WfohV8sKN6EG87Lx035kAYbMG4k0
+         YNUWHXOjfCvAwDJ/qFFEmAFVZw3xE/hgh0KdLoKJ3Kb/W4623rgYTJoFm4elnWKbtVPE
+         to2g==
+X-Forwarded-Encrypted: i=1; AJvYcCWomF2vjECo80j0TabNjG7kKdZuPI90O+x2w8VdFQt26FYFwAyvLKagxTkAXzgv1EfAdtdMigOpNEP7iw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxXHCT7AE6QkUwGxBKaZmMurLtfJw7Xap8FYnrCchLYNAWxMRdf
+	VgAEGdo90gEnBFhlqs4pMV5WJ1MOXqcQxpFCVNeuats4eXBO3DS2AWnm
+X-Gm-Gg: ASbGncv3OvpiMtYQ1EgSpC0vw4aWhAZAhSlDdqb+0rhU8aUCJK9l9EzXdzSabvUjKIB
+	a848ZhePCbTdaewGeZkfbOW/0xDl8QLTVbpRRmxZjhQVINN16RFtJl733vWi2gA7LzTtr9RCTKV
+	+3KoR1HXwY4nijLxincqwcWubPN6E6xxydiJL7mJCXAik+ykX7Pt1TxHMhfLdbu1qtfFp838ZLo
+	c5Ep2yEebIrnq9pYELfCTHrtErTEYGt2iyVbYogmgDdPISrD1zgm7VYRGE1AzqqZXRexpKgn5FM
+	JajWriL8OzucE7LKNBSuBEBHH7dx78B+PxL8Fferqu+ui9oDPl9tp84DgZYKzjpJBcKSBxR08bJ
+	vFTTJbZveqiN8JNQTQ3Nt1yDHX6WC9AC4qsIg7kwnvNEsnOGoZWA1UOlfgnLuod3TkTVWwAaBBE
+	4iEOPIM1raEB11FYYUGqkJ6mzwMbCkE/4hQCoauEXkjHsWIjEhrunLOeOuBjKg1oO5gRE=
+X-Google-Smtp-Source: AGHT+IHsOmcFgrKN0VFuIMGhIpJEUqqSZDIXndB9GVdXwqoNi1GsBka2e33KfnMwqvPBDWre8Hxpqw==
+X-Received: by 2002:a05:6000:186b:b0:429:ce81:fe2b with SMTP id ffacd0b85a97d-429ce82013amr7678935f8f.23.1762275006529;
+        Tue, 04 Nov 2025 08:50:06 -0800 (PST)
+Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429dc1f5be4sm5345170f8f.31.2025.11.04.08.50.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Nov 2025 05:09:44 -0800 (PST)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Tue, 04 Nov 2025 14:08:59 +0100
-Subject: [PATCH v4 8/8] net: stmmac: qcom-ethqos: add support for sa8255p
+        Tue, 04 Nov 2025 08:50:06 -0800 (PST)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: wens@kernel.org
+Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH 26/30] drm/sun4i: mixer: Add quirk for number of VI scalers
+Date: Tue, 04 Nov 2025 17:50:04 +0100
+Message-ID: <5959058.DvuYhMxLoT@jernej-laptop>
+In-Reply-To:
+ <CAGb2v65RecyHZVUN--oSmtzPDpmUHALd3Pqf79a1fKP9yxD8cA@mail.gmail.com>
+References:
+ <20251012192330.6903-1-jernej.skrabec@gmail.com>
+ <20251012192330.6903-27-jernej.skrabec@gmail.com>
+ <CAGb2v65RecyHZVUN--oSmtzPDpmUHALd3Pqf79a1fKP9yxD8cA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251104-qcom-sa8255p-emac-v4-8-f76660087cea@linaro.org>
-References: <20251104-qcom-sa8255p-emac-v4-0-f76660087cea@linaro.org>
-In-Reply-To: <20251104-qcom-sa8255p-emac-v4-0-f76660087cea@linaro.org>
-To: Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Richard Cochran <richardcochran@gmail.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Vinod Koul <vkoul@kernel.org>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
- Jose Abreu <joabreu@synopsys.com>, Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Matthew Gerlach <matthew.gerlach@altera.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Keguang Zhang <keguang.zhang@gmail.com>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Jan Petrous <jan.petrous@oss.nxp.com>, 
- s32@nxp.com, Romain Gantois <romain.gantois@bootlin.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- Heiko Stuebner <heiko@sntech.de>, Chen Wang <unicorn_wang@outlook.com>, 
- Inochi Amaoto <inochiama@gmail.com>, Emil Renner Berthing <kernel@esmil.dk>, 
- Minda Chen <minda.chen@starfivetech.com>, Drew Fustini <fustini@kernel.org>, 
- Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, 
- Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
- Shuang Liang <liangshuang@eswincomputing.com>, 
- Zhi Li <lizhi2@eswincomputing.com>, 
- Shangjuan Wei <weishangjuan@eswincomputing.com>, 
- "G. Jaya Kumaran" <vineetha.g.jaya.kumaran@intel.com>, 
- Clark Wang <xiaoning.wang@nxp.com>, Linux Team <linux-imx@nxp.com>, 
- Frank Li <Frank.Li@nxp.com>, David Wu <david.wu@rock-chips.com>, 
- Samin Guo <samin.guo@starfivetech.com>, 
- Christophe Roullier <christophe.roullier@foss.st.com>, 
- Swathi K S <swathi.ks@samsung.com>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, 
- linux-arm-kernel@lists.infradead.org, 
- Drew Fustini <dfustini@tenstorrent.com>, linux-sunxi@lists.linux.dev, 
- linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org, 
- imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
- linux-rockchip@lists.infradead.org, sophgo@lists.linux.dev, 
- linux-riscv@lists.infradead.org, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10753;
- i=bartosz.golaszewski@linaro.org; h=from:subject:message-id;
- bh=kH82UvTkPA4Owu7n7V2nTB+oPAmR25mANNr93utn74g=;
- b=owEBbQKS/ZANAwAKARGnLqAUcddyAcsmYgBpCfruh2gxdJgmTj0+zkkuyG+w1M/56xqsarn41
- ZPBYWNIMjSJAjMEAAEKAB0WIQQWnetsC8PEYBPSx58Rpy6gFHHXcgUCaQn67gAKCRARpy6gFHHX
- cpVyD/9ixuat3AHDNJC0PRiJjI8ZBWoFYNK/GFnKGpGV8mOyZ5RhoCXvb4J0XxCRz2iT82+Uypr
- 6q7xVZOjreOOIh4AG/HaRxse/Kxf1I9mX9n7a+AHRs8bWm1D3gA7lMwsIBIWpjIU0augIyfnfv5
- LV0F81QwFLiqfSlt9xEW7GW/b81xrKeQhHd03uJPfnWJvxMeif9h7W4cz50cup4Tnpt2FcHMgYi
- 87taXwWIl19DKQaTpkNh+/cjPDBJpQm/nGOM0DDLt3tGbXK2HMGRZmvo61I+Z9UnzonFleCTzsm
- hPGn+Om6M+wVvSJL3T8+iSEmTd5bEc8V+fG8zVghoU41QJ3RqKh9DwhlfA8XOECUGUm3+5uXUU2
- qQYgktGE2BgGqrrQUKlWqckXbAbARIqPpBZrGplyhXDZ7fv4xSOzTKAHrWIRsmSKETMaG2mcXhG
- Hvkvz3ZNWRzRmZDD/9W3WM/+fDq+tVQ3agdy7NlzXByyBYA6N/dAa2IM1JEKpBUYAGBfSoLpWzn
- gAA6WBPYiTrPEU8iLAyfgMSy/XoxjIriTBnhWWwAewPhtKghcFCdGUAAZClSE90dXutgvWi3CUy
- iXU472N6z9/ZyUHsOSkq2TqXcftMJQZCT7j6itABU18ESw6vDKLSYyDmbdmJ8sbNxPhPES4G4ff
- b6NU77t5VkvaKRQ==
-X-Developer-Key: i=bartosz.golaszewski@linaro.org; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Hi Chen-Yu,
 
-Extend the driver to support a new model - sa8255p. Unlike the
-previously supported variants, this one's power management is done in
-the firmware using SCMI. This is modeled in linux using power domains so
-add support for them.
+Dne ponedeljek, 3. november 2025 ob 18:11:07 Srednjeevropski standardni =C4=
+=8Das je Chen-Yu Tsai napisal(a):
+> On Mon, Oct 13, 2025 at 3:24=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gm=
+ail.com> wrote:
+> >
+> > On DE2 and DE3, UI scalers are located right after VI scalers. So in
+> > order to calculate proper UI scaler base address, number of VI scalers
+> > must be known. In practice, it is same as number of VI channels, but it
+> > doesn't need to be.
+> >
+> > Let's make a quirk for this number. Code for configuring channels and
+> > associated functions won't have access to vi_num quirk anymore after
+> > rework for independent planes.
+> >
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > ---
+> >  drivers/gpu/drm/sun4i/sun8i_mixer.c     | 11 +++++++++++
+> >  drivers/gpu/drm/sun4i/sun8i_mixer.h     |  2 ++
+> >  drivers/gpu/drm/sun4i/sun8i_ui_scaler.c | 10 +++++-----
+> >  3 files changed, 18 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4=
+i/sun8i_mixer.c
+> > index 78bbfbe62833..f9131396f22f 100644
+> > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> > @@ -708,6 +708,7 @@ static const struct sun8i_mixer_cfg sun8i_a83t_mixe=
+r0_cfg =3D {
+> >         .scaler_mask    =3D 0xf,
+> >         .scanline_yuv   =3D 2048,
+> >         .de2_fcc_alpha  =3D 1,
+> > +       .vi_scaler_num  =3D 1,
+> >         .ui_num         =3D 3,
+> >         .vi_num         =3D 1,
+> >  };
+> > @@ -718,6 +719,7 @@ static const struct sun8i_mixer_cfg sun8i_a83t_mixe=
+r1_cfg =3D {
+> >         .scaler_mask    =3D 0x3,
+> >         .scanline_yuv   =3D 2048,
+> >         .de2_fcc_alpha  =3D 1,
+> > +       .vi_scaler_num  =3D 1,
+> >         .ui_num         =3D 1,
+> >         .vi_num         =3D 1,
+> >  };
+> > @@ -729,6 +731,7 @@ static const struct sun8i_mixer_cfg sun8i_h3_mixer0=
+_cfg =3D {
+> >         .scaler_mask    =3D 0xf,
+> >         .scanline_yuv   =3D 2048,
+> >         .de2_fcc_alpha  =3D 1,
+> > +       .vi_scaler_num  =3D 1,
+> >         .ui_num         =3D 3,
+> >         .vi_num         =3D 1,
+> >  };
+> > @@ -740,6 +743,7 @@ static const struct sun8i_mixer_cfg sun8i_r40_mixer=
+0_cfg =3D {
+> >         .scaler_mask    =3D 0xf,
+> >         .scanline_yuv   =3D 2048,
+> >         .de2_fcc_alpha  =3D 1,
+> > +       .vi_scaler_num  =3D 1,
+> >         .ui_num         =3D 3,
+> >         .vi_num         =3D 1,
+> >  };
+> > @@ -751,6 +755,7 @@ static const struct sun8i_mixer_cfg sun8i_r40_mixer=
+1_cfg =3D {
+> >         .scaler_mask    =3D 0x3,
+> >         .scanline_yuv   =3D 2048,
+> >         .de2_fcc_alpha  =3D 1,
+> > +       .vi_scaler_num  =3D 1,
+> >         .ui_num         =3D 1,
+> >         .vi_num         =3D 1,
+> >  };
+> > @@ -761,6 +766,7 @@ static const struct sun8i_mixer_cfg sun8i_v3s_mixer=
+_cfg =3D {
+> >         .ui_num =3D 1,
+> >         .scaler_mask =3D 0x3,
+> >         .scanline_yuv =3D 2048,
+> > +       .vi_scaler_num  =3D 2,
+> >         .ccsc =3D CCSC_MIXER0_LAYOUT,
+> >         .mod_rate =3D 150000000,
+> >  };
+> > @@ -772,6 +778,7 @@ static const struct sun8i_mixer_cfg sun20i_d1_mixer=
+0_cfg =3D {
+> >         .scaler_mask    =3D 0x3,
+> >         .scanline_yuv   =3D 2048,
+> >         .de2_fcc_alpha  =3D 1,
+> > +       .vi_scaler_num  =3D 1,
+> >         .ui_num         =3D 1,
+> >         .vi_num         =3D 1,
+> >  };
+> > @@ -783,6 +790,7 @@ static const struct sun8i_mixer_cfg sun20i_d1_mixer=
+1_cfg =3D {
+> >         .scaler_mask    =3D 0x1,
+> >         .scanline_yuv   =3D 1024,
+> >         .de2_fcc_alpha  =3D 1,
+> > +       .vi_scaler_num  =3D 1,
+> >         .ui_num         =3D 0,
+> >         .vi_num         =3D 1,
+> >  };
+> > @@ -794,6 +802,7 @@ static const struct sun8i_mixer_cfg sun50i_a64_mixe=
+r0_cfg =3D {
+> >         .scaler_mask    =3D 0xf,
+> >         .scanline_yuv   =3D 4096,
+> >         .de2_fcc_alpha  =3D 1,
+> > +       .vi_scaler_num  =3D 1,
+> >         .ui_num         =3D 3,
+> >         .vi_num         =3D 1,
+> >  };
+> > @@ -805,6 +814,7 @@ static const struct sun8i_mixer_cfg sun50i_a64_mixe=
+r1_cfg =3D {
+> >         .scaler_mask    =3D 0x3,
+> >         .scanline_yuv   =3D 2048,
+> >         .de2_fcc_alpha  =3D 1,
+> > +       .vi_scaler_num  =3D 1,
+> >         .ui_num         =3D 1,
+> >         .vi_num         =3D 1,
+> >  };
+> > @@ -814,6 +824,7 @@ static const struct sun8i_mixer_cfg sun50i_h6_mixer=
+0_cfg =3D {
+> >         .mod_rate       =3D 600000000,
+> >         .scaler_mask    =3D 0xf,
+> >         .scanline_yuv   =3D 4096,
+> > +       .vi_scaler_num  =3D 1,
+> >         .ui_num         =3D 3,
+> >         .vi_num         =3D 1,
+> >  };
+> > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4=
+i/sun8i_mixer.h
+> > index def07afd37e1..40b800022237 100644
+> > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
+> > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+> > @@ -178,6 +178,7 @@ enum sun8i_mixer_type {
+> >   * @scaline_yuv: size of a scanline for VI scaler for YUV formats.
+> >   * @de2_fcc_alpha: use FCC for missing DE2 VI alpha capability
+> >   *     Most DE2 cores has FCC. If number of VI planes is one, enable t=
+his.
+> > + * @vi_scaler_num: Number of VI scalers. Used on DE2 and DE3.
+> >   * @map: channel map for DE variants processing YUV separately (DE33)
+> >   */
+> >  struct sun8i_mixer_cfg {
+> > @@ -189,6 +190,7 @@ struct sun8i_mixer_cfg {
+> >         unsigned int    de_type;
+> >         unsigned int    scanline_yuv;
+> >         unsigned int    de2_fcc_alpha : 1;
+> > +       unsigned int    vi_scaler_num;
+>=20
+> This could be a smaller type. Please do a sweep of the struct after the
+> refactoring is done and see if any of the types could be shrunk.
 
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
----
- .../ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c    | 230 ++++++++++++++++++---
- 1 file changed, 201 insertions(+), 29 deletions(-)
+A lot of things can be stored in smaller type. However, making things small=
+er
+may be contraproductive. Structs are usually aligned for performance reason=
+s,
+so it won't save any memory and accessing them will use extra asm instructi=
+ons
+for zeroing out parts of CPU registers since registers are larger than used
+data type.
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-index 446f06b591a0b70992c7a431b56cf88c1b6718fd..d2922b4fb4bad1bb8dd77f1feaa7a260b97f0ae8 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-@@ -7,6 +7,8 @@
- #include <linux/platform_device.h>
- #include <linux/phy.h>
- #include <linux/phy/phy.h>
-+#include <linux/pm_opp.h>
-+#include <linux/pm_domain.h>
- 
- #include "stmmac.h"
- #include "stmmac_platform.h"
-@@ -81,6 +83,13 @@
- 
- #define SGMII_10M_RX_CLK_DVDR			0x31
- 
-+enum ethqos_pd_selector {
-+	ETHQOS_PD_CORE = 0,
-+	ETHQOS_PD_MDIO,
-+	ETHQOS_PD_SERDES,
-+	ETHQOS_NUM_PDS,
-+};
-+
- struct ethqos_emac_por {
- 	unsigned int offset;
- 	unsigned int value;
-@@ -98,6 +107,9 @@ struct ethqos_emac_driver_data {
- 
- struct ethqos_emac_pm_data {
- 	const char *link_clk_name;
-+	bool use_domains;
-+	struct dev_pm_domain_attach_data pd;
-+	unsigned int clk_ptp_rate;
- };
- 
- struct ethqos_emac_match_data {
-@@ -111,13 +123,20 @@ struct ethqos_emac_pm_ctx {
- 	struct phy *serdes_phy;
- };
- 
-+struct ethqos_emac_pd_ctx {
-+	struct dev_pm_domain_list *pd_list;
-+};
-+
- struct qcom_ethqos {
- 	struct platform_device *pdev;
- 	void __iomem *rgmii_base;
- 	void __iomem *mac_base;
- 	int (*configure_func)(struct qcom_ethqos *ethqos, int speed);
- 
--	struct ethqos_emac_pm_ctx pm;
-+	union {
-+		struct ethqos_emac_pm_ctx pm;
-+		struct ethqos_emac_pd_ctx pd;
-+	};
- 	phy_interface_t phy_mode;
- 	int serdes_speed;
- 	int (*set_serdes_speed)(struct qcom_ethqos *ethqos);
-@@ -330,6 +349,25 @@ static const struct ethqos_emac_match_data emac_sa8775p_data = {
- 	.pm_data = &emac_sa8775p_pm_data,
- };
- 
-+static const char * const emac_sa8255p_pd_names[] = {
-+	"core", "mdio", "serdes"
-+};
-+
-+static const struct ethqos_emac_pm_data emac_sa8255p_pm_data = {
-+	.pd = {
-+		.pd_flags = PD_FLAG_NO_DEV_LINK,
-+		.pd_names = emac_sa8255p_pd_names,
-+		.num_pd_names = ETHQOS_NUM_PDS,
-+	},
-+	.use_domains = true,
-+	.clk_ptp_rate = 230400000,
-+};
-+
-+static const struct ethqos_emac_match_data emac_sa8255p_data = {
-+	.drv_data = &emac_v4_0_0_data,
-+	.pm_data = &emac_sa8255p_pm_data,
-+};
-+
- static int ethqos_dll_configure(struct qcom_ethqos *ethqos)
- {
- 	struct device *dev = &ethqos->pdev->dev;
-@@ -411,6 +449,28 @@ static int ethqos_dll_configure(struct qcom_ethqos *ethqos)
- 	return 0;
- }
- 
-+static int qcom_ethqos_domain_on(struct qcom_ethqos *ethqos,
-+				 enum ethqos_pd_selector sel)
-+{
-+	struct device *dev = ethqos->pd.pd_list->pd_devs[sel];
-+	int ret;
-+
-+	ret = pm_runtime_resume_and_get(dev);
-+	if (ret < 0)
-+		dev_err(&ethqos->pdev->dev,
-+			"Failed to enable the power domain for %s\n",
-+			dev_name(dev));
-+	return ret;
-+}
-+
-+static void qcom_ethqos_domain_off(struct qcom_ethqos *ethqos,
-+				   enum ethqos_pd_selector sel)
-+{
-+	struct device *dev = ethqos->pd.pd_list->pd_devs[sel];
-+
-+	pm_runtime_put_sync(dev);
-+}
-+
- static int ethqos_rgmii_macro_init(struct qcom_ethqos *ethqos, int speed)
- {
- 	struct device *dev = &ethqos->pdev->dev;
-@@ -646,6 +706,13 @@ static int ethqos_set_serdes_speed_phy(struct qcom_ethqos *ethqos)
- 	return phy_set_speed(ethqos->pm.serdes_phy, ethqos->serdes_speed);
- }
- 
-+static int ethqos_set_serdes_speed_pd(struct qcom_ethqos *ethqos)
-+{
-+	struct device *dev = ethqos->pd.pd_list->pd_devs[ETHQOS_PD_SERDES];
-+
-+	return dev_pm_opp_set_level(dev, ethqos->serdes_speed);
-+}
-+
- static void ethqos_set_serdes_speed(struct qcom_ethqos *ethqos, int speed)
- {
- 	if (ethqos->serdes_speed != speed) {
-@@ -737,6 +804,27 @@ static void qcom_ethqos_serdes_powerdown(struct net_device *ndev, void *priv)
- 	phy_exit(ethqos->pm.serdes_phy);
- }
- 
-+static int qcom_ethqos_pd_serdes_powerup(struct net_device *ndev, void *priv)
-+{
-+	struct qcom_ethqos *ethqos = priv;
-+	struct device *dev = ethqos->pd.pd_list->pd_devs[ETHQOS_PD_SERDES];
-+	int ret;
-+
-+	ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_SERDES);
-+	if (ret < 0)
-+		return ret;
-+
-+	return dev_pm_opp_set_level(dev, ethqos->serdes_speed);
-+}
-+
-+static void qcom_ethqos_pd_serdes_powerdown(struct net_device *ndev, void *priv)
-+{
-+	struct qcom_ethqos *ethqos = priv;
-+
-+	/* TODO set level */
-+	qcom_ethqos_domain_off(ethqos, ETHQOS_PD_SERDES);
-+}
-+
- static int ethqos_clks_config(void *priv, bool enabled)
- {
- 	struct qcom_ethqos *ethqos = priv;
-@@ -769,6 +857,61 @@ static void ethqos_clks_disable(void *data)
- 	ethqos_clks_config(ethqos, false);
- }
- 
-+static int ethqos_pd_clks_config(void *priv, bool enabled)
-+{
-+	struct qcom_ethqos *ethqos = priv;
-+	int ret = 0;
-+
-+	if (enabled) {
-+		ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_MDIO);
-+		if (ret < 0) {
-+			dev_err(&ethqos->pdev->dev,
-+				"Failed to enable the MDIO power domain\n");
-+			return ret;
-+		}
-+
-+		ethqos_set_func_clk_en(ethqos);
-+	} else {
-+		qcom_ethqos_domain_off(ethqos, ETHQOS_PD_MDIO);
-+	}
-+
-+	return ret;
-+}
-+
-+static int qcom_ethqos_pd_init(struct platform_device *pdev, void *priv)
-+{
-+	struct qcom_ethqos *ethqos = priv;
-+	int ret;
-+
-+	/*
-+	 * Enable functional clock to prevent DMA reset after timeout due
-+	 * to no PHY clock being enabled after the hardware block has been
-+	 * power cycled. The actual configuration will be adjusted once
-+	 * ethqos_fix_mac_speed() is called.
-+	 */
-+	ethqos_set_func_clk_en(ethqos);
-+
-+	ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_CORE);
-+	if (ret)
-+		return ret;
-+
-+	ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_MDIO);
-+	if (ret) {
-+		qcom_ethqos_domain_off(ethqos, ETHQOS_PD_CORE);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static void qcom_ethqos_pd_exit(struct platform_device *pdev, void *data)
-+{
-+	struct qcom_ethqos *ethqos = data;
-+
-+	qcom_ethqos_domain_off(ethqos, ETHQOS_PD_MDIO);
-+	qcom_ethqos_domain_off(ethqos, ETHQOS_PD_CORE);
-+}
-+
- static void ethqos_ptp_clk_freq_config(struct stmmac_priv *priv)
- {
- 	struct plat_stmmacenet_data *plat_dat = priv->plat;
-@@ -809,8 +952,6 @@ static int qcom_ethqos_probe(struct platform_device *pdev)
- 				     "dt configuration failed\n");
- 	}
- 
--	plat_dat->clks_config = ethqos_clks_config;
--
- 	ethqos = devm_kzalloc(dev, sizeof(*ethqos), GFP_KERNEL);
- 	if (!ethqos)
- 		return -ENOMEM;
-@@ -852,28 +993,63 @@ static int qcom_ethqos_probe(struct platform_device *pdev)
- 	ethqos->rgmii_config_loopback_en = drv_data->rgmii_config_loopback_en;
- 	ethqos->has_emac_ge_3 = drv_data->has_emac_ge_3;
- 	ethqos->needs_sgmii_loopback = drv_data->needs_sgmii_loopback;
--
--	ethqos->pm.link_clk = devm_clk_get(dev, clk_name);
--	if (IS_ERR(ethqos->pm.link_clk))
--		return dev_err_probe(dev, PTR_ERR(ethqos->pm.link_clk),
--				     "Failed to get link_clk\n");
--
--	ret = ethqos_clks_config(ethqos, true);
--	if (ret)
--		return ret;
--
--	ret = devm_add_action_or_reset(dev, ethqos_clks_disable, ethqos);
--	if (ret)
--		return ret;
--
--	ethqos->pm.serdes_phy = devm_phy_optional_get(dev, "serdes");
--	if (IS_ERR(ethqos->pm.serdes_phy))
--		return dev_err_probe(dev, PTR_ERR(ethqos->pm.serdes_phy),
--				     "Failed to get serdes phy\n");
--
--	ethqos->set_serdes_speed = ethqos_set_serdes_speed_phy;
- 	ethqos->serdes_speed = SPEED_1000;
--	ethqos_update_link_clk(ethqos, SPEED_1000);
-+
-+	if (pm_data && pm_data->use_domains) {
-+		ethqos->set_serdes_speed = ethqos_set_serdes_speed_pd;
-+
-+		ret = devm_pm_domain_attach_list(dev, &pm_data->pd,
-+						 &ethqos->pd.pd_list);
-+		if (ret < 0)
-+			return dev_err_probe(dev, ret, "Failed to attach power domains\n");
-+
-+		plat_dat->clks_config = ethqos_pd_clks_config;
-+		plat_dat->serdes_powerup = qcom_ethqos_pd_serdes_powerup;
-+		plat_dat->serdes_powerdown = qcom_ethqos_pd_serdes_powerdown;
-+		plat_dat->exit = qcom_ethqos_pd_exit;
-+		plat_dat->init = qcom_ethqos_pd_init;
-+		plat_dat->clk_ptp_rate = pm_data->clk_ptp_rate;
-+
-+		ret = qcom_ethqos_pd_init(pdev, ethqos);
-+		if (ret)
-+			return ret;
-+
-+		ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_SERDES);
-+		if (ret)
-+			return dev_err_probe(dev, ret,
-+					     "Failed to enable the serdes power domain\n");
-+	} else {
-+		ethqos->set_serdes_speed = ethqos_set_serdes_speed_phy;
-+
-+		ethqos->pm.link_clk = devm_clk_get(dev, clk_name);
-+		if (IS_ERR(ethqos->pm.link_clk))
-+			return dev_err_probe(dev, PTR_ERR(ethqos->pm.link_clk),
-+					     "Failed to get link_clk\n");
-+
-+		ret = ethqos_clks_config(ethqos, true);
-+		if (ret)
-+			return ret;
-+
-+		ret = devm_add_action_or_reset(dev, ethqos_clks_disable, ethqos);
-+		if (ret)
-+			return ret;
-+
-+		ethqos->pm.serdes_phy = devm_phy_optional_get(dev, "serdes");
-+		if (IS_ERR(ethqos->pm.serdes_phy))
-+			return dev_err_probe(dev, PTR_ERR(ethqos->pm.serdes_phy),
-+					     "Failed to get serdes phy\n");
-+
-+		ethqos_update_link_clk(ethqos, SPEED_1000);
-+
-+		plat_dat->clks_config = ethqos_clks_config;
-+		plat_dat->ptp_clk_freq_config = ethqos_ptp_clk_freq_config;
-+
-+		if (ethqos->pm.serdes_phy) {
-+			plat_dat->serdes_powerup = qcom_ethqos_serdes_powerup;
-+			plat_dat->serdes_powerdown  = qcom_ethqos_serdes_powerdown;
-+		}
-+	}
-+
- 	ethqos_set_func_clk_en(ethqos);
- 
- 	plat_dat->bsp_priv = ethqos;
-@@ -891,11 +1067,6 @@ static int qcom_ethqos_probe(struct platform_device *pdev)
- 	if (drv_data->dma_addr_width)
- 		plat_dat->host_dma_width = drv_data->dma_addr_width;
- 
--	if (ethqos->pm.serdes_phy) {
--		plat_dat->serdes_powerup = qcom_ethqos_serdes_powerup;
--		plat_dat->serdes_powerdown  = qcom_ethqos_serdes_powerdown;
--	}
--
- 	/* Enable TSO on queue0 and enable TBS on rest of the queues */
- 	for (i = 1; i < plat_dat->tx_queues_to_use; i++)
- 		plat_dat->tx_queues_cfg[i].tbs_en = 1;
-@@ -905,6 +1076,7 @@ static int qcom_ethqos_probe(struct platform_device *pdev)
- 
- static const struct of_device_id qcom_ethqos_match[] = {
- 	{ .compatible = "qcom,qcs404-ethqos", .data = &emac_qcs404_data},
-+	{ .compatible = "qcom,sa8255p-ethqos", .data = &emac_sa8255p_data},
- 	{ .compatible = "qcom,sa8775p-ethqos", .data = &emac_sa8775p_data},
- 	{ .compatible = "qcom,sc8280xp-ethqos", .data = &emac_sc8280xp_data},
- 	{ .compatible = "qcom,sm8150-ethqos", .data = &emac_sm8150_data},
+>=20
+> And just a nitpick, but I would probably insert it above scaler_mask.
+>=20
 
--- 
-2.51.0
+Will do.
+
+>=20
+> Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+>=20
+
+Thanks.
+
+Best regards,
+Jernej
+
 
