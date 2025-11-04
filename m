@@ -1,64 +1,64 @@
 Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2AFC3451DA
-	for <linux-sunxi@lists.linux.dev>; Tue,  4 Nov 2025 18:10:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B284344045
+	for <linux-sunxi@lists.linux.dev>; Tue,  4 Nov 2025 18:10:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762279830; cv=none; b=p4RSVq9cGX5ZMpHKf8roo/XuBPWm73cJc62hL75/b3rN2dTrwqEZfTu3Ya7qZGGQwj9F1RqHdhciCIB+IGvxqGTWeJv7akImdWl2h0H/K5gUCkaCxlejyYtQQT47H4LuuIIVhB2V1xz9cejyXNSrFPBHekXH4edYfymh9tKi50Q=
+	t=1762279830; cv=none; b=Og3cu38YLm70N6dM5QC5EFHnEcFtzoAu67qPwGeYxLgFTi3fPK3MIPjqb+1jIQ7ztDTxobslXH7PcyFjNRnEdVd8oqpBGuI/EvH/7i9ry/wgesal8a01SUCGFSeY47rnzMBd8w23CXR8Jao7ioLXRYRhn5fBLg6eVyT65xjrpAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1762279830; c=relaxed/simple;
-	bh=orhvpCnZQU+YiM6vENmZY8xT+JzEBx7B3ZDTqYXr+XA=;
+	bh=dY6ZcTDLzk7IJaQR+fODPFvXrCrNpXJ/qB5JCNXGZaE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=U1xBKrlBGVM7kcMFDghsrZO/FM4OoMu55EhJpDjrB6XN7EDH8w+aDdO4JLCjHxYNg3W3hhTx7fyBZTbzP9+nw4sMUJKa5+RjsTVZlghueQcIpP0DqDEZT8rQjW0UGxz8rxv3JvLFc3L9YPGS7mPlKVmJa2vZ8Rg4Zk/diGUzAIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f0CADxjv; arc=none smtp.client-ip=209.85.128.53
+	 MIME-Version; b=HJqPbXeUWeZuFXk+mWItoAsB2V8rjw2gip3iSlkQ5Tbf9D86CsODKMZYbtN8nputIEWUSDbUJCmdkxWG9ufsTXppEcrGB7Cu8aOP15mgY9fF7TOtoxNwKMaDl53rgaWsLBiwr66Avs4os+mcvyuTkGJ2nge5a/xuJlc5cftLqME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PLYRRpZR; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f0CADxjv"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4775638d819so5232415e9.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 04 Nov 2025 10:10:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PLYRRpZR"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-47754e9cc7fso7992915e9.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 04 Nov 2025 10:10:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762279826; x=1762884626; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1762279825; x=1762884625; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QXvWsmt1Dzl8GlEdRb8uf55RYf0uTWm1vCPWOIYaG+k=;
-        b=f0CADxjvEerlO3JQQkHLet4GeG7mPU9C8p1UpO3/OKb9xnPQQmJWuueA40HrMzdYtb
-         7wdmUVJnn4yNnphKxNNXPXlrtkSABQmb81ZZ5h7iomFSairfHeHSbUyffBVQdX4ngoQB
-         cunz3u0g5zC+mtCSrdv8L/gOV+9sTV3OP08jAuJ0DKJJu76l0e7i0pugUrn/zKoenfsi
-         wj/PYndhDxPfcz5zM4mvS+WZIo2D1O3kdVHhpZ8MklmeH5bS5Gnf9H7F3lWrI35Rsjng
-         kwOUB1j2/PDTMYhxBr9HqDS/OsZsu+LGubsoTct4Ajg/cQ2IGsFH28eZy5KmMvRBQFeu
-         znZA==
+        bh=4tlXBSuCi9KYqEnYaWJPbYjWr/O8PttsygtENhT9s58=;
+        b=PLYRRpZRKTb8aaAhyTlcAGDf2k4VprtTEJNqfX9Nrn+rCNdLm2Wi9NSKwbUfO7xqPF
+         GkiIpEG9kW4DyCyQJg82tvRPUGjfDQMYkzjBwt2ptN/oy39GyMVCq2I2Ib5r90JaQfNR
+         reF7bAtKb0iVTa0QsN/f2UFARaw762nh8XL8MhlfflklgZmE6Sf9T+u7m/+Eh7hkZkmN
+         NFu85LggUzac4AT38ZdHR2tFDvV6wu5R0idP/5m3KGjd5+y1GgUubt9legDPWoj+r5a6
+         FYP7PXBletPZIIEljW6U5VLIFmoIbtLclsEapj4zR31rptSRZh687/tIz2dA3A7LfcVr
+         9f0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762279826; x=1762884626;
+        d=1e100.net; s=20230601; t=1762279825; x=1762884625;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QXvWsmt1Dzl8GlEdRb8uf55RYf0uTWm1vCPWOIYaG+k=;
-        b=lfrQup3iGOGW+k1e9MGZcDN146nql59yWm9pugTVFS/H7QbTiwSRZcUnlF1YJxG9LT
-         Hg3R7d+xkx82lttGNbOMECt+AvQfHEDF6/KTeyRES8k3ybKkrXj4cMBXUxFFGLdosdiq
-         f838pQTSBuN5C4P71Dq9bOcnod/EIrP4WJ4CdpU9hV3yN7HhyMs2rBvFts9QFgaEUpUo
-         ytpL45tBHaRBcHAXSxyzmibztZmUxH7M3ZyJQe+34kSWqou+jizIz2FaLXI/MKwgXO8o
-         tEufjqvEvLZGlEXbG27EuJc9tqJbuVfwANDyV7hU8j7tfi5EaMYUUUYUi29sWYcouWIa
-         n9dg==
-X-Forwarded-Encrypted: i=1; AJvYcCXkRKfvN3YTuK7PDEfH6Xp0YiIDXe8amMG7bcnddk0TWGFwxfpGPuO4blMfs5KNJRZDR1EuQCuW7gblVQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwyuKRoaYvNI8cY/HMK+xO73ht/HnWdZ9P3+9Ugt/H7agrqtJnS
-	zItTiegpZUTbzlhwshptzPwqpsfgLXlUclO6H9fsZts/kmM0GUFXI4oR
-X-Gm-Gg: ASbGncuMaxipw8R+VIEd1SKeB0DTIHFlj8lR6qkavhKurEBjMAi0nVtbpZybIldhRdM
-	OM82ntbtbdW4sQKWQc3qCwWV9piwu2DlNoaUqHusGqtcviORvlsmoGDet2pWCjdeATXcgfbmXeg
-	nGUxL2mC3UKW7pb4wB9k2hISMHGDi655759Ud21sb1zwzMuypAtbAkN+kQe3tVUAsAzywWcQDVY
-	LXe5zMQWFE18pPQdYxd32Oi/kzA9H5zQFMTcwiLeVvtfRIh5Fw9heIXXUdy2oPgIQASy99uTU7d
-	AXmVGECnWYVWbf37jbdMXz6ZWYG8K4U5Y6rgIJyil7MmzjVJO5HQhwAf+ih/YcbhodOZcPYM5Zd
-	OyUUPG8qutwMFnHhNZnSAQK+BjVMvZJtaldvWzPhgdL5JwPQ4ixUY+Z3YHjj0XcRs+t2wasSfY6
-	/razyaSJPqbw4nfzwH0A==
-X-Google-Smtp-Source: AGHT+IFE3mxZcmB3xFrOwCz13wK7MeGXCTbyLCsueT8YPunx796HFToC9lCdkfkmFYbtx1fnK13ZUA==
-X-Received: by 2002:a05:600c:46ce:b0:46e:74cc:42b8 with SMTP id 5b1f17b1804b1-4775cdcfbb5mr2723405e9.17.1762279825932;
-        Tue, 04 Nov 2025 10:10:25 -0800 (PST)
+        bh=4tlXBSuCi9KYqEnYaWJPbYjWr/O8PttsygtENhT9s58=;
+        b=vmYJ1VGrkblDcN/kXuivPrSgXmhxW6Vrs3x2DsgcdH30fBhjN30Htu2BuZ6uiZFIy3
+         LgC4GZJTUUh2PBla6+7a6jCDuVV+fnLjhrekkTGcxOGpIUXv/M5OoBs8O1gdpxX385/A
+         OQ+gqSjKebPiJQ2jmu4S9GU84edc7uOKd0RhDaVG/flzhfWFtY6+p6qvSzDPa2Hr4oQC
+         p/wtRq+FAmyi1MvSOWNUtL+Ghozq0UgzecZ+uk2Cu+3aRY1ek4zP3hJhAsaa8FBdFYfC
+         gWaRShMkaJb5Itg0+CZ45T+OKtmkEB8bvvDf6nCnut6+PFmQ9REbg8aqEHsezpAXg9ul
+         BSjw==
+X-Forwarded-Encrypted: i=1; AJvYcCWZMCkHWGh0zcDCnhiMWmbzS7Ry+uvy2xdjkmATp0hVPWm/ZBCfhD0qqAAjJBSS/wAPnX/yZEP2TptXpg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyMDV83VpNWvfV2Y8UyBwZOpS5N8WA0ueghyZKzIgOXrvYQgm3l
+	6Aqe8ltPma7b0aDh8G/Hhq8Xj9Afq+eUmQCfuQdu0Nll0Hy7BeJorLyO
+X-Gm-Gg: ASbGncsIjUnYB2g/vA2/npyOXXZ4e/hjnhjX7/q+9fcdplXHI5Uf7TOHQatuuP9V2rC
+	ijPE75X9+QyRLPziHaIXebHBsH9Q2fE5lyze3avg3vLd6gZbmJJKP0syeOTJc2DOb1Wd0Ioldj2
+	QguE9FnURWLZPkgq927qflsfE6GCVdu1fjUhlqlkpTeW2aFVp0c35nhyjlr2hz/4Gn/ed/9+KQk
+	c/dB7t2TpBIP8NtRqXlkuCnpg2EE/tEU7ptmStigGvKXqPbjfeH85+9PB91Df7gTIZptzGV86+U
+	rsCFxHum3W1pqDwsaE8aJknFcl08AMnpMz00XVyNzAPlqjOQscAlStCNRnUYYqUYUFYzTCRz2LQ
+	s/k0PBbHED/sVOG97OvIDE21kSQi3j705cKCxpcHLsqSDSg+BAqUEHGLmWuxDS6RIQ7zP+1OJjh
+	VluIXiSNR3QPdE3yl3Pg==
+X-Google-Smtp-Source: AGHT+IHm1TAQjaSzwnbLWrmSeHCsVmHtk5JoxXFn6C5ye+q9ij6rKyMSLmT96AnudZeM+B1bys7ikA==
+X-Received: by 2002:a05:600c:34d5:b0:471:1306:aa0f with SMTP id 5b1f17b1804b1-4775ce8df34mr2008325e9.38.1762279824672;
+        Tue, 04 Nov 2025 10:10:24 -0800 (PST)
 Received: from jernej-laptop ([178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477558c1a03sm24688685e9.2.2025.11.04.10.10.24
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477558c1a03sm24688685e9.2.2025.11.04.10.10.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Nov 2025 10:10:25 -0800 (PST)
+        Tue, 04 Nov 2025 10:10:24 -0800 (PST)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: wens@csie.org
 Cc: mripard@kernel.org,
@@ -74,9 +74,9 @@ Cc: mripard@kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v2 19/30] drm/sun4i: vi_scaler: use layer instead of mixer for args
-Date: Tue,  4 Nov 2025 19:09:31 +0100
-Message-ID: <20251104180942.61538-20-jernej.skrabec@gmail.com>
+Subject: [PATCH v2 18/30] drm/sun4i: ui_scaler: use layer instead of mixer for args
+Date: Tue,  4 Nov 2025 19:09:30 +0100
+Message-ID: <20251104180942.61538-19-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.51.2
 In-Reply-To: <20251104180942.61538-1-jernej.skrabec@gmail.com>
 References: <20251104180942.61538-1-jernej.skrabec@gmail.com>
@@ -96,115 +96,97 @@ Tested-by: Ryan Walklin <ryan@testtoast.com>
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
  drivers/gpu/drm/sun4i/sun8i_ui_layer.c  |  9 ++++-----
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c  |  9 ++++-----
- drivers/gpu/drm/sun4i/sun8i_vi_scaler.c | 10 ++++++----
- drivers/gpu/drm/sun4i/sun8i_vi_scaler.h |  4 ++--
- 4 files changed, 16 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/sun4i/sun8i_ui_scaler.c | 14 ++++++++------
+ drivers/gpu/drm/sun4i/sun8i_ui_scaler.h |  4 ++--
+ 3 files changed, 14 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-index 9b938e3dae9c..5167c9d7b9c0 100644
+index d5b7241acdea..9b938e3dae9c 100644
 --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
 +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-@@ -103,11 +103,10 @@ static void sun8i_ui_layer_update_coord(struct sun8i_layer *layer,
- 		vscale = state->src_h / state->crtc_h;
- 
- 		if (mixer->cfg->de_type == SUN8I_MIXER_DE33) {
--			sun8i_vi_scaler_setup(mixer, layer->channel, src_w, src_h,
--					      dst_w, dst_h, hscale, vscale,
--					      hphase, vphase,
-+			sun8i_vi_scaler_setup(layer, src_w, src_h, dst_w, dst_h,
-+					      hscale, vscale, hphase, vphase,
+@@ -109,17 +109,16 @@ static void sun8i_ui_layer_update_coord(struct sun8i_layer *layer,
  					      state->fb->format);
--			sun8i_vi_scaler_enable(mixer, layer->channel, true);
-+			sun8i_vi_scaler_enable(layer, true);
+ 			sun8i_vi_scaler_enable(mixer, layer->channel, true);
  		} else {
- 			sun8i_ui_scaler_setup(layer, src_w, src_h, dst_w, dst_h,
- 					      hscale, vscale, hphase, vphase);
-@@ -116,7 +115,7 @@ static void sun8i_ui_layer_update_coord(struct sun8i_layer *layer,
+-			sun8i_ui_scaler_setup(mixer, layer->channel, src_w, src_h,
+-					      dst_w, dst_h, hscale, vscale,
+-					      hphase, vphase);
+-			sun8i_ui_scaler_enable(mixer, layer->channel, true);
++			sun8i_ui_scaler_setup(layer, src_w, src_h, dst_w, dst_h,
++					      hscale, vscale, hphase, vphase);
++			sun8i_ui_scaler_enable(layer, true);
+ 		}
  	} else {
  		DRM_DEBUG_DRIVER("HW scaling is not needed\n");
  		if (mixer->cfg->de_type == SUN8I_MIXER_DE33)
--			sun8i_vi_scaler_enable(mixer, layer->channel, false);
-+			sun8i_vi_scaler_enable(layer, false);
+ 			sun8i_vi_scaler_enable(mixer, layer->channel, false);
  		else
- 			sun8i_ui_scaler_enable(layer, false);
- 	}
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-index ba9c03f04f03..ce71625fa06f 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-@@ -162,13 +162,12 @@ static void sun8i_vi_layer_update_coord(struct sun8i_layer *layer,
- 		hscale = (src_w << 16) / dst_w;
- 		vscale = (src_h << 16) / dst_h;
- 
--		sun8i_vi_scaler_setup(mixer, layer->channel, src_w, src_h, dst_w,
--				      dst_h, hscale, vscale, hphase, vphase,
--				      format);
--		sun8i_vi_scaler_enable(mixer, layer->channel, true);
-+		sun8i_vi_scaler_setup(layer, src_w, src_h, dst_w, dst_h,
-+				      hscale, vscale, hphase, vphase, format);
-+		sun8i_vi_scaler_enable(layer, true);
- 	} else {
- 		DRM_DEBUG_DRIVER("HW scaling is not needed\n");
--		sun8i_vi_scaler_enable(mixer, layer->channel, false);
-+		sun8i_vi_scaler_enable(layer, false);
- 	}
- 
- 	regmap_write(mixer->engine.regs,
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c b/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c
-index 82df6244af88..a76677a1649f 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c
-@@ -909,11 +909,12 @@ static void sun8i_vi_scaler_set_coeff(struct regmap *map, u32 base,
+-			sun8i_ui_scaler_enable(mixer, layer->channel, false);
++			sun8i_ui_scaler_enable(layer, false);
  	}
  }
  
--void sun8i_vi_scaler_enable(struct sun8i_mixer *mixer, int layer, bool enable)
-+void sun8i_vi_scaler_enable(struct sun8i_layer *layer, bool enable)
+diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_scaler.c b/drivers/gpu/drm/sun4i/sun8i_ui_scaler.c
+index 8b7a58e27517..fcd72c4fd49a 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_ui_scaler.c
++++ b/drivers/gpu/drm/sun4i/sun8i_ui_scaler.c
+@@ -127,14 +127,15 @@ static int sun8i_ui_scaler_coef_index(unsigned int step)
+ 	}
+ }
+ 
+-void sun8i_ui_scaler_enable(struct sun8i_mixer *mixer, int layer, bool enable)
++void sun8i_ui_scaler_enable(struct sun8i_layer *layer, bool enable)
  {
 +	struct sun8i_mixer *mixer = layer->mixer;
  	u32 val, base;
  
--	base = sun8i_vi_scaler_base(mixer, layer);
-+	base = sun8i_vi_scaler_base(mixer, layer->channel);
+-	if (WARN_ON(layer < mixer->cfg->vi_num))
++	if (WARN_ON(layer->channel < mixer->cfg->vi_num))
+ 		return;
+ 
+-	base = sun8i_ui_scaler_base(mixer, layer);
++	base = sun8i_ui_scaler_base(mixer, layer->channel);
  
  	if (enable)
- 		val = SUN8I_SCALER_VSU_CTRL_EN |
-@@ -925,16 +926,17 @@ void sun8i_vi_scaler_enable(struct sun8i_mixer *mixer, int layer, bool enable)
- 		     SUN8I_SCALER_VSU_CTRL(base), val);
+ 		val = SUN8I_SCALER_GSU_CTRL_EN |
+@@ -145,18 +146,19 @@ void sun8i_ui_scaler_enable(struct sun8i_mixer *mixer, int layer, bool enable)
+ 	regmap_write(mixer->engine.regs, SUN8I_SCALER_GSU_CTRL(base), val);
  }
  
--void sun8i_vi_scaler_setup(struct sun8i_mixer *mixer, int layer,
-+void sun8i_vi_scaler_setup(struct sun8i_layer *layer,
+-void sun8i_ui_scaler_setup(struct sun8i_mixer *mixer, int layer,
++void sun8i_ui_scaler_setup(struct sun8i_layer *layer,
  			   u32 src_w, u32 src_h, u32 dst_w, u32 dst_h,
- 			   u32 hscale, u32 vscale, u32 hphase, u32 vphase,
- 			   const struct drm_format_info *format)
+ 			   u32 hscale, u32 vscale, u32 hphase, u32 vphase)
  {
 +	struct sun8i_mixer *mixer = layer->mixer;
- 	u32 chphase, cvphase;
  	u32 insize, outsize;
+ 	int i, offset;
  	u32 base;
  
--	base = sun8i_vi_scaler_base(mixer, layer);
-+	base = sun8i_vi_scaler_base(mixer, layer->channel);
+-	if (WARN_ON(layer < mixer->cfg->vi_num))
++	if (WARN_ON(layer->channel < mixer->cfg->vi_num))
+ 		return;
  
- 	hphase <<= SUN8I_VI_SCALER_PHASE_FRAC - 16;
- 	vphase <<= SUN8I_VI_SCALER_PHASE_FRAC - 16;
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_scaler.h b/drivers/gpu/drm/sun4i/sun8i_vi_scaler.h
-index 68f6593b369a..73eecc4d1b1d 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_scaler.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_scaler.h
-@@ -69,8 +69,8 @@
- #define SUN50I_SCALER_VSU_ANGLE_SHIFT(x)		(((x) << 16) & 0xF)
- #define SUN50I_SCALER_VSU_ANGLE_OFFSET(x)		((x) & 0xFF)
+-	base = sun8i_ui_scaler_base(mixer, layer);
++	base = sun8i_ui_scaler_base(mixer, layer->channel);
  
--void sun8i_vi_scaler_enable(struct sun8i_mixer *mixer, int layer, bool enable);
--void sun8i_vi_scaler_setup(struct sun8i_mixer *mixer, int layer,
-+void sun8i_vi_scaler_enable(struct sun8i_layer *layer, bool enable);
-+void sun8i_vi_scaler_setup(struct sun8i_layer *layer,
+ 	hphase <<= SUN8I_UI_SCALER_PHASE_FRAC - 16;
+ 	vphase <<= SUN8I_UI_SCALER_PHASE_FRAC - 16;
+diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_scaler.h b/drivers/gpu/drm/sun4i/sun8i_ui_scaler.h
+index 1ef4bd6f2718..872d88a58e7e 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_ui_scaler.h
++++ b/drivers/gpu/drm/sun4i/sun8i_ui_scaler.h
+@@ -35,8 +35,8 @@
+ #define SUN8I_SCALER_GSU_CTRL_EN		BIT(0)
+ #define SUN8I_SCALER_GSU_CTRL_COEFF_RDY		BIT(4)
+ 
+-void sun8i_ui_scaler_enable(struct sun8i_mixer *mixer, int layer, bool enable);
+-void sun8i_ui_scaler_setup(struct sun8i_mixer *mixer, int layer,
++void sun8i_ui_scaler_enable(struct sun8i_layer *layer, bool enable);
++void sun8i_ui_scaler_setup(struct sun8i_layer *layer,
  			   u32 src_w, u32 src_h, u32 dst_w, u32 dst_h,
- 			   u32 hscale, u32 vscale, u32 hphase, u32 vphase,
- 			   const struct drm_format_info *format);
+ 			   u32 hscale, u32 vscale, u32 hphase, u32 vphase);
+ 
 -- 
 2.51.2
 
