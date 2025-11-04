@@ -1,64 +1,64 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1A6033E377
-	for <linux-sunxi@lists.linux.dev>; Tue,  4 Nov 2025 18:10:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05A133F8A5
+	for <linux-sunxi@lists.linux.dev>; Tue,  4 Nov 2025 18:10:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762279811; cv=none; b=M627N23y9nBcR5DMECLzURfGT72QLRRQMPAZtvt1/i+CS2oBqep8/0lw24sTXkuPAGN5vQeqW3gJXJofjLgwziNEl3S/9+CghsGUHEJfsEaYVbQzJ1FykcRdbHYxYuOuN5xyLlc5Ov0G+J9H9Tu+U2Z3QQgmcXoq9jpDHms+7vk=
+	t=1762279812; cv=none; b=W/pshIMAq24yEZlUeMWUNT0faPgDMMRojb/Pi1dml+bHD4hC3mDvG8d/rcvB1HwiBaQ4mwahLZ8FV/XpOLUb7vdUtM/5cXEIZYXBvIAvHpRK+8Q4rrzj5Qw3kMrGeZfni4IxrvxHtwz1ERkjx47cXeiGSRLIXMZc7HrIKCrc8E0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762279811; c=relaxed/simple;
-	bh=v75gTyjSy2HSa3UfhJ4KqrZ90JgtcxjZBdZ9oY7/Htg=;
+	s=arc-20240116; t=1762279812; c=relaxed/simple;
+	bh=9iuYPe+y3PbTHR/R97DFIicMKJlmsqd/U6tW26GqMxw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YzULA0qWvJGRWL5X1Eu/BZsZdyjMkN4drAJXyDSmWSlk2FWnp1hGoqCcvtyWvU4Hby+CDVMYjBQJZ3gn7E/oBomBQnRR3UXdYA+IjnaAwbyv6SFmyreBg6H7B9gm6VtiM2c9XTyXiVXDJq2V5VoWwPn2zTissldy3suPnEhqZj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VNRmGrxg; arc=none smtp.client-ip=209.85.128.54
+	 MIME-Version; b=G9rhVv/dQdx7LNGftXncBXMEhTCRQCqlodo+e7RF3mrJaMMGMFkBF4Flf5PkMIibWBbu9yzCNVbmujvSkXV4uVuwSnyzaPSevm+TwFtPxBz7vvcsZdEQ+9wHyhJLqFH5tJ29DHFkE/c89TiFLFLaVKqzf2pkLDhnhrPOFYZe96c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XzIa/rP4; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VNRmGrxg"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47755de027eso7473375e9.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 04 Nov 2025 10:10:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XzIa/rP4"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4775895d69cso4840305e9.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 04 Nov 2025 10:10:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762279807; x=1762884607; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1762279808; x=1762884608; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=S/mUaml8jAYrXfg/EZn9k2T0kOPXbCuOkx1KYxiElS0=;
-        b=VNRmGrxgXSeiFIX9ietq/d5UvWUBfi2YeQq1Iv5UE3AY7qGBkJB01kOMMqM5JWQL0N
-         DKL6ol8lMPup64MZsnxzWYbiRijc3zPpRKP0aQKMT8MywkwZ1v/X5FUKCNCQ5F3sY3na
-         7JpM2I4hHNfmuZnSCwEm8KoGwmpvf8/dkjSfOU6v8perS6bCAVVIhRO6y47K/tztWx9U
-         48xz58hIoNDHO12/XK3YY2XzBU5g26c3m0Vtwrp5rF5mgsXWwmESYB24VxP5IqH1+eYy
-         F9Og5fS9oMlrHutBHVOxwf/7elZHa+ePjkVsOrGPabU3pYAQ4UqP3kAGyY4oP8DJdTzz
-         uCGg==
+        bh=nl1ilT/sObHTqPC76FAptDP4x6azYGMRqYkHZHMZay0=;
+        b=XzIa/rP4IbI8gQh11Z7KiMfMAmS3uTohiqCfmf27HdrMHWaBepW2Jd3Nktx6j/ZSg5
+         3ZYRiryVEpVUaXQcj/7PRRIL3qlcagtYTzfkWl4GdmH92U9IiquArrTcvNjBbX6Ycoqn
+         h7CyR3teZxHdvw5Ga7ipnRW0NwJGRxUZqYlQy89AcNgNdcxWDtMRv7ers5xQhcxsaVxD
+         vsqxTGABU1+ItmdaOs9iqBKx5eh1k9/hjaMIJWHclyqrErWqNKN3+EQVkhhxPnbdmy9Z
+         yMgiLUu+lXUqFFsBmphwmiUVHSUXG2gZtF5U9H9zrDMIXejDgi2JsUYI/lipepf4RQBY
+         BiMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762279807; x=1762884607;
+        d=1e100.net; s=20230601; t=1762279808; x=1762884608;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=S/mUaml8jAYrXfg/EZn9k2T0kOPXbCuOkx1KYxiElS0=;
-        b=Hv+juTMorQr9ACi2eD/Z/KAtqCXXEVdxxV4l2h+J5FI9KCW4wH7pkyTxfFTabGODzV
-         Mm8L1AV3s1s2sXjtpN0PN5F86cWfn7P/B7hDlvqnwQpTpSP4PRdiwUTb/1ZLFs7vsvXc
-         H13g+lDnSkBUWXbt+r+cRiHhGbIANB4lxRStyaO3n4IuFllNl33pqnUNGg8/CXhwffkX
-         3mYMkADI2m42gP+NYxbo4XkbSFLFfzAwSPiwWtTJvzk6ElEwTEEfH9lSAUGwwQ7ianu1
-         GpY8kvr3NM0hu3RfMCPd2AeI8QkmHcRn4jk1uF7Rz6mF9DnEL+/xu26uli9JvU9210VS
-         o02g==
-X-Forwarded-Encrypted: i=1; AJvYcCWEz8r1dPFwQFZop82KJmkP6qZRELpHsaP2jrfQFp1671KtdKNiAyFnimBW2Xn6eHuFo8eAAeiaQSEDaQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzaW/7kRoHFvzxiN6ZTJ7rq0HuxiwEvAGON9U1OM7yvgHN2qUjm
-	cEaoF+k1zSBI80uGE37lmxge7MAs4EUy/Zv3zY4UnrEKdZLxZkUJQJLr
-X-Gm-Gg: ASbGncvRnmWTytU6koXN7np8H8nKadpFNesQRIT5Q9CnlW09JO535sX6u6/SKW8PXke
-	I+SA1JwqzHkE83M344hsMiVYdrVi4SHOfoNkWutS08wOv+t2rjXsm4r0qKCYj87zM3254aUEQFa
-	6b5eE8AbA34zQ/e5oHhAfylnnMxEXoVNHVcd9f5GnI0Db+KmTrO8KErWMajntnBEaq46CnvGrtW
-	5s83SqC8WT/6BOfOZMwFSo5T0rV4zuXkCaN5vXbb3tAzXaZG4W/eNHtPoUXrKlDc3BP4Iz1EyhD
-	kj3wMIzckhsedBatIj7VwPuAQL62RbrfXSkeoncMKtcor0IQggPhvE64YO64ZjBVekyLANO5Rzs
-	WC0CcQATW+hA6lQLmu61vNKdr1vxfRVyjueO8ni3Tsa117Q1ijNcnhxfNFW9pZgzofOYWoRbhVs
-	U/FSJjr0ciC92TOUjwRQXPMcLcMXQB
-X-Google-Smtp-Source: AGHT+IFmRzImpuQKxnU59wlPaEzVIfge0eS811Rho4boK9lxVttq6F0W8N4VKTddLMFMzKY8tP/Egw==
-X-Received: by 2002:a05:600c:608a:b0:475:de68:3c2e with SMTP id 5b1f17b1804b1-4775ce3ebedmr2220945e9.40.1762279806649;
-        Tue, 04 Nov 2025 10:10:06 -0800 (PST)
+        bh=nl1ilT/sObHTqPC76FAptDP4x6azYGMRqYkHZHMZay0=;
+        b=UonHnuyUril2NKx9G228rJjdx5fVrzk7Vd9gIfLwqTWj1Y21ovpmrFA8oaaQSm7mlk
+         U95uJIU0cun1o93ihBOq/azUqCJi94OuUIFcNCRMnieDWfEYwcpVlyN850Z0liwe9H1b
+         UNLY9go93cLityL4kzY2ld2sDvxw+ESz+4J1+khKi8uax1PREJ5QmBnr0TTC+FcqZl3q
+         CUrKZIWhbsUkDoEu8LbDM5RFF/5R+in6PPF92bY0jh8DKchySgSVp5kfSkDBOEjpWBlt
+         l1xFnVjYBgF++sA7FsTU7r6XlBlC0lHZ27GriLvqE/0ErjDaiiuWeRmW4U9PAGgdwquh
+         PM8g==
+X-Forwarded-Encrypted: i=1; AJvYcCWY8FEw1fQMSiyJPtHOwUt22OhjJeeCrjfcVvna5Y88JoRfzEHhys0meCSZCl7083MN6OsArD55GQoFDg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxuq3FRT/WQSCbgjoz0BQC9HjkNRdpL7NLBIojRpHU+nDElV60c
+	StEOJeXCecwYwRet+ZmfxjObcLA6mstDCN0YB958xSVl8uBJ5Wo+9ihQ
+X-Gm-Gg: ASbGncsRcst6FnOE0tDA0+FFt5YtleeHGYATm5oXZpGfgsmwAw7WqJ09nNfry1eiHN6
+	TSkUEBGLKWTL+mzP+rGi+YsUuJU6lYaJZNSr55uCJBRcx8FEcBhaORcZlqT6MgxDroat4s0Neo7
+	RpGtY8SlohCD1z60Xgd0UjfhrTbXiNSvjbQY7n3+6Zbi9e8Fyl1+JVAu2uaT3z2B5YX3UVH+FRf
+	PAOoBh0+ujL6tQ0ONMHfnbrnxtcw+uKCm2d37sONNmMgMtP1a93oAnxUCAyS71Hnm6IgETy+Wpx
+	LQVQDKPzDy3sI2Zx7kENTF4qmP8kC/Vp/ilmOl4QXPi/GzI/o+tm9Z1fb2Kxn9GYnFcVQH8YWBT
+	8XEZn1fR5a9CIsjNBnQP7qmXwmjUnrzvnuxyLk+3z+2BzvN8x6MuTKxb6KNit2TvUN5weBTEpj3
+	TxjxIWRC3CDU0Kh8WT6A==
+X-Google-Smtp-Source: AGHT+IEaQ0kJCmYAyDupR48ISzZYJfw4Ug61ieLu3o3gUFaY4n5a/nzq0x9jBMUVbLw7oK4nsgRXfg==
+X-Received: by 2002:a05:600c:34d0:b0:471:6f4:601f with SMTP id 5b1f17b1804b1-4775cdf54aemr2431095e9.19.1762279807980;
+        Tue, 04 Nov 2025 10:10:07 -0800 (PST)
 Received: from jernej-laptop ([178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477558c1a03sm24688685e9.2.2025.11.04.10.10.05
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477558c1a03sm24688685e9.2.2025.11.04.10.10.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Nov 2025 10:10:06 -0800 (PST)
+        Tue, 04 Nov 2025 10:10:07 -0800 (PST)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: wens@csie.org
 Cc: mripard@kernel.org,
@@ -73,9 +73,9 @@ Cc: mripard@kernel.org,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v2 04/30] drm/sun4i: ui_layer: Move check from update to check callback
-Date: Tue,  4 Nov 2025 19:09:16 +0100
-Message-ID: <20251104180942.61538-5-jernej.skrabec@gmail.com>
+Subject: [PATCH v2 05/30] drm/sun4i: vi_layer: Move check from update to check callback
+Date: Tue,  4 Nov 2025 19:09:17 +0100
+Message-ID: <20251104180942.61538-6-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.51.2
 In-Reply-To: <20251104180942.61538-1-jernej.skrabec@gmail.com>
 References: <20251104180942.61538-1-jernej.skrabec@gmail.com>
@@ -87,42 +87,41 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-DRM requires that all checks are done in atomic_check callback. Move
+DRM requires that all check are done in atomic_check callback. Move
 one check from atomic_commit to atomic_check callback.
 
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
 Tested-by: Ryan Walklin <ryan@testtoast.com>
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
 Changes in v2:
 - fixed commit message
 
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 18 +++++++++++-------
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 18 +++++++++++-------
  1 file changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-index 9b786e5c7f3c..fce7b265c5d8 100644
---- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-@@ -134,16 +134,11 @@ static int sun8i_ui_layer_update_formats(struct sun8i_mixer *mixer, int channel,
+diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+index bd6c7915bbc4..c80bdece5ffc 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+@@ -217,16 +217,11 @@ static int sun8i_vi_layer_update_formats(struct sun8i_mixer *mixer, int channel,
  	struct drm_plane_state *state = plane->state;
+ 	u32 val, ch_base, csc_mode, hw_fmt;
  	const struct drm_format_info *fmt;
- 	u32 val, ch_base, hw_fmt;
 -	int ret;
  
  	ch_base = sun8i_channel_base(mixer, channel);
  
  	fmt = state->fb->format;
 -	ret = sun8i_mixer_drm_format_to_hw(fmt->format, &hw_fmt);
--	if (ret || fmt->is_yuv) {
+-	if (ret) {
 -		DRM_DEBUG_DRIVER("Invalid format\n");
--		return -EINVAL;
+-		return ret;
 -	}
 +	sun8i_mixer_drm_format_to_hw(fmt->format, &hw_fmt);
  
- 	val = hw_fmt << SUN8I_MIXER_CHAN_UI_LAYER_ATTR_FBFMT_OFFSET;
+ 	val = hw_fmt << SUN8I_MIXER_CHAN_VI_LAYER_ATTR_FBFMT_OFFSET;
  	regmap_update_bits(mixer->engine.regs,
-@@ -201,7 +196,9 @@ static int sun8i_ui_layer_atomic_check(struct drm_plane *plane,
+@@ -322,7 +317,9 @@ static int sun8i_vi_layer_atomic_check(struct drm_plane *plane,
  	struct sun8i_layer *layer = plane_to_sun8i_layer(plane);
  	struct drm_crtc *crtc = new_plane_state->crtc;
  	struct drm_crtc_state *crtc_state;
@@ -133,15 +132,15 @@ index 9b786e5c7f3c..fce7b265c5d8 100644
  
  	if (!crtc)
  		return 0;
-@@ -211,6 +208,13 @@ static int sun8i_ui_layer_atomic_check(struct drm_plane *plane,
+@@ -332,6 +329,13 @@ static int sun8i_vi_layer_atomic_check(struct drm_plane *plane,
  	if (WARN_ON(!crtc_state))
  		return -EINVAL;
  
 +	fmt = new_plane_state->fb->format;
 +	ret = sun8i_mixer_drm_format_to_hw(fmt->format, &hw_fmt);
-+	if (ret || fmt->is_yuv) {
++	if (ret) {
 +		DRM_DEBUG_DRIVER("Invalid plane format\n");
-+		return -EINVAL;
++		return ret;
 +	}
 +
  	min_scale = DRM_PLANE_NO_SCALING;
