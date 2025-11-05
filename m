@@ -1,221 +1,234 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89886348885
-	for <linux-sunxi@lists.linux.dev>; Tue,  4 Nov 2025 18:10:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762279845; cv=none; b=Nd80W4Llqi8yF692wnG9NOuSaV8m1vcysbG+C1ToHrDSNDgWsF1WoUgwYN4dvTo4ss+qYCk9p1G5RmrJ9mjZFzFeYtOG0H8/7neIRoIsBbZbj6tIH5ornTwgunYsWmYgn2ZnK525qaFOn5WlZb8i2Jm144NVP1uAaTtKDI6M7IA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762279845; c=relaxed/simple;
-	bh=pwHyPYs+uvcIMdyUOYcnWKkfT8r4lZYUtB/lROjfyFc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DEaBjpHoZiDLwxleS1rtKnxUNezR+g1qjULmimWqWANRo1P4xJBKvgK5WFUIxpPzM5sZxu2vEVB0KHYhsHG0JdDVgnMSYFlYSkYpK2cf+h5pxIQsz+2FW8sW632VLe5FVVH7dFtXcid7lfbgvr7X+I87+OQgCcjJokD6LoFz97g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S54GsgUZ; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD7427453;
+	Wed,  5 Nov 2025 06:57:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762325858; cv=fail; b=O56NDTBafYw9eggTc1+Z8mYzV8pmCU8gsWis8F9GKj48paOZRMLsrQ8wPplGrHlcCMMcaxKW3NfG7IgDmS9yXWdN6xHF85auLC5FAzGTIR18fxr66qPW8jbjprXK28aEY5cYHOV46kMAX3tnXJsEO5ZOHkKtHMjDQl3ajsx7Q7c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762325858; c=relaxed/simple;
+	bh=v4I7onznSV0iS0DSJYPSRP7C/cbe6OTlMky7qWff1zo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=dFJMEi8GugxcWYeIh8kTov+oqRHtNB/+Zgng139kJE9M9pcifF/1nvSlm/pkVM52MwTWhkU7Pp/dT1lSwRXekj+PfKVwJ+2d3mT84Yu3+U5z6QXIP6sodcgcuY8kFZ2agSigOl2CLf5u0VzC3I4IO9PKcSVlg6tZQvOW7XrHrSw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VVAIjSeU; arc=fail smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S54GsgUZ"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-47118259fd8so43598695e9.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 04 Nov 2025 10:10:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762279840; x=1762884640; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YhWx9NyFnSAm1+R2uJGg2k+MOsOqirwBc3PWmOrvwX4=;
-        b=S54GsgUZ752VWh6Fa1kn6lCz00BT9UBqzcdKcg/l5O9GgTqanmcPhf46qVH+gQYUvY
-         srht7xBhFXKeqAQSt5EjA07VN7SeqrTP/Q091DWsCW1DVw+a8kfcxkF/FC4b7jOiVfK8
-         zVNU4UqRLsnxY03AkyKF1SFLBQI/VZt2m8AgfQWBCymAbldN073Vn/IgASY9Fe/W90vW
-         vTQjod5AGY1RhXS9aKyI9qNJ4GuVWxVkDb8l+Xga9WxartxQf05xl+jONRUJULBI7y9s
-         1pXQppoDRAPwtxmLZAUfoNgYa/h3AJyLHnwCMXK+f5/Njpxbvq2WdQo8uIrG9gDj7A2i
-         eABw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762279840; x=1762884640;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YhWx9NyFnSAm1+R2uJGg2k+MOsOqirwBc3PWmOrvwX4=;
-        b=X1/9cCQ7ngPepe2Che7kiVTpGkOQ3dRP2WduNEzMHCjrn5uDaGa6Xl5y13pO5IEOOd
-         GIZwtf2PMtUnKNJvlNLl656aOjHOTRgtnfynWRcRNAUtDgBwl9ghJQDjo4uA0DQK/Og1
-         2fg9yxgd97HrT1k3t6hd8l4IDEftZedDolt0wkIVdGHHBp2Ajz1FjYXe+V5WamD/8Pdi
-         xLAFixZ8CmXVUNYkAH2IJmaJ+7sZDFh7mLll1LJ87yPasxkT/YJrrA+69BSYz1lqvpRw
-         X5Wcx7LPc/mQH9wqxSFlq5qcFfCYPSE6gsc6AxnT6fab3G0oz+1WcK5smusDJ2t75XSy
-         tQSw==
-X-Forwarded-Encrypted: i=1; AJvYcCXzIfXItrwGrfMsFZUVSsHN8LV+1SWb9Z3OB/4aSPdFWczG4HFLqqz2v/e90+KaoDIqRTLBFfL3u89Adw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzq1xnlq4g08MZ6iLTEC1AUqX9fnmaHMzKYy2obTwOx2jki7U1E
-	mHTlKd/0QPtDOU/mkJ7hW+POUWF8VBm3iDIUKL9tU3MJES5dOoLEHPdW
-X-Gm-Gg: ASbGncssbs0D+JtWS98wrA6kAf3MrJo2i/+26meUM0v+NEICOL5/Q7NU2VjqwbPTI5m
-	pgwmqi2eEJgr7U7poXLewG9QZe5yZfihMvtxA0IcCa415YvXI99wpbryIFJw+DDulNeDjRR77oK
-	Q2PH28c2WPR/3fsEzWqUwlC34e1ZDH9qhNmjcx9Z1E5w/hQnPND3AyTjluUEoQcdo0cWlzUTjI9
-	mvDZZQLm+78bSW4rPnJsoA8FX45uURc9a0XC1D7ImiSnvmmJo81zhjUYD/34jv2pr8Za+8PjE8S
-	4knRl8n7EOfgTBt0NPlfthjA7M9FxvZVq2IbQZwIqoMFjoLmA9dRK32wndrZafcQFvRAzinpkM+
-	QAcP/oPYbKABYl73orIXRMx2jF+/fgMm7sus3qcOTzn1LhpasCJbwVmrOoXMl1j04jrOurj4lGJ
-	CTCF0vsDzhhnOALOcuOw==
-X-Google-Smtp-Source: AGHT+IGiymh/TsRqhwN6N3A97NvG3Bqul+I8b68ZoyUR344zIADNYxpVaPkfS3GzPbVwVEx24Kp+Fg==
-X-Received: by 2002:a05:600c:6388:b0:458:a7fa:211d with SMTP id 5b1f17b1804b1-4775ce1874bmr2424725e9.29.1762279839699;
-        Tue, 04 Nov 2025 10:10:39 -0800 (PST)
-Received: from jernej-laptop ([178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477558c1a03sm24688685e9.2.2025.11.04.10.10.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Nov 2025 10:10:39 -0800 (PST)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: wens@csie.org
-Cc: mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	samuel@sholland.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v2 30/30] drm/sun4i: Nuke mixer pointer from layer code
-Date: Tue,  4 Nov 2025 19:09:42 +0100
-Message-ID: <20251104180942.61538-31-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20251104180942.61538-1-jernej.skrabec@gmail.com>
-References: <20251104180942.61538-1-jernej.skrabec@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VVAIjSeU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762325857; x=1793861857;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=v4I7onznSV0iS0DSJYPSRP7C/cbe6OTlMky7qWff1zo=;
+  b=VVAIjSeUOcC9ka/MjB4qaEeaksZ5TJUdCFEvCLiNquQb3ITQOeiNbju8
+   IizTsC+fHsKxTTGJ2VyUzGbj1+V/bz67WfwcKxZKRLsXZc0o6txQAUVY+
+   +9cAN/JZ5VAFVOtu0/4f7624zGh8Fplpzbr5Rw8J6Z5yShnRl3PAfyrYr
+   42DjBVAW14HVTWNWeS9oETHO/D9vccjJ8Aa/4AUoeTa8E+NHDQPIaBpRK
+   maAxsyFoHe+gjs/cEbd2oa1HC3TXnz7PTa5JetqbFI0/84U0YcFzdxmtu
+   T//0VE0t9dRa+3FscdGEhA10fz88h8HvCk1GEC+aPBSXHvLSYq0yp0N4E
+   A==;
+X-CSE-ConnectionGUID: 5ubFBthkQIiXCGhrEtJT3w==
+X-CSE-MsgGUID: 2MheUb1yRBuKNWv1lZ3LSA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="63440502"
+X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; 
+   d="scan'208";a="63440502"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 22:57:36 -0800
+X-CSE-ConnectionGUID: Tg+l6PbhQhy7SIKz+JCD+w==
+X-CSE-MsgGUID: YM9Tntn4RNiP17I34dNgPg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; 
+   d="scan'208";a="187673223"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 22:57:35 -0800
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Tue, 4 Nov 2025 22:57:35 -0800
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Tue, 4 Nov 2025 22:57:35 -0800
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.14)
+ by edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Tue, 4 Nov 2025 22:57:35 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RJJOhzxMSWmLgBSbU/7Xw7NYBK/gWf1RhIPyvK8niMASk+1WkOlWIrO5v5K8HgLztgfIdYoaWeuvwrGhvYOaKdyzSldBvSH6SXw6iArDf/vcG3KgMVtuL7aCADqc+0xWPsA55QY/3lpCfVIyB5FeStogyVE59viUqEeeUdVXtfJmnbUY6mgGZ9vzCammWNiyKCDqKHFlDdU3yCiz/5Z8qqNTce3mW7PqrhdhK4R3gD8CxIl4rDJEIz3LzhxXQxV2RGlguzj6JHnIL89t1CwccILIZaYkycnzBBQuUS1GoZG9FpayVayvCc/xXW3wfn8GkIkcUSqZIMdnumWWl96UZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UUd6DLvK6o5whodwGYfBeM3f7yjWG7Nk70odZx2g3xw=;
+ b=P1/nOjFQp3sY5eUl1ljREk1WPve7kSRLLZbHC4H30esCwKifz3o6UXK13FhVGxyQI4GZIaybqqtFMk8gEjzDD8KWfKZo9JL+7y4znCTw2kRms2qM8y2XuN5NDQS7JYSl4zEvQokueTD9sA6nRMNtEx7YNELc+YVOGO3Aiz6t7/4kEGbXHry+BrtTMCQ7d40VITUGKyQKx9LQ2b9gLTVQd1nH9L8fL6qfEg0LGMRQLNYoEtZPn47tqWRfeL1Cu+Q0AysaPc1HT5fRSY7pG7P4GN+zvDQi0m/8qbDtr5EAOCGJtqGVW1Rt3lOG7NUJtAvYaMTbqjrGBYcC+oq4KYlUwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
+ by PH3PPFA07D87DA6.namprd11.prod.outlook.com (2603:10b6:518:1::d3e) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Wed, 5 Nov
+ 2025 06:57:32 +0000
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::b576:d3bd:c8e0:4bc1]) by BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::b576:d3bd:c8e0:4bc1%5]) with mapi id 15.20.9298.006; Wed, 5 Nov 2025
+ 06:57:31 +0000
+From: "Tian, Kevin" <kevin.tian@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>, Nicolin Chen <nicolinc@nvidia.com>
+CC: "joro@8bytes.org" <joro@8bytes.org>, "suravee.suthikulpanit@amd.com"
+	<suravee.suthikulpanit@amd.com>, "will@kernel.org" <will@kernel.org>,
+	"robin.murphy@arm.com" <robin.murphy@arm.com>, "sven@kernel.org"
+	<sven@kernel.org>, "j@jannau.net" <j@jannau.net>, "jean-philippe@linaro.org"
+	<jean-philippe@linaro.org>, "robin.clark@oss.qualcomm.com"
+	<robin.clark@oss.qualcomm.com>, "dwmw2@infradead.org" <dwmw2@infradead.org>,
+	"baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>, "yong.wu@mediatek.com"
+	<yong.wu@mediatek.com>, "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+	"angelogioacchino.delregno@collabora.com"
+	<angelogioacchino.delregno@collabora.com>, "tjeznach@rivosinc.com"
+	<tjeznach@rivosinc.com>, "pjw@kernel.org" <pjw@kernel.org>,
+	"palmer@dabbelt.com" <palmer@dabbelt.com>, "aou@eecs.berkeley.edu"
+	<aou@eecs.berkeley.edu>, "heiko@sntech.de" <heiko@sntech.de>,
+	"schnelle@linux.ibm.com" <schnelle@linux.ibm.com>, "mjrosato@linux.ibm.com"
+	<mjrosato@linux.ibm.com>, "wens@csie.org" <wens@csie.org>,
+	"jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, "samuel@sholland.org"
+	<samuel@sholland.org>, "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+	"jonathanh@nvidia.com" <jonathanh@nvidia.com>, "iommu@lists.linux.dev"
+	<iommu@lists.linux.dev>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "asahi@lists.linux.dev"
+	<asahi@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-arm-msm@vger.kernel.org"
+	<linux-arm-msm@vger.kernel.org>, "linux-mediatek@lists.infradead.org"
+	<linux-mediatek@lists.infradead.org>, "linux-riscv@lists.infradead.org"
+	<linux-riscv@lists.infradead.org>, "linux-rockchip@lists.infradead.org"
+	<linux-rockchip@lists.infradead.org>, "linux-s390@vger.kernel.org"
+	<linux-s390@vger.kernel.org>, "linux-sunxi@lists.linux.dev"
+	<linux-sunxi@lists.linux.dev>, "linux-tegra@vger.kernel.org"
+	<linux-tegra@vger.kernel.org>, "virtualization@lists.linux.dev"
+	<virtualization@lists.linux.dev>, "patches@lists.linux.dev"
+	<patches@lists.linux.dev>
+Subject: RE: [PATCH v1 02/20] iommu: Introduce a test_dev domain op and an
+ internal helper
+Thread-Topic: [PATCH v1 02/20] iommu: Introduce a test_dev domain op and an
+ internal helper
+Thread-Index: AQHcO9UzG68S0waveEiEek0NizPUfLTadzaAgAC8MYCABjtcAIACWjqw
+Date: Wed, 5 Nov 2025 06:57:31 +0000
+Message-ID: <BN9PR11MB527638C0E43E8AA000410B878CC5A@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <cover.1760312725.git.nicolinc@nvidia.com>
+ <32ce256a2ece5d63e99d5858f953586859818ffc.1760312725.git.nicolinc@nvidia.com>
+ <BN9PR11MB5276D10BD480FE66881870B08CFBA@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <aQO//+6/B/WbdK2h@Asurada-Nvidia> <20251103185400.GA1537560@nvidia.com>
+In-Reply-To: <20251103185400.GA1537560@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|PH3PPFA07D87DA6:EE_
+x-ms-office365-filtering-correlation-id: cf467d85-3c78-4768-f025-08de1c389781
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016|38070700021;
+x-microsoft-antispam-message-info: =?us-ascii?Q?dHBj9VgXQ7bCf9/8Fr+UOfppTCdZUgL+KKbOShNed/HPt+qRIAiFRtutQYYd?=
+ =?us-ascii?Q?OLcSyPs9RuvXc+0pRbrnW69VqIG3uPGn0Gb/qAzTz22SxWLbYxx+xsBVc4X4?=
+ =?us-ascii?Q?0CT8cpNTDRM3OndVlBBlaVamzrcGs/LUDAW2L0Mx1C//ddfzwxGAcG4fwfPX?=
+ =?us-ascii?Q?eXUvCRAyQ4JZwZDyT7SlaesmMSxiH9hCeX6vxuzW8AIHYDq12onHKJR8I3JF?=
+ =?us-ascii?Q?FR+qQtGn3QXyk+YIef0GS9lhsJIb4iSnIMDaUR26jm/XfvGIqgme6w0difnc?=
+ =?us-ascii?Q?vAHGpON5B9Sfyk7Z8nqOnDMY0OHV5dUzGOakEz88ci6nfc4yhnMGZ0ItcSgI?=
+ =?us-ascii?Q?ry2fqX5J7erBdQUTDCCf8aJTu3oFw33EqAECmJAiegNcMCN8XCcQsFLGmRA8?=
+ =?us-ascii?Q?+C8qOVPGPeVIdJIeGXbn4i4tqeRrpYFh+PpfR67tpwlhv0IdDF9ulEIumqpQ?=
+ =?us-ascii?Q?Y3r9pdWSPNKOUVl7kE4gPod9IfwAhGkDga4h2kIKr5ZojiHuYcVCykSQgJD6?=
+ =?us-ascii?Q?hSU3KU86JVSyYEptDyoznDWHRdBLC4jXL1h+y6oQTOR2LTQpoN9h3NKI5tjr?=
+ =?us-ascii?Q?qda9R7AZUvazm6DB27SMBdYP8Olwge5xqCDbGi4wMzms+QnlHRgKs2MjG8TQ?=
+ =?us-ascii?Q?CvaBR+LnHM8wpZKLYAi1CXGe5TlShCJ70t0jUkTFx5/ZA0ijcAbNDUCyDqQD?=
+ =?us-ascii?Q?bUn8AXEg0ts8WnI/99/0L9bNaSNdzPt2Lbwq6xtXmvIRw2lDEOnKoW6hjaos?=
+ =?us-ascii?Q?vbhDL6sy+k8wFecJxjsBaXYMyNqLVe6rOPiXs3KZ43ElbM32tsJccp1dWY3l?=
+ =?us-ascii?Q?WgyKU2GH9jYOHTqWGbN02W0olKkXUK1tn8PnHIXL5w7sdCoE46HiO4sixdLR?=
+ =?us-ascii?Q?YtTYlBN7VqEjcf9AabnxNhPz6HFtfFjN0x9SKL36/nOSqXSHeLAjYAW2rCbZ?=
+ =?us-ascii?Q?glONuKn+od/AY3qBTXURJP7I03OATkWHV5JimNBQMRAGfq9bFjvdOB+MW/re?=
+ =?us-ascii?Q?b9aI7rNM97ZGlVuPGv7Jh/wieGsKvpzvzM40//XmkOAt2vCqrg4fzpWW/ngX?=
+ =?us-ascii?Q?zM86g1d/T5pUWP7RNHgRi/xqlltFbjigfwqAyMelLDaFuaXHRdVLaOoxARBL?=
+ =?us-ascii?Q?rrKOVyvdrhrKbbkzZI3nhm7FSfVTdnQGYOjU/7oRK4uut8GiJTOuGcAn4OBA?=
+ =?us-ascii?Q?SZo8DD3auoCntrGsCDH5szPIfvfiiTYOQUc1F2/hvNFeq73oSZDyZYs/5SXm?=
+ =?us-ascii?Q?r2BW7isaQi7x2XUBU/WC6EyUoDVRt8WMx+/KY0CiLbCh9B/f2a3xL3pOz3AU?=
+ =?us-ascii?Q?PoAaA75eL7Eod4FGUeyR+EB+LdPo25+zYlaEpo9er0CdJiYHKBdte8VPe3l5?=
+ =?us-ascii?Q?GdWwIQ4KbiuoBxcx3pzUe4hgyX86kygPLe+k9K/MjBBsDnMwcyuIcutqMI/3?=
+ =?us-ascii?Q?iu9GMrbKQYvdANtvMqJK4h9eQsl/CEN9lo5G20dUrm7K9g51ro+OLp48VkKo?=
+ =?us-ascii?Q?HEeAqb9h07J5OTdv0RXqurlS4VlpOQyPTv5V?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?+qvEZfaLjuB0k1xWNyJrzGhQPIjfZrWtBg91uizR2kSxu1QlH1UoWu6n0y29?=
+ =?us-ascii?Q?5SSvjn75C9vh3s3u5Y5vSpsqu0B/gCgAmizn9m8KT6+6JhLJs0UGqhmJLVw3?=
+ =?us-ascii?Q?+s8KvQuBInIDsVmmWm3o0CMU8b4xOoH6ffcTmLH5teke6dr82jPlBv+Bm9+3?=
+ =?us-ascii?Q?mG0NqgPJo7e1QnffhhQXKuwxAoUVE4MtgCdSqfYEG8CzXHnFemylmvJ+2rjo?=
+ =?us-ascii?Q?Ih3pFbmGmUvMV5jADlV+XcrlNAg7TAMsB4TObUR8zzX9hsgeXGtodGdViMb0?=
+ =?us-ascii?Q?OZF6T+uUZ0Dn9mjxPOpjXRGPo8+3v+UioU5tlXIPO51KaEtkJ6S9TV8ppaNO?=
+ =?us-ascii?Q?g13UrmlpzPZTXSJd2Z3cZI2CnKYohg33et2C9QeWpNs2x3BT9eMOETzZABl+?=
+ =?us-ascii?Q?93OJuYuoqo/KbRpwdxqAKU0iAJjES5DgKBr6koeq+faiXekNnRvQ5bRVT8hg?=
+ =?us-ascii?Q?mG8O0+7sle4eM4SCeQ/4ng0Cqa/I9AQqSv+5CSwhbpvBxLjK2Zx6nJB6liEm?=
+ =?us-ascii?Q?v3A1sTnhWnahEo/YEoN0YurLlkSmY6oyZuq8uRR8kvNVM6DAUKXGGWZFFVC0?=
+ =?us-ascii?Q?E9i+h04EJZZPR33p+SsTfkuOyZTIXqjPovBT1eo7gmrXZJ6ZDKMXDGudJCBw?=
+ =?us-ascii?Q?APM0/YGNiGEpT16K8DRKkMfi8FasLWd+wWSKxxrZ65dNEyZ8nudVcfpVnxPz?=
+ =?us-ascii?Q?KihF8zA+iMpctXQ353wBfbxH6637uSTAmw6WjcBfUSZyuMfvAtfhYMd8Y9Sk?=
+ =?us-ascii?Q?nGQQK0a9HlYlzCgL0kPlzgf1JA/PWAFGuE8oyN+4uF7ThkytRf1osJAUkkvA?=
+ =?us-ascii?Q?a/IR3f6Dg5d1sEEHYiNjnMlSK9CNGHLPkvSTQU4Yz1iE82x4d3Y6jfbi2t6B?=
+ =?us-ascii?Q?i75SROn2E6hukxPX5U4xIwtaHmBpKLF8+LLqAVixhiunTTbrbHvCZVHdLcUI?=
+ =?us-ascii?Q?q+Q9H0T2hg2WYM67sJ27HSzkfK4fbxbsBeHyCBQ3bdrR1QXe1q7XrSW1DPb4?=
+ =?us-ascii?Q?iI5GHU+qBLYPASvVFWi7C8lvAJa0BZz2aJ+TIEGblw3Psa46OjyptmPpIN3w?=
+ =?us-ascii?Q?8YV7uTAF09d9mRWDQrqPT/dZJyNjSrj2GesCoXdl6AhMKBuD82cncQjQmYDP?=
+ =?us-ascii?Q?ukAP7BztIS+DFDqYyYh6AZ7xXpqERs/1k23vdzoyCVVAEMYr3cXWcnFuFIqN?=
+ =?us-ascii?Q?izvrnTBTRYNI6+AlC7ChM/LtbGdb6No/fQ83jzoo4GVYSeq8c4RVkE1AaZfv?=
+ =?us-ascii?Q?N55ad/PxZelanK8JJs1gLLxdhjyYGRYzWHwbA2CPnh6h8teL7UHcTcF6ire7?=
+ =?us-ascii?Q?2IpENdDGUASloLjxE46R3qvj9x+J+nBdpqLPWcgoODd4fo7ss5PLI343OPuy?=
+ =?us-ascii?Q?s3W+NaJa4sqR1JkVsdqkovjwGtJ9vHIufPBFYIruOCWENRrxyEiSJA+w+1CG?=
+ =?us-ascii?Q?dBmwXGB/EtV2iwMAboqgwxK8JoswL/2MqfK9IrJ9jRe0qFDSyNS28f77gHcd?=
+ =?us-ascii?Q?6LRadxEkIN9nNZp+d7sQyFwx0fAIRjbPEdGjlm7X2+oesezNdSva5UvLDpzl?=
+ =?us-ascii?Q?GuhxEltSrjiLtSpvRZ0mKWnwoyHAEwkSPhBb7Mgc?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf467d85-3c78-4768-f025-08de1c389781
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Nov 2025 06:57:31.8739
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ZK2WgbhqNs9CjzRkn0NvKawHDt2Vs7S3d3MvBesKovR9bQ9JK+pWezw5A7o2lCzRa/a0f3MtZaEPGTRJH3l61A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPFA07D87DA6
+X-OriginatorOrg: intel.com
 
-It's not used anymore, so remove it. This allows trully independent
-layer state from mixer.
+> From: Jason Gunthorpe <jgg@nvidia.com>
+> Sent: Tuesday, November 4, 2025 2:54 AM
+>=20
+> On Thu, Oct 30, 2025 at 12:43:59PM -0700, Nicolin Chen wrote:
+>=20
+> > FWIW, I am thinking of another design based on Jason's remarks:
+> > https://lore.kernel.org/linux-iommu/aQBopHFub8wyQh5C@Asurada-
+> Nvidia/
+> >
+> > So, instead of core initiating the round trip between the blocking
+> > domain and group->domain, it forwards dev_reset_prepare/done to the
+> > driver where it does a low-level attachment that wouldn't fail:
+> >   For SMMUv3, it's an STE update.
+> >   For intel_iommu, it seems to be the context table update?
+>=20
+> Kevin, how bad do you think the UAPI issue is if we ignore it?
+>=20
 
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
-Tested-by: Ryan Walklin <ryan@testtoast.com>
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/gpu/drm/sun4i/sun8i_mixer.c    | 12 +++++-------
- drivers/gpu/drm/sun4i/sun8i_mixer.h    |  1 -
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c |  2 --
- drivers/gpu/drm/sun4i/sun8i_ui_layer.h |  1 -
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c |  2 --
- drivers/gpu/drm/sun4i/sun8i_vi_layer.h |  1 -
- 6 files changed, 5 insertions(+), 14 deletions(-)
+yeah probably better to leave it. I didn't see a clean way and the
+value didn't justify the complexity.
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 50fc20100c90..fde3b677e925 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -268,7 +268,7 @@ static void sun8i_mixer_commit(struct sunxi_engine *engine,
- 		int w, h, x, y, zpos;
- 		bool enable;
- 
--		if (!(plane->possible_crtcs & drm_crtc_mask(crtc)) || layer->mixer != mixer)
-+		if (!(plane->possible_crtcs & drm_crtc_mask(crtc)))
- 			continue;
- 
- 		plane_state = drm_atomic_get_new_plane_state(state, plane);
-@@ -336,9 +336,8 @@ static struct drm_plane **sun8i_layers_init(struct drm_device *drm,
- 		if (mixer->cfg->de_type == SUN8I_MIXER_DE33)
- 			phy_index = mixer->cfg->map[i];
- 
--		layer = sun8i_vi_layer_init_one(drm, mixer, type,
--						mixer->engine.regs, i,
--						phy_index, plane_cnt,
-+		layer = sun8i_vi_layer_init_one(drm, type, mixer->engine.regs,
-+						i, phy_index, plane_cnt,
- 						&mixer->cfg->lay_cfg);
- 		if (IS_ERR(layer)) {
- 			dev_err(drm->dev,
-@@ -362,9 +361,8 @@ static struct drm_plane **sun8i_layers_init(struct drm_device *drm,
- 		if (mixer->cfg->de_type == SUN8I_MIXER_DE33)
- 			phy_index = mixer->cfg->map[index];
- 
--		layer = sun8i_ui_layer_init_one(drm, mixer, type,
--						mixer->engine.regs, index,
--						phy_index, plane_cnt,
-+		layer = sun8i_ui_layer_init_one(drm, type, mixer->engine.regs,
-+						index, phy_index, plane_cnt,
- 						&mixer->cfg->lay_cfg);
- 		if (IS_ERR(layer)) {
- 			dev_err(drm->dev, "Couldn't initialize %s plane\n",
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-index 3948023e095b..e2f83301aae8 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-@@ -226,7 +226,6 @@ enum {
- 
- struct sun8i_layer {
- 	struct drm_plane		plane;
--	struct sun8i_mixer		*mixer;
- 	int				type;
- 	int				index;
- 	int				channel;
-diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-index dc4298590024..185e4ae8a11a 100644
---- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-@@ -258,7 +258,6 @@ static const uint64_t sun8i_layer_modifiers[] = {
- };
- 
- struct sun8i_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
--					    struct sun8i_mixer *mixer,
- 					    enum drm_plane_type type,
- 					    struct regmap *regs,
- 					    int index, int phy_index,
-@@ -272,7 +271,6 @@ struct sun8i_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
- 	if (!layer)
- 		return ERR_PTR(-ENOMEM);
- 
--	layer->mixer = mixer;
- 	layer->type = SUN8I_LAYER_TYPE_UI;
- 	layer->index = index;
- 	layer->channel = phy_index;
-diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.h b/drivers/gpu/drm/sun4i/sun8i_ui_layer.h
-index c357b39999ff..1581ffc6d4e5 100644
---- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.h
-@@ -50,7 +50,6 @@ struct sun8i_mixer;
- struct sun8i_layer;
- 
- struct sun8i_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
--					    struct sun8i_mixer *mixer,
- 					    enum drm_plane_type type,
- 					    struct regmap *regs,
- 					    int index, int phy_index,
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-index 4534998af825..40008c38003d 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-@@ -409,7 +409,6 @@ static const uint64_t sun8i_layer_modifiers[] = {
- };
- 
- struct sun8i_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
--					    struct sun8i_mixer *mixer,
- 					    enum drm_plane_type type,
- 					    struct regmap *regs,
- 					    int index, int phy_index,
-@@ -426,7 +425,6 @@ struct sun8i_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
- 	if (!layer)
- 		return ERR_PTR(-ENOMEM);
- 
--	layer->mixer = mixer;
- 	layer->type = SUN8I_LAYER_TYPE_VI;
- 	layer->index = index;
- 	layer->channel = phy_index;
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.h b/drivers/gpu/drm/sun4i/sun8i_vi_layer.h
-index 6ec68baa2409..29cc5573691f 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.h
-@@ -55,7 +55,6 @@ struct sun8i_mixer;
- struct sun8i_layer;
- 
- struct sun8i_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
--					    struct sun8i_mixer *mixer,
- 					    enum drm_plane_type type,
- 					    struct regmap *regs,
- 					    int index, int phy_index,
--- 
-2.51.2
-
+Regarding to PF reset, it's a devastating operation while the vf user
+is operating the vf w/o any awareness. there must be certain
+coordination in userspace. otherwise nobody can recover the
+registers. Comparing to that, solving the domain attach problem
+is less important...
