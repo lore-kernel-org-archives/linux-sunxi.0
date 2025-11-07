@@ -1,200 +1,244 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013025.outbound.protection.outlook.com [52.101.83.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1709822A7E4;
-	Fri,  7 Nov 2025 14:58:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762527516; cv=none; b=i231/NfHcxCKvqs5yqRoVACcYkM/bKVFnAx89E8z/5RxDPyPX5tOqU5xyiw3vb8+6XIEsXXNo+bP8kC8Ww7ZvxKp2IBBDSzzhwS+/RF3R9nCxCESqkHcVjfIVJbMuLs+ksGOqb0gvYqYbj6lIM/GagQI/svKPYWaiSfFpyXNMOw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762527516; c=relaxed/simple;
-	bh=ojy+Bzf0MwguMVZJCP7SuBfIwC0XckMoTrLg/SyENk0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=og+Gjb3u0onZDg3yIpKHu9/OQo7AHvxWJtEUNNTqdrFuPydu89nuF8Uibo/cKvnPz7pBF3ZHePKYvC5jpGdoRl6CzP6aTa4pgnWze6uyXbzIn9sNtyKIeRT4ljvrIOBLMgEgqYgGj0MGl1MdAntLSZuZ92633WYjDzolonc5U5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H2pu3Dah; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370E31CAA4
+	for <linux-sunxi@lists.linux.dev>; Fri,  7 Nov 2025 17:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762535524; cv=fail; b=XG02SaXhXXHFfOWFkP5sHhJD8XRGBP2/JAFsavF+50Sbiav7iD2KQDLieV0oIVEy9zOF5OqLRszuOkyJ/j5SQm0RrOGfA/9rquIpFgugKjSHKdnp0H7ExhKusCNSrV2Sg23TLxVcwgids/qWs928rcz/weXWiZprm8qt31aB7WI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762535524; c=relaxed/simple;
+	bh=36vwyrVuu/ymszuhG8xEkERCr4nwFA8mijzy5aVAG9I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=RBLLg4IME2NwIJIqs8438hmOAJhZbj21VghIZauF/AgMDuEArWVBePPKnl+ZaPRraDyqw6xciWGqH5C2BICt/Dpov8KhngC72SiagUz/BzeA+NPqa5ksZa8PztushuWYnz8WAF/2NrWyGFopGf/IG3zCE1gtDQnu9YtF3DjpHfQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Ns5N1yhi; arc=fail smtp.client-ip=52.101.83.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H2pu3Dah"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAE63C4CEF5;
-	Fri,  7 Nov 2025 14:58:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762527515;
-	bh=ojy+Bzf0MwguMVZJCP7SuBfIwC0XckMoTrLg/SyENk0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=H2pu3DahfPoaTBqNYUbZkowHaXOT1UGdeMguVIfpXuqbNnZghxPeqe5/gUO2Nz8Ff
-	 6VZyRa6s7TnCLlVHZyLmxrr15XAvPLzcCuj0bh4pOb7HPh2DT3Ne3OTEpRlDRP9jEC
-	 ey3BEtQRgFBakA2RQ6311ZV0OuIG05biIXW9Q92fZM2qv7B69HNyD9pf1l9RbPUYLZ
-	 ZSCfSMTaqdw4O83BUPFBhhlEQjOh4VxiVnYRI6EGpuybsU5p/ouhXX/RiDUlAXo8y/
-	 XoUe0PBUtvVE8GyCrb0XizS3HYPZ9ji79VgjEgtOhV4eWMiXLLk4sqZdx0kD3DaBAs
-	 OEnmCk8gAoiwg==
-Message-ID: <8fc8c945-ae67-4c58-837d-40bdf4d60035@kernel.org>
-Date: Fri, 7 Nov 2025 15:58:26 +0100
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Ns5N1yhi"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CFxL4gwoUPxS9xpTnktmrc2W+ep7e5SaSOryYorO2HIt3cU/PvOsVYkQF5H0/ucq1cfxNkobLySlP+xsz49Qr8Kq3bqb8P4gp8Swd2He6MRM65dlY32ye0sJrbvy2W0uTohBoslOzAAWeugHdRYqjqku9NFbJAJ81ST4fELKoNal5T4haEoEwRoXkW8pOFsypYL6kAd760pOUZ+QXLe5gRgD7MeZtTJvBxRmCHYRMM3FHWEm1FKbHNpemB4POds7lIXSi7FaatQD5eVfIWs4PEkh4fS3lrTPRN9b6qjMRjIsr1o1VTW+L58XBOztZgkdaWDndhEKv0OkyhgGhVx/GQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/d4HNobGnJBP5LmJr5GGfUSzsZYLOr0wPp78InFogZg=;
+ b=E1AUlaMpVXFZDDu6Lr5fngFCPAnRC2uzOjKHlJReRJxF54ma4H3QjUDduathp4JYYLdQhHAPV+n2LQsEK+I0vdce62Xi89tabZmyMIHkku6WjDEBOUgWsfkLRZ4EAuaM5vK9N7qNYjYeeDLUBNmGLzji8tbv7ditmZDx6iUPiHFjFpJg3vWLvZsiAzT417bn/sZlpp8gf4D169+oze7P4XjxV2I/9v4I5+P5ywB2otWKViY0d0jX6x6ASQOJupiM3B/GEpBsnxAA2+7pHMFlaIIba8eILrAyR9jmKHkXnwiSi8zmW4QC11tZ8g3ZnpSnL8vqInY7YXCNWj34Kv93xQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/d4HNobGnJBP5LmJr5GGfUSzsZYLOr0wPp78InFogZg=;
+ b=Ns5N1yhiHbSpdfq1vOzOZ0V4GtQtXmHg28yGt/f87nVmD6cCFq6NtVJx8T/04gz4zQIGXHiycwmHKyx+VnYY8jpCNwOXcDXX0ix2rGO3MxiXnqL5QaPTGFvzXiVQ4us36lK949cg3bZL1pI8R2BDd261HAL9ujxg3gn1i94ecgxkhvAqgad8pdGQfZZJMo7zjMQWUt8V4hRI4V/mZE6HPSB/60pnuNbxlIuG7lmLFxpt1pk3sNST0VdVioRKeYg0FkBQcr5JlxbgLK5WUGVOzoweEG6TCWThACBCmZ248jE4RpgGiGKgYJ5X/xTnsMGzg+yhjRP0+7EP0V0cnBon3A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXSPRMB0053.eurprd04.prod.outlook.com (2603:10a6:102:23f::21)
+ by PA2PR04MB10514.eurprd04.prod.outlook.com (2603:10a6:102:41e::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.12; Fri, 7 Nov
+ 2025 17:11:57 +0000
+Received: from PAXSPRMB0053.eurprd04.prod.outlook.com
+ ([fe80::504f:2a06:4579:5f15]) by PAXSPRMB0053.eurprd04.prod.outlook.com
+ ([fe80::504f:2a06:4579:5f15%6]) with mapi id 15.20.9298.010; Fri, 7 Nov 2025
+ 17:11:57 +0000
+Date: Fri, 7 Nov 2025 12:11:45 -0500
+From: Frank Li <Frank.li@nxp.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+	linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 01/13] of: Add wrappers to match root node with OF device
+ ID tables
+Message-ID: <aQ4oUYkqg5Zi/61T@lizhi-Precision-Tower-5810>
+References: <20251106-b4-of-match-matchine-data-v1-0-d780ea1780c2@linaro.org>
+ <20251106-b4-of-match-matchine-data-v1-1-d780ea1780c2@linaro.org>
+ <aQz8rW9GE66xPYrL@lizhi-Precision-Tower-5810>
+ <aced7337-eabd-4b05-a0d3-eea7079d08ec@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aced7337-eabd-4b05-a0d3-eea7079d08ec@kernel.org>
+X-ClientProxiedBy: BY1P220CA0004.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:a03:59d::15) To PAXSPRMB0053.eurprd04.prod.outlook.com
+ (2603:10a6:102:23f::21)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/13] soc: qcom: Simplify with
- of_machine_get_match_data()
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Thomas Gleixner
- <tglx@linutronix.de>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Maximilian Luz <luzmaximilian@gmail.com>, Hans de Goede <hansg@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Daniel Lezcano <daniel.lezcano@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20251106-b4-of-match-matchine-data-v1-0-d780ea1780c2@linaro.org>
- <20251106-b4-of-match-matchine-data-v1-11-d780ea1780c2@linaro.org>
- <odmsib3dsxzzggq4gcx7gmh6vq3crlv25fz4z2l2ntezvx6gbi@uelqojwjjait>
- <a8952b46-94b6-4fe5-a5be-d69aa41d44cd@kernel.org>
- <a06ed143-c497-4141-8b4d-98fcb322e130@linaro.org>
- <rxhmiudlnrn2pexqtwuuv2jrenrl2ezepknvrc3o34gaap247u@2tsfw6g33rmr>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <rxhmiudlnrn2pexqtwuuv2jrenrl2ezepknvrc3o34gaap247u@2tsfw6g33rmr>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXSPRMB0053:EE_|PA2PR04MB10514:EE_
+X-MS-Office365-Filtering-Correlation-Id: 74b71c63-e41b-40a8-e090-08de1e20c1ab
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|19092799006|1800799024|366016|7416014|376014|52116014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?cevkYDKTyWVmRFJkysIHh+UKbxGF/Z1lOiyk8WDgJp2Jg16pazV2X9QbiVYs?=
+ =?us-ascii?Q?W1XLqyo0k+ljl59hkDSHAw4FoV504cbiLuJO0BjIFfEdGNcSW5kiXfO8hWae?=
+ =?us-ascii?Q?9RjcONQpq6MQX4Ruhizbwm37bAArge65Mx8YN2zshPeTpPkozOBo6BcPsSqf?=
+ =?us-ascii?Q?NPJYK6s1T84H7MDkaOpRYdhcXSQHDa+IBH544g0j15Rs9kVG7WGGmjTDuio6?=
+ =?us-ascii?Q?iObWJ8ia2b8NGao2opY0VHoy+vmhGLwgoBTSItp68UGqoNJ6DsFmqHmOi5Le?=
+ =?us-ascii?Q?9GlgfKWPrK8NpMlpCNt3mGqJSjj1TkhBEark7Gb5zzF7r05H/EzbzPV3OmOw?=
+ =?us-ascii?Q?6ZzDUmxcv9kQRmsvain6J8plXgdJCSACMtxqqR+Ai72Hztl8f6YNo5yixgGY?=
+ =?us-ascii?Q?r3DhuqibutK2ixB0LbRagf0VfKJJXRqq1h9F8wLkFVDQKMd2TuqSvceziZ2X?=
+ =?us-ascii?Q?q8oQg7n5jKprcf/qYDBLLKdvk5Dz2REFP6a0LN3iF934V3nJMkKHg1v32Jc5?=
+ =?us-ascii?Q?t438ei99CivDUeAg9jut3lJXddAH9L9pV25avVemnfHH3MkHbyw7LyaNBHYr?=
+ =?us-ascii?Q?dgdW6vkFRu7i8/kgJLAtuFjtBrGg1aPfJWeLKEuBvtNOjJJ1mXMF1870pA0A?=
+ =?us-ascii?Q?f5qQv3bWw4wSvSRuZbLdbkPZ+tQhyXd8kGhGXrqSWSE8kgcROeN5A5n7jjOQ?=
+ =?us-ascii?Q?ckY136bvir2Ek8vlp1uDS9VKfLqzDxaIjt0Qmjmwj0jirCfFQ4s3Etrnkenc?=
+ =?us-ascii?Q?E/lrHn98Q3ZDa2AYgpyvr89NAg1j4mmMQYOTqBrVHUS9f0ehmYceYqkI6i/f?=
+ =?us-ascii?Q?lJTmJKzDhF3idhxL9qO13eTx105QYEzjsdQU5Oo3hWhKe1GTtpS7BiU1R3Ox?=
+ =?us-ascii?Q?7IX9yfI+6X4MNuBGSYVxfrZ1SnxVGCDdCbTpN6bNqmgVilgQcb15gwg+F3Q+?=
+ =?us-ascii?Q?3mteXjzYOuwJeFrc967ClBrguo2q4rs0G1HnT3Ah6lPZkSoiOIJIcp8oDkRw?=
+ =?us-ascii?Q?TgwIeTBFvthxpJbkGURDSWnVPINe+xsu8ISlGKGiVvTxzZRtt3rvbub396Xp?=
+ =?us-ascii?Q?KlsRoCSj3gMG+mCktJaRMaIkr9Mp268xrcSyHGGvfnhsKTW46GB5Kj5mmiBJ?=
+ =?us-ascii?Q?hJnL42PLEmfAx/w7I8cJQMHNr5PUsVg26NY40yCla7HIG3N5dlLSiMdODvzB?=
+ =?us-ascii?Q?/KW+ec6KUSpvyiLmuZ8q5MvAHhSyVoXTXf4twjY2FIHAMVPLrpkCHtZ0EyJk?=
+ =?us-ascii?Q?KeY0rgzwmeJ+flCUlEEEHTZXXxqgivlIrGO1+Z9MtOih9eso0m9OZQExhc60?=
+ =?us-ascii?Q?FycYjo/NKwsU9byAh72kFcWUEutU6Yj4OFDLr53qC9iadTJn2Nu2Iukvkubw?=
+ =?us-ascii?Q?jWlyo3KKYrjMBPBhRnKraUOMjS1xuimZPg3+sniqNn2axbrq2T/YNTmoUAj3?=
+ =?us-ascii?Q?UtbSZa4goVpnuEzZZCc1WuYJFwy6kXk+OiG/hIaJodZIao47mrL26wIlKtNS?=
+ =?us-ascii?Q?O4Hcc5kZqu6/x513NZqupgMrdJXLOuTPtOPR?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXSPRMB0053.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(1800799024)(366016)(7416014)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?SvmOFnhl2zksbzAodIFd7djp6I/F2EWl/rscIpb9x1/1KTZseMSFYb3fNpKw?=
+ =?us-ascii?Q?tEelFKSY1IrLN3qePx33L44Ut4RmA4ViEd8YD6MPfq3UeLQCnBCR5wWiTW/y?=
+ =?us-ascii?Q?9jeeJl+Qoo+pcReTkqR9blIsCJ8BUHYQTU5NFm/QMiZjRKBNC1Ej2dMuSNru?=
+ =?us-ascii?Q?ms+5/DKGjxmZ05BFlfZsFgNlWL1iwfQtwzn7Jy4JeYXWoOxRCZX4vWkUmxX0?=
+ =?us-ascii?Q?l2rL2/FxH4JnBCCoWyFhxnt0TbQvylZ6FiTnzSJxtMDld0U7QKjqwiXkpWSO?=
+ =?us-ascii?Q?tng9ER+X2nHiAqywgq54YowZ08w6QbDPjWUQLentOMqECP8j7kSD8EcEtcN3?=
+ =?us-ascii?Q?bmD1VZ/iEWtrUFCCqzXqhD32JsLuECjIpYjfxZpVyU822qAPG+t59RCFchwf?=
+ =?us-ascii?Q?g5+909HKlLMGsydWmmpeWERLZGcCplPIWKm9UlPed8xQ6e05S9lhUTDt+JTQ?=
+ =?us-ascii?Q?+k7sEEV08O6WTEmoglLwdV+pkRcHSTJEVlAku0PEtw8tW/0eAU6usVCZ5YA2?=
+ =?us-ascii?Q?Y9yi1L6iFtaFbjn3yCWTyg/xuWyOX5tP1rRrL0n+G+GwobIA6gSZTRCrVbGA?=
+ =?us-ascii?Q?4xQA944Yi9nXgFi8Qmj/E/yAWjXmaDjPgb1caw0uw+qusLzZLU4CbFp3qTnj?=
+ =?us-ascii?Q?niQ+2vHIOr+5MVt7/1mAJkmspxMxJAXjoKHJXP36zMT7W9Z1P+2YCXFtwLVW?=
+ =?us-ascii?Q?u/OYRpXC55mYNIAnVFyNBw6q/cEw3GwdxgR2E92F6FXGfVqC7MO00WbQv/eI?=
+ =?us-ascii?Q?oniOUU3EeS3dxdUN+M7LD8SUf/t1k9dD5sWUG1j/raCS3eXyBmCnaKe92BM9?=
+ =?us-ascii?Q?vqZcZmSTtN6nUCmR3Q6+4EMo2XDUAgLv2lDjlFygrglO7gyJuYxB4QpZf1tT?=
+ =?us-ascii?Q?ThqpDaEnVfQJXlWUEivwwlje8BFYcIiWf7+gNlFlMu0P8UrmXV8K9TMJ3DZj?=
+ =?us-ascii?Q?00+kizac8GPYyjRxLXS4a3zRoDvu7PDkXc/qroeQJhl2r+iTigDLXC9aCRgs?=
+ =?us-ascii?Q?gkyMJe0Y8Z9qPFHSL0jUOWrWGpslUoY2oQAjnP2DQymeD6DGEF9rch+SGqbZ?=
+ =?us-ascii?Q?FFFqHaP4V5tUik3KDh7BrDQXJXt9lPtGnJ5ZlZtXxdJUH+ue6ZUyKE0wzDp/?=
+ =?us-ascii?Q?+RtoKR2gxMvFTm04Bc1M0uOOlhe7SZc9j5+z7g1PZQGcb8owCreVvk0NdnIZ?=
+ =?us-ascii?Q?uRL7d2JmPV6sO5K2OWjus0Dgh/ZZZCEqcR9jTB6TYcEZ7hQmEVnTZmObC5er?=
+ =?us-ascii?Q?W+XpyUFstlPBGSNyWvSYZ4uAFJoe/FqRQCKj0xLoq2ICtRso3vvpCYtaHjs/?=
+ =?us-ascii?Q?ouu786BHTan3Bb1ULNUZ2XER6DkYn2FTLLpZiDqgQ5rerelH2q2AzqlXdCri?=
+ =?us-ascii?Q?wUC0acdnR6jZ90zBD5L90TbAF0jzeD582nFcqJac6Kpqcj5RVsQmwrMcP1K0?=
+ =?us-ascii?Q?whXCrr2SAtFdWKP1DnAoCVi1lUfF7emRgWGvWaNhiRXiaKXPGlx3dBP2IVSM?=
+ =?us-ascii?Q?2iN/z2r4xaU+j0KfCRIkFXVtYOYCWnJy8jBLruQd4E+tg/i2VWR5dn52sOuh?=
+ =?us-ascii?Q?Njpn155S6mz5LHwiU6Q=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 74b71c63-e41b-40a8-e090-08de1e20c1ab
+X-MS-Exchange-CrossTenant-AuthSource: PAXSPRMB0053.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2025 17:11:57.1790
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qbYKCI2TUm3pu2vmoM2pZIjh+Ct0C1zQQ0gocA0X/K5pv9PeTIrh/gVfjyULFa86ljhip2/4mBo2Sk8iGqZuxQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR04MB10514
 
-On 07/11/2025 15:23, Dmitry Baryshkov wrote:
-> On Fri, Nov 07, 2025 at 08:08:28AM +0100, Krzysztof Kozlowski wrote:
->> On 07/11/2025 08:02, Krzysztof Kozlowski wrote:
->>> On 07/11/2025 04:19, Dmitry Baryshkov wrote:
->>>> On Thu, Nov 06, 2025 at 08:07:18PM +0100, Krzysztof Kozlowski wrote:
->>>>> Replace open-coded getting root OF node, matching against it and getting
->>>>> the match data with new of_machine_get_match_data() helper.
->>>>>
->>>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>>>>
->>>>> ---
->>>>>
->>>>> Depends on the first OF patch.
->>>>> ---
->>>>>  drivers/soc/qcom/qcom_pd_mapper.c | 17 ++---------------
->>>>>  1 file changed, 2 insertions(+), 15 deletions(-)
->>>>>
->>>>> diff --git a/drivers/soc/qcom/qcom_pd_mapper.c b/drivers/soc/qcom/qcom_pd_mapper.c
->>>>> index 1bcbe69688d2..07198d44b559 100644
->>>>> --- a/drivers/soc/qcom/qcom_pd_mapper.c
->>>>> +++ b/drivers/soc/qcom/qcom_pd_mapper.c
->>>>> @@ -613,25 +613,12 @@ static void qcom_pdm_stop(struct qcom_pdm_data *data)
->>>>>  static struct qcom_pdm_data *qcom_pdm_start(void)
->>>>>  {
->>>>>  	const struct qcom_pdm_domain_data * const *domains;
->>>>> -	const struct of_device_id *match;
->>>>>  	struct qcom_pdm_data *data;
->>>>> -	struct device_node *root;
->>>>>  	int ret, i;
->>>>>  
->>>>> -	root = of_find_node_by_path("/");
->>>>> -	if (!root)
->>>>> -		return ERR_PTR(-ENODEV);
->>>>> -
->>>>> -	match = of_match_node(qcom_pdm_domains, root);
->>>>> -	of_node_put(root);
->>>>> -	if (!match) {
->>>>> -		pr_notice("PDM: no support for the platform, userspace daemon might be required.\n");
->>>>> -		return ERR_PTR(-ENODEV);
->>>>> -	}
->>>>> -
->>>>> -	domains = match->data;
->>>>> +	domains = of_machine_get_match_data(qcom_pdm_domains);
->>>>>  	if (!domains) {
->>>>> -		pr_debug("PDM: no domains\n");
->>>>> +		pr_notice("PDM: no support for the platform or no domains, userspace daemon might be required.\n");
->>>>>  		return ERR_PTR(-ENODEV);
->>>>>  	}
->>>>
->>>> Here you are mixing two cases:
->>>> - There is not match in the table (in which case the driver should print
->>>>   a notice)
->>>>
->>>> - There is a match in the table, but the data is NULL (the platform
->>>>   doesn't have PDM domains). In this case there should be no notice.
->>>
->>>
->>> Why? Existing code printed notice in both cases. Why refactoring which
->>> tries to keep code functionally equivalent should change it?
->>
->> Ah, you mean there was a debug before. Well, then I am a bit confused
->> because table has entries without data (so expected condition) but old
->> code returned ERRNO in such case - so unexpected condition.
->>
->> Wail failing the probe on expected condition?
->>
->> Unless it is not really expected and notice in second case is valid as well.
-> 
-> If we know that there are no domains on the platform, then the notice
-> definitely doesn't apply. Failing the probe is a separate topic. The
-> rest of the code expects that _qcom_pdm_data is not NULL.
+On Fri, Nov 07, 2025 at 08:00:53AM +0100, Krzysztof Kozlowski wrote:
+> On 06/11/2025 20:53, Frank Li wrote:
+> > On Thu, Nov 06, 2025 at 08:07:08PM +0100, Krzysztof Kozlowski wrote:
+> >> Several drivers duplicate same code for getting reference to the root
+> >> node, matching it against 'struct of_device_id' table and getting out
+> >> the match data from the table entry.
+> >>
+> >> There is a of_machine_compatible_match() wrapper but it takes array of
+> >> strings, which is not suitable for many drivers since they want the
+> >> driver data associated with each compatible.
+> >>
+> >> Add two wrappers, similar to existing of_device_get_match_data():
+> >> 1. of_machine_device_match() doing only matching against 'struct
+> >>    of_device_id' and returning bool.
+> >> 2. of_machine_get_match_data() doing the matching and returning
+> >>    associated driver data for found compatible.
+> >>
+> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >>
+> >> ---
+> >>
+> >> All further patches depend on this.
+> >> ---
+> >
+> > ...
+> >>
+> >> +/**
+> >> + * of_machine_device_match - Test root of device tree against a of_device_id array
+> >> + * @matches:	NULL terminated array of of_device_id match structures to search in
+> >> + *
+> >> + * Returns true if the root node has any of the given compatible values in its
+> >> + * compatible property.
+> >> + */
+> >> +bool of_machine_device_match(const struct of_device_id *matches)
+> >
+> > Will it be more useful if pass down path
+>
+> Path is fixed, there is no point to pass it. If you claim otherwise,
+> please bring example what benefits would it bring, instead of just
+> asking nitpicking questions.
 
+You design new APIs, which should be used more widely. Now there are not
+such user case yet, but just avoid need rename again when new case add if
+just little bits improve here. Of course, the policy is that add it when
+needs. But keep some extentable also negotiable.
 
-I hoped that separate topic would be the reason, after commit msg
-adjustments, to keep this change, but if you insist that this must stay
-debug, then this patch should be just dropped because it is impossible
-to achieve with current helpers.
+>
+> >
+> > of_machine_device_match(const char* path, const struct of_device_id *matches)
+> >
+> > caller just pass "\", or NULL point as root
+> >
+> >> +{
+> >> +	struct device_node *root;
+> >> +	const struct of_device_id *match = NULL;
+> >> +
+> >> +	root = of_find_node_by_path("/");
+> >
+> > Use clean up will simplify code
+> >
+> > 	struct device_node *root = __free(device_node) = of_find_node_by_path("/");
+> Not much difference. Look at existing code first. This should not
+> introduce different style.
 
-Best regards,
-Krzysztof
+__free() already used at base.c. It is not necessary to align with what
+will cleanup's code. I know it is little improvement, but code will be more
+clean and simple.
+
+Frank
+
+>
+> Best regards,
+> Krzysztof
