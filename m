@@ -1,167 +1,141 @@
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022094.outbound.protection.outlook.com [40.107.75.94])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02BD379DA
-	for <linux-sunxi@lists.linux.dev>; Fri,  7 Nov 2025 17:14:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.94
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762535652; cv=fail; b=GJ4aRm42SkexhEvVepTmfVCSkJUH4elmt+6oa5Bya2/c4LGkM7sWcONdWdknCMXHClvgsvuNjMZLTmGvfjZv0jhQxiECMW1JXlyrXCbsz0eLbDV1Ug3pTUwaEXrmz+mq3xZPX6tpqQC9CD1mAF91ByokVULsNO67D/BCfaiRg5U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762535652; c=relaxed/simple;
-	bh=C9VcCYq63w7IJiJvJAvtj7dgIvnFfDiZ6KTFKvYOnW8=;
-	h=Message-ID:Date:Cc:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=uunFyhZwpk0R9/NUtVT1ZDHJRE+PQl9E3VrXG5b+zacFD8RqLPId/FVaAyJyIWBLWW+MkkUEU9UX6QTZvEPSVz4HCSKUtgk99mjsjLbYIpywDM+VsaGm9AlsjT8vEsEdN+SWmRD3mXCIJjUtp2V1ibtcKt3ooOrkvqRdZjX96c0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com; spf=pass smtp.mailfrom=linumiz.com; arc=fail smtp.client-ip=40.107.75.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linumiz.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TQNXCzjjORHWFn+Uvj+O0JxlKeP8M+vS+1l8BvWzmEWU9Gykc+pFBi2Zqwh5YoJnxY09Yp1By3860N4Q8yyf3/d8bdCuNFVKcASLTvf2gBhVQyA+hcbyy84ZxD+Cy5qNeOht5oDMyz+KWFZnWnMXqv9h0HZuUuzILxQvmi103ta7yLdSLA/EeOs1livsFum/OVbFriP45GR+zofUWsA584ePx/flbV2jmZi03YhF7frQDw/Vzgkv8MGegLBJtwPIVVhYrG6WwPGnoQHoXjlipvAhH0b7b/suRSyGf4ZLSvLiIfoM3iAYnO9Q6iLSAm/nZ558wu1JiI6opwNsTA/84w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0iLPlMeV+akKTQQB5YKR5IQAROw6g/bqygBTK5sQw1w=;
- b=TIt4SSyPR3h+dhKmoyn3CBBxhvR0YPN9opERQPKWk8PoF2GuLyAJcMiRdWw23L2ZdHn3VKvy0/zfsnEd1v6AKITATjN7CzpxyuFKPZpgAKLkNRhrwwKrsp3rp4qM8jnm1yg2XydnVk8DXyR4PnWuZLVU7TM8DD2Q4e10U/glwyD65rwzNvEk9wwvzti5cPnaLwSSG7cC76VKCLs8W5qFt2hBcLfjOYRMxvPIcRtFXJKR6h1+4o15oTXXxoNPP3tkpiAT1OZlRpWofXMo0rT/HieDbW+waAzFfsCmFSexBpEVZiDiysBVcM/1kJyr0EV/FS6fwyNLlOSwzDgB6rO/DQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=linumiz.com; dmarc=pass action=none header.from=linumiz.com;
- dkim=pass header.d=linumiz.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=linumiz.com;
-Received: from TYZPR06MB6935.apcprd06.prod.outlook.com (2603:1096:405:3c::9)
- by TYZPR06MB5202.apcprd06.prod.outlook.com (2603:1096:400:1f8::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.12; Fri, 7 Nov
- 2025 17:14:02 +0000
-Received: from TYZPR06MB6935.apcprd06.prod.outlook.com
- ([fe80::9e42:3253:9a2e:b565]) by TYZPR06MB6935.apcprd06.prod.outlook.com
- ([fe80::9e42:3253:9a2e:b565%6]) with mapi id 15.20.9275.013; Fri, 7 Nov 2025
- 17:14:02 +0000
-Message-ID: <5290a949-1eed-47e9-a258-024447009c7b@linumiz.com>
-Date: Fri, 7 Nov 2025 18:13:13 +0100
-User-Agent: Mozilla Thunderbird
-Cc: parthiban@linumiz.com, linux-sunxi@lists.linux.dev
-Subject: Re: T113-S3: Secure Boot
-To: Lukas Schmid <lukas.schmid@netcube.li>
-References: <4693897.cEBGB3zze1@lukas-hpz440workstation>
-Content-Language: en-US
-From: Parthiban <parthiban@linumiz.com>
-Organization: Linumiz
-In-Reply-To: <4693897.cEBGB3zze1@lukas-hpz440workstation>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BM1PR01CA0165.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:68::35) To TYZPR06MB6935.apcprd06.prod.outlook.com
- (2603:1096:405:3c::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C2D27B32C
+	for <linux-sunxi@lists.linux.dev>; Fri,  7 Nov 2025 18:39:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762540741; cv=none; b=lazA0bGdFykiwp+Gf3+g9svFEUVFnhmBuEso8Ec8rW2ReXRWei2l3adch9fXM+f7ceG/DOJ7+VdFUUEoLSTNYuwU3SGVDOFwf26y4h8rfRnkpwl149xr/bAscagqHjBVRVCIOg/CbHt8pI/bKZr+dFkXBJFTruznkfoPsxdQubM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762540741; c=relaxed/simple;
+	bh=gKCYs2zBDI2I9vwzLZl5xzGcHJgiZqc2ZlXjUmJtqXs=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=lcigV2mxd55XchzVmQw4/JU5sm8IIi+3hGgQ2bEIeTd1Qm2Mv/jfeMQDl5+0GuHvIQN9DDn4FSETgM/kj9L8kM4DZCi5mDcwaVLj5eWci7g7+SATydPfEir4MJ5DNq/Q7g9hWnFZAW0ZB4kZVfhHcdsZo/7LqRO2uqsrAwM3xz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WrYCOk0e; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WrYCOk0e"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-64034284521so1807036a12.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 07 Nov 2025 10:38:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762540738; x=1763145538; darn=lists.linux.dev;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=B39IJ+XWXT40oXnxSi3w//eJpYlaFUdn5FoedhvPszU=;
+        b=WrYCOk0e070OMb8/ARlnurv1EJ/pPCoufzYwj5y1wBlJhLuqPjRBypBNpzw/ZVXRtS
+         FEb4ZjxozMVf1t1xOEPqMqpDrR8iQNY9nk6KCAa+W1Tkr/tyKBC/GYRrTree+YhWQVR4
+         jm0NUcysDt0nFkkba9Td0HIHsiQAquddwKYgwiAkvSalpLsRu1C0QmS+NdT0loAcyo75
+         2yQnjLXSAiVqoNZhh4w6sjq0rdEsh+rmVRNEYHS9wG3j37SgOFsSnN44xW8aHYsvHioE
+         jKCzZympgyhpll991GBrbRUvIhGpp+ShAQwyPlO6e4UlkMqUhyKT4h/fBgt1nFWFJjE2
+         HpDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762540738; x=1763145538;
+        h=to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=B39IJ+XWXT40oXnxSi3w//eJpYlaFUdn5FoedhvPszU=;
+        b=GT0ASjjjPPpDZ3dLeu4ro4QScc7KBiOAhQEoDBjekHTT9vBd9QLBrzbSj52A6CYpjG
+         WAf6x3Su1OLTsJyW/wZUs5Wm9OZu2ffMByFJo1gMaBIGEh1UVqTU/ZuKRHt5iZED9UJD
+         f3u+f1b/faySg3lfeY/cpRcg35/h93vi/9TB1zwve19HuzGatCEVuqxsuCq7/x/wWSE/
+         CBteS34kvxooAKt/AByEK1hN0Rxe00HXc/wSzi7Duut9GZEXcqPa9yVg3MwsVpQZNMkm
+         Q0eIx3O0FiAzsJMDaKdlwOszpCahGsos0PcioBtqC2NezD53uiDe7wSz3jfyfV5sn08Q
+         vgJw==
+X-Forwarded-Encrypted: i=1; AJvYcCX7Hbwhl8KlUnRieapwAGjpJL6SDw3NO3knyynWJSoGFd1T9/o7tQaMQ6jBPfokRvj5rhbZKpjgzhn8JQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwRb2m3UZB57MHS0PtvI+dBghGazjXFaMvd5l80jtx2YVI4Ay5m
+	dYuYVR5bleewj74pqHjiV25HfpnmYRs9SOnb3WHY3hdyNgyM1o4d3NSZkNnw9UKSLlFFozioRQ1
+	9U06J4vWUOsc3lE4B7BUnJSzvxqoyu6A=
+X-Gm-Gg: ASbGncuolFmkv2SG3PwWkga/hsbW7wGmiV8vuHOSSCxa1EdxRuYJzFAbu6mTFpXXf/q
+	M6EhAlwD4f4QLQogITErSKeVdVZU1q6GDGwMy0sipgcpOhAaDsAluAEymbG12r/5g48DzmtPabc
+	JXgkUOjO6A6zCiI3ujGyauJ/BxsHVRlVU8VC6UzhG8cKn3mioehykN9S/c8Ctdm+GSOzfOvjkv0
+	esPB/D6eGGb0pykHGfYtRaKzTVIyavKk/Bw2F7OCKKjR8WRNZ8kIkNePVKz5Q==
+X-Google-Smtp-Source: AGHT+IEfC9/xtwBnqad9fFzSxPyCtmWduH1ctIXk+JsraeDvSWpIui7wG4K8ICg2nk/D1ExwgrKzSF5XdugPxj2RBuI=
+X-Received: by 2002:a05:6402:1450:b0:640:464a:56ce with SMTP id
+ 4fb4d7f45d1cf-6415dc006e1mr29283a12.2.1762540738335; Fri, 07 Nov 2025
+ 10:38:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYZPR06MB6935:EE_|TYZPR06MB5202:EE_
-X-MS-Office365-Filtering-Correlation-Id: e03f3391-f000-47c8-96ea-08de1e210bed
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?M0hDa1hCQXpoT2pMZWRIZ3NUUGc0aEtEM1pEUC9lTnV2aUt5bDRSUStIRFFl?=
- =?utf-8?B?eFFVb0FGYi96dDBmRDlqQ2hUdzhuN3UzeENlNi8wMkVGUnlqK3R3STF4T0g2?=
- =?utf-8?B?VHlwWHJzbjBFQkpkTHF4clB5Yis2WkNHOTVJZjZxeUdOS2JGQVlIY01GY2Ns?=
- =?utf-8?B?WGphbXFDRGhaZlRjUnhVakw0YThjVlpydVNEaWhJdGRWZVorZVpTWHJJZFIz?=
- =?utf-8?B?SkhkMmxTL2JtUnYyS3dHK3Fqam03M1VzN3o3Z3NscmpxeWVFeEt3bmthYlhZ?=
- =?utf-8?B?eHc1QVN3dk5hQmd4MUhSUVl0L1NtMmFSVmNFbUxwSVZNdzVJc21vZXBjWWF1?=
- =?utf-8?B?aHduRWt1cUdES0lrdG1PZDJ6b1dKQzFxdGQ0VVlSb3JCNm5jL25DMEtBZEdj?=
- =?utf-8?B?NUZUczVNUmVZdDlxQ0FSV3BDWksxaEdpUk9RMmJsMHVUdEd4N21iM3A2enM5?=
- =?utf-8?B?TThjUWk3aFZQblNNeEV5M05xazZRdUdJV1dacmVKRUllT0pnUVNrWjlwRHlo?=
- =?utf-8?B?OG45WmZWN1QyZ3ZJNW56OFBNQThMdTNJSTVBeWxjYzJaRnZFckRNR04ybFc2?=
- =?utf-8?B?Y2J0blhyU29ZWmJzUFkzODdzMnVpdXpKZXJ4eHkyRG1sK0dpRGVtZHExcVdR?=
- =?utf-8?B?SXRxQ0xDV21wQ0cxQXUwek9YcG1wdWxNdHhGKzVXM2VVUDJ4bW4zTHU1WlV6?=
- =?utf-8?B?cnBQYldoQzJEVFh5M2gxTUFLRVQwYkx3RlhVTnhtWEl0dXhTVk81ZE9vclBu?=
- =?utf-8?B?RnQ4TTAvR1BzMmJSRndpdWlaRXJUUjlVcklOYjJQM1hZaEZrTDMvNDViQTlz?=
- =?utf-8?B?bHUvRGh2WHpOSjJTTCs3a3F0RDNWRVhudTMvaXhoTGVyaVpjZjNNL0F2d2VJ?=
- =?utf-8?B?Q3lkcFo1R3Ixem9EdlE4UThrMGJSbEdMZ3Y3aldBNkFRc29CWTcxdlFLbnFU?=
- =?utf-8?B?MEhYM1RYK2s1QkgrYVlvalk0ZUVXS1pha3BFK2ZFbjBKR09BSGNnTGF1ZGlv?=
- =?utf-8?B?cnBUZnZwcXJydHR0TWFlazJKSHNBZWhVQWZRUjZWa012U2RPTm15RmVJcFlo?=
- =?utf-8?B?b3B0UHQ4OU1pdmV6eU5EbmFyWHYzdS90N055M0ljb3JPQk5GK3RxYXBzeld2?=
- =?utf-8?B?aXY5bkc4c1pNaGlMUmU5aGVaL21xbEdtODZJOW9ucFJjUUlNdWJvQlo5Nm9W?=
- =?utf-8?B?eEMwT1FhVzF0dlZjR25lQ2xQbFNxUFRURmY0ajVnVGZHOEREa09Fa0FQMmJq?=
- =?utf-8?B?TlhldThNbkNlN2I5OEhEeUtlY2dyWFQ5VFZVTHpoaHRJV25SVXFuNE9GMFJo?=
- =?utf-8?B?RGpld082Qyt3N1FTNlFaeFgzN0x1Sm1tb3d2MW5LZkZjd1dRRVgxemRSRFVC?=
- =?utf-8?B?eW5ZODlNZzVlNVdqSUdtUHJ0RG91Yjg2L0RQcVNINWhZQ010Q0pFSnZXd0lQ?=
- =?utf-8?B?WS9DcnlZTERkS2FJbklQMmJSa25jOXFOdGczWnRMdUpHTnowU3JabXR0Rm1r?=
- =?utf-8?B?YkJ1dnlQK3VFeFlqZjM4TzlJLzI2Q09QSHp0WHdFTFdnRzBEdC9CMnZyQTlO?=
- =?utf-8?B?MDliRVJKTThyUytKUVlhRUIyQm13N3V0dkRwM3F5Nm9sL2ZwNzloUnVYKzdT?=
- =?utf-8?B?L2s3TnYwQnVLU3I4cGpMM1U4RGluQ2RtbitteDNzbEFXVW11dFJiMmk2RnV5?=
- =?utf-8?B?dEpGa1BKV2ErTjh3bWd1dmxJeENRYjhuSkgzaVlJVDlvVUNTQWVPWlZ5SWha?=
- =?utf-8?B?ZzdpM0szRXpnM0E2NHZrbXZRU2ZEbWZBcjdxM2RMT3lSN2luODhHVjBBT2dt?=
- =?utf-8?B?QUhsdVR0RWVxREFWS2JSMjFkMUhHTjdFUTFHcHNRV2FIZHA0RHdrYjJsNGJj?=
- =?utf-8?B?UnVXLyszT0w4ZlJab1FMUWpMUUhOVDVEcWVzZG9lNTU5eEIvL0VIUENqT2tR?=
- =?utf-8?Q?3gIOhB9NZR57lxpTkO26ZIWsIp1JeINf?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB6935.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?U3U2QUs2TUZ0THVIdlJPVjlsSlIxYzhnZjBoVXdTYmdLTFprUUtGRDU3bE1v?=
- =?utf-8?B?ZXJZN3NHdHVTMzA0am1qZjkxSEwvT2hrTWw3bFFsNU5qS2JYVks5M1Y1RzlT?=
- =?utf-8?B?MDllcFVyNGNVcWNLcDYydFFkMzQyZWpPK1JzRlQ3MU92T2Zva2xkZXE0U3hz?=
- =?utf-8?B?L2NSUGM0TzA3SmdvaytqVHo3M3crTFRjUFFUTkFsUXNjckVxVG1QVlhnMU53?=
- =?utf-8?B?TXlMZHQraUJlNHI0UE5vWmJMMmlvelVjempBeGF3MHVSd2pvU3pDZUlaWENy?=
- =?utf-8?B?K1BqSW1Fc0crdm5BSGpuV0JFbURkaXo0KytNSVBGVHV0WHJmV1RLSHRjVlJC?=
- =?utf-8?B?VjR0aE13QnlWdTM2MXN3Tm9VVW1lSTdDSzFVeG5JTWxVTzBmb1V6T2w1aXQ3?=
- =?utf-8?B?NmtaU2hWKzZCci9aTllldmREUE5xN0J6UG90MmhqR1NHOWljWXZNZUg5b2lO?=
- =?utf-8?B?ZUpvS0Rpa29KczVKejMzY3U3ZVh3V1BMOE9nTkwxZDh5RWIrbWhvc0Y5czIv?=
- =?utf-8?B?STIwWitvVzZNbWg2Qmc0ZU9ydStINkFwZlVubDZrc2l0RFl6L2JYY0tBOS84?=
- =?utf-8?B?a3JYUTUrMTRpMmZxUGdzZUhGQzRxL01DanlBV3dsWlNJcUp6aExVdmJiaVRS?=
- =?utf-8?B?QVVnblZpUkpyNHk3S2F0cWdFZEJNQzUxM0xVNllnU3l5cGIwWFF0N2M4eElD?=
- =?utf-8?B?WG94cXBCb3FkYW82RExuUmZtSTI5bW4xRkJWUHZISzlSRTNaeWdrcGFndURO?=
- =?utf-8?B?VzE4YTBNTWM1NTdrMUI2U3BSYVZXZXNjd3F3azR5dElMdFd0RGRuc1I4eENV?=
- =?utf-8?B?WDFaSUp6QVhNL0o4cXZvcEdsT2crSWlJRmYrc0xJTmdQcmcwSGRsbEJ4ZGRX?=
- =?utf-8?B?N043Qnd5bC8vUmdYOXUrODRLZVJKblpwM0VjM1dDMHJDYU9sWXdMaUpiZmdD?=
- =?utf-8?B?YnhkQ2ZhNElmcEZGbjh0cDcvRjMyRXMzNUpPdlpMNEkzUDNQdG0yUytYTTRM?=
- =?utf-8?B?dDBweTR5bTdQYzNIOW5pd3lrNmhoc0RSQTdRSlU3LzZHWHR1MS9lbUljK2dh?=
- =?utf-8?B?R2c5Z0tyWjVtZ1kzYUJ4V3E2NVYvQlY0Q25waSt2aVBLVGFLSUZlK2IxZVV2?=
- =?utf-8?B?dVdSUmlWbDBicFZLS1p5T1hVUDVQNitDNVVicDVPNVhrZUVuTVd4S1lCekFI?=
- =?utf-8?B?eTFiNXhBNzFYeW9NY1ljOGd4RmRuUnhxWnFLUm1VNTNaOVZ3R21KdHp3anZH?=
- =?utf-8?B?bGM4S2Nibk8wWnpRQXFGb2F5c1Yyc0EwL0RMVDJ0ZVg5VGozQmYxL05iYWxJ?=
- =?utf-8?B?ZHhvbmx3M0Y0Zk1aMzU1MmJLRW83VGl3K3V4ci95SVhJVkEvNlNHSFl0cVk4?=
- =?utf-8?B?Z2dxbm9zWlFmMUw0VUpmdU4vVDBCcXJxVU1xa3J6b2huV0MwaWh3RVJrOG02?=
- =?utf-8?B?a1M0eVhVT0NuTjBORDRnSndYQ0lyeUthVzdFL2E0UjcyaEJsODBmOTZVa0wr?=
- =?utf-8?B?Q1F3MEp0YUtSQ3U2N09Qc29haHU4VWNleStrY0RIR1JVRzFJVmloZll4R2Zm?=
- =?utf-8?B?Wm5xT2c4ZUxZU0taODZjZEZYbFpoUENvNU8wY3Fta01MNFl6MXQwTlRNcWZv?=
- =?utf-8?B?R1BCNWxUV0xsU2ZWWDlYbTZreFVZNkZRT0ZYOGN2c3Y2MWN4OEl3bEwrQjFx?=
- =?utf-8?B?K0ZaQzJmQmFRQ01zU1BTWGJQc2JnYXFaUzdiYndESWxoTTRBRThMNHFPeHZD?=
- =?utf-8?B?WjVTTDdXN0JjaGM1TnVoR3E5WnRlZEU1OG13Z3VxRzFwNjdCaXp0VTVOdk45?=
- =?utf-8?B?bVkyZWJUZHhxNlVFdzZxQlNHbHliMnRhcHlHS2QzSmljKzZpdExMeVB1Y0Zs?=
- =?utf-8?B?YUZzQWhTYXJkN09XMmRzdGFOTWxYektoWHp1c09VUWxrdmt3WEd1YzR0bmRw?=
- =?utf-8?B?YnFDQTUyRGYybnMzbUY4YTQyK3VYZnNTdjZVMDhmM2k1QnQ1MndTaVZmNURT?=
- =?utf-8?B?aThIOTBNS3o5MFZRb0NDZEpBKy85NFpUWWtFeXhVdWxqTmZjSzRsRWRTR0hj?=
- =?utf-8?B?Y2VmV0dyYTIyQ3phM3BRZktnOEFWUEp4NUJvV1JiNzhocHFpU1J2NzVSMVJG?=
- =?utf-8?B?QjU1SkxuUXh2aTNVNERPZDYvSEs4LytXRjNpV0tvakgzeStLQ2dma2k4SFZV?=
- =?utf-8?B?ekE9PQ==?=
-X-OriginatorOrg: linumiz.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e03f3391-f000-47c8-96ea-08de1e210bed
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB6935.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2025 17:14:01.9569
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 808466aa-232a-41f4-ac23-289e3a6840d4
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1w9upZHJ4xxI5zDBG68qF1hnBydJ5maXgyQ97RoQPMRvb3/5nDJywhDRQzThju/l659K+Xz/PGzvqn84zl47JA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB5202
+From: Philippe Simons <simons.philippe@gmail.com>
+Date: Fri, 7 Nov 2025 19:38:47 +0100
+X-Gm-Features: AWmQ_bkHIOfF7n3QsiGcjLcgrQEkuEHG2jnWo9Mn_6nLZ3uw5-9DHQVVGAeOO4w
+Message-ID: <CADomA4-WZJbuBV=WEmeKDHvtT4o47k90=2jSWSj8Tdmb+6iJTg@mail.gmail.com>
+Subject: Kernel ooops in CCU on H700
+To: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, 
+	"open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>, 
+	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, 
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Lukas,
+I'm having a kernel oops during boot on H700, and I think it's also
+happening on H616.
+It seems to be related to interaction with panfrost freq.
+Kernel oops doesn't prevent the GPU from working, at least I'm able to
+bring wayland,
+but sometimes the GPU seems to hang later, unclear what triggers it,
+and there are no ooops...
 
-On 8/1/25 10:33 PM, Lukas Schmid wrote:
-> I’m working on enabling secure boot on the Allwinner T113-S3 (as part of 
-> preparing my SoM design for EU CRA compliance).
-> 
-> I’ve successfully fused the SoC with secure boot enabled and burned the 
-> ROTPK_HASH. The SoC correctly boots a TOC0-signed image from SD card, and U-
-> Boot starts up and behaves as expected.
+Here is the kernel log
 
-Could you please share how this is done or may be with a document patch to
-u-boot? To add, am also in the initial analysis of adding secure boot for A133.
-
-Thanks,
-Parthiban
+[   12.293156] ------------[ cut here ]------------
+[   12.293185] WARNING: CPU: 0 PID: 904 at
+drivers/clk/sunxi-ng/ccu_common.c:38
+ccu_helper_wait_for_lock.part.0+0x78/0xa0
+[   12.293221] Modules linked in: hci_uart btrtl bluetooth
+rocknix_singleadc_joypad
+[   12.293254] CPU: 0 UID: 0 PID: 904 Comm: gpu_overclock Tainted: G
+     W           6.17.7 #1 PREEMPT
+[   12.293266] Tainted: [W]=WARN
+[   12.293271] Hardware name: Anbernic RG40XX H (DT)
+[   12.293277] pstate: 40000005 (nZcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   12.293285] pc : ccu_helper_wait_for_lock.part.0+0x78/0xa0
+[   12.293297] lr : ccu_helper_wait_for_lock.part.0+0x4c/0xa0
+[   12.293308] sp : ffff800082b93760
+[   12.293312] x29: ffff800082b93760 x28: ffff00000a761140 x27: 0000000000000000
+[   12.293327] x26: 0000000000000000 x25: ffff000003616fa0 x24: 0000000000000000
+[   12.293341] x23: ffff800082b93800 x22: 0000000000000002 x21: 00000002dc980343
+[   12.293354] x20: 0000000010000000 x19: 0000000028002201 x18: 0000000000000000
+[   12.293368] x17: 0000000000000000 x16: 0000000000000000 x15: 24cab3646a9395e6
+[   12.293381] x14: 0000000000000000 x13: ffff00000a7611c0 x12: 000000000000b67e
+[   12.293395] x11: 00000000000000c0 x10: 0000000000000a80 x9 : ffff800082b93610
+[   12.293409] x8 : ffff00000a761c20 x7 : ffff00000a7611c0 x6 : 0000000000000001
+[   12.293423] x5 : 00000001f7251325 x4 : 0000000000000002 x3 : 000000000001706f
+[   12.293436] x2 : 0003c6685f2db0e6 x1 : 0000000000001b84 x0 : 00000002dc993b76
+[   12.293451] Call trace:
+[   12.293456]  ccu_helper_wait_for_lock.part.0+0x78/0xa0 (P)
+[   12.293471]  ccu_pll_notifier_cb+0x50/0x80
+[   12.293483]  srcu_notifier_call_chain+0x70/0xc0
+[   12.293498]  __clk_notify+0x8c/0xd0
+[   12.293511]  clk_change_rate+0xd8/0x2a0
+[   12.293520]  clk_core_set_rate_nolock+0x198/0x2f0
+[   12.293529]  clk_set_rate+0x38/0x150
+[   12.293537]  _opp_config_clk_single+0x30/0xa0
+[   12.293553]  _set_opp+0x134/0x4d0
+[   12.293561]  dev_pm_opp_set_rate+0x1a8/0x2b0
+[   12.293569]  panfrost_devfreq_target+0x3c/0x60
+[   12.293582]  devfreq_set_target+0x90/0x190
+[   12.293595]  devfreq_update_target+0xc0/0xe0
+[   12.293605]  qos_max_notifier_call+0x30/0x70
+[   12.293617]  blocking_notifier_call_chain+0x6c/0xa0
+[   12.293628]  pm_qos_update_target+0xd0/0x110
+[   12.293639]  freq_qos_apply+0x3c/0x80
+[   12.293648]  apply_constraint+0x88/0x150
+[   12.293660]  __dev_pm_qos_update_request+0x7c/0xe0
+[   12.293671]  dev_pm_qos_update_request+0x38/0x60
+[   12.293681]  max_freq_store+0x70/0xe0
+[   12.293692]  dev_attr_store+0x18/0x30
+[   12.293706]  sysfs_kf_write+0x7c/0xa0
+[   12.293717]  kernfs_fop_write_iter+0x130/0x200
+[   12.293731]  vfs_write+0x244/0x370
+[   12.293743]  ksys_write+0x70/0x110
+[   12.293752]  __arm64_sys_write+0x1c/0x30
+[   12.293762]  invoke_syscall+0x48/0x110
+[   12.293776]  el0_svc_common.constprop.0+0x40/0xe0
+[   12.293788]  do_el0_svc+0x1c/0x30
+[   12.293798]  el0_svc+0x30/0xf0
+[   12.293813]  el0t_64_sync_handler+0xa0/0xf0
+[   12.293822]  el0t_64_sync+0x198/0x19c
+[   12.293833] ---[ end trace 0000000000000000 ]---
