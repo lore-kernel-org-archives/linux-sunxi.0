@@ -1,161 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0406F320A38;
-	Fri,  7 Nov 2025 11:22:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FCA42D7D2F
+	for <linux-sunxi@lists.linux.dev>; Fri,  7 Nov 2025 13:12:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762514541; cv=none; b=YcoJ9TDgV9D8m/Ed3E4aXgDvZ0hiGCk8UfSeqiRmfE8C+cxESbq+4sSYpy3K2l9spQLwVGbvXkHw1IJrYbZIjwQOzrhZgyYFFOEHvZYOv7S09DxZHBBEhAsbLnHywSUqhU+zghyARghSQyFnO8zn+Ao/utW3B5bAZngg5eBFThE=
+	t=1762521170; cv=none; b=aC2WDCFvPab0VhFCXqCHzesyTNGMOclFf5vKaWNi1YOltPmEXHZD7mqZrgPENvhaobr9EIeY3mYu6OVEOjw2TyJxnwV2N3HaL6e7XIo1/6Z5NMELMnVJ21/+hBO93OUylbvBrul4gqIzIVvqkrQB/tTGuNgx1Stht1wz+9opCyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762514541; c=relaxed/simple;
-	bh=WqJuyrothph0jJUBiuUUbS1FvhvPkDqkS2NhaeN0xV0=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=QredjCOU8zlUyJ/7Joi7+QKVPC9ei+fvD3PXcAJJJxuUsxNT4uCPqOj9sMVPA6Zjk912FkRg2N2CLgTK0h5HiDZfB4/bR2h9z4MIlCt32NTPLoKD/ckNI6ig35/s1nS05XBUJh5Kd6aL7LdD6svEEe2xkFLsV0d2vEmyOddL3cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rImSqDdr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762521170; c=relaxed/simple;
+	bh=FWO/8gHk53RYXD8wsffSK2ke0SFZ1bG9gjIfGIFTJuI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=r7JA9jrdia5n8CK/CFiWAP3pGLpMriSARm1I5tZfb5Q0C0jR8czXCO/27W8UG6c+2NWxrWI6T6oBjseui9nr8lkp0qhCKnNV70LL94qtCjBw8kgr6q3CE4bluhuUwxawrG886HwxDnZc5IX3UAnoRd+Ko0FoLciXr1M+JUAGE2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VmUk856L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rImSqDdr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45321C4CEF7;
-	Fri,  7 Nov 2025 11:22:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VmUk856L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B84EDC2BCB0
+	for <linux-sunxi@lists.linux.dev>; Fri,  7 Nov 2025 13:12:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762514540;
-	bh=WqJuyrothph0jJUBiuUUbS1FvhvPkDqkS2NhaeN0xV0=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=rImSqDdr0csAuwceoiZMORIrJXnobUCP+yoqx199IwW4RPtIeHWgGg8yhQ45V/D7R
-	 HxCBJlEMisUSTZWQ74AkbgFanp3OacerkO8+FsunvIN8Qv1PJjoKvEhbkIBisz2yNh
-	 fHEnA2G6Z+rnjMkyoYcahxv0PRsrM8NiFmSYDw5XFjOljLa3mMJnwZAikRLma8aHey
-	 0V3PWYoagJTX1nuIdJ2Oom+6PchZMhCgWc6c354u4h/wXc/BosroSeZA0hazMf3txS
-	 iSFPT4TBGUlSnwuvzF4pqevVMyluivzg/6sz2Tim0ZSb22VBqsrJyyImM6xekisJtj
-	 QhXJiXhB/cEDw==
-Date: Fri, 07 Nov 2025 05:22:18 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20201202; t=1762521169;
+	bh=FWO/8gHk53RYXD8wsffSK2ke0SFZ1bG9gjIfGIFTJuI=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=VmUk856LB3Ktid9JTM1p/HRUccXaDtTvjP+q4dhPWT4wSln/qPkV/VQu6vernisKV
+	 TOiBfbwqozLZk5euuhK+PjZQPMezUhrIMdpfuKw2WKuqOZ9jIxlM+qYSwGmHlb53q7
+	 YFWTsYSshNNpUqj4G0nHtU6ckASu72pJffLn1WR8CTKW3neiXm4XGYq8wXTMRuiXF0
+	 YQTpO7XP/wsIoQ4PycZ9vGqeoMSSJWdUR0iew6wB1xUFKvfd1ZL3P5VabnSdmxy6IY
+	 Em8ZkCAL4zE8XdO+35qZJIBafvwOzJSsIhwygOORffdFKPGIo4jxcwhjKvwckqScZx
+	 kHA3V9Bh9hbtw==
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-378cfd75fb0so6503451fa.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 07 Nov 2025 05:12:49 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV3jC0AAEs5RiWVkEDBynCt46Uck2GFCZo4dAWFJM5JRs2n6vj+cipOANJ6Won8tX+2fIoHygUcNAgduw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxrcspdT1q0rFMzRqiWD8Hp9zlua1G7JsZe8zsmnleun89lQ+gg
+	NBjl6tCtHaG4Bo8zmIIlDRp3YYw4Av6QQsnV4T605bmSgf5GWy+1i0+O2PUIWuiWeCTGoq+m56c
+	DkQ6hFXsUkAsjJ94cDg/jf+2qYjs3ShA=
+X-Google-Smtp-Source: AGHT+IEi60U+MS5fuwhOECte6O05g72+EAD4tfI6rsUD0G2v7W8zO7uqdgB+Fmi8wi+riCfy3k40Cuh7KGFUeVlePak=
+X-Received: by 2002:a05:651c:4014:b0:373:a675:cd5f with SMTP id
+ 38308e7fff4ca-37a73335a70mr6546391fa.39.1762521167522; Fri, 07 Nov 2025
+ 05:12:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-stm32@st-md-mailman.stormreply.com, 
- Eric Dumazet <edumazet@google.com>, Fabio Estevam <festevam@gmail.com>, 
- David Wu <david.wu@rock-chips.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Samin Guo <samin.guo@starfivetech.com>, linux-amlogic@lists.infradead.org, 
- netdev@vger.kernel.org, imx@lists.linux.dev, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- linux-renesas-soc@vger.kernel.org, Clark Wang <xiaoning.wang@nxp.com>, 
- Jerome Brunet <jbrunet@baylibre.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Guo Ren <guoren@kernel.org>, 
- Jose Abreu <joabreu@synopsys.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- "G. Jaya Kumaran" <vineetha.g.jaya.kumaran@intel.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Shuang Liang <liangshuang@eswincomputing.com>, 
- Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>, 
- Swathi K S <swathi.ks@samsung.com>, linux-arm-msm@vger.kernel.org, 
- Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
- linux-rockchip@lists.infradead.org, Frank Li <Frank.Li@nxp.com>, 
- Emil Renner Berthing <kernel@esmil.dk>, 
- Shangjuan Wei <weishangjuan@eswincomputing.com>, 
- Vinod Koul <vkoul@kernel.org>, Richard Cochran <richardcochran@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Maxime Ripard <mripard@kernel.org>, linux-arm-kernel@lists.infradead.org, 
- Jan Petrous <jan.petrous@oss.nxp.com>, 
- Drew Fustini <dfustini@tenstorrent.com>, s32@nxp.com, 
- Conor Dooley <conor+dt@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>, 
- devicetree@vger.kernel.org, Chen-Yu Tsai <wens@kernel.org>, 
- linux-mips@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>, 
- Matthew Gerlach <matthew.gerlach@altera.com>, 
- Zhi Li <lizhi2@eswincomputing.com>, linux-sunxi@lists.linux.dev, 
- Heiko Stuebner <heiko@sntech.de>, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
- Fu Wei <wefu@redhat.com>, Linux Team <linux-imx@nxp.com>, 
- Christophe Roullier <christophe.roullier@foss.st.com>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Keguang Zhang <keguang.zhang@gmail.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Romain Gantois <romain.gantois@bootlin.com>, 
- Magnus Damm <magnus.damm@gmail.com>, Drew Fustini <fustini@kernel.org>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Shawn Guo <shawnguo@kernel.org>, 
- linux-kernel@vger.kernel.org, Inochi Amaoto <inochiama@gmail.com>, 
- Jakub Kicinski <kuba@kernel.org>, sophgo@lists.linux.dev, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- Minda Chen <minda.chen@starfivetech.com>, linux-riscv@lists.infradead.org, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Chen Wang <unicorn_wang@outlook.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-In-Reply-To: <20251107-qcom-sa8255p-emac-v5-1-01d3e3aaf388@linaro.org>
-References: <20251107-qcom-sa8255p-emac-v5-0-01d3e3aaf388@linaro.org>
- <20251107-qcom-sa8255p-emac-v5-1-01d3e3aaf388@linaro.org>
-Message-Id: <176251453854.1709481.17350672291824662534.robh@kernel.org>
-Subject: Re: [PATCH v5 1/8] dt-bindings: net: qcom: document the ethqos
- device for SCMI-based systems
+References: <20251106-b4-of-match-matchine-data-v1-0-d780ea1780c2@linaro.org> <20251106-b4-of-match-matchine-data-v1-4-d780ea1780c2@linaro.org>
+In-Reply-To: <20251106-b4-of-match-matchine-data-v1-4-d780ea1780c2@linaro.org>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Fri, 7 Nov 2025 22:12:34 +0900
+X-Gmail-Original-Message-ID: <CAGb2v65fcCEqJEdSuH+n1BFtoBxSCxEXaxAk7norRWzpPoT2cg@mail.gmail.com>
+X-Gm-Features: AWmQ_bknqHyNaA5_RcBhQtheiViI_1Nkl4lCccfeS9SBJtkNwcoPaIb-tzaunfo
+Message-ID: <CAGb2v65fcCEqJEdSuH+n1BFtoBxSCxEXaxAk7norRWzpPoT2cg@mail.gmail.com>
+Subject: Re: [PATCH 04/13] cpufreq: sun50i: Simplify with of_machine_device_match()
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Yangtao Li <tiny.windzz@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Daniel Lezcano <daniel.lezcano@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Maximilian Luz <luzmaximilian@gmail.com>, Hans de Goede <hansg@kernel.org>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Daniel Lezcano <daniel.lezcano@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org, linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Nov 7, 2025 at 4:08=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> Replace open-coded getting root OF node and matching against it with
+> new of_machine_device_match() helper.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-On Fri, 07 Nov 2025 11:29:51 +0100, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> 
-> Describe the firmware-managed variant of the QCom DesignWare MAC. As the
-> properties here differ a lot from the HLOS-managed variant, lets put it
-> in a separate file. Since we need to update the maximum number of power
-> domains, let's update existing bindings referencing the top-level
-> snps,dwmac.yaml and limit their maxItems for power-domains to 1.
-> 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> ---
->  .../bindings/net/allwinner,sun7i-a20-gmac.yaml     |  3 +
->  .../bindings/net/altr,socfpga-stmmac.yaml          |  3 +
->  .../bindings/net/amlogic,meson-dwmac.yaml          |  3 +
->  .../devicetree/bindings/net/eswin,eic7700-eth.yaml |  3 +
->  .../devicetree/bindings/net/intel,dwmac-plat.yaml  |  3 +
->  .../bindings/net/loongson,ls1b-gmac.yaml           |  3 +
->  .../bindings/net/loongson,ls1c-emac.yaml           |  3 +
->  .../devicetree/bindings/net/nxp,dwmac-imx.yaml     |  3 +
->  .../devicetree/bindings/net/nxp,lpc1850-dwmac.yaml |  3 +
->  .../devicetree/bindings/net/nxp,s32-dwmac.yaml     |  3 +
->  .../devicetree/bindings/net/qcom,ethqos.yaml       |  3 +
->  .../bindings/net/qcom,sa8255p-ethqos.yaml          | 98 ++++++++++++++++++++++
->  .../devicetree/bindings/net/renesas,rzn1-gmac.yaml |  3 +
->  .../bindings/net/renesas,rzv2h-gbeth.yaml          |  3 +
->  .../devicetree/bindings/net/rockchip-dwmac.yaml    |  3 +
->  .../devicetree/bindings/net/snps,dwmac.yaml        |  5 +-
->  .../bindings/net/sophgo,cv1800b-dwmac.yaml         |  3 +
->  .../bindings/net/sophgo,sg2044-dwmac.yaml          |  3 +
->  .../bindings/net/starfive,jh7110-dwmac.yaml        |  3 +
->  .../devicetree/bindings/net/stm32-dwmac.yaml       |  3 +
->  .../devicetree/bindings/net/tesla,fsd-ethqos.yaml  |  3 +
->  .../devicetree/bindings/net/thead,th1520-gmac.yaml |  3 +
->  .../bindings/net/toshiba,visconti-dwmac.yaml       |  3 +
->  MAINTAINERS                                        |  1 +
->  24 files changed, 166 insertions(+), 1 deletion(-)
-> 
-
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/qcom,sa8255p-ethqos.yaml: $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
- 	 $id: http://devicetree.org/schemas/net/qcom,ethqos-scmi.yaml
- 	file: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/qcom,sa8255p-ethqos.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20251107-qcom-sa8255p-emac-v5-1-01d3e3aaf388@linaro.org
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Acked-by: Chen-Yu Tsai <wens@kernel.org>
