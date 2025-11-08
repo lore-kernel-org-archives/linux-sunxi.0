@@ -1,22 +1,22 @@
 Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958F7275112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B611EFF8D
 	for <linux-sunxi@lists.linux.dev>; Sat,  8 Nov 2025 08:21:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762590078; cv=none; b=DNcZu0TYlV4jrHQ/1fm0OQRHIgGAJ00DUTmiJtBozQY4f/OTnO+8wA/C9D++FCSPrJKoDCDEmZjr+aOwkFgHuMiVtmIY60rBF4uI568PXs4/am1b7n8G4q8EMKWbMdxrFr5P5vm1xV08r1ZS8sXLoW7QInKn/Ll9WDBCkrU9kqY=
+	t=1762590078; cv=none; b=J+1SGNz83LB8HIdI+umdDTZ7XUxXePv8yVhXU4EFlw5dydh6eD/tRiMQ4fvm1DdQ2yI7be/cBemauhXb7NYkIDfHzXVcwOm9KXWpsSpi51ltemwP2c9yTbWdBsG9MDxpFYdbpP2KcAPVLMWhY9SNf7PbyuN8M4DBAOApYLXcJ6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1762590078; c=relaxed/simple;
-	bh=TbuA4/lw61B6zXws4eaqT+lQzMM0DyVRCpc0mdv9fRc=;
+	bh=Vdp7ybyYmzLP7gToQmIjaAhGouu81Dxr1DEkZddYZnM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Jk+d0YxqkFY/rzk8wk5eCbFxqLmv9VX0BMk+7ICJt/KboXf+CpxQq1Pph6uBK0F266xUlBeY5PbznKDrhH8rdL2B0jmIb/4polDQTVM+HvpE6jQ2YtW1uMak9QC+BeLHW4ir8zgVC4IMeUu5aa37XPgRoI/t2r3HkcswY/rijLs=
+	 MIME-Version; b=dUh5kTUOKRglFbzO49Vyye3dGOpMXk2Gc57dklVLzRMiZ5RO7Nwess580D6OWw59U07DExSAvljs7EGEQMtrKWxNgFgnT8MoT0QPotUixv1d0SBGW2MjNO6DbEE/hEA33Y56kYtwassqonLSXoh/CIlogmjK2EpiZWeAb5WiAwg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost.localdomain (unknown [223.166.92.44])
-	by APP-03 (Coremail) with SMTP id rQCowAA3texL_Q5p20b2AQ--.57722S5;
-	Sat, 08 Nov 2025 16:20:38 +0800 (CST)
+	by APP-03 (Coremail) with SMTP id rQCowAA3texL_Q5p20b2AQ--.57722S4;
+	Sat, 08 Nov 2025 16:20:37 +0800 (CST)
 From: gaohan@iscas.ac.cn
 To: Paul Walmsley <pjw@kernel.org>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
@@ -41,9 +41,9 @@ Cc: linux-riscv@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	Han Gao <rabenda.cn@gmail.com>
-Subject: [PATCH 3/3] riscv: defconfig: enable SUNXI_XUANTIE and SUNXI_ANDES
-Date: Sat,  8 Nov 2025 16:20:25 +0800
-Message-ID: <bc141425b71f0cfc8f3ef0a3c6d08104fde1281f.1762588494.git.gaohan@iscas.ac.cn>
+Subject: [PATCH 2/3] riscv: soc: allwinner: d1: use the ARCH_SUNXI_XUANTIE
+Date: Sat,  8 Nov 2025 16:20:24 +0800
+Message-ID: <efd67b0b408bddcf664a8ae61230478e91823d01.1762588494.git.gaohan@iscas.ac.cn>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1762588494.git.gaohan@iscas.ac.cn>
 References: <cover.1762588494.git.gaohan@iscas.ac.cn>
@@ -54,14 +54,14 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowAA3texL_Q5p20b2AQ--.57722S5
-X-Coremail-Antispam: 1UD129KBjvdXoW7Gw1rur1fXr1Dury8Aw1kKrg_yoWxuFb_Jr
-	4xK3yrurWxJFZ29Fnxuw4rC3WDCa4UW348Xr42vr1UW3y2grnxX3yqqF1UJw15uF4jgFs7
-	Za92ya47CrnaqjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbLxFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUWwA2048vs2IY02
-	0Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-	wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM2
+X-CM-TRANSID:rQCowAA3texL_Q5p20b2AQ--.57722S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cr4UZF4fGr4kXr47WFW8tFb_yoW8ZF43pF
+	n3GFsxWFy3CrnagFW3WrZ8KFZ8tw48t390krZ8JFyIgrykJ34Ivr9rtrn7Kr1rtr9xJa1x
+	Gr97CasxAw4fAwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUHq14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
+	x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+	Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
 	8EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr0_GcWl
 	e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
 	8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
@@ -71,32 +71,45 @@ X-Coremail-Antispam: 1UD129KBjvdXoW7Gw1rur1fXr1Dury8Aw1kKrg_yoWxuFb_Jr
 	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCI
 	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
 	AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
-	6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0pRNBM
-	NUUUUU=
+	6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0pRtku
+	cUUUUU=
 X-CM-SenderInfo: xjdrxt3q6l2u1dvotugofq/
 
 From: Han Gao <gaohan@iscas.ac.cn>
 
-These options need to be enabled to prepare for v821/v861/v881.
+d1(s) use Xuantie IP.
 
 Signed-off-by: Han Gao <gaohan@iscas.ac.cn>
 ---
- arch/riscv/configs/defconfig | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/riscv/boot/dts/allwinner/Makefile | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
-index fc2725cbca18..ed0ac65babdc 100644
---- a/arch/riscv/configs/defconfig
-+++ b/arch/riscv/configs/defconfig
-@@ -29,6 +29,8 @@ CONFIG_ARCH_SOPHGO=y
- CONFIG_ARCH_SPACEMIT=y
- CONFIG_SOC_STARFIVE=y
- CONFIG_ARCH_SUNXI=y
-+CONFIG_ARCH_SUNXI_XUANTIE=y
-+CONFIG_ARCH_SUNXI_ANDES=y
- CONFIG_ARCH_THEAD=y
- CONFIG_ARCH_VIRT=y
- CONFIG_ARCH_CANAAN=y
+diff --git a/arch/riscv/boot/dts/allwinner/Makefile b/arch/riscv/boot/dts/allwinner/Makefile
+index 1c91be38ea16..635762ba06fe 100644
+--- a/arch/riscv/boot/dts/allwinner/Makefile
++++ b/arch/riscv/boot/dts/allwinner/Makefile
+@@ -1,11 +1,11 @@
+ # SPDX-License-Identifier: GPL-2.0
+-dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-clockworkpi-v3.14.dtb
+-dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-devterm-v3.14.dtb
+-dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-dongshan-nezha-stu.dtb
+-dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-lichee-rv-86-panel-480p.dtb
+-dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-lichee-rv-86-panel-720p.dtb
+-dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-lichee-rv-dock.dtb
+-dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-lichee-rv.dtb
+-dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-mangopi-mq-pro.dtb
+-dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-nezha.dtb
+-dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1s-mangopi-mq.dtb
++dtb-$(CONFIG_ARCH_SUNXI_XUANTIE) += sun20i-d1-clockworkpi-v3.14.dtb
++dtb-$(CONFIG_ARCH_SUNXI_XUANTIE) += sun20i-d1-devterm-v3.14.dtb
++dtb-$(CONFIG_ARCH_SUNXI_XUANTIE) += sun20i-d1-dongshan-nezha-stu.dtb
++dtb-$(CONFIG_ARCH_SUNXI_XUANTIE) += sun20i-d1-lichee-rv-86-panel-480p.dtb
++dtb-$(CONFIG_ARCH_SUNXI_XUANTIE) += sun20i-d1-lichee-rv-86-panel-720p.dtb
++dtb-$(CONFIG_ARCH_SUNXI_XUANTIE) += sun20i-d1-lichee-rv-dock.dtb
++dtb-$(CONFIG_ARCH_SUNXI_XUANTIE) += sun20i-d1-lichee-rv.dtb
++dtb-$(CONFIG_ARCH_SUNXI_XUANTIE) += sun20i-d1-mangopi-mq-pro.dtb
++dtb-$(CONFIG_ARCH_SUNXI_XUANTIE) += sun20i-d1-nezha.dtb
++dtb-$(CONFIG_ARCH_SUNXI_XUANTIE) += sun20i-d1s-mangopi-mq.dtb
 -- 
 2.47.3
 
