@@ -1,50 +1,80 @@
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90636171C9
-	for <linux-sunxi@lists.linux.dev>; Sat,  8 Nov 2025 08:21:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457E9134AB
+	for <linux-sunxi@lists.linux.dev>; Sat,  8 Nov 2025 09:46:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762590080; cv=none; b=jTtPJGbMtKhuulB1cORf3qZQKglE4oE/xtrrBfDQJh6wikbOjXlBk66OseDegyN023TNNaT2B6Ea3TZo++yMsHvUWdHg5uFzX5sc64iKout08XGikJuDrAc9+7FkxA4iuE6d/D2elp/XChl9Rgggpyl7BndAxbZxEaPmMY4a5Fg=
+	t=1762595207; cv=none; b=fy9qs4TEzC1E5bF26/WjMW9IQE/KkAWBsfum//LkMotJO7GeUiOzAybqNWuIzsZgA8Yk9siTGVENMi8TYv4UniiQBsZKBjkht6Qvn/XVhbC2bdnv6YCoK/J6tO8ygxAGFWOXn2EQZm59hJjchwfeP4mSbjf/L8DnBVAzoaZIqOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762590080; c=relaxed/simple;
-	bh=YI948oH4beFT5GR1kOI+UHzyUpIAe6wdqESMCkQ+wuY=;
+	s=arc-20240116; t=1762595207; c=relaxed/simple;
+	bh=aOwq143RKroQJvO/hjzbNHkwe922fvcvmxRe5cHZbKk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D0tIoXGaXvYva4kgc7ZTb+rHv9OoKiISEoL9cIeEni5WnxcT6GeuZB5l726YNOZQZRo2KVbpkr1GIw+sg4OphuUe3/1joCXWLzMx8/HMZtdLFu91ghgh6/Y2VIY2JkLMRcTa0Maq+4tXspKa7Z9ki2jprTEQQSaH/GRNLdBSDMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [223.166.92.44])
-	by APP-03 (Coremail) with SMTP id rQCowAA3texL_Q5p20b2AQ--.57722S3;
-	Sat, 08 Nov 2025 16:20:37 +0800 (CST)
-From: gaohan@iscas.ac.cn
-To: Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Han Gao <gaohan@iscas.ac.cn>,
-	Yixun Lan <dlan@gentoo.org>,
-	Drew Fustini <fustini@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Guodong Xu <guodong@riscstar.com>,
-	Haylen Chu <heylenay@4d2.org>,
-	Joel Stanley <joel@jms.id.au>
-Cc: linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	Han Gao <rabenda.cn@gmail.com>
-Subject: [PATCH 1/3] riscv: soc: re-organized allwinner menu
-Date: Sat,  8 Nov 2025 16:20:23 +0800
-Message-ID: <d17a3a01e2b1297538c419b51953f9613426ba42.1762588494.git.gaohan@iscas.ac.cn>
-X-Mailer: git-send-email 2.47.3
+	 MIME-Version:Content-Type; b=LBPO+vu9yl6/JlxeCGRda9K315J1yv7IlXWtoU1flv/JpeadR2CulNopUvGYNG4IE8qexfvhm35Baebxn6Iz5fABswqX+Q3j0ZsSMrg1uAssShCUsJl1SH2LfKV2x79uFse+sjU7M4XrRg6kRfXfhgrqP47kjSFQMHLx5Ds9z48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NWLXsykb; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NWLXsykb"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b71397df721so175235766b.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 08 Nov 2025 01:46:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762595203; x=1763200003; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lSUW/WjMhCO0Veyp/5U9fPi2v4UQHFyEZLh62h16fCE=;
+        b=NWLXsykb0wGjlrt0MLrR6xM8P8HFuSL02XUN2HNBe2mA9K7azjmmu//Ccpb8heEpvq
+         CS7AGsOAWbYcXUfhFFmJikLEjEzwjZ4rhFfPzQHwX9xOLV8lgoaA2bAx/DfTnb9u0lyY
+         5MpUL/f/GeyPYSQHPyHy7lsfSfHosyzVnKGhMpGV5kKS2K1l3U3+Sq0rjKNxKMWb0i2L
+         5pSBLH4RoqrzQRWcmfZZlVT5qkoarpoq5nYDY3LMdXd5Pte0FN1kqDXRuNSUV4c5z5Vq
+         +sfEvhnmo5XM3CO+WEzaPCTySx4SoyDHzoVyBwBuBfzrxcCVHFqBY+wQqca3bQ1vsw8l
+         Z4zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762595203; x=1763200003;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lSUW/WjMhCO0Veyp/5U9fPi2v4UQHFyEZLh62h16fCE=;
+        b=pNtrE0ntzJBJNDs1BU5CFXTURdsNs3+T+c9BAgDHo7HsxYyLmaIzkuKKKR999Yk79n
+         9JuvVl1T8zBnhgDu82HzzVy/9s8daNoqx9UAVg+ZgDs0RMml77VxYSR5QFWaT6G8EKy9
+         cWz7p6SZDPE9YpmRVdGhFFGlahr6rtoNpjAwEUrgPBkKVcN8Dx4kpA7hljZdk9ZbxqaB
+         cRDYV3VdGC4d/Tq2TuOby0yepZRdIv2laoGtO261SZjL8IU66No4orO587bOkZ9O/DXV
+         P+U8glDaWlufydHSet21m+a05b/6qDJ16A5KOh7sAoxlrtfT++9kN6ywpXEPC8BcIBzd
+         vAlg==
+X-Forwarded-Encrypted: i=1; AJvYcCVQ8LXDWpZsA20OOSWYZ8HBfw/Lhm3szD/SSO6UBMGEy1XNdoSUbz5f62DmE6955l2DXhyXlBIyJAVgtQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzF5DM7d8ABYDNj/ng11rdfvNKVmLjijIaAXu/6Xh5b3TRIZgV5
+	tRD3W4fLLfCdBQv5ynSrlcXtbQ0ib0NKIIYc8qX2oEtrO1jb3VQBA8SZ
+X-Gm-Gg: ASbGncs9ZxsCuWtfew/ov/U1qj5Kh3IXOIdVSoIxyHit19oQrlrs6UErAVhqh7FKOxY
+	Jzi62s4C80tVolFg6G4KmXyGhAWA89x+VTc4A6IurYgI2CAhLmMXdyi/Z2i7ZEKGutZlfXII5Rp
+	2/wQnMXJtU/PCS1FEqv7arqGzaSc4HpKzmF9wD7/w4dLiFCXliUjin/umlGKzEZzD9jxEOv3ZLU
+	JeM361ZQmLELw3p2oCQ6a9w53HEBEHJMx9RK51unuwwdmYme3WM68gf4Ij7Lok9OqBpmMplGfkn
+	YRiurFmqonFqFeb8BKUzFs2DzeAV+Ri2dOQA9GBOz9CduQJdPqtrNEZMgrl3TqmVdmDv+vSxHti
+	1E9XHuaoFLWqt5dk2Wb2SxrkMrEq+dxzsZ2asqEH+7py2rH4Lh8SdRdni1IZo/T7i+TkCQqlFMv
+	bynycgwzLHqIj5TdaRbPvbYA==
+X-Google-Smtp-Source: AGHT+IEF4CkxscNYi/C2XNylHCh280mub3VhXy2YsQtWnD+IOuCk3xiDthoT6Cd2QfMZg0xUKQ0czw==
+X-Received: by 2002:a17:906:6a27:b0:b45:60ad:daf9 with SMTP id a640c23a62f3a-b72e028a602mr227544366b.3.1762595203327;
+        Sat, 08 Nov 2025 01:46:43 -0800 (PST)
+Received: from jernej-laptop.localnet ([188.159.248.16])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72d7996c4csm291514066b.5.2025.11.08.01.46.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 Nov 2025 01:46:42 -0800 (PST)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Han Gao <gaohan@iscas.ac.cn>,
+ Yixun Lan <dlan@gentoo.org>, Drew Fustini <fustini@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Guodong Xu <guodong@riscstar.com>, Haylen Chu <heylenay@4d2.org>,
+ Joel Stanley <joel@jms.id.au>, gaohan@iscas.ac.cn
+Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, Han Gao <rabenda.cn@gmail.com>
+Subject: Re: [PATCH 0/3] riscv: soc: re-organized allwinner
+Date: Sat, 08 Nov 2025 10:46:41 +0100
+Message-ID: <4692596.LvFx2qVVIh@jernej-laptop>
 In-Reply-To: <cover.1762588494.git.gaohan@iscas.ac.cn>
 References: <cover.1762588494.git.gaohan@iscas.ac.cn>
 Precedence: bulk
@@ -53,78 +83,48 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowAA3texL_Q5p20b2AQ--.57722S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7uw18Xr1rWF1xWr43WryDKFg_yoW8Jw1kpr
-	sa9rsYgay5Ga4SgFW3ZFy0gFW5KFn7J3y5G34DAa47X3yUA3yUCr4kt3Z8JF4DJr9rXw1k
-	GryFkFyF9a45ZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUHS14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
-	x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-	Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
-	8EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr0_GcWl
-	e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
-	8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
-	jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0x
-	kIwI1lw4CEc2x0rVAKj4xxMxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxAq
-	zxv26xkF7I0En4kS14v26r4a6rW5MxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
-	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCI
-	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
-	AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_
-	Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7sRRmLvt
-	UUUUU==
-X-CM-SenderInfo: xjdrxt3q6l2u1dvotugofq/
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-From: Han Gao <gaohan@iscas.ac.cn>
+Hi,
 
-Allwinner currently offers d1(s)/v821/v861/v881 on RISC-V,
-using different IPs.
+Dne sobota, 8. november 2025 ob 09:20:22 Srednjeevropski standardni =C4=8Da=
+s je gaohan@iscas.ac.cn napisal(a):
+> From: Han Gao <gaohan@iscas.ac.cn>
+>=20
+> Allwinner currently offers d1(s)/v821/v861/v881 on RISC-V,
+> using different IPs.
+>=20
+> d1(s): Xuantie C906
+> v821: Andes A27 + XuanTie E907
+> v861/v881: XuanTie C907
+>=20
+> Han Gao (3):
+>   riscv: soc: re-organized allwinner menu
+>   riscv: soc: allwinner: d1: use the ARCH_SUNXI_XUANTIE
+>   riscv: defconfig: enable SUNXI_XUANTIE and SUNXI_ANDES
 
-d1(s): Xuantie C906
-v821: Andes A27 + XuanTie E907
-v861/v881: XuanTie C907
+This series is incomplete. It introduces ARCH_SUNXI_ANDES symbol but it is
+never used.
 
-Signed-off-by: Han Gao <gaohan@iscas.ac.cn>
----
- arch/riscv/Kconfig.socs | 22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+Additionally, patches are not organized properly. First, you should introdu=
+ce
+reorganization and only then introduce new features. Also, not a single
+patch should break existing functionality for bisectability reasons. First
+patch breaks compilation of DT files while second restores that. This must
+not happen.
 
-diff --git a/arch/riscv/Kconfig.socs b/arch/riscv/Kconfig.socs
-index 848e7149e443..7cba5d6ec4c3 100644
---- a/arch/riscv/Kconfig.socs
-+++ b/arch/riscv/Kconfig.socs
-@@ -54,14 +54,26 @@ config SOC_STARFIVE
- 	help
- 	  This enables support for StarFive SoC platform hardware.
- 
--config ARCH_SUNXI
--	bool "Allwinner sun20i SoCs"
-+menuconfig ARCH_SUNXI
-+	bool "Allwinner RISC-V SoCs"
-+
-+if ARCH_SUNXI
-+
-+config ARCH_SUNXI_XUANTIE
-+	bool "Allwinner Xuantie IP SoCs"
- 	depends on MMU && !XIP_KERNEL
--	select ERRATA_THEAD
- 	select SUN4I_TIMER
-+	select ERRATA_THEAD
- 	help
--	  This enables support for Allwinner sun20i platform hardware,
--	  including boards based on the D1 and D1s SoCs.
-+	  This enables support for Allwinner Xuantie IP SoCs.
-+
-+config ARCH_SUNXI_ANDES
-+	bool "Allwinner Andes IP SoCs"
-+	select ERRATA_ANDES
-+	help
-+	  This enables support for Allwinner Andes IP SoCs.
-+
-+endif
- 
- config ARCH_THEAD
- 	bool "T-HEAD RISC-V SoCs"
--- 
-2.47.3
+Best regards,
+Jernej
+
+>=20
+>  arch/riscv/Kconfig.socs                | 22 +++++++++++++++++-----
+>  arch/riscv/boot/dts/allwinner/Makefile | 20 ++++++++++----------
+>  arch/riscv/configs/defconfig           |  2 ++
+>  3 files changed, 29 insertions(+), 15 deletions(-)
+>=20
+>=20
+
+
+
 
