@@ -1,22 +1,21 @@
 Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B611EFF8D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9428C2356BA
 	for <linux-sunxi@lists.linux.dev>; Sat,  8 Nov 2025 08:21:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762590078; cv=none; b=J+1SGNz83LB8HIdI+umdDTZ7XUxXePv8yVhXU4EFlw5dydh6eD/tRiMQ4fvm1DdQ2yI7be/cBemauhXb7NYkIDfHzXVcwOm9KXWpsSpi51ltemwP2c9yTbWdBsG9MDxpFYdbpP2KcAPVLMWhY9SNf7PbyuN8M4DBAOApYLXcJ6Y=
+	t=1762590079; cv=none; b=pkvdKhnL45YjfGsKQ4LHUXWE0h9fxtITj0V6xAdV1SqPqUqM67xsWkb0YWiJzAcwVU3A2owUWxmBAom/RCLknQzJwcZ6TodKQC4PiI/bcj532VDk+dsaxD4idCmcKKzPJ56FNjwr+SHVZKWRvf+86greOimvagMFZ9zoBcrTjJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762590078; c=relaxed/simple;
-	bh=Vdp7ybyYmzLP7gToQmIjaAhGouu81Dxr1DEkZddYZnM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dUh5kTUOKRglFbzO49Vyye3dGOpMXk2Gc57dklVLzRMiZ5RO7Nwess580D6OWw59U07DExSAvljs7EGEQMtrKWxNgFgnT8MoT0QPotUixv1d0SBGW2MjNO6DbEE/hEA33Y56kYtwassqonLSXoh/CIlogmjK2EpiZWeAb5WiAwg=
+	s=arc-20240116; t=1762590079; c=relaxed/simple;
+	bh=XuwFiFrCJm/RwOPyPBr9In23/UjXiwSUvAke7fkqAJI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fGCzVrVp9N+ReSWq9ptRNSGSJI0gFrZXcTF5iw/2eqYp5wsyeuvLblRszwGL20mG1rFa3at7NFNz2KHpryZJlOxhmyLAxDT4T1CqfD1y9NIl3WJjXeScTu2gUOsaNUDJme66F43AkiJRsruvy73GasDGBD6aKTGGwXjlYTrkT9c=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost.localdomain (unknown [223.166.92.44])
-	by APP-03 (Coremail) with SMTP id rQCowAA3texL_Q5p20b2AQ--.57722S4;
-	Sat, 08 Nov 2025 16:20:37 +0800 (CST)
+	by APP-03 (Coremail) with SMTP id rQCowAA3texL_Q5p20b2AQ--.57722S2;
+	Sat, 08 Nov 2025 16:20:36 +0800 (CST)
 From: gaohan@iscas.ac.cn
 To: Paul Walmsley <pjw@kernel.org>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
@@ -41,12 +40,10 @@ Cc: linux-riscv@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	Han Gao <rabenda.cn@gmail.com>
-Subject: [PATCH 2/3] riscv: soc: allwinner: d1: use the ARCH_SUNXI_XUANTIE
-Date: Sat,  8 Nov 2025 16:20:24 +0800
-Message-ID: <efd67b0b408bddcf664a8ae61230478e91823d01.1762588494.git.gaohan@iscas.ac.cn>
+Subject: [PATCH 0/3] riscv: soc: re-organized allwinner
+Date: Sat,  8 Nov 2025 16:20:22 +0800
+Message-ID: <cover.1762588494.git.gaohan@iscas.ac.cn>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1762588494.git.gaohan@iscas.ac.cn>
-References: <cover.1762588494.git.gaohan@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -54,62 +51,43 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowAA3texL_Q5p20b2AQ--.57722S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7Cr4UZF4fGr4kXr47WFW8tFb_yoW8ZF43pF
-	n3GFsxWFy3CrnagFW3WrZ8KFZ8tw48t390krZ8JFyIgrykJ34Ivr9rtrn7Kr1rtr9xJa1x
-	Gr97CasxAw4fAwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUHq14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
-	x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-	Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
-	8EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr0_GcWl
-	e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
-	8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
-	jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0x
-	kIwI1lw4CEc2x0rVAKj4xxMxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxAq
-	zxv26xkF7I0En4kS14v26r4a6rW5MxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
-	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCI
-	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
-	AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
-	6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0pRtku
-	cUUUUU=
+X-CM-TRANSID:rQCowAA3texL_Q5p20b2AQ--.57722S2
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYC7AC8VAFwI0_Xr0_Wr1l1xkIjI8I6I8E
+	6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
+	kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8I
+	cVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2js
+	IEc7CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE
+	6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72
+	CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7
+	M4IIrI8v6xkF7I0E8cxan2IY04v7M4kE6xkIj40Ew7xC0wCF04k20xvY0x0EwIxGrwCF54
+	CYxVCY1x0262kKe7AKxVW8ZVWrXwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
+	14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIx
+	kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
+	wI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
+	4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUJManU
+	UUUU=
 X-CM-SenderInfo: xjdrxt3q6l2u1dvotugofq/
 
 From: Han Gao <gaohan@iscas.ac.cn>
 
-d1(s) use Xuantie IP.
+Allwinner currently offers d1(s)/v821/v861/v881 on RISC-V,
+using different IPs.
 
-Signed-off-by: Han Gao <gaohan@iscas.ac.cn>
----
+d1(s): Xuantie C906
+v821: Andes A27 + XuanTie E907
+v861/v881: XuanTie C907
+
+Han Gao (3):
+  riscv: soc: re-organized allwinner menu
+  riscv: soc: allwinner: d1: use the ARCH_SUNXI_XUANTIE
+  riscv: defconfig: enable SUNXI_XUANTIE and SUNXI_ANDES
+
+ arch/riscv/Kconfig.socs                | 22 +++++++++++++++++-----
  arch/riscv/boot/dts/allwinner/Makefile | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ arch/riscv/configs/defconfig           |  2 ++
+ 3 files changed, 29 insertions(+), 15 deletions(-)
 
-diff --git a/arch/riscv/boot/dts/allwinner/Makefile b/arch/riscv/boot/dts/allwinner/Makefile
-index 1c91be38ea16..635762ba06fe 100644
---- a/arch/riscv/boot/dts/allwinner/Makefile
-+++ b/arch/riscv/boot/dts/allwinner/Makefile
-@@ -1,11 +1,11 @@
- # SPDX-License-Identifier: GPL-2.0
--dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-clockworkpi-v3.14.dtb
--dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-devterm-v3.14.dtb
--dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-dongshan-nezha-stu.dtb
--dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-lichee-rv-86-panel-480p.dtb
--dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-lichee-rv-86-panel-720p.dtb
--dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-lichee-rv-dock.dtb
--dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-lichee-rv.dtb
--dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-mangopi-mq-pro.dtb
--dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-nezha.dtb
--dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1s-mangopi-mq.dtb
-+dtb-$(CONFIG_ARCH_SUNXI_XUANTIE) += sun20i-d1-clockworkpi-v3.14.dtb
-+dtb-$(CONFIG_ARCH_SUNXI_XUANTIE) += sun20i-d1-devterm-v3.14.dtb
-+dtb-$(CONFIG_ARCH_SUNXI_XUANTIE) += sun20i-d1-dongshan-nezha-stu.dtb
-+dtb-$(CONFIG_ARCH_SUNXI_XUANTIE) += sun20i-d1-lichee-rv-86-panel-480p.dtb
-+dtb-$(CONFIG_ARCH_SUNXI_XUANTIE) += sun20i-d1-lichee-rv-86-panel-720p.dtb
-+dtb-$(CONFIG_ARCH_SUNXI_XUANTIE) += sun20i-d1-lichee-rv-dock.dtb
-+dtb-$(CONFIG_ARCH_SUNXI_XUANTIE) += sun20i-d1-lichee-rv.dtb
-+dtb-$(CONFIG_ARCH_SUNXI_XUANTIE) += sun20i-d1-mangopi-mq-pro.dtb
-+dtb-$(CONFIG_ARCH_SUNXI_XUANTIE) += sun20i-d1-nezha.dtb
-+dtb-$(CONFIG_ARCH_SUNXI_XUANTIE) += sun20i-d1s-mangopi-mq.dtb
 -- 
 2.47.3
 
