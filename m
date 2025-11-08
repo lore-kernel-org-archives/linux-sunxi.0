@@ -1,129 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F9C02741B5;
-	Sat,  8 Nov 2025 11:29:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDEC1E0E14
+	for <linux-sunxi@lists.linux.dev>; Sat,  8 Nov 2025 14:00:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762601383; cv=none; b=i7/tmrMagyOM7AinrVw8wAsSbz2SlO4OWdZ2Hb3CpCJ0w6zBksuetNHTgqZTugVeUS+QpG0SmWx4CPS2mkZ9Fy7tkCgpHgwqXXTpHSV0lzfwqGNaYcMJAFA7tnqbBR94KPoqbu0DrDbRwineEIW3BqGlMXt73lSz+U6nL9e/aKw=
+	t=1762610407; cv=none; b=pMcqLaRe0WxXkGXbkZs/DrdA33DiEfInOHeUztGXxSq6PXfCSVmHIGkvGSB4ZCC1OkghIcYnG758QzoYK9shStGzRMKlS2vf1I8kSambvkMWDNkMeJLQeRBmT23uy/eizSG+Qu5ckt1wOXHIWXEzamLRksjMUN2Sj2Q0EIVk1dY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762601383; c=relaxed/simple;
-	bh=xRQdJudR4YOfT1QYPaRJEv5pzd5rtXgXsGj9Rzaefpc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CtwB4UNpn2+3mHtazU20SwE3XIKFxALBpNqs3Eylnhk60KylNzKpVjYQZJ7TBHRP+ZZjpH66zeFufO+eC3cdykncZDDI8k5xH835druk5sorIeAML6K3c2JZPbDwrWhV7ks4yoaoeYdQIiedFEHOlZJeBBsZI4Ayr1HcsnZ0Q+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SeR07P86; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SeR07P86"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13F46C116C6;
-	Sat,  8 Nov 2025 11:29:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762601383;
-	bh=xRQdJudR4YOfT1QYPaRJEv5pzd5rtXgXsGj9Rzaefpc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SeR07P86Gk3SxuWm/Cs04R+AwI5EVBYK4jeEf2suKpeiLuDRPS/TANPL1kEme0cZD
-	 +qhUl/f6j3Llgjpq5ZKRG6JA4XUIMF3MhF1pZMLIPk64ubT9WTuBseHR2g5D8HiTIp
-	 Mx5KJweQEaAhEUCawdodZMIROzVcpBgEcMNF7m1ww/5ZBgwzij4ZBpoMMKMYfHAayS
-	 uNJJwEa3VJwYNCbYLcPpt4F0UkpwzJmx6yLRjFJi4JJtc7a2u6AisC43IQlqriOspe
-	 P47jg35zy4hOX4YFDiKWdBG1ddzFp3eDzS6CApU46uUL4kkS/SNzplQEqW7zHz55Rj
-	 B8lfnGsT3nkrQ==
-Message-ID: <3f2ca0bc-de7b-47f1-b5a6-da6b1ba31def@kernel.org>
-Date: Sat, 8 Nov 2025 12:29:35 +0100
+	s=arc-20240116; t=1762610407; c=relaxed/simple;
+	bh=7yBypT11WbeW2bxMeuPHburV16FzltRiYKmtQ3dew9U=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=kfyLkVa0fVlvSthYD7T2gcXGyjFI4Caw2E+B4w7rPW7SQPrCVZ5jtmiodTMyzbSTIjHjlhg7M8Uj+ZACqywrzHCESxaGgGuwNOXJ0pYPegTI+34rfuj/7LLMJVTxJD2yA8mGeIXvK8G+mI/KSbLQJH8zdFlBgpHUDkkH4jHdIhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from smtpclient.apple (unknown [180.172.111.150])
+	by APP-05 (Coremail) with SMTP id zQCowAA3pPK0TA9pT6IJAg--.54671S2;
+	Sat, 08 Nov 2025 21:59:17 +0800 (CST)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] riscv: defconfig: enable SUNXI_XUANTIE and
- SUNXI_ANDES
-To: gaohan@iscas.ac.cn, Paul Walmsley <pjw@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.100.1.1.5\))
+Subject: Re: Re: [PATCH 1/3] riscv: soc: re-organized allwinner menu
+From: revy <gaohan@iscas.ac.cn>
+X-Priority: 3
+In-Reply-To: <e98a1e59-f3ff-4e9f-a180-79aea9943236@kernel.org>
+Date: Sat, 8 Nov 2025 21:59:06 +0800
+Cc: Paul Walmsley <pjw@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>,
+ Rob Herring <robh@kernel.org>,
+ krzk+dt@kernel.org,
+ conor+dt@kernel.org,
+ Chen-Yu Tsai <wens@csie.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Yixun Lan <dlan@gentoo.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Yixun Lan <dlan@gentoo.org>,
  Drew Fustini <fustini@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Guodong Xu <guodong@riscstar.com>, Haylen Chu <heylenay@4d2.org>,
- Joel Stanley <joel@jms.id.au>
-Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Han Gao <rabenda.cn@gmail.com>
+ geert+renesas@glider.be,
+ Guodong Xu <guodong@riscstar.com>,
+ Haylen Chu <heylenay@4d2.org>,
+ Joel Stanley <joel@jms.id.au>,
+ linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev,
+ Han Gao <rabenda.cn@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <43109A90-8447-4006-8E29-2D2C0866758F@iscas.ac.cn>
 References: <cover.1762588494.git.gaohan@iscas.ac.cn>
- <bc141425b71f0cfc8f3ef0a3c6d08104fde1281f.1762588494.git.gaohan@iscas.ac.cn>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <bc141425b71f0cfc8f3ef0a3c6d08104fde1281f.1762588494.git.gaohan@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <d17a3a01e2b1297538c419b51953f9613426ba42.1762588494.git.gaohan@iscas.ac.cn>
+ <e98a1e59-f3ff-4e9f-a180-79aea9943236@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+X-Mailer: Apple Mail (2.3864.100.1.1.5)
+X-CM-TRANSID:zQCowAA3pPK0TA9pT6IJAg--.54671S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7CF13uFWkGr1UXFWDWw1fXrb_yoW8Kw15pF
+	4fCFsI9FW5XryIganFgryj9FW5ta93Gw43WryDJ34rZ34jv3yUWr90qr4xWF1DXryDWa17
+	Jr95uF1a93y5AaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvCb7Iv0xC_Cr1lb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xII
+	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I
+	8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
+	64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVWUJVW8Jw
+	Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkI
+	wI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr
+	0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY
+	17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcV
+	C0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY
+	6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2Kf
+	nxnUUI43ZEXa7IU0uc_3UUUUU==
+X-CM-SenderInfo: xjdrxt3q6l2u1dvotugofq/1tbiCQ8ADGkPJyrqCQAAsC
 
-On 08/11/2025 09:20, gaohan@iscas.ac.cn wrote:
-> From: Han Gao <gaohan@iscas.ac.cn>
-> 
-> These options need to be enabled to prepare for v821/v861/v881.
-> 
-> Signed-off-by: Han Gao <gaohan@iscas.ac.cn>
-> ---
->  arch/riscv/configs/defconfig | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
-> index fc2725cbca18..ed0ac65babdc 100644
-> --- a/arch/riscv/configs/defconfig
-> +++ b/arch/riscv/configs/defconfig
-> @@ -29,6 +29,8 @@ CONFIG_ARCH_SOPHGO=y
->  CONFIG_ARCH_SPACEMIT=y
->  CONFIG_SOC_STARFIVE=y
->  CONFIG_ARCH_SUNXI=y
-> +CONFIG_ARCH_SUNXI_XUANTIE=y
-> +CONFIG_ARCH_SUNXI_ANDES=y
 
-No. One ARCH. You do not need more.
 
-Best regards,
-Krzysztof
+
+> -----Original Messages-----
+> From: "Krzysztof Kozlowski" <krzk@kernel.org>
+> Sent Time: 2025-11-08 19:29:07 (Saturday)
+> To: gaohan@iscas.ac.cn, "Paul Walmsley" <pjw@kernel.org>, "Palmer =
+Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>, =
+"Alexandre Ghiti" <alex@ghiti.fr>, "Rob Herring" <robh@kernel.org>, =
+"Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" =
+<conor+dt@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>, "Jernej Skrabec" =
+<jernej.skrabec@gmail.com>, "Samuel Holland" <samuel@sholland.org>, =
+"Yixun Lan" <dlan@gentoo.org>, "Drew Fustini" <fustini@kernel.org>, =
+"Geert Uytterhoeven" <geert+renesas@glider.be>, "Guodong Xu" =
+<guodong@riscstar.com>, "Haylen Chu" <heylenay@4d2.org>, "Joel Stanley" =
+<joel@jms.id.au>
+> Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, =
+devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, =
+linux-sunxi@lists.linux.dev, "Han Gao" <rabenda.cn@gmail.com>
+> Subject: Re: [PATCH 1/3] riscv: soc: re-organized allwinner menu
+>=20
+> On 08/11/2025 09:20, gaohan@iscas.ac.cn wrote:
+>> From: Han Gao <gaohan@iscas.ac.cn>
+>>=20
+>> Allwinner currently offers d1(s)/v821/v861/v881 on RISC-V,
+>> using different IPs.
+>>=20
+>> d1(s): Xuantie C906
+>> v821: Andes A27 + XuanTie E907
+>> v861/v881: XuanTie C907
+>>=20
+>> Signed-off-by: Han Gao <gaohan@iscas.ac.cn>
+>> ---
+>> arch/riscv/Kconfig.socs | 22 +++++++++++++++++-----
+>> 1 file changed, 17 insertions(+), 5 deletions(-)
+>>=20
+>> diff --git a/arch/riscv/Kconfig.socs b/arch/riscv/Kconfig.socs
+>> index 848e7149e443..7cba5d6ec4c3 100644
+>> --- a/arch/riscv/Kconfig.socs
+>> +++ b/arch/riscv/Kconfig.socs
+>> @@ -54,14 +54,26 @@ config SOC_STARFIVE
+>> 	help
+>> 	  This enables support for StarFive SoC platform hardware.
+>>=20
+>> -config ARCH_SUNXI
+>> -	bool "Allwinner sun20i SoCs"
+>> +menuconfig ARCH_SUNXI
+>> +	bool "Allwinner RISC-V SoCs"
+>> +
+>> +if ARCH_SUNXI
+>> +
+>> +config ARCH_SUNXI_XUANTIE
+>=20
+>=20
+> You should not get multiple ARCHs. ARCH is only one. There is also not
+> much rationale in commit msg for that.
+
+The main goal is to avoid choosing multiple IP addresses for erreta.=20
+If using Andes IPs, I don't want to choose XuanTIe (T-Head) ERRETA.
+
+For example, v821 uses Andes ax27, but it used to select ERRATA_THEAD.
+
+>=20
+> Best regards,
+> Krzysztof
+
