@@ -1,252 +1,87 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1420722F177
-	for <linux-sunxi@lists.linux.dev>; Sun,  9 Nov 2025 19:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A11218AB0;
+	Mon, 10 Nov 2025 07:42:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762715186; cv=none; b=bmN7FNkpBXE1d0acBPqcg5CPduUrvtkQSOVqxSua6dGBHhDlDwBVTDGlJOHkYea1qiFwUK/Cqd2afkXF6167ri77/SzGNHsMuBrbX8mOmFv1uiYbZzeEca3Fws5tqX3k6tb91th0EFXdWCX8ijocI+Y4ptSTWuviS4h3lI4nd/A=
+	t=1762760526; cv=none; b=cxRFnIkP6oWaACV4IvKuQM7mnmG0vg5rXeetNvLCy1r7Dp8tCLpD6EmClFIN4LPUrxIfzRyQhtyg+5EDpBC5dY3fbSOBqjVfyNC3ApnHFW5ZV8YBTjwCxpFJYd0wAPpyWxhhUZfmdH5rfGxif/v0TA75huy+WhL/XvQlve1qU9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762715186; c=relaxed/simple;
-	bh=Tz6nhPicBjCYLSfhTOnICUxIjj/xdpDaK6V9VOSBwHA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gFexAfY8z8jxgGU3kPUq7+t62gwICLeUG+U+bb8DAfGgtKU/M6Ocq4db6SVsSseqbNKJ2scKMGe1w/6K/VVN9FCXXLDmZKkuujtFfJHJqMjsrzJR4mxdB/jrxyQRECdZzdDrZ64xuRQ34sh9PdvShzX+89La67mwgjMhp3G+MhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oEjNbP/p; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1762760526; c=relaxed/simple;
+	bh=eoQpss3r6FYo/VoSTS5AtWz2fEfHuakzCuCNoTPYihE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Gknpk9+eShB4ukjLeSRkytqvAVF8Uoiug6Ot4IkH/dzhrjW+MPNXSALckh47IwzZBG+eW4kOTNsMUlKsh8fwIUQxhqbKjup0sITDg/69ajuBminYFd9N3Fx/FJ8zZHdnWiAbwAyj1eUHfbKLpT0juqXykohhyNRjd4KjJ/hdM2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SkY1ybXw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oEjNbP/p"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-42b3298502cso90476f8f.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 09 Nov 2025 11:06:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1762715182; x=1763319982; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=1Y3W5ywvn7drSnOuge5r3/YGn5rwH+Mp+hb7awIgl3s=;
-        b=oEjNbP/p8mWxl0Rdt6iJRdftCAShPcDZ4z5GXzV70Hg9G4ppqsA3y986unmSMYiKCI
-         7/KgDMXJLNtLUSGQ+bZGBbFlxOOExCYm+qkd6syR1D1lNzv3LxKSf/gazto4Y/gBX73v
-         aneGwew/N1Y2RwnaVKsv6kA26/o0a/ipyGlq5XOomgVFL0l1mYX2pY8+mv0u77iVanpL
-         JqCdtpA7HJmx/1OLRu6WQ607gXKS/HfoAiJYbapP8uollRP9mqyfdU0bTW/t3yp/GRU0
-         Bq2AQswpS7u3mld8tjIYUocd0FbSZChF81jP0ihmaLKWJDDevqzointf8L4SeF2yAOVp
-         BlCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762715182; x=1763319982;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1Y3W5ywvn7drSnOuge5r3/YGn5rwH+Mp+hb7awIgl3s=;
-        b=bd+57wSHud6fI0cVM8udxI0SMUs13zd06PMxdo3yEYP8lYTpJJWky03myrSXxOXaCq
-         h2Lk5rxcKIUKyqZAyDTSPUU+5JagKALNKTMlUOhIdorYITcd6v6voMNO4wxB1i+jMC+n
-         pJ/5KeVk7av5FmEWdCsuVBYfnhcq34YITsJb9df/gKx2qSGZaptREpTS2jEneG2/I5QV
-         rxbPKDzzHD6D4EaLBcDWxu3OTVrhSc4AAfx94poLzAiW0vY5Djmg3K7KVP66M5XFAi9G
-         HzF7uXozR03REBw8nUU4ulGJqGdPlF6uT09kuk4jYwxBlGGtO+RotznjG/R5bnuSULtd
-         nl7g==
-X-Forwarded-Encrypted: i=1; AJvYcCXSPWaoC40wBPZk2NlnauHNHJ8mm+m5v+2fnyFFd0XfIEcf1RD+S+e2M0Kld5mVAqi2pReXhrglgB3Ngw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyYdUj4mbCf89KWSZ7iPVjZg7/7nyTurLcKWnlzO3e9Y3oErjkD
-	jLczjgmUazLQMHCs85EhIW6aVCkxwp0PjRwDBvnAB2dhkpL1x9lAMo2ZuDFMwpD/kbs=
-X-Gm-Gg: ASbGnct0mALA0p36oYcSmG44p+E8uzcDI8kpGlAXw/735LAQyt2AyUBQeyGXM0ifLYV
-	FpHWzDlYR/x3ICAmf30Vp1zw5UR797xu9RCSeqQTk0rV4Z2XYgJcVRl+efddYrRV9vNg4KQbqJ+
-	SvmNrw3Ah3VvizeDKbFsLY06UNTMijUQaq4G353qL10sOR7/iUEbhDl3qjE+279Ks4G9Hy13y8b
-	Yacgc1z1VpehC6gRbaSfTm+yLS4oZCM0N2BlD7XTkXPZ8jtpFwiAxi2POkrx61LdD2MsTCu5RR2
-	eFPVkhav6SjkAsy0+cGOIKd3ng6RjqMoL9eSSg4UAAPsmrvjPvJ5ZisXBAk+0NuTyGIxM/Ppn4X
-	21YfNVheFRlZdmDe2LyCq5nF2/Um3O246U0QfDgimHO81tXrziKy3H1gXZ/sZiaO79SYRh18FWM
-	I+yGIgHclRZJbJnaYZXaatjgSRC7wUGF4=
-X-Google-Smtp-Source: AGHT+IE/lbhJ0vCe2mId2P7awStumT/sI1M3BLEL1gPp+PFhAxOunSK8kwDpAn8OgL+MDe5CdFcyfg==
-X-Received: by 2002:a05:6000:2002:b0:426:fe0a:1bb3 with SMTP id ffacd0b85a97d-42b2dcab74dmr2388569f8f.7.1762715182253;
-        Sun, 09 Nov 2025 11:06:22 -0800 (PST)
-Received: from [192.168.1.29] ([178.197.219.123])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b380a3a30sm4153513f8f.4.2025.11.09.11.06.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 09 Nov 2025 11:06:21 -0800 (PST)
-Message-ID: <86139020-d2bf-4dc8-8b38-d7faba838e46@linaro.org>
-Date: Sun, 9 Nov 2025 20:06:18 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SkY1ybXw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20230C116B1;
+	Mon, 10 Nov 2025 07:41:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762760525;
+	bh=eoQpss3r6FYo/VoSTS5AtWz2fEfHuakzCuCNoTPYihE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=SkY1ybXw4AE6CFT9Tnb2fjXUIAbi+gLXED5B4FtiMQLdokuofcghcxD+xY8/DB3dJ
+	 RsFOoMuXNQq3d5SOBbdv5jiaHYA5OLCtdNUvt1z1m1Cfg0fR6V8suAOhTd7pG+PJlt
+	 mgyglzWBw2jENzcWsjico9PyLr+Y+XkjC7+xTM9+tplbMS+EV9IAIe56PThbWWCukY
+	 2dSGCF9Ip5CDKH+ldtwdtxsvV8pavZqjVHWAST1KoYe7bzXRRpYAvYCUY/8Y7iMYpx
+	 z/6yPHa9cE79YCuAb2g/xvHnjCKsj4bj9ba/mmWaFKT0WkrJS/k1D54JNUOK67LcBG
+	 HHreGSjFECDgA==
+From: Srinivas Kandagatla <srini@kernel.org>
+To: devicetree@vger.kernel.org, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Chen-Yu Tsai <wens@csie.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
+ Gatien Chevallier <gatien.chevallier@foss.st.com>, imx@lists.linux.dev, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, linux-arm-kernel@lists.infradead.org, 
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-sunxi@lists.linux.dev, Liu Ying <victor.liu@nxp.com>, 
+ Mark Brown <broonie@kernel.org>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>
+In-Reply-To: <20251020060951.30776-6-wsa+renesas@sang-engineering.com>
+References: <20251020060951.30776-6-wsa+renesas@sang-engineering.com>
+Subject: Re: (subset) [PATCH 0/4] dt-bindings: treewide: don't check node
+ names
+Message-Id: <176276050899.18134.7729831344719556570.b4-ty@kernel.org>
+Date: Mon, 10 Nov 2025 07:41:48 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/13] soc: qcom: Simplify with
- of_machine_get_match_data()
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Thomas Gleixner
- <tglx@linutronix.de>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Maximilian Luz <luzmaximilian@gmail.com>, Hans de Goede <hansg@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Daniel Lezcano <daniel.lezcano@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20251106-b4-of-match-matchine-data-v1-0-d780ea1780c2@linaro.org>
- <20251106-b4-of-match-matchine-data-v1-11-d780ea1780c2@linaro.org>
- <odmsib3dsxzzggq4gcx7gmh6vq3crlv25fz4z2l2ntezvx6gbi@uelqojwjjait>
- <a8952b46-94b6-4fe5-a5be-d69aa41d44cd@kernel.org>
- <a06ed143-c497-4141-8b4d-98fcb322e130@linaro.org>
- <rxhmiudlnrn2pexqtwuuv2jrenrl2ezepknvrc3o34gaap247u@2tsfw6g33rmr>
- <8fc8c945-ae67-4c58-837d-40bdf4d60035@kernel.org>
- <3q5bpkktogs3pxjboihynjduabqrcuayyexjqdv3cgp5krjaxo@afnknyguuzxl>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- 2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <3q5bpkktogs3pxjboihynjduabqrcuayyexjqdv3cgp5krjaxo@afnknyguuzxl>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 
-On 08/11/2025 17:31, Dmitry Baryshkov wrote:
-> On Fri, Nov 07, 2025 at 03:58:26PM +0100, Krzysztof Kozlowski wrote:
->> On 07/11/2025 15:23, Dmitry Baryshkov wrote:
->>> On Fri, Nov 07, 2025 at 08:08:28AM +0100, Krzysztof Kozlowski wrote:
->>>> On 07/11/2025 08:02, Krzysztof Kozlowski wrote:
->>>>> On 07/11/2025 04:19, Dmitry Baryshkov wrote:
->>>>>> On Thu, Nov 06, 2025 at 08:07:18PM +0100, Krzysztof Kozlowski wrote:
->>>>>>> Replace open-coded getting root OF node, matching against it and getting
->>>>>>> the match data with new of_machine_get_match_data() helper.
->>>>>>>
->>>>>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>>>>>>
->>>>>>> ---
->>>>>>>
->>>>>>> Depends on the first OF patch.
->>>>>>> ---
->>>>>>>  drivers/soc/qcom/qcom_pd_mapper.c | 17 ++---------------
->>>>>>>  1 file changed, 2 insertions(+), 15 deletions(-)
->>>>>>>
->>>>>>> diff --git a/drivers/soc/qcom/qcom_pd_mapper.c b/drivers/soc/qcom/qcom_pd_mapper.c
->>>>>>> index 1bcbe69688d2..07198d44b559 100644
->>>>>>> --- a/drivers/soc/qcom/qcom_pd_mapper.c
->>>>>>> +++ b/drivers/soc/qcom/qcom_pd_mapper.c
->>>>>>> @@ -613,25 +613,12 @@ static void qcom_pdm_stop(struct qcom_pdm_data *data)
->>>>>>>  static struct qcom_pdm_data *qcom_pdm_start(void)
->>>>>>>  {
->>>>>>>  	const struct qcom_pdm_domain_data * const *domains;
->>>>>>> -	const struct of_device_id *match;
->>>>>>>  	struct qcom_pdm_data *data;
->>>>>>> -	struct device_node *root;
->>>>>>>  	int ret, i;
->>>>>>>  
->>>>>>> -	root = of_find_node_by_path("/");
->>>>>>> -	if (!root)
->>>>>>> -		return ERR_PTR(-ENODEV);
->>>>>>> -
->>>>>>> -	match = of_match_node(qcom_pdm_domains, root);
->>>>>>> -	of_node_put(root);
->>>>>>> -	if (!match) {
->>>>>>> -		pr_notice("PDM: no support for the platform, userspace daemon might be required.\n");
->>>>>>> -		return ERR_PTR(-ENODEV);
->>>>>>> -	}
->>>>>>> -
->>>>>>> -	domains = match->data;
->>>>>>> +	domains = of_machine_get_match_data(qcom_pdm_domains);
->>>>>>>  	if (!domains) {
->>>>>>> -		pr_debug("PDM: no domains\n");
->>>>>>> +		pr_notice("PDM: no support for the platform or no domains, userspace daemon might be required.\n");
->>>>>>>  		return ERR_PTR(-ENODEV);
->>>>>>>  	}
->>>>>>
->>>>>> Here you are mixing two cases:
->>>>>> - There is not match in the table (in which case the driver should print
->>>>>>   a notice)
->>>>>>
->>>>>> - There is a match in the table, but the data is NULL (the platform
->>>>>>   doesn't have PDM domains). In this case there should be no notice.
->>>>>
->>>>>
->>>>> Why? Existing code printed notice in both cases. Why refactoring which
->>>>> tries to keep code functionally equivalent should change it?
->>>>
->>>> Ah, you mean there was a debug before. Well, then I am a bit confused
->>>> because table has entries without data (so expected condition) but old
->>>> code returned ERRNO in such case - so unexpected condition.
->>>>
->>>> Wail failing the probe on expected condition?
->>>>
->>>> Unless it is not really expected and notice in second case is valid as well.
->>>
->>> If we know that there are no domains on the platform, then the notice
->>> definitely doesn't apply. Failing the probe is a separate topic. The
->>> rest of the code expects that _qcom_pdm_data is not NULL.
->>
->> I hoped that separate topic would be the reason, after commit msg
->> adjustments, to keep this change, but if you insist that this must stay
->> debug, then this patch should be just dropped because it is impossible
->> to achieve with current helpers.
+
+On Mon, 20 Oct 2025 08:09:49 +0200, Wolfram Sang wrote:
+> Node names are already and properly checked by the core schema. No need
+> to do it again.
 > 
-> Having the same pr_notice would be misleading: we point users to running
-> userspace daemon, while we _know_ that the daemon is useless because
-> there are no PDs. One of the ways to solve it would be to add extra
-> wrapping, so that the data in the match table is never NULL.
+> These are all occurrences I found in linux-next as of 20251015. I did
+> run dt_bindings_check successfully. I haven't done a way to run
+> dtbs_check yet because I would need to identify the proper architecture
+> first, right? Is there some tool which tests all DTs of a certain
+> binding? At least build bot is happy, I don't know if it checks DTs as
+> well, though.
+> 
+> [...]
 
-The message does not matter. It still returns ENODEV which is failing
-the probe. This leaves error messages in the dmesg already, if pdm is
-ever probed for these devices, so my change of debug->notice here
-really, really does not matter. Failing of probe is always a failure of
-system, so it is not an expected behavior.
+Applied, thanks!
 
-Anyway, I will just drop this change as I said.
-
+[2/4] dt-bindings: nvmem: don't check node names
+      commit: 65c1bc002b27d1ac398e37ce031a45d59999cb13
 
 Best regards,
-Krzysztof
+-- 
+Srinivas Kandagatla <srini@kernel.org>
+
