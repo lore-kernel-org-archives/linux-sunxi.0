@@ -1,155 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC4E730ACFA
-	for <linux-sunxi@lists.linux.dev>; Mon, 10 Nov 2025 11:49:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEDD98BEC
+	for <linux-sunxi@lists.linux.dev>; Mon, 10 Nov 2025 14:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762775399; cv=none; b=r036rib2jDO31mBH77Yu7Rfo57gw/eVRc0rnPVU7dWGL8GH8pF810kFX192V2TImbCA0DYSeBY29V6sP/KAgLyFf/1oHgaFtKVOcnIISTXg4CnL9rXnPiW+Jvp3om83bKbwAcA16bh7qS/lyI4llpl09Tj8em1QA2XZujApt2tM=
+	t=1762783872; cv=none; b=odXwaYjlvhfbaG7LcX10FoYnTSOCtzsQdzJC7EwcRvxQ+QnwMLqv0IPYDlRdTvGGRRWfmDKmn4yWvvXyK1Pj4bQMOZmCF1MICwqVSqYjmGCSmC7TiETzty5Mm0odn3Nr6BtqPXiJmQlM3/6yyISb09EXYkrdlJhhOYyXRKqhacw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762775399; c=relaxed/simple;
-	bh=kgLvGqGW6Y2MVxPS0dVKx+QUBt0U5B7prEs50cqFkU4=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=cHchF+3SJs7n+nnBrL5JSJxU/LYj51e1j+Qc1y4n6t4WWiVQ05TcyGDM9JabhHMvvxvOxPpxfto4uETLWRiSjVwtqCKiHDnk4hfx6OuO6M5e5vqlAKPjbjt6mp2wFZGBjOnP3VrM1UrlSomBeCTWh3xpNaSg/iUHKbegrjZl5RI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MybNDpjY; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1762783872; c=relaxed/simple;
+	bh=48QFvVDn/gQXwmUmio9XPnllOgtcyyXloU9GmXy3GXQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=LVahrcXrN4H1IioAgXAz8aTuqd7QdqUIInRoLVkmQ89upAVx5GqQEZubW93hTwX1SreSNJQfien89cZ6cBPqqN5YBVEEIw/dqTVCx22sZbsbe5FWyXjZtLMMiDScvokoN4wdvSeUgr/ZGmnW4AZ3EDV8JslaZWQ2qGZcg8/CnRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=Ar52pbYt; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MybNDpjY"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="Ar52pbYt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762775398; x=1794311398;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=kgLvGqGW6Y2MVxPS0dVKx+QUBt0U5B7prEs50cqFkU4=;
-  b=MybNDpjYgKJzlFJE1XlpRif5sw8WHu5Oa0DPp+7PPcrvsdcoEou2DCsA
-   nquc7AEVVNrIdcfV0p8X+fVSJJ2s5K6UjkbYi5X6xyb/iRbwnVjFLa2KX
-   mUbdG6XTlJgOz7H3b1N0+b1qfvHFcpVJ40pB0DS+RgzpZrYDR/A8Ui9Bi
-   E6FGEqNksD6qGPooTKNnZsSrn3UnlOn+SMCGgisksA9sl9etTKgVAbSR4
-   zEexw75QcZkFksiEb7l+GbvPSNiK2pN0yZC3uRMTGlyIGWjwacAWEoxQF
-   fuGD/FtPIFSgzt/kofTi1XRcIY+zeOz137dj9ZqKlbQTVUbDsyOVYq1z6
-   w==;
-X-CSE-ConnectionGUID: 2RlqE3YGSqesObSgCJLa2w==
-X-CSE-MsgGUID: n9S4Y4ucRLOO8r2mtPXGRA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="64029714"
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1762783870; x=1794319870;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=48QFvVDn/gQXwmUmio9XPnllOgtcyyXloU9GmXy3GXQ=;
+  b=Ar52pbYtq/HFh08lpbjfDfHcdmTVU+Braf6fWpA9SaX0R0quRn8IhjEe
+   YckcggR0k4yvNl+ssy3icYSxyWsBvzHyYMEJWVmLmpbc3jWeqHp+Q8ZZ3
+   ZsZkYkHFVJkX96qYQ2Zj8mIRTI7ab+LKELe9uVx6sIn345RCfY6NZlFQA
+   HEpS5xO6/1hBpyKzFe44meIlFGiHja/ydk3fX25eYoWc6r2BWP61ycDZs
+   1eVOUenJyZcHk6dHyKzUHniA9PELHCvL87gl4vPPUlKbdiBJRkEJPDSZ0
+   +0plZ3dXDNOCJ3NizzqqYhb2de4ne75o8z960kze/j6Cv/jhbMopUumkV
+   A==;
+X-CSE-ConnectionGUID: 7jHQAg5DRaCcnmeaPG7SRg==
+X-CSE-MsgGUID: cZ/bQKkfRpi6h9O940oGMw==
 X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="64029714"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 03:49:57 -0800
-X-CSE-ConnectionGUID: Sj9MWXvmSo6S4AGtYTK6HQ==
-X-CSE-MsgGUID: q0aaSUIcTOWst/+WBvw2kg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="193665319"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.13])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 03:49:46 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Mon, 10 Nov 2025 13:49:42 +0200 (EET)
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
-    "Rafael J. Wysocki" <rafael@kernel.org>, 
-    Viresh Kumar <viresh.kumar@linaro.org>, 
-    Matthias Brugger <matthias.bgg@gmail.com>, 
-    AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-    Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@kernel.org>, 
-    Jernej Skrabec <jernej.skrabec@gmail.com>, 
-    Samuel Holland <samuel@sholland.org>, 
-    Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-    Daniel Lezcano <daniel.lezcano@linaro.org>, 
-    Bjorn Andersson <andersson@kernel.org>, 
-    Konrad Dybcio <konradybcio@kernel.org>, 
-    Thomas Gleixner <tglx@linutronix.de>, 
-    Nicolas Ferre <nicolas.ferre@microchip.com>, 
-    Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-    Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-    Maximilian Luz <luzmaximilian@gmail.com>, Hans de Goede <hansg@kernel.org>, 
-    Daniel Lezcano <daniel.lezcano@kernel.org>, 
-    Thierry Reding <thierry.reding@gmail.com>, 
-    Jonathan Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>, linux-pm@vger.kernel.org, 
-    linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-    linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-    platform-driver-x86@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 09/13] platform: surface: Simplify with
- of_machine_get_match_data()
-In-Reply-To: <20251106-b4-of-match-matchine-data-v1-9-d780ea1780c2@linaro.org>
-Message-ID: <4986f752-ba21-6a5f-641a-e0dadb4abd11@linux.intel.com>
-References: <20251106-b4-of-match-matchine-data-v1-0-d780ea1780c2@linaro.org> <20251106-b4-of-match-matchine-data-v1-9-d780ea1780c2@linaro.org>
+   d="scan'208";a="280277302"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 07:11:09 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.87.151) by
+ chn-vm-ex3.mchp-main.com (10.10.87.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.29; Mon, 10 Nov 2025 07:10:29 -0700
+Received: from [10.159.245.205] (10.10.85.11) by chn-vm-ex04.mchp-main.com
+ (10.10.85.152) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
+ Transport; Mon, 10 Nov 2025 07:10:23 -0700
+Message-ID: <e7ddaff8-0d8a-4d79-a2b1-97aaac524a83@microchip.com>
+Date: Mon, 10 Nov 2025 15:10:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1580227820-1762775382=:1060"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 08/13] irqchip/atmel-aic: Simplify with
+ of_machine_get_match_data()
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Herring
+	<robh@kernel.org>, Saravana Kannan <saravanak@google.com>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Yangtao Li
+	<tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec
+	<jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Lorenzo
+ Pieralisi <lpieralisi@kernel.org>, Daniel Lezcano
+	<daniel.lezcano@linaro.org>, Bjorn Andersson <andersson@kernel.org>, Konrad
+ Dybcio <konradybcio@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
+	<claudiu.beznea@tuxon.dev>, Maximilian Luz <luzmaximilian@gmail.com>, Hans de
+ Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
+	<ilpo.jarvinen@linux.intel.com>, Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter
+	<jonathanh@nvidia.com>
+CC: <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-pm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+	<linux-arm-msm@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
+	<linux-tegra@vger.kernel.org>
+References: <20251106-b4-of-match-matchine-data-v1-0-d780ea1780c2@linaro.org>
+ <20251106-b4-of-match-matchine-data-v1-8-d780ea1780c2@linaro.org>
+From: Nicolas Ferre <nicolas.ferre@microchip.com>
+Content-Language: en-US, fr
+Organization: microchip
+In-Reply-To: <20251106-b4-of-match-matchine-data-v1-8-d780ea1780c2@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323328-1580227820-1762775382=:1060
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-
-On Thu, 6 Nov 2025, Krzysztof Kozlowski wrote:
-
-Please change the prefixes to:
-
-platform/surface: aggregator_registry: ...
-
-Once that is changed,
-
-Acked-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
-
---=20
- i.
-
+On 06/11/2025 at 20:07, Krzysztof Kozlowski wrote:
 > Replace open-coded getting root OF node, matching against it and getting
 > the match data with new of_machine_get_match_data() helper.
->=20
+> 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->=20
+
+Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
+
+Thanks Krzysztof, best regards,
+   Nicolas
+
 > ---
->=20
+> 
 > Depends on the first OF patch.
 > ---
->  drivers/platform/surface/surface_aggregator_registry.c | 13 +-----------=
--
->  1 file changed, 1 insertion(+), 12 deletions(-)
->=20
-> diff --git a/drivers/platform/surface/surface_aggregator_registry.c b/dri=
-vers/platform/surface/surface_aggregator_registry.c
-> index a594d5fcfcfd..78ac3a8fbb73 100644
-> --- a/drivers/platform/surface/surface_aggregator_registry.c
-> +++ b/drivers/platform/surface/surface_aggregator_registry.c
-> @@ -491,24 +491,13 @@ static const struct of_device_id ssam_platform_hub_=
-of_match[] __maybe_unused =3D {
->  static int ssam_platform_hub_probe(struct platform_device *pdev)
->  {
->  =09const struct software_node **nodes;
-> -=09const struct of_device_id *match;
-> -=09struct device_node *fdt_root;
->  =09struct ssam_controller *ctrl;
->  =09struct fwnode_handle *root;
->  =09int status;
-> =20
->  =09nodes =3D (const struct software_node **)acpi_device_get_match_data(&=
-pdev->dev);
->  =09if (!nodes) {
-> -=09=09fdt_root =3D of_find_node_by_path("/");
-> -=09=09if (!fdt_root)
-> -=09=09=09return -ENODEV;
+>   drivers/irqchip/irq-atmel-aic-common.c | 15 +++------------
+>   1 file changed, 3 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/irqchip/irq-atmel-aic-common.c b/drivers/irqchip/irq-atmel-aic-common.c
+> index 3cad30a40c19..e68853815c7a 100644
+> --- a/drivers/irqchip/irq-atmel-aic-common.c
+> +++ b/drivers/irqchip/irq-atmel-aic-common.c
+> @@ -187,20 +187,11 @@ void __init aic_common_rtt_irq_fixup(void)
+> 
+>   static void __init aic_common_irq_fixup(const struct of_device_id *matches)
+>   {
+> -       struct device_node *root = of_find_node_by_path("/");
+> -       const struct of_device_id *match;
+> +       void (*fixup)(void);
+> 
+> -       if (!root)
+> -               return;
 > -
-> -=09=09match =3D of_match_node(ssam_platform_hub_of_match, fdt_root);
-> -=09=09of_node_put(fdt_root);
-> -=09=09if (!match)
-> -=09=09=09return -ENODEV;
+> -       match = of_match_node(matches, root);
 > -
-> -=09=09nodes =3D (const struct software_node **)match->data;
-> +=09=09nodes =3D (const struct software_node **)of_machine_get_match_data=
-(ssam_platform_hub_of_match);
->  =09=09if (!nodes)
->  =09=09=09return -ENODEV;
->  =09}
->=20
->=20
---8323328-1580227820-1762775382=:1060--
+> -       if (match) {
+> -               void (*fixup)(void) = match->data;
+> +       fixup = of_machine_get_match_data(matches);
+> +       if (fixup)
+>                  fixup();
+> -       }
+> -
+> -       of_node_put(root);
+>   }
+> 
+>   struct irq_domain *__init aic_common_of_init(struct device_node *node,
+> 
+> --
+> 2.48.1
+> 
+
