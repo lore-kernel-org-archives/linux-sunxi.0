@@ -1,103 +1,155 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06DE6309DD8
-	for <linux-sunxi@lists.linux.dev>; Mon, 10 Nov 2025 11:07:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC4E730ACFA
+	for <linux-sunxi@lists.linux.dev>; Mon, 10 Nov 2025 11:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762772879; cv=none; b=ljGC+uiTG2XyhJFNVGtSjPDlxuy/RN7v+7pQzXR8plUdPkhAsiVt+0e/SJao/b0SJ1aDkM8c4U62ZukHu4bBM9swQ5zyT+szeI8anbIHoWCLQkuh50cylfVB8JpgJdw117lsCWT2vyT8L71p0swGWoe4XamU8t2M00o/PYRpkXk=
+	t=1762775399; cv=none; b=r036rib2jDO31mBH77Yu7Rfo57gw/eVRc0rnPVU7dWGL8GH8pF810kFX192V2TImbCA0DYSeBY29V6sP/KAgLyFf/1oHgaFtKVOcnIISTXg4CnL9rXnPiW+Jvp3om83bKbwAcA16bh7qS/lyI4llpl09Tj8em1QA2XZujApt2tM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762772879; c=relaxed/simple;
-	bh=PV0nu9hpPV+PdL37EjWKyESOoKW7BglfhP4iUdE0IM8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FFynPFthD4BDqnjmpp0z8k45uwYYz8sh9YS7dLm+LoD6jaF6ffmsKhyxDVEuvRgjgN7jg7EsYcaKSZTFrd52L8I+vCu8ABuoc7XQfsdqrhlAuunkdH25IKLYY2S6ePCo3TfCHRDPHG1IemVqOgwV1Rp6zIKgTHqMgsTjg43X/98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KGiSoO7C; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1762775399; c=relaxed/simple;
+	bh=kgLvGqGW6Y2MVxPS0dVKx+QUBt0U5B7prEs50cqFkU4=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=cHchF+3SJs7n+nnBrL5JSJxU/LYj51e1j+Qc1y4n6t4WWiVQ05TcyGDM9JabhHMvvxvOxPpxfto4uETLWRiSjVwtqCKiHDnk4hfx6OuO6M5e5vqlAKPjbjt6mp2wFZGBjOnP3VrM1UrlSomBeCTWh3xpNaSg/iUHKbegrjZl5RI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MybNDpjY; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KGiSoO7C"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-781997d195aso1800493b3a.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 10 Nov 2025 03:07:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1762772877; x=1763377677; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1teV5v5SqS6pFrvXlRn/4yX/VJMz/VkOekGlZHXTNkk=;
-        b=KGiSoO7CXVYzeB3n1Zo2CnKRWo+CT1Na0950ZQ+pJNFt+CIk4RxCzr8B07MhaUbTwW
-         qBPJuz+lZR3Hgdps/Fxk64j4WTL1bD6lUs9r+bfJzKDRspTxCnQjCdMgHptM14e4uUkB
-         rgsXtI/RCBu78sIv6lU1JpsjDoaYBTws6dxe4tI01Si5nR954n+OFlNbvQaMlV/H9CiV
-         JTh09x45COm7E1j4jmLiJij36eDI99eXvqxg7yB7W0vwUUcM/wIPu+5hX0wyU0IZL+Q4
-         w2exJzaXEVQo4gfSUkjmdAX1F3m2CDONSXN2NgUAya0Lkvj0OXl6v2ShHHNaySYdw7IP
-         Ezcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762772877; x=1763377677;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1teV5v5SqS6pFrvXlRn/4yX/VJMz/VkOekGlZHXTNkk=;
-        b=SW1Q3MIoNIB+COR3GPCgGdLz3hq6fYr6sJ+jw0hDmZgBLhFOwxfcgIGXytE8BDvXMc
-         yYowbYwZZ/v/m2vddG/OSdP3LFMi6/RlRXq18D5Xt4NlSWrOo7Ao5brnsH4h3cRlSrhE
-         xS57Lc+SfK9iRaOlSmEPIabkoihEJHcF2cTHpETw12d8X0+lBSNaVerXL3UDeXER58NN
-         g4ywb9H9EfMBDtgAAlPxz2HdbTsr+HzdVHFZ7yFyd7HqjdOPF4ba9TRzERmoD0XtWylQ
-         SAnjgfbefHVheH1jLUD9tfuixOgCiaXqwwAhhon4vlW+7fV3KYT+5eFOc8jt5zakBKaQ
-         YFmg==
-X-Forwarded-Encrypted: i=1; AJvYcCX7BZ8C8H0wLNvniZUwGJyYiAh1MKhS/0jO90DwRDki0/tFIfthca0h8k2TsCuXYaDw6Gp+N9piau1Sqw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwSRHvW/TJmxHnCclRsw1sHoffh2yeg7tjhPphhea3D9ReKl48p
-	8fdRV/ftDsKM4ETD5Q6HcM+tjaA0S5f3qSqwPzrZKf3Ohf7xDzNaHIjF8OFq5VbAsB4=
-X-Gm-Gg: ASbGncv1QU55X6weFuiL+6wd6dKowhDIRUGvgc1D2p/ZcQS8Yx7igr8yRhheOiYTkBP
-	Ll/Gtqsy5DKFgV/1im5PXXjp1x56Am8ei+phVgp4wAYqm5ZQ4TEYzljLKg248bThdVOrNb7lCUa
-	L8EVPLEtKw4xYqRUMqteQdYs0bL2IbVat5jfJwcMCzM9zllhubKSdGjKP2NI/02LtYnZ+EKmbEl
-	QXzoAwmYhGfm2dS1xGR9Qn1ZimiwwZduptBEAoQmOgdLHPCMILhnJ5F7k7n8fTI4Zbh+sLlhO2Q
-	vows4Ij3xXyXd+9zwuU8K09HxyBqqJxKFxPDW1QEhQlYoZzZyMt2zmNrICgktriVHLD/pBz+C7H
-	RPFTgCGzvPn3mGO2aEaYAjfrzu3xfj0GEXjob/rb1MJbwc1nJfOBKYfdTtGirDJ8fdOl92b65jr
-	2pxMzZ/7Gs3Yo=
-X-Google-Smtp-Source: AGHT+IEI5dvtjpf7UreD77ujcsma8Qc91uG0xXgrZUKvQ1Ri3S/fmPHsBQ3EzHdR5mFgTf1mYnto9Q==
-X-Received: by 2002:a05:6a00:1990:b0:7aa:2d04:ccf6 with SMTP id d2e1a72fcca58-7b2232f8c80mr9070041b3a.0.1762772877004;
-        Mon, 10 Nov 2025 03:07:57 -0800 (PST)
-Received: from localhost ([122.172.86.94])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0c9c09cd6sm11397368b3a.23.2025.11.10.03.07.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Nov 2025 03:07:56 -0800 (PST)
-Date: Mon, 10 Nov 2025 16:37:54 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MybNDpjY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762775398; x=1794311398;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=kgLvGqGW6Y2MVxPS0dVKx+QUBt0U5B7prEs50cqFkU4=;
+  b=MybNDpjYgKJzlFJE1XlpRif5sw8WHu5Oa0DPp+7PPcrvsdcoEou2DCsA
+   nquc7AEVVNrIdcfV0p8X+fVSJJ2s5K6UjkbYi5X6xyb/iRbwnVjFLa2KX
+   mUbdG6XTlJgOz7H3b1N0+b1qfvHFcpVJ40pB0DS+RgzpZrYDR/A8Ui9Bi
+   E6FGEqNksD6qGPooTKNnZsSrn3UnlOn+SMCGgisksA9sl9etTKgVAbSR4
+   zEexw75QcZkFksiEb7l+GbvPSNiK2pN0yZC3uRMTGlyIGWjwacAWEoxQF
+   fuGD/FtPIFSgzt/kofTi1XRcIY+zeOz137dj9ZqKlbQTVUbDsyOVYq1z6
+   w==;
+X-CSE-ConnectionGUID: 2RlqE3YGSqesObSgCJLa2w==
+X-CSE-MsgGUID: n9S4Y4ucRLOO8r2mtPXGRA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="64029714"
+X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
+   d="scan'208";a="64029714"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 03:49:57 -0800
+X-CSE-ConnectionGUID: Sj9MWXvmSo6S4AGtYTK6HQ==
+X-CSE-MsgGUID: q0aaSUIcTOWst/+WBvw2kg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
+   d="scan'208";a="193665319"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.13])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 03:49:46 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Mon, 10 Nov 2025 13:49:42 +0200 (EET)
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Yangtao Li <tiny.windzz@gmail.com>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Maximilian Luz <luzmaximilian@gmail.com>, 
-	Hans de Goede <hansg@kernel.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	Daniel Lezcano <daniel.lezcano@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 04/13] cpufreq: sun50i: Simplify with
- of_machine_device_match()
-Message-ID: <awphoxojc3benzdam47mcx7pqty26ohrwpgv46kimg7nl53rqc@szq3aqjqsbrc>
-References: <20251106-b4-of-match-matchine-data-v1-0-d780ea1780c2@linaro.org>
- <20251106-b4-of-match-matchine-data-v1-4-d780ea1780c2@linaro.org>
+cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+    "Rafael J. Wysocki" <rafael@kernel.org>, 
+    Viresh Kumar <viresh.kumar@linaro.org>, 
+    Matthias Brugger <matthias.bgg@gmail.com>, 
+    AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+    Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@kernel.org>, 
+    Jernej Skrabec <jernej.skrabec@gmail.com>, 
+    Samuel Holland <samuel@sholland.org>, 
+    Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+    Daniel Lezcano <daniel.lezcano@linaro.org>, 
+    Bjorn Andersson <andersson@kernel.org>, 
+    Konrad Dybcio <konradybcio@kernel.org>, 
+    Thomas Gleixner <tglx@linutronix.de>, 
+    Nicolas Ferre <nicolas.ferre@microchip.com>, 
+    Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+    Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+    Maximilian Luz <luzmaximilian@gmail.com>, Hans de Goede <hansg@kernel.org>, 
+    Daniel Lezcano <daniel.lezcano@kernel.org>, 
+    Thierry Reding <thierry.reding@gmail.com>, 
+    Jonathan Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org, 
+    LKML <linux-kernel@vger.kernel.org>, linux-pm@vger.kernel.org, 
+    linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+    linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+    platform-driver-x86@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 09/13] platform: surface: Simplify with
+ of_machine_get_match_data()
+In-Reply-To: <20251106-b4-of-match-matchine-data-v1-9-d780ea1780c2@linaro.org>
+Message-ID: <4986f752-ba21-6a5f-641a-e0dadb4abd11@linux.intel.com>
+References: <20251106-b4-of-match-matchine-data-v1-0-d780ea1780c2@linaro.org> <20251106-b4-of-match-matchine-data-v1-9-d780ea1780c2@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251106-b4-of-match-matchine-data-v1-4-d780ea1780c2@linaro.org>
+Content-Type: multipart/mixed; boundary="8323328-1580227820-1762775382=:1060"
 
-On 06-11-25, 20:07, Krzysztof Kozlowski wrote:
-> Replace open-coded getting root OF node and matching against it with
-> new of_machine_device_match() helper.
-> 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--8323328-1580227820-1762775382=:1060
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+
+On Thu, 6 Nov 2025, Krzysztof Kozlowski wrote:
+
+Please change the prefixes to:
+
+platform/surface: aggregator_registry: ...
+
+Once that is changed,
+
+Acked-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+
+--=20
+ i.
+
+> Replace open-coded getting root OF node, matching against it and getting
+> the match data with new of_machine_get_match_data() helper.
+>=20
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
-
--- 
-viresh
+>=20
+> ---
+>=20
+> Depends on the first OF patch.
+> ---
+>  drivers/platform/surface/surface_aggregator_registry.c | 13 +-----------=
+-
+>  1 file changed, 1 insertion(+), 12 deletions(-)
+>=20
+> diff --git a/drivers/platform/surface/surface_aggregator_registry.c b/dri=
+vers/platform/surface/surface_aggregator_registry.c
+> index a594d5fcfcfd..78ac3a8fbb73 100644
+> --- a/drivers/platform/surface/surface_aggregator_registry.c
+> +++ b/drivers/platform/surface/surface_aggregator_registry.c
+> @@ -491,24 +491,13 @@ static const struct of_device_id ssam_platform_hub_=
+of_match[] __maybe_unused =3D {
+>  static int ssam_platform_hub_probe(struct platform_device *pdev)
+>  {
+>  =09const struct software_node **nodes;
+> -=09const struct of_device_id *match;
+> -=09struct device_node *fdt_root;
+>  =09struct ssam_controller *ctrl;
+>  =09struct fwnode_handle *root;
+>  =09int status;
+> =20
+>  =09nodes =3D (const struct software_node **)acpi_device_get_match_data(&=
+pdev->dev);
+>  =09if (!nodes) {
+> -=09=09fdt_root =3D of_find_node_by_path("/");
+> -=09=09if (!fdt_root)
+> -=09=09=09return -ENODEV;
+> -
+> -=09=09match =3D of_match_node(ssam_platform_hub_of_match, fdt_root);
+> -=09=09of_node_put(fdt_root);
+> -=09=09if (!match)
+> -=09=09=09return -ENODEV;
+> -
+> -=09=09nodes =3D (const struct software_node **)match->data;
+> +=09=09nodes =3D (const struct software_node **)of_machine_get_match_data=
+(ssam_platform_hub_of_match);
+>  =09=09if (!nodes)
+>  =09=09=09return -ENODEV;
+>  =09}
+>=20
+>=20
+--8323328-1580227820-1762775382=:1060--
