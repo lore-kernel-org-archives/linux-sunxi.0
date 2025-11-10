@@ -1,87 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A11218AB0;
-	Mon, 10 Nov 2025 07:42:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D572FE06B
+	for <linux-sunxi@lists.linux.dev>; Mon, 10 Nov 2025 09:11:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762760526; cv=none; b=cxRFnIkP6oWaACV4IvKuQM7mnmG0vg5rXeetNvLCy1r7Dp8tCLpD6EmClFIN4LPUrxIfzRyQhtyg+5EDpBC5dY3fbSOBqjVfyNC3ApnHFW5ZV8YBTjwCxpFJYd0wAPpyWxhhUZfmdH5rfGxif/v0TA75huy+WhL/XvQlve1qU9A=
+	t=1762765902; cv=none; b=GJ9B9q1T3iKyOOEI22E0+rZgzfGrXzqMp+csc2FfiIwi+ph7T9WPqHUIbrY2iYF2+vAtJ0OPuzIzKKfFvAhPUFROlwcpflyqUrNltYokf6pbeiechzp0JWw+xwODdMWYHXi2+d4Mu7eM+AjXhgsuf2gYyzOtgNfd2VFzSjoY0yg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762760526; c=relaxed/simple;
-	bh=eoQpss3r6FYo/VoSTS5AtWz2fEfHuakzCuCNoTPYihE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Gknpk9+eShB4ukjLeSRkytqvAVF8Uoiug6Ot4IkH/dzhrjW+MPNXSALckh47IwzZBG+eW4kOTNsMUlKsh8fwIUQxhqbKjup0sITDg/69ajuBminYFd9N3Fx/FJ8zZHdnWiAbwAyj1eUHfbKLpT0juqXykohhyNRjd4KjJ/hdM2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SkY1ybXw; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SkY1ybXw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20230C116B1;
-	Mon, 10 Nov 2025 07:41:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762760525;
-	bh=eoQpss3r6FYo/VoSTS5AtWz2fEfHuakzCuCNoTPYihE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=SkY1ybXw4AE6CFT9Tnb2fjXUIAbi+gLXED5B4FtiMQLdokuofcghcxD+xY8/DB3dJ
-	 RsFOoMuXNQq3d5SOBbdv5jiaHYA5OLCtdNUvt1z1m1Cfg0fR6V8suAOhTd7pG+PJlt
-	 mgyglzWBw2jENzcWsjico9PyLr+Y+XkjC7+xTM9+tplbMS+EV9IAIe56PThbWWCukY
-	 2dSGCF9Ip5CDKH+ldtwdtxsvV8pavZqjVHWAST1KoYe7bzXRRpYAvYCUY/8Y7iMYpx
-	 z/6yPHa9cE79YCuAb2g/xvHnjCKsj4bj9ba/mmWaFKT0WkrJS/k1D54JNUOK67LcBG
-	 HHreGSjFECDgA==
-From: Srinivas Kandagatla <srini@kernel.org>
-To: devicetree@vger.kernel.org, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Chen-Yu Tsai <wens@csie.org>, Conor Dooley <conor+dt@kernel.org>, 
- Fabio Estevam <festevam@gmail.com>, 
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
- Gatien Chevallier <gatien.chevallier@foss.st.com>, imx@lists.linux.dev, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, linux-arm-kernel@lists.infradead.org, 
- linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-sunxi@lists.linux.dev, Liu Ying <victor.liu@nxp.com>, 
- Mark Brown <broonie@kernel.org>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>
-In-Reply-To: <20251020060951.30776-6-wsa+renesas@sang-engineering.com>
-References: <20251020060951.30776-6-wsa+renesas@sang-engineering.com>
-Subject: Re: (subset) [PATCH 0/4] dt-bindings: treewide: don't check node
- names
-Message-Id: <176276050899.18134.7729831344719556570.b4-ty@kernel.org>
-Date: Mon, 10 Nov 2025 07:41:48 +0000
+	s=arc-20240116; t=1762765902; c=relaxed/simple;
+	bh=iMmeLUV3xBgFjt2Cqbl9hMdgFQ6BlMWa/0ymtrQbpCo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hIf2+Y+zRFuWhNR0GPz3ammtDVe7R0civTB+wSE9kFXKf+Mm0u82qPCcp6xtC+Vejo5g6mvrcsMJiz9BUg31osUWD8uDJkkytRAc804202Pbbyt2pASNv2/IaC2WVmGADzJX31dTGk7Ae2kcuOJ2J3n41gF8hPPBV5HH/CHlCM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-656b4881f55so1125659eaf.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 10 Nov 2025 01:11:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762765898; x=1763370698;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gZFprYnk3afJ7bXwWWifURut5yD9UujyFxRDAYwHR2A=;
+        b=NonbSDvpkw7golXC5sOA0nTxxIvrn+bjpZ4OfOcaBxv/mur2lWbSGPed7c77cThh/k
+         hVfIOOHIFbs6dxSqNABWciHD8Npqvqaajl2bOI8yFtIxdeVYAFAdAECBPGUMnBx5//W0
+         9M40Pda8rFVTSmkc40ipZoOBtrN+ubHhV/WwtTVqXt96Em/Mzm01s1MPfh0p1yYbbnk+
+         NG4eaW12bnfXHZ4mQoh254z6mxtZuugS5oAPgBV87wc26wtwepPgZDPtZAsATpBEciOg
+         eSKvB1bD87+v81gmh/KdCuJeB1QXu6lHMeJe65K9GyHraBei4U5rugtNURM+gBlejCDE
+         kE5g==
+X-Forwarded-Encrypted: i=1; AJvYcCVUEsZdBwOqkwPsPSdljUHBp9iEzpZWGkKybdMzyuhqATrvid9M6YVcJBzlAitaxcMehEYLKCanBDbNyA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyCy14XAN1uYPImm20zVEuNeU3IRhSSo3YNnbigbC1G/bwQvP0k
+	fD/dNP0khUjAwcDgkaePfBMYYBogftGw8XCCQesEuOHKg4MgEHUiBi9AucBJZDgg
+X-Gm-Gg: ASbGncu6/y/gcpAYDbUenPJLiphph4W0ukGzjOwnNWLr6UhMvxYAd3xaTYlkJS93/Zn
+	lmFyH5NU0N5h2ys2D6UcIdJ7KCkawIYoC83YzPtz/oWdJgWrUrwaznbatmyvIR0ru4IU6imPnQ9
+	+yNb2bUQoKxtbrzZC3NVI1Ft58bQuah/wxs5+MZ6VTKM+FFlIGTwT3tzlaELph0AbAZlhpwviHE
+	XUxzqgGjDDWlmrRaLEzhwEYUZX+0TWm1/XfIUD0bN3YuE8SdIlV2JEdlg/Quk6ZwJFiUY19NS6l
+	89DYAk3U8I6bkW0f1UzsURakum60Brkp7I/jaVaCEo2hb4xGnAuI4oN6DGSvU0S9d1h85/im9rR
+	sT5Sr4B6Gxvn2ZM643PaS20sWzvphxpf0FGm62L2qQsp+tMcQHt4EuZtAKkIlSw1QVA3sYRwe00
+	slMGuMku78JF0nu3EGELS0oKL+tf8YsQp1cg+63EB+CbekNea7jfN4
+X-Google-Smtp-Source: AGHT+IH8E4nVObPlb1KK0tFi1Uzp496qAqYT5ZQBBsqzsdQ68X6JwJ5VcWsQNCbE5EIg/U+UO9mgtQ==
+X-Received: by 2002:a05:6820:2905:b0:63e:effa:86f5 with SMTP id 006d021491bc7-656d8eb8572mr3799284eaf.7.1762765898291;
+        Mon, 10 Nov 2025 01:11:38 -0800 (PST)
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com. [209.85.210.41])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-656d1fef709sm4109179eaf.0.2025.11.10.01.11.37
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Nov 2025 01:11:37 -0800 (PST)
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7c681a8aecdso1463904a34.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 10 Nov 2025 01:11:37 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVKuYLHTVia3tNx42rC9su2PpFUwyS/JeesRrIOSylFgQbFOyTJdbUliY62H13f5eupRBnkbgLNFmmWGg==@lists.linux.dev
+X-Received: by 2002:a05:6102:c54:b0:5db:c9cd:673d with SMTP id
+ ada2fe7eead31-5ddc4751f8bmr2299299137.26.1762765446858; Mon, 10 Nov 2025
+ 01:04:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
+References: <cover.1762588494.git.gaohan@iscas.ac.cn> <bc141425b71f0cfc8f3ef0a3c6d08104fde1281f.1762588494.git.gaohan@iscas.ac.cn>
+In-Reply-To: <bc141425b71f0cfc8f3ef0a3c6d08104fde1281f.1762588494.git.gaohan@iscas.ac.cn>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 10 Nov 2025 10:03:55 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVtAmM6MySzaUZZMZLY2z_99Pb-zcvyQd+q5-NS3A=c_Q@mail.gmail.com>
+X-Gm-Features: AWmQ_blbgQuyL2K-QWPxMEybBZ_lWHdEHYJOPJXLh-zobJqSsJnJFWv08QlcdnY
+Message-ID: <CAMuHMdVtAmM6MySzaUZZMZLY2z_99Pb-zcvyQd+q5-NS3A=c_Q@mail.gmail.com>
+Subject: Re: [PATCH 3/3] riscv: defconfig: enable SUNXI_XUANTIE and SUNXI_ANDES
+To: gaohan@iscas.ac.cn
+Cc: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Yixun Lan <dlan@gentoo.org>, Drew Fustini <fustini@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Guodong Xu <guodong@riscstar.com>, 
+	Haylen Chu <heylenay@4d2.org>, Joel Stanley <joel@jms.id.au>, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Han Gao <rabenda.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Gaohan,
 
-On Mon, 20 Oct 2025 08:09:49 +0200, Wolfram Sang wrote:
-> Node names are already and properly checked by the core schema. No need
-> to do it again.
-> 
-> These are all occurrences I found in linux-next as of 20251015. I did
-> run dt_bindings_check successfully. I haven't done a way to run
-> dtbs_check yet because I would need to identify the proper architecture
-> first, right? Is there some tool which tests all DTs of a certain
-> binding? At least build bot is happy, I don't know if it checks DTs as
-> well, though.
-> 
-> [...]
+On Sat, 8 Nov 2025 at 09:21, <gaohan@iscas.ac.cn> wrote:
+> From: Han Gao <gaohan@iscas.ac.cn>
+>
+> These options need to be enabled to prepare for v821/v861/v881.
+>
+> Signed-off-by: Han Gao <gaohan@iscas.ac.cn>
 
-Applied, thanks!
+Thanks for your patch!
 
-[2/4] dt-bindings: nvmem: don't check node names
-      commit: 65c1bc002b27d1ac398e37ce031a45d59999cb13
+> --- a/arch/riscv/configs/defconfig
+> +++ b/arch/riscv/configs/defconfig
+> @@ -29,6 +29,8 @@ CONFIG_ARCH_SOPHGO=y
+>  CONFIG_ARCH_SPACEMIT=y
+>  CONFIG_SOC_STARFIVE=y
+>  CONFIG_ARCH_SUNXI=y
+> +CONFIG_ARCH_SUNXI_XUANTIE=y
+> +CONFIG_ARCH_SUNXI_ANDES=y
+>  CONFIG_ARCH_THEAD=y
+>  CONFIG_ARCH_VIRT=y
+>  CONFIG_ARCH_CANAAN=y
 
-Best regards,
+Other subarchs handle this with "default y" in drivers/soc/*/Kconfig.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-Srinivas Kandagatla <srini@kernel.org>
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
