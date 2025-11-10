@@ -1,64 +1,64 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF4F3074AA
-	for <linux-sunxi@lists.linux.dev>; Mon, 10 Nov 2025 11:07:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EEC7307AC4
+	for <linux-sunxi@lists.linux.dev>; Mon, 10 Nov 2025 11:07:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762772837; cv=none; b=MFV4s3u4P4DnMqkbh3UGQm8M5Wmz3JG1XiRKNOkr874jvI8G7T58U0y4NmTYTy5Bm/enU1rAa2MeYAhlXfr8mwvGx3JjsdTQi7HbCajU2FCQdlS3AlRNdYJkWre6BK62JXVYVxNbM4SxnEYqu1eIEvMi5V6K1fw3c6YBjqrX+Es=
+	t=1762772850; cv=none; b=NGIR41Y7rGMQoOJJ5GD7R5ps6dMNxn6921e4NBkwm6i0KJ7O0VzVG9lTd22QYOXr64k+fkoMPGadSLVULHUBJ8NX7MyCxz9uTI2T4PXSrCLmZBLoEOJOqminK4HiDRiBG47yTQfmeQTuN8BkVepc7Yo5Wc043UKr7FWrg5lU9dU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762772837; c=relaxed/simple;
-	bh=y9Rc2TSg2Orx+cZa9j2QdmCSgqy1wVj5vvqljCG9AMQ=;
+	s=arc-20240116; t=1762772850; c=relaxed/simple;
+	bh=P9gC+lGzjtMArrtoyqNulbP4U/Rr/r9sqlbgUdghZh0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f2Uifnwfu8w0zpgR+0VNu1PrZjz0uEIU6h9X4MwtXNW9voo+qEdhOARQraARidV18R8DHlBqjfcelUnqcyjR+a+wHnHZP/KwLHNv4NwFL6GEkJDI++m7YyyCRwvEIZ/KATTR8gvKhJ5isW1HBou6pUgfq7h441kBQghIfaZqZcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oerGLGHO; arc=none smtp.client-ip=209.85.210.171
+	 Content-Type:Content-Disposition:In-Reply-To; b=pNY132f8JBz/rmApLYBSPydGMz7jupM1/L4RHhKmh8qXmYy/1+nlTxw/UFaWsA5pSge3mxyEbF3jpCelxLYDk0wNMxY2JRSV+6lKq9mEXfEJllHsNFpaAB57AxYgm9VdclUYN246Sd+gli8+qU1SGloLPEE2+glsa1HsyUOehfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WSwPgPI4; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oerGLGHO"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7a4c202a30aso2216309b3a.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 10 Nov 2025 03:07:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WSwPgPI4"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-7ade456b6abso2379897b3a.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 10 Nov 2025 03:07:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1762772834; x=1763377634; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1762772848; x=1763377648; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TZrYqw2/O2UZmuuLXYkU5bIjhuFDnuqQ3/E5dCC+u7U=;
-        b=oerGLGHOYJ6pbcGpCBdepzVb04f7RvhSC58xaEaaQnsrces0sa8A5qDWgwdqnm7vtG
-         Yw8r6OQvqkV2FQQapNAoPTmMKJsMkHqZdgn80zMeRO5ZX0gJNGgUXE/kaC+dwZOp+Oby
-         Qtv/nVmrxSByzTbBbeVzVuTGgUj4isWHXs2GvFseioDBQGiWeI1mckNV93ms/8jHy+6g
-         GtT7l2Ae2KZ8RXdktDm/JvzSmKFk81VR+/F58tALewbyd9bPhWi/P93yokq6LzD1j4bQ
-         hTQWwYD/+WLlefyHbjPRWoNRuPgUtTRda/glojBNHUd7xPHoAA4K3SVancGx8VuimS03
-         nMEw==
+        bh=l1rfVf8CR6nXwtwA2s4abFfmksXss6f4ONY3gj9LEKk=;
+        b=WSwPgPI4AeGkFV4ibh/lAYShJmRV6mU39fEq/cpkKcsmeFmNH3230aSKJStFKRMp+n
+         qYV6L0AQUVG0S3+RCkkm1SFcQAoCAlegiTdWXLYqSoQhFKDjTYpkwKT3fY1tyT3+k8kN
+         Ob3jpOeq56Ug+tv7+1jkhWBsFESnASeA6rNso4XZHxtdbb/DU9jOylDvwNYNQrUhvM/0
+         tZTXhFh37BwliZIwPfeLziboXb6MXcpjbgFy1I5S+eDF5ImOTSdugWF5PYS2sLoevVLc
+         LeDotgmnJnq24Bq6O143vmRm9JIhc1O24YHoKdxR+IENP0QctPJo8dj9gL/+qcdE1nfD
+         pJzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762772834; x=1763377634;
+        d=1e100.net; s=20230601; t=1762772848; x=1763377648;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TZrYqw2/O2UZmuuLXYkU5bIjhuFDnuqQ3/E5dCC+u7U=;
-        b=MNpE8IymdY1bLzYRO/YpizpTs1QY3jKv2IoKuvvwmarC64VEeg+fwqmztxuvHui8pq
-         DdUozctD2mdFygS4+Xze0TJnxRWg8JOtlzNlqETTjzVMTSmQU3hpq4Mj5YTNt8LhkkNU
-         YGZBpnYyX/Tru/xn1uoJGZBcGlKIGzlxEV8YyuYdjm81uVrkYT/mWUiI9GUg1qYkFhFH
-         Y0yCwsC4dor6T3rd1flVw6SGvaka0cdNo3Ozc/PMJWWfE0TTPR6N+4eh5CKePUmEoOJt
-         P11Ow0WvwEvLkCG/cXY8FHQeiIKk6Jue/I2E52lKksMNqN5QGjYWL3tAVYx2kMGNYnkN
-         opYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVCqsCvRx0zGg/aRp+d8momQs8NhO6f3ucq581lMnOyuhEB5EEQj19wzBLBz/EE0ezunOFRhehB6OwOqQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyYaXG/ff9nDp+f0UUcZXa1c77VY2XCrDnWKl0wcqBwF57vKKjo
-	lEPizWL8p090KGPbaKywyYv3CaG5fkVZ+d3zzJ6cqv8BnLxs67Gt/+ouJZGg3Mi401I=
-X-Gm-Gg: ASbGncuwlyvswOY67ZqfPZO+vWWf9PJjgxvSQSM+lS0xyuDSqPfZ7mAfRserEnLcykx
-	7APLIjrbhqsCQhBkxlUq/SnOIL2t1ECiMZeRKGZJZtFh+PW7ONCavQnbUcXH5pscH+1LpG7uHi0
-	NN0zKzaDgwgSKUUTTUt0uHJELUygtnt9e1xEZo7xuSvHeM8RMu4y2g9B3rcg0/+v4Y9/UXdAAvT
-	H1/uVuG7DKo+E3J6F00uvG9agogbaPX7X9aUm7qnyxFsu99OMkCbJy89cWEmgY/9kmBB0DPju+O
-	VcaH4NPMA+Ho9XzPqOzcLYyvSnz8FrhwL9uHy5kSXzhxGQ+KgOHzuufL2/ythDaYxf/nOf+8Mik
-	TF+SPq1a/22ICOaPGGln18qpBRdD93dgxZY58NAMZon4n4+rK0xs/Vvn4k2Z4PkrJX1YLcedRD6
-	mx5N+G3wTh8Tw=
-X-Google-Smtp-Source: AGHT+IEEBmMVZO0k0MIdHGG3oOt1wzE07GZr0Rosgte3T2/mK8NYjyyq/dXAAAQzolcEZu8MEC+rkQ==
-X-Received: by 2002:a05:6a20:12c1:b0:350:d523:80a4 with SMTP id adf61e73a8af0-353a314ff11mr11044525637.28.1762772834004;
-        Mon, 10 Nov 2025 03:07:14 -0800 (PST)
+        bh=l1rfVf8CR6nXwtwA2s4abFfmksXss6f4ONY3gj9LEKk=;
+        b=Mpj91arbhiMcXnUNFhrofnqRBCc8YRTJFPKHSAFN3GztmwN0OCt+tJbsLa5w+V+rQl
+         ZRaWJOCa5ZcH7+NiDRBrcq44QNU6caew8qecxov9kwUJeNMUXSQTs3giYtMMpsP7uXSC
+         MknuIF97tqZQ8HLjpXedypZIIXBPSVYmzsMtF/xf/MirzZ5mehK2pGa+ikdhbYzl2oXP
+         p3/HosbXmxvuQ9BWKO5Qc1qUv2ffkUzh6yaEAnsYOER0AnbppFxR8cR7Jvq86Y6OyUVl
+         SPCFCyPT3JyMZx3eK4AHtfX42RbEMGRJwph+5ywDPIXnu/NiVzqG00Ip8uPc+VZZlP0f
+         caSg==
+X-Forwarded-Encrypted: i=1; AJvYcCUC/NPh4N7wjF/wk2IAAirhFlS4QXM6bAyl6ADcHEBrfpb2VX33en36EcdEzB8TkQnF4vUqd0mcsbvldw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YywD5/ZiZJb01xWI/vlMzNAryp8nXE927lGmXxGwen/ZJnrnNKG
+	lE+rHHXIcHW5KrO8CWRhBiHIYhPyBjr8pHyFONlc3AkQxeDR8PMe2GJwLp4RaKtYhnI=
+X-Gm-Gg: ASbGnctbyxjJJm05OWAeuViwviWQl2PVB50bXNAd9K2kRiOE0WXUxJD+ClUY1k07hNZ
+	EWDpTpQ85GrIRQwRaPIX7IxP1l8tOJERW4l9fpO3+THRwvr58RDrqH4CpNMuPgTfxZ4Znm9jf/v
+	PM0trUFMrb4D12YiheJNUnehYBhbiMHSydIqqxaIQbrQFMsqT/WzmfogBJRp9O42Qe13jdpcke/
+	qd2ZXqnckMuqrYsES+eSzxc4Q916KrT06ucdtsZxtPyINq8iuO10TgbdYfBwcU46Txx4nDpSF6r
+	Eg0LZng6Z2du8ohpG2h7MORLiuqNeMhftWnkg/paN0H80gkq0HFajRN6g9LnvNGa8Wa7qAUK01S
+	0UzTc4zFB61pufAoVT8XQ6iIY1W4413umQJTMCvyQr0h4x0zAnVFmoMrmSbWrNSrT/faIQKA3sE
+	+n
+X-Google-Smtp-Source: AGHT+IFLmvoREqyCOsxdVYWioPfB8QTyekqamyvK/6SevugbTh8+Sr7Hzt8HMarNXUtUBmALUpoibA==
+X-Received: by 2002:a17:903:46c5:b0:295:fbc7:d282 with SMTP id d9443c01a7336-297e566886emr96785235ad.27.1762772847847;
+        Mon, 10 Nov 2025 03:07:27 -0800 (PST)
 Received: from localhost ([122.172.86.94])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0c953cf79sm11625705b3a.3.2025.11.10.03.07.12
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29651c8ef47sm143941675ad.74.2025.11.10.03.07.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Nov 2025 03:07:13 -0800 (PST)
-Date: Mon, 10 Nov 2025 16:37:11 +0530
+        Mon, 10 Nov 2025 03:07:27 -0800 (PST)
+Date: Mon, 10 Nov 2025 16:37:25 +0530
 From: Viresh Kumar <viresh.kumar@linaro.org>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
@@ -76,11 +76,11 @@ Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
 	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
 	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
 	platform-driver-x86@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 02/13] cpufreq: dt-platdev: Simplify with
+Subject: Re: [PATCH 03/13] cpufreq: mediatek: Simplify with
  of_machine_get_match_data()
-Message-ID: <qg6xxh3vwbfnl3z6otlr2bue2paig7w3agbpbauuzmppiof3q5@e4xjlcfu43cw>
+Message-ID: <elghyjazfcsbwh4tmyfgfrbstfgpijgmlfu5kytbg7yvjtx2rf@v3riwtqr4itv>
 References: <20251106-b4-of-match-matchine-data-v1-0-d780ea1780c2@linaro.org>
- <20251106-b4-of-match-matchine-data-v1-2-d780ea1780c2@linaro.org>
+ <20251106-b4-of-match-matchine-data-v1-3-d780ea1780c2@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -89,12 +89,11 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251106-b4-of-match-matchine-data-v1-2-d780ea1780c2@linaro.org>
+In-Reply-To: <20251106-b4-of-match-matchine-data-v1-3-d780ea1780c2@linaro.org>
 
 On 06-11-25, 20:07, Krzysztof Kozlowski wrote:
 > Replace open-coded getting root OF node, matching against it and getting
-> the match data with two new helpers: of_machine_get_match_data() and
-> of_machine_device_match().
+> the match data with new of_machine_get_match_data() helper.
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
