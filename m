@@ -1,231 +1,222 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E855A34FF7B
-	for <linux-sunxi@lists.linux.dev>; Tue, 11 Nov 2025 11:26:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117782FCC1D;
+	Tue, 11 Nov 2025 11:48:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762860415; cv=none; b=g8ozvTF/W2p1rKErcfKu/aNaghibFBdQ+aWQwpQ+h/KaMrrvWDHDpOKqhp7l8q5T7MpPn64BrZKm7xXRC2ToJUVDBDyLStjYPcBIRLkyDdiqy1tAQR9n9swEddVl58RiKXo+PfAAwqA7d92NJh0LgRf38oi0KMitVlr10Zo/IfI=
+	t=1762861690; cv=none; b=cubzvfEkNEPLzbigtnaIyNsDCL6ZbHyZesuF3/PYEFWFt0k/CE0nFarz0fbW4aPxs4TVKt20eqS3YN5TwqqK8olsElk7dEVJ/ubSyaaSHNkE5kgP6XqwXOsi6WXGLtxQYW0mrNddhMIhMhMMEAJT2vEX5vbqRThsYO8ByAQULLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762860415; c=relaxed/simple;
-	bh=11wnrMgtK2u/edK+q6WcKi2mNLdQVfdBlH5HJgs3IHU=;
-	h=From:To:Cc:Subject:MIME-Version:Content-Disposition:Content-Type:
-	 Message-Id:Date; b=lrXZ3oDY2a3SD28XqIssnznNE958ryBa9WXZlm1ApSsV1/kqrvtcNFoZZRGuuOA5hhSbuUvhSoL6enZWsFUTzQsXVDbP8nDfA+nmsz+wP5xcF13sSqe9E/jqqIscqt2E9AsjPOnHKZJa9TRSnNW7E8ablyJ+7FH5NEdw7IJboQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=yz/AIo9C; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1762861690; c=relaxed/simple;
+	bh=jxi1Gv6OcPtGGFXGFF2QxkwKjLaMbfnLeBrhrAyU/Tg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eBb8CuLulkcRfgDBNrTtvai+z/CPZGRVItQRz7rSFsDqGRI2o6PT3i/ZB3TSNixW3FzznThFhMdiP46o2EBRIaaW8hEblvHrSJVBKgOrhbqUmb0z9fgIJtMfMLKa66ObFGY59erJygs8ZvthxnTwhG8FWxjduQxvhyv/pb6W4Sg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U8wDzG2j; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="yz/AIo9C"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:Reply-To:Content-ID
-	:Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
-	Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=7C2UYHDoLldHn13jOWjddhwnOlY2ByDUigT/r2FLSxI=; b=yz/AIo9CZoH3FRJcUHUfKMzi+y
-	x8Qi6cWa3uFmzLWj5L9xepKR6Z1avkdaZeyZaJSXsY4gpBufUC7r2x9JDtaNwDyJbA5jfcOTXMipl
-	QcoaSZPKeVJ81QpFb/ckXDhGP7yQdXNNV4qoyDXDR6fhCDz31tXEo96YPgrub6bK9p1bIenXOJ4Sf
-	Cd2XnMieXolJKYfhUsrTeX05cVnEaPn/twLhTiek2dygEiIRIMyQ1QDFsVykBmWP1sy1J4sOLPti4
-	njh2lpwMW/7XPBDZ8s/IsQNW8KIWKqd4hyAtPAm6Ibh64uz3BayasEWh3mTxXX3DcPr/sbEb10gwY
-	0yZFomQQ==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:60628 helo=rmk-PC.armlinux.org.uk)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <rmk@armlinux.org.uk>)
-	id 1vImWL-000000002UG-1RG4;
-	Tue, 11 Nov 2025 11:26:45 +0000
-Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
-	id 1vImWK-0000000DrIx-28vO;
-	Tue, 11 Nov 2025 11:26:44 +0000
-From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-To: Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U8wDzG2j"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E74BC116D0;
+	Tue, 11 Nov 2025 11:47:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762861689;
+	bh=jxi1Gv6OcPtGGFXGFF2QxkwKjLaMbfnLeBrhrAyU/Tg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U8wDzG2jhPfzS4KLy6BBXjLkq8tbdJdbZ2HLPt/oCduCWbREVPz6XahhQXZNBZvqk
+	 rL61nJbROp9KbKpanxP6Xm+RhhBC2JjGt3mq5g1Vt8UeeKM8gOKgcYiPO0I2jAA8oR
+	 2vP9zcZsjezzMSY7lXp0qcTehuQ5Bvcn5PLIyv21tVd9pJmlDNPzRzYLCVga+fJVZC
+	 exeLAcTwq2GZWVxiqi/O5Hs9YfEKaR3AZUbkmkVOA0uPAeCkVjy4pmp9+BXSwywuet
+	 qQS5xfNfqALbItTHOqCEixH82CxNQPweybJmarDGuJMjWDhzcw/4Ag1g8TdQPeJwJh
+	 M8yYB1Fdu26pw==
+Date: Tue, 11 Nov 2025 11:47:53 +0000
+From: Simon Horman <horms@kernel.org>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Richard Cochran <richardcochran@gmail.com>,
 	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Chen-Yu Tsai <wens@csie.org>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>,
-	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH net-next] net: stmmac: always allocate mac_device_info
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Jose Abreu <joabreu@synopsys.com>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Matthew Gerlach <matthew.gerlach@altera.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Keguang Zhang <keguang.zhang@gmail.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com,
+	Romain Gantois <romain.gantois@bootlin.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Chen Wang <unicorn_wang@outlook.com>,
+	Inochi Amaoto <inochiama@gmail.com>,
+	Emil Renner Berthing <kernel@esmil.dk>,
+	Minda Chen <minda.chen@starfivetech.com>,
+	Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
+	Fu Wei <wefu@redhat.com>,
+	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Shuang Liang <liangshuang@eswincomputing.com>,
+	Zhi Li <lizhi2@eswincomputing.com>,
+	Shangjuan Wei <weishangjuan@eswincomputing.com>,
+	"G. Jaya Kumaran" <vineetha.g.jaya.kumaran@intel.com>,
+	Clark Wang <xiaoning.wang@nxp.com>, Linux Team <linux-imx@nxp.com>,
+	Frank Li <Frank.Li@nxp.com>, David Wu <david.wu@rock-chips.com>,
+	Samin Guo <samin.guo@starfivetech.com>,
+	Christophe Roullier <christophe.roullier@foss.st.com>,
+	Swathi K S <swathi.ks@samsung.com>, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	Drew Fustini <dfustini@tenstorrent.com>,
+	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org,
+	linux-mips@vger.kernel.org, imx@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, sophgo@lists.linux.dev,
+	linux-riscv@lists.infradead.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH v5 8/8] net: stmmac: qcom-ethqos: add support for sa8255p
+Message-ID: <aRMiafCQNPVDOljU@horms.kernel.org>
+References: <20251107-qcom-sa8255p-emac-v5-0-01d3e3aaf388@linaro.org>
+ <20251107-qcom-sa8255p-emac-v5-8-01d3e3aaf388@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1vImWK-0000000DrIx-28vO@rmk-PC.armlinux.org.uk>
-Sender: Russell King <rmk@armlinux.org.uk>
-Date: Tue, 11 Nov 2025 11:26:44 +0000
+In-Reply-To: <20251107-qcom-sa8255p-emac-v5-8-01d3e3aaf388@linaro.org>
 
-The ->setup() method implemented by dwmac-loongson and dwmac-sun8i
-allocate the mac_device_info structure, as does stmmac_hwif_init().
-This makes no sense.
+On Fri, Nov 07, 2025 at 11:29:58AM +0100, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-Have stmmac_hwif_init() always allocate this structure, and pass it to
-the ->setup() method to initialise when it is provided. Rename this
-method to "mac_setup" to more accurately describe what it is doing.
+...
 
-Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
----
- .../net/ethernet/stmicro/stmmac/dwmac-loongson.c | 13 ++++---------
- .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c    | 11 +++--------
- drivers/net/ethernet/stmicro/stmmac/hwif.c       | 16 +++++++++-------
- include/linux/stmmac.h                           |  4 +++-
- 4 files changed, 19 insertions(+), 25 deletions(-)
+> +static int qcom_ethqos_pd_init(struct platform_device *pdev, void *priv)
+> +{
+> +	struct qcom_ethqos *ethqos = priv;
+> +	int ret;
+> +
+> +	/*
+> +	 * Enable functional clock to prevent DMA reset after timeout due
+> +	 * to no PHY clock being enabled after the hardware block has been
+> +	 * power cycled. The actual configuration will be adjusted once
+> +	 * ethqos_fix_mac_speed() is called.
+> +	 */
+> +	ethqos_set_func_clk_en(ethqos);
+> +
+> +	ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_CORE);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_MDIO);
+> +	if (ret) {
+> +		qcom_ethqos_domain_off(ethqos, ETHQOS_PD_CORE);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void qcom_ethqos_pd_exit(struct platform_device *pdev, void *data)
+> +{
+> +	struct qcom_ethqos *ethqos = data;
+> +
+> +	qcom_ethqos_domain_off(ethqos, ETHQOS_PD_MDIO);
+> +	qcom_ethqos_domain_off(ethqos, ETHQOS_PD_CORE);
+> +}
+> +
+>  static void ethqos_ptp_clk_freq_config(struct stmmac_priv *priv)
+>  {
+>  	struct plat_stmmacenet_data *plat_dat = priv->plat;
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
-index 2a3ac0136cdb..dd2fc39ec3e2 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
-@@ -320,10 +320,9 @@ static int loongson_dwmac_dma_interrupt(struct stmmac_priv *priv,
- 	return ret;
- }
- 
--static struct mac_device_info *loongson_dwmac_setup(void *apriv)
-+static int loongson_dwmac_setup(void *apriv, struct mac_device_info *mac)
- {
- 	struct stmmac_priv *priv = apriv;
--	struct mac_device_info *mac;
- 	struct stmmac_dma_ops *dma;
- 	struct loongson_data *ld;
- 	struct pci_dev *pdev;
-@@ -331,13 +330,9 @@ static struct mac_device_info *loongson_dwmac_setup(void *apriv)
- 	ld = priv->plat->bsp_priv;
- 	pdev = to_pci_dev(priv->device);
- 
--	mac = devm_kzalloc(priv->device, sizeof(*mac), GFP_KERNEL);
--	if (!mac)
--		return NULL;
--
- 	dma = devm_kzalloc(priv->device, sizeof(*dma), GFP_KERNEL);
- 	if (!dma)
--		return NULL;
-+		return -ENOMEM;
- 
- 	/* The Loongson GMAC and GNET devices are based on the DW GMAC
- 	 * v3.50a and v3.73a IP-cores. But the HW designers have changed
-@@ -396,7 +391,7 @@ static struct mac_device_info *loongson_dwmac_setup(void *apriv)
- 	mac->mii.clk_csr_shift = 2;
- 	mac->mii.clk_csr_mask = GENMASK(5, 2);
- 
--	return mac;
-+	return 0;
- }
- 
- static int loongson_dwmac_msi_config(struct pci_dev *pdev,
-@@ -598,7 +593,7 @@ static int loongson_dwmac_probe(struct pci_dev *pdev, const struct pci_device_id
- 		goto err_disable_device;
- 
- 	plat->bsp_priv = ld;
--	plat->setup = loongson_dwmac_setup;
-+	plat->mac_setup = loongson_dwmac_setup;
- 	plat->fix_soc_reset = loongson_dwmac_fix_reset;
- 	plat->suspend = loongson_dwmac_suspend;
- 	plat->resume = loongson_dwmac_resume;
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-index 5d871b2cd111..7434d4bbb526 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-@@ -1040,15 +1040,10 @@ static const struct stmmac_ops sun8i_dwmac_ops = {
- 	.set_mac_loopback = sun8i_dwmac_set_mac_loopback,
- };
- 
--static struct mac_device_info *sun8i_dwmac_setup(void *ppriv)
-+static int sun8i_dwmac_setup(void *ppriv, struct mac_device_info *mac)
- {
--	struct mac_device_info *mac;
- 	struct stmmac_priv *priv = ppriv;
- 
--	mac = devm_kzalloc(priv->device, sizeof(*mac), GFP_KERNEL);
--	if (!mac)
--		return NULL;
--
- 	mac->pcsr = priv->ioaddr;
- 	mac->mac = &sun8i_dwmac_ops;
- 	mac->dma = &sun8i_dwmac_dma_ops;
-@@ -1079,7 +1074,7 @@ static struct mac_device_info *sun8i_dwmac_setup(void *ppriv)
- 	/* Synopsys Id is not available */
- 	priv->synopsys_id = 0;
- 
--	return mac;
-+	return 0;
- }
- 
- static struct regmap *sun8i_dwmac_get_syscon_from_dev(struct device_node *node)
-@@ -1192,7 +1187,7 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
- 	plat_dat->bsp_priv = gmac;
- 	plat_dat->init = sun8i_dwmac_init;
- 	plat_dat->exit = sun8i_dwmac_exit;
--	plat_dat->setup = sun8i_dwmac_setup;
-+	plat_dat->mac_setup = sun8i_dwmac_setup;
- 	plat_dat->tx_fifo_size = 4096;
- 	plat_dat->rx_fifo_size = 16384;
- 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/hwif.c b/drivers/net/ethernet/stmicro/stmmac/hwif.c
-index ee612cadbd77..014f7cd79a3c 100644
---- a/drivers/net/ethernet/stmicro/stmmac/hwif.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/hwif.c
-@@ -347,17 +347,19 @@ int stmmac_hwif_init(struct stmmac_priv *priv)
- 			priv->estaddr = priv->ioaddr + EST_XGMAC_OFFSET;
- 	}
- 
-+	mac = devm_kzalloc(priv->device, sizeof(*mac), GFP_KERNEL);
-+	if (!mac)
-+		return -ENOMEM;
-+
- 	/* Check for HW specific setup first */
--	if (priv->plat->setup) {
--		mac = priv->plat->setup(priv);
-+	if (priv->plat->mac_setup) {
-+		ret = priv->plat->mac_setup(priv, mac);
-+		if (ret)
-+			return ret;
-+
- 		needs_setup = false;
--	} else {
--		mac = devm_kzalloc(priv->device, sizeof(*mac), GFP_KERNEL);
- 	}
- 
--	if (!mac)
--		return -ENOMEM;
--
- 	spin_lock_init(&mac->irq_ctrl_lock);
- 
- 	/* Fallback to generic HW */
-diff --git a/include/linux/stmmac.h b/include/linux/stmmac.h
-index 48e9f1d4e17e..4f70a6551e68 100644
---- a/include/linux/stmmac.h
-+++ b/include/linux/stmmac.h
-@@ -192,6 +192,8 @@ enum dwmac_core_type {
- #define STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP	BIT(12)
- #define STMMAC_FLAG_HWTSTAMP_CORRECT_LATENCY	BIT(13)
- 
-+struct mac_device_info;
-+
- struct plat_stmmacenet_data {
- 	enum dwmac_core_type core_type;
- 	int bus_id;
-@@ -266,7 +268,7 @@ struct plat_stmmacenet_data {
- 	void (*exit)(struct platform_device *pdev, void *priv);
- 	int (*suspend)(struct device *dev, void *priv);
- 	int (*resume)(struct device *dev, void *priv);
--	struct mac_device_info *(*setup)(void *priv);
-+	int (*mac_setup)(void *priv, struct mac_device_info *mac);
- 	int (*clks_config)(void *priv, bool enabled);
- 	int (*crosststamp)(ktime_t *device, struct system_counterval_t *system,
- 			   void *ctx);
--- 
-2.47.3
+...
 
+> @@ -852,28 +993,63 @@ static int qcom_ethqos_probe(struct platform_device *pdev)
+>  	ethqos->rgmii_config_loopback_en = drv_data->rgmii_config_loopback_en;
+>  	ethqos->has_emac_ge_3 = drv_data->has_emac_ge_3;
+>  	ethqos->needs_sgmii_loopback = drv_data->needs_sgmii_loopback;
+> -
+> -	ethqos->pm.link_clk = devm_clk_get(dev, clk_name);
+> -	if (IS_ERR(ethqos->pm.link_clk))
+> -		return dev_err_probe(dev, PTR_ERR(ethqos->pm.link_clk),
+> -				     "Failed to get link_clk\n");
+> -
+> -	ret = ethqos_clks_config(ethqos, true);
+> -	if (ret)
+> -		return ret;
+> -
+> -	ret = devm_add_action_or_reset(dev, ethqos_clks_disable, ethqos);
+> -	if (ret)
+> -		return ret;
+> -
+> -	ethqos->pm.serdes_phy = devm_phy_optional_get(dev, "serdes");
+> -	if (IS_ERR(ethqos->pm.serdes_phy))
+> -		return dev_err_probe(dev, PTR_ERR(ethqos->pm.serdes_phy),
+> -				     "Failed to get serdes phy\n");
+> -
+> -	ethqos->set_serdes_speed = ethqos_set_serdes_speed_phy;
+>  	ethqos->serdes_speed = SPEED_1000;
+> -	ethqos_update_link_clk(ethqos, SPEED_1000);
+> +
+> +	if (pm_data && pm_data->use_domains) {
+> +		ethqos->set_serdes_speed = ethqos_set_serdes_speed_pd;
+> +
+> +		ret = devm_pm_domain_attach_list(dev, &pm_data->pd,
+> +						 &ethqos->pd.pd_list);
+> +		if (ret < 0)
+> +			return dev_err_probe(dev, ret, "Failed to attach power domains\n");
+> +
+> +		plat_dat->clks_config = ethqos_pd_clks_config;
+> +		plat_dat->serdes_powerup = qcom_ethqos_pd_serdes_powerup;
+> +		plat_dat->serdes_powerdown = qcom_ethqos_pd_serdes_powerdown;
+> +		plat_dat->exit = qcom_ethqos_pd_exit;
+
+Hi Bartosz,
+
+It seems that the intention of this is to ensure
+that domains turned on by qcom_ethqos_pd_init()
+are turned off again on exit or clean-up in error paths.
+
+> +		plat_dat->init = qcom_ethqos_pd_init;
+> +		plat_dat->clk_ptp_rate = pm_data->clk_ptp_rate;
+> +
+> +		ret = qcom_ethqos_pd_init(pdev, ethqos);
+> +		if (ret)
+> +			return ret;
+
+And here those domains are turned on.
+
+> +
+> +		ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_SERDES);
+> +		if (ret)
+
+But it seems that if we reach this error path then the cleanup is not
+performed. This is because plat_dat and thus it's exit callback are
+registered until the call to devm_stmmac_pltfr_probe() towards the end of
+this function.
+
+Sorry if I'm on the wrong track here. I did dig into it.
+But this was flagged by Claude Code running
+https://github.com/masoncl/review-prompts/
+
+> +			return dev_err_probe(dev, ret,
+> +					     "Failed to enable the serdes power domain\n");
+
+...
