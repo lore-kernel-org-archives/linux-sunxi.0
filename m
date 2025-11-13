@@ -1,60 +1,60 @@
 Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B554C350A04
-	for <linux-sunxi@lists.linux.dev>; Thu, 13 Nov 2025 13:19:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7DF7199931
+	for <linux-sunxi@lists.linux.dev>; Thu, 13 Nov 2025 13:31:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763039943; cv=none; b=jQa6jx9+8HrIMkRLnzXVzqvmLn2V6WT0VUPoCLG3CHzkXadtggk8dfijj9yskH5s870M/bRxSzzokh8VCNxQaw7yIeaOCa9fhRrXbzpWGSRDXd2XhS6NOo3yjRujVslZD2iBl0kyGP4akYN0FE1E3AvYBQ62UudYqsVWjTXaAys=
+	t=1763040697; cv=none; b=i7X5pquqb7OXu/HxSSCM1yLp0So8+17A2UQZciHhBX3DKLpcHE44/PxfStX6wfEbPWL+gtVr3qb/qRDfKAClDo679eWXaDu2On93rfyA9+J2c2ZIHU7HQwQlaPQYQC42BiFvOjRQfDcIzV/2nG7TFDWL5JeeoTPr7Oy3/PUmXTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763039943; c=relaxed/simple;
-	bh=dZ2FevfKGBfSlzInaPvMVB0Ytsg/HnbfQojoImKv34o=;
+	s=arc-20240116; t=1763040697; c=relaxed/simple;
+	bh=ozyIZ+DRAXgcmWNPabI3QVCnzbiWETR79BPnKWOg1ac=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KiwybQRc+O3t13QG1YRDDFlCc8t3woHX6uWgxHKd9WzveHgAySnuPgFSYB7eiXzP/6B7/ZwVggRdSMKiBsyR/FZdjcb6ybL5/5UpmdEqEISDy4YfWwfsZ8vRU1OMRLYE1y7dJEOrUIZeNHWRw7ZkyXjKXML5DFkX5ywHRaQQJRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=v9zBt0DF; arc=none smtp.client-ip=209.85.167.51
+	 To:Cc:Content-Type; b=B7xJUT4VSaZXxIGbWUe8ucGDHLjwXvVqBqs+PvyUX00ePZRKl1QLIPKy6qG6n0Iz900qjjXWFpHLMrhn25VsjKKiCgqTwTWjEnEkczaiO5Lksa27NT0SSe+KvaGpgYD+Ud5krKS5YU9nplkwMv8qWuVfzl/BRIiDkTYgfEiJxPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=AmffDvr6; arc=none smtp.client-ip=209.85.167.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="v9zBt0DF"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-594270ec7f9so736696e87.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 13 Nov 2025 05:19:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="AmffDvr6"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-59583505988so225060e87.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 13 Nov 2025 05:31:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763039940; x=1763644740; darn=lists.linux.dev;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763040694; x=1763645494; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VZfCaucUzkZTNK+50YPVLfmUuvxNRaVom6NqjpdOeAc=;
-        b=v9zBt0DFAclk9Tc+/X75SAxmihIQKM/XRwTR8ZSaljAUcQ7/Hq6PMijpmJ7XHGrv/z
-         UUAkT2lx9d8pgGNX2rbRnTrjtDRZw8cmsBK1Qa+Y2H2xZPIs9umaS4I8RCzgnBJ/GB2g
-         /mco+ICOwWl9jlzEnJcWMNVY1F+ZBwQ6byaKAnHtBFvufrxZbo4nHTMWekmIPjYEkyHz
-         /FZB1MW1+wMGGAA+yTx9TbrYf/n6EX8Dlh6SDlomZI03f33SiLkIZikVv4h+9VrsuujZ
-         mm426wrU293PpU9JTaOFJIjYLPeTE4WqToKSGqrY8M4WLJ0Y6lX83zaUBcRExA9HH/F1
-         gQLw==
+        bh=73kr7nUrOWZMw2Xrq3JK7B68+7C7ERu+i4U/2oSeqZY=;
+        b=AmffDvr6EYtYu5G+UCRUc3bgiYQqeBIacvVv8kOAqw0zpSm2FBYNw0atrEJUoVFcJL
+         o96jrJGTKglmsl3C8AfM3F041eZPkCL+1sMgzrunbRgReckw7Fv/G+fD0sIb11TjAemb
+         ENnGFDfEbzhGWprGf2EXW0oul5XwRHGQSkzVR5EJf/kkKxM8jra9WJCm7WdHY3kEjCuk
+         kb3obf70tXAxTFE3P6FKhC91+iZZIJyN7745TPkIyjSx0XgbbioHZIJ1Xx9vD2dEY/Kz
+         ROv9Hpw+pJrtGWgpltwZQOa7C1X5/KDyfIyimly3Z8wYg0tY9rIBTpur7vNRbq6iiUGU
+         7G7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763039940; x=1763644740;
+        d=1e100.net; s=20230601; t=1763040694; x=1763645494;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=VZfCaucUzkZTNK+50YPVLfmUuvxNRaVom6NqjpdOeAc=;
-        b=TNTmJjkkjDU0ln9OEY/ze89TdfI6RhLWyrXvQP+67qxxxVXOhwUGhy+wGlC7YchBfs
-         xhbRVUprEf8m6VkmvMYUbocPVNl9YmunQp0gzHeZqYpelnLEcghyTZBexw2cXWYI+4Pi
-         6uoYetvqTkaKQ70okBZtSZ2upSYfHYU69OXry/kAOZS6m7imsEOaqj/6lgWwcbbzW1xJ
-         X7+dzO43Z9g7XQSExDL3madrvllySk76cmveWzHmwDkGY1lnAbzxysvrzwhX3imy0w/5
-         Rk3kNIvobYN+cvZtdM9ShDop70KQ1hcHjY/BdxBK1uciKu9lwsTyCJK4x/6tpsHfLyzJ
-         gENQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXtIpxxUerFGWjw8UFbw0QgJuI2Pgyw8g/zsETMroMfhTMyBtU0WRPqBiMsBWHx/5nUAqGiC5iLqys+WQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzyNXkNx2Xn6hJWwOV0BW5U4rsF7ZPEI69r6LB2TOvomES0Jaj6
-	dh70vZcQ1XZT7to3x+g1ctS86TkG9IKvIie/v65bbkniZ2ELwtjSoW3qtRVk2DSJtbosVTmE8HX
-	8R32KwFHrAV38J9gO9Id5SI+dSyr02GyofXh+k/Oiag==
-X-Gm-Gg: ASbGncuiofo8HP49jW7fkS3kc5oX3i2gtvjxoojO6fdmWMT5qRUSkVtWsVTulpt+Kao
-	la8TG6oBpzbvpD6ad2JNHrqvQBtLHZtzasIvRrEcWRd/2e267m/gNIUaKWGoXJVpmuM/wUjN+5s
-	1HCC8yvNl+JO9BiE+sZK/so9BkTX3EuMcA1cUKjOCsY6ufB+l6VtbXxrSnQTM/pAfW8kTDk4fna
-	MfK1fJRq63cLmZJh0pSXbFtkHXI45U2IV3OeC/Ij2TqFUKCDnVIeIhMwnQ4KAOldIYJqYgLWjmR
-	aG6f7GeiXlFE+Kzm
-X-Google-Smtp-Source: AGHT+IHeVzTuj43c2XKQpZBw2ErEf3YOWTRFAtQ1vaZEEtKBTkEs3tR1Hd50SIgH+QjYllZZcXodcrSS9KZ8vRhrh3k=
-X-Received: by 2002:a05:6512:3152:b0:595:7b24:d36e with SMTP id
- 2adb3069b0e04-5957b24d58cmr1396653e87.7.1763039939830; Thu, 13 Nov 2025
- 05:18:59 -0800 (PST)
+        bh=73kr7nUrOWZMw2Xrq3JK7B68+7C7ERu+i4U/2oSeqZY=;
+        b=bupvKBzn2d6Vc7oqp24inIp2FbQRxpnOI2v6I8mNuXyQ40Vopnnmxa3Ay+YJg/LnsK
+         cTYJHfdgdqHEF1cVm8G8QrtLaNXIsb6zm90T5OfrReSlznv12C/yG0dyrBZAysFdG4UF
+         siCziE/1KbtVu8npsvgaLj0yxHS6jDn0njcgsHCao8qKttq3j4zTUHTJydFygwiFc84t
+         excO/ezyL/xzru+gXlCkuKLWIdCt0MarwDFUyvpUMxntHeQOBgAk6jtZikLqMlxyaeu/
+         JDzaBjlKvH16jOKBskSCCKSb2EaqjK4owmn0RJ+/s4UEBUvyIovcy75KJ1m3yN9fRfB5
+         h0qw==
+X-Forwarded-Encrypted: i=1; AJvYcCVxMWg6+EXxPPjVke0nnNKg+1eiTOI4mDdRzCxZLIC7IBtjMNR9PYic7Y5fE8wuIAGR3Nwjnz4s+7VZOA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwAGY8HITeRfOdJO5rCGmB+ByRRvaJYeSxyiPdUS8nSL84h8B+X
+	e1j5wwsbMDpnCMhOoTtbGTvSv9nhTcaLxYW3iAfqNOGSIzQAs/jp4yc72IRKLEyhckMLVgoMov3
+	K0HdGBb7IkADXBPa3g9+wg3YF4Vm21Tqn+H4wORihxQ==
+X-Gm-Gg: ASbGncvB+PkExhLYchGlpJvtPohWiq2moP4TSruHcE4fAU3gkPleGwbMhGdmhDnUJAS
+	GSZILdOvzNPylXzql5wVZCvu0UD0i3nMtrk7ZqWsmvVGM67hvMErV2o8ipFm9M42J9GnTT/YyrH
+	xb/JL/ewSYX2V29TwE1IBadMqbthBc2wdDcP9OnwrB6s6/kvMOq3qsNLoFfflm23Wxwt8A2KRBP
+	gp7WXEmu9yliHoqiIDxgJ9rbIc/azrfVMvYuvu1b53NyyWfa4aJzLk+WkYsHpfBfzMQP5ILVLVT
+	qRNfNdLaqwItQ0Gr
+X-Google-Smtp-Source: AGHT+IFmYGYaNrPxFWU0ghXUofhzNye14/5vushtgIFDWSfgA/MklzOW/JNoBE9rLO+zgbK8iJzH+WbW5agg2UGK7Co=
+X-Received: by 2002:a05:6512:144d:20b0:595:7b24:d352 with SMTP id
+ 2adb3069b0e04-5957ececb1fmr730185e87.24.1763040694032; Thu, 13 Nov 2025
+ 05:31:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -62,13 +62,13 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20251107-qcom-sa8255p-emac-v5-0-01d3e3aaf388@linaro.org>
- <20251107-qcom-sa8255p-emac-v5-2-01d3e3aaf388@linaro.org> <21a3d269-76e6-4da9-aa25-bfd1fb6dfb07@oss.qualcomm.com>
-In-Reply-To: <21a3d269-76e6-4da9-aa25-bfd1fb6dfb07@oss.qualcomm.com>
+ <20251107-qcom-sa8255p-emac-v5-3-01d3e3aaf388@linaro.org> <9805b902-95bb-4b18-b65f-f6efdfb6807a@oss.qualcomm.com>
+In-Reply-To: <9805b902-95bb-4b18-b65f-f6efdfb6807a@oss.qualcomm.com>
 From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 13 Nov 2025 14:18:48 +0100
-X-Gm-Features: AWmQ_bkdL6yYgjauNyydNchJ2jLFj9s46UQ7WB4-Hc5rFElcxZ0Jmq78mNjUwDc
-Message-ID: <CAMRc=MexMn_GSC2EtMek5hDRLjGYA5HKM8ge9vrxw1pYDqPJgw@mail.gmail.com>
-Subject: Re: [PATCH v5 2/8] net: stmmac: qcom-ethqos: use generic device properties
+Date: Thu, 13 Nov 2025 14:31:22 +0100
+X-Gm-Features: AWmQ_bmfo87z1zTXv8LP-M-WOLEoIFCS2S60P9_2zq_qXBjBuZTULdbiMAAMcS0
+Message-ID: <CAMRc=MdWu5x5bgh4CfPsowJnF0Qh1W770KTDtTFMkGkQf4_LKg@mail.gmail.com>
+Subject: Re: [PATCH v5 3/8] net: stmmac: qcom-ethqos: improve typing in devres callback
 To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 Cc: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -110,36 +110,44 @@ Cc: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.or
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 7, 2025 at 11:49=E2=80=AFAM Konrad Dybcio
+On Fri, Nov 7, 2025 at 11:50=E2=80=AFAM Konrad Dybcio
 <konrad.dybcio@oss.qualcomm.com> wrote:
 >
 > On 11/7/25 11:29 AM, Bartosz Golaszewski wrote:
 > > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 > >
-> > In order to drop the dependency on CONFIG_OF, convert all device proper=
-ty
-> > getters from OF-specific to generic device properties and stop pulling
-> > in any linux/of.h symbols.
+> > It's bad practice to just directly pass void pointers to functions whic=
+h
+> > expect concrete types. Make it more clear what type ethqos_clks_config(=
+)
+> > expects.
 > >
 > > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 > > ---
+> >  drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c b/=
+drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
+> > index 8578a2df8cf0d1d8808bcf7e7b57c93eb14c87db..8493131ca32f5c6ca7e1654=
+da0bbf4ffa1eefa4e 100644
+> > --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
+> > +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
+> > @@ -726,7 +726,9 @@ static int ethqos_clks_config(void *priv, bool enab=
+led)
+> >
+> >  static void ethqos_clks_disable(void *data)
+> >  {
+> > -     ethqos_clks_config(data, false);
+> > +     struct qcom_ethqos *ethqos =3D data;
+> > +
+> > +     ethqos_clks_config(ethqos, false);
 >
-> [...]
->
-> > -     if (of_property_read_bool(np, "snps,tso"))
-> > +     if (device_property_present(dev, "snps,tso"))
->
-> This is a change in behavior - "snps,tso =3D <0>" would have previously
-> returned false, it now returns true
->
-
-This property is a boolean flag, it cannot have a value.
-
-Bartosz
-
-> although it seems like it's the plat driver clunkily working around
-> not including the common compatible and inlining parts of the common
-> probe functions..
+> ethqos_clks_config() takes a voidptr too
 >
 > Konrad
->
+
+Right. I think I had something in mind when I wrote it but I'm not
+sure what anymore. Best drop this.
+
+Bart
