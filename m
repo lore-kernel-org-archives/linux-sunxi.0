@@ -1,113 +1,201 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E57917993
-	for <linux-sunxi@lists.linux.dev>; Sat, 15 Nov 2025 14:47:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4517A2FFDDF
+	for <linux-sunxi@lists.linux.dev>; Sat, 15 Nov 2025 17:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763218068; cv=none; b=O5a1JEV91wWk4I50kRKd2f/3lPUeYN0Y6XgJ7k+GSCnAQUq6u/oQz55M1llPupXvmreAaKZNaIW+KrkKf208D3okJxXEQOemdHHmm9/DmcDv4R/4tk8fp1HObsw8C9gC5n943T/KwY/HCQ5vr0eRooGKNNGpLy+x02W1qtg3Pts=
+	t=1763228568; cv=none; b=jOEbNXagygRcWrnnIAxAvPgWjzDBZc0ADjMwtB/K7J2zX01DRCIogvvJsFSuGgdEt4Kkyb+msRNpMRHlLHzlzo/1JRe6/XezKij9pgtpiKOKh+YHyZczExs+XvMumjAI8+u0HAikoPDlI5qWP7UPZOcJ3DyYu25t3+d19vJDl4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763218068; c=relaxed/simple;
-	bh=6zCF2VwvteQ2rlCgNAvg5npcthhroXaHgp98itk06Lc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=py27tWI3GAPAoRkddsgLuK5byY5Ub7OP58/0LdYcpifwjD58cEnZ36dHG1Qz0hg2SCcyW0/ipccbrsfI2QZfGydxRi7zArg+l8T98c3wx9IqF6DCAG2KXQXCPw5lwuKBdTqvcWsEJj2NrbdeNcbTirUGnNN3KAjIFS/7IxWvncU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i2S/WVhS; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1763228568; c=relaxed/simple;
+	bh=s+S9pW5x//ou7X1wP3bi3A8Ps+6qeGc9acdcWBpHbU0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UsyyppzJfffWrTLwnXbayK0+KJBUIrkIgHfxg/ciWzlmSjhzGM5eKMOY009qBe6A286V82FTlYZgBOm3npkMznH6rAkjFUCu9CwywopuG708NU75ZGUF3E3KvBiUEkh0RSxIea5xbAzCXnVyDkGBpQmqdoprWXAQVRoMNvi/TRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i2S/WVhS"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-64175dfc338so5616233a12.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 15 Nov 2025 06:47:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763218063; x=1763822863; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6zCF2VwvteQ2rlCgNAvg5npcthhroXaHgp98itk06Lc=;
-        b=i2S/WVhSwTdnNqPBOmMc+OkrWt7nnyrd3uRimH3vWKNjGRmYYeIYwj7L3xpu76VKKW
-         E//gyHdyXQUtv/2cOtHFrLiEzkkfovvDpzxs4gJb++vsxpSZup4FJUQl3jD4W+8e6lLZ
-         yLYUZftG6mgdmtN3dHPj9g8bL+ZJUYXbW0DD2L3zjfdZ14vQVvjbALyN7IwsBc+hbSku
-         N5UWglTp8WU/BNkhyE1K9B5NT2LeyekKVSG/+ECrYZZFMlFiv0w4KxV/DvDbD28Ca2t2
-         QyAQqcTwvSE7jRCHF5cd2zrlULBP2Z6qF1WCzr7qJdTdpoa01U/KRDQeEiUEG+oI1aSv
-         i2Mw==
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b735e278fa1so407050366b.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 15 Nov 2025 09:42:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763218063; x=1763822863;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6zCF2VwvteQ2rlCgNAvg5npcthhroXaHgp98itk06Lc=;
-        b=fVm0nPMog7xcBT/S14JEP173spwfvYR3COS4WU4q6bUIIacdAO73bVHn2m+tn4wg3n
-         qM9aVBoC9BR6uBgqzSqeAU8kB7Fp8znwFOCWnpOm4yU//jB+M8p/xhHX9jkSfELts345
-         i2y47uFadQZ38zeDWsR6tL+uQ7XEeuMbdsLU/6ZEzYIhpzURpdTaqkGvsy2FYzRf9AlV
-         fD7F+XW6RLGTwMnWNv1fSxuC8jGau/7tCDkwwPFFJLYNpR5PxCow4UEqCGGeCXT7IPQ8
-         +CI3FiHSCYEQwk9MFPNNtMbSD1E+Y29ijfzA/Xv+Pt0vQG+RPkFjMg46lJKU5m4e8VCo
-         GVgg==
-X-Forwarded-Encrypted: i=1; AJvYcCX3RbfJALVfzZKXAlcNoJJUkbCtwl6vO31zdBZk7CFanBjGsYVuEB7pl7KF+HYMpd6kZSZ//1uSw5JCKA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxzhFK7Oq1xdTRvCdEcKr/Paf5RT21kuaxFkOsoaQrt30ugOLXV
-	UlYC+Fj/IaBbI+f8XkFWfAoV8/vdphYBuNFRg9TlAgSoiJATvq2Ey3GO
-X-Gm-Gg: ASbGncv/JLexbty1ky+VsO3TvXixy6PSxe4H2Dnr2TT0H6ymz5x8VGf26nPmakBCQaV
-	mJ7yL3mrR1Do3OF+Q74NHPd8mfjCPPnYzWTKLxibjwalgdDJWDZIyBAB/BJ1nnldcIdAwI1HGBG
-	Pvp6kTpQind61P/C3M6xq0Usq6pkgFXjRLHz3ZkyE4frW+xqv7Cbpgi6wtZZJH3Cjle2RVGh9mX
-	uMTr/I8wHiZbqlZANEXZKZUI8jC1dq6ERcB2bSkjPVt3vmHi/rdZfcyeWf2qtNNWrLnsvCMRbS3
-	6USURQja+ulcc/HyrlRbw6Ec7fWYrZeesqnIsGsNK/Z1Zq+42acIA7gJii+6rd/O7gwPa/KrKvs
-	u23xEOXLyMiGGLo3x4PWYcgsndaP0G1PGoRU1SoKwvwgLl4OFeoXYF+BbnSZBlsHWv3hCv72Xoy
-	YNKribpa8QJ1MET+fv/7YHZIHWn14RRijS/lu/oLvGQXzRnU7KzhoSewnUa8GfDkr7f6jtRZZRl
-	JUBag==
-X-Google-Smtp-Source: AGHT+IGrjk6XSc2vCyw9UdPnvD0sBuH/IPACkYBi6rv/j+NdjGAC/UWtwwJ0hdXjpnf0qvoLJ3aa0A==
-X-Received: by 2002:a05:6402:42c8:b0:63b:ee26:546d with SMTP id 4fb4d7f45d1cf-64350e20abamr5640955a12.12.1763218063485;
-        Sat, 15 Nov 2025 06:47:43 -0800 (PST)
-Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6433a3d7335sm5917548a12.4.2025.11.15.06.47.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Nov 2025 06:47:43 -0800 (PST)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: wens@kernel.org
-Cc: samuel@sholland.org, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- mturquette@baylibre.com, sboyd@kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org
-Subject: Re: [PATCH 2/7] drm/sun4i: vi_layer: Limit formats for DE33
-Date: Sat, 15 Nov 2025 15:47:41 +0100
-Message-ID: <2804739.mvXUDI8C0e@jernej-laptop>
-In-Reply-To:
- <CAGb2v654AOqwOs26SjYji5K00oM_3U54sSFU-RMGqRPwRMnqCQ@mail.gmail.com>
-References:
- <20251115141347.13087-1-jernej.skrabec@gmail.com>
- <20251115141347.13087-3-jernej.skrabec@gmail.com>
- <CAGb2v654AOqwOs26SjYji5K00oM_3U54sSFU-RMGqRPwRMnqCQ@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1763228564; x=1763833364;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iS8st6S4NEhfwQi2ADWQ0RHyYWa8wB83L+ih+AMC2co=;
+        b=rJ3cEzL9/w5ZUktr7lo6ezFV00gEMXMPVg9WzttnutjmaSGUME79mG/yOKwi5LlDHV
+         qRp7sTv5jyWDVDfnTaPFhVI7qbW8hBx60RBIMiZiVbKBohdzlRpMRNdOvIZKktYVEg1v
+         9CDoq1TcZjR03FJHyfDUM1878+Im2kPjucsek/wUmDA8Glpt40M1FYEf4vakP2dgvfom
+         3AesYShHuA00rY/nfB3g1ACDo5qeaIzKmLBQ95al0A6N4kuKDgSwTktOyDz6FUrWM0F3
+         +ZrsfCWT/O+5VQsh+4GfQhZsMADLznG8KnqK/PHXQa1bF2V5WGatsVftkKA5y7i6/NAj
+         Hrhg==
+X-Forwarded-Encrypted: i=1; AJvYcCUZCsrFOQpVjufv8KVJUrhYIScJh0M7W5F37Gx2KoenRf/U9+VltzSytH52E8FRMo4a/o2K8P+6lI6z1g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzR6obG6nJ8GdcxEUhCy+8sCLWbZCaYAN86r3Qf3QZRyPRi5Cdm
+	ozPHQljXfq8mIQzjK/zlCyaHK79fFj6/Ljl6/9ybgGvcYvkzqBrn9JZqrhLqASZu3+k=
+X-Gm-Gg: ASbGncsWlhVMF9+5XnItxP3sl0SebTkhXz7+w9r0AKwm7cMDmn7BS3odLmxl7bzOO2g
+	M288QnR2aThfkpvQkbD7rBOUkiwnCf+p9j/ZJRqs9HOGLpZPkRXnvO0taP2JTI3qkAaCxZDJo1k
+	uD0YBusYQYISHKCVAdneiDGFe8INIVpetupCqvI8a5afh2xVCrkUz2fZpeUCEKNepMlrNphtfLt
+	wQTiGddOEtJNZeGCUxiQsWEolJ418cL0sKqrUnLFkhi4oUbAGDvc1RyA9/zJjwODPOsIxy+g2c9
+	3dPFdVj1A6JSHBsJvNSKUv1Gefonkt7+8AFqVtP9dVT/EOXNTm5C1i5+AIxbnPl/T/oFYFaGRG9
+	56lKag/A6dkLc6oFbx10GW6VNXWwY0hcX53sLYLLQuhEtae5/to+gY3sbuRpCkWi00QBMuqcFQJ
+	K8v7yVLLb1tHdj1hQgNTIrDmqj8aWJBCyupoevkdo=
+X-Google-Smtp-Source: AGHT+IHXNlMp9Vcwbp4moX0E3jRb4aHIdr9NH2Zu3HPqeTsw55s6NnNIgf9lOwvUM59ZIEiVrNGS/g==
+X-Received: by 2002:a17:907:3f0a:b0:b6d:565f:7862 with SMTP id a640c23a62f3a-b736786c793mr737814166b.14.1763228563954;
+        Sat, 15 Nov 2025 09:42:43 -0800 (PST)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com. [209.85.218.44])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fb11d94sm655912066b.30.2025.11.15.09.42.43
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 15 Nov 2025 09:42:43 -0800 (PST)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b737c6c13e1so126371866b.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 15 Nov 2025 09:42:43 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXbsudqfH91OHquaO1Qvb1uakFRAeXSv39dqvh51rE8PRcCh3DHtVrgX8JqKLeOD00+8d8Anzks+f83oQ==@lists.linux.dev
+X-Received: by 2002:a05:651c:41d5:b0:37a:4c29:3a90 with SMTP id
+ 38308e7fff4ca-37babac1aa5mr18627811fa.0.1763228257141; Sat, 15 Nov 2025
+ 09:37:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20251115141347.13087-1-jernej.skrabec@gmail.com> <20251115141347.13087-4-jernej.skrabec@gmail.com>
+In-Reply-To: <20251115141347.13087-4-jernej.skrabec@gmail.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Sun, 16 Nov 2025 01:37:24 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64xOrLzPYNOfFNFfPckR8EUF_U6xY0J_a3G7b0Ymb4OnA@mail.gmail.com>
+X-Gm-Features: AWmQ_bmhcY2-o8gJRo_3ltGzVFP1TpTD5csESojSsWw724bLMcf3HNL8i2V4XHQ
+Message-ID: <CAGb2v64xOrLzPYNOfFNFfPckR8EUF_U6xY0J_a3G7b0Ymb4OnA@mail.gmail.com>
+Subject: Re: [PATCH 3/7] clk: sunxi-ng: de2: Export register regmap for DE33
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: samuel@sholland.org, mripard@kernel.org, maarten.lankhorst@linux.intel.com, 
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, mturquette@baylibre.com, 
+	sboyd@kernel.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-Dne sobota, 15. november 2025 ob 15:40:27 Srednjeevropski standardni =C4=8D=
-as je Chen-Yu Tsai napisal(a):
-> On Sat, Nov 15, 2025 at 10:14=E2=80=AFPM Jernej Skrabec
-> <jernej.skrabec@gmail.com> wrote:
-> >
-> > YUV formats need scaler support due to chroma upscaling, but that's not
-> > yet supported in the driver. Remove them from supported list until
-> > DE33 scaler is properly supported.
-> >
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
->=20
-> Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
->=20
-> I assume a fixes tag isn't needed because technically DE33 support isn't
-> there yet?
->=20
+On Sat, Nov 15, 2025 at 10:14=E2=80=AFPM Jernej Skrabec
+<jernej.skrabec@gmail.com> wrote:
+>
+> DE33 clock pre-set plane mapping, which is not something that we want
+> from clock driver. Export registers instead, so DRM driver can set them
+> properly.
+>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  drivers/clk/sunxi-ng/ccu-sun8i-de2.c | 53 ++++++++++++++++++++++++++--
+>  1 file changed, 50 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c b/drivers/clk/sunxi-ng/=
+ccu-sun8i-de2.c
+> index a6cd0f988859..2841ec922025 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
+> @@ -6,9 +6,11 @@
+>  #include <linux/clk.h>
+>  #include <linux/clk-provider.h>
+>  #include <linux/io.h>
+> +#include <linux/mfd/syscon.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/regmap.h>
+>  #include <linux/reset.h>
+>
+>  #include "ccu_common.h"
+> @@ -250,6 +252,41 @@ static const struct sunxi_ccu_desc sun50i_h616_de33_=
+clk_desc =3D {
+>         .num_resets     =3D ARRAY_SIZE(sun50i_h5_de2_resets),
+>  };
+>
+> +/*
+> + * Add a regmap for the DE33 plane driver to access plane
+> + * mapping registers.
+> + * Only these registers are allowed to be written, to prevent
+> + * overriding clock and reset configuration.
+> + */
+> +
+> +#define SUN50I_DE33_CHN2CORE_REG 0x24
+> +#define SUN50I_DE33_PORT02CHN_REG 0x28
+> +#define SUN50I_DE33_PORT12CHN_REG 0x2c
+> +
+> +static bool sun8i_de2_ccu_regmap_accessible_reg(struct device *dev,
+> +                                               unsigned int reg)
+> +{
+> +       switch (reg) {
+> +       case SUN50I_DE33_CHN2CORE_REG:
+> +       case SUN50I_DE33_PORT02CHN_REG:
+> +       case SUN50I_DE33_PORT12CHN_REG:
+> +               return true;
+> +       default:
+> +               return false;
+> +       }
+> +}
 
-There is no user of DE33 bindings yet, so yes.
+Since the registers are contiguous, I think it makes a bit more sense
+to use the .rd_table and .wr_table. A bonus is that the check can be
+inlined in the core instead of calling a function pointer.
 
-Best regards
-Jernej
+> +static const struct regmap_config sun8i_de2_ccu_regmap_config =3D {
+> +       .reg_bits       =3D 32,
+> +       .val_bits       =3D 32,
+> +       .reg_stride     =3D 4,
+> +       .max_register   =3D 0xe0,
+
+None of the registers past SUN50I_DE33_PORT12CHN_REG are accessible,
+so we should probably just put that here.
+
+> +
+> +       /* other devices have no business accessing other registers */
+> +       .readable_reg   =3D sun8i_de2_ccu_regmap_accessible_reg,
+> +       .writeable_reg  =3D sun8i_de2_ccu_regmap_accessible_reg,
+> +};
+> +
+>  static int sunxi_de2_clk_probe(struct platform_device *pdev)
+>  {
+>         struct clk *bus_clk, *mod_clk;
+> @@ -303,13 +340,23 @@ static int sunxi_de2_clk_probe(struct platform_devi=
+ce *pdev)
+>         }
+>
+>         /*
+> -        * The DE33 requires these additional (unknown) registers set
+> +        * The DE33 requires these additional plane mapping registers set
+>          * during initialisation.
+>          */
+>         if (of_device_is_compatible(pdev->dev.of_node,
+>                                     "allwinner,sun50i-h616-de33-clk")) {
+> -               writel(0, reg + 0x24);
+> -               writel(0x0000a980, reg + 0x28);
+> +               struct regmap *regmap;
+> +
+> +               regmap =3D devm_regmap_init_mmio(&pdev->dev, reg,
+> +                                              &sun8i_de2_ccu_regmap_conf=
+ig);
+> +               if (IS_ERR(regmap)) {
+> +                       ret =3D PTR_ERR(regmap);
+> +                       goto err_assert_reset;
+> +               }
+> +
+> +               ret =3D of_syscon_register_regmap(pdev->dev.of_node, regm=
+ap);
+
+dev_of_node(&pdev->dev) instead of directly accessing the member.
+IIRC this is the new preferred style.
 
 
+Thanks
+ChenYu
 
+> +               if (ret)
+> +                       goto err_assert_reset;
+>         }
+>
+>         ret =3D devm_sunxi_ccu_probe(&pdev->dev, reg, ccu_desc);
+> --
+> 2.51.2
+>
+>
