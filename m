@@ -1,146 +1,145 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFB71D63F5
-	for <linux-sunxi@lists.linux.dev>; Fri, 14 Nov 2025 13:24:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8047B2FC899
+	for <linux-sunxi@lists.linux.dev>; Sat, 15 Nov 2025 14:14:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763126688; cv=none; b=OUVNrtyyy7o1jL/YxhX4OGK9tz6dYJDKVvBlk0b05D0c+3p9uUEX/KqTy9EQKd5VFaAdgZm9yLga5H3gnbdPzpgMFdpXGrSwFB2qq37Qlx7A1qp3S0Z9JfCNGeyHJa9Vq7abCjAUFxgffDmFDZ6ajBCDMKN8/K+OhTOpfTUmRN8=
+	t=1763216056; cv=none; b=dTwS0XTxONHH7DUzWHvyR78DPNcpNdf4vwtT0E3iPjFnnOePP2XOAVNj+2AtFoV3oeqTjN0mlU1W7ADU5Y6QLo4xqVycZjucTktB9SBnE5lgmQi+W1oSF3GYVYWytWkHnk+OV/ox10Hi4ZHtgMeG4r+UuPrzDabT2+12bjID2wQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763126688; c=relaxed/simple;
-	bh=/MfNmCaMbBpwAOzkjJvB9GOQKWmOcsbFnthRP3WrP4c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SEfN12U8S85jkacYrDwaCDhfTfIYZJasGqURSkvjCeIZTluaIiOnM+nAPJgFJiDj3vMUUibWLhAQV/CzXbbBhMOxWsSAfcDkYYS44PT4OFkwCEgCv3JJF3KiQJAoyB1z9x6OrVPN/NNfTTfR7TTlOAXAbOOLJmFTFBVYMeJtVfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S9SrPbq1; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1763216056; c=relaxed/simple;
+	bh=vHkwErpfhnxxsv02IcLQLhIy7rGI2ZohNEYD9R+2700=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=URMUt7IG/zkyp+z1O7g6wqFlrgiQNfvLnWfloli4DR2R173CIrgBtLEDx6lYOtOJoNYlrvRAELSitc7nYLk5EuDQRH8T4vbPScrnVOgNf9OxUOX9vzDrc8lvugWrzJ+DT5FttHS4z+WC7kb4WmSfRcZHn1j1oxfCc0tlWb43pp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lrzycjAk; arc=none smtp.client-ip=209.85.208.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S9SrPbq1"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4710022571cso18962305e9.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 14 Nov 2025 05:24:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lrzycjAk"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-640a0812658so4713679a12.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 15 Nov 2025 06:14:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763126685; x=1763731485; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9tFYx+r0LtpX/2l5hmodetJ2Wuc+Oih4VLt/Zf0jWOY=;
-        b=S9SrPbq1Pvj4rk0B9pfAudOrssT2TAFmRdema42BvpGuPnTNJ2TdB023iWEpNHob/9
-         93+aY+aucppH3LFeJh63QchFijtaZe7FwapjEbhFlfYMhJLRNwoT7WLtfDhnoc+Lfd3z
-         izK9M9oMC/JGRk7t8GinaIAKKcMz5rWWqaaBBaEbsFDNvKBHEOdztrSZmSwuM4NfOtrw
-         s/QqaIzisR0WMgw8VOwdONnNyIAzdec7pzSX/dL1WTPJDIJHBGkEgGnyN3hrCOONgRrx
-         CCzs9UjcydeGqDOLh++ohuGzOVNKG42WfYzBk+uAJjiHost+UFkXOpu5tqU++ZE/LTPD
-         48GQ==
+        d=gmail.com; s=20230601; t=1763216053; x=1763820853; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tO9M0rK2lTwB71cTYp3Jpf3ChX0WRs4mW1Amu6CT/w0=;
+        b=lrzycjAkZc544lizZhj6esGvI3gp9mcDViQ/5sBLMO6La9oxUDjCDCMBU91JY83xbQ
+         63OV1xgirx3uOOA+Iybn9dfMqLs7pxsPCJbDYqbXQ8frPyLNpTRohKFcPwBJPq7knK/r
+         AgYLbDNAtNQi2KDazrMpTNgluOLGca0NbudDXVAEmf2JELyn2vdfWVT0ctUuxPx3UIQ4
+         kDQb/pepc2APu8jCiFQG8aCJn61F9H8HP5dV+qtZ8K/hZ6JRCcW58sgpFrOBa9hxbQ5K
+         1y448j8+hXz1JWJCMygDoNcGUwzmXv9bUJS5wE6SM7nFiuGNjt9gLP22DhgO0UfXgfNc
+         gzBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763126685; x=1763731485;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9tFYx+r0LtpX/2l5hmodetJ2Wuc+Oih4VLt/Zf0jWOY=;
-        b=gVlUTK1r+Xp3rlvZlJe6UQSL60j7MD8L1vNzP4AT3ROppE+YOkt/ggbrfWs7n1GRIi
-         6ceICbhrKitGgN4Sf2L9ULpaGM+brokBxw6zrpKhaSIicbomumZQZ5zcn6MCkhDbtDyQ
-         9+TTV3LSYcxcfmSbeUhaFjYg2h7/G7lgHDJn8eo2TG3M4VkSBbhxfNomkAU0flItoFok
-         6/PjPCVfFfCRHmbtc7Nl5TvKyA6H2BeGeUSnZMQyQ+YAzx/OJ0kcDHwFMI2wdd79UCe7
-         s/b8DTtnBfcr2BbAiD8HR2ylYntH2NBqsb8NCl9YJLpwYYXLU5mdlv2r7YzcSvToiiag
-         0THw==
-X-Forwarded-Encrypted: i=1; AJvYcCUDYZotfx3PUc6iuvRkf35XdvnKmFxBoujaASETGSx35clGP7hB0T5yN6IFvrUut1hg2/EBf3ak9emIag==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw+tK4x7QJZOfzPsLIEH+/zLtfGiRplVv1gX2H3qm/W5F6CbhN3
-	M+Wo74U4tNBAjpe0drXQCoPEBRqyTc51tPDPI3gwgWTq79y+LpBiiVtJ
-X-Gm-Gg: ASbGncuDBtO8e9FXNvOoD2wDreTpvi9Y490V50gZyRaEfkoH13NDBTNJVnaEyzgINGI
-	XspNneDB1d1Zu7iV6yy0qMznXzBv6I1W+Sp3i3k/Tucye+vYwv+9j+03EkfjDKxC08IkY0iKjJ/
-	y0lHKQL8eRztKvDvK4j+rLvT96hop03RdtaeiGes6auojIhLCF+C9EkC4geXISuzVDmVt53TRjA
-	BwdyvaWz3LKaKwecq/TDgWHpRvUtoMHbM0ZLPg5XNJdHvfVlBo4tOwh0/R1hyi+JwthLB7umfVB
-	XZDnoa6cQBPw/MoaqQsJf0v0m5XpooqPwK44dyBEgpB925FIkNRQtfe7hdSHsQxmVCdCf5FUWPH
-	e7535v/5x/i890w2v3kGk7QvpOlWWLxaUB0dV/28/OyonYXyfVRUNtmtdTiZhdMpt7fQnDjsPTu
-	Ltf0K2Z7Kfth2/PWblFhPk2A4Za8osKjMT8FJJTb0OXB3POMXUqTtrqk4Z1G/dnTQwWhnPoCIap
-	g==
-X-Google-Smtp-Source: AGHT+IGGro6Ab6Q6hQTIcaBq7Nzqv7eihH1X2JDeRvd7W4sKRsUWsSzI35q89svHlSq6wH7pBHiBUw==
-X-Received: by 2002:a05:600c:1c20:b0:477:5b0a:e616 with SMTP id 5b1f17b1804b1-4778fe4f635mr29777265e9.5.1763126684877;
-        Fri, 14 Nov 2025 05:24:44 -0800 (PST)
-Received: from orome (p200300e41f274600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f27:4600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4778bb454a6sm46271815e9.2.2025.11.14.05.24.42
+        d=1e100.net; s=20230601; t=1763216053; x=1763820853;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tO9M0rK2lTwB71cTYp3Jpf3ChX0WRs4mW1Amu6CT/w0=;
+        b=iJMKb6LjmBK5XDHHOMkgMJLzgtlo9MQU7S/ivNbHUZTmw/Z+AWexYVcB/FwM2kurhv
+         j+HosbR8R4bx+5fFalmBNNUb7eylaJMXd4O+H9hu5Uo7sWQ0/kG9e9UU547tC6uFHTua
+         6ypyA+T8ykma4794Z7bTC9yKbSEHZsvQEvgeg/h3J4Y20rfiZacNE7UJkWd07RTql68u
+         qarOLzT9pdQTV7S6mZAKQtA5oNg9QwGoBjOt3s9ePwIXl38EzkH5SvJqGmN5PZjR8v7l
+         7AfbvUOOC36/jxUxD0vdAbDA93bbF/FPsXoIBjnLt8CkOSaIkz8JWMEc5wp3aFZsw++u
+         +o9w==
+X-Forwarded-Encrypted: i=1; AJvYcCV2cDCBgoaDLtjVpdfu9cnbBjjstmZm6kXl+CpqsdewKWpPcwnmgGPVJMCsUljwNjznO3VPmndf+SSFJw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwCW3wwMoZByjZJUGBG1zrY3v5/SJSkHi9Lr5wcOSprBape7/ZH
+	N2h507kGlI3CHn1fQO5m4v0GmLjy3gR11uUeJf4DCjW+GryjjTdxmQFM
+X-Gm-Gg: ASbGncsSqkFEqbnas5ok7YZOOFEgAaV4trFGSsXvN48h0/0T1NJ35RjUBcb4ym9cr4u
+	sJXWk7Oz8HbxA1VrSgUrlvvNckutzvOd9JjG2hBLDvGNqRAvbm1LSZQzsfaeNPihiaoQJwMb/HN
+	vqaUcH5Ct7XaDeNKvyo3oI7usk9otgWvOAjEQ3/Wegh/BVBqWFARnKzknLlqG+NpL236cHgziD4
+	RjWQ2g8yz/IVSjgSpfWdmIon2wclly2dLgRszFZ1ESqzy+l+O0y8Jg1mzCZ7i7ondMC3yQrDtla
+	LaYdH+aNK1tgr/EUQAbvMiRyOxYr/TXtnWsMaHTKwTlsVtPkmhJDFxvN7Rpoc4hxVtu8sb46lQF
+	3W5yZ6wOyiYwx07HiwLfykGlTdFSGSN6K2EJ5uPOuD4sBG/2VSGnw2Uoz6OthxjCtNEq4dFh4wh
+	c9w0nNzEhk7UgCLtNnIsYE8jDjbViKmrWpg3cVBKOb+62yg9FHkbukHpob
+X-Google-Smtp-Source: AGHT+IFp+Taw68EnwDXLkJFHgktvsI4Q2Kx6E5s2D/JuSsEx96b8Hqrxaybkmry8X04xeOfOSy8LRw==
+X-Received: by 2002:a17:907:25cd:b0:b72:6383:4c57 with SMTP id a640c23a62f3a-b7367b79f4fmr713777466b.55.1763216052568;
+        Sat, 15 Nov 2025 06:14:12 -0800 (PST)
+Received: from jernej-laptop (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fda933fsm606189866b.56.2025.11.15.06.14.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Nov 2025 05:24:43 -0800 (PST)
-Date: Fri, 14 Nov 2025 14:24:41 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Maximilian Luz <luzmaximilian@gmail.com>, 
-	Hans de Goede <hansg@kernel.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	Daniel Lezcano <daniel.lezcano@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH v2 00/11] of: Add wrappers to match root node with OF
- device ID tables
-Message-ID: <kqtjfqkzz3lfnpg7lo5m4dctowsxqxtlcdtktoatpze3hr3tue@ku6p25skb666>
-References: <20251112-b4-of-match-matchine-data-v2-0-d46b72003fd6@linaro.org>
- <f949c2a6-df24-41bb-aac7-f5567d03c5f5@collabora.com>
+        Sat, 15 Nov 2025 06:14:12 -0800 (PST)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: wens@csie.org,
+	samuel@sholland.org
+Cc: mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
+	dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH 0/7] drm/sun4i: update DE33 support
+Date: Sat, 15 Nov 2025 15:13:40 +0100
+Message-ID: <20251115141347.13087-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ntn2juw5rgeaer4c"
-Content-Disposition: inline
-In-Reply-To: <f949c2a6-df24-41bb-aac7-f5567d03c5f5@collabora.com>
+Content-Transfer-Encoding: 8bit
 
+This is second series out of tree which aims at properly introducing
+support for H616 Display Engine 3.3. Previous series [1] reorganized
+driver so proper DE33 support can be easily implemented.
 
---ntn2juw5rgeaer4c
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 00/11] of: Add wrappers to match root node with OF
- device ID tables
-MIME-Version: 1.0
+H616 DE33 support was actually introduced a while back, but it was done
+without fully understanding hardware design. Fortunately, no user of
+H616 DE33 binding was introduced, so we have a chance to update bindings
+and introduce proper DE33 support. Issue with existing binding is that it
+considers planes as resource which is hardwired to each mixer as it was
+done on older Display Engine generations (DE3 and lower). That is not the
+case anymore. This series introduces new driver for planes management,
+which allows doing proper plane assignments.
 
-On Wed, Nov 12, 2025 at 12:52:48PM +0100, AngeloGioacchino Del Regno wrote:
-> Il 12/11/25 11:28, Krzysztof Kozlowski ha scritto:
-> > Changes in v2:
->=20
-> Note:
->=20
-> Looks ok based on code and based on testing on the following platforms:
->  - tegra: Jetson Xavier NX Development Kit
+Remaining patches, which introduce all the missing bits to fully support
+display pipeline on H616 SoC, will be sent once this series is merged.
+WIP patches, which can be used for testing purposes, can be found at [2].
 
-Thanks for testing, but Xavier NX doesn't run any of the code changed by
-this patch. soc_is_tegra() is a legacy function that we need for DT
-backwards-compatibility and should only run on 32-bit ARM devices.
+Please take a look.
 
-Technically there's one case in drivers/soc/tegra/flowctrl.c that runs
-this on Tegra210, but it should probably undergo the same treatment as
-the PMC and FUSE drivers. The code that needs this is only used for CPU
-power management on 32-bit ARM devices.
+Best regards,
+Jernej
 
-Thierry
+[1] https://lore.kernel.org/linux-sunxi/20251104180942.61538-1-jernej.skrabec@gmail.com/T/#t
+[2] https://github.com/jernejsk/linux-1/commits/sun4i-drm-refactor/
 
---ntn2juw5rgeaer4c
-Content-Type: application/pgp-signature; name="signature.asc"
+Jernej Skrabec (7):
+  drm/sun4i: Add support for DE33 CSC
+  drm/sun4i: vi_layer: Limit formats for DE33
+  clk: sunxi-ng: de2: Export register regmap for DE33
+  dt-bindings: display: allwinner: Add DE33 planes
+  drm/sun4i: Add planes driver
+  dt-bindings: display: allwinner: Update H616 DE33 binding
+  drm/sun4i: switch DE33 to new bindings
 
------BEGIN PGP SIGNATURE-----
+ .../allwinner,sun50i-h616-de33-planes.yaml    |  44 ++++
+ .../allwinner,sun8i-a83t-de2-mixer.yaml       |  16 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-de2.c          |  53 ++++-
+ drivers/gpu/drm/sun4i/Kconfig                 |   8 +
+ drivers/gpu/drm/sun4i/Makefile                |   1 +
+ drivers/gpu/drm/sun4i/sun50i_planes.c         | 205 ++++++++++++++++++
+ drivers/gpu/drm/sun4i/sun50i_planes.h         |  43 ++++
+ drivers/gpu/drm/sun4i/sun8i_csc.c             |  71 ++++++
+ drivers/gpu/drm/sun4i/sun8i_csc.h             |   5 +
+ drivers/gpu/drm/sun4i/sun8i_mixer.c           | 130 ++++++-----
+ drivers/gpu/drm/sun4i/sun8i_mixer.h           |  10 +-
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c        |  36 ++-
+ 12 files changed, 543 insertions(+), 79 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/allwinner,sun50i-h616-de33-planes.yaml
+ create mode 100644 drivers/gpu/drm/sun4i/sun50i_planes.c
+ create mode 100644 drivers/gpu/drm/sun4i/sun50i_planes.h
 
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmkXLZkACgkQ3SOs138+
-s6G/cA/+IgP1K3OXIF03hJ/xSNn2a6/dnr1TTFLAUI6Ge13aBNVPxKCDqoxLZCAt
-pN2vtjYNWX0Z80+tnCpGdf961hS6OY28OJmABKNotQvlrnzBSn8ggsZ64UlAka80
-SRr74Do7F4bWqWrBHEDD4FRjlYR0OVy2/s0i5Zcavhixa1bqN/F9gTWT+kKItZOE
-TcV+O8gQF/op9NSShu+oXIZFRcPKdugCNN8w77cE/9B/0o1iII9DzX5uzFYK0Au4
-M7rAxBiHHh71czN3ts79Mcyinj9kcC3zGq9wtusv3N18sDRqwZCp+mPP3Y8Up0t4
-OotwMzxf59FsoSpNDUh/FgkCNoDoDXbajVzHTig9OQspb/nNis+P5Pbw7FIZb8Q2
-3jq8uRvMP3p8gc2pB7nnyQoC6ToofIcHlnhbW0oi1Fi0HovauoN7Vb8/gsJDWY6c
-hBe4ABpghzhh0VXFf8CM0vK2MonZYPO0BTyDguUr4nx6QGrrLnBG7S/B2wvaIzgs
-UeyUPjbgEhQVdyWALBKf6aK9IXi/Wp+s9w0XJ7qG14q665MqwxIXXIo0ZOIiIe28
-e+Ajuapyv0juG6x+mVb44mHgWqZ6bquDTegdCr9PakfF4rDYnDKAcdzOM7/y8/UX
-FXAgwJiScvxp/LO7D70bNXMPtYPQ3TVxDJu2I5128N5iNtuaxgE=
-=vxrn
------END PGP SIGNATURE-----
+-- 
+2.51.2
 
---ntn2juw5rgeaer4c--
