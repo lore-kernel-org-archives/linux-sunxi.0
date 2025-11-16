@@ -1,118 +1,109 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3A228F5
-	for <linux-sunxi@lists.linux.dev>; Sun, 16 Nov 2025 08:01:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5476B20C023;
+	Sun, 16 Nov 2025 11:29:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763280065; cv=none; b=USaCQObQjMU7rfNlAh1ZEYGaSTwp/UK0xH40m5Qar1qYhD3ojlrUNn2vyVAZ32vwMbcEGoCX6zAH2XRTLdrGP7Cj5ADgZFb+eZTtPEgSNa6vc1A2JCV22MVAZr7DIUnC4UKq/JnuR7DD8U0xAGSGKSmBCnFTRMgDRAitSER0tu8=
+	t=1763292570; cv=none; b=tfh5KmZq1BOR+HJmUABaj4DMvuDA2qfIwX0r7j1NtakFPGAcXpdrn8g/wCA0uuUqwgD7f8Pm8Ex1R0SbASStstUbytVKrE0VGsoIOmLbz0n6VnBQo8L13Fv9B4MArhxQ/Gx+deoPBT/nrP/BtDz3jlT2WNsNOeVNw4qc5x4AcNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763280065; c=relaxed/simple;
-	bh=n1m3+OEF7ZWWfJVdAJR+SCkIJOuK7J/zBc3Whpeg4zs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dwbnm20q5rsBD+dPq5aUVCIHIcTszhHoiOq+I2dFqPZzLH+n0HqqhS9WBAXVnPQlH0rGTalHdUI7umHOBMo7hn+RgdqpI4xh/eKUbjDTt5mdia9880fDVgOXDsdzGnFQ7b9PNUizDwOsH3AmSfT++8R0YUNMA/UzvzfPQe6u73s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oi1oh0Ly; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763292570; c=relaxed/simple;
+	bh=mnXvqYmImcinYneeN4zW9LnuvANHy8IWtl4d1UPxOE8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ApON9HvlaLpBouKvTrkKcy8SE8Zb+dl8dJTdKSx5wDNfcP+DzPYcfQ8h3p81/dUP4QpaQ/KJpIHdRQ2Me8OLCr1KiCJUZgOytiZDiI+gVlgyblvsM8imOsVo7m0E8gU4U4vyE5OcsCn9+wXyPhKlM4sfGSqdDLrGQWfjB5l7ZHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wzunf4+D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oi1oh0Ly"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70E42C116B1;
-	Sun, 16 Nov 2025 08:01:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wzunf4+D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A557C4CEF1;
+	Sun, 16 Nov 2025 11:29:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763280065;
-	bh=n1m3+OEF7ZWWfJVdAJR+SCkIJOuK7J/zBc3Whpeg4zs=;
-	h=Date:From:To:Cc:Subject:From;
-	b=Oi1oh0LyKUfgqA/oXZ/90yJqnLB6jw6RKLgVckWAt9cZjKStxigZ8w93oQ+Fcyjke
-	 UumwTgYTdUWAQDvpwWZ4qjcmNh0uYvU8PZ7jVciWVR+z5ZIQbJAX2e9Nf/1HVOHu4I
-	 yLj88Vzaj9x+Zp1qyHziFFLaBJH6wQxQEddxJz8L2cyUB35hdOixFGq33coGTGttnm
-	 4ikCysxrqYivY09LkWscVt8bWB3BN80/1IJEmmYQ2vzLHssqLPdeHL8u7ytK0CxFmC
-	 d4RcGjlwWS/RwX5JDEaC1TvsdvkaiDbnsBiBwuZ8fN2wthXFKtmfv1mbcAiZJBCiQc
-	 HGcQe+a9hb6fQ==
-Received: by wens.tw (Postfix, from userid 1000)
-	id 69C2E5FF44; Sun, 16 Nov 2025 16:01:03 +0800 (CST)
-Date: Sun, 16 Nov 2025 16:01:03 +0800
-From: Chen-Yu Tsai <wens@kernel.org>
-To: soc@kernel.org
-Cc: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL] Allwinner DT changes for 6.19
-Message-ID: <aRmEvz0F1yVCgE-B@wens.tw>
+	s=k20201202; t=1763292569;
+	bh=mnXvqYmImcinYneeN4zW9LnuvANHy8IWtl4d1UPxOE8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Wzunf4+Dqpm8I172TRzSWUXI6UzmdSlHBq8WRdCWcS94xCaQm+lKMWs54tSMmFeSu
+	 0GmB/twTiwhYFSrxFAG1f3TYhJ7Gd42+wN5/tmmAJRuT3km0Uq2dRgy6vQDE+FSKSG
+	 Ks6rda4N7Eam799dwq3KdZDNuxIqAwMe6/i4Iy++9UxUjxAMwD/tZB3XJCg9TygBmi
+	 yYG3g3vk3adHL/vlhpDzM0UjZjNeiTH2SelYpRF+zwBb06K7yET+XUXd8Ftwiw67CA
+	 p8+z0LYsDz/GVpjoHsbqJqVqSwlQXit2P5MxXdrnVIIAUvONjeYP4QsV9P4aJMlu3n
+	 VoSpxAaT3fE+w==
+Date: Sun, 16 Nov 2025 12:29:27 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: wens@csie.org, samuel@sholland.org, mripard@kernel.org, 
+	maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, mturquette@baylibre.com, 
+	sboyd@kernel.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-clk@vger.kernel.org
+Subject: Re: [PATCH 4/7] dt-bindings: display: allwinner: Add DE33 planes
+Message-ID: <20251116-humongous-ant-from-betelgeuse-c0c416@kuoka>
+References: <20251115141347.13087-1-jernej.skrabec@gmail.com>
+ <20251115141347.13087-5-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="g5tY81ESRNcZFmD0"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <20251115141347.13087-5-jernej.skrabec@gmail.com>
 
+On Sat, Nov 15, 2025 at 03:13:44PM +0100, Jernej Skrabec wrote:
+> Allwinner Display Engine 3.3 contains planes, which are shared resources
+> between all mixers present in SoC. They can be assigned to specific
+> mixer by using registers which reside in display clocks MMIO.
+> 
+> Add a binding for them.
+> 
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  .../allwinner,sun50i-h616-de33-planes.yaml    | 44 +++++++++++++++++++
+>  1 file changed, 44 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/allwinner,sun50i-h616-de33-planes.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun50i-h616-de33-planes.yaml b/Documentation/devicetree/bindings/display/allwinner,sun50i-h616-de33-planes.yaml
+> new file mode 100644
+> index 000000000000..801e5068a6b5
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/allwinner,sun50i-h616-de33-planes.yaml
+> @@ -0,0 +1,44 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/allwinner,sun50i-h616-de33-planes.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner H616 Display Engine 3.3 planes
+> +
+> +maintainers:
+> +  - Jernej Skrabec <jernej.skrabec@gmail.com>
+> +
+> +description: |
 
---g5tY81ESRNcZFmD0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Do not need '|' unless you need to preserve formatting.
 
-The following changes since commit 3a8660878839faadb4f1a6dd72c3179c1df56787:
+> +  Display Engine 3.3 planes are independent of mixers, contrary to
+> +  previous generations of Display Engine. Planes can be assigned to
+> +  mixers independently and even dynamically during runtime.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - allwinner,sun50i-h616-de33-planes
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  allwinner,plane-mapping:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: Phandle of Display Engine clock node
 
-  Linux 6.18-rc1 (2025-10-12 13:42:36 -0700)
+You description is almost duplicating property name. You need to explain
+here how this device uses them.
 
-are available in the Git repository at:
+Esxpecially that clocks do not go via custom properties.
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-dt-for-6.19
+Best regards,
+Krzysztof
 
-for you to fetch changes up to ae0d3f1e6dd2c6404db2fbd7556b93eddd6c87b8:
-
-  arm64: dts: allwinner: a523: Add SPDIF TX pin on PB and PI pins (2025-10-29 01:07:33 +0800)
-
-----------------------------------------------------------------
-Allwinner device tree changes for 6.19
-
-The A523 family gains support for I2S and SPDIF audio interfaces, as
-well as the GMAC200 Ethernet controller.
-
-The H616 gains support for the NAND controller.
-
-----------------------------------------------------------------
-Chen-Yu Tsai (10):
-      arm64: dts: allwinner: a523: Add GMAC200 ethernet controller
-      arm64: dts: allwinner: a527: cubie-a5e: Enable second Ethernet port
-      arm64: dts: allwinner: t527: avaota-a1: enable second Ethernet port
-      arm64: dts: allwinner: t527: orangepi-4a: Enable Ethernet port
-      dt-bindings: dma: allwinner,sun50i-a64-dma: Add compatibles for A523
-      arm64: dts: allwinner: a523: Add DMA controller device nodes
-      arm64: dts: allwinner: a523: Add device node for SPDIF block
-      arm64: dts: allwinner: a523: Add device nodes for I2S controllers
-      arm64: dts: allwinner: a523: Add I2S2 pins on PI pin group
-      arm64: dts: allwinner: a523: Add SPDIF TX pin on PB and PI pins
-
-Richard Genoud (1):
-      arm64: dts: allwinner: h616: add NAND controller
-
- .../bindings/dma/allwinner,sun50i-a64-dma.yaml     |   5 +-
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi     |  52 ++++++
- arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi     | 204 +++++++++++++++++++++
- .../boot/dts/allwinner/sun55i-a527-cubie-a5e.dts   |  28 ++-
- .../boot/dts/allwinner/sun55i-t527-avaota-a1.dts   |  26 ++-
- .../boot/dts/allwinner/sun55i-t527-orangepi-4a.dts |  23 +++
- 6 files changed, 333 insertions(+), 5 deletions(-)
-
---g5tY81ESRNcZFmD0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmkZhL8ACgkQOJpUIZwP
-JDD33g/+MTCGbBbfJdpgGLE7z/F24tbTFDk2KVV+dAfCW+CZ08p+MVSVlhrzAk5h
-CbRAVxqYLO7sgGQhF0Jd7ge1HuE+zcZYqOym/SyfNJmYqVq7UnBTD7CIA2fYoy6Z
-UoKpRfSwqzX/yEkvIPwPNJKwiL3hdJLqe2rBl7EVB4NrZpbmdOXEbyTydoy9fq5o
-VDTArUSsxen53dqhjoXMNj7LF9h7Dftvb3Tp1G5vhRJtP6ozMBoauG7YI8anh3I9
-jLj43YXxAYwhvYKpYYjB0eTgGiXZoB1v10kvCI4KEm5FAffhbCQgGR8R9deWHEkq
-SzAn/luocI+dd9O0FYqfMBi2ngAanSM4c/PQ7nHB7lpZXblQ+nsz48BiNC32F27G
-itFecCqDJS8VkxmTuqkKbCT5mjZvahlHn+7Mr8OjHdS/aIqnVoCQNxPk+VxdB5cV
-UcxqNMJ3Nb2+n2GEvDm8BPWJ8tqPKiEvOBE5c5GEVkHmAMvFp7BhMM5NgEyxNcDQ
-guXJa/eTNynwdonSfh2J0I1oL6rbhx6vLPz4dgnBZei0w9rliO1RusPbvEDSrv5F
-WCrIaiLQfthgh810ieDrFw1PCqhDtdhBmqb4tifNkm9LAifkhNnmVJsr/GaKjL0g
-N6RcXcUHkOqbu4C4vzXC1BXLU6Z6BJgXjtuF4w9pK5sj/pjwXU8=
-=cVPx
------END PGP SIGNATURE-----
-
---g5tY81ESRNcZFmD0--
