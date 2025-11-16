@@ -1,42 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EF8A201278;
-	Sun, 16 Nov 2025 11:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12EFEEC0
+	for <linux-sunxi@lists.linux.dev>; Sun, 16 Nov 2025 12:00:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763293792; cv=none; b=kCoBPIkKhGXQMABaIqpOlYCUQBFO74RUoxB2FOXOERBSOaEOcVTOtRb2QeopAZNPhl2Y6pjNNwPpTAJ0AsFsFTy4QxHK0Uwhmmx7sceZih4+/aGkTbGyrx3NtUByE5T2VExuutpNQAldZJr27n4/OR4evtiXHkCL3RRgbtCL75o=
+	t=1763294452; cv=none; b=UeBYpMxufBsGkhUssWNoo0yABTbvUMtBaLlArt87bpiZzYAawF3sUy5dz6JKDsATSaAP82XPGb1hgx4XtnsDGCq/Q34FSVm/SDWjkF5T7RH/4RyP1V3DTn0pX5uvaIq6zdfFiEHmJxDVcSlonbDSnyeyY33zyDgs/XZnpoIyEJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763293792; c=relaxed/simple;
-	bh=7SoHWV77IlawC1vgrQw6Zu4imRYOIq6YXQ8/H4h0aw8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HGTWtpAxlp6xb8wQtu8oc4KvSGNTe4LpvXROBUGl1nH4BoFp5yE+hn2HlkFAzjVYeNtPwsHyW34RVlzuh/iWekbQJEerRqZFNLImyrjJ3JiI6vTBPALraxtnQ/xYDCGK2RT1aBOQ74UdgdE2TnDG8ku+AKgOSnHDb8ojwEUio8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FlJPB4P8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763294452; c=relaxed/simple;
+	bh=y8FaqKEjgD4Y2LjTTGKyATQQX3MWIGa2bobHCkDv5PE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KY6SG0Pq5rnT0oWZn96yblSylfyaUMRScGDxb+KovSA1C9EL4Cs8VzSuvf9La7UroDmDb5j5dwhujypLmOLuVrRQALeVgAJNJ+TW5Z7OKS30DxJWmyQgWw88y13qs4CZ6E5b9K/uAeJsAPSue857F01PQ45z0/8GQwAh4ADlmvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NGHEXhgD; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FlJPB4P8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0F3FC4CEF1;
-	Sun, 16 Nov 2025 11:49:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763293792;
-	bh=7SoHWV77IlawC1vgrQw6Zu4imRYOIq6YXQ8/H4h0aw8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FlJPB4P8dfjp31aXBa+9z9f2y6aVBr1j5aUz9ymo+09oi7Rb2nlsXSMUkyqgiT1Pt
-	 dbSnKgnHxNM9V4C4YcTveo587p9SznfLVoutGSiMfWuFh55b8Zvm3f8lXfh1EBhueJ
-	 PROlTLWwHZvned7L/noPjrsoJtZBP3xFrpg64+bcm9f7zGcLZmyX8ilfB26Ovp+ba6
-	 /RFLdXyqmzsYI+KAMJ/qBGVy5MvsFMKHFJit/00+91W+t04Gga0AioRwCpp+SfzN9E
-	 FihYUtknRgF8FoM6hA2sRVxCuka5SgGA0EElLfJTIhONTpfkrW80qU44o5IBXLzVqN
-	 zvs3bGn61nwAg==
-Message-ID: <f8979d59-0f71-438f-92ec-bf1077279dce@kernel.org>
-Date: Sun, 16 Nov 2025 12:49:45 +0100
-Precedence: bulk
-X-Mailing-List: linux-sunxi@lists.linux.dev
-List-Id: <linux-sunxi.lists.linux.dev>
-List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/7] dt-bindings: display: allwinner: Add DE33 planes
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NGHEXhgD"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b7291af7190so491439566b.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 16 Nov 2025 04:00:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763294449; x=1763899249; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y8FaqKEjgD4Y2LjTTGKyATQQX3MWIGa2bobHCkDv5PE=;
+        b=NGHEXhgDzN8CrjFa/32tGgOVJIPN1rIymXHYW17dCNN7KNbJUlkU0nrdmoZXNJkuq2
+         mwEcGMLjPMVwrmgxC/iJy1Xpgb4zvcUuwWT7ly9rbE5wrXlG57qa2fOwvar3XJO+k9C5
+         INIwVAYS0iCADqFFNcfhBsoEySOvrko+2Kf3FV32bYZoVHGNk72I4qhInAXgUZCpVEXj
+         WjOyy/hFS5tKcpeWpbRanM+Uv3iPWJBrGpfq+MGZI/vLN46RUq4vKugVnIQR6AzJskvt
+         KjWMhblJ/v9PdjuZvLBTCLpegC3dCQPK4xXg/MgBXco+NZisHZkbB3Y7UUpzhRdUclrM
+         yJlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763294449; x=1763899249;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=y8FaqKEjgD4Y2LjTTGKyATQQX3MWIGa2bobHCkDv5PE=;
+        b=jQukA1q2J4+1IfilK/npk+Lvfi/f9zB6DsJHq15GyyON815WqA9NUZZ2ASMjMYNNcI
+         Dw4cZSWjM5tVSWjR2KfJr3NQDE4TZZzUSPJl8QobS04e7vMzj4OZ6x9G83vy/yK48urk
+         pa9C/zHK5UWK96DtbY3nCwoe8BfiGmikb2v8KIeR7PdRHkKJvh7nUNQnwcrN7wg4caRE
+         T7EtW4jPmiMIBqOC7fNEiIKEHLFlNvh5gj9zmEK+e90uV2XKUio3HPWeZWP9iD2e2Dm3
+         eImf8SMwayzI2S9/OgZRzpLXT1KBUhjwKVQv6z57EhBH1jJukIXnTOV8GeOBv9dDbVV0
+         OqIw==
+X-Forwarded-Encrypted: i=1; AJvYcCWN/C3zSJn6yDZlqr/V/RL40Us7ndA/LScjocHGlPRlIDkSPY8BvsnCNCxeoaokfaD63CFz+BO0E8vJ/w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwaqrBChBilDfePVw7kTOg4Xrf3SAjt0JgtcawBD/mp3bAS4aev
+	PU1AnzRaEISNZIhlS9RCRgHY+ItM1krI1L7DHbT7F5k7fXq+1NV+/aog
+X-Gm-Gg: ASbGnct4GTAFau68HjnTXVhbU0QpzWhmsnJcCoQKXgK7Om+yGYPK3RIoIMifawUZNfC
+	AmQtabh6mSQ95GgsnAEnIv6VetL1jspQQY1m5nUV9PVZBZE+Bu0IbOI/nc4qIfUzeMeDK/eH8Qf
+	QBncp+zgOSLwLV7X05FcwAps2RZW+zK69H0fNJ1sFk/2OzOaYuOYvVqxyIJ8dpZK+0LwSujAVzE
+	8qa1ITHMjQsfNhwWkgNZylvOb+cFP4dZnGAiNL3FtESLMGM5d2UUMnPUhls0tr1LrYjK524ncLp
+	7KgLD6iJQUYxXdeEnmgKjoKcT7mOULabh8b18Q9+Or3XfLImQB1eatLzDT9dv6SnOghuG0Oor94
+	nxLQ0X8nxMQHU2dK1y3zDmCnQrOQvdYcScPs4Ei/xJSHPFS++LOhob/LYSmvbpLjpnETDnJDwxq
+	SZACjgPubGSZMaJ+whDBY2omoaImT9X37XKxEWyIeSvh26tNR1C1410yThFaw5NBCS2TBxtCBTg
+	OMPCk0PT2lDJPfm
+X-Google-Smtp-Source: AGHT+IFWFubjCIweyb9YCoKzVFcXXsXAAvddERhRBpi3vJIG1VQ4HjCz6c3ATn4RBI8dMcQCX4ffyw==
+X-Received: by 2002:a17:907:96a8:b0:b73:989d:3a86 with SMTP id a640c23a62f3a-b73989d3e2bmr79438866b.40.1763294448767;
+        Sun, 16 Nov 2025 04:00:48 -0800 (PST)
+Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fad48dcsm826174066b.25.2025.11.16.04.00.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Nov 2025 04:00:48 -0800 (PST)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: wens@csie.org, samuel@sholland.org, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
  simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
@@ -44,130 +69,76 @@ Cc: wens@csie.org, samuel@sholland.org, mripard@kernel.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
  linux-clk@vger.kernel.org
-References: <20251115141347.13087-1-jernej.skrabec@gmail.com>
- <20251115141347.13087-5-jernej.skrabec@gmail.com>
- <20251116-humongous-ant-from-betelgeuse-c0c416@kuoka>
- <4691137.LvFx2qVVIh@jernej-laptop>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <4691137.LvFx2qVVIh@jernej-laptop>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject:
+ Re: [PATCH 6/7] dt-bindings: display: allwinner: Update H616 DE33 binding
+Date: Sun, 16 Nov 2025 13:00:47 +0100
+Message-ID: <10753322.nUPlyArG6x@jernej-laptop>
+In-Reply-To: <4b4ebcc2-491a-42d3-9758-60de80ce5eb6@kernel.org>
+References:
+ <20251115141347.13087-1-jernej.skrabec@gmail.com>
+ <20251116-pigeon-of-optimal-blizzard-2cb3b3@kuoka>
+ <4b4ebcc2-491a-42d3-9758-60de80ce5eb6@kernel.org>
+Precedence: bulk
+X-Mailing-List: linux-sunxi@lists.linux.dev
+List-Id: <linux-sunxi.lists.linux.dev>
+List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On 16/11/2025 12:44, Jernej Škrabec wrote:
-> Hi!
-> 
-> Dne nedelja, 16. november 2025 ob 12:29:27 Srednjeevropski standardni čas je Krzysztof Kozlowski napisal(a):
->> On Sat, Nov 15, 2025 at 03:13:44PM +0100, Jernej Skrabec wrote:
->>> Allwinner Display Engine 3.3 contains planes, which are shared resources
->>> between all mixers present in SoC. They can be assigned to specific
->>> mixer by using registers which reside in display clocks MMIO.
->>>
->>> Add a binding for them.
->>>
->>> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
->>> ---
->>>  .../allwinner,sun50i-h616-de33-planes.yaml    | 44 +++++++++++++++++++
->>>  1 file changed, 44 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/display/allwinner,sun50i-h616-de33-planes.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun50i-h616-de33-planes.yaml b/Documentation/devicetree/bindings/display/allwinner,sun50i-h616-de33-planes.yaml
->>> new file mode 100644
->>> index 000000000000..801e5068a6b5
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/display/allwinner,sun50i-h616-de33-planes.yaml
->>> @@ -0,0 +1,44 @@
->>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/display/allwinner,sun50i-h616-de33-planes.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: Allwinner H616 Display Engine 3.3 planes
->>> +
->>> +maintainers:
->>> +  - Jernej Skrabec <jernej.skrabec@gmail.com>
->>> +
->>> +description: |
->>
->> Do not need '|' unless you need to preserve formatting.
->>
->>> +  Display Engine 3.3 planes are independent of mixers, contrary to
->>> +  previous generations of Display Engine. Planes can be assigned to
->>> +  mixers independently and even dynamically during runtime.
->>> +
->>> +properties:
->>> +  compatible:
->>> +    enum:
->>> +      - allwinner,sun50i-h616-de33-planes
->>> +
->>> +  reg:
->>> +    maxItems: 1
->>> +
->>> +  allwinner,plane-mapping:
->>> +    $ref: /schemas/types.yaml#/definitions/phandle
->>> +    description: Phandle of Display Engine clock node
->>
->> You description is almost duplicating property name. You need to explain
->> here how this device uses them.
-> 
-> So I guess I can copy commit description here? It is needed to
-> access registers from different core, so it can assign (map)
-> planes between mixers at runtime.
+Hi!
 
+Dne nedelja, 16. november 2025 ob 12:33:55 Srednjeevropski standardni =C4=
+=8Das je Krzysztof Kozlowski napisal(a):
+> On 16/11/2025 12:33, Krzysztof Kozlowski wrote:
+> > On Sat, Nov 15, 2025 at 03:13:46PM +0100, Jernej Skrabec wrote:
+> >> As it turns out, current H616 DE33 binding was written based on
+> >> incomplete understanding of DE33 design. Namely, planes are shared
+> >> resource and not tied to specific mixer, which was the case for previo=
+us
+> >> generations of Display Engine (DE3 and earlier).
+> >>
+> >> This means that current DE33 binding doesn't properly reflect HW and
+> >> using it would mean that second mixer (used for second display output)
+> >> can't be supported.
+> >>
+> >> Update DE33 mixer binding so instead of referencing planes register
+> >> space, it contains phandle to newly introduced DE33 planes node.
+> >>
+> >> There is no user of this binding yet, so changes can be made safely,
+> >> without breaking any backward compatibility.
+> >=20
+> > And why would you configure statically - per soc - always the same plane
+> > as per mixer? If you do that, it means it is really fixed and internal
+> > to display engine thus should not be exposed in DT.
 
-"to assign (map) planes between mixers." is enough.
+Not sure I understand what you mean. H616 SoC has 6 planes which are
+represented with single DE33 planes node (see previous DT binding).=20
+Driver has to decide initial allocation. For example, 3 planes for each
+mixer. However, nothing prevents to allocate 1 plane to first mixer and
+5 to other. You can even allocate all 6 planes to one mixer and none to
+the other, if board has only one output enabled.
 
-But it looks unfortunately like a spaghetti.
+In any case, plane allocation is runtime decision and has nothing to do
+with DT. Since planes are shared resource, their register space can't be
+assigned to only one mixer.
 
-Your mixer binding references via phandle this planes. These planes
-reference via phandle some other region to configure planes between mixers.
+See [1] for example how this would look like.
 
-Isn't this the job of this device?
+> >=20
+> > Describing each IP block resource in DT is way too granular.
+> >=20
+>=20
+> BTW, everything is update, thus subject is really non-informative.
 
+I guess "fix" would be more descriptive.
 
 Best regards,
-Krzysztof
+Jernej
+
+[1] https://github.com/jernejsk/linux-1/blob/d93d56d92db52c7ff228c0532a1045=
+de02e0662c/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi#L181-L235
+
+
+
