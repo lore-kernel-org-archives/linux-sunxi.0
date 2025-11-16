@@ -1,177 +1,154 @@
-Received: from s2.avantea.pl (s2.avantea.pl [46.242.128.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0705130BF64;
-	Sun, 16 Nov 2025 14:31:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.242.128.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71CAE2DF3F2
+	for <linux-sunxi@lists.linux.dev>; Sun, 16 Nov 2025 14:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763303489; cv=none; b=We+PsjKM+tv2y0H8vntRxrn48qg6dJcyoF46dbNBRqZPe6enyWEc23yU2Gg8briiSL0uK9DPTASKB6vtgEoG9qGzxJgTEPm7FXd/k3U16JolZ57vuUAKI2Z6A4Bcgj0IGr0O7WCn/ewmGZMf69EAPSwRmIKQP5reCIjjcW4rJiQ=
+	t=1763303852; cv=none; b=UQtejgHTUOP1a49RKhYbQFbC1YwYLV32lT9O3U652G9x0Su6j+LAZV1wzMKxqEWook87ET/ZohlKRPkHE/vClXeyGB2Sh/QdaAjookRb329/7xLA+wOeybkQBhURO6s0XNCDUf3JcfDO8JVpAvIeW/MW+/GIRPVJGvRdcamwWBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763303489; c=relaxed/simple;
-	bh=90el0iGeaVmzhJhKSvuHulHl67RzwvVDLEDbS3N+miU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TpifL5SBh+Cxl1ul4jD8wIFFkCajpED6GCirOLC56LgJ+0e6FwFeuDj0Dw3770+DWfQwqWiw7qnz9sLTgq063ZayjIjY2q2fZ5kxWknmQNsqB9bkt6kuY5WZeNl52s4rLuwdtD6ABCOG+R1U1kM/KqjurdWpTBi6W+9/OBCJnPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=szczodrzynski.pl; spf=pass smtp.mailfrom=szczodrzynski.pl; dkim=pass (2048-bit key) header.d=szczodrzynski.pl header.i=@szczodrzynski.pl header.b=ts2dZh9y; arc=none smtp.client-ip=46.242.128.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=szczodrzynski.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szczodrzynski.pl
+	s=arc-20240116; t=1763303852; c=relaxed/simple;
+	bh=2Bggx1JE8zrmrCOlLWA1b4H8PTZ9Hv6P2gnc61wAGjg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=J+mzX1pcK+qBReDwGqCGdbJdJyQpHLC8SyIFAqj/Znj+74NCXXfga4NIm4G1WwNf/IFfwbopdip4WWPCaQMLbhw7hOakFHEwF7RbUHYp1G70UeE7C2oXYtgsKKxeavQ9dXsaLhlhUoRAC5cKpqmuCeqFCe4K0FkdX41ZW6L7Bxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=posJn1XS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=szczodrzynski.pl header.i=@szczodrzynski.pl header.b="ts2dZh9y"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=szczodrzynski.pl; s=x; h=Content-Transfer-Encoding:Content-Type:In-Reply-To
-	:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=RtM/3wlSoxI/e3SQ7Nc7cqjCZdAS9xVLSw+dgZ63xFk=; b=ts2dZh9yV/CCBxXrnSzIaDSTeT
-	BXzP6mbsR7/lHtQ9872MT4NqQRqg85y14woN9wgNeycJRUKSWcqFprwgvCtBPiCEG3LRYX0hQ+CYx
-	L3yMaS3S8wSz1U+mk8G1YytdS7BUrarUpaO6ChSZaBumHK1122j6j0jJJmMi5ieM1GpsE7EJXn3Ru
-	bd3ykABRJUot78F6OtRIheh1/FWXWVpF6znAjph6bgu1s/pzgtVzmlkLd2HBqri6SQRxVVVlqzZYY
-	esZJS5x2UVuBqo7caxbTyGUXOeZp9sqkj///b7Cd9BcYJBeHImIzTzOiDiZ33ugr3vwjws2WtD5rf
-	ID4dbZoQ==;
-Received: from d100-116.icpnet.pl ([77.65.100.116] helo=[192.168.0.120])
-	by s2.avantea.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98.1)
-	(envelope-from <kuba@szczodrzynski.pl>)
-	id 1vKdmh-0000000FZTD-3tER;
-	Sun, 16 Nov 2025 15:31:19 +0100
-Message-ID: <7ff30ae9-e4c0-47ae-80ad-726eaa557fd0@szczodrzynski.pl>
-Date: Sun, 16 Nov 2025 15:31:10 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="posJn1XS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 115D9C2BCB2
+	for <linux-sunxi@lists.linux.dev>; Sun, 16 Nov 2025 14:37:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763303852;
+	bh=2Bggx1JE8zrmrCOlLWA1b4H8PTZ9Hv6P2gnc61wAGjg=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=posJn1XS4ftgErJjqUvH0GDpF9FsuzDwl1rhwa1b9rsVR+f9cCP7S0ZXyLpngQqol
+	 NwV8eFpcuB/fUwrZtGrJutO9scwVj3WCVmnNJ3XjuD5yGutiH5yg0yMHBu9BicwzQw
+	 8DNjXMv8YgR5jh+JVzTDF8yqQiYncen0EvxB1Zwph+fmXBmByLlExru97PAI66H4tU
+	 ZsrmOmlrCT8z299pwj+5xptdXyMQORt8zKcY7N34MIVsOxQeyGlWRpRqp8T2xui/CN
+	 +jYN8MaR4hL20JU2eS+Wzl8EGvUHtvbWBnoGh9+8NHRI4D0MD8tQiGT58YtEf+fZ7v
+	 cpcmr+6tJ/pwA==
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-37a33f49018so28918431fa.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 16 Nov 2025 06:37:31 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX5MA+Uwhwo5qffyGnmYFRb5WM3olzNAP2PbRlFhVZXZy7OBl2QWgcFGC/EU6vEry4sw/QeqtoIIUKqNg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyjzOOfVwxtkEPxgOxflHLAsEG6X7xKiMkUv+r9jeesnOo028v9
+	QBcExbc5jAWmMggce5VKvRob1SXLl/L80VLLHLmS6/YxTNqf3QDUjmCNMyFq6bJEZF/Eao1Z5Q7
+	XQ+XnzZGL+VS/omlDBuUaau6vQqYM0Xg=
+X-Google-Smtp-Source: AGHT+IG7vqFgL8pcnoWY4X8bK83bCjs7yr5BwCnDCB4u5oYDjeQdmjUX3ZIX6NF6V8m3f8emPC7cEmlAcG+l7wyAhyk=
+X-Received: by 2002:a2e:b952:0:b0:378:f267:3107 with SMTP id
+ 38308e7fff4ca-37babd46336mr21467291fa.37.1763303850006; Sun, 16 Nov 2025
+ 06:37:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/6] drm/sun4i: Support LVDS on D1s/T113 combo D-PHY
-To: wens@csie.org
-Cc: Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-phy@lists.infradead.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- parthiban@linumiz.com, paulk@sys-base.io
 References: <20250221161751.1278049-1-kuba@szczodrzynski.pl>
- <20251116134609.447043-1-kuba@szczodrzynski.pl>
- <CAGb2v67V01k8zj2r+Dd+JDEsH2LX2Jtx+CP=i8aQfX_JyFtLfg@mail.gmail.com>
-Content-Language: pl
-From: =?UTF-8?Q?Kuba_Szczodrzy=C5=84ski?= <kuba@szczodrzynski.pl>
-Autocrypt: addr=kuba@szczodrzynski.pl; keydata=
- xsFNBGP/IeYBEACQ4t0Jxme3IIuQ94IP4xWSl2JEH/4MZYQEOCHiJ5iKAn+V6nESbnWAU50d
- f/8uI84s2i1OUqbq5W1sZQEITpkO/CNqMPY+Q2WUxa0ezYvGOfN0o6Ig0YECn8XFR0rIvFpj
- MS3IvH56bi+3aiX8ArDOzJ5U5yZfj6TJvX8kQRDAqNPDjdboB7ZggFVvd3OJLZwkwW9oSHSh
- s9z662E152GSrBW9YUxWVPJW6QDqKuD8I52uV+HkvJmJblSm+BQbtfE/xTVWXKh1hRVQx5r4
- YjjqT/z2uPJZ3eJWmOBEGMG4dj2mTQ3zxuHuyAWoY5cFFLUipUiTeIRHW0vUQpGYRKra7qic
- nsIo3nph/Q3m/f1E3Yb0GLYlX6fk0OwHwoucHvXr+zptG54FswVZZZ1fdqDAdA86raQLrb44
- rfYqw6CbeXyGe6Bm6/CUDRugbjdJShSILuyTudos3tiKGYs3uL7Hc54FIfOHOq7aCgu23VzW
- cj8n0VmMFtHCUdPaL0qPs1un/hBXjKRwuMZ0PSQ5QpyvyUuSP7w/8pe33B2vGpTkDqhjEGam
- OYWw81ztQl2UE0sFz8vZo6Z26c7eXNNSpHKfGr2MURmPoxF4NMTuKJ1OHBqHMZ8qOGcnkZjE
- uwc9SXoXvP1SX0g1p6Q3cbu2ECJjqsqzjMfml6D7HFblCKuPnwARAQABzStLdWJhIFN6Y3pv
- ZHJ6ecWEc2tpIDxrdWJhQHN6Y3pvZHJ6eW5za2kucGw+wsGRBBMBCAA7AhsDBQsJCAcCBhUK
- CQgLAgQWAgMBAh4BAheAFiEEqHS2JG0jlU9QbMYMQwN6xipgBWIFAmXE7R4CGQEACgkQQwN6
- xipgBWLWpw//dK4WQUGpOAQyGPpqzIfZ+krCh4hzqWnjwEJNEi2F75f0tDIluotJEYSVhheR
- nhqoZsxQ/En7SegfzN0RLsdxs9ZQQ8ZYVjhrOrVU8M1j6TvbMbLtqAGgnPuiuY0B/GMdGpme
- u7BGBvN8Y87yPyRXBKGPWhSPWlKgZKzjE+Eo6e6kPQpgen27h9wv+ICspbARZQdiTNIi7WsW
- CJDtuMfLksnC5kJQ2hrt+WV2l4iLW4L0X2L0pjWzwCyd/TEA2dcfujhjf3RaXINydMLgjjuD
- J/97GkCPGRNIfh2b+guAyul7NlidqSYgGCZNZfjoj1F6nuzoQML31A2VwGUK8iAFCj5OZBDg
- YdlYHDobZMxxmyV32qgWDBHlhytvLi6zBS28CWxfb7NvLNBHGz61ih5s/dmg1HtloLgfoy7S
- zp02sl4Pu0/UOn3AydZHXHRrANwagXI/RvWRsvE7bdV2nTxpLBvDebQZ+vh+LvQT8NeSy7qF
- oTfDBiPHcAKBciC2aPJ6HLSXiPbri57Ory/NGe3H2aUsvMcLPTbpiNO5wTMBCK7peiBbe4S4
- 947ND9rH2S2ScUeqtg18rEzpyLopieZuzRPYWWmn09m/1uwiMYTNvqOnzzqDiWNK3yT9jGSt
- wPNTIso+r+JXa0jX1R3An5k+QKzoKPRUoFacLqkpp1j4aYfOwU0EY/8h5gEQAL2vqV4Psasp
- NbkCdbaA9MPUGpRNEMExfNR3dDc67/ORzaTJ8BLikYDIW/xO1qpXhZLFOcEvVvxKW79Vc8Rf
- fAprxdK3sXqH6SWlwM1o01j2ndQVspdyr3b79qgakXQBYNG+ThJ8HWiGEADWxtVDKfua1HX7
- B8y3f1yiK7i1QcmbOWjQ5rxwLV2lWE5cL1fxRQKoLl6tSXs593EX1MzTO7MVmqSjrMm3ZNmm
- xBbtXANBPfwaBo3adsmz233aV4SqazUxlLLzfSGrLA6tK9idriu4V4Xdb8qycyYjXZO186uv
- 0uyxmkrQCnLA9RqRFPpGQGKorlxlg9t62h9N445euJN6guqsHXrh7YvGF/PDfh43FP0Ja4eN
- 1Hem9dvc/ucE6qCOWb+dVqtspJAhveiRuPyXq6VyuNHTDeGhSUvj6Q+p5irft+E3+MwxCV0w
- W6mflIOCC0yiq8FTyNsKTytwVN9wNcIWbq6dIGPvYJ94hN7c0+sMpWtEjrBtMU684lDoFHUs
- Z5zgbgwhYCEe2c32phCNxqTpdKy1PhQ0sxsmJ52P043BfgsGkxxzGaL0Jo+QRCK9FanfAS92
- yhDc//4UdwsvYp4DdauznyQO9NclHlAbvWS6pXMRkWRbx2mcM5g8ctYtwI1leHTBqM3kbfil
- tq29p5V9hzC6pWSuS2PADbN3ABEBAAHCwXYEGAEIACAWIQSodLYkbSOVT1BsxgxDA3rGKmAF
- YgUCY/8h5gIbDAAKCRBDA3rGKmAFYr8ND/9bCpOQezRNxquNK3R5aielQlzotM8xAf5Bq2V4
- OsnDac/umwXynI8pfblPhswd8/in80hgRWgqpbjRelLz54efnB2lpyf1CmXhDQAHwdfy0pVs
- IALLQ6bW0ehZ6VIqps3lgGORurHFSCU18tojWz/w2X/tyZ9QKuR8YoW6NsGJiWy8gn56NQC/
- w+Kjl1+hQum284+fyWbEmkDMbsgP+bffEdrP0VVltfKGpd1WP9IinGzdsyCU/wzdYywrqdvd
- 5BSxtfOesHJpyDCEAxQ4VMbjEXfEmK4ePmbT8VIJxFFS5odTTlagesXykKxQcbuiFap+wxHD
- XZ1xNm/GJR/Z0mMt1km+s4JDAVhFnZNWVHvKCp0+lSaKj0DPaPZXWnaoQ8u69Hsih/0m2pP4
- mnZ4NvAqo14vzJZYJP8ZWN+24OV5mILZRu4mxkdwUIg2lQxwtMT7rQA4vIZf8hbXK9vFyY9L
- uN5FC6oWjckq32glQpT73Eh7VV5pjcmJUZxFQkd7IO+E6sGryuC8rF2+X3pkFI8G+N+Otqy8
- YupG5oOThTzwcFRAYQ97Pi/hcbVP6nUyqVZyHP9rFoT+rRCZ51iUIKnRO96mgj0ipANzmcbR
- vg8LAbAHCFI3ZiKYB9fvIwuPhaamu0rewMtVbZiGqVNHTs0ly+Bk8Vj+3Tc5jF7xTh5MCQ==
-In-Reply-To: <CAGb2v67V01k8zj2r+Dd+JDEsH2LX2Jtx+CP=i8aQfX_JyFtLfg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Authenticated-Id: kuba@szczodrzynski.pl
+ <20251116134609.447043-1-kuba@szczodrzynski.pl> <CAGb2v67V01k8zj2r+Dd+JDEsH2LX2Jtx+CP=i8aQfX_JyFtLfg@mail.gmail.com>
+ <7ff30ae9-e4c0-47ae-80ad-726eaa557fd0@szczodrzynski.pl>
+In-Reply-To: <7ff30ae9-e4c0-47ae-80ad-726eaa557fd0@szczodrzynski.pl>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Sun, 16 Nov 2025 22:37:15 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67iovqfErt20Oz0SrHC558zBDDFq1ZqRau83NOQ2w8AoQ@mail.gmail.com>
+X-Gm-Features: AWmQ_bnuktLAy6WzxMHGACOr-_rXESjXpP0XBu3tC1d0_mcaLovZAV-ch-mI9ko
+Message-ID: <CAGb2v67iovqfErt20Oz0SrHC558zBDDFq1ZqRau83NOQ2w8AoQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/6] drm/sun4i: Support LVDS on D1s/T113 combo D-PHY
+To: =?UTF-8?Q?Kuba_Szczodrzy=C5=84ski?= <kuba@szczodrzynski.pl>
+Cc: Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, parthiban@linumiz.com, paulk@sys-base.io
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-W dniu 2025-11-16 o 15:03:18, Chen-Yu Tsai pisze:
-
-> On Sun, Nov 16, 2025 at 9:46 PM Kuba Szczodrzyński
-> <kuba@szczodrzynski.pl> wrote:
->> [replying to v1 to keep the same series on Patchwork]
-> That is not the right way to do it.
+On Sun, Nov 16, 2025 at 10:31=E2=80=AFPM Kuba Szczodrzy=C5=84ski
+<kuba@szczodrzynski.pl> wrote:
 >
-> If you reply to an old series, the tooling does not pickup the new version
-> as a separate series.
+> W dniu 2025-11-16 o 15:03:18, Chen-Yu Tsai pisze:
 >
-> ChenYu
+> > On Sun, Nov 16, 2025 at 9:46=E2=80=AFPM Kuba Szczodrzy=C5=84ski
+> > <kuba@szczodrzynski.pl> wrote:
+> >> [replying to v1 to keep the same series on Patchwork]
+> > That is not the right way to do it.
+> >
+> > If you reply to an old series, the tooling does not pickup the new vers=
+ion
+> > as a separate series.
+> >
+> > ChenYu
+>
+> Hi,
+>
+> I noticed that it indeed didn't work. However, Patchwork didn't pick up t=
+he v2 cover letter at all, so I thought replying to v2 would mess up the th=
+read even more.
+>
+> That being said, the v3 cover letter is not visible there either.
+>
+> Should I resend this as v4 [which message to reply to?] or send a complet=
+ely new series perhaps?
 
-Hi,
+Each new version should be a completely new series.
 
-I noticed that it indeed didn't work. However, Patchwork didn't pick up the v2 cover letter at all, so I thought replying to v2 would mess up the thread even more.
+If patchwork still didn't pick it up, then it's possible either your
+patches didn't reach the mailing lists or the patchwork instances.
+Please check lore to see if your patches are there.
 
-That being said, the v3 cover letter is not visible there either.
 
-Should I resend this as v4 [which message to reply to?] or send a completely new series perhaps?
+ChenYu
 
-I apologize for the confusion, this is my first time doing that.
-
-Regards
-Kuba
-
->> Some Allwinner chips (notably the D1s/T113 and the A100) have a "combo
->> MIPI DSI D-PHY" which is required when using single-link LVDS0. The same
->> PD0..PD9 pins are used for either DSI or LVDS.
->>
->> Other than having to use the combo D-PHY, LVDS output is configured in
->> the same way as on older chips.
->>
->> This series enables the sun6i MIPI D-PHY to also work in LVDS mode. It
->> is then configured by the LCD TCON, which allows connecting a
->> single-link LVDS display panel.
->>
->> Changes in v2/v3:
->> - Applied code formatting changes from review comments
->> - Changed "dphy" to "combo-phy"
->> - Made the LVDS setup/teardown functions abort early in case of error
->>    (adding a proper return value would require changes in several levels
->>     of caller functions; perhaps could be done in a separate patch)
->> - Added the PHY properties to DT bindings
->> - Renamed lvds0_pins to lcd_lvds0_pins
->> - Rebased on top of drm/misc/kernel/for-linux-next
->> - Hopefully corrected the incomplete patch list of v2, which happened
->>    due to an SMTP error
->>
->> Kuba Szczodrzyński (6):
->>    phy: allwinner: phy-sun6i-mipi-dphy: Support LVDS in combo D-PHY
->>    drm/sun4i: Support LVDS using MIPI DSI combo D-PHY
->>    drm/sun4i: Enable LVDS output on sun20i D1s/T113
->>    dt-bindings: display: sun4i: Add D1s/T113 combo D-PHY bindings
->>    riscv: dts: allwinner: d1s-t113: Add D-PHY to TCON LCD0
->>    riscv: dts: allwinner: d1s-t113: Add LVDS0 pins
->>
->>   .../display/allwinner,sun4i-a10-tcon.yaml     |  6 ++
->>   .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 11 +++
->>   drivers/gpu/drm/sun4i/sun4i_tcon.c            | 50 +++++++++++++
->>   drivers/gpu/drm/sun4i/sun4i_tcon.h            |  6 ++
->>   drivers/phy/allwinner/phy-sun6i-mipi-dphy.c   | 70 ++++++++++++++++++-
->>   5 files changed, 141 insertions(+), 2 deletions(-)
->>
->> --
->> 2.25.1
->>
+> I apologize for the confusion, this is my first time doing that.
+>
+> Regards
+> Kuba
+>
+> >> Some Allwinner chips (notably the D1s/T113 and the A100) have a "combo
+> >> MIPI DSI D-PHY" which is required when using single-link LVDS0. The sa=
+me
+> >> PD0..PD9 pins are used for either DSI or LVDS.
+> >>
+> >> Other than having to use the combo D-PHY, LVDS output is configured in
+> >> the same way as on older chips.
+> >>
+> >> This series enables the sun6i MIPI D-PHY to also work in LVDS mode. It
+> >> is then configured by the LCD TCON, which allows connecting a
+> >> single-link LVDS display panel.
+> >>
+> >> Changes in v2/v3:
+> >> - Applied code formatting changes from review comments
+> >> - Changed "dphy" to "combo-phy"
+> >> - Made the LVDS setup/teardown functions abort early in case of error
+> >>    (adding a proper return value would require changes in several leve=
+ls
+> >>     of caller functions; perhaps could be done in a separate patch)
+> >> - Added the PHY properties to DT bindings
+> >> - Renamed lvds0_pins to lcd_lvds0_pins
+> >> - Rebased on top of drm/misc/kernel/for-linux-next
+> >> - Hopefully corrected the incomplete patch list of v2, which happened
+> >>    due to an SMTP error
+> >>
+> >> Kuba Szczodrzy=C5=84ski (6):
+> >>    phy: allwinner: phy-sun6i-mipi-dphy: Support LVDS in combo D-PHY
+> >>    drm/sun4i: Support LVDS using MIPI DSI combo D-PHY
+> >>    drm/sun4i: Enable LVDS output on sun20i D1s/T113
+> >>    dt-bindings: display: sun4i: Add D1s/T113 combo D-PHY bindings
+> >>    riscv: dts: allwinner: d1s-t113: Add D-PHY to TCON LCD0
+> >>    riscv: dts: allwinner: d1s-t113: Add LVDS0 pins
+> >>
+> >>   .../display/allwinner,sun4i-a10-tcon.yaml     |  6 ++
+> >>   .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 11 +++
+> >>   drivers/gpu/drm/sun4i/sun4i_tcon.c            | 50 +++++++++++++
+> >>   drivers/gpu/drm/sun4i/sun4i_tcon.h            |  6 ++
+> >>   drivers/phy/allwinner/phy-sun6i-mipi-dphy.c   | 70 +++++++++++++++++=
++-
+> >>   5 files changed, 141 insertions(+), 2 deletions(-)
+> >>
+> >> --
+> >> 2.25.1
+> >>
+>
