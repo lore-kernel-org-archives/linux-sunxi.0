@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B934EEC3;
-	Sun, 16 Nov 2025 07:28:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7426F288D6
+	for <linux-sunxi@lists.linux.dev>; Sun, 16 Nov 2025 08:00:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763278092; cv=none; b=Y2DhDLOnh1ckhF6xIcGmr4QJUy/dsF9z4viST9J5n56PQynqWauBI1etY9tuRs0B3I6tCMG9g/fEM9+DebVAycmwkFnq5x3+92vLeiLH3r1xv0c1/UbUR1EeEoxuu+6SgwRkH5tkju6u+fTT206Qrijr+QdC/aTm+g8wdM/wVqE=
+	t=1763280037; cv=none; b=LZBL7GslCzQjjZ5P+ia5dMzVg7tsOweFi63G80wKjpP+278vw2lyozj1o9S6d+ESHr8tRlXnsrIzz5PuORgW1x51yZKecFsuacTv4/jkkk8vtgZxyNUYY4refKJUrO+k29dDdaj/wzqwXnaqhMUTtqKCGRigUbQ/gXvolOAnk1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763278092; c=relaxed/simple;
-	bh=qogSDDXcShGgVAm0p/uLf75a5Ve5231bqdzgHBF/ApA=;
+	s=arc-20240116; t=1763280037; c=relaxed/simple;
+	bh=oiCSedSb+vz06dq7HUd9ifzEUNgIQopka2q0mEATYDQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=V/Z4dGqNL+iiz9ZyAWOgQCUhv6rUNE9B9nzMfdFdLQHJlON3VnmiK4Kw2qQOOA12YKceMYLVuvnH2gHsG4OyMjdXNbLbxvWv33NFmo7BZVbgvP9fVxIyQTPklAhcYb28GmYr32UqlL80MiWjQJnDVf5uwvR8ggWQaBhNzCBODsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NZsUNiyB; arc=none smtp.client-ip=10.30.226.201
+	 Content-Disposition; b=s3fimtO3FLE6Vf35init38oU/s1Oa2nzESwSTRq9A8vbLsaoOwC1Z4v+KN4mJ/AdLCkj4dod0uPhwNVPgtv4aySAAgssnIir45X5Ga7u8YdB0M7eKYyAv3TBvDnmmidM82tv8mk1QQq/2LnhsXDZg5UwVV/iLUcTQIToTGk91mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WVWeVeAq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NZsUNiyB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDE7DC4CEF5;
-	Sun, 16 Nov 2025 07:28:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WVWeVeAq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D969AC113D0;
+	Sun, 16 Nov 2025 08:00:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763278090;
-	bh=qogSDDXcShGgVAm0p/uLf75a5Ve5231bqdzgHBF/ApA=;
+	s=k20201202; t=1763280037;
+	bh=oiCSedSb+vz06dq7HUd9ifzEUNgIQopka2q0mEATYDQ=;
 	h=Date:From:To:Cc:Subject:From;
-	b=NZsUNiyBC886qeFVAY20lNsFzBEIVP5agxbfWIZVkDAuRdPUYFHHli9oUGivoTgSO
-	 VvwN+y1rk72t3Q8kmSP6sarUCfVwphNYHKDou1BF8FOM2p3UWgHLFWA1PhnNTyWFoZ
-	 c7mt+blf2sREBnNS9k/igEXAMIP1C/sCt4e2fn33EjdFlx1oVlEl/p85LuHpdgWtvC
-	 WJ8jYKgBqtlxbfkVtOnqc2iAVz13DbHb/nvpJtS659uFgLEZm74R3MoItHzdBRHhny
-	 XuzTpM0ipyua1FiUkPlvqi9Km8eMwuj74gu9xSV59bjgN5nlLsVc80vJbQ21ttIxHF
-	 o2rgDbsv3EAmQ==
+	b=WVWeVeAqJ2AoBJ77gYb0DoTnPiVddFkdyH1ySh+LRFNsrTcJ//zXzSTNy1FSQYzBb
+	 GLaU1liEfmVRc9EVc9aoLyHKaJrEQzyBh0fnHj8xErQDQKuYd0s74aZL+cqyux02Gj
+	 stLqJRiV56Ahmk/nqez6G/sB7rOO7fttXNZWurlf2dBQ52HyxAjC6gppjsSAw4GWIg
+	 lzSirpLIlHzBQdYAkDLu0kjEdQtV3nLZNJoERF744EsggrshICcPm8xQjANGajbmaf
+	 81thRYIDjkrqw6aM5aMvUUzq5bFkZ1r7e8AGBiezkV2QNlIG++0FWlPoeDxUiykmy8
+	 sgD0AlUpM7DOA==
 Received: by wens.tw (Postfix, from userid 1000)
-	id 696E95FE35; Sun, 16 Nov 2025 15:28:07 +0800 (CST)
-Date: Sun, 16 Nov 2025 15:28:07 +0800
+	id 74AEB5FBF7; Sun, 16 Nov 2025 16:00:34 +0800 (CST)
+Date: Sun, 16 Nov 2025 16:00:34 +0800
 From: Chen-Yu Tsai <wens@kernel.org>
-To: Stephen Boyd <sboyd@kernel.org>
+To: soc@kernel.org
 Cc: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
 	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
-	linux-clk@vger.kernel.org
-Subject: [GIT PULL] Allwinner clock fixes for 6.18
-Message-ID: <aRl9B9SH9bVxcORm@wens.tw>
+	linux-arm-kernel@lists.infradead.org
+Subject: [GIT PULL] Allwinner Driver changes for 6.19
+Message-ID: <aRmEosrxfxFVY9zH@wens.tw>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -43,11 +43,11 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="C4VOJFtnijsWYGmh"
+	protocol="application/pgp-signature"; boundary="Zd2+LAuceIjyYVRj"
 Content-Disposition: inline
 
 
---C4VOJFtnijsWYGmh
+--Zd2+LAuceIjyYVRj
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -57,49 +57,43 @@ The following changes since commit 3a8660878839faadb4f1a6dd72c3179c1df56787:
 
 are available in the Git repository at:
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-clk-fixes-for-6.18
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-drivers-for-6.19
 
-for you to fetch changes up to 2050280a4bb660b47f8cccf75a69293ae7cbb087:
+for you to fetch changes up to 122df8416e7f4c68fb3248377a2b34cdd31a85b0:
 
-  clk: sunxi-ng: sun55i-a523-ccu: Lower audio0 pll minimum rate (2025-10-23 02:06:47 +0800)
-
-----------------------------------------------------------------
-Allwinner clk fixes for 6.18
-
-Just a couple fixes for the A523 family. A couple clocks are marked as
-critical, and the lower bound of the audio PLL was lowered to match
-the datasheet.
+  bus: sunxi-rsb: Remove redundant pm_runtime_mark_last_busy() calls (2025-10-29 01:10:10 +0800)
 
 ----------------------------------------------------------------
-Chen-Yu Tsai (2):
-      clk: sunxi-ng: sun55i-a523-r-ccu: Mark bus-r-dma as critical
-      clk: sunxi-ng: sun55i-a523-ccu: Lower audio0 pll minimum rate
+Allwinner driver changes for 6.19
 
-Jernej Skrabec (1):
-      clk: sunxi-ng: Mark A523 bus-r-cpucfg clock as critical
+Just one cleanup change that is part of tree wide cleanup of redundant
+pm_runtime_mark_last_busy() calls.
 
- drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c | 4 ++--
- drivers/clk/sunxi-ng/ccu-sun55i-a523.c   | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+----------------------------------------------------------------
+Sakari Ailus (1):
+      bus: sunxi-rsb: Remove redundant pm_runtime_mark_last_busy() calls
 
---C4VOJFtnijsWYGmh
+ drivers/bus/sunxi-rsb.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+--Zd2+LAuceIjyYVRj
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmkZfQcACgkQOJpUIZwP
-JDD7cxAAuPMK3X2tTDpHIB2v0ywFMrTwyV1VUXlxcEcWvCavy0h4PPJ8yV3+0mFd
-Q0oJRmrTP5z2bX7TvNdtigim9xteb8WHkHD76rLWOjO4zAGoobwglEz7JJ58nvkL
-dkU5JtzTYt8bUHrZM6uPpnfSwRcAGuFnwmm09EqfjC7ef85SLlEjzbiyua5D0qen
-m6E+1D7EmdHHbaCEzi+ANq5wQBa8JyyvaQxmka35j7y/qNYf+Vbbuy+HB0Wrz+3C
-SOv6FO/5KbqEkSdUvfJSz3qIjjpekNr4amxwf+H8qGsiZAXzgZamXJ9dC8RmCwLq
-xJar7fpVV/LaeT+Ry0nXNOdQDkqz2ZAu39GpAOFhXF+iWOLBYLw1pzTPGxda7LuZ
-XmVSyDgs8FQQD5DEVGIRRokRWkM9O05G6fC/glV20Ev5IKaYL9QUzHdoZdlYlAEs
-BXaJYyQPCpTWHQPKYc3/sOHW9f4czbGnr3b/dGLEwagOhGPf1gaHK1if11TgmqFo
-nzZjSKVjBUZyLQv4hH4yWfS5pyJcsLos+rt1MI4iEnJfWq36HUPs/UMFR76SCwmf
-WvZ5U2tr6k5M6UBO9kpOhe78ziU1KXdn6X8HLvmTzLOfz+vQoQKUDaPGa4kaVOqV
-1GwtH2cFBfNMSDsZaKWmZ8siHbVGhsbMAPwfquWnReTLrxMxdjo=
-=aiiO
+iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmkZhKAACgkQOJpUIZwP
+JDBLQA/8CLsp/zXl4or1re162VX0AlYeyUxwY2CKYbK/fk7eqy2RQnTHA712saoQ
+4sSCBRvSj+E/NhX93+Q0ZSxzqlt0MfaB0fYfbEYHQbYroMMU/lXi6Or3XWBrQ1n6
+LxV8tzM1ZtKXxRDxyhzR1wsN2VR2dR2VtZRpWAc2lntVzamyKJ1toxLihLwivMjI
+NOsZSkHYfpaNs54Dv0lAPoSPhIecR/R8dYfQ8lG0sPfOs2CS0iNEXpiyfNzloIkT
+QhCQEyviQWu8DeyyxGvN6hx7OBLxTD8xZYFVvnUpwGe4hnGPKnWonJ2lCJL+ya5D
+cdqjeOF26K9LOvtZv+amwSc7Fjm9MeHD+VWXiNIxYa+S+S7FmJoCRhu+bHaHVxtw
+PQ+PcVR8idhltFqd+G97OGGjN+VOkDUJKRLLgS3IvSABWDL2I/ljbgI0wCA2hPom
+37O1/8rZ8U7+PFQ/JwTs1eomy6+FZWQUMCMwyW4XNPocjGErL+WrTc898LLruv+3
+dqKVm9/9p0VKwLq5CVPULWbN9rtoCMu5fC6ET0zU4DDnIoY2KS6+6LGvLI5kt135
+4gGBdkmp/HBfbCsOa9BgeQWBoyT3skUlglLRmsbyWLkh5c96pFMxMRa7tsTH6PQ7
+FWkq+xBYjiiCh9K7o7iaJDBbGP7w7ncwDTB2qXk/lem3bezWNQs=
+=jocf
 -----END PGP SIGNATURE-----
 
---C4VOJFtnijsWYGmh--
+--Zd2+LAuceIjyYVRj--
