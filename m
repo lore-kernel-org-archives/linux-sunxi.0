@@ -1,154 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71CAE2DF3F2
-	for <linux-sunxi@lists.linux.dev>; Sun, 16 Nov 2025 14:37:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D3F2F39AF
+	for <linux-sunxi@lists.linux.dev>; Sun, 16 Nov 2025 15:55:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763303852; cv=none; b=UQtejgHTUOP1a49RKhYbQFbC1YwYLV32lT9O3U652G9x0Su6j+LAZV1wzMKxqEWook87ET/ZohlKRPkHE/vClXeyGB2Sh/QdaAjookRb329/7xLA+wOeybkQBhURO6s0XNCDUf3JcfDO8JVpAvIeW/MW+/GIRPVJGvRdcamwWBg=
+	t=1763308553; cv=none; b=JQOew+wncwnRdRD4cq2pPU0sk5Fu/0AoaDrF7uQ3F8ZVWEkLlSLZSepz/UA04Sojnn+FCMHfLSxnwpEupvafWY14PVlQJGHxT1fkPuwPKBSTN3cC9bHhn6dgQ0i1qsnNPUagHxBt/VOvstA1hcpOls+RR44FzPZKJJ4LxUlyjYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763303852; c=relaxed/simple;
-	bh=2Bggx1JE8zrmrCOlLWA1b4H8PTZ9Hv6P2gnc61wAGjg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J+mzX1pcK+qBReDwGqCGdbJdJyQpHLC8SyIFAqj/Znj+74NCXXfga4NIm4G1WwNf/IFfwbopdip4WWPCaQMLbhw7hOakFHEwF7RbUHYp1G70UeE7C2oXYtgsKKxeavQ9dXsaLhlhUoRAC5cKpqmuCeqFCe4K0FkdX41ZW6L7Bxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=posJn1XS; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="posJn1XS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 115D9C2BCB2
-	for <linux-sunxi@lists.linux.dev>; Sun, 16 Nov 2025 14:37:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763303852;
-	bh=2Bggx1JE8zrmrCOlLWA1b4H8PTZ9Hv6P2gnc61wAGjg=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=posJn1XS4ftgErJjqUvH0GDpF9FsuzDwl1rhwa1b9rsVR+f9cCP7S0ZXyLpngQqol
-	 NwV8eFpcuB/fUwrZtGrJutO9scwVj3WCVmnNJ3XjuD5yGutiH5yg0yMHBu9BicwzQw
-	 8DNjXMv8YgR5jh+JVzTDF8yqQiYncen0EvxB1Zwph+fmXBmByLlExru97PAI66H4tU
-	 ZsrmOmlrCT8z299pwj+5xptdXyMQORt8zKcY7N34MIVsOxQeyGlWRpRqp8T2xui/CN
-	 +jYN8MaR4hL20JU2eS+Wzl8EGvUHtvbWBnoGh9+8NHRI4D0MD8tQiGT58YtEf+fZ7v
-	 cpcmr+6tJ/pwA==
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-37a33f49018so28918431fa.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 16 Nov 2025 06:37:31 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX5MA+Uwhwo5qffyGnmYFRb5WM3olzNAP2PbRlFhVZXZy7OBl2QWgcFGC/EU6vEry4sw/QeqtoIIUKqNg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyjzOOfVwxtkEPxgOxflHLAsEG6X7xKiMkUv+r9jeesnOo028v9
-	QBcExbc5jAWmMggce5VKvRob1SXLl/L80VLLHLmS6/YxTNqf3QDUjmCNMyFq6bJEZF/Eao1Z5Q7
-	XQ+XnzZGL+VS/omlDBuUaau6vQqYM0Xg=
-X-Google-Smtp-Source: AGHT+IG7vqFgL8pcnoWY4X8bK83bCjs7yr5BwCnDCB4u5oYDjeQdmjUX3ZIX6NF6V8m3f8emPC7cEmlAcG+l7wyAhyk=
-X-Received: by 2002:a2e:b952:0:b0:378:f267:3107 with SMTP id
- 38308e7fff4ca-37babd46336mr21467291fa.37.1763303850006; Sun, 16 Nov 2025
- 06:37:30 -0800 (PST)
+	s=arc-20240116; t=1763308553; c=relaxed/simple;
+	bh=piiZABcIkPvCH85m5XqijCtUq+SBcVfDPS3VKibeIzs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=f+H3YWSRXRLm1acL4ZM47VoF8k888fyDpJ36X0hcvIFCh8q8vtWGmX8vpn5rsPbiL0NGMEI2S0yZy4pgArPECoUSew9fI0nFYlo5ACN656eV3MVdgAGgNttxqjyKd0m0/NrCKRirgIGrH51JPmXRiyVTFXObX3wuP7701OPRJYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1vKf6H-0006Dx-Vl; Sun, 16 Nov 2025 16:55:37 +0100
+Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1vKf6G-000lfs-22;
+	Sun, 16 Nov 2025 16:55:36 +0100
+Received: from hardanger.blackshift.org (p54b152ce.dip0.t-ipconnect.de [84.177.82.206])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id 514694A0D69;
+	Sun, 16 Nov 2025 15:55:36 +0000 (UTC)
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+Date: Sun, 16 Nov 2025 16:55:26 +0100
+Subject: [PATCH can] can: sun4i_can: sun4i_can_interrupt(): fix max irq
+ loop handling
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250221161751.1278049-1-kuba@szczodrzynski.pl>
- <20251116134609.447043-1-kuba@szczodrzynski.pl> <CAGb2v67V01k8zj2r+Dd+JDEsH2LX2Jtx+CP=i8aQfX_JyFtLfg@mail.gmail.com>
- <7ff30ae9-e4c0-47ae-80ad-726eaa557fd0@szczodrzynski.pl>
-In-Reply-To: <7ff30ae9-e4c0-47ae-80ad-726eaa557fd0@szczodrzynski.pl>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 16 Nov 2025 22:37:15 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67iovqfErt20Oz0SrHC558zBDDFq1ZqRau83NOQ2w8AoQ@mail.gmail.com>
-X-Gm-Features: AWmQ_bnuktLAy6WzxMHGACOr-_rXESjXpP0XBu3tC1d0_mcaLovZAV-ch-mI9ko
-Message-ID: <CAGb2v67iovqfErt20Oz0SrHC558zBDDFq1ZqRau83NOQ2w8AoQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/6] drm/sun4i: Support LVDS on D1s/T113 combo D-PHY
-To: =?UTF-8?Q?Kuba_Szczodrzy=C5=84ski?= <kuba@szczodrzynski.pl>
-Cc: Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, parthiban@linumiz.com, paulk@sys-base.io
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20251116-sun4i-fix-loop-v1-1-3d76d3f81950@pengutronix.de>
+X-B4-Tracking: v=1; b=H4sIAO7zGWkC/x2MQQqAIBAAvyJ7bqGVFOor0cFsq4XQUIpA+nvSc
+ RhmCmROwhkGVSDxLVliqECNAr+7sDHKUhl0qw0RWcxX6ARXefCI8cRVW2M1zdb1PdToTFzdPxz
+ BuwDT+36eMwq4ZQAAAA==
+X-Change-ID: 20251116-sun4i-fix-loop-f265621b6a99
+To: Vincent Mailhol <mailhol@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Gerhard Bertelsmann <info@gerhard-bertelsmann.de>, 
+ Maxime Ripard <mripard@kernel.org>
+Cc: kernel@pengutronix.de, linux-can@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+ =?utf-8?q?Thomas_M=C3=BChlbacher?= <tmuehlbacher@posteo.net>, 
+ Marc Kleine-Budde <mkl@pengutronix.de>
+X-Mailer: b4 0.15-dev-a6db3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1639; i=mkl@pengutronix.de;
+ h=from:subject:message-id; bh=piiZABcIkPvCH85m5XqijCtUq+SBcVfDPS3VKibeIzs=;
+ b=owEBbQGS/pANAwAKAQx0Zd/5kJGcAcsmYgBpGfP1O2x1G+zpjpRJjKaXo54TmBgwthKqzmzGq
+ fbf/sJiZTiJATMEAAEKAB0WIQSf+wzYr2eoX/wVbPMMdGXf+ZCRnAUCaRnz9QAKCRAMdGXf+ZCR
+ nJaoB/4rjKBfJJSDQ4zQgHs1guSEV6YizBk5eiUmnvir8afm7j3J8t8qoG8bzJM8kaQ41q21AtI
+ 7NqTPanSTdclNme3HWvizX4SWZFi4TRxMIy4Mw+3sO3nuXCtVN+vwr6pBKhqQZELQ8fPrOMvZli
+ xmK/aJhJKiPZp2vm8raNr5WhWDPrTtVkftP2TM8MnYCLbNG2aCPbxjb55KPpc4EMxvQUkdjdyCp
+ eNzWiqHIMRpjXWSwVtqhAy1IUqjm/m03ywNMA+kar6PQCgEwsSGgTBDD9Vg/hbQMWp/42Z5QDTT
+ K81IIXmX1yuSs0lberkstH0VPRbX/9FvRoIE8RPdQ23NC+89
+X-Developer-Key: i=mkl@pengutronix.de; a=openpgp;
+ fpr=C1400BA0B3989E6FBC7D5B5C2B5EE211C58AEA54
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On Sun, Nov 16, 2025 at 10:31=E2=80=AFPM Kuba Szczodrzy=C5=84ski
-<kuba@szczodrzynski.pl> wrote:
->
-> W dniu 2025-11-16 o 15:03:18, Chen-Yu Tsai pisze:
->
-> > On Sun, Nov 16, 2025 at 9:46=E2=80=AFPM Kuba Szczodrzy=C5=84ski
-> > <kuba@szczodrzynski.pl> wrote:
-> >> [replying to v1 to keep the same series on Patchwork]
-> > That is not the right way to do it.
-> >
-> > If you reply to an old series, the tooling does not pickup the new vers=
-ion
-> > as a separate series.
-> >
-> > ChenYu
->
-> Hi,
->
-> I noticed that it indeed didn't work. However, Patchwork didn't pick up t=
-he v2 cover letter at all, so I thought replying to v2 would mess up the th=
-read even more.
->
-> That being said, the v3 cover letter is not visible there either.
->
-> Should I resend this as v4 [which message to reply to?] or send a complet=
-ely new series perhaps?
+Reading the interrupt register `SUN4I_REG_INT_ADDR` causes all of its bits
+to be reset. If we ever reach the condition of handling more than
+`SUN4I_CAN_MAX_IRQ` IRQs, we will have read the register and reset all its
+bits but without actually handling the interrupt inside of the loop body.
 
-Each new version should be a completely new series.
+This may, among other issues, cause us to never `netif_wake_queue()` again
+after a transmission interrupt.
 
-If patchwork still didn't pick it up, then it's possible either your
-patches didn't reach the mailing lists or the patchwork instances.
-Please check lore to see if your patches are there.
+Fixes: 0738eff14d81 ("can: Allwinner A10/A20 CAN Controller support - Kernel module")
+Cc: stable@vger.kernel.org
+Co-developed-by: Thomas Mühlbacher <tmuehlbacher@posteo.net>
+Signed-off-by: Thomas Mühlbacher <tmuehlbacher@posteo.net>
+Signed-off-by: Marc Kleine-Budde <mkl@pengutronix.de>
+---
+I've ported the fix from the sja1000 driver to the sun4i_can, which based
+on the sja1000 driver.
+---
+ drivers/net/can/sun4i_can.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/net/can/sun4i_can.c b/drivers/net/can/sun4i_can.c
+index 53bfd873de9b..0a7ba0942839 100644
+--- a/drivers/net/can/sun4i_can.c
++++ b/drivers/net/can/sun4i_can.c
+@@ -657,8 +657,8 @@ static irqreturn_t sun4i_can_interrupt(int irq, void *dev_id)
+ 	u8 isrc, status;
+ 	int n = 0;
+ 
+-	while ((isrc = readl(priv->base + SUN4I_REG_INT_ADDR)) &&
+-	       (n < SUN4I_CAN_MAX_IRQ)) {
++	while ((n < SUN4I_CAN_MAX_IRQ) &&
++	       (isrc = readl(priv->base + SUN4I_REG_INT_ADDR))) {
+ 		n++;
+ 		status = readl(priv->base + SUN4I_REG_STA_ADDR);
+ 
 
-ChenYu
+---
+base-commit: 5442a9da69789741bfda39f34ee7f69552bf0c56
+change-id: 20251116-sun4i-fix-loop-f265621b6a99
 
-> I apologize for the confusion, this is my first time doing that.
->
-> Regards
-> Kuba
->
-> >> Some Allwinner chips (notably the D1s/T113 and the A100) have a "combo
-> >> MIPI DSI D-PHY" which is required when using single-link LVDS0. The sa=
-me
-> >> PD0..PD9 pins are used for either DSI or LVDS.
-> >>
-> >> Other than having to use the combo D-PHY, LVDS output is configured in
-> >> the same way as on older chips.
-> >>
-> >> This series enables the sun6i MIPI D-PHY to also work in LVDS mode. It
-> >> is then configured by the LCD TCON, which allows connecting a
-> >> single-link LVDS display panel.
-> >>
-> >> Changes in v2/v3:
-> >> - Applied code formatting changes from review comments
-> >> - Changed "dphy" to "combo-phy"
-> >> - Made the LVDS setup/teardown functions abort early in case of error
-> >>    (adding a proper return value would require changes in several leve=
-ls
-> >>     of caller functions; perhaps could be done in a separate patch)
-> >> - Added the PHY properties to DT bindings
-> >> - Renamed lvds0_pins to lcd_lvds0_pins
-> >> - Rebased on top of drm/misc/kernel/for-linux-next
-> >> - Hopefully corrected the incomplete patch list of v2, which happened
-> >>    due to an SMTP error
-> >>
-> >> Kuba Szczodrzy=C5=84ski (6):
-> >>    phy: allwinner: phy-sun6i-mipi-dphy: Support LVDS in combo D-PHY
-> >>    drm/sun4i: Support LVDS using MIPI DSI combo D-PHY
-> >>    drm/sun4i: Enable LVDS output on sun20i D1s/T113
-> >>    dt-bindings: display: sun4i: Add D1s/T113 combo D-PHY bindings
-> >>    riscv: dts: allwinner: d1s-t113: Add D-PHY to TCON LCD0
-> >>    riscv: dts: allwinner: d1s-t113: Add LVDS0 pins
-> >>
-> >>   .../display/allwinner,sun4i-a10-tcon.yaml     |  6 ++
-> >>   .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 11 +++
-> >>   drivers/gpu/drm/sun4i/sun4i_tcon.c            | 50 +++++++++++++
-> >>   drivers/gpu/drm/sun4i/sun4i_tcon.h            |  6 ++
-> >>   drivers/phy/allwinner/phy-sun6i-mipi-dphy.c   | 70 +++++++++++++++++=
-+-
-> >>   5 files changed, 141 insertions(+), 2 deletions(-)
-> >>
-> >> --
-> >> 2.25.1
-> >>
->
+Best regards,
+--  
+Marc Kleine-Budde <mkl@pengutronix.de>
+
