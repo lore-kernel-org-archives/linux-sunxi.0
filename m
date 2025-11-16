@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7426F288D6
-	for <linux-sunxi@lists.linux.dev>; Sun, 16 Nov 2025 08:00:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3A228F5
+	for <linux-sunxi@lists.linux.dev>; Sun, 16 Nov 2025 08:01:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763280037; cv=none; b=LZBL7GslCzQjjZ5P+ia5dMzVg7tsOweFi63G80wKjpP+278vw2lyozj1o9S6d+ESHr8tRlXnsrIzz5PuORgW1x51yZKecFsuacTv4/jkkk8vtgZxyNUYY4refKJUrO+k29dDdaj/wzqwXnaqhMUTtqKCGRigUbQ/gXvolOAnk1o=
+	t=1763280065; cv=none; b=USaCQObQjMU7rfNlAh1ZEYGaSTwp/UK0xH40m5Qar1qYhD3ojlrUNn2vyVAZ32vwMbcEGoCX6zAH2XRTLdrGP7Cj5ADgZFb+eZTtPEgSNa6vc1A2JCV22MVAZr7DIUnC4UKq/JnuR7DD8U0xAGSGKSmBCnFTRMgDRAitSER0tu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763280037; c=relaxed/simple;
-	bh=oiCSedSb+vz06dq7HUd9ifzEUNgIQopka2q0mEATYDQ=;
+	s=arc-20240116; t=1763280065; c=relaxed/simple;
+	bh=n1m3+OEF7ZWWfJVdAJR+SCkIJOuK7J/zBc3Whpeg4zs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=s3fimtO3FLE6Vf35init38oU/s1Oa2nzESwSTRq9A8vbLsaoOwC1Z4v+KN4mJ/AdLCkj4dod0uPhwNVPgtv4aySAAgssnIir45X5Ga7u8YdB0M7eKYyAv3TBvDnmmidM82tv8mk1QQq/2LnhsXDZg5UwVV/iLUcTQIToTGk91mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WVWeVeAq; arc=none smtp.client-ip=10.30.226.201
+	 Content-Disposition; b=dwbnm20q5rsBD+dPq5aUVCIHIcTszhHoiOq+I2dFqPZzLH+n0HqqhS9WBAXVnPQlH0rGTalHdUI7umHOBMo7hn+RgdqpI4xh/eKUbjDTt5mdia9880fDVgOXDsdzGnFQ7b9PNUizDwOsH3AmSfT++8R0YUNMA/UzvzfPQe6u73s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oi1oh0Ly; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WVWeVeAq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D969AC113D0;
-	Sun, 16 Nov 2025 08:00:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oi1oh0Ly"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70E42C116B1;
+	Sun, 16 Nov 2025 08:01:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763280037;
-	bh=oiCSedSb+vz06dq7HUd9ifzEUNgIQopka2q0mEATYDQ=;
+	s=k20201202; t=1763280065;
+	bh=n1m3+OEF7ZWWfJVdAJR+SCkIJOuK7J/zBc3Whpeg4zs=;
 	h=Date:From:To:Cc:Subject:From;
-	b=WVWeVeAqJ2AoBJ77gYb0DoTnPiVddFkdyH1ySh+LRFNsrTcJ//zXzSTNy1FSQYzBb
-	 GLaU1liEfmVRc9EVc9aoLyHKaJrEQzyBh0fnHj8xErQDQKuYd0s74aZL+cqyux02Gj
-	 stLqJRiV56Ahmk/nqez6G/sB7rOO7fttXNZWurlf2dBQ52HyxAjC6gppjsSAw4GWIg
-	 lzSirpLIlHzBQdYAkDLu0kjEdQtV3nLZNJoERF744EsggrshICcPm8xQjANGajbmaf
-	 81thRYIDjkrqw6aM5aMvUUzq5bFkZ1r7e8AGBiezkV2QNlIG++0FWlPoeDxUiykmy8
-	 sgD0AlUpM7DOA==
+	b=Oi1oh0LyKUfgqA/oXZ/90yJqnLB6jw6RKLgVckWAt9cZjKStxigZ8w93oQ+Fcyjke
+	 UumwTgYTdUWAQDvpwWZ4qjcmNh0uYvU8PZ7jVciWVR+z5ZIQbJAX2e9Nf/1HVOHu4I
+	 yLj88Vzaj9x+Zp1qyHziFFLaBJH6wQxQEddxJz8L2cyUB35hdOixFGq33coGTGttnm
+	 4ikCysxrqYivY09LkWscVt8bWB3BN80/1IJEmmYQ2vzLHssqLPdeHL8u7ytK0CxFmC
+	 d4RcGjlwWS/RwX5JDEaC1TvsdvkaiDbnsBiBwuZ8fN2wthXFKtmfv1mbcAiZJBCiQc
+	 HGcQe+a9hb6fQ==
 Received: by wens.tw (Postfix, from userid 1000)
-	id 74AEB5FBF7; Sun, 16 Nov 2025 16:00:34 +0800 (CST)
-Date: Sun, 16 Nov 2025 16:00:34 +0800
+	id 69C2E5FF44; Sun, 16 Nov 2025 16:01:03 +0800 (CST)
+Date: Sun, 16 Nov 2025 16:01:03 +0800
 From: Chen-Yu Tsai <wens@kernel.org>
 To: soc@kernel.org
 Cc: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
 	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL] Allwinner Driver changes for 6.19
-Message-ID: <aRmEosrxfxFVY9zH@wens.tw>
+Subject: [GIT PULL] Allwinner DT changes for 6.19
+Message-ID: <aRmEvz0F1yVCgE-B@wens.tw>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -43,11 +43,11 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Zd2+LAuceIjyYVRj"
+	protocol="application/pgp-signature"; boundary="g5tY81ESRNcZFmD0"
 Content-Disposition: inline
 
 
---Zd2+LAuceIjyYVRj
+--g5tY81ESRNcZFmD0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -57,43 +57,62 @@ The following changes since commit 3a8660878839faadb4f1a6dd72c3179c1df56787:
 
 are available in the Git repository at:
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-drivers-for-6.19
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-dt-for-6.19
 
-for you to fetch changes up to 122df8416e7f4c68fb3248377a2b34cdd31a85b0:
+for you to fetch changes up to ae0d3f1e6dd2c6404db2fbd7556b93eddd6c87b8:
 
-  bus: sunxi-rsb: Remove redundant pm_runtime_mark_last_busy() calls (2025-10-29 01:10:10 +0800)
-
-----------------------------------------------------------------
-Allwinner driver changes for 6.19
-
-Just one cleanup change that is part of tree wide cleanup of redundant
-pm_runtime_mark_last_busy() calls.
+  arm64: dts: allwinner: a523: Add SPDIF TX pin on PB and PI pins (2025-10-29 01:07:33 +0800)
 
 ----------------------------------------------------------------
-Sakari Ailus (1):
-      bus: sunxi-rsb: Remove redundant pm_runtime_mark_last_busy() calls
+Allwinner device tree changes for 6.19
 
- drivers/bus/sunxi-rsb.c | 2 --
- 1 file changed, 2 deletions(-)
+The A523 family gains support for I2S and SPDIF audio interfaces, as
+well as the GMAC200 Ethernet controller.
 
---Zd2+LAuceIjyYVRj
+The H616 gains support for the NAND controller.
+
+----------------------------------------------------------------
+Chen-Yu Tsai (10):
+      arm64: dts: allwinner: a523: Add GMAC200 ethernet controller
+      arm64: dts: allwinner: a527: cubie-a5e: Enable second Ethernet port
+      arm64: dts: allwinner: t527: avaota-a1: enable second Ethernet port
+      arm64: dts: allwinner: t527: orangepi-4a: Enable Ethernet port
+      dt-bindings: dma: allwinner,sun50i-a64-dma: Add compatibles for A523
+      arm64: dts: allwinner: a523: Add DMA controller device nodes
+      arm64: dts: allwinner: a523: Add device node for SPDIF block
+      arm64: dts: allwinner: a523: Add device nodes for I2S controllers
+      arm64: dts: allwinner: a523: Add I2S2 pins on PI pin group
+      arm64: dts: allwinner: a523: Add SPDIF TX pin on PB and PI pins
+
+Richard Genoud (1):
+      arm64: dts: allwinner: h616: add NAND controller
+
+ .../bindings/dma/allwinner,sun50i-a64-dma.yaml     |   5 +-
+ arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi     |  52 ++++++
+ arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi     | 204 +++++++++++++++++++++
+ .../boot/dts/allwinner/sun55i-a527-cubie-a5e.dts   |  28 ++-
+ .../boot/dts/allwinner/sun55i-t527-avaota-a1.dts   |  26 ++-
+ .../boot/dts/allwinner/sun55i-t527-orangepi-4a.dts |  23 +++
+ 6 files changed, 333 insertions(+), 5 deletions(-)
+
+--g5tY81ESRNcZFmD0
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmkZhKAACgkQOJpUIZwP
-JDBLQA/8CLsp/zXl4or1re162VX0AlYeyUxwY2CKYbK/fk7eqy2RQnTHA712saoQ
-4sSCBRvSj+E/NhX93+Q0ZSxzqlt0MfaB0fYfbEYHQbYroMMU/lXi6Or3XWBrQ1n6
-LxV8tzM1ZtKXxRDxyhzR1wsN2VR2dR2VtZRpWAc2lntVzamyKJ1toxLihLwivMjI
-NOsZSkHYfpaNs54Dv0lAPoSPhIecR/R8dYfQ8lG0sPfOs2CS0iNEXpiyfNzloIkT
-QhCQEyviQWu8DeyyxGvN6hx7OBLxTD8xZYFVvnUpwGe4hnGPKnWonJ2lCJL+ya5D
-cdqjeOF26K9LOvtZv+amwSc7Fjm9MeHD+VWXiNIxYa+S+S7FmJoCRhu+bHaHVxtw
-PQ+PcVR8idhltFqd+G97OGGjN+VOkDUJKRLLgS3IvSABWDL2I/ljbgI0wCA2hPom
-37O1/8rZ8U7+PFQ/JwTs1eomy6+FZWQUMCMwyW4XNPocjGErL+WrTc898LLruv+3
-dqKVm9/9p0VKwLq5CVPULWbN9rtoCMu5fC6ET0zU4DDnIoY2KS6+6LGvLI5kt135
-4gGBdkmp/HBfbCsOa9BgeQWBoyT3skUlglLRmsbyWLkh5c96pFMxMRa7tsTH6PQ7
-FWkq+xBYjiiCh9K7o7iaJDBbGP7w7ncwDTB2qXk/lem3bezWNQs=
-=jocf
+iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmkZhL8ACgkQOJpUIZwP
+JDD33g/+MTCGbBbfJdpgGLE7z/F24tbTFDk2KVV+dAfCW+CZ08p+MVSVlhrzAk5h
+CbRAVxqYLO7sgGQhF0Jd7ge1HuE+zcZYqOym/SyfNJmYqVq7UnBTD7CIA2fYoy6Z
+UoKpRfSwqzX/yEkvIPwPNJKwiL3hdJLqe2rBl7EVB4NrZpbmdOXEbyTydoy9fq5o
+VDTArUSsxen53dqhjoXMNj7LF9h7Dftvb3Tp1G5vhRJtP6ozMBoauG7YI8anh3I9
+jLj43YXxAYwhvYKpYYjB0eTgGiXZoB1v10kvCI4KEm5FAffhbCQgGR8R9deWHEkq
+SzAn/luocI+dd9O0FYqfMBi2ngAanSM4c/PQ7nHB7lpZXblQ+nsz48BiNC32F27G
+itFecCqDJS8VkxmTuqkKbCT5mjZvahlHn+7Mr8OjHdS/aIqnVoCQNxPk+VxdB5cV
+UcxqNMJ3Nb2+n2GEvDm8BPWJ8tqPKiEvOBE5c5GEVkHmAMvFp7BhMM5NgEyxNcDQ
+guXJa/eTNynwdonSfh2J0I1oL6rbhx6vLPz4dgnBZei0w9rliO1RusPbvEDSrv5F
+WCrIaiLQfthgh810ieDrFw1PCqhDtdhBmqb4tifNkm9LAifkhNnmVJsr/GaKjL0g
+N6RcXcUHkOqbu4C4vzXC1BXLU6Z6BJgXjtuF4w9pK5sj/pjwXU8=
+=cVPx
 -----END PGP SIGNATURE-----
 
---Zd2+LAuceIjyYVRj--
+--g5tY81ESRNcZFmD0--
