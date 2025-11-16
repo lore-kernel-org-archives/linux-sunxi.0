@@ -1,138 +1,218 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CFA230DD03
-	for <linux-sunxi@lists.linux.dev>; Sun, 16 Nov 2025 17:50:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6981991CB
+	for <linux-sunxi@lists.linux.dev>; Sun, 16 Nov 2025 20:13:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763315413; cv=none; b=TA2tZ4h48XyNdRSd0NZdc4meKz1jNI3hBYZJyGV/+8W5ZygCNlkjsGE3isG9igX7l4fe0NEweg4EIuZ//w2Lwi18bMuf6QpK3HL0aN67TAFPCEJ2eouG6ctdbFfFNiEt5TJTTiyvecoxXqNu/l8MvXqCdD1J1UDb1zYBmkWRHg8=
+	t=1763323982; cv=none; b=Bfv0lgqE1e1VQsB38OZsRqZm08lIDv/1xTN059tbm0V46h2gMPRPT5yukKVrGU44FgaOugfF9iCWQzrH0+8SYJ7NiX8T7KVngKzLBfxvWz6JLYoSjwHMaSeEdhwdaaGk/K7RbVKNIDa3CS2ennXqVu0jHupUnewV1K9E+CeT30Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763315413; c=relaxed/simple;
-	bh=QP7jspNMzyTvkGv06BWTHIjJjU1oOmLPoesgjcHxeRo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WA/7o18UO19wHR7h7trOf9janrT3tXD/XINQsaZKwiBL/dFBTb2vtbjP/GiasNVSyAKxpIheOPZJvjybKQAkkOfrIBRyikFA70a0OveOse7bjKICcwyraLlbB2MWbey90geEwb4mOpLgzWrmX94NnkcNfUAH8xxBb0e0Z+P/VqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mwaMA3a4; arc=none smtp.client-ip=209.85.218.51
+	s=arc-20240116; t=1763323982; c=relaxed/simple;
+	bh=esdr2qDVKUI7jjAX4drg3GaE26oPprzoDaZg4bLlYOY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=cQ9jz8LePfvCo5si8tOfaGQ/Ei/TnhqpIDkrLE+j0a3Wis2mLTRF9672nlg7vWBo5d+Qri3mHlYdY53ylm7+no0IGuhzXlcwhVYS3cz1FSyGLq/+kzk/fKoRTyyfM3lkGBqszUPmpCh2Byk70d3z4BtCFdGakt76PHN8QlDAUbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=INlkJY4a; arc=none smtp.client-ip=209.85.215.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mwaMA3a4"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b737cd03d46so177035066b.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 16 Nov 2025 09:50:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="INlkJY4a"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-bc8ceb76c04so1325056a12.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 16 Nov 2025 12:13:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763315409; x=1763920209; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1763323980; x=1763928780; darn=lists.linux.dev;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QP7jspNMzyTvkGv06BWTHIjJjU1oOmLPoesgjcHxeRo=;
-        b=mwaMA3a4o5G4auq/EDQSn/G6jA18WpXDdv1QQP838Onyl+OcoYhJlmuoQujUhtrzYs
-         oY0Ngc9+te/8USfQqaNy1/nsLl+CYx+t1GyApz+V+64minD1hhes1V02wD1X32SeigQK
-         neB62k9j3thawbHhAEi7AjpvcWtFWFb3xGOWphBzYx0dQGN3Y3Ei1O8U3/qP4rZXQ51I
-         jI6ff1ekKlSwbPelhvXUeyaXf+ACEvsVyaJRvTPA7W3h1rN2GQd8U3fg873c3Rqovm5o
-         stLaN+YxUZLLoupDWt5Vgg4zzsFamQwpaoy8vDQBdn7ukSXVURIclN2tWBQZ/N6ro1Kb
-         7iuQ==
+        bh=CWl/tMzqUruDN+cjoQH162k7127fasz52R3bsVxsmqE=;
+        b=INlkJY4alMeJDlpw8O8Z4sCroOs6SWZV6uUGT3/iJHu2nCxeuplIaGqZX+xFjCNaUm
+         bUpuQyJoNoYPdmP/8O+B4+JjPdDCWmnTA1vL9mUd8iFWzJVaajWf5zh1qJny3zy1JNEW
+         2N01Fwi4rmuyq0yroCpogyYYDmeq5Z+oLTsirvWHpPMVdNDg5Szo+7c0TX2BKIVlNLkJ
+         g+3yKun5fmeCGyLVACy6cKToxtsNiUyaI/O7KKsQyEI7eHw3kb5srY0b41aO2k37DVv+
+         e1wWy2fl4TqkCGiH80oUuJXxiXaGV9kblCUozn9p297+f0ktp904b0vqHeZZCelJiF0L
+         tzBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763315409; x=1763920209;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1763323980; x=1763928780;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=QP7jspNMzyTvkGv06BWTHIjJjU1oOmLPoesgjcHxeRo=;
-        b=sf1iq0MYZwpPe49EVxOXCfzErQ3xmFlbbE8G4ma64v8VxMNqYWNSSleOeonYGuG57I
-         WbaoRLSsBYDC75oioRHGmhoPRl6hE+Qmut1vjTAhA9cb+Lu6Gt7vCmpgwzvgpYI91EEZ
-         bYlVw5AwczxhNPS+GmnD8X/WqUoQbKk6MkahEooyHjuPJj7vqpj8A+1urgdnFb6uPo3U
-         8DnVMENqyduiaNyPDyFw1gBdrxGRL6WJiYZlZa1N3jG8wCBmY9k2M6xh3syvno8aBDK+
-         B+P9X8JuzQmPYOQYvMc2BAe3LJJEIFCjVOhkiPa9ntbSH+el4kXQsV3QYUSTPdQ2V5Mj
-         MuAg==
-X-Forwarded-Encrypted: i=1; AJvYcCX2L2+5JQXDZMYjNAYXITu3Kv571Pgta6G1Anl+jdpgdpotwtBSFjEAN43vOroHLsO88C95XBI6s1Tx4A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyZlRcuLdlFkRnRRkrQ5zWl2uTWr721B7k3umKa55d4XeMdViKi
-	iuMuKrNPoRCPYyV0hiuG3pbHstu9MYCJIN3rP+Z1L5c/oMd8nL14fseIb+u9kQ==
-X-Gm-Gg: ASbGncvbPMDsmIqHVwva/BFFpDr061oRbB6ihG2lysfACLkgug82mTCMAO7TvT0Ndq4
-	+VrGqphGDKK0L6riRFJ4IN/a2mZwYgFf3pjfN5hqxMz0Jj6FnnfWcoSXFy56t4oMvwj/w1JPkA5
-	cMnJ4DE1y8hfa6BFdEAdbejiimTOUr7EGuVKWjP5IcIW3eyJvxb4CNK/ayDrqGFOPHq7hWf8tTS
-	lzOdNeI99pJc7o16Pdm6ewGnKfQT9nHa4/4j/HxqOZM2kHzlJLMeDbU0cVKWLqU29fcFTl2vgM7
-	zYa04Enes1P78j+eYnvoZYNTDajfVy8KFu/FoGM+fMw2US0+29DV5cttmmb9J8npR8qw6tmhAsY
-	n1xAiMPhHvjMWowhuZZh0orwOoOCyBN/LOwixelUvp0bx2tFz+VpQ4U75JwkYV/PbHm5Tp78lBL
-	Us2NUDY2wEn6bumN3/HFVjBDndT0qBKnAAKFpPjNq2wrNj3nGq69+ZX8OZbpWjb8pbC14QdwuAV
-	00RtQ==
-X-Google-Smtp-Source: AGHT+IHnJ3o0lU2xLaeiHwgSeukdwtR1KGCz5g9vsnkLKv/heK41BVWAROvmPtIvPoJ/A4s01hmsSQ==
-X-Received: by 2002:a17:907:1b1d:b0:b3c:3c8e:189d with SMTP id a640c23a62f3a-b7367b8dd38mr1112936266b.32.1763315408563;
-        Sun, 16 Nov 2025 09:50:08 -0800 (PST)
-Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fed9e9fsm879409766b.69.2025.11.16.09.50.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Nov 2025 09:50:08 -0800 (PST)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Marc Kleine-Budde <mkl@pengutronix.de>
-Cc: Vincent Mailhol <mailhol@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Gerhard Bertelsmann <info@gerhard-bertelsmann.de>,
- Maxime Ripard <mripard@kernel.org>, kernel@pengutronix.de,
- linux-can@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org,
- Thomas =?UTF-8?B?TcO8aGxiYWNoZXI=?= <tmuehlbacher@posteo.net>
-Subject:
- Re: [PATCH can] can: sun4i_can: sun4i_can_interrupt(): fix max irq loop
- handling
-Date: Sun, 16 Nov 2025 18:46:51 +0100
-Message-ID: <5938604.DvuYhMxLoT@jernej-laptop>
-In-Reply-To:
- <20251116-mysterious-delightful-spaniel-18d220-mkl@pengutronix.de>
-References:
- <20251116-sun4i-fix-loop-v1-1-3d76d3f81950@pengutronix.de>
- <2804881.mvXUDI8C0e@jernej-laptop>
- <20251116-mysterious-delightful-spaniel-18d220-mkl@pengutronix.de>
+        bh=CWl/tMzqUruDN+cjoQH162k7127fasz52R3bsVxsmqE=;
+        b=KOB1wr2bag6Eo78M/uG8ATUpHiS4NrFhUmiyPf+O7pZk707ZfVLYMiqHBnVPbWxKad
+         cUoOz0CjzIj97J5RWoIUlXEC7Ol2rUPeWNP5wrP9bTZBuZd/dq9dtRz9/uMSuyfdoTnx
+         5QtCEXKl09Jj+aZ3NQLjVYgJ8CB3KyX3Ytb55vHgYL9hbfH+b+7fC8szoj3DHEJBe5bh
+         gQl6W4KJ4lppLUBmoGzCGHSUdqd768VVYW2aNOXXKkw8fstB0e0+Pw0IhO9BP9P5sei5
+         4RMOefMIBXAKvJxWwxYjWQ0rWG7V6S9odv+JkeI4BeZDzQchcGjCy93hZblwsIYW9SkJ
+         hPAg==
+X-Forwarded-Encrypted: i=1; AJvYcCXLC/5hTJJVMFKb3ASiO6gA9i7AcqlE/w9XXmllT8F+QOg3P3dRyffd9lrBTQ5Q/15JQiuGQ3CkNk3fsQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzDpcOnu0vdIz6jCmr5hljQ+ipuUbgMlN0FPWt+zQhR+n6D9r4P
+	YrBDzhUSv3Kk0eaiXpF79vfQ7YnpjZkX/OCu2/q0zG/FoTsiDKexzWZthPr8e51D+Wx9N458g3e
+	KTPgUeM7oC9PSe/myMQdxm8W9GQrWNSujVibxNYqVug==
+X-Gm-Gg: ASbGncucKxC3GNASL7OuMnUWyH4erctmdVtc7xIawrZqWZs887yMuUvr5fV8N5xHgKZ
+	vqo4VSeauOOOwVaJu4PKLF8LWe0YfiXTdTnPtqDobh5lgzMAIsMfQAD0k7YSsGFZttvRwuIhc1m
+	SpiOgRfmj3sS3WHx4+nLuFipteRW2DLGwdklX0hngsDrhi3moPYk1Z5CZ7qb1QbNkbXfLlDrX8k
+	WDyws56Hyiz68adSgVu+m4f4DEo/X0A74rk+whXxTROhSWuIZY+lXfJuAUz4wmB9Npc0c8vaFKs
+	+H+xXzsIT69KHZM=
+X-Google-Smtp-Source: AGHT+IEgYV2NGeStWc4Xqq/OZBMk2zDNoFSBmkTrSoM/YZIvrDzXj9iV+NAkvcM7kwaRLzm3T9ml+26cOB11pLNS5Ac=
+X-Received: by 2002:a05:7301:db0a:b0:2a4:3593:c7d5 with SMTP id
+ 5a478bee46e88-2a4abb32e23mr4814270eec.21.1763323979908; Sun, 16 Nov 2025
+ 12:12:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <CADGuG04vCTWJNDj-fPaEO-dQmk_P_Z-E+AYbZBeYt+GJ8Dtqtg@mail.gmail.com>
+ <DU0P190MB244572B5A5516B6BB3E053EEBC0EA@DU0P190MB2445.EURP190.PROD.OUTLOOK.COM>
+ <CADGuG04Bc8Dcv=GCZGsjkW7taS4VR0yTkp=BC9tC90HtkssVRw@mail.gmail.com> <20251108005631.75acf1c4@minigeek.lan>
+In-Reply-To: <20251108005631.75acf1c4@minigeek.lan>
+From: =?UTF-8?Q?Horv=C3=A1th_Csaba?= <horvathcsabalaszlo@gmail.com>
+Date: Sun, 16 Nov 2025 21:12:23 +0100
+X-Gm-Features: AWmQ_bmHpPVxPa5Xs3d3ftPKgqlcFOnI51UomVNVhivHRDUliJ7fg5jXi-KJzAg
+Message-ID: <CADGuG04GsM9Jpz0MfX+gHUnpNbH9Ff0fY_n3r+GX-tuVQz4R7g@mail.gmail.com>
+Subject: Re: Colorly e708q1 and AXP20x support
+To: Andre Przywara <andre.przywara@arm.com>, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-Hi!
+Hi,
 
-Dne nedelja, 16. november 2025 ob 17:26:07 Srednjeevropski standardni =C4=
-=8Das je Marc Kleine-Budde napisal(a):
-> On 16.11.2025 17:20:37, Jernej =C5=A0krabec wrote:
-> > Dne nedelja, 16. november 2025 ob 16:55:26 Srednjeevropski standardni =
-=C4=8Das je Marc Kleine-Budde napisal(a):
-> > > Reading the interrupt register `SUN4I_REG_INT_ADDR` causes all of its=
- bits
-> > > to be reset. If we ever reach the condition of handling more than
-> > > `SUN4I_CAN_MAX_IRQ` IRQs, we will have read the register and reset al=
-l its
-> > > bits but without actually handling the interrupt inside of the loop b=
-ody.
-> > >
-> > > This may, among other issues, cause us to never `netif_wake_queue()` =
-again
-> > > after a transmission interrupt.
-> > >
-> > > Fixes: 0738eff14d81 ("can: Allwinner A10/A20 CAN Controller support -=
- Kernel module")
-> > > Cc: stable@vger.kernel.org
-> > > Co-developed-by: Thomas M=C3=BChlbacher <tmuehlbacher@posteo.net>
-> > > Signed-off-by: Thomas M=C3=BChlbacher <tmuehlbacher@posteo.net>
-> > > Signed-off-by: Marc Kleine-Budde <mkl@pengutronix.de>
-> > > ---
-> > > I've ported the fix from the sja1000 driver to the sun4i_can, which b=
-ased
-> > > on the sja1000 driver.
+Sorry, i was down with flu for a week.
+
+Now i had time to play around, and tried the U-Boot method. While
+successfully compiled it with the modified frequency and voltage, it
+had no effect. I think no effect for the U-Boot itself (this latest
+U-Boot doesn't have an option for cpu list command to display CPU info
+at boot). Neither the booted OS.
+
+"I guess this is your problem: you are trying to compile a custom kernel
+with apparently a made-up config, which isn't easy."
+I have used the Colorfly manual, so it's made-up, but also it's the
+config what should work.
+
+I tried with the sunxi-defconfig, but it does not boot (OK, in fact
+is, but no display at all)
+
+Will try the options you mentioned with mainline kernel soon :)
+
+Thanks!
+
+Cs.
+
+On Sat, Nov 8, 2025 at 1:57=E2=80=AFAM Andre Przywara <andre.przywara@arm.c=
+om> wrote:
+>
+> On Thu, 11 Sep 2025 21:29:36 +0200
+> Horv=C3=A1th Csaba <horvathcsabalaszlo@gmail.com> wrote:
+>
+> > Hi,
 > >
-> > Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
->=20
-> Thank you very much! I have seen a lot of feedback from you about the
-> sun4i driver. Would you like to become the maintainer of the driver?
-
-As a Allwinner (sunxi) maintainer, it is somehow implied that I help with
-reviewing such drivers, right?
-
-However, while I never used sun4i_can driver, I know CAN protocol well
-as I work with SJA1000 compatible controllers at work, so I can help with
-maintaining it.
-
-Best regards,
-Jernej
-
-
+> > Thanks!
+> > Strange, as i tried to compile mainline kernel half a year ago, but it
+> > had no support neither to display or the power chip. I don't even know
+> > what needs to be selected in the config in order to get them working.
+>
+> I guess this is your problem: you are trying to compile a custom kernel
+> with apparently a made-up config, which isn't easy. As you figured, you
+> might miss many things, so it's best to use a well-known config as a
+> base, either sunxi_defconfig, multi_v7_defconfig, or probably the best:
+> the config from a distro kernel. The latter typically have all
+> drivers compiling as a module, so it would be able to load what it
+> needs automatically.
+>
+> But for a first experiment sunxi_defconfig should be alright,
+> especially for old SoCs, and compiles most things into the kernel, so
+> you don't need to mess with modules. You might just run into issues
+> with distros, though, as you might miss some (new) options there.
+>
+> Regarding cpufreq: that indeed requires a bunch of drivers to all work
+> (for instance a thermal sensor: CONFIG_MFD_SUN4I_GPADC), so try
+> sunxi_defconfig. To avoid running too hot quickly, you can lower the
+> initial frequency in U-Boot (CONFIG_SYS_CLK_FREQ), also you might want
+> to lower the initial voltage, for more power savings:
+> CONFIG_AXP_DCDC3_VOLT. Try 720 MHz at 1.1V, or 480 MHz at 1V, to be on
+> the safe side.
+>
+> If you get it booted with that, scan dmesg for PMIC messages, or check
+> /sys/kernel/debug/regulator/regulator_summary. Messages about dummy
+> supplies in dmesg are normal, when there are no port supplies in the
+> DT, and are not fatal.
+>
+> In general, to find a driver for a certain device:
+> $ git grep x-powers,axp221 drivers/
+> ...
+> drivers/mfd/axp20x-i2c.c:       { .compatible =3D "x-powers,axp221", .dat=
+a =3D (void *)AXP221_ID },
+> ...
+> $ git grep axp20x-i2c.o drivers/mfd/Makefile
+> drivers/mfd/Makefile:obj-$(CONFIG_MFD_AXP20X_I2C)       +=3D axp20x-i2c.o
+>                            ^^^^^^^^^^^^^^^^^^^^^
+> Specifically the AXP uses several driver files, make sure you get all
+> the options. Refer to dmesg and /sys/kernel/debug/devices_deferred to
+> find missing drivers.
+>
+> Hope that helps for a first step, please come back with more specific
+> information and questions, if needed.
+>
+> Cheers,
+> Andre
+>
+> > (Tried to compile numerous displays in it, but did not help.)
+> > Also, the AXP22x is referenced in the dts, and in the guide, there are
+> > some lines to add to the U-Boot config, but nothing to the kernel. And
+> > of course, does not work.
+> >
+> > So if anyone has any clue what to do (mostly what to compile in), i'll
+> > be thankful - i have done some kernel compiling before, but not an
+> > expert. Mostly not in devicetree objects. (It would be enough to have
+> > a stock kernel and OS to boot, as the device will be only a character
+> > display.)
+> >
+> > Thanks :)
+> >
+> > On Wed, Sep 10, 2025 at 6:33=E2=80=AFPM Subair Mullappilly <msubair@hot=
+mail.com> wrote:
+> > >
+> > > Hi
+> > >
+> > > A31 has already upstream support,
+> > >
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
+ee/arch/arm/boot/dts/allwinner?h=3Dv6.17-rc5
+> > >
+> > > your tablet device tree is already there, use upstream kernel, and it
+> > > has support for display,
+> > >
+> > > i never used a31 chip, but used r40,a20 etc..
+> > >
+> > > Subair
+> > >
+> > > On 9/10/25 20:24, Horv=C3=A1th Csaba wrote:
+> > > > Hi,
+> > > >
+> > > > I'm building a wireless display on a Colorfly e708q1 tablet. This i=
+s
+> > > > an A31s device, supported by Linux-Sunxi.
+> > > > I have managed to install Arch and get Wifi with an 5.x (stock)
+> > > > kernel, because with newer kernels compiled according to the guide =
+at
+> > > > https://linux-sunxi.org/Colorfly_e708q1 i had no display.  Debian a=
+lso
+> > > > works, but the device overheats, or freezes because of other cause.
+> > > >
+> > > > With this kernel, the only problem is that the AXP20x power control=
+ler
+> > > > is not working, therefore the device is very hot. I could not find =
+any
+> > > > information about how to get the AXP working. Basically i have no B=
+AT
+> > > > device, or any trace of working power management in the /dev or /sy=
+s.
+> > > >
+> > > > Can someone please guide me how to get this working...?
+> > > >
+> > > > Thanks in advance :)
+> > > >
+> > > > Cs.
+> > > >
+> >
+>
