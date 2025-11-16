@@ -1,201 +1,105 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4517A2FFDDF
-	for <linux-sunxi@lists.linux.dev>; Sat, 15 Nov 2025 17:42:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B934EEC3;
+	Sun, 16 Nov 2025 07:28:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763228568; cv=none; b=jOEbNXagygRcWrnnIAxAvPgWjzDBZc0ADjMwtB/K7J2zX01DRCIogvvJsFSuGgdEt4Kkyb+msRNpMRHlLHzlzo/1JRe6/XezKij9pgtpiKOKh+YHyZczExs+XvMumjAI8+u0HAikoPDlI5qWP7UPZOcJ3DyYu25t3+d19vJDl4o=
+	t=1763278092; cv=none; b=Y2DhDLOnh1ckhF6xIcGmr4QJUy/dsF9z4viST9J5n56PQynqWauBI1etY9tuRs0B3I6tCMG9g/fEM9+DebVAycmwkFnq5x3+92vLeiLH3r1xv0c1/UbUR1EeEoxuu+6SgwRkH5tkju6u+fTT206Qrijr+QdC/aTm+g8wdM/wVqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763228568; c=relaxed/simple;
-	bh=s+S9pW5x//ou7X1wP3bi3A8Ps+6qeGc9acdcWBpHbU0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UsyyppzJfffWrTLwnXbayK0+KJBUIrkIgHfxg/ciWzlmSjhzGM5eKMOY009qBe6A286V82FTlYZgBOm3npkMznH6rAkjFUCu9CwywopuG708NU75ZGUF3E3KvBiUEkh0RSxIea5xbAzCXnVyDkGBpQmqdoprWXAQVRoMNvi/TRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b735e278fa1so407050366b.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 15 Nov 2025 09:42:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763228564; x=1763833364;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iS8st6S4NEhfwQi2ADWQ0RHyYWa8wB83L+ih+AMC2co=;
-        b=rJ3cEzL9/w5ZUktr7lo6ezFV00gEMXMPVg9WzttnutjmaSGUME79mG/yOKwi5LlDHV
-         qRp7sTv5jyWDVDfnTaPFhVI7qbW8hBx60RBIMiZiVbKBohdzlRpMRNdOvIZKktYVEg1v
-         9CDoq1TcZjR03FJHyfDUM1878+Im2kPjucsek/wUmDA8Glpt40M1FYEf4vakP2dgvfom
-         3AesYShHuA00rY/nfB3g1ACDo5qeaIzKmLBQ95al0A6N4kuKDgSwTktOyDz6FUrWM0F3
-         +ZrsfCWT/O+5VQsh+4GfQhZsMADLznG8KnqK/PHXQa1bF2V5WGatsVftkKA5y7i6/NAj
-         Hrhg==
-X-Forwarded-Encrypted: i=1; AJvYcCUZCsrFOQpVjufv8KVJUrhYIScJh0M7W5F37Gx2KoenRf/U9+VltzSytH52E8FRMo4a/o2K8P+6lI6z1g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzR6obG6nJ8GdcxEUhCy+8sCLWbZCaYAN86r3Qf3QZRyPRi5Cdm
-	ozPHQljXfq8mIQzjK/zlCyaHK79fFj6/Ljl6/9ybgGvcYvkzqBrn9JZqrhLqASZu3+k=
-X-Gm-Gg: ASbGncsWlhVMF9+5XnItxP3sl0SebTkhXz7+w9r0AKwm7cMDmn7BS3odLmxl7bzOO2g
-	M288QnR2aThfkpvQkbD7rBOUkiwnCf+p9j/ZJRqs9HOGLpZPkRXnvO0taP2JTI3qkAaCxZDJo1k
-	uD0YBusYQYISHKCVAdneiDGFe8INIVpetupCqvI8a5afh2xVCrkUz2fZpeUCEKNepMlrNphtfLt
-	wQTiGddOEtJNZeGCUxiQsWEolJ418cL0sKqrUnLFkhi4oUbAGDvc1RyA9/zJjwODPOsIxy+g2c9
-	3dPFdVj1A6JSHBsJvNSKUv1Gefonkt7+8AFqVtP9dVT/EOXNTm5C1i5+AIxbnPl/T/oFYFaGRG9
-	56lKag/A6dkLc6oFbx10GW6VNXWwY0hcX53sLYLLQuhEtae5/to+gY3sbuRpCkWi00QBMuqcFQJ
-	K8v7yVLLb1tHdj1hQgNTIrDmqj8aWJBCyupoevkdo=
-X-Google-Smtp-Source: AGHT+IHXNlMp9Vcwbp4moX0E3jRb4aHIdr9NH2Zu3HPqeTsw55s6NnNIgf9lOwvUM59ZIEiVrNGS/g==
-X-Received: by 2002:a17:907:3f0a:b0:b6d:565f:7862 with SMTP id a640c23a62f3a-b736786c793mr737814166b.14.1763228563954;
-        Sat, 15 Nov 2025 09:42:43 -0800 (PST)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com. [209.85.218.44])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fb11d94sm655912066b.30.2025.11.15.09.42.43
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 15 Nov 2025 09:42:43 -0800 (PST)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b737c6c13e1so126371866b.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 15 Nov 2025 09:42:43 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXbsudqfH91OHquaO1Qvb1uakFRAeXSv39dqvh51rE8PRcCh3DHtVrgX8JqKLeOD00+8d8Anzks+f83oQ==@lists.linux.dev
-X-Received: by 2002:a05:651c:41d5:b0:37a:4c29:3a90 with SMTP id
- 38308e7fff4ca-37babac1aa5mr18627811fa.0.1763228257141; Sat, 15 Nov 2025
- 09:37:37 -0800 (PST)
+	s=arc-20240116; t=1763278092; c=relaxed/simple;
+	bh=qogSDDXcShGgVAm0p/uLf75a5Ve5231bqdzgHBF/ApA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=V/Z4dGqNL+iiz9ZyAWOgQCUhv6rUNE9B9nzMfdFdLQHJlON3VnmiK4Kw2qQOOA12YKceMYLVuvnH2gHsG4OyMjdXNbLbxvWv33NFmo7BZVbgvP9fVxIyQTPklAhcYb28GmYr32UqlL80MiWjQJnDVf5uwvR8ggWQaBhNzCBODsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NZsUNiyB; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NZsUNiyB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDE7DC4CEF5;
+	Sun, 16 Nov 2025 07:28:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763278090;
+	bh=qogSDDXcShGgVAm0p/uLf75a5Ve5231bqdzgHBF/ApA=;
+	h=Date:From:To:Cc:Subject:From;
+	b=NZsUNiyBC886qeFVAY20lNsFzBEIVP5agxbfWIZVkDAuRdPUYFHHli9oUGivoTgSO
+	 VvwN+y1rk72t3Q8kmSP6sarUCfVwphNYHKDou1BF8FOM2p3UWgHLFWA1PhnNTyWFoZ
+	 c7mt+blf2sREBnNS9k/igEXAMIP1C/sCt4e2fn33EjdFlx1oVlEl/p85LuHpdgWtvC
+	 WJ8jYKgBqtlxbfkVtOnqc2iAVz13DbHb/nvpJtS659uFgLEZm74R3MoItHzdBRHhny
+	 XuzTpM0ipyua1FiUkPlvqi9Km8eMwuj74gu9xSV59bjgN5nlLsVc80vJbQ21ttIxHF
+	 o2rgDbsv3EAmQ==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 696E95FE35; Sun, 16 Nov 2025 15:28:07 +0800 (CST)
+Date: Sun, 16 Nov 2025 15:28:07 +0800
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Stephen Boyd <sboyd@kernel.org>
+Cc: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
+	linux-clk@vger.kernel.org
+Subject: [GIT PULL] Allwinner clock fixes for 6.18
+Message-ID: <aRl9B9SH9bVxcORm@wens.tw>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251115141347.13087-1-jernej.skrabec@gmail.com> <20251115141347.13087-4-jernej.skrabec@gmail.com>
-In-Reply-To: <20251115141347.13087-4-jernej.skrabec@gmail.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Sun, 16 Nov 2025 01:37:24 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64xOrLzPYNOfFNFfPckR8EUF_U6xY0J_a3G7b0Ymb4OnA@mail.gmail.com>
-X-Gm-Features: AWmQ_bmhcY2-o8gJRo_3ltGzVFP1TpTD5csESojSsWw724bLMcf3HNL8i2V4XHQ
-Message-ID: <CAGb2v64xOrLzPYNOfFNFfPckR8EUF_U6xY0J_a3G7b0Ymb4OnA@mail.gmail.com>
-Subject: Re: [PATCH 3/7] clk: sunxi-ng: de2: Export register regmap for DE33
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: samuel@sholland.org, mripard@kernel.org, maarten.lankhorst@linux.intel.com, 
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, mturquette@baylibre.com, 
-	sboyd@kernel.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Nov 15, 2025 at 10:14=E2=80=AFPM Jernej Skrabec
-<jernej.skrabec@gmail.com> wrote:
->
-> DE33 clock pre-set plane mapping, which is not something that we want
-> from clock driver. Export registers instead, so DRM driver can set them
-> properly.
->
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->  drivers/clk/sunxi-ng/ccu-sun8i-de2.c | 53 ++++++++++++++++++++++++++--
->  1 file changed, 50 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c b/drivers/clk/sunxi-ng/=
-ccu-sun8i-de2.c
-> index a6cd0f988859..2841ec922025 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-> @@ -6,9 +6,11 @@
->  #include <linux/clk.h>
->  #include <linux/clk-provider.h>
->  #include <linux/io.h>
-> +#include <linux/mfd/syscon.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/platform_device.h>
-> +#include <linux/regmap.h>
->  #include <linux/reset.h>
->
->  #include "ccu_common.h"
-> @@ -250,6 +252,41 @@ static const struct sunxi_ccu_desc sun50i_h616_de33_=
-clk_desc =3D {
->         .num_resets     =3D ARRAY_SIZE(sun50i_h5_de2_resets),
->  };
->
-> +/*
-> + * Add a regmap for the DE33 plane driver to access plane
-> + * mapping registers.
-> + * Only these registers are allowed to be written, to prevent
-> + * overriding clock and reset configuration.
-> + */
-> +
-> +#define SUN50I_DE33_CHN2CORE_REG 0x24
-> +#define SUN50I_DE33_PORT02CHN_REG 0x28
-> +#define SUN50I_DE33_PORT12CHN_REG 0x2c
-> +
-> +static bool sun8i_de2_ccu_regmap_accessible_reg(struct device *dev,
-> +                                               unsigned int reg)
-> +{
-> +       switch (reg) {
-> +       case SUN50I_DE33_CHN2CORE_REG:
-> +       case SUN50I_DE33_PORT02CHN_REG:
-> +       case SUN50I_DE33_PORT12CHN_REG:
-> +               return true;
-> +       default:
-> +               return false;
-> +       }
-> +}
-
-Since the registers are contiguous, I think it makes a bit more sense
-to use the .rd_table and .wr_table. A bonus is that the check can be
-inlined in the core instead of calling a function pointer.
-
-> +static const struct regmap_config sun8i_de2_ccu_regmap_config =3D {
-> +       .reg_bits       =3D 32,
-> +       .val_bits       =3D 32,
-> +       .reg_stride     =3D 4,
-> +       .max_register   =3D 0xe0,
-
-None of the registers past SUN50I_DE33_PORT12CHN_REG are accessible,
-so we should probably just put that here.
-
-> +
-> +       /* other devices have no business accessing other registers */
-> +       .readable_reg   =3D sun8i_de2_ccu_regmap_accessible_reg,
-> +       .writeable_reg  =3D sun8i_de2_ccu_regmap_accessible_reg,
-> +};
-> +
->  static int sunxi_de2_clk_probe(struct platform_device *pdev)
->  {
->         struct clk *bus_clk, *mod_clk;
-> @@ -303,13 +340,23 @@ static int sunxi_de2_clk_probe(struct platform_devi=
-ce *pdev)
->         }
->
->         /*
-> -        * The DE33 requires these additional (unknown) registers set
-> +        * The DE33 requires these additional plane mapping registers set
->          * during initialisation.
->          */
->         if (of_device_is_compatible(pdev->dev.of_node,
->                                     "allwinner,sun50i-h616-de33-clk")) {
-> -               writel(0, reg + 0x24);
-> -               writel(0x0000a980, reg + 0x28);
-> +               struct regmap *regmap;
-> +
-> +               regmap =3D devm_regmap_init_mmio(&pdev->dev, reg,
-> +                                              &sun8i_de2_ccu_regmap_conf=
-ig);
-> +               if (IS_ERR(regmap)) {
-> +                       ret =3D PTR_ERR(regmap);
-> +                       goto err_assert_reset;
-> +               }
-> +
-> +               ret =3D of_syscon_register_regmap(pdev->dev.of_node, regm=
-ap);
-
-dev_of_node(&pdev->dev) instead of directly accessing the member.
-IIRC this is the new preferred style.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="C4VOJFtnijsWYGmh"
+Content-Disposition: inline
 
 
-Thanks
-ChenYu
+--C4VOJFtnijsWYGmh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> +               if (ret)
-> +                       goto err_assert_reset;
->         }
->
->         ret =3D devm_sunxi_ccu_probe(&pdev->dev, reg, ccu_desc);
-> --
-> 2.51.2
->
->
+The following changes since commit 3a8660878839faadb4f1a6dd72c3179c1df56787:
+
+  Linux 6.18-rc1 (2025-10-12 13:42:36 -0700)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-clk-fixes-for-6.18
+
+for you to fetch changes up to 2050280a4bb660b47f8cccf75a69293ae7cbb087:
+
+  clk: sunxi-ng: sun55i-a523-ccu: Lower audio0 pll minimum rate (2025-10-23 02:06:47 +0800)
+
+----------------------------------------------------------------
+Allwinner clk fixes for 6.18
+
+Just a couple fixes for the A523 family. A couple clocks are marked as
+critical, and the lower bound of the audio PLL was lowered to match
+the datasheet.
+
+----------------------------------------------------------------
+Chen-Yu Tsai (2):
+      clk: sunxi-ng: sun55i-a523-r-ccu: Mark bus-r-dma as critical
+      clk: sunxi-ng: sun55i-a523-ccu: Lower audio0 pll minimum rate
+
+Jernej Skrabec (1):
+      clk: sunxi-ng: Mark A523 bus-r-cpucfg clock as critical
+
+ drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c | 4 ++--
+ drivers/clk/sunxi-ng/ccu-sun55i-a523.c   | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+--C4VOJFtnijsWYGmh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmkZfQcACgkQOJpUIZwP
+JDD7cxAAuPMK3X2tTDpHIB2v0ywFMrTwyV1VUXlxcEcWvCavy0h4PPJ8yV3+0mFd
+Q0oJRmrTP5z2bX7TvNdtigim9xteb8WHkHD76rLWOjO4zAGoobwglEz7JJ58nvkL
+dkU5JtzTYt8bUHrZM6uPpnfSwRcAGuFnwmm09EqfjC7ef85SLlEjzbiyua5D0qen
+m6E+1D7EmdHHbaCEzi+ANq5wQBa8JyyvaQxmka35j7y/qNYf+Vbbuy+HB0Wrz+3C
+SOv6FO/5KbqEkSdUvfJSz3qIjjpekNr4amxwf+H8qGsiZAXzgZamXJ9dC8RmCwLq
+xJar7fpVV/LaeT+Ry0nXNOdQDkqz2ZAu39GpAOFhXF+iWOLBYLw1pzTPGxda7LuZ
+XmVSyDgs8FQQD5DEVGIRRokRWkM9O05G6fC/glV20Ev5IKaYL9QUzHdoZdlYlAEs
+BXaJYyQPCpTWHQPKYc3/sOHW9f4czbGnr3b/dGLEwagOhGPf1gaHK1if11TgmqFo
+nzZjSKVjBUZyLQv4hH4yWfS5pyJcsLos+rt1MI4iEnJfWq36HUPs/UMFR76SCwmf
+WvZ5U2tr6k5M6UBO9kpOhe78ziU1KXdn6X8HLvmTzLOfz+vQoQKUDaPGa4kaVOqV
+1GwtH2cFBfNMSDsZaKWmZ8siHbVGhsbMAPwfquWnReTLrxMxdjo=
+=aiiO
+-----END PGP SIGNATURE-----
+
+--C4VOJFtnijsWYGmh--
