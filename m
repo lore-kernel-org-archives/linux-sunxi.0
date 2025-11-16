@@ -1,39 +1,39 @@
 Received: from s2.avantea.pl (s2.avantea.pl [46.242.128.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78CBF2D9EE7;
-	Sun, 16 Nov 2025 13:22:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A80AB2F60A7;
+	Sun, 16 Nov 2025 13:25:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.242.128.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763299359; cv=none; b=dVtm4QckH1zC/9Oo6T0xcJbW4u32o0p52dzX2ViGr07IYBQX1Put4E/i1E776o1Gf4uYFjMQPNpdbKcmGCfofgwszm8CkoVNXzlvG8jf8Z+yju2xhP5/x/rDFgoOy8bfdzyUP/CAMsPuIwccTJtFE+oYxEMwjEIglv+GFbgzuPM=
+	t=1763299522; cv=none; b=muEdWXgApfS1cisldJJTlD4Gu46wJsO0LV1SeIzd0TlAoGa2d3LvaOfca/aLhenk2EHCM+L7gJt6RZl5meLTr/KsO+Iasf4lvUKLErjAk1F7L1yo6Ri2dJ2ZB/WkXqG36P7SsXaH6tPOq1eK2pmHWiA+/v514A1pBDKOw7AaWy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763299359; c=relaxed/simple;
-	bh=YyCg/ZEBdJ4y/5W/Mtx4/UJxwse5B3iGLQ0P7rxO+IU=;
+	s=arc-20240116; t=1763299522; c=relaxed/simple;
+	bh=g47VNxOuIRVfIjJ9Gd6MyaohN5b5SV9VKZlky0fDxHc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cZjbJI90q75f4Qq7wKXLuWTAwH2qL9psArQ+FvsFasd2FxRYeLXurncb23NVp2KpInQikeoiwElRFQTDFUaAq+5vnNvRLvkiTPHIQ5giItJR/ZVKad3ywH1lEIf6LF9uGC2ecF+xOmi6OODwwEunZL+eMa1oWHHBzFhu/FQTvAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=szczodrzynski.pl; spf=pass smtp.mailfrom=szczodrzynski.pl; dkim=pass (2048-bit key) header.d=szczodrzynski.pl header.i=@szczodrzynski.pl header.b=bMtB0Qg/; arc=none smtp.client-ip=46.242.128.95
+	 MIME-Version:Content-Type; b=kyQEpnqFAehmwKAtXODhkcnpN3krX+EPYS5dTm0RMxHAox4dTEbBOXjUKmzAWGkCQV4xVwbg1Skl+EnfrdXTVwEuo5gVU867IfOE3fKnRuPr9mE2IVCm6OvvU+iwES9/9Yy5DgkwgarJBdaoptegH8oeBT7KF7nlLZAbkqBpAcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=szczodrzynski.pl; spf=pass smtp.mailfrom=szczodrzynski.pl; dkim=pass (2048-bit key) header.d=szczodrzynski.pl header.i=@szczodrzynski.pl header.b=oqYIW28M; arc=none smtp.client-ip=46.242.128.95
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=szczodrzynski.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szczodrzynski.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=szczodrzynski.pl header.i=@szczodrzynski.pl header.b="bMtB0Qg/"
+	dkim=pass (2048-bit key) header.d=szczodrzynski.pl header.i=@szczodrzynski.pl header.b="oqYIW28M"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=szczodrzynski.pl; s=x; h=Content-Transfer-Encoding:Content-Type:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
 	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=ALqrvYx16IgQIglbpOnwhVRORNfwDsxM2tJC2QOGjhQ=; b=bMtB0Qg/1+SsHyMo3tyeEyYGtI
-	nf4o+cbragiw/zKK0FphHMOpRJLSRcqI8fBYHJrhQIx8uUQpO9ygpW0MiJgNsapUrni94RTM2friZ
-	eKZPqZTyySpbVNSdH4crYAkVFEpggWtlSfyH8hFwb7TAEldSnP0qGWNgG8IkROR7yyvmG7AzJdVUU
-	xnOafJHM++YT5PkOVfrAKnOHqJqooeuXUNpEH2wMxliQy/KiaAqHdjz7JkAyZAdx0dKawY/b2/Q79
-	To9wceIfxw19SgOKhIAKB8UXnGeo6HI4uDxpOUwCSPN+c6C3uSRKzgxHOvLQNE3VQecsGzGZPqhvA
-	hp9vdaCQ==;
+	bh=BPO9NrD7t7ozHNmv9SwKBa5YjnO0HgIRT0temEkfh70=; b=oqYIW28MTYchaus5P4hPdqBMcw
+	8w9RZoiGHzBso3Fy8hSBWffJ6uTQq8OC61xOZXDkdr8db5Z3qY3ZKZVVjkv9hyHc0lTpmfM9zR3I/
+	dD+Lx1poqOVYaSfouhdkmSymdGihzeTgYPajNIlem8qvtBZ7J5FN9nL1B6p1d7E5tUPxF2kUoucox
+	U9vjnQYVSGknlAKuGjUMHnlw0e4khAKvVLjhJKBDojgl3mmMQgVbTajBVPmfUeAmSt9gMnNGH0dxH
+	apBQeVCOQbM2ByyMp6Q5t2vD0DS/M8OXoZFAnZ+AfLCtD9LJt2MQSnh3O1rbQecCAzl03U+pvtNjO
+	lPlC6zwA==;
 Received: from [62.171.184.96] (helo=buildhost.contaboserver.net)
 	by s2.avantea.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
 	(Exim 4.98.1)
 	(envelope-from <kuba@szczodrzynski.pl>)
-	id 1vKcfw-0000000FW4E-1LDX;
-	Sun, 16 Nov 2025 14:20:16 +0100
+	id 1vKckk-0000000FWTF-2WDU;
+	Sun, 16 Nov 2025 14:25:14 +0100
 From: =?UTF-8?q?Kuba=20Szczodrzy=C5=84ski?= <kuba@szczodrzynski.pl>
 To: Maxime Ripard <mripard@kernel.org>,
 	Samuel Holland <samuel@sholland.org>,
@@ -55,9 +55,9 @@ Cc: David Airlie <airlied@gmail.com>,
 	dri-devel@lists.freedesktop.org,
 	parthiban@linumiz.com,
 	paulk@sys-base.io
-Subject: [PATCH v2 0/6] drm/sun4i: Support LVDS on D1s/T113 combo D-PHY
-Date: Sun, 16 Nov 2025 14:18:47 +0100
-Message-Id: <20251116131853.440863-1-kuba@szczodrzynski.pl>
+Subject: [PATCH v2 5/6] riscv: dts: allwinner: d1s-t113: Add D-PHY to TCON LCD0
+Date: Sun, 16 Nov 2025 14:25:02 +0100
+Message-Id: <20251116132503.441015-1-kuba@szczodrzynski.pl>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250221161751.1278049-1-kuba@szczodrzynski.pl>
 References: <20250221161751.1278049-1-kuba@szczodrzynski.pl>
@@ -71,42 +71,29 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Authenticated-Id: kuba@szczodrzynski.pl
 
-Some Allwinner chips (notably the D1s/T113 and the A100) have a "combo
-MIPI DSI D-PHY" which is required when using single-link LVDS0. The same
-PD0..PD9 pins are used for either DSI or LVDS.
+The sun4i TCON needs a reference to the D-PHY in order to support LVDS
+on Allwinner D1s/T113.
 
-Other than having to use the combo D-PHY, LVDS output is configured in
-the same way as on older chips.
+Add phys and phy-names to sunxi-d1s-t113 common device tree.
 
-This series enables the sun6i MIPI D-PHY to also work in LVDS mode. It
-is then configured by the LCD TCON, which allows connecting a
-single-link LVDS display panel.
+Signed-off-by: Kuba Szczodrzyński <kuba@szczodrzynski.pl>
+---
+ arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Changes in v2:
-- Applied code formatting changes from review comments
-- Changed "dphy" to "combo-phy"
-- Made the LVDS setup/teardown functions abort early in case of error
-  (adding a proper return value would require changes in several levels
-   of caller functions; perhaps could be done in a separate patch)
-- Added the PHY properties to DT bindings
-- Renamed lvds0_pins to lcd_lvds0_pins
-- Rebased on top of drm/misc/kernel/for-linux-next
-
-Kuba Szczodrzyński (6):
-  phy: allwinner: phy-sun6i-mipi-dphy: Support LVDS in combo D-PHY
-  drm/sun4i: Support LVDS using MIPI DSI combo D-PHY
-  drm/sun4i: Enable LVDS output on sun20i D1s/T113
-  dt-bindings: display: sun4i: Add D1s/T113 combo D-PHY bindings
-  riscv: dts: allwinner: d1s-t113: Add D-PHY to TCON LCD0
-  riscv: dts: allwinner: d1s-t113: Add LVDS0 pins
-
- .../display/allwinner,sun4i-a10-tcon.yaml     |  6 ++
- .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 11 +++
- drivers/gpu/drm/sun4i/sun4i_tcon.c            | 50 +++++++++++++
- drivers/gpu/drm/sun4i/sun4i_tcon.h            |  6 ++
- drivers/phy/allwinner/phy-sun6i-mipi-dphy.c   | 70 ++++++++++++++++++-
- 5 files changed, 141 insertions(+), 2 deletions(-)
-
+diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+index 63e252b44..78aa61607 100644
+--- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
++++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+@@ -876,6 +876,8 @@ tcon_lcd0: lcd-controller@5461000 {
+ 			resets = <&ccu RST_BUS_TCON_LCD0>,
+ 				 <&ccu RST_BUS_LVDS0>;
+ 			reset-names = "lcd", "lvds";
++			phys = <&dphy>;
++			phy-names = "combo-phy";
+ 			#clock-cells = <0>;
+ 
+ 			ports {
 -- 
 2.25.1
 
