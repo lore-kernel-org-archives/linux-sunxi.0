@@ -1,100 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from s2.avantea.pl (s2.avantea.pl [46.242.128.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D1833993;
-	Mon, 17 Nov 2025 07:05:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AAEB331224;
+	Mon, 17 Nov 2025 11:08:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.242.128.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763363136; cv=none; b=gIZFZrQQaDlUiMx79h4BmFGJJ3p+1hiJ9jedvtf+CksyTqYJ7KoM6Di5Yfi5DbpEr4fO8PlDLF2xdpypQgFu+aErc1Tm/QArvPzqoLzXJ1NIV611CDt7ABDIPTfMquRiAopATeG0FfcmgmG6CfQloviR58IYQJq/9jj5xmXJaVE=
+	t=1763377736; cv=none; b=MjL1DG1DiWzOXg9D5BKx8qKPCbFM1cacmiV4hZ6nB9ouPavhlK18F4PELlyIopoqjTK8n7dgWd+I4htsOTGExDp8zlE9HQEnXdVWrJP/Toc9WclDmVCCVj2XwH40SF6m4eH0RuTnf273DrQ0/XQsT6w4hoP8DbCFWhTQzNTSyek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763363136; c=relaxed/simple;
-	bh=iU8ROMk83jPncCljG0G/Fsoi2HDIAUbVt2VmcnD6plU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o4rahBHUbjJhqwZJiKOMuwV/fFIVTnaSCQJa8rzDk3yUligOzdL0gNxHr6G7OP6ptUl/j/EJYc8IZXOGbA4FkUr93c/DRBIV1d2+6f2g6p8jYcosVXqRzd1731qnn6RqMy4QNzBBCWf68pohDoOLImlORrMzBJ5FCNMvsr6cchU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zmf+GQm0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763377736; c=relaxed/simple;
+	bh=5vQb0kOt03xdg4mAHFEyfGbNg93voYMkCIDEWmXv3sI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uWWgryWSeK6pZrzjoK9m62DeIgW2e0IJTVX7AeMXfl10iR9R1uqTvbQuq8t+9XSnaRSI0HvrvQZ2zbHuSY2OmYFspuDfOAe21DnY1b4sVPhT2g8gXXlXL0gBAaxNJAxYldD2jF8oy/sgrmJ8n9fxJsyysDiuL7YT9dryn0nWJ2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=szczodrzynski.pl; spf=pass smtp.mailfrom=szczodrzynski.pl; dkim=pass (2048-bit key) header.d=szczodrzynski.pl header.i=@szczodrzynski.pl header.b=NLxuGAVP; arc=none smtp.client-ip=46.242.128.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=szczodrzynski.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szczodrzynski.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zmf+GQm0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 765EBC4CEF5;
-	Mon, 17 Nov 2025 07:05:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763363136;
-	bh=iU8ROMk83jPncCljG0G/Fsoi2HDIAUbVt2VmcnD6plU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Zmf+GQm0pAZ6z6C3arkzoxE5KbyOToef7Sp5DndQnxXr8JmQ3033UwODfZZpK7eMG
-	 hNH2jlwIuNUC5NnJDZINgZJkjsQJmjVDQrUIWEvPazC8bT+gOyaYKNFP8Uis24UXEt
-	 mU5oJ0PrmJNp25ZaImcMpp9pIDc8xskK7aEelL5VGWSuUeOnhVqU2YCiwbVsYM36cB
-	 +17Rqg5eybYkDTX3XKBekgImKsuhhWCgQs0k0isOYITGYUfeEsHwvLyJGwVn6IGefN
-	 4doh0ptX0oiLvP/wADeR//qwwzH01kT6exkg/8xtX7yON6lMV/FrtXhlnhvW0RUQWm
-	 qytLrxDJMjTIQ==
-Date: Mon, 17 Nov 2025 08:05:33 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Kuba =?utf-8?Q?Szczodrzy=C5=84ski?= <kuba@szczodrzynski.pl>
-Cc: Maxime Ripard <mripard@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, parthiban@linumiz.com, paulk@sys-base.io
-Subject: Re: [PATCH v3 4/6] dt-bindings: display: sun4i: Add D1s/T113 combo
- D-PHY bindings
-Message-ID: <20251117-faithful-unique-millipede-d8bae5@kuoka>
-References: <20251116134609.447043-1-kuba@szczodrzynski.pl>
- <20251116134943.447443-1-kuba@szczodrzynski.pl>
+	dkim=pass (2048-bit key) header.d=szczodrzynski.pl header.i=@szczodrzynski.pl header.b="NLxuGAVP"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=szczodrzynski.pl; s=x; h=Content-Transfer-Encoding:Content-Type:In-Reply-To
+	:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=5vQb0kOt03xdg4mAHFEyfGbNg93voYMkCIDEWmXv3sI=; b=NLxuGAVPYfKBLjm4HnYWIROAnw
+	vT+06H8WujBGR7lc09kFGCBepd4Dd9c3qIavE9GdezJcI2PEJEwezcKKK9+8gVcPj/joeHBsXFKlo
+	6b8yTpe9dRV7Ix1CMyGZHZ7edl2it8qDxYd+j5zy4ycaCWIw8Es9K/N9Vzd16VBMYtyOox1raf64h
+	tREEzAV2+hHOnQVp3Trjdtk1gN/rF5pjpgoTXx/3a5wzzh6IshemL0ZZSDFazANJhUYF7rzZj4fUC
+	DcIbErlQPnj5VR+V+kMPmZqDsl5mFDpPujp5Q3VDq3qzyhZMy9oiXsFY3mwPFQiVHSL9F3pdl/Hi0
+	JWLoRscg==;
+Received: from d100-116.icpnet.pl ([77.65.100.116] helo=[192.168.0.120])
+	by s2.avantea.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.98.1)
+	(envelope-from <kuba@szczodrzynski.pl>)
+	id 1vKx6F-0000000GvqE-1Xuy;
+	Mon, 17 Nov 2025 12:08:47 +0100
+Message-ID: <a0347d10-475d-4dd2-b53e-ca7905869887@szczodrzynski.pl>
+Date: Mon, 17 Nov 2025 12:08:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20251116134943.447443-1-kuba@szczodrzynski.pl>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/6] dt-bindings: display: sun4i: Add D1s/T113 combo
+ D-PHY bindings
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-phy@lists.infradead.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ parthiban@linumiz.com, paulk@sys-base.io
+References: <20251116134609.447043-1-kuba@szczodrzynski.pl>
+ <20251116134943.447443-1-kuba@szczodrzynski.pl>
+ <20251117-faithful-unique-millipede-d8bae5@kuoka>
+Content-Language: pl
+From: =?UTF-8?Q?Kuba_Szczodrzy=C5=84ski?= <kuba@szczodrzynski.pl>
+Autocrypt: addr=kuba@szczodrzynski.pl; keydata=
+ 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
+In-Reply-To: <20251117-faithful-unique-millipede-d8bae5@kuoka>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-Authenticated-Id: kuba@szczodrzynski.pl
 
-On Sun, Nov 16, 2025 at 02:49:43PM +0100, Kuba Szczodrzy=C5=84ski wrote:
-> The sun4i TCON needs a reference to the D-PHY in order to support LVDS
-> on Allwinner D1s/T113.
->=20
-> Add phys and phy-names to DT bindings.
-
-Do not attach (thread) your patchsets to some other threads (unrelated
-or older versions). This buries them deep in the mailbox and might
-interfere with applying entire sets. See also:
-https://elixir.bootlin.com/linux/v6.16-rc2/source/Documentation/process/sub=
-mitting-patches.rst#L830
-
-
->=20
-> Signed-off-by: Kuba Szczodrzy=C5=84ski <kuba@szczodrzynski.pl>
-> ---
->  .../bindings/display/allwinner,sun4i-a10-tcon.yaml          | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a1=
-0-tcon.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10=
--tcon.yaml
-> index 724d93b91..52589341f 100644
-> --- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.=
-yaml
-> +++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.=
-yaml
-> @@ -115,6 +115,12 @@ properties:
->            - const: edp
->            - const: lvds
-> =20
-> +  phys:
-> +    maxItems: 1
-> +
-> +  phy-names:
-> +    const: combo-phy
-
-Drop phy suffix. Can a "phy" property hold reference to something else
-than phy? You don't need names in the first place, you have only one
-entry.
-
-Best regards,
-Krzysztof
-
+VyBkbml1IDIwMjUtMTEtMTcgb8KgMDg6MDU6MzMsIEtyenlzenRvZiBLb3psb3dza2kgcGlz
+emU6DQoNCj4gT24gU3VuLCBOb3YgMTYsIDIwMjUgYXQgMDI6NDk6NDNQTSArMDEwMCwgS3Vi
+YSBTemN6b2RyennFhHNraSB3cm90ZToNCj4+IFRoZSBzdW40aSBUQ09OIG5lZWRzIGEgcmVm
+ZXJlbmNlIHRvIHRoZSBELVBIWSBpbiBvcmRlciB0byBzdXBwb3J0IExWRFMNCj4+IG9uIEFs
+bHdpbm5lciBEMXMvVDExMy4NCj4+DQo+PiBBZGQgcGh5cyBhbmQgcGh5LW5hbWVzIHRvIERU
+IGJpbmRpbmdzLg0KPiBEbyBub3QgYXR0YWNoICh0aHJlYWQpIHlvdXIgcGF0Y2hzZXRzIHRv
+IHNvbWUgb3RoZXIgdGhyZWFkcyAodW5yZWxhdGVkDQo+IG9yIG9sZGVyIHZlcnNpb25zKS4g
+VGhpcyBidXJpZXMgdGhlbSBkZWVwIGluIHRoZSBtYWlsYm94IGFuZCBtaWdodA0KPiBpbnRl
+cmZlcmUgd2l0aCBhcHBseWluZyBlbnRpcmUgc2V0cy4gU2VlIGFsc286DQo+IGh0dHBzOi8v
+ZWxpeGlyLmJvb3RsaW4uY29tL2xpbnV4L3Y2LjE2LXJjMi9zb3VyY2UvRG9jdW1lbnRhdGlv
+bi9wcm9jZXNzL3N1Ym1pdHRpbmctcGF0Y2hlcy5yc3QjTDgzMA0KDQpJJ2xsIHJlc2VuZCB2
+NCBhcyBhIG5ldyBwYXRjaHNldC4NCg0KPg0KPj4gU2lnbmVkLW9mZi1ieTogS3ViYSBTemN6
+b2RyennFhHNraSA8a3ViYUBzemN6b2Ryenluc2tpLnBsPg0KPj4gLS0tDQo+PiAgIC4uLi9i
+aW5kaW5ncy9kaXNwbGF5L2FsbHdpbm5lcixzdW40aS1hMTAtdGNvbi55YW1sICAgICAgICAg
+IHwgNiArKysrKysNCj4+ICAgMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKQ0KPj4N
+Cj4+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlz
+cGxheS9hbGx3aW5uZXIsc3VuNGktYTEwLXRjb24ueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2
+aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2FsbHdpbm5lcixzdW40aS1hMTAtdGNvbi55YW1s
+DQo+PiBpbmRleCA3MjRkOTNiOTEuLjUyNTg5MzQxZiAxMDA2NDQNCj4+IC0tLSBhL0RvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2FsbHdpbm5lcixzdW40aS1h
+MTAtdGNvbi55YW1sDQo+PiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
+Z3MvZGlzcGxheS9hbGx3aW5uZXIsc3VuNGktYTEwLXRjb24ueWFtbA0KPj4gQEAgLTExNSw2
+ICsxMTUsMTIgQEAgcHJvcGVydGllczoNCj4+ICAgICAgICAgICAgIC0gY29uc3Q6IGVkcA0K
+Pj4gICAgICAgICAgICAgLSBjb25zdDogbHZkcw0KPj4gICANCj4+ICsgIHBoeXM6DQo+PiAr
+ICAgIG1heEl0ZW1zOiAxDQo+PiArDQo+PiArICBwaHktbmFtZXM6DQo+PiArICAgIGNvbnN0
+OiBjb21iby1waHkNCj4gRHJvcCBwaHkgc3VmZml4LiBDYW4gYSAicGh5IiBwcm9wZXJ0eSBo
+b2xkIHJlZmVyZW5jZSB0byBzb21ldGhpbmcgZWxzZQ0KPiB0aGFuIHBoeT8NCg0KV2lsbCBk
+by4NCg0KPiBZb3UgZG9uJ3QgbmVlZCBuYW1lcyBpbiB0aGUgZmlyc3QgcGxhY2UsIHlvdSBo
+YXZlIG9ubHkgb25lDQo+IGVudHJ5Lg0KDQpIb3dldmVyLCBwaHktbmFtZXMgd2FzIGFkZGVk
+IGJlY2F1c2Ugb2YgaG93IG90aGVyIGJpbmRpbmdzIGFyZSBtYWRlLCBzdWNoIGFzICJhbGx3
+aW5uZXIsc3VuNGktYTEwLW11c2IiIChzaW5nbGUgcGh5IGVudHJ5IHdpdGggY29uc3QgbmFt
+ZSkuDQoNClNvIEkgdGhpbmsgaXQgbWFrZXMgc2Vuc2UgdG8ga2VlcCBpdCwgaW4gbGluZSB3
+aXRoIG90aGVyIGRyaXZlcnMuDQoNClJlZ2FyZHMNCkt1YmENCg0KPg0KPiBCZXN0IHJlZ2Fy
+ZHMsDQo+IEtyenlzenRvZg0KPg0K
