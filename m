@@ -1,122 +1,88 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F0B25F7B9
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 Nov 2025 03:33:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21EC62F49EC;
+	Mon, 24 Nov 2025 09:11:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763955194; cv=none; b=U5TlF1B9pj7TxwN8hg9sQ6sXeU0WXfgGTCgNFB7gfkAy87ymgfSEtXLe6I/vE0miBONupZ5UcNqo+JGgWR/n6/OrhMPbKJibnORnF+aZ8xgTognHWkNE20bmBBd/I3qk7jZg7dtncwyJZefbnxOcH9vJHS1PQhJPWtDHBmM4HgQ=
+	t=1763975495; cv=none; b=AWeS5x8gPs+8w5Mz2PrlvK655EwImYNL1dEyMDiNXGfABACQmPZyW/9fLCA2FAgMUHe+10K+CEvVwKCdhPcK8E7Zh2nMeTl25iMed3mivHCpTijDOusdtLn2/0oscFLMb/EL9a1Ja1BNMMf4pvdh1VSlaDs/rVZdoXqvB4y2mtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763955194; c=relaxed/simple;
-	bh=1MLhbNsl5pv53VQ/4YLTdMepQ4rhdKATMUZXuOJXmcQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GT10rPG4yHKg5pNodE22IGEm54Ja35AcZYY+4YybXfbk07EnmOdTJUDSWobgc2k03l0YqUTGHGE4AZsmPD49lzPa4cvJCxu7ar9TCTHTjjZfXRQ4FB5XPLEgGKdnGkeNuz95Bdqw4CKwOZ/Q73Hz7eTAOo1eX8UnFaOjOxXOeN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=C/mvJ0Xw; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1763975495; c=relaxed/simple;
+	bh=kxGpo/egBIFq7+bW7hMJPBwGl+t/HkgquWHWxMcBps0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Vg8ppLvA4mBv8PPyKYR2rSBp83bZh1QvIqiLBKdg3ShSUwVhtEuYFSTgsyamW1Tv68m7N0MMI2hV5v/k+5DMZine/VKTnROZu6xeKCgfN69q2R5yU+IpDSlPuhfBQnqITjVX4wclxeUMX4y4+eUkTNFCXTAuKiFwLXvjXYkatU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ebjjOIGG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="C/mvJ0Xw"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=WnjebnCbyhIJCqYGfT+EMWNZgo8OAm4RZR6/CdfXmyk=; b=C/mvJ0XwsvWfbsvGYuIIzrscD0
-	avq65He/rFXByzKLxCZA7BIBnJRXOLlqr+p1E1nzP3+qXcgdKDktYYwtKrIdqzOF3vKwo9cVynP0+
-	mztNOwN40kijAhpmNpI2Qu67G56TPS4H2tyVqGoTIGUAi/P5qLEVujDkB7w1p2dHn25Iwlwf5RMVy
-	Y6XQORdTy06z8leJ8eCPf0z6pLYNdcMdT2hmgL30rtUxkdmNY8n9ruaLU804jQj4QvcEQMWXxcIpa
-	8X/HP7EU/3tNIT+cLQl+/HB8PmXzXgXYMcWYsjRZQEwhvhhDe8iPGjVh1uA/nKaXdKUpZHenUlfMs
-	REms8JQg==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vNNK2-0000000B25D-0NdQ;
-	Mon, 24 Nov 2025 03:33:02 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: dri-devel@lists.freedesktop.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ebjjOIGG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 218ABC4CEF1;
+	Mon, 24 Nov 2025 09:11:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763975495;
+	bh=kxGpo/egBIFq7+bW7hMJPBwGl+t/HkgquWHWxMcBps0=;
+	h=Date:From:To:Cc:Subject:From;
+	b=ebjjOIGGtmKWVy+EtYu4XZgPXZkbHhaEuF+1cCF7OYJPT3McEyBJRISrruMP4sO+r
+	 9YFgH4eIaDou+bCg2gfG+vBYtPu6GRSvYL/OfIT0+rGM5PZLsqPr8EwIBxzTt7wQLB
+	 PcFE+GkTDeyd4l/X5g968l00EL8JnJZfohYR+fguqP25XxZVa+5MhdeLzw+Hex8xJo
+	 y3U0TrC1lAyGNQB56PHSOfRcmT9qg8PMiRTu5k/nELgEiL+6ofbzJ53DKQWXEKUbP0
+	 LB7ziiPu2Eve/3UydhUfsC6vIGpfFB7AGhviGHSGN9m+CewCec0iNwtCclwr45V2/J
+	 Qm+HhPs6H5yOQ==
+Date: Mon, 24 Nov 2025 18:11:30 +0900
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Corentin Labbe <clabbe.montjoie@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
 	Chen-Yu Tsai <wens@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] drm/sun4i: fix kernel-doc warnings in sunxi_engine.h
-Date: Sun, 23 Nov 2025 19:33:01 -0800
-Message-ID: <20251124033301.2987159-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.52.0
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH][next] crypto: sun8i-ss - Avoid
+ -Wflex-array-member-not-at-end warning
+Message-ID: <aSQhQh1xyp-zauPM@kspp>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Correct the kernel-doc notation, add a missing struct member comment,
-and add a missing "Returns:" function comment to eliminate kernel-doc
-warnings:
+-Wflex-array-member-not-at-end was introduced in GCC-14, and we are
+getting ready to enable it, globally.
 
-Warning: drivers/gpu/drm/sun4i/sunxi_engine.h:116 Incorrect use of
- kernel-doc format: * @mode_set
-Warning: drivers/gpu/drm/sun4i/sunxi_engine.h:125 struct member 'mode_set'
- not described in 'sunxi_engine_ops'
-Warning: drivers/gpu/drm/sun4i/sunxi_engine.h:144 struct member 'list'
- not described in 'sunxi_engine'
-Warning: drivers/gpu/drm/sun4i/sunxi_engine.h:168 No description found
- for return value of 'sunxi_engine_layers_init'
+Move the conflicting declaration to the end of the corresponding
+structure. Notice that `struct ahash_request` is a flexible structure,
+this is a structure that contains a flexible-array member.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+With these changes fix the following warning:
+
+drivers/crypto/allwinner/sun8i-ss/sun8i-ss.h:251:30: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 ---
-Cc: Chen-Yu Tsai <wens@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-sunxi@lists.linux.dev
----
- drivers/gpu/drm/sun4i/sunxi_engine.h |    7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/crypto/allwinner/sun8i-ss/sun8i-ss.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
---- linux-next-20251121.orig/drivers/gpu/drm/sun4i/sunxi_engine.h
-+++ linux-next-20251121/drivers/gpu/drm/sun4i/sunxi_engine.h
-@@ -114,7 +114,7 @@ struct sunxi_engine_ops {
- 	void (*vblank_quirk)(struct sunxi_engine *engine);
- 
- 	/**
--	 * @mode_set
-+	 * @mode_set:
- 	 *
- 	 * This callback is used to set mode related parameters
- 	 * like interlacing, screen size, etc. once per mode set.
-@@ -131,6 +131,7 @@ struct sunxi_engine_ops {
-  * @node:	the of device node of the engine
-  * @regs:	the regmap of the engine
-  * @id:		the id of the engine (-1 if not used)
-+ * @list:	engine list management
-  */
- struct sunxi_engine {
- 	const struct sunxi_engine_ops	*ops;
-@@ -140,7 +141,6 @@ struct sunxi_engine {
- 
- 	int id;
- 
--	/* Engine list management */
- 	struct list_head		list;
+diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss.h b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss.h
+index ae66eb45fb24..3fc86225edaf 100644
+--- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss.h
++++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss.h
+@@ -248,9 +248,11 @@ struct sun8i_ss_hash_tfm_ctx {
+ struct sun8i_ss_hash_reqctx {
+ 	struct sginfo t_src[MAX_SG];
+ 	struct sginfo t_dst[MAX_SG];
+-	struct ahash_request fallback_req;
+ 	u32 method;
+ 	int flow;
++
++	/* Must be last as it ends in a flexible-array member. */
++	struct ahash_request fallback_req;
  };
  
-@@ -163,6 +163,9 @@ sunxi_engine_commit(struct sunxi_engine
-  * sunxi_engine_layers_init() - Create planes (layers) for the engine
-  * @drm:	pointer to the drm_device for which planes will be created
-  * @engine:	pointer to the engine
-+ *
-+ * Returns: The array of struct drm_plane backing the layers, or an
-+ *		error pointer on failure.
-  */
- static inline struct drm_plane **
- sunxi_engine_layers_init(struct drm_device *drm, struct sunxi_engine *engine)
+ /*
+-- 
+2.43.0
+
