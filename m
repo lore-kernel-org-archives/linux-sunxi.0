@@ -1,137 +1,85 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F2A836D513
-	for <linux-sunxi@lists.linux.dev>; Sun, 30 Nov 2025 21:46:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09640241665
+	for <linux-sunxi@lists.linux.dev>; Sun, 30 Nov 2025 22:09:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764539197; cv=none; b=fE+5QBZ86nzY3AMja7TD3KKZOKhPzy2fd3fSHW8TyYszqfw9nQQD/PH6glSXA+oFfrIj8QV1Tg7z04fcE/0jU3XnwFcoOXHDHBmq9ajZGQjTLYDRBgXKd6qZaK+wh3OB1Xknb0pfhmE8yPKaTK7pUjZVOSkRyKgbRL0XxSqlwqs=
+	t=1764540562; cv=none; b=ZiMHj3wtFtUiwxcwmQxROc1xLIYDW0+h3pGdJ5HfP68t8XjTohLWtC9ZBP42jdxAxq2Mh5UL26dUs7YR91wVt8yf1GfElWYl8VXqbO+4tMQ7MFxr/mD9wfVP9yeyTRzDpI8If09UtO2roPn7nksUJGNADqdtZBUqX6SNGe99Am0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764539197; c=relaxed/simple;
-	bh=CFG2W3JtISCVhPCvMYQmLmzdHb0+M97uNT8O8uYdCUE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YHw8E6c2dL6rLV6mIhBnUqWBKpMQQGwti3GzSo69+ihW7Y8tGamzwEHxgkAuE2BXuwVKFVWaleLIGwL2ASCtFod5+1mvOkkMppTbGh0uPAVPwBDttX775rj2hIlnEftjXeHO6PWdv6P5LRRPP1XW4VeDt0no6U5qWN7zDQYzpUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from ofovo.local (unknown [116.232.18.222])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dlan)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id 966BC340FC2;
-	Sun, 30 Nov 2025 21:46:33 +0000 (UTC)
-From: Yixun Lan <dlan@gentoo.org>
-Date: Sun, 30 Nov 2025 21:45:19 +0000
-Subject: [PATCH v2 10/10] sunxi: mmc: enable support for A733
+	s=arc-20240116; t=1764540562; c=relaxed/simple;
+	bh=Ak72vqUqWD7TEZGLUkmoCCSls8wg/A8pKt5EEXR/6Eo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gGTF0G0X4VtW+yQou1qM4FfcWN6hxVWzmukgBKRrd4f7wfteXehuNTiORVTU9Rg9SuWtnITQbHdMROYc+mHcab4BJ0x53A2qOOLOvjMUPH6s0rGMQJk46Dvj3FsuQSus24r7VeZdLTW1KJ7QMbMHMeyI2g86Hs1KocA5NxoxdzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PaswecQ+; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PaswecQ+"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-37a33b06028so32531071fa.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 30 Nov 2025 14:09:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764540559; x=1765145359; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ak72vqUqWD7TEZGLUkmoCCSls8wg/A8pKt5EEXR/6Eo=;
+        b=PaswecQ+tYoRN15ircN4Bsb3dzwgwhwkikfW9/Erzplh/bI1/M9EDBS1SL3bKM4AEt
+         U/ZBH8Vff9/xTqwBeDAv/JiF71BuIFpsowDH60gN4COxJ5PXqqCdUmBN5iqryM1tw6Iy
+         wWGWZPYvuNBi6A/gqC8Z44yyf6BVLTqE8tUOu60RwL+GY8kzYLIEP8/LKSIKgNbG9cLX
+         6eQBt2UAt91mgBzx/91v9US4QGswvcuTjyCJ8RoL8RSNt/3g6+OpUrLyBZdri2KXJedi
+         FEvZHYpeX8SAjKn74C7iwiuzTE/vF84hI3oXLb6T+P4Tz5RBU+pOxqGOc39zkQ3Bo30e
+         0kpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764540559; x=1765145359;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Ak72vqUqWD7TEZGLUkmoCCSls8wg/A8pKt5EEXR/6Eo=;
+        b=LkSEsIfuJnioanub5l0w1vm+4iJvfyZi2vg47t7xHQ7tzMfEbzPbiEQZQap/WXVIkz
+         FW4G50x0JvBcLhZbVtC/nJMijl1I6KzhkGASy7RcswNpMkyLD/HT6DbHqilcUMhVD3dT
+         1jEms79zx0vWUSDzFDqwQgKJsJfsiRO7lv0TalMw1aT8BnaKjjakbJQKXz/RAM+y3DgB
+         rFsaE1PVowj0TtJXzqSROOxjMg2j9J26uhfmaRTYDg/KKsa8fxWT0kGtdEORWc7vu9D1
+         vlmPOB1NAhb0EJeaYJi9JXBDaoGjUNfmpkomx3gDubuC1FbNbOdkfgUQhRRyQ+vHyUpZ
+         cArw==
+X-Forwarded-Encrypted: i=1; AJvYcCVb0GncZSk6qqk0b4BCqU2D8tUHTxsMaYrOw7pmPxETh6YoSe2hPaNXkh6953dhp3oWdhib+ejQsF0/cQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw0y9+zR1PkBU0iWkCfEBwpBMAK1FA+EODsIPgMkt+fOh/EQ0g9
+	FcuhsxN3oSPoEuSBDhlVfRf8aO/GEcFAukzsVRroXciddqP+0/RzkyeMVqqK6K7FHExROol72PH
+	wIrNjxZOUDyrpqIOKFS8n4t8aO57leAs=
+X-Gm-Gg: ASbGncuFu8iWmOcnBtY6Y0HT321PQR1wVajZVXazdJl7ZoQ/Z0vRVvC0+ikIQDJ9lNZ
+	6feXuGuPIFa2GV6k8L6SxzvBJyVS5hBkKPbWCRXd6hrw398lIjS9BF0DW9FO48QJKALoohK033Y
+	if2mH2fCBYjqo72mjjbWkaj6nWgDyOGXOG41xa08xqOcjcC2DQ2z2SqpgMOYfKWOrP6u5xQwnHh
+	btyaClDt3gg0Tlv3HaIx3ea9Z6GUGbjc11UVkjAdve8xF+uj6b/CUsQ1I3x6mD0SzkFL+wOAk9r
+	B9iJ56uIPXWT/n0+3L5ADAuRI4E=
+X-Google-Smtp-Source: AGHT+IEOJcVzq3wJFIH6Qt3VxQ+yrDjwFeeidoppkOQjRoH5ZW2FpUGTT6qw4zk+iCsig3Q4kCWlua5+WpZqK+xwdPU=
+X-Received: by 2002:a05:6512:3d10:b0:595:831d:2308 with SMTP id
+ 2adb3069b0e04-596b4e5298amr8623531e87.1.1764540558808; Sun, 30 Nov 2025
+ 14:09:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251130-01-a733-soc-support-v2-10-18bdd4376fad@gentoo.org>
-References: <20251130-01-a733-soc-support-v2-0-18bdd4376fad@gentoo.org>
-In-Reply-To: <20251130-01-a733-soc-support-v2-0-18bdd4376fad@gentoo.org>
-To: u-boot@lists.denx.de
-Cc: linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, Tom Rini <trini@konsulko.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Paul Kocialkowski <contact@paulk.fr>, Samuel Holland <samuel@sholland.org>, 
- Yixun Lan <dlan@gentoo.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2200; i=dlan@gentoo.org;
- h=from:subject:message-id; bh=CFG2W3JtISCVhPCvMYQmLmzdHb0+M97uNT8O8uYdCUE=;
- b=owEBzQIy/ZANAwAKATGq6kdZTbvtAcsmYgBpLLsV3e4TOAio2hkGQhGNfVTWxMKLkA+S3lxNs
- WnBLz0DYWuJApMEAAEKAH0WIQS1urjJwxtxFWcCI9wxqupHWU277QUCaSy7FV8UgAAAAAAuAChp
- c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0QjVCQUI4QzlDMzF
- CNzExNTY3MDIyM0RDMzFBQUVBNDc1OTREQkJFRAAKCRAxqupHWU277TpkD/9MBrLhkmfp4lRgrK
- /cWR6/XWZvZUOQa7/l1yo29Z2dxesKysW4lFsQQFnYspNaxpdUUut2r7zT1nR+G5Tx9EuH9pag7
- NVJf2MQc06wpiYGLgd3tG8Yi2u421Jauc5rjONVuF/ETVYOPeB8JUkUkNb2w7sjbai2prrDmnv1
- OOeDpAqCHdmBXgRvPcEPWsFIFB8Ahh54n3XR5HRQVqTQwpy6fohBZqh3UEGXml7gG3dnFwVjBUt
- UUBsVg6NMVzYiTVHaMs0xjOfFnZzvlnAVfR680zHu6la2J2lmv4ibUsfjlK9EG0nzAazhrXTtfp
- 3hndRHofIHf4RwSaB1w/9JKiNOLzmkySCLTOcRw0owZxQEFhzc8tF65oqwCmF6292B5rZ+y8u86
- fV//BC39tlRADQHmiyb4PVy2BbXFjc/cQv2CYsjThQYf0gMcJ1rftoAlmPU6HX+CKJeUjs3CTv5
- zPd2RC5Po9RBFP2Iq99QP0oTNuqmIEbYGLxyD0tH/tY9lf7yrhMp2aRzJuFqOMeW91j/wsCpasj
- ufq/sDqNMoJpZXIjYmyzfOZtauhFQRJgp/tqSYySxPx4TpPSLesvs1udmqcGzBNe/nnZR6bCXdD
- zZtjIErltHiJHvRvIOnyXIOdBfsYrmP6zdCUdchjM7wgd6IWK1vQHQiTzGAY4oEP93ZA==
-X-Developer-Key: i=dlan@gentoo.org; a=openpgp;
- fpr=50B03A1A5CBCD33576EF8CD7920C0DBCAABEFD55
+References: <20251130-01-a733-soc-support-v2-0-18bdd4376fad@gentoo.org> <20251130-01-a733-soc-support-v2-6-18bdd4376fad@gentoo.org>
+In-Reply-To: <20251130-01-a733-soc-support-v2-6-18bdd4376fad@gentoo.org>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Sun, 30 Nov 2025 19:09:07 -0300
+X-Gm-Features: AWmQ_bnHvrE5VvClEN731IF4cEfOYkHQKOOLCbxqUd6JrTcAyOXhC5-bZ7cqewk
+Message-ID: <CAOMZO5BG63ndAg7yTdMtBi7nHQjCGcrS9Sr0M5XfAiBkrC-oAA@mail.gmail.com>
+Subject: Re: [PATCH v2 06/10] gpio: a733: add initial support
+To: Yixun Lan <dlan@gentoo.org>
+Cc: u-boot@lists.denx.de, linux-sunxi@lists.linux.dev, 
+	Andre Przywara <andre.przywara@arm.com>, Jagan Teki <jagan@amarulasolutions.com>, 
+	Tom Rini <trini@konsulko.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Paul Kocialkowski <contact@paulk.fr>, Samuel Holland <samuel@sholland.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Minor clock adjustment for new A733 MMC controller, the SMHC0_CLK_REG
-start at offset 0x400, and with step size of 0x10.
+On Sun, Nov 30, 2025 at 6:47=E2=80=AFPM Yixun Lan <dlan@gentoo.org> wrote:
 
-Signed-off-by: Yixun Lan <dlan@gentoo.org>
----
- drivers/mmc/sunxi_mmc.c | 21 ++++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
+> +config SUNXI_NEW2_PINCTRL
 
-diff --git a/drivers/mmc/sunxi_mmc.c b/drivers/mmc/sunxi_mmc.c
-index e28c81afffe..689bec6693c 100644
---- a/drivers/mmc/sunxi_mmc.c
-+++ b/drivers/mmc/sunxi_mmc.c
-@@ -112,6 +112,9 @@ static int mmc_set_mod_clk(struct sunxi_mmc_priv *priv, unsigned int hz)
- 			if (priv->mmc_no == 2)
- 				pll_hz *= 2;
- 		}
-+
-+		if (IS_ENABLED(CONFIG_MACH_SUN60I_A733))
-+			pll_hz /= 3;
- 	}
- 
- 	div = pll_hz / hz;
-@@ -167,7 +170,8 @@ static int mmc_set_mod_clk(struct sunxi_mmc_priv *priv, unsigned int hz)
- 	}
- 
- 	/* The A523 has a second divider, not a shift. */
--	if (IS_ENABLED(CONFIG_MACH_SUN55I_A523))
-+	if (IS_ENABLED(CONFIG_MACH_SUN55I_A523) ||
-+		IS_ENABLED(CONFIG_MACH_SUN60I_A733))
- 		n = (1U << n) - 1;
- 
- 	writel(CCM_MMC_CTRL_ENABLE| pll | CCM_MMC_CTRL_N(n) |
-@@ -661,17 +665,28 @@ static const struct dm_mmc_ops sunxi_mmc_ops = {
- 	.get_cd		= sunxi_mmc_getcd,
- };
- 
--static unsigned get_mclk_offset(void)
-+static unsigned int get_mclk_offset(void)
- {
- 	if (IS_ENABLED(CONFIG_MACH_SUN9I_A80))
- 		return 0x410;
- 
-+	if (IS_ENABLED(CONFIG_MACH_SUN60I_A733))
-+		return 0xd00;
-+
- 	if (IS_ENABLED(CONFIG_SUN50I_GEN_H6) || IS_ENABLED(CONFIG_SUNXI_GEN_NCAT2))
- 		return 0x830;
- 
- 	return 0x88;
- };
- 
-+static unsigned int get_mclk_size(void)
-+{
-+	if (IS_ENABLED(CONFIG_MACH_SUN60I_A733))
-+		return 0x10;
-+
-+	return 0x4;
-+};
-+
- static int sunxi_mmc_probe(struct udevice *dev)
- {
- 	struct mmc_uclass_priv *upriv = dev_get_uclass_priv(dev);
-@@ -707,7 +722,7 @@ static int sunxi_mmc_probe(struct udevice *dev)
- 	ccu_reg = (u32 *)(uintptr_t)ofnode_get_addr(args.node);
- 
- 	priv->mmc_no = ((uintptr_t)priv->reg - SUNXI_MMC0_BASE) / 0x1000;
--	priv->mclkreg = (void *)ccu_reg + get_mclk_offset() + priv->mmc_no * 4;
-+	priv->mclkreg = (void *)ccu_reg + get_mclk_offset() + priv->mmc_no * get_mclk_size();
- 
- 	ret = clk_get_by_name(dev, "ahb", &gate_clk);
- 	if (!ret)
+This name is not very descriptive.
 
--- 
-2.51.2
-
+What about SUNXI_A733_PINCTRL?
