@@ -1,16 +1,16 @@
 Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0D282899
-	for <linux-sunxi@lists.linux.dev>; Sun, 30 Nov 2025 21:46:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B44082899
+	for <linux-sunxi@lists.linux.dev>; Sun, 30 Nov 2025 21:46:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764539189; cv=none; b=hS6e4UsI7Uxqg1riGtJ03/hkhwjWHJLtCu7S+j3lJTC4sPiOVpv4xpPkqpEt/oAqs+Z3XpbLzA9QRL5e+rT54fAFnZpRRZf6nzNR2G6ZxfzNjKobwvK/Qz/pdcvi/OlSOP2m/s48AYQaUxYRQBzh2/Nj34qRMUbfzidY/u+OQ8g=
+	t=1764539191; cv=none; b=WrBiroYywiocXdzy0voTA1rLkXhJ0K+EeJmLThHyI6QaVKTayFkeA1BCuGQ2dYIgAoUweh66o+GG3OWMVjwwoj2O0rw7+yIgfYOIpMin4NGP8VqFYptQRGA8jW+CW025cHgT8Fj+xbaIPL1q5xD5H/v385BhBqrGHtn6UCGs5cE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764539189; c=relaxed/simple;
-	bh=l65N9KQvJJokTTs4TuHmQCP6D/emeZe1k9nXRFb9xKk=;
+	s=arc-20240116; t=1764539191; c=relaxed/simple;
+	bh=FlzJeHxAihu5OmBX62pgxDDlc9SIkR369Lcjy6vm35o=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mJEVZvnL4Xry5wtJ0KBoWtvQTG4odAUWpoB+/LkqnJOyGmGAahyA6gKwMc0j1eUUpz0s2d0yMp1ZuxcbKg39QoB29hwBUXKJu1IpsFHmWwmaDxu6967jABg3kLCILcgUwuULJiFusHU0GDxPHInntr7aRIOpLMq8veaAH+gwMuY=
+	 In-Reply-To:To:Cc; b=YQpFeRL1A8AE0kgsRoxRkj4x7gS6swazCBDEPDu3P4RIryY/78bTQ/X7FKbeWBZSPb3VFl2K1SkHUvs2xf11LbKWvRbg7Zgk/KGTkIavYqoNtjermpTfLBK7u46oQba5WbiIhjHXpP7mpRNLL+FuJnQ54NOI3xV1qYlHK3rSfa0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
@@ -19,11 +19,11 @@ Received: from ofovo.local (unknown [116.232.18.222])
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: dlan)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id 9B0B4340FAB;
-	Sun, 30 Nov 2025 21:46:20 +0000 (UTC)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 1E69B340FC2;
+	Sun, 30 Nov 2025 21:46:26 +0000 (UTC)
 From: Yixun Lan <dlan@gentoo.org>
-Date: Sun, 30 Nov 2025 21:45:15 +0000
-Subject: [PATCH v2 06/10] gpio: a733: add initial support
+Date: Sun, 30 Nov 2025 21:45:17 +0000
+Subject: [PATCH v2 08/10] pmu: axp318w: implement pmic/regulator support
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -32,7 +32,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251130-01-a733-soc-support-v2-6-18bdd4376fad@gentoo.org>
+Message-Id: <20251130-01-a733-soc-support-v2-8-18bdd4376fad@gentoo.org>
 References: <20251130-01-a733-soc-support-v2-0-18bdd4376fad@gentoo.org>
 In-Reply-To: <20251130-01-a733-soc-support-v2-0-18bdd4376fad@gentoo.org>
 To: u-boot@lists.denx.de
@@ -42,161 +42,179 @@ Cc: linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>,
  Paul Kocialkowski <contact@paulk.fr>, Samuel Holland <samuel@sholland.org>, 
  Yixun Lan <dlan@gentoo.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4530; i=dlan@gentoo.org;
- h=from:subject:message-id; bh=l65N9KQvJJokTTs4TuHmQCP6D/emeZe1k9nXRFb9xKk=;
- b=owEBzQIy/ZANAwAKATGq6kdZTbvtAcsmYgBpLLsI9oTZEqS3OJs9iBge9p9IvCfIUmm3K2HD/
- kozsOwCwsaJApMEAAEKAH0WIQS1urjJwxtxFWcCI9wxqupHWU277QUCaSy7CF8UgAAAAAAuAChp
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6728; i=dlan@gentoo.org;
+ h=from:subject:message-id; bh=FlzJeHxAihu5OmBX62pgxDDlc9SIkR369Lcjy6vm35o=;
+ b=owEBzQIy/ZANAwAKATGq6kdZTbvtAcsmYgBpLLsPhIqZPoIirgMdCq9YJq5Pje0UE95rCrpxX
+ evMSDV1wn6JApMEAAEKAH0WIQS1urjJwxtxFWcCI9wxqupHWU277QUCaSy7D18UgAAAAAAuAChp
  c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0QjVCQUI4QzlDMzF
- CNzExNTY3MDIyM0RDMzFBQUVBNDc1OTREQkJFRAAKCRAxqupHWU277V7cD/46rj5w6fHuVPed6E
- urjcC71DM65OF+reoDEZ59QeqGI1k6sM7NjZSJVMJQc1Y9KC1XrHYLiDAvWs6qq0Uklin+C7Ttr
- S0HMb+chWzC4NVcPNtlZ6lanAtHFs/64rbY2Vhze5JFyuLucCqSK0WEMdp7uzLt6MpULeWMjpn2
- UKkxJs7IWmg45xokZn8d4p89hI7m32Vg2Mnb6s76mjM26PBGDFATt9eD4KQbKelJJzrY52ZyGpI
- rbdkVW2DXlu7uC9Sg3Xs+SWuJjSWpDp9X6RUT96Fm7g5WIBD4Xv8RB4gojloEssJeIF2Z+kur0S
- Ij2geZadGofmhbo3AGFrP04DdBd+FTClisXxYzIxR9LNN8r/rhTPDFtPoRNs8EJF0JKqDx6gpfi
- etLUAoM3QJhzAdejrHoU5jCl/52/2oMMR+Nc8wlx24Cx55nXNTRZyAICDwHKyp2U2K14mDFVn18
- qF6zjVidmrQdeIwvwytShujIyo+BKEXLBgpskhX7wYFLX35lDHreq28sNbPK18571RUYtttKui7
- bP56JNTzQGj+wLyG93njR/Ybjc5FwDqIWf5AlCXE2idKYseckVR/w4g6D0ch+CQ49nYDi0//zqK
- +DA7rrerN27yuy+TclSrb5egGUdQ4glhzCaxNfkoTDZjykPW0U6PZwiOfJ6bWQLrE0Nw==
+ CNzExNTY3MDIyM0RDMzFBQUVBNDc1OTREQkJFRAAKCRAxqupHWU277TaXD/9rH1gaVBs4iszluA
+ /sQIbCJQbyhrstQkBeW5GE5uvEwXpcHTnQNtoqg8GNVajsXsIXq1JfVhDS29rQNvaN5cObusJrr
+ ZiJ1kNAl9dCewB04yRRZWhFj5osQS5A8MO52K7yw52Bj2OuKC6Fllz9rN9t2keC5p9JWAZdIBwT
+ wI9UqUQePJjnDiGT//ugu21X/EQa7k7LO9tbN2Fj6OdVRyU04xCCKTAXUKE+ECFmzAoquzFSOeL
+ BZMPGNhUSuaT7RL1dIlI5eUdtKk5H3MLID9feSjdyUhi2xTANAAN1RGboxXMFzHNEW7eYhRz8F/
+ kFGBog9pnP+a1EV0uX05sPCSKZwJDWNExDZR46pDxB8johRswp/yrBZ7mn28dWj3/RFd8O4XWbX
+ ECYHrgVbCYr8wGAbFpmAeo9m3zHrHH+yk+Rpkn3lDomKEPbQ/1DgLoqO/toBhqaXK2vKMOkoiTT
+ GzFMEvKkLVlZ/LHLKReGkaq6L9DsRJHMW4KbFW2ujD2tGRnOjzl4SroNTIir1n0HGb1G96tefVB
+ b4M1Snj2aV53H89nV5efUNrI3bqgey5gFTIymYZUsBdaxp2RS+kCFlqi2BgDXVmsaTd2bWvVEwm
+ EwFwMVe89+YZ66gFiHbpCJq6XQxqcofiBM+MqkFGCCj0Vfw4MjQtSFMgCYGWvYpr8dpg==
 X-Developer-Key: i=dlan@gentoo.org; a=openpgp;
  fpr=50B03A1A5CBCD33576EF8CD7920C0DBCAABEFD55
 
-In A733 SoC, the GPIO IP block has changed its arrangement, so initial
-GPIO base address and bank size need to be adjusted.
+The PMIC is also known as AXP819 in vendor pmu code
 
-Introduce new SUNXI_NEW2_PINCTRL in order to reuse the driver in future.
+For DCDC6, 8, 9, the underlying hardware support more than two levels
+voltage step tuning, but for now only first two levels are implemented
+in this driver, hence highest voltage will be limited at seccond level.
+It actual meets board requirement in current design, and we've verified
+it in Radxa Cubie A7A board.
 
-There is no PA bank exist in A733, but introducing a virtual one as offset
-0x80, and with the bank size 0x80, it will iterate other bank correctly
-starting from PB as offset 0x100.
+Following are detail explanation of voltage tuning stpes for those DCDCs:
+
+DCDC | voltage range  | units | steps | implemented
+ 6   | 0.5   -  1.2   | 10 mV | 71    | Y
+ .   | 1.22  -  1.54  | 20 mV | 17    | Y
+ .   | 1.8   -  2.4   | 20 mV | 31    | N
+ .   | 2.44  -  2.76  | 40 mV | 9     | N
+ --------------------------------------------------
+ 8/9 | 0.5   -  1.2   | 10 mV | 71    | Y
+ .   | 1.22  -  1.84  | 20 mV | 32    | Y
+ .   | 1.9   -  3.4   | 100mV | 16    | N
 
 Signed-off-by: Yixun Lan <dlan@gentoo.org>
 ---
- arch/arm/mach-sunxi/Kconfig |  1 +
- drivers/gpio/Kconfig        |  7 +++++++
- drivers/gpio/sunxi_gpio.c   | 17 ++++++++++++++---
- include/sunxi_gpio.h        | 14 ++++++++++++++
- 4 files changed, 36 insertions(+), 3 deletions(-)
+ drivers/power/Kconfig                   | 10 +++++++
+ drivers/power/pmic/axp.c                |  1 +
+ drivers/power/regulator/axp_regulator.c | 50 +++++++++++++++++++++++++++++++++
+ include/axp_pmic.h                      |  1 +
+ 4 files changed, 62 insertions(+)
 
-diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-index e6b4ac3688b..c3d4e0ab3c8 100644
---- a/arch/arm/mach-sunxi/Kconfig
-+++ b/arch/arm/mach-sunxi/Kconfig
-@@ -561,6 +561,7 @@ config MACH_SUN60I_A733
- 	bool "sun60i (Allwinner A733)"
- 	select ARM64
- 	select SUNXI_GEN_NCAT2
-+	select SUNXI_NEW2_PINCTRL
- 	select FIT
- 	select SPL_LOAD_FIT if SPL
- 	select SUPPORT_SPL
-diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
-index db077e472a8..8a578b872c2 100644
---- a/drivers/gpio/Kconfig
-+++ b/drivers/gpio/Kconfig
-@@ -426,6 +426,13 @@ config SUNXI_NEW_PINCTRL
- 	The Allwinner D1 and other new SoCs use a different register map
- 	for the GPIO block, which we need to know about in the SPL.
+diff --git a/drivers/power/Kconfig b/drivers/power/Kconfig
+index d17337c0c3f..1b06d8a66c7 100644
+--- a/drivers/power/Kconfig
++++ b/drivers/power/Kconfig
+@@ -58,6 +58,7 @@ choice
+ 	default AXP209_POWER if MACH_SUN4I || MACH_SUN5I || MACH_SUN7I
+ 	default AXP221_POWER if MACH_SUN6I || MACH_SUN8I_A23 || MACH_SUN8I_A33 || MACH_SUN8I_R40
+ 	default AXP818_POWER if MACH_SUN8I_A83T
++	default AXP318W_POWER if MACH_SUN60I_A733
+ 	default SUNXI_NO_PMIC if MACH_SUNXI_H3_H5 || MACH_SUN50I || MACH_SUN8I_V3S
  
-+config SUNXI_NEW2_PINCTRL
-+	bool
-+	depends on SUNXI_GPIO
+ config SUNXI_NO_PMIC
+@@ -140,6 +141,14 @@ config AXP818_POWER
+ 	Say y here to enable support for the axp818 pmic found on
+ 	A83T dev board.
+ 
++config AXP318W_POWER
++	bool "axp318w pmic support"
++	select AXP_PMIC_BUS
++	select CMD_POWEROFF
 +	---help---
-+	The Allwinner A733 SoCs use a different register map
-+	for the GPIO block, which we need to know about in the SPL.
++	Select this to enable support for the AXP318W PMIC found on some
++	A733 boards.
 +
- config XILINX_GPIO
- 	bool "Xilinx GPIO driver"
- 	depends on DM_GPIO
-diff --git a/drivers/gpio/sunxi_gpio.c b/drivers/gpio/sunxi_gpio.c
-index 094c45a6927..f6f7d0005ad 100644
---- a/drivers/gpio/sunxi_gpio.c
-+++ b/drivers/gpio/sunxi_gpio.c
-@@ -38,18 +38,26 @@
+ config SY8106A_POWER
+ 	bool "SY8106A pmic support"
+ 	depends on MACH_SUNXI_H3_H5
+@@ -154,6 +163,7 @@ config AXP_I2C_ADDRESS
+ 	depends on ARCH_SUNXI && !SUNXI_NO_PMIC
+ 	default 0x36 if AXP305_POWER
+ 	default 0x36 if AXP313_POWER
++	default 0x36 if AXP318W_POWER
+ 	default 0x30 if AXP152_POWER
+ 	default 0x34
+ 	---help---
+diff --git a/drivers/power/pmic/axp.c b/drivers/power/pmic/axp.c
+index 1204ec00f8d..7d8348b0769 100644
+--- a/drivers/power/pmic/axp.c
++++ b/drivers/power/pmic/axp.c
+@@ -95,6 +95,7 @@ static const struct udevice_id axp_pmic_ids[] = {
+ 	{ .compatible = "x-powers,axp806", .data = AXP806_ID },
+ 	{ .compatible = "x-powers,axp809", .data = AXP809_ID },
+ 	{ .compatible = "x-powers,axp813", .data = AXP813_ID },
++	{ .compatible = "x-powers,axp318w", .data = AXP318_ID },
+ 	{ }
+ };
  
- #define GPIO_DAT_REG_OFFSET	0x10
+diff --git a/drivers/power/regulator/axp_regulator.c b/drivers/power/regulator/axp_regulator.c
+index 7794a4f5d92..34c575e16eb 100644
+--- a/drivers/power/regulator/axp_regulator.c
++++ b/drivers/power/regulator/axp_regulator.c
+@@ -189,6 +189,55 @@ static const struct axp_regulator_plat axp313_regulators[] = {
+ 	{ }
+ };
  
--#define GPIO_DRV_REG_OFFSET	0x14
- 
- /*		Newer SoCs use a slightly different register layout */
- #ifdef CONFIG_SUNXI_NEW_PINCTRL
- /* pin drive strength: 4 bits per pin */
-+#define GPIO_DRV_REG_OFFSET	0x14
- #define GPIO_DRV_INDEX(pin)	((pin) / 8)
- #define GPIO_DRV_OFFSET(pin)	(((pin) % 8) * 4)
- 
- #define GPIO_PULL_REG_OFFSET	0x24
- 
-+#elif CONFIG_SUNXI_NEW2_PINCTRL
-+#define GPIO_DRV_REG_OFFSET	0x20
-+#define GPIO_DRV_INDEX(pin)	((pin) / 8)
-+#define GPIO_DRV_OFFSET(pin)	(((pin) % 8) * 4)
++ /*
++  * Only two level step tuning is implemented for DCDC6, 8, 9
++  * so the voltage below is not support in this driver
++  * DCDC6:   20  (v1.8 - 2.4v), 40 (2.44v - 2.76v)
++  * DCDC8,9: 100 (1.9v - 3.4v)
++  */
++static const struct axp_regulator_plat axp318_regulators[] = {
++	{ "dcdc1", 0x10, BIT(0), 0x12, 0x1f,  1000, 3400,  100, 0 },
++	{ "dcdc2", 0x10, BIT(1), 0x13, 0x7f,  500, 1540,  10, 70 },
++	{ "dcdc3", 0x10, BIT(2), 0x14, 0x7f,  500, 1540,  10, 70 },
++	{ "dcdc4", 0x10, BIT(3), 0x15, 0x7f,  500, 1540,  10, 70 },
++	{ "dcdc5", 0x10, BIT(4), 0x16, 0x7f,  500, 1540,  10, 70 },
++	{ "dcdc6", 0x10, BIT(5), 0x17, 0x7f,  500, 1540,  10, 70 },
++	{ "dcdc7", 0x10, BIT(6), 0x18, 0x7f,  500, 1840,  10, 70 },
++	{ "dcdc8", 0x10, BIT(7), 0x19, 0x7f,  500, 1840,  10, 70 },
++	{ "dcdc9", 0x11, BIT(0), 0x1a, 0x7f,  500, 1840,  10, 70 },
++	{ "aldo1", 0x20, BIT(0), 0x24, 0x1f,  500, 3400, 100, NA },
++	{ "aldo2", 0x20, BIT(1), 0x25, 0x1f,  500, 3400, 100, NA },
++	{ "aldo3", 0x20, BIT(2), 0x26, 0x1f,  500, 3400, 100, NA },
++	{ "aldo4", 0x20, BIT(3), 0x27, 0x1f,  500, 3400, 100, NA },
++	{ "aldo5", 0x20, BIT(4), 0x28, 0x1f,  500, 3400, 100, NA },
++	{ "aldo6", 0x20, BIT(5), 0x29, 0x1f,  500, 3400, 100, NA },
++	{ "bldo1", 0x20, BIT(6), 0x2a, 0x1f,  500, 3400, 100, NA },
++	{ "bldo2", 0x20, BIT(7), 0x2b, 0x1f,  500, 3400, 100, NA },
++	{ "bldo3", 0x21, BIT(0), 0x2c, 0x1f,  500, 3400, 100, NA },
++	{ "bldo4", 0x21, BIT(1), 0x2d, 0x1f,  500, 3400, 100, NA },
++	{ "bldo5", 0x21, BIT(2), 0x2e, 0x1f,  500, 3400, 100, NA },
++	{ "cldo1", 0x21, BIT(3), 0x2f, 0x1f,  500, 3400, 100, NA },
++	{ "cldo2", 0x21, BIT(4), 0x30, 0x1f,  500, 3400, 100, NA },
++	{ "cldo3", 0x21, BIT(5), 0x31, 0x1f,  500, 3400, 100, NA },
++	{ "cldo4", 0x21, BIT(6), 0x32, 0x1f,  500, 3400, 100, NA },
++	{ "cldo5", 0x21, BIT(7), 0x33, 0x1f,  500, 3400, 100, NA },
++	{ "dldo1", 0x22, BIT(0), 0x34, 0x1f,  500, 3400, 100, NA },
++	{ "dldo2", 0x22, BIT(1), 0x35, 0x1f,  500, 3400, 100, NA },
++	{ "dldo3", 0x22, BIT(2), 0x36, 0x1f,  500, 3400, 100, NA },
++	{ "dldo4", 0x22, BIT(3), 0x37, 0x1f,  500, 3400, 100, NA },
++	{ "dldo5", 0x22, BIT(4), 0x38, 0x1f,  500, 3400, 100, NA },
++	{ "dldo6", 0x22, BIT(5), 0x39, 0x1f,  500, 3400, 100, NA },
++	{ "eldo1", 0x22, BIT(6), 0x3a, 0x1f,  500, 1500, 25, NA },
++	{ "eldo2", 0x22, BIT(7), 0x3b, 0x1f,  500, 1500, 25, NA },
++	{ "eldo3", 0x23, BIT(0), 0x3c, 0x1f,  500, 1500, 25, NA },
++	{ "eldo4", 0x23, BIT(1), 0x3d, 0x1f,  500, 1500, 25, NA },
++	{ "eldo5", 0x23, BIT(2), 0x3e, 0x1f,  500, 1500, 25, NA },
++	{ "eldo6", 0x23, BIT(3), 0x3f, 0x1f,  500, 1500, 25, NA },
++	{ "dc1sw1", 0x11, BIT(3),  NA,   NA,   NA,   NA, NA, NA },
++	{ "dc1sw2", 0x11, BIT(4),  NA,   NA,   NA,   NA, NA, NA },
++	{ }
++};
 +
-+#define GPIO_PULL_REG_OFFSET	0x30
-+
- #else /* older generation pin controllers */
- /* pin drive strength: 2 bits per pin */
-+#define GPIO_DRV_REG_OFFSET	0x14
- #define GPIO_DRV_INDEX(pin)	((pin) / 16)
- #define GPIO_DRV_OFFSET(pin)	(((pin) % 16) * 2)
+ /*
+  * The "dcdc2" regulator has another range, beyond 1.54V up to 3.4V, in
+  * steps of 100mV. We cannot model this easily, but also don't need that,
+@@ -318,6 +367,7 @@ static const struct axp_regulator_plat *const axp_regulators[] = {
+ 	[AXP221_ID]	= axp22x_regulators,
+ 	[AXP223_ID]	= axp22x_regulators,
+ 	[AXP313_ID]	= axp313_regulators,
++	[AXP318_ID]	= axp318_regulators,
+ 	[AXP323_ID]	= axp313_regulators,
+ 	[AXP717_ID]	= axp717_regulators,
+ 	[AXP803_ID]	= axp803_regulators,
+diff --git a/include/axp_pmic.h b/include/axp_pmic.h
+index 1806a7270a0..2f547da74c2 100644
+--- a/include/axp_pmic.h
++++ b/include/axp_pmic.h
+@@ -39,6 +39,7 @@ enum {
+ 	AXP806_ID,
+ 	AXP809_ID,
+ 	AXP813_ID,
++	AXP318_ID,
+ };
  
-@@ -62,15 +70,18 @@
- static void* BANK_TO_GPIO(int bank)
- {
- 	void *pio_base;
-+	u32 bank_size;
- 
- 	if (bank < SUNXI_GPIO_L) {
--		pio_base = (void *)(uintptr_t)SUNXI_PIO_BASE;
-+		pio_base = (void *)(uintptr_t)(SUNXI_PIO_BASE + SUNXI_PIO_OFFSET);
-+		bank_size = SUNXI_PINCTRL_BANK_SIZE;
- 	} else {
- 		pio_base = (void *)(uintptr_t)SUNXI_R_PIO_BASE;
-+		bank_size = SUNXI_R_PINCTRL_BANK_SIZE;
- 		bank -= SUNXI_GPIO_L;
- 	}
- 
--	return pio_base + bank * SUNXI_PINCTRL_BANK_SIZE;
-+	return pio_base + bank * bank_size;
- }
- 
- void sunxi_gpio_set_cfgbank(void *bank_base, int pin_offset, u32 val)
-diff --git a/include/sunxi_gpio.h b/include/sunxi_gpio.h
-index 12b54c8dda4..67d012fa0fa 100644
---- a/include/sunxi_gpio.h
-+++ b/include/sunxi_gpio.h
-@@ -19,6 +19,9 @@
- #elif defined(CONFIG_SUN50I_GEN_H6)
- #define SUNXI_PIO_BASE		0x0300b000
- #define SUNXI_R_PIO_BASE	0x07022000
-+#elif defined(CONFIG_MACH_SUN60I_A733)
-+#define SUNXI_PIO_BASE		0x02000000
-+#define SUNXI_R_PIO_BASE	0x07025000
- #elif defined(CONFIG_SUNXI_GEN_NCAT2)
- #define SUNXI_PIO_BASE		0x02000000
- #define SUNXI_R_PIO_BASE	0x07022000
-@@ -172,11 +175,22 @@ enum sunxi_gpio_number {
- #ifdef CONFIG_SUNXI_NEW_PINCTRL
- 	#define SUNXI_PINCTRL_BANK_SIZE	0x30
- 	#define SUNXI_GPIO_DISABLE	0xf
-+#elif CONFIG_SUNXI_NEW2_PINCTRL
-+	#define SUNXI_PINCTRL_BANK_SIZE	0x80
-+	#define SUNXI_GPIO_DISABLE	0xf
- #else
- 	#define SUNXI_PINCTRL_BANK_SIZE	0x24
- 	#define SUNXI_GPIO_DISABLE	0x7
- #endif
- 
-+#if CONFIG_SUNXI_NEW2_PINCTRL
-+#define SUNXI_PIO_OFFSET		0x80 /* offset for virtual PA port */
-+#define SUNXI_R_PINCTRL_BANK_SIZE	0x30
-+#else
-+#define SUNXI_PIO_OFFSET		0x00
-+#define SUNXI_R_PINCTRL_BANK_SIZE	SUNXI_PINCTRL_BANK_SIZE
-+#endif
-+
- /* GPIO pin pull-up/down config */
- #define SUNXI_GPIO_PULL_DISABLE	0
- #define SUNXI_GPIO_PULL_UP	1
+ int axp_set_dcdc1(unsigned int mvolt);
 
 -- 
 2.51.2
