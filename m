@@ -1,137 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12F633342A;
-	Mon,  1 Dec 2025 17:01:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A393161BD
+	for <linux-sunxi@lists.linux.dev>; Tue,  2 Dec 2025 14:04:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764608520; cv=none; b=jDnZJKSQ3E0JmBez+R79QHTJrVtOVEMcmwylaqFVwM2Pd5DR9eNrBKhgdQ03EkFpWMCEfKSkFv0Y6q0keFuQcaRq2QMTUjtySV+mFIFfvnSxp39kBcQ7GdPbt5RnaR0J1bJ7ow637ZVvhAE2fx9F4klLoufGodn2CGJqhuJrVB0=
+	t=1764684266; cv=none; b=H0rsfWY8yAacb9FIlOsAKLXn0cazYnssLPCGklhFck4+6qQVAAk1TdgnXND1wmsuciEWris5luDjrOuF5U1RXktAQdIp+lZuhSk/qiwgGuEqgdlINp/yN/nlZFuna+XxeYQMuLHjmt/dbOOnMxKLR5qK8V2gTA1KITmo5+YbCfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764608520; c=relaxed/simple;
-	bh=bmyTq2q+hM5yLfaOwvV4mt3DtxhrkyZjZ87SLQzIRvc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HhA0henr2rgwllVP4G161l08tKEmbwiQRe+vejf9xlAu58qleWUC98wcLgzaaCwq9zxGGCceIPRSbj4IbIDuMLWquYOj8b1iTsouDXlYlPqblLwko7nY9PgR0syQ6vFO4j7Zzl7CeiklpzO0r9Ahwjg28KHsvD+sT47lTmzOzew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jr7StedP; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jr7StedP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5905C116C6;
-	Mon,  1 Dec 2025 17:01:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764608519;
-	bh=bmyTq2q+hM5yLfaOwvV4mt3DtxhrkyZjZ87SLQzIRvc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jr7StedPEyC4/M1t7fb11w5L7eX7EwY91G07P7AMGijfckxto+L1WhwGZsjlsXYIY
-	 oPOBlsHBliJM+a+Ck+s95tJX7dUkcTP5pveCNFp/krPg4vR0LXWKAYEHPMZFH7BnSa
-	 w/jmhdgHtlBNuR767BlzygS7X3PXNC6OjSXYaqFQBISNpnI6dO3zRh4SkdSFewBq7X
-	 zREFhG+p8OGRGjPPiSi80gwvkw0y85GNS/W5tNjwqV7H9L1DBf2eLGS8ArX4PFGdca
-	 NRClciXygKLJ3Mf0U36BtEe3k+YhGpk6jI8Jy8BC6oYJJRGMbYG05OQchgkdz3i2TA
-	 5RsxeDtcuuY4Q==
-Date: Mon, 1 Dec 2025 18:01:56 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Daniel Stone <daniel@fooishbar.org>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Samuel Holland <samuel@sholland.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
-	Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
-	Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v3 00/11] drm/connector: hdmi: limit infoframes per
- driver capabilities
-Message-ID: <20251201-enlightened-zebu-from-asgard-5a20be@houat>
-References: <20250925-fervent-merry-beagle-2baba3@penduick>
- <qx5ashx62pufott6hnsfna3qntnoyvxwxze4rihhuxcsdxi37s@bbdvc3sfsgne>
- <20250929-gregarious-worm-of-memory-c5354d@houat>
- <itgffxygopi7etkt7xhvmyuvyl5ad3k43nsxvjzw3ubtwiikn7@ocugfdaigtu7>
- <20251003-uptight-echidna-of-stamina-815305@houat>
- <zpygq4kapil3swsmhhqkdwny4ry2dznnzixsw5rkza5p2kqnvp@abvf2vxlbwif>
- <2a5fitdzr2bz235fj6rvqzxr6ckszkjbazjfszlvnizdh2cvbt@w3ypjo7vahhs>
- <pibxhl5hlcpuk3zsgyienfdlda5cwuxrnofwlw356scuzzplqy@zw3ofelgvwik>
- <bsoqyzxi45i67jpzhwr2d4illufa5ghqf25z6flbp67lsbvh22@rrlcihp2oxea>
- <cgzclxjubj5oca3rdnv44qwrkmpddxve4tlz76cc6p3b4hz3oc@3l7mt5ha7do6>
+	s=arc-20240116; t=1764684266; c=relaxed/simple;
+	bh=ak/Rt6uWiX+MT4pBJfZ+PD2Fezju7a0RibofMkxgxGI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=r5KPv+v+WeFXUAwKiWtIyPXTj4r5aas2XIfK33iVfdXO+mFqoyvG9E0Hywe4BkNSv+L4bh0x7ZpIlKtcqKQiFiL1aXD79UWGcD8F3cQkAZF6bXXn2mBSEIJcujMn/rgTJiIYDmI34LNs2vScrK1513yd31v/mJKzZScD/pVCXf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-295548467c7so63446695ad.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 02 Dec 2025 06:04:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764684264; x=1765289064;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DcG/XQXLp9HYcvharszf8uW0YuqvJnIwjKHOdBnLhz4=;
+        b=hmjtgpzqJ1JJqg0lMtuoBfvdkwaYjH5zmMsfomboCD+DXrWe1tcX08lGwCo7ck4sKK
+         30CooEyNLFdZwC75xoNwfS9oXdK6pkWAiRZgKJirg35nLeSb5Q5mKrorSkBMHgWKyTGU
+         IWC4Aj5aR7Zcwq/DAICBnOHJ0IdZ5vTbtdKp315xJz72cai9ay8XQy4yyT32St+ntPtg
+         ev2na9EsllibmsNzzm7JmOTn4kGMn+oaMLyAJQ4SldBtmxz80BxaxErYkumv9+LIUGw6
+         LVgGknPHA92QTlQOUAqq0EjsoyfNEvWji8Ogb04Co6IvBkYpgt05qe30AlVjJH6uiqQ5
+         K7eg==
+X-Forwarded-Encrypted: i=1; AJvYcCURZ0RCjcDrWdVSk5xeDS7vBOdwTxiVA+agvjtuigKUlDAPbkcbACNSwYejM9TOhY4p04N+au57rk0aIA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwFJeL+XP7WZay/9i5xwShd1fNu/F5WOsBA8wtmSRcbW9of+fMY
+	9gcyBpBvpUqOQHYYQ9JYVQ2ZOC/2a4EsMg6rIgGrSo401/T4GLhL511h0n8iZxZQ
+X-Gm-Gg: ASbGncuPChcNCzyX3iq8hMM/zYr1B4ob0VYkANMuVg77zaZjJeXa5z9YXFxL5BIZv8L
+	5n80l5v+8CKZCTcE0JYTCCPsjrGJfR7atoqrXmitBYmEzhLpKMhzzq2tN7WziedB6h0gMuE+6gi
+	oDkE9iXxqFFa4V8aQq0OIxsZBON+3dhzHyE+pDZJ4RtLsQCDIDLaRQcVvX69rEfbgVtW/7gXr/c
+	exJ95GQcXp7hRLRUaWt6b9VF0XgQIp0nHHCah7/5Dijqy8chvCqfBoqk5UyMCt5Qd01BqwlQEfp
+	noSw/PlyAeBlKnrye0RAva9KOaAjhtajox55T2BcJU0RMi8c3LRFtjT5Q+FrfPgShUWO4g39PBi
+	gTjJbEidQTMPFGeh3GnCmT0MNcEgh+0wRK1/2jFnJMiebiANV42i9mQTaBbJaxsWj5KJ4s8mSFs
+	Pgf8ljVGAfz03mewzPTo4BeGVIshcQheMjJNDPsH6nvOpNFzS2WtYf
+X-Google-Smtp-Source: AGHT+IF+kyNxzUpeXaXKWvkkdLFGEay0Qhj/KdyhsuZJTacZvEHrpSbc8LmG13T/u+0DtNsj7br8Xw==
+X-Received: by 2002:a17:902:ef45:b0:298:3aa6:c034 with SMTP id d9443c01a7336-29b6bf3bc3fmr436250435ad.32.1764684263184;
+        Tue, 02 Dec 2025 06:04:23 -0800 (PST)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com. [209.85.215.182])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bceb52d14sm155337705ad.82.2025.12.02.06.04.22
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Dec 2025 06:04:22 -0800 (PST)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-bdb6f9561f9so4989605a12.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 02 Dec 2025 06:04:22 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX+zzz2aIpxMEf7CHoklUMdQ7DJZe+B0KoueIB9ZC4fhUk9G3PTLnyOJSV+kTazxgqbusK/EgOaT9Qs2A==@lists.linux.dev
+X-Received: by 2002:a05:6102:26c9:b0:5dd:89c1:eb77 with SMTP id
+ ada2fe7eead31-5e1de39d9cemr17004298137.29.1764683823416; Tue, 02 Dec 2025
+ 05:57:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="nhtgib353qneclwb"
-Content-Disposition: inline
-In-Reply-To: <cgzclxjubj5oca3rdnv44qwrkmpddxve4tlz76cc6p3b4hz3oc@3l7mt5ha7do6>
+References: <20251112-b4-of-match-matchine-data-v2-0-d46b72003fd6@linaro.org> <20251112-b4-of-match-matchine-data-v2-2-d46b72003fd6@linaro.org>
+In-Reply-To: <20251112-b4-of-match-matchine-data-v2-2-d46b72003fd6@linaro.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 2 Dec 2025 14:56:52 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVJD4+J9QpUUs-sX0feKfuPD72CO0dcqN7shvF_UYpZ3Q@mail.gmail.com>
+X-Gm-Features: AWmQ_bnP_BfEGwKLqJN8UevZeVXg10-IsXC-lVqCY3H9e2HFkqZ11liOD_Kw768
+Message-ID: <CAMuHMdVJD4+J9QpUUs-sX0feKfuPD72CO0dcqN7shvF_UYpZ3Q@mail.gmail.com>
+Subject: Re: [PATCH v2 02/11] cpufreq: dt-platdev: Simplify with of_machine_get_match_data()
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Maximilian Luz <luzmaximilian@gmail.com>, Hans de Goede <hansg@kernel.org>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Daniel Lezcano <daniel.lezcano@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org, linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Krzystof,
 
---nhtgib353qneclwb
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 00/11] drm/connector: hdmi: limit infoframes per
- driver capabilities
-MIME-Version: 1.0
+On Wed, 12 Nov 2025 at 11:37, Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> Replace open-coded getting root OF node, matching against it and getting
+> the match data with two new helpers: of_machine_get_match_data() and
+> of_machine_device_match().
+>
+> Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-On Fri, Nov 21, 2025 at 07:09:01PM +0200, Dmitry Baryshkov wrote:
-> > So it's not really impossible, you just need some hardware and a day's
-> > worth of work.
-> >=20
-> > There's no reason these should get a pass, it's breaking the spec for no
-> > reason.
-> >=20
-> > > > For SPD, It's really not clear to me why atomic_check should do tha=
-t in
-> > > > the first place. Your initial concern was about exposing infoframes=
- in
-> > > > debugfs that wouldn't be used by the driver.
-> > > >=20
-> > > > If the driver doesn't register a debugfs file for SPD, and ignores
-> > > > whatever is in the atomic state, what's should we force drivers to =
-do
-> > > > that?
-> > >=20
-> > > I really don't think that drivers should mess up with debugfs on their
-> > > own. Making atomic_check() disable the unsupported InfoFrames makes t=
-he
-> > > picture perfect: the DRM no longer tries to program them to the
-> > > hardware, DebugFS files stay empty, so the whole state becomes
-> > > consistent.
-> >=20
-> > In the "bridge has no access to infoframes" case, there's really no
-> > infoframe. An empty file is "the infoframe can be there but isn't used",
-> > not "we don't have access to it and can't report them". Only drivers
-> > have those infos.
-> >=20
-> > If we do split up write_infoframe into multiple functions though, I
-> > guess we could create the debugfs file only if the function pointer is
-> > set, which removes drivers' involvement if you don't like that.
->=20
-> I'm fine with not using HDMI connector framework for lt9611uxc.
-> Likewise, I think, it's fine to have empty files for the infoframes
-> which are not being sent over the wire for any reason (hw not supporting
-> it is one of the reasons).
+Thanks for your patch, which is now commit 6ea891a6dd370ab2
+("cpufreq: dt-platdev: Simplify with of_machine_get_match_data()")
+in dt-rh/for-next.
 
-I can't think of any other example in the kernel where an empty file
-means that the driver doesn't support something.
+> --- a/drivers/cpufreq/cpufreq-dt-platdev.c
+> +++ b/drivers/cpufreq/cpufreq-dt-platdev.c
+> @@ -219,20 +219,13 @@ static bool __init cpu0_node_has_opp_v2_prop(void)
+>
+>  static int __init cpufreq_dt_platdev_init(void)
+>  {
+> -       struct device_node *np __free(device_node) = of_find_node_by_path("/");
+> -       const struct of_device_id *match;
+> -       const void *data = NULL;
+> +       const void *data;
+>
+> -       if (!np)
+> -               return -ENODEV;
+> -
+> -       match = of_match_node(allowlist, np);
+> -       if (match) {
+> -               data = match->data;
+> +       data = of_machine_get_match_data(allowlist);
+> +       if (data)
+>                 goto create_pdev;
+> -       }
 
-Maxime
+I think this is a change in behavior:
+Before, the pdev was created immediately if the node's compatible
+value is found in allowlist, regardless of the value of data (which
+is always NULL, except on RK3399),
+After, the pdev is created immediately if the node's compatible value
+is found in allowlist, AND data is non-NULL.
 
---nhtgib353qneclwb
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+> -       if (cpu0_node_has_opp_v2_prop() && !of_match_node(blocklist, np))
+> +       if (cpu0_node_has_opp_v2_prop() && !of_machine_device_match(blocklist))
+>                 goto create_pdev;
+>
+>         return -ENODEV;
 
------BEGIN PGP SIGNATURE-----
+Gr{oetje,eeting}s,
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaS3KBAAKCRAnX84Zoj2+
-dpehAX9df8UFvZVN58dQXWwnBnuke2vOU1UxT4zbhxIdR/6V/O2rER74TkmbviQv
-h0HIhF0BgLOgEP5gmSlL9xZCFl5EWhJpy16T7ozKZGULaHEy/3NJR+/SzYOZmLZ5
-yR5aU4SDRQ==
-=m4w1
------END PGP SIGNATURE-----
+                        Geert
 
---nhtgib353qneclwb--
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
