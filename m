@@ -1,189 +1,152 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6DFE3161B5
-	for <linux-sunxi@lists.linux.dev>; Tue,  2 Dec 2025 14:07:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 908BB2FDC57
+	for <linux-sunxi@lists.linux.dev>; Fri,  5 Dec 2025 10:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764684439; cv=none; b=NWXHhh/mRbzHPv/bcGK5aMyrugjo76pVV+aUWy5rH5+LR6Q5NdNL4Yiq8/6QzXoXYse5xMHr7cJVWU/k7KMIJStH4vIw9QWaUkMvz5ihYLKeZy1QyxPP9HrT8fvTbONod55U/09jEITA10VOGUXjDJuPGCGvSz0KiT0oBmyViPQ=
+	t=1764928985; cv=none; b=iehOU8M4AvMu+o4MazrFpERABG2LAAuxSgc1b96RSf/9tT9igcwOLk9IThrUwdGJ3lXWD20CmmF1dHZIePsDRh73MIg1F550Us6WSgtVGLd25unmj4dUsxf+Y3fL+/uACH+Cp4m6dQxkVtHn2chglIcchQx7JtICQJ7OHHERZLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764684439; c=relaxed/simple;
-	bh=vHUrQ6w324fYnCNxiHl4mdFInNGEkkrZLMojf3dBXGg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=keJWN9CllgCoX81yBw2ax7G83LqsMDNpReJ6kz9jsrFtGwEFvxtoUZRJ5swqvbIrvicDkT+0eva1H1qy9LOE6O04/YrGJ4HHygk26zqqZwqUcWSDiZ/UapWG2/NVihuijRixpsQ+6aH/yCOYYcd6P5M8MEmtPsvW9E19Joj7Mpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-78a76afeff6so60829157b3.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 02 Dec 2025 06:07:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764684437; x=1765289237;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P35uIC8+DPfTCMfHgmdtX7Glr2h/6n9nJWKZMAhyHf0=;
-        b=tKihgPzU4oEOttm563kk/8ks9EkZSGHOunjkJwe4MwZMTGKrN0FK8mQZi3TtJhkItk
-         mebQVIr+0E6AbpdFgmAII+PwiYph9MtDDAy8Gj+6ZVSHivACKMIy4Dt+LNtEetj4ZJ4F
-         xFSnt+GRRReoYbtQ/HUeBHRZiUO9lIYPv1h/TmQ/NSLsmJdSAeQgvjFeRPTpwTD+sJEe
-         P/tubQVdf/KXG4kUOOautunnLYl0OeBn34hmmpfN4AzuGHx9lVZZNxHL0jNUeKzl0v3G
-         s6VM3wU65BnHJuJNzodroQD0eLFiLImzJqM7WETFTqGvjofzS4WxP5qckak4P1WexSRh
-         a7PQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUWjtZztOxZ8bDPnKlDhlk/DfdafaSbYgf0r3kEJZlKiC1v3zJNMWxD+zrsrtVk0wDtwA2nU22SE1xpyg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyyNSZzApwN8QlMSVL6JUoezGwWGpxJIlK5tXvgdYHMmNRf/q7A
-	Lcnd9kdl2vNcTtfQb+hISG1uoKSUphQlUtOnpgbXKuEIgnf8citpAg/vVZa8dxB4
-X-Gm-Gg: ASbGncvLRlQtAL6cQxOXyiw5EZW1xaJ02oUO5UFrv8dJ45vapwaoHDX6MR9zCdlHFfv
-	yaLjmlf8YINg1xgouNxofgWf+azigqwchi0ErJamAR6lduxqtCXUeh7gwvOjXK208kN0Zb4/h8y
-	mqCKH3/2foIuRARFMGTz2rWidmXux/T/uMoM8+hzr5i3tiqBd/i5GNk+WWZGip5k8fzLyFdwAEW
-	hy0v9FS025JWqkb2iQlE9eXmxL6lBrhhcm+mG3NTkHENycv2NNa3HkZls94mdAXmIeHBJ70Xtwv
-	DKEXEj/WmRSZXia5EHNUumqzn0M3VFNqC8QwJHnl6ipZnwcoegk6iV045Z+uw6RrRKa7TWoAtW9
-	WbOmUThhfOD5TqsxxunjHVTXH2RCLBc8edh2OI+9hUkq1Xy/ScBPcSVKwukojKByeRDNXgcPQkb
-	0BHJKOTz6HTcpn1349i0a9Acyq/dVA7Yj3fpMeZT8RH8h26NiZtMkA
-X-Google-Smtp-Source: AGHT+IHxpSdikrbIE9lxGPlPh47aw6KsB+HJ+uFmhJ4dbxOdAgKs7RXfscZjpavYC6YASEu/dpF21w==
-X-Received: by 2002:a05:690e:2501:10b0:63f:adfa:e5ff with SMTP id 956f58d0204a3-64302acca63mr26387693d50.57.1764684436483;
-        Tue, 02 Dec 2025 06:07:16 -0800 (PST)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6433c48472dsm6184989d50.22.2025.12.02.06.07.15
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Dec 2025 06:07:15 -0800 (PST)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-78a7af9fe4fso49433067b3.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 02 Dec 2025 06:07:15 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW2/TK3RcAXdeC//fKp8GWhVPda/y9ZSPcaSTMi8nNBGGtvxsdWA+2VP9ybjnlDI6g1yWtHiBoa/+Lgag==@lists.linux.dev
-X-Received: by 2002:a53:dd48:0:b0:63e:17d8:d977 with SMTP id
- 956f58d0204a3-64302abbb9cmr22209916d50.41.1764684434875; Tue, 02 Dec 2025
- 06:07:14 -0800 (PST)
+	s=arc-20240116; t=1764928985; c=relaxed/simple;
+	bh=mIDfjKPlHz/NQcD9tm1RYysddVvBVpxf1qYJgEICkSA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=q660etX8jSEIzJ4qNnJ8Q7gViCyaUk3rQr17EDBDjRw9vLrEdkrqoz51KG2v94SEsT9nCTZsomDPo8zvKInurNyuY0JBs9q7FKKmF1VUFc2q56+mg6UQsUKUkbmR1HsqAhhRySOA1+wTpeNXMbr954atZIDC7Mf791Gc9Be4GxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=MvphRKhB; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="MvphRKhB"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id ED1CF4E41A63;
+	Fri,  5 Dec 2025 10:02:52 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id BABA960731;
+	Fri,  5 Dec 2025 10:02:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5407D10B60759;
+	Fri,  5 Dec 2025 11:02:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1764928971; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=+V2u7nRmCpg9spwzBQm4im+Tl+FWo1t6BknZ3of2c2c=;
+	b=MvphRKhBbogxsicQHo0F+2kjeNZiuu+0DYx2OzMy1RcjINF7QPUr9AhWjtcVdui4tDOKS4
+	MTm1XVMikaXUlvW5O/kQ5qjCBr0CG3oabDy6wJP+M3WfxWRi+JHEgFMCn6G5+dVhG1cbGn
+	5ROFZuEr9P1bCIqfftDggpirDIoClHAGuK0HunsvjCQc8kcOoWFvzGmkNorhTVIBZ73ATv
+	AkFBr+jFBlk2NsJYvgJbtNHxwkpUMfplvgE59eFgZhI4x5LZF62vlcK68aGX3r/5GAPFS9
+	lPQ5hH8scLLP/wxpkCs1SOobnmZkCoTXaenOZkS9vHyYeQlM6aI7f4akQOm22g==
+From: Richard Genoud <richard.genoud@bootlin.com>
+To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Richard Genoud <richard.genoud@bootlin.com>
+Subject: [PATCH 1/4] dt-bindings: pwm: sunxi: add PWM controller for Allwinner H616
+Date: Fri,  5 Dec 2025 11:02:36 +0100
+Message-ID: <20251205100239.1563353-2-richard.genoud@bootlin.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251205100239.1563353-1-richard.genoud@bootlin.com>
+References: <20251205100239.1563353-1-richard.genoud@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251112-b4-of-match-matchine-data-v2-0-d46b72003fd6@linaro.org> <20251112-b4-of-match-matchine-data-v2-1-d46b72003fd6@linaro.org>
-In-Reply-To: <20251112-b4-of-match-matchine-data-v2-1-d46b72003fd6@linaro.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 2 Dec 2025 15:07:03 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVAZpp7M+pp27+kHZwoet2Q8Rm-Y4ePu7=W_1oXhebLmQ@mail.gmail.com>
-X-Gm-Features: AWmQ_bnQtK_C28o8ts-DX6QMHSfgR5FWBqGmuyp3cjxdu41cx4XkoPs5W_lQhYE
-Message-ID: <CAMuHMdVAZpp7M+pp27+kHZwoet2Q8Rm-Y4ePu7=W_1oXhebLmQ@mail.gmail.com>
-Subject: Re: [PATCH v2 01/11] of: Add wrappers to match root node with OF
- device ID tables
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Maximilian Luz <luzmaximilian@gmail.com>, Hans de Goede <hansg@kernel.org>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Daniel Lezcano <daniel.lezcano@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Krzysztof,
+Allwinner H616 SoC contains a PWM controller quite different from the A10.
+It has 6 channels than can generate PWM waveforms or clocks if bypass is
+enabled.
 
-Thanks for your patch, which is now commit 4a93adcbd201aad5
-("of: Add wrappers to match root node with OF device ID tables")
-in dt-rh/for-next.
+Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+---
+ .../pwm/allwinner,sun50i-h616-pwm.yaml        | 67 +++++++++++++++++++
+ 1 file changed, 67 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pwm/allwinner,sun50i-h616-pwm.yaml
 
-On Wed, 12 Nov 2025 at 11:30, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> Several drivers duplicate same code for getting reference to the root
-> node, matching it against 'struct of_device_id' table and getting out
-> the match data from the table entry.
->
-> There is a of_machine_compatible_match() wrapper but it takes array of
-> strings, which is not suitable for many drivers since they want the
-> driver data associated with each compatible.
->
-> Add two wrappers, similar to existing of_device_get_match_data():
-> 1. of_machine_device_match() doing only matching against 'struct
->    of_device_id' and returning bool.
-> 2. of_machine_get_match_data() doing the matching and returning
->    associated driver data for found compatible.
-
-Shouldn't the first function be called of_match_machine(), and return
-a const struct of_device_id *, cfr. of_match_device()?
-
->
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-> --- a/drivers/of/base.c
-> +++ b/drivers/of/base.c
-> @@ -434,6 +434,53 @@ bool of_machine_compatible_match(const char *const *compats)
->  }
->  EXPORT_SYMBOL(of_machine_compatible_match);
->
-> +/**
-> + * of_machine_device_match - Test root of device tree against a of_device_id array
-> + * @matches:   NULL terminated array of of_device_id match structures to search in
-> + *
-> + * Returns true if the root node has any of the given compatible values in its
-> + * compatible property.
-> + */
-> +bool of_machine_device_match(const struct of_device_id *matches)
-> +{
-> +       struct device_node *root;
-> +       const struct of_device_id *match = NULL;
-> +
-> +       root = of_find_node_by_path("/");
-> +       if (root) {
-> +               match = of_match_node(matches, root);
-> +               of_node_put(root);
-> +       }
-> +
-> +       return match != NULL;
-> +}
-> +EXPORT_SYMBOL(of_machine_device_match);
-> +
-> +/**
-> + * of_machine_get_match_data - Tell if root of device tree has a matching of_match structure
-> + * @matches:   NULL terminated array of of_device_id match structures to search in
-> + *
-> + * Returns data associated with matched entry or NULL
-> + */
-> +const void *of_machine_get_match_data(const struct of_device_id *matches)
-> +{
-> +       const struct of_device_id *match;
-> +       struct device_node *root;
-> +
-> +       root = of_find_node_by_path("/");
-> +       if (!root)
-> +               return NULL;
-> +
-> +       match = of_match_node(matches, root);
-> +       of_node_put(root);
-> +
-> +       if (!match)
-> +               return NULL;
-> +
-> +       return match->data;
-> +}
-> +EXPORT_SYMBOL(of_machine_get_match_data);
-
-These two functions are very similar, but look different.  If the
-former would return a pointer instead of a bool, the latter could be
-built on top.
-
-Even if you still prefer returning a bool, they could share a common
-private helper returning a pointer.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/Documentation/devicetree/bindings/pwm/allwinner,sun50i-h616-pwm.yaml b/Documentation/devicetree/bindings/pwm/allwinner,sun50i-h616-pwm.yaml
+new file mode 100644
+index 000000000000..b89735ad3a43
+--- /dev/null
++++ b/Documentation/devicetree/bindings/pwm/allwinner,sun50i-h616-pwm.yaml
+@@ -0,0 +1,67 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/pwm/allwinner,sun50i-h616-pwm.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Allwinner H616 PWM
++
++maintainers:
++  - Richard Genoud <richard.genoud@bootlin.com>
++
++description: |
++  Allwinner H616 PWM can generate standard PWM signals with variable pulse width
++  and period.
++  Also, instead of a PWM signal, a channel can be used to provide a clock.
++
++properties:
++  compatible:
++    const: allwinner,sun50i-h616-pwm
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: Bus Clock
++
++  clock-names:
++    items:
++      - const: bus
++
++  resets:
++    maxItems: 1
++
++  "#clock-cells":
++    const: 1
++
++  "#pwm-cells":
++    const: 3
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - resets
++
++allOf:
++  - $ref: pwm.yaml#
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/sun50i-h616-ccu.h>
++    #include <dt-bindings/reset/sun50i-h616-ccu.h>
++
++    pwm@300a000 {
++      compatible = "allwinner,sun50i-h616-pwm";
++      reg = <0x0300a000 0x400>;
++      clocks = <&ccu CLK_BUS_PWM>;
++      clock-names = "bus";
++      resets = <&ccu RST_BUS_PWM>;
++      #pwm-cells = <3>;
++      #clock-cells = <1>;
++    };
++...
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.47.3
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
