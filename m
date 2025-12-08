@@ -1,150 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC44C2D9492;
-	Sat,  6 Dec 2025 14:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E41B1CAA4;
+	Mon,  8 Dec 2025 06:09:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765031103; cv=none; b=QTNpnhJl/kF7rCewc1gvLng080Lu9pg+yccBSGknKyLxB4/jTcwwbY+ZxuqcYx9jTzCbkJIr3dLFZGVWOVS4T/OCZuQV1d9lfUe5R5xRu9EAk92GQ2NcXPOepI6vrCWflED3xu1bWZWyK9BJSb6QKX1pEYYkt0Wt4PTazd9sXXQ=
+	t=1765174162; cv=none; b=TWGPjC4gQSa3u/aA1UABZwSmvLSe4j6Tb7RLGr4VxN8q6K5Ee1lx336+LlnQXC+eJwyiDjtKqomQwrmj2gc35mzxN39upzJenxfUZx/CSI26a4OQNE8h4QMkvaG2q3bxmbb0RVzcY7x8JYT/NG0NZSo14xy6e1s7lrGGT0y8Sr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765031103; c=relaxed/simple;
-	bh=rhJy0MuZoX1IN0c3VNkXR9OgQWBNKyzexnJsWC4tqmk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jW+vcjcqtAXIMbEqMMPkzXkp/ycr5Gyvu1pCbQg3YmcK9BjoFQ8EKBfGQqc5+bVX5L67FI17Fy+yhtpJBnrl+qoBgERN8JGq6myKZa4/0qNd17TOsrk0ycC/blQTtcNGeQmC1i7NRp0/2kHmjSn3Z5w95JqfDWDV2l3L9ZgMaf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MG0KP76J; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1765174162; c=relaxed/simple;
+	bh=h3PcJlKbGRviaTgnIx1PhOAjnZm0y28gwbkABoOO4Cw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kaWn/RoH45gBnMIYZ3vCSO6dWdA/qk8BbhCgpmdJsgIqeBRAOvuZLd7wqbHtsUGDftXw2dAN77ZtgEj/+bIUOfcx5zKBYWXH8KJyWPhcqWmU52S+P6R0eJzb/vzdKTgQXVFkZXZ5ocjB3D0b9WeQ0ueVnaE7WqB/60JGkqsRVWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o6aQgkoT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MG0KP76J"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765031102; x=1796567102;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rhJy0MuZoX1IN0c3VNkXR9OgQWBNKyzexnJsWC4tqmk=;
-  b=MG0KP76JFA0fi4G+ZjZ9VYFvMTG2TsPPLJhpdavNfiUzHhPKDmz2y4UA
-   8pvk1eF46Nazr482y9pWioqxFJiiENSQaPfI9eJYjqrBJG01wvLgE6zg+
-   XmLy4RSFW5ONp3dNre1centzm2WoPdTxYT121/w9lK29ttITAM43XSF8R
-   62lvaYbZUSW24F/K33omMbF2MRLwHgXXGM9pmEsPn9BBQ0124VZloWetQ
-   Xhfh3NrQkaqpCxzpHd6I0dA9d21IeSl1h085gfau0dyAwatT1iC/req3n
-   jJ2NldcW5YPwEqyCz4sk4fjyQZszEm0rRqBsg+0SCAQIKz8j5NIzdzJgC
-   g==;
-X-CSE-ConnectionGUID: k+eUFdIHT/2kpZJoqoIPYw==
-X-CSE-MsgGUID: QXRxSZrKQZu3mPVzb0Q97Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11634"; a="66041580"
-X-IronPort-AV: E=Sophos;i="6.20,255,1758610800"; 
-   d="scan'208";a="66041580"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2025 06:25:01 -0800
-X-CSE-ConnectionGUID: fBohExo1RaaxqdrSlmEprQ==
-X-CSE-MsgGUID: leGyjN9HS1KwkpMGCoe/dA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,255,1758610800"; 
-   d="scan'208";a="199982689"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 06 Dec 2025 06:24:58 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vRtDT-00000000IEv-25PT;
-	Sat, 06 Dec 2025 14:24:55 +0000
-Date: Sat, 6 Dec 2025 22:24:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Richard Genoud <richard.genoud@bootlin.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Richard Genoud <richard.genoud@bootlin.com>
-Subject: Re: [PATCH 2/4] pwm: sun50i: Add H616 PWM support
-Message-ID: <202512062245.KFjCln1y-lkp@intel.com>
-References: <20251205100239.1563353-3-richard.genoud@bootlin.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o6aQgkoT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36BA4C4CEF1;
+	Mon,  8 Dec 2025 06:09:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765174160;
+	bh=h3PcJlKbGRviaTgnIx1PhOAjnZm0y28gwbkABoOO4Cw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=o6aQgkoT0CQhOSKhfkLosHB5iOFDZzprzVERJKEy12jqgk88j4UkftIUAVu6r2ObP
+	 izvCQKbi7mAKg2S1CtVs+sKFbjw+D3eQvLanjNXCaOF2UCrKzbpQi6Qkngz1g/ChkQ
+	 fm+Y52za/khgzTTyiQdO06umjb1IS1GXKthnYHfH72oxZW32BxttXRtcWYcxjv/wqE
+	 29MO+xhIu3bPGZChfXoh0wNLu7MnecJvdDYrvdQEj2uloYmRJQGoqdVvcYIuvK8SWC
+	 E2IWtoa4zx9PZZC1Kz6guXUfe221u5ZZ5rOKsfX1IH1t0Zk8ku2q4fjNQBA50cSMw4
+	 gsVGEak/gCpmQ==
+Message-ID: <b5731ee5-8a16-40f1-8418-07c45a97c609@kernel.org>
+Date: Mon, 8 Dec 2025 07:09:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] pwm: sun50i: Add H616 PWM support
+To: Richard Genoud <richard.genoud@bootlin.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20251205100239.1563353-1-richard.genoud@bootlin.com>
+ <20251205100239.1563353-3-richard.genoud@bootlin.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
 In-Reply-To: <20251205100239.1563353-3-richard.genoud@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Richard,
+On 05/12/2025 11:02, Richard Genoud wrote:
+> +static struct platform_driver h616_pwm_driver = {
+> +	.driver = {
+> +		.name = "h616-pwm",
+> +		.of_match_table = h616_pwm_dt_ids,
+> +	},
+> +	.probe = h616_pwm_probe,
+> +};
+> +module_platform_driver(h616_pwm_driver);
+> +
+> +MODULE_ALIAS("platform:h616-pwm");
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 6987d58a9cbc5bd57c983baa514474a86c945d56]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Genoud/dt-bindings-pwm-sunxi-add-PWM-controller-for-Allwinner-H616/20251205-214804
-base:   6987d58a9cbc5bd57c983baa514474a86c945d56
-patch link:    https://lore.kernel.org/r/20251205100239.1563353-3-richard.genoud%40bootlin.com
-patch subject: [PATCH 2/4] pwm: sun50i: Add H616 PWM support
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20251206/202512062245.KFjCln1y-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512062245.KFjCln1y-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512062245.KFjCln1y-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/pwm/pwm-sun50i-h616.c: In function 'h616_pwm_get_state':
->> drivers/pwm/pwm-sun50i-h616.c:76:41: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-      76 | #define PWM_REG_DUTY(reg)               FIELD_GET(PWM_DUTY_MASK, reg)
-         |                                         ^~~~~~~~~
-   drivers/pwm/pwm-sun50i-h616.c:452:30: note: in expansion of macro 'PWM_REG_DUTY'
-     452 |         tmp = NSEC_PER_SEC * PWM_REG_DUTY(val);
-         |                              ^~~~~~~~~~~~
-   drivers/pwm/pwm-sun50i-h616.c: In function 'h616_pwm_calc':
->> drivers/pwm/pwm-sun50i-h616.c:79:41: error: implicit declaration of function 'FIELD_MAX' [-Wimplicit-function-declaration]
-      79 | #define PWM_PERIOD_MAX                  FIELD_MAX(PWM_PERIOD_MASK)
-         |                                         ^~~~~~~~~
-   drivers/pwm/pwm-sun50i-h616.c:493:54: note: in expansion of macro 'PWM_PERIOD_MAX'
-     493 |                 freq = div64_u64(NSEC_PER_SEC * (u64)PWM_PERIOD_MAX, period);
-         |                                                      ^~~~~~~~~~~~~~
-   drivers/pwm/pwm-sun50i-h616.c: In function 'h616_pwm_apply':
->> drivers/pwm/pwm-sun50i-h616.c:78:41: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-      78 | #define PWM_DUTY(dty)                   FIELD_PREP(PWM_DUTY_MASK, dty)
-         |                                         ^~~~~~~~~~
-   drivers/pwm/pwm-sun50i-h616.c:577:23: note: in expansion of macro 'PWM_DUTY'
-     577 |                 val = PWM_DUTY(chan->active_cycles);
-         |                       ^~~~~~~~
-   drivers/pwm/pwm-sun50i-h616.c: In function 'h616_add_composite_clk':
-   drivers/pwm/pwm-sun50i-h616.c:666:28: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     666 |                 mux->reg = (u64)mux->reg + reg;
-         |                            ^
-   drivers/pwm/pwm-sun50i-h616.c:676:29: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     676 |                 gate->reg = (u64)gate->reg + reg;
-         |                             ^
-   drivers/pwm/pwm-sun50i-h616.c:686:29: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     686 |                 rate->reg = (u64)rate->reg + reg;
-         |                             ^
+You should not need MODULE_ALIAS() in normal cases. If you need it,
+usually it means your device ID table is wrong (e.g. misses either
+entries or MODULE_DEVICE_TABLE()). MODULE_ALIAS() is not a substitute
+for incomplete ID table.
 
 
-vim +/FIELD_GET +76 drivers/pwm/pwm-sun50i-h616.c
+> +MODULE_AUTHOR("Richard Genoud <richard.genoud@bootlin.com>");
+> +MODULE_DESCRIPTION("Allwinner H616 PWM driver");
+> +MODULE_LICENSE("GPL");
 
-    70	
-    71	/* PWM Period Register */
-    72	#define PWM_PERIOD_REG(ch)		(0x64 + (ch) * 0x20)
-    73	#define PWM_PERIOD_MASK			GENMASK(31, 16)
-    74	#define PWM_DUTY_MASK			GENMASK(15, 0)
-    75	#define PWM_REG_PERIOD(reg)		(FIELD_GET(PWM_PERIOD_MASK, reg) + 1)
-  > 76	#define PWM_REG_DUTY(reg)		FIELD_GET(PWM_DUTY_MASK, reg)
-    77	#define PWM_PERIOD(prd)			FIELD_PREP(PWM_PERIOD_MASK, (prd) - 1)
-  > 78	#define PWM_DUTY(dty)			FIELD_PREP(PWM_DUTY_MASK, dty)
-  > 79	#define PWM_PERIOD_MAX			FIELD_MAX(PWM_PERIOD_MASK)
-    80	
-    81	
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Krzysztof
