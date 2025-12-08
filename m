@@ -1,124 +1,110 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E41B1CAA4;
-	Mon,  8 Dec 2025 06:09:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A6D53E0B;
+	Mon,  8 Dec 2025 06:52:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765174162; cv=none; b=TWGPjC4gQSa3u/aA1UABZwSmvLSe4j6Tb7RLGr4VxN8q6K5Ee1lx336+LlnQXC+eJwyiDjtKqomQwrmj2gc35mzxN39upzJenxfUZx/CSI26a4OQNE8h4QMkvaG2q3bxmbb0RVzcY7x8JYT/NG0NZSo14xy6e1s7lrGGT0y8Sr0=
+	t=1765176726; cv=none; b=dEw8Qbq308bnF4hFqGLhjIskHTN77NDW9xg6FDmFilxFvs4ck6xQDYlj4lgQ177mmy8L61QGjxdvuIKHrm4LYq00KrXtqkRJhdEHRGLdWK3MqsktWe4RBqqhMXgSDt3gqCoXmYkIGJfm5UppE2MzKdfviuMt9zpnCiamf9BV8hE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765174162; c=relaxed/simple;
-	bh=h3PcJlKbGRviaTgnIx1PhOAjnZm0y28gwbkABoOO4Cw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kaWn/RoH45gBnMIYZ3vCSO6dWdA/qk8BbhCgpmdJsgIqeBRAOvuZLd7wqbHtsUGDftXw2dAN77ZtgEj/+bIUOfcx5zKBYWXH8KJyWPhcqWmU52S+P6R0eJzb/vzdKTgQXVFkZXZ5ocjB3D0b9WeQ0ueVnaE7WqB/60JGkqsRVWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o6aQgkoT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765176726; c=relaxed/simple;
+	bh=WiykqAdfvwtZNBYSkcwFcQxsD9zJPgq+W1gZ+z+0c6I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i18IUIgT79eSX4JYCikzt6UCccd+OdIrdFeEEf7bSvYRCUveszpnEVbNf4VPK8AW2ppcz8Vbk1g7uc+8QBmJnAVvr+0RgIkDl5jK60IxLFn32aByVCaeadAlh05kWbC89GzvvmL4fIAAN5KxHN6tEtLWE1tlt74kXP4YI4OaD+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oYt9raRa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o6aQgkoT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36BA4C4CEF1;
-	Mon,  8 Dec 2025 06:09:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oYt9raRa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51A24C4CEF1;
+	Mon,  8 Dec 2025 06:52:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765174160;
-	bh=h3PcJlKbGRviaTgnIx1PhOAjnZm0y28gwbkABoOO4Cw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=o6aQgkoT0CQhOSKhfkLosHB5iOFDZzprzVERJKEy12jqgk88j4UkftIUAVu6r2ObP
-	 izvCQKbi7mAKg2S1CtVs+sKFbjw+D3eQvLanjNXCaOF2UCrKzbpQi6Qkngz1g/ChkQ
-	 fm+Y52za/khgzTTyiQdO06umjb1IS1GXKthnYHfH72oxZW32BxttXRtcWYcxjv/wqE
-	 29MO+xhIu3bPGZChfXoh0wNLu7MnecJvdDYrvdQEj2uloYmRJQGoqdVvcYIuvK8SWC
-	 E2IWtoa4zx9PZZC1Kz6guXUfe221u5ZZ5rOKsfX1IH1t0Zk8ku2q4fjNQBA50cSMw4
-	 gsVGEak/gCpmQ==
-Message-ID: <b5731ee5-8a16-40f1-8418-07c45a97c609@kernel.org>
-Date: Mon, 8 Dec 2025 07:09:16 +0100
+	s=k20201202; t=1765176725;
+	bh=WiykqAdfvwtZNBYSkcwFcQxsD9zJPgq+W1gZ+z+0c6I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oYt9raRaVMXk/82ZXZgg+KIzuJk6kaFcjjmbzJhOFhDI4UnNS+t4mnbSZwobxIJuB
+	 tJXwyNrkghr8pHCPLrP89DrEInA37Jitk0fANArNCa8X/jqAbj/eAGJtXJzkLByKWc
+	 UOaCxuiNQ5zb5jvYZEKv0KudwMt1PNFYxmKLYmIcCaQDJXL3Vh3+yyKvAXlKsK0GFP
+	 PEQJTRl5p5ab2eiCcUSUB+9j5g2UqqK3hdQrOIyxh5whymTbjEjMMKe3MrupjG811S
+	 bR4v8cjcX/0Yzus/XLxqbj9vpuhQKwRscDEN0t8VFRzh5NskIT1bVe4tT3FAYEy264
+	 r+2j6HhfUXusw==
+Date: Mon, 8 Dec 2025 07:52:03 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Richard Genoud <richard.genoud@bootlin.com>
+Cc: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] dt-bindings: pwm: sunxi: add PWM controller for
+ Allwinner H616
+Message-ID: <20251208-gorgeous-capuchin-of-protection-4ad0c2@quoll>
+References: <20251205100239.1563353-1-richard.genoud@bootlin.com>
+ <20251205100239.1563353-2-richard.genoud@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] pwm: sun50i: Add H616 PWM support
-To: Richard Genoud <richard.genoud@bootlin.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20251205100239.1563353-1-richard.genoud@bootlin.com>
- <20251205100239.1563353-3-richard.genoud@bootlin.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251205100239.1563353-3-richard.genoud@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251205100239.1563353-2-richard.genoud@bootlin.com>
 
-On 05/12/2025 11:02, Richard Genoud wrote:
-> +static struct platform_driver h616_pwm_driver = {
-> +	.driver = {
-> +		.name = "h616-pwm",
-> +		.of_match_table = h616_pwm_dt_ids,
-> +	},
-> +	.probe = h616_pwm_probe,
-> +};
-> +module_platform_driver(h616_pwm_driver);
+On Fri, Dec 05, 2025 at 11:02:36AM +0100, Richard Genoud wrote:
+> Allwinner H616 SoC contains a PWM controller quite different from the A10.
+> It has 6 channels than can generate PWM waveforms or clocks if bypass is
+> enabled.
+> 
+> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+> ---
+>  .../pwm/allwinner,sun50i-h616-pwm.yaml        | 67 +++++++++++++++++++
+>  1 file changed, 67 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/pwm/allwinner,sun50i-h616-pwm.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/pwm/allwinner,sun50i-h616-pwm.yaml b/Documentation/devicetree/bindings/pwm/allwinner,sun50i-h616-pwm.yaml
+> new file mode 100644
+> index 000000000000..b89735ad3a43
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/pwm/allwinner,sun50i-h616-pwm.yaml
+> @@ -0,0 +1,67 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/pwm/allwinner,sun50i-h616-pwm.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +MODULE_ALIAS("platform:h616-pwm");
+> +title: Allwinner H616 PWM
+> +
+> +maintainers:
+> +  - Richard Genoud <richard.genoud@bootlin.com>
+> +
+> +description: |
 
-You should not need MODULE_ALIAS() in normal cases. If you need it,
-usually it means your device ID table is wrong (e.g. misses either
-entries or MODULE_DEVICE_TABLE()). MODULE_ALIAS() is not a substitute
-for incomplete ID table.
+Do not need '|' unless you need to preserve formatting.
 
+> +  Allwinner H616 PWM can generate standard PWM signals with variable pulse width
+> +  and period.
+> +  Also, instead of a PWM signal, a channel can be used to provide a clock.
+> +
+> +properties:
+> +  compatible:
+> +    const: allwinner,sun50i-h616-pwm
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Bus Clock
+> +
 
-> +MODULE_AUTHOR("Richard Genoud <richard.genoud@bootlin.com>");
-> +MODULE_DESCRIPTION("Allwinner H616 PWM driver");
-> +MODULE_LICENSE("GPL");
+Are you sure there is no first clock? Really, really sure? If you add it
+later, I would be pretty sad, because that's unnecessary duplication of
+binidngs....
 
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 Best regards,
 Krzysztof
+
