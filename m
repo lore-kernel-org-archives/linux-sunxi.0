@@ -1,110 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A6D53E0B;
-	Mon,  8 Dec 2025 06:52:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA3130F55F
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Dec 2025 07:50:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765176726; cv=none; b=dEw8Qbq308bnF4hFqGLhjIskHTN77NDW9xg6FDmFilxFvs4ck6xQDYlj4lgQ177mmy8L61QGjxdvuIKHrm4LYq00KrXtqkRJhdEHRGLdWK3MqsktWe4RBqqhMXgSDt3gqCoXmYkIGJfm5UppE2MzKdfviuMt9zpnCiamf9BV8hE=
+	t=1765525842; cv=none; b=J6q1AzBqwSfjCypAe0mswjzLYyTcenEWuQA8AOSp/OZkDz2g4Ncqyx5yxFISr3klqtuUie8QYJ4pkvWuAFo2JtKiELqyRClzVr37GVQCCQtf0FjQZaVzH1T2lMoUpsEyi4ZfTLn53lpy5EpnsyxuPx88VALkuHSYAD4cgqws/XU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765176726; c=relaxed/simple;
-	bh=WiykqAdfvwtZNBYSkcwFcQxsD9zJPgq+W1gZ+z+0c6I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i18IUIgT79eSX4JYCikzt6UCccd+OdIrdFeEEf7bSvYRCUveszpnEVbNf4VPK8AW2ppcz8Vbk1g7uc+8QBmJnAVvr+0RgIkDl5jK60IxLFn32aByVCaeadAlh05kWbC89GzvvmL4fIAAN5KxHN6tEtLWE1tlt74kXP4YI4OaD+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oYt9raRa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765525842; c=relaxed/simple;
+	bh=+2bbw/KsVrEgb/z+PSRCnvFocrRg0rPa/Cvl155WVls=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=P3ecA9O5bCXBALo0sWd8X6AsLaSmaKUNNIxp2QFCIZ3S/UFSqWfprQPuDBUwq0Fnv9tpghTJOgFckAsbxy6GZFwPklClQV0Kge2idYH0MjoHJCIXO0j1165QJSZX89VXVx2vYZIIGVrKytytqEEgGgPt0XAHBy+c4Jkyy32Zdg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=i61QUMSp; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oYt9raRa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51A24C4CEF1;
-	Mon,  8 Dec 2025 06:52:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765176725;
-	bh=WiykqAdfvwtZNBYSkcwFcQxsD9zJPgq+W1gZ+z+0c6I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oYt9raRaVMXk/82ZXZgg+KIzuJk6kaFcjjmbzJhOFhDI4UnNS+t4mnbSZwobxIJuB
-	 tJXwyNrkghr8pHCPLrP89DrEInA37Jitk0fANArNCa8X/jqAbj/eAGJtXJzkLByKWc
-	 UOaCxuiNQ5zb5jvYZEKv0KudwMt1PNFYxmKLYmIcCaQDJXL3Vh3+yyKvAXlKsK0GFP
-	 PEQJTRl5p5ab2eiCcUSUB+9j5g2UqqK3hdQrOIyxh5whymTbjEjMMKe3MrupjG811S
-	 bR4v8cjcX/0Yzus/XLxqbj9vpuhQKwRscDEN0t8VFRzh5NskIT1bVe4tT3FAYEy264
-	 r+2j6HhfUXusw==
-Date: Mon, 8 Dec 2025 07:52:03 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Richard Genoud <richard.genoud@bootlin.com>
-Cc: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] dt-bindings: pwm: sunxi: add PWM controller for
- Allwinner H616
-Message-ID: <20251208-gorgeous-capuchin-of-protection-4ad0c2@quoll>
-References: <20251205100239.1563353-1-richard.genoud@bootlin.com>
- <20251205100239.1563353-2-richard.genoud@bootlin.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="i61QUMSp"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 7C97D4E41BA8;
+	Fri, 12 Dec 2025 07:50:37 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 3839D606DF;
+	Fri, 12 Dec 2025 07:50:37 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 20F8D103C8DF7;
+	Fri, 12 Dec 2025 08:50:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1765525836; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=WDRM+Mcm+eaOgrPszSVJn6wMYj7R2OASXJPVQeqhico=;
+	b=i61QUMSpjF3ehPjvtdhLBXiDK+nSX9ISYyXEt0WWu741UGA1f79yxdE7Sa6i/LvuOIEZlY
+	Z7Qcc5tyZimRoBVA6HyoftzOZCv2JsQcYrZLOeyAFoar93NxsEe6VfjoHuEjvNbzlG4u60
+	QBu1frPhcvkKZvDS375pi6bIof5vcVnbZeAvgZD3C4C97ciJV+Q02OiUSrdD7HXCW36In4
+	amlB8XE/6uOMpylphGGF4VMDORIM49r+C06J9ZrfNWT/DZ1Y8jPatGIeTlrif5cizSaO3U
+	ICx40/SR70zz0cHGx+hVpt/POSwEKUmlskokjb/3qWx+F/2lhqJpxrvtswNz0g==
+Message-ID: <4d34658b-874d-4681-95c1-616f5b385550@bootlin.com>
+Date: Fri, 12 Dec 2025 08:50:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251205100239.1563353-2-richard.genoud@bootlin.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] dt-bindings: pwm: sunxi: add PWM controller for
+ Allwinner H616
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20251205100239.1563353-1-richard.genoud@bootlin.com>
+ <20251205100239.1563353-2-richard.genoud@bootlin.com>
+ <20251208-gorgeous-capuchin-of-protection-4ad0c2@quoll>
+From: Richard GENOUD <richard.genoud@bootlin.com>
+Content-Language: en-US, fr
+Organization: Bootlin
+In-Reply-To: <20251208-gorgeous-capuchin-of-protection-4ad0c2@quoll>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Fri, Dec 05, 2025 at 11:02:36AM +0100, Richard Genoud wrote:
-> Allwinner H616 SoC contains a PWM controller quite different from the A10.
-> It has 6 channels than can generate PWM waveforms or clocks if bypass is
-> enabled.
+Hi Krzysztof,
+
+Le 08/12/2025 à 07:52, Krzysztof Kozlowski a écrit :
+> On Fri, Dec 05, 2025 at 11:02:36AM +0100, Richard Genoud wrote:
+>> Allwinner H616 SoC contains a PWM controller quite different from the A10.
+>> It has 6 channels than can generate PWM waveforms or clocks if bypass is
+>> enabled.
+>>
+>> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+>> ---
+>>   .../pwm/allwinner,sun50i-h616-pwm.yaml        | 67 +++++++++++++++++++
+>>   1 file changed, 67 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/pwm/allwinner,sun50i-h616-pwm.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/pwm/allwinner,sun50i-h616-pwm.yaml b/Documentation/devicetree/bindings/pwm/allwinner,sun50i-h616-pwm.yaml
+>> new file mode 100644
+>> index 000000000000..b89735ad3a43
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/pwm/allwinner,sun50i-h616-pwm.yaml
+>> @@ -0,0 +1,67 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/pwm/allwinner,sun50i-h616-pwm.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Allwinner H616 PWM
+>> +
+>> +maintainers:
+>> +  - Richard Genoud <richard.genoud@bootlin.com>
+>> +
+>> +description: |
 > 
-> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
-> ---
->  .../pwm/allwinner,sun50i-h616-pwm.yaml        | 67 +++++++++++++++++++
->  1 file changed, 67 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/pwm/allwinner,sun50i-h616-pwm.yaml
+> Do not need '|' unless you need to preserve formatting.
+Ok, I was thinking that it was nicer with the formatting.
+
 > 
-> diff --git a/Documentation/devicetree/bindings/pwm/allwinner,sun50i-h616-pwm.yaml b/Documentation/devicetree/bindings/pwm/allwinner,sun50i-h616-pwm.yaml
-> new file mode 100644
-> index 000000000000..b89735ad3a43
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pwm/allwinner,sun50i-h616-pwm.yaml
-> @@ -0,0 +1,67 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/pwm/allwinner,sun50i-h616-pwm.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner H616 PWM
-> +
-> +maintainers:
-> +  - Richard Genoud <richard.genoud@bootlin.com>
-> +
-> +description: |
+>> +  Allwinner H616 PWM can generate standard PWM signals with variable pulse width
+>> +  and period.
+>> +  Also, instead of a PWM signal, a channel can be used to provide a clock.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: allwinner,sun50i-h616-pwm
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    items:
+>> +      - description: Bus Clock
+>> +
+> 
+> Are you sure there is no first clock? Really, really sure? If you add it
+> later, I would be pretty sad, because that's unnecessary duplication of
+> binidngs....
+I surely don't want to make you sad :)
 
-Do not need '|' unless you need to preserve formatting.
+Having a second look at the sun4i binding, I think there's a way to use it.
+The sun4i, as you said, has a module clock (OSC24M) and an optional bus 
+clock.
+Here, the bus clock is mandatory, but the H616 PWM uses OSC24M and APB1 
+as clock sources.
 
-> +  Allwinner H616 PWM can generate standard PWM signals with variable pulse width
-> +  and period.
-> +  Also, instead of a PWM signal, a channel can be used to provide a clock.
-> +
-> +properties:
-> +  compatible:
-> +    const: allwinner,sun50i-h616-pwm
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Bus Clock
-> +
+So, I guess that if we add something like that:
+    clocks:
+      minItems: 1
+      items:
+        - description: Module Clock
+        - description: Bus Clock
++      - description: APB Clock
 
-Are you sure there is no first clock? Really, really sure? If you add it
-later, I would be pretty sad, because that's unnecessary duplication of
-binidngs....
+    clock-names:
+      minItems: 1
+      items:
+        - const: mod
+        - const: bus
++      - const: apb
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+    resets:
+      maxItems: 1
 
-Best regards,
-Krzysztof
+In the sun4i pwm binding, we could re-use it for the H616 pwm right?
+(APB clock is maybe not the best name, could be secondary module clock)
+
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> 
+> Best regards,
+> Krzysztof
+> 
+Thanks for your review!
+
+Regards,
+Richard
 
