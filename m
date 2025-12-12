@@ -1,130 +1,125 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F6A30E0E7
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Dec 2025 08:52:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A891230F957
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Dec 2025 20:51:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765529573; cv=none; b=kDI8qRsqfUp8csZX1mhje+0lHG6Qo8bFk4BK6A/QVb5dYg4D/bzh0RE1abuNIWyMaunPB7enDoXFYE6EbmnM5w5t2/4dHusyjgz+5lRCAmmnXQFwsCjg9lxF/FDLddECJfL6WGjg0e4ETxu6mIsSKmgMrvOOkvPej/PZbtM8vgM=
+	t=1765572676; cv=none; b=OnpIiZzKRa+HRbux9XD3T8klfsCcaAR+baTSoyod7rTFgi7jwB0oOzJGc0aT12o1Q0bbksae+ce7+3Ov9xLv0F7YzeXWhFgvwIz+V/ctL449veGWeyPMhbEzt2HNQPVz2kMSvrM/9u9OlNFgfmeDAs79b0EYpeKAHFW1Od+Xc7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765529573; c=relaxed/simple;
-	bh=guyZbBQHrFcxrRkwkYTczuuu6O76dEdlDJHFch5+Vv0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KhMtiqY9O+oaIBaZ57Ve34HUeU+2MMVrC8SGRKQkpqk2GV1tNXInCCNOTa+NmZMS6YMYkOpmFwaRybx7MYZCULi53tAa0rHsqOSrLrzKvjJxhtDZjmEyG0aypX3heNFMVfzcApWYDaEsdUMYPdidLo9Ckbidzm+A+pa75pLcmZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=M1yjPg9J; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1765572676; c=relaxed/simple;
+	bh=HZElLVOBo++aUOfBn0dfeQ9TDOuzLpu6pDq8v/AVPfI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kOXj7u6jlXFcHl2n5wBKa67BBGm6uJZGAVQTbbN5K3V/i9y95kL+9knw25dBnVDb7uGtpOvhfWd+JSVlV6suLlcN/ghDtmk7NNHnUmsRSD2faEldgzGaaZ8pcwojZcj5RP4SH5z79ifeNf7dZXXi5pALa8KKrb4+e8XNF53gOWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZvXNn5Si; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="M1yjPg9J"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 77B23C1935D;
-	Fri, 12 Dec 2025 08:52:24 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 81504606DF;
-	Fri, 12 Dec 2025 08:52:48 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0EB3A103C8C8B;
-	Fri, 12 Dec 2025 09:52:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1765529567; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=dpnbMKxrEd/92FzSGRgQG+BUDZSd3g31Xk5DTCxA3Fo=;
-	b=M1yjPg9J+9muV+mGaXWjHEpEB8kPYNU0mxz3j2MPylOHDAf1GZIVKa3XR/Uq1wdQxphknu
-	8WK9IWMYyYUnEZe++tinnnDQCnGb54YGG4k5gtvfoWE0jD8h/Fnt0aPHIsPpQH//5rS+ZW
-	hZR+5HL9zSgHdJ2sPwT13beOMHP8RXEkeBDhfsHMYvD/Ir4GZQzV4oPc4atqBsHNF5YVGJ
-	svOFwmOmtL+JxmBQgTmVoZ4zqQpAkZ4YE3+YXKsRkO9PvU0ngBLGZCkgmOoJj63m932sDG
-	GJp6FKJ1BoJ2SAa/wdo3zwpsNRsBnVEA1tfAVL4xAM4g1/QKX6DYo5sEevh+Eg==
-Message-ID: <1c8fe534-4b87-46a7-9806-9cbbe5560545@bootlin.com>
-Date: Fri, 12 Dec 2025 09:52:41 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZvXNn5Si"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b7636c96b9aso268894766b.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 12 Dec 2025 12:51:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765572673; x=1766177473; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rjtjqxP7XdUENHCexmCRFp1dqpJh3fEH6pKkpxM/TLo=;
+        b=ZvXNn5SiNOUzWt7p6ph3lPN92YaOzJGkGTctasM9QWRFWQpn/CktzY5cQqDYI7aEOR
+         hurQd7nTbJMqzhqKVeL4fdSLFbaAEWJnA/MLXmA3V4m+2seVO76ByOdA77Sifo2YkwOt
+         SR3YJ+NRBpOHGw6u0QslMgEP30SuwbKw2RoDdjgiLret8HECZ+1qioiw6m+Oz9MGTC8w
+         Bl1sVJiE6EOcKWjIWjlukKXg/3epKIuTvm+0mmoTMqscJDj24lD4tuU/tk/cXRpmuCT3
+         BpJGSL/RQziGDd9Id6YTQFukrXmUyuqVVvBux3/Vo94CLeW9sLGlKAjSD8gBqkt5BQeZ
+         pdUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765572673; x=1766177473;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rjtjqxP7XdUENHCexmCRFp1dqpJh3fEH6pKkpxM/TLo=;
+        b=ELf4aAtiDr8IPQcqleIL9gMdj96SIBdNaDdg6wb8EKXjQLXobooXbmo8nmvk6v8YRh
+         YK+JH+Thwdf2t766t106gMqxrNCq9QuVfqYJ8msHHDt9+D1Dpk8LTfB8jro0PvxNP10E
+         gwYliayEzb58DmrEYiBo02yir03Dsh3ZVwx/wTVGqImqHn4RtpKoAYIXuM5y2Nh949Pd
+         i6lWQsDQ2f/G+rSivU4kWk85th1J9hFKggMTqtlrFZ9myvY7ZYW05Y4pHpqLWTFfeHFd
+         ANSy5+Di7IL8yZqxGnBnGEc8uGLVmbzcTrXE8+SSwWCy+2ZBYV/S+QZ+YRJqS3wKDr37
+         eFqA==
+X-Forwarded-Encrypted: i=1; AJvYcCWxtrEAyxipOFMcuTr6Q/jLQ0PPDyAR0K9BRFm0heMK/3se6Gw6cZV9lWNA0sLcHQ7Ks4ahmpoBaHXQSg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyJzAaQOfVp1hvcCwKdCACKeGzSmcO88EUmwsIO5mFOlKkTGVn0
+	WHtgMngKbZx3vj5unNdUkfg9stnJiy3c9pUfGiF74RRRNGFfgDGiDn7v
+X-Gm-Gg: AY/fxX7DNTe8sAb/37lhHxLDiKYmXTiEC1XrAGInnA1+gIJHSZltuNrzDCoXe4LBUnt
+	w9vrj+ZjfLRe143LQj4dgeCJ9fgIu/Dn9qGNH9bV7zKpw7R+A9mHrldjQBlASYUFjeWR4X3eJl9
+	ZMvCtFYO9J/E5aE2FzauUsXrRNLSZdwhhHzFo0EJa96c9x2bkpdrDMejsEK8vFlDRAdIMG2YFF5
+	gAwAz6S4ajEB76whiV4ICcdbpV2jklMSN+59bgwGR4JLzWFpSA3EuobqzEcTg7o3kjXD20n1Tvg
+	vvQJhxTOPC1HU8wKwbmm9j5MoplfwB5NXFumaNpY2Bf0/DqF2L0f1USiH/5/fpWdDweE9cCU47e
+	3u4KG32MlO4x8YGYcrE9WA+cdREdnkKTbsetvyVQll9h29XghBM33PLZbX73dVdH2pSvke0PQ3i
+	ouArEeRRhyJNRU4dU=
+X-Google-Smtp-Source: AGHT+IH0G8rGAjvaE42wch55hSIA5VimrXWt5TN/hh537MIqh383tSvfDzdlGbn8S/gXANm16as6JQ==
+X-Received: by 2002:a17:907:2d93:b0:b73:7158:d9cd with SMTP id a640c23a62f3a-b7d23a22af7mr366919966b.52.1765572672256;
+        Fri, 12 Dec 2025 12:51:12 -0800 (PST)
+Received: from osama.. ([2a02:908:1b4:dac0:1401:37b6:6a29:b0c5])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7cfa570167sm656400366b.57.2025.12.12.12.51.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Dec 2025 12:51:11 -0800 (PST)
+From: Osama Abdelkader <osama.abdelkader@gmail.com>
+To: Vinod Koul <vkoul@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	dmaengine@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Osama Abdelkader <osama.abdelkader@gmail.com>
+Subject: [PATCH] dmaengine: sun4i: fix resource leak on promise allocation failure
+Date: Fri, 12 Dec 2025 21:50:22 +0100
+Message-ID: <20251212205022.83482-1-osama.abdelkader@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: pwm: sunxi: add PWM controller for
- Allwinner H616
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20251205100239.1563353-1-richard.genoud@bootlin.com>
- <20251205100239.1563353-2-richard.genoud@bootlin.com>
- <20251208-gorgeous-capuchin-of-protection-4ad0c2@quoll>
- <4d34658b-874d-4681-95c1-616f5b385550@bootlin.com>
- <93224408-6b09-4cec-8e84-a66d9ef138e6@kernel.org>
-From: Richard GENOUD <richard.genoud@bootlin.com>
-Content-Language: en-US, fr
-Organization: Bootlin
-In-Reply-To: <93224408-6b09-4cec-8e84-a66d9ef138e6@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-Le 12/12/2025 à 09:25, Krzysztof Kozlowski a écrit :
-> On 12/12/2025 08:50, Richard GENOUD wrote:
->>>> +
->>>> +  clocks:
->>>> +    items:
->>>> +      - description: Bus Clock
->>>> +
->>>
->>> Are you sure there is no first clock? Really, really sure? If you add it
->>> later, I would be pretty sad, because that's unnecessary duplication of
->>> binidngs....
->> I surely don't want to make you sad :)
->>
->> Having a second look at the sun4i binding, I think there's a way to use it.
->> The sun4i, as you said, has a module clock (OSC24M) and an optional bus
->> clock.
->> Here, the bus clock is mandatory, but the H616 PWM uses OSC24M and APB1
->> as clock sources.
->>
->> So, I guess that if we add something like that:
->>      clocks:
->>        minItems: 1
->>        items:
->>          - description: Module Clock
->>          - description: Bus Clock
->> +      - description: APB Clock
->>
->>      clock-names:
->>        minItems: 1
->>        items:
->>          - const: mod
->>          - const: bus
->> +      - const: apb
->>
->>      resets:
->>        maxItems: 1
->>
->> In the sun4i pwm binding, we could re-use it for the H616 pwm right?
->> (APB clock is maybe not the best name, could be secondary module clock)
-> 
-> 
-> apb is probably the bus clock, so you don't need to change the bindings
-> at all.
-Indeed, your're right!
-So the only difference will the the #clock-cells for h616.
-I'll send a v2 using the sun4i binding.
+When promise allocation fails in sun4i_dma_prep_dma_cyclic() or
+sun4i_dma_prep_slave_sg(), the contract and already-allocated promises
+are not freed, causing a resource leak.
 
-Thanks!
+Fix this by calling sun4i_dma_free_contract() to properly clean up
+all resources before returning NULL on allocation failure.
 
-Regards,
-Richard
+This addresses the TODO comments that asked whether we should free
+everything on error.
 
-> 
-> Best regards,
-> Krzysztof
+Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
+---
+ drivers/dma/sun4i-dma.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-
+diff --git a/drivers/dma/sun4i-dma.c b/drivers/dma/sun4i-dma.c
+index 00d2fd38d17f..d81e705ae91f 100644
+--- a/drivers/dma/sun4i-dma.c
++++ b/drivers/dma/sun4i-dma.c
+@@ -861,7 +861,7 @@ sun4i_dma_prep_dma_cyclic(struct dma_chan *chan, dma_addr_t buf, size_t len,
+ 							plength, sconfig, dir);
+ 
+ 		if (!promise) {
+-			/* TODO: should we free everything? */
++			sun4i_dma_free_contract(&contract->vd);
+ 			return NULL;
+ 		}
+ 		promise->cfg |= endpoints;
+@@ -954,8 +954,10 @@ sun4i_dma_prep_slave_sg(struct dma_chan *chan, struct scatterlist *sgl,
+ 							sg_dma_len(sg),
+ 							sconfig, dir);
+ 
+-		if (!promise)
+-			return NULL; /* TODO: should we free everything? */
++		if (!promise) {
++			sun4i_dma_free_contract(&contract->vd);
++			return NULL;
++		}
+ 
+ 		promise->cfg |= endpoints;
+ 		promise->para = para;
 -- 
-Richard Genoud, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.43.0
+
