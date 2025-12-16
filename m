@@ -1,82 +1,180 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4861C2D6E6A;
-	Sat, 13 Dec 2025 17:00:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7467235772F
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Dec 2025 12:03:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765645208; cv=none; b=W7b1aNuskS57WPAkf4xS5lUNUKLS6nr2x17M8UGTC6FaLtqaI5qxCwYM0UsfBqExlraPv6T0Qxwp2t0s8doi629w6jp4c+Nx1vDdrfJhX/2HE+9YrG3kNyi/d5SkgfFVfVXfGmxak6V2pICPtSJZ/cy85WpXzXY3AdlF38enUlI=
+	t=1765886584; cv=none; b=BzDDj8P3T1mo2WbZct1cED1eevyOFFcQaYW2CETqrtRfiswO1d5KJH53WQn+436S8j2+/abjKCEmFHNTh1+i96YVzMBrXMMXAQgatYeEq8EUz7Ji1LhZ0meV78HSG8zHLw41l4b4rEDAsxHOzcBdYPgfKXzvNOWr1aasId+hTkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765645208; c=relaxed/simple;
-	bh=VzKBYcoy1QLzHCut6+iKlDtsmmJak9U5g55kExj/JFI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SDuFPXgszTYzVwbJMXXIUOF45dM0q52mPtJZlH0Lxjt6kKDFyYsjakf1DV6Hz+5iuwYuwNJNxQqEJE0KG0DSdLuL2TNHUMF3KKDaeewdXB6h/fehxKMZYBet36eZlgDctSWN+nzypdJNHpI1bB5I9LBxG6T1gkkstjRq3i5hobU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RwzsPYFW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765886584; c=relaxed/simple;
+	bh=1fqkqkNEzTSWAwW3B+qpzd2aY6yMg5j1xLcgYYtCn9M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YeQn+969eAajZNPkhG6A3yZMi7nTjGCAzyABqzRB4bAsuV5GEp+KvDJc6pE5/tNgi67GeBdC+sKdjvijaN7giTeiVqxtuyGK1rGnZ9FmCA/uHclbe+MYvl8YVXLDSV27vng3rQ6BUDXK5d3WETZ8AiyLOl+b6bK5cFzGflQLSIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WTuuKQx8; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=EPBzXNtO; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RwzsPYFW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96631C4CEF7;
-	Sat, 13 Dec 2025 16:59:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765645207;
-	bh=VzKBYcoy1QLzHCut6+iKlDtsmmJak9U5g55kExj/JFI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=RwzsPYFWZct3fYDaSoH2MO8Pr6OmUerebApwD55CqIDmIjhoGYii118YuorwNlvqq
-	 ScAULQd/58dFFaqTTbGQluGmGyWmjP197/lR0mEIj9eB+4T931oqm6bV+zZ3Dtp3UB
-	 /3rEA58xa9OtbeLC8Sdoct2UoObIYuhaP3mRahKBMFr5MyUfu8A/UkiQKKb0hJJ052
-	 XpUK03v0ZQVQ46uHO5Tv0MUUttfEsK/oQCNHvdjrmUt7X7j38m0kpVAalfiSZ9oRUU
-	 sWgR/3U8XMRryBhIuoNjoTDFmxZ+oM6dTz94zalzS6WErXPW7Vhg3NOCfVaTboJchh
-	 qJxB4vBT3+yhg==
-Date: Sat, 13 Dec 2025 16:59:49 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Michal Simek
- <michal.simek@amd.com>, Vinod Koul <vkoul@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, David Lechner
- <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
- Shevchenko <andy@kernel.org>, Yong Wu <yong.wu@mediatek.com>, Peter Rosin
- <peda@axentia.se>, Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai
- <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
- <festevam@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
- <broonie@kernel.org>, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- dmaengine@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-iio@vger.kernel.org, iommu@lists.linux.dev,
- linux-gpio@vger.kernel.org, linux-sunxi@lists.linux.dev,
- imx@lists.linux.dev, linux-sound@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Remove unused includes
-Message-ID: <20251213165949.4b51f7cb@jic23-huawei>
-In-Reply-To: <20251212231203.727227-1-robh@kernel.org>
-References: <20251212231203.727227-1-robh@kernel.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WTuuKQx8";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="EPBzXNtO"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BG8JLTI2573201
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Dec 2025 12:03:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	S1bUZC3wQ09/vUi2Wz/LwL1M7PS4s9jI4u+ipA1NkPU=; b=WTuuKQx8zjT7yA9n
+	RcbkvqABZwczl032YJYNNIyEMQQ0tM+vIYIzu5g3Dn6Vu8y9nSVDA/pHjGy0I+DO
+	kf15TiqGU4+zNGPYK06xCKaXZJ7qclWs1jao4YkvXbKIZ+pyozusvyzYCINi6/br
+	lzPLi01djXZzGrCWTp/xAGD0biZWoAwBN3OsG6oF/2MURjRalhKBPSMz+q37jOOJ
+	ZGEoNU9XbiyPLo0IR26nMlkTduTn/0lQvy11X/NvYy+zjberHj69u4tyOk1aPwTS
+	9jI8WWAUDGCRH2jNuU0sknu4VMLaz4s2VrnNfRIrO6wuKogI4/A5TufHPHXhPrLf
+	BdTovQ==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b33thrwn0-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Dec 2025 12:03:01 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8bbb6031cfdso67002885a.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 16 Dec 2025 04:03:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1765886580; x=1766491380; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=S1bUZC3wQ09/vUi2Wz/LwL1M7PS4s9jI4u+ipA1NkPU=;
+        b=EPBzXNtOqm7/XQyV8O6do5k1dgBi9nQqiiOQK1SYLZl72i1CWWheYUcyoHx3P7Oq2m
+         krvOILpgw6dn4baFoyyLGMIQGhs8AXq/Nq2zaObXcpZMEE+vY7ByBV/SQzgrFm9DZFbQ
+         xomzltPbxmj0aeHoXpesfSxIaX2IonV0ZRFOKCiAZP2rnun0oB9ks1VMmEUlaifTQaGb
+         Es7ym6PrliDpxEGJecIlO4FYcIkzvjM1SKX5KVA2LMh3vPNZ6/H/IhKv1gGio3cAAXy0
+         SREbwucQUmMOx4PL4SzfFzjLgwhhKWV+XDEPeYE/lw1C144QCf70J6Aw43ZhEKVl/5rM
+         mR5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765886580; x=1766491380;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=S1bUZC3wQ09/vUi2Wz/LwL1M7PS4s9jI4u+ipA1NkPU=;
+        b=d+EBOpxE3TFPVbDyvpGocN96L+KKEKyWqB0b0kgk8xE+UzXOBCGpCSrBunC2osQo/5
+         18yYdwjqEMoV3ci1Cb010sv8Z7grbsjIajs7nmD+6JV7mtasKCZa9+ebcTy5zxbahYDD
+         2qOKXqijTLxOk+y9tWyNAf+twoEfOY7EgPAgZMAczw5WmdWYdCjF5XYaYbu5dX7Ogs9F
+         FFQ2MpddJaINm2LAit6g2dGNpu4KscLYMsE0ZajVvc2nvlMSUfGU+NJoQYWDANUsvcGw
+         yXK+2kVli2QuA7SaqFd2j9AcWAZNUyEeILt7LODlAMElXwEWf5FGqR5MVGqI8e18awNQ
+         RMJA==
+X-Forwarded-Encrypted: i=1; AJvYcCU4yASlV6vejnJpddtZK+v+qjz+jQjTP1kVRkiNnWxtBiidgZ/ZoC0SEDXzq+0eStMPNw3gqxkDS0t2Cw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw05fX9ADb4gXgKN6qz/ikd31CH12DaNMyhmC13MlGrch94DIJs
+	2WPrvj+6D7En/1kXOtvGboSnDmOiUkDxkWWpmnOp3X6kAnUNBhx3yyz66NhUvWwoC0DukSwGZXJ
+	Yxg18njwrZIK6vPezL4VYRETv1skcgJkjmauDAXbUUIxIZS6+y8ZZPy48BZGB9ZQkGg==
+X-Gm-Gg: AY/fxX5Vb8qYpV6b+zpyu7ZRubxeF6McR4T9zzRjaH082CzyD5vLAtJKYwa4C5t1KSe
+	czCTmUbEsmMAt65d2dvpgpXx1lK5uC8gg2FVniNr5BCs4wXjpXOUMIINJh6mImy5WiKDKwfx3od
+	LUn0Er9YS+StoIOIx+Ga4RzpE2MEo/bc43oZEOICWTuxvk4FDu1cuNcR5f0HN3llECtZJjGckPD
+	T2zKKk9+6W8rNC2r2N+aBWADhCafpVAZoboRiuRUpTd4VVgFAHfExTwphLGofGJKAzpes//ugLs
+	bmNlyhfd0RBmDuVpoIAfhBarmTtG0Ilnhfkr+YI1q+YGqSr+vTm88lJvzolFJ1k5TAcYR22d0Pr
+	ch8dUZiBEyFAc+9A9lz8OhF+MRvteAKsHKYDCqnVAkq9WMZ0t1a/zMUiov+xc4quwhA==
+X-Received: by 2002:a05:620a:468f:b0:8b1:fa2a:702f with SMTP id af79cd13be357-8bb3a0b7e5amr1437505385a.3.1765886579618;
+        Tue, 16 Dec 2025 04:02:59 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH+LwGQhgX+HV6xSu98Kp8PBKIcLhjvja7byx1nEf8nekydl7DDS37zTtoZtPzNHvCnZUEeTw==
+X-Received: by 2002:a05:620a:468f:b0:8b1:fa2a:702f with SMTP id af79cd13be357-8bb3a0b7e5amr1437499185a.3.1765886578963;
+        Tue, 16 Dec 2025 04:02:58 -0800 (PST)
+Received: from [192.168.119.72] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-649820f77e3sm16041066a12.18.2025.12.16.04.02.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Dec 2025 04:02:57 -0800 (PST)
+Message-ID: <695ca5d2-b713-4838-8427-a9d31751c0cf@oss.qualcomm.com>
+Date: Tue, 16 Dec 2025 13:02:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dt-bindings: Remove unused includes
+To: Jonathan Cameron <jic23@kernel.org>, "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Michal Simek <michal.simek@amd.com>, Vinod Koul <vkoul@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        David Lechner <dlechner@baylibre.com>,
+        =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>,
+        Andy Shevchenko <andy@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
+        Peter Rosin <peda@axentia.se>, Linus Walleij <linusw@kernel.org>,
+        Chen-Yu Tsai <wens@kernel.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Philipp Zabel
+ <p.zabel@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, dmaengine@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-iio@vger.kernel.org,
+        iommu@lists.linux.dev, linux-gpio@vger.kernel.org,
+        linux-sunxi@lists.linux.dev, imx@lists.linux.dev,
+        linux-sound@vger.kernel.org
+References: <20251212231203.727227-1-robh@kernel.org>
+ <20251213165949.4b51f7cb@jic23-huawei>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20251213165949.4b51f7cb@jic23-huawei>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=ZIPaWH7b c=1 sm=1 tr=0 ts=69414a75 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=i0EeH86SAAAA:8
+ a=UbNXja__m5_aMge2JzcA:9 a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-GUID: dDpsiHc8wEMxyijT3OP44YpxOCVmSTQ7
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE2MDEwMiBTYWx0ZWRfX9A8UYjSTSnLl
+ DY8+d/E/dUClWGEdWN661Sej/Zyb3733etSp1PErIxUWAfwf3TEp+VSol6OtY+XE0MT3rU+ebn5
+ KDKH8IiETx/E/EHhnJsJQKjo+IDHB7Ceu2Ey36Hdw6GCpiN6Ih57ylDvZfkHG8yzfRfKNBO59DS
+ xLJn5AhbsvG+Da5SjbFs5+28N2UtP3fvALr81eL9rVnQdmOzcDbefMUsolcPLtMA6oJcFhq1AkP
+ Fag2Pr1BSA8h80z+g++QsNSTgOb/cYuZNAlrrPxvKoLBiaRsq1mndFwjLCx4Oj62L+HnIiAKI0y
+ h0Aqb0VKbjPs7LRu2UCgZBTex+Z//dZagDOsQJgSju4J7oSys5m54w2kS94AIPuLw/+epQF6Nzd
+ asL57IP7EZmoI3BGr+TnwoPqmKexgA==
+X-Proofpoint-ORIG-GUID: dDpsiHc8wEMxyijT3OP44YpxOCVmSTQ7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-16_02,2025-12-15_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0 phishscore=0
+ spamscore=0 priorityscore=1501 adultscore=0 clxscore=1015 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512160102
 
-On Fri, 12 Dec 2025 17:11:52 -0600
-"Rob Herring (Arm)" <robh@kernel.org> wrote:
-
-> Remove includes which are not referenced by either DTS files or drivers.
+On 12/13/25 5:59 PM, Jonathan Cameron wrote:
+> On Fri, 12 Dec 2025 17:11:52 -0600
+> "Rob Herring (Arm)" <robh@kernel.org> wrote:
 > 
-> There's a few more which are new, so they are excluded for now.
+>> Remove includes which are not referenced by either DTS files or drivers.
+>>
+>> There's a few more which are new, so they are excluded for now.
+>>
+>> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 > 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> Acked-by: Jonathan Cameron <jonathan.cameron@huawei.com> #for-iio
+> 
+> Ideally we'll get a QC ack on those as well.
+> 
+> Jonathan
+>>  .../dt-bindings/iio/qcom,spmi-adc7-pmr735b.h  |  30 --
+>>  .../dt-bindings/iio/qcom,spmi-adc7-smb139x.h  |  19 --
 
-Acked-by: Jonathan Cameron <jonathan.cameron@huawei.com> #for-iio
+Those are being moved to dts/qcom:
 
-Ideally we'll get a QC ack on those as well.
+https://lore.kernel.org/linux-arm-msm/20251127133903.208760-1-jishnu.prakash@oss.qualcomm.com/
 
-Jonathan
->  .../dt-bindings/iio/qcom,spmi-adc7-pmr735b.h  |  30 --
->  .../dt-bindings/iio/qcom,spmi-adc7-smb139x.h  |  19 --
+and will hopefully be in use later in this cycle.
+
+Krzysztof and the submitter agreed on that outcome since they represent
+hw constants and aren't "real" bindings (connecting sw to sw)
+
+Konrad 
