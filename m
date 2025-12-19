@@ -1,220 +1,288 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8F72C0293
-	for <linux-sunxi@lists.linux.dev>; Fri, 19 Dec 2025 09:56:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1883191D9
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 Dec 2025 11:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766138208; cv=none; b=epVmLx9PcgnvTHVMBrkrCWP7JlFKifP/Mz2hr+9ZL6PmLffwdi6lktSgSueTRiRHKLVboOGsucRzijKc830v2MbFIUx7CwtN1kCmytf1Avfq23zBfB9ndsFqqtzD4q4dheZxl3aO/FMSverlNQn0uKy6wV7nRXoeBysa7FRzAW8=
+	t=1766144568; cv=none; b=dz1ELnc58ht1stW98mh/SFobqPM7VSK/0mtHDKJJrvxKAJb5dHh/i/bz9jA64/SbjkR2EKZo5DuCxfVByGJBlYurNXEn+niFi+SNGpfp3m6q5CsH3e/rZbeBs1eSpv+U5TYofA3W4kum3KXuNLbm7h4vVT2Kr4kkXRUEi0L274U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766138208; c=relaxed/simple;
-	bh=Ch5vWbJXT0wvLq1bmYQqIQOK+E4BgmbMDjNOWeVfoyI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i7uijFiCKhzt5hs9Ws25EpFvrCwuQQ9IccvvMRQ9KPbkH4MJgSqKU82RQL9QdTmQ7xuZ9LbYvmyOYdEEn2P9RY9i9SOBKQqp0ds3ymDy3HsZDIKc32Y4HLRLLO/D8W1bbiVryQ623r5V11yWr7/j7Bb9m9S2KHvmQyG1Grmf62g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=mBvM2Wno; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=VUA8dP4f; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1766144568; c=relaxed/simple;
+	bh=UaHO7/eOvI9UQifWvLpwmCqdh2eotyE0wYd3BHrZ6yo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=X6BYYmn9dkMZFSWd/ArIB18B1MPZua5OMcOzKWh4YTfdfdbEqxQgR3g3e1Clp+u6tBzm3sqaUmwJcIY48G+XaZ+Idn0Npd1rcYBCbZETw67XDNeHtbZ7r+F/3kegjCRqBrqZYECdIZRjZJxa8MdX/3PouTYFWUI44wt0Q6p/OuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=RzTHsM0X; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=NhNmuU4b; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="mBvM2Wno";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="VUA8dP4f"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BJ4c5kT3939280
-	for <linux-sunxi@lists.linux.dev>; Fri, 19 Dec 2025 09:56:46 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="RzTHsM0X";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NhNmuU4b"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BJ4c0Ur4145308
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 Dec 2025 11:42:45 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	k2n+SE5qOjIgQy6DMMGVLWGLkjFAmY3VbtNAYsRbVQs=; b=mBvM2WnoXkzYN/kC
-	SJGG65cEd1jX1y37nhMNwPXoYap3kWJQ87NpviuiG/9EpW6RY1R2+65CQo0TacQK
-	sg5g261EgUkzpSZNRyIQ5Tbq94grrpgA54RJf6dw7RiPrt9VvtizQFAgaUOcEl8M
-	GWgnCmPqSj0yr1tNRU87wP08XWkpyiLLJXDEohVRQEIe6jqZ3UEAy9xpKoaXIU/+
-	ForMEEIzdxlOZtKRPSjpS3PmCX2Ly5oARuhQGWCswtUnUjrxx7VjBJaXw4Eu3pbN
-	YXSBkcSKxsz957JQmEVhedqMLHHF9ABw3MrRhNod1hp64Yv1Ut2wd6spRjrh8MHF
-	YF2vfA==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b4r2c277k-1
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=pWp06pWmbjSJvf7fIHkRuG
+	NgN8f0S0siEmA5b1mlZsk=; b=RzTHsM0X2eAVgNkpqzV4KcHaBNbRa8NsXlPAxt
+	42E1B9C8t4UZ7DRJQSLJNmBT5HoZanJhTGHOxwQKdKRMzjO7VmRpjYny/gJm4cHA
+	c/AKbn+yDDxMez/LuoP93x4n/kWRXNYw+w1PiQ0+X1HFdesFVQE2Wd5EQleXpOFi
+	P83ccJH61gP+B9P8A93PaamGzq9B+v6Oe7VGpyWSMt9ao2wgvUb17b6whR9repqz
+	YeF3uEKa1nOJuHRgSyLVO9IAFAb8fI5BbH0PJuY35JZufcCGQ6O/9N/IXR5huMcc
+	PotSODojz7ryMlBtHRIcEZeP3WTb766UV6I2+1UisFqKPLLQ==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b4r2dth9m-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sunxi@lists.linux.dev>; Fri, 19 Dec 2025 09:56:46 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-88a360b8086so36267476d6.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 19 Dec 2025 01:56:46 -0800 (PST)
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 Dec 2025 11:42:44 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4ee21a0d326so27634051cf.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 19 Dec 2025 03:42:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1766138205; x=1766743005; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=k2n+SE5qOjIgQy6DMMGVLWGLkjFAmY3VbtNAYsRbVQs=;
-        b=VUA8dP4f+axuFcY9w9P418PPpgegSlVKhU0NOhoczyYIrWMCSSbSer+0d+quZHVWTe
-         3lPaTu2sB0QxnRYA/20APu+dlaEDWSL5m8hFT+nqHL76sxkI/Ko+b0dMkdPx+fjofNm7
-         tq1v2xRiCPNuNkjcwHOWybd8LfTu4s4wctmCpAbJ5KjVBqdiXhFFRpmG4KLfNc76B/0J
-         pxdv7DR0cETaBwosQOOA5Aht9jloycYZ1VQ1iHTuhiabE6YRLK+zHN9c2ME9GAmhEk8e
-         Bj4ytvtUJO6IAJvzLTJRWZoIWDXZsu3ePIpeMQSKDeQsRTB3rUDij8eubL8enKk+/lUF
-         UtJg==
+        d=oss.qualcomm.com; s=google; t=1766144564; x=1766749364; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pWp06pWmbjSJvf7fIHkRuGNgN8f0S0siEmA5b1mlZsk=;
+        b=NhNmuU4bVmixAv4ZpSEMWNd2C8C49GBGgogGqO69ERAJMz8ttDFRofAo4GDNUps5F3
+         CYYxwrLUMCn2owsUuvdz5uH57zUg29TUF0ayeb0Uls6hYD3aTtrIgwZaQBHKHdiS7oBY
+         0ijpWU7nwwlJUWo8PN8pJt0UrKlGtObR4R+O9g+Falzdn9gycLBlplWz7VGCdZ+A6NUT
+         BzagjRVhwUuAW8ZUFM4xtrnMJs26+zSXLCw2ZZ2XozuOgmXro1pT3cdYP+G/GPDVszMl
+         kwrOzqCjp22OeA1Vlzi3EYxCHZXnUuzPA12cwNCWukMmcakqQ4m44dhpSvEpUkJ4gM7S
+         eAFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766138205; x=1766743005;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=k2n+SE5qOjIgQy6DMMGVLWGLkjFAmY3VbtNAYsRbVQs=;
-        b=ojkiaNsJvy+1loidEKKrR7hT/FXSH5E2iVgh96kk3b5ID/rNyYiqwjU7TlZjgzHR0N
-         E31fRXg33t8FGQrmRKzYZrMzYnZYjaNQzpkc6U9d4gKIecpdLBm+re1cG1Ta97SngLrp
-         GNO22gAv3kcv/Gc6JBYtyikZ2oEQpiDM1rV7iuJ01BkPBFvJTJ4bAfWqRod4x/s+eKgI
-         kAeb4tSpxAoK2jlEbqTt9qeCr7kbuX8PPVPD/4XSWiyckiOp7P/UhRACe1R9mZVCaJdt
-         hETlNHbq70KGjksJ/N/nk18/3YHiRwVZ09GARkoAKXP+yYt1u467KaWfUVHMeOfGBZnV
-         qmcg==
-X-Forwarded-Encrypted: i=1; AJvYcCXPf/h8wenxfFtyujuDR9Q28GR0KiaG6K5IgzP4HuB2F9FKNeZmHgbivqyyFJJo4ZSUF6MRJ8L3Pga4qg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz3MXUEhJdJYoGK6qUauMIguHCqFdsXVwCNIMbTIDhSQutpUMjI
-	617LNeDutvajHqMZOQh5l4u7y3S6l3fs+GDQVe2OCaBCvsmJHAzqW4kKK25XI0Qz3EULTlr/7QT
-	6rIIUOMFMu3CwSiLwj+kDRaRAxwkleN1QZBPgCn90duJQluOpQ4gcMbBddcS58URhAg==
-X-Gm-Gg: AY/fxX6zuX2pNP+/cD4I4bttbUm55Jo3mnZoyY5BrMBIAhzx568WMVdiUzMtkR6Z8y9
-	0wZiFfQ7v2Jcx92rx5MqsjDtTC9BE80BZQ9XN15GI6W0rJnsJo6RmeA8G/DqtnPUvcOoZDjyV0z
-	3W7UeD2HW7HaizH//PkhCyt123OvtU4gsPC5Uac3g97fxaThFqjyk00g3jl6wVEAx9q1dZUHtcJ
-	NcnKr/iamzJL7PDz8KOBhH9QQ+Y3twvNaa4hDlacP+6BzJvSTTzUeDm0o/1as5nQohyMIUa1fJ9
-	N55cb/T4pj5B8QMm579d4SWRpJIENoCU2JOVZoL85gf9OldZxfoW942DwD1B4dic40er7iQLd0f
-	CpJhdjwvq8U/a64/MLJ9EwK4Tu/21TYXBwIUU0Hik535ZAOWQqZO/XquA5vEn+UiuWLTn
-X-Received: by 2002:a05:6214:1c4a:b0:880:4ed1:ce32 with SMTP id 6a1803df08f44-88d833b580bmr40114536d6.45.1766138205404;
-        Fri, 19 Dec 2025 01:56:45 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEmL/9SGkWyvSpj/ayO4oxzYHHhXmjwsfj/l32rWMsHt4VSUg1NRyyPchBsCrruiDNCaZinHA==
-X-Received: by 2002:a05:6214:1c4a:b0:880:4ed1:ce32 with SMTP id 6a1803df08f44-88d833b580bmr40114456d6.45.1766138204950;
-        Fri, 19 Dec 2025 01:56:44 -0800 (PST)
-Received: from [10.193.196.209] (82-128-196-119.bb.dnainternet.fi. [82.128.196.119])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59a186f957asm542852e87.28.2025.12.19.01.56.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Dec 2025 01:56:44 -0800 (PST)
-Message-ID: <a0acccc3-00d9-4235-9b4a-f4498b2896ac@oss.qualcomm.com>
-Date: Fri, 19 Dec 2025 11:56:41 +0200
+        d=1e100.net; s=20230601; t=1766144564; x=1766749364;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pWp06pWmbjSJvf7fIHkRuGNgN8f0S0siEmA5b1mlZsk=;
+        b=XwEJgeSzBE8sXKQPqB4ZhdLxmglrJRd0z+m5ZmpnCZS4GyWTb8ClPHetXFQBpNjRHK
+         Zb2OI6Xjdfh5qB3wuPwk7KAyjCbeMGxvXIt5trP/h7cxvoit37Yh7P4AyiY/ZbBJ0bj6
+         bVGnSBzWDbh+Q8twkaeqlXBdkaahC8p+fzAU5I8fjoyCGGtITX+bdnrsoWfvO9rIU7SW
+         ENspVwt7VCd/XcvWetShi3DkL/3dTT5Ol9kYM+7x2n7QSHtOZBWzAmhM5pDNdR9Pba62
+         QrKPbT2bIRc3oUXWSTiI/bb81tOGg0EkL1OHgnWqgqK57TrzPjbUfVfVedNPk2fK2T3Q
+         se4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVxRWH6DU/Md8JyDVAIWJRolnf7SrZaRdO5ZzJFlF9X5dpCSu5gV41HmaK31ysSswpNoQMuP6+vkewpnQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywyql0+wHjPSVQEvJ2xnGiJHwPMuBWvgYWpNYrE44OB7ZfueEk0
+	vdS8iWQ0TtKJLfeZRyCcEkyroYe4ShosVKRU6ZZMjWjdHgfn4ocKu1G3BFijjmTfC3pMTMZTP+e
+	HOGzEFbAwrsskgsadnFaaGNMEGEl8HuecWocSgucHuOSMt/q0m5qBc0ldQ1VMxmi+rw==
+X-Gm-Gg: AY/fxX75oDf6anS9XEMcDvhoxGOFeygogJzRQxRVr0P12MPPg5mGnUE+wb1FY4KnyJm
+	A1ZTkaoyotD92hlmpaXHE1wnzWWJ7dMMQc3LE/gZ7a4g+MBZEVJUKXdeo9Sitq1JvzhFsnXl/f4
+	hz3CHk/YamFQfhGzKyTflTXvNRXNyaPN77XpARreBtSkSCTHkJmh9AJPDLkYcYgeNraoEOMfhxA
+	tLPbIwGzKZ/koTYRInHNtci7xdr3I+XSzdgLnwCtK0HLJL21q9a01CgWWLL5VoDEeu+HTaD5oNC
+	Wv4OSqqQVUhYJd4WfscfrGfbLX2g8x6vun4xW77qsPF1mLyTfzySiMpkZjSFpjIxWaLOTx7AHi0
+	mN97qGWoFJb0WHNy/Sv9GHHXQjYpNwReHTv24k4A=
+X-Received: by 2002:a05:622a:250c:b0:4ee:24b8:2275 with SMTP id d75a77b69052e-4f4abcf6df2mr32638391cf.1.1766144564321;
+        Fri, 19 Dec 2025 03:42:44 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHmBbFYUgOlr6WN956Einac/qKi2Xml3/A2v+AE7uUKmhMDZRt/gScziSp2QVRxwtyeDwUkJA==
+X-Received: by 2002:a05:622a:250c:b0:4ee:24b8:2275 with SMTP id d75a77b69052e-4f4abcf6df2mr32637891cf.1.1766144563807;
+        Fri, 19 Dec 2025 03:42:43 -0800 (PST)
+Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:d857:5c4e:6d25:707c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d193d4f09sm41134425e9.12.2025.12.19.03.42.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Dec 2025 03:42:43 -0800 (PST)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH v6 0/7] net: stmmac: qcom-ethqos: add support for SCMI
+ power domains
+Date: Fri, 19 Dec 2025 12:42:15 +0100
+Message-Id: <20251219-qcom-sa8255p-emac-v6-0-487f1082461e@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/11] drm/connector: hdmi: limit infoframes per driver
- capabilities
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Daniel Stone <daniel@fooishbar.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Sandy Huang <hjc@rock-chips.com>,
-        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
-        Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
-        Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-        Liu Ying <victor.liu@nxp.com>,
-        Rob Clark <robin.clark@oss.qualcomm.com>,
-        Dmitry Baryshkov <lumag@kernel.org>,
-        Abhinav Kumar
- <abhinav.kumar@linux.dev>,
-        Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
-        Sean Paul <sean@poorly.run>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-References: <20250929-gregarious-worm-of-memory-c5354d@houat>
- <itgffxygopi7etkt7xhvmyuvyl5ad3k43nsxvjzw3ubtwiikn7@ocugfdaigtu7>
- <20251003-uptight-echidna-of-stamina-815305@houat>
- <zpygq4kapil3swsmhhqkdwny4ry2dznnzixsw5rkza5p2kqnvp@abvf2vxlbwif>
- <2a5fitdzr2bz235fj6rvqzxr6ckszkjbazjfszlvnizdh2cvbt@w3ypjo7vahhs>
- <pibxhl5hlcpuk3zsgyienfdlda5cwuxrnofwlw356scuzzplqy@zw3ofelgvwik>
- <bsoqyzxi45i67jpzhwr2d4illufa5ghqf25z6flbp67lsbvh22@rrlcihp2oxea>
- <cgzclxjubj5oca3rdnv44qwrkmpddxve4tlz76cc6p3b4hz3oc@3l7mt5ha7do6>
- <20251201-enlightened-zebu-from-asgard-5a20be@houat>
- <5dyhjur3hkhvtlwrl4h2m342byor7f3ssvkunj4cggnhbhlmnb@l2mfz7ypjj37>
- <20251219-honest-slim-crab-02e932@houat>
-Content-Language: en-US
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <20251219-honest-slim-crab-02e932@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: MYkdp9dn5yt9oaUJia49zsAZA4sqceHb
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE5MDA4MSBTYWx0ZWRfXxGCTwZw1ZTKl
- cS3hGHgUGWidzjAv0+bkUGKjihjIrX2F6sy7XjzBE3ZsRr/bzER1L+5XtZwPijnh/nLxz27a4Yc
- vC3/dJ2JmlKt0ne+pmqH0LV25C8EPOmnukV5dg4m6irIENfpr4Ibw51smJWVNcIlMA0vvSqqN0V
- 7PUvVMs8q3n8snKSVTqkSPgRb7of/hRb8JUWkI+a056m+1K+EWZEDUKHoRaz9YvkGR3jOokJvej
- QAaItXuMPN7z3yIGWx3DPlxNDtFIner1vZNq12qOkSuBYIIm2i+ldcF/Z/ytlZEVffl8VLeAFl6
- spsu8MJwZRhF1oEjfn6NSdOFo359LAbtfSFfX9Xxc5lGjrxSOgw+J0zH5HseIOEZZnoYglxksE9
- VHUGRxwvSJlkA8OZn2FLUf0C+3jlJgN/1yF6aD5O7URvD3+DR5RuqgGZAmvNYXaYB/AHBTZWWnt
- GiJ4DuXReePax6/Oonw==
-X-Authority-Analysis: v=2.4 cv=feSgCkQF c=1 sm=1 tr=0 ts=6945215e cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=UP4AmmvVc3sGQHJQO2VA4Q==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=wWkPZpA8QBIs0yCpxSwA:9 a=QEXdDO2ut3YA:10
- a=OIgjcC2v60KrkQgK7BGD:22
-X-Proofpoint-ORIG-GUID: MYkdp9dn5yt9oaUJia49zsAZA4sqceHb
+X-B4-Tracking: v=1; b=H4sIABc6RWkC/23PywoCMQwF0F+Rrq2k7fQxrvwPcRFrRgs61VaKI
+ vPvVgUfOMsbyEnujWVKgTKbT24sUQk5xL4GM50wv8N+SzxsamYSpAYLDT/5eOAZndT6yOmAnrv
+ GgFQavRaS1b1joi5cnuZyVfMu5HNM1+eJIh7Tl9YKGNGK4MCVRNv6TpAxbrEPPaY4i2nLHlxRb
+ 0KAtGOEqoTV1th1KxXg+o9oPoQY7VSaSnTWGAPgrCf8I/Q3MfqFrgSIjSKF2Cn3W2QYhjugyuI
+ afAEAAA==
+X-Change-ID: 20250704-qcom-sa8255p-emac-8460235ac512
+To: Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Andrew Lunn <andrew+netdev@lunn.ch>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Jose Abreu <joabreu@synopsys.com>, Chen-Yu Tsai <wens@kernel.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Matthew Gerlach <matthew.gerlach@altera.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Keguang Zhang <keguang.zhang@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com,
+        Romain Gantois <romain.gantois@bootlin.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Heiko Stuebner <heiko@sntech.de>, Chen Wang <unicorn_wang@outlook.com>,
+        Inochi Amaoto <inochiama@gmail.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Minda Chen <minda.chen@starfivetech.com>,
+        Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
+        Fu Wei <wefu@redhat.com>,
+        Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Shuang Liang <liangshuang@eswincomputing.com>,
+        Zhi Li <lizhi2@eswincomputing.com>,
+        Shangjuan Wei <weishangjuan@eswincomputing.com>,
+        "G. Jaya Kumaran" <vineetha.g.jaya.kumaran@intel.com>,
+        Clark Wang <xiaoning.wang@nxp.com>, Linux Team <linux-imx@nxp.com>,
+        Frank Li <Frank.Li@nxp.com>, David Wu <david.wu@rock-chips.com>,
+        Samin Guo <samin.guo@starfivetech.com>,
+        Christophe Roullier <christophe.roullier@foss.st.com>,
+        Swathi K S <swathi.ks@samsung.com>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        Drew Fustini <dfustini@tenstorrent.com>, linux-sunxi@lists.linux.dev,
+        linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org,
+        imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, sophgo@lists.linux.dev,
+        linux-riscv@lists.infradead.org,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4401;
+ i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
+ bh=UaHO7/eOvI9UQifWvLpwmCqdh2eotyE0wYd3BHrZ6yo=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpRTokWXsa2gKI4nKr8h3MYxFUimxm2O4dHtXW6
+ KCiHQiv+CiJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaUU6JAAKCRAFnS7L/zaE
+ w5TBD/0VsHh57NK5nQksuR+8VSL79RDSjE5N4Uss3l4JwiFExzXFJZFpCwifvwH9coSoqlwSmi/
+ HJxLjwprjYGZnaU+rNXkOiZ0EsDovcObvNYahOJjd6Lo56NFM5cKuvxZIPtBE+iyaBwmzxnLmu/
+ T2hRwgo12C7kTrrBKQUhlfxq8n1b/ffXt8j3ZcPGUYWSirWStJVUES0McEPRujOtu1OkWm1SPmV
+ Ejrd9L49HQ+nO6ayV3/BwwVVypRf+179KBzXtsYmh2ARvDwjC12TUaLQ1v4RX9OXsYdoYgch/S6
+ yvKvCxXExRkXnvfNQShDqpwxsqQH+ugBqbTLmnyBt4Yr9mDyozKPTqaktQISbSrpK229wF+8Wqv
+ 8y4/UN1sWaRnu0hyRREDiaMQRMu9WPHyGDpBBS8WNsUk7q//HXhhNZhgg3nn9uvVNiEqwD0mE/F
+ awDlTEUaCzTLaExwn/CKC+RL+ri68hNQj1CiAfnruILFOSDcjcS6x2jWeVHJ2DjVby4z6+Gf2vV
+ oduw+zcDEJ1Xe9k2AEYXRVqWBwYmIbh2NxHM9AaMWrxwouwIUENXthjhKxJB9V+Z08rtzMIYqnf
+ jYCydlPUBZgHMvymTXbhPio9aTl7NoQa5wAPhUk2jOJbwWYIDgFqegzo+VSItUKDNtUvi8/qrdR
+ +XbsmEDfNuXywwQ==
+X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+X-Proofpoint-ORIG-GUID: cqZbkhb347Rw-aJI204f4OoAfc3iZlmX
+X-Authority-Analysis: v=2.4 cv=A7ph/qWG c=1 sm=1 tr=0 ts=69453a35 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=PHq6YzTAAAAA:8
+ a=h7uu4O38hj_b6GN6T5YA:9 a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
+ a=cvBusfyB2V15izCimMoJ:22 a=ZKzU8r6zoKMcqsNulkmm:22
+X-Proofpoint-GUID: cqZbkhb347Rw-aJI204f4OoAfc3iZlmX
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE5MDA5NiBTYWx0ZWRfX9yc6+ArBp2sO
+ eMKfulDQLLIGjTnM7hpEYMnGgFojMSheEgIaLDN+AKyMaryLw3gD8c0qXyeP1ufOXbhsTkKfbC8
+ NGSm7uaP9k4oAP+PYJyg20qrWmb/BQcZK0zvBLdbW7kC/Xe0hTI7peK/7helHuvUE/ie/qItx16
+ aqjh+U2bIe86d3YA/WRgaNIZ11HBLn4zjifckW09pVcyZUMuCYIR6xLhWIIpWJvnd1am5oJa8ux
+ 4A6cNvVb15FjrCDgrgaGGTwY/JZwaC+tIdVtmkBh8V6Sdf8AyJIm0uh6+guKRn63TgvjvRO8TlF
+ BbZdnB7Qtz+vUoacZZOZzMIvOs5uUa40VwFf/6QFBWvx1QnDzxTtsdY2l1TSpsVz09Z4NHMYrfp
+ kMW0/6dgySxozFZvIllM4xWJ5oWKTV/BYKQwWN8Awr9m795Y4niMOvCB911Eaw8wtPvakU54Axh
+ eFKGi1LHWJ+50yleYUA==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-19_03,2025-12-17_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 priorityscore=1501 malwarescore=0 suspectscore=0
- spamscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0 clxscore=1015
+ bulkscore=0 priorityscore=1501 lowpriorityscore=0 impostorscore=0 spamscore=0
+ phishscore=0 suspectscore=0 malwarescore=0 clxscore=1011 adultscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512190081
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512190096
 
-On 19/12/2025 11:54, Maxime Ripard wrote:
-> On Sat, Dec 06, 2025 at 01:28:14PM +0200, Dmitry Baryshkov wrote:
->> On Mon, Dec 01, 2025 at 06:01:56PM +0100, Maxime Ripard wrote:
->>> On Fri, Nov 21, 2025 at 07:09:01PM +0200, Dmitry Baryshkov wrote:
->>>>> So it's not really impossible, you just need some hardware and a day's
->>>>> worth of work.
->>>>>
->>>>> There's no reason these should get a pass, it's breaking the spec for no
->>>>> reason.
->>>>>
->>>>>>> For SPD, It's really not clear to me why atomic_check should do that in
->>>>>>> the first place. Your initial concern was about exposing infoframes in
->>>>>>> debugfs that wouldn't be used by the driver.
->>>>>>>
->>>>>>> If the driver doesn't register a debugfs file for SPD, and ignores
->>>>>>> whatever is in the atomic state, what's should we force drivers to do
->>>>>>> that?
->>>>>>
->>>>>> I really don't think that drivers should mess up with debugfs on their
->>>>>> own. Making atomic_check() disable the unsupported InfoFrames makes the
->>>>>> picture perfect: the DRM no longer tries to program them to the
->>>>>> hardware, DebugFS files stay empty, so the whole state becomes
->>>>>> consistent.
->>>>>
->>>>> In the "bridge has no access to infoframes" case, there's really no
->>>>> infoframe. An empty file is "the infoframe can be there but isn't used",
->>>>> not "we don't have access to it and can't report them". Only drivers
->>>>> have those infos.
->>>>>
->>>>> If we do split up write_infoframe into multiple functions though, I
->>>>> guess we could create the debugfs file only if the function pointer is
->>>>> set, which removes drivers' involvement if you don't like that.
->>>>
->>>> I'm fine with not using HDMI connector framework for lt9611uxc.
->>>> Likewise, I think, it's fine to have empty files for the infoframes
->>>> which are not being sent over the wire for any reason (hw not supporting
->>>> it is one of the reasons).
->>>
->>> I can't think of any other example in the kernel where an empty file
->>> means that the driver doesn't support something.
->>
->> Okay. So we need to sort out implementing the split write_infoframes in
->> drm_bridge_connector. Any suggestions there? I'm asking, because I don't
->> want to end up exploding it.
-> 
-> I guess it's only really a problem if we want to make it const, but we
-> don't have to? We could just as well allocate the structure directly at
-> probe with a drmm helper and fill it as we need to.
+Add support for the firmware-managed variant of the DesignWare MAC on
+the sa8255p platform. This series contains new DT bindings and driver
+changes required to support the MAC in the STMMAC driver.
 
+It also reorganizes the ethqos code quite a bit to make the introduction
+of power domains into the driver a bit easier on the eye.
 
-Yes, I wanted to keep it const, as we usually do for all function 
-tables. I will use drmm_alloc for it.
+The DTS changes will go in separately.
 
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+---
+Changes in v6:
+- Fix $id value in the bindings
+- Drop patch 3/8 from the series
+- Update init/exit callback signatures
+- Link to v5: https://lore.kernel.org/r/20251107-qcom-sa8255p-emac-v5-0-01d3e3aaf388@linaro.org
 
+Changes in v5:
+- Name the DT binding document after the new compatbile
+- Add missing space
+- Make the power-domains limits stricter
+- Link to v4: https://lore.kernel.org/r/20251104-qcom-sa8255p-emac-v4-0-f76660087cea@linaro.org
+
+Changes in v4:
+- Remove the phys property from the SCMI bindings
+- Mark the power-domain-names property as required
+- Set maxItems for power-domains to 1 for all existing bindings to
+  maintain the current requirements after modifying the value in the
+  top-level document
+- Link to v3: https://lore.kernel.org/r/20251027-qcom-sa8255p-emac-v3-0-75767b9230ab@linaro.org
+
+Changes in v3:
+- Drop 'power' and 'perf' prefixes from power domain names
+- Rebase on top of Russell's changes to dwmac
+- Rebase on top of even more changes from Russell that are not yet
+  in next (E1vB6ld-0000000BIPy-2Qi4@rmk-PC.armlinux.org.uk)
+- Link to v2: https://lore.kernel.org/all/20251008-qcom-sa8255p-emac-v2-0-92bc29309fce@linaro.org/
+
+Changes in v2:
+- Fix the power-domains property in DT bindings
+- Rework the DT bindings example
+- Drop the DTS patch, it will go upstream separately
+- Link to v1: https://lore.kernel.org/r/20250910-qcom-sa8255p-emac-v1-0-32a79cf1e668@linaro.org
+
+---
+Bartosz Golaszewski (7):
+      dt-bindings: net: qcom: document the ethqos device for SCMI-based systems
+      net: stmmac: qcom-ethqos: use generic device properties
+      net: stmmac: qcom-ethqos: wrap emac driver data in additional structure
+      net: stmmac: qcom-ethqos: split power management fields into a separate structure
+      net: stmmac: qcom-ethqos: split power management context into a separate struct
+      net: stmmac: qcom-ethqos: define a callback for setting the serdes speed
+      net: stmmac: qcom-ethqos: add support for sa8255p
+
+ .../bindings/net/allwinner,sun7i-a20-gmac.yaml     |   3 +
+ .../bindings/net/altr,socfpga-stmmac.yaml          |   3 +
+ .../bindings/net/amlogic,meson-dwmac.yaml          |   3 +
+ .../devicetree/bindings/net/eswin,eic7700-eth.yaml |   3 +
+ .../devicetree/bindings/net/intel,dwmac-plat.yaml  |   3 +
+ .../bindings/net/loongson,ls1b-gmac.yaml           |   3 +
+ .../bindings/net/loongson,ls1c-emac.yaml           |   3 +
+ .../devicetree/bindings/net/nxp,dwmac-imx.yaml     |   3 +
+ .../devicetree/bindings/net/nxp,lpc1850-dwmac.yaml |   3 +
+ .../devicetree/bindings/net/nxp,s32-dwmac.yaml     |   3 +
+ .../devicetree/bindings/net/qcom,ethqos.yaml       |   3 +
+ .../bindings/net/qcom,sa8255p-ethqos.yaml          |  98 ++++++
+ .../devicetree/bindings/net/renesas,rzn1-gmac.yaml |   3 +
+ .../bindings/net/renesas,rzv2h-gbeth.yaml          |   3 +
+ .../devicetree/bindings/net/rockchip-dwmac.yaml    |   3 +
+ .../devicetree/bindings/net/snps,dwmac.yaml        |   5 +-
+ .../bindings/net/sophgo,cv1800b-dwmac.yaml         |   3 +
+ .../bindings/net/sophgo,sg2044-dwmac.yaml          |   3 +
+ .../bindings/net/starfive,jh7110-dwmac.yaml        |   3 +
+ .../devicetree/bindings/net/stm32-dwmac.yaml       |   3 +
+ .../devicetree/bindings/net/tesla,fsd-ethqos.yaml  |   3 +
+ .../devicetree/bindings/net/thead,th1520-gmac.yaml |   3 +
+ .../bindings/net/toshiba,visconti-dwmac.yaml       |   3 +
+ MAINTAINERS                                        |   1 +
+ drivers/net/ethernet/stmicro/stmmac/Kconfig        |   2 +-
+ .../ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c    | 344 +++++++++++++++++----
+ 26 files changed, 454 insertions(+), 59 deletions(-)
+---
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+change-id: 20250704-qcom-sa8255p-emac-8460235ac512
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+
