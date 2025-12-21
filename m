@@ -1,64 +1,64 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC50E24677A
-	for <linux-sunxi@lists.linux.dev>; Sun, 21 Dec 2025 15:51:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E91184524
+	for <linux-sunxi@lists.linux.dev>; Sun, 21 Dec 2025 15:52:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766332315; cv=none; b=u/UX56Taju/SfP8welO2ZsYJA1ugInCSOeYaam2vU5kcZ/Br3V784MqYt/SroQWQFdV/3ymoIs84aWSySV2UtZqwOcpRmQV80DIH6E5mm3pUJsLeIfqbsT9zLx35MkPm+qcWgANwvM1zATQCPcpA3oYiv9RNQRmCl26etUwZ/f0=
+	t=1766332374; cv=none; b=SO7ItoaS+rvIJVZBZQEhj+isOHaPsoaOI4heAv/DOy2MOgJG2Wi5/wEQQOZcl9ParijyJpMCQ46/kgYvnBoYyI2zBbCDyLNaiqjykcDQ8TOfWpUmMS1k9WqlCyb6V96DkCRFZJ4b/dWLkVGf8l65s3om7+8QrT1P+bJF6JhXv7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766332315; c=relaxed/simple;
-	bh=+wGpSjoV+I/C1HHA1GCDrk5eEUiIYLCQUe47VJqqo2Y=;
+	s=arc-20240116; t=1766332374; c=relaxed/simple;
+	bh=Ktfr7SJQpTbgMhZZT/6XJflt14sbq+igmEnRrXK6oIQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GqGsk8NGZe4L/38hTmXnCU2tX7g5+RKU5EhglaZRy3jayFnUIEvpOmAZ+J5LwCkWp912jZPPeJ8xv0IBmBKk4eRBKAtGg513lQA5sAYVrVvHU2CBZ/kRACR3WZ73nlK8UzGNGPbA0aJ0oT7y4xG9D0BbBP34/F1vct8HFiIeEhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hSsR6TtJ; arc=none smtp.client-ip=209.85.128.41
+	 MIME-Version:Content-Type; b=a999o03EokHwWvmcWJzYlhNXxNq1g/7kyWbRDsFrpvIC50ylUXTOwmTwvDZgn7uKHNwNFtlFsXI/hlLJsvRaEZ3gUcZhZabtrazZC6veZ9YvbLmTkodJ0H97fknDOq/TjPWzauiREiZmllK9Bgf5LGpnjzBwfP2kZAuKFCygx/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TCEXeuHv; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hSsR6TtJ"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47bdbc90dcaso21361475e9.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 21 Dec 2025 07:51:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TCEXeuHv"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47a8195e515so23131585e9.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 21 Dec 2025 07:52:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766332312; x=1766937112; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1766332371; x=1766937171; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+wGpSjoV+I/C1HHA1GCDrk5eEUiIYLCQUe47VJqqo2Y=;
-        b=hSsR6TtJaY9uAP4DWcQt+D6IfHZZWvKNYCLgPJh5z4vyiY452K9S3ehwdpnfDzAfsa
-         BqFgnH7F8xf7oPUXKhq0VFdinwR3WBcYn9XJYTq8qs9oCcbhBAg/Nv8HNlXEmBD8wQPW
-         +q7wJR/dxXdVHtPudJP9HtOXzIiM8G+ZDjid0mEcP8Q8cB4QtbwKzRFs4Omvd5FDpxzr
-         d0WpIqN+GuFbBMJ63PGogEnYCkSqEyRBgXKESWCXMJnrHZhsKHz8IMy1W58juyIhvHEH
-         B2n8mwPDtaz/S51ZL2ylsJGcfylTLi5T1nzPR/mCTJ/5xvkY9l/ama9cCmoK4M100cJ+
-         VhBg==
+        bh=Ktfr7SJQpTbgMhZZT/6XJflt14sbq+igmEnRrXK6oIQ=;
+        b=TCEXeuHvgozUGQoN/qYGAkRQ99/MYNbw27+p/lLZ3XD8Ykk2cdBmaGfs4NhZuxmUaQ
+         2n1jQsa+x4/DlxqvnyIiPN5QPTpAS+x0g/9F5/bWQbQWDcSkzpiaOxb/P2LdndvtiolV
+         DGsJZSYIxus2fXFcfNblgcla5TG/Zz3DGTz+BmOKMgLVBX83DNQiNNSQivZcE5G8A9QW
+         f3cUNF9x5Sue/BgVHGjyLrYukcje6QpV6H0SXWLAHP65ysCRtqExhH5IVADDprEuVsTk
+         JZgUOFYCu1yG4INqwHq2cQGpoLkDzAyyVQ5vEjRlhe1TgjuBceqLn/MA1DyG/WXhgAFc
+         EUTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766332312; x=1766937112;
+        d=1e100.net; s=20230601; t=1766332371; x=1766937171;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=+wGpSjoV+I/C1HHA1GCDrk5eEUiIYLCQUe47VJqqo2Y=;
-        b=mlOCAo5u2qJS872Z8DlaFjw9HylWvz0aJd6L0TbrOBdhIdfzSWn0w3ggc2g4VsH+UK
-         vVvCaRfkif9YReRHwDUCMdcGwwgxVi36xOyz8eV5+eZnzUohWGp3/9VyMZTQQOoyRZ/P
-         fKnSZE6vS4CxgqAFuqavhBPjj4GfeP7U1Xtp9np7Ug2qevK4yDM+S0bVkRWfmp7dZPjF
-         9ts1+NrKT1eciZYSAv6bNGsNqAaks6udKLO0Xh+8yXIuhr3Kk0mgCZ5oMxnK9z1uWQq9
-         bmvi3FWES+5ZkHJbRRD69zczV9vM/lALSm7cGCc+vbEaG9JAaMG+KtBcO7hF/6bqzYnx
-         bt9A==
-X-Forwarded-Encrypted: i=1; AJvYcCV2Rm1/sXu1qVnQdqogkGXMvbpVFhEVWQ4DqGByBVeddu4qeLgv/X1nNI9lNFYQ3IHCB3CaP39C8sfvrA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy7Gj1DSRWJCFuqIs0H9nbhI6C1ntDdQENykz9F0N0ZJ7BbLZM8
-	iK8NdL7XH4Okb2POLbtrIUOVGfD3selLtSnc9nigq+99TJPAd0isc10Z
-X-Gm-Gg: AY/fxX6xip0hD2Kwx3dqVZWhu4DcVAAYu2wO2D3qZU6M1fiS7iXGRbGFzmpjAA6QCvq
-	PzuMMCFVuyyKEhaQIneSwMbweNCSkJ7O/uoOaAETYTu6tFmyHDsss2nR+zJr0xpnZ0X4QYcVmig
-	ocWS9JYWyqMuKjWBZJFgFD+xGu7JruT0dUhO/U2ylGQiiO2nij0GteVsTcBS4xY/iQ/5g6l9xxf
-	f8iBUFw34E45VZIbrGaOZKmARQKx+fy9Eh+N514TIJllcd2UxdAp3r9c9nfgBaQl2ZcPk/OHelQ
-	3ST1JslM0M0BY5Mt6CQD7AHW7yeUW2W6N3tfTSJFeyyQB9cfDgDw+lvsPnQb6VwmoquEGoxM7CL
-	ig8/0WXszzyh8s6E9QUXUeb3Sv5who/pvgK54V+dWnhbw7PBeNErON8S77tZMWVnWDZ3Ep7cdN9
-	AXM6zEq9ONwKtD792ZAu+w5M4xnJcjrJwWoQ3i9AHDgnZ6aJ1YRZO/S6qBbuiJW0kdD5qD
-X-Google-Smtp-Source: AGHT+IFL0JinH915To7UZbWNxmW3rxApkR6Mgi6PhRVUaC2JRu/YiTvBxUG9ri+ZhDZkaKBLH64B+w==
-X-Received: by 2002:a05:600c:3148:b0:479:3a86:dc1e with SMTP id 5b1f17b1804b1-47d1958e459mr83426535e9.36.1766332312266;
-        Sun, 21 Dec 2025 07:51:52 -0800 (PST)
+        bh=Ktfr7SJQpTbgMhZZT/6XJflt14sbq+igmEnRrXK6oIQ=;
+        b=JEdHC1TefsGQOtau/E2HsBxDy+RGc+DtWjsuK3vCJ5szaNL1gwg3fb/LF5blWo6/8i
+         Fi4YLK68T3EsNtFRVo3D7FuI+rQxJW0Gtr+XGmkwtFXuyUgAZpbbBF2mywN0jlCzcPrc
+         yxiLQ0WvG71L/WYfBV4m92faHjvmE9AiSgsnG+NYpZ+W9u7fncpQJqRH1mfdMUgZmwkn
+         Kp3JD1sbuooZXmJ1pW2zYcSLdqyofjmZFp8aCjOX8skTItPDkKks7Iu7PUtUgST0BwvJ
+         9A1qcWNI13bdU6w9N9eJevUhU6OaXkuuvITIUgFROFeqxMhu7Lwxh5Ikh5S29D97mkW5
+         hC7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUdTkenYgZY1wfiEdOCekgL1CcTfoFBJ3YMsBRXR8ClSuhtKYpRQaW0JrzS762xaAcrk9OeKs3zW8bf9w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxCGNMwjLsO+HlvdmqvqVVOSY8MIi6WTuUaqWzy41baR8ASJhrM
+	5t5PnVDPSAEpv83byWcXvK+tFBoJqDslTwsj8HoBUloEubNHqZ+rUZ9m
+X-Gm-Gg: AY/fxX4gmdKrXJwrtsgQ4a9UR00s1g7MYd97T/XIv26ugju5eBds+RJYvE7BlatG/Fa
+	Da3nRrJ7VpjRdwQUkzanrqLivzFKnPTdDwitLkVoF0KVJ5etREFfTobLPDm8/mON1ABbtcskinh
+	JUut9I7yFg2WaBC+Q0L2Pc4PPROnb1wdJyvfuN2hlCq+gu/HWUawSC7SoTNbGfZ449w6ru3pLuq
+	jvQbBzsCC8srEoa89Vpvg2uw/1r3FUU0vwIp4KqA5IMLYYafVN3rZJ5mckS8C7VDhymuAAp634M
+	aMfSsErgFyWOW67G7B2Lk8nhp+VJOYTooQ339xBZt6V9rFUx4lhaHWQtT+TvGkOhky4wsRFfIjv
+	xQXMeRNCUblyTCWU/BIvmkwFwzuL5eMoUESRSwxlEqVC5AW5IPh3MGcGIZ4Zn7FYm3z1IR/K92+
+	JTznUAsPQTdBTzK0m2vev3SqQnLv/A+PHGssJarTEbVZwghKrz44n50gFHsvKNN1/rN29o
+X-Google-Smtp-Source: AGHT+IEbJh6QEEBqVoiA8uGAKHnpKaENlX2JGObti1D5zf3tJMVvd1glLOCkUq93fMJj0p1hdC0a4g==
+X-Received: by 2002:a05:600c:45c8:b0:477:8a2a:1244 with SMTP id 5b1f17b1804b1-47d195558bemr85515255e9.11.1766332371058;
+        Sun, 21 Dec 2025 07:52:51 -0800 (PST)
 Received: from jernej-laptop.localnet (82-192-45-213.dynamic.telemach.net. [82.192.45.213])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea1af2bsm17292809f8f.1.2025.12.21.07.51.51
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47be3a0fb9asm81695155e9.2.2025.12.21.07.52.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Dec 2025 07:51:51 -0800 (PST)
+        Sun, 21 Dec 2025 07:52:50 -0800 (PST)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
  Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
@@ -67,13 +67,15 @@ To: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
 Cc: Andre Przywara <andre.przywara@arm.com>, linux-spi@vger.kernel.org,
  devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] arm64: dts: allwinner: sun55i: Add SPI controllers
-Date: Sun, 21 Dec 2025 16:51:50 +0100
-Message-ID: <1940379.tdWV9SEqCh@jernej-laptop>
-In-Reply-To: <20251221110513.1850535-4-wens@kernel.org>
+Subject:
+ Re: [PATCH 4/4] arm64: dts: allwinner: t527: orangepi-4a: Enable SPI-NOR
+ flash
+Date: Sun, 21 Dec 2025 16:52:49 +0100
+Message-ID: <13909614.uLZWGnKmhe@jernej-laptop>
+In-Reply-To: <20251221110513.1850535-5-wens@kernel.org>
 References:
  <20251221110513.1850535-1-wens@kernel.org>
- <20251221110513.1850535-4-wens@kernel.org>
+ <20251221110513.1850535-5-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -83,13 +85,13 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne nedelja, 21. december 2025 ob 12:05:10 Srednjeevropski standardni =C4=
+Dne nedelja, 21. december 2025 ob 12:05:11 Srednjeevropski standardni =C4=
 =8Das je Chen-Yu Tsai napisal(a):
-> The A523 family SoCs have four SPI controllers. One of them also
-> supports DBI mode.
+> The Orangepi 4A has a SPI-NOR flash connected to spi0 on the PC pins.
+> The HOLD and WP pins are not connected, and are instead pulled up by the
+> supply rail.
 >=20
-> Add device nodes for all of them. Also add pinmux nodes for spi0 on the
-> PC pins, which is commonly used for SPI-NOR boot flash.
+> Enable spi0 and add a device node for the SPI-NOR flash.
 >=20
 > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 
