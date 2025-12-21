@@ -1,45 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 067A71EFF80;
-	Sun, 21 Dec 2025 08:05:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D503A3A1E60;
+	Sun, 21 Dec 2025 11:05:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766304310; cv=none; b=ctyTrM6/rKJl0ycr0hayiwAgQcToQFtrqctmzkKPZk1AY2Q3WDFYWB67l53T4x+CPY0C1fEmktXLjCIZUP3a3lAqTalWhFdJD1BZqyn2cMXgZKWhbxFIS05Vv9w60rvcByPI1sMyIwiH35POGGlrJ0GSZkHG2nim4WxxpaflY7o=
+	t=1766315120; cv=none; b=uppBhF50fymEhM0PQsjT3hANfsFiZ9/3c8ECN1MDa70De2Arwqfx+qNAC4FukepS7KXpcvs3tXnxu3VveGrtD5Ye6OjfUeh3fK1iHSQg32fBOJzO1EFamGPR82xdW48xYD/pCgo49SX8oIsv8ojyvKV0yuNJ3vlqfpsSY55XsbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766304310; c=relaxed/simple;
-	bh=SbdKgxUWVMsftMM+lwkv9tuPDzerkjuvqnV6ISat3wc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gP232RqbwhyEfB3e5CH30nVJE4e9trGdRI5M5wQ4ECxjNjT3WG9isoeIW/ixejNYwI+z95eB/qLD+4Nj0jGAYO7mPo8wn/4Z4PtPzTQo7qrH5zNkCzbEz0DTya+EKOmQZzVNaVKjfNoGsEbGiw4rQi8NMDfrPNIhK4bS0gf7ae0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kQTzRoWB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766315120; c=relaxed/simple;
+	bh=Nz3+VHR47YCuwduLdUUzntSPalUFZ+BG9nDzXt1o60E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bTRC7qj0Zlo9GaaKKPCDfI4Tf1LTW8i7Y/wcESDCXkYBv9OCuGW0isfAxUA2SVBBPqiTm4de3fjjcIbbou0Bhizc0PnWWbISAGQ8ppj2HenHySQ7vCYZyOJnbWzcOawNBjHnwl8WSfDZvU1vvEMhLITxV6WL7Bs09iPmKYNM3r0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jqr4B5LG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kQTzRoWB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B13BC4CEFB;
-	Sun, 21 Dec 2025 08:05:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jqr4B5LG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 566F9C116C6;
+	Sun, 21 Dec 2025 11:05:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766304309;
-	bh=SbdKgxUWVMsftMM+lwkv9tuPDzerkjuvqnV6ISat3wc=;
+	s=k20201202; t=1766315119;
+	bh=Nz3+VHR47YCuwduLdUUzntSPalUFZ+BG9nDzXt1o60E=;
 	h=From:To:Cc:Subject:Date:From;
-	b=kQTzRoWBQmw4rkI+HqSFZbx9Klkb44/ZZ9Pv7hVbqBEPJqHBzBC5b6BuCAXPZVLpt
-	 o5BDXSLHYraDMDs/Copk9WDx8IGwtqXbpYnDzWkSZGwDnv43q5yLg0Gc9pOHSW95hS
-	 U8EH7d05JKj9+KBZnTyyEXJnjM8e3EUJKNNixRb8FkV0pFuDZGFrdlbqeTPVYVQ0h1
-	 sTIIejqy2e5AugwZ5xNahlxUSI1LEnJbpdCIDsm2+ZxtCUE/xGLcXHlITkEaU2a0Zc
-	 7hv2nqLZxxo9DJJo3sbAdXGVYAMH8CfULRH64fuywwDAe8sEKInw7MLdM1IzAzXL/M
-	 ERtYWzB6Sy0Dw==
+	b=jqr4B5LG5KvlEkHo7eM2Pv4kQhvlIRCRVAi1VmIBEKlRNBZuaRX0XdVXFvrQtZnlT
+	 zAUZwyXj/PWWCZKoTr7wILTrzwYrunkKBYSNJVOkv9APCv61PVroCrJiU0eaDSitO1
+	 +RL54HIp4tnV1KsBjIVhNgFhLkjVm1JlpzB1hcrJn/Uz3gJo+sjplO/j/HF+cYmN8r
+	 e3mjY4CP3vz/NrZ2NcMQrKRjv2TpmS6mE2D7DBY4p7Y3Puk8OvWINp+S9dkdX7ao/p
+	 xRn7s6ZnS7AcKxrilXoF4ARoZQw7JGNFgs969J5XyyNW/G6GydJuO/p2DhUJIU7vyn
+	 X6eTiJFYIDTfA==
 Received: by wens.tw (Postfix, from userid 1000)
-	id 4053A5FDFB; Sun, 21 Dec 2025 16:05:07 +0800 (CST)
+	id 3488B5FDFB; Sun, 21 Dec 2025 19:05:17 +0800 (CST)
 From: Chen-Yu Tsai <wens@kernel.org>
-To: Vinod Koul <vkoul@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
+To: Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>
+	Samuel Holland <samuel@sholland.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Mark Brown <broonie@kernel.org>
 Cc: Andre Przywara <andre.przywara@arm.com>,
-	dmaengine@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] dmaengine: sun6i: Choose appropriate burst length under maxburst
-Date: Sun, 21 Dec 2025 16:04:48 +0800
-Message-ID: <20251221080450.1813479-1-wens@kernel.org>
+Subject: [PATCH 0/4] arm64: allwinner: a523: Support SPI controllers
+Date: Sun, 21 Dec 2025 19:05:07 +0800
+Message-ID: <20251221110513.1850535-1-wens@kernel.org>
 X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -49,70 +53,52 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-maxburst, as provided by the client, specifies the largest amount of
-data that is allowed to be transferred in one burst. This limit is
-normally provided to avoid a data burst overflowing the target FIFO.
-It does not mean that the DMA engine can only do bursts in that size.
+Hi folks,
 
-Let the driver pick the largest supported burst length within the
-given limit. This lets the driver work correctly with some clients that
-give a large maxburst value. In particular, the 8250_dw driver will give
-a quarter of the UART's FIFO size as maxburst. On some systems the FIFO
-size is 256 bytes, giving a maxburst of 64 bytes, while the hardware
-only supports bursts of up to 16 bytes.
+This series adds support for the SPI controllers found in the Allwinner
+A523 SoC family. The SPI controller is almost the same as the ones in
+previous generations, except that it moved the "RX buffer count"
+register field to a separate register, and that register now reports
+the total count for RX buffer and FIFO.
 
-Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
----
- drivers/dma/sun6i-dma.c | 26 ++++++++++++++++++++------
- 1 file changed, 20 insertions(+), 6 deletions(-)
+In practice the driver has never cared about the buffer count, but if
+any implementation were to use it, this counts as a non-backward
+compatible change.
 
-diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-index 2215ff877bf7..f9d876deb1f0 100644
---- a/drivers/dma/sun6i-dma.c
-+++ b/drivers/dma/sun6i-dma.c
-@@ -583,6 +583,22 @@ static irqreturn_t sun6i_dma_interrupt(int irq, void *dev_id)
- 	return ret;
- }
- 
-+static u32 find_burst_size(const u32 burst_lengths, u32 maxburst)
-+{
-+	if (!maxburst)
-+		return 1;
-+
-+	if (BIT(maxburst) & burst_lengths)
-+		return maxburst;
-+
-+	/* Hardware only does power-of-two bursts. */
-+	for (u32 burst = rounddown_pow_of_two(maxburst); burst > 0; burst /= 2)
-+		if (BIT(burst) & burst_lengths)
-+			return burst;
-+
-+	return 1;
-+}
-+
- static int set_config(struct sun6i_dma_dev *sdev,
- 			struct dma_slave_config *sconfig,
- 			enum dma_transfer_direction direction,
-@@ -616,15 +632,13 @@ static int set_config(struct sun6i_dma_dev *sdev,
- 		return -EINVAL;
- 	if (!(BIT(dst_addr_width) & sdev->slave.dst_addr_widths))
- 		return -EINVAL;
--	if (!(BIT(src_maxburst) & sdev->cfg->src_burst_lengths))
--		return -EINVAL;
--	if (!(BIT(dst_maxburst) & sdev->cfg->dst_burst_lengths))
--		return -EINVAL;
- 
- 	src_width = convert_buswidth(src_addr_width);
- 	dst_width = convert_buswidth(dst_addr_width);
--	dst_burst = convert_burst(dst_maxburst);
--	src_burst = convert_burst(src_maxburst);
-+	src_burst = find_burst_size(sdev->cfg->src_burst_lengths, src_maxburst);
-+	dst_burst = find_burst_size(sdev->cfg->dst_burst_lengths, dst_maxburst);
-+	dst_burst = convert_burst(dst_burst);
-+	src_burst = convert_burst(src_burst);
- 
- 	*p_cfg = DMA_CHAN_CFG_SRC_WIDTH(src_width) |
- 		DMA_CHAN_CFG_DST_WIDTH(dst_width);
+Also, one of the SPI controllers supports DBI mode, acting as a display
+interface. There is no infrastructure for DBI interface controllers in
+the kernel, so only a separate compatible is added for it.
+
+Patch 1 adds compatible strings for the new variants.
+
+Patch 2 adds driver support for the new SPI controller variant.
+
+Patch 3 adds device nodes for the SPI controllers to the dtsi file,
+along with pinmux settings for spi0 on the PC pins, a common usage for
+SPI-NOR flashes to boot from.
+
+Patch 4 enables the SPI-NOR flash found on the Radxa Cubie A5E.
+
+
+Please take a look and try it out.
+
+
+Thanks
+ChenYu
+
+
+Chen-Yu Tsai (4):
+  spi: dt-bindings: sun6i: Add compatibles for A523's SPI controllers
+  spi: sun6i: Support A523's SPI controllers
+  arm64: dts: allwinner: sun55i: Add SPI controllers
+  arm64: dts: allwinner: t527: orangepi-4a: Enable SPI-NOR flash
+
+ .../bindings/spi/allwinner,sun6i-a31-spi.yaml |  4 +
+ .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 94 +++++++++++++++++++
+ .../dts/allwinner/sun55i-t527-orangepi-4a.dts | 15 +++
+ drivers/spi/spi-sun6i.c                       | 11 ++-
+ 4 files changed, 120 insertions(+), 4 deletions(-)
+
 -- 
 2.47.3
 
