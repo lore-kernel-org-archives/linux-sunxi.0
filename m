@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D508817B43F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011AB1FECBA;
 	Sun, 21 Dec 2025 11:05:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766315120; cv=none; b=dY0lZTUxK5QPrTk6xQAzu89ZYqrLmWvYAc2aRuIH4cyt3QIi44gygWKrE3Kf9aKke1gq/QLIPhK8IhY6WrAYDc/o1G7usQ72gtLYrc7ekXcpx5RCflvLgO1G9NUHZgIzxcfYVM1X8GW5Boa8jpqXcbnyhM6/yUJe78APso5L41Q=
+	t=1766315120; cv=none; b=YeD8TOebI/MPgnIwZTebYoTe4tZHJBQAYQr1iKuxCLm8wifi1FqA0ek2rRmTjmry6jbFnfdoEM8sl/HthfFvaKVs95iSDUk2i4kkwfPLZ+8rI1fe+IiDrfqgAzW5VmJzOpUkT173T+T0SJ+t26bzQiA/fK4O2X7DFk/4lWLH9vs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1766315120; c=relaxed/simple;
-	bh=SgM8LmbKsO/V0BAs72Ln5nuOFUP4AR1J+W8Vnt8HIOI=;
+	bh=joZzWHXLoIhSZSiC6PmIQjU/PLkF4PjJcggDkdZtN40=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pciLR1jCY9JYcR6d7Ud3xz66Pq0rcoTo9v42sBF18Y/2vy9f6YSg6z29MaN22Y4rsetbV1DHY+cRsocbPVJQlbWb7Epd6wKMYDpWiTKBDmy92KPOrm8J4S9tIUcr0e0gnsDeYJh43fkrh0O+X3yq2Ph4O5MBB6KT1H8wDt8ofYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ci0ELuQm; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=drAy+YwJeUTTMx4y5TMMoD2GX/A2+rjFIHIsJ7rfzrdS9wO0IlEpMnyERYODtQpSWSJlctUgle1BcqRzTstfL8hY13peINLyq+i4LT+UpfXiAqYhl+dOvcmkIC1yPq4a3pP2DvtKR3bKP4O3rqFBnJItambKjsH28HBToXrRHyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bMDfzdUM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ci0ELuQm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53289C4CEFB;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bMDfzdUM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7923DC4AF09;
 	Sun, 21 Dec 2025 11:05:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1766315119;
-	bh=SgM8LmbKsO/V0BAs72Ln5nuOFUP4AR1J+W8Vnt8HIOI=;
+	bh=joZzWHXLoIhSZSiC6PmIQjU/PLkF4PjJcggDkdZtN40=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ci0ELuQmRBVBp53Sh75c5jhe1Fb1nawO/JXgGalOJqmBUS5EPw7EwpyP3oq868NqP
-	 988tnyH0+H2KzxTr2l21ORdoWKhF2GoQkkaYeVR4RpYUmqqi0u1wrFmR4wJwdnGqVm
-	 QIhSbzw3osVPD5QM5DEWyxnKkFMxo7IDA9xP98TrNtS75S/FCkfBd1osamnkqsiJOc
-	 /DZAGf2Zr+cG+YxrkO0vsdHHK2x+l4boymMqetrdUyvuZXdmvDVIuQ5cXFM+BDAwzs
-	 r2TLvhO9a0FktHtqxlQeHaWXPFAxmfYdDbXncVpYJ0UIx8V6sSGZYqbqD1y0lkZC8O
-	 Hx2NDbuCg3Tvg==
+	b=bMDfzdUMDd8YZFaRd6nmWU7dO9ubP94Fa17VDRxyQXqErYCpZ1Gg8tYHRsuW78KqP
+	 Zr7feOzSgZw55W++OE67S2M0W7sjy+GxWn7gthlSXGrTLQrRIfKPtOsu5ZFOLhvNz1
+	 Pzgx07Mjf2Mcchs2iTg+8sQKGw/8AYC04XqyFu4iLdkKr9R19anbE9K6LLiJngO0YC
+	 T0pBTC80+OSO81tlvZeWCnChl9eO08P6W1WdPvHW333s8v7xrdM5cCsKlEPzYARb7v
+	 vJ+OD3OVJ5GBCqKxDo3Vr2/hl6+G39HtmkBzP3QLB9gNNURGnLJDm7erzfRb26PW9I
+	 ZE6aOVybSofVQ==
 Received: by wens.tw (Postfix, from userid 1000)
-	id 3ECE25FCB3; Sun, 21 Dec 2025 19:05:17 +0800 (CST)
+	id 5273E5FE35; Sun, 21 Dec 2025 19:05:17 +0800 (CST)
 From: Chen-Yu Tsai <wens@kernel.org>
 To: Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej@kernel.org>,
@@ -42,9 +42,9 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
 	linux-sunxi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/4] spi: dt-bindings: sun6i: Add compatibles for A523's SPI controllers
-Date: Sun, 21 Dec 2025 19:05:08 +0800
-Message-ID: <20251221110513.1850535-2-wens@kernel.org>
+Subject: [PATCH 3/4] arm64: dts: allwinner: sun55i: Add SPI controllers
+Date: Sun, 21 Dec 2025 19:05:10 +0800
+Message-ID: <20251221110513.1850535-4-wens@kernel.org>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251221110513.1850535-1-wens@kernel.org>
 References: <20251221110513.1850535-1-wens@kernel.org>
@@ -56,49 +56,136 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The A523 has four SPI controllers. One of them supports MIPI DBI mode
-in addition to standard SPI.
+The A523 family SoCs have four SPI controllers. One of them also
+supports DBI mode.
 
-Compared to older generations, this newer controller now has a combined
-counter for the RX FIFO ad buffer levels. In older generations, the
-RX buffer level was a separate bitfield in the FIFO status register.
-
-In practice this difference is negligible. The buffer is mostly
-invisible to the implementation. If programmed I/O transfers are limited
-to the FIFO size, then the contents of the buffer seem to always be
-flushed over to the FIFO. For DMA, the DRQ trigger levels are only tied
-to the FIFO levels. In all other aspects, the controller is the same as
-the one in the R329.
-
-Add new compatible strings for the new controllers.
+Add device nodes for all of them. Also add pinmux nodes for spi0 on the
+PC pins, which is commonly used for SPI-NOR boot flash.
 
 Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 ---
- .../devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml      | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 94 +++++++++++++++++++
+ 1 file changed, 94 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
-index 3b47b68b92cb..1b91d1566c95 100644
---- a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
-+++ b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
-@@ -17,6 +17,7 @@ properties:
-   compatible:
-     oneOf:
-       - const: allwinner,sun50i-r329-spi
-+      - const: allwinner,sun55i-a523-spi
-       - const: allwinner,sun6i-a31-spi
-       - const: allwinner,sun8i-h3-spi
-       - items:
-@@ -35,6 +36,9 @@ properties:
-           - const: allwinner,sun20i-d1-spi-dbi
-           - const: allwinner,sun50i-r329-spi-dbi
-           - const: allwinner,sun50i-r329-spi
-+      - items:
-+          - const: allwinner,sun55i-a523-spi-dbi
-+          - const: allwinner,sun55i-a523-spi
+diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+index 42dab01e3f56..9335977751e2 100644
+--- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+@@ -214,6 +214,43 @@ spdif_out_pi_pin: spdif-pi-pin {
+ 				allwinner,pinmux = <2>;
+ 			};
  
-   reg:
-     maxItems: 1
++			/omit-if-no-ref/
++			spi0_pc_pins: spi0-pc-pins {
++				pins = "PC2", "PC4", "PC12";
++				function = "spi0";
++				allwinner,pinmux = <4>;
++			};
++
++			/omit-if-no-ref/
++			spi0_cs0_pc_pin: spi0-cs0-pc-pin {
++				pins = "PC3";
++				function = "spi0";
++				allwinner,pinmux = <4>;
++			};
++
++			/omit-if-no-ref/
++			spi0_cs1_pc_pin: spi0-cs1-pc-pin {
++				pins = "PC7";
++				function = "spi0";
++				allwinner,pinmux = <4>;
++			};
++
++			/omit-if-no-ref/
++			spi0_hold_pc_pin: spi0-hold-pc-pin {
++				/* conflicts with eMMC D7 */
++				pins = "PC16";
++				function = "spi0";
++				allwinner,pinmux = <4>;
++			};
++
++			/omit-if-no-ref/
++			spi0_wp_pc_pin: spi0-wp-pc-pin {
++				/* conflicts with eMMC D2 */
++				pins = "PC15";
++				function = "spi0";
++				allwinner,pinmux = <4>;
++			};
++
+ 			uart0_pb_pins: uart0-pb-pins {
+ 				pins = "PB9", "PB10";
+ 				allwinner,pinmux = <2>;
+@@ -563,6 +600,49 @@ mmc2: mmc@4022000 {
+ 			#size-cells = <0>;
+ 		};
+ 
++		spi0: spi@4025000 {
++			compatible = "allwinner,sun55i-a523-spi";
++			reg = <0x04025000 0x1000>;
++			interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_SPI0>, <&ccu CLK_SPI0>;
++			clock-names = "ahb", "mod";
++			dmas = <&dma 22>, <&dma 22>;
++			dma-names = "rx", "tx";
++			resets = <&ccu RST_BUS_SPI0>;
++			status = "disabled";
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++
++		spi1: spi@4026000 {
++			compatible = "allwinner,sun55i-a523-spi-dbi",
++				     "allwinner,sun55i-a523-spi";
++			reg = <0x04026000 0x1000>;
++			interrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_SPI1>, <&ccu CLK_SPI1>;
++			clock-names = "ahb", "mod";
++			dmas = <&dma 23>, <&dma 23>;
++			dma-names = "rx", "tx";
++			resets = <&ccu RST_BUS_SPI1>;
++			status = "disabled";
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++
++		spi2: spi@4027000 {
++			compatible = "allwinner,sun55i-a523-spi";
++			reg = <0x04027000 0x1000>;
++			interrupts = <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_SPI2>, <&ccu CLK_SPI2>;
++			clock-names = "ahb", "mod";
++			dmas = <&dma 24>, <&dma 24>;
++			dma-names = "rx", "tx";
++			resets = <&ccu RST_BUS_SPI2>;
++			status = "disabled";
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++
+ 		usb_otg: usb@4100000 {
+ 			compatible = "allwinner,sun55i-a523-musb",
+ 				     "allwinner,sun8i-a33-musb";
+@@ -815,6 +895,20 @@ rtc: rtc@7090000 {
+ 			#clock-cells = <1>;
+ 		};
+ 
++		r_spi0: spi@7092000 {
++			compatible = "allwinner,sun55i-a523-spi";
++			reg = <0x07092000 0x1000>;
++			interrupts = <GIC_SPI 172 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&r_ccu CLK_BUS_R_SPI>, <&r_ccu CLK_R_SPI>;
++			clock-names = "ahb", "mod";
++			dmas = <&dma 53>, <&dma 53>;
++			dma-names = "rx", "tx";
++			resets = <&r_ccu RST_BUS_R_SPI>;
++			status = "disabled";
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++
+ 		mcu_ccu: clock-controller@7102000 {
+ 			compatible = "allwinner,sun55i-a523-mcu-ccu";
+ 			reg = <0x7102000 0x200>;
 -- 
 2.47.3
 
