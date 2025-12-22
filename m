@@ -1,45 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136572C08C2;
-	Mon, 22 Dec 2025 17:17:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8013F23AB98;
+	Mon, 22 Dec 2025 22:12:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766423875; cv=none; b=p4abmRdWM6Z0v7L5hbpliqv5+I1QLzR6Pf4ntO4YlSqWYn7e/wOvhhZG0ITRvxyEU+U4l6T4deW/jbEF229H30GQUX4RkISCrO08nhFzetd118bb0tzKQCBDkOrVw+8sJsi4j7jFQOpW0lcvAJEOc3KXbYYF+XNksCToeQIwHXs=
+	t=1766441564; cv=none; b=LeiaPBybpWoz83aMLHS35adouwDFUfO77bp6NED3vK1WnBsPNQn9EjX3CKT5rqVcqCNTHg63t+xFVhz8tbNb6cpzTtKxkSXK3TACxgsDYUXFc7tTJsjqZqScF1gs6OvXg9QFyGavGLiNY1eG5S/mfeObyUrxb2NuR5RLFxTdhsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766423875; c=relaxed/simple;
-	bh=QOPog1YfYI90StUev6z08ROZmYBb9PrYSSSaMZnFZ+s=;
+	s=arc-20240116; t=1766441564; c=relaxed/simple;
+	bh=1r7h0p7ofkj/BfHkzN7bGtcjE/zZ8wu11lyGgKO3f28=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ko6kRtMPYJyb5LPWS8HKirE+LAjyAq1hisdbjlZao7EDgW+11S2zvBWxljI3nzsC4GgSwU4EmgBJFiZQtIBHhVWDM7B5AA16iKA2uOOVkwouvg0qzozgDHUainJJhpyrSSmog8FC9bZl4lYVbsY6CFcpIh10dyKjmHZUQF14RmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jFINYE8K; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=OU4pKuqcXEkHByqQG+5RogMnGxSFWINBu26bro4AUT/Zj7+80YhiUQeh7lJKwngvF4d1u3LMSwOi+wAaNtnzW5NgNXZrTmM7ik/8g4X39X3f22DEzf8Bm1DnaW4AZJ+XyVZYs4Kr6ScN9eqLCXgMYlB6z+z7LX37fWL8OxO9fLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uBvsORVa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jFINYE8K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 828EBC4CEF1;
-	Mon, 22 Dec 2025 17:17:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uBvsORVa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E39E1C4CEF1;
+	Mon, 22 Dec 2025 22:12:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766423874;
-	bh=QOPog1YfYI90StUev6z08ROZmYBb9PrYSSSaMZnFZ+s=;
+	s=k20201202; t=1766441564;
+	bh=1r7h0p7ofkj/BfHkzN7bGtcjE/zZ8wu11lyGgKO3f28=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=jFINYE8KYwvcfYuyjdl/b6hv5LyI8pyAHMGb7wjXwv/a2jN45PELDtVbvB+cO2/7S
-	 bZ3eP+b2YeSUFs0Jt3pHgrnbsxAbPLcIxN0hh+z0lKoDRAKdz2a+ogept/fiSnrRsO
-	 FU46Wxei7kFvFOTLekv0h1NP1yg4zb5PfSZLRCqR7xk8dWRWuv586n/ghKB0pTHT/z
-	 du8d+kNpLy7MrrwML6FCqqsXp0rpSEg12CzmeED88cUyA9Go2WbQfNWg3MPqB6M9Mn
-	 mjSvThDqbi1sXGadFMVVy0RE+nOJQuRI04lkj3+9EAqSG4UAVfa3aKdnvr19fYKw//
-	 BYGUtY+EDFOag==
+	b=uBvsORVawtXBxCxdeWb3yw0tUFFUu+rcrQlIGlqoX8a/KBlxek5SpAgRW2ZSRRUSc
+	 VhNjjdqFNE7GJvhwWwBWK0oMlGNlHYcRcLglD2oNHw/TjIdgCe1K6mI5HHirSutHkw
+	 rE5VRU4N84Re5KyRReTPofUZIXGCqPUX0JtAONIjxPf3bOt6VOqyLa0BZ/gsHenfnT
+	 8Pxvql1gblLe5XqoWVJBOHHEOl1Rwrl2egRoudb1M8dYANiFdofrN1MBy6IwaGkBiK
+	 MTF9TO2Mdgybww3GCEPeURxmDo3/8Tu4I/8Cqf17fUnXAODJxjLGcU5NVmNNFTywSk
+	 B+wb3++0g+Pyg==
 From: Mark Brown <broonie@kernel.org>
 To: Jernej Skrabec <jernej@kernel.org>, 
- Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>
-Cc: Andre Przywara <andre.przywara@arm.com>, linux-spi@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20251221110513.1850535-1-wens@kernel.org>
-References: <20251221110513.1850535-1-wens@kernel.org>
-Subject: Re: (subset) [PATCH 0/4] arm64: allwinner: a523: Support SPI
- controllers
-Message-Id: <176642387228.913099.2681822678465821683.b4-ty@kernel.org>
-Date: Mon, 22 Dec 2025 17:17:52 +0000
+ Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
+Cc: linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org, 
+ kernel test robot <lkp@intel.com>
+In-Reply-To: <20251221035715.1722584-1-wens@kernel.org>
+References: <20251221035715.1722584-1-wens@kernel.org>
+Subject: Re: [PATCH] ASoC: sun4i-spdif: Add missing kerneldoc fields for
+ sun4i_spdif_quirks
+Message-Id: <176644156265.2187098.7267492024920127346.b4-ty@kernel.org>
+Date: Mon, 22 Dec 2025 22:12:42 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -50,29 +47,24 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Sun, 21 Dec 2025 19:05:07 +0800, Chen-Yu Tsai wrote:
-> This series adds support for the SPI controllers found in the Allwinner
-> A523 SoC family. The SPI controller is almost the same as the ones in
-> previous generations, except that it moved the "RX buffer count"
-> register field to a separate register, and that register now reports
-> the total count for RX buffer and FIFO.
+On Sun, 21 Dec 2025 11:57:13 +0800, Chen-Yu Tsai wrote:
+> When sun4i_spdif_quirks was recently expanded, the kerneldoc covering
+> the structure was not expanded to match. This ends up causing a warning
+> when the documents are built.
 > 
-> In practice the driver has never cared about the buffer count, but if
-> any implementation were to use it, this counts as a non-backward
-> compatible change.
+> Add the missing fields.
+> 
 > 
 > [...]
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
 Thanks!
 
-[1/4] spi: dt-bindings: sun6i: Add compatibles for A523's SPI controllers
-      commit: e0c8755d44eb85afd40100586076c3dc4b62ee3b
-[2/4] spi: sun6i: Support A523's SPI controllers
-      commit: c81f30bde5b0449d9d82d31a66f0ffd608e610b5
+[1/1] ASoC: sun4i-spdif: Add missing kerneldoc fields for sun4i_spdif_quirks
+      commit: 6c11aa2b4cf767f5ccfe290b2572d53102dbe5ea
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
