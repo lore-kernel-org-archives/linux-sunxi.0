@@ -1,121 +1,206 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B6F285CA3
-	for <linux-sunxi@lists.linux.dev>; Mon, 22 Dec 2025 08:33:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2EC2BD11
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 Dec 2025 09:17:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766392403; cv=none; b=kdC6GOShG/ywC7i33OhaLVBVF9QausSWKtPdzg1ohtnyzbIvpmg4Nx4isaNAk1Axo0kVAzYZcWr9Jm/2laAfW6/tTLBO5tL2BnXRVFWDa4rdudM4vpnmZmUZ/Q25o5IvUD8/7Ws5jpM0OunSzZLAwdKqW9V1bdmWDu/D3XIeUjo=
+	t=1766395039; cv=none; b=HHzX8IHmPB0Av3GXzZUwHI83l5bmLf2a9lh2HiqyEu1HqcB1gA9XR+TIeHkQ5XN1rUpRpvXrrFyjxWKVwz1H0c+YOgKS9Cr/4UfChz3a4s9ss9412A3xniymDWQO7Hxf18YgSjNzTNhgjJtWc808dj4qK0mrHqJJph1iuoOetq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766392403; c=relaxed/simple;
-	bh=rnF5+/PRAEhxUkP81f8iZpYy3Jrx+97OUsmm0ntfnw8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QQCL7+ajnvoFVQ7JvrupyS0UGXdxAACLE0i8LOr+cV5UfafU9nl27awK5aIVaUnAU36AgE0fK1yWB3Lj+JmV9BOtXp00XwNtZiWuTUKtitpHVz46XWi3WTWvfGerySqSnMXZ1rFrlzq5Gem9qNp5CMUdxwar2mMG6IeIjb6mOXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eB+rBlov; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766395039; c=relaxed/simple;
+	bh=etcQEi1u2eZv7v3+V+6Frxr33eKmWuPk6bov+XKFNn0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AquTAJNKmnTX86RnRgI6kCuppyPYjYUrAPbwftYupIdnNNQ5a7k5s/ftWz2jgpiCqCafPtRy6zKYf2AIsVqhfw7MLnOP/Euc3tJQZXOx+FOFTUhjuHJqSguZTPSU64/vigZPQF+Q+uzIoR5UNWqLcJSk0JLu4dLPzqyhG3TThns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=nTppoy4S; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eB+rBlov"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5F02C116D0
-	for <linux-sunxi@lists.linux.dev>; Mon, 22 Dec 2025 08:33:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766392402;
-	bh=rnF5+/PRAEhxUkP81f8iZpYy3Jrx+97OUsmm0ntfnw8=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=eB+rBlovTV4ziI+v1LW8ihA/IJbRmMiLRDpXWgTZvqVJ7k1c9UJzT/t31F1fXbqry
-	 7icB2etdeKp3B5jnX1RzVFxTX/HeIQ0Y+jw+11KcXbUjdt69Bp5wVgYx74cShp1Fvl
-	 Cpl3od/Vf5EyS9G6pUVcc/mM3pSPFACuqz/sGujtbeqFvxUd/jTx6sCwGiiQPk5cjo
-	 TeRnkauTyR6w7ajE3ST9bVZ+DdhtliOYPqGCFg7BPUS/PKWzUlVYVz2lDt0lRZYDxe
-	 DETKFemgesLM7gfcdX6a0IaJ5sqSY/8B6s4e4qx0ltJERC+hQnK4JAf6u4l7ahTkEk
-	 Xvftki4aVXAkw==
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-37a2dced861so46872711fa.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 22 Dec 2025 00:33:22 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUXfgB5IQ/ToOuh7wKb2DTkitolKn8Ccg+7rWyJo10zxfBPIcHoYVGFdbuMRewsuXy92GuRam0TBrNWxw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwSe+fMhmpLHgWt/ixXkJJ38LBrm6vcVxeZBPg8SsV2MbmqKusS
-	W3D12+cS2+ve/cHq2FMiBx8mk+RRM51Kn0LuMEbdoNGT2Q+j8RLEjmDcXeNCJF3lONcZOO65Rak
-	MSLKwv3MU72Bj2MM/aZgAUTwL1MgmxXo=
-X-Google-Smtp-Source: AGHT+IHB6OBorWsfY6+CIhWE8h0rTjrmy8Od+EzD/TbreAn6ZtgHO5Oaa3cC2BPxGnzahO2w6j9LzKizjq6i1v/7zLQ=
-X-Received: by 2002:a05:651c:3050:b0:376:3792:1a9b with SMTP id
- 38308e7fff4ca-38113295431mr42863951fa.21.1766392401138; Mon, 22 Dec 2025
- 00:33:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nTppoy4S"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 644F0C1AE05;
+	Mon, 22 Dec 2025 09:16:49 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 45E13606C1;
+	Mon, 22 Dec 2025 09:17:14 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D1A9F10AB0140;
+	Mon, 22 Dec 2025 10:17:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1766395033; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=Nb3n1nsNJMcoSFIkmzKS2rMqgizIUNC22FVriH9Ctx8=;
+	b=nTppoy4S3vb8RSx5dHoCVBs3MXIZ2NgxoLdtn1i8P8i1fdxV4vdc4cR2J2qN9amyRoVqXJ
+	OBFsKphvKmjZVcVt3RYEywq7VOfV4M3+Y/fxpEmjxj7P0YlIj93AqDO8QtPukY9KNfD+Wt
+	B2ETiMQ354F2eq08es+qA/AxHcAlZ5AIWHRY/gL7gtG23KWSLCL2JR+kaqP62I92Zxmzre
+	fLtmndNOLpuCnnWD0qA9pJaq9S8kBnNsFLWkQ1eyfWApvjDpZdgYQefCd1FaQcPYSsPy/x
+	+nVUdpaHs4vIheaYaHvjJPu5qfRWFGKrTMyVdKfyEPdGjIzLwws2moyJaut9CQ==
+Message-ID: <160e221e-98a8-4097-8340-94ac7d208136@bootlin.com>
+Date: Mon, 22 Dec 2025 10:17:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251221110513.1850535-1-wens@kernel.org>
-In-Reply-To: <20251221110513.1850535-1-wens@kernel.org>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Mon, 22 Dec 2025 16:33:08 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67NbSA8Fq16EL-zY9WKVxnYUosk6z7NrGtAXt6UY8xdMw@mail.gmail.com>
-X-Gm-Features: AQt7F2qZlM3p2jvComgFcEXRa14BK_cQ9N8F1hZOpPR9GT9NbbFY1DHlKdoycxY
-Message-ID: <CAGb2v67NbSA8Fq16EL-zY9WKVxnYUosk6z7NrGtAXt6UY8xdMw@mail.gmail.com>
-Subject: Re: [PATCH 0/4] arm64: allwinner: a523: Support SPI controllers
-To: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Mark Brown <broonie@kernel.org>
-Cc: Andre Przywara <andre.przywara@arm.com>, linux-spi@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/4] Introduce Allwinner H616 PWM controller
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20251217082504.80226-1-richard.genoud@bootlin.com>
+ <6113404.MhkbZ0Pkbq@jernej-laptop>
+Content-Language: en-US, fr
+From: Richard GENOUD <richard.genoud@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <6113404.MhkbZ0Pkbq@jernej-laptop>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Sun, Dec 21, 2025 at 7:05=E2=80=AFPM Chen-Yu Tsai <wens@kernel.org> wrot=
-e:
->
-> Hi folks,
->
-> This series adds support for the SPI controllers found in the Allwinner
-> A523 SoC family. The SPI controller is almost the same as the ones in
-> previous generations, except that it moved the "RX buffer count"
-> register field to a separate register, and that register now reports
-> the total count for RX buffer and FIFO.
->
-> In practice the driver has never cared about the buffer count, but if
-> any implementation were to use it, this counts as a non-backward
-> compatible change.
->
-> Also, one of the SPI controllers supports DBI mode, acting as a display
-> interface. There is no infrastructure for DBI interface controllers in
-> the kernel, so only a separate compatible is added for it.
->
-> Patch 1 adds compatible strings for the new variants.
->
-> Patch 2 adds driver support for the new SPI controller variant.
->
-> Patch 3 adds device nodes for the SPI controllers to the dtsi file,
-> along with pinmux settings for spi0 on the PC pins, a common usage for
-> SPI-NOR flashes to boot from.
->
-> Patch 4 enables the SPI-NOR flash found on the Radxa Cubie A5E.
+Hi Jernej,
 
-As pointed out to me on IRC, this change targets the Orangepi 4A, not
-the Radxa Cubie A5E. The latter has circuits for SPI-NOR, but the whole
-block is left unpopulated.
+Le 21/12/2025 à 20:12, Jernej Škrabec a écrit :
+> Dne sreda, 17. december 2025 ob 09:25:00 Srednjeevropski standardni čas je Richard Genoud napisal(a):
+>> Allwinner H616 PWM controller is quite different from the A10 one.
+>>
+>> It can drive 6 PWM channels, and like for the A10, each channel has a
+>> bypass that permits to output a clock, bypassing the PWM logic, when
+>> enabled.
+>>
+>> But, the channels are paired 2 by 2, sharing a first set of
+>> MUX/prescaler/gate.
+>> Then, for each channel, there's another prescaler (that will be bypassed
+>> if the bypass is enabled for this channel).
+>>
+>> It looks like that:
+>>              _____      ______      ________
+>> OSC24M --->|     |    |      |    |        |
+>> APB1 ----->| Mux |--->| Gate |--->| /div_m |-----> PWM_clock_src_xy
+>>             |_____|    |______|    |________|
+>>                            ________
+>>                           |        |
+>>                        +->| /div_k |---> PWM_clock_x
+>>                        |  |________|
+>>                        |    ______
+>>                        |   |      |
+>>                        +-->| Gate |----> PWM_bypass_clock_x
+>>                        |   |______|
+>> PWM_clock_src_xy -----+   ________
+>>                        |  |        |
+>>                        +->| /div_k |---> PWM_clock_y
+>>                        |  |________|
+>>                        |    ______
+>>                        |   |      |
+>>                        +-->| Gate |----> PWM_bypass_clock_y
+>>                            |______|
+>>
+>> Where xy can be 0/1, 2/3, 4/5
+>>
+>> PWM_clock_x/y serve for the PWM purpose.
+>> PWM_bypass_clock_x/y serve for the clock-provider purpose.
+>> The common clock framework has been used to manage those clocks.
+>>
+>> This PWM driver serves as a clock-provider for PWM_bypass_clocks.
+>> This is needed for example by the embedded AC300 PHY which clock comes
+>> from PMW5 pin (PB12).
+> 
+> No. Drop all clocks related code and make this pure PWM driver, like pwm-sun4i
+> is. For AC300, AC200 or whatever other device may need clock produced by PWM,
+> pwm-clock can be used like this:
+> 
+> ac300_pwm_clk: ac300-clk {
+> 	compatible = "pwm-clock";
+> 	#clock-cells = <0>;
+> 	clock-frequency = <24000000>;
+> 	pinctrl-names = "default";
+> 	pinctrl-0 = <&pwm1_pin>;
+> 	pwms = <&pwm 1 42 0>;
+> };
+> 
+> ac300 {
+> 	...
+> 	clocks = <&ac300_pwm_clk>;
+> 	...
+> };
+Yes, that was my first move, but after trying quite hard, I came to the 
+conclusion that pwm-clock is not fit for this precise case.
+If we had only one source clock, this would be a perfect fit though.
 
-ChenYu
+Here's the problem: the pwm-clock request a period from the PWM driver, 
+without any clue that it actually wants a clock at a specific frequency, 
+and not a PWM signal with duty cycle capability.
+So, the PWM driver doesn't know if it can use the bypass or not, it 
+doesn't even have the real accurate frequency information (23809524 Hz 
+instead of 24MHz) because the pwm_apply only deals with periods.
+With pwm-clock, we loose a precious information along the way (that we 
+actually want a clock and not a PWM signal).
+That's ok with simple PWM drivers that don't have multiple input clocks, 
+but in this case, without this information, we can't know for sure which 
+clock to use.
+And here, for instance, if pwm-clock requests 42ns, the logic is to 
+select the highest clock (100MHz), with no prescaler, and a duty cycle 
+value of 2/4 => we have 25MHz instead of 24MHz.
+And that's a perfectly fine choice for a PMW, because we still can 
+change the duty cycle in the range [0-4]/4.
+But obviously for a clock, we don't care about the duty cycle, but more 
+about the clock accuracy.
+When I tried to use pwm-clock, I ended up making assumptions on what was 
+the intended use (if the asked period is 42 with a duty cycle of 50% 
+maybe the consumer wants a clock), but that was too hack-ish.
 
->
-> Please take a look and try it out.
->
->
-> Thanks
-> ChenYu
->
->
-> Chen-Yu Tsai (4):
->   spi: dt-bindings: sun6i: Add compatibles for A523's SPI controllers
->   spi: sun6i: Support A523's SPI controllers
->   arm64: dts: allwinner: sun55i: Add SPI controllers
->   arm64: dts: allwinner: t527: orangepi-4a: Enable SPI-NOR flash
->
->  .../bindings/spi/allwinner,sun6i-a31-spi.yaml |  4 +
->  .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 94 +++++++++++++++++++
->  .../dts/allwinner/sun55i-t527-orangepi-4a.dts | 15 +++
->  drivers/spi/spi-sun6i.c                       | 11 ++-
->  4 files changed, 120 insertions(+), 4 deletions(-)
->
-> --
-> 2.47.3
->
+That's why I put aside the pwm-clock and I went for this instead.
+
+
+Thanks for the review!
+
+Regards,
+Richard
+
+> 
+> Best regards,
+> Jernej
+> 
+>>
+>> This series is based onto v6.19-rc1
+>>
+>> Changes since v1:
+>> - rebase onto v6.19-rc1
+>> - add missing headers
+>> - remove MODULE_ALIAS (suggested by Krzysztof)
+>> - use sun4i-pwm binding instead of creating a new one (suggested by Krzysztof)
+>> - retrieve the parent clocks from the devicetree
+>> - switch num_parents to unsigned int
+>>
+>> Richard Genoud (4):
+>>    dt-bindings: pwm: allwinner: add h616 pwm compatible
+>>    pwm: sun50i: Add H616 PWM support
+>>    arm64: dts: allwinner: h616: add PWM controller
+>>    MAINTAINERS: Add entry on Allwinner H616 PWM driver
+>>
+>>   .../bindings/pwm/allwinner,sun4i-a10-pwm.yaml |  19 +-
+>>   MAINTAINERS                                   |   5 +
+>>   .../arm64/boot/dts/allwinner/sun50i-h616.dtsi |  47 +
+>>   drivers/pwm/Kconfig                           |  12 +
+>>   drivers/pwm/Makefile                          |   1 +
+>>   drivers/pwm/pwm-sun50i-h616.c                 | 892 ++++++++++++++++++
+>>   6 files changed, 975 insertions(+), 1 deletion(-)
+>>   create mode 100644 drivers/pwm/pwm-sun50i-h616.c
+>>
+>>
+>> base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+>>
+> 
+> 
+> 
+> 
+
+
+-- 
+Richard Genoud, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
