@@ -1,42 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8013F23AB98;
-	Mon, 22 Dec 2025 22:12:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BB5230BE9
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Dec 2025 10:02:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766441564; cv=none; b=LeiaPBybpWoz83aMLHS35adouwDFUfO77bp6NED3vK1WnBsPNQn9EjX3CKT5rqVcqCNTHg63t+xFVhz8tbNb6cpzTtKxkSXK3TACxgsDYUXFc7tTJsjqZqScF1gs6OvXg9QFyGavGLiNY1eG5S/mfeObyUrxb2NuR5RLFxTdhsY=
+	t=1766484170; cv=none; b=fpyfevHx7vb7o8yTpJNNqPYaMWJsEX0Qe4dBSz7uwTRxrN+MEHa8iNebRpeFue5upmUJPONydeY44VJqSm/P3k6NndBUks8vrcV9C6sPVO1x+cgohA1O8CJ2+SJlRTbAEgukl1JjGKkcAIoyBOP92E368+rtarAmFpJcdqWDPG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766441564; c=relaxed/simple;
-	bh=1r7h0p7ofkj/BfHkzN7bGtcjE/zZ8wu11lyGgKO3f28=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=OU4pKuqcXEkHByqQG+5RogMnGxSFWINBu26bro4AUT/Zj7+80YhiUQeh7lJKwngvF4d1u3LMSwOi+wAaNtnzW5NgNXZrTmM7ik/8g4X39X3f22DEzf8Bm1DnaW4AZJ+XyVZYs4Kr6ScN9eqLCXgMYlB6z+z7LX37fWL8OxO9fLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uBvsORVa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766484170; c=relaxed/simple;
+	bh=mwDZA+PNMAadBUbyVdbpUvC9ahnB+8CAzRi/TqPVUr0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Zne658sH8niWSNyYa3pPJF59pDYHa93sI7xRix6erjd6Sy8jZsJCjBn7LJYUq+dUY0TwaDYZb7vZeQwIvYY+XEthjanN/lO1k9sh2rcgTPra3v+dJ1qpNcz7LjPCa0ZAApZsGaeOpDMYMOnx+OJWVKxSdJHcbEhj2mqo2FhFzgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WDiMJ4f5; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hcNIRlgP; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uBvsORVa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E39E1C4CEF1;
-	Mon, 22 Dec 2025 22:12:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766441564;
-	bh=1r7h0p7ofkj/BfHkzN7bGtcjE/zZ8wu11lyGgKO3f28=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=uBvsORVawtXBxCxdeWb3yw0tUFFUu+rcrQlIGlqoX8a/KBlxek5SpAgRW2ZSRRUSc
-	 VhNjjdqFNE7GJvhwWwBWK0oMlGNlHYcRcLglD2oNHw/TjIdgCe1K6mI5HHirSutHkw
-	 rE5VRU4N84Re5KyRReTPofUZIXGCqPUX0JtAONIjxPf3bOt6VOqyLa0BZ/gsHenfnT
-	 8Pxvql1gblLe5XqoWVJBOHHEOl1Rwrl2egRoudb1M8dYANiFdofrN1MBy6IwaGkBiK
-	 MTF9TO2Mdgybww3GCEPeURxmDo3/8Tu4I/8Cqf17fUnXAODJxjLGcU5NVmNNFTywSk
-	 B+wb3++0g+Pyg==
-From: Mark Brown <broonie@kernel.org>
-To: Jernej Skrabec <jernej@kernel.org>, 
- Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
-Cc: linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org, 
- kernel test robot <lkp@intel.com>
-In-Reply-To: <20251221035715.1722584-1-wens@kernel.org>
-References: <20251221035715.1722584-1-wens@kernel.org>
-Subject: Re: [PATCH] ASoC: sun4i-spdif: Add missing kerneldoc fields for
- sun4i_spdif_quirks
-Message-Id: <176644156265.2187098.7267492024920127346.b4-ty@kernel.org>
-Date: Mon, 22 Dec 2025 22:12:42 +0000
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WDiMJ4f5";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hcNIRlgP"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BN6VMVY1630779
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Dec 2025 10:02:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=lVsiiqxounOhFt8gtSCLzi
+	paRc5xfLwpGpicl4jLsa4=; b=WDiMJ4f55N7JCXL+Mw9JZgABD+OR70NFiCm7PA
+	31CrZ6a49X2RmnUk63ssf0Eip02NmxEy5pQI4vDGWfuvpeM5Alv+pcgXeDs9dT+z
+	O6wtM3s4itQd1KE9/A9+OpljdGeE695oxgSONLdtngr78tPn4jB8xx/IRV6H239J
+	45qpJCB5YcVWYSMMnOcR5ArHvxrzGbBIn7i4Ml7tn6dYOAlp7Fg6hzMkplhmwLpM
+	JXCT+R+jc0pFlXd8R+4h7jMIP9V8tPNxf7QmphF002dxJAjY8WNMxiQeTKMGx3es
+	TW5sCKD2GTZyZF8doXNw5iQZ6OQSY9Ch4kPb0q+IZ1u1jZjA==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b7ck8j9kg-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Dec 2025 10:02:45 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4ed69f9ce96so157521561cf.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 23 Dec 2025 02:02:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1766484165; x=1767088965; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lVsiiqxounOhFt8gtSCLzipaRc5xfLwpGpicl4jLsa4=;
+        b=hcNIRlgPm7UiE/5gc9n9e/0HNIlw6FIpUnfe4CV/WIiSFbRiBp0rVxhTfPujOZ+UYV
+         vNDnTnzXdJNPuSYG8Z8Oeh26lUpPstU0gYnyNVGhXTHsqwHCbwvr9NK0vf514/wRsCqz
+         56gMrUQtbP7jGjbRFOrjDV3YTtrhINA4kGzmXxiKIfojwdBIgIorkzbOvCPjRSzA0dxV
+         m8rFTt3w7FPedZeBkRxwi5A+2rZffOmsK2MKuyVeEJG/Rgg2UzfWjqAtqA6PmFf3RIzI
+         eCJXCZ6uceNl37jZppWjNdR+ZxVmjiDoayQi6mL4WjsAlj0m4tmvFrC+WUfDJbvFprBE
+         3Tzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766484165; x=1767088965;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lVsiiqxounOhFt8gtSCLzipaRc5xfLwpGpicl4jLsa4=;
+        b=bR7bAGEhChOl90eF5cKE9SlZFTAHR5rO9joK8KBuUsLy0YjoY8o9wTL4NAzBAcrkfU
+         uIn0P7Zuc4hw5h9EkPYKTL7qhdqFbghgFyW+WuezsOVu5dIL+GEO7S2CvHVHw8feiRmo
+         xNKHucMAuT2tAcyX/AM4zEtvpxTCWbwfnrQbm7iW8pqPlYrptcqD+jot9oW7rpm7WaZe
+         N1er9nTLAQnru91RFAxOMThbPeedJORHX5W1hzB0iFxGtI07WnNKcQHnZWkDAZBpwh65
+         JPehCgC3XhAKoB2tO5zNBPr4KVWUnMCuXKrLEjTvNEkzDqlg2reR47HV2nG+sCDMnGJI
+         GBIA==
+X-Forwarded-Encrypted: i=1; AJvYcCWUoGbt/ap8tvjWHTxtoNf50wT+mpLFqk7OY2jRlo9bSv0nTG0hyJYDOXv0NTwIfaywHWywitJpeX/lkA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YziVcChFcOs8loHsSbocVkCOMytM+sSuOwUHt29YAsfT91coN38
+	JN1h0a+PJ2nTFfPniB8DS4atkOtGcZ8jbv0+MWwRvS62EG1Gsxyp2Jeqo82saM7kYtlaFsAhJ5h
+	2z0StU1NIe5S/W364iSk4XHyLLD1mceAVGo2vJFC7Fc1VyELW9f4JekQKTZojne6n2g==
+X-Gm-Gg: AY/fxX4VuxS7tAZfRFX1HMRoIskhcM/9yrvWU5VanWZd73T2Mk3S0ZECmOxQRS69BS+
+	NPrY4d5lKV4mwlZwDzK0FoU80shXB/3Fk8rCd+/aRGzFhJ1uroncAu0GyAMOnZHT7fCrboGHaHu
+	H7HLA3MwCWb7F+aPAUSlSq1CWIETFV8/I1Qnx4wZgEA2S9IFkbCxc7pNoOgPM+ocgjapU6AXcpH
+	RZSGucio7fobcur5LCmNchjgI2ClWUmqFpKSvcqAGBp+KV9zPDuyfrBii/kwAI4SoqMgDG1KuXz
+	upZMxQFtXfBdULiKxhi4mt8sZSVY7Lah/BjgcWhyhLskefytJISCb+QFrCXUHhSFwJszRVbN5NX
+	yd31vWIjhd8oBEDYOhSz/6mZ3RiotMiBtyJNUQA==
+X-Received: by 2002:ac8:5845:0:b0:4ee:14c3:4e6e with SMTP id d75a77b69052e-4f4abcb89b4mr199519111cf.2.1766484164804;
+        Tue, 23 Dec 2025 02:02:44 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGgOAvppFe+utmVWSJc5Fi7Osfe16Ny+TBuzlxFntilRe01w0BA2HK+q0XCwAWBLR6sJii+LQ==
+X-Received: by 2002:ac8:5845:0:b0:4ee:14c3:4e6e with SMTP id d75a77b69052e-4f4abcb89b4mr199518481cf.2.1766484164162;
+        Tue, 23 Dec 2025 02:02:44 -0800 (PST)
+Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:190a:1976:65e2:c61])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea1b36fsm26794625f8f.5.2025.12.23.02.02.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Dec 2025 02:02:43 -0800 (PST)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH 00/12] i2c: add and start using i2c_adapter-specific printk
+ helpers
+Date: Tue, 23 Dec 2025 11:02:22 +0100
+Message-Id: <20251223-i2c-printk-helpers-v1-0-46a08306afdb@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,43 +89,127 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
+X-B4-Tracking: v=1; b=H4sIAK5oSmkC/x3MSwqAMAwA0atI1gZq/KFXERelRg1KLamIIN7d4
+ vItZh6IrMIR+uwB5UuiHD6hyDNwq/ULo0zJQIbqgohQyGFQ8eeGK++BNaJturmqTOlsayCFQXm
+ W+58O4/t+Rw/752QAAAA=
+X-Change-ID: 20251222-i2c-printk-helpers-a69f4403ca70
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Andi Shyti <andi.shyti@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Khalil Blaiech <kblaiech@nvidia.com>, Asmaa Mnebhi <asmaa@nvidia.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+        =?utf-8?q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+        Manivannan Sadhasivam <mani@kernel.org>
+Cc: linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linuxppc-dev@lists.ozlabs.org, linux-actions@lists.infradead.org,
+        Bartosz Golaszewski <brgl@kernel.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3113;
+ i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
+ bh=mwDZA+PNMAadBUbyVdbpUvC9ahnB+8CAzRi/TqPVUr0=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpSmiyrwadEPSafSYG+ZitmVmW9YHm1TBBa5m3n
+ aBg7Itr6lSJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaUposgAKCRAFnS7L/zaE
+ w7lCEACFwc1erjteHjPbCchFkjEMwie8N3o/WH17ZxwRtvpaSLRqGA0OTi8psX5Dz8P3MxWysrg
+ QTcJvUk7lt2X908rAsTZaJJ49baytToXbX9qx3i3dSUwpAibeeksU9Nmhtbi1+ty8L9j7dzNzN6
+ yZBh25hLS6xK5SnJLPe11uY0M517V+7MvPtObQnqZnB56iG0hvI4E3w5WSbmzfvAPG24KSQYMqn
+ BTTx/OlmcfwhULH+UHPyIcLvL5Nnz243GpwRbKgXjA+ErHh7ym2Och8IAPhQCwMDJQcUNsIu9se
+ hX2W54J9zrM9DjASpJh30ECj0/FKJSN2NvrXu0vAVcm74LksPFfJuvNk30Aq/nmA1zPIYaJrVm6
+ BwhTUL8zyWwMsYiu4tKuDP/t+zsFWfvjbDBqMh4x/8mpWQblzmpytqCud1GIrZc90KJxgZU9bdG
+ ibCw4xwFY+GWFyHCYg1wvcZa38xPlQH0IYrmkb/ZBvhpSZj3N8+672ZwsnvODeOJegkufYNhunx
+ DGB0ZpgJbUpNrY/z9YGrcXW3Y/IKO+grB0VzvNE3WEW1kYnTYZI9RU7ZPI0R5l7WALlwW3u7xpn
+ HWlTHkmI5GG3dZri+dZG6jH1RADUEamjmOZRPnPJltogZNsUmV6hPLPJnQ3VneAJVnzpjhxbLUi
+ MqCv6TWIcl6iAQw==
+X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+X-Proofpoint-ORIG-GUID: 84yi8ssBrsCcBZbbt8fV38wcNArjNUWi
+X-Proofpoint-GUID: 84yi8ssBrsCcBZbbt8fV38wcNArjNUWi
+X-Authority-Analysis: v=2.4 cv=asi/yCZV c=1 sm=1 tr=0 ts=694a68c5 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=M7r7wYDzB2Ki_6CY1cMA:9 a=QEXdDO2ut3YA:10
+ a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIzMDA4MCBTYWx0ZWRfX0t2jbmbQQQe/
+ JBsJwaomeDQy5pFOXfvlmWvuJJBi5W/IEE9O99lrJoq9JXhm55PWi9EJ5h2CcomKmegBQzWN4vC
+ U0VYoCJDP9j9TTrytGc+QUTGdg6nfkUAGeMVC+C1hF+JO3VuQOQM3PkDuEicbEWtU8w8ruVkCP/
+ vpZiEC8oWC4sdcNwHeOvLwU7qCUP0fga5WA6LtsyCygAbnRfNVqB1tpPoUfLBaIj1B3I018sqIu
+ DVtZkbhSqPh9I1rOKV0kcL9R2R7rIvIrlCslH1eMRV3rnOaQeQpYqB+DuG9LYJxir33s4oYyqLL
+ cjXVzR693ZBm+GXSTkRKs/J+WZ3pXQjKsImQlI3Uu6+ymK6rZaESoZAIuQDVEHMu7/XEymTEalR
+ vng/XyQxsTACz3j6mh8yXytnIdDwRp4XFN3tkMPKLYshzTiOusMZD5xK+WPlduDK1YuCfGPqGJt
+ 0+5x103l56GBYA9i2Gw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-23_02,2025-12-22_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 malwarescore=0 adultscore=0 spamscore=0
+ phishscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512230080
 
-On Sun, 21 Dec 2025 11:57:13 +0800, Chen-Yu Tsai wrote:
-> When sun4i_spdif_quirks was recently expanded, the kerneldoc covering
-> the structure was not expanded to match. This ends up causing a warning
-> when the documents are built.
-> 
-> Add the missing fields.
-> 
-> 
-> [...]
+It's been another year of discussing the object life-time problems at
+conferences. I2C is one of the offenders and its problems are more
+complex than those of some other subsystems. It seems the revocable[1]
+API may make its way into the kernel this year but even with it in
+place, I2C won't be able to use it as there's currently nothing to
+*revoke*. The struct device is embedded within the i2c_adapter struct
+whose lifetime is tied to the provider device being bound to its driver.
 
-Applied to
+Fixing this won't be fast and easy but nothing's going to happen if we
+don't start chipping away at it. The ultimate goal in order to be able
+to use an SRCU-based solution (revocable or otherwise) is to convert the
+embedded struct device in struct i2c_adapter into an __rcu pointer that
+can be *revoked*. To that end we need to hide all dereferences of
+adap->dev in drivers.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+This series addresses the usage of adap->dev in device printk() helpers
+(dev_err() et al). It introduces a set of i2c-specific helpers and
+starts using them across bus drivers. For now just 12 patches but I'll
+keep on doing it if these get accepted. Once these get upstream for
+v6.20/7.0, we'll be able to also start converting i2c drivers outside of
+drivers/i2c/.
 
-Thanks!
+[1] https://lore.kernel.org/all/20251106152330.11733-1-tzungbi@kernel.org/
 
-[1/1] ASoC: sun4i-spdif: Add missing kerneldoc fields for sun4i_spdif_quirks
-      commit: 6c11aa2b4cf767f5ccfe290b2572d53102dbe5ea
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+---
+Bartosz Golaszewski (12):
+      i2c: add i2c_adapter-specific printk helpers
+      i2c: sun6i-p2wi: use i2c_adapter-specific printk helpers
+      i2c: mlxbf: use i2c_adapter-specific printk helpers
+      i2c: isch: use i2c_adapter-specific printk helpers
+      i2c: ali1535: use i2c_adapter-specific printk helpers
+      i2c: scmi: use i2c_adapter-specific printk helpers
+      i2c: ali15x3: use i2c_adapter-specific printk helpers
+      i2c: powermac: use i2c_adapter-specific printk helpers
+      i2c: owl: use i2c_adapter-specific printk helpers
+      i2c: nforce2: use i2c_adapter-specific printk helpers
+      i2c: amd756: use i2c_adapter-specific printk helpers
+      i2c: piix4: use i2c_adapter-specific printk helpers
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+ drivers/i2c/busses/i2c-ali1535.c    | 20 ++++++++++----------
+ drivers/i2c/busses/i2c-ali15x3.c    | 20 ++++++++++----------
+ drivers/i2c/busses/i2c-amd756.c     | 24 ++++++++++++------------
+ drivers/i2c/busses/i2c-isch.c       | 32 ++++++++++++++++----------------
+ drivers/i2c/busses/i2c-mlxbf.c      | 19 +++++++++----------
+ drivers/i2c/busses/i2c-nforce2.c    | 14 +++++++-------
+ drivers/i2c/busses/i2c-owl.c        |  4 ++--
+ drivers/i2c/busses/i2c-piix4.c      |  8 ++++----
+ drivers/i2c/busses/i2c-powermac.c   | 26 +++++++++++++-------------
+ drivers/i2c/busses/i2c-scmi.c       |  6 +++---
+ drivers/i2c/busses/i2c-sun6i-p2wi.c |  8 ++++----
+ include/linux/i2c.h                 |  6 ++++++
+ 12 files changed, 96 insertions(+), 91 deletions(-)
+---
+base-commit: cc3aa43b44bdb43dfbac0fcb51c56594a11338a8
+change-id: 20251222-i2c-printk-helpers-a69f4403ca70
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
