@@ -1,88 +1,87 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBBB254849
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Dec 2025 10:03:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86F933B6E5
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Dec 2025 10:03:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766484186; cv=none; b=GgbVkNqN070vc6WEIrOE3io08iD7WLh4+cwXuzvn6o8UCq+xDCg6Z9b/fWRArUFQMK0t1bWc97zejBucVXxev5oqIrVNYJMAQpeZSSGnDawbtgWISl6e9DHJDpkmH72ueH5JwQ6petLYqX1+jEDvkOrACrvkYMjvXrPNOLgNNts=
+	t=1766484187; cv=none; b=FLtqVQUggraJE+yyzZ4bjZnBFZROPH/uRRaj3M1MeykZiLGJ8JYwlMP9wZfEDEKUcVn07uamobFTkyJceRaXd6T/sp0K8j8be8ons59ANErnjf835uZM5q8/DfxxRoQVyNBl+ahkwLjalWeJafT1uWThgfbW2j46G1KNrkvXwy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766484186; c=relaxed/simple;
-	bh=1RcMgKhoVIDH/uvlkjR4k8BRDeSqy3Z1wqmJ/Zg7uPQ=;
+	s=arc-20240116; t=1766484187; c=relaxed/simple;
+	bh=dI851BmOduiioly8u4iYfe+Rr//GzNIkYCteXmln3Ng=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tbeYzLeouXKphwdhdP7y/QxgGr+xc3Vt2bkctNjep//vVbbEQJcclGi2fSZ5h8dUdDboOmfA5i86ZiMo16Jd6C6lEinBGIzpYlSMl+UAOJkHVVjJOsKN7tyeSa/RlqgKoxoduT+7l8N8BoslgpqVsgsMxDS2aQZC+0owdo+RLv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lgtVVrCR; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=UU4H2Z7F; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:Cc; b=bwHZIKRBLhY7r/1C0cBSmS0tmdPRYE/Y5sdeFdqJ9RABJemdnVGW2ChZaXNQKO4wlWMYaH5SPZovzv2zqH8gRiRR5xZZLYtwXEWlBJ65t9M3fczjup7IrAQQ7XzRnGACTmCVqq6m1vBjA9XmURQ6OLnHS7sBpg8epUHaxLG02Jo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=F2GLm8R2; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=OJq9bLbm; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lgtVVrCR";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UU4H2Z7F"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BN3idED1357329
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Dec 2025 10:03:01 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="F2GLm8R2";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="OJq9bLbm"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BN93HM52792582
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Dec 2025 10:03:03 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Kn07S0VFJ00r1Opp95FLhCfso4raJ3godCnzzNkTUdQ=; b=lgtVVrCRDEEhbVLA
-	bu1fxLTBApMnXU4Io5Rs7UxlEpP4lv20AZm80EjrI6PAMZvpCBjCN/RrpU2aydOL
-	g0vyT5gMOrqNJiYyX+5UjqmHbGn8dMJbc8BplkwFup1dzZnaRiKrxV9wmSjanO+5
-	DAV8tqUDtGipXSWN/91KJm2nSQtUFCtkt+YZ4M8XDjdSA/Nrb8pwgRj3S1RPeblX
-	O2ENydHSe6u8kcw6kNgqkiKc9x8rPElPzUPsxhK41Q0bMN0QMNciQW9HOdMdDHzq
-	QZlmEU8TXuKRxRf76vttD6biAOOikTeEIAE5DoAFlKqjR/y8mG+ajwHT1pavw7Zi
-	aYLMgw==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b78xc2sm3-1
+	or9DvhQwaxtsrAqBQKF2R4HMkZA0UWyOfpa2BBt7/z4=; b=F2GLm8R2dREg5sck
+	zgwCv6IffFw5EQxdkz6nZX9+TnNyy8LZcekauJxst7CNm8WdkKpH/ZVHkj+qS/px
+	GDbP6yrTQNayaiBAkb/FwCXjoYPP4IeJ8jjaPBc2jMUIXkL/lj7vMWlD/Axn4D0l
+	rCjL/MvYhL3NNd9iF8EdRvRVZwxSfaUUqhuOFLiDDWRKnPWgf2q9DzEnYJJmF03b
+	zH9+8N8WFL6TFMqn7tqwZIo/0lxAR0ZA8mh77yxxGs1g2ItJ1k99KAFxIAjftPcN
+	XKqKe/l9ArxoAmdi6nrgzWDkW/iV6O7Gldkg6pYtMi4shkzKgT5f0vUZaj8iT+bE
+	ZOwRmg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b758y3g85-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Dec 2025 10:03:00 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4ee3dfe072dso126991671cf.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 23 Dec 2025 02:03:00 -0800 (PST)
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Dec 2025 10:03:03 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4f35f31000cso67818651cf.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 23 Dec 2025 02:03:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1766484180; x=1767088980; darn=lists.linux.dev;
+        d=oss.qualcomm.com; s=google; t=1766484182; x=1767088982; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Kn07S0VFJ00r1Opp95FLhCfso4raJ3godCnzzNkTUdQ=;
-        b=UU4H2Z7F89sjN5JZD/YLhp8bOFl2RNENyBxYu64RwA3vXhswbVIjr1SRgC6LwwsAku
-         AZfXe+wYzPfftot60DcvtULB4C9gLCR4FRbu6S1rX3v7ujaBXAgfr4R0fLwtoxxG4Tmq
-         kRzXYDUXPVBoW8NJ9YljQz06XcTxLTWCbleXAcgcncN3DPCaZsPJpbYvIJLt5WDhqmcr
-         gcWheW2tvpkHStXt4z9dAi73WExXUP+0UpzGcnODVp7UUr4l7vdW3uolRV5omgRazjAk
-         i3v99u3gFTTGYtdJpl1nMR3KdkgVRN1NVU6TnAVobumrCTM3JADOgQ9hmfVNAz1vAeh6
-         ycDg==
+        bh=or9DvhQwaxtsrAqBQKF2R4HMkZA0UWyOfpa2BBt7/z4=;
+        b=OJq9bLbmyjy4sgby7BZpCBqoWuZoBK/ADUWjfQ5wFAwUtN0lE+VDXskoCAvxIFJ0hd
+         UkU8OytgpgmwYiQH7Is4VZW1T3EoNXEb+XoiJRzAqtmWB1NUOH39h+HvCLaDfPegZTmp
+         sq+VLcnws4lsdUX3cJxUSxyMlsDAPutl+sAvMvLhXZ/ambIaJVDX6p2A5o3sBUh8suKG
+         K6jI3gyPORjdZcYHSM3UATKUIK6G2Fk9pY+T3gPdEOwAtMAiSRhfZ9oTjiXemwhYR0XX
+         GGuyMCjukX61u6oKjjaxnorzUx70xY+aKsM//jZfAOQjwRxfEkfP39GNIDTheRhco6yG
+         VzPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766484180; x=1767088980;
+        d=1e100.net; s=20230601; t=1766484182; x=1767088982;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=Kn07S0VFJ00r1Opp95FLhCfso4raJ3godCnzzNkTUdQ=;
-        b=wZFs7BN4Q/lWcShwAVO5pqhAND2WidNS61nOOhNlLlJdYhvveqpcNfS12K+CwIlYA9
-         c66yD0L5QuMhD0WpXyeAprUTKjyTRLtZEs+7tMrA0Dj67C3quxnyPj/8BLzlOqtxWEN4
-         gSaO+qy1pbAFrm9KzyW+b7NJQKtcxtFTN7jSVxmUyPDuq6ZNQ5i87CN5+2hQ201CKzUr
-         3b8OU8iH/4L+j1BNtp4bIW4DFHvFcckthKcYEA/vH24wTk5jPgLp3lCj8vIrpebFP85s
-         1TlkbVjzSdwfL3Ox8cAiCoXJq8g8YX49gBUrR6XpVqFW4Fb+C4ym6GLZPWI96/vd/3z7
-         4XOw==
-X-Forwarded-Encrypted: i=1; AJvYcCVd/XcPSagbfaQ0sZYLWo2Ld/lz0gPMillwgiBqrw49DH+An4/An1lrC83njwTr3VYTbB8GbUdSBHwzuQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzAvqecfYchd9FRu4VbRo1IYw515bQUpjLFtusncQA+K7P95e4n
-	eO6JLuMHjxPCBgYVs0Q4LR8TuePDQR7WiyMq5z16IrcJWINZsDZbnR9elPw+IOVkbgQvtWoff3W
-	IriplQZE+DDi+0jckv+rbVbilo11U41LxLnQfsipBqZ7WBzDbMQC7MbJtj9u9okWqfQ==
-X-Gm-Gg: AY/fxX40cmMMN7GgkNtLp2nt2FLe46xh4DeB4Rj6p7Ntvb/G3BjfARbGQfO3BVgODzY
-	D0Aoi1wFEXr7JcQwqJSr6FRA6cFVAR1mS8RuGc3RsgGCkazPU9Y4Vkh3USP6oHa/+Kzv7UvDavb
-	FdNggZ+CWIwzUtUmGeOdlypZyFWq9t4Qg9ZaxNdZg2uuHMOkm6ztsnUp6yUAUowQXGbS3Hj5mHQ
-	IsHf90m9AqBsCv+s43Xfw0d8yKsSZVKdHlOYMXD4D9mbH5PjP+tLUVl+e533vxfV6hZCJXmwv21
-	26H2Qfny4RwDAKifH5qXX/1VYHLhU5xSSCTQtp9/ANw9qx4ANQgWz63UimKC037+Wh8fmPVNtRO
-	S8GX1u6bVSDPEvYJafml9OXT87tYNT20WW0pnuQ==
-X-Received: by 2002:a05:622a:250:b0:4f3:5346:5d54 with SMTP id d75a77b69052e-4f4abd78d8fmr199055521cf.50.1766484180400;
-        Tue, 23 Dec 2025 02:03:00 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEb/XwjqmlNu6biskXJYdXx7yRjIVunYQjmGPYAWmA2yv1ld3r5jkFpRaOKuHbmJJD/SAxQsA==
-X-Received: by 2002:a05:622a:250:b0:4f3:5346:5d54 with SMTP id d75a77b69052e-4f4abd78d8fmr199055071cf.50.1766484179952;
-        Tue, 23 Dec 2025 02:02:59 -0800 (PST)
+        bh=or9DvhQwaxtsrAqBQKF2R4HMkZA0UWyOfpa2BBt7/z4=;
+        b=lkToT6TFQEqYYHV4KPUazYFF99UmmQacrxyrJwMxUITVaal8FpCVNr+XOsEc/gLCop
+         QTdJaC4YvLgtGGmvgy124vxQ9QmU1eHXxi99CN93xUr+mZCnM8RsmlGi5efM04HPCOT2
+         LPWa4rOJBaUGXM22omI9jl69NowyhqTFt79DllKJ+8EMvlVZBHR0930VI/r18nt3EIvT
+         aSJh8AS/O9bgzk7VC9ZBaLhJjo5WLaG59ISwjJL7lkcfHCIEihK/KtIZ/h1+DlPUf8Mj
+         hBfgG88RbqJdgZug6oudmH6Qx1MKx8JJ3CrpH/LKVcZAPvmEuIyvWXvADD2j3cyiqrOn
+         upPg==
+X-Forwarded-Encrypted: i=1; AJvYcCXmrhzaXZMf7HCaNMHkCEas4mqCj5cSDxkZoZPNSMKGN+u2ggzc4y2xcJ8CzAvbQa2YH+UMchTg9n7BmA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxFd/ZGM3UBaVnTdGMn+LEy8flUfhX56QPaZs65RNpn+WW9h/hQ
+	z59H1LiHU9uDcw7BCdafFohLA9GcMw0RqMoi43bI+yezUvzFGW77wdI8ZKKvM1HSv+0EGZ7FUvv
+	Mphx8iPLhdBEHc8RvXJPscfur0UJrG6owngndh6qfyWTQStUvpj8zm4lbBdnKPlN3jg==
+X-Gm-Gg: AY/fxX76I+zdRaypNcViQeXq/QuybBPMGZCADhA0cj3rNcayK9me6+lhbaEMGTAu6co
+	or6N/Lk7i3JKVDllgn5yLaUZ5oj6hE8CGCYewzsy3MxMkbvDteVgnyHDNJ0MqMoU7QqAVxmZJJ5
+	8lNmRh9MaM9QTI5j9f4KqgyocPmahQzteQu1WWfgcNZVKK5/rZNavLZLQjd8QzdbTHEqo4bO7Ed
+	dGJRo6UD075iitlWHp6JJQLLf+4NcoGMGBcdFLs45Jv3cAgcwZr6pM2fu5e4dURnJIRAUkri2nM
+	sTdifHEhqwlm2ni6Ogg8Aj9bUQ7QTxJY+z/fevLyFM/bRF2ngq7iTwDKE154xiEvphEwn/bDeOl
+	zgvOCXJ6Tw1NYhzJW2GJYLjcuuoHQSHpb7LfJlg==
+X-Received: by 2002:a05:622a:2609:b0:4f1:e46b:9dcf with SMTP id d75a77b69052e-4f4abcdf56emr174601961cf.26.1766484182021;
+        Tue, 23 Dec 2025 02:03:02 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFYmKh9q3TVpBvPGG04xNQnPAJXRKn+MV5cm9azWZmmq9WoPxX1CHwGyf0VG3WWqkcEF5gNgg==
+X-Received: by 2002:a05:622a:2609:b0:4f1:e46b:9dcf with SMTP id d75a77b69052e-4f4abcdf56emr174601651cf.26.1766484181594;
+        Tue, 23 Dec 2025 02:03:01 -0800 (PST)
 Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:190a:1976:65e2:c61])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea1b36fsm26794625f8f.5.2025.12.23.02.02.58
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea1b36fsm26794625f8f.5.2025.12.23.02.03.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Dec 2025 02:02:59 -0800 (PST)
+        Tue, 23 Dec 2025 02:03:01 -0800 (PST)
 From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Date: Tue, 23 Dec 2025 11:02:32 +0100
-Subject: [PATCH 10/12] i2c: nforce2: use i2c_adapter-specific printk
- helpers
+Date: Tue, 23 Dec 2025 11:02:33 +0100
+Subject: [PATCH 11/12] i2c: amd756: use i2c_adapter-specific printk helpers
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -91,7 +90,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251223-i2c-printk-helpers-v1-10-46a08306afdb@oss.qualcomm.com>
+Message-Id: <20251223-i2c-printk-helpers-v1-11-46a08306afdb@oss.qualcomm.com>
 References: <20251223-i2c-printk-helpers-v1-0-46a08306afdb@oss.qualcomm.com>
 In-Reply-To: <20251223-i2c-printk-helpers-v1-0-46a08306afdb@oss.qualcomm.com>
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
@@ -112,44 +111,44 @@ Cc: linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
         Bartosz Golaszewski <brgl@kernel.org>,
         Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2796;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3679;
  i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
- bh=1RcMgKhoVIDH/uvlkjR4k8BRDeSqy3Z1wqmJ/Zg7uPQ=;
- b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpSmjAWS6dV2oSrIJN/8EGc+7W8i9AyzXFZaPPi
- mcV5IzVlFiJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaUpowAAKCRAFnS7L/zaE
- wy0dEAClg4CncFPQN0S3c+U7UOudBSZbQgLmP6HOhyUtZ3U9OLbCsKadAQFgEhSwX1jECTm5dNF
- 0RdoIoG+fF0GCw60nKZXgiUzxNUalzHyZjn3MgzLiNqR/BAr3Fe55XuV4sKpYT6yU1xAZ1D0AS0
- WB+Cuxnns2XBnbCeu8KX2+jXTE4EspmlwPkIwNTPlrAlof76u8Fyj815z/OQA/0uApNYkRudhth
- 8X0O57dlCLpgrWcFelojmLpkvLBhwA3ug9kSOZS5GlNWt9tC7n8yEBuUGnu8+MG+yfjadZSdiGY
- FI/2l6PvAgagfWA6020GUjaUrTrdzHQr57t80WmhjeCdzxZht4XNHlQGykb1O4pHcC9FQoSsK1/
- Ua5Ilo556Drv7i1I7H8wPdl3MyXIb2mphWJCjOR3kD/v2xvLIqwnApfjb1z+6ag9RZHTuZBzsch
- h700sSioPBCeNDSEl8K/MX2Q6LnXgJHDfoXh0dQWUt0WV2kziDw7ZQCFJMAL8MU11fniAfWtnLu
- 0zkk4hjESymk+Muoy340vMIrgjGBzwhm/KxR9h3yN2OPcYeZBQ6RTKGDc0TXwrufHCZ3m2YcYPU
- zB8cbguyyVBO5QUmGddwtTBc2xiWqtP6i75lMrsX7aWcquTAWMGnXWUt2zTV+fbXqmMuyOwazC6
- QswEw5+ooZn9yfA==
+ bh=dI851BmOduiioly8u4iYfe+Rr//GzNIkYCteXmln3Ng=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpSmjB5UVNcmc611VKtySZweLgh03lH4CqLyep8
+ HN5EDTCCTaJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaUpowQAKCRAFnS7L/zaE
+ w7K7D/4+c+Fz0nx+enSy+0T4yYkJZdn0nkZfXEFvgWl9SaytNp+VrFeIZFFCXXMRHJLHzQ9F6yE
+ 6grb+AXEzou95fx6/DnPZnO4gmcgKK1vIR5ea8WocpwnbE0BV8n5SCeDwJtTMqb/i7ESl/L6Uw9
+ 7YdYJWNS2IXMX7FN7fE/Nc+ibmyHtIv5QHZQbD4L4NEDUBDXt3L/u1EKGsqMyUp5C/3qAtSkXH1
+ ix1sU8F1hiF4ppon9nlTAxe6MOmla3QRgWCA0i6WoPuIYU+LtfFBSz9PlLMFSQi3/Tb9pTJojmv
+ sZyt0uBuvEPgfDyh9D4q5y8scZeFgW6/roKmrAmktmOPfu69d600IhvNzHX1/53yk2+ruS4HAWe
+ jr2xoMOReoaIb6zkzEE0K90I4fJNM8eFCx08mnXqg1typ4jMHuTRK26+T2kLlreUWiNAHYXbg8W
+ NintnTN9h/k5RLXA8M0Imm1bBI1yXyxIp7EejP6p+7y4WMjVDx+KmJsnYtWI5qwSIgG0EGvrG8n
+ HzEAMhq4EHGZ21GoCeWNKI0uXpcwJSls/9lQfmgT29CNmnigZgBM8/PW8iEsLmgHAFwlt1BpTZn
+ VIO7KE9o3UipYVObALa592Fk9Ye+4KVwPvy4fepnLyrsTInjb15j8hoaKeYzfo7Zei9+IYYPHAR
+ cv/14KJKs7ruXCA==
 X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
  fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
-X-Proofpoint-GUID: I6TIB33zmEU1nmJT_TkrBMrjefgowARq
-X-Proofpoint-ORIG-GUID: I6TIB33zmEU1nmJT_TkrBMrjefgowARq
-X-Authority-Analysis: v=2.4 cv=cuKWUl4i c=1 sm=1 tr=0 ts=694a68d4 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+X-Authority-Analysis: v=2.4 cv=TOdIilla c=1 sm=1 tr=0 ts=694a68d7 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=ULAvDvZivfA9C-ZB8fsA:9 a=QEXdDO2ut3YA:10
- a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIzMDA4MCBTYWx0ZWRfXxm6115e/Wn9d
- /MVRyx7jiGVBsXvAgJcN0sp2Va18o3uGk8gmqiL/XvFO0rLsthjuAai7shhPDOh0tvfifnYWG03
- jGW1aXwEUDO2VTwxOkypRRdEJhjgnwx9kM1pso6tMTZDcBAzlaxMx+q3yfBExAbhuAxuNh/DKyi
- uaplTiBtEE/NMsCPdKrHeSehq3cpn7rwXgNR5bqk4qzaC+EcHVSa2d3s9/G8PbLk4gca0l0qf0H
- fwJsNDrj4xo5Ol9USsB6SUxqGnoYja2tlT0YbwysOguj3oOaT274vIkrzi6b+GHyR1M3Tjv//+G
- vM/P9AAod0WkxHAFgRSLOvUIbVH+UPYJFJRxz3KLePKw+vsdPdIL8uKb6nWI4DI+4gSnsvnu0cj
- RhN0ow6MjpSQlQ1WZp8D5Mu+r6woqv2QTNKtXyYg67Zbe9d8g9DpYGuOz/lEphI1AXBGRF4R+Q/
- uxooEnDKWB4ZRHRu7Sw==
+ a=EUspDBNiAAAA:8 a=IUzV_G_aAFXi5cZUTYgA:9 a=QEXdDO2ut3YA:10
+ a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-ORIG-GUID: d8KV7Q0FYi6BQTUPfb4q8vngdt_7czht
+X-Proofpoint-GUID: d8KV7Q0FYi6BQTUPfb4q8vngdt_7czht
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIzMDA4MCBTYWx0ZWRfX49iEdOI8Mw9w
+ a9RzYiYJJmjLwUS+PEwnsXKclIvOI3uhUyY46U91ZKt+zqObqxpoARYeo6rsml2bg4DEhGrjeTS
+ xje3gxufxlj+IEtTJEYU89mwivgsZ2/6snuu38fDmu0B+skw81DvZghcyW+MNL3dMvcaJwsZTPI
+ zFGcBfrmLfkHf6phPlss7sdtW3B5WbDPh596Yys+Pn6Aylc30jptTHr4eDeYjznN3xMUwUweJ8Y
+ NzJ38QbqVbMKYiwDSVDxjC5LySyshoo2zBkIALXvVqWeVw5PO23k/LPATYFZuy0AAe3ItOaTMjc
+ ArEkZoBXScf97KRUlg1NbjJKL4JWhLDprA1g6NAmC4Xz7G4O77vTa+4LG6u5KK+Om/7YvKACbLd
+ /ZwFeZFmPzrWIiWKNLrfOkzBqFC9mhvakJvH7X8N688hH50hSq3K/ZmG+5uPvoEM8/Qva+UaQ2+
+ OfRIxq11eZcGolYNiog==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-23_02,2025-12-22_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 spamscore=0 lowpriorityscore=0 adultscore=0
- phishscore=0 clxscore=1015 malwarescore=0 impostorscore=0 bulkscore=0
+ spamscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
+ clxscore=1015 impostorscore=0 bulkscore=0 suspectscore=0 phishscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512230080
 
@@ -159,74 +158,103 @@ that dereference.
 
 Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 ---
- drivers/i2c/busses/i2c-nforce2.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/i2c/busses/i2c-amd756.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/i2c/busses/i2c-nforce2.c b/drivers/i2c/busses/i2c-nforce2.c
-index d58a308582e47650238312537d2d721261d3bca4..2fa6f1dbd27a92c2d67915775e588e4bab675d76 100644
---- a/drivers/i2c/busses/i2c-nforce2.c
-+++ b/drivers/i2c/busses/i2c-nforce2.c
-@@ -123,7 +123,7 @@ static void nforce2_abort(struct i2c_adapter *adap)
+diff --git a/drivers/i2c/busses/i2c-amd756.c b/drivers/i2c/busses/i2c-amd756.c
+index 3621c02f1cbabd8c5e9d8a4ae1494ada78726b15..629da0b8024b88cc4d51ea5e785147b462a1281c 100644
+--- a/drivers/i2c/busses/i2c-amd756.c
++++ b/drivers/i2c/busses/i2c-amd756.c
+@@ -99,14 +99,14 @@ static int amd756_transaction(struct i2c_adapter *adap)
+ 	int result = 0;
  	int timeout = 0;
- 	unsigned char temp;
  
--	dev_dbg(&adap->dev, "Aborting current transaction\n");
-+	i2c_dbg(adap, "Aborting current transaction\n");
+-	dev_dbg(&adap->dev, "Transaction (pre): GS=%04x, GE=%04x, ADD=%04x, "
++	i2c_dbg(adap, "Transaction (pre): GS=%04x, GE=%04x, ADD=%04x, "
+ 		"DAT=%04x\n", inw_p(SMB_GLOBAL_STATUS),
+ 		inw_p(SMB_GLOBAL_ENABLE), inw_p(SMB_HOST_ADDRESS),
+ 		inb_p(SMB_HOST_DATA));
  
- 	outb_p(NVIDIA_SMB_CTRL_ABORT, NVIDIA_SMB_CTRL);
- 	do {
-@@ -132,7 +132,7 @@ static void nforce2_abort(struct i2c_adapter *adap)
- 	} while (!(temp & NVIDIA_SMB_STATUS_ABRT_STS) &&
- 			(timeout++ < MAX_TIMEOUT));
- 	if (!(temp & NVIDIA_SMB_STATUS_ABRT_STS))
--		dev_err(&adap->dev, "Can't reset the smbus\n");
-+		i2c_err(adap, "Can't reset the smbus\n");
- 	outb_p(NVIDIA_SMB_STATUS_ABRT_STS, NVIDIA_SMB_STATUS_ABRT);
- }
+ 	/* Make sure the SMBus host is ready to start transmitting */
+ 	if ((temp = inw_p(SMB_GLOBAL_STATUS)) & (GS_HST_STS | GS_SMB_STS)) {
+-		dev_dbg(&adap->dev, "SMBus busy (%04x). Waiting...\n", temp);
++		i2c_dbg(adap, "SMBus busy (%04x). Waiting...\n", temp);
+ 		do {
+ 			msleep(1);
+ 			temp = inw_p(SMB_GLOBAL_STATUS);
+@@ -114,7 +114,7 @@ static int amd756_transaction(struct i2c_adapter *adap)
+ 		         (timeout++ < MAX_TIMEOUT));
+ 		/* If the SMBus is still busy, we give up */
+ 		if (timeout > MAX_TIMEOUT) {
+-			dev_dbg(&adap->dev, "Busy wait timeout (%04x)\n", temp);
++			i2c_dbg(adap, "Busy wait timeout (%04x)\n", temp);
+ 			goto abort;
+ 		}
+ 		timeout = 0;
+@@ -131,38 +131,38 @@ static int amd756_transaction(struct i2c_adapter *adap)
  
-@@ -148,13 +148,13 @@ static int nforce2_check_status(struct i2c_adapter *adap)
- 	} while ((!temp) && (timeout++ < MAX_TIMEOUT));
- 
+ 	/* If the SMBus is still busy, we give up */
  	if (timeout > MAX_TIMEOUT) {
--		dev_dbg(&adap->dev, "SMBus Timeout!\n");
-+		i2c_dbg(adap, "SMBus Timeout!\n");
- 		if (smbus->can_abort)
- 			nforce2_abort(adap);
- 		return -ETIMEDOUT;
+-		dev_dbg(&adap->dev, "Completion timeout!\n");
++		i2c_dbg(adap, "Completion timeout!\n");
+ 		goto abort;
  	}
- 	if (!(temp & NVIDIA_SMB_STS_DONE) || (temp & NVIDIA_SMB_STS_STATUS)) {
--		dev_dbg(&adap->dev, "Transaction failed (0x%02x)!\n", temp);
-+		i2c_dbg(adap, "Transaction failed (0x%02x)!\n", temp);
- 		return -EIO;
- 	}
- 	return 0;
-@@ -207,7 +207,7 @@ static s32 nforce2_access(struct i2c_adapter *adap, u16 addr,
- 		if (read_write == I2C_SMBUS_WRITE) {
- 			len = data->block[0];
- 			if ((len == 0) || (len > I2C_SMBUS_BLOCK_MAX)) {
--				dev_err(&adap->dev,
-+				i2c_err(adap,
- 					"Transaction failed (requested block size: %d)\n",
- 					len);
- 				return -EINVAL;
-@@ -221,7 +221,7 @@ static s32 nforce2_access(struct i2c_adapter *adap, u16 addr,
- 		break;
  
+ 	if (temp & GS_PRERR_STS) {
+ 		result = -ENXIO;
+-		dev_dbg(&adap->dev, "SMBus Protocol error (no response)!\n");
++		i2c_dbg(adap, "SMBus Protocol error (no response)!\n");
+ 	}
+ 
+ 	if (temp & GS_COL_STS) {
+ 		result = -EIO;
+-		dev_warn(&adap->dev, "SMBus collision!\n");
++		i2c_warn(adap, "SMBus collision!\n");
+ 	}
+ 
+ 	if (temp & GS_TO_STS) {
+ 		result = -ETIMEDOUT;
+-		dev_dbg(&adap->dev, "SMBus protocol timeout!\n");
++		i2c_dbg(adap, "SMBus protocol timeout!\n");
+ 	}
+ 
+ 	if (temp & GS_HCYC_STS)
+-		dev_dbg(&adap->dev, "SMBus protocol success!\n");
++		i2c_dbg(adap, "SMBus protocol success!\n");
+ 
+ 	outw_p(GS_CLEAR_STS, SMB_GLOBAL_STATUS);
+ 
+ #ifdef DEBUG
+ 	if (((temp = inw_p(SMB_GLOBAL_STATUS)) & GS_CLEAR_STS) != 0x00) {
+-		dev_dbg(&adap->dev,
++		i2c_dbg(adap,
+ 			"Failed reset at end of transaction (%04x)\n", temp);
+ 	}
+ #endif
+ 
+-	dev_dbg(&adap->dev,
++	i2c_dbg(adap,
+ 		"Transaction (post): GS=%04x, GE=%04x, ADD=%04x, DAT=%04x\n",
+ 		inw_p(SMB_GLOBAL_STATUS), inw_p(SMB_GLOBAL_ENABLE),
+ 		inw_p(SMB_HOST_ADDRESS), inb_p(SMB_HOST_DATA));
+@@ -170,7 +170,7 @@ static int amd756_transaction(struct i2c_adapter *adap)
+ 	return result;
+ 
+  abort:
+-	dev_warn(&adap->dev, "Sending abort\n");
++	i2c_warn(adap, "Sending abort\n");
+ 	outw_p(inw(SMB_GLOBAL_ENABLE) | GE_ABORT, SMB_GLOBAL_ENABLE);
+ 	msleep(100);
+ 	outw_p(GS_CLEAR_STS, SMB_GLOBAL_STATUS);
+@@ -233,7 +233,7 @@ static s32 amd756_access(struct i2c_adapter * adap, u16 addr,
+ 		size = AMD756_BLOCK_DATA;
+ 		break;
  	default:
--		dev_err(&adap->dev, "Unsupported transaction %d\n", size);
-+		i2c_err(adap, "Unsupported transaction %d\n", size);
+-		dev_warn(&adap->dev, "Unsupported transaction %d\n", size);
++		i2c_warn(adap, "Unsupported transaction %d\n", size);
  		return -EOPNOTSUPP;
  	}
  
-@@ -249,7 +249,7 @@ static s32 nforce2_access(struct i2c_adapter *adap, u16 addr,
- 	case I2C_SMBUS_BLOCK_DATA:
- 		len = inb_p(NVIDIA_SMB_BCNT);
- 		if ((len <= 0) || (len > I2C_SMBUS_BLOCK_MAX)) {
--			dev_err(&adap->dev,
-+			i2c_err(adap,
- 				"Transaction failed (received block size: 0x%02x)\n",
- 				len);
- 			return -EPROTO;
 
 -- 
 2.47.3
