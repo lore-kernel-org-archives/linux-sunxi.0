@@ -1,119 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255E5283FE5
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Dec 2025 15:11:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142DB1494C2;
+	Tue, 23 Dec 2025 15:48:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766502682; cv=none; b=K6gCxdjftwxldddrqffVOUN46tObpVeHw6hAqd6kqiIDfuci1LfBwn8iKQ1xBzXWKhC3sc1/Uq5hQXTk0UubxMPkONwMnxkrRjjg+qsl3Wxx9P8iPfXGeEYAe0YMVEsZYcm0PYGmvpnoSeOsYcXOAh9GPOqVYb+kfxb6sLjknSY=
+	t=1766504882; cv=none; b=Tl0HR7Bgy4LpUxbc70vRULiTk8EvxNuYBncYkiGcb+4rIE818E0q5gpJ4H8lvyxr2GUgO2yq9gw0h/X+LXzJnJvvy27y+3iI212i3fSqzSHxBNMjNK9S832/OrN3UaEaVDXdIlhAj8Yuqzl+y/zJmuNWovLaGKAksm8ZI7UqC7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766502682; c=relaxed/simple;
-	bh=hBd99sFsDzr3RqRdPe5qJoyoWGaL7p/NWTHuLq0D7w8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R1SUHPmXg4VJWAAPIPPjIkAQrybu0DVZQ2qhB6T5PCE8LDmKb8iI9vYJDuCUX3AmLhSLxAio49g6up6jhy/NSp3jQfH3nZgiM+DktEy/J1LBwxRaVH82kQzJ/v+pS8CzV+M6atCDb43LWhBLUaJlUa7EdTpyCQnGGulSzNGrCwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QeaF69Me; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766504882; c=relaxed/simple;
+	bh=Mpr8HzWjcBxOU7Y5X3r2Q1rE7twn+RHWLYcnM80d8PI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=AV/avvhGyqYvmb/DoDcE/1wlKOrHhrDePcjOd/OW3ZhuXnuu6kUPHWq9tjlnhGoBCiWutXVLFs1NF8gy6oWWNzE+uAjuNjFQZ2RcVWS0XmUJ3upY5Adm4JapYlwf2W3ByjrjWJL8b1Dl/NcyLRosU8VhDQAahb/uFn2+q3Cg7vE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LdtdZydW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QeaF69Me"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3A39C113D0
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Dec 2025 15:11:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LdtdZydW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61763C113D0;
+	Tue, 23 Dec 2025 15:48:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766502681;
-	bh=hBd99sFsDzr3RqRdPe5qJoyoWGaL7p/NWTHuLq0D7w8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=QeaF69MeT5yBf4q0xDAsch9mn85tB7U/A6+7P7ESpX1u88b1VTvqb1KdAgCgpxDYX
-	 GsUem+oUjjLn3eGCPsHWpGk6bwDY9lfpkkYR6b2fi0dIdNDrxAn+DtFzP0SFVa28Tm
-	 cPkCe8pweTq6PLlZCfkBWBg1+KFHCqtnmiBY8Nu0p7KyXMOk7/eIWS35wKNaXYX1Md
-	 kwu7AUdGhIcfVqTYeP2qjs3lJnlhlxBz9o8FyBiDCli5kOqz90fcuUhd26ttQ3T+sf
-	 vKSWfgmHbrQnmBK/qysDXHGPtCR3KhoTSGcBjW/P70dCjgjVbjdrA3l0qvhzrsx1Lm
-	 e7N6pa0uTsFTw==
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-37a415a22ecso27457081fa.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 23 Dec 2025 07:11:21 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWMog62P1NwdXWdW96nvGjDm1AAqTl4ZiNwmYlVDc6p+Eq6ITCS5HiJgYI9OMcj3Ix+K9DPEzHKRJfX/g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwnH9jBYVYj8YUz5MqC6iT48M71sicfBQbei/cK9/HLBBBZ0/3J
-	U2wHY6gs/G9gteAYYdAM4/9U6DjDB4+pbEDFO5pX/drklMIX+CAoZ9PfajezminuLnCk05BtxX6
-	WMDCeLOVMCyuxSHR/SiuN4Bt26hjrFpA9h1wtbO3tVA==
-X-Google-Smtp-Source: AGHT+IFdufR6j9R1oFKNSbl+pKd9Z0pO11ahHM/zkyZYbJzkzxH5yHhlEwogbQjTtBxGrsqfRKfJTkaYfWLXkoOjLuo=
-X-Received: by 2002:a2e:b88f:0:b0:37e:6b29:111b with SMTP id
- 38308e7fff4ca-38113162f37mr64888811fa.2.1766502680316; Tue, 23 Dec 2025
- 07:11:20 -0800 (PST)
+	s=k20201202; t=1766504880;
+	bh=Mpr8HzWjcBxOU7Y5X3r2Q1rE7twn+RHWLYcnM80d8PI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=LdtdZydWjDykDcQ8MwZe/WYc0An3swcSu7m3Zz40XZiFB8j1F4Wa377ckpn+gsy1C
+	 ld6XRBrr8TSgd0fLgqKOwAa2wNKWLwls2oxMe7aQDBIUxpP42n2Ciez4QmAp5ec30+
+	 Cx4SBhT8gYD19wllqRw2tb6WAxB3lmtIQ4UuKDdYBLlSOrwClin4W9k5J5eboUe6za
+	 TzH8qCowUXAai2tJGcM/ibzrTTnbFfDN3pTY8CCsjLny1/I+ezR85wowEzXj/Q9ufS
+	 c8v06YbiziWtwd0oCqeXcTqzDKoNFfw5HDHDjQ52LxhD8FIFiV7Z2ru7fTdbDepwIQ
+	 5zbXhKz1wn9iw==
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id 54A5F5F86B;
+	Tue, 23 Dec 2025 23:47:57 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Jernej Skrabec <jernej@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>, 
+ Chen-Yu Tsai <wens@kernel.org>
+Cc: Andre Przywara <andre.przywara@arm.com>, linux-spi@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20251221110513.1850535-1-wens@kernel.org>
+References: <20251221110513.1850535-1-wens@kernel.org>
+Subject: Re: (subset) [PATCH 0/4] arm64: allwinner: a523: Support SPI
+ controllers
+Message-Id: <176650487726.2524343.9774305641530243477.b4-ty@kernel.org>
+Date: Tue, 23 Dec 2025 23:47:57 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251223-i2c-printk-helpers-v1-0-46a08306afdb@oss.qualcomm.com> <aUql_tZisfH8E1bq@hovoldconsulting.com>
-In-Reply-To: <aUql_tZisfH8E1bq@hovoldconsulting.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Tue, 23 Dec 2025 16:11:08 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MeHL5=s=ciUjHGw_poKpeVMWVi_2LBDFY_ugvXBaaE0vA@mail.gmail.com>
-X-Gm-Features: AQt7F2oePEehO-JdLKixmyMZf7bMW4cvrFzOuWvK19hmXZhvMoz_mkpRCfNkPVc
-Message-ID: <CAMRc=MeHL5=s=ciUjHGw_poKpeVMWVi_2LBDFY_ugvXBaaE0vA@mail.gmail.com>
-Subject: Re: [PATCH 00/12] i2c: add and start using i2c_adapter-specific
- printk helpers
-To: Johan Hovold <johan@kernel.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Andi Shyti <andi.shyti@kernel.org>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Khalil Blaiech <kblaiech@nvidia.com>, 
-	Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <mani@kernel.org>, linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linuxppc-dev@lists.ozlabs.org, linux-actions@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 
-On Tue, Dec 23, 2025 at 3:24=E2=80=AFPM Johan Hovold <johan@kernel.org> wro=
-te:
->
-> On Tue, Dec 23, 2025 at 11:02:22AM +0100, Bartosz Golaszewski wrote:
-> > It's been another year of discussing the object life-time problems at
-> > conferences. I2C is one of the offenders and its problems are more
-> > complex than those of some other subsystems. It seems the revocable[1]
-> > API may make its way into the kernel this year but even with it in
-> > place, I2C won't be able to use it as there's currently nothing to
-> > *revoke*. The struct device is embedded within the i2c_adapter struct
-> > whose lifetime is tied to the provider device being bound to its driver=
-.
-> >
-> > Fixing this won't be fast and easy but nothing's going to happen if we
-> > don't start chipping away at it. The ultimate goal in order to be able
-> > to use an SRCU-based solution (revocable or otherwise) is to convert th=
-e
-> > embedded struct device in struct i2c_adapter into an __rcu pointer that
-> > can be *revoked*. To that end we need to hide all dereferences of
-> > adap->dev in drivers.
->
-> No, this is not the way to do it. You start with designing and showing
-> what the end result will look like *before* you start rewriting world
-> like you are doing here.
->
+On Sun, 21 Dec 2025 19:05:07 +0800, Chen-Yu Tsai wrote:
+> This series adds support for the SPI controllers found in the Allwinner
+> A523 SoC family. The SPI controller is almost the same as the ones in
+> previous generations, except that it moved the "RX buffer count"
+> register field to a separate register, and that register now reports
+> the total count for RX buffer and FIFO.
+> 
+> In practice the driver has never cared about the buffer count, but if
+> any implementation were to use it, this counts as a non-backward
+> compatible change.
+> 
+> [...]
 
-The paragraph you're commenting under explains exactly what I propose
-to do: move struct device out of struct i2c_adapter and protect the
-pointer storing its address with SRCU. This is a well-known design
-that's being generalized to a common "revocable" API which will
-possibly be available upstream by the time we're ready to use it.
+Applied to sunxi/dt-for-6.20 in local tree, thanks!
 
-You know I can't possibly *show* the end result in a single series
-because - as the paragraph before explains - we need to first hide all
-direct dereferences of struct device in struct i2c_adapter behind
-dedicated interfaces so that we when do the conversion, it'll affect
-only a limited number of places. It can't realistically be done at
-once.
+[3/4] arm64: dts: allwinner: sun55i: Add SPI controllers
+      commit: 1bec3bd1f839f269dfdec3c635dd2afe15e30995
+[4/4] arm64: dts: allwinner: t527: orangepi-4a: Enable SPI-NOR flash
+      commit: bd14ba160bbe863e7b7bc489fd947ae1cdc03047
 
-> We should not be making driver code less readable just to address some
-> really niche corner cases like hot pluggable i2c controllers.
->
-> But in any case, don't get ahead of things by posting changes that we
-> most likely don't want in the end anyway.
->
+Best regards,
+-- 
+Chen-Yu Tsai <wens@kernel.org>
 
-The changes I sent are the result of another discussion with Wolfram
-at LPC so I'll definitely wait for his take on it before dropping
-anything.
-
-Bartosz
