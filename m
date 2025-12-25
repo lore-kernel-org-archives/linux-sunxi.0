@@ -1,72 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 470E83090F7
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Dec 2025 08:22:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992F33164B8
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Dec 2025 09:07:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766650948; cv=none; b=TARieYsIdrXd7s37GQMUekFvhrUUaxr0di492cNMx3pGzVuMm1Jwb33NOrMk0IgqrH93JilI7EjqgM+5l/blLlTbPlrpPPgqmqS/HyHb+K3jg/aJCBnC/oGpN3QlqAa0tpeKHi36xRBf1RV6ptoXBkYze6B+2UcfAYcg6nj6HOc=
+	t=1766653673; cv=none; b=bcvyzIiHsto9Dx+5os5b2EJOET5vfOpUNIP7JRrMtaTFlPNK58J+AxsgP0so5SdOjIbAkMK0XJFFp1OD6V/QTNt20j40pJ3ZWWPF7ulCIPCTkE2BPvusadGq/kkFTRLJxHJlOpVrdaJDqGBeQrzNSyLSwn90I1TSj80OnEoIH6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766650948; c=relaxed/simple;
-	bh=GBIp9kX+hl2mkbN1urGov/Z/70FEgI+eflqjn/ioE4Y=;
+	s=arc-20240116; t=1766653673; c=relaxed/simple;
+	bh=hZc1+DU7BxaZ0pHjHw8/tfR/Nq71rMC9Z07diFqHTEw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=axDT4wF3fVSDEsyaK5q0bIUqbryjZLBuNupj0Pg82Xyjh/ew7hGRZR+aQeYgwQZySnYWXKaahj+SfOzBvyNSBEzeAad7c6l0N78MrXoYCxLXFdAlCdoJ9OnvkL3BUcL2/YRV82hbMa3xs+1bRkBi1Jh7q952ADDwtXFqeY4Y5HI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a5yyFRb9; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=Ve67gorMuUtf0nT/SbW5ePt6h0IEAeZ07yId74XRpeamZANFROrBVLJ9PKGvw9ID8+dRll/lSEST3Spl1Z57HWSDxR0evTb3VX5aYo9Uvym1KmkcfAWrIgNQ+F+NQnF2jr/Pk7YBN2ezXTmeNdQXpp80NdBF+RvKoX46CzYUv14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=caBCnPSr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a5yyFRb9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6038C116C6
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Dec 2025 08:22:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="caBCnPSr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B5EFC2BC9E
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Dec 2025 09:07:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766650947;
-	bh=GBIp9kX+hl2mkbN1urGov/Z/70FEgI+eflqjn/ioE4Y=;
+	s=k20201202; t=1766653673;
+	bh=hZc1+DU7BxaZ0pHjHw8/tfR/Nq71rMC9Z07diFqHTEw=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=a5yyFRb9uYBzXdPMfDY9vd4rIRPVEQsvsCeWkNpcuMRC1oFSiawSyRMjO8JH0ss+Z
-	 x/QqhbYn4H2K5w5BJz4Wbqbc5yjW86RK+JUdiiASMd3rYdF75g5W/ucdGbgLZeZQtJ
-	 M0aD3nb1BRHmorKDtA+gqJ9Vunr1cAH1IQDLNQgQjj3FSAKjIAustTvo2HAO7oejED
-	 BQfq3K24nxEX3VBOrl0jQxIikCIXP2lCn1R15NZhdsQx8JQtBjoCUej1u3yfR7469C
-	 CySkvxOuqSrDJxvFYWV0Xc9oVlUyzSzGKoOIKV0FOW4oDwBwhKze2XTGnNHiTt4ExL
-	 DrphkeTLbTz8w==
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-37bb8bef4cdso61387071fa.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 25 Dec 2025 00:22:27 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV5v95gfk4J7cp4Wu984l0X1PQFHftSc/jJl/tq/HidQ/u+lvHsUjvh7SwQOBDD73Qn111Nrntltmf7bA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyYcspZxTbZgXlTUPCLNAUfR8cht3gBLcZdr9BwjXpsqk6jYetR
-	BdZPaJvv/vKjRHDYpnBygwjDrTwUF1u8RPDruYtdDbuf7zVYmkJIiVN89/kH+5XvY1N3GHQ7nYE
-	OlGSDthzqzLyotHVPqq8e+YAshbsrZp8=
-X-Google-Smtp-Source: AGHT+IFppeSVdlVccV8ZLOVWMT/HmjByzAPqOV4k8UjgxAxDAQTT6kTjy5H+aCpOAkmg3adrDHLP6/5j+VdObqpd5IA=
-X-Received: by 2002:a05:651c:544:b0:37b:95ee:f605 with SMTP id
- 38308e7fff4ca-381215af948mr71834481fa.10.1766650946149; Thu, 25 Dec 2025
- 00:22:26 -0800 (PST)
+	b=caBCnPSrtJ32X2296HO3meZX1otJPRMu2wMIRegIwALIMzO0rNIdKPF9/ll5/fGfg
+	 tdXLDY+eqDWvJEz4PEMpSgGR/LTyGW4Bg5vpmT4YiHvXXbnCyvH1qNtxtcKqGz++a9
+	 7GuohHuJFJjudgAvRuYY2Bn9x+b8Lhv++VAjYpRDCUle403KSZ78am4pZGBOqIjBHg
+	 ZP9xYPwyZC2O7hqDmuqmXGC3FRtQTxvHiCfEyKERyxJKu9BKhFFk+tKVuXk8thcXYs
+	 Emsb6rG/ENWpdN1jfpFWFZ8sqf8XIyUwjb5HgUQ3OH1IBjFyuzsTjWyriCG+U/yvnc
+	 dLt/Ge4Mx12yA==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-59577c4c7c1so6843752e87.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 25 Dec 2025 01:07:53 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUR9VBDjJ6S1Dz9PG7G2h7/mBixMExjoBAYsGd8YerQac5BEEVi2hp1BEomsHfY6HRdyprEocz2a9SgEQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyz4LPWnc5F72l+a7WMcmvLCF59spVNH3f78MQkcSIvXWIzS7gC
+	9HLyJ1NYdL8Q/3nFmfk9PpvCjhgPCS5BsaE8tSkiZCtlCbRP4qjEiyAcwp6PeakpqpIJ3sFJOEd
+	HfGCfcG3kxxcp/sjqEsVAQtNZj52foaI=
+X-Google-Smtp-Source: AGHT+IHfPWz1heWtm82AOh8ny5sgT9kzx+lyzDjyJcBgqVf6WZJpwpmEyZeQVabkjvt5oV4xlzU03UcKE5H1xk8UgF0=
+X-Received: by 2002:a05:651c:1470:b0:378:e0f3:53c1 with SMTP id
+ 38308e7fff4ca-38113275820mr72648701fa.18.1766653671109; Thu, 25 Dec 2025
+ 01:07:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251115141347.13087-1-jernej.skrabec@gmail.com> <20251115141347.13087-2-jernej.skrabec@gmail.com>
-In-Reply-To: <20251115141347.13087-2-jernej.skrabec@gmail.com>
+References: <20251212231203.727227-1-robh@kernel.org>
+In-Reply-To: <20251212231203.727227-1-robh@kernel.org>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Thu, 25 Dec 2025 16:22:11 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64h5E+hz-G4HEBesVgu4bkFfTi5vNEpU2BQFUYHKCqY8A@mail.gmail.com>
-X-Gm-Features: AQt7F2p6GeAz5pE56ddcluDZYRCFD_O3UDD7G_yS9PvFCxlCXBqEjAn8ZBftz2A
-Message-ID: <CAGb2v64h5E+hz-G4HEBesVgu4bkFfTi5vNEpU2BQFUYHKCqY8A@mail.gmail.com>
-Subject: Re: [PATCH 1/7] drm/sun4i: Add support for DE33 CSC
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: samuel@sholland.org, mripard@kernel.org, maarten.lankhorst@linux.intel.com, 
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, mturquette@baylibre.com, 
-	sboyd@kernel.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+Date: Thu, 25 Dec 2025 17:07:38 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65Pt=c7rNtE-u7j_=SbT4DLw03iOw=PFchbisPQenhOtg@mail.gmail.com>
+X-Gm-Features: AQt7F2qwpZzDsTD1g9DqdU3xoJFe0KlIMNtkshCEa1nlt61s05fF43c85tHciK8
+Message-ID: <CAGb2v65Pt=c7rNtE-u7j_=SbT4DLw03iOw=PFchbisPQenhOtg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Remove unused includes
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Michal Simek <michal.simek@amd.com>, 
+	Vinod Koul <vkoul@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Yong Wu <yong.wu@mediatek.com>, Peter Rosin <peda@axentia.se>, 
+	Linus Walleij <linusw@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	dmaengine@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-iio@vger.kernel.org, iommu@lists.linux.dev, linux-gpio@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, imx@lists.linux.dev, linux-sound@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 15, 2025 at 10:14=E2=80=AFPM Jernej Skrabec
-<jernej.skrabec@gmail.com> wrote:
+On Sat, Dec 13, 2025 at 7:12=E2=80=AFAM Rob Herring (Arm) <robh@kernel.org>=
+ wrote:
 >
-> DE33 has channel CSC units (for each plane separately) so pipeline can
-> be configured to output in desired colorspace.
+> Remove includes which are not referenced by either DTS files or drivers.
 >
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> There's a few more which are new, so they are excluded for now.
+>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+>  include/dt-bindings/clock/oxsemi,ox810se.h    |  19 --
+>  include/dt-bindings/clock/oxsemi,ox820.h      |  29 --
+>  include/dt-bindings/clock/qcom,mss-sc7180.h   |  12 -
+>  include/dt-bindings/clock/xlnx-versal-clk.h   | 123 ---------
+>  include/dt-bindings/clock/xlnx-zynqmp-clk.h   | 133 ---------
+>  include/dt-bindings/dma/jz4775-dma.h          |  44 ---
+>  include/dt-bindings/dma/x2000-dma.h           |  54 ----
+>  include/dt-bindings/gce/mt6779-gce.h          | 222 ---------------
+>  .../dt-bindings/iio/qcom,spmi-adc7-pmr735b.h  |  30 --
+>  .../dt-bindings/iio/qcom,spmi-adc7-smb139x.h  |  19 --
+>  include/dt-bindings/memory/mt6779-larb-port.h | 206 --------------
+>  include/dt-bindings/mux/ti-serdes.h           | 190 -------------
+>  include/dt-bindings/pinctrl/mt6397-pinfunc.h  | 257 ------------------
+>  .../power/allwinner,sun20i-d1-ppu.h           |  10 -
 
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+For this one, a node is present in the DT, but there are currently no
+references to it, and thus no users of the header.
+
+Also this chip hasn't seen a lot of interest after it was initially
+brought up. None of the peripherals that have a separate power
+domain have been enabled.
+
+
+ChenYu
