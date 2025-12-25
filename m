@@ -1,108 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E50F304BDE;
-	Thu, 25 Dec 2025 08:02:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7607A21C16A
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Dec 2025 08:17:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766649766; cv=none; b=ImA5B/eTP40fhIKGajsZe47UHJm2FOeM4/B24JMNPcZ2wSC6ZF2jvKPWt7ziGnT9qE67fNsYHhrIS4/lcC3TOANlk8P523GpmWx/DtmnmgKVdlff5mWz3NAISE3AZTwPJYjVNJgo02/h13xtGKxXaVNLLqE78KIUi74IhzOC2is=
+	t=1766650632; cv=none; b=KlyAC1HiEEX7zsVhRJ7+NgC1yDXoUvf1KbHNeFqRmLhr7sQOx9Ba554hZwg7TSPOcG+41Jw9e54FYFJjwSUx7eOnbCjX9DNsviEfXGcC3Kd98T0ssOWG7XVGGf4CiuvrtAB2j22ZFS9r3pal5vzes5tfo5t6NSvK/X4K6FfGscc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766649766; c=relaxed/simple;
-	bh=uj9yrSuuf2gOll06W83ryExufB13oHVtebJ1kpodW0Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pQ0NrNB4n6/KTI0yBOBE7mh1CBqswRwEtA7EjuiH0hVmqxi0QlE7Na6SP7V8CO4nZ7U0UDCHK9Vf80GPafObbGjxw3Exn6y5kp+IvgSTC5AoG+fSWB5NZSVOuutS9DNAHntFrJR1nYSspKjUkCRoysAHB5npCkVY0NnrprwEhHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R4fTazB6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766650632; c=relaxed/simple;
+	bh=rPaxfOiO2h29JkefBVMH87cUVSszE5AdBCMfSOGSb4s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jrhH1ZwWH18CVtib/C7TudEUkD3JXCbk945cw1Ie296vFPK1UPE+PHVDQxMsbr6exA603QnRR4gMRDThDWkEzMQ/43u0yUrP77DNKdTyBO5EdhubKcH7FQeZxN5pBCq6PA3oN6wpWHAkT1xJzO7bmmZwxOy5MLDtP+3espHTYiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bWvQgYSZ; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R4fTazB6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EBA3C4CEF1;
-	Thu, 25 Dec 2025 08:02:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766649765;
-	bh=uj9yrSuuf2gOll06W83ryExufB13oHVtebJ1kpodW0Q=;
-	h=From:To:Cc:Subject:Date:From;
-	b=R4fTazB6fEz4Ad8wfHWQvFOSk8Sp1j/zffO5BJeu6s3zAdRFTkW9ljkRrKz3GVnGI
-	 vqQZ2XUnxsIARk7yVDdw7utrS+kZSID+4/VCMHz6eSEyYoPCa3TzQ/2MBMUV0SjsCr
-	 vZboYtZ2PFx8EiNjAtuhEiKrs+qNzpuUS7KA3UgfphFnGfPUUuJzHzoYDxahL0M1L1
-	 m6SrIlfLIMtaX31eJYe0bUE79Tb92HX8kPMUZdb/Fg7+VfiyzSL1tOtdi7lnBVhq2T
-	 xp4uU4wBTfMQX9DozpjQpXjJ7xEt3QCMYzGPoDngmxRJZ9UPXhLUiCXrJEahYz0MPH
-	 ui02VjtpHS6sw==
-Received: by wens.tw (Postfix, from userid 1000)
-	id 963775FC5C; Thu, 25 Dec 2025 16:02:42 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Lee Jones <lee@kernel.org>
-Cc: Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] mfd: axp20x: AXP717: Add type-C CC registers
-Date: Thu, 25 Dec 2025 16:02:40 +0800
-Message-ID: <20251225080241.3153453-1-wens@kernel.org>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bWvQgYSZ"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-64b81ec3701so9966314a12.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 25 Dec 2025 00:17:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766650628; x=1767255428; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rPaxfOiO2h29JkefBVMH87cUVSszE5AdBCMfSOGSb4s=;
+        b=bWvQgYSZQgHjqxbKTtGFKZ/NHNqXBoAQZIa3zgme3klBv9G5Yzg4q9ZUv5MXog1BfI
+         b5iA1d5f9ktjYObcYI0WgvyhghGXgh5ZkulDxTFOtI2Vq7Qh9M8dR3qUqh8zhFzUipMb
+         gGO7p8hKmHDN251GKetwi1yxmmK1f2DuH9cQtku7ZfW7rd7n3xI3sOFbB+aC0Ooa04iv
+         wmCPc4IDB90IVT7xAMMM9lu/N8zOZNsQlPmeVTBH16he1lHLtzS24HxMQHypPyH7vE/5
+         Dd2EofZYu1kJq70X4sCdMpjdg3F9S69ogg+RkiNJ9pwPzyLDCC/Fc9l1W60MwjRTCjye
+         iVQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766650628; x=1767255428;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rPaxfOiO2h29JkefBVMH87cUVSszE5AdBCMfSOGSb4s=;
+        b=VQEI4d5U2h54S4xJjovZwlzxRwMnbYyI8uJK+AHhyS8CYITErBKgQ30o8BwvdAsiIW
+         dipilPmCDa4w1VQuiPce1Xw5JiCC5HzBR9TylwaNbAiYErk+9krlDqIlXJoi9pGcjkZC
+         sLn80T9JV9wmLS0OQpYFBTfwC3QhVP3CXOLdv4Z+3IY04aMBWvYTw6bIIl59SdoqMvNE
+         OGLwZMN8WHWDICYzxZfKOSptCb8z4JTGSlmAG86SESfG5r0i2QtarDl7rWlPIvXjpBvT
+         QSn7Lx6OJA4DVzT9uY8O9CJotsVoRYb4a9FkECTv36vE/Q7qaTOxwShUQ1c49l1SHfy0
+         g4HQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUfq0kQmeNIYiINDYS7i25VKziaQyPlPAbkSncWvKcX5Tglqy4fFVcnvM0RpwMe5RucbwUPenU5LH9N0w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzBGLzpIfLQC91tQLwI5MxEtieamhQyQk2fEMBkxY5myNcgQHRd
+	tNeihtz5Wr41VSYNOKX0JK+H4vRvIe5G5Ks7zb9tNBfhIBhgyeAIqA59
+X-Gm-Gg: AY/fxX5LsW1e9ZqsEzJ8Wf6h9Yt21JHKDot1tO3m2Wx2gCI/19REBa0Y7ydvTfYVnCm
+	GmdShJO4bckg4jbscSB3/C2N73kH/CDfuTo+S42QO7aEEN+V9YJ06pF0SuzIQsUfLDFvn+U/man
+	gNw2AXOP9sQxsR7VGxCr8EUc60gekXoj8y7baxyfcDuIrk7p10Janvzp5sx3oD6lZUDQCGBZaT3
+	XayJRY1pF4GM/DptYoFq5oswOCcdRtv7uZ/7KKk6bi7SY2YCOK1sZRYmH/WpZuxPnbe9+YtL4uO
+	OrRRtFoue9OEc+dxLQfIQRh8Lj5yGyN3qOOXypiXHzCag8472VEQri+168bNtCTd9nOQfYde1r9
+	S+dW8Mpar2RS6T0AsW5lrsr5k1vS73Co46b4bdOFA50ktXlyLTUo4QaVRqeE4PZZY5XedL8xiip
+	ESSB1AK2UUf6Q0bCAKIo4HXH1RTcQOqir9
+X-Google-Smtp-Source: AGHT+IGNe9sOMtndqFQn5j/VZK78chHVl1zIxR7eHSZrsbZhnsAd9hS4ioXFMobucGxkQgjR7lC5HA==
+X-Received: by 2002:a05:6402:430d:b0:64d:170:7976 with SMTP id 4fb4d7f45d1cf-64d01707bacmr16253632a12.16.1766650627578;
+        Thu, 25 Dec 2025 00:17:07 -0800 (PST)
+Received: from jernej-laptop.localnet ([188.159.248.16])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64b91494c03sm19322279a12.18.2025.12.25.00.17.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Dec 2025 00:17:07 -0800 (PST)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@kernel.org>
+Cc: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Andre Przywara <andre.przywara@arm.com>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mfd: axp20x: AXP717: Add type-C CC registers
+Date: Thu, 25 Dec 2025 09:17:05 +0100
+Message-ID: <2827385.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <20251225080241.3153453-1-wens@kernel.org>
+References: <20251225080241.3153453-1-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-The AXP717 has some extra registers related to type-C CC pin
-negotiation. They were missing from the original submission.
+Dne =C4=8Detrtek, 25. december 2025 ob 09:02:40 Srednjeevropski standardni =
+=C4=8Das je Chen-Yu Tsai napisal(a):
+> The AXP717 has some extra registers related to type-C CC pin
+> negotiation. They were missing from the original submission.
+>=20
+> Add them for completeness.
+>=20
+> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 
-Add them for completeness.
+Checked against datasheet.
 
-Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
----
- drivers/mfd/axp20x.c       | 5 ++++-
- include/linux/mfd/axp20x.h | 3 +++
- 2 files changed, 7 insertions(+), 1 deletion(-)
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
-index c5f0ebae327f..679364189ea5 100644
---- a/drivers/mfd/axp20x.c
-+++ b/drivers/mfd/axp20x.c
-@@ -229,6 +229,8 @@ static const struct regmap_range axp717_writeable_ranges[] = {
- 	regmap_reg_range(AXP717_DCDC_OUTPUT_CONTROL, AXP717_CPUSLDO_CONTROL),
- 	regmap_reg_range(AXP717_ADC_CH_EN_CONTROL, AXP717_ADC_CH_EN_CONTROL),
- 	regmap_reg_range(AXP717_ADC_DATA_SEL, AXP717_ADC_DATA_SEL),
-+	regmap_reg_range(AXP717_TYPEC_CC_AA_EN, AXP717_TYPEC_CC_AA_EN),
-+	regmap_reg_range(AXP717_TYPEC_CC_MODE_CONTROL, AXP717_TYPEC_CC_MODE_CONTROL),
- };
- 
- static const struct regmap_range axp717_volatile_ranges[] = {
-@@ -237,6 +239,7 @@ static const struct regmap_range axp717_volatile_ranges[] = {
- 	regmap_reg_range(AXP717_BATT_PERCENT_DATA, AXP717_BATT_PERCENT_DATA),
- 	regmap_reg_range(AXP717_BATT_V_H, AXP717_BATT_CHRG_I_L),
- 	regmap_reg_range(AXP717_ADC_DATA_H, AXP717_ADC_DATA_L),
-+	regmap_reg_range(AXP717_TYPEC_CC_STATUS, AXP717_TYPEC_CC_STATUS),
- };
- 
- static const struct regmap_access_table axp717_writeable_table = {
-@@ -458,7 +461,7 @@ static const struct regmap_config axp717_regmap_config = {
- 	.val_bits = 8,
- 	.wr_table = &axp717_writeable_table,
- 	.volatile_table = &axp717_volatile_table,
--	.max_register = AXP717_ADC_DATA_L,
-+	.max_register = AXP717_TYPEC_CC_STATUS,
- 	.cache_type = REGCACHE_MAPLE,
- };
- 
-diff --git a/include/linux/mfd/axp20x.h b/include/linux/mfd/axp20x.h
-index 3c5aecf1d4b5..b352661d99a1 100644
---- a/include/linux/mfd/axp20x.h
-+++ b/include/linux/mfd/axp20x.h
-@@ -174,6 +174,9 @@ enum axp20x_variants {
- #define AXP717_ADC_DATA_SEL		0xcd
- #define AXP717_ADC_DATA_H		0xce
- #define AXP717_ADC_DATA_L		0xcf
-+#define AXP717_TYPEC_CC_AA_EN		0xe1
-+#define AXP717_TYPEC_CC_MODE_CONTROL	0xe3
-+#define AXP717_TYPEC_CC_STATUS		0xe7
- 
- #define AXP806_STARTUP_SRC		0x00
- #define AXP806_CHIP_ID			0x03
--- 
-2.47.3
+Best regards,
+Jernej
+
 
