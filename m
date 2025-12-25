@@ -1,125 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3A63A1E81;
-	Thu, 25 Dec 2025 18:31:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 423D21EB5E1
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Dec 2025 18:36:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766687494; cv=none; b=BHQ3QxG+PojDCRoQwOEv5ZOitvSoP0GkSf8BsIIRMl5HNtkbqq2QmcBsRHedM7EdB41pgU/ojMwtnzX7dP04qqSy4J88G8740fPb30n/Jajx8B2V/WqThN6h0C/kFPm8/wWsRB3R2FmfNqVCia8rwTEgADs7B4bd9unuDSxhL38=
+	t=1766687774; cv=none; b=ixsV2oic0w2zZ9BOLV3ktCOangY/xzM3S4BI2EYKCkXQD1darkih0MlT0uryS0Xh22WkMStGiQAgwUMe1FCHSxEbsQ8dPMw7yW6Q2jS8+a9zo9ILY5sIwHtmiviOMAfGDc9MN9LtDeSG6uUTwEUqLfuISd/CdpHLw/mcD2JXuqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766687494; c=relaxed/simple;
-	bh=yqnePlyRgEquO4uP2YmSaSpuW1av6DY6o/KZmR59zYs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p/JVj+u0MOUCADs85+ZWoOBLuA7iKCgpF72MFtJN1AL65BA1MzCB2EVf9gJw/DCt1OjVrLnwwzfB3wNJ+rhNXQjZFrqX2uuc2ok4hceTYPYA9dGr7Q9FnEaRNYaI8LXjl728WckBBN8/nXCl64ZgW9HYtMi9D23oZOE1KXuzAww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JrnWoj97; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1766687774; c=relaxed/simple;
+	bh=7JUOyMg8Or8uhrVC4CD+kMcOGeXL28oIZJIkKzR4J1E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FOJ80qgx2vh79w0YiqXMwATKDUUfrVm5be+ZY93r2Giv6kFk79CUN5XT+CmDJ49U2w/pWIxNlF3waS+Ak0E1TEbdeT8oqqCkHsDbRSdhZefryXuK2MfaN+miu3Mmi9lPL1b4h+/DZB2MFitg4H2EZWyPwqvGr0bVh3Hul1b6B7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YzwCwCDq; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JrnWoj97"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766687492; x=1798223492;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yqnePlyRgEquO4uP2YmSaSpuW1av6DY6o/KZmR59zYs=;
-  b=JrnWoj973DtguEPpkrHRNkH2zRG0PQx3NianIjJww8GZ7o0d+kOPZl7M
-   U7EgTrLu+3DVr6ldlWio3wyCQAxYdEk/ElIOvpshr8lrLO/aTXDD7p/FK
-   RhnPyxCLel5ZOVn4I+B6jUaGPpONTr+w7XQGzUlz7Kd+OgahoYxUcNdya
-   ymioT9JzyBrhmh98xGcMc3IjwvCQmioslXs4ZuQZraBVinqnQEfA6tuJE
-   mwGZiuWi3QNAqMTQsaB4dln9zPx8+Mk4EXbjsbbjyYyZ5OyPtq+h44YG/
-   P7dU5Fzf6hlit9qfFc+UQj8E8f7hQsRHBjCGOz3/SaLHsE/8Jt4lf8+yP
-   w==;
-X-CSE-ConnectionGUID: ZZqwflXQSQuWIlToeApNtA==
-X-CSE-MsgGUID: 0t2DAF2ITfKCaI6fAGy5gA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="91131207"
-X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="91131207"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 10:31:32 -0800
-X-CSE-ConnectionGUID: OUwZDa35RUKTYtnAQpRyrg==
-X-CSE-MsgGUID: qkIViPLzR9y7Zfey6SE2FQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="201171557"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 25 Dec 2025 10:31:26 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vYq7Q-000000004NB-2qAZ;
-	Thu, 25 Dec 2025 18:31:24 +0000
-Date: Fri, 26 Dec 2025 02:30:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Andi Shyti <andi.shyti@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Khalil Blaiech <kblaiech@nvidia.com>,
-	Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-actions@lists.infradead.org,
-	Bartosz Golaszewski <brgl@kernel.org>
-Subject: Re: [PATCH 01/12] i2c: add i2c_adapter-specific printk helpers
-Message-ID: <202512260206.C1TExj8d-lkp@intel.com>
-References: <20251223-i2c-printk-helpers-v1-1-46a08306afdb@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YzwCwCDq"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b832522b47cso80519566b.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 25 Dec 2025 10:36:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766687769; x=1767292569; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7JUOyMg8Or8uhrVC4CD+kMcOGeXL28oIZJIkKzR4J1E=;
+        b=YzwCwCDq8RoNu5XJuSXy6eITto7uubGGR9wI2Ol7D4DUBgGRmc09P8gKcHL51TrEyd
+         pyLjqN0wAce+JtaP9kLV+Z4A6G22Vmre4TQpENAFDG/MxILzo5hyF4PT0VH7B18HClF+
+         SyQPOzg7J6OvPjMUpcTJeEbCV3Rn3MW/uRPr6obnf09M+QcaBHOwZ70Rm/K7tR+0S/xQ
+         PSuGrtylrjkUvQVylUPT0VsIJHoDMtsmvD9d9O1rKsu+nvbZojfDmt8wBDIYku2LYiM7
+         D2bnYwtRwxL0B6viQ+DCmKP+Zhe41E+jDNOgeMoaPVeTFUadbXIFjFerMfzF3rsEuCgS
+         EqOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766687769; x=1767292569;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7JUOyMg8Or8uhrVC4CD+kMcOGeXL28oIZJIkKzR4J1E=;
+        b=OB9b8wYwJrgcmvVS/QPgvkJhCrJ3ZbH2BeQNmCI2SoTFw4vA8zbyykL96l/4++BRig
+         2J0dvHlYMBnUaLKx+/fMzZk0Lz5MRWxLR48+mzAyvuG4XGersyK8cUkxLGggo7658tku
+         uYtHcQcNBNIp2dFyIm+6dfueEwNaICZX/SFntZejy1f81RMiYq1hQx1u8b2WPkH1kpxS
+         BUZ7By8aVppiSD2xxOL0zgWHhyBend0zg7jV+Djc85zmbzM7KVqni40kSuJQCfkO/EHs
+         7nidnEOiel/+Tvk1c85ewGSvIouDXVDk/5buPw157gBpGPvEF0R2PA0IPwzV3cwqo2mB
+         EhKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCULc6KWQtkYc6yC3VEwMlq941zrLP4N+EiySrYb9r2W8mQMFgydeOzJf78y4IcDTjt0m2uOS86pXJ6Arw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwTlkVjtFs06lpiR9+oJgsI9ySh2Rek53ETE8R3vW+EaWkhyyqQ
+	IFT6v9u/K3b9jIYel7HovgUyEGjEQ23jvXwlsgjxrX6WazocoXQQS0lg
+X-Gm-Gg: AY/fxX6HoD3HVaEFJUO5Z/kbiYTEyYdqpQrKQGMi690UCo/2WP42HCcpDBK+c44ognc
+	NP8k6Mkhzas45MshlAM9WcIDMbEiAZ/70V1dxSjw4aUdbDjLoEWhsOpXfz7NkvjufzSqfyHpqHY
+	vQ9J8biNg474UyLBnUeMZQajUlC2QIy7r0TNNt60lxzLzGNzc7jewX9kSUjX5nlZH2RY46bJvgW
+	+jlCB8LCJu3B2AaywKD68GRgQyCy+V7SYslmdh0Qd8VWuB7QAABHATubKP3PXXDbCPEN4dqsTM/
+	sEeAas/L+sU4rQ/vG3ayhMhkOEJ8Wu/0mcWX6RNDzWqwLo2rtO+0t6UrS9O0YQUqQvpdCoB4LwT
+	OUo9ZqVN1HC/iMNQD40E6AmuMtviyixuHsMksoJWMPTLQGqG9gNBDEEggamnXvcjwRnnrBuMnN7
+	vEfZs5K1glOBwahKBT8eIHiwpHkIHctIVydSjJsTgblQI=
+X-Google-Smtp-Source: AGHT+IHEIjHpbPASvhXMCNryNTALHso5yEhVN2Zt1Wti83jtrsqyLd89aktdU3iFdV+yBgA6+HZu7g==
+X-Received: by 2002:a17:906:d54d:b0:b83:1400:482c with SMTP id a640c23a62f3a-b8314005538mr450270266b.64.1766687769040;
+        Thu, 25 Dec 2025 10:36:09 -0800 (PST)
+Received: from jernej-laptop.localnet ([188.159.248.16])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037ad806asm2154858066b.23.2025.12.25.10.36.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Dec 2025 10:36:08 -0800 (PST)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Linus Walleij <linusw@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-gpio@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH 2/4] dt-bindings: pinctrl: sunxi: Allow pinmux sub-pattern with
+ leading numbers
+Date: Thu, 25 Dec 2025 19:36:06 +0100
+Message-ID: <5080862.31r3eYUQgx@jernej-laptop>
+In-Reply-To: <20251225103616.3203473-3-wens@kernel.org>
+References:
+ <20251225103616.3203473-1-wens@kernel.org>
+ <20251225103616.3203473-3-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251223-i2c-printk-helpers-v1-1-46a08306afdb@oss.qualcomm.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Hi Bartosz,
+Dne =C4=8Detrtek, 25. december 2025 ob 11:36:13 Srednjeevropski standardni =
+=C4=8Das je Chen-Yu Tsai napisal(a):
+> The pattern for pinmux node names is typically the peripheral name and
+> instance number, followed by pingroup name if there are multiple options.
+>=20
+> Normally the instance number is directly appended to the peripheral
+> name, like "mmc0" or "i2c2". But if the peripheral name ends with a
+> number, then it becomes confusing.
+>=20
+> On the A20, the PS2 interface controller has two instances. This
+> produces pinmux node names like "ps2-0-pins". Make the sub-pattern
+> "[0-9]-" valid to fit this pattern. Avoid having to confusing "ps20-pins"
+> name.
+>=20
+> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 
-kernel test robot noticed the following build warnings:
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-[auto build test WARNING on cc3aa43b44bdb43dfbac0fcb51c56594a11338a8]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/i2c-add-i2c_adapter-specific-printk-helpers/20251223-185417
-base:   cc3aa43b44bdb43dfbac0fcb51c56594a11338a8
-patch link:    https://lore.kernel.org/r/20251223-i2c-printk-helpers-v1-1-46a08306afdb%40oss.qualcomm.com
-patch subject: [PATCH 01/12] i2c: add i2c_adapter-specific printk helpers
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20251226/202512260206.C1TExj8d-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512260206.C1TExj8d-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512260206.C1TExj8d-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/media/pci/saa7134/saa7134-i2c.c:31:9: warning: 'i2c_dbg' redefined
-      31 | #define i2c_dbg(level, fmt, arg...) do { \
-         |         ^~~~~~~
-   In file included from drivers/media/pci/saa7134/saa7134.h:14,
-                    from drivers/media/pci/saa7134/saa7134-i2c.c:10:
-   include/linux/i2c.h:775:9: note: this is the location of the previous definition
-     775 | #define i2c_dbg(adap, fmt, ...) dev_dbg(&(adap)->dev, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~
+Best regards,
+Jernej
 
 
-vim +/i2c_dbg +31 drivers/media/pci/saa7134/saa7134-i2c.c
-
-^1da177e4c3f41 drivers/media/video/saa7134/saa7134-i2c.c Linus Torvalds        2005-04-16  30  
-45f38cb3b80311 drivers/media/pci/saa7134/saa7134-i2c.c   Mauro Carvalho Chehab 2015-05-13 @31  #define i2c_dbg(level, fmt, arg...) do { \
-45f38cb3b80311 drivers/media/pci/saa7134/saa7134-i2c.c   Mauro Carvalho Chehab 2015-05-13  32  	if (i2c_debug == level) \
-45f38cb3b80311 drivers/media/pci/saa7134/saa7134-i2c.c   Mauro Carvalho Chehab 2015-05-13  33  		printk(KERN_DEBUG pr_fmt("i2c: " fmt), ## arg); \
-45f38cb3b80311 drivers/media/pci/saa7134/saa7134-i2c.c   Mauro Carvalho Chehab 2015-05-13  34  	} while (0)
-45f38cb3b80311 drivers/media/pci/saa7134/saa7134-i2c.c   Mauro Carvalho Chehab 2015-05-13  35  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
