@@ -1,124 +1,108 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205422749DF
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 Dec 2025 09:58:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E50F304BDE;
+	Thu, 25 Dec 2025 08:02:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766570325; cv=none; b=MFyaPkU7LFQwpesnx0wUAEQplwlVNA6A33pS+3Zhx2xMK5qr00nohGKD8JTKJXd0/iloNI1pSy6AXTeZLr5Dw0XKu3HDmuauPG2qDi74+0281PrHpECXCTvJyR14bxqAesirVvoBUEGCwlJ7PHDsYVlWu72Nw45ouaP4Dmm8ljw=
+	t=1766649766; cv=none; b=ImA5B/eTP40fhIKGajsZe47UHJm2FOeM4/B24JMNPcZ2wSC6ZF2jvKPWt7ziGnT9qE67fNsYHhrIS4/lcC3TOANlk8P523GpmWx/DtmnmgKVdlff5mWz3NAISE3AZTwPJYjVNJgo02/h13xtGKxXaVNLLqE78KIUi74IhzOC2is=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766570325; c=relaxed/simple;
-	bh=3W9jCb+QmhgFO07BnEKeRfiQa/LuwbGaIH7AYV4ri+U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hAj9PWz3FcktdYBo1yfevE7FKCMYIQKIZ/tGVs6aNBYWSCsFKGlNmU1akVX1XbUd4Mj02PumE6VZB7uOoC9riOufElc7kOycqUg4X7WP45oQrZCrXQgWm725soHt6g79+USJhwP6VNAAPXrYGFqSbxmL90O8cgbG+LqO3421l9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=tFXwO2Lf; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1766649766; c=relaxed/simple;
+	bh=uj9yrSuuf2gOll06W83ryExufB13oHVtebJ1kpodW0Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pQ0NrNB4n6/KTI0yBOBE7mh1CBqswRwEtA7EjuiH0hVmqxi0QlE7Na6SP7V8CO4nZ7U0UDCHK9Vf80GPafObbGjxw3Exn6y5kp+IvgSTC5AoG+fSWB5NZSVOuutS9DNAHntFrJR1nYSspKjUkCRoysAHB5npCkVY0NnrprwEhHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R4fTazB6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="tFXwO2Lf"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47d3ffb0f44so896495e9.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 24 Dec 2025 01:58:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1766570322; x=1767175122; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3W9jCb+QmhgFO07BnEKeRfiQa/LuwbGaIH7AYV4ri+U=;
-        b=tFXwO2LfApTuT9qE2DX+gHbR31Mp9U+SfB4UAlxMgkaCjK+L48uehqCIKPwy8AWGFS
-         WmcP3OzDtjl7f1ra4jA1jFKLQ6RFA9UQcbd6BGsWeoola3ZihOk0YwKuB682g7EKSDv6
-         IxnxflFUqQQ4fror1Pz6k67ezWQvGgoAtphG6/S6Lr8ckKq362Gzu2IjS0hRLJv0DW6i
-         2jDO14kHeHnHrnQ2EkfWiLetxMpa3BvoRDjUfb5VfZiSBP4Zzwd9RmVfn9qFFr3bvc3y
-         iGAl8ULuRGooXLsiSTvQlWFb9Q2k1nT3Rfres1m28hBzZtvCk7mvkAbSnAhbAMLCn6c2
-         ih0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766570322; x=1767175122;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3W9jCb+QmhgFO07BnEKeRfiQa/LuwbGaIH7AYV4ri+U=;
-        b=uk5/V36ztaBrvztVb++mIRTS+emiNFpedeR+snATGy81/tAkuCp/BPuW2tcBwD4KnV
-         kHAVpOGy5DfLJWGjuqRbFfTlKmdA/TkGZIPU885511hd0fP0ee5fHuhDD472dxFtcqCO
-         S1Og1NGAKJ9tVuw8IBz2ox52GY6IsqZzkCO24B+SxRX6G00/zbl5muRMJo0iRJNLUA+p
-         1KzvgejzSwd63JEIU3dAj+mWQ7NPEGOMLdwfba20C73437qAKQxV8fjJHEblNUf7ouFK
-         n4v1yotHRV1CvckZwgYvNHkroBFYbmH3v1oY112Kdto7z/yMNVpiUev3xogZzxJsSdU0
-         Q5yg==
-X-Forwarded-Encrypted: i=1; AJvYcCXeN+nFihZb5gaS49MTzTum1iUNggSM1eN/XoMtMAWrfgT021W96gn7U8NfTE5y9tz7ueXI84pGyYoFsw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzaFMrAaQuDl7p2C6/hF8pd1RjEq8Z8LR/SN7vnQrTrdFEkPg92
-	NmNIM0AuTzeXLsVU/CSX1mlSTCMM0PdMuTma5OsSxQ8aokQHoM6MSKXVZ9PyH2J1Zxw=
-X-Gm-Gg: AY/fxX7T1WTgatBBAVZ96fp3aANKsD6CIEKfYhEpPKzwvQIYKTvvf1AfomqlIgOFO00
-	Qy33paiLMTe4biUeEdoyC+wFs30X0DNhhI/hVInLFa7HaaQXw0cukh4PPXRklzPHhSLMjTiMFvw
-	zI+Zl23k9ZPWw65eU+OjsED3tp6iIVr1F8FM4c6lrxr51yFcueKZsnBoj0D4pxnsrdyIlcDZ7+2
-	/VA2TmnyPZCafBZ627as1fXFYyuwwHzO2GdwKdzZTfVpxQ/aM7BW94BzY1okqNv9Wi5Octt7UJj
-	UFaJz7rXPyZjq7NRpuyDPXCgxM9Mgms2WtnU9TcfwNEpgVoGr+0qp36TGNXu7roL0A2rZOEaX2e
-	iuYKOkxPkJGEohekgoeoYQKnVFNXZ0xXx7jEj37e6cVGENg+Rdt5u/ybIyxRV/PgvmAjYZeuwqK
-	YqoUWRl9n49b7sot4RHI3gVJxgkGEi5Hry0Q/pxwX/Z/G42HeD
-X-Google-Smtp-Source: AGHT+IFfcuTV7Ug+hHX5tZTCG4tq3O4PaTRJvfFv6G9+yLiBklGAMOZE/zio57FP/aM+ckx9YK7JaQ==
-X-Received: by 2002:a05:600c:1988:b0:477:76c2:49c9 with SMTP id 5b1f17b1804b1-47d216f9b5cmr104213055e9.2.1766570322064;
-        Wed, 24 Dec 2025 01:58:42 -0800 (PST)
-Received: from localhost (ip-185-104-138-126.ptr.icomera.net. [185.104.138.126])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-47be395d9cfsm138801615e9.0.2025.12.24.01.58.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Dec 2025 01:58:41 -0800 (PST)
-Date: Wed, 24 Dec 2025 10:58:40 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Richard GENOUD <richard.genoud@bootlin.com>
-Cc: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Samuel Holland <samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] Introduce Allwinner H616 PWM controller
-Message-ID: <5ih4qxr7572x6fakxjsx2vrxnt3yey2dtvdyaiwyuvulivh3ef@hebpjfdginev>
-References: <20251217082504.80226-1-richard.genoud@bootlin.com>
- <6113404.MhkbZ0Pkbq@jernej-laptop>
- <160e221e-98a8-4097-8340-94ac7d208136@bootlin.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R4fTazB6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EBA3C4CEF1;
+	Thu, 25 Dec 2025 08:02:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766649765;
+	bh=uj9yrSuuf2gOll06W83ryExufB13oHVtebJ1kpodW0Q=;
+	h=From:To:Cc:Subject:Date:From;
+	b=R4fTazB6fEz4Ad8wfHWQvFOSk8Sp1j/zffO5BJeu6s3zAdRFTkW9ljkRrKz3GVnGI
+	 vqQZ2XUnxsIARk7yVDdw7utrS+kZSID+4/VCMHz6eSEyYoPCa3TzQ/2MBMUV0SjsCr
+	 vZboYtZ2PFx8EiNjAtuhEiKrs+qNzpuUS7KA3UgfphFnGfPUUuJzHzoYDxahL0M1L1
+	 m6SrIlfLIMtaX31eJYe0bUE79Tb92HX8kPMUZdb/Fg7+VfiyzSL1tOtdi7lnBVhq2T
+	 xp4uU4wBTfMQX9DozpjQpXjJ7xEt3QCMYzGPoDngmxRJZ9UPXhLUiCXrJEahYz0MPH
+	 ui02VjtpHS6sw==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 963775FC5C; Thu, 25 Dec 2025 16:02:42 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Lee Jones <lee@kernel.org>
+Cc: Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] mfd: axp20x: AXP717: Add type-C CC registers
+Date: Thu, 25 Dec 2025 16:02:40 +0800
+Message-ID: <20251225080241.3153453-1-wens@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="isiyzcztmhye4ftq"
-Content-Disposition: inline
-In-Reply-To: <160e221e-98a8-4097-8340-94ac7d208136@bootlin.com>
+Content-Transfer-Encoding: 8bit
 
+The AXP717 has some extra registers related to type-C CC pin
+negotiation. They were missing from the original submission.
 
---isiyzcztmhye4ftq
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 0/4] Introduce Allwinner H616 PWM controller
-MIME-Version: 1.0
+Add them for completeness.
 
-Hello Richard,
+Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+---
+ drivers/mfd/axp20x.c       | 5 ++++-
+ include/linux/mfd/axp20x.h | 3 +++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-On Mon, Dec 22, 2025 at 10:17:07AM +0100, Richard GENOUD wrote:
-> Le 21/12/2025 =C3=A0 20:12, Jernej =C5=A0krabec a =C3=A9crit=C2=A0:
-> [...]
->=20
-> That's why I put aside the pwm-clock and I went for this instead.
+diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
+index c5f0ebae327f..679364189ea5 100644
+--- a/drivers/mfd/axp20x.c
++++ b/drivers/mfd/axp20x.c
+@@ -229,6 +229,8 @@ static const struct regmap_range axp717_writeable_ranges[] = {
+ 	regmap_reg_range(AXP717_DCDC_OUTPUT_CONTROL, AXP717_CPUSLDO_CONTROL),
+ 	regmap_reg_range(AXP717_ADC_CH_EN_CONTROL, AXP717_ADC_CH_EN_CONTROL),
+ 	regmap_reg_range(AXP717_ADC_DATA_SEL, AXP717_ADC_DATA_SEL),
++	regmap_reg_range(AXP717_TYPEC_CC_AA_EN, AXP717_TYPEC_CC_AA_EN),
++	regmap_reg_range(AXP717_TYPEC_CC_MODE_CONTROL, AXP717_TYPEC_CC_MODE_CONTROL),
+ };
+ 
+ static const struct regmap_range axp717_volatile_ranges[] = {
+@@ -237,6 +239,7 @@ static const struct regmap_range axp717_volatile_ranges[] = {
+ 	regmap_reg_range(AXP717_BATT_PERCENT_DATA, AXP717_BATT_PERCENT_DATA),
+ 	regmap_reg_range(AXP717_BATT_V_H, AXP717_BATT_CHRG_I_L),
+ 	regmap_reg_range(AXP717_ADC_DATA_H, AXP717_ADC_DATA_L),
++	regmap_reg_range(AXP717_TYPEC_CC_STATUS, AXP717_TYPEC_CC_STATUS),
+ };
+ 
+ static const struct regmap_access_table axp717_writeable_table = {
+@@ -458,7 +461,7 @@ static const struct regmap_config axp717_regmap_config = {
+ 	.val_bits = 8,
+ 	.wr_table = &axp717_writeable_table,
+ 	.volatile_table = &axp717_volatile_table,
+-	.max_register = AXP717_ADC_DATA_L,
++	.max_register = AXP717_TYPEC_CC_STATUS,
+ 	.cache_type = REGCACHE_MAPLE,
+ };
+ 
+diff --git a/include/linux/mfd/axp20x.h b/include/linux/mfd/axp20x.h
+index 3c5aecf1d4b5..b352661d99a1 100644
+--- a/include/linux/mfd/axp20x.h
++++ b/include/linux/mfd/axp20x.h
+@@ -174,6 +174,9 @@ enum axp20x_variants {
+ #define AXP717_ADC_DATA_SEL		0xcd
+ #define AXP717_ADC_DATA_H		0xce
+ #define AXP717_ADC_DATA_L		0xcf
++#define AXP717_TYPEC_CC_AA_EN		0xe1
++#define AXP717_TYPEC_CC_MODE_CONTROL	0xe3
++#define AXP717_TYPEC_CC_STATUS		0xe7
+ 
+ #define AXP806_STARTUP_SRC		0x00
+ #define AXP806_CHIP_ID			0x03
+-- 
+2.47.3
 
-I havn't tried to understand the issue in detail, but would it help to
-use assigned-clocks to make pwm-clk suitable? Assuming this allows to
-drop all the clk stuff from the driver that would we very appreciated.
-
-Best regards
-Uwe
-
---isiyzcztmhye4ftq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmlLuU0ACgkQj4D7WH0S
-/k5ZeggAmSXzq+7SM5fhXqm2YGPnsK8wxgPcAF1ZdU4MGph24TU4R91q/56X2Ayd
-OUxDHsO4bEZXGwd0taoVdkCJf3WcDipjGJ+lfKgRCT5569BE5seDZDASgIlnPu6O
-ZRog3BGrI85GM5Gq/sG8zpiqdbeK2/49huTSo2VRN28+elurTzP7MXMEVdJ4ZLPR
-fmvo/ERCkz4giB8YgjM75WsImYiEehzraLTJ1EXhBq5WxbqMMwEKy6s7NT6t5H1+
-U+/8buxQllY52OKOyqLBBWbQpaAqSc28evvjUOikxuLAMk/I2FbPHnDoJRUz7GRO
-Ufu2ihMbS+cRebq2spwZSq1RoiCx/g==
-=uvSc
------END PGP SIGNATURE-----
-
---isiyzcztmhye4ftq--
