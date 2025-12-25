@@ -1,110 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA08A2F361B;
-	Thu, 25 Dec 2025 12:25:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D742AF4F1
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Dec 2025 18:26:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766665512; cv=none; b=P5K89yDNGH6S/kBkoDHLSri6GzEGZLdI1fibd9S4tyT+DdwEb+mpJreGJxn7tQCoeY9NgMotYKdkDKt6Mz3u0DS4es/G/ygndV+UOzqqgyPAhkc0ohF9XJvrdvwdj808dBvBEbXGxmdIzh8AUAaMzAf7QA70tqIA9RNeRFFekPI=
+	t=1766687166; cv=none; b=EwqXlImlLD+9/+9/lJY9BfFpEnF8onu+wUrmwSK13xWYzUum0eueCsY7PXsmJeoX/AmnSPlskqETeymo+Vf4M2T2/p0NLo86iXyGN7q9al3pN3QP1U+/dMvNufojdG9hQv37lEUDT9t6TeOXnmIGEoNkvUSu4cdB2v/AvSpJGPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766665512; c=relaxed/simple;
-	bh=3q6AduS43sIgNwRnR7yCnvcTOf4iSDobbK49TGHtvf4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T5cPfH/0vCsW2hrc8OeB/B9ZHRz4kuN7IjbBKL17bLtVYjAJxylpN85nHDL+J01RtuuyPOp3Ryo5l3fqwbz9LZDTplS5O4egBqt3xmV9je8/jyMeN6hgrEVvFxM4Nhlh+vrApFu1Ln8WV51FGaER4EyntvFUzwd3X7sAPXnsq1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k0DxF03n; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766687166; c=relaxed/simple;
+	bh=ZRS4iPJtbrzdg81ZX6d4fTat/ANIV4w3CMAdVITNz0Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IU4jFykKmqYNFPxmNjSRUhovKFPojvSs0gyhxRQrPFTPgSsHpGK/VLIpP84Ulogx0xjJP/htpYJKNmAM4Wbk1tjF7cwFm+ggQGiaz2sgULQNCr/go0EO2QDcIXzlmmaFXQnQNB5B1C7b2vHEgiPc32u1x7RO9tw7fyx95BI2ayI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TwGIp7TX; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k0DxF03n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2461DC4CEF1;
-	Thu, 25 Dec 2025 12:25:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766665512;
-	bh=3q6AduS43sIgNwRnR7yCnvcTOf4iSDobbK49TGHtvf4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=k0DxF03nqojbdIzT6GY7zSe419S/Syk0ikEJHdpOLEs1zGVwViptNm19s68GsTBAr
-	 TALKXZ8lZaddybxXxUzmdwtBs49SpGSoHGWKTFZ+dk2df8cbBFMF0ta0KFKdxqG+Ga
-	 K876hjk0QDPCKIOMr4SZQBPqj9al3TaEY/WeZ+yNw7fROHcPVomzjXT5P0Gy+FniKq
-	 UIXa4l2hSZWWlbNXPiQ9wyMqNlZiq85K8Y5m7LblDhpVWBQE6p1pEvz2MZ4CI8RLyH
-	 0Hqj/PGKFzUzyrVRYk9QYKs43MUfOQIn/byQ0dJgMcE90eTpFcCATk2ef00cN6KXsa
-	 glInIznN1MElw==
-Message-ID: <fd068960-33ca-4a47-9850-fde41de18995@kernel.org>
-Date: Thu, 25 Dec 2025 13:25:07 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TwGIp7TX"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-64baaa754c6so6869686a12.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 25 Dec 2025 10:26:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766687162; x=1767291962; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZRS4iPJtbrzdg81ZX6d4fTat/ANIV4w3CMAdVITNz0Y=;
+        b=TwGIp7TXN2tAc7Ky58F3yuh0OW0EqrhUpEHeziNSC7sssnV4eB1VL22L6PuGbaqVsc
+         8JzsI4QTSeZa/axsSYosF1wGr15Mn93ZIfp5pFTBTQAV0y+YHc5SBGbDIysmdfpXFL3X
+         otWzjPijbta0/uZPLemo05txPOuuQ/x386FmrtCtkp8nKmUCr+12U4y09zyuj1FoMxyX
+         5MrfhaGRhpPV5WENMq6t9V0GAtLBkudHS7SwEAZPt0FMqd8bU2Sk41zSoWdL2acssODu
+         tImhdzUa1yUYbd7kre1Q4ANcF7J8vbqS1sIHnXeLtuYS4wjoAM4WzxYXc/8nSMoIHIKY
+         LbSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766687162; x=1767291962;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ZRS4iPJtbrzdg81ZX6d4fTat/ANIV4w3CMAdVITNz0Y=;
+        b=o8boZIJ7xqtcMrE1ei8TEgH5+4MZNvbg3IadZnoIiC9AYwhVEeO0B2OE7ssK1Jyv/h
+         Q5+jQMfrWpVw1dyI/5BJ/HK9IpQzAo4GTQe9aAoNtBhhjNe1qB7W94VnSKz5i1ejU9mn
+         Z1NbljmATw42leU5wOcPF/7NUQONPsHTW8TODriZxslzwSihxX9UGA1M6C76GRHN517U
+         9lj3BXNJpRbCTqsOiEpA7X2tBfA+QWM4b46XtS0Z3S+/RDfLpckH6JBY4uJVF5zEQ/P+
+         5kVLJ2j1HsbrjjGtisc1wqzwu6Q/LEVyFW01wtokoVQG0aBwC3MpbCXeoddpFKj1QYZE
+         nbNw==
+X-Forwarded-Encrypted: i=1; AJvYcCUK9Xja74GaPksEl0hK+rzVzgF1aKay/RiHomHD0fl7+UIaMiLNN5eNCWjzM6J9XXf1QlKxUoe6JNIZWg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz+Iz6fkGCdzhcKZl80/QC9IwdVArAygBx9gRtYR1/q84BlyCLk
+	ANlYfy+386MeUyCyI9PStYP+mLAva6+swFKQu8e/ns/z21h3V2fjBfCU
+X-Gm-Gg: AY/fxX592BqYSgNwzZUS3zAc20BKiEDAujxs0lrZQ8Z9eaUjlJLQ8H4fJK8Hjfk8zrM
+	luAbwOCT2Je1CEqP6hHLh6l3YF/35rQJZM1+MP2wnfzAd3amWxlOQpBMAo462Zten9/hxBIOm0c
+	Eo2vQNo+LtByK5llS+tOU0CpJbbbuO3s73/ZRNJ9zLig2t3btLkDKISq8QlUwBcqRZ/XAHOuhPb
+	lQGI9jjr8ffFqunyqd0qmLX4l3vPVvqeFK5vIzZOY/uq/RakDwupuPwMTNuvLutnrzIAmv1QPEo
+	QhsQrHwLn0VoAmQVOYIKIozJ8bU9o0FGH3TzzpCCIOCX4B3il4jRUgCsC5P7yOjPJdV3Jfc3zFU
+	XvmAHEUjHRGWXvx4aKubTlfWfc5B3jbBTEpHiQ3i5RwMtb14+dpDwssHRlFkjH316pman7dT+ay
+	YVqSELodPx4S6HeTEHxWx6g+ag3i1tfe7o
+X-Google-Smtp-Source: AGHT+IET7IQnJW9NBpb65OlItl1guG9woVszRJ+kZSW9RdHnKQccOHSFq/Loyd3FgIyi5fOFPYZV2g==
+X-Received: by 2002:a05:6402:1ed5:b0:641:966d:82ba with SMTP id 4fb4d7f45d1cf-64b8e944ef3mr17759280a12.1.1766687162003;
+        Thu, 25 Dec 2025 10:26:02 -0800 (PST)
+Received: from jernej-laptop.localnet ([188.159.248.16])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64b916b372esm20774242a12.32.2025.12.25.10.25.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Dec 2025 10:26:00 -0800 (PST)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Linus Walleij <linusw@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-gpio@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH 1/4] dt-bindings: media: sun4i-a10-video-engine: Add interconnect
+ properties
+Date: Thu, 25 Dec 2025 19:25:57 +0100
+Message-ID: <5967161.DvuYhMxLoT@jernej-laptop>
+In-Reply-To: <20251225103616.3203473-2-wens@kernel.org>
+References:
+ <20251225103616.3203473-1-wens@kernel.org>
+ <20251225103616.3203473-2-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] ARM: dts: allwinner: Fix remaining DT validation
- errors
-To: Chen-Yu Tsai <wens@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Linus Walleij <linusw@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-gpio@vger.kernel.org, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20251225103616.3203473-1-wens@kernel.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251225103616.3203473-1-wens@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On 25/12/2025 11:36, Chen-Yu Tsai wrote:
-> Hi folks,
-> 
-> This series gets rid of the remaining DT validation errors for Allwinner
-> (sunxi) ARM 32-bit device trees. The patches are self explaining.
-> 
-> I plan to take all four patches through the sunxi tree.
+Dne =C4=8Detrtek, 25. december 2025 ob 11:36:12 Srednjeevropski standardni =
+=C4=8Das je Chen-Yu Tsai napisal(a):
+> The Allwinner video engine sits behind the MBUS that is represented as
+> an interconnect.
+>=20
+> Make sure that the interconnect properties are valid in the binding.
+>=20
+> Fixes: d41662e52a03 ("media: dt-bindings: media: allwinner,sun4i-a10-vide=
+o-engine: Add R40 compatible")
+> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 
-It's v1 and not a resend, thus subsystem patches should go via subsystem
-trees.
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
-Krzysztof
+Jernej
+
+
