@@ -1,127 +1,76 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82E8E224FA
-	for <linux-sunxi@lists.linux.dev>; Fri,  2 Jan 2026 00:42:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63514277037;
+	Fri,  2 Jan 2026 22:21:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767314538; cv=none; b=WAv41SOrXhbrkeLtP6hxU5nYx60oO2Zn6DxliXsaYf2KMnD0QyjsmGLDfKQz5jtPoNAYy1YQIsUzKWLLwQDkE7Ion4W38dkymLhurZcm+339aiBm4CilkfV1sOlIqo8fYKEGpOZgFkzuhQgk+LTksvm09zgMMzb0t0JN12ux03k=
+	t=1767392514; cv=none; b=EVm3/9oQmwdODy2w4zDjg0Iinxjx+1ZUsX9R226loxt6hFviK75kMm4jHSe+vK5Bcl3UNqdIiKeFYz4da+B4ZqG5ynSIdYt1hpKqkHI9XulwatKdDn1WQyaX68iTdnTEdJwd7zQIbFOpzVvNNnsin0jW3F4YtbYCX+gxic96Oz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767314538; c=relaxed/simple;
-	bh=CY0hKa1/Ja/iRIAM8sSUBAYdbfe7E3w9ZFJsLhiotro=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q8TwHvQBY+/j5JKlFYTU9zK63aWErK6YKh8sJac2Mn6sSm9pvA/54o8uJnyfyCjzPYqHq9xJpABsxZBdg8Utvm8DChGhjBbHFBGPxnS/WbcLlnGnZ4/Uc5h70c++FycmmoU2e2Qzg1DaF0OrEuwMHxOEilx38D3uhd+ZSvIUL54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ED5F6497;
-	Thu,  1 Jan 2026 16:42:08 -0800 (PST)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 21A603F694;
-	Thu,  1 Jan 2026 16:42:13 -0800 (PST)
-Date: Fri, 2 Jan 2026 01:41:24 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Yixun Lan <dlan@gentoo.org>
-Cc: u-boot@lists.denx.de, linux-sunxi@lists.linux.dev, Jagan Teki
- <jagan@amarulasolutions.com>, Tom Rini <trini@konsulko.com>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Paul Kocialkowski <contact@paulk.fr>, Samuel
- Holland <samuel@sholland.org>
-Subject: Re: [PATCH v2 10/10] sunxi: mmc: enable support for A733
-Message-ID: <20260102014124.3b35207c@minigeek.lan>
-In-Reply-To: <20251130-01-a733-soc-support-v2-10-18bdd4376fad@gentoo.org>
-References: <20251130-01-a733-soc-support-v2-0-18bdd4376fad@gentoo.org>
-	<20251130-01-a733-soc-support-v2-10-18bdd4376fad@gentoo.org>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1767392514; c=relaxed/simple;
+	bh=EuNLzlV8r8Dinon10Riipi7R88Xe9qFlOj4ZVceZa/0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pHyz0/UEen93yEttw8On6r+uDlGQ0Kd1TDgLNtlkWEoGuq1L76xJtLDoo22Clp+/6vtp6JDl7w2awUqmsXxAnFNinknNZIexu9iEx3m7hTbZAdBz43ddJGMq+xyoq8PrfUTsCxtXj5iMgdWZxqDPHaodE8ZlMVyJ18XB/f6fB0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eWZIKhNz; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eWZIKhNz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5462C116B1;
+	Fri,  2 Jan 2026 22:21:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767392513;
+	bh=EuNLzlV8r8Dinon10Riipi7R88Xe9qFlOj4ZVceZa/0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eWZIKhNzEB80owCh/NWA4FrrPhPUfGz+puZjrw8cTOivwCmVTN7FiN1qN2uq3tGLD
+	 BU+ZidiHrcuNI0SXFvSXTlaHrn3H7r6ulyI4j/xdxZ3bOQf6LVzB8AnzSLwMIyVsL/
+	 deUWsv25lpeSkvqG+qAPpFMio3XMsSYZUXjp9C5Gyw0vdoaggt3Hmz3BiXJX0Sf+k3
+	 L9lo3f95n4SO3vkg7iOITUpU9aENXWUHriiiJm0Tgnub1b9y4PQKO/D8dXUGXQ7j7Q
+	 F9B3Btu6p87Jw4d8lMSVhSfXB3WFuNtJ64IkbUbq3SvD5c358O7KzYGYIpUlvVuj3P
+	 5A/4M+uKOfrFg==
+Date: Fri, 2 Jan 2026 16:21:52 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: linux-gpio@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Jernej Skrabec <jernej@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
+	Linus Walleij <linusw@kernel.org>
+Subject: Re: [PATCH 2/4] dt-bindings: pinctrl: sunxi: Allow pinmux
+ sub-pattern with leading numbers
+Message-ID: <176739251233.279904.10109675432814007356.robh@kernel.org>
+References: <20251225103616.3203473-1-wens@kernel.org>
+ <20251225103616.3203473-3-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251225103616.3203473-3-wens@kernel.org>
 
-On Sun, 30 Nov 2025 21:45:19 +0000
-Yixun Lan <dlan@gentoo.org> wrote:
 
-> Minor clock adjustment for new A733 MMC controller, the SMHC0_CLK_REG
-> start at offset 0x400, and with step size of 0x10.
+On Thu, 25 Dec 2025 18:36:13 +0800, Chen-Yu Tsai wrote:
+> The pattern for pinmux node names is typically the peripheral name and
+> instance number, followed by pingroup name if there are multiple options.
 > 
-> Signed-off-by: Yixun Lan <dlan@gentoo.org>
+> Normally the instance number is directly appended to the peripheral
+> name, like "mmc0" or "i2c2". But if the peripheral name ends with a
+> number, then it becomes confusing.
+> 
+> On the A20, the PS2 interface controller has two instances. This
+> produces pinmux node names like "ps2-0-pins". Make the sub-pattern
+> "[0-9]-" valid to fit this pattern. Avoid having to confusing "ps20-pins"
+> name.
+> 
+> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 > ---
->  drivers/mmc/sunxi_mmc.c | 21 ++++++++++++++++++---
->  1 file changed, 18 insertions(+), 3 deletions(-)
+>  .../bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml           | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/mmc/sunxi_mmc.c b/drivers/mmc/sunxi_mmc.c
-> index e28c81afffe..689bec6693c 100644
-> --- a/drivers/mmc/sunxi_mmc.c
-> +++ b/drivers/mmc/sunxi_mmc.c
-> @@ -112,6 +112,9 @@ static int mmc_set_mod_clk(struct sunxi_mmc_priv *priv, unsigned int hz)
->  			if (priv->mmc_no == 2)
->  				pll_hz *= 2;
->  		}
-> +
-> +		if (IS_ENABLED(CONFIG_MACH_SUN60I_A733))
-> +			pll_hz /= 3;
->  	}
->  
->  	div = pll_hz / hz;
-> @@ -167,7 +170,8 @@ static int mmc_set_mod_clk(struct sunxi_mmc_priv *priv, unsigned int hz)
->  	}
->  
->  	/* The A523 has a second divider, not a shift. */
-> -	if (IS_ENABLED(CONFIG_MACH_SUN55I_A523))
-> +	if (IS_ENABLED(CONFIG_MACH_SUN55I_A523) ||
-> +		IS_ENABLED(CONFIG_MACH_SUN60I_A733))
->  		n = (1U << n) - 1;
->  
->  	writel(CCM_MMC_CTRL_ENABLE| pll | CCM_MMC_CTRL_N(n) |
-> @@ -661,17 +665,28 @@ static const struct dm_mmc_ops sunxi_mmc_ops = {
->  	.get_cd		= sunxi_mmc_getcd,
->  };
->  
-> -static unsigned get_mclk_offset(void)
-> +static unsigned int get_mclk_offset(void)
->  {
->  	if (IS_ENABLED(CONFIG_MACH_SUN9I_A80))
->  		return 0x410;
->  
-> +	if (IS_ENABLED(CONFIG_MACH_SUN60I_A733))
-> +		return 0xd00;
-> +
->  	if (IS_ENABLED(CONFIG_SUN50I_GEN_H6) || IS_ENABLED(CONFIG_SUNXI_GEN_NCAT2))
->  		return 0x830;
->  
->  	return 0x88;
->  };
->  
-> +static unsigned int get_mclk_size(void)
 
-Can you please fold this function into the one above, passing in the
-MMC controller number?
-static unsigned int get_mclk_offset(int mmc_no);
-
-Thanks,
-Andre
-
-> +{
-> +	if (IS_ENABLED(CONFIG_MACH_SUN60I_A733))
-> +		return 0x10;
-> +
-> +	return 0x4;
-> +};
-> +
->  static int sunxi_mmc_probe(struct udevice *dev)
->  {
->  	struct mmc_uclass_priv *upriv = dev_get_uclass_priv(dev);
-> @@ -707,7 +722,7 @@ static int sunxi_mmc_probe(struct udevice *dev)
->  	ccu_reg = (u32 *)(uintptr_t)ofnode_get_addr(args.node);
->  
->  	priv->mmc_no = ((uintptr_t)priv->reg - SUNXI_MMC0_BASE) / 0x1000;
-> -	priv->mclkreg = (void *)ccu_reg + get_mclk_offset() + priv->mmc_no * 4;
-> +	priv->mclkreg = (void *)ccu_reg + get_mclk_offset() + priv->mmc_no * get_mclk_size();
->  
->  	ret = clk_get_by_name(dev, "ahb", &gate_clk);
->  	if (!ret)
-> 
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
