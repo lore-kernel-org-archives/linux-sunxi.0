@@ -1,70 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B49EFD531;
-	Tue, 30 Dec 2025 17:46:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44D9B224FA
+	for <linux-sunxi@lists.linux.dev>; Fri,  2 Jan 2026 00:40:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767116780; cv=none; b=rhBZullcyhb7s/77SJ7CnZmLF0ssFKJNwcjV65bt2X7ui4s42POZDwJ3oTLI4n2kcIvsvQIAB9CRfdjv5LOKvm62dtOVXaEtC+Y9dDozB2vA0bCDWQ6qXaJXJnccOMEojPCvHiLdaeGLtOBYz5HrPPUJRapYO4AnyMVf2AyrBgM=
+	t=1767314458; cv=none; b=tSRsVdM2UErCxR7QqiSQh7zZ/sBqVjETzFPhFasKME6nKfSaGaNsAmFIhXMyXogDQv5zhSy9vXK8V3b44uJoQkgWPdE0f19OPUDfPB0WrfyGT+68Vijjkji1vK/Pf0FpHcAIe3b9GBSoKtymLfVAt5L5xywVO50t8eVpr29muwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767116780; c=relaxed/simple;
-	bh=ILOYy8k0vEwyHW23Hdi68K3x8vNTQdr7Kn6tc5mNowA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=exu4NOMeDYoBEq7pGK2S5Mc9XtAfnuCy/n+yjuwH41rGMdnVUgZMvrSbzcIw+ejniZAsncWHtujzTf4qJGeAC0MpODyom4rXmFjDoJsQt9TJwgb1bnV72QJR9SdE3N81jeqzo+0rscJWQjxBKkVfab3JlHLqCuGc8mRa8xol0uA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LaZQLtCC; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LaZQLtCC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12DB3C4CEFB;
-	Tue, 30 Dec 2025 17:46:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767116780;
-	bh=ILOYy8k0vEwyHW23Hdi68K3x8vNTQdr7Kn6tc5mNowA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LaZQLtCCuBKPDeQKKafj+JA3Mq4a3BUcto087E4IeFDfQqkA4SOpqRHjFdXuWYyat
-	 Eo7VPYMZFHtj0udAiB2ztbN6os3Ce+UBMBva+rP13Kf3+Na/zlSSXtkP7o2cLGfZNr
-	 KFG5R61dq60QBmB3eH/5dOT//iYzPcs+N0hCEzIeeZUdpLGCOgLFvk+TW5FAyrqrVq
-	 EUIoSibKYV/mXjkwcwxUQq3vm3iikdW4kpGmUcp02bqKaMOHMF81zZ9DRZCoNCZp+H
-	 ySeKFdV/gcYamjzhntFWIYd/iSGukcvbm708WoVRnlOnmg+x+ZwZDtbx2o2FGADAiY
-	 WFPCTp/JD9cIg==
-Date: Tue, 30 Dec 2025 11:46:19 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: linux-media@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
-	linux-sunxi@lists.linux.dev, linux-gpio@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	devicetree@vger.kernel.org, Jernej Skrabec <jernej@kernel.org>,
-	linux-kernel@vger.kernel.org, Linus Walleij <linusw@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Conor Dooley <conor+dt@kernel.org>
-Subject: Re: [PATCH 1/4] dt-bindings: media: sun4i-a10-video-engine: Add
- interconnect properties
-Message-ID: <176711677675.852762.10312933098835387721.robh@kernel.org>
-References: <20251225103616.3203473-1-wens@kernel.org>
- <20251225103616.3203473-2-wens@kernel.org>
+	s=arc-20240116; t=1767314458; c=relaxed/simple;
+	bh=2GH4EbdRAnl8aNLzPHd0upgVS362xQwEORi+r+/UGH8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dZfuXEBL3yC34TNw9uEXvllwOAkfNsioAqyubOFdY6nzAPDw7MI4As08UIR8oqb2biM7GQC0c2YtCn8I7sQwo6iXQiS6Vbnn9eQ7K1YRqcFXDiySJKABaFZW9N/6s6YUGplZ6iOKA2FnjBj9+3lQs2L6+w7N9o2aCUbJQfaF0kY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4AD91497;
+	Thu,  1 Jan 2026 16:40:47 -0800 (PST)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4DBA33F694;
+	Thu,  1 Jan 2026 16:40:52 -0800 (PST)
+Date: Fri, 2 Jan 2026 01:39:34 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Yixun Lan <dlan@gentoo.org>
+Cc: Fabio Estevam <festevam@gmail.com>, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev, Jagan Teki <jagan@amarulasolutions.com>, Tom
+ Rini <trini@konsulko.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Paul
+ Kocialkowski <contact@paulk.fr>, Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v2 06/10] gpio: a733: add initial support
+Message-ID: <20260102013934.240a8ad4@minigeek.lan>
+In-Reply-To: <20251130222004-GYA1814866@gentoo.org>
+References: <20251130-01-a733-soc-support-v2-0-18bdd4376fad@gentoo.org>
+	<20251130-01-a733-soc-support-v2-6-18bdd4376fad@gentoo.org>
+	<CAOMZO5BG63ndAg7yTdMtBi7nHQjCGcrS9Sr0M5XfAiBkrC-oAA@mail.gmail.com>
+	<20251130222004-GYA1814866@gentoo.org>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251225103616.3203473-2-wens@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, 1 Dec 2025 06:20:04 +0800
+Yixun Lan <dlan@gentoo.org> wrote:
 
-On Thu, 25 Dec 2025 18:36:12 +0800, Chen-Yu Tsai wrote:
-> The Allwinner video engine sits behind the MBUS that is represented as
-> an interconnect.
-> 
-> Make sure that the interconnect properties are valid in the binding.
-> 
-> Fixes: d41662e52a03 ("media: dt-bindings: media: allwinner,sun4i-a10-video-engine: Add R40 compatible")
-> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
-> ---
->  .../media/allwinner,sun4i-a10-video-engine.yaml        | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
+Hi,
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+> Hi Fabio,
+>=20
+> On 19:09 Sun 30 Nov     , Fabio Estevam wrote:
+> > On Sun, Nov 30, 2025 at 6:47=E2=80=AFPM Yixun Lan <dlan@gentoo.org> wro=
+te:
+> >  =20
+> > > +config SUNXI_NEW2_PINCTRL =20
+> >=20
+> > This name is not very descriptive.
+> >=20
+> > What about SUNXI_A733_PINCTRL? =20
+>=20
+> I'm open to this, but want to know Andre's suggestion about this,
+>=20
+> The idea here I've chose a common one which follow old convention
+> and hope to re-use in future generation SoC..
+
+Yeah, NEW2 was more a working title than a proper name, but predicting a
+better one is tricky. And also the new layout is only valid for the
+first pin controller in this SoC, something we don't know of if it will
+stay this way for future generations.
+
+So I say we go with SUNXI_A733_PINCTRL, and use the
+CONFIG_MACH_SUN60I_A733 symbol to denote the special arrangement for
+the secondary controller.
+
+Cheers,
+Andre
 
