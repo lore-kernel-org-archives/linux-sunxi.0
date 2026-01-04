@@ -1,76 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63514277037;
-	Fri,  2 Jan 2026 22:21:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8476285C91
+	for <linux-sunxi@lists.linux.dev>; Sun,  4 Jan 2026 11:38:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767392514; cv=none; b=EVm3/9oQmwdODy2w4zDjg0Iinxjx+1ZUsX9R226loxt6hFviK75kMm4jHSe+vK5Bcl3UNqdIiKeFYz4da+B4ZqG5ynSIdYt1hpKqkHI9XulwatKdDn1WQyaX68iTdnTEdJwd7zQIbFOpzVvNNnsin0jW3F4YtbYCX+gxic96Oz4=
+	t=1767526686; cv=none; b=uz25EevLgXn/K06RpcJERDYAStGYwIkfZZwkATSsqzSiHGuAZkq5iRqrGuA4MP2L4Grloq+bLSFqqssbIXHLHI62g2zbw0p+e8TmGJs9JetYmJAi5j5AYH8GRJc0sIaGcPiQ/LLd/pAC3SKTd6sxGpZ18/vAEWjJH14zLOOb6ZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767392514; c=relaxed/simple;
-	bh=EuNLzlV8r8Dinon10Riipi7R88Xe9qFlOj4ZVceZa/0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pHyz0/UEen93yEttw8On6r+uDlGQ0Kd1TDgLNtlkWEoGuq1L76xJtLDoo22Clp+/6vtp6JDl7w2awUqmsXxAnFNinknNZIexu9iEx3m7hTbZAdBz43ddJGMq+xyoq8PrfUTsCxtXj5iMgdWZxqDPHaodE8ZlMVyJ18XB/f6fB0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eWZIKhNz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767526686; c=relaxed/simple;
+	bh=zzt8nsTReCOrFFimHSYnuwYVhyLibD7TXrGiySpB+f0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pf3t88EDvMwVVpVQrVEs4f/bUAzWiI1m2PYF2Yl2sC9n1ejAyH/AhFDaiyOfdZcQS9eGCZEtijN0BPIHtUAIp5zKLDZku+7cgJsA5sZD8Jx89klPAx2R5C1l3fZvVcvFaZdIYj6cfp+juMXYSRkDN3I6RZtK4LgsAAOdjpUA+GM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lSrmBejJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eWZIKhNz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5462C116B1;
-	Fri,  2 Jan 2026 22:21:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lSrmBejJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80779C19423
+	for <linux-sunxi@lists.linux.dev>; Sun,  4 Jan 2026 11:38:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767392513;
-	bh=EuNLzlV8r8Dinon10Riipi7R88Xe9qFlOj4ZVceZa/0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eWZIKhNzEB80owCh/NWA4FrrPhPUfGz+puZjrw8cTOivwCmVTN7FiN1qN2uq3tGLD
-	 BU+ZidiHrcuNI0SXFvSXTlaHrn3H7r6ulyI4j/xdxZ3bOQf6LVzB8AnzSLwMIyVsL/
-	 deUWsv25lpeSkvqG+qAPpFMio3XMsSYZUXjp9C5Gyw0vdoaggt3Hmz3BiXJX0Sf+k3
-	 L9lo3f95n4SO3vkg7iOITUpU9aENXWUHriiiJm0Tgnub1b9y4PQKO/D8dXUGXQ7j7Q
-	 F9B3Btu6p87Jw4d8lMSVhSfXB3WFuNtJ64IkbUbq3SvD5c358O7KzYGYIpUlvVuj3P
-	 5A/4M+uKOfrFg==
-Date: Fri, 2 Jan 2026 16:21:52 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: linux-gpio@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Jernej Skrabec <jernej@kernel.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
-	Linus Walleij <linusw@kernel.org>
-Subject: Re: [PATCH 2/4] dt-bindings: pinctrl: sunxi: Allow pinmux
- sub-pattern with leading numbers
-Message-ID: <176739251233.279904.10109675432814007356.robh@kernel.org>
-References: <20251225103616.3203473-1-wens@kernel.org>
- <20251225103616.3203473-3-wens@kernel.org>
+	s=k20201202; t=1767526686;
+	bh=zzt8nsTReCOrFFimHSYnuwYVhyLibD7TXrGiySpB+f0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=lSrmBejJxZP8gHrW1lt8qLoXx5i5yIr8c9JjAw76JwT4w2DU5Bw/V3A8ds+61J9gA
+	 qrA1BD0oGFxFt5TGFqAv6/RSxsC53w/k7B87GXnPPGu5JyBIFEy/k2xW5XqJfBLQwZ
+	 s7To43MM/23LrjwnT2MHsbj2v+MNR3gch8pFv9yPYQDYuMjuaAik+CInCYu5+ZmfZA
+	 x9Du36muqnYdgEnwcEtBPGE0Q2krb+xtqRR3x8L+34PJR5hQ5QQvm7VmmsMrN+wnM9
+	 I2UaQA0Jag3f/lobO/fONtZhnVUHsQ9680OTtldkoKQt1MckmCleLVqFj0F055vXis
+	 sgoDnkXq9m56w==
+Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-644715aad1aso1219225d50.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 04 Jan 2026 03:38:06 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW0hFA99lO+gP1CQdaB0wsPLLHTm7tGb2FoVJrTDI6vAbpt97KER3KoEeH68sRXW+GhWfMMIPmwNPiY1g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwQCjin34qbMiYdXWdBOvPB5jQfrZpAuCDabLRBon3YHJyGM3N4
+	6Fi8mScYv5WonTXP4L1CgfVoBgeIS9tosvOQWZ0aK116JiwqJOeY/uyV2sZsoQR7EryTbZ0zA+8
+	t4S4jIZWSrh0L5jwPO/eepWOpe7cb1z8=
+X-Google-Smtp-Source: AGHT+IF4Orabbp+U3oU6DE4mJfK9KKnbEOxrcm3UcvoG3IBBIUd0oK3DmWjwYq82sAXiIcIbWSh2iznA2Fvf8inAirk=
+X-Received: by 2002:a05:690e:b4d:b0:645:591a:cb5c with SMTP id
+ 956f58d0204a3-646e341a6cdmr3638468d50.23.1767526685648; Sun, 04 Jan 2026
+ 03:38:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251225103616.3203473-3-wens@kernel.org>
+References: <20251212231203.727227-1-robh@kernel.org>
+In-Reply-To: <20251212231203.727227-1-robh@kernel.org>
+From: Linus Walleij <linusw@kernel.org>
+Date: Sun, 4 Jan 2026 12:37:54 +0100
+X-Gmail-Original-Message-ID: <CAD++jLkAaAH9_YdTGqHUcOp8PfW+1P=ZLZzS_QseVYWxA4kiWw@mail.gmail.com>
+X-Gm-Features: AQt7F2qijkDXeXovdHRRQ5QEL33UZBQlEMiEIzun3p2-rj7cwfnP7kAmQfWhUyg
+Message-ID: <CAD++jLkAaAH9_YdTGqHUcOp8PfW+1P=ZLZzS_QseVYWxA4kiWw@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Remove unused includes
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Michal Simek <michal.simek@amd.com>, 
+	Vinod Koul <vkoul@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Yong Wu <yong.wu@mediatek.com>, Peter Rosin <peda@axentia.se>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	dmaengine@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-iio@vger.kernel.org, iommu@lists.linux.dev, linux-gpio@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, imx@lists.linux.dev, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Sat, Dec 13, 2025 at 12:12=E2=80=AFAM Rob Herring (Arm) <robh@kernel.org=
+> wrote:
 
-On Thu, 25 Dec 2025 18:36:13 +0800, Chen-Yu Tsai wrote:
-> The pattern for pinmux node names is typically the peripheral name and
-> instance number, followed by pingroup name if there are multiple options.
-> 
-> Normally the instance number is directly appended to the peripheral
-> name, like "mmc0" or "i2c2". But if the peripheral name ends with a
-> number, then it becomes confusing.
-> 
-> On the A20, the PS2 interface controller has two instances. This
-> produces pinmux node names like "ps2-0-pins". Make the sub-pattern
-> "[0-9]-" valid to fit this pattern. Avoid having to confusing "ps20-pins"
-> name.
-> 
-> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
-> ---
->  .../bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml           | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+> Remove includes which are not referenced by either DTS files or drivers.
+>
+> There's a few more which are new, so they are excluded for now.
+>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Good.
+Reviewed-by: Linus Walleij <linusw@kernel.org>
 
+Yours,
+Linus Walleij
