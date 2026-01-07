@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25012301472;
-	Wed,  7 Jan 2026 12:32:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D5D316912;
+	Wed,  7 Jan 2026 12:47:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767789144; cv=none; b=o77OZjHQCFYhmwvNk7LoJ1ltLRBpyEDL0pF56kuyNQp6zPKqwN9UQ6PI0r0qliMmeUl2ebIZRNx7T1L2qp1moyahC2lL8IKgE+tf84CnjE4nFTvfVO920zSc6bQXWknXyotBSYBlouraqa9UWYOOu0isZURiDCPUVAXBbEa8mRA=
+	t=1767790068; cv=none; b=SdYHAsfVv7E6pcQD907Jv2M3DLBlXTV/Pj2TxAb6ChxZwiIEmG84wl2L+gkaNLOPHcACcVtHxeainYnHR0UmHHnFLK7lqrC6jsIShbFGugaPUmNDTcWn7f2d/+0cM+mBCahGIf1JS7gNQvl7MSuQiMRPYGDVkXs+O4d+GH5fWqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767789144; c=relaxed/simple;
-	bh=2Nqjd5umGqQTshG/6KasLg0SyW2HMZV1B1Lxjp2ecFg=;
-	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=eQjq1Tcmwzasrsa6/6wSkWN4Jc2tnS3RT5FC8ko9w+PTgz4AXQeLy2SIbRDrYuCVnEswi4uO9ZZ6Q/K+8NpMy+9ip2pt01EPG3bJrjpXFsRRyqJ7526PSuzeVzFRqoYHXuCApUk+g3F5TaoOVYZUpulf/COUbZQK6SvyYLIVnLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ivCOlkKs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767790068; c=relaxed/simple;
+	bh=187QeaYOCJ9bxj/owdya1F/qotNUlNFLu04+ah4+UhQ=;
+	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=ZhnwYDplqAAJPovQPzqqwYjMiuIL/W5KwK4Im1LWsJdU8ATRKp0pZOdQvPzCVI5RtV6MG8m6svYj/tX5mJBkOyV64BUxQTc0dOLOugWlno3gaJBaZ0EWXxovBJPrJhsBudMRLb1lEH5xu8DaQfirDjGaueJp8EJqYjqXk8fyWoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OOWbVaP4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ivCOlkKs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E98FC4CEF7;
-	Wed,  7 Jan 2026 12:32:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OOWbVaP4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85D26C4CEF7;
+	Wed,  7 Jan 2026 12:47:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767789142;
-	bh=2Nqjd5umGqQTshG/6KasLg0SyW2HMZV1B1Lxjp2ecFg=;
+	s=k20201202; t=1767790067;
+	bh=187QeaYOCJ9bxj/owdya1F/qotNUlNFLu04+ah4+UhQ=;
 	h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
-	b=ivCOlkKs/3FPom4CAQW/8n5+RtJ+Ktgpa46WuEDsbvA9PTBeWuC7vV4+xBeDgQh6I
-	 F+ikAwBIMxkTYm3UK5stlQN0iulvCSSl6E2JV1u4QXCSkGcTAkSB2mkHdzw/EdIDvc
-	 FUSAzwPfQKz6h4ZHo8/hDOFRATtO4FNaGq9u8a+Hb0DB/mfzr37+BspAyH9jtluOP9
-	 BThkvDxk9LJUGONm+dsYPaEtV1NScUVsoM3A4nX+KbKavoAkonyRlYC4BOBp/n+kNt
-	 uNOpMaeFLn9fsFJzYYAUv+hgwkrlZmLWtZDdw79Ff4blsc6mcmnifNIw3KUSZqGA+X
-	 RP1wITi7KGfyw==
-Message-ID: <57ad1884d9080ebc37abf8b96ab71abf@kernel.org>
-Date: Wed, 07 Jan 2026 12:32:20 +0000
+	b=OOWbVaP4Grpkvk8qeJu/gFqhaeXjRRFxPHKu84aFwOgDLJW/sm33qZ4VvDqenf5dr
+	 WpKlTlqmt3ddOxc91KUW9clzq/di0sQuAnKbESTGAJRGMGm2acjxzynTEekuxDmE4I
+	 71QvDceGfrwauXBlfv/AAx+dxKRshIyq3o8iqcboVDrcWSIClEHZqxH/+x2QRUirpV
+	 FeyQkUIi95ml+FwsDw4X0/4gDPTNvdEAdodTmsgEVv066v3rJKDB+DdVqLjhRj0Dx9
+	 2F3PMmS07tCcm9KWspeKNPibyk0Hy50fVF8uBeudxl3cl9DyINHHracdJJ17q3zyG4
+	 FFLJ/1tRZ89gw==
+Message-ID: <6ae21650d05e50b1d13d72617d6897c4@kernel.org>
+Date: Wed, 07 Jan 2026 12:47:44 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH v3 04/10] drm/connector: make clear_infoframe callback
- mandatory for HDMI connectors
-In-Reply-To: <20251224-limit-infoframes-2-v3-4-7fd3cacfefed@oss.qualcomm.com>
-References: <20251224-limit-infoframes-2-v3-4-7fd3cacfefed@oss.qualcomm.com>
+Subject: Re: [PATCH v3 10/10] drm/debug: don't register files for
+ unsupported HDMI InfoFrames
+In-Reply-To: <20251224-limit-infoframes-2-v3-10-7fd3cacfefed@oss.qualcomm.com>
+References: <20251224-limit-infoframes-2-v3-10-7fd3cacfefed@oss.qualcomm.com>
 Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, "Abhinav
  Kumar" <abhinav.kumar@linux.dev>, "Andrzej Hajda" <andrzej.hajda@intel.com>, "Andy
  Yan" <andy.yan@rock-chips.com>, "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>, "Chen-Yu
@@ -56,14 +56,11 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-On Wed, 24 Dec 2025 03:02:53 +0200, Dmitry Baryshkov wrote:
-> We already require both hdmi_write_infoframe and hdmi_clear_infoframe
-> for bridges implementing DRM_BRIDGE_OP_HDMI. It makes sense to require
-> the clear_infoframes callback for HDMI connectors utilizing
-> drmm_connector_hdmi_init().
+On Wed, 24 Dec 2025 03:02:59 +0200, Dmitry Baryshkov wrote:
+> Having debugfs files for the InfoFrames that are not supported by the
+> driver is confusing, stop registering those in the debugfs.
 > 
-> 
-> [ ... ]
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
 Acked-by: Maxime Ripard <mripard@kernel.org>
 
