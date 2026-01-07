@@ -1,71 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7250329C60;
-	Wed,  7 Jan 2026 13:29:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2131339853
+	for <linux-sunxi@lists.linux.dev>; Wed,  7 Jan 2026 14:13:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767792540; cv=none; b=H2yqoB4izLAIB9R2MaLZDPqMZrKux8Viw9AMrabgIn814oIN/wEqUtLNFV0C6Y6UlTUktDtd6IFUztTj7MiCe3Z7ZPZK/YHaIFxjq/96US2iQQHCxIDujxsBfpCA/ExP+blLRLXtSAA++BXqjpZ6hLxs7DDxV0JMTTI0YjM/h28=
+	t=1767795212; cv=none; b=kQBUAKS6j0bdU9THU7SDH7Ms+lTpCeZJwP7UzCiPo7aUKDAeijDcxh9wwEAGL9ZB4Opn9Q177PSMTCpItBbElA6nejPDZJX/d3dHc2ls7c4APYL4ypvnckHRCVvT8plqfA5zl3YP7Uso6NoWJR4oUhEzGfbJE9zIquPr6jAUEJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767792540; c=relaxed/simple;
-	bh=PK1j6ce4GGTcpSge6J8AMXbZ8tvdblBxTwzpEYOUGQg=;
-	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=USh+mkOCr1uIgvJ5zkDYyawMOgvezvcEGVfOZQAfHv1IJTZocBCIQYWx7QZJttN/HUqXs/nuntrc6Zd2YN8/oNYXvA6pp7IdYTOOIIskHIITrdWdFF5Ay332p2kYTCCK3NvbF/jnlMG9I9vHNkKO4igpkr16vXyEhIUxkASJx+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TwpQDEJF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767795212; c=relaxed/simple;
+	bh=vPUhQO/bJfTutZapkC7lSFc2q9gKbGxYafUo+Xs/Plc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rzA5C2/q1jJrX3QLcFd3fz8QwHG2YQ53Fq2qryGQNOOUCUKV20ep4UliRsbY3CGBx/eeq1NA4FigChBWSreKHVLnbPt9uK+G2l8EOzWQdsaUMl0S3QF4AcQJRpxj4k2t/F08e9jwBb8ZjNemuoWNKOlSvHK7faxFf5QVW3rD2Lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LxpUqBSC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TwpQDEJF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7015C4CEF7;
-	Wed,  7 Jan 2026 13:28:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LxpUqBSC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87BB2C2BC87
+	for <linux-sunxi@lists.linux.dev>; Wed,  7 Jan 2026 14:13:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767792540;
-	bh=PK1j6ce4GGTcpSge6J8AMXbZ8tvdblBxTwzpEYOUGQg=;
-	h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
-	b=TwpQDEJFw9eder+ACSMDQ+hh2IXQJhWM0qJedRQIGlwhlYpFPOIDu3w6JzkhZmfY5
-	 v7cTyCpq5tlIbdCoMzYuktDk9LGEXCaxX9PvaXYDi4AcoHI5jSuVxSAO1q6Aehh2rL
-	 J0fb80OArKVpkly5vd3OjFrcmDkHa0OZlI5XLW4L6Cjutsqn3t2x5K80tG4JzT3TWD
-	 l7lIzuapfxCX7EwlxlEkujyT3ZJhmNgvCOVh0c2BeIKs1+AEVAKzR0nuF/6G+Jf3Jt
-	 ukrAVsD7OELbx2WZjiav5Qp8x4PeztEzKyp0g/WkepHIoYQuMxPA5/AJVMZvzEl/36
-	 V53gwahHgJWZA==
-Message-ID: <5418c64c7c32a5bd651b097a47d28e00@kernel.org>
-Date: Wed, 07 Jan 2026 13:28:57 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH v3 09/10] drm/display: bridge_connector: dynamically
- generate HDMI callbacks
-In-Reply-To: <20251224-limit-infoframes-2-v3-9-7fd3cacfefed@oss.qualcomm.com>
-References: <20251224-limit-infoframes-2-v3-9-7fd3cacfefed@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, "Abhinav
- Kumar" <abhinav.kumar@linux.dev>, "Andrzej Hajda" <andrzej.hajda@intel.com>, "Andy
- Yan" <andy.yan@rock-chips.com>, "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>, "Chen-Yu
- Tsai" <wens@kernel.org>, "Chun-Kuang Hu" <chunkuang.hu@kernel.org>, "Dave
- Stevenson" <dave.stevenson@raspberrypi.com>, "David Airlie" <airlied@gmail.com>, "Dmitry
- Baryshkov" <lumag@kernel.org>, =?utf-8?b?SGVpa28gU3TDvGJuZXI=?= <heiko@sntech.de>, "Jernej
- Skrabec" <jernej.skrabec@gmail.com>, "Jessica Zhang" <jesszhan0024@gmail.com>, "Jonas
- Karlman" <jonas@kwiboo.se>, "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Liu
- Ying" <victor.liu@nxp.com>, "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Marijn
- Suijten" <marijn.suijten@somainline.org>, "Matthias Brugger" <matthias.bgg@gmail.com>, "Maxime
- Ripard" <mripard@kernel.org>, =?utf-8?b?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, "Philipp Zabel" <p.zabel@pengutronix.de>, "Raspberry
- Pi Kernel Maintenance" <kernel-list@raspberrypi.com>, "Rob Clark" <robin.clark@oss.qualcomm.com>, "Robert
- Foss" <rfoss@kernel.org>, "Samuel Holland" <samuel@sholland.org>, "Sandy
- Huang" <hjc@rock-chips.com>, "Sean Paul" <sean@poorly.run>, "Simona Vetter" <simona@ffwll.ch>, "Thomas
- Zimmermann" <tzimmermann@suse.de>
-Content-Transfer-Encoding: 7bit
+	s=k20201202; t=1767795211;
+	bh=vPUhQO/bJfTutZapkC7lSFc2q9gKbGxYafUo+Xs/Plc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=LxpUqBSCaEAFNHV6ZR13Wn3sVba/mylY/cSyRWIVNUjJyQ/RoL2O7Frk4XVnmTaI6
+	 vpd/fm7mnx9aKY8DUWFStsaVx96N3/iN7XssR5fP01+onZCKHcsqc59yZblqX9pgV4
+	 Xex8vwgsTKZ3+SE9L71+KngoiVZDI22HXt12ahm2rPXifUB8KukHkK5H2stkGnlQQz
+	 +FyfSWpuD9PRg78RPTSKUxL8KPaFOEICqu1pGmm7sYCQbyJ/EfmiLFvmft1A4YMDzM
+	 nO4jM4arQQtOSNxk9ykJ3we4r3oSkwD95uoSJNoq8dXTHJb+akI9ZpTQyCGGtUdjrF
+	 7D7vZG0+yHHTQ==
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-78fd0cd23faso22240437b3.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 07 Jan 2026 06:13:31 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUjfRTJp24Y+sSmNdk4dWvHkjO3cCxBspxGoepMxhiSlWRldqqq5F37c4u0rM4WMmJvYZ8grqqS/HVUyQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwyQ83bTUEs/HkNH52KhZArnh8+rvFSY+/IzzFm5NuS3FzzxbVQ
+	+cNgmCALd7dbGnvS0pvJbkPyXdgvkU2LUE02vrXKCvrg37Qv9evo6WsdZNUcmYOpqmEF/uaJrRJ
+	0VMGT2D/it9GUIOVBwQ19xnf/iD5hhGQ=
+X-Google-Smtp-Source: AGHT+IFpGRYBSvGge8PYFsRHSqJMEhcXggZW3h16GPs6+Lt8GMfLw75OX8+1p8hq0kvPo80jSxwj1LTh08lAgBDlaLw=
+X-Received: by 2002:a05:690e:1248:b0:645:581a:df8c with SMTP id
+ 956f58d0204a3-64716c4dfb6mr2253264d50.91.1767795210728; Wed, 07 Jan 2026
+ 06:13:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20251225103616.3203473-1-wens@kernel.org> <20251225103616.3203473-3-wens@kernel.org>
+In-Reply-To: <20251225103616.3203473-3-wens@kernel.org>
+From: Linus Walleij <linusw@kernel.org>
+Date: Wed, 7 Jan 2026 15:13:19 +0100
+X-Gmail-Original-Message-ID: <CAD++jLku5_fyDXw+uJ8Gj_1nQxjq8egOh60X1ARGC5dmFAcV+g@mail.gmail.com>
+X-Gm-Features: AQt7F2rAHH3lL_5LalTawPfcgjclmbR9cTZKvz98Rqt4039YJlca5QQ3lCXU-dQ
+Message-ID: <CAD++jLku5_fyDXw+uJ8Gj_1nQxjq8egOh60X1ARGC5dmFAcV+g@mail.gmail.com>
+Subject: Re: [PATCH 2/4] dt-bindings: pinctrl: sunxi: Allow pinmux sub-pattern
+ with leading numbers
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej@kernel.org>, 
+	Samuel Holland <samuel@sholland.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, devicetree@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-gpio@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 24 Dec 2025 03:02:58 +0200, Dmitry Baryshkov wrote:
-> The rest of the DRM framework uses presence of the callbacks to check if
-> the particular infoframe is supported. Register HDMI callbacks
-> dynamically, basing on the corresponding drm_bridge ops.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> 
-> [ ... ]
+On Thu, Dec 25, 2025 at 11:36=E2=80=AFAM Chen-Yu Tsai <wens@kernel.org> wro=
+te:
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+> The pattern for pinmux node names is typically the peripheral name and
+> instance number, followed by pingroup name if there are multiple options.
+>
+> Normally the instance number is directly appended to the peripheral
+> name, like "mmc0" or "i2c2". But if the peripheral name ends with a
+> number, then it becomes confusing.
+>
+> On the A20, the PS2 interface controller has two instances. This
+> produces pinmux node names like "ps2-0-pins". Make the sub-pattern
+> "[0-9]-" valid to fit this pattern. Avoid having to confusing "ps20-pins"
+> name.
+>
+> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 
-Thanks!
-Maxime
+This patch 2/4 applied to the pin control tree.
+
+Yours,
+Linus Walleij
