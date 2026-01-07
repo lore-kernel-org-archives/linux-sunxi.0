@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA22327210;
-	Wed,  7 Jan 2026 12:23:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25012301472;
+	Wed,  7 Jan 2026 12:32:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767788632; cv=none; b=hqlbdSy9tfv5S8Pd1mXuLPKDeC2YAIq+b4chNcYrXr30+MJwVu7s6Oy+OmfgjEEYQYy6zBfz7iInpX+Mr9Y+pjlbPaAB8ZThobeIoMA3t6Ky1k/a5csRHDUPMjxRO7NqdOrUrGGZ8QGsTTdC0QUDVUsm5D11u6JkWGrEjOtBS6k=
+	t=1767789144; cv=none; b=o77OZjHQCFYhmwvNk7LoJ1ltLRBpyEDL0pF56kuyNQp6zPKqwN9UQ6PI0r0qliMmeUl2ebIZRNx7T1L2qp1moyahC2lL8IKgE+tf84CnjE4nFTvfVO920zSc6bQXWknXyotBSYBlouraqa9UWYOOu0isZURiDCPUVAXBbEa8mRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767788632; c=relaxed/simple;
-	bh=b8Etf9Ux2d/4mljHjahgtB9DZrTyWaQ9AiYmAkqWiiQ=;
-	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=PpaRyElczx0n7xOjhPO/vf2ELfTvadkhHrvpCl6b8Je3AVxhpqcTkt5gVhrGzbiFHfR/NKJwk9wuyPuLr2sWVc/ftWOKaHMcMhcxG3U0GgerLzr1X7m3G+22eU7VeXZxgqNN4tkZQOGXlAX0KX5pgZ8/wRb0aAqsN0XJIxlG7zo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IFJ5sp8f; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767789144; c=relaxed/simple;
+	bh=2Nqjd5umGqQTshG/6KasLg0SyW2HMZV1B1Lxjp2ecFg=;
+	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=eQjq1Tcmwzasrsa6/6wSkWN4Jc2tnS3RT5FC8ko9w+PTgz4AXQeLy2SIbRDrYuCVnEswi4uO9ZZ6Q/K+8NpMy+9ip2pt01EPG3bJrjpXFsRRyqJ7526PSuzeVzFRqoYHXuCApUk+g3F5TaoOVYZUpulf/COUbZQK6SvyYLIVnLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ivCOlkKs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IFJ5sp8f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED6F3C4CEF7;
-	Wed,  7 Jan 2026 12:23:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ivCOlkKs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E98FC4CEF7;
+	Wed,  7 Jan 2026 12:32:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767788631;
-	bh=b8Etf9Ux2d/4mljHjahgtB9DZrTyWaQ9AiYmAkqWiiQ=;
+	s=k20201202; t=1767789142;
+	bh=2Nqjd5umGqQTshG/6KasLg0SyW2HMZV1B1Lxjp2ecFg=;
 	h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
-	b=IFJ5sp8fiVS99y8gOAM4iABccbY1d+5f1Mf0fJtCVx9tusrJ4qVgCssKPQL5h3i1I
-	 c9Ac9h/h6V6DtuzySwROCCPfpp3BAAdyc9MK+8x/vVuVYF6yyAVJ1MlgniNkZzf8ax
-	 fwFepEaKVZLDUhKgCZLH+vXV/qExuYvgBohl10UQVZAihqhUQqNpC2TQHdZN1Qo51P
-	 HYp+EbzAG8SQ6YdrIRf2v9Oc+inbXg3aAUM77lr1SDmkiAdjp4Hdozzq0zhhIwZ+Vr
-	 c5lIvP9fRJse7vzi8Qg/8IGTv5vdo5FDSbKZ7bFZph3AwUDH4cZgZWVhwYMg3jeWdR
-	 I8sUlKhCJ8B5g==
-Message-ID: <49d2e8155d4ab283053c79f08c3e5334@kernel.org>
-Date: Wed, 07 Jan 2026 12:23:48 +0000
+	b=ivCOlkKs/3FPom4CAQW/8n5+RtJ+Ktgpa46WuEDsbvA9PTBeWuC7vV4+xBeDgQh6I
+	 F+ikAwBIMxkTYm3UK5stlQN0iulvCSSl6E2JV1u4QXCSkGcTAkSB2mkHdzw/EdIDvc
+	 FUSAzwPfQKz6h4ZHo8/hDOFRATtO4FNaGq9u8a+Hb0DB/mfzr37+BspAyH9jtluOP9
+	 BThkvDxk9LJUGONm+dsYPaEtV1NScUVsoM3A4nX+KbKavoAkonyRlYC4BOBp/n+kNt
+	 uNOpMaeFLn9fsFJzYYAUv+hgwkrlZmLWtZDdw79Ff4blsc6mcmnifNIw3KUSZqGA+X
+	 RP1wITi7KGfyw==
+Message-ID: <57ad1884d9080ebc37abf8b96ab71abf@kernel.org>
+Date: Wed, 07 Jan 2026 12:32:20 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH v3 02/10] drm/vc4: hdmi: implement clear_infoframe
-In-Reply-To: <20251224-limit-infoframes-2-v3-2-7fd3cacfefed@oss.qualcomm.com>
-References: <20251224-limit-infoframes-2-v3-2-7fd3cacfefed@oss.qualcomm.com>
+Subject: Re: [PATCH v3 04/10] drm/connector: make clear_infoframe callback
+ mandatory for HDMI connectors
+In-Reply-To: <20251224-limit-infoframes-2-v3-4-7fd3cacfefed@oss.qualcomm.com>
+References: <20251224-limit-infoframes-2-v3-4-7fd3cacfefed@oss.qualcomm.com>
 Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, "Abhinav
  Kumar" <abhinav.kumar@linux.dev>, "Andrzej Hajda" <andrzej.hajda@intel.com>, "Andy
  Yan" <andy.yan@rock-chips.com>, "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>, "Chen-Yu
@@ -55,11 +56,14 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-On Wed, 24 Dec 2025 03:02:51 +0200, Dmitry Baryshkov wrote:
-> Implement the clear_infoframe callback, disabling corresponding
-> InfoFrame type.
+On Wed, 24 Dec 2025 03:02:53 +0200, Dmitry Baryshkov wrote:
+> We already require both hdmi_write_infoframe and hdmi_clear_infoframe
+> for bridges implementing DRM_BRIDGE_OP_HDMI. It makes sense to require
+> the clear_infoframes callback for HDMI connectors utilizing
+> drmm_connector_hdmi_init().
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> 
+> [ ... ]
 
 Acked-by: Maxime Ripard <mripard@kernel.org>
 
