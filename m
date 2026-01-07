@@ -1,68 +1,105 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D5D316912;
-	Wed,  7 Jan 2026 12:47:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17DA314A65;
+	Wed,  7 Jan 2026 12:50:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767790068; cv=none; b=SdYHAsfVv7E6pcQD907Jv2M3DLBlXTV/Pj2TxAb6ChxZwiIEmG84wl2L+gkaNLOPHcACcVtHxeainYnHR0UmHHnFLK7lqrC6jsIShbFGugaPUmNDTcWn7f2d/+0cM+mBCahGIf1JS7gNQvl7MSuQiMRPYGDVkXs+O4d+GH5fWqg=
+	t=1767790254; cv=none; b=qHfXDCeNsP/n2ySsiGRp6OVWogDpJ11jcOtRGV0LpQsNJlb6+qnbLUHcV7OJRwAn74RZDAaqSH5+jnEgTVpSya+Qn3RunwTpEcT3H8JxJp06HaE2uf49B0YVP9TMrsdjnZEfP+nVk45FUCWHi3Zc/oe+DICF/yXt6ZI+WAVwX7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767790068; c=relaxed/simple;
-	bh=187QeaYOCJ9bxj/owdya1F/qotNUlNFLu04+ah4+UhQ=;
-	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=ZhnwYDplqAAJPovQPzqqwYjMiuIL/W5KwK4Im1LWsJdU8ATRKp0pZOdQvPzCVI5RtV6MG8m6svYj/tX5mJBkOyV64BUxQTc0dOLOugWlno3gaJBaZ0EWXxovBJPrJhsBudMRLb1lEH5xu8DaQfirDjGaueJp8EJqYjqXk8fyWoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OOWbVaP4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767790254; c=relaxed/simple;
+	bh=Is5RjV5W1u9YGVarjcRU6ceNIN9IKqpKYrkNrDF/4MQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hv69I5ulU4n4SWNNiZJjqEyPZOyOc1eY/U15LrXTg//6Bu3WRpOUNtv/0YVTKH8NVeDmiYt187kidkQ42jHM1hjTRCCOx5A5c2c5HmxRzO8Cj0GN56fICAyBq4sDwwqJBnlqLLaBr7i184+H55BdxSoLCeFhqOh0zw5a5vSYCWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UdtNBxpC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OOWbVaP4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85D26C4CEF7;
-	Wed,  7 Jan 2026 12:47:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UdtNBxpC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F902C4CEF7;
+	Wed,  7 Jan 2026 12:50:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767790067;
-	bh=187QeaYOCJ9bxj/owdya1F/qotNUlNFLu04+ah4+UhQ=;
-	h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
-	b=OOWbVaP4Grpkvk8qeJu/gFqhaeXjRRFxPHKu84aFwOgDLJW/sm33qZ4VvDqenf5dr
-	 WpKlTlqmt3ddOxc91KUW9clzq/di0sQuAnKbESTGAJRGMGm2acjxzynTEekuxDmE4I
-	 71QvDceGfrwauXBlfv/AAx+dxKRshIyq3o8iqcboVDrcWSIClEHZqxH/+x2QRUirpV
-	 FeyQkUIi95ml+FwsDw4X0/4gDPTNvdEAdodTmsgEVv066v3rJKDB+DdVqLjhRj0Dx9
-	 2F3PMmS07tCcm9KWspeKNPibyk0Hy50fVF8uBeudxl3cl9DyINHHracdJJ17q3zyG4
-	 FFLJ/1tRZ89gw==
-Message-ID: <6ae21650d05e50b1d13d72617d6897c4@kernel.org>
-Date: Wed, 07 Jan 2026 12:47:44 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH v3 10/10] drm/debug: don't register files for
- unsupported HDMI InfoFrames
-In-Reply-To: <20251224-limit-infoframes-2-v3-10-7fd3cacfefed@oss.qualcomm.com>
-References: <20251224-limit-infoframes-2-v3-10-7fd3cacfefed@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, "Abhinav
- Kumar" <abhinav.kumar@linux.dev>, "Andrzej Hajda" <andrzej.hajda@intel.com>, "Andy
- Yan" <andy.yan@rock-chips.com>, "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>, "Chen-Yu
- Tsai" <wens@kernel.org>, "Chun-Kuang Hu" <chunkuang.hu@kernel.org>, "Dave
- Stevenson" <dave.stevenson@raspberrypi.com>, "David Airlie" <airlied@gmail.com>, "Dmitry
- Baryshkov" <lumag@kernel.org>, =?utf-8?b?SGVpa28gU3TDvGJuZXI=?= <heiko@sntech.de>, "Jernej
- Skrabec" <jernej.skrabec@gmail.com>, "Jessica Zhang" <jesszhan0024@gmail.com>, "Jonas
- Karlman" <jonas@kwiboo.se>, "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Liu
- Ying" <victor.liu@nxp.com>, "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Marijn
- Suijten" <marijn.suijten@somainline.org>, "Matthias Brugger" <matthias.bgg@gmail.com>, "Maxime
- Ripard" <mripard@kernel.org>, =?utf-8?b?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, "Philipp Zabel" <p.zabel@pengutronix.de>, "Raspberry
- Pi Kernel Maintenance" <kernel-list@raspberrypi.com>, "Rob Clark" <robin.clark@oss.qualcomm.com>, "Robert
- Foss" <rfoss@kernel.org>, "Samuel Holland" <samuel@sholland.org>, "Sandy
- Huang" <hjc@rock-chips.com>, "Sean Paul" <sean@poorly.run>, "Simona Vetter" <simona@ffwll.ch>, "Thomas
- Zimmermann" <tzimmermann@suse.de>
-Content-Transfer-Encoding: 7bit
+	s=k20201202; t=1767790253;
+	bh=Is5RjV5W1u9YGVarjcRU6ceNIN9IKqpKYrkNrDF/4MQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UdtNBxpCkcQ+J4H95qIr3QfX6X38re9VsczT9QDHJOelKLRMPw0ZAybPLWkJT/BYt
+	 qBVIOG1TpBraZfpFcb9sHRYZD4hYsQX1YNB/c3DKoTsjfQ8h9gmu0pNFOsuOTp8pwd
+	 6JnV3p1TlDu+25XdF8kWiT/pWdoNfwElGtGmMU+ThGuuuS43S2YuUg/sGfkw/3Tlj3
+	 4eu40L+vU5uuxAtGViRQ5eXxP540CVDfAhCdnD5T562No2Z61O+CR4BPRaAdS0u201
+	 xMJ72P80lwivWepjJ19FrxjJLpICrKdlq/TqB4fE0LbyeL/ASQDPdHCztqVjRHN1dy
+	 YyrJCg8uezBOQ==
+Date: Wed, 7 Jan 2026 13:50:51 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>, 
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
+	Marijn Suijten <marijn.suijten@somainline.org>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-mediatek@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v3 07/10] drm/display: hdmi_state_helper: reject Audio IF
+ updates if it's not supported
+Message-ID: <20260107-fascinating-boa-of-fertility-1886a0@houat>
+References: <20251224-limit-infoframes-2-v3-0-7fd3cacfefed@oss.qualcomm.com>
+ <20251224-limit-infoframes-2-v3-7-7fd3cacfefed@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="5jzjabvum6jmi43c"
+Content-Disposition: inline
+In-Reply-To: <20251224-limit-infoframes-2-v3-7-7fd3cacfefed@oss.qualcomm.com>
 
-On Wed, 24 Dec 2025 03:02:59 +0200, Dmitry Baryshkov wrote:
-> Having debugfs files for the InfoFrames that are not supported by the
-> driver is confusing, stop registering those in the debugfs.
-> 
+
+--5jzjabvum6jmi43c
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 07/10] drm/display: hdmi_state_helper: reject Audio IF
+ updates if it's not supported
+MIME-Version: 1.0
+
+Hi,
+
+On Wed, Dec 24, 2025 at 03:02:56AM +0200, Dmitry Baryshkov wrote:
+> Updating the InfoFrame if it can not be sent over the wire makes no
+> sense. Change drm_atomic_helper_connector_hdmi_update_audio_infoframe()
+> and drm_atomic_helper_connector_hdmi_clear_audio_infoframe() to return
+> an error if Audio InfoFrame callbacks are not implemented.
+>=20
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+IIRC, audio infoframes are mandatory if you send audio over the cable,
+so maybe we should do like you did for drmm_connector_hdmi_init and
+error in drm_connector_hdmi_audio_init if we don't have the proper
+write_infoframe hook set?
 
-Thanks!
 Maxime
+
+--5jzjabvum6jmi43c
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaV5WpQAKCRAnX84Zoj2+
+dvQoAX0ZrPZ4Tvz4pn+WykRaXQmRL9fYSOrsCkdNU/U/YeDmV7idPNZOoovjGxhA
+lol6AlQBgKrZOSgOR63zJZLAb5FVpUis1h8cxg8f+AZWDU9CuIucM8fJDumWT/jC
+l8IATNMIWw==
+=i55g
+-----END PGP SIGNATURE-----
+
+--5jzjabvum6jmi43c--
