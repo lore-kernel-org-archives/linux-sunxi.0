@@ -1,252 +1,117 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B62E012B93
-	for <linux-sunxi@lists.linux.dev>; Sat, 10 Jan 2026 00:24:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B217121E087;
+	Sat, 10 Jan 2026 19:11:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768004660; cv=none; b=gMww975ngvd6+QNi61UVI9m/LK/Nn1retU86YarH5NB2X3naVYD8XZwA+5SCTh0ERwLCDVj8J2y1cIINmhmq3Yrtm8pXhVmc+W9jvOmzo7n0jP2FlcA/wWn7S1c7KRHzjS3EkZnN7zais7KHd4xuxE14J+3GHoG6mHGno4MDCEU=
+	t=1768072294; cv=none; b=QwT1XYNeJFXuLjbcgEmh3MztQsokWMgiH+PSrcauS5N+SAX1cb9nvYyac8MVMFUTW7vaNKOfgIPk+a140jci5d7V/mWfD1y8NXSm2PgoEbufz8gpPeK3/srQ991VgVCJ4MDlCrs0ANd8MeqSCSFSCOa53ewfx5kMVUq2lzP0PNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768004660; c=relaxed/simple;
-	bh=XRLSZNjfh3/4kOqwTl88T0Yz2OYzwhwC9Jn4jKDT9Qk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aB7lJR3lTIQMyU5gKhp7lDk1wSy/0d28iZU9ixHzDgBskVeisd9F0BDbNX4E2NRpOjjzXcKzpesfXGkuugqaqaT5MHId5lN0d6GFBSwxjIdY880jwmcf45GsFfs81QOIhLeXuC4+KYg/HM8oWaQNYHJ6TeDMrqgHMumnJzzRkqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 017AEFEC;
-	Fri,  9 Jan 2026 16:24:10 -0800 (PST)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 79E853F5A1;
-	Fri,  9 Jan 2026 16:24:14 -0800 (PST)
-Date: Sat, 10 Jan 2026 01:23:13 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: "J. =?UTF-8?B?TmV1c2Now6RmZXI=?= via B4 Relay"
- <devnull+j.ne.posteo.net@kernel.org>
-Cc: j.ne@posteo.net, u-boot@lists.denx.de, Tom Rini <trini@konsulko.com>,
- Svyatoslav Ryhel <clamor95@gmail.com>, Leo Yu-Chi Liang
- <ycliang@andestech.com>, Peter Geis <pgwipeout@gmail.com>, Lukasz Majewski
- <lukma@denx.de>, Junhui Liu <junhui.liu@pigmoral.tech>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, linux-sunxi <linux-sunxi@lists.linux.dev>
-Subject: Re: [PATCH next v2] board: amediatech: Add X96Q support
-Message-ID: <20260110012313.6fa04c9e@minigeek.lan>
-In-Reply-To: <20260110-x96q-v2-1-1d6a725eb825@posteo.net>
-References: <20260110-x96q-v2-1-1d6a725eb825@posteo.net>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1768072294; c=relaxed/simple;
+	bh=ifQtDtBDcokzLccqf8aQCht97s3eipcMMEmXbpDw6Aw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fA8vRN20KwBVAS1O9++wDTOR7UCFtDd0sNZAP9UFzr1t3q6eyWgJ9WsSAckSdEizj3PhNVvRad2I3NNHoX8wryLd2BxCv3vePVdSkxAdfvX1J4Qhd0icRCA9mccsUjnFVOckFMQcdqdYOdGtk8d7y86bWJrFSLqO4aHFVzdTDdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qCiyrFAU; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qCiyrFAU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22EEFC4CEF1;
+	Sat, 10 Jan 2026 19:11:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768072294;
+	bh=ifQtDtBDcokzLccqf8aQCht97s3eipcMMEmXbpDw6Aw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=qCiyrFAU2xicKCibTXPIf3XhBQmk0g6ZWmSgHHXVP1B02QbrV77FWTZFOP1VjWDCw
+	 qjMrQb+XKb5f4XadhrY/24Ap8FT4i3zPkyp8Hq83pZ7Qd05yBLYY/SjBLAoBYN1J91
+	 tZcXYUR9WCowuaBnwQNH+5l+izoJ34YwXyJn9pNjN9mFqtBAcF6dVgtvosb5DN2PQH
+	 UkWDCIMetOEIB1XAkKVOYI7Wkyc0F3Lm5PBO/vh7rnB4GSTP0L4HqCSOjm7fLM7dry
+	 DJ/5zv35sUADTSmPEivxJvudoLJxOMiPSlaVLC0wreck+xhcPR7Tw1K+pdiPCNoYJW
+	 fAQibqBj2d1ug==
+From: Bjorn Andersson <andersson@kernel.org>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney@redhat.com>
+Cc: linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chen Wang <unicorn_wang@outlook.com>,
+	Inochi Amaoto <inochiama@gmail.com>,
+	sophgo@lists.linux.dev,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-rtc@vger.kernel.org,
+	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	linux-actions@lists.infradead.org,
+	Keguang Zhang <keguang.zhang@gmail.com>,
+	linux-mips@vger.kernel.org,
+	Taichi Sugaya <sugaya.taichi@socionext.com>,
+	Takao Orito <orito.takao@socionext.com>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Shan-Chun Hung <schung@nuvoton.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+	linux-arm-msm@vger.kernel.org,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Michal Simek <michal.simek@amd.com>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	dri-devel@lists.freedesktop.org,
+	freedreno@lists.freedesktop.org,
+	Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	linux-phy@lists.infradead.org
+Subject: Re: (subset) [PATCH 00/27] clk: remove deprecated API divider_round_rate() and friends
+Date: Sat, 10 Jan 2026 13:11:17 -0600
+Message-ID: <176807228457.3708332.10766520174431957453.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260108-clk-divider-round-rate-v1-0-535a3ed73bf3@redhat.com>
+References: <20260108-clk-divider-round-rate-v1-0-535a3ed73bf3@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Sat, 10 Jan 2026 00:10:32 +0100
-J. Neusch=C3=A4fer via B4 Relay <devnull+j.ne.posteo.net@kernel.org> wrote:
 
-Hi,
+On Thu, 08 Jan 2026 16:16:18 -0500, Brian Masney wrote:
+> Here's a series that gets rid of the deprecated APIs
+> divider_round_rate(), divider_round_rate_parent(), and
+> divider_ro_round_rate_parent() since these functions are just wrappers
+> for the determine_rate variant.
+> 
+> Note that when I converted some of these drivers from round_rate to
+> determine_rate, this was mistakenly converted to the following in some
+> cases:
+> 
+> [...]
 
-many thanks for sending this!
-CC:ing the sunxi list for better visibility.
-New board support is mostly a matter for the people interested in the
-SoC family, less so for the general U-Boot audience.
+Applied, thanks!
 
-> From: "J. Neusch=C3=A4fer" <j.ne@posteo.net>
->=20
-> The X96Q is a set-top box with an H313 SoC, AXP305 PMIC, 1 or 2 GiB RAM,
-> 8 or 16 GiB eMMC flash, 2x USB A, Micro-SD, HDMI, Ethernet, audio/video
-> output, and infrared input.
->=20
->   https://x96mini.com/products/x96q-tv-box-android-10-set-top-box
->=20
-> This commit adds a defconfig and some documentation. The devicetree is
-> already in dts/upstream.
->=20
-> The CONFIG_DRAM_SUNXI_* settings are chosen such that the register
-> values in the DRAM PHY's MMIO space are as close as possible to those
-> observed when booting with the preinstalled vendor U-Boot. The DRAM
-> clock frequency of 600 MHz was reported in the vendor U-Boot's output.
->=20
-> Signed-off-by: J. Neusch=C3=A4fer <j.ne@posteo.net>
-> ---
-> Changes in v2:
-> - Add missing Signed-off-by
-> - Re-generate x96q_defconfig with 'make savedefconfig'
-> - Move DRAM frequency comment to commit message
-> - Use GPL-2.0-or-later instead of deprecated GPL-2.0+
-> - Link to v1: https://lore.kernel.org/r/20251231-x96q-v1-1-316d703b8f03@p=
-osteo.net
-> ---
->  configs/x96q_defconfig         | 31 +++++++++++++++++++++++
->  doc/board/amediatech/index.rst |  9 +++++++
->  doc/board/amediatech/x96q.rst  | 57 ++++++++++++++++++++++++++++++++++++=
-++++++
->  doc/board/index.rst            |  1 +
->  4 files changed, 98 insertions(+)
->=20
-> diff --git a/configs/x96q_defconfig b/configs/x96q_defconfig
-> new file mode 100644
-> index 00000000000..b74a1b61f3c
-> --- /dev/null
-> +++ b/configs/x96q_defconfig
-> @@ -0,0 +1,31 @@
-> +CONFIG_ARM=3Dy
-> +CONFIG_ARCH_SUNXI=3Dy
-> +CONFIG_DEFAULT_DEVICE_TREE=3D"allwinner/sun50i-h313-x96q"
-> +CONFIG_DRAM_CLK=3D600
-> +CONFIG_SPL=3Dy
-> +CONFIG_DRAM_SUNXI_DX_ODT=3D0x03030303
-> +CONFIG_DRAM_SUNXI_DX_DRI=3D0x0e0e0e0e
-> +CONFIG_DRAM_SUNXI_CA_DRI=3D0x1f12
-> +CONFIG_DRAM_SUNXI_TPR0=3D0xc0001002
-> +CONFIG_DRAM_SUNXI_TPR2=3D0x00000100
-> +CONFIG_DRAM_SUNXI_TPR10=3D0x002f0107
-> +CONFIG_DRAM_SUNXI_TPR11=3D0xddddcccc
-> +CONFIG_DRAM_SUNXI_TPR12=3D0xeddc7665
-> +CONFIG_MACH_SUN50I_H616=3Dy
-> +CONFIG_SUNXI_DRAM_H616_DDR3_1333=3Dy
-> +CONFIG_R_I2C_ENABLE=3Dy
-> +# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-> +CONFIG_FIT_BEST_MATCH=3Dy
+[14/27] clk: qcom: alpha-pll: convert from divider_round_rate() to divider_determine_rate()
+        commit: e1f08613e113f02a3ec18c9a7964de97f940acbf
+[15/27] clk: qcom: regmap-divider: convert from divider_ro_round_rate() to divider_ro_determine_rate()
+        commit: 35a48f41b63f67c490f3a2a89b042536be67cf0f
+[16/27] clk: qcom: regmap-divider: convert from divider_round_rate() to divider_determine_rate()
+        commit: b2f36d675e09299d9aee395c6f83d8a95d4c9441
 
-What is this for, exactly?
-
-> +CONFIG_SPL_I2C=3Dy
-> +CONFIG_CMD_UFETCH=3Dy
-> +CONFIG_CMD_CAT=3Dy
-
-Can you please drop those two commands? A defconfig is meant to provide
-some low level common configuration, enabling the features that are
-needed to boot. Command support should only be selected in the
-defconfig if it has a special meaning or requirement for this
-board.
-
-> +CONFIG_SPL_SYS_I2C_LEGACY=3Dy
-> +CONFIG_SYS_I2C_MVTWSI=3Dy
-> +CONFIG_SYS_I2C_SLAVE=3D0x7f
-> +CONFIG_SYS_I2C_SPEED=3D400000
-> +CONFIG_SUPPORT_EMMC_BOOT=3Dy
-> +CONFIG_SUN8I_EMAC=3Dy
-> +CONFIG_AXP305_POWER=3Dy
-> +CONFIG_USB_EHCI_HCD=3Dy
-> +CONFIG_USB_OHCI_HCD=3Dy
-> +CONFIG_SPL_USE_TINY_PRINTF_POINTER_SUPPORT=3Dy
-
-What is this needed for?
-
-> diff --git a/doc/board/amediatech/index.rst b/doc/board/amediatech/index.=
-rst
-
-What does this file add on top of doc/board/allwinner/sunxi.rst?
-In general we do not use board/<vendor> directories for Allwinner
-boards, not for code, and not for documentation.
-So can you please just drop this file and the amediatech entry below?
-
-But you would need to add an entry into board/sunxi/MAINTAINERS,
-otherwise the U-Boot CI will fail.
-
-Cheers,
-Andre
-
-> new file mode 100644
-> index 00000000000..fd0241e3459
-> --- /dev/null
-> +++ b/doc/board/amediatech/index.rst
-> @@ -0,0 +1,9 @@
-> +.. SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +Amediatech
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +.. toctree::
-> +   :maxdepth: 2
-> +
-> +   x96q
-> diff --git a/doc/board/amediatech/x96q.rst b/doc/board/amediatech/x96q.rst
-> new file mode 100644
-> index 00000000000..f220b7005b2
-> --- /dev/null
-> +++ b/doc/board/amediatech/x96q.rst
-> @@ -0,0 +1,57 @@
-> +.. SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +U-Boot for the Amediatech X96Q set-top box
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Quick Start
-> +-----------
-> +
-> +- Get and Build the ARM Trusted Firmware (TF-A)
-> +- Build U-Boot
-> +- Write U-Boot to a microSD card
-> +- Boot
-> +
-> +Get and Build the ARM Trusted Firmware (TF-A)
-> +---------------------------------------------
-> +
-> +.. code-block:: bash
-> +
-> +    $ echo "Downloading and building TF-A..."
-> +    $ git clone https://git.trustedfirmware.org/TF-A/trusted-firmware-a.=
-git
-> +    $ cd trusted-firmware-a
-> +
-> +Then build TF-A:
-> +
-> +.. code-block:: bash
-> +
-> +    $ export CROSS_COMPILE=3Daarch64-linux-gnu-
-> +    $ make PLAT=3Dsun50i_h616 bl31
-> +    $ cp build/sun50i_h616/release/bl31.bin ../
-> +
-> +Build U-Boot
-> +------------
-> +
-> +.. code-block:: bash
-> +
-> +    $ export CROSS_COMPILE=3Daarch64-none-elf-
-> +    $ make x96q_defconfig
-> +    $ make
-> +
-> +After the build succeeds, you will obtain the final ``u-boot-sunxi-with-=
-spl.bin``
-> +image, which you can then write to a microSD card.
-> +
-> +Write U-Boot to a microSD card
-> +------------------------------
-> +
-> +You can then flash U-Boot to the microSD card (replace ``/dev/sdX`` with=
- the
-> +card's device file):
-> +
-> +.. code-block:: bash
-> +
-> +    $ dd if=3Du-boot-sunxi-with-spl.bin of=3D/dev/sdX bs=3D8k seek=3D1
-> +
-> +Boot
-> +----
-> +
-> +When the X96Q is booted with the prepared microSD card inserted, it shou=
-ld boot
-> +into the freshly installed U-Boot.
-> diff --git a/doc/board/index.rst b/doc/board/index.rst
-> index 7870f1bc246..767e1831912 100644
-> --- a/doc/board/index.rst
-> +++ b/doc/board/index.rst
-> @@ -9,6 +9,7 @@ Board-specific doc
->     acer/index
->     actions/index
->     advantech/index
-> +   amediatech/index
->     andestech/index
->     allwinner/index
->     amlogic/index
->=20
-> ---
-> base-commit: 6cdd7597a2fbfc1572c1b0af23d3daf1cefa2de7
-> change-id: 20251231-x96q-998c1376ebbf
->=20
-> Best regards,
-
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
