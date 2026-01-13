@@ -1,16 +1,16 @@
 Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D60015624B
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Jan 2026 04:03:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA532E7185
+	for <linux-sunxi@lists.linux.dev>; Tue, 13 Jan 2026 04:03:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768276987; cv=none; b=pxsvtBiCESYiwq3sTaaJz1UjASSmbLk+pHxpLK9LwrvmqJz5hGE7fSy9NpwzzOT7Wr+hSp9QbMwvIXQAi1wbvDZWt66Zk+BLdwm8xn7PqCQCp75FY7QYEZEkbog0wfI1hGCamSgmDABe+cf1S9xTD85p80RMt+eMv0OOzz1hBpo=
+	t=1768276990; cv=none; b=uAGPErnT/dZP6HU/DKADMgLBgr0VHmcUZbCivig3TLElzSpGv06WSrVVNrggoXauHtHdXmxglN1SYo0tvOTaK0qOMoaGGG20i2XrFnfJPyzg9kKhwz77uIwTbowQol1oYArE12XzGXCdi005ndqtYGQEknQMP3lMgzWPzFQEgdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768276987; c=relaxed/simple;
-	bh=aGAs16rTNFSV2vDDe3NjxY83UXrzKy1GteqtbgSSs78=;
+	s=arc-20240116; t=1768276990; c=relaxed/simple;
+	bh=i9aR16qXn+fHTQC/eS+j+9JkfrsJeU/SfLtZSsOzQA0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ppKAD9FmllPStWSfTQ1PXzL+uFHrfYYZ7a1b5B8Q3BmpCAHZ6u6Q4A2ixJOzCdJ3hseAF/LuEvPbFncQ1XlbWDFliTW6BQ4MA7eSccRYdlaFvTsCWj2D7jGJCvOMbkRn643KYBGhE8bk/dlaanENK72gvcE8GLb14jx57UJS6B0=
+	 In-Reply-To:To:Cc; b=qYrbT4Xreg8Y2J/T69UP292dsKCmdlfxIG+HWRd8QnoKRJkCkjUb89OjwwOgnyTk7gogCrt3C2VVzhEYE3aw4ZrcSZvk2vUQpGKZFzR2gjvKLtvjrxAurwEC/x1kkjmpiClvtAXt+4tKneO3uq/v1hnMTg3dzgBZYI3BMdzWgTE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
@@ -19,11 +19,11 @@ Received: from ofovo.local (unknown [116.232.18.222])
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: dlan)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id 492703415D9;
-	Tue, 13 Jan 2026 04:03:03 +0000 (UTC)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 6FF33340ED3;
+	Tue, 13 Jan 2026 04:03:06 +0000 (UTC)
 From: Yixun Lan <dlan@gentoo.org>
-Date: Tue, 13 Jan 2026 12:02:02 +0800
-Subject: [PATCH v3 8/9] sunxi: mmc: enable support for A733
+Date: Tue, 13 Jan 2026 12:02:03 +0800
+Subject: [PATCH v3 9/9] sunxi: sun60i: initial support for A733 SoC
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -32,7 +32,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260113-01-a733-soc-support-v3-8-f19dcd098f60@gentoo.org>
+Message-Id: <20260113-01-a733-soc-support-v3-9-f19dcd098f60@gentoo.org>
 References: <20260113-01-a733-soc-support-v3-0-f19dcd098f60@gentoo.org>
 In-Reply-To: <20260113-01-a733-soc-support-v3-0-f19dcd098f60@gentoo.org>
 To: u-boot@lists.denx.de
@@ -42,97 +42,168 @@ Cc: linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>,
  Paul Kocialkowski <contact@paulk.fr>, Samuel Holland <samuel@sholland.org>, 
  Yixun Lan <dlan@gentoo.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2304; i=dlan@gentoo.org;
- h=from:subject:message-id; bh=aGAs16rTNFSV2vDDe3NjxY83UXrzKy1GteqtbgSSs78=;
- b=owEB6QIW/ZANAwAKATGq6kdZTbvtAcsmYgBpZcPXasiiNgOKZMdw06RcW5N1c7xXdE54rekzu
- Tyjz2XBe5WJAq8EAAEKAJkWIQS1urjJwxtxFWcCI9wxqupHWU277QUCaWXD1xsUgAAAAAAEAA5t
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5136; i=dlan@gentoo.org;
+ h=from:subject:message-id; bh=i9aR16qXn+fHTQC/eS+j+9JkfrsJeU/SfLtZSsOzQA0=;
+ b=owEB6QIW/ZANAwAKATGq6kdZTbvtAcsmYgBpZcPaX34KBdFqH3jNWmFrlQ+nmvQzR9SagFAfJ
+ v3+9kGCtguJAq8EAAEKAJkWIQS1urjJwxtxFWcCI9wxqupHWU277QUCaWXD2hsUgAAAAAAEAA5t
  YW51MiwyLjUrMS4xMSwyLDJfFIAAAAAALgAoaXNzdWVyLWZwckBub3RhdGlvbnMub3BlbnBncC5
  maWZ0aGhvcnNlbWFuLm5ldEI1QkFCOEM5QzMxQjcxMTU2NzAyMjNEQzMxQUFFQTQ3NTk0REJCRU
- QACgkQMarqR1lNu+21VxAAhjwSex2Zq0236we9xLACuOEYYOXZ9yLWJ8eYHb4w+cFIjrgSqfg+F
- elUf5+fCgfB7IJn1x/eiyreQMvbDIbvAVQQdVq+lQpQZtXuXI/5vczEUqgvPOBngcZqeVKsgE/Q
- 2DleRynO3w3Ga8fSfEcJY3IfM02iGXIJpzhXgqVyImUHtY+lUsm23tGt1K0OVNmJb3QhfA1e7FD
- Q4IshrzIwdQLZkay5KBZRANCDJBcPgoR3UCJfhCdVK6q9cjigABKKuMl6QsXsy+YUmV7MKAHjqf
- 02jZGweVJACHgREcnCPPFyIKHo2siWrOxbVvUgEgl27tf483q8L6BwWFI9Nvdcm4ZNWuPUZbcKF
- kUN2b6sBbAXgCceICb8PXUZm+QmP0Q3HFw/Rz8fT+EKq5CifJnshDLfQgifceU45ZQ2e7E8PLHa
- M33xzbGjq5Ciw69OQI7xYUWjl7hzzrHgtP0VtAlEdiHgHaSQ0jeNObTBE4QJZstMUuvwmfZ74jD
- Ts6nSgOlK8CixeOPmyWUrKErVo2fBF2GtINcbZ8XjPU3qsAs4ZewSYkohofGoz/2MWkwqr3XGaQ
- tbNYA8Fi7498/JS8uC0/XNhrzXeRBcHa9vQQcvHmR2mxapm9lxtFMxD2rHlW+fafaBQ+G8mv6gX
- 1g8p80thlPxMrfX0CXizjDwscdqv9k=
+ QACgkQMarqR1lNu+3N3Q/+PmUnqMTPZMs0ZxInLdghY297yIi7YETer4g1tULawSACc+l0/sqmd
+ 0Q8deOfewjDOhZGAI39CK6afGkGs/iUY2cLJOyzR9IdLm6XI4WDqQYIPE7kNwymtCmU9EGmElwg
+ o1/kQ+gDsCEmvvickYBlpWpwxBEe7tATrH7ys9L5XjTUfpU001U6/NGJa0Ufsnaa0gMEAtBas76
+ g7lukQToMBf2hnxwYK27AJQ5ucumg3vM8YxeUm43N3CNLk0Ko6qGXZJb2+mO/pSvzUUi4CVK7li
+ Q2nU9YqGsU3BamMPoA1NoMLJNxsvoJQJKYwsZsE8Y1RvCU1PisqldQ6b8iq6I5OFzojufSjbnZr
+ Hd7RKNnP3aV+k3wLkpmY95Y5VVhksceA7+f8R+EGbUgZsNUWL7OK2wPWBcBs825KrgdJkgiXVHW
+ 2xTFRYKyWJpeoWDZfA9OekpHBTB+dItrFIk9s/Q3GllTaQMtyI0RacLd26PcjDStRyYjvO0NQco
+ fWjsCRg95BLCtXydEYYaro2p6fxbZYAm+faIpXrg1gYYAC8dyp87hdbdhlhE4IDiCDeRWdxaRTp
+ DaeUcE+Hun+wUDdDGW5xkjPhkor0X8biZpH1AtP6ylPkmNaUH1VYebnGQNqnEmKcq+zc2ULU6BT
+ uFRsRN41b5QfBkqoF/aFcij1UsQhnk=
 X-Developer-Key: i=dlan@gentoo.org; a=openpgp;
  fpr=50B03A1A5CBCD33576EF8CD7920C0DBCAABEFD55
 
-Minor clock adjustment for new A733 MMC controller, the SMHC0_CLK_REG
-start at offset 0x400, and with step size of 0x10.
+Add basic support for Allwinner A733 SoC, includes SPL settings.
+
+- Include some basic register definitions
+- Introduce a new SUN60I A733 Kconfig option
+- Ssetup RVBAR register properly according to docs
+- Config max DDR size 16GB
+- Config SRAM 0x62000 for TF-A
+- Set SPL MAX SIZE to 180KB, 0x47000 - 0x74000
+- Set SPL running address to 0x47000, with a header padded before
+  the image, so the final SPL text address need to shift 0x60 bytes.
+- Set Stack address
 
 Signed-off-by: Yixun Lan <dlan@gentoo.org>
----
- drivers/mmc/sunxi_mmc.c | 28 +++++++++++++++++++++-------
- 1 file changed, 21 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/mmc/sunxi_mmc.c b/drivers/mmc/sunxi_mmc.c
-index e28c81afffe..d7dbe1c27ed 100644
---- a/drivers/mmc/sunxi_mmc.c
-+++ b/drivers/mmc/sunxi_mmc.c
-@@ -112,6 +112,9 @@ static int mmc_set_mod_clk(struct sunxi_mmc_priv *priv, unsigned int hz)
- 			if (priv->mmc_no == 2)
- 				pll_hz *= 2;
- 		}
+---
+Note, Address for TF-A can be altered to other value, for example,
+moving it to the DDR address space. The only requirement is that
+load and run address should be matched.
+---
+ arch/arm/mach-sunxi/Kconfig    | 14 ++++++++++++++
+ arch/arm/mach-sunxi/cpu_info.c |  2 ++
+ common/spl/Kconfig             |  3 +++
+ include/configs/sun60i.h       | 11 +++++++++++
+ 4 files changed, 30 insertions(+)
+
+diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+index e979ee4a2cc..b7ac828e16d 100644
+--- a/arch/arm/mach-sunxi/Kconfig
++++ b/arch/arm/mach-sunxi/Kconfig
+@@ -215,6 +215,7 @@ config SUNXI_SRAM_ADDRESS
+ 	hex
+ 	default 0x10000 if MACH_SUN9I || MACH_SUN50I || MACH_SUN50I_H5
+ 	default 0x44000 if MACH_SUN55I_A523
++	default 0x47000 if MACH_SUN60I_A733
+ 	default 0x20000 if SUN50I_GEN_H6 || SUNXI_GEN_NCAT2
+ 	default 0x0
+ 	---help---
+@@ -228,6 +229,7 @@ config SUNXI_RVBAR_ADDRESS
+ 	depends on ARM64
+ 	default 0x08100040 if MACH_SUN50I_A133
+ 	default 0x08000040 if MACH_SUN55I_A523
++	default 0x08001004 if MACH_SUN60I_A733
+ 	default 0x09010040 if SUN50I_GEN_H6
+ 	default 0x017000a0
+ 	---help---
+@@ -257,6 +259,7 @@ config SUNXI_BL31_BASE
+ 	default 0x40000000 if MACH_SUN50I_H616
+ 	default 0x00104000 if SUN50I_GEN_H6
+ 	default 0x00054000 if MACH_SUN55I_A523
++	default 0x00062000 if MACH_SUN60I_A733
+ 	default 0x0
+ 	help
+ 	  Address where BL31 (TF-A) is loaded, or zero if BL31 is not used.
+@@ -339,6 +342,7 @@ config MACH_SUNXI_H3_H5
+ config SUNXI_DRAM_MAX_SIZE
+ 	hex
+ 	default 0x100000000 if MACH_SUN50I_H616 || MACH_SUN50I_A133 || MACH_SUN55I_A523
++	default 0x400000000 if MACH_SUN60I_A733
+ 	default 0xC0000000 if MACH_SUN50I || MACH_SUN50I_H5 || MACH_SUN50I_H6
+ 	default 0x80000000
+ 
+@@ -553,6 +557,15 @@ config MACH_SUN55I_A523
+ 	select SPL_LOAD_FIT if SPL
+ 	imply OF_UPSTREAM
+ 
++config MACH_SUN60I_A733
++	bool "sun60i (Allwinner A733)"
++	select ARM64
++	select SUNXI_GEN_NCAT2
++	select SUNXI_A733_PINCTRL
++	select FIT
++	select SPL_LOAD_FIT if SPL
++	select SUPPORT_SPL
 +
-+		if (IS_ENABLED(CONFIG_MACH_SUN60I_A733))
-+			pll_hz /= 3;
- 	}
+ endchoice
  
- 	div = pll_hz / hz;
-@@ -167,7 +170,8 @@ static int mmc_set_mod_clk(struct sunxi_mmc_priv *priv, unsigned int hz)
- 	}
+ # The sun8i SoCs share a lot, this helps to avoid a lot of "if A23 || A33"
+@@ -870,6 +883,7 @@ config SYS_CONFIG_NAME
+ 	default "sun50i" if MACH_SUN50I_H616
+ 	default "sun50i" if MACH_SUN50I_A133
+ 	default "sun55i" if MACH_SUN55I_A523
++	default "sun60i" if MACH_SUN60I_A733
  
- 	/* The A523 has a second divider, not a shift. */
--	if (IS_ENABLED(CONFIG_MACH_SUN55I_A523))
-+	if (IS_ENABLED(CONFIG_MACH_SUN55I_A523) ||
-+	    IS_ENABLED(CONFIG_MACH_SUN60I_A733))
- 		n = (1U << n) - 1;
- 
- 	writel(CCM_MMC_CTRL_ENABLE| pll | CCM_MMC_CTRL_N(n) |
-@@ -661,15 +665,25 @@ static const struct dm_mmc_ops sunxi_mmc_ops = {
- 	.get_cd		= sunxi_mmc_getcd,
- };
- 
--static unsigned get_mclk_offset(void)
-+static unsigned int get_mclk_offset(int mmc_no)
- {
-+	unsigned int size, offset;
+ config SYS_BOARD
+ 	default "sunxi"
+diff --git a/arch/arm/mach-sunxi/cpu_info.c b/arch/arm/mach-sunxi/cpu_info.c
+index c3a51d9956e..f0b33bb9097 100644
+--- a/arch/arm/mach-sunxi/cpu_info.c
++++ b/arch/arm/mach-sunxi/cpu_info.c
+@@ -108,6 +108,8 @@ int print_cpuinfo(void)
+ 	puts("CPU:   Allwinner A133 (SUN50I)\n");
+ #elif defined CONFIG_MACH_SUN55I_A523
+ 	puts("CPU:   Allwinner A523 (SUN55I)\n");
++#elif defined CONFIG_MACH_SUN60I_A733
++	puts("CPU:   Allwinner A733 (SUN60I)\n");
+ #else
+ #warning Please update cpu_info.c with correct CPU information
+ 	puts("CPU:   SUNXI Family\n");
+diff --git a/common/spl/Kconfig b/common/spl/Kconfig
+index 24d6ce5d739..ba98b76bbc6 100644
+--- a/common/spl/Kconfig
++++ b/common/spl/Kconfig
+@@ -81,6 +81,7 @@ config SPL_MAX_SIZE
+ 	default 0xec00 if OMAP34XX
+ 	default 0x10000 if ARCH_MX6 && !MX6_OCRAM_256KB
+ 	default 0xbfa0 if MACH_SUN50I_H616 || MACH_SUN50I_A133 || MACH_SUN55I_A523
++	default 0x2d000 if MACH_SUN60I_A733
+ 	default 0x7000 if RCAR_GEN3
+ 	default 0x5fa0 if SUNXI_SRAM_ADDRESS = 0x0
+ 	default 0x7fa0 if ARCH_SUNXI
+@@ -279,6 +280,7 @@ config SPL_TEXT_BASE
+ 	default 0x40301350 if OMAP54XX
+ 	default 0x10060 if MACH_SUN50I || MACH_SUN50I_H5 || MACH_SUN9I
+ 	default 0x44060 if MACH_SUN55I_A523
++	default 0x47060 if MACH_SUN60I_A733
+ 	default 0x20060 if SUN50I_GEN_H6 || SUNXI_GEN_NCAT2
+ 	default 0x00060 if ARCH_SUNXI
+ 	default 0xfffc0000 if ARCH_ZYNQMP
+@@ -434,6 +436,7 @@ config SPL_STACK
+ 	default 0x52a00 if MACH_SUN50I_H616
+ 	default 0x40000 if MACH_SUN8I_R528 || MACH_SUN50I_A133
+ 	default 0x44000 if MACH_SUN55I_A523
++	default 0x5A000 if MACH_SUN60I_A733
+ 	default 0x54000 if MACH_SUN50I || MACH_SUN50I_H5
+ 	default 0x18000 if MACH_SUN9I
+ 	default 0x8000 if ARCH_SUNXI
+diff --git a/include/configs/sun60i.h b/include/configs/sun60i.h
+new file mode 100644
+index 00000000000..70649366c1c
+--- /dev/null
++++ b/include/configs/sun60i.h
+@@ -0,0 +1,11 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++/*
++ * Placeholder wrapper to allow addressing Allwinner devices with Cortex-A55
++ * cores separately. Please do not add anything in here.
++ */
++#ifndef __CONFIG_H
++#define __CONFIG_H
 +
- 	if (IS_ENABLED(CONFIG_MACH_SUN9I_A80))
--		return 0x410;
-+		offset = 0x410;
-+	else if (IS_ENABLED(CONFIG_MACH_SUN60I_A733))
-+		offset = 0xd00;
-+	else if (IS_ENABLED(CONFIG_SUN50I_GEN_H6) || IS_ENABLED(CONFIG_SUNXI_GEN_NCAT2))
-+		offset = 0x830;
-+	else
-+		offset = 0x88;
- 
--	if (IS_ENABLED(CONFIG_SUN50I_GEN_H6) || IS_ENABLED(CONFIG_SUNXI_GEN_NCAT2))
--		return 0x830;
-+	if (IS_ENABLED(CONFIG_MACH_SUN60I_A733))
-+		size = 0x10;
-+	else
-+		size = 0x4;
- 
--	return 0x88;
-+	return offset + size * mmc_no;
- };
- 
- static int sunxi_mmc_probe(struct udevice *dev)
-@@ -707,7 +721,7 @@ static int sunxi_mmc_probe(struct udevice *dev)
- 	ccu_reg = (u32 *)(uintptr_t)ofnode_get_addr(args.node);
- 
- 	priv->mmc_no = ((uintptr_t)priv->reg - SUNXI_MMC0_BASE) / 0x1000;
--	priv->mclkreg = (void *)ccu_reg + get_mclk_offset() + priv->mmc_no * 4;
-+	priv->mclkreg = (void *)ccu_reg + get_mclk_offset(priv->mmc_no);
- 
- 	ret = clk_get_by_name(dev, "ahb", &gate_clk);
- 	if (!ret)
++#include <configs/sunxi-common.h>
++
++#endif /* __CONFIG_H */
 
 -- 
 2.52.0
