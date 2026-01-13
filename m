@@ -1,119 +1,68 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274FC3904C9
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Jan 2026 12:38:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B7E51CAA79;
+	Tue, 13 Jan 2026 15:49:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768307902; cv=none; b=Fh/vb3v746W2IJXjWktcwtdOgIAFhUQZxRVqBn/k+We1ZH0ll6EKNr53xTgCXdRfug3OdTiBUy/pFmmN81huCNsHa/Hqm5qIqjJ448mNFa672pR3zC6Fp4SQEy+olyQ841OFnLPFSTIJTOvhPcFu0qef/BlLwx3KB5xwhGO7Jbs=
+	t=1768319356; cv=none; b=cGLKUQ1zoDU5BQx/Dg1GTJ80NTgfyi3GbUNquz9v4rX4gR+1CiAiXAvLC7TfErEcxJS+MylkmJZoEmtne/Cx2sFOxNc+KC+KQjUq8CdTpFtlIsaLFMUUlsTwSI3RPDTXD+pG6RKMs3igOzG1JTJXIzr2bzYJe7iPitCb2KHc4+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768307902; c=relaxed/simple;
-	bh=qXScHYuCzd215t8hnmVMyfAJzYu9LaTDkfUenYtogos=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mGnl+pYnqDZTrhubotv7FS8qyUEYK31FTWE/X40Hz2P8FyEeroQRU6jiiuicDP55tQbD3/lBA6CgP4KGY8zW5mzUntRWebt2n6SD+vpH9ZT2kkc8jGfszIN5ZuFB9jLnqySj82sHL9qdVO8QLAia3KZre6SXrvbMg+oEvEr/oSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DMKO3wDO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768319356; c=relaxed/simple;
+	bh=DL6DumQuAKzxPXqlFPaLc/uXsPbWMPmwgxQv1tCvmW0=;
+	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=p+R0cKUlHkaBlJ8jB1J51hkvlfp0wx0MKfDnT4CXHqw1m5As+klbVHV0qdreNdi3WvNQqQz6bfZf8VidAXlzGQvI7OwEnyrd9T9Q6C+vlZnZFenuvuogz/dLjPwO87RotQ2rwbMraLfG0ixP3vs9NA1oWnVokgAytqi4AuvQ89Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ODQ4NksF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DMKO3wDO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EDC6C2BD04
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Jan 2026 12:38:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ODQ4NksF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29C9CC116C6;
+	Tue, 13 Jan 2026 15:49:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768307901;
-	bh=qXScHYuCzd215t8hnmVMyfAJzYu9LaTDkfUenYtogos=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=DMKO3wDOQyqAMkRsF3KjP1QgKWLmG/bIgkwkqikQWX7/JxeRnNe7RTYQnbhOkMfPE
-	 G+G+GVnK7BcA67OKp/w9uYGtoDKb6gYsPJFta0W9o3WbrjYSxf+gdK+PIoWXEDVRpB
-	 Q5EBZu76fgMusQwSmXX/liK7piEEVzbTmPGCiEh5Np1ueLICoCxv+JeymLWcnk+8zE
-	 HJZlIdI9MFRGAndmHTk7bTK8js1iFU5lIaAW8gyi5nhPAB7QNOe9kboOVP1zt4i3+k
-	 wUKGh42sKh+F35XHH38iMuMWdGE+RTZk9+LCDvYE3jVMx6N3ZypoG2kBxgAbxjzKHh
-	 WESRwPJzz6AdA==
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-382fceabddfso52610781fa.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 13 Jan 2026 04:38:20 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVcKpPtTfym0qtDGAIgbhVlqvwP3SjatuEV8Rr/lE60755BcSCnMeW/K3aKHsrBie4EAgH7HtUkJMJtaw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyQBP16KZKsb8UoihORwigytYLiaDrNzEpwgJUWPq0SWx86QFgm
-	S8X1YFq5B5jfPgoQaxOxiWR4ss3IU4ERhLHubNxMezn++47iloup2VB2nLmR7ySOHt+XGCrhBnd
-	UGwIruSHMbNpfffrVHtjMTTJsALQrHEMtzfQog21KVg==
-X-Google-Smtp-Source: AGHT+IHqazDCuLxwH7Iu/G2PkGJgVTJ7/k1UTcZwajhZd9YF9n/CenHYLasZcuGAB0SV4lL43Mgtox5RINYhxwkIRxc=
-X-Received: by 2002:a05:651c:30c9:b0:37b:967e:d73 with SMTP id
- 38308e7fff4ca-382ff8115efmr73607701fa.29.1768307899461; Tue, 13 Jan 2026
- 04:38:19 -0800 (PST)
+	s=k20201202; t=1768319355;
+	bh=DL6DumQuAKzxPXqlFPaLc/uXsPbWMPmwgxQv1tCvmW0=;
+	h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+	b=ODQ4NksF3kuHZBXFrgVhO5YpFUJpkPm/Y/ykp4ja265B9koe5WMdyqy+E05tAAZ9I
+	 72miO/eTCw+4ieuqPduuyfRQ8fH/f6RevBvbLVDbhX3MAjoniVXn0FCesEe72DJAo/
+	 3fUqPSxrvHxlr8Ffqk32DIEOkuVdNOF7MNY4plwxnA6wIsnNx2GgqyaQ07DkdZ93q7
+	 GTpJaGN1F+uPxz31M4z56R8tgVXqeREpMudytTEwp6Md/UwHOHqmomDvhT5PuYPXDz
+	 9m8ijAKcWHtnoYyPTs3TsO9dFvZ2fSwcgxvzJ73hCoeYb0U/pZlaBzOKf7T7MA1Nnn
+	 94EzzfkDfKcjQ==
+Message-ID: <a3405fd8966a11655e39685e751832bf@kernel.org>
+Date: Tue, 13 Jan 2026 15:49:13 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
+Subject: Re: [PATCH v4 03/10] drm/sun4i: hdmi_enc: implement clear_infoframe
+ stub
+In-Reply-To: <20260107-limit-infoframes-2-v4-3-213d0d3bd490@oss.qualcomm.com>
+References: <20260107-limit-infoframes-2-v4-3-213d0d3bd490@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, "Abhinav
+ Kumar" <abhinav.kumar@linux.dev>, "Andrzej Hajda" <andrzej.hajda@intel.com>, "Andy
+ Yan" <andy.yan@rock-chips.com>, "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>, "Chen-Yu
+ Tsai" <wens@kernel.org>, "Chun-Kuang Hu" <chunkuang.hu@kernel.org>, "Dave
+ Stevenson" <dave.stevenson@raspberrypi.com>, "David Airlie" <airlied@gmail.com>, "Dmitry
+ Baryshkov" <lumag@kernel.org>, =?utf-8?b?SGVpa28gU3TDvGJuZXI=?= <heiko@sntech.de>, "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>, "Jessica Zhang" <jesszhan0024@gmail.com>, "Jonas
+ Karlman" <jonas@kwiboo.se>, "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Liu
+ Ying" <victor.liu@nxp.com>, "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Marijn
+ Suijten" <marijn.suijten@somainline.org>, "Matthias Brugger" <matthias.bgg@gmail.com>, "Maxime
+ Ripard" <mripard@kernel.org>, =?utf-8?b?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>, "Philipp Zabel" <p.zabel@pengutronix.de>, "Raspberry
+ Pi Kernel Maintenance" <kernel-list@raspberrypi.com>, "Rob Clark" <robin.clark@oss.qualcomm.com>, "Robert
+ Foss" <rfoss@kernel.org>, "Samuel Holland" <samuel@sholland.org>, "Sandy
+ Huang" <hjc@rock-chips.com>, "Sean Paul" <sean@poorly.run>, "Simona Vetter" <simona@ffwll.ch>, "Thomas
+ Zimmermann" <tzimmermann@suse.de>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260112-qcom-sa8255p-emac-v6-0-86a3d4b2ad83@oss.qualcomm.com>
- <20260112-qcom-sa8255p-emac-v6-7-86a3d4b2ad83@oss.qualcomm.com> <41b9a414-55a0-4602-9be5-54137a691d9f@lunn.ch>
-In-Reply-To: <41b9a414-55a0-4602-9be5-54137a691d9f@lunn.ch>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Tue, 13 Jan 2026 13:38:07 +0100
-X-Gmail-Original-Message-ID: <CAMRc=McP7vt2VS=2FpzYcXNG_+beb9O0AAvAJ9E2g8DT2WTfPA@mail.gmail.com>
-X-Gm-Features: AZwV_QhJCTDCGsC5t4RHVGQlo_Vyd1Okk9vVsia2jA5DJVHGvVefyoWQdJ752O4
-Message-ID: <CAMRc=McP7vt2VS=2FpzYcXNG_+beb9O0AAvAJ9E2g8DT2WTfPA@mail.gmail.com>
-Subject: Re: [PATCH RESEND net-next v6 7/7] net: stmmac: qcom-ethqos: add
- support for sa8255p
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Richard Cochran <richardcochran@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Vinod Koul <vkoul@kernel.org>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Matthew Gerlach <matthew.gerlach@altera.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Keguang Zhang <keguang.zhang@gmail.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com, 
-	Romain Gantois <romain.gantois@bootlin.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
-	Emil Renner Berthing <kernel@esmil.dk>, Minda Chen <minda.chen@starfivetech.com>, 
-	Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, 
-	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Maxime Ripard <mripard@kernel.org>, Shuang Liang <liangshuang@eswincomputing.com>, 
-	Zhi Li <lizhi2@eswincomputing.com>, Shangjuan Wei <weishangjuan@eswincomputing.com>, 
-	"G. Jaya Kumaran" <vineetha.g.jaya.kumaran@intel.com>, Clark Wang <xiaoning.wang@nxp.com>, 
-	Linux Team <linux-imx@nxp.com>, Frank Li <Frank.Li@nxp.com>, David Wu <david.wu@rock-chips.com>, 
-	Samin Guo <samin.guo@starfivetech.com>, 
-	Christophe Roullier <christophe.roullier@foss.st.com>, Swathi K S <swathi.ks@samsung.com>, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, Drew Fustini <dfustini@tenstorrent.com>, 
-	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org, 
-	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	sophgo@lists.linux.dev, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 12, 2026 at 2:55=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wrote:
->
-> On Mon, Jan 12, 2026 at 11:15:46AM +0100, Bartosz Golaszewski wrote:
-> > From: Bartosz Golaszewski <brgl@kernel.org>
-> >
-> > Extend the driver to support a new model - sa8255p. Unlike the
-> > previously supported variants, this one's power management is done in
-> > the firmware using SCMI. This is modeled in linux using power domains s=
-o
-> > add support for them.
->
-> >  static const struct of_device_id qcom_ethqos_match[] =3D {
-> >       { .compatible =3D "qcom,qcs404-ethqos", .data =3D &emac_qcs404_da=
-ta},
-> > +     { .compatible =3D "qcom,sa8255p-ethqos", .data =3D &emac_sa8255p_=
-data},
->
-> Is this device being probed via DT or ACPI?
->
+On Wed, 7 Jan 2026 20:15:00 +0200, Dmitry Baryshkov wrote:
+> In preparation to making clear_infoframes callbacks required, add a stub
+> to the sun4i driver.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-On the sa8255p it's probed via DT but all its resources are managed in
-firmware over SCMI.
+Acked-by: Maxime Ripard <mripard@kernel.org>
 
-Bartosz
+Thanks!
+Maxime
