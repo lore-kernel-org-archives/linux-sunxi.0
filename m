@@ -1,141 +1,158 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C23343D9E
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Jan 2026 10:03:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63FA938A2B0
+	for <linux-sunxi@lists.linux.dev>; Tue, 13 Jan 2026 10:13:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768298601; cv=none; b=YAz3WLNvd5ZXYqk7oiGdsNk0Bdz5m+vLV+VVo+7uHGl5WDVUNzdL3ah96OpSbG7WN/mWXd7AXQgyas4MlMx8mK8BpCNb3rnjDcxCtYaUUvzvTw/Q4QkJPR5+Sox9hOAf8u9cmCu8rf/YYRfyhFKsD1umEqcOuyXuu7PYINNA4Ic=
+	t=1768299216; cv=none; b=uSihSg24iUXOYgEY7PR+00Kuqw36OvqDwktKqt6EZXOr9FtvZCbc5yD+tsC1wmd30lxmQR2Cy3LZFIpWp6xeMb/vDBbsBN09bH5EIGNYY5jnfiRrLQWB+I9ttdDhEYLEqSqVXxx4oFXZ+rlK6eXEqhK98QSCKqVnfl0LpTm4GVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768298601; c=relaxed/simple;
-	bh=kSUNpGe+C0VBeSl9/U4AI2gwLXLtaqearKrA8/TMclE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yp6Eu/DW1xg+RKqdtQbybvnlbknj3z75jowvLb+jSmKGfZJwKkd9U8sl+z5GoLe+2AHsVkrLTiJaTEAt1N5GWpxry8R/NyGeXAHTqi6gKgb3efYskA1CwQFv5RNCn4Uvxn+3JfgxwpVK0qJXjUUk61J/+IzFa4VpxDrf3Y8z5NQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=InDqdP/y; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1768299216; c=relaxed/simple;
+	bh=RpOnPNW4xfI0Kz9zhPqicYu/rLC2pTmpoM33Trm+SMg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=skiMC2oc0hkx8ITM2WHKwUTpO30CrzRzgDDU0w/YTnG3gW72uInucfa0L6WN92n/IRjRJ1gTk3h921LHHdMgWt9hikral8hdt5A/OjuHBE/8zcKYLuc2X8oAmaNVwgRl6lJJcBbjtXdAWv0XAO1D+1AIRoyQwq56hYnrQELY0Ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dBkyBNzZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="InDqdP/y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=YwgY
-	ABMUC2TvlP+jRUvO7d92limdvKOaBOk3hHKu1Ho=; b=InDqdP/yV0uKcw4qWt90
-	GgKu/Zem8CaPzrKy7P3o5LDdvi4II9brMZQCjCafrEDy2yGt4/P4m4hbEd2TX71a
-	pHTSM1tbS4cfhrIsENI/JynCBuLOT8G/OoQyKdjvN/eywkBidnxr8j7howQwISq4
-	A21WgAzIUN2ydHMBddIu55ZkFnAwL591j1EDXGC3TppcCQM/Tsu76K4LcPKjJh4G
-	bXrnki9aTIHPR7OgISJt0W3gMKwOw7b15rV5E42mOtFyHUkMRpiOuieMO38rVMfZ
-	pEZe6QYyoyPpVTOHnN5d3k1w46SpuaPheVVxniG0Rt4S06PyiY3QqExmS6DeJyxu
-	XA==
-Received: (qmail 1631988 invoked from network); 13 Jan 2026 11:03:16 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Jan 2026 11:03:16 +0100
-X-UD-Smtp-Session: l3s3148p1@sbW2GUJIiN4ujnvx
-Date: Tue, 13 Jan 2026 11:03:16 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Andi Shyti <andi.shyti@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Khalil Blaiech <kblaiech@nvidia.com>,
-	Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-actions@lists.infradead.org,
-	Bartosz Golaszewski <brgl@kernel.org>
-Subject: Big I2C core changes coming up this year (was: Re: [PATCH 00/12]
- i2c: add and start using i2c_adapter-specific printk helpers
-Message-ID: <aWYYZEPX-_1GfQtL@ninjato>
-References: <20251223-i2c-printk-helpers-v1-0-46a08306afdb@oss.qualcomm.com>
- <aUql_tZisfH8E1bq@hovoldconsulting.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dBkyBNzZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12BC3C2BCB5
+	for <linux-sunxi@lists.linux.dev>; Tue, 13 Jan 2026 10:13:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768299216;
+	bh=RpOnPNW4xfI0Kz9zhPqicYu/rLC2pTmpoM33Trm+SMg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=dBkyBNzZyikYWHBI84mEzG69MRM616RZBoMsO0F3Q1c1T/St0KrZ9e2JUQUHBxmA2
+	 3ghOxlMMpbwvS/wL74la9lRVcw7lVZLTyWJiprsxF5/oDzdFtYs3SmKTcdV3GQohVx
+	 6ukv6oI7L/80VLsINJQ3gIGwywWiYE4fp1vBKJEyuSQnejwmmr6sqzttwZsXeXj3ba
+	 X+Klx3wBvBhfpoXyoeO/EffiVahCypVxOcHqGQ6XJH0tDrCHhaz16CsG2xGrUPWY6N
+	 NsymtWt2Boevzn0e3ExO19xgQ8iQhqLMnifQUiiSr4WPa1qIiWHnrxefRm2bdiPR2v
+	 DCFLKopJUBlYA==
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-78fc3572431so82402647b3.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 13 Jan 2026 02:13:36 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU7sQCXG7tGVcQXiNj5sksTiDoDyQMJYOTgpj7+lvUJ507OhTNJu6MRS6wZUsyM58ip/acFVkZBaTlrpA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxO5O8gKC8qLUyXzXClnKEdfiR/bp1/OhLe6ptJ91LztiEiSW7O
+	A35ljZVyjmrywexE30Le2WDysO2X0Yx4PoN6Azw7flpdBOihAVjZkpU/kwLFLmzUziXyHDu95u0
+	dHtc1ObRYBIQtRr/WfQdiLeSlayqTpyE=
+X-Google-Smtp-Source: AGHT+IEjXK4zNU3B8MFfoIndGOeB/FKQBt1cyG91VMuMhesDC6zUrt9ZhhHY6gJ4lWXzCFjcVvXXmBBHZkq1dqdQ1TU=
+X-Received: by 2002:a05:690e:1442:b0:644:51a4:4f1a with SMTP id
+ 956f58d0204a3-64716c67be2mr17455597d50.46.1768299214202; Tue, 13 Jan 2026
+ 02:13:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aUql_tZisfH8E1bq@hovoldconsulting.com>
+References: <20260112203534.4186261-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20260112203534.4186261-1-andriy.shevchenko@linux.intel.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Tue, 13 Jan 2026 11:13:22 +0100
+X-Gmail-Original-Message-ID: <CAD++jLkBKcK9eKOCfry2H1DzG=5Z93w2U-SRwHf2dkRBhyxQRw@mail.gmail.com>
+X-Gm-Features: AZwV_Qgxd8O6AeWZ_24rr74gIMc3R8RlMUxlB-x9t8krXDZ9OpAu7ZlluLqPS50
+Message-ID: <CAD++jLkBKcK9eKOCfry2H1DzG=5Z93w2U-SRwHf2dkRBhyxQRw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] spi: Make SPI core to take care of fwnode assignment
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Mark Brown <broonie@kernel.org>, 
+	Varshini Rajendran <varshini.rajendran@microchip.com>, 
+	Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Haotian Zhang <vulab@iscas.ac.cn>, 
+	Sunny Luo <sunny.luo@amlogic.com>, Janne Grunau <j@jannau.net>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Chen-Yu Tsai <wens@kernel.org>, 
+	Amelie Delaunay <amelie.delaunay@foss.st.com>, Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, 
+	CL Wang <cl634@andestech.com>, Patrice Chotard <patrice.chotard@foss.st.com>, 
+	Heiko Stuebner <heiko@sntech.de>, William Zhang <william.zhang@broadcom.com>, 
+	=?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+	Manikandan Muralidharan <manikandan.m@microchip.com>, David Lechner <dlechner@baylibre.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Jonas Gorski <jonas.gorski@gmail.com>, 
+	Hang Zhou <929513338@qq.com>, Jun Guo <jun.guo@cixtech.com>, 
+	Philipp Stanner <phasta@kernel.org>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Bartosz Golaszewski <brgl@kernel.org>, =?UTF-8?Q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>, 
+	Shiji Yang <yangshiji66@outlook.com>, James Clark <james.clark@linaro.org>, 
+	Jonathan Marek <jonathan@marek.ca>, Carlos Song <carlos.song@nxp.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Huacai Chen <chenhuacai@kernel.org>, 
+	Xianwei Zhao <xianwei.zhao@amlogic.com>, 
+	Prajna Rajendra Kumar <prajna.rajendrakumar@microchip.com>, 
+	Sergio Perez Gonzalez <sperezglz@gmail.com>, Qianfeng Rong <rongqianfeng@vivo.com>, 
+	Haibo Chen <haibo.chen@nxp.com>, Gabor Juhos <j4g8y7@gmail.com>, 
+	Md Sadre Alam <quic_mdalam@quicinc.com>, Rosen Penev <rosenp@gmail.com>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Luis de Arquer <luis.dearquer@inertim.com>, 
+	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>, 
+	Tudor Ambarus <tudor.ambarus@linaro.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Longbin Li <looong.bin@gmail.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+	=?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>, 
+	Alessandro Grassi <alessandro.grassi@mailbox.org>, Darshan R <rathod.darshan.0896@gmail.com>, 
+	Aaron Kling <webgeek1234@gmail.com>, Vishwaroop A <va@nvidia.com>, 
+	Haixu Cui <quic_haixcui@quicinc.com>, Darshan Rathod <darshanrathod475@gmail.com>, 
+	linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	asahi@lists.linux.dev, linux-aspeed@lists.ozlabs.org, 
+	openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+	imx@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	virtualization@lists.linux.dev, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, Ray Liu <ray.liu@airoha.com>, Sven Peter <sven@kernel.org>, 
+	Neal Gompa <neal@gompa.dev>, Joel Stanley <joel@jms.id.au>, 
+	Andrew Jeffery <andrew@codeconstruct.com.au>, Ryan Wanner <ryan.wanner@microchip.com>, 
+	Michael Hennerich <michael.hennerich@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Kamal Dasu <kamal.dasu@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, Kursad Oney <kursad.oney@broadcom.com>, 
+	Anand Gore <anand.gore@broadcom.com>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
+	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
+	Vladimir Oltean <olteanv@gmail.com>, Frank Li <Frank.Li@nxp.com>, Jean-Marie Verdun <verdun@hpe.com>, 
+	Nick Hawkins <nick.hawkins@hpe.com>, Yang Shen <shenyang39@huawei.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Lixu Zhang <lixu.zhang@intel.com>, Yinbo Zhu <zhuyinbo@loongson.cn>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Conor Dooley <conor.dooley@microchip.com>, 
+	Daire McNamara <daire.mcnamara@microchip.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, 
+	Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, 
+	Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, Han Xu <han.xu@nxp.com>, 
+	Yogesh Gaur <yogeshgaur.83@gmail.com>, Daniel Mack <daniel@zonque.org>, 
+	Haojian Zhuang <haojian.zhuang@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
+	Chris Packham <chris.packham@alliedtelesis.co.nz>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Andi Shyti <andi.shyti@kernel.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Paul Walmsley <pjw@kernel.org>, 
+	Samuel Holland <samuel.holland@sifive.com>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Alain Volmat <alain.volmat@foss.st.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Li-hao Kuo <lhjeff911@gmail.com>, Masahisa Kojima <masahisa.kojima@linaro.org>, 
+	Jassi Brar <jaswinder.singh@linaro.org>, Laxman Dewangan <ldewangan@nvidia.com>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Sowjanya Komatineni <skomatineni@nvidia.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Michal Simek <michal.simek@amd.com>, Max Filippov <jcmvbkbc@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Johan, (and all future readers I have pointed to this mail)
+On Mon, Jan 12, 2026 at 9:35=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 
-> No, this is not the way to do it. You start with designing and showing
-> what the end result will look like *before* you start rewriting world
-> like you are doing here.
+> It seems all of the SPI drivers want to propagate fwnode (or of_node)
+> of the physical device to the SPI device. Make sure we don't duplicate
+> it over and over in each new driver (+2 in this cycle) by making core
+> to take care of that. Note, similar is done already by IIO and
+> I=C2=B2C subsystems.
+>
+> There is one noticeable and quite specific case that is taken care in
+> the first patch and now we have a confirmation from Cirrus that everythin=
+g
+> is okay.  The rest is just a mechanical conversion after checking that
+> the parent device is assigned to the same that provides the respective
+> fwnode.
 
-In general, this is correct. It does not apply here, though. I will
-describe it in detail, so I can also point other people to this mail who
-wonder about quite some intrusive changes to I2C core this year.
+This is clearly making the kernel a better place.
 
-> We should not be making driver code less readable just to address some
-> really niche corner cases like hot pluggable i2c controllers.
+The series:
+Reviewed-by: Linus Walleij <linusw@kernel.org>
 
-It is not a niche-case for hot-plugging. Hot-plugging (which still
-should be avoided for I2C) just makes a subsystem-inherent lifecycle
-problem more obvious. All of Bart's patch series basically prepare to
-tackle this comment from the I2C core:
-
-1805         /* wait until all references to the device are gone
-1806          *
-1807          * FIXME: This is old code and should ideally be replaced by an
-1808          * alternative which results in decoupling the lifetime of the struct
-1809          * device from the i2c_adapter, like spi or netdev do. Any solution
-1810          * should be thoroughly tested with DEBUG_KOBJECT_RELEASE enabled!
-1811          */
-1812         init_completion(&adap->dev_released);
-1813         device_unregister(&adap->dev);
-1814         wait_for_completion(&adap->dev_released);
-
-This has been in the I2C core since switching to the driver model and
-the underlying problem applies to *all* i2c adapters. Simply unbind an
-I2C controller while you still have a reference to its i2c-dev
-counterpart and you are right in the problem space.
-
-The problem is known for decades(!) and nobody dared to touch it, so
-far. Even worse, the above pattern is not only present in I2C but also
-other subsystems. Bart and I have been talking about potential solutions
-for three years now. Bart brought in SRCU as a generic solution and at a
-Plumbers 2024 session with many experienced maintainers present, it was
-decided that this path is worth exploring. Greg suggested to try SRCU
-with GPIO and I2C subsystems, and if this works well, we can try to
-abstract it into something useful for other canidates as well. Now,
-recently, the 'revocable' patch series was introduced which might be
-helpful in our case. I am *extremly* thankful that Bartosz took the
-initiative to prepare the I2C core for the SRCU approach so we can
-research 'revocable'. I currently have zero time for implementing any of
-this. At least, from now on, I can reserve time for discussing, testing,
-reviewing patches.
-
-It is also perfectly okay to work incrementally here, in my book. It is
-such an intrusive change that we need to touch a lot of drivers in any
-case. Yet, with the I2C core being a moving target, all the I2C drivers,
-the 'revocable' patch series, and Linux in general, I think requesting a
-fully complete patch series now is neither efficient nor maintainable.
-
-Bartosz and I do have a plan. We are happy to discuss it with other
-interested people, of course. Still, despite all our efforts it might be
-a bumpy ride. Because it is such a crucial and deep-inside change to the
-subsystem core. This is part of development, though. If something
-breaks, we will fix or revert. The alternative is stagnation which I
-don't want. The above code was fine back in the days but now we have
-better mechanisms to handle lifecycle issues. And I really do not want
-Linux to have lifecycle issues. Especially not ones we *know of*.
-
-And who knows, maybe it is not a bumpy ride after all...
-
-> But in any case, don't get ahead of things by posting changes that we
-> most likely don't want in the end anyway.
-
-We want helpers accessing that specific 'struct device', so we have
-central place to implement access to a protected version of it.
-
-Happy hacking,
-
-   Wolfram
-
+Yours,
+Linus Walleij
