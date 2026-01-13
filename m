@@ -1,210 +1,86 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA532E7185
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Jan 2026 04:03:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A743806AA
+	for <linux-sunxi@lists.linux.dev>; Tue, 13 Jan 2026 08:42:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768276990; cv=none; b=uAGPErnT/dZP6HU/DKADMgLBgr0VHmcUZbCivig3TLElzSpGv06WSrVVNrggoXauHtHdXmxglN1SYo0tvOTaK0qOMoaGGG20i2XrFnfJPyzg9kKhwz77uIwTbowQol1oYArE12XzGXCdi005ndqtYGQEknQMP3lMgzWPzFQEgdc=
+	t=1768293730; cv=none; b=WodNiEz3DrxaLhJpAQb4klkZ9HU7MHU++B9ihKYYOKUcYNZ+brhYO0eWicDgtKUmTeWqWPlN16IHMaHCYvZ31xQo/eup/P8h2Qd1pYntz3LbAqWsiUYh50E86zE2Vwm6dSIYFOJ6VtDQ3vKJRLARb8yZxgVybbXwOeQRbBLQT3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768276990; c=relaxed/simple;
-	bh=i9aR16qXn+fHTQC/eS+j+9JkfrsJeU/SfLtZSsOzQA0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qYrbT4Xreg8Y2J/T69UP292dsKCmdlfxIG+HWRd8QnoKRJkCkjUb89OjwwOgnyTk7gogCrt3C2VVzhEYE3aw4ZrcSZvk2vUQpGKZFzR2gjvKLtvjrxAurwEC/x1kkjmpiClvtAXt+4tKneO3uq/v1hnMTg3dzgBZYI3BMdzWgTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from ofovo.local (unknown [116.232.18.222])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dlan)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id 6FF33340ED3;
-	Tue, 13 Jan 2026 04:03:06 +0000 (UTC)
-From: Yixun Lan <dlan@gentoo.org>
-Date: Tue, 13 Jan 2026 12:02:03 +0800
-Subject: [PATCH v3 9/9] sunxi: sun60i: initial support for A733 SoC
+	s=arc-20240116; t=1768293730; c=relaxed/simple;
+	bh=eTaa7uYVYlhQUbpYnGgaDJsedn/8UNk3+6twemkS4Do=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UZukX1NU1q3a0+1dmcA0XjcxVp5qKDP6re7aNZsGWpiq2dbkVQiodbgpXxRYyiTDkSnpX8TzsuVd6yyfa2/Xl5Noo5+/d4eTL91LzA5x5a/ry1arE5hNdBvQAddpdFbU/Uv9XxaIhNhrEzFEN+j+JA0Hnu6CL+qNp0tabog+xTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=D4bCiz1s; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="D4bCiz1s"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 7A1CA1A2827;
+	Tue, 13 Jan 2026 08:42:05 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 3871B60732;
+	Tue, 13 Jan 2026 08:42:05 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 22D80103C8A64;
+	Tue, 13 Jan 2026 09:41:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1768293724; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=pU7qH//lkIIPOm3hIL5pTBY7h36/3Zgg7ieWlukkNE0=;
+	b=D4bCiz1sH77ktIaCzuq9ouXD6Bb+9rcZLbksqXn5C5ZShIDVgPNKcycB5YHLz1ljAdTywQ
+	yizWUJ2Ong5/FkCDGAY2FwIRFtw57d1tgtKzXkbBUejiYBk6x84Jl+81nnJroZsIteoCc/
+	HtNh0V8qXoeW6/JwFvMcybq32S+Y7BMLJlOKfQdC1+mkuUlvaOe/efPeSi9+HT3O36e085
+	KVGIxEQfMxo6pGC1Nw8Ly7EpKh/QRV7ImiupwpK4xZBTi8R/8yxfH232Y0gsjoWLEh6Ogb
+	vzHUA7bwXJpaICbUmsXzlCR0TknanG2tPNKrXGK9+0AHTIjUZPh3oP8iXHnX9g==
+Message-ID: <d077abbb-6a4b-4349-88be-0d90e23eb570@bootlin.com>
+Date: Tue, 13 Jan 2026 09:41:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260113-01-a733-soc-support-v3-9-f19dcd098f60@gentoo.org>
-References: <20260113-01-a733-soc-support-v3-0-f19dcd098f60@gentoo.org>
-In-Reply-To: <20260113-01-a733-soc-support-v3-0-f19dcd098f60@gentoo.org>
-To: u-boot@lists.denx.de
-Cc: linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, Tom Rini <trini@konsulko.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Paul Kocialkowski <contact@paulk.fr>, Samuel Holland <samuel@sholland.org>, 
- Yixun Lan <dlan@gentoo.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5136; i=dlan@gentoo.org;
- h=from:subject:message-id; bh=i9aR16qXn+fHTQC/eS+j+9JkfrsJeU/SfLtZSsOzQA0=;
- b=owEB6QIW/ZANAwAKATGq6kdZTbvtAcsmYgBpZcPaX34KBdFqH3jNWmFrlQ+nmvQzR9SagFAfJ
- v3+9kGCtguJAq8EAAEKAJkWIQS1urjJwxtxFWcCI9wxqupHWU277QUCaWXD2hsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMSwyLDJfFIAAAAAALgAoaXNzdWVyLWZwckBub3RhdGlvbnMub3BlbnBncC5
- maWZ0aGhvcnNlbWFuLm5ldEI1QkFCOEM5QzMxQjcxMTU2NzAyMjNEQzMxQUFFQTQ3NTk0REJCRU
- QACgkQMarqR1lNu+3N3Q/+PmUnqMTPZMs0ZxInLdghY297yIi7YETer4g1tULawSACc+l0/sqmd
- 0Q8deOfewjDOhZGAI39CK6afGkGs/iUY2cLJOyzR9IdLm6XI4WDqQYIPE7kNwymtCmU9EGmElwg
- o1/kQ+gDsCEmvvickYBlpWpwxBEe7tATrH7ys9L5XjTUfpU001U6/NGJa0Ufsnaa0gMEAtBas76
- g7lukQToMBf2hnxwYK27AJQ5ucumg3vM8YxeUm43N3CNLk0Ko6qGXZJb2+mO/pSvzUUi4CVK7li
- Q2nU9YqGsU3BamMPoA1NoMLJNxsvoJQJKYwsZsE8Y1RvCU1PisqldQ6b8iq6I5OFzojufSjbnZr
- Hd7RKNnP3aV+k3wLkpmY95Y5VVhksceA7+f8R+EGbUgZsNUWL7OK2wPWBcBs825KrgdJkgiXVHW
- 2xTFRYKyWJpeoWDZfA9OekpHBTB+dItrFIk9s/Q3GllTaQMtyI0RacLd26PcjDStRyYjvO0NQco
- fWjsCRg95BLCtXydEYYaro2p6fxbZYAm+faIpXrg1gYYAC8dyp87hdbdhlhE4IDiCDeRWdxaRTp
- DaeUcE+Hun+wUDdDGW5xkjPhkor0X8biZpH1AtP6ylPkmNaUH1VYebnGQNqnEmKcq+zc2ULU6BT
- uFRsRN41b5QfBkqoF/aFcij1UsQhnk=
-X-Developer-Key: i=dlan@gentoo.org; a=openpgp;
- fpr=50B03A1A5CBCD33576EF8CD7920C0DBCAABEFD55
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] pwm: sun50i: Add H616 PWM support
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Joao Schim <joao@schimsalabim.eu>
+References: <20251217082504.80226-1-richard.genoud@bootlin.com>
+ <20251217082504.80226-3-richard.genoud@bootlin.com>
+ <en7wscywn3xpw7cxvc2ngwrmjfciglzxgaje5qc5ngiehrjufh@jbvgp2neyzzx>
+ <9c55d591-a280-4ed7-91b1-0c867cfff658@bootlin.com>
+ <mu3ciykmtxoaa24mdw7mofpdapbii23qrubw6uzptszok43tta@tq3rguupehwe>
+From: Richard GENOUD <richard.genoud@bootlin.com>
+Content-Language: en-US, fr
+Organization: Bootlin
+In-Reply-To: <mu3ciykmtxoaa24mdw7mofpdapbii23qrubw6uzptszok43tta@tq3rguupehwe>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Add basic support for Allwinner A733 SoC, includes SPL settings.
+Hi Uwe,
+>>>> +	for (unsigned int i = 0; i < data->npwm; i++) {
+>>>
+>>> Huh, AFAIK we're not using declarations in for loops in the kernel.
+>>
+>> Actually, I've read somewhere (in LWN I guess) that Linus seems ok with that,
+>> but I'll remove it if you prefer.
+> 
+> If you find your source again, I'd be interested.
+I took me some time, but I finally found it (thanks to Hervé):
+https://lore.kernel.org/all/CAHk-=wiCOTW5UftUrAnvJkr6769D29tF7Of79gUjdQHS_TkF5A@mail.gmail.com/
 
-- Include some basic register definitions
-- Introduce a new SUN60I A733 Kconfig option
-- Ssetup RVBAR register properly according to docs
-- Config max DDR size 16GB
-- Config SRAM 0x62000 for TF-A
-- Set SPL MAX SIZE to 180KB, 0x47000 - 0x74000
-- Set SPL running address to 0x47000, with a header padded before
-  the image, so the final SPL text address need to shift 0x60 bytes.
-- Set Stack address
 
-Signed-off-by: Yixun Lan <dlan@gentoo.org>
+> 
+> Best regards
+> Uwe
 
----
-Note, Address for TF-A can be altered to other value, for example,
-moving it to the DDR address space. The only requirement is that
-load and run address should be matched.
----
- arch/arm/mach-sunxi/Kconfig    | 14 ++++++++++++++
- arch/arm/mach-sunxi/cpu_info.c |  2 ++
- common/spl/Kconfig             |  3 +++
- include/configs/sun60i.h       | 11 +++++++++++
- 4 files changed, 30 insertions(+)
-
-diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-index e979ee4a2cc..b7ac828e16d 100644
---- a/arch/arm/mach-sunxi/Kconfig
-+++ b/arch/arm/mach-sunxi/Kconfig
-@@ -215,6 +215,7 @@ config SUNXI_SRAM_ADDRESS
- 	hex
- 	default 0x10000 if MACH_SUN9I || MACH_SUN50I || MACH_SUN50I_H5
- 	default 0x44000 if MACH_SUN55I_A523
-+	default 0x47000 if MACH_SUN60I_A733
- 	default 0x20000 if SUN50I_GEN_H6 || SUNXI_GEN_NCAT2
- 	default 0x0
- 	---help---
-@@ -228,6 +229,7 @@ config SUNXI_RVBAR_ADDRESS
- 	depends on ARM64
- 	default 0x08100040 if MACH_SUN50I_A133
- 	default 0x08000040 if MACH_SUN55I_A523
-+	default 0x08001004 if MACH_SUN60I_A733
- 	default 0x09010040 if SUN50I_GEN_H6
- 	default 0x017000a0
- 	---help---
-@@ -257,6 +259,7 @@ config SUNXI_BL31_BASE
- 	default 0x40000000 if MACH_SUN50I_H616
- 	default 0x00104000 if SUN50I_GEN_H6
- 	default 0x00054000 if MACH_SUN55I_A523
-+	default 0x00062000 if MACH_SUN60I_A733
- 	default 0x0
- 	help
- 	  Address where BL31 (TF-A) is loaded, or zero if BL31 is not used.
-@@ -339,6 +342,7 @@ config MACH_SUNXI_H3_H5
- config SUNXI_DRAM_MAX_SIZE
- 	hex
- 	default 0x100000000 if MACH_SUN50I_H616 || MACH_SUN50I_A133 || MACH_SUN55I_A523
-+	default 0x400000000 if MACH_SUN60I_A733
- 	default 0xC0000000 if MACH_SUN50I || MACH_SUN50I_H5 || MACH_SUN50I_H6
- 	default 0x80000000
- 
-@@ -553,6 +557,15 @@ config MACH_SUN55I_A523
- 	select SPL_LOAD_FIT if SPL
- 	imply OF_UPSTREAM
- 
-+config MACH_SUN60I_A733
-+	bool "sun60i (Allwinner A733)"
-+	select ARM64
-+	select SUNXI_GEN_NCAT2
-+	select SUNXI_A733_PINCTRL
-+	select FIT
-+	select SPL_LOAD_FIT if SPL
-+	select SUPPORT_SPL
-+
- endchoice
- 
- # The sun8i SoCs share a lot, this helps to avoid a lot of "if A23 || A33"
-@@ -870,6 +883,7 @@ config SYS_CONFIG_NAME
- 	default "sun50i" if MACH_SUN50I_H616
- 	default "sun50i" if MACH_SUN50I_A133
- 	default "sun55i" if MACH_SUN55I_A523
-+	default "sun60i" if MACH_SUN60I_A733
- 
- config SYS_BOARD
- 	default "sunxi"
-diff --git a/arch/arm/mach-sunxi/cpu_info.c b/arch/arm/mach-sunxi/cpu_info.c
-index c3a51d9956e..f0b33bb9097 100644
---- a/arch/arm/mach-sunxi/cpu_info.c
-+++ b/arch/arm/mach-sunxi/cpu_info.c
-@@ -108,6 +108,8 @@ int print_cpuinfo(void)
- 	puts("CPU:   Allwinner A133 (SUN50I)\n");
- #elif defined CONFIG_MACH_SUN55I_A523
- 	puts("CPU:   Allwinner A523 (SUN55I)\n");
-+#elif defined CONFIG_MACH_SUN60I_A733
-+	puts("CPU:   Allwinner A733 (SUN60I)\n");
- #else
- #warning Please update cpu_info.c with correct CPU information
- 	puts("CPU:   SUNXI Family\n");
-diff --git a/common/spl/Kconfig b/common/spl/Kconfig
-index 24d6ce5d739..ba98b76bbc6 100644
---- a/common/spl/Kconfig
-+++ b/common/spl/Kconfig
-@@ -81,6 +81,7 @@ config SPL_MAX_SIZE
- 	default 0xec00 if OMAP34XX
- 	default 0x10000 if ARCH_MX6 && !MX6_OCRAM_256KB
- 	default 0xbfa0 if MACH_SUN50I_H616 || MACH_SUN50I_A133 || MACH_SUN55I_A523
-+	default 0x2d000 if MACH_SUN60I_A733
- 	default 0x7000 if RCAR_GEN3
- 	default 0x5fa0 if SUNXI_SRAM_ADDRESS = 0x0
- 	default 0x7fa0 if ARCH_SUNXI
-@@ -279,6 +280,7 @@ config SPL_TEXT_BASE
- 	default 0x40301350 if OMAP54XX
- 	default 0x10060 if MACH_SUN50I || MACH_SUN50I_H5 || MACH_SUN9I
- 	default 0x44060 if MACH_SUN55I_A523
-+	default 0x47060 if MACH_SUN60I_A733
- 	default 0x20060 if SUN50I_GEN_H6 || SUNXI_GEN_NCAT2
- 	default 0x00060 if ARCH_SUNXI
- 	default 0xfffc0000 if ARCH_ZYNQMP
-@@ -434,6 +436,7 @@ config SPL_STACK
- 	default 0x52a00 if MACH_SUN50I_H616
- 	default 0x40000 if MACH_SUN8I_R528 || MACH_SUN50I_A133
- 	default 0x44000 if MACH_SUN55I_A523
-+	default 0x5A000 if MACH_SUN60I_A733
- 	default 0x54000 if MACH_SUN50I || MACH_SUN50I_H5
- 	default 0x18000 if MACH_SUN9I
- 	default 0x8000 if ARCH_SUNXI
-diff --git a/include/configs/sun60i.h b/include/configs/sun60i.h
-new file mode 100644
-index 00000000000..70649366c1c
---- /dev/null
-+++ b/include/configs/sun60i.h
-@@ -0,0 +1,11 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/*
-+ * Placeholder wrapper to allow addressing Allwinner devices with Cortex-A55
-+ * cores separately. Please do not add anything in here.
-+ */
-+#ifndef __CONFIG_H
-+#define __CONFIG_H
-+
-+#include <configs/sunxi-common.h>
-+
-+#endif /* __CONFIG_H */
-
--- 
-2.52.0
-
+Regards,
+Richard
