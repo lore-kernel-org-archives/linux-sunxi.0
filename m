@@ -1,223 +1,130 @@
-Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67BC34F484
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Jan 2026 18:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA6326ED37;
+	Tue, 13 Jan 2026 22:06:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768329039; cv=none; b=caYhSBnfpTdfl2O7l4FHmD5VAENoRHzQlCC97993dh8wxLUImHZsXvOqr3knYrj/hPVtriLaeBrN9ThOt3HkVFnMR72roOXpu1yvQnKDTTQgGS0zrq5mTk8vrLPSTOTGzleCtZLcxZjhjwLYI9zj0QsybTx3AwmsSXyZEcE4jiA=
+	t=1768342001; cv=none; b=Yju2tlKoAgEIjpMkrK7wx9J2N7IHhj/uOaraFGZgwEmimY9aQMj1UuXNxf4+su5WMW5SRZwroD1tCh7vStge9hBMhiOxDwQsiz+j32zVGTGgWP/CzjvP0adCjlLe+kdqFe779rKf5AwbKYikLrWQm3WiwThUU8eyKgCG028s5UI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768329039; c=relaxed/simple;
-	bh=LZyrisVvaaeBusTcFeG6C4rFjFkJ0jSLOQj7AU0iUyE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qj8STcHikGWw6MOqIZSp+25XlIEaYdht5T2FZcL0pa55zgZqB+V7/huVHUlZtoiJujfXuAJJDiZ+EaosNVJ0jxBTehGR3j8FCGgMpeIQ+Jk0KqqWpR5oB0FZ3lBdt5lOoli6EebEMsVx0nXWO7LkZnJXTaZNUadx6Vra3TXqBCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=B51SYI0m; arc=none smtp.client-ip=173.249.15.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
+	s=arc-20240116; t=1768342001; c=relaxed/simple;
+	bh=LsQ80Nt6Qk+bvf75Ia6NSgSazOOzop19Sk4/CGy3YPk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FBGh41ry7BZWQImFUuQa74CNNBF/4OjFTJIWWC7HV08SCBafMvnfmqAlRvw/60/9Ac/+/nJeAokSSZUolN6Ql8arZaKO2e7mZPBp8scRGx1D6ZtdKRoiYgI2TaaOOvwZIZlweWKqLzIN22AR/g7nZOzNg74LWEMEU7P2otBpEuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=kIY8zUy9; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="B51SYI0m"
-dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
-	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Transfer-Encoding;
-	bh=P6I7h+bj3CMTWnDZKlX7MR4NLD2YmzpWA7tYI5nxT+A=;
-	b=B51SYI0mLx9lICXLoVzDjZq4lT/LvshEHrhHwH0YivHdD0YzFW5BTTyZVVHpF/sk8X5XoT/VEmTK8A/2SX1bn0EOcoFzT+0Es5hz4+Uq8tzPzo8sbExFnd4UFCzAgzoXyfDC3Qkiom0nKFiyhe1HqkTrQu35wFQHuFvW0wZyKqc=
-Received: from lukas-hpz440workstation.lan.sk100508.local (cm70-231.liwest.at [212.241.70.231])
-	by mail.netcube.li with ESMTPA
-	; Tue, 13 Jan 2026 19:30:24 +0100
-From: Lukas Schmid <lukas.schmid@netcube.li>
-To: Rob Herring <robh@kernel.org>,
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="kIY8zUy9"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=oBM2ZoOF22ddiLW29uUZvDBCanemUcQlDXTvmAcjlq4=; b=kI
+	Y8zUy97+/X5jNowUufRNGBEkL5lckHnRZAeGH2ky7o8DY2gnk+V1zKaO95hqWEgDAg40w523H3J+c
+	+cBn8rp7OJQD/Z+CBIQkEsT1pZZgZ0TM2oaYWUL7T5O8Q6hif/olvCQyS1uUtoDXmW//efHVd6A5l
+	wb+967zbnQezKGU=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1vfmWA-002hQ8-MR; Tue, 13 Jan 2026 23:05:38 +0100
+Date: Tue, 13 Jan 2026 23:05:38 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Jose Abreu <joabreu@synopsys.com>, Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>
-Cc: linux-sunxi@lists.linux.dev,
-	Alex Studer <alex@studer.dev>,
-	Lukas Schmid <lukas.schmid@netcube.li>,
-	devicetree@vger.kernel.org,
+	Matthew Gerlach <matthew.gerlach@altera.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Keguang Zhang <keguang.zhang@gmail.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com,
+	Romain Gantois <romain.gantois@bootlin.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Chen Wang <unicorn_wang@outlook.com>,
+	Inochi Amaoto <inochiama@gmail.com>,
+	Emil Renner Berthing <kernel@esmil.dk>,
+	Minda Chen <minda.chen@starfivetech.com>,
+	Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
+	Fu Wei <wefu@redhat.com>,
+	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Shuang Liang <liangshuang@eswincomputing.com>,
+	Zhi Li <lizhi2@eswincomputing.com>,
+	Shangjuan Wei <weishangjuan@eswincomputing.com>,
+	"G. Jaya Kumaran" <vineetha.g.jaya.kumaran@intel.com>,
+	Clark Wang <xiaoning.wang@nxp.com>, Linux Team <linux-imx@nxp.com>,
+	Frank Li <Frank.Li@nxp.com>, David Wu <david.wu@rock-chips.com>,
+	Samin Guo <samin.guo@starfivetech.com>,
+	Christophe Roullier <christophe.roullier@foss.st.com>,
+	Swathi K S <swathi.ks@samsung.com>, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
 	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
+	Drew Fustini <dfustini@tenstorrent.com>,
+	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org,
+	linux-mips@vger.kernel.org, imx@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, sophgo@lists.linux.dev,
 	linux-riscv@lists.infradead.org
-Subject: [PATCH v2] riscv: dts: allwinner: d1: Add CPU thermal sensor and zone
-Date: Tue, 13 Jan 2026 19:29:48 +0100
-Message-ID: <20260113182951.1059690-1-lukas.schmid@netcube.li>
-X-Mailer: git-send-email 2.47.3
+Subject: Re: [PATCH RESEND net-next v6 2/7] net: stmmac: qcom-ethqos: use
+ generic device properties
+Message-ID: <7865a1fb-91bb-4aec-ab3a-b53050d992e8@lunn.ch>
+References: <20260112-qcom-sa8255p-emac-v6-0-86a3d4b2ad83@oss.qualcomm.com>
+ <20260112-qcom-sa8255p-emac-v6-2-86a3d4b2ad83@oss.qualcomm.com>
+ <a2a610a3-aead-4e85-8a4c-7b83ccf276dc@lunn.ch>
+ <CAMRc=Mf8TTTcU9A3gc_LQF3Ow6Ww0omVJH6x-DQEnOSPXfaUQw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMRc=Mf8TTTcU9A3gc_LQF3Ow6Ww0omVJH6x-DQEnOSPXfaUQw@mail.gmail.com>
 
-From: Alex Studer <alex@studer.dev>
+On Tue, Jan 13, 2026 at 01:36:53PM +0100, Bartosz Golaszewski wrote:
+> On Mon, Jan 12, 2026 at 2:45 PM Andrew Lunn <andrew@lunn.ch> wrote:
+> >
+> > On Mon, Jan 12, 2026 at 11:15:41AM +0100, Bartosz Golaszewski wrote:
+> > > From: Bartosz Golaszewski <brgl@kernel.org>
+> > >
+> > > In order to drop the dependency on CONFIG_OF, convert all device property
+> > > getters from OF-specific to generic device properties and stop pulling
+> > > in any linux/of.h symbols.
+> >
+> > Is the intention to read these properties from ACPI tables?
+> >
+> 
+> No. Other than a couple property getters which can use the fwnode
+> abstraction, there's nothing here that requires the OF dependence.
 
-The sun20i THS (built in CPU thermal sensor) is supported in code, but
-was never added to the device tree. So, add it to the device tree,
-along with a thermal zone for the CPU.
+So what is the need for not using OF? Why do you want this patch?
 
-Signed-off-by: Alex Studer <alex@studer.dev>
-
-Link: https://lore.kernel.org/r/20250218020629.1476126-1-alex@studer.dev
-Changes since v1:
- - Move include before defines in sun20i-d1s.dtsi
- - Fix register size for thermal-sensor@2009400
- - Move thermal-sensor@2009400 in SoC to match register address sorting
- - Add thermal-zone for sun8i-t113s.dtsi and fix missing cooling-cells
-Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
----
- arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi  | 33 +++++++++++++++++++
- arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 31 +++++++++++++++++
- .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 16 +++++++++
- 3 files changed, 80 insertions(+)
-
-diff --git a/arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi b/arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi
-index c7181308ae6f..424f4a2487e2 100644
---- a/arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi
-+++ b/arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi
-@@ -4,6 +4,7 @@
- #define SOC_PERIPHERAL_IRQ(nr) GIC_SPI nr
- 
- #include <dt-bindings/interrupt-controller/arm-gic.h>
-+#include <dt-bindings/thermal/thermal.h>
- #include <riscv/allwinner/sunxi-d1s-t113.dtsi>
- #include <riscv/allwinner/sunxi-d1-t113.dtsi>
- 
-@@ -20,6 +21,7 @@ cpu0: cpu@0 {
- 			reg = <0>;
- 			clocks = <&ccu CLK_CPUX>;
- 			clock-names = "cpu";
-+			#cooling-cells = <2>;
- 		};
- 
- 		cpu1: cpu@1 {
-@@ -28,6 +30,7 @@ cpu1: cpu@1 {
- 			reg = <1>;
- 			clocks = <&ccu CLK_CPUX>;
- 			clock-names = "cpu";
-+			#cooling-cells = <2>;
- 		};
- 	};
- 
-@@ -56,4 +59,34 @@ pmu {
- 			     <GIC_SPI 173 IRQ_TYPE_LEVEL_HIGH>;
- 		interrupt-affinity = <&cpu0>, <&cpu1>;
- 	};
-+
-+	thermal-zones {
-+		cpu-thermal {
-+			polling-delay-passive = <0>;
-+			polling-delay = <0>;
-+			thermal-sensors = <&ths>;
-+
-+			cooling-maps {
-+				map0 {
-+					trip = <&cpu_alert>;
-+					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-+							 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-+				};
-+			};
-+
-+			trips {
-+				cpu_alert: cpu-alert {
-+					temperature = <85000>;
-+					hysteresis = <2000>;
-+					type = "passive";
-+				};
-+
-+				cpu-crit {
-+					temperature = <100000>;
-+					hysteresis = <0>;
-+					type = "critical";
-+				};
-+			};
-+		};
-+	};
- };
-diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-index a7442a508433..3f4ee820ef56 100644
---- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-@@ -1,6 +1,8 @@
- // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
- 
-+#include <dt-bindings/thermal/thermal.h>
-+
- #define SOC_PERIPHERAL_IRQ(nr)	(nr + 16)
- 
- #include "sunxi-d1s-t113.dtsi"
-@@ -115,4 +117,33 @@ pmu {
- 			<0x00000000 0x0000000e 0xffffffff 0xffffffff 0x00010000>,
- 			<0x00000000 0x0000000f 0xffffffff 0xffffffff 0x00020000>;
- 	};
-+
-+	thermal-zones {
-+		cpu-thermal {
-+			polling-delay-passive = <0>;
-+			polling-delay = <0>;
-+			thermal-sensors = <&ths>;
-+
-+			cooling-maps {
-+				map0 {
-+					trip = <&cpu_alert>;
-+					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-+				};
-+			};
-+
-+			trips {
-+				cpu_alert: cpu-alert {
-+					temperature = <85000>;
-+					hysteresis = <2000>;
-+					type = "passive";
-+				};
-+
-+				cpu-crit {
-+					temperature = <100000>;
-+					hysteresis = <0>;
-+					type = "critical";
-+				};
-+			};
-+		};
-+	};
- };
-diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-index 63e252b44973..ef7ebeab21ea 100644
---- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-@@ -214,6 +214,18 @@ gpadc: adc@2009000 {
- 			#io-channel-cells = <1>;
- 		};
- 
-+		ths: thermal-sensor@2009400 {
-+			compatible = "allwinner,sun20i-d1-ths";
-+			reg = <0x2009400 0x400>;
-+			interrupts = <SOC_PERIPHERAL_IRQ(58) IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_THS>;
-+			clock-names = "bus";
-+			resets = <&ccu RST_BUS_THS>;
-+			nvmem-cells = <&ths_calibration>;
-+			nvmem-cell-names = "calibration";
-+			#thermal-sensor-cells = <0>;
-+		};
-+
- 		dmic: dmic@2031000 {
- 			compatible = "allwinner,sun20i-d1-dmic",
- 				     "allwinner,sun50i-h6-dmic";
-@@ -474,6 +486,10 @@ sid: efuse@3006000 {
- 			reg = <0x3006000 0x1000>;
- 			#address-cells = <1>;
- 			#size-cells = <1>;
-+
-+			ths_calibration: thermal-sensor-calibration@14 {
-+				reg = <0x14 0x8>;
-+			};
- 		};
- 
- 		crypto: crypto@3040000 {
--- 
-2.47.3
-
-
+    Andrew
