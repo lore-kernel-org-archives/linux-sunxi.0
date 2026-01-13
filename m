@@ -1,68 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B7E51CAA79;
-	Tue, 13 Jan 2026 15:49:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E31234DB48;
+	Tue, 13 Jan 2026 16:53:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768319356; cv=none; b=cGLKUQ1zoDU5BQx/Dg1GTJ80NTgfyi3GbUNquz9v4rX4gR+1CiAiXAvLC7TfErEcxJS+MylkmJZoEmtne/Cx2sFOxNc+KC+KQjUq8CdTpFtlIsaLFMUUlsTwSI3RPDTXD+pG6RKMs3igOzG1JTJXIzr2bzYJe7iPitCb2KHc4+o=
+	t=1768323198; cv=none; b=GXaw1Nad9O2nc/QVX3nvqEWYr8yAHVuBIk/12FLw72o4x+am4ekBLPYmqEmIT+SN9AA/9dtgZfQzfafquTh0jb+rFfTfxClzSSkW7cOIf92wxGKHuLslJTqHDTYPQ0p4k9+PPUFSy4VpwXb2ZBS4+uPYtFeBL4kM7HkuBwOgrT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768319356; c=relaxed/simple;
-	bh=DL6DumQuAKzxPXqlFPaLc/uXsPbWMPmwgxQv1tCvmW0=;
-	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=p+R0cKUlHkaBlJ8jB1J51hkvlfp0wx0MKfDnT4CXHqw1m5As+klbVHV0qdreNdi3WvNQqQz6bfZf8VidAXlzGQvI7OwEnyrd9T9Q6C+vlZnZFenuvuogz/dLjPwO87RotQ2rwbMraLfG0ixP3vs9NA1oWnVokgAytqi4AuvQ89Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ODQ4NksF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768323198; c=relaxed/simple;
+	bh=rC0OyhL77kmNXl+KEp08CoigsLjuWii0z/bE8OWzVqY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=FtL2YgePOHLwWs7WdvCTTmlwaiUHDdPxvsxmlE6Pg1cRF7C5dOm9iPRPWJYgSMTS1aWfhnB0EU74aqJK9+ijCO7yqKStMXtgdmhAICcMLDs79ummGMw4HFQAgAZ7zNcuxUvWQ8XvUBlNe1a808WNDoKZUgCRfY4hBDF6cRcVCLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JmKTPS4O; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ODQ4NksF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29C9CC116C6;
-	Tue, 13 Jan 2026 15:49:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JmKTPS4O"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9B3BC19422;
+	Tue, 13 Jan 2026 16:53:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768319355;
-	bh=DL6DumQuAKzxPXqlFPaLc/uXsPbWMPmwgxQv1tCvmW0=;
-	h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
-	b=ODQ4NksF3kuHZBXFrgVhO5YpFUJpkPm/Y/ykp4ja265B9koe5WMdyqy+E05tAAZ9I
-	 72miO/eTCw+4ieuqPduuyfRQ8fH/f6RevBvbLVDbhX3MAjoniVXn0FCesEe72DJAo/
-	 3fUqPSxrvHxlr8Ffqk32DIEOkuVdNOF7MNY4plwxnA6wIsnNx2GgqyaQ07DkdZ93q7
-	 GTpJaGN1F+uPxz31M4z56R8tgVXqeREpMudytTEwp6Md/UwHOHqmomDvhT5PuYPXDz
-	 9m8ijAKcWHtnoYyPTs3TsO9dFvZ2fSwcgxvzJ73hCoeYb0U/pZlaBzOKf7T7MA1Nnn
-	 94EzzfkDfKcjQ==
-Message-ID: <a3405fd8966a11655e39685e751832bf@kernel.org>
-Date: Tue, 13 Jan 2026 15:49:13 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH v4 03/10] drm/sun4i: hdmi_enc: implement clear_infoframe
- stub
-In-Reply-To: <20260107-limit-infoframes-2-v4-3-213d0d3bd490@oss.qualcomm.com>
-References: <20260107-limit-infoframes-2-v4-3-213d0d3bd490@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, "Abhinav
- Kumar" <abhinav.kumar@linux.dev>, "Andrzej Hajda" <andrzej.hajda@intel.com>, "Andy
- Yan" <andy.yan@rock-chips.com>, "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>, "Chen-Yu
- Tsai" <wens@kernel.org>, "Chun-Kuang Hu" <chunkuang.hu@kernel.org>, "Dave
- Stevenson" <dave.stevenson@raspberrypi.com>, "David Airlie" <airlied@gmail.com>, "Dmitry
- Baryshkov" <lumag@kernel.org>, =?utf-8?b?SGVpa28gU3TDvGJuZXI=?= <heiko@sntech.de>, "Jernej
- Skrabec" <jernej.skrabec@gmail.com>, "Jessica Zhang" <jesszhan0024@gmail.com>, "Jonas
- Karlman" <jonas@kwiboo.se>, "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Liu
- Ying" <victor.liu@nxp.com>, "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Marijn
- Suijten" <marijn.suijten@somainline.org>, "Matthias Brugger" <matthias.bgg@gmail.com>, "Maxime
- Ripard" <mripard@kernel.org>, =?utf-8?b?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, "Philipp Zabel" <p.zabel@pengutronix.de>, "Raspberry
- Pi Kernel Maintenance" <kernel-list@raspberrypi.com>, "Rob Clark" <robin.clark@oss.qualcomm.com>, "Robert
- Foss" <rfoss@kernel.org>, "Samuel Holland" <samuel@sholland.org>, "Sandy
- Huang" <hjc@rock-chips.com>, "Sean Paul" <sean@poorly.run>, "Simona Vetter" <simona@ffwll.ch>, "Thomas
- Zimmermann" <tzimmermann@suse.de>
-Content-Transfer-Encoding: 7bit
+	s=k20201202; t=1768323198;
+	bh=rC0OyhL77kmNXl+KEp08CoigsLjuWii0z/bE8OWzVqY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=JmKTPS4OJL9DejfJmLT4WPvm6tN062qXjFMCp4Yi7U+HasK7WGiEuFQvrg2+X49ub
+	 dlrZ+gjC8O4TRtQQF/Pf0U71LkBZAsXO8Uhw0lu6cJvl2o1/VbSRynhTsi2b22Hu6/
+	 9ZBQebfWGJrdriJkjT6C6HIBr/GCWjYA+eYB9+jKvImzpW9yiY/o2o1w+tY0YSdL9G
+	 BsYbLOzC4ZqniwrX8DZPGuB0FjG4LhDpzr1Z7FlYFQM/SoAX2yRVJSgb74Neha36++
+	 kqnf1SUv0W7LptxhZdcWGBzRx/Q3L/tXlZaOwTE0m5gthnfpSf0Fuiy4kwBktwAblG
+	 Xc5FCgJx2qNlg==
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id 8425D5FC5C;
+	Wed, 14 Jan 2026 00:53:14 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
+ linux-leds@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>
+Cc: Andre Przywara <andre.przywara@arm.com>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
+ Guo Ren <guoren@kernel.org>, Jisheng Zhang <jszhang@kernel.org>, 
+ John Watts <contact@jookia.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Maksim Kiselev <bigunclemax@gmail.com>, 
+ Marc Kleine-Budde <mkl@pengutronix.de>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, 
+ Trevor Woerner <twoerner@gmail.com>, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20231029212738.7871-1-samuel@sholland.org>
+References: <20231029212738.7871-1-samuel@sholland.org>
+Subject: Re: (subset) [PATCH v8 0/5] leds: Allwinner A100 LED controller
+ support
+Message-Id: <176832319449.634309.16923738719016027897.b4-ty@kernel.org>
+Date: Wed, 14 Jan 2026 00:53:14 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 
-On Wed, 7 Jan 2026 20:15:00 +0200, Dmitry Baryshkov wrote:
-> In preparation to making clear_infoframes callbacks required, add a stub
-> to the sun4i driver.
+On Sun, 29 Oct 2023 16:26:54 -0500, Samuel Holland wrote:
+> This series adds bindings and a driver for the RGB LED controller found
+> in some Allwinner SoCs, starting with A100. The hardware in the R329 and
+> D1 SoCs appears to be identical.
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> This series was tested on the Nezha board (one onboard LED) and the
+> Dongshan Nezha STU board (with an external strip of 16/32/48 LEDs, also
+> with gaps in the LED addresses).
+> 
+> [...]
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+Applied to sunxi/dt-for-6.20 in local tree, thanks!
 
-Thanks!
-Maxime
+[3/5] arm64: dts: allwinner: a100: Add LED controller node
+      commit: 4d9af1e12cd6462c53aa91b6a0b6af7861e1c0ce
+[4/5] riscv: dts: allwinner: d1: Add LED controller node
+      commit: c8e75e0cecd277fb585d4491a6eeaaff64546f10
+[5/5] riscv: dts: allwinner: d1: Add RGB LEDs to boards
+      commit: f8ad8bbb8827c5bfd83bdf5e1ab512d2dc5db643
+
+Best regards,
+-- 
+Chen-Yu Tsai <wens@kernel.org>
+
