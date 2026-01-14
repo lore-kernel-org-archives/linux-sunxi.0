@@ -1,127 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpdh19-1.aruba.it (smtpdh19-1.aruba.it [62.149.155.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5C33A0EA7
-	for <linux-sunxi@lists.linux.dev>; Wed, 14 Jan 2026 15:51:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF51332D0DE
+	for <linux-sunxi@lists.linux.dev>; Wed, 14 Jan 2026 17:53:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.155.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768405886; cv=none; b=TUf7jpDPzS07C+Tego77sD/Bzks80OhleLXTHKwKl3rSomfWnjA0SsmAodLJUAYRXyxjyPB7TPbZvO59FjwELqKp4el8siag6g+9UtVcIqcgzlbLQbJfjHbwQIqqrOfcHuZJz8SHj6q++nK/7U1VyKuy1rqhUe/FimvTvtJ5YmA=
+	t=1768413195; cv=none; b=oQaVQpxoC2U4eisuMVBJSkaz2Of9mJD+7P8GdTPicbNXVTYrxN551IG1JDTEvqm+o0gFlRCrrAKBuMW6UOgyeCst1vVunEfOMitasdNPD+SyUYebGWze6vzfqLry61slozH1CL0zEFD0NK74KeLIESCZRenQyab0WFU+tAehu9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768405886; c=relaxed/simple;
-	bh=o+OEjagxl3Dsp9tfzVfdkpH30i7BI82gz0LPNnSdpig=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NVJJCVFiieW0a/blZOUNAXzAv5YS/gETLIrKZLq3J1KCvYYgFjS6bHgcu//BpdhFiy5MP2+a4rKI2YXBlpqXzbj+q7N1/3g1W0mekpROAgeK03GnvqTXlNz6djKENe9uDD376i5VHAlU2EFwxFHurdufKPi/dRguHY3/B+zEQO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FY1rCh7B; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768413195; c=relaxed/simple;
+	bh=qCiNYpj/fD6QvcI2JnZSyaYV1FRFHfQHPffRlHULXxE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OyVwzTgSYRiYBqVJlKqtI54p3zT7Yy4ee45bm7TMrDun42oQ294XLt2R8I/Tc+TU9xh23HO+GEKW+NyClNtnN2VcprM4DajEY01qwpmftZTOIWPceusOgo0M9KteIsQSc2dsQsLXGqph3ehvD8udHVoxjO0nbbcjNQh12Tu287o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=benettiengineering.com; spf=pass smtp.mailfrom=benettiengineering.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=nREDKuJn; arc=none smtp.client-ip=62.149.155.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=benettiengineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=benettiengineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FY1rCh7B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFB67C4AF0B
-	for <linux-sunxi@lists.linux.dev>; Wed, 14 Jan 2026 15:51:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768405885;
-	bh=o+OEjagxl3Dsp9tfzVfdkpH30i7BI82gz0LPNnSdpig=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=FY1rCh7BTXtSgy430K1ImGXJbRWQzGMOIBH1z9f+jJLEcsC6lEv7EHrApo9FSgliZ
-	 y0vYkLCGAkjw4diqSoI/z84wIWno1qymsG+z8s8CZ6aSqUZ0RnZelrZf1g+YX7mLLh
-	 qSWBQht+cKzp68EJB5t86KporBJBJ9GcgcbofoXC29jfh+aE38gIMQRAmoTLZ8csqL
-	 8CiGMfRZ1AThkmhU05KnfGCf7/WLdpvIhIRUDlq1p2+Vt99cFPyGWWI0cRZ5k49u3b
-	 5UN6n7pRVDOGM0VuPvT8IyO5aPhYhSk4RCI6Pkkop+R+uEJMM/8YQut2l3/OrjM2ix
-	 G2m18gRBN2lZw==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-59b7882e605so8818848e87.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 14 Jan 2026 07:51:24 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVXhnFgREqQlWtYCdYoOcHr26i9re4qqh3gyWRXiTkRWX5OILM8XPtrFHxPjI8UcgM1J9omAsVrC3oBJA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwLKpspTUn0yjB9AE/+4AUxHY5Tua6MksWLP8Zsb2KQqLcpoWO8
-	G8kaTsNst/xDxTDJ/MlxVIg4A4+ybWh5vnxHGyPnQuQUx1SOExwqLMDuibm9FCUbjkMSaWUXkWd
-	4NWwIcG2/woQ90Vw9Zezr+hQnYPtFvI7CnsDhR48BWg==
-X-Received: by 2002:a05:6512:2316:b0:59b:8472:48ca with SMTP id
- 2adb3069b0e04-59ba0f63088mr1131918e87.12.1768405882412; Wed, 14 Jan 2026
- 07:51:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="nREDKuJn"
+Received: from [192.168.50.220] ([84.33.84.190])
+	by Aruba SMTP with ESMTPSA
+	id g50KvJnVjclBZg50Lv2sF0; Wed, 14 Jan 2026 18:50:02 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+	t=1768413002; bh=qCiNYpj/fD6QvcI2JnZSyaYV1FRFHfQHPffRlHULXxE=;
+	h=Date:MIME-Version:Subject:To:From:Content-Type;
+	b=nREDKuJnqIoQQLsYftRsNn5nffXuySjn+oCgGh/Aa5t0Q0a7eWV0SN6QAmFU4XMyy
+	 3nZE71xJ1f4M+0d/Q4X0Fkcgb7PtJFXtGxIxLbAjQ9Zc4sW6s35pZjuItnX3z6uvae
+	 /vK3laL1CG4P13W2ppwDOdFrhgITxtN6Eit8b0RejdXXE8PlCUZh5Y1WhMaigNymWi
+	 kXVxxoY+bQLsM1HRyw0ornvuC4+deQcX0VHxjb+y7nE0dTp4dxdsEpHzETWSbI6IIo
+	 anxFGkkrwox9yVxPWntXOB2WDnD32f3L0wGa1rc91w/t0GCNZM1bh1sVHUeqfW4COl
+	 7N47H0FQPGCqA==
+Message-ID: <40e45abf-7640-49a6-814b-9924510395c1@benettiengineering.com>
+Date: Wed, 14 Jan 2026 18:50:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260112-qcom-sa8255p-emac-v6-0-86a3d4b2ad83@oss.qualcomm.com>
- <20260112-qcom-sa8255p-emac-v6-2-86a3d4b2ad83@oss.qualcomm.com>
- <a2a610a3-aead-4e85-8a4c-7b83ccf276dc@lunn.ch> <CAMRc=Mf8TTTcU9A3gc_LQF3Ow6Ww0omVJH6x-DQEnOSPXfaUQw@mail.gmail.com>
- <7865a1fb-91bb-4aec-ab3a-b53050d992e8@lunn.ch>
-In-Reply-To: <7865a1fb-91bb-4aec-ab3a-b53050d992e8@lunn.ch>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Wed, 14 Jan 2026 16:51:10 +0100
-X-Gmail-Original-Message-ID: <CAMRc=Md-z9+RdVPB9kKeVwWWJni7se7HfbhwGmvQ9Wd3CwJqeQ@mail.gmail.com>
-X-Gm-Features: AZwV_QiTx85beob9IcsRkXcH-FzLKf11MkfoXrcsCiRgQ4kLBhgc1kcRpkaBWZY
-Message-ID: <CAMRc=Md-z9+RdVPB9kKeVwWWJni7se7HfbhwGmvQ9Wd3CwJqeQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND net-next v6 2/7] net: stmmac: qcom-ethqos: use
- generic device properties
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Richard Cochran <richardcochran@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Vinod Koul <vkoul@kernel.org>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Matthew Gerlach <matthew.gerlach@altera.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Keguang Zhang <keguang.zhang@gmail.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com, 
-	Romain Gantois <romain.gantois@bootlin.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
-	Emil Renner Berthing <kernel@esmil.dk>, Minda Chen <minda.chen@starfivetech.com>, 
-	Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, 
-	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Maxime Ripard <mripard@kernel.org>, Shuang Liang <liangshuang@eswincomputing.com>, 
-	Zhi Li <lizhi2@eswincomputing.com>, Shangjuan Wei <weishangjuan@eswincomputing.com>, 
-	"G. Jaya Kumaran" <vineetha.g.jaya.kumaran@intel.com>, Clark Wang <xiaoning.wang@nxp.com>, 
-	Linux Team <linux-imx@nxp.com>, Frank Li <Frank.Li@nxp.com>, David Wu <david.wu@rock-chips.com>, 
-	Samin Guo <samin.guo@starfivetech.com>, 
-	Christophe Roullier <christophe.roullier@foss.st.com>, Swathi K S <swathi.ks@samsung.com>, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, Drew Fustini <dfustini@tenstorrent.com>, 
-	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org, 
-	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	sophgo@lists.linux.dev, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ARM: dts: sun7i: a20: fix MMC index enumeration
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20260114105005.3136045-1-giulio.benetti@benettiengineering.com>
+ <20260114140653.05365221@orionap.fritz.box>
+Content-Language: en-US
+From: Giulio Benetti <giulio.benetti@benettiengineering.com>
+In-Reply-To: <20260114140653.05365221@orionap.fritz.box>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfOlfoxKjK0AY8atOCrqaGKkGzr99mKANRPOLxddXbdjSNeayXmE2yayY5do5xlWoXgqwZ0wwuOZyDy/9xoYnWY/z0Eyv44tXtd1AXJK4SwhypD0kUp3z
+ JMLMPL3ZhNEjNLrr9cMDRDd8OFCabBPVktqMmNzuc1UGoRXwBzZufKP14t0S/uZ3RADKlty6Z4n55EOKI/oUicZC7KCRVq8J+Anb6/bPhcvClSeqjevTKybG
+ YTJM0uTLXxJc7nslKra1WzQk3HdtR35Ar6PsjeuwigKSxenZdW5+qFdhIV2DqHea45pA1t4wEqIztGzgRHvB0NUlyuAj2cWpDCplJGidGqEJ6OaB9IOQwTAN
+ sGdX5XHxCThh1sGYd9pjXpKA3aHPAF0zTFWl7aalLNCpNCgHEGTXgGdGyPtrCU+6D331vOUnCQNqESN1W0VBkNNIkd5Gsc07dto9tkyG4mybvrwiG/u8nGDZ
+ 6i8zKyXRNbW0NXAI+F8cHZzNyM7RevCE7m4TD/7nmTcvU1r/hIxuQy+33HSHB4QunkDl7/lWLCEjXNvRSbtBh4jil2ZsS8yLf9+R8g==
 
-On Tue, Jan 13, 2026 at 11:06=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wrote=
-:
->
-> On Tue, Jan 13, 2026 at 01:36:53PM +0100, Bartosz Golaszewski wrote:
-> > On Mon, Jan 12, 2026 at 2:45=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wr=
-ote:
-> > >
-> > > On Mon, Jan 12, 2026 at 11:15:41AM +0100, Bartosz Golaszewski wrote:
-> > > > From: Bartosz Golaszewski <brgl@kernel.org>
-> > > >
-> > > > In order to drop the dependency on CONFIG_OF, convert all device pr=
-operty
-> > > > getters from OF-specific to generic device properties and stop pull=
-ing
-> > > > in any linux/of.h symbols.
-> > >
-> > > Is the intention to read these properties from ACPI tables?
-> > >
-> >
-> > No. Other than a couple property getters which can use the fwnode
-> > abstraction, there's nothing here that requires the OF dependence.
->
-> So what is the need for not using OF? Why do you want this patch?
->
+On 1/14/26 15:06, Andre Przywara wrote:
+> On Wed, 14 Jan 2026 11:50:04 +0100
+> Giulio Benetti <giulio.benetti@benettiengineering.com> wrote:
+> 
+> Hi Giulio,
+> 
+>> Currently, the OLinuXino-A20-Micro experiences non-deterministic MMC
+>> enumeration during boot. When both an SDIO WiFi module (MMC1) and
+>> an SD card (MMC0) are present, the kernel may swap their indices.
+>>
+>> Explicitly define mmc* aliases to ensure consistent device naming
+>> and prevent mapping conflicts.
+> 
+> So this comes up every now and then, but for sunxi it was decided to not
+> support this. The enumeration of devices in the kernel is never guaranteed
+> to follow some order, and this is widely accepted for SCSI (/dev/sda) and
+> NVMe. Distros are coping with this forever since, using more sustainable
+> designations like UUIDs or labels.
 
-We've had a higher-level abstraction for OF nodes for years now. Since
-I'm already touching the driver, it makes sense to switch to using it,
-as OF-centric APIs are not recommended in new code even if it's an
-OF-only driver.
+I see,
 
-Bartosz
+> If you don't want to change the way you communicate the root device to the
+> kernel, you can actually use U-Boot's DTs, which adds the indicies for its
+> own purposes, and can pass this on to the kernel. Just don't load a DT
+> from storage (which you shouldn't be doing anyways), and just use
+> $fdtcontroladdr as the DT address when booting the kernel.
+
+Thanks for pointing, let's see if Buildroot Maintainers accept this
+patch as is, otherwise I'll probably go with UUID.
+
+Thank you for taking care and explaining.
+
+Best regards
+Giulio
+
+> Cheers,
+> Andre
+> 
+>> Signed-off-by: Giulio Benetti <giulio.benetti@benettiengineering.com>
+>> ---
+>>   arch/arm/boot/dts/allwinner/sun7i-a20.dtsi | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/arch/arm/boot/dts/allwinner/sun7i-a20.dtsi b/arch/arm/boot/dts/allwinner/sun7i-a20.dtsi
+>> index 5f44f09c5545..a958400bcd7c 100644
+>> --- a/arch/arm/boot/dts/allwinner/sun7i-a20.dtsi
+>> +++ b/arch/arm/boot/dts/allwinner/sun7i-a20.dtsi
+>> @@ -55,6 +55,10 @@ / {
+>>   	#size-cells = <1>;
+>>   
+>>   	aliases {
+>> +		mmc0 = &mmc0;
+>> +		mmc1 = &mmc1;
+>> +		mmc2 = &mmc2;
+>> +		mmc3 = &mmc3;
+>>   		ethernet0 = &gmac;
+>>   	};
+>>   
+> 
+
+
