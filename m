@@ -1,103 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEE637F8AF
-	for <linux-sunxi@lists.linux.dev>; Wed, 14 Jan 2026 13:36:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD75F272813;
+	Wed, 14 Jan 2026 14:01:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768397816; cv=none; b=gm5qZqEh69aShwCvI7Mg8grpAIv2rWKnyrky4UqUZrH0GEf0A2gX5kFNOtguuB6M2iSfELyIOnVz+r8z5FxJCdeN9jjXpXzWF57QeD+FBh31G+c3HFGtKUFM9h+gOROClGGHnPgRb4oXsjpGHcH8qATbVrySozPrlu5wWF+YrjE=
+	t=1768399293; cv=none; b=HYXO1gIHUZpAya5RzzQFZAXkvqlaTdWAiU3+XzWoVUdf3PonYlX36IKAO2N93AkGOn3CK35yjS/sw1JLslTldMQr8jA7qAV5S1PmHyag2b1K/BmpCpznLBB45jPiCOzw9dEmvmdKP8+K1DcAnF7VnW/T8oFkF3he1xgNXft4KrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768397816; c=relaxed/simple;
-	bh=iV2zIwFS7NHR+Qp/+VWDRZd4JeaS2I3vbQOZ53pHX20=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DWfrKEclWhyfXs6Q/jTnhrEEkNp8MoZJVoZ8ojTNeI2XNZRg8JzqX6AICpzZzK1qvnV/Eiv2gAWGt4Ao3JJTxGAcxA5JVlk+KWZM1qKxXV8g3YNPMdI92NxGNUPb/YMryq2gDgEEXhsgjqUQg/S1AZYoWx37Rv3MQ/GnqZQN1EU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ae/SLp+z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768399293; c=relaxed/simple;
+	bh=+PlGFhehw9pvT1fTeNTIF8koULdH0BUOJ+fDH8yqZwY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=FotBLnt+0L3Kv0Yzna8HaIxaAid7l1av9ZMoMm5Qk+JtVtgDk10nkuXywR+M4crvCoSHbJn8YrcTYAjRTZdc1vZSN+ZDOFfmCz68zdVySikgbcoK/6A3ypTajtZ2xjCHMPjSBVLO7w1WnCI+/hU3PwOy7LgmNwvj965dXMB+LC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ugq2Q7NM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ae/SLp+z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CB88C2BCB2
-	for <linux-sunxi@lists.linux.dev>; Wed, 14 Jan 2026 13:36:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ugq2Q7NM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF47CC19422;
+	Wed, 14 Jan 2026 14:01:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768397816;
-	bh=iV2zIwFS7NHR+Qp/+VWDRZd4JeaS2I3vbQOZ53pHX20=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ae/SLp+z8fcLXH7RjdXP5OAlh7q/HTebZf2fJPxbwc15QolLGGVph0dLQBokF4x/Y
-	 xvDxihJvfZC0zAng2G6VQSKu2JeoFzWDcpO9YokI6i1QQeh5s4Eb4dzzJOtwGW9s2k
-	 /dpDYtxCK2yJ5OPgbY23PqJe5iv+oNC9WIQXT1TxJzrF+q6fo5bGq6HG6A3VmBEuuF
-	 tSdo5EXyexBqO5oiRGBarXJyHxVSCarKFySdMwlhkxU+PH5d10tzEnIZTBPtF8vYyJ
-	 Q/aOQAakcB3L3QEMDUHSrY2cO+MNcBUDPPqpzSxhlgIIFZj5DOc6UYfEhv/fgQCVT3
-	 Dwmt13t+b2lAQ==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-59b9fee282dso1204980e87.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 14 Jan 2026 05:36:55 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXnGFB8BGKSzITpxCFJxjCWpyIk8qj6jmMztXh2pQsWXKmLIa28o/ynUI71UjXfKp6/PUNp3thZ1NOzvA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwBWi9rYW2DNX5usobDw6NdSShwDZzBCUdGtaRTQpY+nvdVUlnZ
-	JR12qzW0c51R2qeEAGoz05rWMaEAq33ldAbviNnJu5MtnzPpu0KX23keASc1S83Z28Yjrp68WTf
-	IxPVZjvChUBLCyL3zskNoR1A589fnJGb7sFhL3Nwmng==
-X-Received: by 2002:a05:6512:3e10:b0:59b:70e7:4121 with SMTP id
- 2adb3069b0e04-59ba174d90emr764517e87.36.1768397814581; Wed, 14 Jan 2026
- 05:36:54 -0800 (PST)
+	s=k20201202; t=1768399293;
+	bh=+PlGFhehw9pvT1fTeNTIF8koULdH0BUOJ+fDH8yqZwY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Ugq2Q7NMaYTXFV1ThT3q7e3DBYSOPt5A5bWniBbCjgJXaA05WP/krfSl5A9BbkAGX
+	 BTZwYp7zx0Zrm/Z7kw76XROcjIZVCBX/4KwGQ/P6kqE2GSxSiALKqjwCyC+aSXSFr4
+	 0nX7SOjhtqgmL611RkqV7D+ScQM8xafLX89pziD86o6Ax6/LuWtQbeh82PZ6mkJLh3
+	 Tz3v8cz/PVjXFsztQv35sTwE8Stzg20MW66DmT4SJMbD8GghbNumwbTOal/Z3+B1p0
+	 2wjDQn3sWPuqdC2Guy9TeUUank2Rg16llMwtHneJzS7ZifJosxHckmcZgdNXNP2lKO
+	 VOkPUF6U1iVfw==
+From: Vinod Koul <vkoul@kernel.org>
+To: linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ Marco Crivellari <marco.crivellari@suse.com>
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+ Frederic Weisbecker <frederic@kernel.org>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Michal Hocko <mhocko@suse.com>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
+In-Reply-To: <20251105152023.259813-1-marco.crivellari@suse.com>
+References: <20251105152023.259813-1-marco.crivellari@suse.com>
+Subject: Re: [PATCH] phy: sun4i-usb: replace use of system_wq with
+ system_percpu_wq
+Message-Id: <176839928954.937923.15095865192573263958.b4-ty@kernel.org>
+Date: Wed, 14 Jan 2026 19:31:29 +0530
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251223-i2c-printk-helpers-v1-0-46a08306afdb@oss.qualcomm.com> <aWYiJbtueA8g3srn@ninjato>
-In-Reply-To: <aWYiJbtueA8g3srn@ninjato>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Wed, 14 Jan 2026 14:36:42 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MeDZf=J4L8M9QTAP+JXGNUFfs1_HyD3fbMOQ18AR29GYw@mail.gmail.com>
-X-Gm-Features: AZwV_QiYLMexanAhF-BM1IfGaqguSnDiL1N1XOc2vJYCEMxqR8GZei0usNH3TDU
-Message-ID: <CAMRc=MeDZf=J4L8M9QTAP+JXGNUFfs1_HyD3fbMOQ18AR29GYw@mail.gmail.com>
-Subject: Re: [PATCH 00/12] i2c: add and start using i2c_adapter-specific
- printk helpers
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Andi Shyti <andi.shyti@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Khalil Blaiech <kblaiech@nvidia.com>, Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <mani@kernel.org>, linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linuxppc-dev@lists.ozlabs.org, linux-actions@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-On Tue, Jan 13, 2026 at 11:45=E2=80=AFAM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> Hi Bart,
->
-> > can be *revoked*. To that end we need to hide all dereferences of
-> > adap->dev in drivers.
->
-> I haven't actually tested the code yet (but will do so this week). But I
-> already want to feed back that I approve of the general concept of
-> abstracting away drivers access to the struct device by something we can
-> then convert to SRCU in a central place.
->
-> This mail is to discuss the timeline of these series. My preferred
-> solution is to aim for inclusion right after 7.0-rc1 is released. That
-> gives me enough time to test and you some more time to address review
-> comments. Bold wish, but maybe we can even get dependencies into 6.19
-> before (like the i2c_dbg rename for the saa7134 driver. Is there a patch
-> for it already?).
->
 
-FYI: I think the road-map will look something like this: v7.1 will get
-new interfaces and most controllers under drivers/i2c/ converted as
-this can be done within your tree exclusively. For v7.2 (with the new
-interfaces upstream) we can think about converting all i2c controller
-drivers treewide to the new helpers. Once v7.2-rc1 is tagged, I would
-try to remove struct device from struct i2c_adapter locally and send
-it to autobuilders for testing. If that goes well, we could create
-struct i2c_adapter_private or something like this and store its
-address in struct i2c_adapter. This new struct would be controlled by
-i2c core and contain struct device. With that out of the way, for v7.4
-we could think about adding SRCU into the mix (possibly using the
-then-available revocable).
+On Wed, 05 Nov 2025 16:20:23 +0100, Marco Crivellari wrote:
+> Currently if a user enqueues a work item using schedule_delayed_work() the
+> used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
+> WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
+> schedule_work() that is using system_wq and queue_work(), that makes use
+> again of WORK_CPU_UNBOUND.
+> 
+> This lack of consistency cannot be addressed without refactoring the API.
+> 
+> [...]
 
-If all goes well, we should be done in early 2027. :)
+Applied, thanks!
 
-Bartosz
+[1/1] phy: sun4i-usb: replace use of system_wq with system_percpu_wq
+      commit: 877686f9f42b58b04e4e25d07034bc95cadc20f3
+
+Best regards,
+-- 
+~Vinod
+
+
