@@ -1,147 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A15C2DB7A5
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 Jan 2026 11:18:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B1822BDC03
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 Jan 2026 11:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768821483; cv=none; b=hrsiQ3il5iXUTCFjlsRa84WCQt8aPdGkZJbY9NVnZ8GshdrdaQ5lcZsL1ba0ITQCceNd+UXMK5FYWGlPB2p8gn0iVeuvd1F68PzPhc7IsH6rf98qfgZPBTaYrc7MAXFXF5iP8lafxAFfSRE4coH5QhENopa1z5eWE3iyZrbpZqw=
+	t=1768821831; cv=none; b=hRjrXJ0UqMbHWuPJFCBs+qYuyhWLtzLgU3FffllUczo/KbHLL7P80EEHVOVc+RVAEZpu1alfPgLZ8P78pe6fgnK6hBhY3cYCrTTlqt5fmi5p5a3bC06xKl+SBKk/E0L6frIV8zPuc/jvZQXTXLHV2MrCMTujQfDa99Rw4Z8fH/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768821483; c=relaxed/simple;
-	bh=Qrt8Pc2QUAYXx+nK9SbBMDpSB00S5AE1V+9Iq+T3JoE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QMChN0X9bXGn8J3JKVazBMWsM7TyqztfGaMN+xEq4noadvHq30AN8RlcxkijLIsirF77X3BfV2w2ejh9j8DAKFXSrdyRnjC+y7EGYYP/5NyTkH4tGIadABghJnMZW/sFasp7LGX1RiBg7yAp9JWx2sZWKmGAV1jnSLNlgvLSyNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oonSw+3D; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768821831; c=relaxed/simple;
+	bh=1MfjcyjEorRmsekS27aI2ZLCbB3LRVzyCMRcbwN2Q/M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NNYFFrY7Zbb0nJm+hOznpFA2yjvD3dOVcTljTACyMW3f7oy2w/UqCSs4KRKAkL4jaQbVvR3QrLLFWIfHB5dPixfvA1NaXjjABg88QKK0MBDMgM7pG5HfKPvOeM1e9Alrh6XhA0qz4adc/2eHfYJX112mAM3nVy9024wp9SEl12I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cK9FqWXf; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ZaRxmj9Z; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oonSw+3D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEC26C116C6
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 Jan 2026 11:18:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768821482;
-	bh=Qrt8Pc2QUAYXx+nK9SbBMDpSB00S5AE1V+9Iq+T3JoE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=oonSw+3DrNZ2VxGfVQJTAP7oB7BETS53hJY4XHuPGm4vOMSzLyZfdS5H/fNqE+4hj
-	 wFP8H+gbjqV2TkZtF9ngZ4MAocodmmqzxNVSADfNkYGXc9cH0SF1FExs1ipEfMc3KH
-	 FMmgBdgdj2EytVqEzprFfY4SWHewcT0qDEm9MD16z4is+I70U8uPpvrf0Y1GE64wdt
-	 V3t2WPguL/T80VnbgCPoqupoaTv5gS7NMc+4Jnn8huoU+UjX2O8PXsHaJLLDiYbroV
-	 BXj02jdCvlj7WALcKPckJ1KTduN0hH3G8f7KeSnj1Y1g/s/j5c7gwNU3Q6iLjf+Jwg
-	 fmeT8ZY7sLHmQ==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-59b6c13b68dso4606730e87.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 19 Jan 2026 03:18:02 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVSr3zooqJtTgfCxQysoIqeNnzwKfGYS/EhehWmXnJOQivadLIkeJfpJqMTW2pfxXRzjhtSF+rN354wHw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyaO4od58f/lrkVLibAB58A/rxR5s9yx3xtW2Q/5K5tbEiSYt91
-	qRA+B+hNtQe5NtzAziwrByT/YcI/jsv86da/81HTPe16Vs3j6hhrw2qn8m5L8T/dnZjxkilGxET
-	GT/LoYfmml/4CpQcROMscy6SgXT1tSJJ+KxXnCBN2lA==
-X-Received: by 2002:a05:6512:234a:b0:59b:73b9:1f49 with SMTP id
- 2adb3069b0e04-59ba71a21a4mr5663497e87.26.1768821481438; Mon, 19 Jan 2026
- 03:18:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cK9FqWXf";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZaRxmj9Z"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60J90gLk227781
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 Jan 2026 11:23:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=Og2bNnMCiD+Qnx/yVwl7sa8q
+	3E6jkBERvqpmHJS/OCs=; b=cK9FqWXf4YEzqdLtmjNxnI+ZOiB0a/BMinmgC5Nz
+	A0AbGvNu5UOyKvZ0hNbB+39/iqnS/I12vuN96XYXVwIRHGFUFOuz/rWprlsueylL
+	PQWRBkbUldWASFJjRUr39tMwOY6OkL4gvkdkJtFpDllq8yg0kJyY59jU+eUPomoF
+	lXiiuN9bladCJM/XLOmMXcieoD/v13fH0X+G5EAgaeXu2Ig7SlYnwaj1rC/tYYEn
+	iJJ4BhxhpRJA6mc7SDHc3fhCK2n6XbbZhTYUYz77Pc8cFSPmycdxwd+vaToy5vuV
+	hgOJrzotIgsyd/6Qa1l7mqlNyzpXFhycJmPvnVadcv2aOA==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bsgfr8r6p-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 Jan 2026 11:23:49 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8c6a2ef071dso1260437385a.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 19 Jan 2026 03:23:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1768821829; x=1769426629; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Og2bNnMCiD+Qnx/yVwl7sa8q3E6jkBERvqpmHJS/OCs=;
+        b=ZaRxmj9Z0rM4lc9wlgpLXaFFlie13BU9s9P2yWcsCvLEOQEEzUpNIViqIiYL2vN9Au
+         62BGGDhSetPJ7hTHmzGj/f9nst1sp0NZtctoRi7sYdFVtxHFjPEQJC98IpqH8r+B4EQC
+         pwKfZTlFewFr8RPC+6IOrGQgbMJmG7JVXYbp4vkD4/7LCcLMEmpsLMo12t2UTDwhzH5Q
+         PhfHxlRAmQVPdysI6UrYjFKJLMqNrsMXHOtXODL3tMj15sCR6iJwSW2+nJlRMwqdhf/2
+         2wy5fW+C2dMZKVF07FuFCd/eprvB60tnA40kEs3Lyg0f87ZKEKioszP2oiNGDYu+WusO
+         lvmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768821829; x=1769426629;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Og2bNnMCiD+Qnx/yVwl7sa8q3E6jkBERvqpmHJS/OCs=;
+        b=Jxx5wwEFzRwD2hDeqQbRp0mM+SFXbOCKE+IHXK2icAZAdY/EuWe5kckkGWvHuoJrHw
+         dZpL9L279/mN0o8hhKav2cnjjeKOKuSgNLQhQjgBXyM87yv9TE0HjcwJ6F+jkebxia3m
+         HXbCofd7d+Ao9xAjf9d62UMPn/alkII3xyUSne4Ll+SQ42+LleUQJkKP54F1y2i58T5g
+         k0Z0FPXgBpts4mXujXGp7mKbET0+Sak9eNXl0TuRvna/wNRnaItHDeiF94GEoMYK20tl
+         iEvHkAzSyrdpG3ZiAeJED/dGTC0x/g9v/6q3WuPrW15C4ejH553XKhg236In6TNozYkT
+         c6MQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWO9RRCpnLg5vECAeWX6pOWcPwmqJm8bveBLbnEoRDruoH8aJzAxr78+5DjXrIMk8x4pMcMQVN58Tlg5g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwrmLjShX+VD4huEB7fhOGbVmzQcWQxXbnfLt0yId1uny/TPHL6
+	4V8ZJ6xcaATD9rKthMBm+k+9aXQSWXVrHAcmctnsOdt+XuBcGE5LFZouyFXQpSNYpnAnpARoYp1
+	QCJqc9/EsNin1HYgWzZEKq+TvqSLASiKq2/fqkkDXuxWf4MeRADy4CQ1hP+pJL9/uWg==
+X-Gm-Gg: AY/fxX7NF1C8/CAOHl3ulnq8U9OYczYBmG3jxQHe5+S63P3atsvAYTAQtbLTktMwJfO
+	LiRAecgcOsrRuawsq2bxH3F97YPn+MCM1aiLqwbq5ikFurRDqFjlLsJRJItKYePOfnJDK3JyCTn
+	tRhmxOK47Ne2g8XDB4DSocj3DWMChtM5VWdJvsgA8f4G6HRC+ZGNEK/2+xJ35u58AaalMmoXCh0
+	mpOVDPiKGvsPT+/GeXhWFulxlQIK1dB2M7n+JkpVMn5OoUiSyTyzQN8o5T2k5IUFqfAANAPpd/W
+	kj9ZxECgCfijnGqtjL99tT7PEDsPxmNozq5Mas3z0o3rg+bKl7xBD0nP3F1Lgy3XMBGSrRLQOP0
+	HP+yPPc0ZEELMOloZdSye8Tc95qU7VmD62z/yOrIr0hfJMJQrNIjLjRrNcmGvJc06LWD81IyVXE
+	yWtDWl7Hx3h0WOtos3ZNqypxg=
+X-Received: by 2002:a05:620a:1788:b0:8c6:af59:5e2c with SMTP id af79cd13be357-8c6af595e6amr1169567585a.18.1768821828923;
+        Mon, 19 Jan 2026 03:23:48 -0800 (PST)
+X-Received: by 2002:a05:620a:1788:b0:8c6:af59:5e2c with SMTP id af79cd13be357-8c6af595e6amr1169563785a.18.1768821828488;
+        Mon, 19 Jan 2026 03:23:48 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38384d8d5dcsm30685941fa.15.2026.01.19.03.23.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Jan 2026 03:23:47 -0800 (PST)
+Date: Mon, 19 Jan 2026 13:23:45 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Andy Yan <andy.yan@rock-chips.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Chen-Yu Tsai <wens@kernel.org>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        David Airlie <airlied@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
+        Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Jessica Zhang <jesszhan0024@gmail.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Liu Ying <victor.liu@nxp.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+        Rob Clark <robin.clark@oss.qualcomm.com>,
+        Robert Foss <rfoss@kernel.org>, Samuel Holland <samuel@sholland.org>,
+        Sandy Huang <hjc@rock-chips.com>, Sean Paul <sean@poorly.run>,
+        Simona Vetter <simona@ffwll.ch>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v4 01/10] drm/tests: hdmi: check the infoframes behaviour
+Message-ID: <yj3r6d3azwwfl5g5yo5wj65qy47f5hzrio5tvfmxhgzlc5bezo@ij4dctwhswls>
+References: <20260107-limit-infoframes-2-v4-1-213d0d3bd490@oss.qualcomm.com>
+ <2fb910198a3be542215592ac3f22d6b2@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251223-i2c-printk-helpers-v1-0-46a08306afdb@oss.qualcomm.com>
- <aUql_tZisfH8E1bq@hovoldconsulting.com> <CAMRc=MeHL5=s=ciUjHGw_poKpeVMWVi_2LBDFY_ugvXBaaE0vA@mail.gmail.com>
- <aW4PajoKqmyjkciY@hovoldconsulting.com>
-In-Reply-To: <aW4PajoKqmyjkciY@hovoldconsulting.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Mon, 19 Jan 2026 12:17:49 +0100
-X-Gmail-Original-Message-ID: <CAMRc=McfiKGT9RSJqZtCtHHHjwDLGPkNwA4Kot9-9frfpCGVmQ@mail.gmail.com>
-X-Gm-Features: AZwV_QhTOAeF1zNPvjVLJF6GJlUC44HwEM3vIZ8FNKt6qikN3ueMCqdY3a7S--s
-Message-ID: <CAMRc=McfiKGT9RSJqZtCtHHHjwDLGPkNwA4Kot9-9frfpCGVmQ@mail.gmail.com>
-Subject: Re: [PATCH 00/12] i2c: add and start using i2c_adapter-specific
- printk helpers
-To: Johan Hovold <johan@kernel.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Andi Shyti <andi.shyti@kernel.org>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Khalil Blaiech <kblaiech@nvidia.com>, 
-	Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <mani@kernel.org>, linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linuxppc-dev@lists.ozlabs.org, linux-actions@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2fb910198a3be542215592ac3f22d6b2@kernel.org>
+X-Proofpoint-ORIG-GUID: OUYuhNnbYr4mrwl6Zof722svww80UWcU
+X-Proofpoint-GUID: OUYuhNnbYr4mrwl6Zof722svww80UWcU
+X-Authority-Analysis: v=2.4 cv=c4OmgB9l c=1 sm=1 tr=0 ts=696e1445 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=VxRmli0-OQd2mcn04XsA:9 a=CjuIK1q_8ugA:10 a=zZCYzV9kfG8A:10
+ a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE5MDA5NCBTYWx0ZWRfX4ugv3cmBpY/c
+ 4NFXqzTGvQWTCu/a8/NA2O7RwoCip/LhigYFnPcVBZSndR4X/qGk1NJf0L15d810ol91VYrI0Xa
+ 1PB5TRqds1kwEKN3fauB81L+4lblqVqylhmN8OUL0BkMiJvFa3meJGzzctBfBbCn5KL03tE5r0i
+ h12wGx0Ii7a4tk9If5+vQE+t1f5lmhZXCwEnW7wMM8Hjeo3j5meqVRWBndOEbbNDVMV9HTl2EjI
+ qq0QRdN2gvvDc3DXUcOXNYZPcE7is3wU9X7UnEtgN9Ulvb2kSleQbRspcrLjc63v8MZxLNhfzHB
+ S329f2CjzmD0785o6Is/6qgaHY1DwIk7bTYIY59FIqNxr/SksbRy8BkdUWdxueNBW5BXvKPYACn
+ CRfyiVNirpZnTelsmvHUDQ26C7wO+UDjG8tJ3osfM4Mpmu31DxxSUB4w9TTXOY2NiO9LqkdOM5H
+ ECnvfjWo8J4vaOav80g==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-19_02,2026-01-19_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0 impostorscore=0 clxscore=1015 priorityscore=1501
+ suspectscore=0 spamscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601190094
 
-On Mon, Jan 19, 2026 at 12:03=E2=80=AFPM Johan Hovold <johan@kernel.org> wr=
-ote:
->
-> On Tue, Dec 23, 2025 at 04:11:08PM +0100, Bartosz Golaszewski wrote:
-> > On Tue, Dec 23, 2025 at 3:24=E2=80=AFPM Johan Hovold <johan@kernel.org>=
- wrote:
-> > >
-> > > On Tue, Dec 23, 2025 at 11:02:22AM +0100, Bartosz Golaszewski wrote:
-> > > > It's been another year of discussing the object life-time problems =
-at
-> > > > conferences. I2C is one of the offenders and its problems are more
-> > > > complex than those of some other subsystems. It seems the revocable=
-[1]
-> > > > API may make its way into the kernel this year but even with it in
-> > > > place, I2C won't be able to use it as there's currently nothing to
-> > > > *revoke*. The struct device is embedded within the i2c_adapter stru=
-ct
-> > > > whose lifetime is tied to the provider device being bound to its dr=
-iver.
-> > > >
-> > > > Fixing this won't be fast and easy but nothing's going to happen if=
- we
-> > > > don't start chipping away at it. The ultimate goal in order to be a=
-ble
-> > > > to use an SRCU-based solution (revocable or otherwise) is to conver=
-t the
-> > > > embedded struct device in struct i2c_adapter into an __rcu pointer =
-that
-> > > > can be *revoked*. To that end we need to hide all dereferences of
-> > > > adap->dev in drivers.
-> > >
-> > > No, this is not the way to do it. You start with designing and showin=
-g
-> > > what the end result will look like *before* you start rewriting world
-> > > like you are doing here.
-> >
-> > The paragraph you're commenting under explains exactly what I propose
-> > to do: move struct device out of struct i2c_adapter and protect the
-> > pointer storing its address with SRCU. This is a well-known design
-> > that's being generalized to a common "revocable" API which will
-> > possibly be available upstream by the time we're ready to use it.
->
-> Revocable, as presented in plumbers, is not going upstream.
->
+On Mon, Jan 19, 2026 at 10:13:43AM +0000, Maxime Ripard wrote:
+> On Wed, 7 Jan 2026 20:14:58 +0200, Dmitry Baryshkov wrote:
+> > Verify the InfoFrames behaviour. Check that reporting InfoFrame as
+> > unsupported doesn't result in a commit error. Also check that HDR and
+> > Audio InfoFrames are not triggered if corresponding features are not
+> > enabled.
+> > 
+> > 
+> > [ ... ]
+> 
+> Acked-by: Maxime Ripard <mripard@kernel.org>
 
-Oh really? :)
+Thanks for all the discussions and the reviews!
 
-https://lore.kernel.org/all/2026011607-canister-catalyst-9fdd@gregkh/
-
-> > You know I can't possibly *show* the end result in a single series
-> > because - as the paragraph before explains - we need to first hide all
-> > direct dereferences of struct device in struct i2c_adapter behind
-> > dedicated interfaces so that we when do the conversion, it'll affect
-> > only a limited number of places. It can't realistically be done at
-> > once.
->
-> You can post an RFC converting one driver with a proper description of
-> the problem you're trying to solve.
->
-
-It's not a one-driver problem. It's a subsystem-wide problem requiring
-a subsystem-wide solution. Wolfram explained it really well in his
-summary, I'm not going to repeat it here.
-
-I also don't agree that i2c-specific helpers make code harder to read.
-Is device_set_node() harder to read than
-
-dev->fwnode =3D fwnode;
-dev->of_node =3D to_of_node(fwnode);
-
-?
-
-Even if you answer yes - it at least helps hide the implementation
-details of the OF layer where fwnode-level is preferred. We do it all
-the time in the kernel. This kind of helpers allows easier transitions
-when some implementation detail needs to change - as is the case here.
-
-Bartosz
+-- 
+With best wishes
+Dmitry
