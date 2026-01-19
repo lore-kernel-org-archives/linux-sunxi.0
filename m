@@ -1,140 +1,147 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76403590B2;
-	Mon, 19 Jan 2026 11:08:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A15C2DB7A5
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 Jan 2026 11:18:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768820891; cv=none; b=u5LWggn5p+MdTEy/Hte3oIR3N6Y9eI4VkbImwspj34fW6TZ0V2TIvMGPWvL6BF1MtSMuovurTG8yW+XREPcXJmLhVpkJkSpWfDeYZUnR9gjEU8iSE8DGvfqjInlN/rFk8SAObhzag0adX+kihtJH/LU22BmM48JeD6fYJBD8fmE=
+	t=1768821483; cv=none; b=hrsiQ3il5iXUTCFjlsRa84WCQt8aPdGkZJbY9NVnZ8GshdrdaQ5lcZsL1ba0ITQCceNd+UXMK5FYWGlPB2p8gn0iVeuvd1F68PzPhc7IsH6rf98qfgZPBTaYrc7MAXFXF5iP8lafxAFfSRE4coH5QhENopa1z5eWE3iyZrbpZqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768820891; c=relaxed/simple;
-	bh=fOCQQatKJkAsP/8aCqj/CsMBsA/Znj0mtdxM6Z1bniQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MjaV3X2yJMNfCkDRG7si7odKPgKNl4PmDXA+HUlnPArM5LxWAmCooytzqlOYV8cw/+6hnj5ZRCmA3yGC6co6UUIgq+wr0uI920njiCmtgdj1PnmSrpaof35zs5d2LG7pukiLY5Sv/Z9bE3a8ecSxv7xuu6ffSJzWpfYZdmkLAac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nep/NM8G; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768821483; c=relaxed/simple;
+	bh=Qrt8Pc2QUAYXx+nK9SbBMDpSB00S5AE1V+9Iq+T3JoE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QMChN0X9bXGn8J3JKVazBMWsM7TyqztfGaMN+xEq4noadvHq30AN8RlcxkijLIsirF77X3BfV2w2ejh9j8DAKFXSrdyRnjC+y7EGYYP/5NyTkH4tGIadABghJnMZW/sFasp7LGX1RiBg7yAp9JWx2sZWKmGAV1jnSLNlgvLSyNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oonSw+3D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nep/NM8G"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C115C116C6;
-	Mon, 19 Jan 2026 11:08:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oonSw+3D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEC26C116C6
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 Jan 2026 11:18:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768820891;
-	bh=fOCQQatKJkAsP/8aCqj/CsMBsA/Znj0mtdxM6Z1bniQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=nep/NM8G8LkTEJd5plGPg9EQoqA/Jk3Te//DN57NcVg99WM5Tmu9m/En4Lq/XbxSW
-	 8tFsNoGyCBi514D8uUE6IhigyDSkHHy9NNjZmPD7fH5G9f4G5fhV1XBdvuvlr7g+OP
-	 MkSkyDiIh8gNd5hNBMXpbMPW/b31+MpuWPkyW8nK30G1C7793fOeq0FZ1GWa6rEOc2
-	 F7ctsmLlXgEJrQo9kccckQ0JfYchVr42jjohlOOAZi1txpzP8gD2AgiJIA9ReX7F5F
-	 A7TUSgK8XmxyIULpB18MIwQN0BybFvJnZK+F28d5q++GnKL/yryTTzZ4JP6H0Na9+4
-	 F6JFGXJPWGAmg==
-Message-ID: <db748d3f-53c8-43cc-a5bc-94940252ca0c@kernel.org>
-Date: Mon, 19 Jan 2026 12:08:05 +0100
+	s=k20201202; t=1768821482;
+	bh=Qrt8Pc2QUAYXx+nK9SbBMDpSB00S5AE1V+9Iq+T3JoE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=oonSw+3DrNZ2VxGfVQJTAP7oB7BETS53hJY4XHuPGm4vOMSzLyZfdS5H/fNqE+4hj
+	 wFP8H+gbjqV2TkZtF9ngZ4MAocodmmqzxNVSADfNkYGXc9cH0SF1FExs1ipEfMc3KH
+	 FMmgBdgdj2EytVqEzprFfY4SWHewcT0qDEm9MD16z4is+I70U8uPpvrf0Y1GE64wdt
+	 V3t2WPguL/T80VnbgCPoqupoaTv5gS7NMc+4Jnn8huoU+UjX2O8PXsHaJLLDiYbroV
+	 BXj02jdCvlj7WALcKPckJ1KTduN0hH3G8f7KeSnj1Y1g/s/j5c7gwNU3Q6iLjf+Jwg
+	 fmeT8ZY7sLHmQ==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-59b6c13b68dso4606730e87.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 19 Jan 2026 03:18:02 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVSr3zooqJtTgfCxQysoIqeNnzwKfGYS/EhehWmXnJOQivadLIkeJfpJqMTW2pfxXRzjhtSF+rN354wHw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyaO4od58f/lrkVLibAB58A/rxR5s9yx3xtW2Q/5K5tbEiSYt91
+	qRA+B+hNtQe5NtzAziwrByT/YcI/jsv86da/81HTPe16Vs3j6hhrw2qn8m5L8T/dnZjxkilGxET
+	GT/LoYfmml/4CpQcROMscy6SgXT1tSJJ+KxXnCBN2lA==
+X-Received: by 2002:a05:6512:234a:b0:59b:73b9:1f49 with SMTP id
+ 2adb3069b0e04-59ba71a21a4mr5663497e87.26.1768821481438; Mon, 19 Jan 2026
+ 03:18:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/8] base: soc: export soc_device_get_machine()
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
- imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
- linux-sunxi@lists.linux.dev
-References: <20260119-soc-of-root-v1-0-32a0fa9a78b4@oss.qualcomm.com>
- <20260119-soc-of-root-v1-3-32a0fa9a78b4@oss.qualcomm.com>
-Content-Language: fr-FR
-From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-In-Reply-To: <20260119-soc-of-root-v1-3-32a0fa9a78b4@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20251223-i2c-printk-helpers-v1-0-46a08306afdb@oss.qualcomm.com>
+ <aUql_tZisfH8E1bq@hovoldconsulting.com> <CAMRc=MeHL5=s=ciUjHGw_poKpeVMWVi_2LBDFY_ugvXBaaE0vA@mail.gmail.com>
+ <aW4PajoKqmyjkciY@hovoldconsulting.com>
+In-Reply-To: <aW4PajoKqmyjkciY@hovoldconsulting.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Mon, 19 Jan 2026 12:17:49 +0100
+X-Gmail-Original-Message-ID: <CAMRc=McfiKGT9RSJqZtCtHHHjwDLGPkNwA4Kot9-9frfpCGVmQ@mail.gmail.com>
+X-Gm-Features: AZwV_QhTOAeF1zNPvjVLJF6GJlUC44HwEM3vIZ8FNKt6qikN3ueMCqdY3a7S--s
+Message-ID: <CAMRc=McfiKGT9RSJqZtCtHHHjwDLGPkNwA4Kot9-9frfpCGVmQ@mail.gmail.com>
+Subject: Re: [PATCH 00/12] i2c: add and start using i2c_adapter-specific
+ printk helpers
+To: Johan Hovold <johan@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Andi Shyti <andi.shyti@kernel.org>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Khalil Blaiech <kblaiech@nvidia.com>, 
+	Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+	Manivannan Sadhasivam <mani@kernel.org>, linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linuxppc-dev@lists.ozlabs.org, linux-actions@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Jan 19, 2026 at 12:03=E2=80=AFPM Johan Hovold <johan@kernel.org> wr=
+ote:
+>
+> On Tue, Dec 23, 2025 at 04:11:08PM +0100, Bartosz Golaszewski wrote:
+> > On Tue, Dec 23, 2025 at 3:24=E2=80=AFPM Johan Hovold <johan@kernel.org>=
+ wrote:
+> > >
+> > > On Tue, Dec 23, 2025 at 11:02:22AM +0100, Bartosz Golaszewski wrote:
+> > > > It's been another year of discussing the object life-time problems =
+at
+> > > > conferences. I2C is one of the offenders and its problems are more
+> > > > complex than those of some other subsystems. It seems the revocable=
+[1]
+> > > > API may make its way into the kernel this year but even with it in
+> > > > place, I2C won't be able to use it as there's currently nothing to
+> > > > *revoke*. The struct device is embedded within the i2c_adapter stru=
+ct
+> > > > whose lifetime is tied to the provider device being bound to its dr=
+iver.
+> > > >
+> > > > Fixing this won't be fast and easy but nothing's going to happen if=
+ we
+> > > > don't start chipping away at it. The ultimate goal in order to be a=
+ble
+> > > > to use an SRCU-based solution (revocable or otherwise) is to conver=
+t the
+> > > > embedded struct device in struct i2c_adapter into an __rcu pointer =
+that
+> > > > can be *revoked*. To that end we need to hide all dereferences of
+> > > > adap->dev in drivers.
+> > >
+> > > No, this is not the way to do it. You start with designing and showin=
+g
+> > > what the end result will look like *before* you start rewriting world
+> > > like you are doing here.
+> >
+> > The paragraph you're commenting under explains exactly what I propose
+> > to do: move struct device out of struct i2c_adapter and protect the
+> > pointer storing its address with SRCU. This is a well-known design
+> > that's being generalized to a common "revocable" API which will
+> > possibly be available upstream by the time we're ready to use it.
+>
+> Revocable, as presented in plumbers, is not going upstream.
+>
 
+Oh really? :)
 
-Le 19/01/2026 à 11:40, Bartosz Golaszewski a écrit :
-> Some SoC drivers reimplement the functionality of
-> soc_device_get_machine(). Make this function accessible through the
-> sys_soc.h header. Rework it slightly to return a negative error number
-> on failure to read the machine string (SoC core can keep on ignoring
-> it). While at it: make it use the __free() helper from cleanup.h.
-> 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+https://lore.kernel.org/all/2026011607-canister-catalyst-9fdd@gregkh/
 
-Reviewed-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
+> > You know I can't possibly *show* the end result in a single series
+> > because - as the paragraph before explains - we need to first hide all
+> > direct dereferences of struct device in struct i2c_adapter behind
+> > dedicated interfaces so that we when do the conversion, it'll affect
+> > only a limited number of places. It can't realistically be done at
+> > once.
+>
+> You can post an RFC converting one driver with a proper description of
+> the problem you're trying to solve.
+>
 
-> ---
->   drivers/base/soc.c      | 16 +++++++++-------
->   include/linux/sys_soc.h | 10 ++++++++++
->   2 files changed, 19 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/base/soc.c b/drivers/base/soc.c
-> index 6f42632d2b0fcc8a729484e6ad270f9bcabe4a0b..bec8771d40f0590d4d7c3985c08fedfd4043a394 100644
-> --- a/drivers/base/soc.c
-> +++ b/drivers/base/soc.c
-> @@ -5,6 +5,7 @@
->    * Author: Lee Jones <lee.jones@linaro.org> for ST-Ericsson.
->    */
->   
-> +#include <linux/cleanup.h>
->   #include <linux/err.h>
->   #include <linux/glob.h>
->   #include <linux/idr.h>
-> @@ -111,17 +112,18 @@ static void soc_release(struct device *dev)
->   	kfree(soc_dev);
->   }
->   
-> -static void soc_device_get_machine(struct soc_device_attribute *soc_dev_attr)
-> +int soc_device_get_machine(struct soc_device_attribute *soc_dev_attr)
->   {
-> -	struct device_node *np;
-> -
->   	if (soc_dev_attr->machine)
-> -		return;
-> +		return -EBUSY;
-> +
-> +	struct device_node *np __free(device_node) = of_find_node_by_path("/");
-> +	if (!np)
-> +		return -ENOENT;
->   
-> -	np = of_find_node_by_path("/");
-> -	of_property_read_string(np, "model", &soc_dev_attr->machine);
-> -	of_node_put(np);
-> +	return of_property_read_string(np, "model", &soc_dev_attr->machine);
->   }
-> +EXPORT_SYMBOL_GPL(soc_device_get_machine);
->   
->   static struct soc_device_attribute *early_soc_dev_attr;
->   
-> diff --git a/include/linux/sys_soc.h b/include/linux/sys_soc.h
-> index d9b3cf0f410c8cfb509a4c1a4d6c83fde6fe33c6..2d2dbc18462a39ddee95e38826a769fab089026f 100644
-> --- a/include/linux/sys_soc.h
-> +++ b/include/linux/sys_soc.h
-> @@ -37,6 +37,16 @@ void soc_device_unregister(struct soc_device *soc_dev);
->    */
->   struct device *soc_device_to_device(struct soc_device *soc);
->   
-> +/**
-> + * soc_device_get_machine - retrieve the machine model and store it in
-> + *                          the soc_device_attribute structure
-> + * @soc_dev_attr: SoC attribute structure to store the model in
-> + *
-> + * Returns:
-> + * 0 on success, negative error number on failure.
-> + */
-> +int soc_device_get_machine(struct soc_device_attribute *soc_dev_attr);
-> +
->   #ifdef CONFIG_SOC_BUS
->   const struct soc_device_attribute *soc_device_match(
->   	const struct soc_device_attribute *matches);
-> 
+It's not a one-driver problem. It's a subsystem-wide problem requiring
+a subsystem-wide solution. Wolfram explained it really well in his
+summary, I'm not going to repeat it here.
 
+I also don't agree that i2c-specific helpers make code harder to read.
+Is device_set_node() harder to read than
+
+dev->fwnode =3D fwnode;
+dev->of_node =3D to_of_node(fwnode);
+
+?
+
+Even if you answer yes - it at least helps hide the implementation
+details of the OF layer where fwnode-level is preferred. We do it all
+the time in the kernel. This kind of helpers allows easier transitions
+when some implementation detail needs to change - as is the case here.
+
+Bartosz
