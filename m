@@ -1,89 +1,165 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E623C009C
-	for <linux-sunxi@lists.linux.dev>; Tue, 20 Jan 2026 08:08:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B015B43E9EE
+	for <linux-sunxi@lists.linux.dev>; Tue, 20 Jan 2026 15:20:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768896513; cv=none; b=Mkg2tmtZ8lUafpirnl4F7j9nwFgOGFR1ds3L/T1RwwvI2eiJLfCWQIjiCHL5ReWK8tHnOLj6rSL4hezv2FIbMcSsSfDVsfmDRY5G8TLrGQoH01oqtBi6j4nHjwpFWixBHtu8SVBO2/kF25bjG4TjuQDKkEAcLmkahZzjnJPBwRo=
+	t=1768922440; cv=none; b=c9xwiRYD0Af5Sate+4mUDrJJO6Btqlnjws6t/7geVfT9lvabk8lSCR+2Snry6Xkel+LXvqsHimAat7uL8AxAtXuV5o1uPmLFXIa+wdLsgbcpxYxKPCrqeYDm6Lh+bw14Vox4Po8KbDpwKOnmnCPVovIihqynvCVteBVxFCDjhqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768896513; c=relaxed/simple;
-	bh=NA4JTGm5EKA0DtVd/uWEi4uM8RUpAnkAGhWVoxOqPEA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PnHbhMggQpZXgwkT7PiN56tnDzZLnvmUb9h/DRnLa/2aXkdDbk8Ha9rJ5drZYpAydN3pnBpgx8uIy+IwuWeCTAwX96EPAvpqXKld8y4BFixrpYbAQ6eliPLIDmV9xGfE2D/JaidWU/3RCHJ/T3G6SXjh3meHpTxRwSXJF+z5H2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E8ET/ZWa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768922440; c=relaxed/simple;
+	bh=yaBHmQAY+03SVzh3vAYb6ADcwVfuLT5cg3ZARHQWEy4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=rVjXUM/1gaNwISDsIT3KxlcC3NciuE8PK/KhDpCVOq1XJYft5JJZ70V2fHT/LSkajk5lNirIjzBoS7OCUxWX02tIVwjAi5UwkxYIE183OGnFwoqDS+vgMXNB1k7GCMTshvOE+Pvjk7Pzq2odMJPz58e282aw5XN3GMSKrUcgBF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q5pEcj20; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E8ET/ZWa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48CA5C2BCB5
-	for <linux-sunxi@lists.linux.dev>; Tue, 20 Jan 2026 08:08:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q5pEcj20"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 85481C19422;
+	Tue, 20 Jan 2026 15:20:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768896513;
-	bh=NA4JTGm5EKA0DtVd/uWEi4uM8RUpAnkAGhWVoxOqPEA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=E8ET/ZWaSEu9/MbotIBXsUekx0xcCP2Z8bYM+aLhxaY3CuxoZ4AvAvUMfE3WM0XmS
-	 Jrsh+L+YxD4EVdd5ogjiMCP6QWRXv5diYGJKeccPips8pGytxydfbrUV3WeXaQ4sF4
-	 522wXmz4PHiAlSnAt4eLThw90pMZTM29EFCPcSPxLmSI2dpv8SDGTQUXWaoQ4ia4V1
-	 bfXw6Z2uyju/m6KIPVMor+RDkuW5DLkO3oXZ3o8fgsXjT1AJXJ8c+lre3mU0oWKDRl
-	 BxU1QnmY6QFHDZJGWfsSLGtGTZInZPe4vIXgtFElZ5VrCdi6O1zA9rtslcb3GYIiZw
-	 SCf0j35ZnVmfg==
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-38316445a67so40252581fa.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 20 Jan 2026 00:08:33 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVeZjCYFofwDi1X6aVMbieX0gs2GLmSUMnVtmCKuJJL5zxLTVswR0LYBzT1O9YwDWPZ7TvJdo3H1GULkQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxEeno8qd3hHYOT+870Wp50LX3YBv5nOsXfX3zaNEQY470Q/Nfg
-	/iTwQJkHKXzMvyNiv8nBZduqZOmE8kDoczMK8aL3flsznz8QG/reFyNPiAv96ZnsLQjev0E7lLp
-	IYH6C6M63sE5cNdiEpfCbCJ9pcr27oMLHNRzp9g1Y+g==
-X-Received: by 2002:a05:6512:114a:b0:59b:7a1e:d3f with SMTP id
- 2adb3069b0e04-59bafdc1eefmr4627613e87.19.1768896511812; Tue, 20 Jan 2026
- 00:08:31 -0800 (PST)
+	s=k20201202; t=1768922440;
+	bh=yaBHmQAY+03SVzh3vAYb6ADcwVfuLT5cg3ZARHQWEy4=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=Q5pEcj20/CfrE4zuknR+kn5aUuelD+dXqtEgvvnJiR+tnKpTShBGrlShaMRKUi00O
+	 y/cO21uOug2D7cVsUltNBU4DS8f5pxzgUv2p+ZHACnZalvelJKUk5tks/N8iPodBC+
+	 7aKwL+dY4jr4xgDw6tsGuuG9/8ho+Gq+5tQyebzAimwyXHtEB9f0wEhpe9o/XU90D6
+	 n4oi5ZNiyTKz/8ZBRQKwzkOpW+qCm/0NxlPqy8Hih2zcPRzZP+X/vnKYsGFxFLrUNE
+	 0N/Q6E9Rr20mcr3rHXHAfVwRCtcayS3kecnEvzatt5ra43wVtV0ST82gc4Kx2JYqN0
+	 1HNWpIo9HOvwA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72440D2ED15;
+	Tue, 20 Jan 2026 15:20:40 +0000 (UTC)
+From: =?utf-8?q?J=2E_Neusch=C3=A4fer_via_B4_Relay?= <devnull+j.ne.posteo.net@kernel.org>
+Date: Tue, 20 Jan 2026 16:20:38 +0100
+Subject: [PATCH next v3] board: sunxi: Add X96Q support
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260119-soc-of-root-v1-0-32a0fa9a78b4@oss.qualcomm.com>
- <20260119-soc-of-root-v1-8-32a0fa9a78b4@oss.qualcomm.com> <CAGb2v64uUhbEkB+iFjs5FGYR8E7=2nyNxDi646PmnygBZa6hQA@mail.gmail.com>
-In-Reply-To: <CAGb2v64uUhbEkB+iFjs5FGYR8E7=2nyNxDi646PmnygBZa6hQA@mail.gmail.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Tue, 20 Jan 2026 09:08:19 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MfFU6xfy=_R3iEreiT2qcTnT4cqx3vbL=40vS-F0HHUJA@mail.gmail.com>
-X-Gm-Features: AZwV_QiFAPGyibgg_I9f0WcLSHJHA7hiPV4XToJPEVHONcLHBS618t-hqReMSp4
-Message-ID: <CAMRc=MfFU6xfy=_R3iEreiT2qcTnT4cqx3vbL=40vS-F0HHUJA@mail.gmail.com>
-Subject: Re: [PATCH 8/8] soc: sunxi: mbus: don't access of_root directly
-To: wens@kernel.org
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260120-x96q-v3-1-1419ee399fa1@posteo.net>
+X-B4-Tracking: v=1; b=H4sIAEWdb2kC/1WMTQ6DIBBGr2JmXRpmiKhdeY+mC9GxsgELhtgY7
+ 15i24XL7+e9DSIHyxFuxQaBk43WuxzUpYB+6tyThR1yBpJUIikUa6NfomnqHlWl2ZgR8nUOPNr
+ 10NzB8brAI7eTjYsP78Od8NjOmoQChUI9VFKZepSqnX1c2F8dfw2J/pSWiPJHUaZw0F1FJZuay
+ hO17/sHEnpwiNUAAAA=
+X-Change-ID: 20251231-x96q-998c1376ebbf
+To: u-boot@lists.denx.de
+Cc: linux-sunxi <linux-sunxi@lists.linux.dev>, 
+ Tom Rini <trini@konsulko.com>, Svyatoslav Ryhel <clamor95@gmail.com>, 
+ Leo Yu-Chi Liang <ycliang@andestech.com>, Peter Geis <pgwipeout@gmail.com>, 
+ Lukasz Majewski <lukma@denx.de>, Junhui Liu <junhui.liu@pigmoral.tech>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Andre Przywara <andre.przywara@arm.com>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>, Chen-Yu Tsai <wens@kernel.org>, 
+ Lukas Schmid <lukas.schmid@netcube.li>, 
+ =?utf-8?q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768922439; l=3015;
+ i=j.ne@posteo.net; s=20240329; h=from:subject:message-id;
+ bh=lQ0P3AFYQWqSxsOBdi4MNMycxGc0DyWm9yvx4fujLD0=;
+ b=aKdiVIWuFj1j1ap4MA8QBhJ/kLAteO04yG7KEIHlfAKZX0gOxDUL97xy1bgvIKiHwy0ITl9h+
+ nCLLE5EtUqHAzkQSUExzyykZsZr00hFJHDcn3Iw/GKXO1qmU8ZOTGzN
+X-Developer-Key: i=j.ne@posteo.net; a=ed25519;
+ pk=NIe0bK42wNaX/C4bi6ezm7NJK0IQE+8MKBm7igFMIS4=
+X-Endpoint-Received: by B4 Relay for j.ne@posteo.net/20240329 with
+ auth_id=156
+X-Original-From: =?utf-8?q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
+Reply-To: j.ne@posteo.net
 
-On Tue, Jan 20, 2026 at 9:05=E2=80=AFAM Chen-Yu Tsai <wens@kernel.org> wrot=
-e:
->
-> On Mon, Jan 19, 2026 at 6:40=E2=80=AFPM Bartosz Golaszewski
-> <bartosz.golaszewski@oss.qualcomm.com> wrote:
-> >
-> > Don't access of_root directly as it reduces the build test coverage for
-> > this driver with COMPILE_TEST=3Dy and OF=3Dn. Use existing helper funct=
-ions
-> > to retrieve the relevant information.
->
-> I was somewhat expecting a matching change to the Kconfig to add
-> COMPILE_TEST to the "depends on" line.
->
-> But maybe the case is already hit with ARM=3Dy && USE_OF=3Dn ?
->
+From: "J. Neuschäfer" <j.ne@posteo.net>
 
-Yeah, that would be the next step but there may be more weird
-dependencies hidden in here so let's do it separately after this is
-addressed or we'll get stuck looking and buildbot reports.
+The X96Q is a set-top box with an H313 SoC, AXP305 PMIC, 1 or 2 GiB RAM,
+8 or 16 GiB eMMC flash, 2x USB A, Micro-SD, HDMI, Ethernet, audio/video
+output, and infrared input.
 
-Bart
+  https://x96mini.com/products/x96q-tv-box-android-10-set-top-box
+
+This commit adds a defconfig and some documentation. The devicetree is
+already in dts/upstream.
+
+The CONFIG_DRAM_SUNXI_* settings are chosen such that the register
+values in the DRAM PHY's MMIO space are as close as possible to those
+observed when booting with the preinstalled vendor U-Boot. The DRAM
+clock frequency of 600 MHz was reported in the vendor U-Boot's output.
+
+Signed-off-by: J. Neuschäfer <j.ne@posteo.net>
+---
+Changes in v3:
+- Remove CONFIG_FIT_BEST_MATCH, CONFIG_CMD_UFETCH/CAT, CONFIG_SYS_I2C_SLAVE
+  and CONFIG_SPL_USE_TINY_PRINTF_POINTER_SUPPORT from defconfig
+- Add board/sunxi/MAINTAINERS entry
+- Remove board-specific documentation
+- Link to v2: https://lore.kernel.org/r/20260110-x96q-v2-1-1d6a725eb825@posteo.net
+
+Changes in v2:
+- Add missing Signed-off-by
+- Re-generate x96q_defconfig with 'make savedefconfig'
+- Move DRAM frequency comment to commit message
+- Use GPL-2.0-or-later instead of deprecated GPL-2.0+
+- Link to v1: https://lore.kernel.org/r/20251231-x96q-v1-1-316d703b8f03@posteo.net
+---
+ board/sunxi/MAINTAINERS |  5 +++++
+ configs/x96q_defconfig  | 26 ++++++++++++++++++++++++++
+ 2 files changed, 31 insertions(+)
+
+diff --git a/board/sunxi/MAINTAINERS b/board/sunxi/MAINTAINERS
+index c52e8a34c85..775d0f7ae83 100644
+--- a/board/sunxi/MAINTAINERS
++++ b/board/sunxi/MAINTAINERS
+@@ -611,6 +611,11 @@ M:	Andre Przywara <andre.przywara@arm.com>
+ S:	Maintained
+ F:	configs/x96_mate_defconfig
+ 
++X96Q TV BOX
++M:	J. Neuschäfer <j.ne@posteo.net>
++S:	Maintained
++F:	configs/x96q_defconfig
++
+ X96Q PRO+ TV BOX
+ M:	Andre Przywara <andre.przywara@arm.com>
+ S:	Maintained
+diff --git a/configs/x96q_defconfig b/configs/x96q_defconfig
+new file mode 100644
+index 00000000000..24c214b4c63
+--- /dev/null
++++ b/configs/x96q_defconfig
+@@ -0,0 +1,26 @@
++CONFIG_ARM=y
++CONFIG_ARCH_SUNXI=y
++CONFIG_DEFAULT_DEVICE_TREE="allwinner/sun50i-h313-x96q"
++CONFIG_DRAM_CLK=600
++CONFIG_SPL=y
++CONFIG_DRAM_SUNXI_DX_ODT=0x03030303
++CONFIG_DRAM_SUNXI_DX_DRI=0x0e0e0e0e
++CONFIG_DRAM_SUNXI_CA_DRI=0x1f12
++CONFIG_DRAM_SUNXI_TPR0=0xc0001002
++CONFIG_DRAM_SUNXI_TPR2=0x00000100
++CONFIG_DRAM_SUNXI_TPR10=0x002f0107
++CONFIG_DRAM_SUNXI_TPR11=0xddddcccc
++CONFIG_DRAM_SUNXI_TPR12=0xeddc7665
++CONFIG_MACH_SUN50I_H616=y
++CONFIG_SUNXI_DRAM_H616_DDR3_1333=y
++CONFIG_R_I2C_ENABLE=y
++# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
++CONFIG_SPL_I2C=y
++CONFIG_SPL_SYS_I2C_LEGACY=y
++CONFIG_SYS_I2C_MVTWSI=y
++CONFIG_SYS_I2C_SPEED=400000
++CONFIG_SUPPORT_EMMC_BOOT=y
++CONFIG_SUN8I_EMAC=y
++CONFIG_AXP305_POWER=y
++CONFIG_USB_EHCI_HCD=y
++CONFIG_USB_OHCI_HCD=y
+
+---
+base-commit: 6cdd7597a2fbfc1572c1b0af23d3daf1cefa2de7
+change-id: 20251231-x96q-998c1376ebbf
+
+Best regards,
+-- 
+J. Neuschäfer <j.ne@posteo.net>
+
+
