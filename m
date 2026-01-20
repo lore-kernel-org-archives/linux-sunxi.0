@@ -1,36 +1,145 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B015B43E9EE
-	for <linux-sunxi@lists.linux.dev>; Tue, 20 Jan 2026 15:20:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C0D478876;
+	Tue, 20 Jan 2026 19:22:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768922440; cv=none; b=c9xwiRYD0Af5Sate+4mUDrJJO6Btqlnjws6t/7geVfT9lvabk8lSCR+2Snry6Xkel+LXvqsHimAat7uL8AxAtXuV5o1uPmLFXIa+wdLsgbcpxYxKPCrqeYDm6Lh+bw14Vox4Po8KbDpwKOnmnCPVovIihqynvCVteBVxFCDjhqs=
+	t=1768936959; cv=none; b=a6+qCrlqUVUAn7YeBDK2lLmdbzGS/f2rU6h/xnCAPUxWzj0T7gcnWQHVO3Sjbe63wMimZpU7Lb/jN4WBenvGSVliUNKobIwHqxToBk/hB+obHLMkbS3AlFRrKqoW0sMJAFJcvXDOjMu2RhX4xoT6NCL7ehXV+3QvVReMTvb8iA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768922440; c=relaxed/simple;
-	bh=yaBHmQAY+03SVzh3vAYb6ADcwVfuLT5cg3ZARHQWEy4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=rVjXUM/1gaNwISDsIT3KxlcC3NciuE8PK/KhDpCVOq1XJYft5JJZ70V2fHT/LSkajk5lNirIjzBoS7OCUxWX02tIVwjAi5UwkxYIE183OGnFwoqDS+vgMXNB1k7GCMTshvOE+Pvjk7Pzq2odMJPz58e282aw5XN3GMSKrUcgBF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q5pEcj20; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768936959; c=relaxed/simple;
+	bh=OVmbkw3k7fJ26f3GTMylBqqrvRkFQLNjf2AcM9UevMU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=spci6KxDjVDn1GUZvW3mSJy/+UvS0QNjQlktC4mtcKMfkgiNPDovvhHKOOCAXr5LMLTrqvBu71hWhjFhYwZ9wH24CCXdim/Vfh9egJ3rPR+8UkBkjL0mYsIjIbSshK+qXbdsrxle0vpu04tfbyITPt6bFwQ/bcgqzmpajIXNabc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YlIDWci6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q5pEcj20"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 85481C19422;
-	Tue, 20 Jan 2026 15:20:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YlIDWci6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3BB5C19422;
+	Tue, 20 Jan 2026 19:22:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768922440;
-	bh=yaBHmQAY+03SVzh3vAYb6ADcwVfuLT5cg3ZARHQWEy4=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=Q5pEcj20/CfrE4zuknR+kn5aUuelD+dXqtEgvvnJiR+tnKpTShBGrlShaMRKUi00O
-	 y/cO21uOug2D7cVsUltNBU4DS8f5pxzgUv2p+ZHACnZalvelJKUk5tks/N8iPodBC+
-	 7aKwL+dY4jr4xgDw6tsGuuG9/8ho+Gq+5tQyebzAimwyXHtEB9f0wEhpe9o/XU90D6
-	 n4oi5ZNiyTKz/8ZBRQKwzkOpW+qCm/0NxlPqy8Hih2zcPRzZP+X/vnKYsGFxFLrUNE
-	 0N/Q6E9Rr20mcr3rHXHAfVwRCtcayS3kecnEvzatt5ra43wVtV0ST82gc4Kx2JYqN0
-	 1HNWpIo9HOvwA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72440D2ED15;
-	Tue, 20 Jan 2026 15:20:40 +0000 (UTC)
-From: =?utf-8?q?J=2E_Neusch=C3=A4fer_via_B4_Relay?= <devnull+j.ne.posteo.net@kernel.org>
-Date: Tue, 20 Jan 2026 16:20:38 +0100
-Subject: [PATCH next v3] board: sunxi: Add X96Q support
+	s=k20201202; t=1768936958;
+	bh=OVmbkw3k7fJ26f3GTMylBqqrvRkFQLNjf2AcM9UevMU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=YlIDWci6NaIrYvDjAq2yhQz8tWegT2Dg6owXkPTtWwCCNZy6TIGjxdkf0SjWMqrBS
+	 HZ1OYluozzxuGUb+8XWZyPhjHzhZZBTdn+x4fAQviriIGxbMX1dqT/c1f/SDma9EII
+	 glDqd9riC4rVx6B2QSNL57WNsH5WjpCsMft/TEmFUb+YsHy2dFuwVHN2w/p0QKAC/w
+	 5Sj7i2icD1/pyQOPwPNE/B2LChkgA736lCjfJaMApcMxmC8AfGe77IDEawz4zO7gsp
+	 7BnFoBJwZbhJtt0PHorTsf9ENVZR5l7hg6xF7YMzjdh3zo3J0vrT/Hr5cse6h9pQHI
+	 VNOGdReIfciTA==
+From: Mark Brown <broonie@kernel.org>
+To: Varshini Rajendran <varshini.rajendran@microchip.com>, 
+ Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Sunny Luo <sunny.luo@amlogic.com>, Janne Grunau <j@jannau.net>, 
+ Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, CL Wang <cl634@andestech.com>, 
+ Manikandan Muralidharan <manikandan.m@microchip.com>, 
+ David Lechner <dlechner@baylibre.com>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Jonas Gorski <jonas.gorski@gmail.com>, Hang Zhou <929513338@qq.com>, 
+ Jun Guo <jun.guo@cixtech.com>, Philipp Stanner <phasta@kernel.org>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Bartosz Golaszewski <brgl@kernel.org>, 
+ =?utf-8?q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>, 
+ Shiji Yang <yangshiji66@outlook.com>, James Clark <james.clark@linaro.org>, 
+ Jonathan Marek <jonathan@marek.ca>, Carlos Song <carlos.song@nxp.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Huacai Chen <chenhuacai@kernel.org>, 
+ Xianwei Zhao <xianwei.zhao@amlogic.com>, 
+ Prajna Rajendra Kumar <prajna.rajendrakumar@microchip.com>, 
+ Sergio Perez Gonzalez <sperezglz@gmail.com>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Qianfeng Rong <rongqianfeng@vivo.com>, Haibo Chen <haibo.chen@nxp.com>, 
+ Gabor Juhos <j4g8y7@gmail.com>, Md Sadre Alam <quic_mdalam@quicinc.com>, 
+ Rosen Penev <rosenp@gmail.com>, Luis de Arquer <luis.dearquer@inertim.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>, 
+ Tudor Ambarus <tudor.ambarus@linaro.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, Longbin Li <looong.bin@gmail.com>, 
+ Patrice Chotard <patrice.chotard@foss.st.com>, 
+ =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>, 
+ Alessandro Grassi <alessandro.grassi@mailbox.org>, 
+ Chen-Yu Tsai <wens@kernel.org>, Darshan R <rathod.darshan.0896@gmail.com>, 
+ Aaron Kling <webgeek1234@gmail.com>, Vishwaroop A <va@nvidia.com>, 
+ Haixu Cui <quic_haixcui@quicinc.com>, 
+ Darshan Rathod <darshanrathod475@gmail.com>, linux-spi@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-amlogic@lists.infradead.org, asahi@lists.linux.dev, 
+ linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
+ linux-rpi-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com, imx@lists.linux.dev, 
+ linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+ linux-tegra@vger.kernel.org, virtualization@lists.linux.dev, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Lorenzo Bianconi <lorenzo@kernel.org>, Ray Liu <ray.liu@airoha.com>, 
+ Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
+ =?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+ Ryan Wanner <ryan.wanner@microchip.com>, 
+ Michael Hennerich <michael.hennerich@analog.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Kamal Dasu <kamal.dasu@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+ William Zhang <william.zhang@broadcom.com>, 
+ Kursad Oney <kursad.oney@broadcom.com>, 
+ Anand Gore <anand.gore@broadcom.com>, 
+ =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>, 
+ David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Vladimir Oltean <olteanv@gmail.com>, Frank Li <Frank.Li@nxp.com>, 
+ Jean-Marie Verdun <verdun@hpe.com>, Nick Hawkins <nick.hawkins@hpe.com>, 
+ Yang Shen <shenyang39@huawei.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Lixu Zhang <lixu.zhang@intel.com>, 
+ Yinbo Zhu <zhuyinbo@loongson.cn>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Conor Dooley <conor.dooley@microchip.com>, 
+ Daire McNamara <daire.mcnamara@microchip.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, 
+ Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, 
+ Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, 
+ Han Xu <han.xu@nxp.com>, Yogesh Gaur <yogeshgaur.83@gmail.com>, 
+ Linus Walleij <linusw@kernel.org>, Daniel Mack <daniel@zonque.org>, 
+ Haojian Zhuang <haojian.zhuang@gmail.com>, 
+ Robert Jarzmik <robert.jarzmik@free.fr>, 
+ Chris Packham <chris.packham@alliedtelesis.co.nz>, 
+ Heiko Stuebner <heiko@sntech.de>, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Andi Shyti <andi.shyti@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+ Paul Walmsley <pjw@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, 
+ Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Li-hao Kuo <lhjeff911@gmail.com>, 
+ Masahisa Kojima <masahisa.kojima@linaro.org>, 
+ Jassi Brar <jaswinder.singh@linaro.org>, 
+ Laxman Dewangan <ldewangan@nvidia.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Sowjanya Komatineni <skomatineni@nvidia.com>, 
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+ Michal Simek <michal.simek@amd.com>, Max Filippov <jcmvbkbc@gmail.com>
+In-Reply-To: <20260108203004.3538449-1-andriy.shevchenko@linux.intel.com>
+References: <20260108203004.3538449-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v1 0/4] spi: Make SPI core to take care of fwnode
+ assignment
+Message-Id: <176893693352.778248.9155805475563647239.b4-ty@kernel.org>
+Date: Tue, 20 Jan 2026 19:22:13 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -39,127 +148,52 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260120-x96q-v3-1-1419ee399fa1@posteo.net>
-X-B4-Tracking: v=1; b=H4sIAEWdb2kC/1WMTQ6DIBBGr2JmXRpmiKhdeY+mC9GxsgELhtgY7
- 15i24XL7+e9DSIHyxFuxQaBk43WuxzUpYB+6tyThR1yBpJUIikUa6NfomnqHlWl2ZgR8nUOPNr
- 10NzB8brAI7eTjYsP78Od8NjOmoQChUI9VFKZepSqnX1c2F8dfw2J/pSWiPJHUaZw0F1FJZuay
- hO17/sHEnpwiNUAAAA=
-X-Change-ID: 20251231-x96q-998c1376ebbf
-To: u-boot@lists.denx.de
-Cc: linux-sunxi <linux-sunxi@lists.linux.dev>, 
- Tom Rini <trini@konsulko.com>, Svyatoslav Ryhel <clamor95@gmail.com>, 
- Leo Yu-Chi Liang <ycliang@andestech.com>, Peter Geis <pgwipeout@gmail.com>, 
- Lukasz Majewski <lukma@denx.de>, Junhui Liu <junhui.liu@pigmoral.tech>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Andre Przywara <andre.przywara@arm.com>, 
- Hans de Goede <hdegoede@redhat.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, Chen-Yu Tsai <wens@kernel.org>, 
- Lukas Schmid <lukas.schmid@netcube.li>, 
- =?utf-8?q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768922439; l=3015;
- i=j.ne@posteo.net; s=20240329; h=from:subject:message-id;
- bh=lQ0P3AFYQWqSxsOBdi4MNMycxGc0DyWm9yvx4fujLD0=;
- b=aKdiVIWuFj1j1ap4MA8QBhJ/kLAteO04yG7KEIHlfAKZX0gOxDUL97xy1bgvIKiHwy0ITl9h+
- nCLLE5EtUqHAzkQSUExzyykZsZr00hFJHDcn3Iw/GKXO1qmU8ZOTGzN
-X-Developer-Key: i=j.ne@posteo.net; a=ed25519;
- pk=NIe0bK42wNaX/C4bi6ezm7NJK0IQE+8MKBm7igFMIS4=
-X-Endpoint-Received: by B4 Relay for j.ne@posteo.net/20240329 with
- auth_id=156
-X-Original-From: =?utf-8?q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
-Reply-To: j.ne@posteo.net
+X-Mailer: b4 0.15-dev-47773
 
-From: "J. Neuschäfer" <j.ne@posteo.net>
+On Thu, 08 Jan 2026 21:23:37 +0100, Andy Shevchenko wrote:
+> It seems all of the SPI drivers want to propagate fwnode (or of_node)
+> of the physical device to the SPI device. Make sure we don't duplicate
+> it over and over in each new driver (+2 in this cycle) by making core
+> to take care of that. Note, similar is done already by IIO and
+> I²C subsystems.
+> 
+> There is one noticeable and quite specific case that is taken care in
+> the first patch and would be nice to have a confirmation from Cirrus
+> that everything is okay. The rest is just a mechanical conversion.
+> 
+> [...]
 
-The X96Q is a set-top box with an H313 SoC, AXP305 PMIC, 1 or 2 GiB RAM,
-8 or 16 GiB eMMC flash, 2x USB A, Micro-SD, HDMI, Ethernet, audio/video
-output, and infrared input.
+Applied to
 
-  https://x96mini.com/products/x96q-tv-box-android-10-set-top-box
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-This commit adds a defconfig and some documentation. The devicetree is
-already in dts/upstream.
+Thanks!
 
-The CONFIG_DRAM_SUNXI_* settings are chosen such that the register
-values in the DRAM PHY's MMIO space are as close as possible to those
-observed when booting with the preinstalled vendor U-Boot. The DRAM
-clock frequency of 600 MHz was reported in the vendor U-Boot's output.
+[1/4] spi: Propagate default fwnode to the SPI controller device
+      commit: f2d1a3318eb1ec860999db48cb8d13b43261624d
+[2/4] spi: Drop duplicate of_node assignment
+      commit: 3974a585be78a1dc90a19d5cf1846a99954e3842
+[3/4] spi: Drop duplicate fwnode assignment
+      commit: 103c510e1c6832720059756d155dd13a42baa7ab
+[4/4] spi: Drop duplicate device_set_node() call
+      commit: 37fbc1ab0f225d23f0839260a11375b4f1f7cf8c
 
-Signed-off-by: J. Neuschäfer <j.ne@posteo.net>
----
-Changes in v3:
-- Remove CONFIG_FIT_BEST_MATCH, CONFIG_CMD_UFETCH/CAT, CONFIG_SYS_I2C_SLAVE
-  and CONFIG_SPL_USE_TINY_PRINTF_POINTER_SUPPORT from defconfig
-- Add board/sunxi/MAINTAINERS entry
-- Remove board-specific documentation
-- Link to v2: https://lore.kernel.org/r/20260110-x96q-v2-1-1d6a725eb825@posteo.net
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Changes in v2:
-- Add missing Signed-off-by
-- Re-generate x96q_defconfig with 'make savedefconfig'
-- Move DRAM frequency comment to commit message
-- Use GPL-2.0-or-later instead of deprecated GPL-2.0+
-- Link to v1: https://lore.kernel.org/r/20251231-x96q-v1-1-316d703b8f03@posteo.net
----
- board/sunxi/MAINTAINERS |  5 +++++
- configs/x96q_defconfig  | 26 ++++++++++++++++++++++++++
- 2 files changed, 31 insertions(+)
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-diff --git a/board/sunxi/MAINTAINERS b/board/sunxi/MAINTAINERS
-index c52e8a34c85..775d0f7ae83 100644
---- a/board/sunxi/MAINTAINERS
-+++ b/board/sunxi/MAINTAINERS
-@@ -611,6 +611,11 @@ M:	Andre Przywara <andre.przywara@arm.com>
- S:	Maintained
- F:	configs/x96_mate_defconfig
- 
-+X96Q TV BOX
-+M:	J. Neuschäfer <j.ne@posteo.net>
-+S:	Maintained
-+F:	configs/x96q_defconfig
-+
- X96Q PRO+ TV BOX
- M:	Andre Przywara <andre.przywara@arm.com>
- S:	Maintained
-diff --git a/configs/x96q_defconfig b/configs/x96q_defconfig
-new file mode 100644
-index 00000000000..24c214b4c63
---- /dev/null
-+++ b/configs/x96q_defconfig
-@@ -0,0 +1,26 @@
-+CONFIG_ARM=y
-+CONFIG_ARCH_SUNXI=y
-+CONFIG_DEFAULT_DEVICE_TREE="allwinner/sun50i-h313-x96q"
-+CONFIG_DRAM_CLK=600
-+CONFIG_SPL=y
-+CONFIG_DRAM_SUNXI_DX_ODT=0x03030303
-+CONFIG_DRAM_SUNXI_DX_DRI=0x0e0e0e0e
-+CONFIG_DRAM_SUNXI_CA_DRI=0x1f12
-+CONFIG_DRAM_SUNXI_TPR0=0xc0001002
-+CONFIG_DRAM_SUNXI_TPR2=0x00000100
-+CONFIG_DRAM_SUNXI_TPR10=0x002f0107
-+CONFIG_DRAM_SUNXI_TPR11=0xddddcccc
-+CONFIG_DRAM_SUNXI_TPR12=0xeddc7665
-+CONFIG_MACH_SUN50I_H616=y
-+CONFIG_SUNXI_DRAM_H616_DDR3_1333=y
-+CONFIG_R_I2C_ENABLE=y
-+# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-+CONFIG_SPL_I2C=y
-+CONFIG_SPL_SYS_I2C_LEGACY=y
-+CONFIG_SYS_I2C_MVTWSI=y
-+CONFIG_SYS_I2C_SPEED=400000
-+CONFIG_SUPPORT_EMMC_BOOT=y
-+CONFIG_SUN8I_EMAC=y
-+CONFIG_AXP305_POWER=y
-+CONFIG_USB_EHCI_HCD=y
-+CONFIG_USB_OHCI_HCD=y
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
----
-base-commit: 6cdd7597a2fbfc1572c1b0af23d3daf1cefa2de7
-change-id: 20251231-x96q-998c1376ebbf
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-Best regards,
--- 
-J. Neuschäfer <j.ne@posteo.net>
-
+Thanks,
+Mark
 
