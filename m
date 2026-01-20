@@ -1,174 +1,107 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DC711B142D
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 Jan 2026 23:11:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC1E3B8D5B
+	for <linux-sunxi@lists.linux.dev>; Tue, 20 Jan 2026 07:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768864280; cv=none; b=JSbsxCQ54SEgCV92VNe/8gZOgqQNrDT2KoZuudvL0BbEQwMiLydRsPupeErd+UewRcK1Kt2524F/rvwnzwBeV2UniLmBBo5Fj9fRvIc5YfxC/LB4PMusQgPjRaEyOAAUVjuPLgUSmm6EyTF5DGqOyeh7svk8E9BfH1JUx120L/s=
+	t=1768895718; cv=none; b=KTYgoWNG9M5zXpZorAiVExLwBxgPw8WTwzxPIdFe2sR5QQ7FKCuuj8U45bnH7TMnZabJB1wn4l+xSkxqXIv8cEOrGcC66talvYLIifwyHvJakqry2s1cu/CwtnwheqhASifmOhSx5h5klpPlfryll18mjkNdK+yEW6AshFQjmEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768864280; c=relaxed/simple;
-	bh=W/1Sl2L3hkPktJkulRpGKOye+lfKGCJI0ll/6Tg9cYY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Of/rdU+tEkcqtqz2OjUOTx5PK/qV/wJ423hgbNUTuCGD4jugaLbsPKeciX9f3DQeWwPNG4Hr1V3FHf28srqz+RQX/x1frnYpJ8rhGo9OSa5R5CNg6uBkiqY+Gr2awLMPpxdwwfrDTwbmVOk7rHqkfwEiJHEFM9BEDXkl70xcJWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BEE7A1476;
-	Mon, 19 Jan 2026 15:11:10 -0800 (PST)
-Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B22AB3F632;
-	Mon, 19 Jan 2026 15:11:15 -0800 (PST)
-Date: Tue, 20 Jan 2026 00:10:10 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Yixun Lan <dlan@gentoo.org>
-Cc: u-boot@lists.denx.de, linux-sunxi@lists.linux.dev, Jagan Teki
- <jagan@amarulasolutions.com>, Tom Rini <trini@konsulko.com>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Paul Kocialkowski <contact@paulk.fr>, Samuel
- Holland <samuel@sholland.org>
-Subject: Re: [PATCH v3 1/9] power: regulator: add AXP318W support
-Message-ID: <20260120001010.7b67371d@ryzen.lan>
-In-Reply-To: <20260113-01-a733-soc-support-v3-1-f19dcd098f60@gentoo.org>
-References: <20260113-01-a733-soc-support-v3-0-f19dcd098f60@gentoo.org>
-	<20260113-01-a733-soc-support-v3-1-f19dcd098f60@gentoo.org>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1768895718; c=relaxed/simple;
+	bh=TMLsqINFJyrKXhaZG2FJM4ezyn4y9q99PGcQ/6K3rFU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rYxii3F7W2fTbsOTa3BWQg5cVTNWdC77GLhj834h9A/m8igTkBGvOWhHaDklqgW9LNpT+AXJQpwRSbI5BeVJiNdeFrtJGDwP4TZu21dt4WtQMYUfHoxJ4FyVV7y75K4wRzDoLVdHqsjD76MNJRygKqvMQHUgYzyggpuFeinpafE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G/tXr5tE; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G/tXr5tE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 005BFC2BCB6
+	for <linux-sunxi@lists.linux.dev>; Tue, 20 Jan 2026 07:55:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768895718;
+	bh=TMLsqINFJyrKXhaZG2FJM4ezyn4y9q99PGcQ/6K3rFU=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=G/tXr5tEc0bh9MMiNSesbvugEyi50Bk0CHNTI/FVHiJS0VxmBoDAkcouLbbyP6X73
+	 1AfrZ/mz0q80YKXuv4emmR5b6HvPZwjcZ1KRkzU3eJtQrk0soK14IMi3brnNahlUuK
+	 N/8SucSBjb+SxTTVMS4SnxT1jCcwU3bxqkZd18PFkg+EtUfwHVFQOOD4lAFS1ONPa8
+	 JceW3DzM9JjtbyBa/fI1j+5t1ygR5eFl5VqeOxX2w5p4TaLbtOfFmYC86YSQJBYRl1
+	 Ag/32MrQAQrcmZnY+G533tdxUfo2VDLxFWb+KLV+VfkGV/+paMXQpckr21Nx6LzBtq
+	 Rjp5CPbyRZ9Uw==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-382f4aa8dd1so47818661fa.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 19 Jan 2026 23:55:17 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVnbAIZ+y6hnFt38KF1tACB/APwf347AaArQ5d3LyDkv1nc3UUPVzIf6ZYb79k+ivVDwK7CTFgA7143lQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxMDOlVo8mdvP7dQHXh0I798BeH5AWs/y9SgwVdEFxh37O4xjXd
+	DWniLqOwB6nU/Qzd6mAkXgGR8xCtEbplRESZ1yuk8bs2feRRryIIUiuJ+/IUHo7y/n3LpYIlsS/
+	JlEBoJU/xQ77bIZZJ/ACfr9kPteC1ioQ=
+X-Received: by 2002:a05:651c:1443:b0:37b:97b7:a048 with SMTP id
+ 38308e7fff4ca-385a54354fbmr4917361fa.17.1768895716136; Mon, 19 Jan 2026
+ 23:55:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260119-soc-of-root-v1-0-32a0fa9a78b4@oss.qualcomm.com> <20260119-soc-of-root-v1-8-32a0fa9a78b4@oss.qualcomm.com>
+In-Reply-To: <20260119-soc-of-root-v1-8-32a0fa9a78b4@oss.qualcomm.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 20 Jan 2026 15:55:00 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64uUhbEkB+iFjs5FGYR8E7=2nyNxDi646PmnygBZa6hQA@mail.gmail.com>
+X-Gm-Features: AZwV_Qj3MBFPhHKAOhUS4trI6djFD2VyeTyhcWYMtPVh-frJE3FOzmJGjGidA8s
+Message-ID: <CAGb2v64uUhbEkB+iFjs5FGYR8E7=2nyNxDi646PmnygBZa6hQA@mail.gmail.com>
+Subject: Re: [PATCH 8/8] soc: sunxi: mbus: don't access of_root directly
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
+	linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 13 Jan 2026 12:01:55 +0800
-Yixun Lan <dlan@gentoo.org> wrote:
+On Mon, Jan 19, 2026 at 6:40=E2=80=AFPM Bartosz Golaszewski
+<bartosz.golaszewski@oss.qualcomm.com> wrote:
+>
+> Don't access of_root directly as it reduces the build test coverage for
+> this driver with COMPILE_TEST=3Dy and OF=3Dn. Use existing helper functio=
+ns
+> to retrieve the relevant information.
 
-Hi,
+I was somewhat expecting a matching change to the Kconfig to add
+COMPILE_TEST to the "depends on" line.
 
-> The PMIC is also known as AXP819 in vendor pmu code
-> 
-> For DCDC6, 8, 9, the underlying hardware support more than two levels
-> voltage step tuning, but for now only first two levels are implemented
-> in this driver, hence highest voltage will be limited at seccond level.
-> It actual meets board requirement in current design, and we've verified
-> it in Radxa Cubie A7A board.
-> 
-> Following are detail explanation of voltage tuning stpes for those DCDCs:
-> 
-> DCDC | voltage range  | units | steps | implemented
->  6   | 0.5   -  1.2   | 10 mV | 71    | Y
->  .   | 1.22  -  1.54  | 20 mV | 17    | Y
->  .   | 1.8   -  2.4   | 20 mV | 31    | N
->  .   | 2.44  -  2.76  | 40 mV | 9     | N
->  --------------------------------------------------
->  8/9 | 0.5   -  1.2   | 10 mV | 71    | Y
->  .   | 1.22  -  1.84  | 20 mV | 32    | Y
->  .   | 1.9   -  3.4   | 100mV | 16    | N
-> 
-> Signed-off-by: Yixun Lan <dlan@gentoo.org>
+But maybe the case is already hit with ARM=3Dy && USE_OF=3Dn ?
 
-Thanks, that looks good now:
+ChenYu
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
+> Suggested-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 > ---
->  drivers/power/pmic/axp.c                |  1 +
->  drivers/power/regulator/axp_regulator.c | 50 +++++++++++++++++++++++++++++++++
->  include/axp_pmic.h                      |  1 +
->  3 files changed, 52 insertions(+)
-> 
-> diff --git a/drivers/power/pmic/axp.c b/drivers/power/pmic/axp.c
-> index 1204ec00f8d..7d8348b0769 100644
-> --- a/drivers/power/pmic/axp.c
-> +++ b/drivers/power/pmic/axp.c
-> @@ -95,6 +95,7 @@ static const struct udevice_id axp_pmic_ids[] = {
->  	{ .compatible = "x-powers,axp806", .data = AXP806_ID },
->  	{ .compatible = "x-powers,axp809", .data = AXP809_ID },
->  	{ .compatible = "x-powers,axp813", .data = AXP813_ID },
-> +	{ .compatible = "x-powers,axp318w", .data = AXP318_ID },
->  	{ }
->  };
->  
-> diff --git a/drivers/power/regulator/axp_regulator.c b/drivers/power/regulator/axp_regulator.c
-> index 7794a4f5d92..16d3a8f7f90 100644
-> --- a/drivers/power/regulator/axp_regulator.c
-> +++ b/drivers/power/regulator/axp_regulator.c
-> @@ -189,6 +189,55 @@ static const struct axp_regulator_plat axp313_regulators[] = {
->  	{ }
->  };
->  
-> + /*
-> +  * Only two level step tuning is implemented for DCDC6, 8, 9
-> +  * so the voltage below is not support in this driver
-> +  * DCDC6:   20  (v1.8 - 2.4v), 40 (2.44v - 2.76v)
-> +  * DCDC8,9: 100 (1.9v - 3.4v)
-> +  */
-> +static const struct axp_regulator_plat axp318_regulators[] = {
-> +	{  "dcdc1", 0x10, BIT(0), 0x12, 0x1f, 1000, 3400, 100, NA },
-> +	{  "dcdc2", 0x10, BIT(1), 0x13, 0x7f,  500, 1540,  10, 70 },
-> +	{  "dcdc3", 0x10, BIT(2), 0x14, 0x7f,  500, 1540,  10, 70 },
-> +	{  "dcdc4", 0x10, BIT(3), 0x15, 0x7f,  500, 1540,  10, 70 },
-> +	{  "dcdc5", 0x10, BIT(4), 0x16, 0x7f,  500, 1540,  10, 70 },
-> +	{  "dcdc6", 0x10, BIT(5), 0x17, 0x7f,  500, 1540,  10, 70 },
-> +	{  "dcdc7", 0x10, BIT(6), 0x18, 0x7f,  500, 1840,  10, 70 },
-> +	{  "dcdc8", 0x10, BIT(7), 0x19, 0x7f,  500, 1840,  10, 70 },
-> +	{  "dcdc9", 0x11, BIT(0), 0x1a, 0x7f,  500, 1840,  10, 70 },
-> +	{  "aldo1", 0x20, BIT(0), 0x24, 0x1f,  500, 3400, 100, NA },
-> +	{  "aldo2", 0x20, BIT(1), 0x25, 0x1f,  500, 3400, 100, NA },
-> +	{  "aldo3", 0x20, BIT(2), 0x26, 0x1f,  500, 3400, 100, NA },
-> +	{  "aldo4", 0x20, BIT(3), 0x27, 0x1f,  500, 3400, 100, NA },
-> +	{  "aldo5", 0x20, BIT(4), 0x28, 0x1f,  500, 3400, 100, NA },
-> +	{  "aldo6", 0x20, BIT(5), 0x29, 0x1f,  500, 3400, 100, NA },
-> +	{  "bldo1", 0x20, BIT(6), 0x2a, 0x1f,  500, 3400, 100, NA },
-> +	{  "bldo2", 0x20, BIT(7), 0x2b, 0x1f,  500, 3400, 100, NA },
-> +	{  "bldo3", 0x21, BIT(0), 0x2c, 0x1f,  500, 3400, 100, NA },
-> +	{  "bldo4", 0x21, BIT(1), 0x2d, 0x1f,  500, 3400, 100, NA },
-> +	{  "bldo5", 0x21, BIT(2), 0x2e, 0x1f,  500, 3400, 100, NA },
-> +	{  "cldo1", 0x21, BIT(3), 0x2f, 0x1f,  500, 3400, 100, NA },
-> +	{  "cldo2", 0x21, BIT(4), 0x30, 0x1f,  500, 3400, 100, NA },
-> +	{  "cldo3", 0x21, BIT(5), 0x31, 0x1f,  500, 3400, 100, NA },
-> +	{  "cldo4", 0x21, BIT(6), 0x32, 0x1f,  500, 3400, 100, NA },
-> +	{  "cldo5", 0x21, BIT(7), 0x33, 0x1f,  500, 3400, 100, NA },
-> +	{  "dldo1", 0x22, BIT(0), 0x34, 0x1f,  500, 3400, 100, NA },
-> +	{  "dldo2", 0x22, BIT(1), 0x35, 0x1f,  500, 3400, 100, NA },
-> +	{  "dldo3", 0x22, BIT(2), 0x36, 0x1f,  500, 3400, 100, NA },
-> +	{  "dldo4", 0x22, BIT(3), 0x37, 0x1f,  500, 3400, 100, NA },
-> +	{  "dldo5", 0x22, BIT(4), 0x38, 0x1f,  500, 3400, 100, NA },
-> +	{  "dldo6", 0x22, BIT(5), 0x39, 0x1f,  500, 3400, 100, NA },
-> +	{  "eldo1", 0x22, BIT(6), 0x3a, 0x1f,  500, 1500,  25, NA },
-> +	{  "eldo2", 0x22, BIT(7), 0x3b, 0x1f,  500, 1500,  25, NA },
-> +	{  "eldo3", 0x23, BIT(0), 0x3c, 0x1f,  500, 1500,  25, NA },
-> +	{  "eldo4", 0x23, BIT(1), 0x3d, 0x1f,  500, 1500,  25, NA },
-> +	{  "eldo5", 0x23, BIT(2), 0x3e, 0x1f,  500, 1500,  25, NA },
-> +	{  "eldo6", 0x23, BIT(3), 0x3f, 0x1f,  500, 1500,  25, NA },
-> +	{ "swout1", 0x11, BIT(3),   NA,   NA,   NA,   NA,  NA, NA },
-> +	{ "swout2", 0x11, BIT(4),   NA,   NA,   NA,   NA,  NA, NA },
-> +	{ }
-> +};
-> +
->  /*
->   * The "dcdc2" regulator has another range, beyond 1.54V up to 3.4V, in
->   * steps of 100mV. We cannot model this easily, but also don't need that,
-> @@ -318,6 +367,7 @@ static const struct axp_regulator_plat *const axp_regulators[] = {
->  	[AXP221_ID]	= axp22x_regulators,
->  	[AXP223_ID]	= axp22x_regulators,
->  	[AXP313_ID]	= axp313_regulators,
-> +	[AXP318_ID]	= axp318_regulators,
->  	[AXP323_ID]	= axp313_regulators,
->  	[AXP717_ID]	= axp717_regulators,
->  	[AXP803_ID]	= axp803_regulators,
-> diff --git a/include/axp_pmic.h b/include/axp_pmic.h
-> index 1806a7270a0..2f547da74c2 100644
-> --- a/include/axp_pmic.h
-> +++ b/include/axp_pmic.h
-> @@ -39,6 +39,7 @@ enum {
->  	AXP806_ID,
->  	AXP809_ID,
->  	AXP813_ID,
-> +	AXP318_ID,
->  };
->  
->  int axp_set_dcdc1(unsigned int mvolt);
-> 
-
+>  drivers/soc/sunxi/sunxi_mbus.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/soc/sunxi/sunxi_mbus.c b/drivers/soc/sunxi/sunxi_mbu=
+s.c
+> index 1734da357ca21b249740e089698275507ea98a8a..8bc5f62ff258837d3f3b30cb8=
+4b60d1872b31c27 100644
+> --- a/drivers/soc/sunxi/sunxi_mbus.c
+> +++ b/drivers/soc/sunxi/sunxi_mbus.c
+> @@ -118,7 +118,7 @@ static const char * const sunxi_mbus_platforms[] __in=
+itconst =3D {
+>
+>  static int __init sunxi_mbus_init(void)
+>  {
+> -       if (!of_device_compatible_match(of_root, sunxi_mbus_platforms))
+> +       if (!of_machine_compatible_match(sunxi_mbus_platforms))
+>                 return 0;
+>
+>         bus_register_notifier(&platform_bus_type, &sunxi_mbus_nb);
+>
+> --
+> 2.47.3
+>
