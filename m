@@ -1,145 +1,81 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7F23DCE33
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 Jan 2026 16:43:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676A63191DF;
+	Thu, 22 Jan 2026 17:35:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769100223; cv=none; b=qsYr6TYY6/qiCIJMzQ/Y1JCnw9yvwnkk2wmCkgB3Wju4AG6mLeinU0nYQifdoQmzNM6XNEYvHq4cz8Pa/ZDKv3r+5EqPo3fxPUbAI8fmxVggNXez87OjwfdWLhcdFM90pTfB3ZTfWjbetm31FZFkfudeP1otE/LP70uoNgc8jYU=
+	t=1769103322; cv=none; b=reDRqPcGllUmOKb+32HtgMIRLCl5HPXMNaRpzjg4BwRbGoZtpYDMGK9sEOj95bnLdXdMbd84f8xPXLdONj6mxWK48sW+l5yaNL/HxzEzRoleHuTcFuA2bOFmuf6aVvrfh4Xq0P5lcXmUs9GSSeZDZReaEoaIPY2IQKDLqEY5xHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769100223; c=relaxed/simple;
-	bh=lOOGgXNAcV5Kj7qstozfHh4KfxndROOrlFnru7vLM7s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n2ylhTDTGgJDlzK7nqjgghBjRal7fa/8++hnQriREpCL/85lCZMzUpgpvw6SC+BLOmCQpwLq4gOQPEw6p9ckeFIXxwEN+4VFr7un3z041Xqz7n8ZcWq1qxHBSzVvoziGCd7+r/QzYvLpSAt2KlqoxGSbiNoTm7AEo17+4SxBh1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 2DFB11F8004A
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 Jan 2026 16:43:30 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 70279B1BB86; Thu, 22 Jan 2026 16:43:28 +0000 (UTC)
-X-Spam-Level: 
-Received: from shepard (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id 4E8C9B1BB7B;
-	Thu, 22 Jan 2026 16:43:26 +0000 (UTC)
-Date: Thu, 22 Jan 2026 17:43:23 +0100
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Aleksandr Shubin <privatesub2@gmail.com>
-Cc: linux-kernel@vger.kernel.org,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Cheo Fusi <fusibrandon13@gmail.com>, linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v12 0/3] Add support for Allwinner PWM on D1/T113s/R329
- SoCs
-Message-ID: <aXJTqzZaBrCMnTvv@shepard>
-References: <20250427142500.151925-1-privatesub2@gmail.com>
+	s=arc-20240116; t=1769103322; c=relaxed/simple;
+	bh=x6oKsK4tsX/k/NIRjfg4qq6ZO9RvracVhuSMqKYde28=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=I0Nefqsh6MxFV4lWBZZf1eSRuIYJXNsX15Dp8kDL3vPVFciM7xOe47dMjitbM3t1XJbPjXSaJQvkB0h3DO4/Oz52tkKO9bHTC2uRCDJmaGkV1DQ9zaZbbLwltooDVzj/LxuP28CcJ731ofYxaqkgdErgEexQ6q9JPyQW5qT1fK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s3OkG3p6; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s3OkG3p6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0567C116C6;
+	Thu, 22 Jan 2026 17:35:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769103321;
+	bh=x6oKsK4tsX/k/NIRjfg4qq6ZO9RvracVhuSMqKYde28=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=s3OkG3p6323vXxuW6xvJKOwIrhDIiIBPZvL0xeeA8lCOSRG/MZTUcXBPs1vU4rY8R
+	 i6aze9u6G+sP6l8FCIlUSk+CtSLn51D4Owe8rVvxQAUj23VJ2S+QYeJMUE8s0glO99
+	 sC0EZ46oTtYI6sFAL5yS7SZkppWMyS100iuTtoSStV0D1OcvZwdBCaP9WtW/5nHUbi
+	 eVMZW7yhpXQ05l1Xw3guwvKRoO3tl+3dsBOk9iY7M6eI2+sCtBux3N7kav6/CQqnat
+	 ijjGNalKxRSUJD13nlTPgxpsN7g+2AclyiZXwCCzGfNJ0UmhptC9WUrleR5qFGawhU
+	 amnF3EVxVxkkg==
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id 05AAB5FBF7;
+	Fri, 23 Jan 2026 01:35:17 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Paul Walmsley <pjw@kernel.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alex@ghiti.fr>, Lukas Schmid <lukas.schmid@netcube.li>
+Cc: linux-sunxi@lists.linux.dev, Alex Studer <alex@studer.dev>, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+In-Reply-To: <20260113182951.1059690-1-lukas.schmid@netcube.li>
+References: <20260113182951.1059690-1-lukas.schmid@netcube.li>
+Subject: Re: [PATCH v2] riscv: dts: allwinner: d1: Add CPU thermal sensor
+ and zone
+Message-Id: <176910331795.3372333.1441179153534465132.b4-ty@kernel.org>
+Date: Fri, 23 Jan 2026 01:35:17 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="8kvUD8u6sGarMbR3"
-Content-Disposition: inline
-In-Reply-To: <20250427142500.151925-1-privatesub2@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 
+On Tue, 13 Jan 2026 19:29:48 +0100, Lukas Schmid wrote:
+> The sun20i THS (built in CPU thermal sensor) is supported in code, but
+> was never added to the device tree. So, add it to the device tree,
+> along with a thermal zone for the CPU.
+> 
+> Signed-off-by: Alex Studer <alex@studer.dev>
+> 
+> Changes since v1:
+>  - Move include before defines in sun20i-d1s.dtsi
+>  - Fix register size for thermal-sensor@2009400
+>  - Move thermal-sensor@2009400 in SoC to match register address sorting
+>  - Add thermal-zone for sun8i-t113s.dtsi and fix missing cooling-cells
+> 
+> [...]
 
---8kvUD8u6sGarMbR3
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to sunxi/dt-for-6.20 in local tree, thanks!
 
-Hi Aleksandr,
+[1/1] riscv: dts: allwinner: d1: Add CPU thermal sensor and zone
+      commit: f36e738549d483878ebf4cc9826c46d9dc4aa496
 
-On Sun 27 Apr 25, 17:24, Aleksandr Shubin wrote:
-> Aleksandr Shubin (3):
->   dt-bindings: pwm: Add binding for Allwinner D1/T113-S3/R329 PWM
->     controller
->   pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM support
->   riscv: dts: allwinner: d1: Add pwm node
->=20
->  .../bindings/pwm/allwinner,sun20i-pwm.yaml    |  84 ++++
->  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  12 +
->  drivers/pwm/Kconfig                           |  10 +
->  drivers/pwm/Makefile                          |   1 +
->  drivers/pwm/pwm-sun20i.c                      | 379 ++++++++++++++++++
->  5 files changed, 486 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/pwm/allwinner,sun20=
-i-pwm.yaml
->  create mode 100644 drivers/pwm/pwm-sun20i.c
+Best regards,
+-- 
+Chen-Yu Tsai <wens@kernel.org>
 
-Thanks for your work on this driver!
-
-For context, this PWM controller seems to be a second-generation design from
-Allwinner, which is found in the following chips: V5, A50, H616, V536, T7, =
-A133,
-V833, R329, D1/T113, R128, V851, A523 and A733.
-
-I've tested your driver on A133, which works fine too. It seems that H616 u=
-ses
-a similar (but slightly different) register layout.
-
-In case you've missed it, there's a follow-up series adding H616 support at:
-https://patchwork.ozlabs.org/project/linux-pwm/list/?series=3D409036&archiv=
-e=3Dboth&state=3D*
-
-And there's also a standalone effort (which I've redirected to your series)=
- at:
-https://patchwork.ozlabs.org/project/linux-pwm/list/?series=3D485644&archiv=
-e=3Dboth&state=3D*
-
-Now given that the new controller was introduced with the V5 (sun8iw12) from
-2018, I think it would be a bit confusing to keep the sun20i-pwm name.
-
-How about renaming the driver to sun8i-pwm instead? That would be more
-consistent with how other second generation designs from Allwinner are usua=
-lly
-called in Linux and makes it more clear that it also targets sun8i and sun5=
-0i
-chips, in addition to sun20i.
-
-All the best,
-
-Paul
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---8kvUD8u6sGarMbR3
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmlyU6sACgkQhP3B6o/u
-lQzLzw/7BSyJlA0VQWydAMnYMSXVRR1nWvDgL2BacWvoFGeQZLvkPIS+bS0Y1oje
-CuoZsMChx9onTi+/OKOGwqLUfKtA7nmvp2LLJhelqIKfX1fMRmbXU7BnhoH4jqUc
-Tnr0UHIUSXP6rzcY+/4bevCUC+iHKf4jJceuGZTFsHF0LZi8c62oOrXNBMTNia+/
-joy6c/9RN5N4RxfbcEfBqmUc0cu88EErW17t8FhALQ6oEftzsNCju3gsOQ4S7lUB
-SRH6ffY/o8LqXPZ/kqGDC5ipyFPJyuORXK3xS9zh1xDz+OSvmRh8v2hBsU0V4jxS
-99oGXAOXJGljK1415Ush1uRcMKa+YXuF2deG9qJAfEaDq+kRhp2gXdzvN1/0HCgN
-rQnyICWywvjX/oznc6j7gt1i+nzKofeXvVyT+Ym/Uk+2K4V2kZmUIGkO9vAgCb7d
-KAZNs7Yf79OcoCNZBXAqec7tO2jS0ihWjQ3vSwhzlFa8EcF/nTQJJDgiu3JLPZtQ
-Lu2PLgsmNarnKGk9AX8m7EirKdMJduYk5G7oyBxeGXeqNkf9nWf99WqH2cmzDz4o
-GhVyfKf2rBfQv9MKU0Qz2CBRXA/rZl21s+kZ9NZEG6RHqGaGTfjOJgRjQo9SS07f
-67gd5SFjE8HJPruOtaZrwhBq+ZLF1vGsCwlmvLRJLABl2NY7a8o=
-=mx2z
------END PGP SIGNATURE-----
-
---8kvUD8u6sGarMbR3--
