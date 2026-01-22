@@ -1,130 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34591320385
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 Jan 2026 17:43:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D5FF3D5247
+	for <linux-sunxi@lists.linux.dev>; Thu, 22 Jan 2026 23:53:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769103840; cv=none; b=AhgRyokhqTfL9FLEgnsCfLlwO29HygG7BAiXqs3L/ESxPKxQEj40w0Oap4WzBab+gA6dXs9uc5w9t3Z5HYShRmBak38RUSNJkvsFY0ZoIyzEPuGTovUgMzQgpg1HJ4NEcVCMh55JxTqXB2xhjWCN5pxy4FZucl49skkPuXUDaLA=
+	t=1769126001; cv=none; b=sTKUyFfakG/VETp5MBE9Y7zvNmfn1ZWo2Dr4a0uMMQf/h3fhDbTw/mFYX7gAXKSil8B8YSlt7mbSocmfE5TLfa/nb8xvQ3XSRLaA8YDf0bMefb9NuDcy/UWZm3YJbIxwLTnPHay/te/Rtgc9wWHys8oNgsmvhxL82MCD2NW6WwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769103840; c=relaxed/simple;
-	bh=wbRigpjM8ddoQDGvi5G72zIe79wSife/9VBP5HYvlkQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AVQaWNUD9W5F+ATznUgaW4JybVjBjTtgEqgoUceSiYc9qXDjdUoGcVHg/sC6bbnrWCkXsJIlxDNnTzHN+vn5W6ozwBc0KwfejBEdGVorpc7Z1hCswr95rXT9Z9R+zEFG2yggmbyWGUWuOzba9+TLdB2pAFd6NjoYcMiIexrBCMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b0rjVAo8; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b0rjVAo8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EDA8C116C6;
-	Thu, 22 Jan 2026 17:43:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769103838;
-	bh=wbRigpjM8ddoQDGvi5G72zIe79wSife/9VBP5HYvlkQ=;
-	h=Date:From:To:Cc:Subject:From;
-	b=b0rjVAo8lp0Tq/aoSqiafnJGQXFrBmA1VCu3hS0/sDVf4yKqvNQxExS76DJUIjOBA
-	 Vsf+BXzsVoEfyXWbxO4jjmQEJQlaJ1b14FEN/Cquux8zfoQ+Z1n161z/s330bEKv8s
-	 ekr5BTDlIVm1ue8RIJOueXCudSYfgGiWRNpi/0GlpN8YIefJW1W8rlic0PSl52cCQa
-	 9WPGPXdS3iIL7gCNq0jvHYUG7j3Q343dHDKsWGxGYzInmEe2oo/OLGVzffwKIQj9YT
-	 cZ3EINk3576foSnkoVAnB/7P5CsawKexcoHhOdU2fWzi5Q/3O9a+/76pJpYwzhegkk
-	 +De6HBnsTmGtg==
-Received: by wens.tw (Postfix, from userid 1000)
-	id C73305FBF7; Fri, 23 Jan 2026 01:43:55 +0800 (CST)
-Date: Fri, 23 Jan 2026 01:43:55 +0800
-From: Chen-Yu Tsai <wens@kernel.org>
-To: soc@kernel.org
-Cc: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL] Allwinner Device Tree Changes for 6.20
-Message-ID: <aXJh2xBXDWFFREMX@wens.tw>
+	s=arc-20240116; t=1769126001; c=relaxed/simple;
+	bh=Py7H49dB6L6RaBfaCHG9V3s70rfrv/xrdCrtL2KmZc4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NTl9RP8sqrusM/w37vqiOMZwf0KpoIDVCTk1RgNS13TSbJvD2cn6nH6Mcl+OlyhNMajq+9HyUxY6haUHZBk/0M4jVsdyHE9IoU4bg4QBuakuiN3HC+KDxA2+RXTn7UlX6lXZzWpHmBLnsbn76PB1qM8JahNrtLkVwcORMh5bSCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E2D7A1476;
+	Thu, 22 Jan 2026 15:53:03 -0800 (PST)
+Received: from [192.168.13.211] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9CC1B3F694;
+	Thu, 22 Jan 2026 15:53:07 -0800 (PST)
+Message-ID: <03086904-df06-488c-9e8d-5ad5dab9255a@arm.com>
+Date: Thu, 22 Jan 2026 23:53:04 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wG/y4cY9mUj2iJDb"
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH next v3] board: sunxi: Add X96Q support
+To: j.ne@posteo.net, u-boot@lists.denx.de
+Cc: linux-sunxi <linux-sunxi@lists.linux.dev>, Tom Rini <trini@konsulko.com>,
+ Svyatoslav Ryhel <clamor95@gmail.com>,
+ Leo Yu-Chi Liang <ycliang@andestech.com>, Peter Geis <pgwipeout@gmail.com>,
+ Lukasz Majewski <lukma@denx.de>, Junhui Liu <junhui.liu@pigmoral.tech>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Chen-Yu Tsai <wens@kernel.org>,
+ Lukas Schmid <lukas.schmid@netcube.li>
+References: <20260120-x96q-v3-1-1419ee399fa1@posteo.net>
+Content-Language: en-US
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20260120-x96q-v3-1-1419ee399fa1@posteo.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+Hi,
 
---wG/y4cY9mUj2iJDb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+thanks, that looks very good now. Just one tiny thing:
 
-The following changes since commit 8f0b4cce4481fb22653697cced8d0d04027cb1e8:
+On 20/01/2026 15:20, J. Neuschäfer via B4 Relay wrote:
+> From: "J. Neuschäfer" <j.ne@posteo.net>
+> 
+> The X96Q is a set-top box with an H313 SoC, AXP305 PMIC, 1 or 2 GiB RAM,
+> 8 or 16 GiB eMMC flash, 2x USB A, Micro-SD, HDMI, Ethernet, audio/video
+> output, and infrared input.
+> 
+>    https://x96mini.com/products/x96q-tv-box-android-10-set-top-box
+> 
+> This commit adds a defconfig and some documentation. The devicetree is
+> already in dts/upstream.
+> 
+> The CONFIG_DRAM_SUNXI_* settings are chosen such that the register
+> values in the DRAM PHY's MMIO space are as close as possible to those
+> observed when booting with the preinstalled vendor U-Boot. The DRAM
+> clock frequency of 600 MHz was reported in the vendor U-Boot's output.
+> 
+> Signed-off-by: J. Neuschäfer <j.ne@posteo.net>
+> ---
+> Changes in v3:
+> - Remove CONFIG_FIT_BEST_MATCH, CONFIG_CMD_UFETCH/CAT, CONFIG_SYS_I2C_SLAVE
+>    and CONFIG_SPL_USE_TINY_PRINTF_POINTER_SUPPORT from defconfig
+> - Add board/sunxi/MAINTAINERS entry
+> - Remove board-specific documentation
+> - Link to v2: https://lore.kernel.org/r/20260110-x96q-v2-1-1d6a725eb825@posteo.net
+> 
+> Changes in v2:
+> - Add missing Signed-off-by
+> - Re-generate x96q_defconfig with 'make savedefconfig'
+> - Move DRAM frequency comment to commit message
+> - Use GPL-2.0-or-later instead of deprecated GPL-2.0+
+> - Link to v1: https://lore.kernel.org/r/20251231-x96q-v1-1-316d703b8f03@posteo.net
+> ---
+>   board/sunxi/MAINTAINERS |  5 +++++
+>   configs/x96q_defconfig  | 26 ++++++++++++++++++++++++++
+>   2 files changed, 31 insertions(+)
+> 
+> diff --git a/board/sunxi/MAINTAINERS b/board/sunxi/MAINTAINERS
+> index c52e8a34c85..775d0f7ae83 100644
+> --- a/board/sunxi/MAINTAINERS
+> +++ b/board/sunxi/MAINTAINERS
+> @@ -611,6 +611,11 @@ M:	Andre Przywara <andre.przywara@arm.com>
+>   S:	Maintained
+>   F:	configs/x96_mate_defconfig
+>   
+> +X96Q TV BOX
+> +M:	J. Neuschäfer <j.ne@posteo.net>
+> +S:	Maintained
+> +F:	configs/x96q_defconfig
+> +
+>   X96Q PRO+ TV BOX
+>   M:	Andre Przywara <andre.przywara@arm.com>
+>   S:	Maintained
+> diff --git a/configs/x96q_defconfig b/configs/x96q_defconfig
+> new file mode 100644
+> index 00000000000..24c214b4c63
+> --- /dev/null
+> +++ b/configs/x96q_defconfig
+> @@ -0,0 +1,26 @@
+> +CONFIG_ARM=y
+> +CONFIG_ARCH_SUNXI=y
+> +CONFIG_DEFAULT_DEVICE_TREE="allwinner/sun50i-h313-x96q"
+> +CONFIG_DRAM_CLK=600
+> +CONFIG_SPL=y
+> +CONFIG_DRAM_SUNXI_DX_ODT=0x03030303
+> +CONFIG_DRAM_SUNXI_DX_DRI=0x0e0e0e0e
+> +CONFIG_DRAM_SUNXI_CA_DRI=0x1f12
+> +CONFIG_DRAM_SUNXI_TPR0=0xc0001002
+> +CONFIG_DRAM_SUNXI_TPR2=0x00000100
+> +CONFIG_DRAM_SUNXI_TPR10=0x002f0107
+> +CONFIG_DRAM_SUNXI_TPR11=0xddddcccc
+> +CONFIG_DRAM_SUNXI_TPR12=0xeddc7665
+> +CONFIG_MACH_SUN50I_H616=y
+> +CONFIG_SUNXI_DRAM_H616_DDR3_1333=y
 
-  Linux 6.19-rc1 (2025-12-14 16:05:07 +1200)
+This misses -CONFIG_MMC_SUNXI_SLOT_EXTRA=2 here, was this deliberate? 
+The DT mentions the eMMC, and you have CONFIG_SUPPORT_EMMC_BOOT below, 
+so is this just on omission? Or did the eMMC not work?
 
-are available in the Git repository at:
+If you can confirm, I can just add this while committing.
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-dt-for-6.20
+Cheers,
+Andre
 
-for you to fetch changes up to f36e738549d483878ebf4cc9826c46d9dc4aa496:
+> +CONFIG_R_I2C_ENABLE=y
+> +# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> +CONFIG_SPL_I2C=y
+> +CONFIG_SPL_SYS_I2C_LEGACY=y
+> +CONFIG_SYS_I2C_MVTWSI=y
+> +CONFIG_SYS_I2C_SPEED=400000
+> +CONFIG_SUPPORT_EMMC_BOOT=y
+> +CONFIG_SUN8I_EMAC=y
+> +CONFIG_AXP305_POWER=y
+> +CONFIG_USB_EHCI_HCD=y
+> +CONFIG_USB_OHCI_HCD=y
+> 
+> ---
+> base-commit: 6cdd7597a2fbfc1572c1b0af23d3daf1cefa2de7
+> change-id: 20251231-x96q-998c1376ebbf
+> 
+> Best regards,
 
-  riscv: dts: allwinner: d1: Add CPU thermal sensor and zone (2026-01-22 22:40:20 +0800)
-
-----------------------------------------------------------------
-Allwinner device tree changes for 6.20
-
-Not many changes this cycle.
-
-- The A523 family of SoCs gained support for SPI controllers.
-- Some cleanup of old ARM device tree files to fix DT binding validation
-  errors.
-- D1 and A100 SoCs gained support for their LED controller. This was
-  from a couple years ago. The driver made it in, but the DT patches
-  were missed.
-- D1 and T113 SoCs gained support for the internal thermal sensor.
-
-----------------------------------------------------------------
-Alex Studer (1):
-      riscv: dts: allwinner: d1: Add CPU thermal sensor and zone
-
-Chen-Yu Tsai (4):
-      arm64: dts: allwinner: sun55i: Add SPI controllers
-      arm64: dts: allwinner: t527: orangepi-4a: Enable SPI-NOR flash
-      ARM: dts: allwinner: sun5i-a13-utoo-p66: delete "power-gpios" property
-      ARM: dts: allwinner: Replace status "failed" with "fail"
-
-Samuel Holland (3):
-      arm64: dts: allwinner: a100: Add LED controller node
-      riscv: dts: allwinner: d1: Add LED controller node
-      riscv: dts: allwinner: d1: Add RGB LEDs to boards
-
- .../dts/allwinner/sun4i-a10-dserve-dsrv9703c.dts   |  2 +-
- .../dts/allwinner/sun4i-a10-pov-protab2-ips9.dts   |  2 +-
- arch/arm/boot/dts/allwinner/sun5i-a13-utoo-p66.dts |  1 +
- .../boot/dts/allwinner/sun6i-a31-hummingbird.dts   |  2 +-
- arch/arm/boot/dts/allwinner/sun6i-a31s-primo81.dts |  2 +-
- arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi       | 33 ++++++++
- arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi     | 14 ++++
- arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi     | 94 ++++++++++++++++++++++
- .../boot/dts/allwinner/sun55i-t527-orangepi-4a.dts | 15 ++++
- .../dts/allwinner/sun20i-d1-lichee-rv-dock.dts     | 12 +++
- arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts  | 13 +++
- arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi       |  6 ++
- arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi      | 31 +++++++
- arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi  | 31 +++++++
- 14 files changed, 254 insertions(+), 4 deletions(-)
-
---wG/y4cY9mUj2iJDb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmlyYdsACgkQOJpUIZwP
-JDAZsA//dLHDour+H8TNtM9QdlPNSAgpDbCE9KpA8zVbXepxBPNCcH/y2LR0VV86
-lveUwC3Eabh7FbWWoCLJWmSV7LZBav2NgonwNTBsp/K+cOu+PzN/d9L2KZyZscoo
-2EVdhFFGJ+PMelUYSk3P7Ifya4olDnb+hDS0trMofq627zxgfvpSgOEiriZ2WvRi
-T+qyYZwpHON7rvVR11Vhro1EKmnzEbBo63Sy/YM0y+cORyuaZqKezD0T4NNpmrMb
-FBlcRVgjQaRK0oqBDG2QLJXIEscx8LKoqwpSwt6xcZE1oYjaEVx0xlo+bYGAjJjm
-rdm6xCyERyp4k0wG6QyeHq4JDs8WWHMglu3Brp56TE4CeB9A2Gt6f/KsQ0yw/fdG
-BpDZnM4LQNj5Yb00H1MAa/097xoWoOj8YKK97uzD6HusQ5p998NLv9uu0e+tROyQ
-cfH+AFSIcseC/VhNJmDOooVQ7/V4Vw576Kn/ts+qkTuQcnJo58gwWoV1IrpUTWP7
-W0jpIpaqjG3V9EZipLKlrN/0TDZBI3lpCmVTGw2SqH5JyJB7G1TsRFETyD1EkKYP
-hQArbWyAkyPxVImivOGeO+Y0tA/gYtFgCtpUapjy0p7faiUjZsADT6wIF9IEUJec
-5CHPi+iApKrUrkyQSNbm4ow6JuAryD742Dj8AruxryBwtun/pZc=
-=tA0q
------END PGP SIGNATURE-----
-
---wG/y4cY9mUj2iJDb--
