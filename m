@@ -1,38 +1,38 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F9336999A
-	for <linux-sunxi@lists.linux.dev>; Fri, 23 Jan 2026 09:33:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DF6367F56
+	for <linux-sunxi@lists.linux.dev>; Fri, 23 Jan 2026 09:33:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769160834; cv=none; b=HJXfJSDqVMFzr0iC8WRzxocVRORlXdUuBGnAkmlvtTxEew4np/nh284R3oEIzyAy2+vDotzbnor0ekPkpO2gKbjz9oIXp5osBL1Fcoa+b6Z07aGO0y9V3ZWVkTw0ZZmvAF7RFV3GLk9WogN+wrS+oi8GGbeaIdb4NxSKPXi1JvU=
+	t=1769160840; cv=none; b=Cnm758XmXnsHU6BiVb3ZZ/4LCY1gbEhrOuQbQYQIaW0XSwsjkPPUdKX+CGyD2jdEr05P8zT9PAGQRUxwbZD7+0FEDBnXhiFXWtA3keYUoK5y8osgivcQrAYfZvtBBlZeR9OA4kXDqVZapRTueWa+8Nr2KIsnMBrouEtzFCuorWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769160834; c=relaxed/simple;
-	bh=in40fZfBJur7b2gTli4i7mrCZHp27MkqzsX2uoHgeGg=;
+	s=arc-20240116; t=1769160840; c=relaxed/simple;
+	bh=QCZv44dpt1wXV5t639ETH/9OXxUw6V20Cbu8oX8vMHM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QiT9C/5n7TiaqZ/H/0ZxsDIXWHj+Meses+dfEI0GjabKEC7L2Xu0Cu6o/WiWTrFsAbpzGKd8t5e6R7hzcy8kTSOWczqscL0KVcDJZcMl9O5KJR2gXkKfpBgp2leLUB7QIYomw6tC8Z5YuImkN1Q9EZxhm9T67MCF1d7oRHuigKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bUVGLMgC; arc=none smtp.client-ip=185.171.202.116
+	 MIME-Version; b=cXhMV7zucwFTJdbi1mzXTg2i0x1T7kvE6FQTVUX2+OjSRtJkq8sMXoOA5PJznGSsSSYKHZrzn72gj08SnCroJGERCia2wj9sYobkWWnp/AZ+mTuZB+u/uJZKmNG0AcFz+ATx+F8FNw7TltDBTgrR43flNjzxBjXrWf5R+r/KTzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=NVNPbezp; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bUVGLMgC"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="NVNPbezp"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 07344C21ABB;
-	Fri, 23 Jan 2026 09:33:47 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 2A3CF1A2B03;
+	Fri, 23 Jan 2026 09:33:51 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id CF3396070A;
-	Fri, 23 Jan 2026 09:33:46 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 306B6119A879B;
-	Fri, 23 Jan 2026 10:33:44 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 0036A6070A;
+	Fri, 23 Jan 2026 09:33:51 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 85B37119A879D;
+	Fri, 23 Jan 2026 10:33:48 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1769160825; h=from:subject:date:message-id:to:cc:mime-version:
+	t=1769160829; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=AumlAK3D+nBnNV49+1NREtHq21qZzWdFJkGV6lEmtAE=;
-	b=bUVGLMgCg9aRioam0lpyysvJCDaFLPOQhcfrTllGrrS2jyDuwMQsvJt0DH1KGe21byYjyQ
-	41mr/zGLcvhgMk9BaH0tjgwJexMTkbGFsE9h5FbgUppqrr2C+pI7BhTNDqBVAswNn3sANl
-	15BCg7BQMN1ocXNcO/FTGVaPaCmm8dz53qKRXeDisqC6/8Xen0AISJG7L8F6+qVmo3vtbx
-	hR7tZQMi/x9RFsadJ181ywUbVyPO70D76TnEuYASXgXL69s5WYrUQ0QNvqJaohq1p7JNMu
-	HatsgjnC6FWSEKDH21MhK8x8m/hCTBp+MX7YqjKJaNgB+nl25oLFHe4qzRqDLw==
+	bh=aRHUhUQElWm45tRxPNhFePFW/HsuYpmnmVm/z34Giec=;
+	b=NVNPbezpnmAIsby6thuM0qbC03Y0Zf96x+ESj82VFrPLinMcbeAI1342sZATNE9BPxtwjl
+	5bPXo4z+FRo+7IXjz94KPBAVKA0JAoQ1sqvb0MfxLVm6nQbVOa1BAEiI3ixbYeCjU9Tp6T
+	TKuLiBeYcp67MT33RCFitDZEFj6NSogB65cGX8QjkvAiSuIzfTz7pVzo4qVBYEaf66lhnQ
+	MjBPhOr7ap5MQRqGTgdMWEwNBijF3DNGr0lYdR5djFB/m0iQ3OJKf9drY975KiSPozBs3h
+	eqEfKRK2e+4cs6/vnHGBqKANILyPXZImL6I5IUIBKpFXBrn5wQjF3unBholQ1Q==
 From: Richard Genoud <richard.genoud@bootlin.com>
 To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
 	Rob Herring <robh@kernel.org>,
@@ -50,9 +50,9 @@ Cc: Paul Kocialkowski <paulk@sys-base.io>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Richard Genoud <richard.genoud@bootlin.com>
-Subject: [PATCH v3 1/4] dt-bindings: pwm: allwinner: add h616 pwm compatible
-Date: Fri, 23 Jan 2026 10:33:19 +0100
-Message-ID: <20260123093322.1327389-2-richard.genoud@bootlin.com>
+Subject: [PATCH v3 3/4] arm64: dts: allwinner: h616: add PWM controller
+Date: Fri, 23 Jan 2026 10:33:21 +0100
+Message-ID: <20260123093322.1327389-4-richard.genoud@bootlin.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260123093322.1327389-1-richard.genoud@bootlin.com>
 References: <20260123093322.1327389-1-richard.genoud@bootlin.com>
@@ -65,70 +65,81 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-Allwinner H616 PWM block is quite different from the A10 or H6, but at
-the end, it uses the same clocks as the H6; so the sun4i pwm binding can
-be used.
-It has 6 channels than can generate PWM waveforms.
-If the bypass is enabled (one bypass per channel) the output is no more
-a PWM waveform, but a clock that can (and is) used as input for other
-devices, like the AC300 PHY.
+The H616 has a PWM controller that can provide PWM signals, but also
+plain clocks.
+
+Add the PWM controller node and pins in the device tree.
 
 Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
 ---
- .../bindings/pwm/allwinner,sun4i-a10-pwm.yaml | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 47 +++++++++++++++++++
+ 1 file changed, 47 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/pwm/allwinner,sun4i-a10-pwm.yaml b/Documentation/devicetree/bindings/pwm/allwinner,sun4i-a10-pwm.yaml
-index 1197858e431f..4f58110ec98f 100644
---- a/Documentation/devicetree/bindings/pwm/allwinner,sun4i-a10-pwm.yaml
-+++ b/Documentation/devicetree/bindings/pwm/allwinner,sun4i-a10-pwm.yaml
-@@ -14,6 +14,9 @@ properties:
-   "#pwm-cells":
-     const: 3
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+index 8d1110c14bad..1c7628a6e4bb 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+@@ -236,6 +236,17 @@ watchdog: watchdog@30090a0 {
+ 			clocks = <&osc24M>;
+ 		};
  
-+  "#clock-cells":
-+    const: 1
++		pwm: pwm@300a000 {
++			compatible = "allwinner,sun50i-h616-pwm";
++			reg = <0x0300a000 0x400>;
++			clocks = <&osc24M>, <&ccu CLK_BUS_PWM>;
++			clock-names = "mod", "bus";
++			resets = <&ccu RST_BUS_PWM>;
++			#pwm-cells = <3>;
++			#clock-cells = <1>;
++			status = "disabled";
++		};
 +
-   compatible:
-     oneOf:
-       - const: allwinner,sun4i-a10-pwm
-@@ -36,6 +39,7 @@ properties:
-           - const: allwinner,sun50i-h5-pwm
-           - const: allwinner,sun5i-a13-pwm
-       - const: allwinner,sun50i-h6-pwm
-+      - const: allwinner,sun50i-h616-pwm
+ 		pio: pinctrl@300b000 {
+ 			compatible = "allwinner,sun50i-h616-pinctrl";
+ 			reg = <0x0300b000 0x400>;
+@@ -340,6 +351,42 @@ nand_rb1_pin: nand-rb1-pin {
+ 				bias-pull-up;
+ 			};
  
-   reg:
-     maxItems: 1
-@@ -62,7 +66,9 @@ allOf:
-       properties:
-         compatible:
-           contains:
--            const: allwinner,sun50i-h6-pwm
-+            enum:
-+              - allwinner,sun50i-h6-pwm
-+              - allwinner,sun50i-h616-pwm
- 
-     then:
-       properties:
-@@ -83,6 +89,17 @@ allOf:
-         clocks:
-           maxItems: 1
- 
-+  - if:
-+      not:
-+        properties:
-+          compatible:
-+            contains:
-+              const: allwinner,sun50i-h616-pwm
++			/omit-if-no-ref/
++			pwm0_pin: pwm0-pin {
++				pins = "PD28";
++				function = "pwm0";
++			};
 +
-+    then:
-+      properties:
-+        "#clock-cells": false
++			/omit-if-no-ref/
++			pwm1_pin: pwm1-pin {
++				pins = "PG19";
++				function = "pwm1";
++			};
 +
- required:
-   - compatible
-   - reg
++			/omit-if-no-ref/
++			pwm2_pin: pwm2-pin {
++				pins = "PH2";
++				function = "pwm2";
++			};
++
++			/omit-if-no-ref/
++			pwm3_pin: pwm3-pin {
++				pins = "PH0";
++				function = "pwm3";
++			};
++
++			/omit-if-no-ref/
++			pwm4_pin: pwm4-pin {
++				pins = "PI14";
++				function = "pwm4";
++			};
++
++			/omit-if-no-ref/
++			pwm5_pin: pwm5-pin {
++				pins = "PA12";
++				function = "pwm5";
++			};
++
+ 			/omit-if-no-ref/
+ 			spi0_pins: spi0-pins {
+ 				pins = "PC0", "PC2", "PC4";
 -- 
 2.47.3
 
