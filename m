@@ -1,79 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0096021D3DC;
-	Fri, 23 Jan 2026 17:16:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63A82C08C4;
+	Fri, 23 Jan 2026 19:57:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769188609; cv=none; b=EFKzAQFJfJXNSkZ1jAmdeiaFCyJ6ecG0eN5dNA1mj3FKCV//RNH2QK02HHegoLv+ZZpubF7rZ1pb+iMz4/hTBAgEU9uVQzkttrX7Y4Z6Ksqk+tTSkVFsU39Xca57tYbyzQhOgk5vv8y3OTHmXKfpfPCnzslEB3hzh7o6N49ppas=
+	t=1769198247; cv=none; b=A9fTryHJtz2907Pc7kWSk/hRfSizhzvui88hZNWS5ZsoxNOTXBJ93QlrGI/cxfiRru3bXOApYPt/HsO3QIa8AxUjmk7TE+ZQ1wDR+TG88fqdWECFBbSyLOFaI58PUgF/uPmg4rnUzzjG2rL4UUwBRAGVOjzZxCrFGbAX1gAgPGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769188609; c=relaxed/simple;
-	bh=aMDxWhlC5nOmrdQBlFnypdMUOLvQlVAHKKR2/LaH7Ic=;
+	s=arc-20240116; t=1769198247; c=relaxed/simple;
+	bh=ltOq6SCjupE7BLOIATjhL+BWeHyh5Ngusu9gTtz8HpE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cEYv3T6DouE7EgC3JZD6ZwdhuoW64l/bGz7OyigzDr8GGLB2lnupYObIC3vjpPbETN3oXqi/larllnnB16NOhUGhooEmWUn49L0RwpC0FDRfZ+VfFaC1tQBJ6uEnxRTiXFOchG4YLz82/TS2rS1uCDD37ylrHa1fHG+Z1kxCav8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n0L+ihcn; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=UxEh9plXG0c1dfwzWCsPF0eCdMCygRM8fgsq6Q/+t+cpLu1s7A2omIpvgLt32thccdhRvx3AXFxXkG24Fx0M76+ZefNLrZIdJKS87M9UEvU9CO9AYAYe+IZOJOpHyvpNeBGdtvNnNuCuvw0xgCikButgcDUFBy6+DHwW9IsAPPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mOwfXG22; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n0L+ihcn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD3C8C4CEF1;
-	Fri, 23 Jan 2026 17:16:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769188608;
-	bh=aMDxWhlC5nOmrdQBlFnypdMUOLvQlVAHKKR2/LaH7Ic=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=n0L+ihcnCO6gK8k6F3P/u+Yi1giyGodb/U+f+X5b2HpCoQVzrEBgP4n0d1M9hTAh9
-	 BbkUy8ybvvn90rQJJr+re5tob9gaMGkoHRtKzb3rf4xEgoqHpy4rSreTbfGDIziIge
-	 m4h6t7JtiNxNPAJ7LVgU54zd6e8a3wcdhLP96mu9Xi27k2RgvBAm0/aTTEsB1oEh+8
-	 d+TolSHEitGsAvWk3EFD1A3Z80hqeKK4/uvFNb8Z6KnLq9fkqUALrcbGsSQ0GUocI2
-	 OPE9w0L7tT3o9NMMwywL6RY9LMy8K87RdURNrKyTRbzut9wZUMuS2djSb0suuLNZHJ
-	 22PX3rteUcdwQ==
-Date: Fri, 23 Jan 2026 17:16:43 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Richard Genoud <richard.genoud@bootlin.com>
-Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mOwfXG22"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769198246; x=1800734246;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ltOq6SCjupE7BLOIATjhL+BWeHyh5Ngusu9gTtz8HpE=;
+  b=mOwfXG22i4sSU20WzBNlf+xEIixSNgYx5ukDXqlBwVxGuEzLMvIzH09U
+   GpQ8Q/sF9a3uyog/hvQbd0I0Z0g+sHMgwF4ZbkPQEPC/Rgumx9tJCAxcL
+   7ofQZbY16yDHbRRCDQ8yfwdXFd24oDnU5YJ/Rs3GWiRPkcEOF6g+hkvFa
+   rxBU6SOJn8g66yxwfH0H/B457fZAPNZKunxlfbodQbogJ5aY+UoKG0fkJ
+   M3oSRfcmRucsxBSHVVfkKVPp6YUfn4p0U3afLs8y2aHMCRmR6/UjSYNhr
+   MC1NIkRFEGNcPUT4zYqy2BGXrWmnlY68pDcp1HI3wraJl1aXRUNmhLFVo
+   g==;
+X-CSE-ConnectionGUID: hw7PG1ZVQYmfxlgIAX9W+w==
+X-CSE-MsgGUID: KPvYmjGySEylFK/Pbya4uQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="70621901"
+X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
+   d="scan'208";a="70621901"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 11:57:25 -0800
+X-CSE-ConnectionGUID: eDHf0z5qT4K4NYlUNgWJEA==
+X-CSE-MsgGUID: hEhj3cZ7RfOGQf1SGFtXBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
+   d="scan'208";a="244728318"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 23 Jan 2026 11:57:20 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vjNHS-00000000UP4-1mM9;
+	Fri, 23 Jan 2026 19:57:18 +0000
+Date: Sat, 24 Jan 2026 03:56:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Richard Genoud <richard.genoud@bootlin.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
 	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Paul Kocialkowski <paulk@sys-base.io>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, Paul Kocialkowski <paulk@sys-base.io>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] dt-bindings: pwm: allwinner: add h616 pwm
- compatible
-Message-ID: <20260123-crook-siberian-8585f695d630@spud>
-References: <20260123093322.1327389-1-richard.genoud@bootlin.com>
- <20260123093322.1327389-2-richard.genoud@bootlin.com>
+	linux-kernel@vger.kernel.org,
+	Richard Genoud <richard.genoud@bootlin.com>
+Subject: Re: [PATCH v3 2/4] pwm: sun50i: Add H616 PWM support
+Message-ID: <202601240328.Lv73l3dC-lkp@intel.com>
+References: <20260123093322.1327389-3-richard.genoud@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="CAw543iWCw6hPofx"
-Content-Disposition: inline
-In-Reply-To: <20260123093322.1327389-2-richard.genoud@bootlin.com>
-
-
---CAw543iWCw6hPofx
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260123093322.1327389-3-richard.genoud@bootlin.com>
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: not-applicable
+Hi Richard,
 
---CAw543iWCw6hPofx
-Content-Type: application/pgp-signature; name="signature.asc"
+kernel test robot noticed the following build warnings:
 
------BEGIN PGP SIGNATURE-----
+[auto build test WARNING on 9ace4753a5202b02191d54e9fdf7f9e3d02b85eb]
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaXOs+wAKCRB4tDGHoIJi
-0h32AQDLqV2mPg23b2nz6Sb13oSR73B61KVZ6efRpRHAMb/5PQEAkVqiTCVFbhVf
-BJ7Cx0d0nfZ7dqTZwBrUBLQm03iSYgU=
-=qfxy
------END PGP SIGNATURE-----
+url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Genoud/dt-bindings-pwm-allwinner-add-h616-pwm-compatible/20260123-174342
+base:   9ace4753a5202b02191d54e9fdf7f9e3d02b85eb
+patch link:    https://lore.kernel.org/r/20260123093322.1327389-3-richard.genoud%40bootlin.com
+patch subject: [PATCH v3 2/4] pwm: sun50i: Add H616 PWM support
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260124/202601240328.Lv73l3dC-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601240328.Lv73l3dC-lkp@intel.com/reproduce)
 
---CAw543iWCw6hPofx--
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601240328.Lv73l3dC-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/pwm/pwm-sun50i-h616.c: In function 'h616_add_composite_clk':
+>> drivers/pwm/pwm-sun50i-h616.c:720:28: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     720 |                 mux->reg = (u64)mux->reg + reg;
+         |                            ^
+   drivers/pwm/pwm-sun50i-h616.c:730:29: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     730 |                 gate->reg = (u64)gate->reg + reg;
+         |                             ^
+   drivers/pwm/pwm-sun50i-h616.c:740:29: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     740 |                 rate->reg = (u64)rate->reg + reg;
+         |                             ^
+
+
+vim +720 drivers/pwm/pwm-sun50i-h616.c
+
+   704	
+   705	static int h616_add_composite_clk(struct clk_pwm_data *data,
+   706					  void __iomem *reg, spinlock_t *lock,
+   707					  struct device *dev, struct clk_hw **hw)
+   708	{
+   709		const struct clk_ops *mux_ops = NULL, *gate_ops = NULL, *rate_ops = NULL;
+   710		struct clk_hw *mux_hw = NULL, *gate_hw = NULL, *rate_hw = NULL;
+   711		struct device_node *node = dev->of_node;
+   712	
+   713		if (data->mux_hw) {
+   714			struct clk_mux *mux;
+   715	
+   716			mux_hw = data->mux_hw;
+   717			mux = to_clk_mux(mux_hw);
+   718			mux->lock = lock;
+   719			mux_ops = mux_hw->init->ops;
+ > 720			mux->reg = (u64)mux->reg + reg;
+   721		}
+   722	
+   723		if (data->gate_hw) {
+   724			struct clk_gate *gate;
+   725	
+   726			gate_hw = data->gate_hw;
+   727			gate = to_clk_gate(gate_hw);
+   728			gate->lock = lock;
+   729			gate_ops = gate_hw->init->ops;
+   730			gate->reg = (u64)gate->reg + reg;
+   731		}
+   732	
+   733		if (data->rate_hw) {
+   734			struct clk_divider *rate;
+   735	
+   736			rate_hw = data->rate_hw;
+   737			rate = to_clk_divider(rate_hw);
+   738			rate_ops = rate_hw->init->ops;
+   739			rate->lock = lock;
+   740			rate->reg = (u64)rate->reg + reg;
+   741	
+   742			if (rate->table) {
+   743				const struct clk_div_table *clkt;
+   744				int table_size = 0;
+   745	
+   746				for (clkt = rate->table; clkt->div; clkt++)
+   747					table_size++;
+   748				rate->width = order_base_2(table_size);
+   749			}
+   750		}
+   751	
+   752		/*
+   753		 * Retrieve the parent clock names from DTS for pwm-clk-srcxy
+   754		 */
+   755		if (!data->parent_names) {
+   756			data->num_parents = of_clk_get_parent_count(node);
+   757			if (data->num_parents == 0)
+   758				return -ENOENT;
+   759	
+   760			data->parent_names = devm_kzalloc(dev,
+   761							  sizeof(*data->parent_names),
+   762							  GFP_KERNEL);
+   763			for (unsigned int i = 0; i < data->num_parents; i++)
+   764				data->parent_names[i] = of_clk_get_parent_name(node, i);
+   765		}
+   766	
+   767		*hw = clk_hw_register_composite(dev, data->name, data->parent_names,
+   768						data->num_parents, mux_hw,
+   769						mux_ops, rate_hw, rate_ops,
+   770						gate_hw, gate_ops, data->flags);
+   771	
+   772		return PTR_ERR_OR_ZERO(*hw);
+   773	}
+   774	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
