@@ -1,151 +1,192 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D5FF3D5247
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 Jan 2026 23:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9BEA36829F
+	for <linux-sunxi@lists.linux.dev>; Fri, 23 Jan 2026 09:33:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769126001; cv=none; b=sTKUyFfakG/VETp5MBE9Y7zvNmfn1ZWo2Dr4a0uMMQf/h3fhDbTw/mFYX7gAXKSil8B8YSlt7mbSocmfE5TLfa/nb8xvQ3XSRLaA8YDf0bMefb9NuDcy/UWZm3YJbIxwLTnPHay/te/Rtgc9wWHys8oNgsmvhxL82MCD2NW6WwM=
+	t=1769160833; cv=none; b=pFxdwwiq3Mc5esmlv/+MgvcYrgXIHGOHiOQRtChtwMSnxe4HYD8u4xCjwDPctQ5vpOh65YTE1gRQbAwrhNLsWiHRcruZkQ0tUi7d07ITQY/0OlWvUdSSzq0FfuIXqlcuTQMFzF8t3hohRWPIRYVyAstPbKJEx+oMKHV74pcmQQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769126001; c=relaxed/simple;
-	bh=Py7H49dB6L6RaBfaCHG9V3s70rfrv/xrdCrtL2KmZc4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NTl9RP8sqrusM/w37vqiOMZwf0KpoIDVCTk1RgNS13TSbJvD2cn6nH6Mcl+OlyhNMajq+9HyUxY6haUHZBk/0M4jVsdyHE9IoU4bg4QBuakuiN3HC+KDxA2+RXTn7UlX6lXZzWpHmBLnsbn76PB1qM8JahNrtLkVwcORMh5bSCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E2D7A1476;
-	Thu, 22 Jan 2026 15:53:03 -0800 (PST)
-Received: from [192.168.13.211] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9CC1B3F694;
-	Thu, 22 Jan 2026 15:53:07 -0800 (PST)
-Message-ID: <03086904-df06-488c-9e8d-5ad5dab9255a@arm.com>
-Date: Thu, 22 Jan 2026 23:53:04 +0000
+	s=arc-20240116; t=1769160833; c=relaxed/simple;
+	bh=Q3KgYH1et7yzKHhxlTEp8DKlkaoAYWa09JPpPFM34fo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Or8GPX8VNtRgdwQGps6nREZYLjOIeYGUCMZbQgPkLAhRXdKWL8tyI4oCRf4XfO6KHd5MdUzv8Ci/C5DuQ+yPIAtVyxiUKcQWSJvWTGgjX+rgaTpH2aQzOb+mXHSDalJlNZya+U+9EtCT4QGhNh9BR5FB947br4pLx/pdR+GR4iM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YzdpXDuf; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YzdpXDuf"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id CED4F1A2AFD;
+	Fri, 23 Jan 2026 09:33:44 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id A2C4C6070A;
+	Fri, 23 Jan 2026 09:33:44 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 57F01119A879C;
+	Fri, 23 Jan 2026 10:33:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1769160823; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=bcTSIzzObYHGP+bOM+AF+A6/sK8M6EvG+S57bVAeGEY=;
+	b=YzdpXDufAdR1RpKSzpOR81fXvRGbimJiIwt47r6/FHFleuR5ZonWB9JJE/nnlXj5WN/Kic
+	2djjgtKm0Uu18xpaVQsLKow+DGP9zwCzQA8x+7BBAz9O/HFLa/wgVMgsgKvRjR6RdNaAiW
+	FHLX2LpWcUbR13ekdUEux+fYJCFiqcGNilw1ssrtEsqKMQxImUyYO9FbqSVlER5+r2SnFz
+	lDvqhAxHMzvTseVj6IH1hfRk1b7fB+bbWoH62BZ1vBmnkWxxT2AW8KkhXgz/wKY4Bw7e0G
+	BorrsVpaXR/OF5h8xdSiumfzN7GSx/gYCC6OuAomNd5nrUUsiN6XWTUH0YR8yg==
+From: Richard Genoud <richard.genoud@bootlin.com>
+To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Paul Kocialkowski <paulk@sys-base.io>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Richard Genoud <richard.genoud@bootlin.com>
+Subject: [PATCH v3 0/4] Introduce Allwinner H616 PWM controller
+Date: Fri, 23 Jan 2026 10:33:18 +0100
+Message-ID: <20260123093322.1327389-1-richard.genoud@bootlin.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH next v3] board: sunxi: Add X96Q support
-To: j.ne@posteo.net, u-boot@lists.denx.de
-Cc: linux-sunxi <linux-sunxi@lists.linux.dev>, Tom Rini <trini@konsulko.com>,
- Svyatoslav Ryhel <clamor95@gmail.com>,
- Leo Yu-Chi Liang <ycliang@andestech.com>, Peter Geis <pgwipeout@gmail.com>,
- Lukasz Majewski <lukma@denx.de>, Junhui Liu <junhui.liu@pigmoral.tech>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Chen-Yu Tsai <wens@kernel.org>,
- Lukas Schmid <lukas.schmid@netcube.li>
-References: <20260120-x96q-v3-1-1419ee399fa1@posteo.net>
-Content-Language: en-US
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20260120-x96q-v3-1-1419ee399fa1@posteo.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi,
+Allwinner H616 PWM controller is quite different from the A10 one.
 
-thanks, that looks very good now. Just one tiny thing:
+It can drive 6 PWM channels, and like for the A10, each channel has a
+bypass that permits to output a clock, bypassing the PWM logic, when
+enabled.
 
-On 20/01/2026 15:20, J. Neuschäfer via B4 Relay wrote:
-> From: "J. Neuschäfer" <j.ne@posteo.net>
-> 
-> The X96Q is a set-top box with an H313 SoC, AXP305 PMIC, 1 or 2 GiB RAM,
-> 8 or 16 GiB eMMC flash, 2x USB A, Micro-SD, HDMI, Ethernet, audio/video
-> output, and infrared input.
-> 
->    https://x96mini.com/products/x96q-tv-box-android-10-set-top-box
-> 
-> This commit adds a defconfig and some documentation. The devicetree is
-> already in dts/upstream.
-> 
-> The CONFIG_DRAM_SUNXI_* settings are chosen such that the register
-> values in the DRAM PHY's MMIO space are as close as possible to those
-> observed when booting with the preinstalled vendor U-Boot. The DRAM
-> clock frequency of 600 MHz was reported in the vendor U-Boot's output.
-> 
-> Signed-off-by: J. Neuschäfer <j.ne@posteo.net>
-> ---
-> Changes in v3:
-> - Remove CONFIG_FIT_BEST_MATCH, CONFIG_CMD_UFETCH/CAT, CONFIG_SYS_I2C_SLAVE
->    and CONFIG_SPL_USE_TINY_PRINTF_POINTER_SUPPORT from defconfig
-> - Add board/sunxi/MAINTAINERS entry
-> - Remove board-specific documentation
-> - Link to v2: https://lore.kernel.org/r/20260110-x96q-v2-1-1d6a725eb825@posteo.net
-> 
-> Changes in v2:
-> - Add missing Signed-off-by
-> - Re-generate x96q_defconfig with 'make savedefconfig'
-> - Move DRAM frequency comment to commit message
-> - Use GPL-2.0-or-later instead of deprecated GPL-2.0+
-> - Link to v1: https://lore.kernel.org/r/20251231-x96q-v1-1-316d703b8f03@posteo.net
-> ---
->   board/sunxi/MAINTAINERS |  5 +++++
->   configs/x96q_defconfig  | 26 ++++++++++++++++++++++++++
->   2 files changed, 31 insertions(+)
-> 
-> diff --git a/board/sunxi/MAINTAINERS b/board/sunxi/MAINTAINERS
-> index c52e8a34c85..775d0f7ae83 100644
-> --- a/board/sunxi/MAINTAINERS
-> +++ b/board/sunxi/MAINTAINERS
-> @@ -611,6 +611,11 @@ M:	Andre Przywara <andre.przywara@arm.com>
->   S:	Maintained
->   F:	configs/x96_mate_defconfig
->   
-> +X96Q TV BOX
-> +M:	J. Neuschäfer <j.ne@posteo.net>
-> +S:	Maintained
-> +F:	configs/x96q_defconfig
-> +
->   X96Q PRO+ TV BOX
->   M:	Andre Przywara <andre.przywara@arm.com>
->   S:	Maintained
-> diff --git a/configs/x96q_defconfig b/configs/x96q_defconfig
-> new file mode 100644
-> index 00000000000..24c214b4c63
-> --- /dev/null
-> +++ b/configs/x96q_defconfig
-> @@ -0,0 +1,26 @@
-> +CONFIG_ARM=y
-> +CONFIG_ARCH_SUNXI=y
-> +CONFIG_DEFAULT_DEVICE_TREE="allwinner/sun50i-h313-x96q"
-> +CONFIG_DRAM_CLK=600
-> +CONFIG_SPL=y
-> +CONFIG_DRAM_SUNXI_DX_ODT=0x03030303
-> +CONFIG_DRAM_SUNXI_DX_DRI=0x0e0e0e0e
-> +CONFIG_DRAM_SUNXI_CA_DRI=0x1f12
-> +CONFIG_DRAM_SUNXI_TPR0=0xc0001002
-> +CONFIG_DRAM_SUNXI_TPR2=0x00000100
-> +CONFIG_DRAM_SUNXI_TPR10=0x002f0107
-> +CONFIG_DRAM_SUNXI_TPR11=0xddddcccc
-> +CONFIG_DRAM_SUNXI_TPR12=0xeddc7665
-> +CONFIG_MACH_SUN50I_H616=y
-> +CONFIG_SUNXI_DRAM_H616_DDR3_1333=y
+But, the channels are paired 2 by 2, sharing a first set of
+MUX/prescaler/gate.
+Then, for each channel, there's another prescaler (that will be bypassed
+if the bypass is enabled for this channel).
 
-This misses -CONFIG_MMC_SUNXI_SLOT_EXTRA=2 here, was this deliberate? 
-The DT mentions the eMMC, and you have CONFIG_SUPPORT_EMMC_BOOT below, 
-so is this just on omission? Or did the eMMC not work?
+It looks like that:
+            _____      ______      ________
+OSC24M --->|     |    |      |    |        |
+APB1 ----->| Mux |--->| Gate |--->| /div_m |-----> PWM_clock_src_xy
+           |_____|    |______|    |________|
+                          ________
+                         |        |
+                      +->| /div_k |---> PWM_clock_x
+                      |  |________|
+                      |    ______
+                      |   |      |
+                      +-->| Gate |----> PWM_bypass_clock_x
+                      |   |______|
+PWM_clock_src_xy -----+   ________
+                      |  |        |
+                      +->| /div_k |---> PWM_clock_y
+                      |  |________|
+                      |    ______
+                      |   |      |
+                      +-->| Gate |----> PWM_bypass_clock_y
+                          |______|
 
-If you can confirm, I can just add this while committing.
+Where xy can be 0/1, 2/3, 4/5
 
-Cheers,
-Andre
+PWM_clock_x/y serve for the PWM purpose.
+PWM_bypass_clock_x/y serve for the clock-provider purpose.
+The common clock framework has been used to manage those clocks.
 
-> +CONFIG_R_I2C_ENABLE=y
-> +# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-> +CONFIG_SPL_I2C=y
-> +CONFIG_SPL_SYS_I2C_LEGACY=y
-> +CONFIG_SYS_I2C_MVTWSI=y
-> +CONFIG_SYS_I2C_SPEED=400000
-> +CONFIG_SUPPORT_EMMC_BOOT=y
-> +CONFIG_SUN8I_EMAC=y
-> +CONFIG_AXP305_POWER=y
-> +CONFIG_USB_EHCI_HCD=y
-> +CONFIG_USB_OHCI_HCD=y
-> 
-> ---
-> base-commit: 6cdd7597a2fbfc1572c1b0af23d3daf1cefa2de7
-> change-id: 20251231-x96q-998c1376ebbf
-> 
-> Best regards,
+This PWM driver serves as a clock-provider for PWM_bypass_clocks.
+This is needed for example by the embedded AC300 PHY which clock comes
+from PMW5 pin (PB12).
+
+Usually, to get a clock from a PWM driver, we use the pwm-clock driver
+so that the PWM driver doesn't need to be a clk-provider itself.
+While this works in most cases, here it just doesn't.
+That's because the pwm-clock request a period from the PWM driver,
+without any clue that it actually wants a clock at a specific frequency,
+and not a PWM signal with duty cycle capability.
+So, the PWM driver doesn't know if it can use the bypass or not, it
+doesn't even have the real accurate frequency information (23809524 Hz
+instead of 24MHz) because PWM drivers only deal with periods.
+
+With pwm-clock, we loose a precious information along the way (that we
+actually want a clock and not a PWM signal).
+That's ok with simple PWM drivers that don't have multiple input clocks,
+but in this case, without this information, we can't know for sure which
+clock to use.
+And here, for instance, if we ask for a 24MHz clock, pwm-clock will
+requests 42ns (assigned-clocks doesn't help for that matter). The logic
+is to select the highest clock (100MHz) with no prescaler and a duty
+cycle value of 2/4 => we have 25MHz instead of 24MHz.
+And that's a perfectly fine choice for a PMW, because we still can
+change the duty cycle in the range [0-4]/4.
+But obviously for a clock, we don't care about the duty cycle, but more
+about the clock accuracy.
+
+And actually, this PWM is really a PWM AND a real clock when the bypass
+is set.
+
+This series is based onto v6.19-rc4
+
+NB: checkpatch is not happy with patch 2, but it's a false positive.
+It doesn't detect that PWM_XY_SRC_MUX/GATE/DIV are structures, but as
+it's more readable like that, I prefer keeping it that way.
+
+NB2: for geopolitical reasons, I didn't re-use the old series that Paul
+was referring to.
+
+Changes since v2:
+
+- use U32_MAX instead of defining UINT32_MAX
+- add a comment on U32_MAX usage in clk_round_rate()
+- change clk_table_div_m (use macros)
+- fix formatting (double space, superfluous comma, extra line feed)
+- fix the parent clock order
+- simplify code by using scoped_guard()
+- add missing const in to_h616_pwm_chip() and rename to
+h616_pwm_from_chip()
+- add/remove missing/superflous error messages
+- rename cnt->period_ticks, duty_cnt->duty_ticks
+- fix PWM_PERIOD_MAX
+- add .remove() callback
+- fix DIV_ROUND_CLOSEST_ULL->DIV_ROUND_UP_ULL
+- add H616_ prefix
+- protect _reg in macros
+- switch to waveforms instead of apply/get_state
+- shrink struct h616_pwm_channel
+- rebase on v6.19-rc4
+
+Changes since v1:
+- rebase onto v6.19-rc1
+- add missing headers
+- remove MODULE_ALIAS (suggested by Krzysztof)
+- use sun4i-pwm binding instead of creating a new one (suggested by Krzysztof)
+- retrieve the parent clocks from the devicetree
+- switch num_parents to unsigned int
+
+
+Richard Genoud (4):
+  dt-bindings: pwm: allwinner: add h616 pwm compatible
+  pwm: sun50i: Add H616 PWM support
+  arm64: dts: allwinner: h616: add PWM controller
+  MAINTAINERS: Add entry on Allwinner H616 PWM driver
+
+ .../bindings/pwm/allwinner,sun4i-a10-pwm.yaml |  19 +-
+ MAINTAINERS                                   |   5 +
+ .../arm64/boot/dts/allwinner/sun50i-h616.dtsi |  47 +
+ drivers/pwm/Kconfig                           |  12 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-sun50i-h616.c                 | 959 ++++++++++++++++++
+ 6 files changed, 1042 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/pwm/pwm-sun50i-h616.c
+
+
+base-commit: 9ace4753a5202b02191d54e9fdf7f9e3d02b85eb
+-- 
+2.47.3
 
