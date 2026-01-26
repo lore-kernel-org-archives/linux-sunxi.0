@@ -1,59 +1,89 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20657272E56
-	for <linux-sunxi@lists.linux.dev>; Sun, 25 Jan 2026 18:52:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7984A303A1D
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Jan 2026 10:00:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769367126; cv=none; b=inbu3Qjyf8bpdLCUCwCikONsOfaRU/JzOjxAXUzFQrN+EeSSnYT65TAJru6FPdQukk8bHEeoE8gX382ZVoG4vYSdipgC9gpEF3Ww7/g9UUgUl1B8KTi0aSse0SOsidFjdzBLncCCiJ7qr5vy9/DGVUPlMJWjQbel/4fXBw64jrU=
+	t=1769421602; cv=none; b=pO9mZWP2tRSZGV3t6IV/t+Wr5oVl2AD6L66L0NnMDYwFRC36Cf8WL2mj+sKjeCYYzaZKt6cc1nyd4q36mbXyaQbeNdOhkPaGgprSoC+HLwBNZ8K+dnMz1Nsh6CK63a1/9LlWKUOBM+r8jz66sPwSz/yO9d5WBDpVlpZsFCywoPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769367126; c=relaxed/simple;
-	bh=OckoiUrgu77ms33bbMK2lsGjAitNpaxGt3h+TLxsDEk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lupabwpgOfqvQkaRxSN/PAda4mF5Pkr2W8yzSLXdT/m3+CXMNev1gc9iosegovVe7a2lGQ3eOOpsU2XPiyDAO1dHdf8JG2p450fD3YvQRzv9HHxgjLv7/gI0t7G3OAJAK4nAriHuM7HhKJoYE66ieSVCUVYYhRKHfP6iBKCJ3rU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Od2hrv7e; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1769421602; c=relaxed/simple;
+	bh=8+66ynW/UosBvC/E+PZZmULkSUQHS1YNGDIGs4shhqw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p8KNNKQyz+N7drsuKf8i8DAOARgx3STofAAKqoTdQzzlsRzvrtyvxQCmZQvyEIJoJKhigtLb+0lmA1WcpSqDeqjKrM1wOeGbZfvHmqGnkupfZB2js6o+SDf10Lv0eujSHxVgt+sul51qeim1hpWh9Xdn/xl7SZj/V1ZQNARSu7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E43T/tFW; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Od2hrv7e"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=sVBBtTtHZDiuRw9xiNC+g1Bn2nLrGFbkjjc5++bmQN4=; b=Od2hrv
-	7e587jJGvYj/YhtcC5s95KgPAHyqoi/9vVEA88KLZR36sLSG5z1yIHc0w/KN9sJ3
-	IPF4p+ZLeyRbHSD+HYg1zCPacE61g+lFEDLoKOcYR7FOgALSXhnJEYmQpFvTnLO5
-	QhTvlNLdk5gW/zHsm9N9aYIu06RcnEvtpZMyzzYsB6OuqWoWN9gGlbeJz51jLczF
-	KmecgO9KHlZCsXOJ4pisco1DD4fh4em8sPMGZvTrzYsQrg9NHxsMVa++O+RffPHz
-	wixjnGYwapkMR6u1+clrsivB8XBzi480OzPek+YvZDzARWJMHrYFwIPG6Pd8VNdW
-	mql9dG4Kn5ftRhnQ==
-Received: (qmail 2369557 invoked from network); 25 Jan 2026 19:51:49 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Jan 2026 19:51:49 +0100
-X-UD-Smtp-Session: l3s3148p1@Jf0K4jpJd0BtKXAW
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E43T/tFW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769421600; x=1800957600;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8+66ynW/UosBvC/E+PZZmULkSUQHS1YNGDIGs4shhqw=;
+  b=E43T/tFW9dDG6B6KZoK9kFzv711xLi7+pioFG2y01JmcNZjOXuwTHifw
+   BhdBb1ZVsjYLYpmwmO1VFibFh9w6Pf2fdZyIgSMX+uTBR4ZEKvBkP63bL
+   xNP/cpbh6o+RbdfVVA2/Q8BBA7vSN1vUNttM22ovA5RJ19jdpG/eAGd6M
+   ZiL68aABc4MhEQfS1DP7F6Bdzmpo9mfbhYiUPaiQKfLAEFcdBM4GaWx1L
+   NdZ/XpbI8OHxdQY0n7BMYSLEZMBCLwJkZdlmiA1E7wYrrn87SB129jbsj
+   dn116AzOnMu1yFb32a8NP/dVNMdlcQGa3js0WxNs0xcYssBfZfkA7BPMR
+   w==;
+X-CSE-ConnectionGUID: /hRMLq6dSs6ZoOdeluitvQ==
+X-CSE-MsgGUID: upprKKeyRIKzBKNH93zU8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="73183355"
+X-IronPort-AV: E=Sophos;i="6.21,254,1763452800"; 
+   d="scan'208";a="73183355"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 01:59:55 -0800
+X-CSE-ConnectionGUID: XFLH6wX1QCeVh2rWVMlKBw==
+X-CSE-MsgGUID: lTttj+paRWeICoj+PaAr/w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,254,1763452800"; 
+   d="scan'208";a="212501718"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.122])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 01:59:46 -0800
+Date: Mon, 26 Jan 2026 11:59:43 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
-	Chen-Yu Tsai <wens@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Antonio Borneo <antonio.borneo@foss.st.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Konrad Dybcio <konradybcio@kernel.org>, Lee Jones <lee@kernel.org>,
 	Linus Walleij <linusw@kernel.org>,
-	linux-remoteproc@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org, linux-spi@vger.kernel.org,
 	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [RFC PATCH 1/4] hwspinlock: refactor existing headers into provider.h
-Date: Sun, 25 Jan 2026 19:46:52 +0100
-Message-ID: <20260125184654.17843-7-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260125184654.17843-6-wsa+renesas@sang-engineering.com>
+	linux-sunxi@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Waiman Long <longman@redhat.com>,
+	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
+	Will Deacon <will@kernel.org>
+Subject: Re: [RFC PATCH 0/4] hwspinlock: refactor headers into public
+ provider/consumer pair
+Message-ID: <aXc7DxsqiCGdfzxi@smile.fi.intel.com>
 References: <20260125184654.17843-6-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -61,293 +91,60 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260125184654.17843-6-wsa+renesas@sang-engineering.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-The ultimate goal is to allow hwspinlock drivers outside of the
-hwspinlock directory. So, the public and the internal header get
-refactored into a more modern public provider/consumer pair. This patch
-creates the provider header. It is a plain move without functional
-changes. Only a now obsolete comment gets removed which explained why
-some functions do not have fallbacks if hwspinlock is not seleceted. All
-acutal providers are converted as well.
+On Sun, Jan 25, 2026 at 07:46:51PM +0100, Wolfram Sang wrote:
+> TLDR: I want to create a hwspinlock provider outside of the hwspinlock
+> directory. So, I refactored the headers into a provider/consumer pair.
+> Which seems to me like a reasonable seperation anyhow. No functional
+> changes. My build tests went fine and buildbots are happy, too.
+> 
+> Longer explanation:
+> 
+> There is a device (MFIS) in newer Renesas SoCs which combines various
+> things like hwspinlocks, mailboxes and other stuff. Sadly, these are not
+> strictly separated. Registers are kind of mixed and its register
+> unprotection scheme will need one of its own locks. I tried various
+> paths to handle this device (MFD, auxiliary bus) but I concluded that
+> the sub-device dependencies give enough reasons for a single driver in
+> drivers/soc/. So, this series will allow me to instantiate a hwspinlock
+> provider from the other directory.
+> 
+> Patches 1+2 do the actual refactoring with a fallback being in place. I
+> used '-B' with git-format-patch in this RFC, so the actual changes are
+> more visible when the headers are moved.
+> 
+> Patch 3 converts all the users. There are not many. We could try to get
+> all the acks for this single patch. Or I can break it into single
+> patches and send them to subsystems. I don't mind.
+> 
+> Patch 4 simply removes the fallback.
+> 
+> Looking forward to comments on this approach. If the hwspinlock
+> maintainers like it as is, I would kindly propose to apply patches 1+2
+> after 7.0-rc1 comes out. This might sound a bit hasty, but a) I want to
+> avoid chasing a moving target and b) this would remove one dependency of
+> the hwspinlock driver I originally intend to upstream, of course.
+> 
+> I would take care of patches 3+4 as needed.
+> 
+> A branch can be found here:
+> 
+> git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/hwspinlock/refactor-includes
+> 
+> Patches are based on linux-next as of 2026-01-21.
+> 
+> Opinions?
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- MAINTAINERS                                   |  1 +
- drivers/hwspinlock/hwspinlock_core.c          |  3 +-
- drivers/hwspinlock/omap_hwspinlock.c          |  4 +-
- drivers/hwspinlock/qcom_hwspinlock.c          |  4 +-
- drivers/hwspinlock/sprd_hwspinlock.c          |  4 +-
- drivers/hwspinlock/stm32_hwspinlock.c         |  4 +-
- drivers/hwspinlock/sun6i_hwspinlock.c         |  4 +-
- drivers/hwspinlock/u8500_hsem.c               |  3 +-
- include/linux/hwspinlock.h                    | 14 -------
- .../linux/hwspinlock/provider.h               | 40 ++++++++++++-------
- 10 files changed, 33 insertions(+), 48 deletions(-)
- rename drivers/hwspinlock/hwspinlock_internal.h => include/linux/hwspinlock/provider.h (78%)
+I don't like the idea of sharing internal stuff. Why would we need to have
+a struct hwspinlock to be visible?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a56f8f00aebb..18f4991044ee 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11187,6 +11187,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/andersson/remoteproc.git hw
- F:	Documentation/devicetree/bindings/hwlock/
- F:	Documentation/locking/hwspinlock.rst
- F:	drivers/hwspinlock/
-+F:	include/linux/hwspinlock/
- F:	include/linux/hwspinlock.h
- 
- HARDWARE TRACING FACILITIES
-diff --git a/drivers/hwspinlock/hwspinlock_core.c b/drivers/hwspinlock/hwspinlock_core.c
-index cc8e952a6772..3ee4f4357e01 100644
---- a/drivers/hwspinlock/hwspinlock_core.c
-+++ b/drivers/hwspinlock/hwspinlock_core.c
-@@ -18,12 +18,11 @@
- #include <linux/jiffies.h>
- #include <linux/radix-tree.h>
- #include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/provider.h>
- #include <linux/pm_runtime.h>
- #include <linux/mutex.h>
- #include <linux/of.h>
- 
--#include "hwspinlock_internal.h"
--
- /* retry delay used in atomic context */
- #define HWSPINLOCK_RETRY_DELAY_US	100
- 
-diff --git a/drivers/hwspinlock/omap_hwspinlock.c b/drivers/hwspinlock/omap_hwspinlock.c
-index 1832e0c3af6b..e2a8fe4ad96a 100644
---- a/drivers/hwspinlock/omap_hwspinlock.c
-+++ b/drivers/hwspinlock/omap_hwspinlock.c
-@@ -19,12 +19,10 @@
- #include <linux/pm_runtime.h>
- #include <linux/slab.h>
- #include <linux/spinlock.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/provider.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
- 
--#include "hwspinlock_internal.h"
--
- /* Spinlock register offsets */
- #define SYSSTATUS_OFFSET		0x0014
- #define LOCK_BASE_OFFSET		0x0800
-diff --git a/drivers/hwspinlock/qcom_hwspinlock.c b/drivers/hwspinlock/qcom_hwspinlock.c
-index 0390979fd765..1b5a0c2fadee 100644
---- a/drivers/hwspinlock/qcom_hwspinlock.c
-+++ b/drivers/hwspinlock/qcom_hwspinlock.c
-@@ -4,7 +4,7 @@
-  * Copyright (c) 2015, Sony Mobile Communications AB
-  */
- 
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/provider.h>
- #include <linux/io.h>
- #include <linux/kernel.h>
- #include <linux/mfd/syscon.h>
-@@ -14,8 +14,6 @@
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
- 
--#include "hwspinlock_internal.h"
--
- #define QCOM_MUTEX_APPS_PROC_ID	1
- #define QCOM_MUTEX_NUM_LOCKS	32
- 
-diff --git a/drivers/hwspinlock/sprd_hwspinlock.c b/drivers/hwspinlock/sprd_hwspinlock.c
-index 22e2ffb91743..62de2a551cee 100644
---- a/drivers/hwspinlock/sprd_hwspinlock.c
-+++ b/drivers/hwspinlock/sprd_hwspinlock.c
-@@ -7,7 +7,7 @@
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/device.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/provider.h>
- #include <linux/io.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-@@ -15,8 +15,6 @@
- #include <linux/of_device.h>
- #include <linux/platform_device.h>
- 
--#include "hwspinlock_internal.h"
--
- /* hwspinlock registers definition */
- #define HWSPINLOCK_RECCTRL		0x4
- #define HWSPINLOCK_MASTERID(_X_)	(0x80 + 0x4 * (_X_))
-diff --git a/drivers/hwspinlock/stm32_hwspinlock.c b/drivers/hwspinlock/stm32_hwspinlock.c
-index bb5c7e5f7a80..7af8e4cc564c 100644
---- a/drivers/hwspinlock/stm32_hwspinlock.c
-+++ b/drivers/hwspinlock/stm32_hwspinlock.c
-@@ -6,7 +6,7 @@
- 
- #include <linux/clk.h>
- #include <linux/delay.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/provider.h>
- #include <linux/io.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-@@ -14,8 +14,6 @@
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- 
--#include "hwspinlock_internal.h"
--
- #define STM32_MUTEX_COREID	BIT(8)
- #define STM32_MUTEX_LOCK_BIT	BIT(31)
- #define STM32_MUTEX_NUM_LOCKS	32
-diff --git a/drivers/hwspinlock/sun6i_hwspinlock.c b/drivers/hwspinlock/sun6i_hwspinlock.c
-index c2d314588046..3c8c067e6312 100644
---- a/drivers/hwspinlock/sun6i_hwspinlock.c
-+++ b/drivers/hwspinlock/sun6i_hwspinlock.c
-@@ -7,7 +7,7 @@
- #include <linux/clk.h>
- #include <linux/debugfs.h>
- #include <linux/errno.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/provider.h>
- #include <linux/io.h>
- #include <linux/module.h>
- #include <linux/of.h>
-@@ -17,8 +17,6 @@
- #include <linux/spinlock.h>
- #include <linux/types.h>
- 
--#include "hwspinlock_internal.h"
--
- #define DRIVER_NAME		"sun6i_hwspinlock"
- 
- #define SPINLOCK_BASE_ID	0 /* there is only one hwspinlock device per SoC */
-diff --git a/drivers/hwspinlock/u8500_hsem.c b/drivers/hwspinlock/u8500_hsem.c
-index 5a2d8c3e0d80..ff0730613929 100644
---- a/drivers/hwspinlock/u8500_hsem.c
-+++ b/drivers/hwspinlock/u8500_hsem.c
-@@ -19,10 +19,9 @@
- #include <linux/slab.h>
- #include <linux/spinlock.h>
- #include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/provider.h>
- #include <linux/platform_device.h>
- 
--#include "hwspinlock_internal.h"
--
- /*
-  * Implementation of STE's HSem protocol 1 without interrutps.
-  * The only masterID we allow is '0x01' to force people to use
-diff --git a/include/linux/hwspinlock.h b/include/linux/hwspinlock.h
-index f35b42e8c5de..7f38960c7162 100644
---- a/include/linux/hwspinlock.h
-+++ b/include/linux/hwspinlock.h
-@@ -55,9 +55,6 @@ struct hwspinlock_pdata {
- 
- #ifdef CONFIG_HWSPINLOCK
- 
--int hwspin_lock_register(struct hwspinlock_device *bank, struct device *dev,
--		const struct hwspinlock_ops *ops, int base_id, int num_locks);
--int hwspin_lock_unregister(struct hwspinlock_device *bank);
- struct hwspinlock *hwspin_lock_request_specific(unsigned int id);
- int hwspin_lock_free(struct hwspinlock *hwlock);
- int of_hwspin_lock_get_id(struct device_node *np, int index);
-@@ -70,13 +67,6 @@ int hwspin_lock_bust(struct hwspinlock *hwlock, unsigned int id);
- int devm_hwspin_lock_free(struct device *dev, struct hwspinlock *hwlock);
- struct hwspinlock *devm_hwspin_lock_request_specific(struct device *dev,
- 						     unsigned int id);
--int devm_hwspin_lock_unregister(struct device *dev,
--				struct hwspinlock_device *bank);
--int devm_hwspin_lock_register(struct device *dev,
--			      struct hwspinlock_device *bank,
--			      const struct hwspinlock_ops *ops,
--			      int base_id, int num_locks);
--
- #else /* !CONFIG_HWSPINLOCK */
- 
- /*
-@@ -85,10 +75,6 @@ int devm_hwspin_lock_register(struct device *dev,
-  * code path get compiled away. This way, if CONFIG_HWSPINLOCK is not
-  * required on a given setup, users will still work.
-  *
-- * The only exception is hwspin_lock_register/hwspin_lock_unregister, with which
-- * we _do_ want users to fail (no point in registering hwspinlock instances if
-- * the framework is not available).
-- *
-  * Note: ERR_PTR(-ENODEV) will still be considered a success for NULL-checking
-  * users. Others, which care, can still check this with IS_ERR.
-  */
-diff --git a/drivers/hwspinlock/hwspinlock_internal.h b/include/linux/hwspinlock/provider.h
-similarity index 78%
-rename from drivers/hwspinlock/hwspinlock_internal.h
-rename to include/linux/hwspinlock/provider.h
-index f298fc0ee5ad..d53bbacec744 100644
---- a/drivers/hwspinlock/hwspinlock_internal.h
-+++ b/include/linux/hwspinlock/provider.h
-@@ -7,14 +7,26 @@
-  * Contact: Ohad Ben-Cohen <ohad@wizery.com>
-  */
- 
--#ifndef __HWSPINLOCK_HWSPINLOCK_H
--#define __HWSPINLOCK_HWSPINLOCK_H
-+#ifndef __LINUX_HWSPINLOCK_PROVIDER_H
-+#define __LINUX_HWSPINLOCK_PROVIDER_H
- 
- #include <linux/spinlock.h>
- #include <linux/device.h>
- 
- struct hwspinlock_device;
- 
-+/**
-+ * struct hwspinlock - this struct represents a single hwspinlock instance
-+ * @bank: the hwspinlock_device structure which owns this lock
-+ * @lock: initialized and used by hwspinlock core
-+ * @priv: private data, owned by the underlying platform-specific hwspinlock drv
-+ */
-+struct hwspinlock {
-+	struct hwspinlock_device *bank;
-+	spinlock_t lock;
-+	void *priv;
-+};
-+
- /**
-  * struct hwspinlock_ops - platform-specific hwspinlock handlers
-  *
-@@ -34,18 +46,6 @@ struct hwspinlock_ops {
- 	void (*relax)(struct hwspinlock *lock);
- };
- 
--/**
-- * struct hwspinlock - this struct represents a single hwspinlock instance
-- * @bank: the hwspinlock_device structure which owns this lock
-- * @lock: initialized and used by hwspinlock core
-- * @priv: private data, owned by the underlying platform-specific hwspinlock drv
-- */
--struct hwspinlock {
--	struct hwspinlock_device *bank;
--	spinlock_t lock;
--	void *priv;
--};
--
- /**
-  * struct hwspinlock_device - a device which usually spans numerous hwspinlocks
-  * @dev: underlying device, will be used to invoke runtime PM api
-@@ -69,4 +69,14 @@ static inline int hwlock_to_id(struct hwspinlock *hwlock)
- 	return hwlock->bank->base_id + local_id;
- }
- 
--#endif /* __HWSPINLOCK_HWSPINLOCK_H */
-+int hwspin_lock_register(struct hwspinlock_device *bank, struct device *dev,
-+		const struct hwspinlock_ops *ops, int base_id, int num_locks);
-+int hwspin_lock_unregister(struct hwspinlock_device *bank);
-+int devm_hwspin_lock_register(struct device *dev,
-+			      struct hwspinlock_device *bank,
-+			      const struct hwspinlock_ops *ops,
-+			      int base_id, int num_locks);
-+int devm_hwspin_lock_unregister(struct device *dev,
-+				struct hwspinlock_device *bank);
-+
-+#endif /* __LINUX_HWSPINLOCK_PROVIDER_H */
 -- 
-2.47.3
+With Best Regards,
+Andy Shevchenko
+
 
