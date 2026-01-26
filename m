@@ -1,133 +1,165 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043DB3002DC
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Jan 2026 10:22:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834AC32E154
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Jan 2026 10:22:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769422925; cv=none; b=DkJM9oVMwvuDMgiyoyOg6k0xBLJgT1k08eaLwrc/Z4bvGphh0SeChZ+tv4jXBrKKnIo16Y2zpb2GP/DenRs0AvunAjeCzq5Awpr90P068en8+RvfkGAFLDa2U6zBr5tsdaj4gvqo/uTVziWxo4ehDUhMp55XZnH7JJdNWrJe5ek=
+	t=1769422978; cv=none; b=El9LoPOkLMH3CD+OMhfOozINGrsNRHgkE/6JX4qtFKPqqXtvlujPFb2tWRwCALwYEO10SEuhTpzRn+02/s0PL9/U6uOgdu6pV2yWrGg8bhMDVqc6Be1C91muGu0z4luMd+HDHWuO6N22pv6lOVG4dmKl2/j/rqngec6HB3r97ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769422925; c=relaxed/simple;
-	bh=hhHVJuWcsGPZS4w0Oz7Y8dL6uLtRGKYuwtyUBBadydw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ABhegtGV1LImSkhvOO5cC2gi3UulIXM3fmGrDzXSQhtOvmx65TIhOBv/skojhUSFnUs7yKHKowRdmLUlxNuFwdYroQCZ4AJ+5+Hp0oYOtKcCypAIkNySJkoQIKv2evwkmH/ztvWUUOQTNTY0yJ3X9nnExh5qBb1PaX2zYDPAQf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G3Y4iqg4; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769422978; c=relaxed/simple;
+	bh=YmwLlwxCohpODw33KGlJTwGnb4/sXa4Sj0U7Xi4pE+8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eCXqIYfN+TutJzpqhpfLX4bFHlztwAdy48etRnT2OyEWzf9NQnM/tP0gVt/0JIIgqfuBwpRtCTtksdf7agYCW7M+TKTusj6JTfqBdRLCvucbNDPOK3wnNdI7KtYzK0pgoOClbXBLkH+Vst63F/JsUSgSms2fD2VNSJKNucGwcOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iDPdyFDV; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G3Y4iqg4"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47ee301a06aso49991415e9.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 26 Jan 2026 02:22:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769422922; x=1770027722; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fxdsOX1mc8rr4Qts+Y9ulGeC1IJPumDA0ysh1WBo1IU=;
-        b=G3Y4iqg4yjKyHTI53i4jHWSbm03PgxpqfI39TuII7GJusHK/J/Vb3TQ/Po/8e/R3Bz
-         IX1+xmAORUoMv8a9nJQWddNvtCPVN6rxoJeq5gyclFLgm5499llSkmahFeZA/x3vroxp
-         GHZclfrdMTwB+3Ryg5MbFIdAFpDxY6w5U6e2YUJUGS0XZxib6s3ceR7GuSlbETyhOkJV
-         kGoJmmYiFdcKwLhSDmGQ+gDhCjnrD+PGC86Ss++BZOt6oXK4KJm30CUu8RAUBJ3ge0qL
-         I8cmmrgJ9MUY/u6TBowqnEdlskaEUkhQAQCKwl+0v8Yze2ze9rbWJYhO0jtMaaVsdAdW
-         i0fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769422922; x=1770027722;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fxdsOX1mc8rr4Qts+Y9ulGeC1IJPumDA0ysh1WBo1IU=;
-        b=n2gGoIgBqJq+KMaMAnauYL9vkJlHqnZHDD17BSD44bAGmzwEaMIyQmX5E2kiBnT06E
-         7/DxnslvbjiRlHvW9kgSel6wCST5yrghRnEnOAlkYhfJapwtHNMokwoX7MkkNfQKfmMZ
-         DuyXOKFYsFe9K4LbxGp5cnVP0cNQETavj7dGdss/5oWlciMX/ZhrfGn4esejgGbbDtUu
-         4OtNOecxVXFs1AH8jfLze9KE1WDWwZeH6n1WR8w1CuVD3CfIEhAmeYXyJQXLo5qp5diU
-         21npHEDMWrUcJrclFSbTMwkF0CEOcnY7xMs+fj63vyzD88r3xcEhfWPn02XHUjfSpK0Q
-         nm0w==
-X-Forwarded-Encrypted: i=1; AJvYcCXla/BPS5fX/5ifrfENy3oeZVtu1eHcUviIGP5dqNBWw0sL7S/8IWLQpPt4fwyXn3Pmy4mVQJxhWg7lZQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YweDAm7x4ISZ2TanX6NzpZmsPRNwgor/GIbqAuD0FNiFnIzO6ta
-	kLzfe3+7PacUVZxdBV7VNrTCIxSbazFoQKZrphwQNdFYC7iX1Vi0Ol0yrohDMErf01ZF8A==
-X-Gm-Gg: AZuq6aJgvqq2YYP6WWfNkjXporNFnefJi2HYueICaVuTtih6qTOA2eJEIlVczS53JoN
-	eCtGCFnDFhUJrbxD/RM1L4NiLvdU5Ow2SHz09gHq1f4YIsITt6P7OwLnSAKnJkGrDyRZWUiGFcm
-	Uw0w+UNEJZw6V3H1Nb2NxXe6X4tz8x+Ali6srwhWzSainD6Hw6sduM7cWkHz+WWnu/ztDyMQcmn
-	c7mFNwosd0BRKz3LMTibuH61eVnduvTvX4OlKiBvq5v9pxN6XdYXGyNGGeLKGAAl/HF0qNyenO2
-	M3YIbNkOYWMAsis9ADgDFu7k2c6Z64IQcInREidt3zEbmNvKj14vDTTD23FMz1rq0IduKI8JOmd
-	21Qrejo8JubfEPG6euFtDq9HeLV1b0uuDG6VmOWkeG4Z6YbwS8/XldoGXJDWkmg7ODYGjqwBNMj
-	KIbXjb71PiNo13gKMhI81OYbMj4QHSawrwBcxU2BRKgA7yCWcGBWZdfainzyL/ZqZSR2nG
-X-Received: by 2002:a05:600c:4f86:b0:475:dd89:acb with SMTP id 5b1f17b1804b1-4805cf6749bmr56202315e9.22.1769422922324;
-        Mon, 26 Jan 2026 02:22:02 -0800 (PST)
-Received: from thinkpad ([5.215.56.190])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4804d8b4fc3sm263805995e9.13.2026.01.26.02.22.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jan 2026 02:22:01 -0800 (PST)
-From: Arash Golgol <arash.golgol@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: paulk@sys-base.io,
-	mchehab@kernel.org,
-	wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	linux-sunxi@lists.linux.dev,
-	Arash Golgol <arash.golgol@gmail.com>
-Subject: [PATCH] media: sun6i-mipi-csi2: Propagate format to source pad in TRY mode
-Date: Mon, 26 Jan 2026 13:51:49 +0330
-Message-Id: <20260126102149.39563-1-arash.golgol@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iDPdyFDV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769422976; x=1800958976;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YmwLlwxCohpODw33KGlJTwGnb4/sXa4Sj0U7Xi4pE+8=;
+  b=iDPdyFDV8H+08iL6MqCowQusdUI9MKcYUUvplLDJO1euDlJA/6W29iBV
+   96hgyrtkZYMFB3olMbbV8KMh7gnz/PFWCH3cTlRqRZUV6WPVu7Vp5JyRb
+   QsF4yJOmaT4+1rTPc/BTBwPKz0CsK00SEhm0UfpmMy/7yxCWezR3WkFix
+   rjwzT30tB65flLos6qtOfOEG+bD1HfoYUoya7u49lEw/uI37eBEWZxhKJ
+   /scOqf1EAUaWvHomcNjLbkUQ9jjRfyCsRfI6YO8uGVbIsys1vSjnktkXF
+   jhgf1jZH6BdxrlX1ybyGtP5fyJOzHBuZyPVBqkx7Vd8h1dVnzOSvcA7bs
+   w==;
+X-CSE-ConnectionGUID: TczbMHH9QGO9NRUN0frIfw==
+X-CSE-MsgGUID: SZAgftrWRQ+ifCLzuz3KhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="70313142"
+X-IronPort-AV: E=Sophos;i="6.21,254,1763452800"; 
+   d="scan'208";a="70313142"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 02:22:56 -0800
+X-CSE-ConnectionGUID: dluJNQIKS+uO/wx/ncC5bw==
+X-CSE-MsgGUID: UbxLvLiVR+28CR/E2fga4A==
+X-ExtLoop1: 1
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.122])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 02:22:47 -0800
+Date: Mon, 26 Jan 2026 12:22:45 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Wilken Gottwalt <wilken.gottwalt@posteo.net>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Antonio Borneo <antonio.borneo@foss.st.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Konrad Dybcio <konradybcio@kernel.org>, Lee Jones <lee@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Waiman Long <longman@redhat.com>,
+	Will Deacon <will@kernel.org>
+Subject: Re: [RFC PATCH 0/4] hwspinlock: refactor headers into public
+ provider/consumer pair
+Message-ID: <aXdAdZRBH7ZhZtju@smile.fi.intel.com>
+References: <20260125184654.17843-6-wsa+renesas@sang-engineering.com>
+ <aXc7DxsqiCGdfzxi@smile.fi.intel.com>
+ <20260126111440.67394323@posteo.net>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260126111440.67394323@posteo.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-sun6i-mipi-csi2 does not support any format conversion. So the format
-on sink and source pad must always match. This limitation is handled for
-ACTIVE state via mbus_format member of bridge private structure.
+On Mon, Jan 26, 2026 at 10:14:46AM +0000, Wilken Gottwalt wrote:
+> On Mon, 26 Jan 2026 11:59:43 +0200
+> Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+> 
+> > On Sun, Jan 25, 2026 at 07:46:51PM +0100, Wolfram Sang wrote:
+> > > TLDR: I want to create a hwspinlock provider outside of the hwspinlock
+> > > directory. So, I refactored the headers into a provider/consumer pair.
+> > > Which seems to me like a reasonable seperation anyhow. No functional
+> > > changes. My build tests went fine and buildbots are happy, too.
+> > > 
+> > > Longer explanation:
+> > > 
+> > > There is a device (MFIS) in newer Renesas SoCs which combines various
+> > > things like hwspinlocks, mailboxes and other stuff. Sadly, these are not
+> > > strictly separated. Registers are kind of mixed and its register
+> > > unprotection scheme will need one of its own locks. I tried various
+> > > paths to handle this device (MFD, auxiliary bus) but I concluded that
+> > > the sub-device dependencies give enough reasons for a single driver in
+> > > drivers/soc/. So, this series will allow me to instantiate a hwspinlock
+> > > provider from the other directory.
+> > > 
+> > > Patches 1+2 do the actual refactoring with a fallback being in place. I
+> > > used '-B' with git-format-patch in this RFC, so the actual changes are
+> > > more visible when the headers are moved.
+> > > 
+> > > Patch 3 converts all the users. There are not many. We could try to get
+> > > all the acks for this single patch. Or I can break it into single
+> > > patches and send them to subsystems. I don't mind.
+> > > 
+> > > Patch 4 simply removes the fallback.
+> > > 
+> > > Looking forward to comments on this approach. If the hwspinlock
+> > > maintainers like it as is, I would kindly propose to apply patches 1+2
+> > > after 7.0-rc1 comes out. This might sound a bit hasty, but a) I want to
+> > > avoid chasing a moving target and b) this would remove one dependency of
+> > > the hwspinlock driver I originally intend to upstream, of course.
+> > > 
+> > > I would take care of patches 3+4 as needed.
+> > > 
+> > > A branch can be found here:
+> > > 
+> > > git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/hwspinlock/refactor-includes
+> > > 
+> > > Patches are based on linux-next as of 2026-01-21.
+> > > 
+> > > Opinions?
+> > 
+> > I don't like the idea of sharing internal stuff. Why would we need to have
+> > a struct hwspinlock to be visible?
+> > 
+> 
+> I see what Wolfram wants to achieve. It is the same issue I encounterd while I
+> wrote the sun6i hwspinlock driver. Currently it is impossible to write external
+> (out-of-kernel-tree) drivers because of internal structures. And it was a pain
+> in the ass for testing purposes. I prefer to be able to write external hwspinlock
+> drivers.
 
-To enforce this limitation in TRY state, user space should only be able
-to set format on sink pad. The sink format must be propagated to source
-pad to ensure consistent behavior.
+I am not against _that_. I'm against the implementation. At least I can't see
+the impediment in making that struct opaque. Maybe I missed something. That's
+why I'm asking why we need it to be visible to the entire world.
 
-This also aligns the driver with userspace relying on media controller
-based format negotiation.
-
-Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
----
- .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-index b06cb73015cd..6ee0f6685663 100644
---- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-+++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-@@ -369,15 +369,26 @@ static int sun6i_mipi_csi2_set_fmt(struct v4l2_subdev *subdev,
- 	struct v4l2_mbus_framefmt *mbus_format = &format->format;
- 	struct mutex *lock = &csi2_dev->bridge.lock;
- 
-+	/* The format on the source pad always matches the sink pad. */
-+	if (format->pad != SUN6I_MIPI_CSI2_PAD_SINK)
-+		return v4l2_subdev_get_fmt(subdev, state, format);
-+
- 	mutex_lock(lock);
- 
- 	sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
- 
--	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
--		*v4l2_subdev_state_get_format(state, format->pad) =
--			*mbus_format;
--	else
-+	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
-+		struct v4l2_mbus_framefmt *fmt;
-+
-+		fmt = v4l2_subdev_state_get_format(state, format->pad);
-+		*fmt = *mbus_format;
-+
-+		/* Propagate the format to the source pad. */
-+		fmt = v4l2_subdev_state_get_format(state, SUN6I_MIPI_CSI2_PAD_SOURCE);
-+		*fmt = *mbus_format;
-+	} else {
- 		csi2_dev->bridge.mbus_format = *mbus_format;
-+	}
- 
- 	mutex_unlock(lock);
- 
 -- 
-2.34.1
+With Best Regards,
+Andy Shevchenko
+
 
