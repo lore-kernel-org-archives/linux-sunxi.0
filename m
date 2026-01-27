@@ -1,147 +1,185 @@
-Received: from mout.web.de (mout.web.de [212.227.17.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5AB835C1B7
-	for <linux-sunxi@lists.linux.dev>; Tue, 27 Jan 2026 15:46:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E730155757;
+	Tue, 27 Jan 2026 19:50:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769528774; cv=none; b=BSG2U3qZoV/n2RdNHPJpAlA3swObLK8MEFnuE5jGXq0vRw9DIkIycY+QclsKlcOCa+ErFUZeoFdMzyP9BPjcz66u91t/dwwZT4HRGxjDZoNbuDNn0jKTN0spM6hcGOZFHDS9vmapWnPY+qL+iHUb935Dl9HQz72VKc6wYLAmZss=
+	t=1769543435; cv=none; b=FQrcrHDNVstvZijmuCjY8SulBg/8JUR+ncNRci/vUcB4QFEpBnczld13BzGNJuL5PL+VAYCuZdNJ+95CyBfEcCV7rcm/duGgJWrBMxmdtTRZfX34VA1oOxFT4wGIZL/BKs4WwYPlkNNy+lqTS8wsZ9BS1fioOR8yU1fAPTMoQw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769528774; c=relaxed/simple;
-	bh=lr/AXvpRECteTqgpnXcvrdfrDD3U/+YRtXBlxwKPYTo=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=WOqGFStn2gy1pHBun7r4hDQm6zpmM7pFrD+8W2OrsUb5oiAHH2KJjHOLk/aMGwZmC3Ooe/csyliciD6PHIVCbxx5GlWe6sUc47QTppbGkFlOID2pY8ZxQRVeG4w4x99s7jGHvQXrquFN1d/phull9XfTiMH/8vo5KJy0x0vSLZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=SKkDkcUO; arc=none smtp.client-ip=212.227.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1769543435; c=relaxed/simple;
+	bh=UaKGXBQECE0SDe7XXMs88ifMfoexM+bNNiVKCwxPry8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eIYC23lHhYkHan8Uiy/trFcN5mYDIAavdWZhJ6aKQSf/+ruKG+gfmYHbZHtgQgfTA/zNOBfunJzd1pHMIbydrW1Qe4tkork4kcAnIJaMrwy0S9lPhz9W/sG/SYDJNzeiK2wBxpjsO/oKoao03piwqUN/xXye80b/r6CWm+dSzX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kLQTvED4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="SKkDkcUO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1769528754; x=1770133554; i=markus.elfring@web.de;
-	bh=lr/AXvpRECteTqgpnXcvrdfrDD3U/+YRtXBlxwKPYTo=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=SKkDkcUOrBYJcK0M9s86Tp2mI4Fswb4yv8jcNY1Gcyw0Me2U/nSZg4mTBgin4Jij
-	 qqcNXeopPWALvx372bkI0OqBE3XthxNTriEteAqhoiU2cCEI+NJdsoKkFtHzz5XJX
-	 /GXwlY2Pdd85UZuf8f6TV9YTxpm3oS5am3a7d5ZysAa6O0anN/7JXUc2duYXGq+Tr
-	 khLVzcU0/ckuBiJ1TwSzODf4QFYLyJyrnOUH/r2GSe1gie/ujibz84CmMceUUzqaq
-	 Xh86wBUts3wpvlm+kVyPXXLHfZlWJ4mo4Gy9XMyCnkL4oWIObpLS8HlmHe14MuYaH
-	 7qSvXsk2SGbVViwYqw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.92.251]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MwjJo-1vw52u1jLO-017G2I; Tue, 27
- Jan 2026 16:45:54 +0100
-Message-ID: <f6ce8385-758d-457c-a11f-46145c048afa@web.de>
-Date: Tue, 27 Jan 2026 16:45:52 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kLQTvED4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAF5AC116C6;
+	Tue, 27 Jan 2026 19:50:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769543435;
+	bh=UaKGXBQECE0SDe7XXMs88ifMfoexM+bNNiVKCwxPry8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kLQTvED4LlSKzw2nWBpeK5viX8ZbqC10mYv1QroLhWLVlCqz2iR1bg4yYnRhz/FNn
+	 UlXU0v6oTqeW3oYFDM8UA/Ntm5uOmB151/wgibG3XMZwTlzSCm3HoDhdp+9cTSuDAX
+	 jt9crfIprdiN//Qns45XzTb++v6Rc/OEHjxt157GG8V04Ct4M9GDnXgfXKn8fYBAIx
+	 Te3wrBDNMsAun6AI7V81/8dvy5LJ607YML0E+bJU//aMBkUrSL0mhN3XOOekOqHe9w
+	 y4AS+6Vynd0jQIuR1Mrpa4jR/rMBq0d/IxubsJkTUwkKRKqJGOqh+IXHAZ/qpZsJh/
+	 7WDwMYHNnLQxQ==
+Date: Tue, 27 Jan 2026 19:50:25 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Andy Yan <andy.yan@rock-chips.com>, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-mediatek@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+	linux-rockchip@lists.infradead.org, Aishwarya.TCV@arm.com
+Subject: Re: [PATCH v4 05/10] drm/bridge: refactor HDMI InfoFrame callbacks
+Message-ID: <47619a02-c667-4fd0-afa9-f6cf7aba8dd4@sirena.org.uk>
+References: <20260107-limit-infoframes-2-v4-0-213d0d3bd490@oss.qualcomm.com>
+ <20260107-limit-infoframes-2-v4-5-213d0d3bd490@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Chen Ni <nichen@iscas.ac.cn>, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Chen-Yu Tsai <wens@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Takashi Iwai <tiwai@suse.com>
-References: <20260127034025.2044669-1-nichen@iscas.ac.cn>
-Subject: Re: [PATCH] ASoC: sun4i-spdif: Add missing check for
- devm_regmap_init_mmio
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20260127034025.2044669-1-nichen@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:g7izDTzTZ+9FjXKeDfY+ceUyZ7qkPoUOvGrPvuI+tz7S/lnU+vo
- tQle2MaiV3fCaMWf96IbbdJp3bcZmQlhDH3AhOLukof4JvJZK62gzct2FhSAwdFaMfWq2p6
- l6i74EGz2tqaRIxQztIAadpuZpEH56o9/e8nNZdTE9DFLjCB4GZgYBrPlqM/VdHc1ak3KB1
- IKR3uueD3X5Lo8XT1ALyg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:MTc6k0p+FL8=;mxnGB02U8dxucqUFytFYnlp2zOe
- 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
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="sKQ7u6u6my6XlJTm"
+Content-Disposition: inline
+In-Reply-To: <20260107-limit-infoframes-2-v4-5-213d0d3bd490@oss.qualcomm.com>
+X-Cookie: Send some filthy mail.
 
-> Add check for the return value of devm_regmap_init_mmio() and return the
-> error if it fails in order to catch the error.
 
-How do you think about to add any tags (like =E2=80=9CFixes=E2=80=9D and =
-=E2=80=9CCc=E2=80=9D) accordingly?
+--sKQ7u6u6my6XlJTm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Regards,
-Markus
+On Wed, Jan 07, 2026 at 08:15:02PM +0200, Dmitry Baryshkov wrote:
+> Having only a single set of callbacks, hdmi_clear_infoframe and
+> hdmi_write_infoframe, bridge drivers don't have an easy way to signal to
+> the DRM framework, which InfoFrames are actually supported by the
+> hardware and by the driver and which are not. Also, it makes it
+
+We're seeing oopses on Qualcomm RB5 platforms in -next which bisect to
+this patch.  Looking at the patch I'm not immediately seeing what it
+might be getting wrong, though I do note that the board uses a LT9611
+which is updated by the patch.
+
+Failure log:
+
+3853 01:47:31.278489  <3>[   21.045573] msm_dpu ae01000.display-controller: [drm:msm_dsi_modeset_init [msm]] *ERROR* failed to create dsi connector: -22
+3854 01:47:31.280977  <3>[   21.057526] [drm:_dpu_kms_initialize_dsi:630] [dpu error]modeset_init failed for dsi[0], rc = -22
+3855 01:47:31.322994  <3>[   21.066927] [drm:_dpu_kms_setup_displays:766] [dpu error]initialize_dsi failed, rc = -22
+3856 01:47:31.323293  <3>[   21.075563] [drm:dpu_kms_hw_init:1283] [dpu error]modeset init failed: -22
+3857 01:47:31.323577  <3>[   21.083223] msm_dpu ae01000.display-controller: [drm:msm_drm_kms_init [msm]] *ERROR* kms hw init failed: -22
+3858 01:47:31.323809  <1>[   21.094033] Unable to handle kernel paging request at virtual address dead000000000108
+
+...
+
+3882 01:47:31.547579  <4>[   21.252828] Hardware name: Qualcomm Technologies, Inc. Robotics RB5 (DT)
+
+...
+
+3901 01:47:31.678351  <4>[   21.462030] Call trace:
+3902 01:47:31.721776  <4>[   21.464819]  drm_atomic_private_obj_fini+0x24/0x70 [drm] (P)
+3903 01:47:31.722072  <4>[   21.470924]  _dpu_kms_hw_destroy+0x4c/0x64 [msm]
+3904 01:47:31.722309  <4>[   21.475969]  dpu_kms_destroy+0x28/0xb0 [msm]
+3905 01:47:31.722528  <4>[   21.480650]  msm_drm_kms_uninit+0xac/0xd8 [msm]
+3906 01:47:31.722743  <4>[   21.485596]  msm_drm_uninit.isra.0+0x54/0xd4 [msm]
+3907 01:47:31.722968  <4>[   21.490816]  msm_drm_init+0x18c/0x1f0 [msm]
+3908 01:47:31.723228  <4>[   21.495409]  msm_drm_bind+0x30/0x3c [msm]
+3909 01:47:31.723442  <4>[   21.499824]  try_to_bring_up_aggregate_device+0x164/0x1d0
+3910 01:47:31.723646  <4>[   21.505635]  __component_add+0xa4/0x170
+3911 01:47:31.725046  <4>[   21.509851]  component_add+0x14/0x20
+3912 01:47:31.766295  <4>[   21.513793]  dsi_dev_attach+0x20/0x2c [msm]
+3913 01:47:31.766592  <4>[   21.518387]  dsi_host_attach+0x58/0x98 [msm]
+3914 01:47:31.766829  <4>[   21.523068]  devm_mipi_dsi_attach+0x34/0x90
+3915 01:47:31.767113  <4>[   21.527638]  lt9611uxc_attach_dsi.isra.0+0x84/0x100 [lontium_lt9611uxc]
+3916 01:47:31.767339  <4>[   21.534701]  lt9611uxc_probe+0x59c/0x62c [lontium_lt9611uxc]
+
+bisect log:
+
+git bisect start
+# status: waiting for both good and bad commits
+# good: [50814c5ce8d8f6751fd49c818abeb8853f8be2df] Merge branch 'for-linux-next-fixes' of https://gitlab.freedesktop.org/drm/misc/kernel.git
+git bisect good 50814c5ce8d8f6751fd49c818abeb8853f8be2df
+# status: waiting for bad commit, 1 good commit known
+# bad: [615aad0f61e0c7a898184a394dc895c610100d4f] Add linux-next specific files for 20260126
+git bisect bad 615aad0f61e0c7a898184a394dc895c610100d4f
+# good: [b047f48069330e050431e9ad762bd838af43337f] Merge branch 'mtd/next' of https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git
+git bisect good b047f48069330e050431e9ad762bd838af43337f
+# bad: [fe1e00e6f9fe8a160921f6a87f999075a1dfef0a] Merge branch 'for-mfd-next' of https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git
+git bisect bad fe1e00e6f9fe8a160921f6a87f999075a1dfef0a
+# good: [9d10cd526111a989eb353c3a4df9d4c79695ea8d] Merge tag 'drm-intel-next-2026-01-15' of https://gitlab.freedesktop.org/drm/i915/kernel into drm-next
+git bisect good 9d10cd526111a989eb353c3a4df9d4c79695ea8d
+# bad: [7260b161359d310b9a92513dbd73cd9a3a226c6f] Merge branch 'for-next' of https://git.kernel.org/pub/scm/linux/kernel/git/ieee1394/linux1394.git
+git bisect bad 7260b161359d310b9a92513dbd73cd9a3a226c6f
+# bad: [d1968cd2a0ecab805106e5e60613dd45b63d52d9] Merge branch 'drm-next' of https://gitlab.freedesktop.org/drm/kernel.git
+git bisect bad d1968cd2a0ecab805106e5e60613dd45b63d52d9
+# good: [d2f618b8fe76b565f6bc0071b5eeee07a9012c6d] Merge tag 'drm-intel-next-fixes-2026-01-22' of https://gitlab.freedesktop.org/drm/i915/kernel into drm-next
+git bisect good d2f618b8fe76b565f6bc0071b5eeee07a9012c6d
+# good: [fc23163a7ca6cc0e6c3297aed3bdc9428aa8b1a9] Merge branch 'master' of https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git
+git bisect good fc23163a7ca6cc0e6c3297aed3bdc9428aa8b1a9
+# skip: [00e6f8f60601b412e400873c8972f3e3802557f3] dt-bindings: vendor-prefixes: Add AlgolTek
+git bisect skip 00e6f8f60601b412e400873c8972f3e3802557f3
+# bad: [e5e1a0000746ded4d9fa16fceda0748aec2b6e6a] drm/bridge: samsung-dsim: samsung_dsim_host_attach: use a temporary variable for the next bridge
+git bisect bad e5e1a0000746ded4d9fa16fceda0748aec2b6e6a
+# bad: [0607052a6aee1e3d218a99fae70ba9f14b3b47ed] drm/hisilicon/hibmc: fix no showing problem with loading hibmc manually
+git bisect bad 0607052a6aee1e3d218a99fae70ba9f14b3b47ed
+# bad: [5a4e4e30f6dc4d2a68eec08257128906572f3346] drm/debug: don't register files for unsupported HDMI InfoFrames
+git bisect bad 5a4e4e30f6dc4d2a68eec08257128906572f3346
+# good: [638409979c5f7d3155afcded67532003e07a7d0e] drm/sun4i: hdmi_enc: implement clear_infoframe stub
+git bisect good 638409979c5f7d3155afcded67532003e07a7d0e
+# skip: [1d8847f457648ed4932019dcd3081bc27bcea936] drm/display: hdmi_state_helper: reject Audio IF updates if it's not supported
+git bisect skip 1d8847f457648ed4932019dcd3081bc27bcea936
+# bad: [e802c783be94bf71541a7e2ac8b1b5486aad10db] drm/display: hdmi_state_helper: split InfoFrame functions per type
+git bisect bad e802c783be94bf71541a7e2ac8b1b5486aad10db
+# good: [afc399f7a5ea7bf405b2ef85c7470529b1a9e47c] drm/connector: make clear_infoframe callback mandatory for HDMI connectors
+git bisect good afc399f7a5ea7bf405b2ef85c7470529b1a9e47c
+# bad: [b626b1a1c9ccadd8861870a2a450f02e0c61ab88] drm/bridge: refactor HDMI InfoFrame callbacks
+git bisect bad b626b1a1c9ccadd8861870a2a450f02e0c61ab88
+# first bad commit: [b626b1a1c9ccadd8861870a2a450f02e0c61ab88] drm/bridge: refactor HDMI InfoFrame callbacks
+
+--sKQ7u6u6my6XlJTm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAml5FwAACgkQJNaLcl1U
+h9B9Tgf/X2VdX2dj9e0HmnAWF7Z6YHcQwTv5vOPRR3TtPQ1f0IJF84ETF90P7M+z
+0r53d6IbwJsKLOX4qsB/rNQEI5N+CJmuM3AAwc2f6ATSDYXwfp7G82qqjy1yhIf5
+WTaqKV6iegc3pW6A+6AaU7mOqNBCm74S+28Yb07/FYYYI4CLJ1MZODAbjAHdKJMh
+3KgxmTu9nFANpwxnxf7J6KAVvq+V3AWackd3YyPPRJymtC/VP3hDf+YJdFA8hBV0
+aHaxFLCwzVkFfUutqrJ45IQS3wyDewkuIHBBWMfls4ORz6J+JAHSgoxHFLC+Xvwv
+0T8FfKnKWZSsk5IGJrkrvzX7z2NSgg==
+=rTj8
+-----END PGP SIGNATURE-----
+
+--sKQ7u6u6my6XlJTm--
