@@ -1,88 +1,113 @@
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5103F1EA65
-	for <linux-sunxi@lists.linux.dev>; Tue, 27 Jan 2026 03:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 614FF3321DE
+	for <linux-sunxi@lists.linux.dev>; Tue, 27 Jan 2026 09:11:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769485285; cv=none; b=Dn2WUBWFnfQTIcD5AdsVmxl5T9K8GQzk74HC8ZlXbIKuFVtS+Oz7PRUbjWvwQFTNIfxaNem63VSwma/xxEcIj3dYKN0cUUxzhK7zk+G1tH5yllwmIdr038vIRii+P+fMwl/SDVDjQoeYETbHMbC8MelrpKPssXw3BwImV3G5PMc=
+	t=1769505099; cv=none; b=gJ1aST5tttxZ8DUQueJ9BHS30xQyAGT16XrJVFdck8zDVczEYGNbfqdHpkUPQ0R5HVBiFyCJOXWd6MGOGicCVRAkG9JE+qKo19eANR+pwMSSaZkP0xeXEdlB6fhP6HtTUbzNUNHR4cBza4R4s0Y3qafxZ6KBSQYlV2AmOYosdm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769485285; c=relaxed/simple;
-	bh=URI8vlChpX59IeF6XmaxVY2GasJDyQSzNbFDVES9K48=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pe7pmrapPag9aPWAHZWsrQVjiUGjbyq1xzWEg3RH7uSnKcv9prfWvMXvk/ybxrf3QU1A3jLQS25e5FxUPPOGFK2hGdXO83P2OFXbxpF16FpNFyJwZ22O4kpp6B4it/4zNBbCjg2K+1zq1PTQLDKqyozraH0q4GRhSNVaW+efTok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-03 (Coremail) with SMTP id rQCowAAnDOPgM3hp1sXoBg--.10824S2;
-	Tue, 27 Jan 2026 11:41:20 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	ckeepax@opensource.cirrus.com
-Cc: linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] ASoC: sun4i-spdif: Add missing check for devm_regmap_init_mmio
-Date: Tue, 27 Jan 2026 11:40:25 +0800
-Message-Id: <20260127034025.2044669-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1769505099; c=relaxed/simple;
+	bh=gM+1iC7DAP5QcS7AwwhoBt69LVeinsvEtmy7rzi4jv8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=NvEOrBe7o2+PhG25ylGbmiD72zqO83iPHuD+ZhePWfkDSbOalyKl5f8pufVNZy1YhWnYdwaSqbSDbBA3qznw8nNdI0A0v45HTFeNOW/j9F7W9sXdvD2QMN+TFgwUNBkBVaF1ff87gKRjGzX1GcbsA7kCMu2OSiSU4kQvHjpDF0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=ARDcksx7; arc=none smtp.client-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="ARDcksx7"
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20260127091130euoutp014c75f018134d9523a802741a4410d6be~Oi4Ej8mLk0793907939euoutp01d;
+	Tue, 27 Jan 2026 09:11:30 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20260127091130euoutp014c75f018134d9523a802741a4410d6be~Oi4Ej8mLk0793907939euoutp01d
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1769505090;
+	bh=o3uYq+bvJ8IHWH6k2uOihpa6CKY0ItOKPXbc7h/Pz2g=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=ARDcksx7il7K+UJhL3qOUbJrzsCnWlDnWMyBKycHeHqFCGmyemgus6UZuDTSdf+bf
+	 sio+/WnMIcFH7Q4EvSeQJPsiIhXonBavFn5UetIdLJJLlTvKiDVGsd1YhwF3xweOeh
+	 qSQI7psb+mdS7QYSc32Br4lqAOSfjZL27eQp/MjQ=
+Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20260127091130eucas1p1440fbe9f7c4c663fa3a68f6fcb86470d~Oi4EUDQLX2294122941eucas1p1s;
+	Tue, 27 Jan 2026 09:11:30 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20260127091128eusmtip12e05e437c03450178ad4e2539faa417e~Oi4CsG4iT0357803578eusmtip1P;
+	Tue, 27 Jan 2026 09:11:28 +0000 (GMT)
+Message-ID: <002704a5-9ccb-4abb-beaf-5a448c17ea39@samsung.com>
+Date: Tue, 27 Jan 2026 10:11:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowAAnDOPgM3hp1sXoBg--.10824S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrZrWDXFy5CF4ktrWfJr15XFb_yoWfJrc_X3
-	ykuan5WFykKr9I9a4DJFZIyr48XF1vkFy7tr1UtFZxt34DGws5Z3y8AryrurWDX3y8CrWY
-	vr1YvFZrA34agjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbf8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
-	Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
-	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Wrv_ZF1lYx0Ex4A2jsIE14v26rkl6F8dMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFylc2xSY4AK67AK6r48MxAIw28IcxkI7VAKI4
-	8JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xv
-	wVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjx
-	v20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20E
-	Y4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267
-	AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7sR_EoGDUUUUU==
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH v4 02/10] drm/vc4: hdmi: implement clear_infoframe
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Dave Stevenson
+	<dave.stevenson@raspberrypi.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+	<mcanal@igalia.com>, Raspberry Pi Kernel Maintenance
+	<kernel-list@raspberrypi.com>, Chen-Yu Tsai <wens@kernel.org>, Jernej
+	Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+	<neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+	Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+	<jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>, Chun-Kuang Hu
+	<chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Matthias
+	Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Rob Clark
+	<robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, Abhinav
+	Kumar <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
+	Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+	Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+	<heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org, linux-rockchip@lists.infradead.org
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <jiq5ublhbfzuv3qsz3n6bve32wmto5hxc6mxppb2i2wagykafx@d235legi4r5o>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260127091130eucas1p1440fbe9f7c4c663fa3a68f6fcb86470d
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20260126174455eucas1p1f219202580a1033d3e881adc4f37f206
+X-EPHeader: CA
+X-CMS-RootMailID: 20260126174455eucas1p1f219202580a1033d3e881adc4f37f206
+References: <20260107-limit-infoframes-2-v4-0-213d0d3bd490@oss.qualcomm.com>
+	<20260107-limit-infoframes-2-v4-2-213d0d3bd490@oss.qualcomm.com>
+	<5c247393-b096-43ea-9ff4-9dd5fcdeec73@samsung.com>
+	<CGME20260126174455eucas1p1f219202580a1033d3e881adc4f37f206@eucas1p1.samsung.com>
+	<36278555-a01e-4c96-bb26-e170016e5f8c@samsung.com>
+	<jiq5ublhbfzuv3qsz3n6bve32wmto5hxc6mxppb2i2wagykafx@d235legi4r5o>
 
-Add check for the return value of devm_regmap_init_mmio() and return the
-error if it fails in order to catch the error.
+On 26.01.2026 20:00, Dmitry Baryshkov wrote:
+> On Mon, Jan 26, 2026 at 06:44:52PM +0100, Marek Szyprowski wrote:
+>> On 26.01.2026 18:42, Marek Szyprowski wrote:
+>>> On 07.01.2026 19:14, Dmitry Baryshkov wrote:
+>>>> Implement the clear_infoframe callback, disabling corresponding
+>>>> InfoFrame type.
+>>>>
+>>>> Acked-by: Maxime Ripard <mripard@kernel.org>
+>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>>> This patch landed recently in linux-next as commit 3a4ceb89a972
+>>> ("drm/vc4: hdmi: implement clear_infoframe"). In my tests I found that
+>>> it causes the following regression on Qualcomm RB5 board:
+>> Please ignore my report, it looks that automated bisecting got a bit
+>> confused.
+> See https://lore.kernel.org/dri-devel/9ebc0582b0f7990d7df992a07ec8ef7f@kernel.org/T/#t
+>
+> I'm going to push it to drm-misc-next-fixes.
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- sound/soc/sunxi/sun4i-spdif.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Thanks for pointing that patch! It fixed my issue.
 
-diff --git a/sound/soc/sunxi/sun4i-spdif.c b/sound/soc/sunxi/sun4i-spdif.c
-index 1e755a716c63..65de03ca3ad2 100644
---- a/sound/soc/sunxi/sun4i-spdif.c
-+++ b/sound/soc/sunxi/sun4i-spdif.c
-@@ -684,6 +684,10 @@ static int sun4i_spdif_probe(struct platform_device *pdev)
- 
- 	host->regmap = devm_regmap_init_mmio(&pdev->dev, base,
- 						&sun4i_spdif_regmap_config);
-+	if (IS_ERR(host->regmap)) {
-+		dev_err(&pdev->dev, "failed to initialise regmap.\n");
-+		return PTR_ERR(host->regmap);
-+	}
- 
- 	/* Clocks */
- 	host->apb_clk = devm_clk_get(&pdev->dev, "apb");
+Best regards
 -- 
-2.25.1
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
