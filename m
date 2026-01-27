@@ -1,171 +1,87 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011005.outbound.protection.outlook.com [52.101.70.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695AA240611;
-	Tue, 27 Jan 2026 02:39:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.5
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769481589; cv=fail; b=G0n4qOSfd1L929WRuSgj1DM/RvRKGSK7/mH/KoEnhATBGB4HF3nwSGSl3KGBwyzYYI9DFCmU+qpLRvz7jiDtCUCtOoHfwlx+OPljE33CQ0B8YKhRFS9FLfYOyLPX98abS9+Wx/IEd7bdXjHhgrFrFrgz9JOnWUWCauIHBwugqC4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769481589; c=relaxed/simple;
-	bh=u6sakHglWsUwTA36TFXRwwp55m8Wf7P0qYzJwe3p04c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=JojiprF9K3AeIuAV87r9FIJVdkGZ3VHR9WFuqEbNmHRQGLWbRy35A8pU+lNM9WrQ2EiaEcaH2yZYBMXtxTuCYiZMYOjRRB7ka2FZTetz0Y1N/AwFnpN1N740lqq/gWPN1T0rWNLNgPKUOB2If59juZBKjUI5np3dB98oSHROHkE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=m18qjtGp; arc=fail smtp.client-ip=52.101.70.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="m18qjtGp"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C8Fz7fpvv+j715lz4sX1jtVQ/o2lAxR9awXWTaF9k+063wFNySfFAAolMbf5tkzq6TLNG/SynoOjb3uaZvyX9xyS2uTR+nL/xq4upJoxhz6E5WIsDQ23DOTx8FdRt/CirDztKNhOzm77SctDABXE7+Mk7c2KUrNez2GAjO0aPX56wdV3WGjpm5j9XVsL5q5r1kqhkC8IhffkJdoKrVeeR63i+t1dF7WsuDZjr+zJHPRbzZKXPlfmXVqjH28g+KKBPuFNu1vcPT8OKgIQWZSJSKTHmJlA8X/rUy/n3WWTcoaVqTbXu0xJW7LLGX5s/GNUb9EWUjfywRVh4Bnu5iSplw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u6sakHglWsUwTA36TFXRwwp55m8Wf7P0qYzJwe3p04c=;
- b=QwJPAGVZLmEBIzk+oL9sUNIJ3gPtLZOWYQblqQQ2oy7dOz/ZLokZkMOwY/CawYY0s5i1pZaJXo2Oc46MBkTr+nf07MV+hCIAXGyRvFcOlqKHHurNjYZR8C8hNJLHUEVOG70QRW8/0StKlV0K/FEmRYGa/lVUA0Im9ir5QqWaDn2TKMfi4sVqnZIqq49TRPVmT4nJ4WpQzIBTJWoumcRo1SsNUZGvU0yY9jZoUjoGdWHw4T+vKqy7P3rzNYzkl7/NBSrabl6OV5Jm75ifkJdn8sqWiRuaOX9Ky1A1BFnUO8YKg/+yvGAlMwSWhwvRQ7JfcZx4bt9JEfpIoW45rHL2lg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u6sakHglWsUwTA36TFXRwwp55m8Wf7P0qYzJwe3p04c=;
- b=m18qjtGpdciCTJPqJC1XjKuHAHUnB8LEljvqu6r3pgM75peGLmx3uTrdbd5BpmVcbnNyST1JlbOMjA2qEHeQwnESF9v3yid/EaAt6phdVAi5XkvAimzPPEck1oQIPMHQEVYlZE6ufJW7ckbh+APLYhrjy8evTAGHHX/G0EojvMkQl4JyRi5twWZyQZgnqu/T515q/NrNQvwit5isNFsqYltiESVfyfM6Ovx1zSP5gBoza4UFAuQbRDa2cXr4WAQWmwV1Gp0t3rXHdk4YVXALCGZv1vCz5cZ4Q1kf24f5Y91VujxwkNzx+l+IkjUoOtFWTBR93PSQitcnbRkbWgU2Jg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
- by VI0PR04MB12155.eurprd04.prod.outlook.com (2603:10a6:800:312::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Tue, 27 Jan
- 2026 02:39:46 +0000
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::4972:7eaa:b9f6:7b5e]) by PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::4972:7eaa:b9f6:7b5e%5]) with mapi id 15.20.9542.010; Tue, 27 Jan 2026
- 02:39:46 +0000
-Date: Tue, 27 Jan 2026 10:39:36 +0800
-From: Peng Fan <peng.fan@oss.nxp.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
-	linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 6/8] soc: imx9: don't access of_root directly
-Message-ID: <aXglUsO+u7gmoas0@shlinux89>
-References: <20260119-soc-of-root-v1-0-32a0fa9a78b4@oss.qualcomm.com>
- <20260119-soc-of-root-v1-6-32a0fa9a78b4@oss.qualcomm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260119-soc-of-root-v1-6-32a0fa9a78b4@oss.qualcomm.com>
-X-ClientProxiedBy: SGAP274CA0019.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::31)
- To PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D742E224D6
+	for <linux-sunxi@lists.linux.dev>; Tue, 27 Jan 2026 03:33:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769484821; cv=none; b=WXow8mTyfcKrfU4113WTFabKvqFWiFAISYT7rsU7+E0TKVJQRMj0Ijt9a0ZL7h+NVsOkoyxLzYN1HpByCFyKTa2OLH89srXLPhmsr2/nHzzQ4V/w4D0qdpllcjuRklrVCBXX/N2fzRZIVq5thaVenMVEG6YTJ/L2as1SzJWLoyI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769484821; c=relaxed/simple;
+	bh=NDnJkHY8nPosiplyCAc1GWq5X3eskreq/zs8gR/KiQE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jryjG8N+ZxrIab8xytIa5p/nj1kNRcaQwD+6I6RXhY8QdiVGa1G1UDhi2rp49zKimfQD75Og2gBwGhTNKd/00Y8hHCgXVrxAyW6jscE5yPqWI22si93bpbTKogmZFtqn8nWcV9y4BVs36hWI+0WVhiObw818RibA58AXpCQ9N8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost (unknown [124.16.138.129])
+	by APP-03 (Coremail) with SMTP id rQCowAAXOuELMnhpS47oBg--.60736S2;
+	Tue, 27 Jan 2026 11:33:31 +0800 (CST)
+From: Chen Ni <nichen@iscas.ac.cn>
+To: fengzheng923@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org
+Cc: linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH] ASoC: sunxi: sun50i-dmic: Add missing check for devm_regmap_init_mmio
+Date: Tue, 27 Jan 2026 11:32:50 +0800
+Message-Id: <20260127033250.2044608-1-nichen@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8459:EE_|VI0PR04MB12155:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9933c55d-9ee1-4a38-32b8-08de5d4d5561
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|19092799006|52116014|7416014|376014|366016|7053199007|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?42NGHjGNnIYXHAme+xD/YGe8ax1pgMJq3W0uEK1fLsC3MXvJTPjPU+TQmOGu?=
- =?us-ascii?Q?5JRmfHgAzhzKGFY830kMW3FA0sj/M4sR3rF8KzJDpEVndliBXl/2VE/OMsMe?=
- =?us-ascii?Q?fd8vA60oTtBWaPqsjYiAhMQJ6E2WIfDszYfJiezXk7FzF9L4+/T1MrhUpfou?=
- =?us-ascii?Q?LXYfNdXX5rUXDY0dXccadS15kIXnNVhZJpv/U4adQnvm+HbK1pll1GVlQJkx?=
- =?us-ascii?Q?tPvJoG5/8/MvuMIqUklkB0M7MDENQ+seSV4Ocn+xz0wqDcY3Bs5zbvCidO/q?=
- =?us-ascii?Q?udCe756NHZictUbpDTS7VXVcOL7A9AfJBe6ooNLY5MgkQ7eHpG7t+wKL3XMo?=
- =?us-ascii?Q?pynBn2FabLtcQ+eEoHovXpQbEtWuF5i+H4fqNQzxiNaDmAHwSclnPrBBSAcS?=
- =?us-ascii?Q?st5/pW1bux6aVPbYCEw/a122HFEiKmy99X5TCIMUoGqk4SDq/pn3pl8DwiXN?=
- =?us-ascii?Q?+KtMhTnQyJMPJSKSKzsr1DZ49s5wcaXtEIGsmG7m8dQZJ9Vb6Xvxv92JTZW9?=
- =?us-ascii?Q?PgZL2gWzHhCOP8LZfiBZZzA8p8gdxg5trabyEkTIYK0L86XN1XHkx+aUZVMm?=
- =?us-ascii?Q?/Mbvbhd06IbLLUoOlFUktVkoRertKQzsILQr1jBUVYloX3wd/bTvSNtY4OvF?=
- =?us-ascii?Q?NqBAGGqlMVKdmmQ+DmBN4AeekyQwm0N65v6LQaMw8Hzz1I4qX8MrbA0ju1sC?=
- =?us-ascii?Q?nB9jThEZUPTIb70LvbwqOmKG0ENDQvIqCTBf/YjlNQp1GWJCtDfN07vUgGHi?=
- =?us-ascii?Q?ecBQ1DrWFPZqsEtaTiweiyL3Ofpf2ujXfu0xnLodYRymC9r33UMPOTNcwHKG?=
- =?us-ascii?Q?K+cOK2BGkF1MmqhNESWakz8qgpGgxbLrLlkjIun1+cfK5uikldCB3Fl4mXAb?=
- =?us-ascii?Q?zUl9OVdtAaMbba8fHJvSYmVYchK9isGxt5y4tdXBu/lEnAGCcqTftfpJBQ3Y?=
- =?us-ascii?Q?v/nayprt9RNZJtuDfBW00mOnP4XHGiA6mLMBq8T0TqpSw2dIWZ6ZtebNGeyV?=
- =?us-ascii?Q?Y2YLEFlVt0jU/HN1fQOB6fwBzPafMdeUQiWGNEfwQoNShWzzygSTQtBx15A3?=
- =?us-ascii?Q?DWeGgLSXh5Qcr3hgjqzARAnCeBGCqiIaluYKSJfn7pesTmLPrVsyajKMz6Ql?=
- =?us-ascii?Q?gwazz2QMA9V2QQyomiyan5Ey5kJ9lWBhhEbq2hreWZVb4TZtefk6jsalwOWV?=
- =?us-ascii?Q?cpykJPPSejcUs2GzqZFmSqWQvjf5Br6vvZSAOSVGmxGrnp3E4KekFomt1cMW?=
- =?us-ascii?Q?7ji/nx/Q9nZopO5WbwMzFUJ2253ZewQPh08Lg3Pi5cCr+zK8G0aQKdcnBRGy?=
- =?us-ascii?Q?Diye7f+I2B2286avWPaj1S+1z+yMcBu0StvY2+SbJXGzE0ZsShq9Eg2mCY9f?=
- =?us-ascii?Q?JOe+eKbKNY8Wuk6cyCBonJWRuWkhipFea8bFteNWr7Yywo8X8+wkuKqF3jkU?=
- =?us-ascii?Q?O+TA6BNOdVg3/hc/alKvZg7A9z1TTNIrplAaRcLcXN1DYH/G+sE9tVZazcvh?=
- =?us-ascii?Q?+VcJksaz+C+s5Gi2gBWHbYk9v+tYP2NIyfN7XxsEdv6kkqi393NZh7Gvq0xc?=
- =?us-ascii?Q?0f9Gm2kXCe73yMt3aKAaw57RNiSRTWmJT+rpgfwK8r981dM9X9WMDzC033cK?=
- =?us-ascii?Q?yO8kUQCxRqXJqXETqZW8GHk=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(52116014)(7416014)(376014)(366016)(7053199007)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?MZ4bdgYm1ZISCNxaWKncXOAdTlcaSSM/df7/FUbqiztKBYBpTS0wA7JkAfMm?=
- =?us-ascii?Q?YyPNZ78K3fQ2lYeHElj6u9GH7XH/oLgBKqlWOVkYlmFVC/e+fVELVq76B064?=
- =?us-ascii?Q?zZW2hYyW6mlZCYIGpw+Tv59eh5e7okgWb1ZktByEwxpZ9ZDKTcRUFTECIk8f?=
- =?us-ascii?Q?lhBeAUwNCMK5auRLbTCIT6k5lzAKanR+HRLdFIP7sr3M+pVyEoG28zcNdzyx?=
- =?us-ascii?Q?Y/i4u318Ct4m74lniA5BuWDnUlSQAlJKqMmf09RPJB97yB6d04P7zFDiJz8c?=
- =?us-ascii?Q?yTRWxKUQSuCKFUnAYXrYb5jFDPqwIHF7lpaIeGvT8qgx26cSTwzJIamMJ+Q6?=
- =?us-ascii?Q?CmR3cCOAbLzj+DnCMgn7psJBTHNmMt9esVXjCFB63Ld7dvEVLAbZvZBVlBQK?=
- =?us-ascii?Q?MvqYQmlRsSSbTeeU+FLTjsZSY4VYkB3As9Dxix+Afz0nLSAiDm1nJzITUSSV?=
- =?us-ascii?Q?UzxhUuqJaxT1ejIz4UA+9CDGiZyqeajhFe4d7hpmGIxSzidbHnX3AlfbyVQo?=
- =?us-ascii?Q?M10u032aaI/ZXyIgXwZVYDaFPGD+o9NhN2bSO/07ME8umgGKO6aZyqR85AL0?=
- =?us-ascii?Q?4fHLRfOZuqBnH77suhhP9dDYOd71SCDCYHoZ2t6Iz/CECrjUtYnOf7FA2aJn?=
- =?us-ascii?Q?DP4WE9NVEQTnT4Kv2zgCZnmJhuyjS81mt9T9hdIAMfcVeBydvjNtlYecz/+0?=
- =?us-ascii?Q?A7CkoPGZBHdQt0A4kIb0zCtuUPFOlusQVwfzSkgKJm81WqCPTDz0xdOW8elC?=
- =?us-ascii?Q?MSnI5DCERlMSAfBF3FUe6jEIlGGicq0/Ky2n7HtI1o1aK+eMNfzrt5IsjQfG?=
- =?us-ascii?Q?tb0eb5wHJRiR/PwahfwmnHH0tr6thAPnTVN9Tm2k++N11RtAv504Ql/gslGS?=
- =?us-ascii?Q?e37ifP9XIRGr14Z1+8benA0Yr0yDtSCVaxUPHb/bpKqA8BVddi4ze3ljpLzj?=
- =?us-ascii?Q?omQmKicxpDjERq8NTow8iZbZeefW8HhAcknf0aIpe2Wl1o5wEQQhIcpHIWdK?=
- =?us-ascii?Q?U3kh5SaYqUNuf0Tu4GVjp0zmISvOaW1SFFotXp9ehLt/ERIq+wyNaByHIbfA?=
- =?us-ascii?Q?65KGOJcIfl6ErZsxlg0z4lKvWcDrZJfIL8YZOlVS1PZU9Uiq5k8KzbO2RVIS?=
- =?us-ascii?Q?IGOg+3tVsULhJAz6hL7vcnMKi7xcG5MsxofLKcRJW5iDPVxTjMgvTgUJS6bP?=
- =?us-ascii?Q?/VVyCV+y3vgoiqsaCD52aAABWtOmi4G9FbYoORwPjFUK9crBd2ncwWGGShrg?=
- =?us-ascii?Q?UU0HQ4sz+lZlwGElSl4PaAMEKE2CYNJFPewdISCHM1KQYOW9QNxpxAA4RSEP?=
- =?us-ascii?Q?EgIb5dV2j4KUJao8eEdaYR9zX5GsHbYp4B7f+O8i9EQrb3G99TejnF4sVapZ?=
- =?us-ascii?Q?fR5Gk7CFUsJss6imy3wKwNr0q0JZcS0gI4L7LJtV6FayEC3ItoLMeUBGRh8d?=
- =?us-ascii?Q?T9VW2vGSf9u35E0r+zlWa8qNNfrQgJBUGJqqZmZjh38XbGzFrkHr9NLfcvk2?=
- =?us-ascii?Q?FHW9tkbQ3Sv5CinqKEzX7ub3Q7ZHDnGedmjiuLlMtww1u0ZVt/xBE8RAIQWL?=
- =?us-ascii?Q?jA+psiztJKeyMbaermpO14QuAUj+F6MDGFg4vvwZjhV6wj0vA4Px8ipy2cXB?=
- =?us-ascii?Q?rg9SiJz3VUByrtuiGM7Ag/FBlBvoNbsqHa+XnLwBxkBgaZrDTzt/bGjuxYEu?=
- =?us-ascii?Q?tvH2fiaVKbScpOyccowAxzbMSHOprl9MAIQZEqBjmPVirUZw2KqBexrCieRI?=
- =?us-ascii?Q?c/rUzg0dRA=3D=3D?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9933c55d-9ee1-4a38-32b8-08de5d4d5561
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2026 02:39:46.1915
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /Bn5aKvINXY9cnN9MYM6mV13ynXQGQovSW3lZHqUKs7gPKvbwSbOY6u5kh+0viwq52/kyrcOh0/MkCWHnfAItg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB12155
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowAAXOuELMnhpS47oBg--.60736S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrZrWkJrWfCw1ruw18AF15CFg_yoWfJrc_G3
+	y7u3s5WFyUKrWIka4DJr4jyr4rWF10kFyIgr4UKFZxJ34DGa15Z3yxK34ru3ykW3y8CFW0
+	vw12vrZxJ3ya9jkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbf8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+	Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Wrv_ZF1lYx0Ex4A2jsIE14v26rkl6F8dMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFylc2xSY4AK67AK6r48MxAIw28IcxkI7VAKI4
+	8JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xv
+	wVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjx
+	v20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20E
+	Y4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267
+	AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7sR_EoGDUUUUU==
+X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 
-On Mon, Jan 19, 2026 at 11:40:17AM +0100, Bartosz Golaszewski wrote:
->Don't access of_root directly as it reduces the build test coverage for
->this driver with COMPILE_TEST=y and OF=n. Use existing helper functions
->to retrieve the relevant information.
->
->Suggested-by: Rob Herring <robh@kernel.org>
->Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Add check for the return value of devm_regmap_init_mmio() and return the
+error if it fails in order to catch the error.
 
-Reviewed-by: Peng Fan <peng.fan@nxp.com>
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+---
+ sound/soc/sunxi/sun50i-dmic.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/sound/soc/sunxi/sun50i-dmic.c b/sound/soc/sunxi/sun50i-dmic.c
+index bab1e29c9988..69d2478ffc95 100644
+--- a/sound/soc/sunxi/sun50i-dmic.c
++++ b/sound/soc/sunxi/sun50i-dmic.c
+@@ -358,6 +358,9 @@ static int sun50i_dmic_probe(struct platform_device *pdev)
+ 
+ 	host->regmap = devm_regmap_init_mmio(&pdev->dev, base,
+ 					     &sun50i_dmic_regmap_config);
++	if (IS_ERR(host->regmap))
++		return dev_err_probe(&pdev->dev, PTR_ERR(host->regmap),
++				     "failed to initialise regmap\n");
+ 
+ 	/* Clocks */
+ 	host->bus_clk = devm_clk_get(&pdev->dev, "bus");
+-- 
+2.25.1
+
