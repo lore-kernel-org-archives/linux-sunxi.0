@@ -1,140 +1,264 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4623446C9
-	for <linux-sunxi@lists.linux.dev>; Thu, 29 Jan 2026 16:43:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8626623D7FB;
+	Thu, 29 Jan 2026 17:35:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769705036; cv=none; b=TVrG30XOzu8zRiEP2GfbejQ2gQkuaSRBd9WPnJZZJbN0hg2Agaoir36R3WO5swCmvrbuPBeFpKpg6nON+WkYDkeVwe7fA3U36iDV6rRoIQPOeURDqHaEt9XjZejIael5offC0vf26N09n9yf4lSB1RkOt/wKDXZzWhW4jeYO8KA=
+	t=1769708115; cv=none; b=Sh4l7zQHV6hePFyUL4WvBF1j07kyx9ztAupM/iMqXe8PX6qf919kaQ9rBzDBDNegXBMOZZpVR3GlECWxn3R46Sm+AdlA8ggopCTnU4F+DqNOwqPeRhFzFlc5fOu5WRzBhvMP2oACk8evDJXC0964UrziCzvh67inUnf/YiTGbwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769705036; c=relaxed/simple;
-	bh=xIYiZzBxSwMEIJ4C0RtoZaDxiJPYbMUccG9vgJreaXk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GeQsUJzqgBGJu/tzZ4ghdcGTv6ob1QSCUU1D4DjmggcdkTyXEgci68KflkozM3nCTxYItaCmoNJgt+2T2x/tEqfdi86ejujyDknYUMFD8ipAnYye9MqeSQkWDVR81wa9IwD2xtvX/hP7LrmEcjhaPYAKxxQAtkoY3ckRFrc4DGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GTiVFyxh; arc=none smtp.client-ip=209.85.128.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769708115; c=relaxed/simple;
+	bh=LZLX7bGtrwHwOhYAzCzwWn2KMP5/JcVHZ43OVV++yko=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=JLPrj5ZWrBvTj9cyxkPpBOF9LmfD0QFDMdz8R6B6p54TJIDp2u12jvlIOEHSg6y40Vh1Xb2bXlDpAKW1tTwppx/qtxMewodJkxjGm2h7oVexzsHvgHBtBKaDEJYxiwb1qfwRTeskOHRGZ66rEgh2YY8XX9S1x9p+3BeMlqvOHqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ivCxkCuy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GTiVFyxh"
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-4806f3fc50bso11935655e9.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 29 Jan 2026 08:43:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769705033; x=1770309833; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qhyBy0UGiy712lAFCHNNTHqAhsRO5EoRden9HyKwIMM=;
-        b=GTiVFyxhqFp1y1KC1sx5+Y0dZYQDmdhD2X0mm8Wn2JjfyIqyDC1h+u07j5ppxJy4cn
-         O2qDj1X06W+FrdZa0eM7p9oX0mo03r03XdrdW8g/44IHu+VuSEB6ayPi5MKYeqDM1uMR
-         9g7SHxPNOsQmhyTiI07oVD65tQ58E+lyrTDIbo7e73KEwwjw//QI9Gq217DN85MBz77T
-         1pmLstv4OYYcXtiABion9CEOQenT65rvyFFbGFaJQX2u9f+2wwOI4iE6DJyn7UufBU0+
-         OLN01fPWrKeKa6nKDfTfUPwpRux1IEvp+n7pRJ9Owd6N9Bufwc/0cwWNbyQurxCgkkSD
-         87Bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769705033; x=1770309833;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qhyBy0UGiy712lAFCHNNTHqAhsRO5EoRden9HyKwIMM=;
-        b=SbeUO36XeIKuPs7uTFS04t1H/rDHKczwL3gABGaakApJAWAW45ZFIzUDWPDijSQyJF
-         otGSekcyv0FmOOijUePhSJrXuieIAxufM0Iw/77mggCjzbtbvGY1LnEtiktxbZQIg6iY
-         pEC+ydcTiWwtQiOqB0c5hxeb4nlOoLGr2ntoHGh68DOS+rylVhS+SYILYYeI/tJScWs7
-         +uWydgaR88YeMjKpE8QHprMZYHT/nBpRfdzn3NZRPxdKvdgDDBygVsx3QCI17NHJ2/Qg
-         jC70j/ShFdLM0862aeu7z3DCzhZYFhpojbbQdVN2JKIoNtD64+AVXmg/zTPW3ZZ+tfkw
-         HgEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU18ChiN2hzKApKRxgVBRNc5g532SmyH+RNL9wX8Q772x8rPR9f9KXKVBZxGd0jO47YaACHNYy8HXzUEA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxri3qjW5JoW6mNuNMQd97EX3FOCGkU7mLGY3GgyaMKhKhxn9ge
-	z1b48vETqjahQllSZDHBGTpiHV8H8pYEgx/6w90SM5ahiLFaNmWWYACX
-X-Gm-Gg: AZuq6aJLVStXyltriLxA6tGJM+8DRaKGzC2x2A5PrVQ3TjV9dP9TP2AOLhXZc0AN8Ag
-	1daoSjoxsfZcnEbrzXyl+LD25xq1dsftN1xVbYfQ1Y7mJFY3t7qHLz6DPmIo0dsK+J4q6EMZpGx
-	gWigc/wNEU6NfY2lsPbkf5xXIYWDG7KFEI+d4nrVL9AtApNhBJxky8v1XwtoF1qIjhIv6dBiQoU
-	1zeGCbypg84I+pprz9r1UkKo/Q9Xhr20E5vE/kUVXiEKUGZlEZ5XOYJfmAq3rnMi0NYcz42nHLh
-	/ELRnBQt6g/3fPwA1VdQca2T18h3bs61+O1p3j9f7S1CgeWoFRctWWqjhtlmtz9LOYlUmVePwwE
-	97mvCjZpUsYzd8gJI3RLDofJkl4mHtTyothXQs+jIj+2UNQc9XXRRWJF3twfvrgxaGsTSnNPqdQ
-	==
-X-Received: by 2002:a05:600c:4f4f:b0:47e:e48b:506d with SMTP id 5b1f17b1804b1-4806c7cc86dmr126373465e9.16.1769705032532;
-        Thu, 29 Jan 2026 08:43:52 -0800 (PST)
-Received: from desktop ([149.88.24.7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806ce56068sm132122215e9.13.2026.01.29.08.43.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jan 2026 08:43:52 -0800 (PST)
-From: Andrew Geyko <ageyko0@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: mripard@kernel.org,
-	paulk@sys-base.io,
-	mchehab@kernel.org,
-	wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	Andrew Geyko <ageyko0@gmail.com>
-Subject: [PATCH] cedrus: Convert bitfield macros to FIELD_PREP for clarity
-Date: Thu, 29 Jan 2026 17:43:41 +0100
-Message-ID: <20260129164341.104155-1-ageyko0@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ivCxkCuy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00624C4CEF7;
+	Thu, 29 Jan 2026 17:35:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769708115;
+	bh=LZLX7bGtrwHwOhYAzCzwWn2KMP5/JcVHZ43OVV++yko=;
+	h=From:Date:Subject:To:Cc:From;
+	b=ivCxkCuyrvgLWutUxOh2SyVaA6+WINxXAYT8QqC11eVthh2rcJLJhDG+TuWu8+XDa
+	 ooSSxS9xk/ZHGU5K1ldwWOTLS4MYV+yErsdK9+z3kdQaDou7UxfL/ILP9hatgiu7oy
+	 /d8n4m38Ou7qxSLBf3PQyy/vsLVhctpKmWBLZlQ4/IT3qMt7hzQpjkuK3xugHPn9uu
+	 sndTXDFk0V/Vg2ZXEqUmvgj7pHZjOdUkRcFp7W59gEceBPc5TjL7HnTlEftG0qnz1f
+	 dNoz/ZOsPwsjkDRJv3iBM3qSWgya0FWopfLAdcFXcZxHozTxjdaw2GR2Ghog2v5jBt
+	 1ydPy6Y5h2GBg==
+From: Simon Horman <horms@kernel.org>
+Date: Thu, 29 Jan 2026 17:35:03 +0000
+Subject: [PATCH net-next] net: stmmac: spelling corrections
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260129-stmmac-spell-v1-1-c7df9a96e482@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAEaae2kC/x3MQQqDMBBG4avIrDuQTLXSXqW4SOPfdkBTyQQRx
+ LsbuvwW7+1kyAqjR7NTxqqmv1ThLw3Fb0gfsI7VJE5uzsudrcxziGwLpolf8HJ1Etuu76kmS8Z
+ bt//uSQmFE7ZCw3GchHEK3WgAAAA=
+X-Change-ID: 20260129-stmmac-spell-be12302c4577
+To: Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
+ linux-sunxi@lists.linux.dev
+X-Mailer: b4 0.14.2
 
-Use FIELD_PREP macros for VE_DEC_H265_TRIGGER and scaling list registers
-to improve readability and maintain kernel style for bitfields.
+Correct spelling as flagged by codespell.
 
-Signed-off-by: Andrew Geyko <ageyko0@gmail.com>
+Signed-off-by: Simon Horman <horms@kernel.org>
 ---
- .../staging/media/sunxi/cedrus/cedrus_regs.h  | 28 ++++++++++---------
- 1 file changed, 15 insertions(+), 13 deletions(-)
+ drivers/net/ethernet/stmicro/stmmac/dwmac-imx.c        |  4 ++--
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c      |  4 ++--
+ drivers/net/ethernet/stmicro/stmmac/dwmac1000.h        |  2 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac100_core.c    |  2 +-
+ drivers/net/ethernet/stmicro/stmmac/enh_desc.c         |  2 +-
+ drivers/net/ethernet/stmicro/stmmac/mmc_core.c         |  4 ++--
+ drivers/net/ethernet/stmicro/stmmac/stmmac_hwtstamp.c  |  2 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c      | 10 +++++-----
+ drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c      |  2 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_selftests.c |  2 +-
+ 10 files changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-index 05e6cbc54..e8449859d 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-@@ -344,8 +344,8 @@
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-imx.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-imx.c
+index 97de4726208e1bc01e4980da99ace72a3e2e1d54..ecc0c34834235207cd082655cb021da3382cb350 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-imx.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-imx.c
+@@ -270,9 +270,9 @@ imx_dwmac_parse_dt(struct imx_priv_data *dwmac, struct device *dev)
+ 	if (of_machine_is_compatible("fsl,imx8mp") ||
+ 	    of_machine_is_compatible("fsl,imx91") ||
+ 	    of_machine_is_compatible("fsl,imx93")) {
+-		/* Binding doc describes the propety:
++		/* Binding doc describes the property:
+ 		 * is required by i.MX8MP, i.MX91, i.MX93.
+-		 * is optinoal for i.MX8DXL.
++		 * is optional for i.MX8DXL.
+ 		 */
+ 		dwmac->intf_regmap =
+ 			syscon_regmap_lookup_by_phandle_args(np, "intf_mode", 1,
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+index 8aa496ac85cce5bc3e2bcec5ceb880ada79e472c..c01b86fd64da1303aa4c905a7c6bb844515d5130 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+@@ -746,7 +746,7 @@ static int sun8i_dwmac_reset(struct stmmac_priv *priv)
+ 	v = readl(priv->ioaddr + EMAC_BASIC_CTL1);
+ 	writel(v | 0x01, priv->ioaddr + EMAC_BASIC_CTL1);
  
- #define VE_DEC_H265_SCALING_LIST_CTRL0_FLAG_ENABLED			BIT(31)
+-	/* The timeout was previoulsy set to 10ms, but some board (OrangePI0)
++	/* The timeout was previously set to 10ms, but some board (OrangePI0)
+ 	 * need more if no cable plugged. 100ms seems OK
+ 	 */
+ 	err = readl_poll_timeout(priv->ioaddr + EMAC_BASIC_CTL1, v,
+@@ -821,7 +821,7 @@ static int sun8i_dwmac_power_internal_phy(struct stmmac_priv *priv)
+ 		return ret;
+ 	}
  
--#define VE_DEC_H265_SCALING_LIST_CTRL0_SRAM	(0 << 30)
--#define VE_DEC_H265_SCALING_LIST_CTRL0_DEFAULT	(1 << 30)
-+#define VE_DEC_H265_SCALING_LIST_CTRL0_SRAM	FIELD_PREP(BIT(30), 0)
-+#define VE_DEC_H265_SCALING_LIST_CTRL0_DEFAULT	FIELD_PREP(BIT(30), 1)
+-	/* Make sure the EPHY is properly reseted, as U-Boot may leave
++	/* Make sure the EPHY is properly reset, as U-Boot may leave
+ 	 * it at deasserted state, and thus it may fail to reset EMAC.
+ 	 *
+ 	 * This assumes the driver has exclusive access to the EPHY reset.
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac1000.h b/drivers/net/ethernet/stmicro/stmmac/dwmac1000.h
+index b3135df0a359cd5ea36db325c4a37075991b6712..9fe639fb06bb3f61179e967b663927cce50ff3ca 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac1000.h
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac1000.h
+@@ -152,7 +152,7 @@ enum inter_frame_gap {
  
- #define VE_DEC_H265_DEC_SLICE_HDR_INFO0		(VE_ENGINE_DEC_H265 + 0x20)
+ /*--- DMA BLOCK defines ---*/
+ /* DMA Bus Mode register defines */
+-/* Programmable burst length (passed thorugh platform)*/
++/* Programmable burst length (passed through platform)*/
+ #define DMA_BUS_MODE_PBL_MASK	GENMASK(13, 8)	/* Programmable Burst Len */
+ #define DMA_BUS_MODE_ATDS	0x00000080	/* Alternate Descriptor Size */
  
-@@ -424,17 +424,19 @@
- #define VE_DEC_H265_TRIGGER			(VE_ENGINE_DEC_H265 + 0x34)
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac100_core.c b/drivers/net/ethernet/stmicro/stmmac/dwmac100_core.c
+index 4efe4c3ae5dcc53a7b9826f3e2b1bd54f6e256c4..db4fbe64a38afc3142bc2fd4ed9b53230c05031b 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac100_core.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac100_core.c
+@@ -108,7 +108,7 @@ static void dwmac100_set_filter(struct mac_device_info *hw,
+ 		memset(mc_filter, 0, sizeof(mc_filter));
+ 		netdev_for_each_mc_addr(ha, dev) {
+ 			/* The upper 6 bits of the calculated CRC are used to
+-			 * index the contens of the hash table
++			 * index the contents of the hash table
+ 			 */
+ 			int bit_nr = ether_crc(ETH_ALEN, ha->addr) >> 26;
+ 			/* The most significant bit determines the register to
+diff --git a/drivers/net/ethernet/stmicro/stmmac/enh_desc.c b/drivers/net/ethernet/stmicro/stmmac/enh_desc.c
+index d571241e64dd929536aa3158f352a281d9b1834b..8f6993c8bcae5be7fd064a5b1259901b4f643747 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/enh_desc.c
++++ b/drivers/net/ethernet/stmicro/stmmac/enh_desc.c
+@@ -88,7 +88,7 @@ static int enh_desc_coe_rdes0(int ipc_err, int type, int payload_err)
  
- #define VE_DEC_H265_TRIGGER_TYPE_N_BITS(x)	(((x) & 0x3f) << 8)
--#define VE_DEC_H265_TRIGGER_STCD_VC1		(0x02 << 4)
--#define VE_DEC_H265_TRIGGER_STCD_AVS		(0x01 << 4)
--#define VE_DEC_H265_TRIGGER_STCD_HEVC		(0x00 << 4)
--#define VE_DEC_H265_TRIGGER_DEC_SLICE		(0x08 << 0)
--#define VE_DEC_H265_TRIGGER_INIT_SWDEC		(0x07 << 0)
--#define VE_DEC_H265_TRIGGER_BYTE_ALIGN		(0x06 << 0)
--#define VE_DEC_H265_TRIGGER_GET_VLCUE		(0x05 << 0)
--#define VE_DEC_H265_TRIGGER_GET_VLCSE		(0x04 << 0)
--#define VE_DEC_H265_TRIGGER_FLUSH_BITS		(0x03 << 0)
--#define VE_DEC_H265_TRIGGER_GET_BITS		(0x02 << 0)
--#define VE_DEC_H265_TRIGGER_SHOW_BITS		(0x01 << 0)
-+#define VE_DEC_H265_TRIGGER_STCD_MASK  GENMASK(5, 4)
-+#define VE_DEC_H265_TRIGGER_CMD_MASK   GENMASK(3, 0)
-+#define VE_DEC_H265_TRIGGER_STCD_HEVC  FIELD_PREP(VE_DEC_H265_TRIGGER_STCD_MASK, 0x0)
-+#define VE_DEC_H265_TRIGGER_STCD_AVS   FIELD_PREP(VE_DEC_H265_TRIGGER_STCD_MASK, 0x1)
-+#define VE_DEC_H265_TRIGGER_STCD_VC1   FIELD_PREP(VE_DEC_H265_TRIGGER_STCD_MASK, 0x2)
-+#define VE_DEC_H265_TRIGGER_SHOW_BITS  FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x1)
-+#define VE_DEC_H265_TRIGGER_GET_BITS   FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x2)
-+#define VE_DEC_H265_TRIGGER_FLUSH_BITS FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x3)
-+#define VE_DEC_H265_TRIGGER_GET_VLCSE  FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x4)
-+#define VE_DEC_H265_TRIGGER_GET_VLCUE  FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x5)
-+#define VE_DEC_H265_TRIGGER_BYTE_ALIGN FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x6)
-+#define VE_DEC_H265_TRIGGER_INIT_SWDEC FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x7)
-+#define VE_DEC_H265_TRIGGER_DEC_SLICE  FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x8)
+ 	/* bits 5 7 0 | Frame status
+ 	 * ----------------------------------------------------------
+-	 *      0 0 0 | IEEE 802.3 Type frame (length < 1536 octects)
++	 *      0 0 0 | IEEE 802.3 Type frame (length < 1536 octets)
+ 	 *      1 0 0 | IPv4/6 No CSUM errorS.
+ 	 *      1 0 1 | IPv4/6 CSUM PAYLOAD error
+ 	 *      1 1 0 | IPv4/6 CSUM IP HR error
+diff --git a/drivers/net/ethernet/stmicro/stmmac/mmc_core.c b/drivers/net/ethernet/stmicro/stmmac/mmc_core.c
+index 0fab842902a850022a3be368d4972e4f4e9bcdc9..1b3b114e7bec86971c99e219db213eb11c022ebc 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/mmc_core.c
++++ b/drivers/net/ethernet/stmicro/stmmac/mmc_core.c
+@@ -252,7 +252,7 @@ static void dwmac_mmc_intr_all_mask(void __iomem *mmcaddr)
+ 	writel(MMC_DEFAULT_MASK, mmcaddr + MMC_RX_IPC_INTR_MASK);
+ }
  
- #define VE_DEC_H265_STATUS			(VE_ENGINE_DEC_H265 + 0x38)
+-/* This reads the MAC core counters (if actaully supported).
++/* This reads the MAC core counters (if actually supported).
+  * by default the MMC core is programmed to reset each
+  * counter after a read. So all the field of the mmc struct
+  * have to be incremented.
+@@ -420,7 +420,7 @@ static void dwxgmac_read_mmc_reg(void __iomem *addr, u32 reg, u32 *dest)
+ 		*dest = *dest + tmp;
+ }
  
--- 
-2.52.0
+-/* This reads the MAC core counters (if actaully supported).
++/* This reads the MAC core counters (if actually supported).
+  * by default the MMC core is programmed to reset each
+  * counter after a read. So all the field of the mmc struct
+  * have to be incremented.
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_hwtstamp.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_hwtstamp.c
+index bb110124f21e2d89493359374a33446178a80496..b9a985fa772c993a7b00c27046f4a9555e60e461 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_hwtstamp.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_hwtstamp.c
+@@ -43,7 +43,7 @@ static void config_sub_second_increment(void __iomem *ioaddr,
+ 	unsigned long data;
+ 	u32 reg_value;
+ 
+-	/* For GMAC3.x, 4.x versions, in "fine adjustement mode" set sub-second
++	/* For GMAC3.x, 4.x versions, in "fine adjustment mode" set sub-second
+ 	 * increment to twice the number of nanoseconds of a clock cycle.
+ 	 * The calculation of the default_addend value by the caller will set it
+ 	 * to mid-range = 2^31 when the remainder of this division is zero,
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+index 347a0078f622277a9792cce3ad6f1719d168c040..268289a324f3c3b697f6232353d8a96c65d94f61 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -1114,7 +1114,7 @@ static int stmmac_mac_enable_tx_lpi(struct phylink_config *config, u32 timer,
+ 	stmmac_set_eee_timer(priv, priv->hw, STMMAC_DEFAULT_LIT_LS,
+ 			     STMMAC_DEFAULT_TWT_LS);
+ 
+-	/* Try to cnfigure the hardware timer. */
++	/* Try to configure the hardware timer. */
+ 	ret = stmmac_set_lpi_mode(priv, priv->hw, STMMAC_LPI_TIMER,
+ 				  priv->tx_lpi_clk_stop, priv->tx_lpi_timer);
+ 
+@@ -3495,7 +3495,7 @@ static void stmmac_mac_config_rss(struct stmmac_priv *priv)
+ /**
+  *  stmmac_mtl_configuration - Configure MTL
+  *  @priv: driver private structure
+- *  Description: It is used for configurring MTL
++ *  Description: It is used for configuring MTL
+  */
+ static void stmmac_mtl_configuration(struct stmmac_priv *priv)
+ {
+@@ -4373,7 +4373,7 @@ static netdev_tx_t stmmac_tso_xmit(struct sk_buff *skb, struct net_device *dev)
+ 
+ 	/* Always insert VLAN tag to SKB payload for TSO frames.
+ 	 *
+-	 * Never insert VLAN tag by HW, since segments splited by
++	 * Never insert VLAN tag by HW, since segments split by
+ 	 * TSO engine will be un-tagged by mistake.
+ 	 */
+ 	if (skb_vlan_tag_present(skb)) {
+@@ -5946,7 +5946,7 @@ static int stmmac_napi_poll_rxtx(struct napi_struct *napi, int budget)
+ 		unsigned long flags;
+ 
+ 		spin_lock_irqsave(&ch->lock, flags);
+-		/* Both RX and TX work done are compelte,
++		/* Both RX and TX work done are complete,
+ 		 * so enable both RX & TX IRQs.
+ 		 */
+ 		stmmac_enable_dma_irq(priv, priv->ioaddr, chan, 1, 1);
+@@ -6278,7 +6278,7 @@ static irqreturn_t stmmac_msi_intr_rx(int irq, void *data)
+ /**
+  *  stmmac_ioctl - Entry point for the Ioctl
+  *  @dev: Device pointer.
+- *  @rq: An IOCTL specefic structure, that can contain a pointer to
++ *  @rq: An IOCTL specific structure, that can contain a pointer to
+  *  a proprietary structure used to pass information to the driver.
+  *  @cmd: IOCTL command
+  *  Description:
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
+index 1e82850f2a25c33dffafa2fd3fb77a04852e9ace..a7c2496b39f286699da5395ec7e468ca84feaa62 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
+@@ -483,7 +483,7 @@ void stmmac_pcs_clean(struct net_device *ndev)
+  *	If a specific clk_csr value is passed from the platform
+  *	this means that the CSR Clock Range selection cannot be
+  *	changed at run-time and it is fixed (as reported in the driver
+- *	documentation). Viceversa the driver will try to set the MDC
++ *	documentation). Vice versa the driver will try to set the MDC
+  *	clock dynamically according to the actual clock input.
+  */
+ static u32 stmmac_clk_csr_set(struct stmmac_priv *priv)
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_selftests.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_selftests.c
+index e90a2c469b9a6f576c1b6f99954af08bae69007c..08b60b7d5fd641846ec1c31cca332833771a991c 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_selftests.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_selftests.c
+@@ -2000,7 +2000,7 @@ void stmmac_selftest_run(struct net_device *dev,
+ 		}
+ 
+ 		/*
+-		 * First tests will always be MAC / PHY loobpack. If any of
++		 * First tests will always be MAC / PHY loopback. If any of
+ 		 * them is not supported we abort earlier.
+ 		 */
+ 		if (ret) {
+
+
 
