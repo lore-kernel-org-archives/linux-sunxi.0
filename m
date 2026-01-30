@@ -1,100 +1,63 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74CDD2F3C3F
-	for <linux-sunxi@lists.linux.dev>; Thu, 29 Jan 2026 19:51:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61B72EC096;
+	Fri, 30 Jan 2026 07:52:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769716280; cv=none; b=MgkGY3/O4WnvkWvg1fQecHbmr4cJEwikp7bABrYkUFOmxm/EBKIHX3PaQ0onXSWvNkzL1b7x0qIKE3+QpknLoAKbnYBMnSFbGErsrZVYwlJyKph8RePV076+OzH4daCTTzyMfZxk8HmqpFxhkvSSU+tZvSyM/EU0i5NxaIuBZcQ=
+	t=1769759566; cv=none; b=FxIReHq2HCrkUi/7nLHKdtIfrxOgHZioRQ8d6e0D0/jvyJ7di0omb1S40A976tuRFHrsygrtmmeb/OA3k40Tznr9GiWxgScxOQT6TrXtINgDajQXWmW/+Extqz7FkpTwKR3TfHdtZ8ZWw3TqvLD0OY6PLBgW57KsUczgEGLxsoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769716280; c=relaxed/simple;
-	bh=kz/UmQnF/kQZX0padhdk52aftyV/7o2JgBiZXIT2EDo=;
+	s=arc-20240116; t=1769759566; c=relaxed/simple;
+	bh=aX2gGtLk0RdmVui+gtEWlxTOSd9DpW+YmCX91ZUxfTk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PAIqSlYeWZzJp5ojDHnHKMpq+CKXZV7LH5pt4q8v+5JoAluunkXYGrATQJ44iE7s8wQ+fvQlX8w1ERvqJXnBlAYxXc4ddhujyeg++YNSVavKtYXDGsztq80YOxZ517w2rcdhcdUq+LBUpW1XAg7LXHLEJq6a1F1ozhUciMLmZAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dama.to; spf=none smtp.mailfrom=dama.to; dkim=pass (2048-bit key) header.d=dama-to.20230601.gappssmtp.com header.i=@dama-to.20230601.gappssmtp.com header.b=lh8bTCGz; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dama.to
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=dama.to
+	 Content-Type:Content-Disposition:In-Reply-To; b=CZ9loBi+QhjMUTfhhNKfgBxuiz8DI3NmlyFsASgSGXzyOI6IIP/wkVcMxPPrApw0HGwL1V5dG986PAE3BWmO7l8R0o7GKz2+Zjw8VreirIu4vedycUUMwKdAbqZUWgNkYjLyUxz6OZdJJKWnks+k2q9t/7lniD2Ks1UIxTToZJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hfSd0wEN; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dama-to.20230601.gappssmtp.com header.i=@dama-to.20230601.gappssmtp.com header.b="lh8bTCGz"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-81dab89f286so693515b3a.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 29 Jan 2026 11:51:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dama-to.20230601.gappssmtp.com; s=20230601; t=1769716277; x=1770321077; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MnxwsZAxF8STswOuh2vgfeXNVDToeemAzI/Ew3hWeYM=;
-        b=lh8bTCGz7RREhkMLNQizREHIfMxZp8tc5ceALlSOGwvHFzShiWgsT5g5S+mC6o+dbt
-         Xs2Hndjjx62Y/G4T4UtJ3VTEPF6aZNONtLb4gpZPbeHw7UTKmhVcc4TZaCpDJP0/MX3h
-         mAReHY+up35/GbX13jOkmkmkvhwbCXneYRnC+hwx9jI3iolss2eUia/4ufrbNsvrZG/6
-         dsBCL+Quf7VQGbm2Ir2a319I5XbHiDzUUaJrMHWjBrg7RKlJozDKijsOvf44oihP2jAi
-         h9L5oPDYQ4UNiUNex/vBJ7bguDOL1m3nzSaf3C5pa3Qpkeoof1Oqavj6e+vzITqaX1ej
-         EEwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769716277; x=1770321077;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MnxwsZAxF8STswOuh2vgfeXNVDToeemAzI/Ew3hWeYM=;
-        b=u3f/jL4xwiYejLaPxhrhUL7EgwMo/j/zmjtlKMDtzEiLocX8OluUggmhTa1ygLU9TJ
-         Rx2yTkQovdqmRuw9pmaMm4WsMtpzzrv0OFn0+l/07tbliRJVe/vJUcrrrNSx1Kuapjvi
-         cEXvOS8xKhblEtHJIROuVVFkk6yHwMLPa38RqUrhOguUn9FZx8D4/AQODI1fwT/DblRp
-         Ji2vSsfT62ejmgal/UpyWr46DYPW4Wuf8XbQIN0kDiy2c+ulJpaRXpRn5seHePJ9S7xj
-         w3RVmnxEzo7+jgHpF+R8MQQoCZ76FzII9INENoXcUTFyMoOo4petgqYdaXMn8nZjFmFp
-         Yw5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW/2TzgOuinFUrp614YPZ6AvH3cWAWsmE08VtzDrQBQfSnRCbs6YPFv+souG0cp+KtIt/4AQC6btK0DNA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YywfjtcsZJ01ePtG4GfS+KCzIJyLfOZJHBSBFFB1Uhz0ycHuadq
-	OfvuM6VP+fssBZtXSG7EyKDQhRFjHir798PIhLS3NiT7k8xuuHMahsqsd0iWId3lSTw=
-X-Gm-Gg: AZuq6aK0cazIBTw0I4hF1dL07sdj2ralXxWfy0vmjGf6yaiEQX/aqQGlJAQ9XSAjq0h
-	0k62oUK1WLTeX22RbwLiXfdHmQDwJ+NVMqkUYntf2EvMua+OTjfVBEFQzYNyWWiatVeGj4av6UQ
-	MpkstosCJNmXMQ01u6b3UG7mxYebYv/5NT37aMkKzkeQUdVUWgespMbLhPqw7F+IpQ3WoUD7Grx
-	kl4JLvsHQbLXv5YIyM//cCj/mDMDwqwsjlkzMlTi5oqHYtMZCSRKHbK8oJEbZAHruYEoK1QZgEH
-	NB2mJBJVcIHvajugX150j0yRD6lHx8XbYfK0SAbdICktunPvqyOz3VYmw+/UZSbKTWEbFpJKjaL
-	DKGLtS7X41Deu4bF0gJImdisWSor+bON/OOTOHWblhz89dMyGKXn8W5ovXQF+rhInYnLudgRJgo
-	t7RQ==
-X-Received: by 2002:a05:6a00:3d42:b0:81e:dcb2:52cb with SMTP id d2e1a72fcca58-823aa3fd50dmr448408b3a.2.1769716276774;
-        Thu, 29 Jan 2026 11:51:16 -0800 (PST)
-Received: from localhost ([2a03:2880:2ff:3::])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82379c54d4dsm7133424b3a.67.2026.01.29.11.51.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jan 2026 11:51:16 -0800 (PST)
-Date: Thu, 29 Jan 2026 11:51:15 -0800
-From: Joe Damato <joe@dama.to>
-To: Simon Horman <horms@kernel.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH net-next] net: stmmac: spelling corrections
-Message-ID: <aXu6M3BKyDhJIXIx@devvm20253.cco0.facebook.com>
-Mail-Followup-To: Joe Damato <joe@dama.to>, Simon Horman <horms@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
-	linux-sunxi@lists.linux.dev
-References: <20260129-stmmac-spell-v1-1-c7df9a96e482@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hfSd0wEN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769759564; x=1801295564;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aX2gGtLk0RdmVui+gtEWlxTOSd9DpW+YmCX91ZUxfTk=;
+  b=hfSd0wENHLunpw8oiFSY1SNmvPWg1yKK3ivDj+IoPyEwl+kcqEB2YC+a
+   2X0G2JGf2zoaAbHb8nzaXS8kDGW/Ujm2wivA+8PArxLJP0XMfb7i4aFrl
+   ZGjHvwTHMG9ql9p0gz6zI6d8/FTredf7a2DlqxjGQm2NyQ/Il/zRil4Bu
+   L/4Yn7CLmMNUp5LOIq2ALcZM0TBqkiiJoAJpQze+S2VvHgo5nqEh+i2mJ
+   6P4c9OqP2Kpb2EIqWPsAZSfpirONfWZDwo9BbGqyTTeaS4LCOs2fEvffI
+   IDUJZvNpsKn5P8UPyrO4RTO/kKN3M9IfFtzshRQ5bDXJ5YFywIeM0+Jad
+   A==;
+X-CSE-ConnectionGUID: LCGAnsZDTwasYZslb3cgLw==
+X-CSE-MsgGUID: 2Aj8EFGZRSer8PRZcsZMMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="96472142"
+X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
+   d="scan'208";a="96472142"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 23:52:44 -0800
+X-CSE-ConnectionGUID: 4lPDyHmuRlCDGd/lYki7Jg==
+X-CSE-MsgGUID: gAwQQt+aTxyOY6vj7lBOxw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
+   d="scan'208";a="239522017"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 29 Jan 2026 23:52:40 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vljIz-00000000cLg-3aEb;
+	Fri, 30 Jan 2026 07:52:37 +0000
+Date: Fri, 30 Jan 2026 15:51:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Geyko <ageyko0@gmail.com>, linux-staging@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, mripard@kernel.org, paulk@sys-base.io,
+	mchehab@kernel.org, wens@kernel.org, jernej.skrabec@gmail.com,
+	samuel@sholland.org, gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, Andrew Geyko <ageyko0@gmail.com>
+Subject: Re: [PATCH] cedrus: Convert bitfield macros to FIELD_PREP for clarity
+Message-ID: <202601301548.SMgNvRPx-lkp@intel.com>
+References: <20260129164341.104155-1-ageyko0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -103,23 +66,62 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260129-stmmac-spell-v1-1-c7df9a96e482@kernel.org>
+In-Reply-To: <20260129164341.104155-1-ageyko0@gmail.com>
 
-On Thu, Jan 29, 2026 at 05:35:03PM +0000, Simon Horman wrote:
-> Correct spelling as flagged by codespell.
-> 
-> Signed-off-by: Simon Horman <horms@kernel.org>
-> ---
->  drivers/net/ethernet/stmicro/stmmac/dwmac-imx.c        |  4 ++--
->  drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c      |  4 ++--
->  drivers/net/ethernet/stmicro/stmmac/dwmac1000.h        |  2 +-
->  drivers/net/ethernet/stmicro/stmmac/dwmac100_core.c    |  2 +-
->  drivers/net/ethernet/stmicro/stmmac/enh_desc.c         |  2 +-
->  drivers/net/ethernet/stmicro/stmmac/mmc_core.c         |  4 ++--
->  drivers/net/ethernet/stmicro/stmmac/stmmac_hwtstamp.c  |  2 +-
->  drivers/net/ethernet/stmicro/stmmac/stmmac_main.c      | 10 +++++-----
->  drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c      |  2 +-
->  drivers/net/ethernet/stmicro/stmmac/stmmac_selftests.c |  2 +-
->  10 files changed, 17 insertions(+), 17 deletions(-)
+Hi Andrew,
 
-Reviewed-by: Joe Damato <joe@dama.to>
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on sunxi/sunxi/for-next]
+[also build test ERROR on linus/master v6.19-rc7 next-20260129]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Geyko/cedrus-Convert-bitfield-macros-to-FIELD_PREP-for-clarity/20260130-004554
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
+patch link:    https://lore.kernel.org/r/20260129164341.104155-1-ageyko0%40gmail.com
+patch subject: [PATCH] cedrus: Convert bitfield macros to FIELD_PREP for clarity
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260130/202601301548.SMgNvRPx-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601301548.SMgNvRPx-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601301548.SMgNvRPx-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/staging/media/sunxi/cedrus/cedrus_h265.c:17:
+   drivers/staging/media/sunxi/cedrus/cedrus_h265.c: In function 'cedrus_h265_skip_bits':
+>> drivers/staging/media/sunxi/cedrus/cedrus_regs.h:434:40: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     434 | #define VE_DEC_H265_TRIGGER_FLUSH_BITS FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x3)
+         |                                        ^~~~~~~~~~
+   drivers/staging/media/sunxi/cedrus/cedrus_h265.c:248:30: note: in expansion of macro 'VE_DEC_H265_TRIGGER_FLUSH_BITS'
+     248 |                              VE_DEC_H265_TRIGGER_FLUSH_BITS |
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/FIELD_PREP +434 drivers/staging/media/sunxi/cedrus/cedrus_regs.h
+
+   425	
+   426	#define VE_DEC_H265_TRIGGER_TYPE_N_BITS(x)	(((x) & 0x3f) << 8)
+   427	#define VE_DEC_H265_TRIGGER_STCD_MASK  GENMASK(5, 4)
+   428	#define VE_DEC_H265_TRIGGER_CMD_MASK   GENMASK(3, 0)
+   429	#define VE_DEC_H265_TRIGGER_STCD_HEVC  FIELD_PREP(VE_DEC_H265_TRIGGER_STCD_MASK, 0x0)
+   430	#define VE_DEC_H265_TRIGGER_STCD_AVS   FIELD_PREP(VE_DEC_H265_TRIGGER_STCD_MASK, 0x1)
+   431	#define VE_DEC_H265_TRIGGER_STCD_VC1   FIELD_PREP(VE_DEC_H265_TRIGGER_STCD_MASK, 0x2)
+   432	#define VE_DEC_H265_TRIGGER_SHOW_BITS  FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x1)
+   433	#define VE_DEC_H265_TRIGGER_GET_BITS   FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x2)
+ > 434	#define VE_DEC_H265_TRIGGER_FLUSH_BITS FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x3)
+   435	#define VE_DEC_H265_TRIGGER_GET_VLCSE  FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x4)
+   436	#define VE_DEC_H265_TRIGGER_GET_VLCUE  FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x5)
+   437	#define VE_DEC_H265_TRIGGER_BYTE_ALIGN FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x6)
+   438	#define VE_DEC_H265_TRIGGER_INIT_SWDEC FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x7)
+   439	#define VE_DEC_H265_TRIGGER_DEC_SLICE  FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x8)
+   440	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
