@@ -1,108 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F8391850A4;
-	Wed,  4 Feb 2026 08:02:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5BF423A76;
+	Wed,  4 Feb 2026 15:44:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770192144; cv=none; b=UzJeVRqrK49P3J4+bTCjBNrkryVCOqJ13EablCK1dhuVP7G9NS6ctZG9fo4svSU67j6HO7SEuxDXtr27vRmk6McH+R1ft6cRM5br/s591OJ5v0c98YaqUQNqbE4O3EaXgCbDq5uLinuVQum8ZpJlMzslJfGyzIQwsE1RlFaZlg0=
+	t=1770219872; cv=none; b=PDd8r+Cc08M11Gz0XWzJP5zBH519oMpUgWYdC+dJyaPPTp1KpvHVMn9Ighp1zfU5aYpiDhejsd6Y5zIxzWN0FOqi8JVW6u1yd4NPlUecJWOnFGRTUDb3Hr1kWer5H6NB6iSIi00T59Q20oftLQ83/zWVI5+L6JS0D/iuksVAgrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770192144; c=relaxed/simple;
-	bh=nRrC8wphQ1dc/BfGnKr7IWUN3Ln6veciQrvR7VK7Ook=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d6Y/ti0WgbJXJHXW2DsWBFW7K0oX1rKbl4jhomj7I+srxOepjrtiy9BmU0o04UQ60Uz2l04JZ28blFe6l7CqizTV7lZkBaU43yIYSgDeDaTIv+ji2fhQKWxqyy8efd9hNa5gGV1rzmSoKj7vzkfg15cH5dhsjfUUuQgYAQXR5Po=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A0kyECe9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770219872; c=relaxed/simple;
+	bh=+SiVY+/yNC7rLAU4MsNDlaFmt/l6M3hSIaCT9ls3sWA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=m72uba23pl4WjvM98glI9P4rnREvAsy0VgAg9S2Kc0bfyPHOT7zG+uGX3MsKh+yq9PLwtnN4UZ6XpEjCuow0dOyn6PVZ5K5XuuGCw3fAJ84N7r7CgeY94MdZDpbkrJ00Oi18puXxHqzpDyn6UPB7+gWWz6MhOL++U3ZvwkG1saY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ChyBoGK2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A0kyECe9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51BD3C4CEF7;
-	Wed,  4 Feb 2026 08:02:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ChyBoGK2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86463C4AF09;
+	Wed,  4 Feb 2026 15:44:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770192144;
-	bh=nRrC8wphQ1dc/BfGnKr7IWUN3Ln6veciQrvR7VK7Ook=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=A0kyECe9zWPpUVDyRYGYpTfDn14yi64ekYqYmxZee7Riz1wWcOOBoyPnRXZ/6ekBA
-	 sNc4VzDWLWlT3A1k4Aw7mJiZMUwHw6oEFSFZTHE8ryyOt1dKipxppN9S9TzScTMZqi
-	 yze/jCixMgyabO3dGH4wr/ZeYI61T2M+PEjxmVLQk1Bg0RECk6vblAGzsX18Yng2ob
-	 5yOu8Okf4u/0a8LiJkoxtZC2lmEWnBz0drbjEYOmqH0BUU0+4bUkpHUhUarROd17Zz
-	 KietqbYBSlFdrKRu4vE42l9J4uOkfT6geC68q+juJN2jBUWJZw2VD6NS6al3zQRYHC
-	 7X8/lbcymdzJA==
-Date: Wed, 4 Feb 2026 09:02:19 +0100
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Felix Gu <ustc.gu@gmail.com>
-Cc: Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Maxime Ripard <mripard@kernel.org>, Wolfram Sang <wsa@kernel.org>, 
-	Boris Brezillon <bbrezillon@kernel.org>, Arnd Bergmann <arnd@arndb.de>, linux-i2c@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] i2c: sun6i-p2wi: Fix device node reference leak in
- p2wi_probe()
-Message-ID: <aYL2OAdZTV78Vsy0@zenone.zhora.eu>
-References: <20260201-p2wi-v1-1-e0ec9cda82b3@gmail.com>
+	s=k20201202; t=1770219872;
+	bh=+SiVY+/yNC7rLAU4MsNDlaFmt/l6M3hSIaCT9ls3sWA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=ChyBoGK2yE6SGuM1Drf5M172SdoJACKZFUrrNsUyxs9tGn1I7qqhqJE3n0SdMuKH8
+	 WBsiwmPVq8rOQ6GO0hIm6TfZIkR7fNFOFSnqJ6Wdc5I/3L23nQxD+pLZgfso/lsmdU
+	 N1ft/ntOh+AHs/UCG+Km7aago4ldSONLc+3r2AOXwQZfUcNSU1niG9vFP8cVLMaEBv
+	 VG4YKOSwN1dDXgyUhW0x6meOz/fA8+ehA5Aie8KkSz3fTjfCixIQW19ESOaqSx9ox7
+	 M5PMr/5rexa0xvN6NnkgCdEKKhyKZgRD5vul5MiJBcLirTLb81zxgj6ptueMw8TKGG
+	 fD9D5P7F7CkxQ==
+From: Vinod Koul <vkoul@kernel.org>
+To: Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>
+Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
+ sophgo@lists.linux.dev, Chen-Yu Tsai <wens@kernel.org>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ linux-rtc@vger.kernel.org, 
+ =?utf-8?q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+ Manivannan Sadhasivam <mani@kernel.org>, linux-actions@lists.infradead.org, 
+ Keguang Zhang <keguang.zhang@gmail.com>, linux-mips@vger.kernel.org, 
+ Taichi Sugaya <sugaya.taichi@socionext.com>, 
+ Takao Orito <orito.takao@socionext.com>, Jacky Huang <ychuang3@nuvoton.com>, 
+ Shan-Chun Hung <schung@nuvoton.com>, Vladimir Zapolskiy <vz@mleia.com>, 
+ Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+ Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org, 
+ Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ Michal Simek <michal.simek@amd.com>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-phy@lists.infradead.org
+In-Reply-To: <20260108-clk-divider-round-rate-v1-0-535a3ed73bf3@redhat.com>
+References: <20260108-clk-divider-round-rate-v1-0-535a3ed73bf3@redhat.com>
+Subject: Re: (subset) [PATCH 00/27] clk: remove deprecated API
+ divider_round_rate() and friends
+Message-Id: <177021986017.133434.7084660742419779164.b4-ty@kernel.org>
+Date: Wed, 04 Feb 2026 21:14:20 +0530
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260201-p2wi-v1-1-e0ec9cda82b3@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-Hi Felix,
 
-On Sun, Feb 01, 2026 at 02:29:00AM +0800, Felix Gu wrote:
-> Use the __free(device_node) scoped variable to automatically release
-> the device node reference, preventing a device node reference leak.
+On Thu, 08 Jan 2026 16:16:18 -0500, Brian Masney wrote:
+> Here's a series that gets rid of the deprecated APIs
+> divider_round_rate(), divider_round_rate_parent(), and
+> divider_ro_round_rate_parent() since these functions are just wrappers
+> for the determine_rate variant.
 > 
-> Fixes: 3e833490fae5 ("i2c: sunxi: add P2WI (Push/Pull 2 Wire Interface) controller support")
-> Signed-off-by: Felix Gu <ustc.gu@gmail.com>
-> ---
->  drivers/i2c/busses/i2c-sun6i-p2wi.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Note that when I converted some of these drivers from round_rate to
+> determine_rate, this was mistakenly converted to the following in some
+> cases:
 > 
-> diff --git a/drivers/i2c/busses/i2c-sun6i-p2wi.c b/drivers/i2c/busses/i2c-sun6i-p2wi.c
-> index fb5280b8cf7f..652b37b57159 100644
-> --- a/drivers/i2c/busses/i2c-sun6i-p2wi.c
-> +++ b/drivers/i2c/busses/i2c-sun6i-p2wi.c
-> @@ -184,7 +184,6 @@ static int p2wi_probe(struct platform_device *pdev)
->  {
->  	struct device *dev = &pdev->dev;
->  	struct device_node *np = dev->of_node;
-> -	struct device_node *childnp;
->  	unsigned long parent_clk_freq;
->  	u32 clk_freq = I2C_MAX_STANDARD_MODE_FREQ;
->  	struct p2wi *p2wi;
-> @@ -223,7 +222,8 @@ static int p2wi_probe(struct platform_device *pdev)
->  	 * In this case the target_addr is set to -1 and won't be checked when
->  	 * launching a P2WI transfer.
->  	 */
-> -	childnp = of_get_next_available_child(np, NULL);
-> +	struct device_node *childnp __free(device_node) =
-> +		of_get_next_available_child(np, NULL);
+> [...]
 
-A few spontaneous questions here:
+Applied, thanks!
 
-- Why are you moving the declaration of childnp in the middle of
-  the function?
+[25/27] phy: ti: phy-j721e-wiz: convert from divider_round_rate() to divider_determine_rate()
+        commit: dbeea86fecef7cf2b93aded4525d74f6277376ef
 
-- Have you run checkpatch.pl before sending the patch?
+Best regards,
+-- 
+~Vinod
 
-- Is of_get_next_available_child() allocating the device_node?
 
-- Have you tested the patch?
-
-Thanks,
-Andi
-
->  	if (childnp) {
->  		ret = of_property_read_u32(childnp, "reg", &target_addr);
->  		if (ret) {
-> 
-> ---
-> base-commit: 33a647c659ffa5bdb94abc345c8c86768ff96215
-> change-id: 20260201-p2wi-a199cdfe69e0
-> 
-> Best regards,
-> -- 
-> Felix Gu <ustc.gu@gmail.com>
-> 
