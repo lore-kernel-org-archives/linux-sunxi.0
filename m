@@ -1,125 +1,138 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95ACA13AA2D
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 Feb 2026 01:29:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA39317C69
+	for <linux-sunxi@lists.linux.dev>; Wed,  4 Feb 2026 00:02:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770082165; cv=none; b=WmOeoVA8fxI9TpnANNSL/aXpHMBbGLylLNYB35X2vkiWEgA9pxEVzDlkxBdwSMBECnOUOyiQ+LqOaU9OZ18VMZMDk2fds98GqnXZ7DjKromrft/+ZPaSQYJrtr+4EQ1tdHxGwyZRaPNbRc53BIdPpe3Cdiw5SLlHtJgGbTkuS5w=
+	t=1770163353; cv=none; b=TtQ6BHh0wimzFGtfoidVLdTNR8CTUVFxZ+65FDR//RcPlyV4CZJwKuziEM/Mkp1dy0VdA3uYKnf28aTx7hOTECq7K45xoDLc2p8QbooCEUnnwDm1tt95MHYHHrRwiFWyG/O6nMvsM+0cUOiXW4XERZZuBWXfRT3EHlVgpQeLaLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770082165; c=relaxed/simple;
-	bh=5f0pmKSbuYq4+R2uv8aRJUa2DN+xVdYiUgKFgEGnexE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=huIHstu0kC5IkOKHCJS93KgKCwQpXQ5drohQ/vOcffvKDaT6z/GrCdFsXManlsS6a6to7YlC7tEY5JbaR19D3pY174gNWi/aYCddD1TW1jvm5MzQq0z3H2W4vxiKs2JxKSUpUD1A7mN9spzgww0iSETFOzBEGJsnL1d4PwN0GUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WlieWMUo; arc=none smtp.client-ip=209.85.160.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770163353; c=relaxed/simple;
+	bh=1v3R4MkyhyZgk10UZnaZ5JNbzWCg/QiBkqlMzcGEnFA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qa90eQt119TMQEdBNDqwvbT+5LRftRz47skdie/87CNGnP8JZAJY5X6G7E94tr95ZrVxyiabhFENODKw2ZLBfk0tkoUv8pcmR3uj35M2UG9ywJ9hT4y4OanydDEHbCorA2lQz6+SZaAYbSRTW/M3+DMBMT2n0SsreZvBDPylmck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hKT9Xvss; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WlieWMUo"
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-40423dbe98bso2274933fac.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 02 Feb 2026 17:29:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770082163; x=1770686963; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MU9WtLF/ByLYtXf/cYEty1QiYJUO6ah1iez++VXQykc=;
-        b=WlieWMUovRVK7p4Ue64e0n8fzFpRD2EsDVEOEuXeTpGDxM0l7/AMSQ621Y/9O97X5c
-         tvfupko0gLBWBQoVfNpq8+H30CFWu7qjhPb37/FAAUQxRK3b6oR3DOiy3RlXRzHfWlCX
-         o/IYwtyibF+OOmUKLNqgtJlD92yGvb8BlG3NgJgElpycftu8bD8/rUGaOS2XHS2A0JJ6
-         ufSFjLQuTDWnJmdojvb28tC1rnKDsJN9EPRSzdUPskm8mp7YzkKL5fggkd3WQ69pjgv0
-         DwoJQ6iy293TrRrKdIWBSoS2JnJcLUtHskm87MRNMEbB8Tgyr2xqr7pkyszK1Uvd6NcY
-         4YYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770082163; x=1770686963;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MU9WtLF/ByLYtXf/cYEty1QiYJUO6ah1iez++VXQykc=;
-        b=rNKnmgKCKdWQ7Fndvo4oCUWrejdKmU1VFyKV2M078VSFU6MRby0GnXCbdOOP3adUbO
-         2wZbX2gQMzZhV0L6PISGrLMPEi+Ndg+IKkP18E1d7cnw2Z4jAAOa0eyzVslYC0Wrbl1l
-         QYojVikilRaCWFD7CcEwmmGJirSZBIwomMzCF8kfsAt+J3Cvhc9NGPNNz4DAPZdN+wse
-         /fPYF+3a1B36TbbbfTB/3OZgpGDRV413W0yhGSyjuqmTG5cS5i+QtUTR4Obf37NpLWFO
-         jdNPskEWQ6MQMSEU5966q7bIO3SfpOFD32YOMsIH7Vcq3o4Ff6Od9QEQEhBjKOQNIVBf
-         xodg==
-X-Gm-Message-State: AOJu0YwbU+uHHkJZvcZxCtL1Ow/MmnjqZeBGsk9ltG1Wni0Tcd9Kq0Lo
-	oNSx8iS4CKRzOtb5Ft66/BHirfUOs5bRAuuNuTFzBMJX75uIKxdsWyJ8
-X-Gm-Gg: AZuq6aJuz2VLGKCdJbqtnCjcCgJSm2XkvSj/pfyqsQwELcKWQU29+owaZoGu6yI2/zf
-	tkaLPbOnXJq1191jJqTrVC3iloPtuKphArev07y60CWY2hC4CVbv7FcWIP1ZA0PrIxH6/6XrHjD
-	vozIudM79wQ4JuaR+/B3authQSFvuZOWIkiyFVhV3dcc49I+svind7nctQf0VNsoPoJE8cHEEsL
-	NgcH4kckjBotoZickF3iD/OjvZgHaFSRVRBEfELplt0YRIWeuU1bUwSFbQhwn0RwlGszdyDyIeO
-	wL9oc2arkJBTrni5CsBG34DvEq3Ielw99oORYCltAm/0zrLZjWyRO62GUtWvDZcBHovq5FNbzcm
-	AMpKEJADyt4wEej9Ezgm2JWezeX8X2xgCHp9bYx6ZDprCNBW60ANsy3KF7RgKPwD1rkomuyFwtH
-	fMj8Ymf8Cm4C4k1FXO0xiK3BX3Ibeb5d1MF4Y4GhBeG/p3Fxb17cSRjJHS47xOR5HRxoM0hdyuF
-	TbEKPDyihro3jpMIBaYZH7tV+CzWqQdlCLN4RecFbIgZz8Eb8M7dA==
-X-Received: by 2002:a05:6871:ac0f:b0:3fa:47e:4de4 with SMTP id 586e51a60fabf-409a6baeaf3mr6074422fac.24.1770082163197;
-        Mon, 02 Feb 2026 17:29:23 -0800 (PST)
-Received: from james-x399.localdomain (97-118-146-242.hlrn.qwest.net. [97.118.146.242])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-409571ae8f5sm12188539fac.9.2026.02.02.17.29.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 17:29:22 -0800 (PST)
-From: James Hilliard <james.hilliard1@gmail.com>
-To: u-boot@lists.denx.de
-Cc: linux-sunxi@lists.linux.dev,
-	James Hilliard <james.hilliard1@gmail.com>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Tom Rini <trini@konsulko.com>
-Subject: [PATCH 1/1] tools: imagetool: Disable TOC0 anti-rollback protection
-Date: Mon,  2 Feb 2026 18:28:18 -0700
-Message-ID: <20260203012819.3406450-1-james.hilliard1@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hKT9Xvss"
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--ff4.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::ff4])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 852D73A4;
+	Wed,  4 Feb 2026 01:01:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1770163308;
+	bh=1v3R4MkyhyZgk10UZnaZ5JNbzWCg/QiBkqlMzcGEnFA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hKT9XvssbYEn3VJj2AXuW6gj4fLrqgybVgu6vYp0oBjKZPkxKxr4zgtP4ePQxSpZa
+	 Bhe5nUCxelhBlRNYagnduN9Bd3NEoGW/+baKzRgCiRHu02BPnz3J8CMC+LOLNoIhBy
+	 ETfzJguts+WAobgsVhSuPgNbTXN296MmkHo29RY8=
+Date: Wed, 4 Feb 2026 02:02:28 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Arash Golgol <arash.golgol@gmail.com>
+Cc: linux-media@vger.kernel.org, paulk@sys-base.io, mchehab@kernel.org,
+	wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] media: sun6i-mipi-csi2: Propagate format to source pad
+ in TRY mode
+Message-ID: <20260204000228.GA154910@killaraus>
+References: <20260126102149.39563-1-arash.golgol@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260126102149.39563-1-arash.golgol@gmail.com>
 
-Allwinner devices which support TOC0 have anti-rollback protection
-efuses that are sometimes blown to prevent downgrading firmware.
+Hello Arash,
 
-Since we don't currently support configuring an anti-rollback version
-lets just set the max version in the TOC0 certificate so that the
-sbrom will never reject our image due to the anti-rollback protections
-having been used by BSP based firmware.
+Thank you for the patch.
 
-Note that while there are 32 efuse bits the SBROM will reject any
-antirollback version above 31, as such setting 31 should ensure
-maxiumum hardware compatibility.
+On Mon, Jan 26, 2026 at 01:51:49PM +0330, Arash Golgol wrote:
+> sun6i-mipi-csi2 does not support any format conversion. So the format
+> on sink and source pad must always match. This limitation is handled for
+> ACTIVE state via mbus_format member of bridge private structure.
 
-Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
----
- tools/sunxi_toc0.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+It's not even handled correctly though, the sun6i_mipi_csi2_set_fmt()
+function will accept setting the ACTIVE format on the source pad, when
+it shouldn't. You also fix this in your patch. This should be explained
+in the commit message.
 
-diff --git a/tools/sunxi_toc0.c b/tools/sunxi_toc0.c
-index 76693647a09..35bd43680d4 100644
---- a/tools/sunxi_toc0.c
-+++ b/tools/sunxi_toc0.c
-@@ -127,6 +127,11 @@ struct __packed toc0_cert_item {
- 				struct __packed toc0_extension {
- 					toc0_small_int tag_digest;
- 					uint8_t digest[32];
-+					toc0_small_seq tag_nvc_seq;
-+					struct __packed toc0_nvc_seq {
-+						int oid;
-+						int nvc;
-+					} nvc_seq;
- 				} extension;
- 			} explicit3;
- 		} mainSequence;
-@@ -174,6 +179,11 @@ static const struct toc0_cert_item cert_item_template = {
- 				{
- 					TOC0_SMALL_INT(sizeof_field(struct toc0_extension, digest)),
- 					{},
-+					TOC0_SMALL_SEQ(sizeof(struct toc0_nvc_seq)),
-+					{
-+						1,
-+						31,
-+					},
- 				},
- 			},
- 		},
+> To enforce this limitation in TRY state, user space should only be able
+> to set format on sink pad. The sink format must be propagated to source
+> pad to ensure consistent behavior.
+> 
+> This also aligns the driver with userspace relying on media controller
+> based format negotiation.
+> 
+> Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
+> ---
+>  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 19 +++++++++++++++----
+>  1 file changed, 15 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+> index b06cb73015cd..6ee0f6685663 100644
+> --- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+> @@ -369,15 +369,26 @@ static int sun6i_mipi_csi2_set_fmt(struct v4l2_subdev *subdev,
+>  	struct v4l2_mbus_framefmt *mbus_format = &format->format;
+>  	struct mutex *lock = &csi2_dev->bridge.lock;
+>  
+> +	/* The format on the source pad always matches the sink pad. */
+> +	if (format->pad != SUN6I_MIPI_CSI2_PAD_SINK)
+> +		return v4l2_subdev_get_fmt(subdev, state, format);
+> +
+>  	mutex_lock(lock);
+>  
+>  	sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
+>  
+> -	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
+> -		*v4l2_subdev_state_get_format(state, format->pad) =
+> -			*mbus_format;
+> -	else
+> +	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+> +		struct v4l2_mbus_framefmt *fmt;
+> +
+> +		fmt = v4l2_subdev_state_get_format(state, format->pad);
+> +		*fmt = *mbus_format;
+> +
+> +		/* Propagate the format to the source pad. */
+> +		fmt = v4l2_subdev_state_get_format(state, SUN6I_MIPI_CSI2_PAD_SOURCE);
+> +		*fmt = *mbus_format;
+> +	} else {
+>  		csi2_dev->bridge.mbus_format = *mbus_format;
+> +	}
+
+If you have a bit more time, could I ask you to take it one step further
+and convert the driver to framework-managed V4L2 subdev active ? This
+will simplify the implementation by dropping bridge.mbus_format.
+
+You can find an example of the conversion in commit a2514b9a634a
+("media: i2c: imx290: Use V4L2 subdev active state"). In a nutshell, you
+need to
+
+- Call v4l2_subdev_init_finalize() at probe time and
+  v4l2_subdev_cleanup() at remove time
+- Drop the mutex (locking is now handled by the framework)
+- Use v4l2_subdev_get_fmt() as the .get_fmt() handler
+- Drop bridge.mbus_format and always use v4l2_subdev_get_pad_format() on
+  the state passed to the subdev functions (which will be the ACTIVE or
+  TRY state depending on the .which argument passed by userspace)
+- In .s_stream(), access the state with
+  v4l2_subdev_lock_and_get_active_state() as it's the only subdev
+  operation that doesn't get the state as a parameter
+
+You can ignore the control handler changes in commit a2514b9a634a, and
+you can leave subdev.state_lock NULL (the framework will then use an
+internal lock).
+
+>  
+>  	mutex_unlock(lock);
+>  
+
 -- 
-2.43.0
+Regards,
 
+Laurent Pinchart
