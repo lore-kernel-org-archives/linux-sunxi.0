@@ -1,346 +1,275 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11023092.outbound.protection.outlook.com [52.101.127.92])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B18E3AA197
-	for <linux-sunxi@lists.linux.dev>; Fri,  6 Feb 2026 12:35:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770381329; cv=none; b=dHQa7UPNcEOFrspMYYuA19kcYlxI8/+x7OCJpBRDwqp/NpP5L20+vYIyiNgH/paT87J9aG7fREv+nLlCpMuM/1/od1H/mf+bx68MW7jdjgbDMu9g7pPkHkDjeCvxqM3GkPdVwSeZNQwE2RZvkkX2HeCOGxORL2VE2mRgbarFPlk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770381329; c=relaxed/simple;
-	bh=+G7N0NCeWpH5sO5UAdANmGLtEtncFZE84BA13C8/i9k=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pdABBaqsFxTx2BddlpLsLpa4mUbGZDcloVSrkXd55kMR6uJy9lSUh6mUBjpa5E72AKo4MH595LM7D21HlmLXERmzvxudQ+SXjo54Hmkzf9bmpOMjdUYPRrXXaOg33r2fz+27OtTPmwU62wEPnQ57ONR0BKkxPoLDtGO/WA7icGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZUSvid6u; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZUSvid6u"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43629377370so794414f8f.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 06 Feb 2026 04:35:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770381327; x=1770986127; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8L+MplGnfLupn0gC3EMJ4Rrvkql9QUJsgcWoyz8+F+4=;
-        b=ZUSvid6uVDbdyfox4k09stYBwODZK73jdrw0h3qjXsjCT/VuMY4kF+M/Yf3CvtIA4V
-         5VPEYfPARtfve6FFSJ0dsBol74+la6CpPIddDTNOo+nq98b2BvO5I1GgqoortlRFGnVh
-         IWlg/lW799veds/gdXMEDCWk3unQ1zeVpqbn2UOOb7lRIRLrYwv7YJlgyp34E/cx3cDh
-         zzG2szsy+34WwhjWlL6PGEOils1crxP+S1irJOXprwdKs+GWuKQajJ2gMDsIdDyl2lem
-         C0W4DPT9MnWwDe+Yz7hR6FU95Ta7iJJanaP+SyZLViw5d303/ULVjOErGZjM17oFRfER
-         Sgrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770381327; x=1770986127;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8L+MplGnfLupn0gC3EMJ4Rrvkql9QUJsgcWoyz8+F+4=;
-        b=bPVJOTZSBDHE81YDjzINK4zAiq7A8kZ6Or8MyiYF+Zo3NF42lp89X8Jt5B52CvI6u1
-         usocMHz4EcjlkVNXr2WHYNobz9sP62bPaGoprznj715CigZGGhmPswC3UeSEX1gVmxxt
-         afdEuA/D4eZ1JtPxJvyhoHbymCn+pIq+DwEqCctFTia5AsqWOwyByKepruwijjOYL7Ld
-         bmF16m+Gt/klMa5i+MJoozs82BDuN2/lzbWcPaZ/sJYOFxD+45hAoGO2AgQkqQmOveQe
-         h2huwdCrIcaoGCgES0DIMmuZJihGEMdz9VI2DPfiWwhYHXDbpHgXOlhJMH6QUFciKfTi
-         58yQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW/GxNu2Qcllkrc0j/JlCc2/cYrWivyDN+ZJZrb65zI6UIGyoHlqSZ9cDTmwEzbm8RlVIIkc3yS2JVArw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyKQ4vRsDBS+WeAVfSICOcIIUvKpyWHxd1j1x9LAuC2B9z3Rv/l
-	vJ9ES6qJhWpcxlX64sxgIA+c3C0Dd/i+FDF3BPSeRdknfM5zYxIcqg3WxwKLySjZ8K08gA==
-X-Gm-Gg: AZuq6aKVCGUiNb48AK2rJmHTR0BdgPuhx4nT0qFnz9IP/bAtX+YyCnWQG+4+MW8c2Tr
-	8Se0khDDnlJX1ng0pwn4AeGDKibz6UCEgPjn0Cvh4fldh8m+1k89tqQAfEp+K2xRkbqaUgUxVI8
-	GH+xaLRyjCjA9hg7w5RneVM8Os6z7taxnlb/wdE5upcAWr3gbqc1L0bs0EkYshR5bLm+SOPbKI9
-	YY5QBc9atBEPxFfoT3RcAT9ARaYwAevE9fJ3OIf06GtaNofOPVJLkkQa3G6PO/7vcdW8/vXs1Bj
-	wvMikz/wxhKn+VWWQVZgCAvc7wgUhJvZAbPrbots3rkjZWE5UIFElW59oWnG3XT8x4U3gycggW6
-	DVD+gw2nILj9TvHCNCaXeqrIU+YizV6JlPQ82fQwEgO/yypC2X3q8chs8GHcWqi/cfjEQjMcdoc
-	aDuryHO+xiRzVcd0QTpn/jy/rRwTREa9MVqHXnWcNdE6W3V6wZmTigvrhV9np1LM90spAM5g==
-X-Received: by 2002:a05:6000:2384:b0:42b:396e:2817 with SMTP id ffacd0b85a97d-4362938b1ddmr3942356f8f.40.1770381326957;
-        Fri, 06 Feb 2026 04:35:26 -0800 (PST)
-Received: from thinkpad ([5.238.217.226])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4362974b230sm5892524f8f.36.2026.02.06.04.35.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Feb 2026 04:35:26 -0800 (PST)
-From: Arash Golgol <arash.golgol@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: paulk@sys-base.io,
-	mchehab@kernel.org,
-	wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	laurent.pinchart@ideasonboard.com,
-	linux-sunxi@lists.linux.dev,
-	Arash Golgol <arash.golgol@gmail.com>
-Subject: [PATCH] media: sun6i-mipi-csi2: Use V4L2 subdev active state
-Date: Fri,  6 Feb 2026 16:04:55 +0330
-Message-Id: <20260206123455.46476-1-arash.golgol@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC1A3321BD
+	for <linux-sunxi@lists.linux.dev>; Sat,  7 Feb 2026 13:34:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.92
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770471284; cv=fail; b=lZ+h/Fl8Ht9uBp845rfkrNznkSZzNrKGhDolbxeNzmtJ4KXWWznhJuwHb6Wfa+wiPsLFLE2qn3w2QAd6w1lIGbZBx3oiMEc7aZOhwwsQc8RU5lVHPjyoLxbEfKTuGAjDTEriDCpTy7LPERQsRfwGFJdrHaSC7gC9drAmQABu1aM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770471284; c=relaxed/simple;
+	bh=HyAP2l+3KVTLZoIyNm4ru1rhFBSN4BlQU+dbq1G2EGU=;
+	h=Message-ID:Date:Cc:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=O7lEq9MZUrD+PSitD7IUfmigPXdwtKqP0DcTlTe0ErBh/JpYw+YU2zimvh3xLnhro3clWHlQ92vQAMAOwdh1XB1osKXMjGttE4scL3EvAAksGq2PZr5PwyKt/zRIcmXAh0D/VrXOCSlNACax2bNSBSNPvnw2Y4i3N4BJ0ivnVJo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com; spf=pass smtp.mailfrom=linumiz.com; arc=fail smtp.client-ip=52.101.127.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linumiz.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UiMtmLbHIDsAM3V7L5n7Sjmvd+8sUWmZwqHUBBLsjSRK5qhJHFN5LdoF9SKin+U7QVDjOPg2A1uw26NGndqlEZIoeYZYnfQQX8nxhKJogdQRnco4NkVOJCYrNUXrIJPBKbspl5y0xu89KrKdKU9FcQbDVCLjMEKbGGR44Qw+3s9tQSI4kbWo9/VFpx90lbSvFQbjEXQVQE84FN3yAA/h9sQ6y60UbJJNO+r+kjNdzp/a5XDEqSEfgNMNnHVFuFAWADHEQuA2VPT71hRdsYM9YTCh2utdOJ8rgI3asCrLvHPXDG+88LbskKJWd0+NOFxTOg9vWnAf7iqGwbIWbY4Zbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ggxBO0RAGHsQYgBfJWYEmCjdNWHDmZ30KQFTuzpoUvo=;
+ b=h3Lul9P62ad/TmWD//OS2X2X4nv8r8vckhe8ZVolf5wovg4IbfLUfvyXAc5O85C8v/Pad4a7DQNNDiT3Kt7I/s47eyoORuWwO7qYCFTbv8WyRH1LMlESElJB8lhgXCwitpBzCtAB2wIap46lsCe7GCyyGTtO4akbSQeelHDn2x3fyzto6ugnKztHoLuBovuLXkEkJAab5tLwwMcVx4OeZulhA6AQ8npK7TCQKANUrCjbiL2WhajAFMS9wC6EnXojHZCh74yYnmDqiyXdqOx/nX2PKb7VfI2DhTNXLuRKofW8qCnf49jUb2iv65H/siQriDV68yzJ+S5OrGJGwupPOA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=linumiz.com; dmarc=pass action=none header.from=linumiz.com;
+ dkim=pass header.d=linumiz.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=linumiz.com;
+Received: from TYZPR06MB6935.apcprd06.prod.outlook.com (2603:1096:405:3c::9)
+ by JH0PR06MB6559.apcprd06.prod.outlook.com (2603:1096:990:2f::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.15; Sat, 7 Feb
+ 2026 13:34:38 +0000
+Received: from TYZPR06MB6935.apcprd06.prod.outlook.com
+ ([fe80::30b6:5b0d:1b00:5a01]) by TYZPR06MB6935.apcprd06.prod.outlook.com
+ ([fe80::30b6:5b0d:1b00:5a01%6]) with mapi id 15.20.9587.013; Sat, 7 Feb 2026
+ 13:34:36 +0000
+Message-ID: <a5f6aeb1-b038-462e-8989-c4da65966134@linumiz.com>
+Date: Sat, 7 Feb 2026 14:34:05 +0100
+User-Agent: Mozilla Thunderbird
+Cc: parthiban@linumiz.com, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-phy@lists.infradead.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ paulk@sys-base.io
+Subject: Re: [PATCH v3 0/6] drm/sun4i: Support LVDS on D1s/T113 combo D-PHY
+To: =?UTF-8?Q?Kuba_Szczodrzy=C5=84ski?= <kuba@szczodrzynski.pl>,
+ Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+References: <20250221161751.1278049-1-kuba@szczodrzynski.pl>
+ <20251116134609.447043-1-kuba@szczodrzynski.pl>
+Content-Language: en-US
+From: Parthiban <parthiban@linumiz.com>
+Organization: Linumiz
+In-Reply-To: <20251116134609.447043-1-kuba@szczodrzynski.pl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BMXPR01CA0096.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:54::36) To TYZPR06MB6935.apcprd06.prod.outlook.com
+ (2603:1096:405:3c::9)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYZPR06MB6935:EE_|JH0PR06MB6559:EE_
+X-MS-Office365-Filtering-Correlation-Id: 394bd2ff-3f90-4616-03e1-08de664da294
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?ckY2RitXRU04WnVXS2k3K2p1WUhWbDZ0a0poRGNVeEJnY2JZZTRlYVNCV2o4?=
+ =?utf-8?B?YlRjdnRMZjFlWWErQmo4ZTFNNFBxQWMzNWgrcG50dkZFekQ5Nys4SUJwWThV?=
+ =?utf-8?B?bTRnZnZDc0NnUzNtTU1LNnpNcm1lZzRBSU5DSkIzTmpMMEJCMkp3NEVxbnhB?=
+ =?utf-8?B?WWZuQSt1bERCYkVUNlRNTlZrcnBFOGdBdTNZalFsK1JqbFJVK2xtbnJVZ3Zy?=
+ =?utf-8?B?bE83Mkd6bUhBK2ZPU1ROU0RTWWd4Mm9PclhXUmVWemxWSXFiOEdQUnlMelAz?=
+ =?utf-8?B?a3Z5dUl3UnFDa1hFSmxDdFdiNnVYeU1DaEF5ck1pM3dRTHVnNXN5a3BlblZq?=
+ =?utf-8?B?cDNsRWdML0RhYXB0RXZNRGRRRTJKTS8zMkFpTnJZRi9Dd3BhY2lXYTNNR0JX?=
+ =?utf-8?B?bXdLSUtqKzUyd3NJWnBTS0FHZzRUcEV1dU5nbDdMbXNUbnFnVlFVQ0pXbHpL?=
+ =?utf-8?B?ZytQOUdXaExIOXZBWGtrOUhqUTd0RnkxbS9rdTlFQXprVjVPMjkxYi9KNnJL?=
+ =?utf-8?B?U3ZoYllhMkJGRVRYc0VRaW5UMHZqTzNyMlVNeVN1bWRVdFg5QmR2OTY4NGxO?=
+ =?utf-8?B?Q1BTTFFhaXoyUlJnMm5haGxKL0EwcGZUR2V4aGZQM21Lc2hwcGJMN0V6elBa?=
+ =?utf-8?B?RVcrck5tMEVsRUFuOVZiTnEvekZZZWN0TXQvVEk4cVdrZzhBV1dpWTFQbko5?=
+ =?utf-8?B?VXNwcFE2elUxWnFlWjl2VWVtUVFoTmFkRjZxY3FyL0ptQytWU1RzL3J4Vmth?=
+ =?utf-8?B?bjlhV3U2VW5nRkdERnNtM0tJWHNuNUtJNnFKcGFvQkpmM2ZJT05HbmM3blY0?=
+ =?utf-8?B?Z3B2dUZwekJ0dUhucC9MTTM4R0ZPdFlNVXI3YkNWMkovZ2NmR3l5c2c4QzR1?=
+ =?utf-8?B?SUswdU5WZG1FWFd0TUdhNzY4YTVTbU42cGY3VVJxdXdRTXhpUXBicVNibzU3?=
+ =?utf-8?B?MTFoWElqY3F2M01uWkxvTWw2SEgzcDNkWFhVSWxTK3FLVkZoazZSQnNRY0kr?=
+ =?utf-8?B?V2JBSWtJci9FWXdnNndQUkdvdmZIVVhBVTkxNGprQjRxaXBiNG11bG00QUJq?=
+ =?utf-8?B?bmx4d1czcmJlaFgyc2M1ZDlURFQyUit2ell4c1EvUlFEd1FZR3gzMzRrcktQ?=
+ =?utf-8?B?ZldEbThnYTdENjk5U2ZhOFdYTjZyUVN6UWxWU1F5ZE0xZFh3V3R4K2NoS1Y1?=
+ =?utf-8?B?eDNBcUlTeCtJL0lzdlVOQlo3Rjd5MkFwYTNFQVJVVWR4NHRGWHNBVE82Tlk5?=
+ =?utf-8?B?dW1LTGlxZ2JKRUpYY0d5Vkh0aW4zZkkrdWxxU3p0OEFpdnRrdUZaSzgvY0dZ?=
+ =?utf-8?B?Q2pQN1VqdnpPNzFxZmVEMzBjL2lGZzhlSGVNNGpHZkVyNDdtS0NmTS9ERTJU?=
+ =?utf-8?B?Z3huK2pRaEQ5a0UySVNBV2ZUSE84V1lZQVR6bEhLTTVaNG9DM1UzVnJUeUVO?=
+ =?utf-8?B?VHA0d0RKYUtlbEdMM1dJekxjckR2V2FHV2piSHM3WUtUaERjRFA3Unh3d1JP?=
+ =?utf-8?B?VGJYay80Wk5MWllXZCtnaHdSRkRkWVFBM0JINlMrVS9qZlZvQ0EzdjNxa2hP?=
+ =?utf-8?B?TVNtKzNWbzJpeTBSWXpMalFWTHdEM0NLRFY2Y1FzRE5mbFE2dnVtOUpncTZG?=
+ =?utf-8?B?dGQwcVdpVDRYSW9QcHVpVUxvTllHK2MwR0J6YUV0OUpyMVBCNW9QN1puRTZJ?=
+ =?utf-8?B?ajBDKzB3TE1mUnNNTythcy9qU1EvOTdSVktLSGhKTUtqZEs2OGFEKzNTNGdW?=
+ =?utf-8?B?bG9sS25XTjFmazg1NSs5clZ2c3N1Y0RFZ2hPdFQrcVpnT0M0TGpMOFg0bnp5?=
+ =?utf-8?B?L2ZxVnFOVUdheEc4Ri9adUZSTnFpUWNaTlBxeEhmaGdRbzlTL2ZLY3dEZy8z?=
+ =?utf-8?B?NFhkdktDc0o1WndlTlNyRXB1TnAvSDBxVWJSVkl5Yit2QzNJamZpcnBSU21w?=
+ =?utf-8?B?ZzZpUDBtQ3BTdkVoNUx5MlpNWkJkd3VjSnRSNmpSUzFLdi9WdHRuTGFGdzJB?=
+ =?utf-8?B?aU9vdXhFVXJ0em1yL0tuVDgxaE53a2hSdjg4eWliV013alR3RkJubzQ4bktl?=
+ =?utf-8?B?YU1CSEh6ZVFQNFZUSnc5UFR0U1NBaTJtRzRyRDIrUG8wZzdFSG92ZDZKRTBr?=
+ =?utf-8?Q?Z7N0=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB6935.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(921020);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dVdibUJVaDE5YTg5a2xuMzVBazlpdUJDazIyQ3JtakVBWlRvWkY2MmR1Y3ZG?=
+ =?utf-8?B?eHhGVmRYVjJoRDhDdTNiRGwramZrTFdxZ2xCQWpCUFRUdEFsTjhSZ1MzQWd4?=
+ =?utf-8?B?UElyOEpPWXFkRkZ0QVd3R1lHcC9JNzVHQ2g1cEtEVFltWHN3YTBvV2JQT1F5?=
+ =?utf-8?B?dXFVZXh0cWcxVmVVU1QrNW9PV3JxekVJNDRseHROVTdydzNXV2JBZzFUd2Zt?=
+ =?utf-8?B?QVExS3kwdWRQUExtTFRIQVkxWU9uYmlwRnczMVRPd2ZsSzdLVlUvb09udHlj?=
+ =?utf-8?B?WDJZN29sYXh3Tzkyc2FBL2dhM2RaYVlVMmFrczVNZkpQUzM1alo5Z3ViVzAz?=
+ =?utf-8?B?SzZObVAydHBVZWRHaGxEdHViUHNoU3JvRGJBTzRZdWNTWkNCUzB1bVdUZXJD?=
+ =?utf-8?B?VTVyVW01S0tMTG90Lzg3SDZuUU5Wdzh5b3YrUkw5bEhaMFJWOUFUM3djWEV0?=
+ =?utf-8?B?VmliMTkzQmFWSklUdVJacEd0bk1WZ0VxR1hlYzRBUlAzR2UrN1pUSlpONnRy?=
+ =?utf-8?B?NDA2YnNNQ2x6cnFkNElFNXh0NG5VMzhEMkk5cjZvY3BaQmsvU1VEa3oxRHFz?=
+ =?utf-8?B?Wll3MHgxRE1TaFhpQ2dXNGpWOFptdHAxbmpyTnN6V1U3eTlxRC95RE53TlBy?=
+ =?utf-8?B?SUZpdm1LcW5iMWdJTDR2TVA2RDMrVm92YXVHbmpDbXhyeFc1SzhUdmYyU05N?=
+ =?utf-8?B?VDYrY3pab1kyOFJUNysxU2x5enEvL205ck10c2tkN1IxZ0NEOWRMQ1NMYUVw?=
+ =?utf-8?B?Und4SW9KckNXd3VudC9IRitYSVBvTlNUZEhXMjJlK21LWXFvenVHY05Nd0Jm?=
+ =?utf-8?B?L25oSklYbnF2UDF6KzU5SVdkN3Nsc2ZrdnI2dkZrakZGLzBna3Ric2xod1hS?=
+ =?utf-8?B?MGVUdlJjNXpPU0FKQjR2Z1dQcUNLNFkxNTFPbFdoYy91U0lDQnp0SlFWdDli?=
+ =?utf-8?B?MDNHZ0EzQ1ZlZUUvRTBwSVp4ODF0Q3Q2bjVyM3NHZXVTTGNkajcwS0tSV0hW?=
+ =?utf-8?B?VS9HNGtLVUFCZ09OLy9Ed0dBNUdUUWJJcml1Mmx2ODZiWjQxbTVwMERsVHRl?=
+ =?utf-8?B?QXJUZUNrOUljb2s4dzRad0dzZEJUZ1FtWFRoVFVYTzBFQXI4Vlh3Smxjd01F?=
+ =?utf-8?B?VXpDb3hpSVcrYlJQTTRBZS9HZFZLNlR2YWJXV1hXVitnb3V2SmorUm9BUUVy?=
+ =?utf-8?B?TGNDYUdrNFZ2Q0FTSk1ZQ2sxSnpWcGhSbml0TVNPSG5vTW0yZHRhcUcwSHRo?=
+ =?utf-8?B?cS93R3NjR2FLMC9ldDVxd25YUFlRaVhMRHcxbGNHa3J1SXluZEgrVlprWExG?=
+ =?utf-8?B?NVp6Q0N0a0NDR3p4UW9rS1M0azhxZFU5MzNiTDhOL2xLaDY4RE9tU3dNSWMv?=
+ =?utf-8?B?QXpaRkRvTlRITlJTYnVGbER4aHVNQlNhYzUyVGpydHFlV092Q1l4NUVMZWdx?=
+ =?utf-8?B?SnF4OE5IQmVnWDBXVGFua1ozdFZMR1hTblNyTlgvaDZsRHRBK1JOQ0p2emIv?=
+ =?utf-8?B?RW5rTDhEQ3ZNV002UUtzNUt0a1J6ZFFaYTllL0FTbkdFOTJEaGVxVzNVSFE1?=
+ =?utf-8?B?Q09EQTV6Zklpc05tZXZCNEdpWVFOTjZRNFUvdloxenJ1cHpvTmhNL08zcnhI?=
+ =?utf-8?B?d3J5UysxaGw4M1d6ZER5bFhpTUZpc1JnajZ3eWRVMlBoL2pWYlU3VTRxS2Nq?=
+ =?utf-8?B?Znh3VjFJbVFwQ0E3Qi9LY0NBV3Uwa0p1cHAzbWswT3p0YkthNHdVY2tSRWxO?=
+ =?utf-8?B?Vk1FeXllMERsZWJxL0ducDIyeFM1TFZNR2JLNGtqYWw2MzdJcHhrQ1dVdlky?=
+ =?utf-8?B?VE9OUGhxbDJXdUdadEV0TXg3L25XVzJIQmNwaW40czAxanFhVlpYQ0g1ZVJ1?=
+ =?utf-8?B?K3dsYSs5ckxFMTMxZ3lXQy8rQm9LUS9FYmx4ZS8rTzVzZnZ6dGU4UTZISExz?=
+ =?utf-8?B?ZnZSTGZhZURST1Vsem42cmNYVTE3M3AvOTRBa3pCaVJUZzhMUGw1K3JDdnNQ?=
+ =?utf-8?B?UUgvanJBWW9lK1RQVU13QWJOU2hoSXY5UXgrR3JycHREQ3hyTVljQVpWdWtD?=
+ =?utf-8?B?WlFjMmlWM0VkQ212L2RSYVhNQUpSenpiUjdDVldkTC9zemVXM243Ny81TWpq?=
+ =?utf-8?B?NHJUVTBCdlBtWS9nZ1UzSUs4ZUZNVE84K2NlZGRzZWZ6cnZzV0x4c1kza3g1?=
+ =?utf-8?B?N2EwcGZBWUpVbFJSYkJkSEtmbVBBbkxDSFJVOTJKTC8rYk5kNUlDMFJmSktM?=
+ =?utf-8?B?Kyt1ZVFwR2s1T1Q2TnBpMmdUbEF6djBrR3JxTjVLbnZYVk00NG5IY29FZHdT?=
+ =?utf-8?B?VDZDZkxHYTJnam9XNGp1NmZWcWdjckMxWHg4ZWg1dXdBUkZYZVZEdz09?=
+X-OriginatorOrg: linumiz.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 394bd2ff-3f90-4616-03e1-08de664da294
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB6935.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2026 13:34:36.1636
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 808466aa-232a-41f4-ac23-289e3a6840d4
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VLw9u+OCIFXKK1yYpNMka2Ndee5zcfV9ZDzIU0CJV5yWx9i0uZs3MJ2ZvsgT5LzCfT5zYwsnEnHhKQkR4O9ydA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR06MB6559
 
-Use the V4L2 subdev active state API to store the active format.
-This simplifies the driver not only by dropping the bridge mbus_format
-field, but it also allows dropping the bridge lock, replaced with
-the state lock.
+On 11/16/25 2:46 PM, Kuba Szczodrzyński wrote:
+> Some Allwinner chips (notably the D1s/T113 and the A100) have a "combo
+> MIPI DSI D-PHY" which is required when using single-link LVDS0. The same
+> PD0..PD9 pins are used for either DSI or LVDS.
+> 
+> Other than having to use the combo D-PHY, LVDS output is configured in
+> the same way as on older chips.
+> 
+> This series enables the sun6i MIPI D-PHY to also work in LVDS mode. It
+> is then configured by the LCD TCON, which allows connecting a
+> single-link LVDS display panel.
 
-The sun6i-mipi-csi2 hardware does not perform any format conversion.
-Enforce identical formats on the sink and source pads in the set_fmt()
-and init_state() callbacks.
+Also one additional note is, current LVDS implementation in tcon doesn't
+handle LVDS mode in "0x0084 LCD LVDS Configure". We have only bitwidth
+handled. When using smaller LVDS panels vesa & jeida needs to be handled
+separately. Not sure if the mode support bit is same across all the SoC's TCON,
+but here is the diff which I have used to make it work for vesa-24 by tweaking
+the a133 lvds hook.
 
-Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
----
- .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 110 +++++++++---------
- .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   |   2 -
- 2 files changed, 54 insertions(+), 58 deletions(-)
+commit 1f2d8983f78a11adab759160957a9cf6dc4296aa
+Author: Parthiban Nallathambi <parthiban@linumiz.com>
+Date:   Tue Feb 3 21:55:48 2026 +0530
 
-diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-index b06cb73015cd..42384e2c9458 100644
---- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-+++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-@@ -95,12 +95,12 @@ static void sun6i_mipi_csi2_disable(struct sun6i_mipi_csi2_device *csi2_dev)
- 			   SUN6I_MIPI_CSI2_CTL_EN, 0);
- }
- 
--static void sun6i_mipi_csi2_configure(struct sun6i_mipi_csi2_device *csi2_dev)
-+static void sun6i_mipi_csi2_configure(struct sun6i_mipi_csi2_device *csi2_dev,
-+				       const struct v4l2_mbus_framefmt *mbus_format)
+    drm/sunxi: a133 add support for LVDS mode handling
+    
+    A133 supports both NS and JEIDA mode. Add support depends on the
+    mode selected from the devicetree data mapping.
+    
+    Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
+
+diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+index 3bacc897217f..98a2fb7ed015 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
++++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+@@ -175,8 +175,34 @@ static void sun6i_tcon_setup_lvds_phy(struct sun4i_tcon *tcon,
+ static void sun20i_tcon_setup_lvds_dphy(struct sun4i_tcon *tcon,
+                                        const struct drm_encoder *encoder)
  {
- 	struct regmap *regmap = csi2_dev->regmap;
- 	unsigned int lanes_count =
- 		csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
--	struct v4l2_mbus_framefmt *mbus_format = &csi2_dev->bridge.mbus_format;
- 	const struct sun6i_mipi_csi2_format *format;
- 	struct device *dev = csi2_dev->dev;
- 	u32 version = 0;
-@@ -173,7 +173,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
- 	struct v4l2_subdev *source_subdev = csi2_dev->bridge.source_subdev;
- 	union phy_configure_opts dphy_opts = { 0 };
- 	struct phy_configure_opts_mipi_dphy *dphy_cfg = &dphy_opts.mipi_dphy;
--	struct v4l2_mbus_framefmt *mbus_format = &csi2_dev->bridge.mbus_format;
-+	struct v4l2_subdev_state *state;
-+	const struct v4l2_mbus_framefmt *mbus_format;
- 	const struct sun6i_mipi_csi2_format *format;
- 	struct phy *dphy = csi2_dev->dphy;
- 	struct device *dev = csi2_dev->dev;
-@@ -183,8 +184,12 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
- 	unsigned long pixel_rate;
- 	int ret;
++       struct drm_connector *connector;
++       struct drm_display_info *info;
+        union phy_configure_opts opts = { };
  
--	if (!source_subdev)
--		return -ENODEV;
-+	state = v4l2_subdev_lock_and_get_active_state(subdev);
++       connector = sun4i_tcon_get_connector(encoder);
++       if (!connector)
++               return;
 +
-+	if (!source_subdev) {
-+		ret = -ENODEV;
-+		goto unlock;
-+	}
- 
- 	if (!on) {
- 		v4l2_subdev_call(source_subdev, video, s_stream, 0);
-@@ -196,7 +201,7 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
- 
- 	ret = pm_runtime_resume_and_get(dev);
- 	if (ret < 0)
--		return ret;
-+		goto unlock;
- 
- 	/* Sensor Pixel Rate */
- 
-@@ -222,6 +227,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
- 		goto error_pm;
- 	}
- 
-+	mbus_format = v4l2_subdev_state_get_format(state,
-+						   SUN6I_MIPI_CSI2_PAD_SINK);
- 	format = sun6i_mipi_csi2_format_find(mbus_format->code);
- 	if (WARN_ON(!format)) {
- 		ret = -ENODEV;
-@@ -260,7 +267,7 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
- 
- 	/* Controller */
- 
--	sun6i_mipi_csi2_configure(csi2_dev);
-+	sun6i_mipi_csi2_configure(csi2_dev, mbus_format);
- 	sun6i_mipi_csi2_enable(csi2_dev);
- 
- 	/* D-PHY */
-@@ -274,10 +281,12 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
- 	/* Source */
- 
- 	ret = v4l2_subdev_call(source_subdev, video, s_stream, 1);
--	if (ret && ret != -ENOIOCTLCMD)
-+	if (ret && ret != -ENOIOCTLCMD) {
- 		goto disable;
--
--	return 0;
-+	} else {
-+		ret = 0;
-+		goto unlock;
-+	}
- 
- disable:
- 	phy_power_off(dphy);
-@@ -286,6 +295,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
- error_pm:
- 	pm_runtime_put(dev);
- 
-+unlock:
-+	v4l2_subdev_unlock_state(state);
- 	return ret;
- }
- 
-@@ -308,21 +319,23 @@ sun6i_mipi_csi2_mbus_format_prepare(struct v4l2_mbus_framefmt *mbus_format)
- static int sun6i_mipi_csi2_init_state(struct v4l2_subdev *subdev,
- 				      struct v4l2_subdev_state *state)
- {
--	struct sun6i_mipi_csi2_device *csi2_dev = v4l2_get_subdevdata(subdev);
--	unsigned int pad = SUN6I_MIPI_CSI2_PAD_SINK;
--	struct v4l2_mbus_framefmt *mbus_format =
--		v4l2_subdev_state_get_format(state, pad);
--	struct mutex *lock = &csi2_dev->bridge.lock;
-+	unsigned int pad;
- 
--	mutex_lock(lock);
-+	/*
-+	 * This subdev does not perform format conversion,
-+	 * initialize both pads identically.
-+	 */
-+	for (pad = 0; pad < subdev->entity.num_pads; pad++) {
-+		struct v4l2_mbus_framefmt *mbus_format;
- 
--	mbus_format->code = sun6i_mipi_csi2_formats[0].mbus_code;
--	mbus_format->width = 640;
--	mbus_format->height = 480;
-+		mbus_format = v4l2_subdev_state_get_format(state, pad);
- 
--	sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
-+		mbus_format->code = sun6i_mipi_csi2_formats[0].mbus_code;
-+		mbus_format->width = 640;
-+		mbus_format->height = 480;
- 
--	mutex_unlock(lock);
-+		sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
-+	}
- 
- 	return 0;
- }
-@@ -340,53 +353,32 @@ sun6i_mipi_csi2_enum_mbus_code(struct v4l2_subdev *subdev,
- 	return 0;
- }
- 
--static int sun6i_mipi_csi2_get_fmt(struct v4l2_subdev *subdev,
--				   struct v4l2_subdev_state *state,
--				   struct v4l2_subdev_format *format)
--{
--	struct sun6i_mipi_csi2_device *csi2_dev = v4l2_get_subdevdata(subdev);
--	struct v4l2_mbus_framefmt *mbus_format = &format->format;
--	struct mutex *lock = &csi2_dev->bridge.lock;
--
--	mutex_lock(lock);
--
--	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
--		*mbus_format = *v4l2_subdev_state_get_format(state,
--							     format->pad);
--	else
--		*mbus_format = csi2_dev->bridge.mbus_format;
--
--	mutex_unlock(lock);
--
--	return 0;
--}
--
- static int sun6i_mipi_csi2_set_fmt(struct v4l2_subdev *subdev,
- 				   struct v4l2_subdev_state *state,
- 				   struct v4l2_subdev_format *format)
- {
--	struct sun6i_mipi_csi2_device *csi2_dev = v4l2_get_subdevdata(subdev);
--	struct v4l2_mbus_framefmt *mbus_format = &format->format;
--	struct mutex *lock = &csi2_dev->bridge.lock;
-+	struct v4l2_mbus_framefmt *fmt;
- 
--	mutex_lock(lock);
-+	/* The format on the source pad always matches the sink pad. */
-+	if (format->pad != SUN6I_MIPI_CSI2_PAD_SINK)
-+		return v4l2_subdev_get_fmt(subdev, state, format);
- 
--	sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
-+	sun6i_mipi_csi2_mbus_format_prepare(&format->format);
- 
--	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
--		*v4l2_subdev_state_get_format(state, format->pad) =
--			*mbus_format;
--	else
--		csi2_dev->bridge.mbus_format = *mbus_format;
-+	/* Set the format on the sink pad. */
-+	fmt = v4l2_subdev_state_get_format(state, format->pad);
-+	*fmt = format->format;
- 
--	mutex_unlock(lock);
-+	/* Propagate the format to the source pad. */
-+	fmt = v4l2_subdev_state_get_format(state, SUN6I_MIPI_CSI2_PAD_SOURCE);
-+	*fmt = format->format;
- 
- 	return 0;
- }
- 
- static const struct v4l2_subdev_pad_ops sun6i_mipi_csi2_pad_ops = {
- 	.enum_mbus_code	= sun6i_mipi_csi2_enum_mbus_code,
--	.get_fmt	= sun6i_mipi_csi2_get_fmt,
-+	.get_fmt	= v4l2_subdev_get_fmt,
- 	.set_fmt	= sun6i_mipi_csi2_set_fmt,
- };
- 
-@@ -502,8 +494,6 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
- 	bool notifier_registered = false;
- 	int ret;
- 
--	mutex_init(&bridge->lock);
--
- 	/* V4L2 Subdev */
- 
- 	v4l2_subdev_init(subdev, &sun6i_mipi_csi2_subdev_ops);
-@@ -532,6 +522,12 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
- 	if (ret)
- 		return ret;
- 
-+	/* V4L2 Subdev finalize */
++       info = &connector->display_info;
++       if (info->num_bus_formats != 1)
++               return;
 +
-+	ret = v4l2_subdev_init_finalize(subdev);
-+	if (ret < 0)
-+		goto error_media_entity_cleanup;
++       switch (info->bus_formats[0]) {
++       case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
++       case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
++       case MEDIA_BUS_FMT_RGB101010_1X7X5_JEIDA:
++               regmap_update_bits(tcon->regs, SUN4I_TCON0_LVDS_IF_REG,
++                                  SUN4I_TCON0_LVDS_IF_MODE,
++                                  SUN4I_TCON0_LVDS_IF_MODE);
++               break;
++       case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
++       case MEDIA_BUS_FMT_RGB101010_1X7X5_SPWG:
++               regmap_update_bits(tcon->regs, SUN4I_TCON0_LVDS_IF_REG,
++                                  SUN4I_TCON0_LVDS_IF_MODE,
++                                  0);
++               break;
++       }
 +
- 	/* V4L2 Async */
+        if (!tcon->quirks->has_combo_dphy || !tcon->dphy)
+                return;
  
- 	v4l2_async_subdev_nf_init(notifier, subdev);
-@@ -565,6 +561,7 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
- error_v4l2_notifier_cleanup:
- 	v4l2_async_nf_cleanup(notifier);
+@@ -550,7 +576,9 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
+        else
+                reg |= SUN4I_TCON0_LVDS_IF_BITWIDTH_18BITS;
  
-+error_media_entity_cleanup:
- 	media_entity_cleanup(&subdev->entity);
+-       regmap_write(tcon->regs, SUN4I_TCON0_LVDS_IF_REG, reg);
++       regmap_update_bits(tcon->regs, SUN4I_TCON0_LVDS_IF_REG,
++                          SUN4I_TCON0_LVDS_IF_CLK_SEL_TCON0 | SUN4I_TCON0_LVDS_IF_BITWIDTH_MASK,
++                          reg);
  
- 	return ret;
-@@ -579,6 +576,7 @@ sun6i_mipi_csi2_bridge_cleanup(struct sun6i_mipi_csi2_device *csi2_dev)
- 	v4l2_async_unregister_subdev(subdev);
- 	v4l2_async_nf_unregister(notifier);
- 	v4l2_async_nf_cleanup(notifier);
-+	v4l2_subdev_cleanup(subdev);
- 	media_entity_cleanup(&subdev->entity);
- }
+        /* Setup the polarity of the various signals */
+        if (!(mode->flags & DRM_MODE_FLAG_PHSYNC))
+diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.h b/drivers/gpu/drm/sun4i/sun4i_tcon.h
+index 7e6a5f500d37..fa45b070def2 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_tcon.h
++++ b/drivers/gpu/drm/sun4i/sun4i_tcon.h
+@@ -101,11 +101,12 @@
  
-diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
-index 24b15e34b5e8..d72dfbd6a993 100644
---- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
-+++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
-@@ -32,8 +32,6 @@ struct sun6i_mipi_csi2_bridge {
- 	struct media_pad		pads[SUN6I_MIPI_CSI2_PAD_COUNT];
- 	struct v4l2_fwnode_endpoint	endpoint;
- 	struct v4l2_async_notifier	notifier;
--	struct v4l2_mbus_framefmt	mbus_format;
--	struct mutex			lock; /* Mbus format lock. */
- 
- 	struct v4l2_subdev		*source_subdev;
- };
--- 
-2.34.1
+ #define SUN4I_TCON0_LVDS_IF_REG                        0x84
+ #define SUN4I_TCON0_LVDS_IF_EN                         BIT(31)
++#define SUN4I_TCON0_LVDS_IF_MODE                       BIT(27)
+ #define SUN4I_TCON0_LVDS_IF_BITWIDTH_MASK              BIT(26)
+ #define SUN4I_TCON0_LVDS_IF_BITWIDTH_18BITS            (1 << 26)
+ #define SUN4I_TCON0_LVDS_IF_BITWIDTH_24BITS            (0 << 26)
+ #define SUN4I_TCON0_LVDS_IF_CLK_SEL_MASK               BIT(20)
+-#define SUN4I_TCON0_LVDS_IF_CLK_SEL_TCON0              (1 << 20)
++#define SUN4I_TCON0_LVDS_IF_CLK_SEL_TCON0              BIT(20)
+ #define SUN4I_TCON0_LVDS_IF_CLK_POL_MASK               BIT(4)
+ #define SUN4I_TCON0_LVDS_IF_CLK_POL_NORMAL             (1 << 4)
+ #define SUN4I_TCON0_LVDS_IF_CLK_POL_INV                        (0 << 4)
 
+Shall this be same for all the TCON?
+
+--
+Thanks,
+Parthiban
+https://linumiz.com
+https://www.linkedin.com/company/linumiz
