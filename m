@@ -1,147 +1,357 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA312ECE91
-	for <linux-sunxi@lists.linux.dev>; Sun,  8 Feb 2026 14:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0199126C39E
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 Feb 2026 05:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770559625; cv=none; b=dRgT37RxQOwUeZ0QJBoW8GKzrUk9muucCKwtvZTLsaGvlyJFE+0cqFGF2jI0DN5snAwpdPsV3RzQwJWywyflTGWLoN13qGJ81HaL3oMPkaRgG1yfSYOnusrZtZ9OMxqVeNIuAiRHzype/70b8Ky4IStJ0ulQ5hh+BvShcRW5hHc=
+	t=1770616539; cv=none; b=W4UySoQyKD4g+LyW5tccYUegdVRwN/ES5csdV2o0TyzJ8ig8TiHHmFhGfOu55IRihqUypNy5PyV3qdeduC5FX8vynU3yIk+bXN5/gmKN/KHfERvJ90KKp/PlcFm4GtFF+Hyax3Ak7Pk2vz/suIcuoFrdM4crCbCL+t2Sc9LF0sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770559625; c=relaxed/simple;
-	bh=cvJwMVvLHyJL1du1FlRII9MmG1AyOuvljdbHs6UbRCs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KPFYAQ29DzTspUGtren9GFpimM64cL9BNybMClLAf9tUtzxJ7sVQW03AHPdPWahSFySYMc3Pn8wbTcRfVyi6L2Uptvj/t5vc9BiDRmLUIcB7ocCkcLg7YT9k7T9gyCNEuUKugE+H75ggkWFjUSO4eB50zxvCJ4+u+tXgyS932rQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=eU3mwjZy; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1770616539; c=relaxed/simple;
+	bh=Xs1L+PeVa5xFXNjQeHKr47cOVBET8yv3ROzNpeHVCho=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jP9HRhmgyqrV7eS+nhlC+QHQI4qYZwfOYDpI0SW/qB0dMU/afUrWNyboXxOPx79CMLfySXYqNET7U7RQ2UHH/7n40FDPZze5cpo49euKjDEby71349/BscWJITY7mAOfLHKGDr2yYHIJ5TiqYhgBucwum2EphvgiiPR50DtnA4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N97oJNWO; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="eU3mwjZy"
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id ED783C6C;
-	Sun,  8 Feb 2026 15:06:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1770559579;
-	bh=cvJwMVvLHyJL1du1FlRII9MmG1AyOuvljdbHs6UbRCs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eU3mwjZyNMGjVu7XRSiadx5EBxol7YZtSNWZKbbv4rDeRIAZ0pnBuc0Wk/sEQ3TC+
-	 ZsMhrRQtQt5kWxTh3fi3BB977flXI8+VBp6DJs6/xyHpPzzTnZY2+0toF92/acUUWr
-	 LEWzm/6QD9sPd86tahkwJhcH9WO8q1ImhzcqVhUM=
-Date: Sun, 8 Feb 2026 16:07:02 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: arash golgol <arash.golgol@gmail.com>
-Cc: linux-media@vger.kernel.org, paulk@sys-base.io, mchehab@kernel.org,
-	wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] media: sun6i-mipi-csi2: Use V4L2 subdev active state
-Message-ID: <20260208140702.GQ1376807@killaraus.ideasonboard.com>
-References: <20260206123455.46476-1-arash.golgol@gmail.com>
- <20260207214932.GO1376807@killaraus.ideasonboard.com>
- <CAMxPZkid_QP2Q0wk9wBJi3RnfzbZ38CRso+BkT+srQTYwEmfOw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N97oJNWO"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47ee937ecf2so37574785e9.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 08 Feb 2026 21:55:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770616537; x=1771221337; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tlfYfZAAOhKPlWI86OOkOxP71ePpXQ8i0toDN3DWIcs=;
+        b=N97oJNWO1oH0n1Z/CSS/9GMI6zNS2ejJOcf5xHzRiDBWRqud54iLk24My0IiU5qopp
+         8Se0bNXC8034OlKjuxXFwgQIj+A3JvAfwr7pJjmg7393nc0w7mNoygR5B4K1yuXu80xt
+         biucPkgUBwqy4Tx/WSu+PTjxbNVWmaAQkKKd8TzoAhIIjDQiez0KXhQkioCMUw8+E1kt
+         pdgEjKeuGUnrYjAVHE7QF2JTCG8b15dEKJ29L7L6eP7Fb4sLSBxB+8Jrg37eKrXkvH30
+         AhU4w6s6KGzUWtAEGOJWB0rrKK7bQZbj2lV4Bmhjz80cje64eydvgC8Rp8MPmS7xJRo4
+         Hm3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770616537; x=1771221337;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tlfYfZAAOhKPlWI86OOkOxP71ePpXQ8i0toDN3DWIcs=;
+        b=oXbWNpDpOWSrTmbqRHVr4zbHkDbsjyRiqY0DZ8ww8Hs001htj8L7R1SjC2rn2T5lSf
+         Kw7/nX87zlDda1JmJpL035fGQka201VWVyLkk20uZlvvLer3HFdDr/yCoXbKkzVFe0QA
+         UiFhghcyB7JGKFerXskCewCmqfkketcguBlfqsuaOVuGdk3Eefb8L8B2Ilqt+YSMFRQR
+         9WPDwmXFo++IYM5EwbHDUltZ53WQhQWoUfH+iKiP0sgKgTrea6kerCtZ1JYxKbQbh6Nl
+         ueSIZyd4VR4lpCJhLjoESk2C08ci5kCPYjzdqPTejc3Tk87/l0YkP6vUvmb6Jz92V9t6
+         RafQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW7GtKwEdFv3OJBviXOwAErH3DFvEw0mFAAqCwCgLVWs9NJfIGN5iQi3SOFm7k/5nlDrJ7UE4Q3yY9Gpw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzYo1H1XdhgY2eijrlBwufdGj5vA0bg/ZOtN9cWGZscDO28xxtK
+	kq0G1mvDZPsxHojUQj1x3m04/iTaxTeoPXJ8RMpyI25KqG0jjxmyCw/6
+X-Gm-Gg: AZuq6aI/ORCAFMdl0D+Ue3GxMlQogaPEz4qu4fiepQfQ2suD6bYotQNoeQbWx+ofjsF
+	VelzTOQXbYGurNPJF7nLOa/5lBwZwH2k/32aJKOcEMZC6Wx++sG4Qg4qQq1Ct+6771mtHmjcgER
+	vjo1kn6CfRCdrZKkUwTasA+RFrXmGeeNo2gqgG0LBmhaVHM/yr1rcoAhMgj98YrL/nyr3s8LTGf
+	Q5vHiikYIkxxrZ5PhNXHjzdK5FL0iU+/L/SC9yF0FkILxxkHklHkfQtcYFJgtjOKX/nsMpACbvZ
+	dRXDbmYxi9IMJEcJY+ONPeJoOnVhrBaG68Tmj/XwirLm21KcP9JSCcKHGDiXajS6GIQu76U36gT
+	aSI3hGqQtzNl5OVEjnisGuoYN2l2yaZdz8fSgcAw/noJWtt8NomwSzLY8o7aa1Zenl4dmv7RvOV
+	BAmtoCWY2I22u2Vcz77UAuee/Uay7XR2qJZIx7i4QzNxbtP5DNd17ltrh5LkVSel7GxWyq
+X-Received: by 2002:a05:600c:3f0d:b0:479:13e9:3d64 with SMTP id 5b1f17b1804b1-483203d5f73mr148535035e9.15.1770616537224;
+        Sun, 08 Feb 2026 21:55:37 -0800 (PST)
+Received: from thinkpad ([5.217.172.63])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48317d7a963sm270720055e9.9.2026.02.08.21.55.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Feb 2026 21:55:36 -0800 (PST)
+From: Arash Golgol <arash.golgol@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: paulk@sys-base.io,
+	mchehab@kernel.org,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	laurent.pinchart@ideasonboard.com,
+	linux-sunxi@lists.linux.dev,
+	Arash Golgol <arash.golgol@gmail.com>
+Subject: [PATCH v2] media: sun6i-mipi-csi2: Use V4L2 subdev active state
+Date: Mon,  9 Feb 2026 09:25:29 +0330
+Message-Id: <20260209055529.16644-1-arash.golgol@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMxPZkid_QP2Q0wk9wBJi3RnfzbZ38CRso+BkT+srQTYwEmfOw@mail.gmail.com>
 
-On Sun, Feb 08, 2026 at 02:23:39PM +0330, arash golgol wrote:
-> Hi Laurent,
-> 
-> Thank you for the careful review and the detailed comments.
-> 
-> On Sun, Feb 8, 2026 at 1:19 AM Laurent Pinchart wrote:
-> > On Fri, Feb 06, 2026 at 04:04:55PM +0330, Arash Golgol wrote:
-> ...
-> >
-> > You can drop the else and write
-> >
-> >         ret = v4l2_subdev_call(source_subdev, video, s_stream, 1);
-> >         if (ret && ret != -ENOIOCTLCMD)
-> >                 goto disable;
-> >
-> >         ret = 0;
-> >         goto unlock;
-> >
-> 
-> Sure, I'll do this in v2.
-> 
-> >
-> > Error paths below should call v4l2_subdev_cleanup(), which should be ...
-> > ... introduced here:
-> >
-> > error_v4l2_subdev_cleanup:
-> >         v4l2_subdev_cleanup(subdev);
-> 
-> Yes, you're right about error handling.
-> I was checking the code for the proper place to jump to the
-> error_v4l2_subdev_cleanup label.
-> Consider this section of code, trying to set up the bridge upstream
-> source (in middle of
->  sun6i_mipi_csi2_bridge_setup()).
-> 
->         ret = sun6i_mipi_csi2_bridge_source_setup(csi2_dev);
->         if (ret && ret != -ENODEV)
->                  goto error_v4l2_notifier_cleanup;
-> 
->         (rest of the code)
-> 
->         error_v4l2_notifier_cleanup:
->                 v4l2_async_nf_cleanup(notifier);
-> 
-> I was wondering whether jumping to error_v4l2_notifier_cleanup on failure of
-> sun6i_mipi_csi2_bridge_source_setup() is meaningful, as in that case no
-> async connection has been added to the notifier yet.
+Use the V4L2 subdev active state API to store the active format.
+This simplifies the driver not only by dropping the bridge mbus_format
+field, but it also allows dropping the bridge lock, replaced with
+the state lock.
 
-It doesn't seem needed indeed, but it also doesn't hurt.
+The sun6i-mipi-csi2 hardware does not perform any format conversion.
+Enforce identical formats on the sink and source pads in the set_fmt()
+and init_state() callbacks.
 
-> So I guess failure of sun6i_mipi_csi2_bridge_source_setup() could be a
-> proper place to jump to
-> error_v4l2_subdev_cleanup label. In this model, failure to set up the
-> upstream source means
-> the bridge cannot function at all, so I unwind back to subdev_cleanup().
-> 
-> Something like this:
-> 
->         ret = v4l2_subdev_init_finalize(subdev);
->         if (ret < 0)
->                 goto error_media_entity_cleanup;
-> 
->         /* V4L2 Async */
-> 
->         v4l2_async_subdev_nf_init(notifier, subdev);
->         notifier->ops = &sun6i_mipi_csi2_notifier_ops;
-> 
->         ret = sun6i_mipi_csi2_bridge_source_setup(csi2_dev);
->         if (ret && ret != -ENODEV)
->                 goto error_v4l2_subdev_cleanup;
-> 
->        (rest of the code ... )
-> 
->         error_v4l2_subdev_cleanup:
->                 v4l2_subdev_cleanup(subdev);
-> 
->         error_media_entity_cleanup:
->                 media_entity_cleanup(&subdev->entity);
-> 
-> Is my understanding correct?
-> If yes, should I add this change to v2 too?
+Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
+---
+Changes in v2:
+    - Simplify control flow by dropping the else at end of s_stream()
+    - Call v4l2_subdev_cleanup() on bridge setup failure before 
+    notifier registration
 
-That looks good to me.
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 110 +++++++++---------
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   |   2 -
+ 2 files changed, 55 insertions(+), 57 deletions(-)
 
-> > Those are only small issues, overall the patch is very nice. Thank you
-> > for taking the extra step to convert the driver to the V4L2 subdev
-> > active state. I expect we'll merge the next version once the comments
-> > are addressed.
-> 
-> Thank you for your kind words.
-> I've prepared v2 and addressed your comments, but I wanted to clarify
-> the correct error handling approach here before sending it.
-
+diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+index b06cb73015cd..f4d1f876dac8 100644
+--- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
++++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+@@ -95,12 +95,12 @@ static void sun6i_mipi_csi2_disable(struct sun6i_mipi_csi2_device *csi2_dev)
+ 			   SUN6I_MIPI_CSI2_CTL_EN, 0);
+ }
+ 
+-static void sun6i_mipi_csi2_configure(struct sun6i_mipi_csi2_device *csi2_dev)
++static void sun6i_mipi_csi2_configure(struct sun6i_mipi_csi2_device *csi2_dev,
++				       const struct v4l2_mbus_framefmt *mbus_format)
+ {
+ 	struct regmap *regmap = csi2_dev->regmap;
+ 	unsigned int lanes_count =
+ 		csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
+-	struct v4l2_mbus_framefmt *mbus_format = &csi2_dev->bridge.mbus_format;
+ 	const struct sun6i_mipi_csi2_format *format;
+ 	struct device *dev = csi2_dev->dev;
+ 	u32 version = 0;
+@@ -173,7 +173,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 	struct v4l2_subdev *source_subdev = csi2_dev->bridge.source_subdev;
+ 	union phy_configure_opts dphy_opts = { 0 };
+ 	struct phy_configure_opts_mipi_dphy *dphy_cfg = &dphy_opts.mipi_dphy;
+-	struct v4l2_mbus_framefmt *mbus_format = &csi2_dev->bridge.mbus_format;
++	struct v4l2_subdev_state *state;
++	const struct v4l2_mbus_framefmt *mbus_format;
+ 	const struct sun6i_mipi_csi2_format *format;
+ 	struct phy *dphy = csi2_dev->dphy;
+ 	struct device *dev = csi2_dev->dev;
+@@ -183,8 +184,12 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 	unsigned long pixel_rate;
+ 	int ret;
+ 
+-	if (!source_subdev)
+-		return -ENODEV;
++	state = v4l2_subdev_lock_and_get_active_state(subdev);
++
++	if (!source_subdev) {
++		ret = -ENODEV;
++		goto unlock;
++	}
+ 
+ 	if (!on) {
+ 		v4l2_subdev_call(source_subdev, video, s_stream, 0);
+@@ -196,7 +201,7 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 
+ 	ret = pm_runtime_resume_and_get(dev);
+ 	if (ret < 0)
+-		return ret;
++		goto unlock;
+ 
+ 	/* Sensor Pixel Rate */
+ 
+@@ -222,6 +227,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 		goto error_pm;
+ 	}
+ 
++	mbus_format = v4l2_subdev_state_get_format(state,
++						   SUN6I_MIPI_CSI2_PAD_SINK);
+ 	format = sun6i_mipi_csi2_format_find(mbus_format->code);
+ 	if (WARN_ON(!format)) {
+ 		ret = -ENODEV;
+@@ -260,7 +267,7 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 
+ 	/* Controller */
+ 
+-	sun6i_mipi_csi2_configure(csi2_dev);
++	sun6i_mipi_csi2_configure(csi2_dev, mbus_format);
+ 	sun6i_mipi_csi2_enable(csi2_dev);
+ 
+ 	/* D-PHY */
+@@ -277,7 +284,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 	if (ret && ret != -ENOIOCTLCMD)
+ 		goto disable;
+ 
+-	return 0;
++	ret = 0;
++	goto unlock;
+ 
+ disable:
+ 	phy_power_off(dphy);
+@@ -286,6 +294,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ error_pm:
+ 	pm_runtime_put(dev);
+ 
++unlock:
++	v4l2_subdev_unlock_state(state);
+ 	return ret;
+ }
+ 
+@@ -308,21 +318,23 @@ sun6i_mipi_csi2_mbus_format_prepare(struct v4l2_mbus_framefmt *mbus_format)
+ static int sun6i_mipi_csi2_init_state(struct v4l2_subdev *subdev,
+ 				      struct v4l2_subdev_state *state)
+ {
+-	struct sun6i_mipi_csi2_device *csi2_dev = v4l2_get_subdevdata(subdev);
+-	unsigned int pad = SUN6I_MIPI_CSI2_PAD_SINK;
+-	struct v4l2_mbus_framefmt *mbus_format =
+-		v4l2_subdev_state_get_format(state, pad);
+-	struct mutex *lock = &csi2_dev->bridge.lock;
++	unsigned int pad;
+ 
+-	mutex_lock(lock);
++	/*
++	 * This subdev does not perform format conversion,
++	 * initialize both pads identically.
++	 */
++	for (pad = 0; pad < subdev->entity.num_pads; pad++) {
++		struct v4l2_mbus_framefmt *mbus_format;
+ 
+-	mbus_format->code = sun6i_mipi_csi2_formats[0].mbus_code;
+-	mbus_format->width = 640;
+-	mbus_format->height = 480;
++		mbus_format = v4l2_subdev_state_get_format(state, pad);
+ 
+-	sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
++		mbus_format->code = sun6i_mipi_csi2_formats[0].mbus_code;
++		mbus_format->width = 640;
++		mbus_format->height = 480;
+ 
+-	mutex_unlock(lock);
++		sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
++	}
+ 
+ 	return 0;
+ }
+@@ -340,53 +352,32 @@ sun6i_mipi_csi2_enum_mbus_code(struct v4l2_subdev *subdev,
+ 	return 0;
+ }
+ 
+-static int sun6i_mipi_csi2_get_fmt(struct v4l2_subdev *subdev,
+-				   struct v4l2_subdev_state *state,
+-				   struct v4l2_subdev_format *format)
+-{
+-	struct sun6i_mipi_csi2_device *csi2_dev = v4l2_get_subdevdata(subdev);
+-	struct v4l2_mbus_framefmt *mbus_format = &format->format;
+-	struct mutex *lock = &csi2_dev->bridge.lock;
+-
+-	mutex_lock(lock);
+-
+-	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
+-		*mbus_format = *v4l2_subdev_state_get_format(state,
+-							     format->pad);
+-	else
+-		*mbus_format = csi2_dev->bridge.mbus_format;
+-
+-	mutex_unlock(lock);
+-
+-	return 0;
+-}
+-
+ static int sun6i_mipi_csi2_set_fmt(struct v4l2_subdev *subdev,
+ 				   struct v4l2_subdev_state *state,
+ 				   struct v4l2_subdev_format *format)
+ {
+-	struct sun6i_mipi_csi2_device *csi2_dev = v4l2_get_subdevdata(subdev);
+-	struct v4l2_mbus_framefmt *mbus_format = &format->format;
+-	struct mutex *lock = &csi2_dev->bridge.lock;
++	struct v4l2_mbus_framefmt *fmt;
+ 
+-	mutex_lock(lock);
++	/* The format on the source pad always matches the sink pad. */
++	if (format->pad != SUN6I_MIPI_CSI2_PAD_SINK)
++		return v4l2_subdev_get_fmt(subdev, state, format);
+ 
+-	sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
++	sun6i_mipi_csi2_mbus_format_prepare(&format->format);
+ 
+-	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
+-		*v4l2_subdev_state_get_format(state, format->pad) =
+-			*mbus_format;
+-	else
+-		csi2_dev->bridge.mbus_format = *mbus_format;
++	/* Set the format on the sink pad. */
++	fmt = v4l2_subdev_state_get_format(state, format->pad);
++	*fmt = format->format;
+ 
+-	mutex_unlock(lock);
++	/* Propagate the format to the source pad. */
++	fmt = v4l2_subdev_state_get_format(state, SUN6I_MIPI_CSI2_PAD_SOURCE);
++	*fmt = format->format;
+ 
+ 	return 0;
+ }
+ 
+ static const struct v4l2_subdev_pad_ops sun6i_mipi_csi2_pad_ops = {
+ 	.enum_mbus_code	= sun6i_mipi_csi2_enum_mbus_code,
+-	.get_fmt	= sun6i_mipi_csi2_get_fmt,
++	.get_fmt	= v4l2_subdev_get_fmt,
+ 	.set_fmt	= sun6i_mipi_csi2_set_fmt,
+ };
+ 
+@@ -502,8 +493,6 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
+ 	bool notifier_registered = false;
+ 	int ret;
+ 
+-	mutex_init(&bridge->lock);
+-
+ 	/* V4L2 Subdev */
+ 
+ 	v4l2_subdev_init(subdev, &sun6i_mipi_csi2_subdev_ops);
+@@ -532,6 +521,12 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
+ 	if (ret)
+ 		return ret;
+ 
++	/* V4L2 Subdev finalize */
++
++	ret = v4l2_subdev_init_finalize(subdev);
++	if (ret < 0)
++		goto error_media_entity_cleanup;
++
+ 	/* V4L2 Async */
+ 
+ 	v4l2_async_subdev_nf_init(notifier, subdev);
+@@ -539,7 +534,7 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
+ 
+ 	ret = sun6i_mipi_csi2_bridge_source_setup(csi2_dev);
+ 	if (ret && ret != -ENODEV)
+-		goto error_v4l2_notifier_cleanup;
++		goto error_v4l2_subdev_cleanup;
+ 
+ 	/* Only register the notifier when a sensor is connected. */
+ 	if (ret != -ENODEV) {
+@@ -565,6 +560,10 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
+ error_v4l2_notifier_cleanup:
+ 	v4l2_async_nf_cleanup(notifier);
+ 
++error_v4l2_subdev_cleanup:
++	v4l2_subdev_cleanup(subdev);
++
++error_media_entity_cleanup:
+ 	media_entity_cleanup(&subdev->entity);
+ 
+ 	return ret;
+@@ -579,6 +578,7 @@ sun6i_mipi_csi2_bridge_cleanup(struct sun6i_mipi_csi2_device *csi2_dev)
+ 	v4l2_async_unregister_subdev(subdev);
+ 	v4l2_async_nf_unregister(notifier);
+ 	v4l2_async_nf_cleanup(notifier);
++	v4l2_subdev_cleanup(subdev);
+ 	media_entity_cleanup(&subdev->entity);
+ }
+ 
+diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+index 24b15e34b5e8..d72dfbd6a993 100644
+--- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
++++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+@@ -32,8 +32,6 @@ struct sun6i_mipi_csi2_bridge {
+ 	struct media_pad		pads[SUN6I_MIPI_CSI2_PAD_COUNT];
+ 	struct v4l2_fwnode_endpoint	endpoint;
+ 	struct v4l2_async_notifier	notifier;
+-	struct v4l2_mbus_framefmt	mbus_format;
+-	struct mutex			lock; /* Mbus format lock. */
+ 
+ 	struct v4l2_subdev		*source_subdev;
+ };
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
