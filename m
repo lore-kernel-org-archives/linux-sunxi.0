@@ -1,51 +1,37 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D742FD681
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Feb 2026 07:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A65B32E120
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Feb 2026 10:44:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770708065; cv=none; b=lLmp4RAPbktFU1PkAKUvdWDHkmdXdnwB5p7OHVOTCkholvMO1jcHwalVtv4UeTHa9Ry1uXBzeuo7kWb7G16AyL1ySPNNPI9riELIdGL+epWe2LpNO41t3+WibodPcSTgzIURPSGGhEmMTzqMakXE4NVbMUuVPf487/oS2ukHnUE=
+	t=1770720274; cv=none; b=VyLKI2fdOLMHTfV2FwRfUz3mWsM8klcXzHNm1TvdnS1ts0EC3xog8un1sHtbu6hrx2MUDvL4UVSHw12I/7k8W+bgHKIsbpAlmgBJ+Uw/jxlTVQHZwKtn3I3tNLr6D1cyrnHB3Y6S6IJdGOQZ0lYs6ruvgdMkR3cEm46Uz9wDr2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770708065; c=relaxed/simple;
-	bh=OBZ7vmJOuXFVdEocUKywotsuTZKHpBEwnRySOMXd6l0=;
+	s=arc-20240116; t=1770720274; c=relaxed/simple;
+	bh=kKRt1VDf6faQ+Z3AusG7TiXDalebbQps7t3bNPdqgpk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WdmFrjos1H8Hu0dZNjQJWkBak2zYUJR9bg03b7qqmtlWsvHt+/GCQxevGTPuM6EWA0sMn8zGPNPHWPGHQ1b4/DNhn5wqPdVZrJlUupudBaxYX/hCGyCCEOmit7OQX3+RPbEXjpGPCxBS2BHjgs5GxB1c/SKyBTR/tnJpHbkk944=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f/pLcOe3; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=HN0Zm0j7SmIMeJkQdmiVUjPK/jd49pz4XgHXpfBdBDZtCgP2E4kK/X4G82Pgkc9TljQPzK6v25CvUvBHRFs41ZyrRKt09GuGv/bs2D5BFR32tL/bI8GspdldKjtWvgr1q7lWSrL19H11wT6RhriMuhfR+PufTqYbseF+9cIXM8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Ygj+nx5z; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f/pLcOe3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770708064; x=1802244064;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OBZ7vmJOuXFVdEocUKywotsuTZKHpBEwnRySOMXd6l0=;
-  b=f/pLcOe3zsUaXu3GlMgtti46BxdIVBuVyjO6rwvbj+KWwD9xoSY10gI/
-   96i01ZEnr7UH58ZBXG6jUXqPKTjAE/YNCC2un3z47QBbcX0VsnSHzVQKm
-   hjf/CPMky5jmBuA3NCSC74MV7sKVck1ThykWAGKblXeaNrMjpCKOmTW+W
-   Os+vGGnacqb96AG/hi5taHF1LpedpM8GrXz+8503nu2KbWTZArMomEWOF
-   1dSULFaTqfQ1yGlhyhJMv+XXmSE2pItH4LNuGxZpcScJIvq9pwAMcLqCu
-   JcVdI8zBqf9KhU3lUzD9MlyUp+YRGfZeXN876Knd8QfHR8NHqaUr+KzUY
-   g==;
-X-CSE-ConnectionGUID: y5Js91HhQ2C2kJoPvNhiAA==
-X-CSE-MsgGUID: z+efyuV3Q0yY5r4LIdp4yQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="89414242"
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="89414242"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 23:21:03 -0800
-X-CSE-ConnectionGUID: YtCzlq72TW+BC8VOT+lUBA==
-X-CSE-MsgGUID: rEiM7InjQtaVWLV1ZmJ1kg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="234791955"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.244.39])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 23:20:55 -0800
-Date: Tue, 10 Feb 2026 09:20:52 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Ygj+nx5z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=VtWN
+	b7NUdO5bUCDMyQfroR5tgGFvHUsvicqnxM22+PI=; b=Ygj+nx5zicnCg4B/9Jjo
+	ymkrXvds95xu+rHV423jWbmfMbIgr2ZgCTevfkAnWZ8IARilWWLpa4CK/wQVXM5x
+	4w0A8FpsGIvoAQxpkqhXdmYRN0qT43xKzlQ1ykfgou4qtX6Lg9tcBT3ocv3L+8df
+	n1pLf99ijj7d7hTzrn6bF6m7LtzBNM6u1fdqNKGnt5N+oJAYY99m8k/tzSvDYlQ4
+	ieOIPOpbfZEiorpZhGkdg4dr/vXBFAROteKjLAN1o94Fw3Oi3TQpMAt45wXG+YrD
+	sAp2VOd6rjRXGob9dobJIE+8tFEqCG9UtOAVzHE/ajBCVdIrcAnKfoW+0CsOnkMh
+	kQ==
+Received: (qmail 345109 invoked from network); 10 Feb 2026 11:44:25 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Feb 2026 11:44:25 +0100
+X-UD-Smtp-Session: l3s3148p1@zQVt8HVKEroujnuT
+Date: Tue, 10 Feb 2026 11:44:25 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
 Cc: Bjorn Andersson <andersson@kernel.org>,
 	Baolin Wang <baolin.wang@linux.alibaba.com>,
 	linux-renesas-soc@vger.kernel.org,
@@ -71,7 +57,7 @@ Cc: Bjorn Andersson <andersson@kernel.org>,
 	linux-stm32@st-md-mailman.stormreply.com,
 	linux-sunxi@lists.linux.dev, Mark Brown <broonie@kernel.org>,
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
 	Orson Zhai <orsonzhai@gmail.com>,
 	Peter Zijlstra <peterz@infradead.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
@@ -83,7 +69,7 @@ Cc: Bjorn Andersson <andersson@kernel.org>,
 	Will Deacon <will@kernel.org>
 Subject: Re: [RFC PATCH 0/4] hwspinlock: refactor headers into public
  provider/consumer pair
-Message-ID: <aYrcVE9HsDNAwqIB@smile.fi.intel.com>
+Message-ID: <aYsMCVf1qpLSCXTs@shikoro>
 References: <20260125184654.17843-6-wsa+renesas@sang-engineering.com>
  <aXc7DxsqiCGdfzxi@smile.fi.intel.com>
  <aXc-Zxw05XQLb1Dy@ninjato>
@@ -93,6 +79,7 @@ References: <20260125184654.17843-6-wsa+renesas@sang-engineering.com>
  <aYnBrN0JRCf9-UjB@ninjato>
  <yl4bbbev7lgrmnqys2izkolo5egzg24faukvqar5eh26q5ra7p@42rcegfpqqt6>
  <aYo60vooftdem4Lt@ninjato>
+ <aYrcVE9HsDNAwqIB@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -101,44 +88,29 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aYo60vooftdem4Lt@ninjato>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <aYrcVE9HsDNAwqIB@smile.fi.intel.com>
 
-On Mon, Feb 09, 2026 at 08:51:46PM +0100, Wolfram Sang wrote:
+Hi Andy,
 
-> > > Moving maintainers from CC to To ;) Do you, in general, approve this
-> > > change to the headers?
-> > 
-> > Certainly, I don't think we should force unnatural slicing of drivers
-> > across the source tree.
+> > And if so, would be this series acceptable
+> > as-is then (modulo the better include-sorting mentioned by Andy)?
 > 
-> Cool, glad you like it.
-> 
-> > I've always found the current model unergonomic, resolving this part
-> > might very well have the side effect that Andy is looking for (and I'd
-> > welcome that).
-> 
-> Yeah probably, but frankly the task of redesigning hwlock-allocation is
-> a bit exceeding my bandwidth for this project. Can we make this a second
-> step on top of this series?
+> *From my experience it's not the Q "will they or not?", the Q is "when?"
+>  they start abusing it. I really prefer to hide as much as possible from
 
-How do you see it's done if others will (*) start (ab)using that struct
-directly?
+I totally agree with you on that.
 
-> And if so, would be this series acceptable
-> as-is then (modulo the better include-sorting mentioned by Andy)?
+>  day 1. Maybe the structure can be split to two? Currently IIO has a
 
-*From my experience it's not the Q "will they or not?", the Q is "when?"
- they start abusing it. I really prefer to hide as much as possible from
- day 1. Maybe the structure can be split to two? Currently IIO has a
- (painful and long) conversion from open to opaque. Taking this into account
- I really don't won't to repeat this design mistake. But it's all up to
- the maintainers, of course. Just my deep worries about this... while
- the idea, as I said, I fully support.
+I also thought that keeping some internal header might provide that
+safety. When looking into it, I didn't see an obvious and somewhat
+elegant way. Even more, I got a better picture of why Bjorn named the
+current approach "unergonomic". I got some ideas which look doable in my
+time frame. I will try going the full route, after all.
 
--- 
-With Best Regards,
-Andy Shevchenko
+I'll start with some cleanup in some minutes.
 
+Happy hacking,
+
+   Wolfram
 
