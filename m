@@ -1,167 +1,173 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66063570AD
-	for <linux-sunxi@lists.linux.dev>; Wed, 11 Feb 2026 09:54:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7836D1E5B63;
+	Sat, 14 Feb 2026 01:07:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770803663; cv=none; b=GgY5W0MOqD2fzVVwGLBz6WHoWt68tWOTBaC0r6xn8ngDD8MhgerRmFAoVJD2fFxLLCPAj+7EpakMHMfsxtQIx99pV85Mt0HV0rPk2k2S1OcHqITSfmcOMiKxMm8N/5j5GCkJMwgmb/dKOu8mJk5gPKLTUI1W6kKCpAee2r/ynZM=
+	t=1771031254; cv=none; b=VFLgmfzttbswdOA1QC5pc+Tpcg/abezB58FcJjEYQlMEsCPCbyKBuIxtbZHuT+rA1kz1VzyYxWq8FJfftsrwWEg2hwgs5yhlQt3xECP9x5lgpblYxdl+LWMrsf+pOLnF/6hd5Fekj9fqyLdRcRiRMm5lzZS9ZNnIPMrAhnoFDn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770803663; c=relaxed/simple;
-	bh=/5pNhKzNp3gbK4Hmr3Rpar8H9OmvtwaUM/lc2peBhvE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Zb9tN+u3nYQJYbNfAwxYOZpGmXsVORuoQANZHF6xJYw6l/PKsklebx9rwzD8u5tA+c8JjDFo/YewsXdUriAxqGnv3x4MDoRgT5XcmSYyddheCkF2Xl7Zbwr7z4NW4P91zT8esSFXb83ocobMCxHI10LlNJdo8PfKWbfGArwIsps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dHF5ecxW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771031254; c=relaxed/simple;
+	bh=AOhoK7iaQfSvFBn6Bfj98kL+WvUmkWg8zJklNjmc44Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=oV6WlVy2iKCt4SmiiU3pEaq2t6aM4XwApfI1+g9S6TnMPrC3O5IGpmWbkJkKGLNXlFHFP0L3R9QZSEPB1cfOxgYck2tsGMeVK4WFyoMz7YFg2ym2IDOghdUJYCnRtA5tDE2NHlIZra1zLYuvvzv5Acnd4ksv/+te3wFsQ/BFTBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rTSGFlUH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dHF5ecxW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F638C4AF0B
-	for <linux-sunxi@lists.linux.dev>; Wed, 11 Feb 2026 09:54:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rTSGFlUH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FB41C16AAE;
+	Sat, 14 Feb 2026 01:07:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770803663;
-	bh=/5pNhKzNp3gbK4Hmr3Rpar8H9OmvtwaUM/lc2peBhvE=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=dHF5ecxW6MPWz6oIIdXjhEW/zYWCvnbowkPEaRjMlG2FC9zvKWlbAjKBkIlXtoOge
-	 JHXxd1CVleTVEfLnW2f1dkcvMfNE0V7x/qA4UJvHFxCU5TErwBPiGQF7/LMwrrfz8Z
-	 pAac32HubRGk6jL4vcIG3Q/tjrHxLXN1U90sDSu+R7Eu2arKY4bYjptO9+kIwza608
-	 pv2i2QDOJT9vs9XYwKjDXwm3honwSlRIES7eepetHRf8rLsItM/nhvHda6gOIIKcFy
-	 RwJyrivt+5VrDB0S2pa/MCZjlg6TWmb+HNrC8le/sHxXaXOmbxrzWMdPD+b2QXr5uO
-	 2a7Y5sIACOzWg==
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-387097ae2e3so2227341fa.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 11 Feb 2026 01:54:23 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUiOFYFACwM794jNL4t5tiVzpD2A9APERu59NN8keGxMaCB4ZpcN0us+x4gHZMKERpHwh/kYKARXXd5ng==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyXhakbMsl4ieJ1K4HU5NXiF4gAv9UZSOoejv5LzhWxp43ylc/C
-	D2z62BQq8v19D5LtUfHzF7MLotUgBqa1qR/n8tQ/aXu6TL8WeSaErWlFzWxUkyf56d1CBKf0UNQ
-	bq6z/fdT0usTseERQRrBnBon7TlBtamA=
-X-Received: by 2002:a05:651c:f0f:b0:386:ec21:c87f with SMTP id
- 38308e7fff4ca-38703200666mr4966961fa.42.1770803661719; Wed, 11 Feb 2026
- 01:54:21 -0800 (PST)
+	s=k20201202; t=1771031254;
+	bh=AOhoK7iaQfSvFBn6Bfj98kL+WvUmkWg8zJklNjmc44Q=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=rTSGFlUHO7aysFGIXp3gp93nKV5Vz/UYi2M/nKEVwHhI/SeUKhKTODmsX0ZYmaoV7
+	 M6Fbn0HJraaByjgDS7WaAJRyiIbp9fk0hAR4EH79e3tJ/icis2NudwMJy3+gYy1Hd8
+	 i6lwheJsrhmL2fdgkBMnZKCXX+KyKDr3pc/EPQY85ReRZLE03TpQYiU+mR4evSPKt/
+	 iXj322sHsKvxNAUn+/8ZPLYBDr3g8CFIlaif1xT/xL5gxkqw2xLSncox5LkYpo1fga
+	 oP0nXjtlUAiub8ixd/sVxGDp6AFAqFvdZV21L4CZAZUpJKHMY5kyoLi8bNMCQa0iS6
+	 7vo2MkSGag8vA==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Chen Ni <nichen@iscas.ac.cn>,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	fengzheng923@gmail.com,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.19-6.1] ASoC: sunxi: sun50i-dmic: Add missing check for devm_regmap_init_mmio
+Date: Fri, 13 Feb 2026 20:00:02 -0500
+Message-ID: <20260214010245.3671907-122-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260214010245.3671907-1-sashal@kernel.org>
+References: <20260214010245.3671907-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260211033249.2770281-1-james.hilliard1@gmail.com> <c78bd0c3-6889-46f8-8b5a-e3490ce7b9c5@arm.com>
-In-Reply-To: <c78bd0c3-6889-46f8-8b5a-e3490ce7b9c5@arm.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Wed, 11 Feb 2026 17:54:09 +0800
-X-Gmail-Original-Message-ID: <CAGb2v663k0DBqodAUbdgbwbpb2k9qAkFowA_P0HpCUv_mCXG_Q@mail.gmail.com>
-X-Gm-Features: AZwV_Qi2y5CAMrmnItBBq7T6t5ZLzWkFIM0u2qt3VdP2YzsuTAzC8hcuXWxIqwA
-Message-ID: <CAGb2v663k0DBqodAUbdgbwbpb2k9qAkFowA_P0HpCUv_mCXG_Q@mail.gmail.com>
-Subject: Re: [PATCH 1/1] pinctrl: sunxi: add GPIO get_direction callback
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: James Hilliard <james.hilliard1@gmail.com>, linux-sunxi@lists.linux.dev, 
-	linux-gpio@vger.kernel.org, Linus Walleij <linusw@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.19
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 11, 2026 at 5:08=E2=80=AFPM Andre Przywara <andre.przywara@arm.=
-com> wrote:
->
-> Hi James,
->
-> On 2/11/26 04:32, James Hilliard wrote:
-> > Implement sunxi_pinctrl_gpio_get_direction() and wire it into
-> > the sunxi gpio_chip setup.
->
-> thanks for taking care and sending a patch! I am still scratching my
-> head what this warning is about exactly and why we only see this now? I
-> never saw this, so what caused that? libgpiod accesses from userland?
+From: Chen Ni <nichen@iscas.ac.cn>
 
-For me it was `cat /sys/kernel/debug/gpio`.
+[ Upstream commit 74823db9ba2e13f3ec007b354759b3d8125e462c ]
 
-> Regardless, can we hold back this patch, please? As part of the A733
-> pinctrl support (and as LinusW asked kindly about that) I was reworking
-> our driver to use the generic gpio interface, and I have a feeling this
-> would solve this problem automatically?
-> The actual pinctrl conversion is done, I just need to plug in the IRQ
-> support. I ideally would have something in the next days to post, would
-> that be worth waiting for?
+Add check for the return value of devm_regmap_init_mmio() and return the
+error if it fails in order to catch the error.
 
-We probably want something for the stable kernels though. The commit
-that adds the warning was merged sometime last year, so it's part
-of the latest LTS.
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+Link: https://patch.msgid.link/20260127033250.2044608-1-nichen@iscas.ac.cn
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
 
+LLM Generated explanations, may be completely bogus:
 
-ChenYu
+## Analysis
 
-> Cheers,
-> Andre
->
->
->
-> >
-> > The new callback reads the pin mux register and compares the mux
-> > value against the pin descriptor gpio_in and gpio_out functions
-> > to report GPIO_LINE_DIRECTION_IN or GPIO_LINE_DIRECTION_OUT.
-> > If the pin is muxed to irq, report it as input.
-> >
-> > Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-> > ---
-> >   drivers/pinctrl/sunxi/pinctrl-sunxi.c | 32 ++++++++++++++++++++++++++=
-+
-> >   1 file changed, 32 insertions(+)
-> >
-> > diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/su=
-nxi/pinctrl-sunxi.c
-> > index 0fb057a07dcc..424f23be27b2 100644
-> > --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> > +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> > @@ -995,6 +995,37 @@ static int sunxi_pinctrl_gpio_direction_output(str=
-uct gpio_chip *chip,
-> >                                           chip->base + offset, false);
-> >   }
-> >
-> > +static int sunxi_pinctrl_gpio_get_direction(struct gpio_chip *chip,
-> > +                                         unsigned int offset)
-> > +{
-> > +     struct sunxi_pinctrl *pctl =3D gpiochip_get_data(chip);
-> > +     struct sunxi_desc_function *in, *out, *irq;
-> > +     u32 reg, shift, mask, val;
-> > +     u16 pin =3D chip->base + offset;
-> > +
-> > +     in =3D sunxi_pinctrl_desc_find_function_by_pin(pctl, pin, "gpio_i=
-n");
-> > +     out =3D sunxi_pinctrl_desc_find_function_by_pin(pctl, pin, "gpio_=
-out");
-> > +     if (!in || !out)
-> > +             return -EINVAL;
-> > +
-> > +     irq =3D sunxi_pinctrl_desc_find_function_by_pin(pctl, pin, "irq")=
-;
-> > +
-> > +     sunxi_mux_reg(pctl, offset, &reg, &shift, &mask);
-> > +     val =3D (readl(pctl->membase + reg) & mask) >> shift;
-> > +
-> > +     if (val =3D=3D in->muxval)
-> > +             return GPIO_LINE_DIRECTION_IN;
-> > +
-> > +     if (val =3D=3D out->muxval)
-> > +             return GPIO_LINE_DIRECTION_OUT;
-> > +
-> > +     /* IRQ function is effectively input. */
-> > +     if (irq && val =3D=3D irq->muxval)
-> > +             return GPIO_LINE_DIRECTION_IN;
-> > +
-> > +     return -EINVAL;
-> > +}
-> > +
-> >   static int sunxi_pinctrl_gpio_of_xlate(struct gpio_chip *gc,
-> >                               const struct of_phandle_args *gpiospec,
-> >                               u32 *flags)
-> > @@ -1603,6 +1634,7 @@ int sunxi_pinctrl_init_with_flags(struct platform=
-_device *pdev,
-> >       pctl->chip->set_config =3D gpiochip_generic_config;
-> >       pctl->chip->direction_input =3D sunxi_pinctrl_gpio_direction_inpu=
-t;
-> >       pctl->chip->direction_output =3D sunxi_pinctrl_gpio_direction_out=
-put;
-> > +     pctl->chip->get_direction =3D sunxi_pinctrl_gpio_get_direction;
-> >       pctl->chip->get =3D sunxi_pinctrl_gpio_get;
-> >       pctl->chip->set =3D sunxi_pinctrl_gpio_set;
-> >       pctl->chip->of_xlate =3D sunxi_pinctrl_gpio_of_xlate;
->
+### Commit Message Analysis
+
+The commit adds a missing error check for `devm_regmap_init_mmio()` in
+the sun50i-dmic audio driver's probe function. The message is
+straightforward - it's adding a return value check that was missing.
+
+### Code Change Analysis
+
+The change is a 3-line addition:
+```c
+if (IS_ERR(host->regmap))
+    return dev_err_probe(&pdev->dev, PTR_ERR(host->regmap),
+                         "failed to initialise regmap\n");
+```
+
+This is inserted right after `devm_regmap_init_mmio()` returns into
+`host->regmap`. Without this check, if `devm_regmap_init_mmio()` fails,
+`host->regmap` will contain an ERR_PTR value. The driver then continues
+execution and eventually uses this regmap pointer in subsequent
+operations (regmap reads/writes), which would cause a NULL pointer
+dereference or other crash since the ERR_PTR would be interpreted as a
+valid pointer.
+
+### Bug Mechanism
+
+If `devm_regmap_init_mmio()` fails (e.g., memory allocation failure
+inside regmap), the error pointer gets stored in `host->regmap`. Later,
+when the driver tries to use regmap APIs with this invalid pointer, it
+will crash. This is a real bug - a missing error check that leads to use
+of an error pointer as a valid pointer.
+
+### Severity Assessment
+
+- **Trigger**: `devm_regmap_init_mmio()` would need to fail, which is
+  uncommon but possible (memory pressure, internal regmap errors)
+- **Consequence**: Kernel crash/oops when the invalid regmap pointer is
+  subsequently used
+- **Likelihood**: Low probability but non-zero, especially under memory
+  pressure
+
+### Stable Kernel Criteria
+
+1. **Obviously correct and tested**: Yes - this follows the exact same
+   pattern as all surrounding error checks in the same function. It's a
+   textbook missing error check fix.
+2. **Fixes a real bug**: Yes - missing error check on a function that
+   can fail, leading to use of an ERR_PTR as a valid pointer.
+3. **Important issue**: Moderate - it's a potential NULL deref/crash,
+   though the trigger condition is uncommon.
+4. **Small and contained**: Yes - 3 lines added, single file, no
+   behavioral change on success path.
+5. **No new features**: Correct - purely defensive error checking.
+6. **Applies cleanly**: The change is self-contained with no
+   dependencies.
+
+### Risk Assessment
+
+- **Risk**: Extremely low. The change only affects the error path. On
+  the success path, behavior is identical.
+- **Benefit**: Prevents a kernel crash if regmap initialization fails.
+- **Pattern**: This is a very common type of stable fix - adding missing
+  error checks in driver probe functions.
+
+### Concerns
+
+This is a fairly minor fix for an uncommon failure path in a specific
+ARM SoC audio driver. The user base is limited to Allwinner sun50i
+platforms. However, the fix is trivially correct, has zero risk of
+regression, and prevents a real (if unlikely) crash.
+
+### Decision
+
+The fix is small, obviously correct, follows existing patterns in the
+same function, prevents a potential crash from using an ERR_PTR, and has
+essentially zero regression risk. It meets all stable kernel criteria.
+
+**YES**
+
+ sound/soc/sunxi/sun50i-dmic.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/sound/soc/sunxi/sun50i-dmic.c b/sound/soc/sunxi/sun50i-dmic.c
+index bab1e29c99887..eddfebe166169 100644
+--- a/sound/soc/sunxi/sun50i-dmic.c
++++ b/sound/soc/sunxi/sun50i-dmic.c
+@@ -358,6 +358,9 @@ static int sun50i_dmic_probe(struct platform_device *pdev)
+ 
+ 	host->regmap = devm_regmap_init_mmio(&pdev->dev, base,
+ 					     &sun50i_dmic_regmap_config);
++	if (IS_ERR(host->regmap))
++		return dev_err_probe(&pdev->dev, PTR_ERR(host->regmap),
++				     "failed to initialise regmap\n");
+ 
+ 	/* Clocks */
+ 	host->bus_clk = devm_clk_get(&pdev->dev, "bus");
+-- 
+2.51.0
+
