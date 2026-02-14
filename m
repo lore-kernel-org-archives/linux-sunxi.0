@@ -1,173 +1,355 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7836D1E5B63;
-	Sat, 14 Feb 2026 01:07:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE05427B327
+	for <linux-sunxi@lists.linux.dev>; Sat, 14 Feb 2026 05:10:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771031254; cv=none; b=VFLgmfzttbswdOA1QC5pc+Tpcg/abezB58FcJjEYQlMEsCPCbyKBuIxtbZHuT+rA1kz1VzyYxWq8FJfftsrwWEg2hwgs5yhlQt3xECP9x5lgpblYxdl+LWMrsf+pOLnF/6hd5Fekj9fqyLdRcRiRMm5lzZS9ZNnIPMrAhnoFDn8=
+	t=1771045826; cv=none; b=dkidkjA0jhOxDWnfJYwJn31uQVPR5vADjlA8vCDJKzRtLHJo86a9LAhUHe83q+o17dAjpn28cq15V0ZxMbA5COaVfdUAZItY4v52uDv4gTin7wtdu3foIsz+dbHrbiBEVdz/17WxR5udFH2jIzI37T9yY8VGeQ0tcbAVnik6Nl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771031254; c=relaxed/simple;
-	bh=AOhoK7iaQfSvFBn6Bfj98kL+WvUmkWg8zJklNjmc44Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oV6WlVy2iKCt4SmiiU3pEaq2t6aM4XwApfI1+g9S6TnMPrC3O5IGpmWbkJkKGLNXlFHFP0L3R9QZSEPB1cfOxgYck2tsGMeVK4WFyoMz7YFg2ym2IDOghdUJYCnRtA5tDE2NHlIZra1zLYuvvzv5Acnd4ksv/+te3wFsQ/BFTBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rTSGFlUH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771045826; c=relaxed/simple;
+	bh=TvNz0U9qRj2MWFvEQWBYw4ry/dUXhcEsoboCvU3Lk1U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ig5I2X4tRYSopIU0BBkqfSllXCt2RDPVxho8zXHSyx5kLuiVraqIsilE+VBLHmooJfiLBslnPRb47xx0xuw53x8FGckh2xirprArM8yH0ldcBwXx6cbHOYGieEtDOy+h0AOMb/B1WSRiUsxHCQwT2LBsyPBgwVYrjgSHYhYFspU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nind3BWa; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rTSGFlUH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FB41C16AAE;
-	Sat, 14 Feb 2026 01:07:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771031254;
-	bh=AOhoK7iaQfSvFBn6Bfj98kL+WvUmkWg8zJklNjmc44Q=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rTSGFlUHO7aysFGIXp3gp93nKV5Vz/UYi2M/nKEVwHhI/SeUKhKTODmsX0ZYmaoV7
-	 M6Fbn0HJraaByjgDS7WaAJRyiIbp9fk0hAR4EH79e3tJ/icis2NudwMJy3+gYy1Hd8
-	 i6lwheJsrhmL2fdgkBMnZKCXX+KyKDr3pc/EPQY85ReRZLE03TpQYiU+mR4evSPKt/
-	 iXj322sHsKvxNAUn+/8ZPLYBDr3g8CFIlaif1xT/xL5gxkqw2xLSncox5LkYpo1fga
-	 oP0nXjtlUAiub8ixd/sVxGDp6AFAqFvdZV21L4CZAZUpJKHMY5kyoLi8bNMCQa0iS6
-	 7vo2MkSGag8vA==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Chen Ni <nichen@iscas.ac.cn>,
-	Mark Brown <broonie@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	fengzheng923@gmail.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nind3BWa"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-482f454be5bso34661055e9.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 13 Feb 2026 21:10:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771045821; x=1771650621; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jKSGP/yPagwmS68ig/gbLeqP/cxsFqTu4QEVGKWYtq8=;
+        b=Nind3BWa5sOfYlCvpn5iGgTvaLIGtoFCu9aezC4eMsabi2LEzt2ay8ARQgthKCFLaR
+         CDgKbdZEgqi4QAvNGog9IJiomJ5ERBqnWj0YOi9m0i9WuSBGbuFP7i63FbwBHpT9vzLs
+         G2iAlksDsyQFqNfZbX6bNY1jRpl1OaAkKEQ0Stzw+ywiTI4w/X79qBFS+1tKan6juJ4b
+         46eFDgI4W31iQCs0fbAgtxWBNzkRZWT90F79J19bDw+y+YETJefCDN091dAnEXIVji0v
+         kMIlHZSu84snQkfpgdR4JPAVitYyRR3gzYR1hrHYUT6vUObBuEeSfMwVnmVHAotL3YAu
+         J18Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771045821; x=1771650621;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jKSGP/yPagwmS68ig/gbLeqP/cxsFqTu4QEVGKWYtq8=;
+        b=uNsZqYSpjTvAOJYMSEYNFUsqiI51SuyOf0r60qwZPQQP8pgOIco9wA7rvGtwC4xYkS
+         9MMb8cr3jFNW7cwutE+V+7vSomE/tYfc19VuiuFACV02dz7ex0xzToInoUpgpCn/WXFj
+         BC2l+QwX6L+5R+8ZIm11XBI9osHHjqI8xfJ9ujkA9plLu1a/kBU5frEvLf5S6mVfCCHs
+         4qKB9cDmZ1uidQpj10YBbveoYwqpOF3yCTwnMmH+hbxE3Kk9Hbv67uw+SQu8Wf1vkmKT
+         gOIuEZbZih4pTi00JzlMTBpdwEt0ibe4aY1G2Hg1XcADAKaXztkUv+In9DhQVP7pwc1a
+         cz/g==
+X-Forwarded-Encrypted: i=1; AJvYcCV/Gb3tjr8Zgvx/Yc9koBPT8DQ0swkKx63GW+5THrnbDoIhgO8WHFmSuu6Wc4kX7XVO1Fiv9r9W5inETA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwoRLHTdYPADmArI9aeV6P6UdCVKrkCCYrZEqQAsyqVBKp0+HTK
+	1RIasoeK/4GINsFLdVtQo7tNeO1LejFeOo6L8T1gZhJVYmZAgG/yWro2
+X-Gm-Gg: AZuq6aL8SGaqBc0GbtwYCrM1G5ZL6zjHYVTp7szJsCWEOO298n3HbOijm8LUH88Tm1b
+	m/gpvAJq2AkqiE58SrQlZl6aYpYgMVrdyvmKjjVLlhhNJx9j9/zJU/gnex7ifZRA9Jvav6acWHp
+	Z62cp/w86otroToPT7ItyR0D02q/ME//TnIDak73c9K/8m5X8m/DVuumpxFdfHYOYnzgEi1rMOG
+	l6w2wyZqA9oc8I3W1KSsTRUM19agRzgfTMTMoDaN4F1JljlM3oAr/CnfR8T6/jASPULJ1WYb+FL
+	m682R8MncemHsoa1hLdaTvT2zNOvbaKuKvFcCqwbfurypGRsFpKGgUUrmi986bVf+/7M7ThhcUL
+	+a9LICX7Ead2PifdARnjQngWsXmAJtcpqpeDnRgdFwONumoSk/hdZEh7k/F+WguEwVj73SYNXFH
+	5ilCZqeBO4NwUKSN+++TSLUfhLvmZYnJAcsTGvQjGQ/zNrcjTt+08pBhQgNUmhGKH9BNrQz4aLp
+	dXxwLcOMg==
+X-Received: by 2002:a05:600c:1d10:b0:483:29f4:26b3 with SMTP id 5b1f17b1804b1-48378d58838mr37642755e9.1.1771045820941;
+        Fri, 13 Feb 2026 21:10:20 -0800 (PST)
+Received: from thinkpad ([89.199.52.214])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48371a44d2asm30639435e9.30.2026.02.13.21.10.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Feb 2026 21:10:20 -0800 (PST)
+From: Arash Golgol <arash.golgol@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: paulk@sys-base.io,
+	mchehab@kernel.org,
 	wens@kernel.org,
 	jernej.skrabec@gmail.com,
 	samuel@sholland.org,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.19-6.1] ASoC: sunxi: sun50i-dmic: Add missing check for devm_regmap_init_mmio
-Date: Fri, 13 Feb 2026 20:00:02 -0500
-Message-ID: <20260214010245.3671907-122-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260214010245.3671907-1-sashal@kernel.org>
-References: <20260214010245.3671907-1-sashal@kernel.org>
+	linux-sunxi@lists.linux.dev,
+	Arash Golgol <arash.golgol@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3] media: sun6i-mipi-csi2: Use V4L2 subdev active state
+Date: Sat, 14 Feb 2026 08:39:43 +0330
+Message-Id: <20260214050943.6306-1-arash.golgol@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.19
 Content-Transfer-Encoding: 8bit
 
-From: Chen Ni <nichen@iscas.ac.cn>
+Use the V4L2 subdev active state API to store the active format.
+This simplifies the driver not only by dropping the bridge mbus_format
+field, but it also allows dropping the bridge lock, replaced with
+the state lock.
 
-[ Upstream commit 74823db9ba2e13f3ec007b354759b3d8125e462c ]
+The sun6i-mipi-csi2 hardware does not perform any format conversion.
+Enforce identical formats on the sink and source pads in the set_fmt()
+and init_state() callbacks.
 
-Add check for the return value of devm_regmap_init_mmio() and return the
-error if it fails in order to catch the error.
-
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
-Link: https://patch.msgid.link/20260127033250.2044608-1-nichen@iscas.ac.cn
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
+Changes in v3:
+    - link to v2: https://patchwork.kernel.org/project/linux-media/patch/20260209055529.16644-1-arash.golgol@gmail.com/
+    - Keep error path jumping to error_v4l2_notifier_cleanup on 
+    bridge setup failure
 
-LLM Generated explanations, may be completely bogus:
+Changes in v2:
+    - link to v1: https://patchwork.kernel.org/project/linux-media/patch/20260206123455.46476-1-arash.golgol@gmail.com/
+    - Simplify control flow by dropping the else at end of s_stream()
+    - Call v4l2_subdev_cleanup() on bridge setup failure before 
+    notifier registration
 
-## Analysis
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 107 +++++++++---------
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   |   2 -
+ 2 files changed, 53 insertions(+), 56 deletions(-)
 
-### Commit Message Analysis
-
-The commit adds a missing error check for `devm_regmap_init_mmio()` in
-the sun50i-dmic audio driver's probe function. The message is
-straightforward - it's adding a return value check that was missing.
-
-### Code Change Analysis
-
-The change is a 3-line addition:
-```c
-if (IS_ERR(host->regmap))
-    return dev_err_probe(&pdev->dev, PTR_ERR(host->regmap),
-                         "failed to initialise regmap\n");
-```
-
-This is inserted right after `devm_regmap_init_mmio()` returns into
-`host->regmap`. Without this check, if `devm_regmap_init_mmio()` fails,
-`host->regmap` will contain an ERR_PTR value. The driver then continues
-execution and eventually uses this regmap pointer in subsequent
-operations (regmap reads/writes), which would cause a NULL pointer
-dereference or other crash since the ERR_PTR would be interpreted as a
-valid pointer.
-
-### Bug Mechanism
-
-If `devm_regmap_init_mmio()` fails (e.g., memory allocation failure
-inside regmap), the error pointer gets stored in `host->regmap`. Later,
-when the driver tries to use regmap APIs with this invalid pointer, it
-will crash. This is a real bug - a missing error check that leads to use
-of an error pointer as a valid pointer.
-
-### Severity Assessment
-
-- **Trigger**: `devm_regmap_init_mmio()` would need to fail, which is
-  uncommon but possible (memory pressure, internal regmap errors)
-- **Consequence**: Kernel crash/oops when the invalid regmap pointer is
-  subsequently used
-- **Likelihood**: Low probability but non-zero, especially under memory
-  pressure
-
-### Stable Kernel Criteria
-
-1. **Obviously correct and tested**: Yes - this follows the exact same
-   pattern as all surrounding error checks in the same function. It's a
-   textbook missing error check fix.
-2. **Fixes a real bug**: Yes - missing error check on a function that
-   can fail, leading to use of an ERR_PTR as a valid pointer.
-3. **Important issue**: Moderate - it's a potential NULL deref/crash,
-   though the trigger condition is uncommon.
-4. **Small and contained**: Yes - 3 lines added, single file, no
-   behavioral change on success path.
-5. **No new features**: Correct - purely defensive error checking.
-6. **Applies cleanly**: The change is self-contained with no
-   dependencies.
-
-### Risk Assessment
-
-- **Risk**: Extremely low. The change only affects the error path. On
-  the success path, behavior is identical.
-- **Benefit**: Prevents a kernel crash if regmap initialization fails.
-- **Pattern**: This is a very common type of stable fix - adding missing
-  error checks in driver probe functions.
-
-### Concerns
-
-This is a fairly minor fix for an uncommon failure path in a specific
-ARM SoC audio driver. The user base is limited to Allwinner sun50i
-platforms. However, the fix is trivially correct, has zero risk of
-regression, and prevents a real (if unlikely) crash.
-
-### Decision
-
-The fix is small, obviously correct, follows existing patterns in the
-same function, prevents a potential crash from using an ERR_PTR, and has
-essentially zero regression risk. It meets all stable kernel criteria.
-
-**YES**
-
- sound/soc/sunxi/sun50i-dmic.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/sound/soc/sunxi/sun50i-dmic.c b/sound/soc/sunxi/sun50i-dmic.c
-index bab1e29c99887..eddfebe166169 100644
---- a/sound/soc/sunxi/sun50i-dmic.c
-+++ b/sound/soc/sunxi/sun50i-dmic.c
-@@ -358,6 +358,9 @@ static int sun50i_dmic_probe(struct platform_device *pdev)
+diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+index b06cb73015cd..682bdd82098c 100644
+--- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
++++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+@@ -95,12 +95,12 @@ static void sun6i_mipi_csi2_disable(struct sun6i_mipi_csi2_device *csi2_dev)
+ 			   SUN6I_MIPI_CSI2_CTL_EN, 0);
+ }
  
- 	host->regmap = devm_regmap_init_mmio(&pdev->dev, base,
- 					     &sun50i_dmic_regmap_config);
-+	if (IS_ERR(host->regmap))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(host->regmap),
-+				     "failed to initialise regmap\n");
+-static void sun6i_mipi_csi2_configure(struct sun6i_mipi_csi2_device *csi2_dev)
++static void sun6i_mipi_csi2_configure(struct sun6i_mipi_csi2_device *csi2_dev,
++				       const struct v4l2_mbus_framefmt *mbus_format)
+ {
+ 	struct regmap *regmap = csi2_dev->regmap;
+ 	unsigned int lanes_count =
+ 		csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
+-	struct v4l2_mbus_framefmt *mbus_format = &csi2_dev->bridge.mbus_format;
+ 	const struct sun6i_mipi_csi2_format *format;
+ 	struct device *dev = csi2_dev->dev;
+ 	u32 version = 0;
+@@ -173,7 +173,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 	struct v4l2_subdev *source_subdev = csi2_dev->bridge.source_subdev;
+ 	union phy_configure_opts dphy_opts = { 0 };
+ 	struct phy_configure_opts_mipi_dphy *dphy_cfg = &dphy_opts.mipi_dphy;
+-	struct v4l2_mbus_framefmt *mbus_format = &csi2_dev->bridge.mbus_format;
++	struct v4l2_subdev_state *state;
++	const struct v4l2_mbus_framefmt *mbus_format;
+ 	const struct sun6i_mipi_csi2_format *format;
+ 	struct phy *dphy = csi2_dev->dphy;
+ 	struct device *dev = csi2_dev->dev;
+@@ -183,8 +184,12 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 	unsigned long pixel_rate;
+ 	int ret;
  
- 	/* Clocks */
- 	host->bus_clk = devm_clk_get(&pdev->dev, "bus");
+-	if (!source_subdev)
+-		return -ENODEV;
++	state = v4l2_subdev_lock_and_get_active_state(subdev);
++
++	if (!source_subdev) {
++		ret = -ENODEV;
++		goto unlock;
++	}
+ 
+ 	if (!on) {
+ 		v4l2_subdev_call(source_subdev, video, s_stream, 0);
+@@ -196,7 +201,7 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 
+ 	ret = pm_runtime_resume_and_get(dev);
+ 	if (ret < 0)
+-		return ret;
++		goto unlock;
+ 
+ 	/* Sensor Pixel Rate */
+ 
+@@ -222,6 +227,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 		goto error_pm;
+ 	}
+ 
++	mbus_format = v4l2_subdev_state_get_format(state,
++						   SUN6I_MIPI_CSI2_PAD_SINK);
+ 	format = sun6i_mipi_csi2_format_find(mbus_format->code);
+ 	if (WARN_ON(!format)) {
+ 		ret = -ENODEV;
+@@ -260,7 +267,7 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 
+ 	/* Controller */
+ 
+-	sun6i_mipi_csi2_configure(csi2_dev);
++	sun6i_mipi_csi2_configure(csi2_dev, mbus_format);
+ 	sun6i_mipi_csi2_enable(csi2_dev);
+ 
+ 	/* D-PHY */
+@@ -277,7 +284,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 	if (ret && ret != -ENOIOCTLCMD)
+ 		goto disable;
+ 
+-	return 0;
++	ret = 0;
++	goto unlock;
+ 
+ disable:
+ 	phy_power_off(dphy);
+@@ -286,6 +294,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ error_pm:
+ 	pm_runtime_put(dev);
+ 
++unlock:
++	v4l2_subdev_unlock_state(state);
+ 	return ret;
+ }
+ 
+@@ -308,21 +318,23 @@ sun6i_mipi_csi2_mbus_format_prepare(struct v4l2_mbus_framefmt *mbus_format)
+ static int sun6i_mipi_csi2_init_state(struct v4l2_subdev *subdev,
+ 				      struct v4l2_subdev_state *state)
+ {
+-	struct sun6i_mipi_csi2_device *csi2_dev = v4l2_get_subdevdata(subdev);
+-	unsigned int pad = SUN6I_MIPI_CSI2_PAD_SINK;
+-	struct v4l2_mbus_framefmt *mbus_format =
+-		v4l2_subdev_state_get_format(state, pad);
+-	struct mutex *lock = &csi2_dev->bridge.lock;
++	unsigned int pad;
+ 
+-	mutex_lock(lock);
++	/*
++	 * This subdev does not perform format conversion,
++	 * initialize both pads identically.
++	 */
++	for (pad = 0; pad < subdev->entity.num_pads; pad++) {
++		struct v4l2_mbus_framefmt *mbus_format;
+ 
+-	mbus_format->code = sun6i_mipi_csi2_formats[0].mbus_code;
+-	mbus_format->width = 640;
+-	mbus_format->height = 480;
++		mbus_format = v4l2_subdev_state_get_format(state, pad);
+ 
+-	sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
++		mbus_format->code = sun6i_mipi_csi2_formats[0].mbus_code;
++		mbus_format->width = 640;
++		mbus_format->height = 480;
+ 
+-	mutex_unlock(lock);
++		sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
++	}
+ 
+ 	return 0;
+ }
+@@ -340,53 +352,32 @@ sun6i_mipi_csi2_enum_mbus_code(struct v4l2_subdev *subdev,
+ 	return 0;
+ }
+ 
+-static int sun6i_mipi_csi2_get_fmt(struct v4l2_subdev *subdev,
+-				   struct v4l2_subdev_state *state,
+-				   struct v4l2_subdev_format *format)
+-{
+-	struct sun6i_mipi_csi2_device *csi2_dev = v4l2_get_subdevdata(subdev);
+-	struct v4l2_mbus_framefmt *mbus_format = &format->format;
+-	struct mutex *lock = &csi2_dev->bridge.lock;
+-
+-	mutex_lock(lock);
+-
+-	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
+-		*mbus_format = *v4l2_subdev_state_get_format(state,
+-							     format->pad);
+-	else
+-		*mbus_format = csi2_dev->bridge.mbus_format;
+-
+-	mutex_unlock(lock);
+-
+-	return 0;
+-}
+-
+ static int sun6i_mipi_csi2_set_fmt(struct v4l2_subdev *subdev,
+ 				   struct v4l2_subdev_state *state,
+ 				   struct v4l2_subdev_format *format)
+ {
+-	struct sun6i_mipi_csi2_device *csi2_dev = v4l2_get_subdevdata(subdev);
+-	struct v4l2_mbus_framefmt *mbus_format = &format->format;
+-	struct mutex *lock = &csi2_dev->bridge.lock;
++	struct v4l2_mbus_framefmt *fmt;
+ 
+-	mutex_lock(lock);
++	/* The format on the source pad always matches the sink pad. */
++	if (format->pad != SUN6I_MIPI_CSI2_PAD_SINK)
++		return v4l2_subdev_get_fmt(subdev, state, format);
+ 
+-	sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
++	sun6i_mipi_csi2_mbus_format_prepare(&format->format);
+ 
+-	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
+-		*v4l2_subdev_state_get_format(state, format->pad) =
+-			*mbus_format;
+-	else
+-		csi2_dev->bridge.mbus_format = *mbus_format;
++	/* Set the format on the sink pad. */
++	fmt = v4l2_subdev_state_get_format(state, format->pad);
++	*fmt = format->format;
+ 
+-	mutex_unlock(lock);
++	/* Propagate the format to the source pad. */
++	fmt = v4l2_subdev_state_get_format(state, SUN6I_MIPI_CSI2_PAD_SOURCE);
++	*fmt = format->format;
+ 
+ 	return 0;
+ }
+ 
+ static const struct v4l2_subdev_pad_ops sun6i_mipi_csi2_pad_ops = {
+ 	.enum_mbus_code	= sun6i_mipi_csi2_enum_mbus_code,
+-	.get_fmt	= sun6i_mipi_csi2_get_fmt,
++	.get_fmt	= v4l2_subdev_get_fmt,
+ 	.set_fmt	= sun6i_mipi_csi2_set_fmt,
+ };
+ 
+@@ -502,8 +493,6 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
+ 	bool notifier_registered = false;
+ 	int ret;
+ 
+-	mutex_init(&bridge->lock);
+-
+ 	/* V4L2 Subdev */
+ 
+ 	v4l2_subdev_init(subdev, &sun6i_mipi_csi2_subdev_ops);
+@@ -532,6 +521,12 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
+ 	if (ret)
+ 		return ret;
+ 
++	/* V4L2 Subdev finalize */
++
++	ret = v4l2_subdev_init_finalize(subdev);
++	if (ret < 0)
++		goto error_media_entity_cleanup;
++
+ 	/* V4L2 Async */
+ 
+ 	v4l2_async_subdev_nf_init(notifier, subdev);
+@@ -565,6 +560,9 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
+ error_v4l2_notifier_cleanup:
+ 	v4l2_async_nf_cleanup(notifier);
+ 
++	v4l2_subdev_cleanup(subdev);
++
++error_media_entity_cleanup:
+ 	media_entity_cleanup(&subdev->entity);
+ 
+ 	return ret;
+@@ -579,6 +577,7 @@ sun6i_mipi_csi2_bridge_cleanup(struct sun6i_mipi_csi2_device *csi2_dev)
+ 	v4l2_async_unregister_subdev(subdev);
+ 	v4l2_async_nf_unregister(notifier);
+ 	v4l2_async_nf_cleanup(notifier);
++	v4l2_subdev_cleanup(subdev);
+ 	media_entity_cleanup(&subdev->entity);
+ }
+ 
+diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+index 24b15e34b5e8..d72dfbd6a993 100644
+--- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
++++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+@@ -32,8 +32,6 @@ struct sun6i_mipi_csi2_bridge {
+ 	struct media_pad		pads[SUN6I_MIPI_CSI2_PAD_COUNT];
+ 	struct v4l2_fwnode_endpoint	endpoint;
+ 	struct v4l2_async_notifier	notifier;
+-	struct v4l2_mbus_framefmt	mbus_format;
+-	struct mutex			lock; /* Mbus format lock. */
+ 
+ 	struct v4l2_subdev		*source_subdev;
+ };
 -- 
-2.51.0
+2.34.1
 
