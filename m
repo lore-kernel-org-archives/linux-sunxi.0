@@ -1,450 +1,247 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from forward101a.mail.yandex.net (forward101a.mail.yandex.net [178.154.239.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFD227816C
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Feb 2026 07:13:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E327225416
+	for <linux-sunxi@lists.linux.dev>; Sun, 15 Feb 2026 10:02:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771139594; cv=none; b=F7NBcSeSTqvIkf6cVqWLmeFPbPIUSx7MJFtDFe6Hm+sLDjMXh4XytciFeHllBWZnTx15oUhf6yNbRjPr17fTYggWu6byNNTij1XpIpLSlfmbUM9cRAkt6QuH4NfQKttCBCtaMm6xx7oB4/YZWDvEOcM6lqy7sMbluj0r6aTkXc8=
+	t=1771149757; cv=none; b=efbknYcvfJdf489aQ7cmryreOsS/3A8DpGaj//uBek6uzXYN6YaiZvNDAwETWbMUD+Fs57VHdLlEKO1hBI+XSJJ+QFsIFznAq1d+des8NQ4+KyxOYQMTq64TItpglqPx/8hvpOOKXYfsayAOhdkD/qIBzLNy82i1t3mY9KjEiEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771139594; c=relaxed/simple;
-	bh=T+2YgmZCyE4C+I+RkFGx+TjN0SFl1Bbne2hkNWWCq8I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GM8O0KwFJrv9JUnmzy1cuqPgcIUtJ2W0ehklRihk7FAJbZseHtmf6GqRi3AEVm/SC4EKvuzPUP7gfM16qM3cFq7WsQ0j5ioPW8H61y6+QYtXBNbywDrn3F9fEQlg5ulOVuSR+mzZCjFx+3S7ypBQvgUHCi8EQS4Y5CPVDLt+SSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vATdvhTX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771149757; c=relaxed/simple;
+	bh=rqX/hYgmpeWpQhyUc1faR9/+n8bX8YL0ob3h4O4i5KA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=R11G7qEMnfTO1HtozBF1pbvSQ7phgU8owXPpfAASw9EnUX44PwASsnZ42qNi6LcWQw0vpEeUMWI8DkE4qAhkK1hcUZs4IqJVFymuBDdJqT3v664mfxLLto1CEFkpT3tUu/BPR7ZucSm/cJeq7BBNZVSXGoizKqhs4fBETD6YrlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=B9UjE9Sz; arc=none smtp.client-ip=178.154.239.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onurozkan.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onurozkan.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vATdvhTX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D7C7C2BCB2
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Feb 2026 07:13:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771139594;
-	bh=T+2YgmZCyE4C+I+RkFGx+TjN0SFl1Bbne2hkNWWCq8I=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=vATdvhTXqdsTLkR43pbGnZgzP0fwRNukAV0UdhY6eSkl1ZsysaJb0pIvamVZT2E9z
-	 gyskIQPGPKxYIpYhCA8RlI5lGEAo/xib99lySI0Gnheq6SFv5TXdKAHEKW4IP8DhXT
-	 4AsggrfTo1Gmnn4B97py0+3Cmqc00IGqVloQ/DSOZLN9LhmVaYVZ7OiPZCgsmLNVpC
-	 fry/0AGMXtaOeiza4bFH2VhPpg3lRJ+mUrPS/BML2SDo5qtqGX2TxYJ3nbwPGMQyd/
-	 5qfw1VVWlLZhR8j8KkUIc+31eOcdubbxPmiqXpEz7u3OtHfR/QxyCJ/Vi9bx7646KJ
-	 p/wWY80SJe4mw==
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-38707d4c8b9so21067071fa.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 14 Feb 2026 23:13:14 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVCl+7SeO0dQ780ecUMK0+u02rytmTCjgTB++mPtPYDiHrGgYLu6sVvx5oXJXVZHZ7SuMu9G7pHum0pcg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyxRhXPkWmUMznUnKk5ihYOjMvhfAkFMvb9H/Nc9XCDDa7aqDMk
-	cXINt01T+2sn8B7gKiQdsrQkDgzAccws+ARgHay38Z1v8UQuWGlLyUr20nhMwI+GM+bFjyfBEf4
-	a38HOX2DWKKzJqG0IiwnNeRdhupkr3+c=
-X-Received: by 2002:a05:651c:3042:b0:385:f3df:c375 with SMTP id
- 38308e7fff4ca-3881b97c4d6mr8983961fa.36.1771139592579; Sat, 14 Feb 2026
- 23:13:12 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="B9UjE9Sz"
+Received: from mail-nwsmtp-smtp-production-main-54.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-54.vla.yp-c.yandex.net [IPv6:2a02:6b8:c17:2010:0:640:2180:0])
+	by forward101a.mail.yandex.net (Yandex) with ESMTPS id C762280C19;
+	Sun, 15 Feb 2026 13:02:25 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-54.vla.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id 02U6OQUG14Y0-rqjbwYxY;
+	Sun, 15 Feb 2026 13:02:25 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
+	s=mail; t=1771149745;
+	bh=EK56X4yUyK6p90PJP+pf1u3MX2f+sfz3TRR04+2G4T8=;
+	h=Message-ID:Date:Cc:Subject:To:From;
+	b=B9UjE9SzXK5scnpObCqr7CuifSEFqaFsMpm86WX89Sf1FM6OjeTWgWmEl5Uc/IX/1
+	 k2hRFfCdjZ6yTOm17+R2SxqNFY3wsYET9Rtzh6lN3nbUrIIBAEkPKKRLRc3/anF3jw
+	 YpvpfGJW/Y6mrAB3bLVLw0tpe6E+UurPtKGuJEks=
+Authentication-Results: mail-nwsmtp-smtp-production-main-54.vla.yp-c.yandex.net; dkim=pass header.i=@onurozkan.dev
+From: =?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
+To: Alim Akhtar <alim.akhtar@samsung.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Simona Vetter <simona@ffwll.ch>,
+	Steven Price <steven.price@arm.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Cc: =?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
+Subject: [PATCH v1 0/2] arm64: dts + drm/panthor: require explicit GPU sram-supply
+Date: Sun, 15 Feb 2026 13:01:56 +0300
+Message-ID: <20260215100156.135374-1-work@onurozkan.dev>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251115141347.13087-1-jernej.skrabec@gmail.com>
- <20251115141347.13087-8-jernej.skrabec@gmail.com> <CAGb2v67B_2SMsDbATVu51Ed+2o+6=FRLw7KmjeL1KYgxm=gyDw@mail.gmail.com>
- <5047516.GXAFRqVoOG@jernej-laptop>
-In-Reply-To: <5047516.GXAFRqVoOG@jernej-laptop>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 15 Feb 2026 15:13:09 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64L1bhOTkVegmd=H83ceVkQSQCAA5h=wu_YjpDS1nuvog@mail.gmail.com>
-X-Gm-Features: AaiRm52URlQdYETFUTCV8VojqZTbAYlBjxg9KO2lGpt3t4I6YTUR894fs5tx07g
-Message-ID: <CAGb2v64L1bhOTkVegmd=H83ceVkQSQCAA5h=wu_YjpDS1nuvog@mail.gmail.com>
-Subject: Re: [PATCH 7/7] drm/sun4i: switch DE33 to new bindings
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: samuel@sholland.org, mripard@kernel.org, maarten.lankhorst@linux.intel.com, 
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, mturquette@baylibre.com, 
-	sboyd@kernel.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, Feb 15, 2026 at 3:03=E2=80=AFPM Jernej =C5=A0krabec <jernej.skrabec=
-@gmail.com> wrote:
->
-> Hi Chen-Yu,
->
-> Dne =C4=8Detrtek, 25. december 2025 ob 10:49:47 Srednjeevropski standardn=
-i =C4=8Das je Chen-Yu Tsai napisal(a):
-> > On Sat, Nov 15, 2025 at 10:14=E2=80=AFPM Jernej Skrabec
-> > <jernej.skrabec@gmail.com> wrote:
-> > >
-> > > Now that everything is in place, switch DE33 to new bindings.
-> > >
-> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > ---
-> > >  drivers/gpu/drm/sun4i/sun8i_mixer.c | 130 +++++++++++++++-----------=
---
-> > >  drivers/gpu/drm/sun4i/sun8i_mixer.h |  10 +--
-> > >  2 files changed, 71 insertions(+), 69 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/su=
-n4i/sun8i_mixer.c
-> > > index fde3b677e925..da213e54e653 100644
-> > > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > > @@ -13,6 +13,7 @@
-> > >  #include <linux/of.h>
-> > >  #include <linux/of_device.h>
-> > >  #include <linux/of_graph.h>
-> > > +#include <linux/of_platform.h>
-> > >  #include <linux/platform_device.h>
-> > >  #include <linux/reset.h>
-> > >
-> > > @@ -24,6 +25,7 @@
-> > >  #include <drm/drm_probe_helper.h>
-> > >
-> > >  #include "sun4i_drv.h"
-> > > +#include "sun50i_planes.h"
-> > >  #include "sun8i_mixer.h"
-> > >  #include "sun8i_ui_layer.h"
-> > >  #include "sun8i_vi_layer.h"
-> > > @@ -256,7 +258,6 @@ static void sun8i_mixer_commit(struct sunxi_engin=
-e *engine,
-> > >  {
-> > >         struct sun8i_mixer *mixer =3D engine_to_sun8i_mixer(engine);
-> > >         u32 bld_base =3D sun8i_blender_base(mixer);
-> > > -       struct regmap *bld_regs =3D sun8i_blender_regmap(mixer);
-> > >         struct drm_plane_state *plane_state;
-> > >         struct drm_plane *plane;
-> > >         u32 route =3D 0, pipe_en =3D 0;
-> > > @@ -293,16 +294,16 @@ static void sun8i_mixer_commit(struct sunxi_eng=
-ine *engine,
-> > >                 route |=3D layer->index << SUN8I_MIXER_BLEND_ROUTE_PI=
-PE_SHIFT(zpos);
-> > >                 pipe_en |=3D SUN8I_MIXER_BLEND_PIPE_CTL_EN(zpos);
-> > >
-> > > -               regmap_write(bld_regs,
-> > > +               regmap_write(engine->regs,
-> > >                              SUN8I_MIXER_BLEND_ATTR_COORD(bld_base, z=
-pos),
-> > >                              SUN8I_MIXER_COORD(x, y));
-> > > -               regmap_write(bld_regs,
-> > > +               regmap_write(engine->regs,
-> > >                              SUN8I_MIXER_BLEND_ATTR_INSIZE(bld_base, =
-zpos),
-> > >                              SUN8I_MIXER_SIZE(w, h));
-> > >         }
-> > >
-> > > -       regmap_write(bld_regs, SUN8I_MIXER_BLEND_ROUTE(bld_base), rou=
-te);
-> > > -       regmap_write(bld_regs, SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
-> > > +       regmap_write(engine->regs, SUN8I_MIXER_BLEND_ROUTE(bld_base),=
- route);
-> > > +       regmap_write(engine->regs, SUN8I_MIXER_BLEND_PIPE_CTL(bld_bas=
-e),
-> > >                      pipe_en | SUN8I_MIXER_BLEND_PIPE_CTL_FC_EN(0));
-> > >
-> > >         if (mixer->cfg->de_type !=3D SUN8I_MIXER_DE33)
-> > > @@ -317,7 +318,6 @@ static struct drm_plane **sun8i_layers_init(struc=
-t drm_device *drm,
-> > >         struct sun8i_mixer *mixer =3D engine_to_sun8i_mixer(engine);
-> > >         int plane_cnt =3D mixer->cfg->ui_num + mixer->cfg->vi_num;
-> > >         enum drm_plane_type type;
-> > > -       unsigned int phy_index;
-> > >         int i;
-> > >
-> > >         planes =3D devm_kcalloc(drm->dev, plane_cnt, sizeof(*planes),=
- GFP_KERNEL);
-> > > @@ -332,12 +332,8 @@ static struct drm_plane **sun8i_layers_init(stru=
-ct drm_device *drm,
-> > >                 else
-> > >                         type =3D DRM_PLANE_TYPE_OVERLAY;
-> > >
-> > > -               phy_index =3D i;
-> > > -               if (mixer->cfg->de_type =3D=3D SUN8I_MIXER_DE33)
-> > > -                       phy_index =3D mixer->cfg->map[i];
-> > > -
-> > >                 layer =3D sun8i_vi_layer_init_one(drm, type, mixer->e=
-ngine.regs,
-> > > -                                               i, phy_index, plane_c=
-nt,
-> > > +                                               i, i, plane_cnt,
-> > >                                                 &mixer->cfg->lay_cfg)=
-;
-> > >                 if (IS_ERR(layer)) {
-> > >                         dev_err(drm->dev,
-> > > @@ -357,12 +353,8 @@ static struct drm_plane **sun8i_layers_init(stru=
-ct drm_device *drm,
-> > >                 else
-> > >                         type =3D DRM_PLANE_TYPE_OVERLAY;
-> > >
-> > > -               phy_index =3D index;
-> > > -               if (mixer->cfg->de_type =3D=3D SUN8I_MIXER_DE33)
-> > > -                       phy_index =3D mixer->cfg->map[index];
-> > > -
-> > >                 layer =3D sun8i_ui_layer_init_one(drm, type, mixer->e=
-ngine.regs,
-> > > -                                               index, phy_index, pla=
-ne_cnt,
-> > > +                                               index, index, plane_c=
-nt,
-> > >                                                 &mixer->cfg->lay_cfg)=
-;
-> > >                 if (IS_ERR(layer)) {
-> > >                         dev_err(drm->dev, "Couldn't initialize %s pla=
-ne\n",
-> > > @@ -376,16 +368,25 @@ static struct drm_plane **sun8i_layers_init(str=
-uct drm_device *drm,
-> > >         return planes;
-> > >  }
-> > >
-> > > +static struct drm_plane **sun50i_layers_init(struct drm_device *drm,
-> > > +                                            struct sunxi_engine *eng=
-ine)
-> > > +{
-> > > +       struct sun8i_mixer *mixer =3D engine_to_sun8i_mixer(engine);
-> > > +
-> > > +       if (IS_ENABLED(CONFIG_DRM_SUN50I_PLANES))
-> > > +               return sun50i_planes_setup(mixer->planes_dev, drm, en=
-gine->id);
-> > > +
-> > > +       return NULL;
-> > > +}
-> > > +
-> > >  static void sun8i_mixer_mode_set(struct sunxi_engine *engine,
-> > >                                  const struct drm_display_mode *mode)
-> > >  {
-> > >         struct sun8i_mixer *mixer =3D engine_to_sun8i_mixer(engine);
-> > > -       struct regmap *bld_regs;
-> > >         u32 bld_base, size, val;
-> > >         bool interlaced;
-> > >
-> > >         bld_base =3D sun8i_blender_base(mixer);
-> > > -       bld_regs =3D sun8i_blender_regmap(mixer);
-> > >         interlaced =3D !!(mode->flags & DRM_MODE_FLAG_INTERLACE);
-> > >         size =3D SUN8I_MIXER_SIZE(mode->hdisplay, mode->vdisplay);
-> > >
-> > > @@ -397,14 +398,14 @@ static void sun8i_mixer_mode_set(struct sunxi_e=
-ngine *engine,
-> > >         else
-> > >                 regmap_write(mixer->engine.regs, SUN8I_MIXER_GLOBAL_S=
-IZE, size);
-> > >
-> > > -       regmap_write(bld_regs, SUN8I_MIXER_BLEND_OUTSIZE(bld_base), s=
-ize);
-> > > +       regmap_write(engine->regs, SUN8I_MIXER_BLEND_OUTSIZE(bld_base=
-), size);
-> > >
-> > >         if (interlaced)
-> > >                 val =3D SUN8I_MIXER_BLEND_OUTCTL_INTERLACED;
-> > >         else
-> > >                 val =3D 0;
-> > >
-> > > -       regmap_update_bits(bld_regs, SUN8I_MIXER_BLEND_OUTCTL(bld_bas=
-e),
-> > > +       regmap_update_bits(engine->regs, SUN8I_MIXER_BLEND_OUTCTL(bld=
-_base),
-> > >                            SUN8I_MIXER_BLEND_OUTCTL_INTERLACED, val);
-> > >
-> > >         DRM_DEBUG_DRIVER("Switching display mixer interlaced mode %s\=
-n",
-> > > @@ -417,8 +418,14 @@ static const struct sunxi_engine_ops sun8i_engin=
-e_ops =3D {
-> > >         .mode_set       =3D sun8i_mixer_mode_set,
-> > >  };
-> > >
-> > > +static const struct sunxi_engine_ops sun50i_engine_ops =3D {
-> > > +       .commit         =3D sun8i_mixer_commit,
-> > > +       .layers_init    =3D sun50i_layers_init,
-> > > +       .mode_set       =3D sun8i_mixer_mode_set,
-> > > +};
-> > > +
-> > >  static const struct regmap_config sun8i_mixer_regmap_config =3D {
-> > > -       .name           =3D "layers",
-> > > +       .name           =3D "display",
-> > >         .reg_bits       =3D 32,
-> > >         .val_bits       =3D 32,
-> > >         .reg_stride     =3D 4,
-> > > @@ -433,14 +440,6 @@ static const struct regmap_config sun8i_top_regm=
-ap_config =3D {
-> > >         .max_register   =3D 0x3c,
-> > >  };
-> > >
-> > > -static const struct regmap_config sun8i_disp_regmap_config =3D {
-> > > -       .name           =3D "display",
-> > > -       .reg_bits       =3D 32,
-> > > -       .val_bits       =3D 32,
-> > > -       .reg_stride     =3D 4,
-> > > -       .max_register   =3D 0x20000,
-> > > -};
-> > > -
-> > >  static int sun8i_mixer_of_get_id(struct device_node *node)
-> > >  {
-> > >         struct device_node *ep, *remote;
-> > > @@ -463,17 +462,14 @@ static int sun8i_mixer_of_get_id(struct device_=
-node *node)
-> > >
-> > >  static void sun8i_mixer_init(struct sun8i_mixer *mixer)
-> > >  {
-> > > -       struct regmap *top_regs, *disp_regs;
-> > >         unsigned int base =3D sun8i_blender_base(mixer);
-> > > +       struct regmap *top_regs;
-> > >         int plane_cnt, i;
-> > >
-> > > -       if (mixer->cfg->de_type =3D=3D SUN8I_MIXER_DE33) {
-> > > +       if (mixer->cfg->de_type =3D=3D SUN8I_MIXER_DE33)
-> > >                 top_regs =3D mixer->top_regs;
-> > > -               disp_regs =3D mixer->disp_regs;
-> > > -       } else {
-> > > +       else
-> > >                 top_regs =3D mixer->engine.regs;
-> > > -               disp_regs =3D mixer->engine.regs;
-> > > -       }
-> > >
-> > >         /* Enable the mixer */
-> > >         regmap_write(top_regs, SUN8I_MIXER_GLOBAL_CTL,
-> > > @@ -483,25 +479,25 @@ static void sun8i_mixer_init(struct sun8i_mixer=
- *mixer)
-> > >                 regmap_write(top_regs, SUN50I_MIXER_GLOBAL_CLK, 1);
-> > >
-> > >         /* Set background color to black */
-> > > -       regmap_write(disp_regs, SUN8I_MIXER_BLEND_BKCOLOR(base),
-> > > +       regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_BKCOLOR(ba=
-se),
-> > >                      SUN8I_MIXER_BLEND_COLOR_BLACK);
-> > >
-> > >         /*
-> > >          * Set fill color of bottom plane to black. Generally not nee=
-ded
-> > >          * except when VI plane is at bottom (zpos =3D 0) and enabled=
-.
-> > >          */
-> > > -       regmap_write(disp_regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
-> > > +       regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(b=
-ase),
-> > >                      SUN8I_MIXER_BLEND_PIPE_CTL_FC_EN(0));
-> > > -       regmap_write(disp_regs, SUN8I_MIXER_BLEND_ATTR_FCOLOR(base, 0=
-),
-> > > +       regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_ATTR_FCOLO=
-R(base, 0),
-> > >                      SUN8I_MIXER_BLEND_COLOR_BLACK);
-> > >
-> > >         plane_cnt =3D mixer->cfg->vi_num + mixer->cfg->ui_num;
-> > >         for (i =3D 0; i < plane_cnt; i++)
-> > > -               regmap_write(disp_regs,
-> > > +               regmap_write(mixer->engine.regs,
-> > >                              SUN8I_MIXER_BLEND_MODE(base, i),
-> > >                              SUN8I_MIXER_BLEND_MODE_DEF);
-> > >
-> > > -       regmap_update_bits(disp_regs, SUN8I_MIXER_BLEND_PIPE_CTL(base=
-),
-> > > +       regmap_update_bits(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE=
-_CTL(base),
-> > >                            SUN8I_MIXER_BLEND_PIPE_CTL_EN_MSK, 0);
-> > >  }
-> > >
-> > > @@ -532,7 +528,6 @@ static int sun8i_mixer_bind(struct device *dev, s=
-truct device *master,
-> > >         if (!mixer)
-> > >                 return -ENOMEM;
-> > >         dev_set_drvdata(dev, mixer);
-> > > -       mixer->engine.ops =3D &sun8i_engine_ops;
-> > >         mixer->engine.node =3D dev->of_node;
-> > >
-> > >         if (of_property_present(dev->of_node, "iommus")) {
-> > > @@ -562,6 +557,11 @@ static int sun8i_mixer_bind(struct device *dev, =
-struct device *master,
-> > >         if (!mixer->cfg)
-> > >                 return -EINVAL;
-> > >
-> > > +       if (mixer->cfg->de_type =3D=3D SUN8I_MIXER_DE33)
-> > > +               mixer->engine.ops =3D &sun50i_engine_ops;
-> >
-> > You're missing an IS_ENABLED() clause here if you wanted to make the DE=
- 3.3
-> > planes driver optional. Though as I mentioned in the other patch, split=
-tig
-> > the two modules might not work.
-> >
-> > > +       else
-> > > +               mixer->engine.ops =3D &sun8i_engine_ops;
-> > > +
-> > >         regs =3D devm_platform_ioremap_resource(pdev, 0);
-> > >         if (IS_ERR(regs))
-> > >                 return PTR_ERR(regs);
-> > > @@ -584,17 +584,6 @@ static int sun8i_mixer_bind(struct device *dev, =
-struct device *master,
-> > >                         dev_err(dev, "Couldn't create the top regmap\=
-n");
-> > >                         return PTR_ERR(mixer->top_regs);
-> > >                 }
-> > > -
-> > > -               regs =3D devm_platform_ioremap_resource_byname(pdev, =
-"display");
-> > > -               if (IS_ERR(regs))
-> > > -                       return PTR_ERR(regs);
-> > > -
-> > > -               mixer->disp_regs =3D devm_regmap_init_mmio(dev, regs,
-> > > -                                                        &sun8i_disp_=
-regmap_config);
-> > > -               if (IS_ERR(mixer->disp_regs)) {
-> > > -                       dev_err(dev, "Couldn't create the disp regmap=
-\n");
-> > > -                       return PTR_ERR(mixer->disp_regs);
-> > > -               }
-> > >         }
-> > >
-> > >         mixer->reset =3D devm_reset_control_get(dev, NULL);
-> > > @@ -634,6 +623,33 @@ static int sun8i_mixer_bind(struct device *dev, =
-struct device *master,
-> > >
-> > >         clk_prepare_enable(mixer->mod_clk);
-> > >
-> > > +       if (mixer->cfg->de_type =3D=3D SUN8I_MIXER_DE33) {
-> > > +               struct platform_device *pdev;
-> > > +               struct device_node *np;
-> > > +               void *data;
-> > > +
-> > > +               np =3D of_parse_phandle(dev->of_node, "allwinner,plan=
-es", 0);
-> > > +               if (!np) {
-> > > +                       ret =3D -ENODEV;
-> > > +                       goto err_disable_mod_clk;
-> > > +               }
-> > > +
-> > > +               pdev =3D of_find_device_by_node(np);
-> >
-> > You need to add a matching put_device() in the unbind function.
-> >
-> > Side note:
-> >
-> > This bind function is using a lot of devm_ functions. These have the wr=
-ong
-> > lifetime. I think it would be better if we could move resource acquisit=
-ion
-> > into the probe function.
->
-> Looking a bit more into this, this requires a bit more work. For example,=
- clocks
-> can be provided by tcon-top, which are created only in bind callback. Bas=
-ically,
-> whole sun4i-drm driver depends on devm_* calls in bind functions. This wo=
-uld
-> need careful analysis of all driver calls and then refactoring drivers on=
-e by one.
+Hi all,
 
-Unfortunately so. However most of them just require moving the initial
-context memory allocation and whatever resource acquisition over. It
-shouldn't be that messy.
+This series follows the discussion around panthor's SRAM regulator handling
+and the DT expectations for mali GPU nodes.
 
-> IMO tcon-top driver needs to be refactored to plain clock driver without =
-component
-> bind/unbind functions. Although this may cause slightly higher power cons=
-umption
-> if device doesn't have display but driver is loaded nevertheless.
->
-> What do you think?
+Today, if sram-supply is missing in the DT file, panthor falls back to
+a dummy regulator with a warning. This implicit behavior hides missing
+DT wiring behind regulator core fallback.
 
-It's just the bus clock that's enabled all the time, so I think that's fine=
-.
-However since it sits in the middle of the whole OF graph, you either need
-to make sun4i-drm know to skip that when adding all the components, or just
-keep a dummy bind callback and component to make it happy.
+As discussed in [1], the agreed direction is:
+- Update DTs to explicitly provide sram-supply, when no separate SRAM
+  rail exists, use the same regulator as mali-supply.
+- Make panthor to treat sram-supply as mandatory for all compatibles
+  except mt8196-mali (as that SoC manages SRAM outside panthor).
 
 
-Thanks
-ChenYu
+- First patch applies the DT updates across affected files.
+- Second patch makes panthor to treat sram-supply as mandatory
+  except mt8196-mali.
+
+[1]: https://lore.kernel.org/all/20260213155937.6af75786@nimda/
+
+BR,
+Onur
+
+Onur Özkan (2):
+  arm64: dts: add missing sram-supply to mali gpu nodes
+  drm/panthor: treat sram as mandatory except mt8196
+
+ .../boot/dts/allwinner/sun50i-h313-tanix-tx1.dts    |  1 +
+ arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dts  |  1 +
+ .../boot/dts/allwinner/sun50i-h6-beelink-gs1.dts    |  1 +
+ .../boot/dts/allwinner/sun50i-h6-orangepi-3.dts     |  1 +
+ .../boot/dts/allwinner/sun50i-h6-orangepi.dtsi      |  1 +
+ .../arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts |  1 +
+ arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi  |  1 +
+ .../dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi  |  1 +
+ .../dts/allwinner/sun50i-h616-orangepi-zero2.dts    |  1 +
+ .../boot/dts/allwinner/sun50i-h616-x96-mate.dts     |  1 +
+ .../dts/allwinner/sun50i-h618-longan-module-3h.dtsi |  1 +
+ .../dts/allwinner/sun50i-h618-orangepi-zero2w.dts   |  1 +
+ .../dts/allwinner/sun50i-h618-orangepi-zero3.dts    |  1 +
+ .../dts/allwinner/sun50i-h618-transpeed-8k618-t.dts |  1 +
+ .../allwinner/sun50i-h700-anbernic-rg35xx-2024.dts  |  1 +
+ .../boot/dts/allwinner/sun55i-a527-cubie-a5e.dts    |  1 +
+ .../boot/dts/allwinner/sun55i-h728-x96qpro+.dts     |  1 +
+ .../boot/dts/allwinner/sun55i-t527-avaota-a1.dts    |  1 +
+ .../boot/dts/allwinner/sun55i-t527-orangepi-4a.dts  |  1 +
+ .../boot/dts/exynos/exynos5433-tm2-common.dtsi      |  1 +
+ arch/arm64/boot/dts/exynos/exynos7-espresso.dts     |  1 +
+ arch/arm64/boot/dts/mediatek/mt8183-evb.dts         |  1 +
+ arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi      |  1 +
+ arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts     |  1 +
+ arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi    |  1 +
+ arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi     |  1 +
+ arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi    |  1 +
+ arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi     |  1 +
+ arch/arm64/boot/dts/mediatek/mt8365-evk.dts         |  1 +
+ .../boot/dts/mediatek/mt8390-genio-common.dtsi      |  1 +
+ .../boot/dts/mediatek/mt8390-grinn-genio-sbc.dtsi   |  1 +
+ .../boot/dts/mediatek/mt8395-genio-common.dtsi      |  1 +
+ .../dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dts   |  1 +
+ .../boot/dts/mediatek/mt8395-radxa-nio-12l.dts      |  1 +
+ arch/arm64/boot/dts/renesas/r9a07g044l2-remi-pi.dts |  1 +
+ .../boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts     |  1 +
+ .../boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts     |  1 +
+ arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi    |  1 +
+ arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi   |  1 +
+ arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi    |  1 +
+ arch/arm64/boot/dts/rockchip/px30-cobra.dtsi        |  1 +
+ arch/arm64/boot/dts/rockchip/px30-evb.dts           |  1 +
+ .../boot/dts/rockchip/px30-firefly-jd4-core.dtsi    |  1 +
+ arch/arm64/boot/dts/rockchip/px30-pp1516.dtsi       |  1 +
+ arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts     |  1 +
+ .../boot/dts/rockchip/rk3326-anbernic-rg351m.dtsi   |  1 +
+ .../boot/dts/rockchip/rk3326-gameforce-chi.dts      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3326-odroid-go.dtsi  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3328-a1.dts          |  1 +
+ arch/arm64/boot/dts/rockchip/rk3328-roc.dtsi        |  1 +
+ arch/arm64/boot/dts/rockchip/rk3328-rock64.dts      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dts   |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts     |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-firefly.dts     |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-gru.dtsi        |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-hugsun-x99.dts  |  1 +
+ .../arm64/boot/dts/rockchip/rk3399-khadas-edge.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-leez-p710.dts   |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-nanopi4.dtsi    |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-orangepi.dts    |  1 +
+ .../arm64/boot/dts/rockchip/rk3399-pinebook-pro.dts |  1 +
+ .../boot/dts/rockchip/rk3399-pinephone-pro.dts      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-puma.dtsi       |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-roc-pc.dtsi     |  1 +
+ .../arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dts |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4.dtsi  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-rock960.dtsi    |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-sapphire.dtsi   |  1 +
+ .../arm64/boot/dts/rockchip/rk3528-armsom-sige1.dts |  1 +
+ .../arm64/boot/dts/rockchip/rk3528-nanopi-zero2.dts |  1 +
+ arch/arm64/boot/dts/rockchip/rk3528-radxa-e20c.dts  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3528-rock-2.dtsi     |  1 +
+ .../boot/dts/rockchip/rk3566-anbernic-rgxx3.dtsi    |  1 +
+ .../boot/dts/rockchip/rk3566-bigtreetech-cb2.dtsi   |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-lckfb-tspi.dts  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-lubancat-1.dts  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-nanopi-r3s.dts  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dts  |  1 +
+ .../arm64/boot/dts/rockchip/rk3566-orangepi-3b.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi   |  1 +
+ .../boot/dts/rockchip/rk3566-powkiddy-rk2023.dtsi   |  1 +
+ .../arm64/boot/dts/rockchip/rk3566-powkiddy-x55.dts |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dts  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-quartz64-b.dts  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-radxa-cm3.dtsi  |  1 +
+ .../boot/dts/rockchip/rk3566-radxa-zero-3.dtsi      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-roc-pc.dts      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-rock-3c.dts     |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-soquartz.dtsi   |  1 +
+ .../boot/dts/rockchip/rk3568-9tripod-x3568-v4.dts   |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dts  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-easepi-r1.dts   |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts    |  1 +
+ .../boot/dts/rockchip/rk3568-fastrhino-r66s.dtsi    |  1 +
+ .../arm64/boot/dts/rockchip/rk3568-hinlink-opc.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-lubancat-2.dts  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-mecsbc.dts      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-nanopi-r5s.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dts   |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-photonicat.dts  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-qnap-tsx33.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-radxa-cm3i.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-roc-pc.dts      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dts     |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-rock-3b.dts     |  1 +
+ .../boot/dts/rockchip/rk3568-wolfvision-pf5.dts     |  1 +
+ .../boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dts  |  1 +
+ .../arm64/boot/dts/rockchip/rk3576-armsom-sige5.dts |  1 +
+ arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dts    |  1 +
+ .../boot/dts/rockchip/rk3576-luckfox-core3576.dtsi  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dts   |  1 +
+ arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dts |  1 +
+ arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dts      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dts     |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588-armsom-lm7.dtsi |  1 +
+ .../arm64/boot/dts/rockchip/rk3588-armsom-sige7.dts |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dts |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588-jaguar.dts      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtsi  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dts    |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dts  |  1 +
+ .../boot/dts/rockchip/rk3588-rock-5b-5bp-5t.dtsi    |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588-tiger.dtsi      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dts  |  1 +
+ .../boot/dts/rockchip/rk3588s-gameforce-ace.dts     |  1 +
+ .../boot/dts/rockchip/rk3588s-indiedroid-nova.dts   |  1 +
+ .../boot/dts/rockchip/rk3588s-khadas-edge2.dts      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dts  |  1 +
+ .../arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588s-roc-pc.dts     |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dts    |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588s-rock-5c.dts    |  1 +
+ drivers/gpu/drm/panthor/panthor_devfreq.c           | 13 +++++++++----
+ 138 files changed, 146 insertions(+), 4 deletions(-)
+
+-- 
+2.51.2
+
