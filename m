@@ -1,148 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C593731D735;
-	Mon, 16 Feb 2026 16:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78A6329E53
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Feb 2026 16:22:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771258193; cv=none; b=sJpUGL8hIYMCYwbV2r9WD6LCyR/rrY0S6Klbw8LnovTdXLsG5NCg9St9ZABCS+BLF4VPl70b5lGsV4mLmMB+IWCkyVHI0H1Oj8xzNVQOf2/ssw6pq8Uoyt5aLBc0CzE6Awpu/QURTjIF6uPXeP7pcq/0rpEbIG7EE5RmDDsG9CE=
+	t=1771258924; cv=none; b=TgNuf+0K6GYs1UITr3H3K73HOmuxfGdWSiEyMnlq6rfkSxz/Mp8+sVUAiFTbfYdnNXijmUQIcP4/FUnD0LrxJw+spt9VJBsyHNev1YNsQZbJZi4fRiLfgzoJzR9Ee3gfqAehrVeh2qYqY/TKBa/Z18ehtJDL6DizI+RhUKsmo4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771258193; c=relaxed/simple;
-	bh=UqDRMXV5CMeqJBNwQ0YkRTV0b+lq3bdiw6cfPXkbP64=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rY6/MYXs6Iuv0IBsmrObQHKgYQhGuB63MzJgxYbPm2n+eCWPbiz7ucJWvCawGqlOMR+uojN7iKaPM9RiaI9nY5xlHaa6ZsLxC6Q4jbULoTCBmG2TOgO7HkQzNBsumLZrK+s2b2v6T6DqagQ16U1VghrhEvJ7chgh8ZK7xAwV8Y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BBDPV3eH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771258924; c=relaxed/simple;
+	bh=yrplvzHimehwQbv7UzsT11ysVk7MnWkqJpylB70YYDI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=F7M2FjATVygJD1m6G43OmvsKuTD7MExFtKz6rmvZGCPNdBLJ0FSZvg16CyMvqFmo+9tvrGX1Ds4L2l2doQxJg+O9KB9kIFxd/qXAy9xDcAbJL2DX2Ea2y96wJuWJgyzYKAHuVvgFcwB2yGg3ixfdlUfucPZqhosBjdOMTAUZcgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Aa9F+rYL; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BBDPV3eH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28C6EC116C6;
-	Mon, 16 Feb 2026 16:09:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771258193;
-	bh=UqDRMXV5CMeqJBNwQ0YkRTV0b+lq3bdiw6cfPXkbP64=;
-	h=From:To:Cc:Subject:Date:From;
-	b=BBDPV3eH8Q/jbeyyBHiwVTpfeb2mNul2+YX/xPSgJoTjEucI1HanEqbx50xf7Yn5m
-	 xJ+yX0mboUAw3Zp/EujV1LWAEUgvcvRX7CnsnSL8rRxmWt+9VxxlzVnVb6JW+U29a6
-	 i4M8Jl2rU+CJWazDcoTepInW0QtDkIFi4+lt0UeDNfr84jAyDjauQxpWHHlT5JugH1
-	 HYjKkJxUtOriwv8C8SlbiP9X70uaetXyy3W/iwdWa3fys16FHpDpN/T3XI90q0b5lx
-	 2XrafkqvDu3eusyLEulEx0rWeqyz9xRWy1UCfW7vzcJ+sBFlEYfjcB7A8Mfb5v/wSw
-	 G+5IkUB5UBFfg==
-Received: by wens.tw (Postfix, from userid 1000)
-	id 654195FB53; Tue, 17 Feb 2026 00:09:50 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Linus Walleij <linusw@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Aa9F+rYL"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48375f1defeso26047565e9.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 16 Feb 2026 08:22:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771258921; x=1771863721; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yrplvzHimehwQbv7UzsT11ysVk7MnWkqJpylB70YYDI=;
+        b=Aa9F+rYLLfV6cNQei+hw1FPriIJ0YJtz6ahYy8Zpz1kKrWPtatB4QD2udnpGnHGgcE
+         eh96IySHsKdDFB+kTYFoD3lu84tiGR0M7dfUEJVA+8ZonqYVBjSKV6EOFK6P1VVeilMC
+         t3VnUxlJiOhUPBaNuMrirhbL9vz+NThceVrbry+2Za3i1fSVk7fBgnWCqmJyetedyUs8
+         OLlmK3t7yyDW480Y0PcJ4LQWYjQzlr7Svj4nlgkzZ5DwJUGRZ5K0lQYHQDlp4aenMvRz
+         ENHI9dPmpVaU8zH5nvCNswoQ9KHZbjqeGRGIfKuvsCHm+iiOSPGsncovmeLlAXj7dOWN
+         9tBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771258921; x=1771863721;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=yrplvzHimehwQbv7UzsT11ysVk7MnWkqJpylB70YYDI=;
+        b=bDX8Tjor3bAmy0ObonZiBdk8PMNVFkIk8iBNmehKhw+pQv22Y9eineuzpoDHUCwBJD
+         cJyKYSPE0cUEyTyYvTdFp4UogJ8Ge9MApIg2kJzTCdfZUaa2jIa5I5m5OrdK1XIi4t8b
+         oBv4UoG0U+57Wbx0Stk+r0Mu+9tirCIi2t05qpdC4sIVUq12zejMfbFcMYKJ3gVZ31Fr
+         6zc/15FI2qZfEDCE4z8qh5f0mgnhOFJr5pqI6G+mad7c5iRZ2jivPtM7a3wYj51FDrdA
+         GZjoVsfbhEWd2OdOyE5Oak0bnxUH8CJDiDRD4A+BQnxFpnhm0qL2K+qJhGUampd81DlD
+         X0+g==
+X-Forwarded-Encrypted: i=1; AJvYcCWkBCn0bo/wlrR2cmzjCD54gnaju0qcHqmiFbdKMNn8C1dqhuD5+LLfOuz43fK2ElLoWtYOoiy0l9K1eA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzNAdzWRMIdoeHCtPavPPYTvHuRkS/F88bFZYaKNK6IED7tiqJC
+	5lFh7hkOiUghyUB7MaWEJt4GANL9DCZ+m1OA1yExCR1VNwAjsGWVC6ZW
+X-Gm-Gg: AZuq6aI5ZO5HsV4S+OJrRJA/MznmweKRqAqCO7HzNH4zLRtboTi1DTYrmolRInCM4kl
+	4gvFTzYPc4a+uSsosM6yRKug0q/X93+cJHryNDKS0K2m6i13CdGyvCCKAg07mtG1HuL+8eiYNv0
+	QOnUt2ouE+CvCcqfswI7a3uKQnfJaYakLlz8KC3sdWr2xcGD3DI8soyvwylqoa+FT4+WYctreWn
+	NQ1bNHolAuPk9YhxtNWYlh46cBXj0U8gEUt6R1ni2s9lwI4BIbT8tesDb61BluR5ZrHPrkDR65G
+	MkQhWIdX+tkqZuYcfCe5JQs0yTPSozqvl/Ud2bmjSSQSD40baUhEsBYJ5p5O1G3klr8NFp3bRNy
+	s52VQ3h0MwYc4gHLXUEUxXV7sp5gDrn6viuHqVHP2RbXfGTVeVIcS/z9mNbReiOB65WfnM4o84b
+	n8gIQ4k0S3odSVilRnqUMhviGhBfod9FI1gZulv9Jqh9kc3xXYNjLFQRXoN6mVf06wx8P8miYh1
+	2o7rm/owNaBBCVcAw==
+X-Received: by 2002:a05:600c:8b61:b0:480:6b76:dfb4 with SMTP id 5b1f17b1804b1-48373a083d7mr183030205e9.8.1771258921040;
+        Mon, 16 Feb 2026 08:22:01 -0800 (PST)
+Received: from jernej-laptop.localnet (178-79-79-213.dynamic.telemach.net. [178.79.79.213])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796a74918sm27901928f8f.17.2026.02.16.08.21.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Feb 2026 08:22:00 -0800 (PST)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, Bartosz Golaszewski <brgl@kernel.org>,
+ Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>
 Cc: James Hilliard <james.hilliard1@gmail.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	linux-gpio@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] pinctrl: sunxi: Implement gpiochip::get_direction()
-Date: Tue, 17 Feb 2026 00:09:45 +0800
-Message-ID: <20260216160946.2977985-1-wens@kernel.org>
-X-Mailer: git-send-email 2.47.3
+ Andre Przywara <andre.przywara@arm.com>, linux-gpio@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] pinctrl: sunxi: Implement gpiochip::get_direction()
+Date: Mon, 16 Feb 2026 17:21:58 +0100
+Message-ID: <12836817.O9o76ZdvQC@jernej-laptop>
+In-Reply-To: <20260216160946.2977985-1-wens@kernel.org>
+References: <20260216160946.2977985-1-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-After commit e623c4303ed1 ("gpiolib: sanitize the return value of
-gpio_chip::get_direction()"), a warning will be printed if the
-gpio driver does not implement this callback.
+Dne ponedeljek, 16. februar 2026 ob 17:09:45 Srednjeevropski standardni =C4=
+=8Das je Chen-Yu Tsai napisal(a):
+> After commit e623c4303ed1 ("gpiolib: sanitize the return value of
+> gpio_chip::get_direction()"), a warning will be printed if the
+> gpio driver does not implement this callback.
+>=20
+> Implement it for the sunxi driver. This is simply a matter of reading
+> out the mux value from the registers, then checking if it is one of
+> the GPIO functions and which direction it is.
+>=20
+> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 
-Implement it for the sunxi driver. This is simply a matter of reading
-out the mux value from the registers, then checking if it is one of
-the GPIO functions and which direction it is.
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
----
-This is an alternative to James's version. My version does one lookup
-instead of three.
+Best regards,
+Jernej
 
- drivers/pinctrl/sunxi/pinctrl-sunxi.c | 51 +++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
-
-diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-index 0fb057a07dcc..27b2a3e9d78d 100644
---- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-+++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-@@ -204,6 +204,32 @@ sunxi_pinctrl_desc_find_function_by_pin(struct sunxi_pinctrl *pctl,
- 	return NULL;
- }
- 
-+static struct sunxi_desc_function *
-+sunxi_pinctrl_desc_find_function_by_pin_and_mux(struct sunxi_pinctrl *pctl,
-+						const u16 pin_num,
-+						const u8 muxval)
-+{
-+	for (unsigned int i = 0; i < pctl->desc->npins; i++) {
-+		const struct sunxi_desc_pin *pin = pctl->desc->pins + i;
-+		struct sunxi_desc_function *func = pin->functions;
-+
-+		if (pin->pin.number != pin_num)
-+			continue;
-+
-+		if (pin->variant && !(pctl->variant & pin->variant))
-+			continue;
-+
-+		while (func->name) {
-+			if (func->muxval == muxval)
-+				return func;
-+
-+			func++;
-+		}
-+	}
-+
-+	return NULL;
-+}
-+
- static int sunxi_pctrl_get_groups_count(struct pinctrl_dev *pctldev)
- {
- 	struct sunxi_pinctrl *pctl = pinctrl_dev_get_drvdata(pctldev);
-@@ -930,6 +956,30 @@ static const struct pinmux_ops sunxi_pmx_ops = {
- 	.strict			= true,
- };
- 
-+static int sunxi_pinctrl_gpio_get_direction(struct gpio_chip *chip,
-+					    unsigned int offset)
-+{
-+	struct sunxi_pinctrl *pctl = gpiochip_get_data(chip);
-+	const struct sunxi_desc_function *func;
-+	u32 pin = offset + chip->base;
-+	u32 reg, shift, mask;
-+	u8 muxval;
-+
-+	sunxi_mux_reg(pctl, offset, &reg, &shift, &mask);
-+
-+	muxval = (readl(pctl->membase + reg) & mask) >> shift;
-+
-+	func = sunxi_pinctrl_desc_find_function_by_pin_and_mux(pctl, pin, muxval);
-+	if (!func)
-+		return -ENODEV;
-+
-+	if (!strcmp(func->name, "gpio_out"))
-+		return GPIO_LINE_DIRECTION_OUT;
-+	if (!strcmp(func->name, "gpio_in") || !strcmp(func->name, "irq"))
-+		return GPIO_LINE_DIRECTION_IN;
-+	return -EINVAL;
-+}
-+
- static int sunxi_pinctrl_gpio_direction_input(struct gpio_chip *chip,
- 					unsigned offset)
- {
-@@ -1601,6 +1651,7 @@ int sunxi_pinctrl_init_with_flags(struct platform_device *pdev,
- 	pctl->chip->request = gpiochip_generic_request;
- 	pctl->chip->free = gpiochip_generic_free;
- 	pctl->chip->set_config = gpiochip_generic_config;
-+	pctl->chip->get_direction = sunxi_pinctrl_gpio_get_direction;
- 	pctl->chip->direction_input = sunxi_pinctrl_gpio_direction_input;
- 	pctl->chip->direction_output = sunxi_pinctrl_gpio_direction_output;
- 	pctl->chip->get = sunxi_pinctrl_gpio_get;
--- 
-2.47.3
 
