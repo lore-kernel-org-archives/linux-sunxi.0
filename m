@@ -1,104 +1,148 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF03267B89
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Feb 2026 11:33:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C593731D735;
+	Mon, 16 Feb 2026 16:09:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771241623; cv=none; b=KCiM/ySGgqR4h/8ejeWFZq1XkZ6w8JlbItAa6Ms3z4BBnI8eR/avQxsyYiljXvT2szEce63sjMNsSFBEqm3r0bBa84RV2TqNdZt06tvqMXlIGGIOJyKTkt8iGCtH5VB//mfe0she9XMKFUkUE/3VI49nDpbTWJsD0jhiKWOH5mI=
+	t=1771258193; cv=none; b=sJpUGL8hIYMCYwbV2r9WD6LCyR/rrY0S6Klbw8LnovTdXLsG5NCg9St9ZABCS+BLF4VPl70b5lGsV4mLmMB+IWCkyVHI0H1Oj8xzNVQOf2/ssw6pq8Uoyt5aLBc0CzE6Awpu/QURTjIF6uPXeP7pcq/0rpEbIG7EE5RmDDsG9CE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771241623; c=relaxed/simple;
-	bh=onTyZagYpAPjiiOZuy6MDCXz/JCQKAyBYFGyzLZzLvw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=M4okgFqJQuJpBZYUdTiz6TBEKPxanfA7HzIserhJxKo3UJwUShr8s0EatPYnrN+rB6hklHNzczmu9vilWmqh638jEbLJI0zcBP9c7nYDREsUPrZVU8qtF4zWqTKGo4ihhN9/pbblc64ARBqhss74SDkCiJhUIF24f9K2Gj4t8Qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=kX93qde/; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1771258193; c=relaxed/simple;
+	bh=UqDRMXV5CMeqJBNwQ0YkRTV0b+lq3bdiw6cfPXkbP64=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rY6/MYXs6Iuv0IBsmrObQHKgYQhGuB63MzJgxYbPm2n+eCWPbiz7ucJWvCawGqlOMR+uojN7iKaPM9RiaI9nY5xlHaa6ZsLxC6Q4jbULoTCBmG2TOgO7HkQzNBsumLZrK+s2b2v6T6DqagQ16U1VghrhEvJ7chgh8ZK7xAwV8Y4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BBDPV3eH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="kX93qde/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1771241621;
-	bh=onTyZagYpAPjiiOZuy6MDCXz/JCQKAyBYFGyzLZzLvw=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=kX93qde/2AGQpxYE4XsVcgtKBFHd2odwj54axOcPaJn8lH5LzoUWBy9va68nieeGL
-	 st8DAbsV8+1gZXyLvwEOuO9eGmgXeCVPpqL09fLA0sNMoGscCZi8mfyoNgSR7J4Cqr
-	 9hV8N3qFiyhH6GsO2kMOeH/CPcd7RcHteDX69oxzztgDmDtfk82HlyMTXQ79kSV6fR
-	 hL8SnaIxskTYKK+Fqkx0A1KD5yIVES8vImsdgCP0w3073X3PZ6VaDmE6INjiIp2bvI
-	 xN47yJb3drwTEFgYR4hRpmGIHpWYfrpsDuDaIHNz02NI8U7fRkHN8aNL437B6yqsbl
-	 3oWfpQiB6miCA==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 68FA917E012E;
-	Mon, 16 Feb 2026 12:33:40 +0100 (CET)
-Message-ID: <b42a1da6-110a-4bd5-a4f1-23c3f25e2a17@collabora.com>
-Date: Mon, 16 Feb 2026 12:33:39 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BBDPV3eH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28C6EC116C6;
+	Mon, 16 Feb 2026 16:09:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771258193;
+	bh=UqDRMXV5CMeqJBNwQ0YkRTV0b+lq3bdiw6cfPXkbP64=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BBDPV3eH8Q/jbeyyBHiwVTpfeb2mNul2+YX/xPSgJoTjEucI1HanEqbx50xf7Yn5m
+	 xJ+yX0mboUAw3Zp/EujV1LWAEUgvcvRX7CnsnSL8rRxmWt+9VxxlzVnVb6JW+U29a6
+	 i4M8Jl2rU+CJWazDcoTepInW0QtDkIFi4+lt0UeDNfr84jAyDjauQxpWHHlT5JugH1
+	 HYjKkJxUtOriwv8C8SlbiP9X70uaetXyy3W/iwdWa3fys16FHpDpN/T3XI90q0b5lx
+	 2XrafkqvDu3eusyLEulEx0rWeqyz9xRWy1UCfW7vzcJ+sBFlEYfjcB7A8Mfb5v/wSw
+	 G+5IkUB5UBFfg==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 654195FB53; Tue, 17 Feb 2026 00:09:50 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Linus Walleij <linusw@kernel.org>
+Cc: James Hilliard <james.hilliard1@gmail.com>,
+	Andre Przywara <andre.przywara@arm.com>,
+	linux-gpio@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] pinctrl: sunxi: Implement gpiochip::get_direction()
+Date: Tue, 17 Feb 2026 00:09:45 +0800
+Message-ID: <20260216160946.2977985-1-wens@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/2] arm64: dts: add missing sram-supply to mali gpu
- nodes
-To: =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
-References: <20260215100302.136719-1-work@onurozkan.dev>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20260215100302.136719-1-work@onurozkan.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Il 15/02/26 11:02, Onur Özkan ha scritto:
-> Some arm64 Mali GPU DT nodes define mali-supply but
-> are missing sram-supply.
-> 
-> As discussed in [1], sram-supply should be explicitly
-> defined for all relevant compatibles. If there is no
-> separate SRAM rail, it can reference the same regulator
-> as mali-supply.
-> 
-> This change adds the missing sram-supply properties to
-> affected DT files. This aligns DTs with expected regulator
-> modeling and avoids relying on implicit fallback behavior.
-> 
-> [1]: https://lore.kernel.org/all/20260213155937.6af75786@nimda/
-> 
+After commit e623c4303ed1 ("gpiolib: sanitize the return value of
+gpio_chip::get_direction()"), a warning will be printed if the
+gpio driver does not implement this callback.
 
-Sorry, at least for MediaTek, this makes no sense. The SRAM supply on MTK platforms
-is managed by the mediatek-regulator-coupler driver, as it scales in a peculiar way
-in relation to the GPU core supply.
+Implement it for the sunxi driver. This is simply a matter of reading
+out the mux value from the registers, then checking if it is one of
+the GPIO functions and which direction it is.
 
-Besides, you're cloning the GPU core supply to the sram supply, which is, well,
-simply wrong... and you're changing devicetrees of SoCs that are running on
-panfrost (not on panthor), which will anyway ignore the existance of the SRAM
-supply.
+Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+---
+This is an alternative to James's version. My version does one lookup
+instead of three.
 
-That's also going to give all sorts of binding warnings, I guess, but I didn't
-check anyway.
+ drivers/pinctrl/sunxi/pinctrl-sunxi.c | 51 +++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
-While the change makes sense, as in, I agree with Mark in that the SRAM must have
-a power supply in order to actually work... I'm afraid that what you're doing here
-needs a bit more work before it becomes acceptable.
-
-Especially - faking the vgpu-core regulator (not just on MTK, but on all) to also
-be the sram regulator leads to confusion and is, well, plain wrong.
-
-Cheers,
-Angelo
-
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+index 0fb057a07dcc..27b2a3e9d78d 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+@@ -204,6 +204,32 @@ sunxi_pinctrl_desc_find_function_by_pin(struct sunxi_pinctrl *pctl,
+ 	return NULL;
+ }
+ 
++static struct sunxi_desc_function *
++sunxi_pinctrl_desc_find_function_by_pin_and_mux(struct sunxi_pinctrl *pctl,
++						const u16 pin_num,
++						const u8 muxval)
++{
++	for (unsigned int i = 0; i < pctl->desc->npins; i++) {
++		const struct sunxi_desc_pin *pin = pctl->desc->pins + i;
++		struct sunxi_desc_function *func = pin->functions;
++
++		if (pin->pin.number != pin_num)
++			continue;
++
++		if (pin->variant && !(pctl->variant & pin->variant))
++			continue;
++
++		while (func->name) {
++			if (func->muxval == muxval)
++				return func;
++
++			func++;
++		}
++	}
++
++	return NULL;
++}
++
+ static int sunxi_pctrl_get_groups_count(struct pinctrl_dev *pctldev)
+ {
+ 	struct sunxi_pinctrl *pctl = pinctrl_dev_get_drvdata(pctldev);
+@@ -930,6 +956,30 @@ static const struct pinmux_ops sunxi_pmx_ops = {
+ 	.strict			= true,
+ };
+ 
++static int sunxi_pinctrl_gpio_get_direction(struct gpio_chip *chip,
++					    unsigned int offset)
++{
++	struct sunxi_pinctrl *pctl = gpiochip_get_data(chip);
++	const struct sunxi_desc_function *func;
++	u32 pin = offset + chip->base;
++	u32 reg, shift, mask;
++	u8 muxval;
++
++	sunxi_mux_reg(pctl, offset, &reg, &shift, &mask);
++
++	muxval = (readl(pctl->membase + reg) & mask) >> shift;
++
++	func = sunxi_pinctrl_desc_find_function_by_pin_and_mux(pctl, pin, muxval);
++	if (!func)
++		return -ENODEV;
++
++	if (!strcmp(func->name, "gpio_out"))
++		return GPIO_LINE_DIRECTION_OUT;
++	if (!strcmp(func->name, "gpio_in") || !strcmp(func->name, "irq"))
++		return GPIO_LINE_DIRECTION_IN;
++	return -EINVAL;
++}
++
+ static int sunxi_pinctrl_gpio_direction_input(struct gpio_chip *chip,
+ 					unsigned offset)
+ {
+@@ -1601,6 +1651,7 @@ int sunxi_pinctrl_init_with_flags(struct platform_device *pdev,
+ 	pctl->chip->request = gpiochip_generic_request;
+ 	pctl->chip->free = gpiochip_generic_free;
+ 	pctl->chip->set_config = gpiochip_generic_config;
++	pctl->chip->get_direction = sunxi_pinctrl_gpio_get_direction;
+ 	pctl->chip->direction_input = sunxi_pinctrl_gpio_direction_input;
+ 	pctl->chip->direction_output = sunxi_pinctrl_gpio_direction_output;
+ 	pctl->chip->get = sunxi_pinctrl_gpio_get;
+-- 
+2.47.3
 
