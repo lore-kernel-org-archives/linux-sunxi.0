@@ -1,98 +1,104 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95BF5308F30
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Feb 2026 08:34:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF03267B89
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Feb 2026 11:33:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771230895; cv=none; b=rCS84hJXj2jS8unRQRBNj+Og5vhxj02SsFBBEOfKGMAOj1t3AzfZdk2WzJ+EU2rXjHR7iNZJ+oOtPVFzLrdJnWlyplWzTtz5fQT/vCJnzuL6aGFopqYUKmLPV24pM+lc85NqM61BtavdFbOxQfhJ5VbGLU3elywtMBnEJ1Uyi0M=
+	t=1771241623; cv=none; b=KCiM/ySGgqR4h/8ejeWFZq1XkZ6w8JlbItAa6Ms3z4BBnI8eR/avQxsyYiljXvT2szEce63sjMNsSFBEqm3r0bBa84RV2TqNdZt06tvqMXlIGGIOJyKTkt8iGCtH5VB//mfe0she9XMKFUkUE/3VI49nDpbTWJsD0jhiKWOH5mI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771230895; c=relaxed/simple;
-	bh=dvQgcaenU0SHlZ2HJsbaNWEWu0qsn7uquDLz40HRHfc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=frjlgiPKzKZPYxophAadDMJwbwul2Ybj3D7nW53VS8NN/ObNafoTGoeyNYxqfcxVTEzLf+1nxBlWVZHrqT4LHBGNpOEdWo86eJf/eRXyYy4xzWt9hOAIYTsPYtelqDMGBVFSeKIJUOsnWRQwgJ697XNzB3jUwegn57uGyU6d+vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=JiawxJRN; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1771241623; c=relaxed/simple;
+	bh=onTyZagYpAPjiiOZuy6MDCXz/JCQKAyBYFGyzLZzLvw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=M4okgFqJQuJpBZYUdTiz6TBEKPxanfA7HzIserhJxKo3UJwUShr8s0EatPYnrN+rB6hklHNzczmu9vilWmqh638jEbLJI0zcBP9c7nYDREsUPrZVU8qtF4zWqTKGo4ihhN9/pbblc64ARBqhss74SDkCiJhUIF24f9K2Gj4t8Qk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=kX93qde/; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="JiawxJRN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=udWn
-	s0/tE9VKlKkv9PZVrjAGz6UPCuc03cHhjm82iJE=; b=JiawxJRNnzOnh5J1hVMh
-	E5duxMm3nyH2uDC+IPLFgg3q1xpmC7YqD9esUnX1lU/oL7BU9hRdwHsHasD69/fa
-	gfyDd7xv69iBMmdpaeoSlfesWXrKB35LRWiALI/TJIhAAteXx697Uw6Z2QsWpNxZ
-	JYobhZkrtlvxpVbjZ9nsh3dB+cpmAtgEt0WmB0vSJXkVOGRhxu93MVFPt7papNLM
-	ZSfv0rFQ4rku+pla5XnOn7G+ab5NbnREMvkE/EBWTAGSP/AkabrJ6weMmqYFysIJ
-	orrqckAcPD/DdHyruK3K0KYRCMwldOcIUxYCus5bHrfo8yM1kzBAT+jvmKSAcDiE
-	vg==
-Received: (qmail 3164830 invoked from network); 16 Feb 2026 09:34:44 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Feb 2026 09:34:44 +0100
-X-UD-Smtp-Session: l3s3148p1@2umq0+xKxoEujnu0
-Date: Mon, 16 Feb 2026 09:34:44 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Antonio Borneo <antonio.borneo@foss.st.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	David Lechner <dlechner@baylibre.com>, driver-core@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Konrad Dybcio <konradybcio@kernel.org>, Lee Jones <lee@kernel.org>,
-	Linus Walleij <linusw@kernel.org>, linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, Mark Brown <broonie@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Waiman Long <longman@redhat.com>,
-	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
-	Will Deacon <will@kernel.org>
-Subject: Re: [RFC v2 PATCH 00/13] hwspinlock: move device alloc into core and
- refactor includes
-Message-ID: <aZLWpM8XOvidXJl7@ninjato>
-References: <20260215225501.6365-1-wsa+renesas@sang-engineering.com>
- <aZLJ8Z4XOTEUJfmh@smile.fi.intel.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="kX93qde/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1771241621;
+	bh=onTyZagYpAPjiiOZuy6MDCXz/JCQKAyBYFGyzLZzLvw=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=kX93qde/2AGQpxYE4XsVcgtKBFHd2odwj54axOcPaJn8lH5LzoUWBy9va68nieeGL
+	 st8DAbsV8+1gZXyLvwEOuO9eGmgXeCVPpqL09fLA0sNMoGscCZi8mfyoNgSR7J4Cqr
+	 9hV8N3qFiyhH6GsO2kMOeH/CPcd7RcHteDX69oxzztgDmDtfk82HlyMTXQ79kSV6fR
+	 hL8SnaIxskTYKK+Fqkx0A1KD5yIVES8vImsdgCP0w3073X3PZ6VaDmE6INjiIp2bvI
+	 xN47yJb3drwTEFgYR4hRpmGIHpWYfrpsDuDaIHNz02NI8U7fRkHN8aNL437B6yqsbl
+	 3oWfpQiB6miCA==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 68FA917E012E;
+	Mon, 16 Feb 2026 12:33:40 +0100 (CET)
+Message-ID: <b42a1da6-110a-4bd5-a4f1-23c3f25e2a17@collabora.com>
+Date: Mon, 16 Feb 2026 12:33:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aZLJ8Z4XOTEUJfmh@smile.fi.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/2] arm64: dts: add missing sram-supply to mali gpu
+ nodes
+To: =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
+References: <20260215100302.136719-1-work@onurozkan.dev>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20260215100302.136719-1-work@onurozkan.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-
-> > Looking forward to comments. I especially wonder if the last patch
-> > should stay as-is or if it should be broken out, so individual
-> > subsystems can pick up their part (with a fallback in place, of course,
-> > until the last user is converted).
+Il 15/02/26 11:02, Onur Özkan ha scritto:
+> Some arm64 Mali GPU DT nodes define mali-supply but
+> are missing sram-supply.
 > 
-> Coincidentally I have briefly reviewed it in the Git tree before you have sent
-> this to ML. I like the whole series, but what I have missed is the explanation
-> of the removal of Contact: comment in some of the files.
+> As discussed in [1], sram-supply should be explicitly
+> defined for all relevant compatibles. If there is no
+> separate SRAM rail, it can reference the same regulator
+> as mali-supply.
+> 
+> This change adds the missing sram-supply properties to
+> affected DT files. This aligns DTs with expected regulator
+> modeling and avoids relying on implicit fallback behavior.
+> 
+> [1]: https://lore.kernel.org/all/20260213155937.6af75786@nimda/
+> 
 
-Ah, thanks! True, documenting it slipped through the cracks. Sorry about
-that. The reason is, of course, we have MAINTAINERS for this kind of
-information. Plus, Ohad Ben-Cohen hasn't been commiting upstream to 10+
-years according to git history.
+Sorry, at least for MediaTek, this makes no sense. The SRAM supply on MTK platforms
+is managed by the mediatek-regulator-coupler driver, as it scales in a peculiar way
+in relation to the GPU core supply.
+
+Besides, you're cloning the GPU core supply to the sram supply, which is, well,
+simply wrong... and you're changing devicetrees of SoCs that are running on
+panfrost (not on panthor), which will anyway ignore the existance of the SRAM
+supply.
+
+That's also going to give all sorts of binding warnings, I guess, but I didn't
+check anyway.
+
+While the change makes sense, as in, I agree with Mark in that the SRAM must have
+a power supply in order to actually work... I'm afraid that what you're doing here
+needs a bit more work before it becomes acceptable.
+
+Especially - faking the vgpu-core regulator (not just on MTK, but on all) to also
+be the sram regulator leads to confusion and is, well, plain wrong.
+
+Cheers,
+Angelo
+
 
