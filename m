@@ -1,101 +1,116 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78A6329E53
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Feb 2026 16:22:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BEDF3EBF2F
+	for <linux-sunxi@lists.linux.dev>; Tue, 17 Feb 2026 01:48:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771258924; cv=none; b=TgNuf+0K6GYs1UITr3H3K73HOmuxfGdWSiEyMnlq6rfkSxz/Mp8+sVUAiFTbfYdnNXijmUQIcP4/FUnD0LrxJw+spt9VJBsyHNev1YNsQZbJZi4fRiLfgzoJzR9Ee3gfqAehrVeh2qYqY/TKBa/Z18ehtJDL6DizI+RhUKsmo4Q=
+	t=1771292902; cv=none; b=qblxaJ7KqlVM/x4zajeZIPeq7fklN4TlhQXQBuXpjQ2Gq3QcnqmlUah6yYPI5G31imV2nbPh8pyl2Q2nAmYvfCUUqEDIYEsVE+UJyvAJAEmV/Ebt0y6pIoScYcmHNLx3mO2Tj3LTM4cUVIH7CP/SI0YPqgmqSiXoMc+Ha8sxytM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771258924; c=relaxed/simple;
-	bh=yrplvzHimehwQbv7UzsT11ysVk7MnWkqJpylB70YYDI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=F7M2FjATVygJD1m6G43OmvsKuTD7MExFtKz6rmvZGCPNdBLJ0FSZvg16CyMvqFmo+9tvrGX1Ds4L2l2doQxJg+O9KB9kIFxd/qXAy9xDcAbJL2DX2Ea2y96wJuWJgyzYKAHuVvgFcwB2yGg3ixfdlUfucPZqhosBjdOMTAUZcgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Aa9F+rYL; arc=none smtp.client-ip=209.85.128.42
+	s=arc-20240116; t=1771292902; c=relaxed/simple;
+	bh=Lwg2rvwrqIRECklSNKlUK55K0k33idFGObhMA9v5xU4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P15c043kLiYBI8jBqcjRnzxn3axeWzHZEu31N8runq6tII+09ri4yBOXLnNUzsZYXxXDvqZ+Q/4J85A6yjbhLQ//ePQlubeEW7XIXn7qXqGB7EfSoARTdXYR2iOV9DALfCdoluQrUaZMjDIZ1nWW9iQwPonsCoGW3GbonAOdxWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WRMbha39; arc=none smtp.client-ip=209.85.128.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Aa9F+rYL"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48375f1defeso26047565e9.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 16 Feb 2026 08:22:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WRMbha39"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-79495b1aaa7so34447877b3.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 16 Feb 2026 17:48:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771258921; x=1771863721; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yrplvzHimehwQbv7UzsT11ysVk7MnWkqJpylB70YYDI=;
-        b=Aa9F+rYLLfV6cNQei+hw1FPriIJ0YJtz6ahYy8Zpz1kKrWPtatB4QD2udnpGnHGgcE
-         eh96IySHsKdDFB+kTYFoD3lu84tiGR0M7dfUEJVA+8ZonqYVBjSKV6EOFK6P1VVeilMC
-         t3VnUxlJiOhUPBaNuMrirhbL9vz+NThceVrbry+2Za3i1fSVk7fBgnWCqmJyetedyUs8
-         OLlmK3t7yyDW480Y0PcJ4LQWYjQzlr7Svj4nlgkzZ5DwJUGRZ5K0lQYHQDlp4aenMvRz
-         ENHI9dPmpVaU8zH5nvCNswoQ9KHZbjqeGRGIfKuvsCHm+iiOSPGsncovmeLlAXj7dOWN
-         9tBA==
+        d=gmail.com; s=20230601; t=1771292900; x=1771897700; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BjA8YI4abbHFrmSC0kcj7gswukKzCoDbvbkarUE29Sw=;
+        b=WRMbha39sk2K0MpNggDtOBvnwBRISlUY7uLoU5RVbuN63g1bBSAZNlNm64af61FQB3
+         X5i2EsDWyKdwtcEic22b3/zzpoIRYEp/LR8npWpGniaonBgECLnvBspbf9FNWjFvl6GH
+         gsIU0+4IPkuP2xrth6H++9bojGBvVHEo/WvSESawyKqhyazxgkWvBMYYtjkzzdvLgz4q
+         zQqkvFwO9N08BZEuvpmkX3UVG33yG9Nrzuco6bKEBUUKQ8tpWk76cbSI5CozX0ept0H5
+         9zpehiBglaTZGq032owWFJjiGar1H9v4oZuBu3oMHzpKBHI5fJkUcHYprDHky9gKy0QF
+         glvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771258921; x=1771863721;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=yrplvzHimehwQbv7UzsT11ysVk7MnWkqJpylB70YYDI=;
-        b=bDX8Tjor3bAmy0ObonZiBdk8PMNVFkIk8iBNmehKhw+pQv22Y9eineuzpoDHUCwBJD
-         cJyKYSPE0cUEyTyYvTdFp4UogJ8Ge9MApIg2kJzTCdfZUaa2jIa5I5m5OrdK1XIi4t8b
-         oBv4UoG0U+57Wbx0Stk+r0Mu+9tirCIi2t05qpdC4sIVUq12zejMfbFcMYKJ3gVZ31Fr
-         6zc/15FI2qZfEDCE4z8qh5f0mgnhOFJr5pqI6G+mad7c5iRZ2jivPtM7a3wYj51FDrdA
-         GZjoVsfbhEWd2OdOyE5Oak0bnxUH8CJDiDRD4A+BQnxFpnhm0qL2K+qJhGUampd81DlD
-         X0+g==
-X-Forwarded-Encrypted: i=1; AJvYcCWkBCn0bo/wlrR2cmzjCD54gnaju0qcHqmiFbdKMNn8C1dqhuD5+LLfOuz43fK2ElLoWtYOoiy0l9K1eA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzNAdzWRMIdoeHCtPavPPYTvHuRkS/F88bFZYaKNK6IED7tiqJC
-	5lFh7hkOiUghyUB7MaWEJt4GANL9DCZ+m1OA1yExCR1VNwAjsGWVC6ZW
-X-Gm-Gg: AZuq6aI5ZO5HsV4S+OJrRJA/MznmweKRqAqCO7HzNH4zLRtboTi1DTYrmolRInCM4kl
-	4gvFTzYPc4a+uSsosM6yRKug0q/X93+cJHryNDKS0K2m6i13CdGyvCCKAg07mtG1HuL+8eiYNv0
-	QOnUt2ouE+CvCcqfswI7a3uKQnfJaYakLlz8KC3sdWr2xcGD3DI8soyvwylqoa+FT4+WYctreWn
-	NQ1bNHolAuPk9YhxtNWYlh46cBXj0U8gEUt6R1ni2s9lwI4BIbT8tesDb61BluR5ZrHPrkDR65G
-	MkQhWIdX+tkqZuYcfCe5JQs0yTPSozqvl/Ud2bmjSSQSD40baUhEsBYJ5p5O1G3klr8NFp3bRNy
-	s52VQ3h0MwYc4gHLXUEUxXV7sp5gDrn6viuHqVHP2RbXfGTVeVIcS/z9mNbReiOB65WfnM4o84b
-	n8gIQ4k0S3odSVilRnqUMhviGhBfod9FI1gZulv9Jqh9kc3xXYNjLFQRXoN6mVf06wx8P8miYh1
-	2o7rm/owNaBBCVcAw==
-X-Received: by 2002:a05:600c:8b61:b0:480:6b76:dfb4 with SMTP id 5b1f17b1804b1-48373a083d7mr183030205e9.8.1771258921040;
-        Mon, 16 Feb 2026 08:22:01 -0800 (PST)
-Received: from jernej-laptop.localnet (178-79-79-213.dynamic.telemach.net. [178.79.79.213])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796a74918sm27901928f8f.17.2026.02.16.08.21.59
+        d=1e100.net; s=20230601; t=1771292900; x=1771897700;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BjA8YI4abbHFrmSC0kcj7gswukKzCoDbvbkarUE29Sw=;
+        b=ulye7m/1kHHqbuk0Lhwql3DSTC3p3fXTogROKsH+9wOkvQ4ITO8l+XGrCTCAoCu+84
+         fuwnUD4vP8w/uuFe8REK046M/szxN+Szkald/byQknycTOyE/sHdaK9tpqLJAQuzkvB9
+         gEBG4KGaSrdmCAQTMJdvwIZB2yRPuIA2j599odACdRJz6k7Vbgezaa8BiR71S3wniEF+
+         A1eqMKt6VfF+5BVhcXv72/r5lxJKXzXOZaE/5ffix0YiGFGAfiVUNqPxlnYp6W/baf3S
+         U8vaZ0v8CfltoHok0aUQ1IJeWqLkz/meo4tS4YR2eaFiQOyqSGXR4+GHBDxgv3+lBsZ8
+         hbLA==
+X-Forwarded-Encrypted: i=1; AJvYcCVPOfeP7UnZ0IkbwvXbhqdzKugbHymgaVtg/Bm5amzfobxgWqSa1PAIYXhKr//etUn2z5qMD6qnlEmw/A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx4OHfVZqGpBHqxWcTeHmb/A92TXxZ6Au2aAimdb9LsLDQw76LD
+	Pyt5Z80qzbueSWOYF0dN/CJ0W/JJiB5z9GPXPIGQqpqhkoC4mJLKhJLT
+X-Gm-Gg: AZuq6aKBliGVaI2v+o59sUBskrhlLGxN3B/xkHh5UxLusGXl90dJBh28Gl86l/55oQ5
+	l2iesxaRF3l98f8WMXm25OO30m2m4tLnS2+3hKj9E6kxUYOqkR4l/AKlKfGxGWEGVHyshv0GGKg
+	Z+AnDYzZTqQJwlcrsQMN4r6lS2UCw9eM9zwOdpcJ1DOm14QFe2eJJaDIVCg2DwE8nkAwayb85/Y
+	Yd0M5LbSeNOmrKOH6xw8V91jqdblcb/xKB03qvR57vIn5sgQVUTLNrlTjTVgDhD5HtlqPQPHfSR
+	68Ae6V274RfHwS3+8GfsPZVc0AHsHsjxN2Isw8Jt8yvKZjV723uwfT4p3kKrEqKo9FztDi3weis
+	bS1zyuAOk8lXKAjL2fYbKcVinTIOdt9q8sg20WJ3wGBBig7i9BYVmqijO+5fuw+UdUMEiK/A3CV
+	HgPjFkXPRDd/RVNxKXitZ61Cf+XJFKHwuVoTeRNdhi3rX2ACFyh9kTMLwiqNG3WxIUhjRJnriEW
+	eVo+lAX8zkPoPC0n4Kri+rPt1FUhmtXKjWzUXiE1T4=
+X-Received: by 2002:a05:690c:b1d:b0:796:55b1:a16b with SMTP id 00721157ae682-7979e81638bmr110018307b3.31.1771292900128;
+        Mon, 16 Feb 2026 17:48:20 -0800 (PST)
+Received: from tux ([2601:7c0:c37c:4c00:e3a8:26f7:7e08:88e1])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-797a668ad26sm43680067b3.37.2026.02.16.17.48.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Feb 2026 08:22:00 -0800 (PST)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Bartosz Golaszewski <brgl@kernel.org>,
- Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>
-Cc: James Hilliard <james.hilliard1@gmail.com>,
- Andre Przywara <andre.przywara@arm.com>, linux-gpio@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] pinctrl: sunxi: Implement gpiochip::get_direction()
-Date: Mon, 16 Feb 2026 17:21:58 +0100
-Message-ID: <12836817.O9o76ZdvQC@jernej-laptop>
-In-Reply-To: <20260216160946.2977985-1-wens@kernel.org>
-References: <20260216160946.2977985-1-wens@kernel.org>
+        Mon, 16 Feb 2026 17:48:19 -0800 (PST)
+From: Ethan Tidmore <ethantidmore06@gmail.com>
+To: wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	mripard@kernel.org
+Cc: maarten.lankhorst@linux.intel.com,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	neil.armstrong@linaro.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ethan Tidmore <ethantidmore06@gmail.com>
+Subject: [PATCH] drm/sun4i: backend: fix error pointer dereference
+Date: Mon, 16 Feb 2026 19:48:01 -0600
+Message-ID: <20260217014801.60760-1-ethantidmore06@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Dne ponedeljek, 16. februar 2026 ob 17:09:45 Srednjeevropski standardni =C4=
-=8Das je Chen-Yu Tsai napisal(a):
-> After commit e623c4303ed1 ("gpiolib: sanitize the return value of
-> gpio_chip::get_direction()"), a warning will be printed if the
-> gpio driver does not implement this callback.
->=20
-> Implement it for the sunxi driver. This is simply a matter of reading
-> out the mux value from the registers, then checking if it is one of
-> the GPIO functions and which direction it is.
->=20
-> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+The function drm_atomic_get_plane_state() can return an error pointer
+and is not checked for it. Add error pointer check.
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Detected by Smatch:
+drivers/gpu/drm/sun4i/sun4i_backend.c:496 sun4i_backend_atomic_check() error:
+'plane_state' dereferencing possible ERR_PTR()
 
-Best regards,
-Jernej
+Fixes: 96180dde23b79 ("drm/sun4i: backend: Add a custom atomic_check for the frontend")
+Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
+---
+ drivers/gpu/drm/sun4i/sun4i_backend.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
+diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
+index 40405a52a073..6391bdc94a5c 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_backend.c
++++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
+@@ -491,6 +491,9 @@ static int sun4i_backend_atomic_check(struct sunxi_engine *engine,
+ 	drm_for_each_plane_mask(plane, drm, crtc_state->plane_mask) {
+ 		struct drm_plane_state *plane_state =
+ 			drm_atomic_get_plane_state(state, plane);
++		if (IS_ERR(plane_state))
++			return PTR_ERR(plane_state);
++
+ 		struct sun4i_layer_state *layer_state =
+ 			state_to_sun4i_layer_state(plane_state);
+ 		struct drm_framebuffer *fb = plane_state->fb;
+-- 
+2.53.0
 
