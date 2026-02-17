@@ -1,81 +1,77 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BEDF3EBF2F
-	for <linux-sunxi@lists.linux.dev>; Tue, 17 Feb 2026 01:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0A62153EA
+	for <linux-sunxi@lists.linux.dev>; Tue, 17 Feb 2026 06:41:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771292902; cv=none; b=qblxaJ7KqlVM/x4zajeZIPeq7fklN4TlhQXQBuXpjQ2Gq3QcnqmlUah6yYPI5G31imV2nbPh8pyl2Q2nAmYvfCUUqEDIYEsVE+UJyvAJAEmV/Ebt0y6pIoScYcmHNLx3mO2Tj3LTM4cUVIH7CP/SI0YPqgmqSiXoMc+Ha8sxytM=
+	t=1771310472; cv=none; b=OX6DdMXMhr+pgcpFiI8ID1PiopHsB71EZ9hmAEp0LvsHaLjZV7K+X4uuJaoO4rU8DcatfjsCGh0EI/3z7bumeF7DVOEtQ4oSiOsNyYtABjKm+toDR+M2+mqJFkev2NICY/S3Ph76CGr9QqgHLeaCUNoXJmZiNVXpQfYmKHO92zM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771292902; c=relaxed/simple;
-	bh=Lwg2rvwrqIRECklSNKlUK55K0k33idFGObhMA9v5xU4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P15c043kLiYBI8jBqcjRnzxn3axeWzHZEu31N8runq6tII+09ri4yBOXLnNUzsZYXxXDvqZ+Q/4J85A6yjbhLQ//ePQlubeEW7XIXn7qXqGB7EfSoARTdXYR2iOV9DALfCdoluQrUaZMjDIZ1nWW9iQwPonsCoGW3GbonAOdxWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WRMbha39; arc=none smtp.client-ip=209.85.128.173
+	s=arc-20240116; t=1771310472; c=relaxed/simple;
+	bh=+NcFpiiW0wzV8DHCMGsp2NSC6RD3WjX56RkaBkhfEgc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JcL44xQEHBxfUj5iy8ak7Uqs0gA7vnF+iUhqK+HTtgJlgVJup2vCDaI7SNEh66aaN0y0SeKz+mY3xAi0XGhCS30LAlbabZcfUSzMso1JdPRweFp/HWDbo9/7W4lhII9CL2ogD2bYsZ6Hj6XJlTtOYi3DGANqBA7QBdLz1XDkw3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZdpijI5Q; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WRMbha39"
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-79495b1aaa7so34447877b3.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 16 Feb 2026 17:48:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZdpijI5Q"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-480706554beso37333975e9.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 16 Feb 2026 22:41:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771292900; x=1771897700; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1771310470; x=1771915270; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BjA8YI4abbHFrmSC0kcj7gswukKzCoDbvbkarUE29Sw=;
-        b=WRMbha39sk2K0MpNggDtOBvnwBRISlUY7uLoU5RVbuN63g1bBSAZNlNm64af61FQB3
-         X5i2EsDWyKdwtcEic22b3/zzpoIRYEp/LR8npWpGniaonBgECLnvBspbf9FNWjFvl6GH
-         gsIU0+4IPkuP2xrth6H++9bojGBvVHEo/WvSESawyKqhyazxgkWvBMYYtjkzzdvLgz4q
-         zQqkvFwO9N08BZEuvpmkX3UVG33yG9Nrzuco6bKEBUUKQ8tpWk76cbSI5CozX0ept0H5
-         9zpehiBglaTZGq032owWFJjiGar1H9v4oZuBu3oMHzpKBHI5fJkUcHYprDHky9gKy0QF
-         glvQ==
+        bh=FepBOuU1DcO7xNko/hlN7H/0LgDQ38swQHDFFclf8T0=;
+        b=ZdpijI5Qz0bm3uxEpf/mg5Bq0w3+hw/oaDXDqH7i4KmoTJGyFjL/0tKLSTh3AxUO1z
+         cOXBmmm+4vqBWl02JhmrlDUTDchwYTGE+hzS99tjm3JH21rshhWpm2f/oUmEXWudtNDl
+         2NX1YSJRx4mYuI3zd7UEw65foTtA4PKNyRSdHhL03nafyhwXv3O4hBUEZznMSYOisC6V
+         su+h/juYk7v+2+mjbC7Cbd/uD5JkA1u1tmZz99S42mBb+UI3s83cZBzYgCVx8vTsQUGg
+         3/Ln39G4nrLYOK9qyp+uKwCtcBEiEYFesBgrw0J93TqCcrj0nMzY/n3ICbpAnIXo0Ghf
+         cj4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771292900; x=1771897700;
+        d=1e100.net; s=20230601; t=1771310470; x=1771915270;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BjA8YI4abbHFrmSC0kcj7gswukKzCoDbvbkarUE29Sw=;
-        b=ulye7m/1kHHqbuk0Lhwql3DSTC3p3fXTogROKsH+9wOkvQ4ITO8l+XGrCTCAoCu+84
-         fuwnUD4vP8w/uuFe8REK046M/szxN+Szkald/byQknycTOyE/sHdaK9tpqLJAQuzkvB9
-         gEBG4KGaSrdmCAQTMJdvwIZB2yRPuIA2j599odACdRJz6k7Vbgezaa8BiR71S3wniEF+
-         A1eqMKt6VfF+5BVhcXv72/r5lxJKXzXOZaE/5ffix0YiGFGAfiVUNqPxlnYp6W/baf3S
-         U8vaZ0v8CfltoHok0aUQ1IJeWqLkz/meo4tS4YR2eaFiQOyqSGXR4+GHBDxgv3+lBsZ8
-         hbLA==
-X-Forwarded-Encrypted: i=1; AJvYcCVPOfeP7UnZ0IkbwvXbhqdzKugbHymgaVtg/Bm5amzfobxgWqSa1PAIYXhKr//etUn2z5qMD6qnlEmw/A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx4OHfVZqGpBHqxWcTeHmb/A92TXxZ6Au2aAimdb9LsLDQw76LD
-	Pyt5Z80qzbueSWOYF0dN/CJ0W/JJiB5z9GPXPIGQqpqhkoC4mJLKhJLT
-X-Gm-Gg: AZuq6aKBliGVaI2v+o59sUBskrhlLGxN3B/xkHh5UxLusGXl90dJBh28Gl86l/55oQ5
-	l2iesxaRF3l98f8WMXm25OO30m2m4tLnS2+3hKj9E6kxUYOqkR4l/AKlKfGxGWEGVHyshv0GGKg
-	Z+AnDYzZTqQJwlcrsQMN4r6lS2UCw9eM9zwOdpcJ1DOm14QFe2eJJaDIVCg2DwE8nkAwayb85/Y
-	Yd0M5LbSeNOmrKOH6xw8V91jqdblcb/xKB03qvR57vIn5sgQVUTLNrlTjTVgDhD5HtlqPQPHfSR
-	68Ae6V274RfHwS3+8GfsPZVc0AHsHsjxN2Isw8Jt8yvKZjV723uwfT4p3kKrEqKo9FztDi3weis
-	bS1zyuAOk8lXKAjL2fYbKcVinTIOdt9q8sg20WJ3wGBBig7i9BYVmqijO+5fuw+UdUMEiK/A3CV
-	HgPjFkXPRDd/RVNxKXitZ61Cf+XJFKHwuVoTeRNdhi3rX2ACFyh9kTMLwiqNG3WxIUhjRJnriEW
-	eVo+lAX8zkPoPC0n4Kri+rPt1FUhmtXKjWzUXiE1T4=
-X-Received: by 2002:a05:690c:b1d:b0:796:55b1:a16b with SMTP id 00721157ae682-7979e81638bmr110018307b3.31.1771292900128;
-        Mon, 16 Feb 2026 17:48:20 -0800 (PST)
-Received: from tux ([2601:7c0:c37c:4c00:e3a8:26f7:7e08:88e1])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-797a668ad26sm43680067b3.37.2026.02.16.17.48.19
+        bh=FepBOuU1DcO7xNko/hlN7H/0LgDQ38swQHDFFclf8T0=;
+        b=ohkph/xMnSexV/IoJ6bFjb0xhuPYGcZLmioag1NsWk0s78IclreVbN3SaG7uplJxeh
+         Q0zs7ItTQn7cp967sue0A85stOZEMOTWZ2g1wLkSp8FE7xP1W9KhjuC+zXuIUewSUdIL
+         zPYhnCA5xYb9mwuyxtv3FtT3LcLR987lZ3AYnlpHJEfMx20Kzim2s82z/qATmVlQZqn9
+         xAnpJCpqYCiLvxFOMOGHlou1Uo6FYfNHhOKzLRFs9VB9wTELSZwmfhVLerpYrsQjNZHx
+         qlthUwGaQ3D9/Q+lN5F9zDIkfoP7ILfsILH5Bi6Q8XgUvGf4C4uf9lMjjW5VEt7OOWhq
+         xudQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXzAcp4SsBOXjCW5RQogAT+KhSHfE0Gd7dEUFxfX2z/xGVPlV0NOeOy6bmrXAEA3rKFeecar9eYPX8D9A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwXinFBQJWCa13Xjnd3A9R7Xs8zK5s2lAV2wka7nD4H0Ket5D6f
+	0dZx+77YEY9nZqrgyiSUqrQVjz05h5JUOuXu+Aqx0Zw12tuzNDEYD/yv
+X-Gm-Gg: AZuq6aINaw86tNJkbtpNhy8KZMNI1TGgf/YdQd8i/v3QCnzJ0qDSOexf6Yd1Lt9VFtP
+	v/HAysCaiW95/a8LDI/Z+B7SR3k3kAd/m+eLKpWdlmdH0NV2bolf6Zyl3d6jkhNpHLTQmCfPfbC
+	5rwmquKcB+1v6mHC2VtxY055hPOqg1qW2lOUlTW/u/ROvJnds3pEXRApHcFG9KsO6UJT3dzza9I
+	MyFDFinXVigeKXqqWXt5yIEsrVSgQkPApVVNcIYpv17crxGAQBBbZIIuqlqcIiZsAJnVfL/Ss+G
+	T+oKy1p736pQe7RBg+LPd/PsgRHH0P4t3deXeO9BARlfJjeqxy4NsS6PzLsoiussmC1vBfJKHB5
+	+hyt4Gkgku6gLJeXf3eIp0j1Y6grEW4TLRpcbhG65rJNy+Ai17/bhu0dpOHleUVWRgpprNyUjHD
+	dRWts4c/MgTv8F2tgRC5fY7Yd+m8kx8JzSUb/wDXvZVFpIhTjPcAUE16KDjBqYblTNJjEGj3OGe
+	5Mvc28Uog==
+X-Received: by 2002:a05:600c:6814:b0:483:43da:6c87 with SMTP id 5b1f17b1804b1-48379c14894mr176131575e9.33.1771310469549;
+        Mon, 16 Feb 2026 22:41:09 -0800 (PST)
+Received: from thinkpad ([204.18.30.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796ad015bsm33081811f8f.38.2026.02.16.22.41.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Feb 2026 17:48:19 -0800 (PST)
-From: Ethan Tidmore <ethantidmore06@gmail.com>
-To: wens@kernel.org,
+        Mon, 16 Feb 2026 22:41:09 -0800 (PST)
+From: Arash Golgol <arash.golgol@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: yong.deng@magewell.com,
+	paulk@sys-base.io,
+	mchehab@kernel.org,
+	wens@kernel.org,
 	jernej.skrabec@gmail.com,
 	samuel@sholland.org,
-	mripard@kernel.org
-Cc: maarten.lankhorst@linux.intel.com,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	neil.armstrong@linaro.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
+	laurent.pinchart@ideasonboard.com,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ethan Tidmore <ethantidmore06@gmail.com>
-Subject: [PATCH] drm/sun4i: backend: fix error pointer dereference
-Date: Mon, 16 Feb 2026 19:48:01 -0600
-Message-ID: <20260217014801.60760-1-ethantidmore06@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	Arash Golgol <arash.golgol@gmail.com>
+Subject: [PATCH v1 0/3] media: sun6i-csi: Convert to active state and improve MC support
+Date: Tue, 17 Feb 2026 10:10:47 +0330
+Message-Id: <20260217064050.18388-1-arash.golgol@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -84,33 +80,47 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The function drm_atomic_get_plane_state() can return an error pointer
-and is not checked for it. Add error pointer check.
+Hi,
 
-Detected by Smatch:
-drivers/gpu/drm/sun4i/sun4i_backend.c:496 sun4i_backend_atomic_check() error:
-'plane_state' dereferencing possible ERR_PTR()
+This series modernizes the sun6i-csi driver by aligning the bridge and
+capture components with the V4L2 subdev active state API and improving
+media controller integration.
 
-Fixes: 96180dde23b79 ("drm/sun4i: backend: Add a custom atomic_check for the frontend")
-Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
----
- drivers/gpu/drm/sun4i/sun4i_backend.c | 3 +++
- 1 file changed, 3 insertions(+)
+The first patch migrates the bridge driver to the V4L2 subdev active
+state framework. The private mbus_format field and its associated lock
+are removed, with the framework-managed state becoming the single
+source of truth. As part of this change, the capture driver no longer
+accesses bridge-private data directly and instead resolves the active
+format through the subdev pad API. Since the hardware does not perform
+format conversion, identical formats are enforced on both pads.
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
-index 40405a52a073..6391bdc94a5c 100644
---- a/drivers/gpu/drm/sun4i/sun4i_backend.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
-@@ -491,6 +491,9 @@ static int sun4i_backend_atomic_check(struct sunxi_engine *engine,
- 	drm_for_each_plane_mask(plane, drm, crtc_state->plane_mask) {
- 		struct drm_plane_state *plane_state =
- 			drm_atomic_get_plane_state(state, plane);
-+		if (IS_ERR(plane_state))
-+			return PTR_ERR(plane_state);
-+
- 		struct sun4i_layer_state *layer_state =
- 			state_to_sun4i_layer_state(plane_state);
- 		struct drm_framebuffer *fb = plane_state->fb;
+The second patch implements vidioc_enum_framesizes for the capture
+device, reporting a stepwise range of even frame sizes within the
+hardware limits.
+
+The final patch adds MC-centric format enumeration support by filtering
+pixel formats based on the provided mbus code and advertises
+V4L2_CAP_IO_MC to reflect the intended usage within a media graph.
+
+Hardware testing performed on LicheePi Zero Dock (Allwinner V3s):
+
+  - Parallel pipeline (csi1):
+    ov7670 -> sun6i-csi-bridge -> sun6i-csi-capture
+
+  - MIPI pipeline (csi0):
+    ov5647 -> sun6i-mipi-csi2 -> sun6i-csi-bridge -> sun6i-csi-capture
+
+
+Arash Golgol (3):
+  media: sun6i-csi: bridge: Use V4L2 subdev active state
+  media: sun6i-csi: capture: Implement vidioc_enum_framesizes
+  media: sun6i-csi: capture: Support MC-centric format enumeration
+
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.c        | 154 ++++++++----------
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |   9 -
+ .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  87 ++++++++--
+ 3 files changed, 142 insertions(+), 108 deletions(-)
+
 -- 
-2.53.0
+2.34.1
 
