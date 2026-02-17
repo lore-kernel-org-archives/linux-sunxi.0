@@ -1,164 +1,77 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9A0223DD6
-	for <linux-sunxi@lists.linux.dev>; Tue, 17 Feb 2026 06:41:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407D22D4801
+	for <linux-sunxi@lists.linux.dev>; Tue, 17 Feb 2026 07:53:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771310498; cv=none; b=ChN70rMPBOrSbY1KZ6b5CXCx1oNER5ILt4I4rRy3he7wo1YrFgd0a5Y4mtD4PCk7llNw/o+aMZ2Ok1+g0aaUIl0X/HNF52ZtlDNZi4OHJ+JcXCBy3XeBAvUo15BfwYoHUMCCzvyOG4PdpTcWzkRrPWOD/tc8vqO5Fzar5p7Qov4=
+	t=1771314829; cv=none; b=BobXTi9hxzBofmWfu7vSvl7zyLZAO1cpgnEii3jddah6m2X+cU4ndOLemrkYVENo9kz7tl73fwZ28QOboDpKAuVmcofNMzWkh6Mqq0RKq1Fygoh6LIZE4+7ba0CcS670jG9twQ44uA86UCCgEKiEv9ljdFyB0N0HzCeEVUjZWbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771310498; c=relaxed/simple;
-	bh=bWO18VWhl/lJIVX1nAvqa2U827Ja5osKWLe4Ii6PMOU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=YM8A8tZkCuLVu6DJrgTcw8UcS98R3YNzInjux6UR74hkvoI5bouze7qgA4VdmTt0NR6E6xWmaRBJw69Y8D5WDrolgmZSgD8Btjpiuu0npg07BC5hmJbsPDqhvhpoCPQyFPjWu5VdDHOH6kp90J+s5fMzT2pSkODbGHbT4qiH/ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hASvOmko; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1771314829; c=relaxed/simple;
+	bh=tA2t5oeOUZ8eAwOpBVyGbemY7+jVRLWknKxnMDhCYms=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rHoo3rYcLuBuITGxZB3lmFHcNtKZEHu/mKsGRkcATxJpicmoSvKPWBaon/ZgDg3qZYj8FxVfWWI4yiStd0jFZxJB/Cv6gDOLo34pPqZGyt2O6JSUZwUMfYAS3bKz4hc3+Y6TSQsHJjbNSwJNgUPlVWpmb6tsRhivGo2pKKYInZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LNnvFNt8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hASvOmko"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4833115090dso34721575e9.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 16 Feb 2026 22:41:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771310496; x=1771915296; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6hnMRVHPJNRuy6Y1rMEFRl1cpDiZ6JR5YGvfIe2PEtM=;
-        b=hASvOmkosECmZoVwkLraqZgpzd+2GbXGUtkT4IbgfdvT22kaLbKFtKbr6GRm5BKWy/
-         AGMMKsFy8oedNs08GYMEImisj0z9wkylJYDSezLALtkvxtQBDWA67T+xRLNxJXM4Np5q
-         rC0lkzm1ja9Z/k01cPV4YZoeXm//dqx+2dzHmv9/YIdHaozclp1Pyvnw7BzUtge7Tjyq
-         g+4BpRZ0irSm5NfOHgY3mR13w29UpVa1+gwapBnoN89Wu/Tt8WKU/mc0aj188Qs/MSgU
-         B79e+3vTnoMc2Bf/wsbHnixdmG8QJ5ELUBJWbELvIIOHBtsZX82CVbBWASUUEtKqrtx8
-         NH9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771310496; x=1771915296;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6hnMRVHPJNRuy6Y1rMEFRl1cpDiZ6JR5YGvfIe2PEtM=;
-        b=Xy1XExlZyJv+FGIZXduapfS3uzNfqiUC39ABBtUxfBh6ZxgUKyHxESSN7dUrGhXcE7
-         v0OaQ9Kzc59bNlRYS5mV48K3ly+GjrDJeOsu4ABBh3uJ5Mmc0xrlUJqxe1kvRO1oI4lz
-         vUSf2O94eFM+P4DZdt4cGMvH2yfQ9Y4JBiYXF8BFM3j94U0jiCRVgpdA+5PtihUbRyG3
-         tDKvVwVvUWw8Q/HH45J+I087IejO2geE4J1gqRWR9BK3j4f8BUNnPQZiAsBnO5gXXjsj
-         To4A8NZ1UChqx9Eczw34jPQlATqa3wGJUqfTz6v0CFSxy+EzppkMWbRXX9HcFjNOFdp4
-         8LgA==
-X-Forwarded-Encrypted: i=1; AJvYcCW3AxT6en3QyjdVVtVBqaGd2HoMFmiThQVpAb7y/EYr3fIK6vUmxLyrCrOz3rnq1X+u3CTY70mxkwG12g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzVUpD8y60DBmirFuTaJszrof9kE9kIMyKjEWVl8We6isir8Krz
-	RqIL5FKOuu3xkEWXd6PR/jUHU++IebyUVb9nCa/CsUxxQhmaAltAzX8j
-X-Gm-Gg: AZuq6aKYPgHQPFW6IGTPK2qUekaiuq2bXIT9ojGul++laS2zQQesNrzU/K9MjBvhSYm
-	bLOje2oYy32ORhOR9ewqTDBwm3bb1zdZObZkWHYGnXrk3EmgfMFhvXN2fYBW8Ypvevg0SOIhjOz
-	l/9HS3bjG/Z5tt0Zq/w3wiQ9VmP3PGBZdGcjHFIrqrqayI4oJkwy4ScAOSDotKHLZtyh4mQ0bY2
-	7F3Z1EbwfM2cIriHVj4clCJJuPSIXf5P1vsrS7Fm3Itcdd/Qxogb4zCHgiWQrPffMeAwk+c5RuG
-	2ZFEFv7MgxSy2cd/4ZARTdkgyXM43cbo2sOa1y2EMzlpVLlzgQxTKN4AAp0dl7bpHHDFSWeqofv
-	iLhySYcyXljBc1RCztIoCwLKhmKceGGx96KMep6JjVgbgnpaQ2Z6GhkbWUgOk65oKMT91Hvs6QH
-	kyWDGp5AKndYwB1Xy6QAok9ijMaKbJyML5h0S6Q+LgR+H0m2kY+hAP2OdvMvYDRKV5HjZlXaw1B
-	BhaqeuniQ==
-X-Received: by 2002:a05:600c:524d:b0:483:4807:210c with SMTP id 5b1f17b1804b1-48373a5d7a0mr259850485e9.24.1771310495620;
-        Mon, 16 Feb 2026 22:41:35 -0800 (PST)
-Received: from thinkpad ([204.18.30.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796ac9d77sm29438376f8f.33.2026.02.16.22.41.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Feb 2026 22:41:35 -0800 (PST)
-From: Arash Golgol <arash.golgol@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: yong.deng@magewell.com,
-	paulk@sys-base.io,
-	mchehab@kernel.org,
-	wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	laurent.pinchart@ideasonboard.com,
-	linux-sunxi@lists.linux.dev,
-	Arash Golgol <arash.golgol@gmail.com>
-Subject: [PATCH v1 3/3] media: sun6i-csi: capture: Support MC-centric format enumeration
-Date: Tue, 17 Feb 2026 10:10:50 +0330
-Message-Id: <20260217064050.18388-4-arash.golgol@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260217064050.18388-1-arash.golgol@gmail.com>
-References: <20260217064050.18388-1-arash.golgol@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LNnvFNt8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20A41C2BCAF
+	for <linux-sunxi@lists.linux.dev>; Tue, 17 Feb 2026 07:53:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771314829;
+	bh=tA2t5oeOUZ8eAwOpBVyGbemY7+jVRLWknKxnMDhCYms=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=LNnvFNt8TzdVxP6kq+X0upGc19BXHfJFty3jpW6tHWQJBEFvfpyonpjVgsx+jJ8mW
+	 OhxWML1LoAuUxm6+M0IARUuQl8IpXeq3+tOEtWsvJuEwOD9nRjWDP/3PsuMsv7RZQ0
+	 xsb/4z/aHIf8IXV9W1PuBJDPsydg617d4nwN8d9c9v8y5b0MP32wNRAZT+Yeq1YnIF
+	 tKMvS140nE/O7gk0LldojB8VqdP+gJKoyiKObJFg59UEgD+cQ5qxdiadZ1yhraRSTT
+	 v8KRahk1cQUgDZRiKE/Ps5AcYuVJ6HpkkhH2HZ8FWx/l2liL76A5UDmxW0kJacNQvz
+	 bLZC7NTveINRg==
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-38706f96202so24713051fa.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 16 Feb 2026 23:53:49 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWk9Zmg8xuZ5NtrVtYM/EPmb+kn33HKuIyyJ1m2PP+Or0bqQT9lptQuGup+YdLFdT+kXqn8WBxg6PMLfA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx8sR0HbCIEDO8c9A7Zggrm/07H1fH5RdxVuiYINSqyfrm3iLvr
+	yPqc8O28nFiVsjZymcJOtDxBxxt9Sap+F/SOg+M3a2/P/S2Wei0pjRimPWpk7mojzCslbQc1Ars
+	LJPd0/iIrxBV3snLv5EHwVJm0Frorp9Q=
+X-Received: by 2002:a2e:be1e:0:b0:383:1232:379a with SMTP id
+ 38308e7fff4ca-3881050bca3mr34254911fa.2.1771314827466; Mon, 16 Feb 2026
+ 23:53:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260217014801.60760-1-ethantidmore06@gmail.com>
+In-Reply-To: <20260217014801.60760-1-ethantidmore06@gmail.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 17 Feb 2026 15:53:34 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64iwahkDyuTtWo3YsdgExBu-fs8XRcsgPvWX5ETb=irtg@mail.gmail.com>
+X-Gm-Features: AaiRm53D6IJmr1XrVqkJyD7FBEAc639vco0g_d6NG7g082rgVzjQ9c8XaAjLhcg
+Message-ID: <CAGb2v64iwahkDyuTtWo3YsdgExBu-fs8XRcsgPvWX5ETb=irtg@mail.gmail.com>
+Subject: Re: [PATCH] drm/sun4i: backend: fix error pointer dereference
+To: Ethan Tidmore <ethantidmore06@gmail.com>
+Cc: jernej.skrabec@gmail.com, samuel@sholland.org, mripard@kernel.org, 
+	maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com, 
+	simona@ffwll.ch, neil.armstrong@linaro.org, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Extend vidioc_enum_fmt to support MC-centric enumeration by filtering
-pixel formats based on the provided mbus code. Advertise MC I/O support
-on the video device to reflect its intended usage within a media graph.
+On Tue, Feb 17, 2026 at 9:48=E2=80=AFAM Ethan Tidmore <ethantidmore06@gmail=
+.com> wrote:
+>
+> The function drm_atomic_get_plane_state() can return an error pointer
+> and is not checked for it. Add error pointer check.
+>
+> Detected by Smatch:
+> drivers/gpu/drm/sun4i/sun4i_backend.c:496 sun4i_backend_atomic_check() er=
+ror:
+> 'plane_state' dereferencing possible ERR_PTR()
+>
+> Fixes: 96180dde23b79 ("drm/sun4i: backend: Add a custom atomic_check for =
+the frontend")
+> Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
 
-Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
----
- .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 38 +++++++++++++++++--
- 1 file changed, 35 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-index dd06d4c116e0..f54d7a6397be 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-@@ -327,6 +327,21 @@ static bool sun6i_csi_capture_format_match(u32 pixelformat, u32 mbus_code)
- 	return false;
- }
- 
-+static const u32 *sun6i_csi_capture_pixelformat_find(u32 mbus_code)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(sun6i_csi_capture_format_matches); i++) {
-+		const struct sun6i_csi_capture_format_match *match =
-+			&sun6i_csi_capture_format_matches[i];
-+
-+		if (match->mbus_code == mbus_code)
-+			return &match->pixelformat;
-+	}
-+
-+	return NULL;
-+}
-+
- /* Capture */
- 
- static void
-@@ -729,11 +744,27 @@ static int sun6i_csi_capture_enum_fmt(struct file *file, void *priv,
- 				      struct v4l2_fmtdesc *fmtdesc)
- {
- 	u32 index = fmtdesc->index;
-+	u32 mbus_code = fmtdesc->mbus_code;
-+	const u32 *pixelformat;
-+
-+	/* MC-centric or Video-node-centric */
-+	if (mbus_code) {
-+		/* There is only one pixelformat for a mbus_code. */
-+		if (index)
-+			return -EINVAL;
-+
-+		pixelformat = sun6i_csi_capture_pixelformat_find(mbus_code);
-+	} else {
-+		if (index >= ARRAY_SIZE(sun6i_csi_capture_formats))
-+			return -EINVAL;
-+
-+		pixelformat = &sun6i_csi_capture_formats[index].pixelformat;
-+	}
- 
--	if (index >= ARRAY_SIZE(sun6i_csi_capture_formats))
-+	if (!pixelformat)
- 		return -EINVAL;
- 
--	fmtdesc->pixelformat = sun6i_csi_capture_formats[index].pixelformat;
-+	fmtdesc->pixelformat = *pixelformat;
- 
- 	return 0;
- }
-@@ -1065,7 +1096,8 @@ int sun6i_csi_capture_setup(struct sun6i_csi_device *csi_dev)
- 
- 	strscpy(video_dev->name, SUN6I_CSI_CAPTURE_NAME,
- 		sizeof(video_dev->name));
--	video_dev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
-+	video_dev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING |
-+				 V4L2_CAP_IO_MC;
- 	video_dev->vfl_dir = VFL_DIR_RX;
- 	video_dev->release = video_device_release_empty;
- 	video_dev->fops = &sun6i_csi_capture_fops;
--- 
-2.34.1
-
+Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
