@@ -1,105 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE5236CDEC
-	for <linux-sunxi@lists.linux.dev>; Tue, 17 Feb 2026 16:43:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA8C2344DAC
+	for <linux-sunxi@lists.linux.dev>; Wed, 18 Feb 2026 18:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771346626; cv=none; b=hiSRhbbUm3Ca+u4LmYZAq/XI0+P4ZbqWy4CfJmRYOz1301NviANyeOCKbYVr8pGrOLCnW64IujY8hHSspdp6xenO/B07bDP1ZCx93ph9lra35u+RSMLAr0U3qAXh66/gHiuqffZmC9YFYt/V/3VbeYcpbYeWViCpR4mletaRMvo=
+	t=1771439705; cv=none; b=N3raKddA5L82GSpXRD0ZvmXOqNwGIGYhD1kro2Q0P5Hi5aVJh+4dpfSnzH/1TY0oQnyjWYqfyHXSZpp38GBehc45wGw+EgsHGK3IVVFwss3QIS262KCeVGWFsHqd/3J05pC6irzRKhMwUfHXYrjv2n9cYFGWZNGluOS45XKakNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771346626; c=relaxed/simple;
-	bh=e44I+gmR/Crii5lzJC5/nGh/rjAXjynQw2DgvMzop3k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FbmdIH3dxgPuCCmg/NWpKqlx/mjXXKjKuVc2ifIsdMbC0TApkaQ8Hf5IJvKW3B5J6V/K4ptunkPb+3D8yKR0wBgHmQoxMRvAEiCLN9u1o6P+3KOtwRY82BBtfBATe/7hrTyVpqhLX/siJIaZvzUVMOjyss5LWr98T8Qc6FSGwLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uEinzWkh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771439705; c=relaxed/simple;
+	bh=NCsgmnWEYo7xxZEJIPfVWaJ9JvJJumQ642pGQRdWy8U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bnV/kdct4xcthoLVaR0ueuI3a9kF0i/aIGN9QMzv69bpYKdYGx/L4S8fGrUm4RyoZ/deSaMg1zPCCawfrL3cztZcj2Jxrkcw5W3IAe5AjF1ytBZeZn9NuMPtvS3fqGrpsyRxypFWCFPDM61JymFaVBr79SWpJ3o39xzBQCyrrmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jcr8Kltv; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uEinzWkh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D532C2BCB0
-	for <linux-sunxi@lists.linux.dev>; Tue, 17 Feb 2026 16:43:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771346626;
-	bh=e44I+gmR/Crii5lzJC5/nGh/rjAXjynQw2DgvMzop3k=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=uEinzWkhfejDthNLMSVfdDkyp7ZNlrdBHapzEqlt5sMHX0GPeazD25p14sZ81t/uP
-	 HOrdojvB5kGpj12bhyOuJ1+NgVk2RiV7+qSI9tGm/wnhbpZCNvcdXrGLqPwWPyenKo
-	 Jyoy0TVyjv5wQnb0OynEUCkF+uCIHjzS03bMZM8Qc+A+eguT/vzoLHG9nZKr3s3hX+
-	 55+uvw0F81gURTjMubgsUf5EPcuMTdpMLNo3DU9nDCsS9BHJdnHeSf24uJjVJigij2
-	 OcoKwaIgZ0ZNsA4Bf/weRPvx5MybGAtP4B5zNkEWklkrxEyo/qfnDPCpsuqbMHgaoK
-	 3LsEw+fwntDyQ==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-59e60b3ccdfso6207599e87.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 17 Feb 2026 08:43:46 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXpZwqZQTglNZ2G1KUjWiq9urlCiXE8FFOEgHPklgrAnOa/bEbS7vC/oImk/GczxkEC43312jv8mNzarw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw2FAv/AKN7Dc8G7b755SK3D7BC3nURaHHFZzcErPu3XN3lTQGD
-	RpisPp54xmMs2M+X/kd9SQIqTSkmtb8T4+X+9yScEeSe7yY2VuonOiJb56j+UTV3Vu6XUBi7k3n
-	/aBjnoxAjJl6S3KkOKrh7zVims4OPWO8=
-X-Received: by 2002:a05:6512:114a:b0:59e:340:e557 with SMTP id
- 2adb3069b0e04-59f6d357cd8mr3391698e87.19.1771346624454; Tue, 17 Feb 2026
- 08:43:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jcr8Kltv"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48374014a77so1409175e9.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 18 Feb 2026 10:35:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771439702; x=1772044502; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0uK3LnBVqJtacrpaTeNsmEDEPVfCDtIQ6jE7L3gZNMs=;
+        b=jcr8Kltvyyu2ugBXQJ7qpo+0IB7wF8G5yA2mstxoQXs5JPPRfHTzODIpo345cHPGBU
+         +Nabguv2ZOKYtNgXGuJTDgghqQGai4Jx/oYQosounYb+oOOguIiwI1xiOxx0Tivrd1D3
+         TToRjNr7rfu6H4o4Jp0hxaaluzChPypSccQTGhqFDuFmmwPdtVS7xFxca6nxsmWbthZR
+         UYwBgSQxRSSK+fvlkmIkj/VuktFU9ziAUnVsZ17h436aNTCXcQ/OHXJ9kasQJcpB/hSv
+         pdOAd+ep4C6tmsW9Q/Wvg3TRBRcWlC8mb7dWqHnzvPTEevlAYJjWTBuFwP028O2rqCLc
+         0AxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771439702; x=1772044502;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0uK3LnBVqJtacrpaTeNsmEDEPVfCDtIQ6jE7L3gZNMs=;
+        b=d9uUJuZbdoNfyLGu5fOUXI7WkVNIELQ1YNsVltW6CI0c3Lb10XdQ/Uu0ZGg/5YBV/e
+         2R3KjUDDqdu9zRog3PU3z9gOikS4l7+lHF8lAIgRYIlTv19citVTY7yZKNv8unUxBft4
+         q2UKqv07gPEryqi64ieNI/RLvcRpgKZSagB0i7KCwKngW2kNV+9kDlis5rvuZKSfuNWd
+         EnnziAGdonwPXanoJ7cBGt1Shr3Lm9n88jUcWnP82eA1Fg/6PDb4h/sI+uFNSifTkiY8
+         ysQjGLtSaCWRA0iP5nQElFFpbpXgyx+3i0KNvrUX36ZowppyuSi00EMefxpekWBn7yDy
+         Ueew==
+X-Forwarded-Encrypted: i=1; AJvYcCV588yiRFqLazzLYcTQIqHm7suYOwzYv8yiiYna8lsEOSrzpRjJ0rNxWQY9tJ+isk77bEsWNyX4YCur5A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz3fO2ZXpDKK8iwshxTK7Cd3g9XxWU2d93cWocP4zH2+XFbi9R6
+	eW8dYFBZXGamo94Azvp53ti6YMKs46r8grj+IvxTotZNXrl9Yt908Xp/
+X-Gm-Gg: AZuq6aLUFSZ2tWiTAuhRslv8MY91vd2m8x1ES0OOtRJLG08cJPFjZy/mDsKGRiM/O8a
+	95Z2zGwTqzBMqgj1XsOcvajUtowBebn0EsjDTDBaOZHNIzWOnboGxasD36bfWPAEdONeYzmFE6n
+	6XUoGVZ2kyM7W3F/uV18pZvNP7kSiTolxvs7hR7fSWiB5uX39OMR2CoeNsp5idzt5y1Rxm2wwJA
+	a+d5l5pGvNj7P5Gah3b4uDyELJYTShNMGa3ZlXxxIAvPf3cQpXJJxDBQoklMGScW0r7b9Vr6TJU
+	jU44a4AhtZyMWWwN/gAQU82vx97QdaYMOsBuHYxMTRlvlqCm34nA0wwfEx64NiO/Lg6oT+XXuN9
+	RELodam3nbiNn97HMMdZkb2fcb1DrO2R206e/CWPLVQA2iQ/Tkiq9RivRCstml7YZUk1Gk1h3LE
+	9yesNR8bodoU/yiLVhzq6rsnUHbeEg6s3wKlMIAoHdWyJ36MVmWufbOsX681EicM5LQyt7Z5kQt
+	2ItNj53VX0T5EIC
+X-Received: by 2002:a05:600c:458a:b0:483:6f37:1b33 with SMTP id 5b1f17b1804b1-48373a58babmr277783835e9.30.1771439702159;
+        Wed, 18 Feb 2026 10:35:02 -0800 (PST)
+Received: from jernej-laptop (86-58-126-118.dynamic.telemach.net. [86.58.126.118])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4834d482480sm640635785e9.0.2026.02.18.10.35.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Feb 2026 10:35:01 -0800 (PST)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: wens@kernel.org
+Cc: maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	samuel@sholland.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] drm/sun4i: mixer: Fix layer init code
+Date: Wed, 18 Feb 2026 19:34:54 +0100
+Message-ID: <20260218183454.7881-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260216160946.2977985-1-wens@kernel.org> <20260217163208.5db4cd1e@orionap.fritz.box>
-In-Reply-To: <20260217163208.5db4cd1e@orionap.fritz.box>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Wed, 18 Feb 2026 00:43:31 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67NcduBxxrFeVkhi7eKyBBcMKy6dptHFrtZg2-Xs2Nf7w@mail.gmail.com>
-X-Gm-Features: AaiRm50IgvwBli9VJ3oskhBXlgPk6-8kaHQNo2uOGlyvC7LHA0MeNNq9rzrpr3Q
-Message-ID: <CAGb2v67NcduBxxrFeVkhi7eKyBBcMKy6dptHFrtZg2-Xs2Nf7w@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: sunxi: Implement gpiochip::get_direction()
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Linus Walleij <linusw@kernel.org>, 
-	James Hilliard <james.hilliard1@gmail.com>, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 18, 2026 at 12:32=E2=80=AFAM Andre Przywara <andre.przywara@arm=
-.com> wrote:
->
-> On Tue, 17 Feb 2026 00:09:45 +0800
-> Chen-Yu Tsai <wens@kernel.org> wrote:
->
-> > After commit e623c4303ed1 ("gpiolib: sanitize the return value of
-> > gpio_chip::get_direction()"), a warning will be printed if the
-> > gpio driver does not implement this callback.
->
-> I am curious how this could slip through? Did the get_direction()
-> callback become mandatory at one point, but no one noticed that it was
-> missing for sunxi? It looks like the situation was even worse before that
-> patch, as it was dereferencing the function pointer without any check?
+Code refactoring dropped extra NULL sentinel entry at the end of the drm
+planes array.
 
-Digging deeper, my attribution is incorrect. The actual commit that
-triggers the warning is 471e998c0e31 ("gpiolib: remove redundant callback
-check"), in which a check of .get_direction before calling it was removed.
-So I believe this just landed for the next release.
+Add it back.
 
-Thanks for spotting that. I'll send a v2 to add that information.
+Reported-by: Chen-Yu Tsai <wens@kernel.org>
+Closes: https://lore.kernel.org/linux-sunxi/CAGb2v65wY2pF6sR+0JgnpLa4ysvjght5hAKDa1RUyo=zEKXreg@mail.gmail.com/
+Fixes: 5fd711adc0ba ("drm/sun4i: layer: move num of planes calc out of layer code")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/gpu/drm/sun4i/sun8i_mixer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> > Implement it for the sunxi driver. This is simply a matter of reading
-> > out the mux value from the registers, then checking if it is one of
-> > the GPIO functions and which direction it is.
->
-> Mmh, it feels a bit backwards to resort to the function name *string* for
-> comparison, when it's always 0 for in and 1 for out (which we actually se=
-t
-> in pinctrl-sunxi-dt.c now). But the mux value for IRQ is different betwee=
-n
-> SoC generations, and I guess for historic reasons function strings are a
-> thing in pinctrl, so this is probably the best solution after all:
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+index ce9c155bfad7..02acc7cbdb97 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+@@ -321,7 +321,7 @@ static struct drm_plane **sun8i_layers_init(struct drm_device *drm,
+ 	unsigned int phy_index;
+ 	int i;
+ 
+-	planes = devm_kcalloc(drm->dev, plane_cnt, sizeof(*planes), GFP_KERNEL);
++	planes = devm_kcalloc(drm->dev, plane_cnt + 1, sizeof(*planes), GFP_KERNEL);
+ 	if (!planes)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-- 
+2.53.0
 
-Yeah, I was a bit undecided, but using the raw values for in / out and then
-having a string comparison for irq made things even weirder.
-
-> > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
->
-> FWIW:
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-
-Thanks!
