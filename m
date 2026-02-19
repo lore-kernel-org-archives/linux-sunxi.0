@@ -1,113 +1,219 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA8C2344DAC
-	for <linux-sunxi@lists.linux.dev>; Wed, 18 Feb 2026 18:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31E8E2DB794;
+	Thu, 19 Feb 2026 02:04:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771439705; cv=none; b=N3raKddA5L82GSpXRD0ZvmXOqNwGIGYhD1kro2Q0P5Hi5aVJh+4dpfSnzH/1TY0oQnyjWYqfyHXSZpp38GBehc45wGw+EgsHGK3IVVFwss3QIS262KCeVGWFsHqd/3J05pC6irzRKhMwUfHXYrjv2n9cYFGWZNGluOS45XKakNc=
+	t=1771466684; cv=none; b=J3s7FWfVjGGyNRpE6cIlVuRW+cuVYXJPgKeiI7W6KcZYvuKHimfFJj3K+RLim5/w3uqjOJ/XCW2lYeEqFqrP1mz9KJHatk3hOFdOdlkHeu2ESZyX9GpYIiDFE//r4AVTwns/QiUaVetj5lTuPREGa+6nFCpTAIfVbOQEjtWdpX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771439705; c=relaxed/simple;
-	bh=NCsgmnWEYo7xxZEJIPfVWaJ9JvJJumQ642pGQRdWy8U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bnV/kdct4xcthoLVaR0ueuI3a9kF0i/aIGN9QMzv69bpYKdYGx/L4S8fGrUm4RyoZ/deSaMg1zPCCawfrL3cztZcj2Jxrkcw5W3IAe5AjF1ytBZeZn9NuMPtvS3fqGrpsyRxypFWCFPDM61JymFaVBr79SWpJ3o39xzBQCyrrmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jcr8Kltv; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1771466684; c=relaxed/simple;
+	bh=PPjyU7zMC9lX0HvaJbOSS9kLml7wiyEt+w3z0sMWcs4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Fb/t4WhkXaibXGw/XianIO1mN6FAstPAJqOE5nYT3/pG9av9Er6aW4waaBGO/5tx25Pr0q8tpOZGdLYzSd7ZoPzCoOrOEJPoZloDXjsslxslPjVH/tT4i5rzrsjqA/LqMyU1c0Xb0VjhUqDlDreARiac0JD468ylQtjHlxZJR8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kfJG7DV0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jcr8Kltv"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48374014a77so1409175e9.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 18 Feb 2026 10:35:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771439702; x=1772044502; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0uK3LnBVqJtacrpaTeNsmEDEPVfCDtIQ6jE7L3gZNMs=;
-        b=jcr8Kltvyyu2ugBXQJ7qpo+0IB7wF8G5yA2mstxoQXs5JPPRfHTzODIpo345cHPGBU
-         +Nabguv2ZOKYtNgXGuJTDgghqQGai4Jx/oYQosounYb+oOOguIiwI1xiOxx0Tivrd1D3
-         TToRjNr7rfu6H4o4Jp0hxaaluzChPypSccQTGhqFDuFmmwPdtVS7xFxca6nxsmWbthZR
-         UYwBgSQxRSSK+fvlkmIkj/VuktFU9ziAUnVsZ17h436aNTCXcQ/OHXJ9kasQJcpB/hSv
-         pdOAd+ep4C6tmsW9Q/Wvg3TRBRcWlC8mb7dWqHnzvPTEevlAYJjWTBuFwP028O2rqCLc
-         0AxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771439702; x=1772044502;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0uK3LnBVqJtacrpaTeNsmEDEPVfCDtIQ6jE7L3gZNMs=;
-        b=d9uUJuZbdoNfyLGu5fOUXI7WkVNIELQ1YNsVltW6CI0c3Lb10XdQ/Uu0ZGg/5YBV/e
-         2R3KjUDDqdu9zRog3PU3z9gOikS4l7+lHF8lAIgRYIlTv19citVTY7yZKNv8unUxBft4
-         q2UKqv07gPEryqi64ieNI/RLvcRpgKZSagB0i7KCwKngW2kNV+9kDlis5rvuZKSfuNWd
-         EnnziAGdonwPXanoJ7cBGt1Shr3Lm9n88jUcWnP82eA1Fg/6PDb4h/sI+uFNSifTkiY8
-         ysQjGLtSaCWRA0iP5nQElFFpbpXgyx+3i0KNvrUX36ZowppyuSi00EMefxpekWBn7yDy
-         Ueew==
-X-Forwarded-Encrypted: i=1; AJvYcCV588yiRFqLazzLYcTQIqHm7suYOwzYv8yiiYna8lsEOSrzpRjJ0rNxWQY9tJ+isk77bEsWNyX4YCur5A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz3fO2ZXpDKK8iwshxTK7Cd3g9XxWU2d93cWocP4zH2+XFbi9R6
-	eW8dYFBZXGamo94Azvp53ti6YMKs46r8grj+IvxTotZNXrl9Yt908Xp/
-X-Gm-Gg: AZuq6aLUFSZ2tWiTAuhRslv8MY91vd2m8x1ES0OOtRJLG08cJPFjZy/mDsKGRiM/O8a
-	95Z2zGwTqzBMqgj1XsOcvajUtowBebn0EsjDTDBaOZHNIzWOnboGxasD36bfWPAEdONeYzmFE6n
-	6XUoGVZ2kyM7W3F/uV18pZvNP7kSiTolxvs7hR7fSWiB5uX39OMR2CoeNsp5idzt5y1Rxm2wwJA
-	a+d5l5pGvNj7P5Gah3b4uDyELJYTShNMGa3ZlXxxIAvPf3cQpXJJxDBQoklMGScW0r7b9Vr6TJU
-	jU44a4AhtZyMWWwN/gAQU82vx97QdaYMOsBuHYxMTRlvlqCm34nA0wwfEx64NiO/Lg6oT+XXuN9
-	RELodam3nbiNn97HMMdZkb2fcb1DrO2R206e/CWPLVQA2iQ/Tkiq9RivRCstml7YZUk1Gk1h3LE
-	9yesNR8bodoU/yiLVhzq6rsnUHbeEg6s3wKlMIAoHdWyJ36MVmWufbOsX681EicM5LQyt7Z5kQt
-	2ItNj53VX0T5EIC
-X-Received: by 2002:a05:600c:458a:b0:483:6f37:1b33 with SMTP id 5b1f17b1804b1-48373a58babmr277783835e9.30.1771439702159;
-        Wed, 18 Feb 2026 10:35:02 -0800 (PST)
-Received: from jernej-laptop (86-58-126-118.dynamic.telemach.net. [86.58.126.118])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4834d482480sm640635785e9.0.2026.02.18.10.35.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Feb 2026 10:35:01 -0800 (PST)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: wens@kernel.org
-Cc: maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kfJG7DV0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 047C8C19422;
+	Thu, 19 Feb 2026 02:04:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771466684;
+	bh=PPjyU7zMC9lX0HvaJbOSS9kLml7wiyEt+w3z0sMWcs4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=kfJG7DV0ZLDhd9N8eu0SgoeOSxcDwAnt9LIL61STZSfhbPuN0GFX5ijlKA883vaoZ
+	 o12v6Od7h2MeIOS7K2jyAEAERLzqljbnwVbTR4rCwC2Gg+6kq6+9RCLKDVb/+g9DkA
+	 Uy9Ilxf0wBFC1xUpN4BPx7W6sKNSVSCqIx8FL7p6393N8VcHH7rAb1bPHfH302V5qJ
+	 vI/Qgc8CV1+DFE0HOV5rbrCkn7uBbu16F+l85soWvOyj7Pv8OoU+pl8BYr39QjKu2/
+	 FC2G31h8QdFlbK/pVnlfzy0rjZR/IyrFrCqBuhKnKobei3Asv63u9rUbobgPjvwVyY
+	 RMlpEkHBbPn1Q==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
 	samuel@sholland.org,
-	dri-devel@lists.freedesktop.org,
+	dmaengine@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] drm/sun4i: mixer: Fix layer init code
-Date: Wed, 18 Feb 2026 19:34:54 +0100
-Message-ID: <20260218183454.7881-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.19-6.1] dmaengine: sun6i: Choose appropriate burst length under maxburst
+Date: Wed, 18 Feb 2026 21:03:52 -0500
+Message-ID: <20260219020422.1539798-16-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260219020422.1539798-1-sashal@kernel.org>
+References: <20260219020422.1539798-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.19.2
 Content-Transfer-Encoding: 8bit
 
-Code refactoring dropped extra NULL sentinel entry at the end of the drm
-planes array.
+From: Chen-Yu Tsai <wens@kernel.org>
 
-Add it back.
+[ Upstream commit 7178c3586ab42693b28bb81014320a7783e5c435 ]
 
-Reported-by: Chen-Yu Tsai <wens@kernel.org>
-Closes: https://lore.kernel.org/linux-sunxi/CAGb2v65wY2pF6sR+0JgnpLa4ysvjght5hAKDa1RUyo=zEKXreg@mail.gmail.com/
-Fixes: 5fd711adc0ba ("drm/sun4i: layer: move num of planes calc out of layer code")
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+maxburst, as provided by the client, specifies the largest amount of
+data that is allowed to be transferred in one burst. This limit is
+normally provided to avoid a data burst overflowing the target FIFO.
+It does not mean that the DMA engine can only do bursts in that size.
+
+Let the driver pick the largest supported burst length within the
+given limit. This lets the driver work correctly with some clients that
+give a large maxburst value. In particular, the 8250_dw driver will give
+a quarter of the UART's FIFO size as maxburst. On some systems the FIFO
+size is 256 bytes, giving a maxburst of 64 bytes, while the hardware
+only supports bursts of up to 16 bytes.
+
+Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Link: https://patch.msgid.link/20251221080450.1813479-1-wens@kernel.org
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/sun4i/sun8i_mixer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index ce9c155bfad7..02acc7cbdb97 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -321,7 +321,7 @@ static struct drm_plane **sun8i_layers_init(struct drm_device *drm,
- 	unsigned int phy_index;
- 	int i;
+LLM Generated explanations, may be completely bogus:
+
+## Analysis Summary
+
+### What the commit fixes
+
+This commit fixes a real bug where the sun6i DMA engine driver
+incorrectly rejects valid DMA slave configurations. The DMA API's
+`maxburst` field specifies the **maximum** burst size, not an exact
+value. When a DMA client (like 8250_dw UART) provides a maxburst value
+(e.g., 64) that isn't directly supported by the hardware (which only
+supports 1, 4, 8, 16), the old code returned `-EINVAL`, causing DMA
+transfers to fail completely.
+
+The fix adds a `find_burst_size()` helper that selects the largest
+supported burst length that doesn't exceed `maxburst`, which is the
+correct DMA API semantics. This makes DMA work on real systems where
+8250_dw UART gives maxburst=64 (quarter of a 256-byte FIFO) but the DMA
+hardware supports bursts of at most 16.
+
+### Stable kernel criteria assessment
+
+1. **Obviously correct and tested**: Yes. The logic is simple - find
+   largest power-of-two burst in the supported bitmask that fits within
+   maxburst. Reviewed by Jernej Skrabec, applied by Vinod Koul.
+
+2. **Fixes a real bug**: Yes. DMA transactions fail with `-EINVAL` on
+   specific hardware combinations. This causes UART (and potentially
+   other peripherals) to not work via DMA.
+
+3. **Important issue**: Yes - this causes peripheral communication
+   failure (UART DMA doesn't work on some Allwinner SoCs). Users with
+   256-byte UART FIFOs and DMA-capable 8250_dw cannot use DMA at all.
+
+4. **Small and contained**: Yes. Adds a ~14-line helper function,
+   removes 4 lines of strict checks, and reorders 4 lines of existing
+   code to call the new function first. Total change is well under 50
+   lines in a single file.
+
+5. **No new features**: Correct - this makes the driver handle the
+   existing DMA API correctly. It's a bug fix to match the documented
+   DMA maxburst semantics.
+
+### Risk assessment
+
+- **Low risk**: Changes are confined to one driver file
+  (`drivers/dma/sun6i-dma.c`)
+- **No regressions for existing users**: If maxburst was previously an
+  exact match for hardware-supported values (1, 4, 8, or 16),
+  `find_burst_size()` returns the same value as before. The behavior
+  only changes for values that previously failed.
+- **Well-tested helper**: `rounddown_pow_of_two` is a standard kernel
+  utility available in all stable trees.
+- **No dependency issues**: The `burst_lengths` infrastructure was
+  introduced in 2017, present in all current stable kernels.
+
+### User impact
+
+Moderate-to-high for Allwinner ARM SoC users (embedded/IoT). These SoCs
+are common in single-board computers (Orange Pi, Pine64, etc.) and
+various embedded devices. The fix enables DMA-based UART operation where
+it was previously broken.
+
+## Verification
+
+- **Verified** `burst_lengths` was introduced by commit d5f6d8cf31a89
+  (2017-09-28), present in all stable trees.
+- **Verified** `convert_burst()` only handles values 1, 4, 8, 16 (lines
+  283-297), so the old code that directly passed unsupported values
+  would return -EINVAL from both the explicit check AND from
+  convert_burst.
+- **Verified** the hardware configs show burst_lengths support
+  BIT(1)|BIT(8) (A31/A23/A83t/D1) or BIT(1)|BIT(4)|BIT(8)|BIT(16)
+  (H3/H6/V3s/A100), meaning a maxburst of 64 would fail on ALL variants.
+- **Verified** `rounddown_pow_of_two` is available in
+  `include/linux/log2.h` and is a long-standing kernel utility.
+- **Verified** via git log that no other recent commits to this file are
+  needed as dependencies.
+- **Verified** via lore.kernel.org that the patch was reviewed by Jernej
+  Skrabec and applied by maintainer Vinod Koul.
+- **Could not verify** the exact 8250_dw maxburst=64 scenario from the
+  8250_dw driver source (unverified, but the commit message describes a
+  real hardware scenario credibly).
+
+**YES**
+
+ drivers/dma/sun6i-dma.c | 26 ++++++++++++++++++++------
+ 1 file changed, 20 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
+index 2215ff877bf7d..f9d876deb1f05 100644
+--- a/drivers/dma/sun6i-dma.c
++++ b/drivers/dma/sun6i-dma.c
+@@ -583,6 +583,22 @@ static irqreturn_t sun6i_dma_interrupt(int irq, void *dev_id)
+ 	return ret;
+ }
  
--	planes = devm_kcalloc(drm->dev, plane_cnt, sizeof(*planes), GFP_KERNEL);
-+	planes = devm_kcalloc(drm->dev, plane_cnt + 1, sizeof(*planes), GFP_KERNEL);
- 	if (!planes)
- 		return ERR_PTR(-ENOMEM);
++static u32 find_burst_size(const u32 burst_lengths, u32 maxburst)
++{
++	if (!maxburst)
++		return 1;
++
++	if (BIT(maxburst) & burst_lengths)
++		return maxburst;
++
++	/* Hardware only does power-of-two bursts. */
++	for (u32 burst = rounddown_pow_of_two(maxburst); burst > 0; burst /= 2)
++		if (BIT(burst) & burst_lengths)
++			return burst;
++
++	return 1;
++}
++
+ static int set_config(struct sun6i_dma_dev *sdev,
+ 			struct dma_slave_config *sconfig,
+ 			enum dma_transfer_direction direction,
+@@ -616,15 +632,13 @@ static int set_config(struct sun6i_dma_dev *sdev,
+ 		return -EINVAL;
+ 	if (!(BIT(dst_addr_width) & sdev->slave.dst_addr_widths))
+ 		return -EINVAL;
+-	if (!(BIT(src_maxburst) & sdev->cfg->src_burst_lengths))
+-		return -EINVAL;
+-	if (!(BIT(dst_maxburst) & sdev->cfg->dst_burst_lengths))
+-		return -EINVAL;
  
+ 	src_width = convert_buswidth(src_addr_width);
+ 	dst_width = convert_buswidth(dst_addr_width);
+-	dst_burst = convert_burst(dst_maxburst);
+-	src_burst = convert_burst(src_maxburst);
++	src_burst = find_burst_size(sdev->cfg->src_burst_lengths, src_maxburst);
++	dst_burst = find_burst_size(sdev->cfg->dst_burst_lengths, dst_maxburst);
++	dst_burst = convert_burst(dst_burst);
++	src_burst = convert_burst(src_burst);
+ 
+ 	*p_cfg = DMA_CHAN_CFG_SRC_WIDTH(src_width) |
+ 		DMA_CHAN_CFG_DST_WIDTH(dst_width);
 -- 
-2.53.0
+2.51.0
 
