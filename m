@@ -1,51 +1,55 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F823064A0
-	for <linux-sunxi@lists.linux.dev>; Thu, 19 Feb 2026 21:55:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9B92E06E6
+	for <linux-sunxi@lists.linux.dev>; Fri, 20 Feb 2026 16:10:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771538128; cv=none; b=Eme6hAB/784vBzrfUfp0fiHUwGoyoUA9lmkeYlqzI0wisxbk5g0nRFoKHpQGlUAuKPNJSQotdNxYH7jyHmsWS33rN1OoLP4ZTKSnNFwwovIAqgBZsLRXaPfEbxLqHbGtawfQ7ugYGfXk+Ndtjj1VgFDMTydFPUv5I6pvtVCKAvI=
+	t=1771603833; cv=none; b=ok06++ZIBKqqKj4LzMLGqkbSHgbuACcTp1asnJ7Uu0674K/JxYnrm7VAYD7+TwawTXbH7TgLO3Tyjf4sfsmDfheK6x7SQ7QDKCHhMVCKoTdvEEX9gZdCNR9+Zy6yw18XTlFwsBtJi4GIOLrzA++WvFM+kOFNfy2JtCHpT6JpR0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771538128; c=relaxed/simple;
-	bh=j+b7fUTEUl0rVc4PrgEmTYHal7hJnoJDVNQM2t/DnkM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X3k+QJDqoITUsMy3kI0F8sfcDnLpafNdPRxyqv1BxfO3LKqIKH3q9QFIG730UVzdtMnqhD61q+pRdTK8y8MHJWGSQSy0+F4oK1o2dVREV0MSyVyWO7lDJFH1sx/c937iooggEHnG2j8oMaKdDtOs8tA0PZpUHySOmqcZiA5xI1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=cGOtijqP; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1771603833; c=relaxed/simple;
+	bh=S5KZPUevfKU8t3WF1yRA/KYz5TuGHSpPxYFHfE7Sbmg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hPFDUfksf2G9O35yxcQSGDx8Ry+qiQqq92DAB+TrOOD/uXhw0gJ90u0jDT0jUsmYGeWliohLk5huM5YRIpJvOYUCl8CVPSUxSk64P0CbTQ+Z+OVuY7/bMcagv8QowEN/odb54ZuXpzweY7j5cfS5rardlJM4mD2Tx78HstEV5ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Isq5Nrqs; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cGOtijqP"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=rb4auJXP+QCfWH3ANOoL4dRGEJWizRw0Mek7tVIJigs=; b=cGOtijqPVvk4MGrc3q6In+PkJh
-	yPxqu0lANZ3FSi1TEx2QUNkRTRcqBc20tD+9e1XHFW7lEsFu41qyJYIWm/srEhhR707kavg2KZTmL
-	ukfHxtaXvq8ZAe8JhuBfuFeQtETa7UgCABZhwPsmwmU0mYsgcZjBvbRUziAXKPwez+/aYJ6eZpZ67
-	1Bc1+OJ20E/tEbytZ97yYv6qJPbtVCfZ9JLSQZlfCvkGyhYPw9oZm+zYcX3aG6QmvbCs+SnrYOUQH
-	hqKvlRP7gmPtNc15g9r4nv6ln0ASN7H8FBnKMW/5uzm/GFsaFnWUxJDnUvVkU+RXWsB1l+cwPjx87
-	atyokbUg==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vtBzZ-0000000C7Bz-0Is4;
-	Thu, 19 Feb 2026 21:55:25 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: dri-devel@lists.freedesktop.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Isq5Nrqs"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 3EB201A0ACF;
+	Fri, 20 Feb 2026 16:10:29 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 1283F5FA8F;
+	Fri, 20 Feb 2026 16:10:29 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 45B5710368D1C;
+	Fri, 20 Feb 2026 17:10:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1771603828; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=Dq+uxH2nK+WQ3kQsH/3znHt6ViWHPx5hXuA0KzxJW2g=;
+	b=Isq5NrqsXvgTfqYvuXHenJ3EV8jFMtRfYBrpox2nTb7FYB9z9U8hfBxdupzjzWbjrYBrUq
+	touW/QCm5sKgTttudRlDA6OuloJDtWEazV+Wfe5jx25h7oCEZZP6eBj0HLjJRCa3Z69nRH
+	9908gISDI6czfT8iu49w4tYA11QMltu6teG7xg6mru59UQATZmg9dPj7DNJSVvgV7rjtaE
+	NA2pECuhVYhcWZGF9wrWMElmAI0d+pNkW4UjdQ73SGwe6gi96mXCa9bAzNNRb7rqGE+LtO
+	ZAMhD5ILqV1ZmRhf42Dw79GHnPpgXdbW8Q1X3l9V74mWMGI5L9kxojn4o0zBQQ==
+From: Richard Genoud <richard.genoud@bootlin.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Wentao Liang <vulab@iscas.ac.cn>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-mtd@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2] drm/sun4i: fix kernel-doc warnings in sunxi_engine.h
-Date: Thu, 19 Feb 2026 13:55:24 -0800
-Message-ID: <20260219215524.468142-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.53.0
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Richard Genoud <richard.genoud@bootlin.com>
+Subject: [PATCH 0/6] mtd: rawnand: sunxi: Fixes user data length for H6
+Date: Fri, 20 Feb 2026 17:10:05 +0100
+Message-ID: <20260220161011.999642-1-richard.genoud@bootlin.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,73 +57,30 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Correct the kernel-doc notation, add a missing struct member comment,
-and add a missing "Returns:" function comment to eliminate kernel-doc
-warnings:
+This series introduces the correct usage of user data length for
+H6/H616.
+If the older SoCs must use a fixed value of 4 user data bytes for each
+ECC step, the H6 can have a different value for each step.
 
-Warning: drivers/gpu/drm/sun4i/sunxi_engine.h:116 Incorrect use of
- kernel-doc format: * @mode_set
-Warning: drivers/gpu/drm/sun4i/sunxi_engine.h:125 struct member 'mode_set'
- not described in 'sunxi_engine_ops'
-Warning: drivers/gpu/drm/sun4i/sunxi_engine.h:144 struct member 'list'
- not described in 'sunxi_engine'
-Warning: drivers/gpu/drm/sun4i/sunxi_engine.h:168 No description found
- for return value of 'sunxi_engine_layers_init'
+In the first round, the behavior was kept as the one used by A10 when in
+fact the images in the wild with the vendor kernel are using a different
+layout.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
----
-v2: add Reviewed-by & resend
+The first patches are fixes/code cleaning and the last one enables using
+a variable user data length for H6/H616
 
-Cc: Chen-Yu Tsai <wens@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-sunxi@lists.linux.dev
----
- drivers/gpu/drm/sun4i/sunxi_engine.h |    7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Richard Genoud (6):
+  mtd: rawnand: sunxi: fix sunxi_nand_ooblayout_free
+  mtd: rawnand: sunxi: fix sunxi_nfc_hw_ecc_read_extra_oob
+  mtd: rawnand: sunxi: do not count BBM bytes twice
+  mtd: rawnand: sunxi: replace hard coded value by a define - take2
+  mtd: rawnand: sunxi: make the code mode self-explanatory
+  mtd: rawnand: sunxi: introduce variable user data length
 
---- linux-next-20260218.orig/drivers/gpu/drm/sun4i/sunxi_engine.h
-+++ linux-next-20260218/drivers/gpu/drm/sun4i/sunxi_engine.h
-@@ -114,7 +114,7 @@ struct sunxi_engine_ops {
- 	void (*vblank_quirk)(struct sunxi_engine *engine);
- 
- 	/**
--	 * @mode_set
-+	 * @mode_set:
- 	 *
- 	 * This callback is used to set mode related parameters
- 	 * like interlacing, screen size, etc. once per mode set.
-@@ -131,6 +131,7 @@ struct sunxi_engine_ops {
-  * @node:	the of device node of the engine
-  * @regs:	the regmap of the engine
-  * @id:		the id of the engine (-1 if not used)
-+ * @list:	engine list management
-  */
- struct sunxi_engine {
- 	const struct sunxi_engine_ops	*ops;
-@@ -140,7 +141,6 @@ struct sunxi_engine {
- 
- 	int id;
- 
--	/* Engine list management */
- 	struct list_head		list;
- };
- 
-@@ -163,6 +163,9 @@ sunxi_engine_commit(struct sunxi_engine
-  * sunxi_engine_layers_init() - Create planes (layers) for the engine
-  * @drm:	pointer to the drm_device for which planes will be created
-  * @engine:	pointer to the engine
-+ *
-+ * Returns: The array of struct drm_plane backing the layers, or an
-+ *		error pointer on failure.
-  */
- static inline struct drm_plane **
- sunxi_engine_layers_init(struct drm_device *drm, struct sunxi_engine *engine)
+ drivers/mtd/nand/raw/sunxi_nand.c | 299 +++++++++++++++++++++++-------
+ 1 file changed, 227 insertions(+), 72 deletions(-)
+
+
+base-commit: 05f7e89ab9731565d8a62e3b5d1ec206485eeb0b
