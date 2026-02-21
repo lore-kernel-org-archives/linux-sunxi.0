@@ -1,64 +1,64 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53E8331A45
-	for <linux-sunxi@lists.linux.dev>; Sat, 21 Feb 2026 09:40:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8387434252D
+	for <linux-sunxi@lists.linux.dev>; Sat, 21 Feb 2026 09:40:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771666808; cv=none; b=p05hfeIWZly5dgym1Egj3wv1ofReK+ROf7wv2FrLNOP+2vdv0q6dph4eYWOHBtNMcVf1ld0RiS+NRCDXklRsxIYPKKq3czoBDPbCcnrFKzV87weyGSTO59Es2btIoXdJ6Q+MepvQzIVp3O0KBhXDl5ZvRfzkyD3ZkYfIWVVvi7U=
+	t=1771666809; cv=none; b=C5LzSprPksBhHwjuZOtgNHWeoad+c8AkecnxvKXXduBXX06B4KSlc6mKyrTcNCBIyMsXudeCZ98KDdUGz9/FI4pB5OHg6/FZIX5R25apJxVryIh3a0HKL8v9/7T+pa6uWDGJHxWfZZ+j2TDUfMn75tEBuGiAoBosmygcIj2qUTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771666808; c=relaxed/simple;
-	bh=N+ioHBxopYxMiJdZhLppyoVXxg4UFuHhYCAxFEhX89A=;
+	s=arc-20240116; t=1771666809; c=relaxed/simple;
+	bh=kW2ZR8JhmkoxTITSUxpb+zzCswZPVMvQ2S4l4qYWBeA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tHC+6V2Lg5LHAXhLywtabR/yneoNKYZxKHTkXYrAjFt6zNXxdjymP9yOcvuJWWfwPwilxuYZiirglQagRg10Pr9XTrFyPSQeb6re5OxwiNuG4sjIQmY1eMBbiZNSgKSNERJCu/C9BxuUXYbzpI7e83pPr2QBnk/d0lhg0e+8wiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cvS2ONyV; arc=none smtp.client-ip=209.85.128.42
+	 MIME-Version:Content-Type; b=utx7aOU/CapFDBkNfn9J12ogH3p7uJRdC490ZSkKtomL49gcGY4TM5RH3ww1TO/Jwg3mJlJcyadowPgQCBRJHQmAEHkxW1LllP5P8ZPDI6uu2sy9KDIfc7b2riZh3VEL0wZWlZUsbRZAXvSvIYEkrA+NqHSFvd+DztOYY6YKewM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ien/Nm1B; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cvS2ONyV"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48373a4bca3so17177765e9.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 21 Feb 2026 01:40:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ien/Nm1B"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48371bb515eso36562295e9.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 21 Feb 2026 01:40:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771666805; x=1772271605; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1771666807; x=1772271607; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1SRt4pEujAjZL7YcRKGKgR1k7mcODZZuIAG7QjvJr7M=;
-        b=cvS2ONyVrXyB0P7XzwQqJWwcMJnzUj0i7eKITr8ciHMmkKmefTpRSaVfwh/SC26OrP
-         7b6ogWCMVtrIDCuwgS8Y66OiVySKPO/jwvspjCC8NcqgdJx8t07G+PnAw/75ohuGGl88
-         LEbmdsCPZkxqYFhRIvJrwp0alRYJ3wMgrQ+0fpUv1NN8LaJY4WRDNGfq8LSv97W79qV3
-         Xetz29AN3SgMGAjpfbzADz71Z570secW4DMiiYdOyI/jJ3l4Aj/Qrq8cKmuxx7Yyden2
-         vRnYvnZsrgClx6Ry+fOB9Xi+zrvMm6ugRcO+ktJMk1GPGhFKjSh7tzYoRKFKFEwo7N0p
-         /+1g==
+        bh=6OTrcGA+pe/I4LHNfKbWhQqpu2uqCStywvB3RV+xvsk=;
+        b=ien/Nm1BBJ0rOYjOpxzzMjwMq7G5rwqS1yXxBuO6UNrX/gY1dI7Xm/Z+Qfxivaiwc2
+         eP1AhoNERBRKM7AiJAOcHRMs4Z+ljOIH7xWOmBkhSHlpSj+z78vh9BijJRSiTwv4NgK0
+         cs4hDr1L/Tw4Bea3yHLyWLbQ9s+oUFxaxu3dgHtA8m0M7ZDSjz0gKJslSYk9AihGVIG3
+         wSb5XUjgI03Xhue3DHgosdoGdaB5LmC8kxANClbu8Ah1mlKZ8kLcdqLcUfiOEx0Hbsqs
+         vsA5qSVqGVZe/F4FJ9q1OFIjQrAd6TKigGNfo1W6mGSGuREwN+d5Ztw2KyFCJelbgw9Y
+         UHTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771666805; x=1772271605;
+        d=1e100.net; s=20230601; t=1771666807; x=1772271607;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=1SRt4pEujAjZL7YcRKGKgR1k7mcODZZuIAG7QjvJr7M=;
-        b=fabsqiit9O3pwghoK1h/ewER9h2C/U7ulFYiOZwOhpTZHLbHeAwBnMbVXTxx5ap8Rb
-         kYpFAWuBd0U2XOzkb+sNKIeVJEW3w56jJjC7aVh+mtwd6A0sRcQset4IuFaNh487jed6
-         Zy/JR7R8ZpqEN2tizE0bi3H6udSWLcizWWXUMf66hdxEaB4/OOdAagWNCAXBUea6YflA
-         JRzjyVsUKH0YashdnLUKWmHb4WEbavtZNxcO3qTRU8K4qjhiAEQjPyuOl4PaAiJ/j/SP
-         dD94d+8QnnsC4zeOeBax/iROcxKlvGtb90zY0mdILOv7leeuGK7xdM6XjmKmwT+3dF9X
-         dT+A==
-X-Forwarded-Encrypted: i=1; AJvYcCV3aWACeTDW6vrN8UoJLAHiRFY+2+ZiOlL7HTlBx01ecoEZm7VZ7y/6yzNWHlhxN+YI3ULkv0TyisvP0g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy2flGFz2tmz06m5CesCIoG6eVH/NHbch/+hdYRw6/0AeIPtHHh
-	9O7OzbBZMzdVSj4qL/6Z01nJPOpqRpEXIgr7HdO3mdMH2TlnyJUEn3G5
-X-Gm-Gg: AZuq6aKGER+qdvB6UjxXjx0rlZHxcX/tZpaEl2I2zQmSrooI3p5V/jsniafUHGYd8Jf
-	VG3Nz0w8nC4HSTDJK/PkeMZmFOAbcLOLofVu5rllvsKNgzLZFG96KhnG42pwjYsgGZdcESh65XJ
-	IPa1KyYYJJHYDp/z94nir6IhJZ4pwHtOi0uo1TCOugBMOr4HGV5BmIHCEFVG2vEimiE5R28tZ6v
-	nx06WQgQ0bfgboBTu5mx7D/VDG7uBNuHbOrRogddBGD6+Uidqiy92JAqibZ3SswfqTOVp4+j+J4
-	Pp7shEbP8LU2S2YbUyISHBH0YM9TSs8lFfTFojqFbu0r44AAAX6q2+GVLGN4ULQOogdoPa779xM
-	HTgop87yPaADmxPMX+h57uZH9U2cKa26qmwfoAzDUloiXcYV4dddjaRlL+d0CNMg0l7YC2xC+FN
-	VZIQkhM3SxYlHKgBhkPG1AdYEMwyvo7IhqZzcgtoGPtkEKL5W+a+e5ZnrIrG8/GQNk/6Vpw1Bxc
-	Z6KnYJkL/83A4nMCvM=
-X-Received: by 2002:a05:600c:608f:b0:477:7ae0:cd6e with SMTP id 5b1f17b1804b1-483a95bd7e8mr38778385e9.5.1771666805222;
-        Sat, 21 Feb 2026 01:40:05 -0800 (PST)
+        bh=6OTrcGA+pe/I4LHNfKbWhQqpu2uqCStywvB3RV+xvsk=;
+        b=R3NFkH02L4FAncZ49eA+fm0ZWMaeVbEXHbyXyX44bSZLnLVqKq0ec+4A6gK26V91bA
+         MK7EAqilTSOBOyK2tc9pAChqen8ilQWsTAIT1O0Crl7OYwB2kvSX94d6m3yKRY+mYD3E
+         cHamccI0kYg9QMY6ooyjSK4l2GmLDhRDwrWrx48IfVyRq/70nFjXVhBN+amrQANCmh2+
+         khvP/PKhVWf4lr/0NSluFShNFwQIw4Ky83dq7ZfL32qrVWmo8vtTEMLeXI4TPYXp0ga+
+         6l4MbthSGdOwx2JUhWdSGVFO2OcE5HrDbThwgE1xBvRY3/v8k8jLi8dZXP4ysp125Sv9
+         LEPA==
+X-Forwarded-Encrypted: i=1; AJvYcCWwsmsoh/IECU9R389+wLtNVDfnVQWHtTHpB5/T8ijmEbP/p6argvcllj1Jf99zuOzK9+RyN6tEHr1ysA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxVz0GQ+XCEgfaq5bYUVenpyG9ruR2rmpGEGtsMgcYSk2AWx0NQ
+	xiNESmaUz7qkrpGyVmOT8NDtgLubT+ALh1cf44Tizt0T3R4fl1UoAStv
+X-Gm-Gg: AZuq6aIYchZpKFRd6mzUfYYKqI/NDFhLX6Mb+d1Opuw9ZbgiKVqwfWreYGZmfLry69B
+	yE1Ea+P2LboSjtsTuqb+G4duxZlG5BwC7ECadoqbmr+G8YGjkw+1m/6QkXnfAqCIKcF/uC2oXPu
+	ZxxT0D+L047lT2txd2FuJiDiXf7Y/1sCNxq20V2SENkHJCVfOFjD3q5nIJMNw8XjgsMIW0yCks2
+	ztneXt8o2uy0MLATk22cUPb0c6isKSho7nYqOLHbc4pITuPHO6EiHWnUU99QVWDMx1g1iJfaVYe
+	CbqmiQXxt34/dpUqcEZ2BumMKGIaPF3PaKB5g1uRb/4m4eiXYC19zEwBfm3hGjl4g6SPM/TGwUa
+	3AaWAFcxRmVfLIO0CFp0b3icycwoEVu1OqwjNKDVlaAYEqCB7LSEOK7MUvpqrdZyudOVNK4oHfn
+	kryJvf+12BvtpEvd2QGKM0zThQftZlzZbu3ESL4RuYWVbLnbpsMcI4EkYA2vPPNaUoW9spOwwtr
+	DiuGo5O
+X-Received: by 2002:a05:600c:5020:b0:47e:e2ec:995b with SMTP id 5b1f17b1804b1-483a95fb29cmr44815955e9.9.1771666806876;
+        Sat, 21 Feb 2026 01:40:06 -0800 (PST)
 Received: from jernej-laptop.localnet (86-58-126-118.dynamic.telemach.net. [86.58.126.118])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a9caadd4sm41900045e9.11.2026.02.21.01.40.04
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a31efe02sm135100995e9.10.2026.02.21.01.40.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Feb 2026 01:40:04 -0800 (PST)
+        Sat, 21 Feb 2026 01:40:06 -0800 (PST)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>,
  Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
@@ -69,15 +69,13 @@ Cc: Wentao Liang <vulab@iscas.ac.cn>, Maxime Ripard <mripard@kernel.org>,
  linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
  Richard Genoud <richard.genoud@bootlin.com>
-Subject:
- Re: [PATCH 4/6] mtd: rawnand: sunxi: replace hard coded value by a define -
- take2
-Date: Sat, 21 Feb 2026 10:23:33 +0100
-Message-ID: <13952574.uLZWGnKmhe@jernej-laptop>
-In-Reply-To: <20260220161011.999642-5-richard.genoud@bootlin.com>
+Subject: Re: [PATCH 3/6] mtd: rawnand: sunxi: do not count BBM bytes twice
+Date: Sat, 21 Feb 2026 10:21:55 +0100
+Message-ID: <1947198.tdWV9SEqCh@jernej-laptop>
+In-Reply-To: <20260220161011.999642-4-richard.genoud@bootlin.com>
 References:
  <20260220161011.999642-1-richard.genoud@bootlin.com>
- <20260220161011.999642-5-richard.genoud@bootlin.com>
+ <20260220161011.999642-4-richard.genoud@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -87,61 +85,101 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne petek, 20. februar 2026 ob 17:10:09 Srednjeevropski standardni =C4=8Das=
+Dne petek, 20. februar 2026 ob 17:10:08 Srednjeevropski standardni =C4=8Das=
  je Richard Genoud napisal(a):
-> The user data length (4) has been replaced almost all over the file, but
-> 2 places were forgotten.
+> BBM is part of USER_DATA section, so we should remove it twice
 >=20
-> The user data is placed before the ECC, for each step.
-> So, in sunxi_nfc_hw_ecc_read_extra_oob(), the offset of the user data in
-> OOB is indeed ((ecc->bytes + USER_DATA_SZ) * ecc->steps);
->=20
-> And in sunxi_nand_ooblayout_ecc(), the offset of the ECC chunk in OOB is
-> the same offset plus the current user data size:
-> section * (ecc->bytes + USER_DATA_SZ) + USER_DATA_SZ;
->=20
-> Fixes: 1be7ac78b72f ("mtd: rawnand: sunxi: Replace hard coded value by a =
-define")
-> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+> This was working ok because we are on the safe size, advertising that
+> there was 2 bytes less available than reality.
 
-This doesn't really need Fixes tag since it's only refactoring.
+Missing "in" before "reality".
 
-With that said:
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>=20
+> But we can't change old platforms, since it may lead to a different ECC
+> strength, so, introduce a legacy flag for old platforms, and switch the
+> new platforms to the correct count.
+
+There aren't any users of H6/H616 driver, right? If it would be, ECC streng=
+th
+can't be changed, since it can impact systems, which already use it.
 
 Best regards,
 Jernej
 
+>=20
+> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
 > ---
->  drivers/mtd/nand/raw/sunxi_nand.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/mtd/nand/raw/sunxi_nand.c | 23 ++++++++++++++++++++---
+>  1 file changed, 20 insertions(+), 3 deletions(-)
 >=20
 > diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sun=
 xi_nand.c
-> index 99d305bbda53..5d925b59b618 100644
+> index 9c6e0625e34f..99d305bbda53 100644
 > --- a/drivers/mtd/nand/raw/sunxi_nand.c
 > +++ b/drivers/mtd/nand/raw/sunxi_nand.c
-> @@ -1051,7 +1051,7 @@ static void sunxi_nfc_hw_ecc_read_extra_oob(struct =
-nand_chip *nand,
->  {
->  	struct mtd_info *mtd =3D nand_to_mtd(nand);
->  	struct nand_ecc_ctrl *ecc =3D &nand->ecc;
-> -	int offset =3D ((ecc->bytes + 4) * ecc->steps);
-> +	int offset =3D ((ecc->bytes + USER_DATA_SZ) * ecc->steps);
->  	int len =3D mtd->oobsize - offset;
+> @@ -281,6 +281,8 @@ static inline struct sunxi_nand_chip *to_sunxi_nand(s=
+truct nand_chip *nand)
+>   * @has_ecc_block_512:	If the ECC can handle 512B or only 1024B chuncks
+>   * @has_ecc_clk:	If the controller needs an ECC clock.
+>   * @has_mbus_clk:	If the controller needs a mbus clock.
+> + * @legacy_max_strength:If the maximize strength function was off by 2 b=
+ytes
+> + *			NB: this should not be used in new controllers
+>   * @reg_io_data:	I/O data register
+>   * @reg_ecc_err_cnt:	ECC error counter register
+>   * @reg_user_data:	User data register
+> @@ -310,6 +312,7 @@ struct sunxi_nfc_caps {
+>  	bool has_ecc_block_512;
+>  	bool has_ecc_clk;
+>  	bool has_mbus_clk;
+> +	bool legacy_max_strength;
+>  	unsigned int reg_io_data;
+>  	unsigned int reg_ecc_err_cnt;
+>  	unsigned int reg_user_data;
+> @@ -1811,10 +1814,22 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nan=
+d_chip *nand,
+>  		ecc->size =3D 1024;
+>  		nsectors =3D mtd->writesize / ecc->size;
 > =20
->  	if (len <=3D 0)
-> @@ -1747,7 +1747,7 @@ static int sunxi_nand_ooblayout_ecc(struct mtd_info=
- *mtd, int section,
->  	if (section >=3D ecc->steps)
->  		return -ERANGE;
+> -		/* Reserve 2 bytes for the BBM */
+> -		bytes =3D (mtd->oobsize - 2) / nsectors;
+> +		/*
+> +		 * The 2 BBM bytes should not be removed from the grand total,
+> +		 * because they are part of the USER_DATA_SZ.
+> +		 * But we can't modify that for older platform since it may
+> +		 * result in a stronger ECC at the end, and break the
+> +		 * compatibility.
+> +		 */
+> +		if (nfc->caps->legacy_max_strength)
+> +			bytes =3D (mtd->oobsize - 2) / nsectors;
+> +		else
+> +			bytes =3D mtd->oobsize / nsectors;
 > =20
-> -	oobregion->offset =3D section * (ecc->bytes + USER_DATA_SZ) + 4;
-> +	oobregion->offset =3D section * (ecc->bytes + USER_DATA_SZ) + USER_DATA=
-_SZ;
->  	oobregion->length =3D ecc->bytes;
+> -		/* 4 non-ECC bytes are added before each ECC bytes section */
+> +		/*
+> +		 * USER_DATA_SZ non-ECC bytes are added before each ECC bytes
+> +		 * section, they contain the 2 BBM bytes
+> +		 */
+>  		bytes -=3D USER_DATA_SZ;
 > =20
->  	return 0;
+>  		/* and bytes has to be even. */
+> @@ -2379,6 +2394,7 @@ static const u8 sunxi_user_data_len_h6[] =3D {
+> =20
+>  static const struct sunxi_nfc_caps sunxi_nfc_a10_caps =3D {
+>  	.has_ecc_block_512 =3D true,
+> +	.legacy_max_strength =3D true,
+>  	.reg_io_data =3D NFC_REG_A10_IO_DATA,
+>  	.reg_ecc_err_cnt =3D NFC_REG_A10_ECC_ERR_CNT,
+>  	.reg_user_data =3D NFC_REG_A10_USER_DATA,
+> @@ -2400,6 +2416,7 @@ static const struct sunxi_nfc_caps sunxi_nfc_a10_ca=
+ps =3D {
+>  static const struct sunxi_nfc_caps sunxi_nfc_a23_caps =3D {
+>  	.has_mdma =3D true,
+>  	.has_ecc_block_512 =3D true,
+> +	.legacy_max_strength =3D true,
+>  	.reg_io_data =3D NFC_REG_A23_IO_DATA,
+>  	.reg_ecc_err_cnt =3D NFC_REG_A10_ECC_ERR_CNT,
+>  	.reg_user_data =3D NFC_REG_A10_USER_DATA,
 >=20
 
 
