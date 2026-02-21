@@ -1,64 +1,64 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31CE6343D75
-	for <linux-sunxi@lists.linux.dev>; Sat, 21 Feb 2026 09:40:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD49332FA36
+	for <linux-sunxi@lists.linux.dev>; Sat, 21 Feb 2026 09:40:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771666811; cv=none; b=LDi+ZBJ8wwoPQqh/881ajqM5F1+VoVOlqiE4gNJ+MTxe/8PZ1cuX54tK83CX1I7XxW4Pgu+ZaL1+0zX7Wj+Kb/MtfQxMzhA1XfhtDuURqu7/ysCL7YlY7ZOKRJdbtHg2E2qCNYYdwcC0U/8pryQ8SX2tqEDOGjTnUxMFssHoQM0=
+	t=1771666814; cv=none; b=peIQW8O5tDBUIgbhQ7wb1/095h9UU6UETTSgE367XvkSmIJh0Vk71LMkIczTquPYOvRWtjTXsAIQ430+viZcOZnFRB9zgQHf10YmHrizU59XQLKWGnLFrojexdRUJ2wMzXjpWIK5DkCf4YpQ6AqHUjfKOv8/VQ/B5UAyaqwjnlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771666811; c=relaxed/simple;
-	bh=X2dvvtP0QHY/bsWx4Eesgw3WQJgKi927oam26nArPGM=;
+	s=arc-20240116; t=1771666814; c=relaxed/simple;
+	bh=+T/ZYClx1R3HtRgnaGI/FCamHUwL+EtSB1lhrA2R27I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uWv4qG63wLrb/MuuQQnF4WUmvMh4T+BKkML8hbAG6QpJfMcGh1zBHmZoh3PTgHntQgD3SvttoK/03FBWOghibTWLPBAjkgUvhOQ2O+GDWwTs4C/sFrw0EQKsfjBFvDF+9Iu4VDPNy9Lp1pi9I1UcwajxSuQE9kSfd6ZRpnqB9E8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MAfnlsMY; arc=none smtp.client-ip=209.85.221.44
+	 MIME-Version:Content-Type; b=UGxRFvldn93y9SJ7NkhB0i6CEjvYddHu1SUw8aqRbP5oLZLn/JRufxvYq+6B2D/jHQLGCUROEOyIkLVB7muKQ22UuZhNH36hBJ1GliJ8i8L7dm0Y6mSE2TYp5rqT8MWXjOTUKZ+OOvG/6DVOrvuCn88gtj/9reBqLYG4KkREi1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=czT7RyyW; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MAfnlsMY"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-4376acce52eso1737784f8f.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 21 Feb 2026 01:40:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="czT7RyyW"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4836e3288cdso19340975e9.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 21 Feb 2026 01:40:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771666808; x=1772271608; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1771666811; x=1772271611; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=X2dvvtP0QHY/bsWx4Eesgw3WQJgKi927oam26nArPGM=;
-        b=MAfnlsMYp0PUurbIAx6LRivW/h/L7RlWouyEJvdP8odPxmi6qFNHOkMhWovJgVHTn8
-         oP0tk26Zb52GHkFESCrC+jBqBQ0oGR4kISVxckkqvUUdRRmkLuLry8yP37hJEdnXTgAu
-         R2Dtu7jkDsug1TcAJXmWFvi4Zh7pZPzchxNUecyu4uH/3oyGHZ1hWs270aIN8AqBI0sE
-         eKUAcf7hX7tnzqucbTtlDlikaNn/Z00vu1xKy2Tj6u4AmZatFQ8iNgLl/Svs8ah0SflJ
-         O9NCsBzh2VgZ5OcE/97RbkkQsU6R2YnIrcXlFQbyxkMM6vPRiUkI3P+XiKzGyaLP4FRg
-         Rl0A==
+        bh=wuF5x3a6e11GI4kifXt3xbSibryG5QrOhbEp/FvY8E0=;
+        b=czT7RyyWYxLXJZrbntSq1uMT+O75V0DeL5DGte4RNVvKBhlSYeHuSoyRr0FjmaidiI
+         uCRYmuyv7jCv5PwNTn2JvNOeIc63LQniytx9bFhsVSdVwJGwPjPlWAdPebviTBKRAM62
+         Z+fv5ayXo/VrZsdj7HcyBTpLm6g+hcGNGqxAVwJrllXH6CHCjI4CDeFuVZoTXNjQCvEY
+         Fugqk+zaavjGQvFOwVah4+no3dlwu7DQ1CijAGd2Cck9EQiPlS4EP/pu9hiqPpwN0GAc
+         ULjvaiW1n0KjTrwG9DHy1MVII7nkOm12XMVKdQOCg+Xqdpdfyc63eIzGmQ3kzG3tPQWg
+         HtIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771666808; x=1772271608;
+        d=1e100.net; s=20230601; t=1771666811; x=1772271611;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=X2dvvtP0QHY/bsWx4Eesgw3WQJgKi927oam26nArPGM=;
-        b=IHUsfG3bM0j0n3qkDiJqWQDCSeyD9EsFvz13dzWpFB5dbD6dDjbD86JjKfkuaLv2f1
-         9z+nzfeYDi5CTVd4C5Nje/ZO+mJApD+cAEIKdjZTgm6QqNukJS3EAviZZ3/jFx7MaVdy
-         XzrmC/yn929KLDtVY0kYsFGiUR4xcTAk+3r9OoE98fLwQ8/NFYBT9tHJNkJrXbt6ID+X
-         Tj55dH7FhxLUEGOS6VqHQz//V6/DnhtAELjDiYWysvkV8fCTvI38X5U6xjyucrOC0YBv
-         2n/JP4pCRFZEyNeHp4h14kZj8JAKWUOiopVC7S3v+ug+ZOHBW5PtjZ0igQoOBs5IHksm
-         FBVg==
-X-Forwarded-Encrypted: i=1; AJvYcCVZXup3ZBid4m5kB12O3mIweZIre1IjRvm5YVmdCO/2eYhmEGJAzrey+yaQmSuAfweT0efATj6DR+BVtA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzReYt5gIBu99llWrSkdAIo5OiBuWZ4ZPsySt/eSUK5eWH2VDvX
-	lH1ElIigUKp4FqePoZH498Wm8KaQUKmgiPgzX91CpZ4zYCQGryn0/oKm
-X-Gm-Gg: AZuq6aLCc9TqqoYfKI2ZVqg/9mFxZsV5Pb4kd+bztvUpUiNG6SoADbTFkiMtO311ckX
-	xDWxZNMR4gZgGIr9qSvnAti002USYlF2ykqjO1D1dHINxdDBv0jgrgZv+LoMhIDZJfkaoheIslN
-	OIE6+/j8g+LCRy+ffGJeHtq91eOtfyibSotXPydVDO7pTyG2fD0vxkGbVskb950HxShg/tyuxJ2
-	vI8SR+5hYtD90nAIsYQCqOczgMeHbwWoLFAtj14iXe41ajp9Gfh/g7diSXT6Ld9rXr2orcFB3jL
-	1jS4PW0oJUVUr9r91T3g/e9nGk+SKPW23/M6MNhxweN8mjOlDRVA1KAfs2SDF2/yvCs4kBaccG8
-	L4Ab94gUX6yjs66B6VR6hT2MAgyMwcVLIb4l/3tI/LVufHRBjiPg0Av9meq840CeH2q9gNUzxeN
-	sUV2lPuLY8sYNP7ew1CR9Np7xCCADt3jaTZl2Se/O9MYltCmX3ERJ+qFTT2eMjUM6VWo3d0rdvV
-	VqJvVxZCrul8IXRuA==
-X-Received: by 2002:a05:6000:604:b0:435:8ad8:b7a with SMTP id ffacd0b85a97d-4396f181362mr4957590f8f.46.1771666808395;
-        Sat, 21 Feb 2026 01:40:08 -0800 (PST)
+        bh=wuF5x3a6e11GI4kifXt3xbSibryG5QrOhbEp/FvY8E0=;
+        b=vO1OfxnqTpJkpIqFWtkd+3HYeo1z8/DRnPBU4p7CkPiwDoyOnUdfRcdYwt5tMS29Ij
+         ePrwFFtOiu6rzUsMirt/Oqm0Wdv/0Z81OS8Sx6ufm+QDwOo/NUvRlmgRGJGWcDj//dis
+         s90tw2m94F1Pmf9f3SvR5rmtcYOtchC26y+807TJ4xt2ihYiyNn/FfOcmhHR2pCyG/PN
+         sfyNMinFeMd/SbqiAmZZu5UU2IYZagb/gc+nGvOLZb1cyIJhcx5XHkdlkii2xA15uuux
+         GGRf3DskEnTRHexEsMfLpO79gBwSNFEu0fl/5p7J1ss3fmIAkEd46auC7r0MKiB/9UzA
+         c7BA==
+X-Forwarded-Encrypted: i=1; AJvYcCVTtWnEI4oaILBoCojC9zdSLQG9HtxWyB5AZSHbwI/Iz8Q/Qz2sLJxNZneq4LDxFMWa+PeqniirH8lQ1A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw8eirk3vbDlxXLQF9Q+qxZBr5rrFsI0aXm8q3UhtJQMPAkw9Bd
+	DM/cG80pt4SaMWGtRyZ8m1KfRArrgYQ+FF/auas9o9cqum6WutU7/o3n
+X-Gm-Gg: AZuq6aLm/qDJuvRPgPVC3Y8SnvnLjsgRInSaTql2R+Zq5zVPUZKcw36zu7sP7DowIKt
+	pIQ+d/1O/7ORQCJbtdLdHRbc5jsGtr/pEPaJeY2sW/Fg5fpN3ix8/OrEKnftcQWd158RRgDjUd6
+	9rdNXB7FWeydQ4BbMv73lW0KfUNt+C24o23AjzLmosxY7MS4OzBaZiBXjtdoB8WdQs0BFoQbIsP
+	EEnbF6+JFATEg/husGNuDkH0c/k0ufwYnRPUslGXutCPyodRlVjLm38G8pwpzZ3nBbwvqZ3G5jv
+	2Z6ajsXXeOTf/YHTP2Xhi01LO0+9GGYvf2MCFvI4glOmANpML2L6Jo73ira0UQ/xkGw6rFLhNJ2
+	0NWyT/Ba4xEFVkVD9l8gcAmOSDUYDT4uHYTd7855SXCSP6A57nklAr8DzteRnmRyWILXvMBcxFW
+	oUG4qsQBjSNfm4W0wcUW2oq4d+qQMIsHR/XwsLGS20SEojAH3BNvyjndyLxGI7eJaeOQW2pytYM
+	j9JfB7netMZXGSSnQ==
+X-Received: by 2002:a05:600c:1c29:b0:483:6d9e:e4f5 with SMTP id 5b1f17b1804b1-483a949e5edmr41113355e9.5.1771666810853;
+        Sat, 21 Feb 2026 01:40:10 -0800 (PST)
 Received: from jernej-laptop.localnet (86-58-126-118.dynamic.telemach.net. [86.58.126.118])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970d3ff6dsm4555030f8f.25.2026.02.21.01.40.07
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a31b3d88sm133439895e9.3.2026.02.21.01.40.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Feb 2026 01:40:08 -0800 (PST)
+        Sat, 21 Feb 2026 01:40:10 -0800 (PST)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>,
  Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
@@ -69,14 +69,13 @@ Cc: Wentao Liang <vulab@iscas.ac.cn>, Maxime Ripard <mripard@kernel.org>,
  linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
  Richard Genoud <richard.genoud@bootlin.com>
-Subject:
- Re: [PATCH 2/6] mtd: rawnand: sunxi: fix sunxi_nfc_hw_ecc_read_extra_oob
-Date: Sat, 21 Feb 2026 10:15:56 +0100
-Message-ID: <5078855.31r3eYUQgx@jernej-laptop>
-In-Reply-To: <20260220161011.999642-3-richard.genoud@bootlin.com>
+Subject: Re: [PATCH 1/6] mtd: rawnand: sunxi: fix sunxi_nand_ooblayout_free
+Date: Sat, 21 Feb 2026 10:13:16 +0100
+Message-ID: <5967652.DvuYhMxLoT@jernej-laptop>
+In-Reply-To: <20260220161011.999642-2-richard.genoud@bootlin.com>
 References:
  <20260220161011.999642-1-richard.genoud@bootlin.com>
- <20260220161011.999642-3-richard.genoud@bootlin.com>
+ <20260220161011.999642-2-richard.genoud@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -86,43 +85,52 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne petek, 20. februar 2026 ob 17:10:07 Srednjeevropski standardni =C4=8Das=
+Dne petek, 20. februar 2026 ob 17:10:06 Srednjeevropski standardni =C4=8Das=
  je Richard Genoud napisal(a):
-> When dumping the OOB, the bytes at the end where actually copied from
-> the beginning of the OOB instead of current_offset.
+> The available length is really USER_DATA_LEN - 2 instead of just 2 (the
+> user data length minus the BBM length)
+> That doesn't change anything now, but if USER_DATA_LEN changes, it will.
+
+s/USER_DATA_LEN/USER_DATA_SZ/
+
 >=20
-> That leads to something like:
-> OOB: ff ff ff ff ff ff ff ff ea 19 00 3a 83 db aa 8d
-> OOB: 99 09 c8 9a 90 36 35 7d aa 15 13 07 3d 97 b2 a4
-> OOB: a8 bb 19 b3 07 e9 f6 25 52 d7 1a 23 e2 7e 0a e4
-> OOB: 52 8a 09 d2 1a 86 3d cf b4 99 43 13 d3 90 33 0b
-> OOB: ff ff ff ff ff ff ff ff ea 19 00 3a 83 db aa 8d
-> OOB: 99 09 c8 9a 90 36 35 7d aa 15 13 07 3d 97 b2 a4
-> OOB: a8 bb 19 b3 07 e9 f6 25 52 d7 1a 23 e2 7e 0a e4
-> OOB: 52 8a 09 d2 1a 86 3d cf b4 99 43 13 d3 90 33 0b
-> instead of:
-> OOB: ff ff ff ff ff ff ff ff ea 19 00 3a 83 db aa 8d
-> OOB: 99 09 c8 9a 90 36 35 7d aa 15 13 07 3d 97 b2 a4
-> OOB: a8 bb 19 b3 07 e9 f6 25 52 d7 1a 23 e2 7e 0a e4
-> OOB: 52 8a 09 d2 1a 86 3d cf b4 99 43 13 d3 90 33 0b
-> OOB: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> OOB: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> OOB: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> OOB: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> (example with BCH16, user data [8,0], no scrambling)
->=20
-> *cur_off (offset from the beginning of the page) was compared to offset
-> (offset from the beginning of the OOB), and then, the
-> nand_change_read_column_op() sets the current position to the beginning
-> of the OOB instead of OOB+offset
->=20
-> Fixes: 15d6f118285f ("mtd: rawnand: sunxi: Stop supporting ECC_HW_SYNDROM=
-E mode")
 > Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+If this is really a fix as subject suggest, then Fixes tag is in order. How=
+ever,
+this looks more like code refactor as end result is the same. So maybe
+reword subject?
 
 Best regards,
 Jernej
+
+> ---
+>  drivers/mtd/nand/raw/sunxi_nand.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sun=
+xi_nand.c
+> index 9dcdc93734cb..c420909b944b 100644
+> --- a/drivers/mtd/nand/raw/sunxi_nand.c
+> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
+> @@ -1761,12 +1761,12 @@ static int sunxi_nand_ooblayout_free(struct mtd_i=
+nfo *mtd, int section,
+> =20
+>  	/*
+>  	 * The first 2 bytes are used for BB markers, hence we
+> -	 * only have 2 bytes available in the first user data
+> +	 * only have USER_DATA_SZ - 2 bytes available in the first user data
+>  	 * section.
+>  	 */
+>  	if (!section && ecc->engine_type =3D=3D NAND_ECC_ENGINE_TYPE_ON_HOST) {
+>  		oobregion->offset =3D 2;
+> -		oobregion->length =3D 2;
+> +		oobregion->length =3D USER_DATA_SZ - 2;
+> =20
+>  		return 0;
+>  	}
+>=20
+
+
 
 
