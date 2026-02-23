@@ -1,126 +1,185 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE07235045
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 Feb 2026 13:46:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771854372; cv=none; b=M8k/iG/EYuJKZcKkPnLvS7VRvxOTWLZx6X8XcQ8OeFH77x/hz1gCjpiNvV5XOsGnfvX2bVg1ALS9RZHOKQB0IjbjkFHooJZm4j0gHNnF68eaB5aQTHfGDo8m0gksKsGb7et/t4zOL4YFRkgrvCbOmDW+7BHa4+zLdWI0p6FVhm4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771854372; c=relaxed/simple;
-	bh=xHD4QsgF9yMDfM9DNpu+nmQETYKEDBFK3tSyRcSPFXU=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363DB2853E0
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 Feb 2026 20:14:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771877682; cv=pass; b=ZS6A/yDK/WiIenMzOqJuDpilrJ0nfxnajLwzBdmiEH7RoPTpoCYdAPEomRIgRL/2Y3+jT3i73BCHkML7wzCV3nKxdHyW9GqjX5PwiABycmymuIPDU4Kty8Cd22/6rFADZHDvyTIy8Vi3B11tLwghlLa5SPZkbwbrRG+iXf5rseM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771877682; c=relaxed/simple;
+	bh=nA16AXtOAnzAMKQXT0kCHh4QEsWPir743Z8UnTfui7Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UjvOtmb0Ea6LmC/K6bnNRFOyXdPza/AVOYBuFzbEDd/vMUqiHfVKhjo/9GqRM4VN0f2Pzcuh2eyR0PTWPGvOjrR9k7zJuMQYjqsr4QjfAyI4yFPyqHH6nsZ6eOx/lB7wJVg6ZenWrXA9xuJaaZ5sJRUZNTyK9t8bkyMn0Uzl4nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GEhfoMxg; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=YGj+O8aLhE5Sb6WwCrBQd59qM8G4mo/XicFhPP4jS428nf5G5UlamYnr/8T6vFvQ5rVatLfWXFkjighf5yqP7D/5bJ9ZNrAbehfM6F8KspmaVvEWXtbkTbuLHoPdw1lgC1fqtz005V2HUz7qNcm1ItRAybeztKgESoAV1nQoygQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CfuBtahr; arc=pass smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GEhfoMxg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A667DC2BC9E
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 Feb 2026 13:46:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771854371;
-	bh=xHD4QsgF9yMDfM9DNpu+nmQETYKEDBFK3tSyRcSPFXU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=GEhfoMxgLPcp6nwBkt61gmLigCTkVgwWzwT0WQNgF2v2B5l7cMU1ELQLt3YHmIdBn
-	 5SAQ9FzxXxdkTsua8QRJaj+XmvK4QG19qdTYwSzCjypit9H1KiTPwRh7FtCZ6tkqcX
-	 WXpeV/sajncXIUIIM0tJHwJ+863yKm8QK5ecZ7hYMEBA+EhmHfW947NBkxOv/P6+k/
-	 5GU11vmBKyLibQb0nd9eewN2w9Z4NQ7gR1ADROg8pSR6Ed5Wd9ZTSFn/kjg+XTxOHP
-	 BfaZYFe56E19NFL/uM6za8z+9EKP3PS01Q5PvG/36tELIOBRvrtFao503jbbYj73m9
-	 ywb3HTeKvIDsw==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-59ddf02b00aso5135518e87.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 23 Feb 2026 05:46:11 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXDLTKeJRXfnNupQIjt65yUX7M1vQjCwIm1txP8MmRLhsslWJaA9nA48mhb8UHrLeuMyv0X3ppXOzxLfw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+HXysh24zdN+qQO6Qesu0NuDaUrPCTmqxNAQowXPXjZKvJ9zP
-	aSzG8x8c7bIRHDGVWyxHcdjl6CRFdIfrk4MCD3tOwJTdwRlp3DMJy7Sh3uhPV6Sl50Y2zV0LNcH
-	3+R8jISfjWT6MP3GEv4eluhqMkMAKWyW+XYLWfEjCYg==
-X-Received: by 2002:a05:6512:1553:20b0:5a0:ef6b:f613 with SMTP id
- 2adb3069b0e04-5a0ef6bf704mr1540983e87.1.1771854370177; Mon, 23 Feb 2026
- 05:46:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CfuBtahr"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b8fbe5719ceso789472166b.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 23 Feb 2026 12:14:40 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771877679; cv=none;
+        d=google.com; s=arc-20240605;
+        b=jKxHjt+ZhAvo79FOd21c+CBQ55Y5Y1iLNYdzV2eFLS/1FA0uWY6FPqZNG3yitbt8zI
+         ShoWXmbDT67/LeCqNGWUCHEa6cVSMHBbvaX2bwq3z0rp2ugbmItdrzZdAwq/rnt+JELS
+         WT3hvwbmOkpBxWn0Y/Z43hQi0ix+e/CxeJtqoLPdLD2eS5LXEDedSSNrvOlwSyKZile7
+         N+oX2qXnnfl6T9y6BjPovSsBil51szldxyS/CnQQ5HUI2W0zHqSF5QT+ESSQCU6TtFHA
+         dH27GlgpWOU0q/DNV0HAsnGq+BSh9BrTgiYlS+8FIrUWGtF90NP7cz0YAwJ7/RUAlaR6
+         lVSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=s5RZgQiN9LRRPBUwx9tg90lOISfa/rsQmb3YEFiGi18=;
+        fh=tGFWihEXKvkDjIBXAgpgnbM9Fd/YvR0LzcVY1qe6W80=;
+        b=OjHIEopAHhkJ+A3PJ/6ASf6Xi3cOyFr8zRZvMNYYClt4fSNxqBZz2q7B7bKUPJv43A
+         l6yXaB/9NIrhMXyr9mG3Br96++ebBrhwx8VQXxks5vKtC2GowzPgEcfC7qseO9CSm39I
+         xIAkGiMV1MUnNwoHY1ykjvB8HtSbjcJ+sOadN7Y/SPplN6I6dRaWTNTE8jAiTYE6W0dG
+         OJarjgRm8kJs5wsyAzcxWtxy1dpfBw2l7tQtbmxzZbIFV4qdWgp+XxTKn36+RDZYyXmy
+         EZq5VbGmxqDhk+r+ssRFFJl1fwhkGFiGDJGhM19RJUGqy/uVnutFRE4IV6ljetzP4NUZ
+         3iHQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1771877679; x=1772482479; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s5RZgQiN9LRRPBUwx9tg90lOISfa/rsQmb3YEFiGi18=;
+        b=CfuBtahrlCTKK9X23CNmGBBrGWL2/pgJbretQMnw+1rq59fljg5xSQd0ZinjC6uGLP
+         8dv7llrbrEkxIZEr68xXhGmGLs3XSCJWd/i/XuqcMQGo6B2ctpQNfPAgaAjIViNf5Ot6
+         vKeDTQFrp8z8FRqqx4+/jhICF4xuE4leiVl33RADYP6knGkTux7AFed49EEXMgiG4dsu
+         7+ntI9DGe1ybhn4fhs7//AcYshyBo7qBGg/ExjJnFhxIrYUIZCNMk1SDhTxtbAwcIQot
+         EpMGILOuXlwhKqXAw/ocG/AlshBLc8heC7bhCcSGQH8JsRwl5+9jAJOoyTgi+pDjVnKt
+         V0Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771877679; x=1772482479;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=s5RZgQiN9LRRPBUwx9tg90lOISfa/rsQmb3YEFiGi18=;
+        b=XzDnvkLo2WNZjCCSvKgIrZQFa0TfynA+aUstcMLVEiYdLDuRcCnX8+t8KIlUG/mYPi
+         fv7USVtdbMI5DRuX1wBejrsQPCUiym48pY7Sg9RWfoblHdU1u/yCo1oWT0Q/j353iT57
+         ZHsu59olxZelRU2KrWjmZwaZOJe8BQaTkDx4OashaqWj/uDlU6tKEdqK1rg1OY7oQBre
+         qq1gFltztFjpB+Pf+9qg2oGHxq6NOvAqS+tjcgkJRmUJxndmR6xKu0PUhIOFEo4egVj1
+         MKoWijojcvqmae3kL2bngoxGwP+zKt4Osa3a1Ds/IO2vF3VnKcPe2GFbLPz8heZAo+tD
+         nbOw==
+X-Forwarded-Encrypted: i=1; AJvYcCXU/dqB1GHyW7SpvH4yCge3aBoh8pGptOeRPMyiGYdVENS4Vc4YML8vg7M5tbA0dh1F0Yq8hHuG7t5F8g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzM28K8ieWbtislamuo5esCD+ZYfjk0rfSEDLE1fxnkZxLKPQ+I
+	ir74YcySfl4sWQDDcqe6577ijtfVrISqExtTV9U48cQU2tYgeKimbcu4ZsmyAIij6/Kt/8QHcat
+	az9kXOPYurFxiFVSP3lGEZGJtZPAXnMiuxIbwSz0=
+X-Gm-Gg: AZuq6aKkOQZRNCyfA1MJ9zTliX9MiCiBYDqPwFn9iXrZB7mvQf8JnonelXXnZAG5Y7Z
+	EodCHwvEs6eUonBg/VDY/GOLscfbUNr5s2SbW7ay4cn5DoGt3YWNazbxHbc2LVcXJWvYWqHxJs0
+	w8q7/ya8Xo+s36RuCnrhGh3IG9xKcStJcl2nzhmeL/jTP4eatvLVVsI9cPKhya2zxL7YRsXZQdL
+	P7kxhzH9bQvgaeXqmTTAoVP8l0WVL7nVatmKDnCT/mfl7OXsfgSS0gKd0s9xP6v+BxEuz5Cjey8
+	1o6vzoWn5OwL730FJQFlVMdGvjE0WvMp9WZP
+X-Received: by 2002:a17:906:eec4:b0:b91:949a:721 with SMTP id
+ a640c23a62f3a-b91949a077emr32138766b.50.1771877678105; Mon, 23 Feb 2026
+ 12:14:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260119-soc-of-root-v1-0-32a0fa9a78b4@oss.qualcomm.com>
- <20260119-soc-of-root-v1-7-32a0fa9a78b4@oss.qualcomm.com> <CAMuHMdU56p9jH8OZ5bpwKq8Q31C-8X85YAjiXZm8amYdo+Xotw@mail.gmail.com>
-In-Reply-To: <CAMuHMdU56p9jH8OZ5bpwKq8Q31C-8X85YAjiXZm8amYdo+Xotw@mail.gmail.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Mon, 23 Feb 2026 14:45:58 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MeC-MTzEOVw0j4Kq9T0bSXk2gKJr=jn2jO8tqfS7BEteQ@mail.gmail.com>
-X-Gm-Features: AaiRm53YdoncmLlrYwWxzOjKhAAi91ZYzJ0VCyHsDsiPleMxR8Z5ZNNGKc2eDc4
-Message-ID: <CAMRc=MeC-MTzEOVw0j4Kq9T0bSXk2gKJr=jn2jO8tqfS7BEteQ@mail.gmail.com>
-Subject: Re: [PATCH 7/8] soc: renesas: don't access of_root directly
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev
+References: <20260123093322.1327389-1-richard.genoud@bootlin.com>
+In-Reply-To: <20260123093322.1327389-1-richard.genoud@bootlin.com>
+From: John Stultz <jstultz@google.com>
+Date: Mon, 23 Feb 2026 12:14:26 -0800
+X-Gm-Features: AaiRm50Ga4oMdcVdPVuyNBi2IGP1JlBI-F2cv9ZWk5n7MHWt5lEEKQ1itdDrDwA
+Message-ID: <CANDhNCrSjp1F0PifJXmxrAbRiTC=d_ZXeiiT5kGuM=gNke7ebA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] Introduce Allwinner H616 PWM controller
+To: Richard Genoud <richard.genoud@bootlin.com>
+Cc: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Paul Kocialkowski <paulk@sys-base.io>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 19, 2026 at 8:25=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
+On Fri, Jan 23, 2026 at 1:33=E2=80=AFAM Richard Genoud
+<richard.genoud@bootlin.com> wrote:
 >
-> Hi Bartosz,
+> Allwinner H616 PWM controller is quite different from the A10 one.
 >
-> On Mon, 19 Jan 2026 at 11:40, Bartosz Golaszewski
-> <bartosz.golaszewski@oss.qualcomm.com> wrote:
-> > Don't access of_root directly as it reduces the build test coverage for
-> > this driver with COMPILE_TEST=3Dy and OF=3Dn. Use existing helper funct=
-ions
-> > to retrieve the relevant information.
-> >
-> > Suggested-by: Rob Herring <robh@kernel.org>
-> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.co=
-m>
+> It can drive 6 PWM channels, and like for the A10, each channel has a
+> bypass that permits to output a clock, bypassing the PWM logic, when
+> enabled.
 >
-> Thanks for your patch!
+> But, the channels are paired 2 by 2, sharing a first set of
+> MUX/prescaler/gate.
+> Then, for each channel, there's another prescaler (that will be bypassed
+> if the bypass is enabled for this channel).
 >
-> > --- a/drivers/soc/renesas/renesas-soc.c
-> > +++ b/drivers/soc/renesas/renesas-soc.c
-> > @@ -6,6 +6,7 @@
-> >   */
-> >
-> >  #include <linux/bitfield.h>
-> > +#include <linux/cleanup.h>
-> >  #include <linux/io.h>
-> >  #include <linux/of.h>
-> >  #include <linux/of_address.h>
-> > @@ -468,7 +469,11 @@ static int __init renesas_soc_init(void)
-> >         const char *soc_id;
-> >         int ret;
-> >
-> > -       match =3D of_match_node(renesas_socs, of_root);
-> > +       struct device_node *root __free(device_node) =3D of_find_node_b=
-y_path("/");
-> > +       if (!root)
-> > +               return -ENOENT;
-> > +
-> > +       match =3D of_match_node(renesas_socs, root);
+> It looks like that:
+>             _____      ______      ________
+> OSC24M --->|     |    |      |    |        |
+> APB1 ----->| Mux |--->| Gate |--->| /div_m |-----> PWM_clock_src_xy
+>            |_____|    |______|    |________|
+>                           ________
+>                          |        |
+>                       +->| /div_k |---> PWM_clock_x
+>                       |  |________|
+>                       |    ______
+>                       |   |      |
+>                       +-->| Gate |----> PWM_bypass_clock_x
+>                       |   |______|
+> PWM_clock_src_xy -----+   ________
+>                       |  |        |
+>                       +->| /div_k |---> PWM_clock_y
+>                       |  |________|
+>                       |    ______
+>                       |   |      |
+>                       +-->| Gate |----> PWM_bypass_clock_y
+>                           |______|
 >
-> I am not so fond of these of_find_node_by_path("/") + something replaceme=
-nts.
-> What about adding an of_match_root() helper?
+> Where xy can be 0/1, 2/3, 4/5
 >
+> PWM_clock_x/y serve for the PWM purpose.
+> PWM_bypass_clock_x/y serve for the clock-provider purpose.
+> The common clock framework has been used to manage those clocks.
+>
+> This PWM driver serves as a clock-provider for PWM_bypass_clocks.
+> This is needed for example by the embedded AC300 PHY which clock comes
+> from PMW5 pin (PB12).
+>
+> Usually, to get a clock from a PWM driver, we use the pwm-clock driver
+> so that the PWM driver doesn't need to be a clk-provider itself.
+> While this works in most cases, here it just doesn't.
+> That's because the pwm-clock request a period from the PWM driver,
+> without any clue that it actually wants a clock at a specific frequency,
+> and not a PWM signal with duty cycle capability.
+> So, the PWM driver doesn't know if it can use the bypass or not, it
+> doesn't even have the real accurate frequency information (23809524 Hz
+> instead of 24MHz) because PWM drivers only deal with periods.
+>
+> With pwm-clock, we loose a precious information along the way (that we
+> actually want a clock and not a PWM signal).
+> That's ok with simple PWM drivers that don't have multiple input clocks,
+> but in this case, without this information, we can't know for sure which
+> clock to use.
+> And here, for instance, if we ask for a 24MHz clock, pwm-clock will
+> requests 42ns (assigned-clocks doesn't help for that matter). The logic
+> is to select the highest clock (100MHz) with no prescaler and a duty
+> cycle value of 2/4 =3D> we have 25MHz instead of 24MHz.
+> And that's a perfectly fine choice for a PMW, because we still can
+> change the duty cycle in the range [0-4]/4.
+> But obviously for a clock, we don't care about the duty cycle, but more
+> about the clock accuracy.
+>
+> And actually, this PWM is really a PWM AND a real clock when the bypass
+> is set.
 
-I removed other instances from this series but not this one. I don't
-want to grow this series with even more new helpers. How about
-addressing this separately?
+During my free/personal time this weekend I was tinkering with Orange
+Pi Zero 2w and was able to use this patch series (along with an
+hdmi-phy patch and some dts changes) to get HDMI working on the
+device.
+I'm eager to see these land!
 
-> However, in the previous patch you used a different strategy:
->
-> -       if (!of_match_node(imx8_soc_match, of_root))
-> +       if (!of_machine_device_match(imx8_soc_match))
->
+Tested-by: John Stultz <jstultz@google.com>
 
-Because here, we really need the match structure later into the function.
-
-Bart
+thanks
+-john
