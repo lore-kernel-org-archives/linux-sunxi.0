@@ -1,86 +1,86 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1610634EEFC
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 Feb 2026 09:00:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937DF353EDF
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 Feb 2026 09:00:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771837226; cv=none; b=DEqw4ZmlhrgAUXf/4mKLcZrXc6yc3trgXcob234Q/T+HbOBm9IuUQMv61eleMUSfVtZmWgMSH87de3JihqUc6r4Ov4hZf2XHpXdoerynfJAkqMWPSGZ8VNt/tl0vOA0pgcpv9LW8ZPNRGtKCFn3S9Z4XP187yTJ+6Lx7Mfy4w/k=
+	t=1771837229; cv=none; b=fexG6pjeKQvK/8FYVWmH/wqBRs2CQwkjVJ1TejLtEo+QV3oEU5pfFvUAkPzgYQ/QGjiIOczIj5CDA2FK2EqZX210wuQLZiK54F6Fk6gEw7mF56Fd89hjYBozcLKUM2x3hAwX2izoHNUaEF/WIxNy1aqc7AQoTINlaU7OY6zmZpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771837226; c=relaxed/simple;
-	bh=dI851BmOduiioly8u4iYfe+Rr//GzNIkYCteXmln3Ng=;
+	s=arc-20240116; t=1771837229; c=relaxed/simple;
+	bh=JDZZ/6aGOo6nTpfOU40qBlSpYdHiADcGwoYL6QYt5dk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WEv5mq6J6hX6oMh98XJrNVr66Qps9KOgD0VF0gKq8QmySJ9wX4MUuaqSlFQMKAQodIhCXZhtjWw4A1t9DPdk0RIfVZShp4OSy5apwuARPaPuUAEOf69ziIVv7iimTz3h56HqKlimvNkKjhyqmUffJw4NpbxnPb3TVR7lobycmz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NwlSGsPo; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ciKBe96l; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:To:Cc; b=S8eKjm3tUDmCCFVRCJbM0hPueMZTGZYIjuqz3S90jIk2MEz8VAIdoFm9O9kS7BUR3cPPrSOji9wKJyE5NWSJ5rl7SXm7HmqDBq13ZIq+EIMwpB9l96FJ3G3vYki05UY8H3JXiJbeFD8d90JwvvI/x5LQuDlZSrgGYygIQ/H6zzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Hvr7zPTz; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ecmFMoXc; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NwlSGsPo";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ciKBe96l"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61MLrhtm1882198
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 Feb 2026 09:00:23 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Hvr7zPTz";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ecmFMoXc"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61MMtkcp1198815
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 Feb 2026 09:00:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	or9DvhQwaxtsrAqBQKF2R4HMkZA0UWyOfpa2BBt7/z4=; b=NwlSGsPoajg1cdlN
-	7FzImz3K7gmzTZflY85WSUFFFjqKsV0yoyy9AHVsFMHPRdjvX7zEz4bKOz1FdcrY
-	aXWZagVZ5ZFd2Z8FuByy3BgQuM3L4E+3cL2iEwk1Or8o4Hl3TBZvuLcAf8Al+GIP
-	gbbubkB3pBEdfiIBubRvwcIdXXX+X+sHj1qa6ABgHM8t+GK0EyS9xwNLk9cg+YYw
-	cqeSfSWK/1rjya1QyF89zZvbxZdJqxYN4d08FAjDFCkN4X13IOMkNcA0FbpHWbqu
-	kmDGlwB+M5mfh4a539DIBSjhclF2NtGHv9PdOFxL+jQiRY0Pogby/kcckwwNoiz2
-	6v0j6A==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cf5wav2ex-1
+	ebs4592ZeGx4XEtowa9rtUzeO9XIr9Cws6MAkd96cvY=; b=Hvr7zPTzrCaCVx85
+	+pWeuCaqk3ssZ3HpkZRf+BLU90H8Q9hwgIsSRvokmoMdvCIv/lykqwqQ1tVUhCyy
+	0j9tZZE0BoxwcP+klWXT7MLXWAvCJQISCVuiO9J55chWHyHkCP/XhoZp/t4M4Y/k
+	dFXBM4EPtwVa+4toWGGGGue3TaXQw1RivEQLz5Ypek8SioKEBaQVoDNT44NxHmEd
+	Gu4ucWk0dWMeK/rCMfday9iyQ3Zup380LIaWK1kP0+m0RkY7MWFx4+0/Mn3+ysrk
+	uiFCOmnQS7JElPU6r72eSg8NF6yTiIw10k+5nXvMMcpz7zsX5//azU1OEjB8BvoF
+	pHcCbA==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cf603m2cw-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 Feb 2026 09:00:23 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8cb37db8b79so1301389085a.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 23 Feb 2026 01:00:23 -0800 (PST)
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 Feb 2026 09:00:27 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-89471437f64so475903066d6.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 23 Feb 2026 01:00:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1771837222; x=1772442022; darn=lists.linux.dev;
+        d=oss.qualcomm.com; s=google; t=1771837227; x=1772442027; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=or9DvhQwaxtsrAqBQKF2R4HMkZA0UWyOfpa2BBt7/z4=;
-        b=ciKBe96lOfWONi5Q1B75WuxTFvUF/x1bxppu7Oun3pi1ris0spQZLyacyP4bj/FuAP
-         vlpYYnCYiOkkwLAZk7S9WvDjQyhgnMiExY2KGO4n8U6v9ASCUydhrXjE/aYofuOVjunf
-         nOdnDwijSlUya3tLF6DIAmuBSz1VvCXK9zCJU8dawMJNyaIGSkCRpgqpxIr8wYT7w5ro
-         +7K2IktJft7InOaFHpSzqvBg0YvJrkFHGAm2zam/9hEannXolymAM1SGopqF9eB9TotR
-         D5Qt7SrHHUACZ3M+qPP1h0GqSRAkHWCK+cVmfpB4HsGNzF9D7qofmtJqGyO0BdotZ3P9
-         JcZg==
+        bh=ebs4592ZeGx4XEtowa9rtUzeO9XIr9Cws6MAkd96cvY=;
+        b=ecmFMoXcu9lsAxTdJFYitbw0r4dD1OwUkj0ChCh2xdPP5NU68Me96lTKR8jhEIgInI
+         gXJw8FNElR4jeOx3qgRU/tKjTbJKBOmtJxyhwP+CAnQRvmBlizDbKx+/9rkfW3vg0LMk
+         yCesoJA6a85Dcpx1w8BqLvpep71iq3HhNrx5JB8CHnxIwr9QMz56sJSgG76aPLMvbMTr
+         ctM0Ux5/bYbC7FHILhc+5rc3fmH2eZKBp0PSD5nnQBwXk2ONlAYVg2SCW42eQeYZi+CU
+         t2IbSJf1tfqrXmy7WqddsbsaF1vMFaEbjQ9afyS2W2gftfS8RxNWDdsyG16oKfic1dY9
+         AK+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771837222; x=1772442022;
+        d=1e100.net; s=20230601; t=1771837227; x=1772442027;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=or9DvhQwaxtsrAqBQKF2R4HMkZA0UWyOfpa2BBt7/z4=;
-        b=dd/zIFwrUb/jacsxMBlE6Qlo+uc/6U39oieIoVx2PrAQrEphT01zkfGXDrwcmkZ4w0
-         8Os/VM441j4igoa4qdV2YbHJSGjx9GX1TLuC4HJUqPrmr3eEOpclrn9HMjj+1R+dFcGn
-         HkEeqvQ78TE+Xt69JjWUlvW89cBUhEL14SB+Svblv+nwwfSUjVwLNjA9nxRnWDi2miFV
-         IHN5sL+kk9iU2Hjchjp9y+AW23U2yESxbr77M53+bBeAXPGJi0HhJEEBJbzwi2eC7D6S
-         OcTLk1sQuDBDiRc6rgQedJrNWchxXLAEGCqvfybem8qDOnq+QUxbWm5Ez9eL42+QjlNn
-         7gqA==
-X-Forwarded-Encrypted: i=1; AJvYcCVAtUJbAVghHyUQV8u1CR9jeYmUQDnnzut89vuc6XViVIdULIueP0ltnuX/nyb0BG5nxfE4ofQSRsk+tQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwCYxcup4YP9SKgQpqTwvjZoQ7upEPLynpG4PnQKIkQKr+9NDWY
-	+4Xb0UpbZtycBO9niTo92jEars4ZpaOplzB/9Uah5YEH8Mok3ovrFch2yfVG42JLfff5185fLhA
-	+GvoWa327QN2RKyeWDr0+Ucb4U3nmmVdCSMhJBHrwZkD0h0naJs0t/zAPMg3HPJuuyA==
-X-Gm-Gg: AZuq6aLuIBIFevlcFJPaZjWTnh+ibyGuNGjttIcnExyL+GCSmAS/g+ZrHM6/xyYddTS
-	r9aa5/5AIkRGcvnBFHAnYa0gGaCaF5tqd7jWA3SxKwaSJb0V+AUw22BAZSeSaRNuIB2ipvNzLpG
-	TauxrMc7TxY5/F1n3BC1asekpSqeKgcYTq8jO/1WYgoz4Q2XOcCcPU5FMZn/550DrY+aiFY6dQH
-	d/f7qMaZN/6SCh5HfCW66AIh2viH0XBi4nyKlUkuAAU6/ZHa5glL8yGpeiLcKWjEOfA8hxa2SW/
-	iZhGBlJSYLc4Bvi98JoyY23kH13RrwjbbiX95I0FI3Mx/X11htCiNHgcDJx+BJXVRNgtCO2Run1
-	GsQWEZfojNP1YkKNztIx+q1/Qd16w3yD+N3N/L1fwHg682+g/j4E1
-X-Received: by 2002:a05:620a:4555:b0:8c9:fb26:dc6e with SMTP id af79cd13be357-8cb8ca65ae1mr991089285a.38.1771837222289;
-        Mon, 23 Feb 2026 01:00:22 -0800 (PST)
-X-Received: by 2002:a05:620a:4555:b0:8c9:fb26:dc6e with SMTP id af79cd13be357-8cb8ca65ae1mr991085485a.38.1771837221857;
-        Mon, 23 Feb 2026 01:00:21 -0800 (PST)
+        bh=ebs4592ZeGx4XEtowa9rtUzeO9XIr9Cws6MAkd96cvY=;
+        b=jQ65E/7/9fZYBiUP52KEeezwWj8A/fkvjbYDyxxUXQsXOygv7CYbLe8BCEoyu0bmBJ
+         3irlrmE9G2f8dWIMB6PlCtVflJWu5kcNxzdP5B2hNDXF/lsVGcGIB19ThSAT+LT6Akj/
+         K1Tkj8UXshiwWAyd4TfUEOWlUBMz5YXQN12EObFlwDHWlJDdeWVLI1toFoV0fwqMaSy+
+         JeQZ8BZTVSAO6GCuOfShl+5eCRL26v5qL0NefW1AYbA4MXWDULq1BJaoxrqGofwJ8UCr
+         LP4SAKRTEXjIVrwkMefAHlC0girRC1MKWcXre+Q88Ca1hFgUxRTa0Joyw4GiTloferlf
+         rxVw==
+X-Forwarded-Encrypted: i=1; AJvYcCXgRUA5XQ8PFzynCvIru4JUJGOzz5M59hTHqJfZRPDpsh8PZfxR2sCTXwMIYiUWpw3Cpx9FosKd8c0BwA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywx8d90VgnYbXUDeNiJPGDCa83AvLI15bKNO0Awx5C+Jd4JAojz
+	J86d4b6gYJiGkzslEJ8VEhDMF/EkHRO8VCwWexJ3a01nenO/QUg77tYyrJcUi6KpfNBseKBZw3B
+	pwOPXJSWEIo5SfPBi3EZ+4kKh1rTLYiw2+ehfC6KUtfFBA2wfPEqnIjT7tYyOHqa2rA==
+X-Gm-Gg: AZuq6aI1MbwBO58Ak3p4Py8vIgv/gDIT6gr2qH6QZ6PzhNt/CI+yb3mkxWYey3O0UzO
+	kja7Po3DkEV6NmqBQwESmuUejtC86T7rXfg6hl1HsKH+zWnB4M7BbZl8ZTVh6LpsJphW3qwcgTD
+	pe3jbVWewQVQRXpvL+ppsPqv194JJeeYk8ApwNrT1XBHVr9dS6WdhNsOQxf6KIdkq0b/KNfU26M
+	4VUgIg5ZisBPVpb6NRQtAaAPe9wiX8R4MSy+BLrWA8+BB7q5Qr7CdH+/7zbnCRZ0AZo1DmY0QRK
+	IFM0AVi45wCk8DN1hXA1Gter9JSNMX5jU1b4JcIoxHlBCAfv3D0V80VkFSc+DB3cgPzRWKL6PEM
+	qZVgeZQcIiLTAVvsSF3mIgYXdE12d8MrdZ7DGwL3wBfpcMzWQPRzm
+X-Received: by 2002:a05:620a:318f:b0:8c6:b258:dff7 with SMTP id af79cd13be357-8cb8ca8962amr979349685a.72.1771837226544;
+        Mon, 23 Feb 2026 01:00:26 -0800 (PST)
+X-Received: by 2002:a05:620a:318f:b0:8c6:b258:dff7 with SMTP id af79cd13be357-8cb8ca8962amr979342585a.72.1771837225985;
+        Mon, 23 Feb 2026 01:00:25 -0800 (PST)
 Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:bd71:422c:5e83:8b37])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a3dfd3d6sm119000395e9.3.2026.02.23.01.00.19
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a3dfd3d6sm119000395e9.3.2026.02.23.01.00.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 01:00:20 -0800 (PST)
+        Mon, 23 Feb 2026 01:00:24 -0800 (PST)
 From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Date: Mon, 23 Feb 2026 09:59:41 +0100
-Subject: [PATCH v2 12/13] i2c: amd756: use i2c_adapter-specific printk
+Date: Mon, 23 Feb 2026 09:59:42 +0100
+Subject: [PATCH v2 13/13] i2c: piix4: use i2c_adapter-specific printk
  helpers
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -90,7 +90,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260223-i2c-printk-helpers-v2-12-13b2a97762af@oss.qualcomm.com>
+Message-Id: <20260223-i2c-printk-helpers-v2-13-13b2a97762af@oss.qualcomm.com>
 References: <20260223-i2c-printk-helpers-v2-0-13b2a97762af@oss.qualcomm.com>
 In-Reply-To: <20260223-i2c-printk-helpers-v2-0-13b2a97762af@oss.qualcomm.com>
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
@@ -112,46 +112,46 @@ Cc: linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
         Bartosz Golaszewski <brgl@kernel.org>, linux-media@vger.kernel.org,
         Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3679;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1631;
  i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
- bh=dI851BmOduiioly8u4iYfe+Rr//GzNIkYCteXmln3Ng=;
- b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpnBcHDR72fg/RLmfqEfX9o8DKYkAT9RN+UOU/R
- RWoY8UXtcqJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaZwXBwAKCRAFnS7L/zaE
- w6GID/96qWc6HzdW5LSb/XKz9++1uSGtny1zn/Y2Dov7vn78E1+wi1vBGY97PMuY3wBXAFWHPkg
- je0bVLHjsDEv+4uqAr3C4T0MelEgMHgYx+EcA/vRYlrZsDTah14vhyIVVBAgU+LH/qnqHJ9vnb/
- R07bjiuhq0RygoZggbvZxDp2/psEw1yfOq2Tv+rSH51jenKvSShvBbfDzpmXNvo1WIKFKuxObtb
- y+L/xfFlfq9tSHkwKnLFytYKBRgerLwkqFANPeuHYpPL9EXoqHjKuvAt1CJqc55EJVNzGZFkFIT
- eYid0jiEyP0q2IDoJDYUbTPpGLIDJcrrC3Tc7J9uLALV7BTKVrJjdR1lZD0FA50vtH/UdMmTlKt
- vHba0Q2n68Kl5mkhjCDGHPg02it0MuFVgFFppU2bT+u1rTNlfSu1dZpebdQ4uCu55REXTij9N8i
- v3EWewd2H6lkniqel+JvZlorsNA+W42Lpxj7xHgKVQnd5Q2nvPKVGmneLlRQfVn9fpQ/WBaxBuo
- aCNzM7qDoUqFEYSbjFfwq4Tz2MUfkkPH6kT6ZQyMiw1U8U719a0prDzVkG1x9m3lkx7W4zcsGF8
- /9P/DxDJVq94qbo2A6aa9ouqHJR7NFgwxXkhLUoE7sqoBb2GDX0+VLb4wUCGtORmHX3GC0ps1yv
- kOomrQu/puIrA4g==
+ bh=JDZZ/6aGOo6nTpfOU40qBlSpYdHiADcGwoYL6QYt5dk=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpnBcIdZYwirJnUNOGujgI7ogwb5RBbVsRgHzZt
+ 6K9WXX042OJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaZwXCAAKCRAFnS7L/zaE
+ w/1fD/9C9lHh11MQDFHNS2CdDlMZobYyoli8+SLRr7N1NFuXSbJv/+h//P2hoBy0ke6yXqTJ4+L
+ axzRX/jM2FO3L1ru6ZrxkjvExiROejYsY2HigPuosAHZEcMJHX50dppFDbhFtilqHuGGRbQ91rb
+ UdnyjHFtSkUZAtT/ahTl9re5M8Vighq8YxQKegyiyrIfT4o5mJMMyI5gs4cv9wWuhpByp+tchBj
+ n+NVrFNe4cUBw0EgzHfbabeRPa75XEGBdgCLmD/0BOT4YBwTL4BmfBt/4kazL2DiuU1ogHEDSID
+ 3K7NJSMh+04p0We0l2P8ZxiEn6EMBMjvh0h8wQqUrPdCEzBCNe/1dVdSthVFXYEppwL4ofSvok6
+ XG9a+P6zSiBBE+B1A2+hmabACNJNMQ0AvZY4GXpDWjhOiW7QVl1HIiQEiPCyiyi30W+rVH4lspI
+ 8JUhkGQuwW9zYF/NzbMusTvzOqoJ0XsNGI3vHJPv0CqVQLX4m1bPZnqaf9OW+ls0gPDcrrK+oeq
+ r23BCzSbMK80frsQ8dtiZGTXaAxlemajkek9awA8vE6y3aFEynS4iquHJ2E8pWSbYo4ke7/5C0d
+ GD8jLMRaKsY+SoT4O7JObjMnj/9nVkONjeXiLY+x3XdOiJsoVn+/Tx1OvpSG88jXqVllU0NwSqV
+ ozIxTLR3zZ0NIZg==
 X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
  fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
-X-Authority-Analysis: v=2.4 cv=KJVXzVFo c=1 sm=1 tr=0 ts=699c1727 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+X-Authority-Analysis: v=2.4 cv=XbWEDY55 c=1 sm=1 tr=0 ts=699c172b cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8
- a=IUzV_G_aAFXi5cZUTYgA:9 a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDA4MCBTYWx0ZWRfX9nmXcDTylJ0N
- CgXLXkHY6qprgoO4ramDUAYEG8/PScXHbCQqhusBaFWpRSASMrEhYi8QpIa1E7qi8GAgNRrKCmv
- +C2Ch4Pidh1fgABD6QcvqQ8Kc/l7Q+glyGrB+O8TCnj6Ey3m817zPJO6WWfD9SUWmMjFYeuz8gS
- EuyhcDGIYC++NSfEI6l/KQ3OxMGEo2IqnpsDl0NQaaEaZ700HnAvvFr1d8k6wEEPbUSZOCpswIi
- RK0Y0GX2st2U9+inEl1B9IlU2IHZweamwRRcFEn6UtcDKofJQRmbOuwIOp6bHOT+5KoHi+A17QG
- LGuXpyEb1vQkW0AiNAfwqM4gso4dMHfGhERi2xVHlMcrjcyQVqouMknGWOyLpn2Dd1EEYLzr+b8
- qsy1wvgPsL5rlYOdwYRWjkZpLi80WBzXN5ROo3rliM6xKOUGECQ4duoY7BCXxrGTFCX64FkXf+Q
- efEZThIPJtblf/iLPpA==
-X-Proofpoint-ORIG-GUID: FTY3jFssBWKQRC8AL741ck8EfXXe1Btr
-X-Proofpoint-GUID: FTY3jFssBWKQRC8AL741ck8EfXXe1Btr
+ a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=EUspDBNiAAAA:8
+ a=dY4OjmsCUpDc7DjzIskA:9 a=QEXdDO2ut3YA:10 a=iYH6xdkBrDN1Jqds4HTS:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDA4MCBTYWx0ZWRfXxn5jVmp+ZW2N
+ jKT9AesYi5brQb+VR1qXpmiINbr+B357I6Ve/oW8alMzEAbtJPkvQ3WebUSSmp7/Ui7uQiMpS40
+ qTu3SAk6tHfbhdM3NAvuYnXGvzc326Ju3Z9oZ3adDrGjkSdHa9UEuerXt3fL9s3ntaI15BAMOAC
+ KNkW7tYcjiUcTu/Ow4TbPnNgyxBAyZosclXOR3khZEMhj5xaUUQSWIEqp30OQT7a/Nc8eSOfXUG
+ BJqxTDdArx2XSjDYHtjqO8J54qEGRdVuO2x94HYYHbmHzrBUKn3F72cuORWbUqnWuewVCiLw6xf
+ 6m6f+QG7AQzrrMNa7gd5KAMlV5BN5W5SzgLjwhqx88Zdd9x4iqYL1qmGqX8t20TKHAQhs88wCpf
+ 9us3PfVlOw6TxqX8nQ5RgAVI1qASQ68TPGYof9jXRRGW9SNftEMXOoN9WiVTfuiondPSPAw6Hs0
+ vhPIFH8YzM2xAHe4p5g==
+X-Proofpoint-ORIG-GUID: -XckzUkHjV054T3d3HwK2HfBnQ1GqZMg
+X-Proofpoint-GUID: -XckzUkHjV054T3d3HwK2HfBnQ1GqZMg
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-02-23_01,2026-02-20_04,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 bulkscore=0 lowpriorityscore=0
- priorityscore=1501 clxscore=1015 spamscore=0 malwarescore=0 adultscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
+ lowpriorityscore=0 clxscore=1015 impostorscore=0 suspectscore=0
+ malwarescore=0 phishscore=0 priorityscore=1501 adultscore=0 spamscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
  definitions=main-2602230080
 
 Convert all instances of using device printk helpers with struct device
@@ -160,96 +160,15 @@ that dereference.
 
 Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 ---
- drivers/i2c/busses/i2c-amd756.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ drivers/i2c/busses/i2c-piix4.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/i2c/busses/i2c-amd756.c b/drivers/i2c/busses/i2c-amd756.c
-index 3621c02f1cbabd8c5e9d8a4ae1494ada78726b15..629da0b8024b88cc4d51ea5e785147b462a1281c 100644
---- a/drivers/i2c/busses/i2c-amd756.c
-+++ b/drivers/i2c/busses/i2c-amd756.c
-@@ -99,14 +99,14 @@ static int amd756_transaction(struct i2c_adapter *adap)
- 	int result = 0;
- 	int timeout = 0;
- 
--	dev_dbg(&adap->dev, "Transaction (pre): GS=%04x, GE=%04x, ADD=%04x, "
-+	i2c_dbg(adap, "Transaction (pre): GS=%04x, GE=%04x, ADD=%04x, "
- 		"DAT=%04x\n", inw_p(SMB_GLOBAL_STATUS),
- 		inw_p(SMB_GLOBAL_ENABLE), inw_p(SMB_HOST_ADDRESS),
- 		inb_p(SMB_HOST_DATA));
- 
- 	/* Make sure the SMBus host is ready to start transmitting */
- 	if ((temp = inw_p(SMB_GLOBAL_STATUS)) & (GS_HST_STS | GS_SMB_STS)) {
--		dev_dbg(&adap->dev, "SMBus busy (%04x). Waiting...\n", temp);
-+		i2c_dbg(adap, "SMBus busy (%04x). Waiting...\n", temp);
- 		do {
- 			msleep(1);
- 			temp = inw_p(SMB_GLOBAL_STATUS);
-@@ -114,7 +114,7 @@ static int amd756_transaction(struct i2c_adapter *adap)
- 		         (timeout++ < MAX_TIMEOUT));
- 		/* If the SMBus is still busy, we give up */
- 		if (timeout > MAX_TIMEOUT) {
--			dev_dbg(&adap->dev, "Busy wait timeout (%04x)\n", temp);
-+			i2c_dbg(adap, "Busy wait timeout (%04x)\n", temp);
- 			goto abort;
- 		}
- 		timeout = 0;
-@@ -131,38 +131,38 @@ static int amd756_transaction(struct i2c_adapter *adap)
- 
- 	/* If the SMBus is still busy, we give up */
- 	if (timeout > MAX_TIMEOUT) {
--		dev_dbg(&adap->dev, "Completion timeout!\n");
-+		i2c_dbg(adap, "Completion timeout!\n");
- 		goto abort;
- 	}
- 
- 	if (temp & GS_PRERR_STS) {
- 		result = -ENXIO;
--		dev_dbg(&adap->dev, "SMBus Protocol error (no response)!\n");
-+		i2c_dbg(adap, "SMBus Protocol error (no response)!\n");
- 	}
- 
- 	if (temp & GS_COL_STS) {
- 		result = -EIO;
--		dev_warn(&adap->dev, "SMBus collision!\n");
-+		i2c_warn(adap, "SMBus collision!\n");
- 	}
- 
- 	if (temp & GS_TO_STS) {
- 		result = -ETIMEDOUT;
--		dev_dbg(&adap->dev, "SMBus protocol timeout!\n");
-+		i2c_dbg(adap, "SMBus protocol timeout!\n");
- 	}
- 
- 	if (temp & GS_HCYC_STS)
--		dev_dbg(&adap->dev, "SMBus protocol success!\n");
-+		i2c_dbg(adap, "SMBus protocol success!\n");
- 
- 	outw_p(GS_CLEAR_STS, SMB_GLOBAL_STATUS);
- 
- #ifdef DEBUG
- 	if (((temp = inw_p(SMB_GLOBAL_STATUS)) & GS_CLEAR_STS) != 0x00) {
--		dev_dbg(&adap->dev,
-+		i2c_dbg(adap,
- 			"Failed reset at end of transaction (%04x)\n", temp);
- 	}
- #endif
- 
--	dev_dbg(&adap->dev,
-+	i2c_dbg(adap,
- 		"Transaction (post): GS=%04x, GE=%04x, ADD=%04x, DAT=%04x\n",
- 		inw_p(SMB_GLOBAL_STATUS), inw_p(SMB_GLOBAL_ENABLE),
- 		inw_p(SMB_HOST_ADDRESS), inb_p(SMB_HOST_DATA));
-@@ -170,7 +170,7 @@ static int amd756_transaction(struct i2c_adapter *adap)
- 	return result;
- 
-  abort:
--	dev_warn(&adap->dev, "Sending abort\n");
-+	i2c_warn(adap, "Sending abort\n");
- 	outw_p(inw(SMB_GLOBAL_ENABLE) | GE_ABORT, SMB_GLOBAL_ENABLE);
- 	msleep(100);
- 	outw_p(GS_CLEAR_STS, SMB_GLOBAL_STATUS);
-@@ -233,7 +233,7 @@ static s32 amd756_access(struct i2c_adapter * adap, u16 addr,
- 		size = AMD756_BLOCK_DATA;
+diff --git a/drivers/i2c/busses/i2c-piix4.c b/drivers/i2c/busses/i2c-piix4.c
+index 7b6a4e201be4a211c3b84e57fb7d8e0adc9895b7..d7fa2fbace908d1c2de66aae152e848bd1678fb9 100644
+--- a/drivers/i2c/busses/i2c-piix4.c
++++ b/drivers/i2c/busses/i2c-piix4.c
+@@ -650,7 +650,7 @@ static s32 piix4_access(struct i2c_adapter * adap, u16 addr,
+ 		size = PIIX4_BLOCK_DATA;
  		break;
  	default:
 -		dev_warn(&adap->dev, "Unsupported transaction %d\n", size);
@@ -257,6 +176,30 @@ index 3621c02f1cbabd8c5e9d8a4ae1494ada78726b15..629da0b8024b88cc4d51ea5e785147b4
  		return -EOPNOTSUPP;
  	}
  
+@@ -825,12 +825,12 @@ static s32 piix4_access_sb800(struct i2c_adapter *adap, u16 addr,
+ 		ret = piix4_imc_sleep();
+ 		switch (ret) {
+ 		case -EBUSY:
+-			dev_warn(&adap->dev,
++			i2c_warn(adap,
+ 				 "IMC base address index region 0x%x already in use.\n",
+ 				 KERNCZ_IMC_IDX);
+ 			break;
+ 		case -ETIMEDOUT:
+-			dev_warn(&adap->dev,
++			i2c_warn(adap,
+ 				 "Failed to communicate with the IMC.\n");
+ 			break;
+ 		default:
+@@ -839,7 +839,7 @@ static s32 piix4_access_sb800(struct i2c_adapter *adap, u16 addr,
+ 
+ 		/* If IMC communication fails do not retry */
+ 		if (ret) {
+-			dev_warn(&adap->dev,
++			i2c_warn(adap,
+ 				 "Continuing without IMC notification.\n");
+ 			adapdata->notify_imc = false;
+ 		}
 
 -- 
 2.47.3
