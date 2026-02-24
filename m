@@ -1,108 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 215B539A7F4
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 Feb 2026 12:45:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3E03A0B22
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 Feb 2026 14:51:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771937114; cv=none; b=cQ+yOLT2vzbBKLkFTxKKWZ0HilVViSsDQvlIz6N6ZKYU1urjSSyzvmWJfDc/yLuXEpuStfiwy7sKddk6KqqtrgRzPx/bn5VtkCtISPKGf2dVolVeMfnkxZT61NK3RY+gj5z08flPUZ7ThmE2N/ldzgYvnsKB1fHBWRYtImaZQ5o=
+	t=1771944690; cv=none; b=MEVN4DAAHF/hnikvqlvnF+VHdNpKh88kYnr3L/pSNg+NTtRenG/sYyXkV0mbs4B/PsT7da5VZO6fCKhNVz+ksEl9Y5dsIUQzYrdN7HT4otFwHV1oDJ2doldNBz+4PhPn/Gh+6YADqRyDTBhgadzWPEnFwLoalVpzh6sXsr3LKnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771937114; c=relaxed/simple;
-	bh=W7iFt2fkt7YDpfXHd4Koz7uX1w/SnCnrgCNowt9OOFg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=FMlAHkIazFAX0VHIvE61aBp8xtFbooxkit/zE3UIFrMvpV+VBdEfS6lW/wUWj8aTAUbCdwFxgmdnL+w1CgnN6wF94IA1EZaQ43twD6euPx9D/iTgaf9jM1YnxrwQiGr9553V+CzAfIeMN70Jm2ev87KYWu3p+bHne7cWR63WReo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IeTDMNcA; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1771944690; c=relaxed/simple;
+	bh=CTbG2+/qeKMz4OKAW8KVK98vi8Pu0f62GDaMHF9UJ9M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=i8PSEjHmQO1SADmNtpikzFEJ6RbWMM97wPSkSgRtYjRN7UnUZF1VrjXzgVKaA99t5MVnKfN5R/4MDMmYRQaHx2hw2ERLc4Bf1a0tlg9HKoBIT9xMog/Wn2yZVNcAebBTX/ng6cbz4FJyB4pu2Vr2tvyBEoiQKShhPQykGmeVKl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b2nF0ina; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IeTDMNcA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771937114; x=1803473114;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=W7iFt2fkt7YDpfXHd4Koz7uX1w/SnCnrgCNowt9OOFg=;
-  b=IeTDMNcAwD40mzY1+plh0CDE5hq1sc5k0Hknx5cfiGqgnxwWbhXZ7rOu
-   al3pRfq+DrAQpYa9bDjFKocYyHp7T2kIdGa6LW5unDX5n0WVQRxSlRgFf
-   iONXvKvTmZSn8zOdDgBYreI7ANCZQXypV5kCJZPok50OVkTjt9l7No8vg
-   +bZC2LgcImj1SQBLirT5W7gYRGFO+0eW2mIk02xZh7mxmh17A0oa3df4V
-   NOYQDhAnvhwq4PhefnlYKNqsCk+Dpg/xnLKDPvMeMJrSMk+ox7Zvliqzp
-   ZWxsiwuqo3sZc/GLa6DNSroskskNNVzR1L3qFKHy2LWSmzMVWDorDwStR
-   w==;
-X-CSE-ConnectionGUID: 3AYZimLoR5yPUoBYoTULlA==
-X-CSE-MsgGUID: xTiLHwhZTqKDkyfGvd+dOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="73128798"
-X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
-   d="scan'208";a="73128798"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 04:45:13 -0800
-X-CSE-ConnectionGUID: hR5Tp+z0SeiMexLEVtwNdg==
-X-CSE-MsgGUID: RMgpOpjdSHuKzcfGeOggUA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
-   d="scan'208";a="215752727"
-Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.246.20])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 04:45:00 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>, Nicolas Frattaroli
- <nicolas.frattaroli@collabora.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>, Alex
- Deucher <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
- Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Andy Yan
- <andy.yan@rock-chips.com>, Liviu Dudau <liviu.dudau@arm.com>, Chun-Kuang
- Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Sandy Huang
- <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Liu
- Ying
- <victor.liu@nxp.com>, Chen-Yu Tsai <wens@kernel.org>, Samuel Holland
- <samuel@sholland.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel
- Maintenance
- <kernel-list@raspberrypi.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 00/14] drm: Create drm_output_color_format enum
-In-Reply-To: <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
-Date: Tue, 24 Feb 2026 14:44:57 +0200
-Message-ID: <f8e02ae7d60814d3d0540ab81ebccbe46eaf5e29@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b2nF0ina"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C197C2BC86
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 Feb 2026 14:51:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771944690;
+	bh=CTbG2+/qeKMz4OKAW8KVK98vi8Pu0f62GDaMHF9UJ9M=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=b2nF0inaELbo3nIJYPqR0TbgFBJt/lH15X6b4kdV5yC8rKU7vy2fd496RTugBoT8V
+	 Sz0ynyuyya0iXP0jVUoPM8YPf4UVW419FyyAdwhtZsAC0dMxQ7MaQq8oymc1wCjK7O
+	 KIM+WMQ7RQ2iPcAGS9iaPjd1/Fb0B5UkgYRW1COtWU9omqpOKxkk3ww2tZLQUNhe6y
+	 RMEB6UiySWUzOl5V+MhHhu2HtEwg0US1Yii98UlzmfTYdChrEZPk+wuaAv9f/oVJsR
+	 BzpIPCgjOaLpNM9MS/P42JF5Iy7OV7AAp1MQTesdiCiN1E1wDFu3PUs/CHQuIPOtth
+	 nerS28dEesGKg==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-59f791a6e67so5521740e87.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 24 Feb 2026 06:51:30 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXW2VWDRWbdsOGAm3NTIamG8YqVQE8mRDilMpBPTu972DiD+t1ySHah0zJY0Cqt/Nzw2YUJtRR/9rjExg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxUhEl066NTns0EiuuQx29miDBWCmbo0pag2uEoRMlAuONb52H1
+	ZM2gKD8escGF2JOKac247QYmub5YCWHPR/asqwU3e9RXSC3phY0qtV+kMtegQnsucPy1fvLV8kY
+	iuaOvnSs/G5+Jfm9SwM011ifmRkTtVEQ=
+X-Received: by 2002:a05:6512:3b11:b0:59f:6efc:2846 with SMTP id
+ 2adb3069b0e04-5a0fe4867dbmr67923e87.7.1771944688693; Tue, 24 Feb 2026
+ 06:51:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20260205084037.3661261-1-nichen@iscas.ac.cn>
+In-Reply-To: <20260205084037.3661261-1-nichen@iscas.ac.cn>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 24 Feb 2026 22:51:15 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67GbsYcHTtqhgPmV-aR+7MsGPAdEWUQgNnWF58QEJVprg@mail.gmail.com>
+X-Gm-Features: AaiRm51nAh_B51su5XA5YdK2c0XNwTMbTicJtvmC3iQAXEKLeXb9nFKqg3c7k7Y
+Message-ID: <CAGb2v67GbsYcHTtqhgPmV-aR+7MsGPAdEWUQgNnWF58QEJVprg@mail.gmail.com>
+Subject: Re: [PATCH] clocksource/drivers/sun5i: Handle error returns from devm_reset_control_get_optional_exclusive()
+To: Chen Ni <nichen@iscas.ac.cn>
+Cc: daniel.lezcano@linaro.org, tglx@kernel.org, jernej.skrabec@gmail.com, 
+	samuel@sholland.org, p.zabel@pengutronix.de, mripard@kernel.org, 
+	mans@mansr.com, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 24 Feb 2026, Maxime Ripard <mripard@kernel.org> wrote:
-> Hi,
+On Thu, Feb 5, 2026 at 4:42=E2=80=AFPM Chen Ni <nichen@iscas.ac.cn> wrote:
 >
-> This series creates an enum to represent the output color format as an
-> enum instead of a bitmask, and consolidate the HDMI helpers to use the
-> new enum.
+> The devm_reset_control_get_optional_exclusive() function may return an
+> ERR_PTR in case of genuine reset control acquisition errors, not just
+> NULL which indicates the legitimate absence of an optional reset.
 >
-> This should make Nicolas' work easier.
+> Add an IS_ERR() check after the call in sun5i_timer_probe(). On error,
+> return the error code to ensure proper failure handling rather than
+> proceeding with invalid pointers.
 >
-> It has been build tested, and passes kunit tests.
->
-> Let me know what you think,
+> Fixes: 7e5bac610d2f ("clocksource/drivers/sun5i: Convert to platform devi=
+ce driver")
+> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
 
-I like this. I eyeballed through the series, but did not spend enough
-time to call it detailed review.
-
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-
-
--- 
-Jani Nikula, Intel
+Acked-by: Chen-Yu Tsai <wens@kernel.org>
