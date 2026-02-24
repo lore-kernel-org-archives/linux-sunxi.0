@@ -1,117 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B3A37BE9C
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 Feb 2026 11:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4AC38BF82
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 Feb 2026 12:43:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771931960; cv=none; b=NUoUjySs71xB7PWQrIUHBJcZkhQ/5Ik9/gcFeAkAX9+w3+3+JyN1yTCI5vE6lssUiwfx1UtEP1MfYyb6cGS/1ZaiZMNaTqrrkm+RrJMNo0SzJWOjNOZrTLJ2aClkW0ZHLukv2p82AvA0APV25DqTX2tPvVt1E3MDQwbdUgxnCb4=
+	t=1771937035; cv=none; b=N34WfOyJcjYBnLuQhFZIgOnchRcWSdFQOwyqTgZZYeRDR3GbAtobaTXCFnziVHCNeWfM8JfUiLV6KdRh3BMGDLvSoxaLYGgyNgEoT+svj5LQSTFeqdQz+VeCo6Zb9Bv6UuLq+BoRTCo86S1zaqv4mCzc+WnOxGNjdVsIhVvFp1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771931960; c=relaxed/simple;
-	bh=B5BzWRm+eShin5kvq4aIMD1wYheUUZDI+gvled/jh1k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gadB8KjkHL14pKzqBN7QdXo9uwBOQN9F5/RC0PA+iyssBynE2JpBPyaRCyjhkt757u/Wr8Ss7rC3/881iwNfO4F2fMC+F6I5KQRzSKj+H9+dzpoMei1IkqqzvuGdZyIICwsheKwQgx2xRqotHqCzk94VTI3Npylkz3M9m4MFxoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ec1Ad9rB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771937035; c=relaxed/simple;
+	bh=GYIQtbOzePAjqzLuQH8+HHBY0PZDV/oocDXPjvOLjg4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=tri+kqv2J3Tf9BVX68k3fVtHvUjhWUdXXfMizr9BF8eCeyWbC8yGRIFvYtR6eOojAeYjeNwaXGi3Ud2RQ1x/FuPW6+yjJi0jPwgfLzKfSFeS45h38KoafLbKKM8JKvPeZJ88r0RSh0uL0ryCMcSNYySFg7AQuBa0cCfzLzijwHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bONciwJu; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ec1Ad9rB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCCE7C116D0
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 Feb 2026 11:19:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771931959;
-	bh=B5BzWRm+eShin5kvq4aIMD1wYheUUZDI+gvled/jh1k=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=ec1Ad9rBGzW4ziKtYVy9VgteB4iquKM5tiiK76ayw7TSXjyfZqSM984jZYB+hudq3
-	 4erjiwp9x0G29uYKomhukDaq52V8ENp3Ovj+DXBJPABve4u5c61ycvUxQJ806cbJKU
-	 VI4jAUp3pHXtV7FAczbZFyWoB+iucpnPf+BKDMfRy40CE735aUY1/RVSGJJx983Pjg
-	 qPn/BfL6zmsJys0v1fTUJAoX+PdhmHpmajUUYj5fy59Bp/gDgnWtmby8+Sm82OApUu
-	 WUon+WH9alNLSf3Ig0ngIs8Ub1nLZIQm3yNfrW3h9KwLRLvYEk4y/pTF076Y2AI74M
-	 t9I7T49Q2tgdw==
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-59e62a3ee29so5722131e87.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 24 Feb 2026 03:19:19 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUsgQIiKun5ibq3wgcuTffwwZ3rruw3q/fAz1K6wI+3Jum3cqhMegOAuNU0q0ClrcOVpx7+ViAZrCCFfQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzUzirfqXTdxYUXZGFT8FY7IHysRP3B8Pw81Cyo2hQDHan8NhiN
-	Mw8IB9m05w3aAeS2icG4LYZ51Vr/w3SIp6CUusNSALoMUf67aiGBVUStiU4L4vzj+7agZ+QhftS
-	z5eXO8s0LlgpY7TyXYldZ8S52C5OefiU=
-X-Received: by 2002:a05:6512:334b:b0:59e:5fc4:26b2 with SMTP id
- 2adb3069b0e04-5a0ed83e246mr3961609e87.0.1771931958134; Tue, 24 Feb 2026
- 03:19:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bONciwJu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771937032; x=1803473032;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=GYIQtbOzePAjqzLuQH8+HHBY0PZDV/oocDXPjvOLjg4=;
+  b=bONciwJuVEWEuEIUKBbTrgtxFX+nKBpNVz4AJdTbDKA99nP4ca5WipG5
+   x37YdCglFQsLMX4GYFvvc9Vqxj5ugy8ftpTrmpFsOtljqjkcUwsB3V+b7
+   4aM50gfcQ9g3THOwvwbgzTuwOAYMyciKqjKg7sx0vVD01HF95WZsS1efc
+   30nQ2fNV+quC97z599rV3rvPdQ+KCDbb0IxJvM6SkEVcJly6KjMNdAFqq
+   EBBXEp3M/6o8lv01nq8il+x0ct8VDDnAllJrif/o9IWxeTsr0m649zZnH
+   y6mz2N9SSC1tUBJYh1LVLxnRIWSX+Postchns2Xnh/Uc+eHIFdp8glAZ7
+   g==;
+X-CSE-ConnectionGUID: tPR58IOZSWCEqEtROyVshw==
+X-CSE-MsgGUID: pwEU10X1Tguj9qWO7wdyXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="72853993"
+X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
+   d="scan'208";a="72853993"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 04:43:52 -0800
+X-CSE-ConnectionGUID: yhhIkH3dTBCEo6bY5mI5tw==
+X-CSE-MsgGUID: 52bV+SrBTRymLIB6WF2upQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
+   d="scan'208";a="214131396"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.246.20])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 04:43:40 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>, Nicolas Frattaroli
+ <nicolas.frattaroli@collabora.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>, Alex
+ Deucher <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Andy Yan
+ <andy.yan@rock-chips.com>, Liviu Dudau <liviu.dudau@arm.com>, Chun-Kuang
+ Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Sandy Huang
+ <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Liu
+ Ying
+ <victor.liu@nxp.com>, Chen-Yu Tsai <wens@kernel.org>, Samuel Holland
+ <samuel@sholland.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel
+ Maintenance
+ <kernel-list@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 14/14] drm/display: hdmi: Use drm_output_color_format
+ instead of hdmi_colorspace
+In-Reply-To: <20260224-drm-rework-color-formats-v1-14-bebc76604ada@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
+ <20260224-drm-rework-color-formats-v1-14-bebc76604ada@kernel.org>
+Date: Tue, 24 Feb 2026 14:43:37 +0200
+Message-ID: <6bcc885f3d4c2327a9b1ca4b4521c4e59c68a414@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260215100302.136719-1-work@onurozkan.dev>
-In-Reply-To: <20260215100302.136719-1-work@onurozkan.dev>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 24 Feb 2026 19:19:04 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65ADpZYcwG+nd6sDE3j-wc7v5LEQft9tkbxDh7C-MnziA@mail.gmail.com>
-X-Gm-Features: AaiRm51ME-8YiE4AvLn72GWWw2sauxN-ScuBUrDsWnKr42ng_6yKdEudjebdqcE
-Message-ID: <CAGb2v65ADpZYcwG+nd6sDE3j-wc7v5LEQft9tkbxDh7C-MnziA@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] arm64: dts: add missing sram-supply to mali gpu nodes
-To: =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Heiko Stuebner <heiko@sntech.de>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Sun, Feb 15, 2026 at 6:04=E2=80=AFPM Onur =C3=96zkan <work@onurozkan.dev=
-> wrote:
->
-> Some arm64 Mali GPU DT nodes define mali-supply but
-> are missing sram-supply.
->
-> As discussed in [1], sram-supply should be explicitly
-> defined for all relevant compatibles. If there is no
-> separate SRAM rail, it can reference the same regulator
-> as mali-supply.
->
-> This change adds the missing sram-supply properties to
-> affected DT files. This aligns DTs with expected regulator
-> modeling and avoids relying on implicit fallback behavior.
->
-> [1]: https://lore.kernel.org/all/20260213155937.6af75786@nimda/
->
-> Signed-off-by: Onur =C3=96zkan <work@onurozkan.dev>
-> ---
->  arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dts          | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dts               | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts          | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts           | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi            | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts             | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi               | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi   | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts     | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts           | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi  | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts    | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts     | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts  | 1 +
->  .../boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts      | 1 +
->  arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts          | 1 +
->  arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts           | 1 +
->  arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts          | 1 +
->  arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts        | 1 +
+On Tue, 24 Feb 2026, Maxime Ripard <mripard@kernel.org> wrote:
+> diff --git a/include/drm/display/drm_hdmi_helper.h b/include/drm/display/drm_hdmi_helper.h
+> index 09145c9ee9fc0cd839242f2373b305940e06e157..414e134ca23bcdcdd6ef491812ed0a9020b204ba 100644
+> --- a/include/drm/display/drm_hdmi_helper.h
+> +++ b/include/drm/display/drm_hdmi_helper.h
+> @@ -2,10 +2,11 @@
+>  
+>  #ifndef DRM_HDMI_HELPER
+>  #define DRM_HDMI_HELPER
+>  
+>  #include <linux/hdmi.h>
+> +#include <drm/drm_connector.h>
 
-We don't know the internals of these SoCs, even though said power is
-likely from the same regulator, as that rail provides power to most
-of the SoC. But I would rather not speculate.
+You could avoid the include by forward declaring the enum, which is not
+strictly standard C but allowed by both GCC and Clang, and quite useful
+in reducing header dependencies.
 
-I think these systems are at the other end of the spectrum: the power
-rail for the GPU and the rest of the SoC is simply never turned off.
-Neither is DVFS available. In theory you could make it work, but the
-voltage range is fixed so there is little savings to be had.
+BR,
+Jani.
 
+>  
+>  struct drm_connector;
+>  struct drm_connector_state;
+>  struct drm_display_mode;
+>  
+> @@ -24,11 +25,11 @@ drm_hdmi_infoframe_set_hdr_metadata(struct hdmi_drm_infoframe *frame,
+>  void drm_hdmi_avi_infoframe_content_type(struct hdmi_avi_infoframe *frame,
+>  					 const struct drm_connector_state *conn_state);
+>  
+>  unsigned long long
+>  drm_hdmi_compute_mode_clock(const struct drm_display_mode *mode,
+> -			    unsigned int bpc, enum hdmi_colorspace fmt);
+> +			    unsigned int bpc, enum drm_output_color_format fmt);
+>  
+>  void
+>  drm_hdmi_acr_get_n_cts(unsigned long long tmds_char_rate,
+>  		       unsigned int sample_rate,
+>  		       unsigned int *out_n,
 
-ChenYu
+-- 
+Jani Nikula, Intel
