@@ -1,84 +1,149 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1E937107D
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 Feb 2026 09:52:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 670FCE555;
+	Tue, 24 Feb 2026 10:58:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771926755; cv=none; b=R1JBoM14JfY+Shq/Cj6kRei2TClkUigcIAzZPXqLO5bZN4RujIkNZWBmpKNMfqIDGIbhncea/RJyCiX6kHJ0gQUKU0+tRJ2DoDKmcfnq/Ks0cxw7fQu6KQo14/CK2uLTPiWFtqPdDWpiTkfOFns0GAGu3QUQtSVhdfm7tPEJn8w=
+	t=1771930732; cv=none; b=bEKqwwuYwDp6ogiV0UJiKcV31cceJTpMxtsGoCVR3hanLtGbD713WZEIDw6qvdWs+g6WzhRQ2Q6wJY7Ld3NLZrsaHbSzE/GV0joPUiHmIeg7V2f06A5oInxdmFYr9YW/GSSeBShqYLGNwWpu1YaJ0xyRwrybgWW4WYxCWLBP23E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771926755; c=relaxed/simple;
-	bh=m8HVzWzouKm2cXoM/hnZEz9vy29hL3PfIfqqpzFCC/o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oUYnbeD1mei/1oo5eA4KOtjNDyANZVXfg79wHndqA86MpbLB1sM0BO5oJIPrje0LTDpwgYdKGyG6TiX5wEuBMmZtJQ/T0Z5bzLKZwX+w5S08fboL/6fUF2w6JgDKfUKE1SijqLIxH+52M858onYcqzdkFU9ONQCaZ1Mt3kGP+2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TRe05JmO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771930732; c=relaxed/simple;
+	bh=4lUO/V6PMTwBVuKtBzHhWs/9Z6o8abbgH7ftoV2jBig=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XMVpVqMqJhlOn240fmGFLX75h48d8AbQPYYJ43laWV9pn2JgkRnuG/ovKyiWFCeeQYmM++JedBnOpZEaCEKOp5J1nH4N5JZP9Y5rOTZBlWCNC6AK6g+uFMjmQE+QOvCcy9/lmM8JLNqeQjHhsjS5dm/C8blAnwjmw810SAnfM1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mq5Eemht; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TRe05JmO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39ED5C2BCB0
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 Feb 2026 09:52:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mq5Eemht"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BDBEC116D0;
+	Tue, 24 Feb 2026 10:58:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771926755;
-	bh=m8HVzWzouKm2cXoM/hnZEz9vy29hL3PfIfqqpzFCC/o=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=TRe05JmOj0zrjkSzFH05uNJmpKrg9ivJSnNZidMu2MnVIUKZF2E8qd5SAYZSngaoY
-	 O8vAPho2SoADBUurJnXaYQXTbwAs3BDM/1FyCQJRti9EE+T6XzDiKFI5obf+Kg+X3t
-	 XxWheObEfdxROoSp6FAspV52lwIO7siyrt+q+VrDk/Ubp6/DpoE4jG0h0VGtGXMHOr
-	 ot3zk8ELoOgk40t1EzX3B802yz94IAaFlz3R6aUQf11S+whbKxHnzKlO/9PsUtuYuB
-	 67GU4vmMijyDU8a2MtR+3fW4D8MnvGrTnc7bjoj2cPaE3OeRz8B9v8+7nH24XsKtVN
-	 jEXsifY9fwq+A==
-Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-64c9f7576d4so333867d50.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 24 Feb 2026 01:52:35 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUgpDSkHRoVgUEj6wzfM19vifMpkEPVvSQeo1Nd6PGGtTSwuk9pdnEUP6+V4h78PuVdKBJt69nMlWGUqw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywds4CAE5yQr0chlg8Le1/P88xz4tvjl1JSwV5dYp8bHpXyO7sy
-	9Yi8DF4U9EK6Ias6aod2tdE9N/b84cM05eOmJu47nhJF0jVB/USBZu8SX1AJCs6gDJ4Dbg8Ki/f
-	vuO5L2HOa1+oYS41LDl4c+sC1x1BabXg=
-X-Received: by 2002:a53:c94e:0:b0:64a:df24:813a with SMTP id
- 956f58d0204a3-64c78ace3b7mr7721765d50.29.1771926754578; Tue, 24 Feb 2026
- 01:52:34 -0800 (PST)
+	s=k20201202; t=1771930732;
+	bh=4lUO/V6PMTwBVuKtBzHhWs/9Z6o8abbgH7ftoV2jBig=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Mq5EemhtxP4fdcnHfwI6OPiBN1gV0ecp0xd5f2KaC09It8FK32pITZ1xHILSp51C6
+	 YSaWpuQYY6HhCHr1MPzfOb6w9UXIbx4/Z35HAq/g8gK/kPb1TfUj+eIw5kfWpIksn8
+	 T+ataYqh5wLl+NMyxJ45rRvqFJe0KXBGpoGPDbatkTon3oE5/9faLHnIG2/j9VaGct
+	 /GIasKVO33Y2yrnXXY1DM6fxhSl/7lLU9IkFD+vdGqLWsAP664+xa4qsoCAcEgih6h
+	 SATWacBLav7lvkNRDE99gvw4oXTI1TRFqiO6PKk3OW1BzMuQyKvHX8vRQWb47dGt36
+	 Krdz57DzbwK1g==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH 00/14] drm: Create drm_output_color_format enum
+Date: Tue, 24 Feb 2026 11:58:39 +0100
+Message-Id: <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260224092419.1275016-1-wens@kernel.org>
-In-Reply-To: <20260224092419.1275016-1-wens@kernel.org>
-From: Linus Walleij <linusw@kernel.org>
-Date: Tue, 24 Feb 2026 10:52:23 +0100
-X-Gmail-Original-Message-ID: <CAD++jLnKxDi1GCp94zAUKhwBvQwVAdT8bgNyw5XM2+PTOhxq1Q@mail.gmail.com>
-X-Gm-Features: AaiRm52BGBXQpCSo4y3loUoixsBJESk5D9jZK8HxDIglW3gm2oXSHNiHQK0JrJg
-Message-ID: <CAD++jLnKxDi1GCp94zAUKhwBvQwVAdT8bgNyw5XM2+PTOhxq1Q@mail.gmail.com>
-Subject: Re: [PATCH v2] pinctrl: sunxi: Implement gpiochip::get_direction()
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, 
-	James Hilliard <james.hilliard1@gmail.com>, aprizel@wens.tw, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MQQqDMBAAvxL23IVkW0T6ldKDJKsummzZFBXEv
+ zd0bnOYOaGyCVd4uhOMN6mipUm4OYjzUCZGSc2BPHWe6IHJMhrvagtGXdVwVMvDt2JPKTbCPYY
+ ALf8Yj3L816/3df0AC+cZM2oAAAA=
+X-Change-ID: 20260224-drm-rework-color-formats-82dcccc13c11
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <siqueira@igalia.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Andy Yan <andy.yan@rock-chips.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Liu Ying <victor.liu@nxp.com>, Chen-Yu Tsai <wens@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ amd-gfx@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3233; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=4lUO/V6PMTwBVuKtBzHhWs/9Z6o8abbgH7ftoV2jBig=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJlzW5JkRFb27W20sL9ZF2ngdULgz41fK/Yvd8qrkaw/8
+ eaZh29Ax1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZhIqh9jQ2/6Z9UFAqost5nu
+ N/4wnZ62KYzp5+s9bfm8Jmu94jlEP8TtY5P/ZWVVkj5r4i2j7G3ejA0vX/zKdV75/mUMT+LBOP0
+ tHm9Lb70MZuetVWm3P+7OwqJtfHEhY0/xhXWiMW9bZGyiVgMA
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-On Tue, Feb 24, 2026 at 10:24=E2=80=AFAM Chen-Yu Tsai <wens@kernel.org> wro=
-te:
+Hi,
 
-> After commit 471e998c0e31 ("gpiolib: remove redundant callback check"),
-> a warning will be printed if the gpio driver does not implement this
-> callback. The warning was added in commit e623c4303ed1 ("gpiolib:
-> sanitize the return value of gpio_chip::get_direction()"), but was
-> masked by the "redundant" check.
->
-> The warning can be triggered by any action that calls the callback,
-> such as dumping the GPIO state from /sys/kernel/debug/gpio.
->
-> Implement it for the sunxi driver. This is simply a matter of reading
-> out the mux value from the registers, then checking if it is one of
-> the GPIO functions and which direction it is.
->
-> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
-> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+This series creates an enum to represent the output color format as an
+enum instead of a bitmask, and consolidate the HDMI helpers to use the
+new enum.
 
-Pulled out v1 of my tree and put in this one instead!
+This should make Nicolas' work easier.
 
-Yours,
-Linus Walleij
+It has been build tested, and passes kunit tests.
+
+Let me know what you think,
+Maxime
+
+---
+Maxime Ripard (14):
+      drm/connector: Introduce drm_output_color_format enum
+      drm/edid: Convert to drm_output_color_format enum
+      drm/display: hdmi: Convert to drm_output_color_format
+      drm/amdgpu: display: Convert to drm_output_color_format
+      drm/bridge: adv7511: Convert to drm_output_color_format
+      drm/bridge: analogix: Convert to drm_output_color_format
+      drm/bridge: cadence: Convert to drm_output_color_format
+      drm/bridge: synopsys: dw-dp: Convert to drm_output_color_format
+      drm/bridge: synopsys: dw-hdmi: Convert to drm_output_color_format
+      drm/arm: komeda: Convert to drm_output_color_format
+      drm/mediatek: dp: Convert to drm_output_color_format
+      drm/rockchip: analogix: Convert to drm_output_color_format
+      drm/connector: Remove DRM_COLOR_FORMAT defines
+      drm/display: hdmi: Use drm_output_color_format instead of hdmi_colorspace
+
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   4 +-
+ .../gpu/drm/arm/display/komeda/d71/d71_component.c |  14 +-
+ drivers/gpu/drm/arm/display/komeda/komeda_crtc.c   |   2 +-
+ .../gpu/drm/arm/display/komeda/komeda_pipeline.h   |   5 +-
+ .../drm/arm/display/komeda/komeda_pipeline_state.c |   2 +-
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c       |   2 +-
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |   4 +-
+ .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.c    |  24 +--
+ .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.h    |   2 +-
+ drivers/gpu/drm/bridge/inno-hdmi.c                 |   6 +-
+ drivers/gpu/drm/bridge/ite-it6263.c                |   2 +-
+ drivers/gpu/drm/bridge/synopsys/dw-dp.c            |  71 ++++----
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |  16 +-
+ drivers/gpu/drm/display/drm_hdmi_helper.c          |   7 +-
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  60 ++++---
+ drivers/gpu/drm/drm_bridge.c                       |   2 +-
+ drivers/gpu/drm/drm_connector.c                    |  14 +-
+ drivers/gpu/drm/drm_edid.c                         |  18 +-
+ drivers/gpu/drm/mediatek/mtk_dp.c                  |   4 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi_v2.c             |   8 +-
+ drivers/gpu/drm/rockchip/analogix_dp-rockchip.c    |   4 +-
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   2 +-
+ drivers/gpu/drm/tests/drm_connector_test.c         |  80 ++++-----
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 182 ++++++++++-----------
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |  18 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.h                     |   2 +-
+ include/drm/display/drm_hdmi_helper.h              |   3 +-
+ include/drm/drm_connector.h                        |  46 ++++--
+ 28 files changed, 326 insertions(+), 278 deletions(-)
+---
+base-commit: 3a2ffb469faa8240fe87e7d5f3533d14fdcc69f3
+change-id: 20260224-drm-rework-color-formats-82dcccc13c11
+
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
+
