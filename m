@@ -1,89 +1,156 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7364C243951
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 Feb 2026 08:48:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 340A2368285;
+	Tue, 24 Feb 2026 09:24:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771922914; cv=none; b=ANZoNxSFGRdDRbvmmAZQFtmcFNRmYFhxyBxt9+KZ3AoKLJbdX99hgjqQ0gMWlTtuzJPQX5lq1/78r9aJqm8hGqF7ZCuyDQ5EH9esF6Av4qi+QOpsYHTi8ZFkVSTYrDmyo0Cjp++OQ5Pg/pIC72K/s6jQp4ai8h3mBure65Gd8x8=
+	t=1771925064; cv=none; b=YNCUo+qbkLmhBsUoyx0tTufaEtwCEYHrQJlAtNRDGB+aze7g92wvjdEiVJCFFAQGmQo4TKuYWmvYhKp1RSomiu58ggAaewllvffjLeZi7b9/i8rqV9pf3cl239tmWqkF+igRlV+CuabUdqShT7o3sKqiqZQwZYXdCqxTZ518gZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771922914; c=relaxed/simple;
-	bh=pSAr9mSRqnuP5eB3wK8k9lFdg3CWfDNXCKT4AlbOSsQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nKQI/lL7mEOJIpKebHHKoW5uq5pBtcMxjZ6+nqthO59Upz+5OYy9aEn9l0iIrdSyWeAF8P3pfS+hvTtPsk9g6txW9vTZkwJffab/VPJoRSfSWvuMn/SWHIrMC9cqSzsRvCdETna/TYeumnLNN+oAgYIq6x1zaSZKSy7RYZs6etM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JDEhm0Vf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771925064; c=relaxed/simple;
+	bh=uQkHCoaVMsbIow9DIRdiKl4dMdChJyAoiW4v51+fGJc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=djBDzJgAHD75qHTacCPivD+s1+CABq0rlqNqiZwOc+edc9Qq7CZ1YIdZUfDT6hk/gBsoqbebrm5YKHCf8CkxAHKU7EujJ1mTguDZkcsPO0QFxafSbh78M89MzaiPp9kmnA+5DQtsc20pj9x4MCiiQavUVn+NjXf77rjIsYyDPnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q/BBUPbG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JDEhm0Vf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57311C2BC86
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 Feb 2026 08:48:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q/BBUPbG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9754EC116D0;
+	Tue, 24 Feb 2026 09:24:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771922914;
-	bh=pSAr9mSRqnuP5eB3wK8k9lFdg3CWfDNXCKT4AlbOSsQ=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=JDEhm0VfnVUPk4ssXWGGTWkmR8AaLG/WV5ab2r6Iec9YoFnPShCISi56VKMt/f6UZ
-	 6xeHK+go4RAUmZuHmLXPb4KI5dSLN50rTA1kHXvimJeQSdaG7LT1XuTQnooqqWF/+9
-	 JgYsUhUdPdEaCpsu48pxsQc48kDO65rIfJRzFaO8/WD/nyNiRRwmQuu4/NACY9gINC
-	 rUz82hfyWz8Old8fKM785fql9ruesgiVvQvF7PRbdJTsZuhCw8xyVcGqBhGJU56wU7
-	 nZ/QT+ZAP+8BFmqoTsomsiDlHZi+ELZoplJnEWwJSslToxaQRomhPH/pAhKBNc/C2u
-	 NJ2IZzvUWcISQ==
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-3871126dcceso41333511fa.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 24 Feb 2026 00:48:34 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWJZ1d0RDJIV4KxcPGq0DpooHU+Uk0HQGqxZNcwaD/0GWsgt/P1x93i74rJSxdtHVz22zHp/F43swnsYA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyJaYt2CsLosJAb4+NRWNRjKdpbellHp3lujBimXyAcTENCca1c
-	6yuUBf5SG+tqd/u8EiY+jxFWP6uIlYKoKa4f8WWXQhf5sC75voaEYhuBWFJcrnuCl7yurbSv9ws
-	5GH3tRG8cHC/c01iUlmBPNJJ5u3Kdf7w=
-X-Received: by 2002:a2e:8593:0:b0:386:fc3d:e42e with SMTP id
- 38308e7fff4ca-389a5c45cf9mr29961451fa.41.1771922912741; Tue, 24 Feb 2026
- 00:48:32 -0800 (PST)
+	s=k20201202; t=1771925063;
+	bh=uQkHCoaVMsbIow9DIRdiKl4dMdChJyAoiW4v51+fGJc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Q/BBUPbGuivU/3KKIE3Jy009WbSHgigc9tzUhfXD5AOsueekvSOFTbc0A2s1MUp7i
+	 lryWg/g4w5eN/lmhswpUBFdodqS8G4UP+qsMNg86mnXGA2fGeESRQUHHqGcUFsr5zX
+	 LnRgsEZr17xE82K1ddsemEhxLDV+foTmbBNEA02SojkqAQO044nw3tlNCDcuXgPchg
+	 WzEtyW4VKVTQ0+EZpqfnn7jGlmViQCneCqhtOT7oArSsWzoBnL9W269bTtMxvjd1n7
+	 Q3xwG/PlAzAHVdY+eZ/Qo2iNEvV1QVLKDc2HPWQZezKf/fTku6QD8iHeghnFD7UMC4
+	 K9FXLQQM8/hCg==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 0051A5FD2E; Tue, 24 Feb 2026 17:24:20 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Linus Walleij <linusw@kernel.org>
+Cc: James Hilliard <james.hilliard1@gmail.com>, aprizel@wens.tw,
+	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH v2] pinctrl: sunxi: Implement gpiochip::get_direction()
+Date: Tue, 24 Feb 2026 17:24:18 +0800
+Message-ID: <20260224092419.1275016-1-wens@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260216160946.2977985-1-wens@kernel.org> <CAD++jLn6vphCXZpK3xKa-DcNwaXF-A2ZpDyFBboZSdXtUiGekw@mail.gmail.com>
-In-Reply-To: <CAD++jLn6vphCXZpK3xKa-DcNwaXF-A2ZpDyFBboZSdXtUiGekw@mail.gmail.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 24 Feb 2026 16:48:20 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66GN=UuX+-YDPByQQqYOjzi7cBi-7xA8Dyg_QLqqyueeQ@mail.gmail.com>
-X-Gm-Features: AaiRm50zQM5-YqlIe0QYE5rJvFuQ7BPplM1zTgPt55qkPUD18Dv4CxcuzPCa7n8
-Message-ID: <CAGb2v66GN=UuX+-YDPByQQqYOjzi7cBi-7xA8Dyg_QLqqyueeQ@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: sunxi: Implement gpiochip::get_direction()
-To: Linus Walleij <linusw@kernel.org>
-Cc: Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, James Hilliard <james.hilliard1@gmail.com>, 
-	Andre Przywara <andre.przywara@arm.com>, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Linus,
+After commit 471e998c0e31 ("gpiolib: remove redundant callback check"),
+a warning will be printed if the gpio driver does not implement this
+callback. The warning was added in commit e623c4303ed1 ("gpiolib:
+sanitize the return value of gpio_chip::get_direction()"), but was
+masked by the "redundant" check.
 
-On Tue, Feb 24, 2026 at 4:43=E2=80=AFPM Linus Walleij <linusw@kernel.org> w=
-rote:
->
-> On Mon, Feb 16, 2026 at 5:09=E2=80=AFPM Chen-Yu Tsai <wens@kernel.org> wr=
-ote:
->
-> > After commit e623c4303ed1 ("gpiolib: sanitize the return value of
-> > gpio_chip::get_direction()"), a warning will be printed if the
-> > gpio driver does not implement this callback.
-> >
-> > Implement it for the sunxi driver. This is simply a matter of reading
-> > out the mux value from the registers, then checking if it is one of
-> > the GPIO functions and which direction it is.
-> >
-> > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
->
-> Patch applied for fixes since everyone likes this patch and
-> everyone is unhappy with the warning.
+The warning can be triggered by any action that calls the callback,
+such as dumping the GPIO state from /sys/kernel/debug/gpio.
 
-I was about to send v2 with an updated commit message but didn't get around
-to sending it out. Would you consider dropping this one?
+Implement it for the sunxi driver. This is simply a matter of reading
+out the mux value from the registers, then checking if it is one of
+the GPIO functions and which direction it is.
 
-Sorry about the delay.
+Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+---
+Please merge for fixes.
 
+Changes since v1:
+- Corrected commit attribution for the warning
+- Add example scenario that triggers the warning
+---
+ drivers/pinctrl/sunxi/pinctrl-sunxi.c | 51 +++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
-ChenYu
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+index 0fb057a07dcc..27b2a3e9d78d 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+@@ -204,6 +204,32 @@ sunxi_pinctrl_desc_find_function_by_pin(struct sunxi_pinctrl *pctl,
+ 	return NULL;
+ }
+ 
++static struct sunxi_desc_function *
++sunxi_pinctrl_desc_find_function_by_pin_and_mux(struct sunxi_pinctrl *pctl,
++						const u16 pin_num,
++						const u8 muxval)
++{
++	for (unsigned int i = 0; i < pctl->desc->npins; i++) {
++		const struct sunxi_desc_pin *pin = pctl->desc->pins + i;
++		struct sunxi_desc_function *func = pin->functions;
++
++		if (pin->pin.number != pin_num)
++			continue;
++
++		if (pin->variant && !(pctl->variant & pin->variant))
++			continue;
++
++		while (func->name) {
++			if (func->muxval == muxval)
++				return func;
++
++			func++;
++		}
++	}
++
++	return NULL;
++}
++
+ static int sunxi_pctrl_get_groups_count(struct pinctrl_dev *pctldev)
+ {
+ 	struct sunxi_pinctrl *pctl = pinctrl_dev_get_drvdata(pctldev);
+@@ -930,6 +956,30 @@ static const struct pinmux_ops sunxi_pmx_ops = {
+ 	.strict			= true,
+ };
+ 
++static int sunxi_pinctrl_gpio_get_direction(struct gpio_chip *chip,
++					    unsigned int offset)
++{
++	struct sunxi_pinctrl *pctl = gpiochip_get_data(chip);
++	const struct sunxi_desc_function *func;
++	u32 pin = offset + chip->base;
++	u32 reg, shift, mask;
++	u8 muxval;
++
++	sunxi_mux_reg(pctl, offset, &reg, &shift, &mask);
++
++	muxval = (readl(pctl->membase + reg) & mask) >> shift;
++
++	func = sunxi_pinctrl_desc_find_function_by_pin_and_mux(pctl, pin, muxval);
++	if (!func)
++		return -ENODEV;
++
++	if (!strcmp(func->name, "gpio_out"))
++		return GPIO_LINE_DIRECTION_OUT;
++	if (!strcmp(func->name, "gpio_in") || !strcmp(func->name, "irq"))
++		return GPIO_LINE_DIRECTION_IN;
++	return -EINVAL;
++}
++
+ static int sunxi_pinctrl_gpio_direction_input(struct gpio_chip *chip,
+ 					unsigned offset)
+ {
+@@ -1601,6 +1651,7 @@ int sunxi_pinctrl_init_with_flags(struct platform_device *pdev,
+ 	pctl->chip->request = gpiochip_generic_request;
+ 	pctl->chip->free = gpiochip_generic_free;
+ 	pctl->chip->set_config = gpiochip_generic_config;
++	pctl->chip->get_direction = sunxi_pinctrl_gpio_get_direction;
+ 	pctl->chip->direction_input = sunxi_pinctrl_gpio_direction_input;
+ 	pctl->chip->direction_output = sunxi_pinctrl_gpio_direction_output;
+ 	pctl->chip->get = sunxi_pinctrl_gpio_get;
+-- 
+2.47.3
+
