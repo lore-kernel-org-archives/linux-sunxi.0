@@ -1,93 +1,190 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8422285C9F
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Feb 2026 17:09:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772039354; cv=none; b=hcd+ekiU2YNJMYiSfP9V/1YzCzL7Ds0WimCKpoo+FUS73H6GgwrsegDaw0SlXvc9nGAJbgKSXyI24nVwztXcvIPFNOd8I35dOZLFY0eopVoE3/3Hb3WxEJjm7RLeHstXQWt/8nnPFz1EHUFe+l+zy24xSApncpD2xNU064JSF1k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772039354; c=relaxed/simple;
-	bh=opzPiYITPDzkhL0K2KwNxWZZH4n+i8pY3gCo6iOBE3o=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 580612744F
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Feb 2026 17:22:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772040163; cv=pass; b=IrqTyrsamnG/UnHDpS3mEAY6aLY/2brNAP4/js8U/+NZUqXvIpPAo8GS8m+fxSZhz7QYMNMeq+0B2uQTk1rQgmaQdDXKla8gyBEEEDCdjSzTt82irvbjpmnUkxFUlRKAdbCBlMoEurUMmSLwEium+8EFJBXyAjPmboeuCTTpFVw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772040163; c=relaxed/simple;
+	bh=Us5j4M1BALetgvtC5RkmfEvLNdORRLEYAEiAeF4c/v4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tjaAtRKL9cCVJFK/dN04NY+i6JI1JDMSFcQlaDny2PPBeL5t4BFf3v11N3T1JVjX9spB5Tqr/3CW5tgJZQqOmfQwSEvmaIbnbYA1G7oyYTjgPQH4LZz2sqCufqA8uOx63jlf/R25a5o0kERjXTWJuTsIsvRA6tS6/tFCZugVT2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W+S+EIei; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 MIME-Version:Content-Type; b=glExU3JaajDN+fvuEwzSZm2QipGgDaLs+P9Wv/3B8ccIxKM0nCHOolOr/d534q5e/L5xnNUeh13El6c6oyQ2EfsscBX56jP3EtweHJDfaoHFbvVdsOiwq3Q4I+TaC89hWHJ5woWLrLriKIVeugGISPDhiVIKTRDcy7Xe07cE4uU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=ErAUL623; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W+S+EIei"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48370174e18so38648855e9.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 25 Feb 2026 09:09:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772039352; x=1772644152; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=opzPiYITPDzkhL0K2KwNxWZZH4n+i8pY3gCo6iOBE3o=;
-        b=W+S+EIeiE2it2aaX7U9zZXYeYkBJXWW1wyO/uCmGCEjRL/TiGm4sJJvFOp1/d2lFQi
-         AWQwnyFy13J727oQfSyufAC3wz9ECkVOytsNEyv5fqpiGqqBgNNZm/1zplf0BdiKUl3f
-         8wv0JG7W5BBMoKqag5Wh24n8y2wpCT0wZJ2CFQIr8u8mzqcbBkQMEE4pDZioPuThwu1i
-         dUO3aqYoeL+bH0MRCPP+SC6V+ks4W0ltzcUpkYeUsJgAAhfyKESE57VZ3mgS8Pg2BgA6
-         ZJ49EkuzlBuAx7eZi5c7qBHSYSQ/dpfjt50kah6ADqIGB3ReFFYKChypLl2CLe32DdWD
-         WN2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772039352; x=1772644152;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=opzPiYITPDzkhL0K2KwNxWZZH4n+i8pY3gCo6iOBE3o=;
-        b=MS2WH3XwQntvA7bIfNgQdoMOrZIVcC4xE+cmTgdysVoIR/EqJ6haMNSPz9q83U//mO
-         fF/Sww2vrKPgTHJfeGDximW2d14pw9TQMKj+8eG7eLHzmsO8NdSAyYqnk8XEUduBg9cZ
-         +bNmP47L2dq0HhP+IO+pe2Fdir1IXtPUqGGCXjM5hScHSHtarhHgOvQKqp+S4eI/dIxk
-         xui1/QcDdthoj+viztbxLLfxXzZu5SEjn4Pb9SOymaSRJ0vpYqG9WN1AZZZvIxG1dWBA
-         Mq6E5/q+2zPAR/uGOpoiiR2K6sTV6tTR/W5PFan987LQ+MqJ9mfq80Ti0wMxdDzdMxZU
-         7UKw==
-X-Forwarded-Encrypted: i=1; AJvYcCXMF5bWiP4dGTN7JW+ydGVXvD4wKaeIQp5U3O8jKJ/saLOv5Ohp0F+MOUTjqPVdKZk9xlflH3QLA2Ijtw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwMNBe+8OcJgewLTbwBQiso2MnzAzmpMZrZukSFF0fW39NsNP55
-	j07ITV6UUCbv1cBeMsZ+TkcZWWzzs/QfbZoZX5uExyIXlVkcmFqEV00c
-X-Gm-Gg: ATEYQzz20jJm6aK5P280YI3r96gTzHcp42Bk+r0tp90U9hF4a4Q1vpW9VUSqTtZMjjN
-	CZ86bhHxKksFxTwNNuxkgz3Ku9RaQLgJVdSSER+G4yFm06asKY5wmjIzczj8ZtmkWkr2+E97WQW
-	1L1blC+BjGieW5xzex9Pqv9JlH5q+kqCjlppMUeFkI1Gth5owh2AfXm9SUX2s5JezVmDtRzas5I
-	+NGVN7JFfO8BAbMA2IWG6a8WgH930RzJb+YcvJWSWkK49KBZ+IAbbwptQqq7WSshE58az9PWkHk
-	kCo00G7QOAeInzxKYqhZxDFWTYIiH83SE1H3RjTAdpXQHmU4HN9+QaU3eF9duyb+CknkrTNAxgb
-	seysDYQQ2xQWw6gLbjvkwZVkc/TeiqegRnF0KZJWp227HpzCCzmss1MO2kf5ecowF0OWGXxLpEh
-	b/H5ViJXMd710wc1c4NGOM/SV9dlYsRb/pvvCfPPcGyt4NIszNYaBmNW50HjxsCJPJkeZkL9Jah
-	Y7A/ISudS6ZxybViw==
-X-Received: by 2002:a05:600c:3acf:b0:483:6d4a:7e6d with SMTP id 5b1f17b1804b1-483c21a747bmr20503405e9.30.1772039351955;
-        Wed, 25 Feb 2026 09:09:11 -0800 (PST)
-Received: from jernej-laptop.localnet (86-58-126-118.dynamic.telemach.net. [86.58.126.118])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd6f26d7sm91050645e9.3.2026.02.25.09.09.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Feb 2026 09:09:11 -0800 (PST)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: allwinner: pine-h64: Enable USB 3.0 host
-Date: Wed, 25 Feb 2026 18:09:10 +0100
-Message-ID: <5050123.GXAFRqVoOG@jernej-laptop>
-In-Reply-To: <20260225170045.1707778-1-wens@kernel.org>
-References: <20260225170045.1707778-1-wens@kernel.org>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="ErAUL623"
+ARC-Seal: i=1; a=rsa-sha256; t=1772040118; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=MIpYrwNHTEw1tzZw977bIojdnx+74FWfwIXNhnMSYlTbsSYdvxH+g+QrY4zGMoh0X/3DZPjW1oer4HYTWBAn3lHZ9vLlIC3a8s4C7BO5iCugtzNhaFJrnUwkM4F1mExYqN8mBQfAqYu79QXEyyAM+uYUflDsTia6C1LizlG0obI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1772040118; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=uYQZEmr31PuQ1YWmsWAZzNu809ry9o0BpCJyD6e+hII=; 
+	b=DKXVLTbsR+l5XSAncNafwzlzKwZJFdTzPP+h8McRV7E6gSiuqKAo0gab2+6Otdbc1isGUCYTJhxZGjcI7vh1AKsaUvskimpYwdXSRNnYQtDyLKFoTUrS8qniU722QaJ0PXBYYRRWbog7c79LA+nOvzfEoo9YVcVTtTTZ1JP99N8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772040117;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=uYQZEmr31PuQ1YWmsWAZzNu809ry9o0BpCJyD6e+hII=;
+	b=ErAUL623uvHeppqsgHQm+m4bSxj92drF5CKI08sbgfF9ao4z5nFAf0OhjrZ2uhfe
+	0v2t1b+qb/J6N/g3FbcMj9+VjuVo7d9MRM3n8M4cbxm+P7AbP4Ia+AVf6vI7b8b0tHG
+	1mpKX6ssj7z59PMyMJjE6UKb4r8TkFnimhIKEEf0=
+Received: by mx.zohomail.com with SMTPS id 1772040115678826.0329473998504;
+	Wed, 25 Feb 2026 09:21:55 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andy Yan <andy.yan@rock-chips.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Liu Ying <victor.liu@nxp.com>, Chen-Yu Tsai <wens@kernel.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+Subject:
+ Re: [PATCH 14/14] drm/display: hdmi: Use drm_output_color_format instead of
+ hdmi_colorspace
+Date: Wed, 25 Feb 2026 18:21:46 +0100
+Message-ID: <3999997.iIbC2pHGDl@workhorse>
+In-Reply-To: <8234454.EvYhyI6sBW@workhorse>
+References:
+ <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
+ <20260224-drm-rework-color-formats-v1-14-bebc76604ada@kernel.org>
+ <8234454.EvYhyI6sBW@workhorse>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="utf-8"
 
-Dne sreda, 25. februar 2026 ob 18:00:44 Srednjeevropski standardni =C4=8Das=
- je Chen-Yu Tsai napisal(a):
-> On both Pine H64 models, there is one USB 3.0 host port directly
-> connected to the SoC. The VBUS is shared with the other USB 2.0 ports.
-> Unfortunately the DWC controller binding does not have a VBUS supply.
+On Wednesday, 25 February 2026 18:03:00 Central European Standard Time Nicolas Frattaroli wrote:
+> On Tuesday, 24 February 2026 11:58:53 Central European Standard Time Maxime Ripard wrote:
+> > The hdmi_colorspace enum was defined to represent the colorspace value
+> > of the HDMI infoframes. It was later used by some HDMI drivers to
+> > express the output format they should be setting up.
+> > 
+> > During the introduction of the HDMI helpers, it then was used to
+> > represent it in the drm_connector_hdmi_state structure.
+> > 
+> > However, it's always been somewhat redundant with the DRM_COLOR_FORMAT_*
+> > defines, and now with the drm_output_color_format enum. Let's
+> > consolidate around drm_output_color_format in drm_connector_hdmi_state
+> > to facilitate the current effort to provide a global output format
+> > selection mechanism.
+> > 
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >  drivers/gpu/drm/bridge/inno-hdmi.c                 |   6 +-
+> >  drivers/gpu/drm/bridge/ite-it6263.c                |   2 +-
+> >  drivers/gpu/drm/display/drm_hdmi_helper.c          |   7 +-
+> >  drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  52 ++++--
+> >  drivers/gpu/drm/drm_bridge.c                       |   2 +-
+> >  drivers/gpu/drm/drm_connector.c                    |  14 +-
+> >  drivers/gpu/drm/mediatek/mtk_hdmi_v2.c             |   8 +-
+> >  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   2 +-
+> >  drivers/gpu/drm/tests/drm_connector_test.c         |  80 ++++-----
+> >  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 182 ++++++++++-----------
+> >  drivers/gpu/drm/vc4/vc4_hdmi.c                     |  18 +-
+> >  drivers/gpu/drm/vc4/vc4_hdmi.h                     |   2 +-
+> >  include/drm/display/drm_hdmi_helper.h              |   3 +-
+> >  include/drm/drm_connector.h                        |   7 +-
+> >  14 files changed, 205 insertions(+), 180 deletions(-)
+> > 
+> > [... snip ...]
+> >
+> > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> > index 4f5b27fab475c7c733622eb8727927571f3fb8fe..171cd495976a3e16f201fd339d3d42a09dc3b63f 100644
+> > --- a/drivers/gpu/drm/drm_connector.c
+> > +++ b/drivers/gpu/drm/drm_connector.c
+> > [... snip ...]
+> >  
+> > @@ -1424,25 +1424,25 @@ drm_hdmi_connector_get_broadcast_rgb_name(enum drm_hdmi_broadcast_rgb broadcast_
+> >  	return broadcast_rgb_names[broadcast_rgb].name;
+> >  }
+> >  EXPORT_SYMBOL(drm_hdmi_connector_get_broadcast_rgb_name);
+> >  
+> >  static const char * const output_format_str[] = {
+> > -	[HDMI_COLORSPACE_RGB]		= "RGB",
+> > -	[HDMI_COLORSPACE_YUV420]	= "YUV 4:2:0",
+> > -	[HDMI_COLORSPACE_YUV422]	= "YUV 4:2:2",
+> > -	[HDMI_COLORSPACE_YUV444]	= "YUV 4:4:4",
+> > +	[DRM_OUTPUT_COLOR_FORMAT_RGB444]	= "RGB",
+> > +	[DRM_OUTPUT_COLOR_FORMAT_YCBCR420]	= "YUV 4:2:0",
+> > +	[DRM_OUTPUT_COLOR_FORMAT_YCBCR422]	= "YUV 4:2:2",
+> > +	[DRM_OUTPUT_COLOR_FORMAT_YCBCR444]	= "YUV 4:4:4",
+> >  };
+> >  
+> >  /*
+> >   * drm_hdmi_connector_get_output_format_name() - Return a string for HDMI connector output format
+> >   * @fmt: Output format to compute name of
+> >   *
+> >   * Returns: the name of the output format, or NULL if the type is not
+> >   * valid.
+> >   */
+> >  const char *
+> > -drm_hdmi_connector_get_output_format_name(enum hdmi_colorspace fmt)
+> > +drm_hdmi_connector_get_output_format_name(enum drm_output_color_format fmt)
+> >  {
+> >  	if (fmt >= ARRAY_SIZE(output_format_str))
+> >  		return NULL;
+> 
+> Almost unrelated nit: we might want to also `fmt < 0 ||` here, since the
+> base type of enums is a signed int. I almost caught myself using this function
+> as a way to quickly check if a supplied color format property from userspace
+> was valid, which would've had some unpleasant consequences for the kernel's
+> memory.
+> 
+> Alternatively, I make my own switch-case based "is this a valid enum value"
+> function. I probably should do that actually, but my laziness lead me to
+> make sure we only have a single source of truth of what counts as a valid
+> enum value.
 
-IIRC this is exactly the reason why it was never added. Adding it without
-vbus property is not a good strategy.
+Gah, disregard this, I just realised that this enum shouldn't be used as
+the one in the property anyway, because of AUTO, as you already pointed out
+in your reply to my series as well.
 
-Best regards,
-Jernej
+> 
+> >  
+> >  	return output_format_str[fmt];
+> > [... snip ...]
+> 
+> Thanks for your work on this series, I was afraid of getting rid of
+> DRM_COLOR_FORMAT_* myself because I suspected it was going to be a
+> fairly large refactor across every driver. Guess I was both right
+> and wrong: it touches many files, but all the replacements are
+> fairly simple. :)
+> 
+> Kind regards,
+> Nicolas Frattaroli
+
+
 
 
