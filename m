@@ -1,190 +1,126 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 580612744F
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Feb 2026 17:22:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772040163; cv=pass; b=IrqTyrsamnG/UnHDpS3mEAY6aLY/2brNAP4/js8U/+NZUqXvIpPAo8GS8m+fxSZhz7QYMNMeq+0B2uQTk1rQgmaQdDXKla8gyBEEEDCdjSzTt82irvbjpmnUkxFUlRKAdbCBlMoEurUMmSLwEium+8EFJBXyAjPmboeuCTTpFVw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772040163; c=relaxed/simple;
-	bh=Us5j4M1BALetgvtC5RkmfEvLNdORRLEYAEiAeF4c/v4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=glExU3JaajDN+fvuEwzSZm2QipGgDaLs+P9Wv/3B8ccIxKM0nCHOolOr/d534q5e/L5xnNUeh13El6c6oyQ2EfsscBX56jP3EtweHJDfaoHFbvVdsOiwq3Q4I+TaC89hWHJ5woWLrLriKIVeugGISPDhiVIKTRDcy7Xe07cE4uU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=ErAUL623; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 302B7318EEE
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Feb 2026 21:47:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772056068; cv=none; b=YM1niDxH7lKqIJmgeGq4ZMQUtxncTL4JGm32uCF44mjwB94t1jHQM2J6NzBYSkq5CAyrzIGaDGn22duHP/kujkUfYP5PAE7A4Qa0+iwty9hM+0O+nH5jNbf79ULH0GGf9T0iI6Z9j+3qQqVQg+8odbArevdzsnzqdCSPHdD8Zbc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772056068; c=relaxed/simple;
+	bh=l8N6B+v3LKcBSMQDhhMsq1Ou4LUvHgBtC7GiADD7q1o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=o7TDGgz29ywHV+du4LKw2nVvokZcPTO3mfIHjw/6d46zVje/6qpQvvJOWOWQAGrFC/NrK47zpkqI4x+2sAzFh+k29GvlC+Nr/OXMzZzk2v+tvvVjzG7aEJBytBodm+bGKLP6+5AVAzkie+AO7/KG/byI10U2R4D7HKmzFJ0zHfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tlje59Rl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="ErAUL623"
-ARC-Seal: i=1; a=rsa-sha256; t=1772040118; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=MIpYrwNHTEw1tzZw977bIojdnx+74FWfwIXNhnMSYlTbsSYdvxH+g+QrY4zGMoh0X/3DZPjW1oer4HYTWBAn3lHZ9vLlIC3a8s4C7BO5iCugtzNhaFJrnUwkM4F1mExYqN8mBQfAqYu79QXEyyAM+uYUflDsTia6C1LizlG0obI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1772040118; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=uYQZEmr31PuQ1YWmsWAZzNu809ry9o0BpCJyD6e+hII=; 
-	b=DKXVLTbsR+l5XSAncNafwzlzKwZJFdTzPP+h8McRV7E6gSiuqKAo0gab2+6Otdbc1isGUCYTJhxZGjcI7vh1AKsaUvskimpYwdXSRNnYQtDyLKFoTUrS8qniU722QaJ0PXBYYRRWbog7c79LA+nOvzfEoo9YVcVTtTTZ1JP99N8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772040117;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=uYQZEmr31PuQ1YWmsWAZzNu809ry9o0BpCJyD6e+hII=;
-	b=ErAUL623uvHeppqsgHQm+m4bSxj92drF5CKI08sbgfF9ao4z5nFAf0OhjrZ2uhfe
-	0v2t1b+qb/J6N/g3FbcMj9+VjuVo7d9MRM3n8M4cbxm+P7AbP4Ia+AVf6vI7b8b0tHG
-	1mpKX6ssj7z59PMyMJjE6UKb4r8TkFnimhIKEEf0=
-Received: by mx.zohomail.com with SMTPS id 1772040115678826.0329473998504;
-	Wed, 25 Feb 2026 09:21:55 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andy Yan <andy.yan@rock-chips.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
- Liu Ying <victor.liu@nxp.com>, Chen-Yu Tsai <wens@kernel.org>,
- Samuel Holland <samuel@sholland.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject:
- Re: [PATCH 14/14] drm/display: hdmi: Use drm_output_color_format instead of
- hdmi_colorspace
-Date: Wed, 25 Feb 2026 18:21:46 +0100
-Message-ID: <3999997.iIbC2pHGDl@workhorse>
-In-Reply-To: <8234454.EvYhyI6sBW@workhorse>
-References:
- <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
- <20260224-drm-rework-color-formats-v1-14-bebc76604ada@kernel.org>
- <8234454.EvYhyI6sBW@workhorse>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tlje59Rl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15F32C2BC9E
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Feb 2026 21:47:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772056068;
+	bh=l8N6B+v3LKcBSMQDhhMsq1Ou4LUvHgBtC7GiADD7q1o=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=tlje59RlQj+qfCgUenfDHKivjPqo4Up/NZl0XvsV7LfceH/kWiOS/VQww38KJlbd3
+	 mJUb2v0pTRXO1O19c/Ag6KK2YnV+lwzS3cL4X1C6PnIb+ueY10cJsCqIPule4nSH37
+	 hQ4iJDRO/43D+s3/Cyihs73/6aAP8mxXQbVZV9TANtZ2UwCvNF6EZ99GW36xjzhEXm
+	 OFDen/gVpNhdnFX82h8dK9mEILI8hBN3u0G/BzpXr+7ZjnSu/OZwYTWfCcz+6udaVB
+	 uv7c5naBeBBSosyouf02ln2HT7HEcPnp7dR9jvrlph/Tv5QuMrzQ4QFMEyfyUae5r5
+	 cfdbze6R8tmfQ==
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-65baa72399fso358988a12.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 25 Feb 2026 13:47:48 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVaB1Qm6g21SopN5nPlIamuRwJwM4/QF9n8N1DK+kTn2IJ/pkGW2UFxm5CRoWCHbkdcOCWFezYmn4zvTw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyXmgbGEjcIEUorVDm6ZdRYBYjYvjy9ujcyQT7xf5Wg5grSkgWR
+	m33/Wkf5hbvu7jmONCnuPBjf4jWu/pXgLeXGcrZxB7JWv4vpxWt4N2qsUlNGcTjwLdPnVyltzwg
+	colaLWVyZdrit+y+K+pxvkA7Yd+SOoQ==
+X-Received: by 2002:a17:906:38cb:b0:b8f:7200:63bd with SMTP id
+ a640c23a62f3a-b9351794335mr92810866b.42.1772056066379; Wed, 25 Feb 2026
+ 13:47:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+References: <20260223-soc-of-root-v2-0-b45da45903c8@oss.qualcomm.com>
+ <20260223-soc-of-root-v2-8-b45da45903c8@oss.qualcomm.com> <20260224183213.GA3239922-robh@kernel.org>
+ <CAMRc=MfAuDqQZQAPXnJPJ9P1OV38dsQb0CWCh_EtZVq_G9dwsA@mail.gmail.com>
+In-Reply-To: <CAMRc=MfAuDqQZQAPXnJPJ9P1OV38dsQb0CWCh_EtZVq_G9dwsA@mail.gmail.com>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 25 Feb 2026 15:47:35 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLr3zzBfVujuj2kO3VCngV-wa97e+xEQj_sjakzRXyZSw@mail.gmail.com>
+X-Gm-Features: AaiRm539jdazKEwDTNuu6a7Fra_2vBg28zXqHEjYX1GN3S7PxX9gedX_Y-Td3eI
+Message-ID: <CAL_JsqLr3zzBfVujuj2kO3VCngV-wa97e+xEQj_sjakzRXyZSw@mail.gmail.com>
+Subject: Re: [PATCH v2 8/9] soc: renesas: don't access of_root directly
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Saravana Kannan <saravanak@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Frank Li <Frank.Li@nxp.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
+	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, driver-core@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wednesday, 25 February 2026 18:03:00 Central European Standard Time Nicolas Frattaroli wrote:
-> On Tuesday, 24 February 2026 11:58:53 Central European Standard Time Maxime Ripard wrote:
-> > The hdmi_colorspace enum was defined to represent the colorspace value
-> > of the HDMI infoframes. It was later used by some HDMI drivers to
-> > express the output format they should be setting up.
-> > 
-> > During the introduction of the HDMI helpers, it then was used to
-> > represent it in the drm_connector_hdmi_state structure.
-> > 
-> > However, it's always been somewhat redundant with the DRM_COLOR_FORMAT_*
-> > defines, and now with the drm_output_color_format enum. Let's
-> > consolidate around drm_output_color_format in drm_connector_hdmi_state
-> > to facilitate the current effort to provide a global output format
-> > selection mechanism.
-> > 
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >  drivers/gpu/drm/bridge/inno-hdmi.c                 |   6 +-
-> >  drivers/gpu/drm/bridge/ite-it6263.c                |   2 +-
-> >  drivers/gpu/drm/display/drm_hdmi_helper.c          |   7 +-
-> >  drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  52 ++++--
-> >  drivers/gpu/drm/drm_bridge.c                       |   2 +-
-> >  drivers/gpu/drm/drm_connector.c                    |  14 +-
-> >  drivers/gpu/drm/mediatek/mtk_hdmi_v2.c             |   8 +-
-> >  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   2 +-
-> >  drivers/gpu/drm/tests/drm_connector_test.c         |  80 ++++-----
-> >  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 182 ++++++++++-----------
-> >  drivers/gpu/drm/vc4/vc4_hdmi.c                     |  18 +-
-> >  drivers/gpu/drm/vc4/vc4_hdmi.h                     |   2 +-
-> >  include/drm/display/drm_hdmi_helper.h              |   3 +-
-> >  include/drm/drm_connector.h                        |   7 +-
-> >  14 files changed, 205 insertions(+), 180 deletions(-)
-> > 
-> > [... snip ...]
+On Wed, Feb 25, 2026 at 3:42=E2=80=AFAM Bartosz Golaszewski <brgl@kernel.or=
+g> wrote:
+>
+> On Tue, Feb 24, 2026 at 7:32=E2=80=AFPM Rob Herring <robh@kernel.org> wro=
+te:
 > >
-> > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> > index 4f5b27fab475c7c733622eb8727927571f3fb8fe..171cd495976a3e16f201fd339d3d42a09dc3b63f 100644
-> > --- a/drivers/gpu/drm/drm_connector.c
-> > +++ b/drivers/gpu/drm/drm_connector.c
-> > [... snip ...]
-> >  
-> > @@ -1424,25 +1424,25 @@ drm_hdmi_connector_get_broadcast_rgb_name(enum drm_hdmi_broadcast_rgb broadcast_
-> >  	return broadcast_rgb_names[broadcast_rgb].name;
-> >  }
-> >  EXPORT_SYMBOL(drm_hdmi_connector_get_broadcast_rgb_name);
-> >  
-> >  static const char * const output_format_str[] = {
-> > -	[HDMI_COLORSPACE_RGB]		= "RGB",
-> > -	[HDMI_COLORSPACE_YUV420]	= "YUV 4:2:0",
-> > -	[HDMI_COLORSPACE_YUV422]	= "YUV 4:2:2",
-> > -	[HDMI_COLORSPACE_YUV444]	= "YUV 4:4:4",
-> > +	[DRM_OUTPUT_COLOR_FORMAT_RGB444]	= "RGB",
-> > +	[DRM_OUTPUT_COLOR_FORMAT_YCBCR420]	= "YUV 4:2:0",
-> > +	[DRM_OUTPUT_COLOR_FORMAT_YCBCR422]	= "YUV 4:2:2",
-> > +	[DRM_OUTPUT_COLOR_FORMAT_YCBCR444]	= "YUV 4:4:4",
-> >  };
-> >  
-> >  /*
-> >   * drm_hdmi_connector_get_output_format_name() - Return a string for HDMI connector output format
-> >   * @fmt: Output format to compute name of
-> >   *
-> >   * Returns: the name of the output format, or NULL if the type is not
-> >   * valid.
-> >   */
-> >  const char *
-> > -drm_hdmi_connector_get_output_format_name(enum hdmi_colorspace fmt)
-> > +drm_hdmi_connector_get_output_format_name(enum drm_output_color_format fmt)
-> >  {
-> >  	if (fmt >= ARRAY_SIZE(output_format_str))
-> >  		return NULL;
-> 
-> Almost unrelated nit: we might want to also `fmt < 0 ||` here, since the
-> base type of enums is a signed int. I almost caught myself using this function
-> as a way to quickly check if a supplied color format property from userspace
-> was valid, which would've had some unpleasant consequences for the kernel's
-> memory.
-> 
-> Alternatively, I make my own switch-case based "is this a valid enum value"
-> function. I probably should do that actually, but my laziness lead me to
-> make sure we only have a single source of truth of what counts as a valid
-> enum value.
+> > On Mon, Feb 23, 2026 at 02:37:23PM +0100, Bartosz Golaszewski wrote:
+> > > Don't access of_root directly as it reduces the build test coverage f=
+or
+> > > this driver with COMPILE_TEST=3Dy and OF=3Dn. Use existing helper fun=
+ctions
+> > > to retrieve the relevant information.
+> > >
+> > > Suggested-by: Rob Herring <robh@kernel.org>
+> > > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.=
+com>
+> > > ---
+> > >  drivers/soc/renesas/renesas-soc.c | 7 ++++++-
+> > >  1 file changed, 6 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/soc/renesas/renesas-soc.c b/drivers/soc/renesas/=
+renesas-soc.c
+> > > index 38ff0b823bdaf1ba106bfb57ed423158d9103f8d..bd8ba0ac30fa91fcf2a10=
+edd0d58b064650085cf 100644
+> > > --- a/drivers/soc/renesas/renesas-soc.c
+> > > +++ b/drivers/soc/renesas/renesas-soc.c
+> > > @@ -6,6 +6,7 @@
+> > >   */
+> > >
+> > >  #include <linux/bitfield.h>
+> > > +#include <linux/cleanup.h>
+> > >  #include <linux/io.h>
+> > >  #include <linux/of.h>
+> > >  #include <linux/of_address.h>
+> > > @@ -468,7 +469,11 @@ static int __init renesas_soc_init(void)
+> > >       const char *soc_id;
+> > >       int ret;
+> > >
+> > > -     match =3D of_match_node(renesas_socs, of_root);
+> > > +     struct device_node *root __free(device_node) =3D of_find_node_b=
+y_path("/");
+> > > +     if (!root)
+> > > +             return -ENOENT;
+> > > +
+> > > +     match =3D of_match_node(renesas_socs, root);
+> >
+> > Doesn't of_machine_device_match() work here?
+> >
+>
+> No, because we're using the returned address of the matching struct
+> of_device_id later in the function. If you think it's a better idea to
+> introduce of_machine_match_node(), let me know but I think that should
+> be done separately.
 
-Gah, disregard this, I just realised that this enum shouldn't be used as
-the one in the property anyway, because of AUTO, as you already pointed out
-in your reply to my series as well.
+No, it's fine.
 
-> 
-> >  
-> >  	return output_format_str[fmt];
-> > [... snip ...]
-> 
-> Thanks for your work on this series, I was afraid of getting rid of
-> DRM_COLOR_FORMAT_* myself because I suspected it was going to be a
-> fairly large refactor across every driver. Guess I was both right
-> and wrong: it touches many files, but all the replacements are
-> fairly simple. :)
-> 
-> Kind regards,
-> Nicolas Frattaroli
-
-
-
-
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
