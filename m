@@ -1,219 +1,126 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 794283D903B
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Feb 2026 16:14:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784353D7D7E
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Feb 2026 16:15:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772036087; cv=none; b=gWccUwyCvwz6XkjhSMyrUyFRpQcbuFKALC4y7sKVS8UpBfn4eN9o4jkDuC9WmcjGnX7tL0SULirWarkxWvSujMWl1/nxwhidugLbQfzRPgQ/gft2ZKIju/u/KWEeUZzu/zxLpYa9ClPKXKnYThA5Q3l0PAQqimWBCtPCOLXEQPk=
+	t=1772036105; cv=none; b=F5TtoI+8fu4MFvy6j9DVu21Op2lfkpD9iNNQNsUvORBDbZZaXG01xksGl+5tTQb29V9Q3pirCMIQZ2IwHBLMB+y5XgM63ozwoZRFFupyfz05r5keDbX4Tfkxj/EbpNT0VqmuG4F5X5WX/lyt3WpPBNKBmcouc3VyXWAReB0itGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772036087; c=relaxed/simple;
-	bh=KSsdf+s41vlegraU8qxaoX10lxEoDIUd91PLSZkiPCo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nXiEb+s5jp3OgYYpFk1+OTQJzGZ22eJlcigKDjcHYPu5oCiCSstNbrGx77EUBpj15LMr5TWPLRTljw0XjgDR1wpNVixIvHowq0BOAbuX0lBz6gyny3low09w1bBKfMtP5SzS4e0TKPoj+eZokJxJKnGpvhQez1VcnOAL2glN2sY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8CB31175A
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Feb 2026 08:14:35 -0800 (PST)
-Received: from [192.168.0.1] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B3C7E3F73B
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Feb 2026 08:14:41 -0800 (PST)
-Date: Wed, 25 Feb 2026 16:12:08 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
-	Liu Ying <victor.liu@nxp.com>, Chen-Yu Tsai <wens@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 10/14] drm/arm: komeda: Convert to drm_output_color_format
-Message-ID: <aZ8fWNYrwyxr0vqC@e142607>
-References: <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
- <20260224-drm-rework-color-formats-v1-10-bebc76604ada@kernel.org>
+	s=arc-20240116; t=1772036105; c=relaxed/simple;
+	bh=wmdB0fl1vrEWsur3Dkdc9CY49UgOrg4GQj69XI3kpwc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EW3KlF9polPgWiSXMUKk4d9sQgEh0qCq3xUJcrrYEsY4mjjkIqEZa0ctfZ9a+I4VbYv5zH/0wfjE8aNJu9C6JW8C0kcSYF9d87q8eo4RqSEOxsATc4/92GP6AJt7yd/Zqoeg1eFd3WFjSgtxgoIGOa0d7KgVPqALoUq3u1lJBS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CtGqL61f; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CtGqL61f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B125C2BCB3
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Feb 2026 16:15:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772036105;
+	bh=wmdB0fl1vrEWsur3Dkdc9CY49UgOrg4GQj69XI3kpwc=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=CtGqL61fxVrE+IXAyMneaKwr20DmBCGNDLKv/rBnm8j20N8r1Fhl/045ySrWPgM3Y
+	 o6+7C6BbuBOB9NO1ZfILeqNNrog63quE/WBz1qWCYGq/NC8iHk+AVuKfG5JGreZ+9j
+	 rgyj+CkcUKkJkxTXyk1P9hYe1RP9fFRIVJQnj7W8hPIOEi1P9EItbSPDQd/1/4eJSX
+	 ltyy/xfS7VtrSpOIcuOe8XLa2ztqskTsF/W9/HFwtBDmcy0e1cWLYn3S57IhGxCWYC
+	 YLdYzPFQFpA8ZTEb6mp7gp8pl56tReNLU1d9Z55XrSD2qBhdcrIpCoduSc2qrKNTPo
+	 uls41fxL4ddlQ==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-389e139ee5eso8724391fa.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 25 Feb 2026 08:15:05 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVnulWv/C4K1qxs3wZi//DIE90H99ZjcUTVr9SjOEggnQyj+9X7v7TLDRqR09Pj/ZivQcDptXW7Av3PNg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwOyKMQZS5jQhBKsrDqIBU09K9mxoCGeMv34tkR1siiZ8M2QhM6
+	6muoNAFr/szb9Wduy//fFzX425/hA3R3C2xYNEefPgAtyNmGGtag2uayEw9wrEP4to/YwWn+KPY
+	34kBjLojmyDcu5MMdaF+K1j3MP91a/Kw=
+X-Received: by 2002:a05:651c:220a:b0:385:ceb0:c330 with SMTP id
+ 38308e7fff4ca-389a5d18923mr54259111fa.10.1772036103445; Wed, 25 Feb 2026
+ 08:15:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260224-drm-rework-color-formats-v1-10-bebc76604ada@kernel.org>
+References: <20260225160828.1687643-1-wens@kernel.org> <20260225160828.1687643-3-wens@kernel.org>
+In-Reply-To: <20260225160828.1687643-3-wens@kernel.org>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Thu, 26 Feb 2026 00:14:51 +0800
+X-Gmail-Original-Message-ID: <CAGb2v675r8idb3MHyaPD6XNrDF3na-rH2342ET0TUm1kGsT20w@mail.gmail.com>
+X-Gm-Features: AaiRm53ZqutIuvlJ6sHtPgGw3ES5VmzyMvxfSoLIDy0kWkD4Sx0Tz9nprYnh_c0
+Message-ID: <CAGb2v675r8idb3MHyaPD6XNrDF3na-rH2342ET0TUm1kGsT20w@mail.gmail.com>
+Subject: Re: [PATCH 2/3] arm64: dts: allwinner: sun55i-a523: Add LED controller
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 24, 2026 at 11:58:49AM +0100, Maxime Ripard wrote:
-> Now that we introduced a new drm_output_color_format enum to represent
-> what DRM_COLOR_FORMAT_* bits were representing, we can switch to the new
-> enum.
-> 
-> The main different is that while DRM_COLOR_FORMAT_ was a bitmask,
-> drm_output_color_format is a proper enum. However, the enum was done is
-> such a way than DRM_COLOR_FORMAT_X = BIT(DRM_OUTPUT_COLOR_FORMAT_X) so
-> the transitition is easier.
-> 
-> The only thing we need to consider is if the original code meant to use
-> that value as a bitmask, in which case we do need to keep the bit shift,
-> or as a discriminant in which case we don't.
-> 
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-
-For the first patch in the series that introduces the enum and this one:
-
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-
-Best regards,
-Liviu
-
+On Thu, Feb 26, 2026 at 12:08=E2=80=AFAM Chen-Yu Tsai <wens@kernel.org> wro=
+te:
+>
+> The A523 SoC family features an LED controller that is identical to the
+> one found on previous SoCs.
+>
+> Add a device node for it, and one of the possible pinmux settings. This
+> setting is used on the Avaota A1.
+>
+> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 > ---
->  drivers/gpu/drm/arm/display/komeda/d71/d71_component.c     | 14 +++++++-------
->  drivers/gpu/drm/arm/display/komeda/komeda_crtc.c           |  2 +-
->  drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h       |  5 +++--
->  drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c |  2 +-
->  4 files changed, 12 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-> index 67e5d3b4190f62549bc8da700deb4b15e138b515..27ca2930cdac6e76a058102ea2c1d8306d85e751 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-> @@ -1078,15 +1078,15 @@ static void d71_improc_update(struct komeda_component *c,
->  	}
->  
->  	mask |= IPS_CTRL_YUV | IPS_CTRL_CHD422 | IPS_CTRL_CHD420;
->  
->  	/* config color format */
-> -	if (st->color_format == DRM_COLOR_FORMAT_YCBCR420)
-> +	if (st->color_format == DRM_OUTPUT_COLOR_FORMAT_YCBCR420)
->  		ctrl |= IPS_CTRL_YUV | IPS_CTRL_CHD422 | IPS_CTRL_CHD420;
-> -	else if (st->color_format == DRM_COLOR_FORMAT_YCBCR422)
-> +	else if (st->color_format == DRM_OUTPUT_COLOR_FORMAT_YCBCR422)
->  		ctrl |= IPS_CTRL_YUV | IPS_CTRL_CHD422;
-> -	else if (st->color_format == DRM_COLOR_FORMAT_YCBCR444)
-> +	else if (st->color_format == DRM_OUTPUT_COLOR_FORMAT_YCBCR444)
->  		ctrl |= IPS_CTRL_YUV;
->  
->  	malidp_write32_mask(reg, BLK_CONTROL, mask, ctrl);
->  }
->  
-> @@ -1143,16 +1143,16 @@ static int d71_improc_init(struct d71_dev *d71,
->  		return PTR_ERR(c);
->  	}
->  
->  	improc = to_improc(c);
->  	improc->supported_color_depths = BIT(8) | BIT(10);
-> -	improc->supported_color_formats = DRM_COLOR_FORMAT_RGB444 |
-> -					  DRM_COLOR_FORMAT_YCBCR444 |
-> -					  DRM_COLOR_FORMAT_YCBCR422;
-> +	improc->supported_color_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
-> +					  BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444) |
-> +					  BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422);
->  	value = malidp_read32(reg, BLK_INFO);
->  	if (value & IPS_INFO_CHD420)
-> -		improc->supported_color_formats |= DRM_COLOR_FORMAT_YCBCR420;
-> +		improc->supported_color_formats |= BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420);
->  
->  	improc->supports_csc = true;
->  	improc->supports_gamma = true;
->  
->  	return 0;
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> index 5a66948ffd24343cfc144e9b500679fd0c6bf43b..e78604469ef74800a4cac1e854821578b7e7bce8 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> @@ -38,11 +38,11 @@ void komeda_crtc_get_color_config(struct drm_crtc_state *crtc_st,
->  			min_bpc = conn_bpc;
->  	}
->  
->  	/* connector doesn't config any color_format, use RGB444 as default */
->  	if (!conn_color_formats)
-> -		conn_color_formats = DRM_COLOR_FORMAT_RGB444;
-> +		conn_color_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444);
->  
->  	*color_depths = GENMASK(min_bpc, 0);
->  	*color_formats = conn_color_formats;
->  }
->  
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h
-> index ac8725e248537e5737d16cd36860401c42073500..dbe93894b2f6a193e24963d497ebb7b717ce3ebb 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h
-> @@ -315,20 +315,21 @@ struct komeda_splitter_state {
->  	u16 overlap;
->  };
->  
->  struct komeda_improc {
->  	struct komeda_component base;
-> -	u32 supported_color_formats;  /* DRM_RGB/YUV444/YUV420*/
-> +	u32 supported_color_formats;  /* BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444/YUV444/YUV420) */
->  	u32 supported_color_depths; /* BIT(8) | BIT(10)*/
->  	u8 supports_degamma : 1;
->  	u8 supports_csc : 1;
->  	u8 supports_gamma : 1;
->  };
->  
->  struct komeda_improc_state {
->  	struct komeda_component_state base;
-> -	u8 color_format, color_depth;
-> +	enum drm_output_color_format color_format;
-> +	u8 color_depth;
->  	u16 hsize, vsize;
->  	u32 fgamma_coeffs[KOMEDA_N_GAMMA_COEFFS];
->  	u32 ctm_coeffs[KOMEDA_N_CTM_COEFFS];
->  };
->  
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
-> index f4e76b46ca327a1c5db9bdbdd9550b45190b30d8..6f9b10cc831ff748296b9ed30b6de398c90c4786 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
-> @@ -797,11 +797,11 @@ komeda_improc_validate(struct komeda_improc *improc,
->  					 improc->supported_color_formats);
->  			return -EINVAL;
->  		}
->  
->  		st->color_depth = __fls(avail_depths);
-> -		st->color_format = BIT(__ffs(avail_formats));
-> +		st->color_format = __ffs(avail_formats);
->  	}
->  
->  	if (kcrtc_st->base.color_mgmt_changed) {
->  		drm_lut_to_fgamma_coeffs(kcrtc_st->base.gamma_lut,
->  					 st->fgamma_coeffs);
-> 
-> -- 
-> 2.52.0
-> 
+>  .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 22 +++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+>
+> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/=
+boot/dts/allwinner/sun55i-a523.dtsi
+> index 09bd149bbf51..b8263e2872af 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+> @@ -170,6 +170,13 @@ i2s2_pi_pins: i2s2-pi-pins {
+>                                 bias-disable;
+>                         };
+>
+> +                       /omit-if-no-ref/
+> +                       ledc_ph_pin: ledc-ph-pin {
+> +                               pins =3D "PH19";
+> +                               function =3D "ledc";
+> +                               allwinner,pinmux =3D <5>;
+> +                       };
+> +
+>                         mmc0_pins: mmc0-pins {
+>                                 pins =3D "PF0" ,"PF1", "PF2", "PF3", "PF4=
+", "PF5";
+>                                 allwinner,pinmux =3D <2>;
+> @@ -300,6 +307,21 @@ ccu: clock-controller@2001000 {
+>                         #reset-cells =3D <1>;
+>                 };
+>
+> +               ledc: led-controller@2008000 {
+> +                       compatible =3D "allwinner,sun55i-a523-ledc",
+> +                                    "allwinner,sun50i-a100-ledc";
+> +                       reg =3D <0x02008000 0x400>;
+> +                       interrupts =3D <GIC_SPI 28 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks =3D <&ccu CLK_BUS_LEDC>, <&ccu CLK_LEDC>;
+> +                       clock-names =3D "bus", "mod";
+> +                       resets =3D <&ccu RST_BUS_LEDC>;
+> +                       dmas =3D <&dma 42>;
+> +                       dma-names =3D "tx";
+> +                       #address-cells =3D <1>;
+> +                       #size-cells =3D <0>;
+> +                       status =3D "disabled";
+> +               };
+> +
+>                 ths1: thermal-sensor@2009400 {
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+I Forgot to rebase this patch before the thermal sensor one in my tree.
+I can fix this when applying, so please still review the patch.
+
+ChenYu
+
+>                         compatible =3D "allwinner,sun55i-a523-ths1";
+>                         reg =3D <0x02009400 0x400>;
+> --
+> 2.47.3
+>
