@@ -1,119 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33B038E5F7
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Feb 2026 09:42:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772012562; cv=none; b=P/J/FyHUVnTp0k9e4lXU3iHRxGNHbO84jENT2uc/Yzl53VH8QSDrYUtSCUms7wc89Tx+V4WVe8O7zVO++2FuHgwPE+6d8ItRQAwm8KdcCthJEGmZHPEypMTqzm151U7vJn5gRlBTi30q7wCSh6OUs7UO/FZ4kTo/hPUTn+PCKIw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772012562; c=relaxed/simple;
-	bh=K9a2s9JYkj0KSLlC0p3v78WuyHO3yDxajztaUeqowf4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RBbhcU3ix600e9sTM9Nu6VkDf3diT+mlqxgPHIUKFRKujeQFl0ZviBXh1/7GKrn2kPmNjfVR+TsmRQi9OiYDQThQdDmWK/S10UTEWSs8+FO4VPFGIowVwLECS1FCt9KMsFEfCDUru0ht98dI2rk7qdf/wx8tJtYc+vFqT2O+Ttc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mT9Spqfg; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3642284B2F
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Feb 2026 12:02:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772020956; cv=pass; b=Ct+nqFyVut1DgMY0ARPc+p3JOio3s7OL8Bj7bUw3eJpQOXWiV7CDpttQLfrvCoIYdo718QVoRjUXuGn32yFpoXDSnGRKpMEraH7ZY7hWnsQR5492Hkg2xf0wshRkaNuBXNCjRco2zeoaWpsV5PBBbHGgvV+U9VGWaQ0wvsTbL48=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772020956; c=relaxed/simple;
+	bh=pFySQZzI6I4KvcpNAB0tfMmhto9X1h0vL/C8Z7OeDG8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=Ae28yt1SpgaYw5CyUYNI17RduMyuauYBtdp3nR3AZNI9fJYMYpwkpkvW7rOpD1LnuUgajItkJ4CtgJtQiHdUhR2gY3RL/IvEUSOvgD8suxQigNZwpoeo29L3UhSpcY93GwHGmBUaRVbi8W1hWOZjnWuLfrv672LRLQkSkD7Dt08=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech; spf=pass smtp.mailfrom=pigmoral.tech; dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b=k9FhMGUz; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pigmoral.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mT9Spqfg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92E2DC2BC9E
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Feb 2026 09:42:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772012562;
-	bh=K9a2s9JYkj0KSLlC0p3v78WuyHO3yDxajztaUeqowf4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=mT9SpqfgCsu/X3E++A3RmEyNDeS1Jlb38T25+6EctL4aTNtrYmIn9sJwobi0Kjivc
-	 SIWlIil8HD6rI4tZWkASdHUvWoNLME+BBS77ASy39EdP9AEAvu8Grv97sZx0mgt4gA
-	 FeuVzd0nOinFN0twGSxBNd48CSosm2UTZtSO4BSCkLC9t3U6SY6VNPtrfdwBTtZPix
-	 cjoD2KrAApoFMf/6vraGzPtSqKDsk0JAwdh9JUpg0jU9012elBvMgLfvKfToNyDphC
-	 cRF+6q6DtW/u0Fl2wkp2IU3lxk1cSXZg3CgiNc7XIWbaJI8xW6WZRbGZZKtucy4U+G
-	 mWWi1ENNudy+g==
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-389e139ee5eso5180401fa.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 25 Feb 2026 01:42:42 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVBiMe/0m234Ud2PYVMCTa+FyaOYro/kP9Lq/gpTnhe7xKo5nlUOayPAmMT7P/hvKeds3WpEhC5u0IqLA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzsp+X6p16tkQ2mvNlWptJ8ElzCvcx4C1MW3rpp/KMxxEOHZDSX
-	NZl0yVpcMdFfo4vFXYV3i/iXptzpU6oZWNjo4gfUxp+GloEQ6oUDB8YfebSw6crDb3CuozpiqYP
-	eHUiFg5/I6zG53K/WcYutm0UG7wEpFJ8DQWejqTCK0Q==
-X-Received: by 2002:a2e:9e46:0:b0:388:25c1:d969 with SMTP id
- 38308e7fff4ca-389a5d14de0mr32354961fa.9.1772012560925; Wed, 25 Feb 2026
- 01:42:40 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b="k9FhMGUz"
+ARC-Seal: i=1; a=rsa-sha256; t=1772020938; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=TNJv7kHvKUjGqmcwqmsA3x0Le/gXxWBaVPK9MVwLfT0THMVAbnnQafEgk4xL24tsUzOtwk5HHaO7z/S46vhBpb1zdwWLVPIMrGQpcUeBP29lrbkbUywNE9BJqL5Hd2FNpTvxF0nz23wenBDorGxfuwYEshJOxbVn+mh+ru9ski4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1772020938; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=IizUq26mU0IFus36KtptiQJycd4Ah24lnhNyzSKAepg=; 
+	b=OCSRMenj1mEEe8LNXJ4se7RyUl8bq3NAXYRIYzTPesWb0vXEPNFzJAGKLYUT1NMPmZlLloEjQhlTlP2CjrKMUqI4zblo60nLKvGf5u1Qk6hVU/VpsAWQ6mzhb4g+H2xhGtbRlY2qJULoJMmyZHwx3ZJZEqiPT36/nqnKWaDkCCM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=pigmoral.tech;
+	spf=pass  smtp.mailfrom=junhui.liu@pigmoral.tech;
+	dmarc=pass header.from=<junhui.liu@pigmoral.tech>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772020938;
+	s=zmail; d=pigmoral.tech; i=junhui.liu@pigmoral.tech;
+	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:Cc:Cc:Subject:Subject:From:From:To:To:References:In-Reply-To:Reply-To;
+	bh=IizUq26mU0IFus36KtptiQJycd4Ah24lnhNyzSKAepg=;
+	b=k9FhMGUzjDF6Zv9rpTWG7kHQfLXoH3dpXC1A2r40o3ZV9uctEqbdPyvh4ZjlJm61
+	XiS2C33j+JVBS8KJcrVPa1IAnBN/LojPSdNyOTuPC8LmkUYWJChQmOEdwQ6/YoHc7Ls
+	Ggv2L55nMYeb7L2cx03R245+LsUb0Hx+5OBs7Ux0=
+Received: by mx.zohomail.com with SMTPS id 177202093493336.86441168143767;
+	Wed, 25 Feb 2026 04:02:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260223-soc-of-root-v2-0-b45da45903c8@oss.qualcomm.com>
- <20260223-soc-of-root-v2-8-b45da45903c8@oss.qualcomm.com> <20260224183213.GA3239922-robh@kernel.org>
-In-Reply-To: <20260224183213.GA3239922-robh@kernel.org>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Wed, 25 Feb 2026 10:42:26 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MfAuDqQZQAPXnJPJ9P1OV38dsQb0CWCh_EtZVq_G9dwsA@mail.gmail.com>
-X-Gm-Features: AaiRm52qiNgvNEan0Ja9tgnzlKTIzAcLn92f5zLzhmXEy4_h8wLWb64Qeoqf4C4
-Message-ID: <CAMRc=MfAuDqQZQAPXnJPJ9P1OV38dsQb0CWCh_EtZVq_G9dwsA@mail.gmail.com>
-Subject: Re: [PATCH v2 8/9] soc: renesas: don't access of_root directly
-To: Rob Herring <robh@kernel.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Saravana Kannan <saravanak@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Frank Li <Frank.Li@nxp.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, driver-core@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 25 Feb 2026 20:02:03 +0800
+Message-Id: <DGO0ZQ827ZV8.4EO0ONZBR8CL@pigmoral.tech>
+Cc: <linux-clk@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <linux-rtc@vger.kernel.org>, <devicetree@vger.kernel.org>
+Subject: Re: [PATCH 0/7] rtc: sun6i: Add support for Allwinner A733 SoC
+From: "Junhui Liu" <junhui.liu@pigmoral.tech>
+To: =?utf-8?q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, "Michael
+ Turquette" <mturquette@baylibre.com>, "Stephen Boyd" <sboyd@kernel.org>,
+ "Chen-Yu Tsai" <wens@kernel.org>, "Samuel Holland" <samuel@sholland.org>,
+ "Alexandre Belloni" <alexandre.belloni@bootlin.com>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, "Maxime Ripard" <mripard@kernel.org>,
+ "Junhui Liu" <junhui.liu@pigmoral.tech>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260121-a733-rtc-v1-0-d359437f23a7@pigmoral.tech>
+ <5061953.GXAFRqVoOG@jernej-laptop>
+In-Reply-To: <5061953.GXAFRqVoOG@jernej-laptop>
+X-ZohoMailClient: External
 
-On Tue, Feb 24, 2026 at 7:32=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
->
-> On Mon, Feb 23, 2026 at 02:37:23PM +0100, Bartosz Golaszewski wrote:
-> > Don't access of_root directly as it reduces the build test coverage for
-> > this driver with COMPILE_TEST=3Dy and OF=3Dn. Use existing helper funct=
-ions
-> > to retrieve the relevant information.
-> >
-> > Suggested-by: Rob Herring <robh@kernel.org>
-> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.co=
-m>
-> > ---
-> >  drivers/soc/renesas/renesas-soc.c | 7 ++++++-
-> >  1 file changed, 6 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/soc/renesas/renesas-soc.c b/drivers/soc/renesas/re=
-nesas-soc.c
-> > index 38ff0b823bdaf1ba106bfb57ed423158d9103f8d..bd8ba0ac30fa91fcf2a10ed=
-d0d58b064650085cf 100644
-> > --- a/drivers/soc/renesas/renesas-soc.c
-> > +++ b/drivers/soc/renesas/renesas-soc.c
-> > @@ -6,6 +6,7 @@
-> >   */
-> >
-> >  #include <linux/bitfield.h>
-> > +#include <linux/cleanup.h>
-> >  #include <linux/io.h>
-> >  #include <linux/of.h>
-> >  #include <linux/of_address.h>
-> > @@ -468,7 +469,11 @@ static int __init renesas_soc_init(void)
-> >       const char *soc_id;
-> >       int ret;
-> >
-> > -     match =3D of_match_node(renesas_socs, of_root);
-> > +     struct device_node *root __free(device_node) =3D of_find_node_by_=
-path("/");
-> > +     if (!root)
-> > +             return -ENOENT;
-> > +
-> > +     match =3D of_match_node(renesas_socs, root);
->
-> Doesn't of_machine_device_match() work here?
->
+Hi Jernej,
+Thanks for your review.
 
-No, because we're using the returned address of the matching struct
-of_device_id later in the function. If you think it's a better idea to
-introduce of_machine_match_node(), let me know but I think that should
-be done separately.
+On Sun Feb 22, 2026 at 6:41 PM CST, Jernej =C5=A0krabec wrote:
+> Hi!
+>
+> Dne sreda, 21. januar 2026 ob 11:59:06 Srednjeevropski standardni =C4=8Da=
+s je Junhui Liu napisal(a):
+>> Add support for the Allwinner A733 RTC and its internal Clock Control
+>> Unit (CCU). Reuse the rtc-sun6i rtc driver while introducing a new
+>> SoC-specific RTC CCU driver to handle the hardware's evolved clock
+>> structure.
+>>=20
+>> To facilitate this addition and improve driver modularity, transition
+>> the binding between the RTC and its internal CCU from direct
+>> cross-subsystem function calls to the auxiliary bus. Also extract shared
+>> IOSC and 32kHz clock logic into a standalone ccu_rtc module for reuse
+>> across newer SoC generations.
+>>=20
+>> The A733 implementation supports hardware detection of three external
+>> crystal frequencies (19.2MHz, 24MHz and 26MHz), which is represented in
+>> the driver via read-only mux operations. Implement logic to derive a
+>> normalized 32kHz reference from these DCXO sources using fixed
+>> pre-dividers. Additionally, provide several new DCXO gate clocks for
+>> peripherals, including SerDes, HDMI, and UFS.
+>
+> This work looks nice, but I have some questions/comments:
+> - you're missing RTC SPI clock, which is needed for RTC, at least accordi=
+ng
+>   to vendor 5.15 DT. Could it be that this bit set by vendor U-Boot so yo=
+u
+>   missed it during testing? Manual says that it's disabled by default.
 
-Bart
+You're right! I tried disabling the RTC SPI clock in U-Boot and found
+that the output of UART became garbled during booting kernel. I will add
+it in the next version.
+
+> - Vendor DT has strange RTC CCU phandles for UFS and HDMI. In first case
+>   uses RTC wakeup and in second DCXO, which doesn't make any sense. Did y=
+ou
+>   do any experimentation with these clocks? It wouldn't be the first time
+>   that either code or manual contained some kind of error.
+
+Regarding UFS, I am still working on getting UFS functional on the
+mainline kernel. I will investigate the actual relationship between the
+RTC wakeup clock and UFS during this process.
+
+As for HDMI, I believe it actually requires the hosc_hdmi_clk
+(DCXO_HDMI_GATING in the manual) provided by the RTC module.
+
+>
+> Btw, switch last two patches. With current order during bisection you wou=
+ld
+> get a complaint that A733 RTC CCU driver is not present.
+
+Okay, I will do it.
+
+>
+> Best regards,
+> Jernej
+
+--=20
+Best regards,
+Junhui Liu
+
