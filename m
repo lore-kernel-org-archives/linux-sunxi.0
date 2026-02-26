@@ -1,100 +1,251 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0AD3A0EA1
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Feb 2026 09:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E4135DCE3
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Feb 2026 14:12:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772098119; cv=none; b=WN7aL663zX+wXKKKWBQzyz7GSNvqF9JRJDtE/zyEz6/eMHChmDGbCcU+W7MFpqTljFKg7OjK23c0TeUMEbTih1WMKwJ2WiMYQUIBJUFDdvqD00dV7DepDL5Dog1xD/bdrf9tJxL2o0+iV8d6efalpzzOtLh2N8z3cTqvEygR61Q=
+	t=1772115159; cv=none; b=WiwRl1voTVtZlljDf9U9/iKXGtdGsXyTFwmX0qoE1RW2G35hZd1SZ/rR9RdCQFuUlf9hXkrEpoPUIb94rE1Nj+mxi3CUu8pIC4WEqs7G/rFIq9NA0HQodxr9Z6GNkRGSjsy3Objk+c/PduxhSn8VSqAtkOnef2EieB/OZ4jNBSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772098119; c=relaxed/simple;
-	bh=Q+JPGjs/pGTsOGNIOl36KuUbk8oNei+wKcehtvsLCRI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KBjSzK5qK9nY2qLaaZA0Mw//4Nu3q013UZ1s/CsKbcaSkA9cDaArHMNdJF1wUZvmt2tlQEwZfwzmhr7UTZwNf+L3x9wEh9E21VKNvWQhtsk5VlDnYdKzCkObJtYOsh8cOz3LKJ08JAi3wZW7lqaGaEzmfk1Hk4E97XJz25i/JZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pGu5+ci+; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pGu5+ci+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E674C2BCB4
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Feb 2026 09:28:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772098119;
-	bh=Q+JPGjs/pGTsOGNIOl36KuUbk8oNei+wKcehtvsLCRI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=pGu5+ci+Wn2JAlztc6J6f17nc1u7YqME6JKT+8WKxBgc0aHcELhW8ukVtK0us1QEk
-	 vZNR+ptEg/K6oY7fx9VRoFz+7glIPSL8J/f3xTV38nfSLG2Pn+yOHDraiExxbpKF7/
-	 RMy3y7yR6cPFN3QrnZsiNvy5AjcqAc72iEN6B5FcJuEqSOhXp2VLav781RZKXGrhyp
-	 i9Dll60Oag+79Jj6SFxp8iQwslow7Q5Tc5X3tHYLya1ez1aOHjdGBcNxkq/3lzqwPX
-	 wA2XfnV170zB6ymSkxYEUufb58p0kTvV/FvZXmY++w5oMjSHRFhKZm882IOP6064bh
-	 MDBQX4QmjpAWQ==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5a1007523c0so677499e87.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 26 Feb 2026 01:28:39 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXTEEB1+66eHRe9W0e1mMW6ipl1msc72ad0ohwkwsz1Pl002ndKZ019G8EjZ1d4niIXA1KhArIk8tOn8w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwEm5FINAwKl2KznPvlEmpO5G3jEgn6bbLqIpBuuIlNwqh+LjaY
-	cORTGOzI4xuDwBoh2lrxmdtKUQ3PaBVPy+MrjZAeG0uKAwymPC9XgWRhifBUBqqtZd1Q2JpFiq4
-	eyjJ93mDWRng6LZ7yDnMM6Rs7jYlXIIAQAwXdP30lYA==
-X-Received: by 2002:ac2:4bc6:0:b0:595:9d6b:1178 with SMTP id
- 2adb3069b0e04-5a105eb321amr948844e87.40.1772098117903; Thu, 26 Feb 2026
- 01:28:37 -0800 (PST)
+	s=arc-20240116; t=1772115159; c=relaxed/simple;
+	bh=cZ7O/thkfVztK2ropSuJ9cYKzGgyBKuwgnMINRdG/2Y=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=PQjSY71W7FUZ58KF6NLjA2dhHPNWbdU7+2PPcHOHZ0514JWbsyiMCzEssXVnOCoKnO/NLTalbqf1AZWPQ0u0D2KHSyUGd8C/txxytAPsLC9n7oQGcdVTGYGINV9XVDhHpYKWQifmOSN3W8URJpBZIl12oWAipEdd4IlXDC8uhwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1vvc6F-00033P-AO; Thu, 26 Feb 2026 15:12:19 +0100
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1vvc6C-002kDY-1c;
+	Thu, 26 Feb 2026 15:12:17 +0100
+Received: from pza by lupine with local (Exim 4.98.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1vvc6D-00000000DNK-3A7z;
+	Thu, 26 Feb 2026 15:12:17 +0100
+Message-ID: <2938bcbbb46fdec1fd2629e11c28ce9cf09eee27.camel@pengutronix.de>
+Subject: Re: [PATCH v3 2/4] pwm: sun50i: Add H616 PWM support
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Richard Genoud <richard.genoud@bootlin.com>, Uwe
+ =?ISO-8859-1?Q?Kleine-K=F6nig?=	 <u.kleine-koenig@baylibre.com>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,  Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
+Cc: Paul Kocialkowski <paulk@sys-base.io>, Thomas Petazzoni
+	 <thomas.petazzoni@bootlin.com>, linux-pwm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Thu, 26 Feb 2026 15:12:17 +0100
+In-Reply-To: <20260123093322.1327389-3-richard.genoud@bootlin.com>
+References: <20260123093322.1327389-1-richard.genoud@bootlin.com>
+	 <20260123093322.1327389-3-richard.genoud@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260223-soc-of-root-v2-0-b45da45903c8@oss.qualcomm.com> <20260224183832.GB3239922-robh@kernel.org>
-In-Reply-To: <20260224183832.GB3239922-robh@kernel.org>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Thu, 26 Feb 2026 10:28:26 +0100
-X-Gmail-Original-Message-ID: <CAMRc=Mft5vc-C8miKVdw6C-qRdYsqfgm-UgLZJOctFwagMF0iA@mail.gmail.com>
-X-Gm-Features: AaiRm51IEGv2tkqYAUL_wlvSqsaBCZdXcGaMbPUU4umqiYT87HTd0LJXBirO8Tg
-Message-ID: <CAMRc=Mft5vc-C8miKVdw6C-qRdYsqfgm-UgLZJOctFwagMF0iA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/9] soc: remove direct accesses to of_root from drivers/soc/
-To: Rob Herring <robh@kernel.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Saravana Kannan <saravanak@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Frank Li <Frank.Li@nxp.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, driver-core@lists.linux.dev, 
-	Peng Fan <peng.fan@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On Tue, Feb 24, 2026 at 7:38=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
->
-> On Mon, Feb 23, 2026 at 02:37:15PM +0100, Bartosz Golaszewski wrote:
-> > linux/of.h declares a set of variables providing addresses of certain
-> > key OF nodes. The pointers being variables can't profit from stubs
-> > provided for when CONFIG_OF is disabled which means that drivers
-> > accessing these variables can't profit from CONFIG_COMPILE_TEST=3Dy
-> > coverage.
-> >
-> > There are drivers under drivers/soc/ that access the of_root node. This
-> > series introduces new OF helpers for reading the machine compatible and
-> > model strings, exports an existing SoC helper that reads the machine
-> > string from the root node and finally replaces all direct accesses to
-> > of_root with new or already existing helper functions.
-> >
-> > Merging strategy: first two patches should be either acked by Rob or
-> > picked up into an immutable branch based on v7.0-rc1, the rest can go
-> > through the SoC tree.
->
-> SoC tree is good.
->
-> For all but patch 8,
->
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
->
+On Fr, 2026-01-23 at 10:33 +0100, Richard Genoud wrote:
+> Add driver for Allwinner H616 PWM controller, supporting up to 6
+> channels.
+> Those channels output can be either a PWM signal output or a clock
+> output, thanks to the bypass.
+>=20
+> The channels are paired (0/1, 2/3 and 4/5) and each pair has a
+> prescaler/mux/gate.
+> Moreover, each channel has its own prescaler and bypass.
+>=20
+> The clock provider part of this driver is needed not only because the
+> H616 PWM controller provides also clocks when bypass is enabled, but
+> really because pwm-clock isn't fit to handle all cases here.
+> pwm-clock would work if the 100MHz clock is requested, but if a lower
+> clock is requested (like 24MHz), it will request a 42ns period to the
+> PWM driver which will happily serve, with the 100MHz clock as input a
+> 25MHz frequency and a duty cycle adjustable in the range [0-4]/4,
+> because that is a sane thing to do for a PWM.
+> The information missing is that a real clock is resquested, not a PWM.
+>=20
+> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+> ---
+>  drivers/pwm/Kconfig           |  12 +
+>  drivers/pwm/Makefile          |   1 +
+>  drivers/pwm/pwm-sun50i-h616.c | 959 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 972 insertions(+)
+>  create mode 100644 drivers/pwm/pwm-sun50i-h616.c
+>=20
+[...]
+> diff --git a/drivers/pwm/pwm-sun50i-h616.c b/drivers/pwm/pwm-sun50i-h616.=
+c
+> new file mode 100644
+> index 000000000000..02a8e2d39f86
+> --- /dev/null
+> +++ b/drivers/pwm/pwm-sun50i-h616.c
+> @@ -0,0 +1,959 @@
+[...]
+> +static int h616_pwm_init_clocks(struct platform_device *pdev,
+> +				struct h616_pwm_chip *h616chip)
+> +{
+> +	struct clk_pwm_pdata *pdata;
+> +	struct device *dev =3D &pdev->dev;
+> +	int num_clocks =3D 0;
+> +	int ret;
+> +
+> +	pdata =3D devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
+> +	if (!pdata)
+> +		return dev_err_probe(dev, -ENOMEM,
+> +				     "Failed to allocate clk_pwm_pdata\n");
+> +
+> +	while (pwmcc_data[num_clocks].name)
+> +		num_clocks++;
+> +
+> +	pdata->hw_data =3D devm_kzalloc(dev, struct_size(pdata->hw_data, hws, n=
+um_clocks),
+> +				      GFP_KERNEL);
+> +	if (!pdata->hw_data)
+> +		return dev_err_probe(dev, -ENOMEM,
+> +				     "Failed to allocate hw clocks\n");
+> +
+> +	pdata->hw_data->num =3D num_clocks;
+> +	pdata->reg =3D h616chip->base;
+> +
+> +	spin_lock_init(&pdata->lock);
+> +
+> +	for (int i =3D 0; i < num_clocks; i++) {
+> +		struct clk_hw **hw =3D &pdata->hw_data->hws[i];
+> +
+> +		ret =3D h616_add_composite_clk(&pwmcc_data[i], pdata->reg,
+> +					     &pdata->lock, dev, hw);
+> +		if (ret) {
+> +			dev_err_probe(dev, ret,
+> +				      "Failed to register hw clock %s\n",
+> +				      pwmcc_data[i].name);
+> +			for (i--; i >=3D 0; i--)
+> +				clk_hw_unregister_composite(pdata->hw_data->hws[i]);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	h616chip->clk_pdata =3D pdata;
+> +
+> +	return 0;
+> +}
+> +
+> +static int h616_pwm_probe(struct platform_device *pdev)
+> +{
+> +	const struct h616_pwm_data *data;
+> +	struct device *dev =3D &pdev->dev;
+> +	struct h616_pwm_chip *h616chip;
+> +	struct pwm_chip *chip;
+> +	int ret;
+> +
+> +	data =3D of_device_get_match_data(dev);
+> +	if (!data)
+> +		return dev_err_probe(dev, -ENODEV,
+> +				     "Missing specific data structure\n");
+> +
+> +	chip =3D devm_pwmchip_alloc(dev, data->npwm, sizeof(*h616chip));
+> +	if (IS_ERR(chip))
+> +		return dev_err_probe(dev, PTR_ERR(chip),
+> +				     "Failed to allocate pwmchip\n");
+> +
+> +	h616chip =3D h616_pwm_from_chip(chip);
+> +	h616chip->data =3D data;
+> +	h616chip->base =3D devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(h616chip->base))
+> +		return dev_err_probe(dev, PTR_ERR(h616chip->base),
+> +				     "Failed to get PWM base address\n");
+> +
+> +	h616chip->bus_clk =3D devm_clk_get_enabled(dev, "bus");
+> +	if (IS_ERR(h616chip->bus_clk))
+> +		return dev_err_probe(dev, PTR_ERR(h616chip->bus_clk),
+> +				     "Failed to get bus clock\n");
+> +
+> +	h616chip->channels =3D devm_kmalloc_array(dev, data->npwm,
+> +						sizeof(*(h616chip->channels)),
+> +						GFP_KERNEL);
+> +	if (!h616chip->channels)
+> +		return dev_err_probe(dev, -ENOMEM,
+> +				     "Failed to allocate %d channels array\n",
+> +				     data->npwm);
+> +
+> +	h616chip->rst =3D devm_reset_control_get_shared(dev, NULL);
+> +	if (IS_ERR(h616chip->rst))
+> +		return dev_err_probe(dev, PTR_ERR(h616chip->rst),
+> +				     "Failed to get reset control\n");
+> +
+> +	chip->ops =3D &h616_pwm_ops;
+> +
+> +	ret =3D h616_pwm_init_clocks(pdev, h616chip);
+> +	if (ret)
+> +		return ret;
+> +
+> +	for (unsigned int i =3D 0; i < data->npwm; i++) {
+> +		struct h616_pwm_channel *chan =3D &h616chip->channels[i];
+> +		struct clk_hw **hw =3D &h616chip->clk_pdata->hw_data->hws[i];
+> +
+> +		chan->pwm_clk =3D devm_clk_hw_get_clk(dev, *hw, NULL);
+> +		if (IS_ERR(chan->pwm_clk)) {
+> +			ret =3D dev_err_probe(dev, PTR_ERR(chan->pwm_clk),
+> +					    "Failed to register PWM clock %d\n", i);
+> +			goto err_get_clk;
+> +		}
+> +		chan->mode =3D H616_PWM_MODE_NONE;
+> +	}
+> +
+> +	ret =3D devm_of_clk_add_hw_provider(dev, h616_pwm_of_clk_get, h616chip)=
+;
+> +	if (ret) {
+> +		dev_err_probe(dev, ret, "Failed to add HW clock provider\n");
+> +		goto err_add_clk_provider;
+> +	}
+> +
+> +	/* Deassert reset */
+> +	ret =3D reset_control_deassert(h616chip->rst);
+> +	if (ret) {
+> +		dev_err_probe(dev, ret, "Cannot deassert reset control\n");
+> +		goto err_ctrl_deassert;
+> +	}
+> +
+> +	ret =3D pwmchip_add(chip);
+> +	if (ret < 0) {
+> +		dev_err_probe(dev, ret, "Failed to add PWM chip\n");
+> +		goto err_pwm_add;
+> +	}
+> +
+> +	platform_set_drvdata(pdev, chip);
+> +
+> +	return 0;
+> +
+> +err_pwm_add:
+> +	reset_control_assert(h616chip->rst);
+> +
+> +err_ctrl_deassert:
+> +err_add_clk_provider:
+> +err_get_clk:
+> +	for (unsigned int i =3D 0; i < h616chip->clk_pdata->hw_data->num; i++)
+> +		clk_hw_unregister_composite(h616chip->clk_pdata->hw_data->hws[i]);
 
-FYI Rob also reviewed patch 8 now. Who would pick the patches up? Greg
-KH? There does not seem to be a centralized SoC maintainer in
-MAINTAINERS?
+Won't this try to unregister the clk_hw before the pwm_clk derived from
+it? You could place this in a devres action to correct the cleanup
+order and get rid of the duplicated cleanup in h616_pwm_remove().
 
-Bart
+I think you could even use devm_pwmchip_add() and
+devm_reset_control_get_shared_deasserted() and remove h616_pwm_remove
+entirely.
+
+regards
+Philipp
