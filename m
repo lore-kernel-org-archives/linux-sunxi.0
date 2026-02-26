@@ -1,251 +1,120 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E4135DCE3
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Feb 2026 14:12:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4864827F18F
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Feb 2026 15:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772115159; cv=none; b=WiwRl1voTVtZlljDf9U9/iKXGtdGsXyTFwmX0qoE1RW2G35hZd1SZ/rR9RdCQFuUlf9hXkrEpoPUIb94rE1Nj+mxi3CUu8pIC4WEqs7G/rFIq9NA0HQodxr9Z6GNkRGSjsy3Objk+c/PduxhSn8VSqAtkOnef2EieB/OZ4jNBSw=
+	t=1772119631; cv=none; b=Zy+v6Q+KnrE+HQOqz4bDfg3BdQ9EAJt8iQ5Anv36/2KUWKPMJBaoeRAXzJmpkpN437cqW5mRFDgTkf4ZMFtQKipZ27Bt2b4lrtruW2V/34hosYYkAZthphkfgoZgrkmLjv5YeG7z/dur8BwFCI3mwQWEOJFX/GFvMT0J9NRObKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772115159; c=relaxed/simple;
-	bh=cZ7O/thkfVztK2ropSuJ9cYKzGgyBKuwgnMINRdG/2Y=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=PQjSY71W7FUZ58KF6NLjA2dhHPNWbdU7+2PPcHOHZ0514JWbsyiMCzEssXVnOCoKnO/NLTalbqf1AZWPQ0u0D2KHSyUGd8C/txxytAPsLC9n7oQGcdVTGYGINV9XVDhHpYKWQifmOSN3W8URJpBZIl12oWAipEdd4IlXDC8uhwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1vvc6F-00033P-AO; Thu, 26 Feb 2026 15:12:19 +0100
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1vvc6C-002kDY-1c;
-	Thu, 26 Feb 2026 15:12:17 +0100
-Received: from pza by lupine with local (Exim 4.98.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1vvc6D-00000000DNK-3A7z;
-	Thu, 26 Feb 2026 15:12:17 +0100
-Message-ID: <2938bcbbb46fdec1fd2629e11c28ce9cf09eee27.camel@pengutronix.de>
-Subject: Re: [PATCH v3 2/4] pwm: sun50i: Add H616 PWM support
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Richard Genoud <richard.genoud@bootlin.com>, Uwe
- =?ISO-8859-1?Q?Kleine-K=F6nig?=	 <u.kleine-koenig@baylibre.com>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,  Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
-Cc: Paul Kocialkowski <paulk@sys-base.io>, Thomas Petazzoni
-	 <thomas.petazzoni@bootlin.com>, linux-pwm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Thu, 26 Feb 2026 15:12:17 +0100
-In-Reply-To: <20260123093322.1327389-3-richard.genoud@bootlin.com>
-References: <20260123093322.1327389-1-richard.genoud@bootlin.com>
-	 <20260123093322.1327389-3-richard.genoud@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	s=arc-20240116; t=1772119631; c=relaxed/simple;
+	bh=TqPrfZLT95yVJpouFPAY4mg27r8HgvUrMOyGUoLI24s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=bRL7rGu9jIG1rgTPNAz+GOT/x63xGWN7qI3ZmVCPdrOcWEwx3EfZX2/C7pt7nkD7OWF/BqKUr/To2dSQZsUhB/thjTlS1NLd9qOHUUvgNauAx+f5AqNTyqNsoqJiLsuCZwD0fRzGNsxjqJ0smYiVcFz9RWyk4JkkCwMgCp+0dS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IdRTCd+Z; arc=none smtp.client-ip=74.125.82.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IdRTCd+Z"
+Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-1271257ae53so1145751c88.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 26 Feb 2026 07:27:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772119629; x=1772724429; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ysB8qazw9WdL090G1GcBnHN4qzpigP9WSIuSWTG5Q2o=;
+        b=IdRTCd+ZW/uV6i/cTh+ASE0czPx68oUEsDnzwLSNgAX6+lMpmEOgkwBnmOmKjfy+mV
+         uDMcK/Z1490w9+ZwXGe0SBzRSKWGIppOb6CaKEvuLHTI4coDr/Ere1fLx4wYmuA/mwDf
+         JcL6T9aC5YKcOkVshYA7w0etsVCSj7GKn+zLJaxuyRPBYHAqkeIcTIDmusj1Fm9P83jG
+         zS8dPhh/EpYJRxzCYAqaj//5+V8VsmKtsXa87EZbC35P7jYtyIKPPTp2Nw0/WsOJrfYR
+         xzisq1S0NKIwaFtyMGNlbCyj5CXbwfyLXucYIjlV47z2fvLooS2YXVQyfS3xbSTYuelt
+         82Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772119629; x=1772724429;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ysB8qazw9WdL090G1GcBnHN4qzpigP9WSIuSWTG5Q2o=;
+        b=TXvNvJqHQLxjkpwgMiZqe0VI4UZcZn82LiLixUH61nDL6grrT+M4aa6WitbVIR6hzX
+         plk5gJI6KB3RNJ+EKN7QBF3l5Yg26iggKhwVm4Re+Qs+6VGSmvhHm2qUbNbsb+5YUiwh
+         THllr0MfjA40M3ycesQqWqEKJY9IgxxdiJoswL9x8K31/KzuQC4SeGMH8dK5Aa32tYbj
+         t2LEuiLgp90BYUnk26Ej+UXCEz7QSDSaCKq4L3nA2bPXL7GwirQAUXb1sutc1ObUawlY
+         0sf8YqMOOZ1RfIKUiUA8tqa4olBAfn2FSaKJAqYu1SL/g2XNkl+St7vVHay9hviu26P5
+         HtcA==
+X-Forwarded-Encrypted: i=1; AJvYcCUR2M6tnWZDnMB1+3ImxXS7LCNBE/ZBzXDPJa8LlDZgR9o8TVvTp0kq+cMUkMbf6Pxcszgsr1D9ayXSbw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwFff89TAY7Rcetielmfzf2AY//lCjFiik7eB78IPfl0bjGTOVV
+	YaT5Qz5F07kV91PXsDWpASVYArKCZ4ybQ1LZ3OQ5kBrOmn089cGkW0pT
+X-Gm-Gg: ATEYQzzuu5y4oiECf8gyRx/hEDRGJeB2BOLL9L9hzEGlyvURcwDhRsaaSBfwsMSMYgP
+	xQzQDWe8etiyXbpgkYPRghn1sWTBS7oDQz8+69Bgb9q86XcWdSKYhSxlg+tvBrgHQb3Z9Q+7R6P
+	Y+71v49k7jj8se4v5cppT0m6MB3HCYcwUXt/ZeibNfBVHcP2k6A/j1e9qX639AiPvq4/U7hSNNS
+	kNpfIhzGtAUhoO04bK/IOdaxDhj4UMWUS6c9yWBFzdBvQYjewZ1sio7erFDWH0lK30tnHCdaiXc
+	zen36TWBlOWcUVyxJwQun4XHpoEqnJ1R/vO84SRg0ecNVy/vtxBEsFdVgYmsmQRM/fOhuWnWmR+
+	Z4WxaKIAgkm3TTa8yzLtYsmhkdFjuPfCkBcYg2SlqUse1041iyljBY99T/k4a9brpAotKkX3WnT
+	lEQGr6pK8hTphWcWON+OVREdMIJVQ2vtSWv10FgPfbjpUDjbS/X5b0D5kqv8Hvvg==
+X-Received: by 2002:a05:7022:4384:b0:11c:ec20:ea1f with SMTP id a92af1059eb24-12789ccb8d4mr1228765c88.33.1772119629259;
+        Thu, 26 Feb 2026 07:27:09 -0800 (PST)
+Received: from arch.localdomain ([149.34.251.245])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-127899dfc47sm2694569c88.6.2026.02.26.07.27.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Feb 2026 07:27:08 -0800 (PST)
+From: Jun Yan <jerrysteve1101@gmail.com>
+To: krzk@kernel.org
+Cc: conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	jernej.skrabec@gmail.com,
+	jerrysteve1101@gmail.com,
+	krzk+dt@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	mripard@kernel.org,
+	robh@kernel.org,
+	samuel@sholland.org,
+	wens@kernel.org
+Subject: Re: [PATCH 2/3] dt-bindings: arm: sunxi: Add TaiqiCat (TQC) A01
+Date: Thu, 26 Feb 2026 23:27:02 +0800
+Message-ID: <20260226152702.42051-1-jerrysteve1101@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <4d6c13d8-fd06-4cf4-9ac1-0a3e595092b7@kernel.org>
+References: <4d6c13d8-fd06-4cf4-9ac1-0a3e595092b7@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+Content-Transfer-Encoding: 8bit
 
-On Fr, 2026-01-23 at 10:33 +0100, Richard Genoud wrote:
-> Add driver for Allwinner H616 PWM controller, supporting up to 6
-> channels.
-> Those channels output can be either a PWM signal output or a clock
-> output, thanks to the bypass.
->=20
-> The channels are paired (0/1, 2/3 and 4/5) and each pair has a
-> prescaler/mux/gate.
-> Moreover, each channel has its own prescaler and bypass.
->=20
-> The clock provider part of this driver is needed not only because the
-> H616 PWM controller provides also clocks when bypass is enabled, but
-> really because pwm-clock isn't fit to handle all cases here.
-> pwm-clock would work if the 100MHz clock is requested, but if a lower
-> clock is requested (like 24MHz), it will request a 42ns period to the
-> PWM driver which will happily serve, with the 100MHz clock as input a
-> 25MHz frequency and a duty cycle adjustable in the range [0-4]/4,
-> because that is a sane thing to do for a PWM.
-> The information missing is that a real clock is resquested, not a PWM.
->=20
-> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
-> ---
->  drivers/pwm/Kconfig           |  12 +
->  drivers/pwm/Makefile          |   1 +
->  drivers/pwm/pwm-sun50i-h616.c | 959 ++++++++++++++++++++++++++++++++++
->  3 files changed, 972 insertions(+)
->  create mode 100644 drivers/pwm/pwm-sun50i-h616.c
->=20
-[...]
-> diff --git a/drivers/pwm/pwm-sun50i-h616.c b/drivers/pwm/pwm-sun50i-h616.=
-c
-> new file mode 100644
-> index 000000000000..02a8e2d39f86
-> --- /dev/null
-> +++ b/drivers/pwm/pwm-sun50i-h616.c
-> @@ -0,0 +1,959 @@
-[...]
-> +static int h616_pwm_init_clocks(struct platform_device *pdev,
-> +				struct h616_pwm_chip *h616chip)
-> +{
-> +	struct clk_pwm_pdata *pdata;
-> +	struct device *dev =3D &pdev->dev;
-> +	int num_clocks =3D 0;
-> +	int ret;
-> +
-> +	pdata =3D devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
-> +	if (!pdata)
-> +		return dev_err_probe(dev, -ENOMEM,
-> +				     "Failed to allocate clk_pwm_pdata\n");
-> +
-> +	while (pwmcc_data[num_clocks].name)
-> +		num_clocks++;
-> +
-> +	pdata->hw_data =3D devm_kzalloc(dev, struct_size(pdata->hw_data, hws, n=
-um_clocks),
-> +				      GFP_KERNEL);
-> +	if (!pdata->hw_data)
-> +		return dev_err_probe(dev, -ENOMEM,
-> +				     "Failed to allocate hw clocks\n");
-> +
-> +	pdata->hw_data->num =3D num_clocks;
-> +	pdata->reg =3D h616chip->base;
-> +
-> +	spin_lock_init(&pdata->lock);
-> +
-> +	for (int i =3D 0; i < num_clocks; i++) {
-> +		struct clk_hw **hw =3D &pdata->hw_data->hws[i];
-> +
-> +		ret =3D h616_add_composite_clk(&pwmcc_data[i], pdata->reg,
-> +					     &pdata->lock, dev, hw);
-> +		if (ret) {
-> +			dev_err_probe(dev, ret,
-> +				      "Failed to register hw clock %s\n",
-> +				      pwmcc_data[i].name);
-> +			for (i--; i >=3D 0; i--)
-> +				clk_hw_unregister_composite(pdata->hw_data->hws[i]);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	h616chip->clk_pdata =3D pdata;
-> +
-> +	return 0;
-> +}
-> +
-> +static int h616_pwm_probe(struct platform_device *pdev)
-> +{
-> +	const struct h616_pwm_data *data;
-> +	struct device *dev =3D &pdev->dev;
-> +	struct h616_pwm_chip *h616chip;
-> +	struct pwm_chip *chip;
-> +	int ret;
-> +
-> +	data =3D of_device_get_match_data(dev);
-> +	if (!data)
-> +		return dev_err_probe(dev, -ENODEV,
-> +				     "Missing specific data structure\n");
-> +
-> +	chip =3D devm_pwmchip_alloc(dev, data->npwm, sizeof(*h616chip));
-> +	if (IS_ERR(chip))
-> +		return dev_err_probe(dev, PTR_ERR(chip),
-> +				     "Failed to allocate pwmchip\n");
-> +
-> +	h616chip =3D h616_pwm_from_chip(chip);
-> +	h616chip->data =3D data;
-> +	h616chip->base =3D devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(h616chip->base))
-> +		return dev_err_probe(dev, PTR_ERR(h616chip->base),
-> +				     "Failed to get PWM base address\n");
-> +
-> +	h616chip->bus_clk =3D devm_clk_get_enabled(dev, "bus");
-> +	if (IS_ERR(h616chip->bus_clk))
-> +		return dev_err_probe(dev, PTR_ERR(h616chip->bus_clk),
-> +				     "Failed to get bus clock\n");
-> +
-> +	h616chip->channels =3D devm_kmalloc_array(dev, data->npwm,
-> +						sizeof(*(h616chip->channels)),
-> +						GFP_KERNEL);
-> +	if (!h616chip->channels)
-> +		return dev_err_probe(dev, -ENOMEM,
-> +				     "Failed to allocate %d channels array\n",
-> +				     data->npwm);
-> +
-> +	h616chip->rst =3D devm_reset_control_get_shared(dev, NULL);
-> +	if (IS_ERR(h616chip->rst))
-> +		return dev_err_probe(dev, PTR_ERR(h616chip->rst),
-> +				     "Failed to get reset control\n");
-> +
-> +	chip->ops =3D &h616_pwm_ops;
-> +
-> +	ret =3D h616_pwm_init_clocks(pdev, h616chip);
-> +	if (ret)
-> +		return ret;
-> +
-> +	for (unsigned int i =3D 0; i < data->npwm; i++) {
-> +		struct h616_pwm_channel *chan =3D &h616chip->channels[i];
-> +		struct clk_hw **hw =3D &h616chip->clk_pdata->hw_data->hws[i];
-> +
-> +		chan->pwm_clk =3D devm_clk_hw_get_clk(dev, *hw, NULL);
-> +		if (IS_ERR(chan->pwm_clk)) {
-> +			ret =3D dev_err_probe(dev, PTR_ERR(chan->pwm_clk),
-> +					    "Failed to register PWM clock %d\n", i);
-> +			goto err_get_clk;
-> +		}
-> +		chan->mode =3D H616_PWM_MODE_NONE;
-> +	}
-> +
-> +	ret =3D devm_of_clk_add_hw_provider(dev, h616_pwm_of_clk_get, h616chip)=
-;
-> +	if (ret) {
-> +		dev_err_probe(dev, ret, "Failed to add HW clock provider\n");
-> +		goto err_add_clk_provider;
-> +	}
-> +
-> +	/* Deassert reset */
-> +	ret =3D reset_control_deassert(h616chip->rst);
-> +	if (ret) {
-> +		dev_err_probe(dev, ret, "Cannot deassert reset control\n");
-> +		goto err_ctrl_deassert;
-> +	}
-> +
-> +	ret =3D pwmchip_add(chip);
-> +	if (ret < 0) {
-> +		dev_err_probe(dev, ret, "Failed to add PWM chip\n");
-> +		goto err_pwm_add;
-> +	}
-> +
-> +	platform_set_drvdata(pdev, chip);
-> +
-> +	return 0;
-> +
-> +err_pwm_add:
-> +	reset_control_assert(h616chip->rst);
-> +
-> +err_ctrl_deassert:
-> +err_add_clk_provider:
-> +err_get_clk:
-> +	for (unsigned int i =3D 0; i < h616chip->clk_pdata->hw_data->num; i++)
-> +		clk_hw_unregister_composite(h616chip->clk_pdata->hw_data->hws[i]);
+> On 26/02/2026 09:48, Jun Yan wrote:
+> > TaiqiCat (TQC) A01 is a set-top box powered by an Allwinner H6 SoC,
+> > equipped with an AXP305 PMIC, 1GB LPDDR3 RAM, 8GB eMMC, an AP6212
+> > WiFi/BT combo module, one 100M Ethernet port, one USB 3.0 Type-A port,
+> > one USB 2.0 Type-A port, one Micro USB port, HDMI, SPDIF, Micro-SD, and
+> > infrared input.
+> > 
+> > It was released by UQsoft as a blockchain-based terminal and is
+> > now discontinued and no longer supported.
+> > 
+> >   https://web.archive.org/web/20190409213228/https://tq.ultrapower.com.cn/product.html
+> 
+> This name and footer at that page suggests name "ultrapower" not "uqsoft".
+UQSoft (Beijing UQSOFT Interactive Technology Co., Ltd.) is a wholly-owned subsidiary of 
+Ultrapower (Beijing Ultrapower Software Co., Ltd.).
 
-Won't this try to unregister the clk_hw before the pwm_clk derived from
-it? You could place this in a devres action to correct the cleanup
-order and get rid of the duplicated cleanup in h616_pwm_remove().
+TaiqiCat A01 was released by UQSoft, with its product homepage[1] hosted on Ultrapower's 
+official website[2].
 
-I think you could even use devm_pwmchip_add() and
-devm_reset_control_get_shared_deasserted() and remove h616_pwm_remove
-entirely.
+It should be noted that UQSoft's official website is no longer operational, and the 
+company is seemingly discontinued.
 
-regards
-Philipp
+Therefore, I think it appropriate to revise the relevant information to Ultrapower, 
+if this is acceptable to you.
+
+[1] https://web.archive.org/web/20190409213228/https://tq.ultrapower.com.cn/product.html
+[2] https://www.ultrapower.com.cn/
+> 
+> 
+> 
+> Best regards,
+> Krzysztof
+
