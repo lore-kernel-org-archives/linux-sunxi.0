@@ -1,120 +1,158 @@
-Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4864827F18F
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Feb 2026 15:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772119631; cv=none; b=Zy+v6Q+KnrE+HQOqz4bDfg3BdQ9EAJt8iQ5Anv36/2KUWKPMJBaoeRAXzJmpkpN437cqW5mRFDgTkf4ZMFtQKipZ27Bt2b4lrtruW2V/34hosYYkAZthphkfgoZgrkmLjv5YeG7z/dur8BwFCI3mwQWEOJFX/GFvMT0J9NRObKM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772119631; c=relaxed/simple;
-	bh=TqPrfZLT95yVJpouFPAY4mg27r8HgvUrMOyGUoLI24s=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C2F428471
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Feb 2026 16:25:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772123117; cv=pass; b=hyl4Uh9+B6howIJHUg2vYdYz2ww3OHzey+Z26kt861Z+8Zh+uTzPLLcuhu7lWdrLHLI8El9fXeyaHuSYqY8JeftGAcUSQdfCKdmcF2SCB+MWn6548IgLVBMcx09/tLMl2tnjfFP5zIMaE7jdjc2v6cC409Xmmc9vCCnizOQyjcE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772123117; c=relaxed/simple;
+	bh=SDb0oaZVPtbJV+sw5KJvyoCw6b0G1HF1IUJ9COqvmFU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bRL7rGu9jIG1rgTPNAz+GOT/x63xGWN7qI3ZmVCPdrOcWEwx3EfZX2/C7pt7nkD7OWF/BqKUr/To2dSQZsUhB/thjTlS1NLd9qOHUUvgNauAx+f5AqNTyqNsoqJiLsuCZwD0fRzGNsxjqJ0smYiVcFz9RWyk4JkkCwMgCp+0dS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IdRTCd+Z; arc=none smtp.client-ip=74.125.82.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 MIME-Version:Content-Type; b=EnHjiDyPeb0Bsy1yo65+byg3kttugALYynmC/HvW6sQecwOdbd8pFEFNo4w3vdd68/P5VKyvcS7FpnW9DYSdr78JG+kL81G3/wceEgSV3vyUIdz1g55SwZLD6zXzP3NHjdAlpVd1zoLom3uujNiLHpkS9cLkpYOFysN+WGNCMk4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=WIldgH/0; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IdRTCd+Z"
-Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-1271257ae53so1145751c88.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 26 Feb 2026 07:27:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772119629; x=1772724429; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ysB8qazw9WdL090G1GcBnHN4qzpigP9WSIuSWTG5Q2o=;
-        b=IdRTCd+ZW/uV6i/cTh+ASE0czPx68oUEsDnzwLSNgAX6+lMpmEOgkwBnmOmKjfy+mV
-         uDMcK/Z1490w9+ZwXGe0SBzRSKWGIppOb6CaKEvuLHTI4coDr/Ere1fLx4wYmuA/mwDf
-         JcL6T9aC5YKcOkVshYA7w0etsVCSj7GKn+zLJaxuyRPBYHAqkeIcTIDmusj1Fm9P83jG
-         zS8dPhh/EpYJRxzCYAqaj//5+V8VsmKtsXa87EZbC35P7jYtyIKPPTp2Nw0/WsOJrfYR
-         xzisq1S0NKIwaFtyMGNlbCyj5CXbwfyLXucYIjlV47z2fvLooS2YXVQyfS3xbSTYuelt
-         82Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772119629; x=1772724429;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ysB8qazw9WdL090G1GcBnHN4qzpigP9WSIuSWTG5Q2o=;
-        b=TXvNvJqHQLxjkpwgMiZqe0VI4UZcZn82LiLixUH61nDL6grrT+M4aa6WitbVIR6hzX
-         plk5gJI6KB3RNJ+EKN7QBF3l5Yg26iggKhwVm4Re+Qs+6VGSmvhHm2qUbNbsb+5YUiwh
-         THllr0MfjA40M3ycesQqWqEKJY9IgxxdiJoswL9x8K31/KzuQC4SeGMH8dK5Aa32tYbj
-         t2LEuiLgp90BYUnk26Ej+UXCEz7QSDSaCKq4L3nA2bPXL7GwirQAUXb1sutc1ObUawlY
-         0sf8YqMOOZ1RfIKUiUA8tqa4olBAfn2FSaKJAqYu1SL/g2XNkl+St7vVHay9hviu26P5
-         HtcA==
-X-Forwarded-Encrypted: i=1; AJvYcCUR2M6tnWZDnMB1+3ImxXS7LCNBE/ZBzXDPJa8LlDZgR9o8TVvTp0kq+cMUkMbf6Pxcszgsr1D9ayXSbw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwFff89TAY7Rcetielmfzf2AY//lCjFiik7eB78IPfl0bjGTOVV
-	YaT5Qz5F07kV91PXsDWpASVYArKCZ4ybQ1LZ3OQ5kBrOmn089cGkW0pT
-X-Gm-Gg: ATEYQzzuu5y4oiECf8gyRx/hEDRGJeB2BOLL9L9hzEGlyvURcwDhRsaaSBfwsMSMYgP
-	xQzQDWe8etiyXbpgkYPRghn1sWTBS7oDQz8+69Bgb9q86XcWdSKYhSxlg+tvBrgHQb3Z9Q+7R6P
-	Y+71v49k7jj8se4v5cppT0m6MB3HCYcwUXt/ZeibNfBVHcP2k6A/j1e9qX639AiPvq4/U7hSNNS
-	kNpfIhzGtAUhoO04bK/IOdaxDhj4UMWUS6c9yWBFzdBvQYjewZ1sio7erFDWH0lK30tnHCdaiXc
-	zen36TWBlOWcUVyxJwQun4XHpoEqnJ1R/vO84SRg0ecNVy/vtxBEsFdVgYmsmQRM/fOhuWnWmR+
-	Z4WxaKIAgkm3TTa8yzLtYsmhkdFjuPfCkBcYg2SlqUse1041iyljBY99T/k4a9brpAotKkX3WnT
-	lEQGr6pK8hTphWcWON+OVREdMIJVQ2vtSWv10FgPfbjpUDjbS/X5b0D5kqv8Hvvg==
-X-Received: by 2002:a05:7022:4384:b0:11c:ec20:ea1f with SMTP id a92af1059eb24-12789ccb8d4mr1228765c88.33.1772119629259;
-        Thu, 26 Feb 2026 07:27:09 -0800 (PST)
-Received: from arch.localdomain ([149.34.251.245])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-127899dfc47sm2694569c88.6.2026.02.26.07.27.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Feb 2026 07:27:08 -0800 (PST)
-From: Jun Yan <jerrysteve1101@gmail.com>
-To: krzk@kernel.org
-Cc: conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	jernej.skrabec@gmail.com,
-	jerrysteve1101@gmail.com,
-	krzk+dt@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	mripard@kernel.org,
-	robh@kernel.org,
-	samuel@sholland.org,
-	wens@kernel.org
-Subject: Re: [PATCH 2/3] dt-bindings: arm: sunxi: Add TaiqiCat (TQC) A01
-Date: Thu, 26 Feb 2026 23:27:02 +0800
-Message-ID: <20260226152702.42051-1-jerrysteve1101@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <4d6c13d8-fd06-4cf4-9ac1-0a3e595092b7@kernel.org>
-References: <4d6c13d8-fd06-4cf4-9ac1-0a3e595092b7@kernel.org>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="WIldgH/0"
+ARC-Seal: i=1; a=rsa-sha256; t=1772123057; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=N3OLfKBmkYO933URbrFu8+uXKn2ij+6WUXq71kEBTO4Nu4LcTpRcQZjphpUAwyqNRHGQAP2cDjEaDUq70au60Jh8aFdxv+OKp5d6P4QL+GJp6jNsd7xL1veJ3YFZQO7pHANe9yQFb6fIoYHki3Vv16IWve2sbM8I/MyTbBaWS0A=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1772123057; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=txv6vQDrf8TvuXaw8FFr2/au2yNyfaaMtDMt+HBRQ0U=; 
+	b=j8gKxdMDGurJreehgySCvuU/3qEdLoYmbBq2Ahq8cRm2sLFBW7OAExJNJb34Oycb2zYaxG0/8idwbu5Qe85W6l8PzVVm6lYKE+Jgba1uyWKm58OoY77QAZvdSEsox2hv5yEfJgByhZ0f6R20rl1Rrv8ORwBaeVUnb0L5sRbHkzw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772123057;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=txv6vQDrf8TvuXaw8FFr2/au2yNyfaaMtDMt+HBRQ0U=;
+	b=WIldgH/0a6NjbWUpy/KVeZjrvqxYggRojCnNIaaDT6piQoyNjIDfQdgQS9G78G3v
+	1m7YlCA/zRt0Oc22zrGr3RJZVs8P6yRXB04+Zoya4VZhWuPao2Y4SJeAx0PQXsaZiIa
+	6JMWI/E18LL044fdeDRbnMfcUoXpZ0MeeyiIDx98=
+Received: by mx.zohomail.com with SMTPS id 1772123055193953.572434392059;
+	Thu, 26 Feb 2026 08:24:15 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andy Yan <andy.yan@rock-chips.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Liu Ying <victor.liu@nxp.com>, Chen-Yu Tsai <wens@kernel.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+Subject:
+ Re: [PATCH 14/14] drm/display: hdmi: Use drm_output_color_format instead of
+ hdmi_colorspace
+Date: Thu, 26 Feb 2026 17:24:05 +0100
+Message-ID: <5558942.31r3eYUQgx@workhorse>
+In-Reply-To: <20260224-drm-rework-color-formats-v1-14-bebc76604ada@kernel.org>
+References:
+ <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
+ <20260224-drm-rework-color-formats-v1-14-bebc76604ada@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-> On 26/02/2026 09:48, Jun Yan wrote:
-> > TaiqiCat (TQC) A01 is a set-top box powered by an Allwinner H6 SoC,
-> > equipped with an AXP305 PMIC, 1GB LPDDR3 RAM, 8GB eMMC, an AP6212
-> > WiFi/BT combo module, one 100M Ethernet port, one USB 3.0 Type-A port,
-> > one USB 2.0 Type-A port, one Micro USB port, HDMI, SPDIF, Micro-SD, and
-> > infrared input.
-> > 
-> > It was released by UQsoft as a blockchain-based terminal and is
-> > now discontinued and no longer supported.
-> > 
-> >   https://web.archive.org/web/20190409213228/https://tq.ultrapower.com.cn/product.html
+On Tuesday, 24 February 2026 11:58:53 Central European Standard Time Maxime Ripard wrote:
+> The hdmi_colorspace enum was defined to represent the colorspace value
+> of the HDMI infoframes. It was later used by some HDMI drivers to
+> express the output format they should be setting up.
 > 
-> This name and footer at that page suggests name "ultrapower" not "uqsoft".
-UQSoft (Beijing UQSOFT Interactive Technology Co., Ltd.) is a wholly-owned subsidiary of 
-Ultrapower (Beijing Ultrapower Software Co., Ltd.).
-
-TaiqiCat A01 was released by UQSoft, with its product homepage[1] hosted on Ultrapower's 
-official website[2].
-
-It should be noted that UQSoft's official website is no longer operational, and the 
-company is seemingly discontinued.
-
-Therefore, I think it appropriate to revise the relevant information to Ultrapower, 
-if this is acceptable to you.
-
-[1] https://web.archive.org/web/20190409213228/https://tq.ultrapower.com.cn/product.html
-[2] https://www.ultrapower.com.cn/
+> During the introduction of the HDMI helpers, it then was used to
+> represent it in the drm_connector_hdmi_state structure.
 > 
+> However, it's always been somewhat redundant with the DRM_COLOR_FORMAT_*
+> defines, and now with the drm_output_color_format enum. Let's
+> consolidate around drm_output_color_format in drm_connector_hdmi_state
+> to facilitate the current effort to provide a global output format
+> selection mechanism.
 > 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  drivers/gpu/drm/bridge/inno-hdmi.c                 |   6 +-
+>  drivers/gpu/drm/bridge/ite-it6263.c                |   2 +-
+>  drivers/gpu/drm/display/drm_hdmi_helper.c          |   7 +-
+>  drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  52 ++++--
+>  drivers/gpu/drm/drm_bridge.c                       |   2 +-
+>  drivers/gpu/drm/drm_connector.c                    |  14 +-
+>  drivers/gpu/drm/mediatek/mtk_hdmi_v2.c             |   8 +-
+>  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   2 +-
+>  drivers/gpu/drm/tests/drm_connector_test.c         |  80 ++++-----
+>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 182 ++++++++++-----------
+>  drivers/gpu/drm/vc4/vc4_hdmi.c                     |  18 +-
+>  drivers/gpu/drm/vc4/vc4_hdmi.h                     |   2 +-
+>  include/drm/display/drm_hdmi_helper.h              |   3 +-
+>  include/drm/drm_connector.h                        |   7 +-
+>  14 files changed, 205 insertions(+), 180 deletions(-)
 > 
-> Best regards,
-> Krzysztof
+> [... snip ...]
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index 4f5b27fab475c7c733622eb8727927571f3fb8fe..171cd495976a3e16f201fd339d3d42a09dc3b63f 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -589,14 +589,14 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+>  
+>  	if (!(connector_type == DRM_MODE_CONNECTOR_HDMIA ||
+>  	      connector_type == DRM_MODE_CONNECTOR_HDMIB))
+>  		return -EINVAL;
+>  
+> -	if (!supported_formats || !(supported_formats & BIT(HDMI_COLORSPACE_RGB)))
+> +	if (!supported_formats || !(supported_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444)))
+>  		return -EINVAL;
+>  
+> -	if (connector->ycbcr_420_allowed != !!(supported_formats & BIT(HDMI_COLORSPACE_YUV420)))
+> +	if (connector->ycbcr_420_allowed != !!(supported_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420)))
+>  		return -EINVAL;
+
+I don't think this will work as-is. drm_bridge_connector_init calls this
+function assuming hdmi_colorspace bitmasks in supported_formats.
+
+This may have slipped through the conversion; the synopsys dw-hdmi-qp core
+(separate from synopsys dw-hdmi) also assumes hdmi_colorspace, see e.g.
+dw_hdmi_qp_plat_data::supported_formats in include/drm/bridge/dw_hdmi_qp.h
+
+So should be a simple fix I hope.
+
+>  
+>  	if (!(max_bpc == 8 || max_bpc == 10 || max_bpc == 12))
+>  		return -EINVAL;
+>  
+> [... snip ...]
+
+Kind regards,
+Nicolas Frattaroli
+
+
+
 
