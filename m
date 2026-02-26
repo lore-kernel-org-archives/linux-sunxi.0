@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B518D39526D;
-	Thu, 26 Feb 2026 09:16:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5286439B48D;
+	Thu, 26 Feb 2026 09:17:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772097382; cv=none; b=Gay05taLR4SpBfWfYmTVJpcKH1PH4IRyigsui/lBEpQJZIZbBUuAcZf6MovKGpQbkh5begXmMKR35AecgbOkU6Ip22Ui6L6bOHtdAeACH5LStwvwH8dHL48vXyBp5I+jF8oySxIV/6lirZuPnibXJeKLv6V/8iBXhQlAdppWAbg=
+	t=1772097454; cv=none; b=XVXXRWGzC5WlDjiFaPDRYuMIeqZgIYopOF49vPZEeu9q68Ej30B+y32hefzaoyPtGj9torJuAmQss3YiPxedDJIS48IZxCVvKQZdzqTOpV8fcFkczFgCGa7D2xHTjHLu+IIP0AvByBaUG3J1VfZ33EDNcbtsSMV/fZTPWFiaOWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772097382; c=relaxed/simple;
-	bh=nZMeXtLYBh7TJKq7Ck8aDf4p9y7RsAexWkF99lM2Idw=;
+	s=arc-20240116; t=1772097454; c=relaxed/simple;
+	bh=JVsvlFPnRrd4s5dyJ85zdn1UZ4KvZRZC7EFmo8Lqa0A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RxOabrvP7Q2D+D8KYJVFZTBLhSbbB1IwRm/Tmxqh1Yf1/wQYyEGvUxdCtwBFpwJNmVlivcrp+dfK/+Hc7DT1fmJwTzjB3dKYi03PItye4QnagQPYYXVAfHqYX5/tSV45pyBcKRwMOWXYndejliMKRz2WeJtGkXbQ89uH2hVIfdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J3ttUbkV; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=H/nBFcI3c/pw1S704BhBEEquUm1WN7giqWrARA9K+arl3XnyZmO4RrtkxMAyf16s525+BlEJ7tP15d5y3PBWU835FRaeru9/seWoHNaxulWFNO+vomrxjiZvXgl6xdnnGSnznjfZtB5+w9GEMzbcb1b/WWmHf5EJbL8JmOkXI+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZzAxskrf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J3ttUbkV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91E4EC19422;
-	Thu, 26 Feb 2026 09:16:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZzAxskrf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FE94C19422;
+	Thu, 26 Feb 2026 09:17:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772097382;
-	bh=nZMeXtLYBh7TJKq7Ck8aDf4p9y7RsAexWkF99lM2Idw=;
+	s=k20201202; t=1772097453;
+	bh=JVsvlFPnRrd4s5dyJ85zdn1UZ4KvZRZC7EFmo8Lqa0A=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=J3ttUbkVhXpynQScfHKW5DcwLVq8hhpuQDZVL9JDTD5JAz1Urv+iS2KEhPUnQv8Pz
-	 YESrx40sjABhKE8SSCpsscTfqvInuobfKAkUeWL7cMPEpNGBbO5yTQMfoSRzOTH8wg
-	 u56hbSowGe4EFJkk4cPYSN937vCqvf13QkrQRcZBwe1IR8kaWPFjeBh+OuSjCxuYjl
-	 WGPBj8CV/RAyZVuXJJVBQ46BDUqB7l9tq9w+1R6gynH2gsNukyDe6uEH9uQzChnFQY
-	 JAwHgmSvcymcjT+CaXRpf9+XP4InDjJkscw/t4O47C3XfF5isc+pHafadi0qPkaIOH
-	 wk8sGPYZV8CZg==
-Message-ID: <8147500f-7f7b-45ed-9325-36ded95c8e0e@kernel.org>
-Date: Thu, 26 Feb 2026 10:16:17 +0100
+	b=ZzAxskrfCtehxADqaJ7R9vTAalCsDkpA0VCIvGEvgQcAnXeWgOslyrfieJ3u7xwqm
+	 a1mvIMRxJhnNloHYyKSNMOBYTHY4hR24GJPoYC3xd04BM7vSQno60+gHVDCvCSFpMV
+	 bUdDgW0YhwlHByhjBzkg7s18OLoyij2CvLPmZ1rAby5KqMFHeGWyfpwNMd12sSkGSx
+	 AOze5OdCI6nfQkawBqNNw0ZJrd12ASMMBmZEsTnWfGX58UXilReDWoWHksEfAemxzE
+	 KvAfIcfLXkfRajhDDDsJxl1h2b/8qIfs1IhB/Y2IyfXuthXi0+b4m2DzdetjN5wEOa
+	 3gK93KlcYJwCg==
+Message-ID: <4d6c13d8-fd06-4cf4-9ac1-0a3e595092b7@kernel.org>
+Date: Thu, 26 Feb 2026 10:17:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -35,15 +35,14 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: vendor-prefixes: Add Beijing UQ
- Interactive Co.,Ltd.
+Subject: Re: [PATCH 2/3] dt-bindings: arm: sunxi: Add TaiqiCat (TQC) A01
 To: Jun Yan <jerrysteve1101@gmail.com>, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
  mripard@kernel.org
 References: <20260226084850.417731-1-jerrysteve1101@gmail.com>
- <20260226084850.417731-2-jerrysteve1101@gmail.com>
+ <20260226084850.417731-3-jerrysteve1101@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -89,35 +88,24 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260226084850.417731-2-jerrysteve1101@gmail.com>
+In-Reply-To: <20260226084850.417731-3-jerrysteve1101@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 26/02/2026 09:48, Jun Yan wrote:
-> Beijing UQ Interactive is a company focused on mobile game development,
-> global publishing, and blockchain-based cloud terminal services.
-
-And the domain or US stock ticker is?
-
+> TaiqiCat (TQC) A01 is a set-top box powered by an Allwinner H6 SoC,
+> equipped with an AXP305 PMIC, 1GB LPDDR3 RAM, 8GB eMMC, an AP6212
+> WiFi/BT combo module, one 100M Ethernet port, one USB 3.0 Type-A port,
+> one USB 2.0 Type-A port, one Micro USB port, HDMI, SPDIF, Micro-SD, and
+> infrared input.
 > 
-> Signed-off-by: Jun Yan <jerrysteve1101@gmail.com>
-> ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+> It was released by UQsoft as a blockchain-based terminal and is
+> now discontinued and no longer supported.
 > 
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> index ee7fd3cfe203..2bc2ed60613f 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -1737,6 +1737,8 @@ patternProperties:
->      description: United Western Technologies Corp (UniWest)
->    "^upisemi,.*":
->      description: uPI Semiconductor Corp.
-> +  "^uqsoft,.*":
-> +    description: Beijing UQ Interactive Co.,Ltd.
->    "^urt,.*":
->      description: United Radiant Technology Corporation
->    "^usi,.*":
+>   https://web.archive.org/web/20190409213228/https://tq.ultrapower.com.cn/product.html
+
+This name and footer at that page suggests name "ultrapower" not "uqsoft".
+
 
 
 Best regards,
