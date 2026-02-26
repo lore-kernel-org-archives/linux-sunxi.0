@@ -1,76 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D56399026
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Feb 2026 09:18:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0AD3A0EA1
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Feb 2026 09:28:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772097535; cv=none; b=nZtmHnaFYdfilVTUD1mx4kTqFgVDz8ZTIyH8k29EK/McEZAluzf6OnaIBnr9frrhDXrtUOdEX7D0d4JS8UQRw0L3aQIZ986bXnYRymFh+TooRGKZMiFBDyvTP7mlWDSgoz9+9Ra38Vmj3LAnaOId9TNdL88KRnticRmiv2U1ldg=
+	t=1772098119; cv=none; b=WN7aL663zX+wXKKKWBQzyz7GSNvqF9JRJDtE/zyEz6/eMHChmDGbCcU+W7MFpqTljFKg7OjK23c0TeUMEbTih1WMKwJ2WiMYQUIBJUFDdvqD00dV7DepDL5Dog1xD/bdrf9tJxL2o0+iV8d6efalpzzOtLh2N8z3cTqvEygR61Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772097535; c=relaxed/simple;
-	bh=Z+rlFlf82tJSA5RGkL3NrpaTjpsrsH5TKbIor2Iko0U=;
+	s=arc-20240116; t=1772098119; c=relaxed/simple;
+	bh=Q+JPGjs/pGTsOGNIOl36KuUbk8oNei+wKcehtvsLCRI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RkLuVdyx0v52hCOj3NyYL4xVigVWGa8JAJX0vq0oY6GkfTOpd4Gsj1Zig3oEap3Xs8zhS9sipypMDI2v5Vfz7OV+qQ/jH3rETzWNSpdXt3zjbbCNlMqMvafNsW1kVJYEQwhTvCTrBIe5lovS0uQjBr5q4aU1H+XukxeuVvLfwCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=daGGBv51; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=KBjSzK5qK9nY2qLaaZA0Mw//4Nu3q013UZ1s/CsKbcaSkA9cDaArHMNdJF1wUZvmt2tlQEwZfwzmhr7UTZwNf+L3x9wEh9E21VKNvWQhtsk5VlDnYdKzCkObJtYOsh8cOz3LKJ08JAi3wZW7lqaGaEzmfk1Hk4E97XJz25i/JZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pGu5+ci+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="daGGBv51"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCA5CC19424
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Feb 2026 09:18:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pGu5+ci+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E674C2BCB4
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Feb 2026 09:28:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772097534;
-	bh=Z+rlFlf82tJSA5RGkL3NrpaTjpsrsH5TKbIor2Iko0U=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=daGGBv51ajs81ihoMwHF2nl4DCUfFvWVpFDtsJp9zKdgz7btf62kmnJBtFgDv+m2j
-	 KRZsrEXamIiJR6cqYKkUdSpmjQps/aRdXKW0pwzjMSn3gb6N4ndBrYIsF0g/9vqtjh
-	 P0wqgyXm/b/8LM9XrzXG6P7+B31XgqNHMdV6JBDb1sVvpd3Gh+1GuoXvwsE7FtZ118
-	 5ei9GW4vt9/znNlpJhmDbudDNPK5aAOHmxaaupYxOjs6GhKgrTZ5e6y9ubXgMQpCgk
-	 UE6Pv4czH/kDn5ozjH++gM/jS8U82NH4tN7zX4Dhx8BGVmv97aduw6N7knz9a0ZgDR
-	 DLvrNfdn4w/5w==
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3870dec27f4so7101761fa.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 26 Feb 2026 01:18:54 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUZzAwVRhBWxtppV8YOYK8sez3p6vmmsup/xQf8xtYdVK4Yeji1wwDVbxPOKN/z1ad38kfICrHqWwvVaA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyncMpQT5Mdqynz7TzcXQrB9px3bEPvZNOW9qH2dMTOt0KmDQ/7
-	IcoSzddsO3mlzCRm4zC/eUvnVt8jsoXD5zuhf8j4elju0rxXC050/S0QWYDIopTL6FeVRP/YaNP
-	TxYJ5sr9SFX8keS7r5y7wmyJ/FxOeS1M=
-X-Received: by 2002:a05:651c:154e:b0:385:c15f:6bd with SMTP id
- 38308e7fff4ca-389f1db1be7mr6846191fa.10.1772097533253; Thu, 26 Feb 2026
- 01:18:53 -0800 (PST)
+	s=k20201202; t=1772098119;
+	bh=Q+JPGjs/pGTsOGNIOl36KuUbk8oNei+wKcehtvsLCRI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=pGu5+ci+Wn2JAlztc6J6f17nc1u7YqME6JKT+8WKxBgc0aHcELhW8ukVtK0us1QEk
+	 vZNR+ptEg/K6oY7fx9VRoFz+7glIPSL8J/f3xTV38nfSLG2Pn+yOHDraiExxbpKF7/
+	 RMy3y7yR6cPFN3QrnZsiNvy5AjcqAc72iEN6B5FcJuEqSOhXp2VLav781RZKXGrhyp
+	 i9Dll60Oag+79Jj6SFxp8iQwslow7Q5Tc5X3tHYLya1ez1aOHjdGBcNxkq/3lzqwPX
+	 wA2XfnV170zB6ymSkxYEUufb58p0kTvV/FvZXmY++w5oMjSHRFhKZm882IOP6064bh
+	 MDBQX4QmjpAWQ==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5a1007523c0so677499e87.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 26 Feb 2026 01:28:39 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXTEEB1+66eHRe9W0e1mMW6ipl1msc72ad0ohwkwsz1Pl002ndKZ019G8EjZ1d4niIXA1KhArIk8tOn8w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwEm5FINAwKl2KznPvlEmpO5G3jEgn6bbLqIpBuuIlNwqh+LjaY
+	cORTGOzI4xuDwBoh2lrxmdtKUQ3PaBVPy+MrjZAeG0uKAwymPC9XgWRhifBUBqqtZd1Q2JpFiq4
+	eyjJ93mDWRng6LZ7yDnMM6Rs7jYlXIIAQAwXdP30lYA==
+X-Received: by 2002:ac2:4bc6:0:b0:595:9d6b:1178 with SMTP id
+ 2adb3069b0e04-5a105eb321amr948844e87.40.1772098117903; Thu, 26 Feb 2026
+ 01:28:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260225170045.1707778-1-wens@kernel.org> <5050123.GXAFRqVoOG@jernej-laptop>
-In-Reply-To: <5050123.GXAFRqVoOG@jernej-laptop>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Thu, 26 Feb 2026 17:18:40 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64ixefsSDR1bJb7uYjPWOz-7yJ=+27apx4kb+aH4ET9rA@mail.gmail.com>
-X-Gm-Features: AaiRm530ZuEda_MZygW0LXGcfkJ34WBOn92bG3Hhz3-OuGkIcoYFg-ebkdtXFC8
-Message-ID: <CAGb2v64ixefsSDR1bJb7uYjPWOz-7yJ=+27apx4kb+aH4ET9rA@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: allwinner: pine-h64: Enable USB 3.0 host
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
+References: <20260223-soc-of-root-v2-0-b45da45903c8@oss.qualcomm.com> <20260224183832.GB3239922-robh@kernel.org>
+In-Reply-To: <20260224183832.GB3239922-robh@kernel.org>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Thu, 26 Feb 2026 10:28:26 +0100
+X-Gmail-Original-Message-ID: <CAMRc=Mft5vc-C8miKVdw6C-qRdYsqfgm-UgLZJOctFwagMF0iA@mail.gmail.com>
+X-Gm-Features: AaiRm51IEGv2tkqYAUL_wlvSqsaBCZdXcGaMbPUU4umqiYT87HTd0LJXBirO8Tg
+Message-ID: <CAMRc=Mft5vc-C8miKVdw6C-qRdYsqfgm-UgLZJOctFwagMF0iA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/9] soc: remove direct accesses to of_root from drivers/soc/
+To: Rob Herring <robh@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Saravana Kannan <saravanak@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Frank Li <Frank.Li@nxp.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
+	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, driver-core@lists.linux.dev, 
+	Peng Fan <peng.fan@nxp.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 26, 2026 at 1:09=E2=80=AFAM Jernej =C5=A0krabec <jernej.skrabec=
-@gmail.com> wrote:
+On Tue, Feb 24, 2026 at 7:38=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
+:
 >
-> Dne sreda, 25. februar 2026 ob 18:00:44 Srednjeevropski standardni =C4=8D=
-as je Chen-Yu Tsai napisal(a):
-> > On both Pine H64 models, there is one USB 3.0 host port directly
-> > connected to the SoC. The VBUS is shared with the other USB 2.0 ports.
-> > Unfortunately the DWC controller binding does not have a VBUS supply.
+> On Mon, Feb 23, 2026 at 02:37:15PM +0100, Bartosz Golaszewski wrote:
+> > linux/of.h declares a set of variables providing addresses of certain
+> > key OF nodes. The pointers being variables can't profit from stubs
+> > provided for when CONFIG_OF is disabled which means that drivers
+> > accessing these variables can't profit from CONFIG_COMPILE_TEST=3Dy
+> > coverage.
+> >
+> > There are drivers under drivers/soc/ that access the of_root node. This
+> > series introduces new OF helpers for reading the machine compatible and
+> > model strings, exports an existing SoC helper that reads the machine
+> > string from the root node and finally replaces all direct accesses to
+> > of_root with new or already existing helper functions.
+> >
+> > Merging strategy: first two patches should be either acked by Rob or
+> > picked up into an immutable branch based on v7.0-rc1, the rest can go
+> > through the SoC tree.
 >
-> IIRC this is exactly the reason why it was never added. Adding it without
-> vbus property is not a good strategy.
+> SoC tree is good.
+>
+> For all but patch 8,
+>
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+>
 
-Or we could describe a full usb-a-connector with vbus-supply, which still
-doesn't do anything ATM. I plan on working on that in the future.
+FYI Rob also reviewed patch 8 now. Who would pick the patches up? Greg
+KH? There does not seem to be a centralized SoC maintainer in
+MAINTAINERS?
 
-
-ChenYu
+Bart
