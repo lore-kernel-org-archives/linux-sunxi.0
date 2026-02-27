@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B3BB410D1A;
-	Fri, 27 Feb 2026 14:00:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5300C410D1A;
+	Fri, 27 Feb 2026 14:00:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772200805; cv=none; b=Vy0g6SuEW0w26CjhGw+WRYjx/TKCgG1mosK6qz05VvUK4Ikm8NukP0JLXEmsKf4UIL7n2vLZczPkDkMjv85VvM6KW04Nb36kinU6drLc1lAuPK4kXLti8WfISgr7JIkLVjzzLM3PIruqtU01xAwIz0MT5JFDTMLFdov/EemiCAA=
+	t=1772200808; cv=none; b=T9NjKVAOFOOuEDpTdWfIfkyOJJ5l5nbVFUixwWQtjHaF77Ib3oCGHc6lJ3jVLKQs8XxwPfQESkDAAeZ1IJGvPxhPIScFK57uCvz7z1Ev3441FaYI7280iZ4X0/bthsEme2Sd8zY4LCA5Y1i5/XE/AxUV2krm0vLDg0C3vSlMLe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772200805; c=relaxed/simple;
-	bh=whHPoq+vF7W1Ov0nFP1p1BLZRLXz5nTvlyVtCZGm2ds=;
+	s=arc-20240116; t=1772200808; c=relaxed/simple;
+	bh=Bi7dzqSb0xTzyJ/T4zIX0511vvg8pddfBkr4pnB64SM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FmWueb8k7vZUID8fyyme/PVl9is415Ix1MBzpjYid97IwKWE7U02qkTx7tp8xEQgRpNc1WeWQuL+8oMH16zJEqe5baefh8lwhov++kM0kVfhn1rTt5JPcNehVYyHIdfUHeB1JciKhVe40A2lSw0sKweZD37RGE+QLOmzCsW87XA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sutkrBVP; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=L2Mog+esVW7Ld7Q6Eek5aS1AhrPT3pY7xpH72jWht0Y1eTNnCsTdkdXHosQJmFD6t8KZmIhi/4yJXmFcejqugrVGMQhclHA/bwdJDbCkiYdKAlfwGEzfMut8tC8W/5jvjrzm9XXuQtSE9ecTq8LfkJXJUWnacmYp4NfAwMM+lJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GohLcTuY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sutkrBVP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5036CC116C6;
-	Fri, 27 Feb 2026 14:00:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GohLcTuY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BE09C19423;
+	Fri, 27 Feb 2026 14:00:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772200804;
-	bh=whHPoq+vF7W1Ov0nFP1p1BLZRLXz5nTvlyVtCZGm2ds=;
+	s=k20201202; t=1772200807;
+	bh=Bi7dzqSb0xTzyJ/T4zIX0511vvg8pddfBkr4pnB64SM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=sutkrBVPIHhEKRjQ5w6GPu6ZjlEQsesQdZm4aITAkbWMHm3+EJxgpvOSK28nD2KpI
-	 zsVOK/WmwY7OQfnp5nNpupY/Nr0AP/xxR4hlC5Qexp3fC5XeM8cqTHXmyUyMVugq/6
-	 NAf2tKA4nPPLvmW3O3kvTG816sWS5FDND+4IMDaB2aYjzE5xJEOyc4ZAw/sWzoKWc0
-	 HmSzsKEgH89LPJN9eb/5muRdJySCihNSPKiVZf4wrbgpo7WeSE6EMBO1uksIQYwMZ/
-	 XH8Wx70quJlj1TzI8V5DLmJUtXDyoVho1a9b1iyqjobdaDQDm8Ssdd0/777bKcv48Y
-	 AWBenXWBWwxiQ==
+	b=GohLcTuYqlCpvsdkbjgY6knmX2/mJU6xDmQr39NAaSMdVgm0+vJjOqtUK4woss4Yx
+	 GrSprZN0cE1aoK599cv93c5jZIt3igoFcgkZ2GEr95F8XESuOnnvinU8cMHSV5RYw4
+	 FKYCf11HP4jpgl0cjQ7WpUZG+6u4XcHfQ3UAKxMA6oRCKh8BwmPI8Boj9p2NQWDzQ/
+	 3OJ7zkga0r7lonHXBbDG3rGgdybymvLjJoxgbtybvYzCvDvfCWzWUzwABBJIW1POtK
+	 I7TspvMZTdD8MNfQDkawUdTsvAPsAhBhNZ+8mEZExNSNejlJ2+0cG/BPKjmePACv8V
+	 6GS2v3fTVMLvQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Fri, 27 Feb 2026 14:59:47 +0100
-Subject: [PATCH v2 03/14] drm/display: hdmi: Convert to
+Date: Fri, 27 Feb 2026 14:59:48 +0100
+Subject: [PATCH v2 04/14] drm/amdgpu: display: Convert to
  drm_output_color_format
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260227-drm-rework-color-formats-v2-3-8bd278e2af9d@kernel.org>
+Message-Id: <20260227-drm-rework-color-formats-v2-4-8bd278e2af9d@kernel.org>
 References: <20260227-drm-rework-color-formats-v2-0-8bd278e2af9d@kernel.org>
 In-Reply-To: <20260227-drm-rework-color-formats-v2-0-8bd278e2af9d@kernel.org>
 To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
@@ -71,12 +71,12 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, Jani Nikula <jani.nikula@intel.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3256; i=mripard@kernel.org;
- h=from:subject:message-id; bh=whHPoq+vF7W1Ov0nFP1p1BLZRLXz5nTvlyVtCZGm2ds=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJkLF4esfvbi82NOpo8d1pdsQioWFnxa9ExZi+2R0fPqO
- YsLX17u6pjKwiDMySArpsjyRCbs9PL2xVUO9it/wMxhZQIZwsDFKQATeRfD2PA+efGbmzufSnom
- mtTHpJT9MvGcJXzQV9Jvv8g6Jw2t+38P1OySO7vvp6PLjZ9zH7n/387YMHmby4KHEjmr3lufj7B
- vSriyJulC08PmhUt+7LjXoBDi4/ztc37hypqnXB2zJYOmR5W1AgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2094; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=Bi7dzqSb0xTzyJ/T4zIX0511vvg8pddfBkr4pnB64SM=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJkLF4f4Ra7ewKdauD7McQVbcoTR7xVBQfcPlX9ccey63
+ dNblqyNHVNZGIQ5GWTFFFmeyISdXt6+uMrBfuUPmDmsTCBDGLg4BWAiubmM9UWXAwIu/lWwbec3
+ XKOyNb34Wurkjr9xFzldX6meLL4mnnrlvHLGO82/BqcTWOZ6yXZWMTYcCajXeDCd888eufY/ux/
+ O3XS3oOrHK/t6z8Wfed8s6v0b97iG9diGqplZmW0Pg18dv8YBAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
@@ -96,65 +96,31 @@ or as a discriminant in which case we don't.
 Acked-by: Jani Nikula <jani.nikula@intel.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/display/drm_hdmi_state_helper.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-index a1d16762ac7a9ebdc48f081c5d2f5e200d406099..f2aec6f65e7a374cea9a1e3adafb4f1cc4d6ab9a 100644
---- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-+++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-@@ -426,11 +426,11 @@ sink_supports_format_bpc(const struct drm_connector *connector,
- 		 * color_formats field will be blank and not report any
- 		 * format supported. In such a case, assume that RGB is
- 		 * supported so we can keep things going and light up
- 		 * the display.
- 		 */
--		if (!(info->color_formats & DRM_COLOR_FORMAT_RGB444))
-+		if (!(info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444)))
- 			drm_warn(dev, "HDMI Sink doesn't support RGB, something's wrong.\n");
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index a8e4e3ab5e40276b3c723297ca6520688079e0a7..2fe9044e1e91d7581fd5032b9883548f8e5e1b43 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -6723,15 +6723,15 @@ static void fill_stream_properties_from_drm_display_mode(
+ 		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
+ 	else if (drm_mode_is_420_also(info, mode_in)
+ 			&& aconnector
+ 			&& aconnector->force_yuv420_output)
+ 		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
+-	else if ((connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR422)
++	else if ((connector->display_info.color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422))
+ 			&& aconnector
+ 			&& aconnector->force_yuv422_output)
+ 		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR422;
+-	else if ((connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR444)
++	else if ((connector->display_info.color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444))
+ 			&& stream->signal == SIGNAL_TYPE_HDMI_TYPE_A)
+ 		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR444;
+ 	else
+ 		timing_out->pixel_encoding = PIXEL_ENCODING_RGB;
  
- 		if (bpc == 10 && !(info->edid_hdmi_rgb444_dc_modes & DRM_EDID_HDMI_DC_30)) {
- 			drm_dbg_kms(dev, "10 BPC but sink doesn't support Deep Color 30.\n");
- 			return false;
-@@ -446,11 +446,11 @@ sink_supports_format_bpc(const struct drm_connector *connector,
- 		return true;
- 
- 	case HDMI_COLORSPACE_YUV420:
- 		drm_dbg_kms(dev, "YUV420 format, checking the constraints.\n");
- 
--		if (!(info->color_formats & DRM_COLOR_FORMAT_YCBCR420)) {
-+		if (!(info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420))) {
- 			drm_dbg_kms(dev, "Sink doesn't support YUV420.\n");
- 			return false;
- 		}
- 
- 		if (!drm_mode_is_420(info, mode)) {
-@@ -478,11 +478,11 @@ sink_supports_format_bpc(const struct drm_connector *connector,
- 		return true;
- 
- 	case HDMI_COLORSPACE_YUV422:
- 		drm_dbg_kms(dev, "YUV422 format, checking the constraints.\n");
- 
--		if (!(info->color_formats & DRM_COLOR_FORMAT_YCBCR422)) {
-+		if (!(info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422))) {
- 			drm_dbg_kms(dev, "Sink doesn't support YUV422.\n");
- 			return false;
- 		}
- 
- 		if (bpc > 12) {
-@@ -501,11 +501,11 @@ sink_supports_format_bpc(const struct drm_connector *connector,
- 		return true;
- 
- 	case HDMI_COLORSPACE_YUV444:
- 		drm_dbg_kms(dev, "YUV444 format, checking the constraints.\n");
- 
--		if (!(info->color_formats & DRM_COLOR_FORMAT_YCBCR444)) {
-+		if (!(info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444))) {
- 			drm_dbg_kms(dev, "Sink doesn't support YUV444.\n");
- 			return false;
- 		}
- 
- 		if (bpc == 10 && !(info->edid_hdmi_ycbcr444_dc_modes & DRM_EDID_HDMI_DC_30)) {
 
 -- 
 2.53.0
