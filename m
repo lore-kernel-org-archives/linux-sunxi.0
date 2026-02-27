@@ -1,92 +1,169 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF30466B52
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Feb 2026 20:21:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32CB936D500;
+	Fri, 27 Feb 2026 08:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772137308; cv=none; b=eZUoBCst2h5L06rG5dFywgJBMDYMz/PpG4iRUWiMsoRhzs+5qTnRtbFkTSMDyKQF05bZzOECjeRrW+vK9NZ1kkhlFO355xGru3ub/kE89jpk6sx86uBeVpubKkk9SUfQ0y0X9AoFSUjcCFxgOPFeJ16ZbPGb8p8gJx+moKBZRK0=
+	t=1772180949; cv=none; b=Fsg/1gNc4xmT/BKQPR9PYq3vlt5I2q1Ex2GSorrLLAlXCDHfUF7uYkPxcVAjrabUM9MVeHKOvhd8zXgpfPCl3InfI/0XoP1y6TN5UdSWX0XTgBVBmIXPrSqgm2uGZapcq+96aPt/MGdRj2N4HNOXKZJ15tpuCHxpruZENJkbQoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772137308; c=relaxed/simple;
-	bh=1rzXXS9yuR4tlmEDkuB1s97i7zkm4/SxNu7Qk8Q4eKI=;
+	s=arc-20240116; t=1772180949; c=relaxed/simple;
+	bh=c8kyPUTfjiKvPIqR7TvbHjiIxKrmJz6TvW1tdw40CNo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hMF0XFvwurPbjV3fTMHUnbrkOffmHuYm/xIaItiXiWlZkA0IYYNgwvLr2h1aDbHOjLnc+3BxEXgut9QU3qP0Xj48HOsfrBRWxPt1B+Uc/tw/AmNQ4pL5QSHQWcckMVsubr6vJ1+BvW9wyNL2Fw/Z8t2pZZelqT9z3j/j7M/KjEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=eeYG9FwR; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=r+/+NvIrCeCsIfG72Pum7QHSfdDY4RN/zHwOgV+26c89ucVaxO/MIhp71Gy1bVuvgw6KanstaXeKsjm5RJhCxh23uQXr5s/7Mu9zHkptZG70eo1+0VOT715y/ujHM/JcXd4VrC4MsvJkz2gclDWiMd6zgprYRFJcNiCPN9u1JNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ofDzrsEv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="eeYG9FwR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=Zbfz
-	S89JWVR35E98rC5lcOrcboNxD6VC9rm/fk4PuH4=; b=eeYG9FwRG0mF2I+WxzL1
-	HGUVggUjRhJIyqBUgN423pjLFOP3EUNQMylCmEbSZGMmely6B7Su6xr33ZSTAz27
-	SHnHjRn+9CBdL1Z5essMXvI9XzDXsz+428ZavPheXWtpy/EERqut52qTJGYgLInj
-	1cPeVACjybOFSolGqBL66SBDtoill7iLu9mR53JzlthU1P2siXpr4UvDoiwBZK4P
-	D+ZMgeqjfaj43lU0FiQfg2DtV2v1koFsm8uL49Ad9xjswrOn2+549Br4yoMLqJxK
-	9GzPFpASEH9OL6r96XiSCy8XkQ0v/gCyT3gjRNbBaPRYGavOshN70z8O6k1xV87h
-	TA==
-Received: (qmail 1209289 invoked from network); 26 Feb 2026 21:21:36 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Feb 2026 21:21:36 +0100
-X-UD-Smtp-Session: l3s3148p1@f2ID3r9LPOkujnuU
-Date: Thu, 26 Feb 2026 21:21:35 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Andi Shyti <andi.shyti@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Khalil Blaiech <kblaiech@nvidia.com>,
-	Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org, linux-actions@lists.infradead.org,
-	Bartosz Golaszewski <brgl@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 00/13] i2c: add and start using i2c_adapter-specific
- printk helpers
-Message-ID: <aaCrT1SvMCIKQDmc@ninjato>
-References: <20260223-i2c-printk-helpers-v2-0-13b2a97762af@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ofDzrsEv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A915C116C6;
+	Fri, 27 Feb 2026 08:29:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772180948;
+	bh=c8kyPUTfjiKvPIqR7TvbHjiIxKrmJz6TvW1tdw40CNo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ofDzrsEvFziU5bJCQJenBgUdKWnvapcui45AO8WukPJ3C9nQEaqTbw1jSWXTaUZ46
+	 HG/tGLR9AcxzdFzsTNVv3ajsQdEXgN5kMvPtSDE9fcCxQtEf10Z008H+x/yBqdTCw2
+	 sgPxqSuOA8RtD4gziJbnHpaldmrJ4JrqN7xLYEMiBvmWuWQwX4KgG1bsPHOtkfmhjt
+	 jxPVdBGCheLMsHu/ZUUPH95AEu1xJZltS3OzdsWkbRURN9sL3TqfJT2Rqu/yIT6+Cp
+	 c1Oppfx9pWVq1P4PXrEi9mbiZqrFicJCaTFtBKbKOdz7d9eFl6D49xnZcJAJrWfEHq
+	 8/JLcJhgDMYIQ==
+Date: Fri, 27 Feb 2026 09:29:05 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+	Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Andy Yan <andy.yan@rock-chips.com>, 
+	Liviu Dudau <liviu.dudau@arm.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Liu Ying <victor.liu@nxp.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Samuel Holland <samuel@sholland.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 14/14] drm/display: hdmi: Use drm_output_color_format
+ instead of hdmi_colorspace
+Message-ID: <20260227-dramatic-agouti-of-brotherhood-416e19@houat>
+References: <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
+ <20260224-drm-rework-color-formats-v1-14-bebc76604ada@kernel.org>
+ <5558942.31r3eYUQgx@workhorse>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="loc25nvmfl5t2czh"
 Content-Disposition: inline
-In-Reply-To: <20260223-i2c-printk-helpers-v2-0-13b2a97762af@oss.qualcomm.com>
+In-Reply-To: <5558942.31r3eYUQgx@workhorse>
 
-On Mon, Feb 23, 2026 at 09:59:29AM +0100, Bartosz Golaszewski wrote:
-> It's been another year of discussing the object life-time problems at
-> conferences. I2C is one of the offenders and its problems are more
-> complex than those of some other subsystems. It seems the revocable[1]
-> API may make its way into the kernel this year but even with it in
-> place, I2C won't be able to use it as there's currently nothing to
-> *revoke*. The struct device is embedded within the i2c_adapter struct
-> whose lifetime is tied to the provider device being bound to its driver.
-> 
-> Fixing this won't be fast and easy but nothing's going to happen if we
-> don't start chipping away at it. The ultimate goal in order to be able
-> to use an SRCU-based solution (revocable or otherwise) is to convert the
-> embedded struct device in struct i2c_adapter into an __rcu pointer that
-> can be *revoked*. To that end we need to hide all dereferences of
-> adap->dev in drivers.
-> 
-> This series addresses the usage of adap->dev in device printk() helpers
-> (dev_err() et al). It introduces a set of i2c-specific helpers and
-> starts using them across bus drivers. For now just 12 patches but I'll
-> keep on doing it if these get accepted. Once these get upstream for
-> v6.20/7.0, we'll be able to also start converting i2c drivers outside of
-> drivers/i2c/.
 
-I applied the series to for-current but squashed the user conversions
-into patch 1. Changes are trivial enough and I don't want the pull
-request to look excessive, so it can go in smoothly. Hope you are fine
-with it.
+--loc25nvmfl5t2czh
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 14/14] drm/display: hdmi: Use drm_output_color_format
+ instead of hdmi_colorspace
+MIME-Version: 1.0
 
+Hi
+
+On Thu, Feb 26, 2026 at 05:24:05PM +0100, Nicolas Frattaroli wrote:
+> On Tuesday, 24 February 2026 11:58:53 Central European Standard Time Maxi=
+me Ripard wrote:
+> > The hdmi_colorspace enum was defined to represent the colorspace value
+> > of the HDMI infoframes. It was later used by some HDMI drivers to
+> > express the output format they should be setting up.
+> >=20
+> > During the introduction of the HDMI helpers, it then was used to
+> > represent it in the drm_connector_hdmi_state structure.
+> >=20
+> > However, it's always been somewhat redundant with the DRM_COLOR_FORMAT_*
+> > defines, and now with the drm_output_color_format enum. Let's
+> > consolidate around drm_output_color_format in drm_connector_hdmi_state
+> > to facilitate the current effort to provide a global output format
+> > selection mechanism.
+> >=20
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >  drivers/gpu/drm/bridge/inno-hdmi.c                 |   6 +-
+> >  drivers/gpu/drm/bridge/ite-it6263.c                |   2 +-
+> >  drivers/gpu/drm/display/drm_hdmi_helper.c          |   7 +-
+> >  drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  52 ++++--
+> >  drivers/gpu/drm/drm_bridge.c                       |   2 +-
+> >  drivers/gpu/drm/drm_connector.c                    |  14 +-
+> >  drivers/gpu/drm/mediatek/mtk_hdmi_v2.c             |   8 +-
+> >  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   2 +-
+> >  drivers/gpu/drm/tests/drm_connector_test.c         |  80 ++++-----
+> >  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 182 ++++++++++---=
+--------
+> >  drivers/gpu/drm/vc4/vc4_hdmi.c                     |  18 +-
+> >  drivers/gpu/drm/vc4/vc4_hdmi.h                     |   2 +-
+> >  include/drm/display/drm_hdmi_helper.h              |   3 +-
+> >  include/drm/drm_connector.h                        |   7 +-
+> >  14 files changed, 205 insertions(+), 180 deletions(-)
+> >=20
+> > [... snip ...]
+> > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_conn=
+ector.c
+> > index 4f5b27fab475c7c733622eb8727927571f3fb8fe..171cd495976a3e16f201fd3=
+39d3d42a09dc3b63f 100644
+> > --- a/drivers/gpu/drm/drm_connector.c
+> > +++ b/drivers/gpu/drm/drm_connector.c
+> > @@ -589,14 +589,14 @@ int drmm_connector_hdmi_init(struct drm_device *d=
+ev,
+> > =20
+> >  	if (!(connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA ||
+> >  	      connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIB))
+> >  		return -EINVAL;
+> > =20
+> > -	if (!supported_formats || !(supported_formats & BIT(HDMI_COLORSPACE_R=
+GB)))
+> > +	if (!supported_formats || !(supported_formats & BIT(DRM_OUTPUT_COLOR_=
+FORMAT_RGB444)))
+> >  		return -EINVAL;
+> > =20
+> > -	if (connector->ycbcr_420_allowed !=3D !!(supported_formats & BIT(HDMI=
+_COLORSPACE_YUV420)))
+> > +	if (connector->ycbcr_420_allowed !=3D !!(supported_formats & BIT(DRM_=
+OUTPUT_COLOR_FORMAT_YCBCR420)))
+> >  		return -EINVAL;
+>=20
+> I don't think this will work as-is. drm_bridge_connector_init calls this
+> function assuming hdmi_colorspace bitmasks in supported_formats.
+
+Yeah, you're right I missed the conversion in drm_bridge_connector_init.
+It should be fixed now.
+
+> This may have slipped through the conversion; the synopsys dw-hdmi-qp core
+> (separate from synopsys dw-hdmi) also assumes hdmi_colorspace, see e.g.
+> dw_hdmi_qp_plat_data::supported_formats in include/drm/bridge/dw_hdmi_qp.h
+>=20
+> So should be a simple fix I hope.
+
+For this one, did you identify anything more than the comment in
+dw_hdmi_qp_plat_data? I couldn't find any user of HDMI_COLORSPACE_* left
+for the dw_hdmi_qp_plat_data.supported_formats users.
+
+Maxime
+
+--loc25nvmfl5t2czh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaaFV0QAKCRAnX84Zoj2+
+dvCEAYDaGC/59F9atETzuzgChsYLcJVNJgdGWjU1NRJZAQyUqV3NtgL5f6q6GBTD
+pJd6kloBfiNvk4tOHoJdLuYHcXKOHPexZHHDkJhCCZcQq5xaZ4nI/2u9TG4/zvD0
+jRPv06q3tQ==
+=uKAU
+-----END PGP SIGNATURE-----
+
+--loc25nvmfl5t2czh--
