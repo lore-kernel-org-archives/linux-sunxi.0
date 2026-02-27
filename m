@@ -1,125 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C1F43D51A
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Feb 2026 15:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2817D3233E8
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Feb 2026 15:44:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772206943; cv=none; b=h2FoGt2iCrKA9dTCMACJvUZAd1eOM5+jQ0edCeXx005UPEqLG2WWCDnkUWlPavNh/kWENJMSnUAbyJPt/dtKPMw4J2AS+Jvv8xtsiMPmyLbz5h77MQ2Gtw9i5q8X0qLSp4YRjnb3TPbSRATjcbuUqmguJuGxFCBiUEck99dnIgc=
+	t=1772207046; cv=none; b=D8JF+BM6w1i+gKModNHM7D1Ssq4+XsGFcSNLKQ4ljCxzBFt21LSulqYF9L8L5kUYqlMacEQFDXSu+2+oufNHyl+vb/JeCrHDUJnnsypCqZt3KdNJAGfkaZsRExJ53e4dloXHTcAQCCIHigpAgVzrkiqmUFYWnfbRB+Li3WfAPsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772206943; c=relaxed/simple;
-	bh=STzTxb6AkecD0Oj2uXWbAE7smRP8JD9AAxkR2Qux/Sc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uDI4ybVvb8RNsLBywEfqojeqk9lem69wT1yXhCkatXdhRvHCM9XxIvejmmpZoJQ7MK4sBCBn610gDOdhzLo2YT1b75X2/lv5DAEzhNAjGNEZ/rtAl3GX8O9Wmw/rlJJFsUE6ZOPC323WdwcKGehrF0sM8HkwuABiNLV6jiV06hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LBGFhqUB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772207046; c=relaxed/simple;
+	bh=Y8K1WqT2zQyAQVmCsqmYitEbawYInl77Bk8Qa9Pj31s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Beq04VrpGH0vCQAdmGY4nSRfH/oOy8HuBR5+3kGzuVdJRtJ6Whf1hJW6QXSN1nUuV+9C8kahjkzT4sreWMmEu2/Qpvry1b7uQnMjXDPqto2D1TtZYyMZ35KeGR4wWFVvTjsLK63Q20JCUlOebZP3OqPVxD4SbkQojxabB/tQzt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S+5zj1ZG; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LBGFhqUB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DD05C2BCB9
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Feb 2026 15:42:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772206943;
-	bh=STzTxb6AkecD0Oj2uXWbAE7smRP8JD9AAxkR2Qux/Sc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=LBGFhqUBtQI9BbpwK46VoHQn50/6CaY1vQ5PIc4y5spoYCP25Jf0LROem1fHBjUy4
-	 yeI4JK9t+VAFfxsB/FRVdfK2qMAp7BaBH+/oWL+LnHZG992H0B/CcnUUAoiNPkt5su
-	 u377zsPtAQxl/Qcm2oYsywZEuG0OqtFcTLP7OjoWey7QG/JHyvrV4iN6xZaOIqUa06
-	 vfJFlrWT+r202v79WRMwFVhTxOamgJ/igAb5KSIJ4HqzNmfDIAyq7QGRarn4/4y6Qh
-	 NxQCbSDcfMyB0gb6ik4hp18xL7FM5BoFy0P7SgHelPVuHedFnta+qYHiFlGS3xx2xF
-	 pZng7DsL48SLg==
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-386fb2c31e2so29608371fa.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 27 Feb 2026 07:42:22 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVNoN3lnKNNEv3nbvtRPAGTbXj8SrOX+kC3sx5PZjHU1LpJ1a5K5y87nx1tDz3eduooGYJZlSV3hRxhDA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx8FEU/L2mQ9FSrrFWAyJRoJqI8klfv+VA9TFAVDYKagmtm0elV
-	cucawO03vWvX3xv6+eyrBdvXpSaTZycMXSBfJixmFhPqiDjNL8VUszyP/xsjzM8GfFcg8qngeOU
-	p5DCx5w+hGgko136prdvBgrgFgIcvk6AKTJMuaHzKeQ==
-X-Received: by 2002:a05:651c:41d8:b0:384:9b92:c5b7 with SMTP id
- 38308e7fff4ca-389ff143720mr18998801fa.15.1772206941514; Fri, 27 Feb 2026
- 07:42:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S+5zj1ZG"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2ada721eda1so10054565ad.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 27 Feb 2026 07:44:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772207044; x=1772811844; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0pNuEW5DadTME76c1H2/bOIre54Jrgk8HxKShAN/0Jg=;
+        b=S+5zj1ZGaObwWi9PMV0l9WD6+8PjlapmYXC9HbzrfcRt4Y2OQi+US1cGaJoAHBOPMt
+         mwsPPM2SvI0epUycrVyOcw+7+XG9iuUcMSj8GBzPQCxBhcJEivpph6ylQHbdtnM/b6d8
+         x1HE4z6f55knb9NNvHIjbfT3Vr0BJAjd4ykhnRNJasM0KM7SaINqRtwuQ7DCL6jmP6uV
+         zfrfsbXXTAY7QQ5gY5G9MvNWzkxu32YZsaQcZ1iYtTZ5Nm3pU/ScvAyEMsm1MeQKamju
+         sZDCRrUTztUgqRgALMcgasACeyKF56ygMr01uxnR08GAOP9qeLLrwDGDxufnnSHT3y0S
+         1FmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772207044; x=1772811844;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0pNuEW5DadTME76c1H2/bOIre54Jrgk8HxKShAN/0Jg=;
+        b=bovP+0hl2ZVse57I2Sqx0z9zgu3eZyww+9xcvBtqpCTr4ShmrSNX1tZ6WR0lMeechC
+         9ECVIu6Lvgev2wWifE3TxNmHsZhojoTU+tOBPMMxEckcJCUr8D3o4ROzThFEmtlFWx6N
+         wU349ut2zGjRJ1TFRNf3ILJPsyGAiY/xmqQtEWmwYD3LpXp+rM+3V4i8NiXPBy9ShJSn
+         FOs5F3q25Kyjlc8AYOo3MFWZrv3qBltWj627yslkZcgV1bDhJAh7W6msv1l6Es4xsojR
+         7e9uQgWxbnZuJauIWeXXTmq1nlAnLm6tVOMBXkLRN8Lo+Qdh263IOSso7aN+RyXvK5Fz
+         7vRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWbhZCSOvGOvIj7mNHzF9A7ckrj8oaxem7P3IZLRmSnMLAdOoKG1Vgt+JZQgGkThnpiP9QKRo+0fHGlSg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy2S1RfufqmJUqTychtBkCpAAoxgrGD5I2++VLHO9TIWqsf8c4G
+	OCwc9sQpIWBCisauJDuzVKDEepMvwWmmQ9wDyh6YYdI/OTeRIc5/5Cs5
+X-Gm-Gg: ATEYQzy3glESqLmtLChOxGKztQfxM3aNbAggueSoJcUcxOh/EdJ3H4PADXr7MSVd6Z+
+	4iECoPBl8I7xAHmLfHmTLiEqbaHfnBWOiWOmzq0hZUAcXESlOLrULwlEU1KlR4C7N8Ifv0uRN2z
+	R4RPjXVxEGuCrvQBzLltpR5HzgXmxGCuAiVX7Jrg02eH2PKO+6ql5mWEWIVXGTaSuoGOrodbEGD
+	4KXHKiO3oqFbSyX76+6giGaXEsaiVXCCP24cFdNhZy5tflJPrXjYw+rO5dxy+P4wGwC7FXKtSSH
+	jyxMPkS77fDqBtUlagxvP2L/YEFXJl8jL1QGieEGnSK/dd0jYYU0e7wgfmHy+GaGQAt6OqQquHv
+	oDiTSxzJ9xlJjXYCQ748DHny1qtRScWg07g5hwvXCK7njOnINYMefWYndf826RVrfZXdOdgugQd
+	xXRZ4Xh3D6ucC4CgwEyikWaGTfDKf/7Kn/GIiV
+X-Received: by 2002:a17:903:2312:b0:2ad:ca65:a37b with SMTP id d9443c01a7336-2ae2e4d981bmr25603655ad.51.1772207044308;
+        Fri, 27 Feb 2026 07:44:04 -0800 (PST)
+Received: from arch.localdomain ([117.147.91.218])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2adfb6b5813sm60314305ad.63.2026.02.27.07.44.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Feb 2026 07:44:04 -0800 (PST)
+From: Jun Yan <jerrysteve1101@gmail.com>
+To: krzk@kernel.org
+Cc: conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	jernej.skrabec@gmail.com,
+	jerrysteve1101@gmail.com,
+	krzk+dt@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	mripard@kernel.org,
+	robh@kernel.org,
+	samuel@sholland.org,
+	wens@kernel.org
+Subject: Re: [PATCH 2/3] dt-bindings: arm: sunxi: Add TaiqiCat (TQC) A01
+Date: Fri, 27 Feb 2026 23:43:58 +0800
+Message-ID: <20260227154358.206060-1-jerrysteve1101@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260227-placid-rare-markhor-cfbdb6@quoll>
+References: <20260227-placid-rare-markhor-cfbdb6@quoll>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260223-i2c-printk-helpers-v2-0-13b2a97762af@oss.qualcomm.com>
- <aaFcs1miP88QWmtH@hovoldconsulting.com> <aaFfEsfh0xTh0b1y@shikoro> <aaFsZbiLYSz_YEjw@hovoldconsulting.com>
-In-Reply-To: <aaFsZbiLYSz_YEjw@hovoldconsulting.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Fri, 27 Feb 2026 16:42:09 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MfcvD1nJy=zpoCkSkJq6WjyXQxFUZ4QE6vyCS+XFCn5AA@mail.gmail.com>
-X-Gm-Features: AaiRm51scY9nN4P8ovfss040XTmsPoSnyMQYg9QuZyNCyHcgWecCdT1v9mdLWqo
-Message-ID: <CAMRc=MfcvD1nJy=zpoCkSkJq6WjyXQxFUZ4QE6vyCS+XFCn5AA@mail.gmail.com>
-Subject: Re: [PATCH v2 00/13] i2c: add and start using i2c_adapter-specific
- printk helpers
-To: Johan Hovold <johan@kernel.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Andi Shyti <andi.shyti@kernel.org>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Khalil Blaiech <kblaiech@nvidia.com>, 
-	Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-i2c@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	linux-actions@lists.infradead.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 27, 2026 at 11:06=E2=80=AFAM Johan Hovold <johan@kernel.org> wr=
-ote:
->
-> On Fri, Feb 27, 2026 at 10:08:34AM +0100, Wolfram Sang wrote:
->
-> > > Wolfram, I noticed you merged these last night. Please think again an=
-d
-> > > let's discuss the end result here. There's no question that there are
-> > > lifetime issues in i2c, but this is not the way to solve it.
-> >
-> > I did think again and do not see a way how the life cycle problems can
-> > be solved while drivers happily access the device struct of the adapter=
-.
->
-> There's nothing special about the struct device. What matters is that
-> drivers don't free memory that's still in use by the core.
->
-> > Whatever the solution to the core problem is (revocable, custom SRCU,
-> > something else), I still think this step is needed in any case. If I am
-> > wrong with this opinion, please enlighten me. Pointer to some existing
-> > thread is OK, too. I didn't have the bandwidth to read the revocable
-> > mail threads.
->
-> It's not even about revocable or SRCU, that's just an implementation
-> detail.
->
-> It seems all that is needed is to decouple the struct i2c_adapter from
-> the driver data and have core manage the lifetime of the former using
-> the reference count of the embedded struct device.
->
+> On Thu, Feb 26, 2026 at 11:27:02PM +0800, Jun Yan wrote:
+> > > On 26/02/2026 09:48, Jun Yan wrote:
+> > > > TaiqiCat (TQC) A01 is a set-top box powered by an Allwinner H6 SoC,
+> > > > equipped with an AXP305 PMIC, 1GB LPDDR3 RAM, 8GB eMMC, an AP6212
+> > > > WiFi/BT combo module, one 100M Ethernet port, one USB 3.0 Type-A port,
+> > > > one USB 2.0 Type-A port, one Micro USB port, HDMI, SPDIF, Micro-SD, and
+> > > > infrared input.
+> > > > 
+> > > > It was released by UQsoft as a blockchain-based terminal and is
+> > > > now discontinued and no longer supported.
+> > > > 
+> > > >   https://web.archive.org/web/20190409213228/https://tq.ultrapower.com.cn/product.html
+> > > 
+> > > This name and footer at that page suggests name "ultrapower" not "uqsoft".
+> > UQSoft (Beijing UQSOFT Interactive Technology Co., Ltd.) is a wholly-owned subsidiary of 
+> > Ultrapower (Beijing Ultrapower Software Co., Ltd.).
+> > 
+> > TaiqiCat A01 was released by UQSoft, with its product homepage[1] hosted on Ultrapower's 
+> > official website[2].
+> > 
+> > It should be noted that UQSoft's official website is no longer operational, and the 
+> > company is seemingly discontinued.
+> > 
+> > Therefore, I think it appropriate to revise the relevant information to Ultrapower, 
+> > if this is acceptable to you.
+> 
+> Yes, please use ultrapower in such case. You can mention all this in the
+> vendor-prefix patch.
+This will be adjusted in the patch V2.
 
-I feel like we've discussed it already under v1 or elsewhere.
+Best regrads,
+Jun Yan
+> 
+> Best regards,
+> Krzysztof
 
-This is a weird pattern you sometimes see where a driver allocates
-something and passes the ownership to the subsystem.  This often
-causes confusion among driver authors, who logically assume that if
-you allocate something, you are responsible for freeing it. Since this
-is C and not Rust (where such things are tracked by the compiler), I
-strongly believe we should strive to keep ownership consistent: the
-driver should free resources it allocated within the bounds of the
-lifetime of the device it controls. The subsystem should manage the
-data it allocated - in this case the i2c adapter struct device.
 
-I know there are a lot of places where this is done in the kernel but
-let's not introduce new ones. This is a bad pattern.
-
-But even if you decided this is the way to go, I fail to see how it
-would be easier than what I'm trying to do. You would have to modify
-*all* I2C bus drivers as opposed to only modifying those that access
-the underlying struct device. Or am I missing something?
-
-Bartosz
-
-> Then you can use an rwsem, SRCU, revocable or something else to handle
-> devices going away while they are in use.
->
