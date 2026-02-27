@@ -1,97 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C874F2E7635;
-	Fri, 27 Feb 2026 10:06:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC298389479;
+	Fri, 27 Feb 2026 10:40:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772186764; cv=none; b=cjOQF2qa4gcs5uBQ88Hm1B8jIXXWDgxCe2C6OV/ob7ZTSJhQKCba9UkomTdM+as9cBer3sefmx0vtslf9B7r3sjPESlYem2Kou4SFqOjDCEvhblpugbJHa3IHC3fGHbHdlO4S2KkGL80sEgQntucLy2pCVtwn9dhV5Q1bSZisBs=
+	t=1772188820; cv=none; b=UHUBhNZqCY6JmU4W4y9zjH28sWo2DClRlaljckEIHlqbs0SmLqlSYK9VLb8JH3XbUlZ4q96NX+pPDy6nW7b2bj+7dut5ua0nGeF384GOetOWD4cYFX3cPck8zXHVyKMpLLXdwZcaLwPGCwms05e3cr0vgka0gfkVe5ijrTsrWhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772186764; c=relaxed/simple;
-	bh=g8f6lyvqvkopdOsANRzZGlHrXaOkJBu0JPpZhwX5M7w=;
+	s=arc-20240116; t=1772188820; c=relaxed/simple;
+	bh=S38SLBCjfp+AviharV2czcJGeaKtssqT1mwXbk9V334=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W2JeFJ2+Kyv1aGBK8wRBjPMQOq5TL25EcZfEOzbQbyW09uS2LN3DOUVwAXFYH71eEeVb2Rl2YRaxYF3FGhaydSbdsOb7dIldseL0lb2deKvJn+VVuEJN9T5hs3sUkTA5qE1LizYZn/p2quaQA5X9I64qcSEFeGmEkro4/DUSCqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KA6BpxXq; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=PH1DQIv4g1dy5/vifbnceFSXaqsbV0y3qFubIsO+2h03FvZOHfazLL1XB7aWDh+xDZ9SaxlIhvgq5NzRP8qVTybKV+6uJUmk5KUjiIyOF6JOpXNECbTDJwprrp/zGH6JyBgRVdNiGOqYXXPNxtpxo41/ADf61WgAhUb2PVDeJjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ahFpxODv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KA6BpxXq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59527C116C6;
-	Fri, 27 Feb 2026 10:06:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ahFpxODv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BEC7C116C6;
+	Fri, 27 Feb 2026 10:40:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772186764;
-	bh=g8f6lyvqvkopdOsANRzZGlHrXaOkJBu0JPpZhwX5M7w=;
+	s=k20201202; t=1772188819;
+	bh=S38SLBCjfp+AviharV2czcJGeaKtssqT1mwXbk9V334=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KA6BpxXqIQtvhRJQdxeyUdvh8qnuCG2MwP7HMeafULwbKoZynqIvEQBkLHp9aZGK0
-	 2oLKsaZ1WAC1gSwDjpwlGilTDG17yKZ26o1IppOdmKcABFxAjpIXVOJIynO7C2axOH
-	 YxoBp2vE+TGq6f7+/hhaKae3sDsCZppNsiskCFDz73pp8KIaqjcHkHMaqA0q5sY1ou
-	 exQVqox+NTjea/w0RSIXOSix0uh70nSe4nBxuW16ckfJVRMzQGZyB70JK0Z8+LH3/K
-	 0ZKBjpmAdcl0WLsvRezNg53bkP8AVI2HOmeJbmpWThnBUWOaQpN4A9DebRoY4Y2x0J
-	 GomXPlN8wjOuA==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1vvuir-000000004gQ-242t;
-	Fri, 27 Feb 2026 11:05:25 +0100
-Date: Fri, 27 Feb 2026 11:05:25 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Andi Shyti <andi.shyti@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Khalil Blaiech <kblaiech@nvidia.com>,
-	Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org, linux-actions@lists.infradead.org,
-	Bartosz Golaszewski <brgl@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 00/13] i2c: add and start using i2c_adapter-specific
- printk helpers
-Message-ID: <aaFsZbiLYSz_YEjw@hovoldconsulting.com>
-References: <20260223-i2c-printk-helpers-v2-0-13b2a97762af@oss.qualcomm.com>
- <aaFcs1miP88QWmtH@hovoldconsulting.com>
- <aaFfEsfh0xTh0b1y@shikoro>
+	b=ahFpxODvVhaoTXhINZ8PapWNjPNOxSGRKm1eBCcKgxQnM6cnWCcDgkJx4f0VydY9q
+	 6upcZ9PnTHHoaQOkDDFrEIt6hyp5tWz/UyX7YvlV4AOi3QmvQFM6NyRFwpJYDtFDFj
+	 n8QCST3EbdA9HYrQ9nsec//xdNTycPHzOi/KnSmz6vjaPJYsr+df4acus/GM25RiA8
+	 FYmdeeQawkgzIIgDZqPFYrRKo6p8D6xKbwGOe3cgqVSmcSPnnxCWUWplzGwH3c6Pse
+	 T43f+D3ASkb37c3zdVF0HtDRXvbNrXlkXnh7IJOdHBQNfZU+ughe7raKYO4hGJTru6
+	 01vIJcwZFzTcg==
+Date: Fri, 27 Feb 2026 11:40:17 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Jun Yan <jerrysteve1101@gmail.com>
+Cc: conor+dt@kernel.org, devicetree@vger.kernel.org, 
+	jernej.skrabec@gmail.com, krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, mripard@kernel.org, robh@kernel.org, samuel@sholland.org, 
+	wens@kernel.org
+Subject: Re: [PATCH 2/3] dt-bindings: arm: sunxi: Add TaiqiCat (TQC) A01
+Message-ID: <20260227-placid-rare-markhor-cfbdb6@quoll>
+References: <4d6c13d8-fd06-4cf4-9ac1-0a3e595092b7@kernel.org>
+ <20260226152702.42051-1-jerrysteve1101@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aaFfEsfh0xTh0b1y@shikoro>
+In-Reply-To: <20260226152702.42051-1-jerrysteve1101@gmail.com>
 
-On Fri, Feb 27, 2026 at 10:08:34AM +0100, Wolfram Sang wrote:
-
-> > Wolfram, I noticed you merged these last night. Please think again and
-> > let's discuss the end result here. There's no question that there are
-> > lifetime issues in i2c, but this is not the way to solve it.
+On Thu, Feb 26, 2026 at 11:27:02PM +0800, Jun Yan wrote:
+> > On 26/02/2026 09:48, Jun Yan wrote:
+> > > TaiqiCat (TQC) A01 is a set-top box powered by an Allwinner H6 SoC,
+> > > equipped with an AXP305 PMIC, 1GB LPDDR3 RAM, 8GB eMMC, an AP6212
+> > > WiFi/BT combo module, one 100M Ethernet port, one USB 3.0 Type-A port,
+> > > one USB 2.0 Type-A port, one Micro USB port, HDMI, SPDIF, Micro-SD, and
+> > > infrared input.
+> > > 
+> > > It was released by UQsoft as a blockchain-based terminal and is
+> > > now discontinued and no longer supported.
+> > > 
+> > >   https://web.archive.org/web/20190409213228/https://tq.ultrapower.com.cn/product.html
+> > 
+> > This name and footer at that page suggests name "ultrapower" not "uqsoft".
+> UQSoft (Beijing UQSOFT Interactive Technology Co., Ltd.) is a wholly-owned subsidiary of 
+> Ultrapower (Beijing Ultrapower Software Co., Ltd.).
 > 
-> I did think again and do not see a way how the life cycle problems can
-> be solved while drivers happily access the device struct of the adapter.
+> TaiqiCat A01 was released by UQSoft, with its product homepage[1] hosted on Ultrapower's 
+> official website[2].
+> 
+> It should be noted that UQSoft's official website is no longer operational, and the 
+> company is seemingly discontinued.
+> 
+> Therefore, I think it appropriate to revise the relevant information to Ultrapower, 
+> if this is acceptable to you.
 
-There's nothing special about the struct device. What matters is that
-drivers don't free memory that's still in use by the core.
+Yes, please use ultrapower in such case. You can mention all this in the
+vendor-prefix patch.
 
-> Whatever the solution to the core problem is (revocable, custom SRCU,
-> something else), I still think this step is needed in any case. If I am
-> wrong with this opinion, please enlighten me. Pointer to some existing
-> thread is OK, too. I didn't have the bandwidth to read the revocable
-> mail threads.
+Best regards,
+Krzysztof
 
-It's not even about revocable or SRCU, that's just an implementation
-detail.
-
-It seems all that is needed is to decouple the struct i2c_adapter from
-the driver data and have core manage the lifetime of the former using
-the reference count of the embedded struct device.
-
-Then you can use an rwsem, SRCU, revocable or something else to handle
-devices going away while they are in use.
-
-Johan
