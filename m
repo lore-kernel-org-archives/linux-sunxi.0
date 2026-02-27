@@ -1,93 +1,125 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B22042EEDE
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Feb 2026 15:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C1F43D51A
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Feb 2026 15:42:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772205107; cv=none; b=XuNLaCJ4voiuWb8FYiVd3WH57ZywEwkVHuO3ErMhDYxnJ+q3wwSN908WwSi+ZZa0Ba4BeSdphbYXvnmD+6rc/JEfHIFavQJn0WLvbPT22Tsa9hfpOs4mzIZWCz0cpraJ2TsZlqjOlerGsLKiAJqKjbriN/iK5urnn3IzcPixQEM=
+	t=1772206943; cv=none; b=h2FoGt2iCrKA9dTCMACJvUZAd1eOM5+jQ0edCeXx005UPEqLG2WWCDnkUWlPavNh/kWENJMSnUAbyJPt/dtKPMw4J2AS+Jvv8xtsiMPmyLbz5h77MQ2Gtw9i5q8X0qLSp4YRjnb3TPbSRATjcbuUqmguJuGxFCBiUEck99dnIgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772205107; c=relaxed/simple;
-	bh=W3zF+qQONPOQKUi1XnVsQnrCFcFTywFDxoHqVbunmq0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=nki6M92P4rnpaU9a2BQH4bEdkcSbybE+gzUtM1+x1DQ1f3MMGy9fT4SDgXDGy4KX4t83m0owgB35ckeJLAhomDgMyCEqrM1Dx+G8KKmQNobGDn6gZwlnRoD/BbDj2M6x3pPs+dP14ZEYl/2x7v48+9Puoj01DGZQ/s6yc19ZnoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1vvzUN-0006Py-1Q; Fri, 27 Feb 2026 16:10:47 +0100
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1vvzUE-002ujh-08;
-	Fri, 27 Feb 2026 16:10:39 +0100
-Received: from pza by lupine with local (Exim 4.98.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1vvzUF-00000000Fpg-136n;
-	Fri, 27 Feb 2026 16:10:39 +0100
-Message-ID: <28096f2a0ff3fb3163dd19f2ff483f3f2415180f.camel@pengutronix.de>
-Subject: Re: [PATCH 01/14] drm/connector: Introduce drm_output_color_format
- enum
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Jani Nikula	
- <jani.nikula@linux.intel.com>, Maarten Lankhorst	
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>,  David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Harry Wentland <harry.wentland@amd.com>,  Leo Li
- <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher	
- <alexander.deucher@amd.com>, Christian =?ISO-8859-1?Q?K=F6nig?=	
- <christian.koenig@amd.com>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
- Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart	 <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Andy Yan
- <andy.yan@rock-chips.com>, Liviu Dudau	 <liviu.dudau@arm.com>, Chun-Kuang
- Hu <chunkuang.hu@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno	 <angelogioacchino.delregno@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>,  Heiko =?ISO-8859-1?Q?St=FCbner?=	
- <heiko@sntech.de>, Liu Ying <victor.liu@nxp.com>, Chen-Yu Tsai
- <wens@kernel.org>,  Samuel Holland <samuel@sholland.org>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>,  =?ISO-8859-1?Q?Ma=EDra?= Canal	
- <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance	
- <kernel-list@raspberrypi.com>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
-Date: Fri, 27 Feb 2026 16:10:39 +0100
-In-Reply-To: <20260227-overjoyed-glaring-dogfish-89effa@houat>
-References: <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
-	 <20260224-drm-rework-color-formats-v1-1-bebc76604ada@kernel.org>
-	 <4ea869750681f5eee3bbb2978f4ff0ace70310a9.camel@pengutronix.de>
-	 <20260227-overjoyed-glaring-dogfish-89effa@houat>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	s=arc-20240116; t=1772206943; c=relaxed/simple;
+	bh=STzTxb6AkecD0Oj2uXWbAE7smRP8JD9AAxkR2Qux/Sc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uDI4ybVvb8RNsLBywEfqojeqk9lem69wT1yXhCkatXdhRvHCM9XxIvejmmpZoJQ7MK4sBCBn610gDOdhzLo2YT1b75X2/lv5DAEzhNAjGNEZ/rtAl3GX8O9Wmw/rlJJFsUE6ZOPC323WdwcKGehrF0sM8HkwuABiNLV6jiV06hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LBGFhqUB; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LBGFhqUB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DD05C2BCB9
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Feb 2026 15:42:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772206943;
+	bh=STzTxb6AkecD0Oj2uXWbAE7smRP8JD9AAxkR2Qux/Sc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=LBGFhqUBtQI9BbpwK46VoHQn50/6CaY1vQ5PIc4y5spoYCP25Jf0LROem1fHBjUy4
+	 yeI4JK9t+VAFfxsB/FRVdfK2qMAp7BaBH+/oWL+LnHZG992H0B/CcnUUAoiNPkt5su
+	 u377zsPtAQxl/Qcm2oYsywZEuG0OqtFcTLP7OjoWey7QG/JHyvrV4iN6xZaOIqUa06
+	 vfJFlrWT+r202v79WRMwFVhTxOamgJ/igAb5KSIJ4HqzNmfDIAyq7QGRarn4/4y6Qh
+	 NxQCbSDcfMyB0gb6ik4hp18xL7FM5BoFy0P7SgHelPVuHedFnta+qYHiFlGS3xx2xF
+	 pZng7DsL48SLg==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-386fb2c31e2so29608371fa.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 27 Feb 2026 07:42:22 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVNoN3lnKNNEv3nbvtRPAGTbXj8SrOX+kC3sx5PZjHU1LpJ1a5K5y87nx1tDz3eduooGYJZlSV3hRxhDA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx8FEU/L2mQ9FSrrFWAyJRoJqI8klfv+VA9TFAVDYKagmtm0elV
+	cucawO03vWvX3xv6+eyrBdvXpSaTZycMXSBfJixmFhPqiDjNL8VUszyP/xsjzM8GfFcg8qngeOU
+	p5DCx5w+hGgko136prdvBgrgFgIcvk6AKTJMuaHzKeQ==
+X-Received: by 2002:a05:651c:41d8:b0:384:9b92:c5b7 with SMTP id
+ 38308e7fff4ca-389ff143720mr18998801fa.15.1772206941514; Fri, 27 Feb 2026
+ 07:42:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+References: <20260223-i2c-printk-helpers-v2-0-13b2a97762af@oss.qualcomm.com>
+ <aaFcs1miP88QWmtH@hovoldconsulting.com> <aaFfEsfh0xTh0b1y@shikoro> <aaFsZbiLYSz_YEjw@hovoldconsulting.com>
+In-Reply-To: <aaFsZbiLYSz_YEjw@hovoldconsulting.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Fri, 27 Feb 2026 16:42:09 +0100
+X-Gmail-Original-Message-ID: <CAMRc=MfcvD1nJy=zpoCkSkJq6WjyXQxFUZ4QE6vyCS+XFCn5AA@mail.gmail.com>
+X-Gm-Features: AaiRm51scY9nN4P8ovfss040XTmsPoSnyMQYg9QuZyNCyHcgWecCdT1v9mdLWqo
+Message-ID: <CAMRc=MfcvD1nJy=zpoCkSkJq6WjyXQxFUZ4QE6vyCS+XFCn5AA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/13] i2c: add and start using i2c_adapter-specific
+ printk helpers
+To: Johan Hovold <johan@kernel.org>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Andi Shyti <andi.shyti@kernel.org>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Khalil Blaiech <kblaiech@nvidia.com>, 
+	Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-i2c@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	linux-actions@lists.infradead.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Maxime,
+On Fri, Feb 27, 2026 at 11:06=E2=80=AFAM Johan Hovold <johan@kernel.org> wr=
+ote:
+>
+> On Fri, Feb 27, 2026 at 10:08:34AM +0100, Wolfram Sang wrote:
+>
+> > > Wolfram, I noticed you merged these last night. Please think again an=
+d
+> > > let's discuss the end result here. There's no question that there are
+> > > lifetime issues in i2c, but this is not the way to solve it.
+> >
+> > I did think again and do not see a way how the life cycle problems can
+> > be solved while drivers happily access the device struct of the adapter=
+.
+>
+> There's nothing special about the struct device. What matters is that
+> drivers don't free memory that's still in use by the core.
+>
+> > Whatever the solution to the core problem is (revocable, custom SRCU,
+> > something else), I still think this step is needed in any case. If I am
+> > wrong with this opinion, please enlighten me. Pointer to some existing
+> > thread is OK, too. I didn't have the bandwidth to read the revocable
+> > mail threads.
+>
+> It's not even about revocable or SRCU, that's just an implementation
+> detail.
+>
+> It seems all that is needed is to decouple the struct i2c_adapter from
+> the driver data and have core manage the lifetime of the former using
+> the reference count of the embedded struct device.
+>
 
-On Fr, 2026-02-27 at 09:38 +0100, Maxime Ripard wrote:
-[...]
-> > Can we move this?
-[...]
->=20
-> I'm not sure it's worth it, the last patch in this series will remove
-> these so it's not going to stick around either.
+I feel like we've discussed it already under v1 or elsewhere.
 
-I agree it's not, I just didn't look as far as patch 13.
+This is a weird pattern you sometimes see where a driver allocates
+something and passes the ownership to the subsystem.  This often
+causes confusion among driver authors, who logically assume that if
+you allocate something, you are responsible for freeing it. Since this
+is C and not Rust (where such things are tracked by the compiler), I
+strongly believe we should strive to keep ownership consistent: the
+driver should free resources it allocated within the bounds of the
+lifetime of the device it controls. The subsystem should manage the
+data it allocated - in this case the i2c adapter struct device.
 
-regards
-Philipp
+I know there are a lot of places where this is done in the kernel but
+let's not introduce new ones. This is a bad pattern.
+
+But even if you decided this is the way to go, I fail to see how it
+would be easier than what I'm trying to do. You would have to modify
+*all* I2C bus drivers as opposed to only modifying those that access
+the underlying struct device. Or am I missing something?
+
+Bartosz
+
+> Then you can use an rwsem, SRCU, revocable or something else to handle
+> devices going away while they are in use.
+>
