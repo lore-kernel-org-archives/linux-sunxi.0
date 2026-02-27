@@ -1,265 +1,115 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D04142E007
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Feb 2026 16:22:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5B9346E5E;
+	Fri, 27 Feb 2026 16:41:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772209351; cv=none; b=N0bMmGAfEAIOYvibGUhhZCu9ZfF37CQIC1bciN4sWo0SkZYMUvdybIoKlwyEnBZRfRuFY/jjpjIvx6FbzUDgk0RCHZTt/snppXItTOey6bX6qxKtMOCrp/XCQYrodWS9bVkyUSZL4CSoAmJ0wP59XtJZIpmzzUrYnGKiHvYp414=
+	t=1772210469; cv=none; b=A+71L1tYFrNlABoONSE8HOY1Iq8106hwzXaDKXtbOV+7BJ03wt45rlfrrbYr9WNG/7wTlKBNVI0M88nX9BuwYzvM1nwkeHOPU733kgk11ax045/qszBOUjHWl1PQzKCUVQSxd1zUrCToqQ7eUFeiKyX77512H/KPqhPEUL+4J+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772209351; c=relaxed/simple;
-	bh=kYPUvF4UEQ6LF3Cfn1dMvg5ZhqaE6uddWpC2I5dOrE4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UEkS/VQrKJFFmI3pCwpjCuQwUaKa488i9lc+GMGcCF/sD2eOyYxYYQzJDcfaFpC6p+WhsyRwoDf26br2yCNDz+tCJmXW1KmDBI61aDXkxPiJbLNPJ0YS2JVGc9A4OM6ButH/oJ5eswmrLlyr4LFvH/zWnvWKLSRa+n0DFeZPtZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=rswczSH1; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1772210469; c=relaxed/simple;
+	bh=Ra4gGeTukVvl+IUi3kpBx/h8Xrcr5tcq4BLIbbsXf6c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WHlze4E1QJRgwKf1fTjgP47QJPTVdB/DQcbGBgQRZV1NMS1EG3Bbx+rJcSzuWd2b756gPhdJM7zylyR2A9z1xVbWncYgB1vtF+lAkXLL5PF4ktT4oOL1ibKdZTAqNLr/WXmb/ylFGmuIHX14jINS8KDylLpSFEJOvqUHpcXtbQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kaYFALf4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="rswczSH1"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id C8E6B1A1B7E;
-	Fri, 27 Feb 2026 16:22:22 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 960485FE46;
-	Fri, 27 Feb 2026 16:22:22 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 300941036949A;
-	Fri, 27 Feb 2026 17:22:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1772209341; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=7EMUj9J2lzttg45PIgu6IItFeqZqS9pqZ7OM/QVePFo=;
-	b=rswczSH1SlJ3ib4UceTBt2QrNTLqbu4jgZYIpkBLsPk28uhMaBBr0lmoF630EXDn/cVVad
-	Rj2a59zPf4cPE1o332uykUPvr1hND4ki0kPYpG8gMA3ZQO3F3A7kXF4/eQOuEKXZilBpdl
-	S3WocPtJBzBp3nB7Mimj0wSrQUCSctSFx+J4pwHmabJxlKopj52QuZ+w8saELtVeCmwofs
-	yfSnU+1p+9eB5NAJxsoc8SGems/k7hkq1xmWhDHo+A/hR2ZbEeDwkN52yRShCiOZUOPTfI
-	lWtYs/QmnzjrL293Im+XZRxo05cW2I+QXfB9Kr27Ihq4lx7BatRM+DxCcbexpQ==
-Message-ID: <b64c6beb-afac-4df0-b687-5ab1e2b4baaf@bootlin.com>
-Date: Fri, 27 Feb 2026 17:22:14 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kaYFALf4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9A9DC116C6;
+	Fri, 27 Feb 2026 16:41:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772210468;
+	bh=Ra4gGeTukVvl+IUi3kpBx/h8Xrcr5tcq4BLIbbsXf6c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kaYFALf4xSZVQAbA312F7K02ns0zy5kcaOvWHFJNWY9AvATt7pUW+bvMJKbdtChtm
+	 tH2uUwehXsL2Hj8fdwwpVCcWuHdDsb63uUFJP2cMF43xNCJTDSxZcHpwvTLSu1U7Sl
+	 M2FUvnb6mDY3PWKJMno+e3SWOYvxG8KKG8vxw4MEn6hOq41EUPBH23+RINiw2vhX+e
+	 FbHp3qUfZvbZuE+CnrnSZvs5NqaaWkofdWxMYqTtE/Z0RbEfnkD+zmDgc1t+2WJ5x1
+	 9nBJrTX+Zzefz1LyUgn8uO+y6uQ40gkpU5G5jKsZVOMPxB3x2051Wg3WzGAPsaffSQ
+	 nrMMZp0t1q53A==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1vw0tB-000000002TD-2FBk;
+	Fri, 27 Feb 2026 17:40:29 +0100
+Date: Fri, 27 Feb 2026 17:40:29 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Andi Shyti <andi.shyti@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Khalil Blaiech <kblaiech@nvidia.com>,
+	Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linuxppc-dev@lists.ozlabs.org, linux-actions@lists.infradead.org,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 00/13] i2c: add and start using i2c_adapter-specific
+ printk helpers
+Message-ID: <aaHI_VavZugXjVoL@hovoldconsulting.com>
+References: <20260223-i2c-printk-helpers-v2-0-13b2a97762af@oss.qualcomm.com>
+ <aaFcs1miP88QWmtH@hovoldconsulting.com>
+ <aaFfEsfh0xTh0b1y@shikoro>
+ <aaFsZbiLYSz_YEjw@hovoldconsulting.com>
+ <CAMRc=MfcvD1nJy=zpoCkSkJq6WjyXQxFUZ4QE6vyCS+XFCn5AA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] pwm: sun50i: Add H616 PWM support
-To: Philipp Zabel <p.zabel@pengutronix.de>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: Paul Kocialkowski <paulk@sys-base.io>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-pwm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20260123093322.1327389-1-richard.genoud@bootlin.com>
- <20260123093322.1327389-3-richard.genoud@bootlin.com>
- <2938bcbbb46fdec1fd2629e11c28ce9cf09eee27.camel@pengutronix.de>
-From: Richard GENOUD <richard.genoud@bootlin.com>
-Content-Language: en-US, fr
-Organization: Bootlin
-In-Reply-To: <2938bcbbb46fdec1fd2629e11c28ce9cf09eee27.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+In-Reply-To: <CAMRc=MfcvD1nJy=zpoCkSkJq6WjyXQxFUZ4QE6vyCS+XFCn5AA@mail.gmail.com>
 
-Le 26/02/2026 à 15:12, Philipp Zabel a écrit :
-> On Fr, 2026-01-23 at 10:33 +0100, Richard Genoud wrote:
->> Add driver for Allwinner H616 PWM controller, supporting up to 6
->> channels.
->> Those channels output can be either a PWM signal output or a clock
->> output, thanks to the bypass.
->>
->> The channels are paired (0/1, 2/3 and 4/5) and each pair has a
->> prescaler/mux/gate.
->> Moreover, each channel has its own prescaler and bypass.
->>
->> The clock provider part of this driver is needed not only because the
->> H616 PWM controller provides also clocks when bypass is enabled, but
->> really because pwm-clock isn't fit to handle all cases here.
->> pwm-clock would work if the 100MHz clock is requested, but if a lower
->> clock is requested (like 24MHz), it will request a 42ns period to the
->> PWM driver which will happily serve, with the 100MHz clock as input a
->> 25MHz frequency and a duty cycle adjustable in the range [0-4]/4,
->> because that is a sane thing to do for a PWM.
->> The information missing is that a real clock is resquested, not a PWM.
->>
->> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
->> ---
->>   drivers/pwm/Kconfig           |  12 +
->>   drivers/pwm/Makefile          |   1 +
->>   drivers/pwm/pwm-sun50i-h616.c | 959 ++++++++++++++++++++++++++++++++++
->>   3 files changed, 972 insertions(+)
->>   create mode 100644 drivers/pwm/pwm-sun50i-h616.c
->>
-> [...]
->> diff --git a/drivers/pwm/pwm-sun50i-h616.c b/drivers/pwm/pwm-sun50i-h616.c
->> new file mode 100644
->> index 000000000000..02a8e2d39f86
->> --- /dev/null
->> +++ b/drivers/pwm/pwm-sun50i-h616.c
->> @@ -0,0 +1,959 @@
-> [...]
->> +static int h616_pwm_init_clocks(struct platform_device *pdev,
->> +				struct h616_pwm_chip *h616chip)
->> +{
->> +	struct clk_pwm_pdata *pdata;
->> +	struct device *dev = &pdev->dev;
->> +	int num_clocks = 0;
->> +	int ret;
->> +
->> +	pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
->> +	if (!pdata)
->> +		return dev_err_probe(dev, -ENOMEM,
->> +				     "Failed to allocate clk_pwm_pdata\n");
->> +
->> +	while (pwmcc_data[num_clocks].name)
->> +		num_clocks++;
->> +
->> +	pdata->hw_data = devm_kzalloc(dev, struct_size(pdata->hw_data, hws, num_clocks),
->> +				      GFP_KERNEL);
->> +	if (!pdata->hw_data)
->> +		return dev_err_probe(dev, -ENOMEM,
->> +				     "Failed to allocate hw clocks\n");
->> +
->> +	pdata->hw_data->num = num_clocks;
->> +	pdata->reg = h616chip->base;
->> +
->> +	spin_lock_init(&pdata->lock);
->> +
->> +	for (int i = 0; i < num_clocks; i++) {
->> +		struct clk_hw **hw = &pdata->hw_data->hws[i];
->> +
->> +		ret = h616_add_composite_clk(&pwmcc_data[i], pdata->reg,
->> +					     &pdata->lock, dev, hw);
->> +		if (ret) {
->> +			dev_err_probe(dev, ret,
->> +				      "Failed to register hw clock %s\n",
->> +				      pwmcc_data[i].name);
->> +			for (i--; i >= 0; i--)
->> +				clk_hw_unregister_composite(pdata->hw_data->hws[i]);
->> +			return ret;
->> +		}
->> +	}
->> +
->> +	h616chip->clk_pdata = pdata;
->> +
->> +	return 0;
->> +}
->> +
->> +static int h616_pwm_probe(struct platform_device *pdev)
->> +{
->> +	const struct h616_pwm_data *data;
->> +	struct device *dev = &pdev->dev;
->> +	struct h616_pwm_chip *h616chip;
->> +	struct pwm_chip *chip;
->> +	int ret;
->> +
->> +	data = of_device_get_match_data(dev);
->> +	if (!data)
->> +		return dev_err_probe(dev, -ENODEV,
->> +				     "Missing specific data structure\n");
->> +
->> +	chip = devm_pwmchip_alloc(dev, data->npwm, sizeof(*h616chip));
->> +	if (IS_ERR(chip))
->> +		return dev_err_probe(dev, PTR_ERR(chip),
->> +				     "Failed to allocate pwmchip\n");
->> +
->> +	h616chip = h616_pwm_from_chip(chip);
->> +	h616chip->data = data;
->> +	h616chip->base = devm_platform_ioremap_resource(pdev, 0);
->> +	if (IS_ERR(h616chip->base))
->> +		return dev_err_probe(dev, PTR_ERR(h616chip->base),
->> +				     "Failed to get PWM base address\n");
->> +
->> +	h616chip->bus_clk = devm_clk_get_enabled(dev, "bus");
->> +	if (IS_ERR(h616chip->bus_clk))
->> +		return dev_err_probe(dev, PTR_ERR(h616chip->bus_clk),
->> +				     "Failed to get bus clock\n");
->> +
->> +	h616chip->channels = devm_kmalloc_array(dev, data->npwm,
->> +						sizeof(*(h616chip->channels)),
->> +						GFP_KERNEL);
->> +	if (!h616chip->channels)
->> +		return dev_err_probe(dev, -ENOMEM,
->> +				     "Failed to allocate %d channels array\n",
->> +				     data->npwm);
->> +
->> +	h616chip->rst = devm_reset_control_get_shared(dev, NULL);
->> +	if (IS_ERR(h616chip->rst))
->> +		return dev_err_probe(dev, PTR_ERR(h616chip->rst),
->> +				     "Failed to get reset control\n");
->> +
->> +	chip->ops = &h616_pwm_ops;
->> +
->> +	ret = h616_pwm_init_clocks(pdev, h616chip);
->> +	if (ret)
->> +		return ret;
->> +
->> +	for (unsigned int i = 0; i < data->npwm; i++) {
->> +		struct h616_pwm_channel *chan = &h616chip->channels[i];
->> +		struct clk_hw **hw = &h616chip->clk_pdata->hw_data->hws[i];
->> +
->> +		chan->pwm_clk = devm_clk_hw_get_clk(dev, *hw, NULL);
->> +		if (IS_ERR(chan->pwm_clk)) {
->> +			ret = dev_err_probe(dev, PTR_ERR(chan->pwm_clk),
->> +					    "Failed to register PWM clock %d\n", i);
->> +			goto err_get_clk;
->> +		}
->> +		chan->mode = H616_PWM_MODE_NONE;
->> +	}
->> +
->> +	ret = devm_of_clk_add_hw_provider(dev, h616_pwm_of_clk_get, h616chip);
->> +	if (ret) {
->> +		dev_err_probe(dev, ret, "Failed to add HW clock provider\n");
->> +		goto err_add_clk_provider;
->> +	}
->> +
->> +	/* Deassert reset */
->> +	ret = reset_control_deassert(h616chip->rst);
->> +	if (ret) {
->> +		dev_err_probe(dev, ret, "Cannot deassert reset control\n");
->> +		goto err_ctrl_deassert;
->> +	}
->> +
->> +	ret = pwmchip_add(chip);
->> +	if (ret < 0) {
->> +		dev_err_probe(dev, ret, "Failed to add PWM chip\n");
->> +		goto err_pwm_add;
->> +	}
->> +
->> +	platform_set_drvdata(pdev, chip);
->> +
->> +	return 0;
->> +
->> +err_pwm_add:
->> +	reset_control_assert(h616chip->rst);
->> +
->> +err_ctrl_deassert:
->> +err_add_clk_provider:
->> +err_get_clk:
->> +	for (unsigned int i = 0; i < h616chip->clk_pdata->hw_data->num; i++)
->> +		clk_hw_unregister_composite(h616chip->clk_pdata->hw_data->hws[i]);
-> 
-> Won't this try to unregister the clk_hw before the pwm_clk derived from
-> it? You could place this in a devres action to correct the cleanup
-> order and get rid of the duplicated cleanup in h616_pwm_remove().
-Ah! You're right!
+On Fri, Feb 27, 2026 at 04:42:09PM +0100, Bartosz Golaszewski wrote:
+> On Fri, Feb 27, 2026 at 11:06 AM Johan Hovold <johan@kernel.org> wrote:
 
-> 
-> I think you could even use devm_pwmchip_add() and
-> devm_reset_control_get_shared_deasserted() and remove h616_pwm_remove
-> entirely.
-Nice!
-I'll do that.
+> > It seems all that is needed is to decouple the struct i2c_adapter from
+> > the driver data and have core manage the lifetime of the former using
+> > the reference count of the embedded struct device.
 
-Thanks!
+> This is a weird pattern you sometimes see where a driver allocates
+> something and passes the ownership to the subsystem.
 
-Regards,
-Richard
+It's not weird at all, this is the standard way to handle this. We have
+these things called reference counts for a reason.
 
-> 
-> regards
-> Philipp
+> This often
+> causes confusion among driver authors, who logically assume that if
+> you allocate something, you are responsible for freeing it.Since this
+> is C and not Rust (where such things are tracked by the compiler), I
+> strongly believe we should strive to keep ownership consistent: the
+> driver should free resources it allocated within the bounds of the
+> lifetime of the device it controls. The subsystem should manage the
+> data it allocated - in this case the i2c adapter struct device.
 
+Drivers are responsible for dropping *their* reference, it doesn't mean
+that the resource is necessarily freed immediately as someone else may
+be holding a reference. Anyone surprised by this should not be doing
+kernel development.
+
+> I know there are a lot of places where this is done in the kernel but
+> let's not introduce new ones. This is a bad pattern.
+
+No, it's not. It's literally the standard way of doing this.
+
+> But even if you decided this is the way to go, I fail to see how it
+> would be easier than what I'm trying to do. You would have to modify
+> *all* I2C bus drivers as opposed to only modifying those that access
+> the underlying struct device. Or am I missing something?
+
+Yes, you have to update the allocation and replace container_of() with
+dev_get_drvdata() but it's a straight-forward transformation that brings
+the i2c subsystem more in line with the driver model (unlike whatever it
+is you're trying to do).
+
+Johan
