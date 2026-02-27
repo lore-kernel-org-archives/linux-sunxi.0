@@ -1,63 +1,63 @@
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C162C11DF
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Feb 2026 15:58:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9632C11DF
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Feb 2026 15:58:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772207897; cv=none; b=qrjV5lEa0TGFdlZPEljXwsvdFAFmkoeUzJT2Cw2NxpGeMseJoKCDN0rPrfW+uhSXZyPNwHx8xQAhIePkvwFcLKxM4W56y7e+sRLE4w15b/qPglgK3kHSBU47r3JZwgO5+7Z5o2ato9RimngNdHPh8V1H34iIrPH1IhS3WCHERyI=
+	t=1772207904; cv=none; b=D/OGpd3n6REg/syR18aN1N4YzEd9fm4hTFk04Bk3As0xVKrstGiiFAnnj72W1tBV5ct4LNxGJZZH5WGhyJsX1kIeLp8qjh9ovUHF2VxSAFM374Q5VTNCozY9gYSARX5tJW9/JL2OV9b4B7MhhMaHqfN3pJEa1DdNC8zx8QiAZy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772207897; c=relaxed/simple;
-	bh=ta+x7MJ/ORf6d+tFhvpve4wJW3ThsyU1IorpoNuyOrI=;
+	s=arc-20240116; t=1772207904; c=relaxed/simple;
+	bh=HFAxbHEBuj9SA65jXwHxxAHDh/8i5KKWDZ594V8dppo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aczbEbQMgFk7zaK3ifXQaqZk1m8tRotB+jrhGcES7cehR38Hf+dTGunilBdtxpJgPjzIafKminHZ/MVcCY97YsfBtpA3bG5us+VVkr0Yu6r2tbvRsXu6AAVHcVZ0OWa0jPNeuUnSihC34pioMHcVBew4VFgBvf8Alg4bZDScoY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CiCFnG6/; arc=none smtp.client-ip=74.125.82.175
+	 MIME-Version; b=CqVJDjMen9YJPkMaVft2J91sDyhFJqAsM7vVuROJU2h4W/5f3NrtOCeUR2WyUDJKflxJAk+6v24gQeZ3SfDos587sUxZrazj5iDEgwh7ekn6K7jxWv3xYTlW+dkF/XUliLgQVKzSE3BG/e/sPVRtat4btdbnl3lbh2soOUJ6mIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P/M7va1w; arc=none smtp.client-ip=74.125.82.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CiCFnG6/"
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2bddf5091c0so2087798eec.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 27 Feb 2026 07:58:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P/M7va1w"
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-12758ce1e8dso139771c88.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 27 Feb 2026 07:58:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772207895; x=1772812695; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772207898; x=1772812698; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=M7vc13IY7ZLjB19K/DPnMAGdw1kS+zbTwHhwRJW3V8k=;
-        b=CiCFnG6/Z3up/IqsUQI/XZJQVL0pyHXmfGIz+kfZtR8dbJHcFfcBeg76ipfZ/XVEsv
-         p0lkC2GQUhMixyR7go7Wmi1dNCxlYDs2ncNPSXmtyUb8A60dlMPgOrg/YiD5T0ozs4/y
-         GtW0z6e3iZr9PmWbvA6DDgw9108fVgljgDOLxxV+f72YvHhAUjmwW+y6wVj9N6OSG98Y
-         r/Bt5/1ze2Fe8dPTQYH+pzZi+TZC5g3eYPauRx4W6Lne67fBa3sxSQ+HgvB8E2xfs24f
-         xPLDuCys2XavVsVsY6AqHljVs1ESk5yHZXQ0GHa9dV/Arkd/oFE2mxxBXUUDN0YYIqSb
-         Jbvw==
+        bh=LSaVT+wqzbV7fk4kyE3UAeW85/3qS5cH+OXtTqOEZgk=;
+        b=P/M7va1woAQNh3QCTWDir0US0Nxh9Zg4p0V3oBlh5XyJdAEqz0wu/qUXxP6ljkpZdn
+         9Cqe3pRYMWl6bEfgBOlAu0HwPxbDkTGtZrM7btnNoWpUyFojn6oudNr3AlaSTmVYTYbV
+         GQRVYAHtQjcJnCZw1QlsUOphviJ9ZM5BFqHvtkjPCMvOIKwLljINxubpKFIVS9ykSV6T
+         XHieio3Hve5uExA2WBM9TYsi0US7MX+6IePXo7qWhba1e4Zel5cuEfbbpAPK16NWmrAo
+         os4wb4+0liFXZcOwxWNMckuHDOuZEd0Q4t2ljppYRLh42LBJlATC9LQnoLanjyZgbv8f
+         TRsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772207895; x=1772812695;
+        d=1e100.net; s=20230601; t=1772207898; x=1772812698;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=M7vc13IY7ZLjB19K/DPnMAGdw1kS+zbTwHhwRJW3V8k=;
-        b=hq2iwtZ0ukU531gMswQM3FAQwlN7WgIDvAbdX2D77av8/e3TIguTWvZwnDev/6dQ0d
-         eWrdCpun5+oA+jbv4RAzBXi8RZ0K2Kilr70i5USP7C94nlmfSmEOmHOznY95j1ZFeDIs
-         z3TlC6iQ1smWvsPtG3QTXdv9zGrTWU767ppIRRLm69sNo0ofBUCKy0Z40OPtRYWDAyGV
-         xrJc50r2IqmUkVCDFCXxAfZunmmqsA8OKddSxoCbt0iPcpm4jSQFDyqOs82ECpt8RN2h
-         6fbF5IboAwjQXwyLE4iTx+6ie4qhn9kRyblwEhl9AYFA1shER83Ym23Dk4IukFZJsGhz
-         6jEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUPnmN/ChCQxJHLREEtY2IIYyBReL7leCz+ExD7NDjAE9nzmLUFzUmti4+6XqZOm7hv+y2TV0YJnjCpVg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxW9g7+bHofSQkiVIaQayZlTUZblgVAFNmesSp/LefjRFaO5xQF
-	zduqaZkTrorXy00C4D/vOlc27/Vve32o82bZ3lVPRThwauWF0pFRzih8
-X-Gm-Gg: ATEYQzw5ePkwm6uIYe+OgFpjDXQD96LSxtoXbetVJ7s9qAYmFadjWvVfNUn9eavhc9/
-	X+7eA8SF8Q5c3bF9DFaDQV0AqgmLz34RH8x76MIp+hQasra10Pe+uTq/rvyz3ILR5g9Um4Z/IHR
-	JgAqbf3ZAbY4FvX+HdJJ4AwekpJzRV2u/jDF0miaFUG1sl03ypoTnsi/wo7KvSyOwszpxFGqcci
-	aJ0nI1pS0AaFmEbbmgyrhzdJsZDuPg6yk+SDbU2p426IUXJb2WO6y6bRt+u0fozajZeLKbcna65
-	w+//CBzleSMat6EYOAcGyzd8wQLf7/STMBodLBUl36BQ+soGHmmI5s6qDTAZoRVJqtUbkTOJ3Xx
-	ebPjaYcF5SVD/pbq+aXgi1j1LkLEyb4XHdAvgbDxc0KP7OoDtYqwNewLUdC+oJcmzvQNgLnD9oP
-	6EOJMBpJ+19e27cO1Cu9RZmB5U+rCoroF3zJn7BBPR3eIfvP//qsBHTo3BGuhbgg==
-X-Received: by 2002:a05:7300:730f:b0:2b7:f7f:6ad with SMTP id 5a478bee46e88-2bde1e842f0mr1484815eec.26.1772207895222;
-        Fri, 27 Feb 2026 07:58:15 -0800 (PST)
+        bh=LSaVT+wqzbV7fk4kyE3UAeW85/3qS5cH+OXtTqOEZgk=;
+        b=k42w9Job2aJvOAvZVCw3CRTUztGjWJ7X4Lw2g5Q5Otp6SbquBoxQ1FoT1mz5SKuCSy
+         OVGAXWMGLijMpJwuHuBe3wfbp+hFXjYBL3YHvvKpd7GlkYZn14el6RdMmT3sHZRLurNv
+         8Bc8umKAYo7EG4w5sEqht/jltsK7HtNbZts2zMmXEFt8FTOP7KbEMUb29tY61e2GCA2u
+         Kp245u9EtCKPGqmfAqKZIzOIRqxvKAnTTP0ppvyT+qfRYt9YJF5BYDqKstgM/BSWXMjA
+         QIO+AsKrCG7tpQiSFogCM93FYWfOokfZXntqk8ZwSC+AqAeS/LhxNSp/GpIpZAmSKVz+
+         V5oQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV9WoysEPK2goCx7sw9WZx+BkdXIheSSNCo5MKuOBv7sbCBsiz04WXWS4PeTCLgzx5KJVZ3FA58jM7kPw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxSRoT0FseBK+WPu9u5x7tFqUN0NP0WY/7iYInfr5iWP2hK9D/u
+	06bbHQ3wmqVGUJp7jo/xjrdWZrS27s/cicHecj5ZLmxgSLUNgcCLoUH/
+X-Gm-Gg: ATEYQzxaisXtUaFrG3h/NulKLtiDqctk2OqhJ5oqsw05ChTIJ2IiZCMkCGm2VDClw2o
+	lAnDs4zKfpfnPj6lLi+9izlp8IR3+GQyBXLLDRCc2YB59Je9OBW59t4J/KZPgSuE73oyT1pjWTv
+	UZw6sM0kbY7GI+Mqqx4HRdwZ2qjemsBSEIITttXSLDcAbTyz9KyWhR1srZanOC/jEzrDJjn8IIR
+	cRElh+7TcrFvG4Lb8iciDjjjVELfXlMJvKthh+qn5vLeC2RJT8TNzhTZxX3YmhnIeDTclLMuBEx
+	v44+EO5YTkwUvulNzODPzI4oKYg17XoxpKwc3gR8ysqNFWrZQ4X3vRtGFy55N06OLVktG0c8j4T
+	KYzgkkXsOeGdUkDlyBiQ7NGmtW1A4Bl1a8i5y/aF1p0LxZdy/sBKWtaHVPXpy8bpLUfN0yfVcO6
+	gdffmUiDDrUq/PoDD1ghAJ9WXEYxQE75bw+vVfXQ5g8gWj0VL3K491FMXohV6aPA9BMl5SFD1o
+X-Received: by 2002:a05:7300:aca8:b0:2ba:7b0b:e20a with SMTP id 5a478bee46e88-2bde1edf3a2mr1277424eec.37.1772207898211;
+        Fri, 27 Feb 2026 07:58:18 -0800 (PST)
 Received: from arch.localdomain ([149.34.251.245])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2bdd1cf0115sm3833508eec.8.2026.02.27.07.58.11
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2bdd1cf0115sm3833508eec.8.2026.02.27.07.58.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Feb 2026 07:58:14 -0800 (PST)
+        Fri, 27 Feb 2026 07:58:17 -0800 (PST)
 From: Jun Yan <jerrysteve1101@gmail.com>
 To: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -70,9 +70,9 @@ Cc: robh@kernel.org,
 	samuel@sholland.org,
 	mripard@kernel.org,
 	Jun Yan <jerrysteve1101@gmail.com>
-Subject: [PATCH v2 2/3] dt-bindings: arm: sunxi: Add TaiqiCat (TQC) A01
-Date: Fri, 27 Feb 2026 23:57:59 +0800
-Message-ID: <20260227155801.211376-3-jerrysteve1101@gmail.com>
+Subject: [PATCH v2 3/3] arm64: dts: allwinner: h6: Add TaiqiCat (TQC) A01 support
+Date: Fri, 27 Feb 2026 23:58:00 +0800
+Message-ID: <20260227155801.211376-4-jerrysteve1101@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260227155801.211376-1-jerrysteve1101@gmail.com>
 References: <20260227155801.211376-1-jerrysteve1101@gmail.com>
@@ -82,7 +82,6 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
 TaiqiCat (TQC) A01 is a set-top box powered by an Allwinner H6 SoC,
@@ -91,39 +90,425 @@ WiFi/BT combo module, one 100M Ethernet port, one USB 3.0 Type-A port,
 one USB 2.0 Type-A port, one Micro USB port, HDMI, SPDIF, Micro-SD, and
 infrared input.
 
-It is a blockchain-based terminal product launched by UQSoft
-(Beijing UQSoft Interactive Technology Co., Ltd.), a wholly-owned
-subsidiary of Ultrapower. Its dedicated product homepage[1] was once
-hosted on Ultrapower’s official website[2].
+It was released by Ultrapower(UQSoft) as a blockchain-based terminal and is
+now discontinued and no longer supported.
 
-It should be noted that UQSoft's official website[3] is no longer
-operational, and the company appears to have been discontinued.
+  https://web.archive.org/web/20190409213228/https://tq.ultrapower.com.cn/product.html
 
-[1] https://web.archive.org/web/20190409213228/https://tq.ultrapower.com.cn/product.html
-[2] https://www.ultrapower.com.cn
-[3] http://www.uqsoft.com
+Hardware schematics are not available at this time; however, the
+dts from the vendor firmware is provided for reference [1].
+
+Based on the PCB silkscreen marking "AZW-KT02 2.0", the ODM/OEM
+can be confirmed as AZW, and the overall hardware circuit design
+is highly similar to the Beelink GS1.
+
+Tested, works:
+- debug UART
+- status LED
+- USB 3.0 Type-A port
+- USB 2.0 Type-A port
+- Micro USB port (Host)
+- MicroSD
+- eMMC
+- WiFi/Bluetooth
+- HDMI video output
+
+Does not work:
+- Ethernet (requires AC200 MFD/EPHY driver)
+- HDMI audio
+
+Untested:
+- SPDIF
+- IR receiver
+
+[1] https://archive.org/download/tqc-a01-stock-fw/tqc-a01-stock-fw.dts
 
 Signed-off-by: Jun Yan <jerrysteve1101@gmail.com>
 ---
- Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
- 1 file changed, 5 insertions(+)
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../dts/allwinner/sun50i-h6-taiqicat-a01.dts  | 361 ++++++++++++++++++
+ 2 files changed, 362 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h6-taiqicat-a01.dts
 
-diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
-index 9e4627f97d7e..e6443c266fa1 100644
---- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-+++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-@@ -901,6 +901,11 @@ properties:
-           - const: allwinner,sl631
-           - const: allwinner,sun8i-v3
- 
-+      - description: TaiqiCat A01
-+        items:
-+          - const: ultrapower,taiqicat-a01
-+          - const: allwinner,sun50i-h6
+diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+index 2edfa7bf4ab3..d116864b6c2b 100644
+--- a/arch/arm64/boot/dts/allwinner/Makefile
++++ b/arch/arm64/boot/dts/allwinner/Makefile
+@@ -38,6 +38,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-orangepi-lite2.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-orangepi-one-plus.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64-model-b.dtb
++dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-taiqicat-a01.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h313-tanix-tx1.dtb
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-taiqicat-a01.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-taiqicat-a01.dts
+new file mode 100644
+index 000000000000..381479553f5f
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-taiqicat-a01.dts
+@@ -0,0 +1,361 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++// Copyright (C) 2026 Jun Yan <jerrysteve1101@gmail.com>
 +
-       - description: Tanix TX1
-         items:
-           - const: oranth,tanix-tx1
++/dts-v1/;
++
++#include "sun50i-h6.dtsi"
++#include "sun50i-h6-cpu-opp.dtsi"
++#include "sun50i-h6-gpu-opp.dtsi"
++
++#include <dt-bindings/gpio/gpio.h>
++
++/ {
++	model = "TaiqiCat (TQC) A01";
++	compatible = "ultrapower,taiqicat-a01", "allwinner,sun50i-h6";
++
++	aliases {
++		serial0 = &uart0;
++		serial1 = &uart1;
++	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	connector {
++		compatible = "hdmi-connector";
++		ddc-en-gpios = <&pio 7 2 GPIO_ACTIVE_HIGH>; /* PH2 */
++		type = "a";
++
++		port {
++			hdmi_con_in: endpoint {
++				remote-endpoint = <&hdmi_out_con>;
++			};
++		};
++	};
++
++	ext_osc32k: ext-osc32k-clk {
++		#clock-cells = <0>;
++		compatible = "fixed-clock";
++		clock-frequency = <32768>;
++		clock-output-names = "ext_osc32k";
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		led-0 {
++			label = "taiqicat:blue:power";
++			gpios = <&r_pio 0 4 GPIO_ACTIVE_HIGH>; /* PL4 */
++			default-state = "on";
++		};
++	};
++
++	reg_vcc5v: vcc5v {
++		/* board wide 5V supply directly from the DC jack */
++		compatible = "regulator-fixed";
++		regulator-name = "vcc-5v";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		regulator-always-on;
++	};
++
++	sound-spdif {
++		compatible = "simple-audio-card";
++		simple-audio-card,name = "sun50i-h6-spdif";
++
++		simple-audio-card,cpu {
++			sound-dai = <&spdif>;
++		};
++
++		simple-audio-card,codec {
++			sound-dai = <&spdif_out>;
++		};
++	};
++
++	spdif_out: spdif-out {
++		#sound-dai-cells = <0>;
++		compatible = "linux,spdif-dit";
++	};
++
++	wifi_pwrseq: wifi-pwrseq {
++		compatible = "mmc-pwrseq-simple";
++		clocks = <&rtc CLK_OSC32K_FANOUT>;
++		clock-names = "ext_clock";
++		reset-gpios = <&r_pio 0 8 GPIO_ACTIVE_LOW>; /* PL8 */
++		post-power-on-delay-ms = <200>;
++	};
++};
++
++&cpu0 {
++	cpu-supply = <&reg_dcdca>;
++};
++
++&de {
++	status = "okay";
++};
++
++&dwc3 {
++	status = "okay";
++};
++
++&ehci0 {
++	status = "okay";
++};
++
++&ehci3 {
++	status = "okay";
++};
++
++&gpu {
++	mali-supply = <&reg_dcdcc>;
++	status = "okay";
++};
++
++&hdmi {
++	hvcc-supply = <&reg_bldo2>;
++	status = "okay";
++};
++
++&hdmi_out {
++	hdmi_out_con: endpoint {
++		remote-endpoint = <&hdmi_con_in>;
++	};
++};
++
++&mmc0 {
++	vmmc-supply = <&reg_cldo1>;
++	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
++	bus-width = <4>;
++	disable-wp;
++	status = "okay";
++};
++
++&mmc1 {
++	vmmc-supply = <&reg_cldo3>;
++	vqmmc-supply = <&reg_bldo3>;
++	mmc-pwrseq = <&wifi_pwrseq>;
++	bus-width = <4>;
++	non-removable;
++	keep-power-in-suspend;
++	status = "okay";
++
++	brcm: sdio-wifi@1 {
++		reg = <1>;
++		compatible = "brcm,bcm43430a1-fmac", "brcm,bcm4329-fmac";
++		interrupt-parent = <&r_pio>;
++		interrupts = <1 0 IRQ_TYPE_LEVEL_LOW>; /* PM0 */
++		interrupt-names = "host-wake";
++	};
++};
++
++&mmc2 {
++	vmmc-supply = <&reg_cldo1>;
++	vqmmc-supply = <&reg_bldo2>;
++	cap-mmc-hw-reset;
++	non-removable;
++	mmc-hs200-1_8v;
++	bus-width = <8>;
++	status = "okay";
++};
++
++&ohci0 {
++	status = "okay";
++};
++
++&ohci3 {
++	status = "okay";
++};
++
++&pio {
++	vcc-pc-supply = <&reg_bldo2>;
++	vcc-pd-supply = <&reg_cldo1>;
++	vcc-pg-supply = <&reg_bldo3>;
++};
++
++&r_i2c {
++	status = "okay";
++
++	axp805: pmic@36 {
++		compatible = "x-powers,axp805", "x-powers,axp806";
++		reg = <0x36>;
++		interrupt-parent = <&r_intc>;
++		interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_LOW>;
++		interrupt-controller;
++		#interrupt-cells = <1>;
++		x-powers,self-working-mode;
++		vina-supply = <&reg_vcc5v>;
++		vinb-supply = <&reg_vcc5v>;
++		vinc-supply = <&reg_vcc5v>;
++		vind-supply = <&reg_vcc5v>;
++		vine-supply = <&reg_vcc5v>;
++		aldoin-supply = <&reg_vcc5v>;
++		bldoin-supply = <&reg_vcc5v>;
++		cldoin-supply = <&reg_vcc5v>;
++
++		regulators {
++			reg_aldo1: aldo1 {
++				regulator-always-on;
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-name = "vcc-pl-led-ir-pg-pm-ts";
++			};
++
++			reg_aldo2: aldo2 {
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-name = "vcc-ac200";
++				regulator-enable-ramp-delay = <100000>;
++			};
++
++			aldo3 {
++				/* unused */
++			};
++
++			reg_bldo1: bldo1 {
++				regulator-always-on;
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <1800000>;
++				regulator-name = "vcc18-dram-bias-pll";
++			};
++
++			reg_bldo2: bldo2 {
++				regulator-always-on;
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <1800000>;
++				regulator-name = "vcc-pc-emmc-efuse-hdmi";
++			};
++
++			reg_bldo3: bldo3 {
++				regulator-always-on;
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <1800000>;
++				regulator-name = "vcc-pg-wifiio";
++			};
++
++			bldo4 {
++				/* unused */
++			};
++
++			reg_cldo1: cldo1 {
++				regulator-always-on;
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-name = "vcc33-io-pd-emmc-sd-usb-uart";
++			};
++
++			/* This regulator is connected with CLDO3 */
++			reg_cldo2: cldo2 {
++				regulator-always-on;
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-name = "vcc-wifi-1";
++			};
++
++			reg_cldo3: cldo3 {
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-name = "vcc-wifi-2";
++			};
++
++			reg_dcdca: dcdca {
++				regulator-always-on;
++				regulator-min-microvolt = <810000>;
++				regulator-max-microvolt = <1160000>;
++				regulator-ramp-delay = <2500>;
++				regulator-name = "vdd-cpu";
++			};
++
++			reg_dcdcc: dcdcc {
++				regulator-enable-ramp-delay = <32000>;
++				regulator-min-microvolt = <810000>;
++				regulator-max-microvolt = <1080000>;
++				regulator-ramp-delay = <2500>;
++				regulator-name = "vdd-gpu";
++			};
++
++			reg_dcdcd: dcdcd {
++				regulator-always-on;
++				regulator-min-microvolt = <960000>;
++				regulator-max-microvolt = <960000>;
++				regulator-name = "vdd-sys-hdmi-usb";
++			};
++
++			reg_dcdce: dcdce {
++				regulator-always-on;
++				regulator-min-microvolt = <1200000>;
++				regulator-max-microvolt = <1200000>;
++				regulator-name = "vcc-dram";
++			};
++
++			sw {
++				/* unused */
++			};
++		};
++	};
++};
++
++&r_ir {
++	status = "okay";
++};
++
++&r_pio {
++	/*
++	 * PL0 and PL1 are used for PMIC I2C
++	 * don't enable the pl-supply else
++	 * it will fail at boot
++	 *
++	 * vcc-pl-supply = <&reg_aldo1>;
++	 */
++	vcc-pm-supply = <&reg_aldo1>;
++};
++
++&rtc {
++	clocks = <&ext_osc32k>;
++};
++
++&spdif {
++	pinctrl-names = "default";
++	pinctrl-0 = <&spdif_tx_pin>;
++	status = "okay";
++};
++
++&uart0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart0_ph_pins>;
++	status = "okay";
++};
++
++&uart1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
++	uart-has-rtscts;
++	status = "okay";
++
++	bluetooth {
++		compatible = "brcm,bcm43430a1-bt";
++		clocks = <&rtc CLK_OSC32K_FANOUT>;
++		clock-names = "lpo";
++		vbat-supply = <&reg_cldo3>;
++		vddio-supply = <&reg_bldo3>;
++		device-wakeup-gpios = <&r_pio 1 2 GPIO_ACTIVE_HIGH>; /* PM2 */
++		host-wakeup-gpios = <&r_pio 1 1 GPIO_ACTIVE_HIGH>; /* PM1 */
++		shutdown-gpios = <&r_pio 1 4 GPIO_ACTIVE_HIGH>; /* PM4 */
++		max-speed = <1500000>;
++	};
++};
++
++&usb2otg {
++	dr_mode = "host";
++	status = "okay";
++};
++
++&usb2phy {
++	usb0_vbus-supply = <&reg_vcc5v>;
++	usb3_vbus-supply = <&reg_vcc5v>;
++	status = "okay";
++};
++
++&usb3phy {
++	status = "okay";
++};
 -- 
 2.53.0
 
