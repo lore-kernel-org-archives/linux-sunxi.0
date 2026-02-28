@@ -1,98 +1,119 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1B233644DE
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Feb 2026 18:01:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A45EE54B
+	for <linux-sunxi@lists.linux.dev>; Sat, 28 Feb 2026 01:47:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772215278; cv=none; b=GdGaV0vGnIH/K+B9bGy7SsSLG0y/VzDOn9ZgRofgk+pv4Ch5m+KdTlDx7UfKpGEyxekKqSV+7ymvpF3P9AXVpzHNFbD758rF/aveyR8UAKSKNq1DLozDdzTNLxaUmOjW0cBoFTag09VN8Ub/JwAwXtUtNPz7yXz61vhSFZMzVxI=
+	t=1772243254; cv=none; b=H1Jgh+9h/M87gCwz0vb3vq6SEdj3WQKmDMxXbABhxiQfDu00u+pCZzkUj8jPKxw9egaSPmHvAwEp4u4vjzQifoKRY17uJ5fj/Cxm8CcYFKfNXfi7U+li6c3bPXWVbEJo2aq5pP3AIgW74dPD9BICI/USfQUeLFRNDAA3RLvK1/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772215278; c=relaxed/simple;
-	bh=1Ul0Dd4P/vtKDgVC2VSwGduPgnL+oOjNMm7CLdGIWwA=;
+	s=arc-20240116; t=1772243254; c=relaxed/simple;
+	bh=kzLke4p4CBWVI/C3pxjA5vKdqdSS/ijW2W88xu76WA0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LfNuEVyVnavsAp7FbPB38ZIHBrmpAXbbU2Z5vZIdhg4hBJ4R1YfDEUSILPoBV6NTbWG8C9cFZGVsIVw562JSMT7ILWC9s5YhmTaINSv2RGeb4pCuSIeU/vWghJHu+UNEzTCZ8QwkUIE80pUtJje0PMapfPPafdtBV5Qsn8PlFco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FlrBpK4X; arc=none smtp.client-ip=209.85.128.44
+	 MIME-Version:Content-Type; b=fxFgKukxaQzoZcfVqRf4S+I0kBozAQ8/bo7DITfEd5fNCXQUp3eEPubyMcdtVfxr1Qwyck5pnvE6KPdwF3UutqERYa6X2uAge9jVaCy9sS5B2Q0FtNJf4c0USUTe5tHWeTfEy1JHFTdiScAUCdMh0OFofvlxtw5X8Fhfdx+45fU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KGc/120m; arc=none smtp.client-ip=74.125.82.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FlrBpK4X"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48375f1defeso16855965e9.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 27 Feb 2026 10:01:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KGc/120m"
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-2bdecd00ebdso2018640eec.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 27 Feb 2026 17:47:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772215275; x=1772820075; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772243252; x=1772848052; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1Ul0Dd4P/vtKDgVC2VSwGduPgnL+oOjNMm7CLdGIWwA=;
-        b=FlrBpK4X3K0Z+gQfTTmADJ+mRONvtNvShLIR3lES6OKpOsPTuH13Hn1BJJowYd+3EV
-         pxgzZA6xBpnRAVPl4/Im22kUSow2zMtxvUQXTBIhqPk23Z3sR1HCev9QRMFrMAkUIW+J
-         vQJFVh0IC3blKJGLHkksK13pt8C2ZewC6dEMApvHL4A1bWhrQJhHc2uNQ2ZmbpIaohql
-         MYRwpMiQUacl4VTjk40zlsktRlDFu0j2vE7qDRKmRzFbBdTe8IG/BrzyMDYFH0hg7+ty
-         x/hDPTYp5bz/PyBprZC1VpZqphfJ1yDBjCe7b8EO69/Nzz1IBF7ZFxlc8Z5bv6zcFLpb
-         +YoA==
+        bh=nYm62l7h9IssC8pYlAqoKgXtyHZXXq6P9yH72X8r6sw=;
+        b=KGc/120m13T2jWYFCLUQkguRlnQU1TqLcRz6gCAqZ/fucQOV733P6v/eDF/kZPjWIn
+         n8cIumOM4jgFm462junvVt6z8pK7fk25UgemK+TineJrjsnFqEHvbd+s/MgrpW7cj3Ac
+         F5aq1fgcwcPq0JQXMJGa0lhoAkfYe5XyXs8zkt27zwRig8zl9nq2VrQ9NKGJ1BRRq2XM
+         c5dOoHLSnyQ9qAxOKEYBg+kytYqjaIk1siEFarcPgjK1MSUNbwexaJdswPgr2UEXzeTi
+         KXzzVdwtIIohs3AVQ1iJZlvWflT3Jys7q4baa+XiIntJdgGQOTcmgwpO2d1FxUunTJHX
+         EDOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772215275; x=1772820075;
+        d=1e100.net; s=20230601; t=1772243252; x=1772848052;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=1Ul0Dd4P/vtKDgVC2VSwGduPgnL+oOjNMm7CLdGIWwA=;
-        b=iMBOpTNd/Yg3SnL36SDWcnNKvHC04ZY2vqssJ/lY6ResRFguYoimvpQsS/uzH0ddxK
-         xNAQY/mEXO2cyCRxoVzlwtFmOGmM/OYMi11Hb/g/52Kt5xpJXREHgPnpZuQ2q7ZcjB4o
-         9xSe6CYCr4FstKjHs7AJY5DmEiEl16DvT7AhmIBQYB4zzWz7a1vp1LGmzwOUHn16E4dj
-         AF38FCKM4PQ2LLXPBEdaORTX+8OnTOPJKqloUMgdrNw7nZzlntH5J+WkH/eXREwyKjkC
-         9g+sIFR3GNpzqgi+ftxjk6CrmqNdWvRcXvApcklQs4Sd2bvyiro005fOXdcO/HB9ue/p
-         Qagw==
-X-Forwarded-Encrypted: i=1; AJvYcCX5f5e1ZWKAHewdoughvaxDuB9AWJtF2N4RjbWpBqsGvQBd9SxqJ3Tv0RaUS7W9k5KngIUDvdONGhG0rg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz/kUQhzxWrDOa+bVGlvMUcuXRd3r3y3ZRi5iT7YVBN1U5Imk7E
-	83jMQmAAFlIRXYMZIf0ta+GzOsYlb7jga84fXeANZSQRtXFy3m0hqcBC
-X-Gm-Gg: ATEYQzwe6G2p1YOTXaCYxTGVr5E4Lkcf/68DD+WRBDqFdUutoZ8+uAZsDkY1u9l+eAV
-	GGNArSRjz4ovOLpUM3HNP+vFjSEdinZxgNqAVVBhXFPjP31RJ9Ouvjr90zDZNxH9zmYfsb7eHNu
-	AujjUqfU2BfF+fwOsbRr7tNt5zbA9zcFr+m+dwGeHSUhftsY9Tbki4xlD5MP21I4r3q4pb6xbjo
-	xlc5Zk+Fvo7sVcFsoCbMHkH8RU+o1ZdmipMFNlII2OqM3YhjTMqIA2Oz+fyY7y7LY4A93VQPvAn
-	3mRA/Ch7Q2vKVJ91XPAXVrtsw2N7/xkD2mvkSEpitcDwm6QjJ2buH9zkuuqg9Lqqa9Vp91vRmwk
-	N5ebAJBZV8h+YhN/VskhyO+F3KO7qU8zn9zZkPiPbIDhl67GTcC9bj2Jsdln6Hrxoq11a9n02kD
-	/mlKFF60/bb0ZGA9smDnTZlPdGN39+ThTEww/dHtLcPIGP
-X-Received: by 2002:a05:6000:40c9:b0:439:8c1c:6b4 with SMTP id ffacd0b85a97d-4399de2cbafmr6732890f8f.53.1772215275081;
-        Fri, 27 Feb 2026 10:01:15 -0800 (PST)
-Received: from jernej-laptop.localnet ([188.159.248.16])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4399c70ff6esm13018886f8f.12.2026.02.27.10.01.13
+        bh=nYm62l7h9IssC8pYlAqoKgXtyHZXXq6P9yH72X8r6sw=;
+        b=Zeg4wtCtRf+gWPjKfLVwL2mxZ8mjO53BUcySwKdER+gU0Ajqd0x4RzCY/rlXKGc6y1
+         phh01Se+Po629vAcYfTQP/JwrLQ6Be/oD8nj9PuNnL6k7hrH//c/oCoT67/CpOD+8rXN
+         cCwqmMfR+dvVOk4+nmq6w/qcHhL+fb/6nUffL5FqUPw/A4ecDFCVALaz766Bp3k0NkA5
+         BRatLu0h+G/WMOhU6RFiRQoSkBb8T8OEFM87kiX0AmoQF1gyiOxzncGpSUN2vy+sUbW4
+         oK8Gg0aiaGn3s4w+Honv/SFWbqykPAbfRLkdQYd4MmSz2Ap0id86NoamVTBZ99/AiTT0
+         venA==
+X-Forwarded-Encrypted: i=1; AJvYcCV7NdmdRDC2Ud8tNTrLRlJS/QQGAnWI6a1vMq2Gn9JUNnx++/qONcoSzufif6Iz7L4X2RzqOK5LHPBpXA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzBozWUT8QTa4VXLCAuomq4lT46yRIbwRTy/MOWfA0yiiht9CVl
+	bRj2KHApld9cqbhJp0xDvJLzVaPHOkebpjZ3cYFLR8UA3Q6Rcs1K6+4p
+X-Gm-Gg: ATEYQzwU3T/3faNwvFKfJd5DTg95PxeKZeVZkjSc4xHJGLZbhYcLlFS7G7G7DUTRdQ/
+	R3oo1W87j60PrwYwnZDNZiq1ykuYbyc1P2J+BW7m6uy3ipxTxnztcQkDDWMt4GdfQtKDPondi6k
+	MIDF3qQBYtCemrbZXpnufdgYdBV5WS4GiWRojNdImCvgDH65+EmFhIxDb5f9NKujZ8UkgqASRna
+	NczhAXIUky02NVQPE1K8YxGEQt9eXqZGV/S3bBwtCSNx4IEYLgGQUqiMH1ktdpJnk99yfoaNxRP
+	Y5KA/tKj2GZ4z8FQm5cDSdgt80Hpi+uMK26BN1veZes2RWoLR/ovouHFHeTCAuM5fcapC7YnBpG
+	rBN2fmEuTsV/TKYyDjHm66Ud/pObMN1mXUIR12GEr40ZFPpLZgvyLVozC5MI6rphIvnPj6GOozs
+	TZ938R5VlAQSv7zRsYqy/405oV5fWqdMfHmIu56AU3l+bg72+i+0qHIj1sD4coMeTZn3vBecn4
+X-Received: by 2002:a05:7022:20d:b0:121:9f05:7e4c with SMTP id a92af1059eb24-1278fc5c3demr2053905c88.16.1772243252369;
+        Fri, 27 Feb 2026 17:47:32 -0800 (PST)
+Received: from arch.localdomain ([149.34.251.245])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12789a43a18sm7734470c88.13.2026.02.27.17.47.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Feb 2026 10:01:14 -0800 (PST)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: wens@kernel.org, mripard@kernel.org, samuel@sholland.org,
- Ethan Tidmore <ethantidmore06@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Ethan Tidmore <ethantidmore06@gmail.com>
-Subject: Re: [PATCH] drm/sun4i: Fix resource leaks
-Date: Fri, 27 Feb 2026 19:01:12 +0100
-Message-ID: <2819144.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20260226163836.10335-1-ethantidmore06@gmail.com>
-References: <20260226163836.10335-1-ethantidmore06@gmail.com>
+        Fri, 27 Feb 2026 17:47:32 -0800 (PST)
+From: Jun Yan <jerrysteve1101@gmail.com>
+To: jerrysteve1101@gmail.com
+Cc: conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	jernej.skrabec@gmail.com,
+	krzk+dt@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	mripard@kernel.org,
+	robh@kernel.org,
+	samuel@sholland.org,
+	wens@kernel.org
+Subject: Re: [PATCH v2 0/3] board: sunxi: Add TaiqiCat (TQC) A01
+Date: Sat, 28 Feb 2026 09:47:24 +0800
+Message-ID: <20260228014726.258796-1-jerrysteve1101@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260227155801.211376-1-jerrysteve1101@gmail.com>
+References: <20260227155801.211376-1-jerrysteve1101@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Dne =C4=8Detrtek, 26. februar 2026 ob 17:38:36 Srednjeevropski standardni =
-=C4=8Das je Ethan Tidmore napisal(a):
-> Three clocks are not being released in devm_regmap_init_mmio() error
-> path.
->=20
-> Add proper goto and set ret to the error code.
->=20
-> Fixes: 8270249fbeaf0 ("drm/sun4i: backend: Create regmap after access is =
-possible")
-> Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
+> This series adds support for the TaiqiCat (TQC) A01 — 
+> a set-top box based on the Allwinner H6 SoC. 
+> Originally released by Ultrapower(UQSoft) as a blockchain terminal, 
+> the device has been discontinued and is no longer officially
+> supported.
+>   
+>   https://web.archive.org/web/20190409213228/https://tq.ultrapower.com.cn/product.html
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+My apologies for not including the Changes section.
 
-Best regards,
-Jernej
+Changes in v2:                                                                                                                                                                         
+- Replace "UQSoft" with "Ultrapower", and add relevant explanations.
+- Link to v1: https://lore.kernel.org/all/20260226084850.417731-1-jerrysteve1101@gmail.com
+
+> 
+> Jun Yan (3):
+>   dt-bindings: vendor-prefixes: Add Beijing Ultrapower Software Co.,
+>     Ltd.
+>   dt-bindings: arm: sunxi: Add TaiqiCat (TQC) A01
+>   arm64: dts: allwinner: h6: Add TaiqiCat (TQC) A01 support
+> 
+>  .../devicetree/bindings/arm/sunxi.yaml        |   5 +
+>  .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+>  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+>  .../dts/allwinner/sun50i-h6-taiqicat-a01.dts  | 361 ++++++++++++++++++
+>  4 files changed, 369 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h6-taiqicat-a01.dts
+> 
+> -- 
+> 2.53.0
 
 
