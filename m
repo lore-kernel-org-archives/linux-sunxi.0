@@ -1,43 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EE93427A00;
-	Sat, 28 Feb 2026 10:51:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F4A427A0A;
+	Sat, 28 Feb 2026 10:51:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772275901; cv=none; b=TJwZqH1WRd+uKvMICYff+GYEdYDEU66/rrfolNYRBjg3lO0jjDz/WcflB1OjD1CCYZlTMkWKPyOLfHZOjodGlRr3d1ArT+/fdRzsyIWrXjBqR9mDlo6Cwzw/ljhk5C2WMVqq1JBwUAOQzFzDa6IoH5H+M8adVS/YvCHqYRPChyY=
+	t=1772275915; cv=none; b=PsO1mDup68UzHNpLaFA686UOdYTS1m/etv3KRuaPQ8XhQqIJ/FVySb1e3eVScOqaCurgsO7yX5XB80AoxUhrYLGWvqYIyEXYUBfZtX9jiHaOnLADU/g1sPgJe0Ig8vh2nw5SfGreSApLidr3IvQNqx5JzPRaETrnJy/q3e4W5xY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772275901; c=relaxed/simple;
-	bh=G+CNCheMEZKq249BUHGU6k6/X0wCs6/lFqF8Mrs4UsQ=;
+	s=arc-20240116; t=1772275915; c=relaxed/simple;
+	bh=+VmgSKqHuhNwHUwW7Tb2zgDtnMRJgSUoq9NvtWt/eQw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LlXnl3iYCFKLoRtmnOQqZWeoY5U2dFu9aVw7ysMuKTVu7BDCMwWVBO/FdPMtMhQDWQyoCbWGE99JhwjR2qnapWaFGFh8bpzeI7O6pnPok4ndDhyjKpLCgLj59gI3d/WpHMdzOJStbkgrD6xRuw0EjpsmGSZqYy0qI5u73t6fNTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rqYstRqf; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=IfwomkLz8SJpau9TDc0X4sy4gu+R1ox30untsvbs1b8hpt4LAbgI+T9JL7za7D5UWrZu/W+W0RTN+o7H0YrfpimLmkPfmbllluwIJjCV4n4RD5HtqZAT7uEh1GzqHC7OPB+XkDueyHocOK8Yuo/rgm6YyknB+lj3y1ideIWTsfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wjj1qPrB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rqYstRqf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 765C8C116D0;
-	Sat, 28 Feb 2026 10:51:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wjj1qPrB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 230C4C116D0;
+	Sat, 28 Feb 2026 10:51:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772275901;
-	bh=G+CNCheMEZKq249BUHGU6k6/X0wCs6/lFqF8Mrs4UsQ=;
+	s=k20201202; t=1772275915;
+	bh=+VmgSKqHuhNwHUwW7Tb2zgDtnMRJgSUoq9NvtWt/eQw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rqYstRqfK08m3Wsnq3mPXJ9O8CQx5W8GUZ4d/tPBGaVbZuDLFHC2FlAHdmvVFslfp
-	 XZ3db7GVRHLcgvTjFWeoSPcXf2w6ua2Mcv0ryVl069riDdXWWG7MWyGA55/e16I54N
-	 NODSgxVtWJUV3BfzTna+LXPKlGotZrYxPNQMawA1UDCyr/SJsYGtTvHudYDQkkQQ8B
-	 KO/pOwcazzeUn07QMyuuC/rtxWfxSSQX1AdEhx8RWSFmyKeJvuOOXPLBiGOhDl8Fgp
-	 ejMx4bJVFeW6P4fZIzFzdog5LvH6qlUefjPvdAgkyUcy4n1Lj72Xc779X+wPsCLeaP
-	 0PX4rknA3MX8A==
-Date: Sat, 28 Feb 2026 11:51:38 +0100
+	b=Wjj1qPrBh3yJpAcTYVytuCqIEx4TeMbpmSHcVmFQefYTlJzCLMgmuSMY5L32RUc76
+	 BOBeXnK8oULlUY+ZhpsR9G4DXfyR4T6UWAEx9Wj50yMSA2IPToNrxiIAtxkGK+CYVx
+	 gmuQ/+PM17O2N6h5zy3gmH6ZLhGle6bvYVyIVm3gMtV+mk1HTC+lw+51a9rH6Wk6zh
+	 Lxynt254VwglbcnWICPwfAh7tkbIInc9jkuDrritJ9+sTlqClHh0Va0K4SeN1t8wzt
+	 Yxb9D/ErR5txwqzwnaJuxSAUIf/q3j7K8Wxxqjn4718a51lCWalOZ4no1JHzCINf5k
+	 blfToyYGD9B9A==
+Date: Sat, 28 Feb 2026 11:51:53 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Jun Yan <jerrysteve1101@gmail.com>
 Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
 	linux-sunxi@lists.linux.dev, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
 	wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org, 
 	mripard@kernel.org
-Subject: Re: [PATCH v2 1/3] dt-bindings: vendor-prefixes: Add Beijing
- Ultrapower Software Co., Ltd.
-Message-ID: <20260228-spirited-muscular-macaque-b9a1e2@quoll>
+Subject: Re: [PATCH v2 2/3] dt-bindings: arm: sunxi: Add TaiqiCat (TQC) A01
+Message-ID: <20260228-functional-python-of-will-f92712@quoll>
 References: <20260227155801.211376-1-jerrysteve1101@gmail.com>
- <20260227155801.211376-2-jerrysteve1101@gmail.com>
+ <20260227155801.211376-3-jerrysteve1101@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -47,14 +46,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260227155801.211376-2-jerrysteve1101@gmail.com>
+In-Reply-To: <20260227155801.211376-3-jerrysteve1101@gmail.com>
 
-On Fri, Feb 27, 2026 at 11:57:58PM +0800, Jun Yan wrote:
-> Beijing Ultrapower Software Co., Ltd. is a company focusing on global
-> mobile games, ICT services, cloud computing, and artificial intelligence
-> solutions.
+On Fri, Feb 27, 2026 at 11:57:59PM +0800, Jun Yan wrote:
+> TaiqiCat (TQC) A01 is a set-top box powered by an Allwinner H6 SoC,
+> equipped with an AXP305 PMIC, 1GB LPDDR3 RAM, 8GB eMMC, an AP6212
+> WiFi/BT combo module, one 100M Ethernet port, one USB 3.0 Type-A port,
+> one USB 2.0 Type-A port, one Micro USB port, HDMI, SPDIF, Micro-SD, and
+> infrared input.
 >=20
-> TaiqiCat A01 is a blockchain-based terminal product launched by UQSoft
+> It is a blockchain-based terminal product launched by UQSoft
 > (Beijing UQSoft Interactive Technology Co., Ltd.), a wholly-owned
 > subsidiary of Ultrapower. Its dedicated product homepage[1] was once
 > hosted on Ultrapower=E2=80=99s official website[2].
@@ -68,11 +69,8 @@ cn/product.html
 > [3] http://www.uqsoft.com
 >=20
 > Signed-off-by: Jun Yan <jerrysteve1101@gmail.com>
-> ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->  1 file changed, 2 insertions(+)
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 Best regards,
 Krzysztof
