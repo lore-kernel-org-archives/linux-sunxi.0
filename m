@@ -1,164 +1,143 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71E33FFAB6
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Mar 2026 16:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772467897; cv=pass; b=W279AnDiMTkDAHtqAerZV2FaEd8j0zygUotw3UGNaLhL5YEq+UNirlbAYY2SGFaqtqcWJfF8WLnzflJQ9QntQdZTOeQLKN5trkLwzdaNv7z8UbXwaZGW6Mq79v+VpcrWOAhsshpJGvdzBKMg9Za2R1mnf4KKvOoDRvmS8k9jRRo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772467897; c=relaxed/simple;
-	bh=XlJbvwNteTeQ3cMMMWCXzRs3QEn4XBRBRn65MbzmVLY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Nj9DIyq8cuuOffqQt304CWT2yof0bdCkKW14e403Mo44a5FGd33cqRaHm5qaFdZgfCCZMQW5uQAFzVnFXItaHxwIUJhmeB5OysyriTmYw+HEfJmfGF65ozJPxAU7YMsOwtel4cqXIsGZsm7OOCKUHYBzci0nq7UPWf9qKHm9Q/c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=W0F/s1WV; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="W0F/s1WV"
-ARC-Seal: i=1; a=rsa-sha256; t=1772467825; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=JXcnLJWgLCF+YZoorFdBR1yAwjY7LGAS1wsZttwSZ7OX1N8/tnJuRhgJ+frB9Q4b6lfq6qMedTrSlMEU0sGgxTyLFOvcWCVEFFb2d7R3YdZGhKZTR/jPT5rJdYY3mxQxVtAR7qnensaRyP+gChcl9H3hdJAEAS6X/GfVjtSeshI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1772467825; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=w7U2i7wNnzNewzg0HZ0VM12VPokXKDs53EuGg6YDrv8=; 
-	b=SQsvFxkGjCOpd7AR/Pg3XOdD9HKqPhI4gLsvZbyx5J/H/xqlfcr1VbYYjBddL2YeSvaT/AV6AeOR2BFX+17Pe1UHRHufhxgqho1yhn6vXQj+llmafnzH3fKftx5V0gU+97otl0p1YJKSCULW73P8EG4ZLbp9FMXu+pvWGIzxzvU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772467825;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=w7U2i7wNnzNewzg0HZ0VM12VPokXKDs53EuGg6YDrv8=;
-	b=W0F/s1WVOicRqRRlh5k5bS16DecRt/X1lliwR6v9bihZZKydDIaE9AyHGcfVgqOl
-	DvAw1wWZ42oww1fu25LhPzUbERsubMtUdY7LsGOtMzSepxHtaknXKw8XPpJIsvcOnzc
-	wcoHVxy/hBVsZb7ebXFaIeFPF7bsc7pFw7l7IamY=
-Received: by mx.zohomail.com with SMTPS id 1772467823906968.5878195359694;
-	Mon, 2 Mar 2026 08:10:23 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andy Yan <andy.yan@rock-chips.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
- Liu Ying <victor.liu@nxp.com>, Chen-Yu Tsai <wens@kernel.org>,
- Samuel Holland <samuel@sholland.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Jani Nikula <jani.nikula@intel.com>
-Subject:
- Re: [PATCH v2 14/14] drm/display: hdmi: Use drm_output_color_format instead
- of hdmi_colorspace
-Date: Mon, 02 Mar 2026 17:10:13 +0100
-Message-ID: <5970802.DvuYhMxLoT@workhorse>
-In-Reply-To: <20260227-drm-rework-color-formats-v2-14-8bd278e2af9d@kernel.org>
-References:
- <20260227-drm-rework-color-formats-v2-0-8bd278e2af9d@kernel.org>
- <20260227-drm-rework-color-formats-v2-14-8bd278e2af9d@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3ABC3E5592
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 Mar 2026 16:32:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772469145; cv=none; b=OOdfVDfZn0Stjv63bKStFPKuMflHzn9Yg9ycX4IXNdtXtm/Hd/YqLuJY892cgb8BXD+LkBfHXbmSc+HHeSai2pt+qbjQExYyRlFo8C/73LQDPtLpT3WI2Rw55uu0dAbr0YgeBUaDIf1dZm+eZjLMTJX+qsMLNy/STROGDHaUcoU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772469145; c=relaxed/simple;
+	bh=ZN7ZYA3vRUNHHbGnPhwCvGjNZJR0JyldjOBVcI9neHk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UQ8on0MrDQBPsqbLpNLk8emAhEIH9lNNKLouyAcBL2tWcR5bpAORdbOV4Y/6hdcucx8oNdB78ZirlpXzcnF8mrE/tDC01MPgQfLOgTCUVEFQjTBMyB2VS6KTCWHmi2LrFPIhcIIMoXi0xLrQloYP+sy1gm01rO0NtD/7BWIPnFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-56a9076813bso1841601e0c.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 02 Mar 2026 08:32:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772469143; x=1773073943;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=32KLibA2LnxuiBPJQhexbcq4h5vz7CZtFSoqgdy1YZE=;
+        b=u0mNOWEQ2jftFHeCv/H/58YcjOvT9tzjy6dKjVSvVH6W9eAcdhRsMB//C2rx/xXcMn
+         BJSstxkBt2TpWxL9sEfHBQvjAP2RUXcp0SeU8sVJ/hB8cfweoDXzEUKJN+ke/8+1r6PN
+         vHkiaD9t0+LiR0cqorwvKDFlVzF4zHhDzT6ZJ1Y01kqNeyPPEV5tyMeJFO+SOWnrTiZk
+         SVfQ1ArkqnY9GCjYoH1JE9PJQtR/N+VoQ4zW/tU54twyRQxrWhXUcEw+pOAEGCTGtP1X
+         m9SPFgP+cOYKHYNNkenNI9+Z3wj8DguI8SCEenv/s7qiUhx6hgnICtfvVIs0zb1heYKX
+         pyzw==
+X-Forwarded-Encrypted: i=1; AJvYcCXAeVcpbAebb723o040Mcof7acEXU3K/4hzJNdVavGeDJtltUhp2Poh6Pc9glZlvg2IvVyYAn+StBwUsg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwrHMkqVXhwBm6R3NZf6qXWEZuD80gBzEldW1zXbeloh6Oqe7eH
+	yBqd5Q3ur2tK2RrD5tSPQp94QykckJPfopDHsnFG6C9HLJo1faiwMz3bMMPhCiTh
+X-Gm-Gg: ATEYQzyqD9XNLgqy1bkZjzI2/YP2lC5a1udlaVkRbd3G8QktfPlpFluRXkLL81dVJOM
+	lotjaI+nB1VlwhvImI/MQ7s2b3ybbtXg7VRRO1Rbv4XloJKcQMJEtFPgjTSvrolLBitjhGxKlZF
+	SLSJfE1aXe9SyVZy8+RjaPOtkrkrIzOwhc+E7EKL17xKxeOwReOBOPh79tXvyQ7XcItEyP3L9aR
+	6TJwqrtF/TGRIwI+MWpyjL+ONjUQQ08p1WES2jO3MS/N5pUvzrk+aSItG+QN9S7Qpt1DWLw9g49
+	5w466deEh26VbbWvN4/09U/n1TRRH/hj+8zS/JiX3h0+0PyVyneYn5Ze60GMFxSBu0ZaWHtCYY1
+	KdA3wzylrae6Gw7LlgrfPi98RWjlnR9ppLqstSoaNi3iueE255qswAhwdiaWvhlzAzh8DqGOmru
+	fW8eifyDlAwymh6fsjKKSnw7+9vdvmp1XbH9Owru8Prd8HPG5PZisyOdqeOZny
+X-Received: by 2002:a05:6122:791:b0:563:4a88:6eb0 with SMTP id 71dfb90a1353d-56aa0a4fbf8mr5357520e0c.5.1772469142622;
+        Mon, 02 Mar 2026 08:32:22 -0800 (PST)
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56a920493f9sm16055321e0c.13.2026.03.02.08.32.21
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Mar 2026 08:32:22 -0800 (PST)
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-94dd687e040so1055778241.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 02 Mar 2026 08:32:21 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWIPG8zHYXganPxx+YcVPf2Izt5mfQC4THL72DDexJX40nh3XoxzgMay7Ks2fz12UbpSCsk5bO8/A58TQ==@lists.linux.dev
+X-Received: by 2002:a05:6102:a4c:b0:5ee:a1e5:6504 with SMTP id
+ ada2fe7eead31-5ff3257ef76mr5247593137.36.1772469141709; Mon, 02 Mar 2026
+ 08:32:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+References: <20260223-soc-of-root-v2-0-b45da45903c8@oss.qualcomm.com> <20260223-soc-of-root-v2-8-b45da45903c8@oss.qualcomm.com>
+In-Reply-To: <20260223-soc-of-root-v2-8-b45da45903c8@oss.qualcomm.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 2 Mar 2026 17:32:10 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX-rdzLhOFEJYBXzCYX5jH2E1=ydGWKgNkD0Nqx-tGr4Q@mail.gmail.com>
+X-Gm-Features: AaiRm53oB2X0Qg0vbG2fw10FsfcqVt_uYNXkS-NKRd6s-Lft2nvlJyc42VLB5T0
+Message-ID: <CAMuHMdX-rdzLhOFEJYBXzCYX5jH2E1=ydGWKgNkD0Nqx-tGr4Q@mail.gmail.com>
+Subject: Re: [PATCH v2 8/9] soc: renesas: don't access of_root directly
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Frank Li <Frank.Li@nxp.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
+	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, driver-core@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Friday, 27 February 2026 14:59:58 Central European Standard Time Maxime Ripard wrote:
-> The hdmi_colorspace enum was defined to represent the colorspace value
-> of the HDMI infoframes. It was later used by some HDMI drivers to
-> express the output format they should be setting up.
-> 
-> During the introduction of the HDMI helpers, it then was used to
-> represent it in the drm_connector_hdmi_state structure.
-> 
-> However, it's always been somewhat redundant with the DRM_COLOR_FORMAT_*
-> defines, and now with the drm_output_color_format enum. Let's
-> consolidate around drm_output_color_format in drm_connector_hdmi_state
-> to facilitate the current effort to provide a global output format
-> selection mechanism.
-> 
-> Acked-by: Jani Nikula <jani.nikula@intel.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/gpu/drm/bridge/inno-hdmi.c                 |   6 +-
->  drivers/gpu/drm/bridge/ite-it6263.c                |   2 +-
->  drivers/gpu/drm/display/drm_bridge_connector.c     |   4 +-
->  drivers/gpu/drm/display/drm_hdmi_helper.c          |   7 +-
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  52 ++++--
->  drivers/gpu/drm/drm_bridge.c                       |   2 +-
->  drivers/gpu/drm/drm_connector.c                    |  14 +-
->  drivers/gpu/drm/mediatek/mtk_hdmi_v2.c             |   8 +-
->  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   2 +-
->  drivers/gpu/drm/tests/drm_connector_test.c         |  80 ++++-----
->  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 182 ++++++++++-----------
->  drivers/gpu/drm/vc4/vc4_hdmi.c                     |  18 +-
->  drivers/gpu/drm/vc4/vc4_hdmi.h                     |   2 +-
->  include/drm/bridge/dw_hdmi_qp.h                    |   2 +-
->  include/drm/display/drm_hdmi_helper.h              |   3 +-
->  include/drm/drm_connector.h                        |   7 +-
->  16 files changed, 208 insertions(+), 183 deletions(-)
-> 
-> [... snip ...]
-> diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-> index f686aa5c0ed9b84dbe5e0957df22d08aff2f1945..39cc18f78eda11ba35954f75315f646c0cb0d8e6 100644
-> --- a/drivers/gpu/drm/display/drm_bridge_connector.c
-> +++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-> @@ -787,11 +787,11 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
->  {
->  	struct drm_bridge_connector *bridge_connector;
->  	struct drm_connector *connector;
->  	struct i2c_adapter *ddc = NULL;
->  	struct drm_bridge *panel_bridge __free(drm_bridge_put) = NULL;
-> -	unsigned int supported_formats = BIT(HDMI_COLORSPACE_RGB);
-> +	unsigned int supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444);
->  	unsigned int max_bpc = 8;
->  	bool support_hdcp = false;
->  	int connector_type;
->  	int ret;
+Hi Bartosz,
 
-Just noticed that we definitely also need to adjust the comment in
-drm_bridge.h for drm_bridge::supported_formats. It still claims
-it's a bitfield of HDMI_COLORSPACE_* values, but in this function,
-gets assigned DRM_OUTPUT_COLOR_FORMAT values now.
+On Mon, 23 Feb 2026 at 14:38, Bartosz Golaszewski
+<bartosz.golaszewski@oss.qualcomm.com> wrote:
+> Don't access of_root directly as it reduces the build test coverage for
+> this driver with COMPILE_TEST=y and OF=n. Use existing helper functions
+> to retrieve the relevant information.
+>
+> Suggested-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-Kind regards,
-Nicolas Frattaroli
+> --- a/drivers/soc/renesas/renesas-soc.c
+> +++ b/drivers/soc/renesas/renesas-soc.c
 
->  
-> @@ -958,11 +958,11 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
->  	if (connector_type == DRM_MODE_CONNECTOR_Unknown)
->  		return ERR_PTR(-EINVAL);
->  
->  	if (bridge_connector->bridge_hdmi) {
->  		if (!connector->ycbcr_420_allowed)
-> -			supported_formats &= ~BIT(HDMI_COLORSPACE_YUV420);
-> +			supported_formats &= ~BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420);
->  
->  		bridge_connector->hdmi_funcs = drm_bridge_connector_hdmi_funcs;
->  
->  		if (bridge_connector->bridge_hdmi->ops & DRM_BRIDGE_OP_HDMI_AUDIO)
->  			bridge_connector->hdmi_funcs.audio =
-> [... snip ...]
+> @@ -468,7 +469,11 @@ static int __init renesas_soc_init(void)
+>         const char *soc_id;
+>         int ret;
+>
+> -       match = of_match_node(renesas_socs, of_root);
+> +       struct device_node *root __free(device_node) = of_find_node_by_path("/");
+> +       if (!root)
+> +               return -ENOENT;
+> +
+> +       match = of_match_node(renesas_socs, root);
+>         if (!match)
+>                 return -ENODEV;
+>
+
+I still find it silly to add a call to of_find_node_by_path().
+In your reply to my comment on v1, you said you don't want to add
+another helper.
+
+Currently we have two helpers in this area:
+  1. of_machine_device_match(), which returns bool, and tells if a
+     match is available,
+  2. of_machine_get_match_data(), which returns the match data, if a
+     match is available.
+But there is no helper to return the actual match?
+of_machine_device_match() would be fine, if it wouldn't cast the result
+to bool...
+
+As there is no cost (binary size-wise) in having the helper that returns
+the match, too, I have sent a series[1] to do that. The last patch[2]
+is an alternative to this patch, avoiding the need to add a call to
+of_find_node_by_path().
+
+[1] "[PATCH 0/7] of: Add and use of_machine_get_match() helper"
+    https://lore.kernel.org/cover.1772468323.git.geert+renesas@glider.be
+[2] "[PATCH 7/7] soc: renesas: Convert to of_machine_get_match()"
+    https://lore.kernel.org/10876b30a8bdb7d1cfcc2f23fb859f2ffea335fe.1772468323.git.geert+renesas@glider.be
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
