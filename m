@@ -1,205 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF932313550
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Mar 2026 18:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A88537DEBC
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 Mar 2026 04:08:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772474604; cv=none; b=sEsWShXxOLo62VrIQfARqI+BrQsLDfW3UGSw3yADM5xNs8+dTfcFjWpAAIPXKWwW0NjkqB9x0cGeyVEO9zv33+huv9ZsWiek14skqvp0I1xTI/2D7RsdI7XY46gBGpSSEc77YuVINq/i5P6ekLGTjVd0KNl0W8bFVxU1JVHBGjY=
+	t=1772510896; cv=none; b=E8rLnv9khCYuAGVQaMwJiclT5u1le9yBMAzHPNHsD+pgnOruwafhNXCCpeVlhNVSdlSXTrLQ2a0ZF2jFA3Xew0i2t8hqaW/TG93pQvh56mot838E/2vLlczGZgFd6zwjj2VWmJ78pViH1yZy2pDtT0NjmPHyv/PZaVL25OzywZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772474604; c=relaxed/simple;
-	bh=KYTmWdCkzi4ZeFomh2vR1ikSgEuPoY2tyFbdDD9n6fM=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GJ8XeotqTtgn2nedvFV5vUewAOp+j2kxN2f/u6frz7dBUCg4jC2wv3lUEfkJsPYbfikXF0NKcyVthuq6Wf/N6dIeMe+23b4MEL8cnM1G5YG1+WdkfSY6J5MGdoRyiG0yI8avvryNn8cfKg48E4oYILZuPxqxXY3mxjPEr6fl8Xs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GZSp+ocW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772510896; c=relaxed/simple;
+	bh=XR7tI6mgjCUBq1mVAVYHHMgAe2A7qGWTwipNtUinZpU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HGrmtME8xgzw1OJ/GtvP1mZyGXtBYp3pKrDvVBFJ9ABhSDem4zgKGCJjsAKE9i3j6TfjhUe/2EPJeXBKxqke7OtGT33fcj7CUp4K5eG0/V40+izcuBwoADHTmEvRvwo7FfFqf096hhVCMlkhHJV7TpgbmoUcz6gROUHYPLOtZpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H695oyTO; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GZSp+ocW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47DADC2BCB1
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Mar 2026 18:03:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772474604;
-	bh=KYTmWdCkzi4ZeFomh2vR1ikSgEuPoY2tyFbdDD9n6fM=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=GZSp+ocWQ0JzyJE/JKAbIQ6d9V4nscmY9HENIiTRDNhYqf32RPTvvrOXBOJ/rL0Au
-	 V0tq+1aXJpu9Tahvb4BZa9epjIAuurII8ahGS4+PQN9O8AeAWWb0ARzlgXgEJ45/Ze
-	 Zt3H+h6G2PN/tqW2wZZfBoNdZ5bXg7HRzH2H13BDooK5AyanDQdvmAM3lQenE5dNW4
-	 qHVik3vP/B99mJhk2P2t5lJVy9c14Ob1RYwtxgEryndkIMzru+Q+T2Xn36vdypiX5I
-	 0XJEREvvNi3qMd2jTQUKbxkTY/cDkpsScHevNphkemsDIHE18rLO8ZcF02sB8vl6Dv
-	 VA3j58+5tRJXA==
-Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-1270ac5d3efso4561267c88.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 02 Mar 2026 10:03:24 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUHIb0fCHB+lu9GttApOibIg2GFuGwzSY6EAte/niQD+xxByCDl2lopUIsyzJE7j3xYd5+Of/j1Voa9SQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyELpSrUmmWmh6RtAgrGGEWs3WHI17Loed9Vrl1q3d+aDZ5CCnH
-	ItOE1sostTXKrqTbdwBYotmJ7Vs9FwBn+rOELoK6JT5AoiZz6a2LwOkiWYrwIWUFTSXn0sKi8j1
-	uTUrFZWIScx2M5w7rTCGG+d9Mmku0wAz2Ecn1aABfzA==
-X-Received: by 2002:a05:7022:6624:b0:11b:b3a1:714a with SMTP id
- a92af1059eb24-1278fb78dd9mr4239860c88.12.1772474603495; Mon, 02 Mar 2026
- 10:03:23 -0800 (PST)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 2 Mar 2026 12:03:19 -0600
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 2 Mar 2026 12:03:19 -0600
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <aaHI_VavZugXjVoL@hovoldconsulting.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H695oyTO"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-483770e0b25so44179875e9.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 02 Mar 2026 20:08:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772510893; x=1773115693; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XR7tI6mgjCUBq1mVAVYHHMgAe2A7qGWTwipNtUinZpU=;
+        b=H695oyTO3rjOLen9I6Cfwbcu+lkv8Z4KhNZzyjt/v4bfE5L39BRhd3Im5xat6qeuLC
+         av7s+wFEYr7VhKKC0L0RyztMp9+LPCqqM3tyusgidQkpfpj5Ki3j+hyw2Wp7wG9TgSH4
+         ZUNtM2s13MkNJUPWH6BK+lRnnZOhimmWQ0Vf2QMCaD7OIz4zBlpVB0qlW/i/PIn/oRWr
+         UcvXy5P9orl/8EuVl/EmCpe4ONrYRCMm5g36vRs1gMnV8AUVXAPJ1CyFU7cn1jihTYmW
+         cD4x0+6NpRvHhylgI0pk8eZBDZS10kAbsffQfXyhbR3FJTMF+Sc712/DR05JFJvbg3lw
+         JXGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772510893; x=1773115693;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=XR7tI6mgjCUBq1mVAVYHHMgAe2A7qGWTwipNtUinZpU=;
+        b=jOUk7+j4O8T0aa8Gi8FYhPDtsES0YkWcmEy7Y7XlTROnWnzwSIyaqifcqKhBI6xttH
+         +CiFZbCXsElb1MPdsDcrKc/xY1f5xQpox9lUjkO/U5uU751MDpBJA5G1HNKjcXcJzQuJ
+         iZURlMmiMbKLCgcnho39Cyi8BQxWiuw7xeIl88xKSNWC1TGuFeVbYQMuatFqvSThX/vU
+         ihVy1Bfm9KNLTDnmyyJ+fHl5ip+eqabNt+5E7RCBHf+4mWv6tOv+4Gaw+WXjeZLqJbnd
+         us7VkGTs09cVMGTbBFLnnhM5Se6/+oVwBEQUhW0Iby14KK6rPteJkaQN2YD5TrldudNX
+         zwEg==
+X-Forwarded-Encrypted: i=1; AJvYcCUTS7OefSJ0wrviyXvPyXI1fO8UOum8ws0H5F9j6qAGOe0a8hMfK2LPGc0IzSa5DUk+4cjcxH+gElkZ1Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxYLZ1zt7NfyTRRxq/05sRndol8d+p9uuH9tRbZ2CYaRUfQ6PQF
+	G4BxgmXFPPk2AUd3Hac+WwJtKYm6v/Hu3icYogdqnWQIbzRMRcWf06xw
+X-Gm-Gg: ATEYQzzxShzuG1jt6dWZiWPnwDRfAcKD328cMlyWftLHj3JG9GZkY6aMmLoJE13dLZB
+	52yypwu9xBp3PHw5jCqRCIvOChpGZDvtt+7jZjdfxZotYD314t0uLgFGTi/C2wA6ligaLu7MjnS
+	UvHYUe2lBCdldNDudx6emrVhVPItgSdTT2ZSI7TYrgzppFpWjguQrb7007eb0y6eNy2W39h908e
+	bCTNZitdFV2e9O2P2YlIHlP6ZOyAapE4vArob+nxoMMoixWMEDx7emdyQQj8+hrhjYWylQEGCp2
+	XMoOfU9iG6EicnEIGzS7Cb3afeR76Gt1EiUCp7McjvBnQkniFkhqF6fuSU6Yo+hj3ri3E6Csdzk
+	SvHcV6mQ0TrXTbdTu8BTBdD3l/2ait3k1ZJbVguYXwlI4WyKB5hO4V7p2Brtsj8l0gu6ENKD4K+
+	7yn/Gtg6juRMWpsCvG4jCN3FFKiwLNjzwxo73GaOlbOvOq2EGKXN85DB3OONUau4vsxw4DyZUoQ
+	WrTLngO
+X-Received: by 2002:a05:600c:1d0e:b0:480:3bba:1cac with SMTP id 5b1f17b1804b1-483c9bc55c0mr234488635e9.6.1772510893358;
+        Mon, 02 Mar 2026 20:08:13 -0800 (PST)
+Received: from jernej-laptop.localnet (86-58-126-118.dynamic.telemach.net. [86.58.126.118])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd70e6c9sm393590355e9.8.2026.03.02.20.08.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Mar 2026 20:08:12 -0800 (PST)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Andrey Skvortsov <andrej.skvortzov@gmail.com>
+Cc: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+Subject: Re: [PATCH] bus: sunxi-rsb: Always check register address validity
+Date: Mon, 02 Mar 2026 19:43:07 +0100
+Message-ID: <5969539.DvuYhMxLoT@jernej-laptop>
+In-Reply-To: <20260301144939.1832806-1-andrej.skvortzov@gmail.com>
+References: <20260301144939.1832806-1-andrej.skvortzov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260223-i2c-printk-helpers-v2-0-13b2a97762af@oss.qualcomm.com>
- <aaFcs1miP88QWmtH@hovoldconsulting.com> <aaFfEsfh0xTh0b1y@shikoro>
- <aaFsZbiLYSz_YEjw@hovoldconsulting.com> <CAMRc=MfcvD1nJy=zpoCkSkJq6WjyXQxFUZ4QE6vyCS+XFCn5AA@mail.gmail.com>
- <aaHI_VavZugXjVoL@hovoldconsulting.com>
-Date: Mon, 2 Mar 2026 12:03:19 -0600
-X-Gmail-Original-Message-ID: <CAMRc=MdKF29McBJ9U=qELkzf9GYV1CQpRF7U6OweDNtVzMXo7A@mail.gmail.com>
-X-Gm-Features: AaiRm5300NChK-leJ7j5rh6yPxkWOdKqgHQ-hP_JtNKBqi3Lo4LpSjP98XQOjgM
-Message-ID: <CAMRc=MdKF29McBJ9U=qELkzf9GYV1CQpRF7U6OweDNtVzMXo7A@mail.gmail.com>
-Subject: Re: [PATCH v2 00/13] i2c: add and start using i2c_adapter-specific
- printk helpers
-To: Johan Hovold <johan@kernel.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Andi Shyti <andi.shyti@kernel.org>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Khalil Blaiech <kblaiech@nvidia.com>, 
-	Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-i2c@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	linux-actions@lists.infradead.org, linux-media@vger.kernel.org, 
-	Bartosz Golaszewski <brgl@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Fri, Feb 27, 2026 at 5:41=E2=80=AFPM Johan Hovold <johan@kernel.org> wro=
-te:
->
-> On Fri, Feb 27, 2026 at 04:42:09PM +0100, Bartosz Golaszewski wrote:
-> > On Fri, Feb 27, 2026 at 11:06=E2=80=AFAM Johan Hovold <johan@kernel.org=
-> wrote:
->
-> > > It seems all that is needed is to decouple the struct i2c_adapter fro=
-m
-> > > the driver data and have core manage the lifetime of the former using
-> > > the reference count of the embedded struct device.
->
-> > This is a weird pattern you sometimes see where a driver allocates
-> > something and passes the ownership to the subsystem.
->
-> It's not weird at all, this is the standard way to handle this. We have
-> these things called reference counts for a reason.
->
+Dne nedelja, 1. marec 2026 ob 15:49:39 Srednjeevropski standardni =C4=8Das =
+je Andrey Skvortsov napisal(a):
+> From: Samuel Holland <samuel@sholland.org>
+>=20
+> The register address was already validated for read operations in
+> regmap_sunxi_rsb_reg_read before being truncated to a u8. Write operations
+> have the same set of possible addresses, and the address is being truncat=
+ed
+> from u32 to u8 here as well, so the same check is needed.
+>=20
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
 
-I wouldn't say it's *the* standard way. There are at least several differen=
-t
-ways driver subsystems handle resource ownership. And even so: the fact tha=
-t
-something's done a lot does not make it automatically correct.
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-> > This often
-> > causes confusion among driver authors, who logically assume that if
-> > you allocate something, you are responsible for freeing it.Since this
-> > is C and not Rust (where such things are tracked by the compiler), I
-> > strongly believe we should strive to keep ownership consistent: the
-> > driver should free resources it allocated within the bounds of the
-> > lifetime of the device it controls. The subsystem should manage the
-> > data it allocated - in this case the i2c adapter struct device.
->
-> Drivers are responsible for dropping *their* reference, it doesn't mean
-> that the resource is necessarily freed immediately as someone else may
-> be holding a reference. Anyone surprised by this should not be doing
-> kernel development.
->
+Best regards,
+Jernej
 
-I disagree. For some reason, you're defending a suboptimal programming
-interface. I'm all for reference counting but mixing reference-counted data
-with non-counted is simply not a good idea. An API should be easy to use an=
-d
-hard to misuse. Given the amount of issues, this approach is definitely eas=
-y
-to misuse.
 
-I'm advocating for a hard split between the subsystem data (reference-count=
-ed)
-and driver data (living from probe() until remove()). A logical struct devi=
-ce
-managed entirely by the subsystem should live in a separate structure than
-driver data and be allocated - and freed - by the subsystem module.
-
-Let's put aside kernel code for a minute and work with an abstract C exampl=
-e,
-where the equivalent of what you're proposing would look like this:
-
-struct bar {
-	struct foo foo;
-	...
-};
-
-struct bar *bar =3D malloc(sizeof(*bar));
-
-ret =3D foo_register(&bar->foo);
-
-And the corresponding free() lives who knows where because foo_register()
-automagically introduces reference counting (nevermind the need to calculat=
-e
-where bar is in relations to foo).
-
-I strongly believe that this makes more sense:
-
-struct bar {
-	...
-};
-
-struct bar *bar =3D malloc();
-
-struct foo *foo =3D foo_register(bar);
-
-// foo is reference counted and allocated in the provider of foo_register()
-
-foo_put(foo);
-free(bar);
-
-The equivalent of which is moving struct device out of struct i2c_adapter.
-In fact: I would love to see i2c_adapter become a truly reference-counted
-object detached from driver data but due to it being embedded in every bus
-driver data structure it realistically won't happen.
-
-> > I know there are a lot of places where this is done in the kernel but
-> > let's not introduce new ones. This is a bad pattern.
->
-> No, it's not. It's literally the standard way of doing this.
->
-> > But even if you decided this is the way to go, I fail to see how it
-> > would be easier than what I'm trying to do. You would have to modify
-> > *all* I2C bus drivers as opposed to only modifying those that access
-> > the underlying struct device. Or am I missing something?
->
-> Yes, you have to update the allocation and replace container_of() with
-> dev_get_drvdata() but it's a straight-forward transformation that brings
-> the i2c subsystem more in line with the driver model (unlike whatever it
-> is you're trying to do).
->
-
-No, it's not that simple. The .release() callback of struct device embedded
-in struct i2c_adapter is assigned from the bus type and only calls complete=
-()
-(yeah, I too don't think it looks right, one would expect to see the associ=
-ated
-kfree() here, right?). It relies on the bus driver freeing the data in its
-remove() path. That's why we wait until all references to said struct devic=
-e
-are dropped. After your proposed change, if your new release() lives in the
-driver module, it must not be removed until all the references are dropped
-- basically where we are now. If on the other hand, the release() callback'=
-s
-functionality is moved into i2c-core, how would you handle the fact i2c_ada=
-pter
-can be embedded in a larger driver data structure? Provide yet another call=
-back
-in i2c_adapter called from the device's .release()? Sure, can be done but I
-doubt it's a better solution.
-
-Bartosz
