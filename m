@@ -1,193 +1,191 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32BB8376BDE
-	for <linux-sunxi@lists.linux.dev>; Wed,  4 Mar 2026 03:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABB7734D907
+	for <linux-sunxi@lists.linux.dev>; Wed,  4 Mar 2026 07:25:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772595853; cv=none; b=X+aXyZ9zVObPN9v50H0fIL/H/xrnQfNFZlb2Nq7cJ7G7/hYhI1eHGonwDTZ8EZFGEvakJ/lWkuLd7BBlBHbunRV0hIaSoYZ9iP6C/2y141kExcw3QD7STLze81k/DAG1jaVNga8Hd5wOlbHu3JivuewOff1zDnohK80heW/JzOo=
+	t=1772609153; cv=none; b=Y0LvrNVG5VrDoyjSHghntpNzzVZGkowwHvb4iR+SuCeP6K7pXmV+6orWR7Efk2NssiIwRKiahbZnt7Gsmz71hEiB5mxWAuvavj2iGZGpKPVjHt7PoPRnouSQiFQQpv8zLw0PJuqF5ipR1QqsmjO1i0MzAh3L6jwBrLE6rYlsrvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772595853; c=relaxed/simple;
-	bh=V3nE+XT6gJM1djPOVmmoXLkSIGNlRHxcehnXAsYeJSw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cfVBAp+bvslhlURpIHAqNCo7noD/o0ReURLeY/WoVOj3Z4Qjb7cTKegLYypBuNRl/2Cn/37aeZs6rN4U6/fvReKUcjfgY8gvC6vqRdWDSO4q47KrTo3HyqTsr8Xee1pi2XFAD5qd/T6neCk5WNYFgi/6tSu8MTG1p6wBNNSr68U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cYVgsuDb; arc=none smtp.client-ip=209.85.160.178
+	s=arc-20240116; t=1772609153; c=relaxed/simple;
+	bh=u2dqIwEcqB7gZGhAjpnE89HllIsn+qZmeaKPFJf4eC8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fYLKXzDlHgLOd+/hFTROokV8hguRgpiQ5osBkOqfdrXfRSrs/2jEYk3meOY/oakFGSkP2MRbFsVsZfijhCbHxlU3NjfplxBwXhQv9N09dxjMZbmY6WdyHiP7I+OkewqvVjxTrJ4L+WxT9n4EzUMrBSsQ5OELOGC+VrbCvjPgmr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MFdofMGV; arc=none smtp.client-ip=74.125.82.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cYVgsuDb"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-5033387c80aso91556651cf.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 03 Mar 2026 19:44:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MFdofMGV"
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2ba895adfeaso5753492eec.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 03 Mar 2026 23:25:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772595851; x=1773200651; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZmZUdiZZg0fCj/2i+g2j9xmvk9n9CjWeVFiVPCHQNYY=;
-        b=cYVgsuDbQVBdxxs7t8G0BmdFOi+OouN9UXGzghza+47AjqTRaBYVfwZjxmLqDWcKUs
-         tjaCc1bhy5oMnpRGkNrL1M1T2DYnsaKTPK6PjRtBXnSq0U03WRgpGK3WGySWWk9rn7P5
-         WZiNMpJFLVN2YDcwut5VQmortMtY7mTduv7aufEeKIhgU/nGaWQeiRPjaoHqsVV/iH92
-         4yezGlXRfA9iIvEyUfJL2vXoz9miXytT+dzMLNX79kk49CqLWRLKw/GwTRfs1d5vnHc8
-         eyvsHcqyJ12YwOGsi82Srbk6lmRRWSGSEgfE31F50EJIzm4V5a/nJofF2FTgZ5fvRw8i
-         6nnw==
+        d=gmail.com; s=20230601; t=1772609151; x=1773213951; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2Xjt8bJH/L3RjqSPLVXpTgggvkPMU8B0IuZLjfddvGU=;
+        b=MFdofMGVNQKYGs75Fm9gyziFDxDtZ6uJm/DNQkx/iZUMJPVKr2ptVa1dB4CmHTnJjH
+         2BnQbqZapaMVKcBYuOYquNcGr9C6lGJhabGjdRCYu7lfgfJaXpT5EO19/G97EQ//Ejxa
+         9MLlXLoePb5yEQDONz2kEr4bl0sWTQKhjlP0xW0Colmr0dbzc3ZlYguqI4wKH4turi+v
+         R5mNlhtTJGtUJF1k4d5kEHclSIKwvcePs48YJ8vHlg7VoAYipI+d8n34+Sr+4tiSnczs
+         QRE6qeK3rMkquzJP1+58RUusplksu9x0CZ33r/PkTIofvRb8vtiPyvFOKgOUu/MsrHCl
+         AlZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772595851; x=1773200651;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ZmZUdiZZg0fCj/2i+g2j9xmvk9n9CjWeVFiVPCHQNYY=;
-        b=cBH1JN3LV0OIPEyV2IzoNNUp9yUOA5aspNzPReQ14Jv9nzQQci6TmwrO4e8yTmd0nY
-         mKijCBO6jAudsTZeTEOKkblBsZJT5Eo9pemM/wIxrNVdQ5lBMUkGmKJv3wmUXbm9bX1D
-         k9k2h9ml3g9OkvdPMRcpAZOZo5iC/P9ZACkYtei1gipqIklMy7FTcEpn4lnl2mVUcgus
-         wgiwHs94ukP0TcJ3ISkgSf5gri2KFvRop/vkMy8n5pLUbiFrdUd7jFkpuYOeUki8zB8t
-         AdeqFs60s6lCdIzzMbOHfNsq/2FYTytu1gESIQCramFvGYMTVkRW0lKUXvwlQSS0ep0S
-         kQgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWNhNQYwp67kQF0hRJpUCy/J9eae0xofu7pzwPamPEAslX7k/NKOfUYmvlE8CGgrEi6gUF9KIGxdIsREA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzydoin4x+b5nmHo/5JCjYcgDmInEjTrnlshaGmGrVH+GZbN8mK
-	loVD00J9YFeFw/eMKVYVnUAJQVlMD69Q4NFAZcvByBGf21DwafCDBYbR
-X-Gm-Gg: ATEYQzzWtiHxXTNgm+pYDhUGzytP37yQEkB9WMhFUFPX+47cerlgeUX2JDgtXK8BU/I
-	oLYUqz8dBH3EPI9gW17jYhreZKS1NbX6xtgAIwsyftuotewxC4XwvwM4lJA56R/sPjeq2A58j5y
-	wxzd+fZ+vMe6Fq43CZNfD65KJOw5nf4NO2/cv9hZVu4b4i4SEhgLa1osSS7nXBPSq4Krvzcq/gN
-	SvI0SUtw7Toji7Ei58JwE+EiE+0XU3+a/Fk79cscmL/kMb8nGhS6oWbqCBwqX3G4ShAAf/mFtQz
-	3GyuAOSreDJ49e6ALLl20IqEkPs9YcscCLTtnFkN31JNU3Q/xZ9kBBr+LduOYmyA9Ryllwisa1i
-	BX1f4CkL0nTcKTP4GHsi1twsAi9rLKKMOn1rhjYItApkFBh/lxWcCczuVfoWpL+7EFYwLQ13y1g
-	ehprbNe5T6wBU0ndvh+mupyI+Mpog=
-X-Received: by 2002:a05:622a:1490:b0:501:4b9d:ad19 with SMTP id d75a77b69052e-508cea9b44fmr52007601cf.22.1772595851140;
-        Tue, 03 Mar 2026 19:44:11 -0800 (PST)
-Received: from [172.17.0.2] ([134.128.219.200])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-899e608cfc6sm88603286d6.14.2026.03.03.19.44.10
+        d=1e100.net; s=20230601; t=1772609151; x=1773213951;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=2Xjt8bJH/L3RjqSPLVXpTgggvkPMU8B0IuZLjfddvGU=;
+        b=OzimQ7inBjj1eLshMgwXAA2YMA+8MbnNyEUUc6r7rgdPhCVILa3ZanZNAiy4C0cFNn
+         EfpOcPwB/rDTmkt5ldbM0b5wzaCR8OccWL/eAX7PmaylIWLRss84gPPnJhFRJVp+SQty
+         CGj7Lv06J09fy5Bm6Igk+eFDpByjNaTyIkLK4ILuNg8S8ynoEkjGBKsnR/CR4r1yUvvN
+         UOA2ic7XYMN3LxH6DMat1RriSFzuRvwYe2oxhyPTyTDa+lYGCmWceXDks6UpKdjPIG8E
+         N0y+q/8js98QSeffPhmQplwnfPcJDcvKuFB5iZWY26YyFGrwv8JbJmazjsJLbo5ZKMM0
+         ET+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUdvbhF6yRPoPDlwf2j2bXdNPYyiECK62H/hlI8CQTwQwOh7BzuYVIA5NagxftmSGRK1bUBfFxxI41v+A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyioHLSAvMwjHNIKlVwRDFPLiYZu/P++gIe/hz/knb4vp9URm6c
+	kiQNCK3S8q1EAOi0Gq4F6o+Ke4y54J3azf0yMB38ayCQbWzWPcUlAuCh
+X-Gm-Gg: ATEYQzz9gMOR67MteHYD3hVSMNlMpK6/0MQcDkdG830o23Y/4pshnGCN2O5lR6zFrjY
+	Faoxy6QkuFzv4+AQKZUv0oA/shcna0syn72gIXdnpUuxZCAWHqBENaVrGwGYFgheqDp6l02fHPH
+	8zJ2H4G//Bq8oDnniNDLtuGUtWwk8+obXYSXap7CZhpNUsOOmf+tnVYU4boq3mnz54yHRG09SEA
+	gV1sQhDuqMUBWMHG/t/X0v3jf/AJA/54lh3NjfU2FEEWN4wbPjzym4RR5ectguwAdTDdTkFyvTq
+	EjtapURH8lXv2qMIFHQiYp6O17EI/+IsK/x+c86ya8ydqDtMoUG4e/MIfcZYi2w8x0nUdf7VlEk
+	tdmNQXl/45gFwF/ISPekvAWb32cEvrq4e3sy3vKDGWvmVAbpySN2t27l3hmynTYuovduz3ekKCk
+	a1CyNOdU3sFNuRsPE7ShGK3r3XdE88ZcQ=
+X-Received: by 2002:a05:7300:72d1:b0:2ae:5e93:b69 with SMTP id 5a478bee46e88-2be310904acmr459054eec.29.1772609150602;
+        Tue, 03 Mar 2026 23:25:50 -0800 (PST)
+Received: from arch.localdomain ([2409:8a28:a55:9af1::1002])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be249ed6a4sm2548374eec.11.2026.03.03.23.25.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2026 19:44:10 -0800 (PST)
-From: Yuanshen Cao <alex.caoys@gmail.com>
-Date: Wed, 04 Mar 2026 03:43:45 +0000
-Subject: [PATCH 2/2] pmdomain: sunxi: Add support for A733 to Allwinner
- PCK600 driver
+        Tue, 03 Mar 2026 23:25:50 -0800 (PST)
+From: Jun Yan <jerrysteve1101@gmail.com>
+To: jernej.skrabec@gmail.com
+Cc: andre.przywara@arm.com,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	jerrysteve1101@gmail.com,
+	krzk+dt@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	mripard@kernel.org,
+	robh@kernel.org,
+	samuel@sholland.org,
+	wens@kernel.org
+Subject: Re: [PATCH v3 3/3] arm64: dts: allwinner: h6: Add TaiqiCat (TQC) A01 support
+Date: Wed,  4 Mar 2026 15:25:43 +0800
+Message-ID: <20260304072543.436707-1-jerrysteve1101@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <5969847.DvuYhMxLoT@jernej-laptop>
+References: <5969847.DvuYhMxLoT@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260304-b4-pck600-a733-v1-2-2f54efdb8cc2@gmail.com>
-References: <20260304-b4-pck600-a733-v1-0-2f54efdb8cc2@gmail.com>
-In-Reply-To: <20260304-b4-pck600-a733-v1-0-2f54efdb8cc2@gmail.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Ulf Hansson <ulf.hansson@linaro.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-pm@vger.kernel.org, Yuanshen Cao <alex.caoys@gmail.com>
-X-Mailer: b4 0.14.3
+Content-Transfer-Encoding: 8bit
 
-The Allwinner A733 PCK600, similar to A523 PCK600, is likely a
-customized version of ARM PCK-600 power controller. It shares
-the same BSP driver with A523. According to the BSP provided
-by Radxa, unlike A523, it doesn't require reset.
+> Dne ponedeljek, 2. marec 2026 ob 03:09:56 Srednjeevropski standardni =C4=8D=
+> as je Jun Yan napisal(a):
+> > TaiqiCat (TQC) A01 is a set-top box powered by an Allwinner H6 SoC,
+> > equipped with an AXP305 PMIC, 1GB LPDDR3 RAM, 8GB eMMC, an AP6212
+> > WiFi/BT combo module, one 100M Ethernet port, one USB 3.0 Type-A port,
+> > one USB 2.0 Type-A port, one Micro USB port, HDMI, SPDIF, Micro-SD, and
+> > infrared input.
+> >=20
+> > It was released by Ultrapower(UQSoft) as a blockchain-based terminal and =
+> is
+> > now discontinued and no longer supported.
+> >=20
+> >   https://web.archive.org/web/20190409213228/https://tq.ultrapower.com.cn=
+> /product.html
+> >=20
+> > Hardware schematics are not available at this time; however, the
+> > dts from the vendor firmware is provided for reference [1].
+> >=20
+> > Based on the PCB silkscreen marking "AZW-KT02 2.0", the ODM/OEM
+> > can be confirmed as AZW, and the overall hardware circuit design
+> > is highly similar to the Beelink GS1.
+> >=20
+> > Tested, works:
+> > - debug UART
+> > - status LED
+> > - USB 3.0 Type-A port
+> > - USB 2.0 Type-A port
+> > - Micro USB port (Host)
+> > - MicroSD
+> > - eMMC
+> > - WiFi/Bluetooth
+> > - HDMI video output
+> >=20
+> > Does not work:
+> > - Ethernet (requires AC200 MFD/EPHY driver)
+> > - HDMI audio
+> >=20
+> > Untested:
+> > - SPDIF
+> > - IR receiver
+> >=20
+> > [1] https://archive.org/download/tqc-a01-stock-fw/tqc-a01-stock-fw.dts
+> >=20
+> > Signed-off-by: Jun Yan <jerrysteve1101@gmail.com>
+> > Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+> >  .../dts/allwinner/sun50i-h6-taiqicat-a01.dts  | 361 ++++++++++++++++++
+> >  2 files changed, 362 insertions(+)
+> >  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h6-taiqicat-a01.=
+> dts
+> >=20
+> > diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts=
+> /allwinner/Makefile
+> > index 2edfa7bf4ab3..d116864b6c2b 100644
+> > --- a/arch/arm64/boot/dts/allwinner/Makefile
+> > +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> > @@ -38,6 +38,7 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-orangepi-lite2.=
+> dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-orangepi-one-plus.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-pine-h64.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-pine-h64-model-b.dtb
+> > +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-taiqicat-a01.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-tanix-tx6.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-tanix-tx6-mini.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h313-tanix-tx1.dtb
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-taiqicat-a01.dts b/a=
+> rch/arm64/boot/dts/allwinner/sun50i-h6-taiqicat-a01.dts
+> > new file mode 100644
+> > index 000000000000..3138292abb45
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-taiqicat-a01.dts
+> > @@ -0,0 +1,361 @@
+> > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> > +// Copyright (C) 2026 Jun Yan <jerrysteve1101@gmail.com>
+> > +
+> > +/dts-v1/;
+> > +
+> > +#include "sun50i-h6.dtsi"
+> > +#include "sun50i-h6-cpu-opp.dtsi"
+> > +#include "sun50i-h6-gpu-opp.dtsi"
+> > +
+> > +#include <dt-bindings/gpio/gpio.h>
+> > +
+> > +/ {
+> > +	model =3D "TaiqiCat (TQC) A01";
+> > +	compatible =3D "ultrapower,taiqicat-a01", "allwinner,sun50i-h6";
+> > +
+> > +	aliases {
+> > +		ethernet0 =3D &sdio_wifi;
+> 
+> Wifi has alias ethernet1 on H6.
 
-Make reset optional in the sunxi pck600 driver and add support
-for A733.
+Acknowledged. This will be fixed in PATCH V4.
 
-Signed-off-by: Yuanshen Cao <alex.caoys@gmail.com>
----
- drivers/pmdomain/sunxi/sun55i-pck600.c | 53 ++++++++++++++++++++++++++++++----
- 1 file changed, 48 insertions(+), 5 deletions(-)
+> 
+> Other that that, it looks good. With that fixed:
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> 
+> Best regards,
+> Jernej
 
-diff --git a/drivers/pmdomain/sunxi/sun55i-pck600.c b/drivers/pmdomain/sunxi/sun55i-pck600.c
-index c7ab51514531..8f9fdc3915bd 100644
---- a/drivers/pmdomain/sunxi/sun55i-pck600.c
-+++ b/drivers/pmdomain/sunxi/sun55i-pck600.c
-@@ -52,6 +52,7 @@ struct sunxi_pck600_desc {
- 	u32 logic_power_switch0_delay;
- 	u32 logic_power_switch1_delay;
- 	u32 off2on_delay;
-+	bool has_rst_clk;
- };
- 
- struct sunxi_pck600_pd {
-@@ -151,9 +152,11 @@ static int sunxi_pck600_probe(struct platform_device *pdev)
- 	if (IS_ERR(base))
- 		return PTR_ERR(base);
- 
--	rst = devm_reset_control_get_exclusive_released(dev, NULL);
--	if (IS_ERR(rst))
--		return dev_err_probe(dev, PTR_ERR(rst), "failed to get reset control\n");
-+	if (desc->has_rst_clk) {
-+		rst = devm_reset_control_get_exclusive_released(dev, NULL);
-+		if (IS_ERR(rst))
-+			return dev_err_probe(dev, PTR_ERR(rst), "failed to get reset control\n");
-+	}
- 
- 	clk = devm_clk_get_enabled(dev, NULL);
- 	if (IS_ERR(clk))
-@@ -193,7 +196,14 @@ static int sunxi_pck600_probe(struct platform_device *pdev)
- }
- 
- static const char * const sun55i_a523_pck600_pd_names[] = {
--	"VE", "GPU", "VI", "VO0", "VO1", "DE", "NAND", "PCIE"
-+	"VE",
-+	"GPU",
-+	"VI",
-+	"VO0",
-+	"VO1",
-+	"DE",
-+	"NAND",
-+	"PCIE",
- };
- 
- static const struct sunxi_pck600_desc sun55i_a523_pck600_desc = {
-@@ -206,7 +216,36 @@ static const struct sunxi_pck600_desc sun55i_a523_pck600_desc = {
- 	.device_ctrl1_delay = 0xffff,
- 	.logic_power_switch0_delay = 0x8080808,
- 	.logic_power_switch1_delay = 0x808,
--	.off2on_delay = 0x8
-+	.off2on_delay = 0x8,
-+	.has_rst_clk = true,
-+};
-+
-+static const char * const sun60i_a733_pck600_pd_names[] = {
-+	"VI",
-+	"DE_SYS",
-+	"VE_DEC",
-+	"VE_ENC",
-+	"NPU",
-+	"GPU_TOP",
-+	"GPU_CORE",
-+	"PCIE",
-+	"USB2",
-+	"VO",
-+	"VO1",
-+};
-+
-+static const struct sunxi_pck600_desc sun60i_a733_pck600_desc = {
-+	.pd_names = sun60i_a733_pck600_pd_names,
-+	.num_domains = ARRAY_SIZE(sun60i_a733_pck600_pd_names),
-+	.logic_power_switch0_delay_offset = 0xc00,
-+	.logic_power_switch1_delay_offset = 0xc04,
-+	.off2on_delay_offset = 0xc10,
-+	.device_ctrl0_delay = 0x1f1f1f,
-+	.device_ctrl1_delay = 0x1f1f,
-+	.logic_power_switch0_delay = 0x8080808,
-+	.logic_power_switch1_delay = 0x808,
-+	.off2on_delay = 0x8,
-+	.has_rst_clk = false,
- };
- 
- static const struct of_device_id sunxi_pck600_of_match[] = {
-@@ -214,6 +253,10 @@ static const struct of_device_id sunxi_pck600_of_match[] = {
- 		.compatible	= "allwinner,sun55i-a523-pck-600",
- 		.data		= &sun55i_a523_pck600_desc,
- 	},
-+	{
-+		.compatible	= "allwinner,sun60i-a733-pck-600",
-+		.data		= &sun60i_a733_pck600_desc,
-+	},
- 	{}
- };
- MODULE_DEVICE_TABLE(of, sunxi_pck600_of_match);
 
--- 
-2.53.0
 
