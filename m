@@ -1,517 +1,390 @@
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF02B35CB7A
-	for <linux-sunxi@lists.linux.dev>; Wed,  4 Mar 2026 07:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ADB939F166
+	for <linux-sunxi@lists.linux.dev>; Wed,  4 Mar 2026 09:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772609695; cv=none; b=RCBtLcKu6PLNX7CeDtdosdXXIRZRXE/oi2lh8GIokOMgc/ErVV6FJWogmSYJdARz+eY2B6V/fRLD6xVCefrsVmNSpdI7RteDpcSJrqfRZBDKSaySZpdZpSMTxegC7CtGBjIAv9ztM/DSXT2FZXFCf61tbbmACkDRi9Nl0cj/yoo=
+	t=1772618118; cv=none; b=R1eRrBED0gGnEh+C9p+kY47cF1HvnvVyqHrwJ0rhZYliiysPQ9nXnD462jiKxZnqyHSyQOBD6jmou5I2laUqct4IGbboveiWLyg9mGbNasY6LOD8HXb4eBJ9qqCZUFY2sjouqHE8hGJu1Z9wxOwXvN2BAYND7WiBYYCDkKWu3PY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772609695; c=relaxed/simple;
-	bh=FXR3XSpssVPnutnIWfT1/SnAUa/VrjM1I1ewJuTeYM0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h/Q1xwPFSt+2bVYry8X2rrJIQVN1xvhWr0kUZRhwJq8PCI9h3L+vFn5xFSo2bWoJeMG9Zbsg6tnZr5mCI29fKgmRBrt2+FqRkuERYSNgMojzEyWT7e8SEt0MBKIuarrV+Dn1cNv9uHpOZPPe+k6SbQ/fO58jXQ0Nm+GJdlot89s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RWl7FN6n; arc=none smtp.client-ip=74.125.82.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772618118; c=relaxed/simple;
+	bh=g7rT5pzmvMWMQmalMKqVnAHzQr5G/tKv45hmbKvwObA=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=t2rIGAlw1cubnOgXGda5Pgn+SgKt5rH6J1+TctHkD+r1NphISqNg4HSt2P0aemdAC/Mj3IyB12gfcHGVd2dgk2r956qKQtqkcEDHR564R+mOKSVb9eZjhvf85olJ8R5Ow4U/jbN6X2jR5zTxmtB+puwrU/gf8UhMSF54HsLfP3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IDXN7gmv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RWl7FN6n"
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2bd9a485bd6so3151875eec.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 03 Mar 2026 23:34:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772609692; x=1773214492; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GI4PROkonFr8e8pbGB+CtYzyPmBkWTNo4uXHfgBEOu4=;
-        b=RWl7FN6nGj5Cf6dC/kkLSLe9oSXBM99Qhq5Fp6NqdkAmNdA8SRgSjNpu6eLy3Op+FB
-         C494wCf9CYtCQGn53HMYeTvlqf7CNyOLhC9Fy678iOp/IwkMaqlE6qZmIPV7gljKAcCD
-         rRuzZ2Xn1tncwxLzIWzemc4lPThgk98V7Rshtrg00tw+YOUDKqz5JSwUCE1/kXknppdh
-         B4BYxCSzBd3QAJLaGZAjuuUe5KkyVc1oB2bV0FbyyGrof/sM4WrE5tfhiTPqAFkcKhSp
-         BeoBuNimh4WdjOdQj1Vea7f6vnxeJYSo2O6O9dHH2FlgISHdChqYquqYsdCShv86mJrG
-         zz3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772609692; x=1773214492;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=GI4PROkonFr8e8pbGB+CtYzyPmBkWTNo4uXHfgBEOu4=;
-        b=pT2MozFovLFP/+/EeJN8BPAtEW65b7YoNfAfZyo1HXL0nBesK7N58c15c3Nt7U7cM3
-         A6f80h86ArV967sxX6TbtFgk6NdSXg8yCSXW3eBPMSWripgzj4JE44nu3b10YwClPCGU
-         c3apsVPQsj3FJx1oaGY04rEEkU7ivcdlEBZnfnfsr0UFfxe4Hjbj0vSWaKVm9R27+P0t
-         k/f4zf9xY/5FzPYxwFM458HToG5Mea1LMfW96CHlXY2k/Na9zDJFm2oITe84chrX1FlA
-         bjupmIImSgplzvGTjU4Y/Ou4FCvQCi8YoaXPJOG+s2w1sLOrKBi2uyxaw6m92hkVzC4p
-         kwfg==
-X-Forwarded-Encrypted: i=1; AJvYcCUNuliMV1CQCuRvs3B4O3RyBrqeKDf3VZbVNSEimjwqJ6uFzs06Atu7c13kFXnntY+U9VssBr1XFcOUSA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwtwoR/kbd1OVbgBqO1IOvMMALWw5XVE+Jq4qb2MFS69KTOwPeF
-	j4488skehYVbA7gzCrRHKM02J8Os3PNM3Gl0afFurGXcbL3hoa6ZxFnM
-X-Gm-Gg: ATEYQzzTJV3WwSvlz3l8iyEuXc4jITNUjVevMQkMNiSPtIQZOZ72AjuCFODgTIVQLk0
-	rDA9FXBD8hRxpJ/lRRDwB1ihBSp4S5NUX01O13QSfk00SYRDtQiVOihR2PRePUvMFCrN12eMLtB
-	7OVqGauENF64afpnkiFLG9xMClT65zm7svR4xRzRIKwwjly6cfiP3MeacdaVrczTET2ycg8CBhb
-	JYPlshyDoRHIcK1xhI/jm7pmEb48Q/ZrkR/qBzf0YN6uAaPmgdciT0fPI89cX3M7Th20ayl3QpW
-	0rxzyrcmQepz9HQbJPuoCF5ragoiVdNddXzbh62K/PI4yw1bU0Oiyc1p7VnN4z/p5+sQl2xNdYk
-	TjWrCJ/b6TeQXr+pTnHSR0oe4o3LiuLrGHUaNDJkAptIFpzXvZXPuKN69AsNP5NGNQTSrFL6rs3
-	NuvjVtw93dE6VyhCZMEKxu
-X-Received: by 2002:a05:7301:4094:b0:2be:fe8:8aff with SMTP id 5a478bee46e88-2be3108e332mr422725eec.18.1772609691663;
-        Tue, 03 Mar 2026 23:34:51 -0800 (PST)
-Received: from arch.localdomain ([2409:8a28:a55:9af1::1002])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be2056acd1sm3457123eec.22.2026.03.03.23.34.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2026 23:34:51 -0800 (PST)
-From: Jun Yan <jerrysteve1101@gmail.com>
-To: devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Cc: robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	mripard@kernel.org,
-	andre.przywara@arm.com,
-	Jun Yan <jerrysteve1101@gmail.com>
-Subject: [PATCH v4 3/3] arm64: dts: allwinner: h6: Add TaiqiCat (TQC) A01 support
-Date: Wed,  4 Mar 2026 15:34:30 +0800
-Message-ID: <20260304073430.438835-4-jerrysteve1101@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260304073430.438835-1-jerrysteve1101@gmail.com>
-References: <20260304073430.438835-1-jerrysteve1101@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IDXN7gmv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17690C2BCF6
+	for <linux-sunxi@lists.linux.dev>; Wed,  4 Mar 2026 09:55:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772618118;
+	bh=g7rT5pzmvMWMQmalMKqVnAHzQr5G/tKv45hmbKvwObA=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=IDXN7gmvS9xa2vrKN++cCjK7d/KvXRb8Ik0WHfWNMmet7lpWxZGOi/26+b9OM7+D7
+	 jkyHHARrjVqQ2XdR15cJxU7/YrIaJgEl/o1N+z9S4sph2NDNuRNtXEAEV+iYiuJPYL
+	 AlbzlzVW0NNL6Gk2MLDe8MnTnzokO3kRjwZtLUWqGGY9CRfn0Fp14dkym+JrKsDYBw
+	 /Yj93DNrLfKKLV3Rxo3MnjOXo/0wNJGwHDYwVSC1hL5gSaFNPhKi1d21p4AuSzWMn9
+	 rlqIfOI6OOVSL4MYR10JjAzenjWnefs3y8N2nZJHyhOsEE1p5F9FhahSOVCLOvtA0p
+	 vMTF4c2zJ9rlw==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-38a3066b68bso1958601fa.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 04 Mar 2026 01:55:18 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU1uPTEBPHscbwToFtrlOjf/lTOLoOl6isUPA8xOSp1RJeMBQRjf2FisDtgmk4a5PDB6cFALb3LgtV8ew==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyH52orWtiKMbmD8hQBKYCWS/lukKsTNMV6jUcekryezkK1nx0Q
+	fxDfmevPXr8ugUiAAMWfnrpcTCqVpZAJ0nbD7rI6c9lCtkM7koLxSjHENGJhRfm98fEfoGd3sLy
+	rajPM9ItFRX0u2xj2N+0RXZGScfBdy3AnztNd7GpzsQ==
+X-Received: by 2002:a2e:a4d0:0:b0:38a:18e0:6433 with SMTP id
+ 38308e7fff4ca-38a2c7bf182mr10049121fa.37.1772618116458; Wed, 04 Mar 2026
+ 01:55:16 -0800 (PST)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 4 Mar 2026 01:55:14 -0800
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 4 Mar 2026 01:55:14 -0800
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <aacE-27iaYneKCJi@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260223-i2c-printk-helpers-v2-0-13b2a97762af@oss.qualcomm.com>
+ <aaFcs1miP88QWmtH@hovoldconsulting.com> <aaFfEsfh0xTh0b1y@shikoro>
+ <aaFsZbiLYSz_YEjw@hovoldconsulting.com> <CAMRc=MfcvD1nJy=zpoCkSkJq6WjyXQxFUZ4QE6vyCS+XFCn5AA@mail.gmail.com>
+ <aaHI_VavZugXjVoL@hovoldconsulting.com> <CAMRc=MdKF29McBJ9U=qELkzf9GYV1CQpRF7U6OweDNtVzMXo7A@mail.gmail.com>
+ <aacE-27iaYneKCJi@hovoldconsulting.com>
+Date: Wed, 4 Mar 2026 01:55:14 -0800
+X-Gmail-Original-Message-ID: <CAMRc=Mcx8Hu407arSEo3o-Xhmep_ZK4BM2TVi_55nXGwYcaijw@mail.gmail.com>
+X-Gm-Features: AaiRm53mBePX3Vk4_MZn1-cdblcn8U2NxlCqWwVL6LjJiipLfY2kXBxQWFn1FB4
+Message-ID: <CAMRc=Mcx8Hu407arSEo3o-Xhmep_ZK4BM2TVi_55nXGwYcaijw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/13] i2c: add and start using i2c_adapter-specific
+ printk helpers
+To: Johan Hovold <johan@kernel.org>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Andi Shyti <andi.shyti@kernel.org>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Khalil Blaiech <kblaiech@nvidia.com>, 
+	Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-i2c@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	linux-actions@lists.infradead.org, linux-media@vger.kernel.org, 
+	Bartosz Golaszewski <brgl@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-TaiqiCat (TQC) A01 is a set-top box powered by an Allwinner H6 SoC,
-equipped with an AXP305 PMIC, 1GB LPDDR3 RAM, 8GB eMMC, an AP6212
-WiFi/BT combo module, one 100M Ethernet port, one USB 3.0 Type-A port,
-one USB 2.0 Type-A port, one Micro USB port, HDMI, SPDIF, Micro-SD, and
-infrared input.
+On Tue, Mar 3, 2026 at 4:57=E2=80=AFPM Johan Hovold <johan@kernel.org> wrot=
+e:
+>
+> On Mon, Mar 02, 2026 at 12:03:19PM -0600, Bartosz Golaszewski wrote:
+> > On Fri, Feb 27, 2026 at 5:41=E2=80=AFPM Johan Hovold <johan@kernel.org>=
+ wrote:
+> > >
+> > > On Fri, Feb 27, 2026 at 04:42:09PM +0100, Bartosz Golaszewski wrote:
+> > > > On Fri, Feb 27, 2026 at 11:06=E2=80=AFAM Johan Hovold <johan@kernel=
+.org> wrote:
+> > >
+> > > > > It seems all that is needed is to decouple the struct i2c_adapter=
+ from
+> > > > > the driver data and have core manage the lifetime of the former u=
+sing
+> > > > > the reference count of the embedded struct device.
+> > >
+> > > > This is a weird pattern you sometimes see where a driver allocates
+> > > > something and passes the ownership to the subsystem.
+> > >
+> > > It's not weird at all, this is the standard way to handle this. We ha=
+ve
+> > > these things called reference counts for a reason.
+> > >
+> >
+> > I wouldn't say it's *the* standard way. There are at least several diff=
+erent
+> > ways driver subsystems handle resource ownership. And even so: the fact=
+ that
+> > something's done a lot does not make it automatically correct.
+>
+> It's the way the driver model works.
+>
 
-It was released by Ultrapower(UQSoft) as a blockchain-based terminal and is
-now discontinued and no longer supported.
+No, it does not impose any specific pattern to use for subsystems other tha=
+n
+requiring each device that's been *initialized* to provide a .release() cal=
+lback
+called when the last reference is dropped.
 
-  https://web.archive.org/web/20190409213228/https://tq.ultrapower.com.cn/product.html
+> > > > This often
+> > > > causes confusion among driver authors, who logically assume that if
+> > > > you allocate something, you are responsible for freeing it.Since th=
+is
+> > > > is C and not Rust (where such things are tracked by the compiler), =
+I
+> > > > strongly believe we should strive to keep ownership consistent: the
+> > > > driver should free resources it allocated within the bounds of the
+> > > > lifetime of the device it controls. The subsystem should manage the
+> > > > data it allocated - in this case the i2c adapter struct device.
+> > >
+> > > Drivers are responsible for dropping *their* reference, it doesn't me=
+an
+> > > that the resource is necessarily freed immediately as someone else ma=
+y
+> > > be holding a reference. Anyone surprised by this should not be doing
+> > > kernel development.
+> >
+> > I disagree. For some reason, you're defending a suboptimal programming
+> > interface. I'm all for reference counting but mixing reference-counted =
+data
+> > with non-counted is simply not a good idea. An API should be easy to us=
+e and
+> > hard to misuse. Given the amount of issues, this approach is definitely=
+ easy
+> > to misuse.
+> >
+> > I'm advocating for a hard split between the subsystem data (reference-c=
+ounted)
+> > and driver data (living from probe() until remove()). A logical struct =
+device
+> > managed entirely by the subsystem should live in a separate structure t=
+han
+> > driver data and be allocated - and freed - by the subsystem module.
+>
+> It doesn't really matter what you think. You can't just go around
+> making up new subsystem specific rules at your whim. The linux driver
+> model uses reference counting and that's what developers expect to be
+> used.
+>
 
-Hardware schematics are not available at this time; however, the
-dts from the vendor firmware is provided for reference [1].
+And I've never said that it should not use reference counting. I'm not sure
+what you're implying here.
 
-Based on the PCB silkscreen marking "AZW-KT02 2.0", the ODM/OEM
-can be confirmed as AZW, and the overall hardware circuit design
-is highly similar to the Beelink GS1.
+> > Let's put aside kernel code for a minute and work with an abstract C ex=
+ample,
+> > where the equivalent of what you're proposing would look like this:
+> >
+> > struct bar {
+> >	   struct foo foo;
+> >	   ...
+> > };
+> >
+> > struct bar *bar =3D malloc(sizeof(*bar));
+> >
+> > ret =3D foo_register(&bar->foo);
+> >
+> > And the corresponding free() lives who knows where because foo_register=
+()
+> > automagically introduces reference counting (nevermind the need to calc=
+ulate
+> > where bar is in relations to foo).
+>
+> No, that's not what I'm suggesting here, but it would be compatible with
+> the driver model (ever heard of struct device which works exactly like
+> this?).
+>
 
-Tested, works:
-- debug UART
-- status LED
-- USB 3.0 Type-A port
-- USB 2.0 Type-A port
-- Micro USB port (Host)
-- MicroSD
-- eMMC
-- WiFi/Bluetooth
-- HDMI video output
+I know how struct device works. I'm pointing out that this is a bad API (ju=
+st
+to be absolutely clear: not the reference counting of struct device itself =
+but
+using it in a way tha looks like it's not refcounted but becomes so after a=
+n
+API call) because it's confusing. I'm not buying the argument that if it
+confuses you then you should not be doing kernel development because it's n=
+ot
+the goal of API design to make it as complex and confusing as possible - qu=
+ite
+the contrary. And it *is* confusing given the amount of misuse present. I'v=
+e
+heard Greg KH say on multiple occasions during his talks that we try to off=
+load
+complex code to subsystems so that drivers can remain fairly simple. I agre=
+e
+with that.
 
-Does not work:
-- Ethernet (requires AC200 MFD/EPHY driver)
-- HDMI audio
+> > I strongly believe that this makes more sense:
+> >
+> > struct bar {
+> >	   ...
+> > };
+> >
+> > struct bar *bar =3D malloc();
+> >
+> > struct foo *foo =3D foo_register(bar);
+> >
+> > // foo is reference counted and allocated in the provider of foo_regist=
+er()
+> >
+> > foo_put(foo);
+> > free(bar);
+> >
+> > The equivalent of which is moving struct device out of struct i2c_adapt=
+er.
+>
+> No, it's not.
+>
+> > In fact: I would love to see i2c_adapter become a truly reference-count=
+ed
+> > object detached from driver data but due to it being embedded in every =
+bus
+> > driver data structure it realistically won't happen.
+>
+> And this is what I've been suggesting all along, separating the driver
+> data and making the adapter reference counted.
+>
+> The idiomatic way to handle this is:
+>
+>		 xyz_probe()
+>		 {
+>				 adap =3D i2c_adapter_alloc();
+>				 // initialise driver data, store pointer in adap
+>				 i2c_adapter_register(adap);
+>		 }
+>
+>		 xyz_remove()
+>		 {
+>				 i2c_adapter_deregister(adap);
+>				 i2c_adapter_put(adap);
+>		 }
+>
+> Exactly where the driver data is stored is secondary, it could be memory
+> allocated by core or by the driver.
+>
+> But the adapter is reference counted and kept around until all users are
+> gone.
+>
 
-Untested:
-- SPDIF
-- IR receiver
+Yeah, that's awesome but that's not what's being done in i2c. We do:
 
-[1] https://archive.org/download/tqc-a01-stock-fw/tqc-a01-stock-fw.dts
+struct foo_i2c_driver_data {
+	struct i2c_adapter adap {
+		struct device dev;
+		...
+	};
+	...
+};
 
-Signed-off-by: Jun Yan <jerrysteve1101@gmail.com>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- arch/arm64/boot/dts/allwinner/Makefile        |   1 +
- .../dts/allwinner/sun50i-h6-taiqicat-a01.dts  | 361 ++++++++++++++++++
- 2 files changed, 362 insertions(+)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h6-taiqicat-a01.dts
+instead which is a completely different story. It makes foo_i2c_driver_data
+implicitly reference counted despite its lifetime being tied to the bound-s=
+tate
+of the device. It becomes painfully obvious in rust when the compiler start=
+s
+enforcing proper lifetime management.
 
-diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-index 2edfa7bf4ab3..d116864b6c2b 100644
---- a/arch/arm64/boot/dts/allwinner/Makefile
-+++ b/arch/arm64/boot/dts/allwinner/Makefile
-@@ -38,6 +38,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-orangepi-lite2.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-orangepi-one-plus.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64-model-b.dtb
-+dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-taiqicat-a01.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h313-tanix-tx1.dtb
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-taiqicat-a01.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-taiqicat-a01.dts
-new file mode 100644
-index 000000000000..225f42bd3b9e
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-taiqicat-a01.dts
-@@ -0,0 +1,361 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+// Copyright (C) 2026 Jun Yan <jerrysteve1101@gmail.com>
-+
-+/dts-v1/;
-+
-+#include "sun50i-h6.dtsi"
-+#include "sun50i-h6-cpu-opp.dtsi"
-+#include "sun50i-h6-gpu-opp.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+
-+/ {
-+	model = "TaiqiCat (TQC) A01";
-+	compatible = "ultrapower,taiqicat-a01", "allwinner,sun50i-h6";
-+
-+	aliases {
-+		ethernet1 = &sdio_wifi;
-+		serial0 = &uart0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	connector {
-+		compatible = "hdmi-connector";
-+		ddc-en-gpios = <&pio 7 2 GPIO_ACTIVE_HIGH>; /* PH2 */
-+		type = "a";
-+
-+		port {
-+			hdmi_con_in: endpoint {
-+				remote-endpoint = <&hdmi_out_con>;
-+			};
-+		};
-+	};
-+
-+	ext_osc32k: ext-osc32k-clk {
-+		#clock-cells = <0>;
-+		compatible = "fixed-clock";
-+		clock-frequency = <32768>;
-+		clock-output-names = "ext_osc32k";
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		led-0 {
-+			label = "taiqicat:blue:power";
-+			gpios = <&r_pio 0 4 GPIO_ACTIVE_HIGH>; /* PL4 */
-+			default-state = "on";
-+		};
-+	};
-+
-+	reg_vcc5v: vcc5v {
-+		/* board wide 5V supply directly from the DC jack */
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-5v";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-always-on;
-+	};
-+
-+	sound-spdif {
-+		compatible = "simple-audio-card";
-+		simple-audio-card,name = "sun50i-h6-spdif";
-+
-+		simple-audio-card,cpu {
-+			sound-dai = <&spdif>;
-+		};
-+
-+		simple-audio-card,codec {
-+			sound-dai = <&spdif_out>;
-+		};
-+	};
-+
-+	spdif_out: spdif-out {
-+		#sound-dai-cells = <0>;
-+		compatible = "linux,spdif-dit";
-+	};
-+
-+	wifi_pwrseq: wifi-pwrseq {
-+		compatible = "mmc-pwrseq-simple";
-+		clocks = <&rtc CLK_OSC32K_FANOUT>;
-+		clock-names = "ext_clock";
-+		reset-gpios = <&r_pio 0 8 GPIO_ACTIVE_LOW>; /* PL8 */
-+		post-power-on-delay-ms = <200>;
-+	};
-+};
-+
-+&cpu0 {
-+	cpu-supply = <&reg_dcdca>;
-+};
-+
-+&de {
-+	status = "okay";
-+};
-+
-+&dwc3 {
-+	status = "okay";
-+};
-+
-+&ehci0 {
-+	status = "okay";
-+};
-+
-+&ehci3 {
-+	status = "okay";
-+};
-+
-+&gpu {
-+	mali-supply = <&reg_dcdcc>;
-+	status = "okay";
-+};
-+
-+&hdmi {
-+	hvcc-supply = <&reg_bldo2>;
-+	status = "okay";
-+};
-+
-+&hdmi_out {
-+	hdmi_out_con: endpoint {
-+		remote-endpoint = <&hdmi_con_in>;
-+	};
-+};
-+
-+&mmc0 {
-+	vmmc-supply = <&reg_cldo1>;
-+	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
-+	bus-width = <4>;
-+	disable-wp;
-+	status = "okay";
-+};
-+
-+&mmc1 {
-+	vmmc-supply = <&reg_cldo3>;
-+	vqmmc-supply = <&reg_bldo3>;
-+	mmc-pwrseq = <&wifi_pwrseq>;
-+	bus-width = <4>;
-+	non-removable;
-+	keep-power-in-suspend;
-+	status = "okay";
-+
-+	sdio_wifi: wifi@1 {
-+		reg = <1>;
-+		compatible = "brcm,bcm43430a1-fmac", "brcm,bcm4329-fmac";
-+		interrupt-parent = <&r_pio>;
-+		interrupts = <1 0 IRQ_TYPE_LEVEL_LOW>; /* PM0 */
-+		interrupt-names = "host-wake";
-+	};
-+};
-+
-+&mmc2 {
-+	vmmc-supply = <&reg_cldo1>;
-+	vqmmc-supply = <&reg_bldo2>;
-+	cap-mmc-hw-reset;
-+	non-removable;
-+	mmc-hs200-1_8v;
-+	bus-width = <8>;
-+	status = "okay";
-+};
-+
-+&ohci0 {
-+	status = "okay";
-+};
-+
-+&ohci3 {
-+	status = "okay";
-+};
-+
-+&pio {
-+	vcc-pc-supply = <&reg_bldo2>;
-+	vcc-pd-supply = <&reg_cldo1>;
-+	vcc-pg-supply = <&reg_bldo3>;
-+};
-+
-+&r_i2c {
-+	status = "okay";
-+
-+	axp805: pmic@36 {
-+		compatible = "x-powers,axp805", "x-powers,axp806";
-+		reg = <0x36>;
-+		interrupt-parent = <&r_intc>;
-+		interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_LOW>;
-+		interrupt-controller;
-+		#interrupt-cells = <1>;
-+		x-powers,self-working-mode;
-+		vina-supply = <&reg_vcc5v>;
-+		vinb-supply = <&reg_vcc5v>;
-+		vinc-supply = <&reg_vcc5v>;
-+		vind-supply = <&reg_vcc5v>;
-+		vine-supply = <&reg_vcc5v>;
-+		aldoin-supply = <&reg_vcc5v>;
-+		bldoin-supply = <&reg_vcc5v>;
-+		cldoin-supply = <&reg_vcc5v>;
-+
-+		regulators {
-+			reg_aldo1: aldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc-pl-led-ir-pg-pm-ts";
-+			};
-+
-+			reg_aldo2: aldo2 {
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc-ac200";
-+				regulator-enable-ramp-delay = <100000>;
-+			};
-+
-+			aldo3 {
-+				/* unused */
-+			};
-+
-+			reg_bldo1: bldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-name = "vcc18-dram-bias-pll";
-+			};
-+
-+			reg_bldo2: bldo2 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-name = "vcc-pc-emmc-efuse-hdmi";
-+			};
-+
-+			reg_bldo3: bldo3 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-name = "vcc-pg-wifiio";
-+			};
-+
-+			bldo4 {
-+				/* unused */
-+			};
-+
-+			reg_cldo1: cldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc33-io-pd-emmc-sd-usb-uart";
-+			};
-+
-+			/* This regulator is connected with CLDO3 */
-+			reg_cldo2: cldo2 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc-wifi-1";
-+			};
-+
-+			reg_cldo3: cldo3 {
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc-wifi-2";
-+			};
-+
-+			reg_dcdca: dcdca {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <1160000>;
-+				regulator-ramp-delay = <2500>;
-+				regulator-name = "vdd-cpu";
-+			};
-+
-+			reg_dcdcc: dcdcc {
-+				regulator-enable-ramp-delay = <32000>;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <1080000>;
-+				regulator-ramp-delay = <2500>;
-+				regulator-name = "vdd-gpu";
-+			};
-+
-+			reg_dcdcd: dcdcd {
-+				regulator-always-on;
-+				regulator-min-microvolt = <960000>;
-+				regulator-max-microvolt = <960000>;
-+				regulator-name = "vdd-sys-hdmi-usb";
-+			};
-+
-+			reg_dcdce: dcdce {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1200000>;
-+				regulator-max-microvolt = <1200000>;
-+				regulator-name = "vcc-dram";
-+			};
-+
-+			sw {
-+				/* unused */
-+			};
-+		};
-+	};
-+};
-+
-+&r_ir {
-+	status = "okay";
-+};
-+
-+&r_pio {
-+	/*
-+	 * PL0 and PL1 are used for PMIC I2C
-+	 * don't enable the pl-supply else
-+	 * it will fail at boot
-+	 *
-+	 * vcc-pl-supply = <&reg_aldo1>;
-+	 */
-+	vcc-pm-supply = <&reg_aldo1>;
-+};
-+
-+&rtc {
-+	clocks = <&ext_osc32k>;
-+};
-+
-+&spdif {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&spdif_tx_pin>;
-+	status = "okay";
-+};
-+
-+&uart0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart0_ph_pins>;
-+	status = "okay";
-+};
-+
-+&uart1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
-+	uart-has-rtscts;
-+	status = "okay";
-+
-+	bluetooth {
-+		compatible = "brcm,bcm43430a1-bt";
-+		clocks = <&rtc CLK_OSC32K_FANOUT>;
-+		clock-names = "lpo";
-+		vbat-supply = <&reg_cldo3>;
-+		vddio-supply = <&reg_bldo3>;
-+		device-wakeup-gpios = <&r_pio 1 2 GPIO_ACTIVE_HIGH>; /* PM2 */
-+		host-wakeup-gpios = <&r_pio 1 1 GPIO_ACTIVE_HIGH>; /* PM1 */
-+		shutdown-gpios = <&r_pio 1 4 GPIO_ACTIVE_HIGH>; /* PM4 */
-+		max-speed = <1500000>;
-+	};
-+};
-+
-+&usb2otg {
-+	dr_mode = "host";
-+	status = "okay";
-+};
-+
-+&usb2phy {
-+	usb0_vbus-supply = <&reg_vcc5v>;
-+	usb3_vbus-supply = <&reg_vcc5v>;
-+	status = "okay";
-+};
-+
-+&usb3phy {
-+	status = "okay";
-+};
--- 
-2.53.0
+What you showed above is totally fine. For an even simpler API, my personal
+preference would be to:
 
+xyz_probe()
+{
+	struct drv_data *data =3D kzalloc();
+	/*
+	 * ... stands for any other arguments or a config struct. In the concrete
+	 * example of i2c, we'd supply the algo struct, fwnode, etc.
+	 */
+	struct i2c_adapter *adap =3D i2c_adapter_register(data, ...);
+}
+
+xyz_remove()
+{
+	kfree(data);
+	i2c_adapter_unregister();
+}
+
+The reference counting of i2c_adapter happens behind the scenes in the
+subsystem code. We're hiding the implementation details from the driver as =
+it
+has no business knowing it - it always only needs a single reference.
+
+This way you have a kfree() corresponding with the kmalloc() and an
+unregister() corresponding with the register().
+
+But sure, your example works fine too. My point is: getting to that state w=
+ould
+require more churn than allowing drivers to continue allocating i2c_adapter
+struct themselves with struct device being moved out of it - making referen=
+ce
+counting of it work properly.
+
+And I agree: doing the above would be even better but you'd need - for ever=
+y
+driver - to move the i2c_adapter struct out of driver data and make it a
+pointer. That's in addition to providing new APIs and using them. I2C drive=
+rs
+are spread treewide. There's a reason why nobody attempted it for decades. =
+I'm
+proposing something a bit less complex: allow drivers to free i2c_adapter a=
+t
+unbind but make i2c core keep a private, reference-counted structure for as
+long as it's needed.
+
+> > > > I know there are a lot of places where this is done in the kernel b=
+ut
+> > > > let's not introduce new ones. This is a bad pattern.
+> > >
+> > > No, it's not. It's literally the standard way of doing this.
+> > >
+> > > > But even if you decided this is the way to go, I fail to see how it
+> > > > would be easier than what I'm trying to do. You would have to modif=
+y
+> > > > *all* I2C bus drivers as opposed to only modifying those that acces=
+s
+> > > > the underlying struct device. Or am I missing something?
+> > >
+> > > Yes, you have to update the allocation and replace container_of() wit=
+h
+> > > dev_get_drvdata() but it's a straight-forward transformation that bri=
+ngs
+> > > the i2c subsystem more in line with the driver model (unlike whatever=
+ it
+> > > is you're trying to do).
+> > >
+> >
+> > No, it's not that simple. The .release() callback of struct device embe=
+dded
+> > in struct i2c_adapter is assigned from the bus type and only calls comp=
+lete()
+> > (yeah, I too don't think it looks right, one would expect to see the as=
+sociated
+> > kfree() here, right?). It relies on the bus driver freeing the data in =
+its
+> > remove() path. That's why we wait until all references to said struct d=
+evice
+> > are dropped. After your proposed change, if your new release() lives in=
+ the
+> > driver module, it must not be removed until all the references are drop=
+ped
+> > - basically where we are now. If on the other hand, the release() callb=
+ack's
+> > functionality is moved into i2c-core, how would you handle the fact i2c=
+_adapter
+> > can be embedded in a larger driver data structure? Provide yet another =
+callback
+> > in i2c_adapter called from the device's .release()? Sure, can be done b=
+ut I
+> > doubt it's a better solution.
+>
+> You seem to be constructing some kind of straw man here. Obviously, the
+> release function would free the memory allocated for the adapter struct.
+>
+> An adapter driver can free its driver data on unbind as core will
+> guarantee that there are no further callbacks after the adapter has been
+> deregistered.
+>
+
+Sure, but my point all along has been that - with struct device currently
+embedded in struct i2c_adapter - that's not the case. Driver data *and*
+i2c_adapter are tied together. You need a major rework in either case.
+
+I'm frustrated because I'm spending time working on an actual solution. I'v=
+e
+explained what I'm doing and what the end result will look like based on wh=
+at
+works for GPIO (struct gpio_chip's lifetime is bound to device's "bound" st=
+ate,
+struct gpio_device is refcounted, I want to mirror it with i2c_adapter and
+whatever we eventually call its refcounted counterpart - let's say:
+i2c_bus_device). If you claim you have a better alternative - will you do t=
+he
+work to make it happen?
+
+Bartosz
