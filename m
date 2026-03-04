@@ -1,66 +1,67 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7059346E57
-	for <linux-sunxi@lists.linux.dev>; Wed,  4 Mar 2026 03:44:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F34B375F99
+	for <linux-sunxi@lists.linux.dev>; Wed,  4 Mar 2026 03:44:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772595851; cv=none; b=fL3nzU13jLqFz+xoWIOdIlV/IA0n1ZZqdS83iO0Hq9uUbssdWwPIizNRvwfddHIaKeuCxNechAbTTSTiFSekXYa7iP8Wk+UGNwQDHEYZUKY0/jz39OLyW/eTX0RU8PuwOztldQJGWolaXUrjil5SHlNYwGmwtiI2rPjbM9cHrkQ=
+	t=1772595852; cv=none; b=b9kVenSlxs5+5eSqH2Unz8muXvbug7MgpRXgFfU5P9NAmePJxcVPzSGfYFd3BJxZwMiXAmxT8KtsmbmzOJZ9QeCyu7yGN+I+v6BYP1FDohv2ZbaGGO+U4tiZtnH1OL0hD5o7S7XqUgMIEu4kNBYXkG5KF5zq03q0+s1RiTm1JRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772595851; c=relaxed/simple;
-	bh=97IdsNQD0Rvl8zYfDuEsgyoRn/f/Y8Pl2UCDFUdnpBA=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Si84b3lQyb43LdLH08SzLFo27rD0Plk9NIWWqPuFMrN3QAkdtIS3D54+MSgBNh8CwnGk2ev0AD9zkv2FGL984ez9duNg79M5E1hKTDEI5U5MI/VXJUwxTMJ0a3kmFL/5FX71em2XEKVU18Ko8quqM4a/ZEIIkNYNXnmiu/ZKDmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hVVdWe6Q; arc=none smtp.client-ip=209.85.219.42
+	s=arc-20240116; t=1772595852; c=relaxed/simple;
+	bh=mdKNNesYCOjxGXKeUcr1BLhG7niNe+8/cXS+dPrtOPI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=KSulEtfiHNhTYfjqbYg7yNyQsr0UZ+IFnwnNQp/oU46cly0TbiLJ87+vDbAg3pkDjH9+4J4EvCt/ZQs/pcJ2HvPv1uyMi2IFSaMn6knPfPCAXCy10OJXIgBk9M+1tDt5LRbw+SEBoBa/lLSBGMSAHiA0caPDBF7djQcGvi+gFt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eTrE/rL7; arc=none smtp.client-ip=209.85.160.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hVVdWe6Q"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-899fc9853b7so36551826d6.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 03 Mar 2026 19:44:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eTrE/rL7"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-506a67282a0so62274661cf.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 03 Mar 2026 19:44:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772595849; x=1773200649; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+UX3cCFsEn7IKh2oIgy8th+LH6QgE2NnzyAhbtsRwgI=;
-        b=hVVdWe6Qifbc7Njj5PRGjjqXNbHVxB9dQU573Vv4IGyNsOvuxt+FkqVttwoXiHnlha
-         bgYxFZKf9mAETjuc5Re4gW83epJmp8QecIyShtRq1fVTZ0eE3AUuZ+HtG1DXTH6P3985
-         roFyChqSSsBqBTqhLrBthnG6e89R3+VrwG5xPAijNHENQuetA+ubJtB6S4w5R9ddnqj/
-         EIejlZ48tSVyb6gERJaUAmBxakSdwWEl4R1SB74zxl0VfOpzSYxQv0C0okNruIIy5tOS
-         o1nbBNiffUlokfW5s1i+PiKivTcUiP+L6x8/jggt5f0oj2VMZreuZhuAEvHCFbuc41wp
-         E32Q==
+        d=gmail.com; s=20230601; t=1772595850; x=1773200650; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MqPUSx7NN053MAPTpYFUkReAMvsw/zhPAKa/7nlb7s8=;
+        b=eTrE/rL7z7F3CCIhF0mOV8CBdPaR+kJKEvngi+PQ9D0gsIzKVysC4evf9RxvqrltC0
+         OofhkAhlyb4fmyUHbPITU2EMzSmM+7umsJs6Mjr+R6ApGPe84zurVhahgaJp/elOHMQk
+         8ZS9sGuQ/al8JlxeZ+ewBnahBGiFoHeVtqOKoGZaQwcROONZ/vshEL0JOm+wPhf+o47N
+         Q5scIBruW8RfJmxjrAwq77X442ByE1yU8TSRCiAjpzqHvm3uwbEP50j/XDPf5XYKllyi
+         Eq2quY6sIHTG0Sv95liLpcXMDSa+MG4F5b3EHLSczdcFlDEc35sYyCkwd2lU5pUjy0I8
+         nEnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772595849; x=1773200649;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+UX3cCFsEn7IKh2oIgy8th+LH6QgE2NnzyAhbtsRwgI=;
-        b=LdlHKcHWN9m6+7DNydyZJEP+Mj5O5sJjmjp6LiX2+9AWvUHkPV4NIyecDpjywHCvsv
-         kU/EJmVE8C31bOljtuN0kzZJiovkXFFY+9uZtJ0iPSxz1NO9Sv8N82xrU0lvjMb8HRRv
-         Dt4P0B2ZUbF6lXBEKC4+pb3dUUOYlE/GTDAPCQMPG0drVOE/4wObWW0KAcmJMB8gNGme
-         axOZwfEk1EeJMeyr9WIXL9e3W21Z8PTBEBroMcfCZoIBtcBJcRDDM2y8eK15mjSJu/R4
-         nj2VguULrPL+MKfuCDkelFLDzwz0Dbl/ul7EO73m9GD+puvTVwdwwniOoC4sW9ZMtq8D
-         efaw==
-X-Forwarded-Encrypted: i=1; AJvYcCWm1ZWjb3afrAJ269zYXOLqyOVkvXV2V7WRM/+KNFW39B8hreDSnNBREDlzVV2GNwS/zBIP9lA1bP9NxA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzXW7mIeO7GDVbaHPPyPeR3Q803NCv88yNTZj88QtLSvL8KHrmY
-	VxJ/VCOmAvM7+BCZPGYzfMqP/qHkphj/8mYCBVdQHJb7JeZHFuxMBhl4tVx6rL+C
-X-Gm-Gg: ATEYQzxtbDT0JdQXS/+HMZ6uSF5/zRN3h98cxYrKWM52LS0o5Ap9ATVCGOG2I3S3rt6
-	BvzAfKTmo/KmwTT/FhQXEVOmmt+7X065RGpcxS8XuOEwDaAqVMu/P7SYXje/irfFpgRc4qdS5GX
-	Jqkne1llZqRUmwgMfaAlBCTwKNTnpTR0v735UgiOlwwYbc8F8+6cm1s7/9Hy/Lqt3wPbhzlnkxg
-	RbCVaSsHMyDqvj7Xvk+P6WbkNS8Axi8CipYixI92MIgrpVcz6auXxkdkXTPcNXngU3xDVX9k/6z
-	ahaTVp1QxNebcI0f/PZqU/5y0BNmcB7ih9xFKEiGzS6POSdI70posNBnIx2tYJ9mXdRU04pFmrn
-	xJJKLi2KG2yyjWFHtdPqkOva8ghjpxBrAdsZQVb71AhkrUJW5o1RgewzCo+dmd/x8PAp3mmpRy7
-	IYcOVk2hFnSuWPDkFZMKbVjpzcRMU/0uct0tn19g==
-X-Received: by 2002:a05:6214:1d06:b0:89a:ec6:101f with SMTP id 6a1803df08f44-89a1998c1e7mr7800326d6.1.1772595848813;
-        Tue, 03 Mar 2026 19:44:08 -0800 (PST)
+        d=1e100.net; s=20230601; t=1772595850; x=1773200650;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=MqPUSx7NN053MAPTpYFUkReAMvsw/zhPAKa/7nlb7s8=;
+        b=ILn0KE5BFHduggtZQV6CWRVXsRbszP/eFhXV4c0EWLlzpUKxwmB3cUZ47MYCdRaGEG
+         l55eANAr+WfF21wRGYnjiy/iIq4O0B0NXcb2edsRUuv/ZXGJBL/43nWma1lEWEZNNC8y
+         TvrxfJft79a0mlno5xVl+NF9nqbMgEtKY2FKwrzPSHqI/o7mJTFLqDoqphG/TRQdPIw/
+         Tb7py8mHtmL6D9BwsYXffHdneIyIU4tfXThnsjo9aept3gfws8SpNQ/sLhN9s1//Jd2q
+         gn50EhejBaEMRGznkBiOBWI/xtwFutRyEGYdKees9wlecmjl9WAlXMxaCP/p8AUPcGTV
+         9X5w==
+X-Forwarded-Encrypted: i=1; AJvYcCV9UAUO353GUbexvvxdM1i2hjoqIxqfI6mQ3/R1iGJ7HggOR73RMxsii8ePuzq9M1OAVmPV1pVNtiN6nw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwQ5Fd1i7nSM2Hu9WiB/qITjJiv8ZikV2pmS/CXFk1fVaOJfMv1
+	WEQ2bPLxNwHnxna5s9lDO46z+fFb0ejmdH/qntVyuU0Cq99l00Rk9QSj
+X-Gm-Gg: ATEYQzzPihnB+UkbR4HEpv2f+iEsrDTyCGihtWsY0/U/HtdQBu2uLX26dOqtzfI3S6T
+	Sw47QjvMJADZR7KrGaZzOS1TVYa+sRJi6iTZ+cb8MkKOdPXnF+Z29+FTC4GnWiXbIY3eucir1KN
+	lAdYFW8qVjjuA+0UUIagnTudVYxjige36yh+hRFeOMH8/Z50Y45/YIpEfXs8gXkabiAyEEXDfVl
+	cuADcyeM4FKUgWo+j/G6yw/GuQDsW01Dxiu1vS7uIq6wbEAU2+OcnsqS29X0Xjpme6KPrOF/mc0
+	eABhGj3mI3qY2szUbdqtV+Fj0CRma3w1vxXq0rWBeiLrW9kuKyO9k9E28h38Rq59T51nP0jYnLT
+	EAix95dXDr3D0VyuOLawLx3Xl+uFKBMDeXcpi+//GpYm1SzPTmBNONwFIMFjaNrV56Q204q63BH
+	d+ARi8U+mQ2C3245Lotrx2OyoR8PU=
+X-Received: by 2002:a05:622a:1828:b0:506:9b3a:2199 with SMTP id d75a77b69052e-508db4352a5mr7908731cf.67.1772595849959;
+        Tue, 03 Mar 2026 19:44:09 -0800 (PST)
 Received: from [172.17.0.2] ([134.128.219.200])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-899e608cfc6sm88603286d6.14.2026.03.03.19.44.07
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-899e608cfc6sm88603286d6.14.2026.03.03.19.44.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2026 19:44:08 -0800 (PST)
+        Tue, 03 Mar 2026 19:44:09 -0800 (PST)
 From: Yuanshen Cao <alex.caoys@gmail.com>
-Subject: [PATCH 0/2] allwinner: a733: Add A733 PCK600 Power Domain
- Controller Support
-Date: Wed, 04 Mar 2026 03:43:43 +0000
-Message-Id: <20260304-b4-pck600-a733-v1-0-2f54efdb8cc2@gmail.com>
+Date: Wed, 04 Mar 2026 03:43:44 +0000
+Subject: [PATCH 1/2] dt-bindings: power: Add Support for Allwinner A733
+ PCK600 Power Domain Controller
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -69,10 +70,9 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAG+qp2kC/x3MQQqAIBBA0avIrBuYUrS6SrSonGoIShQikO6et
- HyL/zMkjsIJepUh8i1JrrOgrhQs+3RujOKLoaHGkiaDs8GwHJYIJ6c11q4jJjatNx2UKERe5fm
- Hw/i+Hwha8cxgAAAA
-X-Change-ID: 20260304-b4-pck600-a733-1790e0e48d49
+Message-Id: <20260304-b4-pck600-a733-v1-1-2f54efdb8cc2@gmail.com>
+References: <20260304-b4-pck600-a733-v1-0-2f54efdb8cc2@gmail.com>
+In-Reply-To: <20260304-b4-pck600-a733-v1-0-2f54efdb8cc2@gmail.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
  Jernej Skrabec <jernej.skrabec@gmail.com>, 
@@ -82,38 +82,83 @@ Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-pm@vger.kernel.org, Yuanshen Cao <alex.caoys@gmail.com>
 X-Mailer: b4 0.14.3
 
-Hi everyone,
+The A733 PCK600, similar to A523 PCK600, is likely a customized version
+of ARM PCK-600 power controller. They share the same BSP drivers in the
+package provided by Radxa, with the only difference being the lack of
+resets.
 
-This series is to introduce Allwinner A733 PCK600 Power Domain
-Controller.
-
-Allwinner A733 has this one power domain controller, PCK600, which
-shares the same BSP drivers according to the package provided by 
-Radxa[1]. Unlike A523, A733 does not require the resets. Apart 
-from that, driver wise, everything else is the same. 
-
-Add support for A733 power domain controller by making resets optional
-on sun55i-pck600 driver, adding A733 sunxi_pck600_desc and dt-bindings 
-definitions.
-Tested on Radxa Cubie A7Z.
-
-[1] https://github.com/radxa/allwinner-bsp
+Therefore, document A733 compatible and make resets required only for
+the other models, as well as prepare the PD definitions for future
+device trees.
 
 Signed-off-by: Yuanshen Cao <alex.caoys@gmail.com>
 ---
-Yuanshen Cao (2):
-      dt-bindings: power: Add Support for Allwinner A733 PCK600 Power Domain Controller
-      pmdomain: sunxi: Add support for A733 to Allwinner PCK600 driver
+ .../bindings/power/allwinner,sun20i-d1-ppu.yaml        | 17 ++++++++++++++++-
+ .../dt-bindings/power/allwinner,sun60i-a733-pck-600.h  | 18 ++++++++++++++++++
+ 2 files changed, 34 insertions(+), 1 deletion(-)
 
- .../bindings/power/allwinner,sun20i-d1-ppu.yaml    | 17 ++++++-
- drivers/pmdomain/sunxi/sun55i-pck600.c             | 53 ++++++++++++++++++++--
- .../power/allwinner,sun60i-a733-pck-600.h          | 18 ++++++++
- 3 files changed, 82 insertions(+), 6 deletions(-)
----
-base-commit: 0031c06807cfa8aa51a759ff8aa09e1aa48149af
-change-id: 20260304-b4-pck600-a733-1790e0e48d49
+diff --git a/Documentation/devicetree/bindings/power/allwinner,sun20i-d1-ppu.yaml b/Documentation/devicetree/bindings/power/allwinner,sun20i-d1-ppu.yaml
+index a28e75a9cb6a..b97361ce2a00 100644
+--- a/Documentation/devicetree/bindings/power/allwinner,sun20i-d1-ppu.yaml
++++ b/Documentation/devicetree/bindings/power/allwinner,sun20i-d1-ppu.yaml
+@@ -20,6 +20,7 @@ properties:
+       - allwinner,sun20i-d1-ppu
+       - allwinner,sun55i-a523-pck-600
+       - allwinner,sun55i-a523-ppu
++      - allwinner,sun60i-a733-pck-600
+ 
+   reg:
+     maxItems: 1
+@@ -38,9 +39,23 @@ required:
+   - compatible
+   - reg
+   - clocks
+-  - resets
+   - '#power-domain-cells'
+ 
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - allwinner,sun8i-v853-ppu
++              - allwinner,sun20i-d1-ppu
++              - allwinner,sun55i-a523-pck-600
++              - allwinner,sun55i-a523-ppu
++
++    then:
++      required:
++        - resets
++
+ additionalProperties: false
+ 
+ examples:
+diff --git a/include/dt-bindings/power/allwinner,sun60i-a733-pck-600.h b/include/dt-bindings/power/allwinner,sun60i-a733-pck-600.h
+new file mode 100644
+index 000000000000..cf476a005b55
+--- /dev/null
++++ b/include/dt-bindings/power/allwinner,sun60i-a733-pck-600.h
+@@ -0,0 +1,18 @@
++/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
++
++#ifndef _DT_BINDINGS_POWER_SUN60I_A733_PCK600_H_
++#define _DT_BINDINGS_POWER_SUN60I_A733_PCK600_H_
++
++#define PD_VI			0
++#define PD_DE_SYS		1
++#define PD_VE_DEC		2
++#define PD_VE_ENC		3
++#define PD_NPU			4
++#define PD_GPU_TOP		5
++#define PD_GPU_CORE		6
++#define PD_PCIE			7
++#define PD_USB2			8
++#define PD_VO			9
++#define PD_VO1			10
++
++#endif /* _DT_BINDINGS_POWER_SUN60I_A733_PCK600_H_ */
 
-Best regards,
 -- 
-Yuanshen Cao <alex.caoys@gmail.com>
+2.53.0
 
