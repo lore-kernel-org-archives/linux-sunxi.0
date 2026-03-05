@@ -1,328 +1,172 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50740377EDE
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Mar 2026 09:36:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A901036606E
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Mar 2026 09:43:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772703392; cv=none; b=WplNYy6IX0BvZ6slQ8OU0SiIGHYlwobdESgcPQ5erA3Zm2BULcsB188U13noxh6xyemfKkgO48ZR3F67K1VWGYQJJVRUXro2F4jrV2WRD31FjElvsZspOj1QJ6iUzxXrARNKcWktB0wcpxopOuqKUS8R7MqOy9RPyicVJH0Rxqw=
+	t=1772703812; cv=none; b=bt5tTN8N9UrTbWTai+Cyz2kXC2Nbzz3ozhmoswb0quRn6Y9Ax7j6309jfM6HUv4P9rMdLmergRwC0Q0HB4I3VEnuHEDc//OqAP2eMP5K4TzYb/ogDofi4AupoOds8atSMZdITMGEyd1JuhLvCtwQctKAZj3PFMHpOP5nIpGEhQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772703392; c=relaxed/simple;
-	bh=CMgXM6u7309Wn3e+oqvoc7hX9vYREWTZOtF5JH1MCY8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=qDUs3Cv3VKqnybfDreN1Mw4z/UvG6HRU4nMIYZN22p71vq2JfwI5e4p4lt8R4CJSZD6ncITr57DtGjNNEedYhI+tvfH3AD/p6ii3hbuZiIXd41nCg2Qs1HKcOPm3bLUX2VfFN0kHuir76a/NZ/vutU/4jsEpYXoqvBlxYYC9LPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=LZ25h2kg; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1772703812; c=relaxed/simple;
+	bh=839+nzH4okvwdDk+k8ZaAg5k9wsWxAATZcpVf8bWMJg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AXeraA66/Cz1wJmfBD0x447ISUfTVNXxbX1p65iGQA09CX1Cq6m1oEYbw3lPbFz8w64/0MJOwBcchq76apJMvezgMe8WD/GfuvfuuYDFraF+KQjc0HhbTxZohC2F9/+AyI8Ubm+3NbDSzZbFsiO0jOZXrZVDrp/NNN0u9ThJcLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bXK1gu6J; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="LZ25h2kg"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-439c9bdc1eeso1569059f8f.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 05 Mar 2026 01:36:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1772703385; x=1773308185; darn=lists.linux.dev;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mbidr/A9XxccdAFsJsVKLL2bBtmGRz8XUrt7LUMLgOs=;
-        b=LZ25h2kgYQD1Mx3nQnRbYgPxp0ZyeGGafFGIYuogoY9dIKLZM1fO+z05NJambqacsl
-         h0yE/ybRechesrWeT7Z0UhbtPgcV8BDOjcK/T9t7h48nkfEr8KatpK5epbNeOjMIICIf
-         edXWLZN1whTDSOCmCMTP7v/Na0rJzGC+iUsVG3PFsQaKcnVf2XyOyE1hFGzHUqHKjyxs
-         L0QaCYCvTpBLOEBTznuZswAoUro5NDfTfNa/R/gAGy8KBKz/YMFnEr2bSIBJdd02amKW
-         pT4ZQPV+8fmbA5XsX59dGhogI2LANey6LOjsEETOSqIp9wXgf/jBfER/WjpO8g6EJYz3
-         pzwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772703385; x=1773308185;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Mbidr/A9XxccdAFsJsVKLL2bBtmGRz8XUrt7LUMLgOs=;
-        b=sWpURWiJlKsRFOzJfAWYg9xOQy81kc+IK4AICz8tWfKP7vUzfwnS3xA5n3XvQPk+dZ
-         Pt1C7zRFhlgEBkL7twV7erL2HiJ/EFK0YPdlsHwz8UGFVoKntBE7+jpNlhmpZwjFa1oN
-         ZXdpHpmbIZdKtviupLfbpBfmTtzQAZC2v70vm0pD5BpC3VWDB76es4OKO25dkEV8f3SK
-         Q+NPNM1f0xGEb4ubqcUwgc238OkWcl9dbt0fYi3GLO04aMN72/1cJjz0mP6V9V09ULH8
-         kHLGFHDQtviSVILX+4nZl8h5+LW/Qe3BNKzfgpjvTv0lLOjl1fJrrjQUFhpjMy+Whbo+
-         GxqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVMDXjOHpJ/XkUplY0q2xdqXKdviW1UtC+MlR00Ea3Mhu91vnT12w1LHdUA5nzCcVD6wJkI7Wj/RgfqYA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzeXw6Kaf+GjAWUAyYFej312fkNfKscGKYyjcaPjd7ATaMWVEv9
-	ja3uMLY/t4TK6aFSrT6ZWiDJ7zWuaZjVLqJwYnjwLhVShoeoh7Lhs5Oa2v4/95wBlJg=
-X-Gm-Gg: ATEYQzxwzhM3a4OQtAR9R5DKzu6dtBWFwXlqvB1zCZHrQFGBnqueOKshmX7tLJPWRcz
-	6jixqefbJI3ppx+yE6hLkskb45zn2+nVVBbGjbqde2fJ/BiD3e6KTADTjrZ5Il6cOh7HVNWnChM
-	KDX27Z+Qjo3Xg6PyproYJphHhEz4AUHWv2ZxRPrQmVzbg7SNtD0ye0wlnhstgAyf9rz3Cttkti3
-	ViBHE2Kp2RpRpse/XdprTbekc9RQ4f+9R80qrR4GTKRFAWqn80m8DUKRhd1qAKYH82Vp43qK6VJ
-	SwXRy/IDzzn8hsAeDv83vBA/xKJ/eyI7RUZxSCZaj5GibMolb9BX2I2pc1u6dXBv3tKswE67MXR
-	jjB8uoUfoSdPfvA5b66EY3scnF9Vw9vbcNf74HZAzkRlxzqbWf8VKrHVd5cYR/wBeVczJN1O0LS
-	hM6Wnm8w1R24tYOzU=
-X-Received: by 2002:a05:6000:144f:b0:439:b564:7a6c with SMTP id ffacd0b85a97d-439c7f6a2c9mr9158913f8f.4.1772703384539;
-        Thu, 05 Mar 2026 01:36:24 -0800 (PST)
-Received: from localhost ([195.52.25.213])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439c2f7eca1sm14966458f8f.11.2026.03.05.01.36.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 01:36:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bXK1gu6J"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 33EC04E42566;
+	Thu,  5 Mar 2026 09:43:29 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id F3A955FDEB;
+	Thu,  5 Mar 2026 09:43:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3CF8F103697F1;
+	Thu,  5 Mar 2026 10:43:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1772703808; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=sb47bLopwDRLC5J3uAYZg0LFklpkyKvQunefwmeTams=;
+	b=bXK1gu6J7ay7a68D7nPXR5xQVhLiZacnJbh1I8p2gZN0vPfoA531M2Gbc0LCIezghjQNOW
+	H+Ro4ekCByLVmspDgNulHKjWBokdS+IxN+3o2XSFe55qW+xSiGZCCyreXbg89CwlnK50bc
+	tX4KHC2uitPqueFNnhdLLJMDXbmgtxGdrWHko5gksW/Z6ghDSJY7eNc/nW2Nk3SwBeqx4q
+	IIh2A1U5ybayI80OJ/fk8nElwnvGUdyCP5e7JaljnjNX3foSJ/TFPfR5lN0Wi70qvGKjPY
+	6TlESW/0auIYXl7znkgKolv3sYAkQXPIrtD/B38fDX/Ucct6cOespDUAV5QmMw==
+Message-ID: <c3676b98-a0d2-402a-8d6e-8eb0325d32ef@bootlin.com>
+Date: Thu, 5 Mar 2026 10:43:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=b895f1e89350da7f8491f35b99d431866030fe6df54b62358155e9918430;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Thu, 05 Mar 2026 10:36:14 +0100
-Message-Id: <DGUQWFYCPRQZ.17SO07GXW2DYA@baylibre.com>
-From: "Markus Schneider-Pargmann" <msp@baylibre.com>
-To: "Vladimir Oltean" <vladimir.oltean@nxp.com>,
- <linux-phy@lists.infradead.org>
-Cc: "Vinod Koul" <vkoul@kernel.org>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-can@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-ide@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <linux-pci@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
- <linux-riscv@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
- <linux-samsung-soc@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
- <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
- <netdev@vger.kernel.org>, <spacemit@lists.linux.dev>,
- <UNGLinuxDriver@microchip.com>, "Andrzej Hajda" <andrzej.hajda@intel.com>,
- "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Andy Yan"
- <andy.yan@rock-chips.com>, "Marc Kleine-Budde" <mkl@pengutronix.de>,
- "Vincent Mailhol" <mailhol@kernel.org>, "Nicolas Ferre"
- <nicolas.ferre@microchip.com>, "Alexandre Belloni"
- <alexandre.belloni@bootlin.com>, "Claudiu Beznea"
- <claudiu.beznea@tuxon.dev>, "Markus Schneider-Pargmann" <msp@baylibre.com>,
- "Geert Uytterhoeven" <geert+renesas@glider.be>, "Magnus Damm"
- <magnus.damm@gmail.com>
-Subject: Re: [PATCH phy-next 13/22] phy: introduce phy_get_max_link_rate()
- helper for consumers
-X-Mailer: aerc 0.21.0
-References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
- <20260304175735.2660419-14-vladimir.oltean@nxp.com>
-In-Reply-To: <20260304175735.2660419-14-vladimir.oltean@nxp.com>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/6] mtd: rawnand: sunxi: do not count BBM bytes twice
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ James Hilliard <j.hilliard@upstreamdata.ca>
+Cc: Wentao Liang <vulab@iscas.ac.cn>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20260220161011.999642-1-richard.genoud@bootlin.com>
+ <20260220161011.999642-4-richard.genoud@bootlin.com>
+ <1947198.tdWV9SEqCh@jernej-laptop>
+From: Richard GENOUD <richard.genoud@bootlin.com>
+Content-Language: en-US, fr
+Organization: Bootlin
+In-Reply-To: <1947198.tdWV9SEqCh@jernej-laptop>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
---b895f1e89350da7f8491f35b99d431866030fe6df54b62358155e9918430
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+Le 21/02/2026 à 10:21, Jernej Škrabec a écrit :
+> Dne petek, 20. februar 2026 ob 17:10:08 Srednjeevropski standardni čas je Richard Genoud napisal(a):
+>> BBM is part of USER_DATA section, so we should remove it twice
+>>
+>> This was working ok because we are on the safe size, advertising that
+>> there was 2 bytes less available than reality.
+> 
+> Missing "in" before "reality".
+ok
 
-Hi,
+> 
+>>
+>> But we can't change old platforms, since it may lead to a different ECC
+>> strength, so, introduce a legacy flag for old platforms, and switch the
+>> new platforms to the correct count.
+> 
+> There aren't any users of H6/H616 driver, right? If it would be, ECC strength
+> can't be changed, since it can impact systems, which already use it.
+AFAIK, the only users for now would be on whatsminer boards and are not 
+impacted by this (the ECC strength won't change from 32 to 40bits on 
+those boards).
+(Adding James in Cc, as he may know more on the subject)
 
-On Wed Mar 4, 2026 at 6:57 PM CET, Vladimir Oltean wrote:
-> Consumer drivers shouldn't dereference struct phy, not even to get to
-> its attributes.
->
-> We have phy_get_bus_width() as a precedent for getting the bus_width
-> attribute, so let's add phy_get_max_link_rate() and use it in DRM and
-> CAN drivers.
->
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-> ---
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Andy Yan <andy.yan@rock-chips.com>
-> Cc: Marc Kleine-Budde <mkl@pengutronix.de>
-> Cc: Vincent Mailhol <mailhol@kernel.org>
-> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-> Cc: Markus Schneider-Pargmann <msp@baylibre.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Magnus Damm <magnus.damm@gmail.com>
-> ---
->  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 4 ++--
->  drivers/gpu/drm/bridge/synopsys/dw-dp.c             | 2 +-
->  drivers/net/can/at91_can.c                          | 2 +-
->  drivers/net/can/flexcan/flexcan-core.c              | 2 +-
->  drivers/net/can/m_can/m_can_platform.c              | 2 +-
->  drivers/net/can/rcar/rcar_canfd.c                   | 2 +-
->  drivers/phy/phy-core.c                              | 6 ++++++
->  include/linux/phy/phy.h                             | 6 ++++++
->  8 files changed, 19 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/driver=
-s/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> index a8b6ae58cb0a..ed7ed82ddb64 100644
-> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> @@ -1300,7 +1300,7 @@ static u32 cdns_mhdp_get_training_interval_us(struc=
-t cdns_mhdp_device *mhdp,
-> =20
->  static void cdns_mhdp_fill_host_caps(struct cdns_mhdp_device *mhdp)
->  {
-> -	unsigned int link_rate;
-> +	u32 link_rate;
-> =20
->  	/* Get source capabilities based on PHY attributes */
-> =20
-> @@ -1308,7 +1308,7 @@ static void cdns_mhdp_fill_host_caps(struct cdns_mh=
-dp_device *mhdp)
->  	if (!mhdp->host.lanes_cnt)
->  		mhdp->host.lanes_cnt =3D 4;
-> =20
-> -	link_rate =3D mhdp->phy->attrs.max_link_rate;
-> +	link_rate =3D phy_get_max_link_rate(mhdp->phy);
->  	if (!link_rate)
->  		link_rate =3D drm_dp_bw_code_to_link_rate(DP_LINK_BW_8_1);
->  	else
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-dp.c b/drivers/gpu/drm/br=
-idge/synopsys/dw-dp.c
-> index 4ab6922dd79c..79c72ee8e263 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-> @@ -536,7 +536,7 @@ static int dw_dp_link_parse(struct dw_dp *dp, struct =
-drm_connector *connector)
-> =20
->  	link->revision =3D link->dpcd[DP_DPCD_REV];
->  	link->rate =3D min_t(u32, min(dp->plat_data.max_link_rate,
-> -				    dp->phy->attrs.max_link_rate * 100),
-> +				    phy_get_max_link_rate(dp->phy) * 100),
->  			   drm_dp_max_link_rate(link->dpcd));
->  	link->lanes =3D min_t(u8, phy_get_bus_width(dp->phy),
->  			    drm_dp_max_lane_count(link->dpcd));
-> diff --git a/drivers/net/can/at91_can.c b/drivers/net/can/at91_can.c
-> index 58da323f14d7..b56db253f02d 100644
-> --- a/drivers/net/can/at91_can.c
-> +++ b/drivers/net/can/at91_can.c
-> @@ -1126,7 +1126,7 @@ static int at91_can_probe(struct platform_device *p=
-dev)
->  	can_rx_offload_add_timestamp(dev, &priv->offload);
-> =20
->  	if (transceiver)
-> -		priv->can.bitrate_max =3D transceiver->attrs.max_link_rate;
-> +		priv->can.bitrate_max =3D phy_get_max_link_rate(transceiver);
-> =20
->  	if (at91_is_sam9263(priv))
->  		dev->sysfs_groups[0] =3D &at91_sysfs_attr_group;
-> diff --git a/drivers/net/can/flexcan/flexcan-core.c b/drivers/net/can/fle=
-xcan/flexcan-core.c
-> index f5d22c61503f..3a4307bc1d61 100644
-> --- a/drivers/net/can/flexcan/flexcan-core.c
-> +++ b/drivers/net/can/flexcan/flexcan-core.c
-> @@ -2211,7 +2211,7 @@ static int flexcan_probe(struct platform_device *pd=
-ev)
->  	priv->transceiver =3D transceiver;
-> =20
->  	if (transceiver)
-> -		priv->can.bitrate_max =3D transceiver->attrs.max_link_rate;
-> +		priv->can.bitrate_max =3D phy_get_max_link_rate(transceiver);
-> =20
->  	if (priv->devtype_data.quirks & FLEXCAN_QUIRK_NR_IRQ_3) {
->  		priv->irq_boff =3D platform_get_irq(pdev, 1);
-> diff --git a/drivers/net/can/m_can/m_can_platform.c b/drivers/net/can/m_c=
-an/m_can_platform.c
-> index 56da411878af..73525be6566b 100644
-> --- a/drivers/net/can/m_can/m_can_platform.c
-> +++ b/drivers/net/can/m_can/m_can_platform.c
-> @@ -132,7 +132,7 @@ static int m_can_plat_probe(struct platform_device *p=
-dev)
->  	}
-> =20
->  	if (transceiver)
-> -		mcan_class->can.bitrate_max =3D transceiver->attrs.max_link_rate;
-> +		mcan_class->can.bitrate_max =3D phy_get_max_link_rate(transceiver);
-> =20
->  	priv->base =3D addr;
->  	priv->mram_base =3D mram_addr;
-> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rca=
-r_canfd.c
-> index eaf8cac78038..645d5671705d 100644
-> --- a/drivers/net/can/rcar/rcar_canfd.c
-> +++ b/drivers/net/can/rcar/rcar_canfd.c
-> @@ -1885,7 +1885,7 @@ static int rcar_canfd_channel_probe(struct rcar_can=
-fd_global *gpriv, u32 ch,
->  	priv->channel =3D ch;
->  	priv->gpriv =3D gpriv;
->  	if (transceiver)
-> -		priv->can.bitrate_max =3D transceiver->attrs.max_link_rate;
-> +		priv->can.bitrate_max =3D phy_get_max_link_rate(transceiver);
->  	priv->can.clock.freq =3D fcan_freq;
->  	dev_info(dev, "can_clk rate is %u\n", priv->can.clock.freq);
-> =20
-> diff --git a/drivers/phy/phy-core.c b/drivers/phy/phy-core.c
-> index a1aff00fba7c..89f7410241aa 100644
-> --- a/drivers/phy/phy-core.c
-> +++ b/drivers/phy/phy-core.c
-> @@ -640,6 +640,12 @@ void phy_set_bus_width(struct phy *phy, int bus_widt=
-h)
->  }
->  EXPORT_SYMBOL_GPL(phy_set_bus_width);
-> =20
-> +u32 phy_get_max_link_rate(struct phy *phy)
-> +{
-
-All of the can drivers that would use this function are checking phy
-before assigning the max_link_rate:
-
-  if (transceiver)
-          priv->can.bitrate_max =3D transceiver->attrs.max_link_rate;
-
-Would it be reasonable to have
-
-  if (!phy)
-          return 0;
-
-in this function to be able to drop these individual checks of the
-drivers? This would be similar to clk_get_rate() which does the same
-check and return 0 for convenience.
-
-Best
-Markus
-
-> +	return phy->attrs.max_link_rate;
-> +}
-> +EXPORT_SYMBOL_GPL(phy_get_max_link_rate);
-> +
->  /**
->   * _of_phy_get() - lookup and obtain a reference to a phy by phandle
->   * @np: device_node for which to get the phy
-> diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
-> index 36307e47760d..af9c3e795786 100644
-> --- a/include/linux/phy/phy.h
-> +++ b/include/linux/phy/phy.h
-> @@ -57,6 +57,7 @@ int phy_notify_disconnect(struct phy *phy, int port);
->  int phy_notify_state(struct phy *phy, union phy_notify state);
->  int phy_get_bus_width(struct phy *phy);
->  void phy_set_bus_width(struct phy *phy, int bus_width);
-> +u32 phy_get_max_link_rate(struct phy *phy);
->  #else
->  static inline struct phy *phy_get(struct device *dev, const char *string=
-)
->  {
-> @@ -256,6 +257,11 @@ static inline int phy_get_bus_width(struct phy *phy)
->  static inline void phy_set_bus_width(struct phy *phy, int bus_width)
->  {
->  }
-> +
-> +static inline u32 phy_get_max_link_rate(struct phy *phy)
-> +{
-> +	return 0;
-> +}
->  #endif /* IS_ENABLED(CONFIG_GENERIC_PHY) */
-> =20
->  #endif /* __PHY_CONSUMER_H */
+> 
+> Best regards,
+> Jernej
+> 
+>>
+>> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+>> ---
+>>   drivers/mtd/nand/raw/sunxi_nand.c | 23 ++++++++++++++++++++---
+>>   1 file changed, 20 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
+>> index 9c6e0625e34f..99d305bbda53 100644
+>> --- a/drivers/mtd/nand/raw/sunxi_nand.c
+>> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
+>> @@ -281,6 +281,8 @@ static inline struct sunxi_nand_chip *to_sunxi_nand(struct nand_chip *nand)
+>>    * @has_ecc_block_512:	If the ECC can handle 512B or only 1024B chuncks
+>>    * @has_ecc_clk:	If the controller needs an ECC clock.
+>>    * @has_mbus_clk:	If the controller needs a mbus clock.
+>> + * @legacy_max_strength:If the maximize strength function was off by 2 bytes
+>> + *			NB: this should not be used in new controllers
+>>    * @reg_io_data:	I/O data register
+>>    * @reg_ecc_err_cnt:	ECC error counter register
+>>    * @reg_user_data:	User data register
+>> @@ -310,6 +312,7 @@ struct sunxi_nfc_caps {
+>>   	bool has_ecc_block_512;
+>>   	bool has_ecc_clk;
+>>   	bool has_mbus_clk;
+>> +	bool legacy_max_strength;
+>>   	unsigned int reg_io_data;
+>>   	unsigned int reg_ecc_err_cnt;
+>>   	unsigned int reg_user_data;
+>> @@ -1811,10 +1814,22 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand_chip *nand,
+>>   		ecc->size = 1024;
+>>   		nsectors = mtd->writesize / ecc->size;
+>>   
+>> -		/* Reserve 2 bytes for the BBM */
+>> -		bytes = (mtd->oobsize - 2) / nsectors;
+>> +		/*
+>> +		 * The 2 BBM bytes should not be removed from the grand total,
+>> +		 * because they are part of the USER_DATA_SZ.
+>> +		 * But we can't modify that for older platform since it may
+>> +		 * result in a stronger ECC at the end, and break the
+>> +		 * compatibility.
+>> +		 */
+>> +		if (nfc->caps->legacy_max_strength)
+>> +			bytes = (mtd->oobsize - 2) / nsectors;
+>> +		else
+>> +			bytes = mtd->oobsize / nsectors;
+>>   
+>> -		/* 4 non-ECC bytes are added before each ECC bytes section */
+>> +		/*
+>> +		 * USER_DATA_SZ non-ECC bytes are added before each ECC bytes
+>> +		 * section, they contain the 2 BBM bytes
+>> +		 */
+>>   		bytes -= USER_DATA_SZ;
+>>   
+>>   		/* and bytes has to be even. */
+>> @@ -2379,6 +2394,7 @@ static const u8 sunxi_user_data_len_h6[] = {
+>>   
+>>   static const struct sunxi_nfc_caps sunxi_nfc_a10_caps = {
+>>   	.has_ecc_block_512 = true,
+>> +	.legacy_max_strength = true,
+>>   	.reg_io_data = NFC_REG_A10_IO_DATA,
+>>   	.reg_ecc_err_cnt = NFC_REG_A10_ECC_ERR_CNT,
+>>   	.reg_user_data = NFC_REG_A10_USER_DATA,
+>> @@ -2400,6 +2416,7 @@ static const struct sunxi_nfc_caps sunxi_nfc_a10_caps = {
+>>   static const struct sunxi_nfc_caps sunxi_nfc_a23_caps = {
+>>   	.has_mdma = true,
+>>   	.has_ecc_block_512 = true,
+>> +	.legacy_max_strength = true,
+>>   	.reg_io_data = NFC_REG_A23_IO_DATA,
+>>   	.reg_ecc_err_cnt = NFC_REG_A10_ECC_ERR_CNT,
+>>   	.reg_user_data = NFC_REG_A10_USER_DATA,
+>>
+> 
+> 
+> 
+> 
 
 
---b895f1e89350da7f8491f35b99d431866030fe6df54b62358155e9918430
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iKMEABYKAEsWIQSJYVVm/x+5xmOiprOFwVZpkBVKUwUCaalOjxsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIRHG1zcEBiYXlsaWJyZS5jb20ACgkQhcFWaZAVSlPc
-SwEAt3Fg0ly9qnS+HJQv96JGhcc9ssPHPspnN0LcoiUH76oBAJJ1UWuuXcnIsBb3
-namewJQN1U0nDnFUFRtJbSq49LcK
-=6g8b
------END PGP SIGNATURE-----
-
---b895f1e89350da7f8491f35b99d431866030fe6df54b62358155e9918430--
+-- 
+Richard Genoud, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
