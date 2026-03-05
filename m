@@ -1,131 +1,148 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9CD375F62
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Mar 2026 09:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772703855; cv=none; b=joYtGFc5RmoxA0hmEXMCGjrFt5Ribb1EzsaYRQGZcrecns18CzMuzA0GYMAe58Z7BxjbVfs0JeTzo0g9o6H9hyIm5MJM4ebYjC3c0tYgI2VjLArFD7a71ZXPkhue78f6Ay2QrLxm7ZeK1JDEOmyenboy3Gu5CNTfluL/Z4nejBg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772703855; c=relaxed/simple;
-	bh=0jH5znvxNnd1gWUS28cgmfAB8niis06uGR7xwFq0jo4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iBLhIXsYNtU4XPqu9v1sz4nG/WPglofUhcjvXGpktqCVEZQGNefdRUJ0Tp5w0XwVUEaidq0HtrQGSbRlJ3onx+z5feS/soX8j5ShdyEkeoC/H3LzHyscLdPNh6XFWEndukDBLZtrrsXhGVpAXdyhqxpuYRK2H3aM8hDq8MoPVBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=KRWp0R58; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D21937AA63;
+	Thu,  5 Mar 2026 09:53:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772704401; cv=pass; b=sHpkZDOg5aCAwnWepiOMBCleEUUk/sk+VwhbEo+qklcErVfEhjmW4IeImLhosplFJCQkszsLEylYBXPXKCl4TEO6fmSpcps9UYqCVnwc6lZkTsRDFnHEeecImcz9LTQftzQ5v+JFUvSU9vP0YWd5FHc6BjNT7r4T2Oy+Acfaco8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772704401; c=relaxed/simple;
+	bh=D7W50Gyx79F1BQJBBcvSYt9GNLrXBM4NZSb+Xw2SOq4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=prgyjEK1RO6ZHGEOoeo91KcrlaRUqpq3qzJiAvRdEf51nF2AE9o9pWwxwiIrPlXwVbcYmNQRSlCorBrl5XxRgC5GprzFJc8FunDddEG8gUQze+tGIM9t61IDDYd/BwO8KlBKQ8kADDqF2Bn2FOTxi8bqRCjEK1O5yRpuDHL0Vbw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=kuQ6wgoy; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="KRWp0R58"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 69DDA1A2CBF;
-	Thu,  5 Mar 2026 09:44:12 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 408DB5FDEB;
-	Thu,  5 Mar 2026 09:44:12 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 58761103697F1;
-	Thu,  5 Mar 2026 10:44:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1772703851; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=qKbdSfvMKhaS1O9N44Ii5n4L97KLZKLOOIegRa3bjyg=;
-	b=KRWp0R58lV8TzOHIuFGXEwGag71Epk/I1rydLhFdA4nYNpg6z6XFlCp5WTRQKSCwOyowDW
-	eq9UdDia3F4XGD33ynxvtaS6sONv2v4oenFH4dNgSzrHS2ktq1ihJ6c4fXakTeBHSZzR0/
-	rHS0EHA8XVIemkpmyFFXvWL6XBY+s4JEE04TqJskJxAhE9tmTH3VUhRM8tZijpo8kBf+v2
-	1JQa2xxvO0rFMiaMe8eGjlClB35cTgniewKBs8UulOCTTwmHPOrB3OmEK7j65RxiKWWZ3J
-	FkyQDGknn/lNlM7nmVYlnlxUB1uYCx3d7vqPDLnBESz60izKVvCMjDrf28c+xQ==
-Message-ID: <5579e0f7-ccdc-4a39-9e45-f3a1296f448e@bootlin.com>
-Date: Thu, 5 Mar 2026 10:44:08 +0100
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="kuQ6wgoy"
+ARC-Seal: i=1; a=rsa-sha256; t=1772704388; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=ILbpyWSpgsHBsljKSeJYbS7Vw03gooRrhFM0zfvSJ0mMnsLhlex4dZfvu0oPRIpkKO47xszQ2NfzHWwj0pqoFXT4WttLKvDbi1tiW3nCRR4ojr4Vznpxn72wH7dC+ms4XVRbfVzqDJCc2LgWtNUaXznEcvPGtkEc57jsG4V4QXU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1772704388; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=nzu6bAtb37Rscm3wTe12q1wA4WbiMxsyc0YgbMDmKhU=; 
+	b=mYJnA6goY8gyGl8bcxdTO/ByoiY0b4sP3KBwTqzQqQEu2c5WKfTddS9Fe6+yv32bTaxDKYI77aHYbYDm3y0nylvB+35tg6Dif1cn+oIsHiwDCXjvuTbZTh5SotriBERyVv4hZBgBiBYR/T0QbFyyAxO9Bo5rJckG1guguTRV57Q=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+	dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772704388;
+	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=nzu6bAtb37Rscm3wTe12q1wA4WbiMxsyc0YgbMDmKhU=;
+	b=kuQ6wgoyu9T6YeGL0SUqZ9zx8isgTeA+3UHBcaeWieFRMa3K4z+NnEetspD5wWZI
+	TL1RG3LK6Yh1ZgrkSKhInXGy6ScbB4h0qNcCIN3ps5vMT5cv/qWX4tybyGlWVkJHBrt
+	Vz08HTmqhf50ivIQbgSUcJHFeQhtd9qRZpIk3S4c=
+Received: by mx.zohomail.com with SMTPS id 1772704385504238.17185557574544;
+	Thu, 5 Mar 2026 01:53:05 -0800 (PST)
+Received: by venus (Postfix, from userid 1000)
+	id 8DA0C180891; Thu, 05 Mar 2026 10:52:59 +0100 (CET)
+Date: Thu, 5 Mar 2026 10:52:59 +0100
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org, spacemit@lists.linux.dev, 
+	UNGLinuxDriver@microchip.com
+Subject: Re: [PATCH phy-next 19/22] power: supply: cpcap-charger: include
+ missing <linux/property.h>
+Message-ID: <aalSUJI5jFG2kJBL@venus>
+References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
+ <20260304175735.2660419-20-vladimir.oltean@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/6] mtd: rawnand: sunxi: replace hard coded value by a
- define - take2
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
-Cc: Wentao Liang <vulab@iscas.ac.cn>, Maxime Ripard <mripard@kernel.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20260220161011.999642-1-richard.genoud@bootlin.com>
- <20260220161011.999642-5-richard.genoud@bootlin.com>
- <13952574.uLZWGnKmhe@jernej-laptop>
-From: Richard GENOUD <richard.genoud@bootlin.com>
-Content-Language: en-US, fr
-Organization: Bootlin
-In-Reply-To: <13952574.uLZWGnKmhe@jernej-laptop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
-
-Le 21/02/2026 à 10:23, Jernej Škrabec a écrit :
-> Dne petek, 20. februar 2026 ob 17:10:09 Srednjeevropski standardni čas je Richard Genoud napisal(a):
->> The user data length (4) has been replaced almost all over the file, but
->> 2 places were forgotten.
->>
->> The user data is placed before the ECC, for each step.
->> So, in sunxi_nfc_hw_ecc_read_extra_oob(), the offset of the user data in
->> OOB is indeed ((ecc->bytes + USER_DATA_SZ) * ecc->steps);
->>
->> And in sunxi_nand_ooblayout_ecc(), the offset of the ECC chunk in OOB is
->> the same offset plus the current user data size:
->> section * (ecc->bytes + USER_DATA_SZ) + USER_DATA_SZ;
->>
->> Fixes: 1be7ac78b72f ("mtd: rawnand: sunxi: Replace hard coded value by a define")
->> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
-> 
-> This doesn't really need Fixes tag since it's only refactoring.
-Indeed.
-
-> 
-> With that said:
-> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2vxe7ox52jklnq2g"
+Content-Disposition: inline
+In-Reply-To: <20260304175735.2660419-20-vladimir.oltean@nxp.com>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-0.2.1.1.4.3/272.682.15
+X-ZohoMailClient: External
 
 
-Thanks!
-> 
-> Best regards,
-> Jernej
-> 
->> ---
->>   drivers/mtd/nand/raw/sunxi_nand.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
->> index 99d305bbda53..5d925b59b618 100644
->> --- a/drivers/mtd/nand/raw/sunxi_nand.c
->> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
->> @@ -1051,7 +1051,7 @@ static void sunxi_nfc_hw_ecc_read_extra_oob(struct nand_chip *nand,
->>   {
->>   	struct mtd_info *mtd = nand_to_mtd(nand);
->>   	struct nand_ecc_ctrl *ecc = &nand->ecc;
->> -	int offset = ((ecc->bytes + 4) * ecc->steps);
->> +	int offset = ((ecc->bytes + USER_DATA_SZ) * ecc->steps);
->>   	int len = mtd->oobsize - offset;
->>   
->>   	if (len <= 0)
->> @@ -1747,7 +1747,7 @@ static int sunxi_nand_ooblayout_ecc(struct mtd_info *mtd, int section,
->>   	if (section >= ecc->steps)
->>   		return -ERANGE;
->>   
->> -	oobregion->offset = section * (ecc->bytes + USER_DATA_SZ) + 4;
->> +	oobregion->offset = section * (ecc->bytes + USER_DATA_SZ) + USER_DATA_SZ;
->>   	oobregion->length = ecc->bytes;
->>   
->>   	return 0;
->>
-> 
-> 
-> 
-> 
+--2vxe7ox52jklnq2g
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH phy-next 19/22] power: supply: cpcap-charger: include
+ missing <linux/property.h>
+MIME-Version: 1.0
 
+Hi,
 
--- 
-Richard Genoud, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+On Wed, Mar 04, 2026 at 07:57:32PM +0200, Vladimir Oltean wrote:
+> This file uses dev_fwnode() without including the proper header for it,
+> relying on transitive header inclusion from:
+>=20
+> drivers/power/supply/cpcap-charger.c
+> - include/linux/phy/omap_usb.h
+>   - include/linux/usb/phy_companion.h
+>     - include/linux/usb/otg.h
+>       - include/linux/phy/phy.h
+>         - drivers/phy/phy-provider.h
+>           - include/linux/of.h
+>             - include/linux/property.h
+>=20
+> With the future removal of drivers/phy/phy-provider.h from
+> include/linux/phy/phy.h, this transitive inclusion would break.
+>=20
+> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+> ---
+> Cc: Sebastian Reichel <sre@kernel.org>
+> ---
+
+Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+
+-- Sebastian
+
+>  drivers/power/supply/cpcap-charger.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/drivers/power/supply/cpcap-charger.c b/drivers/power/supply/=
+cpcap-charger.c
+> index d0c3008db534..24221244b45b 100644
+> --- a/drivers/power/supply/cpcap-charger.c
+> +++ b/drivers/power/supply/cpcap-charger.c
+> @@ -21,6 +21,7 @@
+>  #include <linux/mod_devicetable.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/power_supply.h>
+> +#include <linux/property.h>
+>  #include <linux/regmap.h>
+> =20
+>  #include <linux/gpio/consumer.h>
+> --=20
+> 2.43.0
+>=20
+
+--2vxe7ox52jklnq2g
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmmpUncACgkQ2O7X88g7
++prvUBAAiDlamBegg+ohGQtBVAORFIULNrYOBZOk8AG1Qluc6NS+fOqK9Cpw1hjn
+4u0f9h1GsBhjBMOb0dS/kxcNWI+xKiTxrMzu4llAu0C9WimbA0CieynGh2b2a3Ja
+R/9RQ6pXqPuVZk+7oVlT6gk++/w8TU83M31vyXL0Kx786QzieoSbOvgyZqhEwLez
+W41hmnYSkPas6nVkhjp0mnP7eqYQRhXLBeFJgUWhgXvy5YMVAfRrso3DK5JA7hB3
+4q8qNISMg2IrcIDMdDaTKVq+3+Ba1z8pRgr4WpIaOpH+Gsq8e8tzt/SEsGt/4SIY
+bKuAPMOCmsYuR8RskVyUWJiWX4qt4/YIRU01cg2xxXP404xIKR49X9Z12aEOKjg8
+DoBnNzlrSRN/RP85te7hG74Mbc/eVL2fJM9dL+7yZylsv03FFoeii0d+a50bbrQT
+QfQy75KNMSMkb7BDrpalL0DhG9bJoZn96pso0p4aD+viqdbpIybrsgMhuUv9DKVS
+2rIsnhe/N1gPds7wwpt/4shjn93YGbngre66mxi0y0YvvBQqc3eCf4YbPkGttJ0g
+18vYhd7giJO8RE2ApEXsQzT6eKtQFPh01zUJhxvemKoAb6hr3Tptep+/2bn4BVzY
+k3rY5iRgS6ono6DZg08TuLXoB3Ck/kz2OE+ntIibQIQNa0GY/4w=
+=oTrF
+-----END PGP SIGNATURE-----
+
+--2vxe7ox52jklnq2g--
