@@ -1,40 +1,40 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A901036606E
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Mar 2026 09:43:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9CD375F62
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Mar 2026 09:44:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772703812; cv=none; b=bt5tTN8N9UrTbWTai+Cyz2kXC2Nbzz3ozhmoswb0quRn6Y9Ax7j6309jfM6HUv4P9rMdLmergRwC0Q0HB4I3VEnuHEDc//OqAP2eMP5K4TzYb/ogDofi4AupoOds8atSMZdITMGEyd1JuhLvCtwQctKAZj3PFMHpOP5nIpGEhQo=
+	t=1772703855; cv=none; b=joYtGFc5RmoxA0hmEXMCGjrFt5Ribb1EzsaYRQGZcrecns18CzMuzA0GYMAe58Z7BxjbVfs0JeTzo0g9o6H9hyIm5MJM4ebYjC3c0tYgI2VjLArFD7a71ZXPkhue78f6Ay2QrLxm7ZeK1JDEOmyenboy3Gu5CNTfluL/Z4nejBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772703812; c=relaxed/simple;
-	bh=839+nzH4okvwdDk+k8ZaAg5k9wsWxAATZcpVf8bWMJg=;
+	s=arc-20240116; t=1772703855; c=relaxed/simple;
+	bh=0jH5znvxNnd1gWUS28cgmfAB8niis06uGR7xwFq0jo4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AXeraA66/Cz1wJmfBD0x447ISUfTVNXxbX1p65iGQA09CX1Cq6m1oEYbw3lPbFz8w64/0MJOwBcchq76apJMvezgMe8WD/GfuvfuuYDFraF+KQjc0HhbTxZohC2F9/+AyI8Ubm+3NbDSzZbFsiO0jOZXrZVDrp/NNN0u9ThJcLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bXK1gu6J; arc=none smtp.client-ip=185.246.85.4
+	 In-Reply-To:Content-Type; b=iBLhIXsYNtU4XPqu9v1sz4nG/WPglofUhcjvXGpktqCVEZQGNefdRUJ0Tp5w0XwVUEaidq0HtrQGSbRlJ3onx+z5feS/soX8j5ShdyEkeoC/H3LzHyscLdPNh6XFWEndukDBLZtrrsXhGVpAXdyhqxpuYRK2H3aM8hDq8MoPVBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=KRWp0R58; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bXK1gu6J"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="KRWp0R58"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 33EC04E42566;
-	Thu,  5 Mar 2026 09:43:29 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 69DDA1A2CBF;
+	Thu,  5 Mar 2026 09:44:12 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id F3A955FDEB;
-	Thu,  5 Mar 2026 09:43:28 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3CF8F103697F1;
-	Thu,  5 Mar 2026 10:43:24 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 408DB5FDEB;
+	Thu,  5 Mar 2026 09:44:12 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 58761103697F1;
+	Thu,  5 Mar 2026 10:44:09 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1772703808; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1772703851; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=sb47bLopwDRLC5J3uAYZg0LFklpkyKvQunefwmeTams=;
-	b=bXK1gu6J7ay7a68D7nPXR5xQVhLiZacnJbh1I8p2gZN0vPfoA531M2Gbc0LCIezghjQNOW
-	H+Ro4ekCByLVmspDgNulHKjWBokdS+IxN+3o2XSFe55qW+xSiGZCCyreXbg89CwlnK50bc
-	tX4KHC2uitPqueFNnhdLLJMDXbmgtxGdrWHko5gksW/Z6ghDSJY7eNc/nW2Nk3SwBeqx4q
-	IIh2A1U5ybayI80OJ/fk8nElwnvGUdyCP5e7JaljnjNX3foSJ/TFPfR5lN0Wi70qvGKjPY
-	6TlESW/0auIYXl7znkgKolv3sYAkQXPIrtD/B38fDX/Ucct6cOespDUAV5QmMw==
-Message-ID: <c3676b98-a0d2-402a-8d6e-8eb0325d32ef@bootlin.com>
-Date: Thu, 5 Mar 2026 10:43:24 +0100
+	bh=qKbdSfvMKhaS1O9N44Ii5n4L97KLZKLOOIegRa3bjyg=;
+	b=KRWp0R58lV8TzOHIuFGXEwGag71Epk/I1rydLhFdA4nYNpg6z6XFlCp5WTRQKSCwOyowDW
+	eq9UdDia3F4XGD33ynxvtaS6sONv2v4oenFH4dNgSzrHS2ktq1ihJ6c4fXakTeBHSZzR0/
+	rHS0EHA8XVIemkpmyFFXvWL6XBY+s4JEE04TqJskJxAhE9tmTH3VUhRM8tZijpo8kBf+v2
+	1JQa2xxvO0rFMiaMe8eGjlClB35cTgniewKBs8UulOCTTwmHPOrB3OmEK7j65RxiKWWZ3J
+	FkyQDGknn/lNlM7nmVYlnlxUB1uYCx3d7vqPDLnBESz60izKVvCMjDrf28c+xQ==
+Message-ID: <5579e0f7-ccdc-4a39-9e45-f3a1296f448e@bootlin.com>
+Date: Thu, 5 Mar 2026 10:44:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -42,123 +42,82 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/6] mtd: rawnand: sunxi: do not count BBM bytes twice
+Subject: Re: [PATCH 4/6] mtd: rawnand: sunxi: replace hard coded value by a
+ define - take2
 To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
  Miquel Raynal <miquel.raynal@bootlin.com>,
  Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- James Hilliard <j.hilliard@upstreamdata.ca>
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
 Cc: Wentao Liang <vulab@iscas.ac.cn>, Maxime Ripard <mripard@kernel.org>,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
  linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 References: <20260220161011.999642-1-richard.genoud@bootlin.com>
- <20260220161011.999642-4-richard.genoud@bootlin.com>
- <1947198.tdWV9SEqCh@jernej-laptop>
+ <20260220161011.999642-5-richard.genoud@bootlin.com>
+ <13952574.uLZWGnKmhe@jernej-laptop>
 From: Richard GENOUD <richard.genoud@bootlin.com>
 Content-Language: en-US, fr
 Organization: Bootlin
-In-Reply-To: <1947198.tdWV9SEqCh@jernej-laptop>
+In-Reply-To: <13952574.uLZWGnKmhe@jernej-laptop>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-Le 21/02/2026 à 10:21, Jernej Škrabec a écrit :
-> Dne petek, 20. februar 2026 ob 17:10:08 Srednjeevropski standardni čas je Richard Genoud napisal(a):
->> BBM is part of USER_DATA section, so we should remove it twice
+Le 21/02/2026 à 10:23, Jernej Škrabec a écrit :
+> Dne petek, 20. februar 2026 ob 17:10:09 Srednjeevropski standardni čas je Richard Genoud napisal(a):
+>> The user data length (4) has been replaced almost all over the file, but
+>> 2 places were forgotten.
 >>
->> This was working ok because we are on the safe size, advertising that
->> there was 2 bytes less available than reality.
+>> The user data is placed before the ECC, for each step.
+>> So, in sunxi_nfc_hw_ecc_read_extra_oob(), the offset of the user data in
+>> OOB is indeed ((ecc->bytes + USER_DATA_SZ) * ecc->steps);
+>>
+>> And in sunxi_nand_ooblayout_ecc(), the offset of the ECC chunk in OOB is
+>> the same offset plus the current user data size:
+>> section * (ecc->bytes + USER_DATA_SZ) + USER_DATA_SZ;
+>>
+>> Fixes: 1be7ac78b72f ("mtd: rawnand: sunxi: Replace hard coded value by a define")
+>> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
 > 
-> Missing "in" before "reality".
-ok
+> This doesn't really need Fixes tag since it's only refactoring.
+Indeed.
 
 > 
->>
->> But we can't change old platforms, since it may lead to a different ECC
->> strength, so, introduce a legacy flag for old platforms, and switch the
->> new platforms to the correct count.
-> 
-> There aren't any users of H6/H616 driver, right? If it would be, ECC strength
-> can't be changed, since it can impact systems, which already use it.
-AFAIK, the only users for now would be on whatsminer boards and are not 
-impacted by this (the ECC strength won't change from 32 to 40bits on 
-those boards).
-(Adding James in Cc, as he may know more on the subject)
+> With that said:
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
+
+Thanks!
 > 
 > Best regards,
 > Jernej
 > 
->>
->> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
 >> ---
->>   drivers/mtd/nand/raw/sunxi_nand.c | 23 ++++++++++++++++++++---
->>   1 file changed, 20 insertions(+), 3 deletions(-)
+>>   drivers/mtd/nand/raw/sunxi_nand.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
 >>
 >> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
->> index 9c6e0625e34f..99d305bbda53 100644
+>> index 99d305bbda53..5d925b59b618 100644
 >> --- a/drivers/mtd/nand/raw/sunxi_nand.c
 >> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
->> @@ -281,6 +281,8 @@ static inline struct sunxi_nand_chip *to_sunxi_nand(struct nand_chip *nand)
->>    * @has_ecc_block_512:	If the ECC can handle 512B or only 1024B chuncks
->>    * @has_ecc_clk:	If the controller needs an ECC clock.
->>    * @has_mbus_clk:	If the controller needs a mbus clock.
->> + * @legacy_max_strength:If the maximize strength function was off by 2 bytes
->> + *			NB: this should not be used in new controllers
->>    * @reg_io_data:	I/O data register
->>    * @reg_ecc_err_cnt:	ECC error counter register
->>    * @reg_user_data:	User data register
->> @@ -310,6 +312,7 @@ struct sunxi_nfc_caps {
->>   	bool has_ecc_block_512;
->>   	bool has_ecc_clk;
->>   	bool has_mbus_clk;
->> +	bool legacy_max_strength;
->>   	unsigned int reg_io_data;
->>   	unsigned int reg_ecc_err_cnt;
->>   	unsigned int reg_user_data;
->> @@ -1811,10 +1814,22 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand_chip *nand,
->>   		ecc->size = 1024;
->>   		nsectors = mtd->writesize / ecc->size;
+>> @@ -1051,7 +1051,7 @@ static void sunxi_nfc_hw_ecc_read_extra_oob(struct nand_chip *nand,
+>>   {
+>>   	struct mtd_info *mtd = nand_to_mtd(nand);
+>>   	struct nand_ecc_ctrl *ecc = &nand->ecc;
+>> -	int offset = ((ecc->bytes + 4) * ecc->steps);
+>> +	int offset = ((ecc->bytes + USER_DATA_SZ) * ecc->steps);
+>>   	int len = mtd->oobsize - offset;
 >>   
->> -		/* Reserve 2 bytes for the BBM */
->> -		bytes = (mtd->oobsize - 2) / nsectors;
->> +		/*
->> +		 * The 2 BBM bytes should not be removed from the grand total,
->> +		 * because they are part of the USER_DATA_SZ.
->> +		 * But we can't modify that for older platform since it may
->> +		 * result in a stronger ECC at the end, and break the
->> +		 * compatibility.
->> +		 */
->> +		if (nfc->caps->legacy_max_strength)
->> +			bytes = (mtd->oobsize - 2) / nsectors;
->> +		else
->> +			bytes = mtd->oobsize / nsectors;
+>>   	if (len <= 0)
+>> @@ -1747,7 +1747,7 @@ static int sunxi_nand_ooblayout_ecc(struct mtd_info *mtd, int section,
+>>   	if (section >= ecc->steps)
+>>   		return -ERANGE;
 >>   
->> -		/* 4 non-ECC bytes are added before each ECC bytes section */
->> +		/*
->> +		 * USER_DATA_SZ non-ECC bytes are added before each ECC bytes
->> +		 * section, they contain the 2 BBM bytes
->> +		 */
->>   		bytes -= USER_DATA_SZ;
+>> -	oobregion->offset = section * (ecc->bytes + USER_DATA_SZ) + 4;
+>> +	oobregion->offset = section * (ecc->bytes + USER_DATA_SZ) + USER_DATA_SZ;
+>>   	oobregion->length = ecc->bytes;
 >>   
->>   		/* and bytes has to be even. */
->> @@ -2379,6 +2394,7 @@ static const u8 sunxi_user_data_len_h6[] = {
->>   
->>   static const struct sunxi_nfc_caps sunxi_nfc_a10_caps = {
->>   	.has_ecc_block_512 = true,
->> +	.legacy_max_strength = true,
->>   	.reg_io_data = NFC_REG_A10_IO_DATA,
->>   	.reg_ecc_err_cnt = NFC_REG_A10_ECC_ERR_CNT,
->>   	.reg_user_data = NFC_REG_A10_USER_DATA,
->> @@ -2400,6 +2416,7 @@ static const struct sunxi_nfc_caps sunxi_nfc_a10_caps = {
->>   static const struct sunxi_nfc_caps sunxi_nfc_a23_caps = {
->>   	.has_mdma = true,
->>   	.has_ecc_block_512 = true,
->> +	.legacy_max_strength = true,
->>   	.reg_io_data = NFC_REG_A23_IO_DATA,
->>   	.reg_ecc_err_cnt = NFC_REG_A10_ECC_ERR_CNT,
->>   	.reg_user_data = NFC_REG_A10_USER_DATA,
+>>   	return 0;
 >>
 > 
 > 
