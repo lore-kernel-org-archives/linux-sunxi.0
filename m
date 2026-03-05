@@ -1,110 +1,100 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A94337EFF6
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Mar 2026 10:02:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1982F223DD6
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Mar 2026 10:42:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772704943; cv=none; b=RsUD1xVNBeEa0eTDEZ2LRiR/+QQcgCzPzVZwhpxwN5u4UogVKRlzEVp414Ju5nIlJduwAwQ4VfzCeM8LauV5VcJYx6pNdWZX2dQivEyv2bEQinv29p3tENAFpWDw/jaJHB+Nmli4HOjWclv1ncpdini9DDiyg63Lf68aeyARP2w=
+	t=1772707346; cv=none; b=s8ncOU0kq8WjMGt8tEcwhsi5a31ulotgJoIQ3U/i+lpvlOBLBFJjfaW2GDBpwwLXecfKcQhW1rc0qHByC3V/7k3kQHkAh4UN4oF+6hpm3i/XN9NBp3XU/LseXETh+iiHuMJnSPvR5FKmb97tj+GCTV/C6F1k+rQc/vP5NP10zzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772704943; c=relaxed/simple;
-	bh=PLN3jU+WSp15lmHsKDg7F21c9tIpGoZokDbnzqxSsGE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Qs8DZSKl9AcGifDwFOiz37rcfRsuTiwc6x4typyGeYD3fNXwgUNA8wgkcd9oy3p0dyhu86Kb1SBra6s7gKImeyzScnmyRoC0NT4R0cEQK71ijQE7h55tkKojESVyuG5d9wcdY0kq5B7a1yGiTElFssjq+VRm5y/7ebFR/He0kuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cRAKJSXV; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1772707346; c=relaxed/simple;
+	bh=NafOt9h05c/v6L/+nr3qqv46mS9p833gvYdu/d2F46s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=G5yvEIjKmICsaNimLTvZ9x147eJocvAKImHy4evCed6Ep93TbYqk01azg6kWUnzg65LaUCiBrrHnu10X/rM++loz5PjuhbyOxLjH+ZA4Ah7PlSL72myJXm9MlgsTvYFSurrtzsTlpDtR7voSTPVnEm27YyixzDzfp2eRfkFmvBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=iJJGGxyx; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cRAKJSXV"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48371bb515eso116816445e9.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 05 Mar 2026 02:02:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772704940; x=1773309740; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=PLN3jU+WSp15lmHsKDg7F21c9tIpGoZokDbnzqxSsGE=;
-        b=cRAKJSXV3rRGq6ApXGxamK2sBKFK8d/YER2e7OWrJWx8Qq82qFqbckr0zNlJru7qn2
-         1X5PCVCZdwJtnIOZAyNc8hrCAbClCd03peDLriMPUqFoWXM3bjaBjKpXYOawtucqrv2r
-         NAvsAjGF5h3ep/oKpyznqo3ZeesceBcbEJwZmZIzz5Hdb5us8ZUCZ6ezKnrFSlRlYNH0
-         5G9m4zhNQJyVz0moPEQi9bi+yd7UFgLX1ySPw26rLTrxnVYf/OuJzTHmKbWuyYGPD3XI
-         wYxH3Itw/XESA9KvTs7WICu38Fx7o+RF3P1ujBSmsEpT/D8vsrsXclONA0C6QlVaw+Cp
-         Si9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772704940; x=1773309740;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PLN3jU+WSp15lmHsKDg7F21c9tIpGoZokDbnzqxSsGE=;
-        b=f8Pvvp5/P55Yd3dlvM5A7oXG0XGlOaU7zb8ZImHxx/q4XbtZDCBsPfNaheiMwCbIKh
-         A+16sVWyNFPpXPvKSTv21d/Srhf5etf5Yt2oIuwQf+Bfc+RYgW6Y58KgDPxeDk+AbYWR
-         xpffo4HUjTyRtpXqBNMsC70qpgJWfjNMDy3OpzL48hvCfu01/4xf6krdGmXNGSh6QCUG
-         AI+2HhKM57p9+oaAjvQejxH/z+Bg26u2yIcmVKceLlbuT770Mq+yimqFk+d9+ZNZtqY8
-         qF7lbUogv2Ta3ZoC44QMx/M7yZ67fXd+HPpHIa32u06B8boLCtmc/nm6k37SQHD2qT2C
-         gZ/w==
-X-Forwarded-Encrypted: i=1; AJvYcCWgYF2m6eKdroiOJ/0LIQpxQsBTbXlhm0CDFo9rXPXW3Qx3qMt1p1uT/P9mSA1n2PFVuJovP7a9n+f5mA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxQE/z24LSlgbgOgX2A3TFpJkYyA3+bSyr8NWgwOeBsy5RpgrUt
-	2gR2BV9+Nw1hWLkV04hPd+/HjfFN0GwU3mveaJvhCijJxUMVqD+WGubhMjp6QE5Tylw=
-X-Gm-Gg: ATEYQzyiLo9fj0YuGwt3yxv6AykGK+F+bJrVQVtNJakK7BAILmuxK91s+h18z+BPrTF
-	FZi4HtIUCG75vucVUHFU5sEtMinrnAcj4ItNrT7FLkRN87RlF1353ukuowv/KDTY5b+oqOHE+Bs
-	BmbPGTjqUA3NNRZ7OncXEmf22Y5Kfqprj9TQ+GDMckk/wvr/eZVehGcHcRDPVLJ/t4waoX4LDxF
-	t1syqavGah+yAn+uxsCZG16L8nTo0PvSMZ1H4MU8FtJoaDtexPKjesa0yfgCGgcKW22v4HD2zc+
-	DLTpxI1QWYsfgYBsOkr6us5aGhWv8LN09mQJpcHhjacYyOe9fkgrd2xJUyNba5bCVoSuIftTxSU
-	eCmC+XD0sUJ5Qv0/TbXnGloNqLQRph1oCPwWnj5rWdmT9e+T+yWWqNGQVf7Y1jEQO7OdktlZEhR
-	kiepopERgmQQZfF+m7LDcmi26pQOys
-X-Received: by 2002:a05:600c:a07:b0:47f:b737:5ce0 with SMTP id 5b1f17b1804b1-4851988f31dmr86977045e9.23.1772704939633;
-        Thu, 05 Mar 2026 02:02:19 -0800 (PST)
-Received: from salami.lan ([212.129.84.244])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851fade9fdsm59453655e9.4.2026.03.05.02.02.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 02:02:19 -0800 (PST)
-Message-ID: <030737fd255a49288349f06e8c1217a126ea9081.camel@linaro.org>
-Subject: Re: [PATCH phy-next 05/22] phy: add <linux/pm_runtime.h> where
- missing
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>, linux-phy@lists.infradead.org
-Cc: Vinod Koul <vkoul@kernel.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, 	dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 	linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, 	linux-can@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
- netdev@vger.kernel.org, 	spacemit@lists.linux.dev,
- UNGLinuxDriver@microchip.com, Peter Griffin	 <peter.griffin@linaro.org>,
- Tudor Ambarus <tudor.ambarus@linaro.org>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Heiko
- Stuebner <heiko@sntech.de>
-Date: Thu, 05 Mar 2026 10:02:16 +0000
-In-Reply-To: <20260304175735.2660419-6-vladimir.oltean@nxp.com>
-References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
-	 <20260304175735.2660419-6-vladimir.oltean@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-8 
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="iJJGGxyx"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=pLqOtinWYSGM7LLpbdtcUGl5b2uewU4Gn9qu8F0GxHI=; b=iJJGGxyxGi6rE9avorUz8+G4zD
+	XzfLuzfcOFUoZ7V2iTr8P0jqFxMiSvbkCktTXfwmz++G3Z+aV+KZ+zu3U7phwNDEvRGmx64tys+pD
+	FtxIJNCx1ysqD4Pic4jxabzp+XHauo5PVr+V/vVxuCYs7XNI8u/KfjC8ffG2Dy+xR6PfQ+Q5jFnZa
+	vJk8zEp3FxyxryPIV4ufenc75fFNfotiDG3GYd1fqU1LnMjatdWYZiazbJPTvSpz4QhaZ7X24sozL
+	qItEBfP25MlKSfTDs3XHUrU5cB4iIejxFnW8qPweupDITAgcvPXOeCmrj4zVnMq7zdbPCRultQEXb
+	nTUNIRFA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:49742)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1vy69f-000000007mO-3CbM;
+	Thu, 05 Mar 2026 10:42:07 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1vy69c-000000000OV-0L7q;
+	Thu, 05 Mar 2026 10:42:04 +0000
+Date: Thu, 5 Mar 2026 10:42:03 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, Chen-Yu Tsai <wens@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>,
+	Samuel Holland <samuel@sholland.org>
+Subject: [PATCH net-next v2 0/8] net: stmmac: mdio related cleanups
+Message-ID: <aald--qJquWGIvmO@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Wed, 2026-03-04 at 19:57 +0200, Vladimir Oltean wrote:
-> It appears that the phy-mapphone-mdm6600, phy-qcom-snps-femto-v2,
-> phy-rcar-gen3-pcie, r8a779f0-ether-serdes and phy-rockchip-typec drivers
-> call runtime PM operations without including the proper header.
->=20
-> This was provided by <linux/phy/phy.h> but no function exported by this
-> header directly needs it. So we need to drop it from there, and fix up
-> drivers that used to depend on that.
->=20
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+Hi,
 
-> =C2=A0drivers/phy/phy-google-usb.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 +
+The first four patches clean up the MDC clock divisor selection code,
+turning the three different ways we choose a divisor into tabular form,
+rather than doing the selection purely in code.
 
-For Google:
-Reviewed-by: Andr=C3=A9 Draszik <andre.draszik@linaro.org>
+Convert MDIO to use field_prep() which allows a non-constant mask to be
+used when preparing fields.
+
+Then use u32 and the associated typed GENMASK for MDIO register field
+definitions.
+
+Finally, an extra couple of patches that use appropriate types in
+struct mdio_bus_data.
+
+v2:
+- add comments about 300MHz to commit message in patch 1
+- fix incorrect usage of stmmac_sun8i_csr_to_mdc in patch 3
+- fix BIT_u32()->BIT_U32() in patch 8
+
+ drivers/net/ethernet/stmicro/stmmac/common.h       |  10 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c  |   2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-loongson.c   |  11 +--
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c  |   9 +-
+ .../net/ethernet/stmicro/stmmac/dwmac1000_core.c   |   9 +-
+ .../net/ethernet/stmicro/stmmac/dwmac100_core.c    |   9 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c  |   9 +-
+ .../net/ethernet/stmicro/stmmac/dwxgmac2_core.c    |  18 ++--
+ drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c  | 106 ++++++++++++---------
+ include/linux/stmmac.h                             |   6 +-
+ 10 files changed, 92 insertions(+), 97 deletions(-)
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
