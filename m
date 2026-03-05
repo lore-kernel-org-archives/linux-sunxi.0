@@ -1,115 +1,81 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9886830B509
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Mar 2026 09:26:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8E9377ED7;
+	Thu,  5 Mar 2026 09:30:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772702769; cv=none; b=rnwBpySsq/SRRNujifYjtoVBNk2Oh5jfEPPMaij859Ua6a5P6ZdvQvBkOs+myQMAkTRwTFl76fvU4u8xiwCub/ScfxduBDTPYloEgxk8RzKrgiLMaizABg0BZJvTQwCgPmAU+TDks6G1a4V7V4TzCsoapVH0dCag5NUkB3uleSo=
+	t=1772703057; cv=none; b=naOEHQ+gP0ko6+0UVdPugh24aZDKBpA6c1JeW96KP9cfa90qZ3L1dcsVw51ki9fSISqbKDXuA6Mjy6BOdU8JQXdxuenCePQYUrIPw0wYzEzpmV8iPxY+Y09tbFYy18UI4bHqlxwE4f8shmOubjXgKBVuRxj65I+bilHT9QPrcCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772702769; c=relaxed/simple;
-	bh=xRJMWvXWCmoDAOZ2QpFZfVmtyxn6DGIPikbPaDQDhfs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bNcttGNCIyrYHJ36w8/ftBV17E6I5XujrYDZda2uZQBqapo0wlDD/ZPMcUkTxW1Kk5AxUlrKPf3MEmhmiqV+kgEgmIiS35fvJtRYQP4u0AdcZnw4A1fIVSnQot6sMkdgUKDK104wkSVkxlEmRUjVhNL3Docp0nHw3xkionTEfR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=XEQqk9le; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="XEQqk9le"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 1CA4A4E42567;
-	Thu,  5 Mar 2026 09:26:05 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id D42755FDEB;
-	Thu,  5 Mar 2026 09:26:04 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 905521036984E;
-	Thu,  5 Mar 2026 10:25:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1772702763; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=xdQrU4qXjTQ+7Me9O0jc4BQBHlE/G3e5V9tAzTNavKA=;
-	b=XEQqk9leLVrIMuzk8bu7Hj6g5wiJ3yEC0RKVMO8iNt9vdNP9G705szS3WVJblHVezb+wqQ
-	knRXsgJUpwXDcxt5LoA/+JHO+6D9EEohgAlgfqNL9KkER5FiXq1ZLhrNj5NNw3uTPWnmTs
-	t60qOH/4vi76epX0K3q2ieHpmKKQnm1JXDW7+Nk1Nes2tXOJQMB+QeKKFU0TJRnNtVt9Ei
-	Cvvb/na82PeG0J8h89D24oR8fTwfpCYmlAEjjUgLcopF/2InzieX8bq104U9VCdgtIGAME
-	8//EWQik54BRtDpQ9YeDG8AbFsTMmwqlYzONPvxoMQAEzZY6vxFj1oyLCtavfA==
-Message-ID: <2d65c928-8b4e-4224-93db-a1430945d719@bootlin.com>
-Date: Thu, 5 Mar 2026 10:25:57 +0100
+	s=arc-20240116; t=1772703057; c=relaxed/simple;
+	bh=Ut46HYocLwE7mAygLk4hPfAtQ/G8RDXQPhMmYhMyFec=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=dTndE+PnD1KuGMi550aNsyHVTdzLlw65txK590dYbuoEQ3ThtN+XjJKSkk67mPA+7kDa9v4BPdCdw/EB1sw9+c1tuEKFra2QJunKFdAC5Zeg1a9BbV5bs9N4Ue8f3UWUhxGowNXUIcQArEKVh4JyjZNzPoA1U7ZubIeinzyOHxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf12.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay04.hostedemail.com (Postfix) with ESMTP id 6EF351A090A;
+	Thu,  5 Mar 2026 09:30:48 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf12.hostedemail.com (Postfix) with ESMTPA id ABA5119;
+	Thu,  5 Mar 2026 09:30:41 +0000 (UTC)
+Message-ID: <f3a5aa3df78553ffc0fd0024f5fd36a4e2158c88.camel@perches.com>
+Subject: Re: [PATCH phy-next 22/22] MAINTAINERS: add regex for linux-phy
+From: Joe Perches <joe@perches.com>
+To: Vladimir Oltean <vladimir.oltean@nxp.com>, Konrad Dybcio
+	 <konrad.dybcio@oss.qualcomm.com>
+Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>, Neil
+ Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org, 
+	freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, 	spacemit@lists.linux.dev,
+ UNGLinuxDriver@microchip.com
+Date: Thu, 05 Mar 2026 01:30:40 -0800
+In-Reply-To: <20260305085148.7cwo3yflp7vcfldf@skbuf>
+References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
+	 <20260304175735.2660419-23-vladimir.oltean@nxp.com>
+	 <a8fee1cd-1e69-4a9e-8533-c0988c480fb9@oss.qualcomm.com>
+	 <20260305085148.7cwo3yflp7vcfldf@skbuf>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] mtd: rawnand: sunxi: fix sunxi_nand_ooblayout_free
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
-Cc: Wentao Liang <vulab@iscas.ac.cn>, Maxime Ripard <mripard@kernel.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20260220161011.999642-1-richard.genoud@bootlin.com>
- <20260220161011.999642-2-richard.genoud@bootlin.com>
- <5967652.DvuYhMxLoT@jernej-laptop>
-From: Richard GENOUD <richard.genoud@bootlin.com>
-Content-Language: en-US, fr
-Organization: Bootlin
-In-Reply-To: <5967652.DvuYhMxLoT@jernej-laptop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: ABA5119
+X-Stat-Signature: isin6ba55864u4k7cspzxagise7enff6
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+c/QqwBFj4RnbTOHAHP0u/fhPSDrZvfXg=
+X-HE-Tag: 1772703041-391055
+X-HE-Meta: U2FsdGVkX18CpOmWAsQNq/nzIGrueYMCLFpafncVkMPEeWn8lMHmxGid0nuFShmczpxd7LMIQ2HkJXitNrouaAWweblPom1aNWswKBKkaGGCen5irY0lnX3z9ty7T8amhD6qn9Q5wfYeFrX1AAy/tVHr70RJ5jxHv1CzpDKls395qE7TAifFzgOqcxBZ+LxnR/uVacI/Z8SiG+R8Q0lWc4dUv5BUq0HaFG5uC1dlHaBdlDEn65TIo3X5+7C0AcoUpQeypXp8sK9gp+VHT+vsBW/Ta2vT0Zqxi066+g9opvcn5emNN3z91009RwQ+r7ADwt/gmX2gmKTLfK9kac3enKskM+3ua1Jz
 
-Le 21/02/2026 à 10:13, Jernej Škrabec a écrit :
-> Dne petek, 20. februar 2026 ob 17:10:06 Srednjeevropski standardni čas je Richard Genoud napisal(a):
->> The available length is really USER_DATA_LEN - 2 instead of just 2 (the
->> user data length minus the BBM length)
->> That doesn't change anything now, but if USER_DATA_LEN changes, it will.
-> 
-> s/USER_DATA_LEN/USER_DATA_SZ/
-> 
->>
->> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
-> 
-> If this is really a fix as subject suggest, then Fixes tag is in order. However,
-> this looks more like code refactor as end result is the same. So maybe
-> reword subject?
-Yes, it's more a code clarification, I'll reword that.
+On Thu, 2026-03-05 at 10:51 +0200, Vladimir Oltean wrote:
+> On Thu, Mar 05, 2026 at 09:39:35AM +0100, Konrad Dybcio wrote:
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index 55af015174a5..bdfa47d9c774 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -10713,6 +10713,7 @@ F:    Documentation/devicetree/bindings/phy/
+> > >  F:   drivers/phy/
+> > >  F:   include/dt-bindings/phy/
+> > >  F:   include/linux/phy/
+> > > +K:   \b(devm_)?(of_)?phy_(create|destroy|init|exit|reset|power_(on|o=
+ff)|configure|validate|calibrate|(get|set)_(mode|media|speed|bus_width|drvd=
+ata)|get_max_link_rate|pm_runtime_(get|put)|notify_(connect|disconnect|stat=
+e)|get|put|optional_get|provider_(un)?register|simple_xlate|(create|remove)=
+_lookup)\b|(struct\s+)?phy(_ops|_attrs|_lookup|_provider)?\b|linux/phy/phy\=
+.h|phy-props\.h|phy-provider\.h
 
-Thanks!
+You could use multiple K: entries instead of this monster.
 
-> 
-> Best regards,
-> Jernej
-> 
->> ---
->>   drivers/mtd/nand/raw/sunxi_nand.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
->> index 9dcdc93734cb..c420909b944b 100644
->> --- a/drivers/mtd/nand/raw/sunxi_nand.c
->> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
->> @@ -1761,12 +1761,12 @@ static int sunxi_nand_ooblayout_free(struct mtd_info *mtd, int section,
->>   
->>   	/*
->>   	 * The first 2 bytes are used for BB markers, hence we
->> -	 * only have 2 bytes available in the first user data
->> +	 * only have USER_DATA_SZ - 2 bytes available in the first user data
->>   	 * section.
->>   	 */
->>   	if (!section && ecc->engine_type == NAND_ECC_ENGINE_TYPE_ON_HOST) {
->>   		oobregion->offset = 2;
->> -		oobregion->length = 2;
->> +		oobregion->length = USER_DATA_SZ - 2;
->>   
->>   		return 0;
->>   	}
->>
-> 
-> 
-> 
-> 
-
+And please use (?:<foo>) to avoid capture groups too.
