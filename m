@@ -1,71 +1,70 @@
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434EF30B514
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Mar 2026 07:48:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2BA832B981
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Mar 2026 07:50:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772696881; cv=none; b=XwKCpKRB3P4t1OAEKv6iKVOMm24U4iCNuHMYGKm9J2mq8X9NMZSmCmPtBEfH3iA4dyOz4Z4DTptY958dwJke+PJTsVlIbyZCcacIi1qslUH+ZumXRDAgXhcO4vGtkGuYcU0hB088vRc9I29cQgQfWaB/pJkfVhW2CmpHuTX77GU=
+	t=1772697040; cv=none; b=lNNIPvls6yDQxD8Q1kpixyB7vuU0ob0+hAJN9Slrz+eE0Y+8OMm6/21A3hcebt8SFRfRBDgCldzy+BMvAKIINjpuoWx+x0Lat4JG4jNzqnWqKjdMuJ+VLHc/3Tk8OS8PPtyTKFDalmNv6npQ9i6fE4YhnJs/ax8DcKD4zSEalwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772696881; c=relaxed/simple;
-	bh=urVD1xPdaF3hV5GqXqVqTidMinFWi7P2lc2J0G3o7gY=;
+	s=arc-20240116; t=1772697040; c=relaxed/simple;
+	bh=1VrdyW7eBzn3eIzcJ/qwIsXSzypVzRQDxfUgekinKYA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ggY8+DOmy6kiDwy5UcgYTCCg/Beb2b87HmrzMDIfVF1yRealmKpwgSnXiufWZGZozQTaIK3CLa4Pf2zHRq4ITr1Mf+R2mztPSARwIYF8SoICPwxtV8J0+HMB63IBUSPjDdle5B5sKPoHY1u0PrHtDNdr255VSimrq77BN8TTNyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
+	 To:Cc:Content-Type; b=hypgqn6izJhFbMVaCLSdXh0W5F6Lpn28+CtB4vWq1NoKltaVQ/PIdiiGPboh+A+bj97X8CDrFZSfh4QXCBzTcaX0jRNY/9v23VnYZiFWa/L8gpvpKl5ZzGZo0fRoM6uiGHjOwt8LM0/ag07becukOUNT14GnUzGJeuADZtCxZfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5673804da95so3275450e0c.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 04 Mar 2026 23:48:00 -0800 (PST)
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-506251815a3so69095171cf.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 04 Mar 2026 23:50:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772696879; x=1773301679;
+        d=1e100.net; s=20230601; t=1772697038; x=1773301838;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7xyHjzGnphi32H4Bte19x6wQV76UaiJqzbc3zMkJKs8=;
-        b=gHPUcgMCpgsjfv79PIv6nI6mHnU9Glma63graR5MtXNxufI+0cyw1QvdR80GNXzntN
-         lWArONMnyTTIyVKIl4V6s/VEpVsjQSaqCFt1Y6W90bpHkbN5SEhP+ABWuKdjZzrhpdAc
-         n0mY0AZNy6lkjMj+Hng2W86JCrdrSVt4dbd5uZ7f2j6ZM10gnNRZjMyTSoY7Fm35y2vh
-         PdmSsv5TNjniQiPNVYFVe3aF2wPhE0q5R3bNsmZ5DhBpKrXRuwxiBzj33VOqOd0BFWRZ
-         jy5fYvqJW4EzxcoBhXFa65c+ZqtgvNYCIlQG11XPFSy5VkH2yReRTimQxrYWzSNDeHDS
-         gJ+w==
-X-Forwarded-Encrypted: i=1; AJvYcCXRJQfn0RvMIyEspY7q7guy3qAfpEy3DUuZna1y2hHI7ndEropQHWRQcxd0ZaqIB2N3jclWBq9bPfRqhQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxLzR3mH8DLKaFZ9HpsdVAKlPsmGwzQVh/AODhzmFsDj2eET1us
-	w0rFdqJCiAjC24Ge9wtZd+QxeTpikiuD0f5TGVWmd+XiXAow3jujYdvAzBC25YlM
-X-Gm-Gg: ATEYQzws+hfSkBMWPynFbj3qBpereBVgvqObwVSu1KSR2Q8FUyLPIse9E4nls95KHj5
-	oSY8oJFG+hMEFpWhg5h0+a3KCRsNBHx4NONf1TSWg6aWwdOeXj8PDONTXGJ+lWxEzDtTucFQmBs
-	gCMSj6YOELj/qMuV0J4U2iHar0vc2aTlCGFw+swJG3ztCHqPRXPz9yqF0fUaL/iuWWEvCGuUzp/
-	bMi57zKEEzDXCGCMFiQ4pbXtn/J9l6OCnhy8mEdMdgW+orpDdYqku+QhDFA1/F8FoAxT4BWSaUq
-	/bl1oFwVCdCcDfl7Ab6PIsECMWs0txe/4FCIqvz01MMo+toKy+KZ+Cs0eeI2gbvRiej1/INXw6B
-	jvpd0zgFGsflVaX/j9Wm+yDujNnZRDfiATjStavy9fr0qe/WoGXgHrwGC5FvL27Pwih0txfBxZI
-	q19CoZUVLAd6sP+7lPfp89zyEy+m1G3c3pCaXu2kbfDCs0brmzjxqTY9I/k4cT
-X-Received: by 2002:a05:6122:8c01:b0:567:516f:256c with SMTP id 71dfb90a1353d-56ae77d338cmr2149578e0c.16.1772696879210;
-        Wed, 04 Mar 2026 23:47:59 -0800 (PST)
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56ae7a29c2esm5008966e0c.7.2026.03.04.23.47.58
+        bh=KLWXJFRzKXYfvRWexgs1gCb/dTgnevi1M5AetCjur0g=;
+        b=T53auLYET52GnIrHMh5hCFeTruZhaGvzdW4M6A9q4CY3EMAiHhHLwcQfgLqGm1TR7p
+         3ibRiCHYCKBOGuG/x62+2DD77oU+fzB1HVD442v6W2Fs1/epIwDjYZp4TuctmtYqFm0s
+         gwHKxKa8B+5Rz/yFSaJog9SX0N5ti9GviJcLkceNkGL4MSf8ejPOnlpfqmdxfIiysJsT
+         mk1af5ZJRu5MKcy4PqRYM2RRaYIhtZEAdRUqbujFv2Nwt51bbqKXTKJNGRLe/VuutlFl
+         iItePi8WFg/JjTd5j4KO5OLVwjOoMKiZtnWsBfflasnzk2ZS1NY1sdkX3HTvq+ICRz6l
+         bzLg==
+X-Forwarded-Encrypted: i=1; AJvYcCXwMjbqyfjhIQSdt0AiXMo3e312vTZsZSwYNKvz1k4wH6Ko959ON+T31k7/tq2nXc7XyxylsbgCq6ToeQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxji87e6Hg8W80wt09DCEcoJNSwK4PrgV9Rsxsi4LZbS+OVuzJj
+	a0JrbTswUgB43QfTfhRffYSPCHBjVm3wzAkzJAPQlqg9YFBKNv2NlmDbXS6DRijF
+X-Gm-Gg: ATEYQzwhCzxcTJow4r/0vcOI9GvM46n3HkybVuPewITnQ505J5WgaPhGlUuTdHWG3l4
+	yY/t81pimh9cMm1zq07Jrji2cXrtA07/lqURiBkEOUC52/Ni8XvMgbduQ+Bu0GraHRWLQaAorDy
+	ApxNJy3xF48yiVK0EBV1RdbqqdiesEB48Ei68PtnvEtdmAT3BGYbKaVPyVtLPLWPuAwzXvSP7J5
+	LyyjigYFK0uOwx+p2BWoAgUn/c3StGn7KtLDbcuXlg7EjDosdozXkQAk92TqfYUYotW281Xp78S
+	GWhfleSVr9CFrOKbPIOPC5wLeEicDzRX2uDggixjM8X3stxaC+PZKQZGzwpTyPzmIncZTUCx3eV
+	K+IwsgioHZGvYiRuYSBwyIWfCSf8tP8HKEWGxxAXvxCNjFT99LXd9a6ElhxJR6qBmSYkA19YzPs
+	Bt3a1N0XbE2EI9TsDkxSqa7JQBikAwsbCDJcx+w9iLwtlHlyUbH7ZFpRcEVJv4
+X-Received: by 2002:a05:622a:1ba5:b0:506:2041:13db with SMTP id d75a77b69052e-508db3635bdmr68830551cf.49.1772697037714;
+        Wed, 04 Mar 2026 23:50:37 -0800 (PST)
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com. [209.85.219.45])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cbbf73451csm1849993185a.47.2026.03.04.23.50.37
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Mar 2026 23:47:58 -0800 (PST)
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-5ffa0b23a60so857998137.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 04 Mar 2026 23:47:58 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXzltK9xAmMk5Qc8nTDsa98/wmeHxF7ev5QE53eQaybDw2/pYmifjupAIbGGihdR8imB5QDvd0/bhf3Nw==@lists.linux.dev
-X-Received: by 2002:a05:6102:32c1:b0:5ff:a16b:93f9 with SMTP id
- ada2fe7eead31-5ffaae2d5b0mr1883200137.21.1772696877960; Wed, 04 Mar 2026
- 23:47:57 -0800 (PST)
+        Wed, 04 Mar 2026 23:50:37 -0800 (PST)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-899fc265126so56612836d6.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 04 Mar 2026 23:50:37 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU73ONaPkCTwQRYcFPKxLPtnwiDAlADcgGSXxbdx0PfrSh2viqtoXA+Pu+zzMdviAY2JLu+CgtdzytXoQ==@lists.linux.dev
+X-Received: by 2002:a05:6102:441c:b0:5f9:3a22:85a2 with SMTP id
+ ada2fe7eead31-5ffaac72675mr2059267137.12.1772696734612; Wed, 04 Mar 2026
+ 23:45:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260304175735.2660419-1-vladimir.oltean@nxp.com> <20260304175735.2660419-14-vladimir.oltean@nxp.com>
-In-Reply-To: <20260304175735.2660419-14-vladimir.oltean@nxp.com>
+References: <20260304175735.2660419-1-vladimir.oltean@nxp.com> <20260304175735.2660419-6-vladimir.oltean@nxp.com>
+In-Reply-To: <20260304175735.2660419-6-vladimir.oltean@nxp.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 5 Mar 2026 08:47:47 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUNtqsui3ek1RYCTyiuDLRajpSBMnrdzED6wu6i7-QcuA@mail.gmail.com>
-X-Gm-Features: AaiRm514iMGAdfTBAVsgfVfK-GGHy9jHY4ezK-Lp3w09-JWpnENLQ0I4lkIFgvE
-Message-ID: <CAMuHMdUNtqsui3ek1RYCTyiuDLRajpSBMnrdzED6wu6i7-QcuA@mail.gmail.com>
-Subject: Re: [PATCH phy-next 13/22] phy: introduce phy_get_max_link_rate()
- helper for consumers
+Date: Thu, 5 Mar 2026 08:45:23 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXA67BO8Umz8-4jRg1SLvtZUSEzK0p7WxSvomnBk+WiyA@mail.gmail.com>
+X-Gm-Features: AaiRm52ziEM93YxO07h7pOV0rTYZnULijxTOwLRm9EW_k_lOxLulmwK4PITV2jw
+Message-ID: <CAMuHMdXA67BO8Umz8-4jRg1SLvtZUSEzK0p7WxSvomnBk+WiyA@mail.gmail.com>
+Subject: Re: [PATCH phy-next 05/22] phy: add <linux/pm_runtime.h> where missing
 To: Vladimir Oltean <vladimir.oltean@nxp.com>
 Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>, 
 	Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org, 
@@ -78,55 +77,28 @@ Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
 	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
 	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org, 
 	netdev@vger.kernel.org, spacemit@lists.linux.dev, 
-	UNGLinuxDriver@microchip.com, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Andy Yan <andy.yan@rock-chips.com>, Marc Kleine-Budde <mkl@pengutronix.de>, 
-	Vincent Mailhol <mailhol@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Markus Schneider-Pargmann <msp@baylibre.com>, Magnus Damm <magnus.damm@gmail.com>
+	UNGLinuxDriver@microchip.com, Peter Griffin <peter.griffin@linaro.org>, 
+	=?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
+	Tudor Ambarus <tudor.ambarus@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Heiko Stuebner <heiko@sntech.de>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Vladimir,
-
 On Wed, 4 Mar 2026 at 19:00, Vladimir Oltean <vladimir.oltean@nxp.com> wrote:
-> Consumer drivers shouldn't dereference struct phy, not even to get to
-> its attributes.
+> It appears that the phy-mapphone-mdm6600, phy-qcom-snps-femto-v2,
+> phy-rcar-gen3-pcie, r8a779f0-ether-serdes and phy-rockchip-typec drivers
+> call runtime PM operations without including the proper header.
 >
-> We have phy_get_bus_width() as a precedent for getting the bus_width
-> attribute, so let's add phy_get_max_link_rate() and use it in DRM and
-> CAN drivers.
+> This was provided by <linux/phy/phy.h> but no function exported by this
+> header directly needs it. So we need to drop it from there, and fix up
+> drivers that used to depend on that.
 >
 > Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
 
-Thanks for your patch!
+>  drivers/phy/renesas/phy-rcar-gen3-pcie.c       | 1 +
+>  drivers/phy/renesas/r8a779f0-ether-serdes.c    | 1 +
 
->  drivers/net/can/rcar/rcar_canfd.c                   | 2 +-
-
-For the Renesas part:
+For the Renesas parts:
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> --- a/drivers/phy/phy-core.c
-> +++ b/drivers/phy/phy-core.c
-> @@ -640,6 +640,12 @@ void phy_set_bus_width(struct phy *phy, int bus_width)
->  }
->  EXPORT_SYMBOL_GPL(phy_set_bus_width);
->
-> +u32 phy_get_max_link_rate(struct phy *phy)
-> +{
-> +       return phy->attrs.max_link_rate;
-> +}
-> +EXPORT_SYMBOL_GPL(phy_get_max_link_rate);
-
-Any specific reason you are not making this a simple static inline
-function, like phy_get_bus_width()?
-
-> +
->  /**
->   * _of_phy_get() - lookup and obtain a reference to a phy by phandle
->   * @np: device_node for which to get the phy
 
 Gr{oetje,eeting}s,
 
