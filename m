@@ -1,61 +1,76 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88B25366DAB
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Mar 2026 12:11:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CAC39A066
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Mar 2026 12:15:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772712681; cv=none; b=dWrLHHKu+Hmq0ubrCt1tS0wPRR+pMNiSHVuIXVEwVQ+qtAB1wctnTETMFHokhesQYN0H4FST5ChuOifeVlpHlef5bF2TMMV7zy/PKpr+cPHFjb75PvKa9Xc2pstgOBKAeJkvREOiPK3hGrd2fCWbYc+SZPlvowxGYraS2nsQi3g=
+	t=1772712938; cv=none; b=omhc4Ri6XoZiHbmVlKXG1snd/5YU9o9bAiq5urXqgo5PsS6jSY/Kah2kV0f3jPPvw2ulcsBo/San/99XHNzUrbfpj1Xj11Ww1KpniMIcWhTd/4eh4/Dkw9SC9Uk1N4R0F6pKJaZ7xaRMz0WdUdjPMdlMz229Vy5M18Y5IU8ZANA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772712681; c=relaxed/simple;
-	bh=9vGi0Tl+1h4B7zbEEVMXB8Fw6TTkbEEDFafnvbolUUo=;
+	s=arc-20240116; t=1772712938; c=relaxed/simple;
+	bh=1N9rpptCfEGuKF24I3MO+ctQKVCjB9J9sj4YNN7+SI8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WTW6DsOMzU+CfhhyR9XBoShdEfBwAsnt/x8k/5eT3Ulh8A7tOvMK/uuHnxytwTkpj8T+MN4wXwxBw6uAm8OrtfyuiaFlyC+pPXMwtUjsZlmQpiRsHO9KSqaBluMdu6bd9zp2XQFTyNqAVPwfNMBzjlCVM/A+boqwh/iiyBg0DWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=ghrz1f/M; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="ghrz1f/M"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=adPKuTDj311mrU46icrWV6qx1xxD/9YvPmgbDDG4zJs=; b=ghrz1f/MlnSY//xnY1pmNaJ8bh
-	C+aS6OV+6jEoiyM2r6/Gw1WlBYmPNo+0Hq+kjsbS+Wu3xVcLu/uOfDlZWLbSs06cO6MDd5cJgb5fq
-	qTossY+p7iyBfomaQFtjZ8vQqQFckpITGcI3N55/nUEp6jhfJbaMWcVrtNPAdKSjRd5QOOlS9RYZY
-	iF/2A2yQC8qXB084l+1xd7WtDwpK9zfeKcy3l74FQfmTs7qe/VAFf7QJALy5wELAR38iFNkTD2FZ0
-	R7JJ9zFL3YDXOXuotLp1LcxEKF1HnMMF+CO3IYqfKKwFzTTbsialbP4PFwliMvFANW0KBGazNjVjm
-	/7IxYj/w==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:38680)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1vy7Xp-000000007tu-44JZ;
-	Thu, 05 Mar 2026 12:11:10 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1vy7Xm-000000000RW-2Zb6;
-	Thu, 05 Mar 2026 12:11:06 +0000
-Date: Thu, 5 Mar 2026 12:11:06 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, Chen-Yu Tsai <wens@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>,
-	Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH net-next v2 1/8] net: stmmac: mdio: convert MDC clock
- divisor selection to tables
-Message-ID: <aaly2p34HoJAIJbx@shell.armlinux.org.uk>
-References: <aald--qJquWGIvmO@shell.armlinux.org.uk>
- <E1vy69y-0000000Btwd-3oq7@rmk-PC.armlinux.org.uk>
+	 Content-Type:Content-Disposition:In-Reply-To; b=hOKoCycoWmwu9YZq2ign1pcsRz/mCExFU+WDKI15aL/2N6NTwrmfMYktHuI6KoTGt9+RX6nieTGmzrkSKZmu/vwmas70yT95WKu0AOm9ro0Dyi5sJuNiYPHJdhgAwlW3S/Ajc2uWq6O0IRGxSpFd2nalAhwPjRj/SEzKzjDiFVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-35982fd8910so2115874a91.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 05 Mar 2026 04:15:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772712934; x=1773317734;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yS764krKV6WfB8kOxjvP29bXooB1nm1bNBDNiujlO4g=;
+        b=Ud1Wm68Px7X0ZSfg9QIa0fHf0RufNtw4I6kU5u6GNOtLvEl3C+xrfBxFjNUeZ7MYXL
+         SLVy9fkUy2U5O6Z5vf9QxexylTL4rJhV7ypq/BfwM1DHE+r6KA/GVr3tXkeQbcsDeuop
+         mUfqIe3gP07ku0ck9yUpmxx22V5/Syde3gOzTZn2Vxc2EIR1tzCIeO2ARUmyxiLjDyfv
+         Y2ErhstlDckG1+9D+ivRw/EndySp7PRrhgK0PbqcRzMwu2hDJkyY6DmzGnnIKd2ow7M4
+         aPikp/edk6+yrT2eFIq5MrgXSPASQmiJejjDoLHPlV0HRNt1RW/k7IxDgdYblNrmYgtT
+         HmQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWuPmmuw5AW8wrkhciPFjFwEasC0HKhV8qJTN33EplI03LW3ZrDYnPBbWvshA8Ry+3qmqsVRTEXkqBlrw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwdxdqNbypQP3duwyK1lekKWDRmPSjkImvqMrfZKh45yimoJH6m
+	9Tz0Cb8M+ZXymaFo/ED2frHA5A0ViZlyBWAVcBT+3mWJdj5trmLBrcJI
+X-Gm-Gg: ATEYQzx6C/bSkX69VnAqtcCY+4/lfqLeZTGOcKt/V2epCv0Ekjhh+2ZwzZOKD+2DSRZ
+	QXz4zq/Y1Zd7GKwW+Wsmf8AIRxmTAtjJWn5IIae/X9XhbQK8xdFci13CdaXnJyGIAm0V33sL9Le
+	L1waK3qDHuut4XfmeYTQBdFRZhre8tdVKfy7qEuuvntQsAQTyYDpHPhEkQdEvnmd6sotKVKYM2R
+	RtklR98xCt5mHqXLQ0y26leHmah0izgCWI8pNZ7an67AJcriIL+i/NZN1GpvVyPURQ3J6ND6qK1
+	8i1U+RaG9CdPtW05aQFxm6v4390B5R1oBvxTdf/2IBNY8/Hsh+PSe/zfavt1Pqyfj/L62YznOWi
+	rg+y3bsQ7vQaeD1qHvzOdXCDY+PULWAoc2tTIGEK9304DjL2BGzholiO42aIOd3mSXPydlt2/4T
+	ycgP1Tg8U1FhHSZXT6tbvDfrNDyglawCNzecy+M++fhe9QWhd3atjpn2X0feIEp78E2qlKZFM/I
+	uS8NxptE9zQ/oLqj7AK6TItO2GOvNejDNoq70xQam73PbZ9AWvEtuZACBW1Cg==
+X-Received: by 2002:a17:90a:d44b:b0:34e:630c:616c with SMTP id 98e67ed59e1d1-359a6a92750mr4210979a91.31.1772712934483;
+        Thu, 05 Mar 2026 04:15:34 -0800 (PST)
+Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359b2c1daa6sm2391359a91.0.2026.03.05.04.15.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Mar 2026 04:15:33 -0800 (PST)
+Date: Thu, 5 Mar 2026 21:15:32 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: Joe Perches <joe@perches.com>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org, spacemit@lists.linux.dev,
+	UNGLinuxDriver@microchip.com
+Subject: Re: [PATCH phy-next 22/22] MAINTAINERS: add regex for linux-phy
+Message-ID: <20260305121532.GA1649635@rocinante>
+References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
+ <20260304175735.2660419-23-vladimir.oltean@nxp.com>
+ <a8fee1cd-1e69-4a9e-8533-c0988c480fb9@oss.qualcomm.com>
+ <20260305085148.7cwo3yflp7vcfldf@skbuf>
+ <f3a5aa3df78553ffc0fd0024f5fd36a4e2158c88.camel@perches.com>
+ <20260305114352.2f7btqixg4tu5bzl@skbuf>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -64,19 +79,26 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <E1vy69y-0000000Btwd-3oq7@rmk-PC.armlinux.org.uk>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+In-Reply-To: <20260305114352.2f7btqixg4tu5bzl@skbuf>
 
-On Thu, Mar 05, 2026 at 10:42:26AM +0000, Russell King (Oracle) wrote:
-> Convert the MDC clock divisor selection to tabular format.
-> 
-> Note that there is a change for 300MHz, but this is not a problem,
-> as the MDC clock remains within the useable ranges, which are:
+Hello,
 
-I notice that checkpatch complains about "useable", which it should
-not do. "useable" is perfectly correct, especially in British English.
-As I'm British, I won't be fixing this checkpatch complaint.
+> K:	\b(?:__)?(?:devm_)?(?:of_)?phy_(?:create|destroy|provider_(?:un)?register)\b
+> K:	\bphy_(?:create|remove)_lookup\b
+> K:	\bphy_(?:get|set)?_drvdata\b
+> K:	\b(?:devm_)?(?:of_)?phy_(?:optional_)?(?:get|put)(?:_by_index)?\b
+> K:	\bphy_pm_runtime_(?:get|put)(?:_sync)?\b
+> K:	\bphy_(?:init|exit|power_(?:on|off))\b
+> K:	\bphy_|(?:get|set)_(?:mode(?:_ext)?|media|speed|bus_width|max_link_rate)\b
+> K:	\bphy_(?:reset|configure|validate|calibrate)\b
+> K:	\bphy_notify_(?:connect|disconnect|state)\b
+> K:	(?:struct\s+)?phy(?:_ops|_attrs|_lookup|_provider)?\b
+> K:	(?:linux/phy/phy\.h|phy-props\.h|phy-provider\.h)
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+What about
+
+  F:	drivers/*/*phy*
+
+or something along these lines.
+
+	Krzysztof
