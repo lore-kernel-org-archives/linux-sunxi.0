@@ -1,43 +1,43 @@
 Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51CC637B03C
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Mar 2026 10:43:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B93DA37F8D3
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Mar 2026 10:43:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772707392; cv=none; b=YmGqMEjVknH9XkcM0nrjoKALF3C97EnG0iWMs8zVBVCZKb1mUBD7ttgcGpAu1P6i/HZAh12H6Z/u7/OzzOa6VFjjpTCGb2xdjqMRvEyxnxDxWlZ4xCp4Wnroa7cKTZevJgkU7i63uT49JnYOWkQIQHvVnxe4rmtsc5GmVHFIgss=
+	t=1772707397; cv=none; b=BYPb4VUam9XiEC+BZmxndrolrIR8IOzOmf5Xyqy68eoBFYe0vDdlYqEyJ8xU5YDsj2TzTzFOmMAcMp/SH5XG4xdq7Zm3eo+yZEl1zjlBan9n3k/GCCPCzTd06wZWuJUW5A1mf3ZG9Mqk2/zhXrbcOkxEYrmzixnbFUCKWuCnJ/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772707392; c=relaxed/simple;
-	bh=bdmhJXYgp6hiwq2GvdcrhMN8527Ns07T1i4rMd9dmYI=;
+	s=arc-20240116; t=1772707397; c=relaxed/simple;
+	bh=PK6ORV0wwzfzjm2Ts1AjsLvWha8A5LzqyjPWYhPkVrI=;
 	h=In-Reply-To:References:From:To:Cc:Subject:MIME-Version:
-	 Content-Disposition:Content-Type:Message-Id:Date; b=LGd3FQENWajrmG1ynTlATZSS056zJnw7Bw65segipZZY+rO1vziV1MQXGys7Ohha8Naw86q6lkPLHHaE9mSi8qCYlMn4XtsEKsv4Vjgko4mjLA5x38xfW3jdvlu99a/5o1T17r72ivloPBXXOt6zL+QvDRR+Ds+UucE2//l8Ang=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=m9xKcV8G; arc=none smtp.client-ip=78.32.30.218
+	 Content-Disposition:Content-Type:Message-Id:Date; b=A/oRWAJbF0eXv9nFnYT38YjyyBAZWo/neAK+6mvZaOUQa+uHBHjzVpANhWyHPyiOLI6Zu5ExCVHYqf0dVQjNx5hncRK69K4txOqZPTt8cBu+O0YXKfOCRyWzKtb3PCPGnHgcLcPU5D24GHtrvgu/GSq1j3q0KaiCCdDtXPS7tR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=rQoMEqtH; arc=none smtp.client-ip=78.32.30.218
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="m9xKcV8G"
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="rQoMEqtH"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:References:
 	In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
 	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=JXAuD3nUVcKQxQuqoS4zKPyRKQFd55XZkokpVdQy2cE=; b=m9xKcV8GAJSk7SyGx2IYKMlYw5
-	MmTmgM+rRCW4UhLaIhFCUUhyeAmy3s9WhqYQ84Nbzuo26rd3uNaM18O48FJguW79oiTRgvgdCTA/B
-	s6WEACHq7JHG9ewfXG1DxN4hngbxM4tIDUk5hJtoI96OHJEZ0xaLkKEve9GoF513KPsdvpOgqTJVD
-	QW6/nA85QQzbW3HE244YZwSrIXy8mfISSWPQZrC4LOz2ZdKDFmrwKB0eGVyNOzSYAAwogdqyLhykR
-	v5sf3cIO+1NUshvPDO6EqHHVVo5+FvPKiy3Ylahk+XdY8mnTLYbIGE4vW2suvYu8cer9GX0FRGEgh
-	LXmX5vyQ==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:43352 helo=rmk-PC.armlinux.org.uk)
+	bh=M+uU8Ete3jLODjZm/eSd2z0Hl7GhhT8W+8QoodsNuz0=; b=rQoMEqtHblG8oB1GYZD2LZWH13
+	HwHk4cqCYHU4f18hRy6xXkW3uq1OobYqWvHt9AWy585hhGqnvenh13+iiXiZ5NuNWGYFxMA9RTazP
+	2hsftJXDUJFqOoO61UxNk/iCKL1S2LdzDsQoqtZA/7ScQZLprDfyfoXLThUmqgu5ZGDbQHs9WNvP9
+	D1KW1GsUPFEflRsxmmez1q3iUlmzVmVJCoPhjk0K8d/0aoElM4rjYCLgY6eTCqbmXwizeFYqEgK32
+	gTfwxAlkvnQ2IR7vYC6EeV7zEkfn6PjP1D+NfztaBFEbUHqiSQquFGkSFD+TqY9/L3DY43oSh/IKo
+	TFSdTW4w==;
+Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:50178 helo=rmk-PC.armlinux.org.uk)
 	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.98.2)
 	(envelope-from <rmk@armlinux.org.uk>)
-	id 1vy6AV-000000007oc-3yH9;
-	Thu, 05 Mar 2026 10:43:00 +0000
+	id 1vy6Ac-000000007oy-0p0n;
+	Thu, 05 Mar 2026 10:43:06 +0000
 Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.98.2)
 	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
-	id 1vy6AT-0000000BtxD-2qm7;
-	Thu, 05 Mar 2026 10:42:57 +0000
+	id 1vy6AY-0000000BtxJ-3smT;
+	Thu, 05 Mar 2026 10:43:02 +0000
 In-Reply-To: <aald--qJquWGIvmO@shell.armlinux.org.uk>
 References: <aald--qJquWGIvmO@shell.armlinux.org.uk>
 From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
@@ -54,8 +54,7 @@ Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
 	netdev@vger.kernel.org,
 	Paolo Abeni <pabeni@redhat.com>,
 	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH net-next v2 7/8] net: stmmac: mdio_bus_data->default_an_inband
- is boolean
+Subject: [PATCH net-next v2 8/8] net: stmmac: make pcs_mask and phy_mask u32
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -65,35 +64,66 @@ MIME-Version: 1.0
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1vy6AT-0000000BtxD-2qm7@rmk-PC.armlinux.org.uk>
+Message-Id: <E1vy6AY-0000000BtxJ-3smT@rmk-PC.armlinux.org.uk>
 Sender: Russell King <rmk@armlinux.org.uk>
-Date: Thu, 05 Mar 2026 10:42:57 +0000
+Date: Thu, 05 Mar 2026 10:43:02 +0000
 
-default_an_inband is declared as an unsigned int, but is set to true/
-false and is assigned to phylink_config's member of the same name
-which is a bool. Declare this also as a bool for consistency.
+The PCS and PHY masks are passed to the mdio bus layer as phy_mask
+to prevent bus addresses between 0 and 31 inclusive being scanned,
+and this is declared as u32. Also declare these as u32 in stmmac
+for type consistency.
+
+Since this is a u32, use BIT_U32() rather than BIT() to generate
+values for these fields.
 
 Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 ---
- include/linux/stmmac.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c    | 2 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c | 2 +-
+ include/linux/stmmac.h                               | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
+index ece2a0c38562..fc13bfb47783 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
+@@ -699,7 +699,7 @@ static int intel_mgbe_common_data(struct pci_dev *pdev,
+ 	/* Intel mgbe SGMII interface uses pcs-xcps */
+ 	if (plat->phy_interface == PHY_INTERFACE_MODE_SGMII ||
+ 	    plat->phy_interface == PHY_INTERFACE_MODE_1000BASEX) {
+-		plat->mdio_bus_data->pcs_mask = BIT(INTEL_MGBE_XPCS_ADDR);
++		plat->mdio_bus_data->pcs_mask = BIT_U32(INTEL_MGBE_XPCS_ADDR);
+ 		plat->mdio_bus_data->default_an_inband = true;
+ 		plat->select_pcs = intel_mgbe_select_pcs;
+ 	}
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
+index b913fe5af488..ada6c6ef1f5c 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
+@@ -168,7 +168,7 @@ static int loongson_gnet_data(struct pci_dev *pdev,
+ 	loongson_default_data(pdev, plat);
+ 
+ 	plat->phy_interface = PHY_INTERFACE_MODE_GMII;
+-	plat->mdio_bus_data->phy_mask = ~(u32)BIT(2);
++	plat->mdio_bus_data->phy_mask = ~BIT_U32(2);
+ 	plat->fix_mac_speed = loongson_gnet_fix_speed;
+ 
+ 	return 0;
 diff --git a/include/linux/stmmac.h b/include/linux/stmmac.h
-index 2fc169c7117e..678d03d6d3bd 100644
+index 678d03d6d3bd..965ada809fdf 100644
 --- a/include/linux/stmmac.h
 +++ b/include/linux/stmmac.h
-@@ -86,10 +86,10 @@ struct stmmac_priv;
+@@ -84,8 +84,8 @@ struct stmmac_priv;
+ /* Platfrom data for platform device structure's platform_data field */
+ 
  struct stmmac_mdio_bus_data {
- 	unsigned int phy_mask;
- 	unsigned int pcs_mask;
--	unsigned int default_an_inband;
+-	unsigned int phy_mask;
+-	unsigned int pcs_mask;
++	u32 phy_mask;
++	u32 pcs_mask;
  	int *irqs;
  	int probed_phy_irq;
  	bool needs_reset;
-+	bool default_an_inband;
- };
- 
- struct stmmac_dma_cfg {
 -- 
 2.47.3
 
