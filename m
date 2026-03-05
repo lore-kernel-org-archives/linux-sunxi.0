@@ -1,67 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1035D3BFE29;
-	Thu,  5 Mar 2026 15:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8918379EF0;
+	Thu,  5 Mar 2026 15:36:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772723998; cv=none; b=ipcV+czDP5iPOItu7RU2kSrvQR1oWQjAMRdrWPg9Nq3Pe9vO3wqX55G/KjSwUdiL2oqvXpi3IijeoR3XiJBpaGROQqegtbu+CVH7gvm3/wsORePAwtSWV1Gr0yu7WnSBbSIoJXYUvu9TqHNPBuioCnwjYF9nNQMckyNMjXpuuSk=
+	t=1772724967; cv=none; b=sR53jsZI8T5iFU+o4iOs5H0p6FwyDml9GdsxMCFBsSRChHJE960Tjmn6NDWp7dwx6bYz2H2MrEXC/nt0FxfLMQVxjfF+QKE++IqMsQzSPmYJ3p9aqM1+GlHf/rjLIiV/HlVlpgmwukmII4oqH9Y4jtYrJpIrtMQfDfvvRn9tCIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772723998; c=relaxed/simple;
-	bh=fiPz7wtqOY5BeMkxwRsGcfzBJ/wpg9ehDqfpzlZwBLQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BNafmD12HkhtO/rPkyzO7NYZOZR3K8NGcksdwIRma3GdXbdKXb5r73s12bOLVSxS2V/wMovuWxoWvCuf2KbCMBUrem21s0SMd0zY8C2y7MYsnuvNdZqq8OcCXp2RWM0pqQHBNd9BTftTjvNN5WocSHOtwujX47W7l7P8T0KGqWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cy/zFlEm; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cy/zFlEm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E616BC116C6;
-	Thu,  5 Mar 2026 15:19:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772723997;
-	bh=fiPz7wtqOY5BeMkxwRsGcfzBJ/wpg9ehDqfpzlZwBLQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=cy/zFlEmHAifNQfbSTWPYDYipTTH6trB82Oy0edkNFgF3YpPGscbwDmMl6vOh2a1o
-	 cpLko/5dWTKLyg07VjmS9LvqLoqnVHOa10DVNy56/V8v9skgkhMOnmKQiBd13OF6ka
-	 /p85yoP6L6p3fmrqnArS85XXxfzOKNwC6EDHgH+oBU82lczxgd0IXLvSjUnlBq/k+l
-	 +YQNjeZKi1l1nUxwuU4utBs0zt/8j5Bey0RfbuahW3/7fg8yk9OFdVfa18aPtLZbkr
-	 f0hmeSriiIJz++KYt3Q7i1jDkiLdKpJbo3FOMMZWy/DCGjGDbww8vzd28fbZQEWa+C
-	 u0XPYXxW/UvsA==
-Date: Thu, 5 Mar 2026 07:19:56 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Andrew Lunn <andrew@lunn.ch>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Chen-Yu Tsai <wens@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, linux-arm-kernel@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>, Samuel Holland
- <samuel@sholland.org>
-Subject: Re: [PATCH net-next v2 1/8] net: stmmac: mdio: convert MDC clock
- divisor selection to tables
-Message-ID: <20260305071956.08d49615@kernel.org>
-In-Reply-To: <aaly2p34HoJAIJbx@shell.armlinux.org.uk>
-References: <aald--qJquWGIvmO@shell.armlinux.org.uk>
-	<E1vy69y-0000000Btwd-3oq7@rmk-PC.armlinux.org.uk>
-	<aaly2p34HoJAIJbx@shell.armlinux.org.uk>
+	s=arc-20240116; t=1772724967; c=relaxed/simple;
+	bh=qocaInGB0SlfrWm+uA1O3uhdYbYezjAl8jrEXMJzGhU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=LWEfGZx3KKfqPR+EulOrLmlCpf/Zbe4FGWLQ38ONHzUkaONzLXL9e6My5PMks7NIArs4AmwsgoWqVrWV9nAjhuWpGrpWu7nVy9K1IDrlnpbbsxe+dAudTWfhENgZOVcfAVbKtdizgBtl3sxPU3CRhJwgBJmfJiRbqPuMFpyAKcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf17.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id 9322C14014F;
+	Thu,  5 Mar 2026 15:36:02 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf17.hostedemail.com (Postfix) with ESMTPA id E35031C;
+	Thu,  5 Mar 2026 15:35:55 +0000 (UTC)
+Message-ID: <21e84301a7c37f9d5ce6f0ddcaed7846174d2a4d.camel@perches.com>
+Subject: Re: [PATCH phy-next 22/22] MAINTAINERS: add regex for linux-phy
+From: Joe Perches <joe@perches.com>
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+	linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>, Neil
+ Armstrong	 <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org, 
+	freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, 	spacemit@lists.linux.dev,
+ UNGLinuxDriver@microchip.com
+Date: Thu, 05 Mar 2026 07:35:54 -0800
+In-Reply-To: <20260305114352.2f7btqixg4tu5bzl@skbuf>
+References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
+	 <20260304175735.2660419-23-vladimir.oltean@nxp.com>
+	 <a8fee1cd-1e69-4a9e-8533-c0988c480fb9@oss.qualcomm.com>
+	 <20260305085148.7cwo3yflp7vcfldf@skbuf>
+	 <f3a5aa3df78553ffc0fd0024f5fd36a4e2158c88.camel@perches.com>
+	 <20260305114352.2f7btqixg4tu5bzl@skbuf>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Stat-Signature: hdghxtayq5bkfzsomxmnfbydyyebzipf
+X-Rspamd-Server: rspamout08
+X-Rspamd-Queue-Id: E35031C
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19f3I+nQL7Hl0m6eSD18a/IIsXK9f3qkJo=
+X-HE-Tag: 1772724955-671908
+X-HE-Meta: U2FsdGVkX1/X7uxRzGLN+IX8WCZcO8p7ZTfkKmYNWBtz0ybputMaHEYE9yjxoGJ588aNvqlmxPrL8260emaV8dmXUI0e+INEtvEJY25I/Ej/PwqlxILke5yF3tqaj6xtvov8nI2F5oYM0uwbLv+6+skyh/sdJqBRUfJJKxLUzixxjwVPNZYZfPXpcC3lGcz5BMW1nsCCc9lzUvpFfMAODgtiRdX4Al8waTK8ABKVHmTqbt8uPB5EPbopscO3f/XucT2DdozpyI3LxZQRIQw7tIxAWEpzWgj98RYMI3rQa9CVBr40+v4Qte7+qYx1OCa5
 
-On Thu, 5 Mar 2026 12:11:06 +0000 Russell King (Oracle) wrote:
-> On Thu, Mar 05, 2026 at 10:42:26AM +0000, Russell King (Oracle) wrote:
-> > Convert the MDC clock divisor selection to tabular format.
-> > 
-> > Note that there is a change for 300MHz, but this is not a problem,
-> > as the MDC clock remains within the useable ranges, which are:  
-> 
-> I notice that checkpatch complains about "useable", which it should
-> not do. "useable" is perfectly correct, especially in British English.
-> As I'm British, I won't be fixing this checkpatch complaint.
+On Thu, 2026-03-05 at 13:43 +0200, Vladimir Oltean wrote:
 
-Yesterday it reported a warning that someone repeated the word 'very'.
-As in "this is very very wrong". checkpatch, eh? gold.
+> K:	(?:struct\s+)?phy(?:_ops|_attrs|_lookup|_provider)?\b
+
+You have (?:...)?phy(?:...)?\b
+
+I rather doubt you want anything that ends in phy
+
+That matches words like cryptography and way too many dts/yaml files
