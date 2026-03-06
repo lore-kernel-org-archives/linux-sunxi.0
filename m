@@ -1,40 +1,40 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B65F2F28E3
-	for <linux-sunxi@lists.linux.dev>; Fri,  6 Mar 2026 13:31:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A145266B72
+	for <linux-sunxi@lists.linux.dev>; Fri,  6 Mar 2026 13:32:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772803890; cv=none; b=dAABoQKF4dCo04IeoYE8+xnA3VxW4+EA125XVocCxTk6jpy0mWMgM25PRDjrms2oKDfRslhmIOTvm5RuO+Mt1tzz5+m9ERSb3Hqc7PyXFICrvVCq2vK8mktE76EUSdYxqIShM/T8SGCmLj0+reRlQgYBXaHZPLlGnNHmggm05pc=
+	t=1772803942; cv=none; b=JKOuBSKFYhoRz9uBcaSixnG+nllsDf117iq9l0z3o1aSZ8vWvzBn47reAewq77S9qBe+dmF8TTl+P+5KGv5FPQLx0ihSTam3Lp3uAGiAuTkf6AkVnUhMjXNvEYIMYP4FBXRThzQACmAe4e9/IYbMZzDGT21wHua7aT5KDe8dhIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772803890; c=relaxed/simple;
-	bh=5uhmmg7vWSZplBpTH9YTFXdl0i8LhLBtJ0Gmk/1FLVc=;
+	s=arc-20240116; t=1772803942; c=relaxed/simple;
+	bh=O2EdVReohsVktiZ9IisdOizANkbEVPstJd5vArlYlW4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=STMCzfkPDY8DXopY5avZxrgke+02kINnnnodzr4OuLIATiPTszmjHgU+eY3cqIVXt3Eio25cDF+1Ed87ZJJzEov/bnfMVZGOrG3YAxJ8c5P+P9TmULtCYUDhnXZaNGY8gg5x9UXA13nFFQ0vee1FiSjJXUV8vAqq0kHCbElwv3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=dSp9M74c; arc=none smtp.client-ip=185.246.85.4
+	 In-Reply-To:Content-Type; b=EHHIzS+wivitJQlIXxChg/I+gRib6nuk/4C0ZPUbyBoAkEG7ixk0doClujliVnPVInhAnJm7lSc1cyorzYdi/172pNnzv+oAYWJFVl9GRrMeeJXl/r9Fb7z8E3l/sF/eexRvHqzF3/i/bYMJ1cddwlvfUPEgTWLACrDkMy6gSbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=syuwf17O; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="dSp9M74c"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="syuwf17O"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id A987E4E42597;
-	Fri,  6 Mar 2026 13:31:27 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 0DA25C40437;
+	Fri,  6 Mar 2026 13:32:39 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 7F07D5FF92;
-	Fri,  6 Mar 2026 13:31:27 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6BA61103699F4;
-	Fri,  6 Mar 2026 14:31:24 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 05F5E5FF92;
+	Fri,  6 Mar 2026 13:32:20 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 78C9E1036994E;
+	Fri,  6 Mar 2026 14:32:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1772803886; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1772803939; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=5qjLEAIOM/x5LTkseOtlz5V4adYllqJnixHsyNEVKMk=;
-	b=dSp9M74cgTh3Myvz930z+Pkb8FeyXYlq/Xbl8c9f07aZ4QW4SevEdAzFaAMH0nhC9N7PwR
-	/Grp2B+bQXDwC4xqRIFmrJBeDK0YDV2TCsmPesgfAzOTXPQQg6iwoCtcJ/LguHRXl4SXlJ
-	ky5CVrr7zFu6ydudEUBsM4Y+D+J219l3yNE8GJqMyMMVNuAT53GO6NSX3V0EORX4QyK+n+
-	aQJvzszeUnoBmiXC1udTHzI4SnjhlTGMqkLnPDbnT8luMdezeKY69ONQvyLNKyoeRkGgvB
-	4+4Tft/fcFOWW7BhMqUwS/pVH//zfnermFLGlObfDxKkeZJoANyzJxQwUZErug==
-Message-ID: <310c465e-0956-48ca-9887-cdd1ad0db58d@bootlin.com>
-Date: Fri, 6 Mar 2026 14:31:24 +0100
+	bh=MtGSXQd1rJ7F7WpffOYtsvHkK2yZmux9XID3eldxZIU=;
+	b=syuwf17OBQRSlsgCUAuuSAuSoqGuBwfoHBbK9g4Bh9AQzCvKCyDFKN8bmPdlRnKdOk2aA5
+	VB87AhBHBpX2LO5ODAZrlnihKEnT6E4qGUIBbmgJG+GU9TaDwiiVp4DXTEFjl1l3ZNBkmB
+	DWbv/EG5B41lrbD3F8ZQpXF9BKZEDeD1S7Kz/AgXstteX1JnGIygade+ftEaVahkmKSFMs
+	SjnnmLlvC93omtAOC+oJX7rh0eLn65jRgr8dw5WmzANFwfDlriHcxzeNK4eOdNFrqDYGmR
+	VWfJdHlegT6ZvN1nCIzgcsemxAf3jSE5a2s9VVh8cop3kGZpKDlGdzWtPxlSJw==
+Message-ID: <065b3dc0-b092-45c5-b7ea-e0a54264558e@bootlin.com>
+Date: Fri, 6 Mar 2026 14:32:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -42,8 +42,8 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 7/8] net: stmmac:
- mdio_bus_data->default_an_inband is boolean
+Subject: Re: [PATCH net-next v2 8/8] net: stmmac: make pcs_mask and phy_mask
+ u32
 To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
  Andrew Lunn <andrew@lunn.ch>
 Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
@@ -54,24 +54,27 @@ Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
  netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
  Samuel Holland <samuel@sholland.org>
 References: <aald--qJquWGIvmO@shell.armlinux.org.uk>
- <E1vy6AT-0000000BtxD-2qm7@rmk-PC.armlinux.org.uk>
+ <E1vy6AY-0000000BtxJ-3smT@rmk-PC.armlinux.org.uk>
 From: Maxime Chevallier <maxime.chevallier@bootlin.com>
 Content-Language: en-US
-In-Reply-To: <E1vy6AT-0000000BtxD-2qm7@rmk-PC.armlinux.org.uk>
+In-Reply-To: <E1vy6AY-0000000BtxJ-3smT@rmk-PC.armlinux.org.uk>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Last-TLS-Session-Version: TLSv1.3
 
 Hi,
 
-On 05/03/2026 11:42, Russell King (Oracle) wrote:
-> default_an_inband is declared as an unsigned int, but is set to true/
-> false and is assigned to phylink_config's member of the same name
-> which is a bool. Declare this also as a bool for consistency.
+On 05/03/2026 11:43, Russell King (Oracle) wrote:
+> The PCS and PHY masks are passed to the mdio bus layer as phy_mask
+> to prevent bus addresses between 0 and 31 inclusive being scanned,
+> and this is declared as u32. Also declare these as u32 in stmmac
+> for type consistency.
+> 
+> Since this is a u32, use BIT_U32() rather than BIT() to generate
+> values for these fields.
 > 
 > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 
 Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
 
 Maxime
-
