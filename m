@@ -1,209 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BCF9352926
-	for <linux-sunxi@lists.linux.dev>; Fri,  6 Mar 2026 17:34:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D3172627;
+	Fri,  6 Mar 2026 23:50:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772818497; cv=none; b=Tgc9dXY5ubg5xmUw7X/xqUpgr1OgAh4eN9hImTuIRXfQh7QCtFTavWJfkVgUA9vmWr4owP/Td23qyIqPMl6jS+7MMidpdSkjhBk3L/ERHU2iBqh85bxxfIMdMzHMghkAyqCja1Sh/7sT+fR4FJ3+gryGxNSeZekqNzpOKOzDkNI=
+	t=1772841018; cv=none; b=LvK6vot5a2aiRORwId9QwFAS/tX8k1WxlEB7TAnVDfG95eM/E7ige7FbWx2xVmx7Jy2B156KbTgVbmVJlbsESWiLhYDdg8BsPRJv6r5u/g3BfHR4L4182gqYKaDRauj4RCJ6ZuaB5d3b0HSjHax0A1y66WlDxRS6xRSclrUI4HY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772818497; c=relaxed/simple;
-	bh=SR+mdgLhlOhUS2wbF1s2i9ovITikFxXdvE5yE1P9YdI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cwekins8k6zINm+C6K4SDsf5UOaGZ/Sgm5ZYc7WbweH02paC8+b3UkbD5NIGHeqHj7k4so9ypZfsMUUsQWtINPtDOtzQq5RdDAPP9zhL6iuOKrE8guuJDLGrODa2mY7C8nCQmymFrKhjFXiJmocRlgJAS0AFHRGgCiLi0/dNt8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IsUF/XTy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772841018; c=relaxed/simple;
+	bh=BQW73dxoFvf8W9lwbY5JOxppl2jq+PcUgOfCJhuasFc=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=uul7qr5xbsFhPruKUO/ZgHFn6tj623NVMW8aPcP9qWykXxuP5fk+XG7JLrbZYCDU82hZxuj8Dj7TN1kcg3rX+YKUXWjA3tb0IGBomt62fwLZSRB9iCuNflCV4KT10FUVSJCi1n92bnh9OHIZmdlWPtEldzPtiL/4MK7P0WbSYSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AZeceoFW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IsUF/XTy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4ADF8C2BCB2
-	for <linux-sunxi@lists.linux.dev>; Fri,  6 Mar 2026 17:34:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AZeceoFW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2844AC4CEF7;
+	Fri,  6 Mar 2026 23:50:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772818497;
-	bh=SR+mdgLhlOhUS2wbF1s2i9ovITikFxXdvE5yE1P9YdI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=IsUF/XTycn0CKydUrnqYikvqNO9ZMczOJtjO7TCzrOjWyt7xzMh8RLVcJR9Kcb+5q
-	 p1bmm3B7gLT9FCdqdxb2Mh4JrPsGdbFgezfpW2UGKyugg6Nmr2CsN753l7cMgg+0G8
-	 H97kSflQSfMoro7L5rGmLF+7FdVRGSAANOX0sfJI0pd/isMPuBj6paL/J0Tc1PmQiW
-	 x+SUG5lzK1HO6XXo9imEvaZGYe5GqG5j85GzWaIbRqlE/hAJybSxzOI+gdUO33z6WM
-	 I11kDz4Q6EEuhM7PS6k8a4ub5XAvMDUtyeRl66FGf1nxsF1KbxA7IjCRs4GuM0pJw3
-	 KpEjmfBqp9QNQ==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-38a33a542aeso21621641fa.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 06 Mar 2026 09:34:57 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUpkPUomNHOjOqlSxfCcs95Me6m3M/zSIZqXmfXpXtGIF5feRMseuli9SFkUCofKbwrHuqlVdWL8xHq+Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx4NP3Ek5b+I4CPRIAT+goLFoX4wu8stYfu0jIyMy+rwyKhyDL5
-	cDvZpe4VlZRGZ6E2er0If6YTW+iMaqEfMMzQDFWO8vUN0K5GVO8v8u2bWpAzUhHEbPNzHa8Zlji
-	3ifd2H7QUila+jJXZ/0p7lWB+z+NU/NayypWYeEESQg==
-X-Received: by 2002:a05:651c:893:b0:38a:519:f788 with SMTP id
- 38308e7fff4ca-38a40b388d2mr12029891fa.2.1772818495778; Fri, 06 Mar 2026
- 09:34:55 -0800 (PST)
+	s=k20201202; t=1772841018;
+	bh=BQW73dxoFvf8W9lwbY5JOxppl2jq+PcUgOfCJhuasFc=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=AZeceoFWUBzHrcZ1cwO/gNZKKGnTGYzoaTq4ZcmJ3PkLhzEbo1YHEm2P3D5sQjNah
+	 JjVGGBxD6egmPXbetoSy8xZDIcG7gkwDbLTv3d/Vdx9zRojsBKqtn/KbKJrrR9mW+6
+	 MIV9N1wlDdcbQPQuhvlxyWU+0t50ePLZCkAUFTaj2K0//qhaOvAvcWsz8Jcc54ruep
+	 jmY9pkf1Wox7Jr4uIiIbFPmyYyKeHR3AMV/JyMKulw/n+PpejERXJxN5BzHzb1rq2e
+	 3xAf9jv6V2j0O2tQhW0Zek11e/SysJwH3PkaOZ1yaV1orDHOOdjKJP/RgKNtSEUT2f
+	 9p25rXvQLGR7w==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7CF413808200;
+	Fri,  6 Mar 2026 23:50:18 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260223-i2c-printk-helpers-v2-0-13b2a97762af@oss.qualcomm.com>
- <aaFcs1miP88QWmtH@hovoldconsulting.com> <aaFfEsfh0xTh0b1y@shikoro>
- <aaFsZbiLYSz_YEjw@hovoldconsulting.com> <CAMRc=MfcvD1nJy=zpoCkSkJq6WjyXQxFUZ4QE6vyCS+XFCn5AA@mail.gmail.com>
- <aaHI_VavZugXjVoL@hovoldconsulting.com> <CAMRc=MdKF29McBJ9U=qELkzf9GYV1CQpRF7U6OweDNtVzMXo7A@mail.gmail.com>
- <aacE-27iaYneKCJi@hovoldconsulting.com> <CAMRc=Mcx8Hu407arSEo3o-Xhmep_ZK4BM2TVi_55nXGwYcaijw@mail.gmail.com>
- <aar1PDUB2t7DgEP6@hovoldconsulting.com>
-In-Reply-To: <aar1PDUB2t7DgEP6@hovoldconsulting.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Fri, 6 Mar 2026 18:34:43 +0100
-X-Gmail-Original-Message-ID: <CAMRc=Mcv+ZMGaC_MD8WRH113rDuuxdiZXuW5JAXWga1V7vM_ng@mail.gmail.com>
-X-Gm-Features: AaiRm50UrSeiyZ4TiR6fS-QYqCuucHSEPqczNWdyNSw2yOiisqheMyZnUWDBliw
-Message-ID: <CAMRc=Mcv+ZMGaC_MD8WRH113rDuuxdiZXuW5JAXWga1V7vM_ng@mail.gmail.com>
-Subject: Re: [PATCH v2 00/13] i2c: add and start using i2c_adapter-specific
- printk helpers
-To: Johan Hovold <johan@kernel.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Andi Shyti <andi.shyti@kernel.org>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Khalil Blaiech <kblaiech@nvidia.com>, 
-	Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-i2c@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	linux-actions@lists.infradead.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v2 0/8] net: stmmac: mdio related cleanups
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <177284101730.95361.6178473364485118037.git-patchwork-notify@kernel.org>
+Date: Fri, 06 Mar 2026 23:50:17 +0000
+References: <aald--qJquWGIvmO@shell.armlinux.org.uk>
+In-Reply-To: <aald--qJquWGIvmO@shell.armlinux.org.uk>
+To: Russell King (Oracle) <linux@armlinux.org.uk>
+Cc: andrew@lunn.ch, alexandre.torgue@foss.st.com, andrew+netdev@lunn.ch,
+ wens@kernel.org, davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ netdev@vger.kernel.org, pabeni@redhat.com, samuel@sholland.org
 
-On Fri, Mar 6, 2026 at 4:39=E2=80=AFPM Johan Hovold <johan@kernel.org> wrot=
-e:
->
-> On Wed, Mar 04, 2026 at 01:55:14AM -0800, Bartosz Golaszewski wrote:
-> > On Tue, Mar 3, 2026 at 4:57=E2=80=AFPM Johan Hovold <johan@kernel.org> =
-wrote:
-> > >
-> > > On Mon, Mar 02, 2026 at 12:03:19PM -0600, Bartosz Golaszewski wrote:
-> > > > On Fri, Feb 27, 2026 at 5:41=E2=80=AFPM Johan Hovold <johan@kernel.=
-org> wrote:
-> > > > >
-> > > > > On Fri, Feb 27, 2026 at 04:42:09PM +0100, Bartosz Golaszewski wro=
-te:
-> > > > > > On Fri, Feb 27, 2026 at 11:06=E2=80=AFAM Johan Hovold <johan@ke=
-rnel.org> wrote:
-> > > > >
-> > > > > > > It seems all that is needed is to decouple the struct i2c_ada=
-pter from
-> > > > > > > the driver data and have core manage the lifetime of the form=
-er using
-> > > > > > > the reference count of the embedded struct device.
-> > > > >
-> > > > > > This is a weird pattern you sometimes see where a driver alloca=
-tes
-> > > > > > something and passes the ownership to the subsystem.
-> > > > >
-> > > > > It's not weird at all, this is the standard way to handle this. W=
-e have
-> > > > > these things called reference counts for a reason.
-> > > >
-> > > > I wouldn't say it's *the* standard way. There are at least several =
-different
-> > > > ways driver subsystems handle resource ownership. And even so: the =
-fact that
-> > > > something's done a lot does not make it automatically correct.
-> > >
-> > > It's the way the driver model works.
-> >
-> > No, it does not impose any specific pattern to use for subsystems other=
- than
-> > requiring each device that's been *initialized* to provide a .release()=
- callback
-> > called when the last reference is dropped.
->
-> Reference counting is a core part of the driver model and this is
-> reflected in the way subsystems manage lifetime.
->
+Hello:
 
-Seems like we've reached an agreement and can stop arguing but you
-make it sound here like I'm somehow against reference counting. I've
-never said anything like that and here, I just explained how reference
-counting works and what it imposes on users.
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-> > > > I'm advocating for a hard split between the subsystem data (referen=
-ce-counted)
-> > > > and driver data (living from probe() until remove()). A logical str=
-uct device
-> > > > managed entirely by the subsystem should live in a separate structu=
-re than
-> > > > driver data and be allocated - and freed - by the subsystem module.
-> > >
-> > > It doesn't really matter what you think. You can't just go around
-> > > making up new subsystem specific rules at your whim. The linux driver
-> > > model uses reference counting and that's what developers expect to be
-> > > used.
-> > >
-> >
-> > And I've never said that it should not use reference counting. I'm not =
-sure
-> > what you're implying here.
->
-> You have posted changes that will prevent driver from accessing the
-> struct device of core i2c structures. This is unexpected, non-idiomatic
-> and subsystem specific and therefore a bad idea.
->
+On Thu, 5 Mar 2026 10:42:03 +0000 you wrote:
+> Hi,
+> 
+> The first four patches clean up the MDC clock divisor selection code,
+> turning the three different ways we choose a divisor into tabular form,
+> rather than doing the selection purely in code.
+> 
+> Convert MDIO to use field_prep() which allows a non-constant mask to be
+> used when preparing fields.
+> 
+> [...]
 
-That's not true, the changes provide a helper to that end.
+Here is the summary with links:
+  - [net-next,v2,1/8] net: stmmac: mdio: convert MDC clock divisor selection to tables
+    https://git.kernel.org/netdev/net-next/c/4c7e0e081889
+  - [net-next,v2,2/8] net: stmmac: mdio: use same test for MDC clock divisor lookups
+    https://git.kernel.org/netdev/net-next/c/b6687ef97603
+  - [net-next,v2,3/8] net: stmmac: mdio: simplify MDC clock divisor lookup
+    https://git.kernel.org/netdev/net-next/c/506f78f43c58
+  - [net-next,v2,4/8] net: stmmac: mdio: convert field prep to use field_prep()
+    https://git.kernel.org/netdev/net-next/c/58bd0039002b
+  - [net-next,v2,5/8] net: stmmac: use u32 for MDIO register field masks
+    https://git.kernel.org/netdev/net-next/c/df388b4d3913
+  - [net-next,v2,6/8] net: stmmac: use GENMASK_U32() for mdio bitfields
+    https://git.kernel.org/netdev/net-next/c/a64d927aecf1
+  - [net-next,v2,7/8] net: stmmac: mdio_bus_data->default_an_inband is boolean
+    https://git.kernel.org/netdev/net-next/c/3cd963fa915c
+  - [net-next,v2,8/8] net: stmmac: make pcs_mask and phy_mask u32
+    https://git.kernel.org/netdev/net-next/c/e4fd855c52ec
 
-> > > > Let's put aside kernel code for a minute and work with an abstract =
-C example,
-> > > > where the equivalent of what you're proposing would look like this:
-> > > >
-> > > > struct bar {
-> > > >      struct foo foo;
-> > > >      ...
-> > > > };
-> > > >
-> > > > struct bar *bar =3D malloc(sizeof(*bar));
-> > > >
-> > > > ret =3D foo_register(&bar->foo);
-> > > >
-> > > > And the corresponding free() lives who knows where because foo_regi=
-ster()
-> > > > automagically introduces reference counting (nevermind the need to =
-calculate
-> > > > where bar is in relations to foo).
-> > >
-> > > No, that's not what I'm suggesting here, but it would be compatible w=
-ith
-> > > the driver model (ever heard of struct device which works exactly lik=
-e
-> > > this?).
-> >
-> > I know how struct device works. I'm pointing out that this is a bad API=
- (just
-> > to be absolutely clear: not the reference counting of struct device its=
-elf but
-> > using it in a way tha looks like it's not refcounted but becomes so aft=
-er an
-> > API call) because it's confusing. I'm not buying the argument that if i=
-t
-> > confuses you then you should not be doing kernel development because it=
-'s not
-> > the goal of API design to make it as complex and confusing as possible =
-- quite
-> > the contrary. And it *is* confusing given the amount of misuse present.=
- I've
-> > heard Greg KH say on multiple occasions during his talks that we try to=
- offload
-> > complex code to subsystems so that drivers can remain fairly simple. I =
-agree
-> > with that.
->
-> Again, this is a core feature of the driver model. You can't just ignore
-> it and come up with random ways to work around just because you disagree
-> with design decisions that were made 25 years ago.
->
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-It absolutely *can* be done differently. There's nothing that imposes
-a certain API design on susbsystems. If you design the subsystem code
-well, provider drivers don't need more than one reference (taken in
-probe(), released in remove(), for instance via the
-register()/unregister() pair) so the counting can be hidden within the
-subsystems that control them.
 
-Bartosz
