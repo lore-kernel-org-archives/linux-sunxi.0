@@ -1,53 +1,61 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFAF8313E05;
-	Thu,  5 Mar 2026 23:50:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27453016E3
+	for <linux-sunxi@lists.linux.dev>; Fri,  6 Mar 2026 09:01:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772754632; cv=none; b=mvcL16Ey34hWY8Wzla+kS5csEnmHAJBXPG9FcTME/iYE7E0T+GMNQr6f+ZTlhf51JNAKMLlytLECVullODkC9bfL1wDQSzePYkOpk9JzCbBiksmW5fXSLsv9YLDZc8sw3oiGGteIjKCQIlaSk1YC9eyCfFrcPC/QHzUtgc56qaA=
+	t=1772787714; cv=none; b=DHC9Oc7P8OwwmcuRByw+ygVve/z3Z6hOG4pYql9Jp8bnaOQP03y4DR7/7N6Dppe1wm1y5ZD9eORckqCELlKr/GlRy8eGzyhMY2qfoBESwjyh83G1ii4lFZQGBLk44FgEA87xKGHUKpLtAHNrHuWUZsPvgMAw6sjcnSUSNzLPzvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772754632; c=relaxed/simple;
-	bh=L74ljxlOMOHO7j1qIlwoOavzI+BtasTxWVEi3URKLLk=;
+	s=arc-20240116; t=1772787714; c=relaxed/simple;
+	bh=jKvSCK2VZow3Ee2fl3Vir23oJKTdWa67+5Es5wmbAYo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fhv0mmgDfDcxJmoz67/msqlz6J3kTDDZf2TFdb28DUUwZ2TeDZDXSZgg4gJJDH8u0jfMUX7JZGynQIkA6EkOvTE/AXtb2g1QLrcPULjPbakYFHij+w7wUJRpFchcCDu9u0alTi0WFnEIpQc0XHlxbBGlNZ0cWlLYP0f/D4LE67s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gbUsSV5l; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=G6CJK1UuGJxDuIeXROq9tpiqVNj/lsu6Afa4W9HEotsANpWuAJ2RjLGDYr+LI5J61Xm/xEhyyDSHjs1dm5vD9krxrNm5t1NP4t+jWyXBiikDLIFWrFWmJgXDPlGysqJYPaRTH7anDxKn9Jja3k0em6Gc7hrpBM6tESP7FumuFVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=ahlOo+mh; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gbUsSV5l"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55CEDC116C6;
-	Thu,  5 Mar 2026 23:50:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772754631;
-	bh=L74ljxlOMOHO7j1qIlwoOavzI+BtasTxWVEi3URKLLk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gbUsSV5l/lchMJE4IC1QCrlxz+dPFqDFrRa4IGL6G6W6voGN9sRcy2CxJmNzAXtRD
-	 TnM/h2ggoMXNcVq0Yzt6tPJCp94as9M3OxZJLZ6pc80r+mL4J3zyxpJ3B1isMUqozR
-	 +dXkqpsPIg5UM3vxhkTeio0osF4sFmrPx4YsdcHV76WLGlYU96w3cD0CQ8x4r8mboI
-	 eUAS5gy8lWskOkHtj1o1+BWUSQskB5en9s395aHML4CjbMxmrJ6zWBSiQgOZ3JUUt5
-	 QZy/yRsfod5lMhaO5Fr5rarxNPkLJd2NKHmCO7kXvWUVNa0SC0e1fOYvDODbbi+SEW
-	 e9cAiMiwmqtRA==
-Date: Thu, 5 Mar 2026 17:50:30 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Aleksandr Shubin <privatesub2@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
-	Conor Dooley <conor+dt@kernel.org>, linux-riscv@lists.infradead.org,
-	Cheo Fusi <fusibrandon13@gmail.com>, linux-sunxi@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="ahlOo+mh"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=ZgDBXmEnVujJM8vulMEVYeA6ICqdKuQICuLq3YHevSE=; b=ahlOo+mh3t8qpxKXMd1PjHafv8
+	37m8cqehiUO9Z7eeLymK0NQLXS2kg/oIzYDJb/+pa/1UWGRgWbVrqrzTls5cEEWCNlrHOHM8cTYwQ
+	a5II4e0BX4jwm8RucqWkof7Cty24hFJL9ulS8FjKmCsGQN7FbTvSSZfsOuq6UAfECxPkKZRk/aJ/8
+	XbyLQLvyn0r0SFGP1co3x79I6CK5a2c/lL3xzvApaImX44AhUkUNRDimQ0ixXKyiyVJXayzafi+LL
+	2RQjiZdzN9d1XCKWHlaN+a9mSDe44Xinj4sdhoXz2tXjO0f+CtHT4Jrefqs2ytwtMX/ozvm4Z6pWd
+	3Y7Uo/bQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:47666)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1vyR40-000000000jm-29aw;
+	Fri, 06 Mar 2026 09:01:40 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1vyR3w-000000001IO-41FR;
+	Fri, 06 Mar 2026 09:01:36 +0000
+Date: Fri, 6 Mar 2026 09:01:36 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, Chen-Yu Tsai <wens@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@kernel.org>,
-	Paul Walmsley <pjw@kernel.org>,
-	Lukas Schmid <lukas.schmid@netcube.li>
-Subject: Re: [PATCH v13 1/3] dt-bindings: pwm: Add binding for Allwinner
- D1/T113-S3/R329 PWM controller
-Message-ID: <177275463009.803008.10030326759377016804.robh@kernel.org>
-References: <20260221183609.95403-1-privatesub2@gmail.com>
- <20260221183609.95403-2-privatesub2@gmail.com>
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>,
+	Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH net-next v2 3/8] net: stmmac: mdio: simplify MDC clock
+ divisor lookup
+Message-ID: <aaqX8IxLzZ7jGM4r@shell.armlinux.org.uk>
+References: <aald--qJquWGIvmO@shell.armlinux.org.uk>
+ <E1vy6A9-0000000Btwp-0lxY@rmk-PC.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -56,33 +64,80 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260221183609.95403-2-privatesub2@gmail.com>
+In-Reply-To: <E1vy6A9-0000000Btwp-0lxY@rmk-PC.armlinux.org.uk>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-
-On Sat, 21 Feb 2026 21:35:51 +0300, Aleksandr Shubin wrote:
-> Allwinner's D1, T113-S3 and R329 SoCs have a new pwm
-> controller which is different from the previous pwm-sun4i.
+On Thu, Mar 05, 2026 at 10:42:37AM +0000, Russell King (Oracle) wrote:
+> As each lookup now iterates over each table in the same way, simplfy
+> the code to select the table, and then walk that table.
 > 
-> The D1 and T113 are identical in terms of peripherals,
-> they differ only in the architecture of the CPU core, and
-> even share the majority of their DT. Because of that,
-> using the same compatible makes sense.
-> The R329 is a different SoC though, and should have
-> a different compatible string added, especially as there
-> is a difference in the number of channels.
-> 
-> D1 and T113s SoCs have one PWM controller with 8 channels.
-> R329 SoC has two PWM controllers in both power domains, one of
-> them has 9 channels (CPUX one) and the other has 6 (CPUS one).
-> 
-> Add a device tree binding for them.
-> 
-> Signed-off-by: Aleksandr Shubin <privatesub2@gmail.com>
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 > ---
->  .../bindings/pwm/allwinner,sun20i-d1-pwm.yaml | 74 +++++++++++++++++++
->  1 file changed, 74 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/pwm/allwinner,sun20i-d1-pwm.yaml
+>  .../net/ethernet/stmicro/stmmac/stmmac_mdio.c | 29 +++++++------------
+>  1 file changed, 11 insertions(+), 18 deletions(-)
 > 
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
+> index 6292911fb54b..c9f0b8b601d2 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
+> @@ -535,6 +535,7 @@ static const struct stmmac_clk_rate stmmac_xgmac_csr_to_mdc[] = {
+>   */
+>  static u32 stmmac_clk_csr_set(struct stmmac_priv *priv)
+>  {
+> +	const struct stmmac_clk_rate *rates;
+>  	unsigned long clk_rate;
+>  	u32 value = ~0;
+>  	int i;
+> @@ -548,25 +549,17 @@ static u32 stmmac_clk_csr_set(struct stmmac_priv *priv)
+>  	 * the frequency of clk_csr_i. So we do not change the default
+>  	 * divider.
+>  	 */
+> -	for (i = 0; stmmac_std_csr_to_mdc[i].rate; i++)
+> -		if (clk_rate > stmmac_std_csr_to_mdc[i].rate)
+> -			break;
+> -	if (stmmac_std_csr_to_mdc[i].cr != (u8)~0)
+> -		value = stmmac_std_csr_to_mdc[i].cr;
+> -
+> -	if (priv->plat->flags & STMMAC_FLAG_HAS_SUN8I) {
+> -		for (i = 0; stmmac_sun8i_csr_to_mdc[i].rate; i++)
+> -			if (clk_rate > stmmac_sun8i_csr_to_mdc[i].rate)
+> -				break;
+> -		value = stmmac_sun8i_csr_to_mdc[i].cr;
+> -	}
+> +	rates = stmmac_std_csr_to_mdc;
+> +	if (priv->plat->flags & STMMAC_FLAG_HAS_SUN8I)
+> +		rates = stmmac_sun8i_csr_to_mdc;
+> +	if (priv->plat->core_type == DWMAC_CORE_XGMAC)
+> +		rates = stmmac_xgmac_csr_to_mdc;
+>  
+> -	if (priv->plat->core_type == DWMAC_CORE_XGMAC) {
+> -		for (i = 0; stmmac_xgmac_csr_to_mdc[i].rate; i++)
+> -			if (clk_rate > stmmac_xgmac_csr_to_mdc[i].rate)
+> -				break;
+> -		value = stmmac_xgmac_csr_to_mdc[i].cr;
+> -	}
+> +	for (i = 0; rates[i].rate; i++)
+> +		if (clk_rate > rates[i].rate)
+> +			break;
+> +	if (rates[i].cr != (u8)~0)
+> +		value = rates[i].cr;
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Looking at the AI review, it seems to me that the AI review is
+incorrect.
 
+With reference to the full original code which can be seen in:
+https://patchwork.kernel.org/project/netdevbpf/patch/E1vy69y-0000000Btwd-3oq7@rmk-PC.armlinux.org.uk/
+
+If we look at the original code, then we can see that the intention
+is that if clk_rate is smaller than the last real entry for the
+sun8i and xgmac cases, the value should end up as zero - and this is
+exactly what the new code does. So, the behaviour is preserved, even
+though AI thinks it isn't.
+
+AI seems to think that reaching the last entry for sun8i and xgmac
+means we have an invalid rate. That is where AI is going wrong -
+that is an incorrect "assumption".
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
