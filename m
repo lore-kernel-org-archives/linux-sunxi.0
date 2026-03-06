@@ -1,40 +1,40 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A145266B72
-	for <linux-sunxi@lists.linux.dev>; Fri,  6 Mar 2026 13:32:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC0036B056
+	for <linux-sunxi@lists.linux.dev>; Fri,  6 Mar 2026 13:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772803942; cv=none; b=JKOuBSKFYhoRz9uBcaSixnG+nllsDf117iq9l0z3o1aSZ8vWvzBn47reAewq77S9qBe+dmF8TTl+P+5KGv5FPQLx0ihSTam3Lp3uAGiAuTkf6AkVnUhMjXNvEYIMYP4FBXRThzQACmAe4e9/IYbMZzDGT21wHua7aT5KDe8dhIw=
+	t=1772805004; cv=none; b=EKfYTm3ga+Yb1c3u1zsfcAjo1q2B91HWQf0elcmWzIlW2+hv6hB+eGKAkBkTgpMGai0qIDwvRR0QRIM7dZbs+OYY9IaUID12wTrWYpW9kpaz8hjCfxJrJcE+diGbKlxCMSxa1Vf+SUAYJeHB64YpfllXeN+6UHjIfKFgdJeZzqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772803942; c=relaxed/simple;
-	bh=O2EdVReohsVktiZ9IisdOizANkbEVPstJd5vArlYlW4=;
+	s=arc-20240116; t=1772805004; c=relaxed/simple;
+	bh=xDkL6TzFGrTxC514XfyOIrW4ST8vZI8e5m+MG2Hs1Zo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EHHIzS+wivitJQlIXxChg/I+gRib6nuk/4C0ZPUbyBoAkEG7ixk0doClujliVnPVInhAnJm7lSc1cyorzYdi/172pNnzv+oAYWJFVl9GRrMeeJXl/r9Fb7z8E3l/sF/eexRvHqzF3/i/bYMJ1cddwlvfUPEgTWLACrDkMy6gSbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=syuwf17O; arc=none smtp.client-ip=185.171.202.116
+	 In-Reply-To:Content-Type; b=jGxMqikviGevMuy9BVdznTa2mYd+UN6bzFqP0Qd619xeI3pLsfFLJB17033Va7/ovueejBH7IMMoU3jXnZCNnnrgemz6Q/TlP1Ev/zsKotbdPhOBivfD8+O5PgwR8giSdgPDoI/heMZuq49ujpj54w6KsDVhtqpST+cZG01ITdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=V+Lc+Q3Y; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="syuwf17O"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="V+Lc+Q3Y"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 0DA25C40437;
-	Fri,  6 Mar 2026 13:32:39 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 1A76F4E4259E;
+	Fri,  6 Mar 2026 13:49:50 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 05F5E5FF92;
-	Fri,  6 Mar 2026 13:32:20 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 78C9E1036994E;
-	Fri,  6 Mar 2026 14:32:15 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id D6AF35FF92;
+	Fri,  6 Mar 2026 13:49:49 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 47679103699EA;
+	Fri,  6 Mar 2026 14:49:44 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1772803939; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1772804988; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=MtGSXQd1rJ7F7WpffOYtsvHkK2yZmux9XID3eldxZIU=;
-	b=syuwf17OBQRSlsgCUAuuSAuSoqGuBwfoHBbK9g4Bh9AQzCvKCyDFKN8bmPdlRnKdOk2aA5
-	VB87AhBHBpX2LO5ODAZrlnihKEnT6E4qGUIBbmgJG+GU9TaDwiiVp4DXTEFjl1l3ZNBkmB
-	DWbv/EG5B41lrbD3F8ZQpXF9BKZEDeD1S7Kz/AgXstteX1JnGIygade+ftEaVahkmKSFMs
-	SjnnmLlvC93omtAOC+oJX7rh0eLn65jRgr8dw5WmzANFwfDlriHcxzeNK4eOdNFrqDYGmR
-	VWfJdHlegT6ZvN1nCIzgcsemxAf3jSE5a2s9VVh8cop3kGZpKDlGdzWtPxlSJw==
-Message-ID: <065b3dc0-b092-45c5-b7ea-e0a54264558e@bootlin.com>
-Date: Fri, 6 Mar 2026 14:32:15 +0100
+	bh=c20mkraPRlwGY3oRHlW+Mslb5VLebC/91Q18kftMfIc=;
+	b=V+Lc+Q3YI20csUK/+es6cMzQASPQbm3w0yg/676z9/NKiipGSIEG+Xm0iztANxCElgi6ho
+	3SetuUv4madjjCv8utjMBKnn2LX9XiLztVnv7/xWOTO3FBB/DAIF0xnkxbDOHaUocQKppe
+	TLNSBuLsBbamRXcb9fA/myymZx6gqKHxZWim+hdnIKkWusoxhfcmm6Wi6OV7KY7+9uFLLi
+	yR8gUKiFUkq3C8uZU3g4sgtTQkN4C6bbWGuCPXMC84gv/ViTnEgv/WM8uKDd6WfqINtslQ
+	WR4Tw59PXLXt9GIhLJp1Hq2cg8/8OzgRvf1x9aVACnZvpAgc7f4H9soUuirqfA==
+Message-ID: <ff7fc863-0f8a-49e2-8e75-ee446a43df34@bootlin.com>
+Date: Fri, 6 Mar 2026 14:49:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -42,9 +42,8 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 8/8] net: stmmac: make pcs_mask and phy_mask
- u32
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+Subject: Re: [PATCH net-next v2 0/8] net: stmmac: mdio related cleanups
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>,
  Andrew Lunn <andrew@lunn.ch>
 Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
  Andrew Lunn <andrew+netdev@lunn.ch>, Chen-Yu Tsai <wens@kernel.org>,
@@ -54,27 +53,56 @@ Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
  netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
  Samuel Holland <samuel@sholland.org>
 References: <aald--qJquWGIvmO@shell.armlinux.org.uk>
- <E1vy6AY-0000000BtxJ-3smT@rmk-PC.armlinux.org.uk>
 From: Maxime Chevallier <maxime.chevallier@bootlin.com>
 Content-Language: en-US
-In-Reply-To: <E1vy6AY-0000000BtxJ-3smT@rmk-PC.armlinux.org.uk>
+In-Reply-To: <aald--qJquWGIvmO@shell.armlinux.org.uk>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Last-TLS-Session-Version: TLSv1.3
 
 Hi,
 
-On 05/03/2026 11:43, Russell King (Oracle) wrote:
-> The PCS and PHY masks are passed to the mdio bus layer as phy_mask
-> to prevent bus addresses between 0 and 31 inclusive being scanned,
-> and this is declared as u32. Also declare these as u32 in stmmac
-> for type consistency.
+On 05/03/2026 11:42, Russell King (Oracle) wrote:
+> Hi,
 > 
-> Since this is a u32, use BIT_U32() rather than BIT() to generate
-> values for these fields.
+> The first four patches clean up the MDC clock divisor selection code,
+> turning the three different ways we choose a divisor into tabular form,
+> rather than doing the selection purely in code.
 > 
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> Convert MDIO to use field_prep() which allows a non-constant mask to be
+> used when preparing fields.
+> 
+> Then use u32 and the associated typed GENMASK for MDIO register field
+> definitions.
+> 
+> Finally, an extra couple of patches that use appropriate types in
+> struct mdio_bus_data.
+> 
+> v2:
+> - add comments about 300MHz to commit message in patch 1
+> - fix incorrect usage of stmmac_sun8i_csr_to_mdc in patch 3
+> - fix BIT_u32()->BIT_U32() in patch 8
 
-Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
+I have tested this series as a whole on 2 platforms using the dwmac mdio
+driver (socfpga - KSZ9031 / imx8mp + KSZ9131), no regressions found. I'm
+not stressing the 300M case though.
+
+feel free to add my :
+
+Tested-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
 
 Maxime
+
+>  drivers/net/ethernet/stmicro/stmmac/common.h       |  10 +-
+>  drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c  |   2 +-
+>  .../net/ethernet/stmicro/stmmac/dwmac-loongson.c   |  11 +--
+>  drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c  |   9 +-
+>  .../net/ethernet/stmicro/stmmac/dwmac1000_core.c   |   9 +-
+>  .../net/ethernet/stmicro/stmmac/dwmac100_core.c    |   9 +-
+>  drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c  |   9 +-
+>  .../net/ethernet/stmicro/stmmac/dwxgmac2_core.c    |  18 ++--
+>  drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c  | 106 ++++++++++++---------
+>  include/linux/stmmac.h                             |   6 +-
+>  10 files changed, 92 insertions(+), 97 deletions(-)
+> 
+
