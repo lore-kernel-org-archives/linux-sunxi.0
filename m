@@ -1,40 +1,40 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD34D1A23B9
-	for <linux-sunxi@lists.linux.dev>; Fri,  6 Mar 2026 13:30:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794192F28E3
+	for <linux-sunxi@lists.linux.dev>; Fri,  6 Mar 2026 13:30:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772803826; cv=none; b=t1O6ybjkgpE4+7y0dRjRYmzqGqQ3LwJaNBs5/WqlrELCsGQqzUQvSuduh8BHoNCQJ13ZISb8Li3s6s7apFXR+Jyu96hOr7rWnXm//L0g/+lbDNP9AMrlq13n1+dRasGzJnxSh/UaeQg4JfsDjacb6D9Oa+HfMMLLLodBVRA3FBg=
+	t=1772803860; cv=none; b=FFCkP9ACAjjWO75rNBPvBLsHylKUG78QyAnimP1Lt36PNpMKeA5Vny7/JVEkk63al5alDAosqC7jK/9DjwyvAJacO6IzNOxzZFwftE7e5tyPSAOk7hDYCy4x3TD8mkFamcDRxEelITVH6MnXyxNisYfaOp4pi+Y0ykVIdS5n4u0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772803826; c=relaxed/simple;
-	bh=oHZ2zmFj9TJrGr94fQXhAE04XiQGeJak47Kef9TTsEY=;
+	s=arc-20240116; t=1772803860; c=relaxed/simple;
+	bh=M7QzA8dLPtYZedZHj3VAWueuYHEvp3rYjX+gPR65D7w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TroUW3p8P1fRld2i7b3btSju8VEZFlx7JP7J7QxuwxEfXm2DfseaKOece3rZKwQf/4aJbpQjVNMGIbNs1aUOID6mD6cw1fvp+nb3/ZGdQETOfd3ikRO9PQ1lOlBr0Uac9BJ4HUdEo2m6Q3Vh0yCFBrqDKijF+dxFgUtZxA/sGu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=UltR2bA6; arc=none smtp.client-ip=185.246.85.4
+	 In-Reply-To:Content-Type; b=PJXwH9cPSv5Mk52S9rj/F7fxd1G2iNn1FRetFrHijjKXrgs3sHZuzpV340RF6imEJdIHDzTo+yj5HYQntOSKgVBOJd4jJD+rqGGwKEkcFepb73Qr2iVpovod175Oqdcx7qU4qFkc4dChd2igbq0yDmTucT0qcMkCxN63U8ZjSvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=S9QYFZ+b; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UltR2bA6"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="S9QYFZ+b"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 17AD24E4258F;
-	Fri,  6 Mar 2026 13:30:22 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id C5740C4042A;
+	Fri,  6 Mar 2026 13:31:16 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id D978B5FF92;
-	Fri,  6 Mar 2026 13:30:21 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 83118103699F2;
-	Fri,  6 Mar 2026 14:30:11 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id BDAD55FF92;
+	Fri,  6 Mar 2026 13:30:57 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 02D161036994E;
+	Fri,  6 Mar 2026 14:30:54 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1772803820; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1772803857; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=gLX/vLGdWOlScvV94mBZQHZ++2FDe6d8l62ZQIqal5o=;
-	b=UltR2bA6NlebUf4a8560wOZ2sCNSLRI2hwC35B7QGMOuDXtMFMOj92MOCEQL5ArIj+eU2T
-	Um9Ke1hmuZ7eCVJNYIuqidEEMkJUjWWmPPc1h2KGbogfMsSAtdeJ2M8fcWmFDCPEmDmt9/
-	WHXVn6EgXvVVn/JhWfbkwdFiKEX002Mnas0hC7Xhq5W7XkxMPDqpj3ACPFnnjX8jt0RA2H
-	WtAdm8oRtMMuN3VzoUYRWtqp3SQycrp85kc2l8Mn6tXjTUXUFy7Z6M5f5cOmLHrX90BjMJ
-	9QbQae0Yurqf2N+8lAy+/oE8+WTTkEYJJKzPfCQWwhZMpCYHwbXjw9i/o8k4YA==
-Message-ID: <690fc924-8605-45f7-810a-4c8e58cf4db0@bootlin.com>
-Date: Fri, 6 Mar 2026 14:30:10 +0100
+	bh=nxd5+HhPr1aXq8AG7jS9dl3xaEa1KYdFdeENyM5pOHQ=;
+	b=S9QYFZ+bN8spKnDrozVteeI8ay2jV8Tu0iKqrFGRt1aftAs06DzF7J2XvLihvAtNee8mJI
+	RQ4xIKsmzy+mvGvD1WXSgrVofGUZBVR1/1uTrn/rB+GpRBQ4z4sY8bnMMCM8ON+xvodnDu
+	+k3z/H5xntZh7wxTG5ZMYb4HpR9NBrfNM5MLou+Xw2TKFIlg4iGEE+LbWt3YuEim1wedPn
+	XT4lIVp2BdehjfieXtLp0ZRoINtrvzU+HgIjM9aUvDLtl9S34CyQJA9BmCdZOgzUag4Tnb
+	phfAnu1BNPeR8EBqGhYCtvdcDjx4pTsEqXiTgCZ/4zcdiR9OyVdal36QCmwW3w==
+Message-ID: <a91ba34f-cf47-4983-9864-9da6ac23e078@bootlin.com>
+Date: Fri, 6 Mar 2026 14:30:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -42,8 +42,8 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 4/8] net: stmmac: mdio: convert field prep to
- use field_prep()
+Subject: Re: [PATCH net-next v2 6/8] net: stmmac: use GENMASK_U32() for mdio
+ bitfields
 To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
  Andrew Lunn <andrew@lunn.ch>
 Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
@@ -54,10 +54,10 @@ Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
  netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
  Samuel Holland <samuel@sholland.org>
 References: <aald--qJquWGIvmO@shell.armlinux.org.uk>
- <E1vy6AE-0000000Btwv-1LM4@rmk-PC.armlinux.org.uk>
+ <E1vy6AO-0000000Btx7-2NDV@rmk-PC.armlinux.org.uk>
 From: Maxime Chevallier <maxime.chevallier@bootlin.com>
 Content-Language: en-US
-In-Reply-To: <E1vy6AE-0000000Btwv-1LM4@rmk-PC.armlinux.org.uk>
+In-Reply-To: <E1vy6AO-0000000Btx7-2NDV@rmk-PC.armlinux.org.uk>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Last-TLS-Session-Version: TLSv1.3
@@ -65,10 +65,7 @@ X-Last-TLS-Session-Version: TLSv1.3
 Hi,
 
 On 05/03/2026 11:42, Russell King (Oracle) wrote:
-> Convert the MDIO field preparation to use field_prep(), which removes
-> the need to store separate mask and shifts. Also convert the clk_csr
-> value using __ffs() to do the shift as we need to detect overflows
-> for this.
+> Rather than using hex numbers, use GENMASK() for mdio bitfields.
 > 
 > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 
