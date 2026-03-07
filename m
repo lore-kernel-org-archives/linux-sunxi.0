@@ -1,107 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDBD0336892;
-	Sat,  7 Mar 2026 10:25:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3F52FF643
+	for <linux-sunxi@lists.linux.dev>; Sat,  7 Mar 2026 11:02:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772879158; cv=none; b=eIqvG7XgdOaMvOoLt0j5ezgWsDwIp2EdZbEjHua3zv1ZGV8MIatPEM/8be0gw/kgzHaB6pcNZE8zsL1murKQrivOr9T90nUl4WxujxO/l/pJsujAC38GS+7v1NmVCg0vwsRWnep4ll1m3sPNRuSRckxAzGoi8+XEOx+XMOvaElg=
+	t=1772881357; cv=none; b=p2UGuFQs/ZrPv2g3cbzk1wAWmbu+FRt4NZzju2A2CMmQ+3vk/uwfwVJxoA3R0MMLepfIO9gZZAJWMKcF7txcY9sAUkPin1y0r38e12x/cFWUqfn8JyC3/0FQyfraeV+gn0Z5bnnHodsW9jd+JmSqhAdIE720N5KH+FxMwJU+41Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772879158; c=relaxed/simple;
-	bh=gK0pRUM/Slfh1oiPmyu3lYsDR18Y7TIzAYUu4D4ldj0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aE/+tWDxXPBEy/HjsmJhOeR0aJCPyYO3Sc/GSuaYEQnAsFf4kB72xMMzVV1lzmZ7gIoD1iKTHNw3uV5Yu3z6VNj9YwkpeqJWgxX7ntKLYBBulUatj4K62oCVinEWrq1xcklAGx/K5Ypdk30fwnHSrTBHNfvJgF5J68KJpWzTc+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j0Cac6S7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772881357; c=relaxed/simple;
+	bh=53XapX2SdQM0kzJ82St/Nd+Klw4hiJZtqYA60YbvNdk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ggkkKc8952J6V7CMXlSzRgyhS6+ry3q1DWf1Ooh0KS/BWN7GZJ7492uZ/Xa+OVF3fl+9A0izx+/HsNhRybOOO7UsfK3tt8RCxlsVrmDADMIUl3grFnr1I0Fa2nSFvaQQu/ctY6xbuDFNq3IsP53WDKVDmmaGy5DkCIT8sDpY1bw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=SdgJq7HZ; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j0Cac6S7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02DAFC19422;
-	Sat,  7 Mar 2026 10:25:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772879158;
-	bh=gK0pRUM/Slfh1oiPmyu3lYsDR18Y7TIzAYUu4D4ldj0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j0Cac6S7TyQb+E6Y2hSbXhG5N5uDfVrssvtttU324wBvcszTcCtHvLTTG6vhZAYq7
-	 wskyH5zr18JuTUiOMKGCzxZJNC30mVQa9uzgNH+81iLrwuTOS7AF+F1rg+Qcw90+J4
-	 Hup3d6KGjEoFHVj4LT2aRD+9kmz3xe5CPxlWzaTUcLe+k82X84Bj76ifbo8W1lksUv
-	 nSTMoq1tSEPXIuSTcFIfIHv5bK2Xol6mUMEI2LMojWPdFCTWxH27UDeFaF40KZilXu
-	 Et7B4BVoQTlXRPP6S6sInBPHaCZQhjZcsKbaAYTa3jYkRERSa3gTQIQbkmerjXe7ml
-	 UpoHRIhMOPjCw==
-Date: Sat, 7 Mar 2026 11:25:56 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Richard Cochran <richardcochran@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Vinod Koul <vkoul@kernel.org>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Matthew Gerlach <matthew.gerlach@altera.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Keguang Zhang <keguang.zhang@gmail.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com, Romain Gantois <romain.gantois@bootlin.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
-	Emil Renner Berthing <kernel@esmil.dk>, Minda Chen <minda.chen@starfivetech.com>, 
-	Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, 
-	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
-	Shuang Liang <liangshuang@eswincomputing.com>, Zhi Li <lizhi2@eswincomputing.com>, 
-	Shangjuan Wei <weishangjuan@eswincomputing.com>, "G. Jaya Kumaran" <vineetha.g.jaya.kumaran@intel.com>, 
-	Clark Wang <xiaoning.wang@nxp.com>, Linux Team <linux-imx@nxp.com>, Frank Li <Frank.Li@nxp.com>, 
-	David Wu <david.wu@rock-chips.com>, Samin Guo <samin.guo@starfivetech.com>, 
-	Christophe Roullier <christophe.roullier@foss.st.com>, Swathi K S <swathi.ks@samsung.com>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, Drew Fustini <dfustini@tenstorrent.com>, 
-	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org, 
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, sophgo@lists.linux.dev, linux-riscv@lists.infradead.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: Re: [PATCH net-next v7 1/7] dt-bindings: net: qcom: document the
- ethqos device for SCMI-based systems
-Message-ID: <20260307-boisterous-tuscan-rat-1eb9bb@quoll>
-References: <20260306-qcom-sa8255p-emac-v7-0-d6a3013094b7@oss.qualcomm.com>
- <20260306-qcom-sa8255p-emac-v7-1-d6a3013094b7@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="SdgJq7HZ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=142mbsECCtXmYpR3GC+jVCceuUhe350k8xSDlqgPjOw=; b=SdgJq7HZDkthwcLffkabiqe7/L
+	sVRi0TWbOnfG4FDOdk9YshJkajdUpAuuaBVgEGoVXAkcGqZP9nWrJdUi4ElpaBfBaLYqh568xKrHK
+	dAyyfwXh4pXUJHcXZ5+WJ+BqL0QC8AnBGTxtJknaOpbZKPFt+Rgr4nnS0GEZ/x1s+R+OHeZK55PjP
+	OoHQvHcCCm9m3LQls+55nAc406l/5NFbNKqAxkYmo9WlNHs0b1jBfDS8vFCKIhhjY0o+fNop32W7I
+	yGSGolQz0MYaC7DYfbAdDyv77h00yLcnuGczzIVAhxpiXaSi9UB6KwamL1kDmPLUHXMUOWf0z0KAZ
+	jnXoCHPw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:57216)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1vypQM-00000000279-187T;
+	Sat, 07 Mar 2026 11:02:22 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1vypQI-000000002KG-0k1L;
+	Sat, 07 Mar 2026 11:02:18 +0000
+Date: Sat, 7 Mar 2026 11:02:17 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Frank Li <Frank.Li@nxp.com>,
+	imx@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
+	Jan Petrous <jan.petrous@oss.nxp.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>,
+	netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>, s32@nxp.com,
+	Samuel Holland <samuel@sholland.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>, Yao Zi <me@ziyao.cc>
+Subject: [PATCH net-next 0/7] net: stmmac: start to shrink memory usage
+Message-ID: <aawFuXTVAgVOrw4k@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260306-qcom-sa8255p-emac-v7-1-d6a3013094b7@oss.qualcomm.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Fri, Mar 06, 2026 at 04:46:39PM +0100, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> 
-> Describe the firmware-managed variant of the QCom DesignWare MAC. As the
-> properties here differ a lot from the HLOS-managed variant, lets put it
-> in a separate file. Since we need to update the maximum number of power
-> domains, let's update existing bindings referencing the top-level
-> snps,dwmac.yaml and limit their maxItems for power-domains to 1.
-> 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> Reviewed-by: Romain Gantois <romain.gantois@bootlin.com> # For RZ/N1
+Hi,
 
-Can we drop half-baked reviews? Reviewing only that piece is not even
-possible, because it makes no sense outside of main change context. IOW,
-it's pointless review of nothing, if you do not actually review the main
-change impacting RZ/N1.
+Start shrinking stmmac's memory usage by avoiding using "int" for
+members that are only used for 0/1 (boolean) values, or values that
+can't be larger than 255.
 
-Also submitting patches do not really allow to apply reviewer's
-statement of oversight to inly part of the patch.
+In addition, as struct stmmac_dma_cfg is approximately a cache line,
+shrinks below a cache line as a result of this patch set, and is
+required, there is no point separately allocating this from
+struct plat_stmmacenet_data. Embed it into the end of this struct
+and set the existing pointer to avoid large wide-spread changes.
 
-It's called Ack then. Use proper tags if one does not actually review
-the patch.
+Lastly, add documentation for struct stmmac_dma_cfg, and document
+the stmmac clocks as best we can given the driver history.
 
-Best regards,
-Krzysztof
+ drivers/net/ethernet/stmicro/stmmac/common.h       |   4 +-
+ .../ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c    |   2 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-imx.c    |   2 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c  |   7 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-loongson.c   |   6 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-mediatek.c   |   8 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-motorcomm.c  |   4 -
+ .../ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c    |   4 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-s32.c    |   2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-socfpga.c    |   2 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c  |   4 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sunxi.c  |   2 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-tegra.c  |   2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac1000_core.c   |   2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac100_core.c    |   2 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c  |   4 +-
+ .../net/ethernet/stmicro/stmmac/dwxgmac2_core.c    |   4 +-
+ drivers/net/ethernet/stmicro/stmmac/hwif.h         |   2 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac.h       |   2 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c  | 227 +++++++++++----------
+ drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c   |  11 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_platform.c  |  43 ++--
+ include/linux/stmmac.h                             |  93 +++++++--
+ 23 files changed, 239 insertions(+), 200 deletions(-)
 
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
