@@ -1,148 +1,99 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from s106b.cyber-folks.pl (s106b.cyber-folks.pl [195.78.66.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB608322C99
-	for <linux-sunxi@lists.linux.dev>; Sat,  7 Mar 2026 11:03:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC375285CA7;
+	Sun,  8 Mar 2026 05:17:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.78.66.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772881426; cv=none; b=QQRguzIssmhQDMHDM+6X44qz+FvGItY4tssq6CJKf+NqfEAHyHSlp31TRZuTvwVEEvmjFyx+m9IzcKqklLFmar58fB1qiSIvgnryT/3HKs6qhUM3z6ClN44/yzWbSCHq3BDrzmG/MCZSd497RbqyUVoaynzU2nWBhGcyzRBKOXY=
+	t=1772947072; cv=none; b=jCWpyAZO7/2ZuquDVGJ9sq5fpZV328VULYj5y+SWIWuiHiHBEcOA5bR9exnCjuYOktxQXwhG3i4k+Bnsyaf8tN4V/tLTc04neejvbJkXNM+cq5IbE1EStPXsvFn8ISlYNDgf1uRaKi62M9qCvxdZyPKTLvrPj4XizaESea+ash0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772881426; c=relaxed/simple;
-	bh=sVNzSxlK1PzuAr8F/B4Bf+nuIbGcCC+LacFY6MERQig=;
-	h=In-Reply-To:References:From:To:Cc:Subject:MIME-Version:
-	 Content-Disposition:Content-Type:Message-Id:Date; b=lSR8hKxsUhze2zd+gk9V2/uR16RV6zPEt/W9/58U1C6nFLkT4H+I0HIv0LfUSdrbJw45AUUSoOS1zuoacNrtzEIuG6f0D9kOWj8w4hYTNtpIvjnoBWhMs3DicUjV4he3TSyPsMqdbsD4Xb/PwVTA5crSf4T0/nOs9z8U1uoyJng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=KfYWPFr2; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1772947072; c=relaxed/simple;
+	bh=JOxuT6FVbbvVPIn4RCxjy1V493HaKJzJyXP0whAIXO0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=BcmZ0Np+9SASVeBBl5jFc4LL8hdQtP+fK4bFkrTq2Kp+2bh6QOJWjbYYgB45jNinVY03TBsktpycCg+uBHqhRwSaYh/Be1vpmTGXPmc64QfRaDPCiic1ex2QGMhl99UZVgDwjrXzfAUSL5eAcwIbD/4qGUIgXxpBAv8n0qQClgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl; spf=pass smtp.mailfrom=mmpsystems.pl; dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b=hyYLjF6w; arc=none smtp.client-ip=195.78.66.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mmpsystems.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="KfYWPFr2"
+	dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b="hyYLjF6w"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:References:
-	In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=gKq7Ur0o7o0fnfG6VoXbzm/WfSG13rcROPhghnkiHuY=; b=KfYWPFr2YVcrUXRrfluFTGbIdz
-	zfP6GrfPdxzliFEeNl0EUGmWfcyryLQacMv+YTvtqKM+3Q+OmiV3uNxunJFspWh1m+t5LJSKdtHKa
-	5SSGGFOgivZjhIs8Oz7PdmUD+OHCk7OBIipXu1cJyvlr0wg/KdAKgl0GOyE+LTB/RTYdRVSQWbnRa
-	kKbyPGq4M4yQAfjH19uHnoof+jyOD6Ac6/x7xUeO3omUaSgO3oLcQKAkPv82lpBdTfHGM091t6YwL
-	ajg8IJI6neZctZHkKSkCWx5qLsSNAfLWjb8Cw+Bv7tP4Wr+qBbecwLWjZey17tioABP4T/hLw+f9L
-	iR9IRxfg==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:59388 helo=rmk-PC.armlinux.org.uk)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	d=mmpsystems.pl; s=x; h=Cc:To:In-Reply-To:References:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=XXZGUlaRb0Eje5wK/KO2zNOPWcHbRREyb47Kg+nZl20=; b=hyYLjF6wgfnyH9wPSYq1laaNpT
+	FkqcbaBrE/8mbOPvV+hmgGzWBJ1S9ViQN59mKoGOIpnQPO3An+jyBc0tD4Mz5TC/lHUcnMuh4byIw
+	dFVWDb36RR2aCvs6pKQ2dNQuIwkmgFZQo3nrkmJVg+mrpJ5vNg3p9nBWfPXVj6aEVTVKh6/1yY0wi
+	6waqNkXY2XLwJIk/POqBWYkuggCstsMBuDLSiAMwjqDgcj2acjokcmt+ldzkncEtC4HmaG2T6XiaD
+	NabG1QT+FemBJkVvvoIJqmPjZ7JStzUX314RfFwPoWsbMmZpIV0NL1FA3PeVO2j7wIbKUX6VJRli+
+	xr+nasKQ==;
+Received: from user-5-173-16-20.play-internet.pl ([5.173.16.20] helo=localhost)
+	by s106.cyber-folks.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
 	(Exim 4.98.2)
-	(envelope-from <rmk@armlinux.org.uk>)
-	id 1vypRE-00000000298-28R9;
-	Sat, 07 Mar 2026 11:03:18 +0000
-Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
-	id 1vypR8-0000000CSwb-3P3f;
-	Sat, 07 Mar 2026 11:03:10 +0000
-In-Reply-To: <aawFuXTVAgVOrw4k@shell.armlinux.org.uk>
-References: <aawFuXTVAgVOrw4k@shell.armlinux.org.uk>
-From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	imx@lists.linux.dev,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jan Petrous <jan.petrous@oss.nxp.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>,
-	netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	s32@nxp.com,
-	Samuel Holland <samuel@sholland.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Yao Zi <me@ziyao.cc>
-Subject: [PATCH net-next 7/7] net: stmmac: add documentation for clocks
+	(envelope-from <michal.piekos@mmpsystems.pl>)
+	id 1vz6WR-00000007XH6-2UYt;
+	Sun, 08 Mar 2026 06:17:47 +0100
+From: Michal Piekos <michal.piekos@mmpsystems.pl>
+Date: Sun, 08 Mar 2026 06:16:51 +0100
+Subject: [PATCH 1/2] arm64: dts: allwinner: h616: declare r_pio as
+ interrupt controller
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1vypR8-0000000CSwb-3P3f@rmk-PC.armlinux.org.uk>
-Sender: Russell King <rmk@armlinux.org.uk>
-Date: Sat, 07 Mar 2026 11:03:10 +0000
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260308-rc2-boot-hang-v1-1-d792d1a78dfd@mmpsystems.pl>
+References: <20260308-rc2-boot-hang-v1-0-d792d1a78dfd@mmpsystems.pl>
+In-Reply-To: <20260308-rc2-boot-hang-v1-0-d792d1a78dfd@mmpsystems.pl>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Andre Przywara <andre.przywara@arm.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Michal Piekos <michal.piekos@mmpsystems.pl>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772947022; l=1038;
+ i=michal.piekos@mmpsystems.pl; s=20260301; h=from:subject:message-id;
+ bh=JOxuT6FVbbvVPIn4RCxjy1V493HaKJzJyXP0whAIXO0=;
+ b=GvKEovrQjw0tRC33e40KVrc9oE7hZGA2efZkp/YkAPjZ8Yjt8ZIc7pxWBOu1MD3C4cMidHD5j
+ Xg1/3Vo7b16CAjfe9pV8+2KpdyVEqdmO7Ge6bPh2AAfCaY1CSXyN4mS
+X-Developer-Key: i=michal.piekos@mmpsystems.pl; a=ed25519;
+ pk=Aixyx03If7ZDamiKKN0lsa+0mtA+WjIuIf2ZQVYNBqg=
+X-Authenticated-Id: michal.piekos@mmpsystems.pl
 
-Add documentation covering stmmac_clk, pclk, clk_ptp_ref and clk_tx_i
-in the hope that this will help understand what each of these clocks
-are for.
+The R_PIO pin controller provides GPIO interrupts to the PL bank but the
+device tree currently does not describe it as an interrupt controller.
 
-There is confusion around stmmac_clk and pclk which can't be easily
-resolved today as the Imagination Technologies Pistachio board that
-pclk was introduced for has no public documentation and is likely now
-obsolete. So the origins of pclk are lost to the winds of time.
+Add the missing interrupt-controller and #interrupt-cells properties so
+that boards using PL bank GPIO interrupts can reference it as interrupt
+parrent.
 
-Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
+Tested-by: Michal Piekos <michal.piekos@mmpsystems.pl>
 ---
- include/linux/stmmac.h | 33 ++++++++++++++++++++++++++++++++-
- 1 file changed, 32 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/linux/stmmac.h b/include/linux/stmmac.h
-index 3521b88aa345..a9c0cb61dd50 100644
---- a/include/linux/stmmac.h
-+++ b/include/linux/stmmac.h
-@@ -300,10 +300,41 @@ struct plat_stmmacenet_data {
- 	struct phylink_pcs *(*select_pcs)(struct stmmac_priv *priv,
- 					  phy_interface_t interface);
- 	void *bsp_priv;
-+
-+	/* stmmac clocks:
-+	 *  stmmac_clk: CSR clock (which can be hclk_i, clk_csr_i, aclk_i,
-+	 *    or clk_app_i depending on GMAC configuration). This clock
-+	 *    generates the MDC clock.
-+	 *
-+	 *  pclk: introduced for Imagination Technologies Pistachio board -
-+	 *    see 5f9755d26fbf ("stmmac: Add an optional register interface
-+	 *    clock"). This is probably used for cases where separate clocks
-+	 *    are provided for the host interface and register interface. In
-+	 *    this case, as the MDC clock is derived from stmmac_clk, pclk
-+	 *    can only really be the "application clock" for the "host
-+	 *    interface" and not the "register interface" aka CSR clock as
-+	 *    it is never used when determining the divider for the MDC
-+	 *    clock.
-+	 *
-+	 *  clk_ptp_ref: optional PTP reference clock (clk_ptp_ref_i). When
-+	 *    present, this clock increments the timestamp value. Otherwise,
-+	 *    the rate of stmmac_clk will be used.
-+	 *
-+	 *  clk_tx_i: MAC transmit clock, which will be 2.5MHz for 10M,
-+	 *    25MHz for 100M, or 125MHz for 1G irrespective of the interface
-+	 *    mode. For the DWMAC PHY interface modes:
-+	 *
-+	 *    GMII/MII	PHY's transmit clock for 10M (2.5MHz) or 100M (25MHz),
-+	 *		or 125MHz local clock for 1G mode
-+	 *    RMII	50MHz RMII clock divided by 2 or 20.
-+	 *    RGMII	125MHz local clock divided by 1, 5, or 50.
-+	 *    SGMII	125MHz SerDes clock divided by 1, 5, or 50.
-+	 *    TBI/RTBI	125MHz SerDes clock
-+	 */
- 	struct clk *stmmac_clk;
- 	struct clk *pclk;
- 	struct clk *clk_ptp_ref;
--	struct clk *clk_tx_i;		/* clk_tx_i to MAC core */
-+	struct clk *clk_tx_i;
- 	unsigned long clk_ptp_rate;
- 	unsigned long clk_ref_rate;
- 	struct clk_bulk_data *clks;
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+index 8d1110c14bad..2d714dbf1b70 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+@@ -964,6 +964,8 @@ r_pio: pinctrl@7022000 {
+ 			clock-names = "apb", "hosc", "losc";
+ 			gpio-controller;
+ 			#gpio-cells = <3>;
++			interrupt-controller;
++			#interrupt-cells = <3>;
+ 
+ 			/omit-if-no-ref/
+ 			r_i2c_pins: r-i2c-pins {
+
 -- 
-2.47.3
+2.43.0
 
