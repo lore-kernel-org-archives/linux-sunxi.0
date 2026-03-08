@@ -1,167 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF1B26562D
-	for <linux-sunxi@lists.linux.dev>; Sun,  8 Mar 2026 14:06:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 179BA33344C;
+	Sun,  8 Mar 2026 18:41:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772978814; cv=none; b=jvP+uguKb3a99SU9ymHdxQggt6y3Er4pCL+xLcpLVK7f/Cjc5rh4KzkBe0xGswi5OeVrYAYxa5RY2yJ2M7PJPjKqgzswoFOlQ331aB+2DMF2F2mySTfB2IeoQUXpjGgWpB1H9onFMbq5SA/p70oF7GTGvIbFPpm9DCF8ZMcfchk=
+	t=1772995262; cv=none; b=bVHrNuSBYlYJKDgwlNsP7U1jhCPJ8J7iqIc88EtWn9wbu+sPzjmCGbrhJ9FHaNvJfuU+uJRUB5rrRCJyBp7Q6381IX9lFB13QGK9IR5AzlI1F1Q0WR8AvPYsa4ZnBcA8a+DOZVzGAvUzlCx4dozFtkh4HQr4yp8BH/BEJEuIKSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772978814; c=relaxed/simple;
-	bh=1w83uARMWyGYvc/JmuNnyMOi7ETtApPzlejCC63kRgI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pzA7NdX5zyQKA3trqrWbIH4YrKyJEP8HpwOdovmaN6n1HZp7G3whsGWGb2mt4zDfVVhxKqTx0+zhEk/aiCD20EuY4H9T8hGyp96lZT3w/4fcCrhMvxj8za7l/uqTfQDPG20CchsZa25qhhrDgeC9BLw3+UR7T8GCIJUjEN41NRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UalE9LU/; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UalE9LU/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CAB7C2BCB6
-	for <linux-sunxi@lists.linux.dev>; Sun,  8 Mar 2026 14:06:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772978814;
-	bh=1w83uARMWyGYvc/JmuNnyMOi7ETtApPzlejCC63kRgI=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=UalE9LU/eZgvrRqA+FuYt5n9XFHboNIf9MT5oyXSZp4P1qumjycdbefhOxZtLm3DG
-	 z2QrLCRWoUMsG29GtKFgoImaQUQoIn7uWJKy3oC1KJhpe1Nvh4mcKG9E+eONPTJw1x
-	 kY+kY1/ojnUF3odnJ+bYsiOErkNb5TaObkOH7wiQ/Yptz+haYYv8lok0BwOAwq//bW
-	 SjtjwfK64JWRT/zXHJ/CO66AoOZOgrlymTFYC+KQR8GIDhRb16bxhIhaRLtIs67QUU
-	 +C0MKojQyMYwkBuyD6aDOWcbnUHlXTXRmsK4FWgkocXMquqpM2P5E3avJ15hx9cG7D
-	 bgPRiYTiu13NQ==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-38a38ccc217so23687231fa.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 08 Mar 2026 07:06:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUQAWmHRotmuQNnFj2Ic5/NsWDjFRJ7Ok2Kub25grDomBiIqcUsrzC1tdDCaVc+0qMGfL8YkHCclf9CcQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxrtob992Z79C5PD+Y0VjboHeUvWJP26W700EGng/gHlb9racVd
-	JUfsMS6nXr1cNxv6DAHk2wKNXHMifhQ328Iz+cI4Nrn0hPgSG3fOfPFIl1V1nmSzVVyT2eCvS86
-	lr9GRazfl201+n943HLyiHoVXSa1MlcU=
-X-Received: by 2002:a05:651c:12c8:b0:387:1c06:f742 with SMTP id
- 38308e7fff4ca-38a40db0c27mr30556971fa.38.1772978812861; Sun, 08 Mar 2026
- 07:06:52 -0700 (PDT)
+	s=arc-20240116; t=1772995262; c=relaxed/simple;
+	bh=ZclR3MgADbuk8gJW1YDMUHbgzO8DIPC3p7HfmBQ2uv0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=PgxHPiKsBanMGjkCgr5ygkGLjCp6Ccvt7qyGpv7IBnYvGZAydaT6kuIz5cs+WzxC1FNshwdEcU88HPRZB1R4ovx66h+q2jpDAdCJCV2zS5lYBmXOTD9Kd6yiIxts/MJQB3DUQO/ixxGLK+jbtSnIvtr43TAv3TTnZu3hnYmE/OU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf19.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay09.hostedemail.com (Postfix) with ESMTP id D43C38CD9E;
+	Sun,  8 Mar 2026 18:40:51 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf19.hostedemail.com (Postfix) with ESMTPA id 6CBA920025;
+	Sun,  8 Mar 2026 18:40:45 +0000 (UTC)
+Message-ID: <ca170cbaf2f8bcbc89bbda68914d8e0d7640f0e7.camel@perches.com>
+Subject: Re: [PATCH v2 phy-next 24/24] MAINTAINERS: add regexes for linux-phy
+From: Joe Perches <joe@perches.com>
+To: vladimir.oltean@nxp.com, linux-phy@lists.infradead.org
+Cc: Vinod Koul <vkoul@kernel.org>, Neil Armstrong
+ <neil.armstrong@linaro.org>, 	dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, 	linux-arm-kernel@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, 	linux-can@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, 	spacemit@lists.linux.dev,
+ UNGLinuxDriver@microchip.com
+Date: Sun, 08 Mar 2026 11:40:44 -0700
+In-Reply-To: <20260308114009.2546587-25-vladimir.oltean@nxp.com>
+References: <20260308114009.2546587-1-vladimir.oltean@nxp.com>
+	 <20260308114009.2546587-25-vladimir.oltean@nxp.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260308-rc2-boot-hang-v2-1-516fdb820953@mmpsystems.pl>
-In-Reply-To: <20260308-rc2-boot-hang-v2-1-516fdb820953@mmpsystems.pl>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 8 Mar 2026 22:06:42 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67FO1bt3yee2SXn1LTt7O10z1EHHw7F0xQ0bKbpUqch4w@mail.gmail.com>
-X-Gm-Features: AaiRm53PKegPTzYpVROQgRjOlGoQDyf6kO6816n6Q7tMTIhfOGBvZddqUzGRf9w
-Message-ID: <CAGb2v67FO1bt3yee2SXn1LTt7O10z1EHHw7F0xQ0bKbpUqch4w@mail.gmail.com>
-Subject: Re: [PATCH v2] pinctrl: sunxi: fix gpiochip_lock_as_irq() failure
- when pinmux is unknown
-To: Michal Piekos <michal.piekos@mmpsystems.pl>
-Cc: Linus Walleij <linusw@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Andrey Skvortsov <andrej.skvortzov@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org, 
-	Bartosz Golaszewski <brgl@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Stat-Signature: mibobo4wkbramau4qyjthmehkiqudojz
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: 6CBA920025
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/1oqpGv8s8V8RuGZRFC80nZh9ljOj3ohI=
+X-HE-Tag: 1772995245-174125
+X-HE-Meta: U2FsdGVkX1+4XRzz60ugpVFQWsQctyjPh9D8dWNkk9O80wKikqTLI//fEpSwY7VKkjTAQqCbvy/bDztttYzuNBQP3PDd6DE18CINvDdnHew5cXtwNDDJn4KiBH3EXroYIs/0V5C/aytRQmLMTGCZZlkmVqa0mog1lMlvYoTUOPxP3MIGj9+OItuBdGt7SwG+E1NN8A/Yc9Sq4U8TJPe/XcW25BuE6rH2bXBjLakvy2b4imYLaL6YRBqKlFvDSAukFbzkOlERn3vJJPcvYBJiMotKjWx2PYK5v4pDPHYsRlN9R//2k7hsjvl6B3t7ELpdAjuD6CN+C7OKO7KQLV3bHimDBNhwcxGB9M1yVBNLk9v9/I7LPCcJRUT7SR2W+eai
 
-On Sun, Mar 8, 2026 at 9:42=E2=80=AFPM Michal Piekos
-<michal.piekos@mmpsystems.pl> wrote:
->
-> Fixes kernel hang during boot due to inability to set up IRQ on AXP313a.
->
-> The issue is caused by gpiochip::get_direction() which was returning
-> -ENODEV when gpio is in unitialized state.
->
-> Instead of failing when the current muxval is at default value, report
-> the line as input.
+On Sun, 2026-03-08 at 13:40 +0200, vladimir.oltean@nxp.com wrote:
+> diff --git a/MAINTAINERS b/MAINTAINERS
+[]
+> @@ -10713,6 +10713,17 @@ F:	Documentation/devicetree/bindings/phy/
+> +K:	(?:linux/phy/phy\.h|phy-props\.h|phy-provider\.h)
 
-I don't really like this "fix". It's really lying.
+phy-props.h and phy-provider.h don't seem to exist.
+Are these going to be added later?
+Maybe this should be phy-common-props.h ?
 
-Also, this problem only occurs if the interrupt is taken directly using
-the DT "interrupts" property, as that mostly bypasses the GPIO subsystem,
-especially the gpio request part.
+Perhaps if matching only the include uses:
+(/ is escaped because get_maintainer is stupid)
+something like:
 
-If the consumer does gpiod_request() followed by gpiod_to_irq(), then
-the pin is already muxed to either one of the GPIO functions and this
-won't error out.
-
-I also found that if the interrupt is taken directly through the device
-tree, the pin itself is not locked out (like for GPIOs, on sunxi we also
-don't do pinctrl settings for pins used for interrupts).
-
-I think the proper fix would be to somehow be able to request the pin
-as GPIO if it hasn't been requested already. And then either
-sunxi_pinctrl_irq_request_resources() can use that to request the pin
-and mux the pin before calling gpiochip_lock_as_irq().
-
-Hope Linus and Bartosz have some suggestions.
-
-
-Thanks
-ChenYu
-
-
-> Tested on Orange Pi Zero 3.
->
-> Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
-> Suggested-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-> ---
-> This fixes a kernel hang during boot on the Orange Pi Zero 3 caused by
-> inability to set up interrupt for the AXP313A PMIC.
->
-> The issue is caused by gpiochip::get_direction() which was returning
-> -ENODEV when gpio is in unitialized state and its muxval is at default
-> value.
->
-> Instead of failing, report the line as input.
->
-> To: Rob Herring <robh@kernel.org>
-> To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> To: Conor Dooley <conor+dt@kernel.org>
-> To: Chen-Yu Tsai <wens@kernel.org>
-> To: Jernej Skrabec <jernej.skrabec@gmail.com>
-> To: Samuel Holland <samuel@sholland.org>
-> To: Andre Przywara <andre.przywara@arm.com>
-> To: Linus Walleij <linusw@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-sunxi@lists.linux.dev
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-gpio@vger.kernel.org
->
-> Changes in v2:
-> - Dropped the previous faulty solution which was forcing the axp313 to
->   use r_pio as interrupt controller as pointed out by Jernej =C5=A0krabec=
-.
-> - Implemented suggestion from Andrey Skvortsov to return default
->   direction as input
-> - Link to v1: https://lore.kernel.org/r/20260308-rc2-boot-hang-v1-0-d792d=
-1a78dfd@mmpsystems.pl
-> ---
->  drivers/pinctrl/sunxi/pinctrl-sunxi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunx=
-i/pinctrl-sunxi.c
-> index c990b6118172..e438cf35ff28 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> @@ -971,7 +971,7 @@ static int sunxi_pinctrl_gpio_get_direction(struct gp=
-io_chip *chip,
->
->         func =3D sunxi_pinctrl_desc_find_function_by_pin_and_mux(pctl, pi=
-n, muxval);
->         if (!func)
-> -               return -ENODEV;
-> +               return GPIO_LINE_DIRECTION_IN;
->
->         if (!strcmp(func->name, "gpio_out"))
->                 return GPIO_LINE_DIRECTION_OUT;
->
-> ---
-> base-commit: 4ae12d8bd9a830799db335ee661d6cbc6597f838
-> change-id: 20260308-rc2-boot-hang-269e8546635b
->
-> Best regards,
-> --
-> Michal Piekos <michal.piekos@mmpsystems.pl>
->
->
+K:	include\s*\<linux\/phy\/phy(?:-common-props|-provider)?\.h\>
