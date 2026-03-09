@@ -1,136 +1,333 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F36C2DEA75
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 Mar 2026 08:39:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05013101B8
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 Mar 2026 09:19:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773045564; cv=none; b=G9mBN9nQElxTFBC+uOU757+W5qfutv2uEeBaJtb4rO8127XJmRywo+Ly/zlL56glVR/SOyxpHYSYPTbbrJOwR7vNne61BnTsYf464R+9E92o5FKcyMda6msk/cfFI0ujD9iMGdR6uYzVnvEWhMtFmpVsUIw7GW7MckdhxqlQncg=
+	t=1773047944; cv=none; b=P9YbJOzbo+t6hdltqzD7yM0sI9hz0rjq73nzaRpOMpp/5Mb8U2rGJ8zrB5uzupX9pHSf6kbAwiXzhxhjHQvcFJZ7TfSdO7C/RzpaoGhAsLp++F+b5pHsFhY4/eQgaYFHip6LHGRt+H3UF64zRCvi0+ScBVwZNk00Jui6kMWPg0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773045564; c=relaxed/simple;
-	bh=lmhRRii9BO7pCks+UXBWncpJDHHvOFHDr/1FU5tS2Dc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dTl/tKabmi3IaCKDcMfWc/YrZhqEdoWk5zDI2t6CokxfsTFgKMwJdah4eZbuMpLULMvjtHv7Qd/ivMdbWuUT3vM4v2C3aWrqvMCQgRFi3lizYjpm7cp78o8uI8rFDZ6LOiPlJylwUzQWNK4JSrsPh+0JgU4VQ+pI+2WOyp7x3Mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q76Colmk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773047944; c=relaxed/simple;
+	bh=CncL9gUcdJL6wlW5tkcGvRzvFuDGtQP6+c+HDcnsN/A=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=elgxb0XAsX9mih41NcIgWfzqkBOtg7wAZCfvfkMhQXgEtaC7QXvDUOQkLwGRgsd2Dl7WxSYaNZLaOavjL35U1JXKJd6pUnYQEZexWNWoSD0h9VbNFzlInjpwtvH4/+eUkfoT8D3QtAETGzmhIf2KYkAx5D10d7UsGYYRkda3ds4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=1k2xTq+B; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q76Colmk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F934C4CEF7
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 Mar 2026 08:39:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773045564;
-	bh=lmhRRii9BO7pCks+UXBWncpJDHHvOFHDr/1FU5tS2Dc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Q76ColmkRyDJvbq8gxyZoJGgf3AxHslBV45kyyn65Qq5cBxmbhJe86SXjizD2cyIh
-	 Xgq7M+lMnWtNQ1vJnYb1nPh35Q/BMP2danCElMzBtdZaop97cbNOzrgMRYUTNt3CY7
-	 ghyNh0MZLpNOh5FADHh21tK0Royny/naY6EPSPXDwMnhW2fN448wI29I+ZZcpKC1dL
-	 ElNj6Foxoszn//lDzPUdappb00Svjk5EhCnYmYXsbBmeEGw6IYdIIF3v8iePl0jXdj
-	 dqhAQoAxOOBrkTX7+jiEQ48ZdretEjEsBWIPhzFJ2UP6V/fO86n3oLXVcTenb75TLV
-	 KpRqLgYMTCSmA==
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-38a01c80c34so129336921fa.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 09 Mar 2026 01:39:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVp1+5Kc3dUdcwHth0uwTRxBMIO49DqkUKrBVT4aHLjvOobu3ZsLIG1qKTu0k9tdZ+aGB6q0+wl5W3fCw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzJzPH4aoFac13VsRcC2zAjaQYQBtNrb52xT5DE2Hv3lv1xj0zO
-	vYjYubzex25JMXIkmLUS/G6zRq57Th9DzFhni5HVr93i8NRbBM4JCrK1RB6jzePHaErR4bH44YY
-	Dwhe+Pfgx0rGV4OIIgVMArl+FSwTe8a+2VCDJsasllg==
-X-Received: by 2002:a05:651c:892:b0:38a:b18:f41e with SMTP id
- 38308e7fff4ca-38a40b4bca5mr35053151fa.6.1773045562416; Mon, 09 Mar 2026
- 01:39:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="1k2xTq+B"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-485345e1013so8230625e9.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 09 Mar 2026 02:19:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1773047940; x=1773652740; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=kNiLR6YNrMRtTldTWTQRiLTdnMm5k8O8M4DvpvHP74I=;
+        b=1k2xTq+BUbzOArgdAxKJAVjHgpqwz2jsLzt1+mpT+yf/4fMXrD2W+xBWVFPy/fM/hL
+         W+0ngq1U4YPY6IjVODKEeYzm1dNN2/nKr5jwLJNN/h2USlIxz/XDwg8CxuLEtDkggjbR
+         yLsurwc8260b4jisRwXcHqh6w6qmZuF1mhZrAVdkltnBPoKseEt6z/de7VvnEZdSdxGF
+         f7MV3/Wmz5n0IWrOlsMVr+mNaKovkpn2p3uZ4uI22p0R7Db1K6OmTt6kDpP4+j0s8OqT
+         BuyuSQsqIJH8PZ6YSNyrfV61iYuk0UUdXB9ZQRSk2eFNweyE+YVBhDd83Y1nIHJEg4am
+         QZ0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773047940; x=1773652740;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kNiLR6YNrMRtTldTWTQRiLTdnMm5k8O8M4DvpvHP74I=;
+        b=Wae226t4gJV0Nt71gyK8EF9NAGubzw/Px0BZKJDLR4fj5eYgUL9dpJ4h89a+AMyd5p
+         FYE9EEtKTDi8FfaDf30dyccb2HHswYj2YTeGmp61K82JfiLVEwU2qWK++JBFZAu0Pdbt
+         GbStw7FFiUb7F9URGGhHdb4OalW8vJApcVGjgn9upzJ6sNXALdsyXLN3wN3LwL71zgwa
+         gchC3qtKo7akif86blFdDkbWm6zN1Xk+nmfua6dLYPyhVHgrdZ8MkgJD/kWt1SX/wLvm
+         2tkvEwyfrGzXsTGs4B1iwarrIH/33Rb4re/QhB2/0toKw3E7QlmMoUcLTc8E5G8fxDTe
+         ONCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXUDoNEB4D3C69tXK+teU7r0gariDUvekctid/RqO3dftGX1FGCqWDlVruEK5P4Or2UkZ8uoEd9gi085w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwXh3irqJpjSurfsUsQO7OzfhiW0GNiwrh0bl8kW6UvSGg9YahW
+	q/88uEo2/8/lv5wbSrQ0aciio9W0wT+gTRbibqtIm6wTrNTRxZxJC0v/Ws/MN/4lk7g=
+X-Gm-Gg: ATEYQzyFrOQO/gQW1ROo9S9WxhDn1i80k18vyknmI4bs0o5nIKbdGVa+A1pOHDhoFBv
+	LQSzcKPJdt4JOKUpP2Ce7rwzFJa2LCMB9evwQg2XR0FESRY3WI15QE58Sl6i8PxkW1auWbPLQoK
+	G9LGOiBvanU6Bo6O6sEnGPC4lKWHqk2oc2hIpYJpgfHcNm8B7MEhEkpO87QypTmAXR8vvU1lLNj
+	suSut3SJw7ULqn35LiAXaU+GRCSd/5XFYQ0eQIX1+hDSGtipyjlNCBX+qQIwFxET6asSD2+rpjx
+	Z65WIF5OMak8A4AH5WeApw688BxJYGOBIuK2zQVx1VhTdQDxknfhEEawnj6B0DDCfG10e5Ivkxu
+	G0drkYJ3sUp3xSvDuC6PuJjIX5b+rCa8cHOZYvGMbapYK/jI1abVywzpr+g4fojj9Ethi8uAf84
+	GnLzQrc5UsaBAQgAA=
+X-Received: by 2002:a05:6000:603:b0:439:909f:c5a3 with SMTP id ffacd0b85a97d-439da3277d9mr17145973f8f.4.1773047939930;
+        Mon, 09 Mar 2026 02:18:59 -0700 (PDT)
+Received: from localhost ([195.52.25.213])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dada9116sm23029936f8f.14.2026.03.09.02.18.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Mar 2026 02:18:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260306-qcom-sa8255p-emac-v7-0-d6a3013094b7@oss.qualcomm.com>
- <20260306-qcom-sa8255p-emac-v7-1-d6a3013094b7@oss.qualcomm.com> <20260307-boisterous-tuscan-rat-1eb9bb@quoll>
-In-Reply-To: <20260307-boisterous-tuscan-rat-1eb9bb@quoll>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Mon, 9 Mar 2026 09:39:10 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MeeHP_ZjhOHu5NNLCU6Cg59EAWQAS0JngEHDQkmcDH3HQ@mail.gmail.com>
-X-Gm-Features: AaiRm50wcU1Efh35HOluVCqu3-5afwUUXiIKPiOPr6mPL4PpMSQ1J-X9POGllS8
-Message-ID: <CAMRc=MeeHP_ZjhOHu5NNLCU6Cg59EAWQAS0JngEHDQkmcDH3HQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v7 1/7] dt-bindings: net: qcom: document the
- ethqos device for SCMI-based systems
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Richard Cochran <richardcochran@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Vinod Koul <vkoul@kernel.org>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Matthew Gerlach <matthew.gerlach@altera.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Keguang Zhang <keguang.zhang@gmail.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com, 
-	Romain Gantois <romain.gantois@bootlin.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
-	Emil Renner Berthing <kernel@esmil.dk>, Minda Chen <minda.chen@starfivetech.com>, 
-	Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, 
-	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Maxime Ripard <mripard@kernel.org>, Shuang Liang <liangshuang@eswincomputing.com>, 
-	Zhi Li <lizhi2@eswincomputing.com>, Shangjuan Wei <weishangjuan@eswincomputing.com>, 
-	"G. Jaya Kumaran" <vineetha.g.jaya.kumaran@intel.com>, Clark Wang <xiaoning.wang@nxp.com>, 
-	Linux Team <linux-imx@nxp.com>, Frank Li <Frank.Li@nxp.com>, David Wu <david.wu@rock-chips.com>, 
-	Samin Guo <samin.guo@starfivetech.com>, 
-	Christophe Roullier <christophe.roullier@foss.st.com>, Swathi K S <swathi.ks@samsung.com>, 
-	Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, Drew Fustini <dfustini@tenstorrent.com>, 
-	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org, 
-	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	sophgo@lists.linux.dev, linux-riscv@lists.infradead.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=840703edd9f3f1e1e79a02bb78a8d4f69f696b0531524c2c45c8075436e0;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Mon, 09 Mar 2026 10:18:50 +0100
+Message-Id: <DGY51AQLSNAD.3LE77TJER4LGF@baylibre.com>
+Cc: "Vinod Koul" <vkoul@kernel.org>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-can@vger.kernel.org>,
+ <linux-gpio@vger.kernel.org>, <linux-ide@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+ <linux-pci@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+ <linux-riscv@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
+ <linux-samsung-soc@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
+ <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+ <netdev@vger.kernel.org>, <spacemit@lists.linux.dev>,
+ <UNGLinuxDriver@microchip.com>, "Andrzej Hajda" <andrzej.hajda@intel.com>,
+ "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
+ <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Andy Yan"
+ <andy.yan@rock-chips.com>, "Marc Kleine-Budde" <mkl@pengutronix.de>,
+ "Vincent Mailhol" <mailhol@kernel.org>, "Nicolas Ferre"
+ <nicolas.ferre@microchip.com>, "Alexandre Belloni"
+ <alexandre.belloni@bootlin.com>, "Claudiu Beznea"
+ <claudiu.beznea@tuxon.dev>, "Markus Schneider-Pargmann" <msp@baylibre.com>,
+ "Geert Uytterhoeven" <geert+renesas@glider.be>, "Magnus Damm"
+ <magnus.damm@gmail.com>
+Subject: Re: [PATCH v2 phy-next 14/24] phy: introduce
+ phy_get_max_link_rate() helper for consumers
+From: "Markus Schneider-Pargmann" <msp@baylibre.com>
+To: <vladimir.oltean@nxp.com>, <linux-phy@lists.infradead.org>
+X-Mailer: aerc 0.21.0
+References: <20260308114009.2546587-1-vladimir.oltean@nxp.com>
+ <20260308114009.2546587-15-vladimir.oltean@nxp.com>
+In-Reply-To: <20260308114009.2546587-15-vladimir.oltean@nxp.com>
+
+--840703edd9f3f1e1e79a02bb78a8d4f69f696b0531524c2c45c8075436e0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-On Sat, Mar 7, 2026 at 11:25=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
+Hi,
+
+On Sun Mar 8, 2026 at 12:39 PM CET, vladimir.oltean wrote:
+> Consumer drivers shouldn't dereference struct phy, not even to get to
+> its attributes.
 >
-> On Fri, Mar 06, 2026 at 04:46:39PM +0100, Bartosz Golaszewski wrote:
-> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> >
-> > Describe the firmware-managed variant of the QCom DesignWare MAC. As th=
-e
-> > properties here differ a lot from the HLOS-managed variant, lets put it
-> > in a separate file. Since we need to update the maximum number of power
-> > domains, let's update existing bindings referencing the top-level
-> > snps,dwmac.yaml and limit their maxItems for power-domains to 1.
-> >
-> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> > Reviewed-by: Romain Gantois <romain.gantois@bootlin.com> # For RZ/N1
+> We have phy_get_bus_width() as a precedent for getting the bus_width
+> attribute, so let's add phy_get_max_link_rate() and use it in DRM and
+> CAN drivers.
 >
-> Can we drop half-baked reviews? Reviewing only that piece is not even
-> possible, because it makes no sense outside of main change context. IOW,
-> it's pointless review of nothing, if you do not actually review the main
-> change impacting RZ/N1.
+> In CAN drivers, the transceiver is acquired through devm_phy_optional_get=
+()
+> and NULL is given by the API as a non-error case, so the PHY API should
+> also tolerate NULL coming back to it. This means we can further simplify
+> the call sites that test for the NULL quality of the transceiver.
+
+Thanks for adding this.
+
 >
-
-This is the first time I'm hearing we can't review individual parts of
-changesets? I see your point about this particular patch and the fact
-it only makes sense as a whole but is this the official policy for
-parts of larger DTS patches?
-
-Bart
-
-> Also submitting patches do not really allow to apply reviewer's
-> statement of oversight to inly part of the patch.
+> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+> ---
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Andy Yan <andy.yan@rock-chips.com>
+> Cc: Marc Kleine-Budde <mkl@pengutronix.de>
+> Cc: Vincent Mailhol <mailhol@kernel.org>
+> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+> Cc: Markus Schneider-Pargmann <msp@baylibre.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Magnus Damm <magnus.damm@gmail.com>
 >
-> It's called Ack then. Use proper tags if one does not actually review
-> the patch.
+> v1->v2: make phy_get_bus_width() NULL-tolerant to simplify CAN callers
+> ---
+>  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 4 ++--
+>  drivers/gpu/drm/bridge/synopsys/dw-dp.c             | 2 +-
+>  drivers/net/can/at91_can.c                          | 3 +--
+>  drivers/net/can/flexcan/flexcan-core.c              | 3 +--
+>  drivers/net/can/m_can/m_can_platform.c              | 3 +--
+
+For m_can:
+Acked-by: Markus Schneider-Pargmann <msp@baylibre.com>
+
+Best
+Markus
+
+>  drivers/net/can/rcar/rcar_canfd.c                   | 3 +--
+>  drivers/phy/phy-core.c                              | 9 +++++++++
+>  include/linux/phy/phy.h                             | 6 ++++++
+>  8 files changed, 22 insertions(+), 11 deletions(-)
 >
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/driver=
+s/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> index a8b6ae58cb0a..ed7ed82ddb64 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> @@ -1300,7 +1300,7 @@ static u32 cdns_mhdp_get_training_interval_us(struc=
+t cdns_mhdp_device *mhdp,
+> =20
+>  static void cdns_mhdp_fill_host_caps(struct cdns_mhdp_device *mhdp)
+>  {
+> -	unsigned int link_rate;
+> +	u32 link_rate;
+> =20
+>  	/* Get source capabilities based on PHY attributes */
+> =20
+> @@ -1308,7 +1308,7 @@ static void cdns_mhdp_fill_host_caps(struct cdns_mh=
+dp_device *mhdp)
+>  	if (!mhdp->host.lanes_cnt)
+>  		mhdp->host.lanes_cnt =3D 4;
+> =20
+> -	link_rate =3D mhdp->phy->attrs.max_link_rate;
+> +	link_rate =3D phy_get_max_link_rate(mhdp->phy);
+>  	if (!link_rate)
+>  		link_rate =3D drm_dp_bw_code_to_link_rate(DP_LINK_BW_8_1);
+>  	else
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-dp.c b/drivers/gpu/drm/br=
+idge/synopsys/dw-dp.c
+> index 4ab6922dd79c..79c72ee8e263 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-dp.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
+> @@ -536,7 +536,7 @@ static int dw_dp_link_parse(struct dw_dp *dp, struct =
+drm_connector *connector)
+> =20
+>  	link->revision =3D link->dpcd[DP_DPCD_REV];
+>  	link->rate =3D min_t(u32, min(dp->plat_data.max_link_rate,
+> -				    dp->phy->attrs.max_link_rate * 100),
+> +				    phy_get_max_link_rate(dp->phy) * 100),
+>  			   drm_dp_max_link_rate(link->dpcd));
+>  	link->lanes =3D min_t(u8, phy_get_bus_width(dp->phy),
+>  			    drm_dp_max_lane_count(link->dpcd));
+> diff --git a/drivers/net/can/at91_can.c b/drivers/net/can/at91_can.c
+> index 58da323f14d7..7749da0a58f6 100644
+> --- a/drivers/net/can/at91_can.c
+> +++ b/drivers/net/can/at91_can.c
+> @@ -1125,8 +1125,7 @@ static int at91_can_probe(struct platform_device *p=
+dev)
+> =20
+>  	can_rx_offload_add_timestamp(dev, &priv->offload);
+> =20
+> -	if (transceiver)
+> -		priv->can.bitrate_max =3D transceiver->attrs.max_link_rate;
+> +	priv->can.bitrate_max =3D phy_get_max_link_rate(transceiver);
+> =20
+>  	if (at91_is_sam9263(priv))
+>  		dev->sysfs_groups[0] =3D &at91_sysfs_attr_group;
+> diff --git a/drivers/net/can/flexcan/flexcan-core.c b/drivers/net/can/fle=
+xcan/flexcan-core.c
+> index f5d22c61503f..093e48b8da58 100644
+> --- a/drivers/net/can/flexcan/flexcan-core.c
+> +++ b/drivers/net/can/flexcan/flexcan-core.c
+> @@ -2210,8 +2210,7 @@ static int flexcan_probe(struct platform_device *pd=
+ev)
+>  	priv->reg_xceiver =3D reg_xceiver;
+>  	priv->transceiver =3D transceiver;
+> =20
+> -	if (transceiver)
+> -		priv->can.bitrate_max =3D transceiver->attrs.max_link_rate;
+> +	priv->can.bitrate_max =3D phy_get_max_link_rate(transceiver);
+> =20
+>  	if (priv->devtype_data.quirks & FLEXCAN_QUIRK_NR_IRQ_3) {
+>  		priv->irq_boff =3D platform_get_irq(pdev, 1);
+> diff --git a/drivers/net/can/m_can/m_can_platform.c b/drivers/net/can/m_c=
+an/m_can_platform.c
+> index 56da411878af..2a0f163a683a 100644
+> --- a/drivers/net/can/m_can/m_can_platform.c
+> +++ b/drivers/net/can/m_can/m_can_platform.c
+> @@ -131,8 +131,7 @@ static int m_can_plat_probe(struct platform_device *p=
+dev)
+>  		goto probe_fail;
+>  	}
+> =20
+> -	if (transceiver)
+> -		mcan_class->can.bitrate_max =3D transceiver->attrs.max_link_rate;
+> +	mcan_class->can.bitrate_max =3D phy_get_max_link_rate(transceiver);
+> =20
+>  	priv->base =3D addr;
+>  	priv->mram_base =3D mram_addr;
+> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rca=
+r_canfd.c
+> index eaf8cac78038..9062db48d477 100644
+> --- a/drivers/net/can/rcar/rcar_canfd.c
+> +++ b/drivers/net/can/rcar/rcar_canfd.c
+> @@ -1884,8 +1884,7 @@ static int rcar_canfd_channel_probe(struct rcar_can=
+fd_global *gpriv, u32 ch,
+>  	priv->transceiver =3D transceiver;
+>  	priv->channel =3D ch;
+>  	priv->gpriv =3D gpriv;
+> -	if (transceiver)
+> -		priv->can.bitrate_max =3D transceiver->attrs.max_link_rate;
+> +	priv->can.bitrate_max =3D phy_get_max_link_rate(transceiver);
+>  	priv->can.clock.freq =3D fcan_freq;
+>  	dev_info(dev, "can_clk rate is %u\n", priv->can.clock.freq);
+> =20
+> diff --git a/drivers/phy/phy-core.c b/drivers/phy/phy-core.c
+> index 0d0be494cfd7..737a760d97d1 100644
+> --- a/drivers/phy/phy-core.c
+> +++ b/drivers/phy/phy-core.c
+> @@ -647,6 +647,15 @@ void phy_set_bus_width(struct phy *phy, int bus_widt=
+h)
+>  }
+>  EXPORT_SYMBOL_GPL(phy_set_bus_width);
+> =20
+> +u32 phy_get_max_link_rate(struct phy *phy)
+> +{
+> +	if (!phy)
+> +		return 0;
+> +
+> +	return phy->attrs.max_link_rate;
+> +}
+> +EXPORT_SYMBOL_GPL(phy_get_max_link_rate);
+> +
+>  /**
+>   * _of_phy_get() - lookup and obtain a reference to a phy by phandle
+>   * @np: device_node for which to get the phy
+> diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
+> index a7e2432ca1ae..34b656084caf 100644
+> --- a/include/linux/phy/phy.h
+> +++ b/include/linux/phy/phy.h
+> @@ -57,6 +57,7 @@ int phy_notify_disconnect(struct phy *phy, int port);
+>  int phy_notify_state(struct phy *phy, union phy_notify state);
+>  int phy_get_bus_width(struct phy *phy);
+>  void phy_set_bus_width(struct phy *phy, int bus_width);
+> +u32 phy_get_max_link_rate(struct phy *phy);
+>  #else
+>  static inline struct phy *phy_get(struct device *dev, const char *string=
+)
+>  {
+> @@ -256,6 +257,11 @@ static inline int phy_get_bus_width(struct phy *phy)
+>  static inline void phy_set_bus_width(struct phy *phy, int bus_width)
+>  {
+>  }
+> +
+> +static inline u32 phy_get_max_link_rate(struct phy *phy)
+> +{
+> +	return 0;
+> +}
+>  #endif /* IS_ENABLED(CONFIG_GENERIC_PHY) */
+> =20
+>  #endif /* __PHY_CONSUMER_H */
 
-I need to resend anyway so I'll drop it. I may also drop the two
-hundred addresses from Cc b4 added. :)
 
-Bart
+--840703edd9f3f1e1e79a02bb78a8d4f69f696b0531524c2c45c8075436e0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iKMEABYKAEsWIQSJYVVm/x+5xmOiprOFwVZpkBVKUwUCaa6QehsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIRHG1zcEBiYXlsaWJyZS5jb20ACgkQhcFWaZAVSlO3
+cwEAzFZFZ21Yi1E3bmSFVrYlzos6oRC2RIJXE4meDDVCTjUA/2INMu045NS1yRGm
+V6PI/m62S0rUjMso1TupNVful6QE
+=gdIq
+-----END PGP SIGNATURE-----
+
+--840703edd9f3f1e1e79a02bb78a8d4f69f696b0531524c2c45c8075436e0--
