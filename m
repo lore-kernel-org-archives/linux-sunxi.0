@@ -1,61 +1,59 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B656399019
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 03:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99FEE3B961A
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 03:25:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773112854; cv=none; b=dFdcoh3l2NYaIDXADKzObh6J8GskG/0PtC3VFKBtTyaGUsJ4jesv91KOYisNFK/ascEIUmR3U8sbdtPZfM9gmcCbzQunZhX8TiNfySpcnziGd5HJs9hFCtEInPx06IiNucCxhOGIMkgZxOp42w7VcaiXye9/yitaTL+nbgiWKiQ=
+	t=1773113144; cv=none; b=GdkYbRj+JR7JVoBJDVdeMgq0jst2HZWckRuSOGoc7Rf58ff3INZAhnYu0QumThkXl8fx3HeTR4zM1750f87z2YuG9fHmB275uGAd0i1TZfD2x4dLyf5G85rwQuTzv24lYfPmQnIvZPSMMFN6SBf46MF/M9hhXBQRyuCNeGlETN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773112854; c=relaxed/simple;
-	bh=rfD7Le/WZjv74zhcuW0yU+5NJ1RZ3lo7zccKLiSyBcI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kW6Yh6/LTjWAo5n5/hugo3sSbcj6VX3gtn0BGaeAOQ1N7UPysEAEja3Bx0O6+23X0mw8sj6hnQXsqcGIFZlm/3p9Gh5oYROPah8cH+jZoZFusicvSI5GF/MalCyrbcbZrJ61wezRXp3YwBaJ3/pgxQLsOGSSrU9/TCRkKRc5Fcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CNbBKVAv; arc=none smtp.client-ip=209.85.216.54
+	s=arc-20240116; t=1773113144; c=relaxed/simple;
+	bh=qjJaApwZbfZd0J7pts/UQOlOFCjVYPGc55U5XUfe+HM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YHvkXBnUNTzmkW2O7tk4zBMQ9yqzzLgsjYduKPmYszCuyejJdwaeJdZ5R428Lzkuz2c3vSTya75+h1Pc6FSkWn2QRMmTK5pNET9Q9SEMrMn4W4CRIqouiYirrMGSrMLT+g/0olcvw1lSVQm4vKyH9wooBk50GNODexdOQa5myFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=lyvNEJ42; arc=none smtp.client-ip=209.85.214.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CNbBKVAv"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-354bc7c2c46so7471032a91.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 09 Mar 2026 20:20:52 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lyvNEJ42"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2a8fba3f769so53811405ad.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 09 Mar 2026 20:25:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1773112851; x=1773717651; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y1z9EtizHwE3LeSySxAXfxT/FNlt1Ydhsh1vDf6WdY0=;
-        b=CNbBKVAvXjBs++AZUUmglohogTUkunAgoCfWpkwcw5Ezn1lVzDrZtXByRJQInAKX6N
-         xDISeYh3AmxpRDsERTgqBdaTsQC6O2nZr42VHYluVznEup0lkyYU8r26D8lwCCAieNdY
-         lj/AbJB7fmc4Gp91AcUNahgiv9Ne//HLSQlqg=
+        d=chromium.org; s=google; t=1773113141; x=1773717941; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OoV76OKOjG7uxIKEUxi5pEmwh+JGNhbt1HMoxK+jnjw=;
+        b=lyvNEJ42nzB5JqnvScBv7aRqzk4G2igMSN9F8sO4JH+vmXi9FUbU42B4dmgHktk6Ri
+         2tDEqUs5hznpA0ehYLCWo82REMqZ2FB9vICPwq/h3gAXsgtoXMR2jX9lI6n2nW1MlZZh
+         3ioiPw7vaijr1TY4ijNytECmpG2+7p4yFfu44=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773112851; x=1773717651;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Y1z9EtizHwE3LeSySxAXfxT/FNlt1Ydhsh1vDf6WdY0=;
-        b=PSlwEhbMcGv+YWbxlF8sB/4r1pywTffi7I5RKmgGdWpjYy7Q7xdcJn3qA7A9l5DjaZ
-         8xb43d/hbXimhPMuShxpVZQOLQ1XRxT0st9PdEYGVsUrWURpp9CdgayEsQMZqBg0Jg5K
-         f3mTmFpRiJ/W2WfcNpzb8c8fw4RssrBNM3FsORqalpLh+zwAk+tlaixqxSbE567NpZlw
-         /6fae62dxGyelJVXpiAQhyNMYY6pY2bS2TrGZw+OzlPe1vbKy0s1GtQbOc+Nd/PyIHNG
-         8CI+1FS7epnSu67ymwgFj5jgsfMijPG7qbvVAJzXFYxaQXW7oPjBU8+05QeQ/q/he3GZ
-         rsQA==
-X-Forwarded-Encrypted: i=1; AJvYcCWkluRBYLXaDn7XCZ3zA1MfPRWpUM/gmgwesfEcFHDUfPggYXvnwb1AP9wnA5tg+0SZdpR8J7NnPCiB5g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzHAVgKwAYcwe7hjAe8UstjIymncHDqMj256+GDoy6yc5V9+NzX
-	OW+VJkfKiwrHQMUzFFyir+tUorM4FGm8oEM/XyYLjhwO7+7mAXuyS3K4HSkD5UX/jA==
-X-Gm-Gg: ATEYQzxywahnm4+JOjWI+tXf4/tyBUEhTbrpxKG5VorpoIOqEmiQu7t4OGDr4kGa+0Q
-	JmhemrnojzxhwUIPY/40LGghvYEgAz8SxPt22mQ5F2xuzczZqnRTOtn/DF86K5P+JWwdVCF+DAV
-	jk3N0h5LLN9jBc/dM4V+EISUemlDi65kw60vU82CqmQNHz7O8AMGtEekTmm8Z3jVpatWXSlLUi+
-	zH4meXiDTqmLfo0iuf+NodKwCa1xJJL9tu+fRpZJzO05xVmDiL2chC7+cjkR7njhaqjY1ncvJAw
-	B+0cDBkc2xmqzkcPJEDHLSpjgQevUemr6FU7FNIOATzCqWtYWpxpjsFJsz/qdS+SvZO5NE8xn+E
-	ljhzpPh4I9wHTCdDjG18+wZO7i8Jcrts3jY5ZCb2l69tANtVFtAEeLwk9kjsy8I8gjoDtgFanQi
-	Uh5+/Z+MSAu0OqEW8w+kLq1Ey0IV0YpJz+mN2L8A40A5kut9u7FVBlhESr03eIhVHHzPiXHdYRY
-	/t3QuZn
-X-Received: by 2002:a17:90b:554f:b0:359:7b9a:2cec with SMTP id 98e67ed59e1d1-359be133b2fmr12308150a91.0.1773112851595;
-        Mon, 09 Mar 2026 20:20:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1773113141; x=1773717941;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OoV76OKOjG7uxIKEUxi5pEmwh+JGNhbt1HMoxK+jnjw=;
+        b=maJLP9SrL7fvjQCnXm52h9VmdeH6GPs4yxDPmbGCaEHLEkNkmc9+VFzw3VMa1LuSDT
+         dn9zv3F1VTv/h/X6AKfyzJkjhSs1fZU2x8QpGp4NYGUDT2CoIIgKApyenrvQpdfheYOn
+         NjE3PVFCHvD1Wo3elTsLcJ7e2M+TD3KuFGxZQk6SM2oA9RoM59M7iLF0O3HZxUSVEg5r
+         Mxne6LON2kHouTvjBZL45VgIaCaXXL5fXgrnXLz1OOZT4d179kfYlQZIMeE/gl6RrCsk
+         ZFkSUBAgqcjyKIaKlweUk0KOl8woltY/r4SIU1jNH3QsYFVGObc6/NHZPHgWO/XffHFa
+         7RMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXoOR72wwuoPLbMCZRRfCgvH8LzpkvnV96to29YeoVh29q0bVtMBfD89Dn1sGC00YVl2ifK8r2895hpAg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyH3Mhko0NUt3nNsk8fzpTO5SY/ERX5bC+95hS+7SmkYp/JCRDR
+	Uwq2ndQWyEPHmrV+tSWE5P1XZn11O8Cfl273kjGGtWN1Y6zn7ilUl10Iq7M/8gtUqA==
+X-Gm-Gg: ATEYQzyMEX9f93Hi3EDXFXJH2N8q/f2PlUGeHCNUsPEKPJ7sceSxo2DabWuxrvs+cD2
+	gD1AiIxg22FNJsSkNHrY/zNp+kdFhrBXyn19H2thTa3iNjMR1688LKqmrs0kjGadiHM16EeIm7W
+	yQk4GgcN4mux0R2s6u0lr9W54vo0K8cC5Hhen34rebRE0yDNeqAM6hkwxwcJ7pSjtgw+/vo9StO
+	Yw7HE7EuHVrFwP/CIpWJQNd3HAbHPU48U9qOCmKbDlk7EpdDb+6ESiiyvbbPfNPxTZbPeQp6jrc
+	7PGgqH/YqLIZ1oiq6cM2W9EXmPoKL6U2uUEyKlN++kyyDYKF7QowCypCFic5JtCvay4CLpPVWPd
+	ywUTMhXv//wWJC32khbuwHJ/NmYprzO0o7byN0cuIFsJmAWJNwVqS+49xknf7kQ2cG67VtWzKEU
+	DKCVEuTNKY05vLIm9daN0vWaAxXnLpfXulSmiksGWrKyT87QiyyOC4EPXl5kl0C1y1UKSUTovJr
+	zteWOLL
+X-Received: by 2002:a17:903:2452:b0:2ae:5752:af82 with SMTP id d9443c01a7336-2ae82498328mr120569975ad.49.1773113140915;
+        Mon, 09 Mar 2026 20:25:40 -0700 (PDT)
 Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:ee38:e01e:e888:6900])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359f06f79absm1154608a91.6.2026.03.09.20.20.48
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae83e575e6sm126695095ad.5.2026.03.09.20.25.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 20:20:51 -0700 (PDT)
+        Mon, 09 Mar 2026 20:25:39 -0700 (PDT)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Matthias Brugger <matthias.bgg@gmail.com>,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
@@ -66,7 +64,7 @@ To: Matthias Brugger <matthias.bgg@gmail.com>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.or,
+	Samuel Holland <samuel@sholland.org>,
 	David Airlie <airlied@gmail.com>,
 	Simona Vetter <simona@ffwll.ch>
 Cc: Chen-Yu Tsai <wenst@chromium.org>,
@@ -76,12 +74,10 @@ Cc: Chen-Yu Tsai <wenst@chromium.org>,
 	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] drm/sun4i: Use backend/mixer as dedicated DMA device
-Date: Tue, 10 Mar 2026 11:20:07 +0800
-Message-ID: <20260310032012.2542334-5-wenst@chromium.org>
+Subject: [PATCH RESEND 0/4] drm/gem-dma: Support dedicated DMA device for allocation
+Date: Tue, 10 Mar 2026 11:25:05 +0800
+Message-ID: <20260310032511.2545500-1-wenst@chromium.org>
 X-Mailer: git-send-email 2.53.0.473.g4a7958ca14-goog
-In-Reply-To: <20260310032012.2542334-1-wenst@chromium.org>
-References: <20260310032012.2542334-1-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -90,107 +86,74 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The sun4i DRM driver deals with DMA constraints in a peculiar way.
-Instead of using the actual DMA device in various helpers, it justs
-reconfigures the DMA constraints of the virtual display device using
-the DMA device's device tree node by calling of_dma_configure().
+(resent with Samuel's email address fixed)
 
-Turns out of_dma_configure() should only be called from bus code.
-Lately this also triggers a big warning through of_iommu_configure()
-and ultimately __iommu_probe_device():
+Hi folks,
 
-    late IOMMU probe at driver bind, something fishy here!
+This series expands the "dedicated DMA device" support in DRM to the GEM
+DMA helpers, and converts the MediaTek DRM driver to setting the DMA
+device and dropping the custom GEM helpers that implemented this
+function.
 
-Now that the GEM DMA helpers have proper support for allocating
-and mapping buffers with a dedicated DMA device, switch over to
-it as the proper solution.
+Various display drivers implement the "dedicated DMA device" support
+with custom GEM helpers. These include Exynos, MediaTek, and Rockchip
+to name a few. Allwinner does something entirely different, calling
+of_dma_configure() on the virtual display device using the OF node of
+the actual DMA device. Recently this causes a warning if IOMMUs are
+involved.
 
-The mixer change was tested on a Pine H64 model B. The backend change
-was only compile tested. Though I don't expect any issues, help testing
-on an older device would be appreciated.
+This series intends to allow the core helpers to deal with it, and not
+have every driver implement it in slightly different ways, duplicating
+code.
 
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
- drivers/gpu/drm/sun4i/sun4i_backend.c | 27 +++++++++++++++------------
- drivers/gpu/drm/sun4i/sun8i_mixer.c   | 27 +++++++++++++++------------
- 2 files changed, 30 insertions(+), 24 deletions(-)
+Patch 1 adds dedicated DMA device support to drm_prime_pages_to_sg().
+I believe this was missing from the original change that added dedicated
+DMA devices for PRIME.
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
-index 6391bdc94a5c..a57fb5151def 100644
---- a/drivers/gpu/drm/sun4i/sun4i_backend.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
-@@ -798,18 +798,21 @@ static int sun4i_backend_bind(struct device *dev, struct device *master,
- 	dev_set_drvdata(dev, backend);
- 	spin_lock_init(&backend->frontend_lock);
- 
--	if (of_property_present(dev->of_node, "interconnects")) {
--		/*
--		 * This assume we have the same DMA constraints for all our the
--		 * devices in our pipeline (all the backends, but also the
--		 * frontends). This sounds bad, but it has always been the case
--		 * for us, and DRM doesn't do per-device allocation either, so
--		 * we would need to fix DRM first...
--		 */
--		ret = of_dma_configure(drm->dev, dev->of_node, true);
--		if (ret)
--			return ret;
--	}
-+	/*
-+	 * This assume we have the same DMA constraints for all our the
-+	 * devices in our pipeline (all the backends, but also the
-+	 * frontends). This sounds bad, but it has always been the case
-+	 * for us, and DRM doesn't do per-device allocation either, so
-+	 * we would need to fix DRM first...
-+	 *
-+	 * Always use the first bound backend as the DMA device. While
-+	 * our device trees always have all backends enabled, some in
-+	 * the wild may actually have the first one disabled. If both
-+	 * are enabled, the order in which they are bound is guaranteed
-+	 * since the driver adds components in order.
-+	 */
-+	if (drm_dev_dma_dev(drm) == drm->dev)
-+		drm_dev_set_dma_dev(drm, dev);
- 
- 	backend->engine.node = dev->of_node;
- 	backend->engine.ops = &sun4i_backend_engine_ops;
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 02acc7cbdb97..4071ab38b4ae 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -536,18 +536,21 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 	mixer->engine.ops = &sun8i_engine_ops;
- 	mixer->engine.node = dev->of_node;
- 
--	if (of_property_present(dev->of_node, "iommus")) {
--		/*
--		 * This assume we have the same DMA constraints for
--		 * all our the mixers in our pipeline. This sounds
--		 * bad, but it has always been the case for us, and
--		 * DRM doesn't do per-device allocation either, so we
--		 * would need to fix DRM first...
--		 */
--		ret = of_dma_configure(drm->dev, dev->of_node, true);
--		if (ret)
--			return ret;
--	}
-+	/*
-+	 * This assume we have the same DMA constraints for all our the
-+	 * devices in our pipeline (all the backends, but also the
-+	 * frontends). This sounds bad, but it has always been the case
-+	 * for us, and DRM doesn't do per-device allocation either, so
-+	 * we would need to fix DRM first...
-+	 *
-+	 * Always use the first bound backend as the DMA device. While
-+	 * our device trees always have all backends enabled, some in
-+	 * the wild may actually have the first one disabled. If both
-+	 * are enabled, the order in which they are bound is guaranteed
-+	 * since the driver adds components in order.
-+	 */
-+	if (drm_dev_dma_dev(drm) == drm->dev)
-+		drm_dev_set_dma_dev(drm, dev);
- 
- 	/*
- 	 * While this function can fail, we shouldn't do anything
+Patch 2 adds support for dedicated DMA device to the GEM DMA helpers
+for GEM buffer allocation and mmap.
+
+Patch 3 converts the MediaTek DRM driver to use the dedicated DMA device
+support, and drop all the remaining custom GEM callbacks that deal with
+it.
+
+Patch 4 converts the Allwinner sun4i DRM driver to use the dedicated DMA
+device support, instead of the of_dma_configure() hack it currently has.
+
+The series should be merged through drm-misc-next so that other drivers
+can take advantage of the change.
+
+I also intend to try to convert the Exynos and Rockchip drivers, however
+both also have options to set DMA_ATTR_NO_KERNEL_MAPPING when using
+dma_alloc_attrs() to allocate memory for the buffers. I intend to
+resurrect the DRM_MODE_DUMB_KERNEL_MAP work from Rob Herring [1]
+to handle this. The Rockchip driver also has custom IOMMU attachment
+that I'm still trying to understand.
+
+
+Thanks
+ChenYu
+
+
+Chen-Yu Tsai (4):
+  drm/prime: Limit scatter list size with dedicated DMA device
+  drm/gem-dma: Support dedicated DMA device for allocation and mapping
+  drm/mediatek: Set dedicated DMA device and drop custom GEM callbacks
+  drm/sun4i: Use backend/mixer as dedicated DMA device
+
+ drivers/gpu/drm/drm_gem_dma_helper.c   |  21 ++-
+ drivers/gpu/drm/drm_prime.c            |   2 +-
+ drivers/gpu/drm/mediatek/mtk_crtc.c    |   1 -
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c |  21 +--
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h |   1 -
+ drivers/gpu/drm/mediatek/mtk_gem.c     | 231 -------------------------
+ drivers/gpu/drm/mediatek/mtk_gem.h     |  17 --
+ drivers/gpu/drm/sun4i/sun4i_backend.c  |  27 +--
+ drivers/gpu/drm/sun4i/sun8i_mixer.c    |  27 +--
+ 9 files changed, 46 insertions(+), 302 deletions(-)
+ delete mode 100644 drivers/gpu/drm/mediatek/mtk_gem.c
+ delete mode 100644 drivers/gpu/drm/mediatek/mtk_gem.h
+
 -- 
 2.53.0.473.g4a7958ca14-goog
 
