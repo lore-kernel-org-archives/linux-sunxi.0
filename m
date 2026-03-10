@@ -1,63 +1,61 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB4943DA4C
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 09:33:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F0043D502
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 09:39:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773135193; cv=none; b=LYu8QYxtsbuc+IS1kHny9cRCb7DR6SIOcrV6fQfbCyYXGYh1oIk/fxIsMMhlBKMaihU9V+/Rw+Uxzqj/d9NXycZtiyaRL+8vQGv60qeOY1qGt9h7f3BzLpw9u4YtfT548284Lq/HYgo4aA5+tzZH99AeimUJQfjrc7scrntv2Mo=
+	t=1773135574; cv=none; b=rq0czLps1OpPT1vFrdMdjsy2bbaDUZYoBm3J8Q5SX4LJaU1lr7vzN7EIXfVI0XrT/aNHMpd4TvFNYUNmP+SREoxew8BgcXGEPLNNxzsnyNxmSy90h/oFHWXVu+a4LbdLiG3C/aEithDU3YS+4YxGrl9TP88YVZMqlCMZJgRdhqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773135193; c=relaxed/simple;
-	bh=iJrlNVsjh6+70Ec05z6rXG0svXgiagQ0oIi5LjzykKg=;
+	s=arc-20240116; t=1773135574; c=relaxed/simple;
+	bh=0NvNqkbHvopZkhx6T/+IIZIFE+ZXvBvs4x160lciOgk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DunNhkBcxprETLUNah6QW8kwP3ba/PGiyJ/sLgqBnC+yDhWAOIuXHbTlbRvpklTIxZzti9vnECe7RXEJqz/pIINvPVT8j+W7R22NlHVPxOLYPnJ4/Cvnhf2KXYwilbSgzALRlgKlcefSaSoH7SobivyAMYpD/Ro5uAT0Fwxibbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mY3Ca3/H; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=MAkMH5I8fPuBnHE++zoEkuOYUucLcPHNwRT+cwfQUy2fL/3SSgt0EO2RFxIIw3YQUDJI2V1Kpipd84ceGHkSPvyMTzEQWdKvpniGJnFWMsOFvM4Kt5Rt9pFH+VNOGF6V/oiHIl8R2h1udInY8aMjOQOcX9KfRHsW7i+82Q6hkRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H2KpT2PX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mY3Ca3/H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2234C19423
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 09:33:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H2KpT2PX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22D3CC2BC9E
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 09:39:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773135193;
-	bh=iJrlNVsjh6+70Ec05z6rXG0svXgiagQ0oIi5LjzykKg=;
+	s=k20201202; t=1773135574;
+	bh=0NvNqkbHvopZkhx6T/+IIZIFE+ZXvBvs4x160lciOgk=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=mY3Ca3/HEqRL1B0J9UDvEJsmn7P7e25xmxrk6/AjzBbbZnYWbAL1l2mRGg0Hu2E/C
-	 o1ZOdicwGfe/YyLu0nB1GZApWdL+Kc0aKRHeOjyjRC9y1GdP7kNe5TMdLNvp5hnGj0
-	 DXu5vC4qWM6T6nUb1k+q6VPiD8Kn4g/7Mcm5Lv6U3anSCEwICiGf3Qst6C3wsl2pkm
-	 BFGiiOOaaVND/P/IoZ8KVVez8URAYrTO5u0YI8eWR2aHRFvpFJUYfoVyFFsYgHUiGk
-	 FljTkyWz5rhYUpZCJUZK9EDqP+TC6oCqVNMj/VZkQ9gvQhW74dLRDg4evWaPDd9gtj
-	 Uy+bWPerEqlLw==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-38a38ccc217so37894701fa.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 02:33:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUnuL6JLA0yXeMd1SIg7hKGMh5MXTamW4hd8g2uuwQ3yVNOsJT5xs6f1FA2kZNLY1YTNKXaJc/KNLrHUg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyvgPBJ7VPbqDE+97eqzmPL4yu7SyupbQBjpI4obawTFSoKcLpE
-	OM9MJAHzlfYn7scUQo38smi945vSlQjW5CY1YI0pj4dW7kpGA5bRFRjQE/vhaOV4EZqr3appDYq
-	FWKTe53YrjyuVdThtvkbSoJI/DtxCuDo=
-X-Received: by 2002:a2e:bd82:0:b0:387:20:bdbc with SMTP id 38308e7fff4ca-38a40d61d78mr46199441fa.12.1773135191017;
- Tue, 10 Mar 2026 02:33:11 -0700 (PDT)
+	b=H2KpT2PXchY67iKw4BU6/Yl1d5CyFTJydVwdKiWhENgeBM56oCA722NqgJC/ZRPIG
+	 mcX0jIQIx1kcMLR4OAZYfqOZhUuRE8gNRiDITuGd8390h+DBEOY3DKTZeZoT8Lj5ar
+	 nVvSqlDVfImNkLRJWGOl6ukW7wHz2UZOTRMp7uhj+htw+N2CB3c65aiGg5qW6tW9sy
+	 Ak9PlF6y3l0DaC1BlEqnIrD7tMN1F9ugJ8VYbpYFwJJtAT8OcQG0kIoU52TdKendeA
+	 R5pbTOaQ167IykMHzzTJNVBSeraixqXTaF2fxtNnL3Y4GzbNRkW+CgoOijPvyqjJBh
+	 GecNHMqtZ/Omw==
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5a1443780c4so2926524e87.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 02:39:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVyZG466UxXToI2yQS2eVNeYnGmAe0JR29m0XvnOt/o7UW4azYR1aU7T20OoFsbhQSy5Y0L+F3F1QquVg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxBrmSjOtp9DXkAfvJ6GStcroFRrSRn/0u1UW79FFhSdoZZaDyU
+	NYEU0nz9alcofNzbyaG6N3OjWJ26zaiRweegR9yPpDldDeAo0OtB1pjLxd75X8uuV7rLszL/Yy1
+	pKl7O7Bvt+OESycWPdVwNoPKNiRZ0Crk=
+X-Received: by 2002:a05:651c:20ce:10b0:38a:3660:7feb with SMTP id
+ 38308e7fff4ca-38a5d010b86mr7646831fa.9.1773135572499; Tue, 10 Mar 2026
+ 02:39:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260310075539.11701-1-wsa+renesas@sang-engineering.com> <20260310075539.11701-4-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20260310075539.11701-4-wsa+renesas@sang-engineering.com>
+References: <20260310075539.11701-1-wsa+renesas@sang-engineering.com> <20260310075539.11701-10-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20260310075539.11701-10-wsa+renesas@sang-engineering.com>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 10 Mar 2026 17:32:56 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65gV+2xZDO7h9Dsx=iOHX6Jt_JyHTOeWRYaEMuC+jR1FA@mail.gmail.com>
-X-Gm-Features: AaiRm51CffgMBtgWhMZCUpMdeeAdI463XBf8sQip2RO0V2c7exzECk92c7gy0OY
-Message-ID: <CAGb2v65gV+2xZDO7h9Dsx=iOHX6Jt_JyHTOeWRYaEMuC+jR1FA@mail.gmail.com>
-Subject: Re: [PATCH v4 03/15] hwspinlock: add helpers to retrieve core data
+Date: Tue, 10 Mar 2026 17:39:20 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64gTM41Q3aBkS+dqJ7w9fHtePte-6jeoFR3j-O1_aX9-Q@mail.gmail.com>
+X-Gm-Features: AaiRm504Z-6QWp77ZJMLsW12D2p9SNHT7rtRZg5o6Wu6DQVg4_G6syeE7d95ZJ4
+Message-ID: <CAGb2v64gTM41Q3aBkS+dqJ7w9fHtePte-6jeoFR3j-O1_aX9-Q@mail.gmail.com>
+Subject: Re: [PATCH v4 09/15] hwspinlock: sun6i: use new callback to
+ initialize hwspinlock priv
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Bjorn Andersson <andersson@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Wilken Gottwalt <wilken.gottwalt@posteo.net>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Wilken Gottwalt <wilken.gottwalt@posteo.net>, Bjorn Andersson <andersson@kernel.org>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
 	Samuel Holland <samuel@sholland.org>, linux-remoteproc@vger.kernel.org, 
-	linux-omap@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -65,19 +63,83 @@ Content-Transfer-Encoding: quoted-printable
 On Tue, Mar 10, 2026 at 3:56=E2=80=AFPM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
 >
-> This is a first step to hide internal core structs from hwspinlock
-> providers. It adds helper functions to retrieve the data needed by them.
-> Because all users are only within the hwspinlock subsystem and the
-> change there is trivial, conversion is included in this patch as well.
+> Apply the new helper to avoid using internal structures from the core.
+> Remove superfluous setting of drvdata while here.
 >
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
 > ---
->  drivers/hwspinlock/hwspinlock_core.c  | 12 ++++++++++++
->  drivers/hwspinlock/omap_hwspinlock.c  |  4 ++--
->  drivers/hwspinlock/qcom_hwspinlock.c  | 11 ++++++-----
->  drivers/hwspinlock/sprd_hwspinlock.c  |  6 +++---
->  drivers/hwspinlock/stm32_hwspinlock.c |  4 ++--
+>  drivers/hwspinlock/sun6i_hwspinlock.c | 18 ++++++++----------
+>  1 file changed, 8 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/hwspinlock/sun6i_hwspinlock.c b/drivers/hwspinlock/s=
+un6i_hwspinlock.c
+> index a0c76bba3f05..c3db81cb1793 100644
+> --- a/drivers/hwspinlock/sun6i_hwspinlock.c
+> +++ b/drivers/hwspinlock/sun6i_hwspinlock.c
+> @@ -74,9 +74,15 @@ static void sun6i_hwspinlock_unlock(struct hwspinlock =
+*lock)
+>         writel(SPINLOCK_NOTTAKEN, lock_addr);
+>  }
+>
+> +static void *sun6i_hwspinlock_init_priv(int local_id, void *init_data)
+> +{
+> +       return init_data + sizeof(u32) * local_id;
+> +}
+> +
+>  static const struct hwspinlock_ops sun6i_hwspinlock_ops =3D {
+>         .trylock        =3D sun6i_hwspinlock_trylock,
+>         .unlock         =3D sun6i_hwspinlock_unlock,
+> +       .init_priv      =3D sun6i_hwspinlock_init_priv,
+>  };
+>
+>  static void sun6i_hwspinlock_disable(void *data)
+> @@ -91,10 +97,9 @@ static void sun6i_hwspinlock_disable(void *data)
+>  static int sun6i_hwspinlock_probe(struct platform_device *pdev)
+>  {
+>         struct sun6i_hwspinlock_data *priv;
+> -       struct hwspinlock *hwlock;
+>         void __iomem *io_base;
+>         u32 num_banks;
+> -       int err, i;
+> +       int err;
+>
+>         io_base =3D devm_platform_ioremap_resource(pdev, SPINLOCK_BASE_ID=
+);
+>         if (IS_ERR(io_base))
+> @@ -161,11 +166,6 @@ static int sun6i_hwspinlock_probe(struct platform_de=
+vice *pdev)
+>                 goto bank_fail;
+>         }
+>
+> -       for (i =3D 0; i < priv->nlocks; ++i) {
+> -               hwlock =3D &priv->bank->lock[i];
+> -               hwlock->priv =3D io_base + SPINLOCK_LOCK_REGN + sizeof(u3=
+2) * i;
+> -       }
+> -
+>         /* failure of debugfs is considered non-fatal */
+>         sun6i_hwspinlock_debugfs_init(priv);
+>         if (IS_ERR(priv->debugfs))
+> @@ -177,10 +177,8 @@ static int sun6i_hwspinlock_probe(struct platform_de=
+vice *pdev)
+>                 goto bank_fail;
+>         }
+>
+> -       platform_set_drvdata(pdev, priv);
+> -
+>         return devm_hwspin_lock_register(&pdev->dev, priv->bank, &sun6i_h=
+wspinlock_ops,
+> -                                        SPINLOCK_BASE_ID, priv->nlocks, =
+NULL);
+> +                                        SPINLOCK_BASE_ID, priv->nlocks, =
+io_base + SPINLOCK_LOCK_REGN);
+>
+>  bank_fail:
+>         clk_disable_unprepare(priv->ahb_clk);
 
->  drivers/hwspinlock/sun6i_hwspinlock.c |  4 ++--
+Just a note, I see further code savings in using the clk and reset devm_
+helpers. I'll do this after this series is merged, as the context overlaps.
 
-Acked-by: Chen-Yu Tsai <wens@kernel.org> # sun6i
+
+ChenYu
