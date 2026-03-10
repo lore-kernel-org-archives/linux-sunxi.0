@@ -1,261 +1,435 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A19993CE4A6
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 07:56:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04F93C3BE1
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 07:56:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773129383; cv=none; b=gNkbo+GFYHjDILMfEL46uq6oNMVG9AUsaPI50CTqxNDuAmK7VBDJ7Ywk2oVOBbmVbN6K/THz11JgJKWdC23vrQZrvXJMXr51O/Vxes87JWbATgOSnoGdIuTtmZCGK1FLMHYK+4/G1JOKSGKX5Q0hpALvWDUDIAcO1wESPnGzcWo=
+	t=1773129386; cv=none; b=fUd32Re6xS885hzYAH+5iFSU/2Up63F1sMTBOT8qebe/pD46ogKKxeRKZ0N5fBZsLq7Jfi2v4Jr50zDWZ0hKI0jdKTOm1PkTWWAstlVS6M4UA5DanykHnNKVg6YAL0ckjI6k8ZyKBBqsWZ+64/Mj6J1jSWEujn7u/XmyVgOHTDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773129383; c=relaxed/simple;
-	bh=nQ2aq92nPY2Tq3mrnTTmgvxzkv5QIPMxguxdPCyJHWI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=us7tyP31odfoSMoFfzFUJw/rixFPObYBjWd0cwbtrQvNbmV7DX5P0zLfaTa5Iw7lEtdPTcOdB4qh0TuHG55rtUbEvSHEcvajyE5MFajvZ5PTYggiqnXOzrFMRMILXLfS3zsFnUZHC4ZtfVPrAeuZP9pDKYaRaFu+8wf5mLzI65s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1pbl2T2q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RpNcdkGL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1pbl2T2q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RpNcdkGL; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1773129386; c=relaxed/simple;
+	bh=AlOrengIMhbczEUUr+bbQBX5sdtAkgzqbeSlazfayXA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=jTscjYHDYhGjKMP+GDxxk0MvnT0+o8/2B+Q6wQCM01O+U9zy9cmeakEJnaKXW3lgCU1d57ox3xuuCtp5WKADYiweGtY43zSs8bLdMWHff+kLHunemOo4eGche4sleTr30V8EOH40yIsBzD7AjFxDXrWZzx9OIf0LG1Iuqp992H4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=JeDwJroC; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1pbl2T2q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RpNcdkGL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1pbl2T2q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RpNcdkGL"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B5C244D2BB;
-	Tue, 10 Mar 2026 07:56:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773129375; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=5ETBNAV+ad/4FwFukqRNRhtXvs7BZ43rMufh2WcKYdI=;
-	b=1pbl2T2qSPLDOa1uIB1FTBJ7MeaMhLGHdUULnSgmsx1RGfoWCjOx0D3XvZ1ed4J5MZgu0a
-	rSL+iYelA/OJG/zBRH10JYSJtZmUugCxY9b9WGy0F9iSPJXeB6SziHKKDLFnQx85pEZGGB
-	NqEGO4vQlzYCYUy7y/QrZIatfI0Umq8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773129375;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=5ETBNAV+ad/4FwFukqRNRhtXvs7BZ43rMufh2WcKYdI=;
-	b=RpNcdkGLAQ1YzhE24KcF/fhsCeeYR3dtmfjSVTD92E52GpzMqzNhBgNwWw0YAvBtA29sqd
-	YhzL1/yBMHh/HoDQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1pbl2T2q;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=RpNcdkGL
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773129375; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=5ETBNAV+ad/4FwFukqRNRhtXvs7BZ43rMufh2WcKYdI=;
-	b=1pbl2T2qSPLDOa1uIB1FTBJ7MeaMhLGHdUULnSgmsx1RGfoWCjOx0D3XvZ1ed4J5MZgu0a
-	rSL+iYelA/OJG/zBRH10JYSJtZmUugCxY9b9WGy0F9iSPJXeB6SziHKKDLFnQx85pEZGGB
-	NqEGO4vQlzYCYUy7y/QrZIatfI0Umq8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773129375;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=5ETBNAV+ad/4FwFukqRNRhtXvs7BZ43rMufh2WcKYdI=;
-	b=RpNcdkGLAQ1YzhE24KcF/fhsCeeYR3dtmfjSVTD92E52GpzMqzNhBgNwWw0YAvBtA29sqd
-	YhzL1/yBMHh/HoDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 411453F34C;
-	Tue, 10 Mar 2026 07:56:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vHpMDp/Or2nAbwAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 10 Mar 2026 07:56:15 +0000
-Message-ID: <babbee5e-5bd6-4057-8c34-9cff4323e793@suse.de>
-Date: Tue, 10 Mar 2026 08:56:14 +0100
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="JeDwJroC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:in-reply-to:references:mime-version:content-transfer-encoding;
+	 s=k1; bh=EMGJQBKk3iRQb/TPpDntOCN2HXfcMFp2fpsLhTqCbd4=; b=JeDwJr
+	oC5Qe93RjiDvMZBM9yNPNucdSc8YUUK/dmMzTJssnf+Rnkle3RTVkUd/zM9XHBu/
+	BEkCfN1m3N2W0HgitJyyYPu6aZiIzlohzfucQcds8kMhXUBsAtGoAjUgFZL/nwv0
+	g6rXG0pEuZ6U4VUSCTleHt5X3odrIKWsLFssAdV+OsPyWAp3qPzkRhFLqwTgri1m
+	4F/8jbyFN85NnZDMoDOxCR8hW1pDsPsQhvOKDqDyDKl1bqNUj5dZZZOYTcpvkTaj
+	eIFzwnMZgLhtcg2oglSuPar9vWgeT7ZY6chmAovmgc0tiJPL8Vbo853Wqt2V2BZ3
+	9LBAYI358hZBtGfw==
+Received: (qmail 3112752 invoked from network); 10 Mar 2026 08:55:56 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Mar 2026 08:55:56 +0100
+X-UD-Smtp-Session: l3s3148p1@I0xx2aZM3NIujntP
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-remoteproc@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v4 10/15] hwspinlock: handle hwspinlock device allocation in the core
+Date: Tue, 10 Mar 2026 08:55:25 +0100
+Message-ID: <20260310075539.11701-11-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260310075539.11701-1-wsa+renesas@sang-engineering.com>
+References: <20260310075539.11701-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND 0/4] drm/gem-dma: Support dedicated DMA device for
- allocation
-To: Chen-Yu Tsai <wenst@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-sunxi@lists.linux.dev, Paul Kocialkowski <paulk@sys-base.io>,
- linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20260310032511.2545500-1-wenst@chromium.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260310032511.2545500-1-wenst@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[chromium.org,gmail.com,collabora.com,kernel.org,pengutronix.de,linux.intel.com,sholland.org,ffwll.ch];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.com:url]
-X-Rspamd-Queue-Id: B5C244D2BB
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
 
-Hi
+Providers have been refactored to avoid using core internal structures.
+As a result, they do not need to allocate the hwspinlock device on their
+own anymore because they can access everything they need with helpers.
 
-Am 10.03.26 um 04:25 schrieb Chen-Yu Tsai:
-> (resent with Samuel's email address fixed)
->
-> Hi folks,
->
-> This series expands the "dedicated DMA device" support in DRM to the GEM
-> DMA helpers, and converts the MediaTek DRM driver to setting the DMA
-> device and dropping the custom GEM helpers that implemented this
-> function.
+So, the allocation is moved to the core. As a result, the registering
+functions now return a pointer to the (soon) opaque hwspinlock device
+which may be needed for unregistering only.
 
-I wanted to do this myself at some point. So thanks a lot for picking up 
-the task. Happy to see this series.
+Because the argument list of the registering functions is changed, all
+users are changed here as well.
 
->
-> Various display drivers implement the "dedicated DMA device" support
-> with custom GEM helpers. These include Exynos, MediaTek, and Rockchip
-> to name a few. Allwinner does something entirely different, calling
-> of_dma_configure() on the virtual display device using the OF node of
-> the actual DMA device. Recently this causes a warning if IOMMUs are
-> involved.
->
-> This series intends to allow the core helpers to deal with it, and not
-> have every driver implement it in slightly different ways, duplicating
-> code.
->
-> Patch 1 adds dedicated DMA device support to drm_prime_pages_to_sg().
-> I believe this was missing from the original change that added dedicated
-> DMA devices for PRIME.
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ drivers/hwspinlock/hwspinlock_core.c  | 48 +++++++++++++++------------
+ drivers/hwspinlock/omap_hwspinlock.c  | 10 ++----
+ drivers/hwspinlock/qcom_hwspinlock.c  | 11 ++----
+ drivers/hwspinlock/sprd_hwspinlock.c  | 17 ++++------
+ drivers/hwspinlock/stm32_hwspinlock.c |  7 ++--
+ drivers/hwspinlock/sun6i_hwspinlock.c | 12 ++-----
+ include/linux/hwspinlock.h            | 17 ++++++----
+ 7 files changed, 52 insertions(+), 70 deletions(-)
 
-We originally added the dedicated DMA device for supporting PRIME on USB 
-graphics adapters, where the DMA buffer has to be allocated wrt to the 
-USB controller. We left out anything that wasn't necessary.
-
->
-> Patch 2 adds support for dedicated DMA device to the GEM DMA helpers
-> for GEM buffer allocation and mmap.
->
-> Patch 3 converts the MediaTek DRM driver to use the dedicated DMA device
-> support, and drop all the remaining custom GEM callbacks that deal with
-> it.
->
-> Patch 4 converts the Allwinner sun4i DRM driver to use the dedicated DMA
-> device support, instead of the of_dma_configure() hack it currently has.
->
-> The series should be merged through drm-misc-next so that other drivers
-> can take advantage of the change.
-
-Yes.
-
-Best regards
-Thomas
-
->
-> I also intend to try to convert the Exynos and Rockchip drivers, however
-> both also have options to set DMA_ATTR_NO_KERNEL_MAPPING when using
-> dma_alloc_attrs() to allocate memory for the buffers. I intend to
-> resurrect the DRM_MODE_DUMB_KERNEL_MAP work from Rob Herring [1]
-> to handle this. The Rockchip driver also has custom IOMMU attachment
-> that I'm still trying to understand.
->
->
-> Thanks
-> ChenYu
->
->
-> Chen-Yu Tsai (4):
->    drm/prime: Limit scatter list size with dedicated DMA device
->    drm/gem-dma: Support dedicated DMA device for allocation and mapping
->    drm/mediatek: Set dedicated DMA device and drop custom GEM callbacks
->    drm/sun4i: Use backend/mixer as dedicated DMA device
->
->   drivers/gpu/drm/drm_gem_dma_helper.c   |  21 ++-
->   drivers/gpu/drm/drm_prime.c            |   2 +-
->   drivers/gpu/drm/mediatek/mtk_crtc.c    |   1 -
->   drivers/gpu/drm/mediatek/mtk_drm_drv.c |  21 +--
->   drivers/gpu/drm/mediatek/mtk_drm_drv.h |   1 -
->   drivers/gpu/drm/mediatek/mtk_gem.c     | 231 -------------------------
->   drivers/gpu/drm/mediatek/mtk_gem.h     |  17 --
->   drivers/gpu/drm/sun4i/sun4i_backend.c  |  27 +--
->   drivers/gpu/drm/sun4i/sun8i_mixer.c    |  27 +--
->   9 files changed, 46 insertions(+), 302 deletions(-)
->   delete mode 100644 drivers/gpu/drm/mediatek/mtk_gem.c
->   delete mode 100644 drivers/gpu/drm/mediatek/mtk_gem.h
->
-
+diff --git a/drivers/hwspinlock/hwspinlock_core.c b/drivers/hwspinlock/hwspinlock_core.c
+index afe1e7ce2829..a7610ba755b4 100644
+--- a/drivers/hwspinlock/hwspinlock_core.c
++++ b/drivers/hwspinlock/hwspinlock_core.c
+@@ -21,6 +21,7 @@
+ #include <linux/pm_runtime.h>
+ #include <linux/mutex.h>
+ #include <linux/of.h>
++#include <linux/slab.h>
+ 
+ #include "hwspinlock_internal.h"
+ 
+@@ -502,7 +503,6 @@ static struct hwspinlock *hwspin_lock_unregister_single(unsigned int id)
+ 
+ /**
+  * hwspin_lock_register() - register a new hw spinlock device
+- * @bank: the hwspinlock device, which usually provides numerous hw locks
+  * @dev: the backing device
+  * @ops: hwspinlock handlers for this device
+  * @base_id: id of the first hardware spinlock in this bank
+@@ -514,21 +514,25 @@ static struct hwspinlock *hwspin_lock_unregister_single(unsigned int id)
+  *
+  * Should be called from a process context (might sleep)
+  *
+- * Returns: %0 on success, or an appropriate error code on failure
++ * Returns: a pointer to the device (needed for unregistering), or an
++ * appropriate error pointer on failure
+  */
+-int hwspin_lock_register(struct hwspinlock_device *bank, struct device *dev,
+-		const struct hwspinlock_ops *ops, int base_id, int num_locks,
+-		void *init_data)
++struct hwspinlock_device *hwspin_lock_register(struct device *dev, const struct hwspinlock_ops *ops,
++					       int base_id, int num_locks, void *init_data)
+ {
++	struct hwspinlock_device *bank;
+ 	struct hwspinlock *hwlock;
+ 	int ret, i;
+ 
+-	if (!bank || !ops || !dev || !num_locks || !ops->trylock ||
+-							!ops->unlock) {
++	if (!ops || !dev || !num_locks || !ops->trylock || !ops->unlock) {
+ 		pr_err("invalid parameters\n");
+-		return -EINVAL;
++		return ERR_PTR(-EINVAL);
+ 	}
+ 
++	bank = kzalloc(struct_size(bank, lock, num_locks), GFP_KERNEL);
++	if (!bank)
++		return ERR_PTR(-ENOMEM);
++
+ 	bank->dev = dev;
+ 	bank->ops = ops;
+ 	bank->base_id = base_id;
+@@ -553,12 +557,13 @@ int hwspin_lock_register(struct hwspinlock_device *bank, struct device *dev,
+ 			goto reg_failed;
+ 	}
+ 
+-	return 0;
++	return bank;
+ 
+ reg_failed:
+ 	while (--i >= 0)
+ 		hwspin_lock_unregister_single(base_id + i);
+-	return ret;
++	kfree(bank);
++	return ERR_PTR(ret);
+ }
+ EXPORT_SYMBOL_GPL(hwspin_lock_register);
+ 
+@@ -589,6 +594,8 @@ int hwspin_lock_unregister(struct hwspinlock_device *bank)
+ 		WARN_ON(tmp != hwlock);
+ 	}
+ 
++	kfree(bank);
++
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(hwspin_lock_unregister);
+@@ -639,7 +646,6 @@ EXPORT_SYMBOL_GPL(devm_hwspin_lock_unregister);
+  * devm_hwspin_lock_register() - register a new hw spinlock device for
+  *				 a managed device
+  * @dev: the backing device
+- * @bank: the hwspinlock device, which usually provides numerous hw locks
+  * @ops: hwspinlock handlers for this device
+  * @base_id: id of the first hardware spinlock in this bank
+  * @num_locks: number of hwspinlocks provided by this device
+@@ -650,29 +656,27 @@ EXPORT_SYMBOL_GPL(devm_hwspin_lock_unregister);
+  *
+  * Should be called from a process context (might sleep)
+  *
+- * Returns: %0 on success, or an appropriate error code on failure
++ * Returns: a pointer to the device (usable for unregistering), or an
++ * appropriate error pointer on failure
+  */
+-int devm_hwspin_lock_register(struct device *dev,
+-			      struct hwspinlock_device *bank,
+-			      const struct hwspinlock_ops *ops,
+-			      int base_id, int num_locks, void *init_data)
++struct hwspinlock_device *devm_hwspin_lock_register(struct device *dev, const struct hwspinlock_ops *ops,
++						    int base_id, int num_locks, void *init_data)
+ {
+-	struct hwspinlock_device **ptr;
+-	int ret;
++	struct hwspinlock_device **ptr, *bank;
+ 
+ 	ptr = devres_alloc(devm_hwspin_lock_unreg, sizeof(*ptr), GFP_KERNEL);
+ 	if (!ptr)
+-		return -ENOMEM;
++		return ERR_PTR(-ENOMEM);
+ 
+-	ret = hwspin_lock_register(bank, dev, ops, base_id, num_locks, init_data);
+-	if (!ret) {
++	bank = hwspin_lock_register(dev, ops, base_id, num_locks, init_data);
++	if (!IS_ERR(bank)) {
+ 		*ptr = bank;
+ 		devres_add(dev, ptr);
+ 	} else {
+ 		devres_free(ptr);
+ 	}
+ 
+-	return ret;
++	return bank;
+ }
+ EXPORT_SYMBOL_GPL(devm_hwspin_lock_register);
+ 
+diff --git a/drivers/hwspinlock/omap_hwspinlock.c b/drivers/hwspinlock/omap_hwspinlock.c
+index 868b93131796..87ab30614e1d 100644
+--- a/drivers/hwspinlock/omap_hwspinlock.c
++++ b/drivers/hwspinlock/omap_hwspinlock.c
+@@ -80,7 +80,6 @@ static const struct hwspinlock_ops omap_hwspinlock_ops = {
+ 
+ static int omap_hwspinlock_probe(struct platform_device *pdev)
+ {
+-	struct hwspinlock_device *bank;
+ 	void __iomem *io_base;
+ 	int num_locks, i, ret;
+ 	/* Only a single hwspinlock block device is supported */
+@@ -117,13 +116,8 @@ static int omap_hwspinlock_probe(struct platform_device *pdev)
+ 
+ 	num_locks = i * 32; /* actual number of locks in this device */
+ 
+-	bank = devm_kzalloc(&pdev->dev, struct_size(bank, lock, num_locks),
+-			    GFP_KERNEL);
+-	if (!bank)
+-		return -ENOMEM;
+-
+-	return devm_hwspin_lock_register(&pdev->dev, bank, &omap_hwspinlock_ops,
+-					 base_id, num_locks, io_base + LOCK_BASE_OFFSET);
++	return devm_hwspin_lock_register_errno(&pdev->dev, &omap_hwspinlock_ops, base_id,
++					       num_locks, io_base + LOCK_BASE_OFFSET);
+ }
+ 
+ static const struct of_device_id omap_hwspinlock_of_match[] = {
+diff --git a/drivers/hwspinlock/qcom_hwspinlock.c b/drivers/hwspinlock/qcom_hwspinlock.c
+index 73b280988109..e2836d6728e8 100644
+--- a/drivers/hwspinlock/qcom_hwspinlock.c
++++ b/drivers/hwspinlock/qcom_hwspinlock.c
+@@ -223,9 +223,7 @@ static struct regmap *qcom_hwspinlock_probe_mmio(struct platform_device *pdev,
+ static int qcom_hwspinlock_probe(struct platform_device *pdev)
+ {
+ 	struct qcom_hwspinlock_priv_init_data init;
+-	struct hwspinlock_device *bank;
+ 	struct regmap *regmap;
+-	size_t array_size;
+ 
+ 	regmap = qcom_hwspinlock_probe_syscon(pdev, &init.base, &init.stride);
+ 	if (IS_ERR(regmap) && PTR_ERR(regmap) == -ENODEV)
+@@ -234,16 +232,11 @@ static int qcom_hwspinlock_probe(struct platform_device *pdev)
+ 	if (IS_ERR(regmap))
+ 		return PTR_ERR(regmap);
+ 
+-	array_size = QCOM_MUTEX_NUM_LOCKS * sizeof(struct hwspinlock);
+-	bank = devm_kzalloc(&pdev->dev, sizeof(*bank) + array_size, GFP_KERNEL);
+-	if (!bank)
+-		return -ENOMEM;
+-
+ 	init.dev = &pdev->dev;
+ 	init.regmap = regmap;
+ 
+-	return devm_hwspin_lock_register(&pdev->dev, bank, &qcom_hwspinlock_ops,
+-					 0, QCOM_MUTEX_NUM_LOCKS, &init);
++	return devm_hwspin_lock_register_errno(&pdev->dev, &qcom_hwspinlock_ops,
++					       0, QCOM_MUTEX_NUM_LOCKS, &init);
+ }
+ 
+ static struct platform_driver qcom_hwspinlock_driver = {
+diff --git a/drivers/hwspinlock/sprd_hwspinlock.c b/drivers/hwspinlock/sprd_hwspinlock.c
+index f906f5fa74ef..bbae37e25243 100644
+--- a/drivers/hwspinlock/sprd_hwspinlock.c
++++ b/drivers/hwspinlock/sprd_hwspinlock.c
+@@ -33,15 +33,14 @@
+ struct sprd_hwspinlock_dev {
+ 	void __iomem *base;
+ 	struct clk *clk;
+-	struct hwspinlock_device bank;
+ };
+ 
+ /* try to lock the hardware spinlock */
+ static int sprd_hwspinlock_trylock(struct hwspinlock *lock)
+ {
+-	struct sprd_hwspinlock_dev *sprd_hwlock =
+-		dev_get_drvdata(hwspin_lock_get_dev(lock));
+ 	void __iomem *addr = hwspin_lock_get_priv(lock);
++	struct device *dev = hwspin_lock_get_dev(lock);
++	struct sprd_hwspinlock_dev *sprd_hwlock = dev_get_drvdata(dev);
+ 	int user_id, lock_id;
+ 
+ 	if (!readl(addr))
+@@ -50,8 +49,7 @@ static int sprd_hwspinlock_trylock(struct hwspinlock *lock)
+ 	lock_id = hwlock_to_id(lock);
+ 	/* get the hardware spinlock master/user id */
+ 	user_id = readl(sprd_hwlock->base + HWSPINLOCK_MASTERID(lock_id));
+-	dev_warn(sprd_hwlock->bank.dev,
+-		 "hwspinlock [%d] lock failed and master/user id = %d!\n",
++	dev_warn(dev, "hwspinlock [%d] lock failed and master/user id = %d!\n",
+ 		 lock_id, user_id);
+ 	return 0;
+ }
+@@ -97,9 +95,7 @@ static int sprd_hwspinlock_probe(struct platform_device *pdev)
+ 	if (!pdev->dev.of_node)
+ 		return -ENODEV;
+ 
+-	sprd_hwlock = devm_kzalloc(&pdev->dev,
+-				   struct_size(sprd_hwlock, bank.lock, SPRD_HWLOCKS_NUM),
+-				   GFP_KERNEL);
++	sprd_hwlock = devm_kzalloc(&pdev->dev, sizeof(*sprd_hwlock), GFP_KERNEL);
+ 	if (!sprd_hwlock)
+ 		return -ENOMEM;
+ 
+@@ -130,9 +126,8 @@ static int sprd_hwspinlock_probe(struct platform_device *pdev)
+ 
+ 	platform_set_drvdata(pdev, sprd_hwlock);
+ 
+-	return devm_hwspin_lock_register(&pdev->dev, &sprd_hwlock->bank,
+-					 &sprd_hwspinlock_ops, 0,
+-					 SPRD_HWLOCKS_NUM, sprd_hwlock->base);
++	return devm_hwspin_lock_register_errno(&pdev->dev, &sprd_hwspinlock_ops, 0,
++					       SPRD_HWLOCKS_NUM, sprd_hwlock->base);
+ }
+ 
+ static const struct of_device_id sprd_hwspinlock_of_match[] = {
+diff --git a/drivers/hwspinlock/stm32_hwspinlock.c b/drivers/hwspinlock/stm32_hwspinlock.c
+index 62214f31f909..ed937bc26bf5 100644
+--- a/drivers/hwspinlock/stm32_hwspinlock.c
++++ b/drivers/hwspinlock/stm32_hwspinlock.c
+@@ -22,7 +22,6 @@
+ 
+ struct stm32_hwspinlock {
+ 	struct clk *clk;
+-	struct hwspinlock_device bank;
+ };
+ 
+ static int stm32_hwspinlock_trylock(struct hwspinlock *lock)
+@@ -85,7 +84,7 @@ static int stm32_hwspinlock_probe(struct platform_device *pdev)
+ 	if (IS_ERR(io_base))
+ 		return PTR_ERR(io_base);
+ 
+-	hw = devm_kzalloc(dev, struct_size(hw, bank.lock, STM32_MUTEX_NUM_LOCKS), GFP_KERNEL);
++	hw = devm_kzalloc(dev, sizeof(*hw), GFP_KERNEL);
+ 	if (!hw)
+ 		return -ENOMEM;
+ 
+@@ -112,8 +111,8 @@ static int stm32_hwspinlock_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
+-	ret = devm_hwspin_lock_register(dev, &hw->bank, &stm32_hwspinlock_ops,
+-					0, STM32_MUTEX_NUM_LOCKS, io_base);
++	ret = devm_hwspin_lock_register_errno(dev, &stm32_hwspinlock_ops,
++					      0, STM32_MUTEX_NUM_LOCKS, io_base);
+ 
+ 	if (ret)
+ 		dev_err(dev, "Failed to register hwspinlock\n");
+diff --git a/drivers/hwspinlock/sun6i_hwspinlock.c b/drivers/hwspinlock/sun6i_hwspinlock.c
+index c3db81cb1793..8bbed23af5f4 100644
+--- a/drivers/hwspinlock/sun6i_hwspinlock.c
++++ b/drivers/hwspinlock/sun6i_hwspinlock.c
+@@ -27,7 +27,6 @@
+ #define SPINLOCK_NOTTAKEN	0
+ 
+ struct sun6i_hwspinlock_data {
+-	struct hwspinlock_device *bank;
+ 	struct reset_control *reset;
+ 	struct clk *ahb_clk;
+ 	struct dentry *debugfs;
+@@ -159,13 +158,6 @@ static int sun6i_hwspinlock_probe(struct platform_device *pdev)
+ 		goto bank_fail;
+ 	}
+ 
+-	priv->bank = devm_kzalloc(&pdev->dev, struct_size(priv->bank, lock, priv->nlocks),
+-				  GFP_KERNEL);
+-	if (!priv->bank) {
+-		err = -ENOMEM;
+-		goto bank_fail;
+-	}
+-
+ 	/* failure of debugfs is considered non-fatal */
+ 	sun6i_hwspinlock_debugfs_init(priv);
+ 	if (IS_ERR(priv->debugfs))
+@@ -177,8 +169,8 @@ static int sun6i_hwspinlock_probe(struct platform_device *pdev)
+ 		goto bank_fail;
+ 	}
+ 
+-	return devm_hwspin_lock_register(&pdev->dev, priv->bank, &sun6i_hwspinlock_ops,
+-					 SPINLOCK_BASE_ID, priv->nlocks, io_base + SPINLOCK_LOCK_REGN);
++	return devm_hwspin_lock_register_errno(&pdev->dev, &sun6i_hwspinlock_ops, SPINLOCK_BASE_ID,
++					       priv->nlocks, io_base + SPINLOCK_LOCK_REGN);
+ 
+ bank_fail:
+ 	clk_disable_unprepare(priv->ahb_clk);
+diff --git a/include/linux/hwspinlock.h b/include/linux/hwspinlock.h
+index 094a6d0d39d6..58733cda7a9a 100644
+--- a/include/linux/hwspinlock.h
++++ b/include/linux/hwspinlock.h
+@@ -29,8 +29,8 @@ struct hwspinlock_ops;
+ 
+ void *hwspin_lock_get_priv(struct hwspinlock *hwlock);
+ struct device *hwspin_lock_get_dev(struct hwspinlock *hwlock);
+-int hwspin_lock_register(struct hwspinlock_device *bank, struct device *dev,
+-		const struct hwspinlock_ops *ops, int base_id, int num_locks, void *init_data);
++struct hwspinlock_device *hwspin_lock_register(struct device *dev, const struct hwspinlock_ops *ops,
++					       int base_id, int num_locks, void *init_data);
+ int hwspin_lock_unregister(struct hwspinlock_device *bank);
+ struct hwspinlock *hwspin_lock_request_specific(unsigned int id);
+ int hwspin_lock_free(struct hwspinlock *hwlock);
+@@ -46,10 +46,15 @@ struct hwspinlock *devm_hwspin_lock_request_specific(struct device *dev,
+ 						     unsigned int id);
+ int devm_hwspin_lock_unregister(struct device *dev,
+ 				struct hwspinlock_device *bank);
+-int devm_hwspin_lock_register(struct device *dev,
+-			      struct hwspinlock_device *bank,
+-			      const struct hwspinlock_ops *ops,
+-			      int base_id, int num_locks, void *init_data);
++struct hwspinlock_device *devm_hwspin_lock_register(struct device *dev, const struct hwspinlock_ops *ops,
++						    int base_id, int num_locks, void *init_data);
++
++static inline int devm_hwspin_lock_register_errno(struct device *dev,
++						  const struct hwspinlock_ops *ops,
++						  int base_id, int num_locks, void *init_data)
++{
++	return PTR_ERR_OR_ZERO(devm_hwspin_lock_register(dev, ops, base_id, num_locks, init_data));
++}
+ 
+ #else /* !CONFIG_HWSPINLOCK */
+ 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
+2.47.3
 
