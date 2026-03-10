@@ -1,198 +1,140 @@
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010031.outbound.protection.outlook.com [52.101.69.31])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09143F0761;
-	Tue, 10 Mar 2026 08:38:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACC51DC1AB
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 08:41:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773131894; cv=fail; b=I5EmM0xNmi8y4bn1hBIFQvnYeWWbUIVc7L0RK2qROpwkPHynZbV24VsK/fSmYqcxVW6ED91FK2KJ/sSVUkohI+SxD9jWvpK33j3azRx51ducpIwbkbIqokH8YJRdK/Hq/fpw6Sx/oTqqH0wkREdR0bIJ216OyA1fCDzMr2PvOgE=
+	t=1773132119; cv=pass; b=lCHo5U9SGVuRtB4sFHeq3yWb/rVQ1/iGV0r67wpR+bD477H4tCMFoEc0IJxX9xk1loOBt5RCD5zFdafCxbnTLxp74vLheg8bMoc4r8xkFIWBcub6EkcMW3rnp7a/NCOU5ahkDBNFiGVu84NtxF9ffyfd1a+mnKKM5GOiPqwxNC4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773131894; c=relaxed/simple;
-	bh=cQqb0o+x09W/IvCyHAWg0sZFOHLK3BcUhP1r0oYOkIc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=KiruNgWgaOLHEIVj2mzhyfCdlU6fj80b+02R0tzpqt4YgMfEK/meXMKDcVvInY4ikW+nIm/jYvqZClwcIylplXGzGxOODeg1f8Ph4NHC20RFmS2YuPXV7NjKD0ssDpnzf7qPO3YMDeWzqIADVrBOwBaTlyl86p2MOvqhCGp8fjM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=fail (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=cI2HDijV reason="signature verification failed"; arc=fail smtp.client-ip=52.101.69.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	s=arc-20240116; t=1773132119; c=relaxed/simple;
+	bh=O+PtupKhJUb1UiVgJ52/W3koo44cp91XMGRu/Yk+jj8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=VHfvO/vYlV5fjjgKNmyLWJYX+3Blq9U9FIQEfZEPfVIHkzbOF1ZxXUxpokU0PcDi9iDvIt/Ixqj4auNXA5TeeiWiAAW24P1cZC+rkwIPp/RWrbDTtCe2nsGIWnz8LHB/vcuWcb3xCDKHeAazlK+COr2h7nBV8l3+iGXarnh/MkM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech; spf=pass smtp.mailfrom=pigmoral.tech; dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b=mIO2iMDW; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pigmoral.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="cI2HDijV"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OR/11+mCfgNKg8r3o/8i0kaJ7O233jzaXp+pyjsDG1K79btBAyyyW/tP3z4RVVoqGmwzZ3xct6emxSiDFNmN6dUC4452oOMd6yJIvCW3eV2pmfi3C2teHibZqrtjHfd8h0LuPshIQW8fr4IBvexeNnedjycnBy63IuhSvogBFDgfdoZcgI988EYBXbdxPl1Zo5emkdns0uHMQyRL0QT0K4WDaMqW0ejdUnlKZrSmn2AL8xjm3jBtgbRc9DwxxqbO04DjMC+AbWHzb6sSdy3J663FWio9j8+95ItUJS+BuKIla8wAdJvoRwJN7BjqoPtLbuFZoROCZhxLNzijEVcdzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4DC/WAtPBttyO3YieGx/3i+uqZRqK9wrBUGkfPza3Tg=;
- b=yVEAsFhF2xjP1PtHcShjo5vCoJ6YQDqj7VHEgY2pKjx7skLiBuKdLHqQ+a6RS9ZcFbt3f0LT/Hzd+m+IPfaqcYVeb54BvzvoyW7VKD5O4cKnM+2m0WQnaozt5iEgwTXSuTeb/CHoLnc0T/SFKMhEldPpyKMe1EoYGNlsaVMdHboi4NeEONv+nHjt+wEAtQlbse1TKZCPNA4VwdWm9rzOI54msFOa8hW2qr3FDgFttWNbjQrIzJKh5VUGo0CHxpXuBysaVUxyEaq8vYfWkMLXNjQwT2SnL7qRF6hUDeFTEFY3rcV/Er+8krq+7QmDCtjBgrSiycp31KUHGNUpTxVbAA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4DC/WAtPBttyO3YieGx/3i+uqZRqK9wrBUGkfPza3Tg=;
- b=cI2HDijV8u4poMLbMgSAKiqHQYao38kFB6rI6uWM4tWEOov4BdjYDHNY49qQumGNbOMDbUwQQ+LF+xEycN6t78Q3axGv7LH48QEAD9n/jY7FJSTN89awXWBXzhEQcrWEkMLe8TOGrEsLl1JnKM6lqaDrv5GSpSbNWKCz9oKH2Ze73oVH8DzcqGtggc64p4ZDhwqHSv5A5p5e5X8zk25HuUyhm8UYCBYk0NYWQbq9u5xTi7TcU4NN9DveHMoqghNdnamwm3jeySW0/edPjCgrkWUTdolrZx0uqXQnYPpjvDiY0n9zPeU/7M0KoqVgX0Vz5IKfQZLyhAP2O16eQaUtdg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com (2603:10a6:20b:438::13)
- by VI0PR04MB11537.eurprd04.prod.outlook.com (2603:10a6:800:2cb::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Tue, 10 Mar
- 2026 08:38:03 +0000
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4]) by AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4%4]) with mapi id 15.20.9678.023; Tue, 10 Mar 2026
- 08:38:03 +0000
-Date: Tue, 10 Mar 2026 10:37:52 +0200
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
-To: Heiko Stuebner <heiko@sntech.de>
-Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	spacemit@lists.linux.dev, UNGLinuxDriver@microchip.com,
-	Sandy Huang <hjc@rock-chips.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH v3 phy-next 10/24] drm/rockchip: dw_hdmi: avoid direct
- dereference of phy->dev.of_node
-Message-ID: <20260310083752.ms6u4qpy3snl4h6w@skbuf>
-References: <20260309190842.927634-1-vladimir.oltean@nxp.com>
- <20260309190842.927634-11-vladimir.oltean@nxp.com>
- <2218670.OBFZWjSADL@phil>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2218670.OBFZWjSADL@phil>
-X-ClientProxiedBy: WA2P291CA0036.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1f::9) To AM9PR04MB8585.eurprd04.prod.outlook.com
- (2603:10a6:20b:438::13)
+	dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b="mIO2iMDW"
+ARC-Seal: i=1; a=rsa-sha256; t=1773132104; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Qd3h3KFo8CtJ0BcQ9PmwEuSZGAFvxHDPBUX+IuoAi5TPTveJMtETpmnpDzBpmfdGI9S7uQXxAMF/yLZStUfAEPuHmXgt8DO7uxACbXvdhEg4o7WkqzcJsikwcFHoTZxnC0YBZgKzRTxhjeJf6jxEu3XfB4nTlUYb20BN9PJLjTs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1773132104; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=6QAKNaYZQ3oPbyfRehX2Ps756j69nJ1JrR6pbMmlzHI=; 
+	b=HYTsmRQTLlpE83eSqdybsp9GvqEVLDH7c01y1e30TPtbgarHQLNURfLP3TeuTP7KjXpE7PGTzKtwx06bVkr87hYe9yzAbvvSAENIa1Caxz4Pt1kFVx+Hb8vfMsQVKyiQ9btrdTk4VRXVnCfXUUzNfeN90mzPkYd23kFNgFbmrXU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=pigmoral.tech;
+	spf=pass  smtp.mailfrom=junhui.liu@pigmoral.tech;
+	dmarc=pass header.from=<junhui.liu@pigmoral.tech>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1773132104;
+	s=zmail; d=pigmoral.tech; i=junhui.liu@pigmoral.tech;
+	h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
+	bh=6QAKNaYZQ3oPbyfRehX2Ps756j69nJ1JrR6pbMmlzHI=;
+	b=mIO2iMDWPi71XBeTyfVNIkwLFXY1LkkYQf17cONxWCj/t9GAPD85ay3yKKMETCw5
+	SLEMZTa0tq1fvD4znvgQu77PhX+vw3CVZ6NW0Acij2pfHbDF8bo+gIpivAsKMD1ZDI2
+	PkaYMQ41mXhKcT2YsYLJoSLP4t/1EsmKhD31WHfY=
+Received: by mx.zohomail.com with SMTPS id 1773132101727222.80993575966113;
+	Tue, 10 Mar 2026 01:41:41 -0700 (PDT)
+From: Junhui Liu <junhui.liu@pigmoral.tech>
+Subject: [PATCH RFC 0/8] clk: sunxi-ng: Add support for Allwinner A733 CCU
+ and PRCM
+Date: Tue, 10 Mar 2026 16:33:53 +0800
+Message-Id: <20260310-a733-clk-v1-0-36b4e9b24457@pigmoral.tech>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8585:EE_|VI0PR04MB11537:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9313eb4b-b391-4082-879f-08de7e8057f9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|19092799006|7416014|1800799024|10070799003|366016|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	7zpY0fGF0FZqFMnBqsVHmqIGFfq+MhYwIEKQtvt6B3eHRjhzALOhIpxh9EF6nGj1Iroa+q9xGMzJDP4On1vBSs+mlNE37hLxx202BmTFe4QS2ECrvsGE51Gcg92ciRi+hJ6GhkGUBTDQatmfMFGkCoQuQS5QehVBvh9B23EDX+QWPxS9xdH1y/9gvF/FBK/H8+zOXkgtYel3/47Lq26oKZAq5YMmqeIE9head2wiQtgL4fBQlGsR2uFxMwB89geDucdbLO20kM8rEcel84vcVNGErfur+eT3tyRaZEG8GOwBdQMulQEil+B/imwBpwbnAnFJAQY6rWT6qmgK1/v85+/MSnzsj0MxGYe9gozUmXO+EmKAwUmjc5x7A4Wr/94rtSM9o7z9InmSRfgzchtMmK01UR55Bn1NR55CBrzlGiMbA1hOdUbO/CTgqVoh6jOBxdgQyb7gW+KuwKr/EEaTz+Ba1naftgcIi1DaFqvljdKzsE1ZsdCv41VWF5tsRqjf3l4ySxGrEjrZXKjS7BIRXbr3J7cuNydsuUectf76+TmP1ajQitFbFdz6dhjiHq4J2pF3buSYgtirggdoBhBOw/JHN5Wnz0964H0ScPwdXaJ1UXaxS87oDaNfRo7EsYd7KABIobrT5H81mU6S76WUiXGkSAAj3MbUz2+rs+haJu0C6olfbO69PeJEJZOkuka4fxYrhwRUosPFeRCjbb3uzVEK5ZQ1Fw2XOipZ8UZ953I=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8585.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(19092799006)(7416014)(1800799024)(10070799003)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-1?Q?/X9TwhBn8TlngGFdwqJeM7SRp3oOxjqQHJG3h93PXwdwM0PAsIrwLTb/Q+?=
- =?iso-8859-1?Q?OTU/u5l1m8PcjtDtbXnSQ7OSTlR96gnL7ogDNAHpHuLNinnGuyaf29tg2y?=
- =?iso-8859-1?Q?58/xA3TUnhxSgqHXTKm68uF8jiZUbWF3n7Y9cdmE4oKGrOoczYaQyKg9eB?=
- =?iso-8859-1?Q?jvgtntx1JsG1x5lI6BL1Ljd+jIjIWU/tvUs0Bvm8/VNUfceMY1E/yBjRqH?=
- =?iso-8859-1?Q?9/ku7pZtj2FFYkVYfZQovOuKNmIbRxEO07Skp9OOVyBbKfKMDf07yq8ldn?=
- =?iso-8859-1?Q?+Wj44LU5q0AYdarTPlSaCfDhGzkEg+O94xZTgQxFvqNsPuQn1K3f9v3/lV?=
- =?iso-8859-1?Q?sZq87629tddQm/h3xwSTBr1BEIwkDIRV1LGBJQeY8gvtLI82c8yjNCAd++?=
- =?iso-8859-1?Q?0mB6+VXoqfnaDt/gahH2kONhmwap//YHpkbEl1QIpAVDwOJDtD/sV6CZBI?=
- =?iso-8859-1?Q?VRltTEWOiqitXOgBtd9SYMvZZ8/tIS1h5eq4ZZo35ZSv1erJKdBv3vNVev?=
- =?iso-8859-1?Q?rVugQfmPwZ33kv0pCsfOAIUURU5MIuysxq4umj1egNB0sJy3JbQ3gtH+l/?=
- =?iso-8859-1?Q?Ae/RgkEkcGqEj5n3NTHuWdlG4b38B7rLTW9FOo/fm7ZNpE80iXGzLcny4R?=
- =?iso-8859-1?Q?+mUEfpI3jLrEb01ggaQXkZ2ROraXHjsojXHx7PxYxnVCqfoKqAN+0jRKUc?=
- =?iso-8859-1?Q?ll39zidn+kli2ld9xRSSA2MK08GPDxe3WHXr9xm9bqqyjrKqfHH6+31Cj5?=
- =?iso-8859-1?Q?cMRGssaxqS2sxhZqd028kq5FP88tGee9yJuLByiaDh6rVY8pJmV5VHnaHm?=
- =?iso-8859-1?Q?eSaJRFYDwAYr2ozn03EzXV8vqAMrer1dXTWxOT8Fo0mco5KVYgdgEyZrnn?=
- =?iso-8859-1?Q?iWpnvjtbUSdV2k7E641NSIr3ysaMP+ognJivPUL8J5YBmQMegOFshhBApS?=
- =?iso-8859-1?Q?ME67nM63aEK691+Ar/h78E0FSF0oYlSH/77kAsalpik/jydjENVrSMWnkv?=
- =?iso-8859-1?Q?2h4klmgd3EdfsH8s+uQPuWXZGEM9jrP9QZ4Y/9P4TxQR9GgX+jTC+56ulA?=
- =?iso-8859-1?Q?DBg+9vv+LNzU1kSsatdtGREczrbT2TUD0ONXQmwcV0wVmAfIsu4oyHaVA1?=
- =?iso-8859-1?Q?eVl82pFfy1/MDdKEigU4OqrvLIB1KYSeCfrcPrdsQCMERCy6F1VoJWDn84?=
- =?iso-8859-1?Q?n85F76hJ1WJ3lGmj8pvCFicS20DPeCDjYz9SN2rUEgfouT+m5qi4bccPlv?=
- =?iso-8859-1?Q?1GfJscobDR5VEEz0yJekQreGfOaFt+7mIow64OL7MaXs5Z/oOFNmpPGa7P?=
- =?iso-8859-1?Q?T4ECeL9sUCwq9RDmlt8g2sYvNd/5i9YPfUC8IlXca8GHsNJAuMy3mA6E/2?=
- =?iso-8859-1?Q?iNt3x5GZLHcfqVDy/9PJWaFSox3ZiBbaDcUfwm9skOKcc4fyiXmYY2EHJ+?=
- =?iso-8859-1?Q?Zx3QE7UC0/0NBPnjYug0wOnJ5gWXvh8Dqaj7nB7aYTRcu88q0U6XSt81yi?=
- =?iso-8859-1?Q?JQs6IOgH1d7txktwluYzDhRNxwlrO2uXDIT6Rof+1E6CXL+O3nHJV+weNS?=
- =?iso-8859-1?Q?V8CGER6uO5PIB9DKLCNCt8kT3pQTOnh/131tKCkJEb0v8C808G7gL8nuMQ?=
- =?iso-8859-1?Q?PjYvkD+XSD/iYnvN/tgJsNyInPVL1KUc1Q9wc6h9VvL5/+pR0P9zTnNO9M?=
- =?iso-8859-1?Q?/gjVf0pvAUPzn9kNEhUEsiz0vZ7nqAnkpX1AzxG6rYmE4egw98vjJ65ZxJ?=
- =?iso-8859-1?Q?K3bSlNHEH6FRafc+17wIlBFhvEK5QYsfSH5cVV7gnxluV+ogMZWAUHiVqF?=
- =?iso-8859-1?Q?XlQck/aLilftiqo7q0V6dXubxPq67zRJrCr+n+Aq/5FOnhoC+cg2TUFZDk?=
- =?iso-8859-1?Q?Xm?=
-X-MS-Exchange-AntiSpam-MessageData-1: Ycz3yQtf/aP+NzPqFzdy0Ogc6SF+HawrRt4=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9313eb4b-b391-4082-879f-08de7e8057f9
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8585.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2026 08:38:03.1560
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EqVT2VgSBkKdIPyFRLndoMcUU0mT8iZiPoQKwY8Q6MPgw+kH+GA1YCWUTG7iTIjZ6W6EfGE76Ztq1MwGKx9K1A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB11537
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDIKGbaG5srJuck61rkGKSlmxgkGiZZpmsBFReUJSallkBNipaKcjNWSm
+ 2thYAxo8A6F8AAAA=
+X-Change-ID: 20260202-a733-clk-0d4fc00a9f9c
+To: Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Junhui Liu <junhui.liu@pigmoral.tech>, Paul Walmsley <pjw@kernel.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alex@ghiti.fr>, Richard Cochran <richardcochran@gmail.com>
+Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ netdev@vger.kernel.org
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773132092; l=3110;
+ i=junhui.liu@pigmoral.tech; s=20251228; h=from:subject:message-id;
+ bh=O+PtupKhJUb1UiVgJ52/W3koo44cp91XMGRu/Yk+jj8=;
+ b=LCoE9uot8A3TIPpldMu+FwiyMrSb7oaPhzcG1a5yrSDDfPFX9wLrX2xjT2hzw2TAqEHJJecU0
+ jGR11DR8AEbA5rykLaol+JTtYu8QPfSVi0wz5T9AXt5NwJoGI4cVTZb
+X-Developer-Key: i=junhui.liu@pigmoral.tech; a=ed25519;
+ pk=3vU0qIPJAH8blXmLyqBhKx+nLOjcLwwYhZXelEpw7h4=
+X-ZohoMailClient: External
 
-On Tue, Mar 10, 2026 at 09:24:43AM +0100, Heiko Stuebner wrote:
-> Am Montag, 9. März 2026, 20:08:28 Mitteleuropäische Normalzeit schrieb Vladimir Oltean:
-> > The dw_hdmi-rockchip driver validates pixel clock rates against the
-> > HDMI PHY's internal clock provider on certain SoCs like RK3328.
-> > This is currently achieved by dereferencing hdmi->phy->dev.of_node
-> > to obtain the provider node, which violates the Generic PHY API's
-> > encapsulation (the goal is for struct phy to be an opaque pointer).
-> > 
-> > Refactor dw_hdmi_rockchip_bind() to perform a manual phandle lookup
-> > on the "hdmi" PHY index within the controller's DT node. This provides
-> > a parallel path to the clock provider's OF node without relying on the
-> > internal structure of the struct phy handle.
-> > 
-> > Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-> > ---
-> > Cc: Sandy Huang <hjc@rock-chips.com>
-> > Cc: "Heiko Stübner" <heiko@sntech.de>
-> > Cc: Andy Yan <andy.yan@rock-chips.com>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: David Airlie <airlied@gmail.com>
-> > Cc: Simona Vetter <simona@ffwll.ch>
-> > 
-> > v1->v3: none
-> > ---
-> 
-> [...]
-> 
-> > @@ -588,13 +589,17 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
-> >  		return dev_err_probe(hdmi->dev, ret, "failed to get phy\n");
-> >  	}
-> >  
-> > -	if (hdmi->phy) {
-> 
-> nit: a comment would be nice here. I.e. hdmi->phy being an opaque pointer
-> so checking hdmi->phy != NULL is not possible.
-> 
-> With that being a "goal", I assume that information is not widely spread
-> so this would prevent the next developer trying to change it back to
-> "if (hdmi->phy)" while that handling change trickles down.
+Add support for the main CCU and the PRCM module (R-CCU) found in the
+Allwinner A733 SoC. The clock architecture of the A733 is an evolution
+of the previous A523 design but introduces several significant changes.
 
-Testing the NULL quality of "struct phy *phy" is still possible and legal.
-It means that you called an "optional" variant of phy_get(), and there
-was no PHY.
+One of the key changes is the introduction of a "pll-ref" clock that
+normalizes the physical oscillator frequency (which can be 19.2MHz,
+24MHz, or 26MHz) into a consistent 24MHz reference for the entire clock
+tree. Additionally, while the A733 inherits many module clock structures
+from the A523, the MCU_CCU has been removed, and the overall clock tree
+has been expanded to support more new functional units.
 
-Just that here, the ultimate intention isn't that. It is to abuse the
-struct phy to get to something completely unrelated to the PHY API.
-I wouldn't have had any problem if there was "just" a hdmi->phy NULL
-pointer check.
+Also update the sunxi-ng SDM (Sigma-Delta Modulation) helper to support
+a new dual-pattern register design. On the A733, the SDM enable bit has
+been moved from the main PLL register to a second pattern register
+(PATTERN1). The driver is updated to handle this register layout to
+ensure accurate frequency synthesis for "pll-audio0".
 
-> apart from that:
-> 
-> Reviewed-by: Heiko Stueber <heiko@sntech.de>
+This is marked as RFC because the parent clocks for several instances in
+the main CCU are difficult to determine as the user manual provides
+limited information on their specific clock sources. In these cases, the
+implementation follows vendor practices and previous SoC designs,
+generally defaulting to "hosc" where documentation is lacking. In
+contrast, the bus clock gates in the PRCM (R-CCU) are explicitly defined
+based on the Memory Map in the manual, which clearly associates each
+module with its respective bus. Feedback or insights on these specific
+clock parents would be greatly appreciated.
 
-Thanks for the review.
+This functionally relies on the RTC series for the A733 SoC [1].
+
+Link: https://lore.kernel.org/all/20260121-a733-rtc-v1-0-d359437f23a7@pigmoral.tech/ [1]
+
+---
+Junhui Liu (8):
+      dt-bindings: clk: sun60i-a733-ccu: Add allwinner A733 support
+      clk: sunxi-ng: sdm: Add dual patterns support
+      clk: sunxi-ng: a733: Add PRCM CCU
+      clk: sunxi-ng: a733: Add PLL clocks support
+      clk: sunxi-ng: a733: Add bus clocks support
+      clk: sunxi-ng: a733: Add mod clocks support
+      clk: sunxi-ng: a733: Add bus clock gates
+      clk: sunxi-ng: a733: Add reset lines
+
+ .../bindings/clock/allwinner,sun60i-a733-ccu.yaml  |  107 +
+ drivers/clk/sunxi-ng/Kconfig                       |   10 +
+ drivers/clk/sunxi-ng/Makefile                      |    4 +
+ drivers/clk/sunxi-ng/ccu-sun60i-a733-r.c           |  276 +++
+ drivers/clk/sunxi-ng/ccu-sun60i-a733.c             | 2375 ++++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu_sdm.c                     |   51 +-
+ drivers/clk/sunxi-ng/ccu_sdm.h                     |   32 +-
+ include/dt-bindings/clock/sun60i-a733-ccu.h        |  289 +++
+ include/dt-bindings/clock/sun60i-a733-r-ccu.h      |   39 +
+ include/dt-bindings/reset/sun60i-a733-ccu.h        |  131 ++
+ include/dt-bindings/reset/sun60i-a733-r-ccu.h      |   23 +
+ 11 files changed, 3311 insertions(+), 26 deletions(-)
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20260202-a733-clk-0d4fc00a9f9c
+
+Best regards,
+-- 
+Junhui Liu <junhui.liu@pigmoral.tech>
+
