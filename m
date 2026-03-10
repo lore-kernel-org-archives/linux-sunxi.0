@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A221C340A6A
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 11:46:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F1729D281
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 12:03:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773143207; cv=none; b=oJKXA8aUYho1t6AoHfLw+6pnTuh7Hrwphtt0ZR8OZff+3bxNw6jYH644fRZGLalEIsfm9yrRA3Ro/lcMwIf+nV7Gr3Nyn0+E6euKd+0lNgZeB9RgD6FiTVm3GvyaiBes0LcM3jEMeBUrYZabcUYf4OE1oiW2zVEWCzoGoEf3Cwg=
+	t=1773144235; cv=none; b=HPAGLmYcevsPmX8HXjmpBUV6QFtjsbIiMSI5LXX1pFZKYrf6+5/KaNFiIw9/OPrwvlVsaFSd/l2JZHgKKi/2HFPMvQlScOF8I2jsD338KDAPWiU4hWnhuIsipAQUPRc4RjSlOmwgEiKcM8oVbDwmhYJ3AjIyL5I+5a45pUTfUjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773143207; c=relaxed/simple;
-	bh=hNYfW2PmdXWP40ndx3jBB9FDPr1eZeihvEAEqFyjWdk=;
+	s=arc-20240116; t=1773144235; c=relaxed/simple;
+	bh=ejvKQJ0BUEIYO8YyNFJZK6EePkf04xdfkGOlJrEYICI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cmDwaw4VjQZ/iPgSpUaZyleYu3xO866Kz1yrey2F+FC5xUxK5gTbIc0PRsAIgGRHKI3AsdDPK/x9GAl+CqPHSyzVEuK/5eJ0r8OBAb7t7gsXDbC5Z/sQYBTZJzr9qJkTIeNynSerxdTZBYrW47v8grYbz92Hq6CLMIFsXoI/o78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Le/WcXeI; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=Km6mPrjCGyXB9Huc7+K//XV1+kgw5HNb4RfopJmc9gIAnPU+kBjmuKqsJVy3PJCS7ColBVCSqCc5hkwKdyO/pjwZ/PlxWb7DS7nKsfNjJYzRc1B49qAuPuN5AOa9DONxEh1F4kLCZBTShMJZ0T9mc9m2hDwRRV7m1gN/qU8NdNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pnn/vg+W; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Le/WcXeI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56764C2BCB2
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 11:46:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pnn/vg+W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 663ADC2BCB6
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 12:03:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773143207;
-	bh=hNYfW2PmdXWP40ndx3jBB9FDPr1eZeihvEAEqFyjWdk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Le/WcXeIEJ5/I5c5MTCxMQCRiHxZB5GNrnMcout58eVVdk18EdUYjzwPWJnVuXBki
-	 SagzozLxO+wcE192t1+AktymvzDcdUoDHooOp4B9FImKmAhrwgcU/olf3kIV5e7MkC
-	 Sbx+lsh95q7wmjhWNNmgmRSUFKTfFl3pxxKglpfkSosvPP+15QLmEBYPEQODi1FD5D
-	 S616RpE9b4efrcpVUHRg2IJUZ+A98WZye5sBwPInCATJCFCj4NqPZjHW6m47ow0hzW
-	 u0ScO3rxonqrCSFoEGGnCRPog9N0b9I9S4eerye/NQhRv6Ley8P9jQuW4QdcnR7J+Y
-	 SHjVrpzuxQ7wQ==
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-79868cde1eeso138938147b3.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 04:46:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVlCUUoEpv/mZUw7JAMuuMDemy4milJxHYJ059aDptkhiEa8CYY2egwkJmy95nLS5N2IVA9qlUm2WaX0w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YycHK4uPXueL9hz4zDv/7wyMjFM6tGAnLaDFc+PT2W17iYnMCWg
-	Ywah31n7uj1LEfHXsh1wMhTz9NiGtmrL0UAfOYU0IWBRPV6ZTHjqyUno4ybROAZJQ1hoTHayJda
-	ePtHZp111pAsWhGCV5EvWx6yJSyP8SFs=
-X-Received: by 2002:a05:690c:62ca:b0:798:5951:f42b with SMTP id
- 00721157ae682-798dd74191bmr132448727b3.42.1773143206603; Tue, 10 Mar 2026
- 04:46:46 -0700 (PDT)
+	s=k20201202; t=1773144235;
+	bh=ejvKQJ0BUEIYO8YyNFJZK6EePkf04xdfkGOlJrEYICI=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=Pnn/vg+WltwVVTkjJiM19hHcrRXtoPtor7C23uNtus7c+cIENikuD5uQXzzOrKwAe
+	 Mepx7a0s9FmnahpgfvnIi2YoN1TDpeNh9T1d8gWWRw03kRr5JaZxm57G4YENIPOQZe
+	 5wx0XL96edi28WWewbAbGHF9U31NfzmSCzig+7x5ltEGOTy72udE8QNzEC+tJD9vqf
+	 W6JSH/fT28hmdOn79e7H5T5W0oc0K+M1HZPLJW2oZES2Tbt94JkEPzdeEnQKc2cttc
+	 o1ObXW9bSnBqUu2uFdmd3yTKy+7X1715NyfX1J7QV3sUSDnOn2tUCJe5wEl5KscpId
+	 bK8J93Z5BEB1A==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-38a3066b68bso65672071fa.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 05:03:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU5dQF5E4BiEpQyZrwEjtO+lwDQLLB89o0Utr6a/cn8SJvLZLLUrpgwpWWev7+aE1ojlR866nXyZYaQ1Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxegz6QerBQ5oDP31apX33ocS3G/Ei1URMF8GTjxtrW2CiOLHGU
+	Tg68CBsZJErTvpaa1wn56C8Ptw2fLB5G+glgKwNU7bGw+JReB01riAv9jjKX8K5PmJMOPr0FdUw
+	V8oWhstpmdz+GbpDgkmbzEP5WhOKxWd4=
+X-Received: by 2002:a2e:a546:0:b0:38a:5402:a9e9 with SMTP id
+ 38308e7fff4ca-38a5402af62mr27099711fa.5.1773144233600; Tue, 10 Mar 2026
+ 05:03:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -42,16 +42,17 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260224092419.1275016-1-wens@kernel.org> <CAD++jLnKxDi1GCp94zAUKhwBvQwVAdT8bgNyw5XM2+PTOhxq1Q@mail.gmail.com>
- <3x55nsighrqdo7al2n5imlov5yoti6z7jxrj7yieeghyqkllvb@akbuob4n37pq>
-In-Reply-To: <3x55nsighrqdo7al2n5imlov5yoti6z7jxrj7yieeghyqkllvb@akbuob4n37pq>
-From: Linus Walleij <linusw@kernel.org>
-Date: Tue, 10 Mar 2026 12:46:35 +0100
-X-Gmail-Original-Message-ID: <CAD++jLkEKprZ_qraCSMq2Zcz7ueiJaOEX6iQnMk9=Su-LbO6xA@mail.gmail.com>
-X-Gm-Features: AaiRm51B2JF0wnKHHzU4Y05R5Ms0mzx95C_lYOY2b_o2pvVtQFzJDnrhtWE5e6E
-Message-ID: <CAD++jLkEKprZ_qraCSMq2Zcz7ueiJaOEX6iQnMk9=Su-LbO6xA@mail.gmail.com>
+ <3x55nsighrqdo7al2n5imlov5yoti6z7jxrj7yieeghyqkllvb@akbuob4n37pq> <CAD++jLkEKprZ_qraCSMq2Zcz7ueiJaOEX6iQnMk9=Su-LbO6xA@mail.gmail.com>
+In-Reply-To: <CAD++jLkEKprZ_qraCSMq2Zcz7ueiJaOEX6iQnMk9=Su-LbO6xA@mail.gmail.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 10 Mar 2026 20:03:37 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65QfrYuv3mLnHneiv7hJX00zXhrRQ5ffLv0qDYiSf0E5w@mail.gmail.com>
+X-Gm-Features: AaiRm51dUfCJeT2mVGemMIzLa1HTaQCPrrr1QohizDFvRW1zlr0AxQq85bAXp8g
+Message-ID: <CAGb2v65QfrYuv3mLnHneiv7hJX00zXhrRQ5ffLv0qDYiSf0E5w@mail.gmail.com>
 Subject: Re: [PATCH v2] pinctrl: sunxi: Implement gpiochip::get_direction()
-To: Michal Piekos <michal.piekos@mmpsystems.pl>
-Cc: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>, 
+To: Linus Walleij <linusw@kernel.org>
+Cc: Michal Piekos <michal.piekos@mmpsystems.pl>, Jernej Skrabec <jernej@kernel.org>, 
 	Samuel Holland <samuel@sholland.org>, James Hilliard <james.hilliard1@gmail.com>, aprizel@wens.tw, 
 	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
@@ -60,40 +61,51 @@ Cc: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Mar 8, 2026 at 10:34=E2=80=AFAM Michal Piekos
-<michal.piekos@mmpsystems.pl> wrote:
-> On Tue, Feb 24, 2026 at 10:52:23AM +0100, Linus Walleij wrote:
-> > On Tue, Feb 24, 2026 at 10:24=E2=80=AFAM Chen-Yu Tsai <wens@kernel.org>=
- wrote:
-> >
-> > > After commit 471e998c0e31 ("gpiolib: remove redundant callback check"=
-),
-> > > a warning will be printed if the gpio driver does not implement this
-> > > callback. The warning was added in commit e623c4303ed1 ("gpiolib:
-> > > sanitize the return value of gpio_chip::get_direction()"), but was
-> > > masked by the "redundant" check.
-> > >
-> > > The warning can be triggered by any action that calls the callback,
-> > > such as dumping the GPIO state from /sys/kernel/debug/gpio.
-> > >
-> > > Implement it for the sunxi driver. This is simply a matter of reading
-> > > out the mux value from the registers, then checking if it is one of
-> > > the GPIO functions and which direction it is.
-> > >
-> > > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
-> > > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.co=
-m>
-> >
-> > Pulled out v1 of my tree and put in this one instead!
-> >
+On Tue, Mar 10, 2026 at 7:46=E2=80=AFPM Linus Walleij <linusw@kernel.org> w=
+rote:
 >
-> Please do not merge the correction yet. As I was pointed out by Jernej
-> Skrabec the solution is faulty and just cover the issue. I will provide
-> proper solution as soon as I find it.
+> On Sun, Mar 8, 2026 at 10:34=E2=80=AFAM Michal Piekos
+> <michal.piekos@mmpsystems.pl> wrote:
+> > On Tue, Feb 24, 2026 at 10:52:23AM +0100, Linus Walleij wrote:
+> > > On Tue, Feb 24, 2026 at 10:24=E2=80=AFAM Chen-Yu Tsai <wens@kernel.or=
+g> wrote:
+> > >
+> > > > After commit 471e998c0e31 ("gpiolib: remove redundant callback chec=
+k"),
+> > > > a warning will be printed if the gpio driver does not implement thi=
+s
+> > > > callback. The warning was added in commit e623c4303ed1 ("gpiolib:
+> > > > sanitize the return value of gpio_chip::get_direction()"), but was
+> > > > masked by the "redundant" check.
+> > > >
+> > > > The warning can be triggered by any action that calls the callback,
+> > > > such as dumping the GPIO state from /sys/kernel/debug/gpio.
+> > > >
+> > > > Implement it for the sunxi driver. This is simply a matter of readi=
+ng
+> > > > out the mux value from the registers, then checking if it is one of
+> > > > the GPIO functions and which direction it is.
+> > > >
+> > > > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+> > > > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > > Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.=
+com>
+> > >
+> > > Pulled out v1 of my tree and put in this one instead!
+> > >
+> >
+> > Please do not merge the correction yet. As I was pointed out by Jernej
+> > Skrabec the solution is faulty and just cover the issue. I will provide
+> > proper solution as soon as I find it.
+>
+> Too late, this is already upstream and I think that is how it was detecte=
+d.
+> Shall I queue a revert?
 
-Too late, this is already upstream and I think that is how it was detected.
-Shall I queue a revert?
+Michal sent a v2 fix [1]. It's more of a workaround though. See my reply [2=
+].
 
-Yours,
-Linus Walleij
+[1] https://lore.kernel.org/linux-sunxi/20260308-rc2-boot-hang-v2-1-516fdb8=
+20953@mmpsystems.pl/
+[2] https://lore.kernel.org/linux-sunxi/CAGb2v67FO1bt3yee2SXn1LTt7O10z1EHHw=
+7F0xQ0bKbpUqch4w@mail.gmail.com/
