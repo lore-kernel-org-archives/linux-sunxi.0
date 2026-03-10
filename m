@@ -1,61 +1,62 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C81AC3BA230
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 03:25:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17E03BD653
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 03:25:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773113157; cv=none; b=h4vIIwGS/T2Ttvailu6XouloWsgE1st6hWWaFIsCc4yOGvpuyDTLId9A1gfq8e45RMyt5sEyxj9ZKVr/FUu+/ztWrX17LMTPJMg9gTq17zWbKjXQQ1vRUEY0wYsDqjJ6pTSuaC8TVoxr4QTWQJrdmgShi6FmrQ8pzw9ykERuDyg=
+	t=1773113159; cv=none; b=dISJJbTjdUTF9eDnBFdSPIpqDsec1bM6SqQdDqjTX/KtaVyAPgcFQj+c/njpppHa6xPxJ4c2H70tFNZQ+/8hnbHUsuPYHzY/I9w9bk0fW+Xxk2OP6n/reuid3i1Fc+U1euWNmT28rO0sOMnEJdySlL7gsHEJvBqqYpr0R3d8zWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773113157; c=relaxed/simple;
-	bh=ZUTtKhFYUcr1uwQQLp+Ulkj0oKOWmg5PTveRDJGrDZg=;
+	s=arc-20240116; t=1773113159; c=relaxed/simple;
+	bh=rfD7Le/WZjv74zhcuW0yU+5NJ1RZ3lo7zccKLiSyBcI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OV8YuI7J3YovxO5SQRM4hwRXt84A2x5l3IlmAKWIEgvWuIKfZHebNCe3CNf4DpWxqgzZu6fWUB70PatCwhhkDbvje0iAQrh+L0mDoeD5l7k3LizlTQYCphWtF0ZjvA0zCjKDJpO+WEIitOWgQjCs9e+pbM6TrPVobn6nNsDSdLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=lFVgbNGO; arc=none smtp.client-ip=209.85.214.171
+	 MIME-Version; b=q0JAZGCwo/TOSR0SSar4MtlpkqKYMTbEQBFoYl9gqVImJxlUVYvsAtbSzX5uAaLHQQyuP9vQymu/qsx7ycG0T2lT0YPpakSItAm3aOHcAlUWlSq2R7EvuDzCUVMY1QC+lMIm+j+4uCdzrClQR/KAH1kabN8oF5K2su7Ha/nyEqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PkKw65oZ; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lFVgbNGO"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2ad617d5b80so82903145ad.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 09 Mar 2026 20:25:52 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PkKw65oZ"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2a8fba3f769so53812105ad.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 09 Mar 2026 20:25:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1773113152; x=1773717952; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1773113155; x=1773717955; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DhpK4GrpeMoLnC/DzcBviTqJRmg276GHAkV9Nol90pk=;
-        b=lFVgbNGOFRC0+2iOgfzgogp9TOq796NRoMJK5On59M5QhN2GB0r6AF+Y+mPcK4fewk
-         VZk1k1MX+iHJIRk7r31cmkrgpuRz2l4KOglC0YoVpjcyVSv9IIY19JhFmOutim8OaNoP
-         /50UObmEMYPlC8CGyeRn+y//uvx0upKJDLMXY=
+        bh=Y1z9EtizHwE3LeSySxAXfxT/FNlt1Ydhsh1vDf6WdY0=;
+        b=PkKw65oZZ+tLSuFV7rPjAJXgzkZHSPiIbNA7VLD3rTldv7BmwU4cb8fnNQpvSHJtnd
+         Q6A4NF8OEyaP0xoWe6HCPh51RLmBlWWXJeasjXzWwl+fOYis/65A4jC0mxQn9s3lAdPh
+         bSsNJjfS13rgUYHX+HekNp9h4bw6Q5p/RpyWA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773113152; x=1773717952;
+        d=1e100.net; s=20230601; t=1773113155; x=1773717955;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=DhpK4GrpeMoLnC/DzcBviTqJRmg276GHAkV9Nol90pk=;
-        b=PzO1JTxHTvIxZ41Vfsqrj/wifatf0FMVTLOytf0Eo2YVz35Cf9i+4m4g/ScaDO0Lts
-         BPL++7YX2ayuE7FpIFjdlmYu9/Y2TlQrBHK8VPXrSYfHMPpkOwg9XPQfvRnPVg5lNtNG
-         mmzjY1BtxKCaZDDXzf1GOHqe/wxOg3oXU2fGh6x6bItIlatEzWbz+jt6YR72Teob9fuQ
-         NiGUgrteqzxhmZvpOd9s3jzYtHEF5gy6R1KvmTzRRUuRyqWyX+ijoN4sjifhe6mV10sA
-         v3aWuYjnLqRBc6SCGtvzCGxkUJu+D5kp6viO3xbVKhP1EuUhI9krmw40ilRMiCujNlB8
-         jqMw==
-X-Forwarded-Encrypted: i=1; AJvYcCXYJTGDHlqvwCLQ3lJPIompk9MFH6GoKu+q9j2lEcn2HO6EyDhhXhToivdYW9SzKW3ZFYUkoGOdWCp2vA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyi+mzIhuxhkuoJzhvDPzTcsKSeAgfjVG53dbR1Vq8Ch8R3pUEy
-	o33vLbWQYvV72xFdU5Mx5+l403LsuyTpx1f4FTz0h/QABMOHRLKwB4TTK/Uz+ikOxA==
-X-Gm-Gg: ATEYQzzsUq/lkYxr8ELo76Y/zQo/zv3lGZoiVFs3n3Xn66okkiOE0GVfNtLbLf1vmVL
-	kmtGf/AeAJyrDh1Z9zhGdZk5jm5sL5SHiIQb8qMR0JuHqO+XXkpav+7nm4/aBkwK82X50KHMMCO
-	ZRLuuWsX+0glvOF//dL7hjovQ+O4Kj78D5vTiiKjKN+cMFbnv3RzCsEg43FIdC05+DqPfT4eZ5i
-	Gq/Dr671+gUdPymw53UVE/pTYDmZ9vbeH/ilmAmql3uJCAVa5lDzJmzDpEgBTzNnot8k2o27V9l
-	xpoYEJRJJG5oGIsgHWxE8IgcvJwebTjXV7xI+ocwJcifm+MTL6dQSvxS8tpqjxPyHJJReRj9MG2
-	WiJphf339oflAIcv5vxwnlLN6UvWAnBXAzWVnnRC0bwsC2O9SI0y7wQaLWLDwPpES3Ggo/Xz4be
-	tOGpqlCqPUDUf3j1HOodKcjkferFkQe18JWeakY+Y0DuEhHmYSNoLIc4CtAKhI62EbP68iqHoId
-	L5buddFugF/ysN99t0=
-X-Received: by 2002:a17:903:2308:b0:2ae:7ed6:7d15 with SMTP id d9443c01a7336-2ae824dd2camr135797415ad.28.1773113151793;
-        Mon, 09 Mar 2026 20:25:51 -0700 (PDT)
+        bh=Y1z9EtizHwE3LeSySxAXfxT/FNlt1Ydhsh1vDf6WdY0=;
+        b=Uomdb6WUhZIKeuXEvxE2aa1S7n/SFRDGUOPJ5WE1H4RpNhhrbl9jNC5k0Q5cq1eIvY
+         Ugk6Ulatg4rGTlJyI22vA86tgHrcCvaOpqs54XD+8SSvoK6ri6GcMZtL/HJgKsoKC/kO
+         nBxPY/gTiH5nXb3Q78Q3pvDskeAQ8VNZy53rSorjHAAX/c6S3WCV1fxTBHGysTF0FZoX
+         fjrhBg1AShq3sV+mez78Y/UwpHYhPnBzr7wmHXJD8rpFOQtbsju/X51dhJEUNFwh79Jt
+         gmhiJGBj7wKhGyEQnmObqSm850S6P1zjBeB+g33qhReTind8vRKrhlD29oyJ3NNDE/92
+         C3iA==
+X-Forwarded-Encrypted: i=1; AJvYcCUnSPNF/8WuBNYW0/R0+Wlmt2vtHz9UbTLUbtHHq5L88qTKEChqcAlb5RwLvEEeCrgNZCLW7S6qld0JLA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwmzOMJCMpdP+B6p1YIjJ2KbxYUqqaGl1rpCFPU/NVFYD4CD7Jr
+	NDN8ae3hLBFNmk6cvRlcK0jKl8Ty9fEIwZz/I+UB8qRH7bghhjQGFugFgmvUH+K9I6w3UZiEgRz
+	mdGk=
+X-Gm-Gg: ATEYQzzsPimNDpN3OBoZ2ZoH+QJGISSKNT0PHuKFY9LmKclGgI1TRXuk1Fph9u2SZUj
+	5kcpbcT8bTQvh9qfgwyKsmGcI/solH3bukKtZvTxMxxwMQTy2DiNE4qZXU22jaSVG4twQOAK68K
+	J6TUrdUvbmxdSBN6xUYIWmJMQO3/VbMyWXwI+4PM0vy1UwG76PNHP+Mo+scobkeuTAooT/CTu37
+	QTBM5DQNEHS5vfPmARtR+Pg0jmIROO4+7H/CtM+Y/Cg4ehyO6ZM3P+uc1HLEX6m9okJGes6asfD
+	gQjWRRAMji2a97UoPNAkrrBvw1mFei0YyOQGeZIOdgn4pk+JRj2ozAU1nVMJTMDVE1aWOnS10Nh
+	X0PB4E16cWESbje0muwK9S5JiP9gQ3P8l3Hxf5v7geKROaOVOKiRgo7EIWG83w1t7NAUUG1EN3E
+	Jo9C3WCXdlXbs/6F7ZnRrsxt0l/wdNKu6VbyRJPSY5CiVok7739TdxJcIakUoxZr9zJMe+yx/kH
+	B5te/kD
+X-Received: by 2002:a17:902:ec88:b0:2ae:54b2:27c7 with SMTP id d9443c01a7336-2ae82459ca5mr139254635ad.39.1773113155156;
+        Mon, 09 Mar 2026 20:25:55 -0700 (PDT)
 Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:ee38:e01e:e888:6900])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae83e575e6sm126695095ad.5.2026.03.09.20.25.48
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae83e575e6sm126695095ad.5.2026.03.09.20.25.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 20:25:51 -0700 (PDT)
+        Mon, 09 Mar 2026 20:25:54 -0700 (PDT)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Matthias Brugger <matthias.bgg@gmail.com>,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
@@ -76,9 +77,9 @@ Cc: Chen-Yu Tsai <wenst@chromium.org>,
 	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND 3/4] drm/mediatek: Set dedicated DMA device and drop custom GEM callbacks
-Date: Tue, 10 Mar 2026 11:25:08 +0800
-Message-ID: <20260310032511.2545500-4-wenst@chromium.org>
+Subject: [PATCH RESEND 4/4] drm/sun4i: Use backend/mixer as dedicated DMA device
+Date: Tue, 10 Mar 2026 11:25:09 +0800
+Message-ID: <20260310032511.2545500-5-wenst@chromium.org>
 X-Mailer: git-send-email 2.53.0.473.g4a7958ca14-goog
 In-Reply-To: <20260310032511.2545500-1-wenst@chromium.org>
 References: <20260310032511.2545500-1-wenst@chromium.org>
@@ -90,378 +91,107 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In commit 9b54a32c7c6a ("drm/mediatek: mtk_gem: Partial refactor and
-use drm_gem_dma_object") the MediaTek DRM driver was refactored to use
-drm_gem_dma_object, but custom callbacks were still needed to deal with
-using the first device of the pipeline as the DMA device, instead of
-the MMSYS device that the DRM driver binds to.
+The sun4i DRM driver deals with DMA constraints in a peculiar way.
+Instead of using the actual DMA device in various helpers, it justs
+reconfigures the DMA constraints of the virtual display device using
+the DMA device's device tree node by calling of_dma_configure().
 
-Turns out there is already partial support for dedicated DMA devices in
-the DRM subsystem for PRIME imports. The preceding patches add support
-for dedicated DMA devices to the GEM DMA helpers.
+Turns out of_dma_configure() should only be called from bus code.
+Lately this also triggers a big warning through of_iommu_configure()
+and ultimately __iommu_probe_device():
 
-This allows us to just set the dedicated DMA device for the DRM device,
-and drop all the custom GEM callbacks. Also drop the .dma_dev field
-from the driver private data as it is no longer needed.
+    late IOMMU probe at driver bind, something fishy here!
 
-There are slight differences in the mmap helper: the VM_DONTDUMP and
-VM_IO flags are no longer set. Both were lifted from drm_gem_mmap_obj().
-VM_IO probably doesn't make sense since the buffer is allocated using
-dma_alloc_attrs().
+Now that the GEM DMA helpers have proper support for allocating
+and mapping buffers with a dedicated DMA device, switch over to
+it as the proper solution.
+
+The mixer change was tested on a Pine H64 model B. The backend change
+was only compile tested. Though I don't expect any issues, help testing
+on an older device would be appreciated.
 
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
- drivers/gpu/drm/mediatek/mtk_crtc.c    |   1 -
- drivers/gpu/drm/mediatek/mtk_drm_drv.c |  21 +--
- drivers/gpu/drm/mediatek/mtk_drm_drv.h |   1 -
- drivers/gpu/drm/mediatek/mtk_gem.c     | 231 -------------------------
- drivers/gpu/drm/mediatek/mtk_gem.h     |  17 --
- 5 files changed, 3 insertions(+), 268 deletions(-)
- delete mode 100644 drivers/gpu/drm/mediatek/mtk_gem.c
- delete mode 100644 drivers/gpu/drm/mediatek/mtk_gem.h
+ drivers/gpu/drm/sun4i/sun4i_backend.c | 27 +++++++++++++++------------
+ drivers/gpu/drm/sun4i/sun8i_mixer.c   | 27 +++++++++++++++------------
+ 2 files changed, 30 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_crtc.c b/drivers/gpu/drm/mediatek/mtk_crtc.c
-index 351d58c50b84..fcb16f3f7b23 100644
---- a/drivers/gpu/drm/mediatek/mtk_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_crtc.c
-@@ -23,7 +23,6 @@
- #include "mtk_crtc.h"
- #include "mtk_ddp_comp.h"
- #include "mtk_drm_drv.h"
--#include "mtk_gem.h"
- #include "mtk_plane.h"
+diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
+index 6391bdc94a5c..a57fb5151def 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_backend.c
++++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
+@@ -798,18 +798,21 @@ static int sun4i_backend_bind(struct device *dev, struct device *master,
+ 	dev_set_drvdata(dev, backend);
+ 	spin_lock_init(&backend->frontend_lock);
  
- /*
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index a94c51a83261..6f6db2e1980e 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -19,6 +19,7 @@
- #include <drm/drm_fbdev_dma.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_ioctl.h>
- #include <drm/drm_of.h>
-@@ -29,7 +30,6 @@
- #include "mtk_ddp_comp.h"
- #include "mtk_disp_drv.h"
- #include "mtk_drm_drv.h"
--#include "mtk_gem.h"
+-	if (of_property_present(dev->of_node, "interconnects")) {
+-		/*
+-		 * This assume we have the same DMA constraints for all our the
+-		 * devices in our pipeline (all the backends, but also the
+-		 * frontends). This sounds bad, but it has always been the case
+-		 * for us, and DRM doesn't do per-device allocation either, so
+-		 * we would need to fix DRM first...
+-		 */
+-		ret = of_dma_configure(drm->dev, dev->of_node, true);
+-		if (ret)
+-			return ret;
+-	}
++	/*
++	 * This assume we have the same DMA constraints for all our the
++	 * devices in our pipeline (all the backends, but also the
++	 * frontends). This sounds bad, but it has always been the case
++	 * for us, and DRM doesn't do per-device allocation either, so
++	 * we would need to fix DRM first...
++	 *
++	 * Always use the first bound backend as the DMA device. While
++	 * our device trees always have all backends enabled, some in
++	 * the wild may actually have the first one disabled. If both
++	 * are enabled, the order in which they are bound is guaranteed
++	 * since the driver adds components in order.
++	 */
++	if (drm_dev_dma_dev(drm) == drm->dev)
++		drm_dev_set_dma_dev(drm, dev);
  
- #define DRIVER_NAME "mediatek"
- #define DRIVER_DESC "Mediatek SoC DRM"
-@@ -565,8 +565,7 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- 		goto err_component_unbind;
- 	}
+ 	backend->engine.node = dev->of_node;
+ 	backend->engine.ops = &sun4i_backend_engine_ops;
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+index 02acc7cbdb97..4071ab38b4ae 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+@@ -536,18 +536,21 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
+ 	mixer->engine.ops = &sun8i_engine_ops;
+ 	mixer->engine.node = dev->of_node;
  
--	for (i = 0; i < private->data->mmsys_dev_num; i++)
--		private->all_drm_private[i]->dma_dev = dma_dev;
-+	drm_dev_set_dma_dev(drm, dma_dev);
+-	if (of_property_present(dev->of_node, "iommus")) {
+-		/*
+-		 * This assume we have the same DMA constraints for
+-		 * all our the mixers in our pipeline. This sounds
+-		 * bad, but it has always been the case for us, and
+-		 * DRM doesn't do per-device allocation either, so we
+-		 * would need to fix DRM first...
+-		 */
+-		ret = of_dma_configure(drm->dev, dev->of_node, true);
+-		if (ret)
+-			return ret;
+-	}
++	/*
++	 * This assume we have the same DMA constraints for all our the
++	 * devices in our pipeline (all the backends, but also the
++	 * frontends). This sounds bad, but it has always been the case
++	 * for us, and DRM doesn't do per-device allocation either, so
++	 * we would need to fix DRM first...
++	 *
++	 * Always use the first bound backend as the DMA device. While
++	 * our device trees always have all backends enabled, some in
++	 * the wild may actually have the first one disabled. If both
++	 * are enabled, the order in which they are bound is guaranteed
++	 * since the driver adds components in order.
++	 */
++	if (drm_dev_dma_dev(drm) == drm->dev)
++		drm_dev_set_dma_dev(drm, dev);
  
  	/*
- 	 * Configure the DMA segment size to make sure we get contiguous IOVA
-@@ -600,26 +599,12 @@ static void mtk_drm_kms_deinit(struct drm_device *drm)
- 
- DEFINE_DRM_GEM_FOPS(mtk_drm_fops);
- 
--/*
-- * We need to override this because the device used to import the memory is
-- * not dev->dev, as drm_gem_prime_import() expects.
-- */
--static struct drm_gem_object *mtk_gem_prime_import(struct drm_device *dev,
--						   struct dma_buf *dma_buf)
--{
--	struct mtk_drm_private *private = dev->dev_private;
--
--	return drm_gem_prime_import_dev(dev, dma_buf, private->dma_dev);
--}
--
- static const struct drm_driver mtk_drm_driver = {
- 	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
- 
--	.dumb_create = mtk_gem_dumb_create,
-+	DRM_GEM_DMA_DRIVER_OPS,
- 	DRM_FBDEV_DMA_DRIVER_OPS,
- 
--	.gem_prime_import = mtk_gem_prime_import,
--	.gem_prime_import_sg_table = mtk_gem_prime_import_sg_table,
- 	.fops = &mtk_drm_fops,
- 
- 	.name = DRIVER_NAME,
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-index 675cdc90a440..1fc3df4b5485 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-@@ -54,7 +54,6 @@ struct mtk_mmsys_driver_data {
- 
- struct mtk_drm_private {
- 	struct drm_device *drm;
--	struct device *dma_dev;
- 	bool mtk_drm_bound;
- 	bool drm_master;
- 	struct device *dev;
-diff --git a/drivers/gpu/drm/mediatek/mtk_gem.c b/drivers/gpu/drm/mediatek/mtk_gem.c
-deleted file mode 100644
-index f059a1452220..000000000000
---- a/drivers/gpu/drm/mediatek/mtk_gem.c
-+++ /dev/null
-@@ -1,231 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * Copyright (c) 2015 MediaTek Inc.
-- * Copyright (c) 2025 Collabora Ltd.
-- *                    AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-- */
--
--#include <linux/dma-buf.h>
--#include <linux/vmalloc.h>
--
--#include <drm/drm.h>
--#include <drm/drm_device.h>
--#include <drm/drm_gem.h>
--#include <drm/drm_gem_dma_helper.h>
--#include <drm/drm_prime.h>
--#include <drm/drm_print.h>
--
--#include "mtk_drm_drv.h"
--#include "mtk_gem.h"
--
--static int mtk_gem_object_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
--
--static void mtk_gem_free_object(struct drm_gem_object *obj)
--{
--	struct drm_gem_dma_object *dma_obj = to_drm_gem_dma_obj(obj);
--	struct mtk_drm_private *priv = obj->dev->dev_private;
--
--	if (dma_obj->sgt)
--		drm_prime_gem_destroy(obj, dma_obj->sgt);
--	else
--		dma_free_wc(priv->dma_dev, dma_obj->base.size,
--			    dma_obj->vaddr, dma_obj->dma_addr);
--
--	/* release file pointer to gem object. */
--	drm_gem_object_release(obj);
--
--	kfree(dma_obj);
--}
--
--/*
-- * Allocate a sg_table for this GEM object.
-- * Note: Both the table's contents, and the sg_table itself must be freed by
-- *       the caller.
-- * Returns a pointer to the newly allocated sg_table, or an ERR_PTR() error.
-- */
--static struct sg_table *mtk_gem_prime_get_sg_table(struct drm_gem_object *obj)
--{
--	struct drm_gem_dma_object *dma_obj = to_drm_gem_dma_obj(obj);
--	struct mtk_drm_private *priv = obj->dev->dev_private;
--	struct sg_table *sgt;
--	int ret;
--
--	sgt = kzalloc_obj(*sgt);
--	if (!sgt)
--		return ERR_PTR(-ENOMEM);
--
--	ret = dma_get_sgtable(priv->dma_dev, sgt, dma_obj->vaddr,
--			      dma_obj->dma_addr, obj->size);
--	if (ret) {
--		DRM_ERROR("failed to allocate sgt, %d\n", ret);
--		kfree(sgt);
--		return ERR_PTR(ret);
--	}
--
--	return sgt;
--}
--
--static const struct drm_gem_object_funcs mtk_gem_object_funcs = {
--	.free = mtk_gem_free_object,
--	.print_info = drm_gem_dma_object_print_info,
--	.get_sg_table = mtk_gem_prime_get_sg_table,
--	.vmap = drm_gem_dma_object_vmap,
--	.mmap = mtk_gem_object_mmap,
--	.vm_ops = &drm_gem_dma_vm_ops,
--};
--
--static struct drm_gem_dma_object *mtk_gem_init(struct drm_device *dev,
--					unsigned long size, bool private)
--{
--	struct drm_gem_dma_object *dma_obj;
--	int ret;
--
--	size = round_up(size, PAGE_SIZE);
--
--	if (size == 0)
--		return ERR_PTR(-EINVAL);
--
--	dma_obj = kzalloc_obj(*dma_obj);
--	if (!dma_obj)
--		return ERR_PTR(-ENOMEM);
--
--	dma_obj->base.funcs = &mtk_gem_object_funcs;
--
--	if (private) {
--		ret = 0;
--		drm_gem_private_object_init(dev, &dma_obj->base, size);
--	} else {
--		ret = drm_gem_object_init(dev, &dma_obj->base, size);
--	}
--	if (ret) {
--		DRM_ERROR("failed to initialize gem object\n");
--		kfree(dma_obj);
--		return ERR_PTR(ret);
--	}
--
--	return dma_obj;
--}
--
--static struct drm_gem_dma_object *mtk_gem_create(struct drm_device *dev, size_t size)
--{
--	struct mtk_drm_private *priv = dev->dev_private;
--	struct drm_gem_dma_object *dma_obj;
--	struct drm_gem_object *obj;
--	int ret;
--
--	dma_obj = mtk_gem_init(dev, size, false);
--	if (IS_ERR(dma_obj))
--		return ERR_CAST(dma_obj);
--
--	obj = &dma_obj->base;
--
--	dma_obj->vaddr = dma_alloc_wc(priv->dma_dev, obj->size,
--				      &dma_obj->dma_addr,
--				      GFP_KERNEL | __GFP_NOWARN);
--	if (!dma_obj->vaddr) {
--		DRM_ERROR("failed to allocate %zx byte dma buffer", obj->size);
--		ret = -ENOMEM;
--		goto err_gem_free;
--	}
--
--	DRM_DEBUG_DRIVER("vaddr = %p dma_addr = %pad size = %zu\n",
--			 dma_obj->vaddr, &dma_obj->dma_addr,
--			 size);
--
--	return dma_obj;
--
--err_gem_free:
--	drm_gem_object_release(obj);
--	kfree(dma_obj);
--	return ERR_PTR(ret);
--}
--
--int mtk_gem_dumb_create(struct drm_file *file_priv, struct drm_device *dev,
--			struct drm_mode_create_dumb *args)
--{
--	struct drm_gem_dma_object *dma_obj;
--	int ret;
--
--	args->pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
--
--	/*
--	 * Multiply 2 variables of different types,
--	 * for example: args->size = args->spacing * args->height;
--	 * may cause coverity issue with unintentional overflow.
--	 */
--	args->size = args->pitch;
--	args->size *= args->height;
--
--	dma_obj = mtk_gem_create(dev, args->size);
--	if (IS_ERR(dma_obj))
--		return PTR_ERR(dma_obj);
--
--	/*
--	 * allocate a id of idr table where the obj is registered
--	 * and handle has the id what user can see.
--	 */
--	ret = drm_gem_handle_create(file_priv, &dma_obj->base, &args->handle);
--	if (ret)
--		goto err_handle_create;
--
--	/* drop reference from allocate - handle holds it now. */
--	drm_gem_object_put(&dma_obj->base);
--
--	return 0;
--
--err_handle_create:
--	mtk_gem_free_object(&dma_obj->base);
--	return ret;
--}
--
--static int mtk_gem_object_mmap(struct drm_gem_object *obj,
--			       struct vm_area_struct *vma)
--
--{
--	struct drm_gem_dma_object *dma_obj = to_drm_gem_dma_obj(obj);
--	struct mtk_drm_private *priv = obj->dev->dev_private;
--	int ret;
--
--	/*
--	 * Set vm_pgoff (used as a fake buffer offset by DRM) to 0 and map the
--	 * whole buffer from the start.
--	 */
--	vma->vm_pgoff -= drm_vma_node_start(&obj->vma_node);
--
--	/*
--	 * dma_alloc_attrs() allocated a struct page table for mtk_gem, so clear
--	 * VM_PFNMAP flag that was set by drm_gem_mmap_obj()/drm_gem_mmap().
--	 */
--	vm_flags_mod(vma, VM_IO | VM_DONTEXPAND | VM_DONTDUMP, VM_PFNMAP);
--
--	vma->vm_page_prot = pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
--	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
--
--	ret = dma_mmap_wc(priv->dma_dev, vma, dma_obj->vaddr,
--			  dma_obj->dma_addr, obj->size);
--	if (ret)
--		drm_gem_vm_close(vma);
--
--	return ret;
--}
--
--struct drm_gem_object *mtk_gem_prime_import_sg_table(struct drm_device *dev,
--			struct dma_buf_attachment *attach, struct sg_table *sgt)
--{
--	struct drm_gem_dma_object *dma_obj;
--
--	/* check if the entries in the sg_table are contiguous */
--	if (drm_prime_get_contiguous_size(sgt) < attach->dmabuf->size) {
--		DRM_ERROR("sg_table is not contiguous");
--		return ERR_PTR(-EINVAL);
--	}
--
--	dma_obj = mtk_gem_init(dev, attach->dmabuf->size, true);
--	if (IS_ERR(dma_obj))
--		return ERR_CAST(dma_obj);
--
--	dma_obj->dma_addr = sg_dma_address(sgt->sgl);
--	dma_obj->sgt = sgt;
--
--	return &dma_obj->base;
--}
-diff --git a/drivers/gpu/drm/mediatek/mtk_gem.h b/drivers/gpu/drm/mediatek/mtk_gem.h
-deleted file mode 100644
-index afebc3a970a8..000000000000
---- a/drivers/gpu/drm/mediatek/mtk_gem.h
-+++ /dev/null
-@@ -1,17 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * Copyright (c) 2015 MediaTek Inc.
-- */
--
--#ifndef _MTK_GEM_H_
--#define _MTK_GEM_H_
--
--#include <drm/drm_gem.h>
--#include <drm/drm_gem_dma_helper.h>
--
--int mtk_gem_dumb_create(struct drm_file *file_priv, struct drm_device *dev,
--			struct drm_mode_create_dumb *args);
--struct drm_gem_object *mtk_gem_prime_import_sg_table(struct drm_device *dev,
--			struct dma_buf_attachment *attach, struct sg_table *sg);
--
--#endif
+ 	 * While this function can fail, we shouldn't do anything
 -- 
 2.53.0.473.g4a7958ca14-goog
 
