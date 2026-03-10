@@ -1,111 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F1729D281
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 12:03:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2073570C8;
+	Tue, 10 Mar 2026 19:41:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773144235; cv=none; b=HPAGLmYcevsPmX8HXjmpBUV6QFtjsbIiMSI5LXX1pFZKYrf6+5/KaNFiIw9/OPrwvlVsaFSd/l2JZHgKKi/2HFPMvQlScOF8I2jsD338KDAPWiU4hWnhuIsipAQUPRc4RjSlOmwgEiKcM8oVbDwmhYJ3AjIyL5I+5a45pUTfUjA=
+	t=1773171667; cv=none; b=FxKscXzOuujfmj80UrVUS0/qiWmI1QUILd2EZlEx63wGfvvgB7AxXW/BdGERuNdqlCiZ5Slv8JDrsr4GYzRhYY4fbPAPKDIIzCv4sOCHNG7sdn541FmQ/TpFdekXusrm3q68K14VG9GCoQZZTzkv+B80dI+9LyP/sVRMYfEua3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773144235; c=relaxed/simple;
-	bh=ejvKQJ0BUEIYO8YyNFJZK6EePkf04xdfkGOlJrEYICI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Km6mPrjCGyXB9Huc7+K//XV1+kgw5HNb4RfopJmc9gIAnPU+kBjmuKqsJVy3PJCS7ColBVCSqCc5hkwKdyO/pjwZ/PlxWb7DS7nKsfNjJYzRc1B49qAuPuN5AOa9DONxEh1F4kLCZBTShMJZ0T9mc9m2hDwRRV7m1gN/qU8NdNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pnn/vg+W; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773171667; c=relaxed/simple;
+	bh=VHLDxVEfpFap8ExrVtZQHAWAnOhE6qoyz8I5ymlzcVA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=TDMtvDM1UxN8I+7d9JMPAIptbUej4bvIX+vf4NocMkRiaHukIlddNxjtzc3lV/xraRChGY9+5DUOVm/tPKlYPdxiGlc/c/xMEhrqredp1mGmaUaNsoT/bJqkgsyvlVxZjMZODUuwuMX02TAJJ3Igbeq9Co/GjZTIPuVDwY9rgwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ffs/zfmy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pnn/vg+W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 663ADC2BCB6
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 12:03:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ffs/zfmy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A799C2BCB0;
+	Tue, 10 Mar 2026 19:41:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773144235;
-	bh=ejvKQJ0BUEIYO8YyNFJZK6EePkf04xdfkGOlJrEYICI=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=Pnn/vg+WltwVVTkjJiM19hHcrRXtoPtor7C23uNtus7c+cIENikuD5uQXzzOrKwAe
-	 Mepx7a0s9FmnahpgfvnIi2YoN1TDpeNh9T1d8gWWRw03kRr5JaZxm57G4YENIPOQZe
-	 5wx0XL96edi28WWewbAbGHF9U31NfzmSCzig+7x5ltEGOTy72udE8QNzEC+tJD9vqf
-	 W6JSH/fT28hmdOn79e7H5T5W0oc0K+M1HZPLJW2oZES2Tbt94JkEPzdeEnQKc2cttc
-	 o1ObXW9bSnBqUu2uFdmd3yTKy+7X1715NyfX1J7QV3sUSDnOn2tUCJe5wEl5KscpId
-	 bK8J93Z5BEB1A==
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-38a3066b68bso65672071fa.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 05:03:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU5dQF5E4BiEpQyZrwEjtO+lwDQLLB89o0Utr6a/cn8SJvLZLLUrpgwpWWev7+aE1ojlR866nXyZYaQ1Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxegz6QerBQ5oDP31apX33ocS3G/Ei1URMF8GTjxtrW2CiOLHGU
-	Tg68CBsZJErTvpaa1wn56C8Ptw2fLB5G+glgKwNU7bGw+JReB01riAv9jjKX8K5PmJMOPr0FdUw
-	V8oWhstpmdz+GbpDgkmbzEP5WhOKxWd4=
-X-Received: by 2002:a2e:a546:0:b0:38a:5402:a9e9 with SMTP id
- 38308e7fff4ca-38a5402af62mr27099711fa.5.1773144233600; Tue, 10 Mar 2026
- 05:03:53 -0700 (PDT)
+	s=k20201202; t=1773171666;
+	bh=VHLDxVEfpFap8ExrVtZQHAWAnOhE6qoyz8I5ymlzcVA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Ffs/zfmyAb/NGz+7KkRXysxhmryLJTWI+lj0cyr0TBPbJVJq/swryCAYnI1Kl3xzy
+	 juULVsbdf+tYbC4wJDO27DFEWHFGytLAAKz3/kp5kZWd/WewGjOtrY2HOsQM+nTyKi
+	 Bqcj2gx+NO7RLGI7vvkzoVA9VeICAPpsTQSmsqHOSGXAxYrpsYd/VAj6FljxhkZSRN
+	 PLyrweThdivoH9954OI/e4yGqzmWWlP7QqEq8obQOgKQQCnDWDAkgGFmC60z9ji0ZW
+	 WCQy6sLWGIS4qk+ZsTkAUEz6KlRe46k6thEOFZOf6Vpw1d7wSobgNUBJ/yz1KqFUmi
+	 O9bzqg+pFu1XQ==
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Chen-Yu Tsai <wens@kernel.org>
+Cc: Jernej Skrabec <jernej@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+In-Reply-To: <20260302152724.3197587-1-wens@kernel.org>
+References: <20260302152724.3197587-1-wens@kernel.org>
+Subject: Re: [PATCH v2 0/3] arm64: dts: allwinner: sun55i-t527: avaota-a1:
+ Enable LEDs
+Message-Id: <177317166417.379398.16412478026363950825.b4-ty@kernel.org>
+Date: Wed, 11 Mar 2026 03:41:04 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260224092419.1275016-1-wens@kernel.org> <CAD++jLnKxDi1GCp94zAUKhwBvQwVAdT8bgNyw5XM2+PTOhxq1Q@mail.gmail.com>
- <3x55nsighrqdo7al2n5imlov5yoti6z7jxrj7yieeghyqkllvb@akbuob4n37pq> <CAD++jLkEKprZ_qraCSMq2Zcz7ueiJaOEX6iQnMk9=Su-LbO6xA@mail.gmail.com>
-In-Reply-To: <CAD++jLkEKprZ_qraCSMq2Zcz7ueiJaOEX6iQnMk9=Su-LbO6xA@mail.gmail.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 10 Mar 2026 20:03:37 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65QfrYuv3mLnHneiv7hJX00zXhrRQ5ffLv0qDYiSf0E5w@mail.gmail.com>
-X-Gm-Features: AaiRm51dUfCJeT2mVGemMIzLa1HTaQCPrrr1QohizDFvRW1zlr0AxQq85bAXp8g
-Message-ID: <CAGb2v65QfrYuv3mLnHneiv7hJX00zXhrRQ5ffLv0qDYiSf0E5w@mail.gmail.com>
-Subject: Re: [PATCH v2] pinctrl: sunxi: Implement gpiochip::get_direction()
-To: Linus Walleij <linusw@kernel.org>
-Cc: Michal Piekos <michal.piekos@mmpsystems.pl>, Jernej Skrabec <jernej@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, James Hilliard <james.hilliard1@gmail.com>, aprizel@wens.tw, 
-	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Tue, Mar 10, 2026 at 7:46=E2=80=AFPM Linus Walleij <linusw@kernel.org> w=
-rote:
->
-> On Sun, Mar 8, 2026 at 10:34=E2=80=AFAM Michal Piekos
-> <michal.piekos@mmpsystems.pl> wrote:
-> > On Tue, Feb 24, 2026 at 10:52:23AM +0100, Linus Walleij wrote:
-> > > On Tue, Feb 24, 2026 at 10:24=E2=80=AFAM Chen-Yu Tsai <wens@kernel.or=
-g> wrote:
-> > >
-> > > > After commit 471e998c0e31 ("gpiolib: remove redundant callback chec=
-k"),
-> > > > a warning will be printed if the gpio driver does not implement thi=
-s
-> > > > callback. The warning was added in commit e623c4303ed1 ("gpiolib:
-> > > > sanitize the return value of gpio_chip::get_direction()"), but was
-> > > > masked by the "redundant" check.
-> > > >
-> > > > The warning can be triggered by any action that calls the callback,
-> > > > such as dumping the GPIO state from /sys/kernel/debug/gpio.
-> > > >
-> > > > Implement it for the sunxi driver. This is simply a matter of readi=
-ng
-> > > > out the mux value from the registers, then checking if it is one of
-> > > > the GPIO functions and which direction it is.
-> > > >
-> > > > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
-> > > > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > > Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.=
-com>
-> > >
-> > > Pulled out v1 of my tree and put in this one instead!
-> > >
-> >
-> > Please do not merge the correction yet. As I was pointed out by Jernej
-> > Skrabec the solution is faulty and just cover the issue. I will provide
-> > proper solution as soon as I find it.
->
-> Too late, this is already upstream and I think that is how it was detecte=
-d.
-> Shall I queue a revert?
+On Mon, 02 Mar 2026 23:27:19 +0800, Chen-Yu Tsai wrote:
+> This is v2 of my A523 LED controller enablement series.
+> 
+> Changes since v1:
+> - Rebased onto next-20260226 to get rid of unmerged context
+> - Collected tags
+> - Link to v1:
+>   https://lore.kernel.org/linux-sunxi/20260225160828.1687643-1-wens@kernel.org/
+> 
+> [...]
 
-Michal sent a v2 fix [1]. It's more of a workaround though. See my reply [2=
-].
+Applied to sunxi/dt-for-7.1 in local tree, thanks!
 
-[1] https://lore.kernel.org/linux-sunxi/20260308-rc2-boot-hang-v2-1-516fdb8=
-20953@mmpsystems.pl/
-[2] https://lore.kernel.org/linux-sunxi/CAGb2v67FO1bt3yee2SXn1LTt7O10z1EHHw=
-7F0xQ0bKbpUqch4w@mail.gmail.com/
+[1/3] dt-bindings: leds: sun50i-a100: Add compatible for Allwinner A523 SoC
+      commit: 7cb259eacc08df8e5d1b17e6a75a19518e5de7ca
+[2/3] arm64: dts: allwinner: sun55i-a523: Add LED controller
+      commit: 24cd5a81771d8213abb7494245a7f320a6e75e52
+[3/3] arm64: dts: allwinner: sun55i-t527: avaota-a1: Enable LEDs
+      commit: cc68a8a3f89c18bdbce33a449c31e6467a3cbcfa
+
+Best regards,
+-- 
+Chen-Yu Tsai <wens@kernel.org>
+
