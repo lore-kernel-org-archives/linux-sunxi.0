@@ -1,46 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2073570C8;
-	Tue, 10 Mar 2026 19:41:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D637635836A;
+	Tue, 10 Mar 2026 19:41:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773171667; cv=none; b=FxKscXzOuujfmj80UrVUS0/qiWmI1QUILd2EZlEx63wGfvvgB7AxXW/BdGERuNdqlCiZ5Slv8JDrsr4GYzRhYY4fbPAPKDIIzCv4sOCHNG7sdn541FmQ/TpFdekXusrm3q68K14VG9GCoQZZTzkv+B80dI+9LyP/sVRMYfEua3E=
+	t=1773171669; cv=none; b=fRMcFF6wED+iTZCF8EKFSLw2kYFlI0jKclmuHjMhm5jMkxJjjabIcTDy+CmeCQj4EnboPpvlpCXAaxsEL+GkQmemumfg5nXxBhUP3yDpCUrQKEWx4Y6HUCNxs8/UYq/6Xd5USkMNFlpk5JJWpJmqyOQmCFYMmNaho1aiTGR8IpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773171667; c=relaxed/simple;
-	bh=VHLDxVEfpFap8ExrVtZQHAWAnOhE6qoyz8I5ymlzcVA=;
+	s=arc-20240116; t=1773171669; c=relaxed/simple;
+	bh=uRuTui0xDsqEK6tmEHWYymsoNQxWbfPW1yTO/F4Fpfw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=TDMtvDM1UxN8I+7d9JMPAIptbUej4bvIX+vf4NocMkRiaHukIlddNxjtzc3lV/xraRChGY9+5DUOVm/tPKlYPdxiGlc/c/xMEhrqredp1mGmaUaNsoT/bJqkgsyvlVxZjMZODUuwuMX02TAJJ3Igbeq9Co/GjZTIPuVDwY9rgwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ffs/zfmy; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=nlhFJNXG3m0PgngampslsztT4mOsuIeYnyhkGQocrukUlFt92C34RViAGkb9ulNs9yshXFAZMcBJhzmBhPc+v03vpW1JrOX31GxShqTjAfW3Tu7i6nahoY8kdCnByVlXnncwCySc41tWIJy9qKki//JgXG2+aDdqmCpPKJG5xHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P9pyI3B0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ffs/zfmy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A799C2BCB0;
-	Tue, 10 Mar 2026 19:41:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P9pyI3B0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54CBCC19423;
+	Tue, 10 Mar 2026 19:41:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773171666;
-	bh=VHLDxVEfpFap8ExrVtZQHAWAnOhE6qoyz8I5ymlzcVA=;
+	s=k20201202; t=1773171669;
+	bh=uRuTui0xDsqEK6tmEHWYymsoNQxWbfPW1yTO/F4Fpfw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Ffs/zfmyAb/NGz+7KkRXysxhmryLJTWI+lj0cyr0TBPbJVJq/swryCAYnI1Kl3xzy
-	 juULVsbdf+tYbC4wJDO27DFEWHFGytLAAKz3/kp5kZWd/WewGjOtrY2HOsQM+nTyKi
-	 Bqcj2gx+NO7RLGI7vvkzoVA9VeICAPpsTQSmsqHOSGXAxYrpsYd/VAj6FljxhkZSRN
-	 PLyrweThdivoH9954OI/e4yGqzmWWlP7QqEq8obQOgKQQCnDWDAkgGFmC60z9ji0ZW
-	 WCQy6sLWGIS4qk+ZsTkAUEz6KlRe46k6thEOFZOf6Vpw1d7wSobgNUBJ/yz1KqFUmi
-	 O9bzqg+pFu1XQ==
+	b=P9pyI3B0o0kr1YSj6A7xUWAiervv+2glz9ZVyWFtQZvl42Zs5tdmmBEkGSR9Rs1au
+	 K7U4og2f6wLlckHdZc1bo/WmaUr/pgwIo84EJQgiYDe2+/blYLrx+7i3SliM30WK5D
+	 KPH4E1fQ2LGWEJ5f8CBzx2X5HG5oQlslz4ldboj7FF+kuvHOcaRS/CF3tb54DDxz/e
+	 zgl1kCoJ7hd2X2SkzSJlhExQDGYaROgJR1JDk2s+LoD2i41SWoq+W/EwngPC/cIezk
+	 auWwrio2KAqSCqJC9jXpXX98hfSTNpwmy7sSwLIUS7JNJgRMtlfFgTZ8psU1VarOHo
+	 SpGgE+PI2FYVg==
 From: Chen-Yu Tsai <wens@kernel.org>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+To: Jernej Skrabec <jernej@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, Mark Brown <broonie@kernel.org>, 
  Chen-Yu Tsai <wens@kernel.org>
-Cc: Jernej Skrabec <jernej@kernel.org>, 
- Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-In-Reply-To: <20260302152724.3197587-1-wens@kernel.org>
-References: <20260302152724.3197587-1-wens@kernel.org>
-Subject: Re: [PATCH v2 0/3] arm64: dts: allwinner: sun55i-t527: avaota-a1:
- Enable LEDs
-Message-Id: <177317166417.379398.16412478026363950825.b4-ty@kernel.org>
-Date: Wed, 11 Mar 2026 03:41:04 +0800
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, linux-sunxi@lists.linux.dev, 
+ devicetree@vger.kernel.org, linux-spi@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260302153559.3199783-1-wens@kernel.org>
+References: <20260302153559.3199783-1-wens@kernel.org>
+Subject: Re: [PATCH v2 0/3] arm64: allwinner: sun55i-t527: avaota-a1: Add
+ SPI NAND
+Message-Id: <177317166704.379398.1719490251066452420.b4-ty@kernel.org>
+Date: Wed, 11 Mar 2026 03:41:07 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -51,25 +50,27 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14.2
 
-On Mon, 02 Mar 2026 23:27:19 +0800, Chen-Yu Tsai wrote:
-> This is v2 of my A523 LED controller enablement series.
+On Mon, 02 Mar 2026 23:35:55 +0800, Chen-Yu Tsai wrote:
+> This is v2 of my Avaota A1 SPI NAND enablement series.
 > 
 > Changes since v1:
-> - Rebased onto next-20260226 to get rid of unmerged context
+> - DT bindings (Krzysztof)
+>   - Moved "allOf:" block after "required:" block
+>   - Dropped "type:" from child node in conditional block
 > - Collected tags
 > - Link to v1:
->   https://lore.kernel.org/linux-sunxi/20260225160828.1687643-1-wens@kernel.org/
+>   https://lore.kernel.org/linux-sunxi/20260227175157.2339758-1-wens@kernel.org/
 > 
 > [...]
 
 Applied to sunxi/dt-for-7.1 in local tree, thanks!
 
-[1/3] dt-bindings: leds: sun50i-a100: Add compatible for Allwinner A523 SoC
-      commit: 7cb259eacc08df8e5d1b17e6a75a19518e5de7ca
-[2/3] arm64: dts: allwinner: sun55i-a523: Add LED controller
-      commit: 24cd5a81771d8213abb7494245a7f320a6e75e52
-[3/3] arm64: dts: allwinner: sun55i-t527: avaota-a1: Enable LEDs
-      commit: cc68a8a3f89c18bdbce33a449c31e6467a3cbcfa
+[1/3] spi: dt-bindings: sun6i: Allow Dual SPI and Quad SPI for newer SoCs
+      commit: e2f93f45d38f7b6dacb44203cfc7bb5d7e287b8e
+[2/3] arm64: dts: allwinner: sun55i-a523: Add pinmux for spi0 on PJ pins
+      commit: 1a5ff6a0a8c2a0dc9f2d55039997c1cd928eb53c
+[3/3] arm64: dts: allwinner: sun55i-t527: avaota-a1: Add SPI NAND
+      commit: 1b07332bf2ee816130e139a8966d312bf1aa32f9
 
 Best regards,
 -- 
