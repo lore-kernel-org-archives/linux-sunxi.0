@@ -1,124 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB6F3ACA4B
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 02:45:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25E32E9757
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 03:20:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773110716; cv=none; b=EGjdVM36u5yvEjsgEqgV4OAgJxkKkzyp4HEMbyKW69RzVIFl3jJz74IdwtNgLhzGJc0GpcNo/0aL7i/9pvlHN/bZblAGI6cIZvzH1R8DvqrxNMYtAN/PqXs/snPICogS1v1xOVAR2FPEg3RR5xTmLcnwmjxnvngh+PYwnH4UkeE=
+	t=1773112839; cv=none; b=oTsT8tsOal/OOB3qpn+50w5BJ+q6RQrsUBHFYDUmt1UD9YF6LC79EcE4ByYbvg2eyzSgKPUOFT68cEC6+5N/PTExCfLKoSgxYlrXvIh92jhbf4OmqWoY3ZavBBJbsvibL8ivqOVH+/MzKIn934nOJl6xpYEfWxF0HBUaWRylrDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773110716; c=relaxed/simple;
-	bh=AiuSbGc4gyF+r0NsVvYBegnqTPdAIt4V0L/szs51RLs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A1yGtiQVYW2piZ0m4Bfqtv7i+3Sw/pCAuKW+9ec/73CPQ0tHInggCb0fjuGUkhdX2yIAZYdR2NqKc9HvlRvzH84Dl0lAxOQcupCg9PXRj/87N4u6QJEAYl6Z4vsBVpjSdxpfM9m7NiYSVuKxP3RobTu3D4G7NnhfTz/oRP5d6H0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OYQ4GzGr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773112839; c=relaxed/simple;
+	bh=nW0gE2uSilWfbT4+upjDtgGRG+odry5LG5qMMvRLlKg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i3/kqpRkSVew6MPH3NIyiLlETWDJRg6mURkx+CapY+FJocpJC1udyc6ldA2PoLs8RQxGazkmW0wlSeHsfNSXLLk6r0wO2xczO8bVQ1r3XtLIMLNq3AWTMt+QDi0K81N3rTDXpRK1jmeY2xYaoBY4ADmjiUYFcki8txEEcfd3AWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=i83woz4k; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OYQ4GzGr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9115C2BC9E
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 02:45:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773110715;
-	bh=AiuSbGc4gyF+r0NsVvYBegnqTPdAIt4V0L/szs51RLs=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=OYQ4GzGrjp8DJFWsl2mM6ocePlwxv12ixt2gG1IoJH8dIMcy2K9jYlYp0xrXUr1hj
-	 vdJ1Hmp0SjmxQ+VCPPiqJlGt8YHvrtJ6IjbgXtVQ4LMZbCg9LwXbL8lu4+PBO7sjsL
-	 4s38j0P9Pc/iUqjSuchyjIAcNbjA/RLX+hPcWwe8rEaxzhE3zj7CNgU19ws9MZxPyz
-	 jVvlhgVmpbBARm+YBqB5I7YjjmX/kwY2NwSC8hyTJgVaSFIJVMQTWw9r0B2mnIUaZ+
-	 dgdQe+dNt9cNuRA9+q+H8NVNiXnbOpLUOvVf27C6ZPPIJpRz4lQ5Rxab9sF8pu86xC
-	 ckfjVXnxFH4qg==
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-38a4118c4f7so43022911fa.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 09 Mar 2026 19:45:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUdT+fxkHfLY5eUPN/I9YTp4nbU5BCI80AqaPY09UV1HjfE5HOCu0Qi9NZLp2DkF0BZiOZoNNEecIGBLg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxZpFuQnmO9+wWw0weIACkc8XxE/24yydiiMTscsRmB5kWvTmI3
-	lkh1j0Ump4Vs2yUJmNSwdoB5g6/QqYiMPRuXIEp9IBSsWGePyC1A6btha2HMPPPZSrOKVbnDU5u
-	AlXPFdh62pD7kcLz9ceBEghYqZvYpO8U=
-X-Received: by 2002:a05:651c:1104:b0:385:c21f:37e1 with SMTP id
- 38308e7fff4ca-38a40b6a2d2mr40186201fa.15.1773110714064; Mon, 09 Mar 2026
- 19:45:14 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="i83woz4k"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3567e2b4159so7083755a91.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 09 Mar 2026 20:20:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1773112837; x=1773717637; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vSXqr7QpO3Zkkd0iv/RdDeMyqizg8C0r/CigYk0bPqI=;
+        b=i83woz4kPdPhgrJWQxWPU45LUtOPcgQlOdznxzsRAp+PEGRG4Xi3jG6GiXT+GXDGMg
+         I6IFQSUDuHqVbSgLHsZq+5UZj63lq/LeoWmqgilBgOoWtn9vPb239SKJT0ZivEAwqInq
+         CK8ut6qsTsSLeYga+rIU7nJZu8fBBBti7LeF8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773112837; x=1773717637;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vSXqr7QpO3Zkkd0iv/RdDeMyqizg8C0r/CigYk0bPqI=;
+        b=jz2s7gjbKVd+N+DnE6QGKzj4s2ZyamDY64wAl/pw3eV+Y8lYyCQWtlDNlectEAWMP5
+         EPZZlyr2hsxXmwBNaPkErTX1UJxu0h28GDZRz9ws1mN4OJ0jAl+Wr9FwTCIfLpaMoMU0
+         xmT+5Z4NnpA9fPCXKV2BSahnYKg/CZOz+fVNbws/m/KbU81zo2RNImSldqM9PkOGqeus
+         oE3CcrkSpGo/aPBeI2PKXpABZgqNDFqVGQ0GCG6GcVzxzCo1fdk/KlvKx1gctLOPMB1X
+         2YmWhY7F6n0IE6+uqco7Hs7I6a/aIQ0S7qhwn7QfyptLY2g/sUJYUbpqB45xy1O2EtHx
+         lNKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV0jq0qFxgRkK3gnOpGyITBIaGabAppNANqJzyTKz/sUuCQ7NnOoueynKriPpAFrLhEcv1kudU5lB/AuQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywf/eeDnrJzKWEqllV3eb8zrX56hUCrWfP9/eFE80yTED0KXSLo
+	0Uwd4DJvjzHvjBZ7fdiFAWSR68tYwmOutRQgvwM3Md9s94ko/9ziNwysujDKKw4UlA==
+X-Gm-Gg: ATEYQzyit9Qz/omlE/xXRzx9UeQcPc12xbEBcLKS47v5it39MHTUmTv+7VMJoHTbFTE
+	dc7DrcG65M+p3mSUcYKQzrvti53kG50Y0SM6OzKFSDYX1Pfxq5zR1fkeTjfRF2TTqlHIx/L4HcA
+	bx3K2dl3A0mxw6Yh5QGsfg82uJlOn2ZTNo+bZTutr0gj1nuOvyFpg16YEmYB0Hu6JO/hlyQwBGZ
+	L/HrNnqGVFO/LQde1wtRuQw/JRwVlk6ueduc0cG2RdpdQ4FPB42b+t7/jHVrmnqOzdE4rehL338
+	VI+K5LTU0lzCKWUXVaGTjzKT1DdtIM9SHcBq/NKpb4tQDGXEacxhpTmFQhDCbgt8iXazu2FwiOv
+	O9BUODJuP6XlECSZtZctFvSwH5qYZN4fwCDNVpR2NFbOKCQj4cpXIg0/NRSVyFNIzNfsRfulReV
+	YCnXJrK6pNHTVAdpUmVdRbRnws5RhMvs2aGcDOlsm7tDy77lB/V0mhO+AJ2Fv5UADiF/wYusV1w
+	K4evAsG
+X-Received: by 2002:a17:90b:534c:b0:349:7f0a:381b with SMTP id 98e67ed59e1d1-359be298ae2mr13611645a91.8.1773112837116;
+        Mon, 09 Mar 2026 20:20:37 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:ee38:e01e:e888:6900])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359f06f79absm1154608a91.6.2026.03.09.20.20.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Mar 2026 20:20:36 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.or,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	linux-sunxi@lists.linux.dev,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	linux-mediatek@lists.infradead.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] drm/gem-dma: Support dedicated DMA device for allocation
+Date: Tue, 10 Mar 2026 11:20:03 +0800
+Message-ID: <20260310032012.2542334-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.53.0.473.g4a7958ca14-goog
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260309190842.927634-1-vladimir.oltean@nxp.com> <20260309190842.927634-18-vladimir.oltean@nxp.com>
-In-Reply-To: <20260309190842.927634-18-vladimir.oltean@nxp.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 10 Mar 2026 10:45:01 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65surpnqrmv4tbH4TSrx6SaTpdbsQtCsNqwse5xwdb8fA@mail.gmail.com>
-X-Gm-Features: AaiRm535EaFxYtCAjq5FIkHiBmgOxc7_e434rO98DZfg5NrM7RTttw3IOCzqW1Y
-Message-ID: <CAGb2v65surpnqrmv4tbH4TSrx6SaTpdbsQtCsNqwse5xwdb8fA@mail.gmail.com>
-Subject: Re: [PATCH v3 phy-next 17/24] media: sunxi: a83-mips-csi2: include
- PHY provider header
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org, 
-	freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org, spacemit@lists.linux.dev, 
-	UNGLinuxDriver@microchip.com, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 10, 2026 at 3:10=E2=80=AFAM Vladimir Oltean <vladimir.oltean@nx=
-p.com> wrote:
->
-> The introduction commit 576d196c522b ("media: sunxi: Add support for the
-> A83T MIPI CSI-2 controller") says:
->
->     This implementation splits the protocol and D-PHY registers and
->     uses the PHY framework internally. The D-PHY is not registered as a
->     standalone PHY driver since it cannot be used with any other
->     controller.
->
-> However, this does not matter, and is not the only instance of tight PHY
-> provider <-> consumer pairing. According to Vinod Koul, having PHY
-> provider drivers outside of drivers/phy/ is discouraged, although it
-> would be difficult for me to address a proper movement here.
->
-> So just include the private provider API header from drivers/phy/ and
-> leave a FIXME in place.
->
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+Hi folks,
 
-Acked-by: Chen-Yu Tsai <wens@kernel.org>
+This series expands the "dedicated DMA device" support in DRM to the GEM
+DMA helpers, and converts the MediaTek DRM driver to setting the DMA
+device and dropping the custom GEM helpers that implemented this
+function.
 
-> ---
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Chen-Yu Tsai <wens@kernel.org>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Samuel Holland <samuel@sholland.org>
->
-> v1->v3: none
-> ---
->  .../media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
-_dphy.c b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy=
-.c
-> index 24bbcc85013d..1143feeb4fcb 100644
-> --- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c
-> +++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c
-> @@ -4,9 +4,9 @@
->   * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
->   */
->
-> -#include <linux/phy/phy.h>
->  #include <linux/regmap.h>
->
-> +#include "../../../../phy/phy-provider.h" /* FIXME */
->  #include "sun8i_a83t_dphy.h"
->  #include "sun8i_a83t_mipi_csi2.h"
->
-> --
-> 2.43.0
->
+Various display drivers implement the "dedicated DMA device" support
+with custom GEM helpers. These include Exynos, MediaTek, and Rockchip
+to name a few. Allwinner does something entirely different, calling
+of_dma_configure() on the virtual display device using the OF node of
+the actual DMA device. Recently this causes a warning if IOMMUs are
+involved.
+
+This series intends to allow the core helpers to deal with it, and not
+have every driver implement it in slightly different ways, duplicating
+code.
+
+Patch 1 adds dedicated DMA device support to drm_prime_pages_to_sg().
+I believe this was missing from the original change that added dedicated
+DMA devices for PRIME.
+
+Patch 2 adds support for dedicated DMA device to the GEM DMA helpers
+for GEM buffer allocation and mmap.
+
+Patch 3 converts the MediaTek DRM driver to use the dedicated DMA device
+support, and drop all the remaining custom GEM callbacks that deal with
+it.
+
+Patch 4 converts the Allwinner sun4i DRM driver to use the dedicated DMA
+device support, instead of the of_dma_configure() hack it currently has.
+
+The series should be merged through drm-misc-next so that other drivers
+can take advantage of the change.
+
+I also intend to try to convert the Exynos and Rockchip drivers, however
+both also have options to set DMA_ATTR_NO_KERNEL_MAPPING when using
+dma_alloc_attrs() to allocate memory for the buffers. I intend to
+resurrect the DRM_MODE_DUMB_KERNEL_MAP work from Rob Herring [1]
+to handle this. The Rockchip driver also has custom IOMMU attachment
+that I'm still trying to understand.
+
+
+Thanks
+ChenYu
+
+
+Chen-Yu Tsai (4):
+  drm/prime: Limit scatter list size with dedicated DMA device
+  drm/gem-dma: Support dedicated DMA device for allocation and mapping
+  drm/mediatek: Set dedicated DMA device and drop custom GEM callbacks
+  drm/sun4i: Use backend/mixer as dedicated DMA device
+
+ drivers/gpu/drm/drm_gem_dma_helper.c   |  21 ++-
+ drivers/gpu/drm/drm_prime.c            |   2 +-
+ drivers/gpu/drm/mediatek/mtk_crtc.c    |   1 -
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c |  21 +--
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h |   1 -
+ drivers/gpu/drm/mediatek/mtk_gem.c     | 231 -------------------------
+ drivers/gpu/drm/mediatek/mtk_gem.h     |  17 --
+ drivers/gpu/drm/sun4i/sun4i_backend.c  |  27 +--
+ drivers/gpu/drm/sun4i/sun8i_mixer.c    |  27 +--
+ 9 files changed, 46 insertions(+), 302 deletions(-)
+ delete mode 100644 drivers/gpu/drm/mediatek/mtk_gem.c
+ delete mode 100644 drivers/gpu/drm/mediatek/mtk_gem.h
+
+-- 
+2.53.0.473.g4a7958ca14-goog
+
