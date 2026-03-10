@@ -1,212 +1,160 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013057.outbound.protection.outlook.com [40.107.162.57])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2548743636B;
-	Mon,  9 Mar 2026 19:10:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773083427; cv=fail; b=DtEJS3ZaGakUpoZLS9VVV8zJ6EPFvSaDW1N4PY5zpf0LE5FN7AUCCbwXdTT0dQ2GhfHfx1NyovggI5v/bogqUu/KOwXjAU3ksMU0HFa7tNbm+VOg2kRAWlTw9yEl8fg418TErpqFCHvdX21b3jPDVkMJXxCkIydWtAJBkrjRLSg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773083427; c=relaxed/simple;
-	bh=U9a7c3sAXM2U6BESvZ0tz7DMkzHW1w8Q6JcymyQpwjY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=S3SrjgcqJIqUpB87Q1MuZCbWYaTAbnogqj2q3ZdM7apitNAGuUu0Mzey9QsJovpb/1iiFmuuk/PaAnSY9VaVp+HEX/InIr9JHUYhznwPTQJZv8PX0xeWPCi1BG9/KLmuhh8HuB3tOOTvnY87V6knklyCHy4mA1LT6vvCoM5KO9M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=GDCnNz2u; arc=fail smtp.client-ip=40.107.162.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD84F24679C
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 01:10:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773105051; cv=none; b=onSy0a2I/SxA2ZN2IMlpMF0L5+/ag2YeKeVnXxJG/6Uu8WmzPWuyBsnZkA0bf6sfUkRM18e9D5pFLjYZEsRbX9JoRtvpV/AM461B4u5Ebh/UieVmVlmzxxQ0a0pyAHfLehX1MJHlYCzpbyDpNCqruY4V2l8PAUamBpqEh1RoAtI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773105051; c=relaxed/simple;
+	bh=KTWcRe1uEdBcdV3dSWnFRmmQqhKcuVtF4VSklt2P5Ak=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=W4MfzwgFZXq4ULjqLqyuF2SRpdym5NBOaU7OXimKLTyHRHA9XFoy4cLQafPri2+H6LziAXlZQbqwM4j6v91qA1qMH1ElxwSiPWNkB+0lg1rfgH9p6EMWFyVzIhMBp9m722ZRjJkiPNPFiEezHa2dU3J/oXCJON8Tznf97vJSzTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cqifN+fw; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="GDCnNz2u"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LnMwpcSgviLq/1WmSrqbgaOIiWEAcoKBcEAuddpiCLtpfUq0h3EqvlReJSKlfG6VhQIXEfEfOayKyXJHXtX3uL8yWIIW19OeCaYZcFAC6WAN13RwEZgiadD449IJdibXcKa1kda+8eBRrFvKWNd4KUl0KB1fmvtxtGjkQzmIUHmFJNC/QWTpCFfkl2e8ti/SDciDg54Ete8xyDSYZ6+JWcGNsmZHrDuL4JDfKA7DNpXEejbt7wzaTiH4kwFend0dQC5MSQd+HJeEk/9l+7LZjrfEBjG/PMO9KOdVMb+uXCeH/5HDfGfRo+3HW2P1lUkqYcTwiv6cS2S0oRSsnwPUCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G4sweO+IwDJ6Ua8w8EgyJVJt++1frmmbObWZL1QvIN4=;
- b=J5ro1Xbpnyo5WjarEekEnuTC7lFx95IU0HX/h3mY1ifSpLUrbrknlJ9cb0ic8h3Z4q4A09tiVyxL0i6rXcIdBuZFLH+uyiuUOH1WC5chpdMaa+UVsZuu9OP2PJ3TPrzvtyCHxj3ywnteblu+i/8Adiiy+MpbDyq/jniJxsB7domaW4HWk9LHEDQA3DlBGTplSiFrI8iJG+/C6gIXc0UhzF4LXv4HOEP5gd/FOgKGMQ1E3jntPAmraJ/zJGaXZlf6dN7/GLokjPumTr0FmLWrz4cZ0xXX8FyyJ/CNpcWpKulN3LzsqvwudgmH+yFvLe5nfzXr2Rlxcf7bCaRSQGDs9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G4sweO+IwDJ6Ua8w8EgyJVJt++1frmmbObWZL1QvIN4=;
- b=GDCnNz2uEM5AkeKzsGtjPsmYSh4Lg9QL524VRc5b8y17v1vOioCXVh971r5jmwkrMfh0QY73leskxS+2VJIy5KepWNFKKwelbdRRoPma4dp2FGp0maxZ5/+52wdrJw57UVLa4MTpEEEB3R9wH0Qcv1dPiC42s34MenLdEzW65pn8wQmJuQ+9g0NNvVZWmlwpbr7iK9EdysCz4Vkr+sSpQRfrnavzW9BBHs4EPv11tgi9lrzhXJEuoPKwH6w32K7Uot616VmqZPI0enLJhdCQfHhBgcJlaMHk8hW+QLdnXaMjdqg78dtr7RA7c31BzRcUEYxXQYC47iNDrvKaSGfWSQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com (2603:10a6:20b:438::13)
- by DB9PR04MB9841.eurprd04.prod.outlook.com (2603:10a6:10:4ec::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Mon, 9 Mar
- 2026 19:10:21 +0000
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4]) by AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4%4]) with mapi id 15.20.9678.023; Mon, 9 Mar 2026
- 19:10:21 +0000
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
-To: linux-phy@lists.infradead.org
-Cc: Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dri-devel@lists.freedesktop.org,
-	freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-can@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-ide@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	spacemit@lists.linux.dev,
-	UNGLinuxDriver@microchip.com,
-	Joe Perches <joe@perches.com>
-Subject: [PATCH v3 phy-next 24/24] MAINTAINERS: add regexes for linux-phy
-Date: Mon,  9 Mar 2026 21:08:42 +0200
-Message-ID: <20260309190842.927634-25-vladimir.oltean@nxp.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260309190842.927634-1-vladimir.oltean@nxp.com>
-References: <20260309190842.927634-1-vladimir.oltean@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: VI1P190CA0048.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:800:1bb::19) To AM9PR04MB8585.eurprd04.prod.outlook.com
- (2603:10a6:20b:438::13)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cqifN+fw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1773105048;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KTWcRe1uEdBcdV3dSWnFRmmQqhKcuVtF4VSklt2P5Ak=;
+	b=cqifN+fwey2uuNWJKbAsGYioMmWLpfgqH57gQOr1PYOkFE6fvblDYnVtz2nA7OVLf1W5TS
+	5pnW1Z3YgQuM3ev3hHmotlAOQD0KB6EBjEz6R/FzU7qYJ9QbgfKpGOIpLLDEWZBdlN8365
+	Dn+ceKEbOO7qeSVvEZKcY0r5oYDHTSI=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-41-a29oTjXVPemo73fB5H7tow-1; Mon, 09 Mar 2026 21:10:47 -0400
+X-MC-Unique: a29oTjXVPemo73fB5H7tow-1
+X-Mimecast-MFC-AGG-ID: a29oTjXVPemo73fB5H7tow_1773105047
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-89463017976so858627006d6.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 09 Mar 2026 18:10:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773105047; x=1773709847;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KTWcRe1uEdBcdV3dSWnFRmmQqhKcuVtF4VSklt2P5Ak=;
+        b=MdWLC38BUaA2qAhFrxImzk0N+k7DBcP2znbaD8MU6B4+ImdfC9D8Qcn6luUSx+CaiY
+         EFgIerhTsHpkCV/Ih+IMZmHVMZopow611g2KYDykxeQolb2SMdc1foj/HUKaI/K3BxN7
+         Dp8/lGVc/DZquX/kWMvHHWEg/0u2lrFPmW08Q2DLyRQtPS94VWgWgekzsZxrdwnMrGKa
+         u1rcnkYGmTGpuNrbvu7IaEhwgFE2MDacsoV250pEgkynrUa2PwkGe012UWKpLP+oKka2
+         X0Lb9+3+tWewMOeilmPyaI9EvyJdmlsiUUOY6BJY6gi3su9uBwShNoRlPxIvQp5Rk0ze
+         lc6A==
+X-Forwarded-Encrypted: i=1; AJvYcCVyHSxrzTzmzaf32iZ9j1IjHzF7L4jfl5KkFNWRdYR47cfIzu2rbrC57HjgXYKgrzxO/bcCEgSg3NASuQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzI1Iu+TbC9Z082tYioi0sxnjMgR0LEkPjsHKCJP55lmaGNO0ZL
+	yaIUTuvFvAf+OyPm8vWCBgCszuVUeUWoBq/tcs1NKA1tbDtpFD4tXt2uBomsUxnyOiyphBLJxEk
+	3w6NsHxRfyKnLfEYnuwUzBaGpMlFcwpSmFYyq8OTNfKPUCjPOo9T9JbLAF6Q0TZZe
+X-Gm-Gg: ATEYQzxkKFjsawIltRejj2+MVc6+BxPe5l6oyi8DU9oq9kGDVkoVEatKPdr60AZ8vU2
+	JpemO2STHDGQfHFTecpYrZtzqV37WP4QsVD4hau39qHwJgw2GKYXwe7bXRW4x+96rxkWnL8XaGP
+	qKo+rSXIXLdf3A56RftlpQXefDK263pL4CuP1uC9cH0FjacYTm1XoctoEAul7Ri0gMgPSX2IGey
+	li9ZBvcBZlu+VzJXSDCXBU9xHV4Ntsh3N7hxKyitXuEgDzJuBq6RWW2gIotwu/xD4uBvQLMiDpq
+	LuCpTFbeoCR0YQzhdK1ri8vDThaqMbBynoaAAoiqQUx6ftGk7HBSg5HSbLmk47hM08Jf3rIoxGf
+	BzkVoOl8IuLMs1JsMxA06EeV/W2NXyUuqHbYHxSlCvoe7hRckpdoyGlctWHqoUqp6LYvNAuR3p1
+	gJ51g8aThxNgIfaw==
+X-Received: by 2002:a05:6214:d8b:b0:89a:258:c1d1 with SMTP id 6a1803df08f44-89a30ad1c78mr197365036d6.42.1773105047096;
+        Mon, 09 Mar 2026 18:10:47 -0700 (PDT)
+X-Received: by 2002:a05:6214:d8b:b0:89a:258:c1d1 with SMTP id 6a1803df08f44-89a30ad1c78mr197364236d6.42.1773105046575;
+        Mon, 09 Mar 2026 18:10:46 -0700 (PDT)
+Received: from thinkpad-p1.localdomain (pool-174-112-193-187.cpe.net.cable.rogers.com. [174.112.193.187])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89a57a18252sm10681656d6.10.2026.03.09.18.10.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Mar 2026 18:10:45 -0700 (PDT)
+Message-ID: <4728554b256f016d9a5f3e019ed831387b0f059b.camel@redhat.com>
+Subject: Re: [PATCH net-next v7 0/7] net: stmmac: qcom-ethqos: add support
+ for SCMI power domains
+From: Radu Rendec <rrendec@redhat.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Bjorn
+ Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski	 <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Richard Cochran	
+ <richardcochran@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>, Maxime
+ Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue	
+ <alexandre.torgue@foss.st.com>, Vinod Koul <vkoul@kernel.org>, Giuseppe
+ Cavallaro <peppe.cavallaro@st.com>, Jose Abreu <joabreu@synopsys.com>,
+ Chen-Yu Tsai <wens@kernel.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Matthew Gerlach	
+ <matthew.gerlach@altera.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl	 <martin.blumenstingl@googlemail.com>, Keguang Zhang
+ <keguang.zhang@gmail.com>,  Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team	 <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Jan Petrous	 <jan.petrous@oss.nxp.com>,
+ s32@nxp.com, Romain Gantois	 <romain.gantois@bootlin.com>, Lad Prabhakar	
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, Heiko Stuebner
+ <heiko@sntech.de>,  Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto
+ <inochiama@gmail.com>, Emil Renner Berthing	 <kernel@esmil.dk>, Minda Chen
+ <minda.chen@starfivetech.com>, Drew Fustini	 <fustini@kernel.org>, Guo Ren
+ <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,  Nobuhiro Iwamatsu
+ <nobuhiro.iwamatsu.x90@mail.toshiba>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Magnus Damm	 <magnus.damm@gmail.com>, Maxime
+ Ripard <mripard@kernel.org>, Shuang Liang	
+ <liangshuang@eswincomputing.com>, Zhi Li <lizhi2@eswincomputing.com>, 
+ Shangjuan Wei <weishangjuan@eswincomputing.com>, "G. Jaya Kumaran"
+ <vineetha.g.jaya.kumaran@intel.com>,  Clark Wang <xiaoning.wang@nxp.com>,
+ Linux Team <linux-imx@nxp.com>, Frank Li <Frank.Li@nxp.com>, David Wu	
+ <david.wu@rock-chips.com>, Samin Guo <samin.guo@starfivetech.com>, 
+ Christophe Roullier <christophe.roullier@foss.st.com>, Swathi K S
+ <swathi.ks@samsung.com>, Bartosz Golaszewski	 <brgl@kernel.org>, Mohd Ayaan
+ Anwar <mohd.anwar@oss.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org,  Drew Fustini
+ <dfustini@tenstorrent.com>, linux-sunxi@lists.linux.dev,
+ linux-amlogic@lists.infradead.org, 	linux-mips@vger.kernel.org,
+ imx@lists.linux.dev, 	linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, 	sophgo@lists.linux.dev,
+ linux-riscv@lists.infradead.org, Bartosz Golaszewski	
+ <bartosz.golaszewski@linaro.org>, Krzysztof Kozlowski	
+ <krzysztof.kozlowski@oss.qualcomm.com>, Konrad Dybcio	
+ <konrad.dybcio@oss.qualcomm.com>
+Date: Mon, 09 Mar 2026 21:10:41 -0400
+In-Reply-To: <20260306-qcom-sa8255p-emac-v7-0-d6a3013094b7@oss.qualcomm.com>
+References: <20260306-qcom-sa8255p-emac-v7-0-d6a3013094b7@oss.qualcomm.com>
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8585:EE_|DB9PR04MB9841:EE_
-X-MS-Office365-Filtering-Correlation-Id: 24f93734-23b7-4266-5fba-08de7e0f8290
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|1800799024|376014|7416014|10070799003|366016;
-X-Microsoft-Antispam-Message-Info:
-	YodBqD4Iu6ev7iUPHLtRwmvYLTUOGYRoYNpb+g1HDbPqgfG9p+NZBFOK+50wRyRZCT/JQkOmYXAfXRvcTjr3oBtbrv4J7eYoWlfWz/XQWTwhPJcd8YhtVJprBWKi9n/6RK8tGDeEiTyOaSDd7SGjx6ka4Vub4q8Q/vsJUtzaWSdCxX6UgqlOCW8fJF8qMrWkNAlqzlue7PZy1bzibi5olxW9JHxMRTVMOqTUGULSRuOsDHRhOXwhk898LZ+Dx5iPD7WaVEEqgwsBpo+vyof83LojFX2QYmQXkJkGfoaEXuDIwqC7A1kqPcqQ9B7add6JsSYgQkMeTGlgCoTEJj8fKLmjZZ2xlk3Yi4YgCSAZ/AaTgCkChYe86OmR4HYo2XrqMjfunt8fOY9Qt/94hlVX/RcK0IbKJM8veA2CaVM43Qu+3ttWgrLvVppolnsHVP3qvDh/Jg5zjPCNA1a574oyG3Jbtv49KRaVkd0jgR2nLuqw2jvTOKV0/NL8+kCIcaFMIl/cb1PWaLKEce1N/7Y3inX5qJggjrEcMaSYzc7Rs6ntpHHLyo+xgSbWGcIN6FV6JC02UACX7vYIAMsZIztob/hAujYtj7dBZNkc476JRASKJ23OYNzcnJCTO2CC5sEYQTRWn3D6ufbI50Kdby0bbfmyHZS2bgGJccNBs0EmU2DWeHJatGC57DcD+0WfN3OFsDv0RRvebw03f1oEhGnBO8SY9/fuV4yV4I4RgDoLH+M=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8585.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(1800799024)(376014)(7416014)(10070799003)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?OgPvXvzXQx2wvsdRhLsSZNFyjENHW1WnSO2+mcYLMfH8X7ZgKtv9KaRFdkmM?=
- =?us-ascii?Q?qKVMDopQrlrP/Om1TGUWT+dK58IUZzLFjxGtRo8mGqiXs+cd1+PY8eDQt0hC?=
- =?us-ascii?Q?Wv9JyK/Gu8LSx6FQ+FLKAdMM1s/JhYIORXpMUKK9nGpOPIEDed4wfd88m929?=
- =?us-ascii?Q?TdsgFZU8zg67b4rTkRLTAmg3H/kpqG8zLx9/esjwakb3mBmj6BZChi1eh5bP?=
- =?us-ascii?Q?BuAqV60phU9cpV5zXeGTrgdtoXO4MeBGbyuHZP64TQLWRAfJUp1jcSGleXoB?=
- =?us-ascii?Q?S6Y8/2FOse+KQM6wiWZgCyoa8kExo1csrpQN6lnUNZFhE7BCEZQINOb8NdzZ?=
- =?us-ascii?Q?75JSPszT457Xm3W5YvSeg5kdZgWOM7WMzPNOPKImoBbQ9r5MqzBVr6MZ1z4m?=
- =?us-ascii?Q?Qdbj1LMl7vuTchD5ANKLcK1ISiAttv7gUxQ9z48ZGuItHYBqEKF9HuESmnGU?=
- =?us-ascii?Q?9ZZih1OVPTFn0Qo5kJfXusKjxMXeR6AlpYm8ag3AaMNgBZaBI+4GF/9yIgjE?=
- =?us-ascii?Q?6IGKD6NPLi9NThah4q+QQka9PiCfj87JmLrhSvBb6SMDiV2MqyJDNUAy4MWi?=
- =?us-ascii?Q?KEUwCzdHOm4hQwt65825x9vWNyUVnjfRjRaJMNlUmbCuiEYR1fFN2dysKN0w?=
- =?us-ascii?Q?j368DswaCCae0J7YzNdHoqQbjB+2oHL4+zGV1bTFsC7zi6lZphEg46JHZn3P?=
- =?us-ascii?Q?kgcdNhAT5qGF/zONr+GXae299irU00ZXx115TDUmSGt3ADopNmZ2SmTFc2IP?=
- =?us-ascii?Q?zywD5jePquF/bzKBTlLq1egTl21X01cQ2gsXeEJ3K0v2EpFKUv4N1yYvNi6e?=
- =?us-ascii?Q?azrqgseRw5xXLd/M+5cml8EpKFgy3O0n7BpL77NXTpf89a04Pk08AR++ykxt?=
- =?us-ascii?Q?lSZ0SJDMR99MRi5WM0hSiCSzNzXtTWMYaSVQFBvrs0h4z4qPDUD4NQJnz2PS?=
- =?us-ascii?Q?ZF0MdAu6wqRS3UP+U4r4S3Ys/FKZCaG2MfqmmVGRDbEftnA+miSksrORtZix?=
- =?us-ascii?Q?QmT7DW/tXwdlAhxhp4Rc+mKqj7v7WBfnTJCiK4y5Z9Yt5hKRLn5tig1j+O1l?=
- =?us-ascii?Q?f0IMRmuzNODJe3kqkcorbu98LWjCkj9l5j31u4mSdkO6pXc8FQ4e8sMioBm/?=
- =?us-ascii?Q?ik51Qvzv5eDihhK1mbTbrhO94+w1C058kfZvlq/W+gDorKYfkKMQVMrvFttY?=
- =?us-ascii?Q?TDw+uXXtTAVRR3NPfGqOLtUaEAzwX7lO3LxbVzko4Ec2qym4CTuo6aKlA2oq?=
- =?us-ascii?Q?npJTw5wKBnB+C5Pmami4/ZU/d2aVI6ZiKrLAsaNr1Y8MMTxVez3YEB12OLGJ?=
- =?us-ascii?Q?rLtr7v0ptDh1FKO3SFRP8cknFBPYEAatgRkDIvRYy/JaRruVMYeuny+n+lUA?=
- =?us-ascii?Q?EgcVvX474sZvDULCiL+qX7Rg5g8rkoK6Q5wT1Z7E/BTZ09TOV+rBMlX/qdHU?=
- =?us-ascii?Q?yd6vHL26exnLMzey98Wv1NttLpO4X86f9uFGJAxH1jKcG9Z0pohZfRm+fHoa?=
- =?us-ascii?Q?cO8Ghtw5+d+f4aJdOakkg67OH3iVNExswp6IhwYey9zQ5DY2ildhCg1CZ2Os?=
- =?us-ascii?Q?f050IUzEPu9EqtYBYx975Ov/9qRaM+xFy0FlF5WjKuJAXbBlkHT2Sls5HecE?=
- =?us-ascii?Q?DnfWGYGRx7hzjlDX/boDQM85maya5v6z6rqQRJG0lfVR/CvT95XR/yAkVGlr?=
- =?us-ascii?Q?M6n/jq6rYgOgEvEGtB37zkLAUEgUo+BkoW00jfWcVeqNqxFQZAeLRBQhz+Au?=
- =?us-ascii?Q?GcPwt03+CKhhSiyQ8KV9VvjMYi0FSKYWCars1nCUswAAYG+NmMg6EY0Cgxs8?=
-X-MS-Exchange-AntiSpam-MessageData-1: A0JbZHFZBGo58aq+2ElG+BY3gi3eEAlzoyA=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 24f93734-23b7-4266-5fba-08de7e0f8290
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8585.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 19:10:21.4800
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BzAzcF7eG4iHNharFZvlsmrqc/lQCay1RuJzZa0WQQ2TZpifiiSPDT9Rut5eCG5e9GixLMiqP4ciQtbMFo3yew==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9841
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: glcnV2iaJdpzY9BB4TVJWAkOT7nvb9YP29aoRwN_FOk_1773105047
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Some pragmatic shortcuts are being taken by PHY consumer driver authors,
-which put a burden on the framework. A lot of these can be caught during
-review.
+On Fri, 2026-03-06 at 16:46 +0100, Bartosz Golaszewski wrote:
+> Add support for the firmware-managed variant of the DesignWare MAC on
+> the sa8255p platform. This series contains new DT bindings and driver
+> changes required to support the MAC in the STMMAC driver.
+>=20
+> It also reorganizes the ethqos code quite a bit to make the introduction
+> of power domains into the driver a bit easier on the eye.
+>=20
+> The DTS changes will go in separately.
 
-Make sure the linux-phy list is copied on as many keywords that regexes
-can reasonably catch.
+As Jakub pointed out, it conflicts with the latest net-next, but does
+apply cleanly on the latest mainline, so I tested there (on a SA8775P
+board running the SCMI firmware).
 
-Some considerations that led to this solution and not a simpler one:
-- Consumers may be located anywhere, and their file naming provides no
-  indication whatsoever that they are PHY API consumers.
-- The network PHY API has similarly sounding API: phy_start(),
-  phy_connect(), etc. Similarly, matching on "phy" would hit
-  phys_addr_t, "cryptography", etc.
-- The header files themselves need attention to avoid matching on
-  include/linux/phy.h (network PHY), include/linux/usb/phy.h,
-  drivers/net/vendor/device/phy.h, etc.
-- At least for a transitional period, I suppose developers will still
-  try to add PHY providers outside the subsystem (which is discouraged).
+The two NICs come up as expected. Basic iperf3 throughput and jitter
+tests look good. I would offer a Tested-by tag and a summary of the
+test results, but I think it's a moot point because you'll have to
+submit a new version anyway.
 
-So I used \b to try to match on actual word boundaries and I went for
-listing all markers of PHY API use as they may appear in patch contexts.
+I will wait for you to rebase, then test again and come back with the
+results.
 
-Bit rot is a valid concern. I will add a test to the build automation
-that newly introduced struct and function names in include/linux/phy.h,
-include/linux/phy-props.h and drivers/phy/phy-provider.h are matched by
-the MAINTAINERS entry K: patterns.
-
-The keyword patterns were written with great help from Joe Perches
-<joe@perches.com>.
-
-Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
----
-Cc: Joe Perches <joe@perches.com>
-
-v2->v3:
-- escape forward slash in linux/phy/phy.h in regex pattern:
-  https://lore.kernel.org/linux-phy/9fd14d166e860f26febfbc9061a6dcae6a166961.camel@perches.com/
-v1->v2:
-- split into multiple regex patterns
-- use matching-only (insted of capturing) regex patterns
-- adjust commit message to reflect the Q&A from v1
----
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 55af015174a5..cd920f14abde 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10713,6 +10713,17 @@ F:	Documentation/devicetree/bindings/phy/
- F:	drivers/phy/
- F:	include/dt-bindings/phy/
- F:	include/linux/phy/
-+K:	(?:linux\/phy\/phy\.h|phy-props\.h|phy-provider\.h)
-+K:	\b(?:__)?(?:devm_)?(?:of_)?phy_(?:create|destroy|provider_(?:un)?register)\b
-+K:	\bphy_(?:create|remove)_lookup\b
-+K:	\bphy_(?:get|set)_drvdata\b
-+K:	\b(?:devm_)?(?:of_)?phy_(?:optional_)?(?:get|put)(?:_by_index)?\b
-+K:	\bphy_pm_runtime_(?:get|put)(?:_sync)?\b
-+K:	\bphy_(?:init|exit|power_(?:on|off))\b
-+K:	\bphy_(?:get|set)_(?:mode(?:_ext)?|media|speed|bus_width|max_link_rate)\b
-+K:	\bphy_(?:reset|configure|validate|calibrate)\b
-+K:	\bphy_notify_(?:connect|disconnect|state)\b
-+K:	\bstruct\s+phy(?:_ops|_attrs|_lookup|_provider)?\b
- 
- GENERIC PINCTRL I2C DEMULTIPLEXER DRIVER
- M:	Wolfram Sang <wsa+renesas@sang-engineering.com>
--- 
-2.43.0
+--=20
+Best regards,
+Radu
 
