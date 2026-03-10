@@ -1,81 +1,99 @@
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E91238C0A
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 10:22:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A221C340A6A
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 11:46:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773138147; cv=none; b=KwWzFXmPQv5WWtFcwtDDAKGZTLSPToCm47vYK6DkaEPFF16D14uwDQMu7AhUJAvQGKO9L6NpaK28iSoGXC5CDscTv5C4MSUj9aj8j7dN6pX2lMJgdl4neHAnq2pSQcHBCf6uYRVIuZ/u9Tx+S0hNQ8bfCN24UD2WcgmbMOncjVc=
+	t=1773143207; cv=none; b=oJKXA8aUYho1t6AoHfLw+6pnTuh7Hrwphtt0ZR8OZff+3bxNw6jYH644fRZGLalEIsfm9yrRA3Ro/lcMwIf+nV7Gr3Nyn0+E6euKd+0lNgZeB9RgD6FiTVm3GvyaiBes0LcM3jEMeBUrYZabcUYf4OE1oiW2zVEWCzoGoEf3Cwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773138147; c=relaxed/simple;
-	bh=nvxXTf/sV9CgbG8+moWVBy4KxnCzU4XkJvUa7QTYppE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qD3CWwyuePAs2M8xmkChD89AuHmt8Pb+b1HbCMCT1VixP1Ln1VrTmu0A+Bk+lZiIj/6G+Y8dU1HU7+EoQhV4YWwX8rH9YG8ZWB/mjONIPfP+7sGkyp9FinfXkX920p9jrP8BkB1qMhaMfQ1zL0uxTJ6X2ejaNETkAcVTsOwkCF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=gsFsIoCr; arc=none smtp.client-ip=185.67.36.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
+	s=arc-20240116; t=1773143207; c=relaxed/simple;
+	bh=hNYfW2PmdXWP40ndx3jBB9FDPr1eZeihvEAEqFyjWdk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cmDwaw4VjQZ/iPgSpUaZyleYu3xO866Kz1yrey2F+FC5xUxK5gTbIc0PRsAIgGRHKI3AsdDPK/x9GAl+CqPHSyzVEuK/5eJ0r8OBAb7t7gsXDbC5Z/sQYBTZJzr9qJkTIeNynSerxdTZBYrW47v8grYbz92Hq6CLMIFsXoI/o78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Le/WcXeI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="gsFsIoCr"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 02B9B240029
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 11:22:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.net; s=2017;
-	t=1773138144; bh=tO8o5psNJZ2qR9UHpfV+KG0CtdqeJkCrtjFX1YzkKoM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:From;
-	b=gsFsIoCr9uZZKPz4ar5qI8Ox0LsZElQLsYQMiD0ABLHKVt5jdzCI1/6aBnQp3Hlwc
-	 dEVxhcnE+zu60m2er6vSYoBzRKA5dLOMGWcGEDlRL4xBA9dyoK4IEwsWc4chN4GMLl
-	 7lGBYCjoVrbN0m788jZRPqyp+ASBZoZutFJ8/aJ88amUMHP6+xtED3cs2yHUgiDlqR
-	 kbFxXBF873fU+bB58RDWwEuzhzv34Nd0ER7P1xMsYvaRqpB6ONygS3RGRgHafj2vlU
-	 VcS81f3ClfS1LxozRZxCQHRec7gNayyELN0/YtJuHo4O7qJ2zIEDQBGnK34uu5WbOu
-	 TujPQ2QHDqfhQ==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4fVVLP2Xrvz6tx7;
-	Tue, 10 Mar 2026 11:22:21 +0100 (CET)
-Date: Tue, 10 Mar 2026 10:22:23 +0000
-From: Wilken Gottwalt <wilken.gottwalt@posteo.net>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Chen-Yu Tsai <wens@kernel.org>, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- linux-remoteproc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v4 09/15] hwspinlock: sun6i: use new callback to
- initialize hwspinlock priv
-Message-ID: <20260310112220.771011e0@posteo.net>
-In-Reply-To: <aa_sckE7C3kwqYxb@shikoro>
-References: <20260310075539.11701-1-wsa+renesas@sang-engineering.com>
-	<20260310075539.11701-10-wsa+renesas@sang-engineering.com>
-	<CAGb2v64gTM41Q3aBkS+dqJ7w9fHtePte-6jeoFR3j-O1_aX9-Q@mail.gmail.com>
-	<aa_sckE7C3kwqYxb@shikoro>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Le/WcXeI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56764C2BCB2
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 11:46:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773143207;
+	bh=hNYfW2PmdXWP40ndx3jBB9FDPr1eZeihvEAEqFyjWdk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Le/WcXeIEJ5/I5c5MTCxMQCRiHxZB5GNrnMcout58eVVdk18EdUYjzwPWJnVuXBki
+	 SagzozLxO+wcE192t1+AktymvzDcdUoDHooOp4B9FImKmAhrwgcU/olf3kIV5e7MkC
+	 Sbx+lsh95q7wmjhWNNmgmRSUFKTfFl3pxxKglpfkSosvPP+15QLmEBYPEQODi1FD5D
+	 S616RpE9b4efrcpVUHRg2IJUZ+A98WZye5sBwPInCATJCFCj4NqPZjHW6m47ow0hzW
+	 u0ScO3rxonqrCSFoEGGnCRPog9N0b9I9S4eerye/NQhRv6Ley8P9jQuW4QdcnR7J+Y
+	 SHjVrpzuxQ7wQ==
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-79868cde1eeso138938147b3.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 04:46:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVlCUUoEpv/mZUw7JAMuuMDemy4milJxHYJ059aDptkhiEa8CYY2egwkJmy95nLS5N2IVA9qlUm2WaX0w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YycHK4uPXueL9hz4zDv/7wyMjFM6tGAnLaDFc+PT2W17iYnMCWg
+	Ywah31n7uj1LEfHXsh1wMhTz9NiGtmrL0UAfOYU0IWBRPV6ZTHjqyUno4ybROAZJQ1hoTHayJda
+	ePtHZp111pAsWhGCV5EvWx6yJSyP8SFs=
+X-Received: by 2002:a05:690c:62ca:b0:798:5951:f42b with SMTP id
+ 00721157ae682-798dd74191bmr132448727b3.42.1773143206603; Tue, 10 Mar 2026
+ 04:46:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260224092419.1275016-1-wens@kernel.org> <CAD++jLnKxDi1GCp94zAUKhwBvQwVAdT8bgNyw5XM2+PTOhxq1Q@mail.gmail.com>
+ <3x55nsighrqdo7al2n5imlov5yoti6z7jxrj7yieeghyqkllvb@akbuob4n37pq>
+In-Reply-To: <3x55nsighrqdo7al2n5imlov5yoti6z7jxrj7yieeghyqkllvb@akbuob4n37pq>
+From: Linus Walleij <linusw@kernel.org>
+Date: Tue, 10 Mar 2026 12:46:35 +0100
+X-Gmail-Original-Message-ID: <CAD++jLkEKprZ_qraCSMq2Zcz7ueiJaOEX6iQnMk9=Su-LbO6xA@mail.gmail.com>
+X-Gm-Features: AaiRm51B2JF0wnKHHzU4Y05R5Ms0mzx95C_lYOY2b_o2pvVtQFzJDnrhtWE5e6E
+Message-ID: <CAD++jLkEKprZ_qraCSMq2Zcz7ueiJaOEX6iQnMk9=Su-LbO6xA@mail.gmail.com>
+Subject: Re: [PATCH v2] pinctrl: sunxi: Implement gpiochip::get_direction()
+To: Michal Piekos <michal.piekos@mmpsystems.pl>
+Cc: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>, 
+	Samuel Holland <samuel@sholland.org>, James Hilliard <james.hilliard1@gmail.com>, aprizel@wens.tw, 
+	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 10 Mar 2026 11:03:30 +0100
-Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
+On Sun, Mar 8, 2026 at 10:34=E2=80=AFAM Michal Piekos
+<michal.piekos@mmpsystems.pl> wrote:
+> On Tue, Feb 24, 2026 at 10:52:23AM +0100, Linus Walleij wrote:
+> > On Tue, Feb 24, 2026 at 10:24=E2=80=AFAM Chen-Yu Tsai <wens@kernel.org>=
+ wrote:
+> >
+> > > After commit 471e998c0e31 ("gpiolib: remove redundant callback check"=
+),
+> > > a warning will be printed if the gpio driver does not implement this
+> > > callback. The warning was added in commit e623c4303ed1 ("gpiolib:
+> > > sanitize the return value of gpio_chip::get_direction()"), but was
+> > > masked by the "redundant" check.
+> > >
+> > > The warning can be triggered by any action that calls the callback,
+> > > such as dumping the GPIO state from /sys/kernel/debug/gpio.
+> > >
+> > > Implement it for the sunxi driver. This is simply a matter of reading
+> > > out the mux value from the registers, then checking if it is one of
+> > > the GPIO functions and which direction it is.
+> > >
+> > > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+> > > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.co=
+m>
+> >
+> > Pulled out v1 of my tree and put in this one instead!
+> >
+>
+> Please do not merge the correction yet. As I was pointed out by Jernej
+> Skrabec the solution is faulty and just cover the issue. I will provide
+> proper solution as soon as I find it.
 
-> Hi ChenYu,
-> 
-> > >  bank_fail:
-> > >         clk_disable_unprepare(priv->ahb_clk);
-> > 
-> > Just a note, I see further code savings in using the clk and reset devm_
-> > helpers. I'll do this after this series is merged, as the context overlaps.
-> 
-> Yes, I saw this, too, but thought that this needs HW for proper testing.
-> Great that you are up for it!
+Too late, this is already upstream and I think that is how it was detected.
+Shall I queue a revert?
 
-Not only that. You may also need to run the CRUST firmware on the OpenRISC
-companion core. Getting that hwspinlock driver done and tested was some real
-pain in the past. I still have everything on github for this
-(https://github.com/wgottwalt/sunxi_hwspinlock). But I may not be able to test
-that in time. I moved a while ago and, uhm, quite some hardware disappeared.
-
-greetings
+Yours,
+Linus Walleij
