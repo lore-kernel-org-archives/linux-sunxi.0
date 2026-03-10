@@ -1,61 +1,61 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0D83B9605
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 03:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181E23B8D59
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 03:25:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773113148; cv=none; b=uKwUDvLYDsAZhiBZuQMNrlYMdGKPxAHT8KCHImqQWBtSr6MsyvLfNHdIwugm4RKJn7k4Bok5JJxNT+5HZ9CtCsGCCNRMZzVrXaD96skMiDZ3FsFC38ed5z6wehKf59V6QHUsPhR5GLjCbwqTWiWFbTbjNZ+0y5a8OGkGbkb8Tik=
+	t=1773113151; cv=none; b=HGKTuSNrulo8Bx9X3L9i+bNtBEl94HcpbYkmS2nT9sXTDfdik6rdagBw54O8JAxkKX9rbet1C/4uzQdSYoJHWllgqb2HZyLTnU5DjQezNOausB7MxNvuKoeVgnKApJiiAe7bLuk7DFxtApNK3ZfpWREsIYQuyG7j8k9oI6jyEJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773113148; c=relaxed/simple;
-	bh=oAfrAdUsiN0HiFEo2w26stnO59aZMIB4kMYEsBwkc3w=;
+	s=arc-20240116; t=1773113151; c=relaxed/simple;
+	bh=1ifAvQ9YQ7quAs4EUywvSzDs8d3qnqjGmcOWLHUYZwg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bA6v4hsXngP+xWSZpPyi85F+T+szU3CsuHiwDnfB2luifaZw8ED3fGjSCracYX+bhnPLwtHsMMUrbJ34T58hTVUXSq4w0/iqtIH77nwJ3+b0GPTCKUXdWgybW1GV2YZWwQGEQJbzPi7PaJRPAEqhjXDAPaVTXxLNz95H1n5zT1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UF/NF7hf; arc=none smtp.client-ip=209.85.214.171
+	 MIME-Version; b=L5mFo9vDVk29Un/FFwayvo6ygK3QWed8dOSwOkdrMVR0H/k/AP8uqSOZOFXvAcKy/G6poUrCvT3OUWk1bG+UN6Skc0+3a/9UAAZ0sEwm3k1XCUqR/mT1vpYC+M9zhTBMZ/vW/boEfvf8gZd4VJSWhKbq5hoXWShsiIkRIEvqwv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=HrdKPqRE; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UF/NF7hf"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2ab46931cf1so84671555ad.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 09 Mar 2026 20:25:44 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HrdKPqRE"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2ab46931cf1so84671915ad.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 09 Mar 2026 20:25:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1773113144; x=1773717944; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1773113148; x=1773717948; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uHxroCmvUbDZdSuabhWIfcDNQo8xx33ypV1WgOxP5VE=;
-        b=UF/NF7hfwJUsuRXKVIpuXUOrXgkQVsiFsnn3uthLDsfAW3pBV26M1nUpLLMdxk9z7H
-         O/EUppSejMVhER4B2zzxM+LjR4B+JCxfzZKac1MAAqanf3DDjoeygITqtqjfGN24ZRbv
-         6GXU3aPzpOEbl1kPecpFb4AaJDV71pwv6lNt0=
+        bh=9DNho1J2CisM3xAD9Y1bBejtF+SOOT6CZm5ayFQyPks=;
+        b=HrdKPqRE+vboh06LAyXCGN/uQO8gzA3TpmM56VCPlNcvc8FAZcI46bbMTvq2fZU9of
+         zK17WQDKzDeBNOBAC4pd7R3Z+4OtqBT4W2cM4E/sfr1WoBVswmtU8MsytuUWQCJXp6Tv
+         YH1UGI0fJzKIDGd59IzZAx9OCdd8DB2sufytQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773113144; x=1773717944;
+        d=1e100.net; s=20230601; t=1773113148; x=1773717948;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=uHxroCmvUbDZdSuabhWIfcDNQo8xx33ypV1WgOxP5VE=;
-        b=jxGTzWu4IUrKYT0J9oqltgq8leR9IF7zUiv6/KqKU6fq3ZfKpCtAL3AFR2Qn177UeB
-         hqFCu2odh4JBGekpaiuaDB5q9eBtJto7Fs63PkhqbsovB+SM9MlftFVp3sfPlhdBXBi0
-         ZRLNIALqXyoUPH3L77souwKLFYtPQWld8WsrsyjBQpQLh+8QDKz7AyHAkn8qEbKek2v1
-         YgMtYNGKeS/1mvufHJ44PVD3hHMJrfyON+IQcfbgLp09cZKARgxeJOlxYuMkMcvfrkcd
-         FwRLEtl9biQH0w/dyFORD1011R09XgSpbLI7H800uasX4uN3Or2rswMpPQWv7j5EEbGZ
-         DV6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVBP3GqB96CR1WwszQqwaeSUiZ93i3xEkGgg+ElmkX3db+bU7gYwb9VDedudGRyV6be5s+ngxBZi+5LQg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyD71U8BGh5BFhF6XELTAffQEtLPX4RYohl5EGKryg0SDF6UZbm
-	Qc5BS9y565g40WbkRi1JdU9gLjdSnZZS6xscdPWSrmj8EaJhGEi550u4CaQI47rHQQ==
-X-Gm-Gg: ATEYQzwL3/31IInLJXppkjEeEgEAoicuIs802F0+jEXgmCWeqaEJNzbdSeReEmU1hLd
-	BwjjrDncXcRj3HbiOg3CsFfwiVXU5YrwNn9QHELpHElmVa+Oh93S9OpWiFIQDMRNw2wZu9vc7qS
-	WsQaNyJr3SCZ8lk04KLSyuy0h074ZyKVFUAlhQo002ngf3vf+XywcTdd7nGFiDif2tdW41P+hDO
-	e2x+lmEYXUN5uavxifPeRYf/I803FNJXqUIYjcl/vV7AsGe8E3/HClEpj0mBp31FHzE55GndZqO
-	q+ZWGNSk8iTyxcxbeoskqoWe2daQAukTkBOxa4J4fZbyJEps6HkfgFxJHk2f32Vl6DqtHZRukLm
-	6ha7tK58MUOLl2QQfJEKrExbO7DnG9Mj8x/PhUr0/3tFNbeKmTiYN8F3yMS9xB97DBeE9dJrlk1
-	OGYkf/SApVy4sKSx/iKCcXjWgnbYX1bQv0Ug2y4QGwELpl5NEuWOOmGmip7khd7TYXimqkWN/4A
-	X8k7GSe
-X-Received: by 2002:a17:903:2349:b0:2a0:d454:5372 with SMTP id d9443c01a7336-2aea1f2f79emr17542375ad.22.1773113144386;
-        Mon, 09 Mar 2026 20:25:44 -0700 (PDT)
+        bh=9DNho1J2CisM3xAD9Y1bBejtF+SOOT6CZm5ayFQyPks=;
+        b=O9ewV+IPhYmjkd3l5m7nY529mViZV5fRxowKKAZ6zyZDX/QTI0tscO5WKKc/iB+Olj
+         tKFeR97fFptMAx7/4EUtPNpWeZnq44oIxxAXzJTNZZwfEP4UkWH8T1c9CDdPe73EbIso
+         xKH18/j3oWWArssL2ThT4YUnQEG2QbW4lM+y4OcbabIk7yx1sY5snhNy9N0rxEjXhZBv
+         LrT/2qM0y0HasFJ+W3GzaoPVEZpvSz9ed+BDTEMGsJkTea8Ym0KH2u6Ateeh96Tr8uAF
+         xWhev78LNk3/S6/MtNSteB5yWYzLCnyZLiQigxOZbwRHOk50APNB1lmym+A+MMZosum1
+         UPjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWdLvuJt0+23BP+acHJWBF8btViwv5sDwJzrorg6VNyTYSQ1sMRRbIlfF87oEsqYNJ7I5s1dkPqXUsgvw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxGkyfiFRXt4iFvWAhzAGevT/oP/2rVNNi5sWNJ6A+eCN8p7AN4
+	83tZMk9odG3V7j5EDw6YRnmDQFxAdzHASrVNI9j6jIsun5PE+JeodwHsv6vD30t8AA==
+X-Gm-Gg: ATEYQzzQnp6/No92GLIdyj//GVb1EznCgw0iYTo62ds3f6Fq5pd3kjr6VAuVZGXrA9d
+	EsdvGyQmfIzXU6XRvuW+6Aqgj1vvkxVqHMdL/m8Dq+DHrE5IjYEmo75VPRqHcc75zvAwwzKAXEt
+	Ubn2C0npjtVSLgsrW2SK7V8+Hr2XjoIlp8Bz9eA9nmqR6aN8RCF88pgz28/MuRyRj2OcxpLVavO
+	NA5vagjcL5GwnLESgQ69wiZBSamIwsxICyNGdHcBmZCGb9i8UWMR8N6n3L41ms+pxdgoLJsp/89
+	Zj479oitEhpAhxgnICFlS/KOLy/5Ec6InO15EFies8r0o1R4xjVLKB+I37FMy2I4kpHcvglcP0h
+	FLTK720zcf14p4mZkhyQxg3lqKEvOI35K+qAeMCI8UGjdeoNDYYxYeO3i/0iJ5CP0ToLAvnOZ+0
+	SQfngheMUYOWmCOPFHnzq5D84FhtETnCKzoFM/pGYY1N9llD0/d9WRxvMguEBqzMQHzNQWQzHJH
+	MRhJC7OT6i4jUntYgk=
+X-Received: by 2002:a17:902:da2d:b0:2a7:aac1:7201 with SMTP id d9443c01a7336-2aea197b887mr18842765ad.3.1773113148339;
+        Mon, 09 Mar 2026 20:25:48 -0700 (PDT)
 Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:ee38:e01e:e888:6900])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae83e575e6sm126695095ad.5.2026.03.09.20.25.41
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae83e575e6sm126695095ad.5.2026.03.09.20.25.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 20:25:43 -0700 (PDT)
+        Mon, 09 Mar 2026 20:25:47 -0700 (PDT)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Matthias Brugger <matthias.bgg@gmail.com>,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
@@ -76,9 +76,9 @@ Cc: Chen-Yu Tsai <wenst@chromium.org>,
 	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND 1/4] drm/prime: Limit scatter list size with dedicated DMA device
-Date: Tue, 10 Mar 2026 11:25:06 +0800
-Message-ID: <20260310032511.2545500-2-wenst@chromium.org>
+Subject: [PATCH RESEND 2/4] drm/gem-dma: Support dedicated DMA device for allocation and mapping
+Date: Tue, 10 Mar 2026 11:25:07 +0800
+Message-ID: <20260310032511.2545500-3-wenst@chromium.org>
 X-Mailer: git-send-email 2.53.0.473.g4a7958ca14-goog
 In-Reply-To: <20260310032511.2545500-1-wenst@chromium.org>
 References: <20260310032511.2545500-1-wenst@chromium.org>
@@ -90,34 +90,93 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If a dedicated DMA device is specified for the DRM device, then the
-scatter list size limit should pertain to the DMA device.
+Support for a dedicated DMA device for prime imports was added in commit
+143ec8d3f939 ("drm/prime: Support dedicated DMA device for dma-buf imports").
+This allowed the DRM driver to provide a dedicated DMA device when its
+own underlying device was not capable of DMA, for example when it is a
+USB device (the original target) or a virtual device. The latter case is
+common on embedded SoCs, on which the display pipeline is composed of
+various fixed function blocks, and the DRM device is simply a made-up
+device, an address space managing the routing between the blocks, or
+whichever block the implementor thought made sense at the time. The
+point is that the chosen device is often not the actual device doing
+the DMA. Various drivers have used workarounds or reimplemented the
+GEM DMA helpers to get the DMA addresses and IOMMUs to work correctly.
 
-Use the dedicated DMA device, if given, to limit the scatter list size.
-This only applies to drivers that have called drm_dev_set_dma_dev() and
-are using drm_prime_pages_to_sg() either directly or through the SHMEM
-helpers. At the time of this writing, the former case only includes the
-Rockchip DRM driver, while the latter case includes the gud, udl, and
-the tiny appletbdrm and gm12u320 drivers.
+Add support for the dedicated DMA device to the GEM DMA helpers.
+
+No existing driver currently uses the GEM DMA helpers and calls
+drm_dev_set_dma_dev() to set a dedicated DMA device, so no existing
+users should be affected.
 
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
- drivers/gpu/drm/drm_prime.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_gem_dma_helper.c | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index 51fdb06d3e9f..9b44c78cd77f 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -859,7 +859,7 @@ struct sg_table *drm_prime_pages_to_sg(struct drm_device *dev,
+diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
+index ecb9746f4da8..70f83e464476 100644
+--- a/drivers/gpu/drm/drm_gem_dma_helper.c
++++ b/drivers/gpu/drm/drm_gem_dma_helper.c
+@@ -146,12 +146,13 @@ struct drm_gem_dma_object *drm_gem_dma_create(struct drm_device *drm,
+ 		return dma_obj;
+ 
+ 	if (dma_obj->map_noncoherent) {
+-		dma_obj->vaddr = dma_alloc_noncoherent(drm->dev, size,
++		dma_obj->vaddr = dma_alloc_noncoherent(drm_dev_dma_dev(drm),
++						       size,
+ 						       &dma_obj->dma_addr,
+ 						       DMA_TO_DEVICE,
+ 						       GFP_KERNEL | __GFP_NOWARN);
+ 	} else {
+-		dma_obj->vaddr = dma_alloc_wc(drm->dev, size,
++		dma_obj->vaddr = dma_alloc_wc(drm_dev_dma_dev(drm), size,
+ 					      &dma_obj->dma_addr,
+ 					      GFP_KERNEL | __GFP_NOWARN);
+ 	}
+@@ -236,12 +237,14 @@ void drm_gem_dma_free(struct drm_gem_dma_object *dma_obj)
+ 		drm_prime_gem_destroy(gem_obj, dma_obj->sgt);
+ 	} else if (dma_obj->vaddr) {
+ 		if (dma_obj->map_noncoherent)
+-			dma_free_noncoherent(gem_obj->dev->dev, dma_obj->base.size,
++			dma_free_noncoherent(drm_dev_dma_dev(gem_obj->dev),
++					     dma_obj->base.size,
+ 					     dma_obj->vaddr, dma_obj->dma_addr,
+ 					     DMA_TO_DEVICE);
+ 		else
+-			dma_free_wc(gem_obj->dev->dev, dma_obj->base.size,
+-				    dma_obj->vaddr, dma_obj->dma_addr);
++			dma_free_wc(drm_dev_dma_dev(gem_obj->dev),
++				    dma_obj->base.size, dma_obj->vaddr,
++				    dma_obj->dma_addr);
+ 	}
+ 
+ 	drm_gem_object_release(gem_obj);
+@@ -432,7 +435,7 @@ struct sg_table *drm_gem_dma_get_sg_table(struct drm_gem_dma_object *dma_obj)
+ 	if (!sgt)
  		return ERR_PTR(-ENOMEM);
  
- 	if (dev)
--		max_segment = dma_max_mapping_size(dev->dev);
-+		max_segment = dma_max_mapping_size(drm_dev_dma_dev(dev));
- 	if (max_segment == 0)
- 		max_segment = UINT_MAX;
- 	err = sg_alloc_table_from_pages_segment(sg, pages, nr_pages, 0,
+-	ret = dma_get_sgtable(obj->dev->dev, sgt, dma_obj->vaddr,
++	ret = dma_get_sgtable(drm_dev_dma_dev(obj->dev), sgt, dma_obj->vaddr,
+ 			      dma_obj->dma_addr, obj->size);
+ 	if (ret < 0)
+ 		goto out;
+@@ -539,12 +542,12 @@ int drm_gem_dma_mmap(struct drm_gem_dma_object *dma_obj, struct vm_area_struct *
+ 	if (dma_obj->map_noncoherent) {
+ 		vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
+ 
+-		ret = dma_mmap_pages(dma_obj->base.dev->dev,
++		ret = dma_mmap_pages(drm_dev_dma_dev(dma_obj->base.dev),
+ 				     vma, vma->vm_end - vma->vm_start,
+ 				     virt_to_page(dma_obj->vaddr));
+ 	} else {
+-		ret = dma_mmap_wc(dma_obj->base.dev->dev, vma, dma_obj->vaddr,
+-				  dma_obj->dma_addr,
++		ret = dma_mmap_wc(drm_dev_dma_dev(dma_obj->base.dev), vma,
++				  dma_obj->vaddr, dma_obj->dma_addr,
+ 				  vma->vm_end - vma->vm_start);
+ 	}
+ 	if (ret)
 -- 
 2.53.0.473.g4a7958ca14-goog
 
