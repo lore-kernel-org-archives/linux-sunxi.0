@@ -1,88 +1,83 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17E03BD653
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 03:25:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C3C364951
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Mar 2026 07:55:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773113159; cv=none; b=dISJJbTjdUTF9eDnBFdSPIpqDsec1bM6SqQdDqjTX/KtaVyAPgcFQj+c/njpppHa6xPxJ4c2H70tFNZQ+/8hnbHUsuPYHzY/I9w9bk0fW+Xxk2OP6n/reuid3i1Fc+U1euWNmT28rO0sOMnEJdySlL7gsHEJvBqqYpr0R3d8zWY=
+	t=1773129362; cv=none; b=Kg2LRdcKDyPsiGt+kT3Q1NXWu8MzN/OVd41YpJK3mL3k5zIYAB9QcqHR5audR78RfWPFUxfflt6ulKoAVyDTK2driGQvV13OArWazshHNOGUoUNTA1z4qFpIX6vTkiTZYLz45E2Cw3WkcFBZ2glAxAEXTjPFRsWMyCSN/HALd44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773113159; c=relaxed/simple;
-	bh=rfD7Le/WZjv74zhcuW0yU+5NJ1RZ3lo7zccKLiSyBcI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=q0JAZGCwo/TOSR0SSar4MtlpkqKYMTbEQBFoYl9gqVImJxlUVYvsAtbSzX5uAaLHQQyuP9vQymu/qsx7ycG0T2lT0YPpakSItAm3aOHcAlUWlSq2R7EvuDzCUVMY1QC+lMIm+j+4uCdzrClQR/KAH1kabN8oF5K2su7Ha/nyEqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PkKw65oZ; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1773129362; c=relaxed/simple;
+	bh=FMS4BVUajKAUxKcjzcddBgaLVt+yOxMuuGFj9UUkSaM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=teXJR1rrD2rkyWTFcOs/gaE+GPAO4wEWZG4FyY4/gEYVRZQ7hNQynC3BO9VfUHy07rG5GGyJvq5qoPrBB4hMs+Q5OKbUbuHKccnobb/lkpZL8z0Z/RvnngwBW36ZS8LEzOgeZTR5tP+dVd8NQWc61KW5S9+PQYbA8ZSMsf0ABX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=grFET2Q/; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PkKw65oZ"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2a8fba3f769so53812105ad.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 09 Mar 2026 20:25:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1773113155; x=1773717955; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y1z9EtizHwE3LeSySxAXfxT/FNlt1Ydhsh1vDf6WdY0=;
-        b=PkKw65oZZ+tLSuFV7rPjAJXgzkZHSPiIbNA7VLD3rTldv7BmwU4cb8fnNQpvSHJtnd
-         Q6A4NF8OEyaP0xoWe6HCPh51RLmBlWWXJeasjXzWwl+fOYis/65A4jC0mxQn9s3lAdPh
-         bSsNJjfS13rgUYHX+HekNp9h4bw6Q5p/RpyWA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773113155; x=1773717955;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Y1z9EtizHwE3LeSySxAXfxT/FNlt1Ydhsh1vDf6WdY0=;
-        b=Uomdb6WUhZIKeuXEvxE2aa1S7n/SFRDGUOPJ5WE1H4RpNhhrbl9jNC5k0Q5cq1eIvY
-         Ugk6Ulatg4rGTlJyI22vA86tgHrcCvaOpqs54XD+8SSvoK6ri6GcMZtL/HJgKsoKC/kO
-         nBxPY/gTiH5nXb3Q78Q3pvDskeAQ8VNZy53rSorjHAAX/c6S3WCV1fxTBHGysTF0FZoX
-         fjrhBg1AShq3sV+mez78Y/UwpHYhPnBzr7wmHXJD8rpFOQtbsju/X51dhJEUNFwh79Jt
-         gmhiJGBj7wKhGyEQnmObqSm850S6P1zjBeB+g33qhReTind8vRKrhlD29oyJ3NNDE/92
-         C3iA==
-X-Forwarded-Encrypted: i=1; AJvYcCUnSPNF/8WuBNYW0/R0+Wlmt2vtHz9UbTLUbtHHq5L88qTKEChqcAlb5RwLvEEeCrgNZCLW7S6qld0JLA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwmzOMJCMpdP+B6p1YIjJ2KbxYUqqaGl1rpCFPU/NVFYD4CD7Jr
-	NDN8ae3hLBFNmk6cvRlcK0jKl8Ty9fEIwZz/I+UB8qRH7bghhjQGFugFgmvUH+K9I6w3UZiEgRz
-	mdGk=
-X-Gm-Gg: ATEYQzzsPimNDpN3OBoZ2ZoH+QJGISSKNT0PHuKFY9LmKclGgI1TRXuk1Fph9u2SZUj
-	5kcpbcT8bTQvh9qfgwyKsmGcI/solH3bukKtZvTxMxxwMQTy2DiNE4qZXU22jaSVG4twQOAK68K
-	J6TUrdUvbmxdSBN6xUYIWmJMQO3/VbMyWXwI+4PM0vy1UwG76PNHP+Mo+scobkeuTAooT/CTu37
-	QTBM5DQNEHS5vfPmARtR+Pg0jmIROO4+7H/CtM+Y/Cg4ehyO6ZM3P+uc1HLEX6m9okJGes6asfD
-	gQjWRRAMji2a97UoPNAkrrBvw1mFei0YyOQGeZIOdgn4pk+JRj2ozAU1nVMJTMDVE1aWOnS10Nh
-	X0PB4E16cWESbje0muwK9S5JiP9gQ3P8l3Hxf5v7geKROaOVOKiRgo7EIWG83w1t7NAUUG1EN3E
-	Jo9C3WCXdlXbs/6F7ZnRrsxt0l/wdNKu6VbyRJPSY5CiVok7739TdxJcIakUoxZr9zJMe+yx/kH
-	B5te/kD
-X-Received: by 2002:a17:902:ec88:b0:2ae:54b2:27c7 with SMTP id d9443c01a7336-2ae82459ca5mr139254635ad.39.1773113155156;
-        Mon, 09 Mar 2026 20:25:55 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:ee38:e01e:e888:6900])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae83e575e6sm126695095ad.5.2026.03.09.20.25.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 20:25:54 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="grFET2Q/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=/a0tRwE4WB1N7m
+	bM38o7pQ2y610kAMXzD8AqisAnlgU=; b=grFET2Q/L5BDbD2xTndWCxfWXxtyl2
+	MrNW6Nu3qAN1EmBl/MYyb9CKwe54CLj7IvlqLMC5IMLgb11+UnMtwsIpNOpeZHWa
+	GVPU+ybqbKsVtIcDblhf8AAmfEvK69zbgwZTCdiSqJFfuZQ3G9lnG2U3m4tzAMVJ
+	QnwiFLc/jqMR9GpmUHV3igEQ4pjuUCRsM0Hm2OZQ1Li9cwvsXq2py2+kvdhFHYP2
+	jC6TKSVnNybFyfIppa6NtLkCKTYZrYUqHsFkz7SYD5URwCS66vb5yN0vG/p3qKDq
+	87t1xNh8zF1QjL/xdXPPlibUyKgxw31YNVsxPQuxV575FpunGlhflHgw==
+Received: (qmail 3112474 invoked from network); 10 Mar 2026 08:55:47 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Mar 2026 08:55:47 +0100
+X-UD-Smtp-Session: l3s3148p1@UTnb2KZMmJAujntP
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Antonio Borneo <antonio.borneo@foss.st.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
 	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	linux-sunxi@lists.linux.dev,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	linux-mediatek@lists.infradead.org,
-	dri-devel@lists.freedesktop.org,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	driver-core@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Lee Jones <lee@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND 4/4] drm/sun4i: Use backend/mixer as dedicated DMA device
-Date: Tue, 10 Mar 2026 11:25:09 +0800
-Message-ID: <20260310032511.2545500-5-wenst@chromium.org>
-X-Mailer: git-send-email 2.53.0.473.g4a7958ca14-goog
-In-Reply-To: <20260310032511.2545500-1-wenst@chromium.org>
-References: <20260310032511.2545500-1-wenst@chromium.org>
+	linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
+	Will Deacon <will@kernel.org>
+Subject: [PATCH v4 00/15] hwspinlock: move device alloc into core and refactor includes
+Date: Tue, 10 Mar 2026 08:55:15 +0100
+Message-ID: <20260310075539.11701-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -91,107 +86,97 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The sun4i DRM driver deals with DMA constraints in a peculiar way.
-Instead of using the actual DMA device in various helpers, it justs
-reconfigures the DMA constraints of the virtual display device using
-the DMA device's device tree node by calling of_dma_configure().
+Changes since v3:
 
-Turns out of_dma_configure() should only be called from bus code.
-Lately this also triggers a big warning through of_iommu_configure()
-and ultimately __iommu_probe_device():
+* removed useless __iomem annotations (Thanks, sparse + buildbots)
+  So, the newly introduced callback only operates on void* and doesn't
+  use __iomem annotations now. Note that most of the drivers will still
+  trigger a sparse warning because they use an __iomem pointer in
+  .con_priv. But they also did so before this series, so it keeps
+  current behaviour. Fixing these sparse warnings should be done
+  independently IMO.
+* rebased to 7.0-rc3
+* added tags (Thanks!)
 
-    late IOMMU probe at driver bind, something fishy here!
+My ultimate goal is to allow hwspinlock provider drivers outside of the
+subsystem directory. It turned out that a simple split of the headers
+files into a public provider and a public consumer header file is not
+enough because core internal structures need to stay hidden. Even more,
+their opaqueness could and should even be increased. That would also
+allow the core to handle the de-/allocation of the hwspinlock device
+itself.
 
-Now that the GEM DMA helpers have proper support for allocating
-and mapping buffers with a dedicated DMA device, switch over to
-it as the proper solution.
+This series does all that. Patches 1-2 remove the meanwhile unused
+platform_data to ease further refactoring. Patches 3-9 abstract access
+to internal structures away using helpers. Patch 10 then moves
+hwspinlock device handling to the core, simplifying drivers. The
+remaining patches refactor the headers until the internal one is gone
+and the public ones are divided into provider and consumer parts. More
+details are given in the patch descriptions.
 
-The mixer change was tested on a Pine H64 model B. The backend change
-was only compile tested. Though I don't expect any issues, help testing
-on an older device would be appreciated.
+One note about using a callback to initialize hwspinlock priv: I also
+experimented with a dedicated 'set_priv' helper function. It felt a bit
+clumsy to me. Drivers would need to save the 'bank' pointer again and
+iterate over it. Because most drivers will only have a simple callback
+anyhow, it looked leaner to me.
 
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
- drivers/gpu/drm/sun4i/sun4i_backend.c | 27 +++++++++++++++------------
- drivers/gpu/drm/sun4i/sun8i_mixer.c   | 27 +++++++++++++++------------
- 2 files changed, 30 insertions(+), 24 deletions(-)
+This series has been tested on a Renesas SparrowHawk board (R-Car V4H)
+with a yet-to-be-upstreamed hwspinlock driver for the MFIS IP core. A
+branch can be found here (without the MFIS driver currently):
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
-index 6391bdc94a5c..a57fb5151def 100644
---- a/drivers/gpu/drm/sun4i/sun4i_backend.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
-@@ -798,18 +798,21 @@ static int sun4i_backend_bind(struct device *dev, struct device *master,
- 	dev_set_drvdata(dev, backend);
- 	spin_lock_init(&backend->frontend_lock);
- 
--	if (of_property_present(dev->of_node, "interconnects")) {
--		/*
--		 * This assume we have the same DMA constraints for all our the
--		 * devices in our pipeline (all the backends, but also the
--		 * frontends). This sounds bad, but it has always been the case
--		 * for us, and DRM doesn't do per-device allocation either, so
--		 * we would need to fix DRM first...
--		 */
--		ret = of_dma_configure(drm->dev, dev->of_node, true);
--		if (ret)
--			return ret;
--	}
-+	/*
-+	 * This assume we have the same DMA constraints for all our the
-+	 * devices in our pipeline (all the backends, but also the
-+	 * frontends). This sounds bad, but it has always been the case
-+	 * for us, and DRM doesn't do per-device allocation either, so
-+	 * we would need to fix DRM first...
-+	 *
-+	 * Always use the first bound backend as the DMA device. While
-+	 * our device trees always have all backends enabled, some in
-+	 * the wild may actually have the first one disabled. If both
-+	 * are enabled, the order in which they are bound is guaranteed
-+	 * since the driver adds components in order.
-+	 */
-+	if (drm_dev_dma_dev(drm) == drm->dev)
-+		drm_dev_set_dma_dev(drm, dev);
- 
- 	backend->engine.node = dev->of_node;
- 	backend->engine.ops = &sun4i_backend_engine_ops;
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 02acc7cbdb97..4071ab38b4ae 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -536,18 +536,21 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 	mixer->engine.ops = &sun8i_engine_ops;
- 	mixer->engine.node = dev->of_node;
- 
--	if (of_property_present(dev->of_node, "iommus")) {
--		/*
--		 * This assume we have the same DMA constraints for
--		 * all our the mixers in our pipeline. This sounds
--		 * bad, but it has always been the case for us, and
--		 * DRM doesn't do per-device allocation either, so we
--		 * would need to fix DRM first...
--		 */
--		ret = of_dma_configure(drm->dev, dev->of_node, true);
--		if (ret)
--			return ret;
--	}
-+	/*
-+	 * This assume we have the same DMA constraints for all our the
-+	 * devices in our pipeline (all the backends, but also the
-+	 * frontends). This sounds bad, but it has always been the case
-+	 * for us, and DRM doesn't do per-device allocation either, so
-+	 * we would need to fix DRM first...
-+	 *
-+	 * Always use the first bound backend as the DMA device. While
-+	 * our device trees always have all backends enabled, some in
-+	 * the wild may actually have the first one disabled. If both
-+	 * are enabled, the order in which they are bound is guaranteed
-+	 * since the driver adds components in order.
-+	 */
-+	if (drm_dev_dma_dev(drm) == drm->dev)
-+		drm_dev_set_dma_dev(drm, dev);
- 
- 	/*
- 	 * While this function can fail, we shouldn't do anything
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/hwspinlock/refactor-alloc-buildtest
+
+Happy hacking,
+
+   Wolfram
+
+
+Wolfram Sang (15):
+  hwspinlock: u8500: delete driver
+  hwspinlock: remove now unused pdata from header file
+  hwspinlock: add helpers to retrieve core data
+  hwspinlock: add callback to fill private data of a hwspinlock
+  hwspinlock: omap: use new callback to initialize hwspinlock priv
+  hwspinlock: qcom: use new callback to initialize hwspinlock priv
+  hwspinlock: sprd: use new callback to initialize hwspinlock priv
+  hwspinlock: stm32: use new callback to initialize hwspinlock priv
+  hwspinlock: sun6i: use new callback to initialize hwspinlock priv
+  hwspinlock: handle hwspinlock device allocation in the core
+  hwspinlock: move entries from internal to public header
+  hwspinlock: remove internal header
+  hwspinlock: sort include and update copyright
+  hwspinlock: refactor provider.h from public header
+  hwspinlock/treewide: refactor consumer.h from public header
+
+ Documentation/locking/hwspinlock.rst          |   2 +-
+ MAINTAINERS                                   |   3 +-
+ drivers/base/regmap/regmap.c                  |   2 +-
+ drivers/hwspinlock/Kconfig                    |  10 --
+ drivers/hwspinlock/Makefile                   |   1 -
+ drivers/hwspinlock/hwspinlock_core.c          | 129 +++++++++++----
+ drivers/hwspinlock/hwspinlock_internal.h      |  72 --------
+ drivers/hwspinlock/omap_hwspinlock.c          |  27 ++-
+ drivers/hwspinlock/qcom_hwspinlock.c          |  69 ++++----
+ drivers/hwspinlock/sprd_hwspinlock.c          |  39 ++---
+ drivers/hwspinlock/stm32_hwspinlock.c         |  26 +--
+ drivers/hwspinlock/sun6i_hwspinlock.c         |  36 ++--
+ drivers/hwspinlock/u8500_hsem.c               | 155 ------------------
+ drivers/iio/adc/sc27xx_adc.c                  |   2 +-
+ drivers/irqchip/irq-stm32mp-exti.c            |   2 +-
+ drivers/mfd/syscon.c                          |   2 +-
+ drivers/nvmem/sc27xx-efuse.c                  |   2 +-
+ drivers/nvmem/sprd-efuse.c                    |   2 +-
+ drivers/pinctrl/stm32/pinctrl-stm32.c         |   2 +-
+ drivers/soc/qcom/smem.c                       |   2 +-
+ drivers/spi/spi-sprd-adi.c                    |   2 +-
+ .../{hwspinlock.h => hwspinlock/consumer.h}   |  57 +------
+ include/linux/hwspinlock/provider.h           |  60 +++++++
+ 23 files changed, 260 insertions(+), 444 deletions(-)
+ delete mode 100644 drivers/hwspinlock/hwspinlock_internal.h
+ delete mode 100644 drivers/hwspinlock/u8500_hsem.c
+ rename include/linux/{hwspinlock.h => hwspinlock/consumer.h} (87%)
+ create mode 100644 include/linux/hwspinlock/provider.h
+
 -- 
-2.53.0.473.g4a7958ca14-goog
+2.47.3
 
