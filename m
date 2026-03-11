@@ -1,261 +1,171 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4DE03B2FD8
-	for <linux-sunxi@lists.linux.dev>; Wed, 11 Mar 2026 07:41:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0363A543D
+	for <linux-sunxi@lists.linux.dev>; Wed, 11 Mar 2026 09:49:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773214884; cv=none; b=Ox/yztHe9rV4Urr9aUBbD7neO4dhmsFI630sBKK9GU2kxtW00H5TRQcWpQHeOGfc990vP0ays2GNsLyUcY+VW5VvvWxmpzIU8/ZpQaZJS3zK1c3T6D6d0F/WkM7si3FSdDwptseQ/vBN8LXk+Hhgz0WfUBZr1aS8TaSReCOphKQ=
+	t=1773222595; cv=none; b=mRphEFpmRo+Kwh6zz3iABX9U4jV8zng+EyFFaBhiF7oXLLgmpsC9KXO60maHyu4J3uUewveSsbSDCHTiEqY1lqd5JMHTfk1kY/RlGLeVXtydTNx9Z3kxUDQgevoa0tGOuwv76XqxxCwMc8I7z+HKVN6oj8FzNdTff6HDBULbf8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773214884; c=relaxed/simple;
-	bh=2usxLdztocbVT5hKXqazPc4X0+aaMyf47GyG9umYxOE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GYa8h3bsymaN28Y8jKDCzcdr/loxCWkGTeu807d5HJFnLppTO8Pegmh16xCAGnEbDiBQ1GAqBZBgDdbn+7ZD675yxBcVsMUVYj2YVFDRD63K8UyYKf2NseomcXZ9/TwfeX8QcQUSTeWG0cNb1y7d+AgOcfm+W7jQUp+OCEqwb7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yQR9YVmQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wT1+L4hd; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yQR9YVmQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wT1+L4hd; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1773222595; c=relaxed/simple;
+	bh=n5ZK7F1V2KiNJeUD9xBYVwS7lRGLh4RYsfTc7g92nTA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DEF3ZvuV+/llKjom+LGXt5CQ5Wd5dTLIbXT1U2LLODptXfAJkHFQQZBPNWGM7HvP5oRpvLZOHQf1l9mGbIs/0EmnzZrQapygEtGwej80mSQfjt0o0bR1hA58YoNbJq5wAk0SddwrIxca42SMnqV6+xLoDy4KvVW+3Pv/ZoVBXPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZagtIJ0+; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yQR9YVmQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wT1+L4hd";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yQR9YVmQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wT1+L4hd"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A4A2B4D20D;
-	Wed, 11 Mar 2026 07:41:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773214877; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pTzctBCMZD3Bk1sOepQrQejw/EPb46U3djACzU87gK4=;
-	b=yQR9YVmQ/fD5SFLxECOR3pVfbEfYo9GD4SobepXD7gVB+xApeqHSjoJ8kOkpx4sEU5Q6cZ
-	peB+jOHr1p/B0H6VvVLw0MIB99BmESI3iO6Rskv9L6qy/6XLeXkB9je7T8DpWPBkHpheRN
-	73+D2Gr1cKZfnpfEhd/2fbVbeWTldFQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773214877;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pTzctBCMZD3Bk1sOepQrQejw/EPb46U3djACzU87gK4=;
-	b=wT1+L4hddG0Y6LNap88NDaY3MISqTslaCe0IIjfzAgiA/XZuDiWbUt5kigjD2hVwG6ATVd
-	wUnr94eXOGgRijAg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=yQR9YVmQ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=wT1+L4hd
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773214877; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pTzctBCMZD3Bk1sOepQrQejw/EPb46U3djACzU87gK4=;
-	b=yQR9YVmQ/fD5SFLxECOR3pVfbEfYo9GD4SobepXD7gVB+xApeqHSjoJ8kOkpx4sEU5Q6cZ
-	peB+jOHr1p/B0H6VvVLw0MIB99BmESI3iO6Rskv9L6qy/6XLeXkB9je7T8DpWPBkHpheRN
-	73+D2Gr1cKZfnpfEhd/2fbVbeWTldFQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773214877;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pTzctBCMZD3Bk1sOepQrQejw/EPb46U3djACzU87gK4=;
-	b=wT1+L4hddG0Y6LNap88NDaY3MISqTslaCe0IIjfzAgiA/XZuDiWbUt5kigjD2hVwG6ATVd
-	wUnr94eXOGgRijAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 347D43F8DE;
-	Wed, 11 Mar 2026 07:41:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Mk12C50csWmuYgAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 11 Mar 2026 07:41:17 +0000
-Message-ID: <b10efa5c-8b4c-48a4-a379-0cd90c7dc22d@suse.de>
-Date: Wed, 11 Mar 2026 08:41:16 +0100
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZagtIJ0+"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-8297310ce0aso4405896b3a.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 11 Mar 2026 02:49:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1773222593; x=1773827393; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3c+qlxblsTBEXvZcg0JlOjOHrwtZ50FEnfrmL02pXEs=;
+        b=ZagtIJ0+w+Lc4zf/Ntz0bAyetnS5DU/ojEs43Wjn8z6ds5HKcEAgb33wIMbkQN6HzY
+         zAJf1ZsT+kVsVhvbpEjPlltHR6e+5Z/NS3p0OxBYloLJkSt+1w6MdNd3Uyj6yjRqHLz4
+         82dg5HhM5wuferuAsxVyx50rhpY99HG43wejI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773222593; x=1773827393;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3c+qlxblsTBEXvZcg0JlOjOHrwtZ50FEnfrmL02pXEs=;
+        b=YxlQxL2rYIfqHiZbhkbkNp3mVHAcBTlPvG/PBrci22JBsiGFYL+iTYk4a2YTNtuFrj
+         I5eIDr11jMc7U67RV2iFU4BMFVbpLdPO+FvQfTBSZiI4OLuDVQy1gEJhJvP37XBVSmbF
+         RiE9gDntr2npuLON+MYhkG/GTrJvK8QKD+mI+4XmcDlH7R9OKYzqTY0CWAgMQUuxCu5l
+         xG8cvV0Ne54dLAqJ79aXqWJdT1pAV28gubNWE6Yfcna3efJOVSbo5aJrwkO7+t/DkjpY
+         qoD7LszYCw83KVbTNwVFss75nvxhhQqfebdI2tpSzCE+Rxr4vUWAlhKoOEiz0fAnsqfL
+         Me8g==
+X-Forwarded-Encrypted: i=1; AJvYcCUpxX1SmHBpcAm3D6OaMQE7K/DMw1TkgOMoj4g4CXcmLC/mHYjZXcTqkmcUsNjS3aRQF69mSDuB4jmVBA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzAn57XcFgcZ2598Jn3AZTr/oUfmn8JSL2tuTVxxACt3rsoppv0
+	o/uUVGf/3krFMxq/kYMtbChBm2pbD4KJl4c/cFIyRIFgasaSNBz6JBVvFTxZTxiOMQ==
+X-Gm-Gg: ATEYQzw9Is4+HXldvmkVndTDl+25eVhX/fk1tX+HGCJjtnjbkJidMewISjKmTm+YeTx
+	pkkwJBPdKRaE946fh0g1kdUWp8H7kNN1II53AL4MSB8goREbK3BXyjyVpDMDD5pg11iYpNwRe/J
+	LWgj7c94Q9DRGNyQZarVLyqTDn1dm+LCAiSKkvFE1/u180ZOg5AFKoCd2BV/+6R64LyPe0NaCwi
+	ucBC6GH3v1Pjnmkw8N+OGxso18DSQgHmUHuwDu3QI3yWvV7g8RtHGbQttFq3slDwZ9OyBBY5SWg
+	6lgrPfXSOiXTRaY6NZWXiWwIPmpY3XbBL5JCOdMcdu34URgNjkf0U+GU9UVBWFK1eONOq1MVVox
+	v8GligjXa6WQAdm12XFSnqltFOOWY2J8aE3TgEKO+VRCJPfTTNWFQPp3tyA6u0KBTZgi3So349T
+	X/y6bVeOVEnwcOgLTnXPUDpgQ9fKJqjIAoa6LsMjOCb0TN6i4OxdtqRqNTXwRBxXm1suYIfM43M
+	YRxSwfm
+X-Received: by 2002:a05:6a00:7095:b0:81e:7496:f826 with SMTP id d2e1a72fcca58-829f706cc42mr1683975b3a.31.1773222593454;
+        Wed, 11 Mar 2026 02:49:53 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:805b:14e9:f783:bcae])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829f6e22f85sm1887598b3a.27.2026.03.11.02.49.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Mar 2026 02:49:52 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	linux-sunxi@lists.linux.dev,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	linux-mediatek@lists.infradead.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/4] drm/gem-dma: Support dedicated DMA device for allocation
+Date: Wed, 11 Mar 2026 17:49:24 +0800
+Message-ID: <20260311094929.3393338-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.53.0.473.g4a7958ca14-goog
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND 3/4] drm/mediatek: Set dedicated DMA device and
- drop custom GEM callbacks
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-sunxi@lists.linux.dev, Paul Kocialkowski <paulk@sys-base.io>,
- linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20260310032511.2545500-1-wenst@chromium.org>
- <20260310032511.2545500-4-wenst@chromium.org>
- <b2acf78f-4ff9-4e3f-802d-5318e6f25c20@suse.de>
- <CAGXv+5HJKjM77PdZjwUossTzrPx+LvgVaS=-sGcGNec77TJLzw@mail.gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CAGXv+5HJKjM77PdZjwUossTzrPx+LvgVaS=-sGcGNec77TJLzw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[gmail.com,collabora.com,kernel.org,pengutronix.de,linux.intel.com,sholland.org,ffwll.ch,lists.linux.dev,sys-base.io,lists.infradead.org,lists.freedesktop.org,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:url,bootlin.com:url]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: A4A2B4D20D
 
-Hi
+Hi folks,
 
-Am 11.03.26 um 05:55 schrieb Chen-Yu Tsai:
-> On Tue, Mar 10, 2026 at 4:21 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->> Hi
->>
->> Am 10.03.26 um 04:25 schrieb Chen-Yu Tsai:
->>> In commit 9b54a32c7c6a ("drm/mediatek: mtk_gem: Partial refactor and
->>> use drm_gem_dma_object") the MediaTek DRM driver was refactored to use
->>> drm_gem_dma_object, but custom callbacks were still needed to deal with
->>> using the first device of the pipeline as the DMA device, instead of
->>> the MMSYS device that the DRM driver binds to.
->>>
->>> Turns out there is already partial support for dedicated DMA devices in
->>> the DRM subsystem for PRIME imports. The preceding patches add support
->>> for dedicated DMA devices to the GEM DMA helpers.
->>>
->>> This allows us to just set the dedicated DMA device for the DRM device,
->>> and drop all the custom GEM callbacks. Also drop the .dma_dev field
->>> from the driver private data as it is no longer needed.
->> My impression is that this patch should be split up: first replace
->> dma_dev with the dma device; then replace the now-duplicate code with
->> shared helpers.
-> I'm not sure which of the following you are thinking about:
->
-> a) one patch with just the drm_dev_set_dma_dev() call,
->     one patch dropping the custom GEM callbacks
->
-> In this case the first patch has no actual effect, since nothing is using
-> drm_dev->dma_dev. I think this is not a good split.
->
-> b) one patch adding drm_dev_set_dma_dev() and replacing priv->dma_dev
->     with drm_dev_dma_dev(),
->     one patch dropping the custom GEM callbacks
->
-> In this case the first patch would modify a bunch of places that then
-> get dropped in the second. The churn maybe isn't worth it.
->
-> c) one patch adding drm_dev_set_dma_dev() and replacing
->     drm_gem_prime_import_dev() with drm_gem_prime_import(),
->     one patch dropping the custom GEM callbacks
->
-> Functionally the second patch would depend on the first.
+This is v2 of my "support dedicated DMA device for allocation and mmap
+in GEM DMA helpers" series.
 
-Not my call to make, but the driver maintainers.
+Changes since v1:
+- Link to v1: https://lore.kernel.org/all/20260310032511.2545500-1-wenst@chromium.org/
+- Collected tags
+- Removed reference to mtk_gem.c from the Makefile
 
-What I meant was option b). Switching dma_dev for drm_dev_dma_dev() and 
-replacing the mediatek code with common helpers can both introduce 
-regressions.  Having two patches might make later bisecting easier.
+This series expands the "dedicated DMA device" support in DRM to the GEM
+DMA helpers, and converts the MediaTek DRM driver to setting the DMA
+device and dropping the custom GEM helpers that implemented this
+function.
 
->
->
-> I still think having one single patch is better.
->
->>> There are slight differences in the mmap helper: the VM_DONTDUMP and
->>> VM_IO flags are no longer set. Both were lifted from drm_gem_mmap_obj().
->>> VM_IO probably doesn't make sense since the buffer is allocated using
->>> dma_alloc_attrs().
->> We can add VM_DONTDUMP to gem-dma's mmap helper. [1] It's most likely
->> the right thing to not dump graphics buffers and standard practice in
->> most other GEM memory managers.
-> Makes sense. I can add a patch to the series to do this.
+Various display drivers implement the "dedicated DMA device" support
+with custom GEM helpers. These include Exynos, MediaTek, and Rockchip
+to name a few. Allwinner does something entirely different, calling
+of_dma_configure() on the virtual display device using the OF node of
+the actual DMA device. Recently this causes a warning if IOMMUs are
+involved.
 
-Rather send it out separately. This affects many drivers and we 
-shouldn't hide such a change somewhere in an unrelated series.
+The dedicated DMA device is set by calling drm_dev_set_dma_dev(). Any
+code that does DMA related actions should use drm_dev_dma_dev() to get
+the DMA device. If a dedicated device was not set, then it shall fall
+back to the DRM device's underlying device.
 
-Best regards
-Thomas
+This series intends to allow the core helpers to deal with it, and not
+have every driver implement it in slightly different ways, duplicating
+code.
 
->
->> [1]
->> https://elixir.bootlin.com/linux/v6.19.6/source/drivers/gpu/drm/drm_gem_dma_helper.c#L537
->>
->>> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
->> The changes look correct, so I'm here's the
->>
->> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->>
->> But this patch requires a review from the driver maintainer as well.
-> Sure, and I need to respin the series because I forgot to remove the
-> deleted file from the Makefile.
->
->
-> Thanks
-> ChenYu
+Patch 1 adds dedicated DMA device support to drm_prime_pages_to_sg().
+I believe this was missing from the original change that added dedicated
+DMA devices for PRIME.
+
+Patch 2 adds support for dedicated DMA device to the GEM DMA helpers
+for GEM buffer allocation and mmap.
+
+Patch 3 converts the MediaTek DRM driver to use the dedicated DMA device
+support, and drop all the remaining custom GEM callbacks that deal with
+it.
+
+Patch 4 converts the Allwinner sun4i DRM driver to use the dedicated DMA
+device support, instead of the of_dma_configure() hack it currently has.
+
+The series should be merged through drm-misc-next so that other drivers
+can take advantage of the change.
+
+I also intend to try to convert the Exynos and Rockchip drivers, however
+both also have options to set DMA_ATTR_NO_KERNEL_MAPPING when using
+dma_alloc_attrs() to allocate memory for the buffers. I intend to
+resurrect the DRM_MODE_DUMB_KERNEL_MAP work from Rob Herring [1]
+to handle this. The Rockchip driver also has custom IOMMU attachment
+that I'm still trying to understand.
+
+
+Thanks
+ChenYu
+
+
+Chen-Yu Tsai (4):
+  drm/prime: Limit scatter list size with dedicated DMA device
+  drm/gem-dma: Support dedicated DMA device for allocation and mapping
+  drm/mediatek: Set dedicated DMA device and drop custom GEM callbacks
+  drm/sun4i: Use backend/mixer as dedicated DMA device
+
+ drivers/gpu/drm/drm_gem_dma_helper.c   |  21 ++-
+ drivers/gpu/drm/drm_prime.c            |   2 +-
+ drivers/gpu/drm/mediatek/Makefile      |   1 -
+ drivers/gpu/drm/mediatek/mtk_crtc.c    |   1 -
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c |  21 +--
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h |   1 -
+ drivers/gpu/drm/mediatek/mtk_gem.c     | 231 -------------------------
+ drivers/gpu/drm/mediatek/mtk_gem.h     |  17 --
+ drivers/gpu/drm/sun4i/sun4i_backend.c  |  27 +--
+ drivers/gpu/drm/sun4i/sun8i_mixer.c    |  27 +--
+ 10 files changed, 46 insertions(+), 303 deletions(-)
+ delete mode 100644 drivers/gpu/drm/mediatek/mtk_gem.c
+ delete mode 100644 drivers/gpu/drm/mediatek/mtk_gem.h
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
+2.53.0.473.g4a7958ca14-goog
 
