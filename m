@@ -1,82 +1,286 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37AAC3C5543
-	for <linux-sunxi@lists.linux.dev>; Wed, 11 Mar 2026 14:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E53B8F48
+	for <linux-sunxi@lists.linux.dev>; Wed, 11 Mar 2026 17:04:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773240041; cv=none; b=qvnabsILV8bX6XrpTfJD9qHeB9mqVa+eK4GMtZ0VVMlpG6TIsIPTy3nmT+KHp9mY692xLV4aGfvKeQmDt1veT/Q9Rsroh2kTgrlwhOyoZOkQIRw4RMHmU1unWDJyA+Fu4oBdhixbRgehZHPOZ0TvCB6QxGYO0pazoNpB2GWrRzA=
+	t=1773248644; cv=none; b=a2e/LTUSxfJQPYpKKwwCAqOkqZEwblNiUqyMu0R44dmO31AQCpR1+INGDJti6W2t2+vzhnP9bZeDpasg9pPbZeiwzTZ1HEQTGs/Uc+a2WQYMsMbuOOeXnncYClPMBD14R7uWJv08RywrZAKUakteDfyb1zQjXnYJC81MWk4wg+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773240041; c=relaxed/simple;
-	bh=q5ScAZDEKF2VEyUynEqfPeutGbzwz5gnnQbsnc+Tk30=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sKhcsBnp5KeKBFl/T5YCH6RcxeDxb5ELTNDNpC0ojRvf6zo4RVIfakBX+t5APxHGetpVitCO0z2NzSAqSZOmMfPaL+mLOzj6sv/1ck/SBZ7Bq7Tz315dHPYbm9KIPjxiUMdJeD13Bgvn9rDjoGbju+jDXCxjvQ4/HkwSPWUrdc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=bU7krmzx; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1773248644; c=relaxed/simple;
+	bh=m7zsUMUyzNBIWWoKKRwkdq+2rL8U0KXnQkmaFuIW2hk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=I11u6NMYAORwcDN2BL7uUDOUrZIm7bUH2vzqq0ry9I5NHblQLTlnzlsZMP+HiqicrWevO+kH1lwbt8RmtMkSKeg2fXYAYgYgYLHMs1zW4MPG5I+KWuoy76wsnP1W/QscqlgmgAWErzuQV2eIginfQDQsaE0JN9M94oXzdtvAZEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UZqRiKjD; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=iCZKflcN; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="bU7krmzx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1773240033;
-	bh=q5ScAZDEKF2VEyUynEqfPeutGbzwz5gnnQbsnc+Tk30=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bU7krmzx5llznTGLf+9qLLITgGJVOK/Kk/xFq1ONmp8RI8P2aQk9OP2mdUkUD04HZ
-	 AqF4MlOKAXKRAWcim76VH5CrcMy+/vt6ywj1DOhFVqHXDdLPy64lSKm314/s9Y31wn
-	 DBotw3nfaUIysFHS32T/7djBu+3BqLaFXhemwY4SttgHJuP7DXQICCf0TfIKQjC+cZ
-	 wIfRX5Dy84X6J+hkZ2kPyxfL5hjKXBODNR7Gtm19uh3cbwbIZGKIhd87muP6zkyQ28
-	 mV2UEq83BJutaH8+aZOXFFyrctP1P15HZ+dMM7sZFIm61hS6gY3Q/SG6FqgyFWuk1q
-	 rJVgK9Eq4dwgw==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id B1D5617E1005;
-	Wed, 11 Mar 2026 15:40:32 +0100 (CET)
-Message-ID: <6d8d846b-f140-4294-aa2f-8fda230e0e18@collabora.com>
-Date: Wed, 11 Mar 2026 15:40:32 +0100
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UZqRiKjD";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="iCZKflcN"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62BBeBRu2676286
+	for <linux-sunxi@lists.linux.dev>; Wed, 11 Mar 2026 17:03:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=HaU1Spu8fMrfvtbuBT8OCk
+	Qdgf8P6cW2VDQWDXgjkOU=; b=UZqRiKjD46aRSyiWEzVPGMrsQ6dMNou77dVGT0
+	xSQOdrWpSK6K4NiHRJqpeJSca0wM6L/5/dPCFRVgE31MHP/MhaykwevSXSyLYLul
+	KenGNDuLtJfLgLgzppAMTtK/pJ8r1J6Mf/rt16IteDuG7EWf6McpondpnIiYm2m7
+	ikdarIDoKbXM44F2WYATuYnhAVlD60WYh0IzNzzX4H00hrMc+4HZdnKfDl4CFRA5
+	NbwMknFFgfMltwpbQFsYJfnpNfiJQhLoBwQlWPPntGafN7xV9t95rCTQtAml1eva
+	FVzvG54N4tYxaE5p3KupbNWIreKCcJsLY31T+Pe3Sh0C7mWQ==
+Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com [209.85.217.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cu3cd2cp1-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sunxi@lists.linux.dev>; Wed, 11 Mar 2026 17:03:59 +0000 (GMT)
+Received: by mail-vs1-f69.google.com with SMTP id ada2fe7eead31-5ffcb3a10f8so590784137.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 11 Mar 2026 10:03:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1773248638; x=1773853438; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HaU1Spu8fMrfvtbuBT8OCkQdgf8P6cW2VDQWDXgjkOU=;
+        b=iCZKflcNaroRSV6gderpqCfKcla1sAC90+UcUkcCZbdfU4qf9/PnbgUfgWGDqLVgyq
+         0qqoB+PVdWC/wleMcnyRz+KDCZSAGmJc1sTp5akcDANO6GBtf5lVT2k7Gl9I9lka9F3E
+         MzNdOTOnuXnkRL7dreYgYEj0S2QkUocv9jNVr3NCCb2ne2L6MBQIdEZ9SEQUe7oys062
+         3GtaECcaZsI1OS7ixPqYJRN0BnmJzKwZ0+GihXIEtkurtDkDSFUuRpqyDC5P4XQUwaDZ
+         2YA3ImFroVksYC0P/WYhsOVPpQ/tTeg127ACGbxKmwfRGFz20O5dA/kB5xQwuOlGGWQ9
+         sH1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773248638; x=1773853438;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HaU1Spu8fMrfvtbuBT8OCkQdgf8P6cW2VDQWDXgjkOU=;
+        b=PBREspjsOMFovqTjaTrvH0Ej3A6Ies7trtOvo4o1JXkUatpnzU8tlRkwYoFOsUICfY
+         8ezxXQbYNpwTOJQDapL4kTpj80A9222HYhg+5isullDAp/JI2nejLi8qwOyDqh8r8yAU
+         /Ge1lzwaNIfSmnndlfQVgFTmpfW2OSl5XpbOEB+EJhgAelEya5Jmyd2sUIcsFvgU6b7S
+         pNfUi+SgH4LmDCz1lGSkJz1WznoSJtApVO1h+zyWBh2TDEXW7bxuj/4mjvxEr0ywvvam
+         fYgPEPUGz8m4CeIx1QUmJWVN3KfLZ1VwGxvBq1KY1Jsg/vqQYWsPm+vPc4kWVfNmasNo
+         cB/A==
+X-Forwarded-Encrypted: i=1; AJvYcCV1wzXdi3WdzdgNIRl85Hy32vhqnrpUelVkaqYvfsQQ7wNzVszdGMpsxV/RLItK+CrXBPyZwnkwBZgbEw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxiOknlJdcRmFXZZfKzL5+Km3XPpw/AGsi288EfTMqLn7auOlyC
+	12xYSo32YK8oqwgaTeC+jX2PchqgdHNLSQJzrlUvWCL5SQfmqUPaHxBXRP06GiRbmwXkoL0QTZq
+	zouxSMrMDUiTl4ovsNhKiKxQjEI+hdRGQWYgx/pYKoXChOuL4KVbfaJuhNrLs0U/jhg==
+X-Gm-Gg: ATEYQzyCF3VGG9r5i+06JNkCUvFHKyBvbNoqxzFRCQEVr737tCgOdcwkHiDtJ9cyMSa
+	/VdaFWJIgC3ZV3WKgliQRwRa4IkGEL0PJRvHxAvkN/x9o1kY8KdPJXsY+tSG2vInxCQA580cAkn
+	hZGNxboMSu/A+GzfHkOTWL7pSu0ZfRDspazM8Ad2zX80RGYHmnA7RS3R/nO82EqgXPgspfCGB0v
+	QgHfwSMX/W4MMlIq3S1bmizIGSOVevmMGVY7S4KrVOUcHQid8Xy6PLtnKqnobxI/Rfr9+vRy7gY
+	p9Eq5HCM2WtLfnfMECrLOLv612TDIoleP19SDCBTHHhWe4EXZZbBmVIxNzSSyNkDuHLqeHKUU6P
+	DF3yXJREnYfnWOhUNi2J0dTkmMZYc/lnVRrTbXbjhpro4P7Sjzdfi
+X-Received: by 2002:a05:6102:5489:b0:5dd:c3ec:b75 with SMTP id ada2fe7eead31-601defd5d92mr1452507137.29.1773248638423;
+        Wed, 11 Mar 2026 10:03:58 -0700 (PDT)
+X-Received: by 2002:a05:6102:5489:b0:5dd:c3ec:b75 with SMTP id ada2fe7eead31-601defd5d92mr1452426137.29.1773248636892;
+        Wed, 11 Mar 2026 10:03:56 -0700 (PDT)
+Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:3a92:6740:d71b:5056])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541ad1e4esm167993075e9.8.2026.03.11.10.03.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Mar 2026 10:03:56 -0700 (PDT)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH net-next v8 0/6] net: stmmac: qcom-ethqos: add support for
+ SCMI power domains
+Date: Wed, 11 Mar 2026 18:03:35 +0100
+Message-Id: <20260311-qcom-sa8255p-emac-v8-0-58227bcf1018@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] drm/prime: Limit scatter list size with dedicated
- DMA device
-To: Chen-Yu Tsai <wenst@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
- Samuel Holland <samuel@sholland.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: linux-sunxi@lists.linux.dev, Paul Kocialkowski <paulk@sys-base.io>,
- linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20260311094929.3393338-1-wenst@chromium.org>
- <20260311094929.3393338-2-wenst@chromium.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20260311094929.3393338-2-wenst@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGigsWkC/3XQzWrDMAwH8FcpPs9B8ofs7NT3GDsoidMamqSNu
+ 9BR+u7zAlsH8S4GIfnnv3wXKcwxJPG6u4s5LDHFacyFf9mJ9sjjIcjY5VooUBYcGHlpp0Em9sr
+ aswwDt9IbAqUttxaVyPfOc+jjbTXfxBiucgy3q3jPnWNM12n+XB9bcO2vbo1QcBeUILViV7c9B
+ iK/P8WR56ma5sPKLfqXQFCuROhMOOvINbXSwM2GME8Ci9stJhO9IyIA79rAG8L+JYopbCYAOx0
+ 0c6/9dhF6EgrrEkGZMN71CF4ZwrCfUqouH3zKo0OVj++fzwABovoP8MS6M43izustsCZxP0kIN
+ FAJchnqMgSooTaNK0CPx+MLjGiqT1kCAAA=
+X-Change-ID: 20250704-qcom-sa8255p-emac-8460235ac512
+To: Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Andrew Lunn <andrew+netdev@lunn.ch>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Chen-Yu Tsai <wens@kernel.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>, Shawn Guo <shawnguo@kernel.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com,
+        Romain Gantois <romain.gantois@bootlin.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Christophe Roullier <christophe.roullier@foss.st.com>,
+        Bartosz Golaszewski <brgl@kernel.org>,
+        Radu Rendec <rrendec@redhat.com>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        Drew Fustini <dfustini@tenstorrent.com>, linux-sunxi@lists.linux.dev,
+        linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org,
+        imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, sophgo@lists.linux.dev,
+        linux-riscv@lists.infradead.org, brgl@kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4964;
+ i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
+ bh=m7zsUMUyzNBIWWoKKRwkdq+2rL8U0KXnQkmaFuIW2hk=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpsaBtMYKRG+G1iHDOODwHpPwuweuk13HbVcQie
+ 3BhK9Dx+wWJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCabGgbQAKCRAFnS7L/zaE
+ wzDED/4sIY4N6g84JyC+hXEHABm6Gs7uXfGAusaNiIblglss4QUI39l4yWdvkmYj5hBh1GmXeg7
+ RCzY/RKCRcpX8eNN2swVYV4b4J+g1k/yVGsvbt5PCw3poYM+KRwzr4zRxrPNNSX+Ew3Td0fLftA
+ iUqsCfc3M8Hl4z7A83M7/XOpNMkiG2xxgtBkPpkc0suGiVopZ81LrXFqdnje9+QkQirddqX854q
+ iAehIdBx5hualJrCS2cUDLEAen/Y+ycDpfKd7WRWRaOl6lcNEQ0EzGeGHnBP+Vb4WNo78I47X1F
+ RD7kNNYf7R3QDOz+RaDT4CBID3hLNW+6QeTCf4HU/GQ4STgvvfJtXBgxVGh7IUrzL0tHU7MmQoF
+ WFLikDVyjwj6sq7B3Ro/49jg1K4xX7NvTYUODisvtGtrH7xEKTF0G2DASbJnQBttG4EIBH9cOot
+ dY2i4AR6nx6bfaiOUF8aJpqvsQEoZaz3TAIdBLggUnA5MiaYSJN8eNi0/LqsYR4D5kAJP//KL3f
+ tZQZUlcJeqnJVz5eQgDxtk2u8VuF96AeLSAMdLN7gr8hxDwvfQt+Vd5hXmELLRmWN9YC6tOiCVt
+ QCc+Gu1K4M05ATMBBmWniUawjHUwc7AFfS/nmxKpfjce7ldCDoEMwN4cVBao1RQ9ySZYTCts58l
+ e1CLTORfV7tCm0A==
+X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzExMDE0NCBTYWx0ZWRfXyqsxH6xtE0F9
+ 9rNNX41Oez7wNL+ctK1MuE5uTuNPeqBy72QdxFFogmhBPCpIZRzatVvWAKBilRJsl15hzt2I1Su
+ qtVsWGasydMfJoqXq9FmOCqlzAqDXg2ewMBHl6lgXFhkV38mE6nWzU/0UdNVngpTtK8Vr5ztVqq
+ vpH5m4DtapptLBh2P28Ms7D9lN4D4/MbDwGvZokiE7CVl9HARW5UJxjeRuoGKMLLlUS8yEaSVT5
+ NcyBLpPIqs5m2j8klXQkRdOspFdX7uM+2relfnHxqpchbZa09YfAXuYluWpQVhzFlOav1gElfpu
+ t/Twi3KEHs6YLfbGVzHDUhuafgIYl6QlvFjjo0LifsiSZ96Bd4IUiaji5DnT9h1NnIr33V3nug2
+ 47h/4moa4brUtT1x8yJpl4K6yf2KzY9d4jvyS0Cf6LBdZR67ZJIEwZwz32vPmhIULH7pMNGvx54
+ Lnj7qF2EChbjR77W7tg==
+X-Authority-Analysis: v=2.4 cv=O/U0fR9W c=1 sm=1 tr=0 ts=69b1a07f cx=c_pps
+ a=5HAIKLe1ejAbszaTRHs9Ug==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=bC-a23v3AAAA:8
+ a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=PHq6YzTAAAAA:8
+ a=h7uu4O38hj_b6GN6T5YA:9 a=QEXdDO2ut3YA:10 a=gYDTvv6II1OnSo0itH1n:22
+ a=FO4_E8m0qiDe52t0p3_H:22 a=cvBusfyB2V15izCimMoJ:22 a=ZKzU8r6zoKMcqsNulkmm:22
+X-Proofpoint-GUID: L7e_yB4PaiSL95L3RrGO3BQ0eIQP4mHZ
+X-Proofpoint-ORIG-GUID: L7e_yB4PaiSL95L3RrGO3BQ0eIQP4mHZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-11_02,2026-03-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 malwarescore=0 phishscore=0 impostorscore=0 bulkscore=0
+ clxscore=1015 priorityscore=1501 spamscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
+ definitions=main-2603110144
 
-Il 11/03/26 10:49, Chen-Yu Tsai ha scritto:
-> If a dedicated DMA device is specified for the DRM device, then the
-> scatter list size limit should pertain to the DMA device.
-> 
-> Use the dedicated DMA device, if given, to limit the scatter list size.
-> This only applies to drivers that have called drm_dev_set_dma_dev() and
-> are using drm_prime_pages_to_sg() either directly or through the SHMEM
-> helpers. At the time of this writing, the former case only includes the
-> Rockchip DRM driver, while the latter case includes the gud, udl, and
-> the tiny appletbdrm and gm12u320 drivers.
-> 
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+Add support for the firmware-managed variant of the DesignWare MAC on
+the sa8255p platform. This series contains new DT bindings and driver
+changes required to support the MAC in the STMMAC driver.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+It also reorganizes the ethqos code quite a bit to make the introduction
+of power domains into the driver a bit easier on the eye.
+
+The DTS changes will go in separately.
+
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+---
+Changes in v8:
+- Rebase on top of recent changes in linux-next which required an
+  extensive rework
+- Drop partial R-b tags
+- Link to v7: https://patch.msgid.link/20260306-qcom-sa8255p-emac-v7-0-d6a3013094b7@oss.qualcomm.com
+
+Changes in v7:
+- Restored the correct authorship after learning git uses .mailmap for
+  the --author switch
+- Rebased on top of changes from Russell
+- Fixed resource management issues in error paths
+- Link to v6: https://lore.kernel.org/r/20260112-qcom-sa8255p-emac-v6-0-86a3d4b2ad83@oss.qualcomm.com
+
+Changes in v6:
+- Fix $id value in the bindings
+- Drop patch 3/8 from the series
+- Update init/exit callback signatures
+- Link to v5: https://lore.kernel.org/r/20251107-qcom-sa8255p-emac-v5-0-01d3e3aaf388@linaro.org
+- Link to v6: https://lore.kernel.org/r/20251219-qcom-sa8255p-emac-v6-0-487f1082461e@oss.qualcomm.com
+
+Changes in v5:
+- Name the DT binding document after the new compatbile
+- Add missing space
+- Make the power-domains limits stricter
+- Link to v4: https://lore.kernel.org/r/20251104-qcom-sa8255p-emac-v4-0-f76660087cea@linaro.org
+
+Changes in v4:
+- Remove the phys property from the SCMI bindings
+- Mark the power-domain-names property as required
+- Set maxItems for power-domains to 1 for all existing bindings to
+  maintain the current requirements after modifying the value in the
+  top-level document
+- Link to v3: https://lore.kernel.org/r/20251027-qcom-sa8255p-emac-v3-0-75767b9230ab@linaro.org
+
+Changes in v3:
+- Drop 'power' and 'perf' prefixes from power domain names
+- Rebase on top of Russell's changes to dwmac
+- Rebase on top of even more changes from Russell that are not yet
+  in next (E1vB6ld-0000000BIPy-2Qi4@rmk-PC.armlinux.org.uk)
+- Link to v2: https://lore.kernel.org/all/20251008-qcom-sa8255p-emac-v2-0-92bc29309fce@linaro.org/
+
+Changes in v2:
+- Fix the power-domains property in DT bindings
+- Rework the DT bindings example
+- Drop the DTS patch, it will go upstream separately
+- Link to v1: https://lore.kernel.org/r/20250910-qcom-sa8255p-emac-v1-0-32a79cf1e668@linaro.org
+
+---
+Bartosz Golaszewski (6):
+      dt-bindings: net: qcom: document the ethqos device for SCMI-based systems
+      net: stmmac: qcom-ethqos: use generic device properties
+      net: stmmac: qcom-ethqos: wrap emac driver data in additional structure
+      net: stmmac: qcom-ethqos: split power management fields into a separate structure
+      net: stmmac: qcom-ethqos: split power management context into a separate struct
+      net: stmmac: qcom-ethqos: add support for sa8255p
+
+ .../bindings/net/allwinner,sun7i-a20-gmac.yaml     |   3 +
+ .../bindings/net/altr,socfpga-stmmac.yaml          |   3 +
+ .../bindings/net/amlogic,meson-dwmac.yaml          |   3 +
+ .../devicetree/bindings/net/eswin,eic7700-eth.yaml |   3 +
+ .../devicetree/bindings/net/intel,dwmac-plat.yaml  |   3 +
+ .../bindings/net/loongson,ls1b-gmac.yaml           |   3 +
+ .../bindings/net/loongson,ls1c-emac.yaml           |   3 +
+ .../devicetree/bindings/net/nxp,dwmac-imx.yaml     |   3 +
+ .../devicetree/bindings/net/nxp,lpc1850-dwmac.yaml |   3 +
+ .../devicetree/bindings/net/nxp,s32-dwmac.yaml     |   3 +
+ .../devicetree/bindings/net/qcom,ethqos.yaml       |   3 +
+ .../bindings/net/qcom,sa8255p-ethqos.yaml          |  98 +++++
+ .../devicetree/bindings/net/renesas,rzn1-gmac.yaml |   3 +
+ .../bindings/net/renesas,rzv2h-gbeth.yaml          |   3 +
+ .../devicetree/bindings/net/rockchip-dwmac.yaml    |   3 +
+ .../devicetree/bindings/net/snps,dwmac.yaml        |   5 +-
+ .../bindings/net/sophgo,cv1800b-dwmac.yaml         |   3 +
+ .../bindings/net/sophgo,sg2044-dwmac.yaml          |   3 +
+ .../bindings/net/starfive,jh7110-dwmac.yaml        |   3 +
+ .../devicetree/bindings/net/stm32-dwmac.yaml       |   3 +
+ .../devicetree/bindings/net/tesla,fsd-ethqos.yaml  |   3 +
+ .../devicetree/bindings/net/thead,th1520-gmac.yaml |   3 +
+ .../bindings/net/toshiba,visconti-dwmac.yaml       |   3 +
+ MAINTAINERS                                        |   1 +
+ drivers/net/ethernet/stmicro/stmmac/Kconfig        |   2 +-
+ .../ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c    | 401 +++++++++++++++++----
+ 26 files changed, 498 insertions(+), 72 deletions(-)
+---
+base-commit: faa893280833784cf45adcb71d2d38d780b5d909
+change-id: 20250704-qcom-sa8255p-emac-8460235ac512
+
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
