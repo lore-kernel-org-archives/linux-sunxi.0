@@ -1,92 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F093E3C4A;
-	Wed, 11 Mar 2026 18:57:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C3B3BAD9D
+	for <linux-sunxi@lists.linux.dev>; Thu, 12 Mar 2026 10:39:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773255445; cv=none; b=Xnx07ws4xgL3IqsXOmrS7PxbItqB9NhZ3Jyp7gx4Z/3qqxIRnwrvnq58JKeH80mQ1WHtHj7JJU7t6Z6dd0fr6/DjQM27UCqt8fA/wvVwAoW70HXA6y3Zed4jhWA33xZjFNmsGU0ptQBqEy7PDV/UVPHcidGOSXVArKaqvF2IRlU=
+	t=1773311992; cv=none; b=QajeaIGWjBsVtSG0V/Jr1GicCek9GYC4X/LEuMOTYBAuk4SsTL1Gr2Aw/iQBg5QRyuAAxyUKrrBuJG/rFi7bBZHPF3bslgrdFZJE5Ea8LA4STPCNRHyVGmjviJDvAA5nche6lgeV0ZutelsKU/JnFTwkeyElegPDH8r5nn0oqiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773255445; c=relaxed/simple;
-	bh=EllHdPAyyZV7VwzLSIJTJ8+9ynxlnCPpH9WOd28KvPk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Baty6HaRVGpsZ1zMw4i3vSJOL06ouIFHYa5ki7rVnBAheqQdDKt0T1AkwcNXJAIirBp3lxMo46EuWNvsGimhsIrWBJyzMwz8ygg4yUrFhae9e8eLMkhWZFBvDBn5mA+ZW6W6U+VhFXNh51AF782iYvq6q+VKGbYGOn6nN6nNhQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cTD5Je3v; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773311992; c=relaxed/simple;
+	bh=9l60dnOY7y2Hu7tICopMPT5nq03nnWoUu7pt3LM+du8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iOWvhnk6whOGZgS/JexbNY4Lh1Ic8iY99wXe9LiPyy4MqDBKnkLlodYYXpoHL20jtXfMw04pDiA9TJTNrJax7ObE6Phbrb+oHUUo+AVy9aMYkb5GPpMlAKTtbVuAIjpLpcZ4VgsjFB6l2BIHuYiwiw9jgIWZl1iFvEUcgjb+0gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=UbtyNxEb; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cTD5Je3v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B661C4CEF7;
-	Wed, 11 Mar 2026 18:57:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773255445;
-	bh=EllHdPAyyZV7VwzLSIJTJ8+9ynxlnCPpH9WOd28KvPk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=cTD5Je3vCdG2C1YtPvwToGcDh4rU+61MliHgWGu9bN/vhxX6FtoMA8LmXe9bkbcI7
-	 ofr++LFvkaIGYluj/UsggEwBJ8Kq2R7WDxlR9uZwz/arUHU3ER1tvO9uojzN7ZFsVU
-	 CBFJgsxbClNMJV1v2ZcBLVH+M0O62GGKY7FHK+02vQkyQ+a05Ss1GkJP+keZNwsv76
-	 pelhNoHWzGo09xZTOsLRR/+xEJs7x13SmAR5vtyPNoWBzsSamzl5Rr86gIjGkmTTFp
-	 zsVehJlCOlzmAivTBT/TFFRxR0FcwdIzT5Qcb5GVyjDjLjA4lAKgRFtm8+iSLgQeJz
-	 JLttTqdOcliwA==
-From: Mark Brown <broonie@kernel.org>
-To: Jernej Skrabec <jernej@kernel.org>, 
- Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, linux-sunxi@lists.linux.dev, 
- devicetree@vger.kernel.org, linux-spi@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260302153559.3199783-1-wens@kernel.org>
-References: <20260302153559.3199783-1-wens@kernel.org>
-Subject: Re: (subset) [PATCH v2 0/3] arm64: allwinner: sun55i-t527:
- avaota-a1: Add SPI NAND
-Message-Id: <177325544317.227890.7006024907910628189.b4-ty@kernel.org>
-Date: Wed, 11 Mar 2026 18:57:23 +0000
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UbtyNxEb"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 3021EC415B2;
+	Thu, 12 Mar 2026 10:40:10 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 808525FDEB;
+	Thu, 12 Mar 2026 10:39:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6A0ED10369D8A;
+	Thu, 12 Mar 2026 11:39:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1773311987; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=ZLlL868sX2T7LiELOAOF8/VB5w2gI8YwwhfKb0vI5/E=;
+	b=UbtyNxEbiaH7gAFdQXLW+F+ORZ/7MJw1ZZXiNNyVGDange3pY2lfAPxgn1XkQqem2J2+9t
+	SvU6ZNDWjNxHCywkmfqe3BaugenAcWZzijr7sfDIUBHiZ3WY0zAxw1WjGDkYk4EpO+2YXH
+	rzuvCz1opCTPfoq4OYJAlCAzjJnSbz9oK4iXUo7K6Q151y5f6qKGjmbjLnB1rKUaE5Ccyr
+	Tci5Iiefaqvvn3cMgN9xyuiZAvLyX80Ykr3y1NfvntXQTHzGXyWJaRcWvud1kRpFRen5OE
+	mz180vFyYRUfhop2pYi7leqwbb0JF+6OcnlCuXYXSjn0kOfJKNbKI+zDiJzRLQ==
+Message-ID: <21e24f72-aa91-463d-a7a4-d4c2f877e527@bootlin.com>
+Date: Thu, 12 Mar 2026 11:39:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-68380
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/6] mtd: rawnand: sunxi: do not count BBM bytes twice
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra
+ <vigneshr@ti.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Wentao Liang <vulab@iscas.ac.cn>,
+ Maxime Ripard <mripard@kernel.org>, Boris Brezillon <bbrezillon@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20260305100137.2558423-1-richard.genoud@bootlin.com>
+ <20260305100137.2558423-4-richard.genoud@bootlin.com>
+ <87a4whnhu9.fsf@bootlin.com>
+From: Richard GENOUD <richard.genoud@bootlin.com>
+Content-Language: en-US, fr
+Organization: Bootlin
+In-Reply-To: <87a4whnhu9.fsf@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, 02 Mar 2026 23:35:55 +0800, Chen-Yu Tsai wrote:
-> This is v2 of my Avaota A1 SPI NAND enablement series.
+Le 09/03/2026 à 16:27, Miquel Raynal a écrit :
+> Hello Richard,
 > 
-> Changes since v1:
-> - DT bindings (Krzysztof)
->   - Moved "allOf:" block after "required:" block
->   - Dropped "type:" from child node in conditional block
-> - Collected tags
-> - Link to v1:
->   https://lore.kernel.org/linux-sunxi/20260227175157.2339758-1-wens@kernel.org/
+> On 05/03/2026 at 11:01:34 +01, Richard Genoud <richard.genoud@bootlin.com> wrote:
 > 
-> [...]
+>> BBM is part of USER_DATA section, so we should remove it twice
+> 
+> Maybe you mean "is already part" and as such the end of the sentence
+> should be that "we should *not* remove it twice"?
+yes indeed.
 
-Applied to
+Thanks !
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+> 
+>> This was working ok because we are on the safe size, advertising that
+>> there was 2 bytes less available than in reality.
+>>
+>> But we can't change old platforms, since it may lead to a different ECC
+>> strength, so, introduce a legacy flag for old platforms, and switch the
+>> new platforms to the correct count.
+>>
+>> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+> 
+> Thanks,
+> Miquèl
 
-Thanks!
-
-[1/3] spi: dt-bindings: sun6i: Allow Dual SPI and Quad SPI for newer SoCs
-      commit: 743956bb9990214ff1dac66ef59e27221dc3c2d8
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
 
