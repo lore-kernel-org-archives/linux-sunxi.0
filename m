@@ -1,40 +1,40 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C3B3BAD9D
-	for <linux-sunxi@lists.linux.dev>; Thu, 12 Mar 2026 10:39:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76CA40DFAB
+	for <linux-sunxi@lists.linux.dev>; Thu, 12 Mar 2026 10:47:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773311992; cv=none; b=QajeaIGWjBsVtSG0V/Jr1GicCek9GYC4X/LEuMOTYBAuk4SsTL1Gr2Aw/iQBg5QRyuAAxyUKrrBuJG/rFi7bBZHPF3bslgrdFZJE5Ea8LA4STPCNRHyVGmjviJDvAA5nche6lgeV0ZutelsKU/JnFTwkeyElegPDH8r5nn0oqiQ=
+	t=1773312461; cv=none; b=iJn+JAYiwaGx7GZnPC/wi2zUWRScDOCs7cT8ERtQTnuC65HqQg51jgTZPXLuEDpmbPwT6qgAsS/kvl8Ply4KLKWkea7rSrsZg5yXUtfa35/XxzVPneky5txif0CzXwhoPAfEh+l71/SjOjXvhPzuEzbBdZKGj8pDfnBqJyJ/J6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773311992; c=relaxed/simple;
-	bh=9l60dnOY7y2Hu7tICopMPT5nq03nnWoUu7pt3LM+du8=;
+	s=arc-20240116; t=1773312461; c=relaxed/simple;
+	bh=K3deujP3NYWTeoHQVorjZ19icEn5XcPuOJEdr5pwQf0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iOWvhnk6whOGZgS/JexbNY4Lh1Ic8iY99wXe9LiPyy4MqDBKnkLlodYYXpoHL20jtXfMw04pDiA9TJTNrJax7ObE6Phbrb+oHUUo+AVy9aMYkb5GPpMlAKTtbVuAIjpLpcZ4VgsjFB6l2BIHuYiwiw9jgIWZl1iFvEUcgjb+0gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=UbtyNxEb; arc=none smtp.client-ip=185.171.202.116
+	 In-Reply-To:Content-Type; b=JyT2lDnJ0aVpljQ5AWNlf4spqgqK8+NP+hq3dQuds+PisKh3hDRoZpAott1UvZ6PW8N5Dk8WNrFuuoo0NZgO3lR0B8ManuHU3OhLQPALaxKLrfy7HcJp/vvjc1hul+38jgfmC39VTlbbP4r0zTLNmCbgkSqdtYME5z70czqVj8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JaEHHHnq; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UbtyNxEb"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JaEHHHnq"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 3021EC415B2;
-	Thu, 12 Mar 2026 10:40:10 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 6B1304E4264F;
+	Thu, 12 Mar 2026 10:47:38 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 808525FDEB;
-	Thu, 12 Mar 2026 10:39:48 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6A0ED10369D8A;
-	Thu, 12 Mar 2026 11:39:41 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 3FF315FDEB;
+	Thu, 12 Mar 2026 10:47:38 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 11EC610369C88;
+	Thu, 12 Mar 2026 11:47:33 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1773311987; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1773312457; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=ZLlL868sX2T7LiELOAOF8/VB5w2gI8YwwhfKb0vI5/E=;
-	b=UbtyNxEbiaH7gAFdQXLW+F+ORZ/7MJw1ZZXiNNyVGDange3pY2lfAPxgn1XkQqem2J2+9t
-	SvU6ZNDWjNxHCywkmfqe3BaugenAcWZzijr7sfDIUBHiZ3WY0zAxw1WjGDkYk4EpO+2YXH
-	rzuvCz1opCTPfoq4OYJAlCAzjJnSbz9oK4iXUo7K6Q151y5f6qKGjmbjLnB1rKUaE5Ccyr
-	Tci5Iiefaqvvn3cMgN9xyuiZAvLyX80Ykr3y1NfvntXQTHzGXyWJaRcWvud1kRpFRen5OE
-	mz180vFyYRUfhop2pYi7leqwbb0JF+6OcnlCuXYXSjn0kOfJKNbKI+zDiJzRLQ==
-Message-ID: <21e24f72-aa91-463d-a7a4-d4c2f877e527@bootlin.com>
-Date: Thu, 12 Mar 2026 11:39:40 +0100
+	bh=h1uHovn6Yup6c3SyQUieodwk4UlRm93zEwCbjt4JOGM=;
+	b=JaEHHHnqNbNmuD8Ch3LK6QaSJ74j0vNJCsrjA+LWq/5L84WfkVe1vDxAxQd+IxrJfZCa1a
+	hT3qgXKMi0iGpoktI5bUvrNGNbafIDHPdCkcQys8BES2om5Es4IjiDSF/O0NYiWFZrs30b
+	DK4n3LOBf79X8IKhHUEh9IB9rQMgmLhLlhR4iOAT0CWpesvwWDc4XGF7RkeJGsv6bna/9H
+	h9sYoyn5cTcxoftMpAGK8iDeO31EkiuaiefYWnVbyAWxFLVIigg42FUZ8oO0FunKdNZIAR
+	Ty/zLOLgE1raczyrfSphyi7ytsCEAGr/zaIPQg9Wg+rbyi3Ut/2oFnlepKEmww==
+Message-ID: <a157ebaf-c8bc-4123-a7fa-e38beac8f268@bootlin.com>
+Date: Thu, 12 Mar 2026 11:47:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -42,7 +42,8 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/6] mtd: rawnand: sunxi: do not count BBM bytes twice
+Subject: Re: [PATCH v2 5/6] mtd: rawnand: sunxi: make the code mode
+ self-explanatory
 To: Miquel Raynal <miquel.raynal@bootlin.com>
 Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra
  <vigneshr@ti.com>, Chen-Yu Tsai <wens@csie.org>,
@@ -53,40 +54,37 @@ Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra
  linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 References: <20260305100137.2558423-1-richard.genoud@bootlin.com>
- <20260305100137.2558423-4-richard.genoud@bootlin.com>
- <87a4whnhu9.fsf@bootlin.com>
+ <20260305100137.2558423-6-richard.genoud@bootlin.com>
+ <874impne0n.fsf@bootlin.com>
 From: Richard GENOUD <richard.genoud@bootlin.com>
 Content-Language: en-US, fr
 Organization: Bootlin
-In-Reply-To: <87a4whnhu9.fsf@bootlin.com>
+In-Reply-To: <874impne0n.fsf@bootlin.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-Le 09/03/2026 à 16:27, Miquel Raynal a écrit :
-> Hello Richard,
+Le 09/03/2026 à 17:50, Miquel Raynal a écrit :
+> On 05/03/2026 at 11:01:36 +01, Richard Genoud <richard.genoud@bootlin.com> wrote:
 > 
-> On 05/03/2026 at 11:01:34 +01, Richard Genoud <richard.genoud@bootlin.com> wrote:
+> In the title: s/mode/more/?
 > 
->> BBM is part of USER_DATA section, so we should remove it twice
+>> In sunxi_nfc_hw_ecc_{read,write}_chunk(), the ECC step was force to 0,
 > 
-> Maybe you mean "is already part" and as such the end of the sentence
-> should be that "we should *not* remove it twice"?
-yes indeed.
+> forced!
 
-Thanks !
+Will fix that.
+
+Thanks!
 
 > 
->> This was working ok because we are on the safe size, advertising that
->> there was 2 bytes less available than in reality.
+>> the reason is not trivial to get when reading the code.
 >>
->> But we can't change old platforms, since it may lead to a different ECC
->> strength, so, introduce a legacy flag for old platforms, and switch the
->> new platforms to the correct count.
+>> The explanation is that, from the NAND flash controller perspective, we
+>> are indeed at step 0 for user data length and ECC errors.
 >>
->> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+>> Just add a const value with an explanation to clarify things.
+>>
 > 
-> Thanks,
-> Miquèl
-
+> 
 
