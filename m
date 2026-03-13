@@ -1,113 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF6A1A3164;
-	Fri, 13 Mar 2026 09:22:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158EB3176EE
+	for <linux-sunxi@lists.linux.dev>; Fri, 13 Mar 2026 13:17:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773393779; cv=none; b=gpfh5HnUfVSYffRFqnqNBF/wgjuT4G5gWZouSHjL48YHKBG+KrA3X95EhBAtp/FOQXcev98VXrummreC6BJ4c59j90P/lX8Ht48ZzzXWmj9rNQhZJ9Vbj6jf+zyCbYDZ58R/FwldniUzZHbftoc4CRxIAmm9oNOvlsx45j3Kh5g=
+	t=1773407840; cv=none; b=MQYn5OzrGxMCnLhxdx2A0AVbybfiw2VUTovVSlAwhTvFMue6qXbvnfOzBQnYGmRBfiKm6we7WgMadtc9dhcu/cUAZ2ZQXz5jJ672cVLH4wJC6ogTuzvTs6LqeW6Rz8Ra3Hu7W6zA+S5qB1biByQQtRId9Alve9vRK9fhTPn1JPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773393779; c=relaxed/simple;
-	bh=OSkNcbUS9YGvPKDa8n1+2Deyv3usv6l4sfKN/25R4mE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=svhVrDCPNyQxs5FvPYgUdV6Pbh5gxzIYab9yMcdxXm0+DCy608piSWC9sG7k/eQ3Ko2cSKnsImyMqLDjZ8gV+CqfbPVnLKpBYeuhtv9UhzzlVDa8Nbb4ZvFRvZOrQ6+5xxrVjE6SjC6zkWIIWmaULUziVF8fWJV778FzSIScWzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=KP5AFQsV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773407840; c=relaxed/simple;
+	bh=EM3MHGQyhj5OEfWj3f8jyWiMW9WgDNSB5O6K6ErqeNo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rZLJUkPp15ff6NTcEGWmiiF9b+LH6tUvTSmMKnhxUmSgsVDh6aq3k33W7ZXvbdCiROYrdn5lQk77B8atpWkv9feid7awgbBmJx7gSNVrG4mybhHgwzHYU1Rees7jlD0lOHDpEZMAcB+X78SgtqIhLCn8uCBXgwGv1ORKz/E9LNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VvoaKN1d; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KP5AFQsV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67B8DC19421;
-	Fri, 13 Mar 2026 09:22:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773393779;
-	bh=OSkNcbUS9YGvPKDa8n1+2Deyv3usv6l4sfKN/25R4mE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KP5AFQsVD2fnagL9ktzranuODnZj5yec3IGDn8dCtYe3/snhvHtHl4hCuJDk5mIFX
-	 XTi/wT2P5RBqBcwVVK9nopqfH93px8aj7zV3cxTXaMox5XwwKQhJr6ATgMV4ahilsI
-	 wa5hi4eh1jsInBssCel8lPW4fKrsAbdJ0wHbpL84=
-Date: Fri, 13 Mar 2026 10:22:48 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Rob Herring <robh@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Saravana Kannan <saravanak@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, Frank Li <Frank.Li@nxp.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, driver-core@lists.linux.dev,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH v2 0/9] soc: remove direct accesses to of_root from
- drivers/soc/
-Message-ID: <2026031332-widen-unpack-1f6f@gregkh>
-References: <20260223-soc-of-root-v2-0-b45da45903c8@oss.qualcomm.com>
- <20260224183832.GB3239922-robh@kernel.org>
- <CAMRc=Mft5vc-C8miKVdw6C-qRdYsqfgm-UgLZJOctFwagMF0iA@mail.gmail.com>
- <2026031231-whiff-speculate-805a@gregkh>
- <CAMRc=MdhhEMJn5JTB3wn_ScmV=a0o6fTnaUDSDjOLN5WH5rOFQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VvoaKN1d"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 2FE7A4E42664;
+	Fri, 13 Mar 2026 13:17:13 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id EFCFA60027;
+	Fri, 13 Mar 2026 13:17:12 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8601B10369EFA;
+	Fri, 13 Mar 2026 14:17:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1773407832; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=JOFoYAGJVyyk6xus0Z9WrQazmgihSHEPBTdXrGtZqcU=;
+	b=VvoaKN1dElbt5A/ybhYmCk6wEI1Ngpxe3iW3oiNxdyeYLq1bqdTWhYNUJrTky/N5PLukYP
+	+SX8Pxiy0Amwukf7dJZ0u1o3+9D+hjQri/gJIOkGvLzoeunqOR83EhbIwSNY4T1MfA2fpq
+	OjmOjaa8OKvYpQP173AzLyfCYegCnyzfkYNCfLRi8p/Q2rq79ZosUn3F4oKIUPvVZCWtoR
+	rW6a1Fdzan6FZ6YcGjglY+5bxobYNRmAVtVpYqAFHIWdMLbrf09qfKh6Z/59CMG/T6UzDS
+	AHhAfsXlSebetCMmVajdULN7rrm8taDoo3nq/adst4SvEmeygDrg3B+PiH1DiQ==
+Message-ID: <8d33c193-995c-4225-9998-8c81a2268065@bootlin.com>
+Date: Fri, 13 Mar 2026 14:17:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 6/6] mtd: rawnand: sunxi: introduce variable user data
+ length
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra
+ <vigneshr@ti.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Wentao Liang <vulab@iscas.ac.cn>,
+ Maxime Ripard <mripard@kernel.org>, Boris Brezillon <bbrezillon@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20260305100137.2558423-1-richard.genoud@bootlin.com>
+ <20260305100137.2558423-7-richard.genoud@bootlin.com>
+ <87a4wdkt3y.fsf@bootlin.com>
+From: Richard GENOUD <richard.genoud@bootlin.com>
+Content-Language: en-US, fr
+Organization: Bootlin
+In-Reply-To: <87a4wdkt3y.fsf@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=MdhhEMJn5JTB3wn_ScmV=a0o6fTnaUDSDjOLN5WH5rOFQ@mail.gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Fri, Mar 13, 2026 at 01:36:49AM -0700, Bartosz Golaszewski wrote:
-> On Thu, 12 Mar 2026 16:18:38 +0100, Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> said:
-> > On Thu, Feb 26, 2026 at 10:28:26AM +0100, Bartosz Golaszewski wrote:
-> >> On Tue, Feb 24, 2026 at 7:38 PM Rob Herring <robh@kernel.org> wrote:
-> >> >
-> >> > On Mon, Feb 23, 2026 at 02:37:15PM +0100, Bartosz Golaszewski wrote:
-> >> > > linux/of.h declares a set of variables providing addresses of certain
-> >> > > key OF nodes. The pointers being variables can't profit from stubs
-> >> > > provided for when CONFIG_OF is disabled which means that drivers
-> >> > > accessing these variables can't profit from CONFIG_COMPILE_TEST=y
-> >> > > coverage.
-> >> > >
-> >> > > There are drivers under drivers/soc/ that access the of_root node. This
-> >> > > series introduces new OF helpers for reading the machine compatible and
-> >> > > model strings, exports an existing SoC helper that reads the machine
-> >> > > string from the root node and finally replaces all direct accesses to
-> >> > > of_root with new or already existing helper functions.
-> >> > >
-> >> > > Merging strategy: first two patches should be either acked by Rob or
-> >> > > picked up into an immutable branch based on v7.0-rc1, the rest can go
-> >> > > through the SoC tree.
-> >> >
-> >> > SoC tree is good.
-> >> >
-> >> > For all but patch 8,
-> >> >
-> >> > Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-> >> >
-> >>
-> >> FYI Rob also reviewed patch 8 now. Who would pick the patches up? Greg
-> >> KH? There does not seem to be a centralized SoC maintainer in
-> >> MAINTAINERS?
-> >
-> > Sure, let me take them now, thanks.
-> >
-> > greg k-h
-> >
+Le 12/03/2026 à 15:41, Miquel Raynal a écrit :
+> Hello Richard,
 > 
-> In the meantime Geert sent an alternative to patch 8/9 so this single one can
-> be dropped from the series.
+> On 05/03/2026 at 11:01:37 +01, Richard Genoud <richard.genoud@bootlin.com> wrote:
+> 
+>> In Allwinner SoCs, user data can be added in OOB before each ECC data.
+>> For older SoCs like A10, the user data size was the size of a register
+>> (4 bytes) and was mandatory before each ECC step.
+>> So, the A10 OOB Layout is:
+>> [4Bytes USER_DATA_STEP0] [ECC_STEP0 bytes]
+>> [4bytes USER_DATA_STEP1] [ECC_STEP1 bytes]
+>> ...
+>> NB: the BBM is stored at the beginning of the USER_DATA_STEP0.
+>>
+>> Now, for H6/H616 NAND flash controller, this user data can have a
+>> different size for each step.
+>> And the vendor has chosen a different layout from the one on A10, using
+>> 8 bytes for step 0 and nothing for further steps:
+>> [8bytes USER_DATA_STEP0] [ECC_STEP0 bytes] [ECC_STEP1 bytes]...
+>> (Still with BBM stored at the beginning of the USER_DATA_STEP0)
+> 
+> I would rather be in favour of not following $(random vendor) firmware
+> layout. Upstream, it makes probably more sense to just allow access to
+> the maximum number of bytes that can be covered by the ECC engine, so I
+> would rather be in favour of computing the maximum size that you can set
+> for each step, without going over the OOB size.
+Ok, I'll write an implementation for that.
 
-Ick, ok, I've now dropped that one commit from the tree.
+Thanks !
 
-thanks,
+> 
+> Once this set up, I believe adapting the driver locally (out of tree) to
+> match a specific vendor layout would be rather straightforward, as all
+> the configuration pieces would already be in place.
+> 
+> Thanks,
+> Miquèl
 
-greg k-h
+
+
