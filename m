@@ -1,86 +1,139 @@
-Received: from s106b.cyber-folks.pl (s106b.cyber-folks.pl [195.78.66.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881C8C145;
-	Sat, 14 Mar 2026 08:45:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.78.66.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DFE02BE026
+	for <linux-sunxi@lists.linux.dev>; Sat, 14 Mar 2026 09:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773477957; cv=none; b=ZCzU0l0xPCulq2HHyaoB9RsbJ32Ald57OaqgITNJdsbCioMID+oOz2Hc/kZ71Mte/T8MGlcFqzM9giAPJUnJYbrVEqjhEU4HnvhdwdJppTCADPl7UieFX5cvKmE0EBEiyCApFBBhoOg2crM9bazyWNSq1lEr4iuuLXWhhD1dkFo=
+	t=1773479522; cv=none; b=c2IKMbHfGFZ9tycIgplTEe+qTJrvecpUiCKDq+1h00Pn+6N22gTrHQonJBNBnLVtyqehkXI8Y/seMebo5RbzPTFMlX4JfpjopK6qbLoET4ZwICyZC6Wa6W3/Zv8LvsqfNZNOuI1B2ViXRKdVe1j0ZjaHl+n0OftNzQtB9FUF/x4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773477957; c=relaxed/simple;
-	bh=zPkPI1veKKVGIV7jCwGwVXXMUM3/6U7Y3nLOhBoCMXw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D3cox9bsZM0nRbxKuMz2zUg2JWNVgdkeWKpEB5UckKrE0LV+/rL7h1il/8TLbRNNRJjGz6vpZ3DZrIv1RWlg9/hsAOLm1RYu6+11TsrCI8C6H286wEPF3TrBb0jGADKjqCHrfuXm6RrVf9YVgxfrKvPX6o+Wsa6G12AxsH6zpQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl; spf=pass smtp.mailfrom=mmpsystems.pl; dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b=Mt5lNKJe; arc=none smtp.client-ip=195.78.66.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mmpsystems.pl
+	s=arc-20240116; t=1773479522; c=relaxed/simple;
+	bh=QiwL16bjOziT5hiJB9OYiaVlhavbbKb1oaWep8hSRjk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pb37MWNA0CqZke1m6jIJ4ATAQUmrzZUmTVxdj5TFMBCO6k0XHj1gag0scc3UCccN3W0gpSxoHSP28uevX/nieRpZlnmxXGptG8+SeTRHDRpTl0lxRLaw467zyssvl+oeetIuIsoQmxaNoxQd5hCKkaAz+PFJZ6K0i329am5EgSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iMDnkPba; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b="Mt5lNKJe"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=mmpsystems.pl; s=x; h=In-Reply-To:Content-Transfer-Encoding:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=9G7QiHXpxmHH4C6Nxml7OsvQ5dLKhj3eSSSnkxHngmw=; b=Mt5lNKJeYn3j4izThdejaY9AVb
-	Bpjbj2BpETkq0aglrJT8DDAAOmq+3HELbFsj6qUaZREMWwjiIOl7JcKa7lAy4d6beYxT5PK004dSS
-	L9rmi4oED2kAfE3B0ZGZ9MpGhVROfQHCef+duccDykZQVHKSnVVrnNkdpsVXBTTCelS5Z1r7mp6tN
-	ajJxm4AOeQgsfRBzbgPN7u2XxbyvflOFFnbC9pVr0SZcsdYvuzQ5tDMfFnS3O/0BlHUMNSz9fgaw1
-	0qUdxHBh+wYFrvf7OlL9GAuedGpJbaIvKyg6QuKvx6ydBRLapCK2eaXlDzfMdKceOi2m937QXauPK
-	cqcGflqw==;
-Received: from user-5-173-16-20.play-internet.pl ([5.173.16.20] helo=localhost)
-	by s106.cyber-folks.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <michal.piekos@mmpsystems.pl>)
-	id 1w1Kd6-0000000Eq3d-1G9O;
-	Sat, 14 Mar 2026 09:45:52 +0100
-Date: Sat, 14 Mar 2026 09:45:51 +0100
-From: Michal Piekos <michal.piekos@mmpsystems.pl>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Linus Walleij <linusw@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] pinctrl: sunxi: fix gpiochip_lock_as_irq() failure
- when pinmux is unknown
-Message-ID: <wil4524ca35bcrqutlip7mzi7xlwa3xrauym2pi5a73vlkohcl@zhd3hczj6e4u>
-References: <20260314-rc2-boot-hang-v3-1-0b48221181a9@mmpsystems.pl>
- <CAGb2v67ZYyQ13ttMdzskHNTYxqYfEB_kVsMqsY9ZJhRKRQTigQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iMDnkPba"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-439b97a8a8cso3083136f8f.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 14 Mar 2026 02:12:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773479519; x=1774084319; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QiwL16bjOziT5hiJB9OYiaVlhavbbKb1oaWep8hSRjk=;
+        b=iMDnkPbae4pKdPRr/PBzQFn/yMkMJKaqNPzvkSsB/c2I2Ued56lbd2O2mbYiIZb/bP
+         ZgLhEpseV4CMg19ilWsF0Z16ft+1fyYseuGS0IsslrWdOq4s39dAC4Pn66Rc9prOlNGa
+         b/9bitkPtiByJiEsL0R2aBlivrXm4unKpvenKqV31pQTaHT50L8fu8LlKoXyKTuJrNKJ
+         ZWeCD1qNtka/ati0ZBKZ5xedQvGnCVY5newMaPcLYUiMnvWcIFgE98bhrY10PQwRl/Tw
+         GRIS5DvMFgFtiXfQOaduWQE7lEwO8XPDqcIqDnv2esNx10C2tvUvyuvOF1UwPHjhkpN5
+         F+4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773479519; x=1774084319;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=QiwL16bjOziT5hiJB9OYiaVlhavbbKb1oaWep8hSRjk=;
+        b=F0WtdTdO0nhVAZJcfttaMUx4hyr3m+KlDH8dZeJv2sS9Vmd8Q3yGIHFbp5rZaFFi2M
+         caoU/4bXKrNC1qtRXJ6dRuP2ASn+Do4jQPtj9PIEvhKnMuHFU1E/AG9Esm4zTObWNtoA
+         WkjBvnqq40pBVMzyUsGdxwwvYjFW1T/H0Sh2Kik36SadswoXcJaH+dxpR2RklxNiyNf8
+         ilqpUneM9hSGc9M/wGCuTivTJLXGFRcKMW5Z9d/T7JiQkrXD+mPJD0iVmNJqk1kpfgZS
+         ssSu5mxvT5pFbfIhnbB/BeXqDv4ccXPHLDdMl46RUkzeJdt9/eXf4xb4jsQ9A7X+tE27
+         TbtA==
+X-Forwarded-Encrypted: i=1; AJvYcCUMjuGYk5D1cRxFXtTvbJ58im+PN4AIxVXYUUH1y9L/qVIhI2db6L4LjWA5WeVR64NJINkFWtNXjKrptA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxjXPzwMH8No6fyIqItzUYSKov7+EFKnRQUA4g0b16WOVFTsSiU
+	M2PERomP8+ugyLwrZaHuDhzUkSYk0Ztjvw6ZFJ0MLdQiBbF/kwY2UVq/
+X-Gm-Gg: ATEYQzyJYJzEL9UPNJfJmSA3h7Y6U6HE1/KWUd2BHIQnu2a/WIastenU/3vl0o3kzKU
+	dpQvPzTjCmVjcvnNmAtkTWxgQVLg0crDYDUZRhYzo4TO9f51kYth5ZHySXE1LxXZvg5PgzksAza
+	hM0Q4hi8YglqZ7QUwUb34xywKv3YzVTBwjeNlhQFGyABhShpeIp2naMu+fI6o1USjB4a98h1E4q
+	HDD6MmMNa09Y+EutFtjm5iPaLhFB2aarNymKgSD3cfzdZ9sWHjvNvaQZl7y1YHRbbsSITipfprZ
+	Wux+9+FGUgCVEPdwbD0ZyttQggtzADXH+q320yQbIiQD6IhX5+oU0ENsuI5VagCsx7J+WtvacLY
+	Iq6cOgvIRVaPs2o5/YM6UK9lpr0tg7B3lg5T2f/fCQwAkmjOeIL6tvlyScul9DTSekQ1DvUMLlX
+	whM1QkOHeYBAM9vwxsuTQyVzIhsU6qkm+XKJfr2lOjYoPwVGamQRjRawfRDvfTBAiEeUFp457Wg
+	B3s39vvGit7DnM=
+X-Received: by 2002:a05:6000:2f83:b0:439:b940:8bfb with SMTP id ffacd0b85a97d-43a04d87714mr11537033f8f.15.1773479519281;
+        Sat, 14 Mar 2026 02:11:59 -0700 (PDT)
+Received: from jernej-laptop.localnet (86-58-12-163.dynamic.telemach.net. [86.58.12.163])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe2273e8sm25569590f8f.33.2026.03.14.02.11.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Mar 2026 02:11:58 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Icenowy Zheng <uwu@icenowy.me>, wens@kernel.org
+Cc: Andre Przywara <andre.przywara@arm.com>,
+ Linus Walleij <linusw@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Bartosz Golaszewski <brgl@kernel.org>, linux-gpio@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] pinctrl: sunxi: convert to GPIO_GENERIC
+Date: Sat, 14 Mar 2026 10:11:57 +0100
+Message-ID: <1948361.tdWV9SEqCh@jernej-laptop>
+In-Reply-To:
+ <CAGb2v65RD3ksSnEC0RjYYQ1J-NoP9gGfeTR1UCfLgKCJEFBSTQ@mail.gmail.com>
+References:
+ <20260313000652.11470-1-andre.przywara@arm.com>
+ <a4cfb10e4701da0649ef648136496a962be5870d.camel@icenowy.me>
+ <CAGb2v65RD3ksSnEC0RjYYQ1J-NoP9gGfeTR1UCfLgKCJEFBSTQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGb2v67ZYyQ13ttMdzskHNTYxqYfEB_kVsMqsY9ZJhRKRQTigQ@mail.gmail.com>
-X-Authenticated-Id: michal.piekos@mmpsystems.pl
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Sat, Mar 14, 2026 at 04:23:11PM +0800, Chen-Yu Tsai wrote:
-> On Sat, Mar 14, 2026 at 4:10 PM Michal Piekos
-> <michal.piekos@mmpsystems.pl> wrote:
+Dne sobota, 14. marec 2026 ob 09:38:11 Srednjeevropski standardni =C4=8Das =
+je Chen-Yu Tsai napisal(a):
+> On Sat, Mar 14, 2026 at 1:14=E2=80=AFPM Icenowy Zheng <uwu@icenowy.me> wr=
+ote:
 > >
-> > Fixes kernel hang during boot due to inability to set up IRQ on AXP313a.
+> > =E5=9C=A8 2026-03-13=E4=BA=94=E7=9A=84 01:06 +0100=EF=BC=8CAndre Przywa=
+ra=E5=86=99=E9=81=93=EF=BC=9A
+> > > Allwinner SoCs combine pinmuxing and GPIO control in one device/MMIO
+> > > register frame. So far we were instantiating one GPIO chip per
+> > > pinctrl
+> > > device, which covers multiple banks of up to 32 GPIO pins per bank.
+> > > The
+> > > GPIO numbers were set to match the absolute pin numbers, even across
+> > > the
+> > > typically two instances of the pinctrl device.
+> > >
+> > > Convert the GPIO part of the sunxi pinctrl over to use the
+> > > gpio_generic
+> > > framework. This alone allows to remove some sunxi specific code,
+> > > which
+> > > is replaced with the existing generic code. This will become even
+> > > more
+> > > useful with the upcoming A733 support, which adds set and clear
+> > > registers for the output.
+> > > As a side effect this also changes the GPIO device and number
+> > > allocation: Each bank is now represented by its own gpio_chip, with
+> > > only
+> > > as many pins as there are actually implemented. The numbering is left
+> > > up
 > >
-> > The issue is caused by gpiochip_lock_as_irq() which is failing when gpio
-> > is in unitialized state.
-> >
-> > Solution is to set pinmux to GPIO INPUT in
-> > sunxi_pinctrl_irq_request_resources() if it wasn't initialized
-> > earlier.
-> >
-> > Tested on Orange Pi Zero 3.
-> >
-> > Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
-> > Suggested-by: Chen-Yu Tsai <wens@kernel.org>
-> 
-> Interesting solution, not at all what I had in mind. :D
-> This fixes things immediately for sunxi, and keeps proper pin lockout,
-> i.e. one can't use a pin muxed for other uses as a GPIO interrupt pin.
-> I was hoping that the maintainers could provide some guidance as to
-> whether the core could provide helpers for this, but for now:
-> 
-> Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+> > Ah, is this a userspace API break?
+>=20
+> Unfortunately, yes. This means the easily computable numbers that one can
+> use with the (deprecated) sysfs interface is gone, and also the pins are
+> now split amongst multiple gpiochip instances.
 
-Thank you.
+I don't mind this at all for new SoCs, e.g. A733, but not really for already
+supported SoCs.
+
+>=20
+> However if someone wanted the old "one gpiochip for one PIO instance with
+> evenly spaced banks" scheme, I suppose we could put together something
+> with the GPIO aggregator driver? It won't have same base pin number thoug=
+h.
+
+IIUC, this can be instantiated only via sysfs or configfs?
+
+Best regards,
+Jernej
+
+
+
+
