@@ -1,77 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47EA242D97
-	for <linux-sunxi@lists.linux.dev>; Sat, 14 Mar 2026 07:40:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0E2320CCF
+	for <linux-sunxi@lists.linux.dev>; Sat, 14 Mar 2026 08:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773474017; cv=none; b=aEm9sy3cZGNv/wvjtvzID3waCWcH6iZ/IceeAo8xzLJA6rRlLBxnUPvQD56ulrXQT9jNJzbr4qtN7Q0/dnWaLTAXPOSeai7fr5mVPGv7UWxoSLtibtcvYGueuUmSOqVfCfrCyBT7KVKhc1GZv5i490JEUOy7UiSQFYBxkFxT+Hk=
+	t=1773475562; cv=none; b=oMOUXuX8rN55LD8+CyrUc+fXumRJMxvkzhzd9Gsd2Ux0C48FfmhkpH5YaP6wDFd6HGj+lkPm2hcXdYGcyK5S6LvGl5L+C/Kj9fNJEmVUM2mhSQIOuQRWjHFpYXYSof8REVByQ8W+6RMlP2yrFMCw9Douekj2mcf7LiS8PcF35iQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773474017; c=relaxed/simple;
-	bh=jr47S8Omkd671RmRpwVUVeGq79Jq1P9/cSVeCw/uis8=;
+	s=arc-20240116; t=1773475562; c=relaxed/simple;
+	bh=R3EWWpaovkuLWLz+sEJkJgXI3eScPJ1f3CVwzfTX0zg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YAoJF42SwcxN2ybtOoCILY/h7RBubTb7nxSTlvgeI04LbXaTeRkLnHwJkPDbpMx8qt6smIxmfGpK0Ogi1LITxZLrE5Z1L4fACj2zPVsvmUH4T/yRiiPRg9ueLkOcDmdzi4fO1YcStigeyLfIssglWEHqVqOJFVnDeTUAr2mH/OE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VOu1zzQe; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VOu1zzQe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D171C2BCB4
-	for <linux-sunxi@lists.linux.dev>; Sat, 14 Mar 2026 07:40:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773474017;
-	bh=jr47S8Omkd671RmRpwVUVeGq79Jq1P9/cSVeCw/uis8=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=VOu1zzQe+2Yc0ZFpfntKg/CMWuzKeWujXrmWicC7XhZE0fF/reknaXH1ch7dgAJRX
-	 8dKORNHxbrVdXcLjewURgcrue7eJMHWrVug2WvioUOG9/zM8Q8mj0rPDH8iAfszfAo
-	 o/r8kjQs3ApJW7CXTwUWADBSH0tCEiexiR7XZ8LHgVfUswprQaZut8lGw/nAlJ9Etn
-	 oocTr2M/9+tWHDBkjff62v8eVVXI4Si/WnPQfqlnrAF81chdzxGW4XusBZF4aZz9/S
-	 WPJZEs7giLAM3nlSJsQnMOflj+gZzSqKRUNhAXaDnno7lZpQzvHS7sntOBwR6tWRhb
-	 KP1P/RcG4lOoA==
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-38a2e62b893so24205441fa.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 14 Mar 2026 00:40:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUj8e9p2lIH+F2eHreppPdgu3iiIoUwAE+f81385vyrR5re/4jSwjVKnoxkYabXHGagG28xOOBQ0GiqWA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyo0KESzAXZ7rnpMbyFn/kEnVA+cT9tgDSwPtyL0l/L+O3ZFcLe
-	f8xlnRMH2CgSlIoxpDfK2mIZdMeiTLAXbZCSPDDLOACzjuCCKhfdJOuYYZThy0FNm2bHxe2HTkR
-	o+Ns1L/+4R0Y6lIer6gtjoL/VKMQBpSs=
-X-Received: by 2002:a05:651c:3251:b0:389:fa42:b278 with SMTP id
- 38308e7fff4ca-38a896a7e7amr21812631fa.14.1773474015748; Sat, 14 Mar 2026
- 00:40:15 -0700 (PDT)
+	 To:Cc:Content-Type; b=O61nCAzqZtJL2EWypAND8R4au4hVKRi0ZLPvuiK/2rW4rykyv9xjPQP3Jav1zIfMIISkkn1F+ew+g6vFH/+x58qsmHzMNkC3RZauie9OIesRrkeyUUB9iPd6Sgds5V08Hm4ahqNsJM7YBaqeNrzjMeHAuRBmVSnyf8SEtXkUrFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5a1273de95aso4213641e87.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 14 Mar 2026 01:06:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773475557; x=1774080357;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=R3EWWpaovkuLWLz+sEJkJgXI3eScPJ1f3CVwzfTX0zg=;
+        b=crn6+TbLqZixZVE9IrVzXFTiugb4kEpen4wUnBVEGJinUlCTdz7viqzVLxu9CWqRv4
+         CZE86Zdv6I7p/MUKZ4ow0hdSY2lCPQe+AGR3pbMyL6FCAHSCgpVc+Y1/OKOmuKT8P6fU
+         trEhiIX91bvtNjb0/Ok+rx54iAtAwHp7gBv3zJsGlOGjRfHbrOeIWDl/lfHXaKKE3poO
+         AdH7vZ7OXa6v0NP9nUGDdnBoHrdRTl5Z4Jzq+5XxhhM+neTrmpgScmuGNcx8pk3GFmnp
+         Mqlk+sG0VUWHXud7JxtOSi3y8VYhMHazTDL0CSuGxoihWq0sKRAa8uJGDdNF9eFd5bFz
+         FeOg==
+X-Forwarded-Encrypted: i=1; AJvYcCVXRUpUWuuR9dnqltwEHkW4xUDsihOS+7excs3bk0hl6dFDf3Ut3Nc008L0wvt64W6FymfXLF8TTVJTkg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyYBVWY0H0jNpi+W+wgEjSPKAMIRvEkJ4oO/4qO2bMFspkHLugx
+	TFmor68ND8uQjmlJGVQGFjrYzgU5cw9sMG9iU/lcmt4Ue+BrO8xe84PlLLF8DX0r
+X-Gm-Gg: ATEYQzxuPgODLrPqQoewTtMUpVIKqkiEaROgeQH908ugZYpP3vuFhkNUBFNsPA02IQ7
+	7vLJhiZNSVj/Q5QyYqHi3phynmlJYEg2HsFsoFldnA/wXSKKq9us0iOzvxkD5E4qT0woQ4JePpf
+	ln392efstB3YDY1dxStQhxiYRJqP0MDDRBC+xTHkDjvfl7Buj5O+yyYY2rl/ibBv2tjH7wpYegh
+	+ICCIswtygU6H57K4yn3AS8u5AogoKlj7TvSlgDBQWhS12ymHsNVDF+oM7yc5aS+esY68cQbzTk
+	WzLiCKSn05kgV+gsQ4ZAiIRJUtmLJBByahhjciGyAOJzWEtx/HOunLeGdm95DBO4rFaAWvDE4dH
+	PaSf3VLJQ6e+0/YOJdptf6DtrZh6jWH7GFbCU82JgvD29h2owTvfNDzCl6pIrbssWC75dpTNP7O
+	HEi66j6nj4ngJeUSCV9OT+smED13Cri8UGIsWE+b0oCeW9SbCMep/zpuQ=
+X-Received: by 2002:a05:6512:1596:b0:5a1:26f7:71b with SMTP id 2adb3069b0e04-5a1626c1517mr2385701e87.0.1773475557363;
+        Sat, 14 Mar 2026 01:05:57 -0700 (PDT)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com. [209.85.208.179])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a156162b08sm1977811e87.53.2026.03.14.01.05.51
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 14 Mar 2026 01:05:54 -0700 (PDT)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-389f9895c81so27319511fa.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 14 Mar 2026 01:05:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU4jwWdFxNn7Mn8xxI4VJoFVKhlR6Lr9fIEkJpz5kfwF138hlRpeewQ+PjGyt7tEZm7WXBgZv22tC/0Gg==@lists.linux.dev
+X-Received: by 2002:a2e:be87:0:b0:38a:6acb:eb13 with SMTP id
+ 38308e7fff4ca-38a8969872fmr19535261fa.11.1773475550494; Sat, 14 Mar 2026
+ 01:05:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260305-b4-pck600-a733-v2-0-ba6bbed7d253@gmail.com> <20260305-b4-pck600-a733-v2-2-ba6bbed7d253@gmail.com>
-In-Reply-To: <20260305-b4-pck600-a733-v2-2-ba6bbed7d253@gmail.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sat, 14 Mar 2026 15:40:02 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65h4aXPAfZ1KnsxgxwtOmfu0ZKbzHjYoG3auacpoBg57g@mail.gmail.com>
-X-Gm-Features: AaiRm50gm5CxKsArz3g0RHJT9DAFqfRxhiIS2xZcN5maI6-RPumGZgYHHPT9O04
-Message-ID: <CAGb2v65h4aXPAfZ1KnsxgxwtOmfu0ZKbzHjYoG3auacpoBg57g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] pmdomain: sunxi: Add support for A733 to Allwinner
- PCK600 driver
-To: Yuanshen Cao <alex.caoys@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Ulf Hansson <ulf.hansson@linaro.org>, devicetree@vger.kernel.org, 
+References: <20260305100137.2558423-1-richard.genoud@bootlin.com> <20260305100137.2558423-2-richard.genoud@bootlin.com>
+In-Reply-To: <20260305100137.2558423-2-richard.genoud@bootlin.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Sat, 14 Mar 2026 16:05:37 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64DAuSEoFKTcdUeBjj7D8b5BiMbzo+M1xnx_A7fia5rgA@mail.gmail.com>
+X-Gm-Features: AaiRm50SXV4USJv7ufJ5S1CHMI-l-YGJ1ASLNXxXfC-UNKPRkpq29G52tlurn4k
+Message-ID: <CAGb2v64DAuSEoFKTcdUeBjj7D8b5BiMbzo+M1xnx_A7fia5rgA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] mtd: rawnand: sunxi: sunxi_nand_ooblayout_free
+ code clarification
+To: Richard Genoud <richard.genoud@bootlin.com>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Wentao Liang <vulab@iscas.ac.cn>, 
+	Maxime Ripard <mripard@kernel.org>, Boris Brezillon <bbrezillon@kernel.org>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-mtd@lists.infradead.org, 
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 5, 2026 at 11:34=E2=80=AFAM Yuanshen Cao <alex.caoys@gmail.com>=
- wrote:
+On Thu, Mar 5, 2026 at 6:02=E2=80=AFPM Richard Genoud
+<richard.genoud@bootlin.com> wrote:
 >
-> The Allwinner A733 PCK600, similar to A523 PCK600, is likely a
-> customized version of ARM PCK-600 power controller. It shares the same
-> BSP driver with A523. According to the BSP provided by Radxa, unlike
-> A523, it doesn't require reset, as well as a different pair of delay
-> values.
+> The available length is really USER_DATA_LEN - 2 instead of just 2 (the
+> user data length minus the BBM length)
+> USER_DATA_LEN being 4, that doesn't change anything now, but if
+> USER_DATA_LEN changes, it will.
 >
-> Make reset optional in the sunxi pck600 driver and add support
-> for A733.
->
-> Signed-off-by: Yuanshen Cao <alex.caoys@gmail.com>
+> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
 
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org> # matched against BSP driver
+Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
