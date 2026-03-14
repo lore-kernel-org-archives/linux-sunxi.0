@@ -1,106 +1,73 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE440225788
-	for <linux-sunxi@lists.linux.dev>; Sat, 14 Mar 2026 06:53:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35CD525524C;
+	Sat, 14 Mar 2026 07:30:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773471227; cv=none; b=r3W0grA3lcNicd1zIu34Ksfqjq6sh9j7Ewixz/aHK75MgK4yU9NIW00GOQSoSqe7XreYfLSfo2JKw/F96YNU1/wtCKARh27ZThytl803lDlpUEX2DSDiVYLAAsWbop2JXD9vY7bA9dfq3EQCIwbE1ZSSLqFvo8br45o/5e2/s40=
+	t=1773473434; cv=none; b=nhexMN1PPZm2W7x1gtfH7xMVWbaBnuzPgZsvWcqGhz/1NyIMyUS5gUDxufj+j1J3+JDlvB6l/2C0N0Omoo90aRLuwDpR8PaS3j3wy5hEuc2qmlkISrKB8iczARMswBKQ9GVGljGG7EyxEpS6HnL3jWsWrWjfv6kzYpH3mkct9ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773471227; c=relaxed/simple;
-	bh=OGqE3n15B8Oam7oaufyM4egmtIok/tvgCx592UaF9pQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XyMaBApRxZwF2g56MNmnIcX9PXrczxgw6bbT3NRr8gQuxCPZvaokdZ35R79VYszItWqDFW9/a/gNTae+9ITss0Lj8ww/Y1AKTS5HJZ9kSwozGdw/U7L5c6H3COkAQvOAMeIhFobFQCQMg4TqKugMGE2ujqpc078z/y3RPnu7lZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VyH1euzi; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773473434; c=relaxed/simple;
+	bh=/r7P63vAzuId1FJu7Wx90EZmySB9sAz0wDy3fGBNv4E=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=crPpDA5KGwG9AjarVLZp7sWo/grg34wKuJUaYrWzZDDW9l8MVwViJCfCGnMFA4KBuj7le2iy1pPPi/RKf8Z91LDE7kcRSiEfM78fYCqy8331A6/hru5XJ7WXLk8V592JF72C97Gn1DZesBFj+NoNKDz+VAO+DjFMSL7GZVH+afM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t60OkyTn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VyH1euzi"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-439c9bdc1eeso2958770f8f.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 13 Mar 2026 23:53:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773471224; x=1774076024; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OGqE3n15B8Oam7oaufyM4egmtIok/tvgCx592UaF9pQ=;
-        b=VyH1euziHEiIwWO0iu4gZHILPOspKnNFtMG0UAuB9jGFB+999k6pvBNnZskCrgfMFT
-         rmdVk1Q1YarLs48tmPRfoqKbsqdvBS8Y8Y+z5CAEOJ76PyUJiYktLjqBB/t+p6ts8V0j
-         YCpE+o22HYUunqQDHV86lS9zIOdMuJzmQRAgbNH/aE+Q8SbaW7SZrtoJZh8MSbVJe0d9
-         rgDgSbEBsKwFD86azJPrLvkfxpJrkaqPoNS4+AQ4ZO0gGDgNXbbreoS8wftn/LO94idp
-         Roq8Fgb/ufhTxVJBRfAyLgcqtmI4fN1e8hjmd11dprt7NwcWZOenqrMEZ5QsnFYW2IOW
-         unTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773471224; x=1774076024;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=OGqE3n15B8Oam7oaufyM4egmtIok/tvgCx592UaF9pQ=;
-        b=NKyUAOoYaHzZNxOM9RFcmVecVDXaWShWN9OWh8Os11mTURJcK0hVi1RzeK/6/QYVnT
-         2LOC8wE1/2qcIzznQCpAdOHfzE7Risi/iluPsWILkGSX8OLBm0YuzDpUFNWJ8dvUlM1Y
-         Fp0cQ+gS6zvPDskAcX9JWzBeXfswCV3pncC/seHoqM9lXfkv1OJJ5imdwYTmMcv3OQqH
-         YlKTp3ogdszqmU4AfHM+L2ecuc7DgsXAtwoc8M3RuaReqeTUECekoFBNPZHUxBVH5kcc
-         dzTjg4TZN85S0fUGXIV8Y8U81rVvtu0iEhgUB7oXfjmm1gAw0AetKzyPgNq9j5OM1EuE
-         Bb9A==
-X-Forwarded-Encrypted: i=1; AJvYcCXS8lGwBScMpk4wNRQu6+N5TFETmjmuHqzPfKpY4w/7hTXPURtl5NcFaNMtOKxOxr4MqhATZbpBk3RyvA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy4fa1DXz7ylEssBVLbNGl5Wau1aTyFJj6umBBaqooC3rDPGjvx
-	JP/U0uaIQA/0JRW7/8+JZrMEgDPLLa7X/z+bFHsgI5bhHWhZOs5w1M4j
-X-Gm-Gg: ATEYQzz8TyCpeic/4HzCc8dyVXHwD8pbpsZiUhIM7C4MEjyYnFBHoDuABQ+hLY/sTXc
-	SiiolcLrsJeSh9QMARvC93Y0bhAgmwQMzsQU4EUljc8QgIPs8QOGzKSB1o3Ir79sMHfwA/5U5FK
-	VsZbWqZYwkUeTWFvxGBeSzMcUsFmfUwLSy22bvwwXh2xwVE132g96ilNlUF6awu/tryP6jBnDim
-	YuxEwIBORw3ocCjcARBJtXqK9O4YUelnM/6NAqjXP939V6jt9+eKMgwO0667M3fsLtBRb3EJ5GU
-	hyYNDW6dEZQe/ipZDofCY83RtS5msZkUmC3kX9VrKDnTBKMpSpkAg/1HLpdtBwpFmeIhTZftBNE
-	8WH/+T1hUF9b5qj66Wosd+DNN4v9nJcCffozlDDKddA7XhuyD4JBRQgiY3/CmOQi41rfYVMKXNh
-	WdD/grlDYA3UbdVNI+GJdOPA7RnxYVvBhhio3iuRgfYuVkfZznVOoEvVemlEglYGWNPjCp9Ih4p
-	a5JGQ==
-X-Received: by 2002:a05:600c:4f8b:b0:485:3a27:a960 with SMTP id 5b1f17b1804b1-485564981d8mr105428765e9.0.1773471224016;
-        Fri, 13 Mar 2026 23:53:44 -0700 (PDT)
-Received: from jernej-laptop.localnet (86-58-12-163.dynamic.telemach.net. [86.58.12.163])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48556422338sm40021775e9.7.2026.03.13.23.53.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Mar 2026 23:53:43 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Yuanshen Cao <alex.caoys@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, Yuanshen Cao <alex.caoys@gmail.com>
-Subject:
- Re: [PATCH v2 2/2] pmdomain: sunxi: Add support for A733 to Allwinner PCK600
- driver
-Date: Sat, 14 Mar 2026 07:53:42 +0100
-Message-ID: <5083201.31r3eYUQgx@jernej-laptop>
-In-Reply-To: <20260305-b4-pck600-a733-v2-2-ba6bbed7d253@gmail.com>
-References:
- <20260305-b4-pck600-a733-v2-0-ba6bbed7d253@gmail.com>
- <20260305-b4-pck600-a733-v2-2-ba6bbed7d253@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t60OkyTn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 829D8C116C6;
+	Sat, 14 Mar 2026 07:30:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773473433;
+	bh=/r7P63vAzuId1FJu7Wx90EZmySB9sAz0wDy3fGBNv4E=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=t60OkyTn7wfBA1/DrrMu7aRTpp4k6minF0VVXbLhFstWqShJAYlYymEnFfNx0Yo7n
+	 UnwpsrP+XkzOs6EL1Qh0IktITu43JhiG27eom1zjTXorlC7hg2unAci74EFwXGkkXX
+	 MRA4iEKOd0sqEdsN56ErTUHu1R6AhvzsgD7+RMwsUJh5GRZDlsCLKtBlOLwTXRuyAR
+	 dQ5H6pjhEsudK2b0U4TLoKapU5/6n95yosXcg9aHic7vp1gyrT8ufPpEC+TURzN9Fd
+	 ibw1mSpvyVdskSI0EM3kokAZFz2AXVNxIPu/G8+qIzLfMx9FxU2k9qlNh6GtFNynF9
+	 xCzGUWFdshCvA==
+From: Chen-Yu Tsai <wens@kernel.org>
+To: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, Jun Yan <jerrysteve1101@gmail.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ jernej.skrabec@gmail.com, samuel@sholland.org, mripard@kernel.org, 
+ andre.przywara@arm.com
+In-Reply-To: <20260304073430.438835-1-jerrysteve1101@gmail.com>
+References: <20260304073430.438835-1-jerrysteve1101@gmail.com>
+Subject: Re: [PATCH v4 0/3] board: sunxi: Add TaiqiCat (TQC) A01
+Message-Id: <177347343121.5222.10454445952676916581.b4-ty@kernel.org>
+Date: Sat, 14 Mar 2026 15:30:31 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.14.2
 
-Dne =C4=8Detrtek, 5. marec 2026 ob 04:34:08 Srednjeevropski standardni =C4=
-=8Das je Yuanshen Cao napisal(a):
-> The Allwinner A733 PCK600, similar to A523 PCK600, is likely a
-> customized version of ARM PCK-600 power controller. It shares the same
-> BSP driver with A523. According to the BSP provided by Radxa, unlike
-> A523, it doesn't require reset, as well as a different pair of delay
-> values.
->=20
-> Make reset optional in the sunxi pck600 driver and add support
-> for A733.
->=20
-> Signed-off-by: Yuanshen Cao <alex.caoys@gmail.com>
+On Wed, 04 Mar 2026 15:34:27 +0800, Jun Yan wrote:
+> This series adds support for the TaiqiCat (TQC) A01 —
+> a set-top box based on the Allwinner H6 SoC.
+> Originally released by Ultrapower(UQSoft) as a blockchain terminal,
+> the device has been discontinued and is no longer officially
+> supported.
+> 
+>   https://web.archive.org/web/20190409213228/https://tq.ultrapower.com.cn/product.html
+> 
+> [...]
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Applied to sunxi/dt-for-7.1 in local tree, thanks!
+
+[1/3] dt-bindings: vendor-prefixes: Add Beijing Ultrapower Software Co., Ltd.
+      commit: b4137a75e1e611f37fcdc74c1d41696c7971e0b8
+[2/3] dt-bindings: arm: sunxi: Add TaiqiCat (TQC) A01
+      commit: f3208874f32c09dfc9ee330204f9fccf26e15b57
+[3/3] arm64: dts: allwinner: h6: Add TaiqiCat (TQC) A01 support
+      commit: b912e48bee355b6b1faf86efc4a23191324ffecb
 
 Best regards,
-Jernej
-
+-- 
+Chen-Yu Tsai <wens@kernel.org>
 
