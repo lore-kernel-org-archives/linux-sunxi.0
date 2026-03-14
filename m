@@ -1,73 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35CD525524C;
-	Sat, 14 Mar 2026 07:30:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17A21427A
+	for <linux-sunxi@lists.linux.dev>; Sat, 14 Mar 2026 07:33:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773473434; cv=none; b=nhexMN1PPZm2W7x1gtfH7xMVWbaBnuzPgZsvWcqGhz/1NyIMyUS5gUDxufj+j1J3+JDlvB6l/2C0N0Omoo90aRLuwDpR8PaS3j3wy5hEuc2qmlkISrKB8iczARMswBKQ9GVGljGG7EyxEpS6HnL3jWsWrWjfv6kzYpH3mkct9ac=
+	t=1773473636; cv=none; b=ni9MN5OmJd/EtQ/z4QGxX6IWRBtKgUzBLtDbAQg/U5HlPWW+m4mpST5nzY3ivMyc40MSVsudHM6hiQHXbcgNGLdHzkCah1s3jGxZWwV3V9qnusNZVEBwfgaH1jf4N8WS1IIhkyNdl0eOtmT/yf4kigoyYxaCtfoRbiG38K/Pkcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773473434; c=relaxed/simple;
-	bh=/r7P63vAzuId1FJu7Wx90EZmySB9sAz0wDy3fGBNv4E=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=crPpDA5KGwG9AjarVLZp7sWo/grg34wKuJUaYrWzZDDW9l8MVwViJCfCGnMFA4KBuj7le2iy1pPPi/RKf8Z91LDE7kcRSiEfM78fYCqy8331A6/hru5XJ7WXLk8V592JF72C97Gn1DZesBFj+NoNKDz+VAO+DjFMSL7GZVH+afM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t60OkyTn; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t60OkyTn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 829D8C116C6;
-	Sat, 14 Mar 2026 07:30:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773473433;
-	bh=/r7P63vAzuId1FJu7Wx90EZmySB9sAz0wDy3fGBNv4E=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=t60OkyTn7wfBA1/DrrMu7aRTpp4k6minF0VVXbLhFstWqShJAYlYymEnFfNx0Yo7n
-	 UnwpsrP+XkzOs6EL1Qh0IktITu43JhiG27eom1zjTXorlC7hg2unAci74EFwXGkkXX
-	 MRA4iEKOd0sqEdsN56ErTUHu1R6AhvzsgD7+RMwsUJh5GRZDlsCLKtBlOLwTXRuyAR
-	 dQ5H6pjhEsudK2b0U4TLoKapU5/6n95yosXcg9aHic7vp1gyrT8ufPpEC+TURzN9Fd
-	 ibw1mSpvyVdskSI0EM3kokAZFz2AXVNxIPu/G8+qIzLfMx9FxU2k9qlNh6GtFNynF9
-	 xCzGUWFdshCvA==
-From: Chen-Yu Tsai <wens@kernel.org>
-To: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, Jun Yan <jerrysteve1101@gmail.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- jernej.skrabec@gmail.com, samuel@sholland.org, mripard@kernel.org, 
- andre.przywara@arm.com
-In-Reply-To: <20260304073430.438835-1-jerrysteve1101@gmail.com>
-References: <20260304073430.438835-1-jerrysteve1101@gmail.com>
-Subject: Re: [PATCH v4 0/3] board: sunxi: Add TaiqiCat (TQC) A01
-Message-Id: <177347343121.5222.10454445952676916581.b4-ty@kernel.org>
-Date: Sat, 14 Mar 2026 15:30:31 +0800
+	s=arc-20240116; t=1773473636; c=relaxed/simple;
+	bh=2hhVDHPdFpoLhFbgRe26hlKwyzjuViZ5djdYgKLBB/Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=j/MK1TzrwO/NVC7Muooq9X4HcFqzYv4EWKyjLnGHKxtURCoRLBcjkTWQhIZMgBOzRJBQ2UlLxRIIUOAX23M8uFrQZRlsZTwrpzpYXLACrGKMALc/IzFtjMCS13DcXWcPkApIVQB2PGPImN/LcV/bjUsEa3q0DrUrb5Bw7w5qrXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5a1687f112bso576016e87.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 14 Mar 2026 00:33:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773473632; x=1774078432;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2hhVDHPdFpoLhFbgRe26hlKwyzjuViZ5djdYgKLBB/Y=;
+        b=pHDUT0FRHuGZpm2i6NjxA3LWwMKVj6tnxIagaazVqBCMLP55KKI5baz5QNUt3QyEyF
+         zBd5TlghNK88yj0Oj0Md2Ooqv6eZyxkCB2cXfuJu6fjwYj8hzxyzKdXQVhQ08RmEJL/M
+         lW+NUr4SM+xaClSZCKU/Y0s1tlUu9rbpMyQZxqdW8xoQ9N530rPa7GeSXsF9b+sJ/j0k
+         NOhErZtetI0L0u+INlvy7zfN4JVxTHIQ9loK/adK1gJiisoFwNE14rUlyK9qhGLopNt2
+         pHhaINDRahynRni1oc+lusbo0ox6ih/4nOU0p24ubvrCzc+OAHYgy8zN+Ge/VQ17z7Hn
+         jzKg==
+X-Forwarded-Encrypted: i=1; AJvYcCV4szvBeeMqqboFZ6TeUaNK6qjgLswKfE+rQUYN/XmoyqGVOj0IxfvIKIWP2CUCKSIgUaluISRP7NfKiA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywr5NqJganFvKFUXuFZhgBJMhVTU49XFQZf2Yq+7cVAYgC4SrKK
+	0+UseEqDIx42Hq+r6iqedX3KgzVQe1Vg2K5VFqWwIB2csCubv4MnudzXyv7nW378
+X-Gm-Gg: ATEYQzzuW8ih/6HcNRzImzkXujC7euXOj/yFogEqM3KaUco64fl9HgZQICuJy83M1PK
+	Q8Y+9Feo+QJpX3sUnhvnGaFmCShSNxYUUIS7wiu7KYFxQe98CuosA4R7i7Mp81b8xt+Th5tQKos
+	cpO+PXsGyIM6kkY4HkAGCVE7/uzfqIzoUuBYa08fEAs4Ys4oozj36wGkSM1uXy2UYPNNyGsG+56
+	qI2ZPg9Jm0+lTcIn8qEuzjQqZYyVHpTicg9c1qo9xtsl0IBKvggFqcRA9odS9Bi1gAe31zS4XUn
+	jU1p97uvoFCcM6cBGPYY+sn2QKlEnMGNt5dRZIpm2KIMX6+B9u1A5t4hAvvGY9mANZM94jzYowh
+	Eu7o3W9C7zm3oR/C5KhWaMx4shL3VEN7mEd/C3Ts+/nxtVeoYMO+V80e/ln8zd/zBubH7u/4F+d
+	U+133ltpsHbKPwNphzykAo0dhXF7IUZAn0BcKvlpt92M4sP2P82uah3Bw=
+X-Received: by 2002:a05:6512:63d2:20b0:5a1:1b06:7e81 with SMTP id 2adb3069b0e04-5a162b3b0e7mr1525125e87.42.1773473632116;
+        Sat, 14 Mar 2026 00:33:52 -0700 (PDT)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com. [209.85.208.180])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a155ee32d2sm2081367e87.0.2026.03.14.00.33.52
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 14 Mar 2026 00:33:52 -0700 (PDT)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-38a49fc06b4so22965781fa.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 14 Mar 2026 00:33:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVMbqfpCRSvns43a91YL9yLMoUkvNtVnmp4DRx2aiJ/IM/jDDuDwmTXcIYXOucL+0P5hdHOkl9wXUUdXA==@lists.linux.dev
+X-Received: by 2002:a2e:8f87:0:b0:38a:737c:411e with SMTP id
+ 38308e7fff4ca-38a8979c42emr19370561fa.21.1773473631837; Sat, 14 Mar 2026
+ 00:33:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.14.2
+References: <20260301144939.1832806-1-andrej.skvortzov@gmail.com>
+In-Reply-To: <20260301144939.1832806-1-andrej.skvortzov@gmail.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Sat, 14 Mar 2026 15:33:38 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64PvGdViT6DWHiNGoK=5L8DpfjVAdv+LbNf_Uisy6v0Aw@mail.gmail.com>
+X-Gm-Features: AaiRm50HgMzViAFsiAKzBuJ21Dl_NGiSreFIiRIGHbKW53o8zq3pm2o3jOmNcYY
+Message-ID: <CAGb2v64PvGdViT6DWHiNGoK=5L8DpfjVAdv+LbNf_Uisy6v0Aw@mail.gmail.com>
+Subject: Re: [PATCH] bus: sunxi-rsb: Always check register address validity
+To: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 04 Mar 2026 15:34:27 +0800, Jun Yan wrote:
-> This series adds support for the TaiqiCat (TQC) A01 —
-> a set-top box based on the Allwinner H6 SoC.
-> Originally released by Ultrapower(UQSoft) as a blockchain terminal,
-> the device has been discontinued and is no longer officially
-> supported.
-> 
->   https://web.archive.org/web/20190409213228/https://tq.ultrapower.com.cn/product.html
-> 
-> [...]
+On Sun, Mar 1, 2026 at 10:50=E2=80=AFPM Andrey Skvortsov
+<andrej.skvortzov@gmail.com> wrote:
+>
+> From: Samuel Holland <samuel@sholland.org>
+>
+> The register address was already validated for read operations in
+> regmap_sunxi_rsb_reg_read before being truncated to a u8. Write operation=
+s
+> have the same set of possible addresses, and the address is being truncat=
+ed
+> from u32 to u8 here as well, so the same check is needed.
+>
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
 
-Applied to sunxi/dt-for-7.1 in local tree, thanks!
+Should probably have:
 
-[1/3] dt-bindings: vendor-prefixes: Add Beijing Ultrapower Software Co., Ltd.
-      commit: b4137a75e1e611f37fcdc74c1d41696c7971e0b8
-[2/3] dt-bindings: arm: sunxi: Add TaiqiCat (TQC) A01
-      commit: f3208874f32c09dfc9ee330204f9fccf26e15b57
-[3/3] arm64: dts: allwinner: h6: Add TaiqiCat (TQC) A01 support
-      commit: b912e48bee355b6b1faf86efc4a23191324ffecb
+Fixes: d787dcdb9c8f ("bus: sunxi-rsb: Add driver for Allwinner Reduced
+Serial Bus")
 
-Best regards,
--- 
-Chen-Yu Tsai <wens@kernel.org>
+I will added (via b4) when applying.
 
+Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
