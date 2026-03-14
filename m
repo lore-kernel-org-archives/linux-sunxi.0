@@ -1,529 +1,107 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D3A21DDA24
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Mar 2026 00:43:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EDF122D785;
+	Mon, 16 Mar 2026 01:37:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773535441; cv=none; b=az5pFtU1WOsdQWA4zACzWhGo5RX90FV5JLJE11szDZfEKU6aAVaeiEiFhJyyV9MqttJRNY8UHUMhVeZ9rJLMVb762MBj6IFwOJxN7G+5RnuOm2OW8+hyaOEqc5Q9KHSr2G5p3Jt55LStBZKDKeOq5FrC/GOn6rwGhhpk6o94c8w=
+	t=1773625063; cv=none; b=LQqZq/uYYTxAXtg2xTWXmm06Bd9XeYABoF1k2Rn+ApDt3W2Xp5MpXLJHVns9Epv/096gi9wQXqQ8kyo8LoAagVz6AVu7VKvIy2ZcZ2UWqJ0XkCnjqj548vE/uLpgrRy4nbt2KtL/55EcNTrFP8WW+IwsyapPaV/1bcdCH6wl5y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773535441; c=relaxed/simple;
-	bh=jhbwOkmSNbArfrU++r8APhIkf0krh5jWjxZOb6bJsVw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=onKfRm4l2KeD3SIjmejKk8Q940VmFCRHSI8ESOhCdME7aQXbOAqxShbnSb4JwaVq8SuDH0zgsKtuurb3CYqPLOGnPmkMlSarhOdiWn8CPTxGQlciIAiplHFFYySlb0ZKp+y0SgBveXpCxkYI9ode33I96oVBxGTgUEdqr3uyj8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0BCFA152B;
-	Sat, 14 Mar 2026 17:43:52 -0700 (PDT)
-Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 762313F7BD;
-	Sat, 14 Mar 2026 17:43:56 -0700 (PDT)
-Date: Sun, 15 Mar 2026 01:42:05 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Icenowy Zheng <uwu@icenowy.me>
-Cc: Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland	
- <samuel@sholland.org>, Bartosz Golaszewski <brgl@kernel.org>,
- linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] pinctrl: sunxi: convert to GPIO_GENERIC
-Message-ID: <20260315014205.471d6834@ryzen.lan>
-In-Reply-To: <a4cfb10e4701da0649ef648136496a962be5870d.camel@icenowy.me>
-References: <20260313000652.11470-1-andre.przywara@arm.com>
-	<a4cfb10e4701da0649ef648136496a962be5870d.camel@icenowy.me>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1773625063; c=relaxed/simple;
+	bh=TGQIw/q/zFMyHgT9wXEpWPAd2N2W6JnYL+lx6HkddLk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Vcir6blr3tf05Caz75Xrtmk9d+lyROWcNcTs15PrhssaH1omTbwXSgeybg8Pi3kvyJUvOj0U7+8brQQ7NFs53P43kx+K6UVh7EFsUF+HfIPovMU5sXYISTrViAIIKoYNfAHZiONEaYvsK1ZjSYs/yjiUldn7h/qKTEtlnPjSr0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FRzD8sxt; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FRzD8sxt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64CF8C19425;
+	Mon, 16 Mar 2026 01:37:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773625062;
+	bh=TGQIw/q/zFMyHgT9wXEpWPAd2N2W6JnYL+lx6HkddLk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=FRzD8sxtWGzZf04kzC7Xi/txIeltFmL7gxMkHHZhlxDQcObQTW7bT1CEcFWxmAxZY
+	 1o+6rc64q4fh6e6ahab9n03frJz8mZ3rvcOkdgKvlZYrbMWLahfiylHFyDDYfQNmaO
+	 OQ9vqB6MXJeubc69yr4l+rSQGAg4hihvqsoyxyiVprNtfXfV4pU3lePKCQwWPQFmv2
+	 1e9LPCKyw61UXetoeVulORj/r6wrJuvRWa/1JczJAsB2KWV8GreUb7qpk3Fy6DfYba
+	 qzIT8KP9I2iNo2HLLyIWy3VzHVHs/u9FiwvljbmhzWkQVhQqJVWBlobXjNieLrR9UV
+	 zNCmusXetr/cA==
+From: Mark Brown <broonie@kernel.org>
+To: Jernej Skrabec <jernej@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, linux-sunxi@lists.linux.dev, 
+ devicetree@vger.kernel.org, linux-spi@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260302153559.3199783-1-wens@kernel.org>
+References: <20260302153559.3199783-1-wens@kernel.org>
+Subject: Re: (subset) [PATCH v2 0/3] arm64: allwinner: sun55i-t527:
+ avaota-a1: Add SPI NAND
+Message-Id: <177352554724.149922.11236010638417672034.b4-ty@kernel.org>
+Date: Sat, 14 Mar 2026 21:59:07 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-5154a
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1508; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=TGQIw/q/zFMyHgT9wXEpWPAd2N2W6JnYL+lx6HkddLk=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpt17jchZo0gt311TnfM91Px7xeMUnDDWgGnHg5
+ aPZt2gS/jyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCabde4wAKCRAk1otyXVSH
+ 0NkBB/96GMZnNoZeWsfT+kcGAZx6S+Ao310k+PbeK/xJt271Tz0NrWNlPvQZCLXxs4SQNIZFO5M
+ Dr4zSEidJE/ORmsiypIqH6qztsrTp9KGh0DMZt1wZgeIrWETeDJenvDAP2BxhnRhER7hcEkbEjO
+ dPj1MGZqdoZBCb4pEn/bQ2itm7AAsbKhMPTIT+fMfNoP+awzQn1AvEBL1w6eSPkRJtGe/PzF2vs
+ 4apTXsrYWgR1Muwe2Aqo6FqdXLCUZVZRLtV3QqIrNVoVqlc1EqFdBZKwysXbk0Krry4Kgs2iFih
+ zwZ7tpICsIacOmo1RYoCA1etZDpvw+NSmN3HLmdihBnINnoB
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Sat, 14 Mar 2026 13:14:25 +0800
-Icenowy Zheng <uwu@icenowy.me> wrote:
+On Mon, 02 Mar 2026 23:35:55 +0800, Chen-Yu Tsai wrote:
+> arm64: allwinner: sun55i-t527: avaota-a1: Add SPI NAND
+> 
+> Hi,
+> 
+> This is v2 of my Avaota A1 SPI NAND enablement series.
+> 
+> Changes since v1:
+> - DT bindings (Krzysztof)
+>   - Moved "allOf:" block after "required:" block
+>   - Dropped "type:" from child node in conditional block
+> - Collected tags
+> - Link to v1:
+>   https://lore.kernel.org/linux-sunxi/20260227175157.2339758-1-wens@kernel.org/
+> 
+> [...]
 
-> =E5=9C=A8 2026-03-13=E4=BA=94=E7=9A=84 01:06 +0100=EF=BC=8CAndre Przywara=
-=E5=86=99=E9=81=93=EF=BC=9A
-> > Allwinner SoCs combine pinmuxing and GPIO control in one device/MMIO
-> > register frame. So far we were instantiating one GPIO chip per
-> > pinctrl
-> > device, which covers multiple banks of up to 32 GPIO pins per bank.
-> > The
-> > GPIO numbers were set to match the absolute pin numbers, even across
-> > the
-> > typically two instances of the pinctrl device.
-> >=20
-> > Convert the GPIO part of the sunxi pinctrl over to use the
-> > gpio_generic
-> > framework. This alone allows to remove some sunxi specific code,
-> > which
-> > is replaced with the existing generic code. This will become even
-> > more
-> > useful with the upcoming A733 support, which adds set and clear
-> > registers for the output.
-> > As a side effect this also changes the GPIO device and number
-> > allocation: Each bank is now represented by its own gpio_chip, with
-> > only
-> > as many pins as there are actually implemented. The numbering is left
-> > up =20
->=20
-> Ah, is this a userspace API break?
+Applied to
 
-Was that ever a guaranteed user space API? Or just something
-that everyone relied on because it was always the same (until it
-wasn't)? Similar to /dev/mmcblk0 being the SD card?
-And ignoring the ill-fated old-style sysfs interface for now, how does
-this work with libgpiod? Would it still use the absolute pin numbers?
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-7.0
 
-I mean looking at that warning about the forced GPIO numbering we
-get, using base =3D -1 seems to be the recommended way?
+Thanks!
 
-Cheers,
-Andre
+[1/3] spi: dt-bindings: sun6i: Allow Dual SPI and Quad SPI for newer SoCs
+      https://git.kernel.org/broonie/misc/c/743956bb9990
 
-> Sincerely,
-> Icenowy
->=20
-> > to the kernel (.base =3D -1).
-> >=20
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> > =C2=A0drivers/pinctrl/sunxi/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
-> > =C2=A0drivers/pinctrl/sunxi/pinctrl-sunxi.c | 245 ++++++++++++---------=
----
-> > --
-> > =C2=A0drivers/pinctrl/sunxi/pinctrl-sunxi.h |=C2=A0 11 +-
-> > =C2=A03 files changed, 124 insertions(+), 133 deletions(-)
-> >=20
-> > diff --git a/drivers/pinctrl/sunxi/Kconfig
-> > b/drivers/pinctrl/sunxi/Kconfig
-> > index dc62eba96348e..5905810dbf398 100644
-> > --- a/drivers/pinctrl/sunxi/Kconfig
-> > +++ b/drivers/pinctrl/sunxi/Kconfig
-> > @@ -4,6 +4,7 @@ if ARCH_SUNXI
-> > =C2=A0config PINCTRL_SUNXI
-> > =C2=A0	bool
-> > =C2=A0	select PINMUX
-> > +	select GPIO_GENERIC
-> > =C2=A0	select GENERIC_PINCONF
-> > =C2=A0	select GPIOLIB
-> > =C2=A0
-> > diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> > b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> > index 48434292a39b5..4235f9feff00d 100644
-> > --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> > +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> > @@ -13,6 +13,7 @@
-> > =C2=A0#include <linux/clk.h>
-> > =C2=A0#include <linux/export.h>
-> > =C2=A0#include <linux/gpio/driver.h>
-> > +#include <linux/gpio/generic.h>
-> > =C2=A0#include <linux/interrupt.h>
-> > =C2=A0#include <linux/io.h>
-> > =C2=A0#include <linux/irqchip/chained_irq.h>
-> > @@ -86,17 +87,6 @@ static void sunxi_mux_reg(const struct
-> > sunxi_pinctrl *pctl,
-> > =C2=A0	*mask=C2=A0 =3D (BIT(MUX_FIELD_WIDTH) - 1) << *shift;
-> > =C2=A0}
-> > =C2=A0
-> > -static void sunxi_data_reg(const struct sunxi_pinctrl *pctl,
-> > -			=C2=A0=C2=A0 u32 pin, u32 *reg, u32 *shift, u32 *mask)
-> > -{
-> > -	u32 offset =3D pin % PINS_PER_BANK * DATA_FIELD_WIDTH;
-> > -
-> > -	*reg=C2=A0=C2=A0 =3D sunxi_bank_offset(pctl, pin) + DATA_REGS_OFFSET +
-> > -		 offset / BITS_PER_TYPE(u32) * sizeof(u32);
-> > -	*shift =3D offset % BITS_PER_TYPE(u32);
-> > -	*mask=C2=A0 =3D (BIT(DATA_FIELD_WIDTH) - 1) << *shift;
-> > -}
-> > -
-> > =C2=A0static void sunxi_dlevel_reg(const struct sunxi_pinctrl *pctl,
-> > =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0 u32 pin, u32 *reg, u32 *shift, u32
-> > *mask)
-> > =C2=A0{
-> > @@ -930,99 +920,22 @@ static const struct pinmux_ops sunxi_pmx_ops =3D
-> > {
-> > =C2=A0	.strict			=3D true,
-> > =C2=A0};
-> > =C2=A0
-> > -static int sunxi_pinctrl_gpio_direction_input(struct gpio_chip
-> > *chip,
-> > -					unsigned offset)
-> > -{
-> > -	struct sunxi_pinctrl *pctl =3D gpiochip_get_data(chip);
-> > -
-> > -	return sunxi_pmx_gpio_set_direction(pctl->pctl_dev, NULL,
-> > -					=C2=A0=C2=A0=C2=A0 chip->base + offset,
-> > true);
-> > -}
-> > -
-> > -static int sunxi_pinctrl_gpio_get(struct gpio_chip *chip, unsigned
-> > offset)
-> > -{
-> > -	struct sunxi_pinctrl *pctl =3D gpiochip_get_data(chip);
-> > -	bool set_mux =3D pctl->desc->irq_read_needs_mux &&
-> > -		gpiochip_line_is_irq(chip, offset);
-> > -	u32 pin =3D offset + chip->base;
-> > -	u32 reg, shift, mask, val;
-> > -
-> > -	sunxi_data_reg(pctl, offset, &reg, &shift, &mask);
-> > -
-> > -	if (set_mux)
-> > -		sunxi_pmx_set(pctl->pctl_dev, pin,
-> > SUN4I_FUNC_INPUT);
-> > -
-> > -	val =3D (readl(pctl->membase + reg) & mask) >> shift;
-> > -
-> > -	if (set_mux)
-> > -		sunxi_pmx_set(pctl->pctl_dev, pin, SUN4I_FUNC_IRQ);
-> > -
-> > -	return val;
-> > -}
-> > -
-> > -static int sunxi_pinctrl_gpio_set(struct gpio_chip *chip, unsigned
-> > int offset,
-> > -				=C2=A0 int value)
-> > -{
-> > -	struct sunxi_pinctrl *pctl =3D gpiochip_get_data(chip);
-> > -	u32 reg, shift, mask, val;
-> > -	unsigned long flags;
-> > -
-> > -	sunxi_data_reg(pctl, offset, &reg, &shift, &mask);
-> > -
-> > -	raw_spin_lock_irqsave(&pctl->lock, flags);
-> > -
-> > -	val =3D readl(pctl->membase + reg);
-> > -
-> > -	if (value)
-> > -		val |=3D mask;
-> > -	else
-> > -		val &=3D ~mask;
-> > -
-> > -	writel(val, pctl->membase + reg);
-> > -
-> > -	raw_spin_unlock_irqrestore(&pctl->lock, flags);
-> > -
-> > -	return 0;
-> > -}
-> > -
-> > -static int sunxi_pinctrl_gpio_direction_output(struct gpio_chip
-> > *chip,
-> > -					unsigned offset, int value)
-> > -{
-> > -	struct sunxi_pinctrl *pctl =3D gpiochip_get_data(chip);
-> > -
-> > -	sunxi_pinctrl_gpio_set(chip, offset, value);
-> > -	return sunxi_pmx_gpio_set_direction(pctl->pctl_dev, NULL,
-> > -					=C2=A0=C2=A0=C2=A0 chip->base + offset,
-> > false);
-> > -}
-> > -
-> > -static int sunxi_pinctrl_gpio_of_xlate(struct gpio_chip *gc,
-> > -				const struct of_phandle_args
-> > *gpiospec,
-> > -				u32 *flags)
-> > -{
-> > -	int pin, base;
-> > -
-> > -	base =3D PINS_PER_BANK * gpiospec->args[0];
-> > -	pin =3D base + gpiospec->args[1];
-> > -
-> > -	if (pin > gc->ngpio)
-> > -		return -EINVAL;
-> > -
-> > -	if (flags)
-> > -		*flags =3D gpiospec->args[2];
-> > -
-> > -	return pin;
-> > -}
-> > -
-> > =C2=A0static int sunxi_pinctrl_gpio_to_irq(struct gpio_chip *chip,
-> > unsigned offset)
-> > =C2=A0{
-> > =C2=A0	struct sunxi_pinctrl *pctl =3D gpiochip_get_data(chip);
-> > =C2=A0	struct sunxi_desc_function *desc;
-> > -	unsigned pinnum =3D pctl->desc->pin_base + offset;
-> > -	unsigned irqnum;
-> > +	unsigned int pinnum, irqnum, i;
-> > =C2=A0
-> > =C2=A0	if (offset >=3D chip->ngpio)
-> > =C2=A0		return -ENXIO;
-> > =C2=A0
-> > +	for (i =3D 0; i < SUNXI_PINCTRL_MAX_BANKS; i++)
-> > +		if (pctl->banks[i].chip.gc.base =3D=3D chip->base)
-> > +			break;
-> > +	if (i =3D=3D SUNXI_PINCTRL_MAX_BANKS)
-> > +		return -EINVAL;
-> > +	pinnum =3D pctl->desc->pin_base + i * PINS_PER_BANK + offset;
-> > +
-> > =C2=A0	desc =3D sunxi_pinctrl_desc_find_function_by_pin(pctl, pinnum,
-> > "irq");
-> > =C2=A0	if (!desc)
-> > =C2=A0		return -EINVAL;
-> > @@ -1039,18 +952,19 @@ static int
-> > sunxi_pinctrl_irq_request_resources(struct irq_data *d)
-> > =C2=A0{
-> > =C2=A0	struct sunxi_pinctrl *pctl =3D irq_data_get_irq_chip_data(d);
-> > =C2=A0	struct sunxi_desc_function *func;
-> > -	int ret;
-> > +	int pinnum =3D pctl->irq_array[d->hwirq], ret;
-> > +	int bank =3D (pinnum - pctl->desc->pin_base) / PINS_PER_BANK;
-> > =C2=A0
-> > -	func =3D sunxi_pinctrl_desc_find_function_by_pin(pctl,
-> > -					pctl->irq_array[d->hwirq],
-> > "irq");
-> > +	func =3D sunxi_pinctrl_desc_find_function_by_pin(pctl, pinnum,
-> > "irq");
-> > =C2=A0	if (!func)
-> > =C2=A0		return -EINVAL;
-> > =C2=A0
-> > -	ret =3D gpiochip_lock_as_irq(pctl->chip,
-> > -			pctl->irq_array[d->hwirq] - pctl->desc- =20
-> > >pin_base); =20
-> > +	ret =3D gpiochip_lock_as_irq(&pctl->banks[bank].chip.gc,
-> > +				=C2=A0=C2=A0 d->hwirq % IRQ_PER_BANK);
-> > =C2=A0	if (ret) {
-> > =C2=A0		dev_err(pctl->dev, "unable to lock HW IRQ %lu for
-> > IRQ\n",
-> > =C2=A0			irqd_to_hwirq(d));
-> > +
-> > =C2=A0		return ret;
-> > =C2=A0	}
-> > =C2=A0
-> > @@ -1063,9 +977,10 @@ static int
-> > sunxi_pinctrl_irq_request_resources(struct irq_data *d)
-> > =C2=A0static void sunxi_pinctrl_irq_release_resources(struct irq_data *=
-d)
-> > =C2=A0{
-> > =C2=A0	struct sunxi_pinctrl *pctl =3D irq_data_get_irq_chip_data(d);
-> > +	int pinnum =3D pctl->irq_array[d->hwirq] - pctl->desc- =20
-> > >pin_base; =20
-> > +	struct gpio_chip *gc =3D &pctl->banks[pinnum /
-> > PINS_PER_BANK].chip.gc;
-> > =C2=A0
-> > -	gpiochip_unlock_as_irq(pctl->chip,
-> > -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pctl->irq_array[d->hwirq] - pctl- =20
-> > >desc->pin_base); =20
-> > +	gpiochip_unlock_as_irq(gc, pinnum);
-> > =C2=A0}
-> > =C2=A0
-> > =C2=A0static int sunxi_pinctrl_irq_set_type(struct irq_data *d, unsigned
-> > int type)
-> > @@ -1493,6 +1408,84 @@ static int sunxi_pinctrl_setup_debounce(struct
-> > sunxi_pinctrl *pctl,
-> > =C2=A0	return 0;
-> > =C2=A0}
-> > =C2=A0
-> > +static bool sunxi_of_node_instance_match(struct gpio_chip *chip,
-> > unsigned int i)
-> > +{
-> > +	struct sunxi_pinctrl *pctl =3D gpiochip_get_data(chip);
-> > +
-> > +	if (i >=3D SUNXI_PINCTRL_MAX_BANKS)
-> > +		return false;
-> > +
-> > +	return (chip->base =3D=3D pctl->banks[i].chip.gc.base);
-> > +}
-> > +
-> > +static int sunxi_num_pins_of_bank(struct sunxi_pinctrl *pctl, int
-> > bank)
-> > +{
-> > +	int max =3D -1, i;
-> > +
-> > +	for (i =3D 0; i < pctl->desc->npins; i++) {
-> > +		int pinnum =3D pctl->desc->pins[i].pin.number - pctl- =20
-> > >desc->pin_base; =20
-> > +
-> > +		if (pinnum / PINS_PER_BANK < bank)
-> > +			continue;
-> > +		if (pinnum / PINS_PER_BANK > bank)
-> > +			break;
-> > +		if (pinnum % PINS_PER_BANK > max)
-> > +			max =3D pinnum % PINS_PER_BANK;
-> > +	}
-> > +
-> > +	return max + 1;
-> > +}
-> > +
-> > +static int sunxi_gpio_add_bank(struct sunxi_pinctrl *pctl, int
-> > index)
-> > +{
-> > +	char bank_name =3D 'A' + index + pctl->desc->pin_base /
-> > PINS_PER_BANK;
-> > +	struct sunxi_gpio_bank *bank =3D &pctl->banks[index];
-> > +	struct gpio_generic_chip_config config;
-> > +	struct gpio_chip *gc =3D &bank->chip.gc;
-> > +	int ngpio, ret;
-> > +
-> > +	ngpio =3D sunxi_num_pins_of_bank(pctl, index);
-> > +	bank->pctl =3D pctl;
-> > +	bank->base =3D pctl->membase + index * pctl->bank_mem_size;
-> > +	if (!ngpio) {
-> > +		gc->owner =3D THIS_MODULE;
-> > +		gc->ngpio =3D 0;
-> > +		gc->base =3D -1;
-> > +		gc->of_gpio_n_cells =3D 3;
-> > +
-> > +		return 0;
-> > +	}
-> > +
-> > +	config =3D (struct gpio_generic_chip_config) {
-> > +		.dev =3D pctl->dev,
-> > +		.sz =3D 4,
-> > +		.dat =3D bank->base + DATA_REGS_OFFSET,
-> > +		.set =3D bank->base + DATA_REGS_OFFSET,
-> > +		.clr =3D NULL,
-> > +		.flags =3D GPIO_GENERIC_READ_OUTPUT_REG_SET |
-> > +			 GPIO_GENERIC_PINCTRL_BACKEND,
-> > +	};
-> > +
-> > +	ret =3D gpio_generic_chip_init(&bank->chip, &config);
-> > +	if (ret)
-> > +		return dev_err_probe(pctl->dev, ret,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0 "failed to init generic gpio
-> > chip\n");
-> > +
-> > +	gc->owner		=3D THIS_MODULE;
-> > +	gc->label		=3D devm_kasprintf(pctl->dev,
-> > GFP_KERNEL,
-> > +						 "%s-P%c", gc- =20
-> > >label, =20
-> > +						 bank_name);
-> > +	gc->ngpio		=3D ngpio;
-> > +	gc->base		=3D -1;
-> > +	gc->of_gpio_n_cells	=3D 3;
-> > +	gc->of_node_instance_match =3D sunxi_of_node_instance_match;
-> > +	gc->set_config		=3D gpiochip_generic_config;
-> > +	gc->to_irq		=3D sunxi_pinctrl_gpio_to_irq;
-> > +	gc->can_sleep		=3D false;
-> > +
-> > +	return gpiochip_add_data(gc, pctl);
-> > +}
-> > +
-> > =C2=A0int sunxi_pinctrl_init_with_flags(struct platform_device *pdev,
-> > =C2=A0				=C2=A0 const struct sunxi_pinctrl_desc
-> > *desc,
-> > =C2=A0				=C2=A0 unsigned long flags)
-> > @@ -1503,6 +1496,7 @@ int sunxi_pinctrl_init_with_flags(struct
-> > platform_device *pdev,
-> > =C2=A0	struct sunxi_pinctrl *pctl;
-> > =C2=A0	struct pinmux_ops *pmxops;
-> > =C2=A0	int i, ret, last_pin, pin_idx;
-> > +	int gpio_banks;
-> > =C2=A0	struct clk *clk;
-> > =C2=A0
-> > =C2=A0	pctl =3D devm_kzalloc(&pdev->dev, sizeof(*pctl), GFP_KERNEL);
-> > @@ -1590,38 +1584,23 @@ int sunxi_pinctrl_init_with_flags(struct
-> > platform_device *pdev,
-> > =C2=A0		return PTR_ERR(pctl->pctl_dev);
-> > =C2=A0	}
-> > =C2=A0
-> > -	pctl->chip =3D devm_kzalloc(&pdev->dev, sizeof(*pctl->chip),
-> > GFP_KERNEL);
-> > -	if (!pctl->chip)
-> > -		return -ENOMEM;
-> > -
-> > -	last_pin =3D pctl->desc->pins[pctl->desc->npins -
-> > 1].pin.number;
-> > -	pctl->chip->owner =3D THIS_MODULE;
-> > -	pctl->chip->request =3D gpiochip_generic_request;
-> > -	pctl->chip->free =3D gpiochip_generic_free;
-> > -	pctl->chip->set_config =3D gpiochip_generic_config;
-> > -	pctl->chip->direction_input =3D
-> > sunxi_pinctrl_gpio_direction_input;
-> > -	pctl->chip->direction_output =3D
-> > sunxi_pinctrl_gpio_direction_output;
-> > -	pctl->chip->get =3D sunxi_pinctrl_gpio_get;
-> > -	pctl->chip->set =3D sunxi_pinctrl_gpio_set;
-> > -	pctl->chip->of_xlate =3D sunxi_pinctrl_gpio_of_xlate;
-> > -	pctl->chip->to_irq =3D sunxi_pinctrl_gpio_to_irq;
-> > -	pctl->chip->of_gpio_n_cells =3D 3;
-> > -	pctl->chip->can_sleep =3D false;
-> > -	pctl->chip->ngpio =3D round_up(last_pin, PINS_PER_BANK) -
-> > -			=C2=A0=C2=A0=C2=A0 pctl->desc->pin_base;
-> > -	pctl->chip->label =3D dev_name(&pdev->dev);
-> > -	pctl->chip->parent =3D &pdev->dev;
-> > -	pctl->chip->base =3D pctl->desc->pin_base;
-> > -
-> > -	ret =3D gpiochip_add_data(pctl->chip, pctl);
-> > -	if (ret)
-> > -		return ret;
-> > +	last_pin =3D pctl->desc->pins[pctl->desc->npins -
-> > 1].pin.number -
-> > +		=C2=A0=C2=A0 pctl->desc->pin_base;
-> > +	for (gpio_banks =3D 0;
-> > +	=C2=A0=C2=A0=C2=A0=C2=A0 gpio_banks <=3D last_pin / PINS_PER_BANK;
-> > +	=C2=A0=C2=A0=C2=A0=C2=A0 gpio_banks++) {
-> > +		ret =3D sunxi_gpio_add_bank(pctl, gpio_banks);
-> > +		if (ret)
-> > +			goto gpiochip_error;
-> > +	}
-> > =C2=A0
-> > =C2=A0	for (i =3D 0; i < pctl->desc->npins; i++) {
-> > =C2=A0		const struct sunxi_desc_pin *pin =3D pctl->desc->pins
-> > + i;
-> > +		int bank =3D (pin->pin.number - pctl->desc->pin_base)
-> > / PINS_PER_BANK;
-> > +		struct gpio_chip *gc =3D &pctl->banks[bank].chip.gc;
-> > =C2=A0
-> > -		ret =3D gpiochip_add_pin_range(pctl->chip,
-> > dev_name(&pdev->dev),
-> > -					=C2=A0=C2=A0=C2=A0=C2=A0 pin->pin.number - pctl- =20
-> > >desc->pin_base, =20
-> > +		ret =3D gpiochip_add_pin_range(gc, dev_name(&pdev- =20
-> > >dev), =20
-> > +					=C2=A0=C2=A0=C2=A0=C2=A0 pin->pin.number %
-> > PINS_PER_BANK,
-> > =C2=A0					=C2=A0=C2=A0=C2=A0=C2=A0 pin->pin.number, 1);
-> > =C2=A0		if (ret)
-> > =C2=A0			goto gpiochip_error;
-> > @@ -1690,6 +1669,8 @@ int sunxi_pinctrl_init_with_flags(struct
-> > platform_device *pdev,
-> > =C2=A0	return 0;
-> > =C2=A0
-> > =C2=A0gpiochip_error:
-> > -	gpiochip_remove(pctl->chip);
-> > +	while (--gpio_banks >=3D 0)
-> > +		gpiochip_remove(&pctl->banks[gpio_banks].chip.gc);
-> > +
-> > =C2=A0	return ret;
-> > =C2=A0}
-> > diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.h
-> > b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
-> > index ad26e4de16a85..085131caa02fe 100644
-> > --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.h
-> > +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
-> > @@ -14,6 +14,7 @@
-> > =C2=A0#define __PINCTRL_SUNXI_H
-> > =C2=A0
-> > =C2=A0#include <linux/kernel.h>
-> > +#include <linux/gpio/generic.h>
-> > =C2=A0#include <linux/spinlock.h>
-> > =C2=A0
-> > =C2=A0#define PA_BASE	0
-> > @@ -159,9 +160,17 @@ struct sunxi_pinctrl_regulator {
-> > =C2=A0	refcount_t		refcount;
-> > =C2=A0};
-> > =C2=A0
-> > +struct sunxi_pinctrl;
-> > +
-> > +struct sunxi_gpio_bank {
-> > +	struct gpio_generic_chip chip;
-> > +	struct sunxi_pinctrl *pctl;
-> > +	void __iomem *base;
-> > +};
-> > +
-> > =C2=A0struct sunxi_pinctrl {
-> > =C2=A0	void __iomem			*membase;
-> > -	struct gpio_chip		*chip;
-> > +	struct
-> > sunxi_gpio_bank		banks[SUNXI_PINCTRL_MAX_BANKS];
-> > =C2=A0	const struct sunxi_pinctrl_desc	*desc;
-> > =C2=A0	struct device			*dev;
-> > =C2=A0	struct sunxi_pinctrl_regulator	regulators[11]; =20
->=20
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
