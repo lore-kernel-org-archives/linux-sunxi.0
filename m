@@ -1,91 +1,153 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from s106b.cyber-folks.pl (s106b.cyber-folks.pl [195.78.66.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0E2320CCF
-	for <linux-sunxi@lists.linux.dev>; Sat, 14 Mar 2026 08:06:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3C631F9A2;
+	Sat, 14 Mar 2026 08:10:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.78.66.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773475562; cv=none; b=oMOUXuX8rN55LD8+CyrUc+fXumRJMxvkzhzd9Gsd2Ux0C48FfmhkpH5YaP6wDFd6HGj+lkPm2hcXdYGcyK5S6LvGl5L+C/Kj9fNJEmVUM2mhSQIOuQRWjHFpYXYSof8REVByQ8W+6RMlP2yrFMCw9Douekj2mcf7LiS8PcF35iQ=
+	t=1773475827; cv=none; b=gwq1QLEtjXF5x2dapkwMCIgP7kNkNtqRnSvvhNyklDpROpWafb+XV3GmuY7qaF15QlQSTKbA/cdQDs2gSHACJfCyXJekzOYCup9FWZx2ASkirwOEieDHeqRClmbNphM6J4uJ0Sa8qoPxI7SEVOW3pgKQuv0ThP3+BW1EjTTSzEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773475562; c=relaxed/simple;
-	bh=R3EWWpaovkuLWLz+sEJkJgXI3eScPJ1f3CVwzfTX0zg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=O61nCAzqZtJL2EWypAND8R4au4hVKRi0ZLPvuiK/2rW4rykyv9xjPQP3Jav1zIfMIISkkn1F+ew+g6vFH/+x58qsmHzMNkC3RZauie9OIesRrkeyUUB9iPd6Sgds5V08Hm4ahqNsJM7YBaqeNrzjMeHAuRBmVSnyf8SEtXkUrFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5a1273de95aso4213641e87.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 14 Mar 2026 01:06:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773475557; x=1774080357;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=R3EWWpaovkuLWLz+sEJkJgXI3eScPJ1f3CVwzfTX0zg=;
-        b=crn6+TbLqZixZVE9IrVzXFTiugb4kEpen4wUnBVEGJinUlCTdz7viqzVLxu9CWqRv4
-         CZE86Zdv6I7p/MUKZ4ow0hdSY2lCPQe+AGR3pbMyL6FCAHSCgpVc+Y1/OKOmuKT8P6fU
-         trEhiIX91bvtNjb0/Ok+rx54iAtAwHp7gBv3zJsGlOGjRfHbrOeIWDl/lfHXaKKE3poO
-         AdH7vZ7OXa6v0NP9nUGDdnBoHrdRTl5Z4Jzq+5XxhhM+neTrmpgScmuGNcx8pk3GFmnp
-         Mqlk+sG0VUWHXud7JxtOSi3y8VYhMHazTDL0CSuGxoihWq0sKRAa8uJGDdNF9eFd5bFz
-         FeOg==
-X-Forwarded-Encrypted: i=1; AJvYcCVXRUpUWuuR9dnqltwEHkW4xUDsihOS+7excs3bk0hl6dFDf3Ut3Nc008L0wvt64W6FymfXLF8TTVJTkg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyYBVWY0H0jNpi+W+wgEjSPKAMIRvEkJ4oO/4qO2bMFspkHLugx
-	TFmor68ND8uQjmlJGVQGFjrYzgU5cw9sMG9iU/lcmt4Ue+BrO8xe84PlLLF8DX0r
-X-Gm-Gg: ATEYQzxuPgODLrPqQoewTtMUpVIKqkiEaROgeQH908ugZYpP3vuFhkNUBFNsPA02IQ7
-	7vLJhiZNSVj/Q5QyYqHi3phynmlJYEg2HsFsoFldnA/wXSKKq9us0iOzvxkD5E4qT0woQ4JePpf
-	ln392efstB3YDY1dxStQhxiYRJqP0MDDRBC+xTHkDjvfl7Buj5O+yyYY2rl/ibBv2tjH7wpYegh
-	+ICCIswtygU6H57K4yn3AS8u5AogoKlj7TvSlgDBQWhS12ymHsNVDF+oM7yc5aS+esY68cQbzTk
-	WzLiCKSn05kgV+gsQ4ZAiIRJUtmLJBByahhjciGyAOJzWEtx/HOunLeGdm95DBO4rFaAWvDE4dH
-	PaSf3VLJQ6e+0/YOJdptf6DtrZh6jWH7GFbCU82JgvD29h2owTvfNDzCl6pIrbssWC75dpTNP7O
-	HEi66j6nj4ngJeUSCV9OT+smED13Cri8UGIsWE+b0oCeW9SbCMep/zpuQ=
-X-Received: by 2002:a05:6512:1596:b0:5a1:26f7:71b with SMTP id 2adb3069b0e04-5a1626c1517mr2385701e87.0.1773475557363;
-        Sat, 14 Mar 2026 01:05:57 -0700 (PDT)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com. [209.85.208.179])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a156162b08sm1977811e87.53.2026.03.14.01.05.51
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 14 Mar 2026 01:05:54 -0700 (PDT)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-389f9895c81so27319511fa.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 14 Mar 2026 01:05:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU4jwWdFxNn7Mn8xxI4VJoFVKhlR6Lr9fIEkJpz5kfwF138hlRpeewQ+PjGyt7tEZm7WXBgZv22tC/0Gg==@lists.linux.dev
-X-Received: by 2002:a2e:be87:0:b0:38a:6acb:eb13 with SMTP id
- 38308e7fff4ca-38a8969872fmr19535261fa.11.1773475550494; Sat, 14 Mar 2026
- 01:05:50 -0700 (PDT)
+	s=arc-20240116; t=1773475827; c=relaxed/simple;
+	bh=y0wrpgVe/vD8Ky8xVZLpP7/JzoI0TuJV77u/VjXtN84=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=SpML8XOSBh8m/bmcGzs1yScpUkJxdXb0KeBfuAHUD6Wp3ShmCN1ArsuLH3ixdcxrFrU3vEsTUcFVtuWbBqVy3lmVf4C34OG17aZr+J/Jh3Bx1n0KG3YBvCtYCt+sJjE1atkS9C3hCTM9MVI/iMIXL/h6BX+pf79QttBechJxgro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl; spf=pass smtp.mailfrom=mmpsystems.pl; dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b=IZLtkubN; arc=none smtp.client-ip=195.78.66.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mmpsystems.pl
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b="IZLtkubN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=mmpsystems.pl; s=x; h=Cc:To:Message-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=JuFP5+poEMd2cToki9o4QuDkVVwl7kDDGFz3csvEi6w=; b=IZLtkubNjEZUCIBj6UwzWWro5S
+	dwTm4Jf8RTX7OSZoOe49Ri44sNKA1TFOZ4DhkPQx6dRnTuTpAOvLY1IXeBEvtHvMxuYnC5DU2+STl
+	+FS+Bq9Z8+bBQmBHkuATFGEfwSxD4qIJR1dqiLIx+9VyVpfJRWRA4xFzfdmUJepqDsFigSguKLK5U
+	HFGS3pxKmFq6rEmQ9iTMxVzuqHbQZwYLoESpXtsMCGg9seJMoLMuFiBEyq5DTFNXvy0UWk614fW2i
+	QsQma/+/A+RmQdM3t9kDkX+Df2ayBVrLo/QgynyICasHW7Gkd+6iAoLTdPQkfMdVkp1iFFAFxRfST
+	dDBE6GMg==;
+Received: from user-5-173-16-20.play-internet.pl ([5.173.16.20] helo=localhost)
+	by s106.cyber-folks.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <michal.piekos@mmpsystems.pl>)
+	id 1w1K4b-0000000E3Ib-4AB0;
+	Sat, 14 Mar 2026 09:10:14 +0100
+From: Michal Piekos <michal.piekos@mmpsystems.pl>
+Date: Sat, 14 Mar 2026 09:09:19 +0100
+Subject: [PATCH v3] pinctrl: sunxi: fix gpiochip_lock_as_irq() failure when
+ pinmux is unknown
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260305100137.2558423-1-richard.genoud@bootlin.com> <20260305100137.2558423-2-richard.genoud@bootlin.com>
-In-Reply-To: <20260305100137.2558423-2-richard.genoud@bootlin.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Sat, 14 Mar 2026 16:05:37 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64DAuSEoFKTcdUeBjj7D8b5BiMbzo+M1xnx_A7fia5rgA@mail.gmail.com>
-X-Gm-Features: AaiRm50SXV4USJv7ufJ5S1CHMI-l-YGJ1ASLNXxXfC-UNKPRkpq29G52tlurn4k
-Message-ID: <CAGb2v64DAuSEoFKTcdUeBjj7D8b5BiMbzo+M1xnx_A7fia5rgA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] mtd: rawnand: sunxi: sunxi_nand_ooblayout_free
- code clarification
-To: Richard Genoud <richard.genoud@bootlin.com>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Wentao Liang <vulab@iscas.ac.cn>, 
-	Maxime Ripard <mripard@kernel.org>, Boris Brezillon <bbrezillon@kernel.org>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-mtd@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260314-rc2-boot-hang-v3-1-0b48221181a9@mmpsystems.pl>
+X-B4-Tracking: v=1; b=H4sIAK4XtWkC/33MQQ6DIBCF4asY1p0GhoLYVe/RdKGClaSKYQypM
+ d696LJJu/xn8r6VkYveEbsWK4suefJhzCFPBWv7enw68DY3Q46aS24gtghNCDPsX0BdOaMuWkv
+ VsLyZouv8+/Duj9y9pznE5eCT2K+/pCSAgy0rtKIuje3sbRgmWmh2A52nF9u1hH8FBAFK6M42B
+ nml5LewbdsHLf6t5fAAAAA=
+To: Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Michal Piekos <michal.piekos@mmpsystems.pl>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773475781; l=3045;
+ i=michal.piekos@mmpsystems.pl; s=20260301; h=from:subject:message-id;
+ bh=y0wrpgVe/vD8Ky8xVZLpP7/JzoI0TuJV77u/VjXtN84=;
+ b=s1x0bAnmDtenjQITLEDVg8xReKC/2t2syyyFbqEyqOMA9aeL/KR817X65YV8fX7Cg0xHjLI/4
+ YNoEt44iQrCAGcIsGfxu9YpSYQQsAm8HFpFZVMlFXrkTNk+fGaMV69z
+X-Developer-Key: i=michal.piekos@mmpsystems.pl; a=ed25519;
+ pk=Aixyx03If7ZDamiKKN0lsa+0mtA+WjIuIf2ZQVYNBqg=
+X-Authenticated-Id: michal.piekos@mmpsystems.pl
 
-On Thu, Mar 5, 2026 at 6:02=E2=80=AFPM Richard Genoud
-<richard.genoud@bootlin.com> wrote:
->
-> The available length is really USER_DATA_LEN - 2 instead of just 2 (the
-> user data length minus the BBM length)
-> USER_DATA_LEN being 4, that doesn't change anything now, but if
-> USER_DATA_LEN changes, it will.
->
-> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+Fixes kernel hang during boot due to inability to set up IRQ on AXP313a.
 
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+The issue is caused by gpiochip_lock_as_irq() which is failing when gpio
+is in unitialized state.
+
+Solution is to set pinmux to GPIO INPUT in
+sunxi_pinctrl_irq_request_resources() if it wasn't initialized
+earlier.
+
+Tested on Orange Pi Zero 3.
+
+Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
+Suggested-by: Chen-Yu Tsai <wens@kernel.org>
+---
+Changes in v3:
+- Drop v2 solution which was returning input instead of error when pin
+  is not initialized.
+- Add checking pinmux configuration in
+  sunxi_pinctrl_irq_request_resources() and set pin to input if
+  uninitialized
+- Link to v2: https://lore.kernel.org/r/20260308-rc2-boot-hang-v2-1-516fdb820953@mmpsystems.pl
+
+Changes in v2:
+- Dropped the previous faulty solution which was forcing the axp313 to
+  use r_pio as interrupt controller as pointed out by Jernej Škrabec.
+- Implemented suggestion from Andrey Skvortsov to return default
+  direction as input
+- Link to v1: https://lore.kernel.org/r/20260308-rc2-boot-hang-v1-0-d792d1a78dfd@mmpsystems.pl
+---
+ drivers/pinctrl/sunxi/pinctrl-sunxi.c | 13 +++++++++++++
+ drivers/pinctrl/sunxi/pinctrl-sunxi.h |  1 +
+ 2 files changed, 14 insertions(+)
+
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+index c990b6118172..7d46f7613672 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+@@ -1089,6 +1089,9 @@ static int sunxi_pinctrl_irq_request_resources(struct irq_data *d)
+ {
+ 	struct sunxi_pinctrl *pctl = irq_data_get_irq_chip_data(d);
+ 	struct sunxi_desc_function *func;
++	unsigned int offset;
++	u32 reg, shift, mask;
++	u8 muxval;
+ 	int ret;
+ 
+ 	func = sunxi_pinctrl_desc_find_function_by_pin(pctl,
+@@ -1096,6 +1099,16 @@ static int sunxi_pinctrl_irq_request_resources(struct irq_data *d)
+ 	if (!func)
+ 		return -EINVAL;
+ 
++	offset = pctl->irq_array[d->hwirq] - pctl->desc->pin_base;
++	sunxi_mux_reg(pctl, offset, &reg, &shift, &mask);
++	muxval = (readl(pctl->membase + reg) & mask) >> shift;
++
++	/* Change muxing to GPIO INPUT mode if at reset value */
++	if (muxval == SUN4I_FUNC_IO_DISABLE) {
++		sunxi_pmx_set(pctl->pctl_dev, pctl->irq_array[d->hwirq],
++			      SUN4I_FUNC_INPUT);
++	}
++
+ 	ret = gpiochip_lock_as_irq(pctl->chip,
+ 			pctl->irq_array[d->hwirq] - pctl->desc->pin_base);
+ 	if (ret) {
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.h b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
+index ad26e4de16a8..22c527fc6ae2 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sunxi.h
++++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
+@@ -86,6 +86,7 @@
+ 
+ #define SUN4I_FUNC_INPUT	0
+ #define SUN4I_FUNC_IRQ		6
++#define SUN4I_FUNC_IO_DISABLE	7
+ 
+ #define SUNXI_PINCTRL_VARIANT_MASK	GENMASK(7, 0)
+ #define SUNXI_PINCTRL_NEW_REG_LAYOUT	BIT(8)
+
+---
+base-commit: 4ae12d8bd9a830799db335ee661d6cbc6597f838
+change-id: 20260308-rc2-boot-hang-269e8546635b
+
+Best regards,
+-- 
+Michal Piekos <michal.piekos@mmpsystems.pl>
+
