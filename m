@@ -1,191 +1,140 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B0E332EC5
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Mar 2026 16:38:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654113CEBBA;
+	Mon, 16 Mar 2026 17:29:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773679120; cv=none; b=Lw+f5HzNJPVijy6ZNkacyFKWIkGHbpf0mmlUZZNr7/igOLokdMS/IAeGRjk2hh3Q9qswgocMnilmGn6pCO7fRMb4HIdOkOdkRvXNn37Qynyuh6vxfbGw8GWDce6vrG2NfDp+CDzP9c1qF+ieCPEu18P3++Ip4hNRVjkG0+LaFhs=
+	t=1773682179; cv=none; b=LCmI36OfbxmwBREnfER0vtSvUKNMItv2T5OgqArhMgjrN7Uzwz7GTHqWJN+Cn3IiwxRwlPb7dPwCf3kWwATX3BhTNrFQOEuxziy0RUSMSv8xuOIudySvkVJHx62lXacdf4GObb0Z3bCd9A1ZQkIwLcGFi7lU0NqOWuGDktkusYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773679120; c=relaxed/simple;
-	bh=WjRKcPX2nSZFIAsL9u41UKk0xj40ZYukny2MNWHY1RY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fj1ZhhLL1XhqxjxLkHjnoHIZt/aT8Sm5PkSgP4y+bH1Agm7S3YIMKV4uRmqMKiRQoAeiMVsHDq074cLptZHYfs+AkRC13SJRdSFysisrJ7EE52iv1dn391ccgroxpRoSQvFQKi4W+YN6n5W+xDqm4GbggZwVqn8Z1qFHRWM7dEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mKsGxBEp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773682179; c=relaxed/simple;
+	bh=Ysd3eBupfSljhrNmOpuGPKVMPzOcnIp/9ypCnnttjrY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gO8u7FmVtjzYSA+F/HQHi7I2z2LbiCl2Pts2wpagVfgIfgPnN99na+WstfE4h7cmCyfhPwlWTTCm7siCf7yBM7QEvRv+7xH+urRgyDgK0kLGBR4jj4ZFh3WjDRPdn0sVvU/EV+BZfqPNVPtHkz2GUR/CvE2ZUEgS0Nme0E+I/Wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SeG1bDmb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mKsGxBEp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1180C2BC9E
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Mar 2026 16:38:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SeG1bDmb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5089EC2BC87;
+	Mon, 16 Mar 2026 17:29:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773679120;
-	bh=WjRKcPX2nSZFIAsL9u41UKk0xj40ZYukny2MNWHY1RY=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=mKsGxBEp6h75iJZzNhCxdVIVnWbF8LCzPPxMjkLa6ZTcqnd87h4sDB6H7Zo1JmLbg
-	 yzL9YRI3KfzZA+AerScuZ4vutXDs1p024BEI7DLuHMyqN4FdKCwJpUC6PGyL5ZqHf5
-	 U9UdRxq64mOmR9l3Nz00XuU8CkpO/+qiCHE3XL0U3CHwCGmgFgvdRhEiF75IsA7XVH
-	 NT2QTFh68EA3lidx0t/GNkZ6wgH0yCZ2Hfr1uj9XQRSUvcFhhpqm5jqM+ypRJV1gNO
-	 JmnJqF+3dsuiQq5Nyz82yEvnRHjfDeV6STsRnaUvpaY3swisuDeoTXqcDE8XGVdoWH
-	 N4GOfSZd6ib1w==
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-38a3990e87fso32394351fa.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 16 Mar 2026 09:38:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWvJxEkXZOw5kM+SF5K98UwypImt68B2Bh4Foy9pMvSgvc8lctxrPQ0Tgc4lUk0YL77tAR0+ZqIyt6rkQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzyDwGphjz+TCLtFaqDTScevTSIk2ZhuCD0U4B1zDe9Nc0EQyvR
-	98OIplEqyZOKIsldwR8GyZDUkguDn9qV5flYnZMT0dy4B20PYWQO5MEhLJ7xUXm9A16NURRtdmd
-	UiwY91956uJqKoWBbQ8fkxIXClT3k+uI=
-X-Received: by 2002:a05:651c:2115:b0:387:c1a:70bd with SMTP id
- 38308e7fff4ca-38a8966895amr46258671fa.2.1773679118307; Mon, 16 Mar 2026
- 09:38:38 -0700 (PDT)
+	s=k20201202; t=1773682178;
+	bh=Ysd3eBupfSljhrNmOpuGPKVMPzOcnIp/9ypCnnttjrY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SeG1bDmb2FosihW0Q0vHpHDd6Vq9zHI/km9LM9pVc+W9ySVDXWNuYswxphJ768iy+
+	 rRTo4LFSUsqxFYgG+8R5d0PCs94v7ggs1ZV94QtxtKZemNboI/SB6zraswF7lRv/V0
+	 4dRzPiYhaMGMP5SoiQOyyHwGQgu4ORDieCfhRvo7rhFoRx8WGR5BN5Zduj9HcYol5y
+	 xigRuamu6mn78C8lcPsh5eNPMZw4UmXPzfzEmZKk8UyxEMqKXHMUVbtQQdAJZBIRKO
+	 fqFw06ytMbWL1ifvXu8nl9a+xt365ou5fLzGd/1kCY837nZwvVw1ifY2Dp/xBaICkO
+	 C+r3Fk7Yn1mQQ==
+Message-ID: <846c077d-f1ca-45bc-b3d4-52ba71c34909@kernel.org>
+Date: Mon, 16 Mar 2026 18:29:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260314-rc2-boot-hang-v3-1-0b48221181a9@mmpsystems.pl> <480b227c-c85b-4ff0-a825-3e82f64821f6@arm.com>
-In-Reply-To: <480b227c-c85b-4ff0-a825-3e82f64821f6@arm.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 17 Mar 2026 00:38:24 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64rerhGS1HO_gk9YxgwRD2DkQaOp2d7+s-AgvbsV6UEhA@mail.gmail.com>
-X-Gm-Features: AaiRm53keWjTxhNFEZxuYoh_gy-I4m09ah_LqOADR8F3LM-d3K2fa672mykDgzE
-Message-ID: <CAGb2v64rerhGS1HO_gk9YxgwRD2DkQaOp2d7+s-AgvbsV6UEhA@mail.gmail.com>
-Subject: Re: [PATCH v3] pinctrl: sunxi: fix gpiochip_lock_as_irq() failure
- when pinmux is unknown
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Michal Piekos <michal.piekos@mmpsystems.pl>, Linus Walleij <linusw@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v9 1/6] dt-bindings: net: qcom: document the
+ ethqos device for SCMI-based systems
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Vinod Koul <vkoul@kernel.org>, Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+ Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com,
+ Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>,
+ Romain Gantois <romain.gantois@bootlin.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Christophe Roullier <christophe.roullier@foss.st.com>,
+ Bartosz Golaszewski <brgl@kernel.org>, Radu Rendec <rrendec@redhat.com>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, Drew Fustini
+ <dfustini@tenstorrent.com>, linux-sunxi@lists.linux.dev,
+ linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org,
+ imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, sophgo@lists.linux.dev,
+ linux-riscv@lists.infradead.org,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20260316-qcom-sa8255p-emac-v9-0-c58934e76ff2@oss.qualcomm.com>
+ <20260316-qcom-sa8255p-emac-v9-1-c58934e76ff2@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20260316-qcom-sa8255p-emac-v9-1-c58934e76ff2@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 16, 2026 at 10:37=E2=80=AFPM Andre Przywara <andre.przywara@arm=
-.com> wrote:
->
-> Hi,
->
-> On 3/14/26 09:09, Michal Piekos wrote:
-> > Fixes kernel hang during boot due to inability to set up IRQ on AXP313a=
-.
-> >
-> > The issue is caused by gpiochip_lock_as_irq() which is failing when gpi=
-o
-> > is in unitialized state.
-> >
-> > Solution is to set pinmux to GPIO INPUT in
-> > sunxi_pinctrl_irq_request_resources() if it wasn't initialized
-> > earlier.
-> >
-> > Tested on Orange Pi Zero 3.
-> >
-> > Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
-> > Suggested-by: Chen-Yu Tsai <wens@kernel.org>
-> > ---
-> > Changes in v3:
-> > - Drop v2 solution which was returning input instead of error when pin
-> >    is not initialized.
-> > - Add checking pinmux configuration in
-> >    sunxi_pinctrl_irq_request_resources() and set pin to input if
-> >    uninitialized
-> > - Link to v2: https://lore.kernel.org/r/20260308-rc2-boot-hang-v2-1-516=
-fdb820953@mmpsystems.pl
-> >
-> > Changes in v2:
-> > - Dropped the previous faulty solution which was forcing the axp313 to
-> >    use r_pio as interrupt controller as pointed out by Jernej =C5=A0kra=
-bec.
-> > - Implemented suggestion from Andrey Skvortsov to return default
-> >    direction as input
-> > - Link to v1: https://lore.kernel.org/r/20260308-rc2-boot-hang-v1-0-d79=
-2d1a78dfd@mmpsystems.pl
-> > ---
-> >   drivers/pinctrl/sunxi/pinctrl-sunxi.c | 13 +++++++++++++
-> >   drivers/pinctrl/sunxi/pinctrl-sunxi.h |  1 +
-> >   2 files changed, 14 insertions(+)
-> >
-> > diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/su=
-nxi/pinctrl-sunxi.c
-> > index c990b6118172..7d46f7613672 100644
-> > --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> > +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> > @@ -1089,6 +1089,9 @@ static int sunxi_pinctrl_irq_request_resources(st=
-ruct irq_data *d)
-> >   {
-> >       struct sunxi_pinctrl *pctl =3D irq_data_get_irq_chip_data(d);
-> >       struct sunxi_desc_function *func;
-> > +     unsigned int offset;
-> > +     u32 reg, shift, mask;
-> > +     u8 muxval;
-> >       int ret;
-> >
-> >       func =3D sunxi_pinctrl_desc_find_function_by_pin(pctl,
-> > @@ -1096,6 +1099,16 @@ static int sunxi_pinctrl_irq_request_resources(s=
-truct irq_data *d)
-> >       if (!func)
-> >               return -EINVAL;
-> >
-> > +     offset =3D pctl->irq_array[d->hwirq] - pctl->desc->pin_base;
-> > +     sunxi_mux_reg(pctl, offset, &reg, &shift, &mask);
-> > +     muxval =3D (readl(pctl->membase + reg) & mask) >> shift;
-> > +
-> > +     /* Change muxing to GPIO INPUT mode if at reset value */
-> > +     if (muxval =3D=3D SUN4I_FUNC_IO_DISABLE) {
->
-> The "high impedance"/reset value depends on the SoC generation: older
-> SoCs didn't have one, so they used 0 (GPIO_INPUT), which is the closest
-> to "off" you can get there. Most SoCs afterwards indeed used 0x7, as you
-> set below, but newer SoCs (D1/T113, A523, ...) use 0xf now.
->
-> Would it work to do:
->         if (muxval !=3D SUN4I_FUNC_INPUT) {
-> or shall we just force SUN4I_FUNC_INPUT always, without even checking?
-> Or can there be other settings already (for instance the IRQ function)?
+On 16/03/2026 13:05, Bartosz Golaszewski wrote:
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    ethernet: ethernet@7a80000 {
 
-Yes, by some badly written DT. Pinctrl muxing happens first, then
-request_irq(), so you could accidentally re-mux a pin that some
-peripheral is using into an IRQ if we don't do the check properly.
+Wrong unit address.
 
-> Not really familiar with the call chain here, but shouldn't the mux be
-> set to the IRQ function (0x6/0xe) here anyway?
-
-The muxing happens happens a few lines below, right after
-gpiochip_lock_as_irq(). However we're trying to silence the warning
-that gpiochip_lock_as_irq() indirectly causes.
+> +        compatible = "qcom,sa8255p-ethqos";
+> +        reg = <0x23040000 0x10000>,
+> +              <0x23056000 0x100>;
 
 
-ChenYu
-
-> > +             sunxi_pmx_set(pctl->pctl_dev, pctl->irq_array[d->hwirq],
-> > +                           SUN4I_FUNC_INPUT);
-> > +     }
-> > +
-> >       ret =3D gpiochip_lock_as_irq(pctl->chip,
-> >                       pctl->irq_array[d->hwirq] - pctl->desc->pin_base)=
-;
-> >       if (ret) {
-> > diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.h b/drivers/pinctrl/su=
-nxi/pinctrl-sunxi.h
-> > index ad26e4de16a8..22c527fc6ae2 100644
-> > --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.h
-> > +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
-> > @@ -86,6 +86,7 @@
-> >
-> >   #define SUN4I_FUNC_INPUT    0
-> >   #define SUN4I_FUNC_IRQ              6
-> > +#define SUN4I_FUNC_IO_DISABLE        7
->
-> As mentioned above, this cannot be a simple fixed define for all SoCs.
->
-> Cheers,
-> Andre
->
-> >
-> >   #define SUNXI_PINCTRL_VARIANT_MASK  GENMASK(7, 0)
-> >   #define SUNXI_PINCTRL_NEW_REG_LAYOUT        BIT(8)
-> >
-> > ---
-> > base-commit: 4ae12d8bd9a830799db335ee661d6cbc6597f838
-> > change-id: 20260308-rc2-boot-hang-269e8546635b
-> >
-> > Best regards,
->
+Best regards,
+Krzysztof
