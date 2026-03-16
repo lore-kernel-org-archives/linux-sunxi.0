@@ -1,46 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E3F3822BE
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Mar 2026 08:57:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA0F38237E
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Mar 2026 08:59:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773651476; cv=none; b=XZJzfjlDZwGUCImxWs8sFoHmXED1Qp0lIAGS1X4F8uLvvBIoGklSzVAfP7jXSy49c/tyeKy/xstAWYLlkI9Dra9LSgEJQ/TRVdiodFub0qbQxttPZQ1/BY/QtUaSGL8uUtuPllr437j+Bc+ZjzwTWx3SeYtqhRAkOzlWgOWhUzU=
+	t=1773651595; cv=none; b=WC+Bce65psre747SRsu9WiOSUDmyorMUsluXSrn+8dyOvdT8bhH4By3pCd1QWElF5rFDI2e5LqguB9nwmCrYOL4WRxsp2bV/lVqvnZLNIS0bM3M+1CMO+QTqxnTQAiNdDbJE4cXmSRmmH2UyJeQem0OMu8T+HKm3cri0+vP6a3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773651476; c=relaxed/simple;
-	bh=25fOIUrIoXmeuY0trituB/t7MXs2xjvvs4qtHYmm8Q8=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eoFISDIZfPc1ThvCi9Q84sBuacxSibZei2XK41WLVbsXsH+I4qUGXIxFfE54ljHPoNgeJEk4w4SpMnGR1w9zaEWePCvzruWhVUGWfnnqkil4R0Urqk/TW4Smwl1PteVs2sabTBkbiHM0eH8ST/SfjfUItkZYyKn4IFvt5EeoBxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CZRZ5aK9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773651595; c=relaxed/simple;
+	bh=XGYPbAKoOAYk8j1GmSPwvsVkBF2sd4JzgK3hjvlcvfk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RtNY60WQlORSXtlktEs5qxtstNwCVRGjKYDAm5wBBQLEmwk6qt9V0Y6oFpjXVoFKzpDZDrag9IWFRFXlFg58Vxvh+TIRrAjvnbrN4kGeu76hT18jq5o2ZHmSVyPFCo8VVtpTUGIYmZFVWbNWfsvwNt64Tut2gH1D6Zece5/M8pE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fc5XQgJB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CZRZ5aK9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B412C19425
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Mar 2026 08:57:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fc5XQgJB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E85F6C19421
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Mar 2026 08:59:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773651476;
-	bh=25fOIUrIoXmeuY0trituB/t7MXs2xjvvs4qtHYmm8Q8=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=CZRZ5aK9O8Euws0I71JOtlw9V5QdUQ/KSKx2woDuPfSUn0hrYRZCgs2KifbOAHUKD
-	 ZOB4MStNStwseL0wzJMm6JeC1i2/09lyvqpgOM4vlUhZL8VMym4FlDLzcxr6EkHbmk
-	 mNZw20j768Yb+NaNkpfaZWHLp4UjAL5aaesSCiOkO7jJZwfi/Oq82mJ/ww2Ze+pBqX
-	 NApiKf+JjPCSDxxLtASL2zua6AAc9mMBcHcHzGjy6l6KE5jyD23/igVz5AmvGtTaMd
-	 T3ceFnlvdxi4dvIjnLiSUMg2TDcepGoDC/hIvMnt0JmHlQkHBtHMpBQ6TTSQSTzgVL
-	 5k55L/OBzBtwA==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5a126c8aab9so5733030e87.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 16 Mar 2026 01:57:56 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW5DDkfzInOEdSnBryUvqNlDBV5SdAQm1GNj8UplladCu/MCqCAGxCS4t0lguFBRjYWNd31zjRWz8p2Bg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwriFRfyq9KKZntUz2rQjloHM93nBWm3FH0A3wLjuoQZ4rbxJv2
-	HVkwXY5VUWKA98BvP53FinS6F7rr7/cg51gqo7EYBvTtFDETscgAQU7BFuBNc9f+kqRIPu+hFj6
-	u4h3pqam3FSqN7cdKsA84Tt3ayIefOCPrrHzt7GSTXg==
-X-Received: by 2002:a05:6512:3b8d:b0:5a1:ea0:afa8 with SMTP id
- 2adb3069b0e04-5a162b193a7mr4253516e87.40.1773651474988; Mon, 16 Mar 2026
- 01:57:54 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 16 Mar 2026 04:57:53 -0400
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 16 Mar 2026 04:57:53 -0400
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260315014205.471d6834@ryzen.lan>
+	s=k20201202; t=1773651594;
+	bh=XGYPbAKoOAYk8j1GmSPwvsVkBF2sd4JzgK3hjvlcvfk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Fc5XQgJBT+a69JFbjmBZwFWModrymKlT281DpVYTSLWmus2ZpSMhIFfGQBqAd29aA
+	 83HDxYS9hPo1RepcCmIK0oWTlhQyNfky1evUcvBsNu21tBCtSvOEB9IyuaudxZ4qZL
+	 658aErTMbUZFaADvaM0RnKscpeqM/xw3XM6xw7GIG8Sq6svxHN7eHhAUxL1zUboD/2
+	 tfRjRcMi4XByBdaVZly0tEKEjhePc4DygmjvrYGXpYHfb2OjlZzpYb7MjIo17PHjwt
+	 8Xa9syAhmMdP0L5fmOwhUTjngIFPSckxzyzrvzHtWygXEg28nwNMpYc4Mvt5KgPLGe
+	 Jv8CMAnLG6rew==
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-79a535e7c00so4415717b3.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 16 Mar 2026 01:59:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVdQZ+5SOLmWVQ/XlSHiQyvv4GNXFxxFeYJ58OGFyzxahRlAokoa5lCuBtm8f80Gb+26kxXqGUQy78osg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyfy+WG7Ej4grcZ5hvrFOG2EHEFMC3PljB1NZnbL2qH1p9B4+q+
+	/7f663GuWHYBGohBo+3QfF7khep6X0NJBh7IcyX3bhTzBi1/uHosZExr0wVrFjoX7Zb2OPAToZ6
+	QsDoZbyfbS+NC9FZSOSrU8OiQLV4/NiU=
+X-Received: by 2002:a05:690c:c50d:b0:79a:56bc:245e with SMTP id
+ 00721157ae682-79a56bc2985mr8612647b3.47.1773651594351; Mon, 16 Mar 2026
+ 01:59:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -48,72 +42,100 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260313000652.11470-1-andre.przywara@arm.com>
- <a4cfb10e4701da0649ef648136496a962be5870d.camel@icenowy.me> <20260315014205.471d6834@ryzen.lan>
-Date: Mon, 16 Mar 2026 04:57:53 -0400
-X-Gmail-Original-Message-ID: <CAMRc=MeorQJvA8TBosjnDU+x-FD6GhkbXwXOjCD0nmCs16ERfQ@mail.gmail.com>
-X-Gm-Features: AaiRm51skQCXiAFRV40QqU-S5mBuX2dP16oar2NgBwKuTW_Y3PVl-jEHJ0Tjq4I
-Message-ID: <CAMRc=MeorQJvA8TBosjnDU+x-FD6GhkbXwXOjCD0nmCs16ERfQ@mail.gmail.com>
+In-Reply-To: <20260313000652.11470-1-andre.przywara@arm.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Mon, 16 Mar 2026 09:59:43 +0100
+X-Gmail-Original-Message-ID: <CAD++jLn4ajnpayksmACb4FnVk3w0wWjAM9v1-38t=u7CO_635g@mail.gmail.com>
+X-Gm-Features: AaiRm53PU0xHt5zB-ZEU9Kf0xC08hXJHn1dpSbPL24Ikh8j0snhsU4LhqVRGjAY
+Message-ID: <CAD++jLn4ajnpayksmACb4FnVk3w0wWjAM9v1-38t=u7CO_635g@mail.gmail.com>
 Subject: Re: [RFC PATCH] pinctrl: sunxi: convert to GPIO_GENERIC
 To: Andre Przywara <andre.przywara@arm.com>
-Cc: Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, linux-gpio@vger.kernel.org, 
+Cc: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Bartosz Golaszewski <brgl@kernel.org>, linux-gpio@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Icenowy Zheng <uwu@icenowy.me>
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, 15 Mar 2026 01:42:05 +0100, Andre Przywara
-<andre.przywara@arm.com> said:
-> On Sat, 14 Mar 2026 13:14:25 +0800
-> Icenowy Zheng <uwu@icenowy.me> wrote:
->
->> =E5=9C=A8 2026-03-13=E4=BA=94=E7=9A=84 01:06 +0100=EF=BC=8CAndre Przywar=
-a=E5=86=99=E9=81=93=EF=BC=9A
->> > Allwinner SoCs combine pinmuxing and GPIO control in one device/MMIO
->> > register frame. So far we were instantiating one GPIO chip per
->> > pinctrl
->> > device, which covers multiple banks of up to 32 GPIO pins per bank.
->> > The
->> > GPIO numbers were set to match the absolute pin numbers, even across
->> > the
->> > typically two instances of the pinctrl device.
->> >
->> > Convert the GPIO part of the sunxi pinctrl over to use the
->> > gpio_generic
->> > framework. This alone allows to remove some sunxi specific code,
->> > which
->> > is replaced with the existing generic code. This will become even
->> > more
->> > useful with the upcoming A733 support, which adds set and clear
->> > registers for the output.
->> > As a side effect this also changes the GPIO device and number
->> > allocation: Each bank is now represented by its own gpio_chip, with
->> > only
->> > as many pins as there are actually implemented. The numbering is left
->> > up
->>
->> Ah, is this a userspace API break?
->
-> Was that ever a guaranteed user space API? Or just something
-> that everyone relied on because it was always the same (until it
-> wasn't)? Similar to /dev/mmcblk0 being the SD card?
-> And ignoring the ill-fated old-style sysfs interface for now, how does
-> this work with libgpiod? Would it still use the absolute pin numbers?
->
-> I mean looking at that warning about the forced GPIO numbering we
-> get, using base =3D -1 seems to be the recommended way?
->
+On Fri, Mar 13, 2026 at 1:08=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
+com> wrote:
 
-My view is this: for libgpiod, there are no absolute GPIO numbers and the
-ordering of GPIO chip character devices is not guaranteed.
+> Allwinner SoCs combine pinmuxing and GPIO control in one device/MMIO
+> register frame. So far we were instantiating one GPIO chip per pinctrl
+> device, which covers multiple banks of up to 32 GPIO pins per bank. The
+> GPIO numbers were set to match the absolute pin numbers, even across the
+> typically two instances of the pinctrl device.
+>
+> Convert the GPIO part of the sunxi pinctrl over to use the gpio_generic
+> framework. This alone allows to remove some sunxi specific code, which
+> is replaced with the existing generic code. This will become even more
+> useful with the upcoming A733 support, which adds set and clear
+> registers for the output.
+> As a side effect this also changes the GPIO device and number
+> allocation: Each bank is now represented by its own gpio_chip, with only
+> as many pins as there are actually implemented. The numbering is left up
+> to the kernel (.base =3D -1).
+>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-For sysfs: userspace may rightfully expect the global numbering to stay the
-same. I don't like it but this is the kernel policy.
+You could add that this makes the driver benefit of the
+.get/set_multiple() accelerated implementations of the generic
+GPIO MMIO driver as well.
 
-Here however, there's another thing: the fact that a single GPIO chips is n=
-ow
-split into several. I don't mind it but if someone complains, it would have
-to be reverted.
+> +static int sunxi_gpio_add_bank(struct sunxi_pinctrl *pctl, int index)
+> +{
+> +       char bank_name =3D 'A' + index + pctl->desc->pin_base / PINS_PER_=
+BANK;
+> +       struct sunxi_gpio_bank *bank =3D &pctl->banks[index];
+> +       struct gpio_generic_chip_config config;
+> +       struct gpio_chip *gc =3D &bank->chip.gc;
+> +       int ngpio, ret;
+> +
+> +       ngpio =3D sunxi_num_pins_of_bank(pctl, index);
+> +       bank->pctl =3D pctl;
+> +       bank->base =3D pctl->membase + index * pctl->bank_mem_size;
+> +       if (!ngpio) {
+> +               gc->owner =3D THIS_MODULE;
+> +               gc->ngpio =3D 0;
+> +               gc->base =3D -1;
+> +               gc->of_gpio_n_cells =3D 3;
+> +
+> +               return 0;
+> +       }
 
-Bartosz
+Add some comment about what is going on here, I suspect you
+are flagging the gpio_chip as unused, you could just not assign
+anything I think?
+
+> +       config =3D (struct gpio_generic_chip_config) {
+> +               .dev =3D pctl->dev,
+> +               .sz =3D 4,
+> +               .dat =3D bank->base + DATA_REGS_OFFSET,
+> +               .set =3D bank->base + DATA_REGS_OFFSET,
+> +               .clr =3D NULL,
+> +               .flags =3D GPIO_GENERIC_READ_OUTPUT_REG_SET |
+> +                        GPIO_GENERIC_PINCTRL_BACKEND,
+> +       };
+> +
+> +       ret =3D gpio_generic_chip_init(&bank->chip, &config);
+> +       if (ret)
+> +               return dev_err_probe(pctl->dev, ret,
+> +                                    "failed to init generic gpio chip\n"=
+);
+> +
+> +       gc->owner               =3D THIS_MODULE;
+> +       gc->label               =3D devm_kasprintf(pctl->dev, GFP_KERNEL,
+> +                                                "%s-P%c", gc->label,
+> +                                                bank_name);
+> +       gc->ngpio               =3D ngpio;
+> +       gc->base                =3D -1;
+> +       gc->of_gpio_n_cells     =3D 3;
+
+Nice use of the three-cell GPIO OF parser!
+
+Overall this is a nice change and makes the kernel a
+better place. I would apply a non-RFC version as soon
+as we can agree on the path forward.
+
+Yours,
+Linus Walleij
