@@ -1,107 +1,200 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EDF122D785;
-	Mon, 16 Mar 2026 01:37:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B64354AFC;
+	Mon, 16 Mar 2026 08:29:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773625063; cv=none; b=LQqZq/uYYTxAXtg2xTWXmm06Bd9XeYABoF1k2Rn+ApDt3W2Xp5MpXLJHVns9Epv/096gi9wQXqQ8kyo8LoAagVz6AVu7VKvIy2ZcZ2UWqJ0XkCnjqj548vE/uLpgrRy4nbt2KtL/55EcNTrFP8WW+IwsyapPaV/1bcdCH6wl5y8=
+	t=1773649799; cv=none; b=fM4hqylJok+rpxz2Dq9L+NxChf2QyJ9S+KiWwizigv0f7hoWtgqK4dLCs1QZn6LLwUmJfjRWT7BbgY2SiOVoXxx4O+lbWIBudp9GQ6P6zTv8Jeczr0OGelIwabPBUITdY0DP9nhhdGrz9UMUS3tahftvTaCtPJujy8BmmhEKR6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773625063; c=relaxed/simple;
-	bh=TGQIw/q/zFMyHgT9wXEpWPAd2N2W6JnYL+lx6HkddLk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Vcir6blr3tf05Caz75Xrtmk9d+lyROWcNcTs15PrhssaH1omTbwXSgeybg8Pi3kvyJUvOj0U7+8brQQ7NFs53P43kx+K6UVh7EFsUF+HfIPovMU5sXYISTrViAIIKoYNfAHZiONEaYvsK1ZjSYs/yjiUldn7h/qKTEtlnPjSr0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FRzD8sxt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773649799; c=relaxed/simple;
+	bh=ZleLRHDOHBip+HjzKZfgbCdexqRYELee4obevGjagA4=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=hg/HU7fT88c/aRIOQ5Rbji+HOPBXeJxotjFyFmHzGbfUdJcCJQRoM7owpTsYT0CpEq+bYnsVyueH+09nKFd62FdrGGgVE2F1pl+mDEZ4wYwH42A6PoffAUT8nDU5EkswVhvncVTLfvg80iq724qMnAoytSRvpHZtccp0os5edj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kdnn4047; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FRzD8sxt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64CF8C19425;
-	Mon, 16 Mar 2026 01:37:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kdnn4047"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 870B9C19421;
+	Mon, 16 Mar 2026 08:29:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773625062;
-	bh=TGQIw/q/zFMyHgT9wXEpWPAd2N2W6JnYL+lx6HkddLk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=FRzD8sxtWGzZf04kzC7Xi/txIeltFmL7gxMkHHZhlxDQcObQTW7bT1CEcFWxmAxZY
-	 1o+6rc64q4fh6e6ahab9n03frJz8mZ3rvcOkdgKvlZYrbMWLahfiylHFyDDYfQNmaO
-	 OQ9vqB6MXJeubc69yr4l+rSQGAg4hihvqsoyxyiVprNtfXfV4pU3lePKCQwWPQFmv2
-	 1e9LPCKyw61UXetoeVulORj/r6wrJuvRWa/1JczJAsB2KWV8GreUb7qpk3Fy6DfYba
-	 qzIT8KP9I2iNo2HLLyIWy3VzHVHs/u9FiwvljbmhzWkQVhQqJVWBlobXjNieLrR9UV
-	 zNCmusXetr/cA==
-From: Mark Brown <broonie@kernel.org>
-To: Jernej Skrabec <jernej@kernel.org>, 
- Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, linux-sunxi@lists.linux.dev, 
- devicetree@vger.kernel.org, linux-spi@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260302153559.3199783-1-wens@kernel.org>
-References: <20260302153559.3199783-1-wens@kernel.org>
-Subject: Re: (subset) [PATCH v2 0/3] arm64: allwinner: sun55i-t527:
- avaota-a1: Add SPI NAND
-Message-Id: <177352554724.149922.11236010638417672034.b4-ty@kernel.org>
-Date: Sat, 14 Mar 2026 21:59:07 +0000
+	s=k20201202; t=1773649799;
+	bh=ZleLRHDOHBip+HjzKZfgbCdexqRYELee4obevGjagA4=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=kdnn4047r/PTpjAKHd4omIMsOpl4ztjzFI5kQfAUHqX34ZPsmSn81reSSVgRSu89L
+	 23+I9JxdTSXW1Dtu8OD62Jknq6sVuNAgNgFFG5QTKl3P9oWtSnR5TnzkAib8OoB80m
+	 IzP0p4pdzZwAEvZFrBftxiPl0XRkbYaXutmNVoJUxk14TYt9HSiD/Ud4M8rgJcJiWt
+	 Jjrsf0NhBzFKRsgH1b9oxEFZjq0Jv4BOfLXqL4n6qn8PVHGsXaQwxoXgwDZYY2uT7Z
+	 eOGFtrH4AuPzlfaTtRpXuNRMih137kjkvsYvuaEcu1V5czsaiYolnUDslf/GhryY+g
+	 z99YJ8m1u/W0Q==
+Message-ID: <76fd11b2-7789-47c1-a832-12907155ead1@kernel.org>
+Date: Mon, 16 Mar 2026 09:29:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH v2 01/13] media: saa7134: rename i2c_dbg() to
+ saa7134_i2c_dbg()
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Khalil Blaiech <kblaiech@nvidia.com>,
+ Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linuxppc-dev@lists.ozlabs.org, linux-actions@lists.infradead.org,
+ Bartosz Golaszewski <brgl@kernel.org>, linux-media@vger.kernel.org
+References: <20260223-i2c-printk-helpers-v2-0-13b2a97762af@oss.qualcomm.com>
+ <20260223-i2c-printk-helpers-v2-1-13b2a97762af@oss.qualcomm.com>
+Content-Language: en-US, nl
+In-Reply-To: <20260223-i2c-printk-helpers-v2-1-13b2a97762af@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-5154a
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1508; i=broonie@kernel.org;
- h=from:subject:message-id; bh=TGQIw/q/zFMyHgT9wXEpWPAd2N2W6JnYL+lx6HkddLk=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpt17jchZo0gt311TnfM91Px7xeMUnDDWgGnHg5
- aPZt2gS/jyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCabde4wAKCRAk1otyXVSH
- 0NkBB/96GMZnNoZeWsfT+kcGAZx6S+Ao310k+PbeK/xJt271Tz0NrWNlPvQZCLXxs4SQNIZFO5M
- Dr4zSEidJE/ORmsiypIqH6qztsrTp9KGh0DMZt1wZgeIrWETeDJenvDAP2BxhnRhER7hcEkbEjO
- dPj1MGZqdoZBCb4pEn/bQ2itm7AAsbKhMPTIT+fMfNoP+awzQn1AvEBL1w6eSPkRJtGe/PzF2vs
- 4apTXsrYWgR1Muwe2Aqo6FqdXLCUZVZRLtV3QqIrNVoVqlc1EqFdBZKwysXbk0Krry4Kgs2iFih
- zwZ7tpICsIacOmo1RYoCA1etZDpvw+NSmN3HLmdihBnINnoB
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 02 Mar 2026 23:35:55 +0800, Chen-Yu Tsai wrote:
-> arm64: allwinner: sun55i-t527: avaota-a1: Add SPI NAND
+Hi Bartosz,
+
+Apologize, the earlier patches for this fell through the cracks so never
+made it to v7.0.
+
+For this v2:
+
+Acked-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+
+Do you want to merge this through the i2c subsystem? Or do you want me to
+merge this patch through the media subsystem?
+
+Regards,
+
+	Hans
+
+On 23/02/2026 09:59, Bartosz Golaszewski wrote:
+> Ahead of introducing I2C-adapter-specific printk() helpers, preemptively
+> avoid a conflict with the upcoming i2c_dbg() and rename the local macro
+> in the saa7134 driver to saa7134_i2c_dbg().
 > 
-> Hi,
+> Suggested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> ---
+>  drivers/media/pci/saa7134/saa7134-i2c.c | 26 +++++++++++++-------------
+>  1 file changed, 13 insertions(+), 13 deletions(-)
 > 
-> This is v2 of my Avaota A1 SPI NAND enablement series.
+> diff --git a/drivers/media/pci/saa7134/saa7134-i2c.c b/drivers/media/pci/saa7134/saa7134-i2c.c
+> index 04e85765373ecc0f0759eba539c20bcdc9716ca8..1164e91cbb7b7f5250dc02bc086f5cc06ea8f5a5 100644
+> --- a/drivers/media/pci/saa7134/saa7134-i2c.c
+> +++ b/drivers/media/pci/saa7134/saa7134-i2c.c
+> @@ -28,7 +28,7 @@ static unsigned int i2c_scan;
+>  module_param(i2c_scan, int, 0444);
+>  MODULE_PARM_DESC(i2c_scan,"scan i2c bus at insmod time");
+>  
+> -#define i2c_dbg(level, fmt, arg...) do { \
+> +#define saa7134_i2c_dbg(level, fmt, arg...) do { \
+>  	if (i2c_debug == level) \
+>  		printk(KERN_DEBUG pr_fmt("i2c: " fmt), ## arg); \
+>  	} while (0)
+> @@ -84,20 +84,20 @@ static inline enum i2c_status i2c_get_status(struct saa7134_dev *dev)
+>  	enum i2c_status status;
+>  
+>  	status = saa_readb(SAA7134_I2C_ATTR_STATUS) & 0x0f;
+> -	i2c_dbg(2, "i2c stat <= %s\n", str_i2c_status[status]);
+> +	saa7134_i2c_dbg(2, "i2c stat <= %s\n", str_i2c_status[status]);
+>  	return status;
+>  }
+>  
+>  static inline void i2c_set_status(struct saa7134_dev *dev,
+>  				  enum i2c_status status)
+>  {
+> -	i2c_dbg(2, "i2c stat => %s\n", str_i2c_status[status]);
+> +	saa7134_i2c_dbg(2, "i2c stat => %s\n", str_i2c_status[status]);
+>  	saa_andorb(SAA7134_I2C_ATTR_STATUS,0x0f,status);
+>  }
+>  
+>  static inline void i2c_set_attr(struct saa7134_dev *dev, enum i2c_attr attr)
+>  {
+> -	i2c_dbg(2, "i2c attr => %s\n", str_i2c_attr[attr]);
+> +	saa7134_i2c_dbg(2, "i2c attr => %s\n", str_i2c_attr[attr]);
+>  	saa_andorb(SAA7134_I2C_ATTR_STATUS,0xc0,attr << 6);
+>  }
+>  
+> @@ -160,7 +160,7 @@ static int i2c_reset(struct saa7134_dev *dev)
+>  	enum i2c_status status;
+>  	int count;
+>  
+> -	i2c_dbg(2, "i2c reset\n");
+> +	saa7134_i2c_dbg(2, "i2c reset\n");
+>  	status = i2c_get_status(dev);
+>  	if (!i2c_is_error(status))
+>  		return true;
+> @@ -198,7 +198,7 @@ static inline int i2c_send_byte(struct saa7134_dev *dev,
+>  //	dword |= 0x40 << 16;  /* 400 kHz */
+>  	dword |= 0xf0 << 24;
+>  	saa_writel(SAA7134_I2C_ATTR_STATUS >> 2, dword);
+> -	i2c_dbg(2, "i2c data => 0x%x\n", data);
+> +	saa7134_i2c_dbg(2, "i2c data => 0x%x\n", data);
+>  
+>  	if (!i2c_is_busy_wait(dev))
+>  		return -EIO;
+> @@ -220,7 +220,7 @@ static inline int i2c_recv_byte(struct saa7134_dev *dev)
+>  	if (i2c_is_error(status))
+>  		return -EIO;
+>  	data = saa_readb(SAA7134_I2C_DATA);
+> -	i2c_dbg(2, "i2c data <= 0x%x\n", data);
+> +	saa7134_i2c_dbg(2, "i2c data <= 0x%x\n", data);
+>  	return data;
+>  }
+>  
+> @@ -237,12 +237,12 @@ static int saa7134_i2c_xfer(struct i2c_adapter *i2c_adap,
+>  		if (!i2c_reset(dev))
+>  			return -EIO;
+>  
+> -	i2c_dbg(2, "start xfer\n");
+> -	i2c_dbg(1, "i2c xfer:");
+> +	saa7134_i2c_dbg(2, "start xfer\n");
+> +	saa7134_i2c_dbg(1, "i2c xfer:");
+>  	for (i = 0; i < num; i++) {
+>  		if (!(msgs[i].flags & I2C_M_NOSTART) || 0 == i) {
+>  			/* send address */
+> -			i2c_dbg(2, "send address\n");
+> +			saa7134_i2c_dbg(2, "send address\n");
+>  			addr  = msgs[i].addr << 1;
+>  			if (msgs[i].flags & I2C_M_RD)
+>  				addr |= 1;
+> @@ -265,7 +265,7 @@ static int saa7134_i2c_xfer(struct i2c_adapter *i2c_adap,
+>  		}
+>  		if (msgs[i].flags & I2C_M_RD) {
+>  			/* read bytes */
+> -			i2c_dbg(2, "read bytes\n");
+> +			saa7134_i2c_dbg(2, "read bytes\n");
+>  			for (byte = 0; byte < msgs[i].len; byte++) {
+>  				i2c_cont(1, " =");
+>  				rc = i2c_recv_byte(dev);
+> @@ -286,7 +286,7 @@ static int saa7134_i2c_xfer(struct i2c_adapter *i2c_adap,
+>  			}
+>  		} else {
+>  			/* write bytes */
+> -			i2c_dbg(2, "write bytes\n");
+> +			saa7134_i2c_dbg(2, "write bytes\n");
+>  			for (byte = 0; byte < msgs[i].len; byte++) {
+>  				data = msgs[i].buf[byte];
+>  				i2c_cont(1, " %02x", data);
+> @@ -296,7 +296,7 @@ static int saa7134_i2c_xfer(struct i2c_adapter *i2c_adap,
+>  			}
+>  		}
+>  	}
+> -	i2c_dbg(2, "xfer done\n");
+> +	saa7134_i2c_dbg(2, "xfer done\n");
+>  	i2c_cont(1, " >");
+>  	i2c_set_attr(dev,STOP);
+>  	rc = -EIO;
 > 
-> Changes since v1:
-> - DT bindings (Krzysztof)
->   - Moved "allOf:" block after "required:" block
->   - Dropped "type:" from child node in conditional block
-> - Collected tags
-> - Link to v1:
->   https://lore.kernel.org/linux-sunxi/20260227175157.2339758-1-wens@kernel.org/
-> 
-> [...]
-
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-7.0
-
-Thanks!
-
-[1/3] spi: dt-bindings: sun6i: Allow Dual SPI and Quad SPI for newer SoCs
-      https://git.kernel.org/broonie/misc/c/743956bb9990
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
 
