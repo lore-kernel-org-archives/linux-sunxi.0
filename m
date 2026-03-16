@@ -1,87 +1,87 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B5F0396B9B
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Mar 2026 12:05:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD036396D11
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Mar 2026 12:05:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773662753; cv=none; b=HtSfziy4wZ1qEksCZDy+T+N6VovL/IiFh+zI1UtN+2CdzxrjlE3fUk2evySZYzwnS1kdt+fLjxyDFLG7ZnsyaVGiYHCKQnGBYxrjYSIrzBRJyOVd5Bkoa7fWwvth8Lja+DiTkZQLnGIolNJCmZSnejSN4xcPSn7D2QnNcHCLABk=
+	t=1773662756; cv=none; b=hbEGqL5S6dlDPE4qVUmMxa7Jk3zd1Zgjm4tRfeyhmVfScBAinsZ4lzJu6c8aPiFQhaPeMCtfVfCENAnpXT+ZkF2kHKLA8zk4ciIJ/Oj0g883I4v5KpOz6p6vZp4rjK8qVGKdFmiPpRcmNOB80ilfHWbC5KTG/cGhBYqdGpbC/5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773662753; c=relaxed/simple;
-	bh=cUDrs1O/XO11AhOC23rnXsi1wxL7UD1u0mwnarp3gg8=;
+	s=arc-20240116; t=1773662756; c=relaxed/simple;
+	bh=3YX99yDiykq8wht5jhlxLD9GqcQlDRrqtioZ2YaSMF4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rVDViPX6J2oRnzhLWOxwJbr9GJx93ohfhFl78U8MxvZli4OrLzD1ueMblNV1SV8gTKTlv8oRdQ7ZntNOMxku6veyvkTrUpuDO8l1kaw1WUw422JFhd5vhjwQydu/BlDmp+IAsxB4DJCgwIvEDKgJI4TgT35JhpHH+B6BKXyVwvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=pNpSDV9M; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=EvP4I9ws; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:Cc; b=N+gQsbYeuFHFIX/89O2PVn6BitEOLzhF3ptPoyMl4YoezK7Et+yzuX4+O4AlZiJmTf/0LqYcmgwMLEuYJOQh6+ONF7PTsDKw89y5pgciZ8OVXm3M2aoegtKKrEqUsh/JdVEZquFWm6u6kLm8JLmzFBfbezCvqRo4jqxs4Cen1FA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=DiiJI7TK; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=VOTeUJ4b; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="pNpSDV9M";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="EvP4I9ws"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62GBftlV323708
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Mar 2026 12:05:50 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="DiiJI7TK";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="VOTeUJ4b"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62GBuRti2672149
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Mar 2026 12:05:53 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	JRiiX4zWYpuwYrXgVU9TJdiqt0ihuqsNqrMiVyK6xfI=; b=pNpSDV9MYHjH3m3u
-	W7UJ4st4HocJne8A1SEc7ryGYtLWqc2ksDPxIIL8M5//pxk215liAyLNcy6s3rUm
-	WxmB+GGDGQBY0CiGaZMn2odOdtBYFlsaXMRHH1/KdTLCkBgXU+g3KEg4PlzTLwjc
-	nC9Osf8wm9qC+95l7Er9+lkZmEhPJFJDevy28b/NZSRPHEUGvW5bLLeI1UmUBkp7
-	FUua8LMPEdG/hIlids8UzCfJAkdURCLRvfCaOTfbNI3hVwRE9ijGhwFQ8pDoz0qR
-	mEvmP7ycgXvD5srBvNdgPAgFNPytbw6wI5IyshwlY/4gBOQpNVgf/i07Q0zuReMc
-	rqOVpQ==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cw03qns22-1
+	3Q2i+GiHSpXUMk/5V2t9vb8q95gvl7L2wScFZUzHsU8=; b=DiiJI7TKYsl/asr/
+	N/JfRDO2M01wuYZAzzpQc5i3937R/w7NEZsJyBtmu8pAlNIOAnvZkzjKNM0D6HWx
+	J/SkNiURIL9RYjA4cxgi8gPutHaIOyrwT4oert+DTpagGL+wNJwpatt8S2Q3AiSU
+	dAbWJPf8SFC4yCm3IePE4F9FqI/Bu77h5wC1q6mQTSnHPv0+iEE8eYRCllXmPoKS
+	4dw9PwEqt5VwhzYt1cm4iFow9JMBzTj+L/7bcrszUs2HaVdGssKCJzAAMlbqW3tv
+	FTSgrC9sH4QGm0WdvHXle7GB/KKG51blTXrzuupJYGJlXX5s8k1Ei4OVLTaZksEI
+	fChHbA==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cw03xnq6g-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Mar 2026 12:05:50 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-50917996cfaso17371971cf.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 16 Mar 2026 05:05:50 -0700 (PDT)
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Mar 2026 12:05:53 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-5092033798eso26701371cf.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 16 Mar 2026 05:05:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773662750; x=1774267550; darn=lists.linux.dev;
+        d=oss.qualcomm.com; s=google; t=1773662753; x=1774267553; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JRiiX4zWYpuwYrXgVU9TJdiqt0ihuqsNqrMiVyK6xfI=;
-        b=EvP4I9ws+nOd97QqEnHZo87r/vOjaWRgS9YoTIfBS8ZTSyWpaB9e8KJkRL27yHvNw3
-         HFl5hiu2SzoabXGAM6NV6sDG699jw3bd2p/bZPXAyo63SrEpr+kzptXBK+zJNc1WHBca
-         ReMVHLsmM3j/z/CaW6t26LSAbxb6Fnw3DV9NWkpxS2Qt01/UEmjMcjhqOPXlr+7hulBW
-         +DndH7SWgO7dg32YjO+x1yDFIwsTVv6RKVV5UDm9k+RplsRBdUBtQ23VbtJrihLeNDMg
-         OZS7g93+Pg/2N9VVV4BrPTYQYMCjTip9pZ+P1uQDt8yxPQV04NKOlT0Hx0yyaF6NX1tU
-         B1Ig==
+        bh=3Q2i+GiHSpXUMk/5V2t9vb8q95gvl7L2wScFZUzHsU8=;
+        b=VOTeUJ4bFogu2rn8IzQcmZNZgtMRzMd5EiHP0VUNTJiR9kqzyRu93G3cwSEMvGZxME
+         fdOneOFcFmZkpDk1oHzoful1MpunpO6JC5VMQu88+6IJUnh/+xkNsqAgpo6E/I6X+qbF
+         5n3TY0PFu50MBSdhoz7UKOxu3XMg6q+M76g+AzuOeqWZRiuKUwRYjfJi9a7ztlOIjhVN
+         rRquN7l5SkLtCePrCmj2C7ZUyYhwEwWs/XHgylashJ3Glx9Nn8ACv1X8xgeufxcEfplc
+         I7lInjxvqpOC+KB1HNFfyvBWXh/nt/gN6JMak/SBIwQC0GqPum1WgSbdJ2IKE1kd+Mh/
+         pxNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773662750; x=1774267550;
+        d=1e100.net; s=20251104; t=1773662753; x=1774267553;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=JRiiX4zWYpuwYrXgVU9TJdiqt0ihuqsNqrMiVyK6xfI=;
-        b=YLfv85e8MWJddha0BHVdq9LDGIU5BDLzQ9cNnseknZ6JV0XAehgiEsNp87fVLoKFSO
-         LYeR5yxbxzlxkwY5qBhoGB7uLdZ4oioddiBmtfXLquc+nztKREX9Jyd7nfYvtmn9Nfws
-         RdVE9d7uIoNdCcI9EpkmKh+v6GEXF5yRPfhlxH4ehYXU6+UFY7bUAmWzvyAAH3RJJx5u
-         yYHkE/jyTZfM1KN79Ws408ksewKzC+klOWhBv6aC6b4472U6Ov+JT8MFlRiP1NZR4FhV
-         xY0n5CvwtPHhpRaQVDCdY8HC+qK69bqGZf3n4yKqI+6jr59Vf1WRv7BeXHAEJXK0KRC5
-         LLow==
-X-Forwarded-Encrypted: i=1; AJvYcCU3SMDN71uYFAtyv0WdxwbPp0higyndUZsnOOyJaeND+dIwSKVEzJmMe1daG9jkpppgcNcWdZ8OmThgqg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxKWHeCbmjoHbtBNZfXQix5hdEzaN+mAsgxawv2ur605laa56ec
-	FrP3X7EGwR2Lj92RtVY2O0akkCbS8DN3cqa3jgmNKTCcFRa+MetUZcBl9H8G/4iuUsRVh3ysyNk
-	qB0egE7LRDu0LIadMnIe0n6e30BBWVZl/mqEhuNfEzzk25MjFCQJX6nOloi4xsc5YfQ==
-X-Gm-Gg: ATEYQzyKwnL6NL2mKac20HbGOS2AM84Cza3HmEY1ztbi/F962bxKT2PrVZezyIiIdRV
-	2f0C41jDrZgRLlySsn3ABkwLx+9XrPNgqhkdub83tU+Zns2KsHsElx7s30VLMMKhuH4qL21Q/dM
-	7LM+5cSq7YCW4aPMv7OWctrbwabnYrdujnXxL1ZIT+hKzNn3wQwjJVLsawEx1oQk+qn+DF9Dowd
-	lPcQgemLn4A7tnOqJvxk+qm5ZiIrsTUB+L4vkcA+esNLmWS7TdKBd3qrpY80kAO/LWWVOb2rP9O
-	BJNtaTh+zHI4/NNbyXkBUvSDonFkav5y5naiYQvjYxFazdn6UhuLezVD53TTU0gk2IVaUNz/Kkh
-	edHTXUoakkBiENI/Vgi0qJtcBwnq7vIX4Hujf4UGfnql6ya9h8lo=
-X-Received: by 2002:ac8:7c4c:0:b0:509:3f5d:4fb6 with SMTP id d75a77b69052e-50957ba7484mr165094011cf.14.1773662749686;
-        Mon, 16 Mar 2026 05:05:49 -0700 (PDT)
-X-Received: by 2002:ac8:7c4c:0:b0:509:3f5d:4fb6 with SMTP id d75a77b69052e-50957ba7484mr165093061cf.14.1773662749103;
-        Mon, 16 Mar 2026 05:05:49 -0700 (PDT)
+        bh=3Q2i+GiHSpXUMk/5V2t9vb8q95gvl7L2wScFZUzHsU8=;
+        b=AkJqrYzdLf+Kb0CpDWi+s08XpakG/vox9hYqk2pX3ezIiwWWasIEQHF3r6Qx56e9o9
+         kxWlGgErC5kvTBppQ5gFf2Q4mM0PnjwSbWMVklYpB0ZP+7a5lIhhmIHWShyYX6ogA11s
+         hddVf4/Fkloo0hdtd6WE5Oi4ufWJsgX5sj96yRGF6uwpu14wZxrDunVGKikcCC48WqvA
+         VDHgLjrRUAG4qwISapK+tfmeZ+PfabaGsFYJydrcKQdtitmI4SLi7Nbcw6pQ8r/yDfky
+         gXROuz6eYSJXLuVpSQBENC8nvjAjMYDkWoifGNaGwo9EgxF9G+dVnDLgEXKtNSDEoukI
+         d9og==
+X-Forwarded-Encrypted: i=1; AJvYcCXrSNVWDF5RLBNcUb2DHw+mhEySfHQDbrn8ejdDd/7iGciESw7e27mXcbE2/F/lJ81YDHgXM6/m6Mr9FA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz6gK6q7NZy2RLsYakeG77x5MjvtuqiFNj5paV+zkGI5Mip3s7i
+	M+oHG6tITbM033ZxKurzbHnhH6SN5SGLCueHcwfYgxt2uwNK4nqWfG0FLzioq2MCysgJUz6v6IR
+	dL/pa2CTuCJsD/kTrM+FjlcAbyLIYIF85SCbwBmGaSI2DY3a4icGN2t+5jzz/1IDpng==
+X-Gm-Gg: ATEYQzzNf2/MGeyX5iex2SXB6F9Wfq3s3Vi8DxTs8xZpZNhC57+RjapELjhHfiEiqVZ
+	VHzFgb5+KjFHPn4ImgH4lmWK/goCMC11BBwHky/xPjS5+PUoxEUt6Rp8bOPonYPKu1FeQh8BbJX
+	cPXQAdHKWOZK4ygYh/mSoITwXDdihlfTXEZbIFfNytYKe4nqF0kD6FdLZJeM5gVQJeD31cLfMtm
+	HfnSkPrdtEnsBZys70h59UXnXXlZFEHaKA9qlnV1XQjDBi1pkRHmH6o+8pJ7qO/tGgCiNy4LimK
+	3j+BCvRdRBBz5/Y2fCYHGiysW/fabHe/lq2166H/mdgMb+NqcbAH+JqXvThIcQ3x3i6e40biqJS
+	HHHgCYYQ70ncIL2jR+/10zEaewLULITVn/T1PN2vshgARhDd36Nk=
+X-Received: by 2002:a05:622a:1a87:b0:509:4091:affe with SMTP id d75a77b69052e-50957e28510mr177054841cf.69.1773662752791;
+        Mon, 16 Mar 2026 05:05:52 -0700 (PDT)
+X-Received: by 2002:a05:622a:1a87:b0:509:4091:affe with SMTP id d75a77b69052e-50957e28510mr177054061cf.69.1773662752125;
+        Mon, 16 Mar 2026 05:05:52 -0700 (PDT)
 Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:45fe:3ba6:f90:d951])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe2273d9sm46468513f8f.34.2026.03.16.05.05.46
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe2273d9sm46468513f8f.34.2026.03.16.05.05.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 05:05:48 -0700 (PDT)
+        Mon, 16 Mar 2026 05:05:51 -0700 (PDT)
 From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Date: Mon, 16 Mar 2026 13:05:10 +0100
-Subject: [PATCH net-next v9 5/6] net: stmmac: qcom-ethqos: split power
- management context into a separate struct
+Date: Mon, 16 Mar 2026 13:05:11 +0100
+Subject: [PATCH net-next v9 6/6] net: stmmac: qcom-ethqos: add support for
+ sa8255p
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -90,7 +90,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260316-qcom-sa8255p-emac-v9-5-c58934e76ff2@oss.qualcomm.com>
+Message-Id: <20260316-qcom-sa8255p-emac-v9-6-c58934e76ff2@oss.qualcomm.com>
 References: <20260316-qcom-sa8255p-emac-v9-0-c58934e76ff2@oss.qualcomm.com>
 In-Reply-To: <20260316-qcom-sa8255p-emac-v9-0-c58934e76ff2@oss.qualcomm.com>
 To: Bjorn Andersson <andersson@kernel.org>,
@@ -132,71 +132,103 @@ Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
         Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4863;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=13278;
  i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
- bh=FNVr79Fi6sLZ+qldLv+chKiF5qjCh0lSqoNC0bsdcWI=;
- b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpt/IIT8poUkTMwCdDoAqbmTNuqoN3k68JOFFxl
- RLzfgKVKIWJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCabfyCAAKCRAFnS7L/zaE
- w0K2D/4rDGSTW0SD1QyIyyfWah8lyX6rA5A9XyFngToSBN703DgZMDNxYkUeXeaO/SjXmif2Rcm
- OObzFgkf7GTijwxglaizo6Y/hywgBI7dMmaVNl9j2+5oF3++AMNlfsr/AT2s3bQtpgKEmyipQ6c
- 9aDRKwIipEeGEratxlc6mHDPicA7dXVwKDrzk67depSo/fuJjnCim5/FHA/QBySqVcNcLH3D218
- Rssqe4ejGkZcv0TQgFjh2zBBAWNSqpHIxNenriZBsY6dR9pH76Uzm12ESxwaCrY7/z2QG43RO3Y
- N91qkaKLR0a9FI9tXbRhbmHKd8tNojtRsSu2n4jF+i8QvsMhm2WTlLBSnHjDhesrLrcES9fkM+N
- VnrWOh622GFNqlRI7X+3D1YxkjoJz1xVic/3EOypyDur1VbMk18dFaYPmhgMTfEO41ivU2CHqgR
- XlYuo6VLOjn5/8FVaimtnNGGHf21jpTXVVrK8e9WSojBwnRN0FfYtRLm90dB5FKFfaotMb+Spfz
- BuAIY3gGvycrCxyhL8y4mFQdPdhmsQiGBkCSUXsWFh+JeD0RbqCD3juKRHCepuzDEvS8lTdrJ/J
- ZgaFYz2x7XAp7j7NA53BEhQH7ojIeBiULr4X7eXdvolOLzeqa8fqp/sr/icnIetgM9z/F/5Y5If
- 4DQ1nQx0YViO78g==
+ bh=3YX99yDiykq8wht5jhlxLD9GqcQlDRrqtioZ2YaSMF4=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpt/IJ7rps1mNZ7g5+PtadnJ3zPqa8dZ5z8b1NM
+ e93budJrwaJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCabfyCQAKCRAFnS7L/zaE
+ w20aEACpr9Y5Mk9Y78w0JYOWY5EpyvYX64sAyRDk53Y/JZzT5eAJlA76MTbgXZazP0dSuplyMrl
+ eNfL+lKHJjmmI7486O+1g+ssbkDsKho584IWcU123YWfedeQqx17wZInirnIDfs4pqxXmrpH6Yq
+ 9Jy5hIcBcH683eDUvfE2Lijkj5mq1TLaOnAdOWhkfjoG/sJZcf9pfxuYBmv5pT+hoIwbcvLs1gI
+ AqV3AK4fFChTr3ZKGCmm0rCwcsFcg0gvhMuDYJVpeNcmlhYiwsbVDV/vw4Wydee5T5TIP2zr1dq
+ Hp54ivBPauz5qQLFVoZRIWe9Sey4Q8qygliJtvxsRs1iVlDYeMcgtu0BYh5ciOxk//ff0SR8UhM
+ 3gX5fpmdZo/mghcQSBV5782lUT3+2hVpQPFBu9kUqaFb68woTyUsemzbQDBHzPFeOD1Y6WOOe6u
+ YlKNYBt+5dgczOr8pLX2pbMIuknsyFyNgQf+eV5X98ygZAzeYYEnpmTRRgIZn4CjfRiJ3EXaqkE
+ /SZH91kPPmFBuX7Fg3lqVv/M428y3FdhSamclYfPyP5MJiu1Z+MaPVZdQtVJYuG9QPYI0wyLlJI
+ HpClWHw0yUsrHWsxodAYIt2gKXwH0Ok8N1TrhJM0Oukpg16c5h5uvEAx6gM0NIovFvO5mIIKAFV
+ boBC1OelpOx/7yA==
 X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
  fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
-X-Proofpoint-GUID: Qqub3D_MX1OaxUrQMxlq4jimw591xPFg
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE2MDA5MiBTYWx0ZWRfXzEaHg96QiBtI
- TSguu997+t9thOniUEq/cqIZumDCz/TsBl70gMDv7NfYI3qFZH3I9Mrf4rgJcAjF3nleZt8d/W+
- xWJ8Qc3yTsyw21XkSoLPO7FdKChVTWJ9a2ITMSgvuX7QI3V277eQzPq4IWxDH+TVwd0KGjuldtN
- EKoPIXC8Tb//WnvCfGGNy5PhlvpiXN1ujLdkygWMOP6T73gYIyJ3Uqao4XP0Io9sqAo9m+dHyBh
- tGEIaUZ8KLD4DWZH0hSlp5abp7C+8p3uO0S0xKK2Ix6HPA0VMUfA9B2yY71yjWVcf1kdoxALeXF
- 3UKfm6a1JqJbwNEjgRrLN36Evu1pUpAIAlHiY5ydXufkU9woFgRBKaD07WbI4CTkDoRDpBJSgsU
- so+2XOQWCCDKhC/SGxfVa8Rgb0Omt1u+z9dknnIuEowXG2xgwImHs+V7xt7pedRA44Z2V/2EPEu
- KW33nEot2QRWRCa094Q==
-X-Proofpoint-ORIG-GUID: Qqub3D_MX1OaxUrQMxlq4jimw591xPFg
-X-Authority-Analysis: v=2.4 cv=ZbQQ98VA c=1 sm=1 tr=0 ts=69b7f21e cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE2MDA5MiBTYWx0ZWRfX1crt4GI0hDUc
+ p2+Siqj1PE78Hgk9NXKb+7O02i0t8XeimdU6/Pxkc6cwyoMkOuWmaxkzSFF0xH8j2raUT97Qu4f
+ sRUah3YX3FToyBv7AsFIpM8z/T1WcjGglE7PCj2q33is2/RS+L1yr8mjJ+P5EkZLtB97FKTPR8n
+ tqD8IeP5z2sUWyaKHx7US0+JZ4hQx8aj98uvxHWQyg6Txm9PRW4sC+PUKqAEC8CwqJnfl1xm1an
+ hiTINtiFB1uRezQn57/dqOjibJnDjME0Aht8F/ZY6p3X/SGU92vxgh9r8LrDF5HKtJwZtqCd5Dc
+ 6asHlbTxgZyTIjo8toRCnJFerKAMYf/0F3ManTkkVYJGu8tdHmwy72EtyDEBbLIeJbGH69WrkqY
+ EMhFwH7vW8DrZQXJ9icxiKUSaFWvP9OWaXLhFkP31R4yu9TSjlHs4JPdT35HH5ys0KewhDTK0c4
+ G2ffvyU/cEeGBP3qO9Q==
+X-Authority-Analysis: v=2.4 cv=YLOSCBGx c=1 sm=1 tr=0 ts=69b7f221 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22 a=KKAkSRfTAAAA:8
- a=EUspDBNiAAAA:8 a=TTAMOEIJuQy2Ho-tp7YA:9 a=QEXdDO2ut3YA:10
- a=dawVfQjAaf238kedN5IG:22 a=cvBusfyB2V15izCimMoJ:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=KKAkSRfTAAAA:8
+ a=EUspDBNiAAAA:8 a=eSQ9y_BssGCL3sbXkzsA:9 a=QEXdDO2ut3YA:10
+ a=a_PwQJl-kcHnX1M80qC6:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: 0D-HBEZy-jjM62psYEdenZ8yG-tiz4xc
+X-Proofpoint-GUID: 0D-HBEZy-jjM62psYEdenZ8yG-tiz4xc
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-16_04,2026-03-16_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 priorityscore=1501 adultscore=0 suspectscore=0
- lowpriorityscore=0 malwarescore=0 clxscore=1015 phishscore=0 spamscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
- definitions=main-2603160092
+ phishscore=0 adultscore=0 clxscore=1015 priorityscore=1501 impostorscore=0
+ spamscore=0 malwarescore=0 suspectscore=0 bulkscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603160092
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-
-With match data split into general and power-management sections, let's
-now do the same with runtime device data.
+Extend the driver to support a new model - sa8255p. Unlike the
+previously supported variants, this one's power management is done in
+the firmware using SCMI. This is modeled in linux using power domains so
+add support for them.
 
 Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 ---
- .../ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c    | 40 ++++++++++++----------
- 1 file changed, 22 insertions(+), 18 deletions(-)
+ .../ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c    | 301 ++++++++++++++++++---
+ 1 file changed, 262 insertions(+), 39 deletions(-)
 
 diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-index cbfae18773c1193cd640f07824f5a66d68f9634b..f32ff0d9ce513d8270c8db9c549a79778549df59 100644
+index f32ff0d9ce513d8270c8db9c549a79778549df59..09ce80b446cbac8bf85d974a3d6517e037b049c1 100644
 --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
 +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-@@ -105,14 +105,18 @@ struct ethqos_emac_match_data {
- 	const struct ethqos_emac_pm_data *pm_data;
+@@ -7,6 +7,8 @@
+ #include <linux/platform_device.h>
+ #include <linux/phy.h>
+ #include <linux/phy/phy.h>
++#include <linux/pm_opp.h>
++#include <linux/pm_domain.h>
+ 
+ #include "stmmac.h"
+ #include "stmmac_platform.h"
+@@ -81,6 +83,13 @@
+ 
+ #define SGMII_10M_RX_CLK_DVDR			0x31
+ 
++enum ethqos_pd_selector {
++	ETHQOS_PD_CORE = 0,
++	ETHQOS_PD_MDIO,
++	ETHQOS_PD_SERDES,
++	ETHQOS_NUM_PDS,
++};
++
+ struct ethqos_emac_por {
+ 	unsigned int offset;
+ 	unsigned int value;
+@@ -98,6 +107,9 @@ struct ethqos_emac_driver_data {
+ 
+ struct ethqos_emac_pm_data {
+ 	const char *link_clk_name;
++	bool use_domains;
++	struct dev_pm_domain_attach_data pd;
++	unsigned int clk_ptp_rate;
  };
  
-+struct ethqos_emac_pm_ctx {
-+	struct clk *link_clk;
-+	struct phy *serdes_phy;
+ struct ethqos_emac_match_data {
+@@ -110,13 +122,21 @@ struct ethqos_emac_pm_ctx {
+ 	struct phy *serdes_phy;
+ };
+ 
++struct ethqos_emac_pd_ctx {
++	struct dev_pm_domain_list *pd_list;
++	int serdes_level;
 +};
 +
  struct qcom_ethqos {
@@ -205,111 +237,365 @@ index cbfae18773c1193cd640f07824f5a66d68f9634b..f32ff0d9ce513d8270c8db9c549a7977
  	void (*configure_func)(struct qcom_ethqos *ethqos,
  			       phy_interface_t interface, int speed);
  
--	struct clk *link_clk;
--	struct phy *serdes_phy;
-+	struct ethqos_emac_pm_ctx pm;
+-	struct ethqos_emac_pm_ctx pm;
++	union {
++		struct ethqos_emac_pm_ctx pm;
++		struct ethqos_emac_pd_ctx pd;
++	};
  	phy_interface_t phy_mode;
  
  	const struct ethqos_emac_por *rgmii_por;
-@@ -194,7 +198,7 @@ static int ethqos_set_clk_tx_rate(void *bsp_priv, struct clk *clk_tx_i,
- 	if (rate < 0)
- 		return rate;
+@@ -338,6 +358,25 @@ static const struct ethqos_emac_match_data emac_sa8775p_data = {
+ 	.pm_data = &emac_sa8775p_pm_data,
+ };
  
--	return clk_set_rate(ethqos->link_clk, rate * 2);
-+	return clk_set_rate(ethqos->pm.link_clk, rate * 2);
++static const char * const emac_sa8255p_pd_names[] = {
++	"core", "mdio", "serdes"
++};
++
++static const struct ethqos_emac_pm_data emac_sa8255p_pm_data = {
++	.pd = {
++		.pd_flags = PD_FLAG_NO_DEV_LINK,
++		.pd_names = emac_sa8255p_pd_names,
++		.num_pd_names = ETHQOS_NUM_PDS,
++	},
++	.use_domains = true,
++	.clk_ptp_rate = 230400000,
++};
++
++static const struct ethqos_emac_match_data emac_sa8255p_data = {
++	.drv_data = &emac_v4_0_0_data,
++	.pm_data = &emac_sa8255p_pm_data,
++};
++
+ static int ethqos_dll_configure(struct qcom_ethqos *ethqos)
+ {
+ 	struct device *dev = &ethqos->pdev->dev;
+@@ -406,6 +445,28 @@ static int ethqos_dll_configure(struct qcom_ethqos *ethqos)
+ 	return 0;
  }
  
- static void
-@@ -670,13 +674,13 @@ static int qcom_ethqos_serdes_powerup(struct net_device *ndev, void *priv)
- 	struct qcom_ethqos *ethqos = priv;
- 	int ret;
++static int qcom_ethqos_domain_on(struct qcom_ethqos *ethqos,
++				 enum ethqos_pd_selector sel)
++{
++	struct device *dev = ethqos->pd.pd_list->pd_devs[sel];
++	int ret;
++
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret < 0)
++		dev_err(&ethqos->pdev->dev,
++			"Failed to enable the power domain for %s\n",
++			dev_name(dev));
++	return ret;
++}
++
++static void qcom_ethqos_domain_off(struct qcom_ethqos *ethqos,
++				   enum ethqos_pd_selector sel)
++{
++	struct device *dev = ethqos->pd.pd_list->pd_devs[sel];
++
++	pm_runtime_put_sync(dev);
++}
++
+ static int ethqos_rgmii_macro_init(struct qcom_ethqos *ethqos, int speed)
+ {
+ 	struct device *dev = &ethqos->pdev->dev;
+@@ -655,6 +716,20 @@ static void ethqos_configure_sgmii(struct qcom_ethqos *ethqos,
+ 	ethqos_pcs_set_inband(priv, interface == PHY_INTERFACE_MODE_SGMII);
+ }
  
--	ret = phy_init(ethqos->serdes_phy);
-+	ret = phy_init(ethqos->pm.serdes_phy);
- 	if (ret)
- 		return ret;
- 
--	ret = phy_power_on(ethqos->serdes_phy);
-+	ret = phy_power_on(ethqos->pm.serdes_phy);
- 	if (ret)
--		phy_exit(ethqos->serdes_phy);
-+		phy_exit(ethqos->pm.serdes_phy);
- 
++static void ethqos_configure_sgmii_pd(struct qcom_ethqos *ethqos,
++				      phy_interface_t interface, int speed)
++{
++	switch (speed) {
++	case SPEED_2500:
++	case SPEED_1000:
++	case SPEED_100:
++	case SPEED_10:
++		ethqos->pd.serdes_level = speed;
++	}
++
++	ethqos_configure_sgmii(ethqos, interface, speed);
++}
++
+ static void ethqos_configure(struct qcom_ethqos *ethqos,
+ 			     phy_interface_t interface, int speed)
+ {
+@@ -710,6 +785,45 @@ static int ethqos_mac_finish_serdes(struct net_device *ndev, void *priv,
  	return ret;
  }
-@@ -685,8 +689,8 @@ static void qcom_ethqos_serdes_powerdown(struct net_device *ndev, void *priv)
+ 
++static int ethqos_mac_finish_serdes_pd(struct net_device *ndev, void *priv,
++				       unsigned int mode,
++				       phy_interface_t interface)
++{
++	struct qcom_ethqos *ethqos = priv;
++	struct device *dev = ethqos->pd.pd_list->pd_devs[ETHQOS_PD_SERDES];
++	int ret = 0;
++
++	qcom_ethqos_set_sgmii_loopback(ethqos, false);
++
++	if (interface == PHY_INTERFACE_MODE_SGMII ||
++	    interface == PHY_INTERFACE_MODE_2500BASEX)
++		ret = dev_pm_opp_set_level(dev, ethqos->pd.serdes_level);
++
++	return ret;
++}
++
++static int qcom_ethqos_pd_serdes_powerup(struct net_device *ndev, void *priv)
++{
++	struct qcom_ethqos *ethqos = priv;
++	struct device *dev = ethqos->pd.pd_list->pd_devs[ETHQOS_PD_SERDES];
++	int ret;
++
++	ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_SERDES);
++	if (ret < 0)
++		return ret;
++
++	return dev_pm_opp_set_level(dev, ethqos->pd.serdes_level);
++}
++
++static void qcom_ethqos_pd_serdes_powerdown(struct net_device *ndev, void *priv)
++{
++	struct qcom_ethqos *ethqos = priv;
++	struct device *dev = ethqos->pd.pd_list->pd_devs[ETHQOS_PD_SERDES];
++
++	dev_pm_opp_set_level(dev, 0);
++	qcom_ethqos_domain_off(ethqos, ETHQOS_PD_SERDES);
++}
++
+ static int ethqos_clks_config(void *priv, bool enabled)
  {
  	struct qcom_ethqos *ethqos = priv;
- 
--	phy_power_off(ethqos->serdes_phy);
--	phy_exit(ethqos->serdes_phy);
-+	phy_power_off(ethqos->pm.serdes_phy);
-+	phy_exit(ethqos->pm.serdes_phy);
+@@ -741,6 +855,68 @@ static void ethqos_clks_disable(void *data)
+ 	ethqos_clks_config(data, false);
  }
  
- static int ethqos_mac_finish_serdes(struct net_device *ndev, void *priv,
-@@ -700,7 +704,7 @@ static int ethqos_mac_finish_serdes(struct net_device *ndev, void *priv,
- 
- 	if (interface == PHY_INTERFACE_MODE_SGMII ||
- 	    interface == PHY_INTERFACE_MODE_2500BASEX)
--		ret = phy_set_mode_ext(ethqos->serdes_phy, PHY_MODE_ETHERNET,
-+		ret = phy_set_mode_ext(ethqos->pm.serdes_phy, PHY_MODE_ETHERNET,
- 				       interface);
- 
- 	return ret;
-@@ -712,7 +716,7 @@ static int ethqos_clks_config(void *priv, bool enabled)
- 	int ret = 0;
- 
- 	if (enabled) {
--		ret = clk_prepare_enable(ethqos->link_clk);
-+		ret = clk_prepare_enable(ethqos->pm.link_clk);
- 		if (ret) {
- 			dev_err(&ethqos->pdev->dev, "link_clk enable failed\n");
- 			return ret;
-@@ -726,7 +730,7 @@ static int ethqos_clks_config(void *priv, bool enabled)
- 		qcom_ethqos_set_sgmii_loopback(ethqos, true);
- 		ethqos_set_func_clk_en(ethqos);
- 	} else {
--		clk_disable_unprepare(ethqos->link_clk);
-+		clk_disable_unprepare(ethqos->pm.link_clk);
++static void ethqos_disable_serdes(void *data)
++{
++	struct qcom_ethqos *ethqos = data;
++
++	qcom_ethqos_domain_off(ethqos, ETHQOS_PD_SERDES);
++}
++
++static int ethqos_pd_clks_config(void *priv, bool enabled)
++{
++	struct qcom_ethqos *ethqos = priv;
++	int ret = 0;
++
++	if (enabled) {
++		ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_MDIO);
++		if (ret < 0) {
++			dev_err(&ethqos->pdev->dev,
++				"Failed to enable the MDIO power domain\n");
++			return ret;
++		}
++
++		ethqos_set_func_clk_en(ethqos);
++	} else {
++		qcom_ethqos_domain_off(ethqos, ETHQOS_PD_MDIO);
++	}
++
++	return ret;
++}
++
++static int qcom_ethqos_pd_init(struct device *dev, void *priv)
++{
++	struct qcom_ethqos *ethqos = priv;
++	int ret;
++
++	/*
++	 * Enable functional clock to prevent DMA reset after timeout due
++	 * to no PHY clock being enabled after the hardware block has been
++	 * power cycled. The actual configuration will be adjusted once
++	 * ethqos_fix_mac_speed() is called.
++	 */
++	ethqos_set_func_clk_en(ethqos);
++
++	ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_CORE);
++	if (ret)
++		return ret;
++
++	ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_MDIO);
++	if (ret) {
++		qcom_ethqos_domain_off(ethqos, ETHQOS_PD_CORE);
++		return ret;
++	}
++
++	return 0;
++}
++
++static void qcom_ethqos_pd_exit(struct device *dev, void *data)
++{
++	struct qcom_ethqos *ethqos = data;
++
++	qcom_ethqos_domain_off(ethqos, ETHQOS_PD_MDIO);
++	qcom_ethqos_domain_off(ethqos, ETHQOS_PD_CORE);
++}
++
+ static void ethqos_ptp_clk_freq_config(struct stmmac_priv *priv)
+ {
+ 	struct plat_stmmacenet_data *plat_dat = priv->plat;
+@@ -781,31 +957,11 @@ static int qcom_ethqos_probe(struct platform_device *pdev)
+ 				     "dt configuration failed\n");
  	}
  
- 	return ret;
-@@ -819,9 +823,9 @@ static int qcom_ethqos_probe(struct platform_device *pdev)
+-	plat_dat->clks_config = ethqos_clks_config;
+-
+ 	ethqos = devm_kzalloc(dev, sizeof(*ethqos), GFP_KERNEL);
+ 	if (!ethqos)
+ 		return -ENOMEM;
+ 
+ 	ethqos->phy_mode = plat_dat->phy_interface;
+-	switch (ethqos->phy_mode) {
+-	case PHY_INTERFACE_MODE_RGMII:
+-	case PHY_INTERFACE_MODE_RGMII_ID:
+-	case PHY_INTERFACE_MODE_RGMII_RXID:
+-	case PHY_INTERFACE_MODE_RGMII_TXID:
+-		ethqos->configure_func = ethqos_configure_rgmii;
+-		break;
+-	case PHY_INTERFACE_MODE_2500BASEX:
+-	case PHY_INTERFACE_MODE_SGMII:
+-		ethqos->configure_func = ethqos_configure_sgmii;
+-		plat_dat->mac_finish = ethqos_mac_finish_serdes;
+-		break;
+-	default:
+-		dev_err(dev, "Unsupported phy mode %s\n",
+-			phy_modes(ethqos->phy_mode));
+-		return -EINVAL;
+-	}
+-
+ 	ethqos->pdev = pdev;
+ 	ethqos->rgmii_base = devm_platform_ioremap_resource_byname(pdev, "rgmii");
+ 	if (IS_ERR(ethqos->rgmii_base))
+@@ -823,35 +979,101 @@ static int qcom_ethqos_probe(struct platform_device *pdev)
  	ethqos->has_emac_ge_3 = drv_data->has_emac_ge_3;
  	ethqos->needs_sgmii_loopback = drv_data->needs_sgmii_loopback;
  
--	ethqos->link_clk = devm_clk_get(dev, clk_name);
--	if (IS_ERR(ethqos->link_clk))
--		return dev_err_probe(dev, PTR_ERR(ethqos->link_clk),
-+	ethqos->pm.link_clk = devm_clk_get(dev, clk_name);
-+	if (IS_ERR(ethqos->pm.link_clk))
-+		return dev_err_probe(dev, PTR_ERR(ethqos->pm.link_clk),
- 				     "Failed to get link_clk\n");
+-	ethqos->pm.link_clk = devm_clk_get(dev, clk_name);
+-	if (IS_ERR(ethqos->pm.link_clk))
+-		return dev_err_probe(dev, PTR_ERR(ethqos->pm.link_clk),
+-				     "Failed to get link_clk\n");
++	if (pm_data && pm_data->use_domains) {
++		switch (ethqos->phy_mode) {
++		case PHY_INTERFACE_MODE_RGMII:
++		case PHY_INTERFACE_MODE_RGMII_ID:
++		case PHY_INTERFACE_MODE_RGMII_RXID:
++		case PHY_INTERFACE_MODE_RGMII_TXID:
++			ethqos->configure_func = ethqos_configure_rgmii;
++			break;
++		case PHY_INTERFACE_MODE_2500BASEX:
++		case PHY_INTERFACE_MODE_SGMII:
++			ethqos->configure_func = ethqos_configure_sgmii_pd;
++			plat_dat->mac_finish = ethqos_mac_finish_serdes_pd;
++			break;
++		default:
++			dev_err(dev, "Unsupported phy mode %s\n",
++				phy_modes(ethqos->phy_mode));
++			return -EINVAL;
++		}
  
- 	ret = ethqos_clks_config(ethqos, true);
-@@ -832,9 +836,9 @@ static int qcom_ethqos_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
+-	ret = ethqos_clks_config(ethqos, true);
+-	if (ret)
+-		return ret;
++		ret = devm_pm_domain_attach_list(dev, &pm_data->pd,
++						 &ethqos->pd.pd_list);
++		if (ret < 0)
++			return dev_err_probe(dev, ret, "Failed to attach power domains\n");
++
++		plat_dat->clks_config = ethqos_pd_clks_config;
++		plat_dat->serdes_powerup = qcom_ethqos_pd_serdes_powerup;
++		plat_dat->serdes_powerdown = qcom_ethqos_pd_serdes_powerdown;
++		plat_dat->exit = qcom_ethqos_pd_exit;
++		plat_dat->init = qcom_ethqos_pd_init;
++		plat_dat->clk_ptp_rate = pm_data->clk_ptp_rate;
++
++		ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_SERDES);
++		if (ret)
++			return dev_err_probe(dev, ret,
++					     "Failed to enable the serdes power domain\n");
++
++		ret = devm_add_action_or_reset(dev, ethqos_disable_serdes, ethqos);
++		if (ret)
++			return ret;
++	} else {
++		switch (ethqos->phy_mode) {
++		case PHY_INTERFACE_MODE_RGMII:
++		case PHY_INTERFACE_MODE_RGMII_ID:
++		case PHY_INTERFACE_MODE_RGMII_RXID:
++		case PHY_INTERFACE_MODE_RGMII_TXID:
++			ethqos->configure_func = ethqos_configure_rgmii;
++			break;
++		case PHY_INTERFACE_MODE_2500BASEX:
++		case PHY_INTERFACE_MODE_SGMII:
++			ethqos->configure_func = ethqos_configure_sgmii;
++			plat_dat->mac_finish = ethqos_mac_finish_serdes;
++			break;
++		default:
++			dev_err(dev, "Unsupported phy mode %s\n",
++				phy_modes(ethqos->phy_mode));
++			return -EINVAL;
++		}
  
--	ethqos->serdes_phy = devm_phy_optional_get(dev, "serdes");
--	if (IS_ERR(ethqos->serdes_phy))
--		return dev_err_probe(dev, PTR_ERR(ethqos->serdes_phy),
-+	ethqos->pm.serdes_phy = devm_phy_optional_get(dev, "serdes");
-+	if (IS_ERR(ethqos->pm.serdes_phy))
-+		return dev_err_probe(dev, PTR_ERR(ethqos->pm.serdes_phy),
- 				     "Failed to get serdes phy\n");
+-	ret = devm_add_action_or_reset(dev, ethqos_clks_disable, ethqos);
+-	if (ret)
+-		return ret;
++		ethqos->pm.link_clk = devm_clk_get(dev, clk_name);
++		if (IS_ERR(ethqos->pm.link_clk))
++			return dev_err_probe(dev, PTR_ERR(ethqos->pm.link_clk),
++					     "Failed to get link_clk\n");
++
++		ret = ethqos_clks_config(ethqos, true);
++		if (ret)
++			return ret;
++
++		ret = devm_add_action_or_reset(dev, ethqos_clks_disable, ethqos);
++		if (ret)
++			return ret;
++
++		ethqos->pm.serdes_phy = devm_phy_optional_get(dev, "serdes");
++		if (IS_ERR(ethqos->pm.serdes_phy))
++			return dev_err_probe(dev, PTR_ERR(ethqos->pm.serdes_phy),
++					     "Failed to get serdes phy\n");
  
- 	ethqos_set_clk_tx_rate(ethqos, NULL, plat_dat->phy_interface,
-@@ -859,7 +863,7 @@ static int qcom_ethqos_probe(struct platform_device *pdev)
- 	if (drv_data->dma_addr_width)
- 		plat_dat->host_dma_width = drv_data->dma_addr_width;
+-	ethqos->pm.serdes_phy = devm_phy_optional_get(dev, "serdes");
+-	if (IS_ERR(ethqos->pm.serdes_phy))
+-		return dev_err_probe(dev, PTR_ERR(ethqos->pm.serdes_phy),
+-				     "Failed to get serdes phy\n");
++		ethqos_set_clk_tx_rate(ethqos, NULL, plat_dat->phy_interface,
++				       SPEED_1000);
  
--	if (ethqos->serdes_phy) {
-+	if (ethqos->pm.serdes_phy) {
- 		plat_dat->serdes_powerup = qcom_ethqos_serdes_powerup;
- 		plat_dat->serdes_powerdown  = qcom_ethqos_serdes_powerdown;
- 	}
+-	ethqos_set_clk_tx_rate(ethqos, NULL, plat_dat->phy_interface,
+-			       SPEED_1000);
++		plat_dat->clks_config = ethqos_clks_config;
++		plat_dat->set_clk_tx_rate = ethqos_set_clk_tx_rate;
++		plat_dat->ptp_clk_freq_config = ethqos_ptp_clk_freq_config;
++
++		if (ethqos->pm.serdes_phy) {
++			plat_dat->serdes_powerup = qcom_ethqos_serdes_powerup;
++			plat_dat->serdes_powerdown  = qcom_ethqos_serdes_powerdown;
++		}
++	}
+ 
+ 	qcom_ethqos_set_sgmii_loopback(ethqos, true);
+ 	ethqos_set_func_clk_en(ethqos);
+ 
+ 	plat_dat->bsp_priv = ethqos;
+-	plat_dat->set_clk_tx_rate = ethqos_set_clk_tx_rate;
+ 	plat_dat->fix_mac_speed = ethqos_fix_mac_speed;
+ 	plat_dat->dump_debug_regs = rgmii_dump;
+-	plat_dat->ptp_clk_freq_config = ethqos_ptp_clk_freq_config;
+ 	plat_dat->core_type = DWMAC_CORE_GMAC4;
+ 	if (ethqos->has_emac_ge_3)
+ 		plat_dat->dwmac4_addrs = &drv_data->dwmac4_addrs;
+@@ -877,6 +1099,7 @@ static int qcom_ethqos_probe(struct platform_device *pdev)
+ 
+ static const struct of_device_id qcom_ethqos_match[] = {
+ 	{ .compatible = "qcom,qcs404-ethqos", .data = &emac_qcs404_data},
++	{ .compatible = "qcom,sa8255p-ethqos", .data = &emac_sa8255p_data},
+ 	{ .compatible = "qcom,sa8775p-ethqos", .data = &emac_sa8775p_data},
+ 	{ .compatible = "qcom,sc8280xp-ethqos", .data = &emac_sc8280xp_data},
+ 	{ .compatible = "qcom,sm8150-ethqos", .data = &emac_sm8150_data},
 
 -- 
 2.47.3
