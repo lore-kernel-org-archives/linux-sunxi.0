@@ -1,86 +1,119 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066BB355F48;
-	Mon, 16 Mar 2026 08:42:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E3F3822BE
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Mar 2026 08:57:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773650549; cv=none; b=Vbt6lIMQVdOVncZUNeoff36Aggy0GlO5YiMzRL7P6oKBmy2UR6Jn5uld5anNK6ECdMkNsLypm11TyE9mO7goFppoMmz1hITPhgTrFC/b/dzNh7Pkypbl7lKuf4a1ul+SJ6L4BXM+RPJoSp8y/FW6Fut7LQimpHv1h/TBqg/tSjU=
+	t=1773651476; cv=none; b=XZJzfjlDZwGUCImxWs8sFoHmXED1Qp0lIAGS1X4F8uLvvBIoGklSzVAfP7jXSy49c/tyeKy/xstAWYLlkI9Dra9LSgEJQ/TRVdiodFub0qbQxttPZQ1/BY/QtUaSGL8uUtuPllr437j+Bc+ZjzwTWx3SeYtqhRAkOzlWgOWhUzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773650549; c=relaxed/simple;
-	bh=9LJ2+2SgK7w+NRyNaEGoZkSKWLsSd19na5lnCcCLdDA=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=C+0fgfDcMZ06UON8XQYJZZgLIqiErtsQ7RSgml/te1VYrgTtJHbB1JnDyt+dmo7RbeA67xDnuAlWzkDdieUZplpiJBg3IszTVmRNGHUvpYWZ829xx+TWd2y6qbDzKgskTyDav8EaVc1Ecl4lzfybnF3aQ3ubw0v249VO42xsTXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HueAbbgb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773651476; c=relaxed/simple;
+	bh=25fOIUrIoXmeuY0trituB/t7MXs2xjvvs4qtHYmm8Q8=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eoFISDIZfPc1ThvCi9Q84sBuacxSibZei2XK41WLVbsXsH+I4qUGXIxFfE54ljHPoNgeJEk4w4SpMnGR1w9zaEWePCvzruWhVUGWfnnqkil4R0Urqk/TW4Smwl1PteVs2sabTBkbiHM0eH8ST/SfjfUItkZYyKn4IFvt5EeoBxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CZRZ5aK9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HueAbbgb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB1B3C19421;
-	Mon, 16 Mar 2026 08:42:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CZRZ5aK9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B412C19425
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Mar 2026 08:57:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773650548;
-	bh=9LJ2+2SgK7w+NRyNaEGoZkSKWLsSd19na5lnCcCLdDA=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=HueAbbgbhxKEaBW7w0dzIcNXgtAE9iyH0WnDtPEOzjPRgM71uZliWj8r0Mz7sQCrS
-	 9SwYtorMTIo0o4AfIeBdDWSRXF5TlvCphV36rMWzFcoLZaVnQH4SPhLc3M5TlZqb0L
-	 vBkdB79aBc76zAUt2+11fObdKcjBUIqAF0qYW/h354DhJbLj4D4ByTZjqswWFutVFE
-	 Sbp+n19NLxxsFope55qDW3egNxCb48nf/BiUjaHT9Gj/TFwXInqNlsxLvnow3vHZrZ
-	 05ThNtgMvOZ0L8xV7rj4yEbEmu+rSSb2eDyuLBCyh0Ehst/lK8lGR+IyiVfrES+pTh
-	 ffgqQGNEIQF7w==
-Message-ID: <2d879c2a-aded-444c-a54f-cb0e8acd89b1@kernel.org>
-Date: Mon, 16 Mar 2026 09:42:21 +0100
+	s=k20201202; t=1773651476;
+	bh=25fOIUrIoXmeuY0trituB/t7MXs2xjvvs4qtHYmm8Q8=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=CZRZ5aK9O8Euws0I71JOtlw9V5QdUQ/KSKx2woDuPfSUn0hrYRZCgs2KifbOAHUKD
+	 ZOB4MStNStwseL0wzJMm6JeC1i2/09lyvqpgOM4vlUhZL8VMym4FlDLzcxr6EkHbmk
+	 mNZw20j768Yb+NaNkpfaZWHLp4UjAL5aaesSCiOkO7jJZwfi/Oq82mJ/ww2Ze+pBqX
+	 NApiKf+JjPCSDxxLtASL2zua6AAc9mMBcHcHzGjy6l6KE5jyD23/igVz5AmvGtTaMd
+	 T3ceFnlvdxi4dvIjnLiSUMg2TDcepGoDC/hIvMnt0JmHlQkHBtHMpBQ6TTSQSTzgVL
+	 5k55L/OBzBtwA==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5a126c8aab9so5733030e87.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 16 Mar 2026 01:57:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW5DDkfzInOEdSnBryUvqNlDBV5SdAQm1GNj8UplladCu/MCqCAGxCS4t0lguFBRjYWNd31zjRWz8p2Bg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwriFRfyq9KKZntUz2rQjloHM93nBWm3FH0A3wLjuoQZ4rbxJv2
+	HVkwXY5VUWKA98BvP53FinS6F7rr7/cg51gqo7EYBvTtFDETscgAQU7BFuBNc9f+kqRIPu+hFj6
+	u4h3pqam3FSqN7cdKsA84Tt3ayIefOCPrrHzt7GSTXg==
+X-Received: by 2002:a05:6512:3b8d:b0:5a1:ea0:afa8 with SMTP id
+ 2adb3069b0e04-5a162b193a7mr4253516e87.40.1773651474988; Mon, 16 Mar 2026
+ 01:57:54 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 16 Mar 2026 04:57:53 -0400
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 16 Mar 2026 04:57:53 -0400
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260315014205.471d6834@ryzen.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v2 01/13] media: saa7134: rename i2c_dbg() to
- saa7134_i2c_dbg()
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
- Andi Shyti <andi.shyti@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Khalil Blaiech <kblaiech@nvidia.com>,
- Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-i2c@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
- linux-actions@lists.infradead.org, Bartosz Golaszewski <brgl@kernel.org>,
- linux-media@vger.kernel.org
-References: <20260223-i2c-printk-helpers-v2-0-13b2a97762af@oss.qualcomm.com>
- <20260223-i2c-printk-helpers-v2-1-13b2a97762af@oss.qualcomm.com>
- <76fd11b2-7789-47c1-a832-12907155ead1@kernel.org> <abfBkg8YpDKIlOVu@shikoro>
-Content-Language: en-US, nl
-In-Reply-To: <abfBkg8YpDKIlOVu@shikoro>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260313000652.11470-1-andre.przywara@arm.com>
+ <a4cfb10e4701da0649ef648136496a962be5870d.camel@icenowy.me> <20260315014205.471d6834@ryzen.lan>
+Date: Mon, 16 Mar 2026 04:57:53 -0400
+X-Gmail-Original-Message-ID: <CAMRc=MeorQJvA8TBosjnDU+x-FD6GhkbXwXOjCD0nmCs16ERfQ@mail.gmail.com>
+X-Gm-Features: AaiRm51skQCXiAFRV40QqU-S5mBuX2dP16oar2NgBwKuTW_Y3PVl-jEHJ0Tjq4I
+Message-ID: <CAMRc=MeorQJvA8TBosjnDU+x-FD6GhkbXwXOjCD0nmCs16ERfQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] pinctrl: sunxi: convert to GPIO_GENERIC
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, linux-gpio@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Icenowy Zheng <uwu@icenowy.me>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 16/03/2026 09:38, Wolfram Sang wrote:
-> Hi Hans,
-> 
->> Do you want to merge this through the i2c subsystem? Or do you want me to
->> merge this patch through the media subsystem?
-> 
-> The rest of this series has been dropped in favor of a different
-> approach. I still think this single patch here is useful, so if you
-> could pick it up, that would make a potential future change easier.
+On Sun, 15 Mar 2026 01:42:05 +0100, Andre Przywara
+<andre.przywara@arm.com> said:
+> On Sat, 14 Mar 2026 13:14:25 +0800
+> Icenowy Zheng <uwu@icenowy.me> wrote:
+>
+>> =E5=9C=A8 2026-03-13=E4=BA=94=E7=9A=84 01:06 +0100=EF=BC=8CAndre Przywar=
+a=E5=86=99=E9=81=93=EF=BC=9A
+>> > Allwinner SoCs combine pinmuxing and GPIO control in one device/MMIO
+>> > register frame. So far we were instantiating one GPIO chip per
+>> > pinctrl
+>> > device, which covers multiple banks of up to 32 GPIO pins per bank.
+>> > The
+>> > GPIO numbers were set to match the absolute pin numbers, even across
+>> > the
+>> > typically two instances of the pinctrl device.
+>> >
+>> > Convert the GPIO part of the sunxi pinctrl over to use the
+>> > gpio_generic
+>> > framework. This alone allows to remove some sunxi specific code,
+>> > which
+>> > is replaced with the existing generic code. This will become even
+>> > more
+>> > useful with the upcoming A733 support, which adds set and clear
+>> > registers for the output.
+>> > As a side effect this also changes the GPIO device and number
+>> > allocation: Each bank is now represented by its own gpio_chip, with
+>> > only
+>> > as many pins as there are actually implemented. The numbering is left
+>> > up
+>>
+>> Ah, is this a userspace API break?
+>
+> Was that ever a guaranteed user space API? Or just something
+> that everyone relied on because it was always the same (until it
+> wasn't)? Similar to /dev/mmcblk0 being the SD card?
+> And ignoring the ill-fated old-style sysfs interface for now, how does
+> this work with libgpiod? Would it still use the absolute pin numbers?
+>
+> I mean looking at that warning about the forced GPIO numbering we
+> get, using base =3D -1 seems to be the recommended way?
+>
 
-OK! The patch makes sense, so I'll pick it up.
+My view is this: for libgpiod, there are no absolute GPIO numbers and the
+ordering of GPIO chip character devices is not guaranteed.
 
-Regards,
+For sysfs: userspace may rightfully expect the global numbering to stay the
+same. I don't like it but this is the kernel policy.
 
-	Hans
+Here however, there's another thing: the fact that a single GPIO chips is n=
+ow
+split into several. I don't mind it but if someone complains, it would have
+to be reverted.
 
-> 
-> Thanks and happy hacking,
-> 
->    Wolfram
-> 
-
+Bartosz
