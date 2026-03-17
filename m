@@ -1,139 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A903E3DB1
-	for <linux-sunxi@lists.linux.dev>; Tue, 17 Mar 2026 14:13:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3276D3E315B
+	for <linux-sunxi@lists.linux.dev>; Tue, 17 Mar 2026 14:24:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773756787; cv=none; b=lqWqSwoSs1SCwsIBC4b+6zez/05cdIfwaQgC9+gomaFnnuIa5ZVMxRSohGujMCr1/atwsP/1J6lWZgcJefF09QNapwqLa42pGYqo4jaSCovVMvJSV2fgdjGhtghnJz1xQpY9Mcoy43nwjQUKetfDY2gBjQUIJ6qyw/4KhzVxRhE=
+	t=1773757493; cv=none; b=Ff1TRWGX9t8ccUtMKggE4AExGVx0equeSmjILC1aJCqndpJx/Es75KNnFFD1ozC7YU2OeYwbE/ZPLgbims1/0ocBFlGRFkZOS0I5m6IKs0JoWPFkp5yisuknI+u2niqem/Hhizo9l4x52oxOKJa9rNkm41vB/wjN0tcIvptVzKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773756787; c=relaxed/simple;
-	bh=9QDalKJYBUEDUJPFs8n5F17T6oCLIOfRdQADKKa+dtg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qE8hUtlTn09ckTBbdjSEXFYV/AHbOXXKvpPVQQ24uryxHzQIZKFfS6zisP6roECbdk1Dn2OdUlRLOlzRvbDcIiDrHOTcuNufxX0Uj40YavQC98q5fjkK5uNHp3lbwxV7E8i6WKBSR8nN6SMf9EbE9Ih6xvryy50gyqCQWkQLYQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tZAEscpa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773757493; c=relaxed/simple;
+	bh=eamVMEdwbpi5RVbts4PBYUeRiWc/WbG6XzEGJRHBwFw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a40t8jHvYvJkCk2FL7iFvq/m8zQtqVPYqOrv/SmNz6iYGgVrfUQYYze3u6JHe7EIf8VzeYhhRIDgZpJbdBTA/cezT8E0HiSLSNgdDHb2ZGrNwdgo3qGvJ3rJfOpb8q4PThi0QZ53W8x014S5GRGZTbFtTj8BGuzqlftwXPnZ7bQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=0Tbm+tOw; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tZAEscpa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C38BC4CEF7
-	for <linux-sunxi@lists.linux.dev>; Tue, 17 Mar 2026 14:13:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773756787;
-	bh=9QDalKJYBUEDUJPFs8n5F17T6oCLIOfRdQADKKa+dtg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=tZAEscpa8SCC5cIZ2JquMfgXyJ2cYbjRRZovEZ4pp9iCwMtzoyZvoUvuYiYMbRTYC
-	 SnQwovSWExy1qzNu8gKN2Re3kiqbZF6sZmkIooWlWa9EIx1ERfsbgtRs5rZB0SAIxf
-	 3lPrGMQ4Ue2TuM4ia8nL9lBYQlDl9Z6+Gmi7Vne8vrfCzyTk9J2Ck3dsbBaTLAPSfD
-	 NPCO+IQ8fm5HTfq9yr/wXF7f1MJldHxMFhyKqH3oTfoTSoTC0Dh5v2G2YRcDRDQgL5
-	 ObXNTsitNLuKk+KvWrgZ9pPDroH39BoYVIyc5TZiwHYdHQ131NS6aY+w9jvXRnJOfo
-	 pYQYSw8TEnjrw==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-38a3486419cso38233001fa.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 17 Mar 2026 07:13:07 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU0UfPGuOY9PYLMmtsmguwWaNbDaj6r9JVjPf9tYzJQ9VUjcBsZmi0kkee6gJMo4384aff2oRaw7enWGQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy54c5yndcqJTPHVhIgNETJxfKGGHyS3a2tiF323d5ULtd+tp4T
-	L74GVYkAyUSMMEjcNe9rrwW+CnkD2u9hsSlHv/46WMd0gq8uHZwSnD13qN6cuZO/UeJBMvs/W7s
-	iyUA+MFMDDHRMHoUBkD4s8mxiVEB067CbLCTkEicBSQ==
-X-Received: by 2002:a05:651c:2115:b0:37f:c5ca:a6d4 with SMTP id
- 38308e7fff4ca-38a89666433mr58706271fa.6.1773756785569; Tue, 17 Mar 2026
- 07:13:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="0Tbm+tOw"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 71223C5506F;
+	Tue, 17 Mar 2026 14:25:13 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 604C45FC9A;
+	Tue, 17 Mar 2026 14:24:49 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8AE7C104505F9;
+	Tue, 17 Mar 2026 15:24:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1773757488; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=DN78EL9T5Ru3RT9ZOEzKnpYV80b6m9rbH2jsKW98yuk=;
+	b=0Tbm+tOwnWZWD3hVCVLj6+aaoji2FfaYNAfB7ZBgC54xlBT6q26z5NiCypgNpgfJUBT6Je
+	2i4WFnjGXAQ6zgGH6GP1fytWGmgMMITuUfG7trg7lwcSQw++OI9wfM7w0k2gROe9LJcrjW
+	mn+eH6USQyS4dy7izgnTKSLNB+B/IMGqOEIVSqgANtdrEUyhOPjt+HZ3/swbmGSK7LCsdX
+	3tCrLydh46Hae9jqy+t0SCrrLAb8bhaOxfS4UmTyyCQu09+ghtc7UGVRTdmZoX65uXR3OK
+	qg4N1w278igbsyzx9C3vNhhSdCbcZTDc4reC7B/NRmtBFPTnrpFTBFjqka0/jw==
+From: Richard Genoud <richard.genoud@bootlin.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Wentao Liang <vulab@iscas.ac.cn>,
+	Maxime Ripard <mripard@kernel.org>,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-mtd@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Richard Genoud <richard.genoud@bootlin.com>
+Subject: [PATCH v3 0/9] mtd: rawnand: sunxi: Fixes user data length for H6
+Date: Tue, 17 Mar 2026 15:24:28 +0100
+Message-ID: <20260317142437.580204-1-richard.genoud@bootlin.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260316-qcom-sa8255p-emac-v9-0-c58934e76ff2@oss.qualcomm.com> <64d282fd94be1546df75d7df5b47eacc0479797a.camel@redhat.com>
-In-Reply-To: <64d282fd94be1546df75d7df5b47eacc0479797a.camel@redhat.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Tue, 17 Mar 2026 15:12:53 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MfNcK3MLndik1jy-yhHAph5=amnTGgn-MpXXG0Uv1ifpQ@mail.gmail.com>
-X-Gm-Features: AaiRm52mh793CgOH9S8BNXU-tBYi1I-pfEq9XQjt50faEkjR5xH42aEvJgG19dM
-Message-ID: <CAMRc=MfNcK3MLndik1jy-yhHAph5=amnTGgn-MpXXG0Uv1ifpQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v9 0/6] net: stmmac: qcom-ethqos: add support for
- SCMI power domains
-To: Radu Rendec <rrendec@redhat.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Vinod Koul <vkoul@kernel.org>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Fabio Estevam <festevam@gmail.com>, Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com, 
-	Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>, Romain Gantois <romain.gantois@bootlin.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Maxime Ripard <mripard@kernel.org>, Christophe Roullier <christophe.roullier@foss.st.com>, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, Drew Fustini <dfustini@tenstorrent.com>, 
-	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org, 
-	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	sophgo@lists.linux.dev, linux-riscv@lists.infradead.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, Mar 16, 2026 at 7:31=E2=80=AFPM Radu Rendec <rrendec@redhat.com> wr=
-ote:
->
-> On Mon, 2026-03-16 at 13:05 +0100, Bartosz Golaszewski wrote:
-> > Add support for the firmware-managed variant of the DesignWare MAC on
-> > the sa8255p platform. This series contains new DT bindings and driver
-> > changes required to support the MAC in the STMMAC driver.
-> >
-> > It also reorganizes the ethqos code quite a bit to make the introductio=
-n
-> > of power domains into the driver a bit easier on the eye.
-> >
-> > The DTS changes will go in separately.
->
-> I'm seeing some weird behavior with this version. The probe part looks
-> good (but see below), but when I try to bring an interface up, it fails
-> with ETIMEDOUT. The relevant part of the stack trace leading to the
-> error is this:
->
-> dwmac4_dma_reset+0x208/0x220 [stmmac]
-> stmmac_reset+0x2c/0x68 [stmmac]
-> stmmac_init_dma_engine+0x108/0x400 [stmmac]
-> stmmac_hw_setup+0x5c/0x538 [stmmac]
-> __stmmac_open+0xc8/0x2a0 [stmmac]
-> stmmac_open+0xcc/0x238 [stmmac]
-> __dev_open+0x138/0x2a8
->
-> Now dwmac4_dma_reset() is very simple. It sets the soft reset bit in
-> the DMA_BUS_MODE register, then waits for the hardware to clear it, and
-> that never happens.
->
-> Now, getting back to the probe part, there is one extra message
-> (compared to my previous successful test on v7), which I see at the
-> very end of the probing:
->
->   qcom-ethqos 23040000.ethernet: clk_csr value out of range (0xffffff00
->   exceeds mask 0x00000f00), truncating
->
-> This is a sa8775p ride board, so there are two stmmac devices. I only
-> see that message for the 2nd one, which is also the one I'm trying to
-> enable, and which fails.
->
-> I realize this may or may not be related to your changes. But there is
-> no way to test on a SCMI-pd board without them. I'm not sure how
-> relevant it would be to test on the non-SCMI variant. I'm assuming the
-> DMA part should work the same way (regardless of SCMI-pd), so if I can
-> reproduce it there, and since I know it works on mainline Linux (that's
-> where I tested v7), I could bisect and see which commit in net-next
-> breaks it. If you don't have any better idea, let me know and I can
-> try. Meanwhile, I'll keep poking at v9.
->
+This series introduces the correct usage of user data length for
+H6/H616.
+If the older SoCs must use a fixed value of 4 user data bytes for each
+ECC step, the H6 can have a different value for each step.
 
-Does current net-next on its own still work? Or is the second
-interface broken even without this series?
+In the first round, the behavior was kept as the one used by A10.
+But we have multiple choices:
+- do like A10 like before (and not use all OOB)
+- do like the vendor kernel (different from A10, but not using all OOB)
+- use the whole OOB for user data bytes
 
-Bart
+In this second round, the third approach is implemented.
+
+The first patches are fixes/code cleaning and the last one enables using
+a variable user data length for H6/H616
+
+Changes from v2:
+- fix typos in commit messages
+- add a patch fixing typos in code comments
+- add a patch to remove some dead code in sunxi_nand_ooblayout_free()
+- add a patch to change an error prone variable name
+- maximize user data length instead of relying on vendor layout
+
+Changes from v1:
+- gather Reviewed-by/Acked-by
+- rework patch 1 subject (more a code clarification than a fix)
+- fix typo in patch 2
+- remove patch 4 Fixes since it's not really a fix
+
+Richard Genoud (9):
+  mtd: rawnand: sunxi: sunxi_nand_ooblayout_free code clarification
+  mtd: rawnand: sunxi: fix sunxi_nfc_hw_ecc_read_extra_oob
+  mtd: rawnand: sunxi: do not count BBM bytes twice
+  mtd: rawnand: sunxi: replace hard coded value by a define - take2
+  mtd: rawnand: sunxi: make the code more self-explanatory
+  mtd: rawnand: sunxi: remove dead code
+  mtd: rawnand: sunxi: change error prone variable name
+  mtd: rawnand: sunxi: fix typos in comments
+  mtd: rawnand: sunxi: introduce maximize variable user data length
+
+ drivers/mtd/nand/raw/sunxi_nand.c | 381 +++++++++++++++++++++++-------
+ 1 file changed, 294 insertions(+), 87 deletions(-)
+
+
+base-commit: 11439c4635edd669ae435eec308f4ab8a0804808
