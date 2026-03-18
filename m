@@ -1,94 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C9363CB;
-	Wed, 18 Mar 2026 00:08:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7707536A036
+	for <linux-sunxi@lists.linux.dev>; Wed, 18 Mar 2026 07:15:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773792521; cv=none; b=HdTOEp2H3fPmzcEIIhRSzi5GrV8ndCqv/KRblJdXeZpVFgSODLM02l+BhmBArXAe1LvltLuCmgiUWOG5cRYCRAhkQBVINfKDzfkuA0LzeNhzd3ErYXo+7UrTovUMnI4q9zpUest22j0gsShL6ubUtP7Cocuy3XRjQpZpozD1sy4=
+	t=1773818155; cv=none; b=tbOckr4aVEVP+DTT7y9PBeGdy6rz09mHqrxCHmJhzbFvFsBUAr8Qx11H+56ybpIzWhCjOJNtWrg4oZV7lSlNtFWm1ilr3N7apPrKtOH2LfFToeYElTbcZmE6hVOrHZo+dT5wuZUFCCMXfasQoQQg3X/28u4hMKaTA9z/U/62OpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773792521; c=relaxed/simple;
-	bh=D1D/7ldl9hLSp78iQ6WgbBNELMb7wmGvz53rwt7WaEU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KxJjq9q3HmSv2U0ltiVb7ElUaXyuXltlHGEiFbVCrwjRXsbGgmInLhgSC9DJ5Tle3gvf6Vs8tIzlQzs+EjU3fulslYS74gYPlJkf1helRXc9hxgXtx8b9pDQV/nXbgHLlsHlG0I+Q2471OUYB98dOS7ZqtpoLFuR4TIMHBGmebI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N4TtEpuj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773818155; c=relaxed/simple;
+	bh=5pvdvLvDF6nBad9lMPLtr5giq72Pgbs1flIwwqIgVTc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KiLuVD7lyj65gUcTUnnQI+XQtlgFqDlIF2pD2VOM1avn4zNwATAvIoCSaznan9R18p4AupE/5np42WXpd9v0kBEaKQ+w7VPV817bLGnUQWmRcVNsH9dL6vAo5VDQPvFSm4MbOMFZx82W8f7NmDv+4p2QsWMNdaKxwG2KtjX78mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=MVz6+6Fr; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N4TtEpuj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F9F3C19425;
-	Wed, 18 Mar 2026 00:08:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773792521;
-	bh=D1D/7ldl9hLSp78iQ6WgbBNELMb7wmGvz53rwt7WaEU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N4TtEpuj2ofpYYk614ICJN/q/4cwIC81dgWQ31X3yLNCti+3QoqhZM0r8zR5rIf9M
-	 t7lZCqMWE5kEnZNPdemPxbCW8s7TWlN++s2eLVs4j19SHDykH3XmCoQK8dICIhrs12
-	 4Hno4caRMYbSYYGI34r65e3k7DCErH/eUDaQxo1OZ/cLhM0LWBt/R6Ds9ZdQPZZKZt
-	 H/9YX1l79o6IxDlL4SG4B3WHft/1wgmCeCyqZUCv+u110APJZ76fDP+YvD8DuYm7xC
-	 4h9FFiEAcgzGl3j6zj76uHKrfPMWUIZudEi0e5bWkdd4FTwZ9Td5lIEgbwv8KJkEfn
-	 WJK12HSUQwc4g==
-Date: Wed, 18 Mar 2026 08:08:39 +0800
-From: Yixun Lan <dlan@kernel.org>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	spacemit@lists.linux.dev, UNGLinuxDriver@microchip.com
-Subject: Re: [PATCH v4 phy-next 06/24] phy: spacemit: include missing
- <linux/phy/phy.h>
-Message-ID: <20260318000839-GKB453922@kernel.org>
-References: <20260317230500.2056077-1-vladimir.oltean@nxp.com>
- <20260317230500.2056077-7-vladimir.oltean@nxp.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="MVz6+6Fr"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 211FA1A2E95;
+	Wed, 18 Mar 2026 07:15:51 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id E9D3E6004F;
+	Wed, 18 Mar 2026 07:15:50 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CBCEF104506E6;
+	Wed, 18 Mar 2026 08:15:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1773818134; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=f/wnit4uOPVq9r5YYUpYnHPITSDBvtEYXdALfE4LR18=;
+	b=MVz6+6FroWlHDW6mHXGBgHiCJxCjhwZKsOAGUkwiONmck9b4YySN1cTUmfcih1U2tnoXMu
+	OfOKaONHfmMdsmNqeYxN9hXpuZ4ZWGFdSNTzBZfORX8abPOwIoNCN8P3Klxz93J8LDBtpY
+	aZ8WeKwHGUL/pzZh2UVvDjsJ1pAfbPgSXTnAQHMsQ3faY/PKQdBJrJWHiQ5X/OQU5oI9Ek
+	omix2N/SK9A5WrXMoaK/cZXLXrwoqFxTLLHH8mRQ+K0l5lCfolJCTtbqQnSSHeTh3TM6GT
+	hZI0PbR/WSGzlfmH8mXtT5SwuiAuZuxRYhWhV6HOLWiXYTKSnINke3xRo475MQ==
+Message-ID: <9c9d7aea-0227-491b-92d4-5cc4d142e1de@bootlin.com>
+Date: Wed, 18 Mar 2026 08:15:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260317230500.2056077-7-vladimir.oltean@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/9] mtd: rawnand: sunxi: sunxi_nand_ooblayout_free
+ code clarification
+To: Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: Wentao Liang <vulab@iscas.ac.cn>, Maxime Ripard <mripard@kernel.org>,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20260317142437.580204-1-richard.genoud@bootlin.com>
+ <20260317142437.580204-2-richard.genoud@bootlin.com>
+From: Richard GENOUD <richard.genoud@bootlin.com>
+Content-Language: en-US, fr
+Organization: Bootlin
+In-Reply-To: <20260317142437.580204-2-richard.genoud@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Vladimir, 
-
-On 01:04 Wed 18 Mar     , Vladimir Oltean wrote:
-> This driver relies on a transitive inclusion of the PHY API header
-> through the USB headers.
+Le 17/03/2026 à 15:24, Richard Genoud a écrit :
+> The available length is really USER_DATA_LEN - 2 instead of just 2 (the
+> user data length minus the BBM length)
+> USER_DATA_LEN being 4, that doesn't change anything now, but if
+> USER_DATA_LEN changes, it will.
 > 
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-Reviewed-by: Yixun Lan <dlan@kernel.org>
+> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+
+Sorry, I forgot to pick-up the review from Chen-Yu in v2:
+
+Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
 
 > ---
-> Cc: Yixun Lan <dlan@kernel.org>
+>   drivers/mtd/nand/raw/sunxi_nand.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> v1->v4: none
-> ---
->  drivers/phy/spacemit/phy-k1-usb2.c | 1 +
->  1 file changed, 1 insertion(+)
+> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
+> index e66adfcca7cd..915f1240546f 100644
+> --- a/drivers/mtd/nand/raw/sunxi_nand.c
+> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
+> @@ -1755,12 +1755,12 @@ static int sunxi_nand_ooblayout_free(struct mtd_info *mtd, int section,
+>   
+>   	/*
+>   	 * The first 2 bytes are used for BB markers, hence we
+> -	 * only have 2 bytes available in the first user data
+> +	 * only have USER_DATA_SZ - 2 bytes available in the first user data
+>   	 * section.
+>   	 */
+>   	if (!section && ecc->engine_type == NAND_ECC_ENGINE_TYPE_ON_HOST) {
+>   		oobregion->offset = 2;
+> -		oobregion->length = 2;
+> +		oobregion->length = USER_DATA_SZ - 2;
+>   
+>   		return 0;
+>   	}
 > 
-> diff --git a/drivers/phy/spacemit/phy-k1-usb2.c b/drivers/phy/spacemit/phy-k1-usb2.c
-> index 342061380012..14a02f554810 100644
-> --- a/drivers/phy/spacemit/phy-k1-usb2.c
-> +++ b/drivers/phy/spacemit/phy-k1-usb2.c
-> @@ -9,6 +9,7 @@
->  #include <linux/bitfield.h>
->  #include <linux/clk.h>
->  #include <linux/iopoll.h>
-> +#include <linux/phy/phy.h>
->  #include <linux/platform_device.h>
->  #include <linux/regmap.h>
->  #include <linux/usb/of.h>
-> -- 
-> 2.43.0
-> 
-
--- 
-Yixun Lan (dlan)
