@@ -1,94 +1,197 @@
-Received: from s106b.cyber-folks.pl (s106b.cyber-folks.pl [195.78.66.88])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794E43F165F;
-	Thu, 19 Mar 2026 18:13:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.78.66.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A8730B53F
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 Mar 2026 20:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773943993; cv=none; b=bv5MK2c3WC1+LnmgSBcp8VOA5WpD8cwbk55IFOX4rdJOBIXPeGT/ZKXTXCdGdjwrTsZwK7qs7TfYVAJT3LmBZuiZ8V8KWcJrpOLDMPJFMbKhz9X/WXEVxzcgE6cQnslyKhYBHgEg1XwdtfmS7uNd/50z8kH582dFCHZD7QtFees=
+	t=1773953660; cv=none; b=YVfE7EJlRB6y8VcvpZzLElbpk1GFZTHmQFpy+CCBlzVYXJw1owzUxZa0XTRynPOHpAgt0oitJ2F0E8DpegHQIJY2NauQCysrnPGDXxnXnteYC5H3KlCO7gztOpxUNZx86OVi/Y+X/Dus4pRlox8TXDP6SlLU1ND/+T58oPHktDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773943993; c=relaxed/simple;
-	bh=p1gJtCRxZ9dXjqxx5qzyEuLAl88qY4JpM4JvZb+dSJk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fM8pjHF7rUlg+umo46CYdtp0NxElSo+ftbwm7HMvyyb8I/WsAq1Ka+mVuKA7r4wDDz/HSKSpONyFWnjEue8vXJsyB2Xa6orTa2OM3GNOobYHucxgJaRAP4bOzWODHLCqUqY97twwTV4Lol+F8sB5ZrLhOkMZ1FWhi+tFXAIaXxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl; spf=pass smtp.mailfrom=mmpsystems.pl; dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b=dBZo24Kq; arc=none smtp.client-ip=195.78.66.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mmpsystems.pl
+	s=arc-20240116; t=1773953660; c=relaxed/simple;
+	bh=OspvSUceR9D7FWErEaMeS4pbjFGXhTs0d3vC6fXFa4g=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=izH6avA0CkrLWazBnvz1zQAaXtyHg9yHP9WXJSA9Tyno8Y77E4FQdPm/rWgXNQ+JWBJxNgJstb1OFoc1+k3npo0kHRqqq+DbuAsV+ZvQ35fYVxCTMRDdxukAYqAgcQsk4mr9CPcE7mK7r67rGXjQKz0Ell1YvODcwtC0QyaI+y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=i5Da/vfQ; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b="dBZo24Kq"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=mmpsystems.pl; s=x; h=In-Reply-To:Content-Transfer-Encoding:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=M1WNWhIO3YiBXIdvt4jOGaT6noglgn3Bsi2PS9Y4M5g=; b=dBZo24Kqd4fO2wKVlBncyVhcwq
-	JCABMSHnPWjcMfSW5UU/9SsoyEkjOdxiFyTO00AB4TLM3O3SK1fqkBUWvH+aE2u8cS933Pr+SPseC
-	u5B4eMdnIN/VIpyHT/O97dqW4fxxCaAKD7j5+m2UQLjIyv+PIbB9dyuQGDoMcxBOocVlMchEa2pAa
-	TgPD5yowf/CHyL8/URPwKmLm7JGHw3z1FVIBFYEB+i8gaLCl/ckqX074lmXBumsPqZGGsXld6eHO+
-	QiYnIfSVMS6jG+mcRq80HuYKnzPzxayqE7kEMW/pfAbzafFPnQiQSUFDXyUXwxxGYVpgMvOSyC1mi
-	B9A2/gug==;
-Received: from user-5-173-16-20.play-internet.pl ([5.173.16.20] helo=localhost)
-	by s106.cyber-folks.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <michal.piekos@mmpsystems.pl>)
-	id 1w3Hrn-000000018rt-3cwE;
-	Thu, 19 Mar 2026 19:13:07 +0100
-Date: Thu, 19 Mar 2026 19:13:06 +0100
-From: Michal Piekos <michal.piekos@mmpsystems.pl>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Linus Walleij <linusw@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Andre Przywara <andre.przywara@arm.com>
-Subject: Re: [PATCH v5 1/2] pinctrl: sunxi: pass down flags to pinctrl
- routines
-Message-ID: <ofzcfuc2ueuxpt2bvknqui4jirvsfo4u53hkt7eqptdrl2uo6r@uv4ldiyzxljr>
-References: <20260319-rc2-boot-hang-v5-0-092834a882b1@mmpsystems.pl>
- <20260319-rc2-boot-hang-v5-1-092834a882b1@mmpsystems.pl>
- <CAGb2v64BTnUO-iR9G4b1PsX6TB4+Q_a0Tm+sj1dhFJ6a06iJkw@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="i5Da/vfQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1773953658;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OspvSUceR9D7FWErEaMeS4pbjFGXhTs0d3vC6fXFa4g=;
+	b=i5Da/vfQQUDm2uf3tcOptZL5DQrMwOU6IgvDH0Pauitz+9D5T+97ikCR2+7agzhUNtoyau
+	EkkaDSiPmBCq74PTATbRJ5RACQag8VIgjeCDthLR9G6HJm3A097LBpFAl7XGMa26eyggq5
+	H0KlMWvFZDeJgXUcqrfHAFpp7i/aLcs=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-651-lF3pLhkdNfSxD_8e1xzbUg-1; Thu, 19 Mar 2026 16:54:17 -0400
+X-MC-Unique: lF3pLhkdNfSxD_8e1xzbUg-1
+X-Mimecast-MFC-AGG-ID: lF3pLhkdNfSxD_8e1xzbUg_1773953656
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-5091327215dso133105331cf.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 19 Mar 2026 13:54:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773953656; x=1774558456;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OspvSUceR9D7FWErEaMeS4pbjFGXhTs0d3vC6fXFa4g=;
+        b=ild9K931IJy9yge5wbRUuOMCYE6m8qe/QN+ACg98QpAHEYCO9Ir3N3zDWj63W2UBX1
+         IHtS/dlJk4w4SI7IQoQxk+njAll6tqnem6No6FTUksGp9ykJejkqV1dtIzU9e0T6MoTl
+         Ldk7DRLb/PpALxM/mcShIEk7f/vKcLeYv3HQxpn7I2kwjI0cJY7AmccmRyLgeq5aB8n5
+         4MtKPOuuT9qfsHhxtH2Qw78clvs7lv+fDcmRAn80dMh69z3PKU14ylFiautmkDxMYATd
+         /zI7UeKchy3IjIifqw0HPCK9EzIEexuI5sCvf4DtRn3rdgos8WIihCRSX1yIzQ2neAZG
+         ZoOg==
+X-Forwarded-Encrypted: i=1; AJvYcCXxnxdqchoIPVKhDsEw7CozIdIHG3w1N7Jc3F6y21SSF3C7QGPQwQoJ5JX055MIVuzQf+fEowiKqCHDQg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxp+3BUfKj0dc09liUbqKY9/hcxDjLtZ86sXfNc+jGLnm9YMZlk
+	Cbeem5Pi+rXI8yX2Ctiy4kdqDZa3hpDec4uh1qjYF13WMVaErPlO/BVuDDfNs+cImZsKO0y9BHV
+	l2xB5qVl8lx14erNj5SixNJyQfw5fa/RozjzsYM6soWFEsx/HpGp2cq/PbBlRePAo
+X-Gm-Gg: ATEYQzx/wxgAL4MOPUIYZ2isVx9ukxrEcuePF1R5gvfnnErEEP7TSo/8hpn+VTesL5p
+	Y/CthJtaN5zrZxmt6//d5CPcVtPzBbMNAXT64EDNDcSb/1sMmgQVSBWVeJwcD1dwAnumuZdcS6V
+	g0HjDgtgWXt6RQCqD+bRI6it76tHj4vEAq2x6HcjqMCRibdb9y6XpgKAvlQND3QVuJIek0PonGk
+	olKquKs4KIJO6OMYA/oXGouiMvjLMZiIz0Vd0A8EntRjp7kHFKz6kdWyrxO560E4QjmCb5RdEI4
+	974kGsHIZPV4Q5KX3ux2FQ13v4PBV+I90/Ak4O42BtdhgMuBo9qM7DnJIo2+biGwPkESTk5uQ0P
+	tAVXX+q5KWsv/hnmRZYCecR2Z+kX/DcUuP/uqJGLt7A2G2T40OM73LhSqjo4M6xSO/HV49dCZ8y
+	rVHDb3DtvG/A1/Xw==
+X-Received: by 2002:ac8:7f54:0:b0:509:4e1e:1b9a with SMTP id d75a77b69052e-50b37586c7cmr10125581cf.54.1773953656302;
+        Thu, 19 Mar 2026 13:54:16 -0700 (PDT)
+X-Received: by 2002:ac8:7f54:0:b0:509:4e1e:1b9a with SMTP id d75a77b69052e-50b37586c7cmr10124851cf.54.1773953655634;
+        Thu, 19 Mar 2026 13:54:15 -0700 (PDT)
+Received: from thinkpad-p1.localdomain (pool-174-112-193-187.cpe.net.cable.rogers.com. [174.112.193.187])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50b36e350c3sm6518601cf.19.2026.03.19.13.54.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Mar 2026 13:54:15 -0700 (PDT)
+Message-ID: <cf908b20e5f6237c887f6d751be82670d7cbd7b7.camel@redhat.com>
+Subject: Re: [PATCH net-next v9 0/6] net: stmmac: qcom-ethqos: add support
+ for SCMI power domains
+From: Radu Rendec <rrendec@redhat.com>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Bjorn
+ Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski	 <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Andrew Lunn	 <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet	
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni	
+ <pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre
+ Torgue <alexandre.torgue@foss.st.com>, Vinod Koul <vkoul@kernel.org>,
+ Giuseppe Cavallaro	 <peppe.cavallaro@st.com>, Chen-Yu Tsai
+ <wens@kernel.org>, Jernej Skrabec	 <jernej.skrabec@gmail.com>, Neil
+ Armstrong <neil.armstrong@linaro.org>,  Kevin Hilman
+ <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, Shawn Guo
+ <shawnguo@kernel.org>,  Fabio Estevam <festevam@gmail.com>, Jan Petrous
+ <jan.petrous@oss.nxp.com>, s32@nxp.com, Mohd Ayaan Anwar	
+ <mohd.anwar@oss.qualcomm.com>, Romain Gantois <romain.gantois@bootlin.com>,
+  Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
+ <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,  Christophe
+ Roullier <christophe.roullier@foss.st.com>, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, 	linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, 	linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org,  Drew Fustini
+ <dfustini@tenstorrent.com>, linux-sunxi@lists.linux.dev,
+ linux-amlogic@lists.infradead.org, 	linux-mips@vger.kernel.org,
+ imx@lists.linux.dev, 	linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, 	sophgo@lists.linux.dev,
+ linux-riscv@lists.infradead.org, Bartosz Golaszewski	
+ <bartosz.golaszewski@linaro.org>, Martin Blumenstingl	
+ <martin.blumenstingl@googlemail.com>, Krzysztof Kozlowski	
+ <krzysztof.kozlowski@oss.qualcomm.com>, Lad Prabhakar	
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, Konrad Dybcio	
+ <konrad.dybcio@oss.qualcomm.com>
+Date: Thu, 19 Mar 2026 16:54:12 -0400
+In-Reply-To: <CAMRc=MfNcK3MLndik1jy-yhHAph5=amnTGgn-MpXXG0Uv1ifpQ@mail.gmail.com>
+References: <20260316-qcom-sa8255p-emac-v9-0-c58934e76ff2@oss.qualcomm.com>
+	 <64d282fd94be1546df75d7df5b47eacc0479797a.camel@redhat.com>
+	 <CAMRc=MfNcK3MLndik1jy-yhHAph5=amnTGgn-MpXXG0Uv1ifpQ@mail.gmail.com>
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGb2v64BTnUO-iR9G4b1PsX6TB4+Q_a0Tm+sj1dhFJ6a06iJkw@mail.gmail.com>
-X-Authenticated-Id: michal.piekos@mmpsystems.pl
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: kDi5UBgWLbtt2ThMsQZSsS_vZGjbyra65mOsI5nmr3A_1773953656
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 20, 2026 at 01:42:18AM +0800, Chen-Yu Tsai wrote:
-> On Fri, Mar 20, 2026 at 1:19 AM <michal.piekos@mmpsystems.pl> wrote:
-> >
-> > From: Andre Przywara <andre.przywara@arm.com>
-> >
-> > Recent changes in the Allwinner pinctrl/GPIO IP made us add some quirks,
-> > which the new SoCs (A523 family) need to use. We now have a comfortable
-> > "flags" field on the per-SoC setup side, to tag those quirks we need, but
-> > were translating those flag bits into specific fields for runtime use, in
-> > the init routine.
-> > Now the newest Allwinner GPIO IP adds even more quirks and exceptions,
-> > some of a boolean nature.
-> > To avoid inventing various new boolean flags for the runtime struct
-> > sunxi_pinctrl, let's just directly pass on the flags variable used by the
-> > setup code, so runtime can check for those various quirk bits directly.
-> >
-> > Rename the "variant" member to "flags", and directly copy the value from
-> > the setup code into there. Move the variant masking from the init
-> > routine to the functions which actually use the "variant" value.
-> >
-> > This mostly paves the way for the new A733 IP generation, which needs
-> > more quirks to be checked at runtime.
-> >
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
-> 
-> Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
-> 
-> Please carry tags forward if the patch is unchanged.
+On Tue, 2026-03-17 at 15:12 +0100, Bartosz Golaszewski wrote:
+> On Mon, Mar 16, 2026 at 7:31=E2=80=AFPM Radu Rendec <rrendec@redhat.com> =
+wrote:
+> >=20
+> > On Mon, 2026-03-16 at 13:05 +0100, Bartosz Golaszewski wrote:
+> > > Add support for the firmware-managed variant of the DesignWare MAC on
+> > > the sa8255p platform. This series contains new DT bindings and driver
+> > > changes required to support the MAC in the STMMAC driver.
+> > >=20
+> > > It also reorganizes the ethqos code quite a bit to make the introduct=
+ion
+> > > of power domains into the driver a bit easier on the eye.
+> > >=20
+> > > The DTS changes will go in separately.
+> >=20
+> > I'm seeing some weird behavior with this version. The probe part looks
+> > good (but see below), but when I try to bring an interface up, it fails
+> > with ETIMEDOUT. The relevant part of the stack trace leading to the
+> > error is this:
+> >=20
+> > dwmac4_dma_reset+0x208/0x220 [stmmac]
+> > stmmac_reset+0x2c/0x68 [stmmac]
+> > stmmac_init_dma_engine+0x108/0x400 [stmmac]
+> > stmmac_hw_setup+0x5c/0x538 [stmmac]
+> > __stmmac_open+0xc8/0x2a0 [stmmac]
+> > stmmac_open+0xcc/0x238 [stmmac]
+> > __dev_open+0x138/0x2a8
+> >=20
+> > Now dwmac4_dma_reset() is very simple. It sets the soft reset bit in
+> > the DMA_BUS_MODE register, then waits for the hardware to clear it, and
+> > that never happens.
+> >=20
+> > Now, getting back to the probe part, there is one extra message
+> > (compared to my previous successful test on v7), which I see at the
+> > very end of the probing:
+> >=20
+> > =C2=A0 qcom-ethqos 23040000.ethernet: clk_csr value out of range (0xfff=
+fff00
+> > =C2=A0 exceeds mask 0x00000f00), truncating
+> >=20
+> > This is a sa8775p ride board, so there are two stmmac devices. I only
+> > see that message for the 2nd one, which is also the one I'm trying to
+> > enable, and which fails.
+> >=20
+> > I realize this may or may not be related to your changes. But there is
+> > no way to test on a SCMI-pd board without them. I'm not sure how
+> > relevant it would be to test on the non-SCMI variant. I'm assuming the
+> > DMA part should work the same way (regardless of SCMI-pd), so if I can
+> > reproduce it there, and since I know it works on mainline Linux (that's
+> > where I tested v7), I could bisect and see which commit in net-next
+> > breaks it. If you don't have any better idea, let me know and I can
+> > try. Meanwhile, I'll keep poking at v9.
+> >=20
+>=20
+> Does current net-next on its own still work? Or is the second
+> interface broken even without this series?
 
-Will do. Sorry for ommision and thank you for quick review rounds.
+I don't think there is a way to test net-next on its own (without your
+series) on a board with SCMI-pd firmware. It would require the
+qcom-ethqos driver to have direct access to the clocks, but the clocks
+would not be there.
 
-Michal
+What I could test though is a board with the "other" firmware (without
+SCMI-pd). And on that board, I do *not* see the problem even with your
+series applied. In fact, I tested the exact same kernel build I had
+previously tested on the SCMI-pd board.
+
+I'm not sure what to make of that or what else I could try.
+
+FWIW, the "clk_csr value out of range" message I mentioned before is
+still there on the board where everything works, so it's probably a
+red herring.
+
+--=20
+Radu
+
