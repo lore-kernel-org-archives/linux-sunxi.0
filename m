@@ -1,85 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB9B3C062A
-	for <linux-sunxi@lists.linux.dev>; Thu, 19 Mar 2026 13:10:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A44029ACF6
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 Mar 2026 13:46:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773925832; cv=none; b=VY1Vy4gHhnpO/KL6ffd2xRofWvo6q1vfvmfOUYiEsZT4WYRTuqvs/gh9k7lqmlP1RrL+/rEToIZGDLiLtR2b0TYM5Vd4fCzzrddhv+9n4VegCf7sVO9j1zEWk41aDd715GkXIr9/avE3IL6WldRQHRcC1Sm2s+lLkSwfNbkM/Ok=
+	t=1773928018; cv=none; b=Lq5XKC2yTnvf+z7TF96859UfqRbA7wdROJ75rCRe7QRBtxuTSwWlIzvSDd88pEsytrE0u0S+cz5MmKrCFhNPooomDxLSf6nzk0xFfuk58+vFw0h3xNpCNP3Opckd7rVWgYi30unxOuZ8ALUlGhdzC5yBCaZSWBVzkVgQ/gUJpUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773925832; c=relaxed/simple;
-	bh=/z6FEu0IUK6nCL3Uiqn1iq1VRQstHdDNDk6ymaE5UrI=;
+	s=arc-20240116; t=1773928018; c=relaxed/simple;
+	bh=UxGTi/5Xx5PdGJt9NL35Mt/XtcJEWxm0Lx4wi1HnrhQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZD6zvjOL7P/WMC8lq2AsMq9XPabnbcr+Z6hsf0P3NexOoMCwm4uNPhPWLx+VyJx0noIBwEkNzl7eRS04VvU7MoT1X3shSnQ6sB07MdIEho7QxEV52l07sGbH1Rcg422rb9ifMvnHJmt0lZfNoaVP49hFcZc9fvUY+MzLG5TANXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bo01snnR; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=tJJkL0N8/zRzpZKtxAffclAGRfK/xPBLdVjYO55eMS7I7/5RwAFLV1ceGMHYatIMWTP7Lq8oWb/UinISPk/vjOJGKLgofsammJDwa4iFZ7nbhoLbM3TcJP7j9gBND38SuHvO6Gv5rfEQCzLWoJPMANotF1VrzkAQnqbgBTv0N34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RraZJbN8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bo01snnR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F06AFC2BCB3
-	for <linux-sunxi@lists.linux.dev>; Thu, 19 Mar 2026 13:10:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RraZJbN8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9B9EC2BCB1
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 Mar 2026 13:46:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773925832;
-	bh=/z6FEu0IUK6nCL3Uiqn1iq1VRQstHdDNDk6ymaE5UrI=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=Bo01snnRFCsVSU9jXLHYlBSQbxAuKL8IlZztOzE7GGenHwqVix5ssfwMi9T3optQG
-	 d+gdZbHjid/FAQoMdnnvLy7M2K/MKgAstWlXld4NzDhgAaD4vtKGHzQIdX788cS21V
-	 dFWydrgXzY/v9glSzQoEPDrKsVEti1U+5GfLE/NEDAwz+HH1o3l/SSY5ICwNs7lfQE
-	 SgYxMuBjZ2CuTOrkXPv4s5eyPP1f6e/bZWIElN+S6x7LjeGeeI3xFgd0/YAfwDebPv
-	 qUmCFKkrzQXaTuT5I2A/RKhCEe1nrU8iKbsxLH3L/Inc4Pn/eW0rhPQhZNZyKFwJJv
-	 5fv/h7nyjmQUQ==
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5a27e75e744so992338e87.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 19 Mar 2026 06:10:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCURVKKdH3UiKtpWFlqm3jy6ERquRqfJypXpidHQfHh1XSZl0W1zWVk3cqR/9WJgXSGS+PBA3jA1DH/+zw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy9G+BLnwn2IzymoCVKvO+RpDQeMvl7ytV9fqkeTV1djbMikTig
-	bY1ur+BS2OftH1ZRcyywL8yRYg+PK0jTFTFL3+2Oin6AxFUWUtHfBYJBzIphz89u25HgcZXNu3r
-	9PhE2l3RTbTowKtVx60mY1B80JkTfH/U=
-X-Received: by 2002:ac2:4303:0:b0:5a1:49a0:af35 with SMTP id
- 2adb3069b0e04-5a27958560emr2184109e87.10.1773925830317; Thu, 19 Mar 2026
- 06:10:30 -0700 (PDT)
+	s=k20201202; t=1773928017;
+	bh=UxGTi/5Xx5PdGJt9NL35Mt/XtcJEWxm0Lx4wi1HnrhQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=RraZJbN88Ks8DyjKajp0O1uqXjUvV/1IDNGLb5SwiZjsh57xT+v9LdvPXqjsBBTke
+	 WV7OzqWRBzHg1fsqtrR8VgugefS/JgUbuNA0UjhYi53rTxGjVS8SuYMrdkuHzZ8iE7
+	 X+U9fyOCQTyqFPTP49q13kJD5q4R+3Icp+EN/MuqlbFePiI/hyA/4QuZ6gI6Ts3nei
+	 2fqve9j9ehtupFKkbXrPR1kjMs6LV+u7Y4REpKWFEjJTlIz3mgzaUSijGh1DH4Asxe
+	 jcdKIh30YBkWcMMdGFY94apubaArpC+e/+9GTSipO9+d7XzDNCAbhnGHcLyShhgWM2
+	 QN4Xl//0s7T9A==
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-79800183233so11351837b3.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 19 Mar 2026 06:46:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVwv+9OcLMyDOFBHpJmzy+DZ2ohVsA9ZzW+SX/awPHUNgaQqVxUG5I3kxrNqjN/eim66Is4/BIP+9nvSQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzkGBER2VrKtaEeITj/8hkURDvJ/ybaJs0rboheBx3bx/8bbPLc
+	JBMO3qwYbnQFTKEnS2JgCkzUSNKrkV4WbOshmolNyvgGg7YVBb/vJSzF4djXySVrvnoYEezn4iF
+	BMXDPAyDJFXmPqRoegwUTgUm4ayqyB2k=
+X-Received: by 2002:a05:690c:c247:b0:794:87bf:76ef with SMTP id
+ 00721157ae682-79a81a7fa9fmr36687377b3.7.1773928017113; Thu, 19 Mar 2026
+ 06:46:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260319105947.6237-1-wsa+renesas@sang-engineering.com> <20260319105947.6237-15-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20260319105947.6237-15-wsa+renesas@sang-engineering.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Thu, 19 Mar 2026 21:10:16 +0800
-X-Gmail-Original-Message-ID: <CAGb2v668mhN7XnjbA5Zg4ExRXLVqn8d9kDjap4wVNEEL780p7g@mail.gmail.com>
-X-Gm-Features: AaiRm53ZA49QZnlP2rMulPZJ-bDSE_dydGwTankSFX-RnHDx5Riad08-AOxumlo
-Message-ID: <CAGb2v668mhN7XnjbA5Zg4ExRXLVqn8d9kDjap4wVNEEL780p7g@mail.gmail.com>
-Subject: Re: [PATCH v5 14/15] hwspinlock: refactor provider.h from public header
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Bjorn Andersson <andersson@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Wilken Gottwalt <wilken.gottwalt@posteo.net>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-remoteproc@vger.kernel.org, 
-	linux-omap@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20260314-rc2-boot-hang-v3-1-0b48221181a9@mmpsystems.pl>
+In-Reply-To: <20260314-rc2-boot-hang-v3-1-0b48221181a9@mmpsystems.pl>
+From: Linus Walleij <linusw@kernel.org>
+Date: Thu, 19 Mar 2026 14:46:46 +0100
+X-Gmail-Original-Message-ID: <CAD++jLnVNT=_rrykAx82RE8SeBsBBdN6gFMcDUYwYj0KOpF0Ug@mail.gmail.com>
+X-Gm-Features: AaiRm516XK6SGOveArWTQJh95O__heoY_pg3ef3DdbKvndSSpwMl-PSC2QgvGk8
+Message-ID: <CAD++jLnVNT=_rrykAx82RE8SeBsBBdN6gFMcDUYwYj0KOpF0Ug@mail.gmail.com>
+Subject: Re: [PATCH v3] pinctrl: sunxi: fix gpiochip_lock_as_irq() failure
+ when pinmux is unknown
+To: Michal Piekos <michal.piekos@mmpsystems.pl>
+Cc: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, linux-gpio@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 19, 2026 at 7:00=E2=80=AFPM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> Factor out the entries only needed for providers from the generic public
-> header. This allows for a clean separation between providers and
-> consumers. All providers are in the hwspinlock subsystem currently and
-> are trivially converted here as well.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->  MAINTAINERS                           |  1 +
->  drivers/hwspinlock/hwspinlock_core.c  |  1 +
->  drivers/hwspinlock/omap_hwspinlock.c  |  2 +-
->  drivers/hwspinlock/qcom_hwspinlock.c  |  2 +-
->  drivers/hwspinlock/sprd_hwspinlock.c  |  2 +-
->  drivers/hwspinlock/stm32_hwspinlock.c |  2 +-
+On Sat, Mar 14, 2026 at 9:10=E2=80=AFAM Michal Piekos
+<michal.piekos@mmpsystems.pl> wrote:
 
->  drivers/hwspinlock/sun6i_hwspinlock.c |  2 +-
+> Fixes kernel hang during boot due to inability to set up IRQ on AXP313a.
+>
+> The issue is caused by gpiochip_lock_as_irq() which is failing when gpio
+> is in unitialized state.
+>
+> Solution is to set pinmux to GPIO INPUT in
+> sunxi_pinctrl_irq_request_resources() if it wasn't initialized
+> earlier.
+>
+> Tested on Orange Pi Zero 3.
+>
+> Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
+> Suggested-by: Chen-Yu Tsai <wens@kernel.org>
 
-Acked-by: Chen-Yu Tsai <wens@kernel.org> # for sun6i
+Should this have a Fixes: tag and should it be applied as an urgent fix?
+
+Tag for stable?
+
+Also: is there consensus with Andre that this is the way to proceed?
+
+Yours,
+Linus Walleij
