@@ -1,64 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22CFD39659A
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 13:23:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E203B6BE4
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 15:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774272233; cv=none; b=X3XddfJgmKFk0/la4iyimdp1RQ90grcYSgsHsNsFBi5VXXppcsTt3HydMkJH/NW47PYJchA948+/8FToUkuNztCeUy+DuqfN9W8Nt1g3Dojaks/sAZ+gmdaDo1DuxPJXxCwEp/GWBc0aV7fe3yAjZX4cuuaFrlXLaoDIMBHPNdU=
+	t=1774280289; cv=none; b=h00iXeyWgeLBzoL5EfbkH3TLwzvq08QmjDbFu5MtE0GpEAM0Yp/VcQww/1NmxsQaHm/1D60wL9r4XCDdyMAYIE3GOucZQyNW9scl6n7TJ9IoylzWyiUDg84A6dsGDG8CO54p8VCV200NluRGKlvdEv9l7VsJKxeu3xeWZn5VIk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774272233; c=relaxed/simple;
-	bh=p4euLU3dzlJaKSg+W6fHDQOReg72+Z4efBvrwOXxb+0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TvMBmd0En4U4brFQmfRfqlqZK6PTcMATTkNlmPqP6osL5eXpuW4vjWbQxsGtdOpGUVIykqVhO0woIPP01GUsMSqAtJ8W2ZW9uIS9Yd8gj9pJdh4T7zykvo7CCAU0X85r1PCsvSzcfeCcl7EMd+mgmZSzZIZhgwXgse3E4jI0PpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e5HtEG+7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774280289; c=relaxed/simple;
+	bh=vToF1UbNvL4l1OkVwlOI7+XcnxHkjKZMzjHswh/EJ+k=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
+	 Content-Type:References; b=RHnZmJFPgBTfWVemTHJQEktZeQCdqLnsjYtOi7AW9R2hdH9+ZGqbD9zwID5SgOxojoSK77B8lKlNSgCuM7c1SbJxwvdOcD3th2uNDvU1Z5mmKkh1V/ZckqqN4kfDrdUAf58scLlQFeXRSEoogyOlZIihkpUybHK51LG8SH6zcWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=mgU9aFrC; arc=none smtp.client-ip=203.254.224.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e5HtEG+7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 070A0C2BCB4
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 13:23:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774272233;
-	bh=p4euLU3dzlJaKSg+W6fHDQOReg72+Z4efBvrwOXxb+0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=e5HtEG+7Z0hUDOWD3lrZNo7a5ayfeIp4SuizcRE4uO+9EmsW6BKXHcDeifvaxe2rG
-	 /ceh2tyMi5IQbD7GLa5h7LrgBy3Y8VacInQubtMZaeCLkxtliLIBn4nQGNwUOe/wBW
-	 QbjfMaLR5sJXIU8YSZUO3SCti6TsRFNn4FiLOVdWtKVlTErmN0xUNv/9tkq88PPhTf
-	 qssJrNQOt2HkVZyO8EvMkPR1qSjAZeNS8e6159kq2ha/5Iyvs43bh3AeN6D2/fXZU4
-	 JHf64I8vwPYntE4oEO7/Bi25jM18wKuNtomZjGX6ciHWT02qSMeWrXH8R2oY8QYTFb
-	 TJZQJ7uCmsVEQ==
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-79ab0e9c724so1796697b3.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 06:23:52 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWLnlxstOaO107CA7wuPVFKQwOEI39tFGOspKjheQcDv8k2n2mXJT7UkY9i/Z1/y8jjC9uVLri+knN9OQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyXYslWp52gOyxIEBEMvSGJXO8Hxzy5nQuylUZDq/i7t5mxKiRu
-	b8iJnim2AgBIq0c56Zq/LvNd9EnzddgV3oJQAASx/1KD0VToajOyruDm/gPTXP6ua2lxMhytJye
-	kj7hvd3EMThq/eO8+qP6yCIqtaqq3FWE=
-X-Received: by 2002:a05:690c:2605:b0:798:1219:c78d with SMTP id
- 00721157ae682-79a90c0a53emr125159107b3.50.1774272232374; Mon, 23 Mar 2026
- 06:23:52 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="mgU9aFrC"
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20260323153802epoutp014ff9c942b7cab8117e870d0136e2472d~fgoQ4EA4-0289802898epoutp019
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 15:38:02 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20260323153802epoutp014ff9c942b7cab8117e870d0136e2472d~fgoQ4EA4-0289802898epoutp019
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1774280282;
+	bh=MYU9K1BczlLtBMfJPDu28QIk9pzoA+hXl3yf17nC2HI=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+	b=mgU9aFrC+5Kx+21CCBQ48vtUtevP0XGV5aHjupTGFTw7s0wbx2FYZ7piHu2gEGNx9
+	 7FiJ9iRzTsn7N6OtZVcQFwqx9+/yRy1FbPgDJReQh76dJWCUi3xQdbS9llr9OgF8ia
+	 3KFTDuksHm5/ZDwJUU6SICm8wW+RY1yai4quNiMM=
+Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
+	20260323153802epcas5p1bb1e979594c5257c037cdf6411e7a177~fgoQZrLX82373723737epcas5p1t;
+	Mon, 23 Mar 2026 15:38:02 +0000 (GMT)
+Received: from epcpadp2new (unknown [182.195.40.142]) by
+	epsnrtp03.localdomain (Postfix) with ESMTP id 4ffckf0KMvz3hhT4; Mon, 23 Mar
+	2026 15:38:02 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20260323123542epcas5p349d0e7c45d02ccaa06c84dbdf1777126~feJElRtj12139221392epcas5p34;
+	Mon, 23 Mar 2026 12:35:42 +0000 (GMT)
+Received: from INBRO002756 (unknown [107.122.3.168]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20260323123538epsmtip2099c850de3b514ee4ac3f5a0092dd02a~feJAkDKG92361023610epsmtip2P;
+	Mon, 23 Mar 2026 12:35:38 +0000 (GMT)
+From: "Alim Akhtar" <alim.akhtar@samsung.com>
+To: "'Vladimir Oltean'" <vladimir.oltean@nxp.com>, "'Martin K. Petersen'"
+	<martin.petersen@oracle.com>
+Cc: <linux-phy@lists.infradead.org>, "'Vinod Koul'" <vkoul@kernel.org>,
+	"'Neil	Armstrong'" <neil.armstrong@linaro.org>,
+	<dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
+	<linux-can@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+	<linux-ide@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+	<linux-rockchip@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
+	<linux-scsi@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
+	<linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <spacemit@lists.linux.dev>,
+	<UNGLinuxDriver@microchip.com>, "'Bart Van Assche'" <bvanassche@acm.org>,
+	"'Peter Griffin'" <peter.griffin@linaro.org>, "'James E.J. Bottomley'"
+	<James.Bottomley@HansenPartnership.com>, "'Krzysztof	Kozlowski'"
+	<krzk@kernel.org>, "'Chanho Park'" <chanho61.park@samsung.com>
+In-Reply-To: <20260323115848.ghdu4sbk75tvggfb@skbuf>
+Subject: RE: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
+ struct phy guts
+Date: Mon, 23 Mar 2026 18:05:36 +0530
+Message-ID: <1891546521.01774280282025.JavaMail.epsvc@epcpadp2new>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260320-rc2-boot-hang-v6-0-74dca70dd60e@mmpsystems.pl>
-In-Reply-To: <20260320-rc2-boot-hang-v6-0-74dca70dd60e@mmpsystems.pl>
-From: Linus Walleij <linusw@kernel.org>
-Date: Mon, 23 Mar 2026 14:23:41 +0100
-X-Gmail-Original-Message-ID: <CAD++jL=ztBrtMxaN3JohArsPm5sYaJ8=54v8VrCHyFRPOBsROQ@mail.gmail.com>
-X-Gm-Features: AQROBzCnimvZvEKxbgJqnARSDh8ZkIJDbBTIcd5gmgSkLxqAgXbW8hAX9GtTaeY
-Message-ID: <CAD++jL=ztBrtMxaN3JohArsPm5sYaJ8=54v8VrCHyFRPOBsROQ@mail.gmail.com>
-Subject: Re: [PATCH v6 0/2] fix gpiochip_lock_as_irq() failure when pinmux is unknown
-To: michal.piekos@mmpsystems.pl
-Cc: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQJoz1sM+EbPjkyDopxrfJVWkMJWdwI9AyWpAaSC6pgB9ZOp/gJXIgBltGJxFXA=
+Content-Language: en-us
+X-CMS-MailID: 20260323123542epcas5p349d0e7c45d02ccaa06c84dbdf1777126
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+X-CPGSPASS: Y
+X-Hop-Count: 3
+X-CMS-RootMailID: 20260323115859epcas5p10177db12a2e8aee9578271ff1411137b
+References: <20260319223241.1351137-1-vladimir.oltean@nxp.com>
+	<20260319223241.1351137-10-vladimir.oltean@nxp.com>
+	<yq1a4w3l04g.fsf@ca-mkp.ca.oracle.com>
+	<CGME20260323115859epcas5p10177db12a2e8aee9578271ff1411137b@epcas5p1.samsung.com>
+	<20260323115848.ghdu4sbk75tvggfb@skbuf>
 
-Hi Michal,
+Hi Vladimir
 
-this v6 patchset applied for fixes!
+> -----Original Message-----
+> From: Vladimir Oltean <vladimir.oltean@nxp.com>
+> Sent: Monday, March 23, 2026 5:29 PM
+> To: Martin K. Petersen <martin.petersen@oracle.com>
+> Cc: linux-phy@lists.infradead.org; Vinod Koul <vkoul@kernel.org>; Neil
+> Armstrong <neil.armstrong@linaro.org>; dri-devel@lists.freedesktop.org;
+> freedreno@lists.freedesktop.org; linux-arm-kernel@lists.infradead.org;
+> linux-arm-msm@vger.kernel.org; linux-can@vger.kernel.org; linux-
+> gpio@vger.kernel.org; linux-ide@vger.kernel.org; linux-
+> kernel@vger.kernel.org; linux-media@vger.kernel.org; linux-
+> pci@vger.kernel.org; linux-renesas-soc@vger.kernel.org; linux-
+> riscv@lists.infradead.org; linux-rockchip@lists.infradead.org;
+linux-samsung-
+> soc@vger.kernel.org; linux-scsi@vger.kernel.org;
+linux-sunxi@lists.linux.dev;
+> linux-tegra@vger.kernel.org; linux-usb@vger.kernel.org;
+> netdev@vger.kernel.org; spacemit@lists.linux.dev;
+> UNGLinuxDriver@microchip.com; Bart Van Assche <bvanassche@acm.org>;
+> Alim Akhtar <alim.akhtar@samsung.com>; Peter Griffin
+> <peter.griffin@linaro.org>; James E.J. Bottomley
+> <James.Bottomley@HansenPartnership.com>; Krzysztof Kozlowski
+> <krzk@kernel.org>; Chanho Park <chanho61.park@samsung.com>
+> Subject: Re: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
+> struct phy guts
+> 
+> On Thu, Mar 19, 2026 at 10:15:17PM -0400, Martin K. Petersen wrote:
+> > Vladimir,
+> >
+> > > The Exynos host controller driver is clearly a PHY consumer (gets
+> > > the
+> > > ufs->phy using devm_phy_get()), but pokes into the guts of struct
+> > > ufs->phy
+> > > to get the generic_phy->power_count.
+> >
+> > Ah, newer version. Would still like an ack from Samsung.
+> >
+> > And I hit the wrong key, I did not actually apply this...
+> 
+> I will have to resend v6 because of an armv7 build error I've caused for
+ufs-
+> qcom.c (which doesn't #include <linux/interrupt.h>, and relies on a
+transitive
+> inclusion from <linux/phy/phy.h>). It would be nice to get the ack from
+> Samsung, but I'll send the next version in the upcoming hours regardless.
+Will review and possibly test on one of the board later tonight
 
-Yours,
-Linus Walleij
+
+
