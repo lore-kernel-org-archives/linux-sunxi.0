@@ -1,71 +1,71 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89DB53C1404
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 17:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA293C456F
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 17:08:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774285671; cv=none; b=dVtq8D5I0jXZV26Gt5i4JajKrqeUGY1YPbLLYYkbBAbLttTj5ygJRWpCPN2o2rn+VpMUyTqJRH6vPQapQfRrEc5ra2CE6ADRnJn4EHVugrjHdHs4vdly7vrjmW7JdPKv8Vozv7gvPGCpV9R71qcVCg1z0dtOPfiJYSttUTc1W5s=
+	t=1774285732; cv=none; b=SIPPV7/ScwNaDILHJta04yBm3gQkYS03TLjBAjtk5tuOxjXOC9dWclTJAOaaclb4GTwpKzdhRHMGX8C74tD+QLN9o4HS276ghJnhDbHvVzoZcggYiLRnJoDQ106TmFs8VpVd6EZASGwBtV/X8LvEQga4EhoGYRbUG9OP0bJBRQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774285671; c=relaxed/simple;
-	bh=9w/05BIl6C5UPAlKrmDSRzbmSzN+L5hTClA52vqlcgI=;
+	s=arc-20240116; t=1774285732; c=relaxed/simple;
+	bh=ea014rg9Id3LjbCkFFKL5NQgh0vM+cp3ePkl8S2utWg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rw16eQdpRrnJ+TFr022nblUA8tSuOE/IRMUc6gy1nEzDUx1+4qmMaskckOfkKBJ8QTWOaAWS1OfFYr+gsKah1E/yMOgB//yV+84XE0tpwNVFRSQmpn3TEN6HceczcMgv0M4OivqA2pKYiHSZeMa9RbYYJ3HksHxMakGafVR3yzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.177
+	 To:Cc:Content-Type; b=Z5wrXitgGOf52du9lGGTOHQiVX5HGWG74OobVCj1kkg7GSvI9z2Uvj0uqxsUfYBPyAfa2T7frIM6C/HMJiPBb3zv9ciRrn0aADOj4CKE2lwD5OLPSR2wgDIWfdB5/rexegBJh4LKv4f/ydim41JsAaKJcrCmULXjGPhyWAzCuT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-38bd3bc3061so3638121fa.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 10:07:50 -0700 (PDT)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a27dddecb0so6143913e87.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 10:08:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774285665; x=1774890465;
+        d=1e100.net; s=20251104; t=1774285727; x=1774890527;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9w/05BIl6C5UPAlKrmDSRzbmSzN+L5hTClA52vqlcgI=;
-        b=GlWJLnz05TVbQf5qTBNkSyf9CMAlVL8pmrZtCV7z1GyBUi3etWjaao7nuDSCG0gcL9
-         70V2fgIDtn4R//yKuxPGzbCGsnOGeLi8Tg2BwwMBRWHYySJjQtXcm6iuUYx1Dv6Yrwf3
-         0N9UlwM8UiKHiB56Kjo2XOe1GLIlMEVQ9TfCPb5ItK86ommvLwFYHMHFJCUx94lSpN6A
-         /F16HpE48C2PdqdkLLi2EwQvmckjDfYLb7NrkA8FLguQlIWgLJwObbdK1ySuwKpYEdPY
-         bNd48DIgK+G3Dkor1lhYF4t1J5MrTrbiv4k5J0aXGtG3IHEUYO3WVpfL8KCI7K/jxWhL
-         3v0g==
-X-Forwarded-Encrypted: i=1; AJvYcCVFlzwAsDvZA8YXfyUTXxC33Gk83ZpEFnzKwOIYhz01Si8SJaEOiQdPZG2HltIsWWvDMTxztTLNdvtyYQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxwgO8wZAEfLJ31BQceebbPB5AN2cn0m6OPRe6z/+VGTwATtFYh
-	44xuwvcGWX6PDi9hoxvdjDmbfZ2b6+9IKHCoZECEonrOEqxrl/HIw4/qSvjZFCNk
-X-Gm-Gg: ATEYQzw74RNiielID0b09I5PchOSAP2dYRndqrxpgSAp5esfep2U7Q/Y9r+9IhFjo8V
-	hYYBpqtp7DwDnLCz5/o+N0maQv9jyTmub/xXvSPT9gAIm/GaMy+Zvgh5CwMGUfJ2kzxNjNE1tZO
-	ZXgVBnKHqxXkN3qoZzVvtyiK2yhiW/sJewdlBI2QiJVU9NJhU/b/Jzwaf3yI5Atqu+StuSCg/fk
-	k4HSyb/ArujwMqbu4tuy5RDA8LRmteqIbj8AdZk1X6HjNY5GAJAxcX5vQjghhrgW8e3ccyHJEDH
-	sENQ6plzfZsjv4eqogCaIBPDnikI8DM3Rd2S6xfSfRU+alAkrnpkOYNJ/z7Ab4ZiK502IhxvWfn
-	V9a/bqtHPLm94AIKlAujJXUJIlcRf4CB5/TN0sC3d7WpF90LNb8f9ocKeSg5vhqRHMWdNvvk7o5
-	b5X+paCdNS58B6uUtsQA1UIhI5DSIO3FU5RfovUX0v2algcNg0CdD2USQ=
-X-Received: by 2002:a05:651c:551:b0:386:8f97:d0b4 with SMTP id 38308e7fff4ca-38bf972822emr42857111fa.33.1774285664562;
-        Mon, 23 Mar 2026 10:07:44 -0700 (PDT)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com. [209.85.208.172])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38bf9753c7dsm28805751fa.13.2026.03.23.10.07.42
+        bh=ea014rg9Id3LjbCkFFKL5NQgh0vM+cp3ePkl8S2utWg=;
+        b=BhCHVihoGwEUcfIY8JqPdPwjP5ETz5lKYW9K7PcOV0mk39i0Uq9FUi49wy8tXcL9J4
+         hSGO0TJ120U+FAUcY8orvcDSaV69NRmzc+cdRos8iEf3YxGZg1H9yi3Q5zoE88/kURcL
+         MMSzs1rXpa77RvjQNCr4Rtm2KFMU2WDLmphiG1NPQDMV4GfQ4t523AU+mgLbno4+xl7i
+         r/4TGYpgHl6A4yTm3b2NvjuW8kxcYVI7A0sZbJM/v1wSsCH5c0ke+AmsyLhRDJEkAQtu
+         ZrosNRoPgqytTZNimqCPU/bSZ9zcWIUnQUBloOBITV9BwhTbN2hJ8GcdpyfcmLiNRnQn
+         0ebQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW3e8MoF8nE934nrUrAM6FRNZ0WN9gDGCkwh6gWyTvFoP3/VJHsVuubqm3jjwV6Oir/EFEvUMfTc+rVqA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzUt0kfUA7buMUxDL4o7AZC0uOb04l4YkLKIAwe2RrOfexgxTc0
+	0qxXSIs4+ld5YLjwJYg1JvMNrPnU1QPJ6UKkEMjCrzcEB+2gyqSRN8CytOEy36NW
+X-Gm-Gg: ATEYQzzPYPs+Yr46QPVoisKhzkO+GQi4d26yY9Monu+Ia+6xU+wjrGVG9C265H2RNcG
+	aGUQNoc5xZMl4a1AHwqMU5iJkmyedtrSyuO0bSmq9vQUDeGHFm7nzYrNFq8E+HhwJxe9VYgXPbD
+	pCjgE6g5HgZ+Hu1QFOnYYzHQ4kddl+Bky0NapOO4LQaI3vVn2Hc7neaxuoVKEu+IWh/b+12E5qj
+	HG2c9Wld8kw6MFsabXLZrXKj+EQgxTAu+98regk347PTorhpDwbJnzva9R13kRhL/4Jg+leSpqb
+	G3HagHO9wA+yY/Xz2n6QQmd0dXJwxZqJr4VTpdA0gMeTWTPS3xSXhTBPeGevP/E3qVJDlLxWHqz
+	MlPQHgSq3zSJZ3QRHoc++rfiHzUgBK0HsyTaDjaE30hk1OfORqQhhSmoL7QJG1hciI7ZF07/eiz
+	d53m+hzzrePPZlSh6Ss1u5rNwgH93rd/2pMU+tfbO/CnRSEY3e4DM=
+X-Received: by 2002:a05:6512:2352:b0:5a2:792f:b836 with SMTP id 2adb3069b0e04-5a285b5a31fmr5114603e87.30.1774285726483;
+        Mon, 23 Mar 2026 10:08:46 -0700 (PDT)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com. [209.85.167.47])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a285192dbfsm2657112e87.1.2026.03.23.10.08.45
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Mar 2026 10:07:43 -0700 (PDT)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-38a27d39067so2849661fa.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 10:07:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWqAlHX2AtDiP9ZEaeSo5Cje6c/OGRYp/gN2YodG1QRgagLsL43xr37reNmtGQOXiO6OJmRG34PkbkFMg==@lists.linux.dev
-X-Received: by 2002:a2e:9bd2:0:b0:38b:f0f0:e3c0 with SMTP id
- 38308e7fff4ca-38bf963ddd7mr33026081fa.9.1774285662722; Mon, 23 Mar 2026
- 10:07:42 -0700 (PDT)
+        Mon, 23 Mar 2026 10:08:45 -0700 (PDT)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5a142464316so4740403e87.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 10:08:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVyLKzlx8GlOUm56P1nYldDL+rQmRScNQN8SKjdhpDJJM3KX2Vc7bNNtIVUwEzSzXCfxZQJg3xKpaHIIw==@lists.linux.dev
+X-Received: by 2002:a05:6512:3b2a:b0:5a1:3400:f937 with SMTP id
+ 2adb3069b0e04-5a285af5768mr4364578e87.7.1774285725281; Mon, 23 Mar 2026
+ 10:08:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260323110151.2352832-1-andre.przywara@arm.com> <20260323110151.2352832-3-andre.przywara@arm.com>
-In-Reply-To: <20260323110151.2352832-3-andre.przywara@arm.com>
+References: <20260323110151.2352832-1-andre.przywara@arm.com> <20260323110151.2352832-5-andre.przywara@arm.com>
+In-Reply-To: <20260323110151.2352832-5-andre.przywara@arm.com>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Tue, 24 Mar 2026 01:07:30 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65RBGK4Tb0=2D=8_37AQDt2GL_kEwd1OjqQ6ziRWqy4tQ@mail.gmail.com>
-X-Gm-Features: AQROBzA5T8F1z2ogDDbAkrNKbAgfLdiandHWSkKdFT2S7GO1Ch51csLHtutzo-M
-Message-ID: <CAGb2v65RBGK4Tb0=2D=8_37AQDt2GL_kEwd1OjqQ6ziRWqy4tQ@mail.gmail.com>
-Subject: Re: [PATCH 2/5] pinctrl: sunxi: Remove unneeded IRQ remuxing for some SoCs
+Date: Tue, 24 Mar 2026 01:08:33 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64+bQL7a4C=+ja15wN5=JZM9EN6KL3i3zKiSSOH_VjycQ@mail.gmail.com>
+X-Gm-Features: AQROBzCe4pxhD7VX5GMz8Rw4tgWfnVyG9ksfoBVa9-SlxUX0n6uC5n3LkQE4wJU
+Message-ID: <CAGb2v64+bQL7a4C=+ja15wN5=JZM9EN6KL3i3zKiSSOH_VjycQ@mail.gmail.com>
+Subject: Re: [PATCH 4/5] arm64: dts: allwinner: a523: Add missing GPIO interrupt
 To: Andre Przywara <andre.przywara@arm.com>
 Cc: Linus Walleij <linusw@kernel.org>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -79,28 +79,17 @@ Content-Transfer-Encoding: quoted-printable
 On Mon, Mar 23, 2026 at 7:02=E2=80=AFPM Andre Przywara <andre.przywara@arm.=
 com> wrote:
 >
-> The Allwinner A10 and H3 SoCs cannot read the state of a GPIO line when
-> that line is muxed for IRQ triggering (muxval 6), but only if it's
-> explicitly muxed for GPIO input (muxval 0). Other SoCs do not show this
-> behaviour, so we added a optional workaround, triggered by a quirk bit,
-> which triggers remuxing the pin when it's configured for IRQ, while we
-> need to read its value.
+> Even though the Allwinner A523 SoC implements 10 GPIO banks, it has
+> actually registers for 11 IRQ banks, and even an interrupt assigned to
+> the first, non-implemented IRQ bank.
+> Add that first interrupt to the list of GPIO interrupts, to correct the
+> association between IRQs and GPIO banks.
 >
-> For some reasons this quirk flag was copied over to newer SoCs, even
-> though they don't show this behaviour, and the GPIO data register
-> reflects the true GPIO state even with a pin configured to muxval 6
-> (IRQ). The workaround is just more costly, but doesn't break otherwise,
-> so this was probably never noticed by anyone.
-> Experiments confirm that the H5, H6, H616 and A523 do not need this
-> workaround, they show the GPIO line value with both muxval 0 and 6.
->
-> Remove the unneeded quirk from those SoC's pinctrl driver description.
-> This should have no obvious effect on the H5, H6, H616 (other than
-> being more efficient), but the workaround is broken for the A523, so
-> it fixes (one part of the) interrupt operation there.
+> This fixes GPIO IRQ operation on boards with A523 SoCs, as seen by
+> broken SD card detect functionality, for instance.
 >
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> Fixes: b8a51e95b376 ("pinctrl: sunxi: Add support for the secondary A523 =
-GPIO ports")
+> Fixes: 35ac96f79664 ("arm64: dts: allwinner: Add Allwinner A523 .dtsi fil=
+e")
 
-Acked-by: Chen-Yu Tsai <wens@kernel.org>
+Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
