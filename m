@@ -1,42 +1,40 @@
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0AA35D615;
-	Mon, 23 Mar 2026 08:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E88D73932EC
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 11:01:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774254639; cv=none; b=pBBWfMerUxsnEVLy03f+LV732koko5urz4FObYVA/AmxrmU4ACcPWSohOlhghM5KMiGjhqpBK4gggljAy79i/gZP6FPELqX87NkfVIqcZ0eUmbpzsdMBv/2MvADgO0g4XovKXg1rUKf3FavicOdQqoiBhrPy8JdoVKtwQEEVLTY=
+	t=1774263721; cv=none; b=akxO6+TZ6n9aQ6oSf6ARklgk0p8ool51iE3+1i2Ma1pJsqMiVRqlaQRvnI/ibVB2wXkTdJCJllGfbqHx3z3fCohF4px9x+X+sYTEwIW8psyd8z0x9aXOJ5cfb+VxQuO62MQyVWN0RRwTD6U8PdbJDRNtGa8dyd+RXoLdvkJ19TM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774254639; c=relaxed/simple;
-	bh=daaBGV5H2AOvuS5QSuAjGe1Xj2PrkECRfxkI+NwtPeQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jJfL39wephYUdKg025reckw6NYyKKyWbma551XRrE1ZptzcKa2P4O4GCqTWAgu4X3etAs/j/wVw7A5idnt6jAnhpNQkJ+0zYrmeYnUZdvVQbd7EciWAmNdcB/RBz++xzPSVPVNQMj16z6Sg6RNDU0TluvpKZKVUa/QjS2fBJbgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.245.197])
-	by APP-03 (Coremail) with SMTP id rQCowACHqN8n+sBpE8qHCw--.12667S2;
-	Mon, 23 Mar 2026 16:30:32 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: jernej.skrabec@gmail.com
-Cc: mripard@kernel.org,
-	paulk@sys-base.io,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	wens@kernel.org,
-	samuel@sholland.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+	s=arc-20240116; t=1774263721; c=relaxed/simple;
+	bh=KGn7ow0sVWPR71bv7k3DKDdIDvhx0C/rXTysye933pY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G+/QrIDxE+k9UL7we3GJUqIzbwV4L7mIXAbOfLHrKJ29cvPOb8z/6/1JkNGFaXPEZEG7tFoylEMtLT+KtG7ozjvHyy5Phg5GFGTbegFMN5Wc2mLmhfibwBsahS70L/PyFTZqkjPF7cvKMcVgHOuuZ92OFmkfuv8J3m89dX3TDG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6EB131516;
+	Mon, 23 Mar 2026 04:01:53 -0700 (PDT)
+Received: from e142021.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CCB103F73B;
+	Mon, 23 Mar 2026 04:01:56 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Linus Walleij <linusw@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Michal Piekos <michal.piekos@mmpsystems.pl>,
+	linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	pengpeng@iscas.ac.cn
-Subject: Re: [PATCH 7/7] media: cedrus: validate HEVC slice reference lists
-Date: Mon, 23 Mar 2026 16:30:31 +0800
-Message-ID: <20260323083031.30930-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260323070314.42949-1-pengpeng@iscas.ac.cn>
-References: <20260323070314.42949-1-pengpeng@iscas.ac.cn>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/5] pinctrl: sunxi: fix A523 GPIO IRQ blunder
+Date: Mon, 23 Mar 2026 12:01:46 +0100
+Message-ID: <20260323110151.2352832-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -44,33 +42,82 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowACHqN8n+sBpE8qHCw--.12667S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYP7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E
-	6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
-	kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8I
-	cVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2js
-	IEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE
-	5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeV
-	CFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l
-	FIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij64vIr41l4c8EcI0Ec7CjxVAaw2AFwI
-	0_Jw0_GFyl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
-	6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0x
-	vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
-	42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6x
-	kF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUb0D73UUUUU==
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-Hi Jernej,
+When playing around with an Allwinner A527 board, I noticed that the
+GPIO IRQ operation was broken, evident by not working SD card detect
+functionality. The GPIO line reflected the CD pin correctly (as shown in
+/sys/kernel/debug/gpio), but the core code just wouldn't react to those
+changes.
+This is admittedly mostly my fault, due to misunderstanding the IRQ
+assocication in the original A523 DT submission.
 
-Thanks, that makes sense.
+Digging a bit deeper I found three bugs around this whole operation:
+1) The A523 was marked as needing the "irq_read_needs_mux" workaround,
+   even though this is not true. This itself wouldn't be too critical, if
+   not:
+2) The irq_read_needs_mux workaround routine assumes that the IRQ mux is
+   always using value 0x6, which is not true for newer SoCs (D1, A523).
+3) The association between GPIO IRQ banks and their interrupts is
+   off-by-one for the A523. Interrupts are triggered, but the wrong ones.
 
-You're right, this is not really Cedrus-specific. The missing validation
-belongs in the common HEVC slice control path, so I'll respin it there
-instead of keeping it in the Cedrus driver.
+This series fixes all those issues. Due to dependencies between DT and
+code this is a bit involved:
+- Patch 2/5 drops the irq_read_needs_mux workaround for the non-affected
+  SoCs, which fixes one part of the problem by masking bug #2 above.
+- Patch 4/5 adds the missing IRQ line for the (non-implemented!) PortA
+  GPIO bank to the DT, which corrects the IRQ association.
 
-Thanks for pointing that out.
+Those two patches alone are fixing the immediate issue. If people agree,
+these should be taken ASAP, I added Fixes: lines for the backports.
 
-Best regards,
-Pengpeng
+However there is more:
+- The DT binding only describes 10 IRQs for the A523, so patch 3/5
+  corrects that value, to make the new DT pass DT validation.
+- The pinctrl code would only expect 10 IRQs, so would now be missing
+  the one for the last bank (PortK). Patch 5/5 fixes that number, but
+  is more elaborate since it needs now to cater for old DTs carrying
+  just 10 interrupts. Not too happy or convinced about that workaround,
+  eager to hear about better solutions here. Please note that no board
+  so far uses PortK interrupts, so this isn't too criticial right now.
+- For good measure, patch 1/5 fixes the workaround to cope with IRQ mux
+  values other than 0x6. This is now more robust, not requiring to know
+  the IRQ mux value at all, also saving one MMIO read and fixing a
+  potential race with other pinctrl mux code.
+
+This applies on top of v7.0-rc5 (really the .get_direction callback
+fix[1] merged into v7.0-rc3), plus the two patches from Michal's series[2],
+which I assume would be applied shortly.
+
+Please have a look and test, especially on A523/A527/T527 boards!
+
+Cheers,
+Andre
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=01e10d0272b9
+[2] https://lore.kernel.org/linux-sunxi/20260320-rc2-boot-hang-v6-0-74dca70dd60e@mmpsystems.pl
+
+Andre Przywara (5):
+  pinctrl: sunxi: Rework IRQ remuxing to avoid fixed mux value
+  pinctrl: sunxi: Remove unneeded IRQ remuxing for some SoCs
+  dt-bindings: pinctrl: sun55i-a523: increase IRQ bank number
+  arm64: dts: allwinner: a523: Add missing GPIO interrupt
+  pinctrl: sunxi: a523: add missing IRQ bank (plus old DT workaround)
+
+ .../allwinner,sun55i-a523-pinctrl.yaml        |  8 ++--
+ .../arm64/boot/dts/allwinner/sun55i-a523.dtsi |  3 +-
+ drivers/pinctrl/sunxi/pinctrl-sun50i-h5.c     |  2 -
+ drivers/pinctrl/sunxi/pinctrl-sun50i-h6.c     |  1 -
+ drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c   |  1 -
+ drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c |  1 -
+ drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c   |  3 +-
+ drivers/pinctrl/sunxi/pinctrl-sunxi.c         | 45 ++++++++++++-------
+ drivers/pinctrl/sunxi/pinctrl-sunxi.h         |  1 -
+ 9 files changed, 37 insertions(+), 28 deletions(-)
+
+
+base-commit: c369299895a591d96745d6492d4888259b004a9e
+prerequisite-patch-id: dcb1e8190ce649778193c3b391f759d4bcba9a28
+prerequisite-patch-id: e003cee1830cf260b932fd6503a62270a1930310
+-- 
+2.43.0
 
