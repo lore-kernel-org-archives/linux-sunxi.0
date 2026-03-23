@@ -1,83 +1,83 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55FA1F5EA
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 04:07:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 896921F5EA
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 04:07:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774238842; cv=none; b=pbEqyGxZ0WFgA5e2VppTE4gYkdJjoTJ1rSlbYqMdWgp4k+3Y6iOTHOVWHcp8Y6PqMZOq0+EVG2sOjEbGRfzMpSg0D71bDrK6rGc3Byq2ygjtF/5DsQW3CwAtoky35Dka0nEwmCM4jEHumaUxv1AbVPSbXS+6cXVK4d7Gw8MEyWk=
+	t=1774238853; cv=none; b=q7BsrXLiBw0zKlWs/PIvV8PJGmoCffpIyK8vi50yNs6iPgzQhRHWBvzqe+o0WowaZ2H5QdECzv++D3cw/c/j9LYnBWwvHwENNVzn0Ttft7e8pc1wbfxOt5owTJZlPbjCA31FwbwBeohQ5jjtfMqtggi2hU+IJzwj/uF2eJEQctE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774238842; c=relaxed/simple;
-	bh=jpb9caVWWoxQ79qKatpSX7q4n5ueYUFtQRXG3aLLphE=;
+	s=arc-20240116; t=1774238853; c=relaxed/simple;
+	bh=8fWQQXZDDZ234lfsCAqkWcYndj7BQxtlIMpjWCVmQog=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SkKV4YhSwSQ9ff6GKWEA+I1vCFLacnI01AcNGirhZU05hCxVySMG+Irkn6Swhn1QFyb442welCAF0MVApgUl61pnXLe3GNdVkEVrIGDstgPmwJomjkZNVdVk9eos0chzK7NH3j5UfMIAl9T8CuIqcJpy9F0I3qYxjaF1oOEuKI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=mkB7ye1A; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=XVwntUZ7; arc=none smtp.client-ip=205.220.168.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=tpbdhPfAOmxcRkikW20IWsBvXAyzZgk04tZrY4lal//WVPTV/bujwNhiMTX06XIzfBCoxC/sJiy0Y5crcuqo/8XD+1QfqD1/BZ06sjoYVPRc3J3NlafzpMZ3urafhaxHAQ83vOKUC4MlD2yRngc5dJCTNv6SIgFc6IJkMWB1N0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Zw5SVhqk; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=eTsIUjE9; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="mkB7ye1A";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="XVwntUZ7"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62MBo2mw2173767
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 04:07:19 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Zw5SVhqk";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="eTsIUjE9"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62MKkXO8075280
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 04:07:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=FkOlnsc0EKvOIhkAtLnyw5lm
-	SHO8rtw4V09fAITZLBs=; b=mkB7ye1ABcjRkiyURKA6wmiG8gu2qAXGJgZYQfvJ
-	ys04tLxs4TicdQbJAnSx1QrGvOI/bS2qSouJw9b59PiEeMYFbBx6awIaPGFioOKH
-	D9Fm4SNw7zNoaoz8bw5lDksOz0792gDPV4/hn/T+vmnCG0D+bdzNAv6vuNTo3Gfy
-	yXK5x0dNxWoEOd+3l/QpN5OURspZ4R4/RJ7PIwIANXfMBzg8WXBs2kgWI5kPb8Cu
-	Vgfxb9to87kSFRUIRwSqEE0/abOf7aYutz0S3EmGAEXZcKD/vhcAdUqinQ6hvxZP
-	vzfZgAMXEsfq/dl1rJPcbYykgUoGgjt7H6UH3mx6Aq2Trw==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d2ca8hkgw-1
+	:references:subject:to; s=qcppdkim1; bh=W5rwiOXF2FFDG/kdjyCGCZaP
+	JLF8PoP6ImoKwsa95hs=; b=Zw5SVhqkPq2/cw3ADnBJ5wgBRbhd6YTXpPGmORtK
+	L+Tm1dVCL2518ekIBX8K7LtOeS4wZS9pEig/W4AJFNe3Imk0sxFuh6st7w+CKMK9
+	AWI7rERcfwXLEQMjLCzdN9cNk5WWl8SvuE4pgOyb5YQ0AjsxQlWyZQaFFoEKfHSa
+	YSt6n+fVlQsmvAisWict0zJSnVNwpn5puup+flKkn7Y0GoOKdLjxqwv1lb0o5TV9
+	YNyCil28mxaA798c2WvD6qRBObe8+XRZgFlKBNFRS4Y1QDhxC4+0Ps9QhnrdihZU
+	m1tnxlVkDv5GVI+IyRuavtp5B2C8JIubTyevpXEnYAIf/A==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d1h1e3srp-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 04:07:19 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-50b4031b86dso231123271cf.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 22 Mar 2026 21:07:18 -0700 (PDT)
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 04:07:31 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-50917996cfaso36587541cf.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 22 Mar 2026 21:07:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1774238838; x=1774843638; darn=lists.linux.dev;
+        d=oss.qualcomm.com; s=google; t=1774238851; x=1774843651; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FkOlnsc0EKvOIhkAtLnyw5lmSHO8rtw4V09fAITZLBs=;
-        b=XVwntUZ7fpDY7xmyvdZ6RzbSC1/6F7zIS6+5aLhsdX0rn07oUdjPdRgKvB3YbQK28/
-         jbhJ6XMB8+AT3bGfgATVnnTffZ8hWoXX2YOb6xVRMRERM329Sc1INpuZu7hI3gHtpCn3
-         n707wLeL2jl4q077owVoVGTja4xL325huorYqYtoZukO+uYaIAX8iqTS0SextlIaRphs
-         2+0BlB23NRx9YEL5/LSQgIwTr2s6KrhMfSaEqjl+PPchgiPfbGso9pRLCUH5uU6+dVNt
-         a4Z2YFOubGL52KHxPhf01Px+oEUShsknGgotSWI/Xe/0nFMK4KR9PrSsvf8VCKiiB/Ls
-         tO9w==
+        bh=W5rwiOXF2FFDG/kdjyCGCZaPJLF8PoP6ImoKwsa95hs=;
+        b=eTsIUjE9UKb5GOu0pT/cu0BS75SL685FPmHl0c3e8Gfzm8j7G2xbGuv4pfuOpnwPI5
+         woEL/tzQbSNNQsJeZM+S47P7ST4uW+RiwtsGM1f4CAGo5yQpjZtEUjN1moU593QSfPzA
+         zBd88h2orHHmobv16eIDNphkQBrsDpY5O5KGlDlP9RhlrADaYUTB28Pz/aW9q14+H4i1
+         lMMb9yd9KKHSWmPFQ/siv0spF6G3wIDMXXPlrQSDOyQLDn6z+ogDqaDD3Em+6HO2dVol
+         MnQ73XzYfkC+Gf6ZLnNjN8fUOcoSbJPLieBcuPnn3scHaatUVtPrDyoSsClfvPsoAT+s
+         I89w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774238838; x=1774843638;
+        d=1e100.net; s=20251104; t=1774238851; x=1774843651;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FkOlnsc0EKvOIhkAtLnyw5lmSHO8rtw4V09fAITZLBs=;
-        b=WPbNbR89/CiyqLfl/qE5icChcv8MZDDbaxT0QFszazs7XoswtW/t4EG2fTcKOiCUWO
-         3TyjzLgtkJ+R2sQ0FrweAmxhLSWF3jrSVxhPlmRL0zbSmg8UgstNxkaofFkYnomBRgQF
-         Cqfyl9lURM7zJNtVxqX/8/+WBUqo9zuU9S4Oi6Oh538RknYZBajlbtSUQJpTkwYFyGvJ
-         athNNqR7+j+yqbaWWDWU02Jjmd/s4nfK89911yuSCgeXW0kczKB5k/jUr9idUL7iQVpZ
-         VBlFfIVfNKV0aSXqXnr5FWCxIiAx16BQK0lk9Bci1DldRIW3Nbanw3mEQNWd9vEWzzLj
-         wUYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWCBb86HT9LZA/v2BrE+agw24XQWva0drn4/7SpvmG7JU7vHb/wmckTQuTfETsLQHC0CF5hBzHh0PGDtg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyx8z5iscjBxYMths9/N5EDT1416jXx7qwOVKrsTHdsMIpY9Tj/
-	VlLj+47e2Ud3CwZmmpsXhEHqrYrFgxh2/tCz58iqjsHz7LYY18/zK1+yiWcDUyaOJpu+YpVXwZV
-	KYnKXMaI7jzsJOFNmlSPqFLgTMlYQk7ZSiIpZOSwBfzSjBEURymWwq0bKQZTrPO0Whw==
-X-Gm-Gg: ATEYQzzQN7erdN8wxsNX8O8g9CCt2GdV+odjFLU070iu7IlH40ZTt7/OgNec4lsJFuC
-	BB0+L1t4Xr3EkdQYdZRJ35V/6Sibaqtw3JdnbRy48+m1279//K9nr1haCxhdwCj9lSyvXOuHQ2K
-	7drA0BHPUExdDXW3GEksdQbUe9XYFOMAQXrpzYGyHX3CqKuV2ZwkHYUGvVxIc8qsgbFTxkJ1igp
-	QpvF4INcfK+x8uxcG4X9Uc0Z/ueQzboZcNYeunEUMccOpvPWZxAzb4t9zuXk6NrksLkUEMFUUfx
-	012Sy5Ejiyb+prIdFoL6pBTpt8nqMAq75qS7ycDPsElgPsGD5oqgLl1ejGFbL0+myiZsl2pqjwX
-	rBiw2nyoBeEnjHb0JA8KhC5vnLS+3RSgMaS5UJi+sB7L9vItUwoSX7nT9rSe3/FIgDtb0YSX8Fq
-	WvqPTKJX7y8U2h3HOlRbx/Y4nfqquXINniVbA=
-X-Received: by 2002:a05:622a:2611:b0:50b:4e65:95dd with SMTP id d75a77b69052e-50b4e6598dcmr84026351cf.62.1774238838038;
-        Sun, 22 Mar 2026 21:07:18 -0700 (PDT)
-X-Received: by 2002:a05:622a:2611:b0:50b:4e65:95dd with SMTP id d75a77b69052e-50b4e6598dcmr84026151cf.62.1774238837540;
-        Sun, 22 Mar 2026 21:07:17 -0700 (PDT)
+        bh=W5rwiOXF2FFDG/kdjyCGCZaPJLF8PoP6ImoKwsa95hs=;
+        b=Vw4h5adr/0qfQMMnAZFQYPEoUXR+DiJGzqKajkkZoluUD+a3iMl3RwYSe9/oMwd00D
+         gjNV9Ay/V8a/p2JSzNqQ489s+PA2Zda1GfyfFkoCy2YnGiduCkdSU5fL8ZJk+mjY4U6x
+         8ZvmXh4B7X149lzsiI/8cl0y9Zn3XvPpJaBMC+FHccHGC1PjL2iz/N02Ky/BSyS936q5
+         7epL2KMPDCUYUhq6TWj54GV2C+bX3fGs0UaSnBvuQZrXEWiBky2+vYyKZZzRlYEObww7
+         texfyTbaUB1VihIvlhK+ja6URFpb4P4J5V5IvutMNDgQ4XXaqjClmrbSk0MqBLJWjy2o
+         g3Ng==
+X-Forwarded-Encrypted: i=1; AJvYcCV/k0TDaIiGKw3yykIox70fvMLq+fSGA2Lby67I6fDu7hWpQDdByjjXOeFN9F4cTn1jGSeIGXsc5/y3xw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwkOsVSYdutayR5J49p1cW5ATToqtk1dUUwEEc9F/Avn6SMMUHI
+	aW5PvOarOwEvGTyqQTEQkvpryCmyVpL48SggeLj+1xYZlM1fH256D4YhOiPT+n5Gyw/mHKKnHj6
+	H68GXzlWxzcZzU9YgMrhDqfG+5258uLh5WzhIwjcU6FDeEb4+G51NyL1muoMdfFVg7g==
+X-Gm-Gg: ATEYQzyYaIY5rNPUL4Lqcz0QVnEb1lco3MSIYDyaJFIplpde8lkBFFDT8D6l6ZMUCVn
+	AHVUtH6fYlsQ6ltr1vOoCHCcnEybk78dg61vnAX3St2z/ucne8ZZ25yd+O81/uts5WLZA1TivzG
+	JAQ2rTOKKXS4I1+R4AJg3dOYlo1ANOaYeFQ8BajvaeyPMGiA3dN7WJ3C1kmRixndGFVZ0afQvjP
+	rVkwj3aVah5MeQFJBqVlCSB9Z8nkuN4yQFXdj1u6H5mvRB+4IzyyUvbOAGqRQ2yHWbnyb9GKbT6
+	sGxpqHhCTSBYItoVt8nEwtFzivW+0TgqiMjJiwn/SdrlJC2NBX0IIX7r4PQDc+2vexzi3cTFHWc
+	u56ulvWguYxqZy3sHSqP5Caro77iSSeM6gzd+GQiFrjOA70EgQd8isotXvOdhXNZsaWxGIx4Gko
+	v5qvItl8UOL1WtMRHDcw+tdoEXGFEOdlwqibw=
+X-Received: by 2002:ac8:59cf:0:b0:50b:2f1f:ffd3 with SMTP id d75a77b69052e-50b375682d1mr166637681cf.59.1774238850831;
+        Sun, 22 Mar 2026 21:07:30 -0700 (PDT)
+X-Received: by 2002:ac8:59cf:0:b0:50b:2f1f:ffd3 with SMTP id d75a77b69052e-50b375682d1mr166637111cf.59.1774238850280;
+        Sun, 22 Mar 2026 21:07:30 -0700 (PDT)
 Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38bf9ac2661sm22658351fa.39.2026.03.22.21.07.14
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38bf9981ecasm24919121fa.24.2026.03.22.21.07.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Mar 2026 21:07:16 -0700 (PDT)
-Date: Mon, 23 Mar 2026 06:07:13 +0200
+        Sun, 22 Mar 2026 21:07:29 -0700 (PDT)
+Date: Mon, 23 Mar 2026 06:07:26 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
@@ -112,11 +112,11 @@ Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
         linux-arm-kernel@lists.infradead.org,
         linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
         Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v3 01/14] drm/connector: Introduce
- drm_output_color_format enum
-Message-ID: <mvur5pb6jjbvssdhvbzoekfy7hq4h5vketlzembwb2l6fgt63i@a5f43tecwecr>
+Subject: Re: [PATCH v3 02/14] drm/edid: Convert to drm_output_color_format
+ enum
+Message-ID: <xip6aoymudbdakietc6qrt43irdajp46jrsdi27m36dfqfzqnz@y4stxqdxdjix>
 References: <20260305-drm-rework-color-formats-v3-0-f3935f6db579@kernel.org>
- <20260305-drm-rework-color-formats-v3-1-f3935f6db579@kernel.org>
+ <20260305-drm-rework-color-formats-v3-2-f3935f6db579@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -125,55 +125,51 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260305-drm-rework-color-formats-v3-1-f3935f6db579@kernel.org>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIzMDAyOCBTYWx0ZWRfX1i+ltOk7AShk
- Z1xUXBCRpIwHCyOq89x67WS3bx8O2nAwF1geJihjfleMmyk8bveMRwCd3EiO/3/bDyEj2qIMeaD
- 0OZ0TjBY92ipMl05/CdIldMVod9HEu5rIcbukdWQBj72SWYBMMoeT45JhS5NzfYK8QdX3PpU04F
- egqNcUCT9KImqt788xPUd4S8dntJg+1+7Oby8ueBU1L5+nIuSbUQTuH2F26aXCjyDnvZBitYwfe
- 8T0xTLqz57hpFtxoCdnFSZMvE3qP0iiExOCPQZNCx584KAk29FoBKNp6g62cfItTewItWIcshjm
- rCOcoZmgTg31ZqEcswOjpnHpub1MftR9raNLMJ8dNrCpMqBcgXY+wSLG0PzuEflykzNcohekq2Q
- MU+Fah1Vg46NvHyu2jKxS0ZKpX8r1g13AIBattYIHDpGK9TxL7LneAHnMz2Ce/d4oRYpMW/vWJc
- 6R22w12/5N6qycwY90Q==
-X-Authority-Analysis: v=2.4 cv=cf3fb3DM c=1 sm=1 tr=0 ts=69c0bc77 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+In-Reply-To: <20260305-drm-rework-color-formats-v3-2-f3935f6db579@kernel.org>
+X-Proofpoint-ORIG-GUID: 8I7ICH44ELMv6SutVF1WA1TK278A9FRf
+X-Authority-Analysis: v=2.4 cv=epXSD4pX c=1 sm=1 tr=0 ts=69c0bc83 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
  a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=QyXUC8HyAAAA:8
- a=7CQSdrXTAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=Myhj0e63kkGcRKXW9oMA:9
- a=CjuIK1q_8ugA:10 a=a_PwQJl-kcHnX1M80qC6:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-ORIG-GUID: 6rlHFtl36yMljSUDPsbvaAfLPxKvrKYo
-X-Proofpoint-GUID: 6rlHFtl36yMljSUDPsbvaAfLPxKvrKYo
+ a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=QyXUC8HyAAAA:8
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=_wym5JX8MKgHMASIHSEA:9 a=CjuIK1q_8ugA:10
+ a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIzMDAyOCBTYWx0ZWRfX3BHFyR14H+d+
+ OlELbj/lcrKGrC6e643lnQmW72iqNyUCr5KqhdvSK/Orug5qKT8lID1GDnnvhV1eEOi8Cnt5fp5
+ 8HSkb1kvTGoHQt7BJxilBu9qf9GditQFP/wRd7zwuVwqmj3062/4IdZvyaVMRPdQajAEqN2gOtT
+ HoWQpWJFpKG4oLbFUtnAON6MMdiYzASWYp1UAnv1qst+8MH2FElwBnAMWDYAIvi/l3AAqMGq4ea
+ CGekf0EMqx6XyAX73xYSFCo6hNlj1XjCt8zb75w2Z/K9biJj/bjOSU84oK7otDRclS9ccltaiIN
+ U4tz9hCdjsKGFusxjHhZGLq81Ud6zLQ4yyAPjwK1s9iC4GsleJQDDBuDOthOB6ipyvbezI5ms98
+ 7d1H2Qh1UdJCE0n5zl4AAlQ4/ZPYji3uaJT0gz3tQv2BHlFSupbvj/p4eKMT1/+bsNSMo8HUPUs
+ 8OZfwQVOq5ZoAiUi+NQ==
+X-Proofpoint-GUID: 8I7ICH44ELMv6SutVF1WA1TK278A9FRf
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-23_01,2026-03-20_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 bulkscore=0 spamscore=0 impostorscore=0
- malwarescore=0 phishscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0
+ impostorscore=0 malwarescore=0 spamscore=0 phishscore=0 lowpriorityscore=0
+ priorityscore=1501 bulkscore=0 clxscore=1015 adultscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603230028
 
-On Thu, Mar 05, 2026 at 10:04:53AM +0100, Maxime Ripard wrote:
-> The EDID parsing code initially introduced the DRM_COLOR_FORMAT_*
-> defines to represent the sink capabilities. Since a given sink could
-> support multiple formats, it was first defined as a bitmask.
+On Thu, Mar 05, 2026 at 10:04:54AM +0100, Maxime Ripard wrote:
+> Now that we introduced a new drm_output_color_format enum to represent
+> what DRM_COLOR_FORMAT_* bits were representing, we can switch to the new
+> enum.
 > 
-> However, the core and drivers have since leveraged those defines to
-> represent both the supported formats but also the current format being
-> used.
+> The main difference is that while DRM_COLOR_FORMAT_ was a bitmask,
+> drm_output_color_format is a proper enum. However, the enum was done is
+> such a way than DRM_COLOR_FORMAT_X = BIT(DRM_OUTPUT_COLOR_FORMAT_X) so
+> the transitition is easier.
 > 
-> Considering the latter case, the more natural, and consistent, thing to
-> do would be to create an enum of all the possible formats, and then list
-> the supported formats using a bitmask of the individual enum values.
-> 
-> Let's create a new enum following that pattern, drm_output_color_format,
-> while maintaining the DRM_COLOR_FORMAT_* compatibility to make the
-> transition easier.
+> The only thing we need to consider is if the original code meant to use
+> that value as a bitmask, in which case we do need to keep the bit shift,
+> or as a discriminant in which case we don't.
 > 
 > Acked-by: Jani Nikula <jani.nikula@intel.com>
-> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  include/drm/drm_connector.h | 42 ++++++++++++++++++++++++++++++++++--------
->  1 file changed, 34 insertions(+), 8 deletions(-)
+>  drivers/gpu/drm/drm_edid.c | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
 > 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
