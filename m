@@ -1,72 +1,78 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F2E33F5AC
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 23:49:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D6C30E0ED
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 23:50:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774309790; cv=none; b=VidGhkJRB1ChwAGGz7nPOM/9ocDIM5TdA5qZ8stY0KaYXSHxKJKdy2/PnRBK3WALIP9EoBRuqdSNEYDCxiTGFfz2Ep0llCl70dFIJHbPgHsauu8gjR8jarrCrMcvx+clCefMFcxoSUiH9770HmRcn4+EorkAUxwyvhEs2tnsx3E=
+	t=1774309849; cv=none; b=W5vaUNLMCvg/5ojVP7vwgf/nM8kBxZQJwks2P7rlaSPKrQr4rVUqXN20MPmZbADfma6X0zALKtuPu3vxPz186SprLwB8ZsFOPpZMidAuV2eMi34Q96lZZO/TCY5lKldKoHOcRlZQ0Mrd/kqp9AjYWPDJIOwMX6sLDVksFEIBInM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774309790; c=relaxed/simple;
-	bh=tGIgG4x0tVmgRfuQsw6tg6zo3VdRQ0TMw0o7dZSruE8=;
+	s=arc-20240116; t=1774309849; c=relaxed/simple;
+	bh=fJKrbaMxfDl3XY1IeHz35xE7hWQhlMR+J2+KKVf5HEE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pgVh3asb+IxX8Y6IDfbv5Kh3mAf4ym2hFZI8KOUtrbR02ZXBlDO5vzMomIDstqCVdXYVgG/5Yo2nL3iyMH2HBY2nNUDsNAA17nxH5WoKJD2bexYVvlUFOtDLA+ZM9eLxTqP2UqFb8ncHoLcNRNAPIrNG9T85Rle1kDcS4gm9kuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q8osRxQa; arc=none smtp.client-ip=209.85.128.51
+	 MIME-Version:Content-Type; b=o8alC3YdG12y1fZMo0zKH67N+YL8U5+ZS9D6NSUTnENowqFam3CoCDFNY9P4A8lhCEXhPJcuJqgC8SjoerZpTaKmcoZnopICXcBoi4SZhtRZWs8kihhR5WXrJMk5T6ovcfgPLniTD2ogGKH3YlbOgVthkOdLJiPjBPMGD6hj8KI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MLsBPVsD; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q8osRxQa"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-486fd27754bso5452685e9.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 16:49:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MLsBPVsD"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-487035181a7so17801985e9.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 23 Mar 2026 16:50:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774309787; x=1774914587; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1774309846; x=1774914646; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tGIgG4x0tVmgRfuQsw6tg6zo3VdRQ0TMw0o7dZSruE8=;
-        b=Q8osRxQazzSdDh54QHTW4/3zSGOP3A8jB8GnfXySGYhBmKRWHyC9mOWBLNJp6Iw1Cm
-         9+a7mYCovDz0eEPvfCCXjU5/qZ3jekfvEbBNk1Okx8trjPyf2g+sg9Avr7OjVoEgs4d/
-         2OJQqr5WwbgYGHaJM6FwXE4E2Hy0AuaIsKUMCaCRp8nylnbHaofD+e8w1CITw+76Ovfa
-         GwpysaWkhcYSs9AA6pZ5Hqdst7G4HpIE+r3iNBKyzLwooPkQva1KwOYv61wgppIHAXnT
-         qSNi9vdDZNFd3dUp/R+qG/dfWESBemOOMcIQX5IF4YslKZQWYEy54sXTIXJkOlkCmgU4
-         CUZg==
+        bh=fJKrbaMxfDl3XY1IeHz35xE7hWQhlMR+J2+KKVf5HEE=;
+        b=MLsBPVsDHCSbq0pSJRGeEiJr5q7Yu5x1Uceaz8LtaaL8UBoPVKIqDC6BzlsKfgi6ax
+         n2KjCP/PaFO02l8Ymd9eODS3Z+De/wZSS+4lPaPKzkq/lbnxX6zdc7PGpKTRLrFo2l/9
+         drt+Bml2IZH3JpHYw7u3/2QFt2m+eGVXnaZw++6WUqV0bSfJ44f4KnlDRBo9xfbeCIhc
+         WIDMM8PCAkbLYCPgs8M56n4p6FTm7uNMwIrs/RGDRlmU7npFBL6ZLtV5yVGDfibnMlwf
+         5FNuHKdnBYPUGtlgCO9Rq4Vs3CbNZJtUuU4ZOtrcAxcJHv5B/mtthn9MOc4ooQCPAl7d
+         pttA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774309787; x=1774914587;
+        d=1e100.net; s=20251104; t=1774309846; x=1774914646;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=tGIgG4x0tVmgRfuQsw6tg6zo3VdRQ0TMw0o7dZSruE8=;
-        b=CcKal55yCVYx6cQ0huts0Jfe8RQNNyaFlh77z/K8MHI07xNsrIa0tjaWX0jM6DANxC
-         2fwrojn41hXS/nEHvOA7Ti3+L9DGiZRVmqTagdkvRaYL/j37v4vKerbd5JTQfqkM8Q5q
-         H/AC+MEv3aWHyl2021bHZC3/zUM61fjHqk+TPXzgO7PpAvz3Z+USyOrdEWVH2p1DMAnK
-         4KzzcSraxQpBCq3IR2tt+I1iBFO4A4sStvFdFvBIHSEwz+2ItW54VDWTck1d5ebYf7XM
-         hQqSaLry5YmQF13MV4NDy6F7vHIYE3EiJOMzlUs5uPzoWCw1LQX8HyRZPfXEBYKBAggk
-         28Pg==
-X-Gm-Message-State: AOJu0Yw5S1kIDhEGzfi0Y9D8RusW0Mx2/KMw0MfHvIuGsoHaDMYRvq8B
-	RMoRcS8X7L5Ce7ib9Mszh9uaCVFPsGKtm8NtgavSp0ehviV8E09zXJk+PxE6IzvpSvw=
-X-Gm-Gg: ATEYQzxZDsjecAUkCGNnmCgwiMnPULoxaCdcCD8Kve4msEZnJe117nBYbv6D9QdqGfM
-	r8GPpLxY+8pWmwQfA/aFXNPZV+/aZScuJlatWU+28K7taO0g+qcc+a0mPzBkAb78++e7o9U9rzY
-	pL5xPBBDMPgPOdv4WLLl0dgucj9031Rz6SJ3x6opBVcledqtSUpA6r/o+hjvWyn+idUhMekq66r
-	/1PWItXlE+w5ZciITp6gGb7Cw0G2qtbD8PV7Xq6Rs2JHO66kYTJ1l4jwnLviMnKhRBmzCzLpDhS
-	+pXWmga1tzkxirB6xs0NzN/zVRunpeuGztNcVVOaqY/GMSlWZvIWRhkc27B9BzLnGMHim8I9ARU
-	RBxtz+g7R27RE1FGa/9qIb1Y15s76368rDyqWVV76WH8iiL63/xnp+OMOM3CYXYmH3ncqBSIW4z
-	sIZyTy4m3YBXI85tMVubnEcOrGIHLVSidzmXXpNxJPCw==
-X-Received: by 2002:a05:600c:3546:b0:485:3f1c:d887 with SMTP id 5b1f17b1804b1-486fee28918mr192372785e9.26.1774309786702;
-        Mon, 23 Mar 2026 16:49:46 -0700 (PDT)
+        bh=fJKrbaMxfDl3XY1IeHz35xE7hWQhlMR+J2+KKVf5HEE=;
+        b=rcVP2T0fopXNC64EVYhqs/c8IsTwHJPJjd4Y5hZxQ+IwMGS2BbX6Cu1ueGBce0aCzy
+         yyxRlT1TvlEbFToLGTkV1Wlm6rpXsAN4kc6LfmnSe7SH2BH5r3G03t3INHxVIxoN5dWV
+         6ccVfXXfZjjR4U0NQ1exssGuvVL+dWa4Rnb8CArU8sPg96L3ICCi6j+ckPXmeQY0Swhp
+         7VR9sKLru72/9rnUCpVhfLrem62V8yzEM0Gi11C2xevVKOg7+qQ2UQRH6l4mWTbgQyK9
+         GVgsDzASY8AVJDq1T8L5zGCNqKfuwSaNtDVdhDx4b84ZdeO3fqWFz/Sy0NmMYRkps2Wr
+         ANDg==
+X-Forwarded-Encrypted: i=1; AJvYcCXtks2nYft7+WNvz+grCvmtPtId6PmTPsxsCV2ioRuC2owuw/x3S5zyzBZj92WPvQ12T67goOliFbbRFQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw8GoY3lRb048rrSK34cefWQDJKsmuhlGnPn5ZCOkKaJfDJi0R7
+	AYEOcXAcdYUytiUrDmaJURxmVLSIRadC5yiDvAc92EWhZoOfUpt5Ezt7
+X-Gm-Gg: ATEYQzxQ/zAN4K2WlvQ2168zge9h4qL4TlV1vyky/Q3550L5R1DLfFHQFnwb2oWq6bF
+	p0L1441t6TeOmL6cjjDE2NV1p1mXY0T+UKlunrxHWFyxTIyBZM1XOMzvf0a2n3KJNyE7sY2ddPZ
+	gJpxAcBiM2yel+/3OPxnFI/x8T0dQ5nW0hd1NYVUXrJPEusriZ32mLL6rj2VHQa8XggRd3C/dTC
+	OyYExymcMrFkN8k81qRH2HLB8SpNr9uJxXdiL74v4+G4QYw2SO2s0i/FBEW05kL4JwA8EbvkHRb
+	JtSnXaCOFi+jINnXxC2w6z6T0ghhsJnI5LDsVXh0D8GM9kPeh+kDR6jxV3VGkdLes6zEzGxCmoa
+	vLsFA2zxua8oby+wXw9zjAif1L8BLWEzUxcIADJ0eWYk5QUUtjedV2vZoEh2g5lzqsuMTp2rOS1
+	SHWC2msJQDoHxVcJhEdCa1+olb24marTENgNgUtvZaIw==
+X-Received: by 2002:a05:600c:a43:b0:486:fbd1:9dc0 with SMTP id 5b1f17b1804b1-486fee0d52fmr183730635e9.22.1774309846416;
+        Mon, 23 Mar 2026 16:50:46 -0700 (PDT)
 Received: from jernej-laptop.localnet ([167.71.101.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487116939b8sm12830385e9.3.2026.03.23.16.49.43
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48711702191sm7483995e9.5.2026.03.23.16.50.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 16:49:46 -0700 (PDT)
+        Mon, 23 Mar 2026 16:50:46 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
+To: Philipp Zabel <p.zabel@pengutronix.de>, Mark Brown <broonie@kernel.org>,
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
  Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: allwinner: sun55i: Fix r-spi DMA
-Date: Tue, 24 Mar 2026 00:49:42 +0100
-Message-ID: <2822434.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20260323171927.1256507-1-wens@kernel.org>
-References: <20260323171927.1256507-1-wens@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH] ASoC: sun4i-spdif: Make reset control non-optional and check for
+ all errors
+Date: Tue, 24 Mar 2026 00:50:42 +0100
+Message-ID: <5975699.DvuYhMxLoT@jernej-laptop>
+In-Reply-To: <20260323172450.1259111-1-wens@kernel.org>
+References: <20260323172450.1259111-1-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -76,18 +82,24 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne ponedeljek, 23. marec 2026 ob 18:19:26 Srednjeevropski standardni =C4=
+Dne ponedeljek, 23. marec 2026 ob 18:24:48 Srednjeevropski standardni =C4=
 =8Das je Chen-Yu Tsai napisal(a):
-> r-spi has DRQs for both the main and MCU DMA controllers on the A523 SoC
-> family, however it seems it that it is mainly routed to the MCU DMA
-> controller, with no obvious way to change it.
+> From: Chen-Yu Tsai <wens@csie.org>
 >=20
-> Change the DMA channels of r-spi to the MCU so that it works properly.
+> The logic around the reset control is weird. The driver already has
+> quirks describing which compatible strings require a reset control, but
+> the reset control is acquired using the "optional" API. Then any errors
+> other than deferred probe are ignored.
 >=20
-> Fixes: 1bec3bd1f839 ("arm64: dts: allwinner: sun55i: Add SPI controllers")
-> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+> Instead, switch to the non-optional variant. Also use the deassered
+> variant to simplify the code. This also fixes a missing reset assert
+> upon removal.
+>=20
+> Last, clean up the error message printing with dev_err_probe().
+>=20
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
