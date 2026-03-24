@@ -1,41 +1,41 @@
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC843DA7E3
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 Mar 2026 09:12:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4011D36B050
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 Mar 2026 09:17:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774343546; cv=pass; b=Mb86pjTWdXbIL0NfG+JDZidfx6RjJmvuuelM4QhapKGJ7WTU87xnV5OJNxj0HpQVGOkPUvbItnay7VkzqucSmJ+hcSjvQMIeAdh2kIWcjHkcoVMLMu/fZu1RnKZ9zdqfda2jSDlF2HB7dd5Ng5sUpGN3FjflW/DV17EIAwx+hto=
+	t=1774343836; cv=pass; b=qwgveRRoacxOGJhQPmgf1Kkt6RM6HUKuVFh/ePJ/NYIHOQj/Iu35CzUBrzrHHDawdFEQHr2a+dbdsr+dbLPEuuXejHO9zESuNr5FEZ63X+bJN8LJ19cXZfVzjS/E/XnRf9KOv+jZaHsjGznI3imRNLRsx0Mlnw6CmL4MZ3Z6bMs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774343546; c=relaxed/simple;
-	bh=c8zK+r4RN9KImtcqUOa/0tFxQLr/hjJWMM5bmv9oMhk=;
+	s=arc-20240116; t=1774343836; c=relaxed/simple;
+	bh=C0Kobfk4JDhiwD6TPgyXKUxForVnF9qlkCOkNm7y8j4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aV1DPP2fi06hhEARkktwdTtjdZseyMWQ4jafg1QLnhenIbLgI7wj1yhOEcTME6fpxebXHImHlYWRHe1cCqDH9tAdWzCFM2J/Y1e3Fqj5CQNm4xAWfweo2txfqTeVcMedTz0gP+pkyTbROPMp0596zFQVdy99N5dUvOafv62eCdI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=d35X0Uta; arc=pass smtp.client-ip=136.143.188.112
+	 MIME-Version:Content-Type; b=cqJr6N9FXaDuR1XQcGf/UFlynbipnVATBlPn3SFYxTO/u3fVqX1S9wneQrV5Tfw7WaeLPwkmQcw9CASBuKwhxacPdmHIUUmRqVD8Y2jTGttv+sIP/dV8N448ld+JlZb4bpjauNEAvkfmwyLGsOn8fttsvv+vspcX5Q+IlBHg9xU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=EOH1niQc; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="d35X0Uta"
-ARC-Seal: i=1; a=rsa-sha256; t=1774343500; cv=none; 
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="EOH1niQc"
+ARC-Seal: i=1; a=rsa-sha256; t=1774343785; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=d8MnFBQkKpHJ4TH23zDPo4o46LfLDPrpOVdPHNE8ffXdXoFxGc7Z2FEQ4wf6xDvr2cm7f+ehIE1nYTny/bZbLEgXKPGNowaLSVzidCx+RDP0QVrCp1rUpzEgSWZboLirKnaw3feRFwxKdgLPp9qDSBWOC9EQ+PdE64D0Fb72wRo=
+	b=SYajBwuiZa8oR0IGy+sTz3PqpZrdBA/lNr0MoEAENTM+2lZ3W133Sd2UB4kk7kFSdTYfqIMtNFyozDZ6AIe3N/H//n0LK8rfhUdvxkX9oV8qVzaUuXHbvvnXhEpOQqBhz0mhFmGxqCSgw98UansqvWiOPFBBPmF/TUNnL7C2HnQ=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1774343500; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=AQWLMORUnkVbiNjJGAhEshPKUTqZoxqhRKKnwPG0jLg=; 
-	b=NH0ufGdazv3xhvW3Ffcl7B4X+OXgsO2OwuF9YchQH2o1qCxwFwAHLOp6Zc9AN4bYNWjkBXcO8A/Gl4hBfRmU2ZDpNdH4anSXnKBrZDzPcZvm1CE1utnQ6TUPnwdidE/PxAo/b5tjhVe35PQLV7xLoUd4trRPY7FM8r/TZMm+Zzk=
+	t=1774343785; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Tw/G9VTXwnHHHKSCmjoBsBkmBbbcaWdFFIwUqNEEQZw=; 
+	b=PAZeN6C+SYUsvuGqzrS2CnaplC+BBQxWmcHgJiQgN+kus0naAKpO3ZZR8NMDhCOexYzujaiRdez3CsD4DH0GWdZl707RYgn0Tj4CmR4qacVn4KYFOyL2HzsWv9TAlrN/ri62vXemfjXVra8akvFnMBlD2zwcos8lYv+Dkts7ulM=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
 	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774343500;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774343785;
 	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=AQWLMORUnkVbiNjJGAhEshPKUTqZoxqhRKKnwPG0jLg=;
-	b=d35X0UtaEM7Po2FmSfpYS/6GcdVCuoJdv3y7/qdxC4D7X6PAayQR7Kq9dY6FsyOk
-	EqCn9VqIS2DDtW5r6H2IvfwLjVfCoPmKAaXUTbFOlMt00Gc2rXszoXyC6oQA7gOJ0jf
-	iE+gFM6eC7gQYaMiIKr+UMRYfL2+ysQVrvP/2n1E=
-Received: by mx.zohomail.com with SMTPS id 1774343497883801.6427108884712;
-	Tue, 24 Mar 2026 02:11:37 -0700 (PDT)
+	bh=Tw/G9VTXwnHHHKSCmjoBsBkmBbbcaWdFFIwUqNEEQZw=;
+	b=EOH1niQczPS5fbilI4PiiNRgJuvNBqXb7Mfen8spkZtWoA8KCHnvlGcBIuYVFEWp
+	T+j1DeFy1jVFNoJJSanWd2d1AH3/DIq1hNRaBr8FseE+DZypZmgdFb2Zjv8wSPuH0CZ
+	MP9TL1jsYt98vtYhRXvkCuUjsC9UiyERHaGiwJYI=
+Received: by mx.zohomail.com with SMTPS id 1774343783701798.6167436689976;
+	Tue, 24 Mar 2026 02:16:23 -0700 (PDT)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 To: Jani Nikula <jani.nikula@linux.intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -67,13 +67,14 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
  linux-sunxi@lists.linux.dev, Jani Nikula <jani.nikula@intel.com>
 Subject:
- Re: [PATCH v3 04/14] drm/amdgpu: display: Convert to drm_output_color_format
-Date: Tue, 24 Mar 2026 10:11:29 +0100
-Message-ID: <7113873.lOV4Wx5bFT@workhorse>
-In-Reply-To: <20260305-drm-rework-color-formats-v3-4-f3935f6db579@kernel.org>
+ Re: [PATCH v3 12/14] drm/rockchip: analogix: Convert to
+ drm_output_color_format
+Date: Tue, 24 Mar 2026 10:16:14 +0100
+Message-ID: <5921295.GXAFRqVoOG@workhorse>
+In-Reply-To: <20260305-drm-rework-color-formats-v3-12-f3935f6db579@kernel.org>
 References:
  <20260305-drm-rework-color-formats-v3-0-f3935f6db579@kernel.org>
- <20260305-drm-rework-color-formats-v3-4-f3935f6db579@kernel.org>
+ <20260305-drm-rework-color-formats-v3-12-f3935f6db579@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -83,7 +84,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="utf-8"
 
-On Thursday, 5 March 2026 10:04:56 Central European Standard Time Maxime Ripard wrote:
+On Thursday, 5 March 2026 10:05:04 Central European Standard Time Maxime Ripard wrote:
 > Now that we introduced a new drm_output_color_format enum to represent
 > what DRM_COLOR_FORMAT_* bits were representing, we can switch to the new
 > enum.
@@ -100,39 +101,40 @@ On Thursday, 5 March 2026 10:04:56 Central European Standard Time Maxime Ripard 
 > Acked-by: Jani Nikula <jani.nikula@intel.com>
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 4 ++--
+>  drivers/gpu/drm/rockchip/analogix_dp-rockchip.c | 4 ++--
 >  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index a8e4e3ab5e40276b3c723297ca6520688079e0a7..2fe9044e1e91d7581fd5032b9883548f8e5e1b43 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -6723,15 +6723,15 @@ static void fill_stream_properties_from_drm_display_mode(
->  		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
->  	else if (drm_mode_is_420_also(info, mode_in)
->  			&& aconnector
->  			&& aconnector->force_yuv420_output)
->  		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
-> -	else if ((connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR422)
-> +	else if ((connector->display_info.color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422))
->  			&& aconnector
->  			&& aconnector->force_yuv422_output)
->  		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR422;
-> -	else if ((connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR444)
-> +	else if ((connector->display_info.color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444))
->  			&& stream->signal == SIGNAL_TYPE_HDMI_TYPE_A)
->  		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR444;
->  	else
->  		timing_out->pixel_encoding = PIXEL_ENCODING_RGB;
+> diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+> index fdab71d51e2a71d644f128b1bf1c39429b4ad52a..96bd3dd239d251af3d5a7d0fbd4dd74942d44f2d 100644
+> --- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+> +++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+> @@ -169,16 +169,16 @@ static int rockchip_dp_powerdown(struct analogix_dp_plat_data *plat_data)
+>  static int rockchip_dp_get_modes(struct analogix_dp_plat_data *plat_data,
+>  				 struct drm_connector *connector)
+>  {
+>  	struct drm_display_info *di = &connector->display_info;
+>  	/* VOP couldn't output YUV video format for eDP rightly */
+> -	u32 mask = DRM_COLOR_FORMAT_YCBCR444 | DRM_COLOR_FORMAT_YCBCR422;
+> +	u32 mask = BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444) | BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422);
 >  
+>  	if ((di->color_formats & mask)) {
+>  		DRM_DEBUG_KMS("Swapping display color format from YUV to RGB\n");
+>  		di->color_formats &= ~mask;
+> -		di->color_formats |= DRM_COLOR_FORMAT_RGB444;
+> +		di->color_formats |= BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444);
+>  		di->bpc = 8;
+>  	}
+>  
+>  	return 0;
+>  }
 > 
 > 
 
-Tested-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Reviewed-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-I've been running this patch as part of my color format work and it
-works precisely as it's supposed to (which is also quite evident from
-the simple conversion in the code.)
+I'm not the maintainer of this driver, but touched both the color
+formats and rockchip code enough to confidently state that this
+patch is trivially correct. I'm sure Heiko and Andy will agree. :)
 
 Kind regards,
 Nicolas Frattaroli
