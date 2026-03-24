@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B603FB7FF;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C073FBEA6;
 	Tue, 24 Mar 2026 16:44:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774370643; cv=none; b=DKtydD3FEvIjEXgaTIWQC5lhTz9/XZ8DuhioPjLQMSKP21jZT945uqVh3Zwg81dB4+lKV/0l6EsoOLykDeVOd4mHay1d3jg/xUuuQaDz9eQ8KeriTDEsZlJ8jtJIBAX0Veg4uFaz8YIQT5HxrP6WDOH/RDJiqQMH8LeRDAVDi1o=
+	t=1774370643; cv=none; b=sgxZVoyrOW0z7rSa0UkqcipnNHgM6QN0itHSLPEKIUZtj9izovb6G64Je6TaCS9/mlSB0vS4ebQiP3ZdNvxv/e1OnGGKx5/hisK6LHetqID0B+75yZjQIdXfhb6BWI7xlGfKFB61TvoV8e1mdr16eas+HkMTntAaBmVYmYFhznw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774370643; c=relaxed/simple;
-	bh=U61+dRHYuGxHw4u9pXFuFuZiDuMWELHNCtj0Nylxc0Q=;
+	bh=uALeBIQ9srGWNXN1FhxlvCEa7dBhMf1seaxU46RBbec=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=R2bLbs3pYlhwuIzltLxbhFfJQtL8gUCkAYcdCkyApkzCW/CgHJr8AuTE+8ITSZC1Oh/vwO5sv8qWoIs1ui58Mr9arZp6BLfRYPIgqLqzx32gJBTvGh+O/IsLA195k5CIFVQ8Rx30lU/fiMuxpOSA8KlOna5AsmQuMXP/GwxeQqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tsClmxy4; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=F0yULse744i10Lxu89SDC4kkCCaGQgOypHfdPcB9nLdxucfcNrwFXgYyBn/1V4kRpplNDG2kZauzsFNR/YxMNjqjnrK+AGk53CX51ZLuRJSKpxtWh/4dG/rnBQUJacOdXPnY3AwHApwWXT8jA5sa+zIHVHzw0mGW9RGlRv2R7Ts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MKd/bY+q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tsClmxy4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B35F7C2BCB2;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MKd/bY+q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC74CC19424;
 	Tue, 24 Mar 2026 16:44:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1774370642;
-	bh=U61+dRHYuGxHw4u9pXFuFuZiDuMWELHNCtj0Nylxc0Q=;
+	bh=uALeBIQ9srGWNXN1FhxlvCEa7dBhMf1seaxU46RBbec=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tsClmxy4M9zi3pMxpUGq3hxYRSZ4og2rH3NnK9WSJE+kTch0rT9za2dEVurIEIHKq
-	 VbX7Lb6/U1gjTqAUOzLAJOKbGEl69JQtOEyuJg62O46z9jRZA4yGmV6mb5c6CopUtO
-	 mYbRbmqo3Jm59Mu89FgntzTfaQlsAhglopEXSBGMMI3V1cxL67L5otRhmiPjM2NiFE
-	 FE0dskqUWWH2ldK948OprtoogAP3SfcBt9gArYdz5Tj3x3N3Ml5QdN5HzivawjxeGn
-	 UzsM7Zap8uftLrLhLP2UMI8Cmh1MPWEs9Hai3MN+kBI6PylkgCfziMsYX7A94QbHK4
-	 4tmrUMoYxNuvA==
+	b=MKd/bY+q7kW3h9G/0vdZWfPBXTRclabRpkl9UVKyk92HESgdxGDki/8TyS9AVIXCJ
+	 lSAFfNUIYo0nb1xUWkEWeENwSkw+vi/RLWbD1x5nEN0XP8Wvem5ocAf6wnmBcH2IjT
+	 ReiStKF/+/+YJoVFQ6eeDppiUnevBTLsre8qoW/au0niqzuAeOhvMcwwZWNm/OC1Jq
+	 7KzdXf8Z6w27klffegiC+p5puoU4UuV2snqYUZoKaNPVPYDhh28rnBQDhr3wIp/5fU
+	 MgkB8faRY+bseQU9CEOhRdGtC9GGqYITU5lRIDJf++OcKayqnrqicPm0S0oZi4ZY6a
+	 XTxMlq7NVXEcA==
 Received: by wens.tw (Postfix, from userid 1000)
-	id B0B825FFAB; Wed, 25 Mar 2026 00:44:00 +0800 (CST)
+	id 9FD5E5F9F8; Wed, 25 Mar 2026 00:44:00 +0800 (CST)
 From: Chen-Yu Tsai <wens@kernel.org>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -39,9 +39,9 @@ Cc: devicetree@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/7] soc: sunxi: sram: Const-ify sunxi_sram_func data and references
-Date: Wed, 25 Mar 2026 00:43:51 +0800
-Message-ID: <20260324164357.1607247-4-wens@kernel.org>
+Subject: [PATCH 1/7] dt-bindings: sram: Document Allwinner H616 VE SRAM
+Date: Wed, 25 Mar 2026 00:43:49 +0800
+Message-ID: <20260324164357.1607247-2-wens@kernel.org>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260324164357.1607247-1-wens@kernel.org>
 References: <20260324164357.1607247-1-wens@kernel.org>
@@ -53,63 +53,44 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-sunxi_sram_func contains value mapping that do not change at runtime.
+The Allwinner H616 has two switchable peripheral SRAM regions:
 
-Const-ify them.
+- The VE SRAM is a 2 MB dedicated SRAM for the Video Engine. CPU access
+  to this region is enabled by default. CPU access can be disabled,
+  after which reads will show the same stale value for all addresses,
+  while writes are ignored.
+
+  The mux value for this region is different from previous generations,
+  and thus needs a completely new compatible.
+
+- The SRAM C region is an alias of the first 128 KB of VE SRAM, plus 64
+  KB of DE SRAM. The latter is otherwise unaccessible from the CPU. When
+  CPU access is disabled, the whole region reads as zero, while writes
+  are ignored.
+
+  The mux value for this region is the same as on the A64 and H6. The
+  existing compatible for the A64 already covers this.
+
+Add the compatible for the VE SRAM to the list of covered compatibles in
+the generic SRAM region binding.
 
 Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 ---
- drivers/soc/sunxi/sunxi_sram.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ Documentation/devicetree/bindings/sram/sram.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
-index 446b9fc1f175..5e8c80ae3509 100644
---- a/drivers/soc/sunxi/sunxi_sram.c
-+++ b/drivers/soc/sunxi/sunxi_sram.c
-@@ -29,11 +29,11 @@ struct sunxi_sram_func {
- };
- 
- struct sunxi_sram_data {
--	char			*name;
--	u8			reg;
--	u8			offset;
--	u8			width;
--	struct sunxi_sram_func	*func;
-+	char				*name;
-+	u8				reg;
-+	u8				offset;
-+	u8				width;
-+	const struct sunxi_sram_func	*func;
- };
- 
- struct sunxi_sram_desc {
-@@ -54,7 +54,7 @@ struct sunxi_sram_desc {
- 		.reg = _reg,					\
- 		.offset = _off,					\
- 		.width = _width,				\
--		.func = (struct sunxi_sram_func[]){		\
-+		.func = (const struct sunxi_sram_func[]){	\
- 			__VA_ARGS__, { } },			\
- 	}
- 
-@@ -111,7 +111,7 @@ static int sunxi_sram_show(struct seq_file *s, void *data)
- 	struct device_node *sram_node, *section_node;
- 	const struct sunxi_sram_data *sram_data;
- 	const struct of_device_id *match;
--	struct sunxi_sram_func *func;
-+	const struct sunxi_sram_func *func;
- 	const __be32 *sram_addr_p, *section_addr_p;
- 	u32 val;
- 
-@@ -169,7 +169,7 @@ static const struct sunxi_sram_data *sunxi_sram_of_parse(struct device_node *nod
- {
- 	const struct of_device_id *match;
- 	const struct sunxi_sram_data *data;
--	struct sunxi_sram_func *func;
-+	const struct sunxi_sram_func *func;
- 	struct of_phandle_args args;
- 	u8 val;
- 	int ret;
+diff --git a/Documentation/devicetree/bindings/sram/sram.yaml b/Documentation/devicetree/bindings/sram/sram.yaml
+index c451140962c8..ddaab84f7ba0 100644
+--- a/Documentation/devicetree/bindings/sram/sram.yaml
++++ b/Documentation/devicetree/bindings/sram/sram.yaml
+@@ -81,6 +81,7 @@ patternProperties:
+             - allwinner,sun4i-a10-sram-d
+             - allwinner,sun9i-a80-smp-sram
+             - allwinner,sun50i-a64-sram-c
++            - allwinner,sun50i-h616-ve-sram
+             - amlogic,meson8-ao-arc-sram
+             - amlogic,meson8b-ao-arc-sram
+             - amlogic,meson8-smp-sram
 -- 
 2.47.3
 
