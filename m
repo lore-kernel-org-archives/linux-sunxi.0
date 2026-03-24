@@ -1,154 +1,67 @@
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB7438839E
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 Mar 2026 02:30:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 422361684BE;
+	Tue, 24 Mar 2026 03:08:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774319408; cv=none; b=Cgc+1cFl9j2bnNr87WdTykAqY24SrR4M7DiMI1vkrs7kTS64gyF8mpljKOPbNZi0NlpQIM98+i407CAGjz52BPipKDZbJWoC1DLXyAaj3uTV0KreUxpol/aue+GifXgRwHL4Pk/4utlb8G7gKTVof6r0CW+uPbnHHfJ3C3Gg0h0=
+	t=1774321725; cv=none; b=Us/xy5DvjXru3925s2yC+sEsG9r4/mpcn7F9wye8t41ScpMxbFbutQj/iXvzK9uBQtMOqVuJu0AKR8ixk5kd+0vv9anVYZwvZGF9kkc6ghzBffjjotL7UtHW2A4mzAfYMVlvC0PjZwYVyWgR6GiLWsIVdL9IQH91e34O4LQrLHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774319408; c=relaxed/simple;
-	bh=Vr+wLb3/yfuaY7Ek50G5tqooWQuxrr2KXAF3tU7VBDw=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
-	 Content-Type:References; b=BPubriYweOMdd9chHUaXAUzWFVGdjqIVXs1jzC73XFBzzm6DHTL3e9G/nMCcp8u8dqPXpzWyP25OcI7SIr1aL/QQE2xOZOCIJp1HYdlPHvkcl7SX7B5W/DD7EU0L+3NIxgEed1weJgvLae/DcJdz8hKbZM/7LwQwyYurAMa3+Hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=RTFBubUc; arc=none smtp.client-ip=203.254.224.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1774321725; c=relaxed/simple;
+	bh=L6bdm1UAcNyRmk3Mc5xmi0ANiavnrf9n3FslWt3Q2V0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=hTemAnGJg2ZA+XTbtCcnTSrP1lU4SaEwhHCr1czKTKz6uPMXeod55YARi1e+J9Lc+akAeDBNWbsudywniMt+YnfFCAS5R+mV6J+qKvSWNCrpbQ+7WCfX9W9xwSorpxyHvGWKm80ECVoVU8lK/Q4nHmeENelJe6jB95fZNLBYbAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LHF3aDiV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="RTFBubUc"
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20260324023002epoutp04f6053bb8688d279f887deba631625477~fphiNztsa1331013310epoutp04W
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 Mar 2026 02:30:02 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20260324023002epoutp04f6053bb8688d279f887deba631625477~fphiNztsa1331013310epoutp04W
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1774319402;
-	bh=xiEG8fs8U4waGFe76frAqj8GUGT8PfbUsJqfEpDU4H0=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-	b=RTFBubUceVdG5dBZjg2EJuOun+7AvU7K1xXJVOiY75v5S6AwPDX0GCIymngOFAphd
-	 E4RA3K/kK+gtTKLgy3khdnDiPmc2cGWIz79uHvHB6IujWAiNQY1L9e+YM2hT5hM2cb
-	 67/UCzZXuKEnGh+5DWuT53H601jKazX4GP44bHGA=
-Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
-	20260324023002epcas5p3c3a08032a55b26ba4a7023fdeaebf3cd~fphhsTMXr1327213272epcas5p3T;
-	Tue, 24 Mar 2026 02:30:02 +0000 (GMT)
-Received: from epcpadp1new (unknown [182.195.40.141]) by
-	epsnrtp02.localdomain (Postfix) with ESMTP id 4ffvBx72xwz2SSKf; Tue, 24 Mar
-	2026 02:30:01 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20260323172713epcas5p4dd04df01adb71b7563e1cac14b927632~fiHlqRiPK1063110631epcas5p4A;
-	Mon, 23 Mar 2026 17:27:13 +0000 (GMT)
-Received: from INBRO002756 (unknown [107.122.3.168]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20260323172656epsmtip1078ac64ab1a734cd90e8019874a7de3a~fiHV3p2Rc1639516395epsmtip1L;
-	Mon, 23 Mar 2026 17:26:55 +0000 (GMT)
-From: "Alim Akhtar" <alim.akhtar@samsung.com>
-To: "'Vladimir Oltean'" <vladimir.oltean@nxp.com>,
-	<linux-phy@lists.infradead.org>
-Cc: "'Vinod Koul'" <vkoul@kernel.org>, "'Neil Armstrong'"
-	<neil.armstrong@linaro.org>, <dri-devel@lists.freedesktop.org>,
-	<freedreno@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-arm-msm@vger.kernel.org>, <linux-can@vger.kernel.org>,
-	<linux-gpio@vger.kernel.org>, <linux-ide@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-	<linux-pci@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-	<linux-riscv@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
-	<linux-samsung-soc@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<spacemit@lists.linux.dev>, <UNGLinuxDriver@microchip.com>, "'Bart Van
- Assche'" <bvanassche@acm.org>, "'Peter Griffin'" <peter.griffin@linaro.org>,
-	"'James E.J. Bottomley'" <James.Bottomley@HansenPartnership.com>, "'Martin
- K. Petersen'" <martin.petersen@oracle.com>, "'Krzysztof Kozlowski'"
-	<krzk@kernel.org>, "'Chanho Park'" <chanho61.park@samsung.com>
-In-Reply-To: <20260319223241.1351137-10-vladimir.oltean@nxp.com>
-Subject: RE: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
- struct phy guts
-Date: Mon, 23 Mar 2026 22:56:51 +0530
-Message-ID: <1891546521.01774319401971.JavaMail.epsvc@epcpadp1new>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LHF3aDiV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83954C4CEF7;
+	Tue, 24 Mar 2026 03:08:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774321724;
+	bh=L6bdm1UAcNyRmk3Mc5xmi0ANiavnrf9n3FslWt3Q2V0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=LHF3aDiVHXC9i/nGJ35BLo1UOhtq97jikR0glYnrWss/+pr2g40JoNyZuFhWYQt3R
+	 7SKZJY6TQxfnqoXDWCygTMJtcaKbbt+h4y6OnNdUFmK1ewGTf9/QEBX0QfCXzYJDdY
+	 VOlw/rYSRUgVuA4sV6kDoqxIF4szGJE2h9dwGMunbX44cvG0XMME8VsH+bzTwEB4Yx
+	 aTtYoBOnKL2+dznMugbQE07SPUgoPaPcwSClyl99RuelalvVBcmmG08iroRDz69xZ5
+	 HMF75t+N1OQDgHWDZe8CluOzczvZuedXdIb0wE5rt4bcT7pEHbzSGH1TBFXYhnUORw
+	 +c9oedL99psnQ==
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Jernej Skrabec <jernej@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
+Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260323171927.1256507-1-wens@kernel.org>
+References: <20260323171927.1256507-1-wens@kernel.org>
+Subject: Re: [PATCH] arm64: dts: allwinner: sun55i: Fix r-spi DMA
+Message-Id: <177432172322.21043.12372539373263161573.b4-ty@kernel.org>
+Date: Tue, 24 Mar 2026 11:08:43 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQJoz1sM+EbPjkyDopxrfJVWkMJWdwIGLiEOAj0DJam0ghnJMA==
-Content-Language: en-us
-X-CMS-MailID: 20260323172713epcas5p4dd04df01adb71b7563e1cac14b927632
-X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-X-CPGSPASS: Y
-X-Hop-Count: 3
-X-CMS-RootMailID: 20260319223312epcas5p183a1e0c31206025da8cf00b5d745a0ce
-References: <20260319223241.1351137-1-vladimir.oltean@nxp.com>
-	<CGME20260319223312epcas5p183a1e0c31206025da8cf00b5d745a0ce@epcas5p1.samsung.com>
-	<20260319223241.1351137-10-vladimir.oltean@nxp.com>
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-HI Vladimir,
+On Tue, 24 Mar 2026 01:19:26 +0800, Chen-Yu Tsai wrote:
+> r-spi has DRQs for both the main and MCU DMA controllers on the A523 SoC
+> family, however it seems it that it is mainly routed to the MCU DMA
+> controller, with no obvious way to change it.
+> 
+> Change the DMA channels of r-spi to the MCU so that it works properly.
+> 
+> 
+> [...]
 
-> -----Original Message-----
-> From: Vladimir Oltean <vladimir.oltean@nxp.com>
-> Sent: Friday, March 20, 2026 4:02 AM
-> To: linux-phy@lists.infradead.org
-> Cc: Vinod Koul <vkoul@kernel.org>; Neil Armstrong
-> <neil.armstrong@linaro.org>; dri-devel@lists.freedesktop.org;
-> freedreno@lists.freedesktop.org; linux-arm-kernel@lists.infradead.org;
-> linux-arm-msm@vger.kernel.org; linux-can@vger.kernel.org; linux-
-> gpio@vger.kernel.org; linux-ide@vger.kernel.org; linux-
-> kernel@vger.kernel.org; linux-media@vger.kernel.org; linux-
-> pci@vger.kernel.org; linux-renesas-soc@vger.kernel.org; linux-
-> riscv@lists.infradead.org; linux-rockchip@lists.infradead.org;
-linux-samsung-
-> soc@vger.kernel.org; linux-scsi@vger.kernel.org;
-linux-sunxi@lists.linux.dev;
-> linux-tegra@vger.kernel.org; linux-usb@vger.kernel.org;
-> netdev@vger.kernel.org; spacemit@lists.linux.dev;
-> UNGLinuxDriver@microchip.com; Bart Van Assche <bvanassche@acm.org>;
-> Alim Akhtar <alim.akhtar@samsung.com>; Peter Griffin
-> <peter.griffin@linaro.org>; James E.J. Bottomley
-> <James.Bottomley@HansenPartnership.com>; Martin K. Petersen
-> <martin.petersen@oracle.com>; Krzysztof Kozlowski <krzk@kernel.org>;
-> Chanho Park <chanho61.park@samsung.com>
-> Subject: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
-struct
-> phy guts
-> 
-> The Exynos host controller driver is clearly a PHY consumer (gets the
-> ufs->phy using devm_phy_get()), but pokes into the guts of struct phy
-> to get the generic_phy->power_count.
-> 
-> The UFS core (specifically ufshcd_link_startup()) may call the variant
-> operation exynos_ufs_pre_link() -> exynos_ufs_phy_init() multiple times if
-> the link startup fails and needs to be retried.
-> 
-> However ufs-exynos shouldn't be doing what it's doing, i.e. looking at the
-> generic_phy->power_count, because in the general sense of the API, a
-> single Generic PHY may have multiple consumers. If ufs-exynos looks at
-> generic_phy->power_count, there's no guarantee that this ufs-exynos
-> instance is the one who previously bumped that power count. So it may be
-> powering down the PHY on behalf of another consumer.
-> 
-> The correct way in which this should be handled is ufs-exynos should
-> *remember* whether it has initialized and powered up the PHY before, and
-> power it down during link retries. Not rely on the power_count (which,
-btw,
-> on the writer side is modified under &phy->mutex, but on the reader side
-is
-> accessed unlocked). This is a discouraged pattern even if here it doesn't
-> cause functional problems.
-> 
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-> Reviewed-by: Bart Van Assche <bvanassche@acm.org>
-> ---
-Thanks for the patch
-Acked-by: Alim Akhtar <alim.akhtar@samsung.com>
+Applied to sunxi/fixes-for-7.0 in local tree, thanks!
 
-Tested this patch for basic UFS functionality, UFS still works. 
-Feel free to add
-Tested-by: Alim Akhtar <alim.akhtar@samsung.com>
+[1/1] arm64: dts: allwinner: sun55i: Fix r-spi DMA
+      commit: 6896ca5a9d05275fbeb38640c9bbdb95698de188
 
-
+Best regards,
+-- 
+Chen-Yu Tsai <wens@kernel.org>
 
