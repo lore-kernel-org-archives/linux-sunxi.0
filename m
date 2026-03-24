@@ -1,66 +1,66 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B142459EA
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 Mar 2026 18:28:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED846396566
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 Mar 2026 18:28:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774376929; cv=none; b=MdkMrhxUIRyAkKNO5Ctp3z0+Gcmd+gXKKrU1je4aCfDlGNFDYu23ky51XupD8yLJmriYMOs7HIfxPvEMyOszELccqjsEroIHVxXidcpegtfqCXDl2ydC9hjd2VUnU/BtDqt4bZFv8yRAeaab4hGzxzdYlwGiygWqH5p6PcDZ/4A=
+	t=1774376939; cv=none; b=Uud4/OasCOtvIbCpHbmefs4c7bvHwJ4/tm3zkRsB/wHxsjYzf0hUmYPpxDzcq2toPb6+i+Vm/VyE+DJVJ2lW+Dnb9Sp8t5QT05Dv4dlHjxcckzPT3IBmBnkyJ3gp6Y+HQxsHKm81+75DfXODjmtHmkYxYUu5r9DQD6XXEMxaxcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774376929; c=relaxed/simple;
-	bh=WclG9/5UCAVmNpJ6wIy91+8u1Ud041oHxz1zl+TJNjA=;
+	s=arc-20240116; t=1774376939; c=relaxed/simple;
+	bh=7g/jARnkhTd3DIs23AFH73jSfHB7zbCwImSIcA8YsoQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Dijt42eQETM+0aqErgM/D9o5QgXaXuU8DMlFLQCdwq/tCZJ6qMWO29IcMYSzIMXMucTS6lElG0wggN+9WL0xTdjJXilz9kZE4KSJpBkeRSwu2KunEkHZI0HxVP4vV7kZaE0rJsl5LNM8QB8iHO3+Plsug7N9z+T8xKOZQDstYU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rA//LVMR; arc=none smtp.client-ip=209.85.216.47
+	 In-Reply-To:To:Cc; b=Ohp3b8P+M6PxygPUx2BuQPkmewe8Maek9bds8ARAV7656EDfiyddE1Z+T6CvbPR3i8ZPLKPmq5OTIxXJQytffywvy7BDUAtgAR2KrgOA9dgWvM7dWzyvai/lxDuD8VUG2gp8yEwLefbqy7zIYBRN/NOCRH8Kgk//JLDe8LYdawo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p7MMC0WY; arc=none smtp.client-ip=209.85.216.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rA//LVMR"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-358e3cc5e7eso3159604a91.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 24 Mar 2026 11:28:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p7MMC0WY"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-35a07c4b17dso2114498a91.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 24 Mar 2026 11:28:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774376927; x=1774981727; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1774376937; x=1774981737; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TNhN09MjB5vo7WQrY09vfIIZoGUP1LY8sfZbk/6EDLE=;
-        b=rA//LVMRZTtzch0iwI6h4u/FUf9irItj+DEqHPjHXQVDSJo9LpBwIG6LYXlYhnxKFM
-         NwGUiVoo2qsOpfTK6O88b3xlYzLyMTn3cEyF+qgC6Zb6dWmjjpK/oEATZjwrjD+iPSi9
-         CzDkJDW8mt4SxBKzhFwLdtawEr63Z9ldAipj3qP/xT9AUEJwjn65AXhE7n4hUkuYCrrM
-         muTr7/W/PCGesA1DcaKMdCqnOxVNUq44QCIF7LaAmt8uP7mZjzun/kW93SKmAKj7Mz2w
-         SdEeoCnx2B2OBBh7wyXiRq1OGT7Evx4pHKH2ian60yU39ELrAhAbFjKvkGvKR3IPgxaC
-         hg4Q==
+        bh=2MPILU45gcDsKK8jp+8jqoirIZBgcXX7ZY0CuqSl9cY=;
+        b=p7MMC0WYCPcXlw3g+8tcE0QpCVybh2N90yBzSOEtv0daPKKYjFv0KYZ74ExXIxH90s
+         S5BCIIhhyXaWpZz98qAsZb6eIbq/SmNcu6Fu6fr27CFAzmwe5eFcGTm5LtoKIeZVbQTW
+         +U0s11s2vOZO8Bz4WpojrTUFYLxWaUe5waBeLd/0N7KNW6MTPIjjmVdLIGu7MrIRNtLJ
+         pwzCUHXB2hOrB+9kHzgA635mzD+V05hjOrUKvIFe3eKjWbMNtWJYvaFjk7ySoMGr4Bcy
+         Ne8VG3MM4l+D8DFBhUa/0WH9XRLvAHJMcOSXv33rk/YxG4Gu012uh8wWl5+PdttmYvJD
+         TO7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774376927; x=1774981727;
+        d=1e100.net; s=20251104; t=1774376937; x=1774981737;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=TNhN09MjB5vo7WQrY09vfIIZoGUP1LY8sfZbk/6EDLE=;
-        b=BmkcnVNvOdJP9rM1dzJf3meYxMsO2DYhru78Og6eV7vylV4Vhy65N1bz2FuMEYvJzS
-         iX+htSCJy3e0gakVrHCMirHik9Wy2pjdfleRfjiCtbsyVNmqfkcNWHE23nnkIsi6WVA6
-         xaUsk7eRnD1y7DyYtK1a3x0limRxkseJJsuYfVfnXPrhV6gjAXqmFmpGtiP0zWwlVGqb
-         mRckYRhYOhoy65nQ7HpPDTmUJTGHENJwWR9EjzBpwL2WCnepR2y/Pd4ZhUi6U+3Z4ux6
-         1BFCYX9IKmE3h/nJktqjxT2i0PwETOKSFNGMSPxy3a47LhumZJpNwNoGLr9qLDftNjci
-         CZBw==
-X-Forwarded-Encrypted: i=1; AJvYcCW4doq8DFQBXw8WoN9MkDbZJ3bTTPZPMXtXFT3j+DCt/OVdhG9k0qw4VLjvDtrPOeAzY046hDLsxVmaLg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyBAi2Ee0ByLiJqKtczgTUH+Sd1Q3VWkL52G4/20+fCbeBcF7B4
-	YDHuRndpn+fiMUyJBp1YQmel3J+W0nWCJSZTqxD0tHW6KhzHXQnXZ4qB
-X-Gm-Gg: ATEYQzwzWRpDKZKK01ncdPV6J/T6noQwqG7+rHp03R11+Xwf33cCpYblicc87WWIBTd
-	6T2QrovjkInb0xxFcNsEadvFEI5e70+WHHJPLvfksx7gik7adEGxMQkRDqw7lmYMTr76H7uDGJJ
-	expfwY47AjX3AZaawNczMipe1GZO/bmulsva1jWLIDkhx36OLqsNvBWxA6Bs6C/55RZuuS/oWKv
-	T3eI1AfFuJXaWtl2YTeYUXHxGR1/chSC/Em90lWLNQnPvjNIQegbO89VvSqASkBu8Pn/wS5RN08
-	4JtoY0DdbV774BYWO7ksB4z6vLdYC5YZY7rp0E36c9KxC1c+BprIdQZfLt0ZjXu//YnFf/Nxg1h
-	eF1lvxlaxu4uqbRFUoW1SEPqAS5E7jNq1EBrRgJIrCMIgDiLKNU6eGffsFz5LvzvPuJYEHL/qfP
-	MpZUPIFiNyGnEDamkx8EkPiJokfSHwQ6V0hDB+
-X-Received: by 2002:a17:90b:1d8a:b0:35b:e5ba:c0c8 with SMTP id 98e67ed59e1d1-35c0ddd9ed9mr320446a91.28.1774376927304;
-        Tue, 24 Mar 2026 11:28:47 -0700 (PDT)
+        bh=2MPILU45gcDsKK8jp+8jqoirIZBgcXX7ZY0CuqSl9cY=;
+        b=cziW2e4aVbgyV8lIQndJ+47tb8jWjYB/GpmnQbOC84mdRUvZKnBCO9LJ9RcjvwX5Av
+         jbvQCz9vbA9NjBsxRar/2TCkE4TlLvzmCmu048Ovb/r6ReClevO42K7/PXbEK/WXxm+H
+         oEZz09gXy6KaS+IjQOwOTByauTtWhmeuvpRBlPiouXPa++prI4tuSOeAEyehBAlzSvBg
+         bYg8VvX+xbRvHN6kpsRZk/sqg9AJOMv2WpGgr4NeEV7B1aEIQG+R8dtWbgt01+7Vaktw
+         z1zYTclxzBFTso+APAVgZCS8jeuASpxwvYxtxacp1YDcdy4Wooi7mIJYyECqgOWYgE/E
+         vKDw==
+X-Forwarded-Encrypted: i=1; AJvYcCWaD6r4OIVbo4DF9kl4ZruCZ/MIzZzZ6U+qbGfiZAI/0t1HgoonHxuLy3mkirzresV6rqZUyrCgXawILw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzgxwZgTQmfuKqPuQAkkdxurBIjiUL+MvrVyjLzysfmV1M7peKn
+	8jRa1AgO9wATFssGY47XXqSC+pRbO40QNeTaWxIwmzw3SVe/Oug2u/7F
+X-Gm-Gg: ATEYQzzLWd4fwyRk1HIR1yHpU635CeGoNmT9wdg+cCFbuxj3PTU00viGIgolE/Sb+fx
+	jfeO2uj2pqTv7+1zei28/4uyLTQj+qMthekJYFEbZJGIbkssM17WnfPuhA6pK5tgTqUb9Fd3mbZ
+	0RMeWWMQjCI7QYmD5BGadA9ewDO0RsG9+hd4DZMsOIEJn6EjAYyXuGvvt2lHrvUNK8O9zyYpN/e
+	PK7Re3ks/KxRvbu0W0QiE18i6Ept+HFz4DEDWcqorih7Ud5bteNsyF3GahWnFevWP21R5ICOwu8
+	wcXU7hacxwDMsrmLVYwYocw/inLiDuRPPhgVEzvB7C/86FK5a/TmRuHBnTtRGDvcK55wbFyPNIV
+	o6K7zIX7GKh5VTV6sLi73DNRS1qKgySX2gpbHV8nvqHe3a9gmxGdBgtXyJUonQkIwoPktIGBB4y
+	0DBhE5pDrKSFzrT12dkR7ZG6KYHQ==
+X-Received: by 2002:a17:90b:3dc4:b0:35b:929f:7e8f with SMTP id 98e67ed59e1d1-35c0dd1000bmr297824a91.13.1774376937217;
+        Tue, 24 Mar 2026 11:28:57 -0700 (PDT)
 Received: from [127.0.1.1] ([103.216.213.160])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35c0d6060b5sm350576a91.17.2026.03.24.11.28.36
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35c0d6060b5sm350576a91.17.2026.03.24.11.28.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 11:28:46 -0700 (PDT)
+        Tue, 24 Mar 2026 11:28:56 -0700 (PDT)
 From: Atharv Dubey <atharvd440@gmail.com>
-Date: Tue, 24 Mar 2026 23:56:57 +0530
-Subject: [PATCH 09/10] i2c: sis96x: Replace dev_err() with dev_err_probe()
+Date: Tue, 24 Mar 2026 23:56:58 +0530
+Subject: [PATCH 10/10] i2c: sis630: Replace dev_err() with dev_err_probe()
  in probe function
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260324-deverr-v1-9-7e591cce33a3@gmail.com>
+Message-Id: <20260324-deverr-v1-10-7e591cce33a3@gmail.com>
 References: <20260324-deverr-v1-0-7e591cce33a3@gmail.com>
 In-Reply-To: <20260324-deverr-v1-0-7e591cce33a3@gmail.com>
 To: Till Harbaum <till@harbaum.org>, Andi Shyti <andi.shyti@kernel.org>, 
@@ -92,11 +92,11 @@ Cc: linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
  Enrico Zanda <e.zanda1@gmail.com>, Atharv Dubey <atharvd440@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774376818; l=2523;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774376818; l=2804;
  i=atharvd440@gmail.com; s=20260314; h=from:subject:message-id;
- bh=2gYAVvyUJk/qxHL4KJceROL4iNDzsuJ4eDXGcgjkpVk=;
- b=vB2gL2qhGY3YL/cIJqmvowLCaQEngaBk72sJRkrwCl3oRTHnnpcQvD7hzPfvDqHKUYnT4Wr6Y
- Zfn7Uu0NXm6B/rb6bM9jYBJr8GEREU1oPwc+1RRqWHn4xFjESwTrs7U
+ bh=nhsfDSLdFe3nGX23EexwATKRFgvnwZsN/uRkVIgsfDc=;
+ b=MfTL2nua2/UaTOkuHox/mofQ9uGkaQFwD4ef2QTeyEIJWKrK1affTlrqYL2fD+dQbiqZ2kQf1
+ 368O9MeLyraCsNY7XiqbLSbdhihgwtkeZhLhsjgkAnvnbcpMTIg+zrj
 X-Developer-Key: i=atharvd440@gmail.com; a=ed25519;
  pk=T6i1xWOKT/RUSDYATSgyVG/4X7ac8jPjRSG1mMAcqVk=
 
@@ -107,68 +107,76 @@ This simplifies the code while improving log.
 Signed-off-by: Enrico Zanda <e.zanda1@gmail.com>
 Signed-off-by: Atharv Dubey <atharvd440@gmail.com>
 ---
- drivers/i2c/busses/i2c-sis96x.c | 30 +++++++++++++-----------------
- 1 file changed, 13 insertions(+), 17 deletions(-)
+ drivers/i2c/busses/i2c-sis630.c | 31 +++++++++++++------------------
+ 1 file changed, 13 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/i2c/busses/i2c-sis96x.c b/drivers/i2c/busses/i2c-sis96x.c
-index 77529dda6fcd..eee41dc9d706 100644
---- a/drivers/i2c/busses/i2c-sis96x.c
-+++ b/drivers/i2c/busses/i2c-sis96x.c
-@@ -245,23 +245,19 @@ static int sis96x_probe(struct pci_dev *dev,
- 	u16 ww = 0;
- 	int retval;
+diff --git a/drivers/i2c/busses/i2c-sis630.c b/drivers/i2c/busses/i2c-sis630.c
+index a19c3d251804..3d0638c2bc51 100644
+--- a/drivers/i2c/busses/i2c-sis630.c
++++ b/drivers/i2c/busses/i2c-sis630.c
+@@ -431,24 +431,23 @@ static int sis630_setup(struct pci_dev *sis630_dev)
+ 	   in acpi io space and read acpi base addr
+ 	*/
+ 	if (pci_read_config_byte(sis630_dev, SIS630_BIOS_CTL_REG, &b)) {
+-		dev_err(&sis630_dev->dev, "Error: Can't read bios ctl reg\n");
+-		retval = -ENODEV;
++		retval = dev_err_probe(&sis630_dev->dev, -ENODEV,
++				       "Error: Can't read bios ctl reg\n");
+ 		goto exit;
+ 	}
+ 	/* if ACPI already enabled , do nothing */
+ 	if (!(b & 0x80) &&
+ 	    pci_write_config_byte(sis630_dev, SIS630_BIOS_CTL_REG, b | 0x80)) {
+-		dev_err(&sis630_dev->dev, "Error: Can't enable ACPI\n");
+-		retval = -ENODEV;
++		retval = dev_err_probe(&sis630_dev->dev, -ENODEV,
++				       "Error: Can't enable ACPI\n");
+ 		goto exit;
+ 	}
  
--	if (sis96x_smbus_base) {
--		dev_err(&dev->dev, "Only one device supported.\n");
--		return -EBUSY;
--	}
-+	if (sis96x_smbus_base)
-+		return dev_err_probe(&dev->dev, -EBUSY, "Only one device supported.\n");
+ 	/* Determine the ACPI base address */
+ 	if (pci_read_config_word(sis630_dev,
+ 				 SIS630_ACPI_BASE_REG, &acpi_base)) {
+-		dev_err(&sis630_dev->dev,
+-			"Error: Can't determine ACPI base address\n");
+-		retval = -ENODEV;
++		retval = dev_err_probe(&sis630_dev->dev, -ENODEV,
++				       "Error: Can't determine ACPI base address\n");
+ 		goto exit;
+ 	}
  
- 	pci_read_config_word(dev, PCI_CLASS_DEVICE, &ww);
--	if (PCI_CLASS_SERIAL_SMBUS != ww) {
--		dev_err(&dev->dev, "Unsupported device class 0x%04x!\n", ww);
+@@ -469,11 +468,10 @@ static int sis630_setup(struct pci_dev *sis630_dev)
+ 	/* Everything is happy, let's grab the memory and set things up. */
+ 	if (!request_region(smbus_base + SMB_STS, SIS630_SMB_IOREGION,
+ 			    sis630_driver.name)) {
+-		dev_err(&sis630_dev->dev,
+-			"I/O Region 0x%04x-0x%04x for SMBus already in use.\n",
+-			smbus_base + SMB_STS,
+-			smbus_base + SMB_STS + SIS630_SMB_IOREGION - 1);
+-		retval = -EBUSY;
++		retval = dev_err_probe(&sis630_dev->dev, -EBUSY,
++				       "I/O Region 0x%04x-0x%04x for SMBus already in use.\n",
++				       smbus_base + SMB_STS,
++				       smbus_base + SMB_STS + SIS630_SMB_IOREGION - 1);
+ 		goto exit;
+ 	}
+ 
+@@ -511,12 +509,9 @@ static int sis630_probe(struct pci_dev *dev, const struct pci_device_id *id)
+ {
+ 	int ret;
+ 
+-	if (sis630_setup(dev)) {
+-		dev_err(&dev->dev,
+-			"SIS630 compatible bus not detected, "
+-			"module not inserted.\n");
 -		return -ENODEV;
 -	}
-+	if (ww != PCI_CLASS_SERIAL_SMBUS)
++	if (sis630_setup(dev))
 +		return dev_err_probe(&dev->dev, -ENODEV,
-+				     "Unsupported device class 0x%04x!\n", ww);
++				     "Compatible bus not detected, module not inserted.\n");
  
- 	sis96x_smbus_base = pci_resource_start(dev, SIS96x_BAR);
--	if (!sis96x_smbus_base) {
--		dev_err(&dev->dev, "SiS96x SMBus base address "
--			"not initialized!\n");
--		return -EINVAL;
--	}
-+	if (!sis96x_smbus_base)
-+		return dev_err_probe(&dev->dev, -EINVAL,
-+				     "SiS96x SMBus base address not initialized!\n");
-+
- 	dev_info(&dev->dev, "SiS96x SMBus base address: 0x%04x\n",
- 			sis96x_smbus_base);
- 
-@@ -272,9 +268,9 @@ static int sis96x_probe(struct pci_dev *dev,
- 	/* Everything is happy, let's grab the memory and set things up. */
- 	if (!request_region(sis96x_smbus_base, SMB_IOSIZE,
- 			    sis96x_driver.name)) {
--		dev_err(&dev->dev, "SMBus registers 0x%04x-0x%04x "
--			"already in use!\n", sis96x_smbus_base,
--			sis96x_smbus_base + SMB_IOSIZE - 1);
-+		dev_err_probe(&dev->dev, -EINVAL,
-+			      "SMBus registers 0x%04x-0x%04x already in use!\n",
-+			      sis96x_smbus_base, sis96x_smbus_base + SMB_IOSIZE - 1);
- 
- 		sis96x_smbus_base = 0;
- 		return -EINVAL;
-@@ -287,7 +283,7 @@ static int sis96x_probe(struct pci_dev *dev,
- 		"SiS96x SMBus adapter at 0x%04x", sis96x_smbus_base);
- 
- 	if ((retval = i2c_add_adapter(&sis96x_adapter))) {
--		dev_err(&dev->dev, "Couldn't register adapter!\n");
-+		dev_err_probe(&dev->dev, retval, "Couldn't register adapter!\n");
- 		release_region(sis96x_smbus_base, SMB_IOSIZE);
- 		sis96x_smbus_base = 0;
- 	}
+ 	/* set up the sysfs linkage to our parent device */
+ 	sis630_adapter.dev.parent = &dev->dev;
 
 -- 
 2.43.0
