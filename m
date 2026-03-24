@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 128BD406291;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6410B4070F6;
 	Tue, 24 Mar 2026 16:44:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774370645; cv=none; b=ictswYhMlfEL7Jg+h94CLc+v7GGeqXNSICtOsYuoJD9/X1nHIkzgRo7qmA/yzWlkRBwRRc79/3aTHt3m23d3n9cjPebqBHJ345t2+m1XcIwy4vNuyeDhxGRRNxVKVL3G5fUvtZAqdSvp5Dp0gztJ+KVTzgYA7EtC40aqi+aICZk=
+	t=1774370645; cv=none; b=mlTFJNR8yilpHhM82rcNmRXyMlte7lTj38hPB1dfJtsH5rM4no4rl4vA8wqMuRJa1/Q1XCsQUkkNkw6XiTUc5vimNJeA2X7ycmcrtlEsRr/jnm7BlZ9VApheJA4h4rs/ypLeIwNj5oX9aw37sjzmSmb7Lbx0/kJTAaHyVfN9xfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774370645; c=relaxed/simple;
-	bh=d2usvZzl3iy+LSd+yBZb4LfU83ScHAI81Xk1hz8xX44=;
+	bh=QYFXFUR/8WwRSwrV3QqrRDABUI+S+t3w7aA/W4XCZ70=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ceCykdOSYXmvmXB73HSkyQ3DWbBNYXaUPpFPzfZkPuuyS3zi18nXK4eF96CzSrptryfi4LyqRSdWe/S0mojosm9IvEy+FHzRuyMAkyX4TEUMfe3TDuvDFqTNzGW9fpuc7tXT9KSfML96I0owcsFrmtQLrWVVP4tWctN0RsM1mpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KQaehjJr; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=t50WywW+D4UMts7t2lOe+eabfp/VYaTEck2k5ysL4JZWUW+zCBn3P15YJ5CNSW2A19Hy36S6m3WnR8N1Z0e8ASNrjm0tyZqq7XnOQJdVbeGbn0a0qk1ZJ/3lOPPWGaCTRgMO42lDUHu+N/Z/UFeuEh7d3hwsV2gic4f8oKtE+c0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=trMKu6dh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KQaehjJr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CACDBC2BC87;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="trMKu6dh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D55AAC2BC9E;
 	Tue, 24 Mar 2026 16:44:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1774370645;
-	bh=d2usvZzl3iy+LSd+yBZb4LfU83ScHAI81Xk1hz8xX44=;
+	bh=QYFXFUR/8WwRSwrV3QqrRDABUI+S+t3w7aA/W4XCZ70=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KQaehjJr8t4bUSbUTEGVQT2xDGVv40IiShtPC8uoYCf0awgsoDTrwcYKHDbfREA+K
-	 34UqJSiTmESYONEWMDK7dV6YNZUMqCzYTvVO02zVtp1I9TTiC5/gNa2p+ul7huAWxf
-	 WFjl0c8qXVGFqh/hFdH9J5AsByPb2qW7MCAq0RpUIxLRzLPcfVPuCQ6xQcS0vn4rOX
-	 VW31rGBGIcuhmbnw6J8YomWxFmFQGDjjBpW1ehkX32EnXiF7XNZyUlF+Q+hLEVOt+l
-	 iignnGxW2yVpB5JEtsOjG6YcWqlEB50QJkOubK6CmFEWIhEiy8jCVf+nWaVYLGNxvD
-	 L86M3xvBbXXAw==
+	b=trMKu6dhD9+hUG8hyWqzyKsWtEjf8n4BKqDA5IXDjOt3J3V4NLJOdBbOavv9Ta7J2
+	 5vtjU80y72ml+oAes8iOCC/QmiN5hvLumBE6ixJROD+Lapsurrrf48s83cRgZ/kReb
+	 SuaWQDtpVT//zX/TNFffVfZNkKrujd3jsQo34CsMUvA6aZpFaIsKTS+DEFa+tCBj2D
+	 4RoRIZgT3Zekvxuvv96wX1Gjvgk9Oj5paQvB8Btm/yYmKxwX15VdybgaoMVpDC6A9L
+	 7npZKoOJPuDa67EAevfO1TbQgGWGResDtaqq1U+l/5ZD7+Atb0RnPFolase33cFNT/
+	 NREQu9xJFR6CQ==
 Received: by wens.tw (Postfix, from userid 1000)
-	id F22F75FFE0; Wed, 25 Mar 2026 00:44:00 +0800 (CST)
+	id E6C8A60003; Wed, 25 Mar 2026 00:44:00 +0800 (CST)
 From: Chen-Yu Tsai <wens@kernel.org>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -35,14 +35,13 @@ To: Rob Herring <robh@kernel.org>,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej@kernel.org>,
 	Samuel Holland <samuel@sholland.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	devicetree@vger.kernel.org,
+Cc: devicetree@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 7/7] arm64: dts: allwinner: sun50i-h616: Add SRAM nodes
-Date: Wed, 25 Mar 2026 00:43:55 +0800
-Message-ID: <20260324164357.1607247-8-wens@kernel.org>
+Subject: [PATCH 6/7] soc: sunxi: sram: Add H616 SRAM regions
+Date: Wed, 25 Mar 2026 00:43:54 +0800
+Message-ID: <20260324164357.1607247-7-wens@kernel.org>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260324164357.1607247-1-wens@kernel.org>
 References: <20260324164357.1607247-1-wens@kernel.org>
@@ -54,63 +53,57 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
+The Allwinner H616 has two switchable peripheral SRAM regions:
 
-The H616 SoC has a video engine, and two SRAM regions needed by it.
+- The VE SRAM is a 2 MB dedicated SRAM for the Video Engine. CPU access
+  to this region is enabled by default. CPU access can be disabled,
+  after which reads will show the same stale value for all addresses,
+  while writes are ignored.
 
-Add the SRAM regions to the dtsi file. The video engine will be added
-in a separate change.
+  The mux value for this region is different from previous generations.
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-[wens@kernel.org: Add VE SRAM region, commit message, and split into two]
+- The SRAM C region is an alias of the first 128 KB of VE SRAM, plus 64
+  KB of DE SRAM. The latter is otherwise unaccessible from the CPU. When
+  CPU access is disabled, the whole region reads as zero, while writes
+  are ignored.
+
+  The mux value for this region is the same as on the A64 and H6.
+
+Add data for the VE SRAM. The register values were taken from the BSP
+vendor kernel.
+
 Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 ---
- .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 28 ++++++++++++++++++-
- 1 file changed, 27 insertions(+), 1 deletion(-)
+ drivers/soc/sunxi/sunxi_sram.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-index 8d1110c14bad..0c50a73def65 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-@@ -182,12 +182,38 @@ syscon: syscon@3000000 {
- 			#size-cells = <1>;
- 			ranges;
+diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
+index 4d81897179e7..2ccaeacf8c70 100644
+--- a/drivers/soc/sunxi/sunxi_sram.c
++++ b/drivers/soc/sunxi/sunxi_sram.c
+@@ -83,6 +83,12 @@ static struct sunxi_sram_desc sun50i_a64_sram_c = {
+ 				  SUNXI_SRAM_MAP(0, 1, "de2")),
+ };
  
--			sram_c: sram@28000 {
-+			/* SRAM C */
-+			sram@28000 {
- 				compatible = "mmio-sram";
- 				reg = <0x00028000 0x30000>;
- 				#address-cells = <1>;
- 				#size-cells = <1>;
- 				ranges = <0 0x00028000 0x30000>;
++static struct sunxi_sram_desc sun50i_h616_ve_sram = {
++	.data	= SUNXI_SRAM_DATA("VE", 0x0, 0, 1,
++				  SUNXI_SRAM_MAP(1, 0, "cpu"),
++				  SUNXI_SRAM_MAP(0, 1, "ve")),
++};
 +
-+				/*
-+				 * 0x0 ~ 0x20000 is partial alias of VE SRAM below.
-+				 * 0x20000 ~ 0x2ffff is (partial?) alias of DE SRAM.
-+				 * However the whole region is toggled together.
-+				 */
-+				sram_c: sram-section@0 {
-+					compatible = "allwinner,sun50i-h616-sram-c",
-+						     "allwinner,sun50i-a64-sram-c";
-+					reg = <0x00000 0x30000>;
-+				};
-+			};
-+
-+			/* VE SRAM */
-+			sram@1a00000 {
-+				compatible = "mmio-sram";
-+				reg = <0x01a00000 0x200000>;
-+				#address-cells = <1>;
-+				#size-cells = <1>;
-+				ranges = <0 0x01a00000 0x200000>;
-+
-+				ve_sram: sram-section@0 {
-+					compatible = "allwinner,sun50i-h616-ve-sram";
-+					reg = <0x000000 0x200000>;
-+				};
- 			};
- 		};
+ static const struct of_device_id sunxi_sram_dt_ids[] = {
+ 	{
+ 		.compatible	= "allwinner,sun4i-a10-sram-a3-a4",
+@@ -100,6 +106,10 @@ static const struct of_device_id sunxi_sram_dt_ids[] = {
+ 		.compatible	= "allwinner,sun50i-a64-sram-c",
+ 		.data		= &sun50i_a64_sram_c.data,
+ 	},
++	{
++		.compatible	= "allwinner,sun50i-h616-ve-sram",
++		.data		= &sun50i_h616_ve_sram.data,
++	},
+ 	{}
+ };
  
 -- 
 2.47.3
