@@ -1,66 +1,66 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED2D2224AF2
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 Mar 2026 18:28:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9CDF3A381B
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 Mar 2026 18:28:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774376882; cv=none; b=LVbF3mG45/8g0QaOP0cg080uhRDOVK6ZxtQwmAFv9i63eVg5YfA53CeH+AE9rPfwTmMMRSRgJ0cBigckKpjs/JMx0UrBhxmk6jAH/WTDeRq9U6u9SGJlvnoCKHGuhXZ58A7/3sD+2tJTuYHsJpahyRaqe17Gx7XwKJZFYrdb3xU=
+	t=1774376894; cv=none; b=EwR3O5mV+3vB4T9fQmNh3HT00uMtzApvhqaB0VOBdtgwlNbOwL1qo6RdM+HtuaWOOsF2mGEYv8yK66kTKbD8+jCZEt9Zf+d2Vmyqa0OeUz+FQbGEFDMGFKOAoOrjS4mnX2BWXhbtJW7iFCQGx1XxrfE+BrZDDbrPuRJ2moivYjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774376882; c=relaxed/simple;
-	bh=Og+ag9IkwKlXlRqp73B5hnPk+W9xiNL+UaCwuonyITY=;
+	s=arc-20240116; t=1774376894; c=relaxed/simple;
+	bh=iap5qBBPM9+z7GkIgQPTPNBQ4CZotIn48Ss9ISZDGxI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dLXkgCCLAicXxuz16FkNMsO6UguvM7n8k/myIs2H2e57VpUSYibj8B+bL/3Yvel/mpUDUagFG/tXIWEJOET2xlJWxk7ymhIrHF/KShjTR1pHr4NiIukTbyX9/wYYA0T0tBbH5+51oy8/ipHp1kQMAS/0DjeqgeAyG9gFeyr1wE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V8j8hZEY; arc=none smtp.client-ip=209.85.216.52
+	 In-Reply-To:To:Cc; b=Jwwqv+OlDbildmBgZwJlBbQ2cc2vABgXCA343uN2nItoO7KhndO2ki/eeH4qeh1EkHAN/z5NP+/P6Iq/sNWkEuUnSWXdJDpqqua/6tFAIjmINEGzS43qoKDMpVsqg88d/8vQ8esN3mC5JNYlHuaPq9phkS1jGv7EGEAgUnpGOZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lWB8/k8g; arc=none smtp.client-ip=209.85.215.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V8j8hZEY"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-35b905a05a8so3382925a91.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 24 Mar 2026 11:28:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lWB8/k8g"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c70c112cb61so990299a12.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 24 Mar 2026 11:28:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774376880; x=1774981680; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1774376892; x=1774981692; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=HHa+g9Yvknw/nsgWzBDeK9srp0wKwbZMTd0+ms6kC4c=;
-        b=V8j8hZEYNlC4R+hsYqc6FeQjiDkinxOQ8TD4XGqaeYEYYdigKvhSIHu4DoMRQe3EIv
-         eHxnhp4vF3Cji7QL1JNV2hlcwhshZfbo+HRgAuFM5g3Tk94kKbKaQlLf3X/3nlO7KQHR
-         ywOu/DbTXeYKcvcRl9D3Wx0Fnk+l/DqCfKmGzOoVUukx7wo0HyMcwM/IpI4kZYfxz81s
-         Q/GOTeaSaEkoN8m8tCK9zRQhzOUFDqSbevZzbYm2icreCv9LEDs1e41rXI50DV6pscFK
-         9KGL92ZW2HYfxzCB42eJ4KbIAsMf69Yl/nVeoOK93WCXmhOpZM4R2GfsLOUHenAaKN8n
-         7GNQ==
+        bh=LOh7L59SGXDe0n/0/CxydhLmu3Ccl2K/OUt14k5rUoM=;
+        b=lWB8/k8gAUAY5JNPMgew8WaCkNATMVUuDaiXItR/+u/Jzw56PK4U5qiz8kOjpTGA6c
+         TiGUyHtWFfZRFfLvWB3G+e4Mfj2adYaXw6vg8gncL2JcWOGyAY/5/aaNuLKizDUB/B4M
+         FWVgIXiCzNIohyJPVaFgm3NDju6exhXswS94QfuOF8wxRCWrwpSGu3iAwGVRNX5yZo3a
+         sdokWx6l0672fCxnIkrvHlZw+Cd69j12iDiH/1BGaCcnaz00XI/TC2lQmpk4jju/sqRj
+         ff8L7q2J7zErJy4jzxAjdhCFt+opZdNTZzDSygEGEMWFLSLht4g/YwPO/Rf60nM3Snc/
+         lEFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774376880; x=1774981680;
+        d=1e100.net; s=20251104; t=1774376892; x=1774981692;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=HHa+g9Yvknw/nsgWzBDeK9srp0wKwbZMTd0+ms6kC4c=;
-        b=GoCuotWBbMYa289xWPJLWugOGmZFexWIZ3SXqD2XoHmRgOwyNjHYWaSSubu+YUXJKA
-         +CV0eZQ3y1c8JDcWVKvwGW+jbcoSUIjUnyzheNX8CUBKa4pgGsaLJCsuWysYpB63dHmo
-         fIAJ2JbI5WzBFRsen6K27G1UVlcyi7moDvHmu/WlVuWBSBAVIej+lgqOk7oXbdvPPgyp
-         2ueD/lzIMHTRR338b9WKmLATRQP/3uTTwS+R593oObsUBTWU1p5j/2/d/Auxmy6PD87u
-         wo0Zy6LDrEEk8xG24HK8KVSqNx6WnfnHVUUgF4TaZbqCIOXBmBMY6IhV2CIO72hveaNC
-         gkVg==
-X-Forwarded-Encrypted: i=1; AJvYcCUAPxgpTtRb9GNm8+fKVps7E2GDtuV8+gJsTCSdvFfkuJ/UYEZlS9Nx0i5Iz/T/LfJBLDJ22WiFq5bjjg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxNHTT40ABoHEYSx3tjs6tzoe0bIBHsAOg8/d9pkHYrA+aCIsKt
-	7GJ7SjStR6hFdAkS5QCMea/fTiYIWY7mo7u5jVuWg8+zZOs0Hl3+UKNp
-X-Gm-Gg: ATEYQzzSx7OjYP48O58eyi8WC5p7T+zvWES3va3f4uqs7LdFBIpYz6gQ2CsF5v+cedV
-	kpdcmVaSpZfolB9gLsqITAoO38BJI+OZ3hSQcN8Pq2R7pmEDiqO71q9cWhWPAY3UR/cBfmPKo8K
-	++eYt5vURUlFIXpSUFxJp4/nm83lRgDMhip9eXfR24wqGGP7IYfJStWm5WBExc9ruugd5UEwVGb
-	cf4XefT5QqcdIMX/as/BYppsT0M1Fi9g/TC5cjoJJSe6HCiyW9gMVmA4qumP7+IslQhu0VcgrcC
-	UQd/5dqZbLCnfhlFh/Nd4f9TE6hAp3ABiRXNd7p1QawWFCeZYtxmbAtNY6VHUXEYOVcaR/ysu6N
-	FMoKBDRVUa4PdRnnoh23wIodA2fALgObIBGN3jVAAL9mqxjr+WiIE9t/qypToDwPf307C9KQQon
-	NxOTz8QbcvdTklCX4yO0dL4KSDCA==
-X-Received: by 2002:a17:90b:4ec6:b0:35b:e551:90d2 with SMTP id 98e67ed59e1d1-35c0dd95828mr337562a91.28.1774376879990;
-        Tue, 24 Mar 2026 11:27:59 -0700 (PDT)
+        bh=LOh7L59SGXDe0n/0/CxydhLmu3Ccl2K/OUt14k5rUoM=;
+        b=lRVrPOjql5gDJZ8SZOS1YThR0YzbY06zbt+K+HaFFXYosqZeLZG/JKqyemCXB04dyq
+         8ovET9VP4Gku03l9cWQBUEovWPuDmxL2UEYV8txNgp6TD+pwIJIQzu0iOSuBfV+ZaWwi
+         K+wCvgRf6AsgvWHKfexEfZATYdLMeJmhtmmR1LR39W846ZN9kHJiSRsjFcCpr1V9gY5+
+         H5cEPl9UB2v6dCZMfn79ykuuzLFsRdoL7y7mSUG+HJZxtBCgr94UICu9EZbD9hEOmIHl
+         OXY9T4U6+LzNj4t8LUIUv1g0VEAFUMW9pAYNnzYPZzd9cYAkzEAe9r7Kcx7dQohQtv1+
+         LJrw==
+X-Forwarded-Encrypted: i=1; AJvYcCVHFJVgYfQeRAqZMrTK2TcadGCwjnH+7dWbBA+YWtWzqn6EfRlXOZKKjVziiHw9g2zNDgLP9eCMc7lctA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwNKNyrfAi82sM3STOztxrFrYET+jiyAXO8tKxG791OPCz6Qhtz
+	wvr7KCbIWjMbVWmTEMD8nFIxzfMQUEQi1iuXXJahitH2TtoNqJ3BjlRn
+X-Gm-Gg: ATEYQzyT/YbiADVLJnMLq6YL3yksEM9mGZM0IjkOeNTXcIJ2Qnr5y6+0U0kSg7xvuy2
+	4060KuTliIhrqBzIT6A0wv8Pkl+hpEk91k30iG87CietUD2WqslwXYCHjHe20Sk9jJU4JRdqr4P
+	5sBW+u6Au7GSD7rMv692yvrfG+aw9aBk+e2mxvA1od1AWlN3jilwzYZcin8vXu4aGBzT+OXH3CG
+	KafPdiF4HveOh6lzmEA3pxFcMmRfDNh/dEGyZlcSEPIAC/39pT9L3iOx27kF0JGdEFJxmFiCuTA
+	IybQKpw7Sv6LmKXxCj/rCgbfioTAHHLV6s/GekBIIbeQiD/G1Y+FeEbimEoV0nC/h0UBkxxnxwR
+	jwORYklSmevyZLNsLbsaO6ezLrigUSTksxrNk4chjHCu+2V+zCz5Jh7b8XJbiAsqWKLmXqg7S5o
+	k4lj2yinbq6kJF020jrR2TQmISyQ==
+X-Received: by 2002:a17:90b:4a4f:b0:359:f22:8879 with SMTP id 98e67ed59e1d1-35c0ddb253amr350462a91.22.1774376892133;
+        Tue, 24 Mar 2026 11:28:12 -0700 (PDT)
 Received: from [127.0.1.1] ([103.216.213.160])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35c0d6060b5sm350576a91.17.2026.03.24.11.27.50
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35c0d6060b5sm350576a91.17.2026.03.24.11.28.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 11:27:59 -0700 (PDT)
+        Tue, 24 Mar 2026 11:28:11 -0700 (PDT)
 From: Atharv Dubey <atharvd440@gmail.com>
-Date: Tue, 24 Mar 2026 23:56:53 +0530
-Subject: [PATCH 05/10] i2c: stm32f4: Replace dev_err() with dev_err_probe()
+Date: Tue, 24 Mar 2026 23:56:54 +0530
+Subject: [PATCH 06/10] i2c: stm32: Replace dev_err() with dev_err_probe()
  in probe function
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260324-deverr-v1-5-7e591cce33a3@gmail.com>
+Message-Id: <20260324-deverr-v1-6-7e591cce33a3@gmail.com>
 References: <20260324-deverr-v1-0-7e591cce33a3@gmail.com>
 In-Reply-To: <20260324-deverr-v1-0-7e591cce33a3@gmail.com>
 To: Till Harbaum <till@harbaum.org>, Andi Shyti <andi.shyti@kernel.org>, 
@@ -92,11 +92,11 @@ Cc: linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
  Enrico Zanda <e.zanda1@gmail.com>, Atharv Dubey <atharvd440@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774376818; l=3441;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774376818; l=1144;
  i=atharvd440@gmail.com; s=20260314; h=from:subject:message-id;
- bh=fUyekU3vIj3XVF9IEZZuF8p06qRSr8GpHENT4b6dCL0=;
- b=Lv6diY6U8yOO+wFg03BiFqyP3QS+BUZjUWZZhiQKaL58Ge1g8J4dtHf+S+KQwwxbmw5DUKteO
- KpFdph3BhEcCYkTzwZIrFSEDvv+nlC32lTjIg5IZhXq8rp8u8lOOdaA
+ bh=fGh6XbxSkvU5zsFALrHQqBdXVjE2X7LO7LjtYihQc1Q=;
+ b=bSr5WSYN2sBbQ56eV/RU7Nsc30A+f8iif2b8KvF+i2QPU4oV/n2gxZwRlmFwYUL0Sn4WgwU3t
+ BHbt5Op51GJBjc0aJ76ljbLTb0hDHykJdiMU+4SpjB/VkJQQUf6r5CT
 X-Developer-Key: i=atharvd440@gmail.com; a=ed25519;
  pk=T6i1xWOKT/RUSDYATSgyVG/4X7ac8jPjRSG1mMAcqVk=
 
@@ -107,101 +107,31 @@ This simplifies the code while improving log.
 Signed-off-by: Enrico Zanda <e.zanda1@gmail.com>
 Signed-off-by: Atharv Dubey <atharvd440@gmail.com>
 ---
- drivers/i2c/busses/i2c-stm32f4.c | 53 ++++++++++++++++------------------------
- 1 file changed, 21 insertions(+), 32 deletions(-)
+ drivers/i2c/busses/i2c-stm32.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/i2c/busses/i2c-stm32f4.c b/drivers/i2c/busses/i2c-stm32f4.c
-index b3d56d0aa9d0..44e8b04962bb 100644
---- a/drivers/i2c/busses/i2c-stm32f4.c
-+++ b/drivers/i2c/busses/i2c-stm32f4.c
-@@ -163,11 +163,9 @@ static int stm32f4_i2c_set_periph_clk_freq(struct stm32f4_i2c_dev *i2c_dev)
- 		 * to hardware limitation
- 		 */
- 		if (freq < STM32F4_I2C_MIN_STANDARD_FREQ ||
--		    freq > STM32F4_I2C_MAX_FREQ) {
--			dev_err(i2c_dev->dev,
--				"bad parent clk freq for standard mode\n");
--			return -EINVAL;
--		}
-+		    freq > STM32F4_I2C_MAX_FREQ)
-+			return dev_err_probe(i2c_dev->dev, -EINVAL,
-+					     "bad parent clk freq for standard mode\n");
- 	} else {
- 		/*
- 		 * To be as close as possible to 400 kHz, the parent clk
-@@ -175,11 +173,9 @@ static int stm32f4_i2c_set_periph_clk_freq(struct stm32f4_i2c_dev *i2c_dev)
- 		 * maximum value of 46 MHz due to hardware limitation
- 		 */
- 		if (freq < STM32F4_I2C_MIN_FAST_FREQ ||
--		    freq > STM32F4_I2C_MAX_FREQ) {
--			dev_err(i2c_dev->dev,
--				"bad parent clk freq for fast mode\n");
--			return -EINVAL;
--		}
-+		    freq > STM32F4_I2C_MAX_FREQ)
-+			return dev_err_probe(i2c_dev->dev, -EINVAL,
-+					     "bad parent clk freq for fast mode\n");
+diff --git a/drivers/i2c/busses/i2c-stm32.c b/drivers/i2c/busses/i2c-stm32.c
+index becf8977979f..064e47d6c96f 100644
+--- a/drivers/i2c/busses/i2c-stm32.c
++++ b/drivers/i2c/busses/i2c-stm32.c
+@@ -39,7 +39,7 @@ struct stm32_i2c_dma *stm32_i2c_dma_request(struct device *dev,
+ 	dma_sconfig.direction = DMA_MEM_TO_DEV;
+ 	ret = dmaengine_slave_config(dma->chan_tx, &dma_sconfig);
+ 	if (ret < 0) {
+-		dev_err(dev, "can't configure tx channel\n");
++		dev_err_probe(dev, ret, "can't configure tx channel\n");
+ 		goto fail_tx;
  	}
  
- 	cr2 |= STM32F4_I2C_CR2_FREQ(freq);
-@@ -772,22 +768,19 @@ static int stm32f4_i2c_probe(struct platform_device *pdev)
- 		return PTR_ERR(i2c_dev->base);
+@@ -60,7 +60,7 @@ struct stm32_i2c_dma *stm32_i2c_dma_request(struct device *dev,
+ 	dma_sconfig.direction = DMA_DEV_TO_MEM;
+ 	ret = dmaengine_slave_config(dma->chan_rx, &dma_sconfig);
+ 	if (ret < 0) {
+-		dev_err(dev, "can't configure rx channel\n");
++		dev_err_probe(dev, ret, "can't configure rx channel\n");
+ 		goto fail_rx;
+ 	}
  
- 	irq_event = irq_of_parse_and_map(np, 0);
--	if (!irq_event) {
--		dev_err(&pdev->dev, "IRQ event missing or invalid\n");
--		return -EINVAL;
--	}
-+	if (!irq_event)
-+		return dev_err_probe(&pdev->dev, -EINVAL,
-+				     "IRQ event missing or invalid\n");
- 
- 	irq_error = irq_of_parse_and_map(np, 1);
--	if (!irq_error) {
--		dev_err(&pdev->dev, "IRQ error missing or invalid\n");
--		return -EINVAL;
--	}
-+	if (!irq_error)
-+		return dev_err_probe(&pdev->dev, -EINVAL,
-+				     "IRQ error missing or invalid\n");
- 
- 	i2c_dev->clk = devm_clk_get_enabled(&pdev->dev, NULL);
--	if (IS_ERR(i2c_dev->clk)) {
--		dev_err(&pdev->dev, "Failed to enable clock\n");
--		return PTR_ERR(i2c_dev->clk);
--	}
-+	if (IS_ERR(i2c_dev->clk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(i2c_dev->clk),
-+				     "Failed to enable clock\n");
- 
- 	rst = devm_reset_control_get_exclusive(&pdev->dev, NULL);
- 	if (IS_ERR(rst))
-@@ -807,19 +800,15 @@ static int stm32f4_i2c_probe(struct platform_device *pdev)
- 
- 	ret = devm_request_irq(&pdev->dev, irq_event, stm32f4_i2c_isr_event, 0,
- 			       pdev->name, i2c_dev);
--	if (ret) {
--		dev_err(&pdev->dev, "Failed to request irq event %i\n",
--			irq_event);
--		return ret;
--	}
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret,
-+				     "Failed to request irq event %i\n", irq_event);
- 
- 	ret = devm_request_irq(&pdev->dev, irq_error, stm32f4_i2c_isr_error, 0,
- 			       pdev->name, i2c_dev);
--	if (ret) {
--		dev_err(&pdev->dev, "Failed to request irq error %i\n",
--			irq_error);
--		return ret;
--	}
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret,
-+				     "Failed to request irq error %i\n", irq_error);
- 
- 	ret = stm32f4_i2c_hw_config(i2c_dev);
- 	if (ret)
 
 -- 
 2.43.0
