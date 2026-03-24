@@ -1,288 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A906407101;
-	Tue, 24 Mar 2026 16:44:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14CF39DBF5
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 Mar 2026 18:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774370645; cv=none; b=isHaq0I+rRuEZT8c6v+l6y+9FZ0u6WLVqkU5PB7JLhvQGL80/wJG2Rqz4SlQCR/zKgajStfHxyC/wTdYNGb8S5bPjGjIDG7g2rItWayQNYcobSuy+DDNwQBFEUStDsidCrQIHr3amn24f+BPmzstMZhat0Xcjn2yweW4ltzh5v0=
+	t=1774376831; cv=none; b=Q72n+L04CNGoFtiDVgefUU9i1xVfDKGMCZmj3hZ5Hw8K0l9cgbSfYkdKteqOaTeW/h0hbN3xV+x04TPUyRsRJQrZWeTKafdk3c9cxUEKbsUxNUhvlXEz1/7Mc3+nn5J/hiQqNCyV1f+THhu+VZTvvwNB5T9mcTBEZLTEYcnGKb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774370645; c=relaxed/simple;
-	bh=b0m0FnMqUK3YcK+u1bAXX+KhD9qbCEgekt0QI4jDH9Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IZQ1UhvEELnRP2DuKPr53BONlhFU22hnJxwb7P91CtrL6tsfN+/c06D0kG2T561DwS8jlZlmNKNzhfEEsrxBI5bdCFmkX8ShnT9hgQTLtGD+922GW9dtegIp9me9/8G/aAE6+wofMdNt1xU7p4f7tOoAH1ZxA9OXgEepNF3to4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C3o8s0Ol; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774376831; c=relaxed/simple;
+	bh=4eB96+tZs9fT6uON/Cp8K3KPDm65oymtk7Doe5oPZv8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=dx8ySMh9aysXYOG9g4s7lRheUVYXW7y0iKfNf9MKPF2O08nxMwBNRZcD5VvlOGLrcA6Kf5BiWumbJUHXBDlhc41HwL5+0DjFrXCl+sO4+NeK5M9vYYmArxKRgDq17nAMZYGt0mZcGg6AaFVwt01VmWpU4LNd15ZOMDniWzhPYC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EpPPlH5L; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C3o8s0Ol"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36C6AC2BCB6;
-	Tue, 24 Mar 2026 16:44:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774370645;
-	bh=b0m0FnMqUK3YcK+u1bAXX+KhD9qbCEgekt0QI4jDH9Y=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=C3o8s0Ol4By0oYHYu2S85is0Yw89BKW8tT0wJQwH6GAicXAoVwsw9NyoEqTrGrmT3
-	 d6lQ7pzdiVGr4OPazoq7jhAC68KzgOBKtXlJLFcpOUNdxvSRLPCaEE235HqCUJAnN6
-	 mlKtv/132wg0q6Qmq3bqCNaRG7m3nc877Q8S+K9xYumBzTdG5JFcPY8mPGhaBU9FNb
-	 4wBkwNfDU6rwcdBSIt/2L3XWjsn0bXGtrDCQDNHEWS14VlTXRuDLeWD0C9HrDnzGtQ
-	 gG7xfCX3rSGROT0LfF8/uISCwAWzK711a7YLVhfWP82qZ9tkTmbRdBKcMmBsZDX39M
-	 48wsqiXWrwuFg==
-Received: by wens.tw (Postfix, from userid 1000)
-	id D76AD5FFBF; Wed, 25 Mar 2026 00:44:00 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 5/7] soc: sunxi: sram: Support claiming multiple regions per device
-Date: Wed, 25 Mar 2026 00:43:53 +0800
-Message-ID: <20260324164357.1607247-6-wens@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260324164357.1607247-1-wens@kernel.org>
-References: <20260324164357.1607247-1-wens@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EpPPlH5L"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-35b905a05a8so3382418a91.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 24 Mar 2026 11:27:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774376830; x=1774981630; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y8dxWxemVY09l/RSeGxRpi4JIV8mJaxVcxtXBlCQ2JM=;
+        b=EpPPlH5LEoD5KbJbgqIasvKGfK6N7bgM27izLoa92fr8Vq3k7AkZZc25ZJlw+MBCPN
+         IyjQcDt9K4ahuRsW/J6J+K4lBhfGpkSalmLRQzVQSnK6hjw70au96/f5yrLHFSEwLSan
+         A3HNtlP/q8Dk9vb6oS948orLe3KWKOqkj/yDjgNVXeJv74/B0FvXgK2y9tzQvz4FX+Ee
+         bYxlOxxj3ui1JeovQsRn2cV7sBvVbx72qo0vyuKLSSi7LwvTmm8PXB1FdRoK7NM+WLaX
+         wKanX1OBR09Dtee4Rnbfy4nIpVCoT3QBnNNT9VKBkdzZ4yLK9iKX1ohD6Efi9y/5RcH3
+         tX2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774376830; x=1774981630;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Y8dxWxemVY09l/RSeGxRpi4JIV8mJaxVcxtXBlCQ2JM=;
+        b=atDMwuXAtlLbRltZbDG0ZfLusEbaJB1NXQY1bcrgBvzF6liCLrpoV/cEttuO02Oqf6
+         4G0KibtYh6t2ifZh/3XSNE2XaetDWdBq+6ut17Lk2g2jJ8labP7NCu1noQRDQ9Qn45B5
+         sYss6P1UzwXkw4R0oW8fSgs62n9IAfnjrrARk16XOOFfGR7G7u7MeVpuXBF9FAtxtFub
+         aSuzK7fvNkKE+lDXefFs85X7Rd9VdS2A2T3E+BhoXtCCliy+5NWWAIteUW8aMQsyrJwp
+         QlO7mIecTojrxkhAxmy5GuObJf2Ly/W88XKF1z5clk/KYe1U/NDLmRtcZ3ud2BZsm/Nz
+         VGqA==
+X-Forwarded-Encrypted: i=1; AJvYcCUQmtgMtpug3ET6vfaqvZlzom3dHumYE6hg86UchgwHTtQmQhHFH8ZHHSjgZNyl2x6qj791dh9ut4VTuA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzhNUvJpaQKYxriIXn58yJpOnLqlLmVbe8R4UvbRbGhj683QHOA
+	3uxZ0z3ewah862vciQpt0G40VEONHiHk5AGySEmWCUGW/LGtKasMx6dm
+X-Gm-Gg: ATEYQzzGFHKhGJYN3ds0rWbPCyzDnsiM1W7I3I8dAgkZqvXRjdOwrN4KA7IkBfjWKpx
+	X1KjnVRRgrt5nWjHW8ZwUglnGII9kh32PcIW0QPHPJmeullJG7A/Q/RbudA3iKSEl9qBzQ3Tzh+
+	0F8yO3wimA7WoTEQ0KruBS8oWIzGySJbqk5noRPXhY7VuOvcZJ/gLn/V0V4XeOUJ4R7DEYTqCi0
+	Oy9WeHdwsqvvVi4a4ZdbWahkGpCq/k1EQhtESPIoR/oHp4164CSVa4NeLYqmUrJ/MlZ23gPwiir
+	8SfQsOIRAKC8rKWmxg6Lyf3/GjAb/6PzSkn+4CCE7YwT839zZirMlgu8ww4tIHYv3VMmP9mTdsE
+	YIMn1IVOmPWHGfbDgvSU7to0DLGHQfOa6AxisPEXXC/gROJSpB6ejhx8Betz389DoEK4ew748LE
+	0syXJFOnNfmFLo5CKIynZa9nSgMg==
+X-Received: by 2002:a17:90a:e705:b0:35a:329:73c6 with SMTP id 98e67ed59e1d1-35c0dc80d99mr378084a91.3.1774376829881;
+        Tue, 24 Mar 2026 11:27:09 -0700 (PDT)
+Received: from [127.0.1.1] ([103.216.213.160])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35c0d6060b5sm350576a91.17.2026.03.24.11.26.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Mar 2026 11:27:09 -0700 (PDT)
+From: Atharv Dubey <atharvd440@gmail.com>
+Subject: [PATCH 00/10] i2c: Replace dev_err() with dev_err_probe()
+Date: Tue, 24 Mar 2026 23:56:48 +0530
+Message-Id: <20260324-deverr-v1-0-7e591cce33a3@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGnXwmkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDYyMT3ZTUstSiIl2TJIMkg1RTA0NL02QloOKCotS0zAqwQdGxtbUAXM4
+ talgAAAA=
+X-Change-ID: 20260324-deverr-4b0b0e50195c
+To: Till Harbaum <till@harbaum.org>, Andi Shyti <andi.shyti@kernel.org>, 
+ Laxman Dewangan <ldewangan@nvidia.com>, Dmitry Osipenko <digetx@gmail.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Patrice Chotard <patrice.chotard@foss.st.com>, 
+ Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, Jean Delvare <jdelvare@suse.com>
+Cc: linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
+ Enrico Zanda <e.zanda1@gmail.com>, Atharv Dubey <atharvd440@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774376818; l=1970;
+ i=atharvd440@gmail.com; s=20260314; h=from:subject:message-id;
+ bh=4eB96+tZs9fT6uON/Cp8K3KPDm65oymtk7Doe5oPZv8=;
+ b=JHbyxUnpSIHVtTKhxJxQI2JLJGqRVx4xwS3l4IGQaiBFJ6HmJ/N18C/fndglYd7QgKbDy3Fs5
+ kHTwhOvM/fYAd0raQ4P7x22Q0EFLgoDhJRXmkPQQ67kohmHbtFETWXF
+X-Developer-Key: i=atharvd440@gmail.com; a=ed25519;
+ pk=T6i1xWOKT/RUSDYATSgyVG/4X7ac8jPjRSG1mMAcqVk=
 
-On the H616, the video engine needs to claim two SRAM regions.
+This patch series replaces dev_err() with dev_err_probe() in the probe() 
+functions of each module. 
 
-Support claiming multiple regions per device.
+This simplifies the code and improves logs.
 
-Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 ---
- drivers/soc/sunxi/sunxi_sram.c | 164 +++++++++++++++++++--------------
- 1 file changed, 96 insertions(+), 68 deletions(-)
+This Patch series was intially sent out by Encrio[1],  
+this series is an effort to get it reviewed and upstream 
+it. 
+ 
+[1]: https://lore.kernel.org/all/20250520194400.341079-3-e.zanda1@gmail.com/t/#u
 
-diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
-index aba155379ccc..4d81897179e7 100644
---- a/drivers/soc/sunxi/sunxi_sram.c
-+++ b/drivers/soc/sunxi/sunxi_sram.c
-@@ -165,79 +165,48 @@ static inline struct sunxi_sram_desc *to_sram_desc(const struct sunxi_sram_data
- 	return container_of(data, struct sunxi_sram_desc, data);
- }
- 
--static const struct sunxi_sram_data *sunxi_sram_of_parse(struct device_node *node,
--							 unsigned int *reg_value)
-+static const struct sunxi_sram_data *sunxi_sram_get_match(struct device_node *np, u8 val,
-+							  unsigned int *reg_value)
- {
- 	const struct of_device_id *match;
- 	const struct sunxi_sram_data *data;
- 	const struct sunxi_sram_func *func;
--	struct of_phandle_args args;
--	u8 val;
--	int ret;
--
--	ret = of_parse_phandle_with_fixed_args(node, "allwinner,sram", 1, 0,
--					       &args);
--	if (ret)
--		return ERR_PTR(ret);
- 
--	if (!of_device_is_available(args.np)) {
--		ret = -EBUSY;
--		goto err;
--	}
-+	if (!of_device_is_available(np))
-+		return ERR_PTR(-ENODEV);
- 
--	val = args.args[0];
--
--	match = of_match_node(sunxi_sram_dt_ids, args.np);
--	if (!match) {
--		ret = -EINVAL;
--		goto err;
--	}
-+	match = of_match_node(sunxi_sram_dt_ids, np);
-+	if (!match)
-+		return ERR_PTR(-ENODEV);
- 
- 	data = match->data;
--	if (!data) {
--		ret = -EINVAL;
--		goto err;
--	}
--
--	for (func = data->func; func->func; func++) {
--		if (val == func->val) {
--			if (reg_value)
--				*reg_value = func->reg_val;
-+	if (!data)
-+		return ERR_PTR(-EINVAL);
- 
-+	for (func = data->func; func->func; func++)
-+		if (val == func->val)
- 			break;
--		}
--	}
- 
--	if (!func->func) {
--		ret = -EINVAL;
--		goto err;
--	}
-+	if (!func->func)
-+		return ERR_PTR(-EINVAL);
- 
--	of_node_put(args.np);
--	return match->data;
-+	if (reg_value)
-+		*reg_value = func->reg_val;
- 
--err:
--	of_node_put(args.np);
--	return ERR_PTR(ret);
-+	return data;
- }
- 
--int sunxi_sram_claim(struct device *dev)
-+#define SUNXI_SRAM_PROP "allwinner,sram"
-+#define SUNXI_SRAM_CELLS 1
-+
-+static int sunxi_sram_claim_one(struct device_node *np, u8 arg)
- {
- 	const struct sunxi_sram_data *sram_data;
- 	struct sunxi_sram_desc *sram_desc;
- 	unsigned int device;
- 	u32 val, mask;
- 
--	if (IS_ERR(base))
--		return PTR_ERR(base);
--
--	if (!base)
--		return -EPROBE_DEFER;
--
--	if (!dev || !dev->of_node)
--		return -EINVAL;
--
--	sram_data = sunxi_sram_of_parse(dev->of_node, &device);
-+	sram_data = sunxi_sram_get_match(np, arg, &device);
- 	if (IS_ERR(sram_data))
- 		return PTR_ERR(sram_data);
- 
-@@ -248,33 +217,28 @@ int sunxi_sram_claim(struct device *dev)
- 	if (sram_desc->claim_cnt) {
- 		if (!WARN_ON(sram_desc->claim_cnt == U8_MAX))
- 			sram_desc->claim_cnt++;
--		spin_unlock(&sram_lock);
--		return 0;
-+	} else {
-+		mask = GENMASK(sram_data->offset + sram_data->width - 1,
-+			       sram_data->offset);
-+		val = readl(base + sram_data->reg);
-+		val &= ~mask;
-+		writel(val | ((device << sram_data->offset) & mask),
-+		       base + sram_data->reg);
-+
-+		sram_desc->claim_cnt++;
- 	}
- 
--	mask = GENMASK(sram_data->offset + sram_data->width - 1,
--		       sram_data->offset);
--	val = readl(base + sram_data->reg);
--	val &= ~mask;
--	writel(val | ((device << sram_data->offset) & mask),
--	       base + sram_data->reg);
--
--	sram_desc->claim_cnt++;
- 	spin_unlock(&sram_lock);
- 
- 	return 0;
- }
--EXPORT_SYMBOL(sunxi_sram_claim);
- 
--void sunxi_sram_release(struct device *dev)
-+static void sunxi_sram_release_one(struct device_node *np, u8 arg)
- {
- 	const struct sunxi_sram_data *sram_data;
- 	struct sunxi_sram_desc *sram_desc;
- 
--	if (!dev || !dev->of_node)
--		return;
--
--	sram_data = sunxi_sram_of_parse(dev->of_node, NULL);
-+	sram_data = sunxi_sram_get_match(np, arg, NULL);
- 	if (IS_ERR(sram_data))
- 		return;
- 
-@@ -285,6 +249,70 @@ void sunxi_sram_release(struct device *dev)
- 		sram_desc->claim_cnt--;
- 	spin_unlock(&sram_lock);
- }
-+
-+int sunxi_sram_claim(struct device *dev)
-+{
-+	struct of_phandle_iterator it;
-+	int err;
-+	int count = 0;
-+
-+	if (IS_ERR(base))
-+		return PTR_ERR(base);
-+
-+	if (!base)
-+		return -EPROBE_DEFER;
-+
-+	if (!dev || !dev->of_node)
-+		return -EINVAL;
-+
-+	of_for_each_phandle(&it, err, dev->of_node, SUNXI_SRAM_PROP,
-+			    NULL, SUNXI_SRAM_CELLS) {
-+		u32 args[SUNXI_SRAM_CELLS];
-+
-+		of_phandle_iterator_args(&it, args, SUNXI_SRAM_CELLS);
-+
-+		err = sunxi_sram_claim_one(it.node, args[0]);
-+		if (err)
-+			goto err;
-+
-+		count++;
-+	}
-+
-+	if (count == 0)
-+		return -ENOENT;
-+
-+	return 0;
-+
-+err:
-+	while (count--) {
-+		struct of_phandle_args args;
-+
-+		of_parse_phandle_with_fixed_args(dev->of_node, SUNXI_SRAM_PROP,
-+						 SUNXI_SRAM_CELLS, count, &args);
-+		sunxi_sram_release_one(args.np, args.args[0]);
-+	}
-+
-+	return err;
-+}
-+EXPORT_SYMBOL(sunxi_sram_claim);
-+
-+void sunxi_sram_release(struct device *dev)
-+{
-+	struct of_phandle_iterator it;
-+	int err;
-+
-+	if (!dev || !dev->of_node)
-+		return;
-+
-+	of_for_each_phandle(&it, err, dev->of_node, SUNXI_SRAM_PROP,
-+			    NULL, SUNXI_SRAM_CELLS) {
-+		u32 args[SUNXI_SRAM_CELLS];
-+
-+		of_phandle_iterator_args(&it, args, SUNXI_SRAM_CELLS);
-+
-+		sunxi_sram_release_one(it.node, args[0]);
-+	}
-+}
- EXPORT_SYMBOL(sunxi_sram_release);
- 
- struct sunxi_sramc_variant {
+---
+Enrico Zanda (10):
+      i2c: tiny-usb: Replace dev_err() with dev_err_probe() in probe function
+      i2c: tegra: Replace dev_err() with dev_err_probe() in probe function
+      i2c: sun6i-p2wi: Replace dev_err() with dev_err_probe() in probe function
+      i2c: stm32f7: Replace dev_err() with dev_err_probe() in probe function
+      i2c: stm32f4: Replace dev_err() with dev_err_probe() in probe function
+      i2c: stm32: Replace dev_err() with dev_err_probe() in probe function
+      i2c: st: Replace dev_err() with dev_err_probe() in probe function
+      i2c: sprd: Replace dev_err() with dev_err_probe() in probe function
+      i2c: sis96x: Replace dev_err() with dev_err_probe() in probe function
+      i2c: sis630: Replace dev_err() with dev_err_probe() in probe function
+
+ drivers/i2c/busses/i2c-sis630.c     | 31 +++++++--------
+ drivers/i2c/busses/i2c-sis96x.c     | 30 +++++++-------
+ drivers/i2c/busses/i2c-sprd.c       | 13 +++----
+ drivers/i2c/busses/i2c-st.c         | 34 +++++++---------
+ drivers/i2c/busses/i2c-stm32.c      |  4 +-
+ drivers/i2c/busses/i2c-stm32f4.c    | 53 ++++++++++---------------
+ drivers/i2c/busses/i2c-stm32f7.c    | 78 ++++++++++++++-----------------------
+ drivers/i2c/busses/i2c-sun6i-p2wi.c | 55 ++++++++++----------------
+ drivers/i2c/busses/i2c-tegra.c      | 12 +++---
+ drivers/i2c/busses/i2c-tiny-usb.c   |  5 +--
+ 10 files changed, 127 insertions(+), 188 deletions(-)
+---
+base-commit: c612261bedd6bbab7109f798715e449c9d20ff2f
+change-id: 20260324-deverr-4b0b0e50195c
+
+Best regards,
 -- 
-2.47.3
+Atharv Dubey <atharvd440@gmail.com>
 
