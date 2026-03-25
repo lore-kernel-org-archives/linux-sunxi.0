@@ -1,64 +1,64 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE261D54FA
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Mar 2026 00:25:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0580C43147
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Mar 2026 00:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774398320; cv=none; b=X2y5/A8JAdiD80fGid9M/VrOvc90TPBhSLTvRsKQTKs4pSwPaXh3tAINPBlM0t5JyXcH4sX2Pxl0mi8vxSxSqM3imrI/+2/mJp/HKrqvVDXF5yawD5hr5tzwufvHlx/h4gKtCfL+Yv0NvzDtEGjn2+D+j9/icNUdlz0Al8VSjMw=
+	t=1774398545; cv=none; b=HF5awYkZ/fDL5LNMTJRP5AXBlaVJrKQjxQNa5899ktmApX1sXQKZNelQn4o/IMLTbAYPV0F8Uytcc/1R0f1R0rrGTCdetTM2oXEgxSTZKMhaOsOfe862GomuqdYcW8buOlTFgCpLtcPIul/CpbTdhgu//XZgHBtSPIoY8PfIU1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774398320; c=relaxed/simple;
-	bh=T62eLvCEArRzYZStwBuW/DskGoPmPid6WBtJuVPOf4Y=;
+	s=arc-20240116; t=1774398545; c=relaxed/simple;
+	bh=+W2l6HF6dMk2sjxzN6yjkAVU0JUCRJ2zSiQX38l0Uk8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=a9KrjF9uph1swAslhy4TTXfUXXEE2xW3L4ZKWuITgpheiffxLia11ts6TAvwAIipsHQffinVNh1Xy/3ngXT+FD+V28eW27kZJwzdf1PxqIJOTQA52naWK9SGom5VrjQpW1dhYrbG303L1ojs+VPn0XOMIOru9k5Rfj3bs2GFCQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VTEDQba3; arc=none smtp.client-ip=209.85.222.170
+	 MIME-Version:Content-Type; b=BvlHnm4qy1CsMPkaog3BWTVOBP8W0bYbcUSAgiZ3zXe9nQxrv3fipoHWyT0LuOx22zzuseysb3rccaPti2I/oJJ0YU5WMVdZpNvZN/7XnxgRxbznFdx7MKh0hUgPvHP9u0LlMn2PcO6ZWDtUrY5Ifu5mo19xM/Esl1dIT4Bt0Oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Np0Bihxg; arc=none smtp.client-ip=209.85.222.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VTEDQba3"
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-8cd7ecedf2cso449162285a.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 24 Mar 2026 17:25:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Np0Bihxg"
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-8d006a80ccbso1142085a.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 24 Mar 2026 17:29:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774398318; x=1775003118; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1774398543; x=1775003343; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=T62eLvCEArRzYZStwBuW/DskGoPmPid6WBtJuVPOf4Y=;
-        b=VTEDQba3dxkF5RFfHRhrflCWFFW+ezB8ho8zZ2tgvfIi3pYewStFGtK74y371RUQfR
-         p/lD6bP4SJJYhptOZXm10GTxxpCDjZtXvRJr4eB8jJfHyfDji4BG5LnQCvxQN9Qmuy7M
-         I3sC5hKrShgjX9tAn/m1YcqfQI4w5uNoiltxy/BZ0h+pNDFnyb7NDgmOU03VhcAG1B8N
-         whTzMBbcRuaRlDmjhp4hMyKpaTXrixiZJc9R9QoGWz7oY1cudExZARoFIKsVXNSDrJcg
-         0Q9ofsZbaHjGbVEnvMLOqAjWhvK4V6zT0+xO2n+sQyi+E0U/f/wtuP7CFCQqqoO8VtY3
-         wCbQ==
+        bh=+W2l6HF6dMk2sjxzN6yjkAVU0JUCRJ2zSiQX38l0Uk8=;
+        b=Np0Bihxg91MtdC/X9Yv9NeifVmotJZxV8FLqDhtZbtOHtjRRpN9YnFUMMsvkRJxwrH
+         PxHGkKtJUWGDJFmib2XvHY1gdkJpnZs27SAV+lazVxGaU4uunVgwCmjBNAwPtWr+tI6y
+         wFpJGpR0YqVEoepc1SMIEBMJAxziDBLNA5U+01eoogQoTp7LPE27etUJ8VYXPSGPNKwi
+         oK27KmlnLP15N2+QkQwxkUwS03YQ8xO3qyfmUqfLPYYzKG3gdNrYiqvFyZHq8g87+0Bv
+         a9G6fK6u+EP3gmjHXkFhJHoj2Ea/7XXQO/SMNZjeQU5O7xbQ5vayfp8dFlt8ie0ENats
+         eEUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774398318; x=1775003118;
+        d=1e100.net; s=20251104; t=1774398543; x=1775003343;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=T62eLvCEArRzYZStwBuW/DskGoPmPid6WBtJuVPOf4Y=;
-        b=nLozo6AHagWqob2kvlnUhoJk7JNtf2PUppOZnVXXn2dvD8p1YhNBqhbo0HBgCrWpFX
-         vXlRsgrcQAemwdqF1KBsUrGGdz7CQd4velpPY52F4W/uSW0Y14eeubActVDNeauFDC5M
-         rIeqidr3koyrZi255V+j4NWbLw9jwqeKaKezDE5vsRMpTSS8OBhDKROSQjVZvWcA0jid
-         2wyK+Qkm4EN/qXLyKpzmhpEdI5kv8phD8X/6sqwIaQk0rucZ6tkinix2z79cBCcoGlzf
-         1crvL218vXADLj12PATabAESjkoplQdagoq3FRWQixRkOAsHCTnFByorS8mZWH2e3puA
-         KqUw==
-X-Forwarded-Encrypted: i=1; AJvYcCXd217tYTxd53r+kY9iUxwcMIapVODiElphzbY4fEv9uF2A6IcrI3CJEyjPyqgUADneF8QT/drsWiixLA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzVtEyNXJHLOHh4OsVRek7LSIAoFLf7G4OQqSjr+JYPm6Yo/A7d
-	wNFtUqOsrvLWOqgZxr5CbXOL00aLLgQs6y7iBjzry98x3TH0Rwo9Qrwq
-X-Gm-Gg: ATEYQzx5txBk9WVjFSn3Xx/LKCunOt3qMrlZHdCE3zRZYg5rv1hxleNFUw2YbR2XzD2
-	vNWTs7rUNthppbEW/Hp+w9NuLebtMd5ALAvlCa7l0QOHf7TYrJgJ1bQ2bZFoqxiL8tyUwvZmFrV
-	N+RsofygLMzIrq8FjyICub1D3WWo1bxmQoYryQqECb48t2Fe8m7sZuZyywESYF7vLXlJOb1Ov1i
-	tk5x05miLZ0nHTpnLpzErg01xGn3E+POOJ4CQFjv9thMlsSlrPapjB1uJlY+a6FotEc79lZrone
-	q3D5OFDd+d1jnEji+j+tBH4VPo5jja2i4By+BA/r81maXkOV4u0t+V6ZZ/qFrkxFEZRKRwoCC/D
-	rFjrXuHmORZZl6igXFRYoOJW2LsQmAuFAPuOC7+JbkKCrKcHq1Xjvj5Y5ByrEoDXQ7fXyZxX6if
-	3EXMNVP78TE3fjc4tAaH6p26Zc4zQxN1bD81aAr1JohirXcmMgWY0l3h0olTrF82w3lHB+Xyyf1
-	plSmMXb1QqdCw==
-X-Received: by 2002:a05:620a:400e:b0:8cd:7f7d:b089 with SMTP id af79cd13be357-8d0010523b7mr229964885a.70.1774398318140;
-        Tue, 24 Mar 2026 17:25:18 -0700 (PDT)
+        bh=+W2l6HF6dMk2sjxzN6yjkAVU0JUCRJ2zSiQX38l0Uk8=;
+        b=R5YfOA/qKUBCapDDRQ/4i164INMqoxwtuostmzzDflTLTL7NT2toaeBkN3Rgl5IzQE
+         bgBD06e+pb6l6svOOtEi2ZWM0a4r0CCnu8io3vAZpheaFG8fGGPGrS2cF1i7cTcpC9E6
+         Jg24CARKkJgRaYelO4NvUpH2Je9IuXlxYJ8leMzZK3r9mtYDPbHyseF2GcdCM3QxHGYK
+         ICY1LrOTMJgRIuxhiiwHIPRwRkPTMjV7/hI0iq1248SSzPGbqG1lJujm7KqlnZ8DPlDC
+         gg5UShmMbqEyQq3feBvr71E6ejTikad8DuzBcxvR9QfY3/eRQSo1pEBzKWNqLXQJhmz5
+         9l9A==
+X-Forwarded-Encrypted: i=1; AJvYcCWMN4jgOgMRb533j9jqtGHkKtIvncXnW5EjHJxcOP7aRgPWSAg4yg1yn25OEGiLL3rs8ugVTM7RaUam3A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw2J1PhfSfTYR3gTAOwle8p0fbjYcHtAYER1CMZBWhruA/UqwAj
+	k2WmYdovXxaiafqpXV/dXXvHR6O8SfgwRs6cDqEjGuHQpVMT90juoWgT
+X-Gm-Gg: ATEYQzwqrBGtTpWoxIHh3YAHkkkjmVmQKN4m5mBMElrbuicqRSaWbQIAhoMNkOtXT9W
+	ehqUhIfDDsXv3kHzbfUX0blzXo77b+0TfIbmUahnCFdjU5T6tdbKCxTUjZXZGmVx3UkpxGxIsmv
+	nhglpTJ+9hFybRVsPpnEHVHJWDNVo+0cmymR1YG4atiEK6X3ak2EFCICVJ5VVwt/dye/X4GpJUs
+	QUzIW1uledkvTdPXk445QoXP7Oa1a0fL3oeV1cdTteZqj167CiUODJ6msvv4jFBkNuE9hloLKZm
+	SbWbsKo9vdnwhQwktIKlbFK/qabMVLavDdrIDwZFzSg51jFdQnsNaglNYDnRsCxYjGHXq64uqoC
+	MZNiPbbIzLvXJ9PCLvH1S8YaRer/K8UOHJq7Ad4xjG/kDRf6LDk77OsTael0TQ9QHKi9LON1yt5
+	7wUVN7DAx57ZAeSprri8BYY7pncmu3hw7/yO24orJjNPCVtuFhCLP/fBloQjwU+8J+Umie0r0eQ
+	2BDVI5XPZu9nw==
+X-Received: by 2002:a05:620a:1788:b0:8cf:b7c2:fd20 with SMTP id af79cd13be357-8d000ed1743mr238935385a.11.1774398542974;
+        Tue, 24 Mar 2026 17:29:02 -0700 (PDT)
 Received: from jernej-laptop.localnet (16.red-83-43-237.dynamicip.rima-tde.net. [83.43.237.16])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cfd55e79e6sm1017406885a.29.2026.03.24.17.25.16
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cfc90bb7f0sm1172723985a.38.2026.03.24.17.29.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 17:25:17 -0700 (PDT)
+        Tue, 24 Mar 2026 17:29:02 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
@@ -67,13 +67,14 @@ To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Subject:
- Re: [PATCH 4/7] soc: sunxi: sram: Allow SRAM to be claimed multiple times
-Date: Wed, 25 Mar 2026 01:25:15 +0100
-Message-ID: <2342486.iZASKD2KPV@jernej-laptop>
-In-Reply-To: <20260324164357.1607247-5-wens@kernel.org>
+ Re: [PATCH 5/7] soc: sunxi: sram: Support claiming multiple regions per
+ device
+Date: Wed, 25 Mar 2026 01:28:59 +0100
+Message-ID: <7923014.EvYhyI6sBW@jernej-laptop>
+In-Reply-To: <20260324164357.1607247-6-wens@kernel.org>
 References:
  <20260324164357.1607247-1-wens@kernel.org>
- <20260324164357.1607247-5-wens@kernel.org>
+ <20260324164357.1607247-6-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -83,27 +84,11 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne torek, 24. marec 2026 ob 17:43:52 Srednjeevropski standardni =C4=8Das j=
+Dne torek, 24. marec 2026 ob 17:43:53 Srednjeevropski standardni =C4=8Das j=
 e Chen-Yu Tsai napisal(a):
-> On the H616, the SRAM C region is an alias mapping to part of the VE
-> SRAM (accessible in whole at a different address) and part of the DE
-> SRAM (otherwise unaccessible). As such both the VE and DE need to claim
-> this SRAM region to prevent access from the CPU.
+> On the H616, the video engine needs to claim two SRAM regions.
 >=20
-> The SRAM claim API is designed so that a "claim" routes the SRAM to the
-> peripheral device, disabling access from the CPU. So long as the written
-> register value is the same for all the claimants involved, allowing
-> multiple or repeated claims is trivial. This is indeed the case for all
-> supported SRAM regions. The only known SRAM region to have multiple
-> different settings is the SRAM C2 region; this can be claimed by the AE,
-> CE, or ACE (assumed to be AE + CE). This region is not supported, and
-> likely will never be needed nor supported, as there is no documentation
-> for the peripherals involved.
->=20
-> Change the SRAM region "claimed" field from a boolean to a reference
-> count. A claim will increment the count, while a release decreases it.
-> The first claim will trigger the register value write. The driver
-> otherwise behaves as before.
+> Support claiming multiple regions per device.
 >=20
 > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 
