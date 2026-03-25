@@ -1,96 +1,120 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D125B189B84
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Mar 2026 00:32:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A2B34CFBA
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Mar 2026 07:14:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774398724; cv=none; b=t2vHvK79znbzosLvxjgzEnfkGRSP6IV2cM/5zPqbUNNu6DfdDk20FrUcxrEjb0SG6yVhWow3l5MUv3NBqEGmIHaAFSyJDzMC2EO3hv+s3qgVNeO+SUoBVmr7PGOUJTibkPmbteYE7Ld2kCfwfYPIKuWg3e4r07T5pGv9pkzHz0s=
+	t=1774422850; cv=none; b=JjnJ1IzX4GXcptv5hCGIYMnz9fb0FOWk/Tu4yV0MqirqbsP8s8jVprAmd0Hm7HdE3/tDO2ydzmqSprNTOZWkxIXv/2wQtd1ia6SthElsH4kSP0LNfSx45zW/mdNODpn8ijMh7w6pz+JCm+audDYKoHOBkk6lrR87mEyAKzrDSqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774398724; c=relaxed/simple;
-	bh=gCLRk+NAkU6fy7pdsIcUwbode2bX+R63hoRqk/fGQl4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hAGXXSolUtNf+tnC9UvVsDIWOFEHFQqKtEUfO88X+DiQ4z6NFmwoS11ae6UgauDHe6mDICsounlK2g/5iq9V0PWrxcCkHUTdKKDzRsnaQw9lHbKdcfg3V12QrBOiVk8KbXdC3AxKiQI4tccD2BYs/7sPd84Isgr+6MOv9o2KVlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qDe09Kc3; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774422850; c=relaxed/simple;
+	bh=Fkr6ntC5TQeGRAuflXX+PZEwU6WuhtzwRMBzb0AtdG0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NrZwshzY0qBIQF+BvR7X2avaZrmlCL2tgOQqa1L14VlEnJQ1VdES+j4cUweTsVlpu1wIVZJjydzSl97lggo72n1LzoJJXWI4qZ/aw4EkoqLYoPHIkPg5UC/O5Oo+wJzHCEjwZfRbCT2Ks5ykeE2YEmZAOq9qCALvQEHgcZSfUPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=pY5+0Xws; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qDe09Kc3"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-50b2b289925so49654871cf.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 24 Mar 2026 17:32:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="pY5+0Xws"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-482f454be5bso5216445e9.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 25 Mar 2026 00:14:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774398722; x=1775003522; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gCLRk+NAkU6fy7pdsIcUwbode2bX+R63hoRqk/fGQl4=;
-        b=qDe09Kc3DSQQOmQD/V3D67UCx6WQIkU75vOsjt/qCJVGZNdNZ8prItoKCYd+C07BPL
-         K1kCoNq2upqZEEBNyKSFT2mjh3Ew+zKU2KMeFcHEcv6ENyCBFMAmG1+fbk1fC23cbuDn
-         QFBw6XtwgBakYieJqybzyLbrN9ZZ9Jyqp//A7I1VD9DLHOUmgSmMmxoYeBGRMwQAA7GA
-         oehelgmwNIRE1Uf4VVC8xalLUDa/0vcAQR6cwB7/B4FwfRGIUyrepD/MTLy1MwVwoVAB
-         +nfJOntjm/fRJkGR6ba8MFzrRrzGSgtYR019lelpls0judNRkOByNoDb88dwFtLBBLq3
-         HxLA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1774422847; x=1775027647; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fkr6ntC5TQeGRAuflXX+PZEwU6WuhtzwRMBzb0AtdG0=;
+        b=pY5+0Xws2xMNG1ImxTyE9rlWXlpZ2ggWLgODX7fwZrNuTyUYZWKONLmI9HSVqBU4P2
+         uldKOm9NItuSqZQe4DwlpWskefPpkgt8p2tGnYLWUsK4tli3l+6z7rPw7/a6DErqqYWK
+         I1MV6h8ge99HMGs6d5Cx4NWs1ELmJMEtM+RH7UD4C/c9weOBF0aWAN2Y1+qaMG9P5AaN
+         aERN3Gp9yfPA9iRhR1fgVis90ke8kMxpZSden798GTgzf0xNIT+a6pzCFVFvi3fJ6CXD
+         5dWgXPUXaQz2QBq6ztEPgMWhd1XVivswuepAXUx0sOMj0D/iTzPEk1iHeybTO/BAP2Hc
+         IU3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774398722; x=1775003522;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=gCLRk+NAkU6fy7pdsIcUwbode2bX+R63hoRqk/fGQl4=;
-        b=kdcsQLmqTCswPpycRsw8StYXO2TWDZqB25QXyc9Q86E2CeBqWMlE+ywGt1BiCFBqsk
-         7/Y1Jsx5G/7zQ/vgUFDDYhAjotkoowg00wWZ5nf3yXGxBaFqYAwPCNlVyEeQq0VFH1v7
-         brKfRTjCXTOYdAAyR3pvGU6flKWUFKxE14TPPfrcTxiYsbfYaPwKj3dABvloRgQVW42v
-         Ul3B1eNUV7ynxSjFsPRXch6SWR/GnH7AfQRvBgYsH3ShKPsDehY/x4yy/M91Slc/efP4
-         tlSTSwLVyrXantF2VBQSnvu4ehZMcFXcsFvWOACqVmBZgkyGJ41/qCPd7P8q05s7qnZf
-         dGBA==
-X-Gm-Message-State: AOJu0Yxb8FVRQoRzaqACcXALh7+WnEhtjTBc28GE1dFtckF5oRBIiP2G
-	mEEvYlHWkqvt+f/BXh9O4HHnUEhF5+h6aSjcGeVLgUITtWuuCT4ySscO
-X-Gm-Gg: ATEYQzybyHriJfBSGJ/LRttvuEGmEToK6kxT0cr4BZHKkfyVEDd1xgl77FpbQkc9l90
-	/lYXlif/SPDnrms6KzMdnkP2OuM8IpD1IS83uRGAQ8/zVgqXBVU79q5ny4KAa1Uc0TsvrtSK3TW
-	f6OdWPLq0I1ilgXaiPrmN/y9FPsJDCA4066FY7fU8rMJRvYejM2NuAHItluhnaMDV6JYcfJbCky
-	1lR0h7w4hvc3qUgjygukE0GGuCMx2D0kSWBGG4Z6OxFxegvCBq20haqcGsfmFigsAmA7kq5lkbg
-	2v/YStPuL5BdClZhIYCkwybcNbVOnLgcyHsm6p+dk/Gt8QPuZrImcabcS193p8lfGBHNrXZ1SKF
-	nqQepjI8wQbQ6qw0loiYUcBUl7eSnbjHxCqYNbLmh3PcoNnLMIfWakh/VJ4q8ehPDEtLogdQycK
-	Z28x//u5ezlzgCP0/tq8SgnsNbJCcdbO9hfGEz5tB0HiqZ7kumbiWYCdo3pMiQDLJgeQvefanX3
-	PsMI/ts14enfY0qn2TV+a41
-X-Received: by 2002:a05:622a:a291:b0:50b:4116:78dd with SMTP id d75a77b69052e-50b80ec12camr21220341cf.66.1774398721780;
-        Tue, 24 Mar 2026 17:32:01 -0700 (PDT)
-Received: from jernej-laptop.localnet (16.red-83-43-237.dynamicip.rima-tde.net. [83.43.237.16])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50b36e34f8bsm146375291cf.15.2026.03.24.17.31.58
+        d=1e100.net; s=20251104; t=1774422847; x=1775027647;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Fkr6ntC5TQeGRAuflXX+PZEwU6WuhtzwRMBzb0AtdG0=;
+        b=lpjzvk/oQhxaO4coHgWioqDRNdFQ2Q/vk1xxrcTAI5qeMj8UuK9PCjFVYWD2nBE9qo
+         CrY8m+5RIvk3WAEq8wzZyiL6YAwaKnoFRi2VJi14+SAliwscliMaM8jfUohwsXP4mDvE
+         1tHgeUe6Z7NwyzyMJjoZTqxxpVkvx4TpxSeKA3vJ5ig6tvE8UBQp8FtNwcp8dZVeuJ64
+         DZXTbPOiwMU9iMLU1wFTaDgEaR1gLopfSPk1tSa7slASyf1UaDavFM+E9wbtxC3nITG/
+         KVZykj4ttmy9+g8M3zLQngdxJcLP0sNjEqzFdXOZxB8veGbXtO5SE3kAnq20oNPKtt3E
+         NWLg==
+X-Forwarded-Encrypted: i=1; AJvYcCU6Xu06sZ+q/clv1mi4tZbMedqfwd4TMK8Q8HZcdYQJ5BWzQPL2H6OCU3Iop64Wgv88/4+2xllgclMEKg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyENPDD26toZEofCErD8FT8ELjWaGH9IOs/OFW3MKa7DTsSgIMS
+	J7P6UyUhvMzql/OyB9yQC5t3yhjCwzzzkOSzZwLMnFGpxjqEeUgjZPi8FXLZ1+Tm394=
+X-Gm-Gg: ATEYQzxkXQeNbuAGJI/XvfjtYO9bJoXR3WFe0oQzFpuVTfMAq3LhHDFFFZkUdLXC2OF
+	qgEuGRQiUBc1F8h/D0h0oRhUNE6KWe3bii8G2UABUTR7WZ1o+OoaCceMp92WbIjDuyaE7UKd9Lz
+	GaLmruNAuaMUdSJppINNyKWd1RCH2OsEU7UNFfbInFt/7wyNJejbkQVgf8KmIicR1OvR0m/hArw
+	Fbt4+WSIWDF2h/9LVbp4nE+8UeRwCGZX/lQeNr7qvID1Di+j+xViiKgz+c4vIc4M2rxZ0WymSPe
+	24/ah3Vxou6r4gK8gCNWX72pPPMobg7soVycNlPOlLeH6eXM+FWNi53D2ga63e6+w9W7y/n1HK1
+	jVGPE3gjsJItUYBCBMxn/cO1QXdjCNbLX6TF4It24lnagi96U2iJuqKKo8va2CUmayyoCpMXucB
+	Twr41Sh+f5IkkSXtmuR5Xk6CPwp1PqbjYfKA==
+X-Received: by 2002:a05:600c:888c:b0:486:faa8:9e4 with SMTP id 5b1f17b1804b1-4871608eb93mr26991745e9.12.1774422846667;
+        Wed, 25 Mar 2026 00:14:06 -0700 (PDT)
+Received: from localhost ([193.115.216.78])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-48711764625sm111818775e9.14.2026.03.25.00.14.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 17:32:01 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH 2/2] arm64: dts: allwinner: sun50i-h6: add UART DMA channels
-Date: Wed, 25 Mar 2026 01:31:57 +0100
-Message-ID: <2052919.usQuhbGJ8B@jernej-laptop>
-In-Reply-To: <20260324161930.1602083-2-wens@kernel.org>
-References:
- <20260324161930.1602083-1-wens@kernel.org>
- <20260324161930.1602083-2-wens@kernel.org>
+        Wed, 25 Mar 2026 00:14:06 -0700 (PDT)
+Date: Wed, 25 Mar 2026 08:14:05 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Richard GENOUD <richard.genoud@bootlin.com>
+Cc: Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Paul Kocialkowski <paulk@sys-base.io>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, John Stultz <jstultz@google.com>, 
+	Joao Schim <joao@schimsalabim.eu>, linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/4] Introduce Allwinner H616 PWM controller
+Message-ID: <acOK8lTTyqUDkOUb@monoceros>
+References: <20260305091959.2530374-1-richard.genoud@bootlin.com>
+ <b47801f9-3828-4c68-992c-e85373576f3d@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-
-Dne torek, 24. marec 2026 ob 17:19:29 Srednjeevropski standardni =C4=8Das j=
-e Chen-Yu Tsai napisal(a):
-> All the UARTs support DMA and are hooked up to the DMA controller.
->=20
-> Add the DMA channels for the UARTs
->=20
-> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
-
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Best regards,
-Jernej
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xajyc235ccyd4b6n"
+Content-Disposition: inline
+In-Reply-To: <b47801f9-3828-4c68-992c-e85373576f3d@bootlin.com>
 
 
+--xajyc235ccyd4b6n
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH v4 0/4] Introduce Allwinner H616 PWM controller
+MIME-Version: 1.0
+
+Hello Richard,
+
+On Mon, Mar 23, 2026 at 05:27:07PM +0100, Richard GENOUD wrote:
+> Hi Uwe, do you plan to grab this series or does it needs some further
+> reviews?
+
+I didn't find the time to look into your patches yet, but I have them on
+my list. Unfortunately there is quite some more on that list, so I'll
+have to ask you for some patience.
+
+Best regards
+Uwe
+
+--xajyc235ccyd4b6n
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmnDizsACgkQj4D7WH0S
+/k4DawgAl9zebky6JUhsQcoYow/EocbW1XqWpz2vAU4LvXyj/0aQHwcFNmx+4DKy
+6IvMXFcFuL4pueeCfijwE/tpUQDXKcfsj71O4CuoJwj0vaDNV/j0L6/UNYIPCwXI
+YJYZ0Sd0JAL8BHluFBQtb2dd5oVwq04sETQUJ0IVH6TNEkU9lVsCM1nc9AD8a+gE
+en1Jc9qxxLeNkNt7ZE01K5A8d8vyqR2iyq+rZgTGNrM9hF9Ie6Xk9wOwR/1J4qli
+3tdzMjk/EQgFWj2mUkublabj28rl5M20evd/SgdL9Q05si+LeWcTchW3XyrZTgOq
+uWWaKIZls5u84B0vW44FpG4l/XTcZw==
+=04lb
+-----END PGP SIGNATURE-----
+
+--xajyc235ccyd4b6n--
