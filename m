@@ -1,204 +1,195 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B703E1CE2
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Mar 2026 16:01:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F1C3FAE0E;
+	Wed, 25 Mar 2026 16:54:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774454506; cv=none; b=hEk9YCJqjPlaHCVM/mEtbqHxsoYSVkqnSob594ogjlObiuRZu8eg+aQL9/CTTPJ0pzBraopQ0WvC6J/ZzqronN5OH5625hMxeLFcELzNOAb/DW0ym2vhEnnGvF5OxPCtubO7OyGiAucNiHVVWHEiUQ/RfY1SC7LDYv/sETmPyE4=
+	t=1774457656; cv=none; b=TFdbFO4Zta9KrDvMvOncNJ+iVyc3/uu6VxSDaBmAqOilqWRt8cuFVfNOfEKvaAy7m1fWFlY8z2i23x7TcRYhy1pKvmOcHedIN2F4DfEAZ/HdPGsii0G32Pj9RxfcAEJ3WOto+n6aZWK9Tm76USp4T4Q8HhhU/14E3ZBh0o10/SU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774454506; c=relaxed/simple;
-	bh=aldmRPDOiiniGw503t8LDK2MsDSx7z+uZZ/KCfzSBN4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rZ+9yOsO3XpYVZQfYRC1WRhs5x25WniB666wtTmNxZweNlUfN8XBeZ3DKGPG6MkTKnrKyImaCHoy5Otyabb0EePp5Mzd4u6KI4OdUxi4F4agbf6EUPEDoTdBMBrr54Z09J2z57IMfxJOK3hkEnmg+5hDVEIo8eH66eUhPHrl8ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gk0/ZngP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774457656; c=relaxed/simple;
+	bh=oMuUWLmoNITVcQzV/o3it6GVvrYLaH+S1Qr6U989rSY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Jg0hjiQ5orSBo1X7qmNjy9KaQYmd0GdhFGKKhKVBXt1F4GMVbxzbFgSL1g8LnddXKvqEefVr342IhnUhJjduRVjbHlldDLtQSY6zKKvlNck/xy9FoqVaqbB22cdymHopfeA2dKyONUsJ/2DjrtVl1RJm51dy2WQRyNijja8UmDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qDB30oUW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gk0/ZngP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F25FC2BCB6
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Mar 2026 16:01:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qDB30oUW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49A05C4CEF7;
+	Wed, 25 Mar 2026 16:54:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774454506;
-	bh=aldmRPDOiiniGw503t8LDK2MsDSx7z+uZZ/KCfzSBN4=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=Gk0/ZngPQjeGn36eOsdWZQWLWprEWy3AkR5hni/lE8ONxCfP3wN9iJXuu5vn2pyMJ
-	 nJiG+ExwL18ilB8uMi+50Px+48WLD35cA/KJzXl30cOrLm1XHkP6/u7CfzuhuMgYBp
-	 DDxza3CMzAS8sMQyLGYMo2oiYPpT8nggzBl8focYuTSXEM2IAcs5OZqZ1j3YzIY+XT
-	 1I001RKPlZrVl+U7XDdwRzb6asn8XwzNOGgT85IMqibPiISmDfL5M3GvsTJxSjcZ3J
-	 RB4byEEi8D5lGMQp3KZ85qQNPUmFfiaaLH5yO8GZd2D+YWbKD3ud9QCm4xCljSwmLN
-	 AM82iX3FkN6qw==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-38ad26e3992so19119681fa.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 25 Mar 2026 09:01:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXizdB3ThQQN3jWNufMFMksG8gXnxCJiLWOHAGKtKzJVkcU5HTgsvZqSW+T5uKB9iXMKv8DkuSiftkBFg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxTMyOke0Az16m78VOCFk8zu0HWAzMtKWXKuEmVjQHDphgQe09U
-	xzIBkW26GuI58INS/IZ2JLSJq/7k3xGngyarYQFZaxDaofHoLAVCX/k5zYLhGdKcFBDRH1WOcnu
-	qkT2d1ZKFF2fbZs4NLuJ3v6dMsBK3Oas=
-X-Received: by 2002:a05:651c:1469:b0:38c:6b7:ad47 with SMTP id
- 38308e7fff4ca-38c43072d48mr15879491fa.7.1774454504493; Wed, 25 Mar 2026
- 09:01:44 -0700 (PDT)
+	s=k20201202; t=1774457655;
+	bh=oMuUWLmoNITVcQzV/o3it6GVvrYLaH+S1Qr6U989rSY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=qDB30oUW5a/3zO8cnh+u95v1NNfWmdGI2IjUhVXfyQO4SZA9TyoTDvTMqD+MHZCZB
+	 NbZtSa7ImOyDdMHoSkCtK7kMx2M9RnDL3kZd0WZAGqqSFNhJA4Vyj+bRdJUtT/WJ1+
+	 smzMbNGLEjkZHNkEwdIxqekKRq5iCdcpKCC+5KHh0JNGfGHt78pBcZNG2XZr+ZjCL8
+	 +pQPBWT2Qxf0S+D+n9gEGvUaIXjm0r1poXr0/YGLOZB2oBLm4MXdkhUtjKNkn3Qdqe
+	 uvMiMQG7Gvnj5hAOzCxfefchzrdYpSo9zodIbgOmf0vcfll+P9lh2ztHg9oF7j+3q5
+	 jVMvbkd5KgOww==
+From: Simon Horman <horms@kernel.org>
+To: bartosz.golaszewski@oss.qualcomm.com
+Cc: Simon Horman <horms@kernel.org>,
+	magnus.damm@gmail.com,
+	jernej.skrabec@gmail.com,
+	s32@nxp.com,
+	krzysztof.kozlowski@oss.qualcomm.com,
+	linux-arm-msm@vger.kernel.org,
+	imx@lists.linux.dev,
+	festevam@gmail.com,
+	linux-arm-kernel@lists.infradead.org,
+	wens@kernel.org,
+	netdev@vger.kernel.org,
+	geert+renesas@glider.be,
+	linux-stm32@st-md-mailman.stormreply.com,
+	dfustini@tenstorrent.com,
+	andersson@kernel.org,
+	khilman@baylibre.com,
+	linux-mips@vger.kernel.org,
+	mripard@kernel.org,
+	romain.gantois@bootlin.com,
+	vkoul@kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	jbrunet@baylibre.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	mcoquelin.stm32@gmail.com,
+	sophgo@lists.linux.dev,
+	brgl@kernel.org,
+	devicetree@vger.kernel.org,
+	konradybcio@kernel.org,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	linux-sunxi@lists.linux.dev,
+	conor+dt@kernel.org,
+	davem@davemloft.net,
+	jan.petrous@oss.nxp.com,
+	shawnguo@kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
+	bartosz.golaszewski@linaro.org,
+	peppe.cavallaro@st.com,
+	krzk+dt@kernel.org,
+	mohd.anwar@oss.qualcomm.com,
+	konrad.dybcio@oss.qualcomm.com,
+	martin.blumenstingl@googlemail.com,
+	andrew+netdev@lunn.ch,
+	rrendec@redhat.com,
+	linux-rockchip@lists.infradead.org,
+	christophe.roullier@foss.st.com,
+	linux-kernel@vger.kernel.org,
+	neil.armstrong@linaro.org,
+	alexandre.torgue@foss.st.com,
+	edumazet@google.com,
+	robh@kernel.org
+Subject: Re: [PATCH net-next v10 6/6] net: stmmac: qcom-ethqos: add support for sa8255p
+Date: Wed, 25 Mar 2026 16:53:35 +0000
+Message-ID: <20260325165335.326630-1-horms@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260323-qcom-sa8255p-emac-v10-6-79302b238a16@oss.qualcomm.com>
+References: <20260323-qcom-sa8255p-emac-v10-6-79302b238a16@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260324-deverr-v1-0-7e591cce33a3@gmail.com> <20260324-deverr-v1-3-7e591cce33a3@gmail.com>
-In-Reply-To: <20260324-deverr-v1-3-7e591cce33a3@gmail.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Thu, 26 Mar 2026 00:01:31 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66++ZtfJ_K=de9ah45sqK0sNDkPr0B64C_U+WMhW7jc-w@mail.gmail.com>
-X-Gm-Features: AQROBzDy-rsBXq4Ru9U4FVjZxHD70RtzjKuDaTmPj80U_CHIL3nYWTBGwt2KYN8
-Message-ID: <CAGb2v66++ZtfJ_K=de9ah45sqK0sNDkPr0B64C_U+WMhW7jc-w@mail.gmail.com>
-Subject: Re: [PATCH 03/10] i2c: sun6i-p2wi: Replace dev_err() with
- dev_err_probe() in probe function
-To: Atharv Dubey <atharvd440@gmail.com>
-Cc: Till Harbaum <till@harbaum.org>, Andi Shyti <andi.shyti@kernel.org>, 
-	Laxman Dewangan <ldewangan@nvidia.com>, Dmitry Osipenko <digetx@gmail.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Patrice Chotard <patrice.chotard@foss.st.com>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Jean Delvare <jdelvare@suse.com>, linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
-	Enrico Zanda <e.zanda1@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 25, 2026 at 2:27=E2=80=AFAM Atharv Dubey <atharvd440@gmail.com>=
- wrote:
->
-> From: Enrico Zanda <e.zanda1@gmail.com>
->
-> This simplifies the code while improving log.
->
-> Signed-off-by: Enrico Zanda <e.zanda1@gmail.com>
-> Signed-off-by: Atharv Dubey <atharvd440@gmail.com>
-> ---
->  drivers/i2c/busses/i2c-sun6i-p2wi.c | 55 ++++++++++++++-----------------=
-------
->  1 file changed, 20 insertions(+), 35 deletions(-)
->
-> diff --git a/drivers/i2c/busses/i2c-sun6i-p2wi.c b/drivers/i2c/busses/i2c=
--sun6i-p2wi.c
-> index fb5280b8cf7f..dffbe776a195 100644
-> --- a/drivers/i2c/busses/i2c-sun6i-p2wi.c
-> +++ b/drivers/i2c/busses/i2c-sun6i-p2wi.c
-> @@ -194,22 +194,16 @@ static int p2wi_probe(struct platform_device *pdev)
->         int ret;
->
->         of_property_read_u32(np, "clock-frequency", &clk_freq);
-> -       if (clk_freq > P2WI_MAX_FREQ) {
-> -               dev_err(dev,
-> -                       "required clock-frequency (%u Hz) is too high (ma=
-x =3D 6MHz)",
-> -                       clk_freq);
-> -               return -EINVAL;
-> -       }
-> +       if (clk_freq > P2WI_MAX_FREQ)
-> +               return dev_err_probe(dev, -EINVAL,
-> +                                    "required clock-frequency (%u Hz) is=
- too high (max =3D 6MHz)",
-> +                                    clk_freq);
->
-> -       if (clk_freq =3D=3D 0) {
-> -               dev_err(dev, "clock-frequency is set to 0 in DT\n");
-> -               return -EINVAL;
-> -       }
-> +       if (clk_freq =3D=3D 0)
-> +               return dev_err_probe(dev, -EINVAL, "clock-frequency is se=
-t to 0 in DT\n");
->
-> -       if (of_get_child_count(np) > 1) {
-> -               dev_err(dev, "P2WI only supports one target device\n");
-> -               return -EINVAL;
-> -       }
-> +       if (of_get_child_count(np) > 1)
-> +               return dev_err_probe(dev, -EINVAL, "P2WI only supports on=
-e target device\n");
->
->         p2wi =3D devm_kzalloc(dev, sizeof(struct p2wi), GFP_KERNEL);
->         if (!p2wi)
-> @@ -226,11 +220,9 @@ static int p2wi_probe(struct platform_device *pdev)
->         childnp =3D of_get_next_available_child(np, NULL);
->         if (childnp) {
->                 ret =3D of_property_read_u32(childnp, "reg", &target_addr=
-);
-> -               if (ret) {
-> -                       dev_err(dev, "invalid target address on node %pOF=
-\n",
-> -                               childnp);
-> -                       return -EINVAL;
-> -               }
-> +               if (ret)
-> +                       return dev_err_probe(dev, -EINVAL,
-> +                                            "invalid target address on n=
-ode %pOF\n", childnp);
->
->                 p2wi->target_addr =3D target_addr;
->         }
-> @@ -245,26 +237,20 @@ static int p2wi_probe(struct platform_device *pdev)
->                 return irq;
->
->         p2wi->clk =3D devm_clk_get_enabled(dev, NULL);
-> -       if (IS_ERR(p2wi->clk)) {
-> -               ret =3D PTR_ERR(p2wi->clk);
-> -               dev_err(dev, "failed to enable clk: %d\n", ret);
-> -               return ret;
-> -       }
-> +       if (IS_ERR(p2wi->clk))
-> +               return dev_err_probe(dev, PTR_ERR(p2wi->clk),
-> +                                    "failed to enable clk\n");
->
->         parent_clk_freq =3D clk_get_rate(p2wi->clk);
->
->         p2wi->rstc =3D devm_reset_control_get_exclusive(dev, NULL);
-> -       if (IS_ERR(p2wi->rstc)) {
-> -               dev_err(dev, "failed to retrieve reset controller: %pe\n"=
-,
-> -                       p2wi->rstc);
-> -               return PTR_ERR(p2wi->rstc);
-> -       }
-> +       if (IS_ERR(p2wi->rstc))
-> +               return dev_err_probe(dev, PTR_ERR(p2wi->rstc),
-> +                                    "failed to retrieve reset controller=
-\n");
->
->         ret =3D reset_control_deassert(p2wi->rstc);
-> -       if (ret) {
-> -               dev_err(dev, "failed to deassert reset line: %d\n", ret);
-> -               return ret;
-> -       }
-> +       if (ret)
-> +               return dev_err_probe(dev, ret, "failed to deassert reset =
-line\n");
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
 
-You could also simplify this whole block with
-devm_reset_control_get_exclusive_deasserted().
+For local reproduction steps see https://netdev-ai.bots.linux.dev/ai-local.html
+---
+net: stmmac: qcom-ethqos: add support for sa8255p
 
-Either way,
+Extend the driver to support a new model - sa8255p. Unlike the
+previously supported variants, this one's power management is done in
+the firmware using SCMI. This is modeled in linux using power domains so
+add support for them.
 
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
+> index f32ff0d9ce51..09ce80b446cb 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
 
+[ ... ]
 
->         init_completion(&p2wi->complete);
->         p2wi->adapter.dev.parent =3D dev;
-> @@ -276,8 +262,7 @@ static int p2wi_probe(struct platform_device *pdev)
+> @@ -710,6 +785,45 @@ static int ethqos_mac_finish_serdes(struct net_device *ndev, void *priv,
+>  	return ret;
+>  }
 >
->         ret =3D devm_request_irq(dev, irq, p2wi_interrupt, 0, pdev->name,=
- p2wi);
->         if (ret) {
-> -               dev_err(dev, "can't register interrupt handler irq%d: %d\=
-n",
-> -                       irq, ret);
-> +               dev_err_probe(dev, ret, "can't register interrupt handler=
- irq%d\n", irq);
->                 goto err_reset_assert;
->         }
->
->
-> --
-> 2.43.0
->
+> +static int ethqos_mac_finish_serdes_pd(struct net_device *ndev, void *priv,
+> +				       unsigned int mode,
+> +				       phy_interface_t interface)
+> +{
+> +	struct qcom_ethqos *ethqos = priv;
+> +	struct device *dev = ethqos->pd.pd_list->pd_devs[ETHQOS_PD_SERDES];
+> +	int ret = 0;
+> +
+> +	qcom_ethqos_set_sgmii_loopback(ethqos, false);
+> +
+> +	if (interface == PHY_INTERFACE_MODE_SGMII ||
+> +	    interface == PHY_INTERFACE_MODE_2500BASEX)
+> +		ret = dev_pm_opp_set_level(dev, ethqos->pd.serdes_level);
+> +
+> +	return ret;
+> +}
+> +
+> +static int qcom_ethqos_pd_serdes_powerup(struct net_device *ndev, void *priv)
+> +{
+> +	struct qcom_ethqos *ethqos = priv;
+> +	struct device *dev = ethqos->pd.pd_list->pd_devs[ETHQOS_PD_SERDES];
+> +	int ret;
+> +
+> +	ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_SERDES);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return dev_pm_opp_set_level(dev, ethqos->pd.serdes_level);
+> +}
+
+Does this leak the PM runtime reference if dev_pm_opp_set_level() fails?
+
+qcom_ethqos_pd_serdes_powerup() calls qcom_ethqos_domain_on() which
+acquires a PM runtime reference via pm_runtime_resume_and_get():
+
+qcom_ethqos_pd_serdes_powerup()
+  qcom_ethqos_domain_on()
+    pm_runtime_resume_and_get(dev)
+
+If the subsequent dev_pm_opp_set_level() fails, the function returns the
+error without calling qcom_ethqos_domain_off() to release the reference.
+
+The caller stmmac_legacy_serdes_power_up() in stmmac_main.c does not set
+legacy_serdes_is_powered=true on error, so stmmac_legacy_serdes_power_down()
+in the cleanup path skips the powerdown call.
+
+In the existing non-PD code path, qcom_ethqos_serdes_powerup() correctly
+handles this case by calling phy_exit() when phy_power_on() fails:
+
+drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c:qcom_ethqos_serdes_powerup() {
+	ret = phy_init(ethqos->pm.serdes_phy);
+	if (ret)
+		return ret;
+
+	ret = phy_power_on(ethqos->pm.serdes_phy);
+	if (ret) {
+		phy_exit(ethqos->pm.serdes_phy);
+		return ret;
+	}
+	...
+}
+
+Should qcom_ethqos_pd_serdes_powerup() call qcom_ethqos_domain_off()
+before returning the error from dev_pm_opp_set_level()?
+
+> +
+> +static void qcom_ethqos_pd_serdes_powerdown(struct net_device *ndev, void *priv)
+> +{
+> +	struct qcom_ethqos *ethqos = priv;
+> +	struct device *dev = ethqos->pd.pd_list->pd_devs[ETHQOS_PD_SERDES];
+> +
+> +	dev_pm_opp_set_level(dev, 0);
+> +	qcom_ethqos_domain_off(ethqos, ETHQOS_PD_SERDES);
+> +}
+
+[ ... ]
