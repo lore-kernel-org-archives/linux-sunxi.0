@@ -1,195 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F1C3FAE0E;
-	Wed, 25 Mar 2026 16:54:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7927E329E47
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Mar 2026 20:46:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774457656; cv=none; b=TFdbFO4Zta9KrDvMvOncNJ+iVyc3/uu6VxSDaBmAqOilqWRt8cuFVfNOfEKvaAy7m1fWFlY8z2i23x7TcRYhy1pKvmOcHedIN2F4DfEAZ/HdPGsii0G32Pj9RxfcAEJ3WOto+n6aZWK9Tm76USp4T4Q8HhhU/14E3ZBh0o10/SU=
+	t=1774471602; cv=none; b=AvtbuSemL/PIiR38pF8ntgtoD/0FpouB7/QNw6CBJHI0AVnyaVuS2ifRI1+lOPhrzeeomuzxUCepUuf7vKJtYlTKI89o1/AJX6YR3XonslaRZzEnYsB0hHWplK5d7IG+awhpkkRRDbDN/9wkt53sN04ES/dHN+mfRqRRwD/6Sn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774457656; c=relaxed/simple;
-	bh=oMuUWLmoNITVcQzV/o3it6GVvrYLaH+S1Qr6U989rSY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Jg0hjiQ5orSBo1X7qmNjy9KaQYmd0GdhFGKKhKVBXt1F4GMVbxzbFgSL1g8LnddXKvqEefVr342IhnUhJjduRVjbHlldDLtQSY6zKKvlNck/xy9FoqVaqbB22cdymHopfeA2dKyONUsJ/2DjrtVl1RJm51dy2WQRyNijja8UmDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qDB30oUW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774471602; c=relaxed/simple;
+	bh=5o1xohuKr0S+BiEvA0vQ9u8l2HBmv1np5Y69DlJp66g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mmsJFm9TPG32d9K9V+b+YNJ/NKVew4x9EMg0NF6OokXpH1XYHZtD4Vb52Jg2tO3aBO6aChM03QJyL9Dkf0Px/r9n9ag39TQCxVyFZShnY+ygkMdHMrn5a6B/uGm5A9OSugbpsSEThnuJg38n4hb7GJlPwxpAM1bd/15/qK4b2js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=Ve02YZRn; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qDB30oUW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49A05C4CEF7;
-	Wed, 25 Mar 2026 16:54:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774457655;
-	bh=oMuUWLmoNITVcQzV/o3it6GVvrYLaH+S1Qr6U989rSY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qDB30oUW5a/3zO8cnh+u95v1NNfWmdGI2IjUhVXfyQO4SZA9TyoTDvTMqD+MHZCZB
-	 NbZtSa7ImOyDdMHoSkCtK7kMx2M9RnDL3kZd0WZAGqqSFNhJA4Vyj+bRdJUtT/WJ1+
-	 smzMbNGLEjkZHNkEwdIxqekKRq5iCdcpKCC+5KHh0JNGfGHt78pBcZNG2XZr+ZjCL8
-	 +pQPBWT2Qxf0S+D+n9gEGvUaIXjm0r1poXr0/YGLOZB2oBLm4MXdkhUtjKNkn3Qdqe
-	 uvMiMQG7Gvnj5hAOzCxfefchzrdYpSo9zodIbgOmf0vcfll+P9lh2ztHg9oF7j+3q5
-	 jVMvbkd5KgOww==
-From: Simon Horman <horms@kernel.org>
-To: bartosz.golaszewski@oss.qualcomm.com
-Cc: Simon Horman <horms@kernel.org>,
-	magnus.damm@gmail.com,
-	jernej.skrabec@gmail.com,
-	s32@nxp.com,
-	krzysztof.kozlowski@oss.qualcomm.com,
-	linux-arm-msm@vger.kernel.org,
-	imx@lists.linux.dev,
-	festevam@gmail.com,
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="Ve02YZRn"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=9QKg/ec1UB4Iqjz+3XvMVVCaBUJlpvPmNLrcDpzXquo=; b=Ve02YZRnNB03ruvQ/IjMJ/1ue1
+	Bi8GDv/IOoGR1ANMgT981Oj4zKj2iU195jiS8WXu+7B+X6xJnKauwJSR4031QIWEgH+2vTwfVQr6y
+	6Uce6PdLDE3m76fpnRsKUBhpTJScPz4WkdEti7wSHIpkJlDYs4ox/dK/urm14+6tM4h1b8TQhing0
+	q3JBKDYwRFu+WNMRY0DtkGZxWIuqCxaxHYQ6kgObXg6QaE2h1AxVEp6VucVunJ22eCyC+c/8oM7Sd
+	UH972dpzdlSDv5EZv13lys3OTKfnntfc2ax0H2xncCFzdbdlgsnc4buqoC6Go4sQrHDOJ9VVuLLZ2
+	JvH2jTZA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:46352)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1w5V7G-000000003sV-3Db4;
+	Wed, 25 Mar 2026 20:46:14 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1w5V7D-000000006M4-0GW4;
+	Wed, 25 Mar 2026 20:46:11 +0000
+Date: Wed, 25 Mar 2026 20:46:10 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+	Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com,
+	Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>,
+	Romain Gantois <romain.gantois@bootlin.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Christophe Roullier <christophe.roullier@foss.st.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Radu Rendec <rrendec@redhat.com>, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
 	linux-arm-kernel@lists.infradead.org,
-	wens@kernel.org,
-	netdev@vger.kernel.org,
-	geert+renesas@glider.be,
-	linux-stm32@st-md-mailman.stormreply.com,
-	dfustini@tenstorrent.com,
-	andersson@kernel.org,
-	khilman@baylibre.com,
-	linux-mips@vger.kernel.org,
-	mripard@kernel.org,
-	romain.gantois@bootlin.com,
-	vkoul@kernel.org,
+	Drew Fustini <dfustini@tenstorrent.com>,
+	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org,
+	linux-mips@vger.kernel.org, imx@lists.linux.dev,
 	linux-renesas-soc@vger.kernel.org,
-	jbrunet@baylibre.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	mcoquelin.stm32@gmail.com,
-	sophgo@lists.linux.dev,
-	brgl@kernel.org,
-	devicetree@vger.kernel.org,
-	konradybcio@kernel.org,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	linux-sunxi@lists.linux.dev,
-	conor+dt@kernel.org,
-	davem@davemloft.net,
-	jan.petrous@oss.nxp.com,
-	shawnguo@kernel.org,
-	linux-amlogic@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, sophgo@lists.linux.dev,
 	linux-riscv@lists.infradead.org,
-	bartosz.golaszewski@linaro.org,
-	peppe.cavallaro@st.com,
-	krzk+dt@kernel.org,
-	mohd.anwar@oss.qualcomm.com,
-	konrad.dybcio@oss.qualcomm.com,
-	martin.blumenstingl@googlemail.com,
-	andrew+netdev@lunn.ch,
-	rrendec@redhat.com,
-	linux-rockchip@lists.infradead.org,
-	christophe.roullier@foss.st.com,
-	linux-kernel@vger.kernel.org,
-	neil.armstrong@linaro.org,
-	alexandre.torgue@foss.st.com,
-	edumazet@google.com,
-	robh@kernel.org
-Subject: Re: [PATCH net-next v10 6/6] net: stmmac: qcom-ethqos: add support for sa8255p
-Date: Wed, 25 Mar 2026 16:53:35 +0000
-Message-ID: <20260325165335.326630-1-horms@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260323-qcom-sa8255p-emac-v10-6-79302b238a16@oss.qualcomm.com>
-References: <20260323-qcom-sa8255p-emac-v10-6-79302b238a16@oss.qualcomm.com>
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH net-next v9 2/6] net: stmmac: qcom-ethqos: use generic
+ device properties
+Message-ID: <acRJkrKbF_lI03O4@shell.armlinux.org.uk>
+References: <20260316-qcom-sa8255p-emac-v9-0-c58934e76ff2@oss.qualcomm.com>
+ <20260316-qcom-sa8255p-emac-v9-2-c58934e76ff2@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260316-qcom-sa8255p-emac-v9-2-c58934e76ff2@oss.qualcomm.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
+On Mon, Mar 16, 2026 at 01:05:07PM +0100, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> 
+> In order to drop the dependency on CONFIG_OF, convert all device property
+> getters from OF-specific to generic device properties and stop pulling
+> in any linux/of.h symbols.
 
-For local reproduction steps see https://netdev-ai.bots.linux.dev/ai-local.html
----
-net: stmmac: qcom-ethqos: add support for sa8255p
+Why is this desirable? Please see the recent discussion at
 
-Extend the driver to support a new model - sa8255p. Unlike the
-previously supported variants, this one's power management is done in
-the firmware using SCMI. This is modeled in linux using power domains so
-add support for them.
+https://lore.kernel.org/r/20260322-remove-device-find-by-of-node-v1-0-b72eb22a1215@gmail.com
 
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-> index f32ff0d9ce51..09ce80b446cb 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
+specifically replies from Andrew and myself.
 
-[ ... ]
+Merely wanting to drop a dependency is not a good enough reason for
+these kinds of conversions, because they in effect make the DT
+properties also apply to ACPI which may not be appropriate (note
+for example that MDIO busses are not represented in ACPI.)
 
-> @@ -710,6 +785,45 @@ static int ethqos_mac_finish_serdes(struct net_device *ndev, void *priv,
->  	return ret;
->  }
->
-> +static int ethqos_mac_finish_serdes_pd(struct net_device *ndev, void *priv,
-> +				       unsigned int mode,
-> +				       phy_interface_t interface)
-> +{
-> +	struct qcom_ethqos *ethqos = priv;
-> +	struct device *dev = ethqos->pd.pd_list->pd_devs[ETHQOS_PD_SERDES];
-> +	int ret = 0;
-> +
-> +	qcom_ethqos_set_sgmii_loopback(ethqos, false);
-> +
-> +	if (interface == PHY_INTERFACE_MODE_SGMII ||
-> +	    interface == PHY_INTERFACE_MODE_2500BASEX)
-> +		ret = dev_pm_opp_set_level(dev, ethqos->pd.serdes_level);
-> +
-> +	return ret;
-> +}
-> +
-> +static int qcom_ethqos_pd_serdes_powerup(struct net_device *ndev, void *priv)
-> +{
-> +	struct qcom_ethqos *ethqos = priv;
-> +	struct device *dev = ethqos->pd.pd_list->pd_devs[ETHQOS_PD_SERDES];
-> +	int ret;
-> +
-> +	ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_SERDES);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return dev_pm_opp_set_level(dev, ethqos->pd.serdes_level);
-> +}
-
-Does this leak the PM runtime reference if dev_pm_opp_set_level() fails?
-
-qcom_ethqos_pd_serdes_powerup() calls qcom_ethqos_domain_on() which
-acquires a PM runtime reference via pm_runtime_resume_and_get():
-
-qcom_ethqos_pd_serdes_powerup()
-  qcom_ethqos_domain_on()
-    pm_runtime_resume_and_get(dev)
-
-If the subsequent dev_pm_opp_set_level() fails, the function returns the
-error without calling qcom_ethqos_domain_off() to release the reference.
-
-The caller stmmac_legacy_serdes_power_up() in stmmac_main.c does not set
-legacy_serdes_is_powered=true on error, so stmmac_legacy_serdes_power_down()
-in the cleanup path skips the powerdown call.
-
-In the existing non-PD code path, qcom_ethqos_serdes_powerup() correctly
-handles this case by calling phy_exit() when phy_power_on() fails:
-
-drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c:qcom_ethqos_serdes_powerup() {
-	ret = phy_init(ethqos->pm.serdes_phy);
-	if (ret)
-		return ret;
-
-	ret = phy_power_on(ethqos->pm.serdes_phy);
-	if (ret) {
-		phy_exit(ethqos->pm.serdes_phy);
-		return ret;
-	}
-	...
-}
-
-Should qcom_ethqos_pd_serdes_powerup() call qcom_ethqos_domain_off()
-before returning the error from dev_pm_opp_set_level()?
-
-> +
-> +static void qcom_ethqos_pd_serdes_powerdown(struct net_device *ndev, void *priv)
-> +{
-> +	struct qcom_ethqos *ethqos = priv;
-> +	struct device *dev = ethqos->pd.pd_list->pd_devs[ETHQOS_PD_SERDES];
-> +
-> +	dev_pm_opp_set_level(dev, 0);
-> +	qcom_ethqos_domain_off(ethqos, ETHQOS_PD_SERDES);
-> +}
-
-[ ... ]
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
