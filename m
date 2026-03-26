@@ -1,150 +1,112 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553DE2F6565;
-	Thu, 26 Mar 2026 01:08:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892DC823DD
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Mar 2026 06:58:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774487329; cv=none; b=Xu5ixHmGqsn203IT4tIoTaKN4vE/KxJCYHO7B/obcPvaGp0/YxlxRThmum5ELWSUmTxLIzFzoktrpHFtqpxuPASz/8TqsXluduA95sliV6+5eNa2RJlSWGmZwOsDEAgEWp+RjYPvqFe1G+/xf3f9eeu9Y82+ebx3LN7e5LBUdw4=
+	t=1774508320; cv=none; b=usiKi7Hd41XE0TqEHfChDDsVHXiMLHby4ieXw398e9xTLS/O/tH+GoI1jAVRpfnUNBOsqegcHCnRqmMiRFNFm77J/fMXilCXem0sWMAfPtQhT5JWPm+BFQjy2GjLfixlq4f5rVOsRYdctMVAeus4mLqJQCIQLWPJq+l5XvFPeQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774487329; c=relaxed/simple;
-	bh=4uecKRHDBhbz6GMEPeOcd+SqBF5xnJKMd0h9nwTDfzc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BWJgV14UBUG0dy8VgshPnNDlcBBLIOX3jlOGml4zxUZJn7VIGUWpm8YvGOwYpeMCuZeuC0sH/vb4SHlpi83fx5+xFqwEh3Jm863+LfCyi1HRbRyTUC+bejz9qXO7dQ/IwpHAXwpEO79TZ3m87sdomsHxmTqUpbl9BpGSFasM7u4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=3k+TjSE4; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1774508320; c=relaxed/simple;
+	bh=cH8D9Uq/LzYOvZjq25rc85Ook1VAnV3/WpOE5rTOB1k=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=kJ32at4v4/aqzHTW3n/yVCBTH9r7xMQX0AqOe5QVE7aPzfgg1aSS1f0sUwruc72P+rIjQZoQAooQhXb1Wpi16iJxApyd4m16jX0xcF8FOxNb6PBdMHbKJp6NQzmKzS6C5riUjqAIhuiEIfGIRPx0zCVjCgBIEbYsQqGALY4b32k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ek8LkRfE; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="3k+TjSE4"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=HZk9cX6zPb++VDwxFCjztWsZ6cPWXsFQhOd6PIpC+jg=; b=3k+TjSE4T5siYJvmjf+q67z7Bo
-	blgq/01N77awBnx7m8dxKS+XWCjvcdDITItvnD/oPHPgdpnl/fYTwqn9SZnLpumvD+4pQ9MuXPyJz
-	LLcgWn8WmSKGBEQCaDnMeONlaYVoPwlRLHNuJiDEDQk8r41BKPWSIExdHBN5qyXIf2iA=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1w5ZD0-00DNsG-6i; Thu, 26 Mar 2026 02:08:26 +0100
-Date: Thu, 26 Mar 2026 02:08:26 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>,
-	Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com,
-	Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>,
-	Romain Gantois <romain.gantois@bootlin.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Christophe Roullier <christophe.roullier@foss.st.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Radu Rendec <rrendec@redhat.com>, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	Drew Fustini <dfustini@tenstorrent.com>,
-	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org,
-	linux-mips@vger.kernel.org, imx@lists.linux.dev,
-	linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, sophgo@lists.linux.dev,
-	linux-riscv@lists.infradead.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH net-next v9 2/6] net: stmmac: qcom-ethqos: use generic
- device properties
-Message-ID: <409265d8-532a-44d4-abc6-02ac5a19d286@lunn.ch>
-References: <20260316-qcom-sa8255p-emac-v9-0-c58934e76ff2@oss.qualcomm.com>
- <20260316-qcom-sa8255p-emac-v9-2-c58934e76ff2@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ek8LkRfE"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-b6ce6d1d3dcso265397a12.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 25 Mar 2026 23:58:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1774508319; x=1775113119; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SdEPxGlOLVBGmER9WSTa0ssfO+YRW1Jn+IHrzAWzqJM=;
+        b=ek8LkRfEeBwVL208U7OgkIhKBZYwV6k2Z71Wg9VSGABE+4vLPmn46XT6sn0oP75uNe
+         xZshy1LWpmEetp011Trr5Lz+0MLVJGkyY/WfaCcFU5cn14l+yqO5iPJIHFIKq+KZK9/f
+         c+UYqolZ4uvaPLYxHw7ZSFQJqMZJc88AACzVU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774508319; x=1775113119;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=SdEPxGlOLVBGmER9WSTa0ssfO+YRW1Jn+IHrzAWzqJM=;
+        b=Nk+LPHuQi8hWxrFTSNcEicmDFJn6RDBEwVlS2seC3OAZhHyPSLH5/1m0ewJPLj3nNw
+         HWkkHpBI0vWo97n1KDJTP5vf13DjP57nDJH1r7C25y0iHLd7cpT8FBwmyRETUOyzwkrT
+         8RrnFGQLAVlEJVwJf5IN/SGA9ZbJGSda4d0kUrURepOUcaFU+GDjJB3zh/Hv2L2Hisvi
+         pAotIVm3DptUY16cLBfF+MiSuLGUtHjv6f0fDhhl5NeQ55jSXoTwJeFk2xYfUSyXQUhG
+         /lo4v2tB1AuTi1b7Z5lwTxqPdmw3rhGjY4E7UdT33GujtOmr19VBxmVFtdoq9EY4SiwI
+         P21g==
+X-Gm-Message-State: AOJu0YzXV5Nmr6SoESZjwzyJ/exVu1i9zXkz5hH2K+m5lcdxVSpLWeYn
+	Fd9q9E7ZOVcZbt1YbD1mN2bIJlpz6VkWpAOf+kq1DJJGUe895W+b/ST0hG4Ejs056g==
+X-Gm-Gg: ATEYQzxZ3JWBs1/nryh4yKT+VYpORyoaPuxLyPkq+Ycnf3k/Jy1EXgpZY76648AGPxD
+	479O+M7Y2iDpUz0Muk9Jw7VG2+dcEJG7VlQrQdcKt6zetlEtxCYooIS4gHSHR6JB9z9vm4ewHmd
+	vBJwbPIUnzu9zmcDHT86/IEqzqet5IM9v45qDVeCzvrPyEmN3VN6UKbR7/wCbM3brAkGNtCauL0
+	BH1WmESfDlDRDrcph6meBjqxYOcszAtMvBhrzm4TQPEwS3+IGP9/oxSzuLclitwvMBil2w69Wry
+	PhPqG4Fku/z3oN+RSfprhasxFnbpwzA+tWxAZlzxFr8NKNjFfyRtUcj4AZi7HbbUZgmB5vr1Lj+
+	vEDphLRhcUxvHyyiu0LjMfHAC+q3Wf7F9gePwgYWWkHFJ58vS3yKCCUww4yfmIWlVQyA4DABo8i
+	v8jSEYAq+jRbk/Rdhx0yd1nGD0GOWudytxBug7w7ejRIUJeMR501p01BhD3xtnlGAYozoSyly9S
+	/CFprBw
+X-Received: by 2002:a05:6a20:729f:b0:398:7b1d:87ce with SMTP id adf61e73a8af0-39c4ab57c36mr7202940637.20.1774508318941;
+        Wed, 25 Mar 2026 23:58:38 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:3ed5:7e63:b37c:a7d7])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c76736e54e4sm1345254a12.0.2026.03.25.23.58.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 23:58:38 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wenst@chromium.org>
+Cc: linux-sunxi@lists.linux.dev, Paul Kocialkowski <paulk@sys-base.io>, 
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260311094929.3393338-1-wenst@chromium.org>
+References: <20260311094929.3393338-1-wenst@chromium.org>
+Subject: Re: [PATCH v2 0/4] drm/gem-dma: Support dedicated DMA device for
+ allocation
+Message-Id: <177450831563.1057981.13951871384462146640.b4-ty@chromium.org>
+Date: Thu, 26 Mar 2026 14:58:35 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260316-qcom-sa8255p-emac-v9-2-c58934e76ff2@oss.qualcomm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 
-On Mon, Mar 16, 2026 at 01:05:07PM +0100, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+On Wed, 11 Mar 2026 17:49:24 +0800, Chen-Yu Tsai wrote:
+> This is v2 of my "support dedicated DMA device for allocation and mmap
+> in GEM DMA helpers" series.
 > 
-> In order to drop the dependency on CONFIG_OF, convert all device property
-> getters from OF-specific to generic device properties and stop pulling
-> in any linux/of.h symbols.
+> Changes since v1:
+> - Link to v1: https://lore.kernel.org/all/20260310032511.2545500-1-wenst@chromium.org/
+> - Collected tags
+> - Removed reference to mtk_gem.c from the Makefile
 > 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> ---
->  drivers/net/ethernet/stmicro/stmmac/Kconfig             | 2 +-
->  drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c | 9 ++++-----
->  2 files changed, 5 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/Kconfig b/drivers/net/ethernet/stmicro/stmmac/Kconfig
-> index 07088d03dbab5bd1abf66e9460613b839c1d565e..e2af4fdd654340d618477ed87d3889dbb9aab456 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/Kconfig
-> +++ b/drivers/net/ethernet/stmicro/stmmac/Kconfig
-> @@ -135,7 +135,7 @@ config DWMAC_MESON
->  config DWMAC_QCOM_ETHQOS
->  	tristate "Qualcomm ETHQOS support"
->  	default ARCH_QCOM
-> -	depends on OF && (ARCH_QCOM || COMPILE_TEST)
-> +	depends on ARCH_QCOM || COMPILE_TEST
->  	help
->  	  Support for the Qualcomm ETHQOS core.
+> [...]
 
-Are you sure you want to do that?
+Applied to drm-misc-next in drm-misc, thanks!
 
-static int qcom_ethqos_probe(struct platform_device *pdev)
-{
-	struct device_node *np = pdev->dev.of_node;
-	const struct ethqos_emac_driver_data *data;
-	struct plat_stmmacenet_data *plat_dat;
-	struct stmmac_resources stmmac_res;
-	struct device *dev = &pdev->dev;
-	struct qcom_ethqos *ethqos;
-	int ret, i;
+[1/4] drm/prime: Limit scatter list size with dedicated DMA device
+      commit: 864279920b2b2c1dd491eba0d0c64764c0c03d9f
+[2/4] drm/gem-dma: Support dedicated DMA device for allocation and mapping
+      commit: a9da24732aaa80d631bffc8a1390836d4b896690
+[3/4] drm/mediatek: Set dedicated DMA device and drop custom GEM callbacks
+      commit: e21b1a91430d5ff626a35f72951ed80268e26de6
+[4/4] drm/sun4i: Use backend/mixer as dedicated DMA device
+      commit: 25e90f486f5bc8f606f4263c9d86e2d2b1db4613
 
-	ret = stmmac_get_platform_resources(pdev, &stmmac_res);
-	if (ret)
-		return dev_err_probe(dev, ret,
-				     "Failed to get platform resources\n");
+Best regards,
+-- 
+Chen-Yu Tsai <wenst@chromium.org>
 
-	plat_dat = devm_stmmac_probe_config_dt(pdev, stmmac_res.mac);
-	if (IS_ERR(plat_dat)) {
-		return dev_err_probe(dev, PTR_ERR(plat_dat),
-				     "dt configuration failed\n");
-	}
-
-https://elixir.bootlin.com/linux/v6.19.9/source/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c#L684
-
-
-#else
-struct plat_stmmacenet_data *
-devm_stmmac_probe_config_dt(struct platform_device *pdev, u8 *mac)
-{
-	return ERR_PTR(-EINVAL);
-}
-#endif /* CONFIG_OF */
-
-It seems like this is just going to result in the probe failing with
--EINVAL.
-
-	Andrew
