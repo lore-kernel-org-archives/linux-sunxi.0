@@ -1,124 +1,107 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CC237C931
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Mar 2026 11:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C517379ED6
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Mar 2026 11:43:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774611813; cv=none; b=ZQ4qy4Yy/Wksshj3ZTrrCh1i9obsjxreW4ZLUl7Bep+lcGyC/F8f00Gtm0Xxj95vHbY6DSzvzSfLNESceQKmQj8PrCA3U4RNm0judDJQszSlfEJIzw7qBA637ciA802ZLPNSbjGWtlBk6/xZ5pdewDcXYtWw8IiCsx8eS6PgfDA=
+	t=1774611829; cv=none; b=H9O1HBMFhE7LtNK0M/7fFLFIUvcxxkpLTBUuWtmbw+G2s7uP30anf4oiMkk8HP5c+pDvlK1Y2HY05oVJPkkmCgKuL1PM7SvglDqAIJIE1wo+5Iy13IJEASbkx2FjX76XaB7cZrAKtXWnWC0Wn6vn3VhlqdoV6IiFtmR71TASZrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774611813; c=relaxed/simple;
-	bh=uYAApojvLTIkmyKoZpYwJZCokmKbnpF9c6WhaIacVG4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S0SHFTZz0XMTWqpikhCOvXzEU8JcECR5MHvx7wmnru0lriRVOOjwdq7TuvxgikQ0ELR70Hurm18TnSsUM7zQ7bQkl1aEVD3i3TntJiB9Fg6ZL+PX4x3vs5O4ZHsis0RKsDykft30TFHJonkDIX/xAhrQ3Vl47XSmwHAdHwMzoXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=k4QvSzox; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1774611829; c=relaxed/simple;
+	bh=DYgRiTpgVxM1HUd8k6yAnxBm1+eeXn001TUDzFfO7D4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ttyGULVEqGwPEh4StTn8boTb13lASqJ+sb5i8EfRfV3RUc40T6psRuVRrOYqh/YWKmdDIkHtaLv0gPfR7lqiOxM1NSv5a+vxLOeoaeFlUxQmXfFYvOTKUg3TN8kVZs1tkHY6wcNmp2aTRbnD8N+EhsIWKpyOt8JOKswsVEuLZQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h73kmZcg; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="k4QvSzox"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=H/mm
-	EvjF+xhmn9Wns9betMD2C6MNmROj8DyAiLE02zM=; b=k4QvSzox0bVkfsfDjzFG
-	LGuc3RY6Nc4A01kHbyNKckXguVBwpBOKFgCosfhLsRsjq4eDoNRYZpMIVCJ0O3hr
-	gfeanKsyTEOWbah1eONyp6cI2lvZTWiinFUqQ1+gY2hdjjx+hPdnLjDCYK70TUJ4
-	aFc/YaBf28GDjSGd7mxe254RWqDfD9attVFCtj8ikS1PeMOzQ7Wq1WpZ9OE7cTEW
-	LWHjg90xTnSXm5laQso2Th3BJmrtN84wxdyQWCBE0l/PveVIj91/BXi11wFJWf4A
-	0Ik6WG0aYRHLixjG/wpRM3UOW+oQhTX4llCiif+gTG5sUZ6tFSGGFUkiiWl6Oq3N
-	Rg==
-Received: (qmail 174700 invoked from network); 27 Mar 2026 12:43:25 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Mar 2026 12:43:25 +0100
-X-UD-Smtp-Session: l3s3148p1@m9s6AgBO++RUhsJN
-Date: Fri, 27 Mar 2026 12:43:24 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Antonio Borneo <antonio.borneo@foss.st.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	David Lechner <dlechner@baylibre.com>, driver-core@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Konrad Dybcio <konradybcio@kernel.org>, Lee Jones <lee@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, Mark Brown <broonie@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Waiman Long <longman@redhat.com>,
-	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
-	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v5 00/15] hwspinlock: move device alloc into core and
- refactor includes
-Message-ID: <acZtXL7OiM0ceyMe@shikoro>
-References: <20260319105947.6237-1-wsa+renesas@sang-engineering.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h73kmZcg"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4853c1ca73aso19463575e9.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 27 Mar 2026 04:43:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774611827; x=1775216627; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DYgRiTpgVxM1HUd8k6yAnxBm1+eeXn001TUDzFfO7D4=;
+        b=h73kmZcgYXMSI2aWZIOtgAVx0veL4kTCrXvMNrVCkCJmjcnwaDpFgK5IwoFtcLtI+w
+         +/sohVLBwDs6O3FF9Y5l0l088jIm1o8rn78nrFB16295QFXRH9+66KeRB4Pe23ZRN896
+         jQoViDGH7RwVU4B5BBWXtKNVW+XYxx1D03cFB6B0xtfZN91DYVW/lbCFlz9UwEkJI7Lx
+         xkWHoJglaaKE2XweQUs2ou60/omOYI+CHemqP0p4Fvu1G/V2KDoZkT2ZlmKS5O1Cj21V
+         SXNTvpUjiAeZhqz/tAcOZ2hdqYV2xPoDOq3swm6J5nygAJWax0ogZ2Ih74JAAnioA2/P
+         CNwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774611827; x=1775216627;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=DYgRiTpgVxM1HUd8k6yAnxBm1+eeXn001TUDzFfO7D4=;
+        b=mcq1J9qQobHnVHQ947ML4LFImw6jnLuwvbumxYnXdNShROYb3yWscSFWu7iOeAirTS
+         1qoQlUHAYWt7RlT6fCVt3cMvW8o/xHMCUhCBfkLiFEiV1slJaXl/TkbEG7kmThRn7QLo
+         GAsowHAMc1beomdZx2UiU64meI2k6Kp716lJY+HSuZiS0EwNqKX4S5Qghjj6hMYSAEjS
+         7Pb/+DuezVJZqwygFY7EVmjx3Fi/Yiood9MD2X0YjAZFJaobnaa4xps7SKyGL7sVLu0F
+         msPeZ/sAAJCB1SJ0A3cNoQBOQQ+WE1xpfntfbMZxx5OH5MvyBG228BW0oMZWxz9Kw6Ka
+         MUpA==
+X-Forwarded-Encrypted: i=1; AJvYcCXeC1GzzcEM6bQ6YPSC1FJMakXyerd2V0550z/Ofrn/hDVxNNiZ7llZAG1TAz7jb8LJe+RRBrlkF6I5mg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzde1TKXEs5EXZ5wZ7DyW9acL1FTRIYmbVORKZZtl11JX9E+tlu
+	N6X7BcT7totPP4S4VhcoDzRNpAfEaYD5qOEwADwj2eK9/duwQ8XnBmKUnGiCNPrWOu8=
+X-Gm-Gg: ATEYQzxQ/CkZRfIkjpy/TuU+zc3FIrRzaw8d/tBZihwqRrOif6QO54WTUK3MAr5A2C0
+	NpyZdID0VbKlhi5uCcJdHPHuflez+wiG+WSIUhAyiypuwTnCrevJqtZO0ixV5L7S4EQ/ELpw2zh
+	BA+tnD9PdBfAZs0ERCvsto5zp5vBdd+5PS/YptOoB7VnP3W281h7pA0ZJ3an0PjoWvANW71klLC
+	avId1bIXtUomQoh4J2TAxQUlqR9mwiLEjpNiAnHjc5ncmZJSHq9nUM3Cy+JfsHsgwwALVVpw66D
+	k4saskbVTMnRqVvw28fDRl44UzQGI4/HisaSLK+pkeqgKbrXcudOLwHcu+6QOOwn1tjhJFg71Ac
+	CXaFKfnOG3HeQgt1OUo0pZma3A2TiiT7Q+UnJUlASK3lQ441i3p51VGc0sWiMnASaNfacdSRbgI
+	K1nFCViugVC+JBxBdAlovIiKLvWFUI/iGxs1U7SgN4C5nlulBiLaQkOb53deGAK/oKmYIBXuOmq
+	ajCaPWWjKCryI7JTw==
+X-Received: by 2002:a05:600c:8b6e:b0:487:716:2fa9 with SMTP id 5b1f17b1804b1-48727e883c4mr35679575e9.13.1774611826618;
+        Fri, 27 Mar 2026 04:43:46 -0700 (PDT)
+Received: from jernej-laptop.localnet (118.red-213-98-130.staticip.rima-tde.net. [213.98.130.118])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b919e265csm15142518f8f.32.2026.03.27.04.43.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2026 04:43:46 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>
+Cc: linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH v2 3/3] arm64: dts: allwinner: a523: Add missing GPIO interrupt
+Date: Fri, 27 Mar 2026 12:42:18 +0100
+Message-ID: <5086436.31r3eYUQgx@jernej-laptop>
+In-Reply-To: <20260327113006.3135663-4-andre.przywara@arm.com>
+References:
+ <20260327113006.3135663-1-andre.przywara@arm.com>
+ <20260327113006.3135663-4-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260319105947.6237-1-wsa+renesas@sang-engineering.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Thu, Mar 19, 2026 at 11:59:22AM +0100, Wolfram Sang wrote:
-> Changes since v4:
-> 
-> * update Documentation, too, when ABI gets changed (Thanks Antonio!)
-> * rebased to 7.0-rc4
-> * added more tags (Thanks!)
-> 
-> My ultimate goal is to allow hwspinlock provider drivers outside of the
-> subsystem directory. It turned out that a simple split of the headers
-> files into a public provider and a public consumer header file is not
-> enough because core internal structures need to stay hidden. Even more,
-> their opaqueness could and should even be increased. That would also
-> allow the core to handle the de-/allocation of the hwspinlock device
-> itself.
-> 
-> This series does all that. Patches 1-2 remove the meanwhile unused
-> platform_data to ease further refactoring. Patches 3-9 abstract access
-> to internal structures away using helpers. Patch 10 then moves
-> hwspinlock device handling to the core, simplifying drivers. The
-> remaining patches refactor the headers until the internal one is gone
-> and the public ones are divided into provider and consumer parts. More
-> details are given in the patch descriptions.
-> 
-> One note about using a callback to initialize hwspinlock priv: I also
-> experimented with a dedicated 'set_priv' helper function. It felt a bit
-> clumsy to me. Drivers would need to save the 'bank' pointer again and
-> iterate over it. Because most drivers will only have a simple callback
-> anyhow, it looked leaner to me.
-> 
-> This series has been tested on a Renesas SparrowHawk board (R-Car V4H)
-> with a yet-to-be-upstreamed hwspinlock driver for the MFIS IP core. A
-> branch can be found here (without the MFIS driver currently):
-> 
-> git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/hwspinlock/refactor-alloc-buildtest
-> 
-> Build bots reported success.
+Dne petek, 27. marec 2026 ob 12:30:06 Srednjeevropski standardni =C4=8Das j=
+e Andre Przywara napisal(a):
+> Even though the Allwinner A523 SoC implements 10 GPIO banks, it has
+> actually registers for 11 IRQ banks, and even an interrupt assigned to
+> the first, non-implemented IRQ bank.
+> Add that first interrupt to the list of GPIO interrupts, to correct the
+> association between IRQs and GPIO banks.
+>=20
+> This fixes GPIO IRQ operation on boards with A523 SoCs, as seen by
+> broken SD card detect functionality, for instance.
+>=20
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> Fixes: 35ac96f79664 ("arm64: dts: allwinner: Add Allwinner A523 .dtsi fil=
+e")
+> Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
 
-Sashiko found some valid issues[1], so I am already working on a v6.
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-[1] https://sashiko.dev/#/patchset/20260319105947.6237-1-wsa%2Brenesas%40sang-engineering.com
+Best regards,
+Jernej
+
 
