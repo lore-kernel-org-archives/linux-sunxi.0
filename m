@@ -1,449 +1,924 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B5E032D452
-	for <linux-sunxi@lists.linux.dev>; Sat, 28 Mar 2026 15:11:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F005347FDE
+	for <linux-sunxi@lists.linux.dev>; Sat, 28 Mar 2026 15:20:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774710677; cv=none; b=GBmVdpY8dZCjnhmAQ0LKdNcfKf4e+woo8rhyg2z4X7m7XoBAA7EsrxgnXy7h6T2NtKND3Cwe5sdyfMn9Iz9kWvqBrG7ns0Zz5YwrqwhPYNCvs9sEHAfCa0RWFgXlrvVnRRa3+Q5ODrJtdfIC9ZqNRJIQrJT+6dbddIL1Z+XRfe0=
+	t=1774711246; cv=none; b=WNJvMxtisb1i5mpyqDxPBCgfLtWHWb+bhcCTFRxH/LKiRl1/KjNA6e9UW9nQThNlgw748IOOMzFA2KTWas9MSjj6NzoEct5A2/pCV+PpaQpsNvq6tEuCrdZrOn+g4UgPdixyu+hlrvbcIS2gbchA5I7Rmffe7lIEOzNjBnOFi5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774710677; c=relaxed/simple;
-	bh=KKQVwFdQjyUaujdMXD5QVwTfES9/1zQUSB0BxSq0yV8=;
+	s=arc-20240116; t=1774711246; c=relaxed/simple;
+	bh=QN7OR4+OzVogpc/TzhxHAYQpjk8/symMqLYwADKe7Qk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UK2jzgNXIJW8jAph1na9u/kw6f/sLhUB+cq57bcBDVdCuo3dnLsD6af2NVx06wBSdn+0uw5yPuBRn98FwAfyLVPC1wzw8zGs9cLSRck5nZJ8+KusO46cHDeWIriMo5PnCDwwnUes/dne/feG75YDk85HFK8ZxTwkteHNQX/E7C0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A84K0OrF; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=My9LMTLJNosDvd+Fdp4Maa2yywjAxjAeUzJVDPqsmkqIc3XChXdImgCnk2F0tlDbSCvFuolGb80egscuumvNW2GyCv4ytJVAm1jI9NFkjXIbomoHZjYWryLRaxAfVV8HB1LQl5UY7enjDs3z5OnzSy0hg+opo32ns7l3YDtGAfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B9Ne3KDp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A84K0OrF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2127CC4CEF7
-	for <linux-sunxi@lists.linux.dev>; Sat, 28 Mar 2026 15:11:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B9Ne3KDp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10F39C4CEF7
+	for <linux-sunxi@lists.linux.dev>; Sat, 28 Mar 2026 15:20:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774710677;
-	bh=KKQVwFdQjyUaujdMXD5QVwTfES9/1zQUSB0BxSq0yV8=;
+	s=k20201202; t=1774711246;
+	bh=QN7OR4+OzVogpc/TzhxHAYQpjk8/symMqLYwADKe7Qk=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=A84K0OrFjNDHcpi84/wmhReDE2DmJHCCOpAyY8zn9hTEDvTkhbgkPN6SZbCl8AGHN
-	 UFk+sOx5ho0k/dcPe4WcVLLDVL/a2GRFqkGGxoPIknenCso7JdLbPYe3OkYPkMBHYl
-	 D34hDdyodzp47rzzoQEchW6KCGSaQUjBN0twQZw5lnHaZWuy9i6l/4QM21u/31xDWt
-	 9knJSqp2lf2IA9+cmH+dI2i9FfzekY/l5Ih1cEJssvORstOc3krKh6CvIIUrqA1y+s
-	 vrcsDGASXPhQ4j73oje2C6BMMjdqo89wHsyPbtDj1I6MrEaCWs3y2bDqQCyveXgljh
-	 ELTzV0O0cpnmA==
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6634bb959a2so3665156a12.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 28 Mar 2026 08:11:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVyYW+tU036irMAq2ZshGJSoSuu8lgTWVC3LNuC03ys4rL+pgzASdBF/QiB4LhwUNA5mgEy8JDbQ1kvZQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywy1h3l856kSmqCGPZGGK7fotRK06b9EOja7vKsBwGExYWJy1Ux
-	g0M33gD/gvDQUfQFf4ATppHgw4NZvpbq9eRg0GN5CS7hj907K5WJkNXkDX4aFfeqlDb4yTXiuFf
-	M+4KAKmJwRxINOlq6JftKxFpBVUEd7dg=
-X-Received: by 2002:a05:651c:198d:b0:38a:212d:2bc2 with SMTP id
- 38308e7fff4ca-38c74049edemr21842881fa.30.1774708892384; Sat, 28 Mar 2026
- 07:41:32 -0700 (PDT)
+	b=B9Ne3KDpWzHRL5bwR3sfoZtxlU8BHEdcb34UVld3EhOAtdGwXhCKLpGb/No5zKHEP
+	 wlWxlLcNSohrni3CvgAo78tbIOFlvhA5bobAWwhn7FoG7NwC9WcF8EoVjh2kvWOuJ8
+	 98e02NB2B/WyFjIucKUoEQn03t0hczOlKSTqQweFjO2pWgg8QnRQaEz5eSjdOK5tPn
+	 aVKGdoP3SX88YOmrbMv/Z52+nl4I9gc/nGwa24apAfxkhP4122wIfDKzMi/mE0+RV4
+	 wfRSwY7pSAEKF7OJ/Wcy1eJqyLwWMI7uKo4XC+u0hMSMHokhuE8kbDo7LFQvdNMBke
+	 5+p60f8x3LXQA==
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-486fd27754bso29521585e9.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 28 Mar 2026 08:20:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW3Tyx42ksb0p/Nu+yFeyI6YnYYr4RDFYa1lWM2fxbiiBcIxNQksKmqyPHvlPam8NIJ1yhAZocAqHONlg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwfjcW6rqZzyPCnkxYnfk/svR+0eQFDYwqKepDuz+EY9cW8uc/B
+	PegbGMLjh5UhbW2l3Co5ZAC6jXIaSNQvYTOzAda+2hbglr+FUF+R0ZpNWlnzvPEMhkbthI+R9wW
+	sj6MUURnlOKKuuRv7aXKcX9E1tegS+eI=
+X-Received: by 2002:a2e:bea8:0:b0:38c:6b7:ad47 with SMTP id
+ 38308e7fff4ca-38c730c292cmr21144501fa.7.1774699639491; Sat, 28 Mar 2026
+ 05:07:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260121-a733-rtc-v1-0-d359437f23a7@pigmoral.tech> <20260121-a733-rtc-v1-7-d359437f23a7@pigmoral.tech>
-In-Reply-To: <20260121-a733-rtc-v1-7-d359437f23a7@pigmoral.tech>
+References: <20260310-a733-clk-v1-0-36b4e9b24457@pigmoral.tech> <20260310-a733-clk-v1-1-36b4e9b24457@pigmoral.tech>
+In-Reply-To: <20260310-a733-clk-v1-1-36b4e9b24457@pigmoral.tech>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sat, 28 Mar 2026 22:41:20 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64euL+QNXiJdTn0JygYLXg0WoguPSprKT4sKGZGVZbwug@mail.gmail.com>
-X-Gm-Features: AQROBzBLEeTThL1bImGqhfJySnF1gONkJ6dZaJRRh6NTzlpZImaR-U-U0weYl5s
-Message-ID: <CAGb2v64euL+QNXiJdTn0JygYLXg0WoguPSprKT4sKGZGVZbwug@mail.gmail.com>
-Subject: Re: [PATCH 7/7] clk: sunxi-ng: Add Allwinner A733 RTC CCU support
+Date: Sat, 28 Mar 2026 20:07:07 +0800
+X-Gmail-Original-Message-ID: <CAGb2v649iS7ZjFT0Q3iD+Ot+FCzuLS=u6Vkz3FuT8HFs=2Y0Sw@mail.gmail.com>
+X-Gm-Features: AQROBzAW0ztGE5WFzX64kJT7EHgWZ810XrVjDIINlQ34xUDzRZeuW-NWCgav-_I
+Message-ID: <CAGb2v649iS7ZjFT0Q3iD+Ot+FCzuLS=u6Vkz3FuT8HFs=2Y0Sw@mail.gmail.com>
+Subject: Re: [PATCH RFC 1/8] dt-bindings: clk: sun60i-a733-ccu: Add allwinner
+ A733 support
 To: Junhui Liu <junhui.liu@pigmoral.tech>
 Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Maxime Ripard <mripard@kernel.org>, linux-clk@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	devicetree@vger.kernel.org, =?UTF-8?Q?Andr=C3=A9_Przywara?= <andre.przywara@arm.com>
+	Philipp Zabel <p.zabel@pengutronix.de>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, Richard Cochran <richardcochran@gmail.com>, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, netdev@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 21, 2026 at 7:04=E2=80=AFPM Junhui Liu <junhui.liu@pigmoral.tec=
+On Tue, Mar 10, 2026 at 4:42=E2=80=AFPM Junhui Liu <junhui.liu@pigmoral.tec=
 h> wrote:
 >
-> Add support for the internal CCU found in the RTC module of the Allwinner
-> A733 SoC. While the basic 16MHz (IOSC) and 32kHz logic remains compatible
-> with older SoCs like the sun6i, the A733 introduces several new features.
+> The CCU and R-CCU (PRCM) modules provide clocks and reset functions for
+> the Allwinner A733 SoC. The clock architecture of the A733 is evolved
+> from the A523, though the root clocking strategy transitions from a
+> static oscillator frequency in the Devicetree to the "hosc" clock, which
+> is determined by choosing from three possible frequencies (19.2MHz,
+> 24MHz, or 26MHz) by the RTC hardware, and finally feeds the CCU and
+> R-CCU.
 >
-> The A733 RTC CCU supports choosing one of three external crystal
-> frequencies: 19.2MHz, 24MHz, and 26MHz. It features hardware detection
-> logic to automatically identify the frequency used on the board and
-> exports this DCXO signal as the "hosc" clock.
->
-> Furthermore, the driver implements logic to derive a 32kHz reference
-> from the HOSC. This is achieved through a muxed clock path using fixed
-> pre-dividers to normalize the different crystal frequencies to ~32kHz.
-
-Have you tested whether the actually normalizes the frequency, i.e.
-selects a different divider based on the DCXO frequency? Otherwise
-we're just lying about the frequency.
-
-> This path reuses the same hardware mux registers as the HOSC clock.
->
-> Additionally, this CCU provides several gate clocks for specific
-> peripherals, including SerDes, HDMI, and UFS. The driver is implemented
-> as an auxiliary driver to be bound to the sun6i-rtc driver.
+> Additionally, the MCU_CCU module found in previous designs is removed
+> from the A733, and the clock tree is expanded with more clock outputs
+> to support new functional modules.
 >
 > Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
 > ---
->  drivers/clk/sunxi-ng/Kconfig               |   5 +
->  drivers/clk/sunxi-ng/Makefile              |   2 +
->  drivers/clk/sunxi-ng/ccu-sun60i-a733-rtc.c | 204 +++++++++++++++++++++++=
+>  .../bindings/clock/allwinner,sun60i-a733-ccu.yaml  | 107 ++++++++
+>  include/dt-bindings/clock/sun60i-a733-ccu.h        | 289 +++++++++++++++=
 ++++++
->  drivers/clk/sunxi-ng/ccu-sun60i-a733-rtc.h |  18 +++
->  drivers/clk/sunxi-ng/ccu_rtc.h             |   7 +
->  5 files changed, 236 insertions(+)
+>  include/dt-bindings/clock/sun60i-a733-r-ccu.h      |  39 +++
+>  include/dt-bindings/reset/sun60i-a733-ccu.h        | 131 ++++++++++
+>  include/dt-bindings/reset/sun60i-a733-r-ccu.h      |  23 ++
+>  5 files changed, 589 insertions(+)
 >
-> diff --git a/drivers/clk/sunxi-ng/Kconfig b/drivers/clk/sunxi-ng/Kconfig
-> index 6af2d020e03e..16afbf249f26 100644
-> --- a/drivers/clk/sunxi-ng/Kconfig
-> +++ b/drivers/clk/sunxi-ng/Kconfig
-> @@ -67,6 +67,11 @@ config SUN55I_A523_R_CCU
->         default ARCH_SUNXI
->         depends on ARM64 || COMPILE_TEST
->
-> +config SUN60I_A733_RTC_CCU
-> +       tristate "Support for the Allwinner A733 RTC CCU"
-> +       default ARCH_SUNXI
-> +       depends on ARM64 || COMPILE_TEST
-> +
->  config SUN4I_A10_CCU
->         tristate "Support for the Allwinner A10/A20 CCU"
->         default ARCH_SUNXI
-> diff --git a/drivers/clk/sunxi-ng/Makefile b/drivers/clk/sunxi-ng/Makefil=
-e
-> index c3f810a025a8..b0d823440c33 100644
-> --- a/drivers/clk/sunxi-ng/Makefile
-> +++ b/drivers/clk/sunxi-ng/Makefile
-> @@ -39,6 +39,7 @@ obj-$(CONFIG_SUN50I_H616_CCU) +=3D sun50i-h616-ccu.o
->  obj-$(CONFIG_SUN55I_A523_CCU)  +=3D sun55i-a523-ccu.o
->  obj-$(CONFIG_SUN55I_A523_MCU_CCU)      +=3D sun55i-a523-mcu-ccu.o
->  obj-$(CONFIG_SUN55I_A523_R_CCU)        +=3D sun55i-a523-r-ccu.o
-> +obj-$(CONFIG_SUN60I_A733_RTC_CCU)      +=3D sun60i-a733-rtc-ccu.o
->  obj-$(CONFIG_SUN4I_A10_CCU)    +=3D sun4i-a10-ccu.o
->  obj-$(CONFIG_SUN5I_CCU)                +=3D sun5i-ccu.o
->  obj-$(CONFIG_SUN6I_A31_CCU)    +=3D sun6i-a31-ccu.o
-> @@ -67,6 +68,7 @@ sun50i-h616-ccu-y             +=3D ccu-sun50i-h616.o
->  sun55i-a523-ccu-y              +=3D ccu-sun55i-a523.o
->  sun55i-a523-mcu-ccu-y          +=3D ccu-sun55i-a523-mcu.o
->  sun55i-a523-r-ccu-y            +=3D ccu-sun55i-a523-r.o
-> +sun60i-a733-rtc-ccu-y          +=3D ccu-sun60i-a733-rtc.o
->  sun4i-a10-ccu-y                        +=3D ccu-sun4i-a10.o
->  sun5i-ccu-y                    +=3D ccu-sun5i.o
->  sun6i-a31-ccu-y                        +=3D ccu-sun6i-a31.o
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun60i-a733-rtc.c b/drivers/clk/sun=
-xi-ng/ccu-sun60i-a733-rtc.c
+> diff --git a/Documentation/devicetree/bindings/clock/allwinner,sun60i-a73=
+3-ccu.yaml b/Documentation/devicetree/bindings/clock/allwinner,sun60i-a733-=
+ccu.yaml
 > new file mode 100644
-> index 000000000000..d17aceffa16e
+> index 000000000000..aff3ff731285
 > --- /dev/null
-> +++ b/drivers/clk/sunxi-ng/ccu-sun60i-a733-rtc.c
-> @@ -0,0 +1,204 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
+> +++ b/Documentation/devicetree/bindings/clock/allwinner,sun60i-a733-ccu.y=
+aml
+> @@ -0,0 +1,107 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/clock/allwinner,sun60i-a733-ccu.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner A733 Clock Control Unit
+> +
+> +maintainers:
+> +  - Junhui Liu <junhui.liu@pigmoral.tech>
+> +
+> +properties:
+> +  "#clock-cells":
+> +    const: 1
+> +
+> +  "#reset-cells":
+> +    const: 1
+> +
+> +  compatible:
+> +    enum:
+> +      - allwinner,sun60i-a733-ccu
+> +      - allwinner,sun60i-a733-r-ccu
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 4
+> +    maxItems: 7
+> +
+> +  clock-names:
+> +    minItems: 4
+> +    maxItems: 7
+> +
+> +required:
+> +  - "#clock-cells"
+> +  - "#reset-cells"
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          enum:
+> +            - allwinner,sun60i-a733-ccu
+> +
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: High Frequency Oscillator (19.2MHz, 24MHz, or=
+ 26MHz)
+> +            - description: Low Frequency Oscillator (usually at 32kHz)
+> +            - description: Internal Oscillator
+> +            - description: Low Frequency Oscillator fanout
+> +
+> +        clock-names:
+> +          items:
+> +            - const: hosc
+> +            - const: losc
+> +            - const: iosc
+> +            - const: losc-fanout
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          enum:
+> +            - allwinner,sun60i-a733-r-ccu
+> +
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: High Frequency Oscillator (19.2MHz, 24MHz, or=
+ 26MHz)
+> +            - description: Low Frequency Oscillator (usually at 32kHz)
+> +            - description: Internal Oscillator
+> +            - description: System 24MHz Clock
+> +            - description: Peripherals PLL 0 (200 MHz output)
+> +            - description: Peripherals PLL 0 (300 MHz output)
+> +            - description: Peripherals PLL 1 (300 MHz output)
+> +
+> +        clock-names:
+> +          items:
+> +            - const: hosc
+> +            - const: losc
+> +            - const: iosc
+> +            - const: sys-24m
+> +            - const: pll-periph0-200m
+> +            - const: pll-periph0-300m
+> +            - const: pll-periph1-300m
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    clock-controller@2002000 {
+> +      compatible =3D "allwinner,sun60i-a733-ccu";
+> +      reg =3D <0x02002000 0x2000>;
+> +      clocks =3D <&rtc 2>, <&rtc 1>, <&rtc 0>, <&rtc 4>;
+> +      clock-names =3D "hosc", "losc", "iosc", "losc-fanout";
+> +      #clock-cells =3D <1>;
+> +      #reset-cells =3D <1>;
+> +    };
+> +
+> +...
+
+This part looks correct.
+
+> diff --git a/include/dt-bindings/clock/sun60i-a733-ccu.h b/include/dt-bin=
+dings/clock/sun60i-a733-ccu.h
+> new file mode 100644
+> index 000000000000..1a98bea8ca9a
+> --- /dev/null
+> +++ b/include/dt-bindings/clock/sun60i-a733-ccu.h
+> @@ -0,0 +1,289 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
 > +/*
 > + * Copyright (C) 2026 Junhui Liu <junhui.liu@pigmoral.tech>
 > + */
 > +
-> +#include <linux/array_size.h>
-> +#include <linux/auxiliary_bus.h>
-> +#include <linux/clk-provider.h>
-> +#include <linux/device.h>
-> +#include <linux/module.h>
+> +#ifndef _DT_BINDINGS_CLK_SUN60I_A733_CCU_H_
+> +#define _DT_BINDINGS_CLK_SUN60I_A733_CCU_H_
 > +
-> +#include "ccu_common.h"
-> +
-> +#include "ccu_gate.h"
-> +#include "ccu_mux.h"
-> +#include "ccu_rtc.h"
-> +
-> +#include "ccu-sun60i-a733-rtc.h"
-> +
-> +static struct ccu_common iosc_clk =3D {
-> +       .reg            =3D DCXO_CTRL_REG,
-> +       .features       =3D CCU_FEATURE_IOSC_CALIBRATION,
-> +       .hw.init        =3D CLK_HW_INIT_NO_PARENT("iosc", &ccu_iosc_ops,
-> +                                               CLK_GET_RATE_NOCACHE),
-> +};
-> +
-> +static struct ccu_common iosc_32k_clk =3D {
-> +       .features       =3D CCU_FEATURE_IOSC_CALIBRATION,
-> +       .hw.init        =3D CLK_HW_INIT_HW("iosc-32k", &iosc_clk.hw,
-> +                                        &ccu_iosc_32k_ops,
-> +                                        CLK_GET_RATE_NOCACHE),
-> +};
-> +
-> +static SUNXI_CCU_GATE_FW(ext_osc32k_gate_clk, "ext-osc32k-gate",
-> +                        "ext-osc32k", 0x0, BIT(4), 0);
-> +
-> +static const struct clk_hw *osc32k_parents[] =3D {
-> +       &iosc_32k_clk.hw,
-> +       &ext_osc32k_gate_clk.common.hw,
-> +};
-> +
-> +static struct ccu_mux osc32k_clk =3D {
-> +       .mux    =3D _SUNXI_CCU_MUX(0, 1),
-> +       .common =3D {
-> +               .reg            =3D LOSC_CTRL_REG,
-> +               .features       =3D CCU_FEATURE_KEY_FIELD,
-> +               .hw.init        =3D CLK_HW_INIT_PARENTS_HW("osc32k",
-> +                                                        osc32k_parents,
-> +                                                        &ccu_mux_ops,
-> +                                                        0),
-> +       },
-> +};
-> +
-> +static const struct clk_parent_data hosc_parents[] =3D {
-> +       { .fw_name =3D "osc24M" },
-> +       { .fw_name =3D "osc19M" },
-> +       { .fw_name =3D "osc26M" },
-> +       { .fw_name =3D "osc24M" },
-> +};
+> +#define CLK_PLL_REF            0
+> +#define CLK_SYS_24M            1
+> +#define CLK_PLL_DDR            2
+> +#define CLK_PLL_PERIPH0_4X     3
+> +#define CLK_PLL_PERIPH0_2X     4
+> +#define CLK_PLL_PERIPH0_800M   5
+> +#define CLK_PLL_PERIPH0_480M   6
+> +#define CLK_PLL_PERIPH0_600M   7
+> +#define CLK_PLL_PERIPH0_400M   8
+> +#define CLK_PLL_PERIPH0_300M   9
+> +#define CLK_PLL_PERIPH0_200M   10
+> +#define CLK_PLL_PERIPH0_160M   11
+> +#define CLK_PLL_PERIPH0_150M   12
+> +#define CLK_PLL_PERIPH1_4X     13
+> +#define CLK_PLL_PERIPH1_2X     14
+> +#define CLK_PLL_PERIPH1_800M   15
+> +#define CLK_PLL_PERIPH1_480M   16
+> +#define CLK_PLL_PERIPH1_600M   17
+> +#define CLK_PLL_PERIPH1_400M   18
+> +#define CLK_PLL_PERIPH1_300M   19
+> +#define CLK_PLL_PERIPH1_200M   20
+> +#define CLK_PLL_PERIPH1_160M   21
+> +#define CLK_PLL_PERIPH1_150M   22
+> +#define CLK_PLL_GPU            23
 
-As mentioned in my reply to the binding, this is wrong. There is only
-one input.
+Please keep the unit number even if there is only one instance.
+This is PLL_GPU0.
 
-The most you can do is check the rate of the parent clock against the
-detected one, and _scream_ that the DT is wrong. And maybe override
-the reported frequency.
+> +#define CLK_PLL_VIDEO0_8X      24
 
-If you want to do the latter, you could add a new fixed rate gated
-clock type to our library. You would fill in the rate before the
-clocks get registered. I probably wouldn't go that far. We want people
-to have correct hardware descriptions.
+If this is the common parent for the 4X and 3X dividers, shouldn't it
+be 12X?
 
-Funnily enough Allwinner's BSP actually implements a fixed rate gate
-for the next 24M-to-32k divider clock.
+> +#define CLK_PLL_VIDEO0_4X      25
+> +#define CLK_PLL_VIDEO0_3X      26
 
-> +
-> +struct ccu_mux hosc_clk =3D {
-> +       .enable =3D DCXO_CTRL_DCXO_EN,
-> +       .mux    =3D _SUNXI_CCU_MUX(14, 2),
-> +       .common =3D {
-> +               .reg            =3D DCXO_CTRL_REG,
-> +               .hw.init        =3D CLK_HW_INIT_PARENTS_DATA("hosc",
-> +                                                          hosc_parents,
-> +                                                          &ccu_mux_ro_op=
-s,
-> +                                                          0),
-> +       },
-> +};
+> +#define CLK_PLL_VIDEO1_8X      27
 
-So this is wrong.
+Same here.
 
-> +
-> +static const struct ccu_mux_fixed_prediv hosc_32k_predivs[] =3D {
-> +       { .index =3D 0, .div =3D 732 },
+> +#define CLK_PLL_VIDEO1_4X      28
+> +#define CLK_PLL_VIDEO1_3X      29
 
-Why is it 732 instead of 750?
+> +#define CLK_PLL_VIDEO2_8X      30
 
-> +       { .index =3D 1, .div =3D 586 },
-> +       { .index =3D 2, .div =3D 793 },
-> +       { .index =3D 3, .div =3D 732 },
-> +};
-> +
-> +static struct ccu_mux hosc_32k_mux_clk =3D {
-> +       .enable         =3D DCXO_CTRL_DCXO_EN,
+And here.
 
-No. The parent "hosc" clock owns this.  The enable bit for this clock
-is actually bit 16 of LOSC_OUT_GATING_REG, which you model below as
-a separate gate.
+> +#define CLK_PLL_VIDEO2_4X      31
+> +#define CLK_PLL_VIDEO2_3X      32
+> +#define CLK_PLL_VE0            33
+> +#define CLK_PLL_VE1            34
+> +#define CLK_PLL_AUDIO0_4X      35
+> +#define CLK_PLL_AUDIO1         36
+> +#define CLK_PLL_AUDIO1_DIV2    37
+> +#define CLK_PLL_AUDIO1_DIV5    38
+> +#define CLK_PLL_NPU            39
 
-> +       .mux            =3D {
-> +               .shift          =3D 14,
-> +               .width          =3D 2,
-> +               .fixed_predivs  =3D hosc_32k_predivs,
-> +               .n_predivs      =3D ARRAY_SIZE(hosc_32k_predivs),
-> +       },
-> +       .common         =3D {
-> +               .reg            =3D DCXO_CTRL_REG,
-> +               .features       =3D CCU_FEATURE_FIXED_PREDIV,
-> +               .hw.init        =3D CLK_HW_INIT_PARENTS_DATA("hosc-32k-mu=
-x",
-> +                                                          hosc_parents,
-> +                                                          &ccu_mux_ro_op=
-s,
+> +#define CLK_PLL_DE             40
 
-Again, this is just not the way to do it.
+Should be DE_12X?
 
-> +                                                          0),
-> +       },
-> +};
+> +#define CLK_PLL_DE_4X          41
+> +#define CLK_PLL_DE_3X          42
+> +#define CLK_AHB                        43
+> +#define CLK_APB0               44
+> +#define CLK_APB1               45
+> +#define CLK_APB_UART           46
+> +#define CLK_TRACE              47
+> +#define CLK_GIC                        48
+> +#define CLK_CPU_PERI           49
+> +#define CLK_BUS_ITS_PCIE       50
 
-I would test that it actually does switch dividers, Or at the very least,
-it has a larger divider for 26M.
+Please preserve the _ACLK suffix.
 
-Maybe Andre can help? At least on this SoC the fanout pins are much more
-accessible.
+Please keep the unit number even if there is only one instance.
+Basically, use the naming from the user manual. This is ITS0.
 
-> +
-> +static SUNXI_CCU_GATE_HW(hosc_32k_clk, "hosc-32k", &hosc_32k_mux_clk.com=
-mon.hw,
-> +                        LOSC_OUT_GATING_REG, BIT(16), 0);
-> +
-> +static const struct clk_hw *rtc_32k_parents[] =3D {
-> +       &osc32k_clk.common.hw,
-> +       &hosc_32k_clk.common.hw,
-> +};
-> +
-> +static struct ccu_mux rtc_32k_clk =3D {
-> +       .mux    =3D _SUNXI_CCU_MUX(1, 1),
-> +       .common =3D {
-> +               .reg            =3D LOSC_CTRL_REG,
-> +               .features       =3D CCU_FEATURE_KEY_FIELD,
-> +               .hw.init        =3D CLK_HW_INIT_PARENTS_HW("rtc-32k",
-> +                                                        rtc_32k_parents,
-> +                                                        &ccu_mux_ops,
-> +                                                        0),
-> +       },
-> +};
-> +
-> +static const struct clk_parent_data osc32k_fanout_parents[] =3D {
-> +       { .hw =3D &osc32k_clk.common.hw },
-> +       { .hw =3D &ext_osc32k_gate_clk.common.hw },
-> +       { .hw =3D &hosc_32k_clk.common.hw },
-> +};
-> +
-> +static SUNXI_CCU_MUX_DATA_WITH_GATE(osc32k_fanout_clk, "osc32k-fanout", =
-osc32k_fanout_parents,
-> +                                   LOSC_OUT_GATING_REG,
-> +                                   1, 2,       /* mux */
-> +                                   BIT(0),     /* gate */
-> +                                   0);
-> +
-> +static SUNXI_CCU_GATE_HW(hosc_serdes1_clk, "hosc-serdes1", &hosc_clk.com=
-mon.hw,
-> +                        DCXO_GATING_REG, DCXO_SERDES1_GATING, 0);
+> +#define CLK_NSI                        51
+> +#define CLK_BUS_NSI            52
 
-                                            ^
-Just use the BIT() expression here. Adding these macros doesn't really help=
-.
+CLK_BUS_NSI_CFG
 
-> +static SUNXI_CCU_GATE_HW(hosc_serdes0_clk, "hosc-serdes0", &hosc_clk.com=
-mon.hw,
-> +                        DCXO_GATING_REG, DCXO_SERDES0_GATING, 0);
-> +static SUNXI_CCU_GATE_HW(hosc_hdmi_clk, "hosc-hdmi", &hosc_clk.common.hw=
-,
-> +                        DCXO_GATING_REG, DCXO_HDMI_GATING, 0);
-> +static SUNXI_CCU_GATE_HW(hosc_ufs_clk, "hosc-ufs", &hosc_clk.common.hw,
-> +                        DCXO_GATING_REG, DCXO_UFS_GATING, 0);
-> +
-> +static struct ccu_common *sun60i_rtc_ccu_clks[] =3D {
-> +       &iosc_clk,
-> +       &iosc_32k_clk,
-> +       &ext_osc32k_gate_clk.common,
-> +       &osc32k_clk.common,
-> +       &hosc_clk.common,
-> +       &hosc_32k_mux_clk.common,
-> +       &hosc_32k_clk.common,
-> +       &rtc_32k_clk.common,
-> +       &osc32k_fanout_clk.common,
-> +       &hosc_serdes1_clk.common,
-> +       &hosc_serdes0_clk.common,
-> +       &hosc_hdmi_clk.common,
-> +       &hosc_ufs_clk.common,
-> +};
-> +
-> +static struct clk_hw_onecell_data sun60i_rtc_ccu_hw_clks =3D {
-> +       .num =3D CLK_NUMBER,
-> +       .hws =3D {
-> +               [CLK_IOSC]              =3D &iosc_clk.hw,
-> +               [CLK_OSC32K]            =3D &osc32k_clk.common.hw,
-> +               [CLK_HOSC]              =3D &hosc_clk.common.hw,
-> +               [CLK_RTC_32K]           =3D &rtc_32k_clk.common.hw,
-> +               [CLK_OSC32K_FANOUT]     =3D &osc32k_fanout_clk.common.hw,
-> +               [CLK_HOSC_SERDES1]      =3D &hosc_serdes1_clk.common.hw,
-> +               [CLK_HOSC_SERDES0]      =3D &hosc_serdes0_clk.common.hw,
-> +               [CLK_HOSC_HDMI]         =3D &hosc_hdmi_clk.common.hw,
-> +               [CLK_HOSC_UFS]          =3D &hosc_ufs_clk.common.hw,
-> +               [CLK_IOSC_32K]          =3D &iosc_32k_clk.hw,
-> +               [CLK_EXT_OSC32K_GATE]   =3D &ext_osc32k_gate_clk.common.h=
-w,
-> +               [CLK_HOSC_32K_MUX]      =3D &hosc_32k_mux_clk.common.hw,
-> +               [CLK_HOSC_32K]          =3D &hosc_32k_clk.common.hw,
-> +       },
-> +};
-> +
-> +static const struct sunxi_ccu_desc sun60i_rtc_ccu_desc =3D {
-> +       .ccu_clks       =3D sun60i_rtc_ccu_clks,
-> +       .num_ccu_clks   =3D ARRAY_SIZE(sun60i_rtc_ccu_clks),
-> +
-> +       .hw_clks        =3D &sun60i_rtc_ccu_hw_clks,
-> +};
-> +
-> +static int sun60i_rtc_ccu_probe(struct auxiliary_device *adev,
-> +                               const struct auxiliary_device_id *id)
-> +{
-> +       struct device *dev =3D &adev->dev;
-> +       void __iomem *reg =3D dev->platform_data;
-> +
-> +       return devm_sunxi_ccu_probe(dev, reg, &sun60i_rtc_ccu_desc);
-> +}
-> +
-> +static const struct auxiliary_device_id sun60i_ccu_rtc_ids[] =3D {
-> +       { .name =3D SUN6I_RTC_AUX_ID(sun60i) },
-> +       { /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(auxiliary, sun60i_ccu_rtc_ids);
-> +
-> +static struct auxiliary_driver sun60i_ccu_rtc_driver =3D {
-> +       .probe =3D sun60i_rtc_ccu_probe,
-> +       .id_table =3D sun60i_ccu_rtc_ids,
-> +};
-> +module_auxiliary_driver(sun60i_ccu_rtc_driver);
-> +
-> +MODULE_IMPORT_NS("SUNXI_CCU");
-> +MODULE_DESCRIPTION("Support for the Allwinner A733 RTC CCU");
-> +MODULE_LICENSE("GPL");
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun60i-a733-rtc.h b/drivers/clk/sun=
-xi-ng/ccu-sun60i-a733-rtc.h
+> +#define CLK_MBUS               53
+
+> +#define CLK_MBUS_IOMMU0_SYS    54
+> +#define CLK_APB_IOMMU0_SYS     55
+> +#define CLK_AHB_IOMMU0_SYS     56
+
+Please add a comment at the top describing the renaming to let the
+reader know how to search for the in the user manual.
+
+    PCLK -> APB
+    HCLK -> AHB
+    MCLK -> MBUS
+
+And that the bus name was moved from the end of the name to the front.
+
+> +#define CLK_BUS_MSI_LITE0      57
+> +#define CLK_BUS_MSI_LITE1      58
+> +#define CLK_BUS_MSI_LITE2      59
+> +#define CLK_MBUS_IOMMU1_SYS    60
+> +#define CLK_APB_IOMMU1_SYS     61
+> +#define CLK_AHB_IOMMU1_SYS     62
+> +#define CLK_AHB_VE_DEC         63
+> +#define CLK_AHB_VE_ENC         64
+> +#define CLK_AHB_VID_IN         65
+> +#define CLK_AHB_VID_COUT0      66
+> +#define CLK_AHB_VID_COUT1      67
+> +#define CLK_AHB_DE             68
+> +#define CLK_AHB_NPU            69
+> +#define CLK_AHB_GPU0           70
+> +#define CLK_AHB_SERDES         71
+> +#define CLK_AHB_USB_SYS                72
+> +#define CLK_AHB_MSI_LITE0      73
+> +#define CLK_AHB_STORE          74
+> +#define CLK_AHB_CPUS           75
+> +#define CLK_MBUS_IOMMU0                76
+> +#define CLK_MBUS_IOMMU1                77
+> +#define CLK_MBUS_DESYS         78
+> +#define CLK_MBUS_VE_ENC_GATE   79
+
+Please keep the unit number even if there is only one instance.
+This is VE_ENC0.
+
+> +#define CLK_MBUS_VE_DEC_GATE   80
+> +#define CLK_MBUS_GPU0          81
+> +#define CLK_MBUS_NPU           82
+> +#define CLK_MBUS_VID_IN                83
+> +#define CLK_MBUS_SERDES                84
+> +#define CLK_MBUS_MSI_LITE0     85
+> +#define CLK_MBUS_STORE         86
+> +#define CLK_MBUS_MSI_LITE2     87
+> +#define CLK_MBUS_DMA0          88
+> +#define CLK_MBUS_VE_ENC                89
+> +#define CLK_MBUS_CE            90
+> +#define CLK_MBUS_DMA1          91
+> +#define CLK_MBUS_NAND          92
+> +#define CLK_MBUS_CSI           93
+> +#define CLK_MBUS_ISP           94
+> +#define CLK_MBUS_GMAC0         95
+> +#define CLK_MBUS_GMAC1         96
+
+There is no GMAC1 in the A733 user manual v0.92. Please add a note about
+where this came from.
+
+> +#define CLK_MBUS_VE_DEC                97
+> +#define CLK_BUS_DMA0           98
+> +#define CLK_BUS_DMA1           99
+> +#define CLK_BUS_SPINLOCK       100
+> +#define CLK_BUS_MSGBOX         101
+
+Please keep the unit number even if there is only one instance.
+This is MSGBOX0.
+
+> +#define CLK_BUS_PWM0           102
+> +#define CLK_BUS_PWM1           103
+> +#define CLK_BUS_DBG            104
+> +#define CLK_BUS_SYSDAP         105
+> +#define CLK_TIMER0             106
+> +#define CLK_TIMER1             107
+> +#define CLK_TIMER2             108
+> +#define CLK_TIMER3             109
+> +#define CLK_TIMER4             110
+> +#define CLK_TIMER5             111
+> +#define CLK_TIMER6             112
+> +#define CLK_TIMER7             113
+> +#define CLK_TIMER8             114
+> +#define CLK_TIMER9             115
+> +#define CLK_BUS_TIMER          116
+> +#define CLK_AVS                        117
+
+There is no AVS in the A733 user manual v0.92. Please add a note about
+where this came from.
+
+> +#define CLK_DE                 118
+
+Please keep the unit number even if there is only one instance.
+This is DE0.
+
+> +#define CLK_BUS_DE             119
+
+Same here.
+
+> +#define CLK_DI                 120
+> +#define CLK_BUS_DI             121
+> +#define CLK_G2D                        122
+> +#define CLK_BUS_G2D            123
+> +#define CLK_EINK               124
+> +#define CLK_EINK_PANEL         125
+> +#define CLK_BUS_EINK           126
+> +#define CLK_VE_ENC             127
+
+Please keep the unit number even if there is only one instance.
+This is VE_ENC0.
+
+> +#define CLK_VE_DEC             128
+> +#define CLK_BUS_VE_ENC         129
+
+Same here.
+
+> +#define CLK_BUS_VE_DEC         130
+> +#define CLK_CE                 131
+> +#define CLK_BUS_CE             132
+> +#define CLK_BUS_CE_SYS         133
+> +#define CLK_NPU                        134
+> +#define CLK_BUS_NPU            135
+
+> +#define CLK_GPU                        136
+> +#define CLK_BUS_GPU            137
+
+Please keep the unit number even if there is only one instance.
+This is GPU0.
+
+> +#define CLK_DRAM               138
+> +#define CLK_BUS_DRAM           139
+
+This is DRAM0.
+
+> +#define CLK_NAND0              140
+
+CLK_NAND0_CLK0
+
+> +#define CLK_NAND1              141
+
+CLK_NAND0_CLK1
+
+> +#define CLK_BUS_NAND           142
+
+CLK_BUS_NAND0
+
+> +#define CLK_MMC0               143
+> +#define CLK_MMC1               144
+> +#define CLK_MMC2               145
+> +#define CLK_MMC3               146
+> +#define CLK_BUS_MMC0           147
+> +#define CLK_BUS_MMC1           148
+> +#define CLK_BUS_MMC2           149
+> +#define CLK_BUS_MMC3           150
+
+The ordering is wrong. The module clocks and bus clocks are interleaved.
+
+MMC0, BUS_MMC0, MMC1, BUS_MMC1, ...
+
+> +#define CLK_UFS_AXI            151
+> +#define CLK_UFS_CFG            152
+> +#define CLK_BUS_UFS            153
+> +#define CLK_BUS_UART0          154
+> +#define CLK_BUS_UART1          155
+> +#define CLK_BUS_UART2          156
+> +#define CLK_BUS_UART3          157
+> +#define CLK_BUS_UART4          158
+> +#define CLK_BUS_UART5          159
+> +#define CLK_BUS_UART6          160
+> +#define CLK_BUS_I2C0           161
+> +#define CLK_BUS_I2C1           162
+> +#define CLK_BUS_I2C2           163
+> +#define CLK_BUS_I2C3           164
+> +#define CLK_BUS_I2C4           165
+> +#define CLK_BUS_I2C5           166
+> +#define CLK_BUS_I2C6           167
+> +#define CLK_BUS_I2C7           168
+> +#define CLK_BUS_I2C8           169
+> +#define CLK_BUS_I2C9           170
+> +#define CLK_BUS_I2C10          171
+> +#define CLK_BUS_I2C11          172
+> +#define CLK_BUS_I2C12          173
+
+> +#define CLK_SPI0               174
+> +#define CLK_SPI1               175
+> +#define CLK_SPI2               176
+> +#define CLK_SPI3               177
+> +#define CLK_SPI4               178
+> +#define CLK_BUS_SPI0           179
+> +#define CLK_BUS_SPI1           180
+> +#define CLK_BUS_SPI2           181
+> +#define CLK_BUS_SPI3           182
+> +#define CLK_BUS_SPI4           183
+
+Same as MMC ones, SPI module clocks and bus clocks are interleaved.
+
+The user manual doesn't show SPI4. Please add a note saying where the
+information is from.
+
+> +#define CLK_SPIF               184
+> +#define CLK_BUS_SPIF           185
+
+SPIF comes before SPI3. Please keep the ordering based on the registers.
+
+> +#define CLK_GPADC              186
+
+CLK_GPADC_24M
+
+> +#define CLK_BUS_GPADC          187
+
+CLK_BUS_GPADC0
+
+> +#define CLK_BUS_THS            188
+
+CLK_BUS_THS0
+
+> +#define CLK_IRRX               189
+> +#define CLK_BUS_IRRX           190
+> +#define CLK_IRTX               191
+> +#define CLK_BUS_IRTX           192
+> +#define CLK_BUS_LRADC          193
+
+
+> +#define CLK_SGPIO              194
+> +#define CLK_BUS_SGPIO          195
+> +#define CLK_LPC                        196
+> +#define CLK_BUS_LPC            197
+
+These aren't found in the user manual. Please document where they were foun=
+d.
+
+> +#define CLK_I2SPCM0            198
+> +#define CLK_I2SPCM1            199
+> +#define CLK_I2SPCM2            200
+> +#define CLK_I2SPCM3            201
+> +#define CLK_I2SPCM4            202
+> +#define CLK_BUS_I2SPCM0                203
+> +#define CLK_BUS_I2SPCM1                204
+> +#define CLK_BUS_I2SPCM2                205
+> +#define CLK_BUS_I2SPCM3                206
+> +#define CLK_BUS_I2SPCM4                207
+
+Module clocks and bus clocks are interleaved.
+
+> +#define CLK_I2SPCM2_ASRC       208
+
+This would come before BUS_I2SPCM2.
+
+> +#define CLK_OWA_TX             209
+> +#define CLK_OWA_RX             210
+> +#define CLK_BUS_OWA            211
+
+s/OWA/SPDIF/
+
+> +#define CLK_DMIC               212
+> +#define CLK_BUS_DMIC           213
+> +#define CLK_USB_OHCI0          214
+> +#define CLK_BUS_OTG            215
+> +#define CLK_BUS_EHCI0          216
+> +#define CLK_BUS_OHCI0          217
+
+Order should be OHCI0 -> EHCI0 -> OTG
+
+> +#define CLK_USB_OHCI1          218
+> +#define CLK_BUS_EHCI1          219
+> +#define CLK_BUS_OHCI1          220
+
+OHCI1, then EHCI1.
+
+> +#define CLK_USB_REF            221
+
+USB01_REF to keep the numbering but keeping it short.
+
+> +#define CLK_USB2_U2_REF                222
+> +#define CLK_USB2_SUSPEND       223
+> +#define CLK_USB2_MF            224
+
+> +#define CLK_USB2_U3_UTMI       225
+> +#define CLK_USB2_U2_PIPE       226
+
+Side-note:
+I think the manual got this reversed, since UTMI is used for USB 2.0,
+while PIPE is used for USB 3.0. But we will stick to whatever the user
+manual says.
+
+> +#define CLK_PCIE_AUX           227
+> +#define CLK_PCIE_AXI_SLV       228
+> +#define CLK_SERDES_PHY         229
+> +#define CLK_GMAC_PTP           230
+> +#define CLK_GMAC0_PHY          231
+> +#define CLK_GMAC1_PHY          232
+> +#define CLK_BUS_GMAC0          233
+
+Based on your driver, BUS_GMAC0 should come before GMAC1_PHY.
+
+> +#define CLK_BUS_GMAC1          234
+
+There is no GMAC1 mentioned in the A733 manual. Please document where
+you found this.
+
+> +#define CLK_TCON_LCD0          235
+> +#define CLK_TCON_LCD1          236
+> +#define CLK_TCON_LCD2          237
+> +#define CLK_BUS_TCON_LCD0      238
+> +#define CLK_BUS_TCON_LCD1      239
+> +#define CLK_BUS_TCON_LCD2      240
+
+Module clocks are interleaved with bus clock gates.
+
+> +#define CLK_DSI0               241
+> +#define CLK_DSI1               242
+> +#define CLK_BUS_DSI0           243
+> +#define CLK_BUS_DSI1           244
+
+Same for DSI.
+
+> +#define CLK_COMBPHY0           245
+> +#define CLK_COMBPHY1           246
+> +#define CLK_BUS_TCON_TV0       247
+> +#define CLK_BUS_TCON_TV1       248
+> +#define CLK_EDP_TV             249
+> +#define CLK_BUS_EDP_TV         250
+> +#define CLK_HDMI_CEC_32K       251
+> +#define CLK_HDMI_CEC           252
+> +#define CLK_HDMI_TV            253
+> +#define CLK_BUS_HDMI_TV                254
+> +#define CLK_HDMI_SFR           255
+> +#define CLK_HDMI_ESM           256
+
+HDCP_ESM.
+
+> +#define CLK_BUS_DPSS_TOP0      257
+> +#define CLK_BUS_DPSS_TOP1      258
+> +#define CLK_LEDC               259
+> +#define CLK_BUS_LEDC           260
+> +#define CLK_BUS_DSC            261
+> +#define CLK_CSI_MASTER0                262
+> +#define CLK_CSI_MASTER1                263
+> +#define CLK_CSI_MASTER2                264
+> +#define CLK_CSI                        265
+> +#define CLK_BUS_CSI            266
+> +#define CLK_ISP                        267
+
+I guess we don't need to add any of the PLL output gates since they are
+auto-gated?
+
+Also, there is a RES_DCAP_24M_GATE at 0x1a00. Any idea about this one?
+
+> +#define CLK_APB2JTAG           268
+> +#define CLK_FANOUT_24M         269
+> +#define CLK_FANOUT_12M         270
+> +#define CLK_FANOUT_16M         271
+> +#define CLK_FANOUT_25M         272
+> +#define CLK_FANOUT_27M         273
+> +#define CLK_FANOUT_PCLK                274
+> +#define CLK_FANOUT0            275
+> +#define CLK_FANOUT1            276
+> +#define CLK_FANOUT2            277
+> +#define CLK_FANOUT3            278
+
+The rest are fine.
+
+> +#endif /* _DT_BINDINGS_CLK_SUN60I_A733_CCU_H_ */
+> diff --git a/include/dt-bindings/clock/sun60i-a733-r-ccu.h b/include/dt-b=
+indings/clock/sun60i-a733-r-ccu.h
 > new file mode 100644
-> index 000000000000..41ec6195b5e7
+> index 000000000000..1c717cc588b8
 > --- /dev/null
-> +++ b/drivers/clk/sunxi-ng/ccu-sun60i-a733-rtc.h
-> @@ -0,0 +1,18 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +++ b/include/dt-bindings/clock/sun60i-a733-r-ccu.h
+> @@ -0,0 +1,39 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
 > +/*
 > + * Copyright (C) 2026 Junhui Liu <junhui.liu@pigmoral.tech>
 > + */
 > +
-> +#ifndef _CCU_SUN60I_A733_RTC_H_
-> +#define _CCU_SUN60I_A733_RTC_H_
+> +#ifndef _DT_BINDINGS_CLK_SUN60I_A733_R_CCU_H_
+> +#define _DT_BINDINGS_CLK_SUN60I_A733_R_CCU_H_
 > +
-> +#include <dt-bindings/clock/sun60i-a733-rtc.h>
-> +
-> +#define CLK_IOSC_32K           9
-> +#define CLK_EXT_OSC32K_GATE    10
-> +#define CLK_HOSC_32K_MUX       11
-> +#define CLK_HOSC_32K           12
-> +
-> +#define CLK_NUMBER             (CLK_HOSC_32K + 1)
-> +
-> +#endif /* _CCU_SUN60I_A733_RTC_H_ */
-> diff --git a/drivers/clk/sunxi-ng/ccu_rtc.h b/drivers/clk/sunxi-ng/ccu_rt=
-c.h
-> index 1c44c2206a25..665162723796 100644
-> --- a/drivers/clk/sunxi-ng/ccu_rtc.h
-> +++ b/drivers/clk/sunxi-ng/ccu_rtc.h
-> @@ -27,8 +27,15 @@
->  #define LOSC_OUT_GATING_REG            0x60
->
->  #define DCXO_CTRL_REG                  0x160
-> +#define DCXO_CTRL_DCXO_EN              BIT(1)
->  #define DCXO_CTRL_CLK16M_RC_EN         BIT(0)
->
-> +#define DCXO_GATING_REG                        0x16c
+> +#define CLK_R_AHB              0
+> +#define CLK_R_APB0             1
+> +#define CLK_R_APB1             2
+> +#define CLK_R_TIMER0           3
+> +#define CLK_R_TIMER1           4
+> +#define CLK_R_TIMER2           5
+> +#define CLK_R_TIMER3           6
+> +#define CLK_BUS_R_TIMER                7
+> +#define CLK_BUS_R_TWD          8
 
+> +#define CLK_R_PWMCTRL          9
+> +#define CLK_BUS_R_PWMCTRL      10
 
-> +#define DCXO_SERDES1_GATING            BIT(5)
-> +#define DCXO_SERDES0_GATING            BIT(4)
-> +#define DCXO_HDMI_GATING               BIT(1)
-> +#define DCXO_UFS_GATING                        BIT(0)
+*_R_PWM.
 
-Adding them to the header is probably even less useful, as the output
-could change in future chips.
+> +#define CLK_R_SPI              11
+> +#define CLK_BUS_R_SPI          12
+> +#define CLK_BUS_R_MSGBOX       13
+> +#define CLK_BUS_R_UART0                14
+> +#define CLK_BUS_R_UART1                15
+> +#define CLK_BUS_R_I2C0         16
+> +#define CLK_BUS_R_I2C1         17
+> +#define CLK_BUS_R_I2C2         18
+> +#define CLK_BUS_R_PPU          19
+> +#define CLK_BUS_R_TZMA         20
+> +#define CLK_BUS_R_CPU_BIST     21
+> +#define CLK_R_IR_RX            22
+> +#define CLK_BUS_R_IR_RX                23
+> +#define CLK_BUS_R_RTC          24
+> +#define CLK_R_RISCV            25
+> +#define CLK_BUS_R_RISCV                26
+> +#define CLK_BUS_R_RISCV_CFG    27
+> +#define CLK_BUS_R_CPUCFG       28
+> +
+> +#endif /* _DT_BINDINGS_CLK_SUN60I_A733_R_CCU_H_ */
+> diff --git a/include/dt-bindings/reset/sun60i-a733-ccu.h b/include/dt-bin=
+dings/reset/sun60i-a733-ccu.h
+> new file mode 100644
+> index 000000000000..11ce78cf04dd
+> --- /dev/null
+> +++ b/include/dt-bindings/reset/sun60i-a733-ccu.h
+> @@ -0,0 +1,131 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
+> +/*
+> + * Copyright (C) 2026 Junhui Liu <junhui.liu@pigmoral.tech>
+> + */
+> +
+> +#ifndef _DT_BINDINGS_RST_SUN60I_A733_CCU_H_
+> +#define _DT_BINDINGS_RST_SUN60I_A733_CCU_H_
+> +
+> +#define RST_BUS_ITS_PCIE       0
+> +#define RST_BUS_NSI            1
+> +#define RST_BUS_NSI_CFG                2
+> +#define RST_BUS_IOMMU0_SYS     3
+> +#define RST_BUS_MSI_LITE0_AHB  4
+> +#define RST_BUS_MSI_LITE0_MBUS 5
+> +#define RST_BUS_MSI_LITE1_AHB  6
+> +#define RST_BUS_MSI_LITE1_MBUS 7
+> +#define RST_BUS_MSI_LITE2_AHB  8
+> +#define RST_BUS_MSI_LITE2_MBUS 9
+> +#define RST_BUS_IOMMU1_SYS     10
+> +#define RST_BUS_DMA0           11
+> +#define RST_BUS_DMA1           12
+> +#define RST_BUS_SPINLOCK       13
+> +#define RST_BUS_MSGBOX         14
+> +#define RST_BUS_PWM0           15
+> +#define RST_BUS_PWM1           16
+> +#define RST_BUS_DBG            17
+> +#define RST_BUS_SYSDAP         18
+> +#define RST_BUS_TIMER0         19
+> +#define RST_BUS_DE             20
+
+Please keep the unit number even if there is only one instance.
+This is DE0.
+
+> +#define RST_BUS_DI             21
+> +#define RST_BUS_G2D            22
+> +#define RST_BUS_EINK           23
+> +#define RST_BUS_DE_SYS         24
+> +#define RST_BUS_VE_ENC         25
+
+Please keep the unit number even if there is only one instance.
+This is VE_ENC0.
+
+> +#define RST_BUS_VE_DEC         26
+> +#define RST_BUS_CE             27
+> +#define RST_BUS_CE_SYS         28
+> +#define RST_BUS_NPU_CORE       29
+> +#define RST_BUS_NPU_AXI                30
+> +#define RST_BUS_NPU_AHB                31
+> +#define RST_BUS_NPU_SRAM       32
+> +#define RST_BUS_GPU            33
+> +#define RST_BUS_DRAM           34
+> +#define RST_BUS_NAND           35
+> +#define RST_BUS_MMC0           36
+> +#define RST_BUS_MMC1           37
+> +#define RST_BUS_MMC2           38
+> +#define RST_BUS_MMC3           39
+> +#define RST_BUS_UFS_AHB                40
+> +#define RST_BUS_UFS_AXI                41
+> +#define RST_BUS_UFS_PHY                42
+> +#define RST_BUS_UFS_CORE       43
+> +#define RST_BUS_UART0          44
+> +#define RST_BUS_UART1          45
+> +#define RST_BUS_UART2          46
+> +#define RST_BUS_UART3          47
+> +#define RST_BUS_UART4          48
+> +#define RST_BUS_UART5          49
+> +#define RST_BUS_UART6          50
+> +#define RST_BUS_I2C0           51
+> +#define RST_BUS_I2C1           52
+> +#define RST_BUS_I2C2           53
+> +#define RST_BUS_I2C3           54
+> +#define RST_BUS_I2C4           55
+> +#define RST_BUS_I2C5           56
+> +#define RST_BUS_I2C6           57
+> +#define RST_BUS_I2C7           58
+> +#define RST_BUS_I2C8           59
+> +#define RST_BUS_I2C9           60
+> +#define RST_BUS_I2C10          61
+> +#define RST_BUS_I2C11          62
+> +#define RST_BUS_I2C12          63
+> +#define RST_BUS_SPI0           64
+> +#define RST_BUS_SPI1           65
+> +#define RST_BUS_SPI2           66
+> +#define RST_BUS_SPIF           67
+
+Here you have SPIF in the correct position.
+
+> +#define RST_BUS_SPI3           68
+> +#define RST_BUS_SPI4           69
+
+Please add a note saying where SPI4 was found.
+
+> +#define RST_BUS_GPADC          70
+
+RST_BUS_GPADC0
+
+> +#define RST_BUS_THS            71
+
+RST_BUS_THS0
+
+> +#define RST_BUS_IRRX           72
+> +#define RST_BUS_IRTX           73
+> +#define RST_BUS_LRADC          74
+> +#define RST_BUS_SGPIO          75
+> +#define RST_BUS_LPC            76
+> +#define RST_BUS_I2SPCM0                77
+> +#define RST_BUS_I2SPCM1                78
+> +#define RST_BUS_I2SPCM2                79
+> +#define RST_BUS_I2SPCM3                80
+> +#define RST_BUS_I2SPCM4                81
+> +#define RST_BUS_OWA            82
+> +#define RST_BUS_DMIC           83
+> +#define RST_USB_PHY0           84
+> +#define RST_BUS_OHCI0          85
+> +#define RST_BUS_EHCI0          86
+> +#define RST_BUS_OTG            87
+> +#define RST_USB_PHY1           88
+> +#define RST_BUS_OHCI1          89
+> +#define RST_BUS_EHCI1          90
+> +#define RST_BUS_USB2           91
+
+> +#define RST_BUS_PCIE           92
+> +#define RST_BUS_PCIE_PWRUP     93
+
+PCIE_PWRUP comes before PCIE.
+
+> +#define RST_BUS_SERDES         94
+> +#define RST_BUS_GMAC0          95
+> +#define RST_BUS_GMAC0_AXI      96
+> +#define RST_BUS_GMAC1          97
+> +#define RST_BUS_GMAC1_AXI      98
+> +#define RST_BUS_TCON_LCD0      99
+> +#define RST_BUS_TCON_LCD1      100
+> +#define RST_BUS_TCON_LCD2      101
+> +#define RST_BUS_LVDS0          102
+> +#define RST_BUS_LVDS1          103
+> +#define RST_BUS_DSI0           104
+> +#define RST_BUS_DSI1           105
+> +#define RST_BUS_TCON_TV0       106
+> +#define RST_BUS_TCON_TV1       107
+> +#define RST_BUS_EDP            108
+> +#define RST_BUS_HDMI_MAIN      109
+> +#define RST_BUS_HDMI_SUB       110
+> +#define RST_BUS_HDMI_HDCP      111
+> +#define RST_BUS_DPSS_TOP0      112
+> +#define RST_BUS_DPSS_TOP1      113
+> +#define RST_BUS_VIDEO_OUT0     114
+> +#define RST_BUS_VIDEO_OUT1     115
+> +#define RST_BUS_LEDC           116
+> +#define RST_BUS_DSC            117
+> +#define RST_BUS_CSI            118
+> +#define RST_BUS_VIDEO_IN       119
+> +#define RST_BUS_APB2JTAG       120
+> +
+
+The rest look correct.
+
+> +#endif /* _DT_BINDINGS_RST_SUN60I_A733_CCU_H_ */
+> diff --git a/include/dt-bindings/reset/sun60i-a733-r-ccu.h b/include/dt-b=
+indings/reset/sun60i-a733-r-ccu.h
+> new file mode 100644
+> index 000000000000..629e546d1998
+> --- /dev/null
+> +++ b/include/dt-bindings/reset/sun60i-a733-r-ccu.h
+> @@ -0,0 +1,23 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
+> +/*
+> + * Copyright (C) 2026 Junhui Liu <junhui.liu@pigmoral.tech>
+> + */
+> +
+> +#ifndef _DT_BINDINGS_RST_SUN60I_A733_R_CCU_H_
+> +#define _DT_BINDINGS_RST_SUN60I_A733_R_CCU_H_
+> +
+> +#define RST_BUS_R_TIMER                0
+> +#define RST_BUS_R_PWM          1
+> +#define RST_BUS_R_SPI          2
+> +#define RST_BUS_R_MSGBOX       3
+> +#define RST_BUS_R_UART0                4
+> +#define RST_BUS_R_UART1                5
+> +#define RST_BUS_R_I2C0         6
+> +#define RST_BUS_R_I2C1         7
+> +#define RST_BUS_R_I2C2         8
+> +#define RST_BUS_R_IR_RX                9
+> +#define RST_BUS_R_RTC          10
+> +#define RST_BUS_R_RISCV_CFG    11
+> +#define RST_BUS_R_CPUCFG       12
+> +
+> +#endif /* _DT_BINDINGS_RST_SUN60I_A733_R_CCU_H_ */
+
+This part looks correct.
 
 
 ChenYu
