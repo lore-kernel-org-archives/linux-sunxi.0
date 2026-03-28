@@ -1,55 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8064C3446BC
-	for <linux-sunxi@lists.linux.dev>; Sat, 28 Mar 2026 15:21:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0111C34C81F
+	for <linux-sunxi@lists.linux.dev>; Sat, 28 Mar 2026 15:46:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774711312; cv=none; b=rbwlPvnU4d1GdsiCv/XyfkS+GxOwIA8lFde6vwuLsDertB9zo4j7X/GNH8USYt+K6LIcUTzpjHDD0oy63qjO4/HCw1UHVPWaqy7ezw1zRouF1smxrQACCSuyxaEbrlVpNMHBrmPNEA+Nxzgrj6zLDOqPIZjGRooMHIz5XnuZKCU=
+	t=1774712782; cv=none; b=i2fLbaCdGxFLkYkeRlB3I9eUl9HuxAIW1Yz0V5BEvIHk3MWm7C6k2AmcT+sXxZhjaz73fjHTfYjJmci3h3gmVSamLiqVPtAFOtuj/DgXtLlXGKsudF/96KFfdoJUWBpz3iX8Z8ayTwtqRS8M46h/yHCSZXIocqKXCLCSgg0ZA64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774711312; c=relaxed/simple;
-	bh=J97nhqd19Owfth49YYD2VgMcKu6wbx/SAYjRjMlEcXA=;
+	s=arc-20240116; t=1774712782; c=relaxed/simple;
+	bh=BEU9rMTbOAWYA1FwR7F4qwNiCjzAb+HmPpFgx2cS7wE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uE43RrI1H0GJBeENDefE5XpWumi/1/rHoDasDGTkXPmkj07YS82oeQOZ5nsldXrrIPDCcLiCL+GFm1LLklfbXtBVHw/6Bhc792TWQpGHHWyGRMNsxRZl0Xf55N7m1oJf0uxgACqoUzigvwdGfz0TgdzEc43HTnhYwHxGEHnyDJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KK3J4eMY; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=Y322afR0d5QOm9Wszr8cuqZFZQu3gFYj/gR7zQUP4/SPNbB5wYI/1XsAHhVjF2Sg2ivTfwXdRdh0ALJhcn754U7ay5PNBSgR2ChqlvdboH610yY7hpE3f7RyHkGkPybTyjF4RtI7UCnIKyZXnZ8AdLR4QmuoCuO6vK7LA2YqsME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rrr06uwb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KK3J4eMY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63D16C4CEF7
-	for <linux-sunxi@lists.linux.dev>; Sat, 28 Mar 2026 15:21:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rrr06uwb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B84ACC4CEF7
+	for <linux-sunxi@lists.linux.dev>; Sat, 28 Mar 2026 15:46:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774711312;
-	bh=J97nhqd19Owfth49YYD2VgMcKu6wbx/SAYjRjMlEcXA=;
+	s=k20201202; t=1774712781;
+	bh=BEU9rMTbOAWYA1FwR7F4qwNiCjzAb+HmPpFgx2cS7wE=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=KK3J4eMYlxK2bqLQ6ksxVnc+e2YlyEyDK7BB7FWiSWULkWzeHwlkaOM90qvLAZUUL
-	 WUVNUfWVNVvt8Vs/uGdK1KfGjcX+yYoO6+a0LFg4feVKfn8jIWHmxeKSbe6bxEKsEJ
-	 kGquR9sJydtuJl1j7ZGho4yDvIY5d3senGy/vLgbs2vntUJgKY0OkaxQqmRfCM35UA
-	 NHNja3rG/okpbmaxJBp4LZhXcni4kPs3RZ3fhTRc2Y2d6rLnHgGNz/e6p5EuoLdN7t
-	 9Qy6EQie3drJ7XrBt8XPwVU8hJv2RJP+kn59Bn79gBZgbQ41zIICvlpm/BJHvrjXaa
-	 OhvMSMWPesbQA==
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5a2a70bb69eso2899565e87.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 28 Mar 2026 08:21:52 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVhtE9CCy3W9BG0ipoQpZUfwnMTRZmfnBrr9fBV32D8UEe1JWXSen8msu08rdkW7V0W6IdpTogrzCx8GA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxGFwqobdxKR+ypt4OLZYXjU7Li8S6H4y/3uGjK5xaPDVNuiYIs
-	tu5lC+Ru9u0kQrn3agqgAuYNAAOwFqrrlfDQKpXstEzP5fhyLnJCt6xvfGdgvs03MXzcP6sTID7
-	Y4mrQfWaDGcP986bvhej4B8w+2NUtK0c=
-X-Received: by 2002:ac2:482b:0:b0:5a2:a1aa:2b8a with SMTP id
- 2adb3069b0e04-5a2ab92b48dmr1928277e87.31.1774701460967; Sat, 28 Mar 2026
- 05:37:40 -0700 (PDT)
+	b=Rrr06uwbrksBuLRqNeOMBEtkc2YCL+dfp3wPeGUoXqAiVwHzl3e9gIsjWPIvkSI8Z
+	 9jPVIfgsYnCM8L8GffnD6+m6pu4bMnPoZM46/CgozEEMzQwWMrDoMNGlbjgVNgzOEz
+	 pp1zN7cD3iL8VpNQBuczlUBrNKNHK26/J4lxiB4yIHGN3RkxHXNaPV+lhJhlMzSpUt
+	 Zf2oSC+zvuvzTdlAzd15mL4vrl7nDlUIn3HY0rBAszOMMUy9OtzIEN0nNAgOnjU0W+
+	 j3FYPZkKhJbBmt5Uaz7VOuYoX2UUfXtvDlNhzS3hsuEFPOU0lrkpG3KvW+1QmebbCi
+	 jED7WT8ub5UxA==
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b93698bb57aso570121066b.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 28 Mar 2026 08:46:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWZiwcPUYwbDIxFIk2YiDrYiA5spjcb5oucHfXmGLi8Kngb3za9/LGPQLWJ5HwLezVWh7did4e4g1Hpig==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx0Nx6YaWaaqDRgWVkCldCrTlQ2yLpwdDudWlHV3kL8oRrZdnvf
+	XAp/Vj7DpotRIAwSSOERnZzIqQVu/3uqPqmjc2g5pH0zvzyFaHjPgz77HgEpzOO85sPjfeNp5sA
+	3wfxt/MtQB0q0O1t4pRA/2LVj/5tn8Ro=
+X-Received: by 2002:a05:651c:30ec:b0:38c:33d1:dd09 with SMTP id
+ 38308e7fff4ca-38c653f91c1mr24155731fa.10.1774701616378; Sat, 28 Mar 2026
+ 05:40:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260121-a733-rtc-v1-0-d359437f23a7@pigmoral.tech> <20260121-a733-rtc-v1-1-d359437f23a7@pigmoral.tech>
-In-Reply-To: <20260121-a733-rtc-v1-1-d359437f23a7@pigmoral.tech>
+References: <20260121-a733-rtc-v1-0-d359437f23a7@pigmoral.tech> <20260121-a733-rtc-v1-6-d359437f23a7@pigmoral.tech>
+In-Reply-To: <20260121-a733-rtc-v1-6-d359437f23a7@pigmoral.tech>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sat, 28 Mar 2026 20:37:26 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67844OPwE6VJ0PAs5LsmCa2h0FvXOBUomZ50dM5tZ0Zow@mail.gmail.com>
-X-Gm-Features: AQROBzAjNUlKB5AcxIrVhPiEv-8viiXBsmIlq5_4UPHivayPQSg3rbcnxOKBQII
-Message-ID: <CAGb2v67844OPwE6VJ0PAs5LsmCa2h0FvXOBUomZ50dM5tZ0Zow@mail.gmail.com>
-Subject: Re: [PATCH 1/7] dt-bindings: rtc: sun6i: Add Allwinner A733 support
+Date: Sat, 28 Mar 2026 20:40:04 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66YWa_CnSh1_rM707Lne4MF+imML3B5ad4TQ34hZgQ-tQ@mail.gmail.com>
+X-Gm-Features: AQROBzD9uvYPfehFAvfWSqRC7-wZ99UgUGl_PBhFagiwx6384R3sEI_1rOb_K7w
+Message-ID: <CAGb2v66YWa_CnSh1_rM707Lne4MF+imML3B5ad4TQ34hZgQ-tQ@mail.gmail.com>
+Subject: Re: [PATCH 6/7] rtc: sun6i: Add support for A733 RTC
 To: Junhui Liu <junhui.liu@pigmoral.tech>
 Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
 	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
@@ -62,160 +62,52 @@ Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 21, 2026 at 7:03=E2=80=AFPM Junhui Liu <junhui.liu@pigmoral.tec=
+On Wed, Jan 21, 2026 at 7:04=E2=80=AFPM Junhui Liu <junhui.liu@pigmoral.tec=
 h> wrote:
 >
-> The RTC module in the Allwinner A733 SoC is functionally compatible with
-> the sun6i RTC, but its internal Clock Control Unit (CCU) has significant
-> changes.
+> The RTC in the Allwinner A733 SoC is compatible with the H616 in terms
+> of its time storage and alarm functionality. However, its internal CCU
+> is different, with additional DCXO handling logic.
 >
-> The A733 supports selecting the oscillator between three frequencies:
-> 19.2MHz, 24MHz, and 26MHz. The RTC CCU relies on hardware to detect
-> which frequency is actually used on the board. By defining all three
-> frequencies as fixed-clocks in the device tree, the driver can identify
-> the hardware-detected frequency and expose it to the rest of the system.
+> Add new match data to register a new auxiliary device for its CCU part.
 
-No. The board device tree shall have the exact and correct frequency
-defined in the external crystal device node. The operating system can
-use the hardware-detected frequency to "fix" the in-system representation
-if it is off.
+This is probably incorrect, since you aren't actually adding auxiliary
+devices. It should just say "add a new compatible and matching data for
+the new SoC".
 
-> Additionally, the A733 RTC CCU provides several new DCXO gate clocks for
-> specific modules, including SerDes, HDMI, and UFS.
 >
 > Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
 > ---
->  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml      | 38 ++++++++++++++++=
-++++--
->  include/dt-bindings/clock/sun60i-a733-rtc.h        | 16 +++++++++
->  2 files changed, 52 insertions(+), 2 deletions(-)
+>  drivers/rtc/rtc-sun6i.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 >
-> diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rt=
-c.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-> index 9df5cdb6f63f..b18431955783 100644
-> --- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-> +++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-> @@ -26,6 +26,7 @@ properties:
->            - allwinner,sun50i-h6-rtc
->            - allwinner,sun50i-h616-rtc
->            - allwinner,sun50i-r329-rtc
-> +          - allwinner,sun60i-a733-rtc
->        - items:
->            - const: allwinner,sun50i-a64-rtc
->            - const: allwinner,sun8i-h3-rtc
-> @@ -46,11 +47,11 @@ properties:
+> diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+> index b4489e0a09ce..a58d9c6b917c 100644
+> --- a/drivers/rtc/rtc-sun6i.c
+> +++ b/drivers/rtc/rtc-sun6i.c
+> @@ -865,6 +865,11 @@ static const struct sun6i_rtc_match_data sun6i_rtc_m=
+atch_data =3D {
+>         .flags =3D RTC_LINEAR_DAY,
+>  };
 >
->    clocks:
->      minItems: 1
-> -    maxItems: 4
-> +    maxItems: 6
->
->    clock-names:
->      minItems: 1
-> -    maxItems: 4
-> +    maxItems: 6
->
->    clock-output-names:
->      minItems: 1
-> @@ -156,6 +157,38 @@ allOf:
->          - clocks
->          - clock-names
->
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: allwinner,sun60i-a733-rtc
+> +static const struct sun6i_rtc_match_data sun60i_rtc_match_data =3D {
+> +       .adev_name =3D "sun60i",
+> +       .flags =3D RTC_LINEAR_DAY,
+> +};
 > +
-> +    then:
-> +      properties:
-> +        clocks:
-> +          minItems: 5
-> +          items:
-> +            - description: Bus clock for register access
-
-> +            - description: 19.2 MHz oscillator
-> +            - description: 24 MHz oscillator
-> +            - description: 26 MHz oscillator
-
-No. There is only one input. As in there is only one set of pins for the
-DCXO. The inputs are the same as on R329 / A523. Just use that list.
-
-> +            - description: AHB parent for internal SPI clock
-> +            - description: External 32768 Hz oscillator
-> +
-> +        clock-names:
-> +          minItems: 5
-> +          items:
-> +            - const: bus
-> +            - const: osc19M
-> +            - const: osc24M
-> +            - const: osc26M
-> +            - const: ahb
-> +            - const: ext-osc32k
-> +
-> +      required:
-> +        - clocks
-> +        - clock-names
-> +
->    - if:
->        properties:
->          compatible:
-> @@ -164,6 +197,7 @@ allOf:
->                - allwinner,sun8i-r40-rtc
->                - allwinner,sun50i-h616-rtc
->                - allwinner,sun50i-r329-rtc
-> +              - allwinner,sun60i-a733-rtc
->
->      then:
->        properties:
-> diff --git a/include/dt-bindings/clock/sun60i-a733-rtc.h b/include/dt-bin=
-dings/clock/sun60i-a733-rtc.h
-> new file mode 100644
-> index 000000000000..8a2b5facad73
-> --- /dev/null
-> +++ b/include/dt-bindings/clock/sun60i-a733-rtc.h
-> @@ -0,0 +1,16 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
-> +
-> +#ifndef _DT_BINDINGS_CLK_SUN60I_A733_RTC_H_
-> +#define _DT_BINDINGS_CLK_SUN60I_A733_RTC_H_
-> +
-> +#define CLK_IOSC               0
-> +#define CLK_OSC32K             1
-> +#define CLK_HOSC               2
-
-The DCXO enable control has been present since at least the H6. We just
-never added it, as we would never disable it anyway.
-
-If you compare the RTC clock trees of the A733 and A523, the only addition
-besides the new gates seems to be the LOSC auto selection. But even that
-is just an illusion, as the A523 has the same registers for that.
-
-One could say the A733 RTC is almost backward compatible to the A523, if
-not for the two fastboot registers the A523 has at 0x120 and 0x124.
-
-So I ask that you try to integrate the differences into the existing
-driver and bindings. You can tweak and export internal clks if you
-need.
-
-> +#define CLK_RTC_32K            3
-
-AFAICT besides being an internal clock, this is also fed to GPIO for
-debounce? We probably need to expose this on the A523 as well.
-
-
-Thanks
-ChenYu
-
-
-> +#define CLK_OSC32K_FANOUT      4
-> +#define CLK_HOSC_SERDES1       5
-> +#define CLK_HOSC_SERDES0       6
-> +#define CLK_HOSC_HDMI          7
-> +#define CLK_HOSC_UFS           8
-> +
-> +#endif /* _DT_BINDINGS_CLK_SUN60I_A733_RTC_H_ */
+>  /*
+>   * As far as RTC functionality goes, all models are the same. The
+>   * datasheets claim that different models have different number of
+> @@ -883,6 +888,8 @@ static const struct of_device_id sun6i_rtc_dt_ids[] =
+=3D {
+>                 .data =3D &sun6i_rtc_match_data },
+>         { .compatible =3D "allwinner,sun50i-r329-rtc",
+>                 .data =3D &sun6i_rtc_match_data },
+> +       { .compatible =3D "allwinner,sun60i-a733-rtc",
+> +               .data =3D &sun60i_rtc_match_data },
+>         { /* sentinel */ },
+>  };
+>  MODULE_DEVICE_TABLE(of, sun6i_rtc_dt_ids);
 >
 > --
 > 2.52.0
