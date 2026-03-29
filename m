@@ -1,164 +1,89 @@
-Received: from s106b.cyber-folks.pl (s106b.cyber-folks.pl [195.78.66.88])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C570314D13;
-	Sun, 29 Mar 2026 12:07:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.78.66.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602AE36CE12
+	for <linux-sunxi@lists.linux.dev>; Sun, 29 Mar 2026 12:44:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774786045; cv=none; b=K7fsWjejDbrQ10V9W4A3tggrxDcF8rUFcOCJ28cQP3vhKJE8usNjIvsKIS6nSlLdKyn/4VJ1kURqqFtsEimAEL/b6G1yhsUynNIj21sLO2rydhmfRQJQeKCzgYpeAh5mpmQvtoTUMK87cWt9OT36ZwBcFJeokyLgMGsBKhc2lRo=
+	t=1774788281; cv=none; b=naCVFTA5bHwIByq2Ddhll+rO0FV/1uVLHTMgsmHoZAbWIPrtVc2N77zGwhv5Hb1AM8fy4E+XQRil2kfu90hyVfBVBlXN9XphqePuAv1Xm22rRJ2fAtViMu2gaOqnpfI7HZmCHA11QtgvA3qeuaTZUHe6Yg+dlPHzzfRUT8nhKoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774786045; c=relaxed/simple;
-	bh=PZobRuR+CpQ4zAaQIuK7lpUD2WIu+wGFCVwUXMmbxoQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YyvvPyA2iuy/foVJ08mUKz5JiRAFDLdyWVXDOACeODpb91IcdDkTrM/8o9HWYUXebNF0AjxsDtFCTM/rKOmV02i6OgUyNG7wH5vsXTWgBmfMdYda2zxl7qDl81eeOql/QnRHKMltzWGZ3zCr78LN1wAJz1TIbP/wk9eRiFPlEEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl; spf=pass smtp.mailfrom=mmpsystems.pl; dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b=q/Ydot2M; arc=none smtp.client-ip=195.78.66.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mmpsystems.pl
+	s=arc-20240116; t=1774788281; c=relaxed/simple;
+	bh=vU0+X+y3jioy6E9J30w+FzWYOuFdPtfTOpozKDtwEEc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rJ4ILXNgFqZqMtqXzQgvJaGaHbr7J/0jIGg7uQztVU5itaNQqK/I4HOnhUjiajk/jGJ0NSmuZGlNnjCiU2tSFjjixJJyIUIfVF1fatZg+bTD5NpAPLE4iib39elHAGI5OZkkldcamv4qWBv7JND6cCNQVEmd43q+6lrvy1HVyYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sykENkDT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b="q/Ydot2M"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=mmpsystems.pl; s=x; h=In-Reply-To:Content-Transfer-Encoding:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=JOlBMggKOzDX9Ye5XiGyMCn6XgPjZaJN4792ud0dJuc=; b=q/Ydot2MmGM3Wr1NwgXeCzbhAI
-	KDATv3TNIU1rDjD/oWiqFLoEO9rR5KUXiRqLTbtF0oAUbPwTif529V5+bEF0YrH4Wmq4RPVg3h7BY
-	EA31XWiN373S1oR+VQLT+jYQC7TZgMsStVl0EtDVeyX7kiPLs7c3Dvkq3sow6ZJ270jh6U0U77AuC
-	1Rb7LZKMuwhhhNLyMwXp4jpvWtQexynwhf5WVeTSQUSquSvYzaqLVgi3n5G9URF8nNQh3+0gmNyAj
-	JneMxxA6EmP8nrS6X7iH06sfzqk7JN17ISdZXA7Dewgbilc0PCA4nyBaVVgnlHNz6KOw/ydwoZngE
-	gdx0ofww==;
-Received: from user-5-173-16-20.play-internet.pl ([5.173.16.20] helo=localhost)
-	by s106.cyber-folks.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <michal.piekos@mmpsystems.pl>)
-	id 1w6ovI-0000000GxJ9-0wwi;
-	Sun, 29 Mar 2026 14:07:20 +0200
-Date: Sun, 29 Mar 2026 14:07:19 +0200
-From: Michal Piekos <michal.piekos@mmpsystems.pl>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: allwinner: enable h616 timer support
-Message-ID: <n2bupd37br2mp7ls6c5z5ueoancr53tn4mywg2vvrlpyhmkex4@lxe6tfdhwz5e>
-References: <20260329-h616-timer-v1-1-5966d0420a66@mmpsystems.pl>
- <5977334.DvuYhMxLoT@jernej-laptop>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sykENkDT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E518C2BCB1
+	for <linux-sunxi@lists.linux.dev>; Sun, 29 Mar 2026 12:44:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774788281;
+	bh=vU0+X+y3jioy6E9J30w+FzWYOuFdPtfTOpozKDtwEEc=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=sykENkDT++Jf86J8mOgWM6MXobVRK7SW/QNk54DSf995REgGBtIdJj2QRrmJqHA3G
+	 oXpmbf5/h7xLeddkmdyIY3BKhMpQ4nf/l4hNEbpzE3MFo659oVTzR7fNISdVs3xeA+
+	 Nvt+8WbZcwlvU7eNe3431MVo2eVLLxVuYWjLbRkOy6m7fbYk7T9aRteKtdCIEr5FTT
+	 XUaY+KAQeybXF9WcNfuHEWqqn39Z1YaIZUSZzoSkN/gGnkfBoCkFhsLtjaEixEjqnj
+	 3nW79M54oN9h6HTPMzK9TbGmmYPLSc39jDauyk6twRCdQf8S3gARUbaU3h55NMFr/0
+	 Of/VKc1VTOHxQ==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-38a32d36396so32346361fa.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 29 Mar 2026 05:44:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUq1avoK6af+JM3EIz8ZLYLpk9JFVk7t1KWgc854Gr0xcMHpSs3vdgr2Pwq1n4ULjv+iJUxULM4Q5TDXQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzA2X9gif4LAbyOYild4TPz1IC3tPvuzF3yQkXukULNRel8jc3A
+	QK2+nUFYQBJ9uFophSvOYgS0caWq6Y0VU7xXH8MRJUsdMh7x0uEeqBhsqs9lMS8bcjKXCNJwQel
+	QwD4kTZvsrpuRlp1ePM0pW3lDfgCZM9o=
+X-Received: by 2002:a2e:a54f:0:b0:38a:2a56:9546 with SMTP id
+ 38308e7fff4ca-38c75c900demr24797411fa.13.1774788279369; Sun, 29 Mar 2026
+ 05:44:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5977334.DvuYhMxLoT@jernej-laptop>
-X-Authenticated-Id: michal.piekos@mmpsystems.pl
+References: <20260324080856.56787-1-pengpeng@iscas.ac.cn> <2823210.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <2823210.mvXUDI8C0e@jernej-laptop>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Sun, 29 Mar 2026 20:44:27 +0800
+X-Gmail-Original-Message-ID: <CAGb2v674Ei2uFh6O0LoFoJrPcqGKGr_v+hfvE7TSfwztxDfTAA@mail.gmail.com>
+X-Gm-Features: AQROBzBu8cBmUz_qtapXabXSe1cUlYbMC4_Is2O7MBHQ-BNPxfI_Wv0OKcRIafM
+Message-ID: <CAGb2v674Ei2uFh6O0LoFoJrPcqGKGr_v+hfvE7TSfwztxDfTAA@mail.gmail.com>
+Subject: Re: [PATCH] media: cedrus: skip invalid H.264 reference list entries
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: mripard@kernel.org, Pengpeng Hou <pengpeng@iscas.ac.cn>, paulk@sys-base.io, 
+	mchehab@kernel.org, gregkh@linuxfoundation.org, samuel@sholland.org, 
+	nicolas.dufresne@collabora.com, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Mar 29, 2026 at 01:53:45PM +0200, Jernej Škrabec wrote:
-> Dne nedelja, 29. marec 2026 ob 13:43:04 Srednjeevropski poletni čas je Michal Piekos napisal(a):
-> > Add support for timer by reusing existing sun4i timer driver.
-> > 
-> > H616 timer is compatible with earlier sunxi timer variants and provides
-> > both clocksource and clockevent functionality. It runs from 24 MHz
-> > oscillator. It can serve as broadcast clockevent for wake up from idle
-> > states.
-> > 
-> > Tested on Orange Pi Zero 3:
-> > - timer is registered as clocksource:
-> > - switching clocksource at runtime works
-> > - timer operates as a broadcast clockevent device
-> > - no regression observed compared to arch_sys_counter
-> > 
-> > Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
-> > ---
-> > Test results:
-> > 
-> > Clocksource switching:
-> >   cat /sys/devices/system/clocksource/clocksource0/available_clocksource
-> >     arch_sys_counter timer
-> >   echo timer > /sys/devices/system/clocksource/clocksource0/current_clocksource
-> >     [ 5031.105997] clocksource: Switched to clocksource timer
-> > 
-> > Clockevent configuration:
-> >   cat /proc/timer_list
-> >     ...
-> >     Tick Device: mode:     1
-> >     Broadcast device
-> >     Clock Event Device: sun4i_tick
-> >      max_delta_ns:   178956969070
-> >      min_delta_ns:   1000
-> >      mult:           51539608
-> >      shift:          31
-> >      mode:           1
-> >      next_event:     9223372036854775807 nsecs
-> >      set_next_event: sun4i_clkevt_next_event
-> >      shutdown:       sun4i_clkevt_shutdown
-> >      periodic:       sun4i_clkevt_set_periodic
-> >      oneshot:        sun4i_clkevt_set_oneshot
-> >      resume:         sun4i_clkevt_shutdown
-> >      event_handler:  tick_handle_oneshot_broadcast
-> >     ...
-> > 
-> > Cyclictest measurements:
-> >   Dominated by system scheduler latency and do not reflect clocksource
-> >   precision.
-> > ---
-> >  arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> > 
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> > index 8d1110c14bad..bf054869e78b 100644
-> > --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> > @@ -228,6 +228,15 @@ cpu_speed_grade: cpu-speed-grade@0 {
-> >  			};
-> >  		};
-> >  
-> > +		timer0: timer@3009000 {
-> > +			compatible = "allwinner,sun50i-h616-timer",
-> > +				     "allwinner,sun8i-a23-timer";
-> 
-> You have to add above combo to DT bindings.
-> 
-> Best regards,
-> Jernej
+On Sun, Mar 29, 2026 at 5:21=E2=80=AFPM Jernej =C5=A0krabec <jernej.skrabec=
+@gmail.com> wrote:
+>
+> Dne torek, 24. marec 2026 ob 09:08:56 Srednjeevropski poletni =C4=8Das je=
+ Pengpeng Hou napisal(a):
+> > Cedrus consumes H.264 ref_pic_list0/ref_pic_list1 entries from the
+> > stateless slice control and later uses their indices to look up
+> > decode->dpb[] in _cedrus_write_ref_list().
+> >
+> > Rejecting such controls in cedrus_try_ctrl() would break existing
+> > userspace, since stateless H.264 reference lists may legitimately carry
+> > out-of-range indices for missing references. Instead, guard the actual
+> > DPB lookup in Cedrus and skip entries whose indices do not fit the fixe=
+d
+> > V4L2_H264_NUM_DPB_ENTRIES array.
+> >
+> > This keeps the fix local to the driver use site and avoids out-of-bound=
+s
+> > reads from malformed or unsupported reference list entries.
+> >
+> > Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+>
+> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Not sure I understand your comment correctly but binding for h616 is already
-there:
+Tested-by: Chen-Yu Tsai <wens@kernel.org>
 
-Documentation/devicetree/bindings/timer/allwinner,sun4i-a10-timer.yaml:21-27
-  - items:
-    - enum:
-        - allwinner,sun20i-d1-timer
-        - allwinner,sun50i-a64-timer
-        - allwinner,sun50i-h6-timer
-        - allwinner,sun50i-h616-timer
-    - const: allwinner,sun8i-a23-timer
-
-BR
-Michal
-
-> 
-> > +			reg = <0x03009000 0xa0>;
-> > +			interrupts = <GIC_SPI 48 IRQ_TYPE_LEVEL_HIGH>,
-> > +				     <GIC_SPI 49 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&osc24M>;
-> > +		};
-> > +
-> >  		watchdog: watchdog@30090a0 {
-> >  			compatible = "allwinner,sun50i-h616-wdt",
-> >  				     "allwinner,sun6i-a31-wdt";
-> > 
-> > ---
-> > base-commit: be762d8b6dd7efacb61937d20f8475db8f207655
-> > change-id: 20260328-h616-timer-046e6ac3549e
-> > 
-> > Best regards,
-> > 
-> 
-> 
-> 
-> 
+This fixes a KASAN slab-use-after-free warning when running fluster H.264
+tests.
