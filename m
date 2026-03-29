@@ -1,261 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3799B2D5A01
-	for <linux-sunxi@lists.linux.dev>; Sun, 29 Mar 2026 07:56:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814692E5B1B
+	for <linux-sunxi@lists.linux.dev>; Sun, 29 Mar 2026 09:21:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774770987; cv=none; b=dVQ9Zjcv5wu0V85F/jE3GzxgN7E27586rJlJhGPROBDeDlBnU94mWJcFln8Qr1fWvVNJ63ZrQ42akyFOE87BlU2TRKvQcLz/ydPQvKAHwDeIlyFWaO1hzei+Y9m4q46X1LWA6IHeVZAN/O2PJDcTvnEihPzxFknCwAVA4dsZgUE=
+	t=1774776120; cv=none; b=D/QyRZgXBoYLA86895+rKqYIjOjrhxwkkBHMDOeOGsYmBVsV1CFf+7BYTSRF8zF/JOiCB4VGVgOMctB00AFRhDhhzUNRvk974gbvTBUGyNckGwfrrUCfFRshd/JSg4DPXMhNmPWKoOiTNAUbMJ9dMX/FRFKxtOkBucl7eFQ+rck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774770987; c=relaxed/simple;
-	bh=NXkO1BKIOyiirGfmId7kEdTa6tS6egLCtvOXPPxBnMY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gkpOyVPiExg59gi+/tQPoDz8lBP9n1/0IO/U3kzGVIjW8KvBBlsziIvF3SnV0vtUU0vcC/wBjyp340lnRPtUi5j4/BlXeDFCVqd/rOUYzI3rIjGaBdv3TUvyXyLKPfcoxSowcY8msAVP+dc26gCvVdHYy7Zs2banWBdndqNm8Y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R2HhQq+0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774776120; c=relaxed/simple;
+	bh=sGDCJ4nnZOaX7PqUwJz5bYB/Xwisxt5pEqmuR77rK0M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JqAJ3sC0Qg3PDzJLEV8JQCkQavVhRDZIdDKvZZHfZyHK1US2NseoMlnueP+ju8ouJhw6pEW3FgZlJfPKKdMYuV3x1UfRMD6QjRwJ6ZAwAoK5m494qIFhnRx39V5a3MtWWsBC9aasgx+XJlERC2YrLrBbLdCChaZ9jikC6e5Wck0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DJp/nGxq; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R2HhQq+0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8B0CC2BCB5
-	for <linux-sunxi@lists.linux.dev>; Sun, 29 Mar 2026 07:56:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774770986;
-	bh=NXkO1BKIOyiirGfmId7kEdTa6tS6egLCtvOXPPxBnMY=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=R2HhQq+016fcpCRIW8zdQ0HauTKnwjFOWDOpiPxZ0WXQBBbyfTQW3FUPqpXXI9Oy5
-	 VtAO2d83xAkqNt7Ee5gX3q985bACYSFYYxw84stvuDp6WhAYUx+iSArS8HMN6z2x8y
-	 nr6aBjnxht82iQk2c4eXgOadJndzq6HElWcvooZ32IciqLT1rsDb4NGgCkGHFs3gcK
-	 sIZDZAbYI+cKTSR/LnYMFyxba+OPKsbo1ESN+fDpKklulAvrPB43b3jB0D+GNC6fr2
-	 FF/jikh8Za867TrBvmLdneQ1Zt6jL07GMPj9xNXYTgSmCzAHaX6zEovkwTkcIWnFR3
-	 g71no7e2M6Y9w==
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-3878de20527so28468961fa.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 29 Mar 2026 00:56:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUy2lQ7eRtVqawcEU2eKHV/esKxVVlglTDWrfPDt82JyHuP13EPlbLFQfmC1qtMTiVHqsfoeD5LTHlvyQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxnsOjkdxUqTLR/dcQX8POvvJPEB2l9xLev/NbpZT6IDfX409mA
-	uwL4g5N8NfRY4TNrzeEsc91a3zE6K+0vU2vmdzY8+qR+4NRqebP1r/IsXpzHT8hMO2ZRoHBC1EB
-	dObwYdhFOPVCJDmkpVGkBIai4eeEFW9s=
-X-Received: by 2002:a2e:bea8:0:b0:38b:d89b:e285 with SMTP id
- 38308e7fff4ca-38c731b8b78mr24317401fa.4.1774770985099; Sun, 29 Mar 2026
- 00:56:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DJp/nGxq"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-439b611274bso1861201f8f.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 29 Mar 2026 02:21:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774776116; x=1775380916; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sGDCJ4nnZOaX7PqUwJz5bYB/Xwisxt5pEqmuR77rK0M=;
+        b=DJp/nGxqpRuGi7I5HBOalEGl1WrIuEriyt3AeqP9NBWSPtT6M8u8HCwzC730/YRX7L
+         8TMd8KLIvIDgRNc7bBGwRh4PsHiJ/KnNKNab6+Op6HxP8ASw6o8Vl6BGuIf3iCgRUcLe
+         lWcvYA7oKqtayR+tax2MMPw99AFYZjlOUgwvMMxDDUQ8HI+unPyqkH3z/x9br8EZ6AwQ
+         jYW7uFpzMh4cQxcXkN7DaZ0PfghLht5GMC1Dgk6i0O0jg67+jyzAzv4LP/YKLqv1TcsS
+         6CdJy49X4lltGfIlyp4196fTzamSpKje3pIob/oSn2NHZq1bcOJw40tIm8bqNFfxo6EU
+         bzug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774776116; x=1775380916;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=sGDCJ4nnZOaX7PqUwJz5bYB/Xwisxt5pEqmuR77rK0M=;
+        b=AB4VxGRPNhjVVil5isqZrBqs0WtQ+SParuYdDVbod1uTdJ9sW2Fz2wU5uhlDTzTmDq
+         aycUPU/puFJhef3KRUUdDNyOPHgA8MSyyDmtgGLuPxHd4sOuHYiEQVp1i6B+I063B4N1
+         QPs2LtPpqOq+++uRzI28XNc0gknilhSDpxNLRcltr+7HDGG00NBLsICzMf/PKsjvMFLz
+         4SFrpAgzyD79kQ7HeqCGLjikbaLGh1XZVfVvF4Wtrp71rFFtCrp5xK5sXzrVZqQu4Ama
+         6sFDzbmjx+nGRNuQVnTP37MgPsEGtweHpFuS6por+TKJUj+xek3gJhB43gM7oO2Z/3cp
+         lQ9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUZ+EYa+cXKiOppaYW4Gnhew2cFdpIoMRqyhzhejXzabbPndDw6DNXKEQHNo+YXiNqP4vbBgMbwz4rJ8w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwK+1yZ3zP19xZwuRiPtRzqMM3n0xhlUc4a6hCB5hARLG3p4IiA
+	ftl8W3FSjCeq8TGQVWL0qUIHibjWtaMFRpty64E2VG0vvDzsx2G6mnYK
+X-Gm-Gg: ATEYQzwEpVxGrcIVDxHM5vAubVDI2exPl65lDRUt50Wqede1jy8biyv9iXMU7xgOnAT
+	KZpkTU8Aw+b4exGu74yujMHy7oB/QCpmYZK8fahQQkQQ+7mTPI+qvsgBFQgMbcRAybwibYBgyhZ
+	JjAzAux0d6QJGm57LyS6Glk40ueCOAS8zKIEa8V9sHlT5qaDkH8GOQAyHFkaYlhdK0WhMvpOgxD
+	mJJRS/9rMo04JWhplnYDe7T7kXBI1OJ2ryxPt/jVkL6f/Z2t6PNlOh/9/sPokHmaNCSlKhNg8DQ
+	sMGpejWOy+1EmD+v4+8JDBw4PeR6yU4iS04ApVc7yerEXl2EqJHAuyZiLuc2kb8vL2EsGtyVTpO
+	8zTvDn616nrVsioCoLZmVzS+1w7na+Pb5msYQ70Ot8qvSqIGsfe/KQHvoLIOi8gStNxLhbo3poi
+	fS5jPVC9U57aHqyGyU/q7eUBorx/iyXsTU6Qusm73n57aPVCzfSg0rJhA6NKAVKg3KfJ1MxY2Ip
+	JNvxW1DhBqx0iHItw==
+X-Received: by 2002:a05:6000:24ca:b0:43b:60f7:2282 with SMTP id ffacd0b85a97d-43b9ea4ae28mr14838629f8f.28.1774776115668;
+        Sun, 29 Mar 2026 02:21:55 -0700 (PDT)
+Received: from jernej-laptop.localnet (118.red-213-98-130.staticip.rima-tde.net. [213.98.130.118])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21e9e18sm9945848f8f.9.2026.03.29.02.21.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Mar 2026 02:21:55 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mripard@kernel.org, Pengpeng Hou <pengpeng@iscas.ac.cn>
+Cc: paulk@sys-base.io, mchehab@kernel.org, gregkh@linuxfoundation.org,
+ wens@kernel.org, samuel@sholland.org, nicolas.dufresne@collabora.com,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, pengpeng@iscas.ac.cn
+Subject: Re: [PATCH] media: cedrus: skip invalid H.264 reference list entries
+Date: Sun, 29 Mar 2026 11:21:53 +0200
+Message-ID: <2823210.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
+References: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260310-a733-clk-v1-0-36b4e9b24457@pigmoral.tech> <20260310-a733-clk-v1-2-36b4e9b24457@pigmoral.tech>
-In-Reply-To: <20260310-a733-clk-v1-2-36b4e9b24457@pigmoral.tech>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 29 Mar 2026 15:56:12 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65ycixbX7YS_rC6pyh-zMP6QvHqc6qdXjH4e0xpaqX=CQ@mail.gmail.com>
-X-Gm-Features: AQROBzBv23a5U8YFwC6JrpXv9HxCxK3WuA_W9E6K5Up_sT7yzO6F5aKFcWx7Jy8
-Message-ID: <CAGb2v65ycixbX7YS_rC6pyh-zMP6QvHqc6qdXjH4e0xpaqX=CQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 2/8] clk: sunxi-ng: sdm: Add dual patterns support
-To: Junhui Liu <junhui.liu@pigmoral.tech>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Richard Cochran <richardcochran@gmail.com>, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Tue, Mar 10, 2026 at 4:42=E2=80=AFPM Junhui Liu <junhui.liu@pigmoral.tec=
-h> wrote:
->
-> On newer Allwinner platforms like the A733, the Sigma-Delta Modulation
-> (SDM) control logic is more complex. The SDM enable bit, which was
-> previously located in the PLL register, is now moved to a second
-> pattern register (PATTERN1).
->
-> To support this, rename the existing "tuning" members to "pattern0" to
-> align with the datasheet, and introduce the _SUNXI_CCU_SDM_DUAL_PAT
-> macro to provide pattern1 register support. Related operations are also
-> updated.
->
-> Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
-> ---
->  drivers/clk/sunxi-ng/ccu_sdm.c | 51 +++++++++++++++++++++++++++++-------=
-------
->  drivers/clk/sunxi-ng/ccu_sdm.h | 32 +++++++++++++++++---------
->  2 files changed, 57 insertions(+), 26 deletions(-)
->
-> diff --git a/drivers/clk/sunxi-ng/ccu_sdm.c b/drivers/clk/sunxi-ng/ccu_sd=
-m.c
-> index c564e5f9e610..204e25feaa36 100644
-> --- a/drivers/clk/sunxi-ng/ccu_sdm.c
-> +++ b/drivers/clk/sunxi-ng/ccu_sdm.c
-> @@ -18,7 +18,10 @@ bool ccu_sdm_helper_is_enabled(struct ccu_common *comm=
-on,
->         if (sdm->enable && !(readl(common->base + common->reg) & sdm->ena=
-ble))
->                 return false;
->
-> -       return !!(readl(common->base + sdm->tuning_reg) & sdm->tuning_ena=
-ble);
-> +       if (sdm->pat1_enable && !(readl(common->base + sdm->pat1_reg) & s=
-dm->pat1_enable))
-> +               return false;
-> +
-> +       return !!(readl(common->base + sdm->pat0_reg) & sdm->pat0_enable)=
-;
->  }
->  EXPORT_SYMBOL_NS_GPL(ccu_sdm_helper_is_enabled, "SUNXI_CCU");
->
-> @@ -37,18 +40,27 @@ void ccu_sdm_helper_enable(struct ccu_common *common,
->         for (i =3D 0; i < sdm->table_size; i++)
->                 if (sdm->table[i].rate =3D=3D rate)
->                         writel(sdm->table[i].pattern,
-> -                              common->base + sdm->tuning_reg);
-> +                              common->base + sdm->pat0_reg);
->
->         /* Make sure SDM is enabled */
->         spin_lock_irqsave(common->lock, flags);
-> -       reg =3D readl(common->base + sdm->tuning_reg);
-> -       writel(reg | sdm->tuning_enable, common->base + sdm->tuning_reg);
-> +       reg =3D readl(common->base + sdm->pat0_reg);
-> +       writel(reg | sdm->pat0_enable, common->base + sdm->pat0_reg);
->         spin_unlock_irqrestore(common->lock, flags);
->
-> -       spin_lock_irqsave(common->lock, flags);
-> -       reg =3D readl(common->base + common->reg);
-> -       writel(reg | sdm->enable, common->base + common->reg);
-> -       spin_unlock_irqrestore(common->lock, flags);
-> +       if (sdm->enable) {
-> +               spin_lock_irqsave(common->lock, flags);
-> +               reg =3D readl(common->base + common->reg);
-> +               writel(reg | sdm->enable, common->base + common->reg);
-> +               spin_unlock_irqrestore(common->lock, flags);
-> +       }
-> +
-> +       if (sdm->pat1_enable) {
-> +               spin_lock_irqsave(common->lock, flags);
-> +               reg =3D readl(common->base + sdm->pat1_reg);
-> +               writel(reg | sdm->pat1_enable, common->base + sdm->pat1_r=
-eg);
-> +               spin_unlock_irqrestore(common->lock, flags);
-> +       }
->  }
->  EXPORT_SYMBOL_NS_GPL(ccu_sdm_helper_enable, "SUNXI_CCU");
->
-> @@ -61,14 +73,23 @@ void ccu_sdm_helper_disable(struct ccu_common *common=
-,
->         if (!(common->features & CCU_FEATURE_SIGMA_DELTA_MOD))
->                 return;
->
-> -       spin_lock_irqsave(common->lock, flags);
-> -       reg =3D readl(common->base + common->reg);
-> -       writel(reg & ~sdm->enable, common->base + common->reg);
-> -       spin_unlock_irqrestore(common->lock, flags);
-> +       if (sdm->enable) {
-> +               spin_lock_irqsave(common->lock, flags);
-> +               reg =3D readl(common->base + common->reg);
-> +               writel(reg & ~sdm->enable, common->base + common->reg);
-> +               spin_unlock_irqrestore(common->lock, flags);
-> +       }
-> +
-> +       if (sdm->pat1_enable) {
-> +               spin_lock_irqsave(common->lock, flags);
-> +               reg =3D readl(common->base + sdm->pat1_reg);
-> +               writel(reg & ~sdm->pat1_enable, common->base + sdm->pat1_=
-reg);
-> +               spin_unlock_irqrestore(common->lock, flags);
-> +       }
->
->         spin_lock_irqsave(common->lock, flags);
-> -       reg =3D readl(common->base + sdm->tuning_reg);
-> -       writel(reg & ~sdm->tuning_enable, common->base + sdm->tuning_reg)=
-;
-> +       reg =3D readl(common->base + sdm->pat0_reg);
-> +       writel(reg & ~sdm->pat0_enable, common->base + sdm->pat0_reg);
->         spin_unlock_irqrestore(common->lock, flags);
->  }
->  EXPORT_SYMBOL_NS_GPL(ccu_sdm_helper_disable, "SUNXI_CCU");
-> @@ -123,7 +144,7 @@ unsigned long ccu_sdm_helper_read_rate(struct ccu_com=
-mon *common,
->         pr_debug("%s: clock is sigma-delta modulated\n",
->                  clk_hw_get_name(&common->hw));
->
-> -       reg =3D readl(common->base + sdm->tuning_reg);
-> +       reg =3D readl(common->base + sdm->pat0_reg);
->
->         pr_debug("%s: pattern reg is 0x%x",
->                  clk_hw_get_name(&common->hw), reg);
-> diff --git a/drivers/clk/sunxi-ng/ccu_sdm.h b/drivers/clk/sunxi-ng/ccu_sd=
-m.h
-> index c1a7159b89c3..c289be28e1b4 100644
-> --- a/drivers/clk/sunxi-ng/ccu_sdm.h
-> +++ b/drivers/clk/sunxi-ng/ccu_sdm.h
-> @@ -33,21 +33,31 @@ struct ccu_sdm_internal {
->         u32             table_size;
->         /* early SoCs don't have the SDM enable bit in the PLL register *=
-/
->         u32             enable;
-> -       /* second enable bit in tuning register */
-> -       u32             tuning_enable;
-> -       u16             tuning_reg;
-> +       /* second enable bit in pattern0 register */
-> +       u32             pat0_enable;
-> +       u16             pat0_reg;
-> +       /* on some platforms, the sdm enable bit in pattern1 register */
-> +       u32             pat1_enable;
-> +       u16             pat1_reg;
->  };
->
-> -#define _SUNXI_CCU_SDM(_table, _enable,                        \
-> -                      _reg, _reg_enable)               \
-> -       {                                               \
-> -               .table          =3D _table,               \
-> -               .table_size     =3D ARRAY_SIZE(_table),   \
-> -               .enable         =3D _enable,              \
-> -               .tuning_enable  =3D _reg_enable,          \
-> -               .tuning_reg     =3D _reg,                 \
-> +#define __SUNXI_CCU_SDM(_table, _enable, _pat0, _pat0_enable, _pat1, _pa=
-t1_enable)     \
-> +       {                                                               \
-> +               .table                  =3D _table,                      =
- \
-> +               .table_size             =3D ARRAY_SIZE(_table),          =
- \
-> +               .enable                 =3D _enable,                     =
- \
-> +               .pat0_enable            =3D _pat0_enable,                =
- \
-> +               .pat0_reg               =3D _pat0,                       =
- \
-> +               .pat1_enable            =3D _pat1_enable,                =
- \
-> +               .pat1_reg               =3D _pat1,                       =
- \
->         }
->
-> +#define _SUNXI_CCU_SDM(_table, _enable, _pat0, _pat0_enable)   \
-> +       __SUNXI_CCU_SDM(_table, _enable, _pat0, _pat0_enable, 0, 0)
-> +
-> +#define _SUNXI_CCU_SDM_DUAL_PAT(_table, _pat0, _pat0_enable, _pat1, _pat=
-1_enable)      \
-> +       __SUNXI_CCU_SDM(_table, 0, _pat0, _pat0_enable, _pat1, _pat1_enab=
-le)
-> +
+Dne torek, 24. marec 2026 ob 09:08:56 Srednjeevropski poletni =C4=8Das je P=
+engpeng Hou napisal(a):
+> Cedrus consumes H.264 ref_pic_list0/ref_pic_list1 entries from the
+> stateless slice control and later uses their indices to look up
+> decode->dpb[] in _cedrus_write_ref_list().
+>=20
+> Rejecting such controls in cedrus_try_ctrl() would break existing
+> userspace, since stateless H.264 reference lists may legitimately carry
+> out-of-range indices for missing references. Instead, guard the actual
+> DPB lookup in Cedrus and skip entries whose indices do not fit the fixed
+> V4L2_H264_NUM_DPB_ENTRIES array.
+>=20
+> This keeps the fix local to the driver use site and avoids out-of-bounds
+> reads from malformed or unsupported reference list entries.
+>=20
+> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 
-Don't introduce an intermediate macro that looks _almost_ the same as the
-macro the driver is actually supposed to use.
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Just declare _SUNXI_CCU_SDM_DUAL_PAT() to expand to the full entry, and
-_SUNXI_CCU_SDM() to _SUNXI_CCU_SDM_DUAL_PAT() with the last two parameters
-as zero. That takes less lines.
+Best regards,
+Jernej
 
 
-ChenYu
-
->  bool ccu_sdm_helper_is_enabled(struct ccu_common *common,
->                                struct ccu_sdm_internal *sdm);
->  void ccu_sdm_helper_enable(struct ccu_common *common,
->
-> --
-> 2.52.0
->
->
