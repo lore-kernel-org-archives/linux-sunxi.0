@@ -1,113 +1,259 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0111C34C81F
-	for <linux-sunxi@lists.linux.dev>; Sat, 28 Mar 2026 15:46:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3799B2D5A01
+	for <linux-sunxi@lists.linux.dev>; Sun, 29 Mar 2026 07:56:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774712782; cv=none; b=i2fLbaCdGxFLkYkeRlB3I9eUl9HuxAIW1Yz0V5BEvIHk3MWm7C6k2AmcT+sXxZhjaz73fjHTfYjJmci3h3gmVSamLiqVPtAFOtuj/DgXtLlXGKsudF/96KFfdoJUWBpz3iX8Z8ayTwtqRS8M46h/yHCSZXIocqKXCLCSgg0ZA64=
+	t=1774770987; cv=none; b=dVQ9Zjcv5wu0V85F/jE3GzxgN7E27586rJlJhGPROBDeDlBnU94mWJcFln8Qr1fWvVNJ63ZrQ42akyFOE87BlU2TRKvQcLz/ydPQvKAHwDeIlyFWaO1hzei+Y9m4q46X1LWA6IHeVZAN/O2PJDcTvnEihPzxFknCwAVA4dsZgUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774712782; c=relaxed/simple;
-	bh=BEU9rMTbOAWYA1FwR7F4qwNiCjzAb+HmPpFgx2cS7wE=;
+	s=arc-20240116; t=1774770987; c=relaxed/simple;
+	bh=NXkO1BKIOyiirGfmId7kEdTa6tS6egLCtvOXPPxBnMY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Y322afR0d5QOm9Wszr8cuqZFZQu3gFYj/gR7zQUP4/SPNbB5wYI/1XsAHhVjF2Sg2ivTfwXdRdh0ALJhcn754U7ay5PNBSgR2ChqlvdboH610yY7hpE3f7RyHkGkPybTyjF4RtI7UCnIKyZXnZ8AdLR4QmuoCuO6vK7LA2YqsME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rrr06uwb; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=gkpOyVPiExg59gi+/tQPoDz8lBP9n1/0IO/U3kzGVIjW8KvBBlsziIvF3SnV0vtUU0vcC/wBjyp340lnRPtUi5j4/BlXeDFCVqd/rOUYzI3rIjGaBdv3TUvyXyLKPfcoxSowcY8msAVP+dc26gCvVdHYy7Zs2banWBdndqNm8Y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R2HhQq+0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rrr06uwb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B84ACC4CEF7
-	for <linux-sunxi@lists.linux.dev>; Sat, 28 Mar 2026 15:46:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R2HhQq+0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8B0CC2BCB5
+	for <linux-sunxi@lists.linux.dev>; Sun, 29 Mar 2026 07:56:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774712781;
-	bh=BEU9rMTbOAWYA1FwR7F4qwNiCjzAb+HmPpFgx2cS7wE=;
+	s=k20201202; t=1774770986;
+	bh=NXkO1BKIOyiirGfmId7kEdTa6tS6egLCtvOXPPxBnMY=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=Rrr06uwbrksBuLRqNeOMBEtkc2YCL+dfp3wPeGUoXqAiVwHzl3e9gIsjWPIvkSI8Z
-	 9jPVIfgsYnCM8L8GffnD6+m6pu4bMnPoZM46/CgozEEMzQwWMrDoMNGlbjgVNgzOEz
-	 pp1zN7cD3iL8VpNQBuczlUBrNKNHK26/J4lxiB4yIHGN3RkxHXNaPV+lhJhlMzSpUt
-	 Zf2oSC+zvuvzTdlAzd15mL4vrl7nDlUIn3HY0rBAszOMMUy9OtzIEN0nNAgOnjU0W+
-	 j3FYPZkKhJbBmt5Uaz7VOuYoX2UUfXtvDlNhzS3hsuEFPOU0lrkpG3KvW+1QmebbCi
-	 jED7WT8ub5UxA==
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b93698bb57aso570121066b.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 28 Mar 2026 08:46:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWZiwcPUYwbDIxFIk2YiDrYiA5spjcb5oucHfXmGLi8Kngb3za9/LGPQLWJ5HwLezVWh7did4e4g1Hpig==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx0Nx6YaWaaqDRgWVkCldCrTlQ2yLpwdDudWlHV3kL8oRrZdnvf
-	XAp/Vj7DpotRIAwSSOERnZzIqQVu/3uqPqmjc2g5pH0zvzyFaHjPgz77HgEpzOO85sPjfeNp5sA
-	3wfxt/MtQB0q0O1t4pRA/2LVj/5tn8Ro=
-X-Received: by 2002:a05:651c:30ec:b0:38c:33d1:dd09 with SMTP id
- 38308e7fff4ca-38c653f91c1mr24155731fa.10.1774701616378; Sat, 28 Mar 2026
- 05:40:16 -0700 (PDT)
+	b=R2HhQq+016fcpCRIW8zdQ0HauTKnwjFOWDOpiPxZ0WXQBBbyfTQW3FUPqpXXI9Oy5
+	 VtAO2d83xAkqNt7Ee5gX3q985bACYSFYYxw84stvuDp6WhAYUx+iSArS8HMN6z2x8y
+	 nr6aBjnxht82iQk2c4eXgOadJndzq6HElWcvooZ32IciqLT1rsDb4NGgCkGHFs3gcK
+	 sIZDZAbYI+cKTSR/LnYMFyxba+OPKsbo1ESN+fDpKklulAvrPB43b3jB0D+GNC6fr2
+	 FF/jikh8Za867TrBvmLdneQ1Zt6jL07GMPj9xNXYTgSmCzAHaX6zEovkwTkcIWnFR3
+	 g71no7e2M6Y9w==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-3878de20527so28468961fa.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 29 Mar 2026 00:56:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUy2lQ7eRtVqawcEU2eKHV/esKxVVlglTDWrfPDt82JyHuP13EPlbLFQfmC1qtMTiVHqsfoeD5LTHlvyQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxnsOjkdxUqTLR/dcQX8POvvJPEB2l9xLev/NbpZT6IDfX409mA
+	uwL4g5N8NfRY4TNrzeEsc91a3zE6K+0vU2vmdzY8+qR+4NRqebP1r/IsXpzHT8hMO2ZRoHBC1EB
+	dObwYdhFOPVCJDmkpVGkBIai4eeEFW9s=
+X-Received: by 2002:a2e:bea8:0:b0:38b:d89b:e285 with SMTP id
+ 38308e7fff4ca-38c731b8b78mr24317401fa.4.1774770985099; Sun, 29 Mar 2026
+ 00:56:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260121-a733-rtc-v1-0-d359437f23a7@pigmoral.tech> <20260121-a733-rtc-v1-6-d359437f23a7@pigmoral.tech>
-In-Reply-To: <20260121-a733-rtc-v1-6-d359437f23a7@pigmoral.tech>
+References: <20260310-a733-clk-v1-0-36b4e9b24457@pigmoral.tech> <20260310-a733-clk-v1-2-36b4e9b24457@pigmoral.tech>
+In-Reply-To: <20260310-a733-clk-v1-2-36b4e9b24457@pigmoral.tech>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sat, 28 Mar 2026 20:40:04 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66YWa_CnSh1_rM707Lne4MF+imML3B5ad4TQ34hZgQ-tQ@mail.gmail.com>
-X-Gm-Features: AQROBzD9uvYPfehFAvfWSqRC7-wZ99UgUGl_PBhFagiwx6384R3sEI_1rOb_K7w
-Message-ID: <CAGb2v66YWa_CnSh1_rM707Lne4MF+imML3B5ad4TQ34hZgQ-tQ@mail.gmail.com>
-Subject: Re: [PATCH 6/7] rtc: sun6i: Add support for A733 RTC
+Date: Sun, 29 Mar 2026 15:56:12 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65ycixbX7YS_rC6pyh-zMP6QvHqc6qdXjH4e0xpaqX=CQ@mail.gmail.com>
+X-Gm-Features: AQROBzBv23a5U8YFwC6JrpXv9HxCxK3WuA_W9E6K5Up_sT7yzO6F5aKFcWx7Jy8
+Message-ID: <CAGb2v65ycixbX7YS_rC6pyh-zMP6QvHqc6qdXjH4e0xpaqX=CQ@mail.gmail.com>
+Subject: Re: [PATCH RFC 2/8] clk: sunxi-ng: sdm: Add dual patterns support
 To: Junhui Liu <junhui.liu@pigmoral.tech>
 Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Maxime Ripard <mripard@kernel.org>, linux-clk@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	devicetree@vger.kernel.org
+	Philipp Zabel <p.zabel@pengutronix.de>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, Richard Cochran <richardcochran@gmail.com>, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, netdev@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 21, 2026 at 7:04=E2=80=AFPM Junhui Liu <junhui.liu@pigmoral.tec=
+On Tue, Mar 10, 2026 at 4:42=E2=80=AFPM Junhui Liu <junhui.liu@pigmoral.tec=
 h> wrote:
 >
-> The RTC in the Allwinner A733 SoC is compatible with the H616 in terms
-> of its time storage and alarm functionality. However, its internal CCU
-> is different, with additional DCXO handling logic.
+> On newer Allwinner platforms like the A733, the Sigma-Delta Modulation
+> (SDM) control logic is more complex. The SDM enable bit, which was
+> previously located in the PLL register, is now moved to a second
+> pattern register (PATTERN1).
 >
-> Add new match data to register a new auxiliary device for its CCU part.
-
-This is probably incorrect, since you aren't actually adding auxiliary
-devices. It should just say "add a new compatible and matching data for
-the new SoC".
-
+> To support this, rename the existing "tuning" members to "pattern0" to
+> align with the datasheet, and introduce the _SUNXI_CCU_SDM_DUAL_PAT
+> macro to provide pattern1 register support. Related operations are also
+> updated.
 >
 > Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
 > ---
->  drivers/rtc/rtc-sun6i.c | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  drivers/clk/sunxi-ng/ccu_sdm.c | 51 +++++++++++++++++++++++++++++-------=
+------
+>  drivers/clk/sunxi-ng/ccu_sdm.h | 32 +++++++++++++++++---------
+>  2 files changed, 57 insertions(+), 26 deletions(-)
 >
-> diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
-> index b4489e0a09ce..a58d9c6b917c 100644
-> --- a/drivers/rtc/rtc-sun6i.c
-> +++ b/drivers/rtc/rtc-sun6i.c
-> @@ -865,6 +865,11 @@ static const struct sun6i_rtc_match_data sun6i_rtc_m=
-atch_data =3D {
->         .flags =3D RTC_LINEAR_DAY,
->  };
+> diff --git a/drivers/clk/sunxi-ng/ccu_sdm.c b/drivers/clk/sunxi-ng/ccu_sd=
+m.c
+> index c564e5f9e610..204e25feaa36 100644
+> --- a/drivers/clk/sunxi-ng/ccu_sdm.c
+> +++ b/drivers/clk/sunxi-ng/ccu_sdm.c
+> @@ -18,7 +18,10 @@ bool ccu_sdm_helper_is_enabled(struct ccu_common *comm=
+on,
+>         if (sdm->enable && !(readl(common->base + common->reg) & sdm->ena=
+ble))
+>                 return false;
 >
-> +static const struct sun6i_rtc_match_data sun60i_rtc_match_data =3D {
-> +       .adev_name =3D "sun60i",
-> +       .flags =3D RTC_LINEAR_DAY,
-> +};
+> -       return !!(readl(common->base + sdm->tuning_reg) & sdm->tuning_ena=
+ble);
+> +       if (sdm->pat1_enable && !(readl(common->base + sdm->pat1_reg) & s=
+dm->pat1_enable))
+> +               return false;
 > +
->  /*
->   * As far as RTC functionality goes, all models are the same. The
->   * datasheets claim that different models have different number of
-> @@ -883,6 +888,8 @@ static const struct of_device_id sun6i_rtc_dt_ids[] =
-=3D {
->                 .data =3D &sun6i_rtc_match_data },
->         { .compatible =3D "allwinner,sun50i-r329-rtc",
->                 .data =3D &sun6i_rtc_match_data },
-> +       { .compatible =3D "allwinner,sun60i-a733-rtc",
-> +               .data =3D &sun60i_rtc_match_data },
->         { /* sentinel */ },
+> +       return !!(readl(common->base + sdm->pat0_reg) & sdm->pat0_enable)=
+;
+>  }
+>  EXPORT_SYMBOL_NS_GPL(ccu_sdm_helper_is_enabled, "SUNXI_CCU");
+>
+> @@ -37,18 +40,27 @@ void ccu_sdm_helper_enable(struct ccu_common *common,
+>         for (i =3D 0; i < sdm->table_size; i++)
+>                 if (sdm->table[i].rate =3D=3D rate)
+>                         writel(sdm->table[i].pattern,
+> -                              common->base + sdm->tuning_reg);
+> +                              common->base + sdm->pat0_reg);
+>
+>         /* Make sure SDM is enabled */
+>         spin_lock_irqsave(common->lock, flags);
+> -       reg =3D readl(common->base + sdm->tuning_reg);
+> -       writel(reg | sdm->tuning_enable, common->base + sdm->tuning_reg);
+> +       reg =3D readl(common->base + sdm->pat0_reg);
+> +       writel(reg | sdm->pat0_enable, common->base + sdm->pat0_reg);
+>         spin_unlock_irqrestore(common->lock, flags);
+>
+> -       spin_lock_irqsave(common->lock, flags);
+> -       reg =3D readl(common->base + common->reg);
+> -       writel(reg | sdm->enable, common->base + common->reg);
+> -       spin_unlock_irqrestore(common->lock, flags);
+> +       if (sdm->enable) {
+> +               spin_lock_irqsave(common->lock, flags);
+> +               reg =3D readl(common->base + common->reg);
+> +               writel(reg | sdm->enable, common->base + common->reg);
+> +               spin_unlock_irqrestore(common->lock, flags);
+> +       }
+> +
+> +       if (sdm->pat1_enable) {
+> +               spin_lock_irqsave(common->lock, flags);
+> +               reg =3D readl(common->base + sdm->pat1_reg);
+> +               writel(reg | sdm->pat1_enable, common->base + sdm->pat1_r=
+eg);
+> +               spin_unlock_irqrestore(common->lock, flags);
+> +       }
+>  }
+>  EXPORT_SYMBOL_NS_GPL(ccu_sdm_helper_enable, "SUNXI_CCU");
+>
+> @@ -61,14 +73,23 @@ void ccu_sdm_helper_disable(struct ccu_common *common=
+,
+>         if (!(common->features & CCU_FEATURE_SIGMA_DELTA_MOD))
+>                 return;
+>
+> -       spin_lock_irqsave(common->lock, flags);
+> -       reg =3D readl(common->base + common->reg);
+> -       writel(reg & ~sdm->enable, common->base + common->reg);
+> -       spin_unlock_irqrestore(common->lock, flags);
+> +       if (sdm->enable) {
+> +               spin_lock_irqsave(common->lock, flags);
+> +               reg =3D readl(common->base + common->reg);
+> +               writel(reg & ~sdm->enable, common->base + common->reg);
+> +               spin_unlock_irqrestore(common->lock, flags);
+> +       }
+> +
+> +       if (sdm->pat1_enable) {
+> +               spin_lock_irqsave(common->lock, flags);
+> +               reg =3D readl(common->base + sdm->pat1_reg);
+> +               writel(reg & ~sdm->pat1_enable, common->base + sdm->pat1_=
+reg);
+> +               spin_unlock_irqrestore(common->lock, flags);
+> +       }
+>
+>         spin_lock_irqsave(common->lock, flags);
+> -       reg =3D readl(common->base + sdm->tuning_reg);
+> -       writel(reg & ~sdm->tuning_enable, common->base + sdm->tuning_reg)=
+;
+> +       reg =3D readl(common->base + sdm->pat0_reg);
+> +       writel(reg & ~sdm->pat0_enable, common->base + sdm->pat0_reg);
+>         spin_unlock_irqrestore(common->lock, flags);
+>  }
+>  EXPORT_SYMBOL_NS_GPL(ccu_sdm_helper_disable, "SUNXI_CCU");
+> @@ -123,7 +144,7 @@ unsigned long ccu_sdm_helper_read_rate(struct ccu_com=
+mon *common,
+>         pr_debug("%s: clock is sigma-delta modulated\n",
+>                  clk_hw_get_name(&common->hw));
+>
+> -       reg =3D readl(common->base + sdm->tuning_reg);
+> +       reg =3D readl(common->base + sdm->pat0_reg);
+>
+>         pr_debug("%s: pattern reg is 0x%x",
+>                  clk_hw_get_name(&common->hw), reg);
+> diff --git a/drivers/clk/sunxi-ng/ccu_sdm.h b/drivers/clk/sunxi-ng/ccu_sd=
+m.h
+> index c1a7159b89c3..c289be28e1b4 100644
+> --- a/drivers/clk/sunxi-ng/ccu_sdm.h
+> +++ b/drivers/clk/sunxi-ng/ccu_sdm.h
+> @@ -33,21 +33,31 @@ struct ccu_sdm_internal {
+>         u32             table_size;
+>         /* early SoCs don't have the SDM enable bit in the PLL register *=
+/
+>         u32             enable;
+> -       /* second enable bit in tuning register */
+> -       u32             tuning_enable;
+> -       u16             tuning_reg;
+> +       /* second enable bit in pattern0 register */
+> +       u32             pat0_enable;
+> +       u16             pat0_reg;
+> +       /* on some platforms, the sdm enable bit in pattern1 register */
+> +       u32             pat1_enable;
+> +       u16             pat1_reg;
 >  };
->  MODULE_DEVICE_TABLE(of, sun6i_rtc_dt_ids);
+>
+> -#define _SUNXI_CCU_SDM(_table, _enable,                        \
+> -                      _reg, _reg_enable)               \
+> -       {                                               \
+> -               .table          =3D _table,               \
+> -               .table_size     =3D ARRAY_SIZE(_table),   \
+> -               .enable         =3D _enable,              \
+> -               .tuning_enable  =3D _reg_enable,          \
+> -               .tuning_reg     =3D _reg,                 \
+> +#define __SUNXI_CCU_SDM(_table, _enable, _pat0, _pat0_enable, _pat1, _pa=
+t1_enable)     \
+> +       {                                                               \
+> +               .table                  =3D _table,                      =
+ \
+> +               .table_size             =3D ARRAY_SIZE(_table),          =
+ \
+> +               .enable                 =3D _enable,                     =
+ \
+> +               .pat0_enable            =3D _pat0_enable,                =
+ \
+> +               .pat0_reg               =3D _pat0,                       =
+ \
+> +               .pat1_enable            =3D _pat1_enable,                =
+ \
+> +               .pat1_reg               =3D _pat1,                       =
+ \
+>         }
+>
+> +#define _SUNXI_CCU_SDM(_table, _enable, _pat0, _pat0_enable)   \
+> +       __SUNXI_CCU_SDM(_table, _enable, _pat0, _pat0_enable, 0, 0)
+> +
+> +#define _SUNXI_CCU_SDM_DUAL_PAT(_table, _pat0, _pat0_enable, _pat1, _pat=
+1_enable)      \
+> +       __SUNXI_CCU_SDM(_table, 0, _pat0, _pat0_enable, _pat1, _pat1_enab=
+le)
+> +
+
+Don't introduce an intermediate macro that looks _almost_ the same as the
+macro the driver is actually supposed to use.
+
+Just declare _SUNXI_CCU_SDM_DUAL_PAT() to expand to the full entry, and
+_SUNXI_CCU_SDM() to _SUNXI_CCU_SDM_DUAL_PAT() with the last two parameters
+as zero. That takes less lines.
+
+
+ChenYu
+
+>  bool ccu_sdm_helper_is_enabled(struct ccu_common *common,
+>                                struct ccu_sdm_internal *sdm);
+>  void ccu_sdm_helper_enable(struct ccu_common *common,
 >
 > --
 > 2.52.0
