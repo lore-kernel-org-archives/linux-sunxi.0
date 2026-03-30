@@ -1,50 +1,53 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 135E22EB874;
-	Mon, 30 Mar 2026 15:54:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B688F374E4E;
+	Mon, 30 Mar 2026 15:55:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774886056; cv=none; b=O34WoIRO8UBH7uIONHOHLjgI+t+1QSx2oNjMESQyLRbR15MAhdb3g1U2HOF3IU7ybylMr3QO4q6fuNkBgv5wmQQJDwOPPTeJZoBcnc2evcUIBZ+ZLA0G7QzAH3B/eLmYHumrLY1nr7wZova5tOw0mSQEwGoMz26ZXBFE3vlUeU8=
+	t=1774886132; cv=none; b=huai49LY5vRozeOjNJBkUNuqK2TkpEJaAwCZxtwmpVJf6tMzxAUMqpU6DOFRAyY7jocVy55xH1yi/UIVgho5vAYdh1IC0JbVY0NxUJiQpN44ZKAJmMmscBsP9xVzOnMLh7dYWfPthu4q05T7VTxXVUt5fsNmIi57TCM/MxrpB5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774886056; c=relaxed/simple;
-	bh=evRfJZ2H0f5w7cEuYrRalerBqdAFDdmPvV3Byn5zcKk=;
+	s=arc-20240116; t=1774886132; c=relaxed/simple;
+	bh=xvfnu8n9xWUUX3eTGlWSUWqJseakKmLqFYYbqi1qNng=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=pSPQ81D05XwGGNAi07Yz0Il9TsttL5uSaWJJlEL+bUyhcVjhB1NEmLQ+FzSz6x25n6DhE8eA8ad8DqcEJSBwGBhD/GcEq/qnEXoGoPIak5MZOslU4HRpxsM/YpgLr8IkgsoemqTfG2O8G6IL6ZJC4pM+IQWFC3Pa1O+vzQQVq6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=fLMVzIO0; arc=none smtp.client-ip=148.251.105.195
+	 Content-Type:MIME-Version; b=Hy8eaMut0TM/4GhB6Anek8idIcdlDJXysz1UE8vQRsrYpn1BejmOdiCaR/0fl45mHypXbEhQkFTvATKlUKLpax+4ioiSBILYoVp1p6SiHYJ3Wn9wAPprMN/t9PnASndzv94gvorBxI2o7ct9rDjKN7TMywOsHVW4VYKEptX0oVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Sc68ieIf; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="fLMVzIO0"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Sc68ieIf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1774886052;
-	bh=evRfJZ2H0f5w7cEuYrRalerBqdAFDdmPvV3Byn5zcKk=;
+	s=mail; t=1774886129;
+	bh=xvfnu8n9xWUUX3eTGlWSUWqJseakKmLqFYYbqi1qNng=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=fLMVzIO0WL+sc0qyr1bmUKPIeRxe5LGIhn01XN65Tdy4jP0Mbk93NzcokPLqcbb6g
-	 Jw8Vef2vcRCoDEeEHmQMdEk+jzWy4PfbHSNdiJQRp+dllic3Jt0vONpxJRSAsoYXQZ
-	 a8/34zeO0Qlfm/boSMeJiwrib/bcX3BLBId3CXAMdwAj9zPa4ZvAabKtbPYKrnOmOU
-	 7PQN7uJdT+2/5Zi9Peg8rknUiCTsblsLtQ0KZTvrlV0ggTgAipAUPtI8qwo8HVcpL+
-	 RJQTAFEulEKowN2/Uy333hWFXgye6g8tnk2TIsc/ad5nWcdTRhT0OrS3xjhBBg6Xl1
-	 0It6wdX6YaP2g==
+	b=Sc68ieIfol+IQE7DIOloK1UgnGU8qNDmo2WSaON4sgBfUtYPS9via3VA7tGbBTORr
+	 NazvT2v44pBTyMSY2i3icaKZnD6a6cUy0N570nGKn3KVANxwB0voefSZlYxARSz6TR
+	 wGPxDRKtvLUvbU41H0gGyp+aHrYqS5/WBzMUfntfjUMqQi915joFlF9ROsUNEtLU8E
+	 zitiLECuoGbdiFzuaI5QqFjGvCmyl1n5KQgznx5i5zr5XyoJU8XIDjb40SnBdetlfd
+	 lXcjWISzqvOeBWzTbmhCANbHKMtZMyxRps9ecCxSKJstmoLI0Nv8WyGD4nuy7decj0
+	 15u1ufIR/pRMQ==
 Received: from [IPv6:2606:6d00:15:e06b::c41] (unknown [IPv6:2606:6d00:15:e06b::c41])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id EC9FA17E4884;
-	Mon, 30 Mar 2026 17:54:10 +0200 (CEST)
-Message-ID: <ac0caac393dbc7dabe6e0fd530a6a2f9d2742f00.camel@collabora.com>
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id A680C17E4886;
+	Mon, 30 Mar 2026 17:55:27 +0200 (CEST)
+Message-ID: <603785eb48d69bc50c0296fc696eb0985c2a3ac5.camel@collabora.com>
 Subject: Re: [PATCH] media: cedrus: skip invalid H.264 reference list entries
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>, mripard@kernel.org
-Cc: paulk@sys-base.io, mchehab@kernel.org, gregkh@linuxfoundation.org, 
-	wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Mon, 30 Mar 2026 11:54:08 -0400
-In-Reply-To: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
+To: wens@kernel.org, Jernej =?UTF-8?Q?=C5=A0krabec?=
+ <jernej.skrabec@gmail.com>
+Cc: mripard@kernel.org, Pengpeng Hou <pengpeng@iscas.ac.cn>,
+ paulk@sys-base.io, 	mchehab@kernel.org, gregkh@linuxfoundation.org,
+ samuel@sholland.org, 	linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, 	linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, 	linux-kernel@vger.kernel.org
+Date: Mon, 30 Mar 2026 11:55:26 -0400
+In-Reply-To: <CAGb2v674Ei2uFh6O0LoFoJrPcqGKGr_v+hfvE7TSfwztxDfTAA@mail.gmail.com>
 References: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
+	 <2823210.mvXUDI8C0e@jernej-laptop>
+	 <CAGb2v674Ei2uFh6O0LoFoJrPcqGKGr_v+hfvE7TSfwztxDfTAA@mail.gmail.com>
 Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -60,7 +63,7 @@ Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Organization: Collabora Canada
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-kv04JgWUz8A1UA6gWqGA"
+	protocol="application/pgp-signature"; boundary="=-UJIS4LK7twx1My3JsxhL"
 User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -70,72 +73,61 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 
 
---=-kv04JgWUz8A1UA6gWqGA
+--=-UJIS4LK7twx1My3JsxhL
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le mardi 24 mars 2026 =C3=A0 16:08 +0800, Pengpeng Hou a =C3=A9crit=C2=A0:
-> Cedrus consumes H.264 ref_pic_list0/ref_pic_list1 entries from the
-> stateless slice control and later uses their indices to look up
-> decode->dpb[] in _cedrus_write_ref_list().
->=20
-> Rejecting such controls in cedrus_try_ctrl() would break existing
-> userspace, since stateless H.264 reference lists may legitimately carry
-> out-of-range indices for missing references. Instead, guard the actual
-> DPB lookup in Cedrus and skip entries whose indices do not fit the fixed
-> V4L2_H264_NUM_DPB_ENTRIES array.
->=20
-> This keeps the fix local to the driver use site and avoids out-of-bounds
-> reads from malformed or unsupported reference list entries.
->=20
-> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
-> ---
-> =C2=A0drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 3 +++
-> =C2=A01 file changed, 3 insertions(+)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> @@ -210,6 +210,9 @@ static void _cedrus_write_ref_list(struct cedrus_ctx =
-*ctx,
-> =C2=A0		u8 dpb_idx;
-> =C2=A0
-> =C2=A0		dpb_idx =3D ref_list[i].index;
-> +		if (dpb_idx >=3D V4L2_H264_NUM_DPB_ENTRIES)
-> +			continue;
-
-Matches how we skip inactive references (in this diff, though most userspac=
-e
-just don't pass them). Now, if I looked lower, we set a position for each
-references. My understanding is that if no bits are set, it means "no posit=
-ion".
-How much testing have you done to confirm the HW behaves properly ?
-
-Despite this question, I think this is going to work better then doing memo=
+Le dimanche 29 mars 2026 =C3=A0 20:44 +0800, Chen-Yu Tsai a =C3=A9crit=C2=
+=A0:
+> On Sun, Mar 29, 2026 at 5:21=E2=80=AFPM Jernej =C5=A0krabec <jernej.skrab=
+ec@gmail.com> wrote:
+> >=20
+> > Dne torek, 24. marec 2026 ob 09:08:56 Srednjeevropski poletni =C4=8Das =
+je Pengpeng Hou napisal(a):
+> > > Cedrus consumes H.264 ref_pic_list0/ref_pic_list1 entries from the
+> > > stateless slice control and later uses their indices to look up
+> > > decode->dpb[] in _cedrus_write_ref_list().
+> > >=20
+> > > Rejecting such controls in cedrus_try_ctrl() would break existing
+> > > userspace, since stateless H.264 reference lists may legitimately car=
 ry
-overrun:
+> > > out-of-range indices for missing references. Instead, guard the actua=
+l
+> > > DPB lookup in Cedrus and skip entries whose indices do not fit the fi=
+xed
+> > > V4L2_H264_NUM_DPB_ENTRIES array.
+> > >=20
+> > > This keeps the fix local to the driver use site and avoids out-of-bou=
+nds
+> > > reads from malformed or unsupported reference list entries.
+> > >=20
+> > > Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+> >=20
+> > Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>=20
+> Tested-by: Chen-Yu Tsai <wens@kernel.org>
+>=20
+> This fixes a KASAN slab-use-after-free warning when running fluster H.264
+> tests.
 
-	Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Ah, very good, can you cite which test caused that ? I didn't expect fluste=
+r to
+cover cases with missing references. I think it will be handy for future
+testing.
 
 Nicolas
 
-> +
-> =C2=A0		dpb =3D &decode->dpb[dpb_idx];
-> =C2=A0
-> =C2=A0		if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
-
---=-kv04JgWUz8A1UA6gWqGA
+--=-UJIS4LK7twx1My3JsxhL
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCacqcoQAKCRDZQZRRKWBy
-9DAQAPwKkG9KdjJow+AAJHKaPq3Zeel97DZlNnHZBVd/Ag0xRAEAs7QtX42z2jd5
-4nollgoY5CGJnkjx9RVSHq+m86uwcgU=
-=/FV6
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCacqc7gAKCRDZQZRRKWBy
+9FkKAP0bRa5EpH2LNXuNv/NodKoSH3KIa/khjuqrhbX9hctiygEA85x995KxTAzc
+dj+/4z58jnmVuiq/T+Q69UrRdK9ypAg=
+=STk2
 -----END PGP SIGNATURE-----
 
---=-kv04JgWUz8A1UA6gWqGA--
+--=-UJIS4LK7twx1My3JsxhL--
