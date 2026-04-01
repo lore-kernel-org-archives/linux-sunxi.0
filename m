@@ -1,156 +1,143 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011032.outbound.protection.outlook.com [52.101.52.32])
+Received: from s2.avantea.pl (s2.avantea.pl [46.242.128.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F097405AD2;
-	Wed,  1 Apr 2026 12:58:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775048339; cv=fail; b=vGV3DPjvHwm1/5/yy24D2AJeVCdeKRkkVPxXNoswnrgcpuaoP0Wwz01vHsjeX5XUh1m1AolgCw5WonkLkQHXgHuL8VCz6EJRSHWgKsPJkphPfFWhth0w2tNZeARkUBcTksqtTOIJjgOmn8BT3sJJMsLGwv0Arjuflri/hPn/4Tw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775048339; c=relaxed/simple;
-	bh=iRvSg2X5oF+wex5OLrs7/ynRUevh5KTOF8iDw5s+bIc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ECRwGDuqoAj8NvCdmUFIYRhHmRjoiK2BnVVfrDCYgbZDNIyY4hGRKTvIk/MBttxq4UjAr9fXWBz2dJ1zDkIVZJzo8Udhq7K6HFin92G0ebLIcpP945E8wOc+Uc9jWmgi4JkMB+JwOZ5kah0CqCdpE6AS9RJ+SbN3cLlPyWlXVyk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Iqmn9va4; arc=fail smtp.client-ip=52.101.52.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4948F337688;
+	Wed,  1 Apr 2026 15:25:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.242.128.95
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775057151; cv=none; b=od6tHDzfAMCe0Ft+gwwKEodZ3A1My1r5UPGqGJZVNOuJGQGWMnaQPHos2GQCkf9oE82MKYstdSVxQYxm/i8LHJKafGrdO+dfIeZGYE6HYXLlHFYineHNbUtEJ4V5naxuEhkgv17qomyQAESq8iZXa8zrM1TkNb2GCjtQ3Sq9JYA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775057151; c=relaxed/simple;
+	bh=Ii/eJ5h1USlct5eSHcumUHTZoUYSvDC7KyxJIGIed04=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bIOEqdePJWLcbHmXNEipTpeJxazmBjPsf22lUsmNA5x/bWBW6EIh3/WwSS798vUPtfTGHViU61cISTXznJJnLFU37I+WrCmsNOLn3ii4FbUremKbbXThOSuBNKAPcZvEOVFVH4H9LV87AxxbuyQwaOIHKu+JXocYdh+t99C7NcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=szczodrzynski.pl; spf=pass smtp.mailfrom=szczodrzynski.pl; dkim=pass (2048-bit key) header.d=szczodrzynski.pl header.i=@szczodrzynski.pl header.b=dTapjwhl; arc=none smtp.client-ip=46.242.128.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=szczodrzynski.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szczodrzynski.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Iqmn9va4"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=joBN8NzTHhwAvsKv/6WkFEDO1lS+GSbE4jJc2SvR7BV3Z0yOCbK1pgkEIpzJTDzNicMEsjnaIPFdR4S6S18eGV59JjHh8Oag/ri+NYduOXOHJ737ZkEBjZNxVbLUDJXEPNh60WFt3RqYa+TnrZ7y2Nn8G01iyPy+u75VdaBKU9AX8zPlTz8n6YfWZjkYAPNEZWbZf1HeHzRShr+lhgz5XRSYJUnZ870RhAOKCEfmcti3rK3iyG9BbhDEmdB/4wv9OvSpgrlPH1UZybWK+ngkbDKt99oASyUSyeEeehHu9URU7FnDAcpHFv4WweuI/XZoEdY0aE+bGujBhsFtnW0Snw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iRvSg2X5oF+wex5OLrs7/ynRUevh5KTOF8iDw5s+bIc=;
- b=MqObNlCGMWhQ+cc48nSi3DKypHZ58hpbcPcbbN8PciFgXlnRu0KVN1tD8+ny8eezix71h7U3btktNEc0j6tkUfS3aLYCD4AEkMv3OsBHNDbPfBrOEHmURNUbjdar4980PuaUPQTbY/ZZWscW3zBbDcfJrfTYCJPT4FeJROno/eYgokGMV99QrOfMTZFbj0VKuQxdtRfkmSISaklZD1pFsew0GGI9xv6dL9UlmH5dstAmspCVhHR3aupVFkOG+gEuK4RUY1AQHUpKWYvSreWH4A0a95ktZmjSpNT3f0L4rBx8dSGStRZFLxfywojMjVM0fQV72sp7uzjbU+ucWXTFkw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iRvSg2X5oF+wex5OLrs7/ynRUevh5KTOF8iDw5s+bIc=;
- b=Iqmn9va4ePHAQKUQmxcxPxUWVSxpAvrtQwP9oBXjZC5MYyY4TX37DJTv7eLh1oRtMwL9efv6SXnTd2KodVOFD7sdZPrxE6jC1cLqv0RJXq8FVNWkEfRF2Poj03kC9Qfup20vrlRsh5JLEaIR8DnAJbOj2UKLnBimkpWjbpe4REHne0kzv3hWFDK1BGXTr9ynU/7Cu6RA5AVwHD20gmb+JCOQidBi86c4ps8iCfMcohL5XodeVMM34oYZzTthOOUbPklHd8pzpkK8rgsyWSwRBms/Vp700i3YD2k0PICLy9XSV+ywMo/1DjGn4fplVwicBwG09T/6ViW2ade5fTcfpQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by SN7PR12MB7322.namprd12.prod.outlook.com (2603:10b6:806:299::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.16; Wed, 1 Apr
- 2026 12:58:51 +0000
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528%5]) with mapi id 15.20.9769.016; Wed, 1 Apr 2026
- 12:58:51 +0000
-Date: Wed, 1 Apr 2026 09:58:50 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Pranjal Shrivastava <praan@google.com>
-Cc: Alexandre Ghiti <alex@ghiti.fr>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
-	Baolin Wang <baolin.wang@linux.alibaba.com>, iommu@lists.linux.dev,
-	Janne Grunau <j@jannau.net>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Jean-Philippe Brucker <jpb@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Neal Gompa <neal@gompa.dev>, Orson Zhai <orsonzhai@gmail.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
-	Samuel Holland <samuel@sholland.org>, Sven Peter <sven@kernel.org>,
-	virtualization@lists.linux.dev, Chen-Yu Tsai <wens@kernel.org>,
-	Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
-	Joerg Roedel <joerg.roedel@amd.com>,
-	Jon Hunter <jonathanh@nvidia.com>, patches@lists.linux.dev,
-	Robin Murphy <robin.murphy@arm.com>,
-	Samiullah Khawaja <skhawaja@google.com>, stable@vger.kernel.org,
-	Vasant Hegde <vasant.hegde@amd.com>
-Subject: Re: [PATCH] iommu: Always fill in gather when unmapping
-Message-ID: <20260401125850.GZ310919@nvidia.com>
-References: <0-v1-664d3acaabb9+78b-iommu_gather_always_jgg@nvidia.com>
- <ac0AKyvHMYHlqL5i@google.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ac0AKyvHMYHlqL5i@google.com>
-X-ClientProxiedBy: BN9PR03CA0066.namprd03.prod.outlook.com
- (2603:10b6:408:fc::11) To LV8PR12MB9620.namprd12.prod.outlook.com
- (2603:10b6:408:2a1::19)
+	dkim=pass (2048-bit key) header.d=szczodrzynski.pl header.i=@szczodrzynski.pl header.b="dTapjwhl"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=szczodrzynski.pl; s=x; h=Content-Transfer-Encoding:Content-Type:In-Reply-To
+	:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Yfl/w1ij3MgpyEqu5acDmeSHKzp1JdcGMEvJsVUioeI=; b=dTapjwhlsakHuG9/ro3lz63N01
+	XdRqX6PAtHDsv/Hqx89CpF904TiwsjZnD8ckUY/929k3Kqh6zJWEV/bZwHUToTvKGf9yVJ6uGH3ls
+	8Kwrz9WhU0B/zKeitP6JlW0f7htpsvS6bhNBxQXHc1qf9f77rtkXHumMFFi0polKAmpE1zRkNzspa
+	fHCxnwx+tD75qpHwxRukvdgbcqzqhSja9xlzKE8/AnrpaVpvoBqytXXymP5r5Ao7xRd6gc1mYVTR8
+	2QTy+ybeTSBCzaSl9bns7x65+O5sMF5eXEPOAWZiSq47yrUdD32xbkhLxziC+Rkra+/azUmpQMB6A
+	ZJ/I/QVg==;
+Received: from d100-78.icpnet.pl ([77.65.100.78] helo=[192.168.0.120])
+	by s2.avantea.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.98.1)
+	(envelope-from <kuba@szczodrzynski.pl>)
+	id 1w7x8q-0000000Ajrx-2VZg;
+	Wed, 01 Apr 2026 17:06:00 +0200
+Message-ID: <5e9f5f0c-1ff0-4b6c-ad2d-ccf6fafbef30@szczodrzynski.pl>
+Date: Wed, 1 Apr 2026 17:04:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|SN7PR12MB7322:EE_
-X-MS-Office365-Filtering-Correlation-Id: 72902b0a-31dc-414d-a8a1-08de8fee6c47
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	4UJx0E8KWXxHEMICwrNdAVkp7OhhenLehH8KTzh8t3iQRG/tWO1nlu9J3SRNRLZ2A7NjVBobHuZbnwSaS7nTbw9EcGUj/PmUG6ZI9EvKOYkreohgt1GJ8+W65G8MZeJ5pOHARfPgUkKIyT4DLp4hymC9k0ycY0LN5uI+uXoWZFidLBXRdSjERD6/ww8DfDf1Wu8vloxs7B2cst/QR5lzcHSPmNR4bPZ8bBfUfHggjHwV0vL2EupyNjQXesXUXQlk0otCsXnWQx2CLvPr6LkjkBnzv0pSwbbU18W+/zvT/KPTi9V34zAoFrTagoCLyAb2YVNwcP6iBBPbJBtj6orijRT0bjG+tAYwn5OKSTKahLbRts4NkAepxVvxQURv5UHSFLczGYTc5SDokMYdz6nx/x0EAoELXahIdSjGQ+F6+cHDQSgIdUE+INFxOcaMUsJZll7e6YGxmmhRhVusOqkjiyfE+AhD2o48LE7s4SlccUn0lWzyLFMHcwVZljfK6hTgLM2DCm/8vamVKqaXeGq4FkU/aNbK9OSJAvrJq6ajuNyhY0fL4vj+QGKBPgW5gKLCEiw3sFFdNBzTU4jUAS3aIrr84YjE4Qovnz9C6kwaymFwaGc0A9UxrctuT/RUDGs393ZMRsWG8Gb+R/WVZfQrpYqyy8EOxhx1FRyhobwwAVJB9Vu4A2xM2+igY52IiEp8mojRcvXIt0lAiLgKBaltj0FwI1y7QPsg/2Z1dxwMUDc=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?p3wbNsyZlG8XYPWHQx9nS9eGLdJD980HE2+h3I70baHz8agh2DJoXgjKQRaG?=
- =?us-ascii?Q?lOsAH8d07sLCQgP+yFBBn8453tQCUJ7Yvt1OGC/0wMWkCq6S7eGi6MRIu1vg?=
- =?us-ascii?Q?mAOCAEDyNfgvqTttEZT0sRxP3h17aIkxVl5giSKfqkhCM1PCtnbw57lz2Jw8?=
- =?us-ascii?Q?ZUrvTZJqLQr+y1SJTS3y27/v4g90o9SDkxFdyLBLoSXRL7MbgaHY0IvKx1zZ?=
- =?us-ascii?Q?p8BG3+NY0TN2Zj3hePBnM2qlchWD/HWsgRoiTs73VXqyMbtIRnwtdMY2Yj96?=
- =?us-ascii?Q?xYTK5zbCl/T7LcUX7S3Rx3bC40jP1R8m9IfMpA7kb2MVTzoyiBQZ6vFSgRC4?=
- =?us-ascii?Q?QflEMutZMWvmXTfaZ2ZQn5ycluCLibrtlGKdZnV1SiGKs4G+QCUdmXOmgltH?=
- =?us-ascii?Q?Ms2uuez/BftatZMsizsNfJW6vu/e5GHAUXjJE9mOTcgYdq4rMVQE3EdBz+fw?=
- =?us-ascii?Q?hWeynXyMJZ93+s931SP7hkcB7U0Yz17UmaMXJ25u4s1QTY4FcaUUp9KtQcFP?=
- =?us-ascii?Q?xmoM5VNwJ7fAZ2TEHOGq/xsghsvka5Acov+OhZHaBZn52nwXs+obCUrk3nsT?=
- =?us-ascii?Q?jksm4etXBwuzKEGRUMjrPH8uvrKT17plpQlhveAsnv4UVDDkTHu2306rUW8D?=
- =?us-ascii?Q?lbeVB6fkqVDc0HY6QlIYGNGI8GHBrzG+DOYjnbejqWvrIvdbwy6CmJycY3cH?=
- =?us-ascii?Q?Yei+0bH2fPLkb3e/A8ctkRtgX6mcwvpGwGyml5bCJlS9p5AxTLfG1EY/kw+5?=
- =?us-ascii?Q?pkUWRm5EsI/leVbLzAC0qlXp3qsqhtCCwes0dJ0JJAVofyCHjrQOc/x3wV8c?=
- =?us-ascii?Q?iZ6GsGzx5VaU3EOZlKYTvkowA4pFUvpsTIYb8czXSsrFevrPs63HeCj4pb6g?=
- =?us-ascii?Q?4BnaWt/2mz0yK7ZkrZ1GqUHwxv6+sMWTpOVpgGgWkCXSKzOgHIgt+4/xEUxY?=
- =?us-ascii?Q?z0Z/9/nHQpEdudvXV0M7CLYkTdVyhnrBYckmuxL7ZY+Yc0V4Eep7fEsnIWMP?=
- =?us-ascii?Q?jgvA/tJdpU2+LR/9mJf3O83sa64LUunv2W8AICcuxlad+pylx7SDmaXJgRwo?=
- =?us-ascii?Q?YnwCg7kwwI64K5uwvMvN/0WqJMGhC1D5MCf7+u+pOWX95GhYbLfAdH9y9Bom?=
- =?us-ascii?Q?ZSAutN/dMST3sESGjZ5Uf7pm/Y/idR/oAlnHS+znlQoixQBFP9KTw/GGTmgB?=
- =?us-ascii?Q?3CKSiP1mbnWsAt4wq+WPA3LCgqgFtaXLsyNAmL04HzRQBkIOBwazlxSunNNa?=
- =?us-ascii?Q?RLwxHyl6kbI95p/YTsmZfZOO/aeTFR3dts2BGoa4XccJOmA9wganzIP08jlD?=
- =?us-ascii?Q?o9bkqEc0l6HgeUSf7Un28bsrvthnB8g0rEWHZli1bhAyLxoHhVXO/XyilZEd?=
- =?us-ascii?Q?RXR2eEws0ybUxsQTge6LnRedaChu1qw+RuisK0HZAEE8RZx5DGOHPGgPw2OQ?=
- =?us-ascii?Q?wLHRTZ8Eh/En6usoxHe/NzcMGf+uiTVCtkt8woDU5rKk1tQBYsujuVG2xhAR?=
- =?us-ascii?Q?gQ3yzIYXa3qNnkWzCSS86qAN1vowhc31PE5JvwjZu7yiJBfVF64JOASB3Jos?=
- =?us-ascii?Q?IXxUlW1F2NYrskmkQUofVr5/toVTuHuUCyGwnCvZWcNOelO58n3JVit+c9MB?=
- =?us-ascii?Q?VT8pTsRTboSKMWuwYIEXfg8tkVHftxs7j5Xa6ThJIT10j8WBPkZIRwH88/BL?=
- =?us-ascii?Q?bfyc75GzKqtD2CwsiwBWhJhC60fo4i1JhZT47dmLLj1HGFUU?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 72902b0a-31dc-414d-a8a1-08de8fee6c47
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 12:58:51.6213
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: G34U7eBhHK8zZIUrrohGinMZLSJr2Ti8+0M0ATW6PziKkhNm31/1szIUFRH74VMQ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7322
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/6] drm/sun4i: Support LVDS on D1s/T113 combo D-PHY
+To: Parthiban <parthiban@linumiz.com>, Maxime Ripard <mripard@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, paulk@sys-base.io
+References: <20250221161751.1278049-1-kuba@szczodrzynski.pl>
+ <20251116134609.447043-1-kuba@szczodrzynski.pl>
+ <a5f6aeb1-b038-462e-8989-c4da65966134@linumiz.com>
+ <1027afd7-dec6-4ff3-85eb-2d9a1646ada6@linumiz.com>
+Content-Language: pl
+From: =?UTF-8?Q?Kuba_Szczodrzy=C5=84ski?= <kuba@szczodrzynski.pl>
+Autocrypt: addr=kuba@szczodrzynski.pl; keydata=
+ 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
+In-Reply-To: <1027afd7-dec6-4ff3-85eb-2d9a1646ada6@linumiz.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Authenticated-Id: kuba@szczodrzynski.pl
 
-On Wed, Apr 01, 2026 at 11:23:23AM +0000, Pranjal Shrivastava wrote:
+Hi,
 
-> I was wondering if, as a longer-term direction, having an explicit flag
-> for these drivers to indicate they always require a sync would be a
-> cleaner way to handle this than the trivial population?
+W dniu 2026-04-01 o 10:39:42, Parthiban pisze:
 
-My first thought was to just set the gather to start=0,end=ULONG_MAX
-but it turned out to be trivial to just set the right gather parameters
-and it looks like it is basically the same cost..
+> Dear Kuba,
+>
+> On 2/7/26 2:34 PM, Parthiban wrote:
+>> On 11/16/25 2:46 PM, Kuba Szczodrzyński wrote:
+>>> Some Allwinner chips (notably the D1s/T113 and the A100) have a "combo
+>>> MIPI DSI D-PHY" which is required when using single-link LVDS0. The same
+>>> PD0..PD9 pins are used for either DSI or LVDS.
+>>>
+>>> Other than having to use the combo D-PHY, LVDS output is configured in
+>>> the same way as on older chips.
+>>>
+>>> This series enables the sun6i MIPI D-PHY to also work in LVDS mode. It
+>>> is then configured by the LCD TCON, which allows connecting a
+>>> single-link LVDS display panel.
+> Now I also have the MIPI and LVDS working together on A133. Can I pick your
+> changes and post a combined series for the display support for A133? This will
+> also address D1s/T114 as well.
 
-Adding a flag would mean we have to test the flag on the other case
-where we don't use this flow, which doesn't seem good either.
+I guess it's been waiting for too long anyway - so yes, if you know how 
+to push it further, then please do so.
 
-Jason
+Regards Kuba
+
+> --
+> Thanks,
+> Parthiban
+> https://linumiz.com
+> https://www.linkedin.com/company/linumiz
