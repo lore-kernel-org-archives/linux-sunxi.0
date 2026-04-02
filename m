@@ -1,128 +1,105 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356CC23A984
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Apr 2026 19:15:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D84286D5C
+	for <linux-sunxi@lists.linux.dev>; Thu,  2 Apr 2026 13:00:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775070915; cv=none; b=F7Ab0e0RyvmuSNg6Wv2HGlw+mwE0zzTwWvS/hOiJFDBPnW2pC6qdAFDdt6X+MEM1JZzoScnyZ5HHrGwQyGxDS2ZhRbXz74w9aPhMFM8dQcGNNrTh9tuhVlOgxwDljZ8b4qGlvOBjzXn9GRs5Tk0fnKyi9Ik65OEAdcAsNUVA2AA=
+	t=1775134859; cv=none; b=GyhqK3M75mN3nBket6EGEUMX4oarMBQPwWN3Awq0PIBk0rTvfavTw/AsG1V7aTmsajHOswFKMh72W0FDRyv9J3gI1mTeKweCrJagGYJOXPd+Gqa5F9PZduHjrp3d/fR6GHIwQWahEViMHO9w6vBUhPia/C7o+mpcdaygBcWEg9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775070915; c=relaxed/simple;
-	bh=OJ8d86r1cv2Dz9K0VOKzDX9IeSSniN4yMPUR9rzI5RM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=B9wI7DTmSd9J5Hlfn21AzwQEl4ESp/6oqK4OZ7e4p83wBHdJSPxcAh0sq2gLz1Do7zHiAz61EsgYdy/aMXPtC1+J87Q5IetdBMfV4FbQ0fdGKUC1SFuh1oaP4jJYloaPvS9WpNURM0e/YdRnjlfKG1xCR+u1+hvJxZ6qqfv5UoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lFadfKeM; arc=none smtp.client-ip=209.85.167.51
+	s=arc-20240116; t=1775134859; c=relaxed/simple;
+	bh=P4aQMbaBnnxQLePUnINQzLxACT0pK5SmCXI4vlruYo4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZviADZOeo5SAzQGKKufe1Tarf6jxnWCpCmX/FLLX404A7WcZZtiBX+jWtgCp1cbbGGvKnE0zVTBlkwv9qCZR44v/PnW2PPoBgts6RbEkH+uOuszJAypDXBygnf1bS4mMEyeF3/zxumV1WSifaj2hXl9HirM2eml0kB+uiDV+YaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UyffRfbd; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lFadfKeM"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5a0ff30b240so192950e87.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 01 Apr 2026 12:15:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UyffRfbd"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-48541edecf9so10148205e9.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 02 Apr 2026 06:00:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775070912; x=1775675712; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r8KcYzflmFoH6kQuwH+mgkFuRmADtPPTvOe6lcVTKSM=;
-        b=lFadfKeM8LfUepjK8L+7IPkc8R9HMlRmB6zTa9NSMS0cwYl9EXZZKVC5KJRhnkcNg+
-         RejIqVj3NpLyFmVysdVz9/Y1WJ5YMtSkc/4z7iJgZADziyEZBJL+B7JUUqZnZYRW/B/p
-         0OYWjBIy5vg14N31i1nuhS7+FSxvQEqpXZf9HHSeSKzQOfdmozvA+qVlYW4gB5KIeQHn
-         /P3cxPntC7sTKQnjVddz3Qw8+RqIeQ4/HivgByfVsuv36RfFi5HiS0FHXgyNHEvvK8Q9
-         rpscdMpbpq/1kdlQSqDJJDW1G/Wnzuvl70NX4wo/KkAhs/ED2tR3LLPbuGiSRlpKbIaC
-         tx/w==
+        d=gmail.com; s=20251104; t=1775134847; x=1775739647; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WBUUN37+QBAzPQbNHxZUZ/UPJ9R3fSHJHiwX6qvjBAA=;
+        b=UyffRfbdjflkA2XUFg2XkCLD9b0ikEr8Pv8hW1+0hURjNwq3t124qhR/N8VcuVNrTT
+         TLscR5a5uskjyuavCnnnT04hHSDSbCTRcA5ZYQb4FKpqYxuKwYT0O2BRTm0Idc0mubLg
+         y8U/aJBPdjzbOGl4uc8eRgq3C0kR/ojoIi3Fr4V6bnTgY9rTGLuNqwKxgL36vxVFBLfB
+         0ZtnFlf6iAR062jJffwK9RlaLy9HO1Ni7EQyD+n6Qx/FfhHj3lckhIjN6AoK6MphAkxp
+         49QW/VQwE6GVEMIlk732q7I2ACeG6CeOi8JpGOapnddu0EP2HHSSYkB1jO6fgLjzsoAj
+         ZpnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775070912; x=1775675712;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=r8KcYzflmFoH6kQuwH+mgkFuRmADtPPTvOe6lcVTKSM=;
-        b=EHm+R1P/wdz8DgNpa+pklwKwI8Mxv6oHfnDIWB1KX+i+qYE2hFI5GmrV6HjBdcgjgp
-         88vD0mTO1pRxreCv6jg02jCm0lwiqxTMAna3qxNGPuPg0Iulo0EDfLcSL0Of4Ih+bu6c
-         6FVG8a76s+w5W74w7twiwyKH836eUc67PQrX2MHomKkXgRaG1ujNz9U81MHemaHBymL1
-         tDT54uelCATyetsNI4s/lB9kll7dqmix8TUsIsqPh/hY7/SoqklqD+TAkKOG3W7iXZ2B
-         QIhhDmaz30omyvSoGBbkHaOVm7NutcGM4T8VJChYnjl7SEkmGjek5ekATQU6QePDlzB2
-         I6ng==
-X-Forwarded-Encrypted: i=1; AJvYcCVIY+t1dgvVgRxByq6MKsxY0mHUoGweV5IpLi2kOfU8NPWrmJqXTVMa0sNbYUAANnxNgB8fLmh7coUobQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwQGLhI/S2buKJTccTozuwOcLmxXZGQzOCr+DBNzLWu64x7Iz4y
-	rfyGKVG4dqFsl1NJfeJvutLF463CucBnKwJwOhZpZJCbKyv5ASJ+VuUs
-X-Gm-Gg: ATEYQzwR/e6jQ0TQ9xVQ59V0GFL1ZR9mFt4spbfSfKlGsa93+uVyO3ymrrYIZ2Wd6dq
-	2EYINLgmswwVKIgV7Bp0PW/Z3RFNg+46jMO1xhZt4SLxqrjT3gL6lgcgMYjX2VsIIt5H+eaiurd
-	3Iejhmh8m3R9W9RVekDEq0AahdXCQJnhDV/YiLT7ltxEwuknJRRrMnMENDV2Lf/uI1gIUwMV7lS
-	GS4akfYtDcNZyiyBhVpb5cQDiwkmmtGATN20J/zCjuTsRLQjNUSxlcf8rCm2Nk8i2+a9+L3wM37
-	5eeBvlMpIdYaM3ps8bfuy2ry9xu930jPEFDdUgGvQ1ReI3FwKUqaA6JEZ+tHrUC5GzI5eDe1d+g
-	6uykEe7bCf/G9OQjT448hmunjazfNMuX237kv5kVleX+1qnVuMLVhBMrL7TlK9uUlsQSRVjdLwM
-	Emj6pRhrwjF1YPei2rLRXHJ01oQwsQrt5arBLm
-X-Received: by 2002:a05:6512:318e:b0:5a2:961a:f7c7 with SMTP id 2adb3069b0e04-5a2c7676402mr92043e87.21.1775070912245;
-        Wed, 01 Apr 2026 12:15:12 -0700 (PDT)
-Received: from new-nest ([94.19.228.143])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a2c6ccca2dsm141855e87.60.2026.04.01.12.15.11
+        d=1e100.net; s=20251104; t=1775134847; x=1775739647;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WBUUN37+QBAzPQbNHxZUZ/UPJ9R3fSHJHiwX6qvjBAA=;
+        b=LhP9n+QI2l7YIEecKcCexXngfJaC/5MNifPjkb/SDVlzDZ7hQyAmH+FrUPdiw7/f70
+         8wkTkiNMFSls8+Nqnk0GEsUtfqt8mwixWRI67ikC6KtgOb7NYIL9zs/S4cNWOUzFnGPf
+         h/0nBZT/WUb7dXoWx9JmpTvLogS4cA8b+eOZFc+kcLAT+IkftYUOTdeEEWpPwrFf1IJY
+         DXB2dYjPBrt65SyeCxf07CEes2LyYul0doKcUE1rsTHq1ApZLcZLZY7bPLWCWf4AwGD4
+         XGOUOKDc425GOMgGrzJ5/5UgfLK8t0SpJe8ihJGaW2VhXvH6DLaLPOvao9uebmlvTdmI
+         dC8A==
+X-Forwarded-Encrypted: i=1; AJvYcCUbMCGTGqOHw+ft8yzosYbzK0KpwbxhetCPNB4gdFHyNnBe7uqV7cyg6RJO9pQ1wbKER+j8eqZKUgcd5Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxr3odShumZ2/7ixE9SWoF7OJX2QrrsB/n7K5f59GiSdM2dBymo
+	wBQ5Mw2QXUVPKb0LM/F8uOpmyypUnSXqCziPx+WDu3G654w42/L/A7Y/
+X-Gm-Gg: ATEYQzzfjwejXuWs4U0VryuXvli0TY9XjnUjaH845eddzu+AUF2pZRbzo/rSfgAlEyU
+	oqg/p0HZd+6hG/vkInn4pbF1wYwk04Nf8obJgVWujDmjtdmp/FVijwISXbBOyu4I+SG2ROg1JsG
+	bCFMDpKGmEnCZgQ7DTjuHKK6/QpMp49gD4XyYUhOVVGMVokGNgsBLgUmvUkzClC8ntIgPOuYipj
+	ss++70WnT4wnqZERsIs+9dEykhkQqs97rLTdqXzMpi4vfIylDZLP6rMRE5/H3Rxop6v2QCPPurY
+	Y5IUOjnBDQ+Yv+UXGx+5vdGS7t3ziLtVRXd4dhHLdj69wWclodMq4FWgWskVYjlLo+H4yfknUor
+	hvW3c/ZvfgaONU1lJEQyMAICeuxYjfGmvVRa4zjgzhHlS4W608aBVyC2ASbos08UjT3fxe0iGk8
+	uSSqJkjUOK3tuAQBA3j0A=
+X-Received: by 2002:a05:600c:8b83:b0:488:90ac:8f71 with SMTP id 5b1f17b1804b1-48890ac91bbmr39369785e9.5.1775134847181;
+        Thu, 02 Apr 2026 06:00:47 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4888a626100sm121462725e9.1.2026.04.02.06.00.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 12:15:11 -0700 (PDT)
-From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>,
+        Thu, 02 Apr 2026 06:00:44 -0700 (PDT)
+Date: Thu, 2 Apr 2026 16:00:41 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
 	Paul Kocialkowski <paulk@sys-base.io>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Subject: [PATCH 2/2] media: cedrus: Fix failure to clean up hardware on probe failure
-Date: Wed,  1 Apr 2026 22:14:41 +0300
-Message-ID: <20260401191441.1217646-2-andrej.skvortzov@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260401191441.1217646-1-andrej.skvortzov@gmail.com>
+	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: cedrus: Fix failure to clean up hardware on
+ probe failure
+Message-ID: <ac5oecJ05oZD25VF@stanley.mountain>
 References: <20260401191441.1217646-1-andrej.skvortzov@gmail.com>
+ <20260401191441.1217646-2-andrej.skvortzov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260401191441.1217646-2-andrej.skvortzov@gmail.com>
 
-From: Samuel Holland <samuel@sholland.org>
+On Wed, Apr 01, 2026 at 10:14:41PM +0300, Andrey Skvortsov wrote:
+> From: Samuel Holland <samuel@sholland.org>
+> 
+> From: Samuel Holland <samuel@sholland.org>
+> 
 
-From: Samuel Holland <samuel@sholland.org>
+git am isn't set up to deal with two From: headers.
 
-cedrus_hw_remove undoes, that was done by cedrus_hw_probe previously,
-like disabling runtime power management, releasing claimed sram.
+> cedrus_hw_remove undoes, that was done by cedrus_hw_probe previously,
+> like disabling runtime power management, releasing claimed sram.
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
-Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Fixes: 50e761516f2b ("media: platform: Add Cedrus VPU decoder driver")
----
- drivers/staging/media/sunxi/cedrus/cedrus.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+The first part of this sentence is missing.
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index 1d2130f35fffc..ee0e286add67d 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -477,7 +477,7 @@ static int cedrus_probe(struct platform_device *pdev)
- 	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to register V4L2 device\n");
--		return ret;
-+		goto err_hw;
- 	}
- 
- 	vfd = &dev->vfd;
-@@ -538,6 +538,8 @@ static int cedrus_probe(struct platform_device *pdev)
- 	v4l2_m2m_release(dev->m2m_dev);
- err_v4l2:
- 	v4l2_device_unregister(&dev->v4l2_dev);
-+err_hw:
-+	cedrus_hw_remove(dev);
- 
- 	return ret;
- }
--- 
-2.51.0
+Otherwise, the patch itself looks okay.
+
+regards,
+dan carpenter
 
