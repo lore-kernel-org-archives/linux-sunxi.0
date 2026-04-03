@@ -1,24 +1,24 @@
-Received: from mail-m49214.qiye.163.com (mail-m49214.qiye.163.com [45.254.49.214])
+Received: from mail-m1973182.qiye.163.com (mail-m1973182.qiye.163.com [220.197.31.82])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB777378D63
-	for <linux-sunxi@lists.linux.dev>; Fri,  3 Apr 2026 07:00:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.214
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3F9309DB5
+	for <linux-sunxi@lists.linux.dev>; Fri,  3 Apr 2026 07:00:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.82
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775199652; cv=none; b=lqXybLSW6dV/G9w8GTuhSA3yyePcLAd95caBrPPn9l1m9Vnaza/4q9BR3HAtAQ+F8/3jRg1yXkobV0rQmNhhih5udBnFBQX0GpX+DnH2qGaLU9hHhQDSGc66oqXO7fCZJZO+XjquiyIWYizcoAzbe9BP8LlN30f1923MLuyHcVQ=
+	t=1775199658; cv=none; b=Lz3sOU1nqOPo4ikRz8jS4Qt/6fWhOC+8r0PGPUnluPJMx68RahvYOkVh7vc29Fqc6IpXkZSdinzC8fwXDDkzqpY+gsOmXLqZ0D/wodZmhaGYGep8kuKqhGIQrqOafThMeDFo6s+heq3HAtE3R8nmbsnsPuzRPDW0U+K3K+fiwB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775199652; c=relaxed/simple;
-	bh=8ri0OPoY/KW3G5nM4FSVP2/vHev0+96L0cNC21OcTwc=;
+	s=arc-20240116; t=1775199658; c=relaxed/simple;
+	bh=mM4aNqvWc5A95bsk94szTpIl5yxidk7QDxh2g1sh4ww=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=RXCaFwranUDXEHJ8S5JFw+v7f8Ww89wP8KKz+d8a7EjIoj+AOcpSePqWVaPklPEsmwnQJhpcrHAROL7ELcYbGJX4H0i5UFia2NJgzbvDRRqcCgMrnuEW0WjDiB6v1OYl0S+JFuP0XnpxQ7eOn0H/nsg9XnWYZVju/inkFqfuTjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=MTggQTmp; arc=none smtp.client-ip=45.254.49.214
+	 MIME-Version; b=kYRxQPsfPqbUL0sZWI6n7DWetu9VOOghegUsy+slmuMfcbe1eaTeBWRHlKj3S8CAM7IMyw0khIpo00IE71NKLA6vVWCN4Kruow5i9vOkdxEdqplRbn2W+sKq2UdViBCNrTIytFZ38aGLYBV+XOqQugSxI6f6a87Fm6EHYjDL8KE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=aFs31TTZ; arc=none smtp.client-ip=220.197.31.82
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="MTggQTmp"
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="aFs31TTZ"
 Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 396d58c8f;
-	Fri, 3 Apr 2026 15:00:40 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 396d58c9f;
+	Fri, 3 Apr 2026 15:00:42 +0800 (GMT+08:00)
 From: Damon Ding <damon.ding@rock-chips.com>
 To: andrzej.hajda@intel.com,
 	neil.armstrong@linaro.org,
@@ -46,9 +46,9 @@ Cc: Laurent.pinchart@ideasonboard.com,
 	linux-rockchip@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	Damon Ding <damon.ding@rock-chips.com>
-Subject: [PATCH v1 3/4] drm/rockchip: dw_hdmi: Apply DRM_BRIDGE_ATTACH_NO_CONNECTOR and the bridge-connector
-Date: Fri,  3 Apr 2026 15:00:31 +0800
-Message-Id: <20260403070032.447102-4-damon.ding@rock-chips.com>
+Subject: [PATCH v1 4/4] drm/rockchip: dw_hdmi: Support to find the next bridge
+Date: Fri,  3 Apr 2026 15:00:32 +0800
+Message-Id: <20260403070032.447102-5-damon.ding@rock-chips.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260403070032.447102-1-damon.ding@rock-chips.com>
 References: <20260403070032.447102-1-damon.ding@rock-chips.com>
@@ -59,93 +59,58 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9d5224db2703a3kunm1d6b6bc811deb5
+X-HM-Tid: 0a9d5224e24f03a3kunm1d6b6bc811ded4
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQx4ZGlZJSR1LQx5KSUpOHUlWFRQJFh
+	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGhkeTFZIQ09NQ0hKSktLHR5WFRQJFh
 	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
 	hVSktLVUpCS0tZBg++
 DKIM-Signature: a=rsa-sha256;
-	b=MTggQTmpvpDAkUCTK+phVdqDF0DwSlKrX4o0Bg/D6d8/YgiJQvd2U4TtW6aulksm8kWQCkkqT/Ro3s7iM9nTfEtoe5vhyLxHKXrEjMWzebV5O55UTD9Pdo/33xyT4OzM8T64sJq1OVNcHA+xnQTvFkBOxlhy0fryPFt2AjdYZDk=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=sFB8BBIFFL7jpCc3yoYdeIALzzlxyXt+AtPHpod/PGU=;
+	b=aFs31TTZtr+bCfSkmGEJmc0xRV7zEwxDbZrhSC+mQNg0U67RwMRuJMxl4yptVlC6kZi5QRfl2dSs3ey2cwYI+2sXDp6VJgBZEO9JDJITLh/JRY5CKD1HhV4l/ODhISn/XFR3t4jpqT9q9y/19yiV87id2R+hDfWQw9s+LbJU9AY=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+	bh=qhMDeS5MJsqMangPhhuZJQL2DTnTsaxRf2SE3asViXM=;
 	h=date:mime-version:subject:message-id:from;
 
-Convert this driver to DRM_BRIDGE_ATTACH_NO_CONNECTOR and to the
-drm_bridge_connector framework which is the current DRM bridge best
-practice.
+If there is a remote node connected to the HDMI output (port@1), the
+&dw_hdmi_plat_data.output_port should be set to 1. This patch allows
+Rockchip dw-hdmi to support the hdmi-connector and the next bridge.
 
 Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
 ---
- drivers/gpu/drm/rockchip/Kconfig            |  1 +
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 19 +++++++++++++++----
- 2 files changed, 16 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
-index e7f49fe845ea..69b832d0c8c4 100644
---- a/drivers/gpu/drm/rockchip/Kconfig
-+++ b/drivers/gpu/drm/rockchip/Kconfig
-@@ -76,6 +76,7 @@ config ROCKCHIP_DW_DP
- 
- config ROCKCHIP_DW_HDMI
- 	bool "Rockchip specific extensions for Synopsys DW HDMI"
-+	select DRM_BRIDGE_CONNECTOR
- 	help
- 	  This selects support for Rockchip SoC specific extensions
- 	  for the Synopsys DesignWare HDMI driver. If you want to
 diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-index 21b141b7cb9c..b5cfcb936078 100644
+index b5cfcb936078..014ac09fd733 100644
 --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
 +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-@@ -13,6 +13,7 @@
- #include <linux/regulator/consumer.h>
- 
- #include <drm/bridge/dw_hdmi.h>
-+#include <drm/drm_bridge_connector.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_of.h>
- #include <drm/drm_probe_helper.h>
-@@ -542,6 +543,7 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
- 	struct drm_device *drm = data;
+@@ -544,6 +544,8 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
  	struct drm_encoder *encoder;
  	struct rockchip_hdmi *hdmi;
-+	struct drm_connector *connector;
+ 	struct drm_connector *connector;
++	struct device_node *remote;
++	struct drm_bridge *next_bridge;
  	int ret;
  
  	if (!pdev->dev.of_node)
-@@ -608,7 +610,7 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
+@@ -610,6 +612,18 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
  
  	platform_set_drvdata(pdev, hdmi);
  
--	hdmi->hdmi = dw_hdmi_bind(pdev, encoder, plat_data, 0);
-+	hdmi->hdmi = dw_hdmi_bind(pdev, encoder, plat_data, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
++	remote = of_graph_get_remote_node(hdmi->dev->of_node, 1, -1);
++	if (remote) {
++		of_node_put(remote);
++
++		ret = drm_of_find_panel_or_bridge(hdmi->dev->of_node, 1, 0,
++						  NULL, &next_bridge);
++		if (ret && ret != -ENODEV)
++			goto err_cleanup_encoder;
++
++		plat_data->output_port = 1;
++	}
++
+ 	hdmi->hdmi = dw_hdmi_bind(pdev, encoder, plat_data, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
  
  	/*
- 	 * If dw_hdmi_bind() fails we'll never call dw_hdmi_unbind(),
-@@ -616,12 +618,21 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
- 	 */
- 	if (IS_ERR(hdmi->hdmi)) {
- 		ret = PTR_ERR(hdmi->hdmi);
--		goto err_bind;
-+		goto err_cleanup_encoder;
- 	}
- 
--	return 0;
-+	connector = drm_bridge_connector_init(drm, encoder);
-+	if (IS_ERR(connector)) {
-+		ret = PTR_ERR(connector);
-+		dev_err(hdmi->dev, "Failed to initialize bridge_connector\n");
-+		goto err_unbind_bridge;
-+	}
- 
--err_bind:
-+	return drm_connector_attach_encoder(connector, encoder);
-+
-+err_unbind_bridge:
-+	dw_hdmi_unbind(hdmi->hdmi);
-+err_cleanup_encoder:
- 	drm_encoder_cleanup(encoder);
- 
- 	return ret;
 -- 
 2.34.1
 
