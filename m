@@ -1,115 +1,123 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D81A31D375
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 Apr 2026 21:36:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C350D30CDB6
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Apr 2026 22:14:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775511368; cv=none; b=S1x9WnnUQq2g0HHSylvNWSFSUxFSfRKDreF0fdlOD73AkaT3u+2EfIe0znHmfNeD9BTFb3A8EJOBv887HQCryUc+UEsokiJZDU76EIP4khCeLFwZJH7targHyyXm42lLm6PRQLlkp3OJgLzQLMPA8Np3lXt5/3/u9B3N0nxQBUw=
+	t=1775513657; cv=none; b=SsSNmZBFsfKe4y7+dKDq5PBaO8AC0gdPpafEPoao32EnHg3SqK9upvCDxnDp94k7d91KBbsn1f0okXUMmUSsKMmWOEj65P1DHwMn4JWOA8a63hEqh5wJSG/utFlYUYTaGWS5zfPBXzCzh1hfuaxs/iR+F/UKaedztXtoyKKGSlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775511368; c=relaxed/simple;
-	bh=b0Wgvbpz+HNB/LpA6pQXXJH2pH4DEuY7f9/V/KBJUbs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DZRWCSE7iktvhlJ/+61bYZR3X8c94+T1Bmwy7gWdkhZV7C5XqH/QFQ9s04fNbOEARWm6L0oqpiANQ9sGSS1jM9FpVGaZAmJyGbmUOxGQ3z8K7nGp67dwBvl9pNTueAvS09OY0hbsOVlQXDTFNMSVlBb30Di1++NexslqI9msfq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ehatpOTX; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1775513657; c=relaxed/simple;
+	bh=IyzDmVjeEnRf6+N6CScLBbeU8C6QP2hQxk/cAXQX89Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=siplO/wSbJneEI1/KEE7gJyTa7tVzw7s82wWOTzxLQcDH7HNhq1wnunxcTWiWB2MYlnKqD5D3mp9f1WTz/04YhhEq9861dUmC6XrLmERbFSNdN80DTi3IIgWIiX807fF12pClWjnwq7HWD6rIE2/bJ2LczdfjyV3MTv47ZZnP6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XIkmidw6; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ehatpOTX"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6EE262328;
-	Mon,  6 Apr 2026 14:35:59 -0700 (PDT)
-Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4BAC73F632;
-	Mon,  6 Apr 2026 14:36:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1775511365; bh=b0Wgvbpz+HNB/LpA6pQXXJH2pH4DEuY7f9/V/KBJUbs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ehatpOTXQbs3RvKwcaMOZuRToDlbax3NPHZqU2KakD+gPMinmjzgQhClpvFrYHwXu
-	 DxkpY5BKMul3jypu9UdiR88dgMuhdkraauCvkJJamvNwrhyVI3ATHPmbyMEToFOTfB
-	 cs1slNkeqnSw6Ic9oVIsJyl+N/5rfizQIGqZacyo=
-Date: Mon, 6 Apr 2026 23:35:56 +0200
-From: Andre Przywara <andre.przywara@arm.com>
-To: Philippe Simons <simons.philippe@gmail.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, Tom Rini <trini@konsulko.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, "Kory Maincent (TI.com)"
- <kory.maincent@bootlin.com>, Paul Kocialkowski <contact@paulk.fr>, Cody
- Eksal <masterr3c0rd@epochal.quest>, Samuel Holland <samuel@sholland.org>,
- Mikhail Kalashnikov <iuncuim@gmail.com>, u-boot@lists.denx.de, linux-sunxi
- <linux-sunxi@lists.linux.dev>
-Subject: Re: [PATCH 1/2] sunxi: H616: dram: fix LPDDR3 TPR6 parsing
-Message-ID: <20260406233556.32e31718@ryzen.lan>
-In-Reply-To: <20260405195927.2837914-2-simons.philippe@gmail.com>
-References: <20260405195927.2837914-1-simons.philippe@gmail.com>
-	<20260405195927.2837914-2-simons.philippe@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XIkmidw6"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5a0fc5e2c59so4424464e87.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 06 Apr 2026 15:14:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775513653; x=1776118453; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xs65Y7SOJhiSPJ4nfKCjyK6aCu/upRFc7BfzdjxKzvk=;
+        b=XIkmidw6CmlSgFABuFnpVc6jvHTO/aRhBTjk284ZRBD0Pf6jkCn6SsWDiG39V1koiu
+         e8E9jJoLuHOeAVWtWVrNpYr4a4xXPmBmALJUA2yfg0Bb5LQUB7X/kVOu9dWKp9pPd/Ts
+         Tt09LnIaTebsXqxXUEz6f54kSNnTnzQ4EGAq+FBC756KzWAsZbygvpDSmg/48pYR1baA
+         DpdaJqFYEPLqjdto4S6GUKln7A+cmcQy/DPRDXcX9Bqva0T4sejDKwwy1yuDM9Rhs+r4
+         1EEmZ9/jMcbtkouqNHaDEnh3322xE8MwcWbLj1RKUJ5k4YewKqDnjsd27pQatCszAvaE
+         CsmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775513653; x=1776118453;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xs65Y7SOJhiSPJ4nfKCjyK6aCu/upRFc7BfzdjxKzvk=;
+        b=EeCxMdQQDuFFtT4z7z0ryQZZ1YiHFwxj4f48OzjPn5WSznEkCSn8xbFmUT9aBlsmK9
+         W8GpuITL92QmaMihLoypBn613li/hk38gjJBBf+aASlwrBTIjrwfbybb7FXenn/NdEQE
+         gWQWn4OuCtsEv/yaItt77gtpbuiP0id4mdpCyq27xEtMyNKDzkKNj4oGPSv5R3HZz9Bp
+         M0UoZEpNso4uiimI1MRnFNb/Y89991Z1GhaLGBf8i9lpoU6x6HBQND7irEEEP1opmNjg
+         4sOoGWWNyEEGwpxav6m3aUA9Jq8+M+UdAFZ83p3vY8UDJj/3CwRgitDPAkK5QUgE/kCm
+         w3oQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX2/6fxN6Tl1nRl66QrT0EEzhwIuPGrK4XK5SK7fdf/rJ4QHq57wcW+S23skqd+Wo+DaZXA3bZbKL8baw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YztW2nYIA5VVq7If2ch4uxZFdC0Tn94kfk/JTvj0rDgfcjzzyrB
+	WdkZtXtHmaFZ6SM8wJLdFjofNLfEAeuHG1cFyCSwdyu0Mswm81NAOj6N
+X-Gm-Gg: AeBDieujzq6CmGP4N5WTnZT9Yu8LuUx9VRvTz/rxsVo5Yt4gwKXTym5+QUq5QM1OAZd
+	JcZdmLy7Ig7C6UJufDtRfB2Nf7QVDHPFYCAdpBZSVtqDhIDsg4F5BA4VcNRJCPL72nibyGksXID
+	nzruqJuowbD8xGdqL/WmQR+2ZRGABeEbusSg8q+QmNtPSCLhiuhjh5mitRGrhDpNBX3nLGi+MW8
+	upsJipxWHwHjvN+q0Y+5YWhvAvk7wT+N6KMdMctDVRjpo0K9uM+ufNo+s4B53t7auhR9Ch2119C
+	mCazv3C5IYEZxczSh3Ox6sEVGILFAgVy8QLro5Axa8HpOiU9b8qc7ooknvA8Juh0408e60He9OM
+	Qz0Njl2iyiiDS4JpMkOT9IP+wF8LNQKPVZcKPpDb2HMPZ3ApEbr7TJP2Y6xePB/GKR30LAijbG9
+	/TLL1/T4tTXFfCjYvJaHzJJ8ETuw==
+X-Received: by 2002:a05:6512:1151:b0:5a1:448b:317b with SMTP id 2adb3069b0e04-5a337591959mr5666904e87.42.1775513652798;
+        Mon, 06 Apr 2026 15:14:12 -0700 (PDT)
+Received: from new-nest ([94.19.228.143])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a2c6cc5f90sm3738693e87.49.2026.04.06.15.14.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Apr 2026 15:14:12 -0700 (PDT)
+From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+To: Dan Carpenter <error27@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+Subject: [PATCH v2] media: cedrus: Fix missing cleanup in error path
+Date: Tue,  7 Apr 2026 01:14:02 +0300
+Message-ID: <20260406221402.3721777-1-andrej.skvortzov@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sun,  5 Apr 2026 21:59:26 +0200
-Philippe Simons <simons.philippe@gmail.com> wrote:
+From: Samuel Holland <samuel@sholland.org>
 
-Hi Philippe,
+According to the documentation struct v4l2_fh has to be cleaned up with
+v4l2_fh_exit() before being freed. [1]
+Currently there is no actual bug here, when v4l2_fh_exit() isn't called.
+v4l2_fh_exit() in this case only destroys internal mutex. But it may
+change in the future, when v4l2_fh_init/v4l2_fh_exit will be enhanced.
 
-thanks for taking care of sending this patch!
+1. https://docs.kernel.org/driver-api/media/v4l2-fh.html
 
-> From: Jernej Skrabec <jernej.skrabec@gmail.com>
-> 
-> When a user copies the vendor value of tpr6 into the mainline U-Boot,
-> the code parses the tpr6 parameter incorrectly and writes the wrong value.
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+Fixes: 50e761516f2b ("media: platform: Add Cedrus VPU decoder driver")
+---
 
-That sentence is hard to understand unless you know what this value is
-about already. What about:
+Changes in v2:
+ - remove duplicate 'in-body' From: record
+ - add details to commit message
 
-===============
-Allwinner's BSP DRAM code uses parameter TPR6, presumably containing
-some "Vref" parameter, to encode the values for *all* four supported DRAM
-types. The code selects one byte based on the DRAM type used at runtime.
-To allow copying DRAM parameters from vendor firmware, we used this value
-and its encoding, but wrongly: the proper order of bytes is DDR3, DDR4,
-LPDDR3, LPDDR4, from LSB to MSB, cf. the A523 and A133 DRAM code.
+drivers/staging/media/sunxi/cedrus/cedrus.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Correct the masking for LPDDR3 to fix DRAM operation on some boards
-using this DRAM type.
-==============
-
-Plus we need the second patch merged into this one, otherwise this
-would introduce (an admittedly theoretical) regression.
-
-But the actual changes in both patches looks good to me.
-
-Cheers,
-Andre
-
-
-> Fixes Vref parsing from TPR6. Proper order from LSB to MSB is DDR3, DDR4,
-> LPDDR3 and LPDDR4
-> 
-> Fix that.
-> 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> [adjusted commit message]
-> Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
-> ---
->  arch/arm/mach-sunxi/dram_sun50i_h616.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm/mach-sunxi/dram_sun50i_h616.c b/arch/arm/mach-sunxi/dram_sun50i_h616.c
-> index 3345c9b8e82..42a0550e015 100644
-> --- a/arch/arm/mach-sunxi/dram_sun50i_h616.c
-> +++ b/arch/arm/mach-sunxi/dram_sun50i_h616.c
-> @@ -975,7 +975,7 @@ static bool mctl_phy_init(const struct dram_para *para,
->  		val = para->tpr6 & 0xff;
->  		break;
->  	case SUNXI_DRAM_TYPE_LPDDR3:
-> -		val = para->tpr6 >> 8 & 0xff;
-> +		val = para->tpr6 >> 16 & 0xff;
->  		break;
->  	case SUNXI_DRAM_TYPE_LPDDR4:
->  		val = para->tpr6 >> 24 & 0xff;
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index 6600245dff0e2..1d2130f35fffc 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -391,6 +391,7 @@ static int cedrus_open(struct file *file)
+ err_m2m_release:
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ err_free:
++	v4l2_fh_exit(&ctx->fh);
+ 	kfree(ctx);
+ 	mutex_unlock(&dev->dev_mutex);
+ 
+-- 
+2.51.0
 
