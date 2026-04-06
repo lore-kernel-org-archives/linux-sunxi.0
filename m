@@ -1,64 +1,64 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D8C38B7DE
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 Apr 2026 21:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C576C31E83F
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Apr 2026 21:31:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775510604; cv=none; b=M8leBYf2BRkLaqYMzKoqdYWTPox3hhQs3Ox2AoMUahiExhzaupVXMSAmxKdMFDJJMFB4UaK80UedUBprl8PsccQaPzfS9cI4wnhcMVKlxxMb4C1g1aZSZ4xlXW2DRhr8YLRAOd7Vnj1eWD1OOg67OrimVe72oTxHTiaT0GSZq7s=
+	t=1775511083; cv=none; b=XiV31Rb5GRG2SQC/xwssiHjn//ZZOYnICmZ9JDu+Vf7q/45X9EIusUWP3n+ulKexcasq5LpD2wTxwEL+/yZ4v5hzU2+S90oy4iG0p8kox9QD60AC99o+kBsB3zDgSdNbMV0keloesqRTv9mK8iZBNt8SXUerlCx8OAeDwcDAb/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775510604; c=relaxed/simple;
-	bh=tX3o9f7nD1vUlJVRpS/dXcDlEK/tjAUp+SSuZzHNZTA=;
+	s=arc-20240116; t=1775511083; c=relaxed/simple;
+	bh=5lEmVosmeuBFQdJSXSghbeCTHfp905dvVKwXttkmT3o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V6h6UrI0yfkKVEI+sjPHQMVownoHcY6owRsjw7Qvfb2axJ4owr+ZHnWMzA/1nwYlU7hPl46XJBTvSRdO4l0CpiMzgTkWo6McIvkYcYEN69Op6HB1Noj6I7xq/7/J8m8Tc/fPmlwdevzsVhGA88mb5bmvCmOG0AREcuqK4xfgAXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cdeK5c8E; arc=none smtp.client-ip=209.85.208.178
+	 Content-Type:Content-Disposition:In-Reply-To; b=NAsP9zezMbAU1xXfNMoc3BOJOOgB3SJnuzMwJBzUOGsdpCucwJ0zdUGtlFs4dO00lPM5qNJ7SarWAirkt2qZGA5y6/D82KVnbB/unHKuJPCj1trc9inFkW6nQovNb3DiucLw0KQoO0zFMlP1k/qSNXdWaUEpG4ckPdU4HkWEUc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YBSmFdIW; arc=none smtp.client-ip=209.85.208.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cdeK5c8E"
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-38df11810abso16271901fa.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 06 Apr 2026 14:23:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YBSmFdIW"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-38cbb1ad0b6so37076601fa.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 06 Apr 2026 14:31:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775510601; x=1776115401; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1775511080; x=1776115880; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references
          :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=q6xJ/zDoOR7Os811YjMwToE+cggB6rQ02aG/lrQ8U/U=;
-        b=cdeK5c8ExFheAPSZEbOKfFm9T+9NQBaNe7wNZ97vfHJmqZ8yA8cyd+7hiEfW/5+qxZ
-         65RCfC3KtbGmnnyF0NXEaMUunIgPc6Q6yU+PxYVLq6fW0rUBJDd1rIsrSvlJjlKhaspl
-         2PBVGLXBP6DmtyeisL9o0oaf6umWsHxrqCa18tnRTtw8uN3sltyaht5Q5mfMD7tjoZ9i
-         hgSKK2M6Bepq+uRzHkg1jmd7OYU5eot8Fsn91G4dhriJUzfoh9eoiF1mp16w9l0QlWJo
-         xa6BGiDdsQEtmxPJn/PBXD5KisqKjHoGxoIAcKf1J/Qg/93WpJJz6LRETpMtfspPx0Y0
-         ObzA==
+        bh=GyThv2DxbTG/BKeYrv8aDgw2xYo6966hqmjyrursIqE=;
+        b=YBSmFdIWGgI7SHv+Rrbj6oq2CWze9t6W3lca20496Qp2UCwwaAvReFdD7+t+EVjf8n
+         K3m1UwYgDHiL77UPJqb5aEuSGUYUodJIt1wZxgQQZb+r1uL5ELR0PH4yepTwGyix+Eu6
+         8NoKld+XXCVtgfCjFH16nayzMoc8Vusq0Gw1vAoajeFBVPXzQ4OVNKg1p3zpfYRq+ilh
+         0PRKdj89dCXlPO0ixxQzY2O2I+0nC/bgg8AkNhMQp/mTG5Ssrx/tJim+/ccew4nhFb7+
+         v7ef1lx7DfSCtsNmvpqzDC2wiH4q2WOSb/5871LAIa7XHFmUGuC2OA/Q3v5zzmuNEeMb
+         MS8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775510601; x=1776115401;
+        d=1e100.net; s=20251104; t=1775511080; x=1776115880;
         h=in-reply-to:content-disposition:mime-version:references
          :mail-followup-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=q6xJ/zDoOR7Os811YjMwToE+cggB6rQ02aG/lrQ8U/U=;
-        b=jNRbLopEAGv9KAGCgsK6SlWkoDZVTJUV2R2bswhMGdBYAS1Id9+Nw3d2p70hJ7fPi1
-         hSWaT5mRRrFMcM8ob2MTFz6k7iLRZ08l7LJPQZlv78OQNvW4Q7QS1yJVsoddjlg2mtBF
-         OBNqQ7zihLd91qyCT8lNGh/IfOT8LyYIVctW266bCJWKjK+yP07hRRx5eO5zi6443i5Q
-         krMSdAct1KUACLWYzGAqXKITm1kf55ABe1g6QZYfU4LVxyf8GTH0HuG/3Ve25570sSgI
-         pzgzbT3LfEfAwLZSJ6fnKp0w9jVLS/Leef9jDZHin6tcyzQyM/IHaODxsgGLqHwPelAu
-         9kVg==
-X-Forwarded-Encrypted: i=1; AJvYcCViVW00+gJD7TwYZC/na+479i3PsPyJ5nH3ig0Ba1KounWstmU0LSQke7WeuCgXxNAHCKW0rYsvgi6n7w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwdD9HtPRalqTGNIFyCQaIZTIdWlj1ic6t5WXBMwAnMBimT3w7c
-	SoIipm+oCvG9gmaQLWfG+IBCMBDpnhzRyPHubU/g0/qzlB3Xr+JyKJe5
-X-Gm-Gg: AeBDievkhVZScnMGIWuziqPC5RT0UsyxRJjFRRhfmKiDLxq6/7e5Nirzv+kHpzHqWD1
-	l3/oMFTHocZSevOkIwwGOBjSEI5vjwpgMeBpLjQJC3FT4weBZeQfRXsamMIwnPIUTbLqC6BgmzC
-	zwobYC0srR9ODI2LMCLXMe/7GJzdPq9nTnTeTKVgvEOEAWF4y9doLbDuxV1DAJiI7Pr8I/gImdS
-	xpxZ3W7guR5konirniKanSDPmdybAKzruADwUVn83FpHQ43541fHJRgZaqD4OHBEbUGEmLROu3f
-	Eir6GXJXZquDjwPQcTgegPHevhMXMaWm4ysdjrRlWdexsPXqMrmFKIPpih/nspeA0jTt7NliCTD
-	EtcjKtsHi/tE3vgmt8sQDkcEGS3maYD8NzK0QA4YDEq1ccVPfk8ThQZnsXYZuoR9wCI2Yrj42bh
-	uLMTm4JItCGffEogoFbHJW8veRs04=
-X-Received: by 2002:a05:651c:1a0a:b0:38a:3498:e2f5 with SMTP id 38308e7fff4ca-38cd6e4f078mr57915391fa.15.1775510600748;
-        Mon, 06 Apr 2026 14:23:20 -0700 (PDT)
+        bh=GyThv2DxbTG/BKeYrv8aDgw2xYo6966hqmjyrursIqE=;
+        b=Fq+P+10Ilt30Wj2Rw4T93q5PqPVH0ihxeOwVNQfs0RKmsU2XcDrmOPS9IpzTNvYtCR
+         mz8FeLKrWVoHyFESruVxXReIXeiggXWfBSvDuw9pO+jbZZXXmn4KKDPNQOFtEhK7LfZi
+         3mzAX+e3Y9bSSec0sbzHLdQR5T7hFn88tgKK3DCo6Bsm52y3yiGbZIA3C6ZcNw4ozo4R
+         HzV/GqcFiS1BO75Qa6h7br9Rljs42WeVZTyr+xw01dzsFfg0xcusraYBrV8afmZMFxFl
+         WhvnfpSS+m/oRS+lWK3yF31heTaOhRWtGZ5BjzxZS2hxy04ZGf2fJ+fhGJC/+Ntr40Ji
+         oP9g==
+X-Forwarded-Encrypted: i=1; AJvYcCWgMoUVvqmSsm9uvfdibH1m9+5rRdrLoTyOGXjsELFmsg/ylJ8hndzEp4QSblBj0RuyW7Hhd3M6AYO2oQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxy2/S4ZEBGIEqicw0HewHPedQGzEECxgpwb9uAxJpnVwJG/aQM
+	MQ35NjpiN3nC45Kp3eG2Q5dCLAHVr5tsG3zWxHanNHVQMXxmtSPqMIGi
+X-Gm-Gg: AeBDievI8LB0XLHThfumdLuZ1Txgv2cf9udL8v+VgSxBnt6CjI6euv0bIQSLIqJTAH/
+	+99r/H7FSMN1uAtsUt6GKmm0zLdVynLPaCoixZHWmj33pn5QoJeiUbymdkJyCxz0PgKW22F5+UX
+	TaU4BlBAMfUHinrmDlYcY4c8DbAUGIkjnObV0CLE2QJKlqioq25C8LWbU9UqE3adJHr8uJTDgug
+	glfgoPJ5fA/g+GpyavutNeyYLyx8ph6t53c42nOpwpz2WW9td4k3lF6k8Z5KMQkGN6/VpfDlvLM
+	0loC+EwXJyVhoeb+HbnA+5jWJx/4F7iQdAWTtugcs1jLSeuPahkt4kRFmUtndETYQ8KG3B8+ZqX
+	K+N/yXCYbbOElv7bR1Yu6pPKIFc8u6RrkdOalAfJaXKhju+hT2J06O9WTFOi/sS1U+WECssywax
+	29igxqK4DxT7OEbIbKtaYzKh//u9Q=
+X-Received: by 2002:a2e:bc11:0:b0:38b:d8dc:4adf with SMTP id 38308e7fff4ca-38d9d439ed4mr46799101fa.32.1775511079668;
+        Mon, 06 Apr 2026 14:31:19 -0700 (PDT)
 Received: from localhost ([94.19.228.143])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38cd1fffb53sm32700151fa.16.2026.04.06.14.23.19
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38cd217c708sm32952631fa.39.2026.04.06.14.31.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2026 14:23:20 -0700 (PDT)
-Date: Tue, 7 Apr 2026 00:23:19 +0300
+        Mon, 06 Apr 2026 14:31:19 -0700 (PDT)
+Date: Tue, 7 Apr 2026 00:31:18 +0300
 From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
 To: Dan Carpenter <error27@gmail.com>
 Cc: Maxime Ripard <mripard@kernel.org>,
@@ -71,8 +71,9 @@ Cc: Maxime Ripard <mripard@kernel.org>,
 	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: cedrus: Fix missing cleanup in error path
-Message-ID: <adQkRxR9gmAPHnYI@skv.local>
+Subject: Re: [PATCH 2/2] media: cedrus: Fix failure to clean up hardware on
+ probe failure
+Message-ID: <adQmJhxNkAe-ChRp@skv.local>
 Mail-Followup-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>,
 	Dan Carpenter <error27@gmail.com>,
 	Maxime Ripard <mripard@kernel.org>,
@@ -86,7 +87,8 @@ Mail-Followup-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>,
 	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 References: <20260401191441.1217646-1-andrej.skvortzov@gmail.com>
- <ac5qhwdZLNe628eW@stanley.mountain>
+ <20260401191441.1217646-2-andrej.skvortzov@gmail.com>
+ <ac5oecJ05oZD25VF@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -95,37 +97,25 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ac5qhwdZLNe628eW@stanley.mountain>
+In-Reply-To: <ac5oecJ05oZD25VF@stanley.mountain>
 
-Hi,
-
-On 26-04-02 16:09, Dan Carpenter wrote:
-> On Wed, Apr 01, 2026 at 10:14:40PM +0300, Andrey Skvortsov wrote:
+On 26-04-02 16:00, Dan Carpenter wrote:
+> On Wed, Apr 01, 2026 at 10:14:41PM +0300, Andrey Skvortsov wrote:
 > > From: Samuel Holland <samuel@sholland.org>
 > > 
 > > From: Samuel Holland <samuel@sholland.org>
 > > 
-> > According to the documentation struct v4l2_fh has to be cleaned up with
-> > v4l2_fh_exit() before being freed. [1]
-> > 
-> > 1. https://docs.kernel.org/driver-api/media/v4l2-fh.html
-> > 
 > 
-> I wish the commit message would say what the use visible effect of the
-> bug is.  I looked at it and I don't think this patch hurts but I also
-> didn't necessarily see a that the original code had a user visible bug.
-> 
-> I read the documentation but it wasn't as unambiguous as I'd prefer.
-> 
+> git am isn't set up to deal with two From: headers.
+Sorry about that. The first line I've added manually and the second
+was added by git send-email. I'll fix that in v2.
 
-Thank you for the review. Currently there is no visible
-bug. v4l2_fh_exit() in this case only destroys mutex.
-But it may change in the future, when v4l2_fh_init/v4l2_fh_exit will
-be changed. I think the change maybe useful in this regard.
-
-I'll describe this in the commit message in v2 and resend it separately from the
-patch 2, that fixes actual problem. So this change may be skipped, if
-maintainers think it's not worth to apply.
+> 
+> > cedrus_hw_remove undoes, that was done by cedrus_hw_probe previously,
+> > like disabling runtime power management, releasing claimed sram.
+> 
+> The first part of this sentence is missing.
+Thanks, I rewrite this part of the commit message.
 
 -- 
 Best regards,
