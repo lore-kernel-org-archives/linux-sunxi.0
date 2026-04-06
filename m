@@ -1,135 +1,76 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7895A7260F
-	for <linux-sunxi@lists.linux.dev>; Sun,  5 Apr 2026 15:28:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219E530E0ED
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Apr 2026 14:51:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775402886; cv=none; b=u8bfAp8hsNmFA8aKfB2rrLg0IMp3iR60FUMe8JPesXO1c6jQMhhjOvdgUuQytDvP8mvJ9yVsmr0UPvj5OE87T0ccz4ztIRU0OIvO/geEgwvFHw/VcCE/pgSWe0eE0K1Hy5zX65VEBfsX5G7WwIZGtYuqyLUzKJI3vMjYjBngKTQ=
+	t=1775487110; cv=none; b=StG9EtXCvcGljT33Bt0cFbz5okpIsNmnJJuhSUaYBT0oHmlZyMcN47cPC2c8HCJCofjZ0plbqTFXxCWfX9emencT7KIhxrJsF5k9IwShtilehNSYPvRFzKgtqCrSAmySVvnFqRd6ETQiCvadlEWvxz2ZobyUqoKGG3l0EwgHzww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775402886; c=relaxed/simple;
-	bh=NDnBsbXnNGGHQG0turWSfj4CBg3TO2qRC78L3hPeXs4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=B0cAOVFScgqFs6xTN+F1mFM7sAVbQ6MbD6Gye8PbWMqzdQxhuoyTWT4puncr1SX3doqUMaZEEy/SCvppPgZ1tfL8tuyJuYDn3xQpyFhyYdIb1i4PFXt2pDAV35P2c55m72AZDUAlraOiXU9FBBs03nY0eZ8Aq64Mu86pCaHwgtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=KvQWd+Gl; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1775487110; c=relaxed/simple;
+	bh=rwPbP1+bFk4jFXuGeRlNdKBo7Zv7Zhhj2QVlBA9xpOU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WVnEQoq356HK1Jod8IJXM0DQzTE43Wz5Pizc++waWAEaHHIuNKFUAAKpJ6RSGCnN4ecNGumobd6z60+ShW4SDfdKoO3xcjKSiqjALYCVwwjsBEEYizO5CPBeDF9NINGydSMGcfS9cI0I4CZIhba9p2S5bvmOq7uhxs9tUg54fE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hcX0ZLjo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="KvQWd+Gl"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 048E81BC0;
-	Sun,  5 Apr 2026 08:27:49 -0700 (PDT)
-Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E34383F62B;
-	Sun,  5 Apr 2026 08:27:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1775402874; bh=NDnBsbXnNGGHQG0turWSfj4CBg3TO2qRC78L3hPeXs4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=KvQWd+GlyQ26qJRkqKLtd0rZhhvYeTZuhURhP2De+TrJdzHLaXomuaxGKCg7V+Nmu
-	 Cq76diR6Q/0tGfEMAOK8ZxI5sR+DH/t5TeJTkhUA5i4JJEJ6ngsn8s9++hzFvakxNn
-	 hubn+aHBCVzSVgfa8MK94n19vR39SYApBGMpstuA=
-Date: Sun, 5 Apr 2026 17:27:38 +0200
-From: Andre Przywara <andre.przywara@arm.com>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] pinctrl: sunxi: a523: Remove unneeded IRQ
- remuxing flag
-Message-ID: <20260405172738.02530c80@ryzen.lan>
-In-Reply-To: <CAGb2v64A0rgiMkTCdvq-pVfzCTqWKqc=nx69B9tD7A8_E7vHUg@mail.gmail.com>
-References: <20260327113006.3135663-1-andre.przywara@arm.com>
-	<20260327113006.3135663-2-andre.przywara@arm.com>
-	<CAGb2v64A0rgiMkTCdvq-pVfzCTqWKqc=nx69B9tD7A8_E7vHUg@mail.gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hcX0ZLjo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE317C4CEF7;
+	Mon,  6 Apr 2026 14:51:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775487110;
+	bh=rwPbP1+bFk4jFXuGeRlNdKBo7Zv7Zhhj2QVlBA9xpOU=;
+	h=Date:From:To:Cc:Subject:From;
+	b=hcX0ZLjoUqvZGX4zWItRYNaHBJw/PC9a750oubI6W/pSAJJ3JEUIyATkSMF6YXcSE
+	 nIejwAm38lKqcHUJqrznQIrvIIbINNVkXm4s1l6FugwYqku/Pqg0NMoPTu1u3GVbWN
+	 mxnIQxv6qhTiG3gNr67oEx/j1yeI8Wv9kZ61KS+kWu68h8EdrKGvIaIPeaCLHl4SMC
+	 94crm/1rhu3TxOmLfd/OVsZ08Bx5JWH/dQoyzVT579H4/irJA0tWb8tQ7ozFigmClh
+	 iXyxv7LhaU7/YRg1Rp2KSS/8Db4VCs9WdTZ8twQgBuwU4yC/YlJOPr756ZJhPxRZtN
+	 aVnM9wK76qv5g==
+Date: Mon, 6 Apr 2026 22:51:45 +0800
+From: Chen-Yu Tsai <wens@kernel.org>
+To: soc@kernel.org
+Cc: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [GIT PULL] Allwinner Device Tree Changes for 7.1 - Part 2
+Message-ID: <adPIgTlQxnVpYgH4@home.wens.tw>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 27 Mar 2026 19:38:57 +0800
-Chen-Yu Tsai <wens@kernel.org> wrote:
+The following changes since commit b912e48bee355b6b1faf86efc4a23191324ffecb:
 
-Hi Linus,
+  arm64: dts: allwinner: h6: Add TaiqiCat (TQC) A01 support (2026-03-14 15:27:04 +0800)
 
-> On Fri, Mar 27, 2026 at 7:30=E2=80=AFPM Andre Przywara <andre.przywara@ar=
-m.com> wrote:
-> >
-> > The Allwinner A10 and H3 SoCs cannot read the state of a GPIO line when
-> > that line is muxed for IRQ triggering (muxval 6), but only if it's
-> > explicitly muxed for GPIO input (muxval 0). Other SoCs do not show this
-> > behaviour, so we added a optional workaround, triggered by a quirk bit,
-> > which triggers remuxing the pin when it's configured for IRQ, while we
-> > need to read its value.
-> >
-> > For some reasons this quirk flag was copied over to newer SoCs, even
-> > though they don't show this behaviour, and the GPIO data register
-> > reflects the true GPIO state even with a pin muxed to IRQ trigger.
-> >
-> > Remove the unneeded quirk from the A523 family, where it's definitely
-> > not needed (confirmed by experiments), and where it actually breaks,
-> > because the workaround is not compatible with the newer generation
-> > pinctrl IP used in that chip.
-> >
-> > Together with a DT change this fixes GPIO IRQ operation on the A523
-> > family of SoCs, as for instance used for the SD card detection.
-> >
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > Fixes: b8a51e95b376 ("pinctrl: sunxi: Add support for the secondary A52=
-3 GPIO ports") =20
->=20
-> Acked-by: Chen-Yu Tsai <wens@kernel.org>
+are available in the Git repository at:
 
-Can you possibly take this patch and maybe the binding (PATCH v2 2/3)?
-Ideally still for v7.0? IIUC Chen-Yu would take the DT patch, but
-relies on those two here.
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-dt-for-7.1-2
 
-Thanks,
-Andre
+for you to fetch changes up to c755e39836ec492b0bc210fd96c2b720b5b4a690:
 
+  arm64: dts: allwinner: enable h616 timer support (2026-03-29 21:20:49 +0800)
 
->=20
-> > ---
-> >  drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c | 1 -
-> >  drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c   | 1 -
-> >  2 files changed, 2 deletions(-)
-> >
-> > diff --git a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c b/drivers/pi=
-nctrl/sunxi/pinctrl-sun55i-a523-r.c
-> > index 69cd2b4ebd7d..462aa1c4a5fa 100644
-> > --- a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
-> > +++ b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
-> > @@ -26,7 +26,6 @@ static const u8 a523_r_irq_bank_muxes[SUNXI_PINCTRL_M=
-AX_BANKS] =3D
-> >  static struct sunxi_pinctrl_desc a523_r_pinctrl_data =3D {
-> >         .irq_banks =3D ARRAY_SIZE(a523_r_irq_bank_map),
-> >         .irq_bank_map =3D a523_r_irq_bank_map,
-> > -       .irq_read_needs_mux =3D true,
-> >         .io_bias_cfg_variant =3D BIAS_VOLTAGE_PIO_POW_MODE_SEL,
-> >         .pin_base =3D PL_BASE,
-> >  };
-> > diff --git a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c b/drivers/pinc=
-trl/sunxi/pinctrl-sun55i-a523.c
-> > index 7d2308c37d29..b6f78f1f30ac 100644
-> > --- a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c
-> > +++ b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c
-> > @@ -26,7 +26,6 @@ static const u8 a523_irq_bank_muxes[SUNXI_PINCTRL_MAX=
-_BANKS] =3D
-> >  static struct sunxi_pinctrl_desc a523_pinctrl_data =3D {
-> >         .irq_banks =3D ARRAY_SIZE(a523_irq_bank_map),
-> >         .irq_bank_map =3D a523_irq_bank_map,
-> > -       .irq_read_needs_mux =3D true,
-> >         .io_bias_cfg_variant =3D BIAS_VOLTAGE_PIO_POW_MODE_SEL,
-> >  };
-> >
-> > --
-> > 2.43.0
-> > =20
->=20
+----------------------------------------------------------------
+Allwinner Device Tree Changes for 7.1 - Part 2
 
+UART DMA channels added for A64 and H6. Standard resolution MMIO timer added
+for H616. This timer can be used as a broadcast timer for wakeup from idle
+states.
+
+----------------------------------------------------------------
+Chen-Yu Tsai (2):
+      arm64: dts: allwinner: sun50i-a64: add UART DMA channels
+      arm64: dts: allwinner: sun50i-h6: add UART DMA channels
+
+Michal Piekos (1):
+      arm64: dts: allwinner: enable h616 timer support
+
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi  | 10 ++++++++++
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi   |  8 ++++++++
+ arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi |  9 +++++++++
+ 3 files changed, 27 insertions(+)
