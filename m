@@ -1,73 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56C233A718;
-	Tue,  7 Apr 2026 18:40:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD3303859F5
+	for <linux-sunxi@lists.linux.dev>; Tue,  7 Apr 2026 22:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775587257; cv=none; b=jJmitEt4m5ejeN+cPwpjpkAfDABHHENGRj1J6AbKQEZe3LBwvyjQZhVhrhJJ2+6wLKlZMHtav0Nx/Deb39lSsS/mZoJln5UvO+qxrvO/gvF2g8+5rOMyOWiEnRgaiy7jT8KErOcX2rMiKgjAWj6/YeqXVuy37LVJQ8zwlFREjbA=
+	t=1775601302; cv=none; b=bqYrj3Kdkfc9zA5qgkzF90jTsJu0vq7g59SP36arlvq0MwmsjzoBQQtrEO+MqMuhz96B8rZI7zENBEv+jovB7iCrqYxubddOeGemAOL3uav7czLbxp9gPI0zw9BFKwG6/dg2jlVjLlq6oDz3KoYu88hiKnaUcplvVBr+E3qvwrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775587257; c=relaxed/simple;
-	bh=ctBJBNAL2sZVwDJhXMphkJ4Ne0SfUaEL20su6jHmPpQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=br8oIp4UdY+/aQw72CbwbSRMp3BoS+NOupN+AmbOPV4iXJiPi70YPRSQdWPpFP23mRJWnJv5afDOrTI+gkCYfzUtsQDzQoH+ZGtACElcbAwFDuI5yy3rz0qosDDk/tX/j99UAOQECVXeRP1rDJfHcAq4w8dUXq7l9ZDixXA2JQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sI/mLUzr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775601302; c=relaxed/simple;
+	bh=o0Yg5z5YRcuGWCMAH6ZXS6k8wuflYcWQ/bsT/nRA9xU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KblOKYbbTQvKBw6MSppKUOM4MLtrqpE2n5ry6MsJsN0dxywxUVdywYKifTF0p3ipmAKMONRet2tiIDUnNPN5tDmcpiQ1d5Zh4PO13Rejq/kgnEHETfISmE9rb9iqXOkRZVx23KDidPQaUFDvH+JhJ8TtcxLRV+eR3zdn8WzKMFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=CXLSC6+k; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sI/mLUzr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DA0BC116C6;
-	Tue,  7 Apr 2026 18:40:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775587257;
-	bh=ctBJBNAL2sZVwDJhXMphkJ4Ne0SfUaEL20su6jHmPpQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sI/mLUzrYB0p0h7F+qggqo+B7Iixi3QUIFCsUfYOUxnIZWiwOZgq7ZpCn339TFSkK
-	 /Bh2Vxl6Ng5B8rBSa7tzwXMlVhRi7hjYXswf7R7EHaz2nIvV0fNuEvc/AbusGP/y5Z
-	 9c3TZdbLIIDHjOYNTGyTt4Rx6zte92EOWG+3mssFLmsgbzu7+UhULF/innTCtcaPkX
-	 OznSjTzMz2iwVcW5IICmamnUgnIMPjy87/mqyizz+/U7eoWymD5sbqpL8dMZBNbDYh
-	 zFpClBRqO00vxOHRu2DZyvpCjlwNyxQWuLHoeEhS1p4r1EmCZeFwUri8Ixtmza/hrn
-	 6NnjaEZ03aDRg==
-Date: Tue, 7 Apr 2026 13:40:55 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-gpio@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>
-Subject: Re: [PATCH v2 2/3] dt-bindings: pinctrl: sun55i-a523: increase IRQ
- banks number
-Message-ID: <177558725508.3367275.431498004414263153.robh@kernel.org>
-References: <20260327113006.3135663-1-andre.przywara@arm.com>
- <20260327113006.3135663-3-andre.przywara@arm.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="CXLSC6+k"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AD647351C;
+	Tue,  7 Apr 2026 15:34:52 -0700 (PDT)
+Received: from ryzen.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 370C83F632;
+	Tue,  7 Apr 2026 15:34:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1775601298; bh=o0Yg5z5YRcuGWCMAH6ZXS6k8wuflYcWQ/bsT/nRA9xU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=CXLSC6+k++5U4k/y5N8sRYVFk44SPPwmu15Jn2cy6cSu6P0ggeyYkQn2QIIiZgN9o
+	 vOqcxJLu/OD9fiMjDfPMMfAaIvGEdU1CC2hhN3gOYiMFW4stHy+AoIaRkVwMK92DEv
+	 WLVMnO4Zaby9jELBNyFqG97nWRKOykX6lgcN3zOo=
+From: Andre Przywara <andre.przywara@arm.com>
+To: u-boot@lists.denx.de
+Cc: Tom Rini <trini@konsulko.com>,
+	Quentin Schulz <quentin.schulz@cherry.de>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Paul Kocialkowski <contact@paulk.fr>,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 0/3] sunxi: Fix and extend SPL power LED support
+Date: Wed,  8 Apr 2026 00:34:44 +0200
+Message-ID: <20260407223447.4956-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.46.4
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260327113006.3135663-3-andre.przywara@arm.com>
+Content-Transfer-Encoding: 8bit
 
+With the demise of the legacy SPL LED framework a new, much simpler
+version emerged for Allwinner SoCs: Just define the GPIO number in
+Kconfig, and some simple code turns the LED on very early.
 
-On Fri, 27 Mar 2026 11:30:05 +0000, Andre Przywara wrote:
-> The Allwinner A523 SoC implements 10 GPIO banks in the first pinctrl
-> instance, but it skips the first bank (PortA), so their index goes from
-> 1 to 10. The same is actually true for the IRQ banks: there are registers
-> for 11 banks, though the first bank is not implemented (RAZ/WI).
-> In contrast to previous SoCs, the count of the IRQ banks starts with this
-> first unimplemented bank, so we need to provide an interrupt for it.
-> And indeed the A523 user manual lists an interrupt number for PortA, so we
-> need to increase the maximum number of interrupts per pin controller to 11,
-> to be able to assign the correct interrupt number for each bank.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  .../bindings/pinctrl/allwinner,sun55i-a523-pinctrl.yaml   | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
+I was looking at using this feature for boards with a GPIO controlled
+power LED, as having a sign of life very early can be very handy.
+So I grep'ed all DTs for those LEDs, and added the respective symbols to
+the board's defconfig file.
+Doing so revealed a small bug in the code when using active low LEDs,
+so patch 1/3 fixes this.
+Patch 2/3 adds the power LEDs to 32-bit boards, patch 3/3 to 64-bit
+boards - just some arbitrary splitup to simplify review.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Please have a look and test if you have any of the boards.
+
+Cheers,
+Andre
+
+Andre Przywara (3):
+  sunxi: spl: fix SPL_SUNXI_LED active low configuration
+  sunxi: configs: enable power LEDs on 32-bit boards
+  sunxi: configs: enable power LEDs on 64-bit boards
+
+ board/sunxi/board.c                      | 2 +-
+ configs/A13-OLinuXinoM_defconfig         | 3 +++
+ configs/Bananapi_M2_Ultra_defconfig      | 3 +++
+ configs/Bananapi_m2m_defconfig           | 3 +++
+ configs/Mele_A1000G_quad_defconfig       | 3 +++
+ configs/Mele_A1000_defconfig             | 3 +++
+ configs/Mele_M9_defconfig                | 3 +++
+ configs/anbernic_rg35xx_h700_defconfig   | 3 +++
+ configs/bananapi_m1_plus_defconfig       | 3 +++
+ configs/bananapi_m2_berry_defconfig      | 3 +++
+ configs/bananapi_m2_zero_defconfig       | 3 +++
+ configs/bananapi_m64_defconfig           | 3 +++
+ configs/beelink_gs1_defconfig            | 3 +++
+ configs/beelink_x2_defconfig             | 3 +++
+ configs/icnova-a20-adb4006_defconfig     | 3 +++
+ configs/liontron-h-a133l_defconfig       | 3 +++
+ configs/nanopi_duo2_defconfig            | 3 +++
+ configs/nanopi_neo2_defconfig            | 3 +++
+ configs/nanopi_neo_air_defconfig         | 3 +++
+ configs/nanopi_neo_plus2_defconfig       | 3 +++
+ configs/orangepi_2_defconfig             | 3 +++
+ configs/orangepi_3_defconfig             | 3 +++
+ configs/orangepi_lite2_defconfig         | 3 +++
+ configs/orangepi_lite_defconfig          | 3 +++
+ configs/orangepi_one_defconfig           | 3 +++
+ configs/orangepi_pc2_defconfig           | 3 +++
+ configs/orangepi_pc_defconfig            | 3 +++
+ configs/orangepi_prime_defconfig         | 3 +++
+ configs/orangepi_zero2_defconfig         | 3 +++
+ configs/orangepi_zero_defconfig          | 3 +++
+ configs/orangepi_zero_plus2_defconfig    | 3 +++
+ configs/orangepi_zero_plus2_h3_defconfig | 3 +++
+ configs/orangepi_zero_plus_defconfig     | 3 +++
+ configs/radxa-cubie-a5e_defconfig        | 3 +++
+ configs/tanix_tx1_defconfig              | 3 +++
+ 35 files changed, 103 insertions(+), 1 deletion(-)
+
+-- 
+2.46.4
 
