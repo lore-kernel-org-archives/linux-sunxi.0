@@ -1,43 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F173A7825;
-	Tue,  7 Apr 2026 17:51:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56C233A718;
+	Tue,  7 Apr 2026 18:40:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775584295; cv=none; b=rKoIKWWx3Ldtpm5miUiTTLQQfF1fd8UCN2IWL9VpaolFkUmpVBu5DMmId8G2SwS+dJAcJPa2O4nTjfNWi5E2rm4PCjkg0MUjlBvW79wR9+r3Ijz/5pUHIeGjhdSNvKF7FHcRvBAUN6WMelcU5fayrt9qQE1yeRPj7I0y/s4q3K0=
+	t=1775587257; cv=none; b=jJmitEt4m5ejeN+cPwpjpkAfDABHHENGRj1J6AbKQEZe3LBwvyjQZhVhrhJJ2+6wLKlZMHtav0Nx/Deb39lSsS/mZoJln5UvO+qxrvO/gvF2g8+5rOMyOWiEnRgaiy7jT8KErOcX2rMiKgjAWj6/YeqXVuy37LVJQ8zwlFREjbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775584295; c=relaxed/simple;
-	bh=rlMvpKgIOlZglIA88qVLTA+ty+Ojl1Tbj1KHcxZ+sM4=;
+	s=arc-20240116; t=1775587257; c=relaxed/simple;
+	bh=ctBJBNAL2sZVwDJhXMphkJ4Ne0SfUaEL20su6jHmPpQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W9RIfCI7by0Hmr2z85aTOeirQYhVlIvVGA1v8dmlvEhk3StPd9J4Y/tfDBmEZTheWGmCXIjRP1G5EspC1DL6K4kcHvCIwJojyTZwOrXdWcjZedX2RrulLmFAG+90+42YhtiGfYkOo4Xglsw18HQb4lphmEz4J/qBzlA4Hz/jdsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yk/IZ0bk; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=br8oIp4UdY+/aQw72CbwbSRMp3BoS+NOupN+AmbOPV4iXJiPi70YPRSQdWPpFP23mRJWnJv5afDOrTI+gkCYfzUtsQDzQoH+ZGtACElcbAwFDuI5yy3rz0qosDDk/tX/j99UAOQECVXeRP1rDJfHcAq4w8dUXq7l9ZDixXA2JQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sI/mLUzr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yk/IZ0bk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADD42C116C6;
-	Tue,  7 Apr 2026 17:51:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sI/mLUzr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DA0BC116C6;
+	Tue,  7 Apr 2026 18:40:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775584294;
-	bh=rlMvpKgIOlZglIA88qVLTA+ty+Ojl1Tbj1KHcxZ+sM4=;
+	s=k20201202; t=1775587257;
+	bh=ctBJBNAL2sZVwDJhXMphkJ4Ne0SfUaEL20su6jHmPpQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Yk/IZ0bkIfxY1NwrYVPkE0J/y6mUTaVCt2SijSspoxtSH0SsddcagzZWemgmgefgS
-	 Og0tgurlxvYiL6aHknxY0oc+xnDkKydEA/ZXne54HBIpY04+ZzlfsjXcAHPGxxWVgp
-	 wtcKaMCBq69EhA8p8Uc/hLsBEJ2dCK9JLooaYWdzzP0iZunoJRxhH4cmCUQfqvb3VK
-	 9d0ZBS/qGUczOV2O7OYf5Sl+ahTwPjO5C8ihpWUVAebchf1d6o8weM0fj/wVJfSRpy
-	 hrpITt71+aEaJSDc28XCZYti6dkDAkK6+JfaAfUs4cN077L3EZbDMzgUCPqd85NG1A
-	 eTeq1c8O/5teQ==
-Date: Tue, 7 Apr 2026 12:51:32 -0500
+	b=sI/mLUzrYB0p0h7F+qggqo+B7Iixi3QUIFCsUfYOUxnIZWiwOZgq7ZpCn339TFSkK
+	 /Bh2Vxl6Ng5B8rBSa7tzwXMlVhRi7hjYXswf7R7EHaz2nIvV0fNuEvc/AbusGP/y5Z
+	 9c3TZdbLIIDHjOYNTGyTt4Rx6zte92EOWG+3mssFLmsgbzu7+UhULF/innTCtcaPkX
+	 OznSjTzMz2iwVcW5IICmamnUgnIMPjy87/mqyizz+/U7eoWymD5sbqpL8dMZBNbDYh
+	 zFpClBRqO00vxOHRu2DZyvpCjlwNyxQWuLHoeEhS1p4r1EmCZeFwUri8Ixtmza/hrn
+	 6NnjaEZ03aDRg==
+Date: Tue, 7 Apr 2026 13:40:55 -0500
 From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Jernej Skrabec <jernej@kernel.org>, devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, Conor Dooley <conor+dt@kernel.org>,
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-gpio@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH 1/7] dt-bindings: sram: Document Allwinner H616 VE SRAM
-Message-ID: <177558429222.3170780.2861586740779038011.robh@kernel.org>
-References: <20260324164357.1607247-1-wens@kernel.org>
- <20260324164357.1607247-2-wens@kernel.org>
+	linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>
+Subject: Re: [PATCH v2 2/3] dt-bindings: pinctrl: sun55i-a523: increase IRQ
+ banks number
+Message-ID: <177558725508.3367275.431498004414263153.robh@kernel.org>
+References: <20260327113006.3135663-1-andre.przywara@arm.com>
+ <20260327113006.3135663-3-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -46,35 +49,24 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260324164357.1607247-2-wens@kernel.org>
+In-Reply-To: <20260327113006.3135663-3-andre.przywara@arm.com>
 
 
-On Wed, 25 Mar 2026 00:43:49 +0800, Chen-Yu Tsai wrote:
-> The Allwinner H616 has two switchable peripheral SRAM regions:
+On Fri, 27 Mar 2026 11:30:05 +0000, Andre Przywara wrote:
+> The Allwinner A523 SoC implements 10 GPIO banks in the first pinctrl
+> instance, but it skips the first bank (PortA), so their index goes from
+> 1 to 10. The same is actually true for the IRQ banks: there are registers
+> for 11 banks, though the first bank is not implemented (RAZ/WI).
+> In contrast to previous SoCs, the count of the IRQ banks starts with this
+> first unimplemented bank, so we need to provide an interrupt for it.
+> And indeed the A523 user manual lists an interrupt number for PortA, so we
+> need to increase the maximum number of interrupts per pin controller to 11,
+> to be able to assign the correct interrupt number for each bank.
 > 
-> - The VE SRAM is a 2 MB dedicated SRAM for the Video Engine. CPU access
->   to this region is enabled by default. CPU access can be disabled,
->   after which reads will show the same stale value for all addresses,
->   while writes are ignored.
-> 
->   The mux value for this region is different from previous generations,
->   and thus needs a completely new compatible.
-> 
-> - The SRAM C region is an alias of the first 128 KB of VE SRAM, plus 64
->   KB of DE SRAM. The latter is otherwise unaccessible from the CPU. When
->   CPU access is disabled, the whole region reads as zero, while writes
->   are ignored.
-> 
->   The mux value for this region is the same as on the A64 and H6. The
->   existing compatible for the A64 already covers this.
-> 
-> Add the compatible for the VE SRAM to the list of covered compatibles in
-> the generic SRAM region binding.
-> 
-> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
->  Documentation/devicetree/bindings/sram/sram.yaml | 1 +
->  1 file changed, 1 insertion(+)
+>  .../bindings/pinctrl/allwinner,sun55i-a523-pinctrl.yaml   | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
 
 Acked-by: Rob Herring (Arm) <robh@kernel.org>
