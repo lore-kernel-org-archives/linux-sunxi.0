@@ -1,136 +1,132 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48DF533260D
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 Apr 2026 22:14:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6DC25A2C6
+	for <linux-sunxi@lists.linux.dev>; Tue,  7 Apr 2026 14:53:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775513691; cv=none; b=hvM0NXET2aqn5atLQEbd1O6wHyQdVZdMX139COrXJyaNLGNg+CYA7eB2UeXpa9Txh0T8Y9ZwXQlZ+3d/g9jPPlU+ue4uIYb5vJTkqh4TG1+VjPXSzOjaBoggLhi7pG8sp7GCWs3St1igJ3xjYl3kf2wKEnVhfOpiP6Biey0r8ok=
+	t=1775573638; cv=none; b=mz3AtqWn6xG4NpBldiZrgin5y1lnarldE7MRWl6JyH3R+nBHNcrV69bIEN7S1DnlMA52H3UoB4xAqB2b7MnBZ/V96KNRY3MhpVFhHKqxvmGjz8/YAuyBdwKwmJqtRdGt4t0XnzvOP66Jr6MuRy7JfZqNGtfd22P41SXwgOYu8Mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775513691; c=relaxed/simple;
-	bh=lmqzuOQqgNOAyPi5swfvuKRWX8HE/D1ZIzOxJVc5ihw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ptpKkIzpq9EaOusIvHnP5mg+YK70SnGA3AAfRy5pGnHj67Z6PaevllVieUfNM3ugn75gZ3KMl3emlLYdacXb2p1fqGu+t2FQq7z+R/SA/mw2j4ZG/b1oD8MVPI65lVtrXnWLTp6pZDa2IX56t/IQSCwMEIsaj31rwv7sVMS/YVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UtLzsGVx; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775573638; c=relaxed/simple;
+	bh=kGTJiUzDyRNJKS4BNmmUipf00HRrYPNl3hHxzfb9418=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
+	 References:In-Reply-To; b=lvI3KF1wVSm2gLyHzmBbEpwlObIMg1mM1km5EVwE/2ayW3xO7KJ3oABQJSjN6wt7bCrKtoXkdzfc8MdB6yNe2Np/WmJDEjxtwtDc3499MZGndFhSodNVjQeqRop8vYe/b3Ch5u2oQoxXlal3odFigxi5NicFyU4f+tOtqh3TVAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jyg5zU1h; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UtLzsGVx"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-38e09b14102so8371111fa.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 06 Apr 2026 15:14:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775513688; x=1776118488; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tpN+/b8lu9/yvEaNtHU/WVfOxILX+ZQUzWAcfY4lXzo=;
-        b=UtLzsGVx6zhEMEwwVUEKnyZNPXzNGfvWx0bPPbR3+VIj/kHLEGUqA7kVGwVegoddUg
-         m7+CUI3+Pc9vAS8i4o+WOcv6SQv94a7n8nLT8nXgp7QkWW6xe0pVOcW+A/c/K0k7c+Mh
-         81pX3GUnP+U5Opg5eSyR6x1NgC7n5zho1uY5zDyF8D4O2zh4B1pmr145o0SmmK3VNjFA
-         z4mwKRtn1HoAAVd9rwZ9Fha6mYGPprS/1U8x0uzdsbuKZT+F4KO15aYLiDFliYSO1V04
-         wJ4/TiIFzaTeoUD+vQHplHumgcf0jJvWqVjtyFgu7MnYOhroSthlbahIMmFiN9Mpjm4N
-         9gqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775513688; x=1776118488;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tpN+/b8lu9/yvEaNtHU/WVfOxILX+ZQUzWAcfY4lXzo=;
-        b=bf+YMgci2Di1kfmbJErAHf5tPZzMZuzLqaItNZD3PfHbhcxAyQAmh4sYRTXTHBm4fU
-         u2DlUtWBGhhqvcttmyGD0dulHfCIVUPO6iGSfuODlJPR+5EXIoDFEw+PFYz3R8BI5gFb
-         HjPrK23eYBKAy5SFGTHwscmPQCRCwWTOy3Ec8RzPnaFJdntyHanTOQVlZ3fB9pwliPG5
-         Py7O45ySjv93IDJJvqpoyxtCeW//einLqN4y4s57m69bncs5Ro+mTGkZ4jOXOu0hSCy0
-         zHFJd6cWxOv2s8KGOrFlaHdRlnHDqRcG5fqQZXwLfxm5GvmYBkG4o2yKnfQ4V7+TObcU
-         po5A==
-X-Forwarded-Encrypted: i=1; AJvYcCUARR4m+R81oylhrdyVrQ58Aic/UHkAaqTiq++jrZKHNGhgTZkeuZHiKuBKrbEE3x3+IZbbTzGKR9MHPw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxbglVkmFq1jO1t7yJxtyd/wpP/HtWzTdM67JNw4ZJUhgfZIqdw
-	8OV0GVwYGroxY0Vpxy5R1/aHnYTeTQ+eg9jvVsT4Oztrl/Ijhh+aGr7x
-X-Gm-Gg: AeBDiesFnP/uZQPhIdjd4DFjtGeJFwCUNzp851Espmn0QNxiUx64q4HafjeQftY4xf4
-	wHugOCQtMh59g1Bz925bWJy8Ac/kw9Gp2goq/ogMYpFHZHXUxEvRu12EkTRBT3dhYPbHuXOVlUm
-	J18WxGnIJjorKInrvp8fsmqU8qOQwOIDZH1Zc/JcKkcyqTr8eINSHoVjq3jeJW0bZ/lJewfjMAV
-	Arar499eGAslcWbJUmYGXKdcluHhuyONTmpTMcnTOWdjI8kqR+Mnkh/gKrfUgdQ5DjJx4IkqONn
-	7q1wMDhiwYTy78Oinqdug9QzDtPNHMj2UPgOuygXjWbgIGozW0BHniCO+mLf2uo+4AGCZ2FufqK
-	d5DLDsk/D9/VuOb9yZfZ0yt5LZ9potpxBB4Vdjm8nwv6LV93ggKJjSq+suyzYEwCel6rlXrp4/8
-	BTWokcZHAYbQz1b1MDN9Puk+hOIQ==
-X-Received: by 2002:a05:651c:1b13:b0:38b:f0f0:e38f with SMTP id 38308e7fff4ca-38d91d78c88mr39211001fa.2.1775513688308;
-        Mon, 06 Apr 2026 15:14:48 -0700 (PDT)
-Received: from new-nest ([94.19.228.143])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38cd2108c9dsm31924801fa.21.2026.04.06.15.14.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2026 15:14:47 -0700 (PDT)
-From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-To: Dan Carpenter <error27@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Subject: [PATCH v2] media: cedrus: Fix failure to clean up hardware on probe failure
-Date: Tue,  7 Apr 2026 01:14:40 +0300
-Message-ID: <20260406221440.3721863-1-andrej.skvortzov@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jyg5zU1h"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id A24D41A31C6;
+	Tue,  7 Apr 2026 14:53:53 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 74AD7603C7;
+	Tue,  7 Apr 2026 14:53:53 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E190010450234;
+	Tue,  7 Apr 2026 16:53:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1775573631; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=dFpKKgJSe3LDnkGc1FYdedAaRZnlCAUJQ/ukxoYtD4Y=;
+	b=jyg5zU1hYNkpXLJb6meqXDq8VXWt5eBi1yf3MaMX4NsBnSaVC/ZPYaTPMHOcbkpkgn7seX
+	HdjHcw4PrpZ0PYHJ18lCo/NHNq/wkP2Ku+QULqsv8pSWhETT/KsLi7kQeTcjZWYThxn7Q4
+	l7zHJtiDTJiJlC1CO/bQDYp8BnlXkGJuxUHCWCez3KNaNT6ICV89h3x6N65jZYF6dnuQhC
+	xOEOeYuOK/aBMpBgzW0JucXrgPsddZzoiqseZiqilL5Fht5CfhYh8s8Bs8eo05cTOYj83O
+	phfnzk8yElIsP6clYK1BZPlnI0lWTWcda3nfyaoQG1wnb5XiWHJf1bmTtOtIUA==
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 07 Apr 2026 16:53:40 +0200
+Message-Id: <DHN0BGS5NT7V.364S1W551CQW6@bootlin.com>
+To: "Damon Ding" <damon.ding@rock-chips.com>, <andrzej.hajda@intel.com>,
+ <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <hjc@rock-chips.com>, <heiko@sntech.de>, <andy.yan@rock-chips.com>,
+ <wens@kernel.org>, <samuel@sholland.org>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH v1 2/4] drm/bridge: dw-hdmi: Allow
+ &dw_hdmi_plat_data.output_port = 0 without DRM_BRIDGE_ATTACH_NO_CONNECTOR
+Cc: <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+ <jernej.skrabec@gmail.com>, <victor.liu@nxp.com>,
+ <dmitry.baryshkov@oss.qualcomm.com>, <shengjiu.wang@nxp.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-rockchip@lists.infradead.org>, <linux-sunxi@lists.linux.dev>
+X-Mailer: aerc 0.20.1
+References: <20260403070032.447102-1-damon.ding@rock-chips.com>
+ <20260403070032.447102-3-damon.ding@rock-chips.com>
+In-Reply-To: <20260403070032.447102-3-damon.ding@rock-chips.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-From: Samuel Holland <samuel@sholland.org>
+Hello Damon,
 
-If V4L2 device fails to register, then SRAM still be claimed and as a
-result driver will not be able to probe again.
+On Fri Apr 3, 2026 at 9:00 AM CEST, Damon Ding wrote:
+> In the previous commit, Luca split the dw-hdmi attach process into two
+> cases:
+>
+>  A. hdmi->plat_data->output_port =3D 0:
+>     the HDMI output (port@1) in device tree is not used
+>
+>  B. hdmi->plat_data->output_port =3D 1:
+>     the HDMI output (port@1) is parsed to find the next bridge
+>
+> For Rockchip, many older platforms (RK3288, RK3399, etc.) only support
+> case A by default. They can support DRM_BRIDGE_ATTACH_NO_CONNECTOR flag
+> after adapting to the bridge connector helper. Relax this constraint in
+> preparation for Rockchip dw-hdmi bridge-connector adaptation.
+>
+> Link: https://lore.kernel.org/all/20260402-drm-lcdif-dbanc-v3-6-27cd247a0=
+847@bootlin.com/
+> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+> ---
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/=
+bridge/synopsys/dw-hdmi.c
+> index dd50dda3a4f5..20b2f9e145b0 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -2912,9 +2912,8 @@ static int dw_hdmi_bridge_attach(struct drm_bridge =
+*bridge,
+>  {
+>  	struct dw_hdmi *hdmi =3D bridge->driver_private;
+>
+> -	/* DRM_BRIDGE_ATTACH_NO_CONNECTOR requires a remote-endpoint to the nex=
+t bridge */
+> -	if (WARN_ON((flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) && !hdmi->plat_dat=
+a->output_port))
+> -		return -EINVAL;
+> +	if ((flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) && !hdmi->plat_data->outpu=
+t_port)
+> +		return 0;
+>
+>  	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
+>  		struct device_node *remote __free(device_node) =3D
 
- cedrus 1c0e000.video-codec: Failed to claim SRAM
- cedrus 1c0e000.video-codec: Failed to probe hardware
- cedrus 1c0e000.video-codec: probe with driver cedrus failed with error -16
+My understanding is that a hdmi-connector node is required in DT when using
+drm_bridge_connector and DRM_BRIDGE_ATTACH_NO_CONNECTOR. Among others, it
+is necessary to expose the correct connector type instead of defaulting to
+DRM_MODE_CONNECTOR_HDMIA.
 
-cedrus_hw_remove undoes everything that was previously done by
-cedrus_hw_probe, such as disabling runtime power management and
-releasing the claimed SRAM and reserved memory region.
+@Dmitry, others, can you confirm or deny the above?
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
-Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Fixes: 50e761516f2b ("media: platform: Add Cedrus VPU decoder driver")
----
+If I'm correct, then the right way to support
+DRM_BRIDGE_ATTACH_NO_CONNECTOR here is adding an hdmi-connector node in DT,
+perhaps reusing the device tree overlay I proposed in [0].
 
-Changes in v2:
- - remove duplicate 'in-body' From: record
- - add more technical details to commit message
+[0] https://lore.kernel.org/lkml/20260407-drm-lcdif-dbanc-v4-8-247a16e61ef9=
+@bootlin.com/
 
- drivers/staging/media/sunxi/cedrus/cedrus.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Luca
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index 1d2130f35fffc..ee0e286add67d 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -477,7 +477,7 @@ static int cedrus_probe(struct platform_device *pdev)
- 	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to register V4L2 device\n");
--		return ret;
-+		goto err_hw;
- 	}
- 
- 	vfd = &dev->vfd;
-@@ -538,6 +538,8 @@ static int cedrus_probe(struct platform_device *pdev)
- 	v4l2_m2m_release(dev->m2m_dev);
- err_v4l2:
- 	v4l2_device_unregister(&dev->v4l2_dev);
-+err_hw:
-+	cedrus_hw_remove(dev);
- 
- 	return ret;
- }
--- 
-2.51.0
-
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
