@@ -1,43 +1,43 @@
 Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7933ACEE1
-	for <linux-sunxi@lists.linux.dev>; Wed,  8 Apr 2026 09:43:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C254F3AE712
+	for <linux-sunxi@lists.linux.dev>; Wed,  8 Apr 2026 09:43:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775641406; cv=none; b=j012laG7sYLI1DXujLkTgfdm4/SxMrcSsV97TtUea3pZWLa/pOjaWVaRLqTI2K82gufW/wD2H7wDz2phBwhZljysl7dfCjW0T2jZTVN/onfuyaGxSBzrgcUGmeRT80yO757bV9HPWb+MazksR7lz4I5jUPMpTz4C6SozLzYwliE=
+	t=1775641421; cv=none; b=tg8Sr0WoX+Y513EiAkbW/xFEwa6Eqpg3xXRD6v1qfXgW/BTWcpaB913gtMZmn9ciLdaCaYUl1Lzai1oDJMOD3JAyDmAPUKbz8On2x9mvlbX0vBoxN4hF8os5hldckqGQAEBNtBRAPFG9vzHJayid+ELPpL4OX0Wz7omXOZZv3Zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775641406; c=relaxed/simple;
-	bh=42cTnhbRNXDI42kmq2UqvJhTgEsYYP6zV+heY4u/ph4=;
+	s=arc-20240116; t=1775641421; c=relaxed/simple;
+	bh=c4FPCC64OLY6uQ7rq6bCkd7CNhC0hCmGm+WzJILpnU8=;
 	h=In-Reply-To:References:From:To:Cc:Subject:MIME-Version:
-	 Content-Disposition:Content-Type:Message-Id:Date; b=DrmA99AV9fFq7Y2a4V5HF9LJDT1pVSnOV2RPNv7XklLMtJt8QTuow+gCl5vAPXucjis7CsIOXEGTetHD3LZHxIuv7XUazLuqkjNJ8gvrXb1J198svMY/Zqh7EKM7juTm1nITggXvm1PrCBBMW6TGhB2xPJS3XA9R8h9DZ2oaSmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=pMmFVqfW; arc=none smtp.client-ip=78.32.30.218
+	 Content-Disposition:Content-Type:Message-Id:Date; b=Cmuy3si8UC1ECet4ivS4g+8IDZbPftvb+qblUpaQunRQuf3TEZrnlAMKXd/dXa5tfwb//7HR6/QA+rDxLONcbWRum1azxwkg3gKAQTxb3zT6WugOGWP1zF+8t7NcZfKGXSwYYx/VwUTXS0arYikK02tmJZMjc5HHlByqbMljYVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=LWVCNGgR; arc=none smtp.client-ip=78.32.30.218
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="pMmFVqfW"
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="LWVCNGgR"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:References:
 	In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
 	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=dtVN72wGnZ6TO0cAYb5J7S2eJNnpZu9n4ngwxR3LA7o=; b=pMmFVqfW9d0y0Vunkjgw90tppX
-	e6SHEF9NLrmIAYbhuF6NYMuzwDOppOsK4e22goBrdIiKzvwduIXBRma6wH5ml1NdEv6wFPF46mgjY
-	ZjleLyH++ly3sn9TqN8TkvoxEpyRVEG/JnAG40jPB6MfzSIA1BCj91LVWhBomWJMcd4iaFjqmE6cF
-	6tn+0yEbovFt6d5tYDwYkcYq2HfcBD6VTd78TXwFg0EDFcrcCsX1oCgXHy24shjczrNA34YJABqLq
-	bWPkQB0TU6h7mui5mHBwDdhMZcH/sVs+TMusmJGUn/E/oJ+/eW9OAIhWiXviE4E+XFLAb9rge0YTg
-	vYTvPrrg==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:33734 helo=rmk-PC.armlinux.org.uk)
+	bh=FhdQTZ4PjxdShoN2GRJESKI6NUEw1EHbjw1nk/1gbzU=; b=LWVCNGgRtCTuIthGvixb61A+O8
+	C2GNvXJWZ6kxkTafqTGqfuUL71asdjM1C2FYgZxL8iRhdtav91LuRpZsj/TXI9qZZBkvHrFk1Vj5i
+	kbivRDeMv+KpkJm01SUtrvuMNbIS0+Q59yHymN4CAfKBoRgix4wOLmcW7+2gZmX5BimGmv+F8PV3t
+	UcIubeLHH3CpwG9f2+lrHiAvC4NNr0YGeCUycptUVkDaa91iXSLScagfulUk1LMfd9H2SE24BsKZI
+	x+b+iwzDfF8xqRZ3f6q7CB7HOycps5zd8x/ajUNl0ypsIUIjcAPyFbE5v2f1MlEVu7IzzR6F+syg1
+	S+e4yaew==;
+Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:33750 helo=rmk-PC.armlinux.org.uk)
 	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.98.2)
 	(envelope-from <rmk@armlinux.org.uk>)
-	id 1wAPC7-00000000244-1u7L;
-	Wed, 08 Apr 2026 10:27:31 +0100
+	id 1wAPC8-00000000246-3oVx;
+	Wed, 08 Apr 2026 10:27:33 +0100
 Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.98.2)
 	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
-	id 1wAPBw-0000000F7kf-0VA5;
-	Wed, 08 Apr 2026 10:27:20 +0100
+	id 1wAPC1-0000000F7kl-15YL;
+	Wed, 08 Apr 2026 10:27:25 +0100
 In-Reply-To: <adYfPBHsXxQUsMyr@shell.armlinux.org.uk>
 References: <adYfPBHsXxQUsMyr@shell.armlinux.org.uk>
 From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
@@ -55,8 +55,8 @@ Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
 	netdev@vger.kernel.org,
 	Paolo Abeni <pabeni@redhat.com>,
 	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH RFC net-next 08/10] net: stmmac: simplify
- stmmac_get_ethtool_stats()
+Subject: [PATCH RFC net-next 09/10] net: stmmac: clean up test for rx_coe
+ debug printing
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -66,110 +66,93 @@ MIME-Version: 1.0
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1wAPBw-0000000F7kf-0VA5@rmk-PC.armlinux.org.uk>
+Message-Id: <E1wAPC1-0000000F7kl-15YL@rmk-PC.armlinux.org.uk>
 Sender: Russell King <rmk@armlinux.org.uk>
-Date: Wed, 08 Apr 2026 10:27:20 +0100
+Date: Wed, 08 Apr 2026 10:27:25 +0100
 
-As documented, stmmac_dma_diagnostic_fr() will return non-zero for
-all non-DWMAC_CORE_MAC100 core types.
+The test for printing rx_coe as opposed to rx_coe_type[12] and
+rxfifo_over_2048 has checked for an XGMAC core or the Synopssys IP
+version (snpsver) >= v4.0.
 
-However, as DWMAC_CORE_MAC100 core types do not have DMA capabilities,
-priv->dma_cap.rmon and priv->dma_cap.eee will be zero, and thus there
-is no need to make this also conditional on the
-stmmac_dma_diagnostic_fr() return value.
+Since the Synopsys IP version depends on the core type, avoid using it.
 
-Remove this test and unindent the code, and remove unnecessary parens.
+The GMAC4 core type uses dwmac4_get_hw_feature(), which populates
+rx_coe but not rx_coe_type[12] or rxfifo_over_2048. XGMAC is the same
+but via dwxgmac2_get_hw_feature().
+
+dwmac-motorcomm populates rx_coe but not the others, and sets the core
+type to GMAC4. The Synopsys IP version is likely >= 4, but in any case
+printing rx_coe is clearly more correct.
+
+Lastly, dwmac-sun8i is an oddball - it sets rx_coe, but does not set
+core_type, leaving it as the defeault DWMAC_CORE_MAC100 since as far
+as I can see, none of the .dtsi files for this platform use any of the
+versioned snps,gmac-* compatibles. Moreover, sun8i_dwmac_setup() sets
+snpsver to zero (which stmmac_get_version() will have already done) so
+this has always used the rx_coe_type[12] path.
+
+Change the test to check for GMAC4 or XGMAC which covers the cases
+where rx_coe is set from the core hardware features.
+
+Also add a comment for the GMAC to GMAC4+ rx_coe feature translation in
+stmmac_hw_init(), and document rx_coe in struct plat_stmmacenet_data.
 
 Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 ---
- .../ethernet/stmicro/stmmac/stmmac_ethtool.c  | 60 +++++++++----------
- 1 file changed, 28 insertions(+), 32 deletions(-)
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 11 +++++++++--
+ include/linux/stmmac.h                            |  7 +++++++
+ 2 files changed, 16 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c
-index 0caa5b992519..77cb67f4c63c 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c
-@@ -519,9 +519,9 @@ static void stmmac_get_ethtool_stats(struct net_device *dev,
- 	u32 rx_queues_count = priv->plat->rx_queues_to_use;
- 	u32 tx_queues_count = priv->plat->tx_queues_to_use;
- 	u64 napi_poll = 0, normal_irq_n = 0;
--	int i, j = 0, pos, ret;
- 	unsigned long count;
- 	unsigned int start;
-+	int i, j = 0, pos;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+index e47321119c83..93c031b3cfd5 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -6624,11 +6624,15 @@ static int stmmac_dma_cap_show(struct seq_file *seq, void *v)
+ 	seq_printf(seq, "\tAV features: %s\n", (priv->dma_cap.av) ? "Y" : "N");
+ 	seq_printf(seq, "\tChecksum Offload in TX: %s\n",
+ 		   (priv->dma_cap.tx_coe) ? "Y" : "N");
+-	if (priv->snpsver >= DWMAC_CORE_4_00 ||
+-	    priv->plat->core_type == DWMAC_CORE_XGMAC) {
++	if (dwmac_is_xmac(priv->plat->core_type)) {
++		/* gmac4, xgmac, and motorcomm populate this. */
+ 		seq_printf(seq, "\tIP Checksum Offload in RX: %s\n",
+ 			   (priv->dma_cap.rx_coe) ? "Y" : "N");
+ 	} else {
++		/* only dwmac1000 has these three. sun8i sets rx_coe, but
++		 * sets snpsver to zero and leaves core_Type as MAC100, so
++		 * uses this path.
++		 */
+ 		seq_printf(seq, "\tIP Checksum Offload (type1) in RX: %s\n",
+ 			   (priv->dma_cap.rx_coe_type1) ? "Y" : "N");
+ 		seq_printf(seq, "\tIP Checksum Offload (type2) in RX: %s\n",
+@@ -7441,6 +7445,9 @@ static int stmmac_hw_init(struct stmmac_priv *priv)
+ 		/* In case of GMAC4 rx_coe is from HW cap register. */
+ 		priv->plat->rx_coe = priv->dma_cap.rx_coe;
  
- 	if (priv->dma_cap.asp) {
- 		for (i = 0; i < STMMAC_SAFETY_FEAT_SIZE; i++) {
-@@ -531,42 +531,38 @@ static void stmmac_get_ethtool_stats(struct net_device *dev,
- 		}
- 	}
- 
--	/* Update the DMA HW counters for dwmac10/100 (DWMAC_CORE_MAC100),
--	 * where this will return zero. Other core types will have a non-zero
--	 * return value.
--	 */
--	ret = stmmac_dma_diagnostic_fr(priv, &priv->xstats, priv->ioaddr);
--	if (ret) {
--		/* If supported, for new GMAC chips expose the MMC counters */
--		if (priv->dma_cap.rmon) {
--			stmmac_mmc_read(priv, priv->mmcaddr, &priv->mmc);
-+	/* Update the DMA HW counters for dwmac10/100 (DWMAC_CORE_MAC100). */
-+	stmmac_dma_diagnostic_fr(priv, &priv->xstats, priv->ioaddr);
- 
--			for (i = 0; i < STMMAC_MMC_STATS_LEN; i++) {
--				char *p;
--				p = (char *)priv + stmmac_mmc[i].stat_offset;
-+	/* If supported, for new GMAC chips expose the MMC counters */
-+	if (priv->dma_cap.rmon) {
-+		stmmac_mmc_read(priv, priv->mmcaddr, &priv->mmc);
- 
--				data[j++] = (stmmac_mmc[i].sizeof_stat ==
--					     sizeof(u64)) ? (*(u64 *)p) :
--					     (*(u32 *)p);
--			}
--		}
--		if (priv->dma_cap.eee) {
--			int val = phylink_get_eee_err(priv->phylink);
--			if (val)
--				priv->xstats.phy_eee_wakeup_error_n = val;
-+		for (i = 0; i < STMMAC_MMC_STATS_LEN; i++) {
-+			char *p = (char *)priv + stmmac_mmc[i].stat_offset;
-+
-+			data[j++] = stmmac_mmc[i].sizeof_stat == sizeof(u64) ?
-+				    *(u64 *)p : *(u32 *)p;
- 		}
-+	}
- 
--		/* Only dwmac1000 and dwmac4 implements the MAC .debug() method.
--		 * As there are different version spaces depending on core_type,
--		 * make this conditional on the appropriate core type.
--		 */
--		if ((priv->plat->core_type == DWMAC_CORE_GMAC ||
--		     priv->plat->core_type == DWMAC_CORE_GMAC4) &&
--		    priv->snpsver >= DWMAC_CORE_3_50)
--			stmmac_mac_debug(priv, priv->ioaddr,
--					(void *)&priv->xstats,
--					rx_queues_count, tx_queues_count);
-+	if (priv->dma_cap.eee) {
-+		int val = phylink_get_eee_err(priv->phylink);
-+		if (val)
-+			priv->xstats.phy_eee_wakeup_error_n = val;
- 	}
-+
-+	/* Only dwmac1000 and dwmac4 implements the MAC .debug() method.
-+	 * As there are different version spaces depending on core_type,
-+	 * make this conditional on the appropriate core type.
++		/* GMAC (dwmac1000) has separate bits for the Rx COE type.
++		 * Translate to the GMAC4/XGMAC rx_coe feature code.
++		 */
+ 		if (priv->dma_cap.rx_coe_type2)
+ 			priv->plat->rx_coe = STMMAC_RX_COE_TYPE2;
+ 		else if (priv->dma_cap.rx_coe_type1)
+diff --git a/include/linux/stmmac.h b/include/linux/stmmac.h
+index 4430b967abde..c80d45de0067 100644
+--- a/include/linux/stmmac.h
++++ b/include/linux/stmmac.h
+@@ -256,6 +256,13 @@ struct plat_stmmacenet_data {
+ 	bool force_sf_dma_mode;
+ 	bool force_thresh_dma_mode;
+ 	bool riwt_off;
++	/* rx_coe:
++	 * for dwmac100, rx_coe does not appear to be defined.
++	 * for dwmac1000, rx_coe takes one of the STMMAC_RX_COE_* constants,
++	 *  which will be derived from the RXTYP[12]COE hardware feature bits.
++	 * for dwmac4 and xgmac, rx_coe is a boolean from the RXCOESEL hardware
++	 *  feature bit.
 +	 */
-+	if ((priv->plat->core_type == DWMAC_CORE_GMAC ||
-+	     priv->plat->core_type == DWMAC_CORE_GMAC4) &&
-+	    priv->snpsver >= DWMAC_CORE_3_50)
-+		stmmac_mac_debug(priv, priv->ioaddr,
-+				(void *)&priv->xstats,
-+				rx_queues_count, tx_queues_count);
-+
- 	for (i = 0; i < STMMAC_STATS_LEN; i++) {
- 		char *p = (char *)priv + stmmac_gstrings_stats[i].stat_offset;
- 		data[j++] = (stmmac_gstrings_stats[i].sizeof_stat ==
+ 	int rx_coe;
+ 	int max_speed;
+ 	int maxmtu;
 -- 
 2.47.3
 
