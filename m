@@ -1,43 +1,39 @@
 Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FEDF2C11F1;
-	Thu,  9 Apr 2026 13:15:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C6C21771B;
+	Thu,  9 Apr 2026 13:33:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775740532; cv=none; b=PWECmJTKUrSD6G8zEZVoz1uTS+0FGX6Xi0e1T8NBHXin18U4mJcT38+wGsCDz4dPzQF2qMlveayVnYYMA+VLry/xU+Y+FdcDvqRL8HY6XCdiIu0yWPYAbp1IHDX9X1YhHU/YnAdV+wUQ3V+RYfOVVqvp6lrngsum7SQ4RTT7OiU=
+	t=1775741598; cv=none; b=c4lqR0hlSHtm57Ojl0Vl5vMJn5JydJIMwEqTRgc/1l/8QeEviantiqCsIcqGV6YXQpHESJFHM2Gpw9SfUJQCUgrGDr69PNgbcsiJv0gaFl5XY2hN2FpNcCnvErkf5/DC5EdZXVgLQDuckRTA2C2IIxiyJ8M71l4x1TFET8sX04o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775740532; c=relaxed/simple;
-	bh=HJWnzi27ry2ObbnjBv6NIgkwK3MnHYQz5ZtHwRq5L2g=;
+	s=arc-20240116; t=1775741598; c=relaxed/simple;
+	bh=Vk3pPD/Gc1p88nyH4rzkDAj4Wlf9h7ovPxfYHM4QgZo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hOa3zuz+M42BeYsWeUh/YTjt112JTR9Kgpl6pTd/qykSJFo3b4pXgWSQUP/hVmIcb5O8YHFcI4zWieEuCr7R+6RRhibCs4lj/0V4lC2baxXw+o5MakjWGFiTSWXarfoMU+vqnrbWiBfDFf1ZGrJxQLDwtkoHA6HkXcuo7FXbuE4=
+	 Content-Type:Content-Disposition:In-Reply-To; b=MuNlQteQ39jum1hHDZPoRcCIpUqKbrObpfI7ZxNNcCG2ogJdHEKg/+GIJzbI7jmmR1+hlO5FESAnco8NRPWYdCP2XvMTjQ6AxEc+5FvD3cGkpFIke5j9rk7dXv95M/oMNtBxNwyToB8DcMYnvYdMs9S6/4K5/HrIx9pg/KI0zlQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
 Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 5387D1F8004D;
-	Thu,  9 Apr 2026 13:15:26 +0000 (UTC)
+	by leonov.paulk.fr (Postfix) with ESMTPS id 9C8F71F8005A;
+	Thu,  9 Apr 2026 13:33:11 +0000 (UTC)
 Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id F10FFB401A6; Thu,  9 Apr 2026 13:15:24 +0000 (UTC)
+	id 136E0B401AB; Thu,  9 Apr 2026 13:33:10 +0000 (UTC)
 X-Spam-Level: 
 Received: from shepard (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id E753AB401A1;
-	Thu,  9 Apr 2026 13:15:23 +0000 (UTC)
-Date: Thu, 9 Apr 2026 15:15:21 +0200
+	by laika.paulk.fr (Postfix) with ESMTPSA id E0762B401A5;
+	Thu,  9 Apr 2026 13:33:08 +0000 (UTC)
+Date: Thu, 9 Apr 2026 15:33:06 +0200
 From: Paul Kocialkowski <paulk@sys-base.io>
-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Cc: Dan Carpenter <error27@gmail.com>, Maxime Ripard <mripard@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
+To: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Cc: mripard@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
+	wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+	nicolas.dufresne@collabora.com, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: cedrus: Fix missing cleanup in error path
-Message-ID: <ademaXe-zmEbGIUV@shepard>
-References: <20260406221402.3721777-1-andrej.skvortzov@gmail.com>
+Subject: Re: [PATCH] media: cedrus: skip invalid H.264 reference list entries
+Message-ID: <adeqkmA9VhaPkSAk@shepard>
+References: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,64 +41,78 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5Z+h4H++cTowfJsu"
+	protocol="application/pgp-signature"; boundary="qcME/vMivydd7zm5"
 Content-Disposition: inline
-In-Reply-To: <20260406221402.3721777-1-andrej.skvortzov@gmail.com>
+In-Reply-To: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
 
 
---5Z+h4H++cTowfJsu
+--qcME/vMivydd7zm5
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-On Tue 07 Apr 26, 01:14, Andrey Skvortsov wrote:
-> From: Samuel Holland <samuel@sholland.org>
+On Tue 24 Mar 26, 16:08, Pengpeng Hou wrote:
+> Cedrus consumes H.264 ref_pic_list0/ref_pic_list1 entries from the
+> stateless slice control and later uses their indices to look up
+> decode->dpb[] in _cedrus_write_ref_list().
 >=20
-> According to the documentation struct v4l2_fh has to be cleaned up with
-> v4l2_fh_exit() before being freed. [1]
-> Currently there is no actual bug here, when v4l2_fh_exit() isn't called.
-> v4l2_fh_exit() in this case only destroys internal mutex. But it may
-> change in the future, when v4l2_fh_init/v4l2_fh_exit will be enhanced.
->=20
-> 1. https://docs.kernel.org/driver-api/media/v4l2-fh.html
+> Rejecting such controls in cedrus_try_ctrl() would break existing
+> userspace, since stateless H.264 reference lists may legitimately carry
+> out-of-range indices for missing references. Instead, guard the actual
+> DPB lookup in Cedrus and skip entries whose indices do not fit the fixed
+> V4L2_H264_NUM_DPB_ENTRIES array.
 
-Good catch too, thanks!
+Could you explain why it is legitimate that userspace would pass indices th=
+at
+are not in the dpb list? As far as I remember from the H.264 spec, the L0/L1
+lists are constructed from active references only and the number of items t=
+here
+should be given by num_ref_idx_l0_active_minus1/num_ref_idx_l1_active_minus=
+1.
+We can tolerate invalid data beyond these indices, but certainly not as part
+of the indices that should be valid.
 
-Acked-by: Paul Kocialkowski <paulk@sys-base.io>
+However I agree that cedrus_try_ctrl is maybe not the right place to check =
+it
+since I'm not sure we are guaranteed that the slice params control will be
+checked before the new DPB (from the same request) is applied, so we might =
+end
+up checking against the dpb from the previous decode request.
+
+But I think we should error out and not just skip the invalid reference.
 
 All the best,
 
 Paul
 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-> Fixes: 50e761516f2b ("media: platform: Add Cedrus VPU decoder driver")
+>=20
+> This keeps the fix local to the driver use site and avoids out-of-bounds
+> reads from malformed or unsupported reference list entries.
+>=20
+> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 > ---
+>  drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 3 +++
+>  1 file changed, 3 insertions(+)
 >=20
-> Changes in v2:
->  - remove duplicate 'in-body' From: record
->  - add details to commit message
->=20
-> drivers/staging/media/sunxi/cedrus/cedrus.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
-g/media/sunxi/cedrus/cedrus.c
-> index 6600245dff0e2..1d2130f35fffc 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> @@ -391,6 +391,7 @@ static int cedrus_open(struct file *file)
->  err_m2m_release:
->  	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
->  err_free:
-> +	v4l2_fh_exit(&ctx->fh);
->  	kfree(ctx);
->  	mutex_unlock(&dev->dev_mutex);
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/s=
+taging/media/sunxi/cedrus/cedrus_h264.c
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> @@ -210,6 +210,9 @@ static void _cedrus_write_ref_list(struct cedrus_ctx =
+*ctx,
+>  		u8 dpb_idx;
 > =20
+>  		dpb_idx =3D ref_list[i].index;
+> +		if (dpb_idx >=3D V4L2_H264_NUM_DPB_ENTRIES)
+> +			continue;
+> +
+>  		dpb =3D &decode->dpb[dpb_idx];
+> =20
+>  		if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
 > --=20
-> 2.51.0
+> 2.50.1
 >=20
 
 --=20
@@ -113,24 +123,24 @@ Free software developer - https://www.paulk.fr/
 
 Expert in multimedia, graphics and embedded hardware support with Linux.
 
---5Z+h4H++cTowfJsu
+--qcME/vMivydd7zm5
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmnXpmkACgkQhP3B6o/u
-lQw6rQ/+JRyqAd6MzQ2xrzJl5ar/9l2WWPAtTawNPXkANjhkbbfG/+oxmwNk2QB2
-PgJhtyvcwS+EyRCKZic7gjTTf670J9Iz9FhAW0XiZH4nmFpUSg42t9fUfbzAj1zo
-anINhb1wgbSt0OJ+7u9nuF4q4KinRHlCVuqEWq3QX078b7oItJ3RY1j0MNUVVD9A
-b3590HJ7XQ3fhT7bqwy4AGl4RPt3fA5UGn2J2fKfSQC/FAFcLmBBz0wfOwmNAAqC
-mfAydT+ZI8zQnwb28PZw6PEx0SQnuBUm/NLWjl179DUgxyDR7F6VXjY2jmBZtLNG
-Fzw8r6GyYeqCdaBt7mcT2vbIzCUMzV9u5iwQB+4bRHXiF3L8gbHJTtAvqVgL+tZt
-qnj52uV8q3pdiQosqwR3bTxt8NT/wsbZbiMpBsjqe/UjHVuofjIxzqAHNexRBl2f
-zRD7GV/EwnbNltbP1lu+fgZBRcJRz2t1jkvjwpZ7n/Ec66cyDXotMQ6mAy8ugSjV
-MgURkiFhNrU8SPC3jpFB3ff9XpyDg3uPEEqtUd5IrXSbEfmQcag7t2GpLpGyW6lf
-DEJqgz+CvDUknsCbqazLyfxt4yVyxkCe0bJw0tHIyLom1Muf8qFqR9okAq03VDD6
-ikr5rF81u8+Y6vmVTaEYlWlgK1AOaSBP19JOPh32oEIdhb7DtAg=
-=aZU3
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmnXqpIACgkQhP3B6o/u
+lQzEug/+L0i5WTWsYIfonjrs2jQjpLwvRKyR7+XhxwJUfL+txU8E2UXge7nNq3ja
+ArsUnJXyjCzhaj1Tot8ptBKjfcSYOjbsFYHeiUIHvHNIm56Q0G1k+801TVEWRcXQ
+LwKfkyBAl9HMf4FtR++yMoZ4f90tSJzpQJqjp04pTxQKErxB2S8V3HeW85m7qs/y
+tORRrEawCMgs8J/Wn23IAl5j7mJKE9BK4WMasgmTqOG1qmTpw7FzyOR4peCD/pUx
+L+QonrV1TRVGR3HW2ICL4Gmmu7utCzdgy7Sy/JN1wMgM1mLIEhIz+YuMmMjUVR+o
+/yae3q+Ht3a2L/+nm4fhpElg2AVi/Eo0YpIrdE7TqqmHMxtY5sXllJBZGUHwdr/L
+wF2XxBcP7bNx4IfBwkT62iAVxGaag4fzRsYGr3uG3En8i9Oo96p4rD8cDRS1/l8N
+3WSYF8oVIG7hkaiqX4drUkqXGkt14HLB8+iNPz8a5cE9WW9CYeYwVJ2IC9F0DEgW
+PbAvNDNpaCLdJjNxV0eFdggl0Ipq94xALhjOSFobhOlJjreOqNjLrsKpynsnD5K6
+FWAw+Pj/fPDMhZvj8lfW3RW4T6pZ/KTFHzZ9wWjEgCiTbFNtjOxWc2V2CY9Q2YNI
+3fDtG+tv1cKs0uLyMdwLLYcyo8BdtoCuTQas99LdqZv4TTKafxU=
+=1orP
 -----END PGP SIGNATURE-----
 
---5Z+h4H++cTowfJsu--
+--qcME/vMivydd7zm5--
