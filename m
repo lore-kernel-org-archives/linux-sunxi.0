@@ -1,146 +1,217 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C6C21771B;
-	Thu,  9 Apr 2026 13:33:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654203A0B05;
+	Thu,  9 Apr 2026 13:55:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775741598; cv=none; b=c4lqR0hlSHtm57Ojl0Vl5vMJn5JydJIMwEqTRgc/1l/8QeEviantiqCsIcqGV6YXQpHESJFHM2Gpw9SfUJQCUgrGDr69PNgbcsiJv0gaFl5XY2hN2FpNcCnvErkf5/DC5EdZXVgLQDuckRTA2C2IIxiyJ8M71l4x1TFET8sX04o=
+	t=1775742931; cv=none; b=AET9XLYuVoH7l3M1P23H4k7llkBL1B7xpytyUANV44LvjKxc9MiCeZluJMhaTdb4Xwbx/MIcBLAWbI1Pqvz9wD5b1Eq3W6J9Qu6/BbvWKps4nxyosfDUbI2mdze/88fjB7ZsgAdJ0WvvuQiGUVaSOXx3/iv8ND1Iing//XySgdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775741598; c=relaxed/simple;
-	bh=Vk3pPD/Gc1p88nyH4rzkDAj4Wlf9h7ovPxfYHM4QgZo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MuNlQteQ39jum1hHDZPoRcCIpUqKbrObpfI7ZxNNcCG2ogJdHEKg/+GIJzbI7jmmR1+hlO5FESAnco8NRPWYdCP2XvMTjQ6AxEc+5FvD3cGkpFIke5j9rk7dXv95M/oMNtBxNwyToB8DcMYnvYdMs9S6/4K5/HrIx9pg/KI0zlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 9C8F71F8005A;
-	Thu,  9 Apr 2026 13:33:11 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 136E0B401AB; Thu,  9 Apr 2026 13:33:10 +0000 (UTC)
-X-Spam-Level: 
-Received: from shepard (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id E0762B401A5;
-	Thu,  9 Apr 2026 13:33:08 +0000 (UTC)
-Date: Thu, 9 Apr 2026 15:33:06 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Cc: mripard@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
-	nicolas.dufresne@collabora.com, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: cedrus: skip invalid H.264 reference list entries
-Message-ID: <adeqkmA9VhaPkSAk@shepard>
+	s=arc-20240116; t=1775742931; c=relaxed/simple;
+	bh=/wyN074ozyoyiY3SXF9S2Zxhqlxqtyee4oZd5bQXtI8=;
+	h=From:Date:Message-ID:To:Cc:In-Reply-To:References:Subject; b=DBUakYCt6EgRFBnVmXnabVYfWsZZwz4OYqAF5dCS3csMCUYNepuVEnYGoB7g609JwM1JgFFTDM4p1lrwa4qB1rP95ieFJnC1/QsylWnWQbbSJV7R/nzXNbEGXzQNaZXA8LxtOE5veALx3sAlPoQ1lvJF2/1f5kRdIv1z70gthZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from 0001-cedrus-h264-active-v2.eml (unknown [111.196.245.116])
+	by APP-01 (Coremail) with SMTP id qwCowADHM2_Er9dpNYa+DA--.16410S2;
+	Thu, 09 Apr 2026 21:55:17 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Date: Thu, 9 Apr 2026 21:30:00 +0800
+Message-ID: <20260409223001.1-cedrus-h264-active-v2-pengpeng@iscas.ac.cn>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Paul Kocialkowski <paulk@sys-base.io>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, pengpeng@iscas.ac.cn
+In-Reply-To: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
 References: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
+Subject: [PATCH v2] media: cedrus: reject invalid active H.264 ref indices
+X-CM-TRANSID:qwCowADHM2_Er9dpNYa+DA--.16410S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3JF1DAr1ftF13Gr4rKr15Jwb_yoW7tr1kpF
+	45Cr1DJF4UJr15GFW8JFW8Z3WakFyrXry7JryrKw1jvFy7try7tF1ak34Yvr45Z3yDCrsa
+	yF4ay3y8Cr48ArUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
+	c2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
+	WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
+	67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
+	IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF
+	0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxh
+	VjvjDU0xZFpf9x0JUZYFZUUUUU=
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qcME/vMivydd7zm5"
-Content-Disposition: inline
-In-Reply-To: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
 
+Cedrus consumes the active ref_pic_list0/ref_pic_list1 entries and uses
+their indices to look up decode->dpb[] in _cedrus_write_ref_list().
 
---qcME/vMivydd7zm5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Those active portions are the first
+num_ref_idx_l0_active_minus1 + 1 / num_ref_idx_l1_active_minus1 + 1
+entries in the two reference lists.
 
-Hi,
+An out-of-range index in that active portion can therefore read past the
+fixed V4L2_H264_NUM_DPB_ENTRIES array.
 
-On Tue 24 Mar 26, 16:08, Pengpeng Hou wrote:
-> Cedrus consumes H.264 ref_pic_list0/ref_pic_list1 entries from the
-> stateless slice control and later uses their indices to look up
-> decode->dpb[] in _cedrus_write_ref_list().
->=20
-> Rejecting such controls in cedrus_try_ctrl() would break existing
-> userspace, since stateless H.264 reference lists may legitimately carry
-> out-of-range indices for missing references. Instead, guard the actual
-> DPB lookup in Cedrus and skip entries whose indices do not fit the fixed
-> V4L2_H264_NUM_DPB_ENTRIES array.
+Checking this in cedrus_try_ctrl() is awkward because the request-local
+DPB state may not have been applied yet. Instead, validate the active
+entries at the actual Cedrus use site and fail setup with -EINVAL if one
+points past decode->dpb[].
 
-Could you explain why it is legitimate that userspace would pass indices th=
-at
-are not in the dpb list? As far as I remember from the H.264 spec, the L0/L1
-lists are constructed from active references only and the number of items t=
-here
-should be given by num_ref_idx_l0_active_minus1/num_ref_idx_l1_active_minus=
-1.
-We can tolerate invalid data beyond these indices, but certainly not as part
-of the indices that should be valid.
+Entries beyond the active reference counts remain ignored as before, so
+this does not change how Cedrus treats unused tail data in the
+reference-list controls.
 
-However I agree that cedrus_try_ctrl is maybe not the right place to check =
-it
-since I'm not sure we are guaranteed that the slice params control will be
-checked before the new DPB (from the same request) is applied, so we might =
-end
-up checking against the dpb from the previous decode request.
+Fixes: 6eb9b758e307 ("media: cedrus: Add H264 decoding support")
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+---
+Changes since v1:
+- reject invalid indices in the active reference list entries instead of
+  silently skipping them
+- keep the validation at the Cedrus use site, but propagate -EINVAL back
+  through setup
 
-But I think we should error out and not just skip the invalid reference.
+ drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 32 ++++++++++++++--
+ 1 file changed, 29 insertions(+), 3 deletions(-)
 
-All the best,
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+index 3e2843ef6cce..58c411c580f3 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+@@ -186,10 +186,10 @@ static int cedrus_write_frame_list(struct cedrus_ctx *ctx,
+ 
+ #define CEDRUS_MAX_REF_IDX	32
+ 
+-static void _cedrus_write_ref_list(struct cedrus_ctx *ctx,
+-				   struct cedrus_run *run,
+-				   const struct v4l2_h264_reference *ref_list,
+-				   u8 num_ref, enum cedrus_h264_sram_off sram)
++static int _cedrus_write_ref_list(struct cedrus_ctx *ctx,
++				  struct cedrus_run *run,
++				  const struct v4l2_h264_reference *ref_list,
++				  u8 num_ref, enum cedrus_h264_sram_off sram)
+ {
+ 	const struct v4l2_ctrl_h264_decode_params *decode = run->h264.decode_params;
+ 	struct vb2_queue *cap_q;
+@@ -210,6 +210,9 @@ static void _cedrus_write_ref_list(struct cedrus_ctx *ctx,
+ 		u8 dpb_idx;
+ 
+ 		dpb_idx = ref_list[i].index;
++		if (dpb_idx >= V4L2_H264_NUM_DPB_ENTRIES)
++			return -EINVAL;
++
+ 		dpb = &decode->dpb[dpb_idx];
+ 
+ 		if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
+@@ -229,28 +232,30 @@ static void _cedrus_write_ref_list(struct cedrus_ctx *ctx,
+ 
+ 	size = min_t(size_t, ALIGN(num_ref, 4), sizeof(sram_array));
+ 	cedrus_h264_write_sram(dev, sram, &sram_array, size);
++
++	return 0;
+ }
+ 
+-static void cedrus_write_ref_list0(struct cedrus_ctx *ctx,
+-				   struct cedrus_run *run)
++static int cedrus_write_ref_list0(struct cedrus_ctx *ctx,
++				  struct cedrus_run *run)
+ {
+ 	const struct v4l2_ctrl_h264_slice_params *slice = run->h264.slice_params;
+ 
+-	_cedrus_write_ref_list(ctx, run,
+-			       slice->ref_pic_list0,
+-			       slice->num_ref_idx_l0_active_minus1 + 1,
+-			       CEDRUS_SRAM_H264_REF_LIST_0);
++	return _cedrus_write_ref_list(ctx, run,
++				      slice->ref_pic_list0,
++				      slice->num_ref_idx_l0_active_minus1 + 1,
++				      CEDRUS_SRAM_H264_REF_LIST_0);
+ }
+ 
+-static void cedrus_write_ref_list1(struct cedrus_ctx *ctx,
+-				   struct cedrus_run *run)
++static int cedrus_write_ref_list1(struct cedrus_ctx *ctx,
++				  struct cedrus_run *run)
+ {
+ 	const struct v4l2_ctrl_h264_slice_params *slice = run->h264.slice_params;
+ 
+-	_cedrus_write_ref_list(ctx, run,
+-			       slice->ref_pic_list1,
+-			       slice->num_ref_idx_l1_active_minus1 + 1,
+-			       CEDRUS_SRAM_H264_REF_LIST_1);
++	return _cedrus_write_ref_list(ctx, run,
++				      slice->ref_pic_list1,
++				      slice->num_ref_idx_l1_active_minus1 + 1,
++				      CEDRUS_SRAM_H264_REF_LIST_1);
+ }
+ 
+ static void cedrus_write_scaling_lists(struct cedrus_ctx *ctx,
+@@ -338,8 +343,8 @@ static void cedrus_skip_bits(struct cedrus_dev *dev, int num)
+ 	}
+ }
+ 
+-static void cedrus_set_params(struct cedrus_ctx *ctx,
+-			      struct cedrus_run *run)
++static int cedrus_set_params(struct cedrus_ctx *ctx,
++			     struct cedrus_run *run)
+ {
+ 	const struct v4l2_ctrl_h264_decode_params *decode = run->h264.decode_params;
+ 	const struct v4l2_ctrl_h264_slice_params *slice = run->h264.slice_params;
+@@ -351,6 +356,7 @@ static void cedrus_set_params(struct cedrus_ctx *ctx,
+ 	size_t slice_bytes = vb2_get_plane_payload(src_buf, 0);
+ 	unsigned int pic_width_in_mbs;
+ 	bool mbaff_pic;
++	int ret;
+ 	u32 reg;
+ 
+ 	cedrus_write(dev, VE_H264_VLD_LEN, slice_bytes * 8);
+@@ -393,11 +399,17 @@ static void cedrus_set_params(struct cedrus_ctx *ctx,
+ 
+ 	if ((slice->slice_type == V4L2_H264_SLICE_TYPE_P) ||
+ 	    (slice->slice_type == V4L2_H264_SLICE_TYPE_SP) ||
+-	    (slice->slice_type == V4L2_H264_SLICE_TYPE_B))
+-		cedrus_write_ref_list0(ctx, run);
++	    (slice->slice_type == V4L2_H264_SLICE_TYPE_B)) {
++		ret = cedrus_write_ref_list0(ctx, run);
++		if (ret)
++			return ret;
++	}
+ 
+-	if (slice->slice_type == V4L2_H264_SLICE_TYPE_B)
+-		cedrus_write_ref_list1(ctx, run);
++	if (slice->slice_type == V4L2_H264_SLICE_TYPE_B) {
++		ret = cedrus_write_ref_list1(ctx, run);
++		if (ret)
++			return ret;
++	}
+ 
+ 	// picture parameters
+ 	reg = 0;
+@@ -478,6 +490,8 @@ static void cedrus_set_params(struct cedrus_ctx *ctx,
+ 		     VE_H264_CTRL_SLICE_DECODE_INT |
+ 		     VE_H264_CTRL_DECODE_ERR_INT |
+ 		     VE_H264_CTRL_VLD_DATA_REQ_INT);
++
++	return 0;
+ }
+ 
+ static enum cedrus_irq_status
+@@ -531,9 +545,7 @@ static int cedrus_h264_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
+ 	if (ret)
+ 		return ret;
+ 
+-	cedrus_set_params(ctx, run);
+-
+-	return 0;
++	return cedrus_set_params(ctx, run);
+ }
+ 
+ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+-- 
+2.50.1
 
-Paul
-
->=20
-> This keeps the fix local to the driver use site and avoids out-of-bounds
-> reads from malformed or unsupported reference list entries.
->=20
-> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/s=
-taging/media/sunxi/cedrus/cedrus_h264.c
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> @@ -210,6 +210,9 @@ static void _cedrus_write_ref_list(struct cedrus_ctx =
-*ctx,
->  		u8 dpb_idx;
-> =20
->  		dpb_idx =3D ref_list[i].index;
-> +		if (dpb_idx >=3D V4L2_H264_NUM_DPB_ENTRIES)
-> +			continue;
-> +
->  		dpb =3D &decode->dpb[dpb_idx];
-> =20
->  		if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
-> --=20
-> 2.50.1
->=20
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---qcME/vMivydd7zm5
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmnXqpIACgkQhP3B6o/u
-lQzEug/+L0i5WTWsYIfonjrs2jQjpLwvRKyR7+XhxwJUfL+txU8E2UXge7nNq3ja
-ArsUnJXyjCzhaj1Tot8ptBKjfcSYOjbsFYHeiUIHvHNIm56Q0G1k+801TVEWRcXQ
-LwKfkyBAl9HMf4FtR++yMoZ4f90tSJzpQJqjp04pTxQKErxB2S8V3HeW85m7qs/y
-tORRrEawCMgs8J/Wn23IAl5j7mJKE9BK4WMasgmTqOG1qmTpw7FzyOR4peCD/pUx
-L+QonrV1TRVGR3HW2ICL4Gmmu7utCzdgy7Sy/JN1wMgM1mLIEhIz+YuMmMjUVR+o
-/yae3q+Ht3a2L/+nm4fhpElg2AVi/Eo0YpIrdE7TqqmHMxtY5sXllJBZGUHwdr/L
-wF2XxBcP7bNx4IfBwkT62iAVxGaag4fzRsYGr3uG3En8i9Oo96p4rD8cDRS1/l8N
-3WSYF8oVIG7hkaiqX4drUkqXGkt14HLB8+iNPz8a5cE9WW9CYeYwVJ2IC9F0DEgW
-PbAvNDNpaCLdJjNxV0eFdggl0Ipq94xALhjOSFobhOlJjreOqNjLrsKpynsnD5K6
-FWAw+Pj/fPDMhZvj8lfW3RW4T6pZ/KTFHzZ9wWjEgCiTbFNtjOxWc2V2CY9Q2YNI
-3fDtG+tv1cKs0uLyMdwLLYcyo8BdtoCuTQas99LdqZv4TTKafxU=
-=1orP
------END PGP SIGNATURE-----
-
---qcME/vMivydd7zm5--
