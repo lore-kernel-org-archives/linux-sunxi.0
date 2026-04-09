@@ -1,410 +1,200 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9701A6826
-	for <linux-sunxi@lists.linux.dev>; Thu,  9 Apr 2026 17:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7871734753A;
+	Thu,  9 Apr 2026 17:48:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775755851; cv=none; b=J2DoFiN2w8cX05RVFLFN8tHAeUuLHeZVP8mGwPYodDRansqPlGzgwAQP1F92Tstvm90YybK0e6T0uWZ5Sh9Q6Z2cg0Yt60KJGHv+Q/y8gFnCgC34dZxZXRidNnCbLagxQT5tf0ycBH9Yj+VE/bHDsAKLrT6NSQ5jbbswRk4t5nA=
+	t=1775756910; cv=none; b=jVxX3sROY/vNNO5rcITPn+egLMRPsbgJYNCD17zaIdNJI2wArUdX/uEj16JcrEsKsLJcuGf8qWJflba12oFR3guo1OItY8QSctlp7tAFdTahafP/Io0JLLkHY+nGo1tOP1HyQeKgB61caPSSlI2UBjAcLSojZNk/zygfrMdZ32I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775755851; c=relaxed/simple;
-	bh=n6ZhTvDI/gO7vRnPYKTQOQKVkLDFI51YC7FfF+h0E9c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NE3a1+CEO3nNHuPDVKS9WvOIRcPVuCMF0e/UPkkZ4jKSpA0yJCOpZOIlIHrGINEcbctH7GuoCPl2yFeXIrT0BzXeCwOnEgymIriuWev96dd5W83ihGuzMnj9myDB7JxE9O/E7wB1XbKh0q0/kLDQLSNY55VXPCesstz8JjUVr2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id C8FAE1F8005C
-	for <linux-sunxi@lists.linux.dev>; Thu,  9 Apr 2026 17:30:44 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 4E2A8B401D2; Thu,  9 Apr 2026 17:30:43 +0000 (UTC)
-X-Spam-Level: 
-Received: from shepard (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id 83915B401B9;
-	Thu,  9 Apr 2026 17:30:41 +0000 (UTC)
-Date: Thu, 9 Apr 2026 19:30:38 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Richard Genoud <richard.genoud@bootlin.com>
-Cc: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	John Stultz <jstultz@google.com>, Joao Schim <joao@schimsalabim.eu>,
-	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	s=arc-20240116; t=1775756910; c=relaxed/simple;
+	bh=GOPVnYctauWroG2tZXF6QD2dB9fsyysY8ZThXl6u9is=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=n9mXsrRYkBx4ofoHNjpLH3OqmR+S6A4Va/oCMyrCyqVA7kp3HEEx/XLBhSzsC7xoQskoQWUMZFwJcEpqnva/pqwHqMoVrEkHtrX378eNkYLoikJTH4HUKon4J5uEZYEocx52wn4gm7+29bWW8mSkUDcSnWNH0dSQx/lBY+qt2Xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=N8M0tP1+; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="N8M0tP1+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1775756907;
+	bh=GOPVnYctauWroG2tZXF6QD2dB9fsyysY8ZThXl6u9is=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=N8M0tP1+nTFtCAm5mYRVljVpT2KsF2bTDT0V8fBto+rM4y2hKDJSG+8OOLf3pp431
+	 tOh+9b5PSxXh6LqFjnBxm+yXl5la2tcB6OvOhSUfp8ai4fVpL4GBiro53So+ov/CKG
+	 L5DeyF3/g5084oqSbNFZ5ZBgdHWu3IafJpI8VrGWrb3LECStbWC31qezreRYEWU4/D
+	 gRGVhUHw3LIT2lG2aj4Bj4/MR0BYaxea1wzEEPLsjOijPToiMgge7v8deHiPDk+LxP
+	 rJ4dN7rkF/SjfwN/xnEG5R6hBe6M42MccGZ6ao+0WGfcb2uAltVOwOcSXPLwPPzWgc
+	 ARz0OyCOxTWhw==
+Received: from [100.64.0.214] (unknown [100.64.0.214])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id F1A3617E11F5;
+	Thu,  9 Apr 2026 19:48:25 +0200 (CEST)
+Message-ID: <30ac60a7d8671917cbb8ce2fe77c9264e42905dd.camel@collabora.com>
+Subject: Re: [PATCH] media: cedrus: skip invalid H.264 reference list entries
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>, mripard@kernel.org,
+ mchehab@kernel.org, 	gregkh@linuxfoundation.org, wens@kernel.org,
+ jernej.skrabec@gmail.com, 	samuel@sholland.org,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] pwm: sun50i: Add H616 PWM support
-Message-ID: <adfiPo4Jq1IRMM0h@shepard>
-References: <20260305091959.2530374-1-richard.genoud@bootlin.com>
- <20260305091959.2530374-3-richard.genoud@bootlin.com>
+Date: Thu, 09 Apr 2026 13:48:23 -0400
+In-Reply-To: <adfGZHR9wM2d6-yJ@shepard>
+References: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
+	 <adeqkmA9VhaPkSAk@shepard>
+	 <4bd5d70a6144f3e8d4356c182f314cf735f1921c.camel@collabora.com>
+	 <ade4Qe4OS04au2Ba@shepard>
+	 <a5f8c14becdc926f14ea852c8c5a2d4665a2ef8a.camel@collabora.com>
+	 <adfGZHR9wM2d6-yJ@shepard>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-Nv2A21rWHI35JGwK0I46"
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="33pU5tb6RmcLLlSB"
-Content-Disposition: inline
-In-Reply-To: <20260305091959.2530374-3-richard.genoud@bootlin.com>
 
 
---33pU5tb6RmcLLlSB
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+--=-Nv2A21rWHI35JGwK0I46
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Richard,
+Le jeudi 09 avril 2026 =C3=A0 17:31 +0200, Paul Kocialkowski a =C3=A9crit=
+=C2=A0:
+> Hi,
+>=20
+> On Thu 09 Apr 26, 10:39, Nicolas Dufresne wrote:
+> > Hi,
+> >=20
+> > Le jeudi 09 avril 2026 =C3=A0 16:31 +0200, Paul Kocialkowski a =C3=A9cr=
+it=C2=A0:
+> > > I think it make sense yes, but it would be good to document it in the=
+ uAPI
+> > > document too.
+> >=20
+> > Basically, extend in the M2M decoder spec(s) on the existing documentat=
+ion:
+> > =C2=A0=C2=A0=20
+> > =C2=A0=C2=A0 V4L2_BUF_FLAG_ERROR:
+> > =C2=A0=C2=A0 -
+> > =C2=A0=C2=A0 When this flag is set, the buffer has been dequeued succes=
+sfully, although
+> > =C2=A0=C2=A0 the data might **have been corrupted**. This is recoverabl=
+e, streaming may
+> > =C2=A0=C2=A0 continue as normal and the buffer may be reused normally. =
+Drivers set this
+> > =C2=A0=C2=A0 flag when the VIDIOC_DQBUF ioctl is called.
+>=20
+> Well this part is about v4l2 buffers in general, not just m2m/decoders.
+> But I guess this mechanism would make sense for more device classes than =
+just
+> decoders, so we could indeed specify it there. Maybe with a sufficiently =
+broad
+> wording.
 
-On Thu 05 Mar 26, 10:19, Richard Genoud wrote:
-> +/* PWM IRQ Enable Register */
-> +#define H616_PWM_IER				0x0
+This is current spec, I did meant to use that as basis and improve that cod=
+ec
+specific part.
 
-I think it would make more sense to keep the full register names from the
-manual after the suffix and stick to them. It makes things easier when
-comparing the code with documentation or the reference implementation.
+>=20
+> But it would be good to also update the stateless decode document (and ma=
+ybe
+> stateful too) where V4L2_BUF_FLAG_ERROR is already mentionned a few times=
+.
+> We could indicate how this behavior related to reference frames there.
+>=20
+> If we agree I could make a series with the following:
+> - Introduce a V4L2_H264_REF_MISSING 0xff define (same for HEVC)
+> - Update the v4l2_h264_reference doc to mention it
+> - Update the cedrus driver to error out (zero-size payload) when the L0/L=
+1 index
+> =C2=A0 is either V4L2_H264_REF_MISSING or an invalid index that doesn't e=
+xist in the
+> =C2=A0 DPB (same for HEVC)
 
-So something like SUN8I_PWM_PIER here.
+Base on what you reported, this is currently the shortest and safe thing to=
+ do.
 
-> +
-> +/* PWM IRQ Status Register */
-> +#define H616_PWM_ISR				0x4
-> +
-> +/* PWM Capture IRQ Enable Register */
-> +#define H616_PWM_CIER				0x10
-> +
-> +/* PWM Capture IRQ Status Register */
-> +#define H616_PWM_CISR				0x14
-> +
-> +/* PWMCC Pairs Clock Configuration Registers */
-> +#define H616_PWM_XY_CLK_CR(pair)		(0x20 + ((pair) * 0x4))
-> +#define H616_PWM_XY_CLK_CR_SRC_SHIFT		7
-> +#define H616_PWM_XY_CLK_CR_SRC_MASK		1
-> +#define H616_PWM_XY_CLK_CR_GATE_BIT		4
-> +#define H616_PWM_XY_CLK_CR_BYPASS_BIT(chan)	((chan) % 2 + 5)
-> +#define H616_PWM_XY_CLK_CR_DIV_M_SHIFT		0
-> +
-> +/* PWMCC Pairs Dead Zone Control Registers */
-> +#define H616_PWM_XY_DZ(pair)			(0x30 + ((pair) * 0x4))
-> +
-> +/* PWM Enable Register */
-> +#define H616_PWM_ENR				0x40
-> +#define H616_PWM_ENABLE(x)			BIT(x)
-> +
-> +/* PWM Capture Enable Register */
-> +#define H616_PWM_CER				0x44
-> +
-> +/* PWM Control Register */
-> +#define H616_PWM_CTRL_REG(chan)		(0x60 + (chan) * 0x20)
+> - Update the v4l2 buffer and stateless(+stateful) documents to mention th=
+at
+> =C2=A0 buffers marked with V4L2_BUF_FLAG_ERROR may or may not contain usa=
+ble (yet
+> =C2=A0 corrupted) data depending on the payload size and how it relates t=
+o reference
+> =C2=A0 frames.
 
-You're sometimes calling the register offset _REG and sometimes not.
-Both options are fine but you need to keep it consistent across the whole
-definitions. I would be enclined to not use it after using the register nam=
-es
-coming from the manual as suggested above.
+wfm
 
-Also you're sometimes using "chan", sometimes "ch" for the argument to the
-register macros. This is inconsistent and you might as well just use "c"
-everywhere so it doesn't take too much space.
+>=20
+> Then we could later envision having a mechanism (hopefully common) to fig=
+ure out
+> the best replacement to a given missing reference, which would allow cedr=
+us
+> (and maybe other drivers too) to return a frame with incorrect data inste=
+ad of
+> a zero-size payload error.
 
-> +#define H616_PWM_CTRL_PRESCAL_K_SHIFT	0
-> +#define H616_PWM_CTRL_PRESCAL_K_WIDTH	8
-> +#define H616_PWM_CTRL_ACTIVE_STATE	BIT(8)
-> +
-> +/* PWM Period Register */
-> +#define H616_PWM_PERIOD_REG(ch)		(0x64 + (ch) * 0x20)
-> +#define H616_PWM_PERIOD_MASK		GENMASK(31, 16)
-> +#define H616_PWM_DUTY_MASK		GENMASK(15, 0)
-> +#define H616_PWM_REG_PERIOD(reg)	(FIELD_GET(H616_PWM_PERIOD_MASK, reg) +=
- 1)
-> +#define H616_PWM_REG_DUTY(reg)		FIELD_GET(H616_PWM_DUTY_MASK, reg)
-> +#define H616_PWM_PERIOD(prd)		FIELD_PREP(H616_PWM_PERIOD_MASK, (prd) - 1)
-> +#define H616_PWM_DUTY(dty)		FIELD_PREP(H616_PWM_DUTY_MASK, dty)
-> +#define H616_PWM_PERIOD_MAX		(FIELD_MAX(H616_PWM_PERIOD_MASK) + 1)
+Certainly, though from my experience best or any works quite well, and quit=
+e
+better then skipping. But if it makes the HW unstable, or sending uninitial=
+ized
+data to the HW, I agree this is better to hard fail that frame now, enhance
+later. Also, be aware that some HW (RK3399 iirc) have error counters, so yo=
+u
+know how many macroblocks are not decoded properly. Other HW have error IRQ=
+,
+with a register that tells which macroblock it failed on. The reference dec=
+oder
+have optional support for software concealment for the failing macroblock, =
+the
+down side is that in the worse case you get an irq per block, which is quit=
+e a
+disaster performance whise.
 
-Using REG as a prefix feels a bit confusing here. I would rather see:
-#define SUN8I_PWM_PPR(c)		(0x64 + (c) * 0x20)
-#define SUN8I_PWM_PPR_PERIOD(p)		FIELD_PREP(...)
-#define SUN8I_PWM_PPR_PERIOD_VALUE(r)	FIELD_GET(...)
-#define SUN8I_PWN_PPR_PERIOD_MAX	FIELD_MAX(...)
-#define SUN8I_PWM_PPR_DUTY(d)		FIELD_PREP(...)
-#define SUN8I_PWM_PPR_DUTY_VALUE(r)	FIELD_GET(...)
+>=20
+> What do you think?
 
-> +
-> +/* PWM Count Register */
-> +#define H616_PWM_CNT_REG(x)		(0x68 + (x) * 0x20)
-> +
-> +/* PWM Capture Control Register */
-> +#define H616_PWM_CCR(x)			(0x6c + (x) * 0x20)
-> +
-> +/* PWM Capture Rise Lock Register */
-> +#define H616_PWM_CRLR(x)		(0x70 + (x) * 0x20)
-> +
-> +/* PWM Capture Fall Lock Register */
-> +#define H616_PWM_CFLR(x)		(0x74 + (x) * 0x20)
-> +
-> +#define H616_PWM_PAIR_IDX(chan)		((chan) >> 2)
-> +
-> +/*
-> + * Block diagram of the PWM clock controller:
-> + *
-> + *             _____      ______      ________
-> + * OSC24M --->|     |    |      |    |        |
-> + * APB1 ----->| Mux |--->| Gate |--->| /div_m |-----> H616_PWM_clock_src=
-_xy
-> + *            |_____|    |______|    |________|
-> + *                               ________
-> + *                              |        |
-> + *                           +->| /div_k |---> H616_PWM_clock_x
-> + *                           |  |________|
-> + *                           |    ______
-> + *                           |   |      |
-> + *                           +-->| Gate |----> H616_PWM_bypass_clock_x
-> + *                           |   |______|
-> + * H616_PWM_clock_src_xy ----+   ________
-> + *                           |  |        |
-> + *                           +->| /div_k |---> H616_PWM_clock_y
-> + *                           |  |________|
-> + *                           |    ______
-> + *                           |   |      |
-> + *                           +-->| Gate |----> H616_PWM_bypass_clock_y
-> + *                               |______|
-> + *
-> + * NB: when the bypass is set, all the PWM logic is bypassed.
-> + * So, the duty cycle and polarity can't be modified (we just have a clo=
-ck).
-> + * The bypass in PWM mode is used to achieve a 1/2 relative duty cycle w=
-ith the
-> + * fastest clock.
-> + *
-> + * H616_PWM_clock_x/y serve for the PWM purpose.
-> + * H616_PWM_bypass_clock_x/y serve for the clock-provider purpose.
-> + *
-> + */
-> +
-> +/*
-> + * Table used for /div_m (diviser before obtaining H616_PWM_clock_src_xy)
-> + * It's actually CLK_DIVIDER_POWER_OF_TWO, but limited to /256
-> + */
-> +#define CLK_TABLE_DIV_M_ENTRY(i) { \
-> +	.val =3D (i), .div =3D 1 << (i) \
-> +}
-> +
-> +static const struct clk_div_table clk_table_div_m[] =3D {
-> +	CLK_TABLE_DIV_M_ENTRY(0),
-> +	CLK_TABLE_DIV_M_ENTRY(1),
-> +	CLK_TABLE_DIV_M_ENTRY(2),
-> +	CLK_TABLE_DIV_M_ENTRY(3),
-> +	CLK_TABLE_DIV_M_ENTRY(4),
-> +	CLK_TABLE_DIV_M_ENTRY(5),
-> +	CLK_TABLE_DIV_M_ENTRY(6),
-> +	CLK_TABLE_DIV_M_ENTRY(7),
-> +	CLK_TABLE_DIV_M_ENTRY(8),
-> +	{ /* sentinel */ }
-> +};
-> +
-> +#define H616_PWM_XY_SRC_GATE(_pair, _reg)		\
-> +struct clk_gate gate_xy_##_pair =3D {			\
-> +	.reg =3D (void *)(_reg),				\
-> +	.bit_idx =3D H616_PWM_XY_CLK_CR_GATE_BIT,		\
-> +	.hw.init =3D &(struct clk_init_data){		\
-> +		.ops =3D &clk_gate_ops,			\
-> +	}						\
-> +}
-> +
-> +#define H616_PWM_XY_SRC_MUX(_pair, _reg)		\
-> +struct clk_mux mux_xy_##_pair =3D {			\
-> +	.reg =3D (void *)(_reg),				\
-> +	.shift =3D H616_PWM_XY_CLK_CR_SRC_SHIFT,		\
-> +	.mask =3D H616_PWM_XY_CLK_CR_SRC_MASK,		\
-> +	.flags =3D CLK_MUX_ROUND_CLOSEST,			\
-> +	.hw.init =3D &(struct clk_init_data){		\
-> +		.ops =3D &clk_mux_ops,			\
-> +	}						\
-> +}
-> +
-> +#define H616_PWM_XY_SRC_DIV(_pair, _reg)		\
-> +struct clk_divider rate_xy_##_pair =3D {			\
-> +	.reg =3D (void *)(_reg),				\
-> +	.shift =3D H616_PWM_XY_CLK_CR_DIV_M_SHIFT,	\
-> +	.table =3D clk_table_div_m,			\
-> +	.hw.init =3D &(struct clk_init_data){		\
-> +		.ops =3D &clk_divider_ops,		\
-> +	}						\
-> +}
-> +
-> +#define H616_PWM_X_DIV(_idx, _reg)			\
-> +struct clk_divider rate_x_##_idx =3D {			\
-> +	.reg =3D (void *)(_reg),				\
-> +	.shift =3D H616_PWM_CTRL_PRESCAL_K_SHIFT,		\
-> +	.width =3D H616_PWM_CTRL_PRESCAL_K_WIDTH,		\
-> +	.hw.init =3D &(struct clk_init_data){		\
-> +		.ops =3D &clk_divider_ops,		\
-> +	}						\
-> +}
-> +
-> +#define H616_PWM_X_BYPASS_GATE(_idx)			\
-> +struct clk_gate gate_x_bypass_##_idx =3D {		\
-> +	.reg =3D (void *)H616_PWM_ENR,			\
-> +	.bit_idx =3D _idx,				\
-> +	.hw.init =3D &(struct clk_init_data){		\
-> +		.ops =3D &clk_gate_ops,			\
-> +	}						\
-> +}
-> +
-> +#define H616_PWM_XY_CLK_SRC(_pair, _reg)			\
-> +	static H616_PWM_XY_SRC_MUX(_pair, _reg);		\
-> +	static H616_PWM_XY_SRC_GATE(_pair, _reg);		\
-> +	static H616_PWM_XY_SRC_DIV(_pair, _reg)
-> +
-> +#define H616_PWM_X_CLK(_idx)					\
-> +	static H616_PWM_X_DIV(_idx, H616_PWM_CTRL_REG(_idx))
-> +
-> +#define H616_PWM_X_BYPASS_CLK(_idx)				\
-> +	H616_PWM_X_BYPASS_GATE(_idx)
-> +
-> +#define REF_CLK_XY_SRC(_pair)						\
-> +	{								\
-> +		.name =3D "pwm-clk-src" #_pair,				\
-> +		.mux_hw =3D &mux_xy_##_pair.hw,				\
-> +		.gate_hw =3D &gate_xy_##_pair.hw,				\
-> +		.rate_hw =3D &rate_xy_##_pair.hw,				\
-> +	}
-> +
-> +#define REF_CLK_X(_idx, _pair)						\
-> +	{								\
-> +		.name =3D "pwm-clk" #_idx,				\
-> +		.parent_names =3D (const char *[]){ "pwm-clk-src" #_pair }, \
-> +		.num_parents =3D 1,					\
-> +		.rate_hw =3D &rate_x_##_idx.hw,				\
-> +		.flags =3D CLK_SET_RATE_PARENT,				\
-> +	}
-> +
-> +#define REF_CLK_BYPASS(_idx, _pair)					\
-> +	{								\
-> +		.name =3D "pwm-clk-bypass" #_idx,				\
-> +		.parent_names =3D (const char *[]){ "pwm-clk-src" #_pair }, \
-> +		.num_parents =3D 1,					\
-> +		.gate_hw =3D &gate_x_bypass_##_idx.hw,			\
-> +		.flags =3D CLK_SET_RATE_PARENT,	\
-> +	}
-> +
-> +/*
-> + * H616_PWM_clock_src_xy generation:
-> + *             _____      ______      ________
-> + * OSC24M --->|     |    |      |    |        |
-> + * APB1 ----->| Mux |--->| Gate |--->| /div_m |-----> H616_PWM_clock_src=
-_xy
-> + *            |_____|    |______|    |________|
-> + */
-> +H616_PWM_XY_CLK_SRC(01, H616_PWM_XY_CLK_CR(0));
-> +H616_PWM_XY_CLK_SRC(23, H616_PWM_XY_CLK_CR(1));
-> +H616_PWM_XY_CLK_SRC(45, H616_PWM_XY_CLK_CR(2));
-> +
-> +/*
-> + * H616_PWM_clock_x_div generation:
-> + *                            ________
-> + *                           |        | H616_PWM_clock_x/y
-> + * H616_PWM_clock_src_xy --->| /div_k |--------------->
-> + *                           |________|
-> + */
-> +H616_PWM_X_CLK(0);
-> +H616_PWM_X_CLK(1);
-> +H616_PWM_X_CLK(2);
-> +H616_PWM_X_CLK(3);
-> +H616_PWM_X_CLK(4);
-> +H616_PWM_X_CLK(5);
-> +
-> +/*
-> + * H616_PWM_bypass_clock_xy generation:
-> + *                             ______
-> + *                            |      |
-> + * H616_PWM_clock_src_xy ---->| Gate |-------> H616_PWM_bypass_clock_x
-> + *                            |______|
-> + *
-> + * The gate is actually H616_PWM_ENR register.
-> + */
-> +H616_PWM_X_BYPASS_CLK(0);
-> +H616_PWM_X_BYPASS_CLK(1);
-> +H616_PWM_X_BYPASS_CLK(2);
-> +H616_PWM_X_BYPASS_CLK(3);
-> +H616_PWM_X_BYPASS_CLK(4);
-> +H616_PWM_X_BYPASS_CLK(5);
-> +
-> +struct clk_pwm_data {
-> +	const char *name;
-> +	const char **parent_names;
-> +	unsigned int num_parents;
-> +	struct clk_hw *mux_hw;
-> +	struct clk_hw *rate_hw;
-> +	struct clk_hw *gate_hw;
-> +	unsigned long flags;
-> +};
-> +
-> +#define CLK_BYPASS(h616chip, ch) ((h616chip)->data->npwm + (ch))
-> +#define CLK_XY_SRC_IDX(h616chip, ch) ((h616chip)->data->npwm * 2 + ((ch)=
- >> 1))
-> +static struct clk_pwm_data pwmcc_data[] =3D {
-> +	REF_CLK_X(0, 01),
-> +	REF_CLK_X(1, 01),
-> +	REF_CLK_X(2, 23),
-> +	REF_CLK_X(3, 23),
-> +	REF_CLK_X(4, 45),
-> +	REF_CLK_X(5, 45),
-> +	REF_CLK_BYPASS(0, 01),
-> +	REF_CLK_BYPASS(1, 01),
-> +	REF_CLK_BYPASS(2, 23),
-> +	REF_CLK_BYPASS(3, 23),
-> +	REF_CLK_BYPASS(4, 45),
-> +	REF_CLK_BYPASS(5, 45),
-> +	REF_CLK_XY_SRC(01),
-> +	REF_CLK_XY_SRC(23),
-> +	REF_CLK_XY_SRC(45),
-> +	{ /* sentinel */ }
-> +};
+Yes, I'm happy with the proposal to get this moving forward.
 
-We'll probably need a way to tie these static definitions to a particular
-instance of the unit for a given chip. But I guess that can be done later
-when adding more chips to the driver.
+Nicolas
 
-I'm not too versed in the clk and pwm APIs but the rest generally looks good
-to me.
+>=20
+> All the best,
+>=20
+> Paul
 
-All the best,
-
-Paul
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---33pU5tb6RmcLLlSB
-Content-Type: application/pgp-signature; name=signature.asc
+--=-Nv2A21rWHI35JGwK0I46
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmnX4j4ACgkQhP3B6o/u
-lQwdTQ//ch93yoRTG9gLChC5/R+m1lTPe1/tIOk1Vi4GIILWe8IA+aJSf72kNsRx
-vMFalFHp44nFK4GIRAfx+r9zrZ+mLR3lQM4wsxGp2K65pPrmciw5qSky1v0l1ZRC
-eCOafd2S2ZBYq0Epzb1xje7piuqZp2ZDgbrquUWMeE39PcpHcC/miVPWTnbGB/5w
-VBPFbIfLlMNvGcv57l0t3zK8X3HnK60Tjlaqdi/iKdRAewm77tM+5SgyeMU4P7yd
-BGjiJn3FzonBTt64mWGSyjW1vjNAhiPRHklOkAUvbfBdRotlXoTZZieokinELK5v
-9/+38h/bpAlObLlIEmOCBAM4EPfGvVeX3iWIfiAoaxH7bh5jU6G5EuR4q+zWJRP8
-yNCW8vyn6jgAlq9p9hVc8J72mUvL8s1qidgxnErW583/wKhQY6au92l5uZkYykLi
-5eNF8jian3f/Hnh6ZweXfD2/SLFL4I+zO9Ez2jX3d4z748JrH9XiV6odQlyqHcYT
-duFqWWDNGD83wa+1/7yDeSN05u+Z/t3F56qJBycA/ESiOJneTHhccXnbNpKsLPpQ
-MeHraPw+D/tYUAQMxdeywU2HkVp704gGPOxOZn77ga6dSLr+As4eFa6eYgrDeD8R
-VJXulqovR4Ob8C0tyrWn8LYJTGR+HTngeHVWweyrJ6vtYqJcdCI=
-=v+2L
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCadfmaAAKCRDZQZRRKWBy
+9AfdAP9GiZ9AUUqZ2JJXJMWdLt5KTeBYnF0UqPDmYB9l/JTzwwD/SSbSjVel/rLp
+CxWSNudtOhoaGu+tHQJkTzmbI+OVpAI=
+=uM6R
 -----END PGP SIGNATURE-----
 
---33pU5tb6RmcLLlSB--
+--=-Nv2A21rWHI35JGwK0I46--
