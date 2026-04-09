@@ -1,200 +1,346 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f99.google.com (mail-oo1-f99.google.com [209.85.161.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7871734753A;
-	Thu,  9 Apr 2026 17:48:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775756910; cv=none; b=jVxX3sROY/vNNO5rcITPn+egLMRPsbgJYNCD17zaIdNJI2wArUdX/uEj16JcrEsKsLJcuGf8qWJflba12oFR3guo1OItY8QSctlp7tAFdTahafP/Io0JLLkHY+nGo1tOP1HyQeKgB61caPSSlI2UBjAcLSojZNk/zygfrMdZ32I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775756910; c=relaxed/simple;
-	bh=GOPVnYctauWroG2tZXF6QD2dB9fsyysY8ZThXl6u9is=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=n9mXsrRYkBx4ofoHNjpLH3OqmR+S6A4Va/oCMyrCyqVA7kp3HEEx/XLBhSzsC7xoQskoQWUMZFwJcEpqnva/pqwHqMoVrEkHtrX378eNkYLoikJTH4HUKon4J5uEZYEocx52wn4gm7+29bWW8mSkUDcSnWNH0dSQx/lBY+qt2Xs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=N8M0tP1+; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF0339D6D5
+	for <linux-sunxi@lists.linux.dev>; Thu,  9 Apr 2026 23:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.99
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775776080; cv=pass; b=UlT91o1ZkZhMtT2/KkW4kSOQ1VMhsXgMV5e2cAgOsMNNYsbWBPjWhCd++63Ue/f/8WPkY1KipPxcSQ3odIVRmEM4+Io112X05YTIv/uRG0mmrF9B8YFXTzTslt2SlMF0+HtP5KYm9LHlrP3GUBdEq8MXvbKE6CjncWO/vu784G8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775776080; c=relaxed/simple;
+	bh=1fApzBIcATIIYVTTHgCxYsbkI/95dldgZTnbt/B3kQA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EtLuFSAL+OJulu3tY34brVhvzVyz0DeC2t79QSixPbBlCXPL4/kc59N8GcEEW61+33mh81Mu6B9zknlG81KbOCHooEROTgpELeHld/diIK19EsEarWEJO5phGBVFVLW4o7yuil4JAyMurgNZxHGrq9MiYa3NPAgvSvUZCqu9AYw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=X0pvagXd; arc=pass smtp.client-ip=209.85.161.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="N8M0tP1+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1775756907;
-	bh=GOPVnYctauWroG2tZXF6QD2dB9fsyysY8ZThXl6u9is=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=N8M0tP1+nTFtCAm5mYRVljVpT2KsF2bTDT0V8fBto+rM4y2hKDJSG+8OOLf3pp431
-	 tOh+9b5PSxXh6LqFjnBxm+yXl5la2tcB6OvOhSUfp8ai4fVpL4GBiro53So+ov/CKG
-	 L5DeyF3/g5084oqSbNFZ5ZBgdHWu3IafJpI8VrGWrb3LECStbWC31qezreRYEWU4/D
-	 gRGVhUHw3LIT2lG2aj4Bj4/MR0BYaxea1wzEEPLsjOijPToiMgge7v8deHiPDk+LxP
-	 rJ4dN7rkF/SjfwN/xnEG5R6hBe6M42MccGZ6ao+0WGfcb2uAltVOwOcSXPLwPPzWgc
-	 ARz0OyCOxTWhw==
-Received: from [100.64.0.214] (unknown [100.64.0.214])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id F1A3617E11F5;
-	Thu,  9 Apr 2026 19:48:25 +0200 (CEST)
-Message-ID: <30ac60a7d8671917cbb8ce2fe77c9264e42905dd.camel@collabora.com>
-Subject: Re: [PATCH] media: cedrus: skip invalid H.264 reference list entries
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Paul Kocialkowski <paulk@sys-base.io>
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>, mripard@kernel.org,
- mchehab@kernel.org, 	gregkh@linuxfoundation.org, wens@kernel.org,
- jernej.skrabec@gmail.com, 	samuel@sholland.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Thu, 09 Apr 2026 13:48:23 -0400
-In-Reply-To: <adfGZHR9wM2d6-yJ@shepard>
-References: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
-	 <adeqkmA9VhaPkSAk@shepard>
-	 <4bd5d70a6144f3e8d4356c182f314cf735f1921c.camel@collabora.com>
-	 <ade4Qe4OS04au2Ba@shepard>
-	 <a5f8c14becdc926f14ea852c8c5a2d4665a2ef8a.camel@collabora.com>
-	 <adfGZHR9wM2d6-yJ@shepard>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-Nv2A21rWHI35JGwK0I46"
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="X0pvagXd"
+Received: by mail-oo1-f99.google.com with SMTP id 006d021491bc7-673ee2a98b1so889885eaf.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 09 Apr 2026 16:07:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775776077; x=1776380877;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZMQMmggdEad6jMPwWpwd8VdTAz4Pjb8dr3yXsib2uic=;
+        b=XzyNNZ9CTtNcDqGdz6qS9aHpEfRcyZeeHtTt9VpxkA1cLiCvzlXIlaT8rpwpG7XPl1
+         lBqf0DgUyVHSrayMigfmWHxrryxpwZUQI5/eabiCf77rababLfWO1B3l63x9UrfeynY/
+         dah324ygyyT1vSDwpcbNA6husRfTc34eNwPV4EeueaIvf7PNpyPoVwAANxDs4XT5Naes
+         tIaS/gYhdYfYmz9qbbiOQS5094WRUNhu5Ybjet9c7Dbubf8lyN9l7BLXpTM+qUC4RYUG
+         Shs0HeiEJo09l8hElnNXsujzHYhCRKZHZ1RC68rnwRGQE0mIlXFLKswiCq0DNIhBX9PT
+         ID/g==
+X-Forwarded-Encrypted: i=2; AJvYcCUyyXbAdTzgG/Cs40MWc1Nrid9iBTEBYof1YJ7hYDDrZepTgrtxr7mpaQU6aneFoted3fPFA6oJDbiD7A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz0N33suYE5uARiDTyPxkk5IekMaHxhh95SJcj1pMWz3Wl7Oq3Y
+	4OAHTaPIJcEkDKD3c2maAXKr3RdnykNSH+NZYg0FwlH23lZ03PksKmQxF9obrxWDH8Cm11vbHK+
+	VX/4u897+yJG6DUVaSiCzIcHCBQFxyE8hjhEqdEmfOGTGFQL+q7H6uEx5rWj2/ykACIIQtlgHoy
+	QE1dSJS3SvA5Y/6a3W3Rc7Z/oDxIaDRsUoVAd1+w+QKX7CjjlxXLuy94PTfJnToCL0GKPtnOyRN
+	0WlbVVyPyuY3u8B+BhJ81G2
+X-Gm-Gg: AeBDiescTRX4gPoDHmyV/fCokBlEFIzeTRNPo2ZoAsBjLISMnQcW+LqO+/eb+vWVueL
+	sAfDtctrTpMUs8ves7B70CAaCZ+Fq5vFMEE5ixdzk8CZcGnDw1aP/QpdU117favYJqX7uUfNGlJ
+	jgrVoxTokQ0EzczwOCY8EjBVx5xHPMbV9GzJQ/F5TfD0T4zHbqiZrnmmGeZk5VzAlkO2//5f5p0
+	rojl+Y/jEcuZfPKGuNZMunMRtm1Xn5WT82IqUn5A2R7Sv+eLMXMQAp/TH8x8LUV06O2lxTKvsw7
+	g6jy6JGhhav0fZ42WVvhFF5PzHQSp3/qTHukFVhWJ/ZaI9Tg2tj2eJLfe3iDhQt7WujNbbMXtOg
+	cN/YKnZZvj4AN5Tzux8CyLVhPj0Bh/Ycp5fwt9u61efCB/zKJvd5sbnJWm8rNoD7bx4Uhr9PR1/
+	qlPlY+AAHVYzXRRNO4AumW4NdWuGW0y4crISVx0HkITScNGyP2hCUrWRPblpUjExE=
+X-Received: by 2002:a05:6820:c0ce:10b0:687:3c81:c44 with SMTP id 006d021491bc7-68be7ee67e4mr390055eaf.38.1775776077427;
+        Thu, 09 Apr 2026 16:07:57 -0700 (PDT)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-15.dlp.protect.broadcom.com. [144.49.247.15])
+        by smtp-relay.gmail.com with ESMTPS id 006d021491bc7-68bca5f8551sm76191eaf.17.2026.04.09.16.07.56
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 09 Apr 2026 16:07:57 -0700 (PDT)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-43d121c4271so862697f8f.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 09 Apr 2026 16:07:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775776076; cv=none;
+        d=google.com; s=arc-20240605;
+        b=DHZdFp9/EuUhbVd5F8FCYLdxUDtmNyPZ+BiiatKlcCyI4l8e/XH33V1cT7SmSxViF3
+         pwR9/C3R3u1gNIFL2yUESJOq7yqWOtoVsZBok7KiaoAyxTKEhMfekRx8/blBb8PKymY4
+         lIxI9dVFjbMoTr7haWjM47+vLSn5Fbjg7ba7h8xJ0kpnFU4RkCz+LnvUMfSVGA2S0rsc
+         3tLLdzevSWSayBuDQ6mc9US1zb9uZTsrNt4pd5Ca0DXLGu6cK7aAqo2FfeJIHKeqeGpV
+         CrG7c3tifGjKVJn4DZ1s46y7M0GO7SnIQFSJq99KJCGYPRTQH+gXG3xWSDO5RRu5hwqD
+         ZiCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ZMQMmggdEad6jMPwWpwd8VdTAz4Pjb8dr3yXsib2uic=;
+        fh=mnqyZNTT2AddbukBe8HnFtpnrsePlIZDHdp9wimwXjE=;
+        b=LV4MdAmlUAZGLo5yp6pLR6TMBabvQCdfclYRMXeJPOxrqBJmoXVPMKUceAYf01tuzd
+         z4ChGuhT+2i2Qoqw2vbuAD6INx6iKGWfzwwH5SKZ85geqCTOWYHlPKN7M2p6LtL+Ahm/
+         +xGwUQYETOawYL/vnez/OvjqmjIf4EtAKfiskNNV50MBnMXNMrFIfT4hytcOIPMcwWCw
+         6zljl4smuTmjMGzEYQcATDXhjwpduqPQ4sMnX3EGVL1IO3y0zeCFQEBzvae0IcUCpSfv
+         nIjT3/mcg4a4I2RN4nsLP0QdiVRtiDPoCXz6Awt+zuTtyOVx4qoqgl8X7Up1ZvMRE9V2
+         ycgA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1775776076; x=1776380876; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZMQMmggdEad6jMPwWpwd8VdTAz4Pjb8dr3yXsib2uic=;
+        b=X0pvagXdcJA9Qk+X+qUzGT7tBkkvc/pWwYfRYEJQueq9ENHgSBlQrvZAdVJh/Ue5TM
+         emknYYFu63iXF5H5QbtItza3WAnTKsTayxk0NwzaidyOHDgOnODCnFkDLf2AhDDjdHTI
+         FriWaGHntSDQbrqGnmiHnJH2PSq9Unhhgc0Dk=
+X-Forwarded-Encrypted: i=1; AJvYcCU05fNGsoXvQiz9iUqyWf99YhKIZzg0C3Yc+jssnTYmVXS1a76JNNTnnh5bfKqEH0KoeADVtaxC6txbsw==@lists.linux.dev
+X-Received: by 2002:a05:6000:2408:b0:43d:1c75:db70 with SMTP id ffacd0b85a97d-43d642537a8mr1160270f8f.15.1775776075733;
+        Thu, 09 Apr 2026 16:07:55 -0700 (PDT)
+X-Received: by 2002:a05:6000:2408:b0:43d:1c75:db70 with SMTP id
+ ffacd0b85a97d-43d642537a8mr1160236f8f.15.1775776075250; Thu, 09 Apr 2026
+ 16:07:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <adYfPBHsXxQUsMyr@shell.armlinux.org.uk> <E1wAPBR-0000000F7ju-1fD9@rmk-PC.armlinux.org.uk>
+In-Reply-To: <E1wAPBR-0000000F7ju-1fD9@rmk-PC.armlinux.org.uk>
+From: Jitendra Vegiraju <jitendra.vegiraju@broadcom.com>
+Date: Thu, 9 Apr 2026 16:07:42 -0700
+X-Gm-Features: AQROBzCWB9VUvQ4RpL1EJYfajIJ7yfPJs9yk-WkOxw3bptp81Ttc8d621uiKtaQ
+Message-ID: <CAMdnO-+TK65AxjTsDd017Mhop+VC3Xf8jtfaTXYpE6wBNZOt4g@mail.gmail.com>
+Subject: Re: [PATCH RFC net-next 02/10] net: stmmac: rename dev_id to userver
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Cc: Andrew Lunn <andrew@lunn.ch>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, Chen-Yu Tsai <wens@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+	netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>, 
+	Samuel Holland <samuel@sholland.org>
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="0000000000003832d0064f0f1603"
 
-
---=-Nv2A21rWHI35JGwK0I46
+--0000000000003832d0064f0f1603
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le jeudi 09 avril 2026 =C3=A0 17:31 +0200, Paul Kocialkowski a =C3=A9crit=
-=C2=A0:
-> Hi,
->=20
-> On Thu 09 Apr 26, 10:39, Nicolas Dufresne wrote:
-> > Hi,
-> >=20
-> > Le jeudi 09 avril 2026 =C3=A0 16:31 +0200, Paul Kocialkowski a =C3=A9cr=
-it=C2=A0:
-> > > I think it make sense yes, but it would be good to document it in the=
- uAPI
-> > > document too.
-> >=20
-> > Basically, extend in the M2M decoder spec(s) on the existing documentat=
-ion:
-> > =C2=A0=C2=A0=20
-> > =C2=A0=C2=A0 V4L2_BUF_FLAG_ERROR:
-> > =C2=A0=C2=A0 -
-> > =C2=A0=C2=A0 When this flag is set, the buffer has been dequeued succes=
-sfully, although
-> > =C2=A0=C2=A0 the data might **have been corrupted**. This is recoverabl=
-e, streaming may
-> > =C2=A0=C2=A0 continue as normal and the buffer may be reused normally. =
-Drivers set this
-> > =C2=A0=C2=A0 flag when the VIDIOC_DQBUF ioctl is called.
->=20
-> Well this part is about v4l2 buffers in general, not just m2m/decoders.
-> But I guess this mechanism would make sense for more device classes than =
-just
-> decoders, so we could indeed specify it there. Maybe with a sufficiently =
-broad
-> wording.
+Hi Russell,
 
-This is current spec, I did meant to use that as basis and improve that cod=
-ec
-specific part.
+On Wed, Apr 8, 2026 at 2:27=E2=80=AFAM Russell King (Oracle)
+<rmk+kernel@armlinux.org.uk> wrote:
+>
+> The Synopsys Databook and several implementation TRMs identify bits
+> 15:8 of the version register in dwmac v3.xx and v4.xx as "userver".
+> We even print its value with "User ID". Rather than using "dev_id",
+> use "userver" instead.
+>
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> ---
+>  drivers/net/ethernet/stmicro/stmmac/hwif.c | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/hwif.c b/drivers/net/eth=
+ernet/stmicro/stmmac/hwif.c
+> index 3774af66db48..830ff816ab4f 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/hwif.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/hwif.c
+> @@ -15,7 +15,7 @@
+>
+>  struct stmmac_version {
+>         u8 snpsver;
+> -       u8 dev_id;
+> +       u8 userver;
+>  };
+From the XGMAC databook that I have access to bits(15:8) identify the
+DEVID field of MAC_version register.
+The userver field is from bits(23:16) of the same register. This is a
+customer defined field (configured with coreConsultant).
+Currently stmmac doesn't care about bits(23:16).
 
->=20
-> But it would be good to also update the stateless decode document (and ma=
-ybe
-> stateful too) where V4L2_BUF_FLAG_ERROR is already mentionned a few times=
-.
-> We could indicate how this behavior related to reference frames there.
->=20
-> If we agree I could make a series with the following:
-> - Introduce a V4L2_H264_REF_MISSING 0xff define (same for HEVC)
-> - Update the v4l2_h264_reference doc to mention it
-> - Update the cedrus driver to error out (zero-size payload) when the L0/L=
-1 index
-> =C2=A0 is either V4L2_H264_REF_MISSING or an invalid index that doesn't e=
-xist in the
-> =C2=A0 DPB (same for HEVC)
+I think the confusion is coming from macro name in common.h
+#define DWMAC_USERVER   GENMASK_U32(15, 8)
+This should be named
+#define DWMAC_DEVID   GENMASK_U32(15, 8)
+Hope someone with access to another databook can confirm this.
 
-Base on what you reported, this is currently the shortest and safe thing to=
- do.
-
-> - Update the v4l2 buffer and stateless(+stateful) documents to mention th=
-at
-> =C2=A0 buffers marked with V4L2_BUF_FLAG_ERROR may or may not contain usa=
-ble (yet
-> =C2=A0 corrupted) data depending on the payload size and how it relates t=
-o reference
-> =C2=A0 frames.
-
-wfm
-
->=20
-> Then we could later envision having a mechanism (hopefully common) to fig=
-ure out
-> the best replacement to a given missing reference, which would allow cedr=
-us
-> (and maybe other drivers too) to return a frame with incorrect data inste=
-ad of
-> a zero-size payload error.
-
-Certainly, though from my experience best or any works quite well, and quit=
-e
-better then skipping. But if it makes the HW unstable, or sending uninitial=
-ized
-data to the HW, I agree this is better to hard fail that frame now, enhance
-later. Also, be aware that some HW (RK3399 iirc) have error counters, so yo=
-u
-know how many macroblocks are not decoded properly. Other HW have error IRQ=
+>
+>  static void stmmac_get_version(struct stmmac_priv *priv,
+> @@ -26,7 +26,7 @@ static void stmmac_get_version(struct stmmac_priv *priv=
 ,
-with a register that tells which macroblock it failed on. The reference dec=
-oder
-have optional support for software concealment for the failing macroblock, =
-the
-down side is that in the worse case you get an irq per block, which is quit=
-e a
-disaster performance whise.
+>         u32 version;
+>
+>         ver->snpsver =3D 0;
+> -       ver->dev_id =3D 0;
+> +       ver->userver =3D 0;
+>
+>         if (core_type =3D=3D DWMAC_CORE_MAC100)
+>                 return;
+> @@ -48,7 +48,7 @@ static void stmmac_get_version(struct stmmac_priv *priv=
+,
+>
+>         ver->snpsver =3D FIELD_GET(DWMAC_SNPSVER, version);
+>         if (core_type =3D=3D DWMAC_CORE_XGMAC)
+> -               ver->dev_id =3D FIELD_GET(DWMAC_USERVER, version);
+> +               ver->userver =3D FIELD_GET(DWMAC_USERVER, version);
+>  }
+>
+>  static void stmmac_dwmac_mode_quirk(struct stmmac_priv *priv)
+> @@ -111,7 +111,7 @@ int stmmac_reset(struct stmmac_priv *priv)
+>  static const struct stmmac_hwif_entry {
+>         enum dwmac_core_type core_type;
+>         u32 min_snpsver;
+> -       u32 dev_id;
+> +       u32 userver;
+>         const struct stmmac_regs_off regs;
+>         const void *desc;
+>         const void *dma;
+> @@ -247,7 +247,7 @@ static const struct stmmac_hwif_entry {
+>         }, {
+>                 .core_type =3D DWMAC_CORE_XGMAC,
+>                 .min_snpsver =3D DWXGMAC_CORE_2_10,
+> -               .dev_id =3D DWXGMAC_ID,
+> +               .userver =3D DWXGMAC_ID,
+>                 .regs =3D {
+>                         .ptp_off =3D PTP_XGMAC_OFFSET,
+>                         .mmc_off =3D MMC_XGMAC_OFFSET,
+> @@ -269,7 +269,7 @@ static const struct stmmac_hwif_entry {
+>         }, {
+>                 .core_type =3D DWMAC_CORE_XGMAC,
+>                 .min_snpsver =3D DWXLGMAC_CORE_2_00,
+> -               .dev_id =3D DWXLGMAC_ID,
+> +               .userver =3D DWXLGMAC_ID,
+>                 .regs =3D {
+>                         .ptp_off =3D PTP_XGMAC_OFFSET,
+>                         .mmc_off =3D MMC_XGMAC_OFFSET,
+> @@ -291,7 +291,7 @@ static const struct stmmac_hwif_entry {
+>  };
+>
+>  static const struct stmmac_hwif_entry *
+> -stmmac_hwif_find(enum dwmac_core_type core_type, u8 snpsver, u8 dev_id)
+> +stmmac_hwif_find(enum dwmac_core_type core_type, u8 snpsver, u8 userver)
+>  {
+>         const struct stmmac_hwif_entry *entry;
+>         int i;
+> @@ -305,7 +305,7 @@ stmmac_hwif_find(enum dwmac_core_type core_type, u8 s=
+npsver, u8 dev_id)
+>                 if (snpsver < entry->min_snpsver)
+>                         continue;
+>                 if (core_type =3D=3D DWMAC_CORE_XGMAC &&
+> -                   dev_id !=3D entry->dev_id)
+> +                   userver !=3D entry->userver)
+>                         continue;
+>
+>                 return entry;
+> @@ -358,7 +358,7 @@ int stmmac_hwif_init(struct stmmac_priv *priv)
+>         /* Fallback to generic HW */
+>
+>         /* Use synopsys_id var because some setups can override this */
+> -       entry =3D stmmac_hwif_find(core_type, priv->synopsys_id, version.=
+dev_id);
+> +       entry =3D stmmac_hwif_find(core_type, priv->synopsys_id, version.=
+userver);
+>         if (!entry) {
+>                 dev_err(priv->device,
+>                         "Failed to find HW IF (id=3D0x%x, gmac=3D%d/%d)\n=
+",
+> --
+> 2.47.3
+>
 
->=20
-> What do you think?
+--0000000000003832d0064f0f1603
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
-Yes, I'm happy with the proposal to get this moving forward.
-
-Nicolas
-
->=20
-> All the best,
->=20
-> Paul
-
---=-Nv2A21rWHI35JGwK0I46
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCadfmaAAKCRDZQZRRKWBy
-9AfdAP9GiZ9AUUqZ2JJXJMWdLt5KTeBYnF0UqPDmYB9l/JTzwwD/SSbSjVel/rLp
-CxWSNudtOhoaGu+tHQJkTzmbI+OVpAI=
-=uM6R
------END PGP SIGNATURE-----
-
---=-Nv2A21rWHI35JGwK0I46--
+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
+tJVewHuOmXgWQxNWV7Oiszu1d9xAcqyj65s1PrEIIaHnxEM3eTK+teecLEy8QymZjjDTrCHg4x36
+2AczdlQAIiq5TSAucGja5VP8g1zTnfL/RAxEZvLS471GABptArolXY2hMVHdVEYcTduZlu8aHARc
+phXveOB5/l3bPqpMVf2aFalv4ab733Aw6cPuQkbtwpMFifp9Y3s/0HGBfADomK4OeDTDJfuvCp8g
+a907E48SjOJBGkh6c6B3ace2XH+CyB7+WBsoK6hsrV5twAXSe7frgP4lN/4Cm2isQl3D7vXM3PBQ
+ddI2aZzmewTfbgZptt4KCUhZh+t7FGB6ZKppQ++Rx0zsGN1s71MtjJnhXvJyPs9UyL1n7KQPTEX/
+07kwIwdMjxC/hpbZmVq0mVccpMy7FYlTuiwFD+TEnhmxGDTVTJ267fcfrySVBHioA7vugeXaX3yL
+SqGQdCWnsz5LyCxWvcfI7zjiXJLwefechLp0LWEBIH5+0fJPB1lfiy1DUutGDJTh9WZHeXfVVFsf
+rSQ3y0VaTqBESMjYsJnFFYQJ9tZJScBluOYacW6gqPGC6EU+bNYC1wpngwVayaQQMIIGbTCCBFWg
+AwIBAgIMGHX6KxYK3WW2YyprMA0GCSqGSIb3DQEBCwUAMFIxCzAJBgNVBAYTAkJFMRkwFwYDVQQK
+ExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBDQSAy
+MDIzMB4XDTI0MDkyNTEzNTAzMVoXDTI2MDkyNjEzNTAzMVowgbMxCzAJBgNVBAYTAlVTMRMwEQYD
+VQQIEwpDYWxpZm9ybmlhMREwDwYDVQQHEwhTYW4gSm9zZTEZMBcGA1UEYRMQTlRSVVMrREUtNjYx
+MDExNzEWMBQGA1UEChMNQlJPQURDT00gSU5DLjEaMBgGA1UEAxMRSml0ZW5kcmEgVmVnaXJhanUx
+LTArBgkqhkiG9w0BCQEWHmppdGVuZHJhLnZlZ2lyYWp1QGJyb2FkY29tLmNvbTCCASIwDQYJKoZI
+hvcNAQEBBQADggEPADCCAQoCggEBAKWV+9PYvG4njqRsbQas79f8Q46VL7b1ZxvWT6ik6VMbdRZx
+tfpfZalVXksqcb02/N1H7UA9V04cV2q97FkSr/KxeFLMetPb3cVJZICg23IRO2NTPdmgPFzwkPTo
+35h9h/OYLgh3/9a1nTsC2xqJa8GtohD5+42rsskGcI57U4n1r1L4R5IL9ypSqDxX/xVEAdGI5FTj
+VgvoZC6iuEbnez+yO8TT3wun9b/PQowOB5P0CwIFv7ERW0S1s6B8yrbsoaTrz0vQaEA786k1pZkg
+ykC1+zXq/iTyZuPP4B4RkzFd43Pw+GAH0Tt2nx5V4rNisJHeAVNU92Gj01cEg0I+FnsCAwEAAaOC
+Ad8wggHbMA4GA1UdDwEB/wQEAwIFoDCBkwYIKwYBBQUHAQEEgYYwgYMwRgYIKwYBBQUHMAKGOmh0
+dHA6Ly9zZWN1cmUuZ2xvYmFsc2lnbi5jb20vY2FjZXJ0L2dzZ2NjcjZzbWltZWNhMjAyMy5jcnQw
+OQYIKwYBBQUHMAGGLWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjZzbWltZWNhMjAy
+MzBlBgNVHSAEXjBcMAkGB2eBDAEFAwEwCwYJKwYBBAGgMgEoMEIGCisGAQQBoDIKAwIwNDAyBggr
+BgEFBQcCARYmaHR0cHM6Ly93d3cuZ2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIw
+ADBBBgNVHR8EOjA4MDagNKAyhjBodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjZzbWlt
+ZWNhMjAyMy5jcmwwKQYDVR0RBCIwIIEeaml0ZW5kcmEudmVnaXJhanVAYnJvYWRjb20uY29tMBMG
+A1UdJQQMMAoGCCsGAQUFBwMEMB8GA1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1Ud
+DgQWBBRq5Jlxz3MqC+zEgUxK566xEc2g3DANBgkqhkiG9w0BAQsFAAOCAgEARXrmeeWA31pp9Tr0
+M6mOlMv+Pr2raES4GzPSyftvxf6tBQCBNaqi6LSbyusDYOj3mG9bp6VeVn+68OxNY9iNAk+ujtId
+f3+30BlZOQ1v8z9u2peUOUtWI60y2MxhdH0X0n2H+BCGvUOFqs5z440jqqy1HsscZTXHB7FEZmVP
+fyD+0Z6cxyh7WNC6+BgLiFwf8iqmAbu7Yb1sGTUGyS5gfYEjJbF2PJfwNUcJDd7eS4w5Ju5mK5y7
+spgjH2/JmDgbkpSk9JyuWfjGZIg4ah/q2nb6UMd1XJb6gLQZuzPOI3SgXPvd8MHGjKZrX2BHOBSC
+bJJ8rp4w4a9QMS6dde2MFObusxkZAft4tUnwo+ProchHs7iA85sL7sWEZhAmjmKKCpECpEfZm0+/
+hpvKQV3AZp5vBstb4IVL8QmLj8beDVHYnNhEicsSiG1wW7zSYyBnmGbFRrFQIJnJDWPjTZOlVEyp
+T1ShrXRCtqJpOt6rgg+rFEY3D8j6/bAkJXnmKnE2LZ0YyrrKk7eC6UfNNimx38w3NWchtcGY8zJn
+Y/1/C9Jv/mWm/2lK8nvusOFxhKmbG83Hx8toQdZ5F1kYk6zAWjfB7lwXr/En9mCmLieJ18hen9EK
+qbYyUkmCmuoLi5GXFMJy+iQv6DgMVQ7CACagybU6FUrmL9lVa+A6caBEEh4xggJXMIICUwIBATBi
+MFIxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9i
+YWxTaWduIEdDQyBSNiBTTUlNRSBDQSAyMDIzAgwYdforFgrdZbZjKmswDQYJYIZIAWUDBAIBBQCg
+gccwLwYJKoZIhvcNAQkEMSIEIKWQy2mXIISkzcYEPlbdhtpPqkM/JUwZeydB13GuGHztMBgGCSqG
+SIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI2MDQwOTIzMDc1NlowXAYJKoZI
+hvcNAQkPMU8wTTALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG
+9w0DBzALBgkqhkiG9w0BAQcwCwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAEE2b2zWJhSn
+m11bQ8aBW6C9td4QBvPDmIdoV6rE+Y9H5jn/1fXAaPSdu3AoC3/79TkDGBpd3bg84S/rA7I1MmU2
+5eooWq3dKlgWLSwIsY8FT5Uuv5X03b8U5zCch+kX9I1LvJzPA4C1OWJYuJcM712tNQt8drk2I2Ye
+HajTx4I1gih4m/44YEUukvny325l2cxanNzopdMx24RkDEwcFfgjEjvsHYHDIFDCATl8g1yhMiyH
+1Qgq/8TDjrLVlXolQasoLRXfb8s+lEV55fQREW2D0zztsCabp5v8eBKmQPICfv1CTNa7t0haWdN0
+9M2LRyQbKpPprmWCMW2UncOAjjw=
+--0000000000003832d0064f0f1603--
