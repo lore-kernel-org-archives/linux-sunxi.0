@@ -1,118 +1,172 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF18D329C67
-	for <linux-sunxi@lists.linux.dev>; Fri, 10 Apr 2026 08:40:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775810405; cv=none; b=h+JZ9raMUi/rOsg9kKxd66Kg0UDylVvaVHPN25SzhHYRD6qTxH/c2Fr3564YpLJcYBIYuplfjnJvLlH+gk1hjwCtPNHPuP9R69nC0m4BuZonufK2ABCSi9DLP3P9BZx6w8yU6fEc3qqmw5kFoJhFG8fUNGBttYp38/yPm6oPdYM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775810405; c=relaxed/simple;
-	bh=TiLiBT6KTnhYXWpLCgTB1gPsKon+lMJReIv7vPRLxIg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m9Funev6gwWPVXWW/MTda65jsSmdR+B1Xed2EPBILZbXK8H893V/d6cDULHoPrTlVavVrN4LfGH7CwI8dOl4wptqtETjp1Dbf3A1GP+Im7vB264ws27H2reTsn+8yIEjo9FZn67DiQmdfw18QdRIIPsHJwMM9NWYnDkMKuANkbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=rqmqyPCM; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1BD733D505
+	for <linux-sunxi@lists.linux.dev>; Fri, 10 Apr 2026 09:18:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775812735; cv=pass; b=KPiRqB1vgIV2ot7YropjmB8aBUhrUtlkicvMCqP3Mt7alTiJOKDpcx7UNguCFQQ+ZF8pSPsaNJJhz5zK5raWPbfe7HGwsfUemPU5UWtl5SCEX9enzGCTbylimDJljWifKSeXix0hDtlSjqyDsBsBSpm7Cs68df/w64SI+mUpjEw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775812735; c=relaxed/simple;
+	bh=YzqYoTegGmVvbZ0PJr8sikOwbxAvloSf+9ezaClId2o=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=h37IQeVnnuDyNuNEWHuq9rUiRsytdLEtmbSoB2CHq2V6Nnx0CLs+oR5Ipee14WJ16YNeJIyFmJkYaxIVgvK6am8Z6aTewpkWOfGPj0Qyvtv8pmt2PlcY8iFC8huyRBfL1FE3ACslf/2AGiglR5OyW40VSIBT1/Lf7LeD7FpjqeI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech; spf=pass smtp.mailfrom=pigmoral.tech; dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b=i+jDGeGg; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pigmoral.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="rqmqyPCM"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=ZdOnR/1mCgonR7f2wP3H5JqrF/rCMapSujGWUMtD9/A=; b=rqmqyPCMlvW3KvDYDz3/ETNIAh
-	G+ESQPCwbBnKWQSJh+ewTI/voRE6d3Ofr1iTuT3bDkAk27P35fRCtsFZbsndaH/5R0K66REmgJSa9
-	6DVG3w9ciTeMT7N2D8gBgu388hIIZw6pNykZbUBWSDiL7IR0aL2hPrX8lB4FFeNyxkZ34crCfawWq
-	ET2uU1utHtMx1ISS5KHV4cXaCRdUmtsF7xMSq6W4rlj8YdqvT2Z4amTnf9HBxDn9tiMn2tvOV0lU9
-	fP2Wv8AVO7k6NoEkFKJOMMsTBV69KWgM7sywkLGQu709m6YCrVMKL6osnzUr1As2obFMhYf3OddEf
-	Nyrg83EA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:45482)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1wB7P7-000000004e2-341K;
-	Fri, 10 Apr 2026 09:39:53 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1wB7P4-000000005UF-3z5f;
-	Fri, 10 Apr 2026 09:39:50 +0100
-Date: Fri, 10 Apr 2026 09:39:50 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Jitendra Vegiraju <jitendra.vegiraju@broadcom.com>
-Cc: Andrew Lunn <andrew@lunn.ch>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, Chen-Yu Tsai <wens@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>,
-	Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH RFC net-next 02/10] net: stmmac: rename dev_id to userver
-Message-ID: <adi3Vks-N0a83ylE@shell.armlinux.org.uk>
-References: <adYfPBHsXxQUsMyr@shell.armlinux.org.uk>
- <E1wAPBR-0000000F7ju-1fD9@rmk-PC.armlinux.org.uk>
- <CAMdnO-+TK65AxjTsDd017Mhop+VC3Xf8jtfaTXYpE6wBNZOt4g@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b="i+jDGeGg"
+ARC-Seal: i=1; a=rsa-sha256; t=1775812716; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=bvjtxWIGOwhhI07XetIdFYhUqGJcYhs1zYmkXxPR+bt1MMUfp+UTmkokPpSVD8koVW9oH7b4KCkzSjskeCO3JLfO8KIbFAXY7WFBPX59CCcBps+t2qMHeKgNL31T1i3BVDDEqDw6rkQWYDv874oVInplMPYPVsEl8eWNoA+UPx8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1775812716; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=biSMIjMoqI6BSBHbISsyBv693FJEoQDokGFZnddUKkM=; 
+	b=ltX0DBnvVCzideQg/qFRRhLxSZSjYBNSPbh7gM5WtTLsNf/Y2HpNC8D4PZEusaB8yggQtqb8UDuo0j5bpHhV8dz3CaZgFASdyltwVo/tibN3BrFr/eR7DTGvyavl4XHUJoq1nazHACboDTRM50Qa9rSirivlazUpI8hOEZHbyQI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=pigmoral.tech;
+	spf=pass  smtp.mailfrom=junhui.liu@pigmoral.tech;
+	dmarc=pass header.from=<junhui.liu@pigmoral.tech>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1775812716;
+	s=zmail; d=pigmoral.tech; i=junhui.liu@pigmoral.tech;
+	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:Cc:Cc:Subject:Subject:From:From:To:To:References:In-Reply-To:Reply-To;
+	bh=biSMIjMoqI6BSBHbISsyBv693FJEoQDokGFZnddUKkM=;
+	b=i+jDGeGgXIRG64OfX53pe45O/Du/c+8L4IPKelfAnF1mBKufshKaE5+OFLuByLT2
+	P+tmRSdtqgA4a0J+qXYu5tvRNMVjIBexFpWxqmUYH+dsWeqr65e5rflBFGSktSqN9B0
+	c3YP7u98dFywWacjkOYYaUTdZnHeL3uipmEcIgqU=
+Received: by mx.zohomail.com with SMTPS id 1775812713638605.1620198428519;
+	Fri, 10 Apr 2026 02:18:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMdnO-+TK65AxjTsDd017Mhop+VC3Xf8jtfaTXYpE6wBNZOt4g@mail.gmail.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 10 Apr 2026 17:18:22 +0800
+Message-Id: <DHPD2DBIJNKO.11THXNWNUEEG9@pigmoral.tech>
+Cc: "Michael Turquette" <mturquette@baylibre.com>, "Stephen Boyd"
+ <sboyd@kernel.org>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Samuel
+ Holland" <samuel@sholland.org>, "Alexandre Belloni"
+ <alexandre.belloni@bootlin.com>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "Maxime Ripard" <mripard@kernel.org>,
+ <linux-clk@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <linux-rtc@vger.kernel.org>, <devicetree@vger.kernel.org>
+Subject: Re: [PATCH 1/7] dt-bindings: rtc: sun6i: Add Allwinner A733 support
+From: "Junhui Liu" <junhui.liu@pigmoral.tech>
+To: <wens@kernel.org>, "Junhui Liu" <junhui.liu@pigmoral.tech>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260121-a733-rtc-v1-0-d359437f23a7@pigmoral.tech>
+ <20260121-a733-rtc-v1-1-d359437f23a7@pigmoral.tech>
+ <CAGb2v67844OPwE6VJ0PAs5LsmCa2h0FvXOBUomZ50dM5tZ0Zow@mail.gmail.com>
+In-Reply-To: <CAGb2v67844OPwE6VJ0PAs5LsmCa2h0FvXOBUomZ50dM5tZ0Zow@mail.gmail.com>
+X-ZohoMailClient: External
 
-On Thu, Apr 09, 2026 at 04:07:42PM -0700, Jitendra Vegiraju wrote:
-> Hi Russell,
-> 
-> On Wed, Apr 8, 2026 at 2:27 AM Russell King (Oracle)
-> <rmk+kernel@armlinux.org.uk> wrote:
-> >
-> > The Synopsys Databook and several implementation TRMs identify bits
-> > 15:8 of the version register in dwmac v3.xx and v4.xx as "userver".
-> > We even print its value with "User ID". Rather than using "dev_id",
-> > use "userver" instead.
-> >
-> > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> > ---
-> >  drivers/net/ethernet/stmicro/stmmac/hwif.c | 18 +++++++++---------
-> >  1 file changed, 9 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/drivers/net/ethernet/stmicro/stmmac/hwif.c b/drivers/net/ethernet/stmicro/stmmac/hwif.c
-> > index 3774af66db48..830ff816ab4f 100644
-> > --- a/drivers/net/ethernet/stmicro/stmmac/hwif.c
-> > +++ b/drivers/net/ethernet/stmicro/stmmac/hwif.c
-> > @@ -15,7 +15,7 @@
-> >
-> >  struct stmmac_version {
-> >         u8 snpsver;
-> > -       u8 dev_id;
-> > +       u8 userver;
-> >  };
-> From the XGMAC databook that I have access to bits(15:8) identify the
-> DEVID field of MAC_version register.
-> The userver field is from bits(23:16) of the same register. This is a
-> customer defined field (configured with coreConsultant).
-> Currently stmmac doesn't care about bits(23:16).
+Hi ChenYu,
+Thanks for your patient review.
 
-Thanks for the additional information.
+On Sat Mar 28, 2026 at 8:37 PM CST, Chen-Yu Tsai wrote:
+> On Wed, Jan 21, 2026 at 7:03=E2=80=AFPM Junhui Liu <junhui.liu@pigmoral.t=
+ech> wrote:
+>>
+>> The RTC module in the Allwinner A733 SoC is functionally compatible with
+>> the sun6i RTC, but its internal Clock Control Unit (CCU) has significant
+>> changes.
+>>
+>> The A733 supports selecting the oscillator between three frequencies:
+>> 19.2MHz, 24MHz, and 26MHz. The RTC CCU relies on hardware to detect
+>> which frequency is actually used on the board. By defining all three
+>> frequencies as fixed-clocks in the device tree, the driver can identify
+>> the hardware-detected frequency and expose it to the rest of the system.
+>
+> No. The board device tree shall have the exact and correct frequency
+> defined in the external crystal device node. The operating system can
+> use the hardware-detected frequency to "fix" the in-system representation
+> if it is off.
 
-I don't have any XGMAC documentation, but this indicates that it differs
-between XGMAC and previous cores - GMAC and GMAC4 cores, 15:8 are
-documented as userver, and 31:16 are marked as reserved.
+Okay, I will keep only one main external crystal in the device tree.
 
-Note that the dev_info() also prints 15:8 as "User ID" not "Device ID".
+>
+>> Additionally, the A733 RTC CCU provides several new DCXO gate clocks for
+>> specific modules, including SerDes, HDMI, and UFS.
+>>
+>> Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
+>> ---
+>>  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml      | 38 +++++++++++++++=
++++++--
+>>  include/dt-bindings/clock/sun60i-a733-rtc.h        | 16 +++++++++
+>>  2 files changed, 52 insertions(+), 2 deletions(-)
+>>
 
-To confirm, is the XGMAC version register at offset 0x20 ? Later GMAC
-cores moved it to 0x110.
+[...]
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+>> diff --git a/include/dt-bindings/clock/sun60i-a733-rtc.h b/include/dt-bi=
+ndings/clock/sun60i-a733-rtc.h
+>> new file mode 100644
+>> index 000000000000..8a2b5facad73
+>> --- /dev/null
+>> +++ b/include/dt-bindings/clock/sun60i-a733-rtc.h
+>> @@ -0,0 +1,16 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
+>> +
+>> +#ifndef _DT_BINDINGS_CLK_SUN60I_A733_RTC_H_
+>> +#define _DT_BINDINGS_CLK_SUN60I_A733_RTC_H_
+>> +
+>> +#define CLK_IOSC               0
+>> +#define CLK_OSC32K             1
+>> +#define CLK_HOSC               2
+>
+> The DCXO enable control has been present since at least the H6. We just
+> never added it, as we would never disable it anyway.
+
+I will remove it.
+
+>
+> If you compare the RTC clock trees of the A733 and A523, the only additio=
+n
+> besides the new gates seems to be the LOSC auto selection. But even that
+> is just an illusion, as the A523 has the same registers for that.
+>
+> One could say the A733 RTC is almost backward compatible to the A523, if
+> not for the two fastboot registers the A523 has at 0x120 and 0x124.
+>
+> So I ask that you try to integrate the differences into the existing
+> driver and bindings. You can tweak and export internal clks if you
+> need.
+
+Okay, I will try to integrate the A733 RTC support into the existing
+driver and bindings.
+
+But first I would like to ask for your advice on how to correctly
+organize the device tree binding header for the clocks? I have two ideas
+in mind:
+
+1. Add the common internal clocks (e.g., CLK_RTC_32K) to the existing
+sun6i-rtc.h. Then, create a new sun60i-a733-rtc.h which includes
+the old sun6i-rtc.h and appends the A733-specific clock gates.
+
+2. Simply append all the new A733-specific clock IDs directly to the
+bottom of the existing sun6i-rtc.h, sharing the same header file for all
+SoCs utilizing this driver.
+
+>
+>> +#define CLK_RTC_32K            3
+>
+> AFAICT besides being an internal clock, this is also fed to GPIO for
+> debounce? We probably need to expose this on the A523 as well.
+>
+
+I will do it.
+
+>
+> Thanks
+> ChenYu
+>
+
+--=20
+Best regards,
+Junhui Liu
+
