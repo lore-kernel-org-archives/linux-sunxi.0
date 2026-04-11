@@ -1,73 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1DD1D432D
-	for <linux-sunxi@lists.linux.dev>; Sat, 11 Apr 2026 08:44:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6436432BF4B;
+	Sat, 11 Apr 2026 23:24:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775897070; cv=none; b=IICeoJCIAt7fII1lcKtVxH5tWjkL1hpS+u+YKvN6kSH9+8EfOBr/qLEVxWE+OgD+8L5RH82Ylmbkc51hmQE7Rph+XgErpuTW24Ts2aj9+TKTgU4nVsyofqlOWA8Jrex525mjFM42sCwQ9f+9bq47/ou3ABrkuL3sOIXPdcegK3k=
+	t=1775949866; cv=none; b=HILUvaU+qPtwerkNLAGhwXUjSuPoMjZ9Wz7mV382iwqX+qwzLA4pB0OMY5Dzk35YSZhzw6VnxdY8zwtvVOkicdTBDlAjtA2keeFZPVdSbkfh9vhi/ynUfg3SMcn+jyODUV324b5l19mwToUIp4xeYCoEwX4OJpDT2m2SoBPBAFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775897070; c=relaxed/simple;
-	bh=RntnNLUVeODVikBI+yOez3GfbM1NukCg0uXVTU/wpAw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DL0cQnB7QAYJNg4hTD3xh8e79WDBuKiGRHop4V80DYt1d18GUuGsYXHqwd5hZ7AhzlEnAxuMIhbUq/MCd9OW7bIyum3Uq1k1WDO40/D/y9NTUYjBA9Etgx12eGBJvHOAITWTCvGqkXiILCBGT+V9TSI9sqiPM6vH6/6FOaQ7CxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ev5bn4GR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775949866; c=relaxed/simple;
+	bh=RQCJ+fj6WdO8hfeSNAkecBI8UWI0eKm/Metutfq54YY=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=gItNV4IkkxeHwyFjvBq4PbjzlazcDcr2meeVIpn2NzsGIKtiwtCyoFlQY314kzvyLEw8hrH42IaQEOwRdDAeLOF1d4uYVegTb05vQ3xeValwJR5CMZ1hdSlceikODgMAAe/zTdRyKZdmIpWd7Q/gCQebddEqiJIDDRFoHi0Q5Gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kFl5gg7b; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ev5bn4GR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55440C4CEF7;
-	Sat, 11 Apr 2026 08:44:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kFl5gg7b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F146FC116C6;
+	Sat, 11 Apr 2026 23:24:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775897069;
-	bh=RntnNLUVeODVikBI+yOez3GfbM1NukCg0uXVTU/wpAw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ev5bn4GRcJhvmrmPqreMk3g82DW5zQky9oGjim7Qz+7WNffQQSC/cxc3/qsYWE2gK
-	 nX3dPkPLySBY13x0hJdFq9Jmf0gbRSnUW80kXyGlV1XtFBhWeVKvznQnH2nyuX55Zh
-	 A221pmjk40FrnzL27EKvqBffsgK74qfUwGY/1OLOaI8PNEaUKP19ZMUtW7KeBuXsJa
-	 CKjoWGYv2lTalIeKMYxK2BhllF++PLw7T/hCbA4iWtDyocUTRxpkjgU22jAW7rpnwG
-	 f6OG7ii/CRIDHy1GqM5TnBKbh2HfQRK2GbmI7QbO4oXZswDXlqW6P/IY+QbwbbzBm0
-	 u1Nx09cpUEq9g==
-Date: Sat, 11 Apr 2026 10:44:27 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: soc@kernel.org, Jernej Skrabec <jernej@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [GIT PULL] Allwinner Device Tree Changes for 7.1 - Part 2
-Message-ID: <20260411-abiding-porcupine-of-feminism-d0c5c2@quoll>
-References: <adPIgTlQxnVpYgH4@home.wens.tw>
+	s=k20201202; t=1775949866;
+	bh=RQCJ+fj6WdO8hfeSNAkecBI8UWI0eKm/Metutfq54YY=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=kFl5gg7baURuiEnE4bzO1c7O5+EC5kZjwAxokvQEWRh9aJqOAwCMjGucSIjO0PD6N
+	 3eci2qbCCFQ0en5DRdRfXr2M+mzh/Fmj/8Ro5oiG6eQmtZ7N75tIk7IGqvr1W8X/ox
+	 SOkYrwRO5GOShFzjSBMlR6fV1W3a0qwou5fXI8tF/d/l0xUg/82osh5yUNokABFQUW
+	 u+amtDrerXeRGeMkzkGLfrLny6vDbKiHI1YBrRW0B3daJRVlRTOLkLVzkYLCWTX5yk
+	 VRPS1LDT0oHtWaidq0kANYyy+s46oNPbVQqyHY4vnhFfTEj3fbJ6VoXVOtBCN57u3G
+	 bv8Hn7I9IJvEQ==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <adPIgTlQxnVpYgH4@home.wens.tw>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <adJu-NeYb70E-1yS@home.wens.tw>
+References: <adJu-NeYb70E-1yS@home.wens.tw>
+Subject: Re: [GIT PULL] Allwinner Clock Changes for 7.1
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org
+To: Chen-Yu Tsai <wens@kernel.org>
+Date: Sat, 11 Apr 2026 16:24:24 -0700
+Message-ID: <177594986409.5403.8384720945242145842@lazor>
+User-Agent: alot/0.12
 
-On Mon, Apr 06, 2026 at 10:51:45PM +0800, Chen-Yu Tsai wrote:
-> The following changes since commit b912e48bee355b6b1faf86efc4a23191324ffecb:
-> 
->   arm64: dts: allwinner: h6: Add TaiqiCat (TQC) A01 support (2026-03-14 15:27:04 +0800)
-> 
+Quoting Chen-Yu Tsai (2026-04-05 07:17:28)
+> The following changes since commit 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f2=
+7f:
+>=20
+>   Linux 7.0-rc1 (2026-02-22 13:18:59 -0800)
+>=20
 > are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-dt-for-7.1-2
-> 
-> for you to fetch changes up to c755e39836ec492b0bc210fd96c2b720b5b4a690:
-> 
->   arm64: dts: allwinner: enable h616 timer support (2026-03-29 21:20:49 +0800)
-> 
+>=20
+>   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/su=
+nxi-clk-for-7.1
+>=20
+> for you to fetch changes up to fb20ccf70cf695f178d7c32e2d33b376560df0ff:
+>=20
+>   clk: sunxi-ng: sun55i-a523-r: Add missing r-spi module clock (2026-02-2=
+5 00:26:12 +0800)
+>=20
 > ----------------------------------------------------------------
-> Allwinner Device Tree Changes for 7.1 - Part 2
-> 
-> UART DMA channels added for A64 and H6. Standard resolution MMIO timer added
-> for H616. This timer can be used as a broadcast timer for wakeup from idle
-> states.
-> 
 
-Thanks, applied
-
-Best regards,
-Krzysztof
-
+Thanks. Pulled into clk-next
