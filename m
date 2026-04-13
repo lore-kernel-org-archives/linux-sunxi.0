@@ -1,101 +1,108 @@
-Received: from s106b.cyber-folks.pl (s106b.cyber-folks.pl [195.78.66.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11D3256C70;
-	Sun, 12 Apr 2026 17:42:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.78.66.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6DAA3C3BE3
+	for <linux-sunxi@lists.linux.dev>; Mon, 13 Apr 2026 12:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776015781; cv=none; b=cSEDjOtHEd4ssi4qmDb5JxovU2yUpoFxRhgeZP7jeyTaATs670dDo2OMSiqjF0UIIV9qFSAqdd1eVmqEM5K0cUIqk3goYkFNJ7191lgpne8eKBbnA1z2DmYI+hIXfSpENjh/KrADP0IEVzlF4xAk+J+/upFqWDd4ArMYBjdlHCk=
+	t=1776083966; cv=none; b=SdIYcH5GlXvglIB0pwbKU0DaUsBs7J9cC2OqQoMvyCBWTPIZbVmGGvJL/JtDUesLmaB26StBglIis+HkP/aXEdxT7kdr3xQoClYpwfmEJ1EGRuXIKgDje+xSLLgHdWOKXxH9EYWNQ2jnmE3aSwt30WXw3fFbmxraqi+IJGwKQLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776015781; c=relaxed/simple;
-	bh=4a5CpNLwijqEeoBxf58LElhGXYoxLZYamglg2D+v9G0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=nMRyUkrVXeQpNGOP5sB94COuZanrlZh/PmtFEMTI4HWyZhQgloFMYi590amlAJuo6jxY7/70K/MyK9swR+8Tko6xAP+Z0GPbopsi8lUpZTbCktE5WOxtO8Oy1EAZJrjHZTWgL+yDYwSh8QMxqB+kyOa3IwD31fjaB5B4Jx0g2qg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl; spf=pass smtp.mailfrom=mmpsystems.pl; dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b=fFO122tL; arc=none smtp.client-ip=195.78.66.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mmpsystems.pl
+	s=arc-20240116; t=1776083966; c=relaxed/simple;
+	bh=Eltpam/vgsJqWDDmBNuLJKAQCg+4CI1hVv/dIvLONqI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=rYvlUf5myuCb7hl6NSFUpwGGKEip+MnPoJOuhZIxNMmUEBPR/KjH6jfrXYUiDNmzsjqtjCrp7HxG4KsST42rKOFteoSf00YJEQUhUk1C69aRNW8K46H4xWdXgdwolEBo+JXqKDYndeSd8MSHCxFPMVwCwCvOlePso63fatKmJeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CvehMKmg; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b="fFO122tL"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=mmpsystems.pl; s=x; h=Cc:To:Message-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=BCp70hr3uicHLXM/GL0GyVEZjJkjXaoYY9yWIBjEisA=; b=fFO122tLYz42xK+DEPSZbMUJDg
-	FdxmKDgp01GpFPjt53T1Ekg/syfTdLKKA5hC/20s7nvU8KQFuoOiNRXMJNy70s/4m+xpdT97gz348
-	lzY+cNWojtt4e0cmE3E+y8Y/fKxuc+iKv2EoiIXTlHUqrPNUbl3l+QtrD9FEXh8kl81FTzJh7s285
-	MUB9gNlFNNGPY6UX47A/8pDR2c/p1nIkXCuFinQdUP+iUIhDH9kbYP0WTuXWIuZaSvUZEjVkb934c
-	tLzgxdef+/efWIl+zaFa0Sv9Xv86imfJ6TydPZnvIj+Lv0HzpEDehQbj/D8nyppFAqTCJnBOWZpUd
-	W1j5brsg==;
-Received: from user-5-173-16-91.play-internet.pl ([5.173.16.91] helo=localhost)
-	by s106.cyber-folks.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <michal.piekos@mmpsystems.pl>)
-	id 1wBypj-0000000A5MM-059X;
-	Sun, 12 Apr 2026 19:42:55 +0200
-From: Michal Piekos <michal.piekos@mmpsystems.pl>
-Date: Sun, 12 Apr 2026 19:42:10 +0200
-Subject: [PATCH] arm: dts: allwinner: t113s mangopi: enable watchdog for
- reboot
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CvehMKmg"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-38e7b0903cdso7699151fa.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 13 Apr 2026 05:39:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776083963; x=1776688763; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rqFxz1QFpJJAZz46pmSBmZ9ZWT6FZnXdjLeoytZTkRQ=;
+        b=CvehMKmg7A6Eq69qAgvSQrzB08laFW9rKEsFqQLm9XnIJ5rax+qgdYI25+pzPlmpY5
+         UwCOXZchTNALLInYrS0a+ZQsdseLWZUbbQJX1izxYZbr3hmNIfRllqiXCbMPLz7p1U5O
+         8OyxfpfWRmWl5UwC7LUQZtvTa8y9PLdca+g016g/KIyXxOiegNfu4/01ZFYM9hJ3NAEN
+         8+DMbiEaap6h3x24GrJjYklH3PslasuR4EwAEXH7RaB7dQlefFPqLLPIg58ENx6BrO5h
+         SYOuY38TqrpJISPWHkGY7PpraLFRSWz4OuyBTbGYI40SmmKv+lT0Rj43KW9TdrwHPhl8
+         ac+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776083963; x=1776688763;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rqFxz1QFpJJAZz46pmSBmZ9ZWT6FZnXdjLeoytZTkRQ=;
+        b=HYrQtG2jL/rcvYq7+nKbJaXbiNHqVYuAq7sABkML1ZM7v7Cz3HcuPyMiV1RNCwdvFQ
+         1IVdZLbwg+QSUCPQTBNwCcQqqbnG5JlqUhuOm4MRJx5qC55QtccnaW8ChWi8F2cX+6bi
+         XJQN1kVJ6J9B5aKy7XX0C30mT+cY8+sdbozc0N4ydom67seXmnm++Y+rCrqhH9h5eD/V
+         e9igNGURaeDF2g0uTAw6Tgvg/XuEoMxM+Kh+wgpiEYkVQMwyjSOLpB8UwTGk/ete0ud7
+         7xQ17dU8+zu+YqLFGownZp7rWGteRik5QdK/g9QVuyMlfwyUkZ7mA69ChWHkOjkWT1sK
+         BOCQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/eWpJ03ZFgWCiHzPVrmmXpcuL4/dtHEEpvu1HIzGw+XLJnoFztsFx6Q1m6N1lIrZCCnEbZx6SxOcMxLA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw6+yidiUpgzlw3aQCCWelCtr5cOP9s9q6uB8z+evRGc2JrhjIS
+	lMkPpK8PMhXDYVIqEFgtLHRXCHcFf6q5RTB4MZjsN16dVCvQHTFFZddu
+X-Gm-Gg: AeBDietMnSIxqqIzbMf16zZO0eDKSn07wlOkl+BiyVyPfP2WXiIrYFr68q5MIIZTVuY
+	HAYC1//h8hu4rsYFUkhP3FDGHp4CV7t9y7qz7Mc1jzewSGZ+mYnkAfBrj2KfddUu+37IMPWgBDI
+	t0jbcyFYcumHlhO3ZgRIHYp1b1BjQ2QgDi/dQy+/nm6idDvNUwzu/JVlU46IqD7hwVMAfjqgaYC
+	FGLSQLDaP3g+TP+OR7nFeJf88DXrv8EUGz+/T3RRuLxMtA2Xe2jL2ZV7moZDeGBzm0IdiaVLfKS
+	WBIK6e6tWAQQrcS/AafswGDtWpdK4Yyl1zpdbwSP+8KAwiv7yR7Nw/BzLoXi973KtiDPh6Zkggs
+	+bUEsvjFEFPbZPoGIVqordbDMiPSUVcsUVrJY7PJwOoj60YJH1U6T4+5Co2RTP1YJ3j7GH7mIGo
+	d+5nwIUYmbfC6U5lFIBO8pIWcG+okr7mSzC5BxyNNmSwDhJA==
+X-Received: by 2002:a05:6512:3503:b0:5a1:1496:922 with SMTP id 2adb3069b0e04-5a3efd8b5c4mr4514818e87.33.1776083962516;
+        Mon, 13 Apr 2026 05:39:22 -0700 (PDT)
+Received: from wpc (host-95-152-45-178.dsl.sura.ru. [95.152.45.178])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a3eef00327sm2532549e87.73.2026.04.13.05.39.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Apr 2026 05:39:22 -0700 (PDT)
+From: bigunclemax@gmail.com
+To: richard.genoud@bootlin.com
+Cc: conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	jernej.skrabec@gmail.com,
+	joao@schimsalabim.eu,
+	jstultz@google.com,
+	krzk+dt@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	p.zabel@pengutronix.de,
+	paulk@sys-base.io,
+	robh@kernel.org,
+	samuel@sholland.org,
+	thomas.petazzoni@bootlin.com,
+	u.kleine-koenig@baylibre.com,
+	wens@csie.org
+Subject: [PATCH v4 2/4] pwm: sun50i: Add H616 PWM support
+Date: Mon, 13 Apr 2026 15:39:20 +0300
+Message-ID: <20260413123920.2459916-1-bigunclemax@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260305091959.2530374-3-richard.genoud@bootlin.com>
+References: <20260305091959.2530374-3-richard.genoud@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260412-t113-mangopi-reboot-hang-v1-1-5002cfa6e0cc@mmpsystems.pl>
-X-B4-Tracking: v=1; b=H4sIAHHZ22kC/x2MQQ5AMBBFryKzNokOEVxFLNoazIJKKyJpendl+
- fLffxECe+EAQxHB8y1B3JFBlQXYTR8ro8yZgSpqq0YRXkrVuOfFnYKejXMXfiLaXvczLx0xGcj
- 30/Miz58ep5ReK/Yrd2oAAAA=
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Michal Piekos <michal.piekos@mmpsystems.pl>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1776015732; l=986;
- i=michal.piekos@mmpsystems.pl; s=20260301; h=from:subject:message-id;
- bh=4a5CpNLwijqEeoBxf58LElhGXYoxLZYamglg2D+v9G0=;
- b=2uyGbcT9UsQQiVrajLnas48wLY7waq2GcuVc54VU/0QPLzJPeNy+QgQ5FmsgNpz942CaHtYsi
- zzs9eMoYHEeCoLq3jY2nZTDZ7VSnu0ohImT9m7SIeAlRYKiPv3IATyS
-X-Developer-Key: i=michal.piekos@mmpsystems.pl; a=ed25519;
- pk=Aixyx03If7ZDamiKKN0lsa+0mtA+WjIuIf2ZQVYNBqg=
-X-Authenticated-Id: michal.piekos@mmpsystems.pl
+Content-Transfer-Encoding: 8bit
 
-Reboot hangs on MangoPi MQ-R T113s because no restart handler is
-available.
+Hi Richard,
 
-Enable the SoC watchdog whose driver registers a restart handler.
+> +
+> +/* PWM Capture Fall Lock Register */
+> +#define H616_PWM_CFLR(x)		(0x74 + (x) * 0x20)
+> +
+> +#define H616_PWM_PAIR_IDX(chan)		((chan) >> 2)
+> +
 
-Tested on MangoPi MQ-R T113s.
+It looks like there's a typo or a mistake in the PAIR_IDX calculation.
+It should be like ((chan) >> 1).
+For example, for the 5th channel the result will be 1, but it should be 2.
 
-Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
----
- arch/arm/boot/dts/allwinner/sun8i-t113s-mangopi-mq-r-t113.dts | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/arch/arm/boot/dts/allwinner/sun8i-t113s-mangopi-mq-r-t113.dts b/arch/arm/boot/dts/allwinner/sun8i-t113s-mangopi-mq-r-t113.dts
-index 8b3a75383816..f0232a5e903b 100644
---- a/arch/arm/boot/dts/allwinner/sun8i-t113s-mangopi-mq-r-t113.dts
-+++ b/arch/arm/boot/dts/allwinner/sun8i-t113s-mangopi-mq-r-t113.dts
-@@ -33,3 +33,7 @@ rtl8189ftv: wifi@1 {
- 		interrupt-names = "host-wake";
- 	};
- };
-+
-+&wdt {
-+	status = "okay";
-+};
-
----
-base-commit: f5459048c38a00fc583658d6dcd0f894aff6df8f
-change-id: 20260412-t113-mangopi-reboot-hang-c9a9def82e2b
-
-Best regards,
--- 
-Michal Piekos <michal.piekos@mmpsystems.pl>
-
+Best regards
+Maksim
