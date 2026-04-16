@@ -1,112 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B14782866;
-	Thu, 16 Apr 2026 15:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3896E2F6910
+	for <linux-sunxi@lists.linux.dev>; Thu, 16 Apr 2026 22:11:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776353295; cv=none; b=t1jmp1U0J8ByG60/cnsJ2alVFO2bF0L63UllZtzVppvhKnrzkJf08apfK7jNRRG8I29M0x/mTRB+qOGsy0RKsNi0ZG5WNo/GaQp7eugOYfK/imtgE/qzWVsbX/qxGVaGz1n0v0rLmofuMdjCADedSzRv75UqH37oMS+PEGB2tyY=
+	t=1776377463; cv=none; b=JgbIEAPqmphQ9+oKnLGybvbPZoLIXfhzLTOOqnerMrwzEHVYdR2JqvcjC5WdPYydZslrwq4BXjtZIR9t2FVz8kRNqiXmIYjczxgvV+WPlbQVLTkb29DQb0eyzCb6cLWKGrnriTVwVIWVmi1DyV5dXshYZBvCCcP41hOGs8b+DII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776353295; c=relaxed/simple;
-	bh=4WZaxG1fEkAWFHy6pQUBEmVvWmVwiU42yXOGl7cFeSk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gsm65mixF/+JNAMMtBXNTBGjgmx5cL0WSd7ujVt5EFYkp3wnrfnngIUBLaIPOa9Y6SGxMR0581IvpBSfgKt1m0BLhiEr5/6kSQt0g6nGe3lBwrNfVWa6nxaIb7FHju4Ka0d6O3pI7Yw522aJQ314Y5BGfhnQMGPZddudXF3TiXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HmgbCebd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776377463; c=relaxed/simple;
+	bh=vCOt/kUHacZnTmt54w+Pu+3p3vr/u03wTAqlzPGEU9k=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gVzmx7xtthHi4yL1A6BVHIVd9vyvspnUOC907/V7hsN5eeqzceZMVbS1StY5wIjoSOb+JXYvK1fsoHMdzRamrrCZR7Q75axUjVjg6KP5/UN+82G4WQVHpVacpvpqIpaYTUMO+RWL0aOSQ6/+HnO2T+fSfL3eTeBtMQno/7gX/50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=sQJgQGsJ; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HmgbCebd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B4E4C2BCAF;
-	Thu, 16 Apr 2026 15:28:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776353294;
-	bh=4WZaxG1fEkAWFHy6pQUBEmVvWmVwiU42yXOGl7cFeSk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HmgbCebd2RitIoCeB7ERlNcoigI2gcNXIffpcWBwxmLR/49fdBOVNJt43biViZruQ
-	 SUxGBh7k0G0+wUXdh9iAWP2GMgN6StMoLwDDS5LGh5Br1Cnwm33Q/GStVLVjEZOIlQ
-	 w4hkE+GR/0jbKoJ4US5vFm4g4MEeg+Xs6V5PrgCcI/qnLLqTpeTaFSF5XPdoBUlHQ2
-	 OjpamUayO88WsFM/TR5a+osY+4ti1WMJ2OCRkJZrcPFP9f4h0m23q9sY1PQ1TMJ4kC
-	 cgEcCgwOlRGZnDk/Yrr1KZlHj28bd1M2LC6/jqPfz6Y+HbJ6veLochyGSMDRZYe4RG
-	 lXhGLPSAhcYRw==
-Date: Thu, 16 Apr 2026 17:28:12 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>, 
-	Richard Genoud <richard.genoud@bootlin.com>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Paul Kocialkowski <paulk@sys-base.io>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	John Stultz <jstultz@google.com>, Joao Schim <joao@schimsalabim.eu>, bigunclemax@gmail.com, 
-	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 4/4] MAINTAINERS: Add entry on Allwinner sun8i/H616
- PWM driver
-Message-ID: <aeD-BA95CGZ9lWLv@monoceros>
-References: <20260416131419.3152419-1-richard.genoud@bootlin.com>
- <20260416131419.3152419-5-richard.genoud@bootlin.com>
- <e9904440-b08d-4f9d-8d66-121633289695@kernel.org>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="sQJgQGsJ"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C3FF3244C;
+	Thu, 16 Apr 2026 15:10:54 -0700 (PDT)
+Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 68DA03F7B4;
+	Thu, 16 Apr 2026 15:10:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1776377460; bh=vCOt/kUHacZnTmt54w+Pu+3p3vr/u03wTAqlzPGEU9k=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=sQJgQGsJGDDEexDg/5V6P/6ZNxrLUlqlhpg2L/PSHdUhwV9iP/I/gPGoQZmbCa+Cv
+	 FuO7KIJ+7nEQDT95nw0yk0X+NDDhg7kT9ZdWAozy31w4iXlejRW4ajcHMALTSZdVL7
+	 qQou6X7biVZShrjMeD/aepDTsXOgMm16THgx63iM=
+Date: Fri, 17 Apr 2026 00:10:43 +0200
+From: Andre Przywara <andre.przywara@arm.com>
+To: qianfanguijin <qianfanguijin@163.com>
+Cc: linux-sunxi <linux-sunxi@lists.linux.dev>, "jernej.skrabec@gmail.com"
+ <jernej.skrabec@gmail.com>, samuel <samuel@sholland.org>, wens
+ <wens@kernel.org>
+Subject: Re: [RFC] Allwinner T536 initial support & pinctrl register layout
+ redesign
+Message-ID: <20260417001043.18ce12ca@ryzen.lan>
+In-Reply-To: <202604161857186497478@163.com>
+References: <202604161857186497478@163.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fqfb3daydof4iavs"
-Content-Disposition: inline
-In-Reply-To: <e9904440-b08d-4f9d-8d66-121633289695@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Thu, 16 Apr 2026 18:57:20 +0800
+qianfanguijin <qianfanguijin@163.com> wrote:
 
---fqfb3daydof4iavs
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 4/4] MAINTAINERS: Add entry on Allwinner sun8i/H616
- PWM driver
-MIME-Version: 1.0
+Hi,
 
-Hello,
+> Hi everyone,
+> 
+> I'm reaching out to see if there's any interest in supporting the Allwinner T536, an industrial-grade SoC featuring a quad-core Cortex-A55. I'm currently working on an upstream Linux kernel port for this chip.
 
-On Thu, Apr 16, 2026 at 03:23:49PM +0200, Krzysztof Kozlowski wrote:
-> On 16/04/2026 15:14, Richard Genoud wrote:
-> > Add myself as maintainer of Allwinner SUN8I PWM driver.
-> >=20
-> > Tested-by: John Stultz <jstultz@google.com>
->=20
-> Please drop or help me understand how one can test maintainers change?
-> Build process tools are not testing.
+Many thanks for doing this and reaching out!
 
-For me that is fine. This is the only way we have to record that John
-tested the series. Also if I applied the original series I would have
-let b4 add it to all patches in reply to a "tested-by" send in reply to
-the cover letter.
+> Progress so far:
+> 
+>     Basic CCU support
+>     pinctrl (GPIO and IRQ)
+>     UART console
+>     Successfully boots a minimal initramfs
+> 
+> The T536 introduces a redesigned GPIO register layout that is incompatible with the register mapping used by currently supported Allwinner SoCs. To accommodate this, I've refactored relevant register-related information into the pinctrl ops structure.
 
-My feedback here would be more: Don't send a new revision for such
-comments within 30 min, also not for
+I have just skimmed over this, but I guess that's the same new layout
+as the A733? PortA starts at 0x80, there are set/clear registers after
+the data register, other registers move, IRQ register inside each GPIO
+bank and so on? If so, you should just piggy back on my patches, that
+already introduce support for this new layout:
+https://lore.kernel.org/linux-sunxi/20250821004232.8134-1-andre.przywara@arm.com/
 
-> And you have commit msg trailing junk.
+This uses a different approach than you, please have a look and see how
+you like this. If you think yours is better, please let me know.
 
-=2E Maintainers differ, but if this is the only concern and the series is
-fine otherwise, I'd just fix that when applying. (But I think the "don't
-send a new iteration on the same day" is more universal, also for more
-fundamental feedback.) There is no need to bother all subscribers of 5
-mailing lists with a new thread in such quick sequence.
+> Andre, I heavily referenced your recent work on the A523 during development. Could you confirm whether GPIO interrupts are currently functional on A523? In my testing on the T536, I noticed that when irq_read_needs_mux is configured, the IRQ multiplexing mode is incorrectly set to 6, which breaks interrupt handling. I don't have access to A523 hardware for verification, but it appears this logic may need adjustment. Any insights or testing feedback would be greatly appreciated.
 
-Best regards
-Uwe
+Yes, this is indeed broken, which was recently discovered. I tried to
+fix this for v7.0 still, but this didn't happen :-(
+The quick fix for the A523 is here:
+https://lore.kernel.org/linux-sunxi/20260327113006.3135663-1-andre.przywara@arm.com/T/#u
+There is a more elaborate version, but this has some issues and needs
+more work:
+https://lore.kernel.org/linux-sunxi/20260323110151.2352832-1-andre.przywara@arm.com/T/#u
 
---fqfb3daydof4iavs
-Content-Type: application/pgp-signature; name="signature.asc"
+For a new SoC it's simple to address: just don't use
+irq_read_needs_mux (it's not needed anyway), and make sure the IRQs are
+correct, including potentially non-implemented banks.
+ 
+> Due to the GPIO subsystem redesign, I've made several modifications
+> to the sunxi-pinctrl driver. A work-in-progress tree is available for
+> review here: https://github.com/qianfan-Zhao/linux/tree/t536
+> 
+> I would appreciate your review and guidance on the upstreaming
+> strategy:
+> 
+>     Should the pinctrl/register layout changes be submitted and
+> merged first as a foundation?
 
------BEGIN PGP SIGNATURE-----
+Well, they should be part of the series. While refactoring is indeed
+somewhat independent from the full SoC support, and could be
+upstreamed separately, the motivation for the refactor needs to be
+there, so we need to see the full picture. Compare my A733 pinctrl
+series referenced above: you do the refactoring first, then add support
+for the new SoC on top. But all within one series.
+Also splitting this up in independent series creates nasty and
+confusing dependencies, which are also a moving target. So keep things
+in one series.
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmnhAAIACgkQj4D7WH0S
-/k6omQf/fppjti0PwQfUvki6ep25HnMUxzrIDQixXrcONd4YKG2bL+/sxUnYrLwY
-ukm9qWvvJw9leMaHqxnuRqIHxgTB0tKN0R364W6nr9xyBHfbXER9NK25QzUB4USM
-W8+vyaRHiUXAiahSIN59lgCVGsJW54KtAIrLsNFS0Z1ce6pF6ArOsMPEhE4kPGHd
-GADqRwF1yFAZrshePxLacCVXaGLm31vyApgbxlfPAWdKJkedr4QkSehLup7d0Bwz
-AvW4lFK0BziW4LQv3p7l9ad/5BnaXSEdAIxbnqLzt0HRJmKBwBNBgY9+BlEMsTOP
-S8f8Grt1iBVpX1llaBvN2D7db1Ipng==
-=55Kz
------END PGP SIGNATURE-----
+>     Or is it preferred to hold off until broader T536 support is complete?
 
---fqfb3daydof4iavs--
+I tend to do the following splitup:
+- One series with pinctrl support. Contains binding patch(es),
+  potentially refactoring, then the SoC specific driver boilerplate.
+  Basically what you have, but just the pinctrl parts.
+- One series with clock support. I understand it's tempting to do this
+  with just a few clocks, but in the past we always did the full clock
+  tree. You can split this up by clock types, purely for review
+  reasons. Compare the current A733 clock series:
+https://lore.kernel.org/linux-sunxi/20260310-a733-clk-v1-0-36b4e9b24457@pigmoral.tech/
+- One series with new PMIC support, if needed. The PMIC is needed to
+  keep the kernel forwards and backwards compatible with new DTs. If say
+  Linux v7.2 contains basic driver support, but not the PMIC, then
+  future DT, now referencing the PMIC, would no longer boot on v7.2,
+  since that doesn't know the PMIC. Which is a regression. So we need
+  PMIC support from the very start. If T536 boards use already
+  supported PMIC, there wouldn't be anything to do here.
+- The same is true for RTC support. The actual calendar functionality
+  doesn't matter, but on Allwinner the RTC provides essential clocks.
+  Again if older kernels wouldn't know about the RTC, then newer DTs
+  might break the boot on older kernel, thus introducing a regression.
+  So we need the RTC from day one.
+- The final series with the DT support. Introduce the trivial bindings
+  for the new SoC names, otherwise relying on the driver bindings
+  introduced with the series above. This would be the series really
+  adding support, even though it typically contains no code.
+
+> Any feedback on the code structure, IRQ handling, or submission workflow would be extremely helpful. I'll format and send proper patches via git send-email once the direction is confirmed.
+
+So yes, I'd say try to rebase the pinctrl part on top of my A733
+pinctrl series. I will try to send an updated version after -rc1,
+incorporating the A523 IRQ fixes. Ideally your submission would be
+just the DT binding, plus the per-SoC "driver file", which is now rather
+simple.
+
+Then check the PMIC and RTC situation, maybe you are lucky and it's
+simple. The nasty and tedious part is the clock support, and I am afraid
+there is no easy way out there. Some things are just complicated and
+complex. ;-)
+Good thing is those series can go in parallel, since there are no
+dependencies between them. It's just that the final DT support
+series needs to wait for everything else to land, before it can be
+merged.
+
+Cheers,
+Andre
+
+> Thanks in advance for your time and guidance.
+> 
+> 
+> 
+> 
+> 
+
