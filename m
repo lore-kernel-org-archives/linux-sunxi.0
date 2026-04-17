@@ -1,169 +1,200 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3896E2F6910
-	for <linux-sunxi@lists.linux.dev>; Thu, 16 Apr 2026 22:11:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C2163290DB
+	for <linux-sunxi@lists.linux.dev>; Fri, 17 Apr 2026 02:50:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776377463; cv=none; b=JgbIEAPqmphQ9+oKnLGybvbPZoLIXfhzLTOOqnerMrwzEHVYdR2JqvcjC5WdPYydZslrwq4BXjtZIR9t2FVz8kRNqiXmIYjczxgvV+WPlbQVLTkb29DQb0eyzCb6cLWKGrnriTVwVIWVmi1DyV5dXshYZBvCCcP41hOGs8b+DII=
+	t=1776394241; cv=none; b=Ssu6RVyL3a/8SzBqopl4v7bJZXRMYeXTCasiy0gJBtU4SSwNa2VmY6JKxKUjol4JeA8Vfo9xnFYWB+MMFjZ8w4wjmOxGQJZtVm/OruChs/ylLFVbRMLTdfumIZCnKkIJrvT8YyzXMNYtzOqEna7BBoEdTsl/6xHJNLLNm58j17w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776377463; c=relaxed/simple;
-	bh=vCOt/kUHacZnTmt54w+Pu+3p3vr/u03wTAqlzPGEU9k=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gVzmx7xtthHi4yL1A6BVHIVd9vyvspnUOC907/V7hsN5eeqzceZMVbS1StY5wIjoSOb+JXYvK1fsoHMdzRamrrCZR7Q75axUjVjg6KP5/UN+82G4WQVHpVacpvpqIpaYTUMO+RWL0aOSQ6/+HnO2T+fSfL3eTeBtMQno/7gX/50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=sQJgQGsJ; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1776394241; c=relaxed/simple;
+	bh=cO8PNzLr53j48WSiqikvfRsR9t/s7p1eM9XsusmqeXU=;
+	h=Date:From:To:Cc:Subject:References:Mime-Version:Message-ID:
+	 Content-Type; b=Rk6R0Z1sFoPF09BYWtlD2XYDlZHZ95LZQRZobWrKlZhX06NS0Fq2kJKQicS+uoqOKy76SJUYtQF9yYoMgKvE27/0aAsJiUokIUJus9AdBULdekLHo7ZtNOViUqjY9uidoaJM+JuuABdqmhAPG7q6+sov3IRUYiHiGeHWUcPGWbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=BKh7E9Ld; arc=none smtp.client-ip=117.135.210.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="sQJgQGsJ"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C3FF3244C;
-	Thu, 16 Apr 2026 15:10:54 -0700 (PDT)
-Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 68DA03F7B4;
-	Thu, 16 Apr 2026 15:10:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1776377460; bh=vCOt/kUHacZnTmt54w+Pu+3p3vr/u03wTAqlzPGEU9k=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=sQJgQGsJGDDEexDg/5V6P/6ZNxrLUlqlhpg2L/PSHdUhwV9iP/I/gPGoQZmbCa+Cv
-	 FuO7KIJ+7nEQDT95nw0yk0X+NDDhg7kT9ZdWAozy31w4iXlejRW4ajcHMALTSZdVL7
-	 qQou6X7biVZShrjMeD/aepDTsXOgMm16THgx63iM=
-Date: Fri, 17 Apr 2026 00:10:43 +0200
-From: Andre Przywara <andre.przywara@arm.com>
-To: qianfanguijin <qianfanguijin@163.com>
-Cc: linux-sunxi <linux-sunxi@lists.linux.dev>, "jernej.skrabec@gmail.com"
- <jernej.skrabec@gmail.com>, samuel <samuel@sholland.org>, wens
- <wens@kernel.org>
-Subject: Re: [RFC] Allwinner T536 initial support & pinctrl register layout
- redesign
-Message-ID: <20260417001043.18ce12ca@ryzen.lan>
-In-Reply-To: <202604161857186497478@163.com>
-References: <202604161857186497478@163.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="BKh7E9Ld"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:To:Subject:Mime-Version:Message-ID:
+	Content-Type; bh=cO8PNzLr53j48WSiqikvfRsR9t/s7p1eM9XsusmqeXU=;
+	b=BKh7E9LdN5VwMv9BJ+0hW4B1CzKiSeVIAuFvz6/f4+6j96+T/ajMQmqx/THd73
+	94yWa5erAXytF4Muc9DM1rxuIRM+7c3q1osUBvFyiRNSDM7IAXc6GOrFg7TCPNyW
+	zQGaW7Ve43wXE75DeVtCGsR8sB42aY8dZvA1pMZKYxHEI=
+Received: from DESKTOP-HADQUNG (unknown [])
+	by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id _____wBnC6zZn+FptlNtAA--.952S2;
+	Fri, 17 Apr 2026 10:50:02 +0800 (CST)
+Date: Fri, 17 Apr 2026 10:50:01 +0800
+From: qianfanguijin <qianfanguijin@163.com>
+To: andre.przywara <andre.przywara@arm.com>
+Cc: linux-sunxi <linux-sunxi@lists.linux.dev>, 
+	jernej.skrabec <jernej.skrabec@gmail.com>, 
+	samuel <samuel@sholland.org>, 
+	wens <wens@kernel.org>
+Subject: Re: Re: [RFC] Allwinner T536 initial support & pinctrl register layout redesign
+References: <202604161857186497478@163.com>, 
+	<20260417001043.18ce12ca@ryzen.lan>
+X-Priority: 3
+X-GUID: 67B333E2-CBEA-4442-B557-E869DD0B72C5
+X-Has-Attach: no
+X-Mailer: Foxmail 7.2.25.542[cn]
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Message-ID: <202604171050004494635@163.com>
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
+X-CM-TRANSID:_____wBnC6zZn+FptlNtAA--.952S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxKFyrCr1xXF48Cw4xJFWfGrg_yoW3Xw43pa
+	yYgFWYyrs8Jr40yr4vvr4xJF4ruan3JFy5J3s5J34Uu398uFyI9r4IgayYvF9rurs3Gw1Y
+	qF1jvasF93WkAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07USdgZUUUUU=
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/xtbC-hrw3mnhn9oP1AAA3c
 
-On Thu, 16 Apr 2026 18:57:20 +0800
-qianfanguijin <qianfanguijin@163.com> wrote:
-
-Hi,
-
-> Hi everyone,
-> 
-> I'm reaching out to see if there's any interest in supporting the Allwinner T536, an industrial-grade SoC featuring a quad-core Cortex-A55. I'm currently working on an upstream Linux kernel port for this chip.
-
-Many thanks for doing this and reaching out!
-
-> Progress so far:
-> 
->     Basic CCU support
->     pinctrl (GPIO and IRQ)
->     UART console
->     Successfully boots a minimal initramfs
-> 
-> The T536 introduces a redesigned GPIO register layout that is incompatible with the register mapping used by currently supported Allwinner SoCs. To accommodate this, I've refactored relevant register-related information into the pinctrl ops structure.
-
-I have just skimmed over this, but I guess that's the same new layout
-as the A733? PortA starts at 0x80, there are set/clear registers after
-the data register, other registers move, IRQ register inside each GPIO
-bank and so on? If so, you should just piggy back on my patches, that
-already introduce support for this new layout:
-https://lore.kernel.org/linux-sunxi/20250821004232.8134-1-andre.przywara@arm.com/
-
-This uses a different approach than you, please have a look and see how
-you like this. If you think yours is better, please let me know.
-
-> Andre, I heavily referenced your recent work on the A523 during development. Could you confirm whether GPIO interrupts are currently functional on A523? In my testing on the T536, I noticed that when irq_read_needs_mux is configured, the IRQ multiplexing mode is incorrectly set to 6, which breaks interrupt handling. I don't have access to A523 hardware for verification, but it appears this logic may need adjustment. Any insights or testing feedback would be greatly appreciated.
-
-Yes, this is indeed broken, which was recently discovered. I tried to
-fix this for v7.0 still, but this didn't happen :-(
-The quick fix for the A523 is here:
-https://lore.kernel.org/linux-sunxi/20260327113006.3135663-1-andre.przywara@arm.com/T/#u
-There is a more elaborate version, but this has some issues and needs
-more work:
-https://lore.kernel.org/linux-sunxi/20260323110151.2352832-1-andre.przywara@arm.com/T/#u
-
-For a new SoC it's simple to address: just don't use
-irq_read_needs_mux (it's not needed anyway), and make sure the IRQs are
-correct, including potentially non-implemented banks.
- 
-> Due to the GPIO subsystem redesign, I've made several modifications
-> to the sunxi-pinctrl driver. A work-in-progress tree is available for
-> review here: https://github.com/qianfan-Zhao/linux/tree/t536
-> 
-> I would appreciate your review and guidance on the upstreaming
-> strategy:
-> 
->     Should the pinctrl/register layout changes be submitted and
-> merged first as a foundation?
-
-Well, they should be part of the series. While refactoring is indeed
-somewhat independent from the full SoC support, and could be
-upstreamed separately, the motivation for the refactor needs to be
-there, so we need to see the full picture. Compare my A733 pinctrl
-series referenced above: you do the refactoring first, then add support
-for the new SoC on top. But all within one series.
-Also splitting this up in independent series creates nasty and
-confusing dependencies, which are also a moving target. So keep things
-in one series.
-
->     Or is it preferred to hold off until broader T536 support is complete?
-
-I tend to do the following splitup:
-- One series with pinctrl support. Contains binding patch(es),
-  potentially refactoring, then the SoC specific driver boilerplate.
-  Basically what you have, but just the pinctrl parts.
-- One series with clock support. I understand it's tempting to do this
-  with just a few clocks, but in the past we always did the full clock
-  tree. You can split this up by clock types, purely for review
-  reasons. Compare the current A733 clock series:
-https://lore.kernel.org/linux-sunxi/20260310-a733-clk-v1-0-36b4e9b24457@pigmoral.tech/
-- One series with new PMIC support, if needed. The PMIC is needed to
-  keep the kernel forwards and backwards compatible with new DTs. If say
-  Linux v7.2 contains basic driver support, but not the PMIC, then
-  future DT, now referencing the PMIC, would no longer boot on v7.2,
-  since that doesn't know the PMIC. Which is a regression. So we need
-  PMIC support from the very start. If T536 boards use already
-  supported PMIC, there wouldn't be anything to do here.
-- The same is true for RTC support. The actual calendar functionality
-  doesn't matter, but on Allwinner the RTC provides essential clocks.
-  Again if older kernels wouldn't know about the RTC, then newer DTs
-  might break the boot on older kernel, thus introducing a regression.
-  So we need the RTC from day one.
-- The final series with the DT support. Introduce the trivial bindings
-  for the new SoC names, otherwise relying on the driver bindings
-  introduced with the series above. This would be the series really
-  adding support, even though it typically contains no code.
-
-> Any feedback on the code structure, IRQ handling, or submission workflow would be extremely helpful. I'll format and send proper patches via git send-email once the direction is confirmed.
-
-So yes, I'd say try to rebase the pinctrl part on top of my A733
-pinctrl series. I will try to send an updated version after -rc1,
-incorporating the A523 IRQ fixes. Ideally your submission would be
-just the DT binding, plus the per-SoC "driver file", which is now rather
-simple.
-
-Then check the PMIC and RTC situation, maybe you are lucky and it's
-simple. The nasty and tedious part is the clock support, and I am afraid
-there is no easy way out there. Some things are just complicated and
-complex. ;-)
-Good thing is those series can go in parallel, since there are no
-dependencies between them. It's just that the final DT support
-series needs to wait for everything else to land, before it can be
-merged.
-
-Cheers,
-Andre
-
-> Thanks in advance for your time and guidance.
-> 
-> 
-> 
-> 
-> 
+CgoKPk9uIFRodSwgMTYgQXByIDIwMjYgMTg6NTc6MjAgKzA4MDAKCgoKPnFpYW5mYW5ndWlqaW4g
+PHFpYW5mYW5ndWlqaW5AMTYzLmNvbT4gd3JvdGU6CgoKCj4KCgoKPkhpLAoKCgo+CgoKCj4+IEhp
+IGV2ZXJ5b25lLAoKCgo+PiAKCgoKPj4gSSdtIHJlYWNoaW5nIG91dCB0byBzZWUgaWYgdGhlcmUn
+cyBhbnkgaW50ZXJlc3QgaW4gc3VwcG9ydGluZyB0aGUgQWxsd2lubmVyIFQ1MzYsIGFuIGluZHVz
+dHJpYWwtZ3JhZGUgU29DIGZlYXR1cmluZyBhIHF1YWQtY29yZSBDb3J0ZXgtQTU1LiBJJ20gY3Vy
+cmVudGx5IHdvcmtpbmcgb24gYW4gdXBzdHJlYW0gTGludXgga2VybmVsIHBvcnQgZm9yIHRoaXMg
+Y2hpcC4KCgoKPgoKCgo+TWFueSB0aGFua3MgZm9yIGRvaW5nIHRoaXMgYW5kIHJlYWNoaW5nIG91
+dCEKCgoKPgoKCgo+PiBQcm9ncmVzcyBzbyBmYXI6CgoKCj4+IAoKCgo+PsKgwqDCoMKgIEJhc2lj
+IENDVSBzdXBwb3J0CgoKCj4+wqDCoMKgwqAgcGluY3RybCAoR1BJTyBhbmQgSVJRKQoKCgo+PsKg
+wqDCoMKgIFVBUlQgY29uc29sZQoKCgo+PsKgwqDCoMKgIFN1Y2Nlc3NmdWxseSBib290cyBhIG1p
+bmltYWwgaW5pdHJhbWZzCgoKCj4+IAoKCgo+PiBUaGUgVDUzNiBpbnRyb2R1Y2VzIGEgcmVkZXNp
+Z25lZCBHUElPIHJlZ2lzdGVyIGxheW91dCB0aGF0IGlzIGluY29tcGF0aWJsZSB3aXRoIHRoZSBy
+ZWdpc3RlciBtYXBwaW5nIHVzZWQgYnkgY3VycmVudGx5IHN1cHBvcnRlZCBBbGx3aW5uZXIgU29D
+cy4gVG8gYWNjb21tb2RhdGUgdGhpcywgSSd2ZSByZWZhY3RvcmVkIHJlbGV2YW50IHJlZ2lzdGVy
+LXJlbGF0ZWQgaW5mb3JtYXRpb24gaW50byB0aGUgcGluY3RybCBvcHMgc3RydWN0dXJlLgoKCgo+
+CgoKCj5JIGhhdmUganVzdCBza2ltbWVkIG92ZXIgdGhpcywgYnV0IEkgZ3Vlc3MgdGhhdCdzIHRo
+ZSBzYW1lIG5ldyBsYXlvdXQKCgoKPmFzIHRoZSBBNzMzPyBQb3J0QSBzdGFydHMgYXQgMHg4MCwg
+dGhlcmUgYXJlIHNldC9jbGVhciByZWdpc3RlcnMgYWZ0ZXIKCgoKPnRoZSBkYXRhIHJlZ2lzdGVy
+LCBvdGhlciByZWdpc3RlcnMgbW92ZSwgSVJRIHJlZ2lzdGVyIGluc2lkZSBlYWNoIEdQSU8KCgoK
+PmJhbmsgYW5kIHNvIG9uPyBJZiBzbywgeW91IHNob3VsZCBqdXN0IHBpZ2d5IGJhY2sgb24gbXkg
+cGF0Y2hlcywgdGhhdAoKCgo+YWxyZWFkeSBpbnRyb2R1Y2Ugc3VwcG9ydCBmb3IgdGhpcyBuZXcg
+bGF5b3V0OgoKCgo+aHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtc3VueGkvMjAyNTA4MjEw
+MDQyMzIuODEzNC0xLWFuZHJlLnByenl3YXJhQGFybS5jb20vCgoKCj4KCgoKPlRoaXMgdXNlcyBh
+IGRpZmZlcmVudCBhcHByb2FjaCB0aGFuIHlvdSwgcGxlYXNlIGhhdmUgYSBsb29rIGFuZCBzZWUg
+aG93CgoKCj55b3UgbGlrZSB0aGlzLiBJZiB5b3UgdGhpbmsgeW91cnMgaXMgYmV0dGVyLCBwbGVh
+c2UgbGV0IG1lIGtub3cuCgoKCj4KSSBoYWQgYWxzbyB3ZWlnaGVkIHVzaW5nIGBvcHNgIHZlcnN1
+cyBgZmxhZ3NgIHdoZW4gZGVzaWduaW5nIHRoaXMuIEluaXRpYWxseSwgCkkgbGVhbmVkIHRvd2Fy
+ZCBgb3BzYCBmb3IgdGhlIGZsZXhpYmlsaXR5IGl0IG9mZmVycy4gSG93ZXZlciwgSSByYW4gaW50
+byBhIApzdHJ1Y3R1cmFsIGlzc3VlOiBpZiBJIGRlZmluZSB0aGUgb3BzIHN0cnVjdCBpbiBgcGlu
+Y3RybC10NTM2LmNgLCAKb3RoZXIgY29tcGF0aWJsZSBTb0NzIChsaWtlIHRoZSBBNzMzIHlvdSBt
+ZW50aW9uZWQpIHdvbid0IGJlIGFibGUgdG8gYWNjZXNzIAppdCBjbGVhbmx5LiBNb3ZpbmcgaXQg
+dG8gdGhlIHNoYXJlZCBgcGluY3RybC1zdW54aS5jYCB3b3VsZCB3b3JrLCAKYnV0IHRoYXQgd291
+bGQgYnJlYWsgdGhlIHBlci1Tb0MgbW9kdWxhcml0eS4KCkFmdGVyIHJldmlld2luZyB5b3VyIGxh
+dGVzdCBwYXRjaCwgSSBhZ3JlZSB0aGF0IHRoZSBgZmxhZ3NgIGFwcHJvYWNoIGlzIAptdWNoIGNs
+ZWFuZXIgYW5kIG1vcmUgZWxlZ2FudC4gSSdsbCByZWJhc2UgbXkgc2VyaWVzIG9uIHRvcCBvZiB5
+b3VyIGNvbW1pdCAKYW5kIGFkYXB0IG15IGNoYW5nZXMgYWNjb3JkaW5nbHkuCgpKdXN0IGEgbWlu
+b3Igc3VnZ2VzdGlvbjogd2hlbiByZXZpZXdpbmcgdGhlIGNvZGUsIGBTVU5YSV9QSU5DVFJMX0VM
+RVZFTl9CQU5LU2AgCmluaXRpYWxseSBhcHBlYXJlZCB0byBpbmRpY2F0ZSB0aGF0IHRoZSBTb0Mg
+aGFzIDExIEdQSU8gYmFua3MgKEEgdGhyb3VnaCBLKS4gCkluIHByYWN0aWNlLCBpdCBhY3R1YWxs
+eSBkZW5vdGVzIHRoYXQgYmFuayBQSyB1c2VzIGEgbm9uLWNvbnRpZ3VvdXMgcmVnaXN0ZXIgCmFk
+ZHJlc3Mgc3BhY2UgcmVsYXRpdmUgdG8gdGhlIG90aGVyIGJhbmtzLiBUaGUgY3VycmVudCBuYW1l
+IG1pZ2h0IGJlIHNsaWdodGx5IAptaXNsZWFkaW5nLgoKCgo+PiBBbmRyZSwgSSBoZWF2aWx5IHJl
+ZmVyZW5jZWQgeW91ciByZWNlbnQgd29yayBvbiB0aGUgQTUyMyBkdXJpbmcgZGV2ZWxvcG1lbnQu
+IENvdWxkIHlvdSBjb25maXJtIHdoZXRoZXIgR1BJTyBpbnRlcnJ1cHRzIGFyZSBjdXJyZW50bHkg
+ZnVuY3Rpb25hbCBvbiBBNTIzPyBJbiBteSB0ZXN0aW5nIG9uIHRoZSBUNTM2LCBJIG5vdGljZWQg
+dGhhdCB3aGVuIGlycV9yZWFkX25lZWRzX211eCBpcyBjb25maWd1cmVkLCB0aGUgSVJRIG11bHRp
+cGxleGluZyBtb2RlIGlzIGluY29ycmVjdGx5IHNldCB0byA2LCB3aGljaCBicmVha3MgaW50ZXJy
+dXB0IGhhbmRsaW5nLiBJIGRvbid0IGhhdmUgYWNjZXNzIHRvIEE1MjMgaGFyZHdhcmUgZm9yIHZl
+cmlmaWNhdGlvbiwgYnV0IGl0IGFwcGVhcnMgdGhpcyBsb2dpYyBtYXkgbmVlZCBhZGp1c3RtZW50
+LiBBbnkgaW5zaWdodHMgb3IgdGVzdGluZyBmZWVkYmFjayB3b3VsZCBiZSBncmVhdGx5IGFwcHJl
+Y2lhdGVkLgoKCgo+CgoKCj5ZZXMsIHRoaXMgaXMgaW5kZWVkIGJyb2tlbiwgd2hpY2ggd2FzIHJl
+Y2VudGx5IGRpc2NvdmVyZWQuIEkgdHJpZWQgdG8KCgoKPmZpeCB0aGlzIGZvciB2Ny4wIHN0aWxs
+LCBidXQgdGhpcyBkaWRuJ3QgaGFwcGVuIDotKAoKCgo+VGhlIHF1aWNrIGZpeCBmb3IgdGhlIEE1
+MjMgaXMgaGVyZToKCgoKPmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LXN1bnhpLzIwMjYw
+MzI3MTEzMDA2LjMxMzU2NjMtMS1hbmRyZS5wcnp5d2FyYUBhcm0uY29tL1QvI3UKCgoKPlRoZXJl
+IGlzIGEgbW9yZSBlbGFib3JhdGUgdmVyc2lvbiwgYnV0IHRoaXMgaGFzIHNvbWUgaXNzdWVzIGFu
+ZCBuZWVkcwoKCgo+bW9yZSB3b3JrOgoKCgo+aHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgt
+c3VueGkvMjAyNjAzMjMxMTAxNTEuMjM1MjgzMi0xLWFuZHJlLnByenl3YXJhQGFybS5jb20vVC8j
+dQoKCgo+CgoKCj5Gb3IgYSBuZXcgU29DIGl0J3Mgc2ltcGxlIHRvIGFkZHJlc3M6IGp1c3QgZG9u
+J3QgdXNlCgoKCj5pcnFfcmVhZF9uZWVkc19tdXggKGl0J3Mgbm90IG5lZWRlZCBhbnl3YXkpLCBh
+bmQgbWFrZSBzdXJlIHRoZSBJUlFzIGFyZQoKCgo+Y29ycmVjdCwgaW5jbHVkaW5nIHBvdGVudGlh
+bGx5IG5vbi1pbXBsZW1lbnRlZCBiYW5rcy4KCgoKPiAKSSd2ZSBsZWFybmVkIHRoZSBwYXRjaC4g
+U2F2aW5nIHRoZSByZWdpc3RlciB2YWx1ZSBhbmQgcmVzdG9yaW5nIGl0IGxhdGVyIAppbmRlZWQg
+cmVzb2x2ZXMgdGhlIGlzc3VlLiBXaXRoIHRoaXMgY2hhbmdlLCB3ZSBubyBsb25nZXIgZGVwZW5k
+IG9uIHRoZQogYFNVTjRJX0ZVTkNfSVJRYCBkZWZpbml0aW9uLiAKCgoKPj4gRHVlIHRvIHRoZSBH
+UElPIHN1YnN5c3RlbSByZWRlc2lnbiwgSSd2ZSBtYWRlIHNldmVyYWwgbW9kaWZpY2F0aW9ucwoK
+Cgo+PiB0byB0aGUgc3VueGktcGluY3RybCBkcml2ZXIuIEEgd29yay1pbi1wcm9ncmVzcyB0cmVl
+IGlzIGF2YWlsYWJsZSBmb3IKCgoKPj4gcmV2aWV3IGhlcmU6IGh0dHBzOi8vZ2l0aHViLmNvbS9x
+aWFuZmFuLVpoYW8vbGludXgvdHJlZS90NTM2CgoKCj4+IAoKCgo+PiBJIHdvdWxkIGFwcHJlY2lh
+dGUgeW91ciByZXZpZXcgYW5kIGd1aWRhbmNlIG9uIHRoZSB1cHN0cmVhbWluZwoKCgo+PiBzdHJh
+dGVneToKCgoKPj4gCgoKCj4+wqDCoMKgwqAgU2hvdWxkIHRoZSBwaW5jdHJsL3JlZ2lzdGVyIGxh
+eW91dCBjaGFuZ2VzIGJlIHN1Ym1pdHRlZCBhbmQKCgoKPj4gbWVyZ2VkIGZpcnN0IGFzIGEgZm91
+bmRhdGlvbj8KCgoKPgoKCgo+V2VsbCwgdGhleSBzaG91bGQgYmUgcGFydCBvZiB0aGUgc2VyaWVz
+LiBXaGlsZSByZWZhY3RvcmluZyBpcyBpbmRlZWQKCgoKPnNvbWV3aGF0IGluZGVwZW5kZW50IGZy
+b20gdGhlIGZ1bGwgU29DIHN1cHBvcnQsIGFuZCBjb3VsZCBiZQoKCgo+dXBzdHJlYW1lZCBzZXBh
+cmF0ZWx5LCB0aGUgbW90aXZhdGlvbiBmb3IgdGhlIHJlZmFjdG9yIG5lZWRzIHRvIGJlCgoKCj50
+aGVyZSwgc28gd2UgbmVlZCB0byBzZWUgdGhlIGZ1bGwgcGljdHVyZS4gQ29tcGFyZSBteSBBNzMz
+IHBpbmN0cmwKCgoKPnNlcmllcyByZWZlcmVuY2VkIGFib3ZlOiB5b3UgZG8gdGhlIHJlZmFjdG9y
+aW5nIGZpcnN0LCB0aGVuIGFkZCBzdXBwb3J0CgoKCj5mb3IgdGhlIG5ldyBTb0Mgb24gdG9wLiBC
+dXQgYWxsIHdpdGhpbiBvbmUgc2VyaWVzLgoKCgo+QWxzbyBzcGxpdHRpbmcgdGhpcyB1cCBpbiBp
+bmRlcGVuZGVudCBzZXJpZXMgY3JlYXRlcyBuYXN0eSBhbmQKCgoKPmNvbmZ1c2luZyBkZXBlbmRl
+bmNpZXMsIHdoaWNoIGFyZSBhbHNvIGEgbW92aW5nIHRhcmdldC4gU28ga2VlcCB0aGluZ3MKCgoK
+PmluIG9uZSBzZXJpZXMuCgoKCj4KCgoKPj7CoMKgwqDCoCBPciBpcyBpdCBwcmVmZXJyZWQgdG8g
+aG9sZCBvZmYgdW50aWwgYnJvYWRlciBUNTM2IHN1cHBvcnQgaXMgY29tcGxldGU/CgoKCj4KCgoK
+PkkgdGVuZCB0byBkbyB0aGUgZm9sbG93aW5nIHNwbGl0dXA6CgoKCj4tIE9uZSBzZXJpZXMgd2l0
+aCBwaW5jdHJsIHN1cHBvcnQuIENvbnRhaW5zIGJpbmRpbmcgcGF0Y2goZXMpLAoKCgo+wqAgcG90
+ZW50aWFsbHkgcmVmYWN0b3JpbmcsIHRoZW4gdGhlIFNvQyBzcGVjaWZpYyBkcml2ZXIgYm9pbGVy
+cGxhdGUuCgoKCj7CoCBCYXNpY2FsbHkgd2hhdCB5b3UgaGF2ZSwgYnV0IGp1c3QgdGhlIHBpbmN0
+cmwgcGFydHMuCgoKCj4tIE9uZSBzZXJpZXMgd2l0aCBjbG9jayBzdXBwb3J0LiBJIHVuZGVyc3Rh
+bmQgaXQncyB0ZW1wdGluZyB0byBkbyB0aGlzCgoKCj7CoCB3aXRoIGp1c3QgYSBmZXcgY2xvY2tz
+LCBidXQgaW4gdGhlIHBhc3Qgd2UgYWx3YXlzIGRpZCB0aGUgZnVsbCBjbG9jawoKCgo+wqAgdHJl
+ZS4gWW91IGNhbiBzcGxpdCB0aGlzIHVwIGJ5IGNsb2NrIHR5cGVzLCBwdXJlbHkgZm9yIHJldmll
+dwoKCgo+wqAgcmVhc29ucy4gQ29tcGFyZSB0aGUgY3VycmVudCBBNzMzIGNsb2NrIHNlcmllczoK
+CgoKPmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LXN1bnhpLzIwMjYwMzEwLWE3MzMtY2xr
+LXYxLTAtMzZiNGU5YjI0NDU3QHBpZ21vcmFsLnRlY2gvCgoKCj4tIE9uZSBzZXJpZXMgd2l0aCBu
+ZXcgUE1JQyBzdXBwb3J0LCBpZiBuZWVkZWQuIFRoZSBQTUlDIGlzIG5lZWRlZCB0bwoKCgo+wqAg
+a2VlcCB0aGUga2VybmVsIGZvcndhcmRzIGFuZCBiYWNrd2FyZHMgY29tcGF0aWJsZSB3aXRoIG5l
+dyBEVHMuIElmIHNheQoKCgo+wqAgTGludXggdjcuMiBjb250YWlucyBiYXNpYyBkcml2ZXIgc3Vw
+cG9ydCwgYnV0IG5vdCB0aGUgUE1JQywgdGhlbgoKCgo+wqAgZnV0dXJlIERULCBub3cgcmVmZXJl
+bmNpbmcgdGhlIFBNSUMsIHdvdWxkIG5vIGxvbmdlciBib290IG9uIHY3LjIsCgoKCj7CoCBzaW5j
+ZSB0aGF0IGRvZXNuJ3Qga25vdyB0aGUgUE1JQy4gV2hpY2ggaXMgYSByZWdyZXNzaW9uLiBTbyB3
+ZSBuZWVkCgoKCj7CoCBQTUlDIHN1cHBvcnQgZnJvbSB0aGUgdmVyeSBzdGFydC4gSWYgVDUzNiBi
+b2FyZHMgdXNlIGFscmVhZHkKCgoKPsKgIHN1cHBvcnRlZCBQTUlDLCB0aGVyZSB3b3VsZG4ndCBi
+ZSBhbnl0aGluZyB0byBkbyBoZXJlLgoKCgo+LSBUaGUgc2FtZSBpcyB0cnVlIGZvciBSVEMgc3Vw
+cG9ydC4gVGhlIGFjdHVhbCBjYWxlbmRhciBmdW5jdGlvbmFsaXR5CgoKCj7CoCBkb2Vzbid0IG1h
+dHRlciwgYnV0IG9uIEFsbHdpbm5lciB0aGUgUlRDIHByb3ZpZGVzIGVzc2VudGlhbCBjbG9ja3Mu
+CgoKCj7CoCBBZ2FpbiBpZiBvbGRlciBrZXJuZWxzIHdvdWxkbid0IGtub3cgYWJvdXQgdGhlIFJU
+QywgdGhlbiBuZXdlciBEVHMKCgoKPsKgIG1pZ2h0IGJyZWFrIHRoZSBib290IG9uIG9sZGVyIGtl
+cm5lbCwgdGh1cyBpbnRyb2R1Y2luZyBhIHJlZ3Jlc3Npb24uCgoKCj7CoCBTbyB3ZSBuZWVkIHRo
+ZSBSVEMgZnJvbSBkYXkgb25lLgoKCgo+LSBUaGUgZmluYWwgc2VyaWVzIHdpdGggdGhlIERUIHN1
+cHBvcnQuIEludHJvZHVjZSB0aGUgdHJpdmlhbCBiaW5kaW5ncwoKCgo+wqAgZm9yIHRoZSBuZXcg
+U29DIG5hbWVzLCBvdGhlcndpc2UgcmVseWluZyBvbiB0aGUgZHJpdmVyIGJpbmRpbmdzCgoKCj7C
+oCBpbnRyb2R1Y2VkIHdpdGggdGhlIHNlcmllcyBhYm92ZS4gVGhpcyB3b3VsZCBiZSB0aGUgc2Vy
+aWVzIHJlYWxseQoKCgo+wqAgYWRkaW5nIHN1cHBvcnQsIGV2ZW4gdGhvdWdoIGl0IHR5cGljYWxs
+eSBjb250YWlucyBubyBjb2RlLgoKCgo+CgoKCj4+IEFueSBmZWVkYmFjayBvbiB0aGUgY29kZSBz
+dHJ1Y3R1cmUsIElSUSBoYW5kbGluZywgb3Igc3VibWlzc2lvbiB3b3JrZmxvdyB3b3VsZCBiZSBl
+eHRyZW1lbHkgaGVscGZ1bC4gSSdsbCBmb3JtYXQgYW5kIHNlbmQgcHJvcGVyIHBhdGNoZXMgdmlh
+IGdpdCBzZW5kLWVtYWlsIG9uY2UgdGhlIGRpcmVjdGlvbiBpcyBjb25maXJtZWQuCgoKCj4KCgoK
+PlNvIHllcywgSSdkIHNheSB0cnkgdG8gcmViYXNlIHRoZSBwaW5jdHJsIHBhcnQgb24gdG9wIG9m
+IG15IEE3MzMKCgoKPnBpbmN0cmwgc2VyaWVzLiBJIHdpbGwgdHJ5IHRvIHNlbmQgYW4gdXBkYXRl
+ZCB2ZXJzaW9uIGFmdGVyIC1yYzEsCgoKCj5pbmNvcnBvcmF0aW5nIHRoZSBBNTIzIElSUSBmaXhl
+cy4gSWRlYWxseSB5b3VyIHN1Ym1pc3Npb24gd291bGQgYmUKCgoKPmp1c3QgdGhlIERUIGJpbmRp
+bmcsIHBsdXMgdGhlIHBlci1Tb0MgImRyaXZlciBmaWxlIiwgd2hpY2ggaXMgbm93IHJhdGhlcgoK
+Cgo+c2ltcGxlLgoKCgo+CgoKCj5UaGVuIGNoZWNrIHRoZSBQTUlDIGFuZCBSVEMgc2l0dWF0aW9u
+LCBtYXliZSB5b3UgYXJlIGx1Y2t5IGFuZCBpdCdzCgoKCj5zaW1wbGUuIFRoZSBuYXN0eSBhbmQg
+dGVkaW91cyBwYXJ0IGlzIHRoZSBjbG9jayBzdXBwb3J0LCBhbmQgSSBhbSBhZnJhaWQKCgoKPnRo
+ZXJlIGlzIG5vIGVhc3kgd2F5IG91dCB0aGVyZS4gU29tZSB0aGluZ3MgYXJlIGp1c3QgY29tcGxp
+Y2F0ZWQgYW5kCgoKCj5jb21wbGV4LiA7LSkKCgoKPkdvb2QgdGhpbmcgaXMgdGhvc2Ugc2VyaWVz
+IGNhbiBnbyBpbiBwYXJhbGxlbCwgc2luY2UgdGhlcmUgYXJlIG5vCgoKCj5kZXBlbmRlbmNpZXMg
+YmV0d2VlbiB0aGVtLiBJdCdzIGp1c3QgdGhhdCB0aGUgZmluYWwgRFQgc3VwcG9ydAoKCgo+c2Vy
+aWVzIG5lZWRzIHRvIHdhaXQgZm9yIGV2ZXJ5dGhpbmcgZWxzZSB0byBsYW5kLCBiZWZvcmUgaXQg
+Y2FuIGJlCgoKCj5tZXJnZWQuCgpUaGFua3MgZm9yIHRoZSBndWlkYW5jZS4gSSdsbCByZWJhc2Ug
+bXkgVDUzNiBzZXJpZXMgb24gdG9wIG9mIHlvdXIgQTczMyBwYXRjaGVzIAphbmQgY29udGludWUg
+d29ya2luZyBvbiBUNTM2IHN1cHBvcnQuIFRoZSBHUElPIHBhcnQgaXMgbXVjaCBzaW1wbGVyIG5v
+dy4gCkluIHRoZSBtZWFudGltZSwgSSdsbCBmb2N1cyBvbiBnZXR0aW5nIE1NQyBhbmQgR01BQyB3
+b3JraW5nLiAKT25jZSB0aG9zZSB0d28gYXJlIGZ1bmN0aW9uYWwsIHRoZSByZXN0IG9mIHRoZSBi
+cmluZy11cCBwcm9jZXNzIHdpbGwgYmUgZWFzaWVyLiAKSSdtIGN1cnJlbnRseSBzdGlsbCBoZWF2
+aWx5IHJlbGlhbnQgb24gYSByYW1kaXNrLCB3aGljaCBtYWtlcyBkZWJ1Z2dpbmcgCmEgYml0IHRl
+ZGlvdXMuCgoKCj4KCgoKPkNoZWVycywKCgoKPkFuZHJlCgoKCj4KCgoKPj4gVGhhbmtzIGluIGFk
+dmFuY2UgZm9yIHlvdXIgdGltZSBhbmQgZ3VpZGFuY2UuCgoKCj4+IAoKCgo+PiAKCgoKPj4gCgoK
+Cj4+IAoKCgo+PiAKCgo=
 
