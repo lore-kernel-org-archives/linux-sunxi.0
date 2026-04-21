@@ -1,81 +1,81 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F90A3CFF65
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Apr 2026 13:13:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0263D567F
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Apr 2026 13:14:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776777197; cv=none; b=OerdlGQLNGayO6mQLBuPTQ5sjLgG9xsZpcweq+8bV4Jdy7bOJ4D1LOu4EhmvDf7pU/r5e1ia00PBOBeFYp3KxGQFxkFq1uF0fA2pRzf/YVDeGiONsteIOXHT/ER5+M9El3tvkA2KJ4lGt/UW+KzfvYm2+jcMFWoaQ5WIWQVLkSY=
+	t=1776777244; cv=none; b=nENZRg8wE8TGqH+1xAAEq2c3P51S9Xf/TW80yiQH2Wtom8jmhxCV5eyowApAJGsMjx5uojFTGHfh9lOBy9qeGlFoLfMOFETMjNv/L4TtJpgNiZ08cc1O12TCuQQz1xPKbxjKD/PUkAvChhwU6gz5qtI41Fs2SQvEHLz98hhEv94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776777197; c=relaxed/simple;
-	bh=jIZCtgquriojzuC3F+QYbUg8W+S0LmGQ8AWnj40T5gE=;
+	s=arc-20240116; t=1776777244; c=relaxed/simple;
+	bh=V/1VGpj19nZztSFgejixj4jcNpDQonB19s46teT5yA8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RwPF3bqsAP5+EOMyFP1LuLv+dfuxt5/cnAUlA7rfxqm2+yoRryj6B93CXBnIs/25FgM0CjelBPNwMDgYnVM6GTnq9Vxni/6dNONMUHliUmtsGLoSZw2wT2sTti21g6dlTkPR2AlXZVx7yqVBJ5WEcBZqsdXN03Q2LNDC2k6N/wI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RfQPrpYC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0t7r5wb3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RfQPrpYC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0t7r5wb3; arc=none smtp.client-ip=195.135.223.131
+	 In-Reply-To:Content-Type; b=cRRWPI/ne1xnV0cLCRBUcfLgB2dIxiwJD928Y0xT7Srzfl+A7cjqtXHtIGjmc4YlbWxqmvsK0ZXM6AfasVvqZQyT1gvndALl0x9BxZ2ADOu8EsKyglARwtG7AOwEnwucVhIVD2AW1+JM9ZYoQYb0JoPn0d+W9/dO2HTHUaun2Cg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ibp2rAaZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+7bJ4fUf; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ibp2rAaZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+7bJ4fUf; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RfQPrpYC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0t7r5wb3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RfQPrpYC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0t7r5wb3"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ibp2rAaZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+7bJ4fUf";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ibp2rAaZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+7bJ4fUf"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id F3A405BD8C;
-	Tue, 21 Apr 2026 13:13:13 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6664B6A8E7;
+	Tue, 21 Apr 2026 13:14:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776777194; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1776777241; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=uAl+7TMH7mRnNfNsP///fFCVW7I07WdWXzRwW/SpILY=;
-	b=RfQPrpYC/Y2NfN3snlG9TLjRWxOtwH0ra8mipIFgc/obnxFKOCxsD8Fr0Qd15M88pI/FEL
-	9k1e2VO8cApNGQerrewzOLbfe84O0n7SJ36xqZ0U9FdkRFuQV17HIAK2fCEUD1j1HJXq0m
-	JQZZHA4Km0EbKK+96NuiZcuNg+0v3PM=
+	bh=JWFB4qX/2dIyNHDildQIdtkKRui7aupiIHkOuMLvEjY=;
+	b=ibp2rAaZELJvrWTSghSiLILfO8FMBJFca/lJ06bjPApKs63fYxz6pVHCZnScDSa9o6+M3g
+	8r4e/7lRMCeI89eAm+Be8NbJiMEN1o0HtpSt9kYGtRisEd6fBJS1/BZta8UmdHbRSeWQOf
+	FgUIWbZ1tb/5iRd6OdoYLbyt4xLYEOs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776777194;
+	s=susede2_ed25519; t=1776777241;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=uAl+7TMH7mRnNfNsP///fFCVW7I07WdWXzRwW/SpILY=;
-	b=0t7r5wb30Cbt1KLf/Onc2YCQLAPpK4p7rGCBK3Hq8kQNU2reRa6pvbaCNG4xVrmXZuZwJ1
-	oMXhkCd/2ZC2nZDQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RfQPrpYC;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=0t7r5wb3
+	bh=JWFB4qX/2dIyNHDildQIdtkKRui7aupiIHkOuMLvEjY=;
+	b=+7bJ4fUfCIPtpbOmuglbbhMXbE0zzJcyBE9oZAd3xFRrBeLEaRsJ81nit3MGjz/5YX6ruP
+	K+2Z4FVRLD/pegBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ibp2rAaZ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=+7bJ4fUf
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776777194; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1776777241; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=uAl+7TMH7mRnNfNsP///fFCVW7I07WdWXzRwW/SpILY=;
-	b=RfQPrpYC/Y2NfN3snlG9TLjRWxOtwH0ra8mipIFgc/obnxFKOCxsD8Fr0Qd15M88pI/FEL
-	9k1e2VO8cApNGQerrewzOLbfe84O0n7SJ36xqZ0U9FdkRFuQV17HIAK2fCEUD1j1HJXq0m
-	JQZZHA4Km0EbKK+96NuiZcuNg+0v3PM=
+	bh=JWFB4qX/2dIyNHDildQIdtkKRui7aupiIHkOuMLvEjY=;
+	b=ibp2rAaZELJvrWTSghSiLILfO8FMBJFca/lJ06bjPApKs63fYxz6pVHCZnScDSa9o6+M3g
+	8r4e/7lRMCeI89eAm+Be8NbJiMEN1o0HtpSt9kYGtRisEd6fBJS1/BZta8UmdHbRSeWQOf
+	FgUIWbZ1tb/5iRd6OdoYLbyt4xLYEOs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776777194;
+	s=susede2_ed25519; t=1776777241;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=uAl+7TMH7mRnNfNsP///fFCVW7I07WdWXzRwW/SpILY=;
-	b=0t7r5wb30Cbt1KLf/Onc2YCQLAPpK4p7rGCBK3Hq8kQNU2reRa6pvbaCNG4xVrmXZuZwJ1
-	oMXhkCd/2ZC2nZDQ==
+	bh=JWFB4qX/2dIyNHDildQIdtkKRui7aupiIHkOuMLvEjY=;
+	b=+7bJ4fUfCIPtpbOmuglbbhMXbE0zzJcyBE9oZAd3xFRrBeLEaRsJ81nit3MGjz/5YX6ruP
+	K+2Z4FVRLD/pegBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 02FFD593AF;
-	Tue, 21 Apr 2026 13:13:12 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 63DA9593AF;
+	Tue, 21 Apr 2026 13:14:00 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id VmfrOuh352nwfgAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 21 Apr 2026 13:13:12 +0000
-Message-ID: <eae90ba7-1a8c-4d81-bc0d-1b7418b44008@suse.de>
-Date: Tue, 21 Apr 2026 15:13:12 +0200
+	id JITqFhh452mzfwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 21 Apr 2026 13:14:00 +0000
+Message-ID: <9c4015a3-9413-4b20-8327-989431cfae28@suse.de>
+Date: Tue, 21 Apr 2026 15:13:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -83,7 +83,8 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 04/20] drm/colorop: Rename __drm_colorop_state_reset()
+Subject: Re: [PATCH v2 05/20] drm/colorop: Create
+ drm_atomic_helper_colorop_create_state()
 To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -110,7 +111,7 @@ Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 References: <20260320-drm-mode-config-init-v2-0-c63f1134e76c@kernel.org>
- <20260320-drm-mode-config-init-v2-4-c63f1134e76c@kernel.org>
+ <20260320-drm-mode-config-init-v2-5-c63f1134e76c@kernel.org>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -137,7 +138,7 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260320-drm-mode-config-init-v2-4-c63f1134e76c@kernel.org>
+In-Reply-To: <20260320-drm-mode-config-init-v2-5-c63f1134e76c@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
@@ -150,16 +151,16 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,lwn.net,linuxfoundation.org,oss.qualcomm.com,iki.fi,ideasonboard.com,intel.com,linaro.org,kwiboo.se,emersion.fr,amd.com,igalia.com,redhat.com,ursulin.net,sholland.org,raspberrypi.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[37];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	ARC_NA(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[37];
-	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
 	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -167,9 +168,10 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
 	R_RATELIMIT(0.00)[to_ip_from(RL7gneoo7ydcsn9o76mxr5d8pb)];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Queue-Id: F3A405BD8C
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid,suse.de:email]
+X-Rspamd-Queue-Id: 6664B6A8E7
 X-Spam-Flag: NO
 X-Spam-Score: -3.01
 X-Spam-Level: 
@@ -177,67 +179,102 @@ X-Spam-Level:
 
 
 Am 20.03.26 um 17:27 schrieb Maxime Ripard:
-> __drm_colorop_state_reset() is used to initialize a newly allocated
-> drm_colorop_state, and is being typically called by drm_colorop_reset().
+> Commit 47b5ac7daa46 ("drm/atomic: Add new atomic_create_state callback
+> to drm_private_obj") introduced a new pattern for allocating drm object
+> states.
 >
-> Since we want to consolidate DRM objects state allocation around the
-> atomic_create_state callback that will only allocate and initialize a
-> new drm_colorop_state instance, we will need to call
-> __drm_colorop_state_reset() from both the reset and atomic_create paths.
+> Instead of relying on the reset() callback, it created a new
+> atomic_create_state hook. This is helpful because reset is a bit
+> overloaded: it's used to create the initial software state, reset it,
+> but also reset the hardware.
 >
-> To avoid any confusion, we can thus rename __drm_colorop_state_reset()
-> to __drm_colorop_state_init().
+> It can also be used either at probe time, to create the initial state
+> and possibly reset the hardware to an expected default, but also during
+> suspend/resume.
+>
+> Both these cases come with different expectations too: during the
+> initialization, we want to initialize all states, but during
+> suspend/resume, drm_private_states for example are expected to be kept
+> around.
+>
+> And reset() isn't fallible, which makes it harder to handle
+> initialization errors properly.
+>
+> It's also only relevant for some drivers, since all the helpers for
+> reset only create a new state, and don't touch the hardware at all.
+>
+> It was thus decided to create a new hook that would allocate and
+> initialize a pristine state without any side effect: atomic_create_state
+> to untangle a bit some of it, and to separate the
+> initialization with the actual reset one might need during a
+> suspend/resume.
+>
+> Let's continue the transition to the new pattern with drm_colorop.
 >
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-
-This makes sense considering the next patch
 
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 > ---
->   drivers/gpu/drm/drm_colorop.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
+>   drivers/gpu/drm/drm_colorop.c | 23 +++++++++++++++++++++++
+>   include/drm/drm_colorop.h     |  2 ++
+>   2 files changed, 25 insertions(+)
 >
 > diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-> index 373cd0ddb8fd4478874509ed12c95451c1f66203..6a26b83b260e8d8e83c703ecde490a7a8740ebfb 100644
+> index 6a26b83b260e8d8e83c703ecde490a7a8740ebfb..7bfaf2617ec315f42d80ac72a5eaaef868e65657 100644
 > --- a/drivers/gpu/drm/drm_colorop.c
 > +++ b/drivers/gpu/drm/drm_colorop.c
-> @@ -498,19 +498,19 @@ void drm_colorop_atomic_destroy_state(struct drm_colorop *colorop,
->   	__drm_atomic_helper_colorop_destroy_state(state);
->   	kfree(state);
+> @@ -521,10 +521,33 @@ static void __drm_colorop_state_init(struct drm_colorop_state *colorop_state,
+>   						      &val);
+>   		colorop_state->curve_1d_type = val;
+>   	}
 >   }
 >   
+> +/**
+> + * drm_atomic_helper_colorop_create_state - Allocates and initializes colorop atomic state
+> + * @colorop: drm colorop
+> + *
+> + * Initializes a pristine @drm_colorop_state.
+> + *
+> + * RETURNS:
+> + * Pointer to new colorop state, or ERR_PTR on failure.
+> + */
+> +struct drm_colorop_state *
+> +drm_atomic_helper_colorop_create_state(struct drm_colorop *colorop)
+> +{
+> +	struct drm_colorop_state *state;
+> +
+> +	state = kzalloc_obj(*state);
+> +	if (!state)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	__drm_colorop_state_init(state, colorop);
+> +
+> +	return state;
+> +}
+> +
 >   /**
-> - * __drm_colorop_state_reset - resets colorop state to default values
-> + * __drm_colorop_state_init - Initializes colorop state to default values
->    * @colorop_state: atomic colorop state, must not be NULL
->    * @colorop: colorop object, must not be NULL
+>    * __drm_colorop_reset - reset state on colorop
+>    * @colorop: drm colorop
+>    * @colorop_state: colorop state to assign
 >    *
->    * Initializes the newly allocated @colorop_state with default
->    * values. This is useful for drivers that subclass the colorop state.
->    */
-> -static void __drm_colorop_state_reset(struct drm_colorop_state *colorop_state,
-> -				      struct drm_colorop *colorop)
-> +static void __drm_colorop_state_init(struct drm_colorop_state *colorop_state,
-> +				     struct drm_colorop *colorop)
->   {
->   	u64 val;
+> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
+> index bd082854ca74cac90b42020b09206a8516687666..874ed693329c0ecf94567c094744fe86fd08e382 100644
+> --- a/include/drm/drm_colorop.h
+> +++ b/include/drm/drm_colorop.h
+> @@ -423,10 +423,12 @@ int drm_plane_colorop_3dlut_init(struct drm_device *dev, struct drm_colorop *col
+>   				 struct drm_plane *plane, const struct drm_colorop_funcs *funcs,
+>   				 uint32_t lut_size,
+>   				 enum drm_colorop_lut3d_interpolation_type interpolation,
+>   				 uint32_t flags);
 >   
->   	colorop_state->colorop = colorop;
->   	colorop_state->bypass = true;
-> @@ -537,11 +537,11 @@ static void __drm_colorop_state_reset(struct drm_colorop_state *colorop_state,
->    */
->   static void __drm_colorop_reset(struct drm_colorop *colorop,
->   				struct drm_colorop_state *colorop_state)
->   {
->   	if (colorop_state)
-> -		__drm_colorop_state_reset(colorop_state, colorop);
-> +		__drm_colorop_state_init(colorop_state, colorop);
+> +struct drm_colorop_state *
+> +drm_atomic_helper_colorop_create_state(struct drm_colorop *colorop);
+>   struct drm_colorop_state *
+>   drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop);
 >   
->   	colorop->state = colorop_state;
->   }
->   
->   void drm_colorop_reset(struct drm_colorop *colorop)
+>   void drm_colorop_atomic_destroy_state(struct drm_colorop *colorop,
+>   				      struct drm_colorop_state *state);
 >
 
 -- 
