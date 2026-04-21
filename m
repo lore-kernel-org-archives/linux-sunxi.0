@@ -1,173 +1,242 @@
-Received: from s106b.cyber-folks.pl (s106b.cyber-folks.pl [195.78.66.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E063D6682;
-	Tue, 21 Apr 2026 14:06:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.78.66.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63947286881
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Apr 2026 15:33:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776780395; cv=none; b=G+YsuEukuPRReluaBl7OaqeTXe+Z0X1d8/Gl0O6QPp11mRfngp2dDdppIkbb/xl+7+PbdfYHdv1ybw5QeKoGJ6aoZgk+io3A88OC9wKaOOHmAlaCP4Es9JONR7rk0ICfQ/UQsMgWV1Pzp6Ul1SNfQT3+yAcf5+SkYS3TJnhOTF0=
+	t=1776785596; cv=none; b=fT+Ufao3pmsbFmLzeYcCSb1pMae/SPfssJ4Wem3lh/hb3N83OTbtiU/g9DOrviDN4rteSOvkz60Z9M8RLvYLPsaydIg/1mbsVLYxeRZo6sGRLkgBXew8R0WP2Yn2ipzYKEs9In6ittPFS6Pr38oqT4cHV9J3NC/pdPn7Y8HDT8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776780395; c=relaxed/simple;
-	bh=ZTfV6RBx39CmAgFbinyGVptw2FtN9mrkJfOuofOHx1c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DspDLoTFmWmSPAx51HjzRf9KDmFgACospEFy2NHfJw8My5dcbgLQ9v7BXVc9jqhbOdTp4Up4sBLlQtvryEVZ7Qvnk9+77ifd/mlR0IxYtDJxODVxCTzgYq79ASjCHFqmq034HoPnkkp2FMA9Xmy0iRWh3j23S9Ks0+h2FwAdqgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl; spf=pass smtp.mailfrom=mmpsystems.pl; dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b=AwjowB3A; arc=none smtp.client-ip=195.78.66.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mmpsystems.pl
+	s=arc-20240116; t=1776785596; c=relaxed/simple;
+	bh=4HCqlredMvZcIrM331g6VN/NBvl4OPY6fmlDozL/Vhk=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=QLwV5x0i5gOse85FHVTNcpUFMyeTKCVo6PZP88+q0arsL8fzgwf7eaOtoh48JlyX1Uh1c6P2ouX3SlqwsUo0bMD/x8AwaorGO2SKr3b7WiSxr3sDvsqj6ifj1O4O0x2pbwsciE9Wx2puBOlBdRMT/lALnwHZzDYnwYe4B/hP2lE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=myUPr+Qp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=s+BkHr6u; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=myUPr+Qp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=s+BkHr6u; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b="AwjowB3A"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=mmpsystems.pl; s=x; h=In-Reply-To:Content-Type:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=ZWdPHRCtNzex4as64xLaRloyZfolOl/Dj/FxVThdR2o=; b=AwjowB3AQgBR680/tkNkHOaz24
-	CJcvRxR9VLgOeZAwMmhYwRVxvwzJdHsXtxiwtHn/KxtOwTztxSVipbVTm08KnMrObPTIgjE/vMtdI
-	ZW+9f5QlJQidW8etJ5LLtxp78VhcrC4xgqJd1Khn+SN1/I4oXX0dZ1iA6/vvVzxxcLfVcIsAMtKx0
-	URwhndWlbFJfkE928xZLrNeFxfDGjd+w64fe6FEzSTRHQo4MCmhKhNj3EyJGy3Kd2PtFPqia3QESD
-	DzBV2ZubC9bGT2PxLzex4yqSCDoIxBmHVe1cbXKnlV8gliI7hQdktinChaUykSFKQIKaUNrr9Btwq
-	e5l1/Ciw==;
-Received: from user-5-173-16-91.play-internet.pl ([5.173.16.91] helo=localhost)
-	by s106.cyber-folks.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <michal.piekos@mmpsystems.pl>)
-	id 1wFBkD-0000000BABf-2coC;
-	Tue, 21 Apr 2026 16:06:29 +0200
-Date: Tue, 21 Apr 2026 16:05:43 +0200
-From: Michal Piekos <michal.piekos@mmpsystems.pl>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Daniel Lezcano <daniel.lezcano@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 0/4] Add hstimer support for H616 and T113-S3
-Message-ID: <h4b3xluygfptee3ej4gbr3hctgjk6q4oytkisk66saii4uyvl3@lw4qdtfuyoz5>
-References: <20260419-h616-t113s-hstimer-v1-0-1af74ebef7c5@mmpsystems.pl>
- <20260419225539.718367e0@ryzen.lan>
- <xlvldmapdoql7nt3swube5vd6fdiosq7rt5afg246xertko5fa@4irmzupkar23>
- <b89c1c8b-2678-4f4f-a63c-03b92cf7617c@arm.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="myUPr+Qp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="s+BkHr6u";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="myUPr+Qp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="s+BkHr6u"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B0F5E6A802;
+	Tue, 21 Apr 2026 15:33:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776785593; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=KGBRDYkLHlArRH5KcbZ2sx3yZc8GF62CbNbF3CSJ5J0=;
+	b=myUPr+QpRF4WtLcNjixUKa0ud64dMsnpoDCcqvCwNNrhAgITLF8N65ERogFyvD5APfuRST
+	x6KWdHiPuCyp9WIBfM3vdigV9So2sh5bK/6F57vORI78crkPVyJjJ7Cc8tviPhal3W6j4C
+	fLmyiOkjNpoDZHXhBne/VI4EzmhuTOQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776785593;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=KGBRDYkLHlArRH5KcbZ2sx3yZc8GF62CbNbF3CSJ5J0=;
+	b=s+BkHr6uvgvgVh8gq49iW9+Wul2pWSUGKY14MfoNmYcX18wz8lyosBn3TYqjOCnv+rfL3D
+	UJMFT12T+Smh4MDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776785593; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=KGBRDYkLHlArRH5KcbZ2sx3yZc8GF62CbNbF3CSJ5J0=;
+	b=myUPr+QpRF4WtLcNjixUKa0ud64dMsnpoDCcqvCwNNrhAgITLF8N65ERogFyvD5APfuRST
+	x6KWdHiPuCyp9WIBfM3vdigV9So2sh5bK/6F57vORI78crkPVyJjJ7Cc8tviPhal3W6j4C
+	fLmyiOkjNpoDZHXhBne/VI4EzmhuTOQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776785593;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=KGBRDYkLHlArRH5KcbZ2sx3yZc8GF62CbNbF3CSJ5J0=;
+	b=s+BkHr6uvgvgVh8gq49iW9+Wul2pWSUGKY14MfoNmYcX18wz8lyosBn3TYqjOCnv+rfL3D
+	UJMFT12T+Smh4MDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AF8DE593AF;
+	Tue, 21 Apr 2026 15:33:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id w6UhKbiY52k1CwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 21 Apr 2026 15:33:12 +0000
+Message-ID: <dd39f423-1598-4749-8c95-98b8daf69680@suse.de>
+Date: Tue, 21 Apr 2026 17:33:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b89c1c8b-2678-4f4f-a63c-03b92cf7617c@arm.com>
-X-Authenticated-Id: michal.piekos@mmpsystems.pl
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 15/20] drm/drv: Call drm_mode_config_create_state() by
+ default
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Simon Ser <contact@emersion.fr>, Harry Wentland <harry.wentland@amd.com>,
+ Melissa Wen <mwen@igalia.com>, Sebastian Wick <sebastian.wick@redhat.com>,
+ Alex Hung <alex.hung@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Chen-Yu Tsai <wens@kernel.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20260320-drm-mode-config-init-v2-0-c63f1134e76c@kernel.org>
+ <20260320-drm-mode-config-init-v2-15-c63f1134e76c@kernel.org>
+ <79cc30d5-80b5-4d87-a3ad-36d6fad98853@suse.de>
+Content-Language: en-US
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <79cc30d5-80b5-4d87-a3ad-36d6fad98853@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[37];
+	TAGGED_RCPT(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLyhjdboxbrjk5hnijtjs4kbm6)];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,lwn.net,linuxfoundation.org,oss.qualcomm.com,iki.fi,ideasonboard.com,intel.com,linaro.org,kwiboo.se,emersion.fr,amd.com,igalia.com,redhat.com,ursulin.net,sholland.org,raspberrypi.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:url,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
 
-On Mon, Apr 20, 2026 at 04:14:44PM +0200, Andre Przywara wrote:
-> Hi Michal,
-> 
-> On 4/20/26 13:27, Michal Piekos wrote:
-> > On Sun, Apr 19, 2026 at 10:55:39PM +0200, Andre Przywara wrote:
-> > > On Sun, 19 Apr 2026 14:46:06 +0200
-> > > Michal Piekos <michal.piekos@mmpsystems.pl> wrote:
-> > > 
-> > > Hi Michal,
-> > > 
-> > > > Add support for Allwinner H616 high speed timer in sun5i hstimer driver
-> > > > and describe corresponding nodes in dts for H616 and T113-S3.
-> > > > 
-> > > > H616 uses same model as existing driver except register shift compared
-> > > > to older variants.
-> > > > 
-> > > > Added register layout abstraction in the driver, extended the binding
-> > > > with new compatibles and wired up dts nodes for H616 and T113-S3 which
-> > > > uses H616 as fallback compatible.
-> > > 
-> > > Can you say *why* we need this? IIUC Linux only ever uses one clock
-> > > source, and selects the (non-optional) Generic Timer (aka arch timer)
-> > > for that? So can you say what this hstimer clock source adds? I guess
-> > > higher resolution, but what is your use case, so why would you need the
-> > > 200 MHz? And does this offset the higher access cost of an MMIO
-> > > access, compared to the arch timer's sysreg based access? Also, IIUC,
-> > > people would need to manually select this as the clocksource, why and
-> > > when would they do so? (Given they even know about it in the first
-> > > place).
-> > > Also the hstimer hasn't been used since the A20, so nobody seemed to
-> > > have missed it meanwhile?
-> > > 
-> > > Cheers,
-> > > Andre
-> > > 
-> > I took the table from https://linux-sunxi.org/Linux_mainlining_effort as
-> > a todo list and wanted to help with it. I do not have own use case for
-> > this timer. If it is not needed then I will spin v2 to include your
-> > comments and abandon it.
-> 
-> Ah, that's good to know, and thanks for picking things from that list! I
-> don't think there is a particular need to abandon your work, we could as
-> well upstream it. At least the DT changes should be added, so that other DT
-> users could make use of the timers - after all it's a Linux implementation
-> choice to utilise just one timer. But please go ahead and post a complete
-> v2, I don't think it hurts to have HSTIMER support in the kernel.
-> And while you are at it: can you figure out what the need is for using two
-> timers? One is a clock source, the other is for clock events? And why do we
-> limit the counters and timers to 32 bit? Even the A13 manual lists them as
-> 56 bits, and a wraparound time of roughly 21 seconds (with 32 bit counters)
-> does not sound very long to me.
-> 
-Yes. Channel 0 is clockevent and channel 1 is a clocksource and sync
-reference for channel 0 disable timing. 
 
-32 bit counters seems like implementation choice rather than limitation
-but that would need to be implemented and tested. Would you suggest to
-extend it to 56 bit in the following patch?
 
-> 
-> Not sure what your primary motivation for fixing Allwinner support is, but
-> we could probably find more worthwhile targets. Do you have Allwinner boards
-> other than the OrangePi Zero 3? There are not many low hanging fruits on the
-> H616 left (MBUS and LDOs(?) maybe), but the A523 has quite some missing
-> drivers still, some of them probably more on the easy side.
-> 
-I have boards with A733, A527, T113-S3, H616, H6, H3 and I
-think some older stuff too. My motivation is mostly fun and learning.
-I also use those boards in custom projects.
+Am 21.04.26 um 15:38 schrieb Thomas Zimmermann:
+> Hi
+>
+> Am 20.03.26 um 17:27 schrieb Maxime Ripard:
+>> Almost all drivers, and our documented skeleton, call
+>> drm_mode_config_reset() prior to calling drm_dev_register() to
+>> initialize its DRM object states.
+>>
+>> Now that we have drm_mode_config_create_state() to create that initial
+>> state if it doesn't exist, we can call it directly in
+>> drm_dev_register(). That way, we know that the initial atomic state will
+>> always be allocated without any boilerplate.
+>>
+>> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+>> ---
+>>   drivers/gpu/drm/drm_drv.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+>> index 
+>> 2915118436ce8a6640cfb0c59936031990727ed1..820106d56ab399a39cac56d98662b5ddbcae8ded 
+>> 100644
+>> --- a/drivers/gpu/drm/drm_drv.c
+>> +++ b/drivers/gpu/drm/drm_drv.c
+>> @@ -1097,10 +1097,14 @@ int drm_dev_register(struct drm_device *dev, 
+>> unsigned long flags)
+>>         if (drm_core_check_feature(dev, DRIVER_MODESET)) {
+>>           ret = drm_modeset_register_all(dev);
+>>           if (ret)
+>>               goto err_unload;
+>> +
+>> +        ret = drm_mode_config_create_state(dev);
+>> +        if (ret)
+>> +            goto err_unload;
+>
+> Way too late. Lets rather go through drivers and call this where they 
+> currently call drm_mode_config_reset() for initialization. This can be 
+> a single-patch mass conversion IMHO.
 
-I will take up GPADC on A527 after finishing this as I worked with ADC's
-a lot on MCU's. Unless other suggestions?
+On a second thought, can't we modify the suspend code and leave the 
+reset as-is for now?  I'd still be interested to use reset as a means of 
+initializing the hardware or loading state on probe. So keeping the 
+_reset() calls in place might be helpful for that.
 
-Thank you for comments.
-Michal
+What's the long-term plan here?
 
-> If you are stuck with the OpiZero3, then you could just look and check the
-> existing devices, and verify their operation. For instance I think USB-OTG
-> is still broken - across most Allwinner SoCs actually, so it's a sunxi
-> driver issue.
-> 
-> Thanks,
-> Andre
-> 
-> > 
-> > Michal
-> > 
-> > > > 
-> > > > Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
-> > > > ---
-> > > > Michal Piekos (4):
-> > > >        dt-bindings: timer: allwinner,sun5i-a13-hstimer: add H616 and T113-S3
-> > > >        clocksource/drivers/sun5i: add H616 hstimer support
-> > > >        arm64: dts: allwinner: h616: add hstimer node
-> > > >        arm: dts: allwinner: t113s: add hstimer node
-> > > > 
-> > > >   .../timer/allwinner,sun5i-a13-hstimer.yaml         |  8 +++-
-> > > >   arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi       | 12 +++++
-> > > >   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi     |  9 ++++
-> > > >   drivers/clocksource/timer-sun5i.c                  | 56 +++++++++++++++++++---
-> > > >   4 files changed, 78 insertions(+), 7 deletions(-)
-> > > > ---
-> > > > base-commit: faeab166167f5787719eb8683661fd41a3bb1514
-> > > > change-id: 20260413-h616-t113s-hstimer-62939948f91c
-> > > > 
-> > > > Best regards,
-> > > 
-> > > 
-> 
-> 
+Best regards
+Thomas
+
+>
+> Best regards
+> Thomas
+>
+>>       }
+>>       drm_panic_register(dev);
+>>       drm_client_sysrq_register(dev);
+>>         DRM_INFO("Initialized %s %d.%d.%d for %s on minor %d\n",
+>>
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
