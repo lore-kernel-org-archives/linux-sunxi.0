@@ -1,52 +1,52 @@
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8BF63CB
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Apr 2026 05:10:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4CD40DFA1
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Apr 2026 05:19:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776748236; cv=pass; b=H8a6LlSGhXdvgK65tvdUPNhwaeC3bcHjqnVhQGTnWsk7OWsoq+KAs8pyRetAA0sBSb1jfAMQS1AFMRQI3AF3wwu6/gAyoZ+AZi7feV2FwaoeTdHWpdwATkBBCDqD2Tdiwg3RIEyE+EtwnqbKMDOXii0ewdYCAgBryZweX5AFUU4=
+	t=1776748801; cv=pass; b=rL0gKYQl96TEskXvCui/Q+8vQGhnul8w2v71io2O8wrLysOWWZMJdD7b2kvpKugECmYNheDFtoOqrP/EMXPWbYdBR6hzucx928ne+U9so06AxaskSz46jtNZOJeAj3rNJ9IKL0L3abvVOPF+QhNqcB3M9UrTUNdBC57to5j+8rw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776748236; c=relaxed/simple;
-	bh=Mu500oJtchjNh5at4suXKUqnhMv8rGL1+5vVa3n9RJw=;
+	s=arc-20240116; t=1776748801; c=relaxed/simple;
+	bh=zo8jlfsbBf8iQ8bwANQlZ7lCoeKeOFubhbihX2dzvgk=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=O221fvxIl73Yb8FHMrTdSnyXlH1QNBLtmH5WaT1bHsEiotmPdym4AhaVPFnP6+BrwFcsG00tLX32pcEdrE6GIKq31lYd4o5Yy02YU/DdjGfDStd5dtyi6KeB+H9cK8BNDcKSjfeMi/SwFdqpJBA2lDGXI9WSgRre7b9Y48J/Yys=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=oDil7NHc; arc=pass smtp.client-ip=136.143.188.15
+	 Content-Type:MIME-Version; b=b0tzNW8gHqrRvga/CAlEm4WXoExFlMKb9Te18VOkOg355wKbpwP2Xj8tfExrmZNnzmdmimv02oMHsbQtz6iWH/2pZPzjuNzbzbNSBxkYimp0wvKqHBPb05ZENNOM1WkXLDxfcIoIQwLOWFWCUCj4QDLfl3XJ90JLZVHwJt0WAkE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=QjmQjgLK; arc=pass smtp.client-ip=136.143.188.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="oDil7NHc"
-ARC-Seal: i=1; a=rsa-sha256; t=1776748233; cv=none; 
+	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="QjmQjgLK"
+ARC-Seal: i=1; a=rsa-sha256; t=1776748797; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=WaFJnRXd+wA4Es4CrcTWPS6gPYEqtJdgdGijZO8YGbBpTpVG+V+3o2DVwd9iFGSmp2+COD1wWmWShjjuVc/8Lr+pY93QuLsWeHZW0bBKMkeRY0pzJ7mLYpbYjIdBkzHJ/plXJc0mtoHZBakhakjZyShUgJIJAXaj5s2UZBJiEJs=
+	b=M8O8bFHnRlk7C+twY35Su6MbZpeakMWbQEm2EQZRtIkQ7eNF5CKtQ11CN6QPY6HMimgoazHiLvUrN/zJ9qmzqitmvW+L6EV1T6i8qQp1m21lDLDwVniWyR9W7e9rXJgxlxsPY/L3HtfFTOA8+ZJWFbhs9HVpsa1hpfwHeCaOIEk=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1776748233; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=078HJOJkzg7ADVpxBcPR59uzT6HqucQO2VuF7mqaikc=; 
-	b=FTrFcqE7OAL2ziceqh8S1dwcjWrzAoMQLop6ImyA8lxUvQEEr8Qvpjk9+51g3C3G7mwj2YdPYFbxWko7azYlV1Kjp+fQcTF0sHLTaJNyicysLvjQaHe3zxXQi1Nxf0nAfVtrSNQzifiAOSZgfpfCk6DmOXhZiFsFhOtvOhWgYYs=
+	t=1776748797; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Geq1OQynOihlqWQFvYfdxAYkxPpvK02UlEuH2IZRWTc=; 
+	b=CjWfUNBRTcjSkcFV720ezhRiOIG3cGkJEhf6SXYY787W1E+Ig16SK1ehXS/m7rrw89pNr2GhvJs0QkwE1vPa+bwL0j+9trWJCDmAn7uaMqlv9oBCzaI+6Gv+XUHUojgr5Ez4r0qnWCrEiH98Ih//Kx+MoEhQirbEhloABBK2FEg=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=icenowy.me;
 	spf=pass  smtp.mailfrom=uwu@icenowy.me;
 	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1776748233;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1776748797;
 	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
 	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=078HJOJkzg7ADVpxBcPR59uzT6HqucQO2VuF7mqaikc=;
-	b=oDil7NHcU55QfPmHvmDRcKyK63DfeF+Uqq+e7JPxj3L3rmw+CM8fDKD80c/14a+m
-	Ry9/rm/LogMXlIjimhAg5L291V3mk0xw+Oz+dd9G3eV9nVBV9PYTtCE3tCnw/KiSepH
-	4aulQhlfwtFHwqlMOLuWcXPh1SIZjXhV/cuO1VefaT2ltC5W0+e6xsJwao7UEiKAV12
-	WQhfnEX1meDOCnoh1camEvBjKXRwbG5a71a1t/GD1GJRQ5f8xVXJkpFtIOWFcQ0Bcnj
-	UaWf6VX5eCjjxtPpZsyfwUdNI/c4LO7dpUND7ERaFvPqn9+bAqSmJh/zn3SdRPBsns+
-	p7f2h3wwUw==
-Received: by mx.zohomail.com with SMTPS id 177674823169858.68880867945063;
-	Mon, 20 Apr 2026 22:10:31 -0700 (PDT)
-Message-ID: <881212f113fb3f922625e2aa743b84e4ba0c134f.camel@icenowy.me>
+	bh=Geq1OQynOihlqWQFvYfdxAYkxPpvK02UlEuH2IZRWTc=;
+	b=QjmQjgLKmNWLORUWu0zG6vq0J7J2Y7yAvskFNxzs0kHiajc3B0Kt2Ks9BsxWTIAf
+	aoBMUajpkE0Z33P1cMZ6Bwat7L8IspRlQc6yxyM56IRz194w5+gzwZwFYADey1Oab3U
+	S0nq7agtDnpx9av56twGCw8a9nv6C5uSUslOXvLF6FTm5Hdodtx2A8GUKpH02iYYRhu
+	myowzXjgKOdhq08FmEZARCNja31+0rnnkyNCHv+HX29HhTJRHhj9ixm7+DfZQZ6PLtP
+	4IFYTOs8+ethJBN4qo+oDUzAM4THZgod/GTGrONr06h7+PySiTB81+nsnuI+Z3PJBvH
+	lW5OOMV62A==
+Received: by mx.zohomail.com with SMTPS id 1776748795516222.02561140737646;
+	Mon, 20 Apr 2026 22:19:55 -0700 (PDT)
+Message-ID: <4cd64f5eba093d2dc122628a94cd0aba1071e626.camel@icenowy.me>
 Subject: Re: [PATCH] mfd: axp20x: Change volatile ranges on axp803
 From: Icenowy Zheng <uwu@icenowy.me>
 To: Jernej =?gb2312?Q?=810=947krabec?= <jernej.skrabec@gmail.com>, 
 	linux-sunxi@lists.linux.dev, =?gb2312?Q?Ond=810=940ej?= Jirman <megi@xff.cz>
 Cc: linux-kernel@vger.kernel.org, Lee Jones <lee@kernel.org>, Chen-Yu Tsai
 	 <wens@kernel.org>
-Date: Tue, 21 Apr 2026 13:10:25 +0800
+Date: Tue, 21 Apr 2026 13:19:50 +0800
 In-Reply-To: <b2d1246045ac27562865c8b399f21a839b14b19e.camel@icenowy.me>
 References: <20260315124932.3669260-1-megi@xff.cz>
 		 <5084920.31r3eYUQgx@jernej-laptop>
@@ -104,13 +104,12 @@ rabec=E5=86=99=E9=81=93=EF=BC=9A
 > switches it to RSB when it's needed; AXP288 is paired with non-
 > Allwinner SoCs (Intel ones) so it just doesn't advertise RSB.)
 
-P.S. my "AXP813 datasheet v1.0-20140901.pdf" file has a PDF title of
-"AXP288".
-
-And I think AXP813 has the most functionality because it's a BGA chip.
-(Weirdly the switch bit is "reserved" on the datasheet despite SWIN and
-SWOUT pins are there -- but the kernel driver has the switch defined
-and it matches AXP803 DC1SW).
+Forgot to mention that AXP8x3 also have dedicated VBUS and ACIN inputs
+while AXP288 has only VBUS -- but in the AXP803 datasheet, VBUS and
+ACIN shorted together is a valid use case and can be detected by the
+PMIC, and when they're shorted the VBUS current limit is active (the
+ACIN current limit is ignored); so for AXP288 it could be explained
+that the ACIN is shorted with VBUS in the package.
 
 Thanks,
 Icenowy
