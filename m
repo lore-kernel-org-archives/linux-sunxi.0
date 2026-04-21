@@ -1,215 +1,234 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4CD40DFA1
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Apr 2026 05:19:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776748801; cv=pass; b=rL0gKYQl96TEskXvCui/Q+8vQGhnul8w2v71io2O8wrLysOWWZMJdD7b2kvpKugECmYNheDFtoOqrP/EMXPWbYdBR6hzucx928ne+U9so06AxaskSz46jtNZOJeAj3rNJ9IKL0L3abvVOPF+QhNqcB3M9UrTUNdBC57to5j+8rw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776748801; c=relaxed/simple;
-	bh=zo8jlfsbBf8iQ8bwANQlZ7lCoeKeOFubhbihX2dzvgk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=b0tzNW8gHqrRvga/CAlEm4WXoExFlMKb9Te18VOkOg355wKbpwP2Xj8tfExrmZNnzmdmimv02oMHsbQtz6iWH/2pZPzjuNzbzbNSBxkYimp0wvKqHBPb05ZENNOM1WkXLDxfcIoIQwLOWFWCUCj4QDLfl3XJ90JLZVHwJt0WAkE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=QjmQjgLK; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C53B235F165
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Apr 2026 13:01:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776776478; cv=none; b=CioOS8VmEp//uYPcyG+gtbeSM5ZZIaBtOFzONVmhScH0P6w83eNWp8IKB65iSEUTlXYZOjRP8wHr/aiFegmyLNJFVEPaXl3yrZtQS/q+hq3J2Hvgte6eT2Bh0e1xrhmnsPRSLBKVDRd/a0gvxLqsGzhl9Qw6LfklEut1ChTVWxQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776776478; c=relaxed/simple;
+	bh=SKyHf0Jfy1+b62vM8BU6ndLQtG0vMth0Mf0crKxfDJU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l0ii8Z3RQB0luhV6NcpzWUcfFT1zGQ46kFSNvVAzIwQC7ezevNW0qTb9j3Y/Y+VKTH+E4thuGE+rLSd5VTDdr5AFDVqfNOMQgG9wa4P/8snDUM2Efo6J9p/coy55803Cz0e++qmP+0ZQDDrJsUJ0ALdQPWyvASJpx0DIZ24vryo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=M83n5v8Q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lJkuMN2J; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=M83n5v8Q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lJkuMN2J; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="QjmQjgLK"
-ARC-Seal: i=1; a=rsa-sha256; t=1776748797; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=M8O8bFHnRlk7C+twY35Su6MbZpeakMWbQEm2EQZRtIkQ7eNF5CKtQ11CN6QPY6HMimgoazHiLvUrN/zJ9qmzqitmvW+L6EV1T6i8qQp1m21lDLDwVniWyR9W7e9rXJgxlxsPY/L3HtfFTOA8+ZJWFbhs9HVpsa1hpfwHeCaOIEk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1776748797; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Geq1OQynOihlqWQFvYfdxAYkxPpvK02UlEuH2IZRWTc=; 
-	b=CjWfUNBRTcjSkcFV720ezhRiOIG3cGkJEhf6SXYY787W1E+Ig16SK1ehXS/m7rrw89pNr2GhvJs0QkwE1vPa+bwL0j+9trWJCDmAn7uaMqlv9oBCzaI+6Gv+XUHUojgr5Ez4r0qnWCrEiH98Ih//Kx+MoEhQirbEhloABBK2FEg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1776748797;
-	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=Geq1OQynOihlqWQFvYfdxAYkxPpvK02UlEuH2IZRWTc=;
-	b=QjmQjgLKmNWLORUWu0zG6vq0J7J2Y7yAvskFNxzs0kHiajc3B0Kt2Ks9BsxWTIAf
-	aoBMUajpkE0Z33P1cMZ6Bwat7L8IspRlQc6yxyM56IRz194w5+gzwZwFYADey1Oab3U
-	S0nq7agtDnpx9av56twGCw8a9nv6C5uSUslOXvLF6FTm5Hdodtx2A8GUKpH02iYYRhu
-	myowzXjgKOdhq08FmEZARCNja31+0rnnkyNCHv+HX29HhTJRHhj9ixm7+DfZQZ6PLtP
-	4IFYTOs8+ethJBN4qo+oDUzAM4THZgod/GTGrONr06h7+PySiTB81+nsnuI+Z3PJBvH
-	lW5OOMV62A==
-Received: by mx.zohomail.com with SMTPS id 1776748795516222.02561140737646;
-	Mon, 20 Apr 2026 22:19:55 -0700 (PDT)
-Message-ID: <4cd64f5eba093d2dc122628a94cd0aba1071e626.camel@icenowy.me>
-Subject: Re: [PATCH] mfd: axp20x: Change volatile ranges on axp803
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Jernej =?gb2312?Q?=810=947krabec?= <jernej.skrabec@gmail.com>, 
-	linux-sunxi@lists.linux.dev, =?gb2312?Q?Ond=810=940ej?= Jirman <megi@xff.cz>
-Cc: linux-kernel@vger.kernel.org, Lee Jones <lee@kernel.org>, Chen-Yu Tsai
-	 <wens@kernel.org>
-Date: Tue, 21 Apr 2026 13:19:50 +0800
-In-Reply-To: <b2d1246045ac27562865c8b399f21a839b14b19e.camel@icenowy.me>
-References: <20260315124932.3669260-1-megi@xff.cz>
-		 <5084920.31r3eYUQgx@jernej-laptop>
-	 <b2d1246045ac27562865c8b399f21a839b14b19e.camel@icenowy.me>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M83n5v8Q";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lJkuMN2J";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M83n5v8Q";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lJkuMN2J"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3C34E5BCD2;
+	Tue, 21 Apr 2026 13:01:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776776474; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=usQwQnUbr6DnJGJQLf8+8IyJBAEANxPtYftG2o2GTzM=;
+	b=M83n5v8Qvg0sYctP5L8fYl9x8GZEGgHaV4GPRLmyuElBjL5qMrNRn6mDrrvKMqwq8stmsw
+	zrmEvikt/xhiFbvBMBgB6YAZArGtg27GRulbNSQo19Dg6SYBHyDyTfvWm3N5ezSKq9J28V
+	BF7G/hvwwTHL7Qc00QdLsE1fp5fjsNM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776776474;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=usQwQnUbr6DnJGJQLf8+8IyJBAEANxPtYftG2o2GTzM=;
+	b=lJkuMN2JAbZQmYgYpvfnFJoFE4tV8Jh1KE3tV6U2Se31HHhVDQbcbHDtMe0zqvQjmCZsi2
+	ewK8aBG0x03mLwDQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776776474; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=usQwQnUbr6DnJGJQLf8+8IyJBAEANxPtYftG2o2GTzM=;
+	b=M83n5v8Qvg0sYctP5L8fYl9x8GZEGgHaV4GPRLmyuElBjL5qMrNRn6mDrrvKMqwq8stmsw
+	zrmEvikt/xhiFbvBMBgB6YAZArGtg27GRulbNSQo19Dg6SYBHyDyTfvWm3N5ezSKq9J28V
+	BF7G/hvwwTHL7Qc00QdLsE1fp5fjsNM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776776474;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=usQwQnUbr6DnJGJQLf8+8IyJBAEANxPtYftG2o2GTzM=;
+	b=lJkuMN2JAbZQmYgYpvfnFJoFE4tV8Jh1KE3tV6U2Se31HHhVDQbcbHDtMe0zqvQjmCZsi2
+	ewK8aBG0x03mLwDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 42C5C593B0;
+	Tue, 21 Apr 2026 13:01:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id gWn+Dhl152kccwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 21 Apr 2026 13:01:13 +0000
+Message-ID: <b27ddf9b-1ceb-4d76-bc54-55eeb284dc30@suse.de>
+Date: Tue, 21 Apr 2026 15:01:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/20] drm/colorop: Fix typos in the doc
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Simon Ser <contact@emersion.fr>, Harry Wentland <harry.wentland@amd.com>,
+ Melissa Wen <mwen@igalia.com>, Sebastian Wick <sebastian.wick@redhat.com>,
+ Alex Hung <alex.hung@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Chen-Yu Tsai <wens@kernel.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20260320-drm-mode-config-init-v2-0-c63f1134e76c@kernel.org>
+ <20260320-drm-mode-config-init-v2-1-c63f1134e76c@kernel.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20260320-drm-mode-config-init-v2-1-c63f1134e76c@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[37];
+	TAGGED_RCPT(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLyhjdboxbrjk5hnijtjs4kbm6)];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,lwn.net,linuxfoundation.org,oss.qualcomm.com,iki.fi,ideasonboard.com,intel.com,linaro.org,kwiboo.se,emersion.fr,amd.com,igalia.com,redhat.com,ursulin.net,sholland.org,raspberrypi.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo,suse.com:url]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
 
-=E5=9C=A8 2026-04-21=E4=BA=8C=E7=9A=84 13:06 +0800=EF=BC=8CIcenowy Zheng=E5=
-=86=99=E9=81=93=EF=BC=9A
-> =E5=9C=A8 2026-03-21=E5=85=AD=E7=9A=84 07:25 +0100=EF=BC=8CJernej =C5=A0k=
-rabec=E5=86=99=E9=81=93=EF=BC=9A
-> > Dne nedelja, 15. marec 2026 ob 13:49:31 Srednjeevropski standardni
-> > =C4=8Das je Ond=C5=99ej Jirman napisal(a):
-> > > From: Ondrej Jirman <megi@xff.cz>
-> > >=20
-> > > Regulator control registers can be cached. They don't update by
-> > > themselves. Enable cache on them, to speed up voltage changes,
-> > > particularly DCDC2 which needs to be handled quickly due to being
-> > > used
-> > > for CPUX cores and is changed very frequently by some cpufreq
-> > > schedulers.
-> >=20
-> > That's not really the case, DCDC2-DCDC6 registers have DVM finished
-> > status
-> > bit, which is volatile and it is right to have them in volatile
-> > range.
-> > However, it is true that other registers are non-volatile, so that
-> > range can
-> > be considerably shrinked. It seems that AXP288 have same register
-> > layout
-> > but I can't say for sure (I only found datasheet for AXP288C), so
-> > it's best
-> > to leave it alone and apply changes only to AXP803.=20
->=20
-> I have AXP288 datasheet, and register map looks the same with
-> AXP288C.
->=20
-> BTW I think AXP288/288C/803/813(PMIC part) is the same die -- they
-> have
-> the same "IC type no" value of 0b010001, and their difference could
-> be
-> explained as package difference -- AXP803 doesn't wire AXP813's DCDC7
-> and wire SWIN to DCDC1 out, and AXP288 doesn't wire AXP813's DCDC3.
-> (As
-> of RSB, all AXP PMICs boot at I2C mode by default, and the main SoC
-> switches it to RSB when it's needed; AXP288 is paired with non-
-> Allwinner SoCs (Intel ones) so it just doesn't advertise RSB.)
 
-Forgot to mention that AXP8x3 also have dedicated VBUS and ACIN inputs
-while AXP288 has only VBUS -- but in the AXP803 datasheet, VBUS and
-ACIN shorted together is a valid use case and can be detected by the
-PMIC, and when they're shorted the VBUS current limit is active (the
-ACIN current limit is ignored); so for AXP288 it could be explained
-that the ACIN is shorted with VBUS in the package.
 
-Thanks,
-Icenowy
+Am 20.03.26 um 17:27 schrieb Maxime Ripard:
+> In the documentation of drm_colorop introduced by commit cfc27680ee20
+> ("drm/colorop: Introduce new drm_colorop mode object"), the
+> documentation of __drm_colorop_state_reset() and __drm_colorop_reset()
+> were mentioning CRTC when they really meant colorop, probably due to
+> copy and paste.
+>
+> Fixes: cfc27680ee20 ("drm/colorop: Introduce new drm_colorop mode object")
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
->=20
-> Thanks,
-> Icenowy
->=20
-> >=20
-> > Best regards,
-> > Jernej
-> >=20
-> > >=20
-> > > This shrinks register access over RSB bus to one write per
-> > > voltage
-> > > change (down from 4 or so).
-> > >=20
-> > > Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> > > ---
-> > > =C2=A0drivers/mfd/axp20x.c | 28 +++++++++++++++++++++++++++-
-> > > =C2=A01 file changed, 27 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
-> > > index 0d0d40972eb8..2ea409029d2f 100644
-> > > --- a/drivers/mfd/axp20x.c
-> > > +++ b/drivers/mfd/axp20x.c
-> > > @@ -172,6 +172,18 @@ static const struct regmap_range
-> > > axp288_volatile_ranges[] =3D {
-> > > =C2=A0	regmap_reg_range(AXP20X_FG_RES, AXP288_FG_CC_CAP_REG),
-> > > =C2=A0};
-> > > =C2=A0
-> > > +static const struct regmap_range axp803_volatile_ranges[] =3D {
-> > > +	regmap_reg_range(AXP20X_PWR_INPUT_STATUS,
-> > > AXP288_POWER_REASON),
-> > > +	regmap_reg_range(AXP288_BC_GLOBAL, AXP288_BC_GLOBAL),
-> > > +	regmap_reg_range(AXP288_BC_DET_STAT,
-> > > AXP20X_VBUS_IPSOUT_MGMT),
-> > > +	regmap_reg_range(AXP20X_CHRG_BAK_CTRL,
-> > > AXP20X_CHRG_BAK_CTRL),
-> > > +	regmap_reg_range(AXP20X_IRQ1_EN,
-> > > AXP20X_IPSOUT_V_HIGH_L),
-> > > +	regmap_reg_range(AXP20X_TIMER_CTRL, AXP20X_TIMER_CTRL),
-> > > +	regmap_reg_range(AXP20X_GPIO1_CTRL, AXP22X_GPIO_STATE),
-> > > +	regmap_reg_range(AXP288_RT_BATT_V_H,
-> > > AXP288_RT_BATT_V_L),
-> > > +	regmap_reg_range(AXP20X_FG_RES, AXP288_FG_CC_CAP_REG),
-> > > +};
-> > > +
-> > > =C2=A0static const struct regmap_access_table axp288_writeable_table =
-=3D
-> > > {
-> > > =C2=A0	.yes_ranges	=3D axp288_writeable_ranges,
-> > > =C2=A0	.n_yes_ranges	=3D ARRAY_SIZE(axp288_writeable_ranges),
-> > > @@ -182,6 +194,11 @@ static const struct regmap_access_table
-> > > axp288_volatile_table =3D {
-> > > =C2=A0	.n_yes_ranges	=3D ARRAY_SIZE(axp288_volatile_ranges),
-> > > =C2=A0};
-> > > =C2=A0
-> > > +static const struct regmap_access_table axp803_volatile_table =3D
-> > > {
-> > > +	.yes_ranges	=3D axp803_volatile_ranges,
-> > > +	.n_yes_ranges	=3D ARRAY_SIZE(axp803_volatile_ranges),
-> > > +};
-> > > +
-> > > =C2=A0static const struct regmap_range axp806_writeable_ranges[] =3D =
-{
-> > > =C2=A0	regmap_reg_range(AXP20X_DATACACHE(0),
-> > > AXP20X_DATACACHE(3)),
-> > > =C2=A0	regmap_reg_range(AXP806_PWR_OUT_CTRL1,
-> > > AXP806_CLDO3_V_CTRL),
-> > > @@ -456,6 +473,15 @@ static const struct regmap_config
-> > > axp22x_regmap_config =3D {
-> > > =C2=A0	.cache_type	=3D REGCACHE_MAPLE,
-> > > =C2=A0};
-> > > =C2=A0
-> > > +static const struct regmap_config axp803_regmap_config =3D {
-> > > +	.reg_bits	=3D 8,
-> > > +	.val_bits	=3D 8,
-> > > +	.wr_table	=3D &axp288_writeable_table,
-> > > +	.volatile_table	=3D &axp803_volatile_table,
-> > > +	.max_register	=3D AXP288_FG_TUNE5,
-> > > +	.cache_type	=3D REGCACHE_MAPLE,
-> > > +};
-> > > +
-> > > =C2=A0static const struct regmap_config axp288_regmap_config =3D {
-> > > =C2=A0	.reg_bits	=3D 8,
-> > > =C2=A0	.val_bits	=3D 8,
-> > > @@ -1368,7 +1394,7 @@ int axp20x_match_device(struct axp20x_dev
-> > > *axp20x)
-> > > =C2=A0	case AXP803_ID:
-> > > =C2=A0		axp20x->nr_cells =3D ARRAY_SIZE(axp803_cells);
-> > > =C2=A0		axp20x->cells =3D axp803_cells;
-> > > -		axp20x->regmap_cfg =3D &axp288_regmap_config;
-> > > +		axp20x->regmap_cfg =3D &axp803_regmap_config;
-> > > =C2=A0		axp20x->regmap_irq_chip =3D
-> > > &axp803_regmap_irq_chip;
-> > > =C2=A0		break;
-> > > =C2=A0	case AXP806_ID:
-> > >=20
-> >=20
-> >=20
-> >=20
-> >=20
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+> ---
+>   drivers/gpu/drm/drm_colorop.c | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
+> index 566816e3c6f0c7d172534966fcfe56982e6505f3..373cd0ddb8fd4478874509ed12c95451c1f66203 100644
+> --- a/drivers/gpu/drm/drm_colorop.c
+> +++ b/drivers/gpu/drm/drm_colorop.c
+> @@ -503,11 +503,11 @@ void drm_colorop_atomic_destroy_state(struct drm_colorop *colorop,
+>    * __drm_colorop_state_reset - resets colorop state to default values
+>    * @colorop_state: atomic colorop state, must not be NULL
+>    * @colorop: colorop object, must not be NULL
+>    *
+>    * Initializes the newly allocated @colorop_state with default
+> - * values. This is useful for drivers that subclass the CRTC state.
+> + * values. This is useful for drivers that subclass the colorop state.
+>    */
+>   static void __drm_colorop_state_reset(struct drm_colorop_state *colorop_state,
+>   				      struct drm_colorop *colorop)
+>   {
+>   	u64 val;
+> @@ -526,14 +526,14 @@ static void __drm_colorop_state_reset(struct drm_colorop_state *colorop_state,
+>   /**
+>    * __drm_colorop_reset - reset state on colorop
+>    * @colorop: drm colorop
+>    * @colorop_state: colorop state to assign
+>    *
+> - * Initializes the newly allocated @colorop_state and assigns it to
+> - * the &drm_crtc->state pointer of @colorop, usually required when
+> - * initializing the drivers or when called from the &drm_colorop_funcs.reset
+> - * hook.
+> + * Initializes the newly allocated @colorop_state and assigns it to the
+> + * &drm_colorop->state pointer of @colorop, usually required when
+> + * initializing the drivers or when called from the
+> + * &drm_colorop_funcs.reset hook.
+>    *
+>    * This is useful for drivers that subclass the colorop state.
+>    */
+>   static void __drm_colorop_reset(struct drm_colorop *colorop,
+>   				struct drm_colorop_state *colorop_state)
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
