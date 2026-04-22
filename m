@@ -1,204 +1,418 @@
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012016.outbound.protection.outlook.com [52.101.66.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3188619004A
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Apr 2026 17:12:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC1217BA2
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Apr 2026 04:53:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776791576; cv=fail; b=IGkc8mB+lJ5NTZeLE1y09dGIYrNVh2bPmTpkb5cg57+BmY1h2Hw5TR5XGjtIjhI2tXarFIokRwf7syTZeKWnfmcxOFQmTCtgXPEVaF4Gy4dv6KoSPcYNlNRLNhir4aL4v3YdBwX8rmOyQGrvCbF6LvlRwsRiL130XT7ywSlEZl8=
+	t=1776833589; cv=pass; b=f4lOdKqvDWWYBRe8nxijvzqhEHfI9WY3lG7VzIA5wY9wYIDR3EYAwS0QJag3LkrXrqCg8ygKIUmZKzZqBEvB30p5W+qq3CVvqY/olpmWHre7gc51dX7inbwEt+OCoUTjbDbY2tAbsejbTIAf9bPT3v70iAUvAQI6vYF9WpeDvb8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776791576; c=relaxed/simple;
-	bh=KG2iWdkjaANNfviSxW8tLoo9XwDJ82UScfWTaelT7ng=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=rfD04fymVV1iYqsl8MLkCgsbhy8a1Cc6RRp6CqvbwQIczGkFJUb4O1FPbEq80U8/CjQGLAN87QE/rlA7ngpSIlzzHLc6XPDkB96a+EpbyYls3jUWS80g6WDvrV7iHW0Uk+FQneRV1EQf3BKzQ1cu8dkXj5hLiDiCvF6sW8EylIc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cherry.de; spf=pass smtp.mailfrom=cherry.de; dkim=pass (1024-bit key) header.d=cherry.de header.i=@cherry.de header.b=TKmmwApM; arc=fail smtp.client-ip=52.101.66.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cherry.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cherry.de
+	s=arc-20240116; t=1776833589; c=relaxed/simple;
+	bh=7JxIR1evf6uoeZklR1j4XWwFV73Bf8cVxdP9i/m78mM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=f/3wpVJgA0iHiHQQl0i6z0s3I35dVM9wvsy6IlyiORc++7LKz0D0+XtQzxPP5y8jZIkdsx0kX8NmhggXrVZMQjbOXU/+8CHnYVdTBUrbVU3j/Y0thofNTVZd/EB6/HVC1Q4HXxDIHd+fYjFSY6CzAAKE/4Pqi36C97j+IyG8CwA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MoXfwuXw; arc=pass smtp.client-ip=209.85.161.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cherry.de header.i=@cherry.de header.b="TKmmwApM"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ujSOvtCfalU/1e6/4i1eLaCamAjguA6xt+mi9uFBi5+8X+JOK2fjZwIqbm8BLNboBboIYdp7HjlYz8L/TXX88zRLWEW6836p11baQfhu/+1ptdjVB7DnleWm8GXJWBDWTp3xoNP18Jlj9Pj7BlExP9iNQNNn28stfzl+KfQg+5nSq2Vxrf9zN1xfjFu/dIK9y//ZjfsXF0OVfk8+DA0/EXYqgE4+ZzN2DXlsz3X6ICRzhlMUaIrw5u/mB4Gckb3EwgVTqE5XzKejlk+bC3cS1sp4+A767eDNeNDvEAh0tDS14UZHOigUVV1z+Dqy3wfdq+Sh+WDuRKYb5MpnJDVwdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dSxvP75iLv1E5eJPNWywQHo6a4Zn/WGYNzOjkArOMSo=;
- b=XN+Zxl8iEy2LzsYABz9rtbivlhGzRWIPX4s2TPEBS04nz/kBCzbJW6Dpt4HVLk7eJcQ64Qdz4lj1tvghw2daUYfZf3xJoTGfyQHvYxI4F/SpumR7DnABkQfZXbusxXOyaQXDCkuN4SnyVQIYu73y4pRyIURbri7CuFy8uFsDWRRuBVQp+1r4UElS7mlk8nnfap2pZQJdxFK+4NPHRaYe2q6BLj7nsta747drsP0XDGXC8VxR21lZN/wzHY6Ruen++SjEMOMrGN0MSi2/5pTszhYntr5dTsUUfZsyu5aKHIyJfztyNSCGcy3E3N1Yp9K7SbYaG3I9s3DJfU0W4UZ3nQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dSxvP75iLv1E5eJPNWywQHo6a4Zn/WGYNzOjkArOMSo=;
- b=TKmmwApMFcyMmleXOJ9HZcLiUqZAZcx/EoOyzgjbcbF7jKbapXVYIs33h5m2gv2YF4bfI9/QYbDckbYxlGnqLa88paaccJrZ+sETTNPaguCXiDTfwA4/NIw3di1W3R05URz8gpr8PNHIsaJ7mmARBHQAQPe3uN/BL48NxL3uHi8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from PA4PR04MB7743.eurprd04.prod.outlook.com (2603:10a6:102:b8::20)
- by GV1PR04MB10774.eurprd04.prod.outlook.com (2603:10a6:150:205::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.33; Tue, 21 Apr
- 2026 17:12:45 +0000
-Received: from PA4PR04MB7743.eurprd04.prod.outlook.com
- ([fe80::9a4e:252f:2fd:97b7]) by PA4PR04MB7743.eurprd04.prod.outlook.com
- ([fe80::9a4e:252f:2fd:97b7%6]) with mapi id 15.20.9846.016; Tue, 21 Apr 2026
- 17:12:45 +0000
-Message-ID: <cf689aa6-4852-41c1-9c49-3c208e40d76b@cherry.de>
-Date: Tue, 21 Apr 2026 19:12:43 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] sunxi: spl: fix SPL_SUNXI_LED active low
- configuration
-To: Paul Kocialkowski <paulk@sys-base.io>,
- Andre Przywara <andre.przywara@arm.com>
-Cc: u-boot@lists.denx.de, Tom Rini <trini@konsulko.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev
-References: <20260407223447.4956-1-andre.przywara@arm.com>
- <20260407223447.4956-2-andre.przywara@arm.com> <adfMQBPdntWy1KIq@shepard>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <adfMQBPdntWy1KIq@shepard>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0144.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b8::20) To PA4PR04MB7743.eurprd04.prod.outlook.com
- (2603:10a6:102:b8::20)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MoXfwuXw"
+Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-691de293326so2833387eaf.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 21 Apr 2026 21:53:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776833587; cv=none;
+        d=google.com; s=arc-20240605;
+        b=CoebhAw9hxAskz/wuLThLVtFp64GCHHw4ndPtSGCpGZviqtiUH24/CtZi0nXL4ajpv
+         gTZAXBr93mERA2Z+EzpkJkHFoPxIQ6EU5EgcPygD/pyfjPSE0UeDaZkNesomfndFJtRB
+         KbjHmnO7CUNlViVGCb+XG0cXqWmgWpBSAHRdoZz5QCG0tpW6tz9T/Gr6AY5LUBrADTgR
+         arOYP3MrcIV4kKBGawQLj+bZlTRc5ZkPNATRIcMQmjV6tmC/7ERLsoAWzfaJZsNsYBnk
+         evu8omtyq2E8R4OXBiLw7eO5x3FbyajsCXzkNS29Bp/Krg8uwegIIpywdBfpw6xzVkgl
+         QYLw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=tRkGrclI0mBsZSfdpLDaPDeWbPieOyl8ARy2Cp3anbs=;
+        fh=hc1n22GxWUeEVs/tIeQRJGoMA+D9JicPYwIwYOAJ1Zk=;
+        b=C6x2KQnuwjFqsA5jqB0uA2A4eg2LOAlS/6tKsRUBAMf5Ur2VoWH1bSgrVSMMNCk8Qn
+         c0J9rVKyPW2DgvszGFXHOGMDBNMfnD9xIi8yIMaF+YvmkqUdJK1EY7+1agiZYPGyAegS
+         dCVADGtg/7H6g9co12gvMrKccNn2eRdHVke4D/54selfJwiO42eFDgeKcR0IScnOQy7r
+         HCci4dCTvo/2fw3i2bE3+6Agppr+I7nQUJpxsxv0LyKzaADTEHpaQFcqHANTIKMuYv8p
+         FC1USweADHR/5i5+glTEhN5X0sarJ/sQp4d2OrjLRLi/Y0MnKfDBODSh4awT2VXtAjNo
+         IK0Q==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776833587; x=1777438387; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tRkGrclI0mBsZSfdpLDaPDeWbPieOyl8ARy2Cp3anbs=;
+        b=MoXfwuXwLHNgXFuTROSULVBe8+QZKL+yepspgHZ8MoG/pyq6/WvO4Sym3+Kd9Q/qFP
+         yQ0rEDMJqk6Yj289gY+c54rsXearWM7TlHQvYF5WgGAovUjP8c0bwvGDaw9vbyrL9JDQ
+         vZh5JK4bw6tcquwL+TuC/hlZiuJ1VHfn4oRpFJvF6S4KARFqONQY0grNzRyewt5mE0xh
+         jgHA082E86tRcnsh6S3ELgV4clSzRNEjZ0J3O7h4UoFtw2tZTR0nC24Nbays5ZM4fUYp
+         4W2AJJUrTLlteajpZqIVVMfVTRz0wbQkjr0K7Qci8pz+7HIrwMwQ/SNRixQpIhUA7Zkg
+         i1xQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776833587; x=1777438387;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=tRkGrclI0mBsZSfdpLDaPDeWbPieOyl8ARy2Cp3anbs=;
+        b=ZhXQC12TCVIfj0+jqVFkqYG9290RE0PZylcedZwO7v7R8o1D/b/G6iicyR7VUXdVIo
+         CePKskMbXvX1GAGYuAXZmLgms5wt6vdJt9D01aM4pK4F1eO/sB8gxMILQkqfWtPydaq2
+         BoDAAEbs1liGPUkLyRXZo5wVA6qD7g3E7NaA+vb9/npr5wSKMjUvEpP0DW0IXGrC9J7t
+         GmY6N7oGU5xGNFquIobORKK94ZqSJ4wbLiaBevnAUtDCQIvOHIPq3ZfhRX8u2HQ624Lo
+         n1157RVm/QSG0DcOJl0B0kU0mWloOjr+eneDXXKP8h75WSaSCfoi155ZuXbPmSlzazuG
+         AZuA==
+X-Forwarded-Encrypted: i=1; AFNElJ/sWPVmyfDVehqMsQ0Qf1WOu6nO2Mwnq+PtorI3Q3oYVzNHgbUUMGcPaU+JTlhT+WVdnlC0s3nrGgl0yA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyflgJsOGsNTf39BS+sUyeIijDPB6qVWiWmmjhn2mP4kM2EuQsh
+	t9RayuY9OoJ2dVUzPFJve5ybrD6PM0NTAK09ltC8HIX92RwAbLG1HJFKSGpwE4AxgyOEtqqLOhh
+	VzZLOu5e8wO2diphq4meMYS+vj+53NUc=
+X-Gm-Gg: AeBDieszySLCb81ErtxMo6M50WJ3MPTuTGl4/prI/KQD49pz/It7v/wuavW1VqPHDeW
+	+DQ0Wrh0jhHYFKcRZXyRxe4B4uGz2nZ71vbWldEWDydEDiMfgd1pCWGzDXl+uR6WzsE8YNBHpIU
+	rDcL/Iz6puNPj1FURZmHuV/gD9ZgZA4HCjjm5PfTUAc84Fb0Xgdxstxs5LeISgu65aa9cUKEaCb
+	Z2iPCO8Fd+KYkG/SKFs55Jol2Wzj2jfchHQ5momuuUyV/psUeYLT1JVmZxMDfvK0j+Rd1KSnLB4
+	wGqOEt96nDQeRkqBGS9X3qJkvEM5P5S4HKv7vjls+Lc2SHcQ4qYMH0ljV7LLjIEzfsIrxFdBN1b
+	RV5k=
+X-Received: by 2002:a05:6820:162c:b0:695:b571:e579 with SMTP id
+ 006d021491bc7-695b571faa3mr15720eaf.10.1776833586790; Tue, 21 Apr 2026
+ 21:53:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB7743:EE_|GV1PR04MB10774:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8953209e-b6dd-4c9e-b6d8-08de9fc93453
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|10070799003|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	Kl+MGEGYH5UFB/UvKNM5zKv040xvQom++/MZ0j7mftnc1V7DyM4rRMTR7Bw/NyyrSprFrn4AHIrQeeiUA1vfc79He8+v7igtKSz02Zmo6cg70s7RGzC5kBZB15R/t9PyNabZR53B+B97lDLER5bC4/YPcXGeNBLpWjFt7h8A7IOQCrTD2hX+lZ9peQQfYMaK8ciU1F+Ba/MR82fzDBxyJajW4xGzo9W0YDx1A63cRf111OrkOVnFDEJ3BcBZJ1PZh4dXDQJWW0q1HuzAXYNh0NoybVZLrRaI3zwik34dChZ+ym1970FNrXBFg3SdYdiJ4M6bl+QTYo47GB9e0bAdxo8Ybm1tvQrtEaCG9IaEy3qjtOCIr4yeMkK9tSKNJDQ94Hv+nDgGluCaE04j6QtfzIngM/uOnr82gf5eQfqUNEWfhpwazqOte2kCFJtLJ/AbkhH2M0R9+g1p/yV13loPMJu1j3HS23LWWIxcON9HUhrxnjd0TuFVFZUi/0twZjkglTBTBdWNdXYme6mJkS7Kkj1v4CIBVBVgAL7EoiBZf+qRfsZhEXQ26trKCMXATcyhTab0NU3n0H3zKjfGLLLdx4eqfOe801AqZOuea4i6+ZhBg9DxNbgLMsGbbnk+s24NkAI6/g+4G0xtrb0iRti0qWrNkJ9/3CjQtDJvHqwjvK5YeGM0RMbPBL8f9y26HNXcaFK52OsWc+jXEiHWhZK775iKx08mDeHXCjGb/MapAxA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB7743.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(10070799003)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dmVKOVptanp3MDdvTTBBUHBRWGtWMFYzOWV2ZUlMS204R0JJSGlHMVNneXAy?=
- =?utf-8?B?YUk5c00rM3lRM05nNlJaZkFMT2dUcGNJdU9odjZDRm8rNGcrM1YvRUxnRVFN?=
- =?utf-8?B?NTIrZ1UxWXF2NkF1Uk81cnNJTkNydkQ5WGhnSmRqdDBRcVRTd1BrcGtLbzFX?=
- =?utf-8?B?djIyK0JXcUFpaElmQnF6MHdadlE0dmt0YkgxQjgvbURINUpUMmV4LzExNDZK?=
- =?utf-8?B?MFhici8vQXR3aVpDU0VkVkVCcUNGbWhWMDZ4NlpYS2swVmRxU3kwNGFTUitY?=
- =?utf-8?B?R1ZuTnhMbGtHK2ZDWXpvczkwdDB4aDdpOGlWZnRrelBVUlRCRmprNCt6cUtR?=
- =?utf-8?B?QWxXaFZCNFJFM0FmMUUyL0VsT3JCMXVLT251V1E4NGtOYUZVRW5uNlpxMjBH?=
- =?utf-8?B?V09Gd2ZuSVNwKzFMMnAwNXI5RzBOUDV6S2ZTdXFEMDdYZHlTdU05bGZUT3h1?=
- =?utf-8?B?S3JwbGhwODM3dXhFdzl1cFFaQXdOMy9hQ1RMSzM0ZmhFeFFEb21JcllLOWN1?=
- =?utf-8?B?OVlKTUhuOSswRVhBWUdyVFFNbThHQTN6VDQyenMvSGdkVWhSaVRXcVEwTDgw?=
- =?utf-8?B?ZXBQWnNXYm43dDQ5SnUwYi9JcjZVKzBFUXdtNjVOL2pabHhqMHppazZIVmdU?=
- =?utf-8?B?TGViS2ZqYnZrbUFmYm8vMzdHOSt3ZmJFQUo3N1NKMVZ2NEgzQVJmb1NYaUFZ?=
- =?utf-8?B?T29sbFFEL1BYakJSa2xIWTRHTXZnaEFuYUg4Z2RnZXJZZy9Vcklyak9iMkor?=
- =?utf-8?B?UWttVTI2b1d1RE1EL1FOQVNXdlRYaTN6SFoyc2ZRUEFNNEltQ0ZYUmRoMkNP?=
- =?utf-8?B?SEtGOVJCVTBnMFpUSnFxbDA4S2pPdDBkZk9iNTF2OUJVZm1ibFFpWEVFbVJn?=
- =?utf-8?B?ZWsybDJhQkhsM1FKdzY0a3FESEgrZmxCWWdHdENuUWxHYjZoSTAxMnVnQTRx?=
- =?utf-8?B?ZHV4MDI1SkZpQWZhaVhYVWk0UVRpa1BkWVdqL1Urb1JadGVEVGhHQmtyQ2ZC?=
- =?utf-8?B?ekZYVlFHK1M4MTB6NFRkb2ozU0wvVEJ4em05bVJOeXdiUWRyQVhvOVhubnRC?=
- =?utf-8?B?bi9USjN2TTVXaGNNUTRnVnFRTWJPRHJja09LQjBKc0licVo2V3ozY05tV0FU?=
- =?utf-8?B?Q1Yvdk9oc2ZabE1IQmI4WjFYMURlQ1JDQlFXa0x1VVRhenhpejdTb0VQcEw1?=
- =?utf-8?B?blZiREdSVk1ZTG0xVW9VT3I3bE9rOUdDTzZkclVTNVhxam1yYlhzMWdWYjY2?=
- =?utf-8?B?T1AxandpVTNIRXUyL0orbjRjZ082bFVPQ1dSbFZ6SHNORER1Z3I4SnErSld4?=
- =?utf-8?B?NldBWW5qNnJxc2xsOVFkd1R5WDQyckpiK1RpYUVyRG40Q25yeFNnUUcwam8z?=
- =?utf-8?B?ZEFPYWt0T3kvN0lXTlhMS00zWG1ZaDRxVGxaYmZJYU1vMkhVM1MzaVVrelpZ?=
- =?utf-8?B?dkxBdGZmRkRHRjZUUmVoQnNNb1FhdWdFVEI1cDZEWDF0K3ExeVlQSXR4V3RE?=
- =?utf-8?B?T3BJbFErVm9VU2ZEVHlObDQxcUIwMFUzRW9Ia3kwYzNVRWRxV3NHdi9BenRs?=
- =?utf-8?B?MnMwWHpDYlVOY2MzTisvMDJSMVlIc3pubndOSmdEN2pTdkxoMHhKL0tSMGhN?=
- =?utf-8?B?UVVpcEZISy80dXVhUFlpSlk3YVlxUHZxRjBaeWdjSHBlSU5mdk9vNXFDcG05?=
- =?utf-8?B?TCtiK2NuWXBzYU1lVEpMZjRTMldnVVN0SVNrKzE5Qm5sNFhkZmFiQ1VyQU4x?=
- =?utf-8?B?a0kxZnhDNW1mcjd3cHBSaUVVZGN1MGJCS3dVdU4wQ252NjRpNTYybUxrN1Zo?=
- =?utf-8?B?L3ExR3RaR2ozcTRXdWJ5cmY0Q1QvQTg0SGFZclphampBMlozRVRVWXMvcHpv?=
- =?utf-8?B?eXF5WThhOXBWMCtuelg1b21ya0oyRE5NTW5oK3VzVXcxQmlyZHNqQlJ5MEh4?=
- =?utf-8?B?ZGVCWG4vci9qeiswOC9ZREpibFVBTGU3SU45UDJ0RE9jaDUxaTdjNi8zZ1Bz?=
- =?utf-8?B?cXJEUEN4NFpXRUpTUE5URWc4cHNMbERmVW1tOTh4aklKekh3SHV5RndrY1hW?=
- =?utf-8?B?cXEvTTRGTHZRN0xEVUkzbUFpc3JvUythNHFYME5jb3p1MDM5Z0kwZHllVHp3?=
- =?utf-8?B?Tks0a1hFNE9uMjBzSmttNnpVWkZzTkZmQVYrdGZuUHlHcjdpZHlteVF1WTRm?=
- =?utf-8?B?OWM2OWtqbGg4WUt5dW52MnBzMU9DUk5yMWdJMWxvQkN2TVJHa2JkbHpyNUMz?=
- =?utf-8?B?OXdLaEtZeitRL0xZaVc5RkNqbUlBWWQ1dk8yeU5kMXdBU3YzMkx6WFRoSktN?=
- =?utf-8?B?b3BDN1VHVWQyYk0rUGEwTnFvTUIxR3ozdFJWT0NyRkp0bHMrZFk4dWt2OWJs?=
- =?utf-8?Q?2ApDXsI6ApIf3sn0IELOdKuH6ecvP1mhJ4qgE?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8953209e-b6dd-4c9e-b6d8-08de9fc93453
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB7743.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2026 17:12:45.1060
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JyxYeV95l7QRM/pScU5AgpKu+Dak2cY6STeHymNGrU/CfPxOegclwFQuylbX8foKqpbtFC9wVm+UvzPM7j9GPkyX05/AGdkfzI9jTlZN6Tg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10774
+References: <20260214050943.6306-1-arash.golgol@gmail.com>
+In-Reply-To: <20260214050943.6306-1-arash.golgol@gmail.com>
+From: arash golgol <arash.golgol@gmail.com>
+Date: Wed, 22 Apr 2026 08:23:16 +0330
+X-Gm-Features: AQROBzBFnDqrchgvEfWAAWvQNi_wn-YCQ35sx-0Z7I-ZU1mNeNTjPho-SF69ozI
+Message-ID: <CAMxPZkhkjqd2Y91TUpZsTJT2SppPqLrQpdYi5LWmzM8tLxV8Tg@mail.gmail.com>
+Subject: Re: [PATCH v3] media: sun6i-mipi-csi2: Use V4L2 subdev active state
+To: linux-media@vger.kernel.org
+Cc: paulk@sys-base.io, mchehab@kernel.org, wens@kernel.org, 
+	jernej.skrabec@gmail.com, samuel@sholland.org, linux-sunxi@lists.linux.dev, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, sakari.ailus@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Paul,
+Hi,
 
-On 4/9/26 5:56 PM, Paul Kocialkowski wrote:
-> Hi,
-> 
-> On Wed 08 Apr 26, 00:34, Andre Przywara wrote:
->> The newly introduced Allwinner SPL LED "framework" defined a
->> SPL_SUNXI_LED_STATUS_STATE Kconfig symbol, that was supposed to denote
->> the active-low vs. active-high polarity of the LED. However this is
->> a bool symbol, so it will simply vanish if not defined, and we cannot use
->> it directly inside a C statement.
->>
->> Filter the symbol through the IS_ENABLED() macro, which will return 0 if
->> the symbol is not defined, which is the intended value here.
->>
->> This fixes configuring LEDs with active-low polarity.
->>
->> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
->> ---
->>   board/sunxi/board.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/board/sunxi/board.c b/board/sunxi/board.c
->> index d7722d1858a..80dcae9c1a4 100644
->> --- a/board/sunxi/board.c
->> +++ b/board/sunxi/board.c
->> @@ -563,7 +563,7 @@ static void sunxi_spl_store_dram_size(phys_addr_t dram_size)
->>   static void status_led_init(void)
->>   {
->>   #if CONFIG_IS_ENABLED(SUNXI_LED_STATUS)
->> -	unsigned int state = CONFIG_SPL_SUNXI_LED_STATUS_STATE;
->> +	unsigned int state = IS_ENABLED(CONFIG_SPL_SUNXI_LED_STATUS_STATE);
-> 
-> Sorry I didn't react to the initial submission, but it feels like the
-> CONFIG_SPL_SUNXI_LED_STATUS_STATE symbol really means active-high if enabled
-> and active-low if disabled. The name would suggest that it's an int with a value
-> of either 0 or 1 instead.
-> 
+I was hoping this patch would make its way into media-tree, but it seems
+it hasn't been applied yet.
 
-Yeah, I lazily renamed the old CONFIG_LED_STATUS_STATE which used to be 
-an int range (0..2) and made it both specific for Allwinner as well as 
-changing it into a bool.
+Is there anything missing or any modifications needed from my side?
+I'd appreciate any feedback.
 
-> I think it would be less confusing to call the symbol
-> CONFIG_SPL_SUNXI_LED_STATUS_ACTIVE_LOW and reverse its meaning, so that we can
-> spare defining it in most configs (that will be active-high).
+Regards,
+Arash Golgol
 
-You can also have
-default y
-in your symbol to not have to reverse the meaning.
-
-> Also the description currently mentions "initial state" which may be confusing
-> as it could refer to the state inherited after reset (e.g. due to some pull
-> resistor) or the state we do set in the SPL.
-> 
-
-It was the prompt for the now removed LED_STATUS_STATE. What are you 
-suggesting instead?
-
->>   	unsigned int gpio = CONFIG_SPL_SUNXI_LED_STATUS_BIT;
-> 
-> And while at it I would rename this to something like:
-> CONFIG_SPL_SUNXI_LED_STATUS_GPIO since it indicates the GPIO number, not a
-> specific bit in a sunxi-specific kind of register.
-> 
-
-Also a remnant of LED_STATUS_BIT* symbols. Either work for me.
-
-Cheers,
-Quentin
+On Sat, Feb 14, 2026 at 8:40=E2=80=AFAM Arash Golgol <arash.golgol@gmail.co=
+m> wrote:
+>
+> Use the V4L2 subdev active state API to store the active format.
+> This simplifies the driver not only by dropping the bridge mbus_format
+> field, but it also allows dropping the bridge lock, replaced with
+> the state lock.
+>
+> The sun6i-mipi-csi2 hardware does not perform any format conversion.
+> Enforce identical formats on the sink and source pads in the set_fmt()
+> and init_state() callbacks.
+>
+> Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> Changes in v3:
+>     - link to v2: https://patchwork.kernel.org/project/linux-media/patch/=
+20260209055529.16644-1-arash.golgol@gmail.com/
+>     - Keep error path jumping to error_v4l2_notifier_cleanup on
+>     bridge setup failure
+>
+> Changes in v2:
+>     - link to v1: https://patchwork.kernel.org/project/linux-media/patch/=
+20260206123455.46476-1-arash.golgol@gmail.com/
+>     - Simplify control flow by dropping the else at end of s_stream()
+>     - Call v4l2_subdev_cleanup() on bridge setup failure before
+>     notifier registration
+>
+>  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 107 +++++++++---------
+>  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   |   2 -
+>  2 files changed, 53 insertions(+), 56 deletions(-)
+>
+> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2=
+.c b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+> index b06cb73015cd..682bdd82098c 100644
+> --- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+> @@ -95,12 +95,12 @@ static void sun6i_mipi_csi2_disable(struct sun6i_mipi=
+_csi2_device *csi2_dev)
+>                            SUN6I_MIPI_CSI2_CTL_EN, 0);
+>  }
+>
+> -static void sun6i_mipi_csi2_configure(struct sun6i_mipi_csi2_device *csi=
+2_dev)
+> +static void sun6i_mipi_csi2_configure(struct sun6i_mipi_csi2_device *csi=
+2_dev,
+> +                                      const struct v4l2_mbus_framefmt *m=
+bus_format)
+>  {
+>         struct regmap *regmap =3D csi2_dev->regmap;
+>         unsigned int lanes_count =3D
+>                 csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
+> -       struct v4l2_mbus_framefmt *mbus_format =3D &csi2_dev->bridge.mbus=
+_format;
+>         const struct sun6i_mipi_csi2_format *format;
+>         struct device *dev =3D csi2_dev->dev;
+>         u32 version =3D 0;
+> @@ -173,7 +173,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subde=
+v *subdev, int on)
+>         struct v4l2_subdev *source_subdev =3D csi2_dev->bridge.source_sub=
+dev;
+>         union phy_configure_opts dphy_opts =3D { 0 };
+>         struct phy_configure_opts_mipi_dphy *dphy_cfg =3D &dphy_opts.mipi=
+_dphy;
+> -       struct v4l2_mbus_framefmt *mbus_format =3D &csi2_dev->bridge.mbus=
+_format;
+> +       struct v4l2_subdev_state *state;
+> +       const struct v4l2_mbus_framefmt *mbus_format;
+>         const struct sun6i_mipi_csi2_format *format;
+>         struct phy *dphy =3D csi2_dev->dphy;
+>         struct device *dev =3D csi2_dev->dev;
+> @@ -183,8 +184,12 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subd=
+ev *subdev, int on)
+>         unsigned long pixel_rate;
+>         int ret;
+>
+> -       if (!source_subdev)
+> -               return -ENODEV;
+> +       state =3D v4l2_subdev_lock_and_get_active_state(subdev);
+> +
+> +       if (!source_subdev) {
+> +               ret =3D -ENODEV;
+> +               goto unlock;
+> +       }
+>
+>         if (!on) {
+>                 v4l2_subdev_call(source_subdev, video, s_stream, 0);
+> @@ -196,7 +201,7 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subde=
+v *subdev, int on)
+>
+>         ret =3D pm_runtime_resume_and_get(dev);
+>         if (ret < 0)
+> -               return ret;
+> +               goto unlock;
+>
+>         /* Sensor Pixel Rate */
+>
+> @@ -222,6 +227,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subde=
+v *subdev, int on)
+>                 goto error_pm;
+>         }
+>
+> +       mbus_format =3D v4l2_subdev_state_get_format(state,
+> +                                                  SUN6I_MIPI_CSI2_PAD_SI=
+NK);
+>         format =3D sun6i_mipi_csi2_format_find(mbus_format->code);
+>         if (WARN_ON(!format)) {
+>                 ret =3D -ENODEV;
+> @@ -260,7 +267,7 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subde=
+v *subdev, int on)
+>
+>         /* Controller */
+>
+> -       sun6i_mipi_csi2_configure(csi2_dev);
+> +       sun6i_mipi_csi2_configure(csi2_dev, mbus_format);
+>         sun6i_mipi_csi2_enable(csi2_dev);
+>
+>         /* D-PHY */
+> @@ -277,7 +284,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subde=
+v *subdev, int on)
+>         if (ret && ret !=3D -ENOIOCTLCMD)
+>                 goto disable;
+>
+> -       return 0;
+> +       ret =3D 0;
+> +       goto unlock;
+>
+>  disable:
+>         phy_power_off(dphy);
+> @@ -286,6 +294,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subde=
+v *subdev, int on)
+>  error_pm:
+>         pm_runtime_put(dev);
+>
+> +unlock:
+> +       v4l2_subdev_unlock_state(state);
+>         return ret;
+>  }
+>
+> @@ -308,21 +318,23 @@ sun6i_mipi_csi2_mbus_format_prepare(struct v4l2_mbu=
+s_framefmt *mbus_format)
+>  static int sun6i_mipi_csi2_init_state(struct v4l2_subdev *subdev,
+>                                       struct v4l2_subdev_state *state)
+>  {
+> -       struct sun6i_mipi_csi2_device *csi2_dev =3D v4l2_get_subdevdata(s=
+ubdev);
+> -       unsigned int pad =3D SUN6I_MIPI_CSI2_PAD_SINK;
+> -       struct v4l2_mbus_framefmt *mbus_format =3D
+> -               v4l2_subdev_state_get_format(state, pad);
+> -       struct mutex *lock =3D &csi2_dev->bridge.lock;
+> +       unsigned int pad;
+>
+> -       mutex_lock(lock);
+> +       /*
+> +        * This subdev does not perform format conversion,
+> +        * initialize both pads identically.
+> +        */
+> +       for (pad =3D 0; pad < subdev->entity.num_pads; pad++) {
+> +               struct v4l2_mbus_framefmt *mbus_format;
+>
+> -       mbus_format->code =3D sun6i_mipi_csi2_formats[0].mbus_code;
+> -       mbus_format->width =3D 640;
+> -       mbus_format->height =3D 480;
+> +               mbus_format =3D v4l2_subdev_state_get_format(state, pad);
+>
+> -       sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
+> +               mbus_format->code =3D sun6i_mipi_csi2_formats[0].mbus_cod=
+e;
+> +               mbus_format->width =3D 640;
+> +               mbus_format->height =3D 480;
+>
+> -       mutex_unlock(lock);
+> +               sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
+> +       }
+>
+>         return 0;
+>  }
+> @@ -340,53 +352,32 @@ sun6i_mipi_csi2_enum_mbus_code(struct v4l2_subdev *=
+subdev,
+>         return 0;
+>  }
+>
+> -static int sun6i_mipi_csi2_get_fmt(struct v4l2_subdev *subdev,
+> -                                  struct v4l2_subdev_state *state,
+> -                                  struct v4l2_subdev_format *format)
+> -{
+> -       struct sun6i_mipi_csi2_device *csi2_dev =3D v4l2_get_subdevdata(s=
+ubdev);
+> -       struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
+> -       struct mutex *lock =3D &csi2_dev->bridge.lock;
+> -
+> -       mutex_lock(lock);
+> -
+> -       if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
+> -               *mbus_format =3D *v4l2_subdev_state_get_format(state,
+> -                                                            format->pad)=
+;
+> -       else
+> -               *mbus_format =3D csi2_dev->bridge.mbus_format;
+> -
+> -       mutex_unlock(lock);
+> -
+> -       return 0;
+> -}
+> -
+>  static int sun6i_mipi_csi2_set_fmt(struct v4l2_subdev *subdev,
+>                                    struct v4l2_subdev_state *state,
+>                                    struct v4l2_subdev_format *format)
+>  {
+> -       struct sun6i_mipi_csi2_device *csi2_dev =3D v4l2_get_subdevdata(s=
+ubdev);
+> -       struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
+> -       struct mutex *lock =3D &csi2_dev->bridge.lock;
+> +       struct v4l2_mbus_framefmt *fmt;
+>
+> -       mutex_lock(lock);
+> +       /* The format on the source pad always matches the sink pad. */
+> +       if (format->pad !=3D SUN6I_MIPI_CSI2_PAD_SINK)
+> +               return v4l2_subdev_get_fmt(subdev, state, format);
+>
+> -       sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
+> +       sun6i_mipi_csi2_mbus_format_prepare(&format->format);
+>
+> -       if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
+> -               *v4l2_subdev_state_get_format(state, format->pad) =3D
+> -                       *mbus_format;
+> -       else
+> -               csi2_dev->bridge.mbus_format =3D *mbus_format;
+> +       /* Set the format on the sink pad. */
+> +       fmt =3D v4l2_subdev_state_get_format(state, format->pad);
+> +       *fmt =3D format->format;
+>
+> -       mutex_unlock(lock);
+> +       /* Propagate the format to the source pad. */
+> +       fmt =3D v4l2_subdev_state_get_format(state, SUN6I_MIPI_CSI2_PAD_S=
+OURCE);
+> +       *fmt =3D format->format;
+>
+>         return 0;
+>  }
+>
+>  static const struct v4l2_subdev_pad_ops sun6i_mipi_csi2_pad_ops =3D {
+>         .enum_mbus_code =3D sun6i_mipi_csi2_enum_mbus_code,
+> -       .get_fmt        =3D sun6i_mipi_csi2_get_fmt,
+> +       .get_fmt        =3D v4l2_subdev_get_fmt,
+>         .set_fmt        =3D sun6i_mipi_csi2_set_fmt,
+>  };
+>
+> @@ -502,8 +493,6 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_=
+mipi_csi2_device *csi2_dev)
+>         bool notifier_registered =3D false;
+>         int ret;
+>
+> -       mutex_init(&bridge->lock);
+> -
+>         /* V4L2 Subdev */
+>
+>         v4l2_subdev_init(subdev, &sun6i_mipi_csi2_subdev_ops);
+> @@ -532,6 +521,12 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i=
+_mipi_csi2_device *csi2_dev)
+>         if (ret)
+>                 return ret;
+>
+> +       /* V4L2 Subdev finalize */
+> +
+> +       ret =3D v4l2_subdev_init_finalize(subdev);
+> +       if (ret < 0)
+> +               goto error_media_entity_cleanup;
+> +
+>         /* V4L2 Async */
+>
+>         v4l2_async_subdev_nf_init(notifier, subdev);
+> @@ -565,6 +560,9 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_=
+mipi_csi2_device *csi2_dev)
+>  error_v4l2_notifier_cleanup:
+>         v4l2_async_nf_cleanup(notifier);
+>
+> +       v4l2_subdev_cleanup(subdev);
+> +
+> +error_media_entity_cleanup:
+>         media_entity_cleanup(&subdev->entity);
+>
+>         return ret;
+> @@ -579,6 +577,7 @@ sun6i_mipi_csi2_bridge_cleanup(struct sun6i_mipi_csi2=
+_device *csi2_dev)
+>         v4l2_async_unregister_subdev(subdev);
+>         v4l2_async_nf_unregister(notifier);
+>         v4l2_async_nf_cleanup(notifier);
+> +       v4l2_subdev_cleanup(subdev);
+>         media_entity_cleanup(&subdev->entity);
+>  }
+>
+> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2=
+.h b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+> index 24b15e34b5e8..d72dfbd6a993 100644
+> --- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+> @@ -32,8 +32,6 @@ struct sun6i_mipi_csi2_bridge {
+>         struct media_pad                pads[SUN6I_MIPI_CSI2_PAD_COUNT];
+>         struct v4l2_fwnode_endpoint     endpoint;
+>         struct v4l2_async_notifier      notifier;
+> -       struct v4l2_mbus_framefmt       mbus_format;
+> -       struct mutex                    lock; /* Mbus format lock. */
+>
+>         struct v4l2_subdev              *source_subdev;
+>  };
+> --
+> 2.34.1
+>
