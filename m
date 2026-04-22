@@ -1,418 +1,175 @@
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC1217BA2
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Apr 2026 04:53:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776833589; cv=pass; b=f4lOdKqvDWWYBRe8nxijvzqhEHfI9WY3lG7VzIA5wY9wYIDR3EYAwS0QJag3LkrXrqCg8ygKIUmZKzZqBEvB30p5W+qq3CVvqY/olpmWHre7gc51dX7inbwEt+OCoUTjbDbY2tAbsejbTIAf9bPT3v70iAUvAQI6vYF9WpeDvb8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776833589; c=relaxed/simple;
-	bh=7JxIR1evf6uoeZklR1j4XWwFV73Bf8cVxdP9i/m78mM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f/3wpVJgA0iHiHQQl0i6z0s3I35dVM9wvsy6IlyiORc++7LKz0D0+XtQzxPP5y8jZIkdsx0kX8NmhggXrVZMQjbOXU/+8CHnYVdTBUrbVU3j/Y0thofNTVZd/EB6/HVC1Q4HXxDIHd+fYjFSY6CzAAKE/4Pqi36C97j+IyG8CwA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MoXfwuXw; arc=pass smtp.client-ip=209.85.161.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5E92FE579;
+	Wed, 22 Apr 2026 06:45:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776840319; cv=none; b=oKgpwnxHuQvoCTJ7gzvpn64aWAxB1tY8gDJRNhcdI1rDH4idukrJcM2La0sorzsYot9Gi+nlW+bOadFgkMYHC48TPfUcCXJwpb55hW/mAgJgTgbamV19Th5Yp7SHA7gisotbzxl/gMRxVfMIkqtr0cnVTuuBLhMrdkprWuvofGk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776840319; c=relaxed/simple;
+	bh=pYMxzy5OOvpaaRU5o941SfAWX+eqdO8KE44KbLMbd7Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BeOS6R7vC8nAz7Bg0kepm7PvF28QRHknJOX80HutlJARGlnExGtPHuOpmHv0i+V5+5269Lq7oC75ZKra9QYdzhzXmEM/4l/jdcKN8dx19DuyzUBgyd61nUPAy8aNNfML2TlvmV3U7rHHXBeF1VQFvH9fHcbTCQSYegUMMZQc5po=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ddhmfalq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MoXfwuXw"
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-691de293326so2833387eaf.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 21 Apr 2026 21:53:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776833587; cv=none;
-        d=google.com; s=arc-20240605;
-        b=CoebhAw9hxAskz/wuLThLVtFp64GCHHw4ndPtSGCpGZviqtiUH24/CtZi0nXL4ajpv
-         gTZAXBr93mERA2Z+EzpkJkHFoPxIQ6EU5EgcPygD/pyfjPSE0UeDaZkNesomfndFJtRB
-         KbjHmnO7CUNlViVGCb+XG0cXqWmgWpBSAHRdoZz5QCG0tpW6tz9T/Gr6AY5LUBrADTgR
-         arOYP3MrcIV4kKBGawQLj+bZlTRc5ZkPNATRIcMQmjV6tmC/7ERLsoAWzfaJZsNsYBnk
-         evu8omtyq2E8R4OXBiLw7eO5x3FbyajsCXzkNS29Bp/Krg8uwegIIpywdBfpw6xzVkgl
-         QYLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=tRkGrclI0mBsZSfdpLDaPDeWbPieOyl8ARy2Cp3anbs=;
-        fh=hc1n22GxWUeEVs/tIeQRJGoMA+D9JicPYwIwYOAJ1Zk=;
-        b=C6x2KQnuwjFqsA5jqB0uA2A4eg2LOAlS/6tKsRUBAMf5Ur2VoWH1bSgrVSMMNCk8Qn
-         c0J9rVKyPW2DgvszGFXHOGMDBNMfnD9xIi8yIMaF+YvmkqUdJK1EY7+1agiZYPGyAegS
-         dCVADGtg/7H6g9co12gvMrKccNn2eRdHVke4D/54selfJwiO42eFDgeKcR0IScnOQy7r
-         HCci4dCTvo/2fw3i2bE3+6Agppr+I7nQUJpxsxv0LyKzaADTEHpaQFcqHANTIKMuYv8p
-         FC1USweADHR/5i5+glTEhN5X0sarJ/sQp4d2OrjLRLi/Y0MnKfDBODSh4awT2VXtAjNo
-         IK0Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776833587; x=1777438387; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tRkGrclI0mBsZSfdpLDaPDeWbPieOyl8ARy2Cp3anbs=;
-        b=MoXfwuXwLHNgXFuTROSULVBe8+QZKL+yepspgHZ8MoG/pyq6/WvO4Sym3+Kd9Q/qFP
-         yQ0rEDMJqk6Yj289gY+c54rsXearWM7TlHQvYF5WgGAovUjP8c0bwvGDaw9vbyrL9JDQ
-         vZh5JK4bw6tcquwL+TuC/hlZiuJ1VHfn4oRpFJvF6S4KARFqONQY0grNzRyewt5mE0xh
-         jgHA082E86tRcnsh6S3ELgV4clSzRNEjZ0J3O7h4UoFtw2tZTR0nC24Nbays5ZM4fUYp
-         4W2AJJUrTLlteajpZqIVVMfVTRz0wbQkjr0K7Qci8pz+7HIrwMwQ/SNRixQpIhUA7Zkg
-         i1xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776833587; x=1777438387;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=tRkGrclI0mBsZSfdpLDaPDeWbPieOyl8ARy2Cp3anbs=;
-        b=ZhXQC12TCVIfj0+jqVFkqYG9290RE0PZylcedZwO7v7R8o1D/b/G6iicyR7VUXdVIo
-         CePKskMbXvX1GAGYuAXZmLgms5wt6vdJt9D01aM4pK4F1eO/sB8gxMILQkqfWtPydaq2
-         BoDAAEbs1liGPUkLyRXZo5wVA6qD7g3E7NaA+vb9/npr5wSKMjUvEpP0DW0IXGrC9J7t
-         GmY6N7oGU5xGNFquIobORKK94ZqSJ4wbLiaBevnAUtDCQIvOHIPq3ZfhRX8u2HQ624Lo
-         n1157RVm/QSG0DcOJl0B0kU0mWloOjr+eneDXXKP8h75WSaSCfoi155ZuXbPmSlzazuG
-         AZuA==
-X-Forwarded-Encrypted: i=1; AFNElJ/sWPVmyfDVehqMsQ0Qf1WOu6nO2Mwnq+PtorI3Q3oYVzNHgbUUMGcPaU+JTlhT+WVdnlC0s3nrGgl0yA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyflgJsOGsNTf39BS+sUyeIijDPB6qVWiWmmjhn2mP4kM2EuQsh
-	t9RayuY9OoJ2dVUzPFJve5ybrD6PM0NTAK09ltC8HIX92RwAbLG1HJFKSGpwE4AxgyOEtqqLOhh
-	VzZLOu5e8wO2diphq4meMYS+vj+53NUc=
-X-Gm-Gg: AeBDieszySLCb81ErtxMo6M50WJ3MPTuTGl4/prI/KQD49pz/It7v/wuavW1VqPHDeW
-	+DQ0Wrh0jhHYFKcRZXyRxe4B4uGz2nZ71vbWldEWDydEDiMfgd1pCWGzDXl+uR6WzsE8YNBHpIU
-	rDcL/Iz6puNPj1FURZmHuV/gD9ZgZA4HCjjm5PfTUAc84Fb0Xgdxstxs5LeISgu65aa9cUKEaCb
-	Z2iPCO8Fd+KYkG/SKFs55Jol2Wzj2jfchHQ5momuuUyV/psUeYLT1JVmZxMDfvK0j+Rd1KSnLB4
-	wGqOEt96nDQeRkqBGS9X3qJkvEM5P5S4HKv7vjls+Lc2SHcQ4qYMH0ljV7LLjIEzfsIrxFdBN1b
-	RV5k=
-X-Received: by 2002:a05:6820:162c:b0:695:b571:e579 with SMTP id
- 006d021491bc7-695b571faa3mr15720eaf.10.1776833586790; Tue, 21 Apr 2026
- 21:53:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ddhmfalq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8D6DC2BCB3;
+	Wed, 22 Apr 2026 06:45:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776840319;
+	bh=pYMxzy5OOvpaaRU5o941SfAWX+eqdO8KE44KbLMbd7Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DdhmfalqLLHd9GLo6AHzXaUb59GTRlMbd3z7X7bpR4gWre4PnQaPyczOtXwMb+2mp
+	 BdG7O6F0DvzQAcj98JCSOKe85mfMwLGD1dfGxCGhN/F5X+3AGCymvlsnXfBoBmzkvz
+	 8WpGL1jYe7h93YrA2b573sIPOGpri5F+9AGTyTW6HxKMQSnQjVhBLb9NDNiqvvw6jp
+	 aU/3Gc5qf1x1Cq5jyBoYHFt4eIEAC1V4XJwZZViYGgwXHUIZx8Lb2PjP4UHvGMeV01
+	 3OHS4wdTfZe0l68e9D+HnIc698iXzzT6EDYtqrQWCovkuGH01IBk2fCy51S/JXgEvY
+	 02//vyIBdljvw==
+Date: Wed, 22 Apr 2026 08:45:16 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Jyri Sarha <jyri.sarha@iki.fi>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Simon Ser <contact@emersion.fr>, 
+	Harry Wentland <harry.wentland@amd.com>, Melissa Wen <mwen@igalia.com>, 
+	Sebastian Wick <sebastian.wick@redhat.com>, Alex Hung <alex.hung@amd.com>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+	Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>, 
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 15/20] drm/drv: Call drm_mode_config_create_state() by
+ default
+Message-ID: <20260422-vermilion-bumblebee-from-betelgeuse-cffbc1@houat>
+References: <20260320-drm-mode-config-init-v2-0-c63f1134e76c@kernel.org>
+ <20260320-drm-mode-config-init-v2-15-c63f1134e76c@kernel.org>
+ <79cc30d5-80b5-4d87-a3ad-36d6fad98853@suse.de>
+ <dd39f423-1598-4749-8c95-98b8daf69680@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260214050943.6306-1-arash.golgol@gmail.com>
-In-Reply-To: <20260214050943.6306-1-arash.golgol@gmail.com>
-From: arash golgol <arash.golgol@gmail.com>
-Date: Wed, 22 Apr 2026 08:23:16 +0330
-X-Gm-Features: AQROBzBFnDqrchgvEfWAAWvQNi_wn-YCQ35sx-0Z7I-ZU1mNeNTjPho-SF69ozI
-Message-ID: <CAMxPZkhkjqd2Y91TUpZsTJT2SppPqLrQpdYi5LWmzM8tLxV8Tg@mail.gmail.com>
-Subject: Re: [PATCH v3] media: sun6i-mipi-csi2: Use V4L2 subdev active state
-To: linux-media@vger.kernel.org
-Cc: paulk@sys-base.io, mchehab@kernel.org, wens@kernel.org, 
-	jernej.skrabec@gmail.com, samuel@sholland.org, linux-sunxi@lists.linux.dev, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, sakari.ailus@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="mmuav45v5xyeg7x4"
+Content-Disposition: inline
+In-Reply-To: <dd39f423-1598-4749-8c95-98b8daf69680@suse.de>
+
+
+--mmuav45v5xyeg7x4
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 15/20] drm/drv: Call drm_mode_config_create_state() by
+ default
+MIME-Version: 1.0
 
-Hi,
+Hi Thomas,
 
-I was hoping this patch would make its way into media-tree, but it seems
-it hasn't been applied yet.
+On Tue, Apr 21, 2026 at 05:33:12PM +0200, Thomas Zimmermann wrote:
+> Am 21.04.26 um 15:38 schrieb Thomas Zimmermann:
+> > Hi
+> >=20
+> > Am 20.03.26 um 17:27 schrieb Maxime Ripard:
+> > > Almost all drivers, and our documented skeleton, call
+> > > drm_mode_config_reset() prior to calling drm_dev_register() to
+> > > initialize its DRM object states.
+> > >=20
+> > > Now that we have drm_mode_config_create_state() to create that initial
+> > > state if it doesn't exist, we can call it directly in
+> > > drm_dev_register(). That way, we know that the initial atomic state w=
+ill
+> > > always be allocated without any boilerplate.
+> > >=20
+> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > > ---
+> > > =A0 drivers/gpu/drm/drm_drv.c | 4 ++++
+> > > =A0 1 file changed, 4 insertions(+)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> > > index 2915118436ce8a6640cfb0c59936031990727ed1..820106d56ab399a39cac5=
+6d98662b5ddbcae8ded
+> > > 100644
+> > > --- a/drivers/gpu/drm/drm_drv.c
+> > > +++ b/drivers/gpu/drm/drm_drv.c
+> > > @@ -1097,10 +1097,14 @@ int drm_dev_register(struct drm_device *dev,
+> > > unsigned long flags)
+> > > =A0 =A0=A0=A0=A0=A0 if (drm_core_check_feature(dev, DRIVER_MODESET)) {
+> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0 ret =3D drm_modeset_register_all(dev);
+> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0 if (ret)
+> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 goto err_unload;
+> > > +
+> > > +=A0=A0=A0=A0=A0=A0=A0 ret =3D drm_mode_config_create_state(dev);
+> > > +=A0=A0=A0=A0=A0=A0=A0 if (ret)
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 goto err_unload;
+> >=20
+> > Way too late. Lets rather go through drivers and call this where they
+> > currently call drm_mode_config_reset() for initialization. This can be a
+> > single-patch mass conversion IMHO.
 
-Is there anything missing or any modifications needed from my side?
-I'd appreciate any feedback.
+I think that was Ville's main objection too. He suggested to do it in
+the object initialization instead, but I believe it would be too early.
 
-Regards,
-Arash Golgol
+> On a second thought, can't we modify the suspend code and leave the reset
+> as-is for now?=A0 I'd still be interested to use reset as a means of
+> initializing the hardware or loading state on probe. So keeping the _rese=
+t()
+> calls in place might be helpful for that.
+>=20
+> What's the long-term plan here?
 
-On Sat, Feb 14, 2026 at 8:40=E2=80=AFAM Arash Golgol <arash.golgol@gmail.co=
-m> wrote:
->
-> Use the V4L2 subdev active state API to store the active format.
-> This simplifies the driver not only by dropping the bridge mbus_format
-> field, but it also allows dropping the bridge lock, replaced with
-> the state lock.
->
-> The sun6i-mipi-csi2 hardware does not perform any format conversion.
-> Enforce identical formats on the sink and source pads in the set_fmt()
-> and init_state() callbacks.
->
-> Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> Changes in v3:
->     - link to v2: https://patchwork.kernel.org/project/linux-media/patch/=
-20260209055529.16644-1-arash.golgol@gmail.com/
->     - Keep error path jumping to error_v4l2_notifier_cleanup on
->     bridge setup failure
->
-> Changes in v2:
->     - link to v1: https://patchwork.kernel.org/project/linux-media/patch/=
-20260206123455.46476-1-arash.golgol@gmail.com/
->     - Simplify control flow by dropping the else at end of s_stream()
->     - Call v4l2_subdev_cleanup() on bridge setup failure before
->     notifier registration
->
->  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 107 +++++++++---------
->  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   |   2 -
->  2 files changed, 53 insertions(+), 56 deletions(-)
->
-> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2=
-.c b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> index b06cb73015cd..682bdd82098c 100644
-> --- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> @@ -95,12 +95,12 @@ static void sun6i_mipi_csi2_disable(struct sun6i_mipi=
-_csi2_device *csi2_dev)
->                            SUN6I_MIPI_CSI2_CTL_EN, 0);
->  }
->
-> -static void sun6i_mipi_csi2_configure(struct sun6i_mipi_csi2_device *csi=
-2_dev)
-> +static void sun6i_mipi_csi2_configure(struct sun6i_mipi_csi2_device *csi=
-2_dev,
-> +                                      const struct v4l2_mbus_framefmt *m=
-bus_format)
->  {
->         struct regmap *regmap =3D csi2_dev->regmap;
->         unsigned int lanes_count =3D
->                 csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
-> -       struct v4l2_mbus_framefmt *mbus_format =3D &csi2_dev->bridge.mbus=
-_format;
->         const struct sun6i_mipi_csi2_format *format;
->         struct device *dev =3D csi2_dev->dev;
->         u32 version =3D 0;
-> @@ -173,7 +173,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subde=
-v *subdev, int on)
->         struct v4l2_subdev *source_subdev =3D csi2_dev->bridge.source_sub=
-dev;
->         union phy_configure_opts dphy_opts =3D { 0 };
->         struct phy_configure_opts_mipi_dphy *dphy_cfg =3D &dphy_opts.mipi=
-_dphy;
-> -       struct v4l2_mbus_framefmt *mbus_format =3D &csi2_dev->bridge.mbus=
-_format;
-> +       struct v4l2_subdev_state *state;
-> +       const struct v4l2_mbus_framefmt *mbus_format;
->         const struct sun6i_mipi_csi2_format *format;
->         struct phy *dphy =3D csi2_dev->dphy;
->         struct device *dev =3D csi2_dev->dev;
-> @@ -183,8 +184,12 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subd=
-ev *subdev, int on)
->         unsigned long pixel_rate;
->         int ret;
->
-> -       if (!source_subdev)
-> -               return -ENODEV;
-> +       state =3D v4l2_subdev_lock_and_get_active_state(subdev);
-> +
-> +       if (!source_subdev) {
-> +               ret =3D -ENODEV;
-> +               goto unlock;
-> +       }
->
->         if (!on) {
->                 v4l2_subdev_call(source_subdev, video, s_stream, 0);
-> @@ -196,7 +201,7 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subde=
-v *subdev, int on)
->
->         ret =3D pm_runtime_resume_and_get(dev);
->         if (ret < 0)
-> -               return ret;
-> +               goto unlock;
->
->         /* Sensor Pixel Rate */
->
-> @@ -222,6 +227,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subde=
-v *subdev, int on)
->                 goto error_pm;
->         }
->
-> +       mbus_format =3D v4l2_subdev_state_get_format(state,
-> +                                                  SUN6I_MIPI_CSI2_PAD_SI=
-NK);
->         format =3D sun6i_mipi_csi2_format_find(mbus_format->code);
->         if (WARN_ON(!format)) {
->                 ret =3D -ENODEV;
-> @@ -260,7 +267,7 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subde=
-v *subdev, int on)
->
->         /* Controller */
->
-> -       sun6i_mipi_csi2_configure(csi2_dev);
-> +       sun6i_mipi_csi2_configure(csi2_dev, mbus_format);
->         sun6i_mipi_csi2_enable(csi2_dev);
->
->         /* D-PHY */
-> @@ -277,7 +284,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subde=
-v *subdev, int on)
->         if (ret && ret !=3D -ENOIOCTLCMD)
->                 goto disable;
->
-> -       return 0;
-> +       ret =3D 0;
-> +       goto unlock;
->
->  disable:
->         phy_power_off(dphy);
-> @@ -286,6 +294,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subde=
-v *subdev, int on)
->  error_pm:
->         pm_runtime_put(dev);
->
-> +unlock:
-> +       v4l2_subdev_unlock_state(state);
->         return ret;
->  }
->
-> @@ -308,21 +318,23 @@ sun6i_mipi_csi2_mbus_format_prepare(struct v4l2_mbu=
-s_framefmt *mbus_format)
->  static int sun6i_mipi_csi2_init_state(struct v4l2_subdev *subdev,
->                                       struct v4l2_subdev_state *state)
->  {
-> -       struct sun6i_mipi_csi2_device *csi2_dev =3D v4l2_get_subdevdata(s=
-ubdev);
-> -       unsigned int pad =3D SUN6I_MIPI_CSI2_PAD_SINK;
-> -       struct v4l2_mbus_framefmt *mbus_format =3D
-> -               v4l2_subdev_state_get_format(state, pad);
-> -       struct mutex *lock =3D &csi2_dev->bridge.lock;
-> +       unsigned int pad;
->
-> -       mutex_lock(lock);
-> +       /*
-> +        * This subdev does not perform format conversion,
-> +        * initialize both pads identically.
-> +        */
-> +       for (pad =3D 0; pad < subdev->entity.num_pads; pad++) {
-> +               struct v4l2_mbus_framefmt *mbus_format;
->
-> -       mbus_format->code =3D sun6i_mipi_csi2_formats[0].mbus_code;
-> -       mbus_format->width =3D 640;
-> -       mbus_format->height =3D 480;
-> +               mbus_format =3D v4l2_subdev_state_get_format(state, pad);
->
-> -       sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
-> +               mbus_format->code =3D sun6i_mipi_csi2_formats[0].mbus_cod=
-e;
-> +               mbus_format->width =3D 640;
-> +               mbus_format->height =3D 480;
->
-> -       mutex_unlock(lock);
-> +               sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
-> +       }
->
->         return 0;
->  }
-> @@ -340,53 +352,32 @@ sun6i_mipi_csi2_enum_mbus_code(struct v4l2_subdev *=
-subdev,
->         return 0;
->  }
->
-> -static int sun6i_mipi_csi2_get_fmt(struct v4l2_subdev *subdev,
-> -                                  struct v4l2_subdev_state *state,
-> -                                  struct v4l2_subdev_format *format)
-> -{
-> -       struct sun6i_mipi_csi2_device *csi2_dev =3D v4l2_get_subdevdata(s=
-ubdev);
-> -       struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
-> -       struct mutex *lock =3D &csi2_dev->bridge.lock;
-> -
-> -       mutex_lock(lock);
-> -
-> -       if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
-> -               *mbus_format =3D *v4l2_subdev_state_get_format(state,
-> -                                                            format->pad)=
-;
-> -       else
-> -               *mbus_format =3D csi2_dev->bridge.mbus_format;
-> -
-> -       mutex_unlock(lock);
-> -
-> -       return 0;
-> -}
-> -
->  static int sun6i_mipi_csi2_set_fmt(struct v4l2_subdev *subdev,
->                                    struct v4l2_subdev_state *state,
->                                    struct v4l2_subdev_format *format)
->  {
-> -       struct sun6i_mipi_csi2_device *csi2_dev =3D v4l2_get_subdevdata(s=
-ubdev);
-> -       struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
-> -       struct mutex *lock =3D &csi2_dev->bridge.lock;
-> +       struct v4l2_mbus_framefmt *fmt;
->
-> -       mutex_lock(lock);
-> +       /* The format on the source pad always matches the sink pad. */
-> +       if (format->pad !=3D SUN6I_MIPI_CSI2_PAD_SINK)
-> +               return v4l2_subdev_get_fmt(subdev, state, format);
->
-> -       sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
-> +       sun6i_mipi_csi2_mbus_format_prepare(&format->format);
->
-> -       if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
-> -               *v4l2_subdev_state_get_format(state, format->pad) =3D
-> -                       *mbus_format;
-> -       else
-> -               csi2_dev->bridge.mbus_format =3D *mbus_format;
-> +       /* Set the format on the sink pad. */
-> +       fmt =3D v4l2_subdev_state_get_format(state, format->pad);
-> +       *fmt =3D format->format;
->
-> -       mutex_unlock(lock);
-> +       /* Propagate the format to the source pad. */
-> +       fmt =3D v4l2_subdev_state_get_format(state, SUN6I_MIPI_CSI2_PAD_S=
-OURCE);
-> +       *fmt =3D format->format;
->
->         return 0;
->  }
->
->  static const struct v4l2_subdev_pad_ops sun6i_mipi_csi2_pad_ops =3D {
->         .enum_mbus_code =3D sun6i_mipi_csi2_enum_mbus_code,
-> -       .get_fmt        =3D sun6i_mipi_csi2_get_fmt,
-> +       .get_fmt        =3D v4l2_subdev_get_fmt,
->         .set_fmt        =3D sun6i_mipi_csi2_set_fmt,
->  };
->
-> @@ -502,8 +493,6 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_=
-mipi_csi2_device *csi2_dev)
->         bool notifier_registered =3D false;
->         int ret;
->
-> -       mutex_init(&bridge->lock);
-> -
->         /* V4L2 Subdev */
->
->         v4l2_subdev_init(subdev, &sun6i_mipi_csi2_subdev_ops);
-> @@ -532,6 +521,12 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i=
-_mipi_csi2_device *csi2_dev)
->         if (ret)
->                 return ret;
->
-> +       /* V4L2 Subdev finalize */
-> +
-> +       ret =3D v4l2_subdev_init_finalize(subdev);
-> +       if (ret < 0)
-> +               goto error_media_entity_cleanup;
-> +
->         /* V4L2 Async */
->
->         v4l2_async_subdev_nf_init(notifier, subdev);
-> @@ -565,6 +560,9 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_=
-mipi_csi2_device *csi2_dev)
->  error_v4l2_notifier_cleanup:
->         v4l2_async_nf_cleanup(notifier);
->
-> +       v4l2_subdev_cleanup(subdev);
-> +
-> +error_media_entity_cleanup:
->         media_entity_cleanup(&subdev->entity);
->
->         return ret;
-> @@ -579,6 +577,7 @@ sun6i_mipi_csi2_bridge_cleanup(struct sun6i_mipi_csi2=
-_device *csi2_dev)
->         v4l2_async_unregister_subdev(subdev);
->         v4l2_async_nf_unregister(notifier);
->         v4l2_async_nf_cleanup(notifier);
-> +       v4l2_subdev_cleanup(subdev);
->         media_entity_cleanup(&subdev->entity);
->  }
->
-> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2=
-.h b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
-> index 24b15e34b5e8..d72dfbd6a993 100644
-> --- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
-> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
-> @@ -32,8 +32,6 @@ struct sun6i_mipi_csi2_bridge {
->         struct media_pad                pads[SUN6I_MIPI_CSI2_PAD_COUNT];
->         struct v4l2_fwnode_endpoint     endpoint;
->         struct v4l2_async_notifier      notifier;
-> -       struct v4l2_mbus_framefmt       mbus_format;
-> -       struct mutex                    lock; /* Mbus format lock. */
->
->         struct v4l2_subdev              *source_subdev;
->  };
-> --
-> 2.34.1
->
+So, the way I was thinking about this is reset is done for several
+things right now: initial state creation and software reset, and
+hardware reset.
+
+The latter isn't really commonly used. Most drivers, basically all
+drivers that use the reset helpers, will not perform the hardware reset
+as part of drm_mode_config_reset but will do it in probe or similar.
+
+This is also a concern for hardware state read-out, since you don't want
+that reset to happen.
+
+So, eventually, I wanted to have something like try a readout, and if it
+fails for any reason (disabled, unsupported, or failing to perform the
+readout), we fallback to allocating a pristine state + resetting the
+hardware.
+
+To do that, we need create_state introduced here both for the readout
+and non-readout paths, but also a (possibly device wide?) hw_reset hook
+that will *only* reset the device without affecting the software state.
+
+So:
+ - probe with readout would be create_state + readout_state for all objects
+ - probe without readout would be create_state + hw_reset for all objects
+ - resume would be create_state + hw_reset for a limited number of objects
+
+And then we don't need .reset at all anymore and / or can implement
+drm_mode_config_reset() on top of that.
+
+I wanted to work on that next when done with this series.
+
+Maxime
+
+--mmuav45v5xyeg7x4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaehueAAKCRAnX84Zoj2+
+dk+SAYDSxsLLjUkEwpwBzrLclRVmyy7Pnj03L4U6OuOb8UUQK/YHd8u6ZI0Y5Fn8
+lXwP3SkBgIJRm9gxqUlt2WlYOp3xz6AwEEaxd7tHd6n7tpSv6KJ44hNAwTVtgZFI
+mLpzKOrOQg==
+=tglw
+-----END PGP SIGNATURE-----
+
+--mmuav45v5xyeg7x4--
