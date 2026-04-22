@@ -1,167 +1,94 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB53523BCE3
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Apr 2026 13:39:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF0231B838;
+	Wed, 22 Apr 2026 14:57:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776865143; cv=none; b=A1KWcDSiFR1T+U92luxRGEQzUMFtQ1GEvsCB/I03K/9If19J0j9w3TeYFih154ipMLkXfCATDwbYaD/eD5E+RrziLnqAdp0c166j1R76avw87uk7jTDGzt8XGRh3xKLc048d3//j8MxWKhvGsOx74l/DK68wsbSl+/sq6sEpHV4=
+	t=1776869827; cv=none; b=qJlO7uR6Kw8g9InIdycI/Eg679VFUm/lJZeF8yO2GyaUUKEV4019Y5Kd4cQ+MQ4fVK429WFjPzwcKd2K7QA6C9zGpV0Vpap8KjvI4yGfW8Z/Lv4RSVOH0lgcrffKPXmqtd+1pg4FysWZWeoVxUzR2J4L+yAKGiMLWCikxaJyFCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776865143; c=relaxed/simple;
-	bh=7rpgALkRycPSgcaAOgE3Prm0pYeBYUlmAelrxMIZcMI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NTvk6J9TveDfdpHUE6WktNYquXS6hxQ7nXB/yXrljuLbzk8z87u6/8xcYQZWjhHqw3K+gjIxZ/+7px+Te2UjI3Y+gT3lAA3NPZ5BFOdlsg+sWC7s5KyLE/4PlvgtQbJLfztsOLQPAgs1D18QaHYSlTovo8oa+uJEmBYahibZMlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=cJX6XLaZ; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1776869827; c=relaxed/simple;
+	bh=U7K2QAfNkxfrOrOoAR5/bJnJnEMsRVeWUSWDvn0eC4I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tOEQS/3TgZWqFi78fYgVMPSixWfheEvZcCzXGpDLUnAdow1ltzLu6Rx70fvmV6lrpfsAizsg59Zz9ZZM0h9MxS0gegZ/WNckFzcuQ7goxC6Qksr3PVWNkAPVLFR5g7g8QWsqLCy2ZyL1jBrN2yZwrpu8+pTGk3o9pUccun6AVxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D8zIYnXq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="cJX6XLaZ"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B75A61FC4;
-	Wed, 22 Apr 2026 06:38:55 -0700 (PDT)
-Received: from [10.57.33.69] (unknown [10.57.33.69])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0EE173F836;
-	Wed, 22 Apr 2026 06:38:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1776865141; bh=7rpgALkRycPSgcaAOgE3Prm0pYeBYUlmAelrxMIZcMI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cJX6XLaZ9w4cDlcqe/N6PdfC9Zmxg3eiCrHKrqfZb5e2qMpOmbffF2ER/ReBGBsaO
-	 5NspPcgUbyYXsYrEuudf2IubWTqk9tkKDpK3wofmCPbhZmpMvB0V1B84V1aYFDm7B2
-	 f2axAPb9yLv6lAJxgakoM4b10yG38GbpsL22pD+w=
-Message-ID: <44aab543-a200-49bd-81e5-70d77ebe1c85@arm.com>
-Date: Wed, 22 Apr 2026 15:38:47 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D8zIYnXq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AA9DC19425;
+	Wed, 22 Apr 2026 14:57:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776869826;
+	bh=U7K2QAfNkxfrOrOoAR5/bJnJnEMsRVeWUSWDvn0eC4I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=D8zIYnXqB4exHC3F0lWnq4YrUp412dFlNTa471sejPAAaib2sozTnEWsKLFG8xzc8
+	 O6drvbLDo/33vvRJ25SD69hkyFXpFveJreYj+EMgZiXSpxraoMIdlJwV9weNVgf3sD
+	 uSMpDUUzuccrY7rlx0EEUbmN6l0JZ9Lud4ogmIj7Yz71LrFJWDU/0h3oYBBDFiymcd
+	 iCt8vMShvPq8qVgSuU3d1/MQkAhmkIHC58hY1IauwiNOZeHFagUJ9GYlATjfHUUaoh
+	 9p2vMj9lKx3qS6ANzZWHOPUlOsZp7jIeriDvmj0tF3l6l04/+ns2Fe744JBI4eMaEt
+	 KwOdHUTZEg52Q==
+Date: Wed, 22 Apr 2026 15:57:01 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Kevin Mehall <km@kevinmehall.net>
+Cc: Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Mirko Vogt <mirko-dev|linux@nanl.de>,
+	Ralf Schlatterbeck <rsc@runtux.com>, linux-spi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] spi: sun6i: Set SPI mode in prepare_message
+Message-ID: <66909301-ed23-4b36-8955-a69b64eed9a1@sirena.org.uk>
+References: <20260420164755.1131645-1-km@kevinmehall.net>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] Add hstimer support for H616 and T113-S3
-To: Michal Piekos <michal.piekos@mmpsystems.pl>
-Cc: Daniel Lezcano <daniel.lezcano@kernel.org>,
- Thomas Gleixner <tglx@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <20260419-h616-t113s-hstimer-v1-0-1af74ebef7c5@mmpsystems.pl>
- <20260419225539.718367e0@ryzen.lan>
- <xlvldmapdoql7nt3swube5vd6fdiosq7rt5afg246xertko5fa@4irmzupkar23>
- <b89c1c8b-2678-4f4f-a63c-03b92cf7617c@arm.com>
- <h4b3xluygfptee3ej4gbr3hctgjk6q4oytkisk66saii4uyvl3@lw4qdtfuyoz5>
-Content-Language: en-US
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <h4b3xluygfptee3ej4gbr3hctgjk6q4oytkisk66saii4uyvl3@lw4qdtfuyoz5>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Iahe586F9WozlOdH"
+Content-Disposition: inline
+In-Reply-To: <20260420164755.1131645-1-km@kevinmehall.net>
+X-Cookie: I'm definitely not in Omaha!
 
-Hi Michal,
 
-On 4/21/26 16:05, Michal Piekos wrote:
-> On Mon, Apr 20, 2026 at 04:14:44PM +0200, Andre Przywara wrote:
->> Hi Michal,
->>
->> On 4/20/26 13:27, Michal Piekos wrote:
->>> On Sun, Apr 19, 2026 at 10:55:39PM +0200, Andre Przywara wrote:
->>>> On Sun, 19 Apr 2026 14:46:06 +0200
->>>> Michal Piekos <michal.piekos@mmpsystems.pl> wrote:
->>>>
-....
+--Iahe586F9WozlOdH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
->>>>
->>> I took the table from https://linux-sunxi.org/Linux_mainlining_effort as
->>> a todo list and wanted to help with it. I do not have own use case for
->>> this timer. If it is not needed then I will spin v2 to include your
->>> comments and abandon it.
->>
->> Ah, that's good to know, and thanks for picking things from that list! I
->> don't think there is a particular need to abandon your work, we could as
->> well upstream it. At least the DT changes should be added, so that other DT
->> users could make use of the timers - after all it's a Linux implementation
->> choice to utilise just one timer. But please go ahead and post a complete
->> v2, I don't think it hurts to have HSTIMER support in the kernel.
->> And while you are at it: can you figure out what the need is for using two
->> timers? One is a clock source, the other is for clock events? And why do we
->> limit the counters and timers to 32 bit? Even the A13 manual lists them as
->> 56 bits, and a wraparound time of roughly 21 seconds (with 32 bit counters)
->> does not sound very long to me.
->>
-> Yes. Channel 0 is clockevent and channel 1 is a clocksource and sync
-> reference for channel 0 disable timing.
-> 
-> 32 bit counters seems like implementation choice rather than limitation
-> but that would need to be implemented and tested. Would you suggest to
-> extend it to 56 bit in the following patch?
+On Mon, Apr 20, 2026 at 10:46:04AM -0600, Kevin Mehall wrote:
 
-Well, yes, I would assume we want as long an overflow period as 
-possible. The tricky/interesting part is that the interface is still 
-32-bit MMIO reads, so we need to find out how the consistency works. The 
-manual recommends to read LO first, but not sure that means its latching 
-HI upon the LO read. Otherwise we should read HI, LO, and HI again and 
-compare both HI's. Probably needs some testing.
+> With a GPIO chip select, CS is asserted before entering transfer_one.
+> The spi-sun6i driver previously configured the SPI mode (including clock
+> polarity) and enabled the bus in transfer_one, which can cause an
+> extraneous SCK transition with CS asserted, corrupting the transferred
+> data.
 
->> Not sure what your primary motivation for fixing Allwinner support is, but
->> we could probably find more worthwhile targets. Do you have Allwinner boards
->> other than the OrangePi Zero 3? There are not many low hanging fruits on the
->> H616 left (MBUS and LDOs(?) maybe), but the A523 has quite some missing
->> drivers still, some of them probably more on the easy side.
->>
-> I have boards with A733, A527, T113-S3, H616, H6, H3 and I
-> think some older stuff too. My motivation is mostly fun and learning.
+> This patch moves the SPI mode configuration and bus enable to the
+> spi_prepare_message callback, ensuring that SCK is driven to the correct
+> level prior to asserting CS.
 
-That's great, and what I was hoping for! ;-)
-Feel free to reach out on IRC if you have any questions or comments.
+> +	/* We want to control the chip select manually */
+> +	reg |= SUN6I_TFR_CTL_CS_MANUAL;
+> +
+> +	sun6i_spi_write(sspi, SUN6I_TFR_CTL_REG, reg);
 
-> I also use those boards in custom projects.
-> 
-> I will take up GPADC on A527 after finishing this as I worked with ADC's
-> a lot on MCU's. Unless other suggestions?
+Might this cause the native chip select to get asserted, we didn't set
+up values so it'll have defaults if it wasn't previously configured?
 
-Yes, LRADC and GPADC are good devices to start with. Also crypto comes 
-to mind, the most useful there being the TRNG device, which helps the 
-kernel to start its own RNG much quicker. Chances are those things are 
-close to the existing SoCs, so there might be not too much to do here.
+--Iahe586F9WozlOdH
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Cheers,
-Andre
+-----BEGIN PGP SIGNATURE-----
 
-> 
-> Thank you for comments.
-> Michal
-> 
->> If you are stuck with the OpiZero3, then you could just look and check the
->> existing devices, and verify their operation. For instance I think USB-OTG
->> is still broken - across most Allwinner SoCs actually, so it's a sunxi
->> driver issue.
->>
->> Thanks,
->> Andre
->>
->>>
->>> Michal
->>>
->>>>>
->>>>> Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
->>>>> ---
->>>>> Michal Piekos (4):
->>>>>         dt-bindings: timer: allwinner,sun5i-a13-hstimer: add H616 and T113-S3
->>>>>         clocksource/drivers/sun5i: add H616 hstimer support
->>>>>         arm64: dts: allwinner: h616: add hstimer node
->>>>>         arm: dts: allwinner: t113s: add hstimer node
->>>>>
->>>>>    .../timer/allwinner,sun5i-a13-hstimer.yaml         |  8 +++-
->>>>>    arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi       | 12 +++++
->>>>>    arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi     |  9 ++++
->>>>>    drivers/clocksource/timer-sun5i.c                  | 56 +++++++++++++++++++---
->>>>>    4 files changed, 78 insertions(+), 7 deletions(-)
->>>>> ---
->>>>> base-commit: faeab166167f5787719eb8683661fd41a3bb1514
->>>>> change-id: 20260413-h616-t113s-hstimer-62939948f91c
->>>>>
->>>>> Best regards,
->>>>
->>>>
->>
->>
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmno4b0ACgkQJNaLcl1U
+h9Ae3gf8DdM01ZWjlXH76yDmuyz6xhrdHq7cc8WLh4FWwUbviuZ3Tkfs3DPg+IZq
+45tDrBu0yXCxiVN9ejLHMR7mI1aFF8aO/3OU13o849g6suL+O6P8Hw/eGWKnQ3z/
+RIK/Q/CrdAsosbv9oxwA4QmJ/C4RkIcOcyjfB6jnp8uc8CVCZpyy1zke5iRGiKeX
+Ys+egdMfPJRaehp23q5vhCWu4n6ObdRs6foZ3hP+ZfixLkWPZ0iJScfUmf0klPTH
+JW+az9ccEZcQYE71xIvlH4Ahn7NhqEKe8mq2ERoFa3IN8rGHFKNCqD07/eTX2L9w
+T0j4AZFhYf2my8B1QPo3/OO97qpz4w==
+=xnVK
+-----END PGP SIGNATURE-----
 
+--Iahe586F9WozlOdH--
