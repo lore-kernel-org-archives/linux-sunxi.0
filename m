@@ -1,119 +1,415 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D4F296BA9;
-	Wed, 22 Apr 2026 06:52:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B1A3A6F07
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Apr 2026 12:55:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776840721; cv=none; b=GejUW/W4rjktlhPxiYVTWVTu0JdLMjKCX4lVQgFwbe6w4C0J23bQ2nQFd2uYPBgy1uL48VoXTNwUbTQ8wEiZRc0XEX/ENfYmpYnUj9/ilOMXBRhvibBsLwTSoab9OiGQtTRB2UPdKowXALzQzEWjB/WBK5lGTqCHi09qkSPfFYs=
+	t=1776862505; cv=none; b=raIdxhmpHHlP4F0a+j06sOcAKFw0ZGFyj4iCCu2LUE3MgYXPTqvHYk/tYizw4ItH1TwNsNVlN8DQ238HL5KPpP/1IipGB1vQxLl8kao7B+hu7rhVvF8AwqMIpymLMSfjWM19RPeQtBI6QlkOxwvXv8zi45VtKIwxi7RTt7pZvIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776840721; c=relaxed/simple;
-	bh=F+k2j61BaRiqQdtTNTgqmqkRXzyWVzQqwf1yxx9Jl5Y=;
+	s=arc-20240116; t=1776862505; c=relaxed/simple;
+	bh=iw3FG5WuY0XKB8Biup0LHt0wl9hIxDqW6EnLTXSblJk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CSKtDLsEmScOQZK0WkUCsLDdTcaEM1vivAR7lqiG38zpgFxZ/AqfiSln4Bm8fwrtUIeqeeB3HW1bJmdunoi/4nomGuDruXRf/zw8/SKWeVYy/gG5qwlGGtuPqN2PjMR8iMZTmSQJF0X+TT6hpkPNMmUOH1E+xFuzTQqJqggZoJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uBI2YyHQ; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uBI2YyHQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C9AEC19425;
-	Wed, 22 Apr 2026 06:52:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776840721;
-	bh=F+k2j61BaRiqQdtTNTgqmqkRXzyWVzQqwf1yxx9Jl5Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uBI2YyHQ14xILWfOLl0M781/RFBZxHKsv77ZC0eXBHFwUqbPFiRATOVszWZUCkuoy
-	 P8AsHN90clI5gEzB7QzrZq4mJrZ4zgAO8JLsI6oI8YqouSwk0t0Dgb3PIz3G2erBO7
-	 gfHj0aU9d3+y+LdzG60/FGB3OnyhG4AuGHGGxVSdKByYp1bAJjSWJ/7z48Csc1C9Lb
-	 +4B0hE6FXg5eWOEiUZBsCNh0TQK6AvpA4lO8XvJFvdAh900rmQ0FOV9vkoYibxG9qo
-	 gudHD4vXrsQnwh9duF4E+0jCjD8KIYut7hNPttSsTAwGrdFr1ApLK4/ho+U5OnHKW/
-	 5g5uCvXkkYfvA==
-Date: Wed, 22 Apr 2026 08:51:58 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Jyri Sarha <jyri.sarha@iki.fi>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Simon Ser <contact@emersion.fr>, 
-	Harry Wentland <harry.wentland@amd.com>, Melissa Wen <mwen@igalia.com>, 
-	Sebastian Wick <sebastian.wick@redhat.com>, Alex Hung <alex.hung@amd.com>, 
-	Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
-	Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>, 
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 02/20] drm/atomic: Drop drm_private_state.obj
- assignment from create_state
-Message-ID: <20260422-poetic-malamute-of-greatness-ceee0f@houat>
-References: <20260320-drm-mode-config-init-v2-0-c63f1134e76c@kernel.org>
- <20260320-drm-mode-config-init-v2-2-c63f1134e76c@kernel.org>
- <bbb554a6-2034-4f6e-9b48-fa9e10b4a95a@suse.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Je3MTVd/xRB//7fcDiOgXVkeiXaZI6BHaenAdFfOwyBFBVuU0yHVhElE/8mtn9iBOdmPyh2k02cJBFoY2w03vN3rOTAYhTEIUiB3wwdDq+YKHfJLKaIKjTKWZOmDrpvgVwEZBycYZuki2wVzibKuSLCnq1zjplTbEcXwOIYbe/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 7AC771F8005F
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Apr 2026 12:44:53 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 11742B40341; Wed, 22 Apr 2026 12:44:51 +0000 (UTC)
+X-Spam-Level: 
+Received: from shepard (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id A1C01B40338;
+	Wed, 22 Apr 2026 12:44:50 +0000 (UTC)
+Date: Wed, 22 Apr 2026 14:44:30 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: arash golgol <arash.golgol@gmail.com>
+Cc: linux-media@vger.kernel.org, mchehab@kernel.org, wens@kernel.org,
+	jernej.skrabec@gmail.com, samuel@sholland.org,
+	linux-sunxi@lists.linux.dev,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	sakari.ailus@linux.intel.com
+Subject: Re: [PATCH v3] media: sun6i-mipi-csi2: Use V4L2 subdev active state
+Message-ID: <aejCrrf_XA7CkINS@shepard>
+References: <20260214050943.6306-1-arash.golgol@gmail.com>
+ <CAMxPZkhkjqd2Y91TUpZsTJT2SppPqLrQpdYi5LWmzM8tLxV8Tg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="bcajdpsxzzkhkmjz"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="PipqgRqYHm31EQRR"
 Content-Disposition: inline
-In-Reply-To: <bbb554a6-2034-4f6e-9b48-fa9e10b4a95a@suse.de>
+In-Reply-To: <CAMxPZkhkjqd2Y91TUpZsTJT2SppPqLrQpdYi5LWmzM8tLxV8Tg@mail.gmail.com>
 
 
---bcajdpsxzzkhkmjz
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+--PipqgRqYHm31EQRR
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 02/20] drm/atomic: Drop drm_private_state.obj
- assignment from create_state
-MIME-Version: 1.0
 
-On Tue, Apr 21, 2026 at 03:03:50PM +0200, Thomas Zimmermann wrote:
-> Hi
+Hi Arash,
+
+On Wed 22 Apr 26, 08:23, arash golgol wrote:
+> I was hoping this patch would make its way into media-tree, but it seems
+> it hasn't been applied yet.
 >=20
-> Am 20.03.26 um 17:27 schrieb Maxime Ripard:
-> > The initial intent of the atomic_create_state helper was to simply
-> > allocate a proper drm_private_state and returning it, without any side
-> > effect.
-> >=20
-> > However, the __drm_atomic_helper_private_obj_create_state() introduces a
-> > side effect by setting the drm_private_obj.state to the newly allocated
-> > state.
-> >=20
-> > This assignment defeats the purpose, but is also redundant since
-> > the only caller, drm_atomic_private_obj_init(), will also set this
-> > pointer to the newly allocated state.
+> Is there anything missing or any modifications needed from my side?
+> I'd appreciate any feedback.
+
+I would like to test this patch before it gets in, but didn't manage to find
+the time. The same should probably also apply to the a83t mipi csi-2 driver,
+which is structured the same way.
+
+Thanks for your work,
+
+Paul
+
+
+> Regards,
+> Arash Golgol
 >=20
-> Is this paragraph no longer up to date? Grepping for
-> __drm_atomic_helper_private_obj_create_state returns plenty of callers.
+> On Sat, Feb 14, 2026 at 8:40=E2=80=AFAM Arash Golgol <arash.golgol@gmail.=
+com> wrote:
+> >
+> > Use the V4L2 subdev active state API to store the active format.
+> > This simplifies the driver not only by dropping the bridge mbus_format
+> > field, but it also allows dropping the bridge lock, replaced with
+> > the state lock.
+> >
+> > The sun6i-mipi-csi2 hardware does not perform any format conversion.
+> > Enforce identical formats on the sink and source pads in the set_fmt()
+> > and init_state() callbacks.
+> >
+> > Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> > Changes in v3:
+> >     - link to v2: https://patchwork.kernel.org/project/linux-media/patc=
+h/20260209055529.16644-1-arash.golgol@gmail.com/
+> >     - Keep error path jumping to error_v4l2_notifier_cleanup on
+> >     bridge setup failure
+> >
+> > Changes in v2:
+> >     - link to v1: https://patchwork.kernel.org/project/linux-media/patc=
+h/20260206123455.46476-1-arash.golgol@gmail.com/
+> >     - Simplify control flow by dropping the else at end of s_stream()
+> >     - Call v4l2_subdev_cleanup() on bridge setup failure before
+> >     notifier registration
+> >
+> >  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 107 +++++++++---------
+> >  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   |   2 -
+> >  2 files changed, 53 insertions(+), 56 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_cs=
+i2.c b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+> > index b06cb73015cd..682bdd82098c 100644
+> > --- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+> > +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+> > @@ -95,12 +95,12 @@ static void sun6i_mipi_csi2_disable(struct sun6i_mi=
+pi_csi2_device *csi2_dev)
+> >                            SUN6I_MIPI_CSI2_CTL_EN, 0);
+> >  }
+> >
+> > -static void sun6i_mipi_csi2_configure(struct sun6i_mipi_csi2_device *c=
+si2_dev)
+> > +static void sun6i_mipi_csi2_configure(struct sun6i_mipi_csi2_device *c=
+si2_dev,
+> > +                                      const struct v4l2_mbus_framefmt =
+*mbus_format)
+> >  {
+> >         struct regmap *regmap =3D csi2_dev->regmap;
+> >         unsigned int lanes_count =3D
+> >                 csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
+> > -       struct v4l2_mbus_framefmt *mbus_format =3D &csi2_dev->bridge.mb=
+us_format;
+> >         const struct sun6i_mipi_csi2_format *format;
+> >         struct device *dev =3D csi2_dev->dev;
+> >         u32 version =3D 0;
+> > @@ -173,7 +173,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_sub=
+dev *subdev, int on)
+> >         struct v4l2_subdev *source_subdev =3D csi2_dev->bridge.source_s=
+ubdev;
+> >         union phy_configure_opts dphy_opts =3D { 0 };
+> >         struct phy_configure_opts_mipi_dphy *dphy_cfg =3D &dphy_opts.mi=
+pi_dphy;
+> > -       struct v4l2_mbus_framefmt *mbus_format =3D &csi2_dev->bridge.mb=
+us_format;
+> > +       struct v4l2_subdev_state *state;
+> > +       const struct v4l2_mbus_framefmt *mbus_format;
+> >         const struct sun6i_mipi_csi2_format *format;
+> >         struct phy *dphy =3D csi2_dev->dphy;
+> >         struct device *dev =3D csi2_dev->dev;
+> > @@ -183,8 +184,12 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_su=
+bdev *subdev, int on)
+> >         unsigned long pixel_rate;
+> >         int ret;
+> >
+> > -       if (!source_subdev)
+> > -               return -ENODEV;
+> > +       state =3D v4l2_subdev_lock_and_get_active_state(subdev);
+> > +
+> > +       if (!source_subdev) {
+> > +               ret =3D -ENODEV;
+> > +               goto unlock;
+> > +       }
+> >
+> >         if (!on) {
+> >                 v4l2_subdev_call(source_subdev, video, s_stream, 0);
+> > @@ -196,7 +201,7 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_sub=
+dev *subdev, int on)
+> >
+> >         ret =3D pm_runtime_resume_and_get(dev);
+> >         if (ret < 0)
+> > -               return ret;
+> > +               goto unlock;
+> >
+> >         /* Sensor Pixel Rate */
+> >
+> > @@ -222,6 +227,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_sub=
+dev *subdev, int on)
+> >                 goto error_pm;
+> >         }
+> >
+> > +       mbus_format =3D v4l2_subdev_state_get_format(state,
+> > +                                                  SUN6I_MIPI_CSI2_PAD_=
+SINK);
+> >         format =3D sun6i_mipi_csi2_format_find(mbus_format->code);
+> >         if (WARN_ON(!format)) {
+> >                 ret =3D -ENODEV;
+> > @@ -260,7 +267,7 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_sub=
+dev *subdev, int on)
+> >
+> >         /* Controller */
+> >
+> > -       sun6i_mipi_csi2_configure(csi2_dev);
+> > +       sun6i_mipi_csi2_configure(csi2_dev, mbus_format);
+> >         sun6i_mipi_csi2_enable(csi2_dev);
+> >
+> >         /* D-PHY */
+> > @@ -277,7 +284,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_sub=
+dev *subdev, int on)
+> >         if (ret && ret !=3D -ENOIOCTLCMD)
+> >                 goto disable;
+> >
+> > -       return 0;
+> > +       ret =3D 0;
+> > +       goto unlock;
+> >
+> >  disable:
+> >         phy_power_off(dphy);
+> > @@ -286,6 +294,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_sub=
+dev *subdev, int on)
+> >  error_pm:
+> >         pm_runtime_put(dev);
+> >
+> > +unlock:
+> > +       v4l2_subdev_unlock_state(state);
+> >         return ret;
+> >  }
+> >
+> > @@ -308,21 +318,23 @@ sun6i_mipi_csi2_mbus_format_prepare(struct v4l2_m=
+bus_framefmt *mbus_format)
+> >  static int sun6i_mipi_csi2_init_state(struct v4l2_subdev *subdev,
+> >                                       struct v4l2_subdev_state *state)
+> >  {
+> > -       struct sun6i_mipi_csi2_device *csi2_dev =3D v4l2_get_subdevdata=
+(subdev);
+> > -       unsigned int pad =3D SUN6I_MIPI_CSI2_PAD_SINK;
+> > -       struct v4l2_mbus_framefmt *mbus_format =3D
+> > -               v4l2_subdev_state_get_format(state, pad);
+> > -       struct mutex *lock =3D &csi2_dev->bridge.lock;
+> > +       unsigned int pad;
+> >
+> > -       mutex_lock(lock);
+> > +       /*
+> > +        * This subdev does not perform format conversion,
+> > +        * initialize both pads identically.
+> > +        */
+> > +       for (pad =3D 0; pad < subdev->entity.num_pads; pad++) {
+> > +               struct v4l2_mbus_framefmt *mbus_format;
+> >
+> > -       mbus_format->code =3D sun6i_mipi_csi2_formats[0].mbus_code;
+> > -       mbus_format->width =3D 640;
+> > -       mbus_format->height =3D 480;
+> > +               mbus_format =3D v4l2_subdev_state_get_format(state, pad=
+);
+> >
+> > -       sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
+> > +               mbus_format->code =3D sun6i_mipi_csi2_formats[0].mbus_c=
+ode;
+> > +               mbus_format->width =3D 640;
+> > +               mbus_format->height =3D 480;
+> >
+> > -       mutex_unlock(lock);
+> > +               sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
+> > +       }
+> >
+> >         return 0;
+> >  }
+> > @@ -340,53 +352,32 @@ sun6i_mipi_csi2_enum_mbus_code(struct v4l2_subdev=
+ *subdev,
+> >         return 0;
+> >  }
+> >
+> > -static int sun6i_mipi_csi2_get_fmt(struct v4l2_subdev *subdev,
+> > -                                  struct v4l2_subdev_state *state,
+> > -                                  struct v4l2_subdev_format *format)
+> > -{
+> > -       struct sun6i_mipi_csi2_device *csi2_dev =3D v4l2_get_subdevdata=
+(subdev);
+> > -       struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
+> > -       struct mutex *lock =3D &csi2_dev->bridge.lock;
+> > -
+> > -       mutex_lock(lock);
+> > -
+> > -       if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
+> > -               *mbus_format =3D *v4l2_subdev_state_get_format(state,
+> > -                                                            format->pa=
+d);
+> > -       else
+> > -               *mbus_format =3D csi2_dev->bridge.mbus_format;
+> > -
+> > -       mutex_unlock(lock);
+> > -
+> > -       return 0;
+> > -}
+> > -
+> >  static int sun6i_mipi_csi2_set_fmt(struct v4l2_subdev *subdev,
+> >                                    struct v4l2_subdev_state *state,
+> >                                    struct v4l2_subdev_format *format)
+> >  {
+> > -       struct sun6i_mipi_csi2_device *csi2_dev =3D v4l2_get_subdevdata=
+(subdev);
+> > -       struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
+> > -       struct mutex *lock =3D &csi2_dev->bridge.lock;
+> > +       struct v4l2_mbus_framefmt *fmt;
+> >
+> > -       mutex_lock(lock);
+> > +       /* The format on the source pad always matches the sink pad. */
+> > +       if (format->pad !=3D SUN6I_MIPI_CSI2_PAD_SINK)
+> > +               return v4l2_subdev_get_fmt(subdev, state, format);
+> >
+> > -       sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
+> > +       sun6i_mipi_csi2_mbus_format_prepare(&format->format);
+> >
+> > -       if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
+> > -               *v4l2_subdev_state_get_format(state, format->pad) =3D
+> > -                       *mbus_format;
+> > -       else
+> > -               csi2_dev->bridge.mbus_format =3D *mbus_format;
+> > +       /* Set the format on the sink pad. */
+> > +       fmt =3D v4l2_subdev_state_get_format(state, format->pad);
+> > +       *fmt =3D format->format;
+> >
+> > -       mutex_unlock(lock);
+> > +       /* Propagate the format to the source pad. */
+> > +       fmt =3D v4l2_subdev_state_get_format(state, SUN6I_MIPI_CSI2_PAD=
+_SOURCE);
+> > +       *fmt =3D format->format;
+> >
+> >         return 0;
+> >  }
+> >
+> >  static const struct v4l2_subdev_pad_ops sun6i_mipi_csi2_pad_ops =3D {
+> >         .enum_mbus_code =3D sun6i_mipi_csi2_enum_mbus_code,
+> > -       .get_fmt        =3D sun6i_mipi_csi2_get_fmt,
+> > +       .get_fmt        =3D v4l2_subdev_get_fmt,
+> >         .set_fmt        =3D sun6i_mipi_csi2_set_fmt,
+> >  };
+> >
+> > @@ -502,8 +493,6 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6=
+i_mipi_csi2_device *csi2_dev)
+> >         bool notifier_registered =3D false;
+> >         int ret;
+> >
+> > -       mutex_init(&bridge->lock);
+> > -
+> >         /* V4L2 Subdev */
+> >
+> >         v4l2_subdev_init(subdev, &sun6i_mipi_csi2_subdev_ops);
+> > @@ -532,6 +521,12 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun=
+6i_mipi_csi2_device *csi2_dev)
+> >         if (ret)
+> >                 return ret;
+> >
+> > +       /* V4L2 Subdev finalize */
+> > +
+> > +       ret =3D v4l2_subdev_init_finalize(subdev);
+> > +       if (ret < 0)
+> > +               goto error_media_entity_cleanup;
+> > +
+> >         /* V4L2 Async */
+> >
+> >         v4l2_async_subdev_nf_init(notifier, subdev);
+> > @@ -565,6 +560,9 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6=
+i_mipi_csi2_device *csi2_dev)
+> >  error_v4l2_notifier_cleanup:
+> >         v4l2_async_nf_cleanup(notifier);
+> >
+> > +       v4l2_subdev_cleanup(subdev);
+> > +
+> > +error_media_entity_cleanup:
+> >         media_entity_cleanup(&subdev->entity);
+> >
+> >         return ret;
+> > @@ -579,6 +577,7 @@ sun6i_mipi_csi2_bridge_cleanup(struct sun6i_mipi_cs=
+i2_device *csi2_dev)
+> >         v4l2_async_unregister_subdev(subdev);
+> >         v4l2_async_nf_unregister(notifier);
+> >         v4l2_async_nf_cleanup(notifier);
+> > +       v4l2_subdev_cleanup(subdev);
+> >         media_entity_cleanup(&subdev->entity);
+> >  }
+> >
+> > diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_cs=
+i2.h b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+> > index 24b15e34b5e8..d72dfbd6a993 100644
+> > --- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+> > +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+> > @@ -32,8 +32,6 @@ struct sun6i_mipi_csi2_bridge {
+> >         struct media_pad                pads[SUN6I_MIPI_CSI2_PAD_COUNT];
+> >         struct v4l2_fwnode_endpoint     endpoint;
+> >         struct v4l2_async_notifier      notifier;
+> > -       struct v4l2_mbus_framefmt       mbus_format;
+> > -       struct mutex                    lock; /* Mbus format lock. */
+> >
+> >         struct v4l2_subdev              *source_subdev;
+> >  };
+> > --
+> > 2.34.1
+> >
 
-No, it's still up to date but super confusing. I didn't mean that there
-wase one single caller of __drm_atomic_helper_private_obj_create_state()
-that would set obj->state, but rather that the
-drm_private_state_funcs.atomic_create_state hook is called only by
-drm_atomic_private_obj_init() and it will set obj->state.
+--=20
+Paul Kocialkowski,
 
-So, you're right, there's plenty of drivers calling
-__drm_atomic_helper_private_obj_create_state() but we always end up
-there through drm_atomic_private_obj_init().
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
 
-Maxime
+Expert in multimedia, graphics and embedded hardware support with Linux.
 
---bcajdpsxzzkhkmjz
-Content-Type: application/pgp-signature; name="signature.asc"
+--PipqgRqYHm31EQRR
+Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaehwDQAKCRAnX84Zoj2+
-dpyKAXkBF+Uqrnq4REnKuA0OlvLZRGSTJJ2HUa7jCMcyxQLt/PBQx4V/BABYGfiY
-yGO45+UBgIaXbaB8TXvhywyna7iuhl4sopx2bu7lqy0Hut5/L8CNhH/7RgZBQYhD
-2HA5L3Ii3g==
-=qp7L
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmnowq4ACgkQhP3B6o/u
+lQxSbQ//ReLiqgD1ijcw6mxqLHksOPb3NMWmYTaP6S/SF9P+LelrtSIogJKrg8JS
+OwhUNWmrf8GqElza1YFe0DNHBmAEiXg1d210oXDFFU+RgX4cgsjMXXr1RpPnZ156
+nfse0Vel2ieRKW08/U/+BdGo+qhEb2U2eXZWlXofkg4zg3hfDM4Nb6gs5QfFAsID
+7D6LOPWzK+78CHpqTb+varpB2ktaEkZhd3nroRc0OstlFwZunaY4d/3aOPo9rPe5
+jjq/QnN59xyQt+ODv/vGH4Mu86uaCpnPZpLiIOPPeGmRaKL1HfmVfQl6dq0kgUFX
+V4yT9seLeyGpWcZAuXdjI8eoRPZ1uNsjPiCrfqLKX0Ribi+U4J+LjHyFRbioUMCc
+jXaGjW4Ri4OEpXZyzZuSZvEuE2BsmymNWeiIQldbKigNqpPWcsMmQiVcR3IydHoh
+tne3H2MrpjAPzkEUi+VAf7bdHPDBc6ysV6pbT3oKHGI5+hZRi/h0++UirqPBJqGs
+w3FOd6bufYi2jk61jOqBpPxvI0DDxVqsD4TpowbkQjjoZUPoysAQFUAvfD+LIkXV
+Oqlcy6iIJEP8CXwW43EIkKGI2Gvy0qtdGLvsVsseQZqxhegKWS/sp9AUCTulE6rE
+urFl1/3h3sw7BPO5AdEsOxNdz7w61BeLBFSjwAibhqEjDsAnF4c=
+=8gLy
 -----END PGP SIGNATURE-----
 
---bcajdpsxzzkhkmjz--
+--PipqgRqYHm31EQRR--
