@@ -1,373 +1,169 @@
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0CE537883C
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Apr 2026 10:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3D9377EA9;
+	Thu, 23 Apr 2026 10:54:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776940008; cv=none; b=VKMsIWsbD5KagZrjxjbzoZVRBJ2P5TLSiwW7R+anbO74g2j0JCmyVGZXFYvwyCE+1DSPemCMSRDvI7ARiS3HtqJNB7wrD9hUAgwXJAScxPXH8SJU91yxP9+YZ/7xD1bGYfzf+pUcx0yFOkCjXoYa9nKlI3lVeqtTSawbzF6QeDk=
+	t=1776941681; cv=none; b=j2NgAsQ4ZRwlJ+N5KuhkVsQENZnbap3Xt7iOw/CFBxz8owagUt/4OkmjsXd2t1JANc/qef4v2OAC6VfmELjtDfBdwXe4DN4QDcI9675nKZW01LKF7SHw2G5Focpzb4htrNnPn1cMcwjCSBKfc8y8qEXG3cgBykwkp4YMw7AU6sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776940008; c=relaxed/simple;
-	bh=O+P4wm2/ex4bYwwUYpJX+D3chVWIzidBMygN2XgBtf0=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=B59IXYZO9cVwLgRu3bm4g91CD3yviuAOAhUZm+ZMlX36tlMj5gGiHYwUodpmOUi9bv5xkyVx44iKI2oV2cIjY9dw3S0s8j3GeywxbS29p46fqnoKLT4YaTkj9iP+oJIPwscmlcceC4G/FKXgbK9166HHcmK7Wx4nSxLAAjNoocU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=FgpSEX/p; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PbMCF4wu; arc=none smtp.client-ip=202.12.124.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1776941681; c=relaxed/simple;
+	bh=NHSuEK9H1801Db43XmFpxQoOeHBhCdehq8G+kH0L1gk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jDlroadPXekrm4gDacLvYqK+MVwDhWSMYOxtekTQ482LWqfj8ETED8qw0smmeiG3oHnBgVR+qJqRLqFGHymEEFQqM5W8u3x6s7VrKUcEkH5RoGBBA+IVfuE9c4Ik+dnAkd6WNKlO1z0tmmx21zZ2P6OyLkEtUJH12JuXQ46l/fE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WxCijv5T; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="FgpSEX/p";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PbMCF4wu"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id A64137A00EB;
-	Thu, 23 Apr 2026 06:26:44 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-04.internal (MEProxy); Thu, 23 Apr 2026 06:26:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1776940004;
-	 x=1777026404; bh=MivdOIkmxvQjBHx2aFyPQuZoyPRSFrsVHDXpJ+ckBGU=; b=
-	FgpSEX/plv/W4Mb0DlxhouzBUJjGIXd8wnf3bCmoDOR69UIq9nm1H+6m73vxPAPw
-	PRJQtSub9nB3h2JyjDEDyApKNKm9T5bYIRn6WLdOQrG0XdP5FPI/cFihqdqpBlGd
-	miYvmFRDicVmOa2TGLPgA+fMGbIUzlMkndLQDd5M0dxHSFRoo2xHUhbQBB19Wirv
-	mpmsPWpp/fOtKNGw9K7fwfsPPTNN2rxdRI+HGZUv//90HQxBzKTg8dOthcESGaZX
-	YsEcuOVtoZ0KNhLZr2Dg5rayjL/kIfbgLzob6atqG4hsTQUDC9BnTBRmacxuFriU
-	mLiHvGjq9pjX7n2SP7a6ZQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1776940004; x=
-	1777026404; bh=MivdOIkmxvQjBHx2aFyPQuZoyPRSFrsVHDXpJ+ckBGU=; b=P
-	bMCF4wuCiT4jMUwYhEX2zK71n2txzv2ifcFMhigJcR552Qqs76qT0GqqHI5L57Ij
-	EzgDz5hHsj+bac3/+AtmmiRd7Cgcz8l0+/BAA6HnsoHlqV0wc8/0PTYpnXrpCVuk
-	huYixvY+6n8+OowHVAAYIes33HnCYePyxKSU+6z1mX3gyvTyjQxUBMwh50oglQFQ
-	NIJV/UvUgXn3396JSJs15KK+9Sd0sgvZxr33fY25BcFgryBJK+IsoS2O1DahOeNa
-	Rw6B8yw1+mwRvE/zAuAo+9Ijjpgmx1TNi7nTNQBtxBse6JGjGp8NdyCESwui4udK
-	lk2ZRUZCxXOHJgKEVosFA==
-X-ME-Sender: <xms:4_PpaT5PMIUYfn7mOkY1ayW8g2D_3V47jqVek4rncrGOoOZoGxZQtA>
-    <xme:4_PpaTtFeskCP0-ATEskM-26uX-6MzZa3h9ApyfamW6uideXEFoZjl8B1wjSGEmka
-    OboiOPiF7373HvC1EmHW3dZIzKb1FoC0Fwxm7mw0EagyH3Fjdm2pw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeiieeludcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
-    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
-    hnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffgvedugeduveelvdekhfdvieen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
-    esrghrnhgusgdruggvpdhnsggprhgtphhtthhopedufedpmhhouggvpehsmhhtphhouhht
-    pdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhope
-    gtlhgrsggsvgdrmhhonhhtjhhoihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgv
-    rhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepohhvihguih
-    hurdhprghnrghithdrohhsshesghhmrghilhdrtghomhdprhgtphhtthhopehhvghrsggv
-    rhhtsehgohhnughorhdrrghprghnrgdrohhrghdrrghupdhrtghpthhtoheprghrnhguse
-    hkvghrnhgvlhdrohhrghdprhgtphhtthhopegvsghighhgvghrsheskhgvrhhnvghlrdho
-    rhhgpdhrtghpthhtohepfigvnhhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlih
-    hnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrgh
-X-ME-Proxy: <xmx:4_PpacKrPTDbBfVgWw4h7Db_rVitnkes77zmZMdHp0-Xe-DzTvoz5w>
-    <xmx:4_PpaYjtSsYvCOqvRIzroMTAxteUcChYAA7erAMKc_rao7-8ijTA-w>
-    <xmx:4_PpaRLkauvjs1BhfTJptKQqVyZBB8_1wm1f4woP9y1piO7zK-_OXQ>
-    <xmx:4_PpaXhcOKmuy8xwE4Twmt9YXXBSKDzx5rIRLPJgCr9rKsrMmyrW9A>
-    <xmx:5PPpaV6E71ficY6P-Gdilt8vVm8y7wj56FENryeW1JuGLTETGS1H4Ins>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id AD3C3700065; Thu, 23 Apr 2026 06:26:43 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WxCijv5T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0B62C2BCAF;
+	Thu, 23 Apr 2026 10:54:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776941681;
+	bh=NHSuEK9H1801Db43XmFpxQoOeHBhCdehq8G+kH0L1gk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WxCijv5TIR/9gGmkrkA9sAHJW6JXbPHQvkzsGe9yqQ8AubEAUNc91qyNB+AofYwim
+	 kj5xQUhGJ4T8tWnTTpPmx0A4CPxm2QN4GDj3LtX1iO95Dmyy25IpB91spjE/Vp0tby
+	 b4/WKR1iizP+jJO42X4ewEp39VOJerxmaNoxuBpBQCC1PN/7L5QSq9b5d2S9fvMgzJ
+	 xhf93I4scNVIZVURuKIeKnYn21K7wZG6PTp5OUFUBiX5JaYxc8vRFOObJ+/TCsgIpM
+	 wGZeBzkERIYUnBHU6gyaqMhrFRS24ff+5tNI52FVZI64QP2yVusjoqR2sUcvOd9t+j
+	 wFH21U6FY0oyw==
+Date: Thu, 23 Apr 2026 12:54:38 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Jyri Sarha <jyri.sarha@iki.fi>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Simon Ser <contact@emersion.fr>, 
+	Harry Wentland <harry.wentland@amd.com>, Melissa Wen <mwen@igalia.com>, 
+	Sebastian Wick <sebastian.wick@redhat.com>, Alex Hung <alex.hung@amd.com>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+	Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>, 
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 08/20] drm/plane: Add new atomic_create_state callback
+Message-ID: <20260423-fragrant-tody-of-inquire-a9f455@houat>
+References: <20260320-drm-mode-config-init-v2-0-c63f1134e76c@kernel.org>
+ <20260320-drm-mode-config-init-v2-8-c63f1134e76c@kernel.org>
+ <55c24dca-e354-49d1-8eaa-edf66f679428@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: AavW3N6gTEK7
-Date: Thu, 23 Apr 2026 12:26:23 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Herbert Xu" <herbert@gondor.apana.org.au>
-Cc: "Arnd Bergmann" <arnd@kernel.org>,
- "Corentin Labbe" <clabbe.montjoie@gmail.com>,
- "David S . Miller" <davem@davemloft.net>, "Chen-Yu Tsai" <wens@kernel.org>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Samuel Holland" <samuel@sholland.org>, "Eric Biggers" <ebiggers@kernel.org>,
- "Ovidiu Panait" <ovidiu.panait.oss@gmail.com>, linux-crypto@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Message-Id: <3948e39f-dd20-44e2-b264-dc2a0a88f5b5@app.fastmail.com>
-In-Reply-To: <aenmEQNhhw9bnxEa@gondor.apana.org.au>
-References: <20260423065600.2081989-1-arnd@kernel.org>
- <aenfmxOvtHaAODqH@gondor.apana.org.au>
- <1cd6ddc3-479c-4cbf-8315-78bc53ac3a54@app.fastmail.com>
- <aenmEQNhhw9bnxEa@gondor.apana.org.au>
-Subject: Re: [PATCH] crypto: sun8i-ss - avoid hash and rng references
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="vpcnf3kbfe5e5pil"
+Content-Disposition: inline
+In-Reply-To: <55c24dca-e354-49d1-8eaa-edf66f679428@suse.de>
 
-On Thu, Apr 23, 2026, at 11:27, Herbert Xu wrote:
-> On Thu, Apr 23, 2026 at 11:25:19AM +0200, Arnd Bergmann wrote:
->>
->> Yes, I can rework the patch that way. I had considered this originally
->> but decided this would end up less readable in this case because
->> of the extra indentation level. The drivers already has a lot of
->> #ifdef checks, so adding more of those felt more in line with the
->> style used here.
->
-> If we're adding new code I prefer doing it inline instead of as
-> an ifdef so that we maximise compiler coverage.
 
-Sure, but I'm not adding new code here, I only reported a regression
-from Eric's (otherwise very nice) cleanup and tried to come up
-with a better workaround than adding another 'select'.
+--vpcnf3kbfe5e5pil
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 08/20] drm/plane: Add new atomic_create_state callback
+MIME-Version: 1.0
 
-I've tried to rework one driver to use IS_ENABLED() checks now
-instead of the #ifdef, and also replace the for()/switch()
-loop with three separate loops for simplicity. See below for
-what I ended up with compared with my first patch.
+On Tue, Apr 21, 2026 at 03:22:22PM +0200, Thomas Zimmermann wrote:
+> Hi
+>=20
+> Am 20.03.26 um 17:27 schrieb Maxime Ripard:
+> > Commit 47b5ac7daa46 ("drm/atomic: Add new atomic_create_state callback
+> > to drm_private_obj") introduced a new pattern for allocating drm object
+> > states.
+> >=20
+> > Instead of relying on the reset() callback, it created a new
+> > atomic_create_state hook. This is helpful because reset is a bit
+> > overloaded: it's used to create the initial software state, reset it,
+> > but also reset the hardware.
+> >=20
+> > It can also be used either at probe time, to create the initial state
+> > and possibly reset the hardware to an expected default, but also during
+> > suspend/resume.
+> >=20
+> > Both these cases come with different expectations too: during the
+> > initialization, we want to initialize all states, but during
+> > suspend/resume, drm_private_states for example are expected to be kept
+> > around.
+> >=20
+> > And reset() isn't fallible, which makes it harder to handle
+> > initialization errors properly.
+> >=20
+> > And this is only really relevant for some drivers, since all the helpers
+> > for reset only create a new state, and don't touch the hardware at all.
+> >=20
+> > It was thus decided to create a new hook that would allocate and
+> > initialize a pristine state without any side effect:
+> > atomic_create_state to untangle a bit some of it, and to separate the
+> > initialization with the actual reset one might need during a
+> > suspend/resume.
+> >=20
+> > Let's continue the transition to the new pattern with planes.
+> >=20
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >   drivers/gpu/drm/drm_atomic_state_helper.c | 44 ++++++++++++++++++++++=
++++++++++
+> >   drivers/gpu/drm/drm_mode_config.c         | 21 ++++++++++++++-
+> >   include/drm/drm_atomic_state_helper.h     |  4 +++
+> >   include/drm/drm_plane.h                   | 13 +++++++++
+> >   4 files changed, 81 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/dr=
+m/drm_atomic_state_helper.c
+> > index 2548d6da13675f63304dc92423c5d225de0447a8..f4ce9d3573cbecf216904db=
+54335e0cf84a01c39 100644
+> > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> > @@ -319,10 +319,29 @@ void __drm_atomic_helper_plane_reset(struct drm_p=
+lane *plane,
+> >   	plane->state =3D plane_state;
+> >   }
+> >   EXPORT_SYMBOL(__drm_atomic_helper_plane_reset);
+> > +/**
+> > + * __drm_atomic_helper_plane_create_state - initializes plane state
+> > + * @plane: plane object
+> > + * @state: new state to initialize
+> > + *
+> > + * Initializes the newly allocated @state, usually required when
+> > + * initializing the drivers.
+> > + *
+> > + * @state is assumed to be zeroed.
+> > + *
+> > + * This is useful for drivers that subclass @drm_plane_state.
+> > + */
+> > +void __drm_atomic_helper_plane_create_state(struct drm_plane *plane,
+> > +					    struct drm_plane_state *state)
+> > +{
+> > +	__drm_atomic_helper_plane_state_init(state, plane);
+> > +}
+> > +EXPORT_SYMBOL(__drm_atomic_helper_plane_create_state);
+>=20
+> Will this function have another purpuse?=A0 Could we just call
+> _plane_state_init() directly from anywhere?
 
-I'm still not entirely happy with that version either, especially
-since this is getting beyond a purely mechanical cleanup.
-If you think this is better, I can do it for all three drivers,
-otherwise I'd just send the oneline change to work around the
-third driver link failure the same way that Eric did for the
-other two, and let the sunxi maintainters worry about cleaning
-it up.
+Yeah, I guess that makes sense. I'll drop that patch and the similar ones.
 
-      Arnd
+Thanks!
+Maxime
 
-diff --git a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
-index 813c4bc6312a..330a1ed7eb03 100644
---- a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
-+++ b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
-@@ -31,7 +31,7 @@ static const struct ss_variant ss_a33_variant = {
- 	.sha1_in_be = true,
- };
- 
--static struct sun4i_ss_alg_template ss_algs[] = {
-+static struct sun4i_ss_alg_template ss_ahash_algs[] = {
- {       .type = CRYPTO_ALG_TYPE_AHASH,
- 	.mode = SS_OP_MD5,
- 	.alg.hash = {
-@@ -84,6 +84,9 @@ static struct sun4i_ss_alg_template ss_algs[] = {
- 		}
- 	}
- },
-+};
-+
-+static struct sun4i_ss_alg_template ss_skcipher_algs[] = {
- {       .type = CRYPTO_ALG_TYPE_SKCIPHER,
- 	.alg.crypto = {
- 		.setkey         = sun4i_ss_aes_setkey,
-@@ -213,7 +216,9 @@ static struct sun4i_ss_alg_template ss_algs[] = {
- 		}
- 	}
- },
--#ifdef CONFIG_CRYPTO_DEV_SUN4I_SS_PRNG
-+};
-+
-+static struct sun4i_ss_alg_template ss_rng_algs[] = {
- {
- 	.type = CRYPTO_ALG_TYPE_RNG,
- 	.alg.rng = {
-@@ -229,40 +234,46 @@ static struct sun4i_ss_alg_template ss_algs[] = {
- 		.seedsize               = SS_SEED_LEN / BITS_PER_BYTE,
- 	}
- },
--#endif
- };
- 
- static int sun4i_ss_debugfs_show(struct seq_file *seq, void *v)
- {
- 	unsigned int i;
- 
--	for (i = 0; i < ARRAY_SIZE(ss_algs); i++) {
--		if (!ss_algs[i].ss)
-+	for (i = 0; i < ARRAY_SIZE(ss_skcipher_algs); i++) {
-+		if (!ss_skcipher_algs[i].ss)
- 			continue;
--		switch (ss_algs[i].type) {
--		case CRYPTO_ALG_TYPE_SKCIPHER:
--			seq_printf(seq, "%s %s reqs=%lu opti=%lu fallback=%lu tsize=%lu\n",
--				   ss_algs[i].alg.crypto.base.cra_driver_name,
--				   ss_algs[i].alg.crypto.base.cra_name,
--				   ss_algs[i].stat_req, ss_algs[i].stat_opti, ss_algs[i].stat_fb,
--				   ss_algs[i].stat_bytes);
--			break;
--#ifdef CONFIG_CRYPTO_DEV_SUN4I_SS_PRNG
--		case CRYPTO_ALG_TYPE_RNG:
--			seq_printf(seq, "%s %s reqs=%lu tsize=%lu\n",
--				   ss_algs[i].alg.rng.base.cra_driver_name,
--				   ss_algs[i].alg.rng.base.cra_name,
--				   ss_algs[i].stat_req, ss_algs[i].stat_bytes);
--			break;
--#endif
--		case CRYPTO_ALG_TYPE_AHASH:
--			seq_printf(seq, "%s %s reqs=%lu\n",
--				   ss_algs[i].alg.hash.halg.base.cra_driver_name,
--				   ss_algs[i].alg.hash.halg.base.cra_name,
--				   ss_algs[i].stat_req);
--			break;
--		}
-+		seq_printf(seq, "%s %s reqs=%lu opti=%lu fallback=%lu tsize=%lu\n",
-+			   ss_skcipher_algs[i].alg.crypto.base.cra_driver_name,
-+			   ss_skcipher_algs[i].alg.crypto.base.cra_name,
-+			   ss_skcipher_algs[i].stat_req,
-+			   ss_skcipher_algs[i].stat_opti,
-+			   ss_skcipher_algs[i].stat_fb,
-+			   ss_skcipher_algs[i].stat_bytes);
- 	}
-+
-+	for (i = 0; i < ARRAY_SIZE(ss_ahash_algs); i++) {
-+		if (!ss_ahash_algs[i].ss)
-+			continue;
-+
-+		seq_printf(seq, "%s %s reqs=%lu tsize=%lu\n",
-+			   ss_ahash_algs[i].alg.rng.base.cra_driver_name,
-+			   ss_ahash_algs[i].alg.rng.base.cra_name,
-+			   ss_ahash_algs[i].stat_req,
-+			   ss_ahash_algs[i].stat_bytes);
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(ss_rng_algs); i++) {
-+		if (!IS_ENABLED(CONFIG_CRYPTO_DEV_SUN4I_SS_PRNG) ||
-+		    !ss_rng_algs[i].ss)
-+			continue;
-+
-+		seq_printf(seq, "%s %s reqs=%lu\n",
-+			   ss_rng_algs[i].alg.hash.halg.base.cra_driver_name,
-+			   ss_rng_algs[i].alg.hash.halg.base.cra_name,
-+			   ss_rng_algs[i].stat_req);
-+	}
-+
- 	return 0;
- }
- DEFINE_SHOW_ATTRIBUTE(sun4i_ss_debugfs);
-@@ -454,34 +465,36 @@ static int sun4i_ss_probe(struct platform_device *pdev)
- 
- 	pm_runtime_put_sync(ss->dev);
- 
--	for (i = 0; i < ARRAY_SIZE(ss_algs); i++) {
--		ss_algs[i].ss = ss;
--		switch (ss_algs[i].type) {
--		case CRYPTO_ALG_TYPE_SKCIPHER:
--			err = crypto_register_skcipher(&ss_algs[i].alg.crypto);
--			if (err) {
--				dev_err(ss->dev, "Fail to register %s\n",
--					ss_algs[i].alg.crypto.base.cra_name);
--				goto error_alg;
--			}
--			break;
--		case CRYPTO_ALG_TYPE_AHASH:
--			err = crypto_register_ahash(&ss_algs[i].alg.hash);
--			if (err) {
--				dev_err(ss->dev, "Fail to register %s\n",
--					ss_algs[i].alg.hash.halg.base.cra_name);
--				goto error_alg;
--			}
--			break;
--#ifdef CONFIG_CRYPTO_DEV_SUN4I_SS_PRNG
--		case CRYPTO_ALG_TYPE_RNG:
--			err = crypto_register_rng(&ss_algs[i].alg.rng);
--			if (err) {
--				dev_err(ss->dev, "Fail to register %s\n",
--					ss_algs[i].alg.rng.base.cra_name);
--			}
-+	for (i = 0; i < ARRAY_SIZE(ss_skcipher_algs); i++) {
-+		ss_skcipher_algs[i].ss = ss;
-+		err = crypto_register_skcipher(&ss_skcipher_algs[i].alg.crypto);
-+		if (err) {
-+			dev_err(ss->dev, "Fail to register %s\n",
-+				ss_skcipher_algs[i].alg.crypto.base.cra_name);
-+			goto error_skcipher_alg;
-+		}
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(ss_ahash_algs); i++) {
-+		ss_ahash_algs[i].ss = ss;
-+		err = crypto_register_ahash(&ss_ahash_algs[i].alg.hash);
-+		if (err) {
-+			dev_err(ss->dev, "Fail to register %s\n",
-+				ss_ahash_algs[i].alg.hash.halg.base.cra_name);
-+			goto error_ahash_alg;
-+		}
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(ss_rng_algs); i++) {
-+		if (!IS_ENABLED(CONFIG_CRYPTO_DEV_SUN4I_SS_PRNG))
- 			break;
--#endif
-+
-+		ss_rng_algs[i].ss = ss;
-+		err = crypto_register_rng(&ss_rng_algs[i].alg.rng);
-+		if (err) {
-+			dev_err(ss->dev, "Fail to register %s\n",
-+				ss_rng_algs[i].alg.rng.base.cra_name);
-+			goto error_rng_alg;
- 		}
- 	}
- 
-@@ -491,23 +504,20 @@ static int sun4i_ss_probe(struct platform_device *pdev)
- 					      &sun4i_ss_debugfs_fops);
- 
- 	return 0;
--error_alg:
--	i--;
--	for (; i >= 0; i--) {
--		switch (ss_algs[i].type) {
--		case CRYPTO_ALG_TYPE_SKCIPHER:
--			crypto_unregister_skcipher(&ss_algs[i].alg.crypto);
--			break;
--		case CRYPTO_ALG_TYPE_AHASH:
--			crypto_unregister_ahash(&ss_algs[i].alg.hash);
--			break;
--#ifdef CONFIG_CRYPTO_DEV_SUN4I_SS_PRNG
--		case CRYPTO_ALG_TYPE_RNG:
--			crypto_unregister_rng(&ss_algs[i].alg.rng);
--			break;
--#endif
--		}
-+
-+error_rng_alg:
-+	if (IS_ENABLED(CONFIG_CRYPTO_DEV_SUN4I_SS_PRNG)) {
-+		for (i--; i >= 0; i--)
-+			crypto_unregister_rng(&ss_rng_algs[i].alg.rng);
- 	}
-+	i = ARRAY_SIZE(ss_ahash_algs);
-+error_ahash_alg:
-+	for (i--; i >= 0; i--)
-+		crypto_unregister_ahash(&ss_ahash_algs[i].alg.hash);
-+	i = ARRAY_SIZE(ss_skcipher_algs);
-+error_skcipher_alg:
-+	for (i--; i >= 0; i--)
-+		crypto_unregister_skcipher(&ss_skcipher_algs[i].alg.crypto);
- error_pm:
- 	sun4i_ss_pm_exit(ss);
- 	return err;
-@@ -518,21 +528,14 @@ static void sun4i_ss_remove(struct platform_device *pdev)
- 	int i;
- 	struct sun4i_ss_ctx *ss = platform_get_drvdata(pdev);
- 
--	for (i = 0; i < ARRAY_SIZE(ss_algs); i++) {
--		switch (ss_algs[i].type) {
--		case CRYPTO_ALG_TYPE_SKCIPHER:
--			crypto_unregister_skcipher(&ss_algs[i].alg.crypto);
--			break;
--		case CRYPTO_ALG_TYPE_AHASH:
--			crypto_unregister_ahash(&ss_algs[i].alg.hash);
--			break;
--#ifdef CONFIG_CRYPTO_DEV_SUN4I_SS_PRNG
--		case CRYPTO_ALG_TYPE_RNG:
--			crypto_unregister_rng(&ss_algs[i].alg.rng);
--			break;
--#endif
--		}
-+	if (IS_ENABLED(CONFIG_CRYPTO_DEV_SUN4I_SS_PRNG)) {
-+		for (i = ARRAY_SIZE(ss_rng_algs); i >= 0; i--)
-+			crypto_unregister_rng(&ss_rng_algs[i].alg.rng);
- 	}
-+	for (i = ARRAY_SIZE(ss_ahash_algs); i >= 0; i--)
-+		crypto_unregister_ahash(&ss_ahash_algs[i].alg.hash);
-+	for (i = ARRAY_SIZE(ss_skcipher_algs) - 1; i >= 0; i--)
-+		crypto_unregister_skcipher(&ss_skcipher_algs[i].alg.crypto);
- 
- 	sun4i_ss_pm_exit(ss);
- }
+--vpcnf3kbfe5e5pil
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaen6bgAKCRAnX84Zoj2+
+dkUrAYDOMQH1R0rdVPEd0s+OfGrebhOcAQ5OABg6Mw53VpV+rFGnujuG6stJnEmW
+zh8kcmcBfR7oI+9DExvCM0FFCfUx1IhsnPmkBHlFUpZpKjsg81n0vRIsC71Orv1I
+q2H2sY1Pyw==
+=BF+U
+-----END PGP SIGNATURE-----
+
+--vpcnf3kbfe5e5pil--
