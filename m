@@ -1,89 +1,120 @@
-Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
+Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9D23DF01F;
-	Thu, 23 Apr 2026 09:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.181.231.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE2683E5564
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Apr 2026 09:25:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776934828; cv=none; b=SIlQM0zLBag1AF3z4Xq579wRb/sOw61onQmZdcJyt01Yb1bqYZbLIq/N/MNxzDwFVKcNFQWuomf+C0+SU9rBmktyEyZtQS6Pb0zz8YHCrJbiWRzhjX5F7rEUnBthNU4QJ1WL7zGVxB9hZh/2RYFtu65gwgmpMzCZTQQSMwwqgQ8=
+	t=1776936343; cv=none; b=aYTP9mOHGlznecBRwZUh/NsurJnHf9IMyA8u4jomQKsuilZnv4XVmGBM96gCZR6F5nTFkHE+iIthjDGCSQoQ91mgs15OY7MF4+2sZ1MDLBqw4rBZ/bO8XA21v1e0tR6JdPKmKX5+l++wKRXkg5CMPLeScRy8PV3o3C07EojLK+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776934828; c=relaxed/simple;
-	bh=9GLRlXD8R89QRKSo0VDxPUaNV3rb58H9I9inklx+S1E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ORLHGubqtBM1HQgd3qq/kkn5hbmb8ED/4JMKGQ8KFpua7KUg2gEkBEy7Qc9j7iWBwBJ3JWw4N/U/z8JgvH0yCsIqHby8alaVKNBA769cQa9k/jfMIc8Rd3pgnImZyPBZNY9kxWyAnl6j8k8PBnWTuapZmFdSiCTXW4vOWFCo45M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b=bFq9fzlt; arc=none smtp.client-ip=180.181.231.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+	s=arc-20240116; t=1776936343; c=relaxed/simple;
+	bh=zR7MLFg1ynjjPt6+aBM8Wz/yC2PoS1T1P9OYiRU4cV0=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=QjIyI2VJ+RJejTBlvwPAaLjlleXR87PtGIugYBuSZwbnx7vLlKiccGvThDSWd9vIlMSzIRzXXo9xXYrM61K6qy7hJpeLjnfmgHiRzLwU2p0dUVNwfu8hvJOBh4C+mmkaUMHMoIK+/Uuzuej+x1JBW70JO/tXItWwD7liSmfYCF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=iEZyMvGI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=KAqTdNDG; arc=none smtp.client-ip=103.168.172.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b="bFq9fzlt"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=gondor.apana.org.au; s=h01; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:cc:to:subject:message-id:date:
-	from:content-type:reply-to; bh=xBJpx/WgTzQTJVK4tn9rHHDlfR/K86CEVs4Z2TnHt0s=; 
-	b=bFq9fzltYEiVavjVtc+vdeaill1Bwv8zaChgD1DzEz7SvrhW6nwzteZ78GArSM8UAcVXm1FefAd
-	+DsbNkFiFzUmSQ9oAOQiU97ApNIvOLgL9UdtWvRLULmGWOqGHC3SNlPaBzppyTQHNsJx5eYedYmt+
-	rh4xVHeC4EuIGh2QXqAoFI4q/PGbsxVHpel9+cNa7IZO72Hu5VtShPHqAS4hWwi8Gx5ITNH90pl9Z
-	2dbJc/KBYIy176MUx+iApuQmOJ555QAP1gCAYU4svWazc8Mvfo3BecfI2CrMX4hc8nO+8PuDXAGbK
-	29CIUIkGUrhMMe6lOppy75v1i2uO4qQ6OSnA==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1wFput-008Bgo-2U;
-	Thu, 23 Apr 2026 17:00:12 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Thu, 23 Apr 2026 17:00:11 +0800
-Date: Thu, 23 Apr 2026 17:00:11 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Corentin Labbe <clabbe.montjoie@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Eric Biggers <ebiggers@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Ovidiu Panait <ovidiu.panait.oss@gmail.com>,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] crypto: sun8i-ss - avoid hash and rng references
-Message-ID: <aenfmxOvtHaAODqH@gondor.apana.org.au>
-References: <20260423065600.2081989-1-arnd@kernel.org>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="iEZyMvGI";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="KAqTdNDG"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 028D61400045;
+	Thu, 23 Apr 2026 05:25:41 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-04.internal (MEProxy); Thu, 23 Apr 2026 05:25:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1776936340;
+	 x=1777022740; bh=z9tx6ZvhNSiMNEaTpNc5/0pp6weDgLIpQjhkq9TEAHA=; b=
+	iEZyMvGIHgW0wj540ctrSrmH52Y3LiFnvXZ0w179IrIcCrd5Rv/AK38ZCLJeULtd
+	1dSFpX8TVeQkzFc8gEuCb4eUuCg0ZFSG9C0SW/hSaxEJaOwKKwJhd1NCCWiX2lCm
+	l7e9FY9LQu2b4Ws8A9P83eN2ueSch2CwTYmr5y4ToVpUMaO9qL4HD5EOSfS6r5Ce
+	9tDP6F9TnNd+Le5mdqushynF0BfEQK9XWiVBJJPIzRZ/GF2mDnwQx2c4V4rkbZ46
+	fAh3Gwjhi2CoO9gZnZtjDQtnyi3IostY0X0wEjp8o4R9UtJuXmoSaapgp+FUF30P
+	phq6mno/ZYMb0DjrTynEsw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1776936340; x=
+	1777022740; bh=z9tx6ZvhNSiMNEaTpNc5/0pp6weDgLIpQjhkq9TEAHA=; b=K
+	AqTdNDGCYbSSaooC1WMGi/4m/sgcT30E5y70WInZ+SctyYCX/WhOVcZF4SKfT9Hd
+	PA7e1XA80K87wgf8J4UmlseTHpVjMU2rzesjNEqUkZ1mAx2YAQYAhQU8YCFMKpjO
+	YcBNKho6hubSWCQAKnU7aqRDwYQyW6am6AjDSNTDOsd2vWRjwVb5zIiZc9kn2qs6
+	GMpP7SFKvT7ddiEve+98Wt8yiWAz/G62zqUP1WKX/1BPOEPCht5xgS6EhL0xU3ZM
+	PAHwTcoC/3w7MXn8KE7JLPfgg+t0qdOGYZGsnr2pFdm18JDrHlY0ZZYk3ya3E1U7
+	oJ8vedgtLcSZ91uZuk5eA==
+X-ME-Sender: <xms:k-XpaQWqOSmoclfETIPLIaQGTVIszlkVWN83g5PMBs6co3U_K50SVA>
+    <xme:k-Xpafa1eEqyM7exW0A6TyietSsHMjNJ4Ptx-IEQJxJASoyKgn_AdELcqoWL4okW7
+    gzbbyEnyKqkn2N_UQX6cQ0g2TIdaDRR-QC62IpBqy7OxhPna30JhA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeiieejkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
+    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
+    hnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffgvedugeduveelvdekhfdvieen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
+    esrghrnhgusgdruggvpdhnsggprhgtphhtthhopedufedpmhhouggvpehsmhhtphhouhht
+    pdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhope
+    gtlhgrsggsvgdrmhhonhhtjhhoihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgv
+    rhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepohhvihguih
+    hurdhprghnrghithdrohhsshesghhmrghilhdrtghomhdprhgtphhtthhopehhvghrsggv
+    rhhtsehgohhnughorhdrrghprghnrgdrohhrghdrrghupdhrtghpthhtoheprghrnhguse
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopegvsghighhgvghrsheskhgvrhhnvghlrdho
+    rhhgpdhrtghpthhtohepfigvnhhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlih
+    hnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrgh
+X-ME-Proxy: <xmx:k-XpaZkeh8LZUlhOkuLRTJa9THvDRelog_gvESb_Jw_fq4fVuNHfDQ>
+    <xmx:k-XpaRP98VxKbHsoICfZMZdhqLIzsX1RQ5iqSTMqeNKPsDNtdOP_bA>
+    <xmx:k-XpaUFkpwaWHJJiOrn2xcyoshHx1ofThKCCmCWh_8NodeNKtFbqBQ>
+    <xmx:k-XpaXsqeYoYd2hjD4q0m1roD1hSjjRSOaKB19ID7I39ihMiLngFkg>
+    <xmx:lOXpaQgmXkFLegwy3zTA8NrheDJSi4peEVaNe2WnGjdtUbSa4_f-uXfJ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 92CC5700065; Thu, 23 Apr 2026 05:25:39 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260423065600.2081989-1-arnd@kernel.org>
+X-ThreadId: AavW3N6gTEK7
+Date: Thu, 23 Apr 2026 11:25:19 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Herbert Xu" <herbert@gondor.apana.org.au>,
+ "Arnd Bergmann" <arnd@kernel.org>
+Cc: "Corentin Labbe" <clabbe.montjoie@gmail.com>,
+ "David S . Miller" <davem@davemloft.net>, "Chen-Yu Tsai" <wens@kernel.org>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Samuel Holland" <samuel@sholland.org>, "Eric Biggers" <ebiggers@kernel.org>,
+ "Ovidiu Panait" <ovidiu.panait.oss@gmail.com>, linux-crypto@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Message-Id: <1cd6ddc3-479c-4cbf-8315-78bc53ac3a54@app.fastmail.com>
+In-Reply-To: <aenfmxOvtHaAODqH@gondor.apana.org.au>
+References: <20260423065600.2081989-1-arnd@kernel.org>
+ <aenfmxOvtHaAODqH@gondor.apana.org.au>
+Subject: Re: [PATCH] crypto: sun8i-ss - avoid hash and rng references
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 23, 2026 at 08:55:42AM +0200, Arnd Bergmann wrote:
+On Thu, Apr 23, 2026, at 11:00, Herbert Xu wrote:
+> On Thu, Apr 23, 2026 at 08:55:42AM +0200, Arnd Bergmann wrote:
+> Does this work?
 >
-> diff --git a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
-> index 58a76e2ba64e..813c4bc6312a 100644
-> --- a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
-> +++ b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
-> @@ -247,12 +247,14 @@ static int sun4i_ss_debugfs_show(struct seq_file *seq, void *v)
->  				   ss_algs[i].stat_req, ss_algs[i].stat_opti, ss_algs[i].stat_fb,
->  				   ss_algs[i].stat_bytes);
->  			break;
-> +#ifdef CONFIG_CRYPTO_DEV_SUN4I_SS_PRNG
->  		case CRYPTO_ALG_TYPE_RNG:
->  			seq_printf(seq, "%s %s reqs=%lu tsize=%lu\n",
->  				   ss_algs[i].alg.rng.base.cra_driver_name,
->  				   ss_algs[i].alg.rng.base.cra_name,
->  				   ss_algs[i].stat_req, ss_algs[i].stat_bytes);
->  			break;
+> 			if (IS_ENABLED(CONFIG_CRYPTO_DEV_SUN4I_SS_PRNG))
+> 				seq_printf(seq, "%s %s reqs=%lu tsize=%lu\n",
+> 					   ss_algs[i].alg.rng.base.cra_driver_name,
+> 					   ss_algs[i].alg.rng.base.cra_name,
+> 					   ss_algs[i].stat_req, ss_algs[i].stat_bytes);
+> 			break;
 
-Does this work?
+Yes, I can rework the patch that way. I had considered this originally
+but decided this would end up less readable in this case because
+of the extra indentation level. The drivers already has a lot of
+#ifdef checks, so adding more of those felt more in line with the
+style used here.
 
-			if (IS_ENABLED(CONFIG_CRYPTO_DEV_SUN4I_SS_PRNG))
-				seq_printf(seq, "%s %s reqs=%lu tsize=%lu\n",
-					   ss_algs[i].alg.rng.base.cra_driver_name,
-					   ss_algs[i].alg.rng.base.cra_name,
-					   ss_algs[i].stat_req, ss_algs[i].stat_bytes);
-			break;
-
-Thanks,
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+     Arnd
