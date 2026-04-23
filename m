@@ -1,92 +1,122 @@
-Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A0320B810;
-	Thu, 23 Apr 2026 11:09:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.181.231.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E9413033DF
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Apr 2026 17:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776942570; cv=none; b=BFD9G4Y7/+lpQFHciHSiFRBouWoqL/nbDM+P5lv1bUewxQbWj9y5uUXaU0KYDjMOCdSuhczXNcNOgvaC4qN3xO/smZLP5KgqynW2BE3XXz9BxNetbKqONidDEZI895jXlVqPTd7tQir7ZonrJqkGwbpGwt56813a4PU5T6l8DT4=
+	t=1776966030; cv=none; b=nbeMumC8IWfpb+b7827CPDeybhvI8txl6QEYrOF/sr3NMTTzfH5//O4LT5+APY3xQXE78ZNHZERg/B+WgoU+jgKhozlookIuOby5zl6Ty+YPNSMjAmsFrjC6EdXn1mjPmSZx9Rh9Y2lQhtwc9ldh1pqT9B+nqPCN3WPSB61c2cc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776942570; c=relaxed/simple;
-	bh=ccu6EmSmTWTy090+Ka/iFmSk702D+KDJFdMw9SSG35M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fil4Vxuu4Wib+KXtEJDQlVRNVQrixvhAj/gqV3w5Wx2B6QxYkvpdDzOhqVwGGAOmPM24BloggMt+Vbbdr/7M5kca6bYnETgvRwGEEE2TXVIPiTNyAyG6+0togF5jSMmot3l9rCsn2ZlTZ7iY0c5dgSfhkxKLTpJ225/JiHzcOTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b=YQXiwRPA; arc=none smtp.client-ip=180.181.231.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+	s=arc-20240116; t=1776966030; c=relaxed/simple;
+	bh=XgrAYH9zyZ8GEDXh9PXMD2SHfz1fhwSBj7apxECq0po=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=VnMCwOLrK+wQdBkf1Qt0IwdrrEzMe/0zhxGsId6rOFEabDaR64ArhGo3qV11XK4R9qK0YpTrYWnz7fkHH9t7waNtAIge80tkbElUQlkyjKunHKDlOKfRn1hGADrEv3CcKhLRAuU1EkiQjvsE9btCYAL/Doh9DFL9av2JzAfyQRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kevinmehall.net; spf=pass smtp.mailfrom=kevinmehall.net; dkim=pass (2048-bit key) header.d=kevinmehall.net header.i=@kevinmehall.net header.b=tku6KaFn; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=phGDolUi; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kevinmehall.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kevinmehall.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b="YQXiwRPA"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=gondor.apana.org.au; s=h01; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:cc:to:subject:message-id:date:
-	from:content-type:reply-to; bh=xXwNgY+WRRCQRx1M0mqaUAIHObx/PwdHncNqoa+Z/Qo=; 
-	b=YQXiwRPAdBDMK97uQ4DtCe8+qwsZ4W7mhOMNOYWqVs6kTyacEmaGoiWPhDiy2tB7Ho1RwIVPKIE
-	w5m3txl34RAHy43RGnHnGNAq8fxAGTfJXT3QR5HAsgHI7y3LMlVN9XoCDn/YhjtjqMtDXOgLhNVZU
-	Aws2E5Xa4Un0IyZHYurKG2PgHfnEZYjrJNFyDGFmRDLfaH+ogbwmV1KuzULz+jhfVjMvmbomEqLye
-	Icxim6TGB0UXEeu0cg/Ag6snsSAXHKkbhuqdkKBfugz35MVHqBIa6yo1xhiW+10tLxD/VHdMA8iXj
-	s6r6jJnB1dp70WOtt1TzsHMp1Alm7JtLstgQ==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1wFrve-008DiK-2T;
-	Thu, 23 Apr 2026 19:09:07 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Thu, 23 Apr 2026 19:09:06 +0800
-Date: Thu, 23 Apr 2026 19:09:06 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Arnd Bergmann <arnd@kernel.org>,
-	Corentin Labbe <clabbe.montjoie@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
+	dkim=pass (2048-bit key) header.d=kevinmehall.net header.i=@kevinmehall.net header.b="tku6KaFn";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="phGDolUi"
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 7ED2C14000A4;
+	Thu, 23 Apr 2026 13:40:26 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-07.internal (MEProxy); Thu, 23 Apr 2026 13:40:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kevinmehall.net;
+	 h=cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm1; t=1776966026; x=1777052426; bh=01LiWtizoFsYLgbrSHDfC
+	bjty9gM6V4P76wUHHJkQZw=; b=tku6KaFneBXtTj8b6/gB170QNGT47snJVk2Va
+	SGDTaF9NIgwuZs5k5nhcrQrwBuddfPTT8B91OZ1QR71sgtEoSAX5Ez/CycVq2iKl
+	meON4Rfoh2ge/1hU4zQWq+NAO8UIhWznR2TBGmerljau9RnYUO2AZA6BD9W2fK8A
+	znATskO3OvsqWMJgbJPIqiuvAxzcMtPiYtgmgyUg2qzXvVlmxLcB9DFeAxYEfPmq
+	NN3iwTS/YI4TDo0piMUtydLEGxj8mYyxtuOGo2rm6+rx5Vu018ZG2WkkbL2ANie3
+	rgKBfTzWwXAglAi0X/lBAjLdus3xK5sClU0oxvFwTfrakQViQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:date:feedback-id:feedback-id:from:from:in-reply-to
+	:message-id:mime-version:reply-to:subject:subject:to:to
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1776966026; x=1777052426; bh=01LiWtizoFsYLgbrSHDfCbjty9gM6V4P76w
+	UHHJkQZw=; b=phGDolUioigZJsGUmKx5LQgy/WlWo0BRUG9PM1Hy7GnH0uC55Pw
+	oppC7EBmDbDBlKycgAGMYR1OEBb1J5aOsMhmytumFOE4P9Lf7PelAvRGc8A6GYLn
+	0CDNo2Igx56EmgMrx0FBu7O6ElCMRRgC7Uw+KNzx50kMD/6/yjsQYDAYfz7HBX5S
+	5soaMAsK6rJNx6dHqcaqDJ/ECBSmt8WF4uBmU9QLxMJC0vjBsAeci8R1tvDXssuT
+	nMydGei0ERPfYB4M9dIXJbelDHTycbxV2MErRHFUfwXa5jxTpYZrY9cu7ujZKdsF
+	W8HbFs9wTG8vzLnTwb07HvnjlpCE3zfwaEA==
+X-ME-Sender: <xms:iVnqaVCbKKVT6DjPHsbHyMehSaZ3QQ87grEbmvFLHSx7pOvu74VlKQ>
+    <xme:iVnqabsRBh7k5LCgQi8dzMb_PtppwoHXvVRJlg3cqsUtVUsRQhChHw6Obuh_Q44H3
+    sEO_nztkyzDilz0F92koPmidRyPsC9utlBFZS9IRShOujy0DJ_BiA>
+X-ME-Received: <xmr:iVnqacJQYkhw4C_ETbWQKkMzsnaV7sjcsJUBSdHdjM-Imldjiwz-9M2D8LC1>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeijeejjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepmfgvvhhinhcuofgvhhgr
+    lhhluceokhhmsehkvghvihhnmhgvhhgrlhhlrdhnvghtqeenucggtffrrghtthgvrhhnpe
+    ejteeludehkeffudegheelkefgleethffgieefffetvdekfeelgeejueeuffehjeenucev
+    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehkmheskhgvvh
+    hinhhmvghhrghllhdrnhgvthdpnhgspghrtghpthhtohepuddtpdhmohguvgepshhmthhp
+    ohhuthdprhgtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlhdrohhrghdprhgtphhtth
+    hopeifvghnsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhgvrhhnvghjrdhskhhr
+    rggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshgrmhhuvghlsehshhholhhlrg
+    hnugdrohhrghdprhgtphhtthhopehmihhrkhhoqdguvghvkihlihhnuhigsehnrghnlhdr
+    uggvpdhrtghpthhtoheprhhstgesrhhunhhtuhigrdgtohhmpdhrtghpthhtoheplhhinh
+    hugidqshhpihesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhig
+    qdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtph
+    htthhopehlihhnuhigqdhsuhhngihisehlihhsthhsrdhlihhnuhigrdguvghv
+X-ME-Proxy: <xmx:iVnqaaY0uzf8MaQEk7Y6fOm7YW3jNMEqmZvNgOCyjWRF3ml6Vbrttw>
+    <xmx:iVnqaWDSWGBy9RCNlT74hbhBE6HxtRegRYRUIQLhvEXQvpHzKjsWNA>
+    <xmx:iVnqacalOPrqjsTwgMRoQ0GlsDOXZ7WrSX-8i3fNg16sONahIQPiOQ>
+    <xmx:iVnqaWmUYcUeje8QvJ50XYlxfvBq9xHGAH3g-gNAoj263khJDXVfcA>
+    <xmx:ilnqaTUreEHB4w3ngZJ8u52gKs36ylFp6GHUAsjppZT4qoht3ybUlprD>
+Feedback-ID: i421842c8:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 23 Apr 2026 13:40:24 -0400 (EDT)
+From: Kevin Mehall <km@kevinmehall.net>
+To: Mark Brown <broonie@kernel.org>,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Ovidiu Panait <ovidiu.panait.oss@gmail.com>,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] crypto: sun8i-ss - avoid hash and rng references
-Message-ID: <aen90oUsJwvamhzL@gondor.apana.org.au>
-References: <20260423065600.2081989-1-arnd@kernel.org>
- <aenfmxOvtHaAODqH@gondor.apana.org.au>
- <1cd6ddc3-479c-4cbf-8315-78bc53ac3a54@app.fastmail.com>
- <aenmEQNhhw9bnxEa@gondor.apana.org.au>
- <3948e39f-dd20-44e2-b264-dc2a0a88f5b5@app.fastmail.com>
+	Mirko Vogt <mirko-dev|linux@nanl.de>,
+	Ralf Schlatterbeck <rsc@runtux.com>,
+	linux-spi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] spi: sun6i: Fix chip select handling around autosuspend
+Date: Thu, 23 Apr 2026 11:39:59 -0600
+Message-ID: <20260423174001.2797797-1-km@kevinmehall.net>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3948e39f-dd20-44e2-b264-dc2a0a88f5b5@app.fastmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 23, 2026 at 12:26:23PM +0200, Arnd Bergmann wrote:
->
-> Sure, but I'm not adding new code here, I only reported a regression
-> from Eric's (otherwise very nice) cleanup and tried to come up
-> with a better workaround than adding another 'select'.
-> 
-> I've tried to rework one driver to use IS_ENABLED() checks now
-> instead of the #ifdef, and also replace the for()/switch()
-> loop with three separate loops for simplicity. See below for
-> what I ended up with compared with my first patch.
-> 
-> I'm still not entirely happy with that version either, especially
-> since this is getting beyond a purely mechanical cleanup.
-> If you think this is better, I can do it for all three drivers,
-> otherwise I'd just send the oneline change to work around the
-> third driver link failure the same way that Eric did for the
-> other two, and let the sunxi maintainters worry about cleaning
-> it up.
+Move the initialization of the SUN6I_TFR_CTL_REG bits out of
+sun6i_spi_transfer_one() into earlier callbacks to fix two bugs:
 
-Sorry, I made my comment based on your original patch only which
-simply added ifdefs.
+ - With a native chip select, the setup_delay is not correctly applied to
+   the first transfer after autosuspend.
+ - With a GPIO chip select, the CS is asserted before SCK is driven to the
+   correct initial level per the SPI mode. When the mode is set, it can
+   cause an extra SCK transition with CS low and corrupt the transfer.
+ 
+Changes since the previous single patch:
+ - Move the line that sets `SUN6I_TFR_CTL_CS_MANUAL` into
+  `sun6i_spi_set_cs()` rather than into `sun6i_spi_prepare_message()`.
+  This change is now a separate commit.
 
-Now that I see the wider context in the driver, I'm happy to take
-your original patch as is.
+Kevin Mehall (2):
+  spi: sun6i: Honor CS setup delay on the first transfer with native CS
+  spi: sun6i: Set SPI mode in prepare_message
 
-Thanks,
+ drivers/spi/spi-sun6i.c | 74 +++++++++++++++++++++++++----------------
+ 1 file changed, 45 insertions(+), 29 deletions(-)
+
+
+base-commit: 028ef9c96e96197026887c0f092424679298aae8
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+2.53.0
+
