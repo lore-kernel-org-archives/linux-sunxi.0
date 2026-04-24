@@ -1,358 +1,190 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D9F81ACEDF;
-	Fri, 24 Apr 2026 10:13:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438B217D6;
+	Fri, 24 Apr 2026 10:19:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777025637; cv=none; b=EQRzyDwsMxnJTFxEPCivISENod4qPsrnSXBXkftoz0tjuONLbbYHRXlwzNziApZHxPWJGpwYz1yAscNZ+EY+UOEs1VOG6+5tH40rlZE43IB5pjUtlpg6uJXiQ5xxQIblcMjqKs5i37zCzvDJed7HG85FJTd5//rxpik5pJD/9uI=
+	t=1777025941; cv=none; b=jvzOXJOkqDD12hjL75xwo+ZKb/Q5k2XkVZkBoq0ebvp6xVHw49dEC+qiRj1UyI9fQyzB8ICjLiFNpHAhfqnsH2GD/WQeuHpHSxLczI/WmA9Fzwm5gYszw2E/Ysy2yDmKwsBnE3qanAANK4cIhJ7OhGsFe8a1v1UXCDYpnNXXwWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777025637; c=relaxed/simple;
-	bh=t177GNxpYQx3XFWvysW1fq+ESjiafp+KZ6iHk2sP/ig=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cm0o6+mJlhLRhJbZWgt0dbjMX9oswJudqPFY0S6uEdCkCFz37StF2SUpU6Bn+ocByjJhLhmK0d0NMimeLWCGt83fUYLYuVMJSLWdtE7bI9fJnRfC6WKur/o+Th6Qnar+6zPhjFPW9QObzbznGjVc/7WjY48FpkMEaYn9iZrOIcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=geGxdJvA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777025941; c=relaxed/simple;
+	bh=skKWtWqkXldvhuwp2U5Xxf4qnnjX9+jASZIFkxD8u5A=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=BLUlpmy52Ci2AA+c16HdPqxvrc/5SnZPifvX4lr2BTKmPQAztV4adngCo1IJObfjw0Xv4+yQP5ItOgI/JNGCQTAYIiuv7PXvT/1HsyZCw3E2Pc5W7Vo3uvG+78CDAEcDa+fzNz0ktAU4a4oJ5xPNdaPhEFmEjXy1imnokbd3h+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ktmbp0HM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="geGxdJvA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AFE9C19425;
-	Fri, 24 Apr 2026 10:13:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ktmbp0HM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65ABAC19425;
+	Fri, 24 Apr 2026 10:19:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777025636;
-	bh=t177GNxpYQx3XFWvysW1fq+ESjiafp+KZ6iHk2sP/ig=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=geGxdJvA75Bs5geXi6ICsODk213tDp+XcM60ceWfPa9pAtQylvHYnR7byDMcwpc8g
-	 moFP4rRQ+EBNAr8xjLH+ITLCgWngWZJQa8F+y7XiIGxjnGzIh28EjhQAcRsVdgQeQu
-	 r6djFhH8ksjUJzEglfG1ZCwAEiPtfwxH2WqCLIgakpV+gj/esKAQ5j90c3c5TvZiV9
-	 Ct2FXphWI2laTQvbhaXSHPrnJWM6az8v7VHWDyhJ2Nujki5/11Q6VsqLH236IO7i94
-	 g2GCwQK8ayjM6VbMdiaeA+Yvjuh9yN1MpO9p1gvIwNxoTV1gYBT0jq2wdR31VxvS6N
-	 vWe67+b/45dUw==
-Date: Fri, 24 Apr 2026 12:13:54 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Aleksandr Shubin <privatesub2@gmail.com>
-Cc: linux-kernel@vger.kernel.org, 
-	Brandon Cheo Fusi <fusibrandon13@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Lukas Schmid <lukas.schmid@netcube.li>, linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v13 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM
- support
-Message-ID: <aes2BuCaAUgelKGy@monoceros>
-References: <20260221183609.95403-1-privatesub2@gmail.com>
- <20260221183609.95403-3-privatesub2@gmail.com>
+	s=k20201202; t=1777025940;
+	bh=skKWtWqkXldvhuwp2U5Xxf4qnnjX9+jASZIFkxD8u5A=;
+	h=From:Subject:Date:To:Cc:From;
+	b=ktmbp0HMb1o1k4DysM7B9s5h1qZV0xna6q9YwN4vEAztRVoDL6VGwSWQYquevBe+o
+	 f99L+5orLNJsTzArL+0Dl6QZ7ITMcrjJcJLM5LXattMJ/+QVWaidln47K6Ee+QvOpu
+	 qSgkSZDedqM9+rtQeVKcYw9wXTE7YoisGFZOKhmXICJxBOYAsV0GDURSDBpB9HPoqd
+	 DkskDce8a86oOkWdG8LedWKfFafm4LvXU0JK17X6fCIz+pbBkd1G4DHVQhUnpRH+E4
+	 1LI3HMVhtqZF2qCgpoVYR0WXR/D+TIRgC/ns/RhuUzsf2o50a+ALXVoQzqd+uxZWgt
+	 SPaN7UhOfaQDQ==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v3 00/20] drm/atomic: Rework initial state allocation
+Date: Fri, 24 Apr 2026 12:18:40 +0200
+Message-Id: <20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ch74tvkiwmuhhpsw"
-Content-Disposition: inline
-In-Reply-To: <20260221183609.95403-3-privatesub2@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33OTQ7CIBAF4Ks0rB3DT23VlfcwLlo61IkWFLDRm
+ N5dihtd6Io8Ju+bebKAnjCwbfFkHkcK5GwKalEwfWxsj0BdykxyWXElOHR+gMF1CNpZQz2QpQg
+ ChVnJti5XHWepevFo6J7Z/eGdPV5vSY/vT9Y2YSaGgeK2yCYFDRbvEeZVwMv0srl7pBCdf+QLR
+ 5HL/48ZBaQJ1mpT6zUKbXYn9BbPS+f7LI7yQ5G/FJkUXSkjhCqxrvSXMk3TC7IQmFY7AQAA
+X-Change-ID: 20260310-drm-mode-config-init-1e1f52b745d0
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Jyri Sarha <jyri.sarha@iki.fi>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Simon Ser <contact@emersion.fr>, Harry Wentland <harry.wentland@amd.com>, 
+ Melissa Wen <mwen@igalia.com>, Sebastian Wick <sebastian.wick@redhat.com>, 
+ Alex Hung <alex.hung@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Chen-Yu Tsai <wens@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5145; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=skKWtWqkXldvhuwp2U5Xxf4qnnjX9+jASZIFkxD8u5A=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJmvnTu+rKlNXrLrWm7gxtQ3TnEv/tYfzFj67KW2r+62V
+ BM2Xs7qjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjCRPV2MtTI7blaWPP/C94VD
+ voAnwOTX7xWy1wOSBH9nrpqkyc3XZXwsZNsmoXdztms1KGV1H7gygbG+pEpn2f9TNlN/nD8zSXf
+ 1Xy/+6o7n8TqFky5bPek/nWJ8bcfprOrnxx7dual2Wf3rrBNvAA==
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
+Hi,
 
---ch74tvkiwmuhhpsw
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v13 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM
- support
-MIME-Version: 1.0
+This series started from my work on the hardware state readout[1], and
+more specifically a discussion with Thomas[2].
 
-On Sat, Feb 21, 2026 at 09:35:52PM +0300, Aleksandr Shubin wrote:
-> Allwinner's D1, T113-S3 and R329 SoCs have a quite different PWM
-> controllers with ones supported by pwm-sun4i driver.
->=20
-> This patch adds a PWM controller driver for Allwinner's D1,
-> T113-S3 and R329 SoCs. The main difference between these SoCs
-> is the number of channels defined by the DT property.
->=20
-> Co-developed-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
-> Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
-> Signed-off-by: Aleksandr Shubin <privatesub2@gmail.com>
-> ---
->  drivers/pwm/Kconfig     |  10 +
->  drivers/pwm/Makefile    |   1 +
->  drivers/pwm/pwm-sun8i.c | 393 ++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 404 insertions(+)
->  create mode 100644 drivers/pwm/pwm-sun8i.c
->=20
-> diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
-> index 6f3147518376..44d844eba589 100644
-> --- a/drivers/pwm/Kconfig
-> +++ b/drivers/pwm/Kconfig
-> @@ -736,6 +736,16 @@ config PWM_SUN4I
->  	  To compile this driver as a module, choose M here: the module
->  	  will be called pwm-sun4i.
-> =20
-> +config PWM_SUN8I
-> +	tristate "Allwinner D1/T113s/R329 PWM support"
-> +	depends on ARCH_SUNXI || COMPILE_TEST
-> +	depends on COMMON_CLK
-> +	help
-> +	  Generic PWM framework driver for Allwinner D1/T113s/R329 SoCs.
-> +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called pwm-sun8i.
-> +
->  config PWM_SUNPLUS
->  	tristate "Sunplus PWM support"
->  	depends on ARCH_SUNPLUS || COMPILE_TEST
-> diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
-> index 0dc0d2b69025..ba2e0ec7fc17 100644
-> --- a/drivers/pwm/Makefile
-> +++ b/drivers/pwm/Makefile
-> @@ -67,6 +67,7 @@ obj-$(CONFIG_PWM_STM32)		+=3D pwm-stm32.o
->  obj-$(CONFIG_PWM_STM32_LP)	+=3D pwm-stm32-lp.o
->  obj-$(CONFIG_PWM_STMPE)		+=3D pwm-stmpe.o
->  obj-$(CONFIG_PWM_SUN4I)		+=3D pwm-sun4i.o
-> +obj-$(CONFIG_PWM_SUN8I)		+=3D pwm-sun8i.o
->  obj-$(CONFIG_PWM_SUNPLUS)	+=3D pwm-sunplus.o
->  obj-$(CONFIG_PWM_TEGRA)		+=3D pwm-tegra.o
->  obj-$(CONFIG_PWM_TH1520)	+=3D pwm_th1520.o
-> diff --git a/drivers/pwm/pwm-sun8i.c b/drivers/pwm/pwm-sun8i.c
-> new file mode 100644
-> index 000000000000..6e196f31314b
-> --- /dev/null
-> +++ b/drivers/pwm/pwm-sun8i.c
-> @@ -0,0 +1,393 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * PWM Controller Driver for sunxi platforms (D1, T113-S3 and R329)
-> + *
-> + * Limitations:
-> + * - When the parameters change, the current running period is not compl=
-eted
-> + *   and new settings are applied immediately.
-> + * - The PWM output goes to a HIGH-Z state when the channel is disabled.
-> + * - Changing the clock configuration (SUN8I_PWM_CLK_CFG)
-> + *   may cause a brief output glitch.
-> + *
-> + * Copyright (c) 2023 Aleksandr Shubin <privatesub2@gmail.com>
-> + */
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/clk.h>
-> +#include <linux/err.h>
-> +#include <linux/io.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pwm.h>
-> +#include <linux/reset.h>
-> +
-> +#define SUN8I_PWM_CLK_CFG(pair)			(0x20 + ((pair) * 0x4))
+This series expands the work that has been merged recently to make
+drm_private_obj and drm_private_state allocation a bit more consistent
+and ended up creating a new atomic_create_state callback to allocate a
+new state with no side effect.
 
-A word about the range of `pair` would be good. Something like:
+The first patches document the existing behaviour and fix a few
+cleanups and typos.
 
-/*
- * Shared clock register. SUN8I_PWM_CLK_CFG(pair) configures the settings
- * for channels 2=C2=B7pair and 2=C2=B7pair+1. Maximal value for pair is ha=
-rdware
- * dependant, it cannot be bigger than 8.
- */
+Then, __drm_*_state_reset() helpers are renamed to
+__drm_*_state_init() to clarify that they initialize rather than
+reset state, and we add the new atomic_create_state callback to
+every other DRM object (planes, CRTCs, connectors, colorops).
 
-> +#define SUN8I_PWM_CLK_CFG_SRC			GENMASK(8, 7)
-> +#define SUN8I_PWM_CLK_SRC_HOSC			0x0
-> +#define SUN8I_PWM_CLK_SRC_BUS			0x1
+Next, we leverage those new callbacks to create a new helper,
+drm_mode_config_create_initial_state(), to create the initial state
+for all the objects of a driver, and update the driver skeleton to
+recommend it.
 
-SUN8I_PWM_CLK_SRC_HOSC and SUN8I_PWM_CLK_SRC_BUS are values for
-SUN8I_PWM_CLK_CFG_SRC, right? It would be great if they were named
-SUN8I_PWM_CLK_CFG_SRC_HOSC and SUN8I_PWM_CLK_CFG_SRC_BUS then.
-And then it might be sensible to define it to
-	FIELD_PREP(SUN8I_PWM_CLK_CFG_SRC, 1)
-(and 0 respectively).
+Finally, we convert the tidss driver and the bridge_connector to the
+new pattern.
 
-I hope there is no conflict with the reference manual.
+This was tested on a TI SK-AM62, with the tidss driver.
 
-Speaking of the reference manual: Is there a public one? If yes, adding
-a link to it would be awesome.
+Let me know what you think,
+Maxime
 
-> +#define SUN8I_PWM_CLK_CFG_DIV_M			GENMASK(3, 0)
-> +#define SUN8I_PWM_CLK_DIV_M_MAX			8
-> +
-> +#define SUN8I_PWM_CLK_GATE			0x40
-> +#define SUN8I_PWM_CLK_GATE_BYPASS(chan)		BIT((chan) + 16)
-> +#define SUN8I_PWM_CLK_GATE_GATING(chan)		BIT(chan)
-> +
-> +#define SUN8I_PWM_ENABLE			0x80
-> +#define SUN8I_PWM_ENABLE_EN(chan)		BIT(chan)
-> +
-> +#define SUN8I_PWM_CTL(chan)			(0x100 + (chan) * 0x20)
-> +#define SUN8I_PWM_CTL_ACT_STA			BIT(8)
-> +#define SUN8I_PWM_CTL_PRESCAL_K			GENMASK(7, 0)
-> +#define SUN8I_PWM_CTL_PRESCAL_K_MAX		field_max(SUN8I_PWM_CTL_PRESCAL_K)
-> +
-> +#define SUN8I_PWM_PERIOD(chan)			(0x104 + (chan) * 0x20)
-> +#define SUN8I_PWM_PERIOD_ENTIRE_CYCLE		GENMASK(31, 16)
-> +#define SUN8I_PWM_PERIOD_ACT_CYCLE		GENMASK(15, 0)
-> +
-> +#define SUN8I_PWM_PCNTR_SIZE			BIT(16)
+1: https://lore.kernel.org/dri-devel/20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org/
+2: https://lore.kernel.org/dri-devel/5920ffe5-b6b1-484b-b320-332b9eb9db82@suse.de/
 
-This is unused (apart from the comment below). I'm unsure if this is a
-bit field, if so to which register? Does it need a comment? Or should it
-be dropped? From the discussion below, should this be
-field_max(SUN8I_PWM_PERIOD_ACT_CYCLE)?  (The value is different then
-the calculations below needed some adaption if that is chosen.)
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v3:
+- Reintroduce state documentation that was dropped by accident
+- Change name to drm_mode_config_create_initial_state()
+- Don't call drm_mode_config_create_initial_state() in drm_dev_register
+  anymore
+- Drop __drm_atomic_helper_*_create_state
+- Improve documentation and commit messages where necessary
+- Collected tags
+- Link to v2: https://lore.kernel.org/r/20260320-drm-mode-config-init-v2-0-c63f1134e76c@kernel.org
 
-> +/*
-> + * SUN8I_PWM_MAGIC is used to quickly compute the values of the clock di=
-viders
-> + * div_m (SUN8I_PWM_CLK_CFG_DIV_M) & prescale_k (SUN8I_PWM_CTL_PRESCAL_K)
-> + * without using a loop. These dividers limit the # of cycles in a period
-> + * to SUN8I_PWM_PCNTR_SIZE (65536) by applying a scaling factor of
-> + * 1 / (div_m * (prescale_k + 1)) to the clock source.
+Changes in v2:
+- Change the _state_reset function names to _state_init
+- Change the colorop too
+- Various doc improvements
+- Link to v1: https://lore.kernel.org/r/20260310-drm-mode-config-init-v1-0-de7397c8e1cf@kernel.org
 
-Here div_m is a plain divider, ...
+---
+Maxime Ripard (20):
+      drm/atomic: Document atomic state lifetime
+      drm/colorop: Fix typos in the doc
+      drm/atomic: Drop drm_private_obj.state assignment from create_state
+      drm/atomic: Expand atomic_create_state expectations for drm_private_obj
+      drm/mode-config: Document drm_private_obj exclusion from drm_mode_config_reset()
+      drm/colorop: Rename __drm_colorop_state_reset()
+      drm/colorop: Create drm_atomic_helper_colorop_create_state()
+      drm/atomic-state-helper: Fix __drm_atomic_helper_plane_reset() doc typo
+      drm/atomic-state-helper: Rename __drm_atomic_helper_plane_state_reset()
+      drm/plane: Add new atomic_create_state callback
+      drm/atomic-state-helper: Rename __drm_atomic_helper_crtc_state_reset()
+      drm/crtc: Add new atomic_create_state callback
+      drm/atomic-state-helper: Rename __drm_atomic_helper_connector_state_reset()
+      drm/hdmi: Rename __drm_atomic_helper_connector_hdmi_reset()
+      drm/connector: Add new atomic_create_state callback
+      drm/mode-config: Create drm_mode_config_create_initial_state()
+      drm/drv: Switch skeleton to drm_mode_config_create_initial_state()
+      drm/tidss: Switch to drm_mode_config_create_initial_state()
+      drm/tidss: Convert to atomic_create_state
+      drm/bridge_connector: Convert to atomic_create_state
 
-> + *
-> + * SUN8I_PWM_MAGIC is derived by solving for div_m and prescale_k
-> + * such that for a given requested period,
-> + *
-> + * i) div_m is minimized for any prescale_k =E2=89=A4 SUN8I_PWM_CTL_PRES=
-CAL_K_MAX,
-> + * ii) prescale_k is minimized.
-> + *
-> + * The derivation proceeds as follows, with val =3D # of cycles for requ=
-ested
-> + * period:
-> + *
-> + * for a given value of div_m we want the smallest prescale_k such that
-> + *
-> + * (val >> div_m) // (prescale_k + 1) =E2=89=A4 65536 (=3D SUN8I_PWM_PCN=
-TR_SIZE)
+ Documentation/gpu/drm-kms.rst                      |   6 +
+ drivers/gpu/drm/display/drm_bridge_connector.c     |  17 ++-
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  13 +-
+ drivers/gpu/drm/drm_atomic.c                       |  63 +++++++++
+ drivers/gpu/drm/drm_atomic_state_helper.c          | 136 +++++++++++++++---
+ drivers/gpu/drm/drm_colorop.c                      |  41 ++++--
+ drivers/gpu/drm/drm_drv.c                          |   4 +-
+ drivers/gpu/drm/drm_mode_config.c                  | 154 ++++++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_crtc.c          |   2 +-
+ drivers/gpu/drm/i915/display/intel_plane.c         |   2 +-
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   2 +-
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c |   2 +-
+ drivers/gpu/drm/tidss/tidss_crtc.c                 |  17 +--
+ drivers/gpu/drm/tidss/tidss_drv.c                  |   6 +-
+ drivers/gpu/drm/tidss/tidss_plane.c                |   2 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |   2 +-
+ include/drm/display/drm_hdmi_state_helper.h        |   4 +-
+ include/drm/drm_atomic.h                           |   5 +-
+ include/drm/drm_atomic_state_helper.h              |  14 +-
+ include/drm/drm_colorop.h                          |   2 +
+ include/drm/drm_connector.h                        |  16 +++
+ include/drm/drm_crtc.h                             |  16 +++
+ include/drm/drm_mode_config.h                      |   1 +
+ include/drm/drm_plane.h                            |  16 +++
+ 24 files changed, 476 insertions(+), 67 deletions(-)
+---
+base-commit: ea61048876a7137897da26dac49ee234fb38a35a
+change-id: 20260310-drm-mode-config-init-1e1f52b745d0
 
-=2E.. and here it is a shift. I assume that above 1 << div_m is actually
-meant, right?
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
 
-> + * This is equivalent to:
-> + *
-> + * (val >> div_m) =E2=89=A4 65536 * (prescale_k + 1) + prescale_k
-> + * =E2=9F=BA (val >> div_m) =E2=89=A4 65537 * prescale_k + 65536
-> + * =E2=9F=BA (val >> div_m) - 65536 =E2=89=A4 65537 * prescale_k
-> + * =E2=9F=BA ((val >> div_m) - 65536) / 65537 =E2=89=A4 prescale_k
-> + *
-> + * As prescale_k is integer, this becomes
-> + *
-> + * ((val >> div_m) - 65536) // 65537 =E2=89=A4 prescale_k
-> + *
-> + * And is minimized at
-> + *
-> + * ((val >> div_m) - 65536) // 65537
-> + *
-> + * Now we pick the smallest div_m that satifies prescale_k =E2=89=A4 255
-> + * (i.e SUN8I_PWM_CTL_PRESCAL_K_MAX),
-> + *
-> + * ((val >> div_m) - 65536) // 65537 =E2=89=A4 255
-> + * =E2=9F=BA (val >> div_m) - 65536 =E2=89=A4 255 * 65537 + 65536
-> + * =E2=9F=BA val >> div_m =E2=89=A4 255 * 65537 + 2 * 65536
-> + * =E2=9F=BA val >> div_m < (255 * 65537 + 2 * 65536 + 1)
-> + * =E2=9F=BA div_m =3D fls((val) / (255 * 65537 + 2 * 65536 + 1))
-> + *
-> + * Suggested by Uwe Kleine-K=C3=B6nig
-> + */
-> +#define SUN8I_PWM_MAGIC				(255 * 65537 + 2 * 65536 + 1)
-> +#define SUN8I_PWM_DIV_CONST			65537
-> [...]
-> +static int sun8i_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-> +			    const struct pwm_state *state)
-> +{
-> +	struct sun8i_pwm_chip *sun8i_chip =3D to_sun8i_pwm_chip(chip);
-> +	u64 bus_rate, hosc_rate, val, ent_cycle, act_cycle;
-> +	u32 clk_gate, clk_cfg, pwm_en, ctl, reg_period;
-> +	u32 prescale_k, div_m;
-> +	u64 clk_src_rate;
-> +	u8 clk_src;
-> +
-> +	pwm_en =3D sun8i_pwm_readl(sun8i_chip, SUN8I_PWM_ENABLE);
-> +	clk_gate =3D sun8i_pwm_readl(sun8i_chip, SUN8I_PWM_CLK_GATE);
-> +
-> +	if (!state->enabled) {
-> +		if (state->enabled !=3D pwm->state.enabled) {
-
-Can we make this
-
-		if (pwm_en & SUN8I_PWM_ENABLE_EN(pwm->hwpwm)) {
-
-? Then it depends on the hardware settings instead of cached state. Same
-for the other usage of pwm->state below.
-
-> +			clk_gate &=3D ~SUN8I_PWM_CLK_GATE_GATING(pwm->hwpwm);
-> +			pwm_en &=3D ~SUN8I_PWM_ENABLE_EN(pwm->hwpwm);
-> +			sun8i_pwm_writel(sun8i_chip, pwm_en, SUN8I_PWM_ENABLE);
-> +			sun8i_pwm_writel(sun8i_chip, clk_gate, SUN8I_PWM_CLK_GATE);
-> +		}
-> +		return 0;
-> +	}
-> +
-> +	ctl =3D sun8i_pwm_readl(sun8i_chip, SUN8I_PWM_CTL(pwm->hwpwm));
-> +	clk_cfg =3D sun8i_pwm_readl(sun8i_chip, SUN8I_PWM_CLK_CFG(pwm->hwpwm / =
-2));
-> +	hosc_rate =3D clk_get_rate(sun8i_chip->clk_hosc);
-> +	bus_rate =3D clk_get_rate(sun8i_chip->clk_apb);
-> +
-> [...]
-> +static int sun8i_pwm_probe(struct platform_device *pdev)
-> +{
-> +	struct pwm_chip *chip;
-> +	struct sun8i_pwm_chip *sun8i_chip;
-> +	struct clk *clk_bus;
-> +	struct reset_control *rst;
-> +	u32 npwm;
-> +	int ret;
-> +
-> +	ret =3D of_property_read_u32(pdev->dev.of_node, "allwinner,npwms", &npw=
-m);
-> +	if (ret < 0)
-> +		return dev_err_probe(&pdev->dev, ret,
-> +				     "Failed to get allwinner,npwms\n");
-
-I failed to reply to your question about a non-vendored name for this in
-v10
-(https://lore.kernel.org/linux-pwm/CAF4idNmDMQpFppUvCBbC1=3DSNMQBrTOqmFO60S=
-MvKvaHvNJy=3DBg@mail.gmail.com).
-
-"npwms" would be good.
-
-> +	if (npwm < 1 || npwm > 16)
-> +		return dev_err_probe(&pdev->dev, -EINVAL,
-> +				     "Invalid allwinner,npwms\n");
-
-I think there is a corner case if npwm is odd. In that case the last
-channel must not check for hwpwm ^ 1 being enabled in .apply(). So
-either .apply() should be more clever, or only even values for npwm
-should be supported.
-
-> +	chip =3D devm_pwmchip_alloc(&pdev->dev, npwm, sizeof(*sun8i_chip));
-> +	if (IS_ERR(chip))
-> +		return PTR_ERR(chip);
-> +	sun8i_chip =3D to_sun8i_pwm_chip(chip);
-> +
-> +	sun8i_chip->base =3D devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(sun8i_chip->base))
-> +		return PTR_ERR(sun8i_chip->base);
-> [...]
-
-Best regards
-Uwe
-
---ch74tvkiwmuhhpsw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmnrQl8ACgkQj4D7WH0S
-/k6scAgAn/0pDIYz2bAwUkDKaKeuPSiZvM+qmY6SFJ1w+GckDDKQbRMKqM5uDrEY
-EWS7ubhDZ9I2MNSIB/AIKMsM/7CkCtE8Vpfh3JSM9f5GzDhJ0vIF6V9zBH4tc9OV
-yCmIdHET/SPl6v9I1kszOG/+JK5jx+VelmPkIFbuhIxQhcg/P3iuG4EE1TKsRrNh
-OZu0sT9zHz/1Lh7hyQRx1K6dA6RQat35CnYLHah9JG0E5iIwS4XZ5S3OFwNrm1Ji
-1gX8GgGM7cgovSIx5sZzwHDxtSiregtnbtg9pEhguwEsDMuhVDeT5BM+EIoIZFjR
-jE24yAph4qmJMavKIQYVft3Rd754Kw==
-=AWnj
------END PGP SIGNATURE-----
-
---ch74tvkiwmuhhpsw--
