@@ -1,35 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4113B37FF74;
-	Fri, 24 Apr 2026 10:19:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FAFD381B05;
+	Fri, 24 Apr 2026 10:19:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777025992; cv=none; b=oQyBXGYJObTQX3eM6M+aYjCoXGnAHpwgpDReJbUyC9cXb34kasATwJDzaoT3w1hj2D5kmKvW3QkiPL1r9LWzWUAfIGAVx9aoxl11D2AVlc7WAsvg+dkNxpsQMrj/rDZWhy20Lt2jdRRUXYJeg222GNMSQoiLiFz4rI5mFDkquMA=
+	t=1777025995; cv=none; b=p6ub7CcHs1LwjTlcbjuhYgYh8Hl+xeXEb1o3817SObyMr7+bVtgrfTmoOsGy0KeY37mo7BE/3oW2l+JKzfDHJksknVjna2qfLCGXv/VWkqUS20z4PZwyVqBfeuKpSdrAT7kAnL0LbqSrpP6eR+reyknrFI3dRkRHfhiuTd8mf/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777025992; c=relaxed/simple;
-	bh=Euz7DdChlAIGYIv4MW9vjG7tVXHoxWupCrReeTOiaiE=;
+	s=arc-20240116; t=1777025995; c=relaxed/simple;
+	bh=7WwDimnrjxrL5GwHweBIXGptDgbfPw+6zEsaC+/oPMk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Hm9+suFiNDgCJVMb2FovFP7HMf0rVDCOcbmMvYJgOxJwpPGNkovLvxc6SZpmGHYhtNp9oHI7SdDaTUljSWwPw6e0YBwzCouO6hqDvx9A5KoOcz+Uog2k/biKzYl/UQp2AVE5vpoklBcba3egdp+WtKNNLASio32+37y+k9L37is=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rBK889Ty; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=aTwN/Qne58hbVmQAvYvd6MHp9c3YieP660ZoR+gkuXiYK4Ga0Bu5LSczKzOQgeSvbtd9xDbiClN7jXa2PV881RwDCVJ+occmdTDg7LlRwgiTJLAmsUZxdQ8OFnx7SxwzOqgcYDKUni4/P/K+RoVD2RFZMBrHHNseQxu91sXPrMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m213SuUD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rBK889Ty"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81AE2C2BCB6;
-	Fri, 24 Apr 2026 10:19:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m213SuUD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76A9BC2BCB4;
+	Fri, 24 Apr 2026 10:19:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777025992;
-	bh=Euz7DdChlAIGYIv4MW9vjG7tVXHoxWupCrReeTOiaiE=;
+	s=k20201202; t=1777025995;
+	bh=7WwDimnrjxrL5GwHweBIXGptDgbfPw+6zEsaC+/oPMk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=rBK889Tyc98Ux52s++5Ud4/5N3N84H5Xh0SpFE0/x0XJlqlgTfz3bzDxuaI8qSKyN
-	 c0uay22m+GT7PXUTD5nEec4JMXJxunzIjfEgn+JpM/ZSPLYuziOpU6f7bUvRDHT79E
-	 W0Y9B2JroJBpxZl/3c4y0w0V/y3OfB5d9UovpH3/q/WX37EZ9377QqH1qdozHZ/Xbm
-	 GYTRkExTUG8w2AXRZANQNy7tWUK214yUDklSl1so3dhUbZIG96GDnq1EI+kLp3h8xT
-	 gAzPS/811aN7Jq9r+j7FQHFXTH0JyRntqJeHPO2oL2g96wfsUsbxm7QmrNvOjnxuui
-	 JfUQcEShdjfAA==
+	b=m213SuUDjedNosTlBc85fXGICOldkgj57pzeoNR+bDo6uWL/hSOSyb/wsvZ1jbYN8
+	 iEYkbftwKgaRbM/abcNOBM/JBMXAFBnim+yddWYyQiaUpFofWD2X27vvZx8e21JO+J
+	 GHyB9S7JeDOad+uR0BxX1dnjPsxP/wrlyLsNomI82+iduHZedPVDPry4/Em4JKYj3Y
+	 F4SnD+eC5KIyTNAVktoupUqukXZkHidkjV5jJr3rJvFfHsi7IYm0Gy7A2c9XDyzRQW
+	 OfibzuEFvOeFsvaY2gj5oO3mj4doU8a4GWq95UWB1eoDcVEJbaaLfg4noGDC2aSDGV
+	 a/5dhwxdm9jkw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Fri, 24 Apr 2026 12:18:58 +0200
-Subject: [PATCH v3 18/20] drm/tidss: Switch to
- drm_mode_config_create_initial_state()
+Date: Fri, 24 Apr 2026 12:18:59 +0200
+Subject: [PATCH v3 19/20] drm/tidss: Convert to atomic_create_state
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -38,7 +37,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260424-drm-mode-config-init-v3-18-8b68d9db0d8b@kernel.org>
+Message-Id: <20260424-drm-mode-config-init-v3-19-8b68d9db0d8b@kernel.org>
 References: <20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org>
 In-Reply-To: <20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -66,47 +65,100 @@ Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>, 
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- Maxime Ripard <mripard@kernel.org>
+ Maxime Ripard <mripard@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1009; i=mripard@kernel.org;
- h=from:subject:message-id; bh=Euz7DdChlAIGYIv4MW9vjG7tVXHoxWupCrReeTOiaiE=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJmvnSew1029JKK7fMLF3Z7863bOOqaa8zD7Yh9vxcybK
- w59upSu1zGVhUGYk0FWTJHliUzY6eXti6sc7Ff+gJnDygQyhIGLUwAmonGMsd5z5r7M8j6LWS4n
- jRM3VZ16WRvqtafPXt+yXVyGL5mpv+J+loJe6K/YUPM3gYvTtHgPMtZKJemZ7S+wes7Ws7BcKut
- YaaDvviD+IOP6ZZXnHvKdiBQIn5rgKJm58W/ZineqAUlCHQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3093; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=7WwDimnrjxrL5GwHweBIXGptDgbfPw+6zEsaC+/oPMk=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJmvnSdci9WsfvnEeU3koydtDZtuPhPp/fZkQmxUKEOWq
+ tjdBPfcjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjARjQ2MDWvaDrELOy1Ukzm9
+ k58/x/r+H7OnIXnX7iVea/MV9OFkEnkttWvV45ALS/Z8OSM3S+TxecaGIw7JM7ZVzQpcVqt3u/9
+ 6hvB0x4vLc7NUyhm3Rli2bbzHqbSzc/LeM+9ry4wSJi+7bagDAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-Now that drm_mode_config_create_initial_state() exists to create the
-initial state, use it instead of drm_mode_config_reset() during
-driver probe.
+Our driver uses reset to create the various object states, but only
+calls the helper that allocate a new state. They are thus strictly
+equivalent to the new atomic_create_state helpers, so let's switch to
+these.
 
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/tidss/tidss_drv.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/tidss/tidss_crtc.c  | 17 +++++++----------
+ drivers/gpu/drm/tidss/tidss_plane.c |  2 +-
+ 2 files changed, 8 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-index 1c8cc18bc53c..f5099d5d6e32 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.c
-+++ b/drivers/gpu/drm/tidss/tidss_drv.c
-@@ -169,11 +169,15 @@ static int tidss_probe(struct platform_device *pdev)
- 		goto err_runtime_suspend;
- 	}
+diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
+index a31c21c5f855..66e3d161c60b 100644
+--- a/drivers/gpu/drm/tidss/tidss_crtc.c
++++ b/drivers/gpu/drm/tidss/tidss_crtc.c
+@@ -355,24 +355,21 @@ static void tidss_crtc_destroy_state(struct drm_crtc *crtc,
  
- 	drm_kms_helper_poll_init(ddev);
+ 	__drm_atomic_helper_crtc_destroy_state(&tstate->base);
+ 	kfree(tstate);
+ }
  
--	drm_mode_config_reset(ddev);
-+	ret = drm_mode_config_create_initial_state(ddev);
-+	if (ret) {
-+		dev_err(dev, "failed to create initial state: %d\n", ret);
-+		goto err_irq_uninstall;
-+	}
+-static void tidss_crtc_reset(struct drm_crtc *crtc)
++static struct drm_crtc_state *tidss_crtc_create_state(struct drm_crtc *crtc)
+ {
+ 	struct tidss_crtc_state *tstate;
  
- 	ret = drm_dev_register(ddev, 0);
- 	if (ret) {
- 		dev_err(dev, "failed to register DRM device\n");
- 		goto err_irq_uninstall;
+-	if (crtc->state)
+-		tidss_crtc_destroy_state(crtc, crtc->state);
+-
+ 	tstate = kzalloc_obj(*tstate);
+-	if (!tstate) {
+-		crtc->state = NULL;
+-		return;
+-	}
++	if (!tstate)
++		return ERR_PTR(-ENOMEM);
+ 
+-	__drm_atomic_helper_crtc_reset(crtc, &tstate->base);
++	__drm_atomic_helper_crtc_create_state(crtc, &tstate->base);
++
++	return &tstate->base;
+ }
+ 
+ static struct drm_crtc_state *tidss_crtc_duplicate_state(struct drm_crtc *crtc)
+ {
+ 	struct tidss_crtc_state *state, *current_state;
+@@ -403,14 +400,14 @@ static void tidss_crtc_destroy(struct drm_crtc *crtc)
+ 	drm_crtc_cleanup(crtc);
+ 	kfree(tcrtc);
+ }
+ 
+ static const struct drm_crtc_funcs tidss_crtc_funcs = {
+-	.reset = tidss_crtc_reset,
+ 	.destroy = tidss_crtc_destroy,
+ 	.set_config = drm_atomic_helper_set_config,
+ 	.page_flip = drm_atomic_helper_page_flip,
++	.atomic_create_state = tidss_crtc_create_state,
+ 	.atomic_duplicate_state = tidss_crtc_duplicate_state,
+ 	.atomic_destroy_state = tidss_crtc_destroy_state,
+ 	.enable_vblank = tidss_crtc_enable_vblank,
+ 	.disable_vblank = tidss_crtc_disable_vblank,
+ };
+diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
+index aaa02c851c59..518498d45765 100644
+--- a/drivers/gpu/drm/tidss/tidss_plane.c
++++ b/drivers/gpu/drm/tidss/tidss_plane.c
+@@ -176,12 +176,12 @@ static const struct drm_plane_helper_funcs tidss_primary_plane_helper_funcs = {
+ };
+ 
+ static const struct drm_plane_funcs tidss_plane_funcs = {
+ 	.update_plane = drm_atomic_helper_update_plane,
+ 	.disable_plane = drm_atomic_helper_disable_plane,
+-	.reset = drm_atomic_helper_plane_reset,
+ 	.destroy = drm_plane_destroy,
++	.atomic_create_state = drm_atomic_helper_plane_create_state,
+ 	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
+ };
+ 
+ struct tidss_plane *tidss_plane_create(struct tidss_device *tidss,
 
 -- 
 2.53.0
