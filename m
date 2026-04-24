@@ -1,35 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF8B435CB7C;
-	Fri, 24 Apr 2026 10:19:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D55E363C4C;
+	Fri, 24 Apr 2026 10:19:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777025956; cv=none; b=E8qWCoaZRBgl2cfffzsGoy5RqsZ/hP64aEyLCcKylww1vONZb55qPpatM/Jkzb07teCUF/FMEyIBXPqqdu+/5SPAyOOjc00kFhPFeikUfRzoPvUrC+54KEkK3JYicPONBSavylOL8eUn04rVlahVWjdqthwYi0yQgSolg2lNbOU=
+	t=1777025958; cv=none; b=k5vuOa07AEUO/KcOPlCz0wfwywgNQU20dGbQ35t6z02g4pAXBjvRQR8JoCL1YHlMYYKWLPUUbazT1tMw9ANS+phyuXZzp79jbwKvPQLwl1LfoFlp1/MmivqQoiIE4iz7gBMEgiN4BAALglQqDVYgHYtP6Eq14T/KwKrnpDeVUZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777025956; c=relaxed/simple;
-	bh=aNX0zEGJyR4omhAYCQYN3diflr9cBelBuF2mFH6r1sI=;
+	s=arc-20240116; t=1777025958; c=relaxed/simple;
+	bh=AZneGDz+L+6Cr8qiXiO/cK1JybuA0V/+52HowqTom6I=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Z9cHZAih2MS2VmYasJpAWL5m+NKNWcKVORZdLApoUW6X1jUAg80m7opAn7bMqsjOIAJL3tab5HbE4PAbvids8mz3oSF298Z0NTDpbRWbOWoJB30iOnJEUCd1rluQ2bqEK79lW8Af7MeM2uFCptF3zFzAl+iwrS+HaUiAgYWiKoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NSKPF/6L; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=YGP06Kd8/wEMputMy2R5kGSEcvlvTnasvUxud0csQ3Ek+LPodZ555H0WDA4EoTGt+xkgXFngyMDbRga4vqE2TbFW6De+8uBsRj+rgWMDX6eefA7DK8V6UyB95Ci/Ogg7okIcmUmzqN5Y0SZqOpU8EmI+W2toDGkj+mS6EYSNQ3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rdMo+7T8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NSKPF/6L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1888BC2BCB4;
-	Fri, 24 Apr 2026 10:19:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rdMo+7T8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D85B5C2BCB9;
+	Fri, 24 Apr 2026 10:19:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777025955;
-	bh=aNX0zEGJyR4omhAYCQYN3diflr9cBelBuF2mFH6r1sI=;
+	s=k20201202; t=1777025958;
+	bh=AZneGDz+L+6Cr8qiXiO/cK1JybuA0V/+52HowqTom6I=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=NSKPF/6L1iOeTKpG+TAXaJZRtvHoJDHtu0EPg8P8qH/e/o2Ui2bduii2PYLUt+XYV
-	 sD+vQsmKIBJQC2olcVH5iVvacfi8uB8/dHwlQorFzAlDMcAqcD3n0U2iaNSw8Qlog7
-	 rB5LaXn5wkwiRXVmYch0h4O+bC7Tl55d5B85Rc9bcbR9hUOXbcz8iZXb9BVmpwKjvN
-	 dlZyQcNsOpYD8LgI+ND5K6TmCPHVu8sZeS6dgUsNir2YhFztC1+WdWAz0+vGvjZX/h
-	 zDemEt6SX1jQjbIrfRjGJX4IrsdU3s7GgU+sWzE/qa1QrvEfCYxyXV2IWH68gewvtD
-	 YmSUgmPk5mmNg==
+	b=rdMo+7T8P7Kbo+52IXM876MKaMMM7w0H9XTH9EOn+kPqRkkiFfZB9pJVrk5QdDxQv
+	 SdvTdwOOmBgeDspyoO/yVWFzcJQEJkxtXegQxWajhkS8LZiubAW3/U8LGsYW03k6el
+	 9bDNOk+6JRXS+hM8Jp5UX0owBOe24nMn7WyABAhswBOI/nM/QuvnCGerBagT4M+Ez1
+	 Ynk27422G5/JJDmTbX5Td4R5EQ/tXMBPdOOPfC14ZBXYxCLkgW2UfZoqPXNotWfWmE
+	 DwqvSQ1xsI0HCB7Zm0/B/Qa/aCseStwEA416fgXcmjwBmKnuj/cfi5uspZNpLxg3QR
+	 MBe4167Xb+1sw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Fri, 24 Apr 2026 12:18:45 +0200
-Subject: [PATCH v3 05/20] drm/mode-config: Document drm_private_obj
- exclusion from drm_mode_config_reset()
+Date: Fri, 24 Apr 2026 12:18:46 +0200
+Subject: [PATCH v3 06/20] drm/colorop: Rename __drm_colorop_state_reset()
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -38,7 +37,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260424-drm-mode-config-init-v3-5-8b68d9db0d8b@kernel.org>
+Message-Id: <20260424-drm-mode-config-init-v3-6-8b68d9db0d8b@kernel.org>
 References: <20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org>
 In-Reply-To: <20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -66,52 +65,74 @@ Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>, 
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- Maxime Ripard <mripard@kernel.org>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+ Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1384; i=mripard@kernel.org;
- h=from:subject:message-id; bh=aNX0zEGJyR4omhAYCQYN3diflr9cBelBuF2mFH6r1sI=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJmvnbvKFXQ8VfeKxlTPP/BDz01t8s9ftR8+W3pPmbG3s
- UrpWWVwx1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZhIgD9jnfWZjfrVx66VvdrH
- HmEtX+uqYLDfTOHztkjOMOtHU5+vK+ePLxA+2zB1duTyJLn0OZoTGBu2bDDyvv/rd+aOlyK3s9/
- NXRZ1UPvPu8DHuoZPtvbsZzDc5pTL1pd4n/nlFz+7cjbzafkA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2296; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=AZneGDz+L+6Cr8qiXiO/cK1JybuA0V/+52HowqTom6I=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJmvnbtNeE5Pusb5ePlUf4duwfK2PWY60+beXbXAtNfoS
+ clH+WOPOqayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBEDk9krNM7rnZo2Upf8dua
+ /qrPb6tGi6l/Otal/3nRnvPBy6Xn9B7VZzRa86GjsbYxVdy7N2+ZOWO909Id15/kdwhlPFsq2RV
+ a2C9ww7hg1p9MnlsPGcsFZ/3ltYyRn6X0ezHv/Y8J1aWGb7oA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-drm_mode_config_reset() does not reset drm_private_states by design.
+__drm_colorop_state_reset() is used to initialize a newly allocated
+drm_colorop_state, and is being typically called by drm_colorop_reset().
 
-This is especially significant for the DP MST and tunneling code that
-expect to be preserved across a suspend/resume cycle, where
-drm_mode_config_reset() is also used.
+Since we want to consolidate DRM objects state allocation around the
+atomic_create_state callback that will only allocate and initialize a
+new drm_colorop_state instance, we will need to call
+__drm_colorop_state_reset() from both the reset and atomic_create paths.
 
-Document this expectation.
+To avoid any confusion, we can thus rename __drm_colorop_state_reset()
+to __drm_colorop_state_init().
 
-Link: https://lore.kernel.org/dri-devel/aOaQLx-7EpsHRwkH@ideak-desk/
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/drm_mode_config.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/drm_colorop.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-index 66f7dc37b597..c33382a38191 100644
---- a/drivers/gpu/drm/drm_mode_config.c
-+++ b/drivers/gpu/drm/drm_mode_config.c
-@@ -187,10 +187,14 @@ int drm_mode_getresources(struct drm_device *dev, void *data,
-  * @dev: drm device
+diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
+index 48d0b7ae3fc9..4c4d0a953e35 100644
+--- a/drivers/gpu/drm/drm_colorop.c
++++ b/drivers/gpu/drm/drm_colorop.c
+@@ -498,19 +498,19 @@ void drm_colorop_atomic_destroy_state(struct drm_colorop *colorop,
+ 	__drm_atomic_helper_colorop_destroy_state(state);
+ 	kfree(state);
+ }
+ 
+ /**
+- * __drm_colorop_state_reset - resets colorop state to default values
++ * __drm_colorop_state_init - Initializes colorop state to default values
+  * @colorop_state: atomic colorop state, must not be NULL
+  * @colorop: colorop object, must not be NULL
   *
-  * This functions calls all the crtc's, encoder's and connector's ->reset
-  * callback. Drivers can use this in e.g. their driver load or resume code to
-  * reset hardware and software state.
-+ *
-+ * Note that &drm_private_obj structures are expected to be stable across
-+ * suspend/resume cycles, and drm_mode_config_reset() does not affect these
-+ * structures.
+  * Initializes the newly allocated @colorop_state with default
+  * values. This is useful for drivers that subclass the colorop state.
   */
- void drm_mode_config_reset(struct drm_device *dev)
+-static void __drm_colorop_state_reset(struct drm_colorop_state *colorop_state,
+-				      struct drm_colorop *colorop)
++static void __drm_colorop_state_init(struct drm_colorop_state *colorop_state,
++				     struct drm_colorop *colorop)
  {
- 	struct drm_crtc *crtc;
- 	struct drm_colorop *colorop;
+ 	u64 val;
+ 
+ 	colorop_state->colorop = colorop;
+ 	colorop_state->bypass = true;
+@@ -537,11 +537,11 @@ static void __drm_colorop_state_reset(struct drm_colorop_state *colorop_state,
+  */
+ static void __drm_colorop_reset(struct drm_colorop *colorop,
+ 				struct drm_colorop_state *colorop_state)
+ {
+ 	if (colorop_state)
+-		__drm_colorop_state_reset(colorop_state, colorop);
++		__drm_colorop_state_init(colorop_state, colorop);
+ 
+ 	colorop->state = colorop_state;
+ }
+ 
+ void drm_colorop_reset(struct drm_colorop *colorop)
 
 -- 
 2.53.0
