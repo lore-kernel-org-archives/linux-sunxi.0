@@ -1,221 +1,187 @@
-Received: from lab.riabenko.com (lab.riabenko.com [185.143.146.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761CF29A309
-	for <linux-sunxi@lists.linux.dev>; Sun, 26 Apr 2026 13:21:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.143.146.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E8AB363C4C
+	for <linux-sunxi@lists.linux.dev>; Sun, 26 Apr 2026 13:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777209672; cv=none; b=BeIxa/rc02vWcxW22ltGnIzkx9oWZiLCKBZe9zEZ4EpOI4sJAU6pJBVutBgA1ZqWt26558kcucfcXAtiuexGufg0A5X+Cs4ZXNA/HjtTtMnBGOJLisEufIwcAhPo+95Eh5MX7OdQJ+MoG4MdHwgaRXyfyLK6bnFKVXiOM2z8MZo=
+	t=1777211905; cv=none; b=IZnZIYzeznkLu6oy0lWW864uDE8GYh0GD1CTSkfyCk4iyrdV5I3L06/L1+Daq2wprwKjuROEF30npTGnTGmNVB5VCbSGBEyNf3pNywtdVHvN013HDYL9c8dqcsM0Fsu8LRI9ZtLpsWU+0x9e+dl7MiDzBKlRkR4gPNzlEHs4yiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777209672; c=relaxed/simple;
-	bh=sPfEG+wUTIqr+CzfJx1O6qJDgjgoeuy5Q6bdIAdEEvE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=OZEfe/9gIdTYJGtFiGDtEeAdfRL/SoUzdh/ghAH+rgkRH4l4MJpR37BYflCj0NvkXRStJ/haSkA4ooPaKZKXnEpoGw20NDisdShDQyHpItxZbPeBlGcg9fe16kWaJAHxZnTK14uK+BclMbzAI1KcH19TWrluqHR0kYP1+C4M04g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=riabenko.com; spf=pass smtp.mailfrom=riabenko.com; dkim=pass (2048-bit key) header.d=riabenko.com header.i=@riabenko.com header.b=Ucmwp4qf; arc=none smtp.client-ip=185.143.146.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=riabenko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riabenko.com
+	s=arc-20240116; t=1777211905; c=relaxed/simple;
+	bh=9mxkbIYzrVb4tEULWkgR6CtT2TzXnJT1Hr+hwp+gk18=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FizelF9ej6fUXfP0ko3Nk+hp4j3GMqbU1gnVaGqhviHiamaeJjXF0NC81afTdyo8dzA6U/gkEBqtU+bp9Ev+Wu+aIzLszu9aUi54Ixb+TFM1AjFPfqIZ32CkVcFH8CqC7y1qlfP9TOXv0dROIgZnwHblBfUVW1XW72Sw6UXEBSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gupTCyMC; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=riabenko.com header.i=@riabenko.com header.b="Ucmwp4qf"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=riabenko.com; s=selector; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=hu1fM16Tg+LfmM0t03249I0gGGDpJBpNVjtR+hWEnUE=; b=Ucmwp4qfRH5qxH0s1ccrgevaXM
-	FsKEtz9n6rUD+g4LyzSfjKC1JzXKfyFheiRlLkJVFxLho46RKvnnz5E8yd1WzzHyfJdxAzWXksYXc
-	+B5BNlPI4o5mgfy7ZjdREoxLUIQTdxAWq6uPACQZKbjIMY/zSk7QoYvE26MpHmSP7DwgqcSnCV5fX
-	BZGY1dqccTV1+JzWzvf9db+HBT3VcSfb5H36qIBitBQsy+/eoJpJfY1ycxUDKTpv0UPhqku4RGCbr
-	8F6YiMlsyQVYaj+A6p6XF5pU3jsEhsmt6cg5T468upAX7mhvO5AYKfZ7NKp+d2e80TpZqck+FbKrs
-	hZ2DKe/A==;
-Received: from desk.lan ([2a01:d0:333::831])
-	by mini.riabenko.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <roman@riabenko.com>)
-	id 00001w-0000000004F-2oSq;
-	Sun, 26 Apr 2026 16:20:59 +0300
-Message-ID: <8382259f9d19c8480bf77ac04d7970d1d6f0988c.camel@riabenko.com>
-Subject: Re: new A64-OLinuXino revisions
-From: Roman Riabenko <roman@riabenko.com>
-To: Andre Przywara <andre.przywara@arm.com>, linux-sunxi@lists.linux.dev
-Cc: Stefan Mavrodiev <stefan@olimex.com>
-Date: Sun, 26 Apr 2026 16:20:51 +0300
-In-Reply-To: <2e17130f-0bc4-4f76-a793-546aed49c9e0@arm.com>
-References: <a20042b7088df2182121445368fce8fb4d129d46.camel@riabenko.com>
-		 <2e17130f-0bc4-4f76-a793-546aed49c9e0@arm.com>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-Zh41KPS2YTMi3TI8Zk/7"
-User-Agent: Evolution 3.60.0 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gupTCyMC"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-82f943870baso3793843b3a.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 26 Apr 2026 06:58:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777211903; x=1777816703; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4PBfpNfiIjOJFFL0xA0IF9h53jT9Y+7A2MFAc7Sp6JM=;
+        b=gupTCyMCRfkEo7tndzPiwp6Od6JfDQ0FrMKLLOtfyEkgSlzue6z++TI1YWgox3PllS
+         EJrEnJuXEvf/go3YEPwL6TDgyymNhsy5vOpY4vKsHZ0OunH/5mHCmF62GdoW9oD/fHMD
+         AkNWL3flYmkI4zsCoZHrijtamRALFISx5PVpt32d2hqOKY8JaehQ5qW2LbK8pMrVOX45
+         vLKMKDn0s2Mv7u4Rv3IdMJVsEFUpyePizonsJyj9P0y9vdzFGz+gwbOn83S4klXWOnIs
+         udLLLmdG1JKmKURWipctK4uXvglV22A/mtYDvtwRPaohrp7/xfaCryerXWu5Rkx7p7EC
+         36CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777211903; x=1777816703;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4PBfpNfiIjOJFFL0xA0IF9h53jT9Y+7A2MFAc7Sp6JM=;
+        b=ad3MhPdOUIt0zh+9rT/aXjw38V2tj3IXApkTdASZ9X0auU6VbjFxZIazgACvmvCQGc
+         1RXJIQBqXiFhuDow5RH6b0ipdYHgMiQ5yaFlsdDbBHrk42f4q97kjgeNGPp7Pi89M+Fx
+         S4fpKNrwD6Gh1v/hb0IIioDQBQYeVCMWSnt2Ods/wQv01Xtl0/c1DC/ohYufSBzCjpjk
+         /AmtiM5oLK32wqr1EzP1jojmD1/qg3AVWmXZW15cqcA95C5ufi+VFkeVhDv1c8EWbJcv
+         KUXs1HTn0Lmdml0BHg+D3fuOZqaJ8NAvAbv1YhYuxxAHl3KKL9ZHZWAbXNKPLkPLcj06
+         HDkA==
+X-Forwarded-Encrypted: i=1; AFNElJ/RcqfKVuMB3MdEPN1CxQetgVEILQ/lD+WIJgBOeODVrgbYRGQqlnOK7F4rGFrCcneCHvmO2t5hC6hv5A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwJb06AZIiYljRuCFxhu6tIT4ZvnXGBhdEfBldYPbvX0QPMjrWz
+	npxm+LUUbu1pppvztbz0HZFThmf5bLa+xgF3JYPcax3PonBN5vFVtog=
+X-Gm-Gg: AeBDieu86OIc2oUPLs23vTn0yqpL4hhb9uV3yHUL2bxFhck0tCYjy8nIT7OdpJqRrAj
+	LsGy3eGB1FAuO9lfh4cHZlqZrsbUA7OBdo/0UOiFxfYOaob/BVJ4Bz+wJI2AhyqU/NIbYCFD+kH
+	tV8augKwRDnvduD/3IcBXwliBL7eaUOJtB++R9heHT/3IAnZ9ldjiaOzd6wezDd/oLsk/hOvzik
+	TS1+wgW6fjv6kKUu02QJIw4ryj+vjjZyGCqTBlbepTZ5j+nsr/ROg2eeyI6ww3qJxvhdus3BDDy
+	ZcjxKt5iIBRxmH3zJdMf+HsWXT4ljYAHwYLI9rW3+8V6m5VSEIoqoWc0vjqvQ34lrTetBlpXGSd
+	j+j96qttlZWJUfS96YHERQZUCkuOA5nASrAY9kT1mWTKKzfNE9NjaE689SbcnXxFSnbHElRZbnN
+	mWZAq0v8/P1/jq7LJMyeXMMQ+HypxG11htLTQINHUu+0v2P+4V+CJIDkZ5iFI762oC75mR12LtX
+	ySihwlkCg==
+X-Received: by 2002:a05:6a20:e210:b0:39b:91d1:6bf3 with SMTP id adf61e73a8af0-3a08d8ff2b2mr42090665637.56.1777211903497;
+        Sun, 26 Apr 2026 06:58:23 -0700 (PDT)
+Received: from localhost.localdomain ([1.226.165.54])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ebbcfd7sm36558098b3a.32.2026.04.26.06.58.20
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 26 Apr 2026 06:58:22 -0700 (PDT)
+From: Myeonghun Pak <mhun512@gmail.com>
+To: Maxime Ripard <mripard@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Myeonghun Pak <mhun512@gmail.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ijae Kim <ae878000@gmail.com>
+Subject: [PATCH] media: sun4i-csi: Clean up media device on probe errors
+Date: Sun, 26 Apr 2026 22:58:11 +0900
+Message-ID: <20260426135816.8080-1-mhun512@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
+sun4i_csi_probe() initializes the media device before acquiring the
+MMIO resource, IRQ, clocks, reset control and media entity pads.
+Several of those failure paths return directly.
 
---=-Zh41KPS2YTMi3TI8Zk/7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+media_device_cleanup() is still required after media_device_init(),
+and a failed probe does not run the driver remove callback. Route
+those errors through the existing media-device cleanup path before
+returning.
 
-=D0=A3 =D0=BF=D1=82, 2026-04-24 =D1=83 12:08 +0200, Andre Przywara =D0=BF=
-=D0=B8=D1=88=D0=B5:
-> I take it you are not directly involved with the vendor
-Yes, I am not connected to the vendor.
+Co-developed-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+---
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c | 32 ++++++++++++++--------
+ 1 file changed, 20 insertions(+), 12 deletions(-)
 
-> On 4/24/26 11:25, Roman Riabenko wrote:
-> > The vendor revised A64-OLinuXino and released additional
-> > devicetrees.
-> Well, "released" should be done via sending to the kernel mailing
-> list, getting them reviewed and then merged.=20
-I should said instead that they released a version of their customised
-Debian image, which uses those devicetrees. I have asked in the support
-forum to clarify whether they plan to mainline the changes.[1]
-
->=20
-> So does one vendor devicetree support all versions? Or do they patch=20
-> something, either when installing or at each boot time?
-Per their uboot source code,[2] SPL identifies the board by its RAM,
-SPI, and eMMC sizes and assigns one of 5 configuration codes according
-to the board variant, but not revision. There are generated kernel.itb
-(and kernel.its) in /boot, which matches the configuration codes[3] to
-5 board variants, provides paths to 5 devicetrees, and the address to
-load the devicetree to. Those 5 devicetrees are the new ones which I
-refer to. They contain variant-specific "model" and "compatible"
-values. They set RX delay for Ethernet.
-
-There is some uboot logic matching 6 variants of the board (1 extra
-code) to only 2 devicetrees.[4] Running binwalk on uboot copied from
-the image confirms that there are only those 2 devicetrees in uboot.
-Those devicetrees look similar to the mainline. The "model" and
-"compatible" match the upstream. And they do not set RX delay for
-Ethernet.
-
-The vendor's uboot source code differentiates between revisions of
-another board,[5] but not between revisions of A64-OLinuXino.
-
-I asked in the support forum to clarify whether the new devicetrees
-work for all revisions of the board, including the past revisions.[1]
-Previously, the support suggested that the changes are possibly
-associated with additional electromagnetic shielding of Ethernet in
-revision E,[6] which is mentioned in the hardware changes log.[7]
-
-So, there are two different devicetrees loaded by uboot. The one used
-by uboot appears to be one of the 2 uboot includes, but modified in
-memory. For example, "compatible" matches the board variant already,
-but "model" is still from the devicetree included in uboot. The other
-one, which is passed to the kernel, is one of the 5 new ones.
-
-=3D> fdt addr $fdt_addr_r
-=3D> fdt header
-magic:                  0xd00dfeed
-totalsize:              0x9af8 (39672)
-off_dt_struct:          0x38
-off_dt_strings:         0x8df0
-off_mem_rsvmap:         0x28
-version:                17
-last_comp_version:      16
-boot_cpuid_phys:        0x0
-size_dt_strings:        0xd08
-size_dt_struct:         0x8db8
-number mem_rsv:         0x0
-=3D> fdt print / model
-model =3D "Olimex A64-Olinuxino-2Ge8G-IND"
-=3D> fdt print / compatible
-compatible =3D "olimex,a64-olinuxino-2ge8g", "allwinner,sun50i-a64"
-=3D> fdt print /soc/ethernet@1c30000 allwinner,rx-delay-ps
-allwinner,rx-delay-ps =3D <0x000000c8>
-=3D> fdt addr $fdtcontroladdr
-=3D> fdt header
-magic:                  0xd00dfeed
-totalsize:              0xacad (44205)
-off_dt_struct:          0x38
-off_dt_strings:         0x8f20
-off_mem_rsvmap:         0x28
-version:                17
-last_comp_version:      16
-boot_cpuid_phys:        0x0
-size_dt_strings:        0xd81
-size_dt_struct:         0x8ee8
-number mem_rsv:         0x0
-=3D> fdt print / model
-model =3D "Olimex A64-Olinuxino-eMMC"
-=3D> fdt print / compatible
-compatible =3D "olimex,a64-olinuxino-2ge8g-ind"
-=3D> fdt print /soc/ethernet@1c30000 allwinner,rx-delay-ps
-libfdt fdt_getprop(): FDT_ERR_NOTFOUND
-
-> Do you have any board of older revisions, by any chance, so that you=20
-> could run some tests?
-No, I only have a revision H board.
-
-> And do you have a list of exact changes between revisions? Is there
-> some changelog somewhere on the Olimex site or repo? Also I see that
-> the Olimex OSHW repo lists revisions up to H already.
-For hardware, the revisions changelog is the one which you refer to.[7]
-For software, I did not find one matching board revisions. There is the
-changelog for the vendor distribution images.[8] I have asked the
-support whether there is anything else.[1]
-
->=20
-> So is there a way to detect those revisions?=20
-I have not found one so far.
-
-> > For your immediate reference, I attach the patch obtained from the
-> > GitHub commit changing devicetrees.
-> So this one seemingly ignores the mainline devicetrees, instead
-> installs their own versions? I would have hoped they would at least
-> adjusted or included the mainline DTs ...
-Per my observations described above, they still use modified versions
-of the mainline DTs for their uboot, but the newer DTs are used by the
-kernel.
-
-[1]:
-https://www.olimex.com/forum/index.php?topic=3D9989.msg46689#msg46689
-[2]:
-https://github.com/OLIMEX/u-boot-olinuxino/blob/23d8f769a94ae230b7a68fa812c=
-c3c4dc0cbf1c9/board/olimex/a64_olinuxino/board.c#L39
-
-[3]:
-https://github.com/OLIMEX/olimage/blob/a33bf53f8dd13fdcece0c77f1b06064e9ffc=
-bb83/configs/boards/a64-olinuxino.yaml
-
-[4]:
-https://github.com/OLIMEX/u-boot-olinuxino/blob/23d8f769a94ae230b7a68fa812c=
-c3c4dc0cbf1c9/board/olimex/common/boards.c#L275
-[5]:
-https://github.com/OLIMEX/u-boot-olinuxino/blob/23d8f769a94ae230b7a68fa812c=
-c3c4dc0cbf1c9/board/olimex/common/boards.c#L502
-[6]:
-https://www.olimex.com/forum/index.php?topic=3D9989.msg46678#msg46678
-[7]:
-https://github.com/OLIMEX/OLINUXINO/tree/master/HARDWARE/A64-OLinuXino
-[8]: https://images.olimex.com/changelog.txt
-
---
-Roman
-
---=-Zh41KPS2YTMi3TI8Zk/7
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQJHBAABCAAxFiEEbyuIUwJNVUrtp3hK60bLvjKDmmkFAmnuETMTHHJvbWFuQHJp
-YWJlbmtvLmNvbQAKCRDrRsu+MoOaaVSFD/4h2D7Dl3uzQUV33QEhw7luWfCrU3rx
-GmJRaOe8Gnqexe287JZmMWkNoH9XeaGep8Re5a//TV0XOeG/hAJ9lQIUUhKqRg/6
-YQ7OHlz8iFlQPVQiOQrNef0GQMa1uosMktSktZQyvexmIPP7X1LoTcts+yA62IwT
-TCZk9BP0hS7AIQEE/9l8fAdheuQUcwcWYYtT8QNGtz3AcEHpGt3S27MSbrneX5RY
-EXkxDSaVNSy7emuLVwIv0nMtdSXNudIbQ5lZZSVj+EMAUjQ/bjpil0vNLGmDXUfz
-bY6SSS3vJnbY8hKqfB9oF4Y2H0I+91uRtS0kj7qjc0gz4zf66XwAS4i4QNbTTzT2
-D+cbBLSJSA8H/GbRDUy8Ww/1IHpDcsA0DWsKSedFEpnjpPUrmC5lo5HPFA0/bn8l
-PvAY33HzlkPxzUtryb3RcXHiqRNKR1oO3V/V1U/ZsZzUwm/hhQGomenapECG4kEY
-Zxx7qx9vsGMyo7ZjC6pnqOmn1BZojeH7ejS3Scz5GfaaOUO3ZU0XCjb/UlqxDzJW
-0MOmn9BxNzU8SVthiL4s6lUIdnkpgMMOUO5X2JN1nXr2BVFGsrHdLGOYd0YMS5X9
-LX2YAVcb2DXu1B2R2tzmECYPi8yvUFAs0xikekuIIRxTTpPywhmElqAgY3jSC0cZ
-f3lUCsUVbvRUcg==
-=5aff
------END PGP SIGNATURE-----
-
---=-Zh41KPS2YTMi3TI8Zk/7--
+diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+index e53a07b770..a504a1c78e 100644
+--- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
++++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+@@ -187,37 +187,45 @@ static int sun4i_csi_probe(struct platform_device *pdev)
+ 	csi->v4l.mdev = &csi->mdev;
+ 
+ 	csi->regs = devm_platform_ioremap_resource(pdev, 0);
+-	if (IS_ERR(csi->regs))
+-		return PTR_ERR(csi->regs);
++	if (IS_ERR(csi->regs)) {
++		ret = PTR_ERR(csi->regs);
++		goto err_clean_mdev;
++	}
+ 
+ 	irq = platform_get_irq(pdev, 0);
+-	if (irq < 0)
+-		return irq;
++	if (irq < 0) {
++		ret = irq;
++		goto err_clean_mdev;
++	}
+ 
+ 	csi->bus_clk = devm_clk_get(&pdev->dev, "bus");
+ 	if (IS_ERR(csi->bus_clk)) {
+ 		dev_err(&pdev->dev, "Couldn't get our bus clock\n");
+-		return PTR_ERR(csi->bus_clk);
++		ret = PTR_ERR(csi->bus_clk);
++		goto err_clean_mdev;
+ 	}
+ 
+ 	if (csi->traits->has_isp) {
+ 		csi->isp_clk = devm_clk_get(&pdev->dev, "isp");
+ 		if (IS_ERR(csi->isp_clk)) {
+ 			dev_err(&pdev->dev, "Couldn't get our ISP clock\n");
+-			return PTR_ERR(csi->isp_clk);
++			ret = PTR_ERR(csi->isp_clk);
++			goto err_clean_mdev;
+ 		}
+ 	}
+ 
+ 	csi->ram_clk = devm_clk_get(&pdev->dev, "ram");
+ 	if (IS_ERR(csi->ram_clk)) {
+ 		dev_err(&pdev->dev, "Couldn't get our ram clock\n");
+-		return PTR_ERR(csi->ram_clk);
++		ret = PTR_ERR(csi->ram_clk);
++		goto err_clean_mdev;
+ 	}
+ 
+ 	csi->rst = devm_reset_control_get(&pdev->dev, NULL);
+ 	if (IS_ERR(csi->rst)) {
+ 		dev_err(&pdev->dev, "Couldn't get our reset line\n");
+-		return PTR_ERR(csi->rst);
++		ret = PTR_ERR(csi->rst);
++		goto err_clean_mdev;
+ 	}
+ 
+ 	/* Initialize subdev */
+@@ -236,17 +244,17 @@ static int sun4i_csi_probe(struct platform_device *pdev)
+ 	ret = media_entity_pads_init(&subdev->entity, CSI_SUBDEV_PADS,
+ 				     csi->subdev_pads);
+ 	if (ret < 0)
+-		return ret;
++		goto err_clean_mdev;
+ 
+ 	csi->vdev_pad.flags = MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_MUST_CONNECT;
+ 	vdev->entity.ops = &sun4i_csi_video_entity_ops;
+ 	ret = media_entity_pads_init(&vdev->entity, 1, &csi->vdev_pad);
+ 	if (ret < 0)
+-		return ret;
++		goto err_clean_mdev;
+ 
+ 	ret = sun4i_csi_dma_register(csi, irq);
+ 	if (ret)
+-		goto err_clean_pad;
++		goto err_clean_mdev;
+ 
+ 	ret = sun4i_csi_notifier_init(csi);
+ 	if (ret)
+@@ -266,7 +274,7 @@ static int sun4i_csi_probe(struct platform_device *pdev)
+ 	media_device_unregister(&csi->mdev);
+ 	sun4i_csi_dma_unregister(csi);
+ 
+-err_clean_pad:
++err_clean_mdev:
+ 	media_device_cleanup(&csi->mdev);
+ 
+ 	return ret;
