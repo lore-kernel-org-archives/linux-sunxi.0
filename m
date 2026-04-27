@@ -1,127 +1,131 @@
-Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A53939A7F4;
-	Mon, 27 Apr 2026 09:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.194.8.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F0A33B27D7
+	for <linux-sunxi@lists.linux.dev>; Mon, 27 Apr 2026 10:00:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777282296; cv=none; b=Y6QPpD/REBR03oFTohKkwiyxCNdatJ54i0rwpiwg2wXPkMckdDxSUv+weBCsqxjpSyqmI8CGOo6sFtct3qLZM8iQIM3loh/6BjhkcEiWkoiQrhWc9Ua/1arLa4rxsfDoDsA/eMN4dmD04Wq6FOHj/yFExairzeAlitGpEbxMq4A=
+	t=1777284059; cv=none; b=Smldhpge+PNpttEV1o6kfzGojjVCEVZtqtlQfAOLWr9rFGUAVBpv+XJQiIQKlT633JRxngqFNq/Pfe98ncARwIoP4SSE9qac7PXAts7L7nUSTBsDQtdx8Vmze2phE6t+oO3Pa5XhigGH0q5bArT+nb/8riKStgkb3y/974n06/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777282296; c=relaxed/simple;
-	bh=A0oXCMrybLIEwLDt5XmVSSXvZtqREUvn/lU0xjuCu6A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X7RlpiH4U48fP7xcaHQwOPkJx6htsaGnPx/MwzSXv/GL4y1XOtjahdgAfzubHJTJZpvxhlhpyLUHYpH73D6e7E/yAlG8/oXPCbNJ0LVVMEelN69/jc1rkvvotwD8JEamtzY10Gjt8bdUiiRyOv5QuQDhFk/zbA/TQHDdIN2G1eY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; spf=pass smtp.mailfrom=dolcini.it; dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b=Oui0MOT0; arc=none smtp.client-ip=217.194.8.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
+	s=arc-20240116; t=1777284059; c=relaxed/simple;
+	bh=ZI6ZwXlG1e5ACFzhDMQRxll59Q4E3kZhbdsX1UNQ54c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NH6wQsLFb2FbW9OQtN32N/6YHiLop0UET0x5XV0o3y9Vn+nl2dYO1coP+GU4ZP98EtZ4fT4XNPBAbot61tISwUF1lzxhI3s9xFMfGBereI7BAA3h2VodyUwvzg4aNFzxN7zgZROl0+zyYoxkXopc0Ci8sL339lNsHC5NmeO625M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gql2NRY3; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b="Oui0MOT0"
-Received: from francesco-nb (248.201.173.83.static.wline.lns.sme.cust.swisscom.ch [83.173.201.248])
-	by mail11.truemail.it (Postfix) with ESMTPA id 39F831FB1B;
-	Mon, 27 Apr 2026 11:31:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
-	s=default; t=1777282292;
-	bh=3f+ipyipbG9ve74SWingHtpF8ckpjt3qTGqxppXfFzY=; h=From:To:Subject;
-	b=Oui0MOT0x94+2dM3R5uOpRffJ9Wx9j6ylSA9QAkTg92XTx+dn56JG7xkyoASs/fa6
-	 jeurKD+LfLijfHlA9mg6wH5OqqjaEOvDVucHz17xzhALz3mdyDx+/MsPHaZVp+YVxJ
-	 VIU34BPvnoFHTPl+YThEFIUGqU6HzI1TbxO1HNl3JHKluUYtK9yGDDeiUXDnyOF/Yz
-	 U9rQ8naikD2oQ8qGchfq7QlTttc7kMhUh/sUuzk97naTvYQq6FTtCPfwqgnIJIqwXO
-	 eWElkycEwmM5cl9ZVK2doQf8R3IWlYTNVaMEWuAXQbf20IyJv35NG87Vt7cb+pgGT3
-	 aaV344jJwI6MA==
-Date: Mon, 27 Apr 2026 11:31:27 +0200
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Francesco Dolcini <francesco@dolcini.it>, peng.fan@oss.nxp.com,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gql2NRY3"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2b23fcf90b2so95104945ad.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 27 Apr 2026 03:00:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777284057; x=1777888857; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0EvvvHNzTOaXmxdzFUeL0y2A0j/j9spluGpaFZP3FMU=;
+        b=gql2NRY30OJLLeOobf4hSGkCc5WqR6XXXPbGgg6JsyyKl6eVta6fyE1+vX5So30UlO
+         sEePuHQM+OFebI43KFZcGmnivO8+HsCnJIFgJqct6n6aUWJK/91LthqUJ67sb1Tvjn42
+         ZzxixEWh6az1IxRwBMl7GqEA/6xdhF5acJdMiQbH4zAv2wskfXgoEmzgutt15QKi1pOf
+         aWMqlXxo6n49YM55cHFa3+r9DKQA+ffW0gZBUbKDZM4efgRQE0bAbzaYyID67DbtAVz+
+         +i3dYCuN2pRKiTnpAOdAowt3oZppKtgZCh7PdhMRXKyT6k0ML2bte4zoCHLEkYiKP/Bt
+         OhyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777284057; x=1777888857;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0EvvvHNzTOaXmxdzFUeL0y2A0j/j9spluGpaFZP3FMU=;
+        b=dx/ErRAe2GEMie5SKtEKqVpQXGUjHlk0AF9c5B9wOX5XTJyX4zaFyCWLB8jawVgAih
+         C+dE4RjYeMB/KqKbhru3ZrvhzX+wHKPsP7xPmVti6ucuMlctM0kHTGMzqv9nSO7sLvK/
+         +g5UXxmh/NR/WBIpQXAunA5OsrZiFEaLoiox2kBPSNXrwdkQYX2pgBVfwumeb8ORiSVg
+         VbwESKdAei6iR+EFPid3/z13kZk/AD/MRHBLyS4wLP8LdEuE5SQ/QwLeEB8rHWRqh2U9
+         8wM3M7uPIzEl5VQQ46wd6EgzBqOrs6/+czK/pQjWzXaPASL+HxdC/eYVPiBjOLunW+RU
+         N0DA==
+X-Forwarded-Encrypted: i=1; AFNElJ8smx9xlqFjAiM4Drv/NxwNwHWH1Z4aIHouIT4tusJ/kQdSkdSWpcCBQEEi1WxKgTizKGJ3AW2PwgMpWg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy/Vi5zMewwU1F+O6pcVNjiGRshPica8Shi1kUeEcKRUpUcQ684
+	oMM+ykEzYrtZ9RjlPtNFUVwSTZqQSd2G+IXID9RL0H0N7t/mIa50XBk=
+X-Gm-Gg: AeBDies4J0i5ehyB1xJ4nKavoAxAZ5Yzd+QxyRhxYGVX3YoLiI72T0jzeD7xwXFYqI4
+	O18yYPK0kZ2LgLi+/J8LNGdwD8bdE6ypUbTDTDNx1vda3J/bn/pPoeJYo+2TtTjRv1zZ7/Cw8gc
+	u+coQqwVaMSPtqwoNaJW0Whgn6Jy3zzzEc2IYM6aL3WAoohSjbpE9DUoe8JbaVGoMWGYymYNAoO
+	bxegXO98I4sm19qxA339FIbbMh0npkZxaGBObkBFd0AVqxIOALZCbpLJ62RTYrnKYL4hOhX20rp
+	Oe/5YlNCqwk98ljuvG0/lymP4f3D6cA8YvuMVTZH8ygVNFxduDBIEkKIXaHHqQ0oWhVA6pBYHOv
+	oDkFRCHZ47irCI4Sb6GGa3EsyV9U1yWkftLowUMFVKK5mabojsWGbg9iyOsAD3PxRvXliOFOBW2
+	mMzwZCaCrONBvRdwEuy8tEOTvjfhX5uwqUnrkWJTt57LR0M6/aMThqBi27XtFeb+iJu0zPFa7OF
+	hRQNCag6m7h0I24wAoayf3+k8e4SOcX1949cfHNDIAPXpA=
+X-Received: by 2002:a17:902:e54e:b0:2ae:ce35:2686 with SMTP id d9443c01a7336-2b5f9e64c77mr424633395ad.5.1777284057141;
+        Mon, 27 Apr 2026 03:00:57 -0700 (PDT)
+Received: from localhost.localdomain ([1.226.165.54])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fa9ff713sm304240245ad.5.2026.04.27.03.00.53
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 27 Apr 2026 03:00:56 -0700 (PDT)
+From: "=?UTF-8?q?=EB=B0=95=EB=AA=85=ED=9B=88?=" <mhun512@gmail.com>
+X-Google-Original-From: =?UTF-8?q?=EB=B0=95=EB=AA=85=ED=9B=88?= <pakmyeonghun@bagmyeonghun-ui-MacBookPro.local>
+To: Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, Frank Li <Frank.Li@nxp.com>,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, driver-core@lists.linux.dev,
-	regressions@lists.linux.dev
-Subject: Re: [PATCH v2 6/9] soc: imx8m: don't access of_root directly
-Message-ID: <20260427093127.GA50667@francesco-nb>
-References: <20260223-soc-of-root-v2-0-b45da45903c8@oss.qualcomm.com>
- <20260223-soc-of-root-v2-6-b45da45903c8@oss.qualcomm.com>
- <6593091.DvuYhMxLoT@steina-w>
- <20260427064704.GA17710@francesco-nb>
+	Samuel Holland <samuel@sholland.org>
+Cc: Myeonghun Pak <mhun512@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Ijae Kim <ae878000@gmail.com>
+Subject: [PATCH] media: cedrus: clean up media device on probe failure
+Date: Mon, 27 Apr 2026 19:00:10 +0900
+Message-ID: <20260427100049.29034-1-pakmyeonghun@bagmyeonghun-ui-MacBookPro.local>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260427064704.GA17710@francesco-nb>
+Content-Transfer-Encoding: 8bit
 
-+Peng
+From: Myeonghun Pak <mhun512@gmail.com>
 
-Hello all,
+cedrus_probe() initializes the media device before registering the video
+device, the media controller, and the media device. If any of those later
+steps fails, probe returns without calling media_device_cleanup(), so the
+media device internals initialized by media_device_init() are left behind.
 
-On Mon, Apr 27, 2026 at 08:47:04AM +0200, Francesco Dolcini wrote:
-> On Tue, Mar 24, 2026 at 11:24:09AM +0100, Alexander Stein wrote:
-> > Hi,
-> > 
-> > Am Montag, 23. Februar 2026, 14:37:21 CET schrieb Bartosz Golaszewski:
-> > > Don't access of_root directly as it reduces the build test coverage for
-> > > this driver with COMPILE_TEST=y and OF=n. Use existing helper functions
-> > > to retrieve the relevant information.
-> > > 
-> > > Suggested-by: Rob Herring <robh@kernel.org>
-> > > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> > 
-> > today I noticed the following warning running next-20260323:
-> > > caam 30900000.crypto: No clock data provided for i.MX SoC
-> > 
-> > This happens when there is no matching against the soc_id.
-> > 
-> > Checking the source it turns out this patch is the cause that the SoC info
-> > does not provide soc_id anymore.
-> > next-20260323:
-> > > $ grep . /sys/devices/soc0/*
-> > > /sys/devices/soc0/family:Freescale i.MX
-> > > /sys/devices/soc0/machine:TQ-Systems i.MX8MPlus TQMa8MPxL on MBa8MP-RAS314
-> > > grep: /sys/devices/soc0/power: Is a directory
-> > > /sys/devices/soc0/revision:unknown
-> > > /sys/devices/soc0/serial_number:0000000000000000
-> > > grep: /sys/devices/soc0/subsystem: Is a directory
-> > 
-> > reverting this patch (2524b293a59e586afd06358d0b191ab57208a920):
-> > > $ grep . /sys/devices/soc0/*
-> > > /sys/devices/soc0/family:Freescale i.MX
-> > > /sys/devices/soc0/machine:TQ-Systems i.MX8MPlus TQMa8MPxL on MBa8MP-RAS314
-> > > grep: /sys/devices/soc0/power: Is a directory
-> > > /sys/devices/soc0/revision:1.1
-> > > /sys/devices/soc0/serial_number:469677A693A4B8CE131D180033E44903
-> > > /sys/devices/soc0/soc_id:i.MX8MP
-> > > grep: /sys/devices/soc0/subsystem: Is a directory
-> > 
-> > soc_id is restored. Now that I write these lines I noticed that
-> > serial_number also contained empty value which is restored with the revert.
-> 
-> Any update on this? I would say this is a regression in 7.1-rc1.
-> 
-> I noticed the same issue, and CAAM is not working.
-> 
-> [    0.000000] Linux version 7.1.0-rc1-0.0.0-devel (oe-user@oe-host) (aarch64-tdx-linux-gcc (GCC) 15.2.0, GNU ld (GNU Binutils) 2.46) #1 SMP PREEMPT Sun Apr 26 21:19:00 UTC 2026
-> ...
-> [   10.611139] caam 30900000.crypto: No clock data provided for i.MX SoC
-> [   10.611211] caam 30900000.crypto: probe with driver caam failed with error -22
+Add a media-device cleanup label to the probe unwind path and route video
+registration failures through it as well.
 
-I guess this is the fix
+Fixes: 50e761516f2b8c ("media: platform: Add Cedrus VPU decoder driver")
+Cc: stable@vger.kernel.org
+Co-developed-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+---
+ drivers/staging/media/sunxi/cedrus/cedrus.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-https://lore.kernel.org/all/20260427-soc-imx8m-fix-v1-1-1fe5b43d8090@nxp.com/
-
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index 6600245dff..2c25654640 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -507,7 +507,7 @@ static int cedrus_probe(struct platform_device *pdev)
+ 	ret = video_register_device(vfd, VFL_TYPE_VIDEO, 0);
+ 	if (ret) {
+ 		v4l2_err(&dev->v4l2_dev, "Failed to register video device\n");
+-		goto err_m2m;
++		goto err_media_cleanup;
+ 	}
+ 
+ 	v4l2_info(&dev->v4l2_dev,
+@@ -533,6 +533,8 @@ static int cedrus_probe(struct platform_device *pdev)
+ 	v4l2_m2m_unregister_media_controller(dev->m2m_dev);
+ err_video:
+ 	video_unregister_device(&dev->vfd);
++err_media_cleanup:
++	media_device_cleanup(&dev->mdev);
+ err_m2m:
+ 	v4l2_m2m_release(dev->m2m_dev);
+ err_v4l2:
+-- 
+2.50.1
