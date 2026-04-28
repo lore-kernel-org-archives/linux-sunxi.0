@@ -1,130 +1,204 @@
-Received: from s106b.cyber-folks.pl (s106b.cyber-folks.pl [195.78.66.88])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4232765FF;
-	Tue, 28 Apr 2026 16:29:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.78.66.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA2A347FE1
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Apr 2026 17:39:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777393774; cv=none; b=CR0C/zVlagNz1bu4DU+WT2cgU1CVXEddqSrUeVre0UV9QOLMhtrzC+QfSVbWJsBJBgVD9C3wRlBKEtTNLn8voM+eQ1FbHV5Vb3YahYJ5ahQdjpNT0w+RTdl3VJIAXuTsoeC6NW/ENpBfxb/1Kfl8/vn3mxpjRzMVwOgXRVAqLwo=
+	t=1777397998; cv=none; b=q7G6+p63OiWH0uNYp83xkp2kExPii21bdnoy3kpuzFz457btD8pIRgDOX8bOHlSAHWmqUzyND3M6xvjsflVQG+PDj7tJNyhbVt3IgMOvgbsIjqQRYOlCJmFKlNwGlGYPrzCCJgikGZlHzD4KP1n09ohzgDHUlj1GPxUa6k8xZ44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777393774; c=relaxed/simple;
-	bh=A/z3Dpfl8QWne2AA3wu272pF/oQI3BQ4sW56WDfbAfI=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=dKTHmS6ihCtj68HmtY63kyJmOVwjYXxdHEz04MO9v6agFExhrPHWC/0UMzRBF/6ekJgq+93KLZzwMotCioPBSlsU2y38TNCqx+1VHLpUKnVb7KAq2EtkBGyC2tGxNn1GBP4duW+lWYoHotHZErsxPe/l9+sq1voSdlJorvL3kLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl; spf=pass smtp.mailfrom=mmpsystems.pl; dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b=iwo9t9tb; arc=none smtp.client-ip=195.78.66.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mmpsystems.pl
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b="iwo9t9tb"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=mmpsystems.pl; s=x; h=Cc:To:Content-Transfer-Encoding:Content-Type:
-	MIME-Version:Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=n+gzKv8oABCibww26yHxbbHYrvpU+Axs/A9jx80GuIo=; b=iwo9t9tbfRmgklfoJ45J2GevEw
-	Yra2fSUDPmfbMdCp3PFIPzLC2nMmReCNdhefU+oOWqPBIZP2pp0Qz7vIt6iTqgL0NnHiEYbGN7TFa
-	ZoxxMG8EUzJiVCl2/vbsC/gVxr0+V941w0epJeEQGtWGqFhqJB4ytBk4AsxQvKl8/CanFr4tr6Zes
-	tasAEKto8LuQJBpdbrIctkZB3WdnjfTRshdMRMQdQYkVtub4fl3xumFH/K5ZNXKUw8k0vFwEvTISo
-	v9oqMmv6ZTXcITRhpsrgJCju37s9JWRdAuavWWpti2nV87+92qbqb/3O5HL1SN8PIXjXEUDxxRC9c
-	8UtXJvBQ==;
-Received: from user-188-33-36-99.play-internet.pl ([188.33.36.99] helo=localhost)
-	by s106.cyber-folks.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <michal.piekos@mmpsystems.pl>)
-	id 1wHlJO-0000000AxAL-3BSY;
-	Tue, 28 Apr 2026 18:29:26 +0200
-From: Michal Piekos <michal.piekos@mmpsystems.pl>
-Subject: [PATCH v3 0/4] Add hstimer support for H616 and T113-S3
-Date: Tue, 28 Apr 2026 18:26:57 +0200
-Message-Id: <20260428-h616-t113s-hstimer-v3-0-7e02178a93ee@mmpsystems.pl>
+	s=arc-20240116; t=1777397998; c=relaxed/simple;
+	bh=5km3m/zVclPTVEeLMEhob1U4E2OnXz0UKKP+W4HyOD0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QGm+PcWunKVgUu+kjZm9Nxe9OeA68V8XkmwOJNs9woM8AmUOljtVdy8XSif4UDz2DIJJ8wVjcJKWrY5QFWr+70PyYWDzhQ93G66XuQnyHz8nGQld9nqqSbthFNlELvtpJjoN3xsgSqxtnac15DtFplJpwTvJJEly6x7rkcZ09Hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 964281F8004F
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Apr 2026 17:39:52 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 44BE8B40476; Tue, 28 Apr 2026 17:39:51 +0000 (UTC)
+X-Spam-Level: 
+Received: from collins (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id 37EAFB40471;
+	Tue, 28 Apr 2026 17:39:50 +0000 (UTC)
+Date: Tue, 28 Apr 2026 19:39:48 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: u-boot@lists.denx.de, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Philippe Simons <simons.philippe@gmail.com>,
+	linux-sunxi@lists.linux.dev,
+	Mikhail Kalashnikov <iuncuim@gmail.com>,
+	Cody Eksal <masterr3c0rd@epochal.quest>
+Subject: Re: [PATCH v3 2/2] sunxi: H616: dram: drop default TPR6 Kconfig value
+Message-ID: <afDw5Mar9Cemsa9s@collins>
+References: <20260427135819.2577234-1-andre.przywara@arm.com>
+ <20260427135819.2577234-3-andre.przywara@arm.com>
+ <afCCmxMrYHnC9An9@collins>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANHf8GkC/23NTQrCMBCG4auUrI3kp02NK+8hLmo6MQFjSyYES
- +ndTQuCSJfvB/PMTBCiByTnaiYRskc/vErIQ0WM614PoL4vTQQTitVcUqe4oolzidRh8gEiVUJ
- LreuT1dyQcjhGsP69oddbaecxDXHafmS+rl9O73GZU0Z5Z9sa7mBb01xCGHHCBAGP45OsZBY/j
- FC7jCgMqAZ0b5jRfffPLMvyAQGfVwb/AAAA
-X-Change-ID: 20260413-h616-t113s-hstimer-62939948f91c
-To: Daniel Lezcano <daniel.lezcano@kernel.org>, 
- Thomas Gleixner <tglx@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
-Cc: Michal Piekos <michal.piekos@mmpsystems.pl>, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- Andre Przywara <andre.przywara@arm.com>, 
- Conor Dooley <conor.dooley@microchip.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1777393718; l=2250;
- i=michal.piekos@mmpsystems.pl; s=20260301; h=from:subject:message-id;
- bh=A/z3Dpfl8QWne2AA3wu272pF/oQI3BQ4sW56WDfbAfI=;
- b=YPZWR+z30g3msHg1ulMXtaCsLN3LuFhl2eHGZpUPuq53B/zuv72jSPhP5CCpRtZc9XhzdIEMH
- c2BUsjyTrnKDL6V/szS3V7KKPrsWEIAwA8noNiNE5dAB1xGDRY+lgJy
-X-Developer-Key: i=michal.piekos@mmpsystems.pl; a=ed25519;
- pk=Aixyx03If7ZDamiKKN0lsa+0mtA+WjIuIf2ZQVYNBqg=
-X-Authenticated-Id: michal.piekos@mmpsystems.pl
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="JVSmNFh8U316prLP"
+Content-Disposition: inline
+In-Reply-To: <afCCmxMrYHnC9An9@collins>
 
-Add support for Allwinner D1 high speed timer in sun5i hstimer driver
-and describe corresponding nodes in dts for H616 and T113-S3 SoC's.
 
-D1 and H616 uses same model as existing driver except register shift
-compared to older variants. 
+--JVSmNFh8U316prLP
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Added register layout abstraction in the driver, extended the binding
-with new compatibles and wired up dts nodes for T113-S3 and H616 which
-uses D1 as fallback compatible.
+Hi again,
 
-Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
----
-Changes in v3:
-- Removed left over dead code from v1
-- Link to v2: https://lore.kernel.org/r/20260426-h616-t113s-hstimer-v2-0-e65e9dc0c9da@mmpsystems.pl
+Le Tue 28 Apr 26, 11:49, Paul Kocialkowski a =C3=A9crit :
+> Hi Andre,
+>=20
+> Le Mon 27 Apr 26, 15:58, Andre Przywara a =C3=A9crit :
+> > CONFIG_DRAM_SUNXI_TPR6 is the only DRAM config parameter that has a
+> > non-zero default value. Since we need to provide a value for all the
+> > other parameters anyway, avoiding TPR6 makes no real difference.
+> > To make matters worse, TPR6 is a compound value covering multiple DRAM
+> > types, but also spans over three SoCs, which makes it hard to find one
+> > good default value.
+> >=20
+> > Drop the default from Kconfig, and put some explicit values in the
+> > defconfigs for the few boards that were relying on the default so far.
+> > The value is taken from one BSP, only the lower byte matters anyway for
+> > those boards, all using DDR3 DRAM.
+>=20
+> It looks like this change is missing some boards that we support (e.g.
+> liontron-h-a133l). Is this intentional?
+>=20
+> The TPR6 value is still used for all DRAM types, so I think we need to
+> define it for all the boards we currently support.
 
-Changes in v2:
-- Change driver handling of different offsets to using quirks
-- Change from t113s to d1 as the fallback compatible string
-- Fix conditional compatible matching
-- Link to v1: https://lore.kernel.org/r/20260419-h616-t113s-hstimer-v1-0-1af74ebef7c5@mmpsystems.pl
+Nevermind this, these other boards already have TPR6 in their config,
+lost sight of that. Then this is:
 
-To: Daniel Lezcano <daniel.lezcano@kernel.org>
-To: Thomas Gleixner <tglx@kernel.org>
-To: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-To: Conor Dooley <conor+dt@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: Samuel Holland <samuel@sholland.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: linux-kernel@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-sunxi@lists.linux.dev
-Cc: Andre Przywara <andre.przywara@arm.com>
+Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
 
----
-Michal Piekos (4):
-      dt-bindings: timer: allwinner,sun5i-a13-hstimer: add H616 and D1
-      clocksource/drivers/sun5i: add D1 hstimer support
-      arm: dts: allwinner: t113s: add hstimer node
-      arm64: dts: allwinner: h616: add hstimer node
+Thanks for picking this up!
 
- .../timer/allwinner,sun5i-a13-hstimer.yaml         |  9 ++-
- arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi       | 11 +++
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi     | 10 +++
- drivers/clocksource/timer-sun5i.c                  | 84 +++++++++++++++++-----
- 4 files changed, 94 insertions(+), 20 deletions(-)
----
-base-commit: dca922e019dd758b4c1b4bec8f1d509efddeaab4
-change-id: 20260413-h616-t113s-hstimer-62939948f91c
+All the best,
 
-Best regards,
---  
-Michal Piekos <michal.piekos@mmpsystems.pl>
+Paul
 
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >  arch/arm/mach-sunxi/Kconfig         | 1 -
+> >  configs/orangepi_zero2_defconfig    | 1 +
+> >  configs/transpeed-8k618-t_defconfig | 1 +
+> >  configs/x96_mate_defconfig          | 1 +
+> >  configs/x96q_defconfig              | 1 +
+> >  5 files changed, 4 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+> > index 284458ad9a5..18123e685dc 100644
+> > --- a/arch/arm/mach-sunxi/Kconfig
+> > +++ b/arch/arm/mach-sunxi/Kconfig
+> > @@ -151,7 +151,6 @@ config DRAM_SUNXI_TPR3
+> > =20
+> >  config DRAM_SUNXI_TPR6
+> >  	hex "DRAM TPR6 parameter"
+> > -	default 0x3300c080
+> >  	help
+> >  	  TPR6 value from vendor DRAM settings.
+> > =20
+> > diff --git a/configs/orangepi_zero2_defconfig b/configs/orangepi_zero2_=
+defconfig
+> > index b387b4795ad..afd1535052d 100644
+> > --- a/configs/orangepi_zero2_defconfig
+> > +++ b/configs/orangepi_zero2_defconfig
+> > @@ -5,6 +5,7 @@ CONFIG_SPL=3Dy
+> >  CONFIG_DRAM_SUNXI_DX_ODT=3D0x08080808
+> >  CONFIG_DRAM_SUNXI_DX_DRI=3D0x0e0e0e0e
+> >  CONFIG_DRAM_SUNXI_CA_DRI=3D0x0e0e
+> > +CONFIG_DRAM_SUNXI_TPR6=3D0x33808080
+> >  CONFIG_DRAM_SUNXI_TPR10=3D0xf83438
+> >  CONFIG_MACH_SUN50I_H616=3Dy
+> >  CONFIG_SUNXI_DRAM_H616_DDR3_1333=3Dy
+> > diff --git a/configs/transpeed-8k618-t_defconfig b/configs/transpeed-8k=
+618-t_defconfig
+> > index e4bf5e8efd3..e672d8f8df9 100644
+> > --- a/configs/transpeed-8k618-t_defconfig
+> > +++ b/configs/transpeed-8k618-t_defconfig
+> > @@ -7,6 +7,7 @@ CONFIG_DRAM_SUNXI_DX_ODT=3D0x03030303
+> >  CONFIG_DRAM_SUNXI_DX_DRI=3D0x0e0e0e0e
+> >  CONFIG_DRAM_SUNXI_CA_DRI=3D0x1f12
+> >  CONFIG_DRAM_SUNXI_TPR0=3D0xc0001002
+> > +CONFIG_DRAM_SUNXI_TPR6=3D0x33808080
+> >  CONFIG_DRAM_SUNXI_TPR10=3D0x2f1107
+> >  CONFIG_DRAM_SUNXI_TPR11=3D0xddddcccc
+> >  CONFIG_DRAM_SUNXI_TPR12=3D0xeddc7665
+> > diff --git a/configs/x96_mate_defconfig b/configs/x96_mate_defconfig
+> > index c0628370df9..1b7d9338c02 100644
+> > --- a/configs/x96_mate_defconfig
+> > +++ b/configs/x96_mate_defconfig
+> > @@ -6,6 +6,7 @@ CONFIG_DRAM_SUNXI_DX_ODT=3D0x03030303
+> >  CONFIG_DRAM_SUNXI_DX_DRI=3D0x0e0e0e0e
+> >  CONFIG_DRAM_SUNXI_CA_DRI=3D0x1c12
+> >  CONFIG_DRAM_SUNXI_TPR0=3D0xc0000c05
+> > +CONFIG_DRAM_SUNXI_TPR6=3D0x33808080
+> >  CONFIG_DRAM_SUNXI_TPR10=3D0x2f0007
+> >  CONFIG_DRAM_SUNXI_TPR11=3D0xffffdddd
+> >  CONFIG_DRAM_SUNXI_TPR12=3D0xfedf7557
+> > diff --git a/configs/x96q_defconfig b/configs/x96q_defconfig
+> > index 59f01aae4eb..068aee3fd1e 100644
+> > --- a/configs/x96q_defconfig
+> > +++ b/configs/x96q_defconfig
+> > @@ -8,6 +8,7 @@ CONFIG_DRAM_SUNXI_DX_DRI=3D0x0e0e0e0e
+> >  CONFIG_DRAM_SUNXI_CA_DRI=3D0x1f12
+> >  CONFIG_DRAM_SUNXI_TPR0=3D0xc0001002
+> >  CONFIG_DRAM_SUNXI_TPR2=3D0x00000100
+> > +CONFIG_DRAM_SUNXI_TPR6=3D0x33808080
+> >  CONFIG_DRAM_SUNXI_TPR10=3D0x002f0107
+> >  CONFIG_DRAM_SUNXI_TPR11=3D0xddddcccc
+> >  CONFIG_DRAM_SUNXI_TPR12=3D0xeddc7665
+> > --=20
+> > 2.43.0
+> >=20
+>=20
+> --=20
+> Paul Kocialkowski,
+>=20
+> Independent contractor - sys-base - https://www.sys-base.io/
+> Free software developer - https://www.paulk.fr/
+>=20
+> Expert in multimedia, graphics and embedded hardware support with Linux.
+
+
+
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--JVSmNFh8U316prLP
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmnw8OQACgkQhP3B6o/u
+lQxKPA/9Ffp2RSL8ZYGC7nijyJQkxuYJxT4YSK89Z9i5UYEHXKYSOO764rYhqznZ
+dAp8Us0bcg6EiJUWrBz0bFyaCHU0TqOAWgNrFwujVVuogo8FlWc3kKXDwnOkpBKs
+Vyo8/7nhRaIKbprxwTjqpkiZKwVgPBwn9Y9u/e9BfG/phrK+Vaz/Lns8CHm7eGu/
+84+YjgAlqflyVOR4RI39WkLg6NLStTxte3GOsAum8/TG33fldPLOW91x8ZDwY8Vv
+ugzcsIyYR7TtCJe54zfvskWKmuY9MhuBnP9SE4Vqf4pymBIqOKFPg05nCquPyqZU
+zzU75bqnzf7q4Y04y33zT4rKQijaUgyyAU3xwqW0eA8+SKBAKKI713Vg1wiofzSJ
+EVZVdB7XNEQuuXGGcUqzr5b12qnvpZPo0k7j8/6oPEhbfU2FNiONw20PyItdxo/t
+gSf1WbGZNdVnKDnIaCRNbOsRN47WlCGkcyO7iBEAM2NrsLBIi+Mnr7LThi9l/329
+46hPKgbGxB5DJv+nYM3Lh3Rr6j75rvmVE3cOPz3y6HU/Uo3Eca2BbIU+gXxP3cgS
+d9udBoxDUZXHFLxzoflwAur6KWC/i0mBk51Zi6vY5FtmWTnVmx2IIQEeRnO4BRcy
+BJ/zlRGHK7+5YUUAellYQ8QuCSAgrS37jMSgk0WWj8nePGMY5Ns=
+=DXIm
+-----END PGP SIGNATURE-----
+
+--JVSmNFh8U316prLP--
