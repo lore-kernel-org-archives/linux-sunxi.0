@@ -1,43 +1,42 @@
 Received: from s106b.cyber-folks.pl (s106b.cyber-folks.pl [195.78.66.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5DADDA9;
-	Tue, 28 Apr 2026 16:29:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60FD27404E;
+	Tue, 28 Apr 2026 16:29:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.78.66.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777393773; cv=none; b=mNUgPfn44NhkFo/24ofuenUxfp1a5RSDDTlvYsmOKrzvpbPRZRzkLaiI7ER/rvGQz25jlWHws1YSCLCEQ6+GGHPI2roQn4/HOciV1EYVYDMhrAusej7zmYItkD6KJZkIL8n3/1OQwzDnGjXClCkJIwsJNljwvEdpMxNC1F5u6ts=
+	t=1777393773; cv=none; b=Ld+Z7vEd4HBGEzc8TOUwjt8VuhOXlETExVkoIrWSpDh/P5VfbKpm5eI4nKoNv2+IQIisAE2Yun/3Xp7CqYEkfvR/gjV3JXcg+AckrsB8DwYcla3z84z2o8YhA2nMyZpdvMctuQyZY2RTv+eNS74sy7I3CBaq5jx3BhIb7EjKsV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1777393773; c=relaxed/simple;
-	bh=qh9sEc57bKsGot5lE2/m8eNigSmNqLcdmef/IL3Fdfc=;
+	bh=WB+FLCQ1pB6/hLLpL8qe5azyJH79mgJP5EWQCmjzLQg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=A9n2su2gOc4caIIblrfASNNJ4VhRNjWT7TD/cEq8RG6zUvJXDAkAyOSarIW7vU2mnw8xaEej4YHI2lOz81nbQ7au1IoMg6soRBtnaBXlUAXoiGIXPLLbaGKVoXVSPNGNm6QfaF5XJwHMay1kMKF3YE6qHpUHG1/LXXqGge1GywU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl; spf=pass smtp.mailfrom=mmpsystems.pl; dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b=x8GowFnr; arc=none smtp.client-ip=195.78.66.88
+	 In-Reply-To:To:Cc; b=F00BAidQtoF3J1REjCD2EvxZZ58G6/oghA/VdrjMAaVoVOGiTyJvx119Evaz9bsgH57kepUIp0qJRqu8cacCgVLJQsHNEUrvHrh7+RfK5fv9o743AreUyHX7pnC4tJh8FrwY0E3lJr3wUtZM7qswP2WCG5DuonG2xJuC18w9v+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl; spf=pass smtp.mailfrom=mmpsystems.pl; dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b=tS1ehIJc; arc=none smtp.client-ip=195.78.66.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mmpsystems.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b="x8GowFnr"
+	dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b="tS1ehIJc"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=mmpsystems.pl; s=x; h=Cc:To:In-Reply-To:References:Message-Id:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Qe8+erd3ATmRXcw/RE05XoQwx+r6eTzDQ+NZAClJ7ws=; b=x8GowFnrAjfX8ib/qwlXmO6cnM
-	wwzYEean0JaCy0vYjT6nXjrGzDQelBRPnVfAZkWUjte2g4BWVtYKsp06Z8PfcJsHP9VFWd/u9ZeUI
-	1R2cst1qfcASPkDEwxpHMu7f8aj2psVx546rdPO0hqWCHvAf8X3f+DzLXonr2L9B0aJPt2sre8mlG
-	IYAaeo0Y15C4gomD9fZj9J04u6NiJ5yULl6n8VG7rrmuU+PH+MVhi7zO+YghmxieQuoEme5WTqjB8
-	tJeUn9MojQPlK5xnlbmoK18Xg2q+Tfn+0NK146Oz6uOAkUn7iuVNLzNTf70drDmHHt9JfSfztEnk1
-	/3URn4kA==;
+	bh=As6ZBk4C50Ztj8e2ha9+tle4FDPExjLzugeDmo/Ec94=; b=tS1ehIJcZ9mwCbgLBOWmQ6G/uH
+	/b/F+OrCEe7x28CAYJ0oCpM7vrhEDUv8f7ZfBVQsfvb13EiB0VjPkZo6vsFxJOHlVVkLEwNBs4kwO
+	c8lj8XGy8poOUhCeVv8T1YGUHPcczGaU5Oo2UudxXXnc6XBUCT7eTP6lRtdjmViKTksOrnvgup4P8
+	pW8Uww+V/YLewiGs/pQK0oVt4q09FQtZ9djRxqilZVaa2nrIHhZn3HS7+OP/VHkIntjTOKEUcOi0b
+	879/M/PQyGk2BGzQvjssegYWVbbKRUKh2K67MEYkS5+azXApm2iOzQ1wfJ/bR+BdLoigap8tGCRv+
+	CxdwtiQw==;
 Received: from user-188-33-36-99.play-internet.pl ([188.33.36.99] helo=localhost)
 	by s106.cyber-folks.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
 	(Exim 4.98.2)
 	(envelope-from <michal.piekos@mmpsystems.pl>)
-	id 1wHlJQ-0000000Ay6i-1iSc;
-	Tue, 28 Apr 2026 18:29:28 +0200
+	id 1wHlJR-0000000Ay9T-49YO;
+	Tue, 28 Apr 2026 18:29:30 +0200
 From: Michal Piekos <michal.piekos@mmpsystems.pl>
-Date: Tue, 28 Apr 2026 18:26:58 +0200
-Subject: [PATCH v3 1/4] dt-bindings: timer: allwinner,sun5i-a13-hstimer:
- add H616 and D1
+Date: Tue, 28 Apr 2026 18:27:00 +0200
+Subject: [PATCH v3 3/4] arm: dts: allwinner: t113s: add hstimer node
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -46,7 +45,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260428-h616-t113s-hstimer-v3-1-7e02178a93ee@mmpsystems.pl>
+Message-Id: <20260428-h616-t113s-hstimer-v3-3-7e02178a93ee@mmpsystems.pl>
 References: <20260428-h616-t113s-hstimer-v3-0-7e02178a93ee@mmpsystems.pl>
 In-Reply-To: <20260428-h616-t113s-hstimer-v3-0-7e02178a93ee@mmpsystems.pl>
 To: Daniel Lezcano <daniel.lezcano@kernel.org>, 
@@ -58,62 +57,51 @@ To: Daniel Lezcano <daniel.lezcano@kernel.org>,
 Cc: Michal Piekos <michal.piekos@mmpsystems.pl>, 
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- Andre Przywara <andre.przywara@arm.com>, 
- Conor Dooley <conor.dooley@microchip.com>
+ Andre Przywara <andre.przywara@arm.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1777393718; l=1635;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777393718; l=1131;
  i=michal.piekos@mmpsystems.pl; s=20260301; h=from:subject:message-id;
- bh=qh9sEc57bKsGot5lE2/m8eNigSmNqLcdmef/IL3Fdfc=;
- b=qZpLCw+wrAJsF4G8/+1yRLu0Hy+1pGSqIursXJzKh2gfawBEHa96O7LKTtjNdtJ3/lkXgakcC
- ggXYALl7/QBClz8aezK217dHYM0oQZH0QAzwDhORe1NZCfFzvo7j7tA
+ bh=WB+FLCQ1pB6/hLLpL8qe5azyJH79mgJP5EWQCmjzLQg=;
+ b=3GNyRfpjDbtcqK/LKJuzrzfNjknCnh257Oxx/AACPv/6jmBonzBlC/rUmweHPXkCCV2s9ovxW
+ +RWr7slZII6AWiXogzBlFfjGAxODMDIGJnMukfzR5ZNI2rzhBaiw/26
 X-Developer-Key: i=michal.piekos@mmpsystems.pl; a=ed25519;
  pk=Aixyx03If7ZDamiKKN0lsa+0mtA+WjIuIf2ZQVYNBqg=
 X-Authenticated-Id: michal.piekos@mmpsystems.pl
 
-D1 is similar to existing sun5i, but with different register offsets.
-H616 uses same offsets as D1.
+Describe high speed timer block on Allwinner T113-S3.
 
-Add allwinner,sun20i-d1-hstimer
-Add allwinner,sun50i-h616-hstimer with fallback to
-allwinner,sun20i-d1-hstimer
-Extend schema condition for interrupts to cover D1 compatible variant.
+Tested on LCPI-PC-T113/F113:
+- hstimer is registered as clocksource
+- switching clocksource at runtime works
+- after rating increase hstimer operates as a broadcast clockevent device
 
 Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- .../devicetree/bindings/timer/allwinner,sun5i-a13-hstimer.yaml   | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/timer/allwinner,sun5i-a13-hstimer.yaml b/Documentation/devicetree/bindings/timer/allwinner,sun5i-a13-hstimer.yaml
-index f1853daec2f9..3e2725c56995 100644
---- a/Documentation/devicetree/bindings/timer/allwinner,sun5i-a13-hstimer.yaml
-+++ b/Documentation/devicetree/bindings/timer/allwinner,sun5i-a13-hstimer.yaml
-@@ -15,9 +15,13 @@ properties:
-     oneOf:
-       - const: allwinner,sun5i-a13-hstimer
-       - const: allwinner,sun7i-a20-hstimer
-+      - const: allwinner,sun20i-d1-hstimer
-       - items:
-           - const: allwinner,sun6i-a31-hstimer
-           - const: allwinner,sun7i-a20-hstimer
-+      - items:
-+          - const: allwinner,sun50i-h616-hstimer
-+          - const: allwinner,sun20i-d1-hstimer
+diff --git a/arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi b/arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi
+index 424f4a2487e2..40e76cfc8a1d 100644
+--- a/arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi
++++ b/arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi
+@@ -34,6 +34,17 @@ cpu1: cpu@1 {
+ 		};
+ 	};
  
-   reg:
-     maxItems: 1
-@@ -45,7 +49,10 @@ required:
- if:
-   properties:
-     compatible:
--      const: allwinner,sun5i-a13-hstimer
-+      anyOf:
-+        - const: allwinner,sun5i-a13-hstimer
-+        - contains:
-+            const: allwinner,sun20i-d1-hstimer
- 
- then:
-   properties:
++	soc {
++		hstimer@3008000 {
++			compatible = "allwinner,sun20i-d1-hstimer";
++			reg = <0x03008000 0x1000>;
++			interrupts = <GIC_SPI 55 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 56 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_HSTIMER>;
++			resets = <&ccu RST_BUS_HSTIMER>;
++		};
++	};
++
+ 	gic: interrupt-controller@1c81000 {
+ 		compatible = "arm,gic-400";
+ 		reg = <0x03021000 0x1000>,
 
 -- 
 2.43.0
