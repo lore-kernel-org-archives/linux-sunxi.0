@@ -1,164 +1,180 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013062.outbound.protection.outlook.com [40.107.159.62])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28CFC3B27CA
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Apr 2026 09:49:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.62
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777456163; cv=fail; b=o1uTIkOWYt79fxx8wj6YmIZYLnn83Hro5MoEpAsjpfWqWnupjGUQdvHJjESYlH9GXqyl7ScSDRc6tdYLe2MVOCDIhfBCakWMvuMz0l2YUKMja5Cxv3wBokEQMMoDsc/i+xH1FQqQTl2YzwplWjUU08O/lgCv4EWX17vFiVhnfP0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777456163; c=relaxed/simple;
-	bh=4IVsFrcpmxWQroo23ReCFi92pWD6eKRSok2Ou8pfv44=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=a9tQQoMrrHiW2HeX+2bNrWU2xg/bY1dK1CAlkeDEdlukby+rIc6LpS4g76yRECI95yrmb5FcbHwgvYIpY7foF3pFhBCoVV/WSihvNk/Xo6WofHLrDxsxCtp4lQjpgurD8vsoYdaOSN/G9bmx8/DmrqgM6OJmjAQgxsMJOvXN+vI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cherry.de; spf=pass smtp.mailfrom=cherry.de; dkim=pass (1024-bit key) header.d=cherry.de header.i=@cherry.de header.b=PZlLZZV/; arc=fail smtp.client-ip=40.107.159.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cherry.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cherry.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cherry.de header.i=@cherry.de header.b="PZlLZZV/"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cN+i4kBwhXWOI8f+D36wDdHnx/VKlbJHIpYvAJsgkg9pAfri0dAmaWjG+Yo/JM/XdT5ED4GPa/Q+dydX0ezGYr2V739jviC2aoo6nYELJeUoIC/4q/AwWg9hLUloPuiMX8PdkppOsY6yk81Lk/GO3a18fQDMLBS6d7c84tdiLkt9ofMzcfiuuJV0DUUtCuR6ExuH/LZ8WNxyL1l34htNqp255Kkseh46JQSR3G5QIwfGuNaNQ6mTgCBz7Vi9xVoeOLPXKS3SILwAWwXZvXOAiGDPl1dFtBOmnoKKWeG3pkRQnn3JWyhtuscfzTJD/9DyQpEKxVfv3VOmRqkpg0IB4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kHtWRwENf4vn5D6HKX2S/myNngtxJqyeT4H4aNgES9s=;
- b=kUrib5rz0cNQuhl3kAe9d9PBH9Biq+M85RKygB3poKGXamu9Zh5uBe0u0Pl01NZ4IDYA90hbMBAp7SYDY2znD4mPpx9ljKlQBDEMjn3hqJr5XmGWqB/jA8l1Y9La6vofgRvbSKUK7TInGZFjTrWJGNqij0Z4SP4FJFqbPVjNzllg0WgD9udqo9MibqUOlv5QbMWC+LhXaPzYiBkDsEQOCg8upy9oTZ54yoYvlCk5u6dwjzUoEkBIlRf1l7zAZnQFF+/JN+PgSW/yYPXTnuMqn2aQ3vPpF3x4I+0ndME4YKNKEq6Tg+rqzGi7nPlpdaGYCFINsxHAZ1LNDWs5ZNyoMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kHtWRwENf4vn5D6HKX2S/myNngtxJqyeT4H4aNgES9s=;
- b=PZlLZZV/zVdTzz6CHMfUeZeNXX0Ne0v4BBdFITmP6P29FPaj9d8GES8r3PtfKYiaLWo40tR5O+F+Pm7YFCm1++omhjYLRWjBH00wux6uQsF4DyAR5PuF/oD3dCHA2qXZh0u1arc2JK6AZRx9GxgjBoJjrmO5XEyshsiHEUtXkfI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from DBBPR04MB7737.eurprd04.prod.outlook.com (2603:10a6:10:1e5::22)
- by VI0PR04MB10807.eurprd04.prod.outlook.com (2603:10a6:800:25a::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Wed, 29 Apr
- 2026 09:49:15 +0000
-Received: from DBBPR04MB7737.eurprd04.prod.outlook.com
- ([fe80::5960:fb4b:9313:2b00]) by DBBPR04MB7737.eurprd04.prod.outlook.com
- ([fe80::5960:fb4b:9313:2b00%4]) with mapi id 15.20.9846.025; Wed, 29 Apr 2026
- 09:49:14 +0000
-Message-ID: <3ace7546-3f98-4a14-9b8e-98be2b9c044a@cherry.de>
-Date: Wed, 29 Apr 2026 11:49:12 +0200
-User-Agent: Mozilla Thunderbird
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1D9139768C
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Apr 2026 13:08:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777468097; cv=none; b=VR1Bo6F4+Eh7Jf7//RlVlNzwnBai+sgYMlJnMac30jWsRIqBl85hqqZeKwrDgrH3qcywffoXLC+EPJBHcuuU8YCz2yrRmkyzjt9h3LZvanPudV5QEs1D2jydrEdBBcDI0wkJMOxS8l3Az+PIj2XerZz5blW2SH4O/zd+cxCGeAU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777468097; c=relaxed/simple;
+	bh=y4ilU+X8x/qwO93MtMUf8tjmBZVycLjpMUIg8AXxeXw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QxO3nYAz+A3WDKpD8uYXJHRsqvcNAHou1WySF4IdOdxm4WYRrLnYbPT4SZeP45aaUh3xLGlCAev5L/42E+cLKEFaai8D7O2KzQEkmaF6ZT8/LRVrqS0Iv7WowvR3xpLjNN9UPsrKktHSJLQCC7f6tisCN3AMYTnORxEUWeMMDQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 62FC31F8005C
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Apr 2026 13:08:04 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id A3937B404A1; Wed, 29 Apr 2026 13:08:02 +0000 (UTC)
+X-Spam-Level: 
+Received: from shepard (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id BC82BB4049D;
+	Wed, 29 Apr 2026 13:08:00 +0000 (UTC)
+Date: Wed, 29 Apr 2026 15:07:58 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: u-boot@lists.denx.de, Tom Rini <trini@konsulko.com>,
+	Quentin Schulz <quentin.schulz@cherry.de>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-sunxi@lists.linux.dev
 Subject: Re: [PATCH v2 1/3] sunxi: spl: fix SPL_SUNXI_LED active low
  configuration
-To: Andre Przywara <andre.przywara@arm.com>, u-boot@lists.denx.de
-Cc: Tom Rini <trini@konsulko.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Paul Kocialkowski <paulk@sys-base.io>, linux-sunxi@lists.linux.dev
+Message-ID: <afICrnsK3Frmp7Hp@shepard>
 References: <20260429092828.3076719-1-andre.przywara@arm.com>
  <20260429092828.3076719-2-andre.przywara@arm.com>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20260429092828.3076719-2-andre.przywara@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0117.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9d::7) To DBBPR04MB7737.eurprd04.prod.outlook.com
- (2603:10a6:10:1e5::22)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DBBPR04MB7737:EE_|VI0PR04MB10807:EE_
-X-MS-Office365-Filtering-Correlation-Id: c4512160-2dcb-4079-ec20-08dea5d492ae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|10070799003|376014|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	s/Y1YpO8LG+L24JPs+d44ClaWuOuubslfJnfmirNDjrvAqPZ2Rv8SvDwgpGswAsKe+sPSYdOjYJ4dTGa90aZ+6ID5rTBC7smv1BIXg2ZnacV0a6d1l/N3XSlsoB2QE3TK7iCxYHRXo334NlDSVlD/FZ4qNZOoct7R8WpGYoybzw9/cC2BzL8QdDLBNr7YqZVin0Gf4A1IC9vl+1WA9NKXVeCpeLaZN8kw0Q9fA/WlpIQnYiiIjdIT9mxIsHCFMjez4e0xOx3aetOODOsR+i+a/I0qozt97P1REZZ8LtfM2hADxUgMJoFBgUIlFr5fwmGV+yfivDhdLezCcBc3BmInM6xKcPKxmaOtEBLTHFqHdgupgAUWuX3nzeIPAUWZG6Kzgh6NNFi+7ByO+Gl+PWtmcn/ufesaea2sE/TtNzAo0iIO+FKylBod/ErnXmFf0TBRo0Mu0Bpl0ZihcPaAZ/RNRMzw18OY2lp897KztLIf6Nr54smoPBn5kDaf239zaS48ytO5k1ixND0F5gw3uBrPvdXFt7T37icfF174KeL5VRDkQjalpOJvO+rf5oFWp9HeZwRHT3sifAeZtLOje+XhAcFxaRWUBMxg5OzPTRWMS3YbLssY8e4efxfao5G/lHDetwJUFLql6s3gYY60rtV69g2QidWlb1WZmEpkcyXoLZ0j6oX68dgO8+zsRUbF09Bwk6Z1F+OV0M7eSe2B3IF+is7FkwwQxHTPhFuSZUvPjE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7737.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(10070799003)(376014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NmEwZzQ5K3NTbTUrK0hOQXF0WE91cnNTMXhheEEwTzlUeXk2ZHhSZFdKa0Fq?=
- =?utf-8?B?YVU5Ym5oSjEvcFk5Q00yQldZUUxFL3QvVTBmVXhRdjE5OWhZN1VSRmxIbnNt?=
- =?utf-8?B?UXVWL3BMeUswUjZtYVRUYmZPTytKSnd4NnpvZUpoMnZzazkrRnIxdC9tWFhY?=
- =?utf-8?B?OVZVQUZSakRlbHdHVDR2eFFMUEZHUlRQSUhyVFZMUy9WekVJUTZ3NHVtVVB5?=
- =?utf-8?B?NDBsWnQrR2J2Nmx5Nm5DZFkrN2wxVEJ2QXV0SDcrc2twZitKV2Y5bUs5SHNu?=
- =?utf-8?B?cVhuTE8va25zakFoYU01OU5ROUptSVI0eUszQzZ5TFI4OVNhaWVZV2pybTYy?=
- =?utf-8?B?cEtVWlFvZW5PVSt6NzRnK2haeWtteGROZURQNi9qWGMrcHd5dVQ3TUlqemxG?=
- =?utf-8?B?dTh5VWF1RHhEZjNFanFlb0x5bXYzbWZBSDZLNzVXN0ZqeHRWTm50OUc1LzV4?=
- =?utf-8?B?a2NwNUkrSWRhVHJsUVYxZU5Tckd1b0N0TDRBZUs3Q3QrMkVMQndGN3lkbkJj?=
- =?utf-8?B?eXBIckxRbTVDRWtZcWkySUZMNjg2Q3VrZ0VMb1NyN2E3Z0tpeVprVkRoY3Np?=
- =?utf-8?B?TDJrMFBrcVBlVkE2bG01dEpTcWRTUjcyL1J0bVBNNUhreGxXNndaaERlMEZW?=
- =?utf-8?B?QmxUSHpXdGhVOWZ4Rms0SkhIMWhhQTBNYlZFeWhXWkI0bEZ4c3IrdTNUT3c2?=
- =?utf-8?B?bUN3eGNYMDE2Nnc3NGJ1NUJBMWhmYWx2K2hoL05tYndrWXpUUGpWSUNzZ3BK?=
- =?utf-8?B?RElxd09YSW9ORVIyL2MrWW8rSmtJcS9MTVpnRWp2aDVCRy9tei9xZ0EwUkhK?=
- =?utf-8?B?MlpQb0lOallSeGpKWGVRZzlPVnIyY3RyQUhCeW1ZNVF5QVV1Rk9IcGlrVm9j?=
- =?utf-8?B?bkhuY1Z4Wkd2VG5jK2RQYmRFUzEyWTJaVG1BdnpsdnNTZ0ZBcjJId1pLenQr?=
- =?utf-8?B?SHY3Qngzd3hlaE1ZbUFySldOQkpDT0ROSzAyZXpxMUtrei9SWjlZZWNQMTls?=
- =?utf-8?B?V3NWMDdEZ2VrM2VoZk5oRVpLME1TSS84cTFldmxFMEhOUUpFY1N6R2MxRmhs?=
- =?utf-8?B?SUxJTUpQMDlIOHN5TFRHRFY0STZlY1hCdmdxTDZYTXh1cWZQZWN6R2l4Zi9q?=
- =?utf-8?B?dzNBd1JYUE1UTnlLWkZ0d2VZVlpLZzZ0Mk15QU9IdGJkc3VKTDNjQW9BbldF?=
- =?utf-8?B?YVBFVU1DN1l1MUg1MnVJZUVqRjQzQ21xMm00aFBvMkM3Z0taTEtHL05OaFJk?=
- =?utf-8?B?bk5zRFZzRkhhZngrN01QNXlrTWxQZXN1LzlWcnozeFlDeW1GTDBWbzFGV1Ju?=
- =?utf-8?B?b2hrREFlR3ViR0VTaXBuS3c5UGx4eWZxWDBsbmo2bjJsTWxYRERRdlQ4WGtQ?=
- =?utf-8?B?YXpxejBnYkdKY2h5cTlHMW5WY2dkMmVCQzFmeUhtbU9Ddmo2dlpZQWVIZnBE?=
- =?utf-8?B?N0dsKzhIL2dBNjIvSGZvNUtJSHo2UXFoLzBTd0lsZExVTTIyRHpSQ2tQaGhr?=
- =?utf-8?B?Ym1CZnJZUG1meHI2QVdSTkVwbDJGNy9mRlZLZ2wwWEZnSmYxdmtFeWVVWHpm?=
- =?utf-8?B?Z3krTkpoZlphVTd4bk8zeGk1MG9rL1loYW5mNjQreTRYa2Zpc2FhV2dFL3VQ?=
- =?utf-8?B?R2cxUUM5SVRHblNGbjVlY3VseHZndmZXcWF2MG5KZ1k0SkNUVXZQMVJISFFX?=
- =?utf-8?B?NnFDaC9meU9VaWVxN0JYL2VzUjVYVGxtZE42WjZiY0RQTmVTVUJxb1k4WTFE?=
- =?utf-8?B?UXJCWEdNVUlNZUZ2ZkRtdTRzQXJKMmtVb2E5Vlg0OCs1UGdvays1WmFJQnha?=
- =?utf-8?B?Q0J3aENodjdGNnByRWlVWTEzVHFLa2I3SDIzeVE0WkZ3WXZ2OC9sVGhhQkE2?=
- =?utf-8?B?czJGdW8rUzFYYU1CREpVNmREZ250K2t4eEtpdjUzLzV3b3ZhUUR3OEVRUU4v?=
- =?utf-8?B?ZVZiYmhMVGNwclM5RjQ0ZmVUSjB3aVBRZnRQamZHc05OaEpoMzQzWm9Lb1VI?=
- =?utf-8?B?cmFGSHBkS0dsc3dZTS96aUhNZXVTRkFoZCtvM3BXcmI0dXBjc0xSbjdxdXlD?=
- =?utf-8?B?KzJRdGU5aEx2Ymw0TWVZcFBkOW9XMWFJSm1RR05raXNQaUJzK3JiNzVIclQ4?=
- =?utf-8?B?QnQrK1RzRmJjeEpIOGZxMnJ6QW9hZnlDajk0SnhNNGUydHIwcW0wdmlHQW9j?=
- =?utf-8?B?YlV2VGlzY25LWC9jTVExT0dxMHVmak1zUmhnSXFBOC85d1N6dXczRGJQakhE?=
- =?utf-8?B?OFFzZTQ0dkh1OG9kcjlyN3B5SVlTY0FSdVdPeHkwWGR5RGJFVVVYVGt6eUFj?=
- =?utf-8?B?TjY1bzE0Tm5veW04Vm01dGJqdk1BWkNpMktOZVpncSs2aHdDbGtBZVl4eC9K?=
- =?utf-8?Q?c0dqhzlsXBJarh/zKY075zy3NcF4tzl8yCG/l?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4512160-2dcb-4079-ec20-08dea5d492ae
-X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7737.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2026 09:49:14.8354
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sv1qaR6BJmrG42Pg96eHad6ZM5Mj4sy1D1ryi3gP7tB2H34ECL91fP/jf+/+rOnSJntW0jL6wqaP6QBztg0XaA/9/wFjTltifyKKXrwwoAA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10807
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="l3/hIRm247/+OaIU"
+Content-Disposition: inline
+In-Reply-To: <20260429092828.3076719-2-andre.przywara@arm.com>
+
+
+--l3/hIRm247/+OaIU
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
 Hi Andre,
 
-On 4/29/26 11:28 AM, Andre Przywara wrote:
+On Wed 29 Apr 26, 11:28, Andre Przywara wrote:
 > The newly introduced Allwinner SPL LED "framework" defined a
 > SPL_SUNXI_LED_STATUS_STATE Kconfig symbol, that was supposed to denote
 > the active-low vs. active-high polarity of the LED. However this is
 > a bool symbol, so it will simply vanish if not defined, and we cannot use
 > it directly inside a C statement.
-> 
+>=20
 > Filter the symbol through the IS_ENABLED() macro, which will return 0 if
 > the symbol is not defined, which is the intended value here.
-> 
+>=20
 > Since the STATUS_STATE name is a bit confusing, rename it to ACTIVE_HIGH
 > on the way, because that is its real meaning. Also the LED_STATUS_BIT
 > name for the GPIO number is similarly a remnant of the old status LED
 > code, so rename it to LED_STATUS_GPIO as well.
-> 
+>=20
 > This fixes configuring LEDs with active-low polarity.
-> 
-
-Individual patches would have been better.
-
+>
 > Fixes: 256557dd9aae ("sunxi: remove usage of legacy LED API")
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-Reported-by: Paul Kocialkowski <paulk@sys-base.io>
-Closes: https://lore.kernel.org/u-boot/adfMQBPdntWy1KIq@shepard/
+Thanks for your work!
 
-Acked-by: Quentin Schulz <quentin.schulz@cherry.de>
+Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
 
-Thanks!
-Quentin
+All the best,
+
+Paul
+
+> ---
+>  arch/arm/mach-sunxi/Kconfig | 10 ++++++----
+>  board/sunxi/board.c         |  4 ++--
+>  configs/pinephone_defconfig |  3 +--
+>  3 files changed, 9 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+> index 89f0e77bcdb..07d7ea2b7ad 100644
+> --- a/arch/arm/mach-sunxi/Kconfig
+> +++ b/arch/arm/mach-sunxi/Kconfig
+> @@ -1245,15 +1245,17 @@ config SPL_SUNXI_LED_STATUS
+> =20
+>  if SPL_SUNXI_LED_STATUS
+> =20
+> -config SPL_SUNXI_LED_STATUS_BIT
+> +config SPL_SUNXI_LED_STATUS_GPIO
+>  	int "GPIO number for GPIO status LED"
+>  	help
+>  	  GPIO number for the GPIO controlling the GPIO status LED in SPL.
+> =20
+> -config SPL_SUNXI_LED_STATUS_STATE
+> -	bool "GPIO status LED initial state is on"
+> +config SPL_SUNXI_LED_STATUS_ACTIVE_HIGH
+> +	bool "GPIO status LED is active high"
+> +	default y
+>  	help
+> -	  Whether the initial state of the status LED in SPL must be on or off.
+> +	  Whether the GPIO of the status LED must be set high or low to turn
+> +	  the LED on.
+> =20
+>  endif # SPL_SUNXI_LED_STATUS
+> =20
+> diff --git a/board/sunxi/board.c b/board/sunxi/board.c
+> index d7722d1858a..3d1afec7c66 100644
+> --- a/board/sunxi/board.c
+> +++ b/board/sunxi/board.c
+> @@ -563,8 +563,8 @@ static void sunxi_spl_store_dram_size(phys_addr_t dra=
+m_size)
+>  static void status_led_init(void)
+>  {
+>  #if CONFIG_IS_ENABLED(SUNXI_LED_STATUS)
+> -	unsigned int state =3D CONFIG_SPL_SUNXI_LED_STATUS_STATE;
+> -	unsigned int gpio =3D CONFIG_SPL_SUNXI_LED_STATUS_BIT;
+> +	unsigned int state =3D IS_ENABLED(CONFIG_SPL_SUNXI_LED_STATUS_ACTIVE_HI=
+GH);
+> +	unsigned int gpio =3D CONFIG_SPL_SUNXI_LED_STATUS_GPIO;
+> =20
+>  	gpio_request(gpio, "gpio_led");
+>  	gpio_direction_output(gpio, state);
+> diff --git a/configs/pinephone_defconfig b/configs/pinephone_defconfig
+> index ed7dbc1852b..3a4f4ec51cf 100644
+> --- a/configs/pinephone_defconfig
+> +++ b/configs/pinephone_defconfig
+> @@ -9,8 +9,7 @@ CONFIG_DRAM_ZQ=3D3881949
+>  CONFIG_MMC_SUNXI_SLOT_EXTRA=3D2
+>  CONFIG_PINEPHONE_DT_SELECTION=3Dy
+>  CONFIG_SPL_SUNXI_LED_STATUS=3Dy
+> -CONFIG_SPL_SUNXI_LED_STATUS_BIT=3D114
+> -CONFIG_SPL_SUNXI_LED_STATUS_STATE=3Dy
+> +CONFIG_SPL_SUNXI_LED_STATUS_GPIO=3D114
+>  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+>  CONFIG_CMD_PSTORE=3Dy
+>  CONFIG_CMD_PSTORE_MEM_ADDR=3D0x61000000
+> --=20
+> 2.43.0
+>=20
+
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--l3/hIRm247/+OaIU
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmnyAq4ACgkQhP3B6o/u
+lQweBw/9FExtC6hps+5dTSc7XP1GphCFA5ObGS/SHeBB6FX0e6x1owTrMo2tgo1t
+Ecxeosenphxj4fxYmiV50f+7dgRz238ox3wHNq3QKXFpm0Gb8bLxEBFFG6YwiSwv
+crIVfQtFIiQ5Ii5mipHRG3fsha/p30Og1XuhCVw6Wps/bLJx1HDj2PHlcwWLv8nH
+4RWAgqDYv5LogStjo+j4GWPm2CHF6oCcNYYAs9cc3zJYGbLSjCDgQgx9E/DUM9lQ
+FX/cBXqepZ/XoclFkmVugXl68MAK8lMGfCJpPFtqL6rGE/Cx8aAbJ2SclpolKna+
+AAsZekQtmYT49HZT6F3ghR8ydx/9ZIJj1I8FZ5/aNSu94QFhnQ26lpPy0XiwPC78
+TfxRaI7e4k0UPjbiBEva9SM3ZqW0cwA3yx+3dt7uUVUTdd59mo1IwjdSKNgYaHWM
+R2m+qqswg3qzChrYd9qZ9HEUIm/9rxKGrT1saKCG4iEKHiQfP3CuGt32TwUK4sg7
+7qlDO2EzDCf0mEAqEMUrHr/oKoxcu1fPGxqIM4iPS8gjHpxfQPF3IGKv7KsdfCHH
+/ecNiG5BjO8DZshJOA4TH1ds+xkDHOHR0ojQNmUGhNB+agEaC7VX5uisvSslsnp8
+zUJSsw8KST+Be7QaXJ3tNhADKvRS3O9yKNT4d9hTL0F2/awjGmg=
+=JYf0
+-----END PGP SIGNATURE-----
+
+--l3/hIRm247/+OaIU--
