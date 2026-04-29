@@ -1,103 +1,140 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7B940B6E0
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Apr 2026 16:20:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A90F303A0A;
+	Wed, 29 Apr 2026 18:11:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777479672; cv=none; b=ThKawojmhvK1DvFwBeV+ThZxquJ17V3waGpFlvS7hJoKVhCvtLaXhb6Z7s++YVuZhM01DnjSt6kGuSmgrYy92FNHMsb7JWhgVPZ4L/XLKD2YP1h8jyfALCKSUdeyER3Sz/wYu8WF8ACeey1wLXMMKlUnWLYp9rvptN6Qksh6ZYc=
+	t=1777486307; cv=none; b=o3f9TXy6vbemeVD3DM/WqpTVZDdrGjJNIwCtZgGQPmg9xa3HokQQIVbH7y78dPx3ns/bYPXPY2x3IykST5/OJhcmqnnnPqls5YzwsKzzf/BiZM3dlu/wupcr3BqRAemblU+psVBxv/nzOkP+Ned0a+YjIntSgFXrD27gLnHCQiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777479672; c=relaxed/simple;
-	bh=vImslMwyXcASfDEei180MXXimfMtSB52kRlkM75F8jo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bGfN7bwfClH0BubfwpzhPkFGyXl6OkSG3yoXIF13aHe0f+oM2odl18e5YTFRn78cAA2N603+R1FPuD3PD667At9qjQlfhmMsKwlACuvvjUYc85VaxU8iVp1RGtcfv7pE+Myw/iiAcK1bPH4LVxe+aV6u2tNm0taBb2Qh/SpsP64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cvaUbguP; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777486307; c=relaxed/simple;
+	bh=vVHtEP46vGKolJeaCtgCNYw3z2ZwVl3u6h4t7hanr/Q=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=DF6T4bySbE71jvipUtf0+MZbxryzMUNT41VuINdjIY9uO14G7BfCinIC3XOsyY+fP8o9AvzIl6Z9D81+v2MpvJYkFsEpvcIQtTOr6QFEH5GjnMwQLI/Hyia6r7xkGDwALd6OBCgdBoF5mC0CZuYjmDSR3znOlSJsfosf01ff4Mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Ewbsn7Rs; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cvaUbguP"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-44509921fbcso2298098f8f.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 29 Apr 2026 09:20:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777479657; x=1778084457; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vImslMwyXcASfDEei180MXXimfMtSB52kRlkM75F8jo=;
-        b=cvaUbguPUVq+5tk1NQYCrEGlyHGRZADfX1z/xhV2Q/R0nA2/Xg+cxMDLMXGqVaUcmm
-         E9Qoe7rvtuyipj8LsrtHd1QkPOSeuOPjN0hoOFPDFRjHe+lLcswEb//o7nJzQUv97kGR
-         Ytu/KbswVilbABPesFV7j8iDyZ74St88cVh0xQwUu0p23hJII7ScTrr0Pe6G8ZfrX5NB
-         LMoT17Txkg4W4zZPpcepGHFvPA2rXlPV7UPjONDL2FT/kCxylgpgJ6t5EyR+tkvnbtW+
-         xf3Hgl7C2nO5b0BS5fWf+h2eiIXBHC3bctM08L9b/79RxSWj6aaRM73klgzn5MaoS/MN
-         BjgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777479657; x=1778084457;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=vImslMwyXcASfDEei180MXXimfMtSB52kRlkM75F8jo=;
-        b=eAcTY0Ov8+iM1eIn21prnGxVMfaVZA9/wPITWpkGud8NgYzKIUV6IHGsqmD78jgHDK
-         Ch+RFg+ePwKXo47DR4/l28ePwgrGxpR2SnezMJdBx5ItCoerRZz2OTmb2GoNI5mLgxU+
-         6T4B6KuyXNRTdKaiwRjpInpuFbFFgbtvja7q5lOch7cOS5VoHcW/KhTbnQ4qgeLko6ah
-         BU9cOnk+RN1fy9IQjqe/a0h3IGGaJjjiGn/7je2jmCFuY7GLQTDXkLdFuT48rZzQn9MH
-         kHz+yV7hFI8w75LZGBjXZcXy65n/BDbHPspoqDwOlzH2Hq2O0mcViY3lzclFnb4E1Oao
-         ubRw==
-X-Gm-Message-State: AOJu0YwqqphkJ6pD4n7Gskwax3ksBEE3yJtdExoiL7fa2xftJadxEDdo
-	8wabN3EX0v+Ss5vuX/khr0l1LKGgkIApDnwW2j+pn4CZEynlCpvdJG4/
-X-Gm-Gg: AeBDietxoLmrp8lMR1hm4z4MvgR23z70/9ruNN6f6djjQvO1Vu7s4JNwrTVPeiFS8ge
-	ZESXxOWf9QYQlKpvE5LyNgsglPvlIsK+incQbS/XkjxdDvAVCqoOgYi3exrDGY1ZSRZjGbjWOTq
-	o9fP7uiG+hvaXy+qSvDkGeyg1y7BYNr3zxJFu8DJkXWs5BLUXrjlJhsxdfH7BweYOAnXym/6DQL
-	H1Yt/hdp4Ak0GI852RVQ43U2uOma5Tabkj0zKVI0YMsZqPH4BeKtHGWykTFDHBmYUOu4cfzXr35
-	XkaZ2ixP7KOJr9E31xsZ1L27hZi/PY74Ami6rJvQiVbgiVlSyKSrkZhd5oys3Fp2EnN9YJVMJVd
-	jadnhMGTroR0joyPV9vW9KQbEqZuWl5futZAUSu/H750wLMIhFXzfxZDNFEi1AxP1ecp2BfyD2r
-	hHOsqeKPZ7SEkW92Tfdl/BzfmlRBBj9cgXBtXoResnlNcGnvISO0ut5fNBZIn/4HlWBw==
-X-Received: by 2002:a05:6000:178b:b0:43d:1bf6:30f2 with SMTP id ffacd0b85a97d-4479009bb44mr8106156f8f.20.1777479656792;
-        Wed, 29 Apr 2026 09:20:56 -0700 (PDT)
-Received: from jernej-laptop.localnet ([188.159.248.16])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-447b7217c56sm6742489f8f.20.2026.04.29.09.20.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2026 09:20:56 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: u-boot@lists.denx.de, Yixun Lan <dlan@gentoo.org>
-Cc: linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Tom Rini <trini@konsulko.com>,
- Yixun Lan <dlan@gentoo.org>
-Subject: Re: [PATCH] spi: sunxi: wait for TX/RX fifo reset done
-Date: Wed, 29 Apr 2026 18:20:54 +0200
-Message-ID: <aWjBFp42SZOUo6dm7CAJWA@gmail.com>
-In-Reply-To: <20260421-02-spi-fifo-reset-v1-1-e2cdd4bd474d@gentoo.org>
-References: <20260421-02-spi-fifo-reset-v1-1-e2cdd4bd474d@gentoo.org>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Ewbsn7Rs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1777486304;
+	bh=vVHtEP46vGKolJeaCtgCNYw3z2ZwVl3u6h4t7hanr/Q=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=Ewbsn7RsB40xrAgPa5Bt4o5YasSBzfCpYAa5hJAcwhvoee//1lhLEL4dBxIxE02fT
+	 377ycqD41TJX1eAocyvNU5r0RozZ16EWrWFFAbFuMHMP8721NsQ0u8JvDVmnxU8yQD
+	 h+KJ6pMsL8PVxghCIF5D1fotq2uEXqpReN0jdKIBjrekbSDDeFz9kpyS6tRBdGxmVO
+	 dKOKNYdZtl4YE0DkDvos5ajf1QVWgimYG8EXuaWXbuOdQwRNmgJZRS3bNoODeH5wxk
+	 vsxC85TM9D836M2JgN+f6bSyxzrF+JYqZ00fTrTKJPXjBMhygefczmatRlPIiVzeTn
+	 +j2i9I+mM04KA==
+Received: from [100.64.0.214] (unknown [100.64.0.214])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3381517E0EBB;
+	Wed, 29 Apr 2026 20:11:42 +0200 (CEST)
+Message-ID: <4064d0168c3409a1e15f9c92da56cea93956b31e.camel@collabora.com>
+Subject: Re: [PATCH v3 1/2] media: verisilicon: Simplify motion vectors and
+ rfc buffers allocation
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Frank Li <Frank.li@nxp.com>, Benjamin Gaignard
+	 <benjamin.gaignard@collabora.com>
+Cc: p.zabel@pengutronix.de, mchehab@kernel.org, s.hauer@pengutronix.de, 
+	kernel@pengutronix.de, festevam@gmail.com, heiko@sntech.de, 
+	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, wens@kernel.org, 
+	jernej.skrabec@gmail.com, samuel@sholland.org,
+ linux-kernel@vger.kernel.org, 	linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, 	imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+	kernel@collabora.com
+Date: Wed, 29 Apr 2026 14:11:41 -0400
+In-Reply-To: <aeIRWW937ev_F8zF@lizhi-Precision-Tower-5810>
+References: <20260415140420.282084-1-benjamin.gaignard@collabora.com>
+	 <20260415140420.282084-2-benjamin.gaignard@collabora.com>
+	 <aeIRWW937ev_F8zF@lizhi-Precision-Tower-5810>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-hO3VKyof1zFkkmRUWXyp"
+User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+
+
+--=-hO3VKyof1zFkkmRUWXyp
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-Dne torek, 21. april 2026 ob 06:47:50 Srednjeevropski poletni =C4=8Das je Y=
-ixun Lan napisal(a):
-> Once reset SPI TX or RX fifo, the underlying hardware need to take
-> some time to actually settle down, the two bits will automatically
-> clear to 0, so use a poll mechanism to check status bits to make sure
-> it's done correctly.
+Hi Benjamin,
+
+Le vendredi 17 avril 2026 =C3=A0 06:54 -0400, Frank Li a =C3=A9crit=C2=A0:
+> On Wed, Apr 15, 2026 at 04:04:19PM +0200, Benjamin Gaignard wrote:
+> > Until now we reserve the space needed for motion vectors and reference
+> > frame compression at the end of the frame buffer.
+> > Disentanglement mv and rfc from frame buffers by allocating
+> > distinct buffers for each purpose.
+> > That simplify the code by removing lot of offset computation.
 >=20
-> Signed-off-by: Yixun Lan <dlan@gentoo.org>
-> ---
-> On Cubie A7A board which using A733 SoC, we encoutered a SPI nor flash
-> timeout issue, it turns out that the SPI fifo reset take a few time to
-> settle down, Add a loop to poll the status.
+> Can you try split to more small and straight forward patches, for example
 >=20
-> This was the error message shows on A7A board once this issue happened.
+> for example create patch just move hantro_h264_mv_size() to header file,
+
+Marking this has Change Requested, as I completely agree with Frank that a =
+split
+of this giant will help proper review.
+
+Nicolas
+
 >=20
-> =3D> sf probe
-> ERROR: sun4i_spi: Timeout transferring data
-> Failed to initialize SPI flash at 0:0 (error -2)
+> ...
+> > +++ b/drivers/media/platform/verisilicon/hantro_hevc.c
+> > @@ -44,30 +44,49 @@ dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ct=
+x *ctx,
+> > =C2=A0	int i;
+> >=20
+> > =C2=A0	/* Find the reference buffer in already known ones */
+> > -	for (i =3D 0;=C2=A0 i < NUM_REF_PICTURES; i++) {
+> > +	for (i =3D 0; i < NUM_REF_PICTURES; i++) {
+> > =C2=A0		if (hevc_dec->ref_bufs_poc[i] =3D=3D poc) {
+> > =C2=A0			hevc_dec->ref_bufs_used |=3D 1 << i;
+> > =C2=A0			return hevc_dec->ref_bufs[i].dma;
+> > =C2=A0		}
+> > =C2=A0	}
+> > -
+> > =C2=A0	return 0;
+>=20
+> Move this code style change to new patches.
+>=20
+> Frank
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+--=-hO3VKyof1zFkkmRUWXyp
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
-Best regards,
-Jernej
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCafJJ3QAKCRDZQZRRKWBy
+9H3UAQDXMPc16wto5clUhLZLnohxaOrBBoEinO5d3WvhOAdRDAEAq/QIRB2+WigR
+13DyCJr+rFfmdUWiBtqbZtZoXN1CVgg=
+=FgIy
+-----END PGP SIGNATURE-----
 
+--=-hO3VKyof1zFkkmRUWXyp--
