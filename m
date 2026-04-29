@@ -1,204 +1,122 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA2A347FE1
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Apr 2026 17:39:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6830F3BF66C
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Apr 2026 09:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777397998; cv=none; b=q7G6+p63OiWH0uNYp83xkp2kExPii21bdnoy3kpuzFz457btD8pIRgDOX8bOHlSAHWmqUzyND3M6xvjsflVQG+PDj7tJNyhbVt3IgMOvgbsIjqQRYOlCJmFKlNwGlGYPrzCCJgikGZlHzD4KP1n09ohzgDHUlj1GPxUa6k8xZ44=
+	t=1777454922; cv=none; b=YzpEo6mR9yER55AOQ7lLt+/ePu3EAxNRz/o8VxQGR64dC2v41qVpHMvyrRnjUFWfUf04a+Id5RbL62g9OzeGjU9OSgR9RbHk6+zQ9yLwy+wsch00+pE1TWyEmM4quD8xywm6FFPjqWHf6zuvYN8k6NAuzAOEtgGwcs13+U244OE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777397998; c=relaxed/simple;
-	bh=5km3m/zVclPTVEeLMEhob1U4E2OnXz0UKKP+W4HyOD0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QGm+PcWunKVgUu+kjZm9Nxe9OeA68V8XkmwOJNs9woM8AmUOljtVdy8XSif4UDz2DIJJ8wVjcJKWrY5QFWr+70PyYWDzhQ93G66XuQnyHz8nGQld9nqqSbthFNlELvtpJjoN3xsgSqxtnac15DtFplJpwTvJJEly6x7rkcZ09Hg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 964281F8004F
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Apr 2026 17:39:52 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 44BE8B40476; Tue, 28 Apr 2026 17:39:51 +0000 (UTC)
-X-Spam-Level: 
-Received: from collins (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id 37EAFB40471;
-	Tue, 28 Apr 2026 17:39:50 +0000 (UTC)
-Date: Tue, 28 Apr 2026 19:39:48 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: u-boot@lists.denx.de, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Philippe Simons <simons.philippe@gmail.com>,
-	linux-sunxi@lists.linux.dev,
-	Mikhail Kalashnikov <iuncuim@gmail.com>,
-	Cody Eksal <masterr3c0rd@epochal.quest>
-Subject: Re: [PATCH v3 2/2] sunxi: H616: dram: drop default TPR6 Kconfig value
-Message-ID: <afDw5Mar9Cemsa9s@collins>
-References: <20260427135819.2577234-1-andre.przywara@arm.com>
- <20260427135819.2577234-3-andre.przywara@arm.com>
- <afCCmxMrYHnC9An9@collins>
+	s=arc-20240116; t=1777454922; c=relaxed/simple;
+	bh=tie7LX03b0IXQXIfDtb71w6E+rOXUfln3CGLoQswnZg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=egmSfOZbirNs7JijRCDpDJIY+YfMFOq9r/wsYgFSyCZ2L2GjXxc0LWXXlTz+NlWwlCNi977RhBkcNqCBT7HvgX2cCvQeA+tJeiab+rml+DNlJvTKZiNbX2AcAsR7Y7QUbR4NAVoWnCNSFN5tyrXXapWB1nrjBysu5snIYOS5J00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=j51wMHaa; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="j51wMHaa"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6B8C82574;
+	Wed, 29 Apr 2026 02:28:32 -0700 (PDT)
+Received: from e142021.munich.arm.com (e142021.arm.com [10.41.150.154])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8D2FE3F62B;
+	Wed, 29 Apr 2026 02:28:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1777454917; bh=tie7LX03b0IXQXIfDtb71w6E+rOXUfln3CGLoQswnZg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=j51wMHaamggCCa0zEPG+u3SKS6mkylUPITWdJlLbRQ8Q+Z8A44388Bf7g3Gk76Vr/
+	 Gqg8HsaDlsDqt08nWQGIRJhE0kKnZ9EPCB5ihsQ8wGCdBcXpBo1M5TMZbvnufVjX3q
+	 E2FdxPBBxDG/vRedSxkZ5EV98W+pFbKadvg70pWM=
+From: Andre Przywara <andre.przywara@arm.com>
+To: u-boot@lists.denx.de
+Cc: Tom Rini <trini@konsulko.com>,
+	Quentin Schulz <quentin.schulz@cherry.de>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 0/3] Funxi: Fix and extend SPL power LED support
+Date: Wed, 29 Apr 2026 11:28:25 +0200
+Message-ID: <20260429092828.3076719-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="JVSmNFh8U316prLP"
-Content-Disposition: inline
-In-Reply-To: <afCCmxMrYHnC9An9@collins>
+Content-Transfer-Encoding: 8bit
 
+Hi,
 
---JVSmNFh8U316prLP
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+just an update after some discussion on the list (thanks to Paul and
+Quentin for having a look!), changing the naming of the Kconfig symbols,
+since their meaning wasn't clear. Changelog below.
 
-Hi again,
+================
+With the demise of the legacy SPL LED framework a new, much simpler
+version emerged for Allwinner SoCs: Just define the GPIO number in
+Kconfig, and some simple code turns the LED on very early.
 
-Le Tue 28 Apr 26, 11:49, Paul Kocialkowski a =C3=A9crit :
-> Hi Andre,
->=20
-> Le Mon 27 Apr 26, 15:58, Andre Przywara a =C3=A9crit :
-> > CONFIG_DRAM_SUNXI_TPR6 is the only DRAM config parameter that has a
-> > non-zero default value. Since we need to provide a value for all the
-> > other parameters anyway, avoiding TPR6 makes no real difference.
-> > To make matters worse, TPR6 is a compound value covering multiple DRAM
-> > types, but also spans over three SoCs, which makes it hard to find one
-> > good default value.
-> >=20
-> > Drop the default from Kconfig, and put some explicit values in the
-> > defconfigs for the few boards that were relying on the default so far.
-> > The value is taken from one BSP, only the lower byte matters anyway for
-> > those boards, all using DDR3 DRAM.
->=20
-> It looks like this change is missing some boards that we support (e.g.
-> liontron-h-a133l). Is this intentional?
->=20
-> The TPR6 value is still used for all DRAM types, so I think we need to
-> define it for all the boards we currently support.
+I was looking at using this feature for boards with a GPIO controlled
+power LED, as having a sign of life very early can be very handy.
+So I grep'ed all DTs for those LEDs, and added the respective symbols to
+the board's defconfig file.
+Doing so revealed a small bug in the code when using active low LEDs,
+so patch 1/3 fixes this.
+Patch 2/3 adds the power LEDs to 32-bit boards, patch 3/3 to 64-bit
+boards - just some arbitrary splitup to simplify review.
 
-Nevermind this, these other boards already have TPR6 in their config,
-lost sight of that. Then this is:
+Please have a look and test if you have any of the boards.
 
-Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
+Cheers,
+Andre
 
-Thanks for picking this up!
+Changelog v1 ... v2:
+- rename Kconfig symbols to better match their meaning
+- default to ACTIVE_HIGH=y
 
-All the best,
+Andre Przywara (3):
+  sunxi: spl: fix SPL_SUNXI_LED active low configuration
+  sunxi: configs: enable power LEDs on 32-bit boards
+  sunxi: configs: enable power LEDs on 64-bit boards
 
-Paul
+ arch/arm/mach-sunxi/Kconfig              | 10 ++++++----
+ board/sunxi/board.c                      |  4 ++--
+ configs/A13-OLinuXinoM_defconfig         |  2 ++
+ configs/Bananapi_M2_Ultra_defconfig      |  2 ++
+ configs/Bananapi_m2m_defconfig           |  3 +++
+ configs/Mele_A1000G_quad_defconfig       |  2 ++
+ configs/Mele_A1000_defconfig             |  2 ++
+ configs/Mele_M9_defconfig                |  2 ++
+ configs/anbernic_rg35xx_h700_defconfig   |  2 ++
+ configs/bananapi_m1_plus_defconfig       |  2 ++
+ configs/bananapi_m2_berry_defconfig      |  2 ++
+ configs/bananapi_m2_zero_defconfig       |  3 +++
+ configs/bananapi_m64_defconfig           |  2 ++
+ configs/beelink_gs1_defconfig            |  2 ++
+ configs/beelink_x2_defconfig             |  2 ++
+ configs/icnova-a20-adb4006_defconfig     |  2 ++
+ configs/liontron-h-a133l_defconfig       |  3 +++
+ configs/nanopi_duo2_defconfig            |  2 ++
+ configs/nanopi_neo2_defconfig            |  2 ++
+ configs/nanopi_neo_air_defconfig         |  2 ++
+ configs/nanopi_neo_plus2_defconfig       |  2 ++
+ configs/orangepi_2_defconfig             |  2 ++
+ configs/orangepi_3_defconfig             |  2 ++
+ configs/orangepi_lite2_defconfig         |  2 ++
+ configs/orangepi_lite_defconfig          |  2 ++
+ configs/orangepi_one_defconfig           |  2 ++
+ configs/orangepi_pc2_defconfig           |  2 ++
+ configs/orangepi_pc_defconfig            |  2 ++
+ configs/orangepi_prime_defconfig         |  2 ++
+ configs/orangepi_zero2_defconfig         |  2 ++
+ configs/orangepi_zero_defconfig          |  2 ++
+ configs/orangepi_zero_plus2_defconfig    |  2 ++
+ configs/orangepi_zero_plus2_h3_defconfig |  2 ++
+ configs/orangepi_zero_plus_defconfig     |  2 ++
+ configs/pinephone_defconfig              |  3 +--
+ configs/radxa-cubie-a5e_defconfig        |  3 +++
+ configs/tanix_tx1_defconfig              |  2 ++
+ 37 files changed, 81 insertions(+), 8 deletions(-)
 
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> >  arch/arm/mach-sunxi/Kconfig         | 1 -
-> >  configs/orangepi_zero2_defconfig    | 1 +
-> >  configs/transpeed-8k618-t_defconfig | 1 +
-> >  configs/x96_mate_defconfig          | 1 +
-> >  configs/x96q_defconfig              | 1 +
-> >  5 files changed, 4 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-> > index 284458ad9a5..18123e685dc 100644
-> > --- a/arch/arm/mach-sunxi/Kconfig
-> > +++ b/arch/arm/mach-sunxi/Kconfig
-> > @@ -151,7 +151,6 @@ config DRAM_SUNXI_TPR3
-> > =20
-> >  config DRAM_SUNXI_TPR6
-> >  	hex "DRAM TPR6 parameter"
-> > -	default 0x3300c080
-> >  	help
-> >  	  TPR6 value from vendor DRAM settings.
-> > =20
-> > diff --git a/configs/orangepi_zero2_defconfig b/configs/orangepi_zero2_=
-defconfig
-> > index b387b4795ad..afd1535052d 100644
-> > --- a/configs/orangepi_zero2_defconfig
-> > +++ b/configs/orangepi_zero2_defconfig
-> > @@ -5,6 +5,7 @@ CONFIG_SPL=3Dy
-> >  CONFIG_DRAM_SUNXI_DX_ODT=3D0x08080808
-> >  CONFIG_DRAM_SUNXI_DX_DRI=3D0x0e0e0e0e
-> >  CONFIG_DRAM_SUNXI_CA_DRI=3D0x0e0e
-> > +CONFIG_DRAM_SUNXI_TPR6=3D0x33808080
-> >  CONFIG_DRAM_SUNXI_TPR10=3D0xf83438
-> >  CONFIG_MACH_SUN50I_H616=3Dy
-> >  CONFIG_SUNXI_DRAM_H616_DDR3_1333=3Dy
-> > diff --git a/configs/transpeed-8k618-t_defconfig b/configs/transpeed-8k=
-618-t_defconfig
-> > index e4bf5e8efd3..e672d8f8df9 100644
-> > --- a/configs/transpeed-8k618-t_defconfig
-> > +++ b/configs/transpeed-8k618-t_defconfig
-> > @@ -7,6 +7,7 @@ CONFIG_DRAM_SUNXI_DX_ODT=3D0x03030303
-> >  CONFIG_DRAM_SUNXI_DX_DRI=3D0x0e0e0e0e
-> >  CONFIG_DRAM_SUNXI_CA_DRI=3D0x1f12
-> >  CONFIG_DRAM_SUNXI_TPR0=3D0xc0001002
-> > +CONFIG_DRAM_SUNXI_TPR6=3D0x33808080
-> >  CONFIG_DRAM_SUNXI_TPR10=3D0x2f1107
-> >  CONFIG_DRAM_SUNXI_TPR11=3D0xddddcccc
-> >  CONFIG_DRAM_SUNXI_TPR12=3D0xeddc7665
-> > diff --git a/configs/x96_mate_defconfig b/configs/x96_mate_defconfig
-> > index c0628370df9..1b7d9338c02 100644
-> > --- a/configs/x96_mate_defconfig
-> > +++ b/configs/x96_mate_defconfig
-> > @@ -6,6 +6,7 @@ CONFIG_DRAM_SUNXI_DX_ODT=3D0x03030303
-> >  CONFIG_DRAM_SUNXI_DX_DRI=3D0x0e0e0e0e
-> >  CONFIG_DRAM_SUNXI_CA_DRI=3D0x1c12
-> >  CONFIG_DRAM_SUNXI_TPR0=3D0xc0000c05
-> > +CONFIG_DRAM_SUNXI_TPR6=3D0x33808080
-> >  CONFIG_DRAM_SUNXI_TPR10=3D0x2f0007
-> >  CONFIG_DRAM_SUNXI_TPR11=3D0xffffdddd
-> >  CONFIG_DRAM_SUNXI_TPR12=3D0xfedf7557
-> > diff --git a/configs/x96q_defconfig b/configs/x96q_defconfig
-> > index 59f01aae4eb..068aee3fd1e 100644
-> > --- a/configs/x96q_defconfig
-> > +++ b/configs/x96q_defconfig
-> > @@ -8,6 +8,7 @@ CONFIG_DRAM_SUNXI_DX_DRI=3D0x0e0e0e0e
-> >  CONFIG_DRAM_SUNXI_CA_DRI=3D0x1f12
-> >  CONFIG_DRAM_SUNXI_TPR0=3D0xc0001002
-> >  CONFIG_DRAM_SUNXI_TPR2=3D0x00000100
-> > +CONFIG_DRAM_SUNXI_TPR6=3D0x33808080
-> >  CONFIG_DRAM_SUNXI_TPR10=3D0x002f0107
-> >  CONFIG_DRAM_SUNXI_TPR11=3D0xddddcccc
-> >  CONFIG_DRAM_SUNXI_TPR12=3D0xeddc7665
-> > --=20
-> > 2.43.0
-> >=20
->=20
-> --=20
-> Paul Kocialkowski,
->=20
-> Independent contractor - sys-base - https://www.sys-base.io/
-> Free software developer - https://www.paulk.fr/
->=20
-> Expert in multimedia, graphics and embedded hardware support with Linux.
+-- 
+2.43.0
 
-
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---JVSmNFh8U316prLP
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmnw8OQACgkQhP3B6o/u
-lQxKPA/9Ffp2RSL8ZYGC7nijyJQkxuYJxT4YSK89Z9i5UYEHXKYSOO764rYhqznZ
-dAp8Us0bcg6EiJUWrBz0bFyaCHU0TqOAWgNrFwujVVuogo8FlWc3kKXDwnOkpBKs
-Vyo8/7nhRaIKbprxwTjqpkiZKwVgPBwn9Y9u/e9BfG/phrK+Vaz/Lns8CHm7eGu/
-84+YjgAlqflyVOR4RI39WkLg6NLStTxte3GOsAum8/TG33fldPLOW91x8ZDwY8Vv
-ugzcsIyYR7TtCJe54zfvskWKmuY9MhuBnP9SE4Vqf4pymBIqOKFPg05nCquPyqZU
-zzU75bqnzf7q4Y04y33zT4rKQijaUgyyAU3xwqW0eA8+SKBAKKI713Vg1wiofzSJ
-EVZVdB7XNEQuuXGGcUqzr5b12qnvpZPo0k7j8/6oPEhbfU2FNiONw20PyItdxo/t
-gSf1WbGZNdVnKDnIaCRNbOsRN47WlCGkcyO7iBEAM2NrsLBIi+Mnr7LThi9l/329
-46hPKgbGxB5DJv+nYM3Lh3Rr6j75rvmVE3cOPz3y6HU/Uo3Eca2BbIU+gXxP3cgS
-d9udBoxDUZXHFLxzoflwAur6KWC/i0mBk51Zi6vY5FtmWTnVmx2IIQEeRnO4BRcy
-BJ/zlRGHK7+5YUUAellYQ8QuCSAgrS37jMSgk0WWj8nePGMY5Ns=
-=DXIm
------END PGP SIGNATURE-----
-
---JVSmNFh8U316prLP--
