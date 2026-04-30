@@ -1,43 +1,83 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60C3B428841
-	for <linux-sunxi@lists.linux.dev>; Thu, 30 Apr 2026 13:58:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2028C3FD141
+	for <linux-sunxi@lists.linux.dev>; Thu, 30 Apr 2026 14:25:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777557529; cv=none; b=f1XLjP0/hKdg7P8E8PCc2NxmMlg2Xcpde5iVsssLssDFjYfmCdi5ox2bUz7gnKQHgJUusHfbgv0lHq7rVItj+qqWesK9THhUYvRLsIyqksv3sxirjSGcbqukzg7wQ8i+O/8sKl5iAUO/cbKGPBy+OL06YmNTHnP6K/T9WOCPmnU=
+	t=1777559142; cv=none; b=VbEhf1Xqg2XMVCRbOoztLXRXfteOsu9obQwaIxKidjK0/n1vSZE1PqrKvmUqvwxZQa03TYYFcPWvUgsVYRqXaBpaHH9v9fULQWAl+ODst8kaDGs22yxYoOrbA3hKWJOnoIRzpZPfEwWeCgGKo6TjGBjlx4TEtQEeb1NSQ4tkgBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777557529; c=relaxed/simple;
-	bh=drWJpcSE0TJcdgZ7vlQSxAWArtbiJCMXBwRn1bvPmw8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J/a+kp3fw1GRLQyxeCl5XbZ1tGWsUzU/DzMOMbWgOHx+19F8f7RbEwEQZaQAiAQvZCeLs5U8mCzMApy1x1JiY19TFuujcAwcWCXcCkOj7g+XfZHhUuupw0T81OQmNpai3aZXLFIj7XtiWv1LF8sxcRELKZfQQq5CYdk7YJvpvDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=iKBHjy6J; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1777559142; c=relaxed/simple;
+	bh=SsB3fVBmTDjC/TDn0evKIsstRQxjanBDMF1KqALO2L0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cYLz6B68HeVOa9goEofKHDN15Kd25PZ38BjfxUwocQjfj+d6dqpd84zyEbX3p0f1HS532tqE3lEGcer6Sk1v+NlDtrQ6Ix9FNU8+yJFUuafRzSFb5D7NGhw/YMC+OLYl5KEixqhCmkfnJNzfter619KubOIYFmtNzjYrS8chsNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qd8d9soR; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="iKBHjy6J"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 50BD632C5;
-	Thu, 30 Apr 2026 06:58:41 -0700 (PDT)
-Received: from e142021.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A820E3F7B4;
-	Thu, 30 Apr 2026 06:58:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1777557526; bh=drWJpcSE0TJcdgZ7vlQSxAWArtbiJCMXBwRn1bvPmw8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iKBHjy6JZRmicJsCA62Twj3XuO1tTyKwIqbE4Z6vTZ/n2JfeI6P/Doa5znWhhXeGQ
-	 MxvcF2wX7aYyAaZiQxBX93gDpLpXjjEvRAAREle85SnVrqdYyqKHEGXsWDze8+/Xfi
-	 unBKwiimiweyqsyVlwqEl2Wc66EWofDHtiOwFPZ8=
-From: Andre Przywara <andre.przywara@arm.com>
-To: Paul Kocialkowski <paulk@sys-base.io>,
-	u-boot@lists.denx.de
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qd8d9soR"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2ab46931cf1so14482965ad.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 30 Apr 2026 07:25:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777559140; x=1778163940; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SxQQAfFaaiRvrhNuhc/nEMGhJjTGCuoSHZosD17X3GQ=;
+        b=qd8d9soRbniI7agVCt4vpy82lh0hTQYALL3l+UICxEIDotYNsxlofHgdHBLhV/iM9Q
+         Akbk1S6N0wz2STH5NSP9JHDU5bgPI1oZ+QCOR4sLuVh8rquUPxsrWshAPL8G4RC9+gMZ
+         Zwyf7or3E7PP8OcwPFZdEM2htV+GLlJiGH4na7Pn1Qu3PJVHVB26o/GzXERpKUb74u+2
+         YS80jFfMzhgB0m2SqGvXpRlp6ilpjjHqqAqNPRVEyPtHBQiJo2m7QQwpDsHtk23YeR/S
+         2GFP+qBESxZ3ePanZocRrffd8DcV2B1NOO2VUMyUp81Dn57f3ZntxW0qyJd/d/nHGA8q
+         zHSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777559140; x=1778163940;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SxQQAfFaaiRvrhNuhc/nEMGhJjTGCuoSHZosD17X3GQ=;
+        b=h3weoYPsc2xXIl3tIG05XTbOznSSNL/beCOYBH78klckqdrxpbf/uI7aOBWfWCirC+
+         /Qgugp9fcLWo5v/zla0Ysd/W3v6Arebj6pYb7Nhuer58TmJmfdG3O7Egsf+CF4geleMI
+         2NU5+rYAsnwGTrFs+swM4HzWMp9g/rs2kY/TDrAe1AxseXzjB4ROWQK3w8B4OvNnF2At
+         uj716X/Fq0OdWL0lfWiBlh32Zj6kDAb+RL3XUprEmkk9K5nzluLATbzjY7a9/Sn+9THW
+         PVugtF2YeBmHtG7ccxgBpQlpRCSIQnO5JmqyJTQuvXBN+9hQT4y3xF9veCN7BFspEG+j
+         q3wg==
+X-Forwarded-Encrypted: i=1; AFNElJ+bJNC6fTFZtYF3pWcG7aGAX3yuHaODkqTT/MX/RVPVVRcyy3AAzREj4muaDDXv0JH2EHZkP3qKRtFFqg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzvIZjMxBK5vl+nGY8FasZ7x7QybpBqvXYew5DkPExI0hPykYs2
+	KeYf+8VTFU6XdOXztFa2ZS/E5ZXMPYo5M7reZCBIUYoFap62GpwujhY=
+X-Gm-Gg: AeBDiet2baFXo9M4UkP+N/bYM7icltC+CNiv2KOGyBIYcnKNh/RA2AClta+UeuV73Og
+	G0lWOHHEb0CNRSZFgHqqkEFAVjmhYP6GdjRyAp660z/dDS97ZfD9H7x9KQKmV9ZIxgAcVcd6vLV
+	GYb/u3qtITm1HQ9DFH+u0CnBBBtyuzCtXqyugc6DNmIbJu+z2jcNtW6P9o8b1VMKSSQvfYcl6e3
+	KQDuuKchiMbM0cFEDSFddAoxqQ6FGZ/fVgKNQbOGY6yEHhq7sJhnmEsc0XRjO2k7U2QjRflOZYd
+	BeLMFFa0y5FivU8/gKK/b8iCopPTdTUJpt8UEjUrxmegNa1EZrYE3qXSSszirVhaLoECCgn7Zys
+	71jlFqgK52ZtdnfXP7N5cfQWWboyT9sp71N4vmBPcR5pvqsTrqAe4y4T3RuVzjOeCTQHVGJ4WFm
+	we95XF0nepLUlGUfU5MQrjMYo2x6vXYlTGgRyZghyBCbWcRC6Auk8bWritmLLLq9OS+oCiL9GHG
+	RHYqYdNQhjqx/tn13ldFvJ7b6q+xADwF1z3lsJRCVOwVlVOwior21e3NQY95Wg=
+X-Received: by 2002:a17:903:3b86:b0:2b2:ec33:cf15 with SMTP id d9443c01a7336-2b9a42dc3b8mr23951415ad.7.1777559140212;
+        Thu, 30 Apr 2026 07:25:40 -0700 (PDT)
+Received: from localhost.localdomain ([1.226.165.54])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b98897edefsm54194885ad.74.2026.04.30.07.25.37
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 30 Apr 2026 07:25:39 -0700 (PDT)
+From: "=?UTF-8?q?=EB=B0=95=EB=AA=85=ED=9B=88?=" <mhun512@gmail.com>
+X-Google-Original-From: =?UTF-8?q?=EB=B0=95=EB=AA=85=ED=9B=88?= <pakmyeonghun@bagmyeonghun-ui-MacBookPro.local>
+To: Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Chen-Yu Tsai <wens@kernel.org>,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 2/2] sunxi: A133: dram: Add NSI arbiter configuration support
-Date: Thu, 30 Apr 2026 15:58:38 +0200
-Message-ID: <20260430135838.3438728-3-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260430135838.3438728-1-andre.przywara@arm.com>
-References: <20260430135838.3438728-1-andre.przywara@arm.com>
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Myeonghun Pak <mhun512@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Ijae Kim <ae878000@gmail.com>
+Subject: [PATCH v2] media: cedrus: clean up media device on probe failure
+Date: Thu, 30 Apr 2026 23:25:29 +0900
+Message-ID: <20260430142534.12928-1-pakmyeonghun@bagmyeonghun-ui-MacBookPro.local>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -46,166 +86,49 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Paul Kocialkowski <contact@paulk.fr>
+From: Myeonghun Pak <mhun512@gmail.com>
 
-The Allwinner DRAM controllers contains logic to assign priorities to
-various DRAM DMA masters. Configuring this DRAM port arbitration priority
-correctly is important to make sure that critical masters are not starved
-by other less important ones. This is especially the case with the display
-engine that needs to be able to fetch pixels in time for scanout and can
-easily be starved by CPU or GPU access.
+cedrus_probe() initializes the media device before registering the video
+device, the media controller, and the media device. If any of those later
+steps fails, probe returns without calling media_device_cleanup(), so the
+media device internals initialized by media_device_init() are left behind.
 
-Add support for configuring the NSI arbiter in the A133 DRAM init code,
-using the recently refactored NSI code already used on the A523.
-The list and order of available ports are highly SoC-specific and the
-default config values are set to match the BSP's defaults.
+Add a media-device cleanup label to the probe unwind path and route video
+registration failures through it as well.
 
-Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
-[Andre: using new generic NSI function]
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Sponsored-by: MEC Electronics GmbH <https://www.mec.at/>
+Fixes: 50e761516f2b8c ("media: platform: Add Cedrus VPU decoder driver")
+Cc: stable@vger.kernel.org
+Co-developed-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
 ---
- .../include/asm/arch-sunxi/cpu_sun50i_h6.h    |  4 ++
- .../include/asm/arch-sunxi/dram_sun50i_a133.h | 23 ++++++++++
- arch/arm/mach-sunxi/Makefile                  |  2 +-
- arch/arm/mach-sunxi/dram_sun50i_a133.c        | 43 ++++++++++++++++++-
- 4 files changed, 70 insertions(+), 2 deletions(-)
+Changes in v2:
+- Drop the now-unused err_m2m label.
 
-diff --git a/arch/arm/include/asm/arch-sunxi/cpu_sun50i_h6.h b/arch/arm/include/asm/arch-sunxi/cpu_sun50i_h6.h
-index b0f2d3f4656..c31437f9acc 100644
---- a/arch/arm/include/asm/arch-sunxi/cpu_sun50i_h6.h
-+++ b/arch/arm/include/asm/arch-sunxi/cpu_sun50i_h6.h
-@@ -17,6 +17,10 @@
+ drivers/staging/media/sunxi/cedrus/cedrus.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index 6600245dff..2c25654640 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -507,7 +507,7 @@ static int cedrus_probe(struct platform_device *pdev)
+ 	ret = video_register_device(vfd, VFL_TYPE_VIDEO, 0);
+ 	if (ret) {
+ 		v4l2_err(&dev->v4l2_dev, "Failed to register video device\n");
+-		goto err_m2m;
++		goto err_media_cleanup;
+ 	}
  
- #define SUNXI_GIC400_BASE		0x03020000
- 
-+#ifdef CONFIG_MACH_SUN50I_A133
-+#define SUNXI_NSI_BASE			0x03100000
-+#endif
-+
- #ifdef CONFIG_MACH_SUN50I_H6
- #define SUNXI_DRAM_COM_BASE		0x04002000
- #define SUNXI_DRAM_CTL0_BASE		0x04003000
-diff --git a/arch/arm/include/asm/arch-sunxi/dram_sun50i_a133.h b/arch/arm/include/asm/arch-sunxi/dram_sun50i_a133.h
-index 01f2214cd15..1e8e0f7ab96 100644
---- a/arch/arm/include/asm/arch-sunxi/dram_sun50i_a133.h
-+++ b/arch/arm/include/asm/arch-sunxi/dram_sun50i_a133.h
-@@ -24,6 +24,29 @@ static inline int ns_to_t(int nanoseconds)
- 	return DIV_ROUND_UP(ctrl_freq * nanoseconds, 1000);
- }
- 
-+enum sunxi_nsi_port {
-+	SUNXI_NSI_PORT_CPU	= 0,
-+	SUNXI_NSI_PORT_GPU,
-+	SUNXI_NSI_PORT_SD1,
-+	SUNXI_NSI_PORT_MSTG,
-+	SUNXI_NSI_PORT_GMAC0,
-+	SUNXI_NSI_PORT_GMAC1,
-+	SUNXI_NSI_PORT_USB0,
-+	SUNXI_NSI_PORT_USB1,
-+	SUNXI_NSI_PORT_NDFC,
-+	SUNXI_NSI_PORT_DMAC,
-+	SUNXI_NSI_PORT_CE,
-+	SUNXI_NSI_PORT_DE0,
-+	SUNXI_NSI_PORT_DE1,
-+	SUNXI_NSI_PORT_VE,
-+	SUNXI_NSI_PORT_CSI,
-+	SUNXI_NSI_PORT_ISP,
-+	SUNXI_NSI_PORT_G2D,
-+	SUNXI_NSI_PORT_EINK,
-+	SUNXI_NSI_PORT_IOMMU,
-+	SUNXI_NSI_PORT_CPUS,
-+};
-+
- /* MBUS part is largely the same as in H6, except for one special register */
- #define MCTL_COM_UNK_008	0x008
- /* NOTE: This register has the same importance as mctl_ctl->clken in H616 */
-diff --git a/arch/arm/mach-sunxi/Makefile b/arch/arm/mach-sunxi/Makefile
-index 3ef0113ea43..30cce7d1784 100644
---- a/arch/arm/mach-sunxi/Makefile
-+++ b/arch/arm/mach-sunxi/Makefile
-@@ -48,7 +48,7 @@ obj-$(CONFIG_DRAM_SUN50I_H6)	+= dram_sun50i_h6.o dram_dw_helpers.o
- obj-$(CONFIG_DRAM_SUN50I_H6)	+= dram_timings/
- obj-$(CONFIG_DRAM_SUN50I_H616)	+= dram_sun50i_h616.o dram_dw_helpers.o
- obj-$(CONFIG_DRAM_SUN50I_H616)	+= dram_timings/
--obj-$(CONFIG_DRAM_SUN50I_A133)	+= dram_sun50i_a133.o
-+obj-$(CONFIG_DRAM_SUN50I_A133)	+= dram_sun50i_a133.o sunxi_nsi.o
- obj-$(CONFIG_DRAM_SUN50I_A133)	+= dram_timings/
- obj-$(CONFIG_MACH_SUN55I_A523)	+= dram_sun55i_a523.o dram_dw_helpers.o sunxi_nsi.o
- obj-$(CONFIG_DRAM_SUN55I_A523)	+= dram_timings/
-diff --git a/arch/arm/mach-sunxi/dram_sun50i_a133.c b/arch/arm/mach-sunxi/dram_sun50i_a133.c
-index ca3e2513c69..433044e1e2b 100644
---- a/arch/arm/mach-sunxi/dram_sun50i_a133.c
-+++ b/arch/arm/mach-sunxi/dram_sun50i_a133.c
-@@ -21,6 +21,7 @@
- #include <asm/arch/cpu.h>
- #include <asm/arch/dram.h>
- #include <asm/arch/prcm.h>
-+#include <asm/arch/sunxi_nsi.h>
- #include <asm/io.h>
- #include <init.h>
- #include <linux/bitops.h>
-@@ -69,6 +70,41 @@ static const u8 phy_init[] = {
- };
- #endif
- 
-+static void nsi_set_master_priority(void)
-+{
-+	struct {
-+		unsigned int port;
-+		u8 pri;
-+		u8 qos_sel;
-+	} ports[] = {
-+		NSI_CONF(CPU,	LOWEST,		INPUT),
-+		NSI_CONF(GPU,	LOWEST,		INPUT),
-+		NSI_CONF(SD1,	LOWEST,		OUTPUT),
-+		NSI_CONF(MSTG,	LOWEST,		OUTPUT),
-+		NSI_CONF(GMAC0,	LOWEST,		OUTPUT),
-+		NSI_CONF(GMAC1,	LOWEST,		OUTPUT),
-+		NSI_CONF(USB0,	LOWEST,		OUTPUT),
-+		NSI_CONF(USB1,	LOWEST,		OUTPUT),
-+		NSI_CONF(NDFC,	LOWEST,		OUTPUT),
-+		NSI_CONF(DMAC,	LOWEST,		OUTPUT),
-+		NSI_CONF(CE,	LOWEST,		OUTPUT),
-+		NSI_CONF(DE0,	HIGH,		INPUT),
-+		NSI_CONF(DE1,	HIGH,		INPUT),
-+		NSI_CONF(VE,	LOWEST,		INPUT),
-+		NSI_CONF(CSI,	HIGH,		INPUT),
-+		NSI_CONF(ISP,	HIGH,		INPUT),
-+		NSI_CONF(G2D,	LOWEST,		INPUT),
-+		NSI_CONF(EINK,	LOWEST,		OUTPUT),
-+		NSI_CONF(IOMMU,	HIGHEST,	INPUT),
-+		NSI_CONF(CPUS,	LOWEST,		OUTPUT),
-+	};
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(ports); i++)
-+		nsi_configure_port(ports[i].port, ports[i].pri,
-+				   ports[i].qos_sel);
-+}
-+
- static void mctl_clk_init(u32 clk)
- {
- 	void * const ccm = (void *)SUNXI_CCM_BASE;
-@@ -1205,6 +1241,7 @@ static const struct dram_para para = {
- unsigned long sunxi_dram_init(void)
- {
- 	struct dram_config config;
-+	unsigned long size;
- 
- 	/* Writing to undocumented SYS_CFG area, according to user manual. */
- 	setbits_le32(0x03000160, BIT(8));
-@@ -1221,5 +1258,9 @@ unsigned long sunxi_dram_init(void)
- 	      1U << config.bankgrps, 1U << config.ranks,
- 	      16U << config.bus_full_width);
- 
--	return calculate_dram_size(&config);
-+	size = calculate_dram_size(&config);
-+
-+	nsi_set_master_priority();
-+
-+	return size;
- }
+ 	v4l2_info(&dev->v4l2_dev,
+@@ -533,6 +533,7 @@ static int cedrus_probe(struct platform_device *pdev)
+ 	v4l2_m2m_unregister_media_controller(dev->m2m_dev);
+ err_video:
+ 	video_unregister_device(&dev->vfd);
+-err_m2m:
++err_media_cleanup:
++	media_device_cleanup(&dev->mdev);
+ 	v4l2_m2m_release(dev->m2m_dev);
+ err_v4l2:
 -- 
-2.43.0
-
+2.50.1
