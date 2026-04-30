@@ -1,141 +1,158 @@
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56297401494
-	for <linux-sunxi@lists.linux.dev>; Thu, 30 Apr 2026 12:00:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28D540B6DF
+	for <linux-sunxi@lists.linux.dev>; Thu, 30 Apr 2026 12:56:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777550411; cv=none; b=HgOm9jpcqrdgLJ88OLAHEmV010eO40ZCFA5elMc0E+eMmSSFh+dq0ckbJlJq7Qe/JXw0MBKBNv1rOu+lMBW7RCrJUTd3KMC42/NUuQqLMFhvU5EWkyeWK7vu8lrgc88yYQe2dh2preErhnV+wSpkKv4h3iVN4GyEUAvzugmSZyI=
+	t=1777553811; cv=none; b=ObxzHDUr8yFCpHZVgCGPIr7k7XzIwTnHiwi4rUWlHX1Ia0lbdIbsMcxZo+xbEgBKS2tJ5zI2SeeIHRRhixH7vfOdTI+gm5cJCYNzVRNflOZHzEdVHiOyA4XW7Q/AzVZgwPbU467WEvUYuvVkzk9d54sTxapOVv692eCVzZq0SFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777550411; c=relaxed/simple;
-	bh=EZZ2E4Hk4P3ioWVMaervDcnw6ADW65oM1zGar71sbpY=;
+	s=arc-20240116; t=1777553811; c=relaxed/simple;
+	bh=EUAeZZiWir+om8O/lfmhWKlIvgnl/Vp0lghxn/70ykI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jLvy/oRrbxONiy6aN85fbE5V5PcxyE15y3AXJ3OmsSuo2sasgWzOXaOxNty5og3JShdF0Z3eWwgVK3nr+gRrgnVl7pOkhNR1j/IbqYmgDR/RI6Eu+yK+m5R/XG1j4iidJCA8nBeAjlpLXZG67yu+IjBrd6pSBzl8K6fMVR4Sn08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=aDCJ4m6puXqttsL5muaDV7nwoM7f5oLR6Ff/TQqkGRhpRZ+Q7w5oyEcObPACCt0DwgMZn7VNn/Vv8jkr7E+iC21tFF8Tli1PazFh6nFFZ44X2RPxWc10x2L6fnI9Zh1snDLQ3Fuk2E+HZBjXkRbs3slI47Fz9E9oP3WZ7tEdrkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-56d8a5f0e44so1739101e0c.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 30 Apr 2026 05:00:10 -0700 (PDT)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ba5b107eaa2so144177966b.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 30 Apr 2026 05:56:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777550409; x=1778155209;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ksIL4rip+tLI1Yx6QhQXSN6krUTnsd9SRkVzjQXrZjA=;
-        b=Vi1Ya01A6yvMPRvR73gsx3Oxe5yukpgKeaogieq5KwUlcoEFGTEzx6GiGWRo7YTRIA
-         pP0bn8FWR2lEe6aOYYlMyt4pvPT4a6FFXHBD5X+7RyPHZsWqGy01Klmz8W9M6OmEI1oF
-         89m9OJrA3BCwQI1zyvaQjwtfoolz50wrh6SYiNMHTvQjefwE99lmd/cT0yNoBGX6kKkK
-         zvL+Ocb02RZn88sNNVqOYhZ/4YyEMqI3RFq6e3yxhzyZx2vWweR8nMbbDhjgCTnj81tp
-         V50fjiR1x3+TMgtekZyPdja8A6OzglaoqAC2kbhMBAG/9QHskklbKnwXpeIUA0AajfrM
-         9DNQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/IoEX5eYN/C0IPrjckbW741/WpmNG073JE2Ya8/zUjgObr8hNrfXCtQ/bJlIm/IOBavMSnUVaFWow2Ig==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz6wduPHH+ux0MgQAAR4HPreaItEsn67nl6qG6Kfgt74QdYO3QQ
-	MH8Qved3V5FWSY1mw2FxFWukjcCvzk0XUVTIOHCXs/ZM+X6fnDkULBeB4dSf47GVxXU=
-X-Gm-Gg: AeBDiesRhuVB7NPLIjT7gZ8l21/wBr412eyq2dyOKAaELrMcZP8Jp2x1rOodYn25WVL
-	5uToI7t5k4JFw9M/wwQMYGbr+W24kruDs90Y4BzPU5mBbM+ucNc+R8wdaRlnkrrynYq/F+Giskb
-	1934fYJnCYeAEBFRcL3Z2ASwt01vq5DVaxOs86Dh/l/OKhJaWG2DvYnM2foCzcsa816djCu10Sh
-	oOoUs/NDyRNBhoZ7QLmTMO36X1yMzriyxqNmQ1aDpISEpCTVofbR7/Eiw6RuO9mbpwA+EvW3D+e
-	cZgUXxI+IJ2AucuBtKvtsB2KiLGo2F26/3UJikEY4XyV+w5PuKirE50TqhdH9HRX2/J2T+c+KZW
-	KON5qSY8KseCcLn1R5ItPjJTsC+dSBWujxHKw8hQomYHEkA3d28qYzxZr9OLkiWfYkiGNqsXZAT
-	6UtZb/rk50FXzbKBuGu3N04FWVy5tVO7fOX94EPGHyG1P9lsk6L9bdyYU9jqAgszB0LSiODRfq/
-	em+E5787A==
-X-Received: by 2002:a05:6122:1074:b0:56e:e652:2c10 with SMTP id 71dfb90a1353d-573c9e6cff7mr446228e0c.4.1777550409133;
-        Thu, 30 Apr 2026 05:00:09 -0700 (PDT)
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-573b6df59edsm2830773e0c.14.2026.04.30.05.00.05
+        d=1e100.net; s=20251104; t=1777553808; x=1778158608;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nuQFrVM35wc/XdWiWZfeFiOqf6xuZFSJEgb1hfqaX5M=;
+        b=FwRhgH2EVhc1RbUVwmy60a+boqJxt+0jv8uBVKvJTNkVhW8vLj0aWM5QKD00iqRZZ/
+         1/Av2OEqMjBZRD/sNBRU1Y6Nqh/wpFo+Pv6xSNuyS543wRRdgolvM02VqVtQoTUl7oxD
+         /tligdw4t4IUu4Kz/TI+DVJLAQVuG878YLyyxzaGeZziaB/AFp/j6AMsZC05mIXhJPk4
+         6TByTIEF1Nhi0FjIE6VlT4XQn+wmpnds7b2OXZQhuZ2Lr1e7240l8Ak50lTkPcSCOkZZ
+         Q3hMzswXkdf6unXt2SHExz1SCHhlwvb43MsFnjbExmq8yYOdTc0pbTdKZSEQA2/riU+V
+         CHDQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+WLNV91mftVF75ll+rDLXAxAD8T/m4yaY01jWk+LVzkv6/3oAcit8wf52hUv6l/8KGTUR5M+ffJDzVKg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwXmOjQ0w7ZwL/CrUueAc0Rd1t3c8ytRrDjhWvPo/GaTg9O+RK9
+	PChWc1vC0rE9+Z7D/3d2yioB6u1j4twVqhAZXftbWwI1SnnmEkB18CavR50VxONDy+M=
+X-Gm-Gg: AeBDietMvQ6cVEgLwQwoHdmgurcSlv9FhURiOr+8UlTFAzHNHI4orHGDWPiCgsCkYqC
+	u/NPOWvBfeFY7f//ffzrhIf/AIxeft6KE0ha7QBD7R9MuwqFnCn+p9NP0qTPP5HurYGibJANgct
+	vkVdXZZ0ROyUxuOUeppdxNz92Ut1HVqj5QqeRMn3PSa2oan+zYqCcfgG3xkXQ7lMvqVZAYBv5wa
+	SyWeANUWcXrCCq32hAWCzhBNV5i+VPjuI4rsUy58oKHVJQpSYp1gjTQRR0uNJKVxnYxDjHReYmv
+	nR7WO7XYchmizN1M+MEWxsIdJ9OUT6TEvoANNtYsXu4RbUaUFY/glL1LWLxncs0dzWVqDxeU/ua
+	R0n2H9MW5l5e8Zh7ymz4S6cTJAlRt9OaUwO2UpONxh8Pw4MVqyxy/ItxYw52591+twtjtEsOPFy
+	suPilddG84HZyHIUo73JcmetbAzN/mr6oASoDIJ+TNlYm9IRC7xcpHtvRl+o5zhQ==
+X-Received: by 2002:a17:907:3e9a:b0:bae:658a:61af with SMTP id a640c23a62f3a-bbac65abda6mr189547066b.23.1777553807417;
+        Thu, 30 Apr 2026 05:56:47 -0700 (PDT)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com. [209.85.218.50])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bb981d482c6sm227985366b.25.2026.04.30.05.56.47
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Apr 2026 05:00:06 -0700 (PDT)
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-953a5defbbdso534731241.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 30 Apr 2026 05:00:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ92Jmzy07o5J5vRKlq+uZdUJOrf433Io7c7Agjn9e+vqGlLtvHuFjjqRAh2YLnIaycGU0fRaaUEVQH2xQ==@lists.linux.dev
-X-Received: by 2002:a67:e708:0:b0:610:347f:9f3b with SMTP id
- ada2fe7eead31-62afc506100mr613209137.3.1777550404889; Thu, 30 Apr 2026
- 05:00:04 -0700 (PDT)
+        Thu, 30 Apr 2026 05:56:47 -0700 (PDT)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b9c3e2cf3c0so145125366b.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 30 Apr 2026 05:56:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8BTNIYkRCVyf+UXpy+LHvzP5rPiNyQ50TvJI6D27+l0YKFlV8IBYxv5h7u9EJJfG+FOQSN0P0X+XuMtg==@lists.linux.dev
+X-Received: by 2002:a05:6512:10c8:b0:5a4:175a:ce72 with SMTP id
+ 2adb3069b0e04-5a8522dd822mr1025501e87.39.1777553399625; Thu, 30 Apr 2026
+ 05:49:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260430110652.558622-1-vladimir.oltean@nxp.com> <20260430110652.558622-18-vladimir.oltean@nxp.com>
-In-Reply-To: <20260430110652.558622-18-vladimir.oltean@nxp.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 30 Apr 2026 13:59:53 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWbeeRmLf6Ae0Fr0un=-z7z5ONc_hDdjebP=KVkXHPbhw@mail.gmail.com>
-X-Gm-Features: AVHnY4K0yYb6vTu9KdtDciwvAziqboYRX_ITZ386sa6ttixZ1EP_Mzy9gi4Pi0E
-Message-ID: <CAMuHMdWbeeRmLf6Ae0Fr0un=-z7z5ONc_hDdjebP=KVkXHPbhw@mail.gmail.com>
-Subject: Re: [PATCH v7 phy-next 17/27] phy: introduce phy_get_max_link_rate()
- helper for consumers
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org, 
-	freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org, spacemit@lists.linux.dev, 
-	UNGLinuxDriver@microchip.com, Markus Schneider-Pargmann <msp@baylibre.com>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Andy Yan <andy.yan@rock-chips.com>, Marc Kleine-Budde <mkl@pengutronix.de>, 
-	Vincent Mailhol <mailhol@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>
+References: <20251025043129.160454-1-iuncuim@gmail.com> <20251025043129.160454-2-iuncuim@gmail.com>
+ <20251026210905.GA2941518-robh@kernel.org> <1935223.tdWV9SEqCh@jernej-laptop>
+In-Reply-To: <1935223.tdWV9SEqCh@jernej-laptop>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Thu, 30 Apr 2026 21:49:47 +0900
+X-Gmail-Original-Message-ID: <CAGb2v64z9RMsGiy0skudn4cgo=RajxCho-vaXr5rUo5HPpqjPQ@mail.gmail.com>
+X-Gm-Features: AVHnY4IT6nLdgfoMRlxWNV7nGADa-98ikdi3BEcPI2XpUYcTyVZLvYz4C1kzI-g
+Message-ID: <CAGb2v64z9RMsGiy0skudn4cgo=RajxCho-vaXr5rUo5HPpqjPQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/6] dt-bindings: thermal: sun8i: Add A523 THS0/1 controllers
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: iuncuim <iuncuim@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Samuel Holland <samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Andre Przywara <andre.przywara@arm.com>, linux-pm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Vladimir,
-
-On Thu, 30 Apr 2026 at 13:07, Vladimir Oltean <vladimir.oltean@nxp.com> wrote:
-> Consumer drivers shouldn't dereference struct phy, not even to get to
-> its attributes.
+On Tue, Oct 28, 2025 at 3:01=E2=80=AFAM Jernej =C5=A0krabec <jernej.skrabec=
+@gmail.com> wrote:
 >
-> We have phy_get_bus_width() as a precedent for getting the bus_width
-> attribute, so let's add phy_get_max_link_rate() and use it in DRM and
-> CAN drivers.
+> Hi,
 >
-> In CAN drivers, the transceiver is acquired through devm_phy_optional_get()
-> and NULL is given by the API as a non-error case, so the PHY API should
-> also tolerate NULL coming back to it. This means we can further simplify
-> the call sites that test for the NULL quality of the transceiver.
+> Dne nedelja, 26. oktober 2025 ob 22:09:05 Srednjeevropski standardni =C4=
+=8Das je Rob Herring napisal(a):
+> > On Sat, Oct 25, 2025 at 12:31:24PM +0800, iuncuim wrote:
+> > > From: Mikhail Kalashnikov <iuncuim@gmail.com>
+> > >
+> > > Add a binding for D1/T113s thermal sensor controller. Add dt-bindings
+> > > description of the thermal sensors in the A523 processor.
+> > > The controllers require activation of the additional frequency of the
+> > > associated gpadc controller, so a new clock property has been added.
+> > >
+> > > The calibration data is split into two cells that are in different ar=
+eas
+> > > of nvmem. Both controllers require access to both memory cell, so a n=
+ew
+> > > property nvmem-cells has been added. To maintain backward compatibili=
+ty,
+> > > the name of the old cell remains the same and the new nvmem-cell-name=
+s is
+> > > called calibration-second-part
+> > >
+> > > Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+> > > ---
+> > >  .../thermal/allwinner,sun8i-a83t-ths.yaml     | 56 +++++++++++++++++=
++-
+> > >  1 file changed, 53 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/thermal/allwinner,sun8=
+i-a83t-ths.yaml b/Documentation/devicetree/bindings/thermal/allwinner,sun8i=
+-a83t-ths.yaml
+> > > index 3e61689f6..b2f750ef2 100644
+> > > --- a/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-=
+ths.yaml
+> > > +++ b/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-=
+ths.yaml
+> > > @@ -24,18 +24,23 @@ properties:
+> > >        - allwinner,sun50i-h5-ths
+> > >        - allwinner,sun50i-h6-ths
+> > >        - allwinner,sun50i-h616-ths
+> > > +      - allwinner,sun55i-a523-ths0
+> > > +      - allwinner,sun55i-a523-ths1
+> > >
+> > >    clocks:
+> > >      minItems: 1
+> > >      items:
+> > >        - description: Bus Clock
+> > >        - description: Module Clock
+> > > +      - description: GPADC Clock
+> > >
+> > >    clock-names:
+> > >      minItems: 1
+> > > +    maxItems: 2
+> >
+> > How can the max be both 2 and...
+> >
+> > >      items:
+> > >        - const: bus
+> > >        - const: mod
+> > > +      - const: gpadc
+> >
+> > ...3 entries?
+> >
 >
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-> Acked-by: Markus Schneider-Pargmann <msp@baylibre.com> # m_can
+> Because old variant uses "bus" and "mod" and new variant uses "bus" and
+> "gpadc" and none of them uses all 3 entries.
+>
+> Although, I guess we can simplify and just use "mod" in both cases.
 
-Thanks for your patch!
+Yes. Please just keep using "mod".
 
->  drivers/net/can/rcar/rcar_canfd.c                   | 3 +--
 
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be> # rcar_canfd
-
-> --- a/include/linux/phy/phy.h
-> +++ b/include/linux/phy/phy.h
-> @@ -57,6 +57,7 @@ int phy_notify_disconnect(struct phy *phy, int port);
->  int phy_notify_state(struct phy *phy, union phy_notify state);
->  int phy_get_bus_width(struct phy *phy);
->  void phy_set_bus_width(struct phy *phy, int bus_width);
-> +u32 phy_get_max_link_rate(struct phy *phy);
-
-This (and all the existing getters) should take a "const struct phy *".
-
->  #else
->  static inline struct phy *phy_get(struct device *dev, const char *string)
->  {
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+ChenYu
