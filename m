@@ -1,158 +1,174 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013037.outbound.protection.outlook.com [52.101.72.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28D540B6DF
-	for <linux-sunxi@lists.linux.dev>; Thu, 30 Apr 2026 12:56:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777553811; cv=none; b=ObxzHDUr8yFCpHZVgCGPIr7k7XzIwTnHiwi4rUWlHX1Ia0lbdIbsMcxZo+xbEgBKS2tJ5zI2SeeIHRRhixH7vfOdTI+gm5cJCYNzVRNflOZHzEdVHiOyA4XW7Q/AzVZgwPbU467WEvUYuvVkzk9d54sTxapOVv692eCVzZq0SFQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777553811; c=relaxed/simple;
-	bh=EUAeZZiWir+om8O/lfmhWKlIvgnl/Vp0lghxn/70ykI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aDCJ4m6puXqttsL5muaDV7nwoM7f5oLR6Ff/TQqkGRhpRZ+Q7w5oyEcObPACCt0DwgMZn7VNn/Vv8jkr7E+iC21tFF8Tli1PazFh6nFFZ44X2RPxWc10x2L6fnI9Zh1snDLQ3Fuk2E+HZBjXkRbs3slI47Fz9E9oP3WZ7tEdrkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ba5b107eaa2so144177966b.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 30 Apr 2026 05:56:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777553808; x=1778158608;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nuQFrVM35wc/XdWiWZfeFiOqf6xuZFSJEgb1hfqaX5M=;
-        b=FwRhgH2EVhc1RbUVwmy60a+boqJxt+0jv8uBVKvJTNkVhW8vLj0aWM5QKD00iqRZZ/
-         1/Av2OEqMjBZRD/sNBRU1Y6Nqh/wpFo+Pv6xSNuyS543wRRdgolvM02VqVtQoTUl7oxD
-         /tligdw4t4IUu4Kz/TI+DVJLAQVuG878YLyyxzaGeZziaB/AFp/j6AMsZC05mIXhJPk4
-         6TByTIEF1Nhi0FjIE6VlT4XQn+wmpnds7b2OXZQhuZ2Lr1e7240l8Ak50lTkPcSCOkZZ
-         Q3hMzswXkdf6unXt2SHExz1SCHhlwvb43MsFnjbExmq8yYOdTc0pbTdKZSEQA2/riU+V
-         CHDQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+WLNV91mftVF75ll+rDLXAxAD8T/m4yaY01jWk+LVzkv6/3oAcit8wf52hUv6l/8KGTUR5M+ffJDzVKg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwXmOjQ0w7ZwL/CrUueAc0Rd1t3c8ytRrDjhWvPo/GaTg9O+RK9
-	PChWc1vC0rE9+Z7D/3d2yioB6u1j4twVqhAZXftbWwI1SnnmEkB18CavR50VxONDy+M=
-X-Gm-Gg: AeBDietMvQ6cVEgLwQwoHdmgurcSlv9FhURiOr+8UlTFAzHNHI4orHGDWPiCgsCkYqC
-	u/NPOWvBfeFY7f//ffzrhIf/AIxeft6KE0ha7QBD7R9MuwqFnCn+p9NP0qTPP5HurYGibJANgct
-	vkVdXZZ0ROyUxuOUeppdxNz92Ut1HVqj5QqeRMn3PSa2oan+zYqCcfgG3xkXQ7lMvqVZAYBv5wa
-	SyWeANUWcXrCCq32hAWCzhBNV5i+VPjuI4rsUy58oKHVJQpSYp1gjTQRR0uNJKVxnYxDjHReYmv
-	nR7WO7XYchmizN1M+MEWxsIdJ9OUT6TEvoANNtYsXu4RbUaUFY/glL1LWLxncs0dzWVqDxeU/ua
-	R0n2H9MW5l5e8Zh7ymz4S6cTJAlRt9OaUwO2UpONxh8Pw4MVqyxy/ItxYw52591+twtjtEsOPFy
-	suPilddG84HZyHIUo73JcmetbAzN/mr6oASoDIJ+TNlYm9IRC7xcpHtvRl+o5zhQ==
-X-Received: by 2002:a17:907:3e9a:b0:bae:658a:61af with SMTP id a640c23a62f3a-bbac65abda6mr189547066b.23.1777553807417;
-        Thu, 30 Apr 2026 05:56:47 -0700 (PDT)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com. [209.85.218.50])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bb981d482c6sm227985366b.25.2026.04.30.05.56.47
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Apr 2026 05:56:47 -0700 (PDT)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b9c3e2cf3c0so145125366b.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 30 Apr 2026 05:56:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8BTNIYkRCVyf+UXpy+LHvzP5rPiNyQ50TvJI6D27+l0YKFlV8IBYxv5h7u9EJJfG+FOQSN0P0X+XuMtg==@lists.linux.dev
-X-Received: by 2002:a05:6512:10c8:b0:5a4:175a:ce72 with SMTP id
- 2adb3069b0e04-5a8522dd822mr1025501e87.39.1777553399625; Thu, 30 Apr 2026
- 05:49:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0668D41324A;
+	Thu, 30 Apr 2026 13:14:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777554854; cv=fail; b=LMrSxXsrKUn4cReiP2F9dJrR5SLIgs4Vkl0ICeCNqa3YStjjnvlE5J/NHgY/g0paaJkXViLJ2i35J8W/AGcTFWR4GVLkGd3llVcR49vnT2hvVy+4vxXca6nyMxiLkzO9bmlsVutrcyY4h+rAFNp58hloUyrast8FJp/JDPZRE0Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777554854; c=relaxed/simple;
+	bh=AH1A5skINbAs8sroMIR+LWPYDhJVTblL2ruVJDBMxOE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=PIHI8A5HJVXxX+1JFRCmwOfrkCfynsDu583zejCdye+YpYUW0TCd8H3KtRuKUZRzZRMyoXtbp+qBjH1R2CKBMsDBlIKAty9iwjbZsFuXFPmAqPTTeY2U9llF7GIxwIUufF2ZlbQW+fX2LWPAy3EPoUFm93KTPls5eVwu+nKjACg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Ha51BWrG; arc=fail smtp.client-ip=52.101.72.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Ha51BWrG"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RLhdMTISKU7PRkyW6hdPNgraN2Gz2+t3bhE3Ps34yTmK9Nm6NM/dxtRJvJo7VCxLaI5iLTKeUTaBg/Fxg68rA90LWmnUqmqmSpNrU9/sm1A7PlJ3AndOXyWK1t3lmQenF0CHIWUhIODEOJFJwg93AOO2sCsveNz/zC5lNr1mNccxcONnH4MEKt1G3+nCzNwX5bEEUqcboCLDSQrluk10V3iNieFG6AU2GsjCIl0vw6mDaq5klyPRDlpVBBCDulX6fqZvd2mGzkSGmz+0wNiyrHfSmIRuMO+97rHCOAFY3Yu7mR0rMEEQEEdKJuZo5mbWmi4qPiwTk/sBh3syBQRwGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ir7o8M6GivbIaDlTA/aJPIPbDzPTKaLGkUcXrqV20XE=;
+ b=fMsk6UqnihgPu2FEwiIfF78nXhPaea+aBLVr6NBSWCoywUHgtSAjwHhOdREGYjn834qtf2HQmsnMjdVjE/fR3QkMnepM2SbrBLKBYsMA45gOkU+WEZW6ADguCB40kjnl2xR3HM+9k6F2cDMriOZdu4kGTrAUuMW2UHvT88bo26Qr5SmAeteW2XQWiZ9rMTrl9oe6+1LLQr9arlx5C/txzI+Mu5BpOIoIjCAxw7jWOgonQDlGy+21khlVK5lJyVcrVZkwzDsnkGmXZdisxV6PhnoMJ51+mS8K1fViOauQjerXAST1TC5coDPrEW6kg0nXXwvfNH7ayUFbqn/lqdPMpA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ir7o8M6GivbIaDlTA/aJPIPbDzPTKaLGkUcXrqV20XE=;
+ b=Ha51BWrGR4kddN0/cHpg4c3jCRBqMMkMLyJcc5ePTRMy1tuxgodL0rl8b1oBjAcAH+yiUwez4P15vCpDkiBTNFjlu1qy6/omHWyORiGyX6ECZuEwS6PvMEPJp3tvjcY5l+9yffrO52IL99wPk2lnarnIZwbnD3po3F9czkjexl+adXAlmGt0DucJr3TpGttDhOM0Zre4X2IppJRYEkKOnXCwkyx3ve70X6YLG4OxK4hmON1Pb5eaLfMqkasaL3pl3i24ibgz0XfYQrB9Cj90SbwGs00eS1/mXLkp3EFpbMWnVHK9OYaCdyhpvbfBXid5hcfqqnoPOzKDVTmNz3w6Sw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM9PR04MB8585.eurprd04.prod.outlook.com (2603:10a6:20b:438::13)
+ by PAXPR04MB8319.eurprd04.prod.outlook.com (2603:10a6:102:1c3::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.20; Thu, 30 Apr
+ 2026 13:14:08 +0000
+Received: from AM9PR04MB8585.eurprd04.prod.outlook.com
+ ([fe80::f010:fca8:7ef:62f4]) by AM9PR04MB8585.eurprd04.prod.outlook.com
+ ([fe80::f010:fca8:7ef:62f4%4]) with mapi id 15.20.9846.025; Thu, 30 Apr 2026
+ 13:14:08 +0000
+Date: Thu, 30 Apr 2026 16:14:03 +0300
+From: Vladimir Oltean <vladimir.oltean@nxp.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+	spacemit@lists.linux.dev, UNGLinuxDriver@microchip.com,
+	Markus Schneider-Pargmann <msp@baylibre.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Vincent Mailhol <mailhol@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Subject: Re: [PATCH v7 phy-next 17/27] phy: introduce phy_get_max_link_rate()
+ helper for consumers
+Message-ID: <20260430131403.2elptecuozimo76s@skbuf>
+References: <20260430110652.558622-1-vladimir.oltean@nxp.com>
+ <20260430110652.558622-18-vladimir.oltean@nxp.com>
+ <CAMuHMdWbeeRmLf6Ae0Fr0un=-z7z5ONc_hDdjebP=KVkXHPbhw@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWbeeRmLf6Ae0Fr0un=-z7z5ONc_hDdjebP=KVkXHPbhw@mail.gmail.com>
+X-ClientProxiedBy: VI1PR07CA0251.eurprd07.prod.outlook.com
+ (2603:10a6:803:b4::18) To AM9PR04MB8585.eurprd04.prod.outlook.com
+ (2603:10a6:20b:438::13)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251025043129.160454-1-iuncuim@gmail.com> <20251025043129.160454-2-iuncuim@gmail.com>
- <20251026210905.GA2941518-robh@kernel.org> <1935223.tdWV9SEqCh@jernej-laptop>
-In-Reply-To: <1935223.tdWV9SEqCh@jernej-laptop>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Thu, 30 Apr 2026 21:49:47 +0900
-X-Gmail-Original-Message-ID: <CAGb2v64z9RMsGiy0skudn4cgo=RajxCho-vaXr5rUo5HPpqjPQ@mail.gmail.com>
-X-Gm-Features: AVHnY4IT6nLdgfoMRlxWNV7nGADa-98ikdi3BEcPI2XpUYcTyVZLvYz4C1kzI-g
-Message-ID: <CAGb2v64z9RMsGiy0skudn4cgo=RajxCho-vaXr5rUo5HPpqjPQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/6] dt-bindings: thermal: sun8i: Add A523 THS0/1 controllers
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: iuncuim <iuncuim@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Andre Przywara <andre.przywara@arm.com>, linux-pm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9PR04MB8585:EE_|PAXPR04MB8319:EE_
+X-MS-Office365-Filtering-Correlation-Id: 30868a1a-e1ac-4785-a287-08dea6ba5ca6
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|1800799024|10070799003|19092799006|366016|7416014|376014|22082099003|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+ zG4OVrLhrR2CtNxfHJ+fxxLlwDVlo1AU9V0vSMrDQg5bpwrhVd/yPdZ3GTlbTCldqDLGgClISrdkibbiRwYW7/VxQHqV+KxY2m043uwPU9fSaBbar+ZxNl14hUH/033+zaDU1WABuyomn7zqljYvcccXo6zzY6F+3gQvCmD0XTI5CUNsn5OLh0T8xK40rfo1/Lf9p9bxU7cqzdDjVB0OvZVnPA0t/j16J8tn8zCvOEfFTHkEmMGg4kYdGQTePTGYczjsygdioNretm0IcKDN3GA/kfuCLP274g9Iy50Srhhke6z/JOqL58fitmGGDqTt6th5u60u6dXsb6Uj7WNfmzSnAlnCm5xp6mzmcOO2Xz4GNzx6Y5YsNphv3DpdgmQ4CTciQlYr33lUG7K/QlPbZOApzWu8dSvD5eKv0SZuU7ryto9aYJ+UJhGg55KiQ6b1Z6/iETwBoeJ1XU1UC0EGFv79HSSZEF1Czspy44c3CPJAmifSioc6xUmFYgEx8pgqJHkUMMQTbZxExl1xYc5F2dAf+ehSFS11W1zxo7OBLdCbzYeKh0Ez077DOieFnv0qH4dSvTGUR4qT3Eqafz/BhMFRNLR93afpj9yq4xbKvrtTjzEUzLQ95wp6wEAHa5cK2UewbNwIfkSnQXw+QfqfQtxEbdrD+aBZu9YRGEAbB5DrWHoaFOh9wI9zcvlGJOAStWak7Ur61oZ/AkUXN0yYXWj1vtz7+Kscu3CMWd7BqjA=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8585.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(19092799006)(366016)(7416014)(376014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?DaWeOPM0rFyvex+WWp5ITc8x4qrI5NGNETDRXepVXtKOhi9/+dvqGxNncnC2?=
+ =?us-ascii?Q?bJtZTthLSeN3n8g11s/dNjMAzIjn1/VAtr6OP3QfR9R37W5h9pnqXDy3sDB3?=
+ =?us-ascii?Q?RKtleIKTKJgvyOhN2XBiH2dtXrvwwYKLNIsq9q7XmIb5jP/eJnF8igtO2t+1?=
+ =?us-ascii?Q?VeyZFdOqSVq42JdrWfAw/fxcrzfOQ1fsH6EpzxAI5Y7T/yZafCmpwkmv1qPv?=
+ =?us-ascii?Q?s6QtsQMU/5W/s3IsWm3QSLo7fFoPU6XXbvXuLFDU/lQI//HQDPLCOiWwdOHp?=
+ =?us-ascii?Q?/nI3yVtZiFLqE6OiaY0cuNPn9xbCXBz4LdJ032yHIK7JNneIWRBfRu1eTI+h?=
+ =?us-ascii?Q?FXRsou20xrvMjnvu+hwb9W5e7NcL0RqnBRZb0Z/4KUFRs+yKwc305QD6ipCf?=
+ =?us-ascii?Q?9SDR2O9wEyv4jlsB40D9CehLALM5bQXOEIK+Yci8HTouxU9Q12+aGjKttA4F?=
+ =?us-ascii?Q?JZrS5EecPXOPzCnpX6GbMAQVrWvqZC4ZPAm+6Ie3ea/FOoVoElAOmE70IgKk?=
+ =?us-ascii?Q?MXKYpfcimbNVGIeFMEY3XcRNFSUH1+4kivS3xhDo1kCVeqJu7do65iRl0QKe?=
+ =?us-ascii?Q?aih4+SEqUx654qV94j38IvP1nAwZIykMcRNc7O90jDlvzGC+3P08UaOBZAee?=
+ =?us-ascii?Q?R8NJBgBszRHD1j0U+bFX95Zn9Q24eJSPYprP90LbG9PcI/gwtsDzZxIpLRty?=
+ =?us-ascii?Q?jLpU46dpAsNsSV3DJUiEchZMhjiKvyEK/18ii/icjY4Frd+teqTRLyLuMDR4?=
+ =?us-ascii?Q?ZRJKm9LphwKdrM6orWgnKJ8pZ+7C7qp47sCmcWHfl9RL0CV9mciFKBUlrCqb?=
+ =?us-ascii?Q?+M1VjSIvWKDtA8a3WCVXVys87fB8bp+YMwEFxg0lg+UflqVp405cAi96u/R5?=
+ =?us-ascii?Q?3FcZzbEol7/wu8dE1i5kxF3P784DjjGsu2NMr+76R4z7SwLAYRcETTk521Db?=
+ =?us-ascii?Q?QwYpxhma51yDPvKF3aCAGgq0pRTNiNu2WaG1QzBAA0dhfkuNnfFMb7FSr73d?=
+ =?us-ascii?Q?kswdUjWNlPf88AKcqeqsqhbEBOU6MWlspG+jCv8W47cNMNmFw8r2pw2Ivpav?=
+ =?us-ascii?Q?k0x1vu3WqRGwAVlkZrgt/SH30SgjeDjlO6NEFk0gqVo7D/O+ml8znDwOOR3H?=
+ =?us-ascii?Q?4Wzf9fAYBIUYPc3/lxw1G5+pjCV6IqcmJrdIYEV5N6vIh2WRPYe6eUNSdfJE?=
+ =?us-ascii?Q?MKVHfFpYyBD+rQLjSFCQO+0MMr3wkp48zhB1pgpbyne2S/27qxNauKfpPc+9?=
+ =?us-ascii?Q?FvGd9i5NmdGS27b0YSbVpx+WHQCD+jwfsI3zd96ese3uuCfzzBThHc045b+P?=
+ =?us-ascii?Q?kKlAhCqPsMJJXw9IN8/40bQvzUYxKYFHAaNvM1tTc850yM0kMM2OR32cMZ+j?=
+ =?us-ascii?Q?uvYK6IUpBDrpfg9vUAFE0ztnR6hlXQA6QCmluRSjgyNpnpv9mBzOVrF+tC8X?=
+ =?us-ascii?Q?4mhf5EhwmR5dKV6DTCW//KlY+d8he1x7siRCLd0HdehelPvY9DLksN33tX+5?=
+ =?us-ascii?Q?Q5twCDgk8BMP3DRTjTk1LPaPqOhgYY/wcnRqsQNMSkuIhVqblRBOwvD00v+w?=
+ =?us-ascii?Q?FmWBOxVlrKqpM0TDPSzLcROy7L3OKxFZO7AQRMsGdEFP0xDYLhQ34N+Tc4If?=
+ =?us-ascii?Q?of+Nq/+Cdp2GnTqDFe2wwOGxF9aq055hHlhpxuRtalbdALHYLFEwaxbhY5DQ?=
+ =?us-ascii?Q?OzjqueXmRCQYJei5oNejuC9aLMCMIpF2lgOZOFggHDTuXSwzAY5FdjP6HfKa?=
+ =?us-ascii?Q?vSkh0RQfm0sD5lMQQV5vDKvD+kSsVJ9WmKFTyuORV8DeUwkI/FhENd5aYVWB?=
+X-MS-Exchange-AntiSpam-MessageData-1: +FM0dUh4+P1/QtJYMlCx5UgQ7Z0z6huRmuE=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 30868a1a-e1ac-4785-a287-08dea6ba5ca6
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8585.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2026 13:14:08.3527
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: O+VO9Uo5tAfPp1U/YaBx1A7LlceKzVPqUF/50dds5Vafhpn61OZf6qHabYRl6Z9sm9SsgcFDEpimlVx67Ms/ww==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8319
 
-On Tue, Oct 28, 2025 at 3:01=E2=80=AFAM Jernej =C5=A0krabec <jernej.skrabec=
-@gmail.com> wrote:
->
-> Hi,
->
-> Dne nedelja, 26. oktober 2025 ob 22:09:05 Srednjeevropski standardni =C4=
-=8Das je Rob Herring napisal(a):
-> > On Sat, Oct 25, 2025 at 12:31:24PM +0800, iuncuim wrote:
-> > > From: Mikhail Kalashnikov <iuncuim@gmail.com>
-> > >
-> > > Add a binding for D1/T113s thermal sensor controller. Add dt-bindings
-> > > description of the thermal sensors in the A523 processor.
-> > > The controllers require activation of the additional frequency of the
-> > > associated gpadc controller, so a new clock property has been added.
-> > >
-> > > The calibration data is split into two cells that are in different ar=
-eas
-> > > of nvmem. Both controllers require access to both memory cell, so a n=
-ew
-> > > property nvmem-cells has been added. To maintain backward compatibili=
-ty,
-> > > the name of the old cell remains the same and the new nvmem-cell-name=
-s is
-> > > called calibration-second-part
-> > >
-> > > Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
-> > > ---
-> > >  .../thermal/allwinner,sun8i-a83t-ths.yaml     | 56 +++++++++++++++++=
-+-
-> > >  1 file changed, 53 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/thermal/allwinner,sun8=
-i-a83t-ths.yaml b/Documentation/devicetree/bindings/thermal/allwinner,sun8i=
--a83t-ths.yaml
-> > > index 3e61689f6..b2f750ef2 100644
-> > > --- a/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-=
-ths.yaml
-> > > +++ b/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-=
-ths.yaml
-> > > @@ -24,18 +24,23 @@ properties:
-> > >        - allwinner,sun50i-h5-ths
-> > >        - allwinner,sun50i-h6-ths
-> > >        - allwinner,sun50i-h616-ths
-> > > +      - allwinner,sun55i-a523-ths0
-> > > +      - allwinner,sun55i-a523-ths1
-> > >
-> > >    clocks:
-> > >      minItems: 1
-> > >      items:
-> > >        - description: Bus Clock
-> > >        - description: Module Clock
-> > > +      - description: GPADC Clock
-> > >
-> > >    clock-names:
-> > >      minItems: 1
-> > > +    maxItems: 2
-> >
-> > How can the max be both 2 and...
-> >
-> > >      items:
-> > >        - const: bus
-> > >        - const: mod
-> > > +      - const: gpadc
-> >
-> > ...3 entries?
-> >
->
-> Because old variant uses "bus" and "mod" and new variant uses "bus" and
-> "gpadc" and none of them uses all 3 entries.
->
-> Although, I guess we can simplify and just use "mod" in both cases.
+On Thu, Apr 30, 2026 at 01:59:53PM +0200, Geert Uytterhoeven wrote:
+> Acked-by: Geert Uytterhoeven <geert+renesas@glider.be> # rcar_canfd
 
-Yes. Please just keep using "mod".
+Thanks.
 
+> > --- a/include/linux/phy/phy.h
+> > +++ b/include/linux/phy/phy.h
+> > @@ -57,6 +57,7 @@ int phy_notify_disconnect(struct phy *phy, int port);
+> >  int phy_notify_state(struct phy *phy, union phy_notify state);
+> >  int phy_get_bus_width(struct phy *phy);
+> >  void phy_set_bus_width(struct phy *phy, int bus_width);
+> > +u32 phy_get_max_link_rate(struct phy *phy);
+> 
+> This (and all the existing getters) should take a "const struct phy *".
 
-ChenYu
+Yeah... Let's see what other review comments pop up (including Sashiko,
+which would be seeing this series for the first time) and decide
+afterwards whether to make the argument const for the new getters as
+part of a separate set, or in v8.
+
+I don't think that modifying the existing getters is in scope for this
+27 patch set.
