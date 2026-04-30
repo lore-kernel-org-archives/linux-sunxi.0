@@ -1,122 +1,227 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DB6222A80D
-	for <linux-sunxi@lists.linux.dev>; Thu, 30 Apr 2026 09:54:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777542870; cv=none; b=rqO2cEDMMZNxqBZjziI4yKO5iXh618XUk2J86oUKfv9pwpMJMl14/b6pK5XhcjPAFKK2EyMp7DHUCI1d5O+vVyW2PHp6ELQbtSKgnbeSZK4VcQGuCK1R3PjBAEy902SD6pXdiraYDLtM1vCAcJOfuRZGBYbvNE8AOzAEMyoWr40=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777542870; c=relaxed/simple;
-	bh=CxElS4XTNrwXiUHwFIyL0TTqxPlFbyxApw7ED+H4PaM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Lp9Nx4Sgu1mkvb7/9UA+1g0mznE5d965bYPw1ADUQE2u/pTy2nkbz/zWL1MMGjIe5mPKbFQo2GnTSuexo6UiPogVjdcla6RtO935LK3m5QinShcTOUMGWBJSuVPFjEFiz4P8k5TlnxipcSO6YcN9qmP8+lG6tTGKse1VByeImuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Gi7zQlCp; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011031.outbound.protection.outlook.com [52.101.70.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77181347FD1;
+	Thu, 30 Apr 2026 11:07:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.31
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777547222; cv=fail; b=j7rioWRa4Y/28B/QYzUU2JKXm6h2GcHQpLrRyhKNBAIrp770nVLerfoW3gA0MGzG700d9xfniIJ2+Rwt4nJyBXur05PKLWynAsDZD21Xu3oUjt7O8Gb/op92NN9oyY0dgdKxULHWXvXbCZuUf/XyvA/kgLY0alOxTsLu5Ziu5Mg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777547222; c=relaxed/simple;
+	bh=54G7TRODDIJN8SbJYv5ZtcElhkwDxxe+Ks+m6aVW0pg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=W12Ybw7Befb4TBPoPiyEP0xi5g6pZUt6YRtGDAcH2aryL5tgWp/93lP/g8fDvqtjEGG1TIle8ZXelCzOynUSNRrX1LV+W2vskmTiN1u2CrpAYgyvwFmHBGs2G4zpFwfqZtmfUbqbwOro4s4fi8fcOBhxw2BybyQxpy3Ut9hKtFg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=nxJqJXEF; arc=fail smtp.client-ip=52.101.70.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Gi7zQlCp"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4DB311A9A;
-	Thu, 30 Apr 2026 02:54:22 -0700 (PDT)
-Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C6E123F7B4;
-	Thu, 30 Apr 2026 02:54:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1777542867; bh=CxElS4XTNrwXiUHwFIyL0TTqxPlFbyxApw7ED+H4PaM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Gi7zQlCphF2oShCewAWOezqcOjQYHPBOVbC2/RHFLraEJQ/nka+gG3kaENjUjFQhu
-	 Vo2P1NY70+vuLaNdG4nwQIoZJVna904dFmnDSh6ILcDmQQxmPJWayXU7QPd74ffb2f
-	 v/ytkayb+6lX+lOhqCiI+W5Z+X3379uQayj9fu0w=
-Message-ID: <e10c1362-59d2-46bf-914f-ef5163336e1f@arm.com>
-Date: Thu, 30 Apr 2026 11:54:25 +0200
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="nxJqJXEF"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DdQIfyoWPcYB6jtqZvwZPYRnIPS/BlBittLu8Im2OOYOwP/0Eh5P9Y/r1tmVIIubdOw+5e1nyI/8TTJPjPHkT19/qTRxHQnwj8060vAad4U6qqcuMvQ4PUyTaLp6fx3toAt6L7PdAcycTShDCSUErFteKM0XsLfIDV3dSMJxGX+TEhy4JGMf0e8/FODSzXnAhro6c+N7G4Wg7xVyHwR7hlewGZgh+Y0W7KR+GafUo4t0F1Ya93JiFrwAmI2jT4XCQVPc4mxqnBRy356OIho46oQNYRiUXHlDgx7jftQDMk4eGRRuwAAFL9uBdcLY14FNJum6zd2HAGlWx9v1UBCHOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jKwE4FvD116+ghF8di6dMrH+jwBPGos7uX0Kschl048=;
+ b=hxXJYTl5wmCfv1EIsYQ2S0KHgt7taYs3PoRhEiXSHhUwpZwKSLFO56l52hbhBBsuRGlaPNT68lpWd1p92zBciiUFeUQkXdNoxhxRjOACgfN+Xzg8na4tQ55RKtZVILndHBuQmrc4BFXQaQBAdjpVqJp61+UqMl6y5Lo3gosAuN2aR+BgxWEgyjUX8PpvTtGye9jBXA2Ooaka6whUnFeAw0/oV2C0VMGmh6HGB/pkVHYWjq0HTZWEvQGHyljqe1rTYaZCs9aLKKzWrh2VMD2hB22/SV0+2B5i0fFLCT27ZXQfZUt2x6kLYVRdBZQ0u7KYVvJ0tSo5GOco9iwYLOzy3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jKwE4FvD116+ghF8di6dMrH+jwBPGos7uX0Kschl048=;
+ b=nxJqJXEFNKOsHI2AvIlYgLKLU9Wd+6X2TUFgVhcDo0T/DOgmXRkXa8RtBcTnnZjf9hnyDEF5XlmEdTDR+fv9PlToC8XKOWDAfnifCMM8k2SRJRgOJJFe/meWxDer2yCvgsoPxIJqblVFNm09KlwnIWbv7jwleCq71gE5zby8nRJ7oBTtfzhTsF3PYlFQN8ZCtnMPIu76FiF0+xZAIBwwiE3tw7QNr7E5nkTYnySpb8J5DCPKE6rXylqReVJc77CGVhywCOemltbxmdpVDGbYvo+IiXJkkO25gJViX1zZ756ILEzmGO9eM79I+2df/3FZmRFKIBr+KljabefSp64bdw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM9PR04MB8585.eurprd04.prod.outlook.com (2603:10a6:20b:438::13)
+ by GVXPR04MB10609.eurprd04.prod.outlook.com (2603:10a6:150:219::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.18; Thu, 30 Apr
+ 2026 11:06:57 +0000
+Received: from AM9PR04MB8585.eurprd04.prod.outlook.com
+ ([fe80::f010:fca8:7ef:62f4]) by AM9PR04MB8585.eurprd04.prod.outlook.com
+ ([fe80::f010:fca8:7ef:62f4%4]) with mapi id 15.20.9846.025; Thu, 30 Apr 2026
+ 11:06:57 +0000
+From: Vladimir Oltean <vladimir.oltean@nxp.com>
+To: linux-phy@lists.infradead.org
+Cc: Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	dri-devel@lists.freedesktop.org,
+	freedreno@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-can@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-ide@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org,
+	spacemit@lists.linux.dev,
+	UNGLinuxDriver@microchip.com,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>
+Subject: [PATCH v7 phy-next 01/27] ata: add <linux/pm_runtime.h> where missing
+Date: Thu, 30 Apr 2026 14:06:26 +0300
+Message-Id: <20260430110652.558622-2-vladimir.oltean@nxp.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260430110652.558622-1-vladimir.oltean@nxp.com>
+References: <20260430110652.558622-1-vladimir.oltean@nxp.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: AM0PR02CA0123.eurprd02.prod.outlook.com
+ (2603:10a6:20b:28c::20) To AM9PR04MB8585.eurprd04.prod.outlook.com
+ (2603:10a6:20b:438::13)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] spi: sunxi: wait for TX/RX fifo reset done
-To: Yixun Lan <dlan@gentoo.org>, u-boot@lists.denx.de
-Cc: linux-sunxi@lists.linux.dev, Jagan Teki <jagan@amarulasolutions.com>,
- Tom Rini <trini@konsulko.com>, Jernej Skrabec <jernej.skrabec@gmail.com>
-References: <20260421-02-spi-fifo-reset-v1-1-e2cdd4bd474d@gentoo.org>
-Content-Language: en-US
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20260421-02-spi-fifo-reset-v1-1-e2cdd4bd474d@gentoo.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9PR04MB8585:EE_|GVXPR04MB10609:EE_
+X-MS-Office365-Filtering-Correlation-Id: de4ddc80-8124-438c-4287-08dea6a8983a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|19092799006|376014|7416014|10070799003|1800799024|22082099003|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	sEcQvROVo7d0fMsWAsl3bByT62/dYS+K10I+wm51Jxe5dnTidsjxb61xbvxvPgqH268OA70rnfRaFWZqJZzM2aqqbI8ZWhADosUo7zqo8JLbmMyOJiNrE0gNJHrfdarxOvItNyt5MTBohUZ5f9/K2RnYO1LWjRYlVxogj6SNeqqfVVjkxfSIUuIbEJsOP4qCRHnhO60OU6ZaB1H0fW6YNn5xQgSOEZavPYHGyVFS9eoqWoO5j3wzEUN72kef9OHOnFf+D/XE1+8mOsZfmIA44uvAkh+lT7YJXtvri9PnOHUk0nj8GUvIvMeiDUxb8oC+Z3eZTYhDq1+Wm0277cbwPccA141s6w10HViOLKJJhelE5K2Ube6Ko4Pvt/ZeQl7Sz9OFWN0UuwSYhW2//qBQP/AgQOGdB44GQLQ9tDo05m3TK+cnuM1UQokyJaGGXYI2vehqUnJ1PuNNrl6ARUeBWP+jOJDikRMavKBEz+5vWmlFWzNyLUK7K7GLRz2ZF0YRTRoh7bP6Uz7Kx+qI85HDwVN2MUw/25eZWFQjl7zRSLQZ7yx9FWVD/2XwM/r7EfRP/nD170mGkBAyQejUSyGkJA5N4LYOtvw0YIE8sogJaf8E6wQX/dFkq4/WKzzjiRXB5AitlIox4NjeI40wd4gbAcXB2R6HO41Rabw48QOnZUxRdaNtAJgvMBTtvMcz/jVkKiibOExrsvCw9a2upV7yM1SGkBdUjHiuZ5kqNVzpuyc=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8585.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(376014)(7416014)(10070799003)(1800799024)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?P0SOLbTZoYyfdxaZE3qsZ0rI5R5eJBqx4h/ZD7CH+kposvovyzvCCuMmoP4p?=
+ =?us-ascii?Q?+QTaUJuM2rfpUhFeB5lsLQUGl849G9lwKI4xz+4hk8o8bxagK56vGB/zyPLZ?=
+ =?us-ascii?Q?QNCgB8ycTUz3Ff/s9ipqGne11I7vohpFdXt5IoXb1f1S8YrTrZfoG5eKJzu6?=
+ =?us-ascii?Q?8cS4EhrGOQ9O2ItYkaEUP+59OKVcdbUK3dHMbw85Hj+TMi3yRAaL1rlTCOiz?=
+ =?us-ascii?Q?Aelcta1VwuPyeJSBkdE9xMcRl7urYSJhTKtAMRftCIb2rRVhljVBiDgSwuvX?=
+ =?us-ascii?Q?ykTrfY4CWwdmHjmxxxREeDFBpfdkoST8nzw9vFoZdBVcyTEhXdd1IL7K+QX+?=
+ =?us-ascii?Q?fPWxvKIyM06NE7zqD9btG6OaeuDmbbsbb2I3/uA18n0QinicLwoo1PKKg0LZ?=
+ =?us-ascii?Q?IxQKKWQni2k3Or5flIuhLjb+SH59IYVmmByOYCY/x/yPESf5AT/OHUMGhUZp?=
+ =?us-ascii?Q?UAkHrXp93k6oTECFbfk2/dcoY1FbWke8TMeS8LHBVSYFtGMKAAcuKq07r5ur?=
+ =?us-ascii?Q?zkYRU40C+EmYIXK5n54ueYTzCpIIjDSkPU+/cAa+23jnH/kAsPPpZILx4xSf?=
+ =?us-ascii?Q?ymjJOJCFazkfKtho6+bYzgitnYG3lPytG4YFlgjVuuzQlO75ujh9gNHsLp9v?=
+ =?us-ascii?Q?F1Va8qMCcTehVaWI0omUNwHPVeTlWYbLBt/HfGXkuJf+C++xKyKxQ8+ZGyfe?=
+ =?us-ascii?Q?S199DL/cmad2XX9USasaOx7Oa4mGwf0osnR7ukmUxbYVPGYKKJDsYGiGTodO?=
+ =?us-ascii?Q?9UMmfyimjLtRtEEhYBqJkNAvC8xTX+mmVKMk/xGMMe43yOuY2t2Z9ciB9eoh?=
+ =?us-ascii?Q?IAaJ9ABM2fWqCN1UghJYPReJIwC2VtJq7cbKBXBSCwsvwPeKqFfarymNrf+n?=
+ =?us-ascii?Q?xrhDOi6dcuE8TtK9XRcDcZw2WCD0MTIBZelccwHnRt6gCC95qedVMp0y1MBC?=
+ =?us-ascii?Q?RlMIALJ/RL2RYCDtJxim/hJoVsKrNvvNh2uyHCblyxEBe4N8QCfWrlTLflew?=
+ =?us-ascii?Q?SEy+9Aw/L93ZKuOQQInI5UhafHjWfCulFAGiUCv22I4ghi0VXcR49myS+Q04?=
+ =?us-ascii?Q?5xZCxXIf7lI0FTkh+rtlMhMr3Wkb0sGfWz7bALuvSzIc/V5m0B93GUh9bGsw?=
+ =?us-ascii?Q?uX3TeO5V+fvIvjVtKCDdlJNnLHMOvk/fG6Z8R0+sk5oJBFD+AE3Yza3NbRnW?=
+ =?us-ascii?Q?XK81MKVKY2DXr+4nWecn92146H3PDZf39Wb9yeSnbzDjp3iXylHi/9Mt5P5F?=
+ =?us-ascii?Q?BUrxe6BZn+0vDn7zO2R4A5kRQphje7KPEGnixKfByPtaZD6oJ6GCKzUkDINU?=
+ =?us-ascii?Q?LtHXE8MZCnj8dATLanOwm5zIMxPj0F4QD4tvffJW2B/tPJgM966sL9Y6gtpS?=
+ =?us-ascii?Q?6V0ui3NFVkEW5+SpCyhCaRPp9oEPpHOCVjQ6dgg5MsItE8TugQgrFuRmzyqx?=
+ =?us-ascii?Q?x9jM8XIWbR9dYDnw2IED3gmewhjzxDdX/+0E6bXbDTdh4+rgB6abvemWC75G?=
+ =?us-ascii?Q?SPeWvMXCrCcu3gPpwqJlAzZBxLEArZJoxkG0isC/OWiqxw63lAYMnEYz01Oa?=
+ =?us-ascii?Q?MHBNAOswQ06f+31IIA7Qleoea3Dk5DegteQkZQ1KZrzy4D58WEX8+Ioqw2w9?=
+ =?us-ascii?Q?ZfOtj8YJ2rkeDEL1i4o9jXY4bvmmboOKMe9Ou56QtWqsk2rk6Yan1tT7QZTa?=
+ =?us-ascii?Q?xg/L5qU/e2MFDEUml2auCpuRNo6NomCgjtjJ5THcsigb1bzlrsEOKiU/zftP?=
+ =?us-ascii?Q?spAhUgMoSqi55zKl2CSuxU/8BmOoPqrWTkjS7CgeAaiPXqWEBbWi?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: de4ddc80-8124-438c-4287-08dea6a8983a
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8585.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2026 11:06:57.3816
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2NEkdICbkplZeCoO/Rvm+/OYm5Zkf7K+qSqYyoTVhpt7htG3YtPI8OFuZIiAxw169ax55rc20WBHorqr/rF+kA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10609
 
-Hi,
+It appears that libahci.c, ahci.c as well as the ahci_brcm, ahci_ceva
+and ahci_qoriq drivers are using runtime PM operations without including
+<linux/pm_runtime.h>. This header is somehow being indirectly provided
+by <linux/phy/phy.h>, which would like to drop it (none of the functions
+it exports need it).
 
-On 4/21/26 06:47, Yixun Lan wrote:
-> Once reset SPI TX or RX fifo, the underlying hardware need to take
-> some time to actually settle down, the two bits will automatically
-> clear to 0, so use a poll mechanism to check status bits to make sure
-> it's done correctly.
+Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+Acked-by: Damien Le Moal <dlemoal@kernel.org>
+---
+Cc: Damien Le Moal <dlemoal@kernel.org>
+Cc: Niklas Cassel <cassel@kernel.org>
 
-Ah, interesting, thanks for posting this!
-I looked into some manuals, and it seems like this self-clearing 
-property is already used in the A10, so it's fine to use unconditionally.
+v2->v7: none
+v1->v2: collect tag
+---
+ drivers/ata/ahci.c       | 1 +
+ drivers/ata/ahci_brcm.c  | 1 +
+ drivers/ata/ahci_ceva.c  | 1 +
+ drivers/ata/ahci_qoriq.c | 1 +
+ drivers/ata/libahci.c    | 1 +
+ 5 files changed, 5 insertions(+)
 
-> 
-> Signed-off-by: Yixun Lan <dlan@gentoo.org>
-
-Acked-by: Andre Przywara <andre.przywara@arm.com>
-
-If you don't mind, I would pull the below paragraph into the commit 
-message, since it's useful to have in the git history.
-
-Cheers,
-Andre.
-
-P.S. Just curious if we need a similar fix for Linux, or are we saved by 
-the Linux code spending more time in setup before doing a transfer?
-
-> ---
-> On Cubie A7A board which using A733 SoC, we encoutered a SPI nor flash
-> timeout issue, it turns out that the SPI fifo reset take a few time to
-> settle down, Add a loop to poll the status.
-> 
-> This was the error message shows on A7A board once this issue happened.
-> 
-> => sf probe
-> ERROR: sun4i_spi: Timeout transferring data
-> Failed to initialize SPI flash at 0:0 (error -2)
-> ---
->   drivers/spi/spi-sunxi.c | 9 ++++++---
->   1 file changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/spi/spi-sunxi.c b/drivers/spi/spi-sunxi.c
-> index e00532a371b..cf41905c7b7 100644
-> --- a/drivers/spi/spi-sunxi.c
-> +++ b/drivers/spi/spi-sunxi.c
-> @@ -347,7 +347,7 @@ static int sun4i_spi_xfer(struct udevice *dev, unsigned int bitlen,
->   	struct sun4i_spi_priv *priv = dev_get_priv(bus);
->   	struct dm_spi_slave_plat *slave_plat = dev_get_parent_plat(dev);
->   
-> -	u32 len = bitlen / 8;
-> +	u32 rst, val, len = bitlen / 8;
->   	u8 nbytes;
->   	int ret;
->   
-> @@ -363,8 +363,11 @@ static int sun4i_spi_xfer(struct udevice *dev, unsigned int bitlen,
->   		sun4i_spi_set_cs(bus, slave_plat->cs[0], true);
->   
->   	/* Reset FIFOs */
-> -	setbits_le32(SPI_REG(priv, SPI_FCR), SPI_BIT(priv, SPI_FCR_RF_RST) |
-> -		     SPI_BIT(priv, SPI_FCR_TF_RST));
-> +	rst = SPI_BIT(priv, SPI_FCR_RF_RST) | SPI_BIT(priv, SPI_FCR_TF_RST);
-> +	setbits_le32(SPI_REG(priv, SPI_FCR), rst);
-> +	ret = readl_poll_timeout(SPI_REG(priv, SPI_FCR), val, !(rst & val), 20);
-> +	if (ret)
-> +		return -EBUSY;
->   
->   	while (len) {
->   		/* Setup the transfer now... */
-> 
-> ---
-> base-commit: 88dc2788777babfd6322fa655df549a019aa1e69
-> change-id: 20260220-02-spi-fifo-reset-25e371314c3f
-> 
-> Best regards,
+diff --git a/drivers/ata/ahci.c b/drivers/ata/ahci.c
+index 1d73a53370cf..1396a53bd6df 100644
+--- a/drivers/ata/ahci.c
++++ b/drivers/ata/ahci.c
+@@ -26,6 +26,7 @@
+ #include <linux/device.h>
+ #include <linux/dmi.h>
+ #include <linux/gfp.h>
++#include <linux/pm_runtime.h>
+ #include <scsi/scsi_host.h>
+ #include <scsi/scsi_cmnd.h>
+ #include <linux/libata.h>
+diff --git a/drivers/ata/ahci_brcm.c b/drivers/ata/ahci_brcm.c
+index 29be74fedcf0..48460e515722 100644
+--- a/drivers/ata/ahci_brcm.c
++++ b/drivers/ata/ahci_brcm.c
+@@ -16,6 +16,7 @@
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
+ #include <linux/reset.h>
+ #include <linux/string.h>
+ 
+diff --git a/drivers/ata/ahci_ceva.c b/drivers/ata/ahci_ceva.c
+index 2d6a08c23d6a..3938bf378341 100644
+--- a/drivers/ata/ahci_ceva.c
++++ b/drivers/ata/ahci_ceva.c
+@@ -12,6 +12,7 @@
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
+ #include <linux/reset.h>
+ #include "ahci.h"
+ 
+diff --git a/drivers/ata/ahci_qoriq.c b/drivers/ata/ahci_qoriq.c
+index 0dec1a17e5b1..409152bfefb6 100644
+--- a/drivers/ata/ahci_qoriq.c
++++ b/drivers/ata/ahci_qoriq.c
+@@ -14,6 +14,7 @@
+ #include <linux/device.h>
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
+ #include <linux/libata.h>
+ #include "ahci.h"
+ 
+diff --git a/drivers/ata/libahci.c b/drivers/ata/libahci.c
+index c79abdfcd7a9..e0de4703a4f2 100644
+--- a/drivers/ata/libahci.c
++++ b/drivers/ata/libahci.c
+@@ -30,6 +30,7 @@
+ #include <scsi/scsi_cmnd.h>
+ #include <linux/libata.h>
+ #include <linux/pci.h>
++#include <linux/pm_runtime.h>
+ #include "ahci.h"
+ #include "libata.h"
+ 
+-- 
+2.34.1
 
