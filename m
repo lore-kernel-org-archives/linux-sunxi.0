@@ -1,125 +1,203 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61193D524D
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 May 2026 14:53:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54CA9392C32
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 May 2026 16:26:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777906414; cv=none; b=As6Qgji5MA6b9vZ2t7D3eq1gI2uDJ/F5gWc3PD9rOcQO0bbEM/jLnMQYYjWaSThbCNkW0W5TF01M429gRZ8FIHKwp1mClqihuLbKxRAKkpV+/EC0zeHR0Q1sQYkH4dKj6CSPm090L80MyvYTCCfRArpOytTWt1cFUVhsZJwBsBA=
+	t=1777912002; cv=none; b=riwyRk0zRTbsekjZyeUldRv0RMQXJ+kzxmIaFwGzoJjq0jHTB5+vH+s7fvJCouA7lsD2IjBiH8MiX02YBoIYfO962gLC4BkleCUN/f07Q2wrNvtWQ2GrTBwwjC3pkuxnye/+sCiGDszN/BVG60fpUTfDtWZtvVP12mcIOsQkWX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777906414; c=relaxed/simple;
-	bh=KsGehUIs9yjLgFhJm+ALM6CihYTUD9IxFPyF+rbn54Y=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=V0IxY7KuykE7tIqSmGVq5U2Rd8/YPcE6m0Lk91L3kjftk8+rbqAWB0gwjzecVv/HJqqTfj9hjl7urELS57YBZN0paqPxKJvlsakLZ40qOYoz/fRfkT5UgQ+Uc7KXiCIuEgOY6Ve7KYS8o+lnQmPUX9kup7D+ygWLJN0DoisKgwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B9idnJF0; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777912002; c=relaxed/simple;
+	bh=E9px648KO3wjHBF0FvoQJ7oWqClwxx9bwOStqChZ5Dg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dj4bGwIciP/xdLvXU/cEoihj1oUOFNqJRGgYrccIk4RmSANV+U+ls8P9tFxS5MyhXMIHA+EYxEKbbjsEO6RfuUyJucDNHNu6GZFJhGcUK1Lm2/G78aQjOc+6UbwcD0jprKPkefqgGcgTU4muwtLqrTPUE4zKD6D+3yY/LUioCEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=C7nsBiw9; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B9idnJF0"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-36528851d7dso703909a91.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 04 May 2026 07:53:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777906413; x=1778511213; darn=lists.linux.dev;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=L68A0nliiu2Q3xuxzZG34RHvsW2Cqh1HButFAloiLuY=;
-        b=B9idnJF0swevqx8S+Gpv+7YvZ2pJfSBs/cTfMU0tRnkhKHnjQJfarGMMVghHiZl8P8
-         sOOSFFUJB3pCt95f6yHdBvfChAiftGqaDjHXkBe55WJ6YQuTo5O72dgamW7FNEU1XLa4
-         WaHAJyr0ig/BC8NjLqp/zrW0Y3d3wYXNI+9chHbsifyXLj/5BdgF61+y9m4ONMTJ0HuA
-         2A+fpk4jaullgWXLRN/ZVuTT6kPKJGG2mGIwjgcCxYwkpzzG8k10gUul2uFrDEUrYwso
-         szg/plBJh8YYN1puOXW81JGABcD3fcFirwY2MpojAaVZItf3cqdNaabKt2B2+qION5me
-         wR2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777906413; x=1778511213;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L68A0nliiu2Q3xuxzZG34RHvsW2Cqh1HButFAloiLuY=;
-        b=XJa51vqUfe0M0IHOilH6tbd3T91kmmDy7jKOCpsk6TnXFIm3I5YK4hMtznTen58kJZ
-         qZpEYT/SQ76nkGHvgEV+NzvioSBVEPBbvnMHvHS9IUECr/7d4fNl7EQmwIFGl4NO3Tu0
-         RPG+WaCRpMSSlmR5RayJve0nBtD5GEod1EqhsT5LJIT4ORhDzXMvPBayz9sJkHXD/wwx
-         WKlE1I87st6vLE6hYhyWXijSEJ/x4xUx/tpP3AnFc56oNwDairwFEp4t1I+69IJCDuct
-         qp7G7q152j1EcFjE3JDp75z4Ttpqi3NaKQxQ7ehj8vKEQiTnjwawNi1gXSW4yVvjLINP
-         avQw==
-X-Forwarded-Encrypted: i=1; AFNElJ/KmpKHSIdFN/PhpzM7AZdR34u3P9q/fcloi7L5+fj+ByV5XNSxX2KU6Do9BIol3EEYtjctmv6/fcrbIQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx8LZjkDc6qT2biaavB2YQFgUS7cv16Y7CcP6Ondjf4mP815C2O
-	A8U82g3k6LgO8RlcMX+m+hbmnJPnbrTipUaxWAZ0djTfE+D+Kv0bxncX
-X-Gm-Gg: AeBDietrZylaN/AFC2JZCSyaZbqpKr3v5B727pVcB3M9Zbnkk3s00zrFRmz0U/atc9O
-	BhUPWy6RM956+RU6rGl93TbEt0gvzugGhEri/u4OvuKuIk3IDcvf5C+pc8xuHDLa4kcf9OO4Yol
-	MQsrdecNVGn6PR4QD0wBBxg9rHVYKr0xmweXYX8e4uBVG6TtUjq0j1E5TYKiu5bUMayMXTF8z+1
-	g2dwKatZM2M4mwoAuL2ZNj7lPblK5PoZGjhovBT8OotXVgijRx/qiFc4iEhBOrdk4apBIEDja56
-	RP77K1Euzg3iVLlGc634yi6fcyVxoVFwS+mQfAHIup8Fb2DK7ydXFA2nLiYJ08Nc2RjveTkH8hL
-	p+ONhWgc5J2B2Dvcy/FvqPilBppiyhBotMTrhQVnew4NGYjv2GxOp/6IbSnnvxjbD9KQL2y7aqW
-	2M10HfuW2IJZuy/A3TDqAZHB+y0semtFWPsII2xNAQY5tUTZuBI2g7tTCzEABG4tjlYUnNxroiQ
-	M1BiBkBFCxUlExbgavne0EoNuAb3w==
-X-Received: by 2002:a17:90a:d444:b0:364:6558:99be with SMTP id 98e67ed59e1d1-3650ceaab7fmr9463975a91.22.1777906412786;
-        Mon, 04 May 2026 07:53:32 -0700 (PDT)
-Received: from junjungu-PC.localdomain ([223.166.246.30])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c7ffbb05798sm9926085a12.0.2026.05.04.07.53.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 07:53:32 -0700 (PDT)
-From: Felix Gu <ustc.gu@gmail.com>
-Date: Mon, 04 May 2026 22:53:26 +0800
-Subject: [PATCH] pinctrl: sunxi: fix regulator leak in sunxi_pmx_request()
- error path
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="C7nsBiw9"
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7D36F9C;
+	Mon,  4 May 2026 18:26:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1777911995;
+	bh=E9px648KO3wjHBF0FvoQJ7oWqClwxx9bwOStqChZ5Dg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=C7nsBiw9DfJdqe3vAIYvrHSaWv8vOFVzMj0n+NiBzUAPMyhk8h2a2SM2Bulaujsx8
+	 d1pRVOk4Ncb3L1muy/CHM/aX8ZQX1GlcGVUsDs0tNhAx+haCjF7MzMb+9wF1uQ5IaL
+	 OgYAB8rIqmJUXUEvwtBpDVsHyESYrjqNYazNcKwY=
+Date: Mon, 4 May 2026 19:26:36 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Jyri Sarha <jyri.sarha@iki.fi>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Simon Ser <contact@emersion.fr>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Melissa Wen <mwen@igalia.com>,
+	Sebastian Wick <sebastian.wick@redhat.com>,
+	Alex Hung <alex.hung@amd.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v3 01/20] drm/atomic: Document atomic state lifetime
+Message-ID: <20260504162636.GF1344263@killaraus.ideasonboard.com>
+References: <20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org>
+ <20260424-drm-mode-config-init-v3-1-8b68d9db0d8b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260504-sunxi-v1-1-c0fd0df52776@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAOWy+GkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDUwMT3eLSvIpM3eSUREtDMzPDZEMLQyWg2oKi1LTMCrA50bG1tQCZt7F
- DVwAAAA==
-X-Change-ID: 20260504-sunxi-cda91661c181
-To: Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
-Cc: linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Felix Gu <ustc.gu@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1777906408; l=1142;
- i=ustc.gu@gmail.com; h=from:subject:message-id;
- bh=KsGehUIs9yjLgFhJm+ALM6CihYTUD9IxFPyF+rbn54Y=;
- b=HeZnzJUAEwh2zXD8lRSUzBtxzjVKqCO0BBfYZRyGOZBJ5CwDrdBrjEiQHQdwkS1QwwsLUSbpO
- 6SW0IlZZ5BXCjzD1FqEQUkVaPWVJsfKl5GiXk3mGGLFIUcMtZBXaX+U
-X-Developer-Key: i=ustc.gu@gmail.com; a=ed25519;
- pk=fjUXwmjchVN7Ja6KGP55IXOzFeCl9edaHoQIEUA+/hw=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260424-drm-mode-config-init-v3-1-8b68d9db0d8b@kernel.org>
 
-In the error path of sunxi_pmx_request(), the code calls
-regulator_put(s_reg->regulator) to release the regulator. However,
-s_reg->regulator is only assigned after a successful regulator_enable().
-This causes a memory leak: the regulator obtained via regulator_get()
-is never properly released when regulator_enable() fails.
+Hi Maxime,
 
-Fixes: dc1445584177 ("pinctrl: sunxi: Fix and simplify pin bank regulator handling")
-Signed-off-by: Felix Gu <ustc.gu@gmail.com>
----
- drivers/pinctrl/sunxi/pinctrl-sunxi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thank you for the patch.
 
-diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-index d3042e0c9712..25489beeb312 100644
---- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-+++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-@@ -925,7 +925,7 @@ static int sunxi_pmx_request(struct pinctrl_dev *pctldev, unsigned offset)
- 	return 0;
- 
- out:
--	regulator_put(s_reg->regulator);
-+	regulator_put(reg);
- 
- 	return ret;
- }
+On Fri, Apr 24, 2026 at 12:18:41PM +0200, Maxime Ripard wrote:
+> How drm_atomic_state structures and the various entity structures are
+> allocated and freed isn't really trivial. Document it.
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  Documentation/gpu/drm-kms.rst |  6 +++++
+>  drivers/gpu/drm/drm_atomic.c  | 55 +++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 61 insertions(+)
+> 
+> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+> index 2292e65f044c..017c7b196ed7 100644
+> --- a/Documentation/gpu/drm-kms.rst
+> +++ b/Documentation/gpu/drm-kms.rst
+> @@ -280,10 +280,16 @@ structure, ordering of committing state changes to hardware is sequenced using
+>  :c:type:`struct drm_crtc_commit <drm_crtc_commit>`.
+>  
+>  Read on in this chapter, and also in :ref:`drm_atomic_helper` for more detailed
+>  coverage of specific topics.
+>  
+> +Atomic State Lifetime
+> +---------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/drm_atomic.c
+> +   :doc: state lifetime
+> +
+>  Handling Driver Private State
+>  -----------------------------
+>  
+>  .. kernel-doc:: drivers/gpu/drm/drm_atomic.c
+>     :doc: handling driver private state
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index 41c57063f3b4..253a00f450b0 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -45,10 +45,65 @@
+>  #include <drm/drm_colorop.h>
+>  
+>  #include "drm_crtc_internal.h"
+>  #include "drm_internal.h"
+>  
+> +/**
+> + * DOC: state lifetime
+> + *
+> + * &struct drm_atomic_state represents an update to video pipeline
+> + * state. Despite its confusing name, it's actually a transient object
+> + * that holds a state update as a collection of pointers to individual
+> + * objects' states. &struct drm_atomic_state has a much shorter lifetime
+> + * than the objects' states, since it's only allocated while preparing,
+> + * checking or committing the update, while object states are allocated
+> + * when preparing the update and kept alive as long as they are active
+> + * in the device.
+> + *
+> + * Their respective lifetimes are:
+> + *
+> + * - at reset time, the object reset implementation will allocate a new
+> + *   default state and will store it in the object state pointer.
+> + *
+> + * - whenever a new update is needed:
+> + *
+> + *   + A new &struct drm_atomic_state is allocated using
+> + *     drm_atomic_state_alloc().
+> + *
+> + *   + The current active state of affected entity is copied into this
 
----
-base-commit: b9303e6bff706758c167af686b5315ad00233bf8
-change-id: 20260504-sunxi-cda91661c181
+s/affected entity/affected entities/
 
-Best regards,
+but maybe clearer, I'd write
+
+  + The current active state of all entities affected by the update is
+  copied ...
+
+> + *     new &struct drm_atomic_state using drm_atomic_get_plane_state(),
+> + *     drm_atomic_get_crtc_state(), drm_atomic_get_connector_state(), or
+> + *     drm_atomic_get_private_obj_state(). This new state can then be
+> + *     modified.
+> + *
+> + *     At that point, &struct drm_atomic_state stores three state
+> + *     pointers for any affected entity: the "old" and "new" states, and
+> + *     state_to_destroy. The old state is the state currently active in
+> + *     the hardware, which is either the one initialized by reset() or a
+> + *     newer one if a commit has been made. The new state is the state
+> + *     we just allocated and we might eventually commit to the hardware.
+> + *     The state_to_destroy points to the state we'll eventually have to
+> + *     free when the drm_atomic_state will be destroyed, and points to
+> + *     the new state for now since the old state is still the active
+> + *     state.
+> + *
+> + *   + After the state is populated, it is checked. If the check is
+> + *     successful, the update is committed. Part of the commit is a call
+> + *     to drm_atomic_helper_swap_state() which will turn the new states
+> + *     into the active states. Doing so involves updating the object's
+> + *     state pointer (&drm_crtc.state or similar) to point to the new
+> + *     state, and state_to_destroy will now point to the old states,
+> + *     that used to be active but aren't anymore.
+> + *
+> + *   + When the commit is done, and when all references to our &struct
+> + *     drm_atomic_state are put, drm_atomic_state_clear() runs and will
+> + *     free all state_to_destroy (ie. old states).
+
+I would also mention here that the drm_atomic_state itself is freed at
+this point (unless I'm mistaken and the drm_atomic_state still lives on
+for some time, in which case this misunderstanding is probably a sign
+that the correct behaviour should be documented :-)).
+
+With this,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> + *
+> + *   + Now, we don't have any active &struct drm_atomic_state anymore,
+> + *     and only the entity active states remain allocated.
+> + */
+> +
+>  void __drm_crtc_commit_free(struct kref *kref)
+>  {
+>  	struct drm_crtc_commit *commit =
+>  		container_of(kref, struct drm_crtc_commit, ref);
+>  
+
 -- 
-Felix Gu <ustc.gu@gmail.com>
+Regards,
 
+Laurent Pinchart
