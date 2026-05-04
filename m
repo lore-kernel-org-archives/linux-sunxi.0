@@ -1,31 +1,31 @@
 Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B7963F789A
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 May 2026 19:11:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0893F9F3D
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 May 2026 19:11:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777921913; cv=none; b=f/UpUZyc/c4CGB6keKfHx+emYR1ikjnxYQ4ckDt9aWIVb44XjL+l9NJmtsISQ2M8nigCg5tmAWohkY14O5m26voRlK4PRi1zyuOru7dgYf5Vr5xNw5MEdBCm71jV9jAI2RkL/JFY/9AIWVDR/l/fLDCdChUR9gwgAOR3Hg9pg4Y=
+	t=1777921917; cv=none; b=c7860eB82GrGx1Frwev1F7kWaTUqOo7MNe9b1cdCdIF7lF60Up2WDOVJ2l6wd2WLDM9LDlFQOQgd0F7KT4kfhHuq7MMzBJt2mCcr73KqqI83t9aF5KfVS4FWBNZWQSnEng50oNDHpDSVRalB25U850pDg7AcyWlbsTa9BCpcKwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777921913; c=relaxed/simple;
-	bh=BCXhnYotRzW51iTO6yZ9t+4t1/ooy35XNejXLNnlnvc=;
+	s=arc-20240116; t=1777921917; c=relaxed/simple;
+	bh=ZoFYijlo4y5gbSThGP+DiCy4Y2Vyfye3CBQmVuL9qew=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r+Tzf8duGIeS0mMxQuXauHH3YIn4ESVVNJhdeXw9whNM5r4ecp7qSja4GHC6pCPtWSZpcwG5VD+q5G7qDDm5qP6YxQ8jrzysgWislepMJPT74ygd7E/HkgpxbkEyh82yKktImHKAaqQ1GtX8dr7YIKV5rTQTwVeE6ESo0R+59Yk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=Kc+uzIiI; arc=none smtp.client-ip=121.127.44.66
+	 MIME-Version; b=PiUiFjuDvNegViRw/rOJMb5gfSUP4OYfiI8saCqDRhWjzzZXm7+IleW5Q4NPjRDK6N0YxoGWUKqUSMdWqLncLls0VvUnMBSYbP02nxD8EiAP1evQ7u2MwWQ4eJN1hbEat3eiTY9LxlTq5eRjEpkx5a2M33oDRyYPm094uLWaKqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=FkfN032L; arc=none smtp.client-ip=121.127.44.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="Kc+uzIiI"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="FkfN032L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
  Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1777921910; bh=tJeJ6vpBhtsiw1KolH4aIn7bCSe8O7mTHyzB0UBThGs=;
- b=Kc+uzIiIQVCdE0jXmZi4iI1bkeU4kTxfQ9LJTkKHTQpbmYtGieUJjbjGCkjk37/H9VRJhiNcn
- ljGnRf70DS3v4DryxNqX+43kfu39vGSyVmojuYeD4kAfERAB5w5pFXRQ/qesqxVhpN1pGcRCnvF
- spfbIuprVgCQp7eq/iX6IFvAalDRNWmdm3/9LWXbfRW8q5rVyykW8uth64nR33/ii5OExjftmth
- GwjYr8PfQicknxtfaQugKNnFSHPF8J9qzmloAHt0pEdUdqAR1YvSybZiJTX87YmCGQm8AlbHev4
- 2s/e25C8cRj/Z2HDMJDHoyTVHc7O7fnf2+RTWb408qvQ==
-X-Forward-Email-ID: 69f8ef7304bb1dff846bb92e
+ t=1777921915; bh=7r4j/cIIbHblsYJNpSFl32UgTklMpNIhimhDTe7b9kw=;
+ b=FkfN032LI0V2gw3bbjrERPsUJpmFiqnflhH8aoYGLrIrhpKoTJkxtvQkxflQ5F0WZlsnGWud8
+ MUDJFv/xM8OYueSNbicqvZS0proHsgRWfoXs9RszP9MLDps0VG7+MCqk/Ew3F8C6Csw0GL/8l94
+ H1Q3g3KBZhdyNsIGdbt6zFKM0Z17nBs4YqZyE2ZiSCNhppcPDsslZlKHNLFv6TUBeW3ynkXqh97
+ lIAdMJc+dFoqbeNHIsGKg1Iav5QbpfpVRZZGtMRSmDhiMbcumiW5iCKyfpL87xI21HwitP3Q2k4
+ 4Y6PaNpUmrqYJ3ts2BK7aHngxY5qI2mfRf1fjIsocglA==
+X-Forward-Email-ID: 69f8ef7704bb1dff846bb949
 X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
  121.127.44.66
 X-Forward-Email-Version: 2.7.7
@@ -61,9 +61,9 @@ Cc: Liu Ying <victor.liu@nxp.com>,
 	linux-sunxi@lists.linux.dev,
 	imx@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 10/17] drm: bridge: dw_hdmi: Use dw_hdmi_connector_status_update()
-Date: Mon,  4 May 2026 19:10:47 +0000
-Message-ID: <20260504191059.275928-11-jonas@kwiboo.se>
+Subject: [PATCH v4 11/17] drm: bridge: dw_hdmi: Use display_info is_hdmi and has_audio
+Date: Mon,  4 May 2026 19:10:48 +0000
+Message-ID: <20260504191059.275928-12-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260504191059.275928-1-jonas@kwiboo.se>
 References: <20260504191059.275928-1-jonas@kwiboo.se>
@@ -75,93 +75,123 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Update connector EDID and CEC phys addr from detect and force funcs to
-ensure that userspace always have access to latest read EDID after a
-sink use a HPD low voltage pulse to indicate that EDID has changed.
+drm_edid_connector_update() is being called from bridge connector funcs
+and from detect and force funcs for dw-hdmi connector.
 
-With EDID being updated in detect and force funcs, there should no
-longer be a need to re-read EDID in get_modes funcs, so drop it.
+Change to use is_hdmi and has_audio from display_info directly instead
+of keeping our own state in sink_is_hdmi and sink_has_audio.
 
-This change make the dw-hdmi connector work more closely like the bridge
-connector does with a hdmi bridge.
+Also remove the old and unused edid struct member and related define.
 
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 Reviewed-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 ---
-v4: Move last_connector_result assign in force ops to this patch,
-    Collect r-b tag
-v3: Reworked 'Update EDID during hotplug processing' patch
+v4: Collect r-b tag
+v3: No change
+v2: Collect r-b tag
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 25 ++++++++++++++---------
- 1 file changed, 15 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 32 ++++-------------------
+ 1 file changed, 5 insertions(+), 27 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 0b56ad7316e3..47616c11fcd7 100644
+index 47616c11fcd7..4c712aa07a89 100644
 --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2473,33 +2473,36 @@ dw_hdmi_connector_status_update(struct drm_connector *connector,
- 	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi, connector);
- 	const struct drm_edid *drm_edid;
+@@ -46,8 +46,6 @@
+ #define DDC_CI_ADDR		0x37
+ #define DDC_SEGMENT_ADDR	0x30
  
-+	if (status == connector_status_disconnected) {
-+		drm_edid_connector_update(connector, NULL);
-+		cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
-+		return;
-+	}
-+
- 	drm_edid = dw_hdmi_edid_read(hdmi, connector);
- 	drm_edid_connector_update(connector, drm_edid);
- 	drm_edid_free(drm_edid);
- 
--	cec_notifier_set_phys_addr(hdmi->cec_notifier,
--				   connector->display_info.source_physical_address);
-+	if (status == connector_status_connected)
-+		cec_notifier_set_phys_addr(hdmi->cec_notifier,
-+				connector->display_info.source_physical_address);
- }
- 
- static enum drm_connector_status
- dw_hdmi_connector_detect(struct drm_connector *connector, bool force)
- {
--	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi,
--					     connector);
-+	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi, connector);
- 	enum drm_connector_status status;
- 
- 	status = dw_hdmi_detect(hdmi);
- 
--	if (status == connector_status_disconnected)
--		cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
-+	dw_hdmi_connector_status_update(connector, status);
- 
- 	return status;
- }
- 
- static int dw_hdmi_connector_get_modes(struct drm_connector *connector)
- {
--	dw_hdmi_connector_status_update(connector, connector->status);
+-#define HDMI_EDID_LEN		512
 -
- 	return drm_edid_connector_add_modes(connector);
- }
+ /* DW-HDMI Controller >= 0x200a are at least compliant with SCDC version 1 */
+ #define SCDC_MIN_SOURCE_VERSION	0x1
  
-@@ -2529,13 +2532,15 @@ static int dw_hdmi_connector_atomic_check(struct drm_connector *connector,
+@@ -147,8 +145,6 @@ struct dw_hdmi {
  
- static void dw_hdmi_connector_force(struct drm_connector *connector)
+ 	int vic;
+ 
+-	u8 edid[HDMI_EDID_LEN];
+-
+ 	struct {
+ 		const struct dw_hdmi_phy_ops *ops;
+ 		const char *name;
+@@ -158,8 +154,6 @@ struct dw_hdmi {
+ 
+ 	struct i2c_adapter *ddc;
+ 	void __iomem *regs;
+-	bool sink_is_hdmi;
+-	bool sink_has_audio;
+ 
+ 	struct pinctrl *pinctrl;
+ 	struct pinctrl_state *default_state;
+@@ -2056,7 +2050,7 @@ static void hdmi_av_composer(struct dw_hdmi *hdmi,
+ 		HDMI_FC_INVIDCONF_IN_I_P_INTERLACED :
+ 		HDMI_FC_INVIDCONF_IN_I_P_PROGRESSIVE;
+ 
+-	inv_val |= hdmi->sink_is_hdmi ?
++	inv_val |= display->is_hdmi ?
+ 		HDMI_FC_INVIDCONF_DVI_MODEZ_HDMI_MODE :
+ 		HDMI_FC_INVIDCONF_DVI_MODEZ_DVI_MODE;
+ 
+@@ -2292,7 +2286,7 @@ static int dw_hdmi_poweron(struct dw_hdmi *hdmi,
+ 	if (hdmi->hdmi_data.enc_out_bus_format == MEDIA_BUS_FMT_FIXED)
+ 		hdmi->hdmi_data.enc_out_bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+ 
+-	hdmi->hdmi_data.rgb_limited_range = hdmi->sink_is_hdmi &&
++	hdmi->hdmi_data.rgb_limited_range = display->is_hdmi &&
+ 		drm_default_rgb_quant_range(mode) ==
+ 		HDMI_QUANTIZATION_RANGE_LIMITED;
+ 
+@@ -2312,7 +2306,7 @@ static int dw_hdmi_poweron(struct dw_hdmi *hdmi,
+ 	/* HDMI Initialization Step B.3 */
+ 	dw_hdmi_enable_video_path(hdmi);
+ 
+-	if (hdmi->sink_has_audio) {
++	if (display->has_audio) {
+ 		dev_dbg(hdmi->dev, "sink has audio support\n");
+ 
+ 		/* HDMI Initialization Step E - Configure audio */
+@@ -2321,7 +2315,7 @@ static int dw_hdmi_poweron(struct dw_hdmi *hdmi,
+ 	}
+ 
+ 	/* not for DVI mode */
+-	if (hdmi->sink_is_hdmi) {
++	if (display->is_hdmi) {
+ 		dev_dbg(hdmi->dev, "%s HDMI mode\n", __func__);
+ 
+ 		/* HDMI Initialization Step F - Configure AVI InfoFrame */
+@@ -2435,29 +2429,13 @@ static const struct drm_edid *dw_hdmi_edid_read(struct dw_hdmi *hdmi,
+ 						struct drm_connector *connector)
  {
--	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi,
--					     connector);
-+	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi, connector);
+ 	const struct drm_edid *drm_edid;
+-	const struct edid *edid;
  
- 	mutex_lock(&hdmi->mutex);
- 	hdmi->force = connector->force;
-+	hdmi->last_connector_result = connector->status;
- 	dw_hdmi_update_phy_mask(hdmi);
- 	mutex_unlock(&hdmi->mutex);
-+
-+	dw_hdmi_connector_status_update(connector, connector->status);
+ 	if (!hdmi->ddc)
+ 		return NULL;
+ 
+ 	drm_edid = drm_edid_read_ddc(connector, hdmi->ddc);
+-	if (!drm_edid) {
++	if (!drm_edid)
+ 		dev_dbg(hdmi->dev, "failed to get edid\n");
+-		return NULL;
+-	}
+-
+-	/*
+-	 * FIXME: This should use connector->display_info.is_hdmi and
+-	 * connector->display_info.has_audio from a path that has read the EDID
+-	 * and called drm_edid_connector_update().
+-	 */
+-	edid = drm_edid_raw(drm_edid);
+-
+-	dev_dbg(hdmi->dev, "got edid: width[%d] x height[%d]\n",
+-		edid->width_cm, edid->height_cm);
+-
+-	hdmi->sink_is_hdmi = drm_detect_hdmi_monitor(edid);
+-	hdmi->sink_has_audio = drm_detect_monitor_audio(edid);
+ 
+ 	return drm_edid;
  }
- 
- static const struct drm_connector_funcs dw_hdmi_connector_funcs = {
 -- 
 2.54.0
 
