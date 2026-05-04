@@ -1,33 +1,33 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C6A3F54C6
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 May 2026 19:11:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98CAF3EE1D2
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 May 2026 19:11:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777921906; cv=none; b=C/LOJdlOURXGq2e+isM9nbt6smlEITtcbvnVXS7KUpBJw7hkcPqO71JkOAs84pKqW1iantUHpaUOVYCZENQ/7g2K3pj7aXWiWhybUqb6eaB7PG7+NRLqYenmez3H/kdY7aJTxFRJq0MPNqlMopnYTuQFFA0NtqaJcsYyqfaw3Ag=
+	t=1777921907; cv=none; b=uZzFArElPvPI8/6V4UOo7ZEeai9eO6DWuES922j9M8oYPfaRDZ4dq9k7vYe1vepOzPQKivwH2N6Fya9TD4yfYOZUZlEZnvOLol9+HSuDes9+qJqUc+70cXr6TGPV9DKN/Zib7reRZDQrf0BbyxNtsq9uhMlRfMo49xsMmjM100Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777921906; c=relaxed/simple;
-	bh=s4mm7fQkVHqAf7z8r1v/FIiIPukjM6yAQe92MS/MGWQ=;
+	s=arc-20240116; t=1777921907; c=relaxed/simple;
+	bh=4GuOi9Y/xyxwNVfen6gmLBp9AjAOT+1Xf4hGPiFsy80=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rMv7N8xdoDqTYw2SJ+Lb63Ti6eZqL45Qb4OazBuAxugAI0l/bPaTusmWti991QyOEkmS9t5rIxd0IBLcgIGR7lldhQ7oDtaAwgSHiYOv63EtfzG2dZKFVPOhFfjxARst2qsm3+bgZTaBOe95rKBF5l6vhI/M6ymFQ/4eTF16t2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=z2SirwYq; arc=none smtp.client-ip=149.28.215.223
+	 MIME-Version; b=YihFq6+n//o7NYuyDlQK2RYR3xqhadcLbQWfRSPJs3F1EZT0GiM+l7dFnBi6tcWLJv8IPVhmto5DpyPBC8tDd7C67uIM0jt3WjGAfpZ9hyn2QwG7MsnTRSymboLjs67KD16voZH1zcd5kdkEO9WwH2f1eDHNBuhRaT4/6sDztDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=bgxIznRC; arc=none smtp.client-ip=121.127.44.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="z2SirwYq"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="bgxIznRC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
  Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1777921904; bh=T8+R7rBEFqteq3o8WJW2MaSt/8vk9AUClKen0jZKevI=;
- b=z2SirwYq1AtvhdM1SO0NH0qHbSn3+g/WMTvrc28I2+20xLnfqE8oH7b512peV+TFfMs2VhWHa
- K0LGDyEIa2t4zIqzFKJyF/oOR76OgGf53P495CNK3l8/7N5M6bX3ycWCL0rKap5LLJ2r2DV0/15
- R1vOAaaotatMNaozIYQd2SHBamvGXwhIrjNoKbwplqfy2U0t0euZZCpS29/ZxVl7Bj8byWVgqMO
- mAiJ/BQCMobOKs28m+EA/yAfzAVsGxiOlBiZE3QWO/56f7kLMjGOAW9aOC3HMI1S9aec1F8t1w6
- uTQqAOT+BbQnUD+fN01U+I0SXS+++CELpQhB4upN68FA==
-X-Forward-Email-ID: 69f8ef5f04bb1dff846bb88a
+ t=1777921905; bh=XGUigRl0dHn2l3h5bXexuTyn8UnpuWF+VIfFWcyqNco=;
+ b=bgxIznRC56ZmS+lqYa5dxbcJxl5AXAH1I2wybp/wJ9WYzEtaeFf7LNG/kA7NUn8kmSYoimoE7
+ lvhRZyFlBMJw9SKpffoyQdBkQ8ndIFyPYKl4V+s9sHca62UrKCxg0h/YOXGPWj4kTBriIabZaGo
+ ekM0CCW/gcydie2+MlRrik8Z6DS5Fg6VTfkCjTXjP1NJT105Tom+Cqd1qQ5atGC2KaiiyxB5rzv
+ TqS/GgF7L20naP6r/yapDmbpr4nKqJHFXJFCzruCSPx5bAIFUQYwRwGPbRYJTsDdrQ5e8Wlr68q
+ QCTbMBtZGFv4EIAdwTfu3qbXG1jLM5cNactjbO0LhyEQ==
+X-Forward-Email-ID: 69f8ef6b04bb1dff846bb8db
 X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 149.28.215.223
+ 121.127.44.66
 X-Forward-Email-Version: 2.7.7
 X-Forward-Email-Website: https://forwardemail.net
 X-Complaints-To: abuse@forwardemail.net
@@ -61,9 +61,9 @@ Cc: Liu Ying <victor.liu@nxp.com>,
 	linux-sunxi@lists.linux.dev,
 	imx@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 05/17] drm: bridge: dw_hdmi: Fold poweron and setup functions
-Date: Mon,  4 May 2026 19:10:42 +0000
-Message-ID: <20260504191059.275928-6-jonas@kwiboo.se>
+Subject: [PATCH v4 08/17] drm: bridge: dw_hdmi: Remove cec_notifier_mutex
+Date: Mon,  4 May 2026 19:10:45 +0000
+Message-ID: <20260504191059.275928-9-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260504191059.275928-1-jonas@kwiboo.se>
 References: <20260504191059.275928-1-jonas@kwiboo.se>
@@ -75,74 +75,73 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fold the poweron and setup functions into one function and use the
-adjusted_mode directly from the new crtc_state to remove the need of
-storing previous_mode.
+With CEC phys addr invalidation moved away from the irq handler there is
+no longer a need for cec_notifier_mutex, remove it.
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 ---
 v4: No change
-v3: Collect r-b tag
-v2: No change
+v3: No change
+v2: Collect r-b tag
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 21 ++++++++-------------
- 1 file changed, 8 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index f028a4b71aad..7211beffd59e 100644
+index 059f1d241fef..fc4f255c2a2f 100644
 --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2254,9 +2254,9 @@ static void hdmi_disable_overflow_interrupts(struct dw_hdmi *hdmi)
- 		    HDMI_IH_MUTE_FC_STAT2);
- }
+@@ -189,7 +189,6 @@ struct dw_hdmi {
+ 	void (*enable_audio)(struct dw_hdmi *hdmi);
+ 	void (*disable_audio)(struct dw_hdmi *hdmi);
  
--static int dw_hdmi_setup(struct dw_hdmi *hdmi,
--			 const struct drm_connector *connector,
--			 const struct drm_display_mode *mode)
-+static int dw_hdmi_poweron(struct dw_hdmi *hdmi,
-+			   const struct drm_connector *connector,
-+			   const struct drm_display_mode *mode)
- {
- 	const struct drm_display_info *display = &connector->display_info;
- 	int ret;
-@@ -2396,15 +2396,6 @@ static void initialize_hdmi_ih_mutes(struct dw_hdmi *hdmi)
- 	hdmi_writeb(hdmi, ih_mute, HDMI_IH_MUTE);
- }
+-	struct mutex cec_notifier_mutex;
+ 	struct cec_notifier *cec_notifier;
  
--static void dw_hdmi_poweron(struct dw_hdmi *hdmi)
--{
--	/*
--	 * The curr_conn field is guaranteed to be valid here, as this function
--	 * is only be called when !hdmi->disabled.
--	 */
--	dw_hdmi_setup(hdmi, hdmi->curr_conn, &hdmi->previous_mode);
--}
--
- static void dw_hdmi_poweroff(struct dw_hdmi *hdmi)
- {
- 	if (hdmi->phy.enabled) {
-@@ -2969,15 +2960,19 @@ static void dw_hdmi_bridge_atomic_enable(struct drm_bridge *bridge,
- 					 struct drm_atomic_state *state)
+ 	hdmi_codec_plugged_cb plugged_cb;
+@@ -2476,11 +2475,8 @@ dw_hdmi_connector_detect(struct drm_connector *connector, bool force)
+ 
+ 	status = dw_hdmi_detect(hdmi);
+ 
+-	if (status == connector_status_disconnected) {
+-		mutex_lock(&hdmi->cec_notifier_mutex);
++	if (status == connector_status_disconnected)
+ 		cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
+-		mutex_unlock(&hdmi->cec_notifier_mutex);
+-	}
+ 
+ 	return status;
+ }
+@@ -2594,9 +2590,7 @@ static int dw_hdmi_connector_create(struct dw_hdmi *hdmi)
+ 	if (!notifier)
+ 		return -ENOMEM;
+ 
+-	mutex_lock(&hdmi->cec_notifier_mutex);
+ 	hdmi->cec_notifier = notifier;
+-	mutex_unlock(&hdmi->cec_notifier_mutex);
+ 
+ 	return 0;
+ }
+@@ -2910,10 +2904,8 @@ static void dw_hdmi_bridge_detach(struct drm_bridge *bridge)
  {
  	struct dw_hdmi *hdmi = bridge->driver_private;
-+	const struct drm_display_mode *mode;
- 	struct drm_connector *connector;
-+	struct drm_crtc *crtc;
  
- 	connector = drm_atomic_get_new_connector_for_encoder(state,
- 							     bridge->encoder);
-+	crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
-+	mode = &drm_atomic_get_new_crtc_state(state, crtc)->adjusted_mode;
+-	mutex_lock(&hdmi->cec_notifier_mutex);
+ 	cec_notifier_conn_unregister(hdmi->cec_notifier);
+ 	hdmi->cec_notifier = NULL;
+-	mutex_unlock(&hdmi->cec_notifier_mutex);
+ }
  
- 	mutex_lock(&hdmi->mutex);
- 	hdmi->disabled = false;
- 	hdmi->curr_conn = connector;
--	dw_hdmi_poweron(hdmi);
-+	dw_hdmi_poweron(hdmi, connector, mode);
- 	dw_hdmi_update_phy_mask(hdmi);
- 	handle_plugged_change(hdmi, true);
- 	mutex_unlock(&hdmi->mutex);
+ static enum drm_mode_status
+@@ -3316,7 +3308,6 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+ 
+ 	mutex_init(&hdmi->mutex);
+ 	mutex_init(&hdmi->audio_mutex);
+-	mutex_init(&hdmi->cec_notifier_mutex);
+ 	spin_lock_init(&hdmi->audio_lock);
+ 
+ 	ddc_node = of_parse_phandle(np, "ddc-i2c-bus", 0);
 -- 
 2.54.0
 
