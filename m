@@ -1,31 +1,30 @@
 Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DCAC3EFD11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 766413EFD19
 	for <linux-sunxi@lists.linux.dev>; Mon,  4 May 2026 19:11:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777921897; cv=none; b=LYEMLAEOf3GVnQuPX8I/eX1zUjVIa5C69xQ6f2mqmMaW9LcY3NTzTC1mTh+9U7VsTkD18FCay5UKmUKiGIyp/c1x2j6DX80BDcvmwMulwaz/PSXuQY48rzrZWy7HEcaanGZVDEKYPFNpFqbBcO6Ino+QcYIma/ER8S20mRhG43I=
+	t=1777921898; cv=none; b=KotrNXwplkjM6edNdD27LfNrmP4sQqO6BkIP1pw99S332KWlhhtCrmxPhTdKQy03u1QWPaDpOOuDXG7uOmjEN6o5TZRTF9RY20li18zOdsoP9RedbXw5Bfj2inoMaGjhFFu375dS4VNQts9b3y4cW2kZP+Bn5yHGFRMKJjVKH1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777921897; c=relaxed/simple;
-	bh=gPod5psDuYHeexBaonjWvaIui42g4wz0uc0rFfhdUcg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EA2Z4tJ6dfngv2GrkMso4YlC1iSSSDFfkRNlnrPcJg8hcr8dSSycu9go6ySNiBegy/vS8sGNqZOuP/8TkqaXFbLIlwiY88eFiANqUUTMWMj37Yj9CIOZa1JJiERR+MjXh824orqb0ylEt74byYasW4amw6BGkxFu3WBorrJKnwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=pATKA5Tz; arc=none smtp.client-ip=149.28.215.223
+	s=arc-20240116; t=1777921898; c=relaxed/simple;
+	bh=Hsbju5pYDHmJwjHVageFiCg0C3RCNo+qYqaKYKZyrYM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e8Yz8N1wwL418qfPT5iu/3ddr6B7J7NxDPl0BdH/DJv6Sx/oZ0ZB6NmeqjLl2AdOfa7/7KgMmGUZJK18kBjpXMsWlx/QESOWFxO1MbCReMw4KZU6xfJ3w21ECZWLHzsUdBCUmmONoVdWWbqjLd3t2FKge0sIlYQT0+GUnSCGZAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=wEo8hvWw; arc=none smtp.client-ip=149.28.215.223
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="pATKA5Tz"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="wEo8hvWw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
- Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1777921890; bh=NVWUpLoYoqwHrhK1PEs6caGhSJc5nSsIxxdrR4kmbpQ=;
- b=pATKA5TzjDnVUm+yEPQ/r3CDL+i793jw7dbB/Pabb5sAnyEVXp/fguOc7z6ord4PzqkgdIHkf
- xb3B2YUvly1tJQww6IyvI43KyOpGD3q4L1fbps8jFO6Yu0fl9XSpYrddXDPXtEBdzGIJCOx31qw
- IBWNJhNB+RIyQbc2y9F+JVu6hM3mTHkmI5RowVKL0wH9bIWqN9lglOuBMdOKJvXx83c71szl++V
- qzVaansjJqhEvTymuYHrv/VwqPl8WO+JkNsUABlxS/MJgeSkHlXFaZnRcoY4AtQRAwBibmoavJK
- v3c5CSAuhdxoUKRoQc3/BQYv/zUkMpnLwmGqUbFoDr9Q==
-X-Forward-Email-ID: 69f8ef4e04bb1dff846bb7fb
+ h=Content-Transfer-Encoding: MIME-Version: Message-ID: Date: Subject: Cc:
+ To: From; q=dns/txt; s=fe-e1b5cab7be; t=1777921890;
+ bh=wSxi9Aq16jRBEzsD8DxsIyNuqkMMC7wF41X1iPVcGUQ=;
+ b=wEo8hvWwUpfiCuTb0m19lLAIuoThO54G0RaXzfWrxa9/IMkcchkZw9UYewLlF1AQyDqCcbBgX
+ spLA+JIxGEHnDkCTL+krdBX55UX12dH136J3r+6RzjBq35ZYHU7B+pEFyLJyS3kLlSY9Q8vjIaa
+ Jul94joNdfbbAvu1JXLrhS7TcgR9K4yCP9uPZnEccRwSX67XZ02SgpRdlrxu7vGztbBUN4MinPU
+ M15+WaYw22X4krms39aE6T1SadtkWnIut6yi5yY5b4uIk+dPSKNhzsUjij8+q6UIOYoTS1E5vaq
+ nqCxmrJ8HOS5DoDrTl/vMhZHzUMGfC6yTvU1pgaLFePA==
+X-Forward-Email-ID: 69f8ef4a04bb1dff846bb7bd
 X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
  149.28.215.223
 X-Forward-Email-Version: 2.7.7
@@ -37,16 +36,15 @@ From: Jonas Karlman <jonas@kwiboo.se>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
 	Neil Armstrong <neil.armstrong@linaro.org>,
 	Robert Foss <rfoss@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
+	Heiko Stuebner <heiko@sntech.de>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Liu Ying <victor.liu@nxp.com>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>
-Cc: Liu Ying <victor.liu@nxp.com>,
+	Simona Vetter <simona@ffwll.ch>,
 	Sandy Huang <hjc@rock-chips.com>,
 	Andy Yan <andy.yan@rock-chips.com>,
 	Chen-Yu Tsai <wens@kernel.org>,
@@ -61,13 +59,11 @@ Cc: Liu Ying <victor.liu@nxp.com>,
 	linux-sunxi@lists.linux.dev,
 	imx@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Christopher Obbard <chris.obbard@collabora.com>
-Subject: [PATCH v4 01/17] drm: bridge: dw_hdmi: Disable scrambler feature when not supported
-Date: Mon,  4 May 2026 19:10:38 +0000
-Message-ID: <20260504191059.275928-2-jonas@kwiboo.se>
+	Jonas Karlman <jonas@kwiboo.se>
+Subject: [PATCH v4 00/17] drm: bridge: dw_hdmi: Misc enable/disable, CEC and EDID cleanup
+Date: Mon,  4 May 2026 19:10:37 +0000
+Message-ID: <20260504191059.275928-1-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260504191059.275928-1-jonas@kwiboo.se>
-References: <20260504191059.275928-1-jonas@kwiboo.se>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -76,41 +72,116 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The scrambler feature can be left enabled when hotplugging from a sink
-and mode that require scrambling to a sink that does not support SCDC or
-scrambling.
+This is a revival of an old dw-hdmi series and is the first series part
+of a new effort to upstream old LibreELEC HDMI 2.0 patches for Rockchip
+RK33xx devices.
 
-Typically a blank screen or 'no signal' message can be observed after
-using a HDMI 2.0 4K@60Hz mode and then hotplugging to a sink that only
-support HDMI 1.4.
+This series ensure poweron/poweroff and CEC phys addr invalidation is
+happening under drm mode_config mutex lock, and also ensure EDID is
+updated after a HPD low voltage pulse by changing to debounce hotplug
+processing.
 
-Fix this by disabling the scrambler feature when SCDC is not supported.
+These changes have mainly been tested on Rockchip RK3328, RK3399 and
+RK3568 devices.
 
-Fixes: 264fce6cc2c1 ("drm/bridge: dw-hdmi: Add SCDC and TMDS Scrambling support")
-Reported-by: Christopher Obbard <chris.obbard@collabora.com>
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
----
-v4: No change
-v3: Collect r-b tag
-v2: New patch
----
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 2 ++
- 1 file changed, 2 insertions(+)
+Rockchip uses the dw-hdmi connector, so this could use some more testing
+with drivers that use the bridge connector.
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index f4a1ebb79716..248454c45d6b 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2135,6 +2135,8 @@ static void hdmi_av_composer(struct dw_hdmi *hdmi,
- 				    HDMI_MC_SWRSTZ);
- 			drm_scdc_set_scrambling(hdmi->curr_conn, 0);
- 		}
-+	} else if (hdmi->version >= 0x200a) {
-+		hdmi_writeb(hdmi, 0, HDMI_FC_SCRAMBLER_CTRL);
- 	}
+Testing with a Rock Pi 4 (RK3399) using a Reaspberry Pi Monitor with
+Linux kms client console using drm.debug=0xe should log something like
+following:
+
+ Power cycle monitor using the power button:
+  [CONNECTOR:68:HDMI-A-1] CEA VCDB 0x4a
+  [CONNECTOR:68:HDMI-A-1] HDMI: DVI dual 0, max TMDS clock 0 kHz
+  [CONNECTOR:68:HDMI-A-1] ELD monitor RPI MON156
+  [CONNECTOR:68:HDMI-A-1] HDMI: latency present 0 0, video latency 0 0, audio latency 0 0
+  [CONNECTOR:68:HDMI-A-1] ELD size 36, SAD count 1
+  [CONNECTOR:68:HDMI-A-1] Same epoch counter 10
  
- 	/* Set up horizontal active pixel width */
+ Cable unplugged:
+  [CONNECTOR:68:HDMI-A-1] EDID changed, epoch counter 11
+  [CONNECTOR:68:HDMI-A-1] status updated from connected to disconnected
+  [CONNECTOR:68:HDMI-A-1] Changed epoch counter 10 => 12
+  [CONNECTOR:68:HDMI-A-1] generating connector hotplug event
+  [CONNECTOR:68:HDMI-A-1] Sent hotplug event
+
+ Cable connected:
+  [CONNECTOR:68:HDMI-A-1] CEA VCDB 0x4a
+  [CONNECTOR:68:HDMI-A-1] HDMI: DVI dual 0, max TMDS clock 0 kHz
+  [CONNECTOR:68:HDMI-A-1] ELD monitor RPI MON156
+  [CONNECTOR:68:HDMI-A-1] HDMI: latency present 0 0, video latency 0 0, audio latency 0 0
+  [CONNECTOR:68:HDMI-A-1] ELD size 36, SAD count 1
+  [CONNECTOR:68:HDMI-A-1] status updated from disconnected to connected
+  [CONNECTOR:68:HDMI-A-1] Changed epoch counter 12 => 13
+  [CONNECTOR:68:HDMI-A-1] generating connector hotplug event
+  [CONNECTOR:68:HDMI-A-1] Sent hotplug event
+
+This series has evolved into an initial part of a larger multi series
+effort to:
+- drm: bridge: dw_hdmi: Misc enable/disable, CEC and EDID cleanup
+- drm/bridge: dw-hdmi: Improve input/output bus format handling
+- drm/bridge: dw-hdmi: Convert to a HDMI bridge and use of bridge connector
+- drm/bridge: dw-hdmi: Add and use tmds_char_rate_valid() plat data ops
+- drm/meson: hdmi: Misc cleanup and use CEC notifier helpers
+- phy: rockchip: inno-hdmi: Change TMDS rate handling to configure() ops
+- drm/rockchip: dw_hdmi: Misc cleanup and propagate bus format
+- drm/rockchip: dw_hdmi: Enable YCbCr and Deep Color modes
+Link to snapshot: https://github.com/Kwiboo/linux-rockchip/commits/next-20260430-rk-hdmi-v2/
+
+Changes in v4:
+- Change to use generic CEC notifier helpers
+- Disable/mask hpd_work until enable_hpd()/hpd_enable()
+- Read connector status directly from HW regs in hpd_work
+- Continued rework of HDP and RXSENSE interrupt handling
+- Collect r-b tags
+- Rebased on next-20260430
+Link to v3: https://lore.kernel.org/r/
+
+Changes in v3:
+- Rework EDID refresh handling to closer match bridge connector
+- Use delayed work to debounce HPD processing
+- Update commit messages
+- Collect r-b tags
+- Rebased on next-20260401
+Link to v2: https://lore.kernel.org/r/20240908132823.3308029-1-jonas@kwiboo.se/
+
+Changes in v2:
+- Add patch to disable scrambler feature when not supported
+- Add patch to only notify connected status on HPD interrupt
+- Update commit messages
+- Collect r-b tags
+- Rebased on next-20240906
+Link to v1: https://lore.kernel.org/r/20240611155108.1436502-1-jonas@kwiboo.se/
+
+Jonas Karlman (17):
+  drm: bridge: dw_hdmi: Disable scrambler feature when not supported
+  drm: bridge: dw_hdmi: Only notify connected status on HPD interrupt
+  drm: bridge: dw_hdmi: Call poweron/poweroff from atomic enable/disable
+  drm: bridge: dw_hdmi: Use passed mode instead of stored previous_mode
+  drm: bridge: dw_hdmi: Fold poweron and setup functions
+  drm: bridge: dw_hdmi: Remove previous_mode and mode_set
+  drm: bridge: dw_hdmi: Invalidate CEC phys addr from connector detect
+  drm: bridge: dw_hdmi: Remove cec_notifier_mutex
+  drm: bridge: dw_hdmi: Extract dw_hdmi_connector_status_update()
+  drm: bridge: dw_hdmi: Use dw_hdmi_connector_status_update()
+  drm: bridge: dw_hdmi: Use display_info is_hdmi and has_audio
+  drm: bridge: dw_hdmi: Use generic CEC notifier helpers
+  drm: bridge: dw_hdmi: Use delayed_work to debounce hotplug event
+  drm: bridge: dw_hdmi: Rework HDP and RXSENSE interrupt handling
+  drm: bridge: dw_hdmi: Remove the empty dw_hdmi_setup_rx_sense()
+  drm: bridge: dw_hdmi: Remove the empty dw_hdmi_phy_update_hpd()
+  drm: bridge: dw_hdmi: Merge top and bottom half IRQ handlers
+
+ drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c |   1 -
+ drivers/gpu/drm/bridge/synopsys/Kconfig     |   1 +
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c   | 436 ++++++--------------
+ drivers/gpu/drm/meson/meson_dw_hdmi.c       |   3 -
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c |   2 -
+ drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c      |   2 -
+ include/drm/bridge/dw_hdmi.h                |   6 -
+ 7 files changed, 134 insertions(+), 317 deletions(-)
+
 -- 
 2.54.0
 
