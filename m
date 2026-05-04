@@ -1,198 +1,255 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.66])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD033F0746
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 May 2026 19:12:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879D1342509
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 May 2026 21:21:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777921944; cv=none; b=lwBttZK2zNMT+WQ71aaRce5n+kNkuv/fZzWc2S2eIjtFhIS7JZAYMMckcpA3UNYIC++jxBkvCtYw3589FF2L8KeX7NNfPtpLsBBN489BWtpo7aGo6t+8ZLf34iT9ekqFIwzPFJgyyufcYTJw9VbtC+nPGF7pclP2bR8myqqDycg=
+	t=1777929721; cv=none; b=nfOzxCh7iq9YL9pqf5NfZKnXZn8lkUZmG3IyCMcvCh6pIaOIzNRXy1phCC+PIBuBmIyYmqfObqrqM+7CBOxQjKqinfOM5HNBKAtblW61wwjPw8msXPgSZwrF4e7Zwp/mUF8not6WMZSvLnPW4epugX5WPUKBcOUeMMyZt5pTu5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777921944; c=relaxed/simple;
-	bh=75QgP3RBSWyvbK1r/mEMVuEFJv5FbDJ270Hp1Nk4Ce4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aYfHSefLS92/Sq841rkvZIjfN/uRrtpMy+pRch0Y8rwvqUJca0Ubz+ELuRBlhU3kuzmSguvv6hgzzQsxImqAuZ2JL7Ccq3CBvsLD2POYpHj6sXtDnxP7PRFfCBr7+VeGKxj0mumqGQ9HSTCvvKvsLoeMWEzMmkjZt8QZL3tk0Ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=ScOyS9pv; arc=none smtp.client-ip=121.127.44.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
+	s=arc-20240116; t=1777929721; c=relaxed/simple;
+	bh=FIivxzOgQochecLwADzOEzhICH1KzGeWduqtFmOBREc=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=mlZjOtuh8Klxux14EsHEuGjy5BedsA0Y71sTyypWcNYRek/dlQlESUW/pN752cE/Ni1lj9ccWO1qc+1V+F6Cg2nyIYXzq3/2p/jqttS6hklg9J0WnVPWKkM/aaFuo09WkhSnkJQ2LEopMed5sy5RV0feM527knaMp8lYCTWzENA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=D+wgP5uD; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="ScOyS9pv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
- Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1777921941; bh=Y+1StOusjSb1aRabYMvL/79aSphsLY0CpDZ9HI5qZek=;
- b=ScOyS9pv8joEgu+RFYlxsAwG5VhryclRFhJLGPbW7vRDBF4V973fsC5PQ/rd72MIwe3CTSVWK
- G14Z5x4/bxd8jm84WY0tvzuy5wopT8wXGWiyWayjIk9NyqNHY1LWy+GG5DKy2Guctf6D0I7tDOY
- pdwitTkWevAWVW5eipHclDWuVqrqpRvY5c5CiqgMkmhkNUfkFDY3Kwb6uNbJuh2AXnQ8yVDe0Id
- 9CXj/dS/WGu2fImArir+8Z6/sqrpbU9PclrNlhIBVMThgzj7ieAL3nE9k6H1hnvKuATMsO6bYS8
- nxjGJG38++OT3WC0aG136iLPC9e1iCS2guaHil52t7CA==
-X-Forward-Email-ID: 69f8ef8d04bb1dff846bb9e7
-X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 121.127.44.66
-X-Forward-Email-Version: 2.7.7
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
-From: Jonas Karlman <jonas@kwiboo.se>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Liu Ying <victor.liu@nxp.com>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Christian Hewitt <christianshewitt@gmail.com>,
-	Diederik de Haas <diederik@cknow-tech.com>,
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	imx@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 16/17] drm: bridge: dw_hdmi: Remove the empty dw_hdmi_phy_update_hpd()
-Date: Mon,  4 May 2026 19:10:53 +0000
-Message-ID: <20260504191059.275928-17-jonas@kwiboo.se>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260504191059.275928-1-jonas@kwiboo.se>
-References: <20260504191059.275928-1-jonas@kwiboo.se>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="D+wgP5uD"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48896199cbaso40378435e9.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 04 May 2026 14:21:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1777929718; x=1778534518; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nv307eZOcQfpf3d08YRaeg3RgbkORKK7jsD1l1EktYs=;
+        b=D+wgP5uD9eUxvo349nre53eU0J3RJllkhOtYEZPzmgMf1f67KrWmXIiDO2g5pClFFH
+         aMZ9wveMk5ACb5LyaTf/Rn18gBVRrGQl2ED/+EoYPDC13EAhUZ84+Xs8OZ+Jm0mJnc/J
+         +SdC64mzFYeK7a3x8a9wM+41+k2fzklC0yiL5U18TpTDZUg7bDl6L18lU+O8wpoPbbe/
+         x0i0ip7HUqh2t8S/RcnyKwgjJyYHK2WsIElyL8wNkzeIXLPhNIZqHfl5v1/UJTdtb9Wd
+         oMM3bIPA8g50UucM/r8MX7c2OqhYB9eWaHUwjOQRt8wq/mYqmKXYVVBq0KKEpFAb0dcG
+         93Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777929718; x=1778534518;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nv307eZOcQfpf3d08YRaeg3RgbkORKK7jsD1l1EktYs=;
+        b=pPz/csXr8/CfjMxnduSUZTqLX/2Cr2UbIAZ8DusMK99WVQKu9zLs6g4PxRbvk5Yc1I
+         909uB6Qr6yi9MtgjxD/8U8jpceDELYwVjfXO6E44+IUxZ2NdrW0cIlBwcsPJGIOxOCrZ
+         y3TcLNQVsEkxCEQR6VzuhaoSI6bjlLdTyxHGbWaJViUfLnf5SD5ZQR3zdYv1GtTy7wSf
+         RNiGhhaPvOtjjag2CiaWA1NcPm1I+4vfxKfFfjqpkglAQXvRGYU/Yhc4sSMp11JGaH3/
+         6oD0nD0yzuixo8yAtePe2WcfOMItDNKLcXCt3nY1NXBHEWTeUpYbWohCa7dQaPyxc55d
+         yTHA==
+X-Forwarded-Encrypted: i=1; AFNElJ9QlWzTvuBNx3WCpaxFS8UPRUnDa372QLIylBxN91LC1Lrm9ytt+W5rHT4Zptt+U+rk1uzqdZ/sMLqBnA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwfufOzLlTKGnuXzXFsMz1brqh4hnJQZP93vDpLAVi7kylZ+erQ
+	ch7dYQ6ao9O/fcVTJefhlWwVN+RVyX4AtniAi/yu8tqkW2btV75cpGzaYKse0X6RZno=
+X-Gm-Gg: AeBDietGCdv+eKpkpe3LG13nqtBJhIfaXBrlWZZ5ZikPMe2o0NsptpscnAtGhWGgXXI
+	AM6Z0rJmdd7Rgl6xxWRrXgEZP00aqT6tytkF3gNZ79rEILJ3wEQhmb0rl5QuNBYPtktbnlM6PEv
+	WpfH4mRn8Mu0w/Y/F0td49btSQ2wNLZQhOXFKyf6Ie17yAG+r+wGLB9ykpCtZie0PmOBdbfPidv
+	aT6O9KO9LBqVVAvj0qt2pTQWU9hohNfPgKxbD9ipgeqKJKBN5yby/c6E60WwUnMdivUzaM/nZYF
+	ZoqFoYaQc67R7dhw8nI0hAEHgGKn1qeWa0Aat+vrc8uIlXej9suJVTJx2kuCEcxfT10zlVDzDfO
+	BYSkWMbXkE4enQEgiZhxltnTnDq7uG4TJQJ/RpFDyh9EAUxSlTfjZOOvfrsTf+PGN9AkPNw0B4l
+	tSiwxNr4ExpzDe+ywFCnwxYJpbqDkt/dTnER53Z4s3EQ89Nyzp3vfJAJYhgg7uh/VXlXbgZlEs1
+	vHl1Uz9REt0xcGkSg==
+X-Received: by 2002:a05:600c:c16a:b0:489:1cda:bbb7 with SMTP id 5b1f17b1804b1-48d18ceb33dmr2855065e9.25.1777929717835;
+        Mon, 04 May 2026 14:21:57 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:106d:1080:4086:6e90:21c8:1555? ([2a01:e0a:106d:1080:4086:6e90:21c8:1555])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48d149de41asm5820225e9.2.2026.05.04.14.21.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 May 2026 14:21:57 -0700 (PDT)
+Message-ID: <80fb7a31-3a85-48d5-a971-4e7632778f0c@linaro.org>
+Date: Mon, 4 May 2026 23:21:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v4 12/17] drm: bridge: dw_hdmi: Use generic CEC notifier
+ helpers
+To: Jonas Karlman <jonas@kwiboo.se>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Robert Foss <rfoss@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Liu Ying <victor.liu@nxp.com>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@kernel.org>,
+ Christian Hewitt <christianshewitt@gmail.com>,
+ Diederik de Haas <diederik@cknow-tech.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, imx@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20260504191059.275928-1-jonas@kwiboo.se>
+ <20260504191059.275928-13-jonas@kwiboo.se>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20260504191059.275928-13-jonas@kwiboo.se>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The dw_hdmi_phy_update_hpd() helper is empty and no longer needed after
-recent RXSENSE and HPD rework, remove it.
+On 5/4/26 21:10, Jonas Karlman wrote:
+> The commit 8b1a8f8b2002 ("drm/display: add CEC helpers code") added
+> generic CEC helpers to be used by HDMI drivers.
+> 
+> Replace the open-coded CEC notifier handling with use of the generic CEC
+> notifier helpers. Ensure DRM_DISPLAY_HDMI_CEC_NOTIFIER_HELPER is also
+> selected when DRM_DW_HDMI_CEC is enabled so that the CEC helpers is
+> available.
+> 
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> ---
+> v4: New patch
+> ---
+>   drivers/gpu/drm/bridge/synopsys/Kconfig   |  1 +
+>   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 32 ++++-------------------
+>   2 files changed, 6 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/Kconfig b/drivers/gpu/drm/bridge/synopsys/Kconfig
+> index a46df7583bcf..e6723af03b43 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/Kconfig
+> +++ b/drivers/gpu/drm/bridge/synopsys/Kconfig
+> @@ -49,6 +49,7 @@ config DRM_DW_HDMI_CEC
+>   	depends on DRM_DW_HDMI
+>   	select CEC_CORE
+>   	select CEC_NOTIFIER
+> +	select DRM_DISPLAY_HDMI_CEC_NOTIFIER_HELPER
+>   	help
+>   	  Support the CE interface which is part of the Synopsys
+>   	  Designware HDMI block.
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index 4c712aa07a89..0aa29b92327e 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -23,12 +23,11 @@
+>   #include <linux/dma-mapping.h>
+>   #include <linux/spinlock.h>
+>   
+> -#include <media/cec-notifier.h>
+> -
+>   #include <linux/media-bus-format.h>
+>   #include <linux/videodev2.h>
+>   
+>   #include <drm/bridge/dw_hdmi.h>
+> +#include <drm/display/drm_hdmi_cec_helper.h>
+>   #include <drm/display/drm_hdmi_helper.h>
+>   #include <drm/display/drm_scdc_helper.h>
+>   #include <drm/drm_atomic.h>
+> @@ -183,8 +182,6 @@ struct dw_hdmi {
+>   	void (*enable_audio)(struct dw_hdmi *hdmi);
+>   	void (*disable_audio)(struct dw_hdmi *hdmi);
+>   
+> -	struct cec_notifier *cec_notifier;
+> -
+>   	hdmi_codec_plugged_cb plugged_cb;
+>   	struct device *codec_dev;
+>   	enum drm_connector_status last_connector_result;
+> @@ -2453,7 +2450,7 @@ dw_hdmi_connector_status_update(struct drm_connector *connector,
+>   
+>   	if (status == connector_status_disconnected) {
+>   		drm_edid_connector_update(connector, NULL);
+> -		cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
+> +		drm_connector_cec_phys_addr_invalidate(connector);
+>   		return;
+>   	}
+>   
+> @@ -2462,8 +2459,7 @@ dw_hdmi_connector_status_update(struct drm_connector *connector,
+>   	drm_edid_free(drm_edid);
+>   
+>   	if (status == connector_status_connected)
+> -		cec_notifier_set_phys_addr(hdmi->cec_notifier,
+> -				connector->display_info.source_physical_address);
+> +		drm_connector_cec_phys_addr_set(connector);
+>   }
+>   
+>   static enum drm_connector_status
+> @@ -2539,8 +2535,6 @@ static const struct drm_connector_helper_funcs dw_hdmi_connector_helper_funcs =
+>   static int dw_hdmi_connector_create(struct dw_hdmi *hdmi)
+>   {
+>   	struct drm_connector *connector = &hdmi->connector;
+> -	struct cec_connector_info conn_info;
+> -	struct cec_notifier *notifier;
+>   
+>   	if (hdmi->version >= 0x200a)
+>   		connector->ycbcr_420_allowed =
+> @@ -2571,15 +2565,8 @@ static int dw_hdmi_connector_create(struct dw_hdmi *hdmi)
+>   
+>   	drm_connector_attach_encoder(connector, hdmi->bridge.encoder);
+>   
+> -	cec_fill_conn_info_from_drm(&conn_info, connector);
+> -
+> -	notifier = cec_notifier_conn_register(hdmi->dev, NULL, &conn_info);
+> -	if (!notifier)
+> -		return -ENOMEM;
+> -
+> -	hdmi->cec_notifier = notifier;
+> -
+> -	return 0;
+> +	return drmm_connector_hdmi_cec_notifier_register(connector, NULL,
+> +							 hdmi->dev);
+>   }
+>   
+>   /* -----------------------------------------------------------------------------
+> @@ -2887,14 +2874,6 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge,
+>   	return dw_hdmi_connector_create(hdmi);
+>   }
+>   
+> -static void dw_hdmi_bridge_detach(struct drm_bridge *bridge)
+> -{
+> -	struct dw_hdmi *hdmi = bridge->driver_private;
+> -
+> -	cec_notifier_conn_unregister(hdmi->cec_notifier);
+> -	hdmi->cec_notifier = NULL;
+> -}
+> -
+>   static enum drm_mode_status
+>   dw_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
+>   			  const struct drm_display_info *info,
+> @@ -2972,7 +2951,6 @@ static const struct drm_bridge_funcs dw_hdmi_bridge_funcs = {
+>   	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+>   	.atomic_reset = drm_atomic_helper_bridge_reset,
+>   	.attach = dw_hdmi_bridge_attach,
+> -	.detach = dw_hdmi_bridge_detach,
+>   	.atomic_check = dw_hdmi_bridge_atomic_check,
+>   	.atomic_get_output_bus_fmts = dw_hdmi_bridge_atomic_get_output_bus_fmts,
+>   	.atomic_get_input_bus_fmts = dw_hdmi_bridge_atomic_get_input_bus_fmts,
 
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
----
-v4: New patch
----
- drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c | 1 -
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c   | 7 -------
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 2 --
- drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c      | 2 --
- include/drm/bridge/dw_hdmi.h                | 4 ----
- 5 files changed, 16 deletions(-)
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 
-diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
-index 8e8cfd66f23b..20d389dbfdc5 100644
---- a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
-@@ -78,7 +78,6 @@ static const struct dw_hdmi_phy_ops imx8mp_hdmi_phy_ops = {
- 	.disable	= imx8mp_hdmi_phy_disable,
- 	.setup_hpd	= im8mp_hdmi_phy_setup_hpd,
- 	.read_hpd	= dw_hdmi_phy_read_hpd,
--	.update_hpd	= dw_hdmi_phy_update_hpd,
- };
- 
- static int imx8mp_dw_hdmi_bind(struct device *dev)
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 60b887249eba..c0ed067154c7 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -1687,12 +1687,6 @@ enum drm_connector_status dw_hdmi_phy_read_hpd(struct dw_hdmi *hdmi,
- }
- EXPORT_SYMBOL_GPL(dw_hdmi_phy_read_hpd);
- 
--void dw_hdmi_phy_update_hpd(struct dw_hdmi *hdmi, void *data,
--			    bool force, bool disabled, bool rxsense)
--{
--}
--EXPORT_SYMBOL_GPL(dw_hdmi_phy_update_hpd);
--
- void dw_hdmi_phy_setup_hpd(struct dw_hdmi *hdmi, void *data)
- {
- 	/*
-@@ -1716,7 +1710,6 @@ static const struct dw_hdmi_phy_ops dw_hdmi_synopsys_phy_ops = {
- 	.init = dw_hdmi_phy_init,
- 	.disable = dw_hdmi_phy_disable,
- 	.read_hpd = dw_hdmi_phy_read_hpd,
--	.update_hpd = dw_hdmi_phy_update_hpd,
- 	.setup_hpd = dw_hdmi_phy_setup_hpd,
- };
- 
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-index 0dc1eb5d2ae3..7136e713df2e 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-@@ -413,7 +413,6 @@ static const struct dw_hdmi_phy_ops rk3228_hdmi_phy_ops = {
- 	.init		= dw_hdmi_rockchip_genphy_init,
- 	.disable	= dw_hdmi_rockchip_genphy_disable,
- 	.read_hpd	= dw_hdmi_phy_read_hpd,
--	.update_hpd	= dw_hdmi_phy_update_hpd,
- 	.setup_hpd	= dw_hdmi_rk3228_setup_hpd,
- };
- 
-@@ -449,7 +448,6 @@ static const struct dw_hdmi_phy_ops rk3328_hdmi_phy_ops = {
- 	.init		= dw_hdmi_rockchip_genphy_init,
- 	.disable	= dw_hdmi_rockchip_genphy_disable,
- 	.read_hpd	= dw_hdmi_rk3328_read_hpd,
--	.update_hpd	= dw_hdmi_phy_update_hpd,
- 	.setup_hpd	= dw_hdmi_rk3328_setup_hpd,
- };
- 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-index 4fa69c463dc4..2ac99b8ce8c4 100644
---- a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-@@ -221,7 +221,6 @@ static const struct dw_hdmi_phy_ops sun8i_a83t_hdmi_phy_ops = {
- 	.init		= sun8i_a83t_hdmi_phy_config,
- 	.disable	= sun8i_a83t_hdmi_phy_disable,
- 	.read_hpd	= dw_hdmi_phy_read_hpd,
--	.update_hpd	= dw_hdmi_phy_update_hpd,
- 	.setup_hpd	= dw_hdmi_phy_setup_hpd,
- };
- 
-@@ -395,7 +394,6 @@ static const struct dw_hdmi_phy_ops sun8i_h3_hdmi_phy_ops = {
- 	.init		= sun8i_h3_hdmi_phy_config,
- 	.disable	= sun8i_h3_hdmi_phy_disable,
- 	.read_hpd	= dw_hdmi_phy_read_hpd,
--	.update_hpd	= dw_hdmi_phy_update_hpd,
- 	.setup_hpd	= dw_hdmi_phy_setup_hpd,
- };
- 
-diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
-index a612b9fa6dbb..10013b8d3adb 100644
---- a/include/drm/bridge/dw_hdmi.h
-+++ b/include/drm/bridge/dw_hdmi.h
-@@ -118,8 +118,6 @@ struct dw_hdmi_phy_ops {
- 		    const struct drm_display_mode *mode);
- 	void (*disable)(struct dw_hdmi *hdmi, void *data);
- 	enum drm_connector_status (*read_hpd)(struct dw_hdmi *hdmi, void *data);
--	void (*update_hpd)(struct dw_hdmi *hdmi, void *data,
--			   bool force, bool disabled, bool rxsense);
- 	void (*setup_hpd)(struct dw_hdmi *hdmi, void *data);
- };
- 
-@@ -213,8 +211,6 @@ void dw_hdmi_phy_gen2_reset(struct dw_hdmi *hdmi);
- 
- enum drm_connector_status dw_hdmi_phy_read_hpd(struct dw_hdmi *hdmi,
- 					       void *data);
--void dw_hdmi_phy_update_hpd(struct dw_hdmi *hdmi, void *data,
--			    bool force, bool disabled, bool rxsense);
- void dw_hdmi_phy_setup_hpd(struct dw_hdmi *hdmi, void *data);
- 
- bool dw_hdmi_bus_fmt_is_420(struct dw_hdmi *hdmi);
--- 
-2.54.0
-
+Thanks,
+Neil
