@@ -1,352 +1,251 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012009.outbound.protection.outlook.com [52.101.66.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC65258EE9
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 May 2026 05:04:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777871065; cv=none; b=ZVZ4WeLwtoMabiC1/I4ZHKd12z5yiKf6R+57rWfhkcCN85cuEChWgW/0sheIzH+Fg/7HW3EsD9A3YWZKi5U76DaYnTVMuvgBbWDKqYH6YTRoCe/1qqkEGA7SkUJ2z9HbvdQHwj0H5lh0c6i7qXnf72L52XlVfVE6EV4b3GnIFU8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777871065; c=relaxed/simple;
-	bh=+AfMOyYfNSai/vzHaaojDNYbQlGipPu5vQcMVMO/QuY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CVr/yuLHwMZKf/Ok4JME1paC8Ryw+8+z00v9i66bmVZv1gbu8YA+WisQhODlYDMmG4htNKK6uR1LoCi64jYeXAFkuIhWgAZ/tE7eLDaT22toHJxlP/xjwQ9cyi5OhYk/1bd0YgXuhb4uBcDlKKGPDEO71FAQtAx8j1mYWR1mG94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PfjY1eJp; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE2030F7F3;
+	Mon,  4 May 2026 07:57:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777881475; cv=fail; b=rAU4pZd7+YFYAcddM4D74M0dZQV/otysAFcssg2hsY0T6Fu2km5AQfcft/BWwINW71dylgP3k0mcp+GGclDs478TqdLAcPOozqIKdZb+gZ0RU0ZEHj28IHUXh2lng7u1h4Ioap2wMZXfwdezXRlYUEOGf5JiNSzfkiz9RF1pZgA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777881475; c=relaxed/simple;
+	bh=FI5XCipd6lQkpvf6m9PRM3D5ko1TWpCFe9sg3srFwz4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=XAmUo+E7/w9p6IQGc2C8Bnbm6uWo+q1Wx7/gh3Z7Lwn2x9G0t5tcBNYyNbsQ73Qw9cvR3TAxBUm2XF+Edkn5OY9Uht89PKrFYwR7uMkFJ5gCRpzmShoa2mdGQOvKDAZXnndtBD4G9y6iFFbWvKKh/gxJXdU180DNO0xCZLQllCs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=LBxmIe4j; arc=fail smtp.client-ip=52.101.66.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PfjY1eJp"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-364ef7a759bso1443466a91.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 03 May 2026 22:04:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777871063; x=1778475863; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2Zx5JZiDM7P1W4ijYGbXe8KVsddltmoo33akfRDuMeY=;
-        b=PfjY1eJplHrB0bHLfPt2nNbRvwXLFOI+ODMQDyw4KYZtCKaGDm0pgRCvZ6nV8Szb0o
-         JQM7BmZIOjT3VaBdOjPYqo2YNwl05/ICS4xax+8HVpg80gQFpKAfLJA25kEjUez10rkx
-         PkqXW2nWppbQ/Vr4Y7U+v5Vn5d41Jq/efqeR8fukJtGHf5ygigoHJv0B3Z6G6mmA90AA
-         syjIveY6OBAl4RtUuptkgklpW+VDXuiq1iCBUce4PRsUiwLnVKLZx7Ktf0QJOxvmnk8D
-         lndj7tBpVieVLwGTBBWqeHzWnnP+3mEaepmLBJPx0WdzRt1/AaCnN1GuVtpKOY7HNjld
-         GH1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777871063; x=1778475863;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2Zx5JZiDM7P1W4ijYGbXe8KVsddltmoo33akfRDuMeY=;
-        b=rilaZowakENaQ6ZOXn+zf+gBo6d7F5so78NddMdeZSrVWbIDa5nMVn7WY5z9E6uFkx
-         fpCaneMJIDzNjeQTuHUC8kyg6AGUtdi0h9tGJqmJpqpXGnL3BLL+Wsotge5T9aAXVfNo
-         P28zBQdl+kYk/HWQcEDeFsTAqFgCgi5AfCftCRlvKF8+hZ76CizpvbY1KfJ2lqtyfznk
-         Lo2HIHbCtjqMt8OMtXggMIz8EHpAjUU3c52/rT0/K+H6wdrfmasElsSbnlYmf2UD8YVt
-         yw142aJM4g+irS3v4sODrM1PJLU7c3bf9oXxbUYZabsVnmIwwN7J9N96o2MOUIpZLfXf
-         pGhw==
-X-Forwarded-Encrypted: i=1; AFNElJ/EiVo3gAVdDcKtLXu0GSjJfeckw0het041UffU5b8Yo1lPyP6wcYvso2MopzzJsNDFmx6FQ8iSdgRIEA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy5KBdk4O4sAAFnvhJV/mnfwqyvzD3MWeSZyLyJPsRV3T43UI5Q
-	q4J2XuqHNkL/654FDeGRRGSfEA+7KhQAnW1imNFsn7tRaaZWg1HcheHl
-X-Gm-Gg: AeBDiesPQF2pXQlLIF2u78DCCk2IPa6nVO2eVUiJSn6Ft5JY9EaMBIQ5j8g4iS8FCs9
-	KK8dXp9gWNl87h9sB7IaiGWEuDTGB2nuatylG4WNgrCerPcsb5OM524mZloJdDoI8+wEPl9gBhA
-	qZQTuycrGbdBoRcenjWLeWTLkfJ5RMYi97zJU2vHVt3gmHOtE16A2r7L9R3QdL+nbI3UH15di+c
-	53pn0r9NY40jbX5mP1O8u7RcrFsWRVdI8mNVonlefbLVW1oR7Vy4n6imPc8wH4RdT8ykes/t0lG
-	HFXv7xx02eKx5erLJLe6bt5YZVemSE196Kmy3ciShmhf4NMmFUGNtVOViojo8PGomFGOwOaVPYu
-	vp9/TEvkEppuyyh7M5lUXhtQGJqAS1Cvhz/cy77WCTjc/KT9CNwAhybbAykL0HEYTLJYEVxInyz
-	gHVg==
-X-Received: by 2002:a17:90b:2586:b0:35f:c258:a9a2 with SMTP id 98e67ed59e1d1-364c49fc890mr13397626a91.17.1777871062958;
-        Sun, 03 May 2026 22:04:22 -0700 (PDT)
-Received: from archlinux ([2605:e440:15::152])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-365437b50b0sm2662908a91.0.2026.05.03.22.04.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 May 2026 22:04:22 -0700 (PDT)
-From: Mikhail Kalashnikov <iuncuim@gmail.com>
-To: Vasily Khoruzhick <anarsoul@gmail.com>,
-	Yangtao Li <tiny.windzz@gmail.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Lukasz Luba <lukasz.luba@arm.com>,
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="LBxmIe4j"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pNnSjlgqQ9mu64HM93qhv+j/BPmjKWq06Vw5FUl/MpiJK7O48Y5ZkdGpeDr+RLAsG3bD4m1MQj++jsqYHDhFLmSZ5zpMQ8jqAy3ZTKLMriPOi6faQk2E6kzM96L7OPWSvp+JWM085Q1lmk5RRrQOeSLk0xO4OiU7sqhrtqXPyJv2769muBydBuIzOb+Y2T+yCqqNpX1pq6fqhbmZCdZYovkoMLuMKF4YDRe44t5cNGg4sMDtGk6GXjcFlUhFIQuH5ZRhfaUs/tszMI47wKm5VvrDOVSo3B251R8iTs24txl8YlwZcJss91IFDm1kJbf+3HrOefgLyrqZ3jbW2NXd6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mIyqoNMaqF7PcSsq3Vf4/2r/EknapHaMFFAC23Z0fWk=;
+ b=u/5vHVU/ZwWk0vXcfhC+ZvVj8TSqXPilWXe4zkw8nJXsnptXkI4ThoxIr0qjkFcBaQrdNu3mgiq0LeVT7yP8R6450cWoARy9vT0s0FG6X1duwz1EmElLoN4b7Xu2ubhZ5ZVowjf2F2KcMlQlzrG4OQDlFwzRW3vJWVV4e/2+A0jL79gLCNsXVMdUW3e7PHOZzud3P2DXNv59hKBqcDMJDgKnD5ysdtOX27rA7t+RVsOZ0Kllrj/49y6yCyEqm4Faqh0KjsN1o/xAx/+iowsYAG6TSrNh9u/i+qZiOs3lJmEggz4Oxil30mlSG8yW5FEo36P9vhUhX4+fr8ujas7lJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mIyqoNMaqF7PcSsq3Vf4/2r/EknapHaMFFAC23Z0fWk=;
+ b=LBxmIe4j4c0f8XCDOmIwHQsDwUevTUlG2XSG5rVjJwhpeujlIC35stBUnSYac3YgUbfWXU/Ium9MufmIzh/C+KhNrkBY1ZDnp4CYpRingmBtEGzB3SfBK52lARJku8VclM7COSg7ZsWfCvgZk2E4fYFebSvxLc+Q/yrR1Gl4kGJAEQloY9aurINdIdFPw0k9ZA36UuM5EBsnJtQcc9n4cbBYLXGLUsYbsmVfktuWW/kofa4hS2LLo7iYd9kWfAeKOQ6906aMVPLLYIP+Mi37NRoNNzDN/ToqimoCrHJ/Jbmdpw03gWsxeJwcgrSHG/XQtN77oHVntlLQXVY5+pxblQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM9PR04MB8585.eurprd04.prod.outlook.com (2603:10a6:20b:438::13)
+ by GV2PR04MB11800.eurprd04.prod.outlook.com (2603:10a6:150:2d1::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Mon, 4 May
+ 2026 07:57:48 +0000
+Received: from AM9PR04MB8585.eurprd04.prod.outlook.com
+ ([fe80::f010:fca8:7ef:62f4]) by AM9PR04MB8585.eurprd04.prod.outlook.com
+ ([fe80::f010:fca8:7ef:62f4%4]) with mapi id 15.20.9870.023; Mon, 4 May 2026
+ 07:57:46 +0000
+Date: Mon, 4 May 2026 10:57:42 +0300
+From: Vladimir Oltean <vladimir.oltean@nxp.com>
+To: linux-phy@lists.infradead.org, Bjorn Helgaas <bhelgaas@google.com>
+Cc: Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+	spacemit@lists.linux.dev, UNGLinuxDriver@microchip.com,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
 	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 5/5] Allwinner: A523: add support for A523 THS0/1 controllers
-Date: Mon,  4 May 2026 13:02:45 +0800
-Message-ID: <20260504050245.646078-6-iuncuim@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260504050245.646078-1-iuncuim@gmail.com>
-References: <20260504050245.646078-1-iuncuim@gmail.com>
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>
+Subject: Re: [PATCH v7 phy-next 08/27] PCI: Remove device links to PHY
+Message-ID: <20260504075742.ixt7phu4cpp433q5@skbuf>
+References: <20260430110652.558622-1-vladimir.oltean@nxp.com>
+ <20260430110652.558622-1-vladimir.oltean@nxp.com>
+ <20260430110652.558622-9-vladimir.oltean@nxp.com>
+ <20260430110652.558622-9-vladimir.oltean@nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260430110652.558622-9-vladimir.oltean@nxp.com>
+ <20260430110652.558622-9-vladimir.oltean@nxp.com>
+X-ClientProxiedBy: WA2PEPF000008AF.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d8::657) To AM9PR04MB8585.eurprd04.prod.outlook.com
+ (2603:10a6:20b:438::13)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9PR04MB8585:EE_|GV2PR04MB11800:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4c875e1e-ca31-4828-710b-08dea9b2d44c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|19092799006|7416014|376014|10070799003|1800799024|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	HEAXu0UJ9P3VzL00TQ5M3z2crujXl382jiCiUZ8AjCp92Sg3OB/js+tp8eYXGFCwTg4KC58dkU749B4w9rSUDmOeHKbS0d1VunRrO+0OtdmhVfIDbyWfd68zd/UwthW2bRoM12WmYcfW+QITvv60QYEZ3Kg4C9ooCFWab7uNzFwTYCMVln/v4nDI7PA+84MsJRghdBRjtrzVdqUpokYrKrv/vPQ8UdETapxfYG4x02T8oJJuR8rwqlgl1y/1JCDwDYxOrDpVfe+N/b9b2OMuKXyU8kTLFDV2up3MVC5GOnlCnnlwO+8ZalNICpxGxx4yrr9ReK56HR7wQ+EleiGOwqmjXSseI4g7FzN/Bm4ILnOoxXySX1YImvrFAsqP2ONeZCRRLqDcEN2K+zjhQYoc9vIaUwwAH1owrJMiNqLPK1BBMV6XA4WG3u1dohQzwWRk9J6ZB3Mq9zeKK39RKMh7AVi9wOOTuYnE26otczBMnVKu7BD58vY6ONRIqYZiqnt/i1+rsMLaDWvZTybIZj8YOv22IJFCrUZq8pvT2T2vn4k5ykcL4wBm5+ReTtYtHnCrP7+s6kJjJcCVv/9pxQ51KpGJL1D7rMiYVbvAYjGTnZjLEkc3qSGjgZbvixZN6L75/bYZOjGOt6ePctFGSO6QX6HJX8OyaoKsPtRjRZPN33ZGE71bvSFRxzkCOrB5x2Bz
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8585.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(7416014)(376014)(10070799003)(1800799024)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?RsEOHz6cOvr61ub/jxNnNVotOrCIljo7elUReRA064caS/5whesT2J9KGG1W?=
+ =?us-ascii?Q?0L4rUUrOsc6Ddsc0U9zeiJJ6LTVI5b1GVFb8eTU0+6LuW5h/yQgVUJr1EInh?=
+ =?us-ascii?Q?h3qoiM4jWG/uDASftINhtbByfh3a6xoV/kg8gRbeKBjVV2gNyAry3SA5nj4N?=
+ =?us-ascii?Q?KCjDY+RNqRFoI4CzsYBaA8Xtc3HoOPpWw4m7TCLeoVjN0SnCPZPUiHzUe0Ku?=
+ =?us-ascii?Q?uEdZbRJoc0TSiSmy/v1wQ94hyS0eGVKAgbCemhE32p7jBBUgtIA0m8eTnakr?=
+ =?us-ascii?Q?m0cP7Dg2Rgwdxn7Htvb29f2qN+h6gLjG+Z664xypN2PMh3YLasYwpaSw2/TU?=
+ =?us-ascii?Q?bw5aX6pbPDj21gqqtcD307swHztnNZfL/1dTTTOyGSIk+QiGf5HJV3w0Mpry?=
+ =?us-ascii?Q?JpJarUj9oRVOjrGtKp/vY9tpuo9YY3vnT8M3X+nfOsxTlKWyquIqkJPWpVmz?=
+ =?us-ascii?Q?VOavSuUc4gC6hW7c9IcLsof89g+BkZd5zg5T5ERE7Ospd/knF6e9NLD5mTR7?=
+ =?us-ascii?Q?jBOgYJoaUrf15GXhmW74pfE25hnfa9hP4J2aVQ5pwuTWEeN0LJqZRS39I129?=
+ =?us-ascii?Q?3rIi4E5g5x4hDYkpoRt7001EdShWNGsyOkDcJ9H/+0syBS/du94bxvTKwLPH?=
+ =?us-ascii?Q?Q4GnTHTU+7TxqRDrsv1QcAQIzI7jqQ3fT9B11Au82fQ8GuGLcpmBkRg+vut9?=
+ =?us-ascii?Q?pH4YLzfQ95YVVl5v0/TYyT1S3CA/lQJ25Yqqug07H0lHJnmtxejGsraBekx5?=
+ =?us-ascii?Q?y41Rcf2cbgkltnYu4p1dF0uMYh39FoeWXDtpN+ZIPtfJIwEcmcK2nptUQ4sW?=
+ =?us-ascii?Q?3DzsXI4fwDver+dSZUKzoxLnMgBGix83Nz4yP3H591HzSGqCJq4Ahq6aoTwO?=
+ =?us-ascii?Q?vdkKRgJFouBysTNrWXm3Dhzk4TnLnT9odECnZdpEQXPDPHJR3IP9bVK+zT1J?=
+ =?us-ascii?Q?fLAVSpZnuQEMH5z5QzO/tQlLnYggNWfN/av4tmiEG5CnEop8o28JSu7G4Awa?=
+ =?us-ascii?Q?up8YeGzW63waghEtGCWWKM/nzOeGz5zZpKi9SP/1pyp60N4GqqN22qQyhYzp?=
+ =?us-ascii?Q?aCKS10hT18/N0yhdpk7jCf4i+yQ6DEEAq2pIERPpC84+uRhnZvl3ORsF/2K7?=
+ =?us-ascii?Q?mWhMQBv5m16eu1/7qrqQY/YIG+HpoNDlyao1iUd1MlUjvKA9pYYsn0zBnzEr?=
+ =?us-ascii?Q?r1/1FKCk64nnJ3XoYYg1n3aWkPPcrSSmZ/1bVrtxagz/tGXcS/mMFYMiVeag?=
+ =?us-ascii?Q?wHnhQh64Gzqb3nJPvIkn36Fh08SWpSAziFlLTy0HZcxRbhHAkSGjGzUhuPYt?=
+ =?us-ascii?Q?mGgO74dOzXOaE/PgSGHRsgx+VcvSa9fvXYMfTz4uqunO/H45oI6UyCu3J3ob?=
+ =?us-ascii?Q?rYOgwDx7iyA4v/06pCB+/WSx3UQJn6x7h/Lbra8FvBlwTHLti7Tlf768GM91?=
+ =?us-ascii?Q?zStbCV1u7IAwq7cFLKsf0tCdwLMzckOHhgor23phsP229u+/oB1kKARQWlsE?=
+ =?us-ascii?Q?F4CeMARInjuQNYzC3iRUYHMZwA1WmAc34VPcgN/mRwZXJsRUKcY8Yf8fFdyL?=
+ =?us-ascii?Q?1Gg/0tnWaNA7RjxqS5Tx9Ovad5xiHpTKJPEPofz6T7e0SU+svwcatycFidc/?=
+ =?us-ascii?Q?HPIpeq7CsTfPh2qupxa/DBLR+lZiUAxA3J4I759eadMjgtywW2aXkJ9oQ5zX?=
+ =?us-ascii?Q?7PG6hJ42ZnL1f97rlTIMOg5vJghuNVEfuxia/ORrTh1o5pTLCr87B8hulxXf?=
+ =?us-ascii?Q?mpHVVmdt5W3ZcR65RWqjhzxD83ghUIQ56YzAk+fEVJPF4Vwe2/hEMHSwv46x?=
+X-MS-Exchange-AntiSpam-MessageData-1: qAbWhMSQ+tDz/g==
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4c875e1e-ca31-4828-710b-08dea9b2d44c
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8585.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2026 07:57:46.6958
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MKHLfxUQD4j6O1JnGXUiro3PKaKtFhDedU9fqi7AkBqWytZKCuHAp76HHMA+3Egs5mL1VqDhZ+adhJvqpx+FhQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR04MB11800
 
-The A523 processor has two temperature controllers, THS0 and THS1.
-THS0 has only one temperature sensor, which is located in the DRAM.
+Sashiko says:
+> commit e4f495a9118b40f8a77e8dc097821d2c846ed1fc
+> Author: Vladimir Oltean <vladimir.oltean@nxp.com>
+> 
+> PCI: Remove device links to PHY
+> This commit removes device links between the PCIe controllers and PHY
+> providers across several drivers, since the PHY core already creates consumer
+> device links.
+> 
+> > diff --git a/drivers/pci/controller/cadence/pcie-cadence-plat.c b/drivers/pci/controller/cadence/pcie-cadence-plat.c
+> > index b067a3296dd37..fc39c01b79648 100644
+> > --- a/drivers/pci/controller/cadence/pcie-cadence-plat.c
+> > +++ b/drivers/pci/controller/cadence/pcie-cadence-plat.c
+> [ ... ]
+> > @@ -122,9 +121,6 @@ static int cdns_plat_pcie_probe(struct platform_device *pdev)
+> >  	pm_runtime_put_sync(dev);
+> >  	pm_runtime_disable(dev);
+> >  	cdns_pcie_disable_phy(cdns_plat_pcie->pcie);
+> > -	phy_count = cdns_plat_pcie->pcie->phy_count;
+> > -	while (phy_count--)
+> > -		device_link_del(cdns_plat_pcie->pcie->link[phy_count]);
+> >
+> >  	return 0;
+> 
+> This isn't a bug introduced by your patch, but I noticed the error path in
+> cdns_plat_pcie_probe() returns 0.
+> Does this cause the driver core to consider the probe successful even when
+> host or endpoint setup steps fail? It looks like the device would be left
+> in an uninitialized and disabled state while still being bound to the driver.
+> Should this return ret instead?
+> 
 
-THS1 does have 3 sensors:
-ths1_0 - "big" cores
-ths1_1 - "little" cores
-ths1_2 - gpu
+The condition does not appear intentional. Commit bd22885aa188 ("PCI:
+cadence: Refactor driver to use as a core library") changed
+cdns_pcie_host_probe() which properly returned ret on error with
+cdns_plat_pcie_probe() which doesn't.
 
-Add the thermal sensor configuration and the thermal zones.
-Trips temperature, polling-delay and sustainable-power parameters are
-derived from the manufacturer's BSP.
+I will add a preparatory patch which replaces "return 0" with "return ret"
+in cdns_plat_pcie_probe(), blaming that commit.
 
-Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
----
- .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 154 ++++++++++++++++++
- 1 file changed, 154 insertions(+)
+> >  }
+> > diff --git a/drivers/pci/controller/dwc/pci-dra7xx.c b/drivers/pci/controller/dwc/pci-dra7xx.c
+> > index cd904659c3216..9c1aef4d0bd1c 100644
+> > --- a/drivers/pci/controller/dwc/pci-dra7xx.c
+> > +++ b/drivers/pci/controller/dwc/pci-dra7xx.c
+> [ ... ]
+> > @@ -852,10 +840,6 @@ static int dra7xx_pcie_probe(struct platform_device *pdev)
+> >  	pm_runtime_disable(dev);
+> >  	dra7xx_pcie_disable_phy(dra7xx);
+> >
+> > -err_link:
+> > -	while (--i >= 0)
+> > -		device_link_del(link[i]);
+> > -
+> >  	return ret;
+> >  }
+> 
+> This isn't a bug introduced by your changes, but looking closely at the error
+> path right above this hunk, there is a call to pm_runtime_put(dev) immediately
+> followed by pm_runtime_disable(dev):
+> err_gpio:
+> err_get_sync:
+> 	pm_runtime_put(dev);
+> 	pm_runtime_disable(dev);
+> Does this sequence create a power management race condition? The pending
+> asynchronous idle/suspend work can be abruptly cancelled by
+> pm_runtime_disable(), leaving the hardware in an incorrect or unpredictable
+> power state.
+> Should this use pm_runtime_put_sync() instead?
+> 
+> > diff --git a/drivers/pci/controller/dwc/pci-keystone.c b/drivers/pci/controller/dwc/pci-keystone.c
+> > index fe4836925c4e3..cab9fad212add 100644
+> > --- a/drivers/pci/controller/dwc/pci-keystone.c
+> > +++ b/drivers/pci/controller/dwc/pci-keystone.c
+> [ ... ]
+> > @@ -1337,25 +1321,18 @@ static int ks_pcie_probe(struct platform_device *pdev)
+> >  	pm_runtime_disable(dev);
+> >  	ks_pcie_disable_phy(ks_pcie);
+> >
+> > -err_link:
+> > -	while (--i >= 0 && link[i])
+> > -		device_link_del(link[i]);
+> > -
+> > +err:
+> >  	return ret;
+> >  }
+> >
+> >  static void ks_pcie_remove(struct platform_device *pdev)
+> >  {
+> >  	struct keystone_pcie *ks_pcie = platform_get_drvdata(pdev);
+> > -	struct device_link **link = ks_pcie->link;
+> > -	int num_lanes = ks_pcie->num_lanes;
+> >  	struct device *dev = &pdev->dev;
+> >
+> >  	pm_runtime_put(dev);
+> >  	pm_runtime_disable(dev);
+> 
+> Similar to the question above, is it possible this asynchronous put causes
+> a race when immediately followed by pm_runtime_disable() during removal?
+> 
+> >  	ks_pcie_disable_phy(ks_pcie);
+> > -	while (num_lanes--)
+> > -		device_link_del(link[num_lanes]);
+> >  }
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-index 5afa8d92a..288a4710b 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-@@ -11,6 +11,7 @@
- #include <dt-bindings/reset/sun55i-a523-r-ccu.h>
- #include <dt-bindings/power/allwinner,sun55i-a523-ppu.h>
- #include <dt-bindings/power/allwinner,sun55i-a523-pck-600.h>
-+#include <dt-bindings/thermal/thermal.h>
- 
- / {
- 	interrupt-parent = <&gic>;
-@@ -26,6 +27,7 @@ cpu0: cpu@0 {
- 			device_type = "cpu";
- 			reg = <0x000>;
- 			enable-method = "psci";
-+			#cooling-cells = <2>;
- 		};
- 
- 		cpu1: cpu@100 {
-@@ -33,6 +35,7 @@ cpu1: cpu@100 {
- 			device_type = "cpu";
- 			reg = <0x100>;
- 			enable-method = "psci";
-+			#cooling-cells = <2>;
- 		};
- 
- 		cpu2: cpu@200 {
-@@ -40,6 +43,7 @@ cpu2: cpu@200 {
- 			device_type = "cpu";
- 			reg = <0x200>;
- 			enable-method = "psci";
-+			#cooling-cells = <2>;
- 		};
- 
- 		cpu3: cpu@300 {
-@@ -47,6 +51,7 @@ cpu3: cpu@300 {
- 			device_type = "cpu";
- 			reg = <0x300>;
- 			enable-method = "psci";
-+			#cooling-cells = <2>;
- 		};
- 
- 		cpu4: cpu@400 {
-@@ -54,6 +59,7 @@ cpu4: cpu@400 {
- 			device_type = "cpu";
- 			reg = <0x400>;
- 			enable-method = "psci";
-+			#cooling-cells = <2>;
- 		};
- 
- 		cpu5: cpu@500 {
-@@ -61,6 +67,7 @@ cpu5: cpu@500 {
- 			device_type = "cpu";
- 			reg = <0x500>;
- 			enable-method = "psci";
-+			#cooling-cells = <2>;
- 		};
- 
- 		cpu6: cpu@600 {
-@@ -68,6 +75,7 @@ cpu6: cpu@600 {
- 			device_type = "cpu";
- 			reg = <0x600>;
- 			enable-method = "psci";
-+			#cooling-cells = <2>;
- 		};
- 
- 		cpu7: cpu@700 {
-@@ -75,6 +83,7 @@ cpu7: cpu@700 {
- 			device_type = "cpu";
- 			reg = <0x700>;
- 			enable-method = "psci";
-+			#cooling-cells = <2>;
- 		};
- 	};
- 
-@@ -565,12 +574,46 @@ dma: dma-controller@3002000 {
- 			#dma-cells = <1>;
- 		};
- 
-+		ths1: thermal-sensor@2009400 {
-+			compatible = "allwinner,sun55i-a523-ths1";
-+			reg = <0x02009400 0x400>;
-+			interrupts = <GIC_SPI 62 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_THS>, <&ccu CLK_GPADC1>;
-+			clock-names = "bus", "mod";
-+			resets = <&ccu RST_BUS_THS>;
-+			nvmem-cells = <&ths_calibration0>, <&ths_calibration1>;
-+			nvmem-cell-names = "calibration",
-+				     "calibration-second-part";
-+			#thermal-sensor-cells = <1>;
-+		};
-+
-+		ths0: thermal-sensor@200a000 {
-+			compatible = "allwinner,sun55i-a523-ths0";
-+			reg = <0x0200a000 0x400>;
-+			interrupts = <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_THS>, <&ccu CLK_GPADC0>;
-+			clock-names = "bus", "mod";
-+			resets = <&ccu RST_BUS_THS>;
-+			nvmem-cells = <&ths_calibration0>, <&ths_calibration1>;
-+			nvmem-cell-names = "calibration",
-+				     "calibration-second-part";
-+			#thermal-sensor-cells = <0>;
-+		};
-+
- 		sid: efuse@3006000 {
- 			compatible = "allwinner,sun55i-a523-sid",
- 				     "allwinner,sun50i-a64-sid";
- 			reg = <0x03006000 0x1000>;
- 			#address-cells = <1>;
- 			#size-cells = <1>;
-+
-+			ths_calibration0: ths-calibration0@38 {
-+				reg = <0x38 0x8>;
-+			};
-+
-+			ths_calibration1: ths-calibration1@44 {
-+				reg = <0x44 0x8>;
-+			};
- 		};
- 
- 		gic: interrupt-controller@3400000 {
-@@ -1087,4 +1130,115 @@ npu: npu@7122000 {
- 			power-domains = <&ppu PD_NPU>;
- 		};
- 	};
-+
-+	thermal-zones {
-+		cpu0_thermal: cpu0-thermal {
-+			polling-delay-passive = <100>;
-+			polling-delay = <1000>;
-+			thermal-sensors = <&ths1 1>;
-+			sustainable-power = <1200>;
-+
-+			trips {
-+				cpu0_threshold: cpu-trip-0 {
-+					temperature = <70000>;
-+					type = "passive";
-+					hysteresis = <0>;
-+				};
-+				cpu0_target: cpu-trip-1 {
-+					temperature = <90000>;
-+					type = "passive";
-+					hysteresis = <0>;
-+				};
-+				cpu0_critical: cpu-trip-2 {
-+					temperature = <110000>;
-+					type = "critical";
-+					hysteresis = <0>;
-+				};
-+			};
-+
-+			cooling-maps {
-+				map0 {
-+					trip = <&cpu0_target>;
-+					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-+							 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-+							 <&cpu2 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-+							 <&cpu3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-+				};
-+			};
-+		};
-+
-+		cpu4_thermal: cpu4-thermal {
-+			polling-delay-passive = <100>;
-+			polling-delay = <1000>;
-+			thermal-sensors = <&ths1 0>;
-+			sustainable-power = <1600>;
-+
-+			trips {
-+				cpu4_threshold: cpu-trip-0 {
-+					temperature = <70000>;
-+					type = "passive";
-+					hysteresis = <0>;
-+				};
-+				cpu4_target: cpu-trip-1 {
-+					temperature = <90000>;
-+					type = "passive";
-+					hysteresis = <0>;
-+				};
-+				cpu4_critical: cpu-trip-2 {
-+					temperature = <110000>;
-+					type = "critical";
-+					hysteresis = <0>;
-+				};
-+			};
-+
-+			cooling-maps {
-+				map0 {
-+					trip = <&cpu4_target>;
-+					cooling-device = <&cpu4 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-+							 <&cpu5 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-+							 <&cpu6 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-+							 <&cpu7 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-+				};
-+			};
-+		};
-+
-+		gpu-thermal {
-+			polling-delay-passive = <100>;
-+			polling-delay = <1000>;
-+			thermal-sensors = <&ths1 2>;
-+			sustainable-power = <2400>;
-+
-+			gpu-trips {
-+				gpu_temp_threshold: gpu-trip-0 {
-+					temperature = <60000>;
-+					type = "passive";
-+					hysteresis = <0>;
-+				};
-+				gpu_temp_target: gpu-trip-1 {
-+					temperature = <90000>;
-+					type = "passive";
-+					hysteresis = <0>;
-+				};
-+				gpu_temp_critical: gpu-trip-2 {
-+					temperature = <110000>;
-+					type = "critical";
-+					hysteresis = <0>;
-+				};
-+			};
-+		};
-+
-+		ddr-thermal {
-+			polling-delay-passive = <0>;
-+			polling-delay = <0>;
-+			thermal-sensors = <&ths0>;
-+
-+			trips {
-+				ddr_temp_critical: ddr-trip-0 {
-+					temperature = <110000>;
-+					type = "critical";
-+					hysteresis = <0>;
-+				};
-+			};
-+		};
-+	};
- };
--- 
-2.54.0
-
+It seems plausible that the pm_runtime_put() -> pm_runtime_disable()
+pattern is ineffective, i.e. one of two things can happen: either
+pm_runtime_put() runs to completion by chance, or pm_runtime_disable()
+cancels it. However I am not very familiar with the runtime PM API and
+its effects, and unless a maintainer tells me to, I would prefer leaving
+these code paths alone.
