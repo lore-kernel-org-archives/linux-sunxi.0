@@ -1,125 +1,124 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 521D73DEAD3
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 May 2026 18:02:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2E53E5EF5
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 May 2026 19:11:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777917741; cv=none; b=KJ7mJiBlmEw1M5wlm3G3NhVl+q6Xw23e+9m/T3hyUdfuQKCoxOBAQk1WYxNAlc/KmRK/Djejsgv8VIzGIKbwieE5NVqAVZ26PDNgMunSSw664UEW3ofECgG+eDmU98pP0kRO00A2kalSnR3MNVDpi6FewklCHsSvOlLbHJXxuOI=
+	t=1777921894; cv=none; b=Avz6lhelCdwR1/Sd2UlY9OOgsWliMXxoGALPq9IgxwTTYCl7HWJ4Ei679B9ZXpVdQfo87yuhJnvOiIiOchfcwKQLsMJ3uic/xGBqwgL0Mn7z6+ElLMalPnn7jKO7y0/VmFYJKV935yL/oUu6gitfy8BybbKuj14paiKUnZi28SM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777917741; c=relaxed/simple;
-	bh=7jbSAljiTPkKqJTgG1DeBRsKb/Ln1LpocLciBKuNSuk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D5EE24oTQocLvoKzFuKkyVaUhyxquOA35jXsECBI1qrvpFpx426OW4hNy2QeMBdXawtGcA6l9iv8MyqHO7R3IpZJmAIr64X4RNcSradyPHG91dkYcuaBWApsmuz1X02J76jqk7zGYJ7U26bQ8dGVtVKKS2x8WpkCwucLFjKs1Q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YnqgFdgF; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1777921894; c=relaxed/simple;
+	bh=2vNRIV+X9aziqWVgNJH/9Q4i1l9GuFJGxG9rk+Nehaw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Wu7rCZJ5caZpxl2SQsJJc57+loKEXt7oemlIwHjvZEONGfoi8L7zkj06wlezRXtz3lEuxgpCfSdU5zDEw1V1O/8Qu0sJC65zAQRmS+iXhY0zPK0y11dMnM5gc2xI1HZMyHFjX8fl2fWRvOEeywib3eFal1hYS1phg1uj65WCIDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=wpyjbIBO; arc=none smtp.client-ip=121.127.44.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YnqgFdgF"
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C62019C;
-	Mon,  4 May 2026 20:02:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1777917736;
-	bh=7jbSAljiTPkKqJTgG1DeBRsKb/Ln1LpocLciBKuNSuk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YnqgFdgFttmuLffMS5TgsyuM48yEk6z0WoekgzM5bIw4g9Ra0fU/7U45WjE+yVhSy
-	 d6kAAxIvIcoDVvQBfJkBTFx3CVUaiSLn65JuM9fJ+Ygg2KptlJeif7Yy3cl/sq8Gw2
-	 f8wz50w+ANWkaFoTopxUc54KjrvsE//tdjt5G6a8=
-Date: Mon, 4 May 2026 21:02:16 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Jyri Sarha <jyri.sarha@iki.fi>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="wpyjbIBO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
+ Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
+ t=1777921886; bh=ztwyFtJ+PIzunu61Ma2kZpnK7+L5uIsvetgCX3r3Ivg=;
+ b=wpyjbIBOYkAV0/e12jKgGYTRoqi7x5GbxBIvHptaXM38nWmCPa3TIZTvrWzz5lXfwuZcldiJG
+ FzLf6aC3sGgn3la1RlsaQdTBX+IeDQ2PsLUCys4N2Fx8dBk7RFaDt6POxKT6vwwmWjtsvXGDkc8
+ mz5RFMygjXeEv3HbewJOeUgoPrwWQiP+SOcQyDyc4YtpwdxuS9+QXeZCaf28GfcAMS7JFhHkS08
+ IdnYIqfwxdp+zx08DOEWP7zwS4F87IEfiYE7adnIq6TsqQMs/jyz8MuWmY9ksaJw/B8ScWzZcg1
+ 7CHnkFaUnP8zfDw+V9DEmmzm2LK8fYmVT4hr4ZMxVEHg==
+X-Forward-Email-ID: 69f8ef5a04bb1dff846bb86f
+X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 121.127.44.66
+X-Forward-Email-Version: 2.7.7
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
+From: Jonas Karlman <jonas@kwiboo.se>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
 	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+	Robert Foss <rfoss@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Simon Ser <contact@emersion.fr>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Melissa Wen <mwen@igalia.com>,
-	Sebastian Wick <sebastian.wick@redhat.com>,
-	Alex Hung <alex.hung@amd.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>
+Cc: Liu Ying <victor.liu@nxp.com>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Andy Yan <andy.yan@rock-chips.com>,
 	Chen-Yu Tsai <wens@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 17/20] drm/drv: Switch skeleton to
- drm_mode_config_create_initial_state()
-Message-ID: <20260504180216.GU1344263@killaraus.ideasonboard.com>
-References: <20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org>
- <20260424-drm-mode-config-init-v3-17-8b68d9db0d8b@kernel.org>
+	Christian Hewitt <christianshewitt@gmail.com>,
+	Diederik de Haas <diederik@cknow-tech.com>,
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	imx@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 04/17] drm: bridge: dw_hdmi: Use passed mode instead of stored previous_mode
+Date: Mon,  4 May 2026 19:10:41 +0000
+Message-ID: <20260504191059.275928-5-jonas@kwiboo.se>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260504191059.275928-1-jonas@kwiboo.se>
+References: <20260504191059.275928-1-jonas@kwiboo.se>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260424-drm-mode-config-init-v3-17-8b68d9db0d8b@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 24, 2026 at 12:18:57PM +0200, Maxime Ripard wrote:
-> The driver skeleton currently recommends calling
-> drm_mode_config_reset() at probe time to create the initial state.
-> 
-> Now that drm_mode_config_create_initial_state() exists to handle
-> initial state allocation without hardware side effects, update the
-> skeleton to recommend it instead.
-> 
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/gpu/drm/drm_drv.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 985c283cf59f..f537556b06a8 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -340,11 +340,13 @@ void drm_minor_release(struct drm_minor *minor)
->   *
->   *		// Further setup, display pipeline etc
->   *
->   *		platform_set_drvdata(pdev, drm);
->   *
-> - *		drm_mode_config_reset(drm);
-> + *		ret = drm_mode_config_create_initial_state(drm);
-> + *		if (ret)
-> + *			return ret;
+Use the passed mode instead of mixing use of passed mode and the stored
+previous_mode in dw_hdmi_setup(). The passed mode is currenly always the
+previous_mode.
 
-There's one point I'm still not sure to understand properly. The
-skeleton example (and the tidss driver, which you convert to the new API
-in this series) both call drm_mode_config_helper_resume(). This in turn
-calls drm_atomic_helper_resume(), and drm_mode_config_reset(). For
-drivers that implement .atomic_create_state() instead of .reset() (such
-as tidss, after its conversion in this series), drm_mode_config_reset()
-will call the drm_mode_config_*_create_state() helpers, which allocate
-and initialize a new state (through .atomic_create_state()), and store
-that new state in the object's ->state field. Won't this leak the state
-previously stored there ?
+Also fix a small typo and add a variable to help shorten a code line.
 
->   *
->   *		ret = drm_dev_register(drm);
->   *		if (ret)
->   *			return ret;
->   *
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+---
+v4: No change
+v3: Collect r-b tag
+v2: Update commit message, s/type/typo/
+---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index 4ecad0d2eeaa..f028a4b71aad 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -2258,6 +2258,7 @@ static int dw_hdmi_setup(struct dw_hdmi *hdmi,
+ 			 const struct drm_connector *connector,
+ 			 const struct drm_display_mode *mode)
+ {
++	const struct drm_display_info *display = &connector->display_info;
+ 	int ret;
+ 
+ 	hdmi_disable_overflow_interrupts(hdmi);
+@@ -2303,12 +2304,10 @@ static int dw_hdmi_setup(struct dw_hdmi *hdmi,
+ 	hdmi->hdmi_data.video_mode.mdataenablepolarity = true;
+ 
+ 	/* HDMI Initialization Step B.1 */
+-	hdmi_av_composer(hdmi, &connector->display_info, mode);
++	hdmi_av_composer(hdmi, display, mode);
+ 
+-	/* HDMI Initializateion Step B.2 */
+-	ret = hdmi->phy.ops->init(hdmi, hdmi->phy.data,
+-				  &connector->display_info,
+-				  &hdmi->previous_mode);
++	/* HDMI Initialization Step B.2 */
++	ret = hdmi->phy.ops->init(hdmi, hdmi->phy.data, display, mode);
+ 	if (ret)
+ 		return ret;
+ 	hdmi->phy.enabled = true;
 -- 
-Regards,
+2.54.0
 
-Laurent Pinchart
