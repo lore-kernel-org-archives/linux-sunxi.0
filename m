@@ -1,113 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF85D37A4AF
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 May 2026 14:33:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6958242EEAB
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 May 2026 14:34:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777991605; cv=none; b=jXkm/JWDFtJ0ZhlRzizYPiCrXrEZxekQkX7fLNDoB88qNnd5+NGX7iGaRPx86dIHk+EKNpMKXtiUU6tVx+GC0W3Mw5KKhIXEMd+NCxj3sPzKi+jNBHPg/46nEh9K42BGvoEApnQoJ1UbCsLNMSulBNm/MMG8mulP0rvL5IpDVdo=
+	t=1777991698; cv=none; b=o69nLxWi4p63FEXwncWs1Ty3kmkS0N7HNQnPzxXqVf1t8ZSwI2n3nU6gSczrK0oF9S53a5ZIbmyN0zA6ZEoobFRJaOU4eFHknC/5tH/mS+mWFI7JKriXknN/tY/W3xhQGswy/Cv/+XIIty2rWfPgEgnUsmZe3UYVzLIqsSkFVGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777991605; c=relaxed/simple;
-	bh=VafAjM9GvmSm0WQZv3tSs+xJooJUV4K0MGUPgbehomM=;
+	s=arc-20240116; t=1777991698; c=relaxed/simple;
+	bh=1qrTxLA4I8o8v3b/IBW8RF/TdQ7lq2xCRJqsETjYLeM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AyOLocEh1sVcid9zD4UHXxoQSxyi3tAIoe0LW46xqFdKCp/BfA9WbA+pQ+c+vzxYjOS2JM8z/ouxaWQokqCBY7xZq9gIlnAFTaNhj8ULQXHAWdhs9og0D9MRCE37QAmhuaA0NDy5JrvL9nAqA3B0QIcMKjrwivE2pxNSy1yf/Gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ay+Y3f8i; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=koImojd/Wfntv+8qXCDDaVzAmCRxDpGqIVUjVTaK9qa5jQPzP60QWF9/sfPqMTvs+gWI1C5W+TANdA2agRiZLXj8G8fLGWSMGzwyYApIE1qTsSOuSFhRFoeC+H/br7J8dE/3+BDA1r726PKnjbTfDnmmM4oeNHH7Td5hPjPKa9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NoKtBwyR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ay+Y3f8i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E0C9C2BCF5
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 May 2026 14:33:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NoKtBwyR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB29BC2BD01
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 May 2026 14:34:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777991605;
-	bh=VafAjM9GvmSm0WQZv3tSs+xJooJUV4K0MGUPgbehomM=;
+	s=k20201202; t=1777991697;
+	bh=1qrTxLA4I8o8v3b/IBW8RF/TdQ7lq2xCRJqsETjYLeM=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=Ay+Y3f8iPlrX5W8PmBYs6ssvQMWApDuxR/tV5klbIc3PT318plQPhrq01UF4ZZ44+
-	 T6SlSW5AcYUK5rBrarqApdix2hpXlgdIGNDDtSGsJHRuigIgCYSznjbm0JPS4qbsNP
-	 4+kt7B9XWAn1b6rvUTJZdOd1bbEQPrqRX7wNf1fQmlhP9KuYexCI13EglkdHkI6r3z
-	 C2Gm4Zl0/raqIjzG7/+FWMJtvN1RD0nhhuLqoHuvJ4DamuIWRDelBgXx7DibnlEg7Q
-	 qBEmHtTt+Tsu3c7DN09AaJml6CoDSq0ZWJbhyjfCJNkNIXc0M7Bva2mjlKYv2Q/iBf
-	 2jtRpmYCd0T8g==
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-39389398838so27244851fa.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 05 May 2026 07:33:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ92uwNvVzYzXfYsLrcx1Jm8HdYzd+qhn9NBngDbCtkHhfHCPKw5HE4O+MJT/ZbEdKN+K0zKNGDU7NdkWg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YynTjZQbIvdAaI6YVgJzeCVVTdr3oB99GRfVhd6cEi5HqkzSWId
-	4XQpjorg7Lc0QKEGraA0YsToBiyt5hhCX9dFpdRo0MQUkvr8GlTNvlmuJzB5SnXJd124qEWj0n6
-	UCjHXqDN6D/dyngDT/jFB/8zKP+uJQAs=
-X-Received: by 2002:a2e:ab19:0:b0:38e:2fcc:78fe with SMTP id
- 38308e7fff4ca-393783c5ceemr71395341fa.3.1777991603808; Tue, 05 May 2026
- 07:33:23 -0700 (PDT)
+	b=NoKtBwyRtUm29XohPg9Vga7qRpKLoSJAiXprhcVvuKvhWjRLaq4OhM3yfiHoKFeEj
+	 +NdIf79aoH9Noor7TQDGf5pTuW8bsEsch5pAJBOIH6OtNuNCIEXSDSuRE4GoIQCAcV
+	 EjYKmDqBeR3QIkS/NPWXSH5KeScrs6t7km0CkVNkILE61DmjczrmwTIHuqr0QEnx0o
+	 9I38oHaw0eBjADetlE/6gArE3P0tjlB9mEYTLuI7agP3zUQOsV2ZBqoH/2ggLUO6UE
+	 CM3FbFP59P0tDBashJX7cyiNxTcAQHYNiq7k5TymiLNxMhtC4rrBCKRu8gpnxWlp9o
+	 hJJbUTZqKpEKg==
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-3870778358aso37446031fa.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 05 May 2026 07:34:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/Tu0Vu/FDHJs3iVkYWxvrMvwM1iC+pqn5Y8hSb2yUJ2EXj/1Tej9fEwFmnVPtVIfloJs08A/WueU+mmA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy+zSRd2fvscP5KPBIJ+FW4mpQ3FiTdi7x6zjfQpr43VDYRtVrj
+	L9GPiF9Y/OBtHG7G13Gpl2uirkTYre+s8qXGssAAYTxhLH/85N5lsQM99fxoKEDiQk/hGq1mNvM
+	CWro0PawJKgdB4/sOfBzCInpjqLuPTwU=
+X-Received: by 2002:a2e:a591:0:b0:393:ba06:158f with SMTP id
+ 38308e7fff4ca-393ba06170amr11719431fa.16.1777991696235; Tue, 05 May 2026
+ 07:34:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <BESPR10MB922376BDC75D346412FC33E4D2302@BESPR10MB9223.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <BESPR10MB922376BDC75D346412FC33E4D2302@BESPR10MB9223.EURPRD10.PROD.OUTLOOK.COM>
+References: <20260428-h616-t113s-hstimer-v3-0-7e02178a93ee@mmpsystems.pl> <20260428-h616-t113s-hstimer-v3-4-7e02178a93ee@mmpsystems.pl>
+In-Reply-To: <20260428-h616-t113s-hstimer-v3-4-7e02178a93ee@mmpsystems.pl>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 5 May 2026 22:33:10 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66hSwJ4iLw0NVt8nBEJrxLDEkEG6RY5AUPk4xCNaCPSqw@mail.gmail.com>
-X-Gm-Features: AVHnY4Ifto1Y_uT3p-KRM-eZu4UBL0La2pOqtqu9YFPG7dOw9V0seprSTLn-VlI
-Message-ID: <CAGb2v66hSwJ4iLw0NVt8nBEJrxLDEkEG6RY5AUPk4xCNaCPSqw@mail.gmail.com>
-Subject: Re: [PATCH] arm: dts: allwinner: enable overlay support for
- sun8i-h2-plus pi boards
-To: Nisarg Rajput <rajputnisarg17@outlook.com>
-Cc: "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>
+Date: Tue, 5 May 2026 22:34:43 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66r8mJ9Qqexs6AwLeG2m_h-1zCeaMoqPMXpysQhnS483g@mail.gmail.com>
+X-Gm-Features: AVHnY4I0j_jYZqPgBwS8DEio1jLky1bndj5AzLllz7WoZK4WiA5673CmQRhWO50
+Message-ID: <CAGb2v66r8mJ9Qqexs6AwLeG2m_h-1zCeaMoqPMXpysQhnS483g@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] arm64: dts: allwinner: h616: add hstimer node
+To: Michal Piekos <michal.piekos@mmpsystems.pl>
+Cc: Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, May 3, 2026 at 11:58=E2=80=AFPM Nisarg Rajput
-<rajputnisarg17@outlook.com> wrote:
+On Wed, Apr 29, 2026 at 12:29=E2=80=AFAM Michal Piekos
+<michal.piekos@mmpsystems.pl> wrote:
 >
-> From a0c7eaa6032748bb79953282a984064a922c916f Mon Sep 17 00:00:00 2001
-> From: ixnisarg <rajputnisarg17@outlook.com>
-> Date: Sun, 3 May 2026 15:42:38 +0000
-> Subject: [PATCH] arm: dts: allwinner: enable overlay support for sun8i-h2=
--plus
->  pi boards
+> Describe high speed timer block on Allwinner H616.
 >
-> Add DTC_FLAGS -@ for all H2+ pi-class devices to enable device-tree
-> overlay support. This follows the same approach used for H3 pi boards
-> in commit 0801a3a9f35854c91f1f3ab8e879c3d14912d214 ("arm: dts: Enable
-> device-tree overlay support for sun8i-h3 pi devices").
+> Tested on Orange Pi Zero 3:
+> - hstimer is registered as clocksource
+> - switching clocksource at runtime works
+> - after rating increase hstimer operates as a broadcast clockevent device
 >
-> The -@ flag populates the __symbols__ node in the DTB which is required
-> for applying device-tree overlays from the bootloader or firmware.
->
-> Boards affected:
-> - sun8i-h2-plus-bananapi-m2-zero
-> - sun8i-h2-plus-libretech-all-h3-cc
-> - sun8i-h2-plus-orangepi-r1
-> - sun8i-h2-plus-orangepi-zero
->
-> Signed-off-by: ixnisarg <rajputnisarg17@outlook.com>
+> Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
 
-On Sun, May 3, 2026 at 11:58=E2=80=AFPM Nisarg Rajput
-<rajputnisarg17@outlook.com> wrote:
->
-> From a0c7eaa6032748bb79953282a984064a922c916f Mon Sep 17 00:00:00 2001
-> From: ixnisarg <rajputnisarg17@outlook.com>
-> Date: Sun, 3 May 2026 15:42:38 +0000
-> Subject: [PATCH] arm: dts: allwinner: enable overlay support for sun8i-h2=
--plus
->  pi boards
->
-> Add DTC_FLAGS -@ for all H2+ pi-class devices to enable device-tree
-> overlay support. This follows the same approach used for H3 pi boards
-> in commit 0801a3a9f35854c91f1f3ab8e879c3d14912d214 ("arm: dts: Enable
-> device-tree overlay support for sun8i-h3 pi devices").
->
-> The -@ flag populates the __symbols__ node in the DTB which is required
-> for applying device-tree overlays from the bootloader or firmware.
->
-> Boards affected:
-> - sun8i-h2-plus-bananapi-m2-zero
-> - sun8i-h2-plus-libretech-all-h3-cc
-> - sun8i-h2-plus-orangepi-r1
-> - sun8i-h2-plus-orangepi-zero
->
-> Signed-off-by: ixnisarg <rajputnisarg17@outlook.com>
-
-Please use a proper name for the author and Signed-off-by.
+Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
