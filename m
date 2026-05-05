@@ -1,64 +1,64 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4137389452
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 May 2026 16:18:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC2B4418E2
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 May 2026 16:18:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777997894; cv=none; b=MUmk11D2xFiPW6MUR6/twp3gg3cECAXyXShLBX1gtn/BmuDHUKdDGZk7Jt79i3y7PJLGZxGjuTM++ft5IhdIOFCpKyz7NFLHFK/o8kX/nElmL5LcHZW26BnJh76b9sRrbyB+usxFU2a8VjoxbDwuEEj1cq5GyOZZkPmAiphjcIw=
+	t=1777997917; cv=none; b=CSE1Cv7kU0xxotmG6dNWsrgSAYLHKmYyZ/QL5ALLaOSKES21cHqysO5HvwCV+HhFYC2RfK67UqCPBgy7MkPmGyXhWbM2i/N+WnBkx55OYoPsccUpzQnCrGj2/oGEKWn+mgZu+TsaWehEt7jA3fqPuZDIRvw5Qh13UD/CwJdD5XA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777997894; c=relaxed/simple;
-	bh=pHCtfjeFxc5IrqY9Ylg8aIPRx+nL79BtlDjjquddJdg=;
+	s=arc-20240116; t=1777997917; c=relaxed/simple;
+	bh=eVs3CfOcVeYDqCO5ry0qkJJJOLsr43VkIKZBYscM63Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gBtz5iSokh5OeLuKjIO2vPf11L/BLj6lEXMLR7/wf/Ivs4UIZnWugOcC3qTJ1wqcRHq5Fby354B/f3ZHxEs4AVPaX5xUBpYBqwX/kC/B7aJGkTteg7J05KUZCEPDVNlWoQo7NBIHAIlgXWMIPP1CTDQcFbkPmN+Ahl1rkDg8C38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jZ04sFVw; arc=none smtp.client-ip=209.85.221.41
+	 MIME-Version:Content-Type; b=e9dbhDEnwyuNcC/8DB9wAgtE8RHvoKeXoRYZu31XwozfF4dWcGaX/6nJ8tYzOx/2xStksxM0Skz8+mmACyV0KUEQpwHTtE01qcvr/RYCKfaZmbfxnwj4lpWThxy6sY//PTB8E2I1wn93Vb6LvKAZ6AlxyRZFYYP3OQn4v1D4xkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lY3XYsrq; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jZ04sFVw"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-449d6c68ed8so4167768f8f.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 05 May 2026 09:18:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lY3XYsrq"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-44da2de25f3so1680428f8f.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 05 May 2026 09:18:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777997891; x=1778602691; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1777997914; x=1778602714; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pHCtfjeFxc5IrqY9Ylg8aIPRx+nL79BtlDjjquddJdg=;
-        b=jZ04sFVwplLS2FTjpipjcSIu31Se6U4FiIAP7dQQ1uFoy43r+3/cQVGNjkIkifsj7J
-         W7tY4vFEc629qqRTl6FxHXjZGgIBEia/N8KVOLutIuL5sg4WeM/CrjrNQP3nnJx0bku9
-         T+TWlVAKMrJWdEduNZ/JN50tXFXatX1UA2o3EMLnFvZ3gcZrnayPr7goveD28l4JsjN5
-         Q5pPnkWQ+7p6sAzFQ1aMiOenTFSMXFcT3phqqpZQwpSfvJeJYEYmcDhSsaEpi0Be61Dc
-         jAkiPzmEnT7O/8/u9L4EOjQpI9QqqWfVCVi4JPMLGuHX7v9xiD1inREaF9IxN1VuoKxG
-         tJ4w==
+        bh=eVs3CfOcVeYDqCO5ry0qkJJJOLsr43VkIKZBYscM63Q=;
+        b=lY3XYsrq0mo0m2qztRySdF4IK+5VR1iMZTHMOjHk8RseBLdZI/6fj4oKzGsfbt1r9t
+         awbWLYWw3zj4526s9RQGcDaPSm/Mbg8VD4mfMlfT+jOpyLGrWWB1K18//K4sUMY7/3M8
+         6Wo3DLtVZBzHwQb6ozjoOfqNfcG7XQ1HFkJSpBkb7SW7x4DQkMv0EFc1QwX9bvTUnQE5
+         1l5whyr+3kmMgRiS4VRm3xyJV3Y7662e4T/FNYjvgfL4ztL9RlI/fbsG6uZRH3PWFWuC
+         FyCrQmMibbVj+wXeExnl4GXK5hWl88nNyQCWaOox3sMzJ5j7rrldLCmRGNcuhzJfoMt5
+         zYhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777997891; x=1778602691;
+        d=1e100.net; s=20251104; t=1777997914; x=1778602714;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=pHCtfjeFxc5IrqY9Ylg8aIPRx+nL79BtlDjjquddJdg=;
-        b=NmplcUo/Ul92SD/JbjEdNkIx7PuBVY8N0y+gAtgRgNsNqAdIF/yUeX4dz6bpy8tm6r
-         HYwMkwpHAKzXECWCNEFs67yaHhn8uX7m6kSUFKYCF/M6NX5xrNA7QMyX8dVGMUhJyzpc
-         b7gH6LiGBFBuM2Dmcb4mHXE8bH39QWr2A7M0qLRNkYJWlc1ygV5sRlNnFkTIIuTsM/2f
-         Bo62VqvGee21qZcsALY0Hqk+ec4QAlJk1+6LPOrLXfQOvDEQS+11/ioFk7xJG2ar8/Bc
-         zUdjd1h9olWc82VvWmgT4uCUynKyuwkTKiaA1uEU0idfLvtQReicI4SBZTWgbow9Qbxo
-         x0Yw==
-X-Forwarded-Encrypted: i=1; AFNElJ/0J1CllOrMWkuAtKtaV6HI0Djf68rIXaXRZoF+ysseTg6hATtSV/YjZNREzrFUYIsXCBmTZuE9AT+F1A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzP5aJtA9KJ6TnwyTWHojYywiIQm0qNqOUNXRuAy/HxNXh1Kmek
-	mKsisi9GYyVCGwa/K08OyAfZ0UhcQA5Aql1yUuP1S5rQAxFb5BoJZBjf
-X-Gm-Gg: AeBDiesL1SXQeuH8/KEMTENqrcXSTIjlHgA0juy1fqtLRvGb3SzAzn49Z4Kzsto07G2
-	bYjB21E+5XjaFfvl/ihIodoiwxDiCHyQXaXl6IYaNVEmPEzNd2Kr8g6mEKqsKFkGZMzJeNgANRl
-	dqVxknAs+T4upaBwf+iSQBLQNZGmKoFf/51I90zvymHQGSQBE8s+PZaExvxFjx9lsw+2FaHTx3T
-	+lk5rF44Ycnl4SxGRsqDePJmJIdgL5Qmce8adk1yHGPlRjlzHylTzJCj99LM3W67p3ANydCOslc
-	TGtn1KYXepNyd/a6XnhikDREJPNeqAgzU7/g6wck1/3nexo391Tz0BUDWY1iqsmsPa3376EkdHQ
-	vGrLePkc5QFXkNNj0iLLO4wyOK/nAUl9U0cuXs+qgb+YViwn+t6qd//cuEK/pglMOySJDOIJ71o
-	aKST80vm48LCBOWrkeQek3P18/F0mDNJfwn9kRHB+pIA2h4Bypej8lp5oqGXv/F0n9nOQXgb5AS
-	Hel55ub1ehZenzH5cJrEfIerhkj
-X-Received: by 2002:a05:6000:2dc8:b0:43b:498f:dceb with SMTP id ffacd0b85a97d-44bb2f282f4mr25038895f8f.9.1777997890976;
-        Tue, 05 May 2026 09:18:10 -0700 (PDT)
+        bh=eVs3CfOcVeYDqCO5ry0qkJJJOLsr43VkIKZBYscM63Q=;
+        b=hS6wVwK7439RURHrR/an0WFLzqgOpymG4jBwEcVzsdB0Lci+epxYS9UnwRnOOcri2y
+         iTTj1KJ6iqM/qILPR2qfgDWZps5J+hT9G52/zktSN0f//I/z8xicwOAG4JQnFdaoMWKX
+         gNRS27TYcScu3FDqXNr/nwo4Hg047TD/6p5iggasSWNK7u/6BhPD2KkdSOss0Tw89Vvx
+         t0e5019al5Hvi/Gt5jheb6r0zwX7+MkLxTp4GpovRtLIbfm4aItlsB0/8SBZ8dehcBEY
+         4P/ySaBE2jjq0h8P7GzmLe5Hd7NuRVxAANxfp7mxZllBOm/T8GjP2YRtxtGFWtNfW9Lp
+         GHRA==
+X-Forwarded-Encrypted: i=1; AFNElJ8DGCn+KqQfRst9H0A2x34GraSuCiAicOGbsTa0O124Y9Fdnjsiou5SBMFIvXJja6aJUnl3/vc4uBetxA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxUbG7lmR1c0v90aDx24t9SpAVnuD3lREkHA2tLYs6DeCPYapbu
+	WNbtwSOrejZ0zZCdXTVjA4+Iy/kp295/JvzGdtsiMK6APTMekvUwVhbG
+X-Gm-Gg: AeBDievKkJbCy8B6i7+VsxffybCdi9ZKJl4y70dvRAhzwf8WWe99O70uwGDj0lKrdMc
+	R/5EBeujYpBC4H3D0qYZI606vGF2TqcUBXMN9+X/t9kPq/CPUHhJauYmhv2bOvQeirERAraaS8b
+	+iEThNB9eld+/9vD4Wt9cnDvNcTjg1LKOExOu3I8UOdsrp9KrW3JeREAmtl+vjRnwCSRPhWQ1gG
+	o0mCJ9tZJLakcCG+yP3jnHg1DlMgJ8UGx702uCEIUtAq9ekJqxD+K/D5rSCDclhrEHcJQCZ8JZV
+	ZLEixunGoFvTkFaEz4+XNHn4JX+0pukSfXKiWb67SklXpKXI9c15g6emrbAKsQPVgV9L0Umz6f1
+	VLXbS8m8mtT3fA1Wiyf/fn2Ch/DQTA4EQ4Zi2eR4xGV7gmay8QdEKpaNiV3rKAR+5VC+4uT2q45
+	I8kwsd7PavTuzbJKJqIBdBpiynI5mG+QCexbfd4mMVjU81LHSxo0zWolPhYlUs14GCXjYxnCzdC
+	SdwgOk77UjTbaxJp/QsUFVf5XF7
+X-Received: by 2002:a5d:50c8:0:b0:44b:cd2f:a3c8 with SMTP id ffacd0b85a97d-44bcd2fa400mr16334421f8f.4.1777997914315;
+        Tue, 05 May 2026 09:18:34 -0700 (PDT)
 Received: from jernej-laptop.localnet (46-150-62-216.dynamic.telemach.net. [46.150.62.216])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4505558e213sm5821604f8f.25.2026.05.05.09.18.09
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45055960aa2sm5411552f8f.29.2026.05.05.09.18.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 09:18:10 -0700 (PDT)
+        Tue, 05 May 2026 09:18:33 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
@@ -70,13 +70,14 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Subject:
- Re: [PATCH 4/7] drivers: staging: media: sunxi: cedrus: add H616 variant
-Date: Tue, 05 May 2026 18:18:08 +0200
-Message-ID: <JyKk48uGRMGhs1Z-wzq5pA@gmail.com>
-In-Reply-To: <20260505134812.408316-5-wens@kernel.org>
+ Re: [PATCH 5/7] arm64: dts: allwinner: sun50i-h6: Add missing SRAM region for
+ video engine
+Date: Tue, 05 May 2026 18:18:31 +0200
+Message-ID: <0QgbHBOXTsqa8Ms4s4GfYg@gmail.com>
+In-Reply-To: <20260505134812.408316-6-wens@kernel.org>
 References:
  <20260505134812.408316-1-wens@kernel.org>
- <20260505134812.408316-5-wens@kernel.org>
+ <20260505134812.408316-6-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -86,22 +87,17 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne torek, 5. maj 2026 ob 15:48:08 Srednjeevropski poletni =C4=8Das je Chen=
+Dne torek, 5. maj 2026 ob 15:48:09 Srednjeevropski poletni =C4=8Das je Chen=
 =2DYu Tsai napisal(a):
-> The Allwinner H616 SoC has a video engine hardware block like the one
-> found on previous generations such as the H6. In addition to the
-> currently supported features of the H6, it is also supposed to include
-
-Remove "supposed".
-
-> a VP9 decoder. However software support for this is currently missing
-> and still needs to be reverse engineered from the vendor BSP.
+> The SRAM C region contains a partial alias to the VE SRAM already
+> referenced by the video engine. To avoid access through this alias
+> window, the region should also be claimed by the video engine.
 >=20
-> Add the compatible for the H616 variant, using the H6 variant data.
+> Add a reference to the SRAM C region to the video engine node.
 >=20
+> Fixes: b542570e5605 ("arm64: dts: allwinner: h6: Add Video Engine node")
 > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 
-With that:
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
