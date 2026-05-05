@@ -1,135 +1,141 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D66046AEE2
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 May 2026 16:23:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E28893264C2
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 May 2026 16:24:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777998220; cv=none; b=lL9e/MDvNrP9V18u+bH13f29KXvFI/N32ztikIn9mOb68pHGjHfuiGHlKXPmqyv+QbdAFbIW9dUPIm3188DNvDry6Dlizyd4W0PVfE3R/EMM3niZBxlelUxpc45YBV0uF99EIr4os+kLaYONHf7V/TOfxKax6YPQgKgiVd14sCM=
+	t=1777998299; cv=none; b=TP9kJmFPUIADfmbEYjyW7tjRjHU/p0ZqUIa6DTJ6+JvEiFjV8ZPXN8h1qNCXb4gI7oaXz3AvlVvt8R71KwAGcYBhz9n32Vdq/tX3Ezil291nt+VJqQ9nVyHxLRFF5Gtdwrlr0DBYr/Bhne/XXefnPtdb8nvm8L/ejY4bj5otTgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777998220; c=relaxed/simple;
-	bh=anPUf+K1f/VrCDMAp1BHNbEjgRlzyjFTp1BJcYqY0fA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LY+enudrLD2Wg2u1seTY2nR1rEu/CxeKBFroDjg4i1Os2peYtZaoupxMxRNjWWn5ewm6Vz2rtTPIa2UbXOOafwjKkYXuwAsvJPmhmQGVx0CttJC/epwMLVpFb0FkE2qc6dnuY4ssXUVFh3juSKcnUMxq5/FO4pZ2w59UkCpR32s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gcf1etw0; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1777998299; c=relaxed/simple;
+	bh=ajnOZwCq/PnZN7aH7cLkkTdAAF7vLV6z6+ahVx1kXwo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uXtsgk4HNALH6zLQv+lPMM8jmdR2zAP6rgme7fz7c/uzVy5Xi/6KPj1O4ZkksttJAA22iBKZl68Wi1xOGwtcYmhnNu0fOAsMhCjFTXSTQSEd38NzFmnANTEDRqK97KQEBn3GV3/FPhacHO8OzKsCL3CtpG6AL9AGY6p2X6vBZcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gcf1etw0"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43d77f60944so3553903f8f.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 05 May 2026 09:23:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777998217; x=1778603017; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ApEyVbHibMfUXEFKd8vG2mJSusEJJaisfPMffm8l//c=;
-        b=gcf1etw0rKHE1mKhRyGN4t3/xjoAWZzuV7gZbw90JfgNp6oRZTVdWOyy/rZuE17bse
-         H43sK6ZFP9+4DfFqvr17m8nRuFdWVu+Vzebqg2psKWB5Pg7g6lt4+YpJexZlIDKkyHRs
-         363K1jtw/PWwFmlv+lpRqmMpdcaAqhzb/OFRqUbT5zxP/84QkQq8uLtjUNTaXcDPW/AU
-         EiwByAqG85FDewVolCg43puEXSAe9OspAjvbnFOhMgKhQJWpZJk1B9pbzWrpC5SmzvrZ
-         cvH0DRyb8IikLKCHorjKjWp8Y7TIOQscU/FWvc3lLQBRFAXvmtMW3JsJTab7gVIx6yo1
-         Vn1A==
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a86c1fe573so4090932e87.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 05 May 2026 09:24:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777998217; x=1778603017;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ApEyVbHibMfUXEFKd8vG2mJSusEJJaisfPMffm8l//c=;
-        b=YzFuJoCSba8Vd4q1sE1sKrVxhpdaAQyLNqm9PBJ7LyHwkmeNTPyDnmZ2cM4jA6dSo2
-         Y+pQaHhY+liVDxrtUZ/yj/asMuUwaNvuthFznGxy9a8KlYHS9vwmKf0KkI/UzR2/k/qh
-         lTGrtnKNvmbS7OcxliIX2/w89uEiZtFeT7Hjvzze96W9xoiOHkxk4aEzv7WITaA5lePu
-         haBIY/AlWv/aGAH2Ohv5WV4RK2vnENVOXzhucyieEQsVXqJi4ellHZrtxZymFqtWViP0
-         rQCe/W0n+Bh88Tm68TYC4ZO0EQ3wZOrLVYCeR+DB18n4pAAmG3aCQVKcnCHfCYTbTyy2
-         05kw==
-X-Forwarded-Encrypted: i=1; AFNElJ86XsNL5uDH0CnMWJdQ0DgdwuoGsARZjMmpCW6ytEYTGqT9EmDGYszrmjGe1tt0GXJahXZLDb0wfjlPbg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyniYU9rviVEWZCf27w7MLtydgrZv0wC62wyD4zLjvu1yPtfbhf
-	KatFkjLO8pPUootig2AVTR3v3C3XDhM7YgbeJRq8x8H/EtctIYJ6KzX8
-X-Gm-Gg: AeBDietZzDxJCYPkkenWzvAD2cbLUg4+mxzJeI5dx6bNoyd31KW1wQufXn6GhSvEMsh
-	Vi1aGdJtf5f3CH8WSX2GgffmV6/gC4jHq5m+/4MRc6y6nbTIuzrftjEXdyIuO18xO9Sf70+N32Y
-	QyOzXaqdMpvqHdnZGRmwNgr9Oe2HsySZgem6NwUTptHgPck9VRHC64CkDrxo8gW6p06Gj4hzrmF
-	j99Zjf15UiXkonz/GyteKIto100MXVvsNeY8xU4UsSenH376eydGKovQCLQ69WnlHIqUW7v8cwN
-	yQzgCCBo1VJzqJBbe298DUiIGmalUnu8OAuPhxePv4HrMuuaPggPj079WU2Ssddk2TnpZasm760
-	MaafxCAo4CnYhoWckX2zfivFvrKG8CX4W8JmnQzQIfO6ojgp8ysktSUonWrrZLCZU5xKAbjvuaT
-	796isMlJHojh06MFFrxCbBabmLiuJuNa+kpQA0Dok6ZPTGv2sXrG+Ef0ou85TWlIpOmMW9NWyr/
-	R22yBvtUQXk31nEhVRkSu0QR0x/
-X-Received: by 2002:a5d:5d8a:0:b0:44a:2555:f8a9 with SMTP id ffacd0b85a97d-44bb3c94c11mr24734377f8f.10.1777998216446;
-        Tue, 05 May 2026 09:23:36 -0700 (PDT)
-Received: from jernej-laptop.localnet (46-150-62-216.dynamic.telemach.net. [46.150.62.216])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45054b03e04sm5934939f8f.21.2026.05.05.09.23.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 09:23:35 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Samuel Holland <samuel@sholland.org>,
- Michal Piekos <michal.piekos@mmpsystems.pl>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Michal Piekos <michal.piekos@mmpsystems.pl>
-Subject: Re: [PATCH v2] arm: dts: allwinner: t113s: enable watchdog for reboot
-Date: Tue, 05 May 2026 18:23:33 +0200
-Message-ID: <sv5CLRHyTX2Cm45r4DQahA@gmail.com>
-In-Reply-To:
- <20260425-t113-mangopi-reboot-hang-v2-1-fd343207a4be@mmpsystems.pl>
-References:
- <20260425-t113-mangopi-reboot-hang-v2-1-fd343207a4be@mmpsystems.pl>
+        d=1e100.net; s=20251104; t=1777998293; x=1778603093;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xhE1GPrxyKAsw37Q2fShYI5FmXFiAGB5BC0k4Zz9C/U=;
+        b=gxY7tcbeN8BZmb0e4RUhcKOoTU6+063yoOjOYifJjjm3rzngBn3l9TABJdGbhiCjwX
+         4T9f7R1lOTdwDw9OwGNTdLHogx6PnfRi+cyW4RlSBu+bkpZBMmqIJNBGTM1j2JUBnQvG
+         gkiUQymuNJ/yCShAD7BqdCBYvR6ejIWRl6h0Bb6tUz9bDsi2XoRecW7z5dp5/4ystl7l
+         GM6iPA3mgrtf1U7cnaiHYGLrjUKXYjxWzZPhr+syjasA7cZ8dA0l2uWteQ1TW6r2khCN
+         i8V3hT3+fvP610cJKjhM7YY90p7yJSz2mZvZMeuuxJXxJMpyx1Hi4TVHOjbiM3+x87ph
+         ntqQ==
+X-Forwarded-Encrypted: i=1; AFNElJ96L1woUBaPL1N1Cy32EY2h4RU6XkjtgNSsLZZDfjCCqSaJxMXkggc4KZFwFxZ/PS+9EMmOPS9oClA2bA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwZicKqTpKyTxnOvXs6FKa8r6MVi6a6JI17Dvt4bW/B6CljjfHG
+	4+ORqkBUkSPqy3v2znmrNvwAlDapD7CJONvPRV3BHFMUAdu4Eaz4zMC7h2rLgIqN
+X-Gm-Gg: AeBDietCRNHSVEyaYw2YHE5GQ/ddJdx3H2S1Yp60YvFjHh93WnClOjQRLNmGAu6WrEx
+	c1W/0wqHy4L22n3Z9wqRYA91SWBj0K/tes5IbMyd6Zz6CzO8VOnF1+vmXDg9xp8Bo3DvBW+pUSR
+	Mzpkl75xeir+Fe2DYgH6NUxRCEV+AbzIKwiIVPgHNXMkYfzbrOgM7lpetmv91TbPJUJtcWc7vy4
+	pob4OodGsf0xXLLHRZFbR7tgC4IVXhFU61pNgoelQ7Q65XowtupiqUrlynb+ZOcPKRhSkH2lVQ3
+	5XaejFA+ydyqwmdUayKlbT5q+v3Z0OB+15cJyxIKeJwjdFQ3ERRBaUIP28YjtQ5BjR5Yd+sHSbG
+	+flSnAJN7ty9GPBP20H9VOIgkZN/iU3EHBI/sWLPkE7em1/MN2H221eqkEv7K1TlOdz8s5JEd0Z
+	2pTOg9Hhf8IL8Ugg8ZJJl1I5b21otGlxUk6dt6r61zrxCbKdCsBUXAYKJF18BLm9A9XA==
+X-Received: by 2002:a05:6512:3c81:b0:5a4:6f5:6c2d with SMTP id 2adb3069b0e04-5a8631c0e0amr5390039e87.31.1777998293047;
+        Tue, 05 May 2026 09:24:53 -0700 (PDT)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com. [209.85.208.182])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a87f81656bsm785719e87.14.2026.05.05.09.24.52
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 May 2026 09:24:52 -0700 (PDT)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-38e84ed22bdso56803911fa.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 05 May 2026 09:24:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8HArSWqAPhk2sT83O0Rc4fpooHCAvEuwJzQp90Iw4Ccdj0uycoe3+5WCNlCVBh0hYBZsV4LcO6oNlGRQ==@lists.linux.dev
+X-Received: by 2002:a2e:bc88:0:b0:393:940e:d5eb with SMTP id
+ 38308e7fff4ca-393940edd6bmr44531191fa.3.1777998292458; Tue, 05 May 2026
+ 09:24:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20250307002628.10684-1-andre.przywara@arm.com>
+ <20250307002628.10684-9-andre.przywara@arm.com> <afoRe6DI4GJIVtg4@shepard> <20260505182017.10d71c11@ryzen.lan>
+In-Reply-To: <20260505182017.10d71c11@ryzen.lan>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Wed, 6 May 2026 00:24:37 +0800
+X-Gmail-Original-Message-ID: <CAGb2v666gCJiMpeWKpANHPufCp-nVJvdky+Gj87zUagvcrwTiw@mail.gmail.com>
+X-Gm-Features: AVHnY4J2M27F_ij2YPG2EBXpDPE1R3Ey_Ifi-Xq3Eypf1d-qnvtALFOdRCX5tAU
+Message-ID: <CAGb2v666gCJiMpeWKpANHPufCp-nVJvdky+Gj87zUagvcrwTiw@mail.gmail.com>
+Subject: Re: [PATCH v4 08/14] clk: sunxi-ng: a523: add system mod clocks
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Paul Kocialkowski <paulk@sys-base.io>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-Dne sobota, 25. april 2026 ob 10:19:40 Srednjeevropski poletni =C4=8Das je =
-Michal Piekos napisal(a):
-> Reboot hangs on T113s boards because no restart handler is
-> available.
->=20
-> Enable the SoC watchdog whose driver registers a restart handler.
->=20
-> Tested on MangoPi MQ-R T113s.
->=20
-> Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
-> ---
-> Changes in v2:
-> - Moved watchdog enablement to SoC level dts following Jernej's
->   suggestion
-> - Link to v1: https://lore.kernel.org/r/20260412-t113-mangopi-reboot-hang=
-=2Dv1-1-5002cfa6e0cc@mmpsystems.pl
-> ---
->  arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi b/arch/arm/boot=
-/dts/allwinner/sun8i-t113s.dtsi
-> index 424f4a2487e2..d3bbed84eedb 100644
-> --- a/arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi
-> +++ b/arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi
-> @@ -34,6 +34,12 @@ cpu1: cpu@1 {
->  		};
->  	};
-> =20
-> +	soc {
-> +		wdt {
-> +			status =3D "okay";
-> +		};
-> +	};
-> +
->  	gic: interrupt-controller@1c81000 {
->  		compatible =3D "arm,gic-400";
->  		reg =3D <0x03021000 0x1000>,
+On Wed, May 6, 2026 at 12:20=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
+com> wrote:
 >
+> On Tue, 5 May 2026 17:49:15 +0200
+> Paul Kocialkowski <paulk@sys-base.io> wrote:
+>
+> Hi Paul,
+>
+> > On Fri 07 Mar 25, 00:26, Andre Przywara wrote:
+> > > Add the clocks driving some core system related subsystems of the SoC=
+:
+> > > the "CE" crypto engine, the high speed timers, the DRAM and the assoc=
+iated
+> > > MBUS clock, and the PCIe clock.
+> > >
+> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > > ---
+> > >  drivers/clk/sunxi-ng/ccu-sun55i-a523.c | 135 +++++++++++++++++++++++=
+++
+> > >  1 file changed, 135 insertions(+)
+> > >
+> > > diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c b/drivers/clk/sun=
+xi-ng/ccu-sun55i-a523.c
+> > > index 17a4ffc0b7f52..c59f3f789d052 100644
+> > > --- a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
+> > > +++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
+> >
+> > [...]
+> >
+> > > +static const struct clk_parent_data hstimer_parents[] =3D {
+> > > +   { .fw_name =3D "hosc" },
+> > > +   { .fw_name =3D "iosc" },
+> > > +   { .fw_name =3D "losc" },
+> > > +   { .hw =3D &pll_periph0_200M_clk.hw },
+> > > +};
+> > > +static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(hstimer0_clk, "hstimer0",
+> > > +                                  hstimer_parents, 0x730,
+> > > +                                  0, 0,    /* M */
+> >
+> > I was looking at the A523 ccu code and see lots of
+> > SUNXI_CCU_MP_DATA_WITH_MUX_GATE with no M.
+> >
+> > Was there a particular reason for not using SUNXI_CCU_M_DATA_WITH_MUX_G=
+ATE
+> > instead? It would surely be less confusing.
+> >
+> > One difference would be that the ops end up as ccu_div_ops instead of
+> > ccu_mp_ops. Do you need ccu_mp_ops for some reason?
+>
+> Yes, please double check that (as it *is* confusing), but to me it
+> looks like the CCU_M_ version has just a pure divider, whereas in
+> CCU_MP_ the P is a *shift*, and the M a divider. Those timer clocks just
+> feature a shift, which I don't think we have seen before?
 
-=46ollowing, at the end of the file should work:
-
-&wdt {
-	status =3D "okay";
-};
-
-Best regards,
-Jernej
+We now have SUNXI_CCU_P_DATA_WITH_MUX_GATE() which was recently added by
+me exactly for the timer clocks in the MCU CCU [1].
 
 
+ChenYu
+
+[1] https://lore.kernel.org/all/20250911174710.3149589-5-wens@kernel.org/
