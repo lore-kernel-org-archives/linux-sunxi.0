@@ -1,55 +1,56 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCE23E51D7
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 May 2026 14:06:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12811386C05
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 May 2026 14:18:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777989982; cv=none; b=mI4GT9tJAU1AlMAxpfPyeTykcFP+pinz2Kx8e1AuESYOnbIlaZNWX3E6LhOMgR4ilblTW1dHsWcZL8lMaFGnbE1wt4903xxpk5DlFFsJ0nZArMMyDbsK4VQAsicpJemt5e7UcQ6/ejNwJsMTTcttuqL3hWxHlWnuf6asVygyBIs=
+	t=1777990709; cv=none; b=TxGKubQ7csHkbbGhWTSyhdqjkAWcQ8MBKaF6Ts9eo4a1Ig5PAv7cIa8d1zdr6BSt5GXQrGPdtJG5f75osjGQhQiymco4WFZfZW6tUMsqHm2MO24GoqPcZWdFRqGCh7HeCAASfAOFPvRTvMfZ8ZAHbK7s0yw4c5XB4jbrW1sOmVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777989982; c=relaxed/simple;
-	bh=rNYgNQr5mkdtUhLGKFLW7WoA8FnDIdcH1ROMQwGb3HI=;
+	s=arc-20240116; t=1777990709; c=relaxed/simple;
+	bh=fs3WyS86P1cobei063vHZNvMniQJ2L/6DB9bU5unqVg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=S+u3FOxQoYlqzcDiCnmP9hPADnI8QVhWjJOxB3w040vANQYcs5V2q5+W/2qFowi7x5FwclTm/okGXd03DDrwKVcHrcr8ntGBGvTKP638HeMy+0QqU+fozwNi4u20rz7UCXORuF0ELL3c8iv1RNZibVUCoRRmfnxVA1MQbJMIu7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CznDH8OZ; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=XfZ+wEaASpFfsLaMxi6Y1zWXOSv+NgouS0rRvw1D9PcGJdRKmjUuJdAB9B86dNJVa9EFdeju5UpzDQZOcUQ9+qdMJ1O6Tg7K2apzThV4T0qVG6BBpKgkymENDyzQkqJCyeSx6LFDUmUMgFNleHOSNkxa+7V/kTYE+6baDElbgvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MfHraLEM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CznDH8OZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F1EFC2BCF7
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 May 2026 14:06:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MfHraLEM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD889C2BCF5
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 May 2026 14:18:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777989982;
-	bh=rNYgNQr5mkdtUhLGKFLW7WoA8FnDIdcH1ROMQwGb3HI=;
+	s=k20201202; t=1777990708;
+	bh=fs3WyS86P1cobei063vHZNvMniQJ2L/6DB9bU5unqVg=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=CznDH8OZkfci3IkrcPCxNPxUtXMmRMbNCkG0X7cs8TotwZFUCiXVEylt7yB7/ETo9
-	 fTmCpCCCPiHFaYtSjfhwYDV6eFRZlnJLg1clUWLvvmY0LyBtEmdhxEcF0Qks8GfLhU
-	 QbN9TolhxujFloiHthou3gCeRMWLN3TiIr8/wC5eE6fkhPVzNT9MlfAeFtU5+u9P91
-	 P/K7hvucSBR54GUWicxoUuvGai1hAKs+wTuGg8KEVTrSPzsLNcCqPhcCkUG4hbH+Uf
-	 MpQ0Tq0xGbrs4dePpipdRyiEbM1Pc3PSUdg2sf0z0I9uDf9xz1qDgysPU9kBQg0ye5
-	 JGD1XZPCvauVg==
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-38eab6cf7d8so45134661fa.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 05 May 2026 07:06:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+Qids1All/M+I0tefLmzrygR49tMN5XBUcVI3EjCYO1u+x7fhrknrC8iTVIookNjeNEnTME08SF3z6sQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxgXWeQcNBqdMGgAb3hS3RxxBu58fgCbrjWOjKcfzE32lJreihZ
-	r4IF5k7mP3JyWcuhLKeF5KQIdKQ9Jm//ee9vHAX4FA5xi0Glr58Cmtu+SH/nlC7T8yShqMX8+1T
-	qZMZ2Dvuj4o6Z3oGib0MUoed7cQcNXI8=
-X-Received: by 2002:a05:651c:1113:b0:38e:9eb1:6949 with SMTP id
- 38308e7fff4ca-393b4d5c2d9mr13859431fa.14.1777989980570; Tue, 05 May 2026
- 07:06:20 -0700 (PDT)
+	b=MfHraLEMUeP5/DREGDITghSU061dKucJWDUFrnk8jCXYIKx5Dg4x54wkgQjgv4hBX
+	 pvOqXXodq7LYNdorCxk5Tj2SMYbCtYOc6IKIOuLrarwJ2A3eAgbnbcila2Ttyz4hoY
+	 IW7exvNyHOY0xwekMFjow46Fcr0jW4kcz4PRC9xMGbbdN7A5TCENuk4/uusLUtQN9k
+	 Edm2gqrpAknf/RXi7ygvs7ctkZwVWdSfTtwY2fmtibC/aatUj9Z4I8ZaOOtvx3JoNT
+	 KVe+1PIN/RstreoU/fA5oM/YVJMstXbeNSVmiHMfJBvOQfMdfPr+gSM/lTIvKoBzjp
+	 6p4rFjdvMTTMg==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-38e7d983f50so60955991fa.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 05 May 2026 07:18:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+4eQeZ6qqnRDKEUsvQvEXKIE3PuuY2nz8LcCKN8lffHD6VaNIIclGmqznAYVzXpcInWEKfFVYNxsfIDA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxhQHVoruYv/5MnHimNyocsU+34hNvV41m/YJZJnG+Uslzm6mlA
+	s3OtF8wl06MvB32X2FMtMS7RagKCQgv38WsxQ6CTMlppYTuqqsRa4W9zDM99F4euzxNQ+1X/3tl
+	IoJKo2xHmevPtx0AdeADsyvh1AP77Qm0=
+X-Received: by 2002:a05:651c:550:b0:393:9cd4:ea5 with SMTP id
+ 38308e7fff4ca-3939cd4108bmr40207251fa.13.1777990707140; Tue, 05 May 2026
+ 07:18:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260504050245.646078-1-iuncuim@gmail.com> <20260504050245.646078-6-iuncuim@gmail.com>
-In-Reply-To: <20260504050245.646078-6-iuncuim@gmail.com>
+References: <20260504050245.646078-1-iuncuim@gmail.com> <20260504050245.646078-4-iuncuim@gmail.com>
+In-Reply-To: <20260504050245.646078-4-iuncuim@gmail.com>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 5 May 2026 22:06:07 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65e=vLh05=4LyyzGGta4ztfqaid1f-AxRby=AT_SG-6zA@mail.gmail.com>
-X-Gm-Features: AVHnY4J0fkZsvugR5CVYJTl2H3_fmrJpYd2yKAtceV_whYV2Bj11TnBfcpEN4Vs
-Message-ID: <CAGb2v65e=vLh05=4LyyzGGta4ztfqaid1f-AxRby=AT_SG-6zA@mail.gmail.com>
-Subject: Re: [PATCH v4 5/5] Allwinner: A523: add support for A523 THS0/1 controllers
+Date: Tue, 5 May 2026 22:18:14 +0800
+X-Gmail-Original-Message-ID: <CAGb2v674Ash+eiN42EkiCCsjN1Y7+iRmZR+Bt37e+EtnfOE0tg@mail.gmail.com>
+X-Gm-Features: AVHnY4Iw15ROowKdMFkqI-ON5u3aYZ0szmXhIXedM9DZoTYlirjw1ecxwjFWiYo
+Message-ID: <CAGb2v674Ash+eiN42EkiCCsjN1Y7+iRmZR+Bt37e+EtnfOE0tg@mail.gmail.com>
+Subject: Re: [PATCH v4 3/5] thermal/drivers/sun8i: get calibration data from
+ two nvmem cells
 To: Mikhail Kalashnikov <iuncuim@gmail.com>
 Cc: Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, 
 	"Rafael J . Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
@@ -62,294 +63,140 @@ Cc: Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Mon, May 4, 2026 at 1:04=E2=80=AFPM Mikhail Kalashnikov <iuncuim@gmail.c=
+On Mon, May 4, 2026 at 1:03=E2=80=AFPM Mikhail Kalashnikov <iuncuim@gmail.c=
 om> wrote:
-
-The correct format for the patch subject should be:
-
-    arm64: dts: allwinner: sun55i: add thermal sensors
-
-> The A523 processor has two temperature controllers, THS0 and THS1.
-> THS0 has only one temperature sensor, which is located in the DRAM.
-                                                                ^
-                                                          "DRAM controller"=
-.
-
 >
-> THS1 does have 3 sensors:
-> ths1_0 - "big" cores
-> ths1_1 - "little" cores
-> ths1_2 - gpu
->
-> Add the thermal sensor configuration and the thermal zones.
-> Trips temperature, polling-delay and sustainable-power parameters are
-> derived from the manufacturer's BSP.
+> The A523 processor has calibration data in two nvmem cell. To be able to
+> add support, the ability to add data from two cells into one array must b=
+e
+> added.
 >
 > Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
 > ---
->  .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 154 ++++++++++++++++++
->  1 file changed, 154 insertions(+)
+>  drivers/thermal/sun8i_thermal.c | 77 ++++++++++++++++++++++-----------
+>  1 file changed, 52 insertions(+), 25 deletions(-)
 >
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/=
-boot/dts/allwinner/sun55i-a523.dtsi
-> index 5afa8d92a..288a4710b 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> @@ -11,6 +11,7 @@
->  #include <dt-bindings/reset/sun55i-a523-r-ccu.h>
->  #include <dt-bindings/power/allwinner,sun55i-a523-ppu.h>
->  #include <dt-bindings/power/allwinner,sun55i-a523-pck-600.h>
-> +#include <dt-bindings/thermal/thermal.h>
+> diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_ther=
+mal.c
+> index df0c26970..c4aaff8f7 100644
+> --- a/drivers/thermal/sun8i_thermal.c
+> +++ b/drivers/thermal/sun8i_thermal.c
+> @@ -301,43 +301,70 @@ static int sun50i_h6_ths_calibrate(struct ths_devic=
+e *tmdev,
 >
->  / {
->         interrupt-parent =3D <&gic>;
-> @@ -26,6 +27,7 @@ cpu0: cpu@0 {
->                         device_type =3D "cpu";
->                         reg =3D <0x000>;
->                         enable-method =3D "psci";
-> +                       #cooling-cells =3D <2>;
->                 };
+>  static int sun8i_ths_calibrate(struct ths_device *tmdev)
+>  {
+> -       struct nvmem_cell *calcell;
+> +       struct nvmem_cell *calcell =3D NULL;
+>         struct device *dev =3D tmdev->dev;
+> -       u16 *caldata;
+> -       size_t callen;
+> +       struct device_node *np =3D dev_of_node(dev);
+> +       struct property *prop;
+> +       const char *cellname;
+> +       u8 *caldata =3D NULL;
+> +       size_t callen =3D 0;
+>         int ret =3D 0;
 >
->                 cpu1: cpu@100 {
-> @@ -33,6 +35,7 @@ cpu1: cpu@100 {
->                         device_type =3D "cpu";
->                         reg =3D <0x100>;
->                         enable-method =3D "psci";
-> +                       #cooling-cells =3D <2>;
->                 };
->
->                 cpu2: cpu@200 {
-> @@ -40,6 +43,7 @@ cpu2: cpu@200 {
->                         device_type =3D "cpu";
->                         reg =3D <0x200>;
->                         enable-method =3D "psci";
-> +                       #cooling-cells =3D <2>;
->                 };
->
->                 cpu3: cpu@300 {
-> @@ -47,6 +51,7 @@ cpu3: cpu@300 {
->                         device_type =3D "cpu";
->                         reg =3D <0x300>;
->                         enable-method =3D "psci";
-> +                       #cooling-cells =3D <2>;
->                 };
->
->                 cpu4: cpu@400 {
-> @@ -54,6 +59,7 @@ cpu4: cpu@400 {
->                         device_type =3D "cpu";
->                         reg =3D <0x400>;
->                         enable-method =3D "psci";
-> +                       #cooling-cells =3D <2>;
->                 };
->
->                 cpu5: cpu@500 {
-> @@ -61,6 +67,7 @@ cpu5: cpu@500 {
->                         device_type =3D "cpu";
->                         reg =3D <0x500>;
->                         enable-method =3D "psci";
-> +                       #cooling-cells =3D <2>;
->                 };
->
->                 cpu6: cpu@600 {
-> @@ -68,6 +75,7 @@ cpu6: cpu@600 {
->                         device_type =3D "cpu";
->                         reg =3D <0x600>;
->                         enable-method =3D "psci";
-> +                       #cooling-cells =3D <2>;
->                 };
->
->                 cpu7: cpu@700 {
-> @@ -75,6 +83,7 @@ cpu7: cpu@700 {
->                         device_type =3D "cpu";
->                         reg =3D <0x700>;
->                         enable-method =3D "psci";
-> +                       #cooling-cells =3D <2>;
->                 };
->         };
->
-> @@ -565,12 +574,46 @@ dma: dma-controller@3002000 {
->                         #dma-cells =3D <1>;
->                 };
->
-> +               ths1: thermal-sensor@2009400 {
-> +                       compatible =3D "allwinner,sun55i-a523-ths1";
-> +                       reg =3D <0x02009400 0x400>;
-> +                       interrupts =3D <GIC_SPI 62 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks =3D <&ccu CLK_BUS_THS>, <&ccu CLK_GPADC1>;
-> +                       clock-names =3D "bus", "mod";
-> +                       resets =3D <&ccu RST_BUS_THS>;
-> +                       nvmem-cells =3D <&ths_calibration0>, <&ths_calibr=
-ation1>;
-> +                       nvmem-cell-names =3D "calibration",
-> +                                    "calibration-second-part";
-> +                       #thermal-sensor-cells =3D <1>;
-> +               };
+> -       calcell =3D nvmem_cell_get(dev, "calibration");
+> -       if (IS_ERR(calcell)) {
+> -               if (PTR_ERR(calcell) =3D=3D -EPROBE_DEFER)
+> -                       return -EPROBE_DEFER;
+> -               /*
+> -                * Even if the external calibration data stored in sid is
+> -                * not accessible, the THS hardware can still work, altho=
+ugh
+> -                * the data won't be so accurate.
+> -                *
+> -                * The default value of calibration register is 0x800 for
+> -                * every sensor, and the calibration value is usually 0x7=
+xx
+> -                * or 0x8xx, so they won't be away from the default value
+> -                * for a lot.
+> -                *
+> -                * So here we do not return error if the calibration data=
+ is
+> -                * not available, except the probe needs deferring.
+> -                */
+> -               goto out;
+> +       of_property_for_each_string(np, "nvmem-cell-names", prop, cellnam=
+e) {
+> +               size_t len;
+> +               u8 *caldatapart;
 > +
-> +               ths0: thermal-sensor@200a000 {
-> +                       compatible =3D "allwinner,sun55i-a523-ths0";
-> +                       reg =3D <0x0200a000 0x400>;
-> +                       interrupts =3D <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks =3D <&ccu CLK_BUS_THS>, <&ccu CLK_GPADC0>;
-> +                       clock-names =3D "bus", "mod";
-> +                       resets =3D <&ccu RST_BUS_THS>;
-> +                       nvmem-cells =3D <&ths_calibration0>, <&ths_calibr=
-ation1>;
-> +                       nvmem-cell-names =3D "calibration",
-> +                                    "calibration-second-part";
-> +                       #thermal-sensor-cells =3D <0>;
-> +               };
+> +               calcell =3D of_nvmem_cell_get(np, cellname);
+> +               if (IS_ERR(calcell)) {
+> +                       if (PTR_ERR(calcell) =3D=3D -EPROBE_DEFER)
+> +                               return -EPROBE_DEFER;
+> +                       /*
+> +                        * Even if the external calibration data stored i=
+n sid is
+> +                        * not accessible, the THS hardware can still wor=
+k, although
+> +                        * the data won't be so accurate.
+> +                        *
+> +                        * The default value of calibration register is 0=
+x800 for
+> +                        * every sensor, and the calibration value is usu=
+ally 0x7xx
+> +                        * or 0x8xx, so they won't be away from the defau=
+lt value
+> +                        * for a lot.
+> +                        *
+> +                        * So here we do not return error if the calibrat=
+ion data is
+> +                        * not available, except the probe needs deferrin=
+g.
+> +                        */
+> +                       goto out;
+> +               }
 > +
+> +               caldatapart =3D nvmem_cell_read(calcell, &len);
+> +               nvmem_cell_put(calcell);
+> +               calcell =3D NULL;
+> +               if (IS_ERR(caldatapart)) {
+> +                       ret =3D PTR_ERR(caldatapart);
+> +                       goto out;
+> +               }
+> +
+> +               caldata =3D devm_krealloc(dev, caldata, callen + len, GFP=
+_KERNEL);
+> +               if (!caldata) {
+> +                       kfree(caldatapart);
+> +                       ret =3D -ENOMEM;
+> +                       goto out;
+> +               }
+> +
+> +               memcpy(caldata + callen, caldatapart, len);
+> +               callen +=3D len;
+> +               kfree(caldatapart);
+>         }
+>
+> -       caldata =3D nvmem_cell_read(calcell, &callen);
 
-The device nodes are sorted by base address, so the thermal sensors should
-be much further up in this file.
+>         if (IS_ERR(caldata)) {
+>                 ret =3D PTR_ERR(caldata);
+>                 goto out;
+>         }
 
->                 sid: efuse@3006000 {
->                         compatible =3D "allwinner,sun55i-a523-sid",
->                                      "allwinner,sun50i-a64-sid";
->                         reg =3D <0x03006000 0x1000>;
->                         #address-cells =3D <1>;
->                         #size-cells =3D <1>;
-> +
-> +                       ths_calibration0: ths-calibration0@38 {
-> +                               reg =3D <0x38 0x8>;
-> +                       };
-> +
-> +                       ths_calibration1: ths-calibration1@44 {
-> +                               reg =3D <0x44 0x8>;
-> +                       };
->                 };
+This will never happen now.
+
 >
->                 gic: interrupt-controller@3400000 {
-> @@ -1087,4 +1130,115 @@ npu: npu@7122000 {
->                         power-domains =3D <&ppu PD_NPU>;
->                 };
->         };
-> +
-> +       thermal-zones {
-> +               cpu0_thermal: cpu0-thermal {
-> +                       polling-delay-passive =3D <100>;
-> +                       polling-delay =3D <1000>;
-> +                       thermal-sensors =3D <&ths1 1>;
-> +                       sustainable-power =3D <1200>;
-> +
-> +                       trips {
-> +                               cpu0_threshold: cpu-trip-0 {
-> +                                       temperature =3D <70000>;
-> +                                       type =3D "passive";
-> +                                       hysteresis =3D <0>;
-> +                               };
+> -       tmdev->chip->calibrate(tmdev, caldata, callen);
+> +       tmdev->chip->calibrate(tmdev, (u16 *)caldata, callen);
+> -       kfree(caldata);
+> +       devm_kfree(dev, caldata);
+> +       caldata =3D NULL;
+>  out:
+> -       if (!IS_ERR(calcell))
+> +       if (calcell && !IS_ERR(calcell))
 
-Please have one empty line between nodes, per the DT coding style.
-Same for the other two "trips" nodes.
+          if (!IS_ERR_OR_NULL(calcell))
 
-> +                               cpu0_target: cpu-trip-1 {
-> +                                       temperature =3D <90000>;
-> +                                       type =3D "passive";
-> +                                       hysteresis =3D <0>;
-> +                               };
-> +                               cpu0_critical: cpu-trip-2 {
-> +                                       temperature =3D <110000>;s
-> +                                       type =3D "critical";
-> +                                       hysteresis =3D <0>;
-> +                               };
-> +                       };
-> +
-> +                       cooling-maps {
-> +                               map0 {
-> +                                       trip =3D <&cpu0_target>;
-> +                                       cooling-device =3D <&cpu0 THERMAL=
-_NO_LIMIT THERMAL_NO_LIMIT>,
-> +                                                        <&cpu1 THERMAL_N=
-O_LIMIT THERMAL_NO_LIMIT>,
-> +                                                        <&cpu2 THERMAL_N=
-O_LIMIT THERMAL_NO_LIMIT>,
-> +                                                        <&cpu3 THERMAL_N=
-O_LIMIT THERMAL_NO_LIMIT>;
-> +                               };
-> +                       };
-> +               };
-> +
-> +               cpu4_thermal: cpu4-thermal {
-> +                       polling-delay-passive =3D <100>;
-> +                       polling-delay =3D <1000>;
-> +                       thermal-sensors =3D <&ths1 0>;
-> +                       sustainable-power =3D <1600>;
-> +
-> +                       trips {
-> +                               cpu4_threshold: cpu-trip-0 {
-> +                                       temperature =3D <70000>;
-> +                                       type =3D "passive";
-> +                                       hysteresis =3D <0>;
-> +                               };
-> +                               cpu4_target: cpu-trip-1 {
-> +                                       temperature =3D <90000>;
-> +                                       type =3D "passive";
-> +                                       hysteresis =3D <0>;
-> +                               };
-> +                               cpu4_critical: cpu-trip-2 {
-> +                                       temperature =3D <110000>;
-> +                                       type =3D "critical";
-> +                                       hysteresis =3D <0>;
-> +                               };
-> +                       };
-> +
-> +                       cooling-maps {
-> +                               map0 {
-> +                                       trip =3D <&cpu4_target>;
-> +                                       cooling-device =3D <&cpu4 THERMAL=
-_NO_LIMIT THERMAL_NO_LIMIT>,
-> +                                                        <&cpu5 THERMAL_N=
-O_LIMIT THERMAL_NO_LIMIT>,
-> +                                                        <&cpu6 THERMAL_N=
-O_LIMIT THERMAL_NO_LIMIT>,
-> +                                                        <&cpu7 THERMAL_N=
-O_LIMIT THERMAL_NO_LIMIT>;
-> +                               };
-> +                       };
-> +               };
-> +
-> +               gpu-thermal {
-> +                       polling-delay-passive =3D <100>;
-> +                       polling-delay =3D <1000>;
-> +                       thermal-sensors =3D <&ths1 2>;
-> +                       sustainable-power =3D <2400>;
-> +
-> +                       gpu-trips {
-> +                               gpu_temp_threshold: gpu-trip-0 {
-> +                                       temperature =3D <60000>;
-> +                                       type =3D "passive";
-> +                                       hysteresis =3D <0>;
-> +                               };
-> +                               gpu_temp_target: gpu-trip-1 {
-> +                                       temperature =3D <90000>;
-> +                                       type =3D "passive";
-> +                                       hysteresis =3D <0>;
-> +                               };
-> +                               gpu_temp_critical: gpu-trip-2 {
-> +                                       temperature =3D <110000>;
-> +                                       type =3D "critical";
-> +                                       hysteresis =3D <0>;
-> +                               };
-> +                       };
-> +               };
-> +
-> +               ddr-thermal {
-> +                       polling-delay-passive =3D <0>;
-> +                       polling-delay =3D <0>;
-> +                       thermal-sensors =3D <&ths0>;
-> +
-> +                       trips {
-> +                               ddr_temp_critical: ddr-trip-0 {
-> +                                       temperature =3D <110000>;
-> +                                       type =3D "critical";
-> +                                       hysteresis =3D <0>;
-> +                               };
-> +                       };
-> +               };
-> +       };
->  };
+>                 nvmem_cell_put(calcell);
+>         return ret;
+>  }
 > --
 > 2.54.0
+>
 >
