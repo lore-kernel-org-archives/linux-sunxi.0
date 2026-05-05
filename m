@@ -1,46 +1,46 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50CD848C8B4
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 May 2026 16:32:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A193B4921AF;
+	Tue,  5 May 2026 16:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777998779; cv=none; b=UBUZHEC9Hk152wA8vPmPY/pn32Rb+3ykVR/7YxAawGYczbdJ+t9jI20GD8lPKYtF+RXLmzpzdjqK8RNzN+A1v5iE79mrfa5TgmqU5mAMb5pu1KyZaHq/kh4Au5mwd8VkMIwD86M0Llbz4bX0mzAMrwDUR7UIYGDLp68HNiWzBrk=
+	t=1777999154; cv=none; b=cxHoSYtIb0NsfApD2owQPs6BJLTrvxpFe1pTOV2xQtLANSmJznq3NVjuNrUuZXwf9c7aSS+xEQX8qV38WdSxPr8gKCqyvM18kJqG7U4acm8XieiksQFmnQLaS81G4xa29mo1GH7HlgyJU5pycM+/u3SwcndvT0d1rBRVI77tK08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777998779; c=relaxed/simple;
-	bh=h+WTtL0bj9Z8btw/vRdQkzaH0xaKnAYTnbozdOgXX9U=;
+	s=arc-20240116; t=1777999154; c=relaxed/simple;
+	bh=GlW6twzrgk2C2vJM7HkgJQXNI/ske8p+d+IqMH5m4+c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MpRjlh9P3i8vYFmUQi1rHWTRXu+DkziB/cZKfxsJGM1YUO685uoqENL7IiFJNVTTL5Q1E71C2Ke+22JxW/M2CMZjwrzB7aBoaxRz/NL394gQuN6EOkQYjg+o9/+6m5sVcYRG9Vv0tSyBNazSHXt95quOh0cak9BqKL0xVIBaC2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 01CF21F8005E
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 May 2026 16:32:50 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 68C3CB40580; Tue,  5 May 2026 16:32:49 +0000 (UTC)
-X-Spam-Level: 
-Received: from collins (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id 84B44B40578;
-	Tue,  5 May 2026 16:32:47 +0000 (UTC)
-Date: Tue, 5 May 2026 18:32:45 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=dyMxXB66wddyJ/b+Xv+yhV6YjXjnHWne+Ah6Luh+Y9M1Nrh1JviEMNSF6tiDsA51LHphC4sQZIq8yjfgC3PNX74CHcqbsSBWZExqbegyomovS7iRFt3vvmdqwhoYyF+gGyL2i124gF7APwrhwOn72Bu4gImyf+ssqPc1Rj2t8K8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AUhl2V9V; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AUhl2V9V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81343C2BCF4;
+	Tue,  5 May 2026 16:39:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777999153;
+	bh=GlW6twzrgk2C2vJM7HkgJQXNI/ske8p+d+IqMH5m4+c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AUhl2V9VU9H6JVFwEpNejbhMTvHiTMzqc05KAzD3/5/OW0SLCv0YqIPiVzImfYtZG
+	 IYvDThYqZ8Q3JuLX11jLmBAbev3nOZErW7qfy3w+n+UlP0GeWmdlLYsxq3q6CE3CUO
+	 SkHLaqqjIuQ9/T5G9aH3quDsGTZ8Op0s1YtEVktArfgDgcnhm1I6a5exq734m/cZJx
+	 fUo7omhGtPEjE0to8aRHsf1eYw7z9F0ui1ALT8mqwm+Eh9oLQS1kEuAKP5Iufi0Kzx
+	 4NCyjz/0BALewTknVUsPQNeZZKVt8St+JyfAVX42htYL3d++hFkJtZBEM6SPfdDfph
+	 0sgUAq6db9jiw==
+Date: Tue, 5 May 2026 17:39:09 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 08/14] clk: sunxi-ng: a523: add system mod clocks
-Message-ID: <afobrW9UFtNW0B1k@collins>
-References: <20250307002628.10684-1-andre.przywara@arm.com>
- <20250307002628.10684-9-andre.przywara@arm.com>
- <afoRe6DI4GJIVtg4@shepard>
- <20260505182017.10d71c11@ryzen.lan>
+	Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] dt-bindings: arm: sunxi: Add Baijie HelperBoard A133
+ compatible
+Message-ID: <20260505-collision-evict-acc27ae41c3a@spud>
+References: <20260503191842.2736130-1-alexander.sverdlin@gmail.com>
+ <20260503191842.2736130-3-alexander.sverdlin@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -48,103 +48,62 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rq9iZSTGYiEAWlha"
+	protocol="application/pgp-signature"; boundary="9YtZjw3JAawFKZTY"
 Content-Disposition: inline
-In-Reply-To: <20260505182017.10d71c11@ryzen.lan>
+In-Reply-To: <20260503191842.2736130-3-alexander.sverdlin@gmail.com>
 
 
---rq9iZSTGYiEAWlha
-Content-Type: text/plain; charset=utf-8
+--9YtZjw3JAawFKZTY
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Andre,
-
-Le Tue 05 May 26, 18:20, Andre Przywara a =C3=A9crit :
-> On Tue, 5 May 2026 17:49:15 +0200
-> Paul Kocialkowski <paulk@sys-base.io> wrote:
+On Sun, May 03, 2026 at 09:18:37PM +0200, Alexander Sverdlin wrote:
+> Baijie HelperBoard A133 is a development board around their A133 Core
+> board.
 >=20
-> Hi Paul,
+> Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
 >=20
-> > On Fri 07 Mar 25, 00:26, Andre Przywara wrote:
-> > > Add the clocks driving some core system related subsystems of the SoC:
-> > > the "CE" crypto engine, the high speed timers, the DRAM and the assoc=
-iated
-> > > MBUS clock, and the PCIe clock.
-> > >=20
-> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > > ---
-> > >  drivers/clk/sunxi-ng/ccu-sun55i-a523.c | 135 +++++++++++++++++++++++=
-++
-> > >  1 file changed, 135 insertions(+)
-> > >=20
-> > > diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c b/drivers/clk/sun=
-xi-ng/ccu-sun55i-a523.c
-> > > index 17a4ffc0b7f52..c59f3f789d052 100644
-> > > --- a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-> > > +++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c =20
-> >=20
-> > [...]
-> >=20
-> > > +static const struct clk_parent_data hstimer_parents[] =3D {
-> > > +	{ .fw_name =3D "hosc" },
-> > > +	{ .fw_name =3D "iosc" },
-> > > +	{ .fw_name =3D "losc" },
-> > > +	{ .hw =3D &pll_periph0_200M_clk.hw },
-> > > +};
-> > > +static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(hstimer0_clk, "hstimer0",
-> > > +				       hstimer_parents, 0x730,
-> > > +				       0, 0,	/* M */ =20
-> >=20
-> > I was looking at the A523 ccu code and see lots of
-> > SUNXI_CCU_MP_DATA_WITH_MUX_GATE with no M.
-> >=20
-> > Was there a particular reason for not using SUNXI_CCU_M_DATA_WITH_MUX_G=
-ATE
-> > instead? It would surely be less confusing.
-> >=20
-> > One difference would be that the ops end up as ccu_div_ops instead of
-> > ccu_mp_ops. Do you need ccu_mp_ops for some reason?
+> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documenta=
+tion/devicetree/bindings/arm/sunxi.yaml
+> index e6443c266fa1..52b42779a283 100644
+> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
+> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> @@ -96,6 +96,11 @@ properties:
+>            - const: allwinner,ba10-tvbox
+>            - const: allwinner,sun4i-a10
+> =20
+> +      - description: Baijie Helper A133
+> +        items:
+> +          - const: baijie,helper-a133
+> +          - const: allwinner,sun50i-a100
+
+Should there additionally be a compatible for the som here?
+Looks like there is a product called the "helperboarda133 core board"
+that is soldered on here but has a separate product page.
+
+The dts/dtsi probably should reflect this too?
+
+> +
+>        - description: BananaPi
+>          items:
+>            - const: lemaker,bananapi
+> --=20
+> 2.53.0
 >=20
-> Yes, please double check that (as it *is* confusing), but to me it
-> looks like the CCU_M_ version has just a pure divider, whereas in
-> CCU_MP_ the P is a *shift*, and the M a divider. Those timer clocks just
-> feature a shift, which I don't think we have seen before?
 
-Oh right I think I got confused! These clocks have no M but they have P.
-
-Sorry for the noise there.
-
-All the best,
-
-Paul
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---rq9iZSTGYiEAWlha
-Content-Type: application/pgp-signature; name=signature.asc
+--9YtZjw3JAawFKZTY
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmn6G60ACgkQhP3B6o/u
-lQxmzhAAgwGpo6Kmj27yWIQtH71oCqnC0lDHBP6All8FXvNIA4nxm+oerCxRpcwa
-5pJkouva0w07D1W3+2f5ctrnPeRxEM/SmppEkEZqeoiaZCVdRgH9+XhULT6GuuP7
-JsqKSow7rW2Fd620cNHNoH/STGwybziFzrgwauDmrHYFOfp/52RjvXssreLkS2Y1
-FC2ehf1UVRVPsaV2Ae5Q8UB4gkLOfQBiL7R2OukqrwU5YaOZ9SUOYD2x79YsAHxp
-oGgQD0ZEQIJIaVl+d3WmXyRomRK+Ah2AOVQxaUvKjHgQFfEmqs9Ut9k1CWZznZ2l
-isu05RSc8Dgwo15vDTRJGp1zeCBo7RX6AZbhNJz7W4kbn8CKl1bamkBfG3/Jd77C
-zhDbzJcRWusfI1YmSLDbOdypmDoZd/FFjyG8ZrH3qzt7HZoJihLMiqZ5FrZX0egs
-je3DCmsHdn3AG5OT91kLqchwg9WGtM/GQTclS/I4AY9tHrdHOPRPjUp+o6uUKi7l
-OMGjqbkbRgBXkC/jaq45of5eed7ND45QJUnea+hLq14RH7/yAIATLR70muHhUfRa
-LoyrtJogmYE8QyGmsCxF2XotvJ1Fh2ZhGc28oaKTp8WG+Q3wYZVSRdCUs+4a1FQ8
-AoLEvT97Y+2B0qG3LUsjNxJOOPD8LDm6+tJcGS62DRag4APqV+I=
-=h3+g
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCafodLQAKCRB4tDGHoIJi
+0nm8AP9T9njgp+XuPNdE5OffE+KIOUpXPHqK/hvdf8dS/nUIAAD/foDnvjHSEvyy
+gFzU16lw3BpBGwaxO3LSF1LKVHSqkQg=
+=exp5
 -----END PGP SIGNATURE-----
 
---rq9iZSTGYiEAWlha--
+--9YtZjw3JAawFKZTY--
