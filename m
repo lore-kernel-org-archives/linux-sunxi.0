@@ -1,125 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B0F3EE1C4;
-	Tue,  5 May 2026 16:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50CD848C8B4
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 May 2026 16:32:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777998391; cv=none; b=b2XqrhMSx9cgqNL5aIJy/EEMCa4y7XwGuepE7hurErLXRA/YP+qllxrFRA6frgYh6ik4XxdbRKMG3XxjzkJ5CpIYcU/98fjbb+v02TWZrWiYpLGc2cW3qHOoHeERPPSI7gFQjYbtQab9wwxkU+/yVJgo2bijO+gucVg7GiOaj/g=
+	t=1777998779; cv=none; b=UBUZHEC9Hk152wA8vPmPY/pn32Rb+3ykVR/7YxAawGYczbdJ+t9jI20GD8lPKYtF+RXLmzpzdjqK8RNzN+A1v5iE79mrfa5TgmqU5mAMb5pu1KyZaHq/kh4Au5mwd8VkMIwD86M0Llbz4bX0mzAMrwDUR7UIYGDLp68HNiWzBrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777998391; c=relaxed/simple;
-	bh=d9oRhAaRGwydDiDuK7BhCRvRWDp8pOBlU9+d0qcoLXY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=YjO8IVpMtSzCXGDC2g79qdmSNbTcXozg1SPKqgVjg/MPfo+j/eJYcAoIiSrMv0yC2XUaaLSE6CFwkfpe0i40Hb0Ukrk+jajW6M67+pxCmfcbur3xRzWfG3w1C/EKjxUMVnc8yjw1nBI3bv2L42x3uN9ljDkWbOiEsxuHHHZEPM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P3c57A43; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P3c57A43"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D7D5C2BCB4;
-	Tue,  5 May 2026 16:26:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777998391;
-	bh=d9oRhAaRGwydDiDuK7BhCRvRWDp8pOBlU9+d0qcoLXY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=P3c57A43Ly9U95oakv1tzSfsBDMAQvbGX3L5fDur0PPxN8g/BkGWOrF0IQ1vnb8kn
-	 q5FpFULXXt5CFm8Sy/qdB+pGfZ+595OPQ/+H2h/dpiAmaAvc14vlTx4Z7a774smhAG
-	 mRi8mWrUgi+n3TQ7klBwMiCHYz3eCKtTXeoo5Vugwd9W8wFUQWC/qxp4tUJmAVvLgS
-	 jHSgvFYD9WkXPVvCXJZvfwe/RjozMVbFHi4OoCu3mLeSQZDLHCSt79QQSlDeG2UmtL
-	 GPSyoqLckepvJjFkRnrQa3yfyKh+iIz18B0bEQzeLYkJERNnopW8hE0+mQWVZV5SLC
-	 bwYA1sJR8mQqw==
-Date: Tue, 5 May 2026 11:26:29 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	spacemit@lists.linux.dev, UNGLinuxDriver@microchip.com,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Manikandan K Pillai <mpillai@cadence.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>, Tom Joseph <tjoseph@cadence.com>
-Subject: Re: [PATCH v8 phy-next 01/31] PCI: cadence: Preserve all error codes
- in cdns_plat_pcie_probe()
-Message-ID: <20260505162629.GA734488@bhelgaas>
+	s=arc-20240116; t=1777998779; c=relaxed/simple;
+	bh=h+WTtL0bj9Z8btw/vRdQkzaH0xaKnAYTnbozdOgXX9U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MpRjlh9P3i8vYFmUQi1rHWTRXu+DkziB/cZKfxsJGM1YUO685uoqENL7IiFJNVTTL5Q1E71C2Ke+22JxW/M2CMZjwrzB7aBoaxRz/NL394gQuN6EOkQYjg+o9/+6m5sVcYRG9Vv0tSyBNazSHXt95quOh0cak9BqKL0xVIBaC2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 01CF21F8005E
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 May 2026 16:32:50 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 68C3CB40580; Tue,  5 May 2026 16:32:49 +0000 (UTC)
+X-Spam-Level: 
+Received: from collins (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id 84B44B40578;
+	Tue,  5 May 2026 16:32:47 +0000 (UTC)
+Date: Tue, 5 May 2026 18:32:45 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 08/14] clk: sunxi-ng: a523: add system mod clocks
+Message-ID: <afobrW9UFtNW0B1k@collins>
+References: <20250307002628.10684-1-andre.przywara@arm.com>
+ <20250307002628.10684-9-andre.przywara@arm.com>
+ <afoRe6DI4GJIVtg4@shepard>
+ <20260505182017.10d71c11@ryzen.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rq9iZSTGYiEAWlha"
+Content-Disposition: inline
+In-Reply-To: <20260505182017.10d71c11@ryzen.lan>
+
+
+--rq9iZSTGYiEAWlha
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260505100523.1922388-2-vladimir.oltean@nxp.com>
+Content-Transfer-Encoding: quoted-printable
 
-[+cc Tom, author of bd22885aa188 in case there's something subtle here]
+Hi Andre,
 
-On Tue, May 05, 2026 at 01:04:53PM +0300, Vladimir Oltean wrote:
-> The blamed commit functionally changed the error path of
-> cdns_pcie_host_probe(), now cdns_plat_pcie_probe().
-> 
-> When the old code path executed "goto err_get_sync", the PCIe controller
-> probe function propagated the pm_runtime_get_sync() error code. The new
-> code doesn't, and returns 0.
-> 
-> Similarly for the "goto err_init" previously triggered by
-> cdns_pcie_host_init() errors, and now triggered by
-> cdns_pcie_host_setup() and cdns_pcie_ep_setup() errors. These are not
-> propagated and will result in probing success, which is incorrect.
-> 
-> Fixes: bd22885aa188 ("PCI: cadence: Refactor driver to use as a core library")
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-> ---
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
-> Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
-> Cc: Manikandan K Pillai <mpillai@cadence.com>
-> Cc: Manivannan Sadhasivam <mani@kernel.org>
-> Cc: Rob Herring <robh@kernel.org>
+Le Tue 05 May 26, 18:20, Andre Przywara a =C3=A9crit :
+> On Tue, 5 May 2026 17:49:15 +0200
+> Paul Kocialkowski <paulk@sys-base.io> wrote:
+>=20
+> Hi Paul,
+>=20
+> > On Fri 07 Mar 25, 00:26, Andre Przywara wrote:
+> > > Add the clocks driving some core system related subsystems of the SoC:
+> > > the "CE" crypto engine, the high speed timers, the DRAM and the assoc=
+iated
+> > > MBUS clock, and the PCIe clock.
+> > >=20
+> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > > ---
+> > >  drivers/clk/sunxi-ng/ccu-sun55i-a523.c | 135 +++++++++++++++++++++++=
+++
+> > >  1 file changed, 135 insertions(+)
+> > >=20
+> > > diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c b/drivers/clk/sun=
+xi-ng/ccu-sun55i-a523.c
+> > > index 17a4ffc0b7f52..c59f3f789d052 100644
+> > > --- a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
+> > > +++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c =20
+> >=20
+> > [...]
+> >=20
+> > > +static const struct clk_parent_data hstimer_parents[] =3D {
+> > > +	{ .fw_name =3D "hosc" },
+> > > +	{ .fw_name =3D "iosc" },
+> > > +	{ .fw_name =3D "losc" },
+> > > +	{ .hw =3D &pll_periph0_200M_clk.hw },
+> > > +};
+> > > +static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(hstimer0_clk, "hstimer0",
+> > > +				       hstimer_parents, 0x730,
+> > > +				       0, 0,	/* M */ =20
+> >=20
+> > I was looking at the A523 ccu code and see lots of
+> > SUNXI_CCU_MP_DATA_WITH_MUX_GATE with no M.
+> >=20
+> > Was there a particular reason for not using SUNXI_CCU_M_DATA_WITH_MUX_G=
+ATE
+> > instead? It would surely be less confusing.
+> >=20
+> > One difference would be that the ops end up as ccu_div_ops instead of
+> > ccu_mp_ops. Do you need ccu_mp_ops for some reason?
+>=20
+> Yes, please double check that (as it *is* confusing), but to me it
+> looks like the CCU_M_ version has just a pure divider, whereas in
+> CCU_MP_ the P is a *shift*, and the M a divider. Those timer clocks just
+> feature a shift, which I don't think we have seen before?
 
-I guess this driver is orphaned.
+Oh right I think I got confused! These clocks have no M but they have P.
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+Sorry for the noise there.
 
-> v7->v8: patch is new, issue was flagged by Sashiko
-> https://sashiko.dev/#/patchset/20260430110652.558622-1-vladimir.oltean@nxp.com
-> ---
->  drivers/pci/controller/cadence/pcie-cadence-plat.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/pci/controller/cadence/pcie-cadence-plat.c b/drivers/pci/controller/cadence/pcie-cadence-plat.c
-> index b067a3296dd3..8b12a46b5601 100644
-> --- a/drivers/pci/controller/cadence/pcie-cadence-plat.c
-> +++ b/drivers/pci/controller/cadence/pcie-cadence-plat.c
-> @@ -126,7 +126,7 @@ static int cdns_plat_pcie_probe(struct platform_device *pdev)
->  	while (phy_count--)
->  		device_link_del(cdns_plat_pcie->pcie->link[phy_count]);
->  
-> -	return 0;
-> +	return ret;
+All the best,
 
-This affects cases where pm_runtime_get_sync(),
-cdns_pcie_host_setup(), or cdns_pcie_ep_setup() return failure.
+Paul
 
-Seems right to me to fail the probe when these fail.
+--=20
+Paul Kocialkowski,
 
-Not all users of pm_runtime_get_sync() check for failure, but I think
-all the other controller drivers that do check return failures from
-the .probe().
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
 
->  }
->  
->  static void cdns_plat_pcie_shutdown(struct platform_device *pdev)
-> -- 
-> 2.34.1
-> 
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--rq9iZSTGYiEAWlha
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmn6G60ACgkQhP3B6o/u
+lQxmzhAAgwGpo6Kmj27yWIQtH71oCqnC0lDHBP6All8FXvNIA4nxm+oerCxRpcwa
+5pJkouva0w07D1W3+2f5ctrnPeRxEM/SmppEkEZqeoiaZCVdRgH9+XhULT6GuuP7
+JsqKSow7rW2Fd620cNHNoH/STGwybziFzrgwauDmrHYFOfp/52RjvXssreLkS2Y1
+FC2ehf1UVRVPsaV2Ae5Q8UB4gkLOfQBiL7R2OukqrwU5YaOZ9SUOYD2x79YsAHxp
+oGgQD0ZEQIJIaVl+d3WmXyRomRK+Ah2AOVQxaUvKjHgQFfEmqs9Ut9k1CWZznZ2l
+isu05RSc8Dgwo15vDTRJGp1zeCBo7RX6AZbhNJz7W4kbn8CKl1bamkBfG3/Jd77C
+zhDbzJcRWusfI1YmSLDbOdypmDoZd/FFjyG8ZrH3qzt7HZoJihLMiqZ5FrZX0egs
+je3DCmsHdn3AG5OT91kLqchwg9WGtM/GQTclS/I4AY9tHrdHOPRPjUp+o6uUKi7l
+OMGjqbkbRgBXkC/jaq45of5eed7ND45QJUnea+hLq14RH7/yAIATLR70muHhUfRa
+LoyrtJogmYE8QyGmsCxF2XotvJ1Fh2ZhGc28oaKTp8WG+Q3wYZVSRdCUs+4a1FQ8
+AoLEvT97Y+2B0qG3LUsjNxJOOPD8LDm6+tJcGS62DRag4APqV+I=
+=h3+g
+-----END PGP SIGNATURE-----
+
+--rq9iZSTGYiEAWlha--
