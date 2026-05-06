@@ -1,137 +1,83 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from s106b.cyber-folks.pl (s106b.cyber-folks.pl [195.78.66.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16EAC44D02F
-	for <linux-sunxi@lists.linux.dev>; Wed,  6 May 2026 12:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F18421EF4;
+	Wed,  6 May 2026 14:41:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.78.66.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778071292; cv=none; b=ohZzcVJt8ubVKes43xWLhoNvWl5aLIY2nZu5+vtea2AsaFEM2SPnsfjKAYrH/17jTuMeebgmTNdaE2fwC0gUtplnzxrofp8Rc3jfOnJss7rnOA4SGePz1h2y8n0U9QenGUlodxIR8d+NOiWqRhT2rY0GFWfjgeEgRO3dsRkITCQ=
+	t=1778078510; cv=none; b=SLCOcowO/T5/iaRoiVxiEhWtqcbE+CjeCwIXr8Us7hGD6X8KHujVJef3vZDRes2G3o2YgagjlFwPQ30yM+/eqDnJFS/j/X6h9wt6wNewBV0rx87Z8NiVjCoaajVDLWmnFmXmhXa6BUJcMMeJbIpA2H7UB0Ax3g9vEiLA1JqrhCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778071292; c=relaxed/simple;
-	bh=OinERmBbACIBYleiV1Zs0L/VJbZMb7jzEBvebOjGfjs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VoTIqJ1ZLB8d+hEc59QJnFf6h0Y8KpEXMdYKIikPW8s9kQKTSGDtXOeepzItmLo+KY1EVjOlRyWatWdXzBnLbD2ytmclbexrDJSQ0WqTFIJpS9FJO2ZpInaUg6RZJbBRvMPTVP5DuENoZ+VgKNcow6DKof4AuCQkVxnjy9efm58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OLrXPEN/; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778078510; c=relaxed/simple;
+	bh=MvV8LT9Upk7tt6hpagp32+ZlRB49FqmsPLyhxXbUSn0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mT+VdN9Lgjwg22jhAWuTPf+FBujufKLFBROR1XRqjE9IhvGooJcVlCubWetbFDrbH7v3dwTi+DuRlOgTtUYuGcqhCIE3uMdhNJkAnXWdfHR/feN7RP4uEY9+yYeP5EGnF/S2b216g2RFKCnZCHa6/p5CsCPGLVN5c2ywiRMhCHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl; spf=pass smtp.mailfrom=mmpsystems.pl; dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b=AoMib4LR; arc=none smtp.client-ip=195.78.66.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mmpsystems.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OLrXPEN/"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-8296d553142so4976617b3a.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 06 May 2026 05:41:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778071290; x=1778676090; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0IlqU8VwEU2SI0FZdxgow47FUylG/UcOkwWktFbacV4=;
-        b=OLrXPEN/9HiBCXoGpuQ9/MDYs/61oeNjnkJpgqpH0sjq+tAXy/Vll4KAwHZfUSPtu6
-         I/8pISxkBSxiTEi1l7MInZnr8cgovUW3qGa7VFH8z48ruSKlfECxRd4VybF5dtJRMjT+
-         fLPvZ4mVq1UfXfD35aPNQcMNWojLsg525TSlm/bMoe8qFGSC/WxUxSymnz82yROJGq+x
-         efqfotXevP1wI+nk/sz8LncA3/LeRU89ZSOPRbSKKtWvCT/VwS34KUK2SktKmvLnAKnG
-         /GdbXfzLDYVirpbczzIB2tzGWMZJ8DZF7tSHcj0MWVrmUSFVBClzQ0ZrfqVunJvIrC37
-         WSMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778071290; x=1778676090;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0IlqU8VwEU2SI0FZdxgow47FUylG/UcOkwWktFbacV4=;
-        b=AGtQY1UakSairYMYeiuePdt4ufC4SUNJ08yyTKOcOWsSTRYW11GneP9fK0RigdP5Mr
-         nj4dhin/1z4NRo16TZjMk85CsJm5ocOS8RJkAG2IEjb02CpM/vQlDYq6YzsWiY6Z8pZ7
-         haYAUrV3MFgLfIXk2TXs+q8eWDdrQfUtVbO+744/Wg5LkS+m7H8Hm47kjZSJ0WjnwrXN
-         Nh4ZUKbaODTdHSt2O1HlkN0C/meSmq3Ac0uPd9e9HmacP6csDItVahH/2++I5cqLSoZf
-         JbS4oq2jHXffgvgTtlOCaeQy7cck4ZXVY+8p6NnravAVofs/Yp/ozMF/CQ3ubVqQa93a
-         6BDg==
-X-Forwarded-Encrypted: i=1; AFNElJ8IhWNjGLKH0mQkxl8eEcZMCsoljhLVqHqB9Hhk9VNslTiMI9TdtEaJKzM2xThZTdHLV4LSgjlszKBJQQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxBRjL7QUZaj9Yp7M9b9TSpTm6bxpnwVM+K8Mo1tY/XlFyNH4OS
-	EfkbMwrVHsmwZBzpW3BCK9hit2DZg8sSXqPlja0JtVLnaiecdqJ9a8c=
-X-Gm-Gg: AeBDiesX3pmQd++MbhoBAmQPtsXeNl8vlffq2pJGI2k9VHQMb9zO36R3C8UfwPdQr5w
-	7wQarASBmecA7DY74oRD1xWOYJ0Qd64EUCDqghSRrljDa9IDowDG3gaQqUCm8H7oDXGJ/l60I5c
-	jGv00onIETosQkMuifGZWka3Av/xCyJZXUootv0EbAgsQP6ggCjzvnVMnbP8pcW/YOwXrViTkBT
-	KXdw5opB8+JkcgdGjH2Ci4QhMXW3v4xTaXvRgtIZf0+lkQWrgPkGM5lyn84dUZaaPsVz57bVD2r
-	/iFF+7HTpFugWZ6TETsbsLi1mi2L0IlyE/55Q+JpurPpQjKYJ74H+ndJuZ7OyrmfcWiaWI0ZYgk
-	+vbfHtwihTEuqQbmJxwI2m/UanbhOYLlmD1l8eeS6yT4gVH/rK9bi4XkViYCdJ0XIKYDT13Ba75
-	LxjY+dCAAvbb2ZulXW1fZVfS0lxiSUKGdCXk35Oxzx5oyr/2TWTEljLS5Dyisj1+SP4tpLfiN9K
-	2yWEODdDw==
-X-Received: by 2002:a05:6a00:4193:b0:781:2291:1045 with SMTP id d2e1a72fcca58-83a5b2d34damr3232862b3a.8.1778071290350;
-        Wed, 06 May 2026 05:41:30 -0700 (PDT)
-Received: from localhost.localdomain ([1.226.165.54])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-839679c7ba9sm5494056b3a.35.2026.05.06.05.41.27
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 06 May 2026 05:41:29 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Myeonghun Pak <mhun512@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Ijae Kim <ae878000@gmail.com>
-Subject: [PATCH v3] media: cedrus: clean up media device on probe failure
-Date: Wed,  6 May 2026 21:41:16 +0900
-Message-ID: <20260506124124.27802-1-mhun512@gmail.com>
-X-Mailer: git-send-email 2.47.1
+	dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b="AoMib4LR"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=mmpsystems.pl; s=x; h=In-Reply-To:Content-Type:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=yXHnTFm/jz6IOHwyiTUt/ifrClYh1+7TWnaI7EM86Wo=; b=AoMib4LR186B7JTqrzSkG8NmF+
+	wZcE6eNSzrAKIMfytyuJy9EcHrDK7oMnx3JWmj8KgUckTWPo5naYsc+nyyz1otVq5e78E5/Anm+FJ
+	E3e1veare/NDykhAtq5qpOLog02PaWwz/vdwJ9N9X1SOkQ2irAzQbWKmXBM+6ETDOSNVxXZBh3DyK
+	rcMggHor8T8qXgZqRr8ZVZuZADLyOtG3YwnUxEM2XurEzdkZHhZu1qAxrRTvgBjxbZXUozhgOHYXo
+	26cAB+9/cb2Y4P4XCdxyF0zCcv9nRiydCyPlSwa9p+8u5DVAoB2RY/zp04ad2NXFnJi0M18R+7moh
+	HtRyDy9A==;
+Received: from user-188-33-36-99.play-internet.pl ([188.33.36.99] helo=localhost)
+	by s106.cyber-folks.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <michal.piekos@mmpsystems.pl>)
+	id 1wKdRX-00000002h7y-1JVL;
+	Wed, 06 May 2026 16:41:43 +0200
+Date: Wed, 6 May 2026 16:41:25 +0200
+From: Michal Piekos <michal.piekos@mmpsystems.pl>
+To: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+Cc: Daniel Lezcano <daniel.lezcano@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>, 
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v3 0/4] Add hstimer support for H616 and T113-S3
+Message-ID: <z4qz6flhdnwdpmpcr4ufpcbjpor3x5pc6xw3vdjl5efqssayn3@jzz6vt5ux7te>
+References: <20260428-h616-t113s-hstimer-v3-0-7e02178a93ee@mmpsystems.pl>
+ <9ca77795-ebd2-4157-9e74-1fa1001e750b@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9ca77795-ebd2-4157-9e74-1fa1001e750b@oss.qualcomm.com>
+X-Authenticated-Id: michal.piekos@mmpsystems.pl
 
-cedrus_probe() initializes the media device before registering the video
-device, the media controller, and the media device. If any of those later
-steps fails, probe returns without calling media_device_cleanup(), so the
-media device internals initialized by media_device_init() are left behind.
+On Wed, May 06, 2026 at 01:28:22PM +0200, Daniel Lezcano wrote:
+> On 4/28/26 18:26, Michal Piekos wrote:
+> > Add support for Allwinner D1 high speed timer in sun5i hstimer driver
+> > and describe corresponding nodes in dts for H616 and T113-S3 SoC's.
+> > 
+> > D1 and H616 uses same model as existing driver except register shift
+> > compared to older variants.
+> > 
+> > Added register layout abstraction in the driver, extended the binding
+> > with new compatibles and wired up dts nodes for T113-S3 and H616 which
+> > uses D1 as fallback compatible.
+> > 
+> > Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
+> > ---
+> 
+> Applied patches 1 and 2
+> 
+> Thanks
 
-Add a media-device cleanup label to the probe unwind path and route video
-registration failures through it as well.
-
-Fixes: 50e761516f2b8c ("media: platform: Add Cedrus VPU decoder driver")
-Cc: stable@vger.kernel.org
-Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
----
-Changes in v3:
-- Rename the media cleanup label to err_media.
-- Add Paul's Reviewed-by tag.
-
-Changes in v2:
-- Drop the now-unused err_m2m label.
-
- drivers/staging/media/sunxi/cedrus/cedrus.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index 6600245dff..7cb1f110d6 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -507,7 +507,7 @@ static int cedrus_probe(struct platform_device *pdev)
- 	ret = video_register_device(vfd, VFL_TYPE_VIDEO, 0);
- 	if (ret) {
- 		v4l2_err(&dev->v4l2_dev, "Failed to register video device\n");
--		goto err_m2m;
-+		goto err_media;
- 	}
- 
- 	v4l2_info(&dev->v4l2_dev,
-@@ -533,7 +533,8 @@ static int cedrus_probe(struct platform_device *pdev)
- 	v4l2_m2m_unregister_media_controller(dev->m2m_dev);
- err_video:
- 	video_unregister_device(&dev->vfd);
--err_m2m:
-+err_media:
-+	media_device_cleanup(&dev->mdev);
- 	v4l2_m2m_release(dev->m2m_dev);
- err_v4l2:
- 	v4l2_device_unregister(&dev->v4l2_dev);
--- 
-2.47.1
+Thank you.
+I will spin shortly next version with suggested correction for patch 3.
