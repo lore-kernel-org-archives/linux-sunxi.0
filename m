@@ -1,42 +1,43 @@
 Received: from s106b.cyber-folks.pl (s106b.cyber-folks.pl [195.78.66.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BBCE2D63F8;
-	Wed,  6 May 2026 15:10:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02D640DFB4;
+	Wed,  6 May 2026 15:10:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.78.66.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778080260; cv=none; b=HB8fmlnXor16X386IPW7J5ddGMRd8gFAzVJ5HamJTVrexec/qNMcRcwoAPczxbxX3apTZ0NlSlx1tSC6WsocpL6k/vy2Vb4Rw8NiPTgofq2tHXHzPGpEVKByjqpN8fndDY0gjbyb/QMlmIhxD5YvnKCpQwaU+bp2Ri4FmhR921U=
+	t=1778080260; cv=none; b=V8E8j4XQc+G49Gvuc4J0tvrSL3GfIokuW1eZdB3YwtozjOTdI3HcCz9Q90xF5P2hm0fMW+gtOw4OJ1/6CTZCxMlEsVeqJQP5VFGyZkz1w7Kb2J3vZ6E0WSVsVoFTq4kfBMGQuOrWegZxzZ1nNtKX4Oyv8hL477eCrSY7jAM8ukM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1778080260; c=relaxed/simple;
-	bh=cCHCvUuPpHPu5/1mgf/ezZ1u0bRGr6TqCo7i9RhbRKk=;
+	bh=qh9sEc57bKsGot5lE2/m8eNigSmNqLcdmef/IL3Fdfc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ggyPHQFlx8KLOsElQ9S5JtDhhBPZ7V4xXVg4SV+XLj46VD0TpLM+gzlFfcSIIuVz3W6LfQppunBOSP2fO5BnlMp+uOWMUt/CVMX12R5jU9VJRP6436GVe3bIGDNVvA/BuKWY14PqxGcgW6ddhk9RsQSjT44Y+b3U0PJ8tszQxNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl; spf=pass smtp.mailfrom=mmpsystems.pl; dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b=taGCJg+4; arc=none smtp.client-ip=195.78.66.88
+	 In-Reply-To:To:Cc; b=ljkC+p6Q34lf0krLOvBt59SL8w1bCwShNBDAa27bTTf67m8pEYzHwAdmlmbMlaR1Axfv02LWL8Lbr0PuEk44fmG5CXmD5t+SM3pj6J+cIH0uL0U8vQ/+EXzFR2hg5pyCwSOSCbzZgtBhtxXwldwnq/OIcJc8oN5Z3oG8FpMv0Z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl; spf=pass smtp.mailfrom=mmpsystems.pl; dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b=aupmFI8G; arc=none smtp.client-ip=195.78.66.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mmpsystems.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b="taGCJg+4"
+	dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b="aupmFI8G"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=mmpsystems.pl; s=x; h=Cc:To:In-Reply-To:References:Message-Id:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=uNFzzd95mcTYhcO+wG3xMSmWT3vJi7xx2yg5IbFJlII=; b=taGCJg+4P02MpniCDPcIubfA1w
-	NOEHJ7dt6xfUSyuW7VM5RKYK5msJBaLRIjZY27PWWEUPI0lOJeorgjzpKh77k9gFJUB+jFjGYeVXg
-	QyyIqDiotcKedsEVmKqLi21R3DPwDmAGrraZSJvPdfsB32ftCbtV3EDF59TFWRZwFH59D9Qv2T5Ei
-	gFqlhlaFiimxVTAF76ytqgf3G7QmY7CnKjqCDKPTTuQlu8l4PXSZbLlIGuvEeE9DckEpRgyr/WxVp
-	aPaoYc+VeDfUhFQKktR3J+gLHpcFkS2d89z9olQweL5x0OpwjqjKrYkG5JVSYvD/NsARnNbWLegEQ
-	17FMsUbw==;
+	bh=Qe8+erd3ATmRXcw/RE05XoQwx+r6eTzDQ+NZAClJ7ws=; b=aupmFI8GCa+7MruzjqPKwv7Gfb
+	g3fnFfM/30mzXt3+HIIUayEVMnvsvkTVnUQc+RFoLD1rsgoGoX8Yo/9VFBh0ix3tSE0W5GGYal61Q
+	094lVI8BoxA6DFRv/7HgrwbdEWcPyjwd/wFeGlPwYUX0vTlo+GUUW3prR1AHzIQhBjmZwSQu3ssXm
+	+XJz0T1Z/0nwXgUgbuAsUih8KjdWEZ2kqvZzdJzbYU5R81XRWf4CHb7Lkn3yyLH/3tVwoj+GO2w+g
+	q2HWtix6JjBO7I5H4Hi8573B7HkGMzjOoi0kV26YNMxp+Vz1GGn9mWVLTl3N9gQvGXz1MBuxTRwRb
+	eNXGdSiQ==;
 Received: from user-188-33-36-99.play-internet.pl ([188.33.36.99] helo=localhost)
 	by s106.cyber-folks.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
 	(Exim 4.98.2)
 	(envelope-from <michal.piekos@mmpsystems.pl>)
-	id 1wKdtl-00000003avf-1ep8;
-	Wed, 06 May 2026 17:10:53 +0200
+	id 1wKdti-00000003atJ-3FO5;
+	Wed, 06 May 2026 17:10:50 +0200
 From: Michal Piekos <michal.piekos@mmpsystems.pl>
-Date: Wed, 06 May 2026 17:10:29 +0200
-Subject: [PATCH v4 4/4] arm64: dts: allwinner: h616: add hstimer node
+Date: Wed, 06 May 2026 17:10:26 +0200
+Subject: [PATCH v4 1/4] dt-bindings: timer: allwinner,sun5i-a13-hstimer:
+ add H616 and D1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +46,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260506-h616-t113s-hstimer-v4-4-591d425863d6@mmpsystems.pl>
+Message-Id: <20260506-h616-t113s-hstimer-v4-1-591d425863d6@mmpsystems.pl>
 References: <20260506-h616-t113s-hstimer-v4-0-591d425863d6@mmpsystems.pl>
 In-Reply-To: <20260506-h616-t113s-hstimer-v4-0-591d425863d6@mmpsystems.pl>
 To: Daniel Lezcano <daniel.lezcano@kernel.org>, 
@@ -57,50 +58,62 @@ To: Daniel Lezcano <daniel.lezcano@kernel.org>,
 Cc: Michal Piekos <michal.piekos@mmpsystems.pl>, 
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- Andre Przywara <andre.przywara@arm.com>
+ Andre Przywara <andre.przywara@arm.com>, 
+ Conor Dooley <conor.dooley@microchip.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778080247; l=1212;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778080247; l=1635;
  i=michal.piekos@mmpsystems.pl; s=20260301; h=from:subject:message-id;
- bh=cCHCvUuPpHPu5/1mgf/ezZ1u0bRGr6TqCo7i9RhbRKk=;
- b=YaIWpieKroR4LhBuwpwPUIEiVX/E0tev90OjSQlNoABbG8TFy7srK/mHFIZeen5eNfos4OV4h
- ts9YcBuwMO1BcfPgU3pyJzO93l/Vzq3Tf4uMJE0xeg+OIuRNJOcE0gW
+ bh=qh9sEc57bKsGot5lE2/m8eNigSmNqLcdmef/IL3Fdfc=;
+ b=cPaaaYLo5ADrTcyLAT6CZyP+LM1sUg2xNixGvhiLKQyIIQNuR/nvMdpg41TJhY1tJnhYX5yOJ
+ /lpcITM6KMCBl2DUeBuqVIpRh0yDBX+aW/u17cHbtrKETPqzsTDy9uS
 X-Developer-Key: i=michal.piekos@mmpsystems.pl; a=ed25519;
  pk=Aixyx03If7ZDamiKKN0lsa+0mtA+WjIuIf2ZQVYNBqg=
 X-Authenticated-Id: michal.piekos@mmpsystems.pl
 
-Describe high speed timer block on Allwinner H616.
+D1 is similar to existing sun5i, but with different register offsets.
+H616 uses same offsets as D1.
 
-Tested on Orange Pi Zero 3:
-- hstimer is registered as clocksource
-- switching clocksource at runtime works
-- after rating increase hstimer operates as a broadcast clockevent device
+Add allwinner,sun20i-d1-hstimer
+Add allwinner,sun50i-h616-hstimer with fallback to
+allwinner,sun20i-d1-hstimer
+Extend schema condition for interrupts to cover D1 compatible variant.
 
 Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ .../devicetree/bindings/timer/allwinner,sun5i-a13-hstimer.yaml   | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-index bf054869e78b..1356e5df2562 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-@@ -237,6 +237,16 @@ timer0: timer@3009000 {
- 			clocks = <&osc24M>;
- 		};
+diff --git a/Documentation/devicetree/bindings/timer/allwinner,sun5i-a13-hstimer.yaml b/Documentation/devicetree/bindings/timer/allwinner,sun5i-a13-hstimer.yaml
+index f1853daec2f9..3e2725c56995 100644
+--- a/Documentation/devicetree/bindings/timer/allwinner,sun5i-a13-hstimer.yaml
++++ b/Documentation/devicetree/bindings/timer/allwinner,sun5i-a13-hstimer.yaml
+@@ -15,9 +15,13 @@ properties:
+     oneOf:
+       - const: allwinner,sun5i-a13-hstimer
+       - const: allwinner,sun7i-a20-hstimer
++      - const: allwinner,sun20i-d1-hstimer
+       - items:
+           - const: allwinner,sun6i-a31-hstimer
+           - const: allwinner,sun7i-a20-hstimer
++      - items:
++          - const: allwinner,sun50i-h616-hstimer
++          - const: allwinner,sun20i-d1-hstimer
  
-+		hstimer@3005000 {
-+			compatible = "allwinner,sun50i-h616-hstimer",
-+				     "allwinner,sun20i-d1-hstimer";
-+			reg = <0x03005000 0x1000>;
-+			interrupts = <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 46 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_HSTIMER>;
-+			resets = <&ccu RST_BUS_HSTIMER>;
-+		};
-+
- 		watchdog: watchdog@30090a0 {
- 			compatible = "allwinner,sun50i-h616-wdt",
- 				     "allwinner,sun6i-a31-wdt";
+   reg:
+     maxItems: 1
+@@ -45,7 +49,10 @@ required:
+ if:
+   properties:
+     compatible:
+-      const: allwinner,sun5i-a13-hstimer
++      anyOf:
++        - const: allwinner,sun5i-a13-hstimer
++        - contains:
++            const: allwinner,sun20i-d1-hstimer
+ 
+ then:
+   properties:
 
 -- 
 2.43.0
