@@ -1,49 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E0112F8E9C;
-	Fri,  8 May 2026 14:16:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1BF23EDAB9;
+	Fri,  8 May 2026 14:16:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778249783; cv=none; b=qgWJ+xFe8nJn8L8Lsdwnl7lwEiv9lVSJOYunInmDuNVlSGLEUe1jUaP31LY3xZlWqyKG+KFVtCzGzbHka7AS4zgyBwamBSI5aGh7ZHHWq/yr4At92acAUaciiIKzYMkkBw1XtQ+TfnZV1RWngCIsY5jM8H478hQweGb9axgKayc=
+	t=1778249785; cv=none; b=GwimzlW9kWVY7R/wpeI3kkayI7rw9mMU2LK2OAidyHN+7v99rHdYsWPU/IIho5uUDfLhK80g1uaaRzH+DGEMK7Rlr6cTip7+6VFd3Xe7uMpvwlKy9QsOKEkJktDKkSWEQKs4P3AT79KgbcR5dg0pfZdqU8/Z18poqq7NcZO+ai8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778249783; c=relaxed/simple;
-	bh=0mPM2x5yjFYiozh6QP24TiAE+7o6BbL/98CcdObaOsA=;
+	s=arc-20240116; t=1778249785; c=relaxed/simple;
+	bh=dtZoaePTk4X8dipva16HFTgNbUNAXrez3GknSW8itDc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=RHvz/7pr9maMRgrlI2Olm6EFTIlzwamHjqqierOp5b460qzRylr8YRyfCWeZp0FZxamvC/bUZobP6iEL6EQPdBOvMtrzlbOrqqObHJjiSjGK1PPp12H7/xeVWaYZcrvETQpa5rvY6PSiBbQT7Yy+m1J6OERm8GrL7xtaiuscuko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uL5EkSyB; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=JOHtNqZ6g2ZTtDK8g6NTVb+0hm+nklZXYEf5Gsai/7Ji2tSb9yGub6QrhqVAt7/b9uY01SZxzI75oMRl91k2/eNtpqwmSlx0MrsFLF944/BV5rCT1Wnd1KT36F9wJpYtizFJesqFd2GYpZk4lFi6YHSPjvApsn5VQW9gFOguJog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f1ZtSnRS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uL5EkSyB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4531FC2BCB0;
-	Fri,  8 May 2026 14:16:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f1ZtSnRS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82131C2BCB8;
+	Fri,  8 May 2026 14:16:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778249783;
-	bh=0mPM2x5yjFYiozh6QP24TiAE+7o6BbL/98CcdObaOsA=;
+	s=k20201202; t=1778249785;
+	bh=dtZoaePTk4X8dipva16HFTgNbUNAXrez3GknSW8itDc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=uL5EkSyBEoLZMXFNWFH2h4PDeQC1iVaVfb48l4K6Pw+TWcnf5BTphG597YLBXsxx0
-	 90KJX39EdMvIHgf66iNrnxupkrWQpKkVlYAUC+qdRL77BoXzh6kEcV5nJRUyH0MOVx
-	 oEO6gUnjwojCEzqPagFywsPdPfS9YROlIMCcYE1tHgZrHOgkbQXIlr1liITnnMo6WN
-	 ineRCvsa+vRdcy4lFpqLRq144y8Sw/cAUvG8g5zIaEP4kTRgZrGYMUVhu9f+GAie1s
-	 t4I70GamTY+Xsuy6BGwaxPBKPqk1h7R+aO16qIGNi8bj8dW4mT1NlW0ZcMHxy1tGht
-	 5yHq5iD+uPcew==
+	b=f1ZtSnRSiowqAE+O3E8ZQp9fJPzaFZmF4OqdodHXnftciKYF1E0THQh6GFuBaYG1q
+	 QROrVfJ7DVcWm5HCz9kRH4mf7pt9APcAYdH4rWfheCggjzokmo5OAlLF+itx4oTFjy
+	 bpPTQysVN12SmSbpNbtM4Y5zYQgxzxlXt9qJ+nABjOPDtQK1yH3e/stG6YgYC3dMSm
+	 GTOVsLDmhwmUJr70a67F4UMZsn8PGPm6ET7Li12/Z94F46jfWCtTh8+k2yWPPcpwVV
+	 o46Z3BtuTSFgzfEXXK2SxakbrwJHGrLGwQV6iWWivxAqWdTTnq4Q+AM/+q0v2tGmAh
+	 azRLc1gg+H8iw==
 From: Chen-Yu Tsai <wens@kernel.org>
-To: Daniel Lezcano <daniel.lezcano@kernel.org>, 
- Thomas Gleixner <tglx@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, 
  Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, 
  Michal Piekos <michal.piekos@mmpsystems.pl>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- Andre Przywara <andre.przywara@arm.com>, 
- Conor Dooley <conor.dooley@microchip.com>
-In-Reply-To: <20260506-h616-t113s-hstimer-v4-0-591d425863d6@mmpsystems.pl>
-References: <20260506-h616-t113s-hstimer-v4-0-591d425863d6@mmpsystems.pl>
-Subject: Re: (subset) [PATCH v4 0/4] Add hstimer support for H616 and
- T113-S3
-Message-Id: <177824977994.59995.8659881692173986596.b4-ty@kernel.org>
-Date: Fri, 08 May 2026 22:16:19 +0800
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20260506-t113-mangopi-reboot-hang-v3-1-fa15a360a520@mmpsystems.pl>
+References: <20260506-t113-mangopi-reboot-hang-v3-1-fa15a360a520@mmpsystems.pl>
+Subject: Re: [PATCH v3] arm: dts: allwinner: t113s: enable watchdog for
+ reboot
+Message-Id: <177824978321.59995.2431541196860204454.b4-ty@kernel.org>
+Date: Fri, 08 May 2026 22:16:23 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -54,25 +50,20 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14.2
 
-On Wed, 06 May 2026 17:10:25 +0200, Michal Piekos wrote:
-> Add support for Allwinner D1 high speed timer in sun5i hstimer driver
-> and describe corresponding nodes in dts for H616 and T113-S3 SoC's.
+On Wed, 06 May 2026 12:14:31 +0200, Michal Piekos wrote:
+> Reboot hangs on T113s boards because no restart handler is
+> available.
 > 
-> D1 and H616 uses same model as existing driver except register shift
-> compared to older variants.
+> Enable the SoC watchdog whose driver registers a restart handler.
 > 
-> Added register layout abstraction in the driver, extended the binding
-> with new compatibles and wired up dts nodes for T113-S3 and H616 which
-> uses D1 as fallback compatible.
+> Tested on LCPI-PC-T113/F113.
 > 
 > [...]
 
 Applied to sunxi/dt-for-7.2 in local tree, thanks!
 
-[3/4] arm: dts: allwinner: d1s-t113: add hstimer node
-      commit: 7c86694a7b8c9a0b2e29b312b21fcaf61d54b474
-[4/4] arm64: dts: allwinner: h616: add hstimer node
-      commit: fee10a33d08ae73c87a87d464f29198b6de687d0
+[1/1] arm: dts: allwinner: t113s: enable watchdog for reboot
+      commit: c6895beaf5eab889ebdaffeb6210ad1111f3e72e
 
 Best regards,
 -- 
