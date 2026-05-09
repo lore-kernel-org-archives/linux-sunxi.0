@@ -1,117 +1,218 @@
-Received: from dsmtpq4-prd-nl2-vfz.edge.unified.services (dsmtpq4-prd-nl2-vfz.edge.unified.services [84.116.73.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FB113FEE
-	for <linux-sunxi@lists.linux.dev>; Sat,  9 May 2026 12:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.116.73.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4036856472
+	for <linux-sunxi@lists.linux.dev>; Sat,  9 May 2026 13:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778330009; cv=none; b=LPTcdaSSYoUD/3OZHtOs7hhMVlj13LN6oVA38iwjNsxXH0nfZJcf0qf4rojNpv3bjEDHvVZJUvMjxOIG7VAup7qMAifjHV5sxan0Iwbg9r1t2qIJ3yOugFEUizqUMH2fv6c+3atU23qdd6vKFCMfpHc0FGzmWN1L6Upx1IMFIPU=
+	t=1778331636; cv=none; b=KPBtUkQg/xKYV99KRBqI9ubCrwjEPM9q/JNdee3r5slmOirEgqz4C7OglLPjfsM2gK9NgvhZw3D8/NwsFIHNNh5GNlEZqnn8OEz04Wm6GgBD34BXBSwoNXb8jGkNb5gAL54NSswctekD8sD6JULx15ff4P2qy3AEwqvBV4iKcU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778330009; c=relaxed/simple;
-	bh=kkC00Hm4PasArfja3LA/UXc0OW6JjSzi6RiGJEIqRc8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tl89+xZuARo1kLXWCuTQZ3iVooWyDLsRMxp8ZZtncpcR2zKgwOn10sPQ49RgXvWpQSZx5yN6FpJuJ3v5Q9dsmHONEPjNjXWj3L2On82KDlWmNw1lVM8YBFwoGdAJ65Nx1ybK5UxTY0Sk64IHxRflmRVGMunfc9ShzYmVCFWkcTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ziggo.nl; spf=pass smtp.mailfrom=ziggo.nl; dkim=pass (2048-bit key) header.d=ziggo.nl header.i=@ziggo.nl header.b=TffVbMC4; arc=none smtp.client-ip=84.116.73.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ziggo.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziggo.nl
+	s=arc-20240116; t=1778331636; c=relaxed/simple;
+	bh=B1Ds8r8GHGWBx++aRf0JywPTc8oRJZcsAR2eyRq7lnU=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EAoVhxHYOx9cWNmkmlkpHTUcCqIFc6yvKvOjju63jCSnPAun6b5JzGkR+JgAKWxRHwB3LOYP8H1MJE1uw2WyURvtMbOlqvWs5ad6hOIgAG9WFpgOqBSITkem7YqMqovA22T207icwsCd23MNfa6Pox6NkcGzux2jtp5YXnOMS+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jpEcHJvi; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziggo.nl header.i=@ziggo.nl header.b="TffVbMC4"
-Received: from csmtpq4-prd-nl2-vfz.edge.unified.services ([84.116.73.104])
-	by dsmtpq4-prd-nl2-vfz.edge.unified.services with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.97)
-	(envelope-from <lvd2@ziggo.nl>)
-	id 1wLgI9-00000003AIC-2huj
-	for linux-sunxi@lists.linux.dev;
-	Sat, 09 May 2026 13:56:21 +0200
-Received: from csmtp2-prd-nl1-vfz.nl1.unified.services ([100.107.80.24] helo=csmtp2-prd-nl1-vfz.edge.unified.services)
-	by csmtpq4-prd-nl2-vfz.edge.unified.services with esmtp (Exim 4.97)
-	(envelope-from <lvd2@ziggo.nl>)
-	id 1wLgI2-00000007uPo-1wtt
-	for linux-sunxi@lists.linux.dev;
-	Sat, 09 May 2026 13:56:14 +0200
-Received: from pivobook ([31.151.14.30])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 256/256 bits)
-	(Client did not present a certificate)
-	by csmtp2-prd-nl1-vfz.edge.unified.services with ESMTPSA
-	id LgI1wNynmrfEILgI2wlUBZ; Sat, 09 May 2026 13:56:14 +0200
-X-Env-Mailfrom: lvd2@ziggo.nl
-X-Env-Rcptto: linux-sunxi@lists.linux.dev
-X-SourceIP: 31.151.14.30
-X-CNFS-Analysis: v=2.4 cv=JpPBas4C c=1 sm=1 tr=0 ts=69ff20de cx=a_exe
- a=NV7W8VvOCisUEaGs51tmdQ==:117 a=NV7W8VvOCisUEaGs51tmdQ==:17
- a=IkcTkHD0fZMA:10 a=mZ4yd4CqamDfb6olylMA:9 a=QEXdDO2ut3YA:10
-X-Authenticated-Sender: lvd2@ziggo.nl
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ziggo.nl;
-	s=202002corplgsmtpnl; t=1778327774;
-	bh=kkC00Hm4PasArfja3LA/UXc0OW6JjSzi6RiGJEIqRc8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=TffVbMC4PBOTtUqdc6fFXUHBP/WEJKpDws7pW1ZzzphfAP05D43Z0yqf0/i3JDsGp
-	 raUSMPu/yohAEfFrwcUMMLElU81nynerwaTe2hnJr1dbY1SoxrJzFg2HVtRsNRbX1E
-	 WHbgtkM5CGZgWGAJYFbOoedrG3lIeS73lHLRfR55P9Io9jdK2AFieerVKT4W/s2Xtv
-	 rdvmCRf0EHtVFiyp9lmwic1QzUskhYUrOaq46L+ryoL7ELvibG8/akWSe+q53rKSqw
-	 bI9ozCRLfmIHjRI985Rj57JuJSurGFJGI5VUepLMr9JbG6wm1QkXOHTeVa9iv4RSr7
-	 fdGfqMeklXRLQ==
-Date: Sat, 9 May 2026 13:56:12 +0200
-From: Vadim Akimov <lvd2@ziggo.nl>
-To: Anup Patel <apatel@ventanamicro.com>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
-	Sunil V L <sunilvl@ventanamicro.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Atish Patra <atish.patra@linux.dev>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Anup Patel <anup@brainfault.org>, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] RISC-V: Define pgprot_dmacoherent() for non-coherent
- devices
-Message-ID: <af8g3DlQhHSME-0_@pivobook>
-References: <20250820152316.1012757-1-apatel@ventanamicro.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jpEcHJvi"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-488ff90d6c7so25737445e9.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 09 May 2026 06:00:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778331631; x=1778936431; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=z6OT+AHePGxzwfvQ45Ob6sxpwOIkH+2SDyW/P3F5OEk=;
+        b=jpEcHJviykSdO2WJELvc86lY0feH7SLH6X4KcDprvZwlwzQFSdgJIoe0r0Fk6f5BOc
+         8e3ggmeaAIECmJjrLbw3o4F+w+eIy7L3OIi8rkYzNVZpj9EUfXsqRiKAZJ83R7X7iBaj
+         amiw2rjSPfh6Cv6dK6LTJVM50DVnsPsELMZXxD0MNflQSulMCID2ny1+6Pon4cdWw8Rm
+         eUL3sat0R37g6TvCz5KjMaTQjogx9wBfCr5iLrMPS7Q2vefR2cCQ5Btlo1fHLsFUcv02
+         c1VH/XJEt+FpBH+w1H7rwxRf3c4ihd18zU0BQnquexZ4ZIQ0Y35PHuP/dJMWUnqPuMyE
+         YKEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778331631; x=1778936431;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=z6OT+AHePGxzwfvQ45Ob6sxpwOIkH+2SDyW/P3F5OEk=;
+        b=YSjBBWC1PaGQoIL+xZqJLutA5EBQbgqD5Yjh06d+NJteoDRERGRh1xDGLQS9mZqAH/
+         h6Bl1RsDn3MKyzKre0sWOjr6KerD0N/VkfFOuc6xMV3Yfx4RvVROd+fcFLcQ1/9D2lUT
+         rhc28CnIvvWEk/C0JHqFXAu4BP9Z0cJjYFUWyPwS4Ps/cpiPiywmHYMvMRIDqPHaxeB/
+         KzycndDNBjG8il4kd3E44Sbb/dHqyY16DJBV/b4oxwQsJ7lJFnv7coOexHPRLZUAK7fE
+         WLyoCOBwCJ48h3OvdOWyOP+M98E1/NpEAIOA7iiQlSjhQBFZ8TUhMmpTVnFj+V/mBC8R
+         Zb9A==
+X-Forwarded-Encrypted: i=1; AFNElJ8xgadm83tMVQ5e8YWfU/FXxl3qKdIiJPReG4gY3qpXctm9Z60EzZL+Wf/O3/18ph1IVWpoPzzcx2KvIg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxYW71UvRx3rQthNQ5bPhXmSD2x3U8zOcv+g/kNJKMTjsYG68hA
+	s6wXY60F1HuNYWVTK2YEJSR5pGZhWFJ5RvRJWDwWhKYg+FkcRI1iiFDW
+X-Gm-Gg: Acq92OEjMR9absPYbTP63NozeF6tmaQTUxQbGKVTb5Wo+FQllK73H4OyIhkiZrlKC4q
+	Z8ZkgZBkPluGjEO51Y1msX5k8962J8swhvImF6t+GCR3SFcrbkAzCXCZfJNngPSKIVg8IAGG5sl
+	NReIChTVgcYMPIKC1fyHZsYqQvEpz9+c7xbMHln6rk0Ytzr5TsMRDk0+9rl+s/VhyIouQ8oXEwt
+	/I/qHSbLebbmCs0QWUJqL9TGnxLlobKMn9ySiirtafzO1l9gtCb5Z6bOZwOypPEdyI960OXT4z1
+	sX+0cc42Ukj1vudyiA5wKWdUvSwOfotvHxU/xkIpRHuEHd+3DlBZ4HtIIVXJFf1aKUc9+lpTFaJ
+	h8ThPMpwwcXCvbG+ZxaQkeKp+v81hOaXH1XLQL5uI1wrCMde2+hyoiQfQlbz1PYNQIdfOMrlGd7
+	afbpntm7dRiZd8bjb8/myXp5yv4qvxQ+ERBgP0rzTyxeU9mmp6F7ZUBj4OEriZRpRxdeYJ3Iim/
+	uMC2KtjdkiAvK2NQw==
+X-Received: by 2002:a05:600c:354b:b0:486:f634:ef1 with SMTP id 5b1f17b1804b1-48e51f32a7amr259916605e9.17.1778331631212;
+        Sat, 09 May 2026 06:00:31 -0700 (PDT)
+Received: from jernej-laptop.localnet (46-150-62-216.dynamic.telemach.net. [46.150.62.216])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4549130549bsm12104013f8f.18.2026.05.09.06.00.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 May 2026 06:00:30 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:
+ =?UTF-8?B?T25kxZllaiBKaXJtYW4gPG1lZ2lAeGZmLmN6PiwgSmVybmVqIMWga3JhYmVj?=
+ <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Lee Jones <lee@kernel.org>,
+ Chen-Yu Tsai <wens@kernel.org>
+Subject: Re: [PATCH] mfd: axp20x: Change volatile ranges on axp803
+Date: Sat, 09 May 2026 15:00:29 +0200
+Message-ID: <jyAUZJ-5S2y5bMIkjeKIeA@gmail.com>
+In-Reply-To: <voxgbzeunk7doe64ej3eq22kgxw7y4x7wwqsm72t546qreonmi@ypnuw5esnddo>
+References:
+ <20260315124932.3669260-1-megi@xff.cz> <5084920.31r3eYUQgx@jernej-laptop>
+ <voxgbzeunk7doe64ej3eq22kgxw7y4x7wwqsm72t546qreonmi@ypnuw5esnddo>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250820152316.1012757-1-apatel@ventanamicro.com>
-X-CMAE-Envelope: MS4xfNDTPr0vul+5v/KwGl5RI2QffcB7SymM16QmsJPTDk+WVAVIDIZFOdV76cwlQ5gPqx1/N6mVa4RFxpehkcP6L+t26aC2pigYtcqHH4ngn+IfNkWRGX0+
- nC5dUN/AHZ+BWYddiFotvlnydDGmcajOzZiTVToRGJbHFmCgW0STW2Pnb0c6/kGQcaqw6FwZe/hYJTd4B2bTVs5KFysWd9Hp5eNvh1JVqr5lB63yFkIpLST8
- 77+6AduirQaBdkNLxp640R8Xji7afv+QG7REZvIFTfh0UoXYwUD7L5SY5b30eNOGeXR/UuqSMdj4318dH8400SzIf/lCCYfxqKsGUGNSan+LzqtYNnK1ZhyL
- iqRmPZmaau+dYDIfPSvGKVLY0QSDG73HEyIju1dvA1i/dXumI6jB2Wf3XlW+Q5M82aEk04TgpYoTquJJZ9G+wBNMh3Dpb5fcyx0AnhjcGp+sJcxseLD/n+un
- ADBeT1ptOeKRMWPjP2OC8XWfZY8krZapdqzrzNxtAK/H/HUjPsRHyfbYj4G1woy7olKiIXAtr8RsWRL3qzt6HFYO/3C4G7fIMdsUWQ==
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Hi,
+Dne sobota, 21. marec 2026 ob 19:26:43 Srednjeevropski poletni =C4=8Das je =
+Ond=C5=99ej Jirman napisal(a):
+> On Sat, Mar 21, 2026 at 07:25:49AM +0100, Jernej =C5=A0krabec wrote:
+> > Dne nedelja, 15. marec 2026 ob 13:49:31 Srednjeevropski standardni =C4=
+=8Das je Ond=C5=99ej Jirman napisal(a):
+> > > From: Ondrej Jirman <megi@xff.cz>
+> > >=20
+> > > Regulator control registers can be cached. They don't update by
+> > > themselves. Enable cache on them, to speed up voltage changes,
+> > > particularly DCDC2 which needs to be handled quickly due to being used
+> > > for CPUX cores and is changed very frequently by some cpufreq schedul=
+ers.
+> >=20
+> > That's not really the case, DCDC2-DCDC6 registers have DVM finished sta=
+tus
+> > bit, which is volatile and it is right to have them in volatile range.
+> > However, it is true that other registers are non-volatile, so that rang=
+e can
+> > be considerably shrinked. It seems that AXP288 have same register layout
+> > but I can't say for sure (I only found datasheet for AXP288C), so it's =
+best
+> > to leave it alone and apply changes only to AXP803.=20
+>=20
+> While true, it's not used by any kernel drivers, and having the whole reg=
+ister
+> marked volatile for a single unused bit is contributing 10s of % of perma=
+nent
+> CPU load just from cpufreq DVFS operations alone when using schedutil gov=
+ernor,
+> which is doing DVFS hundred or more times per second.
+>=20
+> If someone will want to use this bit in the regulator driver, they can us=
+e eg.
+> regmap_read_bypassed() to access the bit, while keepig the other parts of
+> regulator implementation performant.
 
-On Wed, Aug 20, 2025 at 08:53:16PM +0530, Anup Patel wrote:
+This sounds like a good compromise.
 
-> The pgprot_dmacoherent() is used when allocating memory for
-> non-coherent devices and by default pgprot_dmacoherent() is
-> same as pgprot_noncached() unless architecture overrides it.
- 
-> diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-> index 91697fbf1f90..00d8bdaf1e8d 100644
-> --- a/arch/riscv/include/asm/pgtable.h
-> +++ b/arch/riscv/include/asm/pgtable.h
+>=20
+> But I guess it may deserve a comment in the code.
 
-> +#define pgprot_dmacoherent pgprot_writecombine
+=46or sure.
 
-This single-line patch, as implemented in commit 00b58d2c25d10fecffbebaa0c369fc9d0a6de397 for 6.6.y,
-breaks allwinner D1 SDcard handling:
+BR Jernej
 
-[    0.000000] Linux version 6.6.115 (surfin@nedoserver) (riscv64-unknown-linux-gnu-gcc () 11.3.0, GNU ld (GNU Binutils) 2.38) #1 Tue May  5 10:25:47 MSK 2026
+>=20
+> Kind regards,
+> 	o.
+>=20
+> > Best regards,
+> > Jernej
+> >=20
+> > >=20
+> > > This shrinks register access over RSB bus to one write per voltage
+> > > change (down from 4 or so).
+> > >=20
+> > > Signed-off-by: Ondrej Jirman <megi@xff.cz>
+> > > ---
+> > >  drivers/mfd/axp20x.c | 28 +++++++++++++++++++++++++++-
+> > >  1 file changed, 27 insertions(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
+> > > index 0d0d40972eb8..2ea409029d2f 100644
+> > > --- a/drivers/mfd/axp20x.c
+> > > +++ b/drivers/mfd/axp20x.c
+> > > @@ -172,6 +172,18 @@ static const struct regmap_range axp288_volatile=
+_ranges[] =3D {
+> > >  	regmap_reg_range(AXP20X_FG_RES, AXP288_FG_CC_CAP_REG),
+> > >  };
+> > > =20
+> > > +static const struct regmap_range axp803_volatile_ranges[] =3D {
+> > > +	regmap_reg_range(AXP20X_PWR_INPUT_STATUS, AXP288_POWER_REASON),
+> > > +	regmap_reg_range(AXP288_BC_GLOBAL, AXP288_BC_GLOBAL),
+> > > +	regmap_reg_range(AXP288_BC_DET_STAT, AXP20X_VBUS_IPSOUT_MGMT),
+> > > +	regmap_reg_range(AXP20X_CHRG_BAK_CTRL, AXP20X_CHRG_BAK_CTRL),
+> > > +	regmap_reg_range(AXP20X_IRQ1_EN, AXP20X_IPSOUT_V_HIGH_L),
+> > > +	regmap_reg_range(AXP20X_TIMER_CTRL, AXP20X_TIMER_CTRL),
+> > > +	regmap_reg_range(AXP20X_GPIO1_CTRL, AXP22X_GPIO_STATE),
+> > > +	regmap_reg_range(AXP288_RT_BATT_V_H, AXP288_RT_BATT_V_L),
+> > > +	regmap_reg_range(AXP20X_FG_RES, AXP288_FG_CC_CAP_REG),
+> > > +};
+> > > +
+> > >  static const struct regmap_access_table axp288_writeable_table =3D {
+> > >  	.yes_ranges	=3D axp288_writeable_ranges,
+> > >  	.n_yes_ranges	=3D ARRAY_SIZE(axp288_writeable_ranges),
+> > > @@ -182,6 +194,11 @@ static const struct regmap_access_table axp288_v=
+olatile_table =3D {
+> > >  	.n_yes_ranges	=3D ARRAY_SIZE(axp288_volatile_ranges),
+> > >  };
+> > > =20
+> > > +static const struct regmap_access_table axp803_volatile_table =3D {
+> > > +	.yes_ranges	=3D axp803_volatile_ranges,
+> > > +	.n_yes_ranges	=3D ARRAY_SIZE(axp803_volatile_ranges),
+> > > +};
+> > > +
+> > >  static const struct regmap_range axp806_writeable_ranges[] =3D {
+> > >  	regmap_reg_range(AXP20X_DATACACHE(0), AXP20X_DATACACHE(3)),
+> > >  	regmap_reg_range(AXP806_PWR_OUT_CTRL1, AXP806_CLDO3_V_CTRL),
+> > > @@ -456,6 +473,15 @@ static const struct regmap_config axp22x_regmap_=
+config =3D {
+> > >  	.cache_type	=3D REGCACHE_MAPLE,
+> > >  };
+> > > =20
+> > > +static const struct regmap_config axp803_regmap_config =3D {
+> > > +	.reg_bits	=3D 8,
+> > > +	.val_bits	=3D 8,
+> > > +	.wr_table	=3D &axp288_writeable_table,
+> > > +	.volatile_table	=3D &axp803_volatile_table,
+> > > +	.max_register	=3D AXP288_FG_TUNE5,
+> > > +	.cache_type	=3D REGCACHE_MAPLE,
+> > > +};
+> > > +
+> > >  static const struct regmap_config axp288_regmap_config =3D {
+> > >  	.reg_bits	=3D 8,
+> > >  	.val_bits	=3D 8,
+> > > @@ -1368,7 +1394,7 @@ int axp20x_match_device(struct axp20x_dev *axp2=
+0x)
+> > >  	case AXP803_ID:
+> > >  		axp20x->nr_cells =3D ARRAY_SIZE(axp803_cells);
+> > >  		axp20x->cells =3D axp803_cells;
+> > > -		axp20x->regmap_cfg =3D &axp288_regmap_config;
+> > > +		axp20x->regmap_cfg =3D &axp803_regmap_config;
+> > >  		axp20x->regmap_irq_chip =3D &axp803_regmap_irq_chip;
+> > >  		break;
+> > >  	case AXP806_ID:
+> > >=20
+> >=20
+> >=20
+> >=20
+> >=20
+>=20
 
-[    4.886823] sunxi-mmc 4020000.mmc: Got CD GPIO
-[    4.893625] sunxi-mmc 4021000.mmc: allocated mmc-pwrseq
-[    4.941711] sunxi-mmc 4021000.mmc: initialized, max. request size: 2048 KB, uses new timings mode
-[    4.958033] sunxi-mmc 4020000.mmc: initialized, max. request size: 2048 KB, uses new timings mode
-[    4.990692] sunxi-mmc 4021000.mmc: card claims to support voltages below defined range
-[    5.009712] mmc1: new high speed SDIO card at address 0001
 
-then following never happens with that patch, i.e. no SD card is found.
 
-#[    5.109896] mmc0: new high speed SDHC card at address 0001
-#[    5.116546] mmcblk0: mmc0:0001 EB1QT 29.8 GiB
-#[    5.128887]  mmcblk0: p1 p2
 
