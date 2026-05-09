@@ -1,64 +1,64 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468E233BBAD
-	for <linux-sunxi@lists.linux.dev>; Sat,  9 May 2026 05:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4634D33BBAD
+	for <linux-sunxi@lists.linux.dev>; Sat,  9 May 2026 05:09:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778303357; cv=none; b=sc3P/o5UHpE6UKeD7q4vlDV6mLhgaKN8UJKiOuhdK+fqb13g9uffGp/JC8xsbbHrzPiG9X4aThWLQdNJnzeS8f0PqhKhF40/1VFmZUCkc7dRT2n6z184CU+j5L+1TSPeBmxn5qJjnLO0azKoXPJaoRVRjAARZz/2C5awRwEtD28=
+	t=1778303362; cv=none; b=IsUmssLCYvdTHiCcTGIgKpdW2amaRwdw8zYSItelPu7dsSHT6jVNUMzi7KuGE3+EsRDWfKIyjaAb0E55oWktKus+rvdSAnyWIxFbGfxO015R3/qmkk1MWFZR7v683HNySbT6s/v/x06lA50VhqkyJ1FgQ0xHn7/9z9sY2HEmpz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778303357; c=relaxed/simple;
-	bh=nt6OxSmmCFCp2plgNXKiUV8ZCLQgCwiBJoQCG+R7L9Y=;
+	s=arc-20240116; t=1778303362; c=relaxed/simple;
+	bh=l2h49IBJQQJeRXIpnECLHnQqhjjLmf/4MI621awvlys=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=SRRwyL+rJd8S9GpKFMe8FUs7y8HX+bk3rTjKKvjVN7SEScQpN6f2Mz4XEC9j+PIiGh2gtX4vgv+JNqE6cSbTgV51wdHcPahHqMrTRp92LEnGFlMYRmsvJ/zQ2/xX20sZ01VhAirYRIYExKD0Fg/mpPqYQKkmAA3DvJUy0vmcB+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qWC4kLQX; arc=none smtp.client-ip=209.85.221.52
+	 MIME-Version; b=GhgHQz44SUFTDQjq3LveKCsBWhdto2lDVokGEtEWZunt5bZ9EBQXtcJecmBjCRedl+TQuVaJh/h/MjxnSjB3GfiwYlvIa4LuoWH10PI83sLQdRq3ub23BaCnVMLuPiiTmBuPKdNsbiMFqcM1Q6vZDnJaYlixH0vzxPLAOxHR8qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XGHSPNfq; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qWC4kLQX"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43d7e23defbso1514251f8f.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 08 May 2026 22:09:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XGHSPNfq"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-488b3f8fa2bso35754595e9.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 08 May 2026 22:09:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778303354; x=1778908154; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778303360; x=1778908160; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JSXVZuQbVTBhNqf5XUUF1Kdmejk+jpH4iBZZY4c/Ed0=;
-        b=qWC4kLQX7xi4cygn4sCNVOl+VdyKtwlUNCVz17jKXqA5k6Ey8MQEg3/faxmYJtFi/g
-         HHewLoTBCwinlhJ1fe7Tvrg/hijdJ3jnRg0w3o+VdeGHivjVOD+ejo6DAsZgjJc/noXv
-         sytug7kS6wIyg3X2nKH88vYUqFp1mpiRPzKgpujeqHMBS6y1eQx/3BN/bzKUlQsQQkGr
-         0HbkseeVc9gTdLZp6CVWwWyLHdU5sId24JDt2WLP2k4DYS19amW7juFlX/nFyUO2ftLZ
-         /wU2We0NLuZKNrY++R0ZYlg11r4ennszgRClbHgNfvuGRi6IpPF++o+doPJVupgp5hT0
-         yftw==
+        bh=g5bmiBt/UaAj8FYk6z1JEgvnehBBxvzIZjMWnqTHpn8=;
+        b=XGHSPNfqSOlmZKMmnP9V8FtdxCzp9qDb0F5gE6qymYJ7bc8A0rkh62koJumVIe1UIe
+         EAdV0DCP16GKNAvRhj9wTN5nrMkfH+gZZdG5Pc13iJeb/vNuhb4dl5Tq9SeCNzRm5Q6i
+         OItI/S5ugGUJYFu/aHKjlid8IBL3X1u+9iupZa+NLeqZyzl+bel1S9HD5KbkaxBS+3GR
+         e4wNo8ATeJuO5s+KTScwsuK2t+eQGEAzuVdUPBiqS4gopbWy3QUYPZzLAbXUzH2uC7Bn
+         c9Zr4zB8uVJaHYb4MiJX3izQHk24n8GJN5yvoaO8+41Zpds4uzUWlpE9/Hu9wWzlqrlv
+         V6pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778303354; x=1778908154;
+        d=1e100.net; s=20251104; t=1778303360; x=1778908160;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=JSXVZuQbVTBhNqf5XUUF1Kdmejk+jpH4iBZZY4c/Ed0=;
-        b=oUFwiHyRK8UHNB8sj52fBZ6kYUTOySBE9f9wGzK6w9MUNc5M8EJqU0G4M1FAOOgYrC
-         AiX9/iIMlPyjbUBhe9m9kCbbI/qMDJOGYgQiKmjy+cem8aLrpSvWFPginh5oulrjhsmu
-         horIQMrSghVX5B5HgN5tYPHVTNRAH0UTLLYdME9HBRiV3hE5PHcEFD8a51VJWrvOMwZK
-         E3vHGkaNStAv/ABy9QGua9vj+dBKeh+CZCfFFf4kAHY0Iv66l+CB9IHvmtS0zKQYgCYv
-         9PHeSVSqjNfdty4aScjwMyUQs5E0LUGsWFYsMIYpxncsLN43Ht5DKolRrQ0QWuFO1HkP
-         FnrQ==
-X-Forwarded-Encrypted: i=1; AFNElJ83jxwePO7YA0RSiuurtCXlN0WUFWO06n6sInjUS2GMzWfw0dvaU6nn3eZ1r6yko0lVNPtoAEGgULu/Eg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyaPa0AtWf58ipyi2Tc1R72x0ZeBD0crn9GsX5kmIfTDlEcfZ5g
-	JGRsWgncu9LsqQrVkxHF8tj+4XJRLXayksITOwaeEi+BfWgvJbduQbD6
-X-Gm-Gg: Acq92OGMwZl3ZhRI1+D2dHeLzXI5dhz5VdJSlZB9gcWp49KuCL3fY/0sJ3nUuXViOt7
-	5ejJF6x9nxI7feoiYT5lBuphxS2+FB+DjSEdT1IfubTjIiX82ForZDrr4owGfiJ3jLeqcmA4XcQ
-	faullz8DKa9p3UwRbsDZqjdWD1xy7+A1rBpD/x1F0qHeewWAlpY2NESOJyyxSXgCo4Q6sf5yXef
-	hbFYL7HtiivfY2jqiC/3zE6ArqgeGA1wsUiLtqVuGnHFw+NdESE8sMLVlxV6zSolcKLI2pc6Bha
-	WSaI/pHOs+GzqVBwFUD+LTvFJ2kPGIJQV1PiroUq3IfIMjF2w5/KQJlejR9ElezUSRSIoYlU7id
-	tR5+GMwuchb/oh6nXSRqX3pLNmtTU0T13t2Mo6oy0YaP8bGSQas2hPMBnRioNsJdcIhk4GKo/eg
-	VM6MMWnzKuGfw0HrcTLCTemwvMIKoofZWUAxnvluHFeIE9CeI9vVdhS7VhbvZrb35MAyx6MM4TD
-	eKjXhYLbkXunY6mRbgB
-X-Received: by 2002:a05:6000:4007:b0:44f:f454:8a4d with SMTP id ffacd0b85a97d-4568c19b209mr1557183f8f.23.1778303354571;
-        Fri, 08 May 2026 22:09:14 -0700 (PDT)
+        bh=g5bmiBt/UaAj8FYk6z1JEgvnehBBxvzIZjMWnqTHpn8=;
+        b=WPfB+REmTXPMy/kSiYkGy/+u8BPqGQ/HCg4qyeoHtDWbAOW9WWvWBbjRcQQPx1EP36
+         GZtclXXoccWfAz0M47Mc7z+0Yu/EvhA8ow/WCbC2+9higix2IGTtnp5bUd6GFsgfrFNk
+         WwkEMv6RT9R1YWV5+stzCND0m4+gZyLY7iAK6VKoQz8DJMf4c+GNc7FOdePJ/vVvh2XO
+         F6/wvWbyzHZMDm66XcgVxVOB3jmmpf6FIeGlpG4LNhuyezSKcheMgbNYrU0HCUuibQpm
+         yc7Er7Pi1+Df2PiWT0Zr/VOgSjrIJS1TR9tenSZBWs0ip1/HfHD+YFFeebP8VdslWNwg
+         v+Ow==
+X-Forwarded-Encrypted: i=1; AFNElJ+XI46Z+8WGb0hGdJ6vywwFGthF/7tl10GifPP1PAQhGoJAKc82PCRzlWbp4MLb9eGZtV7rzAnO5fYWkQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyhtl8fgp0xsGutTs+VGTQraFcvGkk29i9UJkRBfxH1pTo5opyV
+	pydx/Oxv3lKkG1qlBNi+yPLfQDQgngHnlpTz3xKCvCm6cOdFwGDPxFCu
+X-Gm-Gg: AeBDiesykFtMkDN3H3wez7Czn1+CLe67BLCPLRNzLT6s/7qzr6zr4UFoC4KfNXx4Hv8
+	oL61fABlwHLzZCGB7EShkdC4GINxNpTwDuzbple/dildY71NRYuFvWNEAhHYF43f1zc5S9Ujrgu
+	+hPDK2tNaLghMhDu3W7VapjsPEPnMd/C23zt/+yVcn95CoboRyqMSHKg5DahGvo6Amf1t/uZYIn
+	HU8mag0h5gWgQ0OKD3oppF5g0nLsxB7CqqF88+ir1ZOEr9oDCTGabDzKyqRrbrIsm6lgnfWWQ7U
+	1elPxHV6kNlzrsPCcpNqSn8AG8fBItS4yPSFFP2v4j6GR6MvOKvn0oRhuSXPb6e5th/7GKUBaYn
+	66nqOUqkM00vim1T2gvb9IrRltaV9VsT/IPJulRyQTp7xRJPmOczfM8zvvbsyLEjD+FymqlEo4b
+	89pemQ8hVMpfgMwi8BawlhUn8tXlONbCdhFfBjOqoakP8kohuWoRzgzSXz5qDkzITDzcTNcx+gf
+	BGxctF00QScio532jnU
+X-Received: by 2002:a05:600c:c4a5:b0:489:1abb:5559 with SMTP id 5b1f17b1804b1-48e6cbd6c10mr61082785e9.5.1778303359626;
+        Fri, 08 May 2026 22:09:19 -0700 (PDT)
 Received: from thinkpad ([46.164.106.90])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548e6a5b65sm9500871f8f.8.2026.05.08.22.09.13
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e702f407asm23776455e9.13.2026.05.08.22.09.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 22:09:14 -0700 (PDT)
+        Fri, 08 May 2026 22:09:19 -0700 (PDT)
 From: Arash Golgol <arash.golgol@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: yong.deng@magewell.com,
@@ -72,9 +72,9 @@ Cc: yong.deng@magewell.com,
 	laurent.pinchart@ideasonboard.com,
 	sakari.ailus@linux.intel.com,
 	Arash Golgol <arash.golgol@gmail.com>
-Subject: [PATCH v3 2/3] media: sun6i-csi: capture: Implement vidioc_enum_framesizes
-Date: Sat,  9 May 2026 08:39:20 +0330
-Message-Id: <20260509050921.22158-3-arash.golgol@gmail.com>
+Subject: [PATCH v3 3/3] media: sun6i-csi: capture: Support MC-centric format enumeration
+Date: Sat,  9 May 2026 08:39:21 +0330
+Message-Id: <20260509050921.22158-4-arash.golgol@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260509050921.22158-1-arash.golgol@gmail.com>
 References: <20260509050921.22158-1-arash.golgol@gmail.com>
@@ -86,69 +86,91 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Report the stepwise frame size range supported by the CSI capture
-hardware for the pixel formats exposed by the driver.
-
-The hardware does not perform scaling and accepts any even width and
-height within the reported limits.
+Extend vidioc_enum_fmt to support MC-centric enumeration by filtering
+pixel formats based on the provided mbus code. Advertise MC I/O support
+on the video device to reflect its intended usage within a media graph.
 
 Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
-Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
-Tested-by: Paul Kocialkowski <paulk@sys-base.io>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
 Changes in v3:
- - Fix Media CI robot warnings about open parenthesis
- - Link to report: https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/99380724/artifacts/report.htm
- - Link to v2: https://patchwork.kernel.org/project/linux-media/patch/20260508161721.94285-3-arash.golgol@gmail.com/
+ - No change
+ - Link to v2: https://patchwork.kernel.org/project/linux-media/patch/20260508161721.94285-4-arash.golgol@gmail.com/
 
 Changes in v2:
- - No change
- - Link to v1: https://patchwork.kernel.org/project/linux-media/patch/20260217064050.18388-3-arash.golgol@gmail.com/
+ - Return pixelformat directly instead of a pointer
+ - Link to v1: https://patchwork.kernel.org/project/linux-media/patch/20260217064050.18388-4-arash.golgol@gmail.com/
 
- .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 22 +++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 39 +++++++++++++++++--
+ 1 file changed, 36 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-index d90abba21309..f788b4234673 100644
+index f788b4234673..5737ebaa7297 100644
 --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
 +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-@@ -738,6 +738,27 @@ static int sun6i_csi_capture_enum_fmt(struct file *file, void *priv,
- 	return 0;
+@@ -327,6 +327,22 @@ static bool sun6i_csi_capture_format_match(u32 pixelformat, u32 mbus_code)
+ 	return false;
  }
  
-+static int sun6i_csi_capture_enum_framesize(struct file *file, void *fh,
-+					    struct v4l2_frmsizeenum *fsize)
++static u32 sun6i_csi_capture_pixelformat_find(u32 mbus_code)
 +{
-+	if (fsize->index)
-+		return -EINVAL;
++	unsigned int i;
 +
-+	/* Only accept format in map table. */
-+	if (!sun6i_csi_capture_format_find(fsize->pixel_format))
-+		return -EINVAL;
++	for (i = 0; i < ARRAY_SIZE(sun6i_csi_capture_format_matches); i++) {
++		const struct sun6i_csi_capture_format_match *match =
++			&sun6i_csi_capture_format_matches[i];
 +
-+	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
-+	fsize->stepwise.min_width = SUN6I_CSI_CAPTURE_WIDTH_MIN;
-+	fsize->stepwise.max_width = SUN6I_CSI_CAPTURE_WIDTH_MAX;
-+	fsize->stepwise.min_height = SUN6I_CSI_CAPTURE_HEIGHT_MIN;
-+	fsize->stepwise.max_height = SUN6I_CSI_CAPTURE_HEIGHT_MAX;
-+	fsize->stepwise.step_width = 2;
-+	fsize->stepwise.step_height = 2;
++		if (match->mbus_code == mbus_code)
++			return match->pixelformat;
++	}
 +
++	/* Valid fourcc is non-zero. */
 +	return 0;
 +}
 +
- static int sun6i_csi_capture_g_fmt(struct file *file, void *priv,
- 				   struct v4l2_format *format)
- {
-@@ -805,6 +826,7 @@ static const struct v4l2_ioctl_ops sun6i_csi_capture_ioctl_ops = {
- 	.vidioc_querycap		= sun6i_csi_capture_querycap,
+ /* Capture */
  
- 	.vidioc_enum_fmt_vid_cap	= sun6i_csi_capture_enum_fmt,
-+	.vidioc_enum_framesizes		= sun6i_csi_capture_enum_framesize,
- 	.vidioc_g_fmt_vid_cap		= sun6i_csi_capture_g_fmt,
- 	.vidioc_s_fmt_vid_cap		= sun6i_csi_capture_s_fmt,
- 	.vidioc_try_fmt_vid_cap		= sun6i_csi_capture_try_fmt,
+ static void
+@@ -729,11 +745,27 @@ static int sun6i_csi_capture_enum_fmt(struct file *file, void *priv,
+ 				      struct v4l2_fmtdesc *fmtdesc)
+ {
+ 	u32 index = fmtdesc->index;
++	u32 mbus_code = fmtdesc->mbus_code;
++	u32 pixelformat;
++
++	/* MC-centric or Video-node-centric */
++	if (mbus_code) {
++		/* There is only one pixelformat for a mbus_code. */
++		if (index)
++			return -EINVAL;
++
++		pixelformat = sun6i_csi_capture_pixelformat_find(mbus_code);
++	} else {
++		if (index >= ARRAY_SIZE(sun6i_csi_capture_formats))
++			return -EINVAL;
++
++		pixelformat = sun6i_csi_capture_formats[index].pixelformat;
++	}
+ 
+-	if (index >= ARRAY_SIZE(sun6i_csi_capture_formats))
++	if (!pixelformat)
+ 		return -EINVAL;
+ 
+-	fmtdesc->pixelformat = sun6i_csi_capture_formats[index].pixelformat;
++	fmtdesc->pixelformat = pixelformat;
+ 
+ 	return 0;
+ }
+@@ -1065,7 +1097,8 @@ int sun6i_csi_capture_setup(struct sun6i_csi_device *csi_dev)
+ 
+ 	strscpy(video_dev->name, SUN6I_CSI_CAPTURE_NAME,
+ 		sizeof(video_dev->name));
+-	video_dev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
++	video_dev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING |
++				 V4L2_CAP_IO_MC;
+ 	video_dev->vfl_dir = VFL_DIR_RX;
+ 	video_dev->release = video_device_release_empty;
+ 	video_dev->fops = &sun6i_csi_capture_fops;
 -- 
 2.34.1
 
