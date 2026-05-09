@@ -1,61 +1,63 @@
 Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FA33BBA09
-	for <linux-sunxi@lists.linux.dev>; Sat,  9 May 2026 19:00:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49DBF3446C7
+	for <linux-sunxi@lists.linux.dev>; Sat,  9 May 2026 19:00:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778353223; cv=none; b=bxQsW2FaaaxWbrYdJRDuyg/kWmfx1M6rZYPI72/49NC9Rqou9OlhshQn3oaxKN+Uk3Xn0sjCshC/juUUDqOkWi0M0Ut/lGCrodv0YjvMnNK6HM7aEfuIie81WacP9+bUS3YZSk/+p2uQVmdZDADn2rhC111bQK64WXAz/xM+478=
+	t=1778353224; cv=none; b=HQQTAt5YT2ALdptmAsMBJp/7t5lJk5x9LFAcNyvjVK2hGPLXoPnfUgQ0vsehDcrlUx/FbtaKaiZfjm/XMi6coBX/YPFn/IC/JS/WMJUbdDQx0lIfWXQQKSZXNtv5nI9u4u01AhDHeSD7KWXsoblLraOfyG3hYF0dUesrx5hJ5Y4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778353223; c=relaxed/simple;
-	bh=xA4oLUwYAJfz0ySyu4MhuVl6/+1Zb1gL0iL0dGi6qZI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p3hfUJetpPOmGrr0TQISW6hCnnvNluosJa7KVmRVUwpLvyT6p55Ql3nUclEcP5YE4BKR6Kj8CgbV+5J/nE/amqmvIPgqJYFcyCBrjAt0wcSC8IqDKUe0SIXKiaEt1o+Q2zQJnVNr5GIezPMeP02dnuvuyw1eEigtCF05FBaIJNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q0AMDicP; arc=none smtp.client-ip=209.85.128.41
+	s=arc-20240116; t=1778353224; c=relaxed/simple;
+	bh=+SgYs8Hj6grWe0pXXV62TelA6SnR62JorpH+u34niZ0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Uj1zJQ9r5IKJLv1gTkw7+W9QpE0DFCptpUe1CfrZvaCY6g/3iyNZq0eLUVfaHwYHef7wmqS7AVwM4oq6bHOmmhkJG1ibXQUDy6VA5abhBvE8P4Ut7lRaduVn9I7+BswqAPnzX47nV2gTcWOYdz1dCjbzckiO8VGBdZwjQ4mBMaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aQ5c4Jdj; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q0AMDicP"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488b3f8fa2bso39518495e9.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 09 May 2026 12:00:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aQ5c4Jdj"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4893940bb5eso18194525e9.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 09 May 2026 12:00:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778353220; x=1778958020; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xJOgLdtwku62ymp2K2MnoFiWaCIU8dOodRBTGK0ZfaI=;
-        b=q0AMDicP2Dggv6NL6/tBrBvnmcPkBpdRVo3rrg5bgopyCqOchYSErcDG3nqvBznIQM
-         bVgNgj1IUFVuAKWp/mbWpKmkOhG0zEhZYNUUZe8xJO01czZQBWb70GBA/MM7HjhzX9YI
-         9xtGZSnA/qVTDY2EJSnjgiIrWjcD/VNDKy/lvljlOU3IHbq+nqZwGfFAky6MRzr76aS/
-         YrSxApRyuDeWpJfku2fTiffPtnXYCGvWgRzMRp8IsSheYcVFdsk5lSmhJ8CMFfMgPpEW
-         kPr1rjNq0SoIKfL5PZ2rdbXJoYLOGeNe6kv/oQvIZZId30EnbJfmIrzDOaZSZJq9wky9
-         fJAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778353220; x=1778958020;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1778353222; x=1778958022; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xJOgLdtwku62ymp2K2MnoFiWaCIU8dOodRBTGK0ZfaI=;
-        b=lkT2+75asfr2rcUvjYoyk+spFtu87mLJrG+K3rPBAJdNCLMjuQA0Cbxav9yqENA+AH
-         p2s1gC7LNzuCIQMTGxj7Eg2e2mNmseEk9PUJhrDkQkXkOMs7J6P8ca/rWt7P+ypdBJUL
-         L+Hag3mamWvVvSGAMBeEZUkhgAGgZwX/nUzAlLXqahh2fXf/7fUL6dKu8/lzyAf44ERK
-         kOobyu6mY9BfUP8bW5r0+wEy7O0wo8J7/eUvpwAYENL9HWxJTtn/phS1N+Fcqul5Z3+Y
-         BZvaWINzZ8DoW2WJnaXDAha+CAI5Fi+A9D3pjyeEg8cPXuGbqrDA/EDGh4bVuRy8OJnp
-         hmWA==
-X-Forwarded-Encrypted: i=1; AFNElJ8gkMoQSgu0z2lGuYx3AnqaAeZQ6uMSqOdHCOZ0/mstxqyn3xybiOTa3ekUw3kaLIgluj4eyWKlQ07VBg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw0gNLLr2eI+GXNLO06K3ZBv0PRTMvgwjxuTofs+HkPb7ThRhiu
-	pHz0GzfVIQwOV2vOH4uURwc4TOiqViX7duwbTgnSpCHJj4Ub4H7TYN3F
-X-Gm-Gg: Acq92OEELI3JqwsZuqQg3McH1S1XU/PfLvna6CGXJasaQq8k+TAmhRGSH7VCrk2pMX1
-	FKOX1mf7Sufp6cMvDrqNAMKAWitpu8p8LJQbHl4ZWgeM5COwbEqzpDbI/x1MvdelJne0Gn+S1Qk
-	5u9xyG1JoQX/aicui2bcl7qaFJhlmohSgHljI264f9eSeYKAnpkvh2VW6Vdke7sEnRwj5cErUyu
-	vuYNlBoacRhEBK1PgBOxgOVKm2jBBhRgZAQYwN76Knr311mZS3T03pSFHla0DCLQOC3YMi2cuOf
-	StrG4h3snOeEIHmAOoHgL6a1GajGDuWObsIiUxAOJgwvPkNtuNg6qLgMkOjmVtaq1gd8qdkiaKw
-	scGm3GKs9F1nqw9AFIi8EV7+ir8ovyEOIKSQG26UXvcX1fpDH5CUT2ljqAxv1XQU+ptBLgmlrHo
-	zpvZqZ64WwBy+LpVz/pyNvM1Tf4qmTvWDXIdnlh7zsuM47qUkj8+BSrWPWQ1hApd/34tQ=
-X-Received: by 2002:a05:600c:3b20:b0:489:1d7a:4537 with SMTP id 5b1f17b1804b1-48e5dfcd4a9mr171071145e9.3.1778353220094;
-        Sat, 09 May 2026 12:00:20 -0700 (PDT)
+        bh=F3EJ0517xJNtY9t4icYdcJ6JRwvMjYIpIptqEEIrShg=;
+        b=aQ5c4JdjTX0Gv7idEJmI4jZ2C9IYHRxBTDc7KtVl0aJoiSi7VDQYdKdxQrzP3ECr/G
+         ge0FxJTLQ0kEvM9V5FXZRQmh19XRW/npuHWbysS3RR+QW35OZBz+LGy5qpN/V3Z4ZDnf
+         0TkukKeCruD92VQHYHZJeYL7m4XzN1Ks3TEBzU4BFIvsHFUBVfRbNIySe04NGYyia9in
+         Y1clqOraLELujY178EzSBXPIJzLpEWnCMnxGr/0J/fvp4znMMG2AvuzBgkngR7nfzH85
+         bBf+Di45CDMLOXj5Zy78OGMauxQ4aNbro6UF36Ag4ubB5SApIa/7A7Yfgoz6wP7w5pKZ
+         jZ5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778353222; x=1778958022;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=F3EJ0517xJNtY9t4icYdcJ6JRwvMjYIpIptqEEIrShg=;
+        b=fdegF7otHMHjR84NsgbeqLtbaBYxuUkdHhSIinzIoMhdqp8vmtJCqE5DFsnWEGP9CV
+         qdw+axIH1wr2d+8TMel7lcbGI45vXcDCdp7PpDgfP11HzTRnruYgyPEIsfITZtXslJiy
+         qesYSl1ZcxN12v7qNMLkUEk/oUwRI8muqK0AaHTmvJG2wDg4Y2XTIwZiFutd2l/YcJwH
+         r+8/ATjPZ7DhBdQSQ7DSSuXlCm5k7wjvzPOBOLg6p7tHXBEpi1+na6j38/DB0g5h/YVJ
+         kEBPJFsgTf2F5oA/Qs5aVAVnLfCATynkgH8gswnAi5tD0mU5ySdXcvh34+3FEaI1mgFo
+         SK1Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9h5i5A3K1q6om9vTqB4dlUUK+nFDmQ+u+Yw3ERwrg7qkWOvhUfDauTQYLJDQCJZJgx7lL6KKHTZzNNhA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxneoWRYeupr5tI4+jn/N98jrcLwSr0F5cy8l/lo5PMFpAD18tJ
+	eEXyN9pvoUe8qZmH5Q645AI4ajKgA/PcJ50JewQIXzEpvRBcKli4pkx/avNRBQ==
+X-Gm-Gg: Acq92OH9WuajGOykBEIkC92Nir/mzZo7Bu9EJEH7pKZmgG2+LwRn6GdBPGNaGJSPAh7
+	DK89rEIizG+tkkM5kYwGf60P89pUh/Om2fjHWVwTLeb7uiGJl5T+bAa6lAkTFfhgZy2wjPiD9LE
+	QjSUzpifgYc3cGJ4j6gzo+YGHBt+fI8hWof2h95EHG9MHJFASnpxZ1ZMKRoODJYUvV7FMuMU4bn
+	2IAhl924nDPqLZkC6Y0neyE1wYINmsEcx4YIiSRzd69sF7ykiNBK5c2ZdMoLz0i1gTxkkPAK5Mg
+	cIFnHHAXWS0YGTJY3K7YhM4C/c5x33Hevc4ciDcZkBGyxvailBIZCFFMajuvXkWK4oVpsevNEID
+	3AeNgcAEjSXyI0Oc+J/LYS0tLIYWsXaP2RhCP+u8AotFNPOTkFvcYv53FfP4e/3DOIEnH5wSJs+
+	9DrsKz/ydhD6jgprpj77A7wBV2bZHM4ua3tztSDvVIPm4ItB5Xy4dS8Ea0eJRsXL0emLo=
+X-Received: by 2002:a05:600c:1e0f:b0:48e:51f5:2764 with SMTP id 5b1f17b1804b1-48e676c0353mr137860975e9.27.1778353221568;
+        Sat, 09 May 2026 12:00:21 -0700 (PDT)
 Received: from jernej-laptop (46-150-62-216.dynamic.telemach.net. [46.150.62.216])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-454913049ecsm13254407f8f.19.2026.05.09.12.00.18
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-454913049ecsm13254407f8f.19.2026.05.09.12.00.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 May 2026 12:00:19 -0700 (PDT)
+        Sat, 09 May 2026 12:00:21 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 X-Google-Original-From: Jernej Skrabec <jernej.skrabec@siol.net>
 To: wens@csie.org,
@@ -76,12 +78,13 @@ Cc: mripard@kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-clk@vger.kernel.org,
-	jernej.skrabec@gmail.com,
-	Jernej Skrabec <jernej.skrabec@siol.net>
-Subject: [PATCH v2 0/8] drm/sun4i: update DE33 support
-Date: Sat,  9 May 2026 21:00:07 +0200
-Message-ID: <20260509190015.79086-1-jernej.skrabec@siol.net>
+	jernej.skrabec@gmail.com
+Subject: [PATCH v2 1/8] clk: sunxi-ng: de2: Fix Display Engine 3.3 definitions
+Date: Sat,  9 May 2026 21:00:08 +0200
+Message-ID: <20260509190015.79086-2-jernej.skrabec@siol.net>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260509190015.79086-1-jernej.skrabec@siol.net>
+References: <20260509190015.79086-1-jernej.skrabec@siol.net>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -90,59 +93,108 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is second series out of tree which aims at properly introducing
-support for H616 Display Engine 3.3. Previous series [1] reorganized
-driver so proper DE33 support can be easily implemented.
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-H616 DE33 support was actually introduced a while back, but it was done
-without fully understanding hardware design. Fortunately, no user of
-H616 DE33 binding was introduced, so we have a chance to update bindings
-and introduce proper DE33 support. Issue with existing binding is that it
-considers planes as resource which is hardwired to each mixer as it was
-done on older Display Engine generations (DE3 and lower). That is not the
-case anymore. This series introduces new driver for planes management,
-which allows doing proper plane assignments.
+Positions of clocks and resets changed when version 3.3 was introduced.
+However, old positions still work, just by luck.
 
-Remaining patches, which introduce all the missing bits to fully support
-display pipeline on H616 SoC, will be sent once this series is merged.
-WIP patches, which can be used for testing purposes, can be found at [2].
+Fix Display Engine 3.3 resets and clocks according vendor driver.
 
-Please take a look.
+Fixes: be0e9a372787 ("clk: sunxi-ng: ccu: add Display Engine 3.3 (DE33) support")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+Changes from v1:
+- new patch
 
-Best regards,
-Jernej
+ drivers/clk/sunxi-ng/ccu-sun8i-de2.c | 39 +++++++++++++++++++++++++---
+ 1 file changed, 36 insertions(+), 3 deletions(-)
 
-Link to v1: https://lore.kernel.org/linux-sunxi/20251115141347.13087-1-jernej.skrabec@gmail.com/
-
-[1] https://lore.kernel.org/linux-sunxi/20251104180942.61538-1-jernej.skrabec@gmail.com/T/#t
-[2] https://github.com/jernejsk/linux-1/commits/sun4i-drm-refactor/
-
-Jernej Skrabec (8):
-  clk: sunxi-ng: de2: Fix Display Engine 3.3 definitions
-  clk: sunxi-ng: de2: Export register regmap for DE33
-  drm/sun4i: Add support for DE33 CSC
-  drm/sun4i: vi_layer: Limit formats for DE33
-  dt-bindings: display: allwinner: Add DE33 planes
-  drm/sun4i: Add planes driver
-  dt-bindings: display: allwinner: Split H616 DE33 layer reg space
-  drm/sun4i: switch DE33 to new bindings
-
- .../allwinner,sun50i-h616-de33-planes.yaml    |  46 ++++
- .../allwinner,sun8i-a83t-de2-mixer.yaml       |  16 +-
- drivers/clk/sunxi-ng/ccu-sun8i-de2.c          |  87 +++++++-
- drivers/gpu/drm/sun4i/Makefile                |   3 +-
- drivers/gpu/drm/sun4i/sun50i_planes.c         | 201 ++++++++++++++++++
- drivers/gpu/drm/sun4i/sun50i_planes.h         |  41 ++++
- drivers/gpu/drm/sun4i/sun8i_csc.c             |  71 +++++++
- drivers/gpu/drm/sun4i/sun8i_csc.h             |   5 +
- drivers/gpu/drm/sun4i/sun8i_mixer.c           | 131 ++++++------
- drivers/gpu/drm/sun4i/sun8i_mixer.h           |  10 +-
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c        |  40 +++-
- 11 files changed, 567 insertions(+), 84 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/allwinner,sun50i-h616-de33-planes.yaml
- create mode 100644 drivers/gpu/drm/sun4i/sun50i_planes.c
- create mode 100644 drivers/gpu/drm/sun4i/sun50i_planes.h
-
+diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
+index a6cd0f988859..6ec6c0dc4c26 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
++++ b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
+@@ -36,6 +36,13 @@ static SUNXI_CCU_GATE(wb_clk,		"wb",		"wb-div",
+ static SUNXI_CCU_GATE(rot_clk,		"rot",		"rot-div",
+ 		      0x00, BIT(3), CLK_SET_RATE_PARENT);
+ 
++static SUNXI_CCU_GATE(mixer0_h616_clk,	"mixer0",	"de",
++		      0x04, BIT(0), CLK_SET_RATE_PARENT);
++static SUNXI_CCU_GATE(mixer1_h616_clk,	"mixer1",	"de",
++		      0x04, BIT(1), CLK_SET_RATE_PARENT);
++static SUNXI_CCU_GATE(wb_h616_clk,	"wb",		"de",
++		      0x04, BIT(4), CLK_SET_RATE_PARENT);
++
+ static SUNXI_CCU_M(mixer0_div_clk, "mixer0-div", "de", 0x0c, 0, 4,
+ 		   CLK_SET_RATE_PARENT);
+ static SUNXI_CCU_M(mixer1_div_clk, "mixer1-div", "de", 0x0c, 4, 4,
+@@ -54,6 +61,9 @@ static SUNXI_CCU_M(wb_div_a83_clk, "wb-div", "pll-de", 0x0c, 8, 4,
+ static SUNXI_CCU_M(rot_div_a83_clk, "rot-div", "pll-de", 0x0c, 0x0c, 4,
+ 		   CLK_SET_RATE_PARENT);
+ 
++static SUNXI_CCU_GATE(bus_mixer0_h616_clk, "bus-mixer0", "bus-de",
++		      0x08, BIT(0), 0);
++
+ static struct ccu_common *sun8i_de2_ccu_clks[] = {
+ 	&mixer0_clk.common,
+ 	&mixer1_clk.common,
+@@ -74,6 +84,12 @@ static struct ccu_common *sun8i_de2_ccu_clks[] = {
+ 	&mixer1_div_a83_clk.common,
+ 	&wb_div_a83_clk.common,
+ 	&rot_div_a83_clk.common,
++
++	&mixer0_h616_clk.common,
++	&mixer1_h616_clk.common,
++	&wb_h616_clk.common,
++
++	&bus_mixer0_h616_clk.common
+ };
+ 
+ static struct clk_hw_onecell_data sun8i_a83t_de2_hw_clks = {
+@@ -147,6 +163,17 @@ static struct clk_hw_onecell_data sun50i_a64_de2_hw_clks = {
+ 	.num	= CLK_NUMBER_WITH_ROT,
+ };
+ 
++static struct clk_hw_onecell_data sun50i_h616_de33_hw_clks = {
++	.hws	= {
++		[CLK_MIXER0]		= &mixer0_h616_clk.common.hw,
++		[CLK_MIXER1]		= &mixer1_h616_clk.common.hw,
++		[CLK_WB]		= &wb_h616_clk.common.hw,
++
++		[CLK_BUS_MIXER0]	= &bus_mixer0_h616_clk.common.hw,
++	},
++	.num	= CLK_NUMBER_WITHOUT_ROT,
++};
++
+ static const struct ccu_reset_map sun8i_a83t_de2_resets[] = {
+ 	[RST_MIXER0]	= { 0x08, BIT(0) },
+ 	/*
+@@ -180,6 +207,12 @@ static const struct ccu_reset_map sun50i_h5_de2_resets[] = {
+ 	[RST_WB]	= { 0x08, BIT(2) },
+ };
+ 
++static const struct ccu_reset_map sun50i_h616_de33_resets[] = {
++	[RST_MIXER0]	= { 0x00, BIT(0) },
++	[RST_MIXER1]	= { 0x00, BIT(1) },
++	[RST_WB]	= { 0x00, BIT(4) },
++};
++
+ static const struct sunxi_ccu_desc sun8i_a83t_de2_clk_desc = {
+ 	.ccu_clks	= sun8i_de2_ccu_clks,
+ 	.num_ccu_clks	= ARRAY_SIZE(sun8i_de2_ccu_clks),
+@@ -244,10 +277,10 @@ static const struct sunxi_ccu_desc sun50i_h616_de33_clk_desc = {
+ 	.ccu_clks	= sun8i_de2_ccu_clks,
+ 	.num_ccu_clks	= ARRAY_SIZE(sun8i_de2_ccu_clks),
+ 
+-	.hw_clks	= &sun8i_h3_de2_hw_clks,
++	.hw_clks	= &sun50i_h616_de33_hw_clks,
+ 
+-	.resets		= sun50i_h5_de2_resets,
+-	.num_resets	= ARRAY_SIZE(sun50i_h5_de2_resets),
++	.resets		= sun50i_h616_de33_resets,
++	.num_resets	= ARRAY_SIZE(sun50i_h616_de33_resets),
+ };
+ 
+ static int sunxi_de2_clk_probe(struct platform_device *pdev)
 -- 
 2.54.0
 
