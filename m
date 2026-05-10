@@ -1,31 +1,31 @@
 Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9FDF34AB14
-	for <linux-sunxi@lists.linux.dev>; Sun, 10 May 2026 12:42:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F90E270EDF
+	for <linux-sunxi@lists.linux.dev>; Sun, 10 May 2026 12:42:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778416931; cv=none; b=DvLioyuvGv0JRikJ0Sh1JpY1Tnu4cvcqlg9yUVCwloD/XQvag7NLyb0h91fI4feRpYnJxa8nSatb71dwfNXW0QtNIdHZHJJkV8zQL0GDLcQMMxmt5dNTf+eEnx//tHp8/btjFt2BVGII1iSMdjIGIqbjPKvfP/X+qnH+1Y2+EuI=
+	t=1778416931; cv=none; b=sP1Y+ttrL3UDBoCHhsFKAjfQBaVRzEGhdquDVx6CZZ20pAWWZvxSmSc4IBtmkTEET80f3oTa130s/apCEIxpwLeGW4yTv82erH/9Fwi3cMJ0ns7Sy6PKWMGNBa7JNxrwM5e0oOx052X0IqqxqoCDbAZ6Y7L/hMrzrCCrExLT5mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1778416931; c=relaxed/simple;
-	bh=Ff3z7GQpQ2fm3yTbG4QjuzaZZOFEkwg1IeoG2F+3pBg=;
+	bh=+Yr0ipp72YLh8acA0yYShbTfltwateCOU5DQOAmdy1Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f2xEDqNnHzCgWMpH8/i0ADeNR5sdypW1iUB6qXxcLlJwVbi6WN4cx42FeLGnu+nlOfDr5zQ0TgUT2ji6EB3T/LGaTFZjXwx7+FZ77nUbfH0cg/b8aE/a2QnvyJdO+SgjgkVE22Uts7muaV2CkjBexbKNBoiKVZm7vGodGSC46II=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=MTTG1eAz; arc=none smtp.client-ip=121.127.44.73
+	 MIME-Version; b=NODIHKykfFo9rA7X2cMrJUEhppi+kObhAjXI5hEAq8tVivetgoeftKaDr8oNMOhuijfTDvpae4Gq2A+REC+xn2tUNIVpgyqpRpXFgKAyzzqzDCmta1mZdqx3R0M74hrjSE9coDnY48p/+0yOuWXttflvCfW99ZdS6mSzBoAB1bE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=IByFya/2; arc=none smtp.client-ip=121.127.44.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="MTTG1eAz"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="IByFya/2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
  Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1778416916; bh=78AOuGQg8tc5swNE8UvyFsFo0iqbHxC/+qxic9ecTQY=;
- b=MTTG1eAzQ/fpeoX1TRpqhx9eAGu81bDzyiZ9DMmdEKV8ov32BgC9hy1p9AQvfvF8kfMxY80YO
- +w1M6YPUgsU4SeHUMMDu5tEOOBZdukvvsuklRoVtZAxzHZjjzmUeUhGuxbEh7AyBBa5/Byu5Z2b
- 9TvNzCgPjVlzinnBnG5+lQUn2ZJlVQ2fPRTrXzCbeeUNHffgokw1NKhtWwkXyS7UHG7P0KdrN9s
- NR83AfG2C6PvRVoGM5VurAeSKaGB2N1Wl2H7IavEDH/QB45P/G/kuxL/V60iIOaxQakZNxSA+Ll
- zm3J3//lQiHjMTOQxRySlF+VTlbOuXfuEOTq9SEspV2g==
-X-Forward-Email-ID: 6a007d000d91f03a31a0bb53
+ t=1778416916; bh=PnDcLXlbaPre88s1ZNqSGlXUJXg3TERiDNCZdw2MtJ4=;
+ b=IByFya/21RAc3Hb6e8VI9V+K23HFUfCa492hdUsJyoE9Erc5z7dXILyPIk/xv7jWK58QeUqvr
+ +ieExdpRFFtgv9EBBLNTYPuEjoxAljTSWA7iEz9QbW2gXL/dbZj5JeRBT3WqraCVtysxLkjVc/u
+ na0hbgnwlkZslu8xmUViEEn1Ye+RicJku5BpcezlVPX+z7LuL1xW7rb8l2tiKQ8/Q63AQA3U/3E
+ +tzNeIk4K9rWtKcpI5T1germh2nYrTKD7MhsJKvB6fD1/wkGDADlzTk+lGZkgsmJEu0kpLynU5K
+ vhwypZwcAEQ4Ubvp/OlPDPUaAljr+e2DVeJkWgRIXz7Q==
+X-Forward-Email-ID: 6a007cf70d91f03a31a0bb1d
 X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
  121.127.44.73
 X-Forward-Email-Version: 2.8.0
@@ -46,7 +46,8 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>
+	Simona Vetter <simona@ffwll.ch>,
+	Lucas Stach <l.stach@pengutronix.de>
 Cc: Liu Ying <victor.liu@nxp.com>,
 	Sandy Huang <hjc@rock-chips.com>,
 	Andy Yan <andy.yan@rock-chips.com>,
@@ -62,9 +63,9 @@ Cc: Liu Ying <victor.liu@nxp.com>,
 	linux-sunxi@lists.linux.dev,
 	imx@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 04/21] drm: bridge: dw_hdmi: Use passed mode instead of stored previous_mode
-Date: Sun, 10 May 2026 12:40:48 +0000
-Message-ID: <20260510124111.1226584-5-jonas@kwiboo.se>
+Subject: [PATCH v5 02/21] drm: bridge: dw_hdmi: Only notify connected status on HPD interrupt
+Date: Sun, 10 May 2026 12:40:46 +0000
+Message-ID: <20260510124111.1226584-3-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260510124111.1226584-1-jonas@kwiboo.se>
 References: <20260510124111.1226584-1-jonas@kwiboo.se>
@@ -76,51 +77,57 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the passed mode instead of mixing use of passed mode and the stored
-previous_mode in dw_hdmi_setup(). The passed mode is currenly always the
-previous_mode.
+drm_helper_hpd_irq_event() and drm_bridge_hpd_notify() may incorrectly
+be called with a connected status when HPD is high and RX sense is
+changed. This typically happens when the HDMI cable is unplugged,
+shortly before the HPD is changed to low.
 
-Also fix a small typo and add a variable to help shorten a code line.
+The original intent of commit da09daf88108 ("drm: bridge: dw_hdmi: only
+trigger hotplug event on link change") was to signal hotplug event at
+correct interrupt states.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Based on the commit message the intent was to trigger hotplug event:
+- when HPD goes high (plugin)
+- when both HPD and RX sense has gone low (plugout)
+
+However, following interrupt state changes can typically be observed
+when the HDMI cable is unplugged:
+- RX interrupt:  HPD=high RX=low  -> triggers a connected event
+- HPD interrupt: HPD=low  RX=low  -> triggers a disconnected event
+
+Fix this by only notify connected status on the HPD interrupt when HPD
+is going high, not on the RX sense interrupt when RX sense is changed.
+
+After this a connected event should be triggered when HPD=high at HPD
+interrupt, and a disconnected event should be triggered when both
+HPD=low and RX=low at either HPD or RX interrupt.
+
+Fixes: da09daf88108 ("drm: bridge: dw_hdmi: only trigger hotplug event on link change")
+Reviewed-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 ---
 v5: No change
-v4: No change
-v3: Collect r-b tag
-v2: Update commit message, s/type/typo/
+v4: Collect r-b tag
+v3: Update commit message
+v2: New patch
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 8f7949d2c7f2..aa12397b3343 100644
+index d3e6a6562870..b7bfc0e9a6b2 100644
 --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2258,6 +2258,7 @@ static int dw_hdmi_setup(struct dw_hdmi *hdmi,
- 			 const struct drm_connector *connector,
- 			 const struct drm_display_mode *mode)
- {
-+	const struct drm_display_info *display = &connector->display_info;
- 	int ret;
+@@ -3157,7 +3157,8 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
+ 			mutex_unlock(&hdmi->cec_notifier_mutex);
+ 		}
  
- 	hdmi_disable_overflow_interrupts(hdmi);
-@@ -2303,12 +2304,10 @@ static int dw_hdmi_setup(struct dw_hdmi *hdmi,
- 	hdmi->hdmi_data.video_mode.mdataenablepolarity = true;
+-		if (phy_stat & HDMI_PHY_HPD)
++		if ((intr_stat & HDMI_IH_PHY_STAT0_HPD) &&
++		    (phy_stat & HDMI_PHY_HPD))
+ 			status = connector_status_connected;
  
- 	/* HDMI Initialization Step B.1 */
--	hdmi_av_composer(hdmi, &connector->display_info, mode);
-+	hdmi_av_composer(hdmi, display, mode);
- 
--	/* HDMI Initializateion Step B.2 */
--	ret = hdmi->phy.ops->init(hdmi, hdmi->phy.data,
--				  &connector->display_info,
--				  &hdmi->previous_mode);
-+	/* HDMI Initialization Step B.2 */
-+	ret = hdmi->phy.ops->init(hdmi, hdmi->phy.data, display, mode);
- 	if (ret)
- 		return ret;
- 	hdmi->phy.enabled = true;
+ 		if (!(phy_stat & (HDMI_PHY_HPD | HDMI_PHY_RX_SENSE)))
 -- 
 2.54.0
 
