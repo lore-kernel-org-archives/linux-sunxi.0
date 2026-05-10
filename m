@@ -1,33 +1,32 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA12E366831
-	for <linux-sunxi@lists.linux.dev>; Sun, 10 May 2026 12:42:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A623270EDF
+	for <linux-sunxi@lists.linux.dev>; Sun, 10 May 2026 12:42:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778416933; cv=none; b=pP0kCPXtiu4SBJy8drtWA35J67QzdAEnn7NN9A0W8jq9Dym/A+JR6F+1veeza3uPZfGAfFwf0mlMcc6PC3Kwv1RZ7JRf6KWfhJogTLTsPcgz1lU6ZzWWO7fITJfeYmX1e47Sprb/PgWR1+t5cguSyPRhsF5MgHbMlzuGG2n5Wlw=
+	t=1778416949; cv=none; b=BzJUw2HYTha2CKw4ZdNk/EHYtOUGeSyiD1DXLIWRR+oIt7sLob27PdOvtSwYg1Dcn8P8jKFoFHo86LM7UQdzIOQePbI/HW8yDuSKz8y7yTOfxprzWweDKmdx1stuLjIqZ6OdSiszTfA0kx4vPK4kU114Fpx+UqA46jktwuymhtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778416933; c=relaxed/simple;
-	bh=h5EsnZEDZpDBHAPwEn6nuB8s23wORT1zK+rkRVzW4+s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=higtfLW2DF+ZYqZUbIPufC5LDmoR2oVB4NyWq8wi4F2Cn+QBY85Q6jqGnhAP6A/RBNJFns/42Yx3hlr2W5XF7WwSabQRr+MetXkz5LmQsd7geqbVBnTmG2P6QRvtPUxGtuDI53KpfrvR2gvwdsvuuciM68+aNObTEKO3fDhcBWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=XmjEmHpW; arc=none smtp.client-ip=121.127.44.73
+	s=arc-20240116; t=1778416949; c=relaxed/simple;
+	bh=FztXmQwh4mC2uUynEVy1WETtgAdo0g/8/Kg04K4ya5w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aLIMX/X4ZZKXRnC5y7C8AKs8THGksPVsumvwdZNN37xvMMHNz+QiMyRWoDBanHPAXnhjvCLT0KvJ+Oirb9uzmquM7kQdSVk+QZ4UqKVWJyDvJ9P2ERR1H4NaD3tsaWC6WUoV2RmYHzpVuY59OpUB8KEh2SbcZThLoI36E39q6+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=UADs/IYw; arc=none smtp.client-ip=121.127.44.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="XmjEmHpW"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="UADs/IYw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
- Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1778416916; bh=X0LXcByJTPpSTjNasSsMucOHjcHJLVs9+adcXo4a/UA=;
- b=XmjEmHpWVkcZYyeSgvl5wEuK+aRFrr8zlN7qn9qI1Nfqb7Va4Ts158biWsBe9t3xVogq+T7k9
- c6aW9mH1RScXPfgrrRVerggtNjJyW7nCp1cJlAYvXtXKVHfsh/9xViKq5wqxG5/nAyk46rl/uea
- +c5nKLd7FVvyPWuHmnhU7TpihBXZ4cxwHXDOWrJ+CjQ2cdmE9YgBOsmy8VEouLfps9ccHw9sfVX
- Yw2fEULFDQy9jxT8X4lGGrJ+wVkd8/E7KDw6vqiab62mAhHd0zFDB0mfCPeVHENJ95KLtLAC3ZY
- sp9LuuuXqM1GffouiasowuG9YTMVapX1Fwff8ELZ71RQ==
-X-Forward-Email-ID: 6a007cfc0d91f03a31a0bb38
+ h=Content-Transfer-Encoding: MIME-Version: Message-ID: Date: Subject: Cc:
+ To: From; q=dns/txt; s=fe-e1b5cab7be; t=1778416939;
+ bh=yEOZPrtRdh/oOouvJfNcSgNf3uIjNq/ESjKn1J+802Q=;
+ b=UADs/IYwfOchHpXteRQeIiRPdEr/YMEI3SIWW/8Jf7wEFAy3STnbWUcqmtOh7/LsMvFnSSk93
+ Y4/TnU4iSGgz1KjnowTZEHtfPHK0ICI4FR9fy9CamSeycZsiC87JFRTUks1WrKEsSNGOEpZ3lwl
+ ZFXEmf47HvhOUdLPRcr3ZhpxGi8zo5O0N4SR63V7khmxCRPpnByC6WazS7daUp2MKlzevPFmReD
+ PGmcdZ2rMzxdAI5V0NJa/vbriiXm9LrWvsHU6h7zW//LUz2G4eGplxYO7gkmZkbQti/5eRxCiTN
+ 7xkKbOM6Vj1xEjRXO5iB8B3yTmcyrYy4tXRBf1glwP5g==
+X-Forward-Email-ID: 6a007cee0d91f03a31a0bae7
 X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 121.127.44.73
+ 121.127.44.66
 X-Forward-Email-Version: 2.8.0
 X-Forward-Email-Website: https://forwardemail.net
 X-Complaints-To: abuse@forwardemail.net
@@ -37,17 +36,16 @@ From: Jonas Karlman <jonas@kwiboo.se>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
 	Neil Armstrong <neil.armstrong@linaro.org>,
 	Robert Foss <rfoss@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
+	Heiko Stuebner <heiko@sntech.de>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Liu Ying <victor.liu@nxp.com>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>
-Cc: Liu Ying <victor.liu@nxp.com>,
+	Simona Vetter <simona@ffwll.ch>,
 	Sandy Huang <hjc@rock-chips.com>,
 	Andy Yan <andy.yan@rock-chips.com>,
 	Chen-Yu Tsai <wens@kernel.org>,
@@ -61,13 +59,12 @@ Cc: Liu Ying <victor.liu@nxp.com>,
 	linux-amlogic@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	imx@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 03/21] drm: bridge: dw_hdmi: Call poweron/poweroff from atomic enable/disable
-Date: Sun, 10 May 2026 12:40:47 +0000
-Message-ID: <20260510124111.1226584-4-jonas@kwiboo.se>
+	linux-kernel@vger.kernel.org,
+	Jonas Karlman <jonas@kwiboo.se>
+Subject: [PATCH v5 00/21] drm: bridge: dw_hdmi: Misc enable/disable, CEC and EDID cleanup
+Date: Sun, 10 May 2026 12:40:44 +0000
+Message-ID: <20260510124111.1226584-1-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260510124111.1226584-1-jonas@kwiboo.se>
-References: <20260510124111.1226584-1-jonas@kwiboo.se>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -76,113 +73,128 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Change to only call poweron/poweroff from atomic_enable/atomic_disable
-funcs instead of trying to be clever by keeping a bridge_is_on state and
-poweron/off in the hotplug irq handler.
+This is a revival of an old dw-hdmi series and is the first series part
+of a new effort to upstream old LibreELEC HDMI 2.0 patches for Rockchip
+RK33xx devices.
 
-The bridge is already enabled/disabled depending on connection state
-with the call to drm_helper_hpd_irq_event() in hotplug irq handler.
+This series ensure poweron/poweroff and CEC phys addr invalidation is
+happening under drm mode_config mutex lock, and also ensure EDID is
+updated after a HPD low voltage pulse by changing to debounce hotplug
+processing.
 
-A benefit of this is that drm mode_config mutex is always held at
-poweron/off, something that may reduce the need for the dw-hdmi mutex.
+These changes have mainly been tested on Rockchip RK3328, RK3399 and
+RK3568 devices using both the dw-hdmi connector and also using a basic
+convert to use a bridge connector.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
----
-v5: No change
-v4: No change
-v3: Collect r-b tag
-v2: Update commit message
----
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 33 ++---------------------
- 1 file changed, 2 insertions(+), 31 deletions(-)
+Testing with a Rock Pi 4 (RK3399) using a Reaspberry Pi Monitor with
+Linux kms client console using drm.debug=0xe should log something like
+following:
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index b7bfc0e9a6b2..8f7949d2c7f2 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -171,7 +171,6 @@ struct dw_hdmi {
- 	enum drm_connector_force force;	/* mutex-protected force state */
- 	struct drm_connector *curr_conn;/* current connector (only valid when !disabled) */
- 	bool disabled;			/* DRM has disabled our bridge */
--	bool bridge_is_on;		/* indicates the bridge is on */
- 	bool rxsense;			/* rxsense state */
- 	u8 phy_mask;			/* desired phy int mask settings */
- 	u8 mc_clkdis;			/* clock disable register */
-@@ -2400,8 +2399,6 @@ static void initialize_hdmi_ih_mutes(struct dw_hdmi *hdmi)
+ Power cycle monitor using the power button:
+  [CONNECTOR:68:HDMI-A-1] CEA VCDB 0x4a
+  [CONNECTOR:68:HDMI-A-1] HDMI: DVI dual 0, max TMDS clock 0 kHz
+  [CONNECTOR:68:HDMI-A-1] ELD monitor RPI MON156
+  [CONNECTOR:68:HDMI-A-1] HDMI: latency present 0 0, video latency 0 0, audio latency 0 0
+  [CONNECTOR:68:HDMI-A-1] ELD size 36, SAD count 1
+  [CONNECTOR:68:HDMI-A-1] Same epoch counter 10
  
- static void dw_hdmi_poweron(struct dw_hdmi *hdmi)
- {
--	hdmi->bridge_is_on = true;
--
- 	/*
- 	 * The curr_conn field is guaranteed to be valid here, as this function
- 	 * is only be called when !hdmi->disabled.
-@@ -2415,30 +2412,6 @@ static void dw_hdmi_poweroff(struct dw_hdmi *hdmi)
- 		hdmi->phy.ops->disable(hdmi, hdmi->phy.data);
- 		hdmi->phy.enabled = false;
- 	}
--
--	hdmi->bridge_is_on = false;
--}
--
--static void dw_hdmi_update_power(struct dw_hdmi *hdmi)
--{
--	int force = hdmi->force;
--
--	if (hdmi->disabled) {
--		force = DRM_FORCE_OFF;
--	} else if (force == DRM_FORCE_UNSPECIFIED) {
--		if (hdmi->rxsense)
--			force = DRM_FORCE_ON;
--		else
--			force = DRM_FORCE_OFF;
--	}
--
--	if (force == DRM_FORCE_OFF) {
--		if (hdmi->bridge_is_on)
--			dw_hdmi_poweroff(hdmi);
--	} else {
--		if (!hdmi->bridge_is_on)
--			dw_hdmi_poweron(hdmi);
--	}
- }
- 
- /*
-@@ -2563,7 +2536,6 @@ static void dw_hdmi_connector_force(struct drm_connector *connector)
- 
- 	mutex_lock(&hdmi->mutex);
- 	hdmi->force = connector->force;
--	dw_hdmi_update_power(hdmi);
- 	dw_hdmi_update_phy_mask(hdmi);
- 	mutex_unlock(&hdmi->mutex);
- }
-@@ -2988,7 +2960,7 @@ static void dw_hdmi_bridge_atomic_disable(struct drm_bridge *bridge,
- 	mutex_lock(&hdmi->mutex);
- 	hdmi->disabled = true;
- 	hdmi->curr_conn = NULL;
--	dw_hdmi_update_power(hdmi);
-+	dw_hdmi_poweroff(hdmi);
- 	dw_hdmi_update_phy_mask(hdmi);
- 	handle_plugged_change(hdmi, false);
- 	mutex_unlock(&hdmi->mutex);
-@@ -3006,7 +2978,7 @@ static void dw_hdmi_bridge_atomic_enable(struct drm_bridge *bridge,
- 	mutex_lock(&hdmi->mutex);
- 	hdmi->disabled = false;
- 	hdmi->curr_conn = connector;
--	dw_hdmi_update_power(hdmi);
-+	dw_hdmi_poweron(hdmi);
- 	dw_hdmi_update_phy_mask(hdmi);
- 	handle_plugged_change(hdmi, true);
- 	mutex_unlock(&hdmi->mutex);
-@@ -3106,7 +3078,6 @@ void dw_hdmi_setup_rx_sense(struct dw_hdmi *hdmi, bool hpd, bool rx_sense)
- 		if (hpd)
- 			hdmi->rxsense = true;
- 
--		dw_hdmi_update_power(hdmi);
- 		dw_hdmi_update_phy_mask(hdmi);
- 	}
- 	mutex_unlock(&hdmi->mutex);
+ Cable unplugged:
+  [CONNECTOR:68:HDMI-A-1] EDID changed, epoch counter 11
+  [CONNECTOR:68:HDMI-A-1] status updated from connected to disconnected
+  [CONNECTOR:68:HDMI-A-1] Changed epoch counter 10 => 12
+  [CONNECTOR:68:HDMI-A-1] generating connector hotplug event
+  [CONNECTOR:68:HDMI-A-1] Sent hotplug event
+
+ Cable connected:
+  [CONNECTOR:68:HDMI-A-1] CEA VCDB 0x4a
+  [CONNECTOR:68:HDMI-A-1] HDMI: DVI dual 0, max TMDS clock 0 kHz
+  [CONNECTOR:68:HDMI-A-1] ELD monitor RPI MON156
+  [CONNECTOR:68:HDMI-A-1] HDMI: latency present 0 0, video latency 0 0, audio latency 0 0
+  [CONNECTOR:68:HDMI-A-1] ELD size 36, SAD count 1
+  [CONNECTOR:68:HDMI-A-1] status updated from disconnected to connected
+  [CONNECTOR:68:HDMI-A-1] Changed epoch counter 12 => 13
+  [CONNECTOR:68:HDMI-A-1] generating connector hotplug event
+  [CONNECTOR:68:HDMI-A-1] Sent hotplug event
+
+This series has evolved into an initial part of a larger multi series
+effort to:
+- drm: bridge: dw_hdmi: Misc enable/disable, CEC and EDID cleanup [v5]
+- drm/bridge: dw-hdmi: Improve input/output bus format handling
+- drm/bridge: dw-hdmi: Convert to a HDMI bridge and use of bridge connector
+- drm/bridge: dw-hdmi: Add and use tmds_char_rate_valid() plat data ops
+- drm/meson: hdmi: Misc cleanup and use CEC notifier helpers
+- phy: rockchip: inno-hdmi: Change TMDS rate handling to configure() ops [v2]
+- drm/rockchip: dw_hdmi: Misc cleanup and propagate bus format
+- drm/rockchip: dw_hdmi: Enable YCbCr and Deep Color modes
+Link to snapshot: https://github.com/Kwiboo/linux-rockchip/commits/next-20260508-rk-hdmi-v3/
+
+Changes in v5:
+- Add patch that holds a bridge ref until connector cleanup, to fix
+  a use-after-free issue during connector cleanup
+- Add patch that unregister CEC notifier during connector cleanup
+- Add patch that adds a common suspend helper
+- Add patch that drops call to drm_bridge_hpd_notify()
+- Collect r-b tag
+- Rebased on next-20260508
+Link to v4: https://lore.kernel.org/dri-devel/20260504191059.275928-1-jonas@kwiboo.se/
+
+Changes in v4:
+- Change to use generic CEC notifier helpers
+- Disable/mask hpd_work until enable_hpd()/hpd_enable()
+- Read connector status directly from HW regs in hpd_work
+- Continued rework of HDP and RXSENSE interrupt handling
+- Collect r-b tags
+- Rebased on next-20260430
+Link to v3: https://lore.kernel.org/dri-devel/20260403185303.80748-1-jonas@kwiboo.se/
+
+Changes in v3:
+- Rework EDID refresh handling to closer match bridge connector
+- Use delayed work to debounce HPD processing
+- Update commit messages
+- Collect r-b tags
+- Rebased on next-20260401
+Link to v2: https://lore.kernel.org/dri-devel/20240908132823.3308029-1-jonas@kwiboo.se/
+
+Changes in v2:
+- Add patch to disable scrambler feature when not supported
+- Add patch to only notify connected status on HPD interrupt
+- Update commit messages
+- Collect r-b tags
+- Rebased on next-20240906
+Link to v1: https://lore.kernel.org/dri-devel/20240611155108.1436502-1-jonas@kwiboo.se/
+
+Jonas Karlman (21):
+  drm: bridge: dw_hdmi: Disable scrambler feature when not supported
+  drm: bridge: dw_hdmi: Only notify connected status on HPD interrupt
+  drm: bridge: dw_hdmi: Call poweron/poweroff from atomic enable/disable
+  drm: bridge: dw_hdmi: Use passed mode instead of stored previous_mode
+  drm: bridge: dw_hdmi: Fold poweron and setup functions
+  drm: bridge: dw_hdmi: Remove previous_mode and mode_set
+  drm: bridge: dw_hdmi: Hold bridge ref until connector cleanup
+  drm: bridge: dw_hdmi: Unregister CEC notifier during connector cleanup
+  drm: bridge: dw_hdmi: Invalidate CEC phys addr from connector detect
+  drm: bridge: dw_hdmi: Remove cec_notifier_mutex
+  drm: bridge: dw_hdmi: Extract dw_hdmi_connector_status_update()
+  drm: bridge: dw_hdmi: Use dw_hdmi_connector_status_update()
+  drm: bridge: dw_hdmi: Use display_info is_hdmi and has_audio
+  drm: bridge: dw_hdmi: Use generic CEC notifier helpers
+  drm: bridge: dw_hdmi: Add common suspend helper
+  drm: bridge: dw_hdmi: Use delayed_work to debounce hotplug event
+  drm: bridge: dw_hdmi: Rework HDP and RXSENSE interrupt handling
+  drm: bridge: dw_hdmi: Remove the empty dw_hdmi_setup_rx_sense()
+  drm: bridge: dw_hdmi: Remove the empty dw_hdmi_phy_update_hpd()
+  drm: bridge: dw_hdmi: Merge top and bottom half IRQ handlers
+  drm: bridge: dw_hdmi: Drop call to drm_bridge_hpd_notify()
+
+ drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c |   5 +-
+ drivers/gpu/drm/bridge/synopsys/Kconfig     |   1 +
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c   | 483 +++++++-------------
+ drivers/gpu/drm/meson/meson_dw_hdmi.c       |   5 +-
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c |  13 +-
+ drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c      |   2 -
+ include/drm/bridge/dw_hdmi.h                |   7 +-
+ 7 files changed, 194 insertions(+), 322 deletions(-)
+
 -- 
 2.54.0
 
