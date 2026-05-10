@@ -1,31 +1,31 @@
 Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F54382392
-	for <linux-sunxi@lists.linux.dev>; Sun, 10 May 2026 12:44:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C181238A299
+	for <linux-sunxi@lists.linux.dev>; Sun, 10 May 2026 12:44:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778417046; cv=none; b=PYicz1iszCbTUqhRQz6ZbSto3x40pDN+uPIUopjlZOfI+a7rhFhSzBLMSfSknKxfShBvCSTB99A/Cr1yLyPuQPmZ2nzCfVZhipRG4S+HojtT7ICwARg7JzC8Z1vXUDBZrUiU50qMNPw/9O/Lj5faqkigGW1OPVm+03L96eYkeuQ=
+	t=1778417050; cv=none; b=O5P58p0C4UZ+WLp7h10Pb+kCzETOTgiqPkGnysA0MRQEi0RhMT7Knwgv2vWNCwFoByqtyHS4aYkrFUpf/Y0R9BSolzvtmwhxvx803BW+0k4ryTyhxiRtSGu7sFpBdUGmlCxStNZxHCg99hAoVlYHiFeFFPmPJUH8ItaWardpVEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778417046; c=relaxed/simple;
-	bh=vm1tfO0aVkCWE4XF7Rp/HnlMRUh9HtMWowVMki7EC3E=;
+	s=arc-20240116; t=1778417050; c=relaxed/simple;
+	bh=ww+0s3sFXzfBs1eHATzFy1wpb45qTDWF5YcoLzFDDGk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k2spmqgiqoA1YkyEsSE+IdGsq5+2VUX0UvMzQ5NH3sYi8KMmDvA9DxLwFMZb0UClXG3NxAasujgARNIcVc04Ty3p04UQfdqBo0Rfm6auGEtvaKoRPlx4tNacD8gFM8wU9hFZsV8dDVsrzEuLpend9vULKCoI4sJeibkwxwwkV4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=loNRxTCs; arc=none smtp.client-ip=149.28.215.223
+	 MIME-Version; b=V+vfXOoXae7GsucfIDqAuEJpyjHS3BR/LUJkLd2ICuXI33ctfxGjxoANunW0us6R1Dqh+fdOjwGrMcZdCRXJEv8AL2T4HWZzkQ5+c7Br2zPRj5hLqYg3bPJ5k6GH6oJ6Z2UzzHGV7w+/1mJmxBXbOuBiuNDeDQiumFR2gmcazm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=rZRpXYdZ; arc=none smtp.client-ip=149.28.215.223
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="loNRxTCs"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="rZRpXYdZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
  Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1778417044; bh=FWAD8SZSmBu3ljsgBzIEPn48TWjaPxPQR4qoFwmK3bU=;
- b=loNRxTCscAoQw/2B0aKi1xrnQZeBfi1IB86IJDqIvoWIFV8BrSHQd440uE6FwSq7yLTTTUibI
- XEDuz6tohnZNuV16z5+Fr6RHSgbcpzfFAUq+Ru2TELoYY7udHBZoV28USeCGFTiwMV6dnQBLnE/
- TEqt2gD0nKR2BrjgSN/k/NKJe2q6W+YDUgEy4XXznSRovk6plM8qOAwI6vJcunnsm8hDJIKKhf9
- pKVvIliCOpKZQ1Ggb6x4L6rBcE+e7NGbiIjQvG8on6l/DP0+nsdD0gPL963uck/i+RvxflYyNgE
- 6I6vg+uL2cV50BYjiiCdGAzAxkQiicmXjhziuh8vnUmQ==
-X-Forward-Email-ID: 6a007d280d91f03a31a0bcaf
+ t=1778417045; bh=eodtZh9iVaDz2B6vyj0+s8P/hIWI6CUTD/IskUTvobM=;
+ b=rZRpXYdZhvsICLr98t1doO6APFJ5wyrAZ5yHIiOKuR0IDst3fTh2Nojep4x8ZlRNW08naKYah
+ NPdPnAa3+1PaQYvyEgBySMzalFJP0hadgtge6vuqmLTxKFHw0f6AV8w0VJG05xZ6HJbbKkWHqC9
+ znWlu4nBcHtqcqu7Y20xdgw6wi3fV9hmxhK+fCsXZDb/9Gbp0TYtlwOdVCMTqElwm8bmVq6OGYW
+ vHmEX021gF/sehRYpHXVhUZTuvKo9q8VbGxDiKKildTN8V39BF9wCQB+J45WqPAkH8zODDcrJu9
+ QSLU4tGJJlAVN3E+1V25yFsQAJO/s5r7l3dJcx01F/Zw==
+X-Forward-Email-ID: 6a007d370d91f03a31a0bd00
 X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
  149.28.215.223
 X-Forward-Email-Version: 2.8.0
@@ -62,9 +62,9 @@ Cc: Liu Ying <victor.liu@nxp.com>,
 	linux-sunxi@lists.linux.dev,
 	imx@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 13/21] drm: bridge: dw_hdmi: Use display_info is_hdmi and has_audio
-Date: Sun, 10 May 2026 12:40:57 +0000
-Message-ID: <20260510124111.1226584-14-jonas@kwiboo.se>
+Subject: [PATCH v5 16/21] drm: bridge: dw_hdmi: Use delayed_work to debounce hotplug event
+Date: Sun, 10 May 2026 12:41:00 +0000
+Message-ID: <20260510124111.1226584-17-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260510124111.1226584-1-jonas@kwiboo.se>
 References: <20260510124111.1226584-1-jonas@kwiboo.se>
@@ -76,124 +76,183 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-drm_edid_connector_update() is being called from bridge connector funcs
-and from detect and force funcs for dw-hdmi connector.
+HDMI Specification Version 1.4b chapter 8.5 mentions:
 
-Change to use is_hdmi and has_audio from display_info directly instead
-of keeping our own state in sink_is_hdmi and sink_has_audio.
+  An HDMI Sink shall not assert high voltage level on its Hot Plug
+  Detect pin when the E-EDID is not available for reading.
 
-Also remove the old and unused edid struct member and related define.
+  A Source may use a high voltage level Hot Plug Detect signal to
+  initiate the reading of E-EDID data.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-Reviewed-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+  An HDMI Sink shall indicate any change to the contents of the E-EDID
+  by driving a low voltage level pulse on the Hot Plug Detect pin. This
+  pulse shall be at least 100 msec.
+
+Use a delayed work to debounce reacting on HPD events to improve
+handling of a HPD low voltage level pulse when a sink changes the EDID.
+
+The delayed work is only active between enable_hpd()/hpd_enable() and
+disable_hpd()/hpd_disable() calls from core, i.e. enabled after
+attach/bind/resume and disabled before detach/unbind/suspend.
+
+The 1100 msec hotplug debounce timeout was arbitrarily picked to match
+other drivers using same const, and testing using a Raspberry Pi Monitor
+seem to use a 200-300 msec pulse when going from standby to power on
+state.
+
 Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 ---
-v5: No change
-v4: Collect r-b tag
-v3: No change
-v2: Collect r-b tag
+v5: Change to none-sync disable_delayed_work() in hpd disable ops,
+    Change to cancel_delayed_work_sync() in remove,
+    Add cancel_delayed_work_sync() to new suspend helper
+v4: Disable/mask delayed_work until enable_hpd()/hpd_enable(),
+    Read connector status directly from HW regs in hpd_work
+v3: New patch
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 32 ++++-------------------
- 1 file changed, 5 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 60 +++++++++++++++++++++--
+ 1 file changed, 56 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 006eaf3fb8cb..6fb21399f137 100644
+index a6f2702bca83..f32eea9106b0 100644
 --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -46,8 +46,6 @@
- #define DDC_CI_ADDR		0x37
- #define DDC_SEGMENT_ADDR	0x30
+@@ -50,6 +50,8 @@
  
--#define HDMI_EDID_LEN		512
--
- /* DW-HDMI Controller >= 0x200a are at least compliant with SCDC version 1 */
- #define SCDC_MIN_SOURCE_VERSION	0x1
+ #define HDMI14_MAX_TMDSCLK	340000000
  
-@@ -147,8 +145,6 @@ struct dw_hdmi {
++#define HOTPLUG_DEBOUNCE_MS	1100
++
+ static const u16 csc_coeff_default[3][4] = {
+ 	{ 0x2000, 0x0000, 0x0000, 0x0000 },
+ 	{ 0x0000, 0x2000, 0x0000, 0x0000 },
+@@ -185,6 +187,7 @@ struct dw_hdmi {
+ 	hdmi_codec_plugged_cb plugged_cb;
+ 	struct device *codec_dev;
+ 	enum drm_connector_status last_connector_result;
++	struct delayed_work hpd_work;
+ };
  
- 	int vic;
+ const struct dw_hdmi_plat_data *dw_hdmi_to_plat_data(struct dw_hdmi *hdmi)
+@@ -2517,6 +2520,20 @@ static void dw_hdmi_connector_force(struct drm_connector *connector)
+ 	dw_hdmi_connector_status_update(connector, connector->status);
+ }
  
--	u8 edid[HDMI_EDID_LEN];
--
- 	struct {
- 		const struct dw_hdmi_phy_ops *ops;
- 		const char *name;
-@@ -158,8 +154,6 @@ struct dw_hdmi {
++static void dw_hdmi_connector_enable_hpd(struct drm_connector *connector)
++{
++	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi, connector);
++
++	enable_delayed_work(&hdmi->hpd_work);
++}
++
++static void dw_hdmi_connector_disable_hpd(struct drm_connector *connector)
++{
++	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi, connector);
++
++	disable_delayed_work(&hdmi->hpd_work);
++}
++
+ static void dw_hdmi_connector_destroy(struct drm_connector *connector)
+ {
+ 	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi, connector);
+@@ -2538,6 +2555,8 @@ static const struct drm_connector_funcs dw_hdmi_connector_funcs = {
+ static const struct drm_connector_helper_funcs dw_hdmi_connector_helper_funcs = {
+ 	.get_modes = dw_hdmi_connector_get_modes,
+ 	.atomic_check = dw_hdmi_connector_atomic_check,
++	.enable_hpd = dw_hdmi_connector_enable_hpd,
++	.disable_hpd = dw_hdmi_connector_disable_hpd,
+ };
  
- 	struct i2c_adapter *ddc;
- 	void __iomem *regs;
--	bool sink_is_hdmi;
--	bool sink_has_audio;
+ static int dw_hdmi_connector_create(struct dw_hdmi *hdmi)
+@@ -2959,6 +2978,20 @@ static const struct drm_edid *dw_hdmi_bridge_edid_read(struct drm_bridge *bridge
+ 	return dw_hdmi_edid_read(hdmi, connector);
+ }
  
- 	struct pinctrl *pinctrl;
- 	struct pinctrl_state *default_state;
-@@ -2056,7 +2050,7 @@ static void hdmi_av_composer(struct dw_hdmi *hdmi,
- 		HDMI_FC_INVIDCONF_IN_I_P_INTERLACED :
- 		HDMI_FC_INVIDCONF_IN_I_P_PROGRESSIVE;
++static void dw_hdmi_bridge_hpd_enable(struct drm_bridge *bridge)
++{
++	struct dw_hdmi *hdmi = bridge->driver_private;
++
++	enable_delayed_work(&hdmi->hpd_work);
++}
++
++static void dw_hdmi_bridge_hpd_disable(struct drm_bridge *bridge)
++{
++	struct dw_hdmi *hdmi = bridge->driver_private;
++
++	disable_delayed_work(&hdmi->hpd_work);
++}
++
+ static const struct drm_bridge_funcs dw_hdmi_bridge_funcs = {
+ 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+@@ -2972,6 +3005,8 @@ static const struct drm_bridge_funcs dw_hdmi_bridge_funcs = {
+ 	.mode_valid = dw_hdmi_bridge_mode_valid,
+ 	.detect = dw_hdmi_bridge_detect,
+ 	.edid_read = dw_hdmi_bridge_edid_read,
++	.hpd_enable = dw_hdmi_bridge_hpd_enable,
++	.hpd_disable = dw_hdmi_bridge_hpd_disable,
+ };
  
--	inv_val |= hdmi->sink_is_hdmi ?
-+	inv_val |= display->is_hdmi ?
- 		HDMI_FC_INVIDCONF_DVI_MODEZ_HDMI_MODE :
- 		HDMI_FC_INVIDCONF_DVI_MODEZ_DVI_MODE;
+ /* -----------------------------------------------------------------------------
+@@ -3092,10 +3127,8 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
+ 			status == connector_status_connected ?
+ 			"plugin" : "plugout");
  
-@@ -2292,7 +2286,7 @@ static int dw_hdmi_poweron(struct dw_hdmi *hdmi,
- 	if (hdmi->hdmi_data.enc_out_bus_format == MEDIA_BUS_FMT_FIXED)
- 		hdmi->hdmi_data.enc_out_bus_format = MEDIA_BUS_FMT_RGB888_1X24;
- 
--	hdmi->hdmi_data.rgb_limited_range = hdmi->sink_is_hdmi &&
-+	hdmi->hdmi_data.rgb_limited_range = display->is_hdmi &&
- 		drm_default_rgb_quant_range(mode) ==
- 		HDMI_QUANTIZATION_RANGE_LIMITED;
- 
-@@ -2312,7 +2306,7 @@ static int dw_hdmi_poweron(struct dw_hdmi *hdmi,
- 	/* HDMI Initialization Step B.3 */
- 	dw_hdmi_enable_video_path(hdmi);
- 
--	if (hdmi->sink_has_audio) {
-+	if (display->has_audio) {
- 		dev_dbg(hdmi->dev, "sink has audio support\n");
- 
- 		/* HDMI Initialization Step E - Configure audio */
-@@ -2321,7 +2315,7 @@ static int dw_hdmi_poweron(struct dw_hdmi *hdmi,
+-		if (hdmi->bridge.dev) {
+-			drm_helper_hpd_irq_event(hdmi->bridge.dev);
+-			drm_bridge_hpd_notify(&hdmi->bridge, status);
+-		}
++		mod_delayed_work(system_percpu_wq, &hdmi->hpd_work,
++				 msecs_to_jiffies(HOTPLUG_DEBOUNCE_MS));
  	}
  
- 	/* not for DVI mode */
--	if (hdmi->sink_is_hdmi) {
-+	if (display->is_hdmi) {
- 		dev_dbg(hdmi->dev, "%s HDMI mode\n", __func__);
- 
- 		/* HDMI Initialization Step F - Configure AVI InfoFrame */
-@@ -2435,29 +2429,13 @@ static const struct drm_edid *dw_hdmi_edid_read(struct dw_hdmi *hdmi,
- 						struct drm_connector *connector)
- {
- 	const struct drm_edid *drm_edid;
--	const struct edid *edid;
- 
- 	if (!hdmi->ddc)
- 		return NULL;
- 
- 	drm_edid = drm_edid_read_ddc(connector, hdmi->ddc);
--	if (!drm_edid) {
-+	if (!drm_edid)
- 		dev_dbg(hdmi->dev, "failed to get edid\n");
--		return NULL;
--	}
--
--	/*
--	 * FIXME: This should use connector->display_info.is_hdmi and
--	 * connector->display_info.has_audio from a path that has read the EDID
--	 * and called drm_edid_connector_update().
--	 */
--	edid = drm_edid_raw(drm_edid);
--
--	dev_dbg(hdmi->dev, "got edid: width[%d] x height[%d]\n",
--		edid->width_cm, edid->height_cm);
--
--	hdmi->sink_is_hdmi = drm_detect_hdmi_monitor(edid);
--	hdmi->sink_has_audio = drm_detect_monitor_audio(edid);
- 
- 	return drm_edid;
+ 	hdmi_writeb(hdmi, intr_stat, HDMI_IH_PHY_STAT0);
+@@ -3105,6 +3138,19 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
+ 	return IRQ_HANDLED;
  }
+ 
++static void dw_hdmi_hpd_work(struct work_struct *work)
++{
++	struct dw_hdmi *hdmi = container_of(work, struct dw_hdmi, hpd_work.work);
++	enum drm_connector_status status;
++
++	if (WARN_ON(!hdmi->bridge.dev))
++		return;
++
++	drm_helper_hpd_irq_event(hdmi->bridge.dev);
++	status = dw_hdmi_phy_read_hpd(hdmi, hdmi->phy.data);
++	drm_bridge_hpd_notify(&hdmi->bridge, status);
++}
++
+ static const struct dw_hdmi_phy_data dw_hdmi_phys[] = {
+ 	{
+ 		.type = DW_HDMI_PHY_DWC_HDMI_TX_PHY,
+@@ -3389,6 +3435,9 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+ 		goto err_res;
+ 	}
+ 
++	INIT_DELAYED_WORK(&hdmi->hpd_work, dw_hdmi_hpd_work);
++	disable_delayed_work(&hdmi->hpd_work);
++
+ 	ret = devm_request_threaded_irq(dev, irq, dw_hdmi_hardirq,
+ 					dw_hdmi_irq, IRQF_SHARED,
+ 					dev_name(dev), hdmi);
+@@ -3521,6 +3570,8 @@ EXPORT_SYMBOL_GPL(dw_hdmi_probe);
+ 
+ void dw_hdmi_remove(struct dw_hdmi *hdmi)
+ {
++	cancel_delayed_work_sync(&hdmi->hpd_work);
++
+ 	drm_bridge_remove(&hdmi->bridge);
+ 
+ 	if (hdmi->audio && !IS_ERR(hdmi->audio))
+@@ -3570,6 +3621,7 @@ EXPORT_SYMBOL_GPL(dw_hdmi_unbind);
+ 
+ void dw_hdmi_suspend(struct dw_hdmi *hdmi)
+ {
++	cancel_delayed_work_sync(&hdmi->hpd_work);
+ }
+ EXPORT_SYMBOL_GPL(dw_hdmi_suspend);
+ 
 -- 
 2.54.0
 
