@@ -1,115 +1,164 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4A526B75B
-	for <linux-sunxi@lists.linux.dev>; Sun, 10 May 2026 18:34:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2BEA31578E
+	for <linux-sunxi@lists.linux.dev>; Sun, 10 May 2026 18:52:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778438074; cv=none; b=jIpXayT5S8bymASI8SIfjlsQgJeYkh5ulTT9MPC+Cmvpc3uAxwC2nyTwRYq5/tTKOOFNcd2BVA86xbHuZAaJerj1pdF5f7Yz2xkBvCMvChZvSM8udZhFNJ8BETkIhl1QIRjH4KGTOcc2rxM+GxothZyhr7haItQwVa7ZhRegcuk=
+	t=1778439128; cv=none; b=osFpivL091daN1wUA4Nds7CA+6X+fo8uOW9ThOjiVVvfyRQzfWa1r504ZDN5bgGJZEpCOVsdaZynXafIQk/gUIr4HAWjaWjb2jwIWZngQ07YjH4Ij/JNxFhvoSAipxqz/jSPuDOt7yU9NlF8Mnmpf9RxLomnZfXTDWXhWh0ECag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778438074; c=relaxed/simple;
-	bh=rCvvuIRJS+zFWu0wK8pstHfaQ1AMphYIDSQl2Y+byqE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ajUWEU2d1yyIYcRk7vhx75ctUVAlf6Ad63GAyGOSsARhMAWE5Uj6Wo3OJy6deRAcJzdcAAA/d5H7QhcAwMT5mo8DMtpG4ZxLWyuQuBSNy06mHfDJBiFJAT+hq0KJKJY5D+vr1k4ewtzt9RKsH3qsxgGSYLYRgX6YBB8GBqxG2i4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s4lpHipV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778439128; c=relaxed/simple;
+	bh=6X37JkWmCFqA7bbHPeQuhtJy5NShMty3XT8KC4xBePI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mf5QjV7r+4PSHPQ3qANic2I32EpLOJrF/M7QEA8y/G9TYfTGIiI0z1r4ZkDp0iKNKLAe0Hap+6gUx9E9Vh1w96wZSHQtVmt1SHza3mXkHK728WydIHrGcLuEt3fwgK4fNDjiFSqCPlkB6U7AMAvosqvcNF4ZjjeVJJsGCVwITvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=uNtaI4C4; arc=none smtp.client-ip=149.28.215.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s4lpHipV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5422EC2BCB8
-	for <linux-sunxi@lists.linux.dev>; Sun, 10 May 2026 18:34:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778438074;
-	bh=rCvvuIRJS+zFWu0wK8pstHfaQ1AMphYIDSQl2Y+byqE=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=s4lpHipVlmcEzZSCYYGHdus6oKBjZlz13HekGY9aVDqJ7LAMeEDcfAuwwPHdAWGFq
-	 jNFHg/OwBZNrITo8ruAaz7f4Kwd33A19ifMDJytC11YRCZGzgueM31RwWoW01VRMJ7
-	 LnxHPM0A+InaVfuPTmhUe19cjZYxszuxMXbNbyq3CppwEmrePzL789ll2kSZ1jcR/d
-	 67rxMQxKTOS1QVfE/jcYzQtRyhp3Aqgvzoa/CaiAGJXkN0chM3yWJMX0p9CmnMEESd
-	 ybqA3zFYUSQc524Us2prndplbV/4FqMI0QH19DSBwlToKtEqAtrkCHN9kftuJ4LGWh
-	 dqM73k2p9nn5Q==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-3939d2bd739so32119091fa.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 10 May 2026 11:34:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/1I+TLViUvKIDRPzziAy9F2BkFxPLlc/ks2/46VqlKZO185aoMgu8XM3qjicrBKInSVusycPGgA5nU0w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxj9SE4rnIBpligzzRETg2i2NIr2+x24L512cSMX8iWqVSSoCUB
-	xo5Ju/sbdfLqGuWsAJYDNoJ5sMm12NbLpZtCor2GABs0JF+Y5GuPvv4q6H28P54HQlxJwKpKa8F
-	pJG+3tjCIJcLtOjUkJiGa0Es8Q5aeIMg=
-X-Received: by 2002:a2e:a273:0:b0:38c:de21:3e14 with SMTP id
- 38308e7fff4ca-393c41c97demr52554991fa.19.1778438072557; Sun, 10 May 2026
- 11:34:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="uNtaI4C4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1778439126;
+ bh=zXfZDjohjcuqqa3l+apN8rP0uDgPRGjuDvE54ZzEqGY=;
+ b=uNtaI4C4LWCqWdN6zG6sQ0Lv3j/NSdRkxsN3YntSOkmDYM6dlZ/Sm3ntF6bqimFUIUEsloJIr
+ Fe+aTtlvCKcVgvCMVZLHrFTS0JP+15ycL4Q7TGkslQB7rz+aqYIkZJw+ymdOxjQ3sdTVNEJxw8P
+ p6qtkUIWP42ZYpvmzyxoPkXgpmvVCzjcQUK3GeBG9iwazIdFTcf5EYH825dC+sfJbJ7/B9G24XW
+ I166gZiMPxG99pRHrz71inIPmzAhhw+kCgKxvNT++3sW9AY8qDfPCMSJGe7DYkHq3eJdIePXEYS
+ qEBoxFIwPM9hqUseOMcd1qYq80y4Ya+iHxPT71KufNoA==
+X-Forward-Email-ID: 6a00d34a0f7977181662816c
+X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 149.28.215.223
+X-Forward-Email-Version: 2.8.0
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
+Message-ID: <ba52fb4e-72a1-4a92-a094-52e305e37c37@kwiboo.se>
+Date: Sun, 10 May 2026 20:49:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260510-sunxi-a523-gpadc-v1-0-4f6b0f4000fb@mmpsystems.pl> <20260510-sunxi-a523-gpadc-v1-3-4f6b0f4000fb@mmpsystems.pl>
-In-Reply-To: <20260510-sunxi-a523-gpadc-v1-3-4f6b0f4000fb@mmpsystems.pl>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Mon, 11 May 2026 02:34:19 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64k2SvoGjNGsB=mQdc5U75mPJUJMZASqiF=DDN5QCNt8A@mail.gmail.com>
-X-Gm-Features: AVHnY4KOBMpyIY8koIw1JHFB7GLvF9QtogbHPVXZ-IY03YwC_1iRGcw45u_wThM
-Message-ID: <CAGb2v64k2SvoGjNGsB=mQdc5U75mPJUJMZASqiF=DDN5QCNt8A@mail.gmail.com>
-Subject: Re: [PATCH 3/3] arm64: dts: allwinner: a523: add gpadc node
-To: Michal Piekos <michal.piekos@mmpsystems.pl>
-Cc: Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
-	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Maksim Kiselev <bigunclemax@gmail.com>, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/4] drm/bridge: dw-hdmi: Pass bridge attach flags for
+ dw_hdmi_bind()
+To: Damon Ding <damon.ding@rock-chips.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, hjc@rock-chips.com, heiko@sntech.de,
+ andy.yan@rock-chips.com, wens@kernel.org, samuel@sholland.org,
+ luca.ceresoli@bootlin.com, Laurent.pinchart@ideasonboard.com,
+ jernej.skrabec@gmail.com, victor.liu@nxp.com,
+ dmitry.baryshkov@oss.qualcomm.com, shengjiu.wang@nxp.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20260403070032.447102-1-damon.ding@rock-chips.com>
+ <20260403070032.447102-2-damon.ding@rock-chips.com>
+Content-Language: en-US
+From: Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <20260403070032.447102-2-damon.ding@rock-chips.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, May 10, 2026 at 9:02=E2=80=AFPM Michal Piekos
-<michal.piekos@mmpsystems.pl> wrote:
->
-> Describe high speed timer block on Allwinner D1S-T113.
->
-> Tested on Radxa Cubie A5E:
-> - 2 connected channels are showing voltages in agreement with
->   schematics.
->         BOOT-SEL-ADC ~500mV
->         BOM-ADC ~1800mV
-> - 3rd channel exposed on 40pin header is showing correct voltages when
->   connected to known voltage source.
->
-> Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
+Hi Damon,
+
+On 4/3/2026 9:00 AM, Damon Ding wrote:
+> For Rockchip and Allwinner platforms, the HDMI encoder attaches the
+> dw-hdmi bridge via dw_hdmi_bind(). This additional bridge attach flag
+> serves as preparation for the Rockchip dw-hdmi driver to support the
+> bridge-connector framework.
+
+We should not extend the dw_hdmi_bind() function with a new flag.
+
+Each driver can instead call dw_hdmi_probe() and drm_bridge_attach() on
+their own, similar as the other dw-hdmi drivers that currently use the
+bridge connector.
+
+Regards,
+Jonas
+
+> 
+> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
 > ---
->  arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/=
-boot/dts/allwinner/sun55i-a523.dtsi
-> index 5afa8d92acbf..f6c5cae5b23a 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> @@ -340,6 +340,18 @@ ledc: led-controller@2008000 {
->                         status =3D "disabled";
->                 };
->
-> +               gpadc: adc@2009000 {
-> +                       compatible =3D "allwinner,sun55i-a523-gpadc",
-> +                                    "allwinner,sun20i-d1-gpadc";
-> +                       reg =3D <0x2009000 0x400>;
-> +                       clocks =3D <&ccu CLK_BUS_GPADC0>, <&ccu CLK_GPADC=
-0>;
-> +                       clock-names =3D "bus", "mod";
-> +                       resets =3D <&ccu RST_BUS_GPADC0>;
-> +                       interrupts =3D <GIC_SPI 61 IRQ_TYPE_LEVEL_HIGH>;
-> +                       status =3D "disabled";
-> +                       #io-channel-cells =3D <1>;
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c   | 5 +++--
+>  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 2 +-
+>  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c       | 2 +-
+>  include/drm/bridge/dw_hdmi.h                | 4 +++-
+>  4 files changed, 8 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index ada45e8b3e2c..dd50dda3a4f5 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -3619,7 +3619,8 @@ EXPORT_SYMBOL_GPL(dw_hdmi_remove);
+>   */
+>  struct dw_hdmi *dw_hdmi_bind(struct platform_device *pdev,
+>  			     struct drm_encoder *encoder,
+> -			     const struct dw_hdmi_plat_data *plat_data)
+> +			     const struct dw_hdmi_plat_data *plat_data,
+> +			     enum drm_bridge_attach_flags flags)
+>  {
+>  	struct dw_hdmi *hdmi;
+>  	int ret;
+> @@ -3628,7 +3629,7 @@ struct dw_hdmi *dw_hdmi_bind(struct platform_device *pdev,
+>  	if (IS_ERR(hdmi))
+>  		return hdmi;
+>  
+> -	ret = drm_bridge_attach(encoder, &hdmi->bridge, NULL, 0);
+> +	ret = drm_bridge_attach(encoder, &hdmi->bridge, NULL, flags);
+>  	if (ret) {
+>  		dw_hdmi_remove(hdmi);
+>  		return ERR_PTR(ret);
+> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+> index 0dc1eb5d2ae3..21b141b7cb9c 100644
+> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+> @@ -608,7 +608,7 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
+>  
+>  	platform_set_drvdata(pdev, hdmi);
+>  
+> -	hdmi->hdmi = dw_hdmi_bind(pdev, encoder, plat_data);
+> +	hdmi->hdmi = dw_hdmi_bind(pdev, encoder, plat_data, 0);
+>  
+>  	/*
+>  	 * If dw_hdmi_bind() fails we'll never call dw_hdmi_unbind(),
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+> index 96532709c2a7..04173335f7e7 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+> @@ -188,7 +188,7 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
+>  
+>  	platform_set_drvdata(pdev, hdmi);
+>  
+> -	hdmi->hdmi = dw_hdmi_bind(pdev, encoder, plat_data);
+> +	hdmi->hdmi = dw_hdmi_bind(pdev, encoder, plat_data, 0);
+>  
+>  	/*
+>  	 * If dw_hdmi_bind() fails we'll never call dw_hdmi_unbind(),
+> diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
+> index 8500dd4f99d8..e789fb451ef2 100644
+> --- a/include/drm/bridge/dw_hdmi.h
+> +++ b/include/drm/bridge/dw_hdmi.h
+> @@ -6,6 +6,7 @@
+>  #ifndef __DW_HDMI__
+>  #define __DW_HDMI__
+>  
+> +#include <drm/drm_bridge.h>
+>  #include <sound/hdmi-codec.h>
+>  
+>  struct drm_display_info;
+> @@ -182,7 +183,8 @@ void dw_hdmi_remove(struct dw_hdmi *hdmi);
+>  void dw_hdmi_unbind(struct dw_hdmi *hdmi);
+>  struct dw_hdmi *dw_hdmi_bind(struct platform_device *pdev,
+>  			     struct drm_encoder *encoder,
+> -			     const struct dw_hdmi_plat_data *plat_data);
+> +			     const struct dw_hdmi_plat_data *plat_data,
+> +			     enum drm_bridge_attach_flags flags);
+>  
+>  void dw_hdmi_resume(struct dw_hdmi *hdmi);
+>  
 
-status should always be the last property.
-
-> +               };
-> +
->                 wdt: watchdog@2050000 {
->                         compatible =3D "allwinner,sun55i-a523-wdt";
->                         reg =3D <0x2050000 0x20>;
->
-> --
-> 2.43.0
->
->
