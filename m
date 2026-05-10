@@ -1,169 +1,199 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D3A3C5DBE
-	for <linux-sunxi@lists.linux.dev>; Sat,  9 May 2026 19:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9E9317174
+	for <linux-sunxi@lists.linux.dev>; Sun, 10 May 2026 05:26:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778353238; cv=none; b=p0ZvpQ7cMUQOGUFWJf826It/OR1qa5TTcVvDmHJOf4c/NbjoPGGq+lozYEhaB77XXkRUH5gTxk4xz4MfZZPu61Wrnuy06oLWnDzGvFfhV7lGcSmiFs9YMauuHYzaG+0yZnuDsS0ZoEhApAJfX3G7cV0T5KKVm8/MZNnX7bYnNjk=
+	t=1778390763; cv=none; b=RNkTUW2f7XzuvxEtHRIZb/k4iS+sIZvnBqqV3WVz4V5sZcQAHJlXHRqeZMURdZMHURbj56nRYF7SvJL6uyesp5rP98Qt1HkGsSPa1b0JpGr4ql7YYi/F7lWEZbe/7iLAnMgrm/FmA9qSgBKMaQS+Oen6liV0RAJTVyjyVTGZvx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778353238; c=relaxed/simple;
-	bh=IOxmh5MhxMGcoJj1bYSLoRwfOsdl2l4K10+pW425y+I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rCIw/qjxWkupoC6QEwBGaguXqFvj0WAHHu2J5ek7H6ICjDpzPrbTCcjnhmtkaNRjpchVNcFeDmRjBROo3wn3GFU7FP8ICFJn38OO2cNG+r91l+AbBSIdIE8YRJKRWvyInngrOnJUZK6x7dRiZwFOqjjk9mLdBHHAE8ZGzvfkIv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Th7cNiuC; arc=none smtp.client-ip=209.85.128.46
+	s=arc-20240116; t=1778390763; c=relaxed/simple;
+	bh=JFu6cv4iACQGbV5egz2iEUE7xkHI96ahMgLFv5+XVWo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=MvIMQd7GJ+TEviqFEXgr6DrqoWB6iQku++78lt5wkTFcjQrSjZP4vLV92RUOTMK2AukXtkNczbc3cFPjyC+b9OWkI6aQT9zfLi+nQt1bo+jyM67+drtezpHfOIPO1wHdT1BNu2WK7m5ttzMeUt39Cu6vdhvr1CIrP4LSpskXOrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=acOKymbT; arc=none smtp.client-ip=209.85.222.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Th7cNiuC"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4893940bb5eso18195005e9.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 09 May 2026 12:00:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="acOKymbT"
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-8cb5c9ba82bso486516585a.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 09 May 2026 22:26:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778353230; x=1778958030; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VPkvMBVXyvicDPmrKpPPSuducOnxVL8vyxeJt4rQ8ag=;
-        b=Th7cNiuCmqkxl13eJvnnng7pDELKradPIZP1599K7xAHvZNSt34IET+7L4iUAOF+ok
-         1IPHRaYatE8gMZVXyLDtCk/arOyOvg9J5IAZVltbbUsEuq9okpFAuUSsILUj2BYxcJrL
-         oppe1aaUR5sXrNscnAJGghKj1mQsYvXcGcw58thSfPa+fScHgo0A/LirDSaTrYwzoNDN
-         wMnjgp0WRpwJUSQXbXTavKlw2RJ4eJ8JElNL2bxUer67kBlzvpYEvdjRXrd4Rv8fohTy
-         6fVVEFMrKJS1lEPkU8CP4cEX0XEIHRWzUiy9FH3kKokAzi9NputLXUu+eBzuijMZJP5v
-         vaLA==
+        d=gmail.com; s=20251104; t=1778390760; x=1778995560; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lkretJLhfB7+l1td9MLSNDIffxT6UR6I0FN9wkg9x/k=;
+        b=acOKymbTvJOnw6mFJ8MWEpzr1RuYu44j5ueWkPYD9ubiRn1AkrG/WnWGvxQlwq3SB6
+         +Hh0GcskTU5UbKf0G1xCAow6PkYfUYoxDCF7FS51H2Wh5l74lwqYjAt43YFQMfO/W62J
+         wLUPShs/uqBYLdERUZ+qjONFz331C6FDwb42ckGnMiwTBcvVYEvR9Rc1olc1+iaj37I7
+         WS/33ulTeVq6kSxCrkYlHTKQ2gFM0fNbMUd+uvUzw9ffG2fwz8tcEtACdt4sKoS41szU
+         mTsI26eno1IZ6HnKHu5MhnCD98RZ8hSPaCCOBqhZRug3BuuK4m+n/t0KRHSs1efkPBdt
+         ZnLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778353230; x=1778958030;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=VPkvMBVXyvicDPmrKpPPSuducOnxVL8vyxeJt4rQ8ag=;
-        b=dB+8dmCwBZNlOgcSYmxPORlBf0FpgqrSSA7WMg7tQQKcUyGRO2KNxRDb4SSRlQKMTE
-         /dwBKswVQpIvQpa9VVbMTAfWv9By1pQ+36Rsn8E5xApO5pFm9LvfWPpYETeiGPptt6PK
-         G+K9wUQbFjHDrGZ7bH18zd9sMMgaXthAGD0gCqBCVkL7luSuNIihl1ofcj1Ue9z/fGLc
-         t51S9NPHk5lySyZ4nz4QhdCEBFGKMco/96VpX95MFy9sHQl4kpWVC1JJz/HAmK2jpc6j
-         5TyHzEOUL6WcaEkvqQhJlJd5HETxgVmIxTDPM+Q5U1hdLijPxrKsvoDDcwybmlb/6XGN
-         4bng==
-X-Forwarded-Encrypted: i=1; AFNElJ+JE4eHi0N841IPWbzROqFsaX5zH3W1dU/EBJcMcIE0nDJIY5qQz7ayVXbgEZoUxRmUAAQsHQ5USEc+Nw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxKNjVnvseIqVsneeGFtU9kSNlxRtTGMSGol7HhfbkyP93kk2zs
-	VIv/sxzCi/+08WliF490yoAY4N4POy/ecZ6JDXhG+JkVCerc1lD8YZ5i
-X-Gm-Gg: Acq92OGN7rmOJu0kJ4AGefqlbBtV55dLE3krDzVOkjYKS2F07FKVa8A3DxVIW3pouGG
-	UqxUwjsHbjwA/b/WjZS/fqZ1aO0h3pthx34oWMo0bVESL7NO23aPgZ8Mf6CeTIZynSWLe0avZys
-	3fsByT6g0pmWDs79HYL9d42yGrzqqMrqK/WQJs9fETPn6fys7jhFQVu/Y30BQtKhpj/zUVaQ3nD
-	VDsd+AWNLYdU4S1KGrxtk6UNzBzDHr6PhLR+Wshcp5Se3Dl3UACHg0CblFV58OygLTUaOhFLDKB
-	9ZBRCppnvy7z9rvAyIM2+/Vnc7NjxDjTB3raHjYQ0coFKU4TycpvBxtu3Nu0NtqEZWC5w7ccnSG
-	TmFLeYJMlWVr8yDdfpboRzGR6FqAIXI9dGhFxOF8W4AvS75pMqvbl5v3bSWzxzrVvmMdkCY525B
-	n2DvRpswdxiXOUuUwViuVCCjP6Yqk2oQTUFmf2QBT2QaJXqQUuTWl9KIvMMx/wDxQ98tQ=
-X-Received: by 2002:a05:600d:8:b0:48a:58ae:993b with SMTP id 5b1f17b1804b1-48e676a4e03mr117153245e9.16.1778353230046;
-        Sat, 09 May 2026 12:00:30 -0700 (PDT)
-Received: from jernej-laptop (46-150-62-216.dynamic.telemach.net. [46.150.62.216])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-454913049ecsm13254407f8f.19.2026.05.09.12.00.28
+        d=1e100.net; s=20251104; t=1778390760; x=1778995560;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lkretJLhfB7+l1td9MLSNDIffxT6UR6I0FN9wkg9x/k=;
+        b=Ez9uLnxKdIiQ2sHR6IiQuo/0t5Fcjz4K1sUuRkXiLpe+Ypgdg0rSoop2h2bkvviPVJ
+         3Gp4A5PAGvTGhgH0nv2agm7d9yvPW/GbmiCdqPUi9E34NxOAZITBBgxaEMLGaM+4IJgG
+         0lAYwMe4ipzzvwLdgyEUHSGqmRKLRXto/A6GDv7LPlyb2GxioJY+9f5wKWL97SGwwiP0
+         FB/kcet09yXqfHn6/s6IutAi6R37kTCYNiu3WiOSvYPiSvXp3uOuRJfLXAZDy/oj3ev9
+         TqzF4i0JC7Nclz/+/6pIJyOe3heOivx3dSozI3e/BHHqhAfoHPvJuBzk9bN6v9sKq9jj
+         pHzw==
+X-Forwarded-Encrypted: i=1; AFNElJ/Hy1qPHVX/TiStCqESYVTXMRVy5z+OHYlBexp92tWWthFRSNB6h6oUQSi4ihjU9CtS89qbIBOj1TYXIA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzsxNszDSBm99WbaOeh/t5WOE0dWXMuHE8TA9qDthdQ0VGDT3F0
+	w07zNOJ5jaSvc59Zg+DGT46p5w5KfT2jXT2WXgn0380N5shH7KhSUpcx
+X-Gm-Gg: Acq92OGtxnzrpns14jcr0w40UT5yZTEFQxzsHKS9ZsxWgMZChqjzAaxt6PDhtrP+KAP
+	Q4rzbM+u7ahV2n21rPQAPImyBmOyIB/GWsupUmBXIU0WHLHD3BQNAc5uL7962ghedWe0LE1XNGD
+	JmyhT1Sqv4e0sMb14Sx6ldXikpkMGOTeCBefMInD4iwZgV9KoLpKAZNs/IsotMdmYZLRO88xHKE
+	s24OgqgHTohEl5mBnv0+FklYXygGtzN5isRCZd2gXMGh5zyt/N5hlRYc+FY9nYleD5VArLuOegU
+	f18hpPShZUeADPo3txwznTYEfVwgsjRNkd8kPSSK1rDYIYi44RUR4FOj4Trrb298yMWKr2kLM2F
+	z6+KFcYtBlEMFFnJj0oQ9JjlzyXMzbPWSa6OHAMlmj5JrZM9aVJjXA1E+0aRpyH8WZVQmZfnPRa
+	szFF/bWWcY7Uopl267a60HbQFpxAg=
+X-Received: by 2002:a05:620a:28d3:b0:8f0:b0cb:190f with SMTP id af79cd13be357-904d60f695amr2567465085a.39.1778390760497;
+        Sat, 09 May 2026 22:26:00 -0700 (PDT)
+Received: from [172.17.0.2] ([134.128.219.200])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-907b9286f22sm689689085a.13.2026.05.09.22.25.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 May 2026 12:00:29 -0700 (PDT)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-X-Google-Original-From: Jernej Skrabec <jernej.skrabec@siol.net>
-To: wens@csie.org,
-	samuel@sholland.org
-Cc: mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	mturquette@baylibre.com,
-	sboyd@kernel.org,
-	dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	jernej.skrabec@gmail.com
-Subject: [PATCH v2 7/8] dt-bindings: display: allwinner: Split H616 DE33 layer reg space
-Date: Sat,  9 May 2026 21:00:14 +0200
-Message-ID: <20260509190015.79086-8-jernej.skrabec@siol.net>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260509190015.79086-1-jernej.skrabec@siol.net>
-References: <20260509190015.79086-1-jernej.skrabec@siol.net>
+        Sat, 09 May 2026 22:26:00 -0700 (PDT)
+From: Yuanshen Cao <alex.caoys@gmail.com>
+Date: Sun, 10 May 2026 05:25:35 +0000
+Subject: [PATCH] pmdomain: sunxi: support power domain flags for pck600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260510-pck600-a733-gpu-v1-1-d6393646d714@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MMQqAMAxA0auUzAZiRaVeRRw0Rg2ClhZFKN7d4
+ viG/xNECSoROpMgyK1RzyOjLAzwNh6roM7ZYMk2VJeEnveGCMe2qnD1F848LUzcsjgHufJBFn3
+ +Yz+87wdJjmRzYQAAAA==
+X-Change-ID: 20260510-pck600-a733-gpu-dcbfc0c7ce99
+To: Ulf Hansson <ulfh@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Icenowy Zheng <uwu@icenowy.me>, Mikhail Kalashnikov <iuncuim@gmail.com>, 
+ Yuanshen Cao <alex.caoys@gmail.com>
+X-Mailer: b4 0.14.3
 
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
+Hi everyone,
 
-As it turns out, current H616 DE33 binding was written based on
-incomplete understanding of DE33 design. Namely, planes are shared
-resource and not tied to specific mixer, which was the case for previous
-generations of Display Engine (DE3 and earlier).
+This patch refactors the sunxi pck600 power domain implementation to
+support individual power domain flags.
 
-This means that current DE33 binding doesn't properly reflect HW and
-using it would mean that second mixer (used for second display output)
-can't be supported.
+While bringing up the PowerVR GPU on the A733 (Radxa Cubie A7Z), we
+found that one of the GPU power domains must be configured as "always
+on." While the Radxa BSP device tree leaves the GPU power domain nodes
+commented out, the GPU driver code contains traces indicating an "always
+on" requirement [1].
 
-Remove layer register space, which will be represented with additional
-node, and replace it with phandle, which will point to that new, shared
-node. That way, all mixers can share same layers.
+Currently, sunxi_pck600_desc only supports specifying pd_names. This
+patch introduces sunxi_pck600_pd_desc, which stores both the name and
+its associated flags. This also (more or less) aligns the implementation
+with the existing sun50i PPU handling of always-on domains.
 
-There is no user of this binding yet, so changes can be made safely,
-without breaking any backward compatibility.
+With this change, individual power domains can now be configured more
+granularly. In particular, the GPU_CORE domain in sun60i_a733_pck600_pds
+can now be explicitly marked with GENPD_FLAG_ALWAYS_ON.
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+The patch was tested on the Radxa Cubie A7Z, where the GPU now functions
+as expected.
+
+Thanks to Icenowy for her support and expertise on sunxi and PowerVR,
+and thanks to Mikhail for identifying this exact cause of the GPU
+bring-up issue.
+
+[1] https://github.com/radxa/allwinner-bsp/blob/cubie-aiot-v1.4.6/modules/gpu/img-bxm/linux/rogue_km/services/system/rogue/rgx_sunxi/sunxi_platform.c#L62
+
+Signed-off-by: Yuanshen Cao <alex.caoys@gmail.com>
 ---
-Changes in v1:
-- update commit subject
-- reword commit message
+ drivers/pmdomain/sunxi/sun55i-pck600.c | 31 ++++++++++++++++++++-----------
+ 1 file changed, 20 insertions(+), 11 deletions(-)
 
- .../display/allwinner,sun8i-a83t-de2-mixer.yaml  | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
-index cbd18fd83e52..064e4ca7e419 100644
---- a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
-+++ b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
-@@ -46,6 +46,10 @@ properties:
-   resets:
-     maxItems: 1
+diff --git a/drivers/pmdomain/sunxi/sun55i-pck600.c b/drivers/pmdomain/sunxi/sun55i-pck600.c
+index 1d47bbd35ced..8a37d11b65a2 100644
+--- a/drivers/pmdomain/sunxi/sun55i-pck600.c
++++ b/drivers/pmdomain/sunxi/sun55i-pck600.c
+@@ -41,8 +41,13 @@
  
-+  allwinner,planes:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: Phandle of Display Engine 3.3 planes node
+ #define PPU_REG_SIZE	0x1000
+ 
++struct sunxi_pck600_pd_desc {
++	const char *name;
++	unsigned int flags;
++};
 +
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
+ struct sunxi_pck600_desc {
+-	const char * const *pd_names;
++	const struct sunxi_pck600_pd_desc *pd_descs;
+ 	unsigned int num_domains;
+ 	u32 logic_power_switch0_delay_offset;
+ 	u32 logic_power_switch1_delay_offset;
+@@ -164,10 +169,12 @@ static int sunxi_pck600_probe(struct platform_device *pdev)
  
-@@ -74,22 +78,22 @@ allOf:
-       properties:
-         reg:
-           description: |
--            Registers for controlling individual layers of the display
--            engine (layers), global control (top), and display blending
--            control (display). Names are from Allwinner BSP kernel.
--          maxItems: 3
-+            Registers for display blending control (display) and global
-+            control (top). Names are from Allwinner BSP kernel.
-+          maxItems: 2
-         reg-names:
-           items:
--            - const: layers
--            - const: top
-             - const: display
-+            - const: top
-       required:
-         - reg-names
-+        - allwinner,planes
+ 	for (i = 0; i < desc->num_domains; i++) {
+ 		struct sunxi_pck600_pd *pd = &pck->pds[i];
++		const struct sunxi_pck600_pd_desc *pd_desc = &desc->pd_descs[i];
  
-     else:
-       properties:
-         reg:
-           maxItems: 1
-+        allwinner,planes: false
+-		pd->genpd.name = desc->pd_names[i];
++		pd->genpd.name = pd_desc->name;
+ 		pd->genpd.power_off = sunxi_pck600_power_off;
+ 		pd->genpd.power_on = sunxi_pck600_power_on;
++		pd->genpd.flags = pd_desc->flags;
+ 		pd->base = base + PPU_REG_SIZE * i;
  
- required:
-   - compatible
+ 		sunxi_pck600_pd_setup(pd, desc);
+@@ -195,13 +202,14 @@ static int sunxi_pck600_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static const char * const sun55i_a523_pck600_pd_names[] = {
+-	"VE", "GPU", "VI", "VO0", "VO1", "DE", "NAND", "PCIE"
++static const struct sunxi_pck600_pd_desc sun55i_a523_pck600_pds[] = {
++	{ "VE", }, { "GPU", }, { "VI", }, { "VO0", }, { "VO1", },
++	{ "DE", }, { "NAND", }, { "PCIE", },
+ };
+ 
+ static const struct sunxi_pck600_desc sun55i_a523_pck600_desc = {
+-	.pd_names = sun55i_a523_pck600_pd_names,
+-	.num_domains = ARRAY_SIZE(sun55i_a523_pck600_pd_names),
++	.pd_descs = sun55i_a523_pck600_pds,
++	.num_domains = ARRAY_SIZE(sun55i_a523_pck600_pds),
+ 	.logic_power_switch0_delay_offset = 0xc00,
+ 	.logic_power_switch1_delay_offset = 0xc04,
+ 	.off2on_delay_offset = 0xc10,
+@@ -213,14 +221,15 @@ static const struct sunxi_pck600_desc sun55i_a523_pck600_desc = {
+ 	.has_rst_clk = true,
+ };
+ 
+-static const char * const sun60i_a733_pck600_pd_names[] = {
+-	"VI", "DE_SYS", "VE_DEC", "VE_ENC", "NPU",
+-	"GPU_TOP", "GPU_CORE", "PCIE", "USB2", "VO", "VO1"
++static const struct sunxi_pck600_pd_desc sun60i_a733_pck600_pds[] = {
++	{ "VI", }, { "DE_SYS", }, { "VE_DEC", }, { "VE_ENC", }, { "NPU", },
++	{ "GPU_TOP", }, { "GPU_CORE", GENPD_FLAG_ALWAYS_ON },
++	{ "PCIE", }, { "USB2", }, { "VO", }, { "VO1", },
+ };
+ 
+ static const struct sunxi_pck600_desc sun60i_a733_pck600_desc = {
+-	.pd_names = sun60i_a733_pck600_pd_names,
+-	.num_domains = ARRAY_SIZE(sun60i_a733_pck600_pd_names),
++	.pd_descs = sun60i_a733_pck600_pds,
++	.num_domains = ARRAY_SIZE(sun60i_a733_pck600_pds),
+ 	.logic_power_switch0_delay_offset = 0xc00,
+ 	.logic_power_switch1_delay_offset = 0xc04,
+ 	.off2on_delay_offset = 0xc10,
+
+---
+base-commit: 1bfaee9d3351b9b32a99766bbfb1f5baed60ddef
+change-id: 20260510-pck600-a733-gpu-dcbfc0c7ce99
+
+Best regards,
 -- 
-2.54.0
+Yuanshen Cao <alex.caoys@gmail.com>
 
