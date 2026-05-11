@@ -1,63 +1,63 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86219441036
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 May 2026 17:12:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70EEE45348A
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 May 2026 17:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778519543; cv=none; b=bVLIia7d14wBe52XwkttFlSoUftEG1tm6zKFcerDweyqTwP7Yh0L+b5vSP8lNC6e8JBiza/OWlVv5Wbpv46l5hVN4krWc4XtYdgciFO2XJD1noZGi2332I36amjgLQgrOOGJNA8tf8FPlVD7yxJ3O5X3vkF15JFcri08b31qtRI=
+	t=1778519545; cv=none; b=uyCtQozyZzoBkLuJk4Wi448r4DimQ0iV1+B7NAUnmF9p046yKJn4jfzr6uqL8bh0xhYketauV73723YV6Ms0KIlw84WYq3gpH7ZjEjYKc9/EOKNwvlZXm4+Vu0iPY6A3IwhRLloQA3jJT71JEI+hOTuH14sajj6NURuBtEqctQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778519543; c=relaxed/simple;
-	bh=Pm0arqbEMJSuzVfu2XbHYEXxhnKaEaOHkvubnY5Jb24=;
+	s=arc-20240116; t=1778519545; c=relaxed/simple;
+	bh=Uc/exHc2g0MJR9S71NefJro1J1WlH0FhS5OXlnyqzIU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PwVP/SFlSbq/7mPV2JIXKoCT+WwbKvuz29PZ7X9xjBMIUav6wjmW9NLSNELXhcIPOe8VKuVrvlxErtzX6HOrKatcSqTps/UBt8+xECI+nUjmFO7aJduQVPDJQE01MFmHLMUSDtiouCI7Ae7Cjn5PT1xOCbLMzvmGy3U5IOhFzzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sXmiNaWJ; arc=none smtp.client-ip=209.85.167.48
+	 MIME-Version; b=lXI8i3w+/fjI3Pl931hX09OOfEawnZyqZh3o/kMzFGqSkXtQq6cu6DEiElol0kM7dkYIj5c6pnhm5i4WAyUnr5FxyrvlrSkHJF8qC2CsKzVgEubuTpACSKAiodeff3JT7zmMRNHtS2mrKltfFbuqb6JYWct9pWgAbBfKFcVwjCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j8ifwhHq; arc=none smtp.client-ip=209.85.167.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sXmiNaWJ"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5a887ebb416so4275852e87.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 11 May 2026 10:12:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j8ifwhHq"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5a40b2bc96dso4164506e87.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 11 May 2026 10:12:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778519540; x=1779124340; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778519542; x=1779124342; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JH+u+xhzUiMSlilufXXl7nt5EV8IiDoOquYIB5049q8=;
-        b=sXmiNaWJvQJ83LigbdfhczvdMhPK9fyDTsK8kzkpFOm8LjMs4gjnj+m0EraoRZub3b
-         ETrN3ox6a7hCuzpzC++7tST7Lu8e8Fo2cAU49JCm1CVlwH77/5vKjxfTFbmr4MPHs7BX
-         GsE/iC4pRAb/90RCtTIdHsz6xSl50vDQdYeX48P0aSOAv77BkJd1hmcN11Z2CBoAGpky
-         sJveFxP8ziwS7uRyuQaVy5/la1fINiOWEiUMQDxVx65YO3+H/I4BuCNTFwcqzEGJ8dEn
-         XJhYLPZztPf1ZtAVnWl630hThTO1CnEVr2iOjRKkyWe1L3JMKXjcjFGAxXUJTZTm5IZs
-         p6bw==
+        bh=TypizH+0naDcsiSshXyXpAX6OorxUGA4/sCVC58lq0U=;
+        b=j8ifwhHq23bdoE5LnTN97BD2MLZcVCXgiBM/OMNMSK3jGZhOo07kxq2xWTCQXLsjIq
+         S9/Yqw0kfH31Zk3225WqZyY3ilZQ1vPCODLsYJudAgbGyhmWFgIjTqbW+y4rPd80S0e0
+         +XFaz9P6yhI2QuIKCaywoby1v7Yfp+cDql3IKgLirZd+dBtEk57TnsQRA2hqsvTfRXny
+         H0SeSDTrbZtUX07Lit9lubxZsxZaAVw53dcKuTOc8jmlkdqofZcPLxdP59LuHhCq6SHq
+         ze0/4Q4kD/lyNOYxWwjW6X7EoY4Cx8lFHTonhenXu8C7/3INswLIYEgwQWTQXTUt7vj0
+         Q/ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778519540; x=1779124340;
+        d=1e100.net; s=20251104; t=1778519542; x=1779124342;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=JH+u+xhzUiMSlilufXXl7nt5EV8IiDoOquYIB5049q8=;
-        b=FKFIMx4YwuzWgbpRYM9cvvyD5vD2HwxAtIkTJ/jGp1NRWROiLsvhjDUmMOxtCmbjP6
-         xgnDDx/sozTAdYi/TSR2mtp8JP5myFxBnTkG881lEI6PMro4h2tPD8PoyU720V8kvoqv
-         Mvyae2KkBD7M6fi/SCuV0TXQ4/Z6CrdANBTiMoOM5WYV7w2hD3pwzdoyPA05vtoZ1+61
-         BIKRHtkhOxMwkm4Vjlf46Rz+c2+1jo9KK4IkarKipdfVhnY2zWRgYMKtPjBHk+MwqVsj
-         oIsy9hzfcmHQ1yzGgY7IJeKKfasgXYjuqBSzzuYaF+ZzH9UXDno6NUeGiZkSBQ5PP0WZ
-         /OJA==
-X-Forwarded-Encrypted: i=1; AFNElJ9vhUE+jw79TRp481rnZ5WB727Rdb/HEXTvlz75gDwiiP9WSGrcxL6yll0L4jcA8fjokm0/aHIYnBg0WA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YywB5YSiPfJDpodc1Hkd69bS+f1kioRLW4VrYXVKUTTQk0MGoL9
-	LNTkWQCiKOgWfXub6aNEmgFLYrPHyJTI88rvGsd8FTg8OPFKg4I03anv
-X-Gm-Gg: Acq92OFQnmwiCp8h7aliRCnmcX6tbD4//PKcFHZQhew+6kFW/2EwesR62vvcaizoVpi
-	Ty1aTbrLigGDoWHtFfI1TQz/Dhv1KMSzGVmcaHmHzDs1M/m1yfINT0MHvFuHDpCV85VysmdlV9D
-	2fDPuHXxsIhSStYpkJiDLYjwUSDIAoqHtT0CWzVTuevlL9sFAd+qY7sM+6o9lAbX9TO+Ns2wtsV
-	iww0luZeyXM40uyyPeFSnFrJ/vgQM3451ge1zP1PXTkb4SrQGuD/Re4Ic0rbyW+zTulLOg8l5lm
-	By7N1ZYCJaOI3dbZ60bI7lJ032uUbYy80T2cPpEobe3YjB+ZFTXwvTVfdbqq9RxicsvaZlgatqS
-	mAz9B6dBqr0L6eyK5SaFKY7OPuiFp0KO7sYjA8rDqXY/OQmqxOhDFTGdVOI5RVF18NXT5auCkvi
-	g1/WGTYS3Xt6ECqQNmpoGV8/7x/9e+JEjxprOrVX6cdOtTlpHaOB9XleSaQQHCK/KOTmi5zV4=
-X-Received: by 2002:a05:6512:3e16:b0:5a3:ff5a:d83 with SMTP id 2adb3069b0e04-5a887ae3618mr10520299e87.16.1778519539315;
-        Mon, 11 May 2026 10:12:19 -0700 (PDT)
+        bh=TypizH+0naDcsiSshXyXpAX6OorxUGA4/sCVC58lq0U=;
+        b=FB2GCB3WWzwH6ITM/QeCLFJCooZCU1PKpRsvMsJONC5gkiN/tuI898ICJP2PAGEipr
+         PBR+3iirasri0pkRecoJP7X7irYCtujq/wZC2m8RtFoxtlEnihKz51tDempZbRCdaFVS
+         mqSDKm++A1KG6pWPehgLlt9kPPsk6uxTSFlV0OQIToDVACe8U1vNCVbWP3xUxk7P9HqQ
+         yRvor+Xa7Tup4N9GniB/kouohHBiJfGgGWqpY5FE7HZigaLyTA2vyrVuCyOuDc5DiGDZ
+         Q7sNppLsArz0UOMtlKXoTEtjX2q4O0/EXIzBvp0hjFAkFEurhnfr4Y2HkHuPpXBEjFb1
+         rcGg==
+X-Forwarded-Encrypted: i=1; AFNElJ/8IBiT9g3mgcGh9eCxNUIUD8rn1S023KVP0uY+4CkylZBFCIlJ46FWkcBkksG9EYyyEHCTF6Lv68HJrQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxbexuYentVimr6zqhRLapZ402hScJxbQpckoj4HyTxjT6GXlAc
+	r+UQBqUddPot13oWzND6WGfy5wum5SR5jQ3gFK9jkHlBKN0wK6Z9eKmN
+X-Gm-Gg: Acq92OH6rOfPzqw+T0DE1PQDmkBEr8erPZwQpF0RG1r+dfcQTA/mDZeVowKBwYo5sNN
+	CtwwED1Jn07tOtpJBQ4TSYZnONSriZjHZQLzYEOX66e+bNeYZIbCEG9NDZEPXyDEM/Cw04sYbhX
+	ICmCUPb7BrxxB+/O8Fh0YvxogKg+qx4XofP17bGC5UOe7atUke6WkUw7v9CuJM1TFgEIaws/dc+
+	+VwqUFEa5ZCMYYuzCWg+Pd2/WPMznrJqmDyIvwww4WJtjZ/+zlWG++XmahNZZ1BCHa1Fq9CvtQ3
+	d76y+Q5e+QhSrB0OpDYf3XJ4p2XDk99kgMQl13LO7c/mTYdlVmdTmsOAO1DK5mHHYI5H2KsJKM/
+	b/JpcYANYB56Eoq1JYv1dUpHazosKH520OGcHpOUeHiz/sZqLNOSX4EKVfzCGlm4vl1bh2d6x7m
+	Nlu8t2lwIUURRWxmpVtd4doLWFszmWa0qcR1Cq6/BW+7izBtrWo2s5hoOPbtpNpVLmN37Fucc=
+X-Received: by 2002:a05:6512:b20:b0:5a3:fe60:471c with SMTP id 2adb3069b0e04-5a8a94a8fcfmr4465968e87.16.1778519541397;
+        Mon, 11 May 2026 10:12:21 -0700 (PDT)
 Received: from va-HP-Pavilion-Desktop-595-p0xxx.mshome.net ([193.0.150.248])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8a95660b6sm2765488e87.62.2026.05.11.10.12.17
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8a95660b6sm2765488e87.62.2026.05.11.10.12.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 10:12:18 -0700 (PDT)
+        Mon, 11 May 2026 10:12:20 -0700 (PDT)
 From: Valery Borovsky <vebohr@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: mchehab@kernel.org,
@@ -78,9 +78,9 @@ Cc: mchehab@kernel.org,
 	linux-kernel@vger.kernel.org,
 	Valery Borovsky <vebohr@gmail.com>,
 	stable@vger.kernel.org
-Subject: [PATCH 3/6] media: pwc: Return queued buffers on start_streaming() failure
-Date: Mon, 11 May 2026 20:12:08 +0300
-Message-ID: <d0fdfb94b56871e757812bfb7aa58e83f7215903.1778518085.git.vebohr@gmail.com>
+Subject: [PATCH 4/6] media: rtl2832_sdr: Return queued buffers on start_streaming() failure
+Date: Mon, 11 May 2026 20:12:09 +0300
+Message-ID: <d10ab7f1bb6b4ee1760967f1957191a341b08354.1778518085.git.vebohr@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1778518085.git.vebohr@gmail.com>
 References: <cover.1778518085.git.vebohr@gmail.com>
@@ -98,45 +98,102 @@ without first returning those buffers via vb2_buffer_done(),
 vb2_start_streaming() fires WARN_ON(owned_by_drv_count) and the queued
 buffers leak.
 
-pwc's start_streaming() had two early returns that hit this trap:
--ENODEV when the USB device was already disconnected, and -ERESTARTSYS
-when mutex_lock_interruptible() was interrupted by a signal.  Call the
-existing pwc_cleanup_queued_bufs() helper with VB2_BUF_STATE_QUEUED
-before returning (matching the state already used by the
-pwc_isoc_init() error path in the same function).
+rtl2832_sdr_start_streaming() had multiple error paths that hit this
+trap: two direct early returns (-ENODEV, -ERESTARTSYS), plus six
+`goto err` paths covering subdev s_power, tuner setup, ADC setup,
+stream-buffer allocation, urb allocation, and urb submission failures.
+None of them returned the queued buffers.
+
+The original function had no distinct success exit and fell straight
+through into the err label, which previously only did mutex_unlock and
+"return ret".  Adding queued-buffer cleanup at err must therefore be
+paired with an explicit success return; otherwise every successful
+start would also drain the buffer queue and kill streaming.  Add that
+success return, then add rtl2832_sdr_cleanup_queued_bufs() at the err
+label and before each early return.
+
+The cleanup helper takes a vb2_buffer_state argument so that the
+start_streaming error paths can pass VB2_BUF_STATE_QUEUED (as
+expected by userspace on start_streaming failure) while stop_streaming
+keeps its existing VB2_BUF_STATE_ERROR semantics.
 
 This mirrors the uvcvideo fix in commit 4cf3b6fd54eb ("media: uvcvideo:
 Return queued buffers on start_streaming() failure").
 
-Fixes: ceede9fa8939 ("[media] pwc: Fix locking")
+The err label still does not roll back power_ctrl(), frontend_ctrl(),
+the POWER_ON flag, or stream/URB allocations that may have happened
+before the failing step.  Those are pre-existing leaks of a different
+class and are not addressed here.
+
+Fixes: 771138920eaf ("[media] rtl2832_sdr: Realtek RTL2832 SDR driver module")
 Cc: stable@vger.kernel.org
 Signed-off-by: Valery Borovsky <vebohr@gmail.com>
 ---
- drivers/media/usb/pwc/pwc-if.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/media/dvb-frontends/rtl2832_sdr.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/media/usb/pwc/pwc-if.c b/drivers/media/usb/pwc/pwc-if.c
-index c416e2fc5754..59b99ac8fcb6 100644
---- a/drivers/media/usb/pwc/pwc-if.c
-+++ b/drivers/media/usb/pwc/pwc-if.c
-@@ -710,11 +710,15 @@ static int start_streaming(struct vb2_queue *vq, unsigned int count)
- 	struct pwc_device *pdev = vb2_get_drv_priv(vq);
- 	int r;
+diff --git a/drivers/media/dvb-frontends/rtl2832_sdr.c b/drivers/media/dvb-frontends/rtl2832_sdr.c
+index 422d1a7b5456..c564485e3bbb 100644
+--- a/drivers/media/dvb-frontends/rtl2832_sdr.c
++++ b/drivers/media/dvb-frontends/rtl2832_sdr.c
+@@ -399,7 +399,8 @@ static int rtl2832_sdr_alloc_urbs(struct rtl2832_sdr_dev *dev)
+ }
  
--	if (!pdev->udev)
-+	if (!pdev->udev) {
-+		pwc_cleanup_queued_bufs(pdev, VB2_BUF_STATE_QUEUED);
+ /* Must be called with vb_queue_lock hold */
+-static void rtl2832_sdr_cleanup_queued_bufs(struct rtl2832_sdr_dev *dev)
++static void rtl2832_sdr_cleanup_queued_bufs(struct rtl2832_sdr_dev *dev,
++					    enum vb2_buffer_state state)
+ {
+ 	struct platform_device *pdev = dev->pdev;
+ 	unsigned long flags;
+@@ -413,7 +414,7 @@ static void rtl2832_sdr_cleanup_queued_bufs(struct rtl2832_sdr_dev *dev)
+ 		buf = list_entry(dev->queued_bufs.next,
+ 				struct rtl2832_sdr_frame_buf, list);
+ 		list_del(&buf->list);
+-		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
++		vb2_buffer_done(&buf->vb.vb2_buf, state);
+ 	}
+ 	spin_unlock_irqrestore(&dev->queued_bufs_lock, flags);
+ }
+@@ -855,11 +856,15 @@ static int rtl2832_sdr_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 
+ 	dev_dbg(&pdev->dev, "\n");
+ 
+-	if (!dev->udev)
++	if (!dev->udev) {
++		rtl2832_sdr_cleanup_queued_bufs(dev, VB2_BUF_STATE_QUEUED);
  		return -ENODEV;
 +	}
  
--	if (mutex_lock_interruptible(&pdev->v4l2_lock))
-+	if (mutex_lock_interruptible(&pdev->v4l2_lock)) {
-+		pwc_cleanup_queued_bufs(pdev, VB2_BUF_STATE_QUEUED);
+-	if (mutex_lock_interruptible(&dev->v4l2_lock))
++	if (mutex_lock_interruptible(&dev->v4l2_lock)) {
++		rtl2832_sdr_cleanup_queued_bufs(dev, VB2_BUF_STATE_QUEUED);
  		return -ERESTARTSYS;
 +	}
- 	/* Turn on camera and set LEDS on */
- 	pwc_camera_power(pdev, 1);
- 	pwc_set_leds(pdev, leds[0], leds[1]);
+ 
+ 	if (d->props->power_ctrl)
+ 		d->props->power_ctrl(d, 1);
+@@ -900,7 +905,11 @@ static int rtl2832_sdr_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	if (ret)
+ 		goto err;
+ 
++	mutex_unlock(&dev->v4l2_lock);
++	return 0;
++
+ err:
++	rtl2832_sdr_cleanup_queued_bufs(dev, VB2_BUF_STATE_QUEUED);
+ 	mutex_unlock(&dev->v4l2_lock);
+ 
+ 	return ret;
+@@ -920,7 +929,7 @@ static void rtl2832_sdr_stop_streaming(struct vb2_queue *vq)
+ 	rtl2832_sdr_kill_urbs(dev);
+ 	rtl2832_sdr_free_urbs(dev);
+ 	rtl2832_sdr_free_stream_bufs(dev);
+-	rtl2832_sdr_cleanup_queued_bufs(dev);
++	rtl2832_sdr_cleanup_queued_bufs(dev, VB2_BUF_STATE_ERROR);
+ 	rtl2832_sdr_unset_adc(dev);
+ 
+ 	/* sleep tuner */
 -- 
 2.51.0
 
