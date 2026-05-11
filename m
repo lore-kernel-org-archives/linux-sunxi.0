@@ -1,139 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68AF6472771;
-	Mon, 11 May 2026 16:34:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7700B449EA9
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 May 2026 17:12:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778517248; cv=none; b=k1zR5nxRILWgE8J7lNML6tODFPlFyalri4vGneraslxFT8a8XidDz0eCI6jw09xTIGWm+8xJtolTW8sj3goXQwSkjRnoZJKF/rzgbcAlJNcd+W+t5JESmOYgYi9ARbi/XvGxK02HxAie1JOm6tKOK79HEw0V0g44adG3rQ8MbI4=
+	t=1778519538; cv=none; b=Cz1EFiCmlkdDmNFfqm+7/rpvcINV+lDrIcyvrIXPp48D3DU3S/T8S5t7dP5OWr54YMssRpu44tQDz3lOS6BRhitPAupASBGG06TISaI7H1NcBkuhDHpZn8NYEXnRiz+rteQ+iAdmXFPstzsD1Y80zUQFKNoOMeG7INS4rngMM2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778517248; c=relaxed/simple;
-	bh=ylz1oiPhtoKBMsOdw8S6ulCdAQFgME1WIIPYHlvBdSc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M741WsUjknAyvnrhg7D+NbOk0NCbjkPYKJ2qfY/ah4EQKue3YH9z57VC+/g+2CwaDZiFsXyhE+nHKUBE5UAegv2jXlhyvSNgqrHuC2wpdttcV1+M4BMhZveBztHeMnSNEZZ8+vquWCpZH9AZMrgmKuS/Sa0h4GeaNcdQYlghuD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RYG9YS7M; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778519538; c=relaxed/simple;
+	bh=3LLaazElOMKyi+EA4lRpSGDokD+YpjiONdAqGB1Oq10=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LlqPIpVL4wVXKZGqmF+Ll1TWjCjmwuFpUUh6EzBWjpPB8LfhzEw7IcXpF4E3vTvXt43rb9ecMoq8OahD3+wQl9VUUFVK20h2/TLFzCYM86vtHqtBaZVe8IEKEoOofdBdmbA851Aq1Fu2LdLypBNOzCWW7bBuqbNc+fK7COgNrOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aOsJgir+; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RYG9YS7M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1B37C2BCC9;
-	Mon, 11 May 2026 16:34:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778517248;
-	bh=ylz1oiPhtoKBMsOdw8S6ulCdAQFgME1WIIPYHlvBdSc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RYG9YS7MrteGT1RlB+bEstA5kHW0D78F1ldj3UaIvplq6TQClpeMn0K2VYwKHXVHF
-	 IAoPbUL0/LvPty3d7DovyKMpScfya3e91/n9wQozdm8cwho2urIakok9xyHFrIhwfr
-	 r9EyuYAkCUuGvwnxhKsGNwkB/g2WWtJiUY7ImkAYptjlw9IXqT/dZ3cMv4irGDAAzi
-	 VvoS+luWIZ4NPIcVF1KQ2wA/42/5lhYI/+5SPutWYuITyNhJKjbVHjbYoAn/RKgtHN
-	 XgFlm9TNo6KfYRST9RSl7A8oTGDBP8rmdwv82mKmNysSZMR4frumDULvhzL3Vj8YqC
-	 vuHbXaKpMRDxQ==
-Date: Mon, 11 May 2026 17:34:03 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] dt-bindings: arm: sunxi: Add Baijie HelperBoard
- A133 compatible
-Message-ID: <20260511-startup-subside-343d9f8352f4@spud>
-References: <20260510201644.4143710-1-alexander.sverdlin@gmail.com>
- <20260510201644.4143710-3-alexander.sverdlin@gmail.com>
- <20260511-stock-elitism-f1f703bee1a3@spud>
- <d51ab76d9f658aad542fa24651d1083e31628038.camel@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aOsJgir+"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5a85b30dd54so4667310e87.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 11 May 2026 10:12:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778519534; x=1779124334; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1Ffx9yq19kp+YfhQJua5Fc4ABV19E4122HD3QSi0Mg4=;
+        b=aOsJgir+rlPQzkTJnVuOyNB5L49FhiRf3DrAUWvWJABgS7s1r21OQz1HEVp5Vch+Nn
+         N6cIjVU5KrFuCZ7rUHj+l1NFGpjyr9rPGeo9Wm8IVMzLuhdtQRlhAZDYNXmMFii26LLF
+         uVuGDA5AQa3Y7hJmOUjVMG/gr9/whJXvuXMuAfGtR2a/SPzKSW4f//EZjW5Ci0yv9FVH
+         GA+iHefa/Y2ENTjWVGcHxyVuTTyeDoCyuv6oVBh6djMmMR59oWLxbgwjL5+irdUzu+/t
+         sW3aBDI1dda6xy6oTlRiz7QbwSmDy0J7wG9ElROz7jDyot8lBcP5ctwGEOwCagfjsCTd
+         p/KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778519534; x=1779124334;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1Ffx9yq19kp+YfhQJua5Fc4ABV19E4122HD3QSi0Mg4=;
+        b=SlocwxYBdaenPJ3IKr/4M1SfP2JYIxvyeWfrCIkWyYgkJq7k0ZrVEVSJk1WecupxJG
+         ovWnJTHV/2n7aUIiRICO7J7x5MyyDS4NkHzSdPg0rBW60YKB2UgHrV6By7Mw+X1cw/Yy
+         8Ox6bs7UmRQMmXM6btDosDHxAa9R+GXMz/wuaopo5VIe5pturt4K49D8ILmTygAUeQ/a
+         fNwHhoeCtmtvhoLhAl84OHfHdmbn9gJftiLtaKpqyFbMWg+Wut2+WtfeMgkhG88rIlYS
+         9m13qB9OjoseAx2hhB3dgYoLBG7oWV5j/o5Wa0uuUmXa8Dbqr2T50zps0qEGv5p1DoBY
+         xUOA==
+X-Forwarded-Encrypted: i=1; AFNElJ9wgfrVbsGP9qTRBE6IlFeJqwM6Dg05Zc6pdJqHagE5YUqduXVii1NAg/W5/+BbWaoAhX3YiJju0Sqqew==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxDlGdewgEEVFJT8bRfqIDH1v+I/shh2jb5tcI6aH/mfFVzpR0/
+	FK61q1nj9Bez+hXsYmq7qtQKVj1opNACQojP0urPig5GwspnIeYo9wdn
+X-Gm-Gg: Acq92OGY7jrsauLQVs716C8aLgqkue67+KuM+APZ144jRDi4IZ/4ss6OfkvWIDf80OQ
+	HUHlFv8hgqRVk5BlPOHHKgoDeRcwE1BN28vA/CqiWIZvsCz0Gs3Vw/eqJPU3ZPZECjBIJ9/cPgv
+	uFX8z8G0Q836EwXxuMvVSsGd6vuqytnJzAjjcLni4qL75sapEIMvdthFrFdugIX+/W7jbSBEqxe
+	m6iL9tKgsm+yc/lTlaxuu+jtdPklJZOgN+kRRNb1zEZ65RlFXih+xrTDTCUTDT1gm9SudC6e/FP
+	bYJCbVMBXrxX2Kjy7PzddrHwtpRzXR5cnoKpFui/yqu/UkIoISYwDSVJ7m6IUOChdUgD4faS0ee
+	5EPFX9TaxiFXx0yHPF8dzQZNbtZbazKN+6zh6IPHzAiK8k+ujERhXyn2FU02x2PRz/HrE74bXoq
+	eepLYwZ3+UsW0qhNydgyYyko1SM4jKyNAIiFTOHe4QDWcSXUZQBORmYWRaw3ZN
+X-Received: by 2002:a05:6512:3d9f:b0:5a8:6931:ddea with SMTP id 2adb3069b0e04-5a887add27dmr10425983e87.3.1778519533815;
+        Mon, 11 May 2026 10:12:13 -0700 (PDT)
+Received: from va-HP-Pavilion-Desktop-595-p0xxx.mshome.net ([193.0.150.248])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8a95660b6sm2765488e87.62.2026.05.11.10.12.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2026 10:12:13 -0700 (PDT)
+From: Valery Borovsky <vebohr@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: mchehab@kernel.org,
+	hverkuil@kernel.org,
+	hansg@kernel.org,
+	hugues.fruchet@foss.st.com,
+	alain.volmat@foss.st.com,
+	mcoquelin.stm32@gmail.com,
+	alexandre.torgue@foss.st.com,
+	sakari.ailus@linux.intel.com,
+	mripard@kernel.org,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Valery Borovsky <vebohr@gmail.com>
+Subject: [PATCH 0/6] media: vb2: Return queued buffers from start_streaming() on error
+Date: Mon, 11 May 2026 20:12:05 +0300
+Message-ID: <cover.1778518085.git.vebohr@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cB4Di8dSFm0cWmlk"
-Content-Disposition: inline
-In-Reply-To: <d51ab76d9f658aad542fa24651d1083e31628038.camel@gmail.com>
+Content-Transfer-Encoding: 8bit
 
+The vb2 framework hands buffer ownership to the driver via buf_queue()
+before calling start_streaming().  If start_streaming() returns an
+error without first returning those buffers via vb2_buffer_done(),
+vb2_start_streaming() fires WARN_ON(owned_by_drv_count != 0) and the
+queued buffers leak.
 
---cB4Di8dSFm0cWmlk
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This was previously fixed for uvcvideo in commit 4cf3b6fd54eb ("media:
+uvcvideo: Return queued buffers on start_streaming() failure").  The
+same pattern exists in six sibling drivers that still return an errno
+early (USB disconnect, signal-interrupted mutex, or media-graph /
+format lookup failure) without draining their internal queued-buffer
+list.  Each patch reuses or extends the helper / cleanup label that
+the driver's other error paths already use.
 
-On Mon, May 11, 2026 at 06:18:22PM +0200, Alexander Sverdlin wrote:
-> Hi Conor,
->=20
-> On Mon, 2026-05-11 at 17:08 +0100, Conor Dooley wrote:
-> > > Baijie HelperBoard A133 is a development board around their A133 Core
-> > > board. Introduce a compatible for both the Core and the development
-> > > boards.
-> > >=20
-> > > Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-> > > ---
-> > >=20
-> > > Changelog:
-> > > v2:
-> > > - introduced baijie,helper-a133-core compatible for the Core (SoM) bo=
-ard
-> > >=20
-> > > =A0 Documentation/devicetree/bindings/arm/sunxi.yaml | 11 +++++++++++
-> > > =A0 1 file changed, 11 insertions(+)
-> > >=20
-> > > diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Docum=
-entation/devicetree/bindings/arm/sunxi.yaml
-> > > index e6443c266fa1..d7b9dec81165 100644
-> > > --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-> > > +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-> > > @@ -96,6 +96,17 @@ properties:
-> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 - const: allwinner,ba10-tvbox
-> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 - const: allwinner,sun4i-a10
-> > > =A0=20
+  airspy.c          - moves mutex_lock above the !s->udev check and
+                      jumps to the existing err_clear_bit label, which
+                      already drains s->queued_bufs.
+  msi2500.c         - rebuilds start_streaming into a goto chain that
+                      drains the queue on every failure (including
+                      previously-masked set_usb_adc / ctrl_msg paths);
+                      parameterizes msi2500_cleanup_queued_bufs() with
+                      vb2_buffer_state so the start_streaming path
+                      passes _QUEUED.  Rolls back isoc_init via
+                      msi2500_isoc_cleanup() on ctrl_msg failure.
+  pwc-if.c          - calls pwc_cleanup_queued_bufs(.., _QUEUED) before
+                      each early return; state matches the existing
+                      pwc_isoc_init() error-path in the same function.
+  rtl2832_sdr.c     - calls rtl2832_sdr_cleanup_queued_bufs() before
+                      each early return and at the err label.  Adds an
+                      explicit success return so the cleanup at err no
+                      longer runs on the success path.  Parameterizes
+                      the helper with vb2_buffer_state.
+  dcmipp-bytecap.c  - replaces the bare -EINVAL return for failed
+                      subdev lookup with a goto err_buffer_done.
+  sun4i_dma.c       - replaces the bare -EINVAL return for failed
+                      csi-format lookup with a goto err_clear_dma_queue.
 
+These sites were located by a Coccinelle pattern that matches
+`return -ERRNO` inside a start_streaming(struct vb2_queue *, unsigned
+int) callback without a preceding vb2_buffer_done() on the same path.
 
-> > > +
-> > > +=A0=A0=A0=A0=A0 - description: HelperBoardA133 Core
-> > > +=A0=A0=A0=A0=A0=A0=A0 items:
-> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - const: baijie,helper-a133-core
-> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - const: allwinner,sun50i-a100
-> >=20
-> > Does this make sense? Can the core board be used without a carrier?
->=20
-> such operation would be impractical at least, that's why in my v1
-> Core board didn't have its own compatible. Maybe I didn't understand
-> you correctly.
+Build-tested with drivers/media/ allmodconfig.  Not runtime-tested on
+any of the six devices.  Maintainers with hardware are kindly asked to
+verify nothing regresses on their device.
 
-I just wanted a comaptible for the SoM, so that there's a common
-compatible for that if it ends up on another carrier. IIRC these Baijie
-folks had another one on their site, but may be misremembering.
+Valery Borovsky (6):
+  media: airspy: Return queued buffers on start_streaming() failure
+  media: msi2500: Return queued buffers on start_streaming() failure
+  media: pwc: Return queued buffers on start_streaming() failure
+  media: rtl2832_sdr: Return queued buffers on start_streaming() failure
+  media: stm32-dcmipp: Return queued buffers on start_streaming()
+    failure
+  media: sun4i-csi: Return queued buffers on start_streaming() failure
 
->=20
-> Shall I drop the above 4 lines, the compatible property from the
-> root in sun50i-a133-baije-core.dtsi and only leave
-> sun50i-a133-baijie-helper.dtb with 3-strings compatible as it is
-> now in v2?
+ drivers/media/dvb-frontends/rtl2832_sdr.c     | 19 ++++++++---
+ .../st/stm32/stm32-dcmipp/dcmipp-bytecap.c    |  6 ++--
+ .../platform/sunxi/sun4i-csi/sun4i_dma.c      |  6 ++--
+ drivers/media/usb/airspy/airspy.c             |  8 +++--
+ drivers/media/usb/msi2500/msi2500.c           | 32 ++++++++++++++-----
+ drivers/media/usb/pwc/pwc-if.c                |  8 +++--
+ 6 files changed, 57 insertions(+), 22 deletions(-)
 
-> > > +=A0=A0=A0=A0=A0 - description: Baijie Helper A133
-> > > +=A0=A0=A0=A0=A0=A0=A0 items:
-> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - const: baijie,helper-a133
-> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - const: baijie,helper-a133-core
-> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - const: allwinner,sun50i-a100
+-- 
+2.51.0
 
-What I wanted was just this, so trim it down to that and you can add
-my Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
-~heers,
-Conor.
-
-
---cB4Di8dSFm0cWmlk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCagIE+wAKCRB4tDGHoIJi
-0nBNAPwK8Yq4uL0Ra+sraV5A47KnNc4KNwG1tD3MeAzxtUaewQD/RU96WmYb98VU
-UBY0rtr749FM3A1Lq53tW1kpdCSISAA=
-=MFgT
------END PGP SIGNATURE-----
-
---cB4Di8dSFm0cWmlk--
