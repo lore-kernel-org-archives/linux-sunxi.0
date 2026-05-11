@@ -1,145 +1,139 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E52C3EF0B4
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 May 2026 16:17:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68AF6472771;
+	Mon, 11 May 2026 16:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778516261; cv=none; b=tL7QnjjB541zEa36xXpX0TX4FjxXE0Czl0m1cRB3dTKkhIsQD5QXih1SQjpaaSvReY2IajXdEgGM/wM6ECvMHEZtP6Nlo5vpG4oi7xuZQEnfVlKMFAGVeyd+yPaAhwRHWQLVl6JMKNXPiUuI2+7qSLRwxDMHm5lX6QN9idghM6Q=
+	t=1778517248; cv=none; b=k1zR5nxRILWgE8J7lNML6tODFPlFyalri4vGneraslxFT8a8XidDz0eCI6jw09xTIGWm+8xJtolTW8sj3goXQwSkjRnoZJKF/rzgbcAlJNcd+W+t5JESmOYgYi9ARbi/XvGxK02HxAie1JOm6tKOK79HEw0V0g44adG3rQ8MbI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778516261; c=relaxed/simple;
-	bh=snIcOk1xMSTaa9lMcB3wIhJWh+KSiFp8e1pKlLk1omE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=jBI3i9GCqum0XKVZINkKmoGAJcfnt9bNf6bZRMC+c7p1uANtYztPT53L4obfWcOiItS583bcLmFhcBKSQtPt87IhisFmNLtlvPPsmqfMulg/8dTEEkwV7xqDiv8EdBvUfRCrP6/kBLLlp5zwfEAmCd2OC8sahw22UfuLqe+0NhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CjLOZYfR; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778517248; c=relaxed/simple;
+	bh=ylz1oiPhtoKBMsOdw8S6ulCdAQFgME1WIIPYHlvBdSc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M741WsUjknAyvnrhg7D+NbOk0NCbjkPYKJ2qfY/ah4EQKue3YH9z57VC+/g+2CwaDZiFsXyhE+nHKUBE5UAegv2jXlhyvSNgqrHuC2wpdttcV1+M4BMhZveBztHeMnSNEZZ8+vquWCpZH9AZMrgmKuS/Sa0h4GeaNcdQYlghuD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RYG9YS7M; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CjLOZYfR"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-488a8ca4aadso41447545e9.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 11 May 2026 09:17:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778516258; x=1779121058; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=snIcOk1xMSTaa9lMcB3wIhJWh+KSiFp8e1pKlLk1omE=;
-        b=CjLOZYfR4dTDmHEYHWAvvgp4VbrLbEGCt2VD7/erqPuw0O7z567Qbjlb2kLKg9biAN
-         LuNtBIlpOY7Qv2a+x6b9QNxRPQyTGm3MxW2alXzubhnnl03K7wGILiy6RREjUqt5hHby
-         acoWkRF0XNuA1+qAiGoje/Ei3TOiY2WLn5AcPMfPBiCBp/J1k5uVnwNKOORXRcklVuhg
-         hfIFok6pmZ9A3AcV33Hp4lEB3e/TYkC8BcPx2AhU7fS1aFWJSN9xZB/+QYecuAXEdZLw
-         8OR2kaIVF0ELgdMtxkCJYipRD2C9tWdN/4A6ylooyein2/KwPiCSiyJgo3RixgWQZAHl
-         cMlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778516258; x=1779121058;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=snIcOk1xMSTaa9lMcB3wIhJWh+KSiFp8e1pKlLk1omE=;
-        b=lzIOK2SrANma3qMjltW8gqETJFzSbNlX6h+tJLPpEBMav8BVTGfAPUVZjCnXTSE+t3
-         VBCf6Yy3yUUi67Xo+o4wszuSvetsHHrMYolSmxOGDd/az1C05pMNJBJjceOGWO0ucKWM
-         1v+9eCn4e3WYhvEwUVkcDaoCZT2wD2j2S/49TAv1xdxuqc4KgCQSyW07EXS8b30VpB+n
-         g3DO8a3p3aoqNHcdtQOKP7ShXofmwfxUeAVHkxQIFshqtI/oEwnUwmafiE02eMISuDkP
-         9a5+erv+B0XDVs4MQSzlLOOi8FGhZNQOsnOuotVONDRXamngoa2RrajxZhf0VTUqmMHn
-         CV1Q==
-X-Gm-Message-State: AOJu0YxpOFjpNZHL8lX1VD6N7O3Zk50oHruSopBjt8YK35wX/sISRm7u
-	WvPuo4YVmo2LdYvN+oNdngZYdhfJNrRnW0iXiefp20NDgk5sYQV1f3io
-X-Gm-Gg: Acq92OEhWHR7fKivckTgIAPwaP6i+txLiC3k6lBI9ANa+nB6NeLd/e6LPQTNVIJg6mz
-	J/5erdzjGyrX6XYlwWGmbvAtOClFR3X6aDhQn57Ex88PTCyrvR445FpIhAQllwA3f1pAi1Znpa1
-	n8Tsa+7Uc5d2oA4+92QTLGDGy9Rh91bsRhPCuijcAnuJkHHJkvZtr+ljGokmKhQ3f95Uqk1ICTR
-	cPj8UZbWT2OSo8RGAr0Z+hsSWRssbo0FsWECXA9aJjh6lE8AmqQsm7Ggc5EYyVnzQZz9OmjqTfG
-	MQWA2nVMZ43BXTefytgC0wHRitWL5DCsK1OCbBYw7dRWW55C5zHtDhgjVgz6DZCXW9wktQhRQE+
-	m3VTJkDyooojHQ9bhzpcyqnYr2MtxjaXpySAxnKVMjfVoiemfEJPa+9hGSwDIuLNiJzk+9N+OGa
-	euCY4xoYQbv3zQw0dVzk0pUIPYjoXddGrdrlGcEFZhtf3gcEAP5sJ7kfB8RLs1wbfJxiID5q/gV
-	oXoWdo=
-X-Received: by 2002:a05:600c:47d3:b0:48d:c0a:3813 with SMTP id 5b1f17b1804b1-48e51e0bb62mr257112665e9.3.1778516257805;
-        Mon, 11 May 2026 09:17:37 -0700 (PDT)
-Received: from 0.1.2.1.2.0.a.2.dynamic.cust.swisscom.net ([2a02:1210:8642:2b00:82ee:73ff:feb8:99e3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e8e566cf7sm472495e9.0.2026.05.11.09.17.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 09:17:37 -0700 (PDT)
-Message-ID: <d51ab76d9f658aad542fa24651d1083e31628038.camel@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RYG9YS7M"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1B37C2BCC9;
+	Mon, 11 May 2026 16:34:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778517248;
+	bh=ylz1oiPhtoKBMsOdw8S6ulCdAQFgME1WIIPYHlvBdSc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RYG9YS7MrteGT1RlB+bEstA5kHW0D78F1ldj3UaIvplq6TQClpeMn0K2VYwKHXVHF
+	 IAoPbUL0/LvPty3d7DovyKMpScfya3e91/n9wQozdm8cwho2urIakok9xyHFrIhwfr
+	 r9EyuYAkCUuGvwnxhKsGNwkB/g2WWtJiUY7ImkAYptjlw9IXqT/dZ3cMv4irGDAAzi
+	 VvoS+luWIZ4NPIcVF1KQ2wA/42/5lhYI/+5SPutWYuITyNhJKjbVHjbYoAn/RKgtHN
+	 XgFlm9TNo6KfYRST9RSl7A8oTGDBP8rmdwv82mKmNysSZMR4frumDULvhzL3Vj8YqC
+	 vuHbXaKpMRDxQ==
+Date: Mon, 11 May 2026 17:34:03 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 2/3] dt-bindings: arm: sunxi: Add Baijie HelperBoard
  A133 compatible
-From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: linux-sunxi@lists.linux.dev, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu
- Tsai <wens@kernel.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>, Andre Przywara	 <andre.przywara@arm.com>,
- devicetree@vger.kernel.org, 	linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Date: Mon, 11 May 2026 18:18:22 +0200
-In-Reply-To: <20260511-stock-elitism-f1f703bee1a3@spud>
+Message-ID: <20260511-startup-subside-343d9f8352f4@spud>
 References: <20260510201644.4143710-1-alexander.sverdlin@gmail.com>
-	 <20260510201644.4143710-3-alexander.sverdlin@gmail.com>
-	 <20260511-stock-elitism-f1f703bee1a3@spud>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 
+ <20260510201644.4143710-3-alexander.sverdlin@gmail.com>
+ <20260511-stock-elitism-f1f703bee1a3@spud>
+ <d51ab76d9f658aad542fa24651d1083e31628038.camel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cB4Di8dSFm0cWmlk"
+Content-Disposition: inline
+In-Reply-To: <d51ab76d9f658aad542fa24651d1083e31628038.camel@gmail.com>
 
-Hi Conor,
 
-On Mon, 2026-05-11 at 17:08 +0100, Conor Dooley wrote:
-> > Baijie HelperBoard A133 is a development board around their A133 Core
-> > board. Introduce a compatible for both the Core and the development
-> > boards.
-> >=20
-> > Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-> > ---
-> >=20
-> > Changelog:
-> > v2:
-> > - introduced baijie,helper-a133-core compatible for the Core (SoM) boar=
-d
-> >=20
-> > =C2=A0 Documentation/devicetree/bindings/arm/sunxi.yaml | 11 ++++++++++=
-+
-> > =C2=A0 1 file changed, 11 insertions(+)
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documen=
-tation/devicetree/bindings/arm/sunxi.yaml
-> > index e6443c266fa1..d7b9dec81165 100644
-> > --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-> > +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-> > @@ -96,6 +96,17 @@ properties:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - co=
-nst: allwinner,ba10-tvbox
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - co=
-nst: allwinner,sun4i-a10
-> > =C2=A0=20
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - description: Baijie Helper A133
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 items:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: baijie=
-,helper-a133
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: baijie=
-,helper-a133-core
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: allwin=
-ner,sun50i-a100
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - description: HelperBoardA133 Core
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 items:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: baijie=
-,helper-a133-core
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: allwin=
-ner,sun50i-a100
+--cB4Di8dSFm0cWmlk
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, May 11, 2026 at 06:18:22PM +0200, Alexander Sverdlin wrote:
+> Hi Conor,
 >=20
-> Does this make sense? Can the core board be used without a carrier?
+> On Mon, 2026-05-11 at 17:08 +0100, Conor Dooley wrote:
+> > > Baijie HelperBoard A133 is a development board around their A133 Core
+> > > board. Introduce a compatible for both the Core and the development
+> > > boards.
+> > >=20
+> > > Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+> > > ---
+> > >=20
+> > > Changelog:
+> > > v2:
+> > > - introduced baijie,helper-a133-core compatible for the Core (SoM) bo=
+ard
+> > >=20
+> > > =A0 Documentation/devicetree/bindings/arm/sunxi.yaml | 11 +++++++++++
+> > > =A0 1 file changed, 11 insertions(+)
+> > >=20
+> > > diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Docum=
+entation/devicetree/bindings/arm/sunxi.yaml
+> > > index e6443c266fa1..d7b9dec81165 100644
+> > > --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
+> > > +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> > > @@ -96,6 +96,17 @@ properties:
+> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 - const: allwinner,ba10-tvbox
+> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 - const: allwinner,sun4i-a10
+> > > =A0=20
 
-such operation would be impractical at least, that's why in my v1
-Core board didn't have its own compatible. Maybe I didn't understand
-you correctly.
 
-Shall I drop the above 4 lines, the compatible property from the
-root in sun50i-a133-baije-core.dtsi and only leave
-sun50i-a133-baijie-helper.dtb with 3-strings compatible as it is
-now in v2?
+> > > +
+> > > +=A0=A0=A0=A0=A0 - description: HelperBoardA133 Core
+> > > +=A0=A0=A0=A0=A0=A0=A0 items:
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - const: baijie,helper-a133-core
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - const: allwinner,sun50i-a100
+> >=20
+> > Does this make sense? Can the core board be used without a carrier?
+>=20
+> such operation would be impractical at least, that's why in my v1
+> Core board didn't have its own compatible. Maybe I didn't understand
+> you correctly.
 
---=20
-Alexander Sverdlin.
+I just wanted a comaptible for the SoM, so that there's a common
+compatible for that if it ends up on another carrier. IIRC these Baijie
+folks had another one on their site, but may be misremembering.
+
+>=20
+> Shall I drop the above 4 lines, the compatible property from the
+> root in sun50i-a133-baije-core.dtsi and only leave
+> sun50i-a133-baijie-helper.dtb with 3-strings compatible as it is
+> now in v2?
+
+> > > +=A0=A0=A0=A0=A0 - description: Baijie Helper A133
+> > > +=A0=A0=A0=A0=A0=A0=A0 items:
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - const: baijie,helper-a133
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - const: baijie,helper-a133-core
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - const: allwinner,sun50i-a100
+
+What I wanted was just this, so trim it down to that and you can add
+my Acked-by: Conor Dooley <conor.dooley@microchip.com>
+
+~heers,
+Conor.
+
+
+--cB4Di8dSFm0cWmlk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCagIE+wAKCRB4tDGHoIJi
+0nBNAPwK8Yq4uL0Ra+sraV5A47KnNc4KNwG1tD3MeAzxtUaewQD/RU96WmYb98VU
+UBY0rtr749FM3A1Lq53tW1kpdCSISAA=
+=MFgT
+-----END PGP SIGNATURE-----
+
+--cB4Di8dSFm0cWmlk--
