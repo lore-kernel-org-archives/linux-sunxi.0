@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE19538E5D6;
-	Tue, 12 May 2026 09:55:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5192349CDE;
+	Tue, 12 May 2026 10:16:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778579733; cv=none; b=DU46JeDvsjhZK3k5RgjIuvEk20A5sTYrAA0Mwne4svqNCzSTaB0/8J6zUgyVKteyIT0NXXeht6TTDDCX0Up3y1U5xmgRGkvyXUNbNhowyeRjOm5L0ZhlczqBVGa6ISwvRfijstyOmhrsQLLphDpsfttcpMhEt2Yyl5Ja1qV8ee4=
+	t=1778581017; cv=none; b=ucQJv9Y5M9xJojcK7xsN0j0OfWjgfVknU1zWl9FUtiVXaN4AIch6/hwUnAmsDM2YtvSDFMVczmYePpeB1qxkliIkJWr7MyhahzMF9LXoQcUGmPKGUvC8dyAegnkEhAG2XbOD82ijhLBBLO0qQ25BXjvC2xTyI4XW1rgiab0seVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778579733; c=relaxed/simple;
-	bh=sKtOdshfCoX9MSFc77fz6L3nrgnwT/LACWvUhL5OfVg=;
+	s=arc-20240116; t=1778581017; c=relaxed/simple;
+	bh=w6hATkZRGSRSJowaFjN45EX2kl/oM+c7ccdVW67Eh3s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aGwtofqV9yQzTNUfV8r4u5s/53onYJYfZQKOc1mp1/g/iHF8IBF2ufKTEdWnIB9GjTlWPF/9XDn8BXVmHdq9tdstrJxuNni1l6Le5fbVho9mWNy/FaY+8T7+atqHDcqHG5QEamAM40M15Fs57MUZgUWXFAGT0kBWx29MYIQ55rI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DxnuZ0dT; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=legOGLqlgG3TUo4qGAXAmhULKxxaz2AzcsQVOeFtJjrL15Y7c2pKqfFZnRi/tgsFUOJ3bdeYWCaCZBGNwbMeAFl2J7mQ0iyKsCFFGv2NbcZY2jd885MRptWj+zfTq9Mgr5S264ZksXFw5tlutdGWzIM34pH5MDXgYqmZvHK1V5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iyynMxhK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DxnuZ0dT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B0C1C2BCB0;
-	Tue, 12 May 2026 09:55:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iyynMxhK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BB70C2BCB0;
+	Tue, 12 May 2026 10:16:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778579733;
-	bh=sKtOdshfCoX9MSFc77fz6L3nrgnwT/LACWvUhL5OfVg=;
+	s=k20201202; t=1778581016;
+	bh=w6hATkZRGSRSJowaFjN45EX2kl/oM+c7ccdVW67Eh3s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DxnuZ0dTMIPrtYkkFNyjpxIU2k1GNR56TB3NXSivcCStVQW683e2Xw7JJczyUi3ta
-	 0MSLaDxb/f5MTm9aKw6LGkBNmmnTOz4uFtrljJyJ5KzusZdrgeDAumATwqAwpSKP/C
-	 zk56xho1rCi3cE9YgLBMeZbEYyh48l1MDIHZg91ilibgHasAj1SNo/CG98mUN+NANp
-	 kYljsLqCtoetCiGLGlxcrGLPqWEZu8TR4crtz8nDBvdk7piw6acWzgNYk1Hr0Xjg37
-	 yYBXRSSWg6Sl/Yrt685291veeK7bzUZGNLPJVMvhsGfsvpqabZ9dMxpC4G0mujHmYS
-	 9Qw2o2ZGnFXhA==
-Date: Tue, 12 May 2026 11:55:30 +0200
+	b=iyynMxhKI/8Jg0jAf3zt9NS9aZuPuBUsWGBl6pjep56D0BX7ArOWIvumJnsk4Hxuq
+	 mnnaRaFvBV5mkvEsDlbtbvUSCRvLWYdvCMf4sNeM7vNilIbeePN5AkWfwxvjAQev7g
+	 /0A4u2buvc8ZFh87pXWIBdFrJFLxqXQwPpvDqOdq1iuaVD2hhWsouG5CMcWCdCXTZv
+	 ifyJNn5+17bVPbWwPFuyMigi7nZbU+5QYcAqZqfLOaUQjlplaxZPW1O+AKlvC2/zNq
+	 0oO5sua9onBYaQGmy1JTt0SnaAYmCKIZGFkBl54L+OfZD1RfSStH8Oms9Ts4XPZzEe
+	 eFQvD4RfZWaYw==
+Date: Tue, 12 May 2026 12:16:53 +0200
 From: Maxime Ripard <mripard@kernel.org>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -47,11 +47,11 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>, 
 	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 10/20] drm/plane: Add new atomic_create_state callback
-Message-ID: <20260512-versed-cougar-of-sunshine-dcf86c@houat>
+Subject: Re: [PATCH v3 12/20] drm/crtc: Add new atomic_create_state callback
+Message-ID: <20260512-unbiased-apricot-jaguar-a63eba@houat>
 References: <20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org>
- <20260424-drm-mode-config-init-v3-10-8b68d9db0d8b@kernel.org>
- <20260504165229.GM1344263@killaraus.ideasonboard.com>
+ <20260424-drm-mode-config-init-v3-12-8b68d9db0d8b@kernel.org>
+ <20260504172858.GO1344263@killaraus.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -59,22 +59,22 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="22373ydgvhi5g6fp"
+	protocol="application/pgp-signature"; boundary="xucbq2efeno5xzls"
 Content-Disposition: inline
-In-Reply-To: <20260504165229.GM1344263@killaraus.ideasonboard.com>
+In-Reply-To: <20260504172858.GO1344263@killaraus.ideasonboard.com>
 
 
---22373ydgvhi5g6fp
+--xucbq2efeno5xzls
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 10/20] drm/plane: Add new atomic_create_state callback
+Subject: Re: [PATCH v3 12/20] drm/crtc: Add new atomic_create_state callback
 MIME-Version: 1.0
 
 Hi,
 
-On Mon, May 04, 2026 at 07:52:29PM +0300, Laurent Pinchart wrote:
-> On Fri, Apr 24, 2026 at 12:18:50PM +0200, Maxime Ripard wrote:
+On Mon, May 04, 2026 at 08:28:58PM +0300, Laurent Pinchart wrote:
+> On Fri, Apr 24, 2026 at 12:18:52PM +0200, Maxime Ripard wrote:
 > > Commit 47b5ac7daa46 ("drm/atomic: Add new atomic_create_state callback
 > > to drm_private_obj") introduced a new pattern for allocating drm object
 > > states.
@@ -104,60 +104,83 @@ On Mon, May 04, 2026 at 07:52:29PM +0300, Laurent Pinchart wrote:
 > > initialization with the actual reset one might need during a
 > > suspend/resume.
 > >=20
-> > Continue the transition to the new pattern with planes.
+> > Continue the transition to the new pattern with CRTCs.
 > >=20
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > > ---
-> >  drivers/gpu/drm/drm_atomic_state_helper.c | 25 +++++++++++++++++++++++=
-++
-> >  drivers/gpu/drm/drm_mode_config.c         | 21 ++++++++++++++++++++-
-> >  include/drm/drm_atomic_state_helper.h     |  2 ++
-> >  include/drm/drm_plane.h                   | 16 ++++++++++++++++
-> >  4 files changed, 63 insertions(+), 1 deletion(-)
+> >  drivers/gpu/drm/drm_atomic_state_helper.c | 47 +++++++++++++++++++++++=
+++++++++
+> >  drivers/gpu/drm/drm_mode_config.c         | 21 +++++++++++++-
+> >  include/drm/drm_atomic_state_helper.h     |  4 +++
+> >  include/drm/drm_crtc.h                    | 16 +++++++++++
+> >  4 files changed, 87 insertions(+), 1 deletion(-)
 > >=20
 > > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/dr=
 m/drm_atomic_state_helper.c
-> > index 285efbf29520..50fe4eec41a8 100644
+> > index 9cd8550cabb7..b7da134c8c50 100644
 > > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
 > > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> > @@ -338,10 +338,35 @@ void drm_atomic_helper_plane_reset(struct drm_pla=
-ne *plane)
-> >  	if (plane->state)
-> >  		__drm_atomic_helper_plane_reset(plane, plane->state);
+> > @@ -103,10 +103,32 @@ __drm_atomic_helper_crtc_reset(struct drm_crtc *c=
+rtc,
+> > =20
+> >  	crtc->state =3D crtc_state;
 > >  }
-> >  EXPORT_SYMBOL(drm_atomic_helper_plane_reset);
+> >  EXPORT_SYMBOL(__drm_atomic_helper_crtc_reset);
 > > =20
 > > +/**
-> > + * drm_atomic_helper_plane_create_state - default &drm_plane_funcs.ato=
-mic_create_state hook for planes
+> > + * __drm_atomic_helper_crtc_create_state - initializes crtc state
 >=20
-> drm_atomic_helper_colorop_create_state() states "Allocates and
-> initializes colorop atomic state", while here you document it as
-> "default hook for planes". Consistency would be good.
+> "Initialize a CRTC state"
 
-I don't think it's inconsistent?
+Good catch, thanks.
 
-colorops don't have a create_state callback, so the only function to
-create it is defined as "Allocates and initializes colorop atomic
-state". For planes, the hook is documented as "Allocates a pristine,
-initialized, state for the plane object and returns it.", and here we
-have the default implementation for that hook, which is documented as
-such.
+> The name of the function is misleading ("*_create_*" while you state it
+> performs initialization).
+>
+> > + * @crtc: crtc object
+> > + * @state: new state to initialize
+> > + *
+> > + * Initializes the newly allocated @state, usually required when
+> > + * initializing the drivers.
+> > + *
+> > + * @state is assumed to be zeroed.
+> > + *
+> > + * This is useful for drivers that subclass @drm_crtc_state.
+> > + */
+> > +void __drm_atomic_helper_crtc_create_state(struct drm_crtc *crtc,
+> > +					   struct drm_crtc_state *state)
+> > +{
+> > +	__drm_atomic_helper_crtc_state_init(state, crtc);
+> > +
+> > +	if (drm_dev_has_vblank(crtc->dev))
+> > +		drm_crtc_vblank_reset(crtc);
+>=20
+> This is confusing to me (at least before reading the rest of the
+> series), and itn't mentioned in the function documentation or in the
+> commit message.
+>
+> Furthermore, __drm_atomic_helper_crtc_create_state() is later used in
+> tidss_crtc_create_state(), which is the
+> drm_crtc_funcs.atomic_create_state() implementation of the tidss driver.
+> The atomic_create_state documentation states that "This callback must
+> have no side effect", and drm_crtc_vblank_reset() has side effects.
 
-It all seems consistent to me?
+That's a good point. I've dropped that function entirely and moved the
+drm_crtc_vblank_reset() call in drm_mode_config_crtc_create_state().
 
 Maxime
 
---22373ydgvhi5g6fp
+--xucbq2efeno5xzls
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCagL5DgAKCRAnX84Zoj2+
-dkRdAYD0DMSjBZG7KznVzXsEfKNp2FbSJf1ulgAd4J6iTdzQ1dB+YlrxnLFoX8sG
-PCH3lKkBgN5APIC+q4CMgKtqaEulFN6SaM58HNWcqL5byNjMi/zSBGs3FJRVyiME
-cyx+95kJPA==
-=j3nb
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCagL+FQAKCRAnX84Zoj2+
+dnNzAX0fzjsGevsyIM+1eS7aSdqPXqaWO2e4vKxwlm1t0+VWLC1LChDXcVfr74JX
+gfLRKAABgLDj6dDvAIYO++YmRFrG/pDTCiRABTfTFmqA3MNWXLLdVzFuX/WVI0ll
+s+ZfkvI9qg==
+=NbJq
 -----END PGP SIGNATURE-----
 
---22373ydgvhi5g6fp--
+--xucbq2efeno5xzls--
