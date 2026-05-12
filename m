@@ -1,167 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from s106b.cyber-folks.pl (s106b.cyber-folks.pl [195.78.66.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA561A6838;
-	Tue, 12 May 2026 03:51:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8324C275AE4;
+	Tue, 12 May 2026 03:57:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.78.66.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778557903; cv=none; b=gk6dqbrKqoeMUjRmyo14BBr7yHkTySgR/kW1baWIuVCEvLa7+brJ4IWn9fHsBHnFLkXtJAo59fXG9WU3MpPFExhMuwiGcrDuaqJYJhtn/JcaAeJZPbXsA7KFMTfn0C4NnUO2JsmlAh5hmJTjbAMeDYprW/skhIREMPGkC02Tqj4=
+	t=1778558278; cv=none; b=EIKqCj0NrxJuxwvOKU5n4rpUl4LdcneqrW3FUIVIB7icbXHksXvTtYMIJiznwCUk8TgqHbtrszBTcq4dencfiSP626gfYD1fsPJBK6Ml9iDva7fO7Ut8CtiUl5wpuSIH59NA3cl4ximfVzCgu9eouF7xskMXg+Z5xAFSJGG9cdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778557903; c=relaxed/simple;
-	bh=AQup6eRZlVqfNfXDjeqcR6lbGFnS6rR6DWXHd+Ud/r8=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=MYbxiU/gI72hpkNZUaO5+Zld/yAW77CTj9ziPEpLySuNefbbDPmUEX9RuJvxUrSzMopEBzXb58ZYmR+n95/c3mMrJ3EqJ3n7cSnJXG4cdkApSXm6eL40mvBExmlq3e0jMWIsihiWGlquwEbDUhIFdMh1/IV4PJyHes4yJm/o5Js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n30kDTlo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778558278; c=relaxed/simple;
+	bh=X1nLH4CetOnQQJUP4BtGE7WFhHgvzfUYTHQaumR+N1A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k2Zfj7HYYDraWtaNFowtStyPGt1BgK1kjJUXqe1K3PW7cEmvcqFZm18/wg6dcfh0q64SlnV3C5V4oIsaqImXitXcA3rYMq3FATSXRICIWBuYXya2QrAprCWeMU1pGQ021AIv61ioELo5ZA/cVZAu+7xGQ2vrrwfFsZyu9nsKuPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl; spf=pass smtp.mailfrom=mmpsystems.pl; dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b=pVbVIxXB; arc=none smtp.client-ip=195.78.66.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mmpsystems.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n30kDTlo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0663CC2BCB8;
-	Tue, 12 May 2026 03:51:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778557903;
-	bh=AQup6eRZlVqfNfXDjeqcR6lbGFnS6rR6DWXHd+Ud/r8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date:From;
-	b=n30kDTloxZU491fvOFOVDOtIV3V3uspx3A4OD6zqwYkOE4a9gOcjpE18yc7p7v252
-	 lzFlgKs0W/qfU1s9XVnxuWIy9meGOuHPeB+cHOrRGIXvdsdB0jL0HjoOEPlw2Ij3Ib
-	 /BqthKv9zRy/s5iwL/apVkEsKcebvDzfHw5tOOxqOavCA4FproEMcYibxL9gtW/YKJ
-	 CzASgFNDnOEoOAlBgH79vfoJ44TEkWAnykBHGsjoOLf2SzXGTXS2kuXsWLkDBFCaFn
-	 hK1ZWeenkrQpQKRGWdGjz3bJpFRyZYSRfjp7PoR8B/s/ll1EpmmF0rIiH9NsfB4N3X
-	 u194GlH7/j4jA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 17/21] drm: bridge: dw_hdmi: Rework HDP and RXSENSE
- interrupt handling
-Reply-To: sashiko@lists.linux.dev
-To: "Jonas Karlman" <jonas@kwiboo.se>
-Cc: linux-sunxi@lists.linux.dev, Frank.Li@kernel.org, imx@lists.linux.dev
-In-Reply-To: <20260510124111.1226584-18-jonas@kwiboo.se>
-References: <20260510124111.1226584-18-jonas@kwiboo.se>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 12 May 2026 03:51:42 +0000
-Message-Id: <20260512035143.0663CC2BCB8@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b="pVbVIxXB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=mmpsystems.pl; s=x; h=In-Reply-To:Content-Type:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Euouo/K/RbEumsaT1GH2JUlCYd6qzEvxZUoNiId5TT4=; b=pVbVIxXByLhlXqnNT+0d+CbEve
+	TjY0bwKs+/AYKrfSWu8mPOnImLsJNhc0Lmg7JggF9Q0CQHzdtFogBgpRGiAHApaocHOFShgOykLpk
+	eysv5YIBb4pLQGwd3tNAl0P0hkNNONnv6tunaHzK9+7s5xdYNkjistxxT9WqqgrZxsT6Zu2ALrdM3
+	AsQU/uqgI02OxtyW9MujjNgIY8puI4mfJkKjBzRGF9Y1ClyabokNj/hczmAjrYBl98cuCOxACZ8tj
+	U3qI9h+MUaJIXtZ6vaWGLQrxGcoorF8i1AF3Nt7sZl4X3kfR8kBKrhAk9fZ43pXn01ciUFFQJx9ee
+	0gcTliDA==;
+Received: from user-188-33-36-12.play-internet.pl ([188.33.36.12] helo=localhost)
+	by s106.cyber-folks.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <michal.piekos@mmpsystems.pl>)
+	id 1wMeFj-00000007kOo-3hb9;
+	Tue, 12 May 2026 05:57:52 +0200
+Date: Tue, 12 May 2026 05:56:54 +0200
+From: Michal Piekos <michal.piekos@mmpsystems.pl>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Maksim Kiselev <bigunclemax@gmail.com>, 
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: iio: adc: Add GPADC for Allwinner A523
+Message-ID: <3aabrtlih2z3b4v5ec5jdb76cb4aesqm2grjudzxhlkk3iwzcn@bawiakcija6d>
+References: <20260510-sunxi-a523-gpadc-v1-0-4f6b0f4000fb@mmpsystems.pl>
+ <20260510-sunxi-a523-gpadc-v1-1-4f6b0f4000fb@mmpsystems.pl>
+ <e7269822-afc4-4a80-8408-297f9dbd6791@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e7269822-afc4-4a80-8408-297f9dbd6791@arm.com>
+X-Authenticated-Id: michal.piekos@mmpsystems.pl
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [High] The delayed work `hpd_work` can be re-armed during device removal,=
- leading to a Use-After-Free.
-- [High] The new HPD debouncing logic entirely swallows short HPD pulses me=
-ant to signal EDID changes.
-- [High] The IRQ handler can overwrite the teardown interrupt mute, leaving=
- interrupts enabled after driver unloads.
---
+On Mon, May 11, 2026 at 06:02:16PM +0200, Andre Przywara wrote:
+> Hi Michal,
+> 
+> thanks for adding this!
+> 
+> On 5/10/26 14:57, Michal Piekos wrote:
+> > Add support for the GPADC for the Allwinner A523. It differs from the
+> > D1/T113s/R329/T507 by having two clocks.
+> > 
+> > Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
+> > ---
+> >   .../iio/adc/allwinner,sun20i-d1-gpadc.yaml         | 37 +++++++++++++++++++++-
+> >   1 file changed, 36 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml b/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml
+> > index da605a051b94..89da96cd705f 100644
+> > --- a/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml
+> > +++ b/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml
+> > @@ -17,6 +17,7 @@ properties:
+> >         - items:
+> >             - enum:
+> >                 - allwinner,sun50i-h616-gpadc
+> > +              - allwinner,sun55i-a523-gpadc
+> >             - const: allwinner,sun20i-d1-gpadc
+> 
+> As Jernej already mentioned, the A523 GPADC is not fully compatible, since
+> it adds another clock. The question to ask is: Can a driver only knowing
+> about the fallback device handle this new device? For which the answer here
+> is: No, it misses a clock.
+> So add just a single entry for the A523 (plus adding it to the driver).
+> 
+> So looking at this I wonder if we should add some property to describe the
+> number of supported channels, since they are slightly different between the
+> SoCs:
+> - The D1 manual mentions 2 channels.
+> - The T113s manual (same die as the D1?) describes 1 channel only.
+> - The T507 manual (same die as the H616) reports 4 channels.
+> - The A733 has 6 channels.
+> - The A133 has 1 channel, but it's channel 1, not 0.
+> 
+> So all of this is somewhat covered as channels are described as child nodes,
+> and have a reg property. Ideally non-existing channels just wouldn't be
+> listed, but I don't know if we want to rely on that.
+> 
+> So I am wondering if we should introduce a limit, or rather a mask (to cover
+> the A133 oddity)?
+> Either a DT property (channel-mask, as a single sell representing the bit
+> mask), or derived in the driver from the compatible string.
+> The former would avoid introducing different compatible strings just because
+> of that, though I think this type of property is somewhat discouraged?
+> 
+> Any thoughts?
 
-commit 7856139a882918cd7a789f36dd7c8fda0cd5ba3d
-Author: Jonas Karlman <jonas@kwiboo.se>
+Thanks. I have missed that sparse channels are also possible. I think in
+current implementation it will cause issue with lookup through
+<&gpadc 1> as sun20i_gpadc_alloc_channels would effectively create
+channels[0].channel = 1 in such scenario. I will try to verify if my
+logic is correct and provide separate fix if needed.
 
-drm: bridge: dw_hdmi: Rework HDP and RXSENSE interrupt handling
+Regarding DT property masking channels there is already precedence:
+atmel,adc-channels-used is a bitmask of muxed and enabled channels.
+Not sure if preferable though...
 
-This commit removes RXSENSE handling to simplify the HPD interrupt handling
-and instead depends on a debounced HPD work to refresh the EDID. It also
-ensures the initial HPD interrupt polarity is based on current HPD status.
+Michal
+> 
+> >     "#io-channel-cells":
+> > @@ -29,7 +30,12 @@ properties:
+> >       const: 0
+> >     clocks:
+> > -    maxItems: 1
+> > +    minItems: 1
+> > +    maxItems: 2
+> > +
+> > +  clock-names:
+> > +    minItems: 1
+> > +    maxItems: 2
+> >     interrupts:
+> >       maxItems: 1
+> > @@ -40,6 +46,35 @@ properties:
+> >     resets:
+> >       maxItems: 1
+> > +allOf:
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          items:
+> > +            - const: allwinner,sun55i-a523-gpadc
+> > +            - const: allwinner,sun20i-d1-gpadc
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          minItems: 2
+> > +          maxItems: 2
+> > +          items:
+> > +            - description: Bus clock
+> > +            - description: Module clock
+> 
+> I am not a YAML expert, but I think you can drop the min and max properties,
+> if you just enumerate the cases. Same for the names.
+> 
+> Cheers,
+> Andre
 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/=
-bridge/synopsys/dw-hdmi.c
-> index f32eea9106b00..7fd2de41bc02c 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-
-[ ... ]
-
-> @@ -3051,78 +3002,29 @@ static irqreturn_t dw_hdmi_hardirq(int irq, void =
-*dev_id)
-> =20
->  void dw_hdmi_setup_rx_sense(struct dw_hdmi *hdmi, bool hpd, bool rx_sens=
-e)
->  {
-
-[ ... ]
-
->  static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
->  {
->  	struct dw_hdmi *hdmi =3D dev_id;
-
-[ ... ]
-
-> +	intr_stat =3D hdmi_readb(hdmi, HDMI_IH_PHY_STAT0);
-> +	if (intr_stat & HDMI_IH_PHY_STAT0_HPD) {
-> +		enum drm_connector_status status;
-> =20
-> -		if (!(phy_stat & (HDMI_PHY_HPD | HDMI_PHY_RX_SENSE)))
-> -			status =3D connector_status_disconnected;
-> -	}
-> +		/* Set HPD interrupt polarity based on current HPD status. */
-> +		status =3D dw_hdmi_phy_read_hpd(hdmi, hdmi->phy.data);
-> +		hdmi_modb(hdmi, status =3D=3D connector_status_connected ?
-> +			  0 : HDMI_PHY_HPD, HDMI_PHY_HPD, HDMI_PHY_POL0);
-> =20
-> -	if (status !=3D connector_status_unknown) {
->  		dev_dbg(hdmi->dev, "EVENT=3D%s\n",
->  			status =3D=3D connector_status_connected ?
->  			"plugin" : "plugout");
-> =20
-> +		mod_delayed_work(system_percpu_wq, &hdmi->hpd_work,
-> +				 msecs_to_jiffies(HOTPLUG_DEBOUNCE_MS));
-
-Can this delayed work be re-armed during device removal, leading to a
-use-after-free?
-
-In dw_hdmi_remove(), cancel_delayed_work_sync(&hdmi->hpd_work) is called
-before the hardware PHY interrupts are muted. Furthermore, the IRQ is
-managed by the devm framework, so the handler is not unregistered until
-after dw_hdmi_remove() returns.
-
-If an HPD interrupt fires in the window after the work is canceled but
-before interrupts are disabled, the IRQ handler will execute and
-unconditionally call mod_delayed_work(), placing the work back on the
-queue. When the devm framework subsequently frees the hdmi structure, the
-queued work remains. When the timer expires, dw_hdmi_hpd_work() will
-execute and dereference the freed hdmi pointer.
-
-Also, does this debouncing logic swallow short HPD pulses meant to signal
-EDID changes?
-
-HDMI 1.4b specifications state that a sink indicates an EDID change by
-driving a low voltage level pulse on the HPD pin for at least 100ms. The
-delayed work debounce waits for HOTPLUG_DEBOUNCE_MS.
-
-When a pulse occurs, the timer is queued on the falling edge and
-re-queued/extended on the rising edge. When dw_hdmi_hpd_work() finally runs
-after the debounce period, the HPD line has returned to high. Because this
-steady-state matches the existing connector status,
-drm_helper_hpd_irq_event() will not see a status change and thus will not
-generate a hotplug event. This completely prevents the system from reading
-the new EDID.
-
-> +	}
-> =20
->  	hdmi_writeb(hdmi, intr_stat, HDMI_IH_PHY_STAT0);
-> -	hdmi_writeb(hdmi, ~(HDMI_IH_PHY_STAT0_HPD | HDMI_IH_PHY_STAT0_RX_SENSE),
-> -		    HDMI_IH_MUTE_PHY_STAT0);
-> +	hdmi_writeb(hdmi, ~HDMI_IH_PHY_STAT0_HPD, HDMI_IH_MUTE_PHY_STAT0);
-
-Can this overwrite the teardown interrupt mute, leaving interrupts enabled
-after the driver unloads?
-
-During device teardown, dw_hdmi_remove() attempts to disable all interrupts
-by writing ~0 to this exact register. Since dw_hdmi_remove() does not
-synchronize with the IRQ handler (the IRQ is freed by devres only after
-remove returns), the IRQ handler can run concurrently and overwrite the
-teardown's ~0 with ~HDMI_IH_PHY_STAT0_HPD.
-
-This leaves the PHY interrupts unmuted at the hardware level. Because the
-IRQ is registered with IRQF_SHARED, a subsequent HPD hardware event will
-assert the shared IRQ line with no registered handler, causing an unhandled
-interrupt storm and forcing the kernel to permanently disable the shared
-IRQ line.
-
-> =20
->  	return IRQ_HANDLED;
->  }
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260510124111.1226=
-584-1-jonas@kwiboo.se?part=3D17
+I will correct that in v2.
+Michal.
+> 
+> > +        clock-names:
+> > +          minItems: 2
+> > +          maxItems: 2
+> > +          items:
+> > +            - const: bus
+> > +            - const: mod
+> > +      required:
+> > +        - clock-names
+> > +    else:
+> > +      properties:
+> > +        clocks:
+> > +          maxItems: 1
+> > +        clock-names: false
+> > +
+> >   patternProperties:
+> >     "^channel@[0-9a-f]+$":
+> >       $ref: adc.yaml
+> > 
+> 
