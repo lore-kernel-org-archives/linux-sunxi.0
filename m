@@ -1,87 +1,109 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A973034751E
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 May 2026 22:18:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1022828F948;
+	Tue, 12 May 2026 01:41:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778537922; cv=none; b=hph6ZkjNtXv6xhSqujXB63+c4uerceUGE4j09uzEKjwpSl2Nv3xnlrEBQ3eTMnunW+HlEkc0nmy5x6LcOM07UPMFTsHjZ3vq1zeS3kd48U77PlwlPUrqmueBOH1o8/WwwEd3+3jlYaVMgj6P/cyPJLTf64iM0IbFDNpWRcO73Pg=
+	t=1778550105; cv=none; b=sq4qxCJZAyRssDp+Fqm8emaRw+IS/uUhiTPnNkUdeQZ8FBSgx7vRSx8KDFTSryqLfi3BM7ZFHHmADgGJOLtkIWhYxjGBe8yMwXfPvWtMwNZ3LpQEt3CL4oM51IaQ8lS/AqUt+ChxF6kZuDIZWpaXAuiyoUsr9EKifZSyKc3dYZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778537922; c=relaxed/simple;
-	bh=gw78jt7vc7Qe2unAjmzAV6lSueBAGQ5VKMrWZ7C8lG8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qnZ2ETQs9Uswet3fxR9HJj4P17M+KPAgFmdlMLJrV4/sYa+Ye934j3gL0PnfTUP/gLe2rJIzQUZ/cLntgVOMvslOOFvSrpafNu4210MPNy/GW37p0PFvJX+fO4G4RuT1XujsYsvs+Jq16JVM+R223Fcv1onqfjRJBELRc0s5d8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ZHuzlzpa; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1778550105; c=relaxed/simple;
+	bh=sebhaN6tzTE5Fs4/65z8od0hOE4cI7esAoaJnd5S92Q=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=u3X1+2Y17WI2W8UDkwoKoRHy7HgDk0ZTMZuQNtKZIv8P0onN8xM1nPbgjsXpcmU5T/7Rg+G0hgp2sGyUFI+sqjTgi2jcFj78gxcSRSvzAdBtC8QLLGeoPbdTj6cNYIkwZBVELO47JfdmtheK8Ir+VVJ4VwA6D3+zdV6RjBRjs+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GAgfJ3D2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ZHuzlzpa"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 69CA115A1;
-	Mon, 11 May 2026 15:18:33 -0700 (PDT)
-Received: from ryzen.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F2B853F836;
-	Mon, 11 May 2026 15:18:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1778537918; bh=gw78jt7vc7Qe2unAjmzAV6lSueBAGQ5VKMrWZ7C8lG8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ZHuzlzpa/q2kYfPKIy3ZK9p/GeP+9iBl0ufa0na+6i8CPLsnnCsb+sFY9252b8yPk
-	 rPs0EgKdA3Uzdv7xvn/jNqbEMyIfFZpUAFMxj4jK87SFhYj9w5Dh5K8GZ7wfu9lc4F
-	 ERwrvw4vxpKpZU6DKQUHGhKM+bidYmJZtMPvxlQQ=
-From: Andre Przywara <andre.przywara@arm.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] arm64: dts: allwinner: Cubie A5E: enable SPI flash
-Date: Tue, 12 May 2026 00:17:41 +0200
-Message-ID: <20260511221741.25888-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.46.4
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GAgfJ3D2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B4EDC2BCB0;
+	Tue, 12 May 2026 01:41:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778550104;
+	bh=sebhaN6tzTE5Fs4/65z8od0hOE4cI7esAoaJnd5S92Q=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date:From;
+	b=GAgfJ3D2cX2apchLYhUa55uI0nPsvPfw5DaDd9Yg36EIafnHXvADZ3x9kiUdQ1cOW
+	 lM+4NstJp4kWXp9h1RNWtFcVXXEKqUPXCpi/MsDvI96nLmxIRVslWXcdTydprHcT/+
+	 dlas9S1FAeyEFvRIPpwEPf89sn8mXgkbkmcWlcpw2HaUis3UpE/rRT7XSIY5VeY30w
+	 xWyLKjF2EiVMOrVjSW3yGDH9rBWo6HAwVy/NRhxHtHFMpCQ8ontYzGaQxzPo4sH7n7
+	 9dkj8byOV0DJWmhZEYS6rL07TjyPIGSnIb6mB3RhUwFyY6EWl6dnSUADhvucEgZSHI
+	 kbrPbw1Ljm8qA==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v5 08/21] drm: bridge: dw_hdmi: Unregister CEC notifier
+ during connector cleanup
+Reply-To: sashiko@lists.linux.dev
+To: "Jonas Karlman" <jonas@kwiboo.se>
+Cc: linux-sunxi@lists.linux.dev, imx@lists.linux.dev, Frank.Li@kernel.org
+In-Reply-To: <20260510124111.1226584-9-jonas@kwiboo.se>
+References: <20260510124111.1226584-9-jonas@kwiboo.se>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 12 May 2026 01:41:43 +0000
+Message-Id: <20260512014144.7B4EDC2BCB0@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The Cubie A5E board comes with 16MiB of SPI NOR flash.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] State Corruption / Lifecycle Imbalance due to delayed CEC notifier=
+ unregistration
+--
 
-Enable the SPI0 DT node and describe the configuration.
+commit 5799bf779b149e6405697c67460f8e90064bcce9
+Author: Jonas Karlman <jonas@kwiboo.se>
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- .../boot/dts/allwinner/sun55i-a527-cubie-a5e.dts  | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+drm: bridge: dw_hdmi: Unregister CEC notifier during connector cleanup
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-index bfdf1728cd14b..7ad22fc85d1fd 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-@@ -344,6 +344,21 @@ &r_pio {
- 	vcc-pm-supply = <&reg_aldo3>;
- };
- 
-+&spi0  {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&spi0_pc_pins>, <&spi0_cs0_pc_pin>,
-+		    <&spi0_hold_pc_pin>, <&spi0_wp_pc_pin>;
-+	status = "okay";
-+
-+	flash@0 {
-+		compatible = "winbond,w25q128", "jedec,spi-nor";
-+		reg = <0>;
-+		spi-max-frequency = <40000000>;
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+	};
-+};
-+
- &uart0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&uart0_pb_pins>;
--- 
-2.46.4
+This commit moves the unregistration of the CEC notifier from the bridge
+detach path to the connector destroy path to better align the lifetime of
+the connector and the CEC notifier.
 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/=
+bridge/synopsys/dw-hdmi.c
+> index cbbd155780425..5fd26ff8f55b4 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -2532,6 +2532,11 @@ static void dw_hdmi_connector_destroy(struct drm_c=
+onnector *connector)
+>  {
+>  	struct dw_hdmi *hdmi =3D container_of(connector, struct dw_hdmi, connec=
+tor);
+> =20
+> +	mutex_lock(&hdmi->cec_notifier_mutex);
+> +	cec_notifier_conn_unregister(hdmi->cec_notifier);
+
+Could moving this to the connector destroy path cause CEC state to be wiped
+out if the bridge is unbound and re-bound while a userspace application hol=
+ds
+a DRM file descriptor open?
+
+Because DRM connectors are refcounted, their destruction is delayed until
+userspace closes all references. If the driver is unbound and re-bound befo=
+re
+the old connector is destroyed, the new driver instance will call
+cec_notifier_conn_register(). Since the old notifier hasn't been unregister=
+ed
+yet, it will reuse it.
+
+When the userspace application finally closes the file descriptor, the dela=
+yed
+dw_hdmi_connector_destroy() executes for the old connector and calls
+cec_notifier_conn_unregister(), wiping out the active CEC state for the new=
+ly
+bound bridge.
+
+This issue also doesn't seem to be fixed by the later patch 'drm: bridge:
+dw_hdmi: Use generic CEC notifier helpers', as tying unregistration to the
+drm_device lifetime means it is still delayed by open file descriptors.
+
+> +	hdmi->cec_notifier =3D NULL;
+> +	mutex_unlock(&hdmi->cec_notifier_mutex);
+> +
+>  	drm_connector_cleanup(connector);
+>  	drm_bridge_put(&hdmi->bridge);
+>  }
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260510124111.1226=
+584-1-jonas@kwiboo.se?part=3D8
