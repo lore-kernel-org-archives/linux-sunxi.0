@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75003B440F;
-	Tue, 12 May 2026 13:07:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0CE63B4436;
+	Tue, 12 May 2026 13:07:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778591223; cv=none; b=uEF6RFwa25FJsBbhiS3W355qgALqXZeEc96biuIoX61+FWkaRyy7D/omFrxeEHSlch4Za8xup9Vd0Qt3ShtVLDoODLvC1w+PW14J3NyVMnYMhXOI7hpBtf18TXmyTT9RUeEQb8deTk40M1MTNRdbI4a2sPGRmc5jZHnnnYZnZtE=
+	t=1778591225; cv=none; b=F14+tYFlUYvAUp903zk4mEhKiL0EIUaR0hf6R+YLT9KLlRBJklaTZnBN1ial/QW1lH6OreexKrz1o2Cx88uSul5xGE6azgdXHNIgPIEWhNa9rtG+hlysnSiCbKtgF7RuHDheMTU/b8BgBIHZU5EhPtNIXhPlb+adNXfMgSECaOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778591223; c=relaxed/simple;
-	bh=FGCqhfXKq37ObBfvHzfst4BF+DfJNKqHOHC/ClHMucs=;
+	s=arc-20240116; t=1778591225; c=relaxed/simple;
+	bh=qozUUf1AFqeMjnP70GJi9v3pouWkBGxz0M1HZ1nk+wY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ClTc5Mh7svNedrbUWsGARUdFz4+q1AtTMQIO6BPvvYzNbtCmplTUFsZ48cGRWTh7B4C8vMXNFnsrwUIv6S/xxFjXFzmNed3um/4NleqXbcsAcpNrtHLbbv8LT6yqlCdASxJAHFyvExGG/VN2XGbrEFlhwR2Nzvl6ylJPZUaWWYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cMluvZJR; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=oqfDKLwi7G46rginZ5oClceM7S38y8SBeJRmWffCfGSPMXmi5bdqanUGTiM3yDy/eDPpozg4GjoW8QkmV+F8ld84jBIxJ73kG7vfxCb9PrjBzG35wZY1LxElhs0abbTdJhtnixORf6WAvLfTCs/0jJionlDz3zHmOAZtoVcU8cA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lBMCkCJN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cMluvZJR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3052AC4AF0B;
-	Tue, 12 May 2026 13:07:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lBMCkCJN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14830C2BCF7;
+	Tue, 12 May 2026 13:07:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778591222;
-	bh=FGCqhfXKq37ObBfvHzfst4BF+DfJNKqHOHC/ClHMucs=;
+	s=k20201202; t=1778591225;
+	bh=qozUUf1AFqeMjnP70GJi9v3pouWkBGxz0M1HZ1nk+wY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=cMluvZJRqw7j9BxTGDPezyQENd0Kcq2mAJEnXyR41wG1HhIjQa1f6HmEpu2xoDlDL
-	 0W1xcmmrnymiPFg+w3tibqK/K3yk1n7N0zak+jzmoXxtY+c/H/IPmCvLChKDD9YAWd
-	 XiY04umPT4MHhionGKv+3y3btuQ3Wb6KPr/vJ9mCltYiC6eulmdKN5Bhj6eBtiFP1s
-	 xLKE0Lc0jfAEE4BlGQygTMeFRsqZIEV8EVTlycoDwCvzjQObj1+lN1POAAQt+jjc7U
-	 OYzYgoPBFGlPhHY3LfdTXmBiA7B/S4wh9XwqkSmJ8B/w8NmSnZenlffWEJxMJmeiVF
-	 Fac4Ox/qxUpzg==
+	b=lBMCkCJNgoAyO3K9JvDsOPMAHOsW7b8evS75Oy8H+9SOvR1TTSY5zzYFhkexSMrKb
+	 wKaFVyTCRKTWJqgd53O4rCJ482uQtX3gNa7sHBe/AUygf7hZrPpRWpNyEzNVaN3AYS
+	 +uL96+gXyE4UTeKXAEG7zvTfthbYfhgfU1nWKQJCeK8MouktRkcQnvpUjylHDIdAWK
+	 eehQZf7M66E+WvVbDN2FURPNdVZkznANZ6xc9M8M6iXr10E5tMbEd6cRjDft2py/5E
+	 wYWN5WguALo/lGPDVUIXA/NHhAulVZnOPj3SV7TNqYtAJ/AfVegb2OCPJ//7n8eYg0
+	 SoCQtoS/YKCJw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 12 May 2026 15:06:15 +0200
-Subject: [PATCH v4 17/20] drm/drv: Switch skeleton to
+Date: Tue, 12 May 2026 15:06:16 +0200
+Subject: [PATCH v4 18/20] drm/tidss: Switch to
  drm_mode_config_create_initial_state()
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260512-drm-mode-config-init-v4-17-591dfdcc1bf9@kernel.org>
+Message-Id: <20260512-drm-mode-config-init-v4-18-591dfdcc1bf9@kernel.org>
 References: <20260512-drm-mode-config-init-v4-0-591dfdcc1bf9@kernel.org>
 In-Reply-To: <20260512-drm-mode-config-init-v4-0-591dfdcc1bf9@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -68,46 +68,45 @@ Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=997; i=mripard@kernel.org;
- h=from:subject:message-id; bh=FGCqhfXKq37ObBfvHzfst4BF+DfJNKqHOHC/ClHMucs=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFnMqofuSnH4C1QI7P7Pe/frixR7k+tPxG2mG3y1aov8v
- Ve32u9gx1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZjIq1TGhtk6URtE7YuTHtyd
- e/XMqVczbX9fMRabsvNJZVtMny/X9J4274/K19eIZb6qPNSyVvXvY8aGOSKz8n8KNiW9/3Xu9zb
- WVPvXXw/87ZefXMPSs6hu79bpntZyf/UVp17/FbzQ3fXLRpnvAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1009; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=qozUUf1AFqeMjnP70GJi9v3pouWkBGxz0M1HZ1nk+wY=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFnMqocimp5mplcJ+e5tuW60l1tznk7zvkW7rq0P8Tk9I
+ ajtXY5Wx1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZjI7FDGhlfaqY6rd7GmXv4r
+ 6ZW2uc7rJ/ddfommvZO3dB6891uKSW+dmG3ZicdNwiWbbWuvm4e+ZWzo37e7+AUPg8SRJxH/Lu7
+ ZtvTzsdKN0wxu+P9ocqw5tG7v47khHMp8ny+GlK3Zw7ZAUNMHAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-The driver skeleton currently recommends calling
-drm_mode_config_reset() at probe time to create the initial state.
-
-Now that drm_mode_config_create_initial_state() exists to handle
-initial state allocation without hardware side effects, update the
-skeleton to recommend it instead.
+Now that drm_mode_config_create_initial_state() exists to create the
+initial state, use it instead of drm_mode_config_reset() during
+driver probe.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/drm_drv.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/tidss/tidss_drv.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 985c283cf59f..f537556b06a8 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -340,11 +340,13 @@ void drm_minor_release(struct drm_minor *minor)
-  *
-  *		// Further setup, display pipeline etc
-  *
-  *		platform_set_drvdata(pdev, drm);
-  *
-- *		drm_mode_config_reset(drm);
-+ *		ret = drm_mode_config_create_initial_state(drm);
-+ *		if (ret)
-+ *			return ret;
-  *
-  *		ret = drm_dev_register(drm);
-  *		if (ret)
-  *			return ret;
-  *
+diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
+index 1c8cc18bc53c..f5099d5d6e32 100644
+--- a/drivers/gpu/drm/tidss/tidss_drv.c
++++ b/drivers/gpu/drm/tidss/tidss_drv.c
+@@ -169,11 +169,15 @@ static int tidss_probe(struct platform_device *pdev)
+ 		goto err_runtime_suspend;
+ 	}
+ 
+ 	drm_kms_helper_poll_init(ddev);
+ 
+-	drm_mode_config_reset(ddev);
++	ret = drm_mode_config_create_initial_state(ddev);
++	if (ret) {
++		dev_err(dev, "failed to create initial state: %d\n", ret);
++		goto err_irq_uninstall;
++	}
+ 
+ 	ret = drm_dev_register(ddev, 0);
+ 	if (ret) {
+ 		dev_err(dev, "failed to register DRM device\n");
+ 		goto err_irq_uninstall;
 
 -- 
 2.54.0
