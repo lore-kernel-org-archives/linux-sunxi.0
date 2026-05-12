@@ -1,75 +1,75 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414633BB661
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 May 2026 16:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A65903DC87F
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 May 2026 17:37:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778601613; cv=none; b=uW8WxIZsIzqeiKW/5RPIiCtISqUoBR+RU3LvseHrt+qHMoqkJFUbVMiA2GXkd5EqMDLaDJZHM/tcpTCAEx1hObwc2er/PeUJB1ZRFa7h+a3NXKZ93qX+jcwxavsYzcKEbJG1zRPierwyW+Xa41ckA2xhDE3eJ+YuzTjZjQNo1PA=
+	t=1778607431; cv=none; b=YFpBxsw1HJEKoEdL/8ZrvUqCMh1a+yt8MnjzLwbzghbUjG7ZROX/3QC34RiRyh9+vIHG8VnzSbeeaQ7fMLcAoZMvRb3szTBagDJ+qr3XE/NgS4IE3Ya4g9dsBUNqBTy33dbJHVd1RwP9WiOh9X1kjJciaUZo4B88HZBFYm7tR1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778601613; c=relaxed/simple;
-	bh=GMlWUewpnO5BHrxePkEK12VmSLLS4fX3PTW9+WOgwyc=;
+	s=arc-20240116; t=1778607431; c=relaxed/simple;
+	bh=kuFEmEjpGUrLlsQBZh18bAqK/lRyvUYMMiJ3XbItuA8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t3zG1hxcspfiDOJOz6saOzEwaWPHGBSd2tZskKvyir9HV/Qigslqso32s+x+0xY/IGeHwaq9SGS+RoLec0FNVAHMymByop4yMTK9yRzIpuSsVOyaRUjDUXgbqG6onCBb9QrBNHrS045rcLYGRkHiM+Ejnfppx0pUEKsRCRcHthQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kmbTs43G; arc=none smtp.client-ip=209.85.128.54
+	 MIME-Version:Content-Type; b=Soa7kOSLyXEd+DGS5kQUYSRnG6dsl9Qc9H9lHtHVBdQdlL2Cn34McDot+kn34qSjk8dyP/Wjj3H1Mq1NAMKnMxbj4MB64m9akHAIetppzFtbMUU4/5dZsKBLJNok1MV34g63wJnPIT4s93JzfD6Y2pfgdh/cmJCX81lpN+B8M3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A4XOMZ0o; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kmbTs43G"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48896199cbaso51181175e9.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 12 May 2026 09:00:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A4XOMZ0o"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4890d945eb4so38970585e9.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 12 May 2026 10:37:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778601611; x=1779206411; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778607428; x=1779212228; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GMlWUewpnO5BHrxePkEK12VmSLLS4fX3PTW9+WOgwyc=;
-        b=kmbTs43GtJiJmqGJFExvNUtaeMaLd8QYKE1gbPCYeeyuXdtJkO4J3j7nYs3roJop59
-         Hi9wDTZ+Wg34zin6IquvU2YowgQIXZScsJzJN7d4iwHRqzlgBUD3koCUzayuwlhKN0Cb
-         DBDIFvLoiVd87Efj82gXR8n/QLhm0dR33tVRCC7maO79W1gKSnNyxjlt9Zb+5/2b0ITB
-         wuo/+y/ljUjgBDeocWzQkJAt1TYGnv2FDT0/8mLB4loEoI6b4kHjfNwE+KeR2+9M2rWH
-         SaNCJse0GRQxdwkls3iJwNPf5gGUFIB5qVeXCNg2nwiybHGO+Hr/2u9XQK5JGd+uvp7D
-         pruA==
+        bh=YUFfTVnu1jI7he9F6ikRzcaMbvnkj6ojyItrG0mbID8=;
+        b=A4XOMZ0o/Y+2maDD7lT7ZOnbvfUr46k2BncUSMJcn4wWFJNnI0PNVNKu1vPKf9femX
+         4Q87xAkl/I2T3WQzybJ8UJf9gAfMQap4+cBmjwy3+E2PBlph1DgTN6rRaA3xZSWkQdCI
+         dVtM3PpN+HEZ39IZlz/1Isu/8Vqs/4uEgNX+4WG64RTkNRhnaGuoI1lZVLVuyaCBXtDZ
+         TI5SSooUgwiI4EtazQTqX4C1IDE/pKT+kwOIq/yZupWMkrWNkThgIi3IUma+tHTDMxpr
+         3t+BhWY5p191vPrPVLV6t9+MoEnlGrpuS0VZYm80ahrXqnYD+hxhQwXCYtNVEXyelOGl
+         FjPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778601611; x=1779206411;
+        d=1e100.net; s=20251104; t=1778607428; x=1779212228;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=GMlWUewpnO5BHrxePkEK12VmSLLS4fX3PTW9+WOgwyc=;
-        b=YwMPICZj01/hToqoCEZ/JzPMP77RIgZQMBPS6CMVJzCwxgOgQealQcUKks9vW4s5In
-         tgoEykhO33/42ajR+I2bns89lhjrYGzSeIZG64IJGDnkMD7nKD/DuPpJPmAIbHhoNJJo
-         0s5nV8DUVNBUWN0IX/uFt9ph+heFewNhZ7tnkqn5PBaKPmFo62ZnBR229ay9mRfvadXc
-         W3AjLXDiikcHCsranMrqhlAiRzR0WsWlAzkCWF1E0CILTGrICFVTX/f/6turllG6Gz5+
-         wIVy5UJlnhi7xiA8kkNLiuAyVbaYCVBcTJJqvLPG7lMOdCSaUX6bDSClGMwvWQS7pxYj
-         AGig==
-X-Forwarded-Encrypted: i=1; AFNElJ+3qgzYkxPtWaeiBTDdm8ts756Bu+l8v0Lb2yZOrnovsFHG1sr2++vaLWMNLE0OpwT38Ck+JSzy/aeGPA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyNjoamBcgsIkUKwAB49EP5URJzdgn95LSIbOvHuAAIktgXxW9b
-	oOiEjsybRwmdlO6BTCYqAEj5V8Zxyd8hvIt8f4buLSW6bppk/w2UJ8qH
-X-Gm-Gg: Acq92OGLxE4S0/CKGnaIrtKKjVlHciVMl9h6AYjM6GWOVt5mjFdlZns1xb75B6Fx0xL
-	DztNvHBaOJ6o0m+DGKcDVyh55SCcnWJl8+vBl9ArO2PSQi2CqcKxRtzO6mo1wX+t2uD0BG+Ey0c
-	kBRgF0DgWGKRi4qI24+O+IDJTrzjnHkupDXdpZ+RmM9nkoPN3PTj2AG7XaVdf20bn1vBWEw3edD
-	ykQ/L6qkZPpSdaBzc3Kh9SH5yOPjUB7ScABuUnLViU/osqg0O18BaNDzN2b825PI9S4mS9x8gSx
-	xuxMBMFlykgFZTyuNwGI+KCfdAU7e6LCSzhMx4MDCeMwK4CfY3snyZQYzuGr1mOGL1DXT33dRQk
-	mROryFcisq5PYIwYhr8hg7Ty0PB3+WBb87r4v6k8vVHih0ztnf9QFJga1yTxzWjmKZIBe11vv5x
-	/faf3FNRwzjx/QQyndM0dr9FPv7NhyaSSR0Br75HxFYaa065dTwfJ3iaTs0GhbV7DXuwzX6U5+C
-	NpZjRCo
-X-Received: by 2002:a05:600c:c166:b0:48e:8499:4bda with SMTP id 5b1f17b1804b1-48e8fe732c5mr56263285e9.13.1778601610271;
-        Tue, 12 May 2026 09:00:10 -0700 (PDT)
+        bh=YUFfTVnu1jI7he9F6ikRzcaMbvnkj6ojyItrG0mbID8=;
+        b=HkgiRvHPDFlzjm0mUYmeei9VB+cQ9/TVlgo5IHY9krXEteBqORZbusxY0LxKJAi32B
+         xwTORksjZtZO1+b5TWhImtsknL5teuKo1Z/kW/UPAiFkgz1UtbnJEvkJigLotv5TfBrn
+         gmhRlrjGNkBIYtoKrgJpT3U5HXACDNOomx3JckU4+2u9PuNE2v2twgdHK+b3OXmkAs3K
+         Pkl03TU7Vt5J54qfPtEvb1jbwkRHtHeJosbVg09WRu3/u62zLYs80NEkvmJ6Ae14pU8V
+         MKqU9cUziuG/OytCiLQFBpOboQ4I6huxpS8oi8kYZPR2u3rDmXUskto4iNjwxYFfubRC
+         KQ0Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8hfoVuM+QdMsGkP8YwJEjg7wt8zevXZFDWZYhzLKW1OwuaIR3mVXpxsDDnIreUBuMcKJ3yCvPpQ9JXlQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YykG04ozkkgKXTVbziAJbG1QuE/nM8ll9gUwlsud2kxDMkDnbHL
+	VbN6LzPyw0hYxrZcmGF9yaqqxSHLwRVRyzWzfZdrSOAmKvqH+wabwuk1
+X-Gm-Gg: Acq92OF4VTy0AWF6jErB45jNiGqxg3LmJPDW9ynoDsHNtkubQ45PojP1RUr8/+LzLeQ
+	cXAuEEaj61MWI4Sosfeg/x9ckgobGj2tpPIDqZ3BgF0hj06m05bA5wr7xBiWtGk6P8fBEMG5qWa
+	4CXNIroZM1pODMWruj2iaOW/FEBmz+zNI2V0YTRzmwX8y0Bed+WvtkknftBIwXbktmNIFpGOwwk
+	2B28C/oaNmPsKk2UnjZ+11Y5Co2NoFBHeK/tpPNiwjf0uAmWsJp5mc3IxiZby9fbBBvrU29kGDB
+	bGDcVePFSHjFyyR/37skApSapy5odK3Fu+FseUWElcyUn58jLlM3xBjMFDCUNGRW8ne9pny2mT2
+	HrPW6h+ondwjJkmyWnqJVeoGCCLibHS0GBQ1S9O030/h84qWYRmeqql69iaFfTh70ErTEA5Yf/3
+	fuNOcTR9DmPA3RvqvEpLGZgJm5HOEjpnIhgqQa01vCmsuBpDQVZobmZ/K8yPtqjb17vddU5JCNR
+	AX9qqwwkjCP+eWNpw==
+X-Received: by 2002:a05:600c:3b99:b0:486:faa8:9e4 with SMTP id 5b1f17b1804b1-48e906c4525mr56038705e9.12.1778607427994;
+        Tue, 12 May 2026 10:37:07 -0700 (PDT)
 Received: from jernej-laptop.localnet (46-150-62-216.dynamic.telemach.net. [46.150.62.216])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e913469besm14404775e9.14.2026.05.12.09.00.08
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fc8d16bbdsm10829585e9.1.2026.05.12.10.37.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 09:00:09 -0700 (PDT)
+        Tue, 12 May 2026 10:37:07 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] arm64: dts: allwinner: Cubie A5E: enable SPI flash
-Date: Tue, 12 May 2026 18:00:08 +0200
-Message-ID: <cjl1U0d5TU-5Dhz5uRAUHg@gmail.com>
-In-Reply-To: <20260511221741.25888-1-andre.przywara@arm.com>
-References: <20260511221741.25888-1-andre.przywara@arm.com>
+To: u-boot@lists.denx.de, Andre Przywara <andre.przywara@arm.com>
+Cc: Tom Rini <trini@konsulko.com>, Chen-Yu Tsai <wens@kernel.org>,
+ Paul Kocialkowski <contact@paulk.fr>, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 2/5] sunxi: spl: spi: Clean up SPI0 pinmux setting
+Date: Tue, 12 May 2026 19:37:06 +0200
+Message-ID: <hxKgmanzT_ibK5FkulnCYg@gmail.com>
+In-Reply-To: <20260511213713.15943-3-andre.przywara@arm.com>
+References:
+ <20260511213713.15943-1-andre.przywara@arm.com>
+ <20260511213713.15943-3-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -79,17 +79,93 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne torek, 12. maj 2026 ob 00:17:41 Srednjeevropski poletni =C4=8Das je And=
-re Przywara napisal(a):
-> The Cubie A5E board comes with 16MiB of SPI NOR flash.
+Dne ponedeljek, 11. maj 2026 ob 23:37:10 Srednjeevropski poletni =C4=8Das j=
+e Andre Przywara napisal(a):
+> The function to set the pinmux for the Port C SPI0 pins was looking more
+> like a logic puzzle from a magazine than something that readers could
+> understand and extend.
 >=20
-> Enable the SPI0 DT node and describe the configuration.
+> Replace the convoluted pinmux setup, grouped by pin, with a simple array
+> of the four pins involved, and just initialise this array at build time,
+> based on the selected SoC.
+>=20
+> This makes it easy to see which pins are needed, and even easier to exten=
+d.
 >=20
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  arch/arm/mach-sunxi/spl_spi_sunxi.c | 43 ++++++++++++-----------------
+>  1 file changed, 18 insertions(+), 25 deletions(-)
+>=20
+> diff --git a/arch/arm/mach-sunxi/spl_spi_sunxi.c b/arch/arm/mach-sunxi/sp=
+l_spi_sunxi.c
+> index 5f72e809952..905a7db2a77 100644
+> --- a/arch/arm/mach-sunxi/spl_spi_sunxi.c
+> +++ b/arch/arm/mach-sunxi/spl_spi_sunxi.c
+> @@ -105,35 +105,28 @@
+> =20
+>  /*
+>   * Allwinner A10/A20 SoCs were using pins PC0,PC1,PC2,PC23 for booting
+> - * from SPI Flash, everything else is using pins PC0,PC1,PC2,PC3.
+> - * The H6 uses PC0, PC2, PC3, PC5, the H616 PC0, PC2, PC3, PC4.
+> + * from SPI Flash, later SoCs are using pins PC0,PC1,PC2,PC3.
+> + * Newer SoCs are all over the place.
+>   */
+>  static void spi0_pinmux_setup(unsigned int pin_function)
+>  {
+> -	/* All chips use PC2. And all chips use PC0, except R528/T113 */
+> -	if (!IS_ENABLED(CONFIG_MACH_SUN8I_R528))
+> -		sunxi_gpio_set_cfgpin(SUNXI_GPC(0), pin_function);
+> -
+> -	sunxi_gpio_set_cfgpin(SUNXI_GPC(2), pin_function);
+> +	const u16 spi0_pc_pins[4] =3D {
+> +#if IS_ENABLED(CONFIG_MACH_SUN8I_R528)
+> +		SUNXI_GPC(2), SUNXI_GPC(3), SUNXI_GPC(4), SUNXI_GPC(5)
+> +#elif IS_ENABLED(CONFIG_MACH_SUN50I_H616)
+> +		SUNXI_GPC(0), SUNXI_GPC(2), SUNXI_GPC(3), SUNXI_GPC(4)
+> +#elif IS_ENABLED(CONFIG_MACH_SUN50I_H6)
+> +		SUNXI_GPC(0), SUNXI_GPC(2), SUNXI_GPC(3), SUNXI_GPC(5)
+> +#elif IS_ENABLED(CONFIG_MACH_SUN4I) || IS_ENABLED(CONFIG_MACH_SUN5I) || \
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Are you sure about CONFIG_MACH_SUN5I? It seems to me that it should fall to=
+ PC3 pin.
+Also A13 datasheet confirms it.
 
 Best regards,
 Jernej
+
+> +      IS_ENABLED(CONFIG_MACH_SUN7I) || IS_ENABLED(CONFIG_MACH_SUN8I_R40)
+> +		SUNXI_GPC(0), SUNXI_GPC(1), SUNXI_GPC(2), SUNXI_GPC(23)
+> +#else
+> +		SUNXI_GPC(0), SUNXI_GPC(1), SUNXI_GPC(2), SUNXI_GPC(3)
+> +#endif
+> +	};
+> =20
+> -	/* All chips except H6/H616/R528/T113 use PC1. */
+> -	if (!IS_ENABLED(CONFIG_SUN50I_GEN_H6) &&
+> -	    !IS_ENABLED(CONFIG_MACH_SUN8I_R528))
+> -		sunxi_gpio_set_cfgpin(SUNXI_GPC(1), pin_function);
+> -
+> -	if (IS_ENABLED(CONFIG_MACH_SUN50I_H6) ||
+> -	    IS_ENABLED(CONFIG_MACH_SUN8I_R528))
+> -		sunxi_gpio_set_cfgpin(SUNXI_GPC(5), pin_function);
+> -	if (IS_ENABLED(CONFIG_MACH_SUN50I_H616) ||
+> -	    IS_ENABLED(CONFIG_MACH_SUN8I_R528))
+> -		sunxi_gpio_set_cfgpin(SUNXI_GPC(4), pin_function);
+> -
+> -	/* Older generations use PC23 for CS, newer ones use PC3. */
+> -	if (IS_ENABLED(CONFIG_MACH_SUN4I) || IS_ENABLED(CONFIG_MACH_SUN7I) ||
+> -	    IS_ENABLED(CONFIG_MACH_SUN8I_R40))
+> -		sunxi_gpio_set_cfgpin(SUNXI_GPC(23), pin_function);
+> -	else
+> -		sunxi_gpio_set_cfgpin(SUNXI_GPC(3), pin_function);
+> +	for (int i =3D 0; i < 4; i++)
+> +		sunxi_gpio_set_cfgpin(spi0_pc_pins[i], pin_function);
+>  }
+> =20
+>  static bool is_sun6i_gen_spi(void)
+>=20
+
+
 
 
