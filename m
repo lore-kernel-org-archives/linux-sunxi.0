@@ -1,75 +1,75 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88EB23E074E
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 May 2026 17:39:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB7EB28C035
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 May 2026 17:40:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778607593; cv=none; b=RKPb+79xuysyW7dUj2/usCpCHLzB2aIr0YCgN/nBRCVTQ7mA5ABbiXtNooyF2tjngSdUbilrZoLpLVrpCrhpM25BDvHnEYY3cwe32/U1kv5xRloFitKs8CcP08g3Rs9xMpyzj0zp0xa3UrIJ75clqqYIvQ77tRxC02yl1upUQ3o=
+	t=1778607622; cv=none; b=WwzIFoGbHcZObJGRVg/cZeVbYIJmN6440niQdMi1JIknntHNCXqFBd2GvTKfGTlaNDnA140wRVYuwOvN2WhlL5XbocD4jEpG9RyAFJGIKYUt6+qXekZcO3ft1oFmpjjYH6c4DFCNiDfwnqIpzCL7Cu97AJTuOSmkImGVK129RzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778607593; c=relaxed/simple;
-	bh=sP1uEntjC9OU9hYPAs+i036qumK/QyRHgs5/9FYhZwI=;
+	s=arc-20240116; t=1778607622; c=relaxed/simple;
+	bh=knJpJ9VnlBSkSPAk7OAn0fgMKl1pyt4vtEsgbejeZLY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=A7Zm3GqRATK0Vjgbo7YRtlNWah/39JrTdEDQpxBlVUR8LamfI2tt3fBV1owTiSqVMCu96leOyi1wem4VU3a088KmO3c+oMufrJq2M30CnAip//870Fk7FE+Gw1pxQYDMlRBVIdz6BHFO9NjFYWcbjfz8unqMSZTUiRv0fbRpZ9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hotO8rhy; arc=none smtp.client-ip=209.85.221.43
+	 MIME-Version:Content-Type; b=NTdrn72X+l7SVzIEqpulxx29NsOBwhHrygN5/DTAzlFWnjIIyP/ogTEg5oAWRpMPa3Z79UEnBq4pPsIn4HLkSd057/Vm7bT9h6B9BansuwQJqgRCiV6uD2jz0j77PlkzWBFPMfWbcgbM/lvhIt04OeEG63fdC2l2Zm7jfnmxz7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NdEqo2EU; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hotO8rhy"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-444826c16ffso5065040f8f.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 12 May 2026 10:39:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NdEqo2EU"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-488b3f8fa2bso65654695e9.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 12 May 2026 10:40:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778607590; x=1779212390; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778607619; x=1779212419; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sP1uEntjC9OU9hYPAs+i036qumK/QyRHgs5/9FYhZwI=;
-        b=hotO8rhy+so4ygcW6o1/278OjIxuMJDPXUn/t5I6RFzGcBr+KS7csQq4vdf7KFkdog
-         vj3/usCGpjl9hjK7YlwPy2YhMLwN+W+BCzSqqLGV5g+u5OOuk2y3Q5n12tBLFvxuUu00
-         kip9iyIeaGHFaCSoxKmjkjYX9WKFNMIYtkQcoKm7xi0YbdjpFj4KOCA1+nmpZxWyPoEm
-         uoSLbb8O81z/Zsu2805Hrx43Uky+lCtHpR94qy5fG1HiewBZ/IDg/+xATWtWFL3OCMuX
-         2YH+zCb0buOGVzJEklvVAiC7mCjFkPpostJpAihGztwBoskaDzxh3VvPqzYqU6lsiVTF
-         k8jQ==
+        bh=knJpJ9VnlBSkSPAk7OAn0fgMKl1pyt4vtEsgbejeZLY=;
+        b=NdEqo2EUQ5Y/+KUDxHSD1icSvbbDnst1+cstd+n815r81IhZSny4otgW57QOhCaK11
+         RU3HEyHWUrxt7JcGVUlW2f18R2jfyup5YyoC5+8uTBV6ckgVGGB3vlyd7rHbUm6Pka9q
+         FLVbz67eu8792r9y4MveZilWYO/NDhSNVU4VWbwd91Qjg/e6MFUOE38ZAkW/Oxy17A2K
+         mbWkLI7PkxLQUBofbk7UNjAAjdNLNaLE3Gad/JvLGGGTYSRt5TP2lVOi7C1ZA0G0Y0su
+         lBBk8b8/cPv07XiAOMv7WGhFgB69d9eupj3NgRGpMwSZ9pz+tN0OcFaVQSYXlmGwZrRM
+         gvaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778607590; x=1779212390;
+        d=1e100.net; s=20251104; t=1778607619; x=1779212419;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=sP1uEntjC9OU9hYPAs+i036qumK/QyRHgs5/9FYhZwI=;
-        b=qMuJor6KEUiH7y/DiXdzRVVhlG4YHhYomFyPjhe8Ojo9r26ScaG/ieBFDoguJbl4sF
-         pOui/6ko82ZpjZQKGhYwj5s+HD1YMUD2QnpuL+5xzf4j5ECdei/7bCQmPgcN3G9+shci
-         tL6nqEL/1B9zraNLzWzvxocDiaLzSg8ixagJzWMcyH/LNGpds5B0hJ2nDY+vZifvS1yd
-         b9fq0m5Pc1wmZkDQZ69YJXLqsDTSeZf5FFjVFk1rjzE3wAXFA1JMO2Q4ieMLjq7zS7k/
-         NNCN17tIp2hs39cleL7JBPsbWewbXjjt51ZskEtHfFAhAVhD5VPamGAO+yPrsjN08dn3
-         E8Jw==
-X-Forwarded-Encrypted: i=1; AFNElJ8AoKhINZwJrABMtst0i64Qm/2WQ6D1oCBYsWXbi6460XlSPcUsp8rcVoKa7tb2vymfGyHEI11qVH/WAg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+f6lhZ4xzGGKy6ksuW0SmbeLJ+ESBe9ij8fdMoR5v59ed7TtC
-	7cFmQulRcIWUnKV1PTtajysCtcZXveIpDj7H3oBc9HOGOHw3MtMz1RXB
-X-Gm-Gg: Acq92OGw+bFav+QYhrsavmf7qDhws0T2QtbE985IGzO3lnM2I91vZ396SBarFTCD/ym
-	eESZ1VWO/rUk+jnVYQSAXpqVLneV/3IEbU9vs5fbr+/k5682lIAkscDA0IqZ8jNJX6Q4I7L+seb
-	pTZL0VaZVFHnaaRVsH6/gUUlqi8y/gNSpmn7U2MzkHt7YS7uKDZx3nQTaZgmsTKUww0dN6Cijuw
-	WUk1XopJrWbSRFTIuJFr5rzIIbc7LPuJ1Wu5D9HEfxu+Bgz1vt3rL2wMBEvBd8iGWHVUuMcUx6S
-	zReTIWIdfr2+TGdwdKf57BlHrpD47YhJIJi8a8rwg9F0nh/1z9hVFow2P7QHV8xXDXc7cXyPgc2
-	gBKLwRXkJwRQctA55utjsIqgJZE3wnUPRJvLH8NkVyJjl6xXJvlEJcoqwlhtA3WPE5ZXIH2fddd
-	XzlgjX0X0N/YHjgX++cjqKw4px9psIu1EpW/1f/TWzfAEMV0YPpMZepf8L0iCPlm5PbVBilTQ86
-	MpSN3Oy
-X-Received: by 2002:a05:6000:1865:b0:44f:da26:cbb4 with SMTP id ffacd0b85a97d-45b1379118emr6402018f8f.21.1778607589127;
-        Tue, 12 May 2026 10:39:49 -0700 (PDT)
+        bh=knJpJ9VnlBSkSPAk7OAn0fgMKl1pyt4vtEsgbejeZLY=;
+        b=YUbDWxYCebVB00E9qGwy+fj42vIn+OZOZNlLCMAGmThTypWpOxeeZQG9Pl2BajOHWr
+         JMKiCPsItqPZeDwFTqCAyhh6NAoW+f0EtcAbMKi7OGDP5qYDhdK3Cfp6P4Cm5w5z9jeU
+         ZBAEeRalXidldG/udUhCoa88nG8Bm5HP5uVspyuAaS9jRa03Vtaaexgfq83pstIe01Ik
+         cIrNgO6IneswXuzWqLT28t6wWE8kbDo4C4G+AdF2WwyY/9i+15i1xIWC0MOLDkOGyp81
+         Lkgyw/NSrkkfUBEtNwDcZmOgImF8kVRJNK/cyrO98xrqqI2VnKbs3ZJPtzdjcYl/ZcWQ
+         njNA==
+X-Forwarded-Encrypted: i=1; AFNElJ/qVlAoB4qIhiEXLlRVNcYaOlh0DGoa+napwA7HBOsUmwrt4xwWXEKN75He3B1p5dYg/FAHBz6FJbulIg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxfjosq3R8uEKmfXR1nHtSnZSQcPbcAzbe19A4nv+0Bj64/DrF1
+	KPjcDHVlfHOrI+n0O5A1jOMDqWdSQbAx3Sjhc+5CbcfGcgE1sFWCY9dR
+X-Gm-Gg: Acq92OESA8oUKbBMJp+Vz5UjELrFQmKCS6hjdl6gfj6/Du7gVKCnmYjzVgbEFpUG+iY
+	D16sJgvnIzPHacF5eZsQkOg7Ono+qLvWwvUtgegenJgFd5zCrVMulqv6A/YmCHfh0IWMOHS7kpM
+	91ue5D5l56E6/zp6oZ2nAOOntKp1DO73diQSyAdEkpdoa6ddfhZ4TJiiVRCbUxyjC7ydSi2Sqnr
+	p3WQSZW0CJkfqJ81rxynYj7Fk0yN8kPJv/Gs3M6QNoY23QVnLsySGAwke9iefjGahAi4y/duNn3
+	7Gty6Eu6gApcTMBcPVC8y8aCQgn0G7F9nq5N3tb6RN4622ebV0mXfDpQ/CnnU2kmEDxt69P6wLF
+	AvsHShkG4jWSqJD/objU2GEsyTQgdsGnwFuszVMnH9xlFf/g6kgnN6Nz9LEXhswhnCt/MmO+M/u
+	Sw0I5GZZzxJSiFYLGTNHFmqW7v+Eom96hwxT3t9e6Vo/gy0FPufhQOypnru/hBSKOeiSSY/teG0
+	X0s8lIe
+X-Received: by 2002:a05:600c:a11b:b0:489:1d7a:4537 with SMTP id 5b1f17b1804b1-48fc971efb4mr440475e9.3.1778607619049;
+        Tue, 12 May 2026 10:40:19 -0700 (PDT)
 Received: from jernej-laptop.localnet (46-150-62-216.dynamic.telemach.net. [46.150.62.216])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-454922715b9sm36274813f8f.36.2026.05.12.10.39.48
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fc8d1f6dbsm12514895e9.6.2026.05.12.10.40.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 10:39:48 -0700 (PDT)
+        Tue, 12 May 2026 10:40:18 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: u-boot@lists.denx.de, Andre Przywara <andre.przywara@arm.com>
 Cc: Tom Rini <trini@konsulko.com>, Chen-Yu Tsai <wens@kernel.org>,
  Paul Kocialkowski <contact@paulk.fr>, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 3/5] sunxi: spl: spi: Add support for Allwinner A523
-Date: Tue, 12 May 2026 19:39:47 +0200
-Message-ID: <wMZoJNOrSM6zy-28htTEcQ@gmail.com>
-In-Reply-To: <20260511213713.15943-4-andre.przywara@arm.com>
+Subject: Re: [PATCH 4/5] sunxi: configs: Radxa Cubie A5E: enable SPI
+Date: Tue, 12 May 2026 19:40:17 +0200
+Message-ID: <KHzalpykRXatGs1oStBoCg@gmail.com>
+In-Reply-To: <20260511213713.15943-5-andre.przywara@arm.com>
 References:
  <20260511213713.15943-1-andre.przywara@arm.com>
- <20260511213713.15943-4-andre.przywara@arm.com>
+ <20260511213713.15943-5-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -79,18 +79,16 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne ponedeljek, 11. maj 2026 ob 23:37:11 Srednjeevropski poletni =C4=8Das j=
+Dne ponedeljek, 11. maj 2026 ob 23:37:12 Srednjeevropski poletni =C4=8Das j=
 e Andre Przywara napisal(a):
-> The SPI IP in the Allwinner A523 is mostly compatible to the later
-> generation used in other Allwinner SoCs, at least as far as the SPL
-> driver is concerned.
+> The Radxa Cubie A5E ships with SPI NOR flash, so enable the SPI and
+> flash drivers, also the SPL version, for SPI booting.
 >=20
-> Just add the pinmux configuration for SPI0 on PortC, as used by the
-> BROM. This enables SPI (NOR) boot on A523/A527/T527 boards.
+> Sync the defconfig file with the version from savedefconfig on the way.
 >=20
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
