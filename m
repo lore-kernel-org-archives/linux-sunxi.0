@@ -1,133 +1,122 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B1C33C4152
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 May 2026 09:19:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from s106b.cyber-folks.pl (s106b.cyber-folks.pl [195.78.66.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69AA238838B;
+	Wed, 13 May 2026 09:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.78.66.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778663948; cv=none; b=qCFAbPhC7h/MSyQYh3bMxy97tsbmhJssBy8GAQupCUJsRXbcEz7wWlsZzM1Gg43dIIMMP2HjE3JeMb7fDtkWZpXJM0jgzIn8Jdvb2FsC0mJFI5Yf8Dph6qLpIN3ESxbuNhg/QQ73QJY0U4qP86TEzpJNeAZa8geKqO04RMB7zQY=
+	t=1778665911; cv=none; b=F9QVt2qneZAj9IeJd+rAw5dnsv1aJmE9w0Mfb/e7D7ddH0ihCB3R/vAmAko00pa/yxBysJA+hRDrsF0cu3ABtgQze6hMoEulKKlFTLiM0XpROT3wDUiAgPnbCoIriQqXTkY9oYe8ZGTrvHtHahgnNYDXrEELhNbXIEM2iSI76JU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778663948; c=relaxed/simple;
-	bh=saPWjah0HLHCM+YaxUtnkBSyrUnoxwuOOdQv3RhfwtY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kvzoj/TzhMD16hAOjucxsdZub/9EtcZEKXoonzWVav5zBKCEZXF2QuMgUBV0rlJPpZAVTk++iy5aCSGpnpVWQ2ucAXM24NratlYnX2+QfNh9l6LpYlyEzy+XIUNGPNgzQtkm4UwJTOqPncjVS4EuujagS+SYKUCjaafP2A7joWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Dp0lKEjq; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1778665911; c=relaxed/simple;
+	bh=cGH9FzUEDSNXR8hZ+Ll1yk6IppIPYxWXZ6i8XZ0+QpM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=qz4yi6+YddzvZX44/32YFJsSn/mAjPHrCSOmqaoZc4ALzsUxRnO4T2+teBYVjA4sYROD8ms3InpavSj1OcOH8CX6aAMnQL0BJtyn+IjZQ/6ciBONXcbdRH5XEzPqA0QPNJ2qaznlJP+InAWT5Fs8qb1BEr/bds5ekSV0+6JSunQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl; spf=pass smtp.mailfrom=mmpsystems.pl; dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b=DqzR5+YU; arc=none smtp.client-ip=195.78.66.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mmpsystems.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Dp0lKEjq"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 88EC6165C;
-	Wed, 13 May 2026 02:18:59 -0700 (PDT)
-Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 15E203F85F;
-	Wed, 13 May 2026 02:19:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1778663944; bh=saPWjah0HLHCM+YaxUtnkBSyrUnoxwuOOdQv3RhfwtY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Dp0lKEjqTCnzO3qTka4I2ucQ8tggXkfL5dRAw+ZXV19eZPL5lw5mqRgu0Vjwc4/Od
-	 +xwK1qZuG2j4G/5JPv0tilYc81JyCSIp//iuf0VifXoYYfpeoLRDFqHkDpppmUvalw
-	 Ahw3GnbTX+4+YFViQC2gh+Uh7NVn1tKI01vfPrZc=
-Message-ID: <ee9fca66-d079-4ad7-9cb3-5077e8a4f6d6@arm.com>
-Date: Wed, 13 May 2026 11:19:01 +0200
+	dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b="DqzR5+YU"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=mmpsystems.pl; s=x; h=Cc:To:Message-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=sUF7kixfrlUowh8RqG5O2aBsMX5gsB9s/0NEwNh+RqQ=; b=DqzR5+YUek1iEY7Vh400M8GQ+K
+	nEhniaHhAm5cF5i0ldrdJFoPGIobEknJmU1xhfDyCPszi+OVhcWkWSXhRN8B02GcQmAuu2Vg28/4s
+	WXVJPKTlGaKilclzQPuY0pty0WsEMyPrUi0m+LjRNIqaTndDZ7V1QK0ZKKEs5EhhRJYVPQUgbn+tI
+	3KbZv5eBGGZ+3qaoaZzIMkiA13ny5q3T2l9HQrTJDlQFq8hCfimqHa0VcuD0IDaN9ElDnkbdn6OSx
+	VIIR4rn7JktUrcFTSbk9qquVVEPWJRhigFuB6tDP86tlM6G+Uv7e10STgvnTxIAra83POvW2vydjN
+	IeoSSynw==;
+Received: from [91.102.182.218] (helo=localhost)
+	by s106.cyber-folks.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <michal.piekos@mmpsystems.pl>)
+	id 1wN6Fi-00000004cgn-0oQE;
+	Wed, 13 May 2026 11:51:42 +0200
+From: Michal Piekos <michal.piekos@mmpsystems.pl>
+Date: Wed, 13 May 2026 11:51:31 +0200
+Subject: [PATCH] iio: adc: sun20i-gpadc: support non-contiguous channel
+ lookups
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] arm64: dts: allwinner: Cubie A5E: enable SPI flash
-To: wens@kernel.org
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20260511221741.25888-1-andre.przywara@arm.com>
- <CAGb2v64u4sqwiiQcEBg-XvmJ2DLEpSj-_AWNbp14RAp-GXP7OA@mail.gmail.com>
-Content-Language: en-US
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <CAGb2v64u4sqwiiQcEBg-XvmJ2DLEpSj-_AWNbp14RAp-GXP7OA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260513-fix-sunxi-gpadc-sparse-channels-v1-1-6c21e290bcee@mmpsystems.pl>
+X-B4-Tracking: v=1; b=H4sIAKJJBGoC/yWNywqDMBBFf0Vm3YEYa6D+inSRx1SnSAwZFUH8d
+ 2O7PHDuuQcIZSaBrjog08bCcyxQPyrwo40DIYfCoJU2qq0b/PCOssadcUg2eJRksxDecqRJUDv
+ jtDKNC88XlErKVCa/h/79Z1ndl/xyZ+E8L+aYUk2DAAAA
+X-Change-ID: 20260513-fix-sunxi-gpadc-sparse-channels-2b6b2063bd49
+To: Jonathan Cameron <jic23@kernel.org>, 
+ David Lechner <dlechner@baylibre.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Andy Shevchenko <andy@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Michal Piekos <michal.piekos@mmpsystems.pl>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778665899; l=1663;
+ i=michal.piekos@mmpsystems.pl; s=20260301; h=from:subject:message-id;
+ bh=cGH9FzUEDSNXR8hZ+Ll1yk6IppIPYxWXZ6i8XZ0+QpM=;
+ b=I4zELAsqh5MojydjeCuuULqdQ5HXfFxa7ZjoWu9NybDGqL9c+AUOd/G4qnxyejw7+0sj9CyIV
+ DEPG7GUNLpTDvlzKYQfIoupulHo17BfqRslGiiVKHBXeAnlbEfvv9DP
+X-Developer-Key: i=michal.piekos@mmpsystems.pl; a=ed25519;
+ pk=Aixyx03If7ZDamiKKN0lsa+0mtA+WjIuIf2ZQVYNBqg=
+X-Authenticated-Id: michal.piekos@mmpsystems.pl
 
-Hi Chen-Yu,
+Using consumer driver like iio-hwmon which resolve channels thorugh
+io-channels phandles will fail for sparse channels because IIO core
+threats phandle argument as index into channel array.
+        eg. <&gpadc 1> will fail if there is only channel@1 specified
 
-thanks for chipping in!
+Add fwnode_xlate which maps DT phandle to the registered channel whose
+chan->channel matches the hardware channel number. It allows sparse
+channel maps to be consumed by drivers like iio-hwmon.
 
-On 5/13/26 07:21, Chen-Yu Tsai wrote:
-> Hi,
-> 
-> On Tue, May 12, 2026 at 6:18 AM Andre Przywara <andre.przywara@arm.com> wrote:
->>
->> The Cubie A5E board comes with 16MiB of SPI NOR flash.
->>
->> Enable the SPI0 DT node and describe the configuration.
->>
->> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
->> ---
->>   .../boot/dts/allwinner/sun55i-a527-cubie-a5e.dts  | 15 +++++++++++++++
->>   1 file changed, 15 insertions(+)
->>
->> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
->> index bfdf1728cd14b..7ad22fc85d1fd 100644
->> --- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
->> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
->> @@ -344,6 +344,21 @@ &r_pio {
->>          vcc-pm-supply = <&reg_aldo3>;
->>   };
->>
->> +&spi0  {
->> +       pinctrl-names = "default";
->> +       pinctrl-0 = <&spi0_pc_pins>, <&spi0_cs0_pc_pin>,
->> +                   <&spi0_hold_pc_pin>, <&spi0_wp_pc_pin>;
-> 
-> This whole thing needs to be an overlay. The HOLD and WP pins
-> conflict with eMMC usage, so it seems that Radxa only populates
-> one or the other.
-> 
-> If you look at the pictures on their official website, you'll see the
-> SPI NOR chip populated, but not the eMMC chip. On the linux-sunxi wiki
-> page, you'll see the opposite.
+Tested on Radxa Cubie A5E.
 
-Well, I have a hard time spotting any actual eMMC SKUs in the shops anyway.
-But you are right, the hold and WP pins conflict with eMMC, whereas the 
-other pins are not.
+Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
+---
+ drivers/iio/adc/sun20i-gpadc-iio.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-> And you probably want to enable QSPI, like Sashiko mentioned.
+diff --git a/drivers/iio/adc/sun20i-gpadc-iio.c b/drivers/iio/adc/sun20i-gpadc-iio.c
+index 861c14da75ad..95f34a352158 100644
+--- a/drivers/iio/adc/sun20i-gpadc-iio.c
++++ b/drivers/iio/adc/sun20i-gpadc-iio.c
+@@ -139,8 +139,21 @@ static irqreturn_t sun20i_gpadc_irq_handler(int irq, void *data)
+ 	return IRQ_HANDLED;
+ }
+ 
++static int sun20i_gpadc_fwnode_xlate(struct iio_dev *indio_dev,
++		const struct fwnode_reference_args *iiospec)
++{
++	int i;
++
++	for (i = 0; i < indio_dev->num_channels; i++)
++		if (indio_dev->channels[i].channel == iiospec->args[0])
++			return i;
++
++	return -EINVAL;
++}
++
+ static const struct iio_info sun20i_gpadc_iio_info = {
+ 	.read_raw = sun20i_gpadc_read_raw,
++	.fwnode_xlate = sun20i_gpadc_fwnode_xlate,
+ };
+ 
+ static void sun20i_gpadc_reset_assert(void *data)
 
-Well, in the interest of keeping this simple and enabling the usage of 
-SPI flash for all the users out there, I'd rather drop the extra pins.
-This is mostly really useful for booting the firmware, maybe loading a 
-tiny kernel or other data once, so performance is not a big concern in 
-this use case. The BootROM surely does not use QSPI.
+---
+base-commit: 1d5dcaa3bd65f2e8c9baa14a393d3a2dc5db7524
+change-id: 20260513-fix-sunxi-gpadc-sparse-channels-2b6b2063bd49
 
-And as you say, if people are really interested in the last bit of 
-performance, they can use an overlay.
-
-Cheers,
-Andre
-
-> 
-> 
-> ChenYu
-> 
-> 
->> +       status = "okay";
->> +
->> +       flash@0 {
->> +               compatible = "winbond,w25q128", "jedec,spi-nor";
->> +               reg = <0>;
->> +               spi-max-frequency = <40000000>;
->> +               #address-cells = <1>;
->> +               #size-cells = <1>;
->> +       };
->> +};
->> +
->>   &uart0 {
->>          pinctrl-names = "default";
->>          pinctrl-0 = <&uart0_pb_pins>;
->> --
->> 2.46.4
->>
-> 
+Best regards,
+--  
+Michal Piekos <michal.piekos@mmpsystems.pl>
 
