@@ -1,43 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D5F2110E
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 May 2026 00:10:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0569299929;
+	Wed, 13 May 2026 01:02:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778631012; cv=none; b=o615KmQUu5dJI8ezPVlFb9clD/Dj2xb+7zoJ5XI3jSyjREOpGyNruaO4xQBkx0jjKM3VjH/njfo1WGL2J8xocgHTR3yhYZo+HNbfEDNXcs+Y7YS6xi43HvJie2fUUYotzaHTdHFNwphJYBSMqw9jy3SLKcLIs2IGELSf53bVpu4=
+	t=1778634145; cv=none; b=U0cOebCxTBZA6AdpichsIQwu3qrqa+qdjowA77ozA2PpkYXCpbhJJpuRrtE+TiyLL9o7kMXRvttHeVEK3D6GwlMkxBzxZ353A+oFTeadfuq2TQ/xWNdJOfm8cLimLy3qv3t7MYddd/DKX80dp9iwvQ9KD2F5F2oTmZTtBEczh5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778631012; c=relaxed/simple;
-	bh=MRy0UqjLUyoCetuWmZEZkRRJcbJUUCLxH31+2dHiA3U=;
+	s=arc-20240116; t=1778634145; c=relaxed/simple;
+	bh=/m8IIh5p88Q0k+jI72tlQ89ReyEX/okTEYIeE2M4/O0=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=emsmOTPCGHlOOFnVG3Ul920cRE32cerWuvUdLo87TfvkJ0ZqG9AdmDytO7xwoMzvtwSSrqubEHwG0SCbarlZtmxorFuZXq1oyJgp9yBBEh02yY4Pr06VZfgxFKz+P2NitiEZk7gKb/VLC0EFKSO1EzyJP7opT5o/800pSWmpWJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LktCHPav; arc=none smtp.client-ip=10.30.226.201
+	 Message-Id; b=oPb2xMZ0wOoAG3pSPMAYeG1kPs941m8uM10+OBvclLYM2ZhSqUT9NMPrWmq6vlYPJQNDpXKcUk/awb9j39D2GiHsaATe+O6m2P6+qhyFRckkDaInWenjI7+gQXvY7W7ec1RqlKzccF6L2x6gg7FDbtOo3k/AXelqTE+2uMKH1O0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KPYJegWw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LktCHPav"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53AD8C2BCB0;
-	Wed, 13 May 2026 00:10:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KPYJegWw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BF96C2BCB8;
+	Wed, 13 May 2026 01:02:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778631012;
-	bh=MRy0UqjLUyoCetuWmZEZkRRJcbJUUCLxH31+2dHiA3U=;
+	s=k20201202; t=1778634143;
+	bh=/m8IIh5p88Q0k+jI72tlQ89ReyEX/okTEYIeE2M4/O0=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date:From;
-	b=LktCHPavSUTkhid+da6MDkDEzjZHAva7NVP8i1OjUNh1lur81dFL2+G91391Mf3Rh
-	 tOIhrBNoIZ45SsYBpispKUdjXcvU0hPfTmFBbhLovOywK4MTXIJV9cE3fxJm619yMj
-	 FMUFXVgEbA7l2ssV60CbDuX3SebzlHDbDFNwvgbHLsiLQxGiwI+NChS0iw1LOaZWsK
-	 FbQZeUWLpxCpnS6lvDIQKzZG1krRbj9O5cZn8rCTJ+50bLfcHnt8OMcCy4b6oMHCYh
-	 8CbLOuov70sCk3iZRYCIxdbp6FO0USo8FZ94Tj/Mg9T53H+KQJ00hFxP1PmssvUVEe
-	 Vv1HNJ1Xxi8Vg==
+	b=KPYJegWw14Dz89JXD34hYgzgK8Mtdjc2Bjr7gel8Y2JkBZPrfCvaQ20hdNilpu/mL
+	 qQQVHM67sJrNISev0m5kLCFFCx4Hcpb1oxgT74qRsvf77WxdScfeZRYlq6TbDuRnFG
+	 p/jmq3nUBzHS58qvcsxwT/5gmv6j+IQ+dhhVotJ1ZpQH2wYq0W/jjQraTUqNzG0FaQ
+	 JITTRWA17celgXtbwxk4u6SOfpJ9G+J/1gfW4AynwBMuilD6mJ8aR1/ywRawRoYdRb
+	 IX5ssKiCS9pfUhv/pzLE8HOCKC0SphBhkmx6NaLVfJFajgVRFT5vfaF98vRgxKxG7d
+	 MvRP05yra22BQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 4/6] media: rtl2832_sdr: Return queued buffers on
- start_streaming() failure
+Subject: Re: [PATCH] arm64: dts: allwinner: Cubie A5E: enable SPI flash
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Valery Borovsky" <vebohr@gmail.com>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <d10ab7f1bb6b4ee1760967f1957191a341b08354.1778518085.git.vebohr@gmail.com>
-References: <d10ab7f1bb6b4ee1760967f1957191a341b08354.1778518085.git.vebohr@gmail.com>
+To: "Andre Przywara" <andre.przywara@arm.com>
+Cc: devicetree@vger.kernel.org, krzk+dt@kernel.org, robh@kernel.org, linux-sunxi@lists.linux.dev, conor+dt@kernel.org
+In-Reply-To: <20260511221741.25888-1-andre.przywara@arm.com>
+References: <20260511221741.25888-1-andre.przywara@arm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 13 May 2026 00:10:11 +0000
-Message-Id: <20260513001012.53AD8C2BCB0@smtp.kernel.org>
+Date: Wed, 13 May 2026 01:02:22 +0000
+Message-Id: <20260513010223.6BF96C2BCB8@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -46,99 +45,60 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
 Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [Critical] Unbounded memory leak and Out-Of-Bounds read/crash due to unro=
-lled allocations on start_streaming failure.
-- [High] Silent DMA memory leak on device disconnect due to cleared `udev` =
-pointer.
+- [Medium] Missing `spi-rx-bus-width` and `spi-tx-bus-width` properties res=
+trict the SPI flash to 1-bit mode despite hardware Quad SPI configuration.
+- [Low] Unnecessary `#address-cells` and `#size-cells` defined in the `flas=
+h@0` node without child nodes.
 --
 
-commit b46c390ec17dc3b72b2306b1cffbddd15df567b7
-Author: Valery Borovsky <vebohr@gmail.com>
+commit 90d57abd1dc9fc1a77a15be6ce437a4b3378df17
+Author: Andre Przywara <andre.przywara@arm.com>
 
-media: rtl2832_sdr: Return queued buffers on start_streaming() failure
+arm64: dts: allwinner: Cubie A5E: enable SPI flash
 
-This commit fixes a memory leak of queued vb2 buffers when
-rtl2832_sdr_start_streaming() returns an error. It adds explicit buffer
-cleanup using a new helper function on the error paths.
+This commit enables the SPI0 device tree node for the Cubie A5E board.
+It describes the configuration for the 16MiB SPI NOR flash connected
+to the SPI0 bus.
 
-> diff --git a/drivers/media/dvb-frontends/rtl2832_sdr.c b/drivers/media/dv=
-b-frontends/rtl2832_sdr.c
-> index 422d1a7b5456e..c564485e3bbb5 100644
-> --- a/drivers/media/dvb-frontends/rtl2832_sdr.c
-> +++ b/drivers/media/dvb-frontends/rtl2832_sdr.c
-> @@ -855,11 +856,15 @@ static int rtl2832_sdr_start_streaming(struct vb2_q=
-ueue *vq, unsigned int count)
+> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts b/ar=
+ch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+> --- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+> @@ -344,6 +344,21 @@ &r_pio {
+>  	vcc-pm-supply =3D <&reg_aldo3>;
+>  };
 > =20
->  	dev_dbg(&pdev->dev, "\n");
-> =20
-> -	if (!dev->udev)
-> +	if (!dev->udev) {
-> +		rtl2832_sdr_cleanup_queued_bufs(dev, VB2_BUF_STATE_QUEUED);
->  		return -ENODEV;
-> +	}
-
-[ ... ]
-
-> @@ -900,7 +905,11 @@ static int rtl2832_sdr_start_streaming(struct vb2_qu=
-eue *vq, unsigned int count)
->  	if (ret)
->  		goto err;
-> =20
-> +	mutex_unlock(&dev->v4l2_lock);
-> +	return 0;
+> +&spi0  {
+> +	pinctrl-names =3D "default";
+> +	pinctrl-0 =3D <&spi0_pc_pins>, <&spi0_cs0_pc_pin>,
+> +		    <&spi0_hold_pc_pin>, <&spi0_wp_pc_pin>;
+> +	status =3D "okay";
 > +
->  err:
-> +	rtl2832_sdr_cleanup_queued_bufs(dev, VB2_BUF_STATE_QUEUED);
->  	mutex_unlock(&dev->v4l2_lock);
-> =20
->  	return ret;
+> +	flash@0 {
+> +		compatible =3D "winbond,w25q128", "jedec,spi-nor";
+> +		reg =3D <0>;
+> +		spi-max-frequency =3D <40000000>;
 
-This isn't a bug introduced by this patch, but if rtl2832_sdr_submit_urbs()
-fails and jumps to this error path, do we leak the newly allocated dma stre=
-am
-buffers and urbs?
+Since the pinctrl-0 configuration explicitly maps the hardware WP and HOLD
+pins to the SPI controller, should this node also include
+spi-rx-bus-width =3D <4> and spi-tx-bus-width =3D <4>?
 
-If userspace repeatedly attempts to start the stream via the streamon ioctl,
-rtl2832_sdr_alloc_stream_bufs() unconditionally resets dev->buf_num =3D 0 a=
-nd
-overwrites dev->buf_list[], permanently leaking the dma memory.
+Without these properties, the SPI driver defaults to standard 1-bit mode,
+failing to utilize the board's wired Quad SPI capabilities. Additionally,
+if the board lacks external pull-ups, could muxing the active-low WP and
+HOLD pins to the SPI controller in 1-bit mode leave the pins floating and
+risk unintended write-protect or hold states?
 
-Furthermore, rtl2832_sdr_alloc_urbs() does not reset dev->urbs_initialized;
-it blindly increments it on each successful urb allocation. On a second
-attempt, dev->urbs_initialized could exceed the array bounds. Later, when
-rtl2832_sdr_free_urbs() is called, could it iterate from
-dev->urbs_initialized - 1 down to 0, reading out-of-bounds past the
-dev->urb_list[] array and passing garbage pointers to usb_free_urb(),
-potentially causing a panic?
+> +		#address-cells =3D <1>;
+> +		#size-cells =3D <1>;
 
-[ ... ]
+This isn't a bug, but since this flash node does not contain any child
+partition nodes, these #address-cells and #size-cells properties are
+unnecessary and trigger standard dtc warnings.
 
-> @@ -920,7 +929,7 @@ static void rtl2832_sdr_stop_streaming(struct vb2_que=
-ue *vq)
->  	rtl2832_sdr_kill_urbs(dev);
->  	rtl2832_sdr_free_urbs(dev);
->  	rtl2832_sdr_free_stream_bufs(dev);
-
-This isn't a bug introduced by this patch, but if dev->udev is cleared to
-null by the disconnect handler during device removal, does this cause a
-silent dma memory leak?
-
-When the user-space application eventually closes its file descriptor after=
- a
-device unplug, it triggers the vb2 release paths and calls
-rtl2832_sdr_stop_streaming() which calls rtl2832_sdr_free_stream_bufs().
-
-Because dev->udev is already null, usb_free_coherent(dev->udev, ...) will
-immediately abort without freeing or unmapping the memory. Does this
-guarantee that all dma stream buffers are permanently leaked every time the
-sdr dongle is unplugged while streaming?
-
-> -	rtl2832_sdr_cleanup_queued_bufs(dev);
-> +	rtl2832_sdr_cleanup_queued_bufs(dev, VB2_BUF_STATE_ERROR);
->  	rtl2832_sdr_unset_adc(dev);
-> =20
->  	/* sleep tuner */
+> +	};
+> +};
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1778518085.gi=
-t.vebohr@gmail.com?part=3D4
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260511221741.2588=
+8-1-andre.przywara@arm.com?part=3D1
