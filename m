@@ -1,154 +1,112 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A873ACA62
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 May 2026 20:23:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E84243AEF28
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 May 2026 21:19:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778703785; cv=none; b=Oj/c5dCrJ7rI89nzgVtQ1pi/JlIz0oCcT7NmBQM+Bt0nzKGobcP31V0a/tKEUbCt5HqjutMr4vdFvaJ1JLJ8RB+MZxK2FxlqouJtem5yu6IZcKImTOQ6ovf6Z5v0+oao6rfTV2qHum6S9p/Yu+lZEQU0ij8qvGvYihqnWRMsjR4=
+	t=1778707194; cv=none; b=C20v8ou/EEHamyut3VG+UEWLSScUZVWM3vDB4m6mKpu5R7kfVbOLYJ/xty1E8HWAUvdewU7y3yrqZ5/SkMeU/UVYX3/Gm7X5D8atv0gS/F2VdmHAE2ObsYeqgDsvv3Zf+kzvASYq3dQ1NXQvxwZEK8QhYY0LueGDvW0Vrla6AOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778703785; c=relaxed/simple;
-	bh=8VoltUrLdbwL0jcfEn9k3774FHuaNiE9Y3fSoTK1IBo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UyCeBWGKbYHziOGXGNua/nqoaGuqKs2IKLXztVsOl5qR411U5fOj7trBmRIGW88rhuusN4ktWL+vCgumAEymmG48BdKq4Pq7PRCrpge3jKYnrJtaktdhvaEWP2nP0pUnDq2oADhsFMPBh8swI06qHm/5BV3ya3XTAeSDuwoXFfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UDlBEgt0; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778707194; c=relaxed/simple;
+	bh=0Lebhxow8NENn55awGNqCenjr3a2y8mPr2YpEwm2E9Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mB3gQcbHxvjzZAiY3mhcf04tkxYLLXIcDTMTCTB86cKwbqBYii90AN945JeAqZCcuju3NmdmeotYiHIEoTQAZAk0B6RMdbVfUnoj21rukK9q2bc2mtdBJ6YPu1Vpo9vLAIue85B/trxF4Gq37z/RV9Tc3r6NWVUdoXuaUAtuTHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=aWn6yRsP; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UDlBEgt0"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-44509921fbcso3681315f8f.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 May 2026 13:23:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778703783; x=1779308583; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7V1myvD5g5e+ykOUotYKcza96x6t5F4ELRDkfltp7Vc=;
-        b=UDlBEgt0T1Syh7Kdt6S3D6G7EfHl1sGInYz7IqlvE2V05SPBqgFy9s1ieVPzUJcMQj
-         cVVlI0tGRsjQP2j4cj9Fn9grQVvZIzlvk1q4+WbM42o4kJLkO+J9czhxfv8hiUmW4EjV
-         ZVYz/xC80JWf2zYp2AE9mogShmJrvesQHQXr+5mB4Mbb6l3jRuuMjVE/ScO05gWYL7zp
-         fQ7IyRdkF2ux4LntxUy9OFUx2/p5BF7pM2ISOdeybD/hG0NLZh9vvEH8wieBZopn2T17
-         oOVYFG3l8RFmJ/GhHdhmtu7edv6ZxAoSp0AN+fm3LVlY5LMqPhHgsIh9e13bBeIgkHbN
-         4W1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778703783; x=1779308583;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=7V1myvD5g5e+ykOUotYKcza96x6t5F4ELRDkfltp7Vc=;
-        b=kwpS3wX73Kmf+WPTHwgxaicrElkboAvPAwGq+a5oXmgEslojziqt+0X+HiRMFmFyKl
-         rIax4Z2B+es7G6jqqsgYnJqG3LYrxIvHI6Xa3wHzndvE37I9/Fu2tVCHKE6+FWmf0v9g
-         yRQL52JV/hW3LJlUEMgY0cSbWtjuAgrDGWQve9QHXvrMnNdjc3J+UGXZmHy0UWdpSKzK
-         4D5fm1jnXabrSKTXZ8fD1mL8wxIVY96rkxHWyswSzOoHBgO9X0IdBdyhqZ/JFap0Ns4N
-         vGde+774di4vfVi1IpYXKt+oB3BvNkE1UgCILWgPQ2DD0csn/d7dI8C2jxR5ghnUX53q
-         baVQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/QuoM0BxfrMqYmcgQdhooDUXm8JyEk5e4OuiOY/poEA3/bCO2hVVpvha3cU8nhSmA9qSCoRssh+AWO4A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw3ESQskfqvXM1SfRT2T1e7ctia/oTzNtr3diPjHF39k/1GI27g
-	crFuUuFFvgLV2E4O8b/rxQVk/xw7A5ViDFqeI1r3oDldLX7n+zSRP+EX
-X-Gm-Gg: Acq92OHZkMbX4cySVCjJT2qbPZGt5TU6uRpYofJFVzeMnt6NhP5YAtS5nbowMXIjUsF
-	jqTUshv34UEwafBXvYUw6aC7LxMIKTg7oV3UlsHhblnRcmyufI+aLsDKbL8dDtiDTUJYWdSa4ia
-	Of7Q/hZvYmePffDR5E7/49oDTywscp6vurpY576KNDi/WPB5qS2fCg8g64hxbkLlmeCh4ekiZHq
-	4tSwduzK6K+ycPvGCnMUVLiTDXpQa0uHmXRM9qoI0akUuCCvwNneDL3ZfwvmFBv3eAV2mPF7kFq
-	fB2tjYVRJAaog18lZi9AZV28LlTRmkKrwt8mRnk8k5YtGhF17WyDX/134avwPJa3IqLZe3MloD3
-	jqF6PVPu48ervBK5ssGu5se83XM/7Q4BLkEYS8EHNJVOLKHs/T+rdb36YjvpJzwKnSYvuGw6Xx9
-	ICjqZN19UV1Fks8iLhuIt0sa53h/5TGMcdHzfArkCgZuK/rF8wy3PO6niaDMvv8mtTHSnVvNScq
-	mV+5HeI
-X-Received: by 2002:a05:6000:24c6:b0:45c:154d:6387 with SMTP id ffacd0b85a97d-45c7a7dc6a2mr7430880f8f.37.1778703782701;
-        Wed, 13 May 2026 13:23:02 -0700 (PDT)
-Received: from jernej-laptop.localnet (46-150-62-216.dynamic.telemach.net. [46.150.62.216])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9ed2ffdfsm1279025f8f.15.2026.05.13.13.23.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 13:23:02 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Sean Young <sean@mess.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- =?UTF-8?B?67CV66qF7ZuI?= <mhun512@gmail.com>
-Cc: Myeonghun Pak <mhun512@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
- Samuel Holland <samuel@sholland.org>, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Ijae Kim <ae878000@gmail.com>
-Subject:
- Re: [PATCH] media: rc: sunxi-cir: unregister rc device on probe failure
-Date: Wed, 13 May 2026 22:23:00 +0200
-Message-ID: <YRYbhQnwRdCZPKQIjbWE2A@gmail.com>
-In-Reply-To: <20260424000000.558-1-mhun512@gmail.com>
-References: <20260424000000.558-1-mhun512@gmail.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="aWn6yRsP"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B1D591570;
+	Wed, 13 May 2026 14:19:45 -0700 (PDT)
+Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4E0253F836;
+	Wed, 13 May 2026 14:19:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1778707191; bh=0Lebhxow8NENn55awGNqCenjr3a2y8mPr2YpEwm2E9Y=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=aWn6yRsPrgj1szjsbnBgCXW++nb/Lx3T6nyTZrCqYcM08h00TKY6S2j0Bl0R9wpdy
+	 jd1LkJ/DiUsek75w2fd1w7BXdhsy5V1rcMebOyYAYRu1ozk/UI7z+gDd5sYQHBQzp8
+	 d+LEGdf4s8tbTvOZlMf3eACGJhG31OFXK74rCzUY=
+Date: Wed, 13 May 2026 23:19:01 +0200
+From: Andre Przywara <andre.przywara@arm.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Sanjay Chitroda <sanjayembeddedse@gmail.com>, Michal Piekos
+ <michal.piekos@mmpsystems.pl>, Jonathan Cameron <jic23@kernel.org>, David
+ Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Maksim
+ Kiselev <bigunclemax@gmail.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] iio: adc: sun20i-gpadc: add A523 gpadc support
+Message-ID: <20260513231901.05dc9a82@ryzen.lan>
+In-Reply-To: <agTbFbicv9yzTQb9@ashevche-desk.local>
+References: <20260513-sunxi-a523-gpadc-v2-0-d5efde151dac@mmpsystems.pl>
+	<20260513-sunxi-a523-gpadc-v2-2-d5efde151dac@mmpsystems.pl>
+	<A7772824-E704-4BFD-A796-BCD81197E5A2@gmail.com>
+	<4248ac7e-3cce-4db8-a2c1-710f2c903490@arm.com>
+	<agTbFbicv9yzTQb9@ashevche-desk.local>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-Dne sreda, 13. maj 2026 ob 09:11:03 Srednjeevropski poletni =C4=8Das je =EB=
-=B0=95=EB=AA=85=ED=9B=88 napisal(a):
-> From: Myeonghun Pak <mhun512@gmail.com>
+On Wed, 13 May 2026 23:12:05 +0300
+Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+
+Hi Andy,
+
+> On Wed, May 13, 2026 at 01:53:49PM +0200, Andre Przywara wrote:
+> > On 5/13/26 13:44, Sanjay Chitroda wrote: =20
+> > > On 13 May 2026 10:29:43=E2=80=AFam IST, Michal Piekos <michal.piekos@=
+mmpsystems.pl> wrote: =20
 >=20
-> After rc_register_device() succeeds, later probe failures must undo the
-> registration with rc_unregister_device(). The current error path jumps to
-> the allocation cleanup label and only calls rc_free_device(), leaving the
-> rc device registration and resources created by rc_register_device()
-> behind.
+> > > > +	if (ret <=3D 0) =20
+> > >=20
+> > > Thank you Michal for the change.
+> > >=20
+> > > Have you validated the changes ?
+> > > It looks while success ret would be 0 and it would give return error.
+
+No, it doesn't. Returning 0 means no clocks found:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/dri=
+vers/clk/clk-devres.c#n300
+
 >=20
-> Add a registered-device unwind label for the IRQ lookup, IRQ request, and
-> hardware initialization failure paths. Keep rc_free_device() for failures
-> before rc_register_device() succeeds.
+> Good catch!
 >=20
-> Fixes: b4e3e59fb59c ("[media] rc: add sunxi-ir driver")
-> Cc: stable@vger.kernel.org
-> Co-developed-by: Ijae Kim <ae878000@gmail.com>
-> Signed-off-by: Ijae Kim <ae878000@gmail.com>
-> Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
-> ---
->  drivers/media/rc/sunxi-cir.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
+> > But devm_clk_bulk_get_all_enabled() returns the number of clocks found =
+and
+> > enabled. And since we need at least one, I think this is correct, and t=
+he
+> > error message below reflects that.
+> >=20
+> > To me that change looks good:
+> >=20
+> > Reviewed-by: Andre Przywara <andre.przywara@arm.com> =20
 >=20
-> diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
-> index 92ef4e7c6f..cc64a68dfe 100644
-> --- a/drivers/media/rc/sunxi-cir.c
-> +++ b/drivers/media/rc/sunxi-cir.c
-> @@ -344,22 +344,26 @@ static int sunxi_ir_probe(struct platform_device *p=
-dev)
->  	ir->irq =3D platform_get_irq(pdev, 0);
->  	if (ir->irq < 0) {
->  		ret =3D ir->irq;
-> -		goto exit_free_dev;
-> +		goto exit_unregister_dev;
->  	}
-> =20
->  	ret =3D devm_request_irq(dev, ir->irq, sunxi_ir_irq, 0, SUNXI_IR_DEV, i=
-r);
->  	if (ret) {
->  		dev_err(dev, "failed request irq\n");
-> -		goto exit_free_dev;
-> +		goto exit_unregister_dev;
->  	}
-> =20
->  	ret =3D sunxi_ir_hw_init(dev);
->  	if (ret)
-> -		goto exit_free_dev;
-> +		goto exit_unregister_dev;
-> =20
->  	dev_info(dev, "initialized sunXi IR driver\n");
->  	return 0;
-> =20
-> +exit_unregister_dev:
-> +	rc_unregister_device(ir->rc);
-> +	return ret;
+> =3D=3D 0 ???
+> Doesn't look like correct code.
 
-This return should not be here.  Device must be freed too.
+Not sure I follow:
+devm_clk_bulk_get_all_enabled() returns the number of clocks in that
+node, or a negative error value. If it returns 0, that means no clocks
+have been found, which is an error in our case, since we expect at
+least one clock. This is what the second part of the error message
+refers to.
+So we want one or two as the return value, with the current bindings,
+but really anything greater than 0 is fine, from the driver's
+perspective, since we don't care about the clocks beyond them being
+enabled.
 
-Best regards,
-Jernej
+So am I missing something?
 
-> +
->  exit_free_dev:
->  	rc_free_device(ir->rc);
-> =20
->=20
-
-
-
-
+Cheers,
+Andre
