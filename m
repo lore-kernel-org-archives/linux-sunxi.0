@@ -1,71 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B9A399346;
-	Wed, 13 May 2026 18:05:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4871A3B19CA;
+	Wed, 13 May 2026 19:15:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778695506; cv=none; b=qIVNaG5KTBbS3vlBAAbQaxWAW1iOxWHAOb2bscMEURRxvtV/U6UvpUb9j1pmF0FK3rXCIORBiKSJc3gtA9E6ibeB/wpdd/iQ6V02AotKYer+WoRBbYx817c3ZqWyfi14s/JSb/yqWeirX6PyIOiAVjBFzcMo9o8Mol4SlvrJXiw=
+	t=1778699726; cv=none; b=YcyOn9P+55HbEhezXaqsuyvH/weAX2h7lJgv1I9TQe/T8IpYErY3IKYPwnljOMk5V08oNVUwov8rGDagDQjcQAwDo9OfRD0aomNaq74CGLz9Wb2FOhVWPBaMb/VKiaxR+h9QI4KUXAOa2SvKoL6Rip8GWjAOywiJhd2nWJ2fbrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778695506; c=relaxed/simple;
-	bh=RSUDBpyZ6Frx8kWi7gZ9z6X/1ezYQUz9Ikag1Hqh2dI=;
+	s=arc-20240116; t=1778699726; c=relaxed/simple;
+	bh=PjwdZnGMafMUAXlwoDYJu7XCJtlyP+MGZdLjge7uq2o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UZE2gj5EXuR7FO0fUVyFcS8pa9yD9zgGjUsY4wIy9L4xf91vah+j93ljeFwlMqd09t6svhHFummAFmU8sB6i0ybqGgiv8+hNLhIH0Gb73NWe1xtv2otBMNNhsvV0u8J4jr91gRlKnOiayhNATzPq6+gmfHz4g1vIBz2O/BPBnkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kuBrwmKx; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=g4ra+LJ2yoMJAsyMVVqBiXevHkulQbSImtBCrSZxu1uWyj2iJ1WX5k8RVAYNCbCHnwddtD5pfuNrNZCHLWva3BDXVlBPpYQRN3s1jAioDOo8k1M0dvpvKoA8P3b6NLUXYerRJCNZJmCIb2YyhvcF3TT5bysLi8vb4jt+xS+6r14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rorca4yK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kuBrwmKx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8589C19425;
-	Wed, 13 May 2026 18:05:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rorca4yK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5DFBC19425;
+	Wed, 13 May 2026 19:15:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778695506;
-	bh=RSUDBpyZ6Frx8kWi7gZ9z6X/1ezYQUz9Ikag1Hqh2dI=;
+	s=k20201202; t=1778699725;
+	bh=PjwdZnGMafMUAXlwoDYJu7XCJtlyP+MGZdLjge7uq2o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kuBrwmKxwsPyQZleUGbiXx0JetulP4a9+Y3xldOmeLhsrq5U70SaDHU+AOK4xPM8I
-	 6nJGo6L7of5+d7QMRLGjlOZUKPoS5KoDU+IHWH8ByTOcH7F6tZS53bynp3+vOPh6Fz
-	 e78SwWB2BeG1se8rD2kgtnF0tuJbTC0hS50CbKfbf9LtNWwNVjAZwxjCBESDF7d4O4
-	 bB6DQG81PjvCIQrY+kJKum3rUrVQAneGQ2f7ZwZYI6Ajumq7hL3lSto4dSLY1nFJVT
-	 rIoLd3Pdtp9y1bXAS0uO7Ri9kAcBAvs03LLEoLLsNcpuC+r4KEpM5rQ289kmuUTvI4
-	 AExsav7UOgWzw==
-Date: Wed, 13 May 2026 13:05:03 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>, linux-staging@lists.linux.dev,
-	linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
-	Paul Kocialkowski <paulk@sys-base.io>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	b=rorca4yKcR0UvmQ9gFa2iw5rNfofSdwMTdtbpp63XHOj3eGTKE2Fun+85tzr8+J/3
+	 WnhSKmjGpNSaK0/Lm1qgXWR/63fEVq0iVCWS2r4lg53roiDvLquAhpuVH+V+rOD6x8
+	 dCFI+xtTcbtEPxNR6E6zFOzfyGyhKhTUpENrDue5DWSBcnmERHy6mzD3GgIy4OhgES
+	 c6MiQjvYSGUSsl3+PizY1+hrdzqMy1EaYPID393I0s5NcDsqsWbtatCBQQo6gwIam1
+	 BVlHTzkJbvz+fLTkkGkEdz9n4sx7Ng13A1LhRWjZN6itR8DVMSKCFk4TwUB5/ntCvv
+	 Pr64hY38CJoQA==
+Date: Wed, 13 May 2026 20:15:20 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Michal Piekos <michal.piekos@mmpsystems.pl>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej@kernel.org>
-Subject: Re: [PATCH 3/7] dt-bindings: media: sun4i-a10-video-engine: Add H616
- compatible
-Message-ID: <177869550281.1497011.1142937282232673663.robh@kernel.org>
-References: <20260505134812.408316-1-wens@kernel.org>
- <20260505134812.408316-4-wens@kernel.org>
+	Maksim Kiselev <bigunclemax@gmail.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] dt-bindings: iio: adc: Add GPADC for Allwinner
+ A523
+Message-ID: <20260513-retreat-accompany-d3d2c5314402@spud>
+References: <20260513-sunxi-a523-gpadc-v2-0-d5efde151dac@mmpsystems.pl>
+ <20260513-sunxi-a523-gpadc-v2-1-d5efde151dac@mmpsystems.pl>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="T0kZ9Mx4riVIcj7x"
+Content-Disposition: inline
+In-Reply-To: <20260513-sunxi-a523-gpadc-v2-1-d5efde151dac@mmpsystems.pl>
+
+
+--T0kZ9Mx4riVIcj7x
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260505134812.408316-4-wens@kernel.org>
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, May 13, 2026 at 06:59:42AM +0200, Michal Piekos wrote:
+> Add support for the GPADC for the Allwinner A523. It differs from the
+> D1/T113s/R329/T507 by having two clocks.
+>=20
+> Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
 
-On Tue, 05 May 2026 21:48:07 +0800, Chen-Yu Tsai wrote:
-> The H616 contains a video engine similar to past SoCs.
-> 
-> Add a new compatible for it.
-> 
-> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
-> ---
->  .../bindings/media/allwinner,sun4i-a10-video-engine.yaml       | 3 +++
->  1 file changed, 3 insertions(+)
-> 
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+--T0kZ9Mx4riVIcj7x
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCagTNyAAKCRB4tDGHoIJi
+0lhuAQDymppi/A7f9420QrmVJJ6kfQRuhlS2uA4AZgvA3B4+QQEAoYZJzXdLJ8X3
+vOkfbI8aNxT7XjRdXyjPG+HWOUKtEAU=
+=+BH6
+-----END PGP SIGNATURE-----
+
+--T0kZ9Mx4riVIcj7x--
