@@ -1,113 +1,118 @@
-Received: from s106b.cyber-folks.pl (s106b.cyber-folks.pl [195.78.66.88])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFAFD3655F1;
-	Wed, 13 May 2026 05:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.78.66.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF6039E9D4
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 May 2026 05:21:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778648452; cv=none; b=UxTRq12T9yTYyd2pnJoGLbuA3JJCiRhscDM3GwDOnAxBwZRVf3NzI9t7E+wmH+0werxuNpMbPx1WPo/XsMr4XwxMU8GjXBDiKZgfOkpuMJ5c0YALU58vAvdiHAQG7qGf5CIArWZGHobYb7jPsSPSQ33JQdMTJx/O0wj1gPCKlcY=
+	t=1778649683; cv=none; b=j5aEybPOXzsVO6PpWsNnNLDCzQP8UMwK0z5NJfTQoHrkI3thZ2ZR/rt+ex7ZgARA85uILTublr1y1vBIzBrz/UnG+haYTE1xjnoxLgb8SLUl0E6L0hlOjgeY9YuBdmMG0CNeccCTUjppF2iSJRSdw6FMyLoTn1czZ60aLOt2YWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778648452; c=relaxed/simple;
-	bh=/N5/DsYuZyXhP6df/g8ro7dcmFJQ8yyC3EItsyGlO0Y=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bIV4ppquSKUTTfnsZQM+TSwQ138GrW9lxVgauv2AqL6Y0uxUQ+h50Sq7V5Rns425R+ll9k7wOOCyqVw0eZTDp58RybJDST6ZtP52/t/D0LbqU5UeJeKY5FLkhE+HZkhzRWk6USraMnpiLk6jXE6f86AlaDO2GDIOdnlIFUgNaxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl; spf=pass smtp.mailfrom=mmpsystems.pl; dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b=VnALRn2F; arc=none smtp.client-ip=195.78.66.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mmpsystems.pl
+	s=arc-20240116; t=1778649683; c=relaxed/simple;
+	bh=wG39Ji+Evy4auwV08BQ91JK+X5T6r322YoiDD9mHSjA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=e/Lc868g+KAWaGa/OFCXak+c8jXjgjvv/MZW9RwxGKhV2OS6E8bnZ2UdXjKtViYmgd7QiYp9h4q57kkin3Nv2vq4dEsGp2u6vWirnS0M4XFCgPif3c2kq/eXKrhSBKzAQtEcF86UvXw9Mw0n+MZmxq3FCfyH0KlyG+Rd1PO/tCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N8CrScUm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b="VnALRn2F"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=mmpsystems.pl; s=x; h=Cc:To:In-Reply-To:References:Message-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=2aQBbG5BBr12ydhLfhSkL/E4J0Fku1F2nvWGO6lgZKA=; b=VnALRn2FAIPrnPvRuXE/00SOEU
-	ellbJLES0qQ78J/B7thoDIkE0j0MlLAuYWZJZKgWmhikw8W4/wAwLZDcd4xDjWtJG/xJ3tugTfZZ0
-	N6p5MhhkvEr66ewBSn4a9oSUihsTYk0YoOS0VyNACKD5UYNgubC7DCJylhaKqcFqAM+iMZyJZ+UVJ
-	tV5sYEs4TvekiRv6A1f4oTZ/iYUu8W0uB9aqMglwpkuVyZtVY7yNULXCUow6y76WAAWEX8uMeqyye
-	mTi/FID9oI6phlazitvLWmueyNVthwq3lXu9TIrummLy6DHYhFJ7kP55cM4AfWrpkMezUzNu3pfUw
-	3W/NmIOQ==;
-Received: from [91.102.182.218] (helo=localhost)
-	by s106.cyber-folks.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <michal.piekos@mmpsystems.pl>)
-	id 1wN1iB-0000000EbcL-1ih0;
-	Wed, 13 May 2026 07:00:47 +0200
-From: Michal Piekos <michal.piekos@mmpsystems.pl>
-Date: Wed, 13 May 2026 06:59:44 +0200
-Subject: [PATCH v2 3/3] arm64: dts: allwinner: a523: add gpadc node
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N8CrScUm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FCBBC2BCB7
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 May 2026 05:21:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778649683;
+	bh=wG39Ji+Evy4auwV08BQ91JK+X5T6r322YoiDD9mHSjA=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=N8CrScUmNYnIHpxJ6lc171g+eJphe2OhWMe8MuvTj3QqqLSF1jTAEh/h4ImFWhC4i
+	 zfFi0iMugiMIXpDz0c/S1sh5fN+ZTa5ybY6e3NW5BNGAHvlK5Lk3y5ZKld9eOpD/fm
+	 Y5VkRKxct2VWVuxJOvv5hu3UJ8CBHOBYXXVJoeOEKGsiBUZZlIPsmO74k692V3Kok/
+	 uQKVj0NVIkJ9oHQD8kZm99OPFkLyJUjUTxG5v7XIxckSQmGHNvNRATiHRmD3q5Y7Rk
+	 ao7l+1YUnCgXX+BjBbUl9hyShcHKzHYd3GZ50WcDvfvXaJ380vQRrqcHiO7RVX6+u6
+	 4pxIcA4yJISVQ==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-38e7b0903cdso59286301fa.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 12 May 2026 22:21:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+1qlq3lQkG57tA+lQ8KcrJt1bMoz3vP+BY3F7TdnnNvzpgLvfLy4OQ85Vul3chPCU+ItlEy52wA8X/dw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzavtAPqCCy+VK/qnaXPsNou5szSPveiWNEWJSEF8M6r6r+mx87
+	HZKbOjDz4LOSE50fT8GsPq6EFI7ISBvbI3AUpnhsOh/G9NX8bHFgm97LyLj6Q2D3OJlHezPR3nc
+	s+sI8JIqvqLeXuF+Pz/c13RtgLiFXEKE=
+X-Received: by 2002:a2e:8a89:0:b0:38e:6:4f89 with SMTP id 38308e7fff4ca-3944ea49693mr2922681fa.25.1778649681511;
+ Tue, 12 May 2026 22:21:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260513-sunxi-a523-gpadc-v2-3-d5efde151dac@mmpsystems.pl>
-References: <20260513-sunxi-a523-gpadc-v2-0-d5efde151dac@mmpsystems.pl>
-In-Reply-To: <20260513-sunxi-a523-gpadc-v2-0-d5efde151dac@mmpsystems.pl>
-To: Jonathan Cameron <jic23@kernel.org>, 
- David Lechner <dlechner@baylibre.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Maksim Kiselev <bigunclemax@gmail.com>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Michal Piekos <michal.piekos@mmpsystems.pl>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778648397; l=1298;
- i=michal.piekos@mmpsystems.pl; s=20260301; h=from:subject:message-id;
- bh=/N5/DsYuZyXhP6df/g8ro7dcmFJQ8yyC3EItsyGlO0Y=;
- b=7IFLix/s5zhm6Z2vJ2rXvkQgwcq7m4r9e0QlY9IbP0q9Ao1SHxmHErk7DFQE4WXUIiCZzeoui
- XFAguZ705gpB2TreIeIY0QKwh5XXKhMh1gY77uJsYHBqyTPO6QiAESE
-X-Developer-Key: i=michal.piekos@mmpsystems.pl; a=ed25519;
- pk=Aixyx03If7ZDamiKKN0lsa+0mtA+WjIuIf2ZQVYNBqg=
-X-Authenticated-Id: michal.piekos@mmpsystems.pl
+References: <20260511221741.25888-1-andre.przywara@arm.com>
+In-Reply-To: <20260511221741.25888-1-andre.przywara@arm.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Wed, 13 May 2026 13:21:08 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64u4sqwiiQcEBg-XvmJ2DLEpSj-_AWNbp14RAp-GXP7OA@mail.gmail.com>
+X-Gm-Features: AVHnY4LNzDSVxvL_bMTBGmDtpC-1_N73M3ApcObKe_HI8JqQNliaOIug0_HE6VA
+Message-ID: <CAGb2v64u4sqwiiQcEBg-XvmJ2DLEpSj-_AWNbp14RAp-GXP7OA@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: allwinner: Cubie A5E: enable SPI flash
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Describe GPADC block on Allwinner A523.
+Hi,
 
-Tested on Radxa Cubie A5E:
-- 2 connected channels are showing voltages in agreement with
-  schematics.
-        BOOT-SEL-ADC ~500mV
-        BOM-ADC ~1800mV
-- 3rd channel exposed on 40pin header is showing correct voltages when
-  connected to known voltage source.
+On Tue, May 12, 2026 at 6:18=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
+com> wrote:
+>
+> The Cubie A5E board comes with 16MiB of SPI NOR flash.
+>
+> Enable the SPI0 DT node and describe the configuration.
+>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  .../boot/dts/allwinner/sun55i-a527-cubie-a5e.dts  | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+>
+> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts b/ar=
+ch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+> index bfdf1728cd14b..7ad22fc85d1fd 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+> @@ -344,6 +344,21 @@ &r_pio {
+>         vcc-pm-supply =3D <&reg_aldo3>;
+>  };
+>
+> +&spi0  {
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&spi0_pc_pins>, <&spi0_cs0_pc_pin>,
+> +                   <&spi0_hold_pc_pin>, <&spi0_wp_pc_pin>;
 
-Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
----
- arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+This whole thing needs to be an overlay. The HOLD and WP pins
+conflict with eMMC usage, so it seems that Radxa only populates
+one or the other.
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-index 5afa8d92acbf..4e793aeccf89 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-@@ -340,6 +340,17 @@ ledc: led-controller@2008000 {
- 			status = "disabled";
- 		};
- 
-+		gpadc: adc@2009000 {
-+			compatible = "allwinner,sun55i-a523-gpadc";
-+			reg = <0x2009000 0x400>;
-+			clocks = <&ccu CLK_BUS_GPADC0>, <&ccu CLK_GPADC0>;
-+			clock-names = "bus", "mod";
-+			resets = <&ccu RST_BUS_GPADC0>;
-+			interrupts = <GIC_SPI 61 IRQ_TYPE_LEVEL_HIGH>;
-+			#io-channel-cells = <1>;
-+			status = "disabled";
-+		};
-+
- 		wdt: watchdog@2050000 {
- 			compatible = "allwinner,sun55i-a523-wdt";
- 			reg = <0x2050000 0x20>;
+If you look at the pictures on their official website, you'll see the
+SPI NOR chip populated, but not the eMMC chip. On the linux-sunxi wiki
+page, you'll see the opposite.
 
--- 
-2.43.0
+And you probably want to enable QSPI, like Sashiko mentioned.
 
+
+ChenYu
+
+
+> +       status =3D "okay";
+> +
+> +       flash@0 {
+> +               compatible =3D "winbond,w25q128", "jedec,spi-nor";
+> +               reg =3D <0>;
+> +               spi-max-frequency =3D <40000000>;
+> +               #address-cells =3D <1>;
+> +               #size-cells =3D <1>;
+> +       };
+> +};
+> +
+>  &uart0 {
+>         pinctrl-names =3D "default";
+>         pinctrl-0 =3D <&uart0_pb_pins>;
+> --
+> 2.46.4
+>
