@@ -1,148 +1,306 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529EF2D7D2E
-	for <linux-sunxi@lists.linux.dev>; Thu, 14 May 2026 02:37:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778726251; cv=none; b=jkNNGUPyF7fzOu1PXXKEh8qeP8gole0/C/VEqUOdsNEaRteE2Wp366Rckcx6CxIT6Vcwe9+4czD2/Vd0yVdl+RtBL2UCD7wCeYEu+w0F61f0ey7smAlnZMWv3eGCZWgn+QwxGooDmMe01fD2XFxwLVeNsjarHJEjMGb2Ft41ULs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778726251; c=relaxed/simple;
-	bh=gkuwgivm7d8LdlWGpAqGXIq82hx4yvyLYF+MvUBjfOE=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=Hp9lcUOgLmS0JpV7lhR5R2xLHtzyEgOSAz4f0qKBw4Z5axZ+s05kP6fmow3Mfjyy0MiAVmq4xIn1fVFxrh6cXyYPJe4pHOWwrLCRQV7tqmDwEdqmiVbV18+HC9gVyJIC4NzRdVcY2SK1dpROwdJbohAsdleqHDUxirur0CynUrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZtEZPDjL; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5343B282F2A
+	for <linux-sunxi@lists.linux.dev>; Thu, 14 May 2026 02:41:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778726498; cv=pass; b=rOwuw5nEpoEqFhpQERbv0PjGmit4PO3zIkoinXxumKs7X8FpPb7MF7oLuf03CTC31cyl277YK0zU2AR1Gy3pOEJal/wkPVM5mXG6Qz+3c0icjk1l/VQxYLxwSvex8meuQYZXgMHUfEoFPZjv5olwnJQjZebxmtJA7B/UIxx/Iwg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778726498; c=relaxed/simple;
+	bh=GSTUi9r8Rm2Sz0PEhinBFhsqPBSJ7xLVnNiSPS/KJLQ=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=dcReoZtAD4K+hCXmgQ1z8ZPZAubWFljPoTDKVkoETCAcBsRH2Ckm3+7UNf6/yrd8SWPhtEm4WAq07zqmV3POfemPMMaJKU7YJswKLwNRMDdKj41DFZ/E3vXvcz2hiVWnbdI7+tBcFqaFA7lpckxfgGCsd5zSBCJ6ZL90J4oRxJc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech; spf=pass smtp.mailfrom=pigmoral.tech; dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b=JfegYDIN; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pigmoral.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZtEZPDjL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1D14C19425;
-	Thu, 14 May 2026 02:37:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778726250;
-	bh=gkuwgivm7d8LdlWGpAqGXIq82hx4yvyLYF+MvUBjfOE=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date:From;
-	b=ZtEZPDjLqUX3uOEUiRzGtqX6VFQMA5pVbOABIOJa2pyiVMMkRXKzH/0zbCqy1Jtj7
-	 x8tfK32+f3hbxWpfG6hL0mNvrz5po3AC+MKZ/4cIZvJ9xlr8aOk8gyNvn0QotbnKWM
-	 JvpcrwOAQ5uS+pAavwHAdXZd9McyA6VmXYo23NiWN5rPxitpdjmCsk3uRQYEkgWz5x
-	 0o+r41I6sZl4ULzCdHAFdlx4XfcrC/JPVf5xegRzRYF3dXdgAwFyyeEBLA3Ns37zEx
-	 bD6zuE7Sr48waDkwKpryEq4HFvs1FumzCvOJnFjT09xNO0y5/irwNbCcPaCihWAEwN
-	 7ajOzeYebJY7g==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] media: rc: sunxi-cir: unregister rc device on probe
- failure
-Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?67CV66qF7ZuI?= <mhun512@gmail.com>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260424000000.558-1-mhun512@gmail.com>
-References: <20260424000000.558-1-mhun512@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 14 May 2026 02:37:28 +0000
-Message-Id: <20260514023730.C1D14C19425@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b="JfegYDIN"
+ARC-Seal: i=1; a=rsa-sha256; t=1778726477; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Docj4EGI3Ug/msvdikxupE8lz7UGSUVoJJpumWdD4eTi8qgqFpfqp7D2H5t9tmEU3EuX/zWBhgdGT/Kb0V6YB8sgCJXNr5bI1171o4x+2NnklH7go6+oimb0JhVcisE2GnYPxENV+FzNu6SspN/S8pbo4QLuqCaz8me39W/MaD0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1778726477; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=V5kLc3tBRnQNBWeKfM6szSwbyCBrMxDQ5Luf/VfXq5c=; 
+	b=RtdVb+ZdergDJGJLu0Ki1tcdtGHVb0CDJyCJc231U+8MU6GTZY5wtcjpn+EPohxEyOAgJRkMc+o/Mpsy8VR7X7+ctq0CaTEu8FvJK2GAept5xJvoLRtw4yvCqwYrQUVXOLYcl0RntST/ixxgO4wfPAroI8JgriEPIDBQooTfwhQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=pigmoral.tech;
+	spf=pass  smtp.mailfrom=junhui.liu@pigmoral.tech;
+	dmarc=pass header.from=<junhui.liu@pigmoral.tech>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1778726477;
+	s=zmail; d=pigmoral.tech; i=junhui.liu@pigmoral.tech;
+	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:From:From:To:To:Cc:Cc:Subject:Subject:References:In-Reply-To:Reply-To;
+	bh=V5kLc3tBRnQNBWeKfM6szSwbyCBrMxDQ5Luf/VfXq5c=;
+	b=JfegYDINIwg/6N+ugdeRkxpcKqPN+ScisKB0wJyvr2ap2/riUrji1MxxFsbK6MuJ
+	atZkatO3WkfMT9ZGwxRCIsOtX8fOUHwYOjlhfDV3yZqsVx3pGlEB1loNFFUDATdrlX0
+	P/edQNdD7VM6xWkVILNhZuk7zHeAPQPNLhvBCQtQ=
+Received: by mx.zohomail.com with SMTPS id 1778726475791212.1556488266575;
+	Wed, 13 May 2026 19:41:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 14 May 2026 10:41:01 +0800
+Message-Id: <DII1WNKP34TU.34MR7JQVKLTGJ@pigmoral.tech>
+From: "Junhui Liu" <junhui.liu@pigmoral.tech>
+To: "Andre Przywara" <andre.przywara@arm.com>, "Junhui Liu"
+ <junhui.liu@pigmoral.tech>
+Cc: "Michael Turquette" <mturquette@baylibre.com>, "Stephen Boyd"
+ <sboyd@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
+ <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Chen-Yu Tsai"
+ <wens@kernel.org>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Samuel
+ Holland" <samuel@sholland.org>, "Philipp Zabel" <p.zabel@pengutronix.de>,
+ "Paul Walmsley" <pjw@kernel.org>, "Palmer Dabbelt" <palmer@dabbelt.com>,
+ "Albert Ou" <aou@eecs.berkeley.edu>, "Alexandre Ghiti" <alex@ghiti.fr>,
+ "Richard Cochran" <richardcochran@gmail.com>, <linux-clk@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <linux-riscv@lists.infradead.org>, <netdev@vger.kernel.org>
+Subject: Re: [PATCH RFC 8/8] clk: sunxi-ng: a733: Add reset lines
+X-Mailer: aerc 0.21.0
+References: <20260310-a733-clk-v1-0-36b4e9b24457@pigmoral.tech>
+ <20260310-a733-clk-v1-8-36b4e9b24457@pigmoral.tech>
+ <20260514012226.691ae185@ryzen.lan>
+In-Reply-To: <20260514012226.691ae185@ryzen.lan>
+X-ZohoMailClient: External
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
-s) to consider:
-- [High] The newly added error path leaks the `rc_dev` structure.
-- [High] Device registration and IRQ request occur before hardware clocks a=
-re enabled, creating a race condition that can panic the kernel.
-- [High] Mixing devm-managed IRQ with manual error path cleanup creates a U=
-se-After-Free vulnerability.
-- [High] Unvalidated `clock-frequency` device tree property allows a divide=
--by-zero kernel panic.
---
+Hi Andre,
+Thanks for your review.
 
-commit 230e9a371e882d2d3972a39ec6ca89c53afbeaf9
-Author: Myeonghun Pak <mhun512@gmail.com>
+On Thu May 14, 2026 at 7:22 AM CST, Andre Przywara wrote:
+> On Tue, 10 Mar 2026 16:34:01 +0800
+> Junhui Liu <junhui.liu@pigmoral.tech> wrote:
+>
+> Hi,
+>
+> compare the list below against my version of the manual. You list more
+> than shown there, can you say where those extra reset bits come from?
 
-media: rc: sunxi-cir: unregister rc device on probe failure
+They are from the vendor BSP, I will add comments to explain them in the
+next version.
 
-This commit updates the error handling in sunxi_ir_probe() to ensure the
-RC device is unregistered if a failure occurs after rc_register_device()
-succeeds.
+>
+>> Add the reset lines for the Allwinner A733 SoC. These reset control bits
+>> are integrated into the Bus Gate Reset (BGR) registers, typically
+>> sharing the same register address with their corresponding bus clock
+>> gates. Integrate them into the main CCU driver using the existing
+>> sunxi-ng ccu_reset framework, allowing the CCU to also function as a
+>> reset controller for the SoC.
+>>=20
+>> Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
+>> ---
+>>  drivers/clk/sunxi-ng/ccu-sun60i-a733.c | 128 ++++++++++++++++++++++++++=
++++++++
+>>  1 file changed, 128 insertions(+)
+>>=20
+>> diff --git a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c b/drivers/clk/sunxi-=
+ng/ccu-sun60i-a733.c
+>> index c0b09f9197d1..7d1ee9235436 100644
+>> --- a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+>> +++ b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+>> @@ -17,6 +17,7 @@
+>>  #include "../clk.h"
+>> =20
+>>  #include "ccu_common.h"
+>> +#include "ccu_reset.h"
+>> =20
+>>  #include "ccu_div.h"
+>>  #include "ccu_gate.h"
+>> @@ -2169,11 +2170,138 @@ static struct clk_hw_onecell_data sun60i_a733_h=
+w_clks =3D {
+>>  	.num	=3D CLK_FANOUT3 + 1,
+>>  };
+>> =20
+>> +static struct ccu_reset_map sun60i_a733_ccu_resets[] =3D {
+>> +	[RST_BUS_ITS_PCIE]		=3D { 0x574, BIT(16) },
+>> +	[RST_BUS_NSI]			=3D { 0x580, BIT(30) },
+>
+> What is this NSI device? Some interconnect? Do we really want to handle
+> this reset and clock? Is there some device referencing this? Otherwise
+> the kernel will turn at least the clock off, which is probably fatal.
+> Also the manual says this is a secure register, so I feel like the
+> kernel must not mess with this.
 
-While reviewing this commit, I noticed a few potential issues, including
-some existing concerns in the probe function.
+Yes, NSI appears to be a high-speed interconnect. The vendor kernel
+provides a sunxi-nsi driver for it accross sun8i, sun55i, and sun60i.
+Since the mainline kernel doesn't manage this interconnect for the
+already mainlined sun8i and sun55i platforms, I will drop the NSI clocks
+and resets in the next version.
 
-> diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
-> index cb4c56bf0752a..f40f3ea0ac8e5 100644
-> --- a/drivers/media/rc/sunxi-cir.c
-> +++ b/drivers/media/rc/sunxi-cir.c
-> @@ -344,22 +344,26 @@ static int sunxi_ir_probe(struct platform_device *p=
-dev)
->  	ir->irq =3D platform_get_irq(pdev, 0);
->  	if (ir->irq < 0) {
->  		ret =3D ir->irq;
-> -		goto exit_free_dev;
-> +		goto exit_unregister_dev;
->  	}
-> =20
->  	ret =3D devm_request_irq(dev, ir->irq, sunxi_ir_irq, 0, SUNXI_IR_DEV, i=
-r);
->  	if (ret) {
->  		dev_err(dev, "failed request irq\n");
-> -		goto exit_free_dev;
-> +		goto exit_unregister_dev;
->  	}
-> =20
->  	ret =3D sunxi_ir_hw_init(dev);
+>
+>> +	[RST_BUS_NSI_CFG]		=3D { 0x584, BIT(16) },
+>
+> Similar here, I guess, though this might not be secure only.
+>
+>> +	[RST_BUS_IOMMU0_SYS]		=3D { 0x58c, BIT(16) },
+>> +	[RST_BUS_MSI_LITE0_AHB]		=3D { 0x594, BIT(16) },
+>> +	[RST_BUS_MSI_LITE0_MBUS]	=3D { 0x594, BIT(17) },
+>> +	[RST_BUS_MSI_LITE1_AHB]		=3D { 0x59c, BIT(16) },
+>> +	[RST_BUS_MSI_LITE1_MBUS]	=3D { 0x59c, BIT(17) },
+>> +	[RST_BUS_MSI_LITE2_AHB]		=3D { 0x5a4, BIT(16) },
+>> +	[RST_BUS_MSI_LITE2_MBUS]	=3D { 0x5a4, BIT(17) },
+>> +	[RST_BUS_IOMMU1_SYS]		=3D { 0x5b4, BIT(16) },
+>> +	[RST_BUS_DMA0]			=3D { 0x704, BIT(16) },
+>> +	[RST_BUS_DMA1]			=3D { 0x70c, BIT(16) },
+>> +	[RST_BUS_SPINLOCK]		=3D { 0x724, BIT(16) },
+>> +	[RST_BUS_MSGBOX]		=3D { 0x744, BIT(16) },
+>> +	[RST_BUS_PWM0]			=3D { 0x784, BIT(16) },
+>> +	[RST_BUS_PWM1]			=3D { 0x78c, BIT(16) },
+>> +	[RST_BUS_DBG]			=3D { 0x7a4, BIT(16) },
+>> +	[RST_BUS_SYSDAP]		=3D { 0x7ac, BIT(16) },
+>> +	[RST_BUS_TIMER0]		=3D { 0x850, BIT(16) },
+>> +	[RST_BUS_DE]			=3D { 0xa04, BIT(16) },
+>> +	[RST_BUS_DI]			=3D { 0xa24, BIT(16) },
+>> +	[RST_BUS_G2D]			=3D { 0xa44, BIT(16) },
+>> +	[RST_BUS_EINK]			=3D { 0xa6c, BIT(16) },
+>> +	[RST_BUS_DE_SYS]		=3D { 0xa74, BIT(16) },
+>> +	[RST_BUS_VE_ENC]		=3D { 0xa8c, BIT(16) },
+>
+> The manual calls this ENC0, and since bit 17 is not documented, I
+> wonder if there is an ENC1 used with some other packaging, maybe? So
+> maybe calling it ENC0 would be safer here.
 
-Is there a race condition since rc_register_device() and devm_request_irq()
-are called before sunxi_ir_hw_init() enables the hardware clocks?
+Okay, I will rename it to ENC0.
 
-If an early interrupt fires, or if userspace interacts with the device via
-sysfs or lirc (like setting the timeout), could the driver attempt to read
-or write memory-mapped registers while the clocks are still disabled?
+>
+>> +	[RST_BUS_VE_DEC]		=3D { 0xa8c, BIT(18) },
+>> +	[RST_BUS_CE]			=3D { 0xac4, BIT(16) },
+>> +	[RST_BUS_CE_SYS]		=3D { 0xac4, BIT(17) },
+>> +	[RST_BUS_NPU_CORE]		=3D { 0xb04, BIT(16) },
+>> +	[RST_BUS_NPU_AXI]		=3D { 0xb04, BIT(17) },
+>> +	[RST_BUS_NPU_AHB]		=3D { 0xb04, BIT(18) },
+>> +	[RST_BUS_NPU_SRAM]		=3D { 0xb04, BIT(19) },
+>> +	[RST_BUS_GPU]			=3D { 0xb24, BIT(16) },
+>> +	[RST_BUS_DRAM]			=3D { 0xc0c, BIT(16) },
+>> +	[RST_BUS_NAND]			=3D { 0xc8c, BIT(16) },
+>> +	[RST_BUS_MMC0]			=3D { 0xd0c, BIT(16) },
+>> +	[RST_BUS_MMC1]			=3D { 0xd1c, BIT(16) },
+>> +	[RST_BUS_MMC2]			=3D { 0xd2c, BIT(16) },
+>> +	[RST_BUS_MMC3]			=3D { 0xd3c, BIT(16) },
+>> +	[RST_BUS_UFS_AHB]		=3D { 0xd8c, BIT(16) },
+>> +	[RST_BUS_UFS_AXI]		=3D { 0xd8c, BIT(17) },
+>> +	[RST_BUS_UFS_PHY]		=3D { 0xd8c, BIT(18) },
+>> +	[RST_BUS_UFS_CORE]		=3D { 0xd8c, BIT(19) },
+>> +	[RST_BUS_UART0]			=3D { 0xe00, BIT(16) },
+>> +	[RST_BUS_UART1]			=3D { 0xe04, BIT(16) },
+>> +	[RST_BUS_UART2]			=3D { 0xe08, BIT(16) },
+>> +	[RST_BUS_UART3]			=3D { 0xe0c, BIT(16) },
+>> +	[RST_BUS_UART4]			=3D { 0xe10, BIT(16) },
+>> +	[RST_BUS_UART5]			=3D { 0xe14, BIT(16) },
+>> +	[RST_BUS_UART6]			=3D { 0xe18, BIT(16) },
+>> +	[RST_BUS_I2C0]			=3D { 0xe80, BIT(16) },
+>> +	[RST_BUS_I2C1]			=3D { 0xe84, BIT(16) },
+>> +	[RST_BUS_I2C2]			=3D { 0xe88, BIT(16) },
+>> +	[RST_BUS_I2C3]			=3D { 0xe8c, BIT(16) },
+>> +	[RST_BUS_I2C4]			=3D { 0xe90, BIT(16) },
+>> +	[RST_BUS_I2C5]			=3D { 0xe94, BIT(16) },
+>> +	[RST_BUS_I2C6]			=3D { 0xe98, BIT(16) },
+>> +	[RST_BUS_I2C7]			=3D { 0xe9c, BIT(16) },
+>> +	[RST_BUS_I2C8]			=3D { 0xea0, BIT(16) },
+>> +	[RST_BUS_I2C9]			=3D { 0xea4, BIT(16) },
+>> +	[RST_BUS_I2C10]			=3D { 0xea8, BIT(16) },
+>> +	[RST_BUS_I2C11]			=3D { 0xeac, BIT(16) },
+>> +	[RST_BUS_I2C12]			=3D { 0xeb0, BIT(16) },
+>> +	[RST_BUS_SPI0]			=3D { 0xf04, BIT(16) },
+>> +	[RST_BUS_SPI1]			=3D { 0xf0c, BIT(16) },
+>> +	[RST_BUS_SPI2]			=3D { 0xf14, BIT(16) },
+>> +	[RST_BUS_SPIF]			=3D { 0xf1c, BIT(16) },
+>> +	[RST_BUS_SPI3]			=3D { 0xf24, BIT(16) },
+>> +	[RST_BUS_SPI4]			=3D { 0xf2c, BIT(16) },
+>
+> SPI4 isn't mentioned in my version of the manual.
+>
+>> +	[RST_BUS_GPADC]			=3D { 0xfc4, BIT(16) },
+>> +	[RST_BUS_THS]			=3D { 0xfe4, BIT(16) },
+>> +	[RST_BUS_IRRX]			=3D { 0x1004, BIT(16) },
+>> +	[RST_BUS_IRTX]			=3D { 0x100c, BIT(16) },
+>> +	[RST_BUS_LRADC]			=3D { 0x1024, BIT(16) },
+>> +	[RST_BUS_SGPIO]			=3D { 0x1064, BIT(16) },
+>> +	[RST_BUS_LPC]			=3D { 0x1084, BIT(16) },
+>
+> Where do those two come from? There are not in my version of the manual.
+>
+>> +	[RST_BUS_I2SPCM0]		=3D { 0x120c, BIT(16) },
+>> +	[RST_BUS_I2SPCM1]		=3D { 0x121c, BIT(16) },
+>> +	[RST_BUS_I2SPCM2]		=3D { 0x122c, BIT(16) },
+>> +	[RST_BUS_I2SPCM3]		=3D { 0x123c, BIT(16) },
+>> +	[RST_BUS_I2SPCM4]		=3D { 0x124c, BIT(16) },
+>> +	[RST_BUS_OWA]			=3D { 0x128c, BIT(16) },
+>> +	[RST_BUS_DMIC]			=3D { 0x12cc, BIT(16) },
+>> +	[RST_USB_PHY0]			=3D { 0x1300, BIT(30) },
+>> +	[RST_BUS_OHCI0]			=3D { 0x1304, BIT(16) },
+>> +	[RST_BUS_EHCI0]			=3D { 0x1304, BIT(20) },
+>> +	[RST_BUS_OTG]			=3D { 0x1304, BIT(24) },
+>> +	[RST_USB_PHY1]			=3D { 0x1308, BIT(30) },
+>> +	[RST_BUS_OHCI1]			=3D { 0x130c, BIT(16) },
+>> +	[RST_BUS_EHCI1]			=3D { 0x130c, BIT(20) },
+>> +	[RST_BUS_USB2]			=3D { 0x135c, BIT(16) },
+>> +	[RST_BUS_PCIE]			=3D { 0x138c, BIT(17) },
+>> +	[RST_BUS_PCIE_PWRUP]		=3D { 0x138c, BIT(16) },
+>
+> Just a nit, but those two are ordered wrongly.
 
-Also, if sunxi_ir_hw_init() fails, the code jumps to exit_unregister_dev.
-Because the IRQ is managed by devm_request_irq(), it remains active until
-the probe function completely returns. If the interrupt fires concurrently
-while rc_unregister_device() is tearing down the device, could the handler
-access freed resources?
+Will do.
 
->  	if (ret)
-> -		goto exit_free_dev;
-> +		goto exit_unregister_dev;
-> =20
->  	dev_info(dev, "initialized sunXi IR driver\n");
->  	return 0;
-> =20
-> +exit_unregister_dev:
-> +	rc_unregister_device(ir->rc);
-> +	return ret;
-> +
-
-Does this error path leak the rc_dev structure?
-
-rc_allocate_device() initializes the structure with a reference count of 1.
-While rc_unregister_device() removes the device from the system, it does
-not drop this initial reference count.
-
-Would it be necessary to fall through or explicitly call rc_free_device()
-here to fully free the memory?
-
->  exit_free_dev:
->  	rc_free_device(ir->rc);
-> =20
-
-Additionally, earlier in sunxi_ir_probe(), the driver reads the
-clock-frequency property and calculates the rx_resolution:
-
-drivers/media/rc/sunxi-cir.c:sunxi_ir_probe() {
-        ...
-        of_property_read_u32(dn, "clock-frequency", &b_clk_freq);
-        ...
-        ir->rc->rx_resolution =3D (USEC_PER_SEC / (b_clk_freq / 64));
-        ...
-}
-
-Could this cause a divide-by-zero issue? If the device tree specifies a
-clock frequency less than 64 (such as 0), b_clk_freq / 64 would evaluate
-to 0.
+>
+>> +	[RST_BUS_SERDES]		=3D { 0x13c4, BIT(16) },
+>> +	[RST_BUS_GMAC0]			=3D { 0x141c, BIT(16) },
+>> +	[RST_BUS_GMAC0_AXI]		=3D { 0x141c, BIT(17) },
+>> +	[RST_BUS_GMAC1]			=3D { 0x142c, BIT(16) },
+>> +	[RST_BUS_GMAC1_AXI]		=3D { 0x142c, BIT(17) },
+>
+> GMAC1 is not listed in my manual, where does this come from?
+>
+>> +	[RST_BUS_TCON_LCD0]		=3D { 0x1504, BIT(16) },
+>> +	[RST_BUS_TCON_LCD1]		=3D { 0x150c, BIT(16) },
+>> +	[RST_BUS_TCON_LCD2]		=3D { 0x1514, BIT(16) },
+>
+> No LCD2 in my manual.
+>
+> The rest looks alright.
+>
+> Cheers,
+> Andre
+>
+>> +	[RST_BUS_LVDS0]			=3D { 0x1544, BIT(16) },
+>> +	[RST_BUS_LVDS1]			=3D { 0x154c, BIT(16) },
+>> +	[RST_BUS_DSI0]			=3D { 0x1584, BIT(16) },
+>> +	[RST_BUS_DSI1]			=3D { 0x158c, BIT(16) },
+>> +	[RST_BUS_TCON_TV0]		=3D { 0x1604, BIT(16) },
+>> +	[RST_BUS_TCON_TV1]		=3D { 0x160c, BIT(16) },
+>> +	[RST_BUS_EDP]			=3D { 0x164c, BIT(16) },
+>> +	[RST_BUS_HDMI_MAIN]		=3D { 0x168c, BIT(16) },
+>> +	[RST_BUS_HDMI_SUB]		=3D { 0x168c, BIT(17) },
+>> +	[RST_BUS_HDMI_HDCP]		=3D { 0x168c, BIT(18) },
+>> +	[RST_BUS_DPSS_TOP0]		=3D { 0x16c4, BIT(16) },
+>> +	[RST_BUS_DPSS_TOP1]		=3D { 0x16cc, BIT(16) },
+>> +	[RST_BUS_VIDEO_OUT0]		=3D { 0x16e4, BIT(16) },
+>> +	[RST_BUS_VIDEO_OUT1]		=3D { 0x16ec, BIT(16) },
+>> +	[RST_BUS_LEDC]			=3D { 0x1704, BIT(16) },
+>> +	[RST_BUS_DSC]			=3D { 0x1744, BIT(16) },
+>> +	[RST_BUS_CSI]			=3D { 0x1844, BIT(16) },
+>> +	[RST_BUS_VIDEO_IN]		=3D { 0x1884, BIT(16) },
+>> +	[RST_BUS_APB2JTAG]		=3D { 0x1c04, BIT(16) },
+>> +};
+>> +
+>>  static const struct sunxi_ccu_desc sun60i_a733_ccu_desc =3D {
+>>  	.ccu_clks	=3D sun60i_a733_ccu_clks,
+>>  	.num_ccu_clks	=3D ARRAY_SIZE(sun60i_a733_ccu_clks),
+>> =20
+>>  	.hw_clks	=3D &sun60i_a733_hw_clks,
+>> +
+>> +	.resets		=3D sun60i_a733_ccu_resets,
+>> +	.num_resets	=3D ARRAY_SIZE(sun60i_a733_ccu_resets),
+>>  };
+>> =20
+>>  static const u32 pll_regs[] =3D {
+>>=20
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260424000000.558-=
-1-mhun512@gmail.com?part=3D1
+Best regards,
+Junhui Liu
+
