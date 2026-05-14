@@ -1,43 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C2D301465;
-	Thu, 14 May 2026 02:23:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10AD42D3EF2;
+	Thu, 14 May 2026 02:29:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778725412; cv=none; b=NT/DI9/68WyHYFyyBjZBCUL0y1optCJyfRqGmyY2siUuBJWh/RA0Aop7UJZ2d32IC8TuN3uar5R3ZGws5tGXM/NF6tCIwBGEgUXLHv9eeyaFWmiwYvm17yEwXflk11sOQlpRerJkFjWh8p6XAhZORRAfspe1kInZokDnfbbu0rI=
+	t=1778725779; cv=none; b=t5a7NtQhB2M6MgOhwWfAfbb4nlo4VwoVm0imUmPo07UczI60VDZoceI/zbXXr/Zw3DEb/GQB/lDs2VGhdxvzgVrdBF+fSY0myVzV37diJ04kShhPw+zWE/jWYVeloGM8GH2QvcF8IsvMtsNDaayI2hNC1JhJ8lfG1/xrQ61dpc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778725412; c=relaxed/simple;
-	bh=wtIb58l+hszDoFptqKA0UUp+KOZKrrOlCFOBrzHMvMw=;
+	s=arc-20240116; t=1778725779; c=relaxed/simple;
+	bh=UUSAxOI+k3W9IGtr2fELZf9Wm7ZNchPQsmG34mI/Pik=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=plytzu5GgwfHGyO6sN8/mJqbWwuJkxi+zkdKoNAQzFQIdc9OxbX6lXjrvjpGRhHnJTfVOvP9MHmi0k4WhZPbxTADEXq3vK4k9ZjzzSqPZ7aJKiFlEsHiXQzD578q0pnYKsv23WEUZajE/oPW7mzZanTqa751vIgh++qCjpYmoUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XGrVcYkO; arc=none smtp.client-ip=10.30.226.201
+	 Message-Id; b=ZTaIWnvlrNh6dHec8QQ73f30wLKuv5GkcvxAF8NRy+mbQ4yeJV66+6bXjZfgtATnI2eZ5ObSP8cevMEsbnn1KF+Sye4e4LetuigoTEec/43zh0LnhnJrI6KHMATAY52EW6Mwx0h4uTtlQ7ZWyf8SxLO/2cxY9HLXZaC9iEPBOLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E7TtMoZj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XGrVcYkO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E20DC19425;
-	Thu, 14 May 2026 02:23:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E7TtMoZj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5889BC19425;
+	Thu, 14 May 2026 02:29:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778725412;
-	bh=wtIb58l+hszDoFptqKA0UUp+KOZKrrOlCFOBrzHMvMw=;
+	s=k20201202; t=1778725778;
+	bh=UUSAxOI+k3W9IGtr2fELZf9Wm7ZNchPQsmG34mI/Pik=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date:From;
-	b=XGrVcYkOGN4jyAoNr3FehhVUg/bzHvjbSx6xXN4V3uCPghw9smWOPJ9l4y2gtf4US
-	 VrS49jH0hB870rGWTG+bRmkKZq5eFG5xI+W3FIyxbmGwirTuSLyZ0jf5aTV2YAKBVT
-	 eUS4YZhkH4QliBCe44vIlkg0SbRL1pDUY7y7PVLG3f/KogFgI9JLIvLogtsn67ay2h
-	 oSv5ahksYmg9HRx3Zv9eA/st8xbg7fGtg3c+77rvixuryYWticUpKfFvB4oB8fla2c
-	 kZpTrfWFzLJdAn0v1xEixnUVx082+5oozot7W/cmi7zVz1SQ/bhxegfNfjyh8ZujqD
-	 mMOk30eHIgE5w==
+	b=E7TtMoZjV9oTmwL687sSBMVHk2tti/Dh/AMHjDl5ni+j18llDi5dMd1/I1E6yZ6dS
+	 W03TMH7c3IuC6BlTNtcKetVOLL183+hJVNwsDDbB6pvNAASAHo5kiHgy7oV4rf72ie
+	 TSW7ZWMWpmtgwoWvBLh1+JO2bW2eH0gQNfhsb0S6YGe3csfrx+RJay1GuPTucwGV4x
+	 GjxaSf3nSSHHPqZfDxxMq9aCXExkGoKW2lA2W8pBiO0CKNcZob8dWDdT1zk2pNqxJl
+	 2a5MKIijJgkLKcDbJ/3yslAoi3IdszHQHMbfbz89rrOUlNmIsRLxI1jz6XMiwIRHHD
+	 zEDb0cPj+J1lw==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 1/3] dt-bindings: iio: adc: Add GPADC for Allwinner
- A523
+Subject: Re: [PATCH v2 2/3] iio: adc: sun20i-gpadc: add A523 gpadc support
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Michal Piekos" <michal.piekos@mmpsystems.pl>
-Cc: krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, robh@kernel.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20260513-sunxi-a523-gpadc-v2-1-d5efde151dac@mmpsystems.pl>
-References: <20260513-sunxi-a523-gpadc-v2-1-d5efde151dac@mmpsystems.pl>
+Cc: robh@kernel.org, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, conor+dt@kernel.org, krzk+dt@kernel.org
+In-Reply-To: <20260513-sunxi-a523-gpadc-v2-2-d5efde151dac@mmpsystems.pl>
+References: <20260513-sunxi-a523-gpadc-v2-2-d5efde151dac@mmpsystems.pl>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 14 May 2026 02:23:31 +0000
-Message-Id: <20260514022332.1E20DC19425@smtp.kernel.org>
+Date: Thu, 14 May 2026 02:29:37 +0000
+Message-Id: <20260514022938.5889BC19425@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -46,66 +45,52 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] Schema Conditional Logic Error: `if` block will silently fail to=
- match A523 compatible string
+- [High] If `devm_clk_bulk_get_all_enabled()` returns 0 (meaning no clocks =
+are defined in the device tree), the driver aborts the probe early but inco=
+rrectly returns 0 (success).
 --
 
-commit f1e37c6efc76bc9bd352a9e8462984a80a03b87c
+commit 6e1c58e982371b9be677bdb51d74117b3577cd6f
 Author: Michal Piekos <michal.piekos@mmpsystems.pl>
 
-dt-bindings: iio: adc: Add GPADC for Allwinner A523
+iio: adc: sun20i-gpadc: add A523 gpadc support
 
-This commit adds support for the GPADC on the Allwinner A523. It updates
-the schema to allow two clocks for this new compatible string while
-restricting previous generations to one clock.
+This commit adds support for the A523 gpadc by switching to the bulk clock
+API to handle both bus and module clocks.
 
-> diff --git a/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d=
-1-gpadc.yaml b/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d=
-1-gpadc.yaml
-> index da605a051b949..6467800d30e27 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc=
-.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc=
-.yaml
+> diff --git a/drivers/iio/adc/sun20i-gpadc-iio.c b/drivers/iio/adc/sun20i-=
+gpadc-iio.c
+> index 861c14da75add..3f1f07b3a3856 100644
+> --- a/drivers/iio/adc/sun20i-gpadc-iio.c
+> +++ b/drivers/iio/adc/sun20i-gpadc-iio.c
 [ ... ]
-> @@ -40,6 +46,30 @@ properties:
->    resets:
->      maxItems: 1
+> @@ -205,9 +205,11 @@ static int sun20i_gpadc_probe(struct platform_device=
+ *pdev)
+>  	if (IS_ERR(info->regs))
+>  		return PTR_ERR(info->regs);
 > =20
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          enum:
-> +            - allwinner,sun55i-a523-gpadc
+> -	clk =3D devm_clk_get_enabled(dev, NULL);
+> -	if (IS_ERR(clk))
+> -		return dev_err_probe(dev, PTR_ERR(clk), "failed to enable bus clock\n"=
+);
+> +	ret =3D devm_clk_bulk_get_all_enabled(dev, &clks);
+> +	if (ret <=3D 0)
+> +		return dev_err_probe(
+> +			dev, ret,
+> +			"failed to enable clocks or no clocks defined\n");
 
-Will this condition successfully match the A523 compatible string?
+When devm_clk_bulk_get_all_enabled() returns 0 (meaning no clocks are defin=
+ed),
+will this code return 0 from the probe function?
 
-In dt-schema, the compatible property is parsed and evaluated as an array of
-strings. By using enum directly without a contains: keyword, this condition
-expects the property to be exactly a string.
+Since dev_err_probe() returns the error code passed to it, returning 0 here
+would cause sun20i_gpadc_probe() to succeed while skipping all remaining
+initialization like reset deassertion, IRQ registration, and IIO device
+registration.
 
-Under JSON schema rules, this condition will evaluate to false because an
-array cannot equal a string.
-
-> +    then:
-[ ... ]
-> +    else:
-> +      properties:
-> +        clocks:
-> +          maxItems: 1
-> +        clock-names: false
-
-Does this result in valid A523 device tree nodes being incorrectly rejected?
-
-Since the if block silently fails to match, the schema will fall through to
-this else block, enforcing maxItems: 1 for clocks and rejecting clock-names.
-This would erroneously reject A523 configurations that correctly provide the
-two required clocks.
-
-Could the condition be updated to use contains: enum: or contains: const: to
-properly match the compatible array elements?
+Should ret be explicitly set to a negative error code (like -ENODEV) before
+calling dev_err_probe() if ret is 0?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260513-sunxi-a523=
--gpadc-v2-0-d5efde151dac@mmpsystems.pl?part=3D1
+-gpadc-v2-0-d5efde151dac@mmpsystems.pl?part=3D2
