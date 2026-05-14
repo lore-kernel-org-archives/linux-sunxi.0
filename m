@@ -1,117 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from s106b.cyber-folks.pl (s106b.cyber-folks.pl [195.78.66.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F28281357
-	for <linux-sunxi@lists.linux.dev>; Thu, 14 May 2026 02:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B802236E3;
+	Thu, 14 May 2026 03:20:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.78.66.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778726901; cv=none; b=tstr+b38DjOJiGmk5H+oZLfoFnlaXnP1Kx3pRl26fms5gYaaMOhxNbgRuHf5Dh6r+MyyA3yyAl91n/n43+95do+aCfzhLOOycLc7wyJh7vDYCx423DrCMEIr7dH/JWCiSSIkWTG49tOwhoXziaZVkdwJK/Gp1otJAPbHYa4Kk54=
+	t=1778728809; cv=none; b=VOwuWo4pBs4lUFhKiFAJ+l28JBWK5tqFXdEINFnp+Vg8N+f/+LaxLmwbWfKbSjTkCVJIsaHnY0Qn8SUo+Fh4CzB4IHh76xXENtirn/h+oQ8KXz6TpT+Ir/7AkSGY+4bFbHP6V4SbmwuewUWVlpvpYnha+EVOPHGUXkUGW1+YZI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778726901; c=relaxed/simple;
-	bh=DV4E6vUnHgIaFxTlK9WV5PZP2tHuHjH5iS7mHMX5M9I=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=kXP5vTeU00mV3HBVv0JQ5w6iCigz7Nkqu/uqxrzFaFJ9IYBxXIzVXoDwCzTOSL0f9SzdLsqn9E40L7FtFnVgTuzE0IAXGFPMxP4uWc7Ry+PN0C1SddL9SQ5SWU7pIJMH0y/JNCK9z37c4x+LZeJgxvkicbYbasVLLLQrTv2UIVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kKbLb61W; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778728809; c=relaxed/simple;
+	bh=mAW9smyP3Y9zNh0IDxgH/7BBIen5KUX/2eJMMof12rc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=VcomS5/ueECyNovbu5QAkZJWIppg9HylF8Jx9cAkywY7YzP+/ns239Zyj8osreNE561kr3fo+5NJEx9qF531BsUx8l0w7Kuio5+g9Gc2fg/BIOkwPYp5fV6FvzRBp/Hm9cgToiLl+nMo7sWTUZ6uEIdBu3n+krWjI7J5rBUmWvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl; spf=pass smtp.mailfrom=mmpsystems.pl; dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b=QYij6wex; arc=none smtp.client-ip=195.78.66.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mmpsystems.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kKbLb61W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95369C19425;
-	Thu, 14 May 2026 02:48:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778726901;
-	bh=DV4E6vUnHgIaFxTlK9WV5PZP2tHuHjH5iS7mHMX5M9I=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date:From;
-	b=kKbLb61Ws7DmjGf3qxnBcpy8b2w8yDE5MBr1fkpwFbnVhFZO+HfiWtxiImnCYNzT+
-	 vHTuXfCFD6fJnhfYm8VEj4AhdoG/MAtAVdYvpkHV1WbJlD6WepAEekP4XX4/Kc974V
-	 x6hBWAdKr5+f9MQ2MJMKA16Am5jzo3qjcj6FiqxoTvvLY2kOrAx77dvS8KfuUE3L2A
-	 ZpaH1tEvhfA8d1pHIsOYTTG/v4j/BBBVubfb12BMcWlgZKHfizaeV8pxTeVZtRz9Zf
-	 WmOwKT8uoaA2nWm4IP6mrZ/iVpdvwxhXLIWwrHpJynB8LyDqFuCb6ydLSG/Qp4jMPg
-	 A2wCsQSwg9UFg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 20/20] drm/bridge_connector: Convert to
- atomic_create_state
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Maxime Ripard" <mripard@kernel.org>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260512-drm-mode-config-init-v4-20-591dfdcc1bf9@kernel.org>
-References: <20260512-drm-mode-config-init-v4-20-591dfdcc1bf9@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 14 May 2026 02:48:17 +0000
-Message-Id: <20260514024820.95369C19425@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b="QYij6wex"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=mmpsystems.pl; s=x; h=Cc:To:Message-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=V8Zv1XxU0NXRkczbbte8VINxmUP6BumFNP4JQShgmbg=; b=QYij6wexY6658C8GQB+Ud1GMHS
+	UexeAtIdV4B5jonQ3oMluQfemg78ENfSZp7IWxTW2ohf83AwadBuA6hoI/Gjz7W6jgvVo5U39RtrT
+	U6vHE0YbnzgzQtUoK3h4OZLc2YA74CM0L0Gly5RhPk2x9l1BR67iZhRUg4w6+HzrI2ekkoRC123Y1
+	ICxbqKyo1qJriSlFf9dvFHW73Uz0ZYiezUn/FeWy0bc5y5HiFcpbdUhCZlRP2cfa7Ef23FPK15v9X
+	Cn1xO56b2RgSt3vG2hhCbgYlCBwN8TAJ1zkIYU+gLB7eSCKb+U5ubZahS8TzVeqSdqMbTRIpMuX41
+	YIheyFzg==;
+Received: from [91.102.182.218] (helo=localhost)
+	by s106.cyber-folks.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <michal.piekos@mmpsystems.pl>)
+	id 1wNMc8-0000000H9MG-1Eyv;
+	Thu, 14 May 2026 05:19:56 +0200
+From: Michal Piekos <michal.piekos@mmpsystems.pl>
+Date: Thu, 14 May 2026 05:19:34 +0200
+Subject: [PATCH v2] iio: adc: sun20i-gpadc: support non-contiguous channel
+ lookups
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260514-fix-sunxi-gpadc-sparse-channels-v2-1-d4a66b70c7a7@mmpsystems.pl>
+X-B4-Tracking: v=1; b=H4sIAEU/BWoC/42OTQ6DIBBGr2JYdxrAlsSueo/GheBUaRQJg0Zjv
+ HvBXqDLl7zvZ2eEwSKxR7GzgIslO7kE8lIw0zeuQ7BtYia5VPwuSnjbFWh2q4XON60B8k0ghCw
+ 7HAikVlpyVer2VrHU4gOmyLnwqn9Ms/6gibk2G72lOIXtvLCI7P2/tggQoIwUKCuuDeJzHD1tF
+ HGkqx9YfRzHF6qVKH3kAAAA
+X-Change-ID: 20260513-fix-sunxi-gpadc-sparse-channels-2b6b2063bd49
+To: Jonathan Cameron <jic23@kernel.org>, 
+ David Lechner <dlechner@baylibre.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Andy Shevchenko <andy@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Michal Piekos <michal.piekos@mmpsystems.pl>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ llvm@lists.linux.dev
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778728785; l=2567;
+ i=michal.piekos@mmpsystems.pl; s=20260301; h=from:subject:message-id;
+ bh=mAW9smyP3Y9zNh0IDxgH/7BBIen5KUX/2eJMMof12rc=;
+ b=IzE2aCtNGPDvgiHxMVpRWxq6l4Hz7kBMcZiHPIsDF1KFpqFB8KN5/bGtIJbN82SZJaMKOPjtR
+ AyNgm7Y1d/EClBYHORnzkw4FSpaGRdXUTikaUr9cxnFtfZu18gfBWjD
+X-Developer-Key: i=michal.piekos@mmpsystems.pl; a=ed25519;
+ pk=Aixyx03If7ZDamiKKN0lsa+0mtA+WjIuIf2ZQVYNBqg=
+X-Authenticated-Id: michal.piekos@mmpsystems.pl
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Critical] Removing the `.reset` hook from `drm_bridge_connector_funcs` c=
-auses a guaranteed NULL pointer dereference and kernel panic during HDMI br=
-idge initialization in `drmm_connector_hdmi_init()`.
---
+Using consumer driver like iio-hwmon which resolve channels thorugh
+io-channels phandles will fail for sparse channels because IIO core by
+default threats phandle argument as index into channel array.
+        eg. <&gpadc 1> will fail if there is only channel@1 specified
 
-commit 4d1b1d55e3ba2c5d7992c514db2a00581120fa32
-Author: Maxime Ripard <mripard@kernel.org>
+Add .fwnode_xlate() which maps DT phandle to the registered channel
+whose chan->channel matches the hardware channel number. It allows
+sparse channel maps to be consumed by drivers like iio-hwmon.
 
-drm/bridge_connector: Convert to atomic_create_state
+Tested on Radxa Cubie A5E.
 
-This commit converts the drm_bridge_connector to use atomic_create_state
-instead of reset to initialize its state. It removes the reset hook from
-drm_bridge_connector_funcs and replaces it with atomic_create_state.
+Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
+---
+Changes in v2:
+- Move loop variable declaration into the for statement
+- Fix indentation using clang-format
+- Correct commit wording
+- Link to v1: https://patch.msgid.link/20260513-fix-sunxi-gpadc-sparse-channels-v1-1-6c21e290bcee@mmpsystems.pl
 
-> diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu=
-/drm/display/drm_bridge_connector.c
-> index 50408af746d84..cafa498c38482 100644
-> --- a/drivers/gpu/drm/display/drm_bridge_connector.c
-> +++ b/drivers/gpu/drm/display/drm_bridge_connector.c
+To: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+To: Nuno Sá <nuno.sa@analog.com>
+To: Andy Shevchenko <andy@kernel.org>
+To: Chen-Yu Tsai <wens@kernel.org>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: Samuel Holland <samuel@sholland.org>
+To: Nathan Chancellor <nathan@kernel.org>
+To: Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
+To: Bill Wendling <morbo@google.com>
+To: Justin Stitt <justinstitt@google.com>
+Cc: linux-iio@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-sunxi@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev
+---
+ drivers/iio/adc/sun20i-gpadc-iio.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-[ ... ]
+diff --git a/drivers/iio/adc/sun20i-gpadc-iio.c b/drivers/iio/adc/sun20i-gpadc-iio.c
+index 861c14da75ad..78c9a52f38df 100644
+--- a/drivers/iio/adc/sun20i-gpadc-iio.c
++++ b/drivers/iio/adc/sun20i-gpadc-iio.c
+@@ -139,8 +139,20 @@ static irqreturn_t sun20i_gpadc_irq_handler(int irq, void *data)
+ 	return IRQ_HANDLED;
+ }
+ 
++static int
++sun20i_gpadc_fwnode_xlate(struct iio_dev *indio_dev,
++			  const struct fwnode_reference_args *iiospec)
++{
++	for (unsigned int i = 0; i < indio_dev->num_channels; i++)
++		if (indio_dev->channels[i].channel == iiospec->args[0])
++			return i;
++
++	return -EINVAL;
++}
++
+ static const struct iio_info sun20i_gpadc_iio_info = {
+ 	.read_raw = sun20i_gpadc_read_raw,
++	.fwnode_xlate = sun20i_gpadc_fwnode_xlate,
+ };
+ 
+ static void sun20i_gpadc_reset_assert(void *data)
 
-> @@ -265,22 +265,29 @@ static void drm_bridge_connector_debugfs_init(struc=
-t drm_connector *connector,
->  static const struct drm_connector_funcs drm_bridge_connector_funcs =3D {
-> -	.reset =3D drm_bridge_connector_reset,
+---
+base-commit: 1d5dcaa3bd65f2e8c9baa14a393d3a2dc5db7524
+change-id: 20260513-fix-sunxi-gpadc-sparse-channels-2b6b2063bd49
 
-Does removing the reset hook cause a null pointer dereference regression
-during HDMI bridge initialization?
+Best regards,
+--  
+Michal Piekos <michal.piekos@mmpsystems.pl>
 
-When an HDMI bridge is present, drm_bridge_connector_init() delegates setup
-to drmm_connector_hdmi_init(). Looking at drmm_connector_hdmi_init(), it
-expects to allocate and initialize the connector's state by calling its
-reset hook:
-
-drmm_connector_hdmi_init() {
-    ...
-    if (connector->funcs->reset)
-        connector->funcs->reset(connector);
-    ...
-}
-
-Since the reset hook is removed here, the state allocation is skipped,
-leaving connector->state as null.
-
-Immediately after this, drmm_connector_hdmi_init() calls
-drm_connector_attach_max_bpc_property(), which unconditionally dereferences
-connector->state:
-
-drm_connector_attach_max_bpc_property() {
-    ...
-    connector->state->max_requested_bpc =3D max;
-    connector->state->max_bpc =3D max;
-    ...
-}
-
-Could this lead to a crash when an HDMI bridge connector is initialized?
-
->  	.detect =3D drm_bridge_connector_detect,
->  	.force =3D drm_bridge_connector_force,
->  	.fill_modes =3D drm_helper_probe_single_connector_modes,
-> +	.atomic_create_state =3D drm_bridge_connector_create_state,
->  	.atomic_duplicate_state =3D drm_atomic_helper_connector_duplicate_state,
->  	.atomic_destroy_state =3D drm_atomic_helper_connector_destroy_state,
->  	.debugfs_init =3D drm_bridge_connector_debugfs_init,
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260512-drm-mode-c=
-onfig-init-v4-0-591dfdcc1bf9@kernel.org?part=3D20
