@@ -1,122 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 174932DECCB
-	for <linux-sunxi@lists.linux.dev>; Thu, 14 May 2026 01:25:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C2D301465;
+	Thu, 14 May 2026 02:23:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778721910; cv=none; b=uJ71ulz++9AJ4mq6MAMiYEccrlizfFSGtK45QJ7ZkRb9zi3uD3pGeqIz28nR5nvTSMBs85oHlJwQuNX3r7Enqf3tiNtiHn8C4C8eVpMrPX7cpgbiuj8MT7SrkgkQSyItzehqfSg4gCFVMzpxuS99xWlwlI/yzyyGaLQiuWXLp6c=
+	t=1778725412; cv=none; b=NT/DI9/68WyHYFyyBjZBCUL0y1optCJyfRqGmyY2siUuBJWh/RA0Aop7UJZ2d32IC8TuN3uar5R3ZGws5tGXM/NF6tCIwBGEgUXLHv9eeyaFWmiwYvm17yEwXflk11sOQlpRerJkFjWh8p6XAhZORRAfspe1kInZokDnfbbu0rI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778721910; c=relaxed/simple;
-	bh=g52s1Z7AzZw5Fchk9s3pS+elKLeQCzIGm3/ohpl0vnw=;
+	s=arc-20240116; t=1778725412; c=relaxed/simple;
+	bh=wtIb58l+hszDoFptqKA0UUp+KOZKrrOlCFOBrzHMvMw=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=BA4SPDgsBZEXOi83l37+d2zCqZ80sQYZK7xafb0xnkCRo+GT5wPcW3HQaHPXfc+NMkmFAZ9kv/XRLL4A1ijDfBfN1qlWJpuXl+xdMal9J55PXQeHzLqeiIO+DtPMT57lI+mmFDyJVlB/ETI7ccYaPfsUK+6bLDgVqqQBDq9WpsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XG376Kap; arc=none smtp.client-ip=10.30.226.201
+	 Message-Id; b=plytzu5GgwfHGyO6sN8/mJqbWwuJkxi+zkdKoNAQzFQIdc9OxbX6lXjrvjpGRhHnJTfVOvP9MHmi0k4WhZPbxTADEXq3vK4k9ZjzzSqPZ7aJKiFlEsHiXQzD578q0pnYKsv23WEUZajE/oPW7mzZanTqa751vIgh++qCjpYmoUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XGrVcYkO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XG376Kap"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BDBDC19425;
-	Thu, 14 May 2026 01:25:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XGrVcYkO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E20DC19425;
+	Thu, 14 May 2026 02:23:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778721909;
-	bh=g52s1Z7AzZw5Fchk9s3pS+elKLeQCzIGm3/ohpl0vnw=;
+	s=k20201202; t=1778725412;
+	bh=wtIb58l+hszDoFptqKA0UUp+KOZKrrOlCFOBrzHMvMw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date:From;
-	b=XG376KapkLAeHWVAhZR1iFKFadNMbhKHBfaX5vdlHtKeRh/P8OoZ6YEES0OY5EYIQ
-	 Nq7S+dJaCdHqlEvmp2a6SmX7HSbFOZL3rWSNRU2DgP6xFBQKwidTALdc3wpOxSBvjJ
-	 jA6aLZVVWcWE99UxNvd/PCwbRHbSN2DImsZDYoXOD2KXHvsbw7Qjnubr9jxhKTbPBT
-	 PzVz+s+oV+3QeWgMJtedBW5Z1McxiKZL3C/3p1RdMY72O4tBTgNSD4hZQI7I2ikF1m
-	 vrMu/iQaH2slrucPYrTXwfcIwCKZ1VEUlpUW+htvt4pJBRJQUVZtF9VR2ISBmMZN2Z
-	 XvmuJAdDPxXrA==
+	b=XGrVcYkOGN4jyAoNr3FehhVUg/bzHvjbSx6xXN4V3uCPghw9smWOPJ9l4y2gtf4US
+	 VrS49jH0hB870rGWTG+bRmkKZq5eFG5xI+W3FIyxbmGwirTuSLyZ0jf5aTV2YAKBVT
+	 eUS4YZhkH4QliBCe44vIlkg0SbRL1pDUY7y7PVLG3f/KogFgI9JLIvLogtsn67ay2h
+	 oSv5ahksYmg9HRx3Zv9eA/st8xbg7fGtg3c+77rvixuryYWticUpKfFvB4oB8fla2c
+	 kZpTrfWFzLJdAn0v1xEixnUVx082+5oozot7W/cmi7zVz1SQ/bhxegfNfjyh8ZujqD
+	 mMOk30eHIgE5w==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 18/20] drm/tidss: Switch to
- drm_mode_config_create_initial_state()
+Subject: Re: [PATCH v2 1/3] dt-bindings: iio: adc: Add GPADC for Allwinner
+ A523
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Maxime Ripard" <mripard@kernel.org>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260512-drm-mode-config-init-v4-18-591dfdcc1bf9@kernel.org>
-References: <20260512-drm-mode-config-init-v4-18-591dfdcc1bf9@kernel.org>
+To: "Michal Piekos" <michal.piekos@mmpsystems.pl>
+Cc: krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, robh@kernel.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20260513-sunxi-a523-gpadc-v2-1-d5efde151dac@mmpsystems.pl>
+References: <20260513-sunxi-a523-gpadc-v2-1-d5efde151dac@mmpsystems.pl>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 14 May 2026 01:25:08 +0000
-Message-Id: <20260514012509.8BDBDC19425@smtp.kernel.org>
+Date: Thu, 14 May 2026 02:23:31 +0000
+Message-Id: <20260514022332.1E20DC19425@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Critical] Uninitialized atomic state for CRTCs and planes due to missing=
- `.atomic_create_state` callbacks.
-- [High] Connector reference and lockdep leak in `drm_mode_config_create_in=
-itial_state` error path.
+- [Medium] Schema Conditional Logic Error: `if` block will silently fail to=
+ match A523 compatible string
 --
 
-commit e000ebef7fd981cd59e08b4a06776ff9e81cba3a
-Author: Maxime Ripard <mripard@kernel.org>
+commit f1e37c6efc76bc9bd352a9e8462984a80a03b87c
+Author: Michal Piekos <michal.piekos@mmpsystems.pl>
 
-drm/tidss: Switch to drm_mode_config_create_initial_state()
+dt-bindings: iio: adc: Add GPADC for Allwinner A523
 
-This patch updates the tidss driver probe to use
-drm_mode_config_create_initial_state() instead of drm_mode_config_reset()
-for creating the initial DRM state.
+This commit adds support for the GPADC on the Allwinner A523. It updates
+the schema to allow two clocks for this new compatible string while
+restricting previous generations to one clock.
 
-> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/ti=
-dss_drv.c
-> index 1c8cc18bc53c3..f5099d5d6e32a 100644
-> --- a/drivers/gpu/drm/tidss/tidss_drv.c
-> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
-> @@ -171,7 +171,11 @@ static int tidss_probe(struct platform_device *pdev)
+> diff --git a/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d=
+1-gpadc.yaml b/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d=
+1-gpadc.yaml
+> index da605a051b949..6467800d30e27 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc=
+.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc=
+.yaml
+[ ... ]
+> @@ -40,6 +46,30 @@ properties:
+>    resets:
+>      maxItems: 1
 > =20
->  	drm_kms_helper_poll_init(ddev);
-> =20
-> -	drm_mode_config_reset(ddev);
-> +	ret =3D drm_mode_config_create_initial_state(ddev);
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          enum:
+> +            - allwinner,sun55i-a523-gpadc
 
-Since drm_mode_config_create_initial_state() allocates software states using
-the .atomic_create_state hooks for CRTCs, planes, and connectors, does this
-leave plane->state and crtc->state as NULL?=20
+Will this condition successfully match the A523 compatible string?
 
-It appears the tidss driver does not implement .atomic_create_state yet and
-still relies on the legacy .reset hooks at this point in the series. If the=
-se
-states remain NULL, could it trigger a WARN_ON(!plane->state) and a NULL
-pointer dereference during the initial atomic commit?
+In dt-schema, the compatible property is parsed and evaluated as an array of
+strings. By using enum directly without a contains: keyword, this condition
+expects the property to be exactly a string.
 
-I understand this is fixed later in the series by the commit titled
-"drm/tidss: Convert to atomic_create_state", but could this break git bisec=
-t?
+Under JSON schema rules, this condition will evaluate to false because an
+array cannot equal a string.
 
-Also, looking at the implementation of drm_mode_config_create_initial_state=
-()
-in drm_mode_config.c that is being called here:
+> +    then:
+[ ... ]
+> +    else:
+> +      properties:
+> +        clocks:
+> +          maxItems: 1
+> +        clock-names: false
 
-drivers/gpu/drm/drm_mode_config.c:drm_mode_config_create_initial_state() {
-	...
-	drm_connector_list_iter_begin(dev, &conn_iter);
-	drm_for_each_connector_iter(connector, &conn_iter) {
-		if (connector->state)
-			continue;
+Does this result in valid A523 device tree nodes being incorrectly rejected?
 
-		ret =3D drm_mode_config_connector_create_state(connector);
-		if (ret)
-			return ret;
-	}
-	drm_connector_list_iter_end(&conn_iter);
-	...
-}
+Since the if block silently fails to match, the schema will fall through to
+this else block, enforcing maxItems: 1 for clocks and rejecting clock-names.
+This would erroneously reject A523 configurations that correctly provide the
+two required clocks.
 
-If drm_mode_config_connector_create_state() fails, this returns directly
-without calling drm_connector_list_iter_end(). Does this leak the connector
-reference and leave the lockdep context acquired indefinitely?
-
-> +	if (ret) {
-> +		dev_err(dev, "failed to create initial state: %d\n", ret);
-> +		goto err_irq_uninstall;
-> +	}
-> =20
->  	ret =3D drm_dev_register(ddev, 0);
+Could the condition be updated to use contains: enum: or contains: const: to
+properly match the compatible array elements?
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260512-drm-mode-c=
-onfig-init-v4-0-591dfdcc1bf9@kernel.org?part=3D18
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260513-sunxi-a523=
+-gpadc-v2-0-d5efde151dac@mmpsystems.pl?part=3D1
