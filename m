@@ -1,306 +1,345 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9083E3DBE;
-	Fri, 15 May 2026 09:27:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAA4364046
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 May 2026 14:43:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778837249; cv=none; b=dRJmoO7TjWvpajgJ64MDDBo8DBXFyBcOgfl+8MiJ9jSTzlgrPvfipQyy8foYurI+1WGkwZ+/utQTKnzJXQNtsPzvOWTFvVgWQCXr8Fysudp+wJPwpVt4Itb8hu9aBp+9QI/PXTTI8zgmImkYtvpFfAkXSUmnmdS2zt6fBugCNbo=
+	t=1778856240; cv=none; b=H2O4fmSdOs52py16hsTA7R2AHnH4/jRY+oS3qc61X4q/O7PAm7YXrVrv7RQHSNWFIawczTKraxVkUtAvPv2Odo2gSwwBNWdshPnfSfxcVjSoZect4Hidj7D4R4DOFhpf07WxRFvUUrwceQIksIloadz9puVnzM+QN0Gkj3qEP8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778837249; c=relaxed/simple;
-	bh=8T8M1KYMgjhppiKwHyl/+bpCC+KLvCBbgV84nUxh0NM=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=a5No4cVFm+xkLcfKWCQj3lCVIW/Pgge3qkllUpaXr1XVz9b4GSWWY1pyw4FakR6TgJyqjcVi0LrAkSTHsyfwKAE9uJmww5JOKX/HNpgP3N7KH4YayH2mQYdkPuG625Ovt6N6RAKd3xE21bnvlAjxgyNZ8ZGOZkvgMPZhewKnFUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com; spf=pass smtp.mailfrom=cknow-tech.com; dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b=G9l0ffmv; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow-tech.com
+	s=arc-20240116; t=1778856240; c=relaxed/simple;
+	bh=wuzNiVvcgCo2MZscxyaSH0QGEode+b57g+QUEIOzYJo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YRIAd+ovEpt4FsydXj5prTTaQJi2IwUFkx1gTjB6V5ROygn+PKkJsYYZRiTDjvPK5Iy5DG9bABKwSbLik4oH3ShaD/NXvNPtZGOXOap/SANHUZfr/xVXBCoQc93S62oFfCotsV+2vYDtXD9zifI3wabjnQRxxoYM+U507rVplgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j2c1TFub; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b="G9l0ffmv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j2c1TFub"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48a7fe4f40bso106538705e9.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 15 May 2026 07:43:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778856237; x=1779461037; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OUGRdso5SroXSeCxlO1HX28CuU+eBajIx2d8dYlqRS0=;
+        b=j2c1TFub+PowpS707YTm42+OCYlpsQJxwxNhxBYCeXwZsNYdpgNCpaKOp2QwSjbeMX
+         QTpxuOBDJDMGevBn9x3GIQb9QESGEKgJwHjQMgOxXT+jgak0ed358f9HrZ8ywZ9VlNM8
+         IBdzUO7cch9LTKZlBftrUGu7Zmlj+UVH8IfQEQrkC3/PGz9I3Uks4bjMZ4BTkUdEVizk
+         PZ3tsmh6PF05jLQE3H6sSJRLpibaVQQxyQg5b//Eh8pY6PnTw383rUO3gzw4i1BqBcfs
+         XCwPH14skTmW8/XYgrqfgZBOBfvtEan9ygO2hDdVtw0pwQrhQVcpDPgSHJEf/5LSsPSO
+         IiFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778856237; x=1779461037;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OUGRdso5SroXSeCxlO1HX28CuU+eBajIx2d8dYlqRS0=;
+        b=JZEAWFvmCSrXOh8B4e6MrjEKhktYBNvxBOoISsLiSiy/pHoUOhM7w2a8/dJsdmHrl3
+         sUGVxzaXSPpGhur1csHcvowOoyejZQ26Tlyj1iDUJBR0ccaJNB1VuItzyuGToN5mKiUN
+         1rdtjq26viEyc+K3T2SIsCwj2FZQt0gAzgIjaQJ2LD2zLGyTihfARIc5ExtMWCAqrruR
+         xMoe4TdATnbeIrNCMnw0qhhr6L+JeNQ9r/U4g/eVQiV0+HF+XKDyFbeU2zwhC2AdxuNH
+         hvTbqnYgXb+8RU1JE55Og6CcFtXI7//Zv8LH3WSQ6rXtVVDx15j3OT76b49W1RnU3NHe
+         wZQw==
+X-Forwarded-Encrypted: i=1; AFNElJ/MMRTYtzfa3rdq21TxhDlWgnLSsna/6SYVvIxm2dg/kPuNrhlwzNUNlYNlBDtI5UZHYo7A1dcKAf2oTw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxHSs5sLYKU7QdPkTHAmap6AAt/HVHoNLqgoGy5xcYdje/Id+aX
+	I+8cIdDgY8K/ImnuE+Meq9q5jTxfRJUxnWQgkSIjub+6Rpx9B0gmpkxc
+X-Gm-Gg: Acq92OHMs4G1yqOpZtc8aVocNMRVwJU9+3W04shJqHrplvkb2/ctRHpDPPYD4dSNPXB
+	M+PzlNsnH8nNDsepcZTnVHFasOwv5zLLSIdxi/BQ53wa0jmx2eLmSDswv5KnCjGydssGJ1HNerB
+	lfZu8sgrn0/R6IX0HiOFJZV2iIsyxSnF9PmkuCAfJ12ZeAazzBKeP0sz0K794TDtLURPGnz1SRW
+	4AvMtsuics7fmQEbLk/0FUDmsxRx4OaP4EIQGpnpEfrqNtBUB5zp2HGK0ob0TWxEfWg96O2eQzD
+	Lni3VIqkJY4Q3mbDBCUTafMo+M6mLJUlsRTTVop8SJ0qGviWifAZ1y1yU+logWT8SPim0yvUrG4
+	T4fDPz8ZyzHr7Sw8BNNMWhGzn6ew0fPsrVPoCFf3cItZ8HurqPdED9TOVSZQ/Lnr0sHl/KSudH/
+	KZJtYC65wS6s0tEWhmAZe/G9sIjOjv+LbX/DllAkD0Q2c9EiDABwiH1QUFSxX3zWnGC2mDTjg25
+	TdtO4Q=
+X-Received: by 2002:a05:600d:c:b0:48a:56de:d62a with SMTP id 5b1f17b1804b1-48fe60eca75mr57665825e9.11.1778856236640;
+        Fri, 15 May 2026 07:43:56 -0700 (PDT)
+Received: from thinkpad ([46.164.90.5])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fea5297f7sm23788285e9.0.2026.05.15.07.43.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 May 2026 07:43:56 -0700 (PDT)
+From: Arash Golgol <arash.golgol@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: paulk@sys-base.io,
+	mchehab@kernel.org,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	laurent.pinchart@ideasonboard.com,
+	linux-sunxi@lists.linux.dev,
+	Arash Golgol <arash.golgol@gmail.com>
+Subject: [PATCH v2] media: sun8i-a83t-mipi-csi2: Use V4L2 subdev active state
+Date: Fri, 15 May 2026 18:13:35 +0330
+Message-Id: <20260515144335.61323-1-arash.golgol@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow-tech.com;
-	s=key1; t=1778837242;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wkqU5nqKWTIVrSrlwa2ijV+50Ew3qQdlXh1W5GNiI6Y=;
-	b=G9l0ffmvrtA4Zf8COr+my1FshdP4by8FSoXyG9uvoR95floWSI8b3I+KOL7hURxeOdY+YM
-	EccYaBB/Ua0rTM7umnPs/m1RfZFFvXSw5OfzoAva8eojD4GA1BAV1SPwbp2tjf/BEohmXL
-	QhC2guUC8OUsXYGwbnxOIzPqpqU0XZQeJxhLgxQnN2AAN6uWPInB5MpdY5VVBmd/SkJGBJ
-	MCJMJLZ1q48jpk1Ng2wyMxBEzJSOLcxO5Pv5ftEsZdkyzRsW/4B+zcWKIh6xznsC/5nb2X
-	qVNmFSumPprmAZ9Pa4aUYhrpvdOwBHvhJ5kmzPwkwfc/5FmWTZz+mstYCnvCJA==
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 15 May 2026 11:27:01 +0200
-Message-Id: <DIJ5622KU06C.2KOK2EVAMP0NX@cknow-tech.com>
-Cc: "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jernej Skrabec"
- <jernej.skrabec@gmail.com>, "Luca Ceresoli" <luca.ceresoli@bootlin.com>,
- "Liu Ying" <victor.liu@nxp.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Sandy Huang"
- <hjc@rock-chips.com>, "Andy Yan" <andy.yan@rock-chips.com>, "Chen-Yu Tsai"
- <wens@kernel.org>, "Christian Hewitt" <christianshewitt@gmail.com>,
- "Diederik de Haas" <diederik@cknow-tech.com>, "Nicolas Frattaroli"
- <nicolas.frattaroli@collabora.com>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>, <dri-devel@lists.freedesktop.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-rockchip@lists.infradead.org>, <linux-amlogic@lists.infradead.org>,
- <linux-sunxi@lists.linux.dev>, <imx@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5 00/21] drm: bridge: dw_hdmi: Misc enable/disable, CEC
- and EDID cleanup
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Diederik de Haas" <diederik@cknow-tech.com>
-To: "Jonas Karlman" <jonas@kwiboo.se>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, "Heiko Stuebner" <heiko@sntech.de>
-References: <20260510124111.1226584-1-jonas@kwiboo.se>
-In-Reply-To: <20260510124111.1226584-1-jonas@kwiboo.se>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi Jonas,
+Use the V4L2 subdev active state API to store the active format.
+This simplifies the driver not only by dropping the bridge mbus_format
+field, but it also allows dropping the bridge lock, replaced with
+the state lock.
 
-On Sun May 10, 2026 at 2:42 PM CEST, Jonas Karlman wrote:
-> This is a revival of an old dw-hdmi series and is the first series part
-> of a new effort to upstream old LibreELEC HDMI 2.0 patches for Rockchip
-> RK33xx devices.
->
-> This series ensure poweron/poweroff and CEC phys addr invalidation is
-> happening under drm mode_config mutex lock, and also ensure EDID is
-> updated after a HPD low voltage pulse by changing to debounce hotplug
-> processing.
->
-> These changes have mainly been tested on Rockchip RK3328, RK3399 and
-> RK3568 devices using both the dw-hdmi connector and also using a basic
-> convert to use a bridge connector.
+The sun8i-a83t-mipi-csi2 hardware does not perform any format
+conversion. Enforce identical formats on the sink and source pads in
+the set_fmt() and init_state() callbacks.
 
-Yesterday I made a test run and the TL;DR is this:
+Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
+---
+Changes in v2:
+ - Initialize active state before calling v4l2_subdev_state_get_format()
+ - Fix line wrapping reported by checkpatch
+ - Link to media-ci report: https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/99865145/artifacts/report.htm
 
-Tested-by: Diederik de Haas <diederik@cknow-tech.com>  # Rock64, RockPro64,=
- Quartz64-B
+ .../sun8i_a83t_mipi_csi2.c                    | 111 +++++++++---------
+ .../sun8i_a83t_mipi_csi2.h                    |   2 -
+ 2 files changed, 55 insertions(+), 58 deletions(-)
 
-The longer version ...
-
-Test setup:
-I have a 1080p monitor capable of HDMI 1.4 (I think) and a 4K TV capable of
-HDMI 2.0 (but not 2.1). I'm running Debian Testing/Sid on them with Sway
-1.12-rc3-1 (from Experimental) and see if that works (at all) and then I tr=
-y to
-play one or more of my 'test' videos with mpv and using v4l2request HW acce=
-l.
-I used 2 kernels: 7.1-rc3 and 7.1-rc3 with this patch set.
-
-One of the possible issues that may have been fixed with this patch set is
-doing hotplugging of the HDMI connection, especially going from 4K to 1080p=
-.
-So when testing I unplugged my 4K cable and plugged in the 1080p cable and
-looked if it has adjusted things properly. I also checked dmesg to see if
-there were interesting msgs.
-
-> Testing with a Rock Pi 4 (RK3399) using a Raspberry Pi Monitor with
-> Linux kms client console using drm.debug=3D0xe should log something like
-> following:
->
->  Power cycle monitor using the power button:
->   [CONNECTOR:68:HDMI-A-1] CEA VCDB 0x4a
->   [CONNECTOR:68:HDMI-A-1] HDMI: DVI dual 0, max TMDS clock 0 kHz
->   [CONNECTOR:68:HDMI-A-1] ELD monitor RPI MON156
->   [CONNECTOR:68:HDMI-A-1] HDMI: latency present 0 0, video latency 0 0, a=
-udio latency 0 0
->   [CONNECTOR:68:HDMI-A-1] ELD size 36, SAD count 1
->   [CONNECTOR:68:HDMI-A-1] Same epoch counter 10
-> =20
->  Cable unplugged:
->   [CONNECTOR:68:HDMI-A-1] EDID changed, epoch counter 11
->   [CONNECTOR:68:HDMI-A-1] status updated from connected to disconnected
->   [CONNECTOR:68:HDMI-A-1] Changed epoch counter 10 =3D> 12
->   [CONNECTOR:68:HDMI-A-1] generating connector hotplug event
->   [CONNECTOR:68:HDMI-A-1] Sent hotplug event
-
-When I was preparing my testing session the 'Sent hotplug event' caught my =
-eye
-as it seemed like a clear differentiator between the kernel with and withou=
-t
-this patch set.
-Unfortunately during my 'real' testing session I did not see that message .=
-..
-
->  Cable connected:
->   [CONNECTOR:68:HDMI-A-1] CEA VCDB 0x4a
->   [CONNECTOR:68:HDMI-A-1] HDMI: DVI dual 0, max TMDS clock 0 kHz
->   [CONNECTOR:68:HDMI-A-1] ELD monitor RPI MON156
->   [CONNECTOR:68:HDMI-A-1] HDMI: latency present 0 0, video latency 0 0, a=
-udio latency 0 0
->   [CONNECTOR:68:HDMI-A-1] ELD size 36, SAD count 1
->   [CONNECTOR:68:HDMI-A-1] status updated from disconnected to connected
->   [CONNECTOR:68:HDMI-A-1] Changed epoch counter 12 =3D> 13
->   [CONNECTOR:68:HDMI-A-1] generating connector hotplug event
->   [CONNECTOR:68:HDMI-A-1] Sent hotplug event
-
-... but I did see all the others. With my 4K TV I got
-``max TMDS clock 300000 kHz``
-but on my 1080p monitor I got 0 kHz just like quoted above.
-
-I also checked CEC and EDID with the following commands:
-- ``cat /sys/kernel/debug/cec/cec0/status``
-- ``di-edid-decode /sys/devices/platform/display-subsystem/drm/card0/card0-=
-HDMI-A-1/edid``
-
-And in all cases they produced identical outputs.
-
-Rock64 testing:
-
-On the Rock64 I got a stack trace:
-
-```sh
-root@rock64-test:~# dmesg --level 4
-[    2.302852] dw-apb-uart ff130000.serial: forbid DMA for kernel console
-[    5.068434] dw_wdt ff1a0000.watchdog: No valid TOPs array specified
-[    5.841772] dwc2 ff580000.usb: supply vusb_d not found, using dummy regu=
-lator
-[    5.842752] dwc2 ff580000.usb: supply vusb_a not found, using dummy regu=
-lator
-[    7.392797] ------------[ cut here ]------------
-[    7.393236] WARNING: drivers/media/cec/core/cec-adap.c:1116 at cec_recei=
-ved_msg_ts+0x530/0xc10 [cec], CPU#0: irq/50-dw-hdmi-/186
-[    7.394811] Modules linked in: dw_hdmi_cec(+) hid_generic usbhid rockchi=
-pdrm hid dw_hdmi_qp dw_mipi_dsi realtek dw_hdmi phy_package analogix_dp drm=
-_dp_aux_bus dwmac_rk drm_display_helper stmmac_platform xhci_plat_hcd stmma=
-c cec rc_core xhci_hcd pcs_xpcs drm_client_lib phylink rtc_rk808 drm_dma_he=
-lper ohci_platform rk808_regulator mdio_devres dwc2 of_mdio drm_kms_helper =
-ehci_platform dwc3 ehci_hcd fixed_phy udc_core ohci_hcd drm fwnode_mdio usb=
-core libphy syscon_reboot_mode ulpi gpio_rockchip phy_rockchip_inno_usb2 dw=
-_mmc_rockchip reboot_mode io_domain gpio_syscon mdio_bus dw_mmc_pltfm fixed=
- usb_common dw_wdt dw_mmc phy_rockchip_inno_hdmi spi_rockchip nvmem_rockchi=
-p_efuse i2c_rk3x pl330
-[    7.404613] CPU: 0 UID: 0 PID: 186 Comm: irq/50-dw-hdmi- Not tainted 7.1=
--rc3+unreleased-arm64-cknow #1 PREEMPTLAZY  Debian 7.1~rc3-2
-[    7.406138] Hardware name: Pine64 Rock64 (DT)
-[    7.406725] pstate: a0000005 (NzCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=
-=3D--)
-[    7.407634] pc : cec_received_msg_ts+0x530/0xc10 [cec]
-[    7.408344] lr : dw_hdmi_cec_thread+0x98/0xb8 [dw_hdmi_cec]
-[    7.409095] sp : ffff8000809e3cc0
-[    7.409552] x29: ffff8000809e3d30 x28: 0000000000000000 x27: 00000000000=
-00000
-[    7.410500] x26: ffff0000faae44ac x25: ffffa02b5edaf370 x24: ffff00000bd=
-9f6a0
-[    7.411447] x23: ffffa02b60e3e000 x22: ffff0000faae4400 x21: 00000000000=
-00001
-[    7.412392] x20: ffff0000faae4400 x19: ffff00000a887800 x18: ffff5fd59d9=
-c7000
-[    7.413333] x17: 0000000061dcb992 x16: ffffa02b5edf4d88 x15: ffffa02b60e=
-421d0
-[    7.414256] x14: ffffa02b60d5a100 x13: 00000000000000c0 x12: ffff0000fe7=
-21100
-[    7.415175] x11: 00000000000000c0 x10: 0000000000000db0 x9 : ffffa02af03=
-675c8
-[    7.416095] x8 : ffff0000fa3f0e10 x7 : 0000000000000000 x6 : 00000000000=
-00010
-[    7.417011] x5 : ffff5fd59d9c7000 x4 : ffff000000c7ccc0 x3 : ffff00000bd=
-9f680
-[    7.417927] x2 : 00000001b8300c79 x1 : 00000000ffffffff x0 : 00000000000=
-00000
-[    7.418845] Call trace:
-[    7.419174]  cec_received_msg_ts+0x530/0xc10 [cec] (P)
-[    7.419855]  dw_hdmi_cec_thread+0x98/0xb8 [dw_hdmi_cec]
-[    7.420536]  irq_thread_fn+0x30/0xc0
-[    7.421021]  irq_thread+0x19c/0x3e8
-[    7.421491]  kthread+0x134/0x150
-[    7.421925]  ret_from_fork+0x10/0x20
-[    7.422405] ---[ end trace 0000000000000000 ]---
-[   23.252709] rockchip-i2s ff000000.i2s: using zero-initialized flat cache=
-, this may cause unexpected behavior
-```
-
-This was with the kernel *with* this patch set (and connected to 4K TV; no
-idea if that's relevant though).
-But I did not see any adverse affects from it and when I tried again today,
-I did NOT get a/that stack trace.
-
-The Rock64 was the device which showed most clearly the difference between
-having this patch set applied or not.
-As always, I started with the kernel without this patch set and booted it u=
-p
-connected to my 4K TV. Then I logged into a Sway session via greetd (thus ~
-also Sway) and everything looked fine*.
-I then tried hotplugging the HDMI from my 4K TV to my 1080p monitor ... and=
- I
-did NOT get any output on my monitor. I didn't even see any message in dmes=
-g
-that it noticed that first a cable got unplugged and later another cable go=
-t
-plugged. My monitor itself did notice when I then unplugged the cable again=
-.
-When I then plugged the 4K cable back in, my TV showed Sway like before and
-AFAICT everything was working again.
-
-When I booted into the kernel WITH this patch set, hotplugging back and for=
-th
-worked absolutely fine :-D The screen resolution got adjusted to the new on=
-e
-and dmesg noticed the unplugging and plugging actions and it showed similar
-messages as Jonas showed in his cover page (and quoted above).
-With the exception of 'Sent hotplug event' as mentioned above.
-
-*) There are pretty substantial artifacts which are AFAIUI due to the
-not-exactly-fast GPU and memory, but that's unrelated to this patch set.
-Playing a HW accelerated video full-screen often works pretty decently.
-
-RockPro64 testing:
-
-I can be much shorter about the RockPro64.
-Everything seemed to work just fine with and without this patch set applied=
-. So
-no improvement, but also no regressions.
-
-Quartz64-B testing:
-
-Same story as with RockPro64: no improvements, but also no regressions.
-I did notice that ``drm.debug=3D0xe`` was *quite* verbose on this device.
-On Rock64 and RockPro64 I saw various drm related msgs in dmesg _when I
-actually did something_ but on Q64-B I got several ~ identical lines per
-second, whether I did sth or not. But that was with and without this patch
-set, so I guess that's a general RK356X 'issue' (if at all an issue).
-
-Cheers,
-  Diederik
-
-> Jonas Karlman (21):
->   drm: bridge: dw_hdmi: Disable scrambler feature when not supported
->   drm: bridge: dw_hdmi: Only notify connected status on HPD interrupt
->   drm: bridge: dw_hdmi: Call poweron/poweroff from atomic enable/disable
->   drm: bridge: dw_hdmi: Use passed mode instead of stored previous_mode
->   drm: bridge: dw_hdmi: Fold poweron and setup functions
->   drm: bridge: dw_hdmi: Remove previous_mode and mode_set
->   drm: bridge: dw_hdmi: Hold bridge ref until connector cleanup
->   drm: bridge: dw_hdmi: Unregister CEC notifier during connector cleanup
->   drm: bridge: dw_hdmi: Invalidate CEC phys addr from connector detect
->   drm: bridge: dw_hdmi: Remove cec_notifier_mutex
->   drm: bridge: dw_hdmi: Extract dw_hdmi_connector_status_update()
->   drm: bridge: dw_hdmi: Use dw_hdmi_connector_status_update()
->   drm: bridge: dw_hdmi: Use display_info is_hdmi and has_audio
->   drm: bridge: dw_hdmi: Use generic CEC notifier helpers
->   drm: bridge: dw_hdmi: Add common suspend helper
->   drm: bridge: dw_hdmi: Use delayed_work to debounce hotplug event
->   drm: bridge: dw_hdmi: Rework HDP and RXSENSE interrupt handling
->   drm: bridge: dw_hdmi: Remove the empty dw_hdmi_setup_rx_sense()
->   drm: bridge: dw_hdmi: Remove the empty dw_hdmi_phy_update_hpd()
->   drm: bridge: dw_hdmi: Merge top and bottom half IRQ handlers
->   drm: bridge: dw_hdmi: Drop call to drm_bridge_hpd_notify()
->
->  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c |   5 +-
->  drivers/gpu/drm/bridge/synopsys/Kconfig     |   1 +
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c   | 483 +++++++-------------
->  drivers/gpu/drm/meson/meson_dw_hdmi.c       |   5 +-
->  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c |  13 +-
->  drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c      |   2 -
->  include/drm/bridge/dw_hdmi.h                |   7 +-
->  7 files changed, 194 insertions(+), 322 deletions(-)
+diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
+index dbc51daa4fe3..743bc86bfeab 100644
+--- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
++++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
+@@ -144,12 +144,12 @@ sun8i_a83t_mipi_csi2_disable(struct sun8i_a83t_mipi_csi2_device *csi2_dev)
+ }
+ 
+ static void
+-sun8i_a83t_mipi_csi2_configure(struct sun8i_a83t_mipi_csi2_device *csi2_dev)
++sun8i_a83t_mipi_csi2_configure(struct sun8i_a83t_mipi_csi2_device *csi2_dev,
++			       const struct v4l2_mbus_framefmt *mbus_format)
+ {
+ 	struct regmap *regmap = csi2_dev->regmap;
+ 	unsigned int lanes_count =
+ 		csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
+-	struct v4l2_mbus_framefmt *mbus_format = &csi2_dev->bridge.mbus_format;
+ 	const struct sun8i_a83t_mipi_csi2_format *format;
+ 	struct device *dev = csi2_dev->dev;
+ 	u32 version = 0;
+@@ -205,7 +205,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 	struct v4l2_subdev *source_subdev = csi2_dev->bridge.source_subdev;
+ 	union phy_configure_opts dphy_opts = { 0 };
+ 	struct phy_configure_opts_mipi_dphy *dphy_cfg = &dphy_opts.mipi_dphy;
+-	struct v4l2_mbus_framefmt *mbus_format = &csi2_dev->bridge.mbus_format;
++	struct v4l2_subdev_state *state;
++	const struct v4l2_mbus_framefmt *mbus_format;
+ 	const struct sun8i_a83t_mipi_csi2_format *format;
+ 	struct phy *dphy = csi2_dev->dphy;
+ 	struct device *dev = csi2_dev->dev;
+@@ -215,8 +216,12 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 	unsigned long pixel_rate;
+ 	int ret;
+ 
+-	if (!source_subdev)
+-		return -ENODEV;
++	state = v4l2_subdev_lock_and_get_active_state(subdev);
++
++	if (!source_subdev) {
++		ret = -ENODEV;
++		goto unlock;
++	}
+ 
+ 	if (!on) {
+ 		v4l2_subdev_call(source_subdev, video, s_stream, 0);
+@@ -254,6 +259,9 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 		goto error_pm;
+ 	}
+ 
++	mbus_format =
++		v4l2_subdev_state_get_format(state,
++					     SUN8I_A83T_MIPI_CSI2_PAD_SINK);
+ 	format = sun8i_a83t_mipi_csi2_format_find(mbus_format->code);
+ 	if (WARN_ON(!format)) {
+ 		ret = -ENODEV;
+@@ -292,7 +300,7 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 
+ 	/* Controller */
+ 
+-	sun8i_a83t_mipi_csi2_configure(csi2_dev);
++	sun8i_a83t_mipi_csi2_configure(csi2_dev, mbus_format);
+ 	sun8i_a83t_mipi_csi2_enable(csi2_dev);
+ 
+ 	/* D-PHY */
+@@ -309,7 +317,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 	if (ret && ret != -ENOIOCTLCMD)
+ 		goto disable;
+ 
+-	return 0;
++	ret = 0;
++	goto unlock;
+ 
+ disable:
+ 	phy_power_off(dphy);
+@@ -318,6 +327,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ error_pm:
+ 	pm_runtime_put(dev);
+ 
++unlock:
++	v4l2_subdev_unlock_state(state);
+ 	return ret;
+ }
+ 
+@@ -341,22 +352,24 @@ sun8i_a83t_mipi_csi2_mbus_format_prepare(struct v4l2_mbus_framefmt *mbus_format)
+ static int sun8i_a83t_mipi_csi2_init_state(struct v4l2_subdev *subdev,
+ 					   struct v4l2_subdev_state *state)
+ {
+-	struct sun8i_a83t_mipi_csi2_device *csi2_dev =
+-		v4l2_get_subdevdata(subdev);
+-	unsigned int pad = SUN8I_A83T_MIPI_CSI2_PAD_SINK;
+-	struct v4l2_mbus_framefmt *mbus_format =
+-		v4l2_subdev_state_get_format(state, pad);
+-	struct mutex *lock = &csi2_dev->bridge.lock;
++	unsigned int pad;
++
++	/*
++	 * This subdev does not perform format conversion,
++	 * initialize both pads identically.
++	 */
++	for (pad = 0; pad < subdev->entity.num_pads; pad++) {
++		struct v4l2_mbus_framefmt *mbus_format;
+ 
+-	mutex_lock(lock);
++		mbus_format = v4l2_subdev_state_get_format(state, pad);
+ 
+-	mbus_format->code = sun8i_a83t_mipi_csi2_formats[0].mbus_code;
+-	mbus_format->width = 640;
+-	mbus_format->height = 480;
++		mbus_format->code = sun8i_a83t_mipi_csi2_formats[0].mbus_code;
++		mbus_format->width = 640;
++		mbus_format->height = 480;
+ 
+-	sun8i_a83t_mipi_csi2_mbus_format_prepare(mbus_format);
++		sun8i_a83t_mipi_csi2_mbus_format_prepare(mbus_format);
++	}
+ 
+-	mutex_unlock(lock);
+ 
+ 	return 0;
+ }
+@@ -375,55 +388,33 @@ sun8i_a83t_mipi_csi2_enum_mbus_code(struct v4l2_subdev *subdev,
+ 	return 0;
+ }
+ 
+-static int sun8i_a83t_mipi_csi2_get_fmt(struct v4l2_subdev *subdev,
+-					struct v4l2_subdev_state *state,
+-					struct v4l2_subdev_format *format)
+-{
+-	struct sun8i_a83t_mipi_csi2_device *csi2_dev =
+-		v4l2_get_subdevdata(subdev);
+-	struct v4l2_mbus_framefmt *mbus_format = &format->format;
+-	struct mutex *lock = &csi2_dev->bridge.lock;
+-
+-	mutex_lock(lock);
+-
+-	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
+-		*mbus_format = *v4l2_subdev_state_get_format(state,
+-							     format->pad);
+-	else
+-		*mbus_format = csi2_dev->bridge.mbus_format;
+-
+-	mutex_unlock(lock);
+-
+-	return 0;
+-}
+-
+ static int sun8i_a83t_mipi_csi2_set_fmt(struct v4l2_subdev *subdev,
+ 					struct v4l2_subdev_state *state,
+ 					struct v4l2_subdev_format *format)
+ {
+-	struct sun8i_a83t_mipi_csi2_device *csi2_dev =
+-		v4l2_get_subdevdata(subdev);
+-	struct v4l2_mbus_framefmt *mbus_format = &format->format;
+-	struct mutex *lock = &csi2_dev->bridge.lock;
++	struct v4l2_mbus_framefmt *fmt;
+ 
+-	mutex_lock(lock);
++	/* The format on the source pad always matches the sink pad. */
++	if (format->pad != SUN8I_A83T_MIPI_CSI2_PAD_SINK)
++		return v4l2_subdev_get_fmt(subdev, state, format);
+ 
+-	sun8i_a83t_mipi_csi2_mbus_format_prepare(mbus_format);
++	sun8i_a83t_mipi_csi2_mbus_format_prepare(&format->format);
+ 
+-	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
+-		*v4l2_subdev_state_get_format(state, format->pad) =
+-			*mbus_format;
+-	else
+-		csi2_dev->bridge.mbus_format = *mbus_format;
++	/* Set the format on the sink pad. */
++	fmt = v4l2_subdev_state_get_format(state, format->pad);
++	*fmt = format->format;
+ 
+-	mutex_unlock(lock);
++	/* Propagate the format to the source pad. */
++	fmt = v4l2_subdev_state_get_format(state,
++					   SUN8I_A83T_MIPI_CSI2_PAD_SOURCE);
++	*fmt = format->format;
+ 
+ 	return 0;
+ }
+ 
+ static const struct v4l2_subdev_pad_ops sun8i_a83t_mipi_csi2_pad_ops = {
+ 	.enum_mbus_code	= sun8i_a83t_mipi_csi2_enum_mbus_code,
+-	.get_fmt	= sun8i_a83t_mipi_csi2_get_fmt,
++	.get_fmt	= v4l2_subdev_get_fmt,
+ 	.set_fmt	= sun8i_a83t_mipi_csi2_set_fmt,
+ };
+ 
+@@ -540,8 +531,6 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83t_mipi_csi2_device *csi2_dev)
+ 	bool notifier_registered = false;
+ 	int ret;
+ 
+-	mutex_init(&bridge->lock);
+-
+ 	/* V4L2 Subdev */
+ 
+ 	v4l2_subdev_init(subdev, &sun8i_a83t_mipi_csi2_subdev_ops);
+@@ -570,6 +559,12 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83t_mipi_csi2_device *csi2_dev)
+ 	if (ret)
+ 		return ret;
+ 
++	/* V4L2 Subdev finalize */
++
++	ret = v4l2_subdev_init_finalize(subdev);
++	if (ret < 0)
++		goto error_media_entity_cleanup;
++
+ 	/* V4L2 Async */
+ 
+ 	v4l2_async_subdev_nf_init(notifier, subdev);
+@@ -603,6 +598,9 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83t_mipi_csi2_device *csi2_dev)
+ error_v4l2_notifier_cleanup:
+ 	v4l2_async_nf_cleanup(notifier);
+ 
++	v4l2_subdev_cleanup(subdev);
++
++error_media_entity_cleanup:
+ 	media_entity_cleanup(&subdev->entity);
+ 
+ 	return ret;
+@@ -617,6 +615,7 @@ sun8i_a83t_mipi_csi2_bridge_cleanup(struct sun8i_a83t_mipi_csi2_device *csi2_dev
+ 	v4l2_async_unregister_subdev(subdev);
+ 	v4l2_async_nf_unregister(notifier);
+ 	v4l2_async_nf_cleanup(notifier);
++	v4l2_subdev_cleanup(subdev);
+ 	media_entity_cleanup(&subdev->entity);
+ }
+ 
+diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.h b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.h
+index f1e64c53434c..819527bcd64d 100644
+--- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.h
++++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.h
+@@ -33,8 +33,6 @@ struct sun8i_a83t_mipi_csi2_bridge {
+ 	struct media_pad		pads[SUN8I_A83T_MIPI_CSI2_PAD_COUNT];
+ 	struct v4l2_fwnode_endpoint	endpoint;
+ 	struct v4l2_async_notifier	notifier;
+-	struct v4l2_mbus_framefmt	mbus_format;
+-	struct mutex			lock; /* Mbus format lock. */
+ 
+ 	struct v4l2_subdev		*source_subdev;
+ };
+-- 
+2.34.1
 
