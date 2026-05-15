@@ -1,46 +1,43 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D50A30F95C
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 May 2026 21:52:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF4D7368D53
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 May 2026 22:03:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778881923; cv=none; b=j4XygbLVFLFrHlccVi5PUofj5n09KJvtt5wCKcGcyCpggyx5L2ioFsbh2mL0fxevgMjHOTU0oasVZyna3e7Eoe08/mRSiwqygQTPnODTqxbCov/LAuQBkEoOONJUwU5eCWnVtFN1ObCsqqiMKrtQjNGOHmEfKBd0G0mTo6ukJuk=
+	t=1778882632; cv=none; b=I6YIvi3JBATu1eBuMrDpI5PLenTRyx2ijrmIkF12gbziJzibgOVFw/0gSlW03BzrvXY1MwjqKFnLEXCib8OVHw0r1wONV7DxK3+3G/GOLW+slGI+M0t23rwkD5DGKI28S+iqzZOy0TU5UzQ+KIaZXyYknw3w/x+UY1f/TVgPqhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778881923; c=relaxed/simple;
-	bh=w/NSnWPxO2pPbEQZolqzwkIT6PojPrmpavCWj0wqYGU=;
+	s=arc-20240116; t=1778882632; c=relaxed/simple;
+	bh=BfX9ofK59ORHm/0n+D+Hs177I1pYVM1TC+R3ortadn0=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Q5xKBcnHKVsF0/AjK3pu5TCNFGlgObq+9yEgPzO5/F9RXisWGwFu4SCsH4ez7C2UvoRtZpRANpuuBvd3tNd4RB363KG4zbW6r70vV8BmjjFfseAVD3297sUKqpY27R/htOcxT3INYzSBKC9FYZ/1KuHVACMze7YhVHK+jRi9j2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=nCPJZG/y; arc=none smtp.client-ip=217.140.110.172
+	 MIME-Version:Content-Type; b=bovGMUKb5s9IUQDtVyCtZhvexZN9/e0H0ilgnvdovsMACm+b41RNuTuC3imDWcPPU59s+DJM3YEKr3gVUWHC/wIVx6kUUMItFGQC5Pg0gw5VOOlqLlnBGMAPD19EiNtl+4GZfSZcZ9NqnXOI1dv/BaAmtk9O7RrSShV741IjJTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=l+pBklfX; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="nCPJZG/y"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="l+pBklfX"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D48101BCB;
-	Fri, 15 May 2026 14:51:54 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 01C801C2B;
+	Fri, 15 May 2026 15:03:45 -0700 (PDT)
 Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 371183F85F;
-	Fri, 15 May 2026 14:51:58 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E7F853F836;
+	Fri, 15 May 2026 15:03:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1778881920; bh=w/NSnWPxO2pPbEQZolqzwkIT6PojPrmpavCWj0wqYGU=;
+	t=1778882630; bh=BfX9ofK59ORHm/0n+D+Hs177I1pYVM1TC+R3ortadn0=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=nCPJZG/ymBaYmcyERMbxLdIsHQoNGJJEJxaWy2/8f+2GnZIHlMZ+4GS5187VVvwoY
-	 IH2pP9VPYV9gZM+MXD1JIlOMUxGgO/ZclmXl4a955uYPg0wdQKJNQFcQLflkdYlRLM
-	 krq3CmKprRwSY7QjrDU8svR6X78wpShjn/zYDMXo=
-Date: Fri, 15 May 2026 23:51:12 +0200
+	b=l+pBklfXdGvLNMSckncl4erMwa1vAPbwCVRa92X1IjYNSvWDsYN6nVZQbde89T/R1
+	 g/3yVD/HHHItcF4g1W+LVsiFFakYiGXw0PJ/sdLDfujQyRgRk9H3e39rwqkItHYzc7
+	 CDfQiY/1dOEAZQqvvZLsGfiLTbYS5L0Ye8Rw6BR0=
+Date: Sat, 16 May 2026 00:03:06 +0200
 From: Andre Przywara <andre.przywara@arm.com>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+Cc: u-boot@lists.denx.de, Tom Rini <trini@konsulko.com>, Chen-Yu Tsai
+ <wens@kernel.org>, Paul Kocialkowski <contact@paulk.fr>,
  linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] arm64: dts: allwinner: Cubie A5E: enable SPI flash
-Message-ID: <20260515235112.3d2a0c5e@ryzen.lan>
-In-Reply-To: <CAGb2v66drOyBgNU0hFo356MKTFnggNmyzrANok+-U31NzZCUEw@mail.gmail.com>
-References: <20260511221741.25888-1-andre.przywara@arm.com>
-	<CAGb2v64u4sqwiiQcEBg-XvmJ2DLEpSj-_AWNbp14RAp-GXP7OA@mail.gmail.com>
-	<ee9fca66-d079-4ad7-9cb3-5077e8a4f6d6@arm.com>
-	<CAGb2v66drOyBgNU0hFo356MKTFnggNmyzrANok+-U31NzZCUEw@mail.gmail.com>
+Subject: Re: [PATCH 2/5] sunxi: spl: spi: Clean up SPI0 pinmux setting
+Message-ID: <20260516000306.51d585d4@ryzen.lan>
+In-Reply-To: <hxKgmanzT_ibK5FkulnCYg@gmail.com>
+References: <20260511213713.15943-1-andre.przywara@arm.com>
+	<20260511213713.15943-3-andre.przywara@arm.com>
+	<hxKgmanzT_ibK5FkulnCYg@gmail.com>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
@@ -52,124 +49,107 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, 16 May 2026 00:12:17 +0800
-Chen-Yu Tsai <wens@kernel.org> wrote:
+On Tue, 12 May 2026 19:37:06 +0200
+Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
 
-> On Wed, May 13, 2026 at 5:19=E2=80=AFPM Andre Przywara <andre.przywara@ar=
-m.com> wrote:
-> >
-> > Hi Chen-Yu,
-> >
-> > thanks for chipping in!
-> >
-> > On 5/13/26 07:21, Chen-Yu Tsai wrote: =20
-> > > Hi,
-> > >
-> > > On Tue, May 12, 2026 at 6:18=E2=80=AFAM Andre Przywara <andre.przywar=
-a@arm.com> wrote: =20
-> > >>
-> > >> The Cubie A5E board comes with 16MiB of SPI NOR flash.
-> > >>
-> > >> Enable the SPI0 DT node and describe the configuration.
-> > >>
-> > >> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > >> ---
-> > >>   .../boot/dts/allwinner/sun55i-a527-cubie-a5e.dts  | 15 +++++++++++=
-++++
-> > >>   1 file changed, 15 insertions(+)
-> > >>
-> > >> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts=
- b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-> > >> index bfdf1728cd14b..7ad22fc85d1fd 100644
-> > >> --- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-> > >> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-> > >> @@ -344,6 +344,21 @@ &r_pio {
-> > >>          vcc-pm-supply =3D <&reg_aldo3>;
-> > >>   };
-> > >>
-> > >> +&spi0  {
-> > >> +       pinctrl-names =3D "default";
-> > >> +       pinctrl-0 =3D <&spi0_pc_pins>, <&spi0_cs0_pc_pin>,
-> > >> +                   <&spi0_hold_pc_pin>, <&spi0_wp_pc_pin>; =20
-> > >
-> > > This whole thing needs to be an overlay. The HOLD and WP pins
-> > > conflict with eMMC usage, so it seems that Radxa only populates
-> > > one or the other.
-> > >
-> > > If you look at the pictures on their official website, you'll see the
-> > > SPI NOR chip populated, but not the eMMC chip. On the linux-sunxi wiki
-> > > page, you'll see the opposite. =20
-> >
-> > Well, I have a hard time spotting any actual eMMC SKUs in the shops any=
-way.
-> > But you are right, the hold and WP pins conflict with eMMC, whereas the
-> > other pins are not.
+> Dne ponedeljek, 11. maj 2026 ob 23:37:10 Srednjeevropski poletni =C4=8Das=
+ je Andre Przywara napisal(a):
+> > The function to set the pinmux for the Port C SPI0 pins was looking more
+> > like a logic puzzle from a magazine than something that readers could
+> > understand and extend.
+> >=20
+> > Replace the convoluted pinmux setup, grouped by pin, with a simple array
+> > of the four pins involved, and just initialise this array at build time,
+> > based on the selected SoC.
+> >=20
+> > This makes it easy to see which pins are needed, and even easier to ext=
+end.
+> >=20
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >  arch/arm/mach-sunxi/spl_spi_sunxi.c | 43 ++++++++++++-----------------
+> >  1 file changed, 18 insertions(+), 25 deletions(-)
+> >=20
+> > diff --git a/arch/arm/mach-sunxi/spl_spi_sunxi.c b/arch/arm/mach-sunxi/=
+spl_spi_sunxi.c
+> > index 5f72e809952..905a7db2a77 100644
+> > --- a/arch/arm/mach-sunxi/spl_spi_sunxi.c
+> > +++ b/arch/arm/mach-sunxi/spl_spi_sunxi.c
+> > @@ -105,35 +105,28 @@
 > > =20
-> > > And you probably want to enable QSPI, like Sashiko mentioned. =20
-> >
-> > Well, in the interest of keeping this simple and enabling the usage of
-> > SPI flash for all the users out there, I'd rather drop the extra pins.
-> > This is mostly really useful for booting the firmware, maybe loading a
-> > tiny kernel or other data once, so performance is not a big concern in
-> > this use case. The BootROM surely does not use QSPI. =20
+> >  /*
+> >   * Allwinner A10/A20 SoCs were using pins PC0,PC1,PC2,PC23 for booting
+> > - * from SPI Flash, everything else is using pins PC0,PC1,PC2,PC3.
+> > - * The H6 uses PC0, PC2, PC3, PC5, the H616 PC0, PC2, PC3, PC4.
+> > + * from SPI Flash, later SoCs are using pins PC0,PC1,PC2,PC3.
+> > + * Newer SoCs are all over the place.
+> >   */
+> >  static void spi0_pinmux_setup(unsigned int pin_function)
+> >  {
+> > -	/* All chips use PC2. And all chips use PC0, except R528/T113 */
+> > -	if (!IS_ENABLED(CONFIG_MACH_SUN8I_R528))
+> > -		sunxi_gpio_set_cfgpin(SUNXI_GPC(0), pin_function);
+> > -
+> > -	sunxi_gpio_set_cfgpin(SUNXI_GPC(2), pin_function);
+> > +	const u16 spi0_pc_pins[4] =3D {
+> > +#if IS_ENABLED(CONFIG_MACH_SUN8I_R528)
+> > +		SUNXI_GPC(2), SUNXI_GPC(3), SUNXI_GPC(4), SUNXI_GPC(5)
+> > +#elif IS_ENABLED(CONFIG_MACH_SUN50I_H616)
+> > +		SUNXI_GPC(0), SUNXI_GPC(2), SUNXI_GPC(3), SUNXI_GPC(4)
+> > +#elif IS_ENABLED(CONFIG_MACH_SUN50I_H6)
+> > +		SUNXI_GPC(0), SUNXI_GPC(2), SUNXI_GPC(3), SUNXI_GPC(5)
+> > +#elif IS_ENABLED(CONFIG_MACH_SUN4I) || IS_ENABLED(CONFIG_MACH_SUN5I) |=
+| \ =20
 >=20
-> Given that the pins are tied on physically, if someone then enables mmc2
-> for a potentially present eMMC, the two pins could be toggled by the
-> MMC controller, causing the flash to misbehave. I'm slightly concerned
-> about this possibility.
+> Are you sure about CONFIG_MACH_SUN5I? It seems to me that it should fall =
+to PC3 pin.
+> Also A13 datasheet confirms it.
 
-That's a good point, but that means it's really a hardware design
-issue: you cannot have SPI together with eMMC on this board.
+Yes, you are right, good catch, will fix that!
 
-I don't know if Radxa ships the eMMC SKUs without SPI flash, I
-will try to query Tom Cubie about this.
-
-I would prefer to go with SPI flash, at least for now: I think that's
-what most users have, and the eMMC versions are rare so far? Since we
-don't have an eMMC node in the DT anyway, that should be fine for now.
-If someone adds eMMC support later, we would need to figure this out.
-We could mark one as disabled, and leave it up to users (or U-Boot)
-to decide which to enable.
-On the H6 there is a similar problem: PC5 is both SPI0_CS and MMC2_CMD,
-so on the PineH64 we disable the SPI flash, in favour of eMMC, which is
-more useful for users (but sunxi-fel SPI access and U-Boot SPI loading
-work nevertheless). But given the apparent prevalence of SPI boards vs.
-those with eMMC for the Cubie A5E, I would go with SPI on this one.
-
-Does that make sense? Any thoughts?
+Thanks for having a look!
 
 Cheers,
 Andre
 
-> > And as you say, if people are really interested in the last bit of
-> > performance, they can use an overlay.
-> >
-> > Cheers,
-> > Andre
+>=20
+> Best regards,
+> Jernej
+>=20
+> > +      IS_ENABLED(CONFIG_MACH_SUN7I) || IS_ENABLED(CONFIG_MACH_SUN8I_R4=
+0)
+> > +		SUNXI_GPC(0), SUNXI_GPC(1), SUNXI_GPC(2), SUNXI_GPC(23)
+> > +#else
+> > +		SUNXI_GPC(0), SUNXI_GPC(1), SUNXI_GPC(2), SUNXI_GPC(3)
+> > +#endif
+> > +	};
 > > =20
-> > >
-> > >
-> > > ChenYu
-> > >
-> > > =20
-> > >> +       status =3D "okay";
-> > >> +
-> > >> +       flash@0 {
-> > >> +               compatible =3D "winbond,w25q128", "jedec,spi-nor";
-> > >> +               reg =3D <0>;
-> > >> +               spi-max-frequency =3D <40000000>;
-> > >> +               #address-cells =3D <1>;
-> > >> +               #size-cells =3D <1>;
-> > >> +       };
-> > >> +};
-> > >> +
-> > >>   &uart0 {
-> > >>          pinctrl-names =3D "default";
-> > >>          pinctrl-0 =3D <&uart0_pb_pins>;
-> > >> --
-> > >> 2.46.4
-> > >> =20
-> > > =20
+> > -	/* All chips except H6/H616/R528/T113 use PC1. */
+> > -	if (!IS_ENABLED(CONFIG_SUN50I_GEN_H6) &&
+> > -	    !IS_ENABLED(CONFIG_MACH_SUN8I_R528))
+> > -		sunxi_gpio_set_cfgpin(SUNXI_GPC(1), pin_function);
+> > -
+> > -	if (IS_ENABLED(CONFIG_MACH_SUN50I_H6) ||
+> > -	    IS_ENABLED(CONFIG_MACH_SUN8I_R528))
+> > -		sunxi_gpio_set_cfgpin(SUNXI_GPC(5), pin_function);
+> > -	if (IS_ENABLED(CONFIG_MACH_SUN50I_H616) ||
+> > -	    IS_ENABLED(CONFIG_MACH_SUN8I_R528))
+> > -		sunxi_gpio_set_cfgpin(SUNXI_GPC(4), pin_function);
+> > -
+> > -	/* Older generations use PC23 for CS, newer ones use PC3. */
+> > -	if (IS_ENABLED(CONFIG_MACH_SUN4I) || IS_ENABLED(CONFIG_MACH_SUN7I) ||
+> > -	    IS_ENABLED(CONFIG_MACH_SUN8I_R40))
+> > -		sunxi_gpio_set_cfgpin(SUNXI_GPC(23), pin_function);
+> > -	else
+> > -		sunxi_gpio_set_cfgpin(SUNXI_GPC(3), pin_function);
+> > +	for (int i =3D 0; i < 4; i++)
+> > +		sunxi_gpio_set_cfgpin(spi0_pc_pins[i], pin_function);
+> >  }
 > > =20
+> >  static bool is_sun6i_gen_spi(void)
+> >  =20
+>=20
+>=20
+>=20
 >=20
 
