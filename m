@@ -1,66 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30813C4563;
-	Fri, 15 May 2026 02:45:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59B73ABDBE;
+	Fri, 15 May 2026 09:27:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778813115; cv=none; b=XFSLwczQckWU3z3cqVU/CFUmsACGT5Wo0H3bTs4NjH3Q4n03we71iRIYjgIxsCJZZf0HX9Fdgxwj5wVYS1aLJe1LDs1YauIMX+cz6CztdOVuHDkheeM+95Z58/1KFqio3D+WWNoTQpF+dHHqyw3G7pK1DPnhqnZ6IGfvy1pnUhE=
+	t=1778837224; cv=none; b=S3l6+hdw9e92ufRdh7UNUS/tFUczhQvexAdQ+f8XoqpW5SweW0QjfdKtNG8etqLqkMM8qGBo8qi6dVMLUznPVn3+T42Abh4D/v01e5XJgqV3iyEYLS63q8mB10u1CqHub2LWqCHRoSx12jnxTpsHYUDasRgC5uBXuSa9stpCntg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778813115; c=relaxed/simple;
-	bh=CAei6OyLs4Wh4ZQBWKlQtYH2e5Z/B4QH1dkxlz+9PUg=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=n3nanZsbnI99pR7ig2dwPGyOLGszMLF3q3IUkM5RYDvOST/eGsUkPGPimFTzJUOsaj3fa9Z/P1ehx6lC5+zC+mivOXxVFYyiLbDDc4WH0Pl1KVjr5u43brxu9I4zLLTJ+NUylwk4hUSWapDc9CXakloAMt0ptsewQUCV+9N5xus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TRlSO5xW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778837224; c=relaxed/simple;
+	bh=3CPAkx9yIEtqzPlXREwAuQyeXg/nb9inT4H1AV0ImEM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sh2fmdNbi5hkXktut83BIgyuoc6D/NCc/9fo8djRCMcIlax5WRTppiV2dOhdsktjoBj3hsgmcILI7s5JTLHmb/7cLbmvlMvfMxaHfFePLfD5L1RETvaJVZ8z5W+Mj5mzsR0Hcu+I8Q80iE9dWn1zTSACbwQL4OVmW2Ql0ntRkG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k4a0s5Gl; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TRlSO5xW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1C13C2BCC9;
-	Fri, 15 May 2026 02:45:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778813115;
-	bh=CAei6OyLs4Wh4ZQBWKlQtYH2e5Z/B4QH1dkxlz+9PUg=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=TRlSO5xWcbYmlEcPCUHsV4Jeg6XGaio3XVs+9VyC/2rtYgAyKS3tt4SE8Lg4fyL9m
-	 rwyb+JQ5b4pzCvRsNNP55O3SvvUlR61C1ry2W5aYC170gH0oR1XWcii7e2eApMZ7sY
-	 enUkxz2o3dJX4tfOvgc8xGRWx1MMSAZAvzhcjeUzg0LLzXAz2QqK0j1rJTmwBmeyOx
-	 A9/RA2vXSTTU84NUIujjFLiOUgRat+oFriPkgIq1fhFy9mXM1hqPP6nNdxCW2TPaVW
-	 cHYpUZ5sO0WKBKNSacKGFUtjwrZ586y2DZehrAZjtFGjLXZCgxu+T0iXBEFs+3Z7nY
-	 DW0rbBUPOO85g==
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Chen-Yu Tsai <wens@kernel.org>, 
- Andrey Skvortsov <andrej.skvortzov@gmail.com>
-In-Reply-To: <20260301144939.1832806-1-andrej.skvortzov@gmail.com>
-References: <20260301144939.1832806-1-andrej.skvortzov@gmail.com>
-Subject: Re: [PATCH] bus: sunxi-rsb: Always check register address validity
-Message-Id: <177881311362.121816.11798899480694318999.b4-ty@kernel.org>
-Date: Fri, 15 May 2026 10:45:13 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k4a0s5Gl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778837222; x=1810373222;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3CPAkx9yIEtqzPlXREwAuQyeXg/nb9inT4H1AV0ImEM=;
+  b=k4a0s5GlEOtXAPxO1+NNUIRgEwVG49eHNM/pFzcwddJIj393E6vU5nxT
+   K89SN/07QsTF5QSxqL2eMDYowczcRVztj2yfWOrXHW75XiNs4WHWebLXx
+   cL5RtwvIVmQBJifAHj9o+39wOXqH0zhNa/OIWitrDQiq4zu0Hkj2eWJzb
+   hraKQZjQz9o2A8vVYgSmNm/BAH2Q6wlWYTydJ8+BLBgJ87z9y9qHVOmXD
+   SQ61WPPyA6t2gwrverb4v4/uwzfRbME4w7l4oW+pOEgKcvupzQmeZXJWs
+   tWPV6AaxnY3qqYZS55DBa01rk31C7WTraQpUMFZiBGXfqPD/9wppF5a4B
+   A==;
+X-CSE-ConnectionGUID: GBczyDsPTBujA8TRTeTL3Q==
+X-CSE-MsgGUID: fUj1+MKoSpGmS+VlyyiymA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="105248643"
+X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
+   d="scan'208";a="105248643"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 02:27:01 -0700
+X-CSE-ConnectionGUID: ehTBC+14Rc6nlGWd7Enpcg==
+X-CSE-MsgGUID: rdDzyRzqT9eg9E+FgzAdIw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
+   d="scan'208";a="232249466"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.33])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 02:26:58 -0700
+Date: Fri, 15 May 2026 12:26:55 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Michal Piekos <michal.piekos@mmpsystems.pl>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-iio@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, llvm@lists.linux.dev
+Subject: Re: [PATCH v2] iio: adc: sun20i-gpadc: support non-contiguous
+ channel lookups
+Message-ID: <agbm3-GUqgzecUlQ@ashevche-desk.local>
+References: <20260514-fix-sunxi-gpadc-sparse-channels-v2-1-d4a66b70c7a7@mmpsystems.pl>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260514-fix-sunxi-gpadc-sparse-channels-v2-1-d4a66b70c7a7@mmpsystems.pl>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sun, 01 Mar 2026 17:49:39 +0300, Andrey Skvortsov wrote:
-> The register address was already validated for read operations in
-> regmap_sunxi_rsb_reg_read before being truncated to a u8. Write operations
-> have the same set of possible addresses, and the address is being truncated
-> from u32 to u8 here as well, so the same check is needed.
+On Thu, May 14, 2026 at 05:19:34AM +0200, Michal Piekos wrote:
+> Using consumer driver like iio-hwmon which resolve channels thorugh
+> io-channels phandles will fail for sparse channels because IIO core by
+> default threats phandle argument as index into channel array.
+>         eg. <&gpadc 1> will fail if there is only channel@1 specified
 > 
+> Add .fwnode_xlate() which maps DT phandle to the registered channel
+> whose chan->channel matches the hardware channel number. It allows
+> sparse channel maps to be consumed by drivers like iio-hwmon.
 > 
+> Tested on Radxa Cubie A5E.
 
-Applied to sunxi/fixes-for-7.1 in local tree, thanks!
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 
-[1/1] bus: sunxi-rsb: Always check register address validity
-      commit: 322f01103323199cdd9eff8cb6aacbf1248ce36e
-
-Best regards,
 -- 
-Chen-Yu Tsai <wens@kernel.org>
+With Best Regards,
+Andy Shevchenko
+
 
