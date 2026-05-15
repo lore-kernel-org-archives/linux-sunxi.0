@@ -1,114 +1,157 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8AD3BA229
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 May 2026 15:01:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF3FC3CB2D5
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 May 2026 16:12:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778857269; cv=none; b=KMAVxdY/fjspIdJv05TsQE88J45ydzMOuv1siDl9lAlE9/mHLHQNJk6G0eW3tw+1idRLvHujYcCsYyx/e/1PQlKC24MN0IlFfLg6qsNI9UcS68wyrl9dcx6edBj1nxSwVOUcmmu/8iadTtx1A+tnDIZFVmo5ks/5U4YJMbYkUAI=
+	t=1778861553; cv=none; b=EMdv0QSXXMqM+O9D1U5WresddTX9hY1uZHanujGPssPlZAmaDqwaEAw/PGrlgNxZYBM7bXIixMoq70xoLg5uJD2COCgmOr2ukogv67EMuobNNXGMC73+ESIZxX/NOvk3vkdpWuTYccrx2vhupwKnHvHXMAdPeQHebv5OZ1b07IA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778857269; c=relaxed/simple;
-	bh=XTRhdp7TMeHmI/oeIB0Xfh5FxLIBR8NRhKimvV6406U=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=usraI8sR7Ag/Kuv5WG4T4bS+EwbMJMSB5AqGbA5NQ4R15EW5G4WZZmHa86l5DaQWND6KZL7zL01Qh/v0hRwdG/NCjrlyOLtJoLDa7X9DpP8Ww7mUblF7tmhnj+BPwJy33G1Q2qAn5xtCaAb+10yxL4tHJHdrysEKJtKG/QHQWns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=geVUwyIG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778861553; c=relaxed/simple;
+	bh=ajfMeNlbacyrJhotvON69vV08gKAAPbB+tQGK/f4yF8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uV8R2CdrSuvWQ6LIypDXxl74EayJ3Wz4UGJBhs9onqRh1+Y2VGT9LgYG1cd11LlEQDlhpj9i3t/mTEhfHwgv3WRF2xUImivLb18HFEnGzJCEMdoiIqX8zi/PGHih/tZP0JB0K/HGCKDWZ0xuteNUr5DOf8tvSQKdP+YpnWvbMjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lNsiVpgz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="geVUwyIG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EF13C2BCB0;
-	Fri, 15 May 2026 15:01:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lNsiVpgz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0DC4C2BCB3
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 May 2026 16:12:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778857269;
-	bh=XTRhdp7TMeHmI/oeIB0Xfh5FxLIBR8NRhKimvV6406U=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date:From;
-	b=geVUwyIGePrk9+fK9+1hKjkV6Y5yn+/5rBO/V8utVk4TicpRMMON8W2Tj86HSChFv
-	 KDraFTev0LpiqfyRfO6OcvuMXL1YLFiRYZ10qqLVcTrMRMOzxwkUGkHi6InY6fHHkm
-	 z0m4FNKFcryufdsuvODt0TgaDnnMTr6ZBvkEDKwkDlj6NvI28OVMuCw7ufN/314R94
-	 QK52I+LpfQ8ZipyvHwVdkup+p7orUV1YAlM7qkmaa+0RvN36k0fkZNRnugRLSjvYUF
-	 NWgi4NYF6GHu4+OyD2HVQFWjkA1icniS4Y+kZTj2rgr2J+oMc62ooxmDQ0SpDzjMrF
-	 yu6dGH9+KeuCQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] media: sun8i-a83t-mipi-csi2: Use V4L2 subdev active
- state
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Arash Golgol" <arash.golgol@gmail.com>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260515144335.61323-1-arash.golgol@gmail.com>
-References: <20260515144335.61323-1-arash.golgol@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 15 May 2026 15:01:08 +0000
-Message-Id: <20260515150109.6EF13C2BCB0@smtp.kernel.org>
+	s=k20201202; t=1778861552;
+	bh=ajfMeNlbacyrJhotvON69vV08gKAAPbB+tQGK/f4yF8=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=lNsiVpgzp/XRQAqxwaKH8NMC9j740bxLutzSLti6/867t9T6oFIX05Traa5lD5Nh+
+	 QlCJAfzz796aQqNjkyXOObduMn9RyJ7i1k62pLM+jQXG1O7enPpH6BhoSgW+32+UJ5
+	 s6PNasBCryu59ytr6teI9OLO88zIhs5SVmLvmOumTek3x62V/gU5aUeF57E+oJ2IA1
+	 rs+9k5mA/O7Bk34GKOARd0wm8SZSKRIXQrUFuANdE5+jvhE4IWOHMyiZsHJOCL6T20
+	 /M7G7Y+OKX/TlsM60dkUS1hKzzhfJnrqTsfZjxj0WjeJqnQjz3inzIZCz3jUknFSah
+	 74iL8643V8RnA==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-38e7d983f91so154471fa.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 15 May 2026 09:12:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+SwfM1tmwl6aFBwqDIOQhru6ytt7HAxA/h5/0bK2Tkw6AwKxktpggT0rgB1YU1i+grb2JOoY8w/nACow==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzZSKlevYiK2Ps98QrTxdgGRCu6a5qdsdD30igPLZ7ineEto2Iz
+	ndvDgfz6Serc8Qo2uFXkN5K0WM/jQjTQQ2MCPw3uzdAqHghbuIdIFZWGoi10EfDDS3Mcasc6lF2
+	sNfJqjH7HhP1LjDUjNvDIAP4g9RIS6kA=
+X-Received: by 2002:a05:651c:1593:b0:394:331:c26d with SMTP id
+ 38308e7fff4ca-39561c07bf6mr16170691fa.6.1778861551206; Fri, 15 May 2026
+ 09:12:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20260511221741.25888-1-andre.przywara@arm.com>
+ <CAGb2v64u4sqwiiQcEBg-XvmJ2DLEpSj-_AWNbp14RAp-GXP7OA@mail.gmail.com> <ee9fca66-d079-4ad7-9cb3-5077e8a4f6d6@arm.com>
+In-Reply-To: <ee9fca66-d079-4ad7-9cb3-5077e8a4f6d6@arm.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Sat, 16 May 2026 00:12:17 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66drOyBgNU0hFo356MKTFnggNmyzrANok+-U31NzZCUEw@mail.gmail.com>
+X-Gm-Features: AVHnY4IAiy7whTy9FnGtvfBRFabJs2Ii_3tvaDmPh7Gdax0WMKu2QkVOACnxggs
+Message-ID: <CAGb2v66drOyBgNU0hFo356MKTFnggNmyzrANok+-U31NzZCUEw@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: allwinner: Cubie A5E: enable SPI flash
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] The active state lock is leaked in the error path of `pm_runtime_r=
-esume_and_get()` within `sun8i_a83t_mipi_csi2_s_stream()`.
---
+On Wed, May 13, 2026 at 5:19=E2=80=AFPM Andre Przywara <andre.przywara@arm.=
+com> wrote:
+>
+> Hi Chen-Yu,
+>
+> thanks for chipping in!
+>
+> On 5/13/26 07:21, Chen-Yu Tsai wrote:
+> > Hi,
+> >
+> > On Tue, May 12, 2026 at 6:18=E2=80=AFAM Andre Przywara <andre.przywara@=
+arm.com> wrote:
+> >>
+> >> The Cubie A5E board comes with 16MiB of SPI NOR flash.
+> >>
+> >> Enable the SPI0 DT node and describe the configuration.
+> >>
+> >> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> >> ---
+> >>   .../boot/dts/allwinner/sun55i-a527-cubie-a5e.dts  | 15 +++++++++++++=
+++
+> >>   1 file changed, 15 insertions(+)
+> >>
+> >> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts b=
+/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+> >> index bfdf1728cd14b..7ad22fc85d1fd 100644
+> >> --- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+> >> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
+> >> @@ -344,6 +344,21 @@ &r_pio {
+> >>          vcc-pm-supply =3D <&reg_aldo3>;
+> >>   };
+> >>
+> >> +&spi0  {
+> >> +       pinctrl-names =3D "default";
+> >> +       pinctrl-0 =3D <&spi0_pc_pins>, <&spi0_cs0_pc_pin>,
+> >> +                   <&spi0_hold_pc_pin>, <&spi0_wp_pc_pin>;
+> >
+> > This whole thing needs to be an overlay. The HOLD and WP pins
+> > conflict with eMMC usage, so it seems that Radxa only populates
+> > one or the other.
+> >
+> > If you look at the pictures on their official website, you'll see the
+> > SPI NOR chip populated, but not the eMMC chip. On the linux-sunxi wiki
+> > page, you'll see the opposite.
+>
+> Well, I have a hard time spotting any actual eMMC SKUs in the shops anywa=
+y.
+> But you are right, the hold and WP pins conflict with eMMC, whereas the
+> other pins are not.
+>
+> > And you probably want to enable QSPI, like Sashiko mentioned.
+>
+> Well, in the interest of keeping this simple and enabling the usage of
+> SPI flash for all the users out there, I'd rather drop the extra pins.
+> This is mostly really useful for booting the firmware, maybe loading a
+> tiny kernel or other data once, so performance is not a big concern in
+> this use case. The BootROM surely does not use QSPI.
 
-commit 1aff86a32a5202665d5639183ff47ad585d7b58e
-Author: Arash Golgol <arash.golgol@gmail.com>
-Subject: media: sun8i-a83t-mipi-csi2: Use V4L2 subdev active state
+Given that the pins are tied on physically, if someone then enables mmc2
+for a potentially present eMMC, the two pins could be toggled by the
+MMC controller, causing the flash to misbehave. I'm slightly concerned
+about this possibility.
 
-This commit updates the sun8i-a83t-mipi-csi2 driver to use the V4L2 subdev
-active state API. This simplifies format storage and replaces the bridge lo=
-ck
-with the state lock.
 
-> diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
-_mipi_csi2.c b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
-_mipi_csi2.c
-> index dbc51daa4fe37..743bc86bfeabe 100644
-> --- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
-si2.c
-> +++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
-si2.c
-[ ... ]
-> @@ -215,8 +216,12 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2=
-_subdev *subdev, int on)
->  	unsigned long pixel_rate;
->  	int ret;
-> =20
-> -	if (!source_subdev)
-> -		return -ENODEV;
-> +	state =3D v4l2_subdev_lock_and_get_active_state(subdev);
-> +
-> +	if (!source_subdev) {
-> +		ret =3D -ENODEV;
-> +		goto unlock;
-> +	}
-> =20
->  	if (!on) {
->  		v4l2_subdev_call(source_subdev, video, s_stream, 0);
+ChenYu
 
-Does this code leak the active state lock if the subsequent runtime PM resu=
-me
-fails?
-
-Looking at the unmodified code that immediately follows this hunk in
-sun8i_a83t_mipi_csi2_s_stream():
-
-	/* Runtime PM */
-
-	ret =3D pm_runtime_resume_and_get(dev);
-	if (ret < 0)
-		return ret;
-
-Since the state lock is now acquired at the beginning of the function,
-if pm_runtime_resume_and_get() returns a negative value, it directly returns
-to the caller.
-
-Because it bypasses the "goto unlock" path, the state lock remains acquired,
-which could cause a deadlock on any subsequent attempt to access the active
-state or start the stream.
-
-Should this error path be updated to "goto unlock" so the lock is properly
-released?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260515144335.6132=
-3-1-arash.golgol@gmail.com?part=3D1
+> And as you say, if people are really interested in the last bit of
+> performance, they can use an overlay.
+>
+> Cheers,
+> Andre
+>
+> >
+> >
+> > ChenYu
+> >
+> >
+> >> +       status =3D "okay";
+> >> +
+> >> +       flash@0 {
+> >> +               compatible =3D "winbond,w25q128", "jedec,spi-nor";
+> >> +               reg =3D <0>;
+> >> +               spi-max-frequency =3D <40000000>;
+> >> +               #address-cells =3D <1>;
+> >> +               #size-cells =3D <1>;
+> >> +       };
+> >> +};
+> >> +
+> >>   &uart0 {
+> >>          pinctrl-names =3D "default";
+> >>          pinctrl-0 =3D <&uart0_pb_pins>;
+> >> --
+> >> 2.46.4
+> >>
+> >
+>
