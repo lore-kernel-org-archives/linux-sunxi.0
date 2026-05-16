@@ -1,202 +1,223 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159E518DB1A
-	for <linux-sunxi@lists.linux.dev>; Sat, 16 May 2026 06:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778911918; cv=none; b=fYZu+fTjyoTDaHso5VKmTZUe8IlDSk1RdnZgFAOOUQUDdPYvyawbHHZc4QbWYp+xx+f+Ma3lv7LEtNwfORyM3mopEyFVqb8xqwJyZFclqQpgH6CeiNc3jJvlp+ZcvLJ6OgoI67qDl7ldbDJwE4+zSGWNv/rE0pouJ83JtFGrBEI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778911918; c=relaxed/simple;
-	bh=m8zHdqHB9qoOb8ZczozE6BpuIl3ezBnhCyalX5zcN7g=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9377637C937
+	for <linux-sunxi@lists.linux.dev>; Sat, 16 May 2026 11:56:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778932593; cv=pass; b=fA0Sv7JeK8jBhb11g7coWC3dkWMRtFP7z/ibLV14Cv2wGP4KCB/Y9wBapKGdioi3KH4WA35FhXpu8Vn92ZuT/l2smPTZruxt1PYFmxL5JJ1Enk+mntJEbR72NgOC+LgtG3EKY0Pjk3M+Y6c2XXTdA+IiTKgBtfN56EjviIRsJUU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778932593; c=relaxed/simple;
+	bh=7QyYKbH4NtzTLiNAjB//SALR0HNWGH6snToS6ryNEIg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HpKvyfbSN3Ppy6O1cNU2tlHl8XYYLUrttmmwEzqMqKKchzb1G2f0rPbc/mfq75xleomhHoyydnYpoOAJSihaFPrA/HQAfPROVAe2EF5EHzV3ZENShe/DVSK1ufxzHxrmU2VfdC2iVCOzYJmmwLJKTRYLRxVc054TgBLMEkDsmD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iGigTyEg; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=LafwFegUTbrtfqiYAy8VI62UjHrl6UEVbt19CwLCy+vPa7FwztoaoeZObxzxjolNxbORRbczUbJfAyYC8o5OnGgFhJJPRPisO42aygndQuY9AfzgdbpTf1lvv+8kHLER0e8g1uNme5vP3PVWwoOR8xHhXc2JWlo29GbuRtIy/sk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GBa2Skx3; arc=pass smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iGigTyEg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0C46C2BCC7
-	for <linux-sunxi@lists.linux.dev>; Sat, 16 May 2026 06:11:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778911917;
-	bh=m8zHdqHB9qoOb8ZczozE6BpuIl3ezBnhCyalX5zcN7g=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=iGigTyEgF37MpZsfozbubez7CVe4rUBHolYZ96FNCTLC/Cy7RBUP7RYt45zXs0kFk
-	 V9MWnzl9ipefOjZu0Ac1E8DOoKNt3xZaJCKkqJfZKqoxhvOH+LqUm78qChT+OBqxrc
-	 +/1GpDI6dFDn6kE8dUpIUOvWoPVQUxhYfd1/jO6MXz/itbDBXEWPVJSlRLyt0RqB2D
-	 nijCXZraaoQn+W2hnkL+5fRr2ZuaN5CKeAakFNXUF9QpRLQBcIIdfDXQkvNUvLWWOk
-	 F3wC0aYIg50suUq8WkGP3zJdVm7ad1y23IVWa4EPHJNYL62l+VmFE/+7WT/071bzj8
-	 YjD+oSyWECjqg==
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-38e84ed22bdso8647521fa.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 15 May 2026 23:11:57 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8eJsIrkIwpL65SzpVFQOM9gqX6FDrw1zFplZGoXKobG8b+4GTcJPKahMsDkpXhBRdnpuag14u68OIfZw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywtw/Lc0lMJ4QGWWJgbid7vcuHMnsAJdcY2a/CNcQWfmEv+kGZm
-	8k9d06+arX7jaysYza/jpoKjUOKHs4Vo7xWk8JWoljJRwJo3IOBxtZiOcrSnkqIW0uqiomgPdB7
-	1UdWsNjdxXBoX5uFkU2Nz/j6kJi5LW1g=
-X-Received: by 2002:a05:651c:4188:b0:385:dde5:1bf3 with SMTP id
- 38308e7fff4ca-39561adf7damr18828581fa.6.1778911916095; Fri, 15 May 2026
- 23:11:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GBa2Skx3"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2b4650d5f5cso2952315ad.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 16 May 2026 04:56:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778932592; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ahhJMq/YaeIoHVzrUjjus1xSTffPV4Pp1HPp/EsZNkB60O3DLKVyfvHzd/MwbDtwYU
+         YLCHlXn5OYY0I/sPrBHSL/qcFa3dS7Lki1rxgPqmh3UMbDgvWYOXQOY16c7YeyKO+tYC
+         OwVWJu+U4WLBsyCUBGnVWJwgt0qv/nbVI2s9aOIDEJrxz+8DZyQgbrtSq7kYHmMWnvIk
+         C1URV+PNE2pc/Lb55iVTCp3ANjrI+WiBcnsD+ClLCcoTjDAAsNdoXEqSBHXrO0NSWi5f
+         1I7O9FqU7BVCGhjL6om3U19CA+XmOqqIEnjIU4lRPgBe4ulQaL015v7srG8AIRBoW9dM
+         tlbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=g3Tnm8GfrdaS1CO5k7Ifb/71wv0N1iYSyYKMb0AGSQU=;
+        fh=clJjuPX1wp73EmI+aQ2kiO/nitl34gvpDqzRs0i0+c0=;
+        b=IZShpGb8Y9TO8ZTyyZy1eLV7OeGgt/vBdpCw5954+RArVUaS+fr19L7848kRLz+rAs
+         D6R4yvkovkzTVCyzA69/K1tmHDq1+XkKXrnCc33q/QY1LQHpu9OU8sMbwUaf1Buhd9q0
+         gXWnaXEAz5lPmRDIq2E21e9WTClXdUn4V6WpehP+Q65L3hOdZQdY3kNbo6i9U5a4AhV4
+         MMITfFCqxhU9Cuk5d8aPGyCQ8m71nmz3BzHq0/cJlwJBjCMbnT/gD2O75kwPFyCHfxJh
+         WojUKzQCpAc3YP+6rAtvA74YRj4R11i1eBNSc83jd3+NxEmZl2NdXIyDyHz0r6Va2Zrm
+         Xl/g==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778932592; x=1779537392; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g3Tnm8GfrdaS1CO5k7Ifb/71wv0N1iYSyYKMb0AGSQU=;
+        b=GBa2Skx3bUtX6dzBC4TAzSSHQ4xM76vabwuAeUI5MzqyYdMdGwLfz3U4hr9YM+Zrq4
+         k3rZSSVAcuY9euP/mz/eqq7lugpmQu9cBsjy/QNWClKyZbgp62wz4d58gU26AKPzUKJz
+         vyR2kNEcCNWMlS3A3wfLX5oo/fN1nvHT/TTWZSZ+Otl/DR/bAx2nlamhW8u7E3MCWcGj
+         fNFZCyJnFizPx2nMhLBrEcK7WZMO2VCpayfgYj1B7oxhLS7T3RDHcLgQweVmrVINPMbx
+         pGV6qAnG6ICVWn5lMaWxbJwlQYwgLCJCsDnVrNl0ZFvE31tsGMcW/BQj4/stQxPmUNWz
+         +3HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778932592; x=1779537392;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=g3Tnm8GfrdaS1CO5k7Ifb/71wv0N1iYSyYKMb0AGSQU=;
+        b=n3qkF4b/Ve/K2wD2z8DiIW6TpYHEuvIElUfPY5iOd0yCuNsPYmUiKpdide08uhcsXx
+         bG645DhUmSqhN4KU9fY1gy1zY3ThWKZzny+E4huMKZhfhR6RPl1vA1EwNeFez3MDqjHE
+         I68BPU81l8aGgS8s+EHyEOfOM6dk/vdhuhJlJj6O5TIEWqNI5Y8pJiXHuIlHqD4AexVi
+         6oE0+D7eRSbm5PdPxrFk+50vMuXIFULLsoYP6DwKtailoOWXyCzW98sQLAIBKCTToASo
+         a4sXvCvr5OvFM5gU5Ba9KFyzSkk/BBmoPy/zMTN9Crl50n4/0Qmg2bx0IopcwtNsDlib
+         Vn4w==
+X-Gm-Message-State: AOJu0Yz3tQ5oMh5Sm9R0FQraFI/PZpsvgD46TzI2/Ai7b4qv0JqCHsKG
+	sLV79NuBAtzjuSrTCRyB78/t0ipJhtuYWkb4mw5EbmmXzUQ+diWu3PUfURsH7M55TtQCU/rF2fk
+	fRIWkiU9q28RMS+lmx3sTa5GAwgfxr4I=
+X-Gm-Gg: Acq92OHj0QVkiKucLvdH/itEf2N2sEdU/zQ7XwXkG8CTFh+1LmIprMhlEUMQMLT610T
+	GkqaJW9TVRaS23bpgtVzna597mLj4OmZCerhp6/Runig9kgT1RP/yDDkIcPlhwZewryq25+vBHu
+	cUwrBWyRx/4uhwQiIjdJzzWUqPft9qXOrkQ3i9gixvAj+Mw/wb9SrgrNPJsCMwJUTvHVZK+2lHh
+	t/H/fxDna1/5P6N19FL1hczksOAFt0a814pwk5qOXyMzImQb2EzeqoJmYwcJSJy6/BcvJAP23Xo
+	hMzF+t7VSGd6B6cViV/mMoKkBIRNjpMr97T6XzTj
+X-Received: by 2002:a17:902:fc84:b0:2b2:eb9d:1648 with SMTP id
+ d9443c01a7336-2bd7e9a02e3mr81606565ad.37.1778932591918; Sat, 16 May 2026
+ 04:56:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260511221741.25888-1-andre.przywara@arm.com>
- <CAGb2v64u4sqwiiQcEBg-XvmJ2DLEpSj-_AWNbp14RAp-GXP7OA@mail.gmail.com>
- <ee9fca66-d079-4ad7-9cb3-5077e8a4f6d6@arm.com> <CAGb2v66drOyBgNU0hFo356MKTFnggNmyzrANok+-U31NzZCUEw@mail.gmail.com>
- <20260515235112.3d2a0c5e@ryzen.lan>
-In-Reply-To: <20260515235112.3d2a0c5e@ryzen.lan>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sat, 16 May 2026 14:11:52 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67ZyUTfKK21-H5duAA0xNoHCQOUKN=WYtbN7fqWaqyE4g@mail.gmail.com>
-X-Gm-Features: AVHnY4IeD7gLniZO5qjqEwQ99zb5tdOVe4q7o-In43rzrp6IN3-fWSvLkRMCMZU
-Message-ID: <CAGb2v67ZyUTfKK21-H5duAA0xNoHCQOUKN=WYtbN7fqWaqyE4g@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: allwinner: Cubie A5E: enable SPI flash
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20260513105003.81880-1-phucduc.bui@gmail.com> <20260514043314.62222C2BCB7@smtp.kernel.org>
+ <CAABR9nGhwtBu9Yhbn-BTD1Scykp2h6eQbtQtT13DcnekUdum1A@mail.gmail.com>
+In-Reply-To: <CAABR9nGhwtBu9Yhbn-BTD1Scykp2h6eQbtQtT13DcnekUdum1A@mail.gmail.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Sat, 16 May 2026 18:56:18 +0700
+X-Gm-Features: AVHnY4K87wbzdoBlkwWjKd4mYgN3M-8jhbsSCXPKekL4N1DL1gksd-L0oaFEhQw
+Message-ID: <CAABR9nGZM3Bnb3DnObdp2nOJmW6ezmXqRSBtgS00Ps2ve4zsbg@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: sun4i-spdif: Use guard() for spin locks
+To: sashiko-reviews@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Cc: linux-sunxi@lists.linux.dev, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Marcus Cooper <codekipper@gmail.com>, Chen Ni <nichen@iscas.ac.cn>, linux-sound@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 16, 2026 at 5:52=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
-com> wrote:
+Hi,
+
+I am not entirely sure whether the issue is exactly as
+described in the Sashiko review.
+
+However, I also looked at a similar case in the
+micfil_rate_set() function from the fsl_micfil driver:
+https://elixir.bootlin.com/linux/v7.1-rc3/source/sound/soc/fsl/fsl_micfil.c
+
+There, pm_runtime_resume_and_get() is also used to ensure
+that the device is runtime-resumed before accessing the
+registers.
+
+To address the review comments and avoid mixing functional
+changes with the cleanup/refactoring using guard/scoped_guard,
+I am planning to split this into two separate patches:
+
+Patch 1: replace spin_lock_irqsave() /
+spin_unlock_irqrestore() with scoped_guard() / guard()
+
++ scoped_guard(spinlock_irqsave, &host->lock) {
+
+    regmap_read(...);
+
++ }
+
+Patch 2: add runtime PM handling around register accesses
+
++ ret =3D pm_runtime_resume_and_get(dev);
++ if (ret < 0)
++     return ret;
+
+  scoped_guard(spinlock_irqsave, &host->lock) {
+
+      regmap_read(...);
+
+  }
+
++ pm_runtime_put(dev);
+
+This should make the review easier and clearly separate the
+functional change from the refactoring.
+Does this approach look reasonable to you?
+If so, please let me know and I will prepare the
+corresponding patches.
+
+Best Regard,
+Phuc
+
+
+
+
+On Thu, May 14, 2026 at 6:22=E2=80=AFPM Bui Duc Phuc <phucduc.bui@gmail.com=
+> wrote:
 >
-> On Sat, 16 May 2026 00:12:17 +0800
-> Chen-Yu Tsai <wens@kernel.org> wrote:
+> Thanks for the review.
 >
-> > On Wed, May 13, 2026 at 5:19=E2=80=AFPM Andre Przywara <andre.przywara@=
-arm.com> wrote:
+> This seems to be pre-existing behavior rather than something
+> introduced by this patch, since the current change only converts
+> the locking to use guard() helpers and does not modify the
+> runtime PM handling.
+>
+> If this turns out to be a real issue, it would probably be better
+> addressed separately from this cleanup patch.
+>
+>
+> On Thu, May 14, 2026 at 11:33=E2=80=AFAM <sashiko-bot@kernel.org> wrote:
+> >
+> > Thank you for your contribution! Sashiko AI review found 1 potential is=
+sue(s) to consider:
+> > - [High] Hardware State / PM Violation leading to bus hang
+> > --
+> >
+> > commit 0686001584788d984a0f16403183bcad78fe4176
+> > Author: bui duc phuc <phucduc.bui@gmail.com>
+> >
+> > ASoC: sun4i-spdif: Use guard() for spin locks
+> >
+> > This commit refactors the locking in the sun4i-spdif driver to use the
+> > guard() macro for spinlocks. It replaces manual spin_lock_irqsave() and
+> > spin_unlock_irqrestore() calls with scope-based cleanup.
+> >
+> > > diff --git a/sound/soc/sunxi/sun4i-spdif.c b/sound/soc/sunxi/sun4i-sp=
+dif.c
+> > > --- a/sound/soc/sunxi/sun4i-spdif.c
+> > > +++ b/sound/soc/sunxi/sun4i-spdif.c
+> > > @@ -427,10 +427,9 @@ static int sun4i_spdif_get_status(struct snd_kco=
+ntrol *kcontrol,
+> > >       struct snd_soc_dai *cpu_dai =3D snd_kcontrol_chip(kcontrol);
+> > >       struct sun4i_spdif_dev *host =3D snd_soc_dai_get_drvdata(cpu_da=
+i);
+> > >       u8 *status =3D ucontrol->value.iec958.status;
+> > > -     unsigned long flags;
+> > >       unsigned int reg;
 > > >
-> > > Hi Chen-Yu,
+> > > -     spin_lock_irqsave(&host->lock, flags);
+> > > +     guard(spinlock_irqsave)(&host->lock);
 > > >
-> > > thanks for chipping in!
-> > >
-> > > On 5/13/26 07:21, Chen-Yu Tsai wrote:
-> > > > Hi,
-> > > >
-> > > > On Tue, May 12, 2026 at 6:18=E2=80=AFAM Andre Przywara <andre.przyw=
-ara@arm.com> wrote:
-> > > >>
-> > > >> The Cubie A5E board comes with 16MiB of SPI NOR flash.
-> > > >>
-> > > >> Enable the SPI0 DT node and describe the configuration.
-> > > >>
-> > > >> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > > >> ---
-> > > >>   .../boot/dts/allwinner/sun55i-a527-cubie-a5e.dts  | 15 +++++++++=
-++++++
-> > > >>   1 file changed, 15 insertions(+)
-> > > >>
-> > > >> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.d=
-ts b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-> > > >> index bfdf1728cd14b..7ad22fc85d1fd 100644
-> > > >> --- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-> > > >> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-> > > >> @@ -344,6 +344,21 @@ &r_pio {
-> > > >>          vcc-pm-supply =3D <&reg_aldo3>;
-> > > >>   };
-> > > >>
-> > > >> +&spi0  {
-> > > >> +       pinctrl-names =3D "default";
-> > > >> +       pinctrl-0 =3D <&spi0_pc_pins>, <&spi0_cs0_pc_pin>,
-> > > >> +                   <&spi0_hold_pc_pin>, <&spi0_wp_pc_pin>;
-> > > >
-> > > > This whole thing needs to be an overlay. The HOLD and WP pins
-> > > > conflict with eMMC usage, so it seems that Radxa only populates
-> > > > one or the other.
-> > > >
-> > > > If you look at the pictures on their official website, you'll see t=
-he
-> > > > SPI NOR chip populated, but not the eMMC chip. On the linux-sunxi w=
-iki
-> > > > page, you'll see the opposite.
-> > >
-> > > Well, I have a hard time spotting any actual eMMC SKUs in the shops a=
-nyway.
-> > > But you are right, the hold and WP pins conflict with eMMC, whereas t=
-he
-> > > other pins are not.
-> > >
-> > > > And you probably want to enable QSPI, like Sashiko mentioned.
-> > >
-> > > Well, in the interest of keeping this simple and enabling the usage o=
-f
-> > > SPI flash for all the users out there, I'd rather drop the extra pins=
-.
-> > > This is mostly really useful for booting the firmware, maybe loading =
-a
-> > > tiny kernel or other data once, so performance is not a big concern i=
+> > >       regmap_read(host->regmap, SUN4I_SPDIF_TXCHSTA0, &reg);
+> >
+> > While this issue isn't new to this patch, does this code risk a bus han=
+g if
+> > the device is runtime-suspended?
+> >
+> > The regmap configuration lacks a cache, and these ALSA kcontrols can be
+> > accessed by userspace at any time. If the audio stream is idle, the dev=
+ice
+> > will be runtime-suspended and its APB bus clock (apb_clk) will be disab=
+led.
+> >
+> > Accessing the physical registers with the clock disabled will trigger a=
 n
-> > > this use case. The BootROM surely does not use QSPI.
+> > asynchronous external abort.
 > >
-> > Given that the pins are tied on physically, if someone then enables mmc=
-2
-> > for a potentially present eMMC, the two pins could be toggled by the
-> > MMC controller, causing the flash to misbehave. I'm slightly concerned
-> > about this possibility.
->
-> That's a good point, but that means it's really a hardware design
-> issue: you cannot have SPI together with eMMC on this board.
->
-> I don't know if Radxa ships the eMMC SKUs without SPI flash, I
-> will try to query Tom Cubie about this.
->
-> I would prefer to go with SPI flash, at least for now: I think that's
-> what most users have, and the eMMC versions are rare so far? Since we
-> don't have an eMMC node in the DT anyway, that should be fine for now.
-> If someone adds eMMC support later, we would need to figure this out.
-> We could mark one as disabled, and leave it up to users (or U-Boot)
-> to decide which to enable.
-> On the H6 there is a similar problem: PC5 is both SPI0_CS and MMC2_CMD,
-> so on the PineH64 we disable the SPI flash, in favour of eMMC, which is
-> more useful for users (but sunxi-fel SPI access and U-Boot SPI loading
-> work nevertheless). But given the apparent prevalence of SPI boards vs.
-> those with eMMC for the Cubie A5E, I would go with SPI on this one.
->
-> Does that make sense? Any thoughts?
-
-In that case it might be better to enable it with full QSPI. The pin
-conflicts can also serve as a lockout against enabling both. Just need
-to document it properly.
-
-
-ChenYu
-
-> Cheers,
-> Andre
->
-> > > And as you say, if people are really interested in the last bit of
-> > > performance, they can use an overlay.
-> > >
-> > > Cheers,
-> > > Andre
-> > >
-> > > >
-> > > >
-> > > > ChenYu
-> > > >
-> > > >
-> > > >> +       status =3D "okay";
-> > > >> +
-> > > >> +       flash@0 {
-> > > >> +               compatible =3D "winbond,w25q128", "jedec,spi-nor";
-> > > >> +               reg =3D <0>;
-> > > >> +               spi-max-frequency =3D <40000000>;
-> > > >> +               #address-cells =3D <1>;
-> > > >> +               #size-cells =3D <1>;
-> > > >> +       };
-> > > >> +};
-> > > >> +
-> > > >>   &uart0 {
-> > > >>          pinctrl-names =3D "default";
-> > > >>          pinctrl-0 =3D <&uart0_pb_pins>;
-> > > >> --
-> > > >> 2.46.4
-> > > >>
-> > > >
-> > >
+> > Would it make sense to ensure the device is runtime-resumed (perhaps vi=
+a
+> > pm_runtime_get_sync() outside the spinlock guard) before touching the
+> > hardware?
 > >
->
+> > [ ... ]
+> >
+> > --
+> > Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260513105003.=
+81880-1-phucduc.bui@gmail.com?part=3D1
