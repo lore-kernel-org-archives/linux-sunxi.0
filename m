@@ -1,160 +1,109 @@
-Received: from s106b.cyber-folks.pl (s106b.cyber-folks.pl [195.78.66.88])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3CFA1F1534;
-	Sat, 16 May 2026 05:49:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.78.66.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B07933BBB9;
+	Sat, 16 May 2026 05:50:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778910546; cv=none; b=IYiMY1c/EoFjiT9lv1VLvx1LLBL3k1G3Y78bmoVARboPaNzcG46mz/Lz++1YBl9So5wDwGQWLJgcd2cP5vHBTeVtm0mZtpEeG6YoelkofCJ42o5q7PUnbJue6dekrWZBRRnxb8sdk2FHytKLCkBWmy0MN/U6M3CjCTaPOZ0cavg=
+	t=1778910604; cv=none; b=jZmAV7DRywkHoY+67vWy9PaZDGI1EfV5HBrLwlgKtsO3TCE7DZ0iles9HZNLeCL0VqBO95ugGc+m5Afo3p8OWOvjwUlnODBP0DRiVxmuUJCxA0xm/BSn6+0pYDO9j++K8U4QPZ9OrP3EFWJ3u8nMTQ5XCReJhu6u1EFvindncXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778910546; c=relaxed/simple;
-	bh=kNt/Z4oKF9AixaAwpIu2Ml8Cbcb+f121JoIe7G1ZaY8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=D+O6ubJZ1htwBgBwd2BP3e6NTLiJU8mlAWHaz9RKD1/lgkeBVak8pY7icFTMkTmPdxWmnzHW+w0nfIq/60FWMLTAFY13jMJ/CIZU7qyZEySqg+0IWj8IGZqH4EzFLT3jeqvt1g+zjEcgq8W7Ft8F1aTjt+grYZaDlckBvzUx9b0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl; spf=pass smtp.mailfrom=mmpsystems.pl; dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b=ignd8rVG; arc=none smtp.client-ip=195.78.66.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mmpsystems.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mmpsystems.pl
+	s=arc-20240116; t=1778910604; c=relaxed/simple;
+	bh=PR36ZCC8Semt40CDOjJoubOvz1hqXvxcqlYkcd6pN5I=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=tDsZvJidJOJ3yTYXcJVCm4krE9Vw9BiOflMwlFiwKx2dhFD+RqNhAUblK6kJdMmKTT7xON2Yy1WOmW6Vr+ExcaP0TdBV7fwJcf6mr5FWFcJPdAT09JyEKZKJFmjsKsHGYZHDzo2eeDxfq94ZOdT1JvVfMMEET6DKceEqXAZH7w4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R6USo5Pn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mmpsystems.pl header.i=@mmpsystems.pl header.b="ignd8rVG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=mmpsystems.pl; s=x; h=Cc:To:Message-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=GeDSC6iDZRgDYmHR6t4TAJwQ3WTA5QzwDb/jb6aEs2I=; b=ignd8rVGRQS2G1AixRPUaMK0MV
-	/9QYtdHFRsbZ/YDr6TcTGkkroevffBEbYx5z8ABvqXo6XI6VfW3j4CtsRzUZi/wxwBXpMjHUdIu0P
-	W8Bj1f6caxG5eqt9Z/cPH0fgttPfEwm2NDfD/prcD39XBJs88NxIuLh21HhGQvWVcKKCL1Dh57tgQ
-	wfB1SW/+pc/FgrzET3TOlxwOPCtoJ166mKIW9x5dCz8mQ+xtyvnVGNpi4UEeogmnaugGKg8jUf2XX
-	tqKkw2d62BPgC+IuIX28e92ZFhLI12DB/Px9iS+GCnVKToSJSGqSHoR+RpMbDtGA+8z9/57wooGpO
-	Lzszt+Vw==;
-Received: from [91.102.182.218] (helo=localhost)
-	by s106.cyber-folks.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.99.3)
-	(envelope-from <michal.piekos@mmpsystems.pl>)
-	id 1wO7tS-0000000H5s0-3zR1;
-	Sat, 16 May 2026 07:48:59 +0200
-From: Michal Piekos <michal.piekos@mmpsystems.pl>
-Date: Sat, 16 May 2026 07:48:37 +0200
-Subject: [PATCH v3] iio: adc: sun20i-gpadc: support non-contiguous channel
- lookups
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R6USo5Pn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F014C19425;
+	Sat, 16 May 2026 05:50:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778910603;
+	bh=PR36ZCC8Semt40CDOjJoubOvz1hqXvxcqlYkcd6pN5I=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date:From;
+	b=R6USo5Pn0WYtD98y+psORZByyKz5HWc2qrZI/6hUuiwUq79rHpBAFhH2bBoXMfYKJ
+	 1JRhYpr0uzwHHvtB5YWc9NWN2Uztr4+Q0RAFzZHtMbHcK8tiRuBGcRbtUtO9eM0Hs1
+	 6iLQltYdgK5FCwIDXVZpp7dRCTgaQ8E19U1oBsp6yXN4PaZda3yh837Hk62EEskg3p
+	 GH0Occ2rxoRyg9xEzgdA1X3pZDM5H0GCUi/f/0x7bnMgq41P00mLgDaDdvrpYfSMGJ
+	 jzQJF2XNp2emrTX4T0XK+jaOZQt6CPfnHdKL5rqDUJ0NJyVnWQOib+Xahl+rRn8Ahe
+	 RUG5uJneyJp9Q==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3 1/3] dt-bindings: iio: adc: Add GPADC for Allwinner
+ A523
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Michal Piekos" <michal.piekos@mmpsystems.pl>
+Cc: robh@kernel.org, devicetree@vger.kernel.org, krzk+dt@kernel.org, linux-sunxi@lists.linux.dev, conor+dt@kernel.org
+In-Reply-To: <20260516-sunxi-a523-gpadc-v3-1-a3a04cff2620@mmpsystems.pl>
+References: <20260516-sunxi-a523-gpadc-v3-1-a3a04cff2620@mmpsystems.pl>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 16 May 2026 05:50:02 +0000
+Message-Id: <20260516055003.3F014C19425@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260516-fix-sunxi-gpadc-sparse-channels-v3-1-4d229d18ff3b@mmpsystems.pl>
-X-B4-Tracking: v=1; b=H4sIADQFCGoC/42OzQ7CIBAGX8Vwdg3QSlNPvofxwM+qmBYJW4nG9
- N0FvRgvepxkdr59MMLkkdhm8WAJsyd/CQWa5YLZkw5HBO8KM8ml4mvRwMHfgK7h5uEYtbNAUSd
- CqHLAgUAaZSRXjXFtz0olJiwnr4Xd/s10NWe0U81W4+RpuqT764Usqvf/WhYgQFkpUPbcWMTtO
- Ea604QjreLA6mKWn832d1OWpmu1UqbjttPdd3Oe5yfLtIJ9OAEAAA==
-X-Change-ID: 20260513-fix-sunxi-gpadc-sparse-channels-2b6b2063bd49
-To: Jonathan Cameron <jic23@kernel.org>, 
- David Lechner <dlechner@baylibre.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Andy Shevchenko <andy@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Andy Shevchenko <andriy.shevchenko@intel.com>, 
- Michal Piekos <michal.piekos@mmpsystems.pl>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- llvm@lists.linux.dev
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778910526; l=2985;
- i=michal.piekos@mmpsystems.pl; s=20260301; h=from:subject:message-id;
- bh=kNt/Z4oKF9AixaAwpIu2Ml8Cbcb+f121JoIe7G1ZaY8=;
- b=bCBkkZO3AFDZx2E2f2OZ41t7+qc3Brbk3rwbgGezgw6GKjLXWyj7loNmA4mPZZw4yzhFl6g2h
- gHmxqt/MmOSAqtZbVd6vCN3MA0aENuDRZ6lsyv0hoYWoIPXwyXovAih
-X-Developer-Key: i=michal.piekos@mmpsystems.pl; a=ed25519;
- pk=Aixyx03If7ZDamiKKN0lsa+0mtA+WjIuIf2ZQVYNBqg=
-X-Authenticated-Id: michal.piekos@mmpsystems.pl
 
-Using consumer driver like iio-hwmon which resolve channels through
-io-channels phandles will fail for sparse channels because IIO core by
-default treats phandle argument as index into channel array.
-        eg. <&gpadc 1> will fail if there is only channel@1 specified
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [Low] Brittle schema conditional matching for compatible string
+- [Low] Missing device tree example for the newly added A523 variant
+--
 
-Add .fwnode_xlate() which maps DT phandle to the registered channel
-whose chan->channel matches the hardware channel number. It allows
-sparse channel maps to be consumed by drivers like iio-hwmon.
+commit 8ef795d51c1bc739366c917fc7bb2c4c8c5c937c
+Author: Michal Piekos <michal.piekos@mmpsystems.pl>
 
-Tested on Radxa Cubie A5E.
+dt-bindings: iio: adc: Add GPADC for Allwinner A523
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-Signed-off-by: Michal Piekos <michal.piekos@mmpsystems.pl>
----
-Changes in v3:
-- Add iiospec->nargs validation in sun20i_gpadc_fwnode_xlate()
-- Keep Andy's Reviewed-by tag since change is narrow validation fix
-- Fix spelling issues in commit message
-- Link to v2: https://patch.msgid.link/20260514-fix-sunxi-gpadc-sparse-channels-v2-1-d4a66b70c7a7@mmpsystems.pl
+Add support for the GPADC for the Allwinner A523, which introduces a
+second clock compared to previous generations.
 
-Changes in v2:
-- Move loop variable declaration into the for statement
-- Fix indentation using clang-format
-- Correct commit wording
-- Link to v1: https://patch.msgid.link/20260513-fix-sunxi-gpadc-sparse-channels-v1-1-6c21e290bcee@mmpsystems.pl
+> diff --git a/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d=
+1-gpadc.yaml b/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d=
+1-gpadc.yaml
+> index da605a051b949..6467800d30e27 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc=
+.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc=
+.yaml
 
-To: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-To: Nuno Sá <nuno.sa@analog.com>
-To: Andy Shevchenko <andy@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: Samuel Holland <samuel@sholland.org>
-To: Nathan Chancellor <nathan@kernel.org>
-To: Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
-To: Bill Wendling <morbo@google.com>
-To: Justin Stitt <justinstitt@google.com>
-Cc: linux-iio@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-sunxi@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev
----
- drivers/iio/adc/sun20i-gpadc-iio.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+[ ... ]
 
-diff --git a/drivers/iio/adc/sun20i-gpadc-iio.c b/drivers/iio/adc/sun20i-gpadc-iio.c
-index 861c14da75ad..8a75498557ff 100644
---- a/drivers/iio/adc/sun20i-gpadc-iio.c
-+++ b/drivers/iio/adc/sun20i-gpadc-iio.c
-@@ -139,8 +139,23 @@ static irqreturn_t sun20i_gpadc_irq_handler(int irq, void *data)
- 	return IRQ_HANDLED;
- }
- 
-+static int
-+sun20i_gpadc_fwnode_xlate(struct iio_dev *indio_dev,
-+			  const struct fwnode_reference_args *iiospec)
-+{
-+	if (iiospec->nargs != 1)
-+		return -EINVAL;
-+
-+	for (unsigned int i = 0; i < indio_dev->num_channels; i++)
-+		if (indio_dev->channels[i].channel == iiospec->args[0])
-+			return i;
-+
-+	return -EINVAL;
-+}
-+
- static const struct iio_info sun20i_gpadc_iio_info = {
- 	.read_raw = sun20i_gpadc_read_raw,
-+	.fwnode_xlate = sun20i_gpadc_fwnode_xlate,
- };
- 
- static void sun20i_gpadc_reset_assert(void *data)
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          enum:
+> +            - allwinner,sun55i-a523-gpadc
 
----
-base-commit: 6916d5703ddf9a38f1f6c2cc793381a24ee914c6
-change-id: 20260513-fix-sunxi-gpadc-sparse-channels-2b6b2063bd49
+Could this conditional matching be brittle?
 
-Best regards,
---  
-Michal Piekos <michal.piekos@mmpsystems.pl>
+Using a strict enum instead of contains: enum will fail if a future
+hardware variant uses allwinner,sun55i-a523-gpadc as a fallback string
+in an array. Would it be better to use contains: enum here to ensure
+standard extensibility?
 
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: Bus clock
+> +            - description: Module clock
+> +        clock-names:
+> +          items:
+> +            - const: bus
+> +            - const: mod
+> +      required:
+> +        - clock-names
+
+Should an example be added for the allwinner,sun55i-a523-gpadc variant
+in the examples section?
+
+Without an example, it appears the new constraints for the two clocks
+and the clock-names property will not be tested during dt_binding_check.
+
+[ ... ]
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260516-sunxi-a523=
+-gpadc-v3-0-a3a04cff2620@mmpsystems.pl?part=3D1
