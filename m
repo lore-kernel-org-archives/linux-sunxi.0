@@ -1,239 +1,145 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D9E302140
-	for <linux-sunxi@lists.linux.dev>; Sun, 17 May 2026 21:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEB271A6813
+	for <linux-sunxi@lists.linux.dev>; Sun, 17 May 2026 23:41:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779055104; cv=none; b=ReBeOdxQyBYeU7IzlbBolww7tr20lZO03IPLFV4Jdwu3J4OOEX8XYfiDNhNSgRpKSVtbyiMd5Z2zx3MU+aJ7NFBiB2D9TqYyUxqYhmyvVGYDtX8/702vYypjC7t+1/zEmOPHHPQfsUpe5bTssn9E5l53a/Wnz2M5dnnSJ42kVTw=
+	t=1779061284; cv=none; b=FQRXU57EcnR4LVucxnxyPqkaTwEVDN8jvdGnL/3yvyHHUfW9YVXZBTtBqN5U3/09BDIGAbBZhRSrvspE7n3RQhN5fsEvLAXm5pQvf5UHk0c8We0eSZEYjJTDz7dh9bHhYcTyPL7uGAuz+ffkC1bNC1PgRXx3q6DCR/hTu6Try5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779055104; c=relaxed/simple;
-	bh=0lld+aB37+oNjLWgoZn8gLjUJNEB4Rwq1VXZfc58oUc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GEKG9wfvasbEQEJzfYmb/i0GM2d35d3C08axJJ0g6pJEbR3ry4M5T2YvCgvZjpTV1vFX3/BqCW4DCdlpC502LjPO1+d2FyVvAVLmhKfeVISKgYbP448qATSZxc9xbzLrkbVvwMolNxlSNRluOVGf5Yd+oP2ukpOsEECPC1YJ+FU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 8641D1F8005A
-	for <linux-sunxi@lists.linux.dev>; Sun, 17 May 2026 21:58:18 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 25BEDB407AC; Sun, 17 May 2026 21:58:17 +0000 (UTC)
-X-Spam-Level: 
-Received: from collins (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id E06DAB4079E;
-	Sun, 17 May 2026 21:58:15 +0000 (UTC)
-Date: Sun, 17 May 2026 23:58:13 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Arash Golgol <arash.golgol@gmail.com>
-Cc: linux-media@vger.kernel.org, yong.deng@magewell.com, mchehab@kernel.org,
-	wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com
-Subject: Re: [PATCH v3 3/3] media: sun6i-csi: capture: Support MC-centric
- format enumeration
-Message-ID: <ago59fn0CJaN5309@collins>
-References: <20260509050921.22158-1-arash.golgol@gmail.com>
- <20260509050921.22158-4-arash.golgol@gmail.com>
- <ago3mOxf1adhogFW@collins>
+	s=arc-20240116; t=1779061284; c=relaxed/simple;
+	bh=FlwlRdiPsdotnda3euc5BVRVjmtCHnYbDG20q6ghTio=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=clcVXJJtE50phC8Lc1UABZXjHkNI3TflchoVuad2UjveYWvdgE9RMR0HuWXZFJNz0MBme1q3R/3Ah8E+EAJzmvkme47nrspqvwaU2n7WQH/qY3/vMNv9cAbqkWlfHSgf/Xit/qhU4qLbnZbg2kaP6PYJ0hfPj6jPZZfEs5PoMk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D2NKDcPV; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D2NKDcPV"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-45297094718so1245608f8f.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 17 May 2026 16:41:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779061281; x=1779666081; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cV5K+hC6U/LO0fJpISy/X05UeT2K9Cbw0OM6/rSxBSo=;
+        b=D2NKDcPVrkgvCLCRG4BoZAUTFgAOIKsFXLShJ0qxMdUy7IkrtOhClBP4P0Zg1RypZp
+         adNiizMQvyaqPNkz4VSJvrBMoJdHKJgiSaBs2pEtiAMhTERfMLVb47oJU+A2OInvnABB
+         K27MG3xpMWkVBWYFfhhiBuaf2ftfBod5CgQU50bZ+kMhzUEG7OFuNRCSVvw3H0CZYc+J
+         hDLcaJKGh5zeCF+3CDdjhoAl9w/j6wOmwMcpAFIHTUYGzB2O3hIWGd0vGklc8Tr6Zi+2
+         /ycWZN5o0OaC+/UUh4aa1cKUmvGLLsloBwIWtuMLdql2jR1yHFQAkjHm01HiHOEi/ln1
+         Wktw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779061281; x=1779666081;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cV5K+hC6U/LO0fJpISy/X05UeT2K9Cbw0OM6/rSxBSo=;
+        b=Q+MVH4S6ABJgijvO4t0YKmJBRLpnPvLrZxgDeX/keFJYcs+tsCEMIkqC78NtXn8vhF
+         Ecq11j27vSiI5cZ+UqegXNtYBLDg6c3ZJfpY6HyKGbl9V3jymXk4mPQzryyCS6bWOtXr
+         L6JkfTdgFosHHDG2/IufTBzsM5cYzBCBwGMQW33WKuPsmlp/uP6lt9HQQ0EyX+kML3Gf
+         Db9Xj4o8MYAIwGpELlVGc2jY8RJVq4xbi2heKphRisUr5q112AJsi6eifscRS5Rmx/ug
+         qmw+YckM96MEB9fFVubzSmTQKTi3It8OijWChAtmJHXD8dYc08JcydAmU98G0eqBv42O
+         jE6Q==
+X-Gm-Message-State: AOJu0Yy7lhFkz7y1SlaYHbcctZi8jngbhn11gY3Tj12ZeK9YCXSf7PVD
+	jGxNJhhrEBcJhXx4ImoLUmNqP/xIikEpw1Jxel0axOwxmlsQ8iSVhC7IR1e9i3fP
+X-Gm-Gg: Acq92OEvUP3u8oSrAXq91dumNY8IlkYU+OlmHTxwwA9/NojLRrwB7lb6SDeQcjhIjpX
+	VXMbZz52TDxvTnRln0EVleH41/z/Gxuk53Yj9AL7bXL0qZ2b32nMt8PswFZCrGBxV06GP3Uh29M
+	IDqnHouvDwBuUMwwehoH4y9WJmIVij/c8kTIkmo+4iUL7adRlOjp13jNib6b2/l8YyaR8BUkilp
+	GyKCGdo4VvLmZsRCt5ncGSuv2ieCTXWchiLLfhATBOcrTudV6ajEkIWYQT15exYGcuClt1ysgZw
+	UeHdijo/ccFzswM0qb73m9cXeRjE29N/CGJBj4jcwpNUTWYB43vo83rNDJQ1I41Cf25SdMskpOE
+	SPIDVTSnWC4deTcc+Gjx6Ro/96S6czBTFvA9wFB84LNmVwywJ1xpbqv0YR1TlfBHacNjI9nbVY0
+	ogzDn9mm7E0sKEDrgF8HZA2Xxy5eS6M6Kv8ft15VnXlyUkpFFFJt206pTgtXVVdtYNRR5oWX1Bh
+	95mJ3WO+kI=
+X-Received: by 2002:a05:6000:25c6:b0:446:189c:ac4e with SMTP id ffacd0b85a97d-45e5c59f684mr18961084f8f.34.1779061280824;
+        Sun, 17 May 2026 16:41:20 -0700 (PDT)
+Received: from localhost.localdomain (72.92.4.85.dynamic.cust.swisscom.net. [85.4.92.72])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da15a562dsm32845129f8f.33.2026.05.17.16.41.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 May 2026 16:41:19 -0700 (PDT)
+From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+To: linux-sunxi@lists.linux.dev
+Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/5] Add support for Baijie Helper A133 board
+Date: Mon, 18 May 2026 01:41:26 +0200
+Message-ID: <20260517234134.2737320-1-alexander.sverdlin@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="+lPBCRAKF88mfx7A"
-Content-Disposition: inline
-In-Reply-To: <ago3mOxf1adhogFW@collins>
+Content-Transfer-Encoding: 8bit
+
+Baijie Helper A133 board is a development board around Baijie A133 Core
+SBC. Features:
+
+- 1/2/4GiB LPDDR4 DRAM
+- 8/16/32GiB eMMC
+- AXP707 PMIC
+- USB-C OTG port in peripheral mode (via onboard hub)
+- 2 USB 2.0 ports
+- MicroSD slot and on-board eMMC module
+- Gigabit Ethernet
+- Bluetooth
+- WiFi
+
+Add initial support for both the Helper and Core boards, including UART,
+PMU, eMMC, USB, Ethernet, LRADC-connected buttons.
+
+UART1 can only be used for Bluetooth module, but BT-WiFi combo Allwinner
+AW869A chip has not mainline driver currently.
+
+Link: https://szbaijie.com/index/product/product_detail.html?product_id=23&language=en
+
+Changelog:
+v3:
+- added lradc node to sun50i-a100.dtsi
+- enabled LRADC driver in arm64 defconfig
+- added my copyrights into the newly introduced DTs
+- all DT nodes sorted alphabetically
+- all always-on regulators commented/propetly named
+- all regulators got proper voltages (not default ranges)
+- ADC-sensed buttons K1..K5 added
+- re-labelled "eth_phy" -> "rgmii_phy"
+- usbphy 0 switched from host into peripheral mode (downstream from an
+  onboard hub)
+- typo sun50i-a133-baije-core.dtsi -> sun50i-a133-baijie-core.dtsi
+v2:
+- introduced baijie,helper-a133-core compatible for the Core (SoM) board
+- https://lore.kernel.org/all/20260510201644.4143710-1-alexander.sverdlin@gmail.com/
+v1:
+- https://lore.kernel.org/all/20260503191842.2736130-1-alexander.sverdlin@gmail.com/
 
 
---+lPBCRAKF88mfx7A
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Alexander Sverdlin (5):
+  dt-bindings: vendor-prefixes: Add Shenzhen Baijie Technology Co., Ltd.
+  dt-bindings: arm: sunxi: Add Baijie HelperBoard A133 compatible
+  arm64: dts: allwinner: a100: Add LRADC node
+  arm64: dts: allwinner: A133: add support for Baijie Helper A133 board
+  arm64: defconfig: Enable Allwinner LRADC input driver
 
-Hi again,
+ .../devicetree/bindings/arm/sunxi.yaml        |   6 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../arm64/boot/dts/allwinner/sun50i-a100.dtsi |   9 +
+ .../allwinner/sun50i-a133-baijie-core.dtsi    | 190 ++++++++++++++++++
+ .../allwinner/sun50i-a133-baijie-helper.dts   | 133 ++++++++++++
+ arch/arm64/configs/defconfig                  |   1 +
+ 7 files changed, 342 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-a133-baijie-core.dtsi
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-a133-baijie-helper.dts
 
-Le Sun 17 May 26, 23:48, Paul Kocialkowski a =C3=A9crit :
-> Hi Arash,
->=20
-> Le Sat 09 May 26, 08:39, Arash Golgol a =C3=A9crit :
-> > Extend vidioc_enum_fmt to support MC-centric enumeration by filtering
-> > pixel formats based on the provided mbus code. Advertise MC I/O support
-> > on the video device to reflect its intended usage within a media graph.
->=20
-> There is one (important) thing I overlooked last time: the list of
-> direct matches between mbus code and pixelformat only covers some of the
-> formats that the driver supports, but not all of them.
->=20
-> This is reflected in sun6i_csi_capture_link_validate, where we check
-> that a given mbus format set on the bridge is compatible with the
-> pixelformat set on the capture side.
->=20
-> I think we essentially have to extract that validation logic into a new
-> helper and then use it against all supported pixel formats for a given
-> mbus code to find out if that pixel format should be returned or not.
-> So it also means that multiple pixel formats can be supported for a given
-> mbus format.
->=20
-> A typical example of this would be MEDIA_BUS_FMT_YUYV8_2X8 than can be
-> stored to either YUYV (raw mode), NV16/YUV422 (YUV mode, no resampling) or
-> NV12/YUV420 (YUV mode, 422 -> 420 resampling).
->=20
-> You're welcome to give it a try if you'd like or I could take a look at
-> this myself.
+-- 
+2.54.0
 
-I just found this old series I never follow-up on which does pretty much
-exactly that, along with additions to v4l2_format_info.
-
-https://patchwork.kernel.org/project/linux-media/list/?series=3D733589&arch=
-ive=3Dboth
-
-If you don't mind I will just pick up this work based on my earlier
-series directly.
-
-All the best,
-
-Paul
-
-> Also the first comment after the sun6i_csi_capture_format_matches
-> declaration should be "YUV422", not "YUV420" (would be good to fix it
-> while touching these parts).
->=20
-> All the best,
->=20
-> Paul
->=20
-> > Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> > Changes in v3:
-> >  - No change
-> >  - Link to v2: https://patchwork.kernel.org/project/linux-media/patch/2=
-0260508161721.94285-4-arash.golgol@gmail.com/
-> >=20
-> > Changes in v2:
-> >  - Return pixelformat directly instead of a pointer
-> >  - Link to v1: https://patchwork.kernel.org/project/linux-media/patch/2=
-0260217064050.18388-4-arash.golgol@gmail.com/
-> >=20
-> >  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 39 +++++++++++++++++--
-> >  1 file changed, 36 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c=
- b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> > index f788b4234673..5737ebaa7297 100644
-> > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> > @@ -327,6 +327,22 @@ static bool sun6i_csi_capture_format_match(u32 pix=
-elformat, u32 mbus_code)
-> >  	return false;
-> >  }
-> > =20
-> > +static u32 sun6i_csi_capture_pixelformat_find(u32 mbus_code)
-> > +{
-> > +	unsigned int i;
-> > +
-> > +	for (i =3D 0; i < ARRAY_SIZE(sun6i_csi_capture_format_matches); i++) {
-> > +		const struct sun6i_csi_capture_format_match *match =3D
-> > +			&sun6i_csi_capture_format_matches[i];
-> > +
-> > +		if (match->mbus_code =3D=3D mbus_code)
-> > +			return match->pixelformat;
-> > +	}
-> > +
-> > +	/* Valid fourcc is non-zero. */
-> > +	return 0;
-> > +}
-> > +
-> >  /* Capture */
-> > =20
-> >  static void
-> > @@ -729,11 +745,27 @@ static int sun6i_csi_capture_enum_fmt(struct file=
- *file, void *priv,
-> >  				      struct v4l2_fmtdesc *fmtdesc)
-> >  {
-> >  	u32 index =3D fmtdesc->index;
-> > +	u32 mbus_code =3D fmtdesc->mbus_code;
-> > +	u32 pixelformat;
-> > +
-> > +	/* MC-centric or Video-node-centric */
-> > +	if (mbus_code) {
-> > +		/* There is only one pixelformat for a mbus_code. */
-> > +		if (index)
-> > +			return -EINVAL;
-> > +
-> > +		pixelformat =3D sun6i_csi_capture_pixelformat_find(mbus_code);
-> > +	} else {
-> > +		if (index >=3D ARRAY_SIZE(sun6i_csi_capture_formats))
-> > +			return -EINVAL;
-> > +
-> > +		pixelformat =3D sun6i_csi_capture_formats[index].pixelformat;
-> > +	}
-> > =20
-> > -	if (index >=3D ARRAY_SIZE(sun6i_csi_capture_formats))
-> > +	if (!pixelformat)
-> >  		return -EINVAL;
-> > =20
-> > -	fmtdesc->pixelformat =3D sun6i_csi_capture_formats[index].pixelformat;
-> > +	fmtdesc->pixelformat =3D pixelformat;
-> > =20
-> >  	return 0;
-> >  }
-> > @@ -1065,7 +1097,8 @@ int sun6i_csi_capture_setup(struct sun6i_csi_devi=
-ce *csi_dev)
-> > =20
-> >  	strscpy(video_dev->name, SUN6I_CSI_CAPTURE_NAME,
-> >  		sizeof(video_dev->name));
-> > -	video_dev->device_caps =3D V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMIN=
-G;
-> > +	video_dev->device_caps =3D V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMIN=
-G |
-> > +				 V4L2_CAP_IO_MC;
-> >  	video_dev->vfl_dir =3D VFL_DIR_RX;
-> >  	video_dev->release =3D video_device_release_empty;
-> >  	video_dev->fops =3D &sun6i_csi_capture_fops;
-> > --=20
-> > 2.34.1
-> >=20
->=20
-> --=20
-> Paul Kocialkowski,
->=20
-> Independent contractor - sys-base - https://www.sys-base.io/
-> Free software developer - https://www.paulk.fr/
->=20
-> Expert in multimedia, graphics and embedded hardware support with Linux.
-
-
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---+lPBCRAKF88mfx7A
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmoKOfUACgkQhP3B6o/u
-lQyLrw/9GtTO/jWPOJMHb1iOQL6mwfoU8M7I0xJ19ViEhji949UAC5DA8JTl8Gi/
-9YGBIRTWQ1nvjzNuc5XHfo4JdyGaRaCcv2xtWfap8cvHvduCHlAHpo4c7W2utr3Q
-UKij3LgJtLEKj+J769ILuNQRR/KeWYRj2/imjjf0nPX+yF5b89k8HXicLSI1rnks
-YZGoyZmLIw1dapVQfrVivHZkGYYJ0/kcvct2QiyxZHrS0l+nlSw3pjpHGZqo+pH9
-S7kYX9GDl3PZ1SipGj2gsLJ+qCyJzs8khk7mEJbnczH7MMp3kk91PB79xz9y+ari
-tA79YJlonsHcPBYtbTlDarzJBV4UDHTVU3HpZhtPmN6clLv1oqKxrmGyFGvsTpcv
-RiwV5zBl2PICOHFQzFgzochujyhNyoHFgGDd1ONF4JNKK+bd1w+HzZB0aEfUu/nw
-f1T7EPcVrQwq6Tp6KgaMXPH4uLmyoHTIqWUWfylFbQVl9KF8j9bMhfBCfqRGvpq7
-IKZE7fX895khZaFPTEtczh3Wup/496fG58Sb4A2qrb+ZiGEohwZeh1WMDp4QetHM
-sH33nCsZjfqvfffvSbAXofzD19shRHzQCw1Ia7CzG6GWDPss0GWaQ23yEDHoo4TE
-roQqlEiVzmkUhbJnb5cd/UlSswZlxJO9TV4GW/+V2RwaWYTtQYY=
-=P/ft
------END PGP SIGNATURE-----
-
---+lPBCRAKF88mfx7A--
