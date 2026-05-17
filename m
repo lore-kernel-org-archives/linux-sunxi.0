@@ -1,220 +1,399 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DF6223DE9
-	for <linux-sunxi@lists.linux.dev>; Sun, 17 May 2026 20:37:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39E7BC8EB
+	for <linux-sunxi@lists.linux.dev>; Sun, 17 May 2026 21:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779050276; cv=none; b=m15K45/loNVf5J5PW5woLia3waqscImLWKZqm4igZNbbhKHF8+Xab27Kg2fxiHvTpXrIWv7RZ7EtwNF7XoqfGyXfRJcAt1hmRo9pwCDumTGQS54XNSH0hu214dy2FR9h+dK27c/lb3lG5e3oASNwuzoRb96Z+pu/C7RLpEiMKK0=
+	t=1779052694; cv=none; b=uFbkAwkVchMZgkFJKzoIy4/7tmAJjcMcBkar629ogHjjbSBJT6yyNcMx/A31PLvR1jLAf8IzDZQz1sfP8oXKGKPuNmJLVR+RjS2dFtjidKIlEcG2fKqReDkbRmiCaNin73/oTSLp+05kgi+RitEBYLuqztKd7BBXHoFibzD+ZSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779050276; c=relaxed/simple;
-	bh=rlbSlwGTV2AmvHlHO822z/zxZ++TLcjFgTSdirvXcOE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Y8wjhMjhKbfbLnhhx7T2EBKoymFUpUbZXFfAoVliHzy813TH+jyHYoXnG78B7HayBsM42pf9chiqLdksnZi0Qy5wb7DOMi3LH43zRFl8AJg4Li3mOysgW4SpBRfKNQ/fUPz5R7sO+dS/wF7kmaRTWh9O17REov5FfnV9YkP5iLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rl0mxM2R; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rl0mxM2R"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48984d29fe3so16928395e9.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 17 May 2026 13:37:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779050274; x=1779655074; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=fPgB9UynDfl3zmI3aakfTZKeiVVfht++/m5WoF0UhgA=;
-        b=rl0mxM2R4pzrYQgQFF3mihNJPylqnbSRJM/u0UKmjG4vIbqF260nwIjpGHDueUMrue
-         THTwrLRzgom7Ji6b+gbcBf5UkmcVFfowM5k1VuI+2cyim53ZUyQvE4i4Cc8pVdnwUuRU
-         7oHODyqYaf1cr2HRpnr9QbKM7z/o5sBR4T5yy5L+yBFFejOV7HI4d8V1v19ijY0XQiJF
-         V2LaKBXuyIP1f1E4r2vbWA737om2TapnSX1OrEiBQ+lSTaBrR5ApTGC7sS3AUH8GsQHj
-         ycCcU7pxTiBMUIJqU5VZbujgcFtfr7n9JJIFQqZIwJsZxn4bKjDZmUo2b9qPT01PHLSD
-         aW3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779050274; x=1779655074;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fPgB9UynDfl3zmI3aakfTZKeiVVfht++/m5WoF0UhgA=;
-        b=TA05uuC4QbT8c8jGzWlxasSLKaJN16LhStiRQrs2lVEn2CNbRt+DkOJt4hFHhqSzJT
-         Z/HrPwtEdrs9DMRbjXEOrL2kBPFA0udLrJ9O17ZvQGjaQ60HIZo2ewO+0WNkYn/ie9C2
-         ifoXQ+LXFEmoktUZl6zXdJIOgUIeQEB6koYbmMpeLVCJ/l6MztHjOEaTT4nvtkYd7Ui9
-         dhs3EfJ8+ljcPku51qbUqdH2fJj6dCY8O6HuwXcfp8uwjDWT+d/c7bChra3D5VspDNvU
-         hPNLkfITASpDTUnS/5bBcRaf5GM6bgLbqopfzwngm2G52MOaxg/UP1xkh1uqYU8jFoUz
-         JfYg==
-X-Forwarded-Encrypted: i=1; AFNElJ+R4VVzAf4iUpo1zGI4JRsbjbfdL9WpyfRANwEbCvG469lYlputEHeR/hpfoCu/cTuj+UKNpjsRywkasw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywu3kMXa2nYm3HVXcmGBJf7OBi4osy0S7ONMJOQiDb0FD0bYIyz
-	SREUU6zGcR64mzoTVzanX1/LOWpyAtI3uhBvar6jQuZO5DbW1NChLiGq
-X-Gm-Gg: Acq92OGN/IrwG87hpmVAaiE43AIhB6I9hy26aZD0MzdcwwbrbCFJsW9PXaCznLRtA5l
-	PgfPg3Zk8db08EYJulVA5etabND9Dh0dRaYcwSK+tVFRlmEph4OHNnoSEo4cTcE2HTkUl36RWaj
-	6bFmVsxS3ohKkdMyGwll1EUpwXn+fH5GHo4p32665ej4cD+pJ8cWkuBBGYMOWHJuGt3mjn5l4eI
-	ko9y9W9syJpEOrjawgNiZ9AHmhpBhDa98BVH/5htPxKKsFFv8qAszPyUOvtciCPiDjZO86P91od
-	OKUZdqtRzI0DlcoJr9CCOY4EcgqEdL8meaWJNxM6ORWVXi40f1kThTRvPW3Dhla61xJeV4JKFbO
-	JdGfTm4PP4e+OOpXmSYFgNNFO1mh79qE9/oHwWwW/Hmki+1cfhe2mvZZ9/O07fGicF8Xf+AeuZp
-	yTybujw53kVbiw/0MSUmrAvUPLm4CWmB//8HP5IpOG9IXB7nvIjHTt9+zoc+RU+zufF9O6/rDIf
-	ng=
-X-Received: by 2002:a05:600c:a293:b0:48f:e6de:1cc6 with SMTP id 5b1f17b1804b1-48fe6de1e03mr114181345e9.32.1779050273455;
-        Sun, 17 May 2026 13:37:53 -0700 (PDT)
-Received: from giga-mm-11.home (72.92.4.85.dynamic.cust.swisscom.net. [85.4.92.72])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe5694fbfsm363386665e9.6.2026.05.17.13.37.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 May 2026 13:37:52 -0700 (PDT)
-Message-ID: <14a7e289ff5ffed8fcd6dcb9b2e8455a1b2c9420.camel@gmail.com>
-Subject: Re: [PATCH v2 3/3] arm64: dts: allwinner: A133: add support for
- Baijie Helper A133 board
-From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-To: Andre Przywara <andre.przywara@arm.com>, linux-sunxi@lists.linux.dev
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>,  Samuel Holland <samuel@sholland.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Date: Sun, 17 May 2026 22:38:13 +0200
-In-Reply-To: <2306dd3c-6362-40ee-8d9f-77f89be3a502@arm.com>
-References: <20260510201644.4143710-1-alexander.sverdlin@gmail.com>
-	 <20260510201644.4143710-4-alexander.sverdlin@gmail.com>
-	 <2306dd3c-6362-40ee-8d9f-77f89be3a502@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 
+	s=arc-20240116; t=1779052694; c=relaxed/simple;
+	bh=gblGyBH6yDYjqnxJnKSm4FihAe+/V66x6J886Jr6KlA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CdriFuMiOsRkM3sObmwnF1AIYzcxrri/M9gvodnAWR00/pCQqJQ/xwH2Y5sm4JlB4XDnrImfjCzV1hZrUqZVSD4bhPEwei4EXpcEAkSIZvGbLEup3fvJGtE82XAQoL9fdRZvBSKfiqWv3UPAFe7mDRz+ILK/nU3/Pxixj9faR8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 8E2521F8004F
+	for <linux-sunxi@lists.linux.dev>; Sun, 17 May 2026 21:18:08 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id DB581B407A6; Sun, 17 May 2026 21:18:06 +0000 (UTC)
+X-Spam-Level: 
+Received: from collins (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id A28F4B4079C;
+	Sun, 17 May 2026 21:18:05 +0000 (UTC)
+Date: Sun, 17 May 2026 23:18:03 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Arash Golgol <arash.golgol@gmail.com>
+Cc: linux-media@vger.kernel.org, mchehab@kernel.org, wens@kernel.org,
+	jernej.skrabec@gmail.com, samuel@sholland.org,
+	laurent.pinchart@ideasonboard.com, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v3] media: sun8i-a83t-mipi-csi2: Use V4L2 subdev active
+ state
+Message-ID: <agowixYIRIB7D3J3@collins>
+References: <20260515173101.8978-1-arash.golgol@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="XGZqOrNyWuP5I4V2"
+Content-Disposition: inline
+In-Reply-To: <20260515173101.8978-1-arash.golgol@gmail.com>
 
-Hi Andre,
 
-thanks for the quick feedback!
+--XGZqOrNyWuP5I4V2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2026-05-11 at 13:44 +0200, Andre Przywara wrote:
-> > --- /dev/null
-> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-baije-core.dtsi
-> > @@ -0,0 +1,162 @@
-> > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> > +/*
-> > + * Copyright (c) 2025 Arm Ltd.
+Hi Arash,
+
+Le Fri 15 May 26, 21:01, Arash Golgol a =C3=A9crit :
+> Use the V4L2 subdev active state API to store the active format.
+> This simplifies the driver not only by dropping the bridge mbus_format
+> field, but it also allows dropping the bridge lock, replaced with
+> the state lock.
 >=20
-> Please put your own copyright here, even if that has been largely copied=
-=20
-> from an existing file.
+> The sun8i-a83t-mipi-csi2 hardware does not perform any format
+> conversion. Enforce identical formats on the sink and source pads in
+> the set_fmt() and init_state() callbacks.
+
+Looks good to me and works well on the hardware!
+Thanks again for your work.
+
+Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
+Tested-by: Paul Kocialkowski <paulk@sys-base.io>
+
+All the best,
+
+Paul
+
+> Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
+> ---
+> Changes in v3:
+>  - Fix active state lock leak on runtime PM error path
 >=20
-> > + */
-> > +
-> > +/dts-v1/;
-> > +
-> > +#include "sun50i-a100.dtsi"
-> > +#include "sun50i-a100-cpu-opp.dtsi"
-> > +
-> > +/{
-> > +	compatible =3D "baijie,helper-a133-core",
-> > +		=C2=A0=C2=A0=C2=A0=C2=A0 "allwinner,sun50i-a100";
-> > +
-> > +	aliases {
-> > +		serial1 =3D &uart1;	/* BT module */
+> Changes in v2:
+>  - Initialize active state before calling v4l2_subdev_state_get_format()
+>  - Fix line wrapping reported by checkpatch
+>  - Link to media-ci report: https://linux-media.pages.freedesktop.org/-/u=
+sers/patchwork/-/jobs/99865145/artifacts/report.htm
 >=20
-> Do we really need an alias for the BT UART? And is the BT module=20
-> supported already? Then please add a child node to the UART node.
-
-That's the only thing I can do currently regarding BT: stabilize the
-serial enumeration, because UART1 cannot be used for anything else
-except BT module, because this is soldered inside "core" module.
-We can avoid different tty enumeration, should the support for
-BT be implemented in the future...
-
-> Isn't the WiFi/BT module on the SoM? Then please mention and enable MMC1=
-=20
-> here. Provide the child node for the WiFi chip, even if there is no=20
-> upstream support in the kernel for it yet.
-
-So both the above BT and the WiFi is AW869A/AIC8800 combo chip, which
-has neither upstream driver, nor [upstream] DT bindings. Even github
-driver for AIC8800 doesn't seem to use DT, therefore it looks quite
-pointless to me at this point to specify anything in the DT for the
-chip which doesn't have the bindings idea even theoretically.
-
-Nothing in the current DT shall block any future work on the AW869A
-support though and the above "aliases" entry shall even guarantee
-unchanged serial enumeration shall such support arise.
-
-> > +&reg_aldo1 {
+>  .../sun8i_a83t_mipi_csi2.c                    | 113 +++++++++---------
+>  .../sun8i_a83t_mipi_csi2.h                    |   2 -
+>  2 files changed, 56 insertions(+), 59 deletions(-)
 >=20
-> What is aldo1 used for, actually? I don't see this referenced anywhere.=
-=20
-> I guess the kernel turns that off after booting?
-> If you have access to the schematic, please check that. If that's for=20
-> some peripheral not yet supported, please note the user anyway, ideally=
-=20
-> by an explaining regulator-name, or by a comment. Also if it's used for=
-=20
-> any of the required SoC VDD pins. See the Liontron .dts for comparison.
->=20
-> > +	regulator-always-on;
-        ^^^^^^^^^^^^^^^^^^^
-I suppose it's not being switcdhed of because of the above.
-It's used for both PLL supply for the whole SoC + as analog voltage referen=
-ce
-for LRADC (the buttons you've noticed on the board are connected to
-this ADC via a resistor ladder).
-
->=20
-> > +&reg_aldo2 {
-> > +	regulator-always-on;
->=20
-> For always-on regulators we definitely need an explanation. Does the=20
-> board stop booting if you remove this line?
-> Maybe it's for DRAM? Can you say what voltage it is, either from the=20
-> reset default, or set by the bootloader?
-
-Thanks for the hint! I'll put proper voltages into all regulators +
-comment all the always-on regulators.
-
->=20
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a133-baijie-helper.dt=
-s b/arch/arm64/boot/dts/allwinner/sun50i-a133-baijie-helper.dts
-> > new file mode 100644
-> > index 000000000000..ccbca5d0a40c
-> > --- /dev/null
-> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-baijie-helper.dts
-
-> And you should provide a top level 5V regulator here, to be the root of=
-=20
-> the regulator tree. Look at reg_vcc5v in the Liontron .dts.
-
-It doesn't look to me as if Liontron had reg_vcc5v as its 5V "root" regulat=
-or.
-It seems to be only used for reg_usb1_vbus, while HelperBoard A133 doesn't
-have USB power control. The second issue with Helper/Core split is that
-all PMIC story is inside Core board which has 5V input rail, while HelperBo=
-ard
-around it has indeed 12V->5V DCDC regulator (similar to Liontron), but
-putting it in the DT would introduce wierd dependency of the core to the
-HelperBoard which carries it. Do you think it would make sense?
-
-> So from the pictures I found online it looks like there is an USB-C port=
-=20
-> labelled "OTG", so can you please add an &usbotg reference here and=20
-> describe that port.
-
-Nice catch! I've missed the fact usbphy 0 has to be in peripheral mode,
-not host mode. Will rework!
-
-> > +&usbphy {
->=20
-> Are the two USB ports always powered?
->=20
-> And anyway, I see a *dual* USB-A socket on the pictures online, in=20
-> addition to the USB-OTG port. So where does the third USB come from? The=
-=20
-> A133 only supports one host USB port plus the one OTG port. So is there=
-=20
-> an USB hub chip on the board?
-
-There are two hubs, one on each usbphy. OTG side hub is even bus-powered,
-two USB-A ports are always powered from the board's 12V->5V DCDC, no USB
-load switches.
+> diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
+_mipi_csi2.c b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
+_mipi_csi2.c
+> index dbc51daa4fe3..2b7635f3952d 100644
+> --- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
+si2.c
+> +++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
+si2.c
+> @@ -144,12 +144,12 @@ sun8i_a83t_mipi_csi2_disable(struct sun8i_a83t_mipi=
+_csi2_device *csi2_dev)
+>  }
+> =20
+>  static void
+> -sun8i_a83t_mipi_csi2_configure(struct sun8i_a83t_mipi_csi2_device *csi2_=
+dev)
+> +sun8i_a83t_mipi_csi2_configure(struct sun8i_a83t_mipi_csi2_device *csi2_=
+dev,
+> +			       const struct v4l2_mbus_framefmt *mbus_format)
+>  {
+>  	struct regmap *regmap =3D csi2_dev->regmap;
+>  	unsigned int lanes_count =3D
+>  		csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
+> -	struct v4l2_mbus_framefmt *mbus_format =3D &csi2_dev->bridge.mbus_forma=
+t;
+>  	const struct sun8i_a83t_mipi_csi2_format *format;
+>  	struct device *dev =3D csi2_dev->dev;
+>  	u32 version =3D 0;
+> @@ -205,7 +205,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
+subdev *subdev, int on)
+>  	struct v4l2_subdev *source_subdev =3D csi2_dev->bridge.source_subdev;
+>  	union phy_configure_opts dphy_opts =3D { 0 };
+>  	struct phy_configure_opts_mipi_dphy *dphy_cfg =3D &dphy_opts.mipi_dphy;
+> -	struct v4l2_mbus_framefmt *mbus_format =3D &csi2_dev->bridge.mbus_forma=
+t;
+> +	struct v4l2_subdev_state *state;
+> +	const struct v4l2_mbus_framefmt *mbus_format;
+>  	const struct sun8i_a83t_mipi_csi2_format *format;
+>  	struct phy *dphy =3D csi2_dev->dphy;
+>  	struct device *dev =3D csi2_dev->dev;
+> @@ -215,8 +216,12 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2=
+_subdev *subdev, int on)
+>  	unsigned long pixel_rate;
+>  	int ret;
+> =20
+> -	if (!source_subdev)
+> -		return -ENODEV;
+> +	state =3D v4l2_subdev_lock_and_get_active_state(subdev);
+> +
+> +	if (!source_subdev) {
+> +		ret =3D -ENODEV;
+> +		goto unlock;
+> +	}
+> =20
+>  	if (!on) {
+>  		v4l2_subdev_call(source_subdev, video, s_stream, 0);
+> @@ -228,7 +233,7 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
+subdev *subdev, int on)
+> =20
+>  	ret =3D pm_runtime_resume_and_get(dev);
+>  	if (ret < 0)
+> -		return ret;
+> +		goto unlock;
+> =20
+>  	/* Sensor pixel rate */
+> =20
+> @@ -254,6 +259,9 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
+subdev *subdev, int on)
+>  		goto error_pm;
+>  	}
+> =20
+> +	mbus_format =3D
+> +		v4l2_subdev_state_get_format(state,
+> +					     SUN8I_A83T_MIPI_CSI2_PAD_SINK);
+>  	format =3D sun8i_a83t_mipi_csi2_format_find(mbus_format->code);
+>  	if (WARN_ON(!format)) {
+>  		ret =3D -ENODEV;
+> @@ -292,7 +300,7 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
+subdev *subdev, int on)
+> =20
+>  	/* Controller */
+> =20
+> -	sun8i_a83t_mipi_csi2_configure(csi2_dev);
+> +	sun8i_a83t_mipi_csi2_configure(csi2_dev, mbus_format);
+>  	sun8i_a83t_mipi_csi2_enable(csi2_dev);
+> =20
+>  	/* D-PHY */
+> @@ -309,7 +317,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
+subdev *subdev, int on)
+>  	if (ret && ret !=3D -ENOIOCTLCMD)
+>  		goto disable;
+> =20
+> -	return 0;
+> +	ret =3D 0;
+> +	goto unlock;
+> =20
+>  disable:
+>  	phy_power_off(dphy);
+> @@ -318,6 +327,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
+subdev *subdev, int on)
+>  error_pm:
+>  	pm_runtime_put(dev);
+> =20
+> +unlock:
+> +	v4l2_subdev_unlock_state(state);
+>  	return ret;
+>  }
+> =20
+> @@ -341,22 +352,24 @@ sun8i_a83t_mipi_csi2_mbus_format_prepare(struct v4l=
+2_mbus_framefmt *mbus_format)
+>  static int sun8i_a83t_mipi_csi2_init_state(struct v4l2_subdev *subdev,
+>  					   struct v4l2_subdev_state *state)
+>  {
+> -	struct sun8i_a83t_mipi_csi2_device *csi2_dev =3D
+> -		v4l2_get_subdevdata(subdev);
+> -	unsigned int pad =3D SUN8I_A83T_MIPI_CSI2_PAD_SINK;
+> -	struct v4l2_mbus_framefmt *mbus_format =3D
+> -		v4l2_subdev_state_get_format(state, pad);
+> -	struct mutex *lock =3D &csi2_dev->bridge.lock;
+> +	unsigned int pad;
+> =20
+> -	mutex_lock(lock);
+> +	/*
+> +	 * This subdev does not perform format conversion,
+> +	 * initialize both pads identically.
+> +	 */
+> +	for (pad =3D 0; pad < subdev->entity.num_pads; pad++) {
+> +		struct v4l2_mbus_framefmt *mbus_format;
+> =20
+> -	mbus_format->code =3D sun8i_a83t_mipi_csi2_formats[0].mbus_code;
+> -	mbus_format->width =3D 640;
+> -	mbus_format->height =3D 480;
+> +		mbus_format =3D v4l2_subdev_state_get_format(state, pad);
+> +
+> +		mbus_format->code =3D sun8i_a83t_mipi_csi2_formats[0].mbus_code;
+> +		mbus_format->width =3D 640;
+> +		mbus_format->height =3D 480;
+> =20
+> -	sun8i_a83t_mipi_csi2_mbus_format_prepare(mbus_format);
+> +		sun8i_a83t_mipi_csi2_mbus_format_prepare(mbus_format);
+> +	}
+> =20
+> -	mutex_unlock(lock);
+> =20
+>  	return 0;
+>  }
+> @@ -375,55 +388,33 @@ sun8i_a83t_mipi_csi2_enum_mbus_code(struct v4l2_sub=
+dev *subdev,
+>  	return 0;
+>  }
+> =20
+> -static int sun8i_a83t_mipi_csi2_get_fmt(struct v4l2_subdev *subdev,
+> -					struct v4l2_subdev_state *state,
+> -					struct v4l2_subdev_format *format)
+> -{
+> -	struct sun8i_a83t_mipi_csi2_device *csi2_dev =3D
+> -		v4l2_get_subdevdata(subdev);
+> -	struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
+> -	struct mutex *lock =3D &csi2_dev->bridge.lock;
+> -
+> -	mutex_lock(lock);
+> -
+> -	if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
+> -		*mbus_format =3D *v4l2_subdev_state_get_format(state,
+> -							     format->pad);
+> -	else
+> -		*mbus_format =3D csi2_dev->bridge.mbus_format;
+> -
+> -	mutex_unlock(lock);
+> -
+> -	return 0;
+> -}
+> -
+>  static int sun8i_a83t_mipi_csi2_set_fmt(struct v4l2_subdev *subdev,
+>  					struct v4l2_subdev_state *state,
+>  					struct v4l2_subdev_format *format)
+>  {
+> -	struct sun8i_a83t_mipi_csi2_device *csi2_dev =3D
+> -		v4l2_get_subdevdata(subdev);
+> -	struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
+> -	struct mutex *lock =3D &csi2_dev->bridge.lock;
+> +	struct v4l2_mbus_framefmt *fmt;
+> =20
+> -	mutex_lock(lock);
+> +	/* The format on the source pad always matches the sink pad. */
+> +	if (format->pad !=3D SUN8I_A83T_MIPI_CSI2_PAD_SINK)
+> +		return v4l2_subdev_get_fmt(subdev, state, format);
+> =20
+> -	sun8i_a83t_mipi_csi2_mbus_format_prepare(mbus_format);
+> +	sun8i_a83t_mipi_csi2_mbus_format_prepare(&format->format);
+> =20
+> -	if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
+> -		*v4l2_subdev_state_get_format(state, format->pad) =3D
+> -			*mbus_format;
+> -	else
+> -		csi2_dev->bridge.mbus_format =3D *mbus_format;
+> +	/* Set the format on the sink pad. */
+> +	fmt =3D v4l2_subdev_state_get_format(state, format->pad);
+> +	*fmt =3D format->format;
+> =20
+> -	mutex_unlock(lock);
+> +	/* Propagate the format to the source pad. */
+> +	fmt =3D v4l2_subdev_state_get_format(state,
+> +					   SUN8I_A83T_MIPI_CSI2_PAD_SOURCE);
+> +	*fmt =3D format->format;
+> =20
+>  	return 0;
+>  }
+> =20
+>  static const struct v4l2_subdev_pad_ops sun8i_a83t_mipi_csi2_pad_ops =3D=
+ {
+>  	.enum_mbus_code	=3D sun8i_a83t_mipi_csi2_enum_mbus_code,
+> -	.get_fmt	=3D sun8i_a83t_mipi_csi2_get_fmt,
+> +	.get_fmt	=3D v4l2_subdev_get_fmt,
+>  	.set_fmt	=3D sun8i_a83t_mipi_csi2_set_fmt,
+>  };
+> =20
+> @@ -540,8 +531,6 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83t_m=
+ipi_csi2_device *csi2_dev)
+>  	bool notifier_registered =3D false;
+>  	int ret;
+> =20
+> -	mutex_init(&bridge->lock);
+> -
+>  	/* V4L2 Subdev */
+> =20
+>  	v4l2_subdev_init(subdev, &sun8i_a83t_mipi_csi2_subdev_ops);
+> @@ -570,6 +559,12 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83t_=
+mipi_csi2_device *csi2_dev)
+>  	if (ret)
+>  		return ret;
+> =20
+> +	/* V4L2 Subdev finalize */
+> +
+> +	ret =3D v4l2_subdev_init_finalize(subdev);
+> +	if (ret < 0)
+> +		goto error_media_entity_cleanup;
+> +
+>  	/* V4L2 Async */
+> =20
+>  	v4l2_async_subdev_nf_init(notifier, subdev);
+> @@ -603,6 +598,9 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83t_m=
+ipi_csi2_device *csi2_dev)
+>  error_v4l2_notifier_cleanup:
+>  	v4l2_async_nf_cleanup(notifier);
+> =20
+> +	v4l2_subdev_cleanup(subdev);
+> +
+> +error_media_entity_cleanup:
+>  	media_entity_cleanup(&subdev->entity);
+> =20
+>  	return ret;
+> @@ -617,6 +615,7 @@ sun8i_a83t_mipi_csi2_bridge_cleanup(struct sun8i_a83t=
+_mipi_csi2_device *csi2_dev
+>  	v4l2_async_unregister_subdev(subdev);
+>  	v4l2_async_nf_unregister(notifier);
+>  	v4l2_async_nf_cleanup(notifier);
+> +	v4l2_subdev_cleanup(subdev);
+>  	media_entity_cleanup(&subdev->entity);
+>  }
+> =20
+> diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
+_mipi_csi2.h b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
+_mipi_csi2.h
+> index f1e64c53434c..819527bcd64d 100644
+> --- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
+si2.h
+> +++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
+si2.h
+> @@ -33,8 +33,6 @@ struct sun8i_a83t_mipi_csi2_bridge {
+>  	struct media_pad		pads[SUN8I_A83T_MIPI_CSI2_PAD_COUNT];
+>  	struct v4l2_fwnode_endpoint	endpoint;
+>  	struct v4l2_async_notifier	notifier;
+> -	struct v4l2_mbus_framefmt	mbus_format;
+> -	struct mutex			lock; /* Mbus format lock. */
+> =20
+>  	struct v4l2_subdev		*source_subdev;
+>  };
+> --=20
+> 2.34.1
 >=20
 
 --=20
-Alexander Sverdlin.
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--XGZqOrNyWuP5I4V2
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmoKMIoACgkQhP3B6o/u
+lQxynQ/8DT/tQQXwb/4gFVBlINqCHLS8RkyMQe1PdHZS/V6xRk5O7Psn478GUo/4
++92AXqt1QJXVxm++1uFFq+/PNu3MhAIcdJhLKhLJ7Vv6gmPEEAMF1Q0Gua+/E/Ri
+OdOethJDxFTl4FaincOeZ02VFcDtpdaTFRK9Rf9oQ2VbbLt6R9ULATvK9jfDGSlT
+n1IvmBswOYABEHTjku5Tcx5pXVXoOwrs3hgd2uQuvWEfB9H9YdOfx1MXQtzjh1A6
+wM0V6afe/MKtriiHj6C54OupXBPloLwRYrWjtVfAQtL+6YtAib839Q/KOV5ke9jy
+GTLd1lTud5pF7rhgB5vIjlNgpiNOR5/IQyWZDXjs4EqZ+LD3pWcu59OeNPch/5jM
+e3a6JO0pwDnfNMuDjUYz9D2+Pavpg1N2bMYDo4MxKrVta7Lqdx1wEOZRG391P2Kg
+JDSMUwUuHwXFJrf1Fh74wLGlROK2TFXWXuxuvtk0//KH09/us4LfJGlNKvgYva93
+1CBbNa1fnc+88+Y0p++LcM/6jMWTsZyOBvI9Oh6PlbB7xsTGKO7yJxIf2BRRfZeh
+mdvFh+7YQMhLI4sB87TK7R6kw+mkg08lr0E2923Jn6MmE7oWQD1Rx4TEWM8I4RQs
+wJ53Z/r9W9gZwBQxQ+HLxi/KKweh1nZRRP/9Z3BzeVmK8zk4ihM=
+=T5j2
+-----END PGP SIGNATURE-----
+
+--XGZqOrNyWuP5I4V2--
