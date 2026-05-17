@@ -1,110 +1,99 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346CC3D6CC9
-	for <linux-sunxi@lists.linux.dev>; Sun, 17 May 2026 23:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D9F93D4118;
+	Sun, 17 May 2026 23:50:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779061294; cv=none; b=sFLRFP6cnzlgsN5kG9VOY9FBRuaK7kQAimd1V1pQoElHnQbvo829+xZSJcVo+boOGnO5TPatTgMB4E423eSb/cHNw30DWwwMQNJucQ1lzI0ZtAu7f+/i0PkRFWiDHQhlPWsXQdLxgTqq8CfZrnJomBqqUMtVRpvtmF0VXPUOm1s=
+	t=1779061807; cv=none; b=CsBFI3pNdQ4yjZ0qwsyigLPtS4VQIfN4LWfUa2Uce27WkHP7msjTyX/RiCDH6tjmGA130N4nJr+hw/g1/cP0LzIUmn/ZFC3Ve2+1fvlch3RgmUU2qMtOvuYlP+aWkqnmhNhkSjV1l9QVHtnNe1NRwswZDu+Wk6l4h7iFab4t+ZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779061294; c=relaxed/simple;
-	bh=2u4td5jGQ8Ow5l6X1ajhmMrh6sEykCQG5upAuJ1gZDI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iLmg6DpY/IyZ7V8Vo7jzdjEDc+Bb9dTvsgt+gaxSaH00A06fA5RSczwqO1M/+u7OOIEhfiPcUBfip8TRtfNTWpQfZGkTTr3C57Fviu9vgO3RoAhpQ7kN3rjTLNXg8kZFcGeZ4AlM4Vf4/JxmyboQ6CQrcNISsFkAciBDLQUkp/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j92r3IyE; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779061807; c=relaxed/simple;
+	bh=xhQrY4PuyesfqBKXyFRxpZUr0BD4LXWRygaapoHWwyI=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=f4fNJc1vko0UPCcMu0IRfr4VCdZM4hPPcKSOA3yZfhWGtL4sEBCwnbAwlY3YCbKdYqDaLNpHXZqupDslIMJzsTdI6F8mCcfWzV3TMK3lv2SAGP41B0tMw+utoy8btoyXNxdzu4L9m+stXc7LFVtwHehdqsUzYm1ujcaEKihDVuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BIw2+4Sn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j92r3IyE"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-45e6a4d0be0so444531f8f.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 17 May 2026 16:41:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779061290; x=1779666090; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gAFVp0sa+jSBvMKIktj8nBPRABJR9ywpSmKS0ZE52SQ=;
-        b=j92r3IyEc2PQqpyNHXmeTgtGV69/5G1Mx+bBjFq24hxiDyN906fjKO3k3qf4M+m5+b
-         NmN5mA4atjYoIycv795oMyB7JTL2ZzlJvXI+F9g6R0vc1qc8oFIKlMLWpyRx6feEHgHD
-         MG0bZyGZdXB2q+VQNHJUcsXCzPk0vEkynFwBYpjHeN0gD+t0njER3b1uF5wOqU/vq9bK
-         M/IOEo4dGiamqoofiWc7/NPR+H2/0Sp67ophstfbqtKlcXf4rfKq+rIL0KyEVptXPumN
-         BNEbZgM4tuTEo0b4RjNOWChHNIwv6V3OgU/LMriGTrlVP7GATw6mbZwq74JI8R+H5hCc
-         RdJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779061290; x=1779666090;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=gAFVp0sa+jSBvMKIktj8nBPRABJR9ywpSmKS0ZE52SQ=;
-        b=FUvGL/fK3RsNUobKj5nNet9IZsbjFAovunYzBJGR38+thIBx9tkdvenArzzvvItHuN
-         CwUF+i1hRZlfVq3HLT9mVK78IqOl2mBLZy4F1VZBv+YdQ8daTzTBWT15B5x02zhNDALa
-         SY92xize5JkG9q43/Mk//iRIGrNS87Y+4ZisoPqLit3ZGJMFCCglUpaDDmnrFG3NnZJU
-         i0zXhgIXgNooWrwCL4FqQoDRx9vckUSt2tvXcbuqMNGJ+d1flKHuAdwQEQm2L3pc9bA5
-         GnNHNoDh/2VUixgGPFHO0p6l9/+e4GdxbyjLmWGkIV6IeAmRNdfrm28CDAv5TLgqjTgq
-         EXDw==
-X-Gm-Message-State: AOJu0YzigiZzulDDxbXW/Y7xLcKk7ali8lBNQCC54TIHlbkavm177SBc
-	P/JnGBQf2iyMBYobojDyoE9LSr6BU9T1bLRLfJKBrD0kv59QMrWhdGf+OHK7hNt9
-X-Gm-Gg: Acq92OHIBRxYB4fduLL8txtBZkinlEv28wKl5E1vHbksBYxQj8FwYIYi61l19Cxz8iy
-	94YlsnNS0L5b9MCGaEkX/poOv3gspVeXa4mBRnxQe3xPDl0XRdmuwE8bblg/ZTSKPqjLUul7KGn
-	wNj4DM20QNciBlch6wgMIrTv7s+bsmiXo9GhqE8u1kZaxxfSQpNzfdYNL4FgRHWnycBT0+AqN0/
-	sDGXy7vzR3sH5OnGG72uMRvsKFe6yYZ/uwSq8yBlsevg0g9qDAoh38x4WHUJAPGCncNqVoF23rQ
-	BbO+EoxIEx6TuM/XqpaXjprZa89ZMcaoQb+FURiZ3kraU9V2A36fv4DosKAAmG2mnXqGLUHUAwG
-	bOiK/HmqyVCjfsydS8zJ0sTZA++xHn01wc3gmxyQFBToPurwcGm1/k3xtDiaK1EDxT27/nbHuZA
-	Oe//XJLLknRnJdM53sCVJ5pF5isoflKhBO34ln0v44ecLwcbGb9PiIxgThOUqNnYSmRODR+jitK
-	2e4ktCR5Io=
-X-Received: by 2002:a05:6000:2383:b0:43f:dbbf:6d93 with SMTP id ffacd0b85a97d-45e5c5f2032mr18741752f8f.27.1779061289760;
-        Sun, 17 May 2026 16:41:29 -0700 (PDT)
-Received: from localhost.localdomain (72.92.4.85.dynamic.cust.swisscom.net. [85.4.92.72])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da15a562dsm32845129f8f.33.2026.05.17.16.41.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 May 2026 16:41:29 -0700 (PDT)
-From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-To: linux-sunxi@lists.linux.dev
-Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 5/5] arm64: defconfig: Enable Allwinner LRADC input driver
-Date: Mon, 18 May 2026 01:41:31 +0200
-Message-ID: <20260517234134.2737320-6-alexander.sverdlin@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260517234134.2737320-1-alexander.sverdlin@gmail.com>
-References: <20260517234134.2737320-1-alexander.sverdlin@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BIw2+4Sn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92840C2BCB0;
+	Sun, 17 May 2026 23:50:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779061806;
+	bh=xhQrY4PuyesfqBKXyFRxpZUr0BD4LXWRygaapoHWwyI=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date:From;
+	b=BIw2+4Snp+3QPOd+uAmouojEZq2hya6vyG6ZhTjrDV8WxeatZEdPV1l3kGCV8gi6S
+	 axGVYOiBx389h8KyJPRyD8xdIovE0BZgv2vPgDnv/zSSWbJIgmyShGO5Hqtc5iTLtX
+	 Ng7sxPRWyIdsV2C9iv11RJvss5H+H9m8H3nN0XhrZwRhwiaxpjB14zS9CTxclO6mOO
+	 fKgePLhajcnsC2m0Ch6aVGv46W6UJp2G3+x8QO6DYRvUgEo56CpW3P2KkIwzJ8BBDN
+	 5zxbhQBIL8rlL/yv135h55rAi4L0sWCr1fwaglp0GZEH4z7Xi8uLHzcRgz5W9UQRSD
+	 C1WLwEqKMG5cQ==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3 2/5] dt-bindings: arm: sunxi: Add Baijie HelperBoard
+ A133 compatible
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Alexander Sverdlin" <alexander.sverdlin@gmail.com>
+Cc: robh@kernel.org, devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, conor+dt@kernel.org
+In-Reply-To: <20260517234134.2737320-3-alexander.sverdlin@gmail.com>
+References: <20260517234134.2737320-3-alexander.sverdlin@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 17 May 2026 23:50:06 +0000
+Message-Id: <20260517235006.92840C2BCB0@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Enable Allwinner LRADC input driver as module to support buttons on Baijie
-HelperBoard A133.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Low] Missing standalone compatible entry for the Core board.
+--
 
-Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+commit 76fcabeafe7a55386e6089c83f652ab14cf4b7ec
+Author: Alexander Sverdlin <alexander.sverdlin@gmail.com>
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 094bb9cd8764..570e84674029 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -524,6 +524,7 @@ CONFIG_KEYBOARD_GPIO=y
- CONFIG_KEYBOARD_GPIO_POLLED=m
- CONFIG_KEYBOARD_SNVS_PWRKEY=m
- CONFIG_KEYBOARD_IMX_SC_KEY=m
-+CONFIG_KEYBOARD_SUN4I_LRADC=m
- CONFIG_KEYBOARD_CROS_EC=y
- CONFIG_KEYBOARD_MTK_PMIC=m
- CONFIG_MOUSE_ELAN_I2C=m
--- 
-2.54.0
+dt-bindings: arm: sunxi: Add Baijie HelperBoard A133 compatible
 
+Baijie HelperBoard A133 is a development board around their A133 Core
+board. Introduce a compatible for both the Core and the development
+boards.
+
+> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documenta=
+tion/devicetree/bindings/arm/sunxi.yaml
+> index 9e4627f97d7e3..845b5a93686e7 100644
+> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
+> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> @@ -96,6 +96,12 @@ properties:
+[ ... ]
+> +      - description: Baijie Helper A133
+> +        items:
+> +          - const: baijie,helper-a133
+> +          - const: baijie,helper-a133-core
+> +          - const: allwinner,sun50i-a100
+> +
+
+The commit message states the intent to "Introduce a compatible for both the
+Core and the development boards."
+
+Since this items list requires exactly three elements, it correctly validat=
+es
+the development board, but it appears a device tree written solely for the
+standalone Core board would be rejected.
+
+If the Core board were used with a different custom carrier board in the
+future, would it need its own standalone compatible entry?
+
+For example:
+
+      - description: Baijie Helper A133 Core
+        items:
+          - const: baijie,helper-a133-core
+          - const: allwinner,sun50i-a100
+
+Does omitting a standalone entry for the Core board limit flexibility for f=
+uture
+designs based on it?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260517234134.2737=
+320-1-alexander.sverdlin@gmail.com?part=3D2
