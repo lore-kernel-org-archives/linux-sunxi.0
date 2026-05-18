@@ -1,120 +1,98 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E062481246
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 14:14:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C880A34DCE0
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 14:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779113686; cv=none; b=DKA1B+Z5RbxowI0pmo8HysaqA1Y5ThL3UQOYXYN2VjILSFoNfJSCtdx/DmpXQhy3JmZJK/L2F2FT9AzJ8xOIduFjEXIhlQl5mS196Ii7JIKaCfm/99lwq8u1WFk08alL/z/PFzyGHPU01GZVkAx0pfWsDd9RNV5crUTJUZwlQTI=
+	t=1779115216; cv=none; b=bq2/vatUYRmWxr4/c69DbeeG4rgGCUgmvqMpotZL3GA5K7Z4r7tzwjgvjtqf9rEM0l5xtG9Nd7gK6Hi8nP5aDrXynTj31/OWKp86SW2LfEteoGYJH6TtLuyTESdXdGfRhmr29Eb0ni6phZ9p5HJbLA8l6FEvlmI82pEFaPp66WA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779113686; c=relaxed/simple;
-	bh=ZgPHNxFeYLuFZ/hmvF0vBYpJj99fq4Y1mXbnP9/ld0U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cbf6JrHakehszbyAsO9FSfxojBP3s4f80nq6L5Kw9HFp/71e/qXaItOFPlOzskovJLeEBZ/EMDDrHObpIfAMFGOJtockrbzUVR7fmRnBbPvJtM1teBRh/Mg0P53XG4JelZvUk9Q0cYbHiDA/TinFfaGDeYeg+Uy8G0zjyqPwL2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 659C41F8004D
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 14:14:43 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 32C1FB407F3; Mon, 18 May 2026 14:14:42 +0000 (UTC)
-X-Spam-Level: 
-Received: from collins (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id 74C9EB407F3;
-	Mon, 18 May 2026 14:14:41 +0000 (UTC)
-Date: Mon, 18 May 2026 16:14:39 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+	s=arc-20240116; t=1779115216; c=relaxed/simple;
+	bh=S4c2AULgCr+oAYdflJy/tl/FD0zXRMyuMjKCi/X55po=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=POnl1BqIMysiz8xbxLemTBIkYrxc1SA9DeL7+QWNi4bf0+NI+uflvUxNYV5+kFRi88DeUrt6PAsF/XD894uZYPJxLR3+/7m+4FI96IGhnp5WsKtl+7OTOXfqMVmPfg035Afi3d33eoEy+GM5GloOqrvtk5jOJU4Wo43QwlVpe8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FWaDoNWm; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FWaDoNWm"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-488a88aeec9so28560405e9.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 07:40:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779115213; x=1779720013; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=S4c2AULgCr+oAYdflJy/tl/FD0zXRMyuMjKCi/X55po=;
+        b=FWaDoNWmO6XWB2ETVayocc+293KRres/FYt4ifiB7KkSFxwO0GRCAnYXaDqgPrWf+1
+         p3A0LkcogL9ScdMuyGXcP8HvUH3HUQQtJCgIt1imtReSpHQGXI4oDMkEjPebagr8YeRZ
+         vCK9pRUhtEYoOQUYAAqHmMypTot+9mThhBl8g7zTDkQhfMuusY2lfealoxFg+AqTeghV
+         hgTFjTqHLfImKsy2zbSfyDEKD3tHLzSpq5T3/MFGzWodrxcRYHvIyYNHdGaAFJsAgkXu
+         TBA4h8cu3VuuUKX3rTyXEHnn7DsaoE8wQz8KtMCPo0ixuRfwqW7M1XHD8LG6s+Xs4hiY
+         u45w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779115213; x=1779720013;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=S4c2AULgCr+oAYdflJy/tl/FD0zXRMyuMjKCi/X55po=;
+        b=lgb9yrj/i6SFwqYceevvm7eXWQygTzHJ81pTXtvsA/maGfy5KIqPdqSEgjTtmOtWOo
+         f6y7bz4tl8Y9cd91P0iFq7mWVUj8aOZpH6wqasEeWm0Q908VuLeZkHfsfUkPcJXSB7MP
+         SfdS8pKTYCTlc+kbHFsOukbliB7NSnpVgg2GVtO/ExJ3x2/jK75zVzaC7aEdCmYeqtl9
+         eYQLgeOCl40iJZH8Jk2PM22Fp0Em7W5sJcsR4YlT+R5h59H6i0eOPX6NUFzdERZK/fpG
+         Z+vNoLbTIjhM6+D40tzlqpaXx2w9/0caGroIuzM6nhy58Pi9U1trnVNLqw2Jjuont0c1
+         4tFg==
+X-Gm-Message-State: AOJu0YzjqthNX6jVwwRf4fpXxy1eR3L03j7/kHKnKXOzabymmw8GPx11
+	OlcOPWAajUwMONqOBYo3ecQe596Rk3mVcnAYmIFLuJXGWEmMN+vCalfJ
+X-Gm-Gg: Acq92OH1eljlXGFXcQtZvxenI+n4aOAuDo8ALZhkXh8gpA9HKX1LDbODG4MNxOg8Z/b
+	5IiRNrexokFtyyqMzjArFxnlV7AqyjpBTY+2VjWdvPBr6vVsQPOVXhlRfJWeTLOZeduMFnxkeTF
+	gHaRcBz6JuiSzArIoLLJYDO6Wmm4JKG5nw6SL5pagnNbnE95z+twhPm1KeXwg23s8XFxe0ZPt4K
+	hrWQ3AO2Frtm0/aOmqdO5Y67KNAh8GGZ+5GjZTyVRH4SoHpn6jKW92E/b+FnMffOa+rVQZ4+Ijn
+	9Dt8rXWodCWiU534okotEJ0pKCrGIkDfruVNH0zwMGkX9DEpYKIeFVsvOSoROeKK7MZGHKiHQ5/
+	OhjFosGrS424+JokXNaNrs4u66O1oqzex6GokDCpP4fE2jxcIL0hezimMFYamqhZyV+fbkcPQ72
+	IuVhccjVnKqFKwqp82K3HXVORO0dtbFVwArXNw0500GuCBTYJliSeQgwRP2tJ6sx4KA2HmPLGla
+	9Y=
+X-Received: by 2002:a05:600c:c087:b0:48a:7b55:12a6 with SMTP id 5b1f17b1804b1-48fe5cb36aamr189623285e9.0.1779115213181;
+        Mon, 18 May 2026 07:40:13 -0700 (PDT)
+Received: from giga-mm-11.home (72.92.4.85.dynamic.cust.swisscom.net. [85.4.92.72])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe5e9d5d9sm303576575e9.15.2026.05.18.07.40.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 07:40:12 -0700 (PDT)
+Message-ID: <bc3b786313adee30cc00c65ea98ff5258a816abb.camel@gmail.com>
 Subject: Re: [PATCH v2 3/3] arm64: dts: allwinner: A133: add support for
  Baijie Helper A133 board
-Message-ID: <agsezxcxjQlBmesm@collins>
+From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Date: Mon, 18 May 2026 16:40:11 +0200
+In-Reply-To: <agsezxcxjQlBmesm@collins>
 References: <20260510201644.4143710-1-alexander.sverdlin@gmail.com>
- <20260510201644.4143710-4-alexander.sverdlin@gmail.com>
- <agr9m_tidBr6Cu2h@collins>
- <579c7c33123c4cd0bd486301e56daf5962ca55ec.camel@gmail.com>
+	 <20260510201644.4143710-4-alexander.sverdlin@gmail.com>
+	 <agr9m_tidBr6Cu2h@collins>
+	 <579c7c33123c4cd0bd486301e56daf5962ca55ec.camel@gmail.com>
+	 <agsezxcxjQlBmesm@collins>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="13+JjIMW89tJHa3E"
-Content-Disposition: inline
-In-Reply-To: <579c7c33123c4cd0bd486301e56daf5962ca55ec.camel@gmail.com>
 
+Hi Paul,
 
---13+JjIMW89tJHa3E
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2026-05-18 at 16:14 +0200, Paul Kocialkowski wrote:
+> I also have a U-Boot config ready for it, which I could send once the
+> device-trees are merged on the kernel side. I could send it to you if
+> you're interested.
 
-Hi Alexander,
-
-Le Mon 18 May 26, 14:09, Alexander Sverdlin a =C3=A9crit :
-> Hi Paul,
->=20
-> On Mon, 2026-05-18 at 13:52 +0200, Paul Kocialkowski wrote:
-> > Just in case you missed it, there was a previous submission for this
-> > board which wasn't followed up on.
-> >=20
-> > I also have one of this board and wanted to respin support, but it looks
-> > like you beat me to it :)
->=20
-> thanks for the hint!
-> Do you mean this series:
-> https://lore.kernel.org/all/20241227-a133-display-support-v1-0-13b52f71fb=
-14@linumiz.com/
-> ?
->=20
-> I've missed it indeed! I'll look into it!
-
-Yes that's the one! But I don't think there are features that your
-series is missing, as long as you apply the suggestions I made earlier.
-
-I also have a U-Boot config ready for it, which I could send once the
-device-trees are merged on the kernel side. I could send it to you if
-you're interested.
-
-I will also get back to you about your TF-A series so we can move all of
-this forward!
-
-By the way it's good to wait a few days before sending new versions of
-patch series, to avoid overwhelmind the developers.
-
-All the best,
-
-Paul
+I do have one as well, I'm testing all open-source ;-) from ATF-upwards,
+just thought U-Boot would require ATF merged and kernel DT merged
+because of OF_UPSTREAM in U-Boot. But I'd be happy to sync when we get
+there.
 
 --=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---13+JjIMW89tJHa3E
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmoLHs8ACgkQhP3B6o/u
-lQzxQxAAj+POVozr8ILWTwBBo8K+9u6fOAhaIvVBK9Gh6e6QwQNxajiypvE+Ycbv
-dsdYblGjo71iJlVVK/zbnzKA/1ISAjszLEMeKA5klCl74P8l7ev3rWtetQECbg91
-8Ntww4kc9uDVuIDRpgRfkR2RFch1TMnPHfOPKY3k4jGJMIfLaOAhxCpcrclEmhov
-Pl/IvFc8R3z8EpdAhrsa9yEcrboK/NpUH2Ja6SlYZ2KNceoTfnMl0kBFKJ/njt6k
-XKe4nglJ5u6nHlnScCZDc/4w8tiOkBPAhV+IaEQ5qgSn9Y6At6d6NG0+/e7IETGr
-0EN5Xv/CWoEjFpKNSiC59ar0zRm9nF028wficzJsM5+dLuoHDXxwrl6zoObEzu13
-1VihUwQmzPWDZb00ZBSq6FPlmfLXzNqMz93hPe9RHqdyg1v61N6aDSl9+UQS6v4i
-sSblUNGlnoIvWf5FaFmEksVxutLGVZstQBoxzVYQqOA5Ck67c/ImuUCzdF1iAn0n
-x2BfCz37xh3IcvHUYYVcKmpO40OAYSypvYQDHz8WCacmnSBEUJVfgaLoqmRdOBxe
-c6d7pCjgFsIP0EysryqtUX/PSot2BdsqdHvmO5ckiRGf9juZCPWEcoHNhu2geEI6
-rho/+QfaS4RVA4E8SXUgqzqj5f0q5P4vWmcrDst3NLfj/EHQA3o=
-=1xn4
------END PGP SIGNATURE-----
-
---13+JjIMW89tJHa3E--
+Alexander Sverdlin.
