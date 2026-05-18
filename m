@@ -1,163 +1,128 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A30E7262D0B
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 14:51:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602DC28000F
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 14:56:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779115890; cv=none; b=Ea2X3Fnv0aL8G80OAUY+x4UPm295C819yP55ENk39Vvs3Kq9+MrrKYBZIbwW8M01k2o5tFc2jtIXR3mlqSDNfKi44Kra5htMiTn2oTFA3d+uGXAanrrM6MKrSrkh76bQ5E8guBW6JIjYhbhvs48MlhPQvRB0NhojeNYGMuTC/i4=
+	t=1779116174; cv=none; b=ZUaQZGRkGBqSNMPrY2ShKVN3Dq1ZbefPaaR5w79t69CEXeQuT2gc5NDYSjflV/P3FcjdSO8Bhm1QfLcB7nwIX1oPOLSrgw3Mde9KXWIBivTERWTV/dUJbHgx74NQZagwpnPEi752yfMfaQhvH7L8rMOeWOPtfYiGgfqrn5hcWkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779115890; c=relaxed/simple;
-	bh=q7N6f0O1fL7CnMh9vlnmxZC9H0Mq5P8xsNIyAlAW370=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=eByuVZhTXkxRXR/qBuI5jkh+wgBQxX6Yb9br33b+kLezYXyxKaYYI6Lsk8IkazLGr5947wu9SYXkIOBkLBaa4rSHVUuv2U4jmO3331c6QXstNMQ8LAitfv2auwluDeLlh7Be2qN14BE70npCGirxefdgZ3CQxwLVmdlW1jYrxq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hObv4Dai; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hObv4Dai"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-488b150559bso18719165e9.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 07:51:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779115887; x=1779720687; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=q7N6f0O1fL7CnMh9vlnmxZC9H0Mq5P8xsNIyAlAW370=;
-        b=hObv4Daitl9FE8Zl189fJJ7O1MHdMXptYV+zL8izvB+dumm1edWoA8JzacXUCCJ6fA
-         Pw2N9lhB4ef0iCqPVIMVD89no0Xku55ERoBMmKtvTLqiebSGPPXA1xlfndUypmdFn004
-         JUKUSnMZsofV+WynfYwObMBec9SAG48GOfRH7NH1Dk0WDVIcNXre1xJdodSSUNAdaKqo
-         65WBqwNj6crcVZfN59Ngz5GSNkHlUveSIc1G0if3xDGwZYTDjLxNlFsYlojWgX/XS0oy
-         2ArrhHDQmHYyW7FbnNp1UkS+M2b2jGyo9duow9A1TjCJcUZQ10viHVu9KQbeB6SaV2cH
-         eIoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779115887; x=1779720687;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=q7N6f0O1fL7CnMh9vlnmxZC9H0Mq5P8xsNIyAlAW370=;
-        b=ZQHhpNr7a1LdidZQ8R+FccDTovAIyE3I1rztUpVfS6XJ1UWR+Bq8Vljv2NUKiSFzjS
-         sYSaO7ZZZscA3VFmV/udCRkzt3hMqZzYLzdAt7lQPjBqw6U3kDUXhVzx9Q53kOqLjpEC
-         jmqgIiS0X5qaFuqwze37oKqtuUxfX3LReJ74TjPQA8KReuSjy3R2bGMcESyRiANiRcR7
-         BZvM5BCIx9K+7mw00uEOx8+n5K62IO9Q8Z3VrUOvUi5aSZRK75v86lKuGr5KJFfaCDuT
-         jY05U+IRjJsen42pDTuKFZ5VZ2Gu8JaahYFgZaKxn52HDpeg07ubeC9t8tYVzeIeyvLR
-         j85w==
-X-Gm-Message-State: AOJu0YwKss32aVp2ms0utxKyVKnvY4LwBlBxt7OVtIC9LXaOug6v4iyI
-	Qqre3XAW9DqaApJAOuS/X69UeopnU8dvecDK/h3ztjty3YCCtSMVWw3b
-X-Gm-Gg: Acq92OEkJU9wjy0qhcJKhz9KwwEh2zyO48J588GqyUUg0+qE64w5+1ok9/A9f0NelFd
-	XqXeFgOuTRPj9ai2J2AHjS2wAjQvcCqhqMrrbUHa3TRZKntSiCn0DaT8R+xTvifAouP7ajcl7LK
-	0OE8QogWAjYK6Fskx16mR1PMhPG44VqRecnR3UHJ/BdL0BsCpjGoIBkKj5XPGHA+u+15vxHp7FG
-	AEObuCni2Odcel+2U8pkU7L5gqH2Oa8B/1ihHqH9xlACsPa0KSgNocGPGeLKHsP2FdvWYCVVLQA
-	0F4PafhvdCNcrF8jrliBK9jS3s8goVs926FGUSy8ia1FJfAVyIt/8Zrbo9dl3oVSgOb5c4FbadD
-	3TwiIt7jqVdxkmUlr3ZZzPqzgRALivIwDU7RZhOY9CP89Ef8qJyxQc4tlmVT02ORwf7LDdJt/K4
-	06nQhaiYEkHcOFFW4VU780wVOA0mzVnG2r9efFlNEmpUZS21RzmqVKKjGKhoAlu1pUILaLnLhEZ
-	A0=
-X-Received: by 2002:a05:600c:698d:b0:48f:e230:2a1c with SMTP id 5b1f17b1804b1-48fe6631158mr246804535e9.31.1779115887039;
-        Mon, 18 May 2026 07:51:27 -0700 (PDT)
-Received: from giga-mm-11.home (72.92.4.85.dynamic.cust.swisscom.net. [85.4.92.72])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48feaa2a878sm131021135e9.1.2026.05.18.07.51.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 07:51:26 -0700 (PDT)
-Message-ID: <22731dae5ed48680bd456a3a5fe5e7086d17a54c.camel@gmail.com>
+	s=arc-20240116; t=1779116174; c=relaxed/simple;
+	bh=XhkqJSMJRJ9caAgyYTXvXdZyQrFlJPUeu7FGKIdRg8U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jLdAldMwOhr31Gpb0sl5lAEVGmfxkG6T5g6i+ZPcWkt4uHZ/4XU7goJEynutKfujvgQ/sAghSTGTYJbT1JhNamOZ0h620v/Vz+dp7jNoit/WFc/baXQgh80YETiEKa2f0BjhM0uDldebNN/ubAp3c8rcxFrBLNijbhw2S4gNHKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 56E5C1F8004D
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 14:56:08 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 122DEB407F3; Mon, 18 May 2026 14:56:06 +0000 (UTC)
+X-Spam-Level: 
+Received: from collins (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id 6410AB407F3;
+	Mon, 18 May 2026 14:56:06 +0000 (UTC)
+Date: Mon, 18 May 2026 16:56:04 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 3/3] arm64: dts: allwinner: A133: add support for
  Baijie Helper A133 board
-From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-To: wens@kernel.org, Andre Przywara <andre.przywara@arm.com>
-Cc: linux-sunxi@lists.linux.dev, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jernej
- Skrabec	 <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Date: Mon, 18 May 2026 16:51:25 +0200
-In-Reply-To: <CAGb2v65jpG-XXNjT46H2KnLoM_SHOatFw82u38ZGEELgXmvDtQ@mail.gmail.com>
+Message-ID: <agsohFpjuGqRRDO-@collins>
 References: <20260510201644.4143710-1-alexander.sverdlin@gmail.com>
-	 <20260510201644.4143710-4-alexander.sverdlin@gmail.com>
-	 <2306dd3c-6362-40ee-8d9f-77f89be3a502@arm.com>
-	 <14a7e289ff5ffed8fcd6dcb9b2e8455a1b2c9420.camel@gmail.com>
-	 <256b1cd8-b143-4f71-91cc-8513be04ce4c@arm.com>
-	 <CAGb2v65jpG-XXNjT46H2KnLoM_SHOatFw82u38ZGEELgXmvDtQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 
+ <20260510201644.4143710-4-alexander.sverdlin@gmail.com>
+ <agr9m_tidBr6Cu2h@collins>
+ <579c7c33123c4cd0bd486301e56daf5962ca55ec.camel@gmail.com>
+ <agsezxcxjQlBmesm@collins>
+ <bc3b786313adee30cc00c65ea98ff5258a816abb.camel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Fo0QafIQlmgBpWCX"
+Content-Disposition: inline
+In-Reply-To: <bc3b786313adee30cc00c65ea98ff5258a816abb.camel@gmail.com>
 
-Hi Chen-Yu,
 
-On Mon, 2026-05-18 at 22:47 +0800, Chen-Yu Tsai wrote:
-> > > > > --- /dev/null
-> > > > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-baije-core.dtsi
-> > > > > @@ -0,0 +1,162 @@
-> > > > > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> > > > > +/*
-> > > > > + * Copyright (c) 2025 Arm Ltd.
-> > > >=20
-> > > > Please put your own copyright here, even if that has been largely c=
-opied
-> > > > from an existing file.
-> > > >=20
-> > > > > + */
-> > > > > +
-> > > > > +/dts-v1/;
-> > > > > +
-> > > > > +#include "sun50i-a100.dtsi"
-> > > > > +#include "sun50i-a100-cpu-opp.dtsi"
-> > > > > +
-> > > > > +/{
-> > > > > +=C2=A0=C2=A0 compatible =3D "baijie,helper-a133-core",
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 "allwinner,sun50i-a100";
-> > > > > +
-> > > > > +=C2=A0=C2=A0 aliases {
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ser=
-ial1 =3D &uart1;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* BT module */
-> > > >=20
-> > > > Do we really need an alias for the BT UART? And is the BT module
-> > > > supported already? Then please add a child node to the UART node.
-> > >=20
-> > > That's the only thing I can do currently regarding BT: stabilize the
-> > > serial enumeration, because UART1 cannot be used for anything else
-> > > except BT module, because this is soldered inside "core" module.
-> > > We can avoid different tty enumeration, should the support for
-> > > BT be implemented in the future...
-> > >=20
-> > > > Isn't the WiFi/BT module on the SoM? Then please mention and enable=
- MMC1
-> > > > here. Provide the child node for the WiFi chip, even if there is no
-> > > > upstream support in the kernel for it yet.
-> > >=20
-> > > So both the above BT and the WiFi is AW869A/AIC8800 combo chip, which
-> > > has neither upstream driver, nor [upstream] DT bindings. Even github
-> > > driver for AIC8800 doesn't seem to use DT, therefore it looks quite
-> > > pointless to me at this point to specify anything in the DT for the
-> > > chip which doesn't have the bindings idea even theoretically.
-> > >=20
-> > > Nothing in the current DT shall block any future work on the AW869A
-> > > support though and the above "aliases" entry shall even guarantee
-> > > unchanged serial enumeration shall such support arise.
-> >=20
-> > Fair enough for not providing DT nodes for those unsupported chips, but
-> > why do we need to force enumeration? For the eventual Bluetooth usage,
-> > the driver will find the respective serial interface by just looking at
-> > its parent interface. IIUC there is nothing referring to ttyS1
-> > explicitly. So we wouldn't really need an alias, would we?
-> > I see that some boards do define an alias, but others with Bluetooth
-> > don't, which I think is the right thing to do. Which name the kernel
-> > comes up with for UART1 shouldn't matter in any way.
+--Fo0QafIQlmgBpWCX
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Alexander,
+
+Le Mon 18 May 26, 16:40, Alexander Sverdlin a =C3=A9crit :
+> Hi Paul,
 >=20
-> It does provide a hint for any users enabling more UARTs and adding
-> aliases for them that they should number them starting from 2? And
-> just stable numbering overall.
+> On Mon, 2026-05-18 at 16:14 +0200, Paul Kocialkowski wrote:
+> > I also have a U-Boot config ready for it, which I could send once the
+> > device-trees are merged on the kernel side. I could send it to you if
+> > you're interested.
+>=20
+> I do have one as well, I'm testing all open-source ;-) from ATF-upwards,
+> just thought U-Boot would require ATF merged and kernel DT merged
+> because of OF_UPSTREAM in U-Boot. But I'd be happy to sync when we get
+> there.
 
-that's exactly what I had in mind, as the the status of BT/WiFi might
-change in future, we might want to make UART1=3Dtty1 and UART2=3Dtty2
-today and this will not change with potentially coming AW869A support.
+Sure, let's keep in touch about this!
 
-But that's not an essential feature to me, just nice to have.
+I also have the 7" LVDS LCD that goes with it, which was supported by
+Parthiban's initial series (but needs rework, and it seems that he's
+unlikely to do it). I also have the 5" MIPI LCD but it's less likely
+that it will be supported, although I have seen dirty patches to make
+some other MIPI panel work with A133.
+
+We'll need PWM for it which should be a follow-up to the current H616
+PWM series from Richard Genoud.
+
+Other than that there is a PCF8563TS RTC on the board, audio stuff:
+speaker (which I have) mic and headphones and a GPIO beeper which could
+be added.
+
+Do you have other A133 boards that you're interested in?
+I also have:
+- KICKPI K5C
+- DshanPi-R818
+- Logicom La Tab 129
+- Trimui Brick
+
+And have some WIP device-trees and u-boot for most of them.
+
+All the best,
+
+Paul
 
 --=20
-Alexander Sverdlin.
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--Fo0QafIQlmgBpWCX
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmoLKIQACgkQhP3B6o/u
+lQwSBA/8CUU8/y0NALKPJHPsGl+f83F2Juxadi4mbIE/AM3g6XK+OJR2fdBq5JyM
+qiww0A8jbvT/MfTj6pDVg3HnEU2cmcT4AjRdE5l3EfmL/LwfzA91VYlETXOkEhe6
+ropZY1h8IZl8cGgfUkM21KwsNekBYG81HFkNVvgykMuYoGx45rsPcQ+Yva1PHWhk
+Yv7/LTzf0dL5wENDQMCmoddeKK5USopdJ4qi9PE5q8YbvKmDwS0yoI5QHPMWUJ4J
+digD+MWXanhgqyRNl4LIlJrloXfd/iCjWrFhbEnoZV2Ytr19x+GX7JP3cUS+IeQO
+v6ELDislalhuic327sfGUIlaaFQL3SKV9GjTygAgQzWAo9UoFxLh8aDSLp6dZ8D6
+byy9KCvOKaIkoHqyT5fw/4SQa2UvJIKmjh1LrW2p4AbM+g2v2z1T+/8CiVk04bYg
+eyWE7TyQ2csO+YK1COX0NmueP6CWm3GTJ7qg1rFMgED4B9Taz/zIze1oQOyKM+59
+5ZslqkdHlarotx/s46ZOoyMGa5eeQdwcJBOoCXJ0Vrs2HCZQzaGotOfa0XdW+nze
+r7/DN6LOlHYqiFmd/+tbCOMnb7HSzTiCQ7mbjj6Ei9vQhEgMk1okU9f86CgewsJr
+wXdISV+lrAQWWzHxhGKAnmKJ8Um79u/Exrf5UKLnK15T0/KbsMg=
+=S0BY
+-----END PGP SIGNATURE-----
+
+--Fo0QafIQlmgBpWCX--
