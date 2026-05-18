@@ -1,28 +1,28 @@
 Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE74D2C11F1
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 15:35:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1A93F8709
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 15:35:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779118503; cv=none; b=GWdFkIjzo5btD0R+Kc9fmKrMSW9RugEzHC/xCvEMhlkeHLqIv7jCMc+bCI4t6iTd/LBuYRJQfQV7zK8BnCNaRoqdZomozFQqpYzt1Qdv9A31qovLW2nVmAj9EcfX1WQhbf/uegK85TXaV1TSyHdib6vur4dYqZHVTU8/Bk65Mu0=
+	t=1779118538; cv=none; b=jova3qm6hQ8zVJRTRB70AZyBlt5q6CvKXdQYvc0rkqxXRLtJnP81wYZDR6MeAItZM/rZ+/bxO3gi8G+BWFOTHAB7gb8SlZh/B7tVw7w7dJ3jbq2WTiGWpEBAfal5xi//xVtaHya4jXrJLI+87y20pKTbuPzKQPJaMDz5rkOO7Fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779118503; c=relaxed/simple;
-	bh=faNltFbMTrvZXOiKz351TQfXRCuhFm//Z41S3VC91Rg=;
+	s=arc-20240116; t=1779118538; c=relaxed/simple;
+	bh=sYIhf9JmRahZxPSD9uuyJqPOBKnqcQVlrS2lbbbjpi4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=j/e5n3IbNtjnPbBu4wa6nGV5BEpkuEWwYrXn3Vbr5lkU6r6nh/08doZi2fQS0a5i0qtAtRUbzPGgn/kYtGD8HeDLqwg5v/+x/plLDfOksaIncr9UP7Qa2ZGCCtZJU6U//x4vjrV+Lc9t7RCzzUv18VT2SqOQ0zaba8Z+dqJVDAk=
+	 MIME-Version; b=CnTf2PDpAgh0hB0J6Mv3E3XIb3FnWeV+ILDqXVEYK2k/WnjEvplNrpeMdqGhgBmi1WhZiKEtHDHSN/ANxhe7Y06K5QTY57CyrkxUZSh9qMDTAzpfsT89ONjtZtyvGbjpvQARcjlOk8h96QcRD/PNEWbKJ21HxVMpcZaK3866kME=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
 Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id A9F0F1F8005A
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 15:34:58 +0000 (UTC)
+	by leonov.paulk.fr (Postfix) with ESMTPS id C21FA1F8004F
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 15:35:32 +0000 (UTC)
 Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 1DE58B40810; Mon, 18 May 2026 15:34:58 +0000 (UTC)
+	id 2F58DB40811; Mon, 18 May 2026 15:35:32 +0000 (UTC)
 X-Spam-Level: *
 Received: from collins (unknown [192.168.1.64])
-	by laika.paulk.fr (Postfix) with ESMTP id B706CB407FD;
-	Mon, 18 May 2026 15:33:41 +0000 (UTC)
+	by laika.paulk.fr (Postfix) with ESMTP id 2C7BDB407FE;
+	Mon, 18 May 2026 15:33:42 +0000 (UTC)
 From: Paul Kocialkowski <paulk@sys-base.io>
 To: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -41,10 +41,11 @@ Cc: Yong Deng <yong.deng@magewell.com>,
 	Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>,
 	Brian Masney <bmasney@redhat.com>,
-	Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v9 2/9] dt-bindings: media: sun6i-a31-isp: Add optional interconnect properties
-Date: Mon, 18 May 2026 17:33:31 +0200
-Message-ID: <20260518153339.619947-3-paulk@sys-base.io>
+	Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: [PATCH v9 3/9] clk: sunxi-ng: v3s: Export MBUS and DRAM clocks to the public header
+Date: Mon, 18 May 2026 17:33:32 +0200
+Message-ID: <20260518153339.619947-4-paulk@sys-base.io>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260518153339.619947-1-paulk@sys-base.io>
 References: <20260518153339.619947-1-paulk@sys-base.io>
@@ -56,32 +57,60 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-An interconnect can be attached to the sun6i-a31-csi device, which is
-useful to attach the dma memory offset. Add related properties.
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+In order to declare a mbus node for the v3s, expose its associated
+clocks to the public header.
+
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Reviewed-by: Samuel Holland <samuel@sholland.org>
+Acked-by: Rob Herring <robh@kernel.org>
 ---
- .../devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml  | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/clk/sunxi-ng/ccu-sun8i-v3s.h      | 4 ----
+ include/dt-bindings/clock/sun8i-v3s-ccu.h | 4 ++--
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-index 3ea4a4290f23..c0d7accc7bbe 100644
---- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-+++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-@@ -36,6 +36,12 @@ properties:
-   resets:
-     maxItems: 1
+diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h
+index 345cdbbab362..c933ef016570 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h
++++ b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h
+@@ -39,14 +39,10 @@
  
-+  interconnects:
-+    maxItems: 1
-+
-+  interconnect-names:
-+    const: dma-mem
-+
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
+ /* The first bunch of module clocks are exported */
  
+-#define CLK_DRAM		58
+-
+ /* All the DRAM gates are exported */
+ 
+ /* Some more module clocks are exported */
+ 
+-#define CLK_MBUS		72
+-
+ /* And the GPU module clock is exported */
+ 
+ #define CLK_PLL_DDR1		74
+diff --git a/include/dt-bindings/clock/sun8i-v3s-ccu.h b/include/dt-bindings/clock/sun8i-v3s-ccu.h
+index c4055629c9f9..d635bffd6914 100644
+--- a/include/dt-bindings/clock/sun8i-v3s-ccu.h
++++ b/include/dt-bindings/clock/sun8i-v3s-ccu.h
+@@ -87,7 +87,7 @@
+ #define CLK_SPI0		55
+ #define CLK_USB_PHY0		56
+ #define CLK_USB_OHCI0		57
+-
++#define CLK_DRAM		58
+ #define CLK_DRAM_VE		59
+ #define CLK_DRAM_CSI		60
+ #define CLK_DRAM_EHCI		61
+@@ -101,7 +101,7 @@
+ #define CLK_VE			69
+ #define CLK_AC_DIG		70
+ #define CLK_AVS			71
+-
++#define CLK_MBUS		72
+ #define CLK_MIPI_CSI		73
+ 
+ /* Clocks not available on V3s */
 -- 
 2.54.0
 
