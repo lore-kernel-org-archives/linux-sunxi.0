@@ -1,105 +1,98 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625F33F075C;
-	Mon, 18 May 2026 10:33:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5991235E1C7
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 11:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779100409; cv=none; b=K56gNoe6xXotkWWi7ykcfgMvUtI2nV/z7IOMht6xHBBOn7UJb2FRtzulqCbI4nIvus6oZRQuqawzVrjp7H9sUpgGiejjpimTpXWIyb8hQ0RSS8LxuVa43ntVbAMZm2dSYxEVMrU7szqtkk7F2vtvMhoGExA74Mg8RSlPixVimtw=
+	t=1779102178; cv=none; b=LXovefFIhr77iRyUwGk4g+Kx0GYpENj0Q/MPqQicXWIpFKyxHIVIrorvYGivxxmx2pcT2mpV2qgv8djSa8GoWEQUZ5qmhFDsOQwoajhk7/Via9uMc7gZgDEtjc2l2+ROhLlwEpaIcEvWwCUxwOnEPaIsaL8xrhGLJ31DTswEFjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779100409; c=relaxed/simple;
-	bh=SgJOt2lJqQBSvcUOjOlop7PuiMEzx9YAgYU411aMNBA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kFXzNzLYdUp3rhzWhafJdO2SKZZna1h/v+iCkR5pTbvo3SzGBbBU8q2gbG9u4ShZdMMTSDxUTS18TM3MRXZ+8/+eJhQRSduSCMgkWPaF5o3ewGEmj1i5Gs0yG5Qbong/mfwutP4TOgq2JLsdNXZvxH1Ds4ELONHOwr+BtUTtsoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id E7BB11F80041;
-	Mon, 18 May 2026 10:33:09 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 6F611B4082E; Mon, 18 May 2026 10:33:09 +0000 (UTC)
-X-Spam-Level: *
-Received: from collins (unknown [192.168.1.64])
-	by laika.paulk.fr (Postfix) with ESMTP id 52A59B407FF;
-	Mon, 18 May 2026 10:25:02 +0000 (UTC)
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: Paul Kocialkowski <paulk@sys-base.io>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arash Golgol <arash.golgol@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: [PATCH 16/16] media: sun6i-isp: Add support for frame size enumeration
-Date: Mon, 18 May 2026 12:24:51 +0200
-Message-ID: <20260518102451.417971-17-paulk@sys-base.io>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260518102451.417971-1-paulk@sys-base.io>
-References: <20260518102451.417971-1-paulk@sys-base.io>
+	s=arc-20240116; t=1779102178; c=relaxed/simple;
+	bh=CIqhjTj5g+FmnxxYgWebFLD3RznaSfSpLF7RyRT5j2Q=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=JovBhrP1HvEiOPvzLkIQj2evw75CM75rDxQBA7oMAqVLVYIA2Pql1ZwY/u1PmSEh6Q92iHKNZ8QVcusJJ/e7jqLtCj3198LEQZw6GgzeK54baxeT7ZfCPrU8YWXvpP0QAqYwyj1geTvTEPePHDJxgjb3gZ3DdSWl85JkglbD9dU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hMM1K0RW; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hMM1K0RW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 360BDC2BCB7;
+	Mon, 18 May 2026 11:02:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779102177;
+	bh=CIqhjTj5g+FmnxxYgWebFLD3RznaSfSpLF7RyRT5j2Q=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date:From;
+	b=hMM1K0RWeI8cbacBpvN4tPlybaYYlYhuMOBKo7okaaggaUxvQcfbmRdQFzdiyC4ZG
+	 6bQEPqyZzxVwqd3NFUVKwqjrObBecmN7S/84Juhz2acBHVikkEk2YyrDSF3b/47eRw
+	 pYesDZNog+Is+HbhRKSqI7nQxICpkqtJFp0jBIN+zJz8vNzCOknD1TJoNqS60f3gGi
+	 eVpSCWPW398QRgk91pDR9pxupQfCmRfSQuTmGwFBNmhHOZdLVaunjsmc3Lf8cd4Td/
+	 I3BovOyXLcwHR/XoXUCvHV2BzZtO6snykYsRjNJMmM3LmWK+xXea3MxQV5OvQw+O0Q
+	 XeeBMSUIyPStg==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 15/16] media: sun6i-isp: Add support for MC-centric
+ format enumeration
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Paul Kocialkowski" <paulk@sys-base.io>
+Cc: linux-sunxi@lists.linux.dev
+In-Reply-To: <20260518102451.417971-16-paulk@sys-base.io>
+References: <20260518102451.417971-16-paulk@sys-base.io>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 18 May 2026 11:02:50 +0000
+Message-Id: <20260518110251.360BDC2BCB7@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-This implements the enum_framesizes operation, which reports support for
-even sizes.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] Missing mbus_code validation in sun6i_isp_params_enum_fmt when V=
+4L2_CAP_IO_MC is enabled.
+--
 
-Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
----
- .../media/sunxi/sun6i-isp/sun6i_isp_capture.c | 22 +++++++++++++++++++
- 1 file changed, 22 insertions(+)
+commit 1a4894a83da0c694f7055ec896e27ceb3fb1ad43
+Author: Paul Kocialkowski <paulk@sys-base.io>
 
-diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
-index 372b9331bd6d..e638ec32c7cd 100644
---- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
-+++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
-@@ -452,6 +452,26 @@ static int sun6i_isp_capture_enum_fmt(struct file *file, void *priv,
- 	return 0;
- }
- 
-+static int sun6i_isp_capture_enum_framesizes(struct file *file, void *fh,
-+					     struct v4l2_frmsizeenum *frmsize)
-+{
-+	if (frmsize->index)
-+		return -EINVAL;
-+
-+	if (!sun6i_isp_capture_format_find(frmsize->pixel_format))
-+		return -EINVAL;
-+
-+	frmsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
-+	frmsize->stepwise.min_width = SUN6I_ISP_CAPTURE_WIDTH_MIN;
-+	frmsize->stepwise.max_width = SUN6I_ISP_CAPTURE_WIDTH_MAX;
-+	frmsize->stepwise.min_height = SUN6I_ISP_CAPTURE_HEIGHT_MIN;
-+	frmsize->stepwise.max_height = SUN6I_ISP_CAPTURE_HEIGHT_MAX;
-+	frmsize->stepwise.step_width = 2;
-+	frmsize->stepwise.step_height = 2;
-+
-+	return 0;
-+}
-+
- static int sun6i_isp_capture_g_fmt(struct file *file, void *priv,
- 				   struct v4l2_format *format)
- {
-@@ -522,6 +542,8 @@ static const struct v4l2_ioctl_ops sun6i_isp_capture_ioctl_ops = {
- 	.vidioc_s_fmt_vid_cap		= sun6i_isp_capture_s_fmt,
- 	.vidioc_try_fmt_vid_cap		= sun6i_isp_capture_try_fmt,
- 
-+	.vidioc_enum_framesizes		= sun6i_isp_capture_enum_framesizes,
-+
- 	.vidioc_enum_input		= sun6i_isp_capture_enum_input,
- 	.vidioc_g_input			= sun6i_isp_capture_g_input,
- 	.vidioc_s_input			= sun6i_isp_capture_s_input,
--- 
-2.54.0
+media: sun6i-isp: Add support for MC-centric format enumeration
 
+This commit adds MC-centric format enumeration support to the sun6i-isp
+driver by setting the V4L2_CAP_IO_MC capability on the capture and params
+video nodes. It also updates the capture format enumeration to validate
+the provided mbus code.
+
+> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c b/d=
+rivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
+> index 0cc48e2bc8c61..2622e5a078176 100644
+> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
+> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
+> @@ -531,7 +531,8 @@ int sun6i_isp_params_setup(struct sun6i_isp_device *i=
+sp_dev)
+> =20
+>  	strscpy(video_dev->name, SUN6I_ISP_PARAMS_NAME,
+>  		sizeof(video_dev->name));
+> -	video_dev->device_caps =3D V4L2_CAP_META_OUTPUT | V4L2_CAP_STREAMING;
+> +	video_dev->device_caps =3D V4L2_CAP_META_OUTPUT | V4L2_CAP_STREAMING |
+> +				 V4L2_CAP_IO_MC;
+
+The commit message mentions that the params video node does not care about
+the mbus format, but with V4L2_CAP_IO_MC enabled here, does this allow
+sun6i_isp_params_enum_fmt() to return success for invalid mbus codes?
+
+According to the V4L2 specification for MC-centric devices, if the
+mbus_code field in struct v4l2_fmtdesc is non-zero during the
+VIDIOC_ENUM_FMT ioctl, the driver must restrict the enumerated formats
+to those supported for the given media bus code, and return -EINVAL if
+the code is unsupported.
+
+By ignoring the mbus_code in the params node entirely, it appears userspace
+could query completely arbitrary values and still receive a 0 (success)
+return code. This incorrectly informs userspace that the format is
+supported in combination with any given mbus_code.
+
+Should sun6i_isp_params_enum_fmt() be updated to return -EINVAL if a
+non-zero mbus_code is provided, similar to the check added in
+sun6i_isp_capture_enum_fmt()?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260518102451.4179=
+71-1-paulk@sys-base.io?part=3D15
