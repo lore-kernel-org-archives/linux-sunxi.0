@@ -1,125 +1,114 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54D348AE29;
-	Mon, 18 May 2026 16:47:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C9B34F474;
+	Mon, 18 May 2026 17:10:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779122831; cv=none; b=PwHTZalGvX/tXYg3hxNOZW0fOGnYw0i4gKWAyJrAbp5cWwDGC8mst68O+JXVrcY1lhNzJ5u64eOdL27u8DEvGyqFmLBSMx4GmZNRLAG/xzg1WIr4f1hHB+Sqyg94vpUafo3W1ZNf1mXdzg41QPG5K5ykHckpZ8+hdHll5cpTVW4=
+	t=1779124256; cv=none; b=gkW32ZhawKfLJo9UXuxcm3ncRHQPhdLoM11PxSiCKBqi1TmZLY6ldOrQJoT3XGS9ru/zgtW/jJg9uVk+KZCKmmPp59IONq8ATS/O+G6Q3k+AbaaWlJKaWWGZ8z0f2XjT93gvBh7bkE24qJ6NVMMLdPctKjITPA9wIRpcqzRnyko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779122831; c=relaxed/simple;
-	bh=vlXPQJ0n+FxiQ5yHTycwVp3+DG9L5PjEk5xES/9jr/c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qs3YPKOAsGqWHuLJOENNwkLzzrY7LCzfuJLumH45iHUHAfNh59S1CHNTz//RAjhedkkUW9BVztX+PPC944VIWUptQvMvkvAeBmUhE+BCVdT/56M85GZugZc485yqLIN7dGcvs0Ra7+dpw839BDPu6uHkuzeiEjvDldfdpxEFfjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qV2tYE57; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779124256; c=relaxed/simple;
+	bh=nF/HU1fjnqUQnaZoipkFcCFRl4r0iGbfmYpcV7+Cd60=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=T94WxymuurW0cZ4CK+i2i1tOT7xDzyJBLIHhYEnX5+uc96aGNJuYnHB3wiCWJMXwwtZezH87LoXT7/3s0oZ9PZeRPOfSxgKXIV0JiDZ21isRJ/NNlIPTOLBstelTMSjvS2rE7GJ0PE/lEoY3QvlU4x0iske1JbGfmK1ZN8r6nu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=USV5QUc2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qV2tYE57"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 231D8C2BCB7;
-	Mon, 18 May 2026 16:47:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="USV5QUc2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8B9DC2BCB7;
+	Mon, 18 May 2026 17:10:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779122831;
-	bh=vlXPQJ0n+FxiQ5yHTycwVp3+DG9L5PjEk5xES/9jr/c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qV2tYE57grbbtPIULVsZPN/fs4Hlaw3SCEOAQWE7SsK6Vlc8YcLoCyhF4qXlF3X9S
-	 KQ6i4+wMxkYGkUWAMCQg77h6OdzQAl+T7qjFwtsxwe2wIrYW3n9G/BAE5qOmu2Z47T
-	 w380ZdHGmnkT5fO7J+IbnqxFM/bz86otaRaz7rw6nVCPTgQRhSFYzcAjEKzymF594C
-	 7D6SM8o6s6ndNGgh6RVN7ch5EmdWfpEnBRNSCa6I65ZDxBelqW5tthghxFT532GTGU
-	 r5vvyabauNnD+PKbjWyUIBsD29GujhFvuWX/zuQOPcw597ywAteuKK28vJVS67T8w3
-	 nHy6LQVM67sQA==
-Date: Mon, 18 May 2026 17:47:07 +0100
-From: Conor Dooley <conor@kernel.org>
-To: sashiko-reviews@lists.linux.dev
-Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>, robh@kernel.org,
-	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	conor+dt@kernel.org
-Subject: Re: [PATCH v3 2/5] dt-bindings: arm: sunxi: Add Baijie HelperBoard
- A133 compatible
-Message-ID: <20260518-sandlot-womanlike-c7a1dc7a3294@spud>
-References: <20260517234134.2737320-3-alexander.sverdlin@gmail.com>
- <20260517235006.92840C2BCB0@smtp.kernel.org>
+	s=k20201202; t=1779124256;
+	bh=nF/HU1fjnqUQnaZoipkFcCFRl4r0iGbfmYpcV7+Cd60=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date:From;
+	b=USV5QUc2OEB1Q1Tsbmo+9M8sJSDHjK4k+q77wwWZAaYzchNXndPFW1zD8nxkTwd/G
+	 hdJDtj5ao06XusriqbWwb466HyPTIUqlgCz2xQFk5zlyaDW3qNVpYd7yGJ0LqzckBO
+	 ZXyOvkHeapJQ1n8MomD5jjooqCJK5PLY0DUsIznGZNo5ikFDK2FnUS7ZCkXmnASKv5
+	 ebBC83WcfbWvZiCGasQ4qJa/twypYx0Nu1K5y6WhACwt2KFHiAbj84VddkpfpCh3WN
+	 OZDSZ5KdmCYEuFhFlWr+Sin4aLq8QALrj9tbq50+tJyfbKSFwtmaOb8kHbBvLyx5lJ
+	 qDE8Jt4j/IMcw==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v9 9/9] ARM: dts: sun8i-a83t: Add BananaPi M3 OV8865
+ camera overlay
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Paul Kocialkowski" <paulk@sys-base.io>
+Cc: linux-sunxi@lists.linux.dev, conor+dt@kernel.org, devicetree@vger.kernel.org, robh@kernel.org
+In-Reply-To: <20260518153339.619947-10-paulk@sys-base.io>
+References: <20260518153339.619947-10-paulk@sys-base.io>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 18 May 2026 17:10:55 +0000
+Message-Id: <20260518171055.C8B9DC2BCB7@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sQzAchun1Nh7Z/VC"
-Content-Disposition: inline
-In-Reply-To: <20260517235006.92840C2BCB0@smtp.kernel.org>
 
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Low] Fixed regulator node names do not match the required schema pattern.
+--
 
---sQzAchun1Nh7Z/VC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+commit 7dbfc9e619262f99c508e48d6adf246ddf875f69
+Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-On Sun, May 17, 2026 at 11:50:06PM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issu=
-e(s) to consider:
-> - [Low] Missing standalone compatible entry for the Core board.
-> --
->=20
-> commit 76fcabeafe7a55386e6089c83f652ab14cf4b7ec
-> Author: Alexander Sverdlin <alexander.sverdlin@gmail.com>
->=20
-> dt-bindings: arm: sunxi: Add Baijie HelperBoard A133 compatible
->=20
-> Baijie HelperBoard A133 is a development board around their A133 Core
-> board. Introduce a compatible for both the Core and the development
-> boards.
->=20
-> > diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documen=
-tation/devicetree/bindings/arm/sunxi.yaml
-> > index 9e4627f97d7e3..845b5a93686e7 100644
-> > --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-> > +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-> > @@ -96,6 +96,12 @@ properties:
-> [ ... ]
-> > +      - description: Baijie Helper A133
-> > +        items:
-> > +          - const: baijie,helper-a133
-> > +          - const: baijie,helper-a133-core
-> > +          - const: allwinner,sun50i-a100
-> > +
->=20
-> The commit message states the intent to "Introduce a compatible for both =
-the
-> Core and the development boards."
->=20
-> Since this items list requires exactly three elements, it correctly valid=
-ates
-> the development board, but it appears a device tree written solely for the
-> standalone Core board would be rejected.
->=20
-> If the Core board were used with a different custom carrier board in the
-> future, would it need its own standalone compatible entry?
->=20
-> For example:
->=20
->       - description: Baijie Helper A133 Core
->         items:
->           - const: baijie,helper-a133-core
->           - const: allwinner,sun50i-a100
+ARM: dts: sun8i-a83t: Add BananaPi M3 OV8865 camera overlay
 
-This example is complete crap, compared to the point that is apparently
-being made about different carriers.
+This commit adds a device tree overlay supporting the OV8865 sensor on the
+BananaPi Camera v3 peripheral board. It configures the fixed regulators,
+clocks, and MIPI CSI-2 endpoints needed for the camera module.
 
-> Does omitting a standalone entry for the Core board limit flexibility for=
- future
-> designs based on it?
+> diff --git a/arch/arm/boot/dts/allwinner/sun8i-a83t-bananapi-m3-camera-ov=
+8865.dtso b/arch/arm/boot/dts/allwinner/sun8i-a83t-bananapi-m3-camera-ov886=
+5.dtso
+> new file mode 100644
+> index 0000000000000..4340ca73bfaaf
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/allwinner/sun8i-a83t-bananapi-m3-camera-ov8865.dt=
+so
 
-Obviously not.
+[ ... ]
 
---sQzAchun1Nh7Z/VC
-Content-Type: application/pgp-signature; name="signature.asc"
+> +&{/} {
+> +	/*
+> +	 * These regulators actually have DLDO4 tied to their EN pin, which is
+> +	 * described as input supply here for lack of a better representation.
+> +	 * Their actual supply is PS, which is always-on.
+> +	 */
+> +
+> +	ov8865_avdd: ov8865-avdd {
+> +		compatible =3D "regulator-fixed";
+> +		regulator-name =3D "ov8865-avdd";
+> +		regulator-min-microvolt =3D <2800000>;
+> +		regulator-max-microvolt =3D <2800000>;
+> +		vin-supply =3D <&reg_dldo4>;
+> +	};
+> +
+> +	ov8865_dovdd: ov8865-dovdd {
+> +		compatible =3D "regulator-fixed";
+> +		regulator-name =3D "ov8865-dovdd";
+> +		regulator-min-microvolt =3D <2800000>;
+> +		regulator-max-microvolt =3D <2800000>;
+> +		vin-supply =3D <&reg_dldo4>;
+> +	};
+> +
+> +	ov8865_dvdd: ov8865-dvdd {
+> +		compatible =3D "regulator-fixed";
+> +		regulator-name =3D "ov8865-dvdd";
+> +		regulator-min-microvolt =3D <1200000>;
+> +		regulator-max-microvolt =3D <1200000>;
+> +		vin-supply =3D <&reg_dldo4>;
+> +	};
 
------BEGIN PGP SIGNATURE-----
+This isn't a bug, but do these fixed regulator node names trigger device
+tree schema validation warnings?
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCagtCiwAKCRB4tDGHoIJi
-0hTBAQCRBFFBgigvpaWfKQ/anWyIKWSu02n7V4zI2MiUTYQEsgD/SubCx43ZVsTB
-B7sM8dyYZ869ZKCDx16A05eCV/fBdQE=
-=DTkF
------END PGP SIGNATURE-----
+According to the fixed regulator binding schema, node names should match
+the pattern ^regulator(-[0-9]+v[0-9]+|-[0-9a-z-]+)?$.=20
 
---sQzAchun1Nh7Z/VC--
+Using arbitrary names like ov8865-avdd falls back to an "Any name allowed"
+clause in the schema that is marked as deprecated.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260518153339.6199=
+47-1-paulk@sys-base.io?part=3D9
