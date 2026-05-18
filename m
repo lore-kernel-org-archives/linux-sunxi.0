@@ -1,95 +1,125 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4161F27281D;
-	Mon, 18 May 2026 16:11:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54D348AE29;
+	Mon, 18 May 2026 16:47:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779120694; cv=none; b=mOatYNMeHb3IQgY5jE5P09AbIocjKCR6A0ajg6ChkmhD8n2U/7G1kZrnyzvN1U1tbrhVtrKPRUMpEa0YPGx/Lx1tPsHIy6CYRMFgKJvhuR9itE7E1bbsLgaY/cYvLbxmrnPbES7mPYSNeo9oUwz4iPXcV6mWZMC30COOjYs/VJQ=
+	t=1779122831; cv=none; b=PwHTZalGvX/tXYg3hxNOZW0fOGnYw0i4gKWAyJrAbp5cWwDGC8mst68O+JXVrcY1lhNzJ5u64eOdL27u8DEvGyqFmLBSMx4GmZNRLAG/xzg1WIr4f1hHB+Sqyg94vpUafo3W1ZNf1mXdzg41QPG5K5ykHckpZ8+hdHll5cpTVW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779120694; c=relaxed/simple;
-	bh=cb8j6DnkkjLHSGPe4ydRwB7IZQAkr3Jwq510+XI2TFU=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=Z1DjX6EO44lsBZmw6c+EGxS1DyNr1exGzPG801GtVMq/2dMJque17OLhX3GXn6ofA3bjTvh/xcLmXQjFJmWwxmZn9vV5GSJl6aAevhptxRhVYakiMLDQEGMAvMWbc5bs84LYwKWHYBdq6SKO5d2mSlb/chCFeRUqg/VGVqzP01A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b3lxeVtm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779122831; c=relaxed/simple;
+	bh=vlXPQJ0n+FxiQ5yHTycwVp3+DG9L5PjEk5xES/9jr/c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qs3YPKOAsGqWHuLJOENNwkLzzrY7LCzfuJLumH45iHUHAfNh59S1CHNTz//RAjhedkkUW9BVztX+PPC944VIWUptQvMvkvAeBmUhE+BCVdT/56M85GZugZc485yqLIN7dGcvs0Ra7+dpw839BDPu6uHkuzeiEjvDldfdpxEFfjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qV2tYE57; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b3lxeVtm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0A4CC2BCB7;
-	Mon, 18 May 2026 16:11:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qV2tYE57"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 231D8C2BCB7;
+	Mon, 18 May 2026 16:47:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779120691;
-	bh=cb8j6DnkkjLHSGPe4ydRwB7IZQAkr3Jwq510+XI2TFU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date:From;
-	b=b3lxeVtmGQUl2V78Bx8xd36f/K3QghoZw/iM77E1Gbdb3KPbw9cQGvwR4bpXsJZET
-	 wKScuuLGEwQRe8oPcGzi/miQwX9bOvLqEejZOagO93GO5jtkMknuRZuTsV2m/KK0LT
-	 z52rvKfaPn6qPPvqvRhgNGC/ue4cICGPeLlH7xEuATH6p0fyeWr8EHc+arKOEosChA
-	 nDys1gMewmE1TEoV7uiSqq9D6bi8/jEq0lBstSweJt0FG+7GdUMuGxPuJAtA1zwmsx
-	 3xOY4e5gWc/7+jqOWX9L6ZUVFRwTJPwBNAF6XAw+1SnjfmEAwFJmTS6vdTMdm/2Wvm
-	 kfuuK9UuFIVqg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v9 5/9] ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2
- support
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Paul Kocialkowski" <paulk@sys-base.io>
-Cc: linux-sunxi@lists.linux.dev, conor+dt@kernel.org, robh@kernel.org, devicetree@vger.kernel.org
-In-Reply-To: <20260518153339.619947-6-paulk@sys-base.io>
-References: <20260518153339.619947-6-paulk@sys-base.io>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 18 May 2026 16:11:30 +0000
-Message-Id: <20260518161130.F0A4CC2BCB7@smtp.kernel.org>
+	s=k20201202; t=1779122831;
+	bh=vlXPQJ0n+FxiQ5yHTycwVp3+DG9L5PjEk5xES/9jr/c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qV2tYE57grbbtPIULVsZPN/fs4Hlaw3SCEOAQWE7SsK6Vlc8YcLoCyhF4qXlF3X9S
+	 KQ6i4+wMxkYGkUWAMCQg77h6OdzQAl+T7qjFwtsxwe2wIrYW3n9G/BAE5qOmu2Z47T
+	 w380ZdHGmnkT5fO7J+IbnqxFM/bz86otaRaz7rw6nVCPTgQRhSFYzcAjEKzymF594C
+	 7D6SM8o6s6ndNGgh6RVN7ch5EmdWfpEnBRNSCa6I65ZDxBelqW5tthghxFT532GTGU
+	 r5vvyabauNnD+PKbjWyUIBsD29GujhFvuWX/zuQOPcw597ywAteuKK28vJVS67T8w3
+	 nHy6LQVM67sQA==
+Date: Mon, 18 May 2026 17:47:07 +0100
+From: Conor Dooley <conor@kernel.org>
+To: sashiko-reviews@lists.linux.dev
+Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>, robh@kernel.org,
+	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	conor+dt@kernel.org
+Subject: Re: [PATCH v3 2/5] dt-bindings: arm: sunxi: Add Baijie HelperBoard
+ A133 compatible
+Message-ID: <20260518-sandlot-womanlike-c7a1dc7a3294@spud>
+References: <20260517234134.2737320-3-alexander.sverdlin@gmail.com>
+ <20260517235006.92840C2BCB0@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="sQzAchun1Nh7Z/VC"
+Content-Disposition: inline
+In-Reply-To: <20260517235006.92840C2BCB0@smtp.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] The `dphy` node is missing the required `interrupts` property an=
-d a SoC-specific compatible string.
---
 
-commit ceae1b5da24380c4a30d9a8b480a23eaee3c0814
-Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+--sQzAchun1Nh7Z/VC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2 support
+On Sun, May 17, 2026 at 11:50:06PM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issu=
+e(s) to consider:
+> - [Low] Missing standalone compatible entry for the Core board.
+> --
+>=20
+> commit 76fcabeafe7a55386e6089c83f652ab14cf4b7ec
+> Author: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+>=20
+> dt-bindings: arm: sunxi: Add Baijie HelperBoard A133 compatible
+>=20
+> Baijie HelperBoard A133 is a development board around their A133 Core
+> board. Introduce a compatible for both the Core and the development
+> boards.
+>=20
+> > diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documen=
+tation/devicetree/bindings/arm/sunxi.yaml
+> > index 9e4627f97d7e3..845b5a93686e7 100644
+> > --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
+> > +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> > @@ -96,6 +96,12 @@ properties:
+> [ ... ]
+> > +      - description: Baijie Helper A133
+> > +        items:
+> > +          - const: baijie,helper-a133
+> > +          - const: baijie,helper-a133-core
+> > +          - const: allwinner,sun50i-a100
+> > +
+>=20
+> The commit message states the intent to "Introduce a compatible for both =
+the
+> Core and the development boards."
+>=20
+> Since this items list requires exactly three elements, it correctly valid=
+ates
+> the development board, but it appears a device tree written solely for the
+> standalone Core board would be rejected.
+>=20
+> If the Core board were used with a different custom carrier board in the
+> future, would it need its own standalone compatible entry?
+>=20
+> For example:
+>=20
+>       - description: Baijie Helper A133 Core
+>         items:
+>           - const: baijie,helper-a133-core
+>           - const: allwinner,sun50i-a100
 
-This commit adds MIPI CSI-2 support to the Allwinner V3s SoC. It introduces
-the device tree nodes for the CSI0 controller, the MIPI CSI-2 bridge, and
-the D-PHY block.
+This example is complete crap, compared to the point that is apparently
+being made about different carriers.
 
-> diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi b/arch/arm/boot/d=
-ts/allwinner/sun8i-v3s.dtsi
-> --- a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
-> +++ b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
-[ ... ]
-> +		dphy: d-phy@1cb2000 {
-> +			compatible =3D "allwinner,sun6i-a31-mipi-dphy";
+> Does omitting a standalone entry for the Core board limit flexibility for=
+ future
+> designs based on it?
 
-Should a SoC-specific compatible string like "allwinner,sun8i-v3s-mipi-dphy"
-be included here alongside the generic a31 fallback?
+Obviously not.
 
-> +			reg =3D <0x01cb2000 0x1000>;
-> +			clocks =3D <&ccu CLK_BUS_CSI>,
-> +				 <&ccu CLK_MIPI_CSI>;
-> +			clock-names =3D "bus", "mod";
-> +			resets =3D <&ccu RST_BUS_CSI>;
+--sQzAchun1Nh7Z/VC
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Will this node fail dtbs_check schema validation? The existing device tree
-binding schema for "allwinner,sun6i-a31-mipi-dphy" requires an interrupts
-property, which appears to be missing here.
+-----BEGIN PGP SIGNATURE-----
 
-If the V3s hardware physically lacks a D-PHY interrupt, would it be better
-to add the V3s-specific compatible string and update the binding schema
-to make the interrupts property conditionally optional for the V3s?
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCagtCiwAKCRB4tDGHoIJi
+0hTBAQCRBFFBgigvpaWfKQ/anWyIKWSu02n7V4zI2MiUTYQEsgD/SubCx43ZVsTB
+B7sM8dyYZ869ZKCDx16A05eCV/fBdQE=
+=DTkF
+-----END PGP SIGNATURE-----
 
-> +			allwinner,direction =3D "rx";
-> +			status =3D "disabled";
-> +			#phy-cells =3D <0>;
-> +		};
-> +
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260518153339.6199=
-47-1-paulk@sys-base.io?part=3D5
+--sQzAchun1Nh7Z/VC--
