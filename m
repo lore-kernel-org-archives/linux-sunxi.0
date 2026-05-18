@@ -1,33 +1,33 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.66])
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB293803C5
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 18:03:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1915738654F
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 18:03:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779127413; cv=none; b=mS0B9y09rjSLa4X2DxXN6JiIUxsZlBoYGM+Jz0pY4jZjBTL7oo0NQ7U6bt9KOgSlBWjIhBk3J/2LbtA0MABZOhRx+z0lULn0sjLBwA2MSOALFkD31thERwRWiOV+dtVwN4KFnavWcBEPTAY/pMfwYqMSxLCvnaKJ1da5b6Rw57g=
+	t=1779127419; cv=none; b=R6pW8gH6XbPJy+IgqQjkNF4H6vth0ASvShAzih0ujkbP0Vt/PK9wehId7YQJpOcSn/N9qWwhx6lfkvnlqeQfOzEwFB5qHCsoLmfssnDjEnDwFj7lSxdVpOheu0QnxjqVIfIjcb05TxS147yL7Mma0Ohlh9KYH/948PU4eW+ZOYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779127413; c=relaxed/simple;
-	bh=/bn/ib7xA0N4c3muUGNEVYXey9RC1LAI6e7bdbz04I0=;
+	s=arc-20240116; t=1779127419; c=relaxed/simple;
+	bh=mc5qYkvHimozgFABBNS1IVGauTwWAU2kMYJZwG0KI34=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LCRS535vuQwB+yls3wbNfcrnwXv5+K4E6xtYUj9PUReml1V2KsdURVLQYOGKgdIc72qjJjZkCvRGhTvJRYLGhvSJZONhfEWRgtEjOWAop3FPX296MDZQ/ZJ0/6yck7XliOBK1gB1cyN/U0OUC5Q1AvGGsnt6NZgpkr184S96VDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=l8eHPFv0; arc=none smtp.client-ip=121.127.44.66
+	 MIME-Version; b=GUMyWa0OTlPkZ3DKv3uDt9patonsebvesyuecSje/I4dMnLtD7oDWGOHXGJilarpLEXQkAHLzQrrMN3NkYFp1JmUW0K9nEkTJ6+I7FAZwDOwEunii7SIjOHu6iLf0IkkSBXIlQmQc5Gl5sbMLitWMJqPAkm/bOlxeLb7qBFFQfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=afx8231R; arc=none smtp.client-ip=149.28.215.223
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="l8eHPFv0"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="afx8231R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
  Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1779127411; bh=HKqZrWH/mIENot9S0r7SqDZlavFSRVbiuTr0NBVKdNk=;
- b=l8eHPFv0TmAuE5YrdT6n7leBO/3MCxmMkzPr36OOoa1EzoHVYffsNv0dQlT0TKPqgq9J+RieA
- voIrVa76jwrzVHpqGbBDhpdcUB0VeJ0rHtjJoVtdyIBFidSgOmLtCTKrEbFGnkwSQOlWhQjeoS6
- eXbyZqFvpL1sfchRxuS79+Cv2qzRa8SM/U/KTqTEGHK3SWJi5lJNiFBRkX2FvqwO0/wvi9t0Rb0
- IOpYafFlN11d8K3pRJLAQOLNqBGf55Vh71ri4VW+7qqbPlcGhryaujlHvYRIQlXJnOU4nX5BZXn
- UFX2+phIfONpO3FnAzZDCcDGBDg26kGSQ8+NoGJs58Gw==
-X-Forward-Email-ID: 6a0b546eb84dbc72d2274f74
+ t=1779127404; bh=6RF7BKuGakMjKCbN9mlVwwIB3PRUeYCX0ksZtYl9O4g=;
+ b=afx8231Rh/nBZ1CpTzPDcIOh19YLcGfrlPnljayrqRHJape5EK6dzz6Oq8JekogWMj0AmIPNA
+ Pk91H8AY7WUBzCNqCw5qdeu3UIjqI5qhX3gMnwF/ISFCJjVM0K0WycSJ37+AIbQ43AKCX+5R/4E
+ er4WzM8X1NW3Rhhtv153Uvtke/u1PW3YSCgcxLfcBBjtD90U2zavtiwlP5njux62PVhXW1Yciwf
+ ZXkul8FX7piMRh9JUqgdcGxQnymq0zsidriYZ82QbfthHt/IQogGVIV2h0NzQ0P+4j3ZHVbLIUm
+ WX9ELlzAQeymbkrNYs+FR6naplhlAbr8oPOmOAqp8JKw==
+X-Forward-Email-ID: 6a0b5429b84dbc72d2274daf
 X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 121.127.44.66
+ 149.28.215.223
 X-Forward-Email-Version: 2.8.12
 X-Forward-Email-Website: https://forwardemail.net
 X-Complaints-To: abuse@forwardemail.net
@@ -61,10 +61,11 @@ Cc: Liu Ying <victor.liu@nxp.com>,
 	linux-amlogic@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	imx@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 17/23] drm: bridge: dw_hdmi: Declare bridge CEC notifier support
-Date: Mon, 18 May 2026 18:01:53 +0000
-Message-ID: <20260518180206.2480119-18-jonas@kwiboo.se>
+	linux-kernel@vger.kernel.org,
+	Christopher Obbard <chris.obbard@collabora.com>
+Subject: [PATCH v7 01/23] drm: bridge: dw_hdmi: Disable scrambler feature when not supported
+Date: Mon, 18 May 2026 18:01:37 +0000
+Message-ID: <20260518180206.2480119-2-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260518180206.2480119-1-jonas@kwiboo.se>
 References: <20260518180206.2480119-1-jonas@kwiboo.se>
@@ -76,36 +77,45 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-EDID and CEC phys addr is now being updated in bridge detect() func,
-making it possible to have CEC notifier support using the bridge
-connector.
+The scrambler feature can be left enabled when hotplugging from a sink
+and mode that require scrambling to a sink that does not support SCDC or
+scrambling.
 
-Add the CEC notifier bridge op to instruct the bridge connector to make
-use of the generic CEC notifier helpers.
+Typically a blank screen or 'no signal' message can be observed after
+using a HDMI 2.0 4K@60Hz mode and then hotplugging to a sink that only
+support HDMI 1.4.
 
+Fix this by disabling the scrambler feature when SCDC is not supported.
+
+Fixes: 264fce6cc2c1 ("drm/bridge: dw-hdmi: Add SCDC and TMDS Scrambling support")
+Reported-by: Christopher Obbard <chris.obbard@collabora.com>
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Tested-by: Diederik de Haas <diederik@cknow-tech.com>  # Rock64, RockPro64, Quartz64-B
 Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 ---
-v7: Only declare CEC notifier support when CEC device register succeeds
-v6: New patch
+v7: No change
+v6: Collect t-b tag
+v5: No change
+v4: No change
+v3: Collect r-b tag
+v2: New patch
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 0c4388e7aa5e..5dacb8a99715 100644
+index 41b3a9cfa2f5..d3e6a6562870 100644
 --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -3515,6 +3515,10 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
- 		pdevinfo.dma_mask = 0;
- 
- 		hdmi->cec = platform_device_register_full(&pdevinfo);
-+		if (!IS_ERR(hdmi->cec)) {
-+			hdmi->bridge.ops |= DRM_BRIDGE_OP_HDMI_CEC_NOTIFIER;
-+			hdmi->bridge.hdmi_cec_dev = hdmi->dev;
-+		}
+@@ -2135,6 +2135,8 @@ static void hdmi_av_composer(struct dw_hdmi *hdmi,
+ 				    HDMI_MC_SWRSTZ);
+ 			drm_scdc_set_scrambling(hdmi->curr_conn, 0);
+ 		}
++	} else if (hdmi->version >= 0x200a) {
++		hdmi_writeb(hdmi, 0, HDMI_FC_SCRAMBLER_CTRL);
  	}
  
- 	drm_bridge_add(&hdmi->bridge);
+ 	/* Set up horizontal active pixel width */
 -- 
 2.54.0
 
