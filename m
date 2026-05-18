@@ -1,27 +1,27 @@
 Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1A93F8709
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 15:35:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15143F44C9
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 15:36:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779118538; cv=none; b=jova3qm6hQ8zVJRTRB70AZyBlt5q6CvKXdQYvc0rkqxXRLtJnP81wYZDR6MeAItZM/rZ+/bxO3gi8G+BWFOTHAB7gb8SlZh/B7tVw7w7dJ3jbq2WTiGWpEBAfal5xi//xVtaHya4jXrJLI+87y20pKTbuPzKQPJaMDz5rkOO7Fk=
+	t=1779118566; cv=none; b=GTi/rcE6XFR7jB1WxMrh/NTa+bBhvC5zKnBq+wCPa9cqx+826QeyZX4QyiEUfMgw9k4fEwTEBQzpSPnX6x3uPT1heHVU+zOs56hDKtnteL8oYbm3MZSEW4INs2i9B7Aq86ZizV6vy4ftnLcuamPd85X7DF2WMs65wY/l/VAAZTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779118538; c=relaxed/simple;
-	bh=sYIhf9JmRahZxPSD9uuyJqPOBKnqcQVlrS2lbbbjpi4=;
+	s=arc-20240116; t=1779118566; c=relaxed/simple;
+	bh=/31T6WAMjIR7AN2S3ymAQtgatmirOtaIef3/rrgW8Cw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CnTf2PDpAgh0hB0J6Mv3E3XIb3FnWeV+ILDqXVEYK2k/WnjEvplNrpeMdqGhgBmi1WhZiKEtHDHSN/ANxhe7Y06K5QTY57CyrkxUZSh9qMDTAzpfsT89ONjtZtyvGbjpvQARcjlOk8h96QcRD/PNEWbKJ21HxVMpcZaK3866kME=
+	 MIME-Version; b=c+GzP04z1eKYIzvMxPdOLOBay7cce3e9syyRkdBB7iixzVpxdY6jzT4ckoY1enUzQsVcbeMjJxHwowaTkr/lpjMpvaJyEhtGflEAlmG+jSN6xT8P5MLei6IqQehjtrBUpz8/F2aIzvxH1sT+XPpQon4M6bt0YT13kbty5Rc4OZs=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
 Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id C21FA1F8004F
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 15:35:32 +0000 (UTC)
+	by leonov.paulk.fr (Postfix) with ESMTPS id 824AB1F8005C
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 15:35:58 +0000 (UTC)
 Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 2F58DB40811; Mon, 18 May 2026 15:35:32 +0000 (UTC)
+	id 03DF6B40812; Mon, 18 May 2026 15:35:57 +0000 (UTC)
 X-Spam-Level: *
 Received: from collins (unknown [192.168.1.64])
-	by laika.paulk.fr (Postfix) with ESMTP id 2C7BDB407FE;
+	by laika.paulk.fr (Postfix) with ESMTP id 8CFB8B407FF;
 	Mon, 18 May 2026 15:33:42 +0000 (UTC)
 From: Paul Kocialkowski <paulk@sys-base.io>
 To: linux-media@vger.kernel.org,
@@ -43,9 +43,9 @@ Cc: Yong Deng <yong.deng@magewell.com>,
 	Brian Masney <bmasney@redhat.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH v9 3/9] clk: sunxi-ng: v3s: Export MBUS and DRAM clocks to the public header
-Date: Mon, 18 May 2026 17:33:32 +0200
-Message-ID: <20260518153339.619947-4-paulk@sys-base.io>
+Subject: [PATCH v9 4/9] ARM: dts: sun8i: v3s: Add mbus node to represent the interconnect
+Date: Mon, 18 May 2026 17:33:33 +0200
+Message-ID: <20260518153339.619947-5-paulk@sys-base.io>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260518153339.619947-1-paulk@sys-base.io>
 References: <20260518153339.619947-1-paulk@sys-base.io>
@@ -59,58 +59,42 @@ Content-Transfer-Encoding: 8bit
 
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-In order to declare a mbus node for the v3s, expose its associated
-clocks to the public header.
+The V3s uses the mbus interconnect to provide DRAM access for a
+number of blocks. The SoC can only map 2 GiB of DRAM, which is
+reflected in the dma-ranges property.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Reviewed-by: Samuel Holland <samuel@sholland.org>
-Acked-by: Rob Herring <robh@kernel.org>
 ---
- drivers/clk/sunxi-ng/ccu-sun8i-v3s.h      | 4 ----
- include/dt-bindings/clock/sun8i-v3s-ccu.h | 4 ++--
- 2 files changed, 2 insertions(+), 6 deletions(-)
+ arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h
-index 345cdbbab362..c933ef016570 100644
---- a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h
-+++ b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h
-@@ -39,14 +39,10 @@
+diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+index fa54510319ac..02d6c62b3874 100644
+--- a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
++++ b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+@@ -629,6 +629,21 @@ int_mii_phy: ethernet-phy@1 {
+ 			};
+ 		};
  
- /* The first bunch of module clocks are exported */
- 
--#define CLK_DRAM		58
--
- /* All the DRAM gates are exported */
- 
- /* Some more module clocks are exported */
- 
--#define CLK_MBUS		72
--
- /* And the GPU module clock is exported */
- 
- #define CLK_PLL_DDR1		74
-diff --git a/include/dt-bindings/clock/sun8i-v3s-ccu.h b/include/dt-bindings/clock/sun8i-v3s-ccu.h
-index c4055629c9f9..d635bffd6914 100644
---- a/include/dt-bindings/clock/sun8i-v3s-ccu.h
-+++ b/include/dt-bindings/clock/sun8i-v3s-ccu.h
-@@ -87,7 +87,7 @@
- #define CLK_SPI0		55
- #define CLK_USB_PHY0		56
- #define CLK_USB_OHCI0		57
--
-+#define CLK_DRAM		58
- #define CLK_DRAM_VE		59
- #define CLK_DRAM_CSI		60
- #define CLK_DRAM_EHCI		61
-@@ -101,7 +101,7 @@
- #define CLK_VE			69
- #define CLK_AC_DIG		70
- #define CLK_AVS			71
--
-+#define CLK_MBUS		72
- #define CLK_MIPI_CSI		73
- 
- /* Clocks not available on V3s */
++		mbus: dram-controller@1c62000 {
++			compatible = "allwinner,sun8i-v3s-mbus";
++			reg = <0x01c62000 0x1000>,
++			      <0x01c63000 0x1000>;
++			reg-names = "mbus", "dram";
++			clocks = <&ccu CLK_MBUS>,
++				 <&ccu CLK_DRAM>,
++				 <&ccu CLK_BUS_DRAM>;
++			clock-names = "mbus", "dram", "bus";
++			#address-cells = <1>;
++			#size-cells = <1>;
++			dma-ranges = <0x00000000 0x40000000 0x80000000>;
++			#interconnect-cells = <1>;
++		};
++
+ 		spi0: spi@1c68000 {
+ 			compatible = "allwinner,sun8i-h3-spi";
+ 			reg = <0x01c68000 0x1000>;
 -- 
 2.54.0
 
