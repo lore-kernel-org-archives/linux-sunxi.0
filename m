@@ -1,114 +1,95 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C4A3F99FB;
-	Mon, 18 May 2026 16:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4161F27281D;
+	Mon, 18 May 2026 16:11:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779120015; cv=none; b=fAuLgn1PV2RNMZOZ6MrXQBq0SUZuoaDd6um0iyA06LRM24P9knwCa6astgwE2VD+JzHGYCB2LJgkl7Hut6uCjBuyQLhWmQLty4SQfsxhdOWdMa5v+1DJxq2edrGWzRp/ygN+EStZ3QLyN0yul8ddZi+OC13a5y4Cw/v2eRIT9BM=
+	t=1779120694; cv=none; b=mOatYNMeHb3IQgY5jE5P09AbIocjKCR6A0ajg6ChkmhD8n2U/7G1kZrnyzvN1U1tbrhVtrKPRUMpEa0YPGx/Lx1tPsHIy6CYRMFgKJvhuR9itE7E1bbsLgaY/cYvLbxmrnPbES7mPYSNeo9oUwz4iPXcV6mWZMC30COOjYs/VJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779120015; c=relaxed/simple;
-	bh=8jG6fyV1k1+GQi65L6jjjdziyvONJzX5Tsgd3tXgyN4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B2yvg2Zn2fq7bsUrVhSgPXFoKGr1Jth5Hn3ugBsKNTQSvyDQGDe/nZF5Z7khIPacHP3Gw1+69g0VRLZ2EWD/EUXA5qVe4Fr/UFF24zB0bc9dN92aTRxwHlPC+UaFvVfLM2X3FT3BDgEdVbVbkrroBB9iR5bfbN91EuegGZ4bMKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 916A71F80044;
-	Mon, 18 May 2026 16:00:01 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 8A984B40802; Mon, 18 May 2026 16:00:00 +0000 (UTC)
-X-Spam-Level: 
-Received: from collins (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id D6588B40800;
-	Mon, 18 May 2026 15:59:59 +0000 (UTC)
-Date: Mon, 18 May 2026 17:59:57 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-sunxi@lists.linux.dev, conor+dt@kernel.org, robh@kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v9 2/9] dt-bindings: media: sun6i-a31-isp: Add optional
- interconnect properties
-Message-ID: <ags3fdMHlt2AyRMp@collins>
-References: <20260518153339.619947-3-paulk@sys-base.io>
- <20260518155006.12589C2BCB7@smtp.kernel.org>
+	s=arc-20240116; t=1779120694; c=relaxed/simple;
+	bh=cb8j6DnkkjLHSGPe4ydRwB7IZQAkr3Jwq510+XI2TFU=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=Z1DjX6EO44lsBZmw6c+EGxS1DyNr1exGzPG801GtVMq/2dMJque17OLhX3GXn6ofA3bjTvh/xcLmXQjFJmWwxmZn9vV5GSJl6aAevhptxRhVYakiMLDQEGMAvMWbc5bs84LYwKWHYBdq6SKO5d2mSlb/chCFeRUqg/VGVqzP01A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b3lxeVtm; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b3lxeVtm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0A4CC2BCB7;
+	Mon, 18 May 2026 16:11:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779120691;
+	bh=cb8j6DnkkjLHSGPe4ydRwB7IZQAkr3Jwq510+XI2TFU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date:From;
+	b=b3lxeVtmGQUl2V78Bx8xd36f/K3QghoZw/iM77E1Gbdb3KPbw9cQGvwR4bpXsJZET
+	 wKScuuLGEwQRe8oPcGzi/miQwX9bOvLqEejZOagO93GO5jtkMknuRZuTsV2m/KK0LT
+	 z52rvKfaPn6qPPvqvRhgNGC/ue4cICGPeLlH7xEuATH6p0fyeWr8EHc+arKOEosChA
+	 nDys1gMewmE1TEoV7uiSqq9D6bi8/jEq0lBstSweJt0FG+7GdUMuGxPuJAtA1zwmsx
+	 3xOY4e5gWc/7+jqOWX9L6ZUVFRwTJPwBNAF6XAw+1SnjfmEAwFJmTS6vdTMdm/2Wvm
+	 kfuuK9UuFIVqg==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v9 5/9] ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2
+ support
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Paul Kocialkowski" <paulk@sys-base.io>
+Cc: linux-sunxi@lists.linux.dev, conor+dt@kernel.org, robh@kernel.org, devicetree@vger.kernel.org
+In-Reply-To: <20260518153339.619947-6-paulk@sys-base.io>
+References: <20260518153339.619947-6-paulk@sys-base.io>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 18 May 2026 16:11:30 +0000
+Message-Id: <20260518161130.F0A4CC2BCB7@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="MgUXvio5QiWlCs6F"
-Content-Disposition: inline
-In-Reply-To: <20260518155006.12589C2BCB7@smtp.kernel.org>
 
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] The `dphy` node is missing the required `interrupts` property an=
+d a SoC-specific compatible string.
+--
 
---MgUXvio5QiWlCs6F
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+commit ceae1b5da24380c4a30d9a8b480a23eaee3c0814
+Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-Hi,
+ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2 support
 
-Le Mon 18 May 26, 15:50, sashiko-bot@kernel.org a =C3=A9crit :
-> Thank you for your contribution! Sashiko AI review found 1 potential issu=
-e(s) to consider:
-> - [Medium] The commit message body incorrectly refers to the 'sun6i-a31-c=
-si' device instead of the 'sun6i-a31-isp' device.
-> --
->=20
-> commit 816ee95ed6c916a2cdd9b96a5a6e283ad0e7d42e
-> Author: Paul Kocialkowski <paulk@sys-base.io>
->=20
-> dt-bindings: media: sun6i-a31-isp: Add optional interconnect properties
->=20
-> This commit updates the allwinner,sun6i-a31-isp device tree binding by ad=
-ding
-> optional interconnect and interconnect-names properties.
->=20
-> > An interconnect can be attached to the sun6i-a31-csi device, which is
-> > useful to attach the dma memory offset. Add related properties.
->=20
-> This isn't a bug, but should the commit message body refer to the
-> sun6i-a31-isp device instead of the sun6i-a31-csi device?=20
->=20
-> The patch modifies the allwinner,sun6i-a31-isp.yaml binding and the commit
-> title correctly indicates sun6i-a31-isp.
+This commit adds MIPI CSI-2 support to the Allwinner V3s SoC. It introduces
+the device tree nodes for the CSI0 controller, the MIPI CSI-2 bridge, and
+the D-PHY block.
 
-Yes that is true. Maybe it can be fixed while applying, or just ignored.
-I don't think the level of confusion is worth sending a v10 just for
-this.
+> diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi b/arch/arm/boot/d=
+ts/allwinner/sun8i-v3s.dtsi
+> --- a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+> +++ b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+[ ... ]
+> +		dphy: d-phy@1cb2000 {
+> +			compatible =3D "allwinner,sun6i-a31-mipi-dphy";
 
-Paul
+Should a SoC-specific compatible string like "allwinner,sun8i-v3s-mipi-dphy"
+be included here alongside the generic a31 fallback?
+
+> +			reg =3D <0x01cb2000 0x1000>;
+> +			clocks =3D <&ccu CLK_BUS_CSI>,
+> +				 <&ccu CLK_MIPI_CSI>;
+> +			clock-names =3D "bus", "mod";
+> +			resets =3D <&ccu RST_BUS_CSI>;
+
+Will this node fail dtbs_check schema validation? The existing device tree
+binding schema for "allwinner,sun6i-a31-mipi-dphy" requires an interrupts
+property, which appears to be missing here.
+
+If the V3s hardware physically lacks a D-PHY interrupt, would it be better
+to add the V3s-specific compatible string and update the binding schema
+to make the interrupts property conditionally optional for the V3s?
+
+> +			allwinner,direction =3D "rx";
+> +			status =3D "disabled";
+> +			#phy-cells =3D <0>;
+> +		};
+> +
 
 --=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---MgUXvio5QiWlCs6F
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmoLN30ACgkQhP3B6o/u
-lQwpnw//amZlWD1gv1yDIZMTgRXXrUNI0T14l9wwXy5NNw9xeGyEJqpWD9Le1/Mn
-xrr0mT5ARIYRiSL2L12NDtYS655/GGsIlIWGavZ9G7oEAWTe5WTOF75C8b9o8++2
-OwKI+bOE0nZOT2KcpXuk6zy1eaa1nAI2p0U0K8mOMGcBbBt+choWxTV9lnYDLEiZ
-XZ03Do1F4BiUpYf4LvNwDWf1M+Op36dOeRSj2H3WCM0vCE6XQY+Ilz4865kz2SPv
-5f4+GvHXmmWUIHI17n3yUcUU7JSA8epGttPWtr5BKnJmukNxzk9jiB/pZsltDH5f
-jAS5N0UYUUPv7Ocp+MJRCLSX256tqTdZw63xxaPDw7dnI5hvpfHi+N8H/YV1MWoo
-V3B4NwdX5jxDFwa6LSMfqnXub1T9dSkrTSd86H45WZ4YThfcJ5+5BXmqadF4am+E
-G7vMGvFbyej/ALAmG9HJVLck8aOgm2gvRzNr5NdbFXyQJ38rBelBwPYK0uPpI1ri
-podfHtNjZNipiM77nIlAEZor1OAPIIQAubGBCL+bfLz/f7sLN1ZQlDEopFDebryx
-B4aH3FLmN7tWuL7LpKBQ9ET0BDbpkMpVENk5CvYDFlvusLD144k4kkPjvjG+2iXm
-kjIceCHCSTMXsYFbLi/+HycRcmxNCjKxLBNcO75m+9S0fOAeQUw=
-=k9sp
------END PGP SIGNATURE-----
-
---MgUXvio5QiWlCs6F--
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260518153339.6199=
+47-1-paulk@sys-base.io?part=3D5
