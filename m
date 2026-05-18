@@ -1,217 +1,110 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38F4D39B944
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 21:55:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2193A543A
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 22:05:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779141325; cv=none; b=JxyjIFt3SIaQknVO8nRa/+2hfrh3omy0SuQ1jXCqJHVa8C40WRFPoQFmlWYqu/XYUxf/KaXfaJkRvcLDC/0Wq6reK7paML1qsBNTugG+QBrFQMfXEPnaNAL8DFeIfIpH9tEvEXo1LjkoqR6jOAUVRjjU3KyUmOk/icbpzNoX6rA=
+	t=1779141906; cv=none; b=c4SdKuD+2bnxqSWtJbw9wzvOPdKF58vWYx12U12FnIHqJT/W+NQC8vjJX0+yD6I12BcZsMwntzWkeA3vfPYZlvzGuG3dFt7LBXznLBKC58KLD67x6JLXGAnkcfJFrPSJGrNKtXIejQO7TD5Pxlxon4JLAck0SNaPMQJjkKgY+4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779141325; c=relaxed/simple;
-	bh=YD8ys6Cvuh2mZbnirI1fsh8QprXFw+273S/FOd5w6Kk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uw0lo+47IiUc2j8c87WvXbWsTtwEbzZZEDiJMU+gEANnvDqHgoxgaZySYSqSm8IeQ/8M521mtN/khOpMihJbRX8Jp3X73lpoQVRcFwb307Mo1JDpSeuD9AZgABKpX3AmuZfe2ksqkFSlXub+GvtxKJlASu82JTPY01J8rFnp6IM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=XxmKvM1K; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1779141906; c=relaxed/simple;
+	bh=7KuR50pAzSW39ZRZCwjG/exnUpapOdN4/r22kkJty6Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O8ngRdn05stIUggywoWPxs8C9P53eKFV9kyFVhBoZBh+IeyCA+e+xjQg6nQZHAiBC0wMRSmNrqRhOGxppTFhsxbCgj9HBfLu8B+b6JwDQA1o42c3KW4zRYVwpkEH6G5+YNIFLObz17QcYrxTJ7oI1pquWfqSGQUmj1KycB8Cd2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ogGNp1j6; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="XxmKvM1K"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2D4E832AC;
-	Mon, 18 May 2026 14:55:17 -0700 (PDT)
-Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DF1313F7B4;
-	Mon, 18 May 2026 14:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1779141322; bh=YD8ys6Cvuh2mZbnirI1fsh8QprXFw+273S/FOd5w6Kk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=XxmKvM1Kytq9wmpk2HPJ0TY3hWfXQD4nJPkDZj7nb3h9B23qMrJU8MTQGMxMJJ9pY
-	 uZRd7JxzqNLCnP+gCI74gIfE1GKZSZN3XHtrQTGvRWaTo0bUuQ6FbLZm3+WrE6zsca
-	 whJVdCaKYHw4idToRhdsK05umXIIlpYXakZRt0tY=
-Date: Mon, 18 May 2026 23:54:32 +0200
-From: Andre Przywara <andre.przywara@arm.com>
-To: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Cc: Paul Kocialkowski <paulk@sys-base.io>, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] arm64: dts: allwinner: A133: add support for
- Baijie Helper A133 board
-Message-ID: <20260518235432.07537260@ryzen.lan>
-In-Reply-To: <04da68168f92b196cce4d49c766fc62702bf6472.camel@gmail.com>
-References: <20260510201644.4143710-1-alexander.sverdlin@gmail.com>
-	<20260510201644.4143710-4-alexander.sverdlin@gmail.com>
-	<agr9m_tidBr6Cu2h@collins>
-	<04da68168f92b196cce4d49c766fc62702bf6472.camel@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ogGNp1j6"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4891e86fabeso38093555e9.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 15:05:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779141901; x=1779746701; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Cd2gH8+KVNAxcq+NWcUqT38BQp2PFP+quQ7E39pyZhM=;
+        b=ogGNp1j6iK/Xn66ZJRXw/cL9AkRTNb2RgK5O14GO+5y5+ZnfhV6p6Nrb9igLHQ1T7i
+         +Xc8bX+5WWp11Dw4IpmvoHr8wLhc4QObdlEmhkgfsMitVKVev2Vm3fy7Y95vXauJ+hgv
+         wqkWbRTdxIWxSyEVivPVUm8xlNK/tg6GrAQeaATsjsPalZkkXQm6PgolIKYPuoJ6WKvI
+         9lmc4G4e02Lyz9tuppjZuxYXhTldLhJoxTMhripeX1bZBukRnzmR7ubm4Acbe/WieuqJ
+         n/LFSgcUENWg1+Qph7J0HOmdqClQbxxH7AIAMgmgrNNaGmo4Q8SBERliKsC4snmZpDao
+         jVIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779141901; x=1779746701;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Cd2gH8+KVNAxcq+NWcUqT38BQp2PFP+quQ7E39pyZhM=;
+        b=c+zwpGlZ5CjBWLFnJamMasZZ6ikmuS4RgeAK/ItIlBtHFWjRq5p67rTbi/Ju0AWms0
+         +eml7bzaIrtJATJxiJskg2HQazZZIgvaq31Pkc8+rC7y/7L9CFH+90ho9EjFM9bB33Fj
+         DGf02WfbU4pxnlgKoMYEMUEhpg520tAug4BRTv7YppV4UW95+B1/I09KOfAwcfGFwx90
+         uHtwhrkxmx2Bxu4waoZqMgV6yLsTEMqPk2PdQdz8p2W+M55hJYaqh0tY+FBvE864xO64
+         21IV5YE/AGEXTM6WkrZoYG3dGRN6zOw7nNMgRCuoLxlpRKKugIhSkNH8IKLyszAZ5Kvd
+         swxg==
+X-Forwarded-Encrypted: i=1; AFNElJ/dGAPDZDCrkYK0u6fOP1PlyFLPXlIicaVCymdzSxg5nTY8NCoigDAJc6+TOnC23CQm6HNeMlZJfYdn8Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxN0ZhrZpqmuKO9F3r+vFPW2gLG2A7r4aRj25t60GBmAuEwLRDF
+	+j5B4a/we2a0LAkD12eg5/uKOuwT6rVApfFF++C2YaPJK045tz4kfXeQ
+X-Gm-Gg: Acq92OGjzmO3rRqxoNKqr4vXm1Tl1BXY79FbwrhHy4dLgDpVqI6fi15j3/d1yUiUs83
+	KVlIWqJkIge0YHlm5OMRx5OUj3wfccPeddUk8e2TaOH2t5IJZBssjuoalZbPAPm5IH2DhfsgeqM
+	HerwNfw3FI/OzkdhPk8wsGxAIOGR/rXveICAX9qqVkJ6tg8CdYIqWy65aKaIAyaN5NfIjaffQPC
+	O7OoKsLovF4qaS98aQR4SRGBnQYVcPqhFFLwS7zvODRY2t5noRoFwg20vRncR/9pmSj/CkfKvwt
+	qYb69hUeS7OeXrYP9PpqkIOE57OXJZuG7k+FuGGziING1wZgDCoQ2Qp+HSANBPj86Hox+SX/Z3S
+	5NKKkzc7VeA+Av6AkMY0hGNlgE1Zh+WFbOzW3i7s7w+SptlnuZhnqTcVIk+SbDmeDr+UQKGznKk
+	nHdRwR/uYIe6XuP/d2L4VfY4Xhseczu/BLI97vomPXg/9358fSMVjubVYjnxNKc3k5ltjMUvAyG
+	C2Pw+V9EK4TMs2L9Un83GN4+4912cONqXQDFYiiQqwdb9xHB2eDgRcUwLLwDHejUi//+ps03iWA
+	9oNjee3JFbVdZqqXfyduCOlOL2lEOBt1qz7RuxqaROhme0PbzPnmeNDM+6aEzQPApQfm1QB3kH8
+	u72wRv0KMHYfCRYIU8TdOEw==
+X-Received: by 2002:a05:600c:34cc:b0:48e:635a:18d7 with SMTP id 5b1f17b1804b1-48fe59b047bmr287108655e9.0.1779141900529;
+        Mon, 18 May 2026 15:05:00 -0700 (PDT)
+Received: from cypher.home.roving-it.com (7.9.7.f.b.1.3.0.b.8.f.0.9.e.0.0.1.8.6.2.1.1.b.f.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:fb11:2681:e9:f8b:31b:f797])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-48fe53ab671sm281976645e9.1.2026.05.18.15.04.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 15:04:59 -0700 (PDT)
+From: Peter Robinson <pbrobinson@gmail.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Cc: Peter Robinson <pbrobinson@gmail.com>
+Subject: [PATCH] arm64: dts: allwinner: sun50i-a64: Enable DT overlays
+Date: Mon, 18 May 2026 23:04:49 +0100
+Message-ID: <20260518220455.156874-1-pbrobinson@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, 18 May 2026 22:05:25 +0200
-Alexander Sverdlin <alexander.sverdlin@gmail.com> wrote:
+Enable DT overlays on some of the Pine64 devices to enable
+use of addon accessories such as WiFi or audio modules.
 
-Hi Paul, Alexander,
+Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+---
+ arch/arm64/boot/dts/allwinner/Makefile | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-> thanks for the review!
-> 
-> On Mon, 2026-05-18 at 13:52 +0200, Paul Kocialkowski wrote:
-> >   
-> > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a133-baije-core.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a133-baije-core.dtsi
-> > > new file mode 100644
-> > > index 000000000000..65b094f30bf5
-> > > --- /dev/null
-> > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-baije-core.dtsi  
-> 
-> []
-> 
-> > You should add:
-> > 
-> > 	chosen {
-> > 		stdout-path = "serial0:115200n8";
-> > 	};  
-> 
-> I actually have it in .dts, but it's theoretically possible to deploy
-> the core board in a way that serial0 is *not* a console, so the above
-> probably will not be valid in all cases in .dtsi.
+diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+index d116864b6c2b3..53e6b701e7d3a 100644
+--- a/arch/arm64/boot/dts/allwinner/Makefile
++++ b/arch/arm64/boot/dts/allwinner/Makefile
+@@ -1,4 +1,10 @@
+ # SPDX-License-Identifier: GPL-2.0
++# Enables support for device-tree overlays for named devices
++DTC_FLAGS_sun50i-a64-pine64-lts := -@
++DTC_FLAGS_sun50i-a64-pine64 := -@
++DTC_FLAGS_sun50i-a64-pine64-plus := -@
++DTC_FLAGS_sun50i-a64-sopine-baseboard := -@
++
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-amarula-relic.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-bananapi-m64.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-nanopi-a64.dtb
+-- 
+2.54.0
 
-I am with Alexander here, to me the serial port belong into the
-helper board .dts, not the SoM .dtsi.
-
-> 
-> > 
-> > 
-> >   
-> > > +&reg_dcdc2 {
-> > > +	regulator-always-on;
-> > > +	regulator-min-microvolt = <500000>;
-> > > +	regulator-max-microvolt = <1300000>;  
-> > 
-> > Should be:
-> > 	regulator-min-microvolt = <900000>;
-> > 	regulator-max-microvolt = <1300000>;  
-> 
-> 0.81..1.2v according to A133 Datasheet Revision 1.1 Jul.14, 2020?
-
-Do you have the CPU OPPs for this board? Do they slightly
-overclock/over-volt the core? We have seen this for some other boards.
-But you could go with the safer 810mV...1200mV range, and we adjust
-this when needed.
-
-> 
-> >   
-> > > +&reg_dcdc4 {
-> > > +	regulator-always-on;
-> > > +	regulator-min-microvolt = <500000>;
-> > > +	regulator-max-microvolt = <1300000>;
-> > > +	regulator-name = "vdd-sys";  
-> > 
-> > Should be:
-> > 	regulator-min-microvolt = <810000>;
-> > 	regulator-max-microvolt = <990000>;
-> > 	regulator-name = "vcc-usb-sys";  
-> 
-> I'm a bit puzzled here: datasheet says 0.9..1.0v
-> and it has no "Typ" value, similar to VDD_CPU, but
-> VDD_SYS is not part of OPP tables, so who is going
-> to adjust this? Or shall it be just
-> 
-> regulator-min-microvolt = <950000>;
-> regulator-max-microvolt = <950000>;
-
-There is indeed no exact value to be found. Just go with whatever the
-BSP used: either it's the PMIC reset value, or it's adjusted by boot0.
-If you have a BSP kernel booted, check the value of this regulator on
-the Linux prompt, then use this value. Chances are it's indeed 950mV,
-as used by the Liontron board.
-
-> 
-> ?
-> 
-> >   
-> > > +};
-> > > +
-> > > +&reg_dcdc5 {
-> > > +	regulator-always-on;
-> > > +	regulator-min-microvolt = <800000>;
-> > > +	regulator-max-microvolt = <1840000>;
-> > > +	regulator-name = "vcc-dram";  
-> > 
-> > Should be:
-> > 	regulator-min-microvolt = <1100000>;
-> > 	regulator-max-microvolt = <1100000>;
-> > 	regulator-name = "vcc-dram-2";
-> > 
-> > ALDO2 is the main DRAM supply, this is the second one.  
-> 
-> Core schematics mentions 1.1V/1.2/1.35/1.5 on this rail...
-> Currently U-Boot has CONFIG_AXP_DCDC5_VOLT=1100, but potentially
-> this is adjustable, right? At some point LPDDR4 chips they
-> are soldering today will be unavailable. And in the current
-> market it will happen rather sooner than later...
-
-We don't support multiple DRAM types for one board, really. If they
-switch to another DRAM type, we will need a new DT or some other way to
-adjust this (potentially runtime patched by U-Boot). But we can address
-this when we get there, so just set the 1.1V that LPDDR4 requires for
-the existing boards right now.
-
-> 
-> >   
-> > > +};
-> > > +
-> > > +/* DCDC6 unused */
-> > > +
-> > > +&reg_dldo1 {
-> > > +	regulator-min-microvolt = <700000>;
-> > > +	regulator-max-microvolt = <3300000>;
-> > > +	regulator-enable-ramp-delay = <1000>;  
-> > 
-> > Should be:
-> > 	regulator-min-microvolt = <1800000>;
-> > 	regulator-max-microvolt = <1800000>;
-> > 	regulator-name = "vcc-pg";  
-> 
-> Do suggest to drop vendor's
-> 
-> regulator-enable-ramp-delay = <1000>;
-> 
-> in all cases?
-> 
-
-I don't see this used in many other mainline DTs, mostly it's just for
-some picky peripherals (PHYs). So if that works stable for you without,
-I'd drop all of them.
-
-> > > 
-> > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a133-baijie-helper.dts b/arch/arm64/boot/dts/allwinner/sun50i-a133-baijie-helper.dts
-> > > new file mode 100644
-> > > index 000000000000..ccbca5d0a40c
-> > > --- /dev/null
-> > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-baijie-helper.dts  
-> 
-> []
-> 
-> > > +	aliases {
-> > > +		serial0 = &uart0;  
-> > 
-> > The is best added to the core dtsi.
-> >   
-> > > +	};
-> > > +
-> > > +	chosen {
-> > > +		stdout-path = "serial0:115200n8";  
-> > 
-> > Ditto.  
-> 
-> But it only physically materializes in Helperboard, the carrier.
-> Potentially this one can be left floating or used for something else.
-
-As mentioned above, I agree on this staying in the helper board .dts,
-and it not being moved.
-
-Cheers,
-Andre
