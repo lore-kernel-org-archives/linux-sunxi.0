@@ -1,31 +1,31 @@
 Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64205392822
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 18:04:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623F03939A9
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 18:04:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779127443; cv=none; b=kte/4/+L1eQFIzGZQf1FD5W5lLRPd7AHQf3lddVBTzO8Xw7qEiDlO0qIkkSdOkCIEELTUGLfAbQ/FK4MCWInlbMUEDlcn0FMhFXWfWhA1cQF9E8o6zjCsbtdKfRxBDSY6Py5ZeMH7UMr6zvWbFqG2OyQNiHS690KuArJog3Twu4=
+	t=1779127445; cv=none; b=a3XnvA4crRZbb6Nos9UVp33ph4npRURSBfcmusfouQFkkDhnMT1vtOzlLPqkUPz0Ue+Ot4FaWu9W+AgPodWhX03Q5WVMbCNEoCRi6GCuiBTEalH3pWB3wLSGjUpI1zYoFm7jdYiW/64GFvBXQmb9Wbb87T98/QYdscMVodBDdV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779127443; c=relaxed/simple;
-	bh=VxZ1Kez/06U4VoDeHYL41XHk0JGP/YzohyWCreMpChs=;
+	s=arc-20240116; t=1779127445; c=relaxed/simple;
+	bh=Wq7HFLMcq+ycT/VWxLv/F1+w4pBeTXs/AtjVVW2asLA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hJH5HsQHTw9s9q9zflKANQVbFaX2QgONEqwGyrxHXlC/9uwDIYbvC0jT7wUbY18pfUn1zV3PTOmxhm0BUhuZvpcwu7aVHOytEpii4wZuePakNqNaII+PAfijyW+gxeJB3Pstr+upUjPIi7/8TUPX1sfGM7bQPPrNLpuGOFY6HMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=zHNsEAbh; arc=none smtp.client-ip=149.28.215.223
+	 MIME-Version; b=jAj0AU1TU23BZS44jN/YhspUvTxtP2eURf8juelYLoxy+WuAz06DTbO+DE23USxcnrKzLxiqeMYfTTRPJaV4NmRgL+hHblt/TRzGq1rgGHC2vGlK9Zya4PN6mpmQY+FFEUqA7Y9mZlG36KxMk8sI+Le/RI9wg56WfWwPdM0CUSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=CaQ/WpmQ; arc=none smtp.client-ip=149.28.215.223
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="zHNsEAbh"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="CaQ/WpmQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
  Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1779127437; bh=znz3x9aHiZWJo1Ge4Me4toMEFecshVWA02u6IfcfS5U=;
- b=zHNsEAbhuR80jQm70yn9zOAF0xDBi3avBSFQdtgupHjxN4Fw2pnq9b0fTF62HuK9i0S+4buYn
- pGjmZvZs1rBpYkcyOEhX7kA7aLJ1DTGjV2OTKfv3SZaS8vLtU0czN+tNb0pdgk/Kmn/rVWIaj0w
- xnQdhJI3DdlIdE0JoFvt35qIv+V5kXJQ40dHH88hojRUoQeMwpzmINQYvP2ojp5A/zXPEx8E2aY
- chU/8DvdpEEO50wYaPRXQuyg+djirDMhK9ABhpr4/sUY64wc1RS8snUQMwbDSUNJFvtpWJdvUVq
- vTPUNA3xELPTApAuNg4MX4cU+tUUPhNbN2Yyepnsojrg==
-X-Forward-Email-ID: 6a0b5450b84dbc72d2274ea2
+ t=1779127442; bh=pRDjhi4A67HVrKb8G93iuKDjCCMCnoa34s8OGiHVDR4=;
+ b=CaQ/WpmQAuvObrT0hq053fm3RfgdudcuFvXUz8VxC1dT3pyt69bXNahWUzQtJKw2vmB/usZBP
+ McyLkBE3ZmtCyigrNRSOut/6p2SQ2Cf9rRbrmF4YPf+RMB6Q4UkC/EMUzIiQvAxvAslROC/+3ln
+ kJwckUTf4YnbShoPaT8TQWEoVBOFrL4Zws6YWvOl0X3cbbCpkr5pcOLK1YJCRhSOY6uhuyTa9ts
+ N8wJ55w/AQS9CSVzv5Nu1aKDTNKy4BgNmmGC48zIaRncbdL4ypQe3IwOWc7EtlFKxRfX4v1nVnb
+ b6PqHnNZ8EbIYkmhseYybk3iS7ovnmVYRSlXyfKjvPKg==
+X-Forward-Email-ID: 6a0b546ab84dbc72d2274f59
 X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
  149.28.215.223
 X-Forward-Email-Version: 2.8.12
@@ -62,9 +62,9 @@ Cc: Liu Ying <victor.liu@nxp.com>,
 	linux-sunxi@lists.linux.dev,
 	imx@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 10/23] drm: bridge: dw_hdmi: Invalidate CEC phys addr from connector detect
-Date: Mon, 18 May 2026 18:01:46 +0000
-Message-ID: <20260518180206.2480119-11-jonas@kwiboo.se>
+Subject: [PATCH v7 16/23] drm: bridge: dw_hdmi: Update EDID and CEC phys addr in bridge detect()
+Date: Mon, 18 May 2026 18:01:52 +0000
+Message-ID: <20260518180206.2480119-17-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260518180206.2480119-1-jonas@kwiboo.se>
 References: <20260518180206.2480119-1-jonas@kwiboo.se>
@@ -76,62 +76,54 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Wait until the connector detect ops is called to invalidate CEC phys
-addr instead of doing it directly from the irq handler.
+Update EDID and CEC phys addr in the bridge detect() func to closely
+match the behavior of a bridge connector with a HDMI bridge attached
+and the dw-hdmi connector.
 
-The CEC notifier is only registered for the dw-hdmi connector so this
-has no impact when the bridge connector is used.
+This change introduce a slight delay to the bridge connector detect()
+and get_modes() funcs due to multiple EDID reads. This is an acceptable
+added delay to help ensure EDID and CEC phys addr always are correct.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-Tested-by: Diederik de Haas <diederik@cknow-tech.com>  # Rock64, RockPro64, Quartz64-B
 Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 ---
 v7: Update commit message
-v6: Collect t-b tag
-v5: No change
-v4: No change
-v3: No change
-v2: Collect r-b tag
+v6: New patch
+
+This is a temporary change until dw-hdmi is fully converted into a
+HDMI bridge in a future part of this multi-series effort.
+
+The patch "drm/bridge-connector: Use cached connector status in
+.get_modes()" [1] can help remove one unnecessary EDID read until
+dw-hdmi is fully converted into a HDMI bridge.
+
+[1] https://lore.kernel.org/dri-devel/20260426-dw-hdmi-qp-scramb-v5-3-d778e70c317b@collabora.com/
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 5fd26ff8f55b..aae1b890167b 100644
+index 37406555af7b..0c4388e7aa5e 100644
 --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2472,7 +2472,17 @@ dw_hdmi_connector_detect(struct drm_connector *connector, bool force)
+@@ -2947,8 +2947,17 @@ static enum drm_connector_status
+ dw_hdmi_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
  {
- 	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi,
- 					     connector);
--	return dw_hdmi_detect(hdmi);
+ 	struct dw_hdmi *hdmi = bridge->driver_private;
 +	enum drm_connector_status status;
-+
+ 
+-	return dw_hdmi_detect(hdmi);
 +	status = dw_hdmi_detect(hdmi);
 +
-+	if (status == connector_status_disconnected) {
-+		mutex_lock(&hdmi->cec_notifier_mutex);
-+		cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
-+		mutex_unlock(&hdmi->cec_notifier_mutex);
-+	}
++	/*
++	 * Update EDID and CEC phys addr to match the behavior of a bridge
++	 * connector with a HDMI bridge attached and the dw-hdmi connector.
++	 */
++	dw_hdmi_connector_status_update(hdmi, connector, status);
 +
 +	return status;
  }
  
- static int dw_hdmi_connector_get_modes(struct drm_connector *connector)
-@@ -3106,12 +3116,6 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
- 				       phy_stat & HDMI_PHY_HPD,
- 				       phy_stat & HDMI_PHY_RX_SENSE);
- 
--		if ((phy_stat & (HDMI_PHY_RX_SENSE | HDMI_PHY_HPD)) == 0) {
--			mutex_lock(&hdmi->cec_notifier_mutex);
--			cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
--			mutex_unlock(&hdmi->cec_notifier_mutex);
--		}
--
- 		if ((intr_stat & HDMI_IH_PHY_STAT0_HPD) &&
- 		    (phy_stat & HDMI_PHY_HPD))
- 			status = connector_status_connected;
+ static const struct drm_edid *dw_hdmi_bridge_edid_read(struct drm_bridge *bridge,
 -- 
 2.54.0
 
