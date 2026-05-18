@@ -1,132 +1,214 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B94638BF72;
-	Mon, 18 May 2026 19:10:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F9D37CD4F
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 20:05:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779131429; cv=none; b=r975TqyEFj4ZRkK1ckNAdmR+0mX52IeaTSDjdCm1EGOfyf9qe67hJcYEiEh2MLOboij2567PXfaj5ZyoZIl2s+TRSN91L2vAznXvBrqHJlfGS6tpWBeC19Hs21SNVO/N4DtnOhEZ75Vvn16UBjup2pcoGT6sRs/pKkbt7mIut+k=
+	t=1779134729; cv=none; b=oEPGKDFgW8UUI0TaEXngy7bC2rm9OGTD3ruqwgBQXDddkp8kPyj4W7XORc3FBBIIoDoHVPCi2tPFVbjfU6klqqIRvNsCmRo1ty8IfhlvTgTSkouBb99fTtX4D8SWeATUMOJZDuQQS1y3CnwViWIG1Bz75qq33iNQV1FyEf40qtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779131429; c=relaxed/simple;
-	bh=Bwv+BgLJuHTq8aF8CwXAVLmYYbnE+UrJQ/WHylP55zg=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=caxkYdV8JmOaa2McpOHwIVbtTDiVkUCCbPncPqNUcfNlm3UvU4pkCO13hR2ZmTz6PrBqG/u8xaib9ATBTByLgJ9QhvZFh1Bmvy3EC5+ZRQMzwvJLCBJyoZmaFQMHbfpT3RYUzeTpKQLy8INTT1bpaioSdfVnjJstMWgmWKf8Ok0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HcLzFk/l; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779134729; c=relaxed/simple;
+	bh=vb2AgGc35TL/XGOXSGbcvOchFSZiLg5xVi3rxt9C3Jc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=FmuDBGU4IXIc2Krewugs6ISI/F0BeZgkQHFueixiAmiAZx/36iaAUwwIXbdo2PMzolzDuPb4XiCONeKp4CR3AAh/jf4QvDrXFAXFxGOKumRx/1C2Y4hsXYe8NOBDwZsSrWc/BtRklgVqTTM0lOfnHW+Di3PwdvcOMv+I3+ij/os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PdjDqxC9; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HcLzFk/l"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBF63C2BCB7;
-	Mon, 18 May 2026 19:10:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779131429;
-	bh=Bwv+BgLJuHTq8aF8CwXAVLmYYbnE+UrJQ/WHylP55zg=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date:From;
-	b=HcLzFk/l/IqonkXMNaRFHVJejMtT+xMMbB3z6cOJDRA0WdNXtdTQa0ITp6yha13YX
-	 bNUhWSxEORRML0n7pYSZjr42KeMwr7Xf4uh18VFyK9FmY2tGqGLkIJ4mQZQbwkQHch
-	 czq1qjScQtIWVUIXRJlQFZEPWj061cYoZGI7nLak+gASCrtcPZx+UWGK1yU3EpajmH
-	 oQ05ByeLN11MPBWUA9lJuwq3jsKlBFfc28KCa6pKrigZ/Ci77C0t7Smu3fI8h18aVq
-	 7bF3O+ppU16JoOPmo+CkTXUAuvp7qf6XZQBxiImQn2Cppu9xmxEpP/+2Nngop9VE/p
-	 IU2eR4V2vx0uQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 23/23] drm: bridge: dw_hdmi: Merge top and bottom
- half IRQ handlers
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jonas Karlman" <jonas@kwiboo.se>
-Cc: Frank.Li@kernel.org, imx@lists.linux.dev, linux-sunxi@lists.linux.dev, neil.armstrong@linaro.org, linux-amlogic@lists.infradead.org
-In-Reply-To: <20260518180206.2480119-24-jonas@kwiboo.se>
-References: <20260518180206.2480119-24-jonas@kwiboo.se>
-Content-Type: text/plain; charset=utf-8
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PdjDqxC9"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-449d6c68ed8so150486f8f.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 13:05:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779134727; x=1779739527; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=cAkY0vj7iSY+sZjzSMZGpI/xkJ9Jb7vUa4k3TiZjewI=;
+        b=PdjDqxC9R8V0LAUt22yC8xohVFZW61wADsa1RO1sFNlXPm5wbasb1l1PvQHxURuNRs
+         EwGYkLdSuuQYNZ/C6AKKJve2dIsPW4a875XjY7p9Cb56Dxf5V7mZcFMDJ+V26yqmyx5E
+         39yO6hx9ihd2Q6J+Cco7MUPM64BpH3iO33aLdQU28lDUui/j+HQePEejfcAedStZdy7A
+         05Wmri3scMfXNPpmtG2Hzt3fPAk0Y+I0aSfHYGMflywbMF9avUaYhooMobFnZZwiNQhe
+         mmjLF90dpur6ewy7PxP/JClYP8dZ2JOofVh9gB4ZCHkq61xSv1HCrBXw+9nu9JBtrj0B
+         0zpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779134727; x=1779739527;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cAkY0vj7iSY+sZjzSMZGpI/xkJ9Jb7vUa4k3TiZjewI=;
+        b=XWolBaIfyK252Os+KZfxHMFUb8XnOmDAvD7nN7ufKubOu5u2JwjZGJs4Qw8+Av3Feq
+         9/kzRjZA/JJX3CPO0a9deHv76DB+IUmwbEo8vE+pMGvanJ+VYdKCaKWWoTFScBxG7JSZ
+         X1pstkx0FyO6lih/NDynRZCuXGTFTyGB19DeZ+t1XPcUUC5KYlj7terxfmaW8weUxXST
+         llX6SUGPl15TuydAOkyKJaQNmpZZmBo8MWIc7CPH/hhhziCbIlIhstOpj0hnZBg8y89j
+         u3lwnfb4/vuhsdNeDiG62MbYDrb/hGlaYs0+O506BmMDTSQmWaGxCYkstopXFU0tE3It
+         GfvQ==
+X-Gm-Message-State: AOJu0YzaamSGAiT1PlKAaKIezssGAR/n0xC63OLSzc36gdFIQ46FoMKm
+	ls7Jv8NOTkU+c9ZpgIASDBSUi2bAZcTUUgzKQD3CD8TvF9vkTTN+xW+ZdHakBYsQ
+X-Gm-Gg: Acq92OEnf07HMvLVczvrWqHCDuVpaufyhupw8ebrU96n6U9Ao7gIqMBkLwjCKJNbQsi
+	GziY/18emibNwKoL11o9MFaTW/ubd+OEiXQTlSftMsnXF6+fsCV7+Sj/gTrRAJc1DDe7UStdYe/
+	mLOezVi2pmKNFRl50zfRYnGNe5r3WiU+1DIH0Nw3bo1fpBINXXrmXFJBYZ6iYl36hAX5NwTrXAv
+	BIB4mo+ejBGv3Q1si/dyOssEpxbXVwiQu8OzwmyeAWi2gPlFo70NYyY+X1ylim3UPhjVjPI09mA
+	0CP9kakljkt3X40xXSXszCHBbDb5sQ6/VpMxY4RqW0gHdAnGQrCcxF3nfCnngLR/1KotorKPx7Y
+	gVqRp77cDJsAAtNOdHGM4SGf++f7Zxxln0mLr/E5CnSwrhsF6vyT5vAjJeWViH4I8DEz9/iiN91
+	QgjkVMb+vyGVbhY1tUesxVbs7wMfOcjxfp/mO1kIuSfxcrnaN80bsaOx1xbbtxReXnr+24KOwcX
+	/g=
+X-Received: by 2002:a5d:584c:0:b0:446:db72:e8ec with SMTP id ffacd0b85a97d-45e5c587281mr26781621f8f.23.1779134726576;
+        Mon, 18 May 2026 13:05:26 -0700 (PDT)
+Received: from giga-mm-11.home (72.92.4.85.dynamic.cust.swisscom.net. [85.4.92.72])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da0a19c2dsm40825454f8f.21.2026.05.18.13.05.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 13:05:26 -0700 (PDT)
+Message-ID: <04da68168f92b196cce4d49c766fc62702bf6472.camel@gmail.com>
+Subject: Re: [PATCH v2 3/3] arm64: dts: allwinner: A133: add support for
+ Baijie Helper A133 board
+From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Date: Mon, 18 May 2026 22:05:25 +0200
+In-Reply-To: <agr9m_tidBr6Cu2h@collins>
+References: <20260510201644.4143710-1-alexander.sverdlin@gmail.com>
+	 <20260510201644.4143710-4-alexander.sverdlin@gmail.com>
+	 <agr9m_tidBr6Cu2h@collins>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 18 May 2026 19:10:28 +0000
-Message-Id: <20260518191028.CBF63C2BCB7@smtp.kernel.org>
+User-Agent: Evolution 3.60.1 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] Clearing the HPD interrupt status after modifying the interrupt po=
-larity creates a race window where an edge transition is missed, breaking h=
-otplug detection.
---
+Hi Paul,
 
-commit b4c743935eb9892c0e2a6a962a52440a37e985de
-Author: Jonas Karlman <jonas@kwiboo.se>
-drm: bridge: dw_hdmi: Merge top and bottom half IRQ handlers
+thanks for the review!
 
-This commit simplifies IRQ handling by merging the top and bottom half IRQ
-handlers into a single handler. It transitions HPD event handling to use a
-delayed work queue instead of an IRQ thread.
+On Mon, 2026-05-18 at 13:52 +0200, Paul Kocialkowski wrote:
+>=20
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a133-baije-core.dtsi =
+b/arch/arm64/boot/dts/allwinner/sun50i-a133-baije-core.dtsi
+> > new file mode 100644
+> > index 000000000000..65b094f30bf5
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-baije-core.dtsi
 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/=
-bridge/synopsys/dw-hdmi.c
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -2993,30 +2993,18 @@ static irqreturn_t dw_hdmi_hardirq(int irq, void =
-*dev_id)
-[ ... ]
-> -	intr_stat =3D hdmi_readb(hdmi, HDMI_IH_PHY_STAT0);
-> -	if (intr_stat & HDMI_IH_PHY_STAT0_HPD) {
-> +	intr_stat =3D hdmi_readb(hdmi, HDMI_IH_PHY_STAT0) & HDMI_IH_PHY_STAT0_H=
-PD;
-> +	if (intr_stat) {
->  		enum drm_connector_status status;
-> =20
-> +		hdmi_writeb(hdmi, ~0, HDMI_IH_MUTE_PHY_STAT0);
-> +
->  		/* Set HPD interrupt polarity based on current HPD status. */
->  		status =3D dw_hdmi_phy_read_hpd(hdmi, hdmi->phy.data);
->  		hdmi_modb(hdmi, status =3D=3D connector_status_connected ?
-> @@ -3028,12 +3016,13 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev=
-_id)
-> =20
->  		mod_delayed_work(system_percpu_wq, &hdmi->hpd_work,
->  				 msecs_to_jiffies(HOTPLUG_DEBOUNCE_MS));
-> -	}
-> =20
-> -	hdmi_writeb(hdmi, intr_stat, HDMI_IH_PHY_STAT0);
-> -	hdmi_writeb(hdmi, ~HDMI_IH_PHY_STAT0_HPD, HDMI_IH_MUTE_PHY_STAT0);
-> +		hdmi_writeb(hdmi, intr_stat, HDMI_IH_PHY_STAT0);
+[]
 
-Does clearing the HPD interrupt status after modifying the interrupt polari=
-ty
-create a race window where an edge transition is missed?
+> You should add:
+>=20
+> 	chosen {
+> 		stdout-path =3D "serial0:115200n8";
+> 	};
 
-While this isn't a new regression introduced by this patch, it persists in
-the new merged handler:
+I actually have it in .dts, but it's theoretically possible to deploy
+the core board in a way that serial0 is *not* a console, so the above
+probably will not be valid in all cases in .dtsi.
 
-1. The ISR reads HDMI_IH_PHY_STAT0 and finds the HPD bit set.
+>=20
+>=20
+>=20
+> > +&reg_dcdc2 {
+> > +	regulator-always-on;
+> > +	regulator-min-microvolt =3D <500000>;
+> > +	regulator-max-microvolt =3D <1300000>;
+>=20
+> Should be:
+> 	regulator-min-microvolt =3D <900000>;
+> 	regulator-max-microvolt =3D <1300000>;
 
-2. It reads the current PHY state (e.g. CONNECTED) and updates the polarity
-HDMI_PHY_POL0 to look for the opposite edge (e.g. PLUGOUT).
+0.81..1.2v according to A133 Datasheet Revision 1.1 Jul.14, 2020?
 
-3. If a fast bounce occurs right here (the cable is unplugged), the hardware
-detects the edge and sets the HPD sticky bit to 1 again.
+>=20
+> > +&reg_dcdc4 {
+> > +	regulator-always-on;
+> > +	regulator-min-microvolt =3D <500000>;
+> > +	regulator-max-microvolt =3D <1300000>;
+> > +	regulator-name =3D "vdd-sys";
+>=20
+> Should be:
+> 	regulator-min-microvolt =3D <810000>;
+> 	regulator-max-microvolt =3D <990000>;
+> 	regulator-name =3D "vcc-usb-sys";
 
-4. The ISR then writes the original intr_stat (with the HPD bit set) back to
-HDMI_IH_PHY_STAT0 (a write-1-to-clear register). This clears the newly latc=
-hed
-unplug event.
+I'm a bit puzzled here: datasheet says 0.9..1.0v
+and it has no "Typ" value, similar to VDD_CPU, but
+VDD_SYS is not part of OPP tables, so who is going
+to adjust this? Or shall it be just
 
-This leaves the hardware waiting for a PLUGOUT event, but the cable is alre=
-ady
-disconnected. When the cable is plugged back in, the hardware ignores the
-PLUGIN edge because it is still looking for a PLUGOUT.
+regulator-min-microvolt =3D <950000>;
+regulator-max-microvolt =3D <950000>;
 
-Could this lead to a regression where hotplug interrupts break until the ne=
-xt
-reboot? Should the W1C register be cleared before reading the PHY status and
-updating the polarity?
+?
 
-> +		hdmi_writeb(hdmi, ~HDMI_IH_PHY_STAT0_HPD, HDMI_IH_MUTE_PHY_STAT0);
-> +		ret =3D IRQ_HANDLED;
-> +	}
-> =20
-> -	return IRQ_HANDLED;
-> +	return ret;
->  }
+>=20
+> > +};
+> > +
+> > +&reg_dcdc5 {
+> > +	regulator-always-on;
+> > +	regulator-min-microvolt =3D <800000>;
+> > +	regulator-max-microvolt =3D <1840000>;
+> > +	regulator-name =3D "vcc-dram";
+>=20
+> Should be:
+> 	regulator-min-microvolt =3D <1100000>;
+> 	regulator-max-microvolt =3D <1100000>;
+> 	regulator-name =3D "vcc-dram-2";
+>=20
+> ALDO2 is the main DRAM supply, this is the second one.
+
+Core schematics mentions 1.1V/1.2/1.35/1.5 on this rail...
+Currently U-Boot has CONFIG_AXP_DCDC5_VOLT=3D1100, but potentially
+this is adjustable, right? At some point LPDDR4 chips they
+are soldering today will be unavailable. And in the current
+market it will happen rather sooner than later...
+
+>=20
+> > +};
+> > +
+> > +/* DCDC6 unused */
+> > +
+> > +&reg_dldo1 {
+> > +	regulator-min-microvolt =3D <700000>;
+> > +	regulator-max-microvolt =3D <3300000>;
+> > +	regulator-enable-ramp-delay =3D <1000>;
+>=20
+> Should be:
+> 	regulator-min-microvolt =3D <1800000>;
+> 	regulator-max-microvolt =3D <1800000>;
+> 	regulator-name =3D "vcc-pg";
+
+Do suggest to drop vendor's
+
+regulator-enable-ramp-delay =3D <1000>;
+
+in all cases?
+
+> >=20
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a133-baijie-helper.dt=
+s b/arch/arm64/boot/dts/allwinner/sun50i-a133-baijie-helper.dts
+> > new file mode 100644
+> > index 000000000000..ccbca5d0a40c
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-baijie-helper.dts
+
+[]
+
+> > +	aliases {
+> > +		serial0 =3D &uart0;
+>=20
+> The is best added to the core dtsi.
+>=20
+> > +	};
+> > +
+> > +	chosen {
+> > +		stdout-path =3D "serial0:115200n8";
+>=20
+> Ditto.
+
+But it only physically materializes in Helperboard, the carrier.
+Potentially this one can be left floating or used for something else.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260518180206.2480=
-119-1-jonas@kwiboo.se?part=3D23
+Alexander Sverdlin.
