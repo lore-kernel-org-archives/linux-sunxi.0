@@ -1,98 +1,139 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C880A34DCE0
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 14:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10A56272E56
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 14:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779115216; cv=none; b=bq2/vatUYRmWxr4/c69DbeeG4rgGCUgmvqMpotZL3GA5K7Z4r7tzwjgvjtqf9rEM0l5xtG9Nd7gK6Hi8nP5aDrXynTj31/OWKp86SW2LfEteoGYJH6TtLuyTESdXdGfRhmr29Eb0ni6phZ9p5HJbLA8l6FEvlmI82pEFaPp66WA=
+	t=1779115640; cv=none; b=NsG8TSFgbEfMh5dPEip++uFXhLpVxRry+lgQtZnUksgLaUX/n3/vyVDp0Dvzhp597Gqwka+RgRrPIYW1CLMgr1e4JcrABNjRUT1laLppbONSMwp7/3PaDCkQx9Oe1Nlk6iY6KW+r6Tj4vue2QtVr49s1dm5d5OyMS1ywx6aTDQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779115216; c=relaxed/simple;
-	bh=S4c2AULgCr+oAYdflJy/tl/FD0zXRMyuMjKCi/X55po=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=POnl1BqIMysiz8xbxLemTBIkYrxc1SA9DeL7+QWNi4bf0+NI+uflvUxNYV5+kFRi88DeUrt6PAsF/XD894uZYPJxLR3+/7m+4FI96IGhnp5WsKtl+7OTOXfqMVmPfg035Afi3d33eoEy+GM5GloOqrvtk5jOJU4Wo43QwlVpe8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FWaDoNWm; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779115640; c=relaxed/simple;
+	bh=vPaVPkElRKkI+lmUZzA09/LIbT0xt4R2+ENYZ4lLS5g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=raVozSS6rwLBPAASpTf6fWfvV9T5pFchsO6C0xVOEjJJxpBX3zxzl3mv+4xkT3Run1VQRqM9N6LnMDJm8H69DD5s+Xm16o92ExISn7uXoHUrSJ7twQLRkqqdst5QqyxEXBIRYpB6RuCpWj3Vyqkh8TDjlUvw7vJ+Xi9WQsI25pU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=av5vx73b; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FWaDoNWm"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-488a88aeec9so28560405e9.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 07:40:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779115213; x=1779720013; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=S4c2AULgCr+oAYdflJy/tl/FD0zXRMyuMjKCi/X55po=;
-        b=FWaDoNWmO6XWB2ETVayocc+293KRres/FYt4ifiB7KkSFxwO0GRCAnYXaDqgPrWf+1
-         p3A0LkcogL9ScdMuyGXcP8HvUH3HUQQtJCgIt1imtReSpHQGXI4oDMkEjPebagr8YeRZ
-         vCK9pRUhtEYoOQUYAAqHmMypTot+9mThhBl8g7zTDkQhfMuusY2lfealoxFg+AqTeghV
-         hgTFjTqHLfImKsy2zbSfyDEKD3tHLzSpq5T3/MFGzWodrxcRYHvIyYNHdGaAFJsAgkXu
-         TBA4h8cu3VuuUKX3rTyXEHnn7DsaoE8wQz8KtMCPo0ixuRfwqW7M1XHD8LG6s+Xs4hiY
-         u45w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779115213; x=1779720013;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=S4c2AULgCr+oAYdflJy/tl/FD0zXRMyuMjKCi/X55po=;
-        b=lgb9yrj/i6SFwqYceevvm7eXWQygTzHJ81pTXtvsA/maGfy5KIqPdqSEgjTtmOtWOo
-         f6y7bz4tl8Y9cd91P0iFq7mWVUj8aOZpH6wqasEeWm0Q908VuLeZkHfsfUkPcJXSB7MP
-         SfdS8pKTYCTlc+kbHFsOukbliB7NSnpVgg2GVtO/ExJ3x2/jK75zVzaC7aEdCmYeqtl9
-         eYQLgeOCl40iJZH8Jk2PM22Fp0Em7W5sJcsR4YlT+R5h59H6i0eOPX6NUFzdERZK/fpG
-         Z+vNoLbTIjhM6+D40tzlqpaXx2w9/0caGroIuzM6nhy58Pi9U1trnVNLqw2Jjuont0c1
-         4tFg==
-X-Gm-Message-State: AOJu0YzjqthNX6jVwwRf4fpXxy1eR3L03j7/kHKnKXOzabymmw8GPx11
-	OlcOPWAajUwMONqOBYo3ecQe596Rk3mVcnAYmIFLuJXGWEmMN+vCalfJ
-X-Gm-Gg: Acq92OH1eljlXGFXcQtZvxenI+n4aOAuDo8ALZhkXh8gpA9HKX1LDbODG4MNxOg8Z/b
-	5IiRNrexokFtyyqMzjArFxnlV7AqyjpBTY+2VjWdvPBr6vVsQPOVXhlRfJWeTLOZeduMFnxkeTF
-	gHaRcBz6JuiSzArIoLLJYDO6Wmm4JKG5nw6SL5pagnNbnE95z+twhPm1KeXwg23s8XFxe0ZPt4K
-	hrWQ3AO2Frtm0/aOmqdO5Y67KNAh8GGZ+5GjZTyVRH4SoHpn6jKW92E/b+FnMffOa+rVQZ4+Ijn
-	9Dt8rXWodCWiU534okotEJ0pKCrGIkDfruVNH0zwMGkX9DEpYKIeFVsvOSoROeKK7MZGHKiHQ5/
-	OhjFosGrS424+JokXNaNrs4u66O1oqzex6GokDCpP4fE2jxcIL0hezimMFYamqhZyV+fbkcPQ72
-	IuVhccjVnKqFKwqp82K3HXVORO0dtbFVwArXNw0500GuCBTYJliSeQgwRP2tJ6sx4KA2HmPLGla
-	9Y=
-X-Received: by 2002:a05:600c:c087:b0:48a:7b55:12a6 with SMTP id 5b1f17b1804b1-48fe5cb36aamr189623285e9.0.1779115213181;
-        Mon, 18 May 2026 07:40:13 -0700 (PDT)
-Received: from giga-mm-11.home (72.92.4.85.dynamic.cust.swisscom.net. [85.4.92.72])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe5e9d5d9sm303576575e9.15.2026.05.18.07.40.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 07:40:12 -0700 (PDT)
-Message-ID: <bc3b786313adee30cc00c65ea98ff5258a816abb.camel@gmail.com>
-Subject: Re: [PATCH v2 3/3] arm64: dts: allwinner: A133: add support for
- Baijie Helper A133 board
-From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-To: Paul Kocialkowski <paulk@sys-base.io>
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Date: Mon, 18 May 2026 16:40:11 +0200
-In-Reply-To: <agsezxcxjQlBmesm@collins>
-References: <20260510201644.4143710-1-alexander.sverdlin@gmail.com>
-	 <20260510201644.4143710-4-alexander.sverdlin@gmail.com>
-	 <agr9m_tidBr6Cu2h@collins>
-	 <579c7c33123c4cd0bd486301e56daf5962ca55ec.camel@gmail.com>
-	 <agsezxcxjQlBmesm@collins>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="av5vx73b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C71A2C2BCFF
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 14:47:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779115639;
+	bh=vPaVPkElRKkI+lmUZzA09/LIbT0xt4R2+ENYZ4lLS5g=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=av5vx73bAiKuCKn/xuWqjVwaT8/gOojrPk8PuHYfDJPmDv2sqzpOCjrqr12AozgTg
+	 XrkEMEGmCvvaWmRT829lw+MPzOZ2DuVr4NP7Jwl6sLbn3rlhTFUNQZD4MDs5N+Ucs7
+	 h5M0utGAfqMK3Vej3dt7/13cw9omeP3AlJDxCLJJzfvWpya4vCDiFj3VeQWuCYrsCd
+	 aD5Po0q3MAmZvQmZwZa7UhgupPx0t65QUeuRzCsFjTx1J3de2mHDYREOm386RkIyuF
+	 IoT+XGcN/mSJEvqii7CY0gxUBQMTwdaCvGhIWpB+ytfy+5vt7ZgGflAiye15bz7zW1
+	 PeL3nvmxWK2Hw==
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3942e9977a5so34599191fa.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 07:47:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ924zX1RMGdY+fn0xgrqR4bwGnMZ0Mv1ZkiM5xqEt0b2qlrNxzW3Ei25EZI8z4RcceUboE7yz38J+Qx/A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxWjs6b+PRb6FHyISs4Oe4O2XLk0Z7+a/mry3CRA3GeWf/hZ1Rk
+	DEt9Ktzd2T/qPQEEe+MRpLqNvRk4qONEr6jtjhajYULoq9za+3jvT7ZQkEjAgtQM7haPmK/aPI7
+	y5OqcQcPnSE0Y5oj4j12nVkEDOEBQSIA=
+X-Received: by 2002:a05:651c:2215:b0:38e:58c7:cda with SMTP id
+ 38308e7fff4ca-3956089f9d7mr43916861fa.1.1779115638118; Mon, 18 May 2026
+ 07:47:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20260510201644.4143710-1-alexander.sverdlin@gmail.com>
+ <20260510201644.4143710-4-alexander.sverdlin@gmail.com> <2306dd3c-6362-40ee-8d9f-77f89be3a502@arm.com>
+ <14a7e289ff5ffed8fcd6dcb9b2e8455a1b2c9420.camel@gmail.com> <256b1cd8-b143-4f71-91cc-8513be04ce4c@arm.com>
+In-Reply-To: <256b1cd8-b143-4f71-91cc-8513be04ce4c@arm.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Mon, 18 May 2026 22:47:05 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65jpG-XXNjT46H2KnLoM_SHOatFw82u38ZGEELgXmvDtQ@mail.gmail.com>
+X-Gm-Features: AVHnY4JuD0SObsLmoajC3ESMjVn3MS_VFZrbgNyTbswwAAsPI15UX8WD889AEwg
+Message-ID: <CAGb2v65jpG-XXNjT46H2KnLoM_SHOatFw82u38ZGEELgXmvDtQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] arm64: dts: allwinner: A133: add support for
+ Baijie Helper A133 board
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>, linux-sunxi@lists.linux.dev, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Paul,
+On Mon, May 18, 2026 at 7:16=E2=80=AFPM Andre Przywara <andre.przywara@arm.=
+com> wrote:
+>
+> Hi Alexander,
+>
+> On 5/17/26 22:38, Alexander Sverdlin wrote:
+> > Hi Andre,
+> >
+> > thanks for the quick feedback!
+> >
+> > On Mon, 2026-05-11 at 13:44 +0200, Andre Przywara wrote:
+> >>> --- /dev/null
+> >>> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-baije-core.dtsi
+> >>> @@ -0,0 +1,162 @@
+> >>> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> >>> +/*
+> >>> + * Copyright (c) 2025 Arm Ltd.
+> >>
+> >> Please put your own copyright here, even if that has been largely copi=
+ed
+> >> from an existing file.
+> >>
+> >>> + */
+> >>> +
+> >>> +/dts-v1/;
+> >>> +
+> >>> +#include "sun50i-a100.dtsi"
+> >>> +#include "sun50i-a100-cpu-opp.dtsi"
+> >>> +
+> >>> +/{
+> >>> +   compatible =3D "baijie,helper-a133-core",
+> >>> +                "allwinner,sun50i-a100";
+> >>> +
+> >>> +   aliases {
+> >>> +           serial1 =3D &uart1;       /* BT module */
+> >>
+> >> Do we really need an alias for the BT UART? And is the BT module
+> >> supported already? Then please add a child node to the UART node.
+> >
+> > That's the only thing I can do currently regarding BT: stabilize the
+> > serial enumeration, because UART1 cannot be used for anything else
+> > except BT module, because this is soldered inside "core" module.
+> > We can avoid different tty enumeration, should the support for
+> > BT be implemented in the future...
+> >
+> >> Isn't the WiFi/BT module on the SoM? Then please mention and enable MM=
+C1
+> >> here. Provide the child node for the WiFi chip, even if there is no
+> >> upstream support in the kernel for it yet.
+> >
+> > So both the above BT and the WiFi is AW869A/AIC8800 combo chip, which
+> > has neither upstream driver, nor [upstream] DT bindings. Even github
+> > driver for AIC8800 doesn't seem to use DT, therefore it looks quite
+> > pointless to me at this point to specify anything in the DT for the
+> > chip which doesn't have the bindings idea even theoretically.
+> >
+> > Nothing in the current DT shall block any future work on the AW869A
+> > support though and the above "aliases" entry shall even guarantee
+> > unchanged serial enumeration shall such support arise.
+>
+> Fair enough for not providing DT nodes for those unsupported chips, but
+> why do we need to force enumeration? For the eventual Bluetooth usage,
+> the driver will find the respective serial interface by just looking at
+> its parent interface. IIUC there is nothing referring to ttyS1
+> explicitly. So we wouldn't really need an alias, would we?
+> I see that some boards do define an alias, but others with Bluetooth
+> don't, which I think is the right thing to do. Which name the kernel
+> comes up with for UART1 shouldn't matter in any way.
 
-On Mon, 2026-05-18 at 16:14 +0200, Paul Kocialkowski wrote:
-> I also have a U-Boot config ready for it, which I could send once the
-> device-trees are merged on the kernel side. I could send it to you if
-> you're interested.
+It does provide a hint for any users enabling more UARTs and adding
+aliases for them that they should number them starting from 2? And
+just stable numbering overall.
 
-I do have one as well, I'm testing all open-source ;-) from ATF-upwards,
-just thought U-Boot would require ATF merged and kernel DT merged
-because of OF_UPSTREAM in U-Boot. But I'd be happy to sync when we get
-there.
 
---=20
-Alexander Sverdlin.
+ChenYu
