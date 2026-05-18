@@ -1,135 +1,120 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7393B346AC3;
-	Mon, 18 May 2026 18:47:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7092A29D291;
+	Mon, 18 May 2026 18:53:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779130069; cv=none; b=iH6WxGVbCMuKJGVeSNehw21Zw5qH0HvtTTGCbACdxvTp+4xGbskNxKMUVpRz1wu6R6APS0OTEJFH/U3mwfWMBRRFBTPGmw/N8BMbZEiI6M9JgphJlzsPxliHs+rjNdSQbS/hxXjGdE4cbj51fLX2mMq7PYGmCPpIMTK2Rg1DWyk=
+	t=1779130381; cv=none; b=mcuCYLedPXiHT334eqaUBexKDr5KZFLQajSpCm2VhC4JQ5Zwt1GjlBt30EutUDaxCjlRBAEbPiP0Wd6bCvLOT8oAg/6UUjvddZTmYiVAB27ycFeJH85OAOuC8yrzwroFNG7xtAiANZrzpAWIDgatn51sFkLzWMudubU2uS+kCmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779130069; c=relaxed/simple;
-	bh=MUnT2y1oLieX9a2dR9KXeK15JblQSN6VkDgO5lObSzQ=;
+	s=arc-20240116; t=1779130381; c=relaxed/simple;
+	bh=4DaHqEpj3TMelD/uCH0T6WqVKDAv3bT1C1a4E2RlCgA=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=Vy/E+8Do2P1kPN3uGKLkeFfRCL+gJnRXMhrCq1BTgxLAukVuQvMDcG/OTDMoGNjFfYnCVAj6Zmy9LLY9xhdyYeoCwZOxqQIA1RleWvpejDiPbt/Vm78dt/10DNOD3uV0bTnAMnBl/P0JUGIu4ZngkGyxID0cf5EhiPKqojWmZ94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nBEqGO0N; arc=none smtp.client-ip=10.30.226.201
+	 Message-Id; b=NUwGMphLkitj9SslyWzuzfazKJzSa2SCbjuMQfpMXkFx6Ai+ZUr7KqgKDYUWOnHWnis3fS9xtG3lijlNuWVtKzBBza+FR0Kp8sV89vPxrmSSSjq6cJsgGOoylttz1lvrNcm3J62J8H4FrXF1uhTElLUuGcfi0qX/ousaPbN72aA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NsEkwlwK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nBEqGO0N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDC7EC2BCB7;
-	Mon, 18 May 2026 18:47:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NsEkwlwK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C749CC2BCB7;
+	Mon, 18 May 2026 18:53:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779130069;
-	bh=MUnT2y1oLieX9a2dR9KXeK15JblQSN6VkDgO5lObSzQ=;
+	s=k20201202; t=1779130381;
+	bh=4DaHqEpj3TMelD/uCH0T6WqVKDAv3bT1C1a4E2RlCgA=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date:From;
-	b=nBEqGO0Njf1+sJucoufedI/9pkr4m8Vgq3dg3OwQ9cSHpmEgZRWBPXYbvDWacFKMe
-	 RY3buDUM97j1nm8nKZdPzwsJbONjdGlSPD/PV6+dDrhdY77fH8V/6OdZsA0Hy2F5mH
-	 +zyzz8b9nyy6tu7WbBZwT+NXAlFdjMgjR2jKGk5P/ebJGle2rAiANJABbEfRPMND/Y
-	 +e8/jAPd3Y5i2Yvn6NItTAK23SEzan7GSPkD37aW6z8dW/o/J79biRTKHRuU+AW15a
-	 +hT8pe2+8dlDYVlbfBgIXyS/I2KCOLEFsxjuiiWeIcU4gTCHmcB28ZhVhLW4qOsgk2
-	 EnYi4nkkt4B+Q==
+	b=NsEkwlwKnXWhNk1X1k6myeUH95kydGj4oAY/GXDxlQk1P/9l0sSNAqgCq78U1TW7N
+	 lQ+sSdvucYsCRO0P8DgBarV22iV1cSpmIA29bA19VhcLY+92yG3O/0LoKkeSxz+EOL
+	 RCqjwfQo78hwpMFZZl3Zg/S5GAbjhmmysCaj/67ElUC09aO6lM/ghII4B1x01p/Svf
+	 2eE95NXfsqcaMgO1yrDNFibbdLiUqwDXqCla6C9mb70FLb/Img+qu1pJqbCZdJWxdr
+	 j2H7IpQOm7BkYv7e0aKpTm0G4sDB5rzy69Z6jS1GlN3ZbnnNzO9cX6Bqa3h09PaEPX
+	 lXUKTI85zjHFA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 13/23] drm: bridge: dw_hdmi: Use
- dw_hdmi_connector_status_update()
+Subject: Re: [PATCH v7 15/23] drm: bridge: dw_hdmi: Use generic CEC notifier
+ helpers
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Jonas Karlman" <jonas@kwiboo.se>
-Cc: imx@lists.linux.dev, linux-sunxi@lists.linux.dev, neil.armstrong@linaro.org, linux-amlogic@lists.infradead.org, Frank.Li@kernel.org
-In-Reply-To: <20260518180206.2480119-14-jonas@kwiboo.se>
-References: <20260518180206.2480119-14-jonas@kwiboo.se>
+Cc: imx@lists.linux.dev, Frank.Li@kernel.org, linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev, neil.armstrong@linaro.org
+In-Reply-To: <20260518180206.2480119-16-jonas@kwiboo.se>
+References: <20260518180206.2480119-16-jonas@kwiboo.se>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 18 May 2026 18:47:48 +0000
-Message-Id: <20260518184748.CDC7EC2BCB7@smtp.kernel.org>
+Date: Mon, 18 May 2026 18:53:00 +0000
+Message-Id: <20260518185300.C749CC2BCB7@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] The CEC physical address is no longer set when the connector statu=
-s is `connector_status_unknown`, breaking CEC functionality for displays wi=
-th unreliable HPD.
-- [High] Unconditional EDID read over I2C in `detect()` ignores the `force`=
- parameter, causing severe performance degradation and I2C spam.
+- [High] Use-After-Free and memory leak due to drmm action lifetime mismatc=
+h with the connector
 --
 
-commit d5d270011a2b02f003218ae7b96f62fae2b447e9
+commit 7a3d2d4c9ae6107ffef88b867d73cc39dd7e8567
 Author: Jonas Karlman <jonas@kwiboo.se>
-drm: bridge: dw_hdmi: Use dw_hdmi_connector_status_update()
+drm: bridge: dw_hdmi: Use generic CEC notifier helpers
 
-This commit updates the dw-hdmi connector to fetch EDID and update CEC
-physical addresses during detect and force functions rather than in get_mod=
-es.
-It aims to ensure userspace always has access to the latest read EDID.
+This commit replaces the open-coded CEC notifier handling with the generic
+DRM HDMI CEC notifier helpers.
+
+> The drmm release action for the generic CEC notifier should run just
+> before dw_hdmi_connector_destroy(), closely matching the lifetime of
+> the replaced CEC notifier and the connector.
+
+Is this assumption accurate for all drivers using dw_hdmi?
+
+When master drivers like sun4i or imx are unbound, drm_mode_config_cleanup()
+is often called synchronously, which in turn calls dw_hdmi_connector_destro=
+y().
+
+If a userspace process holds the DRM file descriptor open, the drm_device
+outlives the unbind. Doesn't this mean the drmm release action will run
+much later than dw_hdmi_connector_destroy(), rather than just before it?
 
 > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/=
 bridge/synopsys/dw-hdmi.c
+> index 0e84dff724706..37406555af7bc 100644
 > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-
 [ ... ]
-
-> @@ -2473,36 +2473,36 @@ dw_hdmi_connector_status_update(struct dw_hdmi *h=
-dmi,
-
-[ ... ]
-
->  	drm_edid =3D dw_hdmi_edid_read(hdmi, connector);
->  	drm_edid_connector_update(connector, drm_edid);
->  	drm_edid_free(drm_edid);
+> @@ -2587,15 +2578,8 @@ static int dw_hdmi_connector_create(struct dw_hdmi=
+ *hdmi)
 > =20
-> -	cec_notifier_set_phys_addr(hdmi->cec_notifier,
-> -				   connector->display_info.source_physical_address);
-> +	if (status =3D=3D connector_status_connected)
-> +		cec_notifier_set_phys_addr(hdmi->cec_notifier,
-> +				connector->display_info.source_physical_address);
+>  	drm_connector_attach_encoder(connector, hdmi->bridge.encoder);
+> =20
+> -	cec_fill_conn_info_from_drm(&conn_info, connector);
+> -
+> -	notifier =3D cec_notifier_conn_register(hdmi->dev, NULL, &conn_info);
+> -	if (!notifier)
+> -		return -ENOMEM;
+> -
+> -	hdmi->cec_notifier =3D notifier;
+> -
+> -	return 0;
+> +	return drmm_connector_hdmi_cec_notifier_register(connector, NULL,
+> +							 hdmi->dev);
 >  }
 
-Does this break CEC functionality for displays with unreliable HPD?=20
+Could this cause a use-after-free when the drm_device is finally released?
 
-By guarding the cec_notifier_set_phys_addr() call with a check for
-connector_status_connected, the CEC physical address update is skipped if t=
-he
-status evaluates to connector_status_unknown.=20
+Looking at dw_hdmi_connector_destroy(), it cleans up the connector state:
 
-Previously, this was called unconditionally after a successful EDID read,
-which allowed CEC to work even when HPD was unreliable.
+dw_hdmi_connector_destroy()
+  drm_connector_cleanup(connector)
+    ...
+    memset(connector, 0, sizeof(*connector));
 
->  static enum drm_connector_status
->  dw_hdmi_connector_detect(struct drm_connector *connector, bool force)
->  {
-> -	struct dw_hdmi *hdmi =3D container_of(connector, struct dw_hdmi,
-> -					     connector);
-> +	struct dw_hdmi *hdmi =3D container_of(connector, struct dw_hdmi, connec=
-tor);
->  	enum drm_connector_status status;
-> =20
->  	status =3D dw_hdmi_detect(hdmi);
-> =20
-> -	if (status =3D=3D connector_status_disconnected)
-> -		cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
-> +	dw_hdmi_connector_status_update(hdmi, connector, status);
+Since the connector is embedded in struct dw_hdmi which is managed by devres
+and the bridge refcount, the memory will be freed when the platform device
+unbind completes.
 
-Will this cause performance issues by performing unconditional I2C EDID rea=
-ds
-on every detect call?=20
+When the drmm action drm_connector_hdmi_cec_notifier_unregister() eventually
+executes during drm_dev_release(), won't it attempt to dereference the
+already freed connector pointer?
 
-The dw_hdmi_connector_status_update() function reads the EDID over I2C unle=
-ss
-the status is disconnected, but this completely ignores the force parameter
-passed to detect. If a system-wide hotplug event occurs on another port,
-drm_helper_hpd_irq_event() will call detect with force=3Dfalse on all HPD-c=
-apable
-connectors.
-
-Could this trigger an unnecessary 20-50ms I2C EDID read here, spamming the =
-I2C
-bus and blocking the shared KMS system workqueue?
-
-> =20
->  	return status;
->  }
+If the memory happens to still be accessible, won't it read the zeroed
+connector->cec.data as a NULL pointer, silently leaking the CEC notifier?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260518180206.2480=
-119-1-jonas@kwiboo.se?part=3D13
+119-1-jonas@kwiboo.se?part=3D15
