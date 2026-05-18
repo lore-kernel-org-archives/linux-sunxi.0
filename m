@@ -1,205 +1,73 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1152371878
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 15:38:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFCED36D50D;
+	Mon, 18 May 2026 15:50:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779118725; cv=none; b=quJfW/LGSJcp/NR3Fd5sKn6Z4ei8TsmjO+XNOXjfx8TZp+Bjzd7sEhszjOoFMZWm8dR2AE43w5aLvgF0IWwQz51QWOJi9ixHyLUKbl0a6YhFfoH26R8Hw+2KJKDYMBfXhYqyezpNWeYvUCWgACXK+sJ9jmr+25OrOlN/4I0sdnU=
+	t=1779119407; cv=none; b=uRVgbMa2mcrNRkOkSwFCa/gkQua+8mVBZQMjCghkLc1Ki4sH0GjQk6SnPLqm10HYDjVE5zw7qpcUm+LKKbkEGAYo7KFelkzhyI3vyqUwKsHDTsVggyvNBl3o3HajYuMgPk1vFZVvyIs5RKLz3o5NbQocltt5cO5tJsgNCnMPTd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779118725; c=relaxed/simple;
-	bh=7Wf6EUbkKr17gYerU37skbZ9k7kw50qJEXicgncFmhU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CMWPOFIibLgk1cSUFE1e/jibapQGySM8YDrzc/4XpEM2j3N0gDECNA2nOXVd56WMgUSEvpm/tPXu5Jd+y+Nm4scZksTD4gc9Q1byYgAPOy5D4Fa6Xpqq/Z3ulkjXlX90lH02EjWlUv+2RDsIkqurYArRZk79LWAVnWNh57rVArY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 98C6E1F8005A
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 15:38:40 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 1710FB40822; Mon, 18 May 2026 15:38:39 +0000 (UTC)
-X-Spam-Level: *
-Received: from collins (unknown [192.168.1.64])
-	by laika.paulk.fr (Postfix) with ESMTP id CEAC6B40805;
-	Mon, 18 May 2026 15:33:48 +0000 (UTC)
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Yong Deng <yong.deng@magewell.com>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney@redhat.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH v9 9/9] ARM: dts: sun8i-a83t: Add BananaPi M3 OV8865 camera overlay
-Date: Mon, 18 May 2026 17:33:38 +0200
-Message-ID: <20260518153339.619947-10-paulk@sys-base.io>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260518153339.619947-1-paulk@sys-base.io>
-References: <20260518153339.619947-1-paulk@sys-base.io>
+	s=arc-20240116; t=1779119407; c=relaxed/simple;
+	bh=m9q9QJFfEV9umMgLlraW7Fr2NdJk3fvhZlCq3TEk2pg=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=Dfx0peqv9VYmDjBhzNhmWBhiIMFB4qJ97YbjbqzbXAJ9yvygj+ea6QvKHH43PvEIznt1muhZpIzll62iC3oWmA8yyEGuK1srFPy0j5Pvv0xcd3qdjGJvFhIyNS7pZdnCZFnBa8t1jwFPEvWwRDaXScKulsrdTBG8aH9xvS42Syw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aoaJO2FB; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aoaJO2FB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12589C2BCB7;
+	Mon, 18 May 2026 15:50:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779119406;
+	bh=m9q9QJFfEV9umMgLlraW7Fr2NdJk3fvhZlCq3TEk2pg=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date:From;
+	b=aoaJO2FBYCW8k/jpn4xxuN93fXWqISexP0KJjgsf/Mv04GRpJ5+eBPYZHPX7NMRn+
+	 e35Ch0rmMhcaELxQB+IuI8MqpzLgsaeyehk/lGu7IMA96XatfAl4qxkjqVtXwnpSfD
+	 3SQpj/yZsW7I8QN8AZxIh1XJ/cau3MXMHX6799MV+kqL1dYppLLR4RKJNfLOwB96AF
+	 GhFEANHu3Hbcn91JU31yO3VYbgC14qZqzMQ4w8LBcFJuG1NEkQm5sitjNLjOvMt1Jh
+	 7XCkVXGyiVylkDQG+NMyVL/B/j/rFsHWKcCfauCbosQ3u6N3BWs2OCLpCsiIi502Yk
+	 vRs6PFXZee2xw==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v9 2/9] dt-bindings: media: sun6i-a31-isp: Add optional
+ interconnect properties
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Paul Kocialkowski" <paulk@sys-base.io>
+Cc: linux-sunxi@lists.linux.dev, conor+dt@kernel.org, robh@kernel.org, devicetree@vger.kernel.org
+In-Reply-To: <20260518153339.619947-3-paulk@sys-base.io>
+References: <20260518153339.619947-3-paulk@sys-base.io>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 18 May 2026 15:50:05 +0000
+Message-Id: <20260518155006.12589C2BCB7@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] The commit message body incorrectly refers to the 'sun6i-a31-csi=
+' device instead of the 'sun6i-a31-isp' device.
+--
 
-Add an overlay supporting the OV8865 from the BananaPi Camera v3
-peripheral board. The board has two sensors (OV5640 and OV8865)
-which cannot be supported in parallel as they share the same reset
-pin and the kernel currently has no support for this case.
+commit 816ee95ed6c916a2cdd9b96a5a6e283ad0e7d42e
+Author: Paul Kocialkowski <paulk@sys-base.io>
 
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
----
- arch/arm/boot/dts/allwinner/Makefile          |   3 +
- .../sun8i-a83t-bananapi-m3-camera-ov8865.dtso | 101 ++++++++++++++++++
- 2 files changed, 104 insertions(+)
- create mode 100644 arch/arm/boot/dts/allwinner/sun8i-a83t-bananapi-m3-camera-ov8865.dtso
+dt-bindings: media: sun6i-a31-isp: Add optional interconnect properties
 
-diff --git a/arch/arm/boot/dts/allwinner/Makefile b/arch/arm/boot/dts/allwinner/Makefile
-index 6975df9d7b46..4a0d4edd8b2d 100644
---- a/arch/arm/boot/dts/allwinner/Makefile
-+++ b/arch/arm/boot/dts/allwinner/Makefile
-@@ -222,6 +222,7 @@ dtb-$(CONFIG_MACH_SUN8I) += \
- 	sun8i-a83t-allwinner-h8homlet-v2.dtb \
- 	sun8i-a83t-bananapi-m3.dtb \
- 	sun8i-a83t-bananapi-m3-camera-ov5640.dtb \
-+	sun8i-a83t-bananapi-m3-camera-ov8865.dtb \
- 	sun8i-a83t-cubietruck-plus.dtb \
- 	sun8i-a83t-tbs-a711.dtb \
- 	sun8i-h2-plus-bananapi-m2-zero.dtb \
-@@ -273,6 +274,8 @@ dtb-$(CONFIG_MACH_SUN8I) += \
- 	sun8i-v40-bananapi-m2-berry.dtb
- sun8i-a83t-bananapi-m3-camera-ov5640-dtbs += \
- 	sun8i-a83t-bananapi-m3.dtb sun8i-a83t-bananapi-m3-camera-ov5640.dtbo
-+sun8i-a83t-bananapi-m3-camera-ov8865-dtbs += \
-+	sun8i-a83t-bananapi-m3.dtb sun8i-a83t-bananapi-m3-camera-ov8865.dtbo
- sun8i-h2-plus-orangepi-zero-interface-board-dtbs += \
- 	sun8i-h2-plus-orangepi-zero.dtb sun8i-orangepi-zero-interface-board.dtbo
- sun8i-h3-orangepi-zero-plus2-interface-board-dtbs += \
-diff --git a/arch/arm/boot/dts/allwinner/sun8i-a83t-bananapi-m3-camera-ov8865.dtso b/arch/arm/boot/dts/allwinner/sun8i-a83t-bananapi-m3-camera-ov8865.dtso
-new file mode 100644
-index 000000000000..4340ca73bfaa
---- /dev/null
-+++ b/arch/arm/boot/dts/allwinner/sun8i-a83t-bananapi-m3-camera-ov8865.dtso
-@@ -0,0 +1,101 @@
-+// SPDX-License-Identifier: GPL-2.0 OR X11
-+/*
-+ * Copyright 2022 Bootlin
-+ * Author: Kévin L'hôpital <kevin.lhopital@bootlin.com>
-+ * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-+ */
-+
-+/dts-v1/;
-+/plugin/;
-+
-+#include <dt-bindings/clock/sun8i-a83t-ccu.h>
-+#include <dt-bindings/gpio/gpio.h>
-+
-+&{/} {
-+	/*
-+	 * These regulators actually have DLDO4 tied to their EN pin, which is
-+	 * described as input supply here for lack of a better representation.
-+	 * Their actual supply is PS, which is always-on.
-+	 */
-+
-+	ov8865_avdd: ov8865-avdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ov8865-avdd";
-+		regulator-min-microvolt = <2800000>;
-+		regulator-max-microvolt = <2800000>;
-+		vin-supply = <&reg_dldo4>;
-+	};
-+
-+	ov8865_dovdd: ov8865-dovdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ov8865-dovdd";
-+		regulator-min-microvolt = <2800000>;
-+		regulator-max-microvolt = <2800000>;
-+		vin-supply = <&reg_dldo4>;
-+	};
-+
-+	ov8865_dvdd: ov8865-dvdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ov8865-dvdd";
-+		regulator-min-microvolt = <1200000>;
-+		regulator-max-microvolt = <1200000>;
-+		vin-supply = <&reg_dldo4>;
-+	};
-+};
-+
-+&csi {
-+	status = "okay";
-+};
-+
-+&i2c2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&i2c2_pe_pins>;
-+	status = "okay";
-+
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	ov8865: camera@36 {
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&csi_mclk_pin>;
-+
-+		compatible = "ovti,ov8865";
-+		reg = <0x36>;
-+
-+		clocks = <&ccu CLK_CSI_MCLK>;
-+		assigned-clocks = <&ccu CLK_CSI_MCLK>;
-+		assigned-clock-parents = <&osc24M>;
-+		assigned-clock-rates = <24000000>;
-+
-+		avdd-supply = <&ov8865_avdd>;
-+		dovdd-supply = <&ov8865_dovdd>;
-+		dvdd-supply = <&ov8865_dvdd>;
-+
-+		powerdown-gpios = <&pio 4 17 GPIO_ACTIVE_LOW>; /* PE17 */
-+		reset-gpios = <&pio 4 16 GPIO_ACTIVE_LOW>; /* PE16 */
-+
-+		port {
-+			ov8865_out_mipi_csi2: endpoint {
-+				remote-endpoint = <&mipi_csi2_in_ov8865>;
-+				link-frequencies = /bits/ 64 <360000000>;
-+				data-lanes = <1 2 3 4>;
-+			};
-+		};
-+	};
-+};
-+
-+&mipi_csi2 {
-+	status = "okay";
-+};
-+
-+&mipi_csi2_in {
-+	mipi_csi2_in_ov8865: endpoint {
-+		remote-endpoint = <&ov8865_out_mipi_csi2>;
-+		data-lanes = <1 2 3 4>;
-+	};
-+};
-+
-+&reg_dldo4 {
-+	regulator-min-microvolt = <2800000>;
-+	regulator-max-microvolt = <2800000>;
-+};
--- 
-2.54.0
+This commit updates the allwinner,sun6i-a31-isp device tree binding by addi=
+ng
+optional interconnect and interconnect-names properties.
 
+> An interconnect can be attached to the sun6i-a31-csi device, which is
+> useful to attach the dma memory offset. Add related properties.
+
+This isn't a bug, but should the commit message body refer to the
+sun6i-a31-isp device instead of the sun6i-a31-csi device?=20
+
+The patch modifies the allwinner,sun6i-a31-isp.yaml binding and the commit
+title correctly indicates sun6i-a31-isp.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260518153339.6199=
+47-1-paulk@sys-base.io?part=3D2
