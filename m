@@ -1,87 +1,150 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF87943C05E
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 12:51:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 174B93EE1FD;
+	Mon, 18 May 2026 14:09:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779108667; cv=none; b=gzJw62coLSTN9vbEPHKY7SJ0sFkvSBirWeHwnuHA4hOHPaVMcVWz+nnGX+Wi+34AkjLZkmG1abfSHp1dEx+q8xQSk++W8U/tYR9Vzs7LuZgKjpO0kpfPA8HwT0IIe5Q+cwrC7rpVtup3R0Mm6cJ0mQiNe9W8OkOQn6WtawuxwYI=
+	t=1779113353; cv=none; b=r53VZvAswPuucLwTIHXIWxPdjFIJYKzRwTQ+5BA6CCj5pK42sQTE2XERQuO1WAJSq5szt22LxLrHg2nvlaIaUlz+wRez3rUXxEw1V3UBzjm2ExfVIcfhuVg6Zv6oIy139dDDZ+67BHG3NmYCNuDUSXUJ0DNhpJ9/LEGBBqgSmNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779108667; c=relaxed/simple;
-	bh=Gr6HIT44vFcV8C+E8WlT4h6l59fieOXbPOTn6N6uLP4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Hwoehxpf+gk7cGRoIOnk4FywLOiHiiCLKPXpgrACwA2zSfVYml3H6SGt/GnINZIew1lj2a0WbDVPdtQwtTb6YWKQ4jtOMEcL47VZXMTEaaeDxLLwFFVoaZkHMUaX07UU6pVp6UhlGByTL0BtQLV4IWjQL7SpAWmciWYY4iGfXn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=MBvSK9Hv; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="MBvSK9Hv"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 16A1845BF;
-	Mon, 18 May 2026 05:51:00 -0700 (PDT)
-Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 430EC3F632;
-	Mon, 18 May 2026 05:51:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1779108665; bh=Gr6HIT44vFcV8C+E8WlT4h6l59fieOXbPOTn6N6uLP4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MBvSK9Hvf/XPfsiNPIrSzcte289au5Y2Cn/b5XVPTmU2JM1ONgQxz9obCfZV4CfOB
-	 30LL8Sj7Wc+RwEJqfZ7WcA6Kn9Hl1wxGOhLMjVyZb3VrbCprbvgOzgLBB0nfPUcdcq
-	 6e99de2KxWXLms/HW1aq1CkIngmgWM1xb00lHbrA=
-Message-ID: <4883b037-45b8-4c9a-92ba-72e6b795dc93@arm.com>
-Date: Mon, 18 May 2026 14:50:57 +0200
+	s=arc-20240116; t=1779113353; c=relaxed/simple;
+	bh=C4EouULlVJ70fDU7X74GWe5KYyvJLTPove6jA6fU19c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NJwJZuNtT/I+hMbJeCc+ZdQgQ1vVDc6wJ/kGPiKluzYXH1dTNzIE0DeU/9QJ5e5g4Q+YcdP85bd295x2MBPOcoOz5Sw1oZT1jNQcLP9hVrwu6NAVJ59GSoAyzg367cilWmKXYamhCFWI2/790J87s9EKDhuEL4AbucJ2qQU3FhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id B2FCD1F8005A;
+	Mon, 18 May 2026 14:09:02 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 8DC09B407FC; Mon, 18 May 2026 14:09:01 +0000 (UTC)
+X-Spam-Level: 
+Received: from collins (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id 838E7B407F7;
+	Mon, 18 May 2026 14:08:51 +0000 (UTC)
+Date: Mon, 18 May 2026 16:08:50 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arash Golgol <arash.golgol@gmail.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: Re: [PATCH 00/16] media: sun6i-csi/isp MC-centric support and
+ cleanups
+Message-ID: <agsdcmRQtQYD1KaH@collins>
+References: <20260518102451.417971-1-paulk@sys-base.io>
+ <20260518121511.GD21216@killaraus.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] arm64: dts: allwinner: A133: add support for
- Baijie Helper A133 board
-To: Alexander Sverdlin <alexander.sverdlin@gmail.com>,
- linux-sunxi@lists.linux.dev
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20260510201644.4143710-1-alexander.sverdlin@gmail.com>
- <20260510201644.4143710-4-alexander.sverdlin@gmail.com>
- <2306dd3c-6362-40ee-8d9f-77f89be3a502@arm.com>
- <14a7e289ff5ffed8fcd6dcb9b2e8455a1b2c9420.camel@gmail.com>
- <256b1cd8-b143-4f71-91cc-8513be04ce4c@arm.com>
- <6d8659f393e0bb4f0805107a17e306422982247c.camel@gmail.com>
-Content-Language: en-US
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <6d8659f393e0bb4f0805107a17e306422982247c.camel@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="1hdy3NiqHIhYUnpy"
+Content-Disposition: inline
+In-Reply-To: <20260518121511.GD21216@killaraus.ideasonboard.com>
 
-Hi,
 
-On 5/18/26 13:29, Alexander Sverdlin wrote:
-> Hi Andre,
-> 
-> On Mon, 2026-05-18 at 13:16 +0200, Andre Przywara wrote:
->>>> And anyway, I see a *dual* USB-A socket on the pictures online, in
->>>> addition to the USB-OTG port. So where does the third USB come from? The
->>>> A133 only supports one host USB port plus the one OTG port. So is there
->>>> an USB hub chip on the board?
->>>
->>> There are two hubs, one on each usbphy. OTG side hub is even bus-powered,
->>
->> What do you mean with OTG side hub, exactly? Is there a hub on USB0? How
->> does this work, then?
-> 
-> the upstream port of this hub is wired to the USB-C connector, one port has
-> CH340E USB-UART on it for the console, the other port goes to the SoC usbphy 0.
-> So it would be "peripheral" only, I suppose.
+--1hdy3NiqHIhYUnpy
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ah, that's interesting, I was wondering about this, but don't think we 
-have seen this before.
-So yeah, then it's definitely peripheral only. And please state in the 
-comment that it's connected to the downstream port of a hub, so changing 
-it to "host" will not work.
+Hi Laurent,
 
-Thanks,
-Andre
+Le Mon 18 May 26, 14:15, Laurent Pinchart a =C3=A9crit :
+> On Mon, May 18, 2026 at 12:24:35PM +0200, Paul Kocialkowski wrote:
+> > This series first introduces some fixes and new formats to v4l2 format
+> > info, one of which we need for the sun6i-csi driver. Support for
+> > MC-centric format enumeration is then added, along with cleanups and
+> > improvements for both the sun6i-csi and sun6i-isp drivers.
+> >=20
+> > The first 4 patches are already reviewed and ready to go and are
+> > included here as a reminder that this series depends on them.
+>=20
+> Patch 04/16 has no R-b tag.
 
+Oops you're right, I added the tag in my reply to the patch yesterday
+but did not add it when resending it with this series.
+
+All the best,
+
+Paul
+
+> > Arash Golgol (4):
+> >   media: sun6i-csi: bridge: Use V4L2 subdev active state
+> >   media: sun6i-csi: capture: Implement vidioc_enum_framesizes
+> >   media: sun6i-mipi-csi2: Use V4L2 subdev active state
+> >   media: sun8i-a83t-mipi-csi2: Use V4L2 subdev active state
+> >=20
+> > Paul Kocialkowski (12):
+> >   media: v4l2-common: Fix NV15_4L4 format info block height
+> >   media: v4l2-common: Add missing tiled format info block sizes
+> >   media: v4l2-common: Add NV12_16L16 pixel format to v4l2 format info
+> >   media: v4l2-common: Add NV12_32L32 pixel format to v4l2 format info
+> >   media: sun6i-csi: Split format validation to a dedicated helper
+> >   media: sun6i-csi: Add support for MC-centric format enumeration
+> >   media: sun6i-csi: Tidy up and unify coding style
+> >   media: sun6i-mipi-csi2: Fix parenthesis alignment
+> >   media: sun6i-isp: Add dummy params link_validate implementation
+> >   media: sun6i-isp: Use V4L2 subdev active state
+> >   media: sun6i-isp: Add support for MC-centric format enumeration
+> >   media: sun6i-isp: Add support for frame size enumeration
+> >=20
+> >  .../sunxi/sun6i-csi/sun6i_csi_bridge.c        | 153 +++++++---------
+> >  .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |   9 -
+> >  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 168 +++++++++++++-----
+> >  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 107 ++++++-----
+> >  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   |   2 -
+> >  .../sun8i_a83t_mipi_csi2.c                    | 113 ++++++------
+> >  .../sun8i_a83t_mipi_csi2.h                    |   2 -
+> >  drivers/media/v4l2-core/v4l2-common.c         |  12 +-
+> >  .../media/sunxi/sun6i-isp/sun6i_isp_capture.c |  47 ++++-
+> >  .../media/sunxi/sun6i-isp/sun6i_isp_params.c  |  37 +++-
+> >  .../media/sunxi/sun6i-isp/sun6i_isp_params.h  |   4 +-
+> >  .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    | 117 ++++++------
+> >  .../media/sunxi/sun6i-isp/sun6i_isp_proc.h    |   7 -
+> >  13 files changed, 437 insertions(+), 341 deletions(-)
+>=20
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
+
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--1hdy3NiqHIhYUnpy
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmoLHXIACgkQhP3B6o/u
+lQzgWBAAjRaAAzEGF8iRPZsjcNNCPSKtGqSNpi4BoTAS50vH3SNcWlp/uLnjcSYh
+zZpsK8ScF9XYEN4ooeEHDakoMC33qkRIA3ISlKhIFZGpxhD1/neVOBLb96BmZopt
+c3n7Llgv0G7bbaJKPKjc3laxnuRCYA5+z7LnTLj/w/l8DKQNXs7ci19GYKx4Zs27
+NQn/rqfONj1o2yrObi/xQmr/QRBTXhJ203NL/oqS+HT7pqiBpPRlv/BZmG9cVjHg
+Xv9YqDQqk0NHEStWcaiFtXeDFOVIo3xq6CnPJx/IhNOaHAd/yGbGHp52UiyBACGx
+vpppLRS3XFWyByk8SL0FOIS6qauBUxnP5vKsGlyIpD++sgKxpzoR0UkQhoSDpJFI
+4IqVIqJT17YrPfAoaXqsDFlpmC38deCDwl2SDWPN2KNvuVMlMp87TfpmQUxFtDsz
+m5fFyRQxs6OGkRKoxTAIdxlLOasHJmPJzvwOcpEdJK3TfmYqnvipYWhDs2nN4C6I
+aIUg1r/9id1JLtPjpQp6H/UEOhLyFU5vkXX0JkAHuHjvlRYV9vbUCQBth+x4+QNc
+msInkVfmff3Gooli+kwKNHRqKOfhTnidL970O1PSEifBV7PxjQyc2TMRv/oKsNii
+Ef/WTmDCRchEsjfpd+yK8eeUjKx3She13MeMkBphB3pYOVwXN6Y=
+=UHeJ
+-----END PGP SIGNATURE-----
+
+--1hdy3NiqHIhYUnpy--
