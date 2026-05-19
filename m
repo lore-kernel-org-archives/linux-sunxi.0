@@ -1,133 +1,147 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4AF5400DF1
-	for <linux-sunxi@lists.linux.dev>; Tue, 19 May 2026 15:19:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8241C3EA95A;
+	Tue, 19 May 2026 15:23:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779203959; cv=none; b=LAptzX6Wgfaj2YzKQBx6z1i2sVFkesVaatUNpcW5yugMTAPPXRvfIZKesRqF9vHD9Px5vEOjRuhO94EMoyUxPtAin3ngJDAGyuw2XgHnxayf51r3YX+eqqWTIjoC/tsj5Hl2KLE9miqsJXfBAWDLt8t04hUMDY7XYI3tNhZijcw=
+	t=1779204187; cv=none; b=frwrkNYo1wp1O2fgfzTajdN8mYnNirk4cGZqlzymCAqJfLwjG9b91hLPQgfd7wnFUeHiT6egC0rTXF2mdlP9iRyhS1dkFAG4+tZ9E3WWs9UDzQDCgpY5m8ZFrmJj5Q3WNYLhWabvYcEbAYnzF2r2tbSV7BHA/D5QmXdn2oIHtwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779203959; c=relaxed/simple;
-	bh=hCrBEIZfioLWNiUwANxK4I+0OvSRmFvvo7djd05KLOM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ABs05ci7Xy1NCvw5EvCVIx7BfUfKulAkgAOXsSsL4hS32WaVhGoFTQHjx2nc9urLK4KWAQRvzdsYMVMhbhtWJNvgyiVakfoBFc2FJpR1YaEh6IvLNG/5NxkjVmH5+BK84eiYhuEXCN2AfsF2TbZkxfGyHocoi+FCqXjKWiqvCB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=aKUtM7zx; arc=none smtp.client-ip=121.127.44.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
+	s=arc-20240116; t=1779204187; c=relaxed/simple;
+	bh=BwzlO1jv0/xoa5/nDtcFzfIYRReMTjtaUSLG2NPq+pA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=h5zhVhfmXE86wSz2gMWKoeoy669fmEdCGqGx0WNHZnoBY6EDQ6SQMMPcKG5pB6TYw6KB83EwJIKX5ChuS0Dd2cDZMWNUt/LjJgwyTNEt6s9jVvBoQdRVyHM8PIjlD5MgByMvZOVqCdGR++qGzc7SFTdF6A7nUGhDqCtpl/Tq7eE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=jxIzF2JA; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="aKUtM7zx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
- Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1779203953;
- bh=UysSrWx2IaBnmq7p+RKc3cNjOUxboHqJt85KySMdL0U=;
- b=aKUtM7zxR9CBNmTevvNgOFk89rSqEMwWO1aRXK/MrZpaQYBecfwJDDsVR1aENQonRmpcahq9l
- Mqzh2YwUndiwMhMUyjI4N2g+BsdGKzuO6uJjt4MR1Wi9qqFvrhbegnGJljyZZ05SPswAma7rS2H
- 5Y5s8VaJY/K1nA4OjOjqTJgnaJtJ7ID8eaMG7ltyYZn/T+lIAXFD4cirywF0zB5NkMYTxjXmRp4
- MMoEUFR0tlKgvObfD0SaLOVe4hSqFlTldZSKpPy/bGqVX23BEXLTvHTPrGshTxPaJMde4ZJVkkC
- Ds1LJiZrxy/PXFXExyYvEsXWy+wh/sUx9s7sPvfdPHbw==
-X-Forward-Email-ID: 6a0c7f56b6cbacb3a8d0c696
-X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 121.127.44.66
-X-Forward-Email-Version: 2.8.12
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
-Message-ID: <e90eddfc-2f57-418a-ae05-43a411d72b99@kwiboo.se>
-Date: Tue, 19 May 2026 17:18:40 +0200
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="jxIzF2JA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1779204180;
+	bh=BwzlO1jv0/xoa5/nDtcFzfIYRReMTjtaUSLG2NPq+pA=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=jxIzF2JARvKB9MMdsdYEdIFzITAzDfQ0zAb2TYEm3noqEGS+q8FnO3Rb2W3N0ZGoe
+	 A5cqNO9r5DQw7zM1B6//sf0AY9KrTqjDYR7mMNZORrWa08DZZ9FvDzBsLfhpc7yzeX
+	 sSxsCozglLsnvuZ4lrNOZZel0IrAMZgc415wQ2qm1ClX8Dl/2TzyMXFGXENq+/u4xN
+	 ub95GPHlGtk85j7HrKQmr4VOm5xeEDAeW7lr3AK2guhyAGd4GQkg1fiOYaVGaxFphx
+	 3cu9RN2tQI1EF96G8oFFxLgF6CZSh9dlwXlH71qxaHARdtEqyCK6WMAIvhs6mUIg5d
+	 l/tE8yJII349A==
+Received: from [100.64.0.214] (unknown [100.64.0.214])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3579317E0234;
+	Tue, 19 May 2026 17:22:59 +0200 (CEST)
+Message-ID: <77a0553dc48c270768525a53854b3d32abcbf642.camel@collabora.com>
+Subject: Re: [PATCH 07/16] media: v4l2-common: Add NV12_16L16 pixel format
+ to v4l2 format info
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Paul Kocialkowski <paulk@sys-base.io>, linux-media@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai
+ <wens@kernel.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Greg Kroah-Hartman	
+ <gregkh@linuxfoundation.org>, Arash Golgol <arash.golgol@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date: Tue, 19 May 2026 11:22:58 -0400
+In-Reply-To: <20260518102451.417971-8-paulk@sys-base.io>
+References: <20260518102451.417971-1-paulk@sys-base.io>
+	 <20260518102451.417971-8-paulk@sys-base.io>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-3jaEoSmnM5AxWGabWN4z"
+User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 04/23] drm: bridge: dw_hdmi: Hold bridge ref until
- connector cleanup
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Louis Chauvet <louis.chauvet@bootlin.com>, Liu Ying <victor.liu@nxp.com>,
- Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
- Chen-Yu Tsai <wens@kernel.org>, Christian Hewitt
- <christianshewitt@gmail.com>, Diederik de Haas <diederik@cknow-tech.com>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-sunxi@lists.linux.dev, imx@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20260518180206.2480119-1-jonas@kwiboo.se>
- <20260518180206.2480119-5-jonas@kwiboo.se>
- <177919241969.545972.18169905222569864569.b4-review@b4>
-Content-Language: en-US
-From: Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <177919241969.545972.18169905222569864569.b4-review@b4>
-Content-Type: text/plain; charset=UTF-8
+
+
+--=-3jaEoSmnM5AxWGabWN4z
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Le lundi 18 mai 2026 =C3=A0 12:24 +0200, Paul Kocialkowski a =C3=A9crit=C2=
+=A0:
+> Represent the NV12_16L16 pixel format in the v4l2 format info table.
+> This is a 16x16 tiled version of NV12.
+>=20
+> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+> ---
+> =C2=A0drivers/media/v4l2-core/v4l2-common.c | 2 ++
+> =C2=A01 file changed, 2 insertions(+)
+>=20
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
+ore/v4l2-common.c
+> index e142d40c71b9..6194d6eb9c56 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -313,6 +313,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
+ormat)
+> =C2=A0		=C2=A0 .block_w =3D { 4, 4, 0, 0 }, .block_h =3D { 4, 4, 0, 0 }},
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_P010_4L4, .pixel_enc =3D V4L2_PIXEL_EN=
+C_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 4, 0, 0 }, .bpp=
+_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
+> =C2=A0		=C2=A0 .block_w =3D { 4, 4, 0, 0 }, .block_h =3D { 4, 4, 0, 0 }},
+> +		{ .format =3D V4L2_PIX_FMT_NV12_16L16,	.pixel_enc =3D V4L2_PIXEL_ENC_Y=
+UV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .bpp_di=
+v =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
+> +		=C2=A0 .block_w =3D { 16, 16, 0, 0 }, .block_h =3D { 16, 16, 0, 0 }},
+
+I suspect this is:
+
++		{ .format =3D V4L2_PIX_FMT_NV12_16L16,	.pixel_enc =3D
+V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2,=
+ 0, 0 },
+.bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
++		  .block_w =3D { 16, 8, 0, 0 }, .block_h =3D { 16, 16, 0, 0 }},
+
+
+This was introduced for the Samsung MFC decoders on Exynos 5, has been matc=
+hed
+to V4L2_PIX_FMT_HM12, but I don't how it was tested though. But in this err=
+a,
+all the tiling was fixes dimensions in bytes, where your definition would m=
+ake
+the UV tiles twice the size of Y tiles.
+
+Nicolas
+
+
+> =C2=A0
+> =C2=A0		/* YUV planar formats, non contiguous variant */
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_YUV420M, .pixel_enc =3D V4L2_PIXEL_ENC=
+_YUV, .mem_planes =3D 3, .comp_planes =3D 3, .bpp =3D { 1, 1, 1, 0 }, .bpp_=
+div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
+
+--=-3jaEoSmnM5AxWGabWN4z
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
-Hello Luca,
+-----BEGIN PGP SIGNATURE-----
 
-On 5/19/2026 2:06 PM, Luca Ceresoli wrote:
-> On Mon, 18 May 2026 18:01:40 +0000, Jonas Karlman <jonas@kwiboo.se> wrote:
-> 
-> Hello Jonas,
-> 
->>
->> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> index b7bfc0e9a6b2..9d795c550f8a 100644
->> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> @@ -2600,10 +2609,14 @@ static int dw_hdmi_connector_create(struct dw_hdmi *hdmi)
->>  
->>  	drm_connector_helper_add(connector, &dw_hdmi_connector_helper_funcs);
->>  
->> -	drm_connector_init_with_ddc(hdmi->bridge.dev, connector,
->> -				    &dw_hdmi_connector_funcs,
->> -				    DRM_MODE_CONNECTOR_HDMIA,
->> -				    hdmi->ddc);
->> +	ret = drm_connector_init_with_ddc(hdmi->bridge.dev, connector,
->> +					  &dw_hdmi_connector_funcs,
->> +					  DRM_MODE_CONNECTOR_HDMIA,
->> +					  hdmi->ddc);
->> +	if (ret)
->> +		return ret;
->> +
->> +	drm_bridge_get(&hdmi->bridge);
-> 
-> I'm not fully following the code paths, but both the report and the fix
-> make sense to me. Only I'd move the drm_bridge_get() before
-> drm_connector_init_with_ddc(), to avoid a short window where no reference
-> is held and the bridge might be destroyed before drm_bridge_get() is
-> called. I'm not sure this can happen, but it's better to write the code in
-> a way that clearly makes it impossible.
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCagyAUgAKCRDZQZRRKWBy
+9IajAP9qTPEgo5Hv9psPbr8R5uHkMx1r0b+TgKSHeDmgfQrILwEAuZsp1gb44Xug
+Jx13TfSlNfWxumQomxxNJE9qwF6d2gI=
+=3jLk
+-----END PGP SIGNATURE-----
 
-dw_hdmi_connector_create() is only called from dw_hdmi_bridge_attach()
-so the bridge should already have a ref for the lifetime of this call.
-
-I explicitly chose the placement after drm_connector_init_with_ddc()
-to ensure ref count is correctly balanced without having to add a
-drm_bridge_put() call in any error path. I.e. connector destroy() is
-only called when drm_connector_init_with_ddc() succeeds.
-
-This code/call is also planned to be removed in a future series, so I do
-not think moving drm_bridge_get() is necessary unless you think we need
-to protect against possible bad behavior from DRM core?
-
-Regards,
-Jonas
-
-> 
-> Otherwise looks good.
-> 
-> Luca
-> 
-
+--=-3jaEoSmnM5AxWGabWN4z--
