@@ -1,122 +1,262 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA97B2264B0
-	for <linux-sunxi@lists.linux.dev>; Tue, 19 May 2026 00:53:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2B026C385
+	for <linux-sunxi@lists.linux.dev>; Tue, 19 May 2026 03:34:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779152004; cv=none; b=RIt4JtzInRESST56cOXKg4anOSew15L/3+3ihPmqqC6V1WZFOgLUkFHeZihymGBl6RTi2IPJQSxxhO4dUfPcwG1sls1M5tL9aRBtPZMB4pA8e31+aEuljalQ3Qi2nWTsiJRY8d0Rf+Xsbg/I4U2B5CBgyJr+hTdI5hv6PlqT/tc=
+	t=1779161641; cv=none; b=jRwcyQzfCBmaJ7okQK+tqpIXW8N+3lywXUWjmomYo8n5NwruczT4qlGLHiDGtknZE/AETj9E1VOboXfpFc7LbLwN338CsyMvYzcioMRkxTJcsDvbIKbLQTaAu9HlpnXHwoQIO3L1yXh0AeCjDGPjPZiqYaphPH1ACL2sgZQwhmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779152004; c=relaxed/simple;
-	bh=SDmTQp0sZbffEHIOY63KMAF/FCFOCH4ItRBWXAdiJ+0=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=JS+kSIjX1ORyP1NlalY0si7FUGnfQa9cLOoy2dhSeVPqhbWxPvabLIZWIXp0nXTAkhYcsAoo9BKgI+Lh/UzSy0K8MoBS4NWnKu1vlJwj2N7Rr0Pfk/jRurwbrgAMYYiQpwhIXUHi/N6U2/pHYxR3rmlIaZX2yf40x1yZ2a/WpFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OG/ZAdPN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779161641; c=relaxed/simple;
+	bh=nqKg2vNqhpGy8mWBUrH5n648k2I71k6MfxdNSF69OdA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZSc7uEbrAg/Fd+R0QOOXlqCZrJf0lo1bOKcxnWTZi+vgTH5ibdsGRR+BNV+Uj5QI8LQPeNIWFW1T/6iTG1jup9XSix9bXWNpd4VAhd9gnnyOcqCVUXORpu3T4O9Jy/Y5LPBlrOsPJbPJcjSb0+kGovNpld/XsqTi85x8OOYxapE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SjonHy3/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OG/ZAdPN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14A52C2BCB7;
-	Tue, 19 May 2026 00:53:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SjonHy3/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AE31C4AF09
+	for <linux-sunxi@lists.linux.dev>; Tue, 19 May 2026 03:34:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779152004;
-	bh=SDmTQp0sZbffEHIOY63KMAF/FCFOCH4ItRBWXAdiJ+0=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date:From;
-	b=OG/ZAdPN2t/YaWhyf8ZLxVgceZUY6usWm42gbv2A5BpdP7io4L/E6iPB6uIRlGiMP
-	 q2LeoKFHU8JCLdtTL1JFkfGCHnhexxiA7MsRZwuKXH0b4Rt0QT+yCvUVcz39XXn5wB
-	 iuW78vpqkd8suIIw/5S5YJDiyExgg7A54kRXuuwuZXCVahLM4b2F0zql7L86+JWVd4
-	 UARJh7F6GHCJYcB9SNFbd4PjFfmSDauXcFQhjKzwOm4z3WQHHDQ0S98P131yScES1O
-	 M+8cqWZ7+Lp330fwItF+GASIzNphwASPM6j8gtrPHbosF+srSml247huGwgQLi1Egw
-	 x4kqRP/czEr/w==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] clk: sunxi-ng: Use of_device_get_match_data()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Rosen Penev" <rosenp@gmail.com>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260519003950.626727-1-rosenp@gmail.com>
-References: <20260519003950.626727-1-rosenp@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 19 May 2026 00:53:23 +0000
-Message-Id: <20260519005324.14A52C2BCB7@smtp.kernel.org>
+	s=k20201202; t=1779161641;
+	bh=nqKg2vNqhpGy8mWBUrH5n648k2I71k6MfxdNSF69OdA=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=SjonHy3/Bl4JhFw48DynnSqz6PqlQC615bV+ELzdICsUebCLPeMjylDSbyEjSd+2R
+	 svvVgacwmgrWRH67NtJwCJPm7HhU+JSPuJ5jh+reA0mqhD+AhrD9IQJpZc6ZOBNKPz
+	 5XB9ShRumxfrAmHbhrBsE0mtlyzMx/tL9NO+4FMz0xs93WEFI5UqQyUdh36wZyV/jy
+	 yrTUSD/u6ZFvY320Dss8T4ynJOCUYfVGvLZkV5hub5MPZCSlMrwT15CErgx/ANGRyo
+	 Byghh8prXWAvBT9JO5JZ54QgKxm+u5tWxEdBdAPuhWKjfnENxRVIAD3PerwK4pAlTb
+	 ikyOEMBDaaqNw==
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-38e97e73234so28044991fa.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 20:34:01 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwtYSbF7Xt3t2AZvLNyMlwpuh8KuF8kJPGnDMT2eUz5VIurAE38
+	ihLW2vkA+zQQpfqRlq7oc0dW6YlbFpZ2MOHtiCk/dxdiYjs1uixywU6Orh+SZQL1L7oV98p/9gY
+	HdW2t6HiaByAnuZo406MC0EYJIUZjC3E=
+X-Received: by 2002:a2e:9854:0:b0:394:472e:e430 with SMTP id
+ 38308e7fff4ca-39561c124d8mr40219351fa.18.1779161639815; Mon, 18 May 2026
+ 20:33:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20260510201644.4143710-1-alexander.sverdlin@gmail.com>
+ <20260510201644.4143710-4-alexander.sverdlin@gmail.com> <agr9m_tidBr6Cu2h@collins>
+ <04da68168f92b196cce4d49c766fc62702bf6472.camel@gmail.com> <aguIvpKQM18kX97T@shepard>
+In-Reply-To: <aguIvpKQM18kX97T@shepard>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 19 May 2026 11:33:47 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66C4o020Wj979O9Ms1yGrQ9mxTppex7L+i8F2=HobktCA@mail.gmail.com>
+X-Gm-Features: AVHnY4LLydhSeTMxsbAa_7rikkTlCp_XrE-66uJsZgTVHv70SiGFx9AM4k7da9Q
+Message-ID: <CAGb2v66C4o020Wj979O9Ms1yGrQ9mxTppex7L+i8F2=HobktCA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] arm64: dts: allwinner: A133: add support for
+ Baijie Helper A133 board
+To: Paul Kocialkowski <paulk@sys-base.io>, Alexander Sverdlin <alexander.sverdlin@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [Critical] Replacing of_match_device() with of_device_get_match_data() fe=
-tches match data from the parent RTC driver, leading to an invalid pointer =
-dereference and a kernel panic.
-- [High] Bypassing the local CCU match table breaks device-specific configu=
-ration and introduces dead code.
---
+On Tue, May 19, 2026 at 5:46=E2=80=AFAM Paul Kocialkowski <paulk@sys-base.i=
+o> wrote:
+>
+> Hi Alexander,
+>
+> On Mon 18 May 26, 22:05, Alexander Sverdlin wrote:
+> > Hi Paul,
+> >
+> > thanks for the review!
+> >
+> > On Mon, 2026-05-18 at 13:52 +0200, Paul Kocialkowski wrote:
+> > >
+> > > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a133-baije-core.d=
+tsi b/arch/arm64/boot/dts/allwinner/sun50i-a133-baije-core.dtsi
+> > > > new file mode 100644
+> > > > index 000000000000..65b094f30bf5
+> > > > --- /dev/null
+> > > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-baije-core.dtsi
+> >
+> > []
+> >
+> > > You should add:
+> > >
+> > >     chosen {
+> > >             stdout-path =3D "serial0:115200n8";
+> > >     };
+> >
+> > I actually have it in .dts, but it's theoretically possible to deploy
+> > the core board in a way that serial0 is *not* a console, so the above
+> > probably will not be valid in all cases in .dtsi.
+>
+> Yes I figured out later that it was in the board dts file and I initially
+> assumed it was missing entirely.
+>
+> In practice both options are fine, although the reference software does
+> hardcode UART0 as debug serial.
+>
+> > > > +&reg_dcdc2 {
+> > > > + regulator-always-on;
+> > > > + regulator-min-microvolt =3D <500000>;
+> > > > + regulator-max-microvolt =3D <1300000>;
+> > >
+> > > Should be:
+> > >     regulator-min-microvolt =3D <900000>;
+> > >     regulator-max-microvolt =3D <1300000>;
+> >
+> > 0.81..1.2v according to A133 Datasheet Revision 1.1 Jul.14, 2020?
+>
+> I guess the initial values are taken from the allwinner-perf1 board dts.
+>
+> The 900 mV-1.3 V range matches the CPU OPPs (although it really only goes=
+ up
+> to 1.13 V). Maybe down to 810 mV does work, but we don't have an OPP for =
+it.
+> I think I took these values from the reference BSP for the board.
+>
+> Also it would be good to add:
+>
+>         regulator-name =3D "vdd-cpux";
+>
+> > >
+> > > > +&reg_dcdc4 {
+> > > > + regulator-always-on;
+> > > > + regulator-min-microvolt =3D <500000>;
+> > > > + regulator-max-microvolt =3D <1300000>;
+> > > > + regulator-name =3D "vdd-sys";
+> > >
+> > > Should be:
+> > >     regulator-min-microvolt =3D <810000>;
+> > >     regulator-max-microvolt =3D <990000>;
+> > >     regulator-name =3D "vcc-usb-sys";
+> >
+> > I'm a bit puzzled here: datasheet says 0.9..1.0v
+> > and it has no "Typ" value, similar to VDD_CPU, but
+> > VDD_SYS is not part of OPP tables, so who is going
+> > to adjust this? Or shall it be just
 
-commit 64f27933b5ce1d6dc6bf932d297fcbf5ea1680b5
-Author: Rosen Penev <rosenp@gmail.com>
+No one really. As long as the current voltage is within the range,
+the kernel will be happy. But ideally the DT just describes the
+acceptable range, and the bootloader programs the correct recommended
+voltage.
 
-clk: sunxi-ng: Use of_device_get_match_data()
+> > regulator-min-microvolt =3D <950000>;
+> > regulator-max-microvolt =3D <950000>;
+> >
+> > ?
+>
+> Yes the reference BSP runs it at 950 mV, LGTM.
+>
+> >
+> > >
+> > > > +};
+> > > > +
+> > > > +&reg_dcdc5 {
+> > > > + regulator-always-on;
+> > > > + regulator-min-microvolt =3D <800000>;
+> > > > + regulator-max-microvolt =3D <1840000>;
+> > > > + regulator-name =3D "vcc-dram";
+> > >
+> > > Should be:
+> > >     regulator-min-microvolt =3D <1100000>;
+> > >     regulator-max-microvolt =3D <1100000>;
+> > >     regulator-name =3D "vcc-dram-2";
+> > >
+> > > ALDO2 is the main DRAM supply, this is the second one.
+> >
+> > Core schematics mentions 1.1V/1.2/1.35/1.5 on this rail...
+> > Currently U-Boot has CONFIG_AXP_DCDC5_VOLT=3D1100, but potentially
+> > this is adjustable, right? At some point LPDDR4 chips they
+> > are soldering today will be unavailable. And in the current
+> > market it will happen rather sooner than later...
+>
+> It is part of the LPDDR4 spec that the main voltage should be 1.8 V and
+> the second and I/O buffer ones should be 1.1 V. See JESD209-4D Table 180 =
+=E2=80=94
+> Recommended DC Operating Conditions.
+>
+> Maybe they jsut copied this comment from a reference design that allows f=
+or
+> other types of DRAM too. In any case their BSP hardcodes 1.1 V anyway.
+>
+> > >
+> > > > +};
+> > > > +
+> > > > +/* DCDC6 unused */
+> > > > +
+> > > > +&reg_dldo1 {
+> > > > + regulator-min-microvolt =3D <700000>;
+> > > > + regulator-max-microvolt =3D <3300000>;
+> > > > + regulator-enable-ramp-delay =3D <1000>;
+> > >
+> > > Should be:
+> > >     regulator-min-microvolt =3D <1800000>;
+> > >     regulator-max-microvolt =3D <1800000>;
+> > >     regulator-name =3D "vcc-pg";
+> >
+> > Do suggest to drop vendor's
+> >
+> > regulator-enable-ramp-delay =3D <1000>;
+> >
+> > in all cases?
+>
+> Well we generally don't have the delays in the axp regulator definitions =
+and
+> it works well without them, but I guess they don't hurt either.
 
-This commit changes sun6i_rtc_ccu_probe() to use of_device_get_match_data()
-instead of explicitly calling of_match_device() with sun6i_rtc_ccu_match.
-This allows dropping the linux/of_device.h include.
+We should probably keep them if we know that they are properly measured
+values, and not just cargo-culted.
 
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c b/drivers/clk/sunxi-ng/=
-ccu-sun6i-rtc.c
-> index f6bfeba009e8e..a3cf0dde05bed 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+> In practice many drivers will have a delay after a regulator power on any=
+way
+> because we generally expect that hardware needs some time to power up,
+> in addition to the regulator. So all in all it's rarely critical.
 
-[ ... ]
+Those are two different things. Devices generally say "wait x ms" after
+power rail is at full voltage. The enable ramp delay is the time it
+takes the rail to get to full voltage. The latter depends on board
+design (capacitor rating) and PMIC settings.
 
-> @@ -353,14 +352,12 @@ int sun6i_rtc_ccu_probe(struct device *dev, void __=
-iomem *reg)
->  {
->  	const struct sun6i_rtc_match_data *data;
->  	struct clk *ext_osc32k_clk =3D NULL;
-> -	const struct of_device_id *match;
-> =20
->  	/* This driver is only used for newer variants of the hardware. */
-> -	match =3D of_match_device(sun6i_rtc_ccu_match, dev);
-> -	if (!match)
-> +	data =3D of_device_get_match_data(dev);
 
-Does this cause an invalid pointer dereference?
+ChenYu
 
-Since sun6i_rtc_ccu_probe() is called by the main RTC driver in
-drivers/rtc/rtc-sun6i.c, the dev passed here is bound to that driver. Calli=
-ng
-of_device_get_match_data(dev) retrieves the match data from the main RTC
-driver's match table (sun6i_rtc_dt_ids), not the local sun6i_rtc_ccu_match
-table.
-
-The main RTC driver stores integer flags in its match data:
-
-    .data =3D (void *)RTC_LINEAR_DAY
-
-Will this result in the data pointer evaluating to an integer like 0x1?
-
-Additionally, does bypassing the local CCU match table break device-specific
-configurations?
-
-The sun6i_rtc_ccu_match array contains specialized CCU parameters for devic=
-es
-like allwinner,sun55i-a523-rtc. Relying on the main RTC driver's match table
-means the lookup will fall back to generic settings, such as those for the
-r329, instead of applying the specific settings required for the a523.
-
-Does removing the reference to sun6i_rtc_ccu_match also leave the array
-entirely unused, turning it into dead code?
-
-> +	if (!data)
->  		return 0;
-> =20
-> -	data =3D match->data;
->  	have_iosc_calibration =3D data->have_iosc_calibration;
-
-If data points to an invalid address like 0x1, won't dereferencing it here
-cause a kernel panic on newer SoCs?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260519003950.6267=
-27-1-rosenp@gmail.com?part=3D1
+> >
+> > > >
+> > > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a133-baijie-helpe=
+r.dts b/arch/arm64/boot/dts/allwinner/sun50i-a133-baijie-helper.dts
+> > > > new file mode 100644
+> > > > index 000000000000..ccbca5d0a40c
+> > > > --- /dev/null
+> > > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-baijie-helper.dts
+> >
+> > []
+> >
+> > > > + aliases {
+> > > > +         serial0 =3D &uart0;
+> > >
+> > > The is best added to the core dtsi.
+> > >
+> > > > + };
+> > > > +
+> > > > + chosen {
+> > > > +         stdout-path =3D "serial0:115200n8";
+> > >
+> > > Ditto.
+> >
+> > But it only physically materializes in Helperboard, the carrier.
+> > Potentially this one can be left floating or used for something else.
+>
+> Yes fair enough, I'm happy with having it on the helperboard dts file.
+>
+> All the best,
+>
+> Paul
+>
+> --
+> Paul Kocialkowski,
+>
+> Independent contractor - sys-base - https://www.sys-base.io/
+> Free software developer - https://www.paulk.fr/
+>
+> Expert in multimedia, graphics and embedded hardware support with Linux.
