@@ -1,74 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65AF333ADA0
-	for <linux-sunxi@lists.linux.dev>; Tue, 19 May 2026 14:58:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD57403E87;
+	Tue, 19 May 2026 15:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779202683; cv=none; b=B9p3k8amY1X9OKnYCIaQQIdgFMof+1/CO63+c3AfYUoFucYNSlufdma56v/6gfgUrqq40SiKoiW61XkTI+7VlHzQwi2Y0RP5QVNodrb5L1GkjY3aZm1gMlbIXJIhkud9VJUO/o4cOmbv5Ohd8H4Ipg6ee2YxfEapWLchb7P4DJ4=
+	t=1779203783; cv=none; b=rOvzsczEt0XSEIHp+aM5G6x5T/386Rr7GLR0PCN/rSoL1gJoeH4cXrTcLyrEYeM2t3hZ8aRtoNV3KWKBIIhIyNneNuuBNsB6aVvgmBfOYtKy3PxboOP5pDzpm8g91zpyLmZlm7ZXar4JwQZpTEQ923veqpNcTsO4jNUpyKz3fUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779202683; c=relaxed/simple;
-	bh=v8YjP9Npno4O4XTZSmojz9CpByYqxe69fUnIsHVXY3g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lwvjUOJoeXI8cRielD0liE8eZDf6BW0BDNlkBg4mQxLGFXWMhghaY7DoEhVMGvEcuvgzNeS4uhdXHMIMj6bzolb7Xb2nYn50HGYMtXGBn3abBkAeRjT345aR1pP1dkQkCKL5YXCU7CrMKqD0eGjILJGht6SEh5O1SI5uTm99gX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=umrZTPQB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779203783; c=relaxed/simple;
+	bh=LeeRjDKdU98xs9zRHyVlw4Dxq1DWY3AOHyqzA6RQyk8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=rzndx6REa7fktUOl44iwRZt6WIevqXFCMAolXDD3TBF48khIy/XjoFq6pP/4lIPDY67Wc4G4pq+xJQm33QUYARBdlluumoiwMqkEPl0kJdd19oHPQKKOVdc5HPKgdicxZjTUOP8Kn9EDC7VNcPcBm5BDx/zOQwhAyHZZbMbh7+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=BIzGmVZX; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="umrZTPQB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3145C2BCFB
-	for <linux-sunxi@lists.linux.dev>; Tue, 19 May 2026 14:58:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779202682;
-	bh=v8YjP9Npno4O4XTZSmojz9CpByYqxe69fUnIsHVXY3g=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=umrZTPQB5Hn5SzscWM6sns7PJzTVHLIadzM9TOv/VGS1aN0lLn7hicuyKFk8ymv3D
-	 VmSHhQfH3Tq2WVhFwYOopA9R6tV2RuoyKATBTGfyzvKTwH9vI8jmMxrXcVg1lcq4EY
-	 kEl8PtsuW0WnyTYo9Lqau1Lq/aQFrELXE19QyyBgQ3kjTvStuCdTNK0japzEaOBvWH
-	 JD5yphtMM+tdwj3+05ZdTH3jwT54Fr6jsCUQk14OexOkFgihpDXYXzzsxfPHVwBfOt
-	 +2RvxKFhHcqRU1mw+62rY3Wd60cSpviwugeSFWaKqBHiJtBLnXaRwCUXx896utmckd
-	 KCic15yCA4amg==
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-38e7d983f91so39147081fa.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 19 May 2026 07:58:02 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8BExq8sZZGfjctTebKTgND/LdArixzsGb919ZRTBx+lb5ZHcGnZAtjBgP33qaJmlG2OUyUZoH5EQ6ocA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz7MuRZ9+N6Fo/6G7fYBwezvvESXjcaIpWm2XL0Wt/6o4Qys3QI
-	yY4I9NUBG2yGWD9ERAYVtY4QLJB0eURpZeqlmCnapUvQ1x/qpvQTHoqciHLKE0lIS+84YNqykqm
-	PTBnC/1TsNWUUZR9G/h44MPsDHvhRvtY=
-X-Received: by 2002:a2e:bc20:0:b0:393:a2ec:da34 with SMTP id
- 38308e7fff4ca-39561c36355mr65078351fa.10.1779202680929; Tue, 19 May 2026
- 07:58:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="BIzGmVZX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1779203780;
+	bh=LeeRjDKdU98xs9zRHyVlw4Dxq1DWY3AOHyqzA6RQyk8=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=BIzGmVZX7WuoGCBqs8TVvfe6IAiXzAbgNzXkT5K/YhBIwLJwSni7btMn9SumAwHRd
+	 yYMxK+FlNvhcL5reNzbEaqTVpwYwJMAn6mvoi86ru++B1H1wUBohGelADL4ThXNazp
+	 kcQ7ARc9mdtezse4LnovGMYXMcFZAfyeXmJSDv9Q31YkIq6Hfn3dcHmujAdWagpViT
+	 NnI9aZpdq6Vq57u7E9gC4ZWAXpXKep7D4xIRnxtEDOkZMUa5r4L7cTmzfLezpmOj2h
+	 RmDVZMINMEcFZkD8jeIj5MsoxAIs4UT/N/oXazgSSObDkVfO+d6jwxeWDJ/9ojYlNE
+	 DBUftxHB1ZJGg==
+Received: from [100.64.0.214] (unknown [100.64.0.214])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id AB6A017E1299;
+	Tue, 19 May 2026 17:16:18 +0200 (CEST)
+Message-ID: <d2c20b4cac22f04bf864534edf27993236ac9e09.camel@collabora.com>
+Subject: Re: [PATCH 05/16] media: v4l2-common: Fix NV15_4L4 format info
+ block height
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Paul Kocialkowski <paulk@sys-base.io>, linux-media@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai
+ <wens@kernel.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Greg Kroah-Hartman	
+ <gregkh@linuxfoundation.org>, Arash Golgol <arash.golgol@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date: Tue, 19 May 2026 11:16:17 -0400
+In-Reply-To: <20260518102451.417971-6-paulk@sys-base.io>
+References: <20260518102451.417971-1-paulk@sys-base.io>
+	 <20260518102451.417971-6-paulk@sys-base.io>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-GJ5iBdhdx0UoTc8uYpG1"
+User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260519144712.1418302-1-javierm@redhat.com> <20260519144712.1418302-7-javierm@redhat.com>
-In-Reply-To: <20260519144712.1418302-7-javierm@redhat.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 19 May 2026 22:57:47 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64354S65SxU40Lp9K2ous=OQO2QujD0L4d9iF4=reaMXg@mail.gmail.com>
-X-Gm-Features: AVHnY4Kflsk35TrUBM5-9zDiyDqHDodSOzLTF9r2I5qXft0UA_EkYXejxu4fC40
-Message-ID: <CAGb2v64354S65SxU40Lp9K2ous=OQO2QujD0L4d9iF4=reaMXg@mail.gmail.com>
-Subject: Re: [PATCH 6/8] drm/sun4i: hdmi: Use the common TMDS char rate constant
-To: Javier Martinez Canillas <javierm@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, 
-	David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Samuel Holland <samuel@sholland.org>, 
-	Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+
+
+--=-GJ5iBdhdx0UoTc8uYpG1
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 19, 2026 at 10:47=E2=80=AFPM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
->
-> Replace the 165000000 magic number with the shared constant defined
-> in the <drm/display/drm_hdmi_helper.h> header.
->
-> The old comment referenced "HDMI <=3D 1.2" but 165 MHz is actually
-> the maximum TMDS character rate defined by the HDMI 1.0 spec.
->
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Le lundi 18 mai 2026 =C3=A0 12:24 +0200, Paul Kocialkowski a =C3=A9crit=C2=
+=A0:
+> The NV15_4L4 format is specified as a 4x4 format, not 4x1.
+> In addition the block size should not take subsampling in account,
+> so specify it as 4x4 for both luma and chroma.
+>=20
+> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+> ---
+> =C2=A0drivers/media/v4l2-core/v4l2-common.c | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
+ore/v4l2-common.c
+> index 554c591e1113..77a0daa92c2b 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -309,7 +309,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
+ormat)
+> =C2=A0		/* Tiled YUV formats */
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_NV12_4L4, .pixel_enc =3D V4L2_PIXEL_EN=
+C_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .bpp=
+_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_NV15_4L4, .pixel_enc =3D V4L2_PIXEL_EN=
+C_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 5, 10, 0, 0 }, .bp=
+p_div =3D { 4, 4, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
+> -		=C2=A0 .block_w =3D { 4, 2, 0, 0 }, .block_h =3D { 1, 1, 0, 0 }},
+> +		=C2=A0 .block_w =3D { 4, 4, 0, 0 }, .block_h =3D { 4, 4, 0, 0 }},
 
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+Only the block_h is broken. The block_w is in "pixels" which for the UV pla=
+ne is
+component pairs. So both set of tiles have 5bytes stride. But since the sec=
+ond
+set, the UV tiles, are interleaved, they only have 2 pairs of UV per row. S=
+o to
+me the correct fix is:
+
++		  .block_w =3D { 4, 2, 0, 0 }, .block_h =3D { 4, 4, 0, 0 }},
+
+If its not the case for the camera pipeline, then a new format is needed, s=
+ince
+this format should perfectly match NV15 + VIVANTE_TILED in the DRM world.
+
+regards,
+Nicolas
+
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_P010_4L4, .pixel_enc =3D V4L2_PIXEL_EN=
+C_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 4, 0, 0 }, .bpp=
+_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
+> =C2=A0
+> =C2=A0		/* YUV planar formats, non contiguous variant */
+
+--=-GJ5iBdhdx0UoTc8uYpG1
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCagx+wQAKCRDZQZRRKWBy
+9H3cAQCZckjwaH4Ua7bFNH0TlIe7qNnm4JBXewMsZ3UzDAKbHAD+MzI3Pek25YiV
+cuO2+w5f3DUEwgpRmjCUKnqmGO9WqQ4=
+=HPXQ
+-----END PGP SIGNATURE-----
+
+--=-GJ5iBdhdx0UoTc8uYpG1--
