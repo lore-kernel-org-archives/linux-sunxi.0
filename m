@@ -1,262 +1,139 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2B026C385
-	for <linux-sunxi@lists.linux.dev>; Tue, 19 May 2026 03:34:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F9A37B417;
+	Tue, 19 May 2026 06:21:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779161641; cv=none; b=jRwcyQzfCBmaJ7okQK+tqpIXW8N+3lywXUWjmomYo8n5NwruczT4qlGLHiDGtknZE/AETj9E1VOboXfpFc7LbLwN338CsyMvYzcioMRkxTJcsDvbIKbLQTaAu9HlpnXHwoQIO3L1yXh0AeCjDGPjPZiqYaphPH1ACL2sgZQwhmo=
+	t=1779171698; cv=none; b=Gzm0WpSaSXirqnSL84KLGca2s+52aNbPBUrmGhCcE+nGnzNyKswuBoFP2wnSFVQXey1qJxcpfAooRezqPCllD7AXV1aotXBKxtCtuV1zjNTfmO2dsQdjqOmdXAmLfZGdewZohR0PSKLZohLNW45wS+rmnS7tsAdV+2CjdANHxfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779161641; c=relaxed/simple;
-	bh=nqKg2vNqhpGy8mWBUrH5n648k2I71k6MfxdNSF69OdA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZSc7uEbrAg/Fd+R0QOOXlqCZrJf0lo1bOKcxnWTZi+vgTH5ibdsGRR+BNV+Uj5QI8LQPeNIWFW1T/6iTG1jup9XSix9bXWNpd4VAhd9gnnyOcqCVUXORpu3T4O9Jy/Y5LPBlrOsPJbPJcjSb0+kGovNpld/XsqTi85x8OOYxapE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SjonHy3/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779171698; c=relaxed/simple;
+	bh=bI1+JJlEbofJwf56QKg8oCf2syw9NjpmEZehTGAplJQ=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=gBM79ss1xnSPnAaMUaZ3K0B4QD9DV33l+FBKnlE5e1K14bcMcrk8rdCAdkDM2DOBmW6Mn/860GM+pgUTnUr2KU5sw59jC5lkoTbRnzQKSEgeFTYYJ/lPrLIZDUBAGwCJH7jf8EMITcbYf5jVjOD/9XXncIXvC8JezIQU0OKFYTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WWVuvCg3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SjonHy3/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AE31C4AF09
-	for <linux-sunxi@lists.linux.dev>; Tue, 19 May 2026 03:34:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WWVuvCg3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91448C2BCB3;
+	Tue, 19 May 2026 06:21:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779161641;
-	bh=nqKg2vNqhpGy8mWBUrH5n648k2I71k6MfxdNSF69OdA=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=SjonHy3/Bl4JhFw48DynnSqz6PqlQC615bV+ELzdICsUebCLPeMjylDSbyEjSd+2R
-	 svvVgacwmgrWRH67NtJwCJPm7HhU+JSPuJ5jh+reA0mqhD+AhrD9IQJpZc6ZOBNKPz
-	 5XB9ShRumxfrAmHbhrBsE0mtlyzMx/tL9NO+4FMz0xs93WEFI5UqQyUdh36wZyV/jy
-	 yrTUSD/u6ZFvY320Dss8T4ynJOCUYfVGvLZkV5hub5MPZCSlMrwT15CErgx/ANGRyo
-	 Byghh8prXWAvBT9JO5JZ54QgKxm+u5tWxEdBdAPuhWKjfnENxRVIAD3PerwK4pAlTb
-	 ikyOEMBDaaqNw==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-38e97e73234so28044991fa.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 18 May 2026 20:34:01 -0700 (PDT)
-X-Gm-Message-State: AOJu0YwtYSbF7Xt3t2AZvLNyMlwpuh8KuF8kJPGnDMT2eUz5VIurAE38
-	ihLW2vkA+zQQpfqRlq7oc0dW6YlbFpZ2MOHtiCk/dxdiYjs1uixywU6Orh+SZQL1L7oV98p/9gY
-	HdW2t6HiaByAnuZo406MC0EYJIUZjC3E=
-X-Received: by 2002:a2e:9854:0:b0:394:472e:e430 with SMTP id
- 38308e7fff4ca-39561c124d8mr40219351fa.18.1779161639815; Mon, 18 May 2026
- 20:33:59 -0700 (PDT)
+	s=k20201202; t=1779171697;
+	bh=bI1+JJlEbofJwf56QKg8oCf2syw9NjpmEZehTGAplJQ=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=WWVuvCg3lq9kj/W9OHODE0FAt4VK9CPQwu6zrFMcsNHdAqHhuzXGUZGwy47s+6CJa
+	 72YU4jF38E/VoKdeqoOIf5/QWpSv8RvP81fnP/amdv5Atnb8XbyxcH68VxhFGCx3ps
+	 WslsvsyfQ2rbuY7x6SBVCsHXrAwRQvdmM7k8Yq0Hg+Pylth9J7eDPnvJGfCMhsGgGK
+	 neW3YY0ok1Q6kxW+5X/1OzpeDgTPpOBbYkjnqhb6PDYNe5BWbfv8/IIAH583IJVKgb
+	 OSCoe7lNCaR78GmefFw7YcG3rj6IFuKpUu6uf9VY2+GBWUMQYIa+Tni5LvSrU8pACF
+	 UWv2Xe4Ihmgtw==
+Message-ID: <a34f5914-80b7-4d95-a220-79001309214a@kernel.org>
+Date: Tue, 19 May 2026 08:21:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260510201644.4143710-1-alexander.sverdlin@gmail.com>
- <20260510201644.4143710-4-alexander.sverdlin@gmail.com> <agr9m_tidBr6Cu2h@collins>
- <04da68168f92b196cce4d49c766fc62702bf6472.camel@gmail.com> <aguIvpKQM18kX97T@shepard>
-In-Reply-To: <aguIvpKQM18kX97T@shepard>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 19 May 2026 11:33:47 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66C4o020Wj979O9Ms1yGrQ9mxTppex7L+i8F2=HobktCA@mail.gmail.com>
-X-Gm-Features: AVHnY4LLydhSeTMxsbAa_7rikkTlCp_XrE-66uJsZgTVHv70SiGFx9AM4k7da9Q
-Message-ID: <CAGb2v66C4o020Wj979O9Ms1yGrQ9mxTppex7L+i8F2=HobktCA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] arm64: dts: allwinner: A133: add support for
- Baijie Helper A133 board
-To: Paul Kocialkowski <paulk@sys-base.io>, Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH v7 03/23] drm: bridge: dw_hdmi: Free IRQ before CEC
+ adapter is unregistered
+To: Jonas Karlman <jonas@kwiboo.se>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Russell King <rmk+kernel@armlinux.org.uk>, Hans Verkuil
+ <hverkuil@kernel.org>, Archit Taneja <architt@codeaurora.org>
+Cc: Liu Ying <victor.liu@nxp.com>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@kernel.org>,
+ Christian Hewitt <christianshewitt@gmail.com>,
+ Diederik de Haas <diederik@cknow-tech.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, imx@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20260518180206.2480119-1-jonas@kwiboo.se>
+ <20260518180206.2480119-4-jonas@kwiboo.se>
+Content-Language: en-US, nl
+In-Reply-To: <20260518180206.2480119-4-jonas@kwiboo.se>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 19, 2026 at 5:46=E2=80=AFAM Paul Kocialkowski <paulk@sys-base.i=
-o> wrote:
->
-> Hi Alexander,
->
-> On Mon 18 May 26, 22:05, Alexander Sverdlin wrote:
-> > Hi Paul,
-> >
-> > thanks for the review!
-> >
-> > On Mon, 2026-05-18 at 13:52 +0200, Paul Kocialkowski wrote:
-> > >
-> > > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a133-baije-core.d=
-tsi b/arch/arm64/boot/dts/allwinner/sun50i-a133-baije-core.dtsi
-> > > > new file mode 100644
-> > > > index 000000000000..65b094f30bf5
-> > > > --- /dev/null
-> > > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-baije-core.dtsi
-> >
-> > []
-> >
-> > > You should add:
-> > >
-> > >     chosen {
-> > >             stdout-path =3D "serial0:115200n8";
-> > >     };
-> >
-> > I actually have it in .dts, but it's theoretically possible to deploy
-> > the core board in a way that serial0 is *not* a console, so the above
-> > probably will not be valid in all cases in .dtsi.
->
-> Yes I figured out later that it was in the board dts file and I initially
-> assumed it was missing entirely.
->
-> In practice both options are fine, although the reference software does
-> hardcode UART0 as debug serial.
->
-> > > > +&reg_dcdc2 {
-> > > > + regulator-always-on;
-> > > > + regulator-min-microvolt =3D <500000>;
-> > > > + regulator-max-microvolt =3D <1300000>;
-> > >
-> > > Should be:
-> > >     regulator-min-microvolt =3D <900000>;
-> > >     regulator-max-microvolt =3D <1300000>;
-> >
-> > 0.81..1.2v according to A133 Datasheet Revision 1.1 Jul.14, 2020?
->
-> I guess the initial values are taken from the allwinner-perf1 board dts.
->
-> The 900 mV-1.3 V range matches the CPU OPPs (although it really only goes=
- up
-> to 1.13 V). Maybe down to 810 mV does work, but we don't have an OPP for =
-it.
-> I think I took these values from the reference BSP for the board.
->
-> Also it would be good to add:
->
->         regulator-name =3D "vdd-cpux";
->
-> > >
-> > > > +&reg_dcdc4 {
-> > > > + regulator-always-on;
-> > > > + regulator-min-microvolt =3D <500000>;
-> > > > + regulator-max-microvolt =3D <1300000>;
-> > > > + regulator-name =3D "vdd-sys";
-> > >
-> > > Should be:
-> > >     regulator-min-microvolt =3D <810000>;
-> > >     regulator-max-microvolt =3D <990000>;
-> > >     regulator-name =3D "vcc-usb-sys";
-> >
-> > I'm a bit puzzled here: datasheet says 0.9..1.0v
-> > and it has no "Typ" value, similar to VDD_CPU, but
-> > VDD_SYS is not part of OPP tables, so who is going
-> > to adjust this? Or shall it be just
+On 18/05/2026 20:01, Jonas Karlman wrote:
+> The interrupt allocated with devm_request_threaded_irq() can be
+> use-after-free when the devres release action try to free_irq().
+> 
+> KASAN report a slab-use-after-free in dw_hdmi_cec_hardirq during unbind:
+> 
+> Call trace:
+>   [...]
+>   dw_hdmi_cec_hardirq+0x4cc/0x560
+>   free_irq+0x48c/0x7e4
+>   devm_irq_release+0x54/0x90
+>   dr_node_release+0x38/0x5c
+>   release_nodes+0xac/0x130
+>   devres_release_all+0xf4/0x1b0
+>   device_unbind_cleanup+0x28/0x1f8
+>   device_release_driver_internal+0x358/0x470
+>   device_release_driver+0x18/0x24
+>   bus_remove_device+0x33c/0x4f0
+>   device_del+0x2d8/0x790
+>   platform_device_del+0x34/0x1e0
+>   platform_device_unregister+0x14/0x3c
+>   dw_hdmi_remove+0x74/0x180
+>   [...]
+> 
+> Freed by:
+>   [...]
+>   kfree+0x1dc/0x5dc
+>   cec_delete_adapter+0xd4/0x118
+>   cec_devnode_release+0xa4/0xe0
+>   device_release+0xa0/0x200
+>   kobject_put+0x14c/0x26c
+>   put_device+0x14/0x30
+>   cec_unregister_adapter+0x20c/0x280
+>   dw_hdmi_cec_remove+0x8c/0xd0
+>   [...]
+> 
+> Explicitly devm_free_irq() before the CEC adapter is unregistered to
+> fix this possible use-after-free issue.
+> 
+> Fixes: a616e63c56ef ("drm/bridge: dw-hdmi: add cec driver")
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 
-No one really. As long as the current voltage is within the range,
-the kernel will be happy. But ideally the DT just describes the
-acceptable range, and the bootloader programs the correct recommended
-voltage.
+Acked-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 
-> > regulator-min-microvolt =3D <950000>;
-> > regulator-max-microvolt =3D <950000>;
-> >
-> > ?
->
-> Yes the reference BSP runs it at 950 mV, LGTM.
->
-> >
-> > >
-> > > > +};
-> > > > +
-> > > > +&reg_dcdc5 {
-> > > > + regulator-always-on;
-> > > > + regulator-min-microvolt =3D <800000>;
-> > > > + regulator-max-microvolt =3D <1840000>;
-> > > > + regulator-name =3D "vcc-dram";
-> > >
-> > > Should be:
-> > >     regulator-min-microvolt =3D <1100000>;
-> > >     regulator-max-microvolt =3D <1100000>;
-> > >     regulator-name =3D "vcc-dram-2";
-> > >
-> > > ALDO2 is the main DRAM supply, this is the second one.
-> >
-> > Core schematics mentions 1.1V/1.2/1.35/1.5 on this rail...
-> > Currently U-Boot has CONFIG_AXP_DCDC5_VOLT=3D1100, but potentially
-> > this is adjustable, right? At some point LPDDR4 chips they
-> > are soldering today will be unavailable. And in the current
-> > market it will happen rather sooner than later...
->
-> It is part of the LPDDR4 spec that the main voltage should be 1.8 V and
-> the second and I/O buffer ones should be 1.1 V. See JESD209-4D Table 180 =
-=E2=80=94
-> Recommended DC Operating Conditions.
->
-> Maybe they jsut copied this comment from a reference design that allows f=
-or
-> other types of DRAM too. In any case their BSP hardcodes 1.1 V anyway.
->
-> > >
-> > > > +};
-> > > > +
-> > > > +/* DCDC6 unused */
-> > > > +
-> > > > +&reg_dldo1 {
-> > > > + regulator-min-microvolt =3D <700000>;
-> > > > + regulator-max-microvolt =3D <3300000>;
-> > > > + regulator-enable-ramp-delay =3D <1000>;
-> > >
-> > > Should be:
-> > >     regulator-min-microvolt =3D <1800000>;
-> > >     regulator-max-microvolt =3D <1800000>;
-> > >     regulator-name =3D "vcc-pg";
-> >
-> > Do suggest to drop vendor's
-> >
-> > regulator-enable-ramp-delay =3D <1000>;
-> >
-> > in all cases?
->
-> Well we generally don't have the delays in the axp regulator definitions =
-and
-> it works well without them, but I guess they don't hurt either.
+Regards,
 
-We should probably keep them if we know that they are properly measured
-values, and not just cargo-culted.
+	Hans
 
-> In practice many drivers will have a delay after a regulator power on any=
-way
-> because we generally expect that hardware needs some time to power up,
-> in addition to the regulator. So all in all it's rarely critical.
+> ---
+> v7: New patch
+> 
+> KASAN report a slab-use-after-free in dw_hdmi_cec_hardirq when,
+>   echo fe0a0000.hdmi > /sys/bus/platform/drivers/dwhdmi-rockchip/unbind
+> on a Rockchip RK3566 device prior to this fix.
+> ---
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+> index 9549dabde941..67a2a242d3ca 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+> @@ -309,6 +309,7 @@ static void dw_hdmi_cec_remove(struct platform_device *pdev)
+>  	struct dw_hdmi_cec *cec = platform_get_drvdata(pdev);
+>  
+>  	cec_notifier_cec_adap_unregister(cec->notify, cec->adap);
+> +	devm_free_irq(&pdev->dev, cec->irq, cec->adap);
+>  	cec_unregister_adapter(cec->adap);
+>  }
+>  
 
-Those are two different things. Devices generally say "wait x ms" after
-power rail is at full voltage. The enable ramp delay is the time it
-takes the rail to get to full voltage. The latter depends on board
-design (capacitor rating) and PMIC settings.
-
-
-ChenYu
-
-> >
-> > > >
-> > > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a133-baijie-helpe=
-r.dts b/arch/arm64/boot/dts/allwinner/sun50i-a133-baijie-helper.dts
-> > > > new file mode 100644
-> > > > index 000000000000..ccbca5d0a40c
-> > > > --- /dev/null
-> > > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-baijie-helper.dts
-> >
-> > []
-> >
-> > > > + aliases {
-> > > > +         serial0 =3D &uart0;
-> > >
-> > > The is best added to the core dtsi.
-> > >
-> > > > + };
-> > > > +
-> > > > + chosen {
-> > > > +         stdout-path =3D "serial0:115200n8";
-> > >
-> > > Ditto.
-> >
-> > But it only physically materializes in Helperboard, the carrier.
-> > Potentially this one can be left floating or used for something else.
->
-> Yes fair enough, I'm happy with having it on the helperboard dts file.
->
-> All the best,
->
-> Paul
->
-> --
-> Paul Kocialkowski,
->
-> Independent contractor - sys-base - https://www.sys-base.io/
-> Free software developer - https://www.paulk.fr/
->
-> Expert in multimedia, graphics and embedded hardware support with Linux.
