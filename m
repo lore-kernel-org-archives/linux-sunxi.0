@@ -1,167 +1,139 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051DB35CB7B;
-	Tue, 19 May 2026 20:37:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D9B364042
+	for <linux-sunxi@lists.linux.dev>; Wed, 20 May 2026 06:46:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779223053; cv=none; b=sb8arXzlakOa2w1Fny/XvcdtkxzJ3cy/uAp9oyF+RKURRa2UR4Og/1chTAPoP3s1lnCc6Lfe2a+Se0Ewu9sIrHlGRTiqjB/ON9nCFISWP9bHG6FmqmQTTs4H4EwPW9FCJBiTbQfhBblrVw0bgmC/9V6KE1FGNW/Dty+g0d8/9/U=
+	t=1779259568; cv=none; b=cpNX31t2IvrihflmuQYLaKSfFif9mofkRteQue49zZ3Aq4PQU/FAWPfYI2jWHosL+4upH/iSk3R6NQ70HTaXbpr83OnLWTtipq0/IPCGORDl3NOUnXLfORpAe11R1iWfEmdETBTza1Z7m9vpGRL5h23UcHASKR/7dRNZS5hQtXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779223053; c=relaxed/simple;
-	bh=U3uMzGCgQitddBZmz3MDenkZIrSIJ6ND7ntkRyu6z+Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l0CdSZV3Av5FCH7YD8M/eOGpwSvsKYjIaUq9GJtUL2RmP4YT+6atsP48ENFAyx5WpsEbL0wwfKeO1DAUhkI7q2fB1iSvRHmnSCimVNdoWicYqlPfB25C3ZOoRHk0iHjCVru9HEvgLdNXxegjogsAwlIm2GDrTrpdJj7ZGY+DqTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id D518F1F8004F;
-	Tue, 19 May 2026 20:37:27 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 4D9C4B40847; Tue, 19 May 2026 20:37:26 +0000 (UTC)
-X-Spam-Level: 
-Received: from collins (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id 11335B40839;
-	Tue, 19 May 2026 20:37:25 +0000 (UTC)
-Date: Tue, 19 May 2026 22:37:23 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arash Golgol <arash.golgol@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 06/16] media: v4l2-common: Add missing tiled format info
- block sizes
-Message-ID: <agzKA11feGZExvEP@collins>
-References: <20260518102451.417971-1-paulk@sys-base.io>
- <20260518102451.417971-7-paulk@sys-base.io>
- <689495bda73de063506d0a63de79b9e099747aa8.camel@collabora.com>
+	s=arc-20240116; t=1779259568; c=relaxed/simple;
+	bh=bPtJ1oJyMMStcYYNIJv9v+aTckbyoymNXck36o7Rqu4=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=uFnRim1ZOTZDhO0qMuRQVYHsCNEr+G/fDWhqAwbkSYzxQTzmLJQWAs5lbFTBwbr1N4VGCP1qbwAW6M2mZpc82Xh8XeqkThlQRGmNsDixP00BNeL8xyJgjclsubb2vWPNBdbwvxDg3UVbS2pYmU+h8XG8d0RpKYwN6yDOyvmzuL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=MPo/MyjF; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="MPo/MyjF"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 0BFAD4E42CFD;
+	Wed, 20 May 2026 06:46:05 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id AC8436070E;
+	Wed, 20 May 2026 06:46:04 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7F087107E8EB1;
+	Wed, 20 May 2026 08:45:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1779259562; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=dKcYje4RS7cFmYoZ2tIYKDA+VMl5+PAkjiozJ5zsCH4=;
+	b=MPo/MyjFKZ6BLm7Xiy+fB0ERKTpIT0x6QG+V098ck6ZrRqCxnovmlWjPKem/Awa8nRtVV+
+	I7TOtCWoxJEkX1bOZTr8+JUy26Fm7leRcwuQQFlxzJWJZbVOgmhNoDitsYwqnkKJqipDxb
+	wiKdpc1Vmww38H2Xkj5bjaekS8bK8sdcWHRGOCiVYkeTHonfCOH8g8BKk+x2s8TPSUrDGA
+	FEczjeTg5EUO/2/MDs29H+6Jq/BSFK9aNLeTpyFGmiUK4/rB4fFd68inDJvxE0BjyFkUBt
+	q8c4k1nLmHbvNtJbKPg0Ce8TtFJzhug7firDgpkrVHalWizJUAcg2FPap/P3VA==
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qDQIAplM8RyG3VNl"
-Content-Disposition: inline
-In-Reply-To: <689495bda73de063506d0a63de79b9e099747aa8.camel@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v7 04/23] drm: bridge: dw_hdmi: Hold bridge ref until
+ connector cleanup
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Jonas Karlman <jonas@kwiboo.se>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Heiko Stuebner <heiko@sntech.de>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, Liu Ying <victor.liu@nxp.com>, 
+ Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>, 
+ Chen-Yu Tsai <wens@kernel.org>, 
+ Christian Hewitt <christianshewitt@gmail.com>, 
+ Diederik de Haas <diederik@cknow-tech.com>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, imx@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <e90eddfc-2f57-418a-ae05-43a411d72b99@kwiboo.se>
+References: <20260518180206.2480119-1-jonas@kwiboo.se>
+ <20260518180206.2480119-5-jonas@kwiboo.se>
+ <177919241969.545972.18169905222569864569.b4-review@b4>
+ <e90eddfc-2f57-418a-ae05-43a411d72b99@kwiboo.se>
+Date: Wed, 20 May 2026 08:45:49 +0200
+Message-Id: <177925954999.1337464.14745526881417951688.b4-reply@b4>
+X-Mailer: b4 0.15.2
+X-Last-TLS-Session-Version: TLSv1.3
 
+Hello Jonas,
 
---qDQIAplM8RyG3VNl
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2026-05-19 17:18 +0200, Jonas Karlman wrote:
+> Hello Luca,
+>
+> On 5/19/2026 2:06 PM, Luca Ceresoli wrote:
+> > On Mon, 18 May 2026 18:01:40 +0000, Jonas Karlman <jonas@kwiboo.se> wrote:
+> >
+> > Hello Jonas,
+> >
+> >>
+> >> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> >> index b7bfc0e9a6b2..9d795c550f8a 100644
+> >> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> >> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> >> @@ -2600,10 +2609,14 @@ static int dw_hdmi_connector_create(struct dw_hdmi *hdmi)
+> >>
+> >>  	drm_connector_helper_add(connector, &dw_hdmi_connector_helper_funcs);
+> >>
+> >> -	drm_connector_init_with_ddc(hdmi->bridge.dev, connector,
+> >> -				    &dw_hdmi_connector_funcs,
+> >> -				    DRM_MODE_CONNECTOR_HDMIA,
+> >> -				    hdmi->ddc);
+> >> +	ret = drm_connector_init_with_ddc(hdmi->bridge.dev, connector,
+> >> +					  &dw_hdmi_connector_funcs,
+> >> +					  DRM_MODE_CONNECTOR_HDMIA,
+> >> +					  hdmi->ddc);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	drm_bridge_get(&hdmi->bridge);
+> >
+> > I'm not fully following the code paths, but both the report and the fix
+> > make sense to me. Only I'd move the drm_bridge_get() before
+> > drm_connector_init_with_ddc(), to avoid a short window where no reference
+> > is held and the bridge might be destroyed before drm_bridge_get() is
+> > called. I'm not sure this can happen, but it's better to write the code in
+> > a way that clearly makes it impossible.
+>
+> dw_hdmi_connector_create() is only called from dw_hdmi_bridge_attach()
+> so the bridge should already have a ref for the lifetime of this call.
 
-Le Tue 19 May 26, 11:18, Nicolas Dufresne a =C3=A9crit :
-> Le lundi 18 mai 2026 =C3=A0 12:24 +0200, Paul Kocialkowski a =C3=A9crit=
-=C2=A0:
-> > Some YUV420 tiled format info definitions are missing block sizes.
-> > Add the missing block sizes (they are all 4x4).
-> >=20
-> > Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
-> > ---
-> > =C2=A0drivers/media/v4l2-core/v4l2-common.c | 6 ++++--
-> > =C2=A01 file changed, 4 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2=
--core/v4l2-common.c
-> > index 77a0daa92c2b..e142d40c71b9 100644
-> > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > @@ -307,10 +307,12 @@ const struct v4l2_format_info *v4l2_format_info(u=
-32 format)
-> > =C2=A0		{ .format =3D V4L2_PIX_FMT_GREY,=C2=A0=C2=A0=C2=A0 .pixel_enc =
-=3D V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 1=
-, 0, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> > =C2=A0
-> > =C2=A0		/* Tiled YUV formats */
-> > -		{ .format =3D V4L2_PIX_FMT_NV12_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_Y=
-UV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .bpp_di=
-v =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
-> > +		{ .format =3D V4L2_PIX_FMT_NV12_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_Y=
-UV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .bpp_di=
-v =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
-> > +		=C2=A0 .block_w =3D { 4, 4, 0, 0 }, .block_h =3D { 4, 4, 0, 0 }},
->=20
-> .block_w =3D { 4, 2, 0, 0 }, .block_h =3D { 4, 4, 0, 0 }},
->=20
-> > =C2=A0		{ .format =3D V4L2_PIX_FMT_NV15_4L4, .pixel_enc =3D V4L2_PIXEL_=
-ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 5, 10, 0, 0 }, .=
-bpp_div =3D { 4, 4, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
-> > =C2=A0		=C2=A0 .block_w =3D { 4, 4, 0, 0 }, .block_h =3D { 4, 4, 0, 0 }=
-},
-> > -		{ .format =3D V4L2_PIX_FMT_P010_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_Y=
-UV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 4, 0, 0 }, .bpp_di=
-v =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
-> > +		{ .format =3D V4L2_PIX_FMT_P010_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_Y=
-UV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 4, 0, 0 }, .bpp_di=
-v =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
-> > +		=C2=A0 .block_w =3D { 4, 4, 0, 0 }, .block_h =3D { 4, 4, 0, 0 }},
->=20
-> .block_w =3D { 4, 2, 0, 0 }, .block_h =3D { 4, 4, 0, 0 }},
->=20
-> This one is speecial, this format does not exists. I believe Jernej made =
-that
-> one based on assumptions, the actual HW should produce NV15 4L4, but I do=
-n't own
-> that hardware, and so I never managed remove that last "user" of it, whic=
-h is I
-> believe H6 VP9 decoder.
+Ah, that's true. So the patch is correct.
 
-I don't think I've ever tried it but do I have some H6 hardware around,
-so maybe I could test it eventually and figure out if it really uses
-this format or not.
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-I guess it doesn't hurt to keep the definition either way.
+In case you send a new iteration, please add this extra explanation to the
+commit message, similar to the above paragraph.
 
-All the best,
+> I explicitly chose the placement after drm_connector_init_with_ddc()
+> to ensure ref count is correctly balanced without having to add a
+> drm_bridge_put() call in any error path. I.e. connector destroy() is
+> only called when drm_connector_init_with_ddc() succeeds.
+>
+> This code/call is also planned to be removed in a future series,
 
-Paul
+In order to remove the !DRM_BRIDGE_ATTACH_NO_CONNECTOR case? That would be
+welcome!
 
->=20
-> Nicolas
->=20
-> > =C2=A0
-> > =C2=A0		/* YUV planar formats, non contiguous variant */
-> > =C2=A0		{ .format =3D V4L2_PIX_FMT_YUV420M, .pixel_enc =3D V4L2_PIXEL_E=
-NC_YUV, .mem_planes =3D 3, .comp_planes =3D 3, .bpp =3D { 1, 1, 1, 0 }, .bp=
-p_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
+Luca
 
-
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---qDQIAplM8RyG3VNl
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmoMygMACgkQhP3B6o/u
-lQyhfQ/+OihZP1pX+KtLZHb5PzSuHG0dNVPtJqPXxuifAq/+8LDU7nVA4PnCrecI
-XgxCEuVL34zttetOPT6eEv3bS5ggk83M/Cc5rB4eQqvmJvEF9CtPH42w0oTphKY3
-+0tdM1crZVVxMOZAWf0h0/vPcxU0u8k/9fiNhXGxZoHebaJKRYDsM/GRmdx00sRG
-NZhyZda+siMNnD8U8GHh5BYC8jJaGXdNRfVbybTSy4gy6lfxHGjCNXyPUip2CuVl
-aorL2mN5Tn6u2k2CeVsiNtFY88piEoKPNCj3qPrBwpfJus1shJT6KzG7hV0VkmWJ
-q4X6AifqLw2xKTrXKr2bn8ZuoPTU+1NXRW2AAZSjJZ3UEULyc2FMPeyl63PRx5mu
-5qFLO6oODog4myIXxRgX5I+348Woyk2fJlkiuQtwgropwM7IQsANfngK6NlJtK5+
-SGIu6RpmqaRsok/80menkJHVbe9eVWY5s9dFE7hOtZDIuuJzit5Iaa1u6659MKcN
-+2Q5z/EsdeMfSWtN58hhpCP+i/pv7K/tmswIjFl8/tFAMLld6dtQbUYDaDtnF26f
-K0CBJjm6GCtl9JgcCUAgXgHsKbxe0tAYL89dciy4Gurl0tRbUfEDr5NgUHQ5UtON
-EY4XD09tRKRV2RUt8y2S64q6kzTRZ999rAOoOveEj79GOO7AYNs=
-=PJVw
------END PGP SIGNATURE-----
-
---qDQIAplM8RyG3VNl--
