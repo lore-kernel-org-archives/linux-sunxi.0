@@ -1,94 +1,93 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4439F28C84A
-	for <linux-sunxi@lists.linux.dev>; Sat, 23 May 2026 03:16:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF4C233924
+	for <linux-sunxi@lists.linux.dev>; Sat, 23 May 2026 04:35:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779506199; cv=pass; b=qik60KggKX0djB53ttzXmvn67ZQNdZdj4G6tZoG3Yu3ZlyicfdXN80sCiYcJbkweHSQvBNkbz/FSq9gxevZqclqPhz/H6xz94gWcdZRYbqWhUSsah1Agi8CuANmg1brxdV4tO5q/E0faTNz2PlUqlh1VpdxdDzB9gqHco6sIHMw=
+	t=1779510903; cv=pass; b=QJ3d6N8K+j+ock2EI6Qm2nRcerLf+R/Au0UbgUztNXZ2ftEjEGgN9xDM2QJ4g8qyKMPzGU1zetZxKWqsQfA3/d8B+mCdBMuSCQaRjlyHh28XwT4g48/rIbwVR+IobPg19+ymXOj98vBf+ekpnhQBePvc6oe7YfkkX7tRcMqTgQg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779506199; c=relaxed/simple;
-	bh=+XL9fQqEWbSHtUTzHJNem08rNzq8qxneQBBCAFW0a4o=;
+	s=arc-20240116; t=1779510903; c=relaxed/simple;
+	bh=jpTwqZr/Q5gQVOlqJ0S2yDPGDJKQkPbLyOemLlhRRsQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FMe7SgM9uM7uxqahj0D5ckir1VVZFHp/pknHgX0QFF9mAM6p2bPJpyiPpFT0ZSMrnnGgLDkDZkZ9hcTvKLKkJQqVN3q+8gRsz/HufTIlQryxvr+4IR4QO3q5ONr4NkTDnjN5GYb3oqafMOjFYiIY+NSkD3Q0aLfeBSYprAEWjtA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y2KRzq7w; arc=pass smtp.client-ip=209.85.210.54
+	 To:Cc:Content-Type; b=lRZjxiyLLVLq68i5N/8VmMbCcqnUFXuo5d2D+si6UQHK6UcN71N6O6/VGQNhFeBlYg69b8/GBVoOl8fzK/teTMTwp69l5N4grLY1W52rbqTkt8ar0XwghcYlLsztSRSpet8uOvUdzFCkeaY5LjlEBE8Hd1YefRWjcW9ugBeXxCc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GfbC/4ps; arc=pass smtp.client-ip=209.85.160.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y2KRzq7w"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7dcdaf06498so5334319a34.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 22 May 2026 20:16:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779506195; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GfbC/4ps"
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-439acb393f7so8704608fac.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 22 May 2026 21:35:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779510901; cv=none;
         d=google.com; s=arc-20240605;
-        b=Fn9aKqD6je4+lhGLiUOJzCTacNYMDukHS87E9wb3rv6AVuNbsHE8FER/5Id+jepXTT
-         8FcZxYDO6LGNM1n3jNgZnST9Mtuscc24UtptXaRFOhEHKdS1nseMWzUPtKE71FGORtXP
-         DmICdYe/ouP5V0Okv/RcbCs79lLSVOLD3I3cb9HXItvoMFgBOPQTMrHi9QgdECXWjfiO
-         iUjO3BIjb2nfI9Tg9N1LlJ9C57Mk5asmRUtR1AfoBwokeShAkz/rkDNsyTGd4ayJdLnY
-         P1aXK/I3oy5el706/4yaMCCSDdgVHXQWVOZWmzwb5gkapXx4JuTDOOtxwGrjr/11lSOV
-         7Vjg==
+        b=e3JbtXq82QbzDzbi6XqIC6F9dyqYm8oBzU/jNjMMJqexr34/XlO4vyk3On+4yZ0lOR
+         dzGnsNvPhrvP7blvk/Wpa9NLzvmNdGQp89jpyyb1VyW1O9Err2tc7DOjh08lfBm9gT4T
+         WM4nwwBX8KUxf0jqJmqJHrKnKzwPP53X/oIHBiA+k0aP3fD9xaLnXFg5cd7t6fc4Aeho
+         hzaqJ3T05PkXylvBgfyubZwQGulwlmQ0VuZOiale/LXCb9tkhjsqHbWHBoBX7a5waYKb
+         Glavbpwkt4tlSQQZdAYv06zjaxvogpHG7aTPfTwZieJ8NDpawaO9JDet0re6Iz6pXCMl
+         x3fw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=+XL9fQqEWbSHtUTzHJNem08rNzq8qxneQBBCAFW0a4o=;
-        fh=7Isp8LuySi36rX8FP+wxl2myERy+KIpKg0KTLfd3E5s=;
-        b=IGGKNmyaMo8U7L0yXuyXdyEKjFPjMBkwDOKZB64wrhA1vGfylZnDlFEQfz6JfM1c72
-         jdnSVBzXLbFNm4EayTAesdVXRB6Xrl/qXUWHtVVLmIsFVlIxoAYYkMKuw0O9+mS+0JvT
-         CALjPpWK2Dnkn3Z5D5s+B0F6VUOg+qgz1FADbG0XpIUHeXgYp0DfzqDmxZlJujBkhbVh
-         pC/rA9kM0FmkO0N+2Eg34ais9bYFG8HbnMwy5kLyKpUh415G8rEO/IcfNdxUJQdaaPeg
-         PDVbeY5MgTkXi3tQhvof56y+17F83xfGWZkpxqzDUuZlK/k1I/PsHfe4quuaFIFsJE5Q
-         6FgA==;
+        bh=Vjwen8pW+3nbnlCQULsmeNoF69s54+b6PcjKCfFeltM=;
+        fh=h3QJl+21E+gqd4pWPFsLVEGIHM+XyXrsPD8tvhe1Egc=;
+        b=B8EuMmcuy1bcB3LV/Ra6vqRIO2M2XNKfvHavgkbcDafI2iKA1GQOB3wwqo7PARtAQU
+         NXVt107MBVOq6eJUNO8fIv0B/wRdqBrqRkUWHh+pgIksDR1B88mnhkt+KSl5f3IpvQFy
+         fCXWWDF2Dh71hWOARFSZcstnjFDSQqXKNJy9DTRAbeDOz0fNJs6/hPjVT5YEUE66Wq7S
+         PqRKDOZeFzQM47fY/CxXT3WCp/0DtjDVbyaIf+tOFjCOllAALQx+M68OaaBAdPPGsQU6
+         XiTRAwMId0PzgqMABmMNqfe6DKrrOeO0gzHOaIs7v/pHOA59Ya62x9FGJWvzZJvmDioL
+         qFdQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779506195; x=1780110995; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1779510901; x=1780115701; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+XL9fQqEWbSHtUTzHJNem08rNzq8qxneQBBCAFW0a4o=;
-        b=Y2KRzq7wTbcu8jU39kR0dUEn/FUtbRpeP2m0DD1115rYI+V0ehN6y68xk1Qw2USpZv
-         /HezoS27z6OSl0aHIFMUZtUtvJo1dbiZVN9hGRboSRD59mUfk+tYp6FJCCLvlz1Qf45p
-         Jq466TEdr8Ce9N2JQRz95rTaVBd0kIcbDIpcfkmmBeQzOiEuij7RhLr+5JDwL2HAl05D
-         IQYmBSnGJXajaQrn8ktJC7pVe7A11/wMZ7DOZQfX9hcoIj819GiLbT27jWSKXL1Hwsfu
-         ypwhqCpv8udZx6q6RgmQjD3FhyRCm+IEXlDGrWi0F2F3bwUTO/NTmO7bAf0CQj+I8Ygb
-         8xbQ==
+        bh=Vjwen8pW+3nbnlCQULsmeNoF69s54+b6PcjKCfFeltM=;
+        b=GfbC/4psRuAp+TRnYeBx9u2OohtgaQgxHLLdVBGNiIHZD1X/ZMZIBghwg+F4ozUCQQ
+         F7E6v7syGqFmsbSIK89r+2cd3QIQCDgFTMgkvE1KCW7OuEPxLZgOoq/Cv3YT51bsNmpB
+         xhE+TxNkuYlEEnIBvwP3CxY1ziVe48Jtr9MSGEa7CCzOajCN0iw92ZbS65r2ZvZKq8qo
+         Uh75amfY3jTeBnVOW3qf1gsfmYAIG3JhnW+0+CZYc3DH6TwpX49MvF3DAjE5EcjD5qpz
+         fI/1MXv88oQIa8M+82EqlxCjuN2GowqA69jMTszvjOyy5qkOWEMN/s1YootTT8AZkFT7
+         C9Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779506195; x=1780110995;
+        d=1e100.net; s=20251104; t=1779510901; x=1780115701;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=+XL9fQqEWbSHtUTzHJNem08rNzq8qxneQBBCAFW0a4o=;
-        b=CNexC0ophOzHx/6Tkm7hkh/m/aFun5KCSv7PJrICJlBu2pCwuYMaHJ66DYee0slc+v
-         X0zLv6wp4Vb3iNKXnoLe4mKna9J5RghaN4hpfjJE0HnPuyRsK52vlCS+d5zxvEeaH+9d
-         esJVBLB9qQ9zUwoh8r3O7IJJusyS7CtWjSJVEnoWzAwFcOX9OhL0zzl8khRK9QRD45AD
-         iG5oPZhPlr6dCS92r9OUgQNZENCifyBsV49Fu6jALwbpyBmFg2vbSDzyWjeP3AB4agyv
-         M2GdbRknuverrIk4OPk02A7VAusgM8NK0OTiX/1vMN4ofQebqc3I3XD74z3IfsYse9jc
-         zgbQ==
-X-Forwarded-Encrypted: i=1; AFNElJ93HZIEE/GAXb4SQhlWEt4mDqMwSJAtydECkJ+c53S85aocKTrD3S80MDKEh6PRaa06VSLoqIG84TQYOA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywu46ZrsxPfg6k8bLUPa2cTTq6u3YWwZkfTe1t8jQ6OIGjWbpci
-	8JTZzXcb3w6po3d1M3i+bAIowH3YMK36/t09vLOYIibaJpkBj6rg9H4P6SOuypyhSCnLmtjVvN3
-	D7r2ace4leab3E1GyaYGcAjE9USbvZ9M=
-X-Gm-Gg: Acq92OFDcMW0nfZKha4dkQdU7Hp5X12vitxns9maSXCb+BvYbtpxCDuMDmmjw+/MFIR
-	41gGi48F9Niin2w+ya7hUM7IiXy6I0yA0o8QPkjrU7zPCOW25RBSB/Qe73RMPvQyvQhdhSyYxGx
-	XPl4JAiaV8lFg2ABg8S0PM4HNHWYcQzm3TFKbVuCWy9yKB9BqpxMt6hFtfUhwMxLTqTrhH0wZa+
-	/DTdZhDA2Gui2+S8J5jau3xjomxDNzRa9XVS+2PXG0tojFt6XA2TqzZPVwakd+yJarcEChcs2qA
-	nSr149maJ+gi3cq23rdHhlpcJHfPWS0sqRj6QZYSCZ1Ir9f2icLS7+vOrxTRk4SOBfc=
-X-Received: by 2002:a05:6820:4c08:b0:69d:521d:a4fc with SMTP id
- 006d021491bc7-69d7ead810amr3088050eaf.8.1779506195590; Fri, 22 May 2026
- 20:16:35 -0700 (PDT)
+        bh=Vjwen8pW+3nbnlCQULsmeNoF69s54+b6PcjKCfFeltM=;
+        b=pnIPIDBrCdKVUl0EiJSU1q6MobC2up2pI0tYH02IhQjibRKHODPF5+jkjP/eODk42+
+         cQ2Us7ihelLMIYywEYAD1/JQ17QEtNKV3uXiHFpiL2cQikFI0+3H/pShGKWdWkX6VHVo
+         VvGauPRM0uU2NkmUR4kgcWIwAHhBlwn5PNDb0mZjgBpINkrfejk8Vbictifeg3+m/ewS
+         8f4iqKiqjD11SXOFGzYuOhocvK5mQpibgqueaWxt9CaK06riEdLpXYvjC/EtLD1agsFa
+         F4/1vkwrjKNHHCYKnPExwAzFWnTaMAKCwf74is95x6ikPbzK4VA8omZpBiJcf5JXVksk
+         BLCQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/TEqp7NROHlKc2IAhd5xuky+GQuQf8znS+kQPxBVMZq0C31lZ9Jb6TfSMLsUMHSjvnQknn1COC5IfVyA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyVzDhELrnfJ3byS4rJTAK5X+LvHXbiuZnDBbnQVmlabb00LrWU
+	s6M5RF5mlHDeBtlct324JYidebn+Z8FdUadyXeVBl+uSHbm+K69t77z0+vC9ewArLkdjuQvRD/C
+	IRql8MmZnjUiquh3NQ8cbiC3DAtlzC2g=
+X-Gm-Gg: Acq92OHHrgQKg2BtqKFXZ5FAI52gbwXGvfq7JWm3qZGy7vEm+nzb0OOJ+knEfRjQErz
+	gHeIVFw1BLLyXMK/8XarLn+U2m0ETaS70UyUJqW8ZEjaX17Ej/2Ic1hukxtkJwBcxnYA2vCREeg
+	V1O8VCwnOLFXU/6cfIpDKL1BQqDbSJv+IAOaPj8yVzAE5fWSynvyxXxL6emkTPp5020ZnFzelKM
+	OJsi5+yndHXYmsV4WP2IkrbBcqmgR+t8EdgLOiEh6sBtnM1+BO+zSK1eApwTZNpDeQ1vnB02SD/
+	6+/3Zml2Q9eocVN0VvE/Vi6xdfopuS2rbWpw8o1oixyjDRO3PfMsy1pXPDB+mJbeqg==
+X-Received: by 2002:a05:6820:1527:b0:67e:16b4:aa13 with SMTP id
+ 006d021491bc7-69d7ed3ddb2mr3655129eaf.58.1779510900956; Fri, 22 May 2026
+ 21:35:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260518102451.417971-1-paulk@sys-base.io> <20260518102451.417971-15-paulk@sys-base.io>
- <CAMxPZkg9MgZrsM2L0vKzzUOA_tnSLKHdHkzDsfH5_WRqSQgvZg@mail.gmail.com> <ahA61YIGM4Bqipu7@collins>
-In-Reply-To: <ahA61YIGM4Bqipu7@collins>
+References: <20260518102451.417971-1-paulk@sys-base.io> <20260518102451.417971-17-paulk@sys-base.io>
+In-Reply-To: <20260518102451.417971-17-paulk@sys-base.io>
 From: arash golgol <arash.golgol@gmail.com>
-Date: Sat, 23 May 2026 06:45:45 +0330
-X-Gm-Features: AVHnY4ISNoCKi2Ahpn2OwYGMSPucMAJaRMseXVZ6HijrWpM0v0rlwFD_MrYBAdY
-Message-ID: <CAMxPZkj_2h507_3d+5aZe6b5wUrDOpA58y4OcD=D0TTj3FQcog@mail.gmail.com>
-Subject: Re: [PATCH 14/16] media: sun6i-isp: Use V4L2 subdev active state
+Date: Sat, 23 May 2026 08:04:50 +0330
+X-Gm-Features: AVHnY4JvnA7ojDWW97GlknLev-z2MRzqG6cGTuP_DqdsaaWX-ot3wdOD3pLiTkg
+Message-ID: <CAMxPZkgODpNgaFAnaQQNum79VQyt9nV7LpEk6WZqpcqnKgUiGw@mail.gmail.com>
+Subject: Re: [PATCH 16/16] media: sun6i-isp: Add support for frame size enumeration
 To: Paul Kocialkowski <paulk@sys-base.io>
 Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
@@ -102,41 +101,73 @@ Content-Transfer-Encoding: quoted-printable
 
 Hi Paul,
 
-On Fri, May 22, 2026 at 2:45=E2=80=AFPM Paul Kocialkowski <paulk@sys-base.i=
+On Mon, May 18, 2026 at 2:02=E2=80=AFPM Paul Kocialkowski <paulk@sys-base.i=
 o> wrote:
 >
-> Hi Arash,
+> This implements the enum_framesizes operation, which reports support for
+> even sizes.
 >
-> Le Thu 21 May 26, 12:53, arash golgol a =C3=A9crit :
-> > I used LicheePi Zero Dock (V3s) with the following pipeline as test set=
-up.
-> >
-> > ov5647 -> sun6i-mipi-csi2 -> sun6i-csi-bridge -> sun6i-isp-proc ->
-> > sun6i-isp-capture
-> >
-> > I verified TRY and ACTIVE state handling, including changing TRY
-> > formats without affecting ACTIVE state. Format propagation from the
-> > sink (csi) pad to the source pad was also tested.
-> >
-> > I also tested streaming with the sensor test pattern enabled and
-> > verified the captured output was correct.
-> >
-> > Tested-by: Arash Golgol <arash.golgol@gmail.com>
+> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+> ---
+>  .../media/sunxi/sun6i-isp/sun6i_isp_capture.c | 22 +++++++++++++++++++
+>  1 file changed, 22 insertions(+)
 >
-> Thanks a lot for testing this! Did you test just this patch or the other
-> ones (especially sun6i-csi format enumeration) as well?
+> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c b/=
+drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+> index 372b9331bd6d..e638ec32c7cd 100644
+> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+> @@ -452,6 +452,26 @@ static int sun6i_isp_capture_enum_fmt(struct file *f=
+ile, void *priv,
+>         return 0;
+>  }
+>
+> +static int sun6i_isp_capture_enum_framesizes(struct file *file, void *fh=
+,
+> +                                            struct v4l2_frmsizeenum *frm=
+size)
+> +{
+> +       if (frmsize->index)
+> +               return -EINVAL;
+> +
+> +       if (!sun6i_isp_capture_format_find(frmsize->pixel_format))
+> +               return -EINVAL;
+> +
+> +       frmsize->type =3D V4L2_FRMSIZE_TYPE_STEPWISE;
+> +       frmsize->stepwise.min_width =3D SUN6I_ISP_CAPTURE_WIDTH_MIN;
+> +       frmsize->stepwise.max_width =3D SUN6I_ISP_CAPTURE_WIDTH_MAX;
+> +       frmsize->stepwise.min_height =3D SUN6I_ISP_CAPTURE_HEIGHT_MIN;
+> +       frmsize->stepwise.max_height =3D SUN6I_ISP_CAPTURE_HEIGHT_MAX;
+> +       frmsize->stepwise.step_width =3D 2;
+> +       frmsize->stepwise.step_height =3D 2;
+> +
+> +       return 0;
+> +}
+> +
+>  static int sun6i_isp_capture_g_fmt(struct file *file, void *priv,
+>                                    struct v4l2_format *format)
+>  {
+> @@ -522,6 +542,8 @@ static const struct v4l2_ioctl_ops sun6i_isp_capture_=
+ioctl_ops =3D {
+>         .vidioc_s_fmt_vid_cap           =3D sun6i_isp_capture_s_fmt,
+>         .vidioc_try_fmt_vid_cap         =3D sun6i_isp_capture_try_fmt,
+>
+> +       .vidioc_enum_framesizes         =3D sun6i_isp_capture_enum_frames=
+izes,
+> +
+>         .vidioc_enum_input              =3D sun6i_isp_capture_enum_input,
+>         .vidioc_g_input                 =3D sun6i_isp_capture_g_input,
+>         .vidioc_s_input                 =3D sun6i_isp_capture_s_input,
+> --
+> 2.54.0
 >
 
-Happy to help.
-I only tested patch 14 for now, but I plan to test the other patches
-as well when I get some more time, especially the sun6i-csi changes.
+Tested on a LicheePi Zero Dock (V3s) with the ov5647 camera setup.
 
-> Also if you have an opinion on the code itself feel free to drop a
-> Reviewed-by tag, a lot of this work is very similar to what you did for
-> sun6i-csi and other drivers.
->
+The enum_framesizes implementation behaves as expected and reports the
+supported even frame sizes correctly.
 
-From a code perspective, the changes look good to me.
+Tested-by: Arash Golgol <arash.golgol@gmail.com>
 Reviewed-by: Arash Golgol <arash.golgol@gmail.com>
 
 --=20
