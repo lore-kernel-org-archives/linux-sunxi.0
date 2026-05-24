@@ -1,57 +1,56 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C533366065
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 May 2026 07:36:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BFA463B9
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 May 2026 07:41:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779608204; cv=none; b=ghrDlMzTpIf7Umg277E4yXEUx8HAEUle42Hq4dISBysGTb4dOrejcYqb0cO93ISW2L9iW84Dd8Whbz853V/msh8b0IWUi9E1SRb6viF+0gD0tipXU7RNPiA9NsyV1dspsQZn/S889Oz7NTlPPrns2SQzmIo+rqB+QvEXC3Zq7+g=
+	t=1779608477; cv=none; b=nXm4XADrIpmWC4a3AZIg+ePZHrXTYiL+MMZxEZxxvgDZJSVy5dr+UzIfi+KbieRBCNJHIAEDDXcmOTwx2hbbo9YGIi61KZ7BNAaSF1BoZM/9ZmxsgjNwTP9o2GP/zgXQMeIKw8IfdT5p/tewNS5//r2XH6QsUlmBYT+l7xNambo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779608204; c=relaxed/simple;
-	bh=twvAWBRVO/ZJDAg0wUTAKAtiP6Qk//RmMjnsT8rN9kg=;
+	s=arc-20240116; t=1779608477; c=relaxed/simple;
+	bh=o1mgh5byxeBktHfow5RMbguuKAqxaOFPNueVkaVl7yg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UKVuB64TRNjgdcAOpxKyfOnuGpTv0uJSbIxqQt4tN6sFBop5IpkAdHg+xDIt6sxQveTdIiFWFT+rZXMoMcc8u9tLrUxXcK4X9Jo6dER/BKEQ8lm3UrlaSqLrAeiTYhj9wtxgDNsu71R8W+fLZtz9PPIacnaHfaaCkUvMx3hfPYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H9gXRvfF; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=JT61InQjxpiKIpbkEeuQahSknmjHxBCWEL5ARa5NcidPTTv3nDWTwd0n+nYy2FHf5YRvG+gleoE+swN99X4xpg2q+B8ljjdRujwcX/aKP3kNZJqWAthsHi7c9FFuoubg5GbW+XR1Xf6pepr2wJqQofzrZtDyhGO1rjHbMPFvDkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S2o4My5q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H9gXRvfF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3427E1F000E9
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 May 2026 07:36:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S2o4My5q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F3B71F00ADB
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 May 2026 07:41:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779608203;
-	bh=twvAWBRVO/ZJDAg0wUTAKAtiP6Qk//RmMjnsT8rN9kg=;
+	s=k20260515; t=1779608476;
+	bh=o1mgh5byxeBktHfow5RMbguuKAqxaOFPNueVkaVl7yg=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=H9gXRvfF3mxHZdTsJm+unrFd1m69BLLtil4NOpconGGR5ICzieoSxGgTwpLExqHT+
-	 pwahR7Col9y1qPdtkZmicrNMg5k6FOkzOTZs8PvWB5W5Nha0mcoIUIsUh99uEQU6Vv
-	 gSpzYGXOmLOmhOXA71F6WFxi4Iiqc25wFaJQJwZqjp/WGXcZYhOvhpbZer3R5rVhex
-	 2D/pf9cWaV7Dc/qwOTi/Edeab9Cb/Jo8QNxLBFYPJfm9Kk7wMueemQ8pFUd80HlMqi
-	 S00cTVJY4HF6+AtsAgn9mfQBVDo1cmc7fsQVw/xviOJldjo3sFSbc4pJ9F+FcNzrQ5
-	 KQAjCcCu4x5gw==
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-38e7d983f91so79608451fa.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 24 May 2026 00:36:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9WY9cVv7RTYg9eRS455j4zt8d63TVT/MzYnLwK1+wlmoFMe9cnBXCgIii6m5PPNLruvPcuWeilx422yQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxVoGmheHVU8ijmc/lCctQMYituAZq2ZoFCAAHDqpLw3u6i5zqD
-	iPucLx/D+n+JxuxS2novwvsqwFOHGRwlUmvcocGDzU7y58XmNSFiE++QwWl60mw20Xqr/742m9T
-	c/g7oHlWK/jcE9V5A7jYFw5D90KysK0A=
-X-Received: by 2002:a05:651c:1601:b0:38e:2fcc:78fe with SMTP id
- 38308e7fff4ca-395d8bbc2famr38101571fa.3.1779608201708; Sun, 24 May 2026
- 00:36:41 -0700 (PDT)
+	b=S2o4My5qrAsrq/M4O9F8WsxkPAUsd90A+GELJX/NtTw8nHicTFfjptpm6/luY/DUh
+	 5zMbVizlPjt+CwTwcmec6d+i+52s6odAa/wI20SwzB8pZCy6xtfUM5CwpdP6WPkkIG
+	 Aq74sGB033QRAyKt7t+BXcdGX21eR45nfkHBsQag6jzIAF0G/yfHhK9V2N+sy4Rh+S
+	 6ws63SuynDPibTniRhftXEwJ79+4KlBgQw9VheonekdIgEZ4boBsM4v0wk1qOnqivh
+	 MJcAMVv02fbqh7SnIF69GzrxtgUBmDmIZVDOn+mIgbHcRHrlLWluzjiljtficwrr+i
+	 jlHuOt7CE4sqA==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-393800f638bso63815261fa.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 24 May 2026 00:41:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/++hlTjelzMDkNQHUXZQM5AzRshHfchEU9lkHoBVzlWKZBqMhGG9/CBhOKExKo56d/2XI356KugV7f+w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxp+sunFRuzcm/rXUYXrC8DkwY9GDvF/kCUw4tS5QQh2ZHVV7iP
+	AA0Rb5VddUwSd7vpwsChr/Pqh0sxsyKQytPgnon1o5XJdrBIX763gItzziugGbm2vw2qNSmpF66
+	s5SMsoan5fxr0rbEN0sYZ6njJVt/poZI=
+X-Received: by 2002:a2e:bc09:0:b0:38f:ec8f:8d53 with SMTP id
+ 38308e7fff4ca-395d8d7833fmr30102921fa.21.1779608474700; Sun, 24 May 2026
+ 00:41:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260522095401.72915-1-phucduc.bui@gmail.com> <20260522095401.72915-3-phucduc.bui@gmail.com>
- <CAGb2v67UmMmM7bQOSf3VxsN9D8s3N8nMMX079_kiMcPU=VszFg@mail.gmail.com> <CAABR9nEB8jizn+NrVgrjcOOJRtaU0u+TH705unMTh7HYO=8Wcg@mail.gmail.com>
-In-Reply-To: <CAABR9nEB8jizn+NrVgrjcOOJRtaU0u+TH705unMTh7HYO=8Wcg@mail.gmail.com>
+References: <20260522095401.72915-1-phucduc.bui@gmail.com> <20260522095401.72915-4-phucduc.bui@gmail.com>
+ <CAGb2v67aXgg8BmrtVVBi+_n32OBcQnQgEUe3XdRp6Jj=aEr8fg@mail.gmail.com> <CAABR9nEFGOX5GnQ9qpJY-T-92dA_kDcVS+qBz1ior590G_x6gw@mail.gmail.com>
+In-Reply-To: <CAABR9nEFGOX5GnQ9qpJY-T-92dA_kDcVS+qBz1ior590G_x6gw@mail.gmail.com>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 24 May 2026 10:36:29 +0300
-X-Gmail-Original-Message-ID: <CAGb2v65zK7iOce_UZ+_F=dWtKYFGZj-K4k45MewvDbhivXPH2A@mail.gmail.com>
-X-Gm-Features: AVHnY4KVGfaT4jHK_tEOETRqcTR3jPqtFPaTGTB9dpESZ_u5nKVSnneDOYxlkpk
-Message-ID: <CAGb2v65zK7iOce_UZ+_F=dWtKYFGZj-K4k45MewvDbhivXPH2A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] ASoC: sunxi: sun4i-spdif: Resume device before
- kcontrol register access
+Date: Sun, 24 May 2026 10:41:01 +0300
+X-Gmail-Original-Message-ID: <CAGb2v66accoNhStHGhnoUM0cw3fyCxfuvS1a-brL9C-ZO07ChQ@mail.gmail.com>
+X-Gm-Features: AVHnY4I_qF0YId4u6NuVsYJHQDK9GEC3lFnFgzQna0lbyP_3FUtJ1aNKvqsjn0A
+Message-ID: <CAGb2v66accoNhStHGhnoUM0cw3fyCxfuvS1a-brL9C-ZO07ChQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] ASoC: sunxi: sun4i-spdif: Reorder clock enable sequence
 To: Bui Duc Phuc <phucduc.bui@gmail.com>
 Cc: broonie@kernel.org, codekipper@gmail.com, jernej.skrabec@gmail.com, 
 	lgirdwood@gmail.com, linux-arm-kernel@lists.infradead.org, 
@@ -61,55 +60,62 @@ Cc: broonie@kernel.org, codekipper@gmail.com, jernej.skrabec@gmail.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 23, 2026 at 4:55=E2=80=AFPM Bui Duc Phuc <phucduc.bui@gmail.com=
+On Sat, May 23, 2026 at 3:11=E2=80=AFPM Bui Duc Phuc <phucduc.bui@gmail.com=
 > wrote:
 >
-> Hi Chen-Yu,
+> Hi Chen-yu,
 >
-> On Sat, May 23, 2026 at 2:19=E2=80=AFAM Chen-Yu Tsai <wens@kernel.org> wr=
+> Thanks for your feedback
+>
+> On Sat, May 23, 2026 at 2:20=E2=80=AFAM Chen-Yu Tsai <wens@kernel.org> wr=
 ote:
-> > And when you do add patches due to Sashiko raising an issue, please
-> > do mention it in the commit message.
+> > > Enable the APB bus clock before the SPDIF module clock
+> > > during runtime resume, as register accesses depend on the
+> > > bus clock being enabled first.
+> >
+> > That does not even matter here. Access will only happen once the runtim=
+e
+> > PM callbacks return.
 > >
 >
-> As mentioned in the v1 discussion , this issue was originally reported
-> by Sashiko.
-> I'll add the Reported-by tag in the next revision.
-> v1 links:
-> https://lore.kernel.org/all/20260513105003.81880-1-phucduc.bui@gmail.com/
+> I understand your point that =E2=81=A0sun4i-spdif=E2=81=A0 doesn't immedi=
+ately access
+> registers within the current =E2=81=A0runtime_resume=E2=81=A0 path, so th=
+e order might
+> not trigger a failure right now.
 >
-> > Did you actually reproduce the issue, or did you add the patch simply
-> > because Sashiko mentioned it?
-> >
-> Since I lack Sunxi hardware, I couldn't reproduce it or perform runtime t=
-esting.
-> But I did compile-test the patch.
-> The patch aims to fix unsafe register accesses that occur before ensuring=
- the
-> device is runtime-resumed.
-
-When you submit a patch, it is expected that you already tested it.
-If you only compile tested it, please remember to say so in the
-footer (or mark the patch as RFT) so that others can test for you
-and the maintainer knows the status.
-
-And if possible, provide a scheme to test it.
-
-> > On sunxi, either it will hang the system because the bus transaction
-> > got ignored, or it won't as something else enabled the clock.
-> >
+> However, if we look at the peer driver for the same Sunxi SoC family,
+> =E2=81=A0sun4i-i2s.c=E2=81=A0:
+> Links:
+> https://elixir.bootlin.com/linux/v7.0-rc5/source/sound/soc/sunxi/sun4i-i2=
+s.c#L1296
+> In =E2=81=A0sun4i_i2s_runtime_resume()=E2=81=A0, the sequence is strictly=
+ enforced as:
 >
-> If Sunxi's PM design already guarantees safe access here,
-> feel free to reject the patch.
+> 1. Enable bus clock
+> 2. Access and restore/sync I2S registers
+> 3. Enable module clock
+>
+> Since both IP blocks belong to the same Sunxi platform and share similar
+> bus/module clock relationships, shouldn't we maintain architectural
+> consistency across these drivers?
+>
+> Enforcing the "bus clock before module clock" order keeps the dependency
+> ordering aligned with the actual hardware roles, where the bus clock is
+> required for register access while the module clock drives the functional
+> audio path.
+>
+> Wouldn't keeping this order also make the runtime PM behavior more
+> consistent and easier to follow across the Sunxi audio drivers?
 
-I can't say that it does. But since the only control that SPDIF gives
-is the IEC958 status, and that doesn't appear in the standard mixer apps,
-it's unlikely that a _user_ will trigger it. Plus the control was added
-after the basic structure of the driver was done, so there is definitely
-some possibility of a crash.
+This should be your primary motivation for the patch, i.e. what you
+put in the commit message as the reason for this patch. What you
+currently have doesn't make sense, as I already mentioned.
 
-But what you wrote in the commit message doesn't match the actual hardware
-behavior, like I wrote.
+Some background though, sunxi is done mostly by volunteers, so we're
+not overly concerned with rigidness or aligning different drivers,
+unless they share a common library, such as all the clk or pinctrl
+drivers.
 
 
 ChenYu
