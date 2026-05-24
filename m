@@ -1,153 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4214B324B2C
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 May 2026 20:46:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7353438B5;
+	Sun, 24 May 2026 21:04:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779655580; cv=none; b=JChnW+fZhWrsr7q+qsVFOn2CLuOKKehXuZXBDR1jifoTFku2doPA7nFkCnyvB4VpZ6/OCYwdfPKrrzHDmAp8WsWuyPl/kcYmcfUUrsa3iB8t4D0nCJnjYl6y0pT3UltQrDO2QJWvy9l0hAXa/rmTQMJ4M1cpyas6n0WJHN4oPAY=
+	t=1779656657; cv=none; b=OiPbexdQIS++i1NsAv7GWELTh7c+iWeGZsCgE4kcBpSLcf6rOT0sRcXbfAXYnI24CPIDY0tfp+dOKaWWYNc9PybPc9efYlUYTRevg9P/xvsZPv8G74DnQ1TcpsLqddOgdlXEDwJXrdgUb4rQbLazgwKvF+2FMCIJyugxNytUisU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779655580; c=relaxed/simple;
-	bh=z916saKk+Bibhk8li2KvcNhAv1Ate3JvIJh3qFvDy4o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KWEBMB9AStwbYySXie7DUQ24VxQREao1RkT1FPmo/PFr8wXRPIeXqW3ZO1Z++HI0gVbMN/PiG0q4hKdjRRwxzdXmvATvJYfMa7hG33uX0HkC63dNpWVQ2nVbZq3jVZBC/94YMGPcUDR1KhS/oJLDGTvLYECt12tfVai0F4Kk0I4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jmp3uHrJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779656657; c=relaxed/simple;
+	bh=HvSm/K85iZomHNPHfHkOgB0b4+Qd2VST8q2O/sL1E7A=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=tBa7FrP3qBpdDtAfZc4ZpZAy1UGjTJvYzOwBcCkoPFi1TXtzP5TKEgYiKjsBK1GC11HFRiACRcSHCZfOib8h79FoIWUXb85kemF4BrAa7dF+oyCwPVDwehPNOZQnDaCRUqnFu0feij9o8thO6igZyodigFIKFUvQNKhZiJhV1Sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=amvIA7xB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jmp3uHrJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19D0F1F00A3F
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 May 2026 20:46:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="amvIA7xB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C463D1F000E9;
+	Sun, 24 May 2026 21:04:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779655578;
-	bh=XdF14EN2gaQGUPUIlCL2/+2xdkR1iD92W761e0Tt4JU=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=Jmp3uHrJalMuK97geIL59g/5n7B65j4S+VeBKj4DmDnWAQAOqouhdvFbo252rKe1N
-	 EUpcyyD86pld7FFWuHYj2qi8ttslywQ2YFv76xk/LlUttVGuoD9e4xgAb2hVLHFodp
-	 u6Q1IXTDm6SolrO1KWjZicEZWW5RynXVu/f7bW8JdKQU1niaxHUcErr+5GtJ0J//7M
-	 tS3zfKpjQBSUnWPA00aobrjTTMyxvZ/TVTOv9zHAI180OLjHC+Dvj5SdsgPFJNu5mY
-	 JaZH7oDTDHlAfcxE3VboyLjNP0h0O1pur4E3J7GfrvSc94tGzLkq5ydvaUoftCMZrX
-	 zBlUfe1hiS8dg==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-39397d63804so38780941fa.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 24 May 2026 13:46:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8GX/3Z/3Nzj/lroWzGUHhSv+ZZRSQHd2hYQgZXpyt8WJ0fdfYadU/dG57VTmsY6dMJklRw7riQtcfkwQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxuuN3lT3qVSzdKg6Uu7ZsFTSlUe4z/EFPnxR8EPwQDXKw/O/oQ
-	xBVmYXykHNv1x31+RRHQvlD9h/hMRwRF7VS7Zg1hnP5a9gV92zzAJJOj1GMQ6hJFoymcnDHG6Bo
-	GxovR2XICV2QY/1ezi7tMIKaS62ehiMI=
-X-Received: by 2002:a05:651c:222c:b0:394:942:9bb6 with SMTP id
- 38308e7fff4ca-395d8c129fbmr37366311fa.6.1779655576527; Sun, 24 May 2026
- 13:46:16 -0700 (PDT)
+	s=k20260515; t=1779656655;
+	bh=4Jo/vbPByOEa/DPjlGN3cnyIvKkPU6P7russhnbY7K8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=amvIA7xB2VEXc9wVdXYXtZoGXXAu1O2/4qbr3ZDz5XtTea7HAQgaWPeBvyIJjxa8s
+	 YEuPoezesW64Za2ZwISj66+GaRvWpRXvdeGtFmF54zYzBJy1KK0FeCCHjBDzBBBGsu
+	 2u+c9mOd9q+q4FiLGF404nQ0or5xSFYlR2cveLfthQqimDeQWROTBJwsL26V1S/Hbi
+	 d09By8DToFYTgcPq2U7AYzOMEUgGNvH7csIjvKbg236z2FvzO/G5CiiJnw2ZtQw33f
+	 OXMNrNviyyqMGvHq9Iq5h/LnQC/l7h6yxl0mejmZqKZQ2+/b9H6Y9EVQtnFi/GcGiY
+	 bp0vjK4NWnFqw==
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Jonathan Cameron <jic23@kernel.org>, 
+ David Lechner <dlechner@baylibre.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Maksim Kiselev <bigunclemax@gmail.com>, 
+ Michal Piekos <michal.piekos@mmpsystems.pl>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
+In-Reply-To: <20260516-sunxi-a523-gpadc-v3-0-a3a04cff2620@mmpsystems.pl>
+References: <20260516-sunxi-a523-gpadc-v3-0-a3a04cff2620@mmpsystems.pl>
+Subject: Re: (subset) [PATCH v3 0/3] Add GPADC support for A523
+Message-Id: <177965665249.167937.6469450269441634899.b4-ty@kernel.org>
+Date: Mon, 25 May 2026 05:04:12 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260505134812.408316-1-wens@kernel.org> <20260505134812.408316-6-wens@kernel.org>
- <afpUiupOgPhLksM8@shepard>
-In-Reply-To: <afpUiupOgPhLksM8@shepard>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 24 May 2026 23:46:04 +0300
-X-Gmail-Original-Message-ID: <CAGb2v64Ln=2RnOf_WKHJTGphofe-+iUddenu7H4FNFx03tJoOw@mail.gmail.com>
-X-Gm-Features: AVHnY4LzB_OhmZqGSHcQSdeKCJP6XONAvy9GHgQqfzYfXCQHIhPSMFyqiHhyTFc
-Message-ID: <CAGb2v64Ln=2RnOf_WKHJTGphofe-+iUddenu7H4FNFx03tJoOw@mail.gmail.com>
-Subject: Re: [PATCH 5/7] arm64: dts: allwinner: sun50i-h6: Add missing SRAM
- region for video engine
-To: Paul Kocialkowski <paulk@sys-base.io>
-Cc: Maxime Ripard <mripard@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, devicetree@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Tue, May 5, 2026 at 10:35=E2=80=AFPM Paul Kocialkowski <paulk@sys-base.i=
-o> wrote:
->
-> Hi Chen-Yu,
->
-> On Tue 05 May 26, 21:48, Chen-Yu Tsai wrote:
-> > The SRAM C region contains a partial alias to the VE SRAM already
-> > referenced by the video engine. To avoid access through this alias
-> > window, the region should also be claimed by the video engine.
-> >
-> > Add a reference to the SRAM C region to the video engine node.
->
-> It feels very weird to have a reference to the DE2 SRAM region in the
-> VE node. It seems unlikely that the same region would be used by both DE2=
- and
-> VE and I am pretty sure can have both running at the same time without
-> overstepping.
->
-> From what I can see we have so far assumed that the SRAM C and SRAM C1
-> are two different physical SRAM areas, but this is most likely not the ca=
-se.
-> My guess would be that SRAM C1 is actually a part of SRAM C and the DE2 i=
-s
+On Sat, 16 May 2026 07:34:13 +0200, Michal Piekos wrote:
+> Add support for Allwinner A523 GPADC in sun20i gpadc driver and describe
+> corresponding node in dts for A523 SoC.
+> 
+> A523 uses same model as existing driver except it has two clocks.
+> 
+> Added support to enable more than one clock in the driver, extended the
+> binding with new compatible and wired up dts node for A523 as its own
+> fallback compatible.
+> 
+> [...]
 
-No. It's the opposite. 0x28000 maps to the same SRAM block at 0x1a00000.
-If you write to one, you see the results in both. However the alias at
-028000 can be disabled while retaining access to 0x1a00000. I don't
-remember how much of the alias points to VE SRAM (0x1a00000). Maybe it
-was the whole alias on the H6.
+Applied to sunxi/dt-for-7.2 in sunxi, thanks!
 
-Also, I can't remember if this was tested on the H6 or H616, but the
-VE indeed writes to VE SRAM (0x1a00000), so that part is indeed used
-by the video engine.
+[3/3] arm64: dts: allwinner: a523: add gpadc node
+      https://git.kernel.org/sunxi/linux/c/44cf19e41c76
 
-> using another part of it. The syscon block probably allows switching acce=
-ss
-> to these different parts of SRAM C.
+Best regards,
+-- 
+Chen-Yu Tsai <wens@kernel.org>
 
-From what I've seen in the vendor BSP, both drivers toggle the switch.
-I believe the goal is to prevent the CPU from having access, rather than
-either peripheral claiming it as its own. And that is also what our SRAM
-driver does. It claims the SRAM from the CPU. That's all. The toggle bit
-pattern used by both drivers is the same.
-
-> Also the sram_c1 node implies it's 2 MiB, which sounds quite unlikely.
-
-That is what the memory map says. Calling it SRAM C1 is probably wrong.
-
-
-ChenYu
-
-> All the best,
->
-> Paul
->
-> >
-> > Fixes: b542570e5605 ("arm64: dts: allwinner: h6: Add Video Engine node"=
-)
-> > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
-> > ---
-> >  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/=
-boot/dts/allwinner/sun50i-h6.dtsi
-> > index 72ce1a75647b..88c6e3e105c0 100644
-> > --- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> > @@ -205,7 +205,7 @@ video-codec@1c0e000 {
-> >                       clock-names =3D "ahb", "mod", "ram";
-> >                       resets =3D <&ccu RST_BUS_VE>;
-> >                       interrupts =3D <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>;
-> > -                     allwinner,sram =3D <&ve_sram 1>;
-> > +                     allwinner,sram =3D <&ve_sram 1>, <&de2_sram 1>;
-> >                       iommus =3D <&iommu 3>;
-> >               };
-> >
-> > --
-> > 2.47.3
-> >
->
-> --
-> Paul Kocialkowski,
->
-> Independent contractor - sys-base - https://www.sys-base.io/
-> Free software developer - https://www.paulk.fr/
->
-> Expert in multimedia, graphics and embedded hardware support with Linux.
