@@ -1,175 +1,130 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE3938F923
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 May 2026 12:41:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779626516; cv=pass; b=uebKgrIU664MBPgarzo/I6vpnSIiIeFiVoCmWgpGf95JGd0XJmfvukWldpIk0gy04wgp13onrSlcmN5c/183NIQfrmCwZIx8VgnUBc8Kv3tnXeUXa6QOyC0nCZH6n0/d10uYswcdrf6zGiK33gAgDYuB5jGbPMF9biL+mw3DNQ8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779626516; c=relaxed/simple;
-	bh=iQixGRhxQ2lYAvO6Xt4gzUgMA1dwIbosfsR1NWo0s5w=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=GMAzWZSyVOcuIr7+YiJ1VuYySmXnFkBsvwmyMnOCM3U0T+sdaY7/YTrGPGVXOJvHeZ2W9+8RWuNySEbGbPfAgBspkKymeeejBQPt1/D+09Scc7KbByTHx9nDeIxFxIxVZ+8cTKWaiVMutLee5timcMHvK4KaCW6LIovbsuI/2Co=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Op4EDzQn; arc=pass smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2590B14B950
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 May 2026 17:19:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779643185; cv=none; b=OpXdDZds21Va+C6Y5+h5EwFQxSVg7dmI5aiJkgYHcY5hXaXtzT16HCPie4rzf4F7vCmUVzlBjUkqGH3mP0lJwlqU3vth9pkXZ94A1+tcoj7PBfgqO0dqV70AXTjuxXOrn0M95TmTERP+CYnn2+XhtLdCA21oHrgGBdZJHlDO/Gk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779643185; c=relaxed/simple;
+	bh=lYCSAGUVAND5q4EW5d8RK9mDufKJduBk3n//pVkW2M0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BuU4KqS5Re+dPV3A4sp8cKDbKkzy6VXwOWjMpOplLXrtGgoPEhVO8RV0N0ESy4f0ilaCUljOCAjAKrYaOC6+5LuN3ORr2owZWPj/7PdwpOCBhOsbprpIdj2ty+P4f6agBPnyoHlDs4Tvz78+aWC9cAVqT/v/G4bmGueUcydyGHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KAew3OSB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Op4EDzQn"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-38e8292423fso59681011fa.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 24 May 2026 05:41:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779626513; cv=none;
-        d=google.com; s=arc-20240605;
-        b=hWv0Qnk+IGTXcpq+pAZLCoc9T4LZmz1EonRgFnggsU5GrNpCSGrXu3aVouPEXjGRPF
-         ip5XnE5oQ2fo032eMIAvXT2L1Gg0TMsWqf5FcwbnW/HCd7zK86ki34gfy0JqgrPjG4Sc
-         i4T8xwT7cvB48VsGTqfTc01RqPSazJ+rpJjmRjjQgiExcp18qKCI6xG0aTQIxJVMNsT7
-         EXs0y7OTc7hW5PCNCjWSaid+gg43CbOsifJqXKF7m2m4cckhRgNHRzd5Oo9OvHuBSH30
-         Jsp91TC4mptXawkihAl057PXwT61a9+mLK8L0UwH58Y7tnhSrSFpmarm92IPUeQ1i7au
-         P97Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=4/98YHBiUvLfMPS6LITOOPMQcJ+H5TqK7sLdZGcIrM4=;
-        fh=Y0o1NbbN1JJ02YpahlGntmlg/TNlKmqFRwv9i9rtSqw=;
-        b=ktDGIMT+ncuzkTWmt/bMeYr3eqeAGiSXVfDvB+ugpJbQCgzHdZ2in/X+Ag4kexIvQI
-         mC95KRBJm1zuAJ8X17bKUAnV0tjyUxi/s2e3lRvQFmUTHjf+PDjBgoai5Ho/snwGlyyt
-         KcC3Exko75Qi9Mb6MS+PJSYwVqO4pIT66Olggna2pY9gwWr7BHk5vhAPmlXsh/0evSeO
-         2sIErvSu7bBMy21FWNGmeEGSF+OIiGaLD59dmMIrZQkNZBlzDDQ4pIr0qzJEDRhyb2FA
-         Tk30TQw0tifnjrHlPS52HJ4hnzFe2If7xTvrNbIhTR6kJhWKNpYLus4aWDUj2V5sdgCY
-         gBtA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779626513; x=1780231313; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=4/98YHBiUvLfMPS6LITOOPMQcJ+H5TqK7sLdZGcIrM4=;
-        b=Op4EDzQnv2vYnbvfZN4IirS66TNUqhWRpth4gc+2b1S7Imkt6DNyc0yW8T3uH4bN02
-         Iys3QZPq9b/CraK0x2oM76LFixU7uy/dc+1yuO31OkiC5OnTfFlg7ckQ0Xs3X10tfUa+
-         F7iO5mpNv9N9Tdhy2/aoewiosvTtg5Ka0IWA1E20IrAxSoDR+YZafXRUTTcGmmF2h3oV
-         HxZ9dJRJTe4/Xj3IE8CClOzT/xobIVZX4wa217M1/2+iLuXEhQ2lMGTEj6KGRnKrLhEp
-         +o3Fvuy5KYV7f5CemxBzXAdwnXzXgQMF/cSg8xBAgBdOe/GjwK9nklMCev16ZLClKsAV
-         PGxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779626513; x=1780231313;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4/98YHBiUvLfMPS6LITOOPMQcJ+H5TqK7sLdZGcIrM4=;
-        b=HacJ7I4IE8ovnsGB0jYurWH2kfeHtyMjFeTrucg+rntxfv/HuMf21dLoXTxp5rTluj
-         bwNr31MLs0xkBVsjNSNQYAq2H/Rp/Nbg0cs0ppzA/EMSH3eGFn4CfVThy5tNC8N6fb2/
-         rjEBvq2Y15O7L0JkItFRbQnm5n1N6wOPjWFBLt+PccODKh+Q9p8MpWhYJjMQ+KMojUQi
-         /9sPNgNfOM29v+8Icqjf3fA8GipXmJvfG0Af8Hr41sukCIGZ0bVAGUqvOhZG5YyZma6X
-         wVSdd1VdRrwncw50R4Veu8KvJfsNvqcW4rwpQfZA1LVQGaEANlsBizHlrwcUz/xGFVrt
-         IpDw==
-X-Forwarded-Encrypted: i=1; AFNElJ+kr6RmHWNi3TU/3FLg6nNmTOBkDOgTaQ40UtA9pBVjyXnBUo5v7bm+ixrXR73DCmkW8tuMT7vQNa+JLg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwaQYvo7u10ErIpEiith0MZP12jWvayoW1v0wpBxsmpr4MRsMLR
-	lgfGbLwPlyG7ae63HhrqJPrBV7IPFODFtigQbIchWuZYhqkpvbhuBG1U2JW3SjqIN2HApIXK1Cn
-	3AHYf7zRJ5YD1rlBA9hxfYLG5Vok/Rfk=
-X-Gm-Gg: Acq92OGz8gdvS0CyoMzekaIUDnD0x1bV+ue86LjYUiwjUvtfOfWEKjT64EUi/51erK7
-	u/zqEfSy4U2xCL62KTbghTU6nVV5BeJTBhcF27UKya96GnvhyioXqxZgwd6vcRv0C5GsQJzL3dd
-	dSf6ElfTdenysMs6pnrRPX48UsL4HjyTIgQddZPtHukSvVpHJkZlqrKfq4Yfzj94vnuleY4X61+
-	s21aJuvt2fKJvHg58+1H2AoiJgmu+4YCdZUJQH6TwAkRVZk/w5tfnTY3xHJ5NeX2g0ml1sDBr7l
-	mE7QOydh4nUhLy1oTM/9niLBos0qSyc/E7qoOioWmfK2WY4i8XHeThugL0HiienmftOjtY25At6
-	RWxQWsO8=
-X-Received: by 2002:a2e:a405:0:b0:394:7f1:511a with SMTP id
- 38308e7fff4ca-395d8d4d60dmr28080731fa.28.1779626512722; Sun, 24 May 2026
- 05:41:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KAew3OSB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF2D71F00A3F
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 May 2026 17:19:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779643184;
+	bh=lYCSAGUVAND5q4EW5d8RK9mDufKJduBk3n//pVkW2M0=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=KAew3OSBk9HlQAR8yqug08zrq8XdHNANQP0KGjkSMQ/Vmxc6iTp3uSHVujyRw08De
+	 teaUqN4Lvu829+1gWsFDAGMW9kPcgsMCz0iI+RbVAZup+E0HxG0vA0gCnd1kddPTJM
+	 qeUTDw59CjhRrDLhn2+w8srq7oh2O7hLmn40notzrROLB+UNheQf4/niUX7S/NlJ0J
+	 MGZliOzAWnHGjEUp19XXcVSHlugpcVY3koT5arTPRQfyEu9/DQp4b/r4wNa34A4coV
+	 gKXqYnC3EWsfIgH7TlQ8fspObREFRVS0PUC2UWlYO6Ui/vFONYYMqTukPfrAWQ7+ly
+	 2AtDsuuDx7Dmw==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5aa21fa024cso6484653e87.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 24 May 2026 10:19:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/ziCz3VMLrw0PINuVpiBmdJ3TTJDdXDXaN798tti6Qt4BWy9JFsKcTaDozexlrUvZho8kN6a+VPgrDyg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YziRWZiYQbQaIMZTnjM+8AEHX7GdlIAu9nMIU38CkKVVvOU8lh7
+	2eEiJN2z2DzjneJv9aDtV6AylesSEW4wkilkCw1sCBykz+JmjHJGSS1XcdQgffbZjua33+hiaW5
+	2id9YszAwvatDAJTev3sStsuAfei/OSw=
+X-Received: by 2002:a2e:87ca:0:b0:38e:2aa7:3984 with SMTP id
+ 38308e7fff4ca-395d8c2f009mr26627641fa.11.1779643182406; Sun, 24 May 2026
+ 10:19:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Fabio Estevam <festevam@gmail.com>
-Date: Sun, 24 May 2026 09:41:41 -0300
-X-Gm-Features: AVHnY4KLbYRixLzEMmqDuxQ1pHKPDhIZVJe7LuADkhGnCjemCJcPUjosdec64FA
-Message-ID: <CAOMZO5AHK2FF1_wws3wQsJs5ofvjn2JpQmk3of+p1+ExL8h+ew@mail.gmail.com>
-Subject: sunxi: Watchdog reboot fails on Allwinner R40 after Linux boot
-To: Guenter Roeck <linux@roeck-us.net>, wens@kernel.org, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Andre Przywara <andre.przywara@arm.com>
-Cc: "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
-	linux-watchdog@vger.kernel.org, Otavio Salvador <otavio@ossystems.com.br>
+References: <20260522095401.72915-1-phucduc.bui@gmail.com> <20260522095401.72915-4-phucduc.bui@gmail.com>
+ <CAGb2v67aXgg8BmrtVVBi+_n32OBcQnQgEUe3XdRp6Jj=aEr8fg@mail.gmail.com>
+ <CAABR9nEFGOX5GnQ9qpJY-T-92dA_kDcVS+qBz1ior590G_x6gw@mail.gmail.com> <CAGb2v66accoNhStHGhnoUM0cw3fyCxfuvS1a-brL9C-ZO07ChQ@mail.gmail.com>
+In-Reply-To: <CAGb2v66accoNhStHGhnoUM0cw3fyCxfuvS1a-brL9C-ZO07ChQ@mail.gmail.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Sun, 24 May 2026 20:19:28 +0300
+X-Gmail-Original-Message-ID: <CAGb2v644whCr6pRSfGMuQ=5afUMbfC2Y3W_kjdMdp9+5+kJhJA@mail.gmail.com>
+X-Gm-Features: AVHnY4JQEqR1NRvaAlulfLfl6JFdwlybp-Zu9dQL9cGHE5MXYGpl6ZK4AUWGpHI
+Message-ID: <CAGb2v644whCr6pRSfGMuQ=5afUMbfC2Y3W_kjdMdp9+5+kJhJA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] ASoC: sunxi: sun4i-spdif: Reorder clock enable sequence
+To: Bui Duc Phuc <phucduc.bui@gmail.com>
+Cc: broonie@kernel.org, codekipper@gmail.com, jernej.skrabec@gmail.com, 
+	lgirdwood@gmail.com, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, nichen@iscas.ac.cn, perex@perex.cz, 
+	samuel@sholland.org, tiwai@suse.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Sun, May 24, 2026 at 9:41=E2=80=AFAM Chen-Yu Tsai <wens@kernel.org> wrot=
+e:
+>
+> On Sat, May 23, 2026 at 3:11=E2=80=AFPM Bui Duc Phuc <phucduc.bui@gmail.c=
+om> wrote:
+> >
+> > Hi Chen-yu,
+> >
+> > Thanks for your feedback
+> >
+> > On Sat, May 23, 2026 at 2:20=E2=80=AFAM Chen-Yu Tsai <wens@kernel.org> =
+wrote:
+> > > > Enable the APB bus clock before the SPDIF module clock
+> > > > during runtime resume, as register accesses depend on the
+> > > > bus clock being enabled first.
+> > >
+> > > That does not even matter here. Access will only happen once the runt=
+ime
+> > > PM callbacks return.
+> > >
+> >
+> > I understand your point that =E2=81=A0sun4i-spdif=E2=81=A0 doesn't imme=
+diately access
+> > registers within the current =E2=81=A0runtime_resume=E2=81=A0 path, so =
+the order might
+> > not trigger a failure right now.
+> >
+> > However, if we look at the peer driver for the same Sunxi SoC family,
+> > =E2=81=A0sun4i-i2s.c=E2=81=A0:
+> > Links:
+> > https://elixir.bootlin.com/linux/v7.0-rc5/source/sound/soc/sunxi/sun4i-=
+i2s.c#L1296
+> > In =E2=81=A0sun4i_i2s_runtime_resume()=E2=81=A0, the sequence is strict=
+ly enforced as:
+> >
+> > 1. Enable bus clock
+> > 2. Access and restore/sync I2S registers
+> > 3. Enable module clock
+> >
+> > Since both IP blocks belong to the same Sunxi platform and share simila=
+r
+> > bus/module clock relationships, shouldn't we maintain architectural
+> > consistency across these drivers?
+> >
+> > Enforcing the "bus clock before module clock" order keeps the dependenc=
+y
+> > ordering aligned with the actual hardware roles, where the bus clock is
+> > required for register access while the module clock drives the function=
+al
+> > audio path.
+> >
+> > Wouldn't keeping this order also make the runtime PM behavior more
+> > consistent and easier to follow across the Sunxi audio drivers?
+>
+> This should be your primary motivation for the patch, i.e. what you
+> put in the commit message as the reason for this patch. What you
+> currently have doesn't make sense, as I already mentioned.
+>
+> Some background though, sunxi is done mostly by volunteers, so we're
+> not overly concerned with rigidness or aligning different drivers,
+> unless they share a common library, such as all the clk or pinctrl
+> drivers.
 
-I am seeing a reboot failure on an Allwinner R40-based board
-(Boardcon EMA40i) running mainline Linux v6.18 or also 7.1.0-rc4-next-20260522.
-This board hasn't been upstreamed yet, but I plan to do so soon.
+Oh, and you could also add that the resume order should (normally) be
+the reverse of the suspend order.
 
-The board reboots correctly from U-Boot 2026.04 using the sunxi watchdog,
-but Linux fails to reboot even when programming the watchdog
-registers with the exact same values used by U-Boot.
-
-The board hangs with:
-
-[ 10.736509] reboot: Restarting system
-
-The watchdog node is:
-
-    wdt: watchdog@1c20c90 {
-            compatible = "allwinner,sun4i-a10-wdt";
-            reg = <0x01c20c90 0x10>;
-            interrupts = <GIC_SPI 24 IRQ_TYPE_LEVEL_HIGH>;
-            clocks = <&osc24M>;
-    };
-
-The hardware watchdog appears correctly:
-
-[ 0.178494] sunxi-wdt 1c20c90.watchdog: Watchdog enabled (timeout=16
-sec, nowayout=0)
-
-I instrumented U-Boot and confirmed reboot goes through
-drivers/watchdog/sunxi_wdt.c().
-
-The final register state before a successful reboot in U-Boot is:
-
-ctrl = 0x00000001
-cfg = 0x00000003
-mode = 0x00000003
-
-and the board immediately resets.
-
-However, under Linux, even direct MMIO writes do not reboot
-the board:
-
-devmem 0x01c20c94 32 0x00000003
-devmem 0x01c20c90 32 0x00000001
-
-No reset occurs.
-
-I also tested:
-
-- clk_ignore_unused
-- removing the watchdog DT node entirely
-- nosmp
-- maxcpus=1
-- psci=off
-
-No change.
-
-I compared:
-
-- Watchdog registers
-- CCU registers
-- PRCM/RTC regions
-- AXP22x PMIC registers
-
-between U-Boot and Linux, and did not find an obvious difference that
-explains the failure.
-
-The board hardware connects the R40 RESET/AP-RESET signal to
-the AXP22x PWROK input.
-
-The PMIC power-off register works correctly from Linux:
-
-i2cset -f -y 0 0x34 0x32 0x80
-
-but this powers off the board instead of rebooting it.
-
-Has anyone seen similar reboot failures on R40/sun8i platforms,
-or is there any known erratum/workaround related to the watchdog
-reset propagation after Linux runtime initialization?
-
-Thanks,
-
-Fabio Estevam
+ChenYu
