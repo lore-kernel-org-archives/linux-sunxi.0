@@ -1,77 +1,262 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4401C30C14B;
-	Sun, 24 May 2026 19:36:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F3F31D757
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 May 2026 20:24:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779651377; cv=none; b=T0RDDDdDT3jYGBaM2/Cej34bjvEdg7cwt3K3/NqypmmxY6cw3aqv3kBIVKYerQCQEqN46SxUSYrg68kgFyoDj561sT3Sb1fM9FqTv+FXig7/Moa2sGVVeToOOzmUi7fDcE6e7b4hO/FopQjdcazMoiXNOQh38n1mPf2mWBfqN90=
+	t=1779654257; cv=none; b=nPP5U3dpL0DTZ34cyK5inEZE5aijEEze3kddIXvlDSHun/VtMuU1V09dorQ9yq0U98ZHlgLhXRK1u2N95Zr6VYD+RBlFtlca42fFzaxlKKIBwZoQAltvjaE9OjN20qi00BbebdRqitPNGgsHA95Y6jmnK2VBlqiCMKG5r0txkPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779651377; c=relaxed/simple;
-	bh=pwoE/4OdPgY3kOKcEkMurBcwFJF93A8G8YsharzaYcM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=TSTuxNIA1v66AAj+MpmAYJAymBhu0L5dh6hQqqaxAMPqeTnxbIQMLeA+/ZH3hk91hwNgnB+LmhY2tTY/nM6+oeEaQmcf2gEseJcRMGE8P3KBnhoizY5Sl/IVm0gGhRd2L9uFXNfn7jbMNUU6kAc+TavuNM1dmr6G7Mng9FrmybA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e3kATJU5; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779654257; c=relaxed/simple;
+	bh=5m2ynUlv29/CRCMqZ0YAToZhJK3uFgMuk+eYo1BnwjM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rPEB8+Fc/3SIVqO6Y8KFSSOEPOOoKb3WDwoO/2YKpuIYvULoHq4VXfE/qlmtzIuDtbVNaAHwcH6kMqfVreEP4vPCs9FGWfTp/dve8tdA5v+U/r5bF9wxX8N45nn7K4lYxpnjVigAaw5kB/lxx5dnnwBkahLZanxkXNrsQsQemJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HisCkmrZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e3kATJU5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8E931F000E9;
-	Sun, 24 May 2026 19:36:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HisCkmrZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F3921F0155C
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 May 2026 20:24:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779651375;
-	bh=r0Kn4NGTEBvYvSppdtEhlAPBMULs4K0n5D5V+p+MP10=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=e3kATJU5wCp1elAKPsF+pwI0r3IZPzNvgIXNIWYUQhOReywzbnaOAZm3PYjIQdBUO
-	 nE0WX/tkZ8B/qFkILHvUKtC18Z43nLt8RgW+nAvRXmux1/ZHca7h3cOQeGCJ3qqgJr
-	 JIZbVO7YdqsrRlhpgn4pGXk+BXerbTPWej0LjnRXg8yIk6pn0WcPdOi+WKfwq1pF1Q
-	 1PMB4TCxtxF/w26OAP8Eu6afoMxz/t2VTpnmBo98BJGf5CoOiLnvxDelQNP1Mx7ZiS
-	 lmTwfnlviaFrfdO1qGmkfiO7c8aSLQoitMLJ5DEM1uxz2LLrB590/CIIRuK4nsAoGi
-	 dCOAzxhYtlwNg==
-From: Chen-Yu Tsai <wens@kernel.org>
-To: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Paul Kocialkowski <paulk@sys-base.io>
-Cc: Yong Deng <yong.deng@magewell.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>, 
- Maxime Ripard <mripard@kernel.org>
-In-Reply-To: <20260518153339.619947-1-paulk@sys-base.io>
-References: <20260518153339.619947-1-paulk@sys-base.io>
-Subject: Re: (subset) [PATCH v9 0/9] Allwinner A31/A83T MIPI CSI-2 and A31
- ISP / Platform Support
-Message-Id: <177965137265.112804.8792823661852323201.b4-ty@kernel.org>
-Date: Mon, 25 May 2026 03:36:12 +0800
+	s=k20260515; t=1779654256;
+	bh=qF2ENtSHxpeUd+ayXyc4puyf9CPxrGQ63HI8vKzfFlk=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=HisCkmrZAlCCAeVfzBL2isa35vgLvuT0HgrzBt2TzrnVMu4MkmHTcpR3IYBE0KaNm
+	 XQ8oaTnb1+vSUkFNauo+3VBD0f4eTEFgyJc9RA3YcwPsLepvmtRjP8PZtPc9kpQVfw
+	 r7pPlyS/b8PxAyROKyzYiEGJ8XI8mfwI49EPm/Wi6lT9OH0ClVIyJ6vBd1eLilBEWH
+	 yAwYC5uOrIg+sDhN35LEC/HYroeaYzXk2OCcTjPLavolEgBFQ5sEdSi7bWpKfAC76U
+	 3EpLjM12ugD9lnmqxQDTlrMO1KsnpDni/Iio5+17CYQrjq2fWN/ifM7OlFZkqRCdKA
+	 BkHMUSMPqRtUg==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-393c93a0166so85795341fa.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 24 May 2026 13:24:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8iCBmMXQo9EElOzk2Zcw3V//5A+7/DdeCiuqyTiB7y7zxbiOvRb4y/mf48TXWTduqQ4n7KYuWLolriWA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyjLszlndTlZKfxCZBlQUaJoTcJ7y+C9Rqwc/R2a0HJCV6m54MB
+	tSlj4gX5TkMrwsohC/+Sy7af2f6RmFPWQeBFMll7Q4YjjY7CTrotYfeuV82UWLpRVD3/NQVRpQ0
+	MC/Qn56TkSQf/3yy1OjxdwgL1BNFqy5w=
+X-Received: by 2002:a2e:8957:0:b0:38d:e220:8dc2 with SMTP id
+ 38308e7fff4ca-395d8cef4abmr31227691fa.20.1779654254895; Sun, 24 May 2026
+ 13:24:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+References: <20260518153339.619947-1-paulk@sys-base.io> <20260518153339.619947-9-paulk@sys-base.io>
+In-Reply-To: <20260518153339.619947-9-paulk@sys-base.io>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Sun, 24 May 2026 23:24:02 +0300
+X-Gmail-Original-Message-ID: <CAGb2v65g5pRfamiGXDzf1e3tDOC3hKKpN42zsehyV5kH64mqvA@mail.gmail.com>
+X-Gm-Features: AVHnY4JZ91o4upme6W15C4GgmvRnJJM3a9BrnhW1qst5pC5WhUcG5wXpq_KeV7k
+Message-ID: <CAGb2v65g5pRfamiGXDzf1e3tDOC3hKKpN42zsehyV5kH64mqvA@mail.gmail.com>
+Subject: Re: [PATCH v9 8/9] ARM: dts: sun8i-a83t: Add BananaPi M3 OV5640
+ camera overlay
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Yong Deng <yong.deng@magewell.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Brian Masney <bmasney@redhat.com>, Maxime Ripard <mripard@kernel.org>, 
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 18 May 2026 17:33:29 +0200, Paul Kocialkowski wrote:
-> This series adds platform support for the V3s/V3/S3 MIPI CSI-2 and ISP units
-> as well the as A83T MIPI CSI-2 unit in the respective device-trees.
-> Overlays for the BananaPi M3 cameras are also provided as actual users of the
-> camera pipeline on A83T.
-> 
-> The corresponding drivers and dt bindings were merged a long time ago but this
-> series was never actually picked up. It seems more than ready to be merged!
-> 
-> [...]
+On Mon, May 18, 2026 at 6:15=E2=80=AFPM Paul Kocialkowski <paulk@sys-base.i=
+o> wrote:
+>
+> From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>
+> Add an overlay supporting the OV5640 from the BananaPi Camera v3
+> peripheral board. The board has two sensors (OV5640 and OV8865)
 
-Applied to sunxi/shared-clk-dt-ids-for-7.2 in sunxi, thanks!
+> which cannot be supported in parallel as they share the same reset
+> pin and the kernel currently has no support for this case.
 
-[3/9] clk: sunxi-ng: v3s: Export MBUS and DRAM clocks to the public header
-      https://git.kernel.org/sunxi/linux/c/356a74a9325d
+This part is no longer true. The kernel recently gained shared GPIO
+support. I've tried it on Chromebooks to describe a USB 2/3 hub.
+(This is actually one chip and one pin, but has two device nodes
+to model the USB 2.0 and USB 3.1 portions.)
 
-Best regards,
--- 
-Chen-Yu Tsai <wens@kernel.org>
 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  arch/arm/boot/dts/allwinner/Makefile          |   3 +
+>  .../sun8i-a83t-bananapi-m3-camera-ov5640.dtso | 115 ++++++++++++++++++
+>  2 files changed, 118 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-a83t-bananapi-m3-ca=
+mera-ov5640.dtso
+>
+> diff --git a/arch/arm/boot/dts/allwinner/Makefile b/arch/arm/boot/dts/all=
+winner/Makefile
+> index f71392a55df8..6975df9d7b46 100644
+> --- a/arch/arm/boot/dts/allwinner/Makefile
+> +++ b/arch/arm/boot/dts/allwinner/Makefile
+> @@ -221,6 +221,7 @@ dtb-$(CONFIG_MACH_SUN8I) +=3D \
+>         sun8i-a33-vstar.dtb \
+>         sun8i-a83t-allwinner-h8homlet-v2.dtb \
+>         sun8i-a83t-bananapi-m3.dtb \
+> +       sun8i-a83t-bananapi-m3-camera-ov5640.dtb \
+>         sun8i-a83t-cubietruck-plus.dtb \
+>         sun8i-a83t-tbs-a711.dtb \
+>         sun8i-h2-plus-bananapi-m2-zero.dtb \
+> @@ -270,6 +271,8 @@ dtb-$(CONFIG_MACH_SUN8I) +=3D \
+>         sun8i-v3s-licheepi-zero-dock.dtb \
+>         sun8i-v3s-netcube-kumquat.dtb \
+>         sun8i-v40-bananapi-m2-berry.dtb
+> +sun8i-a83t-bananapi-m3-camera-ov5640-dtbs +=3D \
+> +       sun8i-a83t-bananapi-m3.dtb sun8i-a83t-bananapi-m3-camera-ov5640.d=
+tbo
+>  sun8i-h2-plus-orangepi-zero-interface-board-dtbs +=3D \
+>         sun8i-h2-plus-orangepi-zero.dtb sun8i-orangepi-zero-interface-boa=
+rd.dtbo
+>  sun8i-h3-orangepi-zero-plus2-interface-board-dtbs +=3D \
+> diff --git a/arch/arm/boot/dts/allwinner/sun8i-a83t-bananapi-m3-camera-ov=
+5640.dtso b/arch/arm/boot/dts/allwinner/sun8i-a83t-bananapi-m3-camera-ov564=
+0.dtso
+> new file mode 100644
+> index 000000000000..0d4de0027fea
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/allwinner/sun8i-a83t-bananapi-m3-camera-ov5640.dt=
+so
+> @@ -0,0 +1,115 @@
+> +// SPDX-License-Identifier: GPL-2.0 OR X11
+> +/*
+> + * Copyright 2022 Bootlin
+> + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> + */
+> +
+> +/dts-v1/;
+> +/plugin/;
+> +
+> +#include <dt-bindings/clock/sun8i-a83t-ccu.h>
+> +#include <dt-bindings/gpio/gpio.h>
+> +
+> +&{/} {
+> +       /*
+> +        * These regulators actually have DLDO4 tied to their EN pin, whi=
+ch is
+> +        * described as input supply here for lack of a better representa=
+tion.
+> +        * Their actual supply is PS, which is always-on.
+> +        */
+> +
+> +       ov5640_avdd: ov5640-avdd {
+
+You should fix the device node names, as Sashiko mentioned for patch 9.
+
+> +               compatible =3D "regulator-fixed";
+> +               regulator-name =3D "ov5640-avdd";
+> +               regulator-min-microvolt =3D <2800000>;
+> +               regulator-max-microvolt =3D <2800000>;
+> +               vin-supply =3D <&reg_dldo4>;
+> +       };
+> +
+> +       ov5640_dovdd: ov5640-dovdd {
+> +               compatible =3D "regulator-fixed";
+> +               regulator-name =3D "ov5640-dovdd";
+> +               regulator-min-microvolt =3D <2800000>;
+> +               regulator-max-microvolt =3D <2800000>;
+> +               vin-supply =3D <&reg_dldo4>;
+> +       };
+> +
+> +       ov5640_dvdd: ov5640-dvdd {
+
+This one as well.
+
+> +               compatible =3D "regulator-fixed";
+> +               regulator-name =3D "ov5640-dvdd";
+> +               regulator-min-microvolt =3D <1500000>;
+> +               regulator-max-microvolt =3D <1500000>;
+> +               vin-supply =3D <&reg_dldo4>;
+> +       };
+> +};
+> +
+> +&csi {
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&csi_8bit_parallel_pins>;
+> +       status =3D "okay";
+> +
+> +       ports {
+> +               #address-cells =3D <1>;
+> +               #size-cells =3D <0>;
+> +
+> +               port@0 {
+> +                       reg =3D <0>;
+> +
+> +                       csi_in_ov5640: endpoint {
+> +                               remote-endpoint =3D <&ov5640_out_csi>;
+> +                               bus-width =3D <8>;
+> +                               data-shift =3D <2>;
+> +                               hsync-active =3D <1>;
+> +                               vsync-active =3D <1>;
+> +                               pclk-sample =3D <1>;
+> +                       };
+> +               };
+> +       };
+> +};
+> +
+> +&i2c2 {
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&i2c2_pe_pins>;
+> +       status =3D "okay";
+> +
+> +       #address-cells =3D <1>;
+> +       #size-cells =3D <0>;
+> +
+> +       ov5640: camera@3c {
+> +               pinctrl-names =3D "default";
+> +               pinctrl-0 =3D <&csi_mclk_pin>;
+> +
+> +               compatible =3D "ovti,ov5640";
+> +               reg =3D <0x3c>;
+
+Per the "new" DT coding style guide, the compatible property is always
+the first oen, and reg, if present, is always the second.
+
+Same comments also apply to patch 9.
+
+
+Thanks
+ChenYu
+
+
+> +
+> +               clocks =3D <&ccu CLK_CSI_MCLK>;
+> +               clock-names =3D "xclk";
+> +               assigned-clocks =3D <&ccu CLK_CSI_MCLK>;
+> +               assigned-clock-parents =3D <&osc24M>;
+> +               assigned-clock-rates =3D <24000000>;
+> +
+> +               AVDD-supply =3D <&ov5640_avdd>;
+> +               DOVDD-supply =3D <&ov5640_dovdd>;
+> +               DVDD-supply =3D <&ov5640_dvdd>;
+> +
+> +               powerdown-gpios =3D <&pio 3 15 GPIO_ACTIVE_HIGH>; /* PD15=
+ */
+> +               reset-gpios =3D <&pio 4 16 GPIO_ACTIVE_LOW>; /* PE16 */
+> +
+> +               rotation =3D <180>;
+> +
+> +               port {
+> +                       ov5640_out_csi: endpoint {
+> +                               remote-endpoint =3D <&csi_in_ov5640>;
+> +                               bus-width =3D <8>;
+> +                               data-shift =3D <2>;
+> +                               hsync-active =3D <1>;
+> +                               vsync-active =3D <1>;
+> +                               pclk-sample =3D <1>;
+> +                       };
+> +               };
+> +       };
+> +};
+> +
+> +&reg_dldo4 {
+> +       regulator-min-microvolt =3D <2800000>;
+> +       regulator-max-microvolt =3D <2800000>;
+> +};
+> --
+> 2.54.0
+>
