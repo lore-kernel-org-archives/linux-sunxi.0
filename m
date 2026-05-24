@@ -1,78 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7353438B5;
-	Sun, 24 May 2026 21:04:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B45F305664
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 May 2026 21:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779656657; cv=none; b=OiPbexdQIS++i1NsAv7GWELTh7c+iWeGZsCgE4kcBpSLcf6rOT0sRcXbfAXYnI24CPIDY0tfp+dOKaWWYNc9PybPc9efYlUYTRevg9P/xvsZPv8G74DnQ1TcpsLqddOgdlXEDwJXrdgUb4rQbLazgwKvF+2FMCIJyugxNytUisU=
+	t=1779658145; cv=none; b=pzNVWZr5KMm/Di9ntYWXdWlBYLhfzWQbWL/wktn/dK4kDF0Q95JjxRqYSBmEidlL5YGrZfYBQVl0lxsW8LCl6frsn6VG1UGiSXz+ApcbgbKqBNhCVr9RIEAc31MoG9D8dolSjzfpmtSv3qqKYwCsJ+fxAjp5UV4igMsw3FnvLOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779656657; c=relaxed/simple;
-	bh=HvSm/K85iZomHNPHfHkOgB0b4+Qd2VST8q2O/sL1E7A=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=tBa7FrP3qBpdDtAfZc4ZpZAy1UGjTJvYzOwBcCkoPFi1TXtzP5TKEgYiKjsBK1GC11HFRiACRcSHCZfOib8h79FoIWUXb85kemF4BrAa7dF+oyCwPVDwehPNOZQnDaCRUqnFu0feij9o8thO6igZyodigFIKFUvQNKhZiJhV1Sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=amvIA7xB; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="amvIA7xB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C463D1F000E9;
-	Sun, 24 May 2026 21:04:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779656655;
-	bh=4Jo/vbPByOEa/DPjlGN3cnyIvKkPU6P7russhnbY7K8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=amvIA7xB2VEXc9wVdXYXtZoGXXAu1O2/4qbr3ZDz5XtTea7HAQgaWPeBvyIJjxa8s
-	 YEuPoezesW64Za2ZwISj66+GaRvWpRXvdeGtFmF54zYzBJy1KK0FeCCHjBDzBBBGsu
-	 2u+c9mOd9q+q4FiLGF404nQ0or5xSFYlR2cveLfthQqimDeQWROTBJwsL26V1S/Hbi
-	 d09By8DToFYTgcPq2U7AYzOMEUgGNvH7csIjvKbg236z2FvzO/G5CiiJnw2ZtQw33f
-	 OXMNrNviyyqMGvHq9Iq5h/LnQC/l7h6yxl0mejmZqKZQ2+/b9H6Y9EVQtnFi/GcGiY
-	 bp0vjK4NWnFqw==
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Jonathan Cameron <jic23@kernel.org>, 
- David Lechner <dlechner@baylibre.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Maksim Kiselev <bigunclemax@gmail.com>, 
- Michal Piekos <michal.piekos@mmpsystems.pl>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
-In-Reply-To: <20260516-sunxi-a523-gpadc-v3-0-a3a04cff2620@mmpsystems.pl>
-References: <20260516-sunxi-a523-gpadc-v3-0-a3a04cff2620@mmpsystems.pl>
-Subject: Re: (subset) [PATCH v3 0/3] Add GPADC support for A523
-Message-Id: <177965665249.167937.6469450269441634899.b4-ty@kernel.org>
-Date: Mon, 25 May 2026 05:04:12 +0800
+	s=arc-20240116; t=1779658145; c=relaxed/simple;
+	bh=6w+/iSJRWut/D1sqx5dV3SWtkjaFwtBwoEXiJRSLQ+s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WEPgyJDpeRLnp8hCR6H/DRar086BdKCZkDFxumkjKqqgsTyyY+NT+/3vCLaG9iklxBOgRihkmctLPtTT8B4m9UTJyxuB7hN+fcA9Jcjn63CgmgLAY/A7/1+KyjCw/X0fImxSAauwf7Wr7nnkVcm8PZy4LKI5oOrjBjZWSOcfIis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-bd01481e592so1248615766b.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 24 May 2026 14:29:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779658142; x=1780262942;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6w+/iSJRWut/D1sqx5dV3SWtkjaFwtBwoEXiJRSLQ+s=;
+        b=Sevs4GAJJ3gqQVXUALQbDl7ODhg47TIKYOKiKll9/wcFQ33EPoJhem0nrsVImGqurV
+         DKbSEoEbCWWoiP1eEQ7XhL7O+nxdiMoRcOJIK6Mt03r/Cja8Th2R9LEYs/wrF6PF8Qij
+         X+sQ9qeE64To9Ekz3gfc96b9JkYJNX5CPm0YwjFL0RkvPwREhYyclURDsh5YUhtMP0Vt
+         eKGm+YBcEB7qXu7PrSoOyHtojT6nHS8XpwY2zkJSTsq98FOBX3c+JvVf+d0raOoABzXC
+         7Zh38Ti1Ax6GwwXsC2CjskaCS9WemTzNbDc0sflrD1LqSA6GWugYohQDW0rNgxfsOsga
+         DQgA==
+X-Forwarded-Encrypted: i=1; AFNElJ+ma6kW6Uw6z3rOIBi6wo0sozA5U7v01s/rUHVVKgRb6YctEA5fsIHKYa6y06TTPyHivZRMZhujzXLFMw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyX8GFguFJqzG42BdfIAHBdbwB74drh/R9aXpeLY68Z81iB6e3n
+	5UtMLHg0k2zTF1/E3RB7X2rBVnkzyf2wbRoPkV6EzPJ+EWey58m0GKm1nf3FCUQdoBE=
+X-Gm-Gg: Acq92OGxEZVE83ecN+2BH1mfRJfRscohAE+sWB8iON8PRlbphfYr6SZG+ZiLShIu/jh
+	8Y2Rg+usvx5qUowVkJEH3OMFpaUIRMMP6rFMWQirhpNpfcPEYa1j4Qwm5QujwwXDmoNufNlpHYd
+	P8oYMPqSWegko8SncWTNUOuooreE7g2WcgIAhZASIMIUCLfu5gFxqjhHmXfIqjF6AZCrVV5AnTT
+	2vahYc5x6p+NCSkY9j05v5Fxq3IjXocC8iqnFnanjzNBDVe7wB5b6adOcBtAm0geCzc6uHjkTLQ
+	pj+KjaxKvbNyTjMPntaqtfA+bxpJrrapvgM+92q/IZjoOBNbSwfc+vgp5BA4cBjfujBFCMwBeG2
+	PxH/HV/9nu5rg0E+/xYCW/dW8forsRE9zrfKhvQGUK7NZyKGEE/Q5rY4qfc1FK/F4U0HXcV7J2h
+	LL8sVmIkjY8bkhFnA+cg1eRD8jpiaPOU2SYwrI4yksUpq4ZZ6KHeMXH5EfF4Q0Bg==
+X-Received: by 2002:a17:907:b5a3:b0:bd4:d6a4:ed58 with SMTP id a640c23a62f3a-bdd25ed7e53mr490419566b.28.1779658142264;
+        Sun, 24 May 2026 14:29:02 -0700 (PDT)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com. [209.85.221.54])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bddc3050fcfsm328006966b.20.2026.05.24.14.29.01
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 24 May 2026 14:29:02 -0700 (PDT)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-44a044cb827so6729310f8f.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 24 May 2026 14:29:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+jwZKKXDTDzGP1jXAj7kRegSLUZuhYMgp8tm1JFlYVbq6kMVLP5MFacUDeei0QD0Vu4SO5Kn2d092ulA==@lists.linux.dev
+X-Received: by 2002:a2e:b8d3:0:b0:38e:4810:4f44 with SMTP id
+ 38308e7fff4ca-395d8bd88a8mr40151971fa.4.1779657657216; Sun, 24 May 2026
+ 14:20:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+References: <20260509190015.79086-1-jernej.skrabec@siol.net>
+ <20260509190015.79086-8-jernej.skrabec@siol.net> <20260514-valiant-ape-of-discourse-a4f5a9@quoll>
+In-Reply-To: <20260514-valiant-ape-of-discourse-a4f5a9@quoll>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Mon, 25 May 2026 00:20:42 +0300
+X-Gmail-Original-Message-ID: <CAGb2v64UvgqOPuZwayBmSUhQA1VwBBDpFn7ok0d7OVHjhzz=2Q@mail.gmail.com>
+X-Gm-Features: AVHnY4LF9PZK6soJXHv0nl5iKDfqAVEgS-xhOR9JBN-5Ngh0yXQO9LbOCoc_jy0
+Message-ID: <CAGb2v64UvgqOPuZwayBmSUhQA1VwBBDpFn7ok0d7OVHjhzz=2Q@mail.gmail.com>
+Subject: Re: [PATCH v2 7/8] dt-bindings: display: allwinner: Split H616 DE33
+ layer reg space
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, samuel@sholland.org, mripard@kernel.org, 
+	maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com, 
+	simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	mturquette@baylibre.com, sboyd@kernel.org, dri-devel@lists.freedesktop.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 16 May 2026 07:34:13 +0200, Michal Piekos wrote:
-> Add support for Allwinner A523 GPADC in sun20i gpadc driver and describe
-> corresponding node in dts for A523 SoC.
-> 
-> A523 uses same model as existing driver except it has two clocks.
-> 
-> Added support to enable more than one clock in the driver, extended the
-> binding with new compatible and wired up dts node for A523 as its own
-> fallback compatible.
-> 
-> [...]
+Hi,
 
-Applied to sunxi/dt-for-7.2 in sunxi, thanks!
+On Thu, May 14, 2026 at 2:04=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
+g> wrote:
+>
+> On Sat, May 09, 2026 at 09:00:14PM +0200, Jernej Skrabec wrote:
+> > From: Jernej Skrabec <jernej.skrabec@gmail.com>
+> >
+> > As it turns out, current H616 DE33 binding was written based on
+> > incomplete understanding of DE33 design. Namely, planes are shared
+> > resource and not tied to specific mixer, which was the case for previou=
+s
+> > generations of Display Engine (DE3 and earlier).
+> >
+> > This means that current DE33 binding doesn't properly reflect HW and
+> > using it would mean that second mixer (used for second display output)
+> > can't be supported.
+> >
+> > Remove layer register space, which will be represented with additional
+> > node, and replace it with phandle, which will point to that new, shared
+> > node. That way, all mixers can share same layers.
+> >
+> > There is no user of this binding yet, so changes can be made safely,
+> > without breaking any backward compatibility.
+>
+> There is user. git grep gives me:
+> drivers/gpu/drm/sun4i/sun8i_mixer.c
+>
+> which means this is a released ABI. As I understood, the old code was
 
-[3/3] arm64: dts: allwinner: a523: add gpadc node
-      https://git.kernel.org/sunxi/linux/c/44cf19e41c76
+We held off on merging the DT changes so that we could rework this.
+I can't find the actual request though. It was probably over IRC.
 
-Best regards,
--- 
-Chen-Yu Tsai <wens@kernel.org>
+> working fine but just did not support all use cases. Why this cannot be
+> kept backwards compatible?
 
+AFAIK the "planes" block is shared between two display mixers. As the
+commit message explains, this prevents using the second mixer, since
+only one of them can claim and map the register space. And on the H700
+(which is the same die as the H616 discussed here but with more exposed
+interfaces), there could actually be a use case for the second mixer.
+
+Hope that explains things.
+
+
+ChenYu
