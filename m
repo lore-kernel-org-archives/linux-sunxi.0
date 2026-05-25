@@ -1,48 +1,42 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F7F62868B4
-	for <linux-sunxi@lists.linux.dev>; Mon, 25 May 2026 21:16:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FAEB336888
+	for <linux-sunxi@lists.linux.dev>; Mon, 25 May 2026 21:39:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779743790; cv=none; b=ud+MxcNLUqq3dxE65ZrdJaYu46XwXz1M31c769hKY8ovr8tdQr6uYFlPA4et3AlJDdQh5ItY4SmD+ZNPW/2i7dlOeag9c00gLQMUJhxrZAsOmwJAPKNXpNIc1vsiKz9j+xFGYfLT+dbQcSRocMuSN2Cml1TipKHadhYsP5sNJew=
+	t=1779745143; cv=none; b=akID7AeG4HkyaGzI3sqSd2nAO3M8N/JfZ4m/N65KbURtZ6P4mmBfzCOFPq8XqQQyQukPcQQWrtnwluuDvwpb6KH9lWi43S8kWQD24d4skul38O7npdzJ/yNfnOq7h8K7thbPQFxr7wx+Vi0a11uMur7e3NVNTVTxAgDNW6U9NRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779743790; c=relaxed/simple;
-	bh=Q3KznSmPGXShIXkpUxQ+T6UiVEFFgAzT1PTN8IZQDcA=;
+	s=arc-20240116; t=1779745143; c=relaxed/simple;
+	bh=xmlZyiLM/KlQv4wu5tJkU7v4YAEMiImxkEyCCggM9jI=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NVBjsQYAlqbI8UHRDgjAXfYiatojlAVmvM43h4YAyvD98HgYOyBArhku0WoV9jgC8yO6FHWXxVthSmxZ9RvPYMtugLOiPPCmN7QK74Ij6Xd9BG9INvV4b+niZlEy+0M0d6dIzgZEVU/kp6cMQWbO0Cv1vjf/q/a6m25xCkMZzPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=DceHwUns; arc=none smtp.client-ip=217.140.110.172
+	 MIME-Version:Content-Type; b=rySBfbXT53gF/1jWXbG4QlCLmZUtNgQFORDXffQ1572iB8vSjIRoovu9EsxVtPDRxlG843kAmF19fKE4gvAhJZ3X9436vPEwTrysCecswTAuSXsEvxdxXsZa0nPSmrdpVq6aAchjqLwlEyYqBrV6UpnTXVZ8Gu+SvK4wUPy6kAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=qDrIXuT7; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="DceHwUns"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="qDrIXuT7"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7FB001758;
-	Mon, 25 May 2026 14:16:21 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EB9381758;
+	Mon, 25 May 2026 14:38:55 -0700 (PDT)
 Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F29713F632;
-	Mon, 25 May 2026 14:16:22 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5E5543F632;
+	Mon, 25 May 2026 14:38:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1779743786; bh=Q3KznSmPGXShIXkpUxQ+T6UiVEFFgAzT1PTN8IZQDcA=;
+	t=1779745141; bh=xmlZyiLM/KlQv4wu5tJkU7v4YAEMiImxkEyCCggM9jI=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=DceHwUnsr+h9yMlBWX/oFjrCB/CAS+EBlWKkxrF7rijrwncPuyE1VOcEfF6eFEnUV
-	 ERbPoaErMvi9f6rVI+fnr6fCMje0FFMj1FD+ANSgdfBohsCTdD5ydudgxRAk+BDj2Q
-	 56tLHKt09r4Vai3S95SsZnNzDvx/rH9y9TwVIxEw=
-Date: Mon, 25 May 2026 23:15:26 +0200
+	b=qDrIXuT7h1R7aairMJhZ7AQ0aqjUW0JeR/oLswk+6MuIyQ0ENo5fU5+xxmKG4GNK+
+	 1XfDeUNR8nvkGPUkAXwd1wJUo/qll0+G1OxatpuagZ8zXYJSfE9DpXtJDYEHSYzcPY
+	 l0hLvnPjkDXel5XMUq6GUShsHS8aknfU1Bli+Nhw=
+Date: Mon, 25 May 2026 23:38:08 +0200
 From: Andre Przywara <andre.przywara@arm.com>
-To: Richard Genoud <richard.genoud@bootlin.com>
-Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Philipp
- Zabel <p.zabel@pengutronix.de>, Paul Kocialkowski <paulk@sys-base.io>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, John Stultz
- <jstultz@google.com>, Joao Schim <joao@schimsalabim.eu>,
- bigunclemax@gmail.com, linux-pwm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 0/4] Introduce Allwinner H616 PWM controller
-Message-ID: <20260525231526.0c5d9a10@ryzen.lan>
-In-Reply-To: <20260416134037.3160537-1-richard.genoud@bootlin.com>
-References: <20260416134037.3160537-1-richard.genoud@bootlin.com>
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Linus Walleij
+ <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH] pinctrl: sunxi: Implement function_is_gpio
+Message-ID: <20260525233808.20e75a21@ryzen.lan>
+In-Reply-To: <20260517171405.3697469-1-paulk@sys-base.io>
+References: <20260517171405.3697469-1-paulk@sys-base.io>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
@@ -54,187 +48,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 16 Apr 2026 15:40:33 +0200
-Richard Genoud <richard.genoud@bootlin.com> wrote:
+On Sun, 17 May 2026 19:14:05 +0200
+Paul Kocialkowski <paulk@sys-base.io> wrote:
 
-Hi Richard,
+Hi Paul,
 
-> Allwinner H616 PWM controller is quite different from the A10 one.
+> The function_is_gpio pinmux op allows the core to find out whether a
+> GPIO can be safely requested from a pinctrl property and requested as a
+> GPIO at the same time.
 > 
-> It can drive 6 PWM channels, and like for the A10, each channel has a
-> bypass that permits to output a clock, bypassing the PWM logic, when
-> enabled.
-> 
-> But, the channels are paired 2 by 2, sharing a first set of
-> MUX/prescaler/gate.
-> Then, for each channel, there's another prescaler (that will be bypassed
-> if the bypass is enabled for this channel).
-> 
-> It looks like that:
->             _____      ______      ________
-> OSC24M --->|     |    |      |    |        |
-> APB1 ----->| Mux |--->| Gate |--->| /div_m |-----> PWM_clock_src_xy
->            |_____|    |______|    |________|
->                           ________
->                          |        |
->                       +->| /div_k |---> PWM_clock_x
->                       |  |________|
->                       |    ______
->                       |   |      |
->                       +-->| Gate |----> PWM_bypass_clock_x
->                       |   |______|
-> PWM_clock_src_xy -----+   ________
->                       |  |        |
->                       +->| /div_k |---> PWM_clock_y
->                       |  |________|
->                       |    ______
->                       |   |      |
->                       +-->| Gate |----> PWM_bypass_clock_y
->                           |______|
-> 
-> Where xy can be 0/1, 2/3, 4/5
-> 
-> PWM_clock_x/y serve for the PWM purpose.
-> PWM_bypass_clock_x/y serve for the clock-provider purpose.
-> The common clock framework has been used to manage those clocks.
-> 
-> This PWM driver serves as a clock-provider for PWM_bypass_clocks.
-> This is needed for example by the embedded AC300 PHY which clock comes
-> from PMW5 pin (PB12).
-> 
-> Usually, to get a clock from a PWM driver, we use the pwm-clock driver
-> so that the PWM driver doesn't need to be a clk-provider itself.
-> While this works in most cases, here it just doesn't.
-> That's because the pwm-clock request a period from the PWM driver,
-> without any clue that it actually wants a clock at a specific frequency,
-> and not a PWM signal with duty cycle capability.
-> So, the PWM driver doesn't know if it can use the bypass or not, it
-> doesn't even have the real accurate frequency information (23809524 Hz
-> instead of 24MHz) because PWM drivers only deal with periods.
-> 
-> With pwm-clock, we loose a precious information along the way (that we
-> actually want a clock and not a PWM signal).
-> That's ok with simple PWM drivers that don't have multiple input clocks,
-> but in this case, without this information, we can't know for sure which
-> clock to use.
-> And here, for instance, if we ask for a 24MHz clock, pwm-clock will
-> requests 42ns (assigned-clocks doesn't help for that matter). The logic
-> is to select the highest clock (100MHz) with no prescaler and a duty
-> cycle value of 2/4 => we have 25MHz instead of 24MHz.
+> This is especially useful to request a GPIO with a particular drive
+> strength, which would otherwise not be possible.
 
-Didn't we discuss this choice of "highest clock" before? I dimly
-remember asking whether we cannot use a least-error approach, so
-considering all clocks and choosing the one which matches the target
-best?
+That looks a easy enough solution, but:
 
-> And that's a perfectly fine choice for a PMW, because we still can
-> change the duty cycle in the range [0-4]/4.
-> But obviously for a clock, we don't care about the duty cycle, but more
-> about the clock accuracy.
+> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+> ---
+>  drivers/pinctrl/sunxi/pinctrl-sunxi.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> index d3042e0c9712..6162f2d86723 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> @@ -821,6 +821,17 @@ static int sunxi_pmx_get_func_groups(struct pinctrl_dev *pctldev,
+>  	return 0;
+>  }
+>  
+> +static bool sunxi_pmx_function_is_gpio(struct pinctrl_dev *pctldev,
+> +				       unsigned function)
+> +{
+> +	struct sunxi_pinctrl *pctl = pinctrl_dev_get_drvdata(pctldev);
+> +
+> +	if (!strncmp(pctl->functions[function].name, "gpio", 4))
 
-Thanks for your research into this and summarising this up! I see your
-point, and always found the choice to use nanoseconds in PWM somewhat
-problematic, especially when looking at the rounding errors.
-And while turning the PWM into a clock provider looks like a clever
-solution, this is somewhat arbitrary - why do we have this for those
-SoCs and not the other (older) ones? The 24 MHz != 1/42ns problem is
-the same there.
-What also bugs me a bit is also that this is actually a decision
-affecting the generic hardware devicetree description of the system,
-but its rooted in a Linux implementation detail (ns resolution periods).
+I wonder if this condition is a bit too relaxed? There could be
+some (theoretical) function just starting with gpio, but not being mux
+0 or 1. So should we check for gpio_in or gpio_out, explicitly? Or at
+least use (strcmp(name, "gpio_", 5)? Or maybe even better for the mux
+value directly? Is "function" an indicator of this, or does this rely
+on the two GPIO functions being always listed first, at least so far?
 
-So before we consider going this route:
-- Can we change the internal interface in Linux, maybe introducing
-  some special interface from pwm-clock to the pwm drivers, to convey
-  frequencies directly, instead of period lengths?
-- Can we add an optional interface for pwm drivers in general, to use
-  a frequency / duty-cycle pair to describe a PWM setup? I would naively
-  think those to be some kind of natural PWM parameters.
-- Can we at least add a picosecond precision interface? That doesn't
-  solve the rounding issue for those number not only divisible by
-  2 or 5 (like 24), but at least it seems to mitigate it:
-  24 MHz => 41666 ps => 24.000384 MHz
-
-I see that having a clock provider seems like a more sustainable and
-fitting choice, but as mentioned it's something that affects the DT
-description, so I don't want to change that lightly.
+And what about the IRQ function? Isn't that some GPIO as well, or does
+that not count for the purpose of the function_is_gpio() callback?
 
 Cheers,
 Andre
 
-> And actually, this PWM is really a PWM AND a real clock when the bypass
-> is set.
-> 
-> This series is based onto v7.0
-> 
-> NB: checkpatch is not happy with patch 2, but it's a false positive.
-> It doesn't detect that PWM_XY_SRC_MUX/GATE/DIV are structures, but as
-> it's more readable like that, I prefer keeping it that way.
-> 
-> Changes since v5:
-> - remove trailing junk after commit message in patch 4
-> - remove Tested-by when it doesn't make sense.
-> (sorry for the noise)
-> 
-> Changes since v4:
-> - Fix a bug on bypass for channels greater than 1
-> - add colons to clarify 2 debug messages
-> - switch from H616 to sun8i prefix (in code, filename, module name)
-> - fix consistency issues in macro parameters
-> - rename some macros with a confusing naming
-> - rebase on v7.0
-> 
-> Changes since v3:
-> - gather Acked-by/Tested-by
-> - fix cast from pointer to integer of different size (kernel test robot
->   with arc platform)
-> - add devm_action for clk_hw_unregister_composite as suggested by Philipp
-> - remove now unused pwm_remove as suggested by Philipp
-> 
-> Changes since v2:
-> - use U32_MAX instead of defining UINT32_MAX
-> - add a comment on U32_MAX usage in clk_round_rate()
-> - change clk_table_div_m (use macros)
-> - fix formatting (double space, superfluous comma, extra line feed)
-> - fix the parent clock order
-> - simplify code by using scoped_guard()
-> - add missing const in to_h616_pwm_chip() and rename to
-> h616_pwm_from_chip()
-> - add/remove missing/superfluous error messages
-> - rename cnt->period_ticks, duty_cnt->duty_ticks
-> - fix PWM_PERIOD_MAX
-> - add .remove() callback
-> - fix DIV_ROUND_CLOSEST_ULL->DIV_ROUND_UP_ULL
-> - add H616_ prefix
-> - protect _reg in macros
-> - switch to waveforms instead of apply/get_state
-> - shrink struct h616_pwm_channel
-> - rebase on v6.19-rc4
-> 
-> Changes since v1:
-> - rebase onto v6.19-rc1
-> - add missing headers
-> - remove MODULE_ALIAS (suggested by Krzysztof)
-> - use sun4i-pwm binding instead of creating a new one (suggested by Krzysztof)
-> - retrieve the parent clocks from the devicetree
-> - switch num_parents to unsigned int
-> 
-> Richard Genoud (4):
->   dt-bindings: pwm: allwinner: add h616 pwm compatible
->   pwm: sun8i: Add H616 PWM support
->   arm64: dts: allwinner: h616: add PWM controller
->   MAINTAINERS: Add entry on Allwinner sun8i/H616 PWM driver
-> 
->  .../bindings/pwm/allwinner,sun4i-a10-pwm.yaml |  19 +-
->  MAINTAINERS                                   |   5 +
->  .../arm64/boot/dts/allwinner/sun50i-h616.dtsi |  47 +
->  drivers/pwm/Kconfig                           |  12 +
->  drivers/pwm/Makefile                          |   1 +
->  drivers/pwm/pwm-sun8i.c                       | 938 ++++++++++++++++++
->  6 files changed, 1021 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/pwm/pwm-sun8i.c
-> 
-> 
-> base-commit: 028ef9c96e96197026887c0f092424679298aae8
-> 
+> +		return true;
+> +
+> +	return false;
+> +}
+> +
+>  static void sunxi_pmx_set(struct pinctrl_dev *pctldev,
+>  				 unsigned pin,
+>  				 u8 config)
+> @@ -952,6 +963,7 @@ static const struct pinmux_ops sunxi_pmx_ops = {
+>  	.get_functions_count	= sunxi_pmx_get_funcs_cnt,
+>  	.get_function_name	= sunxi_pmx_get_func_name,
+>  	.get_function_groups	= sunxi_pmx_get_func_groups,
+> +	.function_is_gpio	= sunxi_pmx_function_is_gpio,
+>  	.set_mux		= sunxi_pmx_set_mux,
+>  	.gpio_set_direction	= sunxi_pmx_gpio_set_direction,
+>  	.request		= sunxi_pmx_request,
 
