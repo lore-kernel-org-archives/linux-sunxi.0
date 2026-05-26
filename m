@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D933D5246;
-	Tue, 26 May 2026 16:46:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9197D3FBEAC;
+	Tue, 26 May 2026 16:46:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779814002; cv=none; b=BuXsAwEGVXmVekPNSnIcJc7/jISykFHDBHncqQUV6aFxybLM1lbKtzLAm7OG4A5Wc3qM1W5c9hUkSwEAxR2+y9zwm2nQ9aNWJ098RHAgRDmMuF7WXr6WE5287OHIytAT1SBf/rgEAOqsJPCJ0c8ygmYexR6brvSWWpPB2Lo767g=
+	t=1779814007; cv=none; b=DyDbVHNGz1wSLHUEVeg0ahFxyEOFRfrRx8nrQlDGJq6u3cX1D9LpRbDu7tqYPAZjksElzM8yUWQcmEZA9DpDeCs1B9lq2wXqGI+7ZDu28xDZMkjtV78V/4gRGioVgrIABHoZynXwuyLYbdFPxd2+cKR3USN5ZnnnLmCZFuwMWnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779814002; c=relaxed/simple;
-	bh=n/67GQpj0Ru2mlwt0tlSurG9lxXxNQPovYWI32eOrM4=;
+	s=arc-20240116; t=1779814007; c=relaxed/simple;
+	bh=p9ZaVQhU6x2BUkTWwGqZUaX+oUcICWz2dxNRq772dNc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UPudzrD70PHhrU5E0tG/ZEmMiXmrvoDonz+lGGoMLuZXBcZITGwRq4i99ygbKLsdZiiZm9dNeESYwuVzxKVUTKZ0tweA8eSEqnFuSADqmAusV+4o1L6OrgoTRfXGP1Ld5NzHMlGkVpM4sZgooW+kNoJKZdfAkqeY4caZei67qWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FKmn1x8y; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=M04g6F0Q0utQPjP4984jotrn4qzI76c25/FDj+fFCRY8P0c0ZwwyRtt0xdK4u0fYiJPzExkXGetCeJppxqQ91mkN97FPUFuzIShS26Ydm9QwRJEbAfw7a1e/6xX17mvohDFoGG1fVe0+H+poAlMtj/WeED6bGHMIhdOfW0dbTQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ccr+aUxQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FKmn1x8y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5F1E1F00A3C;
-	Tue, 26 May 2026 16:46:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ccr+aUxQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B384D1F00A3E;
+	Tue, 26 May 2026 16:46:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779813997;
-	bh=4/rknBNr70r45if1QwPBArgyzcEF7A8MyP7dbsi2SYA=;
+	s=k20260515; t=1779814000;
+	bh=vmAxlo1wPpVUGFi4z8FBEYgHX8eETYEQ7eEa1NRb4nY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=FKmn1x8yq/bfAFI7Fj7fiincoLAsfTL3wwRPaGECMnMXoy5wP47rCWjrZu2cJ2khM
-	 KAlZPOyBZvQBAP/1tK75tnd9c80a4OHxBMqxkYRv4QpMLISI+A9/l7uXcR4f6evcKc
-	 dfQNu6owihUzXsq1yNDbDMPqLbrcHzX420WiMBYQ65MciWBt42srQxMjw+LbPfvawL
-	 u9ZQHZIjagKcgNzElR4iQViyKogmHeZneAEREbqNzpnYV9rykV+7G97G7VSATIba/1
-	 2t5Mq6WHiE6SGtZAdkgQujSff2x3K0kgz/2VLPUyi0RsHF+DyVL3Mc4LMMlWpVU7Y5
-	 XMe4+HgbjeDiA==
+	b=ccr+aUxQl8B8VP26+PznQjAM5jvmJNlSdE8U9y1ip5BaMLJntllTX7BY3Nr43ByYR
+	 3I7qL/PTr0QwCrtyQp5W+bo5LH0b+yhWamg9kaS/Fw6GLalmo3/TqXzvjcAl9nVoTn
+	 t8pbV74ygCP68BufoMuGEOi+/SGvtWM7zzOAXpKfVmwYbW2Tm5LKKOWmxbPJWLA57b
+	 rSEhj3pPq4GQvInyObJ0rsAxTMjEppCSJ4qJqErb5Uii0gr0M+ohJ5g6VIUDtjpb+D
+	 dfh5vciNbOM7B3WO74qXzJZivvN3UwICa9CBKQ43vqHiJAJxStDMBJJyEzSMzn3vBU
+	 WScG04N75WgRQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 26 May 2026 18:46:16 +0200
-Subject: [PATCH v6 04/19] drm/atomic: Expand atomic_create_state
- expectations for drm_private_obj
+Date: Tue, 26 May 2026 18:46:17 +0200
+Subject: [PATCH v6 05/19] drm/mode-config: Document drm_private_obj
+ exclusion from drm_mode_config_reset()
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260526-drm-mode-config-init-v6-4-852346394200@kernel.org>
+Message-Id: <20260526-drm-mode-config-init-v6-5-852346394200@kernel.org>
 References: <20260526-drm-mode-config-init-v6-0-852346394200@kernel.org>
 In-Reply-To: <20260526-drm-mode-config-init-v6-0-852346394200@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -69,50 +69,50 @@ Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  Maxime Ripard <mripard@kernel.org>, 
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1358; i=mripard@kernel.org;
- h=from:subject:message-id; bh=n/67GQpj0Ru2mlwt0tlSurG9lxXxNQPovYWI32eOrM4=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFmi5yJ2tyjZc8RMj/+xfcGkDE1t70dzDrAuf7fnoJPqi
- UyRwvxFHVNZGIQ5GWTFFFmeyISdXt6+uMrBfuUPmDmsTCBDGLg4BWAi3fcYG/oiO/Ybtd/kTs/b
- +TQ3T/P0or5lp+Z9MUm9nVx3Js0joWP+XN2DVyRnv98TY3tQbJblQcaGF/u4//hcaLc3U1XjDAy
- y7Lh56fp5vYl2f28e4DP62cAYF1CWFOP7/ZWO5+a9VhtYw1gA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1438; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=p9ZaVQhU6x2BUkTWwGqZUaX+oUcICWz2dxNRq772dNc=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFmi5yICquxP9H7QShWVXMCSd7vposCC4Dzt1JqfSx6dF
+ OiqXWTfMZWFQZiTQVZMkeWJTNjp5e2LqxzsV/6AmcPKBDKEgYtTACbCrsBYZ/nwX9WGoDVKv2vC
+ bjQvNb9///Z62doejbvN/TxBeZqHE8IkZtxlYhThFdlgIOh3tdKFsYarJe3f9J1988I8rvZvE1u
+ oMvX4X9NpIZ7ygitPKZ30zlN6mP9kotbOvJ9v2Q70TLGW9AUA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-The atomic_create_state callback documentation for planes, CRTCs, and
-connectors explicitly states the expected behaviour: the returned
-state must not be assigned to the object's state pointer, and hardware
-must not be touched.
+drm_mode_config_reset() does not reset drm_private_states by design.
 
-The drm_private_state_funcs.atomic_create_state documentation is
-missing this clarification. Add it for consistency.
+This is especially significant for the DP MST and tunneling code that
+expect to be preserved across a suspend/resume cycle, where
+drm_mode_config_reset() is also used.
 
+Document this expectation.
+
+Link: https://lore.kernel.org/dri-devel/aOaQLx-7EpsHRwkH@ideak-desk/
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- include/drm/drm_atomic.h | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_mode_config.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 1a80a8cdf269..88087910ab1a 100644
---- a/include/drm/drm_atomic.h
-+++ b/include/drm/drm_atomic.h
-@@ -263,11 +263,14 @@ struct drm_private_state;
- struct drm_private_state_funcs {
- 	/**
- 	 * @atomic_create_state:
- 	 *
- 	 * Allocates a pristine, initialized, state for the private
--	 * object and returns it.
-+	 * object and returns it. This callback must have no side
-+	 * effects: in particular, the returned state must not be
-+	 * assigned to the object's state pointer and it must not affect
-+	 * the hardware state.
- 	 *
- 	 * RETURNS:
- 	 *
- 	 * A new, pristine, private state instance or an error pointer
- 	 * on failure.
+diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+index 66f7dc37b597..c33382a38191 100644
+--- a/drivers/gpu/drm/drm_mode_config.c
++++ b/drivers/gpu/drm/drm_mode_config.c
+@@ -187,10 +187,14 @@ int drm_mode_getresources(struct drm_device *dev, void *data,
+  * @dev: drm device
+  *
+  * This functions calls all the crtc's, encoder's and connector's ->reset
+  * callback. Drivers can use this in e.g. their driver load or resume code to
+  * reset hardware and software state.
++ *
++ * Note that &drm_private_obj structures are expected to be stable across
++ * suspend/resume cycles, and drm_mode_config_reset() does not affect these
++ * structures.
+  */
+ void drm_mode_config_reset(struct drm_device *dev)
+ {
+ 	struct drm_crtc *crtc;
+ 	struct drm_colorop *colorop;
 
 -- 
 2.54.0
