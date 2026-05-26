@@ -1,115 +1,128 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED7B18EB0
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 May 2026 00:24:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3ED030DD0A
+	for <linux-sunxi@lists.linux.dev>; Tue, 26 May 2026 04:17:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779755066; cv=pass; b=rlS4UUhri1hWET8DmMYCD3p5ZOQ1nXTbti4n3jCET6IEbKOw9TNy8hx0ODwlKJqLxnVrNZlrZwdzqMkpttSwIIGrbceSi7sX7dcVcIP1NRGue+IAuBm0i4ZTqv4IxvnCc0QqScojBwP7Pvn8sZu0UfoO87X7BaqsmdRVAgNJ11Y=
+	t=1779769063; cv=pass; b=WHdCpYbpYfkQ2y4x9JDqCmjAVB5KNV80G0MyOphAazG11SnX6DBSYpMbjkOW+0W+riN5OYtlCsnmH/o2v5/avF6CI5LHu0QYNP7tZ27/t2DjqpAzPknjCZPuWRN34IywM89ir1tJ6M8wik0LCqkJST9W8vGNvjgWEk7kbQMR4hg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779755066; c=relaxed/simple;
-	bh=NQSMw3Vvv8eJ1+UHIh3MK/+HpaNM97XO5hlqHFibpi8=;
+	s=arc-20240116; t=1779769063; c=relaxed/simple;
+	bh=AjzT+YU+WzbbKcxJRdWZ4am57GNWqPjoWyeRr7PJJSQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j/vtquyrHMmQHagH12EW/1JqBJfGr2CSY+paolp97kRnInZ1GadKPc7sgephcNMSUwUtrshC0BIiKyYZv0kea3BoKGt7ZSS9amXBJ1n1rfqsTOjI148Pggo8IaOG0DyjrZQkor72PfjNUvshePCUPa0zOOgwRCTxFFsLktvtP1A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tNsqj9pC; arc=pass smtp.client-ip=209.85.167.46
+	 To:Cc:Content-Type; b=Vfzu7WuP5M4Yg2epqYkb1GM0ElKjA5T9VGzI+goyBqvWnQ73+brpKvVq1aWrukQNsBj+LHl+cQenVtbr6zYLGJ79h32/c1+pvbBJAuOc8zer9qOcLTMWtPTNhupEUlmMLkgzmU3Ivbqstq0FDHSvjj+fEbkKY/nwNwt+P57dEuU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p7i8LjSI; arc=pass smtp.client-ip=209.85.216.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tNsqj9pC"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a8c6fc5fd3so9859087e87.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 25 May 2026 17:24:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779755063; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p7i8LjSI"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-366330b6751so7971328a91.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 25 May 2026 21:17:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779769058; cv=none;
         d=google.com; s=arc-20240605;
-        b=ib7pcl6WXONZsLNtRzB/8j7lpeY0N1Rhz8idsv6uo3ddThVtOGs5zvsLg2P+nZ9dvj
-         qOEVBxj6RfRvc2vug4CM7otsJFJi44KsKs8CDdEPPrNA/QdaUdie0EWsNbjn/ilPjX9+
-         fOO6l7zcqIZmtzyfiqH/38YD+G3q+BOiu6tTmOE038oVm81Kf2xkOhV5tXZo6Hty0dyo
-         WXqTGdoXNdvo4Hnrxi/fuhfDvLDV+P6dma3IjmR+cHmZKeMk7S2IxjZYx8qHCd/6QeA7
-         T6pM6RcayUXvwdvnmazRImzoeWohBdOJaoAEsrtNLhsJWSo5xm2wYh7d12afx2B9zlUK
-         Nu+w==
+        b=QnL8efALAkRka8cUnmGP2MaJY/7JBV5DQRNgtL0fvKnjDgyqScA5rHN9Bie6o8ubWi
+         gwlDNByO6lvH+7G9Y9yxrhe6X5j75cWNcBeKgsJtsUiVwdidor9qOB7a3camJwwXt+Ha
+         isFVAid/fqlDMyNnw+eeuqYVcM4+oOuljWgDvBNSixZofoUY/D5fsmueNot12QlWVGLI
+         IKUl8O+pWDUC2Adf9B4y3d/WERJMgzzNWq1DQF5LEh1Ao7qvKp18g8nofYynbAYXzuWJ
+         D1TPm2V9nS6RYjGvrJFDgU006T+eRWSJLcvKkv6rInWRGgK7kKqfEVJGIt77JKyaCsYQ
+         /jGA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=NQSMw3Vvv8eJ1+UHIh3MK/+HpaNM97XO5hlqHFibpi8=;
-        fh=efDqHD2RssSwBuuQZ7q4wkbyN9U1dTC2JZKFQAOSGOo=;
-        b=cDAKSWiZrwqHzhTjVzx6M3MHsZxawU+tk5a2QRyf+Pr8aP6YjRljqzpef/0qcKSJXg
-         t3kA1yDbUWHpI29EJx2BPNhZF6teeTmofe5qULUFiPtGcrrhBjC0n13AvV1rD+EazFmB
-         7ZhlCEHDoTHBCm+xqg1uoS1OsRT8r4Sq4IeQAhrWzFyQSA3Izo/U9HLt18m668LXj6rd
-         t2LYHbPY4T8DRzAsPOmdZ6tM7UdECYphPU47YEyd5mYpPLAg+Ick4BUawJ3mhWjWaOXb
-         bfWsCGH/OiP5g+m4UV7NDjJd41lt2h3ZcZ2gCVIs/JSJIeVRXWiM4/zjV2gC5oUtVa/T
-         JH5A==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=AjzT+YU+WzbbKcxJRdWZ4am57GNWqPjoWyeRr7PJJSQ=;
+        fh=wtEJWd0mp4TwSBksBK6+x0s+eJ7Ou8cu7NoHxu0smuY=;
+        b=G4rv4aAgeM8ICx12CZPtUd0x6zbPVLMvh/znC+HK3IUnUkHNfL+VnOSqkiIeVl346l
+         kKGQes/OHVILJDhiU4PM8xFJvc7qKJSjtgcx2f7V+ygKmL2tVHBE4i2hEY1GeFeqvH8g
+         JiSt89E+B3sj0wDSlsWqfuUTReAoF8ir7a8O2cn8y/N2rvYTkdEql0MyPvhRqzYl8tN4
+         pwAGp2dVHWq2J98N6Ww3Nelz8yfOggLEDDJysKTw1pLajLXnoMiPQv4oMKGztLbPov5o
+         7JmCF4cPqPB17gF8i0AFtC+aNnUre1nDscJKQJrJQwiiyfFamn//eGmlAb4IJ3P9psIA
+         o+mA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779755063; x=1780359863; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NQSMw3Vvv8eJ1+UHIh3MK/+HpaNM97XO5hlqHFibpi8=;
-        b=tNsqj9pCdivCu/bZjylKc4TEjujJHbWhyYBrO1mPB6YCJ+IWB83000IuWbt5zRJXQN
-         6CtWtG38shdzDoM9EYEV2bj7+XOufZJOetXCmO6Z4Qw4EVypXizMCCnXhIVHZavYZSaf
-         y/BvT+OiYluUMW9pMpVguOZkcRj9gBjfLroEZCZAhtm7Rj6YGWLu0DqVXPu6v9pn6Tk/
-         NndsuFDO9yah4DuobiUkjgUt7cnHNiop2/5shbrL0Nz24oAkOvYGh7jWu0Sy4JSswYHM
-         iBSO36HWO9LCS86heCrUfi08Sg0pLMf/2ZOfLCRI7QOLfnkWGAWmQ8pzGG5tNh6xka3R
-         Nx+g==
+        d=gmail.com; s=20251104; t=1779769058; x=1780373858; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=AjzT+YU+WzbbKcxJRdWZ4am57GNWqPjoWyeRr7PJJSQ=;
+        b=p7i8LjSIJPvTNPzz6di+cLCPAXTNGfktWK92qOPllEtFO2Y5eCq1FYhIIHvRoibZs1
+         cSftm80D51sTSVRU/HUh/wyxsnN3teUQt0iFpD6f+R6qTJppNlm4j4iB9Fv8u1fRIvog
+         ziomS5hAKe0fKs8kMT0TuDedvDRdQxrATXrovlAHXYeE0r+t0EdeVdRyWeqvzV+GT3EX
+         mUIAbZPBCXaq+vr7Oi2IM3D4rKHVcpmf6SQViatsJF63/M+yah8l3p+RBGtpY2fVOq8J
+         1QXs5wHPTFdGLGRjBszcEbmrGP/BwbnpgbLXLhnSkL+pfUsw8lF8XuuMsMQ6p7J03dHG
+         xqSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779755063; x=1780359863;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=NQSMw3Vvv8eJ1+UHIh3MK/+HpaNM97XO5hlqHFibpi8=;
-        b=k0MCddQruy9YHFo1fLh+s/d96rFHtV5c68h0TYl21/cXCc45ChtpIew5aTIF8PBP1L
-         0LJzkX/nY72a5NWoutwJNOERKxlMOAvrIauXiOBRNtN4/mqaDXvW40PF/sZX/COPpa69
-         GWm7hjpn1xMMw2vN/UeZ1C63Re+MRIDSy5eePoWUaf90VCe0jepONQQTe5vPR4l7Cowo
-         ijm15ceXvumI+yIMrCSAwdDZdIS4LI1amEyMQXZmJiC8WlBiM42EKkT5OT/b9LaWg2HU
-         lfLH/8HQrricU+QVYvfXqGtNBtaZ3j7wobgE6ifoMmod21wkRbVkbAYZAGw8MApCcSXU
-         T3Ig==
-X-Forwarded-Encrypted: i=1; AFNElJ/kMNsvyYG6XxXCq5mbwylaSEqRKfOO23/oi7LHFPcfjezSs32eWU9RxTW2aGWgjm1tdl087Kv+GP3/PQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyKaa6P/IQFe9a+9XzJa5dRK7Uc5gm7TPH9qv4xXHbZzQskm2ym
-	rTazInLHxCtssyQcF2AcfMhMeY9Iwt8SdVfQECwYynH+NfxvDam2DCJKim8JNXJjsVqwNWd0kbH
-	I95H7MR9chLNa7UYlYRsXAJN5n6jsQ7U=
-X-Gm-Gg: Acq92OHNRJzYDq+ujOwXek5E8BU80czvfb6Gj8rOjBek7OEgkyQUkpgTJ2PUYnw1lL3
-	81Jy0ugQ1B9VSff3jitW1UQmrjTUXAC/sUove1EQq17ayVdFbJEkKLYFmJSeeon+Eu1+GIoqA8n
-	33W8tyXA2OnXcYoMCy4uBrhslcuPo5M0qb4jJRZsbAXTAfmYkWt/AlMERzU7CfJpBEh2XjxuoBp
-	XbS3GJ/AWwTwvrhwnPB96RChoSgthWpjxcmLCgooVSoGq0rIhaH+zLbY9RFB3kNtdBHcQuJMZxv
-	cI3aTNPQuYLmBUetaAkMTHLHdBhm94UORzv8kJE0EoSBuX3tSjJTK4raVQftAwG7mj0kUHTj
-X-Received: by 2002:a05:6512:1599:b0:5a7:4699:9fd8 with SMTP id
- 2adb3069b0e04-5aa2ba85b09mr7355408e87.16.1779755062403; Mon, 25 May 2026
- 17:24:22 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779769058; x=1780373858;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AjzT+YU+WzbbKcxJRdWZ4am57GNWqPjoWyeRr7PJJSQ=;
+        b=QaJiTKr49TIj/Hdr5z6e7n4x1TAL+XzgyVpn9QCI5Jp585ZyOePCrgrc+QbJZRYu3o
+         nm2SdEyBAN8xLTkp8299q0tELCiJtonLEtL7XIOlUJ8e3luJzAVx2hEB476/CTdBoBG7
+         9UE9C5PIj8maxpVNHCbMOcv8piKfczKYPCQpp2BmrbIfuEuaPJ6MzNhnG97pz2kZ7rv5
+         GhFXd2KXXbS3Df2I/lQg4JO55khfTyqeREI836K8Z/BOFx8ZRTholMIfecX80PdniwJ6
+         BwuTQH69OwoOrgWcxrz1To2pqGa9W/3fLCkNXhZJDC4E+uGgu6RVPfZYNvxXw20z1cpG
+         erJQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9nWSMk9QnpvwpWyYcVjrqS/sXZfdx1BU5EQVhrFIRLhT+gZMD2du6C/DZNcHLVBh8W+Pdd8v8DE9SiiQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyX2sd38jS7RR5ekVM4oZb4IJ+p+s8TQiQDBOcPMK78FXBx2FHk
+	ClGhgP5t4Nosu47yMnBN2avjAkanqBp2z0Er59FHIK/ZIKGzMC/C9Zb8FPZnmkKmoZhlx8xrt3n
+	AawYCQmrabkLArRbQi9HJTCbf/fKo05A=
+X-Gm-Gg: Acq92OHPEfxUGcj6sPgBxArokCaMDjEcCvyHIvYxNmWnZmojCDV+ivv8VaGLEpqfXIM
+	XmMIP4PoWYpeMSc1TKZ0/z1oXI9ZBSzOK8vCKHDPoGKaC37mQC7ZN7fkFD+bsmh2ema4kJHZ/6z
+	0r35MqteTNPreC9hYz6sM468dc7eK5txtzAXe6DRuSk9BHxR0orLR3s7YBpdGDXmacbXSpSqu69
+	AppuKGZx3poTVZsyM0NeCZpgIbgzuXKTHgLVqNBar4FEaQOWei6CRMMOF9kZrnteWLewNOW646z
+	KDxhD9nAd1nZQ02NecWEk+aEQ0sC0vDrsZrQAOwuOUozoisF
+X-Received: by 2002:a17:902:ef11:b0:2bd:d7b5:83ed with SMTP id
+ d9443c01a7336-2beb07001camr199500955ad.39.1779769058465; Mon, 25 May 2026
+ 21:17:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAOMZO5AHK2FF1_wws3wQsJs5ofvjn2JpQmk3of+p1+ExL8h+ew@mail.gmail.com>
-In-Reply-To: <CAOMZO5AHK2FF1_wws3wQsJs5ofvjn2JpQmk3of+p1+ExL8h+ew@mail.gmail.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Mon, 25 May 2026 21:24:10 -0300
-X-Gm-Features: AVHnY4JS4uosGBNNT0O2e2-uAlaBFEkB6tUSmGGzp3aw6DXRUG7IRPZ2XdoJxuA
-Message-ID: <CAOMZO5AX8z-S6x7agjAs9qvyVL=Je9GBwtLc8Jhg=s=baerfgA@mail.gmail.com>
-Subject: Re: sunxi: Watchdog reboot fails on Allwinner R40 after Linux boot
-To: Guenter Roeck <linux@roeck-us.net>, wens@kernel.org, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Andre Przywara <andre.przywara@arm.com>
-Cc: "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
-	linux-watchdog@vger.kernel.org, Otavio Salvador <otavio@ossystems.com.br>
+References: <20260522095401.72915-1-phucduc.bui@gmail.com> <20260522095401.72915-4-phucduc.bui@gmail.com>
+ <CAGb2v67aXgg8BmrtVVBi+_n32OBcQnQgEUe3XdRp6Jj=aEr8fg@mail.gmail.com>
+ <CAABR9nEFGOX5GnQ9qpJY-T-92dA_kDcVS+qBz1ior590G_x6gw@mail.gmail.com>
+ <CAGb2v66accoNhStHGhnoUM0cw3fyCxfuvS1a-brL9C-ZO07ChQ@mail.gmail.com> <CAGb2v644whCr6pRSfGMuQ=5afUMbfC2Y3W_kjdMdp9+5+kJhJA@mail.gmail.com>
+In-Reply-To: <CAGb2v644whCr6pRSfGMuQ=5afUMbfC2Y3W_kjdMdp9+5+kJhJA@mail.gmail.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Tue, 26 May 2026 11:17:27 +0700
+X-Gm-Features: AVHnY4KjIHp6k8PI6oQzPKSFMzC_yNK4NVye8enq3FNJPQ2UT-iy1gcG4S--peY
+Message-ID: <CAABR9nHbwNheKRSzevSBnD+YyLeYVDA4FLH9AN8Fo1uX596rSQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] ASoC: sunxi: sun4i-spdif: Reorder clock enable sequence
+To: wens@kernel.org
+Cc: broonie@kernel.org, codekipper@gmail.com, jernej.skrabec@gmail.com, 
+	lgirdwood@gmail.com, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, nichen@iscas.ac.cn, perex@perex.cz, 
+	samuel@sholland.org, tiwai@suse.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, May 24, 2026 at 9:41=E2=80=AFAM Fabio Estevam <festevam@gmail.com> =
-wrote:
->
-> Hi,
->
-> I am seeing a reboot failure on an Allwinner R40-based board
-> (Boardcon EMA40i) running mainline Linux v6.18 or also 7.1.0-rc4-next-202=
-60522.
-> This board hasn't been upstreamed yet, but I plan to do so soon.
->
-> The board reboots correctly from U-Boot 2026.04 using the sunxi watchdog,
-> but Linux fails to reboot even when programming the watchdog
-> registers with the exact same values used by U-Boot.
+Hi Chen-yu,
 
-This is solved now. The problem was that the X32KIN R40 pin was not
-getting a 32kHz
-from the external PCF8563 CLKOUT pin.
+> Oh, and you could also add that the resume order should (normally) be
+> the reverse of the suspend order.
+
+Thank you for the feedback and clarification.
+
+I can certainly rewrite the commit message around the idea that the
+resume ordering should normally mirror the suspend ordering.
+
+However, I am still slightly unsure about which ordering should be
+considered the preferred one in this case. If the reasoning is purely
+based on suspend/resume symmetry, I wonder if changing the suspend
+path itself to disable the APB clock before the SPDIF module clock
+would be an option, which would then naturally lead to enabling the
+SPDIF module clock first during resume.
+
+From the hardware perspective, I originally assumed the APB clock acts
+as the prerequisite for register access while the module clock mainly
+drives the functional audio logic, which is why the "bus before module"
+ordering initially seemed more intuitive to me.
+
+So I would like to better understand which ordering is considered the
+preferred model for the Sunxi audio blocks here: preserving the existing
+suspend/resume symmetry, or enforcing the bus/module dependency ordering.
+
+Thanks,
+Phuc
