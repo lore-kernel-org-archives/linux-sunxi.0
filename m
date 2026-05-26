@@ -1,81 +1,81 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75FAE3AB274
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 May 2026 09:22:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60BB53D6494
+	for <linux-sunxi@lists.linux.dev>; Tue, 26 May 2026 09:28:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779787368; cv=none; b=B9FP3Q+3Aa/QGu/ZOAXe0IkehweJAQkRvb3gLzzji6p5rHJaJgdie3HlgfCtMqu4GfcNj2ZVzAM1IhCmnynG1L1TiFqGcJPtZaEEXNj3vEe3ehInwF5wakZz6PSKroNrmNTUK2RiFPqcpexBpReT7heFTk9SVIor9S9zZT7eTfE=
+	t=1779787703; cv=none; b=pcKLntqsSByJTOVkDCHJloDA6P3xVxb9eM7UeEb37RvUL3DVeyabuqzyZviecbyIwU/dQqE0qKIarZYgNKh8uvN1ncqjbjN+aVFC+QEw9RfvlcT6o34LkVZYKVFzBiz1HELUchBVwUw1p9MOAPCyKWE35Ehl8CWudSHIwePvO1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779787368; c=relaxed/simple;
-	bh=J6nMCqoQjuenhdQJraC/QUvpb94c2QH4DWGCIEYBXIU=;
+	s=arc-20240116; t=1779787703; c=relaxed/simple;
+	bh=khYGSD+7+eNS3QR/76Q9l9weqpPyHBXJK011tLh2g2U=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D4crOeDWEghbCjQviV17Q6qyIV9iyQXHBdUgBKLNG5UuPAaVd+pzFMDvGIFCzievzVxqgMuMNntBg/w31DVcJMZqFNmqDujDIUN7e//Vb4S+oMCNR4DtuWpcgBsJFj3llxwsj6DjZzzMM7MR/+JepeSeLtWDD/ts1wEzfJ7Ws84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VAijS1od; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q6I6VFLJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VAijS1od; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q6I6VFLJ; arc=none smtp.client-ip=195.135.223.130
+	 In-Reply-To:Content-Type; b=JWfG2N+oaR81vUtIbwBjrrQ80y9t5dzlQAG0qXJZ/fM4/EOQ/gWfpjGAMYMUmtUOLF5wfmLG72qld6YiE9/ho2Mcd2jJ4P7T16x00X6CIlY9QSB/OHS51G6tyiAoDb5NavGrBSVvYswqHco9nFEVUlaw5RrGHtVyizPxxtCBLH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PUVYor5z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ze1+YUzq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PUVYor5z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ze1+YUzq; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VAijS1od";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q6I6VFLJ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VAijS1od";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q6I6VFLJ"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PUVYor5z";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ze1+YUzq";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PUVYor5z";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ze1+YUzq"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 94B526B346;
-	Tue, 26 May 2026 09:22:44 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0BE4E6B11C;
+	Tue, 26 May 2026 09:28:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779787364; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779787699; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=dSvjQQSdD0rwF6LUM0JsPgONSlRbO3wD9RFgWm9OySo=;
-	b=VAijS1ode21962RALMpEDQvhWosJZQD54KvUSbmvsBbY7fSXj6QCrVc13ZksbrnNDb9I8s
-	c1V9fnoWbf+87mc0qDndSFsDw3McYPL1tdXqCJIU9G3cHhYfdj3Bvla/C2fL9pQPcGuo7C
-	Zo6VaV9zBe4nglfZDEvfBrHSGl7IB9o=
+	bh=e1ycFbTDM1H/MkSqi8mEXcvsJDNC+SpL10p5P+mjlCM=;
+	b=PUVYor5zx7Jt+ICxWfd9bLJwBsE+2vq9/K+2zVitrvTgxyjLcKFtGv5SvhmQHFhyWNopRu
+	6S0GBXIxSI0LovcCDAENVq0FVqKHhceyWVQ5VPW8q4BvJ3Tws5efEvtPnRNrlkaW0FOUIT
+	kyrTbKZQVbIZ+Oncm+SBKvK18yZf8lE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779787364;
+	s=susede2_ed25519; t=1779787699;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=dSvjQQSdD0rwF6LUM0JsPgONSlRbO3wD9RFgWm9OySo=;
-	b=Q6I6VFLJL7j6Ca4GX4Dp6xrpYpciDlP+JyRLy/WLruUox4Hydh39c/SxpyqYBNqgMSAbtn
-	kyG6pGULsZmxM1DA==
+	bh=e1ycFbTDM1H/MkSqi8mEXcvsJDNC+SpL10p5P+mjlCM=;
+	b=ze1+YUzqyKtBg14ZF61vCY6plLvB0Uc0m8BFw1rrj3ZtfBmAlXNYJ9kIjPoq9gdPHp4i+x
+	OGTnbbxjY+5aoCBA==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=VAijS1od;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Q6I6VFLJ
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=PUVYor5z;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ze1+YUzq
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779787364; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779787699; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=dSvjQQSdD0rwF6LUM0JsPgONSlRbO3wD9RFgWm9OySo=;
-	b=VAijS1ode21962RALMpEDQvhWosJZQD54KvUSbmvsBbY7fSXj6QCrVc13ZksbrnNDb9I8s
-	c1V9fnoWbf+87mc0qDndSFsDw3McYPL1tdXqCJIU9G3cHhYfdj3Bvla/C2fL9pQPcGuo7C
-	Zo6VaV9zBe4nglfZDEvfBrHSGl7IB9o=
+	bh=e1ycFbTDM1H/MkSqi8mEXcvsJDNC+SpL10p5P+mjlCM=;
+	b=PUVYor5zx7Jt+ICxWfd9bLJwBsE+2vq9/K+2zVitrvTgxyjLcKFtGv5SvhmQHFhyWNopRu
+	6S0GBXIxSI0LovcCDAENVq0FVqKHhceyWVQ5VPW8q4BvJ3Tws5efEvtPnRNrlkaW0FOUIT
+	kyrTbKZQVbIZ+Oncm+SBKvK18yZf8lE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779787364;
+	s=susede2_ed25519; t=1779787699;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=dSvjQQSdD0rwF6LUM0JsPgONSlRbO3wD9RFgWm9OySo=;
-	b=Q6I6VFLJL7j6Ca4GX4Dp6xrpYpciDlP+JyRLy/WLruUox4Hydh39c/SxpyqYBNqgMSAbtn
-	kyG6pGULsZmxM1DA==
+	bh=e1ycFbTDM1H/MkSqi8mEXcvsJDNC+SpL10p5P+mjlCM=;
+	b=ze1+YUzqyKtBg14ZF61vCY6plLvB0Uc0m8BFw1rrj3ZtfBmAlXNYJ9kIjPoq9gdPHp4i+x
+	OGTnbbxjY+5aoCBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9EA955A125;
-	Tue, 26 May 2026 09:22:43 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 17D095A12A;
+	Tue, 26 May 2026 09:28:18 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Mc5aJWNmFWpaewAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 26 May 2026 09:22:43 +0000
-Message-ID: <3e523040-b59a-40dc-8b60-d604c32bac88@suse.de>
-Date: Tue, 26 May 2026 11:22:43 +0200
+	id /hxgBLJnFWpwAQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 26 May 2026 09:28:18 +0000
+Message-ID: <12542083-04b9-4e49-98f6-4715df6b4764@suse.de>
+Date: Tue, 26 May 2026 11:28:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -83,7 +83,8 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 12/19] drm/crtc: Add new atomic_create_state callback
+Subject: Re: [PATCH v5 15/19] drm/connector: Add new atomic_create_state
+ callback
 To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -108,9 +109,10 @@ To: Maxime Ripard <mripard@kernel.org>,
 Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 References: <20260519-drm-mode-config-init-v5-0-388b03321e38@kernel.org>
- <20260519-drm-mode-config-init-v5-12-388b03321e38@kernel.org>
+ <20260519-drm-mode-config-init-v5-15-388b03321e38@kernel.org>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -137,13 +139,13 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260519-drm-mode-config-init-v5-12-388b03321e38@kernel.org>
+In-Reply-To: <20260519-drm-mode-config-init-v5-15-388b03321e38@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Score: -3.01
+X-Rspamd-Queue-Id: 0BE4E6B11C
 X-Spam-Level: 
-X-Rspamd-Queue-Id: 94B526B346
-X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -152,30 +154,28 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[38];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[37];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,lwn.net,linuxfoundation.org,oss.qualcomm.com,iki.fi,ideasonboard.com,intel.com,linaro.org,kwiboo.se,emersion.fr,amd.com,igalia.com,redhat.com,ursulin.net,sholland.org,raspberrypi.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_TRACE(0.00)[suse.de:+];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
-	internal_greylist_whitelist(0.00)[2a07:de40:b281:104:10:150:64:97];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	R_RATELIMIT(0.00)[to_ip_from(RL7gneoo7ydcsn9o76mxr5d8pb)];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	TAGGED_RCPT(0.00)[renesas];
 	MID_RHS_MATCH_FROM(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RL7gneoo7ydcsn9o76mxr5d8pb)];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:email,suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,qualcomm.com:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,qualcomm.com:email,suse.de:dkim,suse.de:email,suse.de:mid,suse.com:url]
+X-Rspamd-Action: no action
 X-Spam-Flag: NO
 
 
@@ -210,43 +210,122 @@ Am 19.05.26 um 11:01 schrieb Maxime Ripard:
 > initialization with the actual reset one might need during a
 > suspend/resume.
 >
-> Continue the transition to the new pattern with CRTCs.
+> Continue the transition to the new pattern with connectors.
 >
 > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-[...]
+> ---
+>   drivers/gpu/drm/drm_atomic_state_helper.c | 26 ++++++++++++++++++++++++++
+>   drivers/gpu/drm/drm_connector.c           | 10 +++++++++-
+>   drivers/gpu/drm/drm_mode_config.c         | 31 ++++++++++++++++++++++++++++++-
+>   include/drm/drm_atomic_state_helper.h     |  2 ++
+>   include/drm/drm_connector.h               | 16 ++++++++++++++++
+>   5 files changed, 83 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> index e2e5a1b8a820..07686e94aae0 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -532,10 +532,36 @@ void drm_atomic_helper_connector_reset(struct drm_connector *connector)
+>   	kfree(connector->state);
+>   	__drm_atomic_helper_connector_reset(connector, conn_state);
+>   }
+>   EXPORT_SYMBOL(drm_atomic_helper_connector_reset);
+>   
+> +/**
+> + * drm_atomic_helper_connector_create_state - default &drm_connector_funcs.atomic_create_state hook for connectors
+> + * @connector: connector object
+> + *
+> + * Allocates and  initializes pristine @drm_connector_state.
+> + *
+> + * This is useful for drivers that don't subclass @drm_connector_state.
+> + *
+> + * RETURNS:
+> + * Pointer to new connector state, or ERR_PTR on failure.
+> + */
+> +struct drm_connector_state *
+> +drm_atomic_helper_connector_create_state(struct drm_connector *connector)
+> +{
+> +	struct drm_connector_state *state;
 > +
-> +	crtc_state = crtc->funcs->atomic_create_state(crtc);
-> +	if (IS_ERR(crtc_state))
-> +		return PTR_ERR(crtc_state);
+> +	state = kzalloc_obj(*state);
+> +	if (!state)
+> +		return ERR_PTR(-ENOMEM);
 > +
-> +	if (drm_dev_has_vblank(crtc->dev))
-> +		drm_crtc_vblank_reset(crtc);
-
-I've recently looked at the vblank init and reset code. At some point, 
-we'll have to make the vblank reset controllable by drivers. Not an 
-issue for now though.
-
-Best regards
-Thomas
-
+> +	__drm_atomic_helper_connector_state_init(state, connector);
 > +
-> +	crtc->state = crtc_state;
+> +	return state;
+> +}
+> +EXPORT_SYMBOL(drm_atomic_helper_connector_create_state);
+> +
+>   /**
+>    * drm_atomic_helper_connector_tv_margins_reset - Resets TV connector properties
+>    * @connector: DRM connector
+>    *
+>    * Resets the TV-related properties attached to a connector.
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index 3fa4d2082cd7..a0b132c658a1 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -616,11 +616,19 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+>   
+>   	/*
+>   	 * drm_connector_attach_max_bpc_property() requires the
+>   	 * connector to have a state.
+>   	 */
+> -	if (connector->funcs->reset)
+> +	if (connector->funcs->atomic_create_state) {
+> +		struct drm_connector_state *state;
+> +
+> +		state = connector->funcs->atomic_create_state(connector);
+> +		if (IS_ERR(state))
+> +			return PTR_ERR(state);
+> +
+> +		connector->state = state;
+> +	} else if (connector->funcs->reset)
+>   		connector->funcs->reset(connector);
+>   
+>   	drm_connector_attach_max_bpc_property(connector, 8, max_bpc);
+>   	connector->max_bpc = max_bpc;
+>   
+> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+> index 2e2cd18a14b4..9d240817f8b6 100644
+> --- a/drivers/gpu/drm/drm_mode_config.c
+> +++ b/drivers/gpu/drm/drm_mode_config.c
+> @@ -235,10 +235,36 @@ static int drm_mode_config_crtc_reset_with_create_state(struct drm_crtc *crtc)
+>   	}
+>   
+>   	return drm_mode_config_crtc_create_state(crtc);
+>   }
+>   
+> +static int drm_mode_config_connector_create_state(struct drm_connector *connector)
+> +{
+> +	struct drm_connector_state *conn_state;
+> +
+> +	if (!connector->funcs->atomic_create_state)
+> +		return 0;
+> +
+> +	conn_state = connector->funcs->atomic_create_state(connector);
+> +	if (IS_ERR(conn_state))
+> +		return PTR_ERR(conn_state);
+> +
+> +	connector->state = conn_state;
 > +
 > +	return 0;
 > +}
 > +
-> +static int drm_mode_config_crtc_reset_with_create_state(struct drm_crtc *crtc)
+> +static int drm_mode_config_connector_reset_with_create_state(struct drm_connector *connector)
 > +{
-> +	if (crtc->state) {
-> +		crtc->funcs->atomic_destroy_state(crtc, crtc->state);
-> +		crtc->state = NULL;
+> +	if (connector->state) {
+> +		connector->funcs->atomic_destroy_state(connector, connector->state);
+> +		connector->state = NULL;
 > +	}
 > +
-> +	return drm_mode_config_crtc_create_state(crtc);
+> +	return drm_mode_config_connector_create_state(connector);
 > +}
 > +
 >   /**
@@ -254,71 +333,71 @@ Thomas
 >    * @dev: drm device
 >    *
 >    * This functions calls all the crtc's, encoder's and connector's ->reset
-> @@ -237,13 +266,16 @@ void drm_mode_config_reset(struct drm_device *dev)
->   			plane->funcs->reset(plane);
->   		else if (plane->funcs->atomic_create_state)
->   			drm_mode_config_plane_reset_with_create_state(plane);
->   	}
->   
-> -	drm_for_each_crtc(crtc, dev)
-> +	drm_for_each_crtc(crtc, dev) {
->   		if (crtc->funcs->reset)
->   			crtc->funcs->reset(crtc);
-> +		else if (crtc->funcs->atomic_create_state)
-> +			drm_mode_config_crtc_reset_with_create_state(crtc);
-> +	}
->   
+> @@ -278,13 +304,16 @@ void drm_mode_config_reset(struct drm_device *dev)
 >   	drm_for_each_encoder(encoder, dev)
 >   		if (encoder->funcs && encoder->funcs->reset)
 >   			encoder->funcs->reset(encoder);
 >   
+>   	drm_connector_list_iter_begin(dev, &conn_iter);
+> -	drm_for_each_connector_iter(connector, &conn_iter)
+> +	drm_for_each_connector_iter(connector, &conn_iter) {
+>   		if (connector->funcs->reset)
+>   			connector->funcs->reset(connector);
+> +		else if (connector->funcs->atomic_create_state)
+> +			drm_mode_config_connector_reset_with_create_state(connector);
+> +	}
+>   	drm_connector_list_iter_end(&conn_iter);
+>   }
+>   EXPORT_SYMBOL(drm_mode_config_reset);
+>   
+>   /*
 > diff --git a/include/drm/drm_atomic_state_helper.h b/include/drm/drm_atomic_state_helper.h
-> index 0bb72453464a..213f7e298008 100644
+> index 9634a70e0401..f4b6d8833bc2 100644
 > --- a/include/drm/drm_atomic_state_helper.h
 > +++ b/include/drm/drm_atomic_state_helper.h
-> @@ -43,10 +43,12 @@ struct drm_device;
->   void __drm_atomic_helper_crtc_state_init(struct drm_crtc_state *state,
->   					  struct drm_crtc *crtc);
->   void __drm_atomic_helper_crtc_reset(struct drm_crtc *crtc,
->   				    struct drm_crtc_state *state);
->   void drm_atomic_helper_crtc_reset(struct drm_crtc *crtc);
-> +struct drm_crtc_state *
-> +drm_atomic_helper_crtc_create_state(struct drm_crtc *crtc);
->   void __drm_atomic_helper_crtc_duplicate_state(struct drm_crtc *crtc,
->   					      struct drm_crtc_state *state);
->   struct drm_crtc_state *
->   drm_atomic_helper_crtc_duplicate_state(struct drm_crtc *crtc);
->   void __drm_atomic_helper_crtc_destroy_state(struct drm_crtc_state *state);
-> diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-> index c6dbe8b7db9e..152349f973e3 100644
-> --- a/include/drm/drm_crtc.h
-> +++ b/include/drm/drm_crtc.h
-> @@ -636,10 +636,26 @@ struct drm_crtc_funcs {
->   	 * 0 on success or a negative error code on failure.
+> @@ -73,10 +73,12 @@ void drm_atomic_helper_plane_destroy_state(struct drm_plane *plane,
+>   void __drm_atomic_helper_connector_state_init(struct drm_connector_state *conn_state,
+>   					       struct drm_connector *connector);
+>   void __drm_atomic_helper_connector_reset(struct drm_connector *connector,
+>   					 struct drm_connector_state *conn_state);
+>   void drm_atomic_helper_connector_reset(struct drm_connector *connector);
+> +struct drm_connector_state *
+> +drm_atomic_helper_connector_create_state(struct drm_connector *connector);
+>   void drm_atomic_helper_connector_tv_reset(struct drm_connector *connector);
+>   int drm_atomic_helper_connector_tv_check(struct drm_connector *connector,
+>   					 struct drm_atomic_commit *state);
+>   void drm_atomic_helper_connector_tv_margins_reset(struct drm_connector *connector);
+>   void
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 5ad62c207d00..529755c2e862 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -1569,10 +1569,26 @@ struct drm_connector_funcs {
+>   	 * when a connector is being hot-unplugged for drivers that support
+>   	 * connector hotplugging (e.g. DisplayPort MST).
 >   	 */
->   	int (*set_property)(struct drm_crtc *crtc,
->   			    struct drm_property *property, uint64_t val);
+>   	void (*destroy)(struct drm_connector *connector);
 >   
 > +	/**
 > +	 * @atomic_create_state:
 > +	 *
-> +	 * Allocate a pristine, initialized, state for the CRTC object
-> +	 * and return it. This callback must have no side effects: in
-> +	 * particular, the returned state must not be assigned to the
-> +	 * object's state pointer and it must not affect the hardware
-> +	 * state.
+> +	 * Allocate a pristine, initialized, state for the connector
+> +	 * object and return it. This callback must have no side
+> +	 * effects: in particular, the returned state must not be
+> +	 * assigned to the object's state pointer and it must not affect
+> +	 * the hardware state.
 > +	 *
 > +	 * RETURNS:
 > +	 *
-> +	 * A new, pristine, CRTC state instance or an error pointer
+> +	 * A new, pristine, connector state instance or an error pointer
 > +	 * on failure.
 > +	 */
-> +	struct drm_crtc_state *(*atomic_create_state)(struct drm_crtc *crtc);
+> +	struct drm_connector_state *(*atomic_create_state)(struct drm_connector *connector);
 > +
 >   	/**
 >   	 * @atomic_duplicate_state:
 >   	 *
->   	 * Duplicate the current atomic state for this CRTC and return it.
+>   	 * Duplicate the current atomic state for this connector and return it.
 >   	 * The core and helpers guarantee that any atomic state duplicated with
 >
 
