@@ -1,128 +1,338 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3ED030DD0A
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 May 2026 04:17:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779769063; cv=pass; b=WHdCpYbpYfkQ2y4x9JDqCmjAVB5KNV80G0MyOphAazG11SnX6DBSYpMbjkOW+0W+riN5OYtlCsnmH/o2v5/avF6CI5LHu0QYNP7tZ27/t2DjqpAzPknjCZPuWRN34IywM89ir1tJ6M8wik0LCqkJST9W8vGNvjgWEk7kbQMR4hg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779769063; c=relaxed/simple;
-	bh=AjzT+YU+WzbbKcxJRdWZ4am57GNWqPjoWyeRr7PJJSQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Vfzu7WuP5M4Yg2epqYkb1GM0ElKjA5T9VGzI+goyBqvWnQ73+brpKvVq1aWrukQNsBj+LHl+cQenVtbr6zYLGJ79h32/c1+pvbBJAuOc8zer9qOcLTMWtPTNhupEUlmMLkgzmU3Ivbqstq0FDHSvjj+fEbkKY/nwNwt+P57dEuU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p7i8LjSI; arc=pass smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8393446C0
+	for <linux-sunxi@lists.linux.dev>; Tue, 26 May 2026 09:00:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779786004; cv=none; b=Uv6FgyetA1Xr/Q3bAOhk1yK66F63iX3zzPBS574HHAMo2/IDPXxUcVuQCE+FKfbDqPQLg53pxPPE7NxdMmpi2BZ94kcP9DsKp9M4jrI7weTEqD+lnZcItuHvbvF9xFyaknEZisuCaoARYtPwB8BSBJfnu0smeA245X7TJrWzOOo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779786004; c=relaxed/simple;
+	bh=gLaH9Y/NUAMrbt1CzCiguQZVPe7IhHt+ukbNCot4UfQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uaVFrdQt4aBLhVAbavu+3GK8WCaRmrg6TxNADP1+nGiKIFLhR9HNtgGnV4Qt8yfvLnTTv0fWGxZZ78rql8d1F6ybAq3Hx+zz2W3DJPdKSboYvS9UP0zTQYrw6YVswOr9UGfl7xAmZ975frB/EvMWqsib9iP0zseczNkvU/Gyh2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=baaPyYMv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CFOTXZ/J; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Osk3/v8m; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=o3oEKfPy; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p7i8LjSI"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-366330b6751so7971328a91.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 25 May 2026 21:17:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779769058; cv=none;
-        d=google.com; s=arc-20240605;
-        b=QnL8efALAkRka8cUnmGP2MaJY/7JBV5DQRNgtL0fvKnjDgyqScA5rHN9Bie6o8ubWi
-         gwlDNByO6lvH+7G9Y9yxrhe6X5j75cWNcBeKgsJtsUiVwdidor9qOB7a3camJwwXt+Ha
-         isFVAid/fqlDMyNnw+eeuqYVcM4+oOuljWgDvBNSixZofoUY/D5fsmueNot12QlWVGLI
-         IKUl8O+pWDUC2Adf9B4y3d/WERJMgzzNWq1DQF5LEh1Ao7qvKp18g8nofYynbAYXzuWJ
-         D1TPm2V9nS6RYjGvrJFDgU006T+eRWSJLcvKkv6rInWRGgK7kKqfEVJGIt77JKyaCsYQ
-         /jGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=AjzT+YU+WzbbKcxJRdWZ4am57GNWqPjoWyeRr7PJJSQ=;
-        fh=wtEJWd0mp4TwSBksBK6+x0s+eJ7Ou8cu7NoHxu0smuY=;
-        b=G4rv4aAgeM8ICx12CZPtUd0x6zbPVLMvh/znC+HK3IUnUkHNfL+VnOSqkiIeVl346l
-         kKGQes/OHVILJDhiU4PM8xFJvc7qKJSjtgcx2f7V+ygKmL2tVHBE4i2hEY1GeFeqvH8g
-         JiSt89E+B3sj0wDSlsWqfuUTReAoF8ir7a8O2cn8y/N2rvYTkdEql0MyPvhRqzYl8tN4
-         pwAGp2dVHWq2J98N6Ww3Nelz8yfOggLEDDJysKTw1pLajLXnoMiPQv4oMKGztLbPov5o
-         7JmCF4cPqPB17gF8i0AFtC+aNnUre1nDscJKQJrJQwiiyfFamn//eGmlAb4IJ3P9psIA
-         o+mA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779769058; x=1780373858; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=AjzT+YU+WzbbKcxJRdWZ4am57GNWqPjoWyeRr7PJJSQ=;
-        b=p7i8LjSIJPvTNPzz6di+cLCPAXTNGfktWK92qOPllEtFO2Y5eCq1FYhIIHvRoibZs1
-         cSftm80D51sTSVRU/HUh/wyxsnN3teUQt0iFpD6f+R6qTJppNlm4j4iB9Fv8u1fRIvog
-         ziomS5hAKe0fKs8kMT0TuDedvDRdQxrATXrovlAHXYeE0r+t0EdeVdRyWeqvzV+GT3EX
-         mUIAbZPBCXaq+vr7Oi2IM3D4rKHVcpmf6SQViatsJF63/M+yah8l3p+RBGtpY2fVOq8J
-         1QXs5wHPTFdGLGRjBszcEbmrGP/BwbnpgbLXLhnSkL+pfUsw8lF8XuuMsMQ6p7J03dHG
-         xqSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779769058; x=1780373858;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AjzT+YU+WzbbKcxJRdWZ4am57GNWqPjoWyeRr7PJJSQ=;
-        b=QaJiTKr49TIj/Hdr5z6e7n4x1TAL+XzgyVpn9QCI5Jp585ZyOePCrgrc+QbJZRYu3o
-         nm2SdEyBAN8xLTkp8299q0tELCiJtonLEtL7XIOlUJ8e3luJzAVx2hEB476/CTdBoBG7
-         9UE9C5PIj8maxpVNHCbMOcv8piKfczKYPCQpp2BmrbIfuEuaPJ6MzNhnG97pz2kZ7rv5
-         GhFXd2KXXbS3Df2I/lQg4JO55khfTyqeREI836K8Z/BOFx8ZRTholMIfecX80PdniwJ6
-         BwuTQH69OwoOrgWcxrz1To2pqGa9W/3fLCkNXhZJDC4E+uGgu6RVPfZYNvxXw20z1cpG
-         erJQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9nWSMk9QnpvwpWyYcVjrqS/sXZfdx1BU5EQVhrFIRLhT+gZMD2du6C/DZNcHLVBh8W+Pdd8v8DE9SiiQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyX2sd38jS7RR5ekVM4oZb4IJ+p+s8TQiQDBOcPMK78FXBx2FHk
-	ClGhgP5t4Nosu47yMnBN2avjAkanqBp2z0Er59FHIK/ZIKGzMC/C9Zb8FPZnmkKmoZhlx8xrt3n
-	AawYCQmrabkLArRbQi9HJTCbf/fKo05A=
-X-Gm-Gg: Acq92OHPEfxUGcj6sPgBxArokCaMDjEcCvyHIvYxNmWnZmojCDV+ivv8VaGLEpqfXIM
-	XmMIP4PoWYpeMSc1TKZ0/z1oXI9ZBSzOK8vCKHDPoGKaC37mQC7ZN7fkFD+bsmh2ema4kJHZ/6z
-	0r35MqteTNPreC9hYz6sM468dc7eK5txtzAXe6DRuSk9BHxR0orLR3s7YBpdGDXmacbXSpSqu69
-	AppuKGZx3poTVZsyM0NeCZpgIbgzuXKTHgLVqNBar4FEaQOWei6CRMMOF9kZrnteWLewNOW646z
-	KDxhD9nAd1nZQ02NecWEk+aEQ0sC0vDrsZrQAOwuOUozoisF
-X-Received: by 2002:a17:902:ef11:b0:2bd:d7b5:83ed with SMTP id
- d9443c01a7336-2beb07001camr199500955ad.39.1779769058465; Mon, 25 May 2026
- 21:17:38 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="baaPyYMv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CFOTXZ/J";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Osk3/v8m";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o3oEKfPy"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 363006B3E6;
+	Tue, 26 May 2026 08:59:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779785999; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=ejy15HLRULv/iHzJLGVQCrLp/AiLuLDwUgWtV4C2EU0=;
+	b=baaPyYMv4yGoQHFimAxytqQjn6ho5Zd1wa0FMTwsSYl4HfumaHInOXtFRCQanNqprT5hFp
+	auTBrgDJ8tUVkwo6MaC9M+qFT+nZxC/H4fWaDNQArID5i810CzAF4F5PbEZZtaZC05Nhrn
+	bHaoQ2UTzpstuC6Fr9OqknOV9u9dO9o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779785999;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=ejy15HLRULv/iHzJLGVQCrLp/AiLuLDwUgWtV4C2EU0=;
+	b=CFOTXZ/Jc28jW6gUmHAzNdWyt0f6zPZG+4PWGuwLGJUl0oh2nsUA9GcdS6AVEZhA2OrMKV
+	WtkbZVOIvCyH3+BA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779785998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=ejy15HLRULv/iHzJLGVQCrLp/AiLuLDwUgWtV4C2EU0=;
+	b=Osk3/v8mo9hxyPDuoXN6f41EsFVPQmCgg+ElT42l3CUUFnP0mQEO8Tf4arcKpUWI3bpw5N
+	32aTrm9kBeHRV4iUfnJ1+9hZL4oCsIj1+zudrX0f+JoDcETLgzINRl2Igclt+cV9fFFw7P
+	GpQad7BUfcrYFlgjt5c27wIFwuvWm2Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779785998;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=ejy15HLRULv/iHzJLGVQCrLp/AiLuLDwUgWtV4C2EU0=;
+	b=o3oEKfPyVr5jbUeUmexTQStzMVEUG9KNlGA+0hMIrGHnx4fp31jKEhtkVwom+QxhKRCnN1
+	ZM2Wuy20DjfNrKBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5162C5A10E;
+	Tue, 26 May 2026 08:59:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 01R4Eg1hFWqZZAAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 26 May 2026 08:59:57 +0000
+Message-ID: <0057f209-c8a6-48bc-9194-36e3b19bec67@suse.de>
+Date: Tue, 26 May 2026 10:59:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260522095401.72915-1-phucduc.bui@gmail.com> <20260522095401.72915-4-phucduc.bui@gmail.com>
- <CAGb2v67aXgg8BmrtVVBi+_n32OBcQnQgEUe3XdRp6Jj=aEr8fg@mail.gmail.com>
- <CAABR9nEFGOX5GnQ9qpJY-T-92dA_kDcVS+qBz1ior590G_x6gw@mail.gmail.com>
- <CAGb2v66accoNhStHGhnoUM0cw3fyCxfuvS1a-brL9C-ZO07ChQ@mail.gmail.com> <CAGb2v644whCr6pRSfGMuQ=5afUMbfC2Y3W_kjdMdp9+5+kJhJA@mail.gmail.com>
-In-Reply-To: <CAGb2v644whCr6pRSfGMuQ=5afUMbfC2Y3W_kjdMdp9+5+kJhJA@mail.gmail.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Tue, 26 May 2026 11:17:27 +0700
-X-Gm-Features: AVHnY4KjIHp6k8PI6oQzPKSFMzC_yNK4NVye8enq3FNJPQ2UT-iy1gcG4S--peY
-Message-ID: <CAABR9nHbwNheKRSzevSBnD+YyLeYVDA4FLH9AN8Fo1uX596rSQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] ASoC: sunxi: sun4i-spdif: Reorder clock enable sequence
-To: wens@kernel.org
-Cc: broonie@kernel.org, codekipper@gmail.com, jernej.skrabec@gmail.com, 
-	lgirdwood@gmail.com, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, nichen@iscas.ac.cn, perex@perex.cz, 
-	samuel@sholland.org, tiwai@suse.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 01/19] drm/atomic: Document atomic commit lifetime
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Simon Ser <contact@emersion.fr>, Harry Wentland <harry.wentland@amd.com>,
+ Melissa Wen <mwen@igalia.com>, Sebastian Wick <sebastian.wick@redhat.com>,
+ Alex Hung <alex.hung@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Chen-Yu Tsai <wens@kernel.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+References: <20260519-drm-mode-config-init-v5-0-388b03321e38@kernel.org>
+ <20260519-drm-mode-config-init-v5-1-388b03321e38@kernel.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20260519-drm-mode-config-init-v5-1-388b03321e38@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[renesas];
+	RCPT_COUNT_TWELVE(0.00)[38];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,lwn.net,linuxfoundation.org,oss.qualcomm.com,iki.fi,ideasonboard.com,intel.com,linaro.org,kwiboo.se,emersion.fr,amd.com,igalia.com,redhat.com,ursulin.net,sholland.org,raspberrypi.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLyhjdboxbrjk5hnijtjs4kbm6)];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:mid,imap1.dmz-prg2.suse.org:helo,ideasonboard.com:email]
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-Hi Chen-yu,
+Hi,
 
-> Oh, and you could also add that the resume order should (normally) be
-> the reverse of the suspend order.
+I left a number of comments on the style of writing. Apart from that, 
+it's great to have the lifetime documented.
 
-Thank you for the feedback and clarification.
+Am 19.05.26 um 11:01 schrieb Maxime Ripard:
+> How drm_atomic_commit and the various entity structures are allocated
+> and freed isn't really trivial. Document it.
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>   Documentation/gpu/drm-kms.rst |  6 +++++
+>   drivers/gpu/drm/drm_atomic.c  | 58 +++++++++++++++++++++++++++++++++++++++++++
+>   2 files changed, 64 insertions(+)
+>
+> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+> index d22817fdf9aa..36d76e391074 100644
+> --- a/Documentation/gpu/drm-kms.rst
+> +++ b/Documentation/gpu/drm-kms.rst
+> @@ -282,10 +282,16 @@ structure, ordering of committing state changes to hardware is sequenced using
+>   :c:type:`struct drm_crtc_commit <drm_crtc_commit>`.
+>   
+>   Read on in this chapter, and also in :ref:`drm_atomic_helper` for more detailed
+>   coverage of specific topics.
+>   
+> +Atomic State Lifetime
+> +---------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/drm_atomic.c
+> +   :doc: state lifetime
+> +
+>   Handling Driver Private State
+>   -----------------------------
+>   
+>   .. kernel-doc:: drivers/gpu/drm/drm_atomic.c
+>      :doc: handling driver private state
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index 170de30c28ae..d98586d89bbe 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -45,10 +45,68 @@
+>   #include <drm/drm_colorop.h>
+>   
+>   #include "drm_crtc_internal.h"
+>   #include "drm_internal.h"
+>   
+> +/**
+> + * DOC: state lifetime
+> + *
+> + * &struct drm_atomic_commit represents an update to video pipeline
 
-I can certainly rewrite the commit message around the idea that the
-resume ordering should normally mirror the suspend ordering.
+I'd say 'modeset pipeline'. Video sounds too much like V4L.
 
-However, I am still slightly unsure about which ordering should be
-considered the preferred one in this case. If the reasoning is purely
-based on suspend/resume symmetry, I wonder if changing the suspend
-path itself to disable the APB clock before the SPDIF module clock
-would be an option, which would then naturally lead to enabling the
-SPDIF module clock first during resume.
+> + * state. It's a transient object that holds a state update as a
+> + * collection of pointers to individual objects' states. &struct
+> + * drm_atomic_commit has a much shorter lifetime than the objects'
+> + * states, since it's only allocated while preparing, checking or
+> + * committing the update, while object states are allocated when
+> + * preparing the update and kept alive as long as they are active in the
+> + * device.
+> + *
+> + * Their respective lifetimes are:
+> + *
+> + * - at reset time, the object reset implementation will allocate a new
+> + *   default state and will store it in the object state pointer.
 
-From the hardware perspective, I originally assumed the APB clock acts
-as the prerequisite for register access while the module clock mainly
-drives the functional audio logic, which is why the "bus before module"
-ordering initially seemed more intuitive to me.
+Using present seems more natural, e.g., 'allocates' and 'stores'
 
-So I would like to better understand which ordering is considered the
-preferred model for the Sunxi audio blocks here: preserving the existing
-suspend/resume symmetry, or enforcing the bus/module dependency ordering.
+> + *
+> + * - whenever a new update is needed:
+> + *
+> + *   + A new &struct drm_atomic_commit is allocated using
+> + *     drm_atomic_commit_alloc().
 
-Thanks,
-Phuc
+Active form: "drm_atomic_commit_alloc() allocates a new instance of 
+struct drm_atomic_commit."
+
+IIRC the '&' needs to go before drm_atomic_commit.
+
+> + *
+> + *   + The current active state of all entities affected by the update
+> + *     is copied into this new &struct drm_atomic_commit using
+> + *     drm_atomic_get_plane_state(), drm_atomic_get_crtc_state(),
+> + *     drm_atomic_get_connector_state(), or
+> + *     drm_atomic_get_private_obj_state(). This new state can then be
+> + *     modified.
+
+Again use active form.  Mention which helper invokes the copying. I 
+assume it's drm_atomic_commit_alloc() or the UAPI entry points.
+
+> + *
+> + *     At that point, &struct drm_atomic_commit stores three state
+> + *     pointers for any affected entity: the "old" and "new" states, and
+> + *     state_to_destroy. The old state is the state currently active in
+> + *     the hardware, which is either the one initialized by reset() or a
+> + *     newer one if a commit has been made. The new state is the state
+> + *     we just allocated and we might eventually commit to the hardware.
+> + *     The state_to_destroy points to the state we'll eventually have to
+> + *     free when the drm_atomic_commit will be destroyed, and points to
+> + *     the new state for now since the old state is still the active
+> + *     state.
+
+Ok, sounds good.
+
+> + *
+> + *   + After the state is populated, it is checked. If the check is
+
+You mean, it populated the new commit with the updated states?
+
+Where does the check happen?
+
+Again, use active form. Like: 'After ... populated the new commit with 
+the updated states, it checks by invoking atomic_check of all involved 
+pipeline stages."
+
+> + *     successful, the update is committed. Part of the commit is a call
+
+Active form: "successful, ... commits the update."
+
+> + *     to drm_atomic_helper_swap_state() which will turn the new states
+> + *     into the active states. Doing so involves updating the object's
+> + *     state pointer (&drm_crtc.state or similar) to point to the new
+> + *     state, and state_to_destroy will now point to the old states,
+> + *     that used to be active but aren't anymore.
+
+The final sentence ""Doing so..." is serviceable. For splendid writing, 
+you could write somethink like "After swapping states, each object's 
+state pointer refers to the formerly new state. The state_to_destroy 
+pointer refers to the formerly old state."
+
+> + *
+> + *   + When the commit is done, and when all references to our &struct
+> + *     drm_atomic_commit are put, __drm_atomic_commit_free() is called.
+
+Active form: "After commiting the new state to hardware, ... puts all 
+references to strut drm_atomic_commit and calls __drm_atomic_commit_free()".
+
+> + *     It will, in turn, call drm_atomic_commit_clear() that will free
+
+Present form: "It calls ... the frees ... and ...."
+
+Best regards
+Thomas
+
+> + *     all state_to_destroy (ie. old states), and finally free &struct
+> + *     drm_atomic_commit instance.
+> + *
+> + *   + Now, we don't have any active &struct drm_atomic_commit anymore,
+> + *     and only the entity active states remain allocated.
+> + */
+> +
+>   void __drm_crtc_commit_free(struct kref *kref)
+>   {
+>   	struct drm_crtc_commit *commit =
+>   		container_of(kref, struct drm_crtc_commit, ref);
+>   
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
