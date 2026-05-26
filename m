@@ -1,112 +1,117 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D28B2DE709
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 May 2026 17:26:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE10638C2A0
+	for <linux-sunxi@lists.linux.dev>; Tue, 26 May 2026 17:30:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779816395; cv=none; b=iBVKvmYa8E4weEaaevBBsoBRqalqqCE/lRu93ySbL5G+tkAcgkRiiCqNpe0Z6IZ+eJ0gFuXYAytIHf1gm0XqU42VRs8aTrRArt9TNyWisvftq39LNQlkqWGzLIilfhetiio+k3msiDLnsqtlO9LsjNyMjNvR3egiq7p0cY/UdUY=
+	t=1779816608; cv=none; b=VqHcOhWHtJpSfxX/4nzungkCBxuLI3JjIFJKqeWc4JzDtCquv8PFpUPL9J3DW5ZBa5lydquEwbi/LBIjXspmHETA2L1AB0pEfHAgoXdl9Q9bveHT6/qSqZfegtwvHImTWpQUkDiiMZv3+6ye5LfSN3gttqJsmu7xSoMfV4tibhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779816395; c=relaxed/simple;
-	bh=VWkZj6IFlZWrNMcwOyMg0nGbVRU2Y4Kb77MDVTqxLBU=;
+	s=arc-20240116; t=1779816608; c=relaxed/simple;
+	bh=2U1RsmnXLktbaBS7DwUFAxHSbeHFIvA+9eH087o2ie8=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=lHQJZU9sclVcVtqdDgwIk8sLNvTd8KW1LoooTZ/0p1PipvHBqy8cZA/NN+M8a7XbRk15ErIYv/hanojTplIVgbvrr0Jjsdj7ybHM7dyTU7HjEKVRCIbB89mjtxadEt4lelcr4vxcRGQEbA9Nu/+CcP5Q4Iacon4CZ3wosG8JMl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TridF/pb; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=Sq3r1AICfPMIi+3w4a4bsQouSgCQ94B9aQKkYH9NrdA3QQhPfcLvmJxXECD6KDBppB9AxjNuMAQj3A4EQLgV/TztEItQqm8vL9eH9G82IKpEJsPAdLsB1CJww/imJxSxzxD4ex+FMMjS0h4myBmGk/kBN50bju1KKgPaJPFCapk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=otJGPO1C; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TridF/pb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C57AD1F000E9;
-	Tue, 26 May 2026 17:26:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="otJGPO1C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2D2B1F000E9;
+	Tue, 26 May 2026 17:30:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779816393;
-	bh=dacpQOxAHSRxvt9Kl03HLk2VjWv2ep63Pn24tzKSXyc=;
+	s=k20260515; t=1779816607;
+	bh=DZC+qfjNEMs6INtYOxqMGBxDgQKqqF2UwRJO2v4Ot8o=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=TridF/pbhnAnCPyhWcl8K390oPrxxig5ATs534G2c2QE1IuAbi4lG8Si9kLkcVEkT
-	 yMRocK8im/w0YU/VTqm2AEFLahyDAcCoUaANUwt1ksBYFac0TOGN5bR7ASwuwkRYwq
-	 ZmV8cxjLwforElzjPjU/3o0v7rYkSrJnDCiNzGjVOECmxy1yPWmcV2iLchsJqRgbyH
-	 URWwidqm/oyC2vgmHF5XKFc7nH8Q5CvBwrZ0Q4sKH6AhKUATFui0mTK6ks8m5u7mte
-	 bQpKAnOhOj/GAFBGN5mDot69POfg2Zjq/rZDH5iiM/hg6llhu039hJRtdZhitOTtmO
-	 7fBNNvruKboyw==
+	b=otJGPO1CbVJrqsHJoYQni06JR3mLUZNgaJtuYdGpp6+KhqiI61rsfsFWdvMU7EWyR
+	 Kp2IhB/eOJFAgYYQ9xVafstMSek3XzWqc4+HXdWHvapRD1uyYmWi5FwYhhRxb4WB/Q
+	 p2lKrnJIc+6t+K2/OstntV4msNeDyYdLXzzmm3c38r6jsSbnhDf7779bnPdJzv4GnH
+	 DQjWCxXK71vTtpSe1gU4lnvD1EnOP27nZ52+s1fYo50cN09qiFA4fca6V6mdg7nZG1
+	 wkv3j3Ka3e4ka4heAc3CP/a1d5mBsubxHVwkCxZIu4hW8ky3hwVrD+ursXPm9SQtqk
+	 dLcbqqfaYg2pA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 07/19] drm/colorop: Create
- drm_atomic_helper_colorop_create_state()
+Subject: Re: [PATCH v6 03/19] drm/atomic: Drop drm_private_obj.state
+ assignment from create_state
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Maxime Ripard" <mripard@kernel.org>
 Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260526-drm-mode-config-init-v6-7-852346394200@kernel.org>
-References: <20260526-drm-mode-config-init-v6-7-852346394200@kernel.org>
+In-Reply-To: <20260526-drm-mode-config-init-v6-3-852346394200@kernel.org>
+References: <20260526-drm-mode-config-init-v6-3-852346394200@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 26 May 2026 17:26:33 +0000
-Message-Id: <20260526172633.C57AD1F000E9@smtp.kernel.org>
+Date: Tue, 26 May 2026 17:30:06 +0000
+Message-Id: <20260526173006.C2D2B1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] The commit introduces `drm_atomic_helper_colorop_create_state` b=
-ut fails to add the `atomic_create_state` hook to `struct drm_colorop_funcs=
-` or wire it into the core logic.
-- [Low] The newly added helper function `drm_atomic_helper_colorop_create_s=
-tate` lacks an EXPORT_SYMBOL declaration.
+
+Pre-existing issues:
+- [High] Improper error handling in `drm_atomic_private_obj_init()` leaves =
+partially initialized objects on the global list, leading to a NULL pointer=
+ dereference.
 --
 
-commit 523a46597f73af1e23a2580a6ff384bfca9c08b5
+commit ec1f21a958898ad786de645ae441f9fe381d3fe4
 Author: Maxime Ripard <mripard@kernel.org>
 
-drm/colorop: Create drm_atomic_helper_colorop_create_state()
+drm/atomic: Drop drm_private_obj.state assignment from create_state
 
-This commit introduces a new helper function,
-drm_atomic_helper_colorop_create_state(), to allocate and initialize a
-pristine colorop atomic state without side effects. It is intended to separ=
-ate
-initialization from hardware reset operations.
+This commit removes the assignment of the newly allocated state to
+drm_private_obj.state inside __drm_atomic_helper_private_obj_create_state().
+This assignment is redundant because drm_atomic_private_obj_init() already
+sets this pointer after calling the atomic_create_state hook.
 
-> Continue the transition to the new pattern with drm_colorop.
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/=
+drm_atomic_state_helper.c
+> index cc70508d4fdba..a82568d87e4f7 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -731,8 +731,6 @@ void __drm_atomic_helper_private_obj_create_state(str=
+uct drm_private_obj *obj,
+>  {
+>  	if (state)
+>  		state->obj =3D obj;
+> -
+> -	obj->state =3D state;
 
-[Severity: Medium]
-Does this commit miss adding the atomic_create_state function pointer to
-struct drm_colorop_funcs and wiring it into the core logic?
+[Severity: High]
+This isn't a bug introduced by this patch, but since we are discussing
+the obj->state assignment here and deferring it to
+drm_atomic_private_obj_init(), could this lead to a NULL pointer dereference
+if drm_atomic_private_obj_init() fails?
 
-Unlike the equivalent patches for planes and CRTCs, the hook is not added,
-and functions like drm_colorop_reset() continue to hardcode state allocatio=
-ns
-via kzalloc. This leaves the new helper as unimplemented dead code, meaning
-the transition described in the commit message is incomplete.
+Looking at drivers/gpu/drm/drm_atomic.c:drm_atomic_private_obj_init():
 
-> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-> index 4c4d0a953e357..c0eecde8c1762 100644
-> --- a/drivers/gpu/drm/drm_colorop.c
-> +++ b/drivers/gpu/drm/drm_colorop.c
-> @@ -523,6 +523,29 @@ static void __drm_colorop_state_init(struct drm_colo=
-rop_state *colorop_state,
+	list_add_tail(&obj->head, &dev->mode_config.privobj_list);
 
-[ ... ]
+	state =3D obj->funcs->atomic_create_state(obj);
+	if (IS_ERR(state))
+		return PTR_ERR(state);
 
-> +struct drm_colorop_state *
-> +drm_atomic_helper_colorop_create_state(struct drm_colorop *colorop)
-> +{
-> +	struct drm_colorop_state *state;
-> +
-> +	state =3D kzalloc_obj(*state);
-> +	if (!state)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	__drm_colorop_state_init(state, colorop);
-> +
-> +	return state;
-> +}
+	obj->state =3D state;
 
-[Severity: Low]
-Since this is a core DRM helper intended for drivers to plug into their
-function tables, should there be an EXPORT_SYMBOL() or EXPORT_SYMBOL_GPL()
-declaration here?
+If atomic_create_state() fails, the function returns the error immediately
+without removing obj->head from the list. This leaves obj->state as NULL.
 
-Without it, any driver built as a loadable module that attempts to use this
-new helper will fail to build due to unresolved symbol linker errors.
+Multiple drivers (such as drm_dp_mst_topology_mgr_init() or
+vc4_ctm_obj_init()) ignore the return value of drm_atomic_private_obj_init()
+and continue initialization, meaning the device successfully registers
+despite the failure.
+
+Once registered, reading /sys/kernel/debug/dri/X/state triggers
+drm_state_dump(), which iterates over privobj_list and calls
+drm_atomic_private_obj_print_state(p, obj->state).
+
+Because obj->state is NULL, drm_atomic_private_obj_print_state() will
+immediately dereference it (struct drm_private_obj *obj =3D state->obj;),
+causing a kernel oops that can be triggered by userspace from a diagnostic
+read.
+
+>  }
+>  EXPORT_SYMBOL(__drm_atomic_helper_private_obj_create_state);
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260526-drm-mode-c=
-onfig-init-v6-0-852346394200@kernel.org?part=3D7
+onfig-init-v6-0-852346394200@kernel.org?part=3D3
