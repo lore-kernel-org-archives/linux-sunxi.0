@@ -1,34 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8BAA40B6EA;
-	Tue, 26 May 2026 16:47:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D951D3FF1D9;
+	Tue, 26 May 2026 16:47:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779814039; cv=none; b=cZ51nq67hIyNvmoWlwBT47MG6yLBiUxdVT9jB/qTIY4VXDgl/0W3R9DZPyjkj10KpbssLz+HS01vvgLEgtp5pWN8WCehVv6TB6z17vSP+0BhWjtpu2LbT6iwatM/RzGTVCBZXlfxdyVU64gloLkQ4SujSWDVJtBAWFuO9NXAYsM=
+	t=1779814042; cv=none; b=LEOKiW5PNaX+eLb1V8a3eyddu8uh+udUVTGlDMiaa6tO+lPYC/wt+/PDm1G6utoXhJdSXGRJQh0tftsk+O+lNovC+N45ZDR6uU1ID/+FGedowNxk/HyQdkgnmIVYtroUwxys/NzBbkMg2eNNj2zzkV2TQJCbMEbG+AX0VxMmfGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779814039; c=relaxed/simple;
-	bh=ol7ZxJRFzPU3goqwZsKdhnIW4o0nEjdILT7N6tLltxI=;
+	s=arc-20240116; t=1779814042; c=relaxed/simple;
+	bh=n4eohByrrLdrAD3Xh6iy0bQauhz8JMCGndNHIg0F7dc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=iQDj/vgdi3tRx7+nF2WZ8+/68kjvPdTjwC5n15h3qqbNoIQbtoIl1dlkNCLSX/LxYPlUKpYn3UZ6dOsbLa749DdM1j/kme9Zxb5ZmRBN7+UOWRF66O6gwK/MBzcHUN5MVEsljkkcTqz1HCOBpNLQ44/+pw4gAu9ZFbahGqQrekA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AoP8XAOy; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=GU1DN48vMwFK8e7hoVsem7lv/mctwSgFoqu3fslGOLfko6OzH5QB0703zslqPw+VlkwooPGr+bPfDGLX1G4KvQrsoJNpjo7eEZQfi0jDNwtSo4vCXkPDWyP768MSo/gEbB+BvU8CyE7pNVOGgKp1rRDh6cO2mZFm1S8XMa86jbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C8kmmIBd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AoP8XAOy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E388D1F000E9;
-	Tue, 26 May 2026 16:47:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C8kmmIBd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2FAC1F000E9;
+	Tue, 26 May 2026 16:47:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779814037;
-	bh=TRUQ7VRBHVaVxbbAttWXyHjOTDYSaT6tyGmviBcmO54=;
+	s=k20260515; t=1779814040;
+	bh=GoXBOAsCBLkRgIlTLAaPNEvsIAgN10v/xLJsKPeWKHc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=AoP8XAOyuJBTC63xV4E2FvD0BRz+TQxAh9AbHbcxZx+8brUKbTDGTd8Xg9pz2fBc3
-	 dQ7z68tSmzRR4W82bCLaqoaUfVQVsiXZpDybNHS2OHkYuF0AjyYiWmJHKt5F3wr7xj
-	 3jwLOHyFggvGbeRzsENQFLoU5v3W2EcGR0YhRK6hDLdu4C2zSG3G4vkYZNsrpj7diF
-	 E+CBQfDmQ14yR54FN/8ExAndssFTOX+Qam1y71lUo3p03mu5vnXDh4nzL8oirif3Ew
-	 NO8XFELru7gZ2vTlwehF9yuq9vQj53hDwrhdg4VddhCqwsSQUNoRyr2AaHu2J9fVCk
-	 RkSJx4OBhR//g==
+	b=C8kmmIBdZcidMYCHRPP8N77C3zSxCRkolviS65VmH1HGOaOVhDqbY/xXyPDl5eK+d
+	 b5K6y+5BF96u0pTcADOOytkwh/y98u8I1uqJRxYRo1Y8BtbTa3z4jU+TTx82RW2qME
+	 BSQxczZxbFuJWBe2pdJvXTfNGr6OWk5MZ4FtNs29jbkYgLSW9e54grHQlf0Sh8ZDfn
+	 gPM1ivgNT2VtN9qBCVJvk4ox5cU7E8kmrE3j2+NgpQyypdGyPuqkKwIuNV10TkOtkV
+	 vUpXmKjplaLA+AIBtaqxVJlDAhSKlxfbv93r7RIwtpFshcjzCYGa2tdrwqSvyRahIK
+	 hkcRssgmlr+Og==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 26 May 2026 18:46:30 +0200
-Subject: [PATCH v6 18/19] drm/tidss: Convert to atomic_create_state
+Date: Tue, 26 May 2026 18:46:31 +0200
+Subject: [PATCH v6 19/19] drm/bridge_connector: Convert to
+ atomic_create_state
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -37,7 +38,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260526-drm-mode-config-init-v6-18-852346394200@kernel.org>
+Message-Id: <20260526-drm-mode-config-init-v6-19-852346394200@kernel.org>
 References: <20260526-drm-mode-config-init-v6-0-852346394200@kernel.org>
 In-Reply-To: <20260526-drm-mode-config-init-v6-0-852346394200@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -68,97 +69,68 @@ Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  Maxime Ripard <mripard@kernel.org>, 
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3091; i=mripard@kernel.org;
- h=from:subject:message-id; bh=ol7ZxJRFzPU3goqwZsKdhnIW4o0nEjdILT7N6tLltxI=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFmi5+LW6KoEezDblxwLfnKj7/sUGcNu2T7miYu2Ojn7d
- 9bsYo3smMrCIMzJICumyPJEJuz08vbFVQ72K3/AzGFlAhnCwMUpABN595+xzsJeuvLKxa6GlG2n
- S5omXlHxFoxOn3f/yqKwTU52bVPvfc1o3jLj0q0H/o9uVty9OE1tKmPDNqm+Bfpq6rOE9Ofq2oi
- eNtc5L3g9ta49c//mb8u2nQ/ieSsQ6bVEO1X8Rot3B4cQczoA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2233; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=n4eohByrrLdrAD3Xh6iy0bQauhz8JMCGndNHIg0F7dc=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFmi5+KKsw9J67S4+LT7hnIIfvn922i2MV/qz8c/QrhsX
+ DSTl1Z0TGVhEOZkkBVTZHkiE3Z6efviKgf7lT9g5rAygQxh4OIUgImk3WJs+C/7eeruiPrYPam3
+ Ju94bjDFIOiLkcLuMIs5fYF3+OzXv7MujT8ULbKUaa2v6L5lHNuWMjZ82detLrREx8G8fOZinid
+ aNwq9i17zmz+t5dHn2r7zypxdnI6bmyKLKhZ13lr4zDDkgjkA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-Our driver uses reset to create the various object states, but only
-calls the helper that allocate a new state. They are thus strictly
-equivalent to the new atomic_create_state helpers, so let's switch to
-these.
+The connector created by drm_bridge_connector only initializes a
+pristine state in reset, which is equivalent to what
+atomic_create_state would expect. Convert to it.
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/tidss/tidss_crtc.c  | 17 +++++++----------
- drivers/gpu/drm/tidss/tidss_plane.c |  2 +-
- 2 files changed, 8 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/display/drm_bridge_connector.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
-index acab9307bdf3..400329aa2200 100644
---- a/drivers/gpu/drm/tidss/tidss_crtc.c
-+++ b/drivers/gpu/drm/tidss/tidss_crtc.c
-@@ -355,24 +355,21 @@ static void tidss_crtc_destroy_state(struct drm_crtc *crtc,
- 
- 	__drm_atomic_helper_crtc_destroy_state(&tstate->base);
- 	kfree(tstate);
+diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
+index 50408af746d8..cafa498c3848 100644
+--- a/drivers/gpu/drm/display/drm_bridge_connector.c
++++ b/drivers/gpu/drm/display/drm_bridge_connector.c
+@@ -263,26 +263,33 @@ static void drm_bridge_connector_debugfs_init(struct drm_connector *connector,
+ 		if (bridge->funcs->debugfs_init)
+ 			bridge->funcs->debugfs_init(bridge, root);
+ 	}
  }
  
--static void tidss_crtc_reset(struct drm_crtc *crtc)
-+static struct drm_crtc_state *tidss_crtc_create_state(struct drm_crtc *crtc)
+-static void drm_bridge_connector_reset(struct drm_connector *connector)
++static struct drm_connector_state *
++drm_bridge_connector_create_state(struct drm_connector *connector)
  {
- 	struct tidss_crtc_state *tstate;
- 
--	if (crtc->state)
--		tidss_crtc_destroy_state(crtc, crtc->state);
--
- 	tstate = kzalloc_obj(*tstate);
--	if (!tstate) {
--		crtc->state = NULL;
--		return;
--	}
-+	if (!tstate)
-+		return ERR_PTR(-ENOMEM);
- 
--	__drm_atomic_helper_crtc_reset(crtc, &tstate->base);
-+	__drm_atomic_helper_crtc_state_init(&tstate->base, crtc);
+ 	struct drm_bridge_connector *bridge_connector =
+ 		to_drm_bridge_connector(connector);
++	struct drm_connector_state *conn_state;
 +
-+	return &tstate->base;
++	conn_state = drm_atomic_helper_connector_create_state(connector);
++	if (IS_ERR(conn_state))
++		return conn_state;
+ 
+-	drm_atomic_helper_connector_reset(connector);
+ 	if (bridge_connector->bridge_hdmi)
+ 		__drm_atomic_helper_connector_hdmi_state_init(connector,
+-							      connector->state);
++							      conn_state);
++
++	return conn_state;
  }
  
- static struct drm_crtc_state *tidss_crtc_duplicate_state(struct drm_crtc *crtc)
- {
- 	struct tidss_crtc_state *state, *current_state;
-@@ -403,14 +400,14 @@ static void tidss_crtc_destroy(struct drm_crtc *crtc)
- 	drm_crtc_cleanup(crtc);
- 	kfree(tcrtc);
- }
- 
- static const struct drm_crtc_funcs tidss_crtc_funcs = {
--	.reset = tidss_crtc_reset,
- 	.destroy = tidss_crtc_destroy,
- 	.set_config = drm_atomic_helper_set_config,
- 	.page_flip = drm_atomic_helper_page_flip,
-+	.atomic_create_state = tidss_crtc_create_state,
- 	.atomic_duplicate_state = tidss_crtc_duplicate_state,
- 	.atomic_destroy_state = tidss_crtc_destroy_state,
- 	.enable_vblank = tidss_crtc_enable_vblank,
- 	.disable_vblank = tidss_crtc_disable_vblank,
+ static const struct drm_connector_funcs drm_bridge_connector_funcs = {
+-	.reset = drm_bridge_connector_reset,
+ 	.detect = drm_bridge_connector_detect,
+ 	.force = drm_bridge_connector_force,
+ 	.fill_modes = drm_helper_probe_single_connector_modes,
++	.atomic_create_state = drm_bridge_connector_create_state,
+ 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+ 	.debugfs_init = drm_bridge_connector_debugfs_init,
+ 	.oob_hotplug_event = drm_bridge_connector_oob_hotplug_event,
  };
-diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
-index 1a8b44fb45f8..6d82976c2db1 100644
---- a/drivers/gpu/drm/tidss/tidss_plane.c
-+++ b/drivers/gpu/drm/tidss/tidss_plane.c
-@@ -176,12 +176,12 @@ static const struct drm_plane_helper_funcs tidss_primary_plane_helper_funcs = {
- };
- 
- static const struct drm_plane_funcs tidss_plane_funcs = {
- 	.update_plane = drm_atomic_helper_update_plane,
- 	.disable_plane = drm_atomic_helper_disable_plane,
--	.reset = drm_atomic_helper_plane_reset,
- 	.destroy = drm_plane_destroy,
-+	.atomic_create_state = drm_atomic_helper_plane_create_state,
- 	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
- };
- 
- struct tidss_plane *tidss_plane_create(struct tidss_device *tidss,
 
 -- 
 2.54.0
