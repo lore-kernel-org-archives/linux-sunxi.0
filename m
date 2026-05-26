@@ -1,315 +1,134 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1043CD8D3
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 May 2026 09:36:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779788175; cv=none; b=W+HS+cKKhiZTY2hSm/beRQctdcHTbCC0/ToxJalc4lZG+g4XhDgRZdzQQdKSOMe16LT8+onAQGWjkGpTD4mYtzgBSx0f3GS5hk7eLGUYfdiOF1+notkrJbujK3P5yOMbKxIym7VTPIlRvqs/ebRJd8ZcG4xw/aQJs4aaf9o1Hpc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779788175; c=relaxed/simple;
-	bh=z3UCM37jMbbkJHCrJAAoJmp/B6XUaVvm/Y4cz4sJbw8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XREYU7l3ZnDVAUknfAQVrPL3r5+qniN2Kx+lpfTvuZVS0BgeZRPjDx6jh+kOpmciSoUbwdNapL9zTIoJWG+GvF7w+Kr37/I6qf/apdq3YoHeZE52mdeKCRaE96809E+UAouujhOs1bGYw2dGt/UVhr0Es6HHIungjYkY2xgM9jQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W//chOT9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=J/ZM3I/F; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W0lr0wQ2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Mu8lSDY/; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65EDF3F8701
+	for <linux-sunxi@lists.linux.dev>; Tue, 26 May 2026 12:17:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779797823; cv=pass; b=hE0xIYbUM8lfVc1mPag1B+NmilHQkOtj4Tls0yHnp/IspeOqiPn1uNQnGU4eMlNxBS+unLkJropt9fEHosvyLZGlIbwR16l0cX3oAEgZ7/ybCY/XpfA+EovuiWE+WSITy7P3/BV9w1BCunG+hogxBELmwsaiAiG65Mb6mEqM8ug=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779797823; c=relaxed/simple;
+	bh=DtObxo9XE3EzIiwd27kjN9EEcOHxqFMVaH3d/+QZW9I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ahv0vzOHJK0g9Eh8wNRcI5mMmED6bgGE+JeV5MCP0Bfw3EXo4q81HNsK2IHCJ7k3CZB04D6dcqSa6/w2fgC7YMIAxSKVCiiShuNLjOkrkKWK8bRGWDbQ5qn1AhZ5yobgaL8FFznNR4yHu61Wduns0bBiTwUQBnmNUaxs0m0Ye4o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SmANo5I9; arc=pass smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W//chOT9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J/ZM3I/F";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W0lr0wQ2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Mu8lSDY/"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E1A296B158;
-	Tue, 26 May 2026 09:36:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779788172; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=0TYzxBo6YYni/YvihchIYDS6WS2my53hnhjsZy7G6kk=;
-	b=W//chOT96fM5Q6mOKy+1WnsKLMKs29ilrazvg7PGpWKNkpNT3Jj1eHvEZJVyo3JB7mZZbj
-	A8TYogk0gmoDzQzfqlIXr55ai6Lj+sC159D6UIdAJ9/CjEzVByUpD5zHJ+kprJ3QUb1iTC
-	Rv/n7RKaZRzjS7Pwy9eZTM7S2Wqmyu8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779788172;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=0TYzxBo6YYni/YvihchIYDS6WS2my53hnhjsZy7G6kk=;
-	b=J/ZM3I/FVYIPO50Q+ou1D0SQ1LGqbHaPUevd0R/XYnuXrP2Aw6neXmLQw72o7qpJuX2D4q
-	PxD6+tF9uOpfHjBw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=W0lr0wQ2;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="Mu8lSDY/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779788171; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=0TYzxBo6YYni/YvihchIYDS6WS2my53hnhjsZy7G6kk=;
-	b=W0lr0wQ2Hj6RzqkTrAK41Sd6ZphAOFDgnkszUMT0Dff29O1+nQYwy3h/7jxm3r8/jBU49q
-	N3faH1TERDqjgDijgQChC2NHEfEOUuxgvkHyV/OSIL6KLVMxNRYO1cRnH4fN0Ca/G3p/Io
-	jFTg4i+eRQfJ0fuhmQ1YCeAGyXxWyT8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779788171;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=0TYzxBo6YYni/YvihchIYDS6WS2my53hnhjsZy7G6kk=;
-	b=Mu8lSDY/aNRFbojgtuwTNbIjctkPIXvP2shk5GJ6efj4VMDZhedfSulzGFRCgFWbabxG87
-	bilWMX+wfBnN/0DQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 02D285A132;
-	Tue, 26 May 2026 09:36:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ONarOoppFWo8CQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 26 May 2026 09:36:10 +0000
-Message-ID: <7af4b63e-027c-4be3-8ded-6bd770037d3c@suse.de>
-Date: Tue, 26 May 2026 11:36:10 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SmANo5I9"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-36ab8816a35so1292610a91.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 26 May 2026 05:17:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779797822; cv=none;
+        d=google.com; s=arc-20240605;
+        b=lWK7uVmg2PkBxrCzRt8T6iMvuq12mHsRCCSN7uuyxMymkNG+BWP0mTsvQ8CLfwG+kp
+         IFUhB6jfuTa3n+9AxUW/zpzmRfqzDcKHz8nbXo63JzhiiDi+pFpQdVBuIlouuD7oZFDt
+         MDzFMk1PwG8a79J0/RfXKvyufX1Ui7KnY2BjOotC/X2Xz3M8xNbzxM9ocmTR0foa65Xm
+         IDYZQVrmZaFfM22IHpAJNl41AyRKKMjHwMhN1K+3fij3iShvsDwLM7AhmhkIE+o3Na0L
+         OSDa4/B7sJuSJdTWt2ImnmPrH3msHQsb4OyviST9Alz7EXy+bevDUrGwqZOGaSG/3m1b
+         EVPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=DtObxo9XE3EzIiwd27kjN9EEcOHxqFMVaH3d/+QZW9I=;
+        fh=riBl29El5b0c/bNIl1NRMqUwQBY4mSsWPTOWsz5vpaw=;
+        b=J6Y7olF7tnc72u7mjDqlgTEmmr1DGA09TkMNO0G3CAEwzHWfVYhuvu4eEAO7xMOY7N
+         JT5K1eAxEVdFn2OUkEj4THrlPunVl5duzVB52RfCxWL3MiHMY6czCFc3jpX6eEsEE6I4
+         vAzfY8j5YBN1IqZK4fQQAH/oviBw+gHK18By8l8az6llqzGtsLcT/2z9Chy/WXHebFen
+         N0qvs4wxMoC4Y1dtPon3xPFCalWaV5SPBnngX3VP2YMD06BTsWc7wafGZtxzBTRWJ+ig
+         sgXUmRNEkqO0ZIyN/2/rzum+mjOmsYjd3bW8YU7lkm9G+DfRIcgDpXAPZHz3p6z+6vNt
+         gnOg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779797822; x=1780402622; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DtObxo9XE3EzIiwd27kjN9EEcOHxqFMVaH3d/+QZW9I=;
+        b=SmANo5I96iw2c3FYu455By7fm6vtyPLANi51+rxYbUnHSYpAxVphRvJkpS2LkC2UWb
+         rxn12jimi2LiJREUDd12jWVIJfMjr+o//SQNUkTqI4MLLnwQAyKBQIf1Q0qfSGIj1ZDr
+         jPf7haBWFZ4il1ouG5BFQuLGBw/05HFqITAX4FiPYHtdA7Fp7BuHLo3gibb3RNM2Z515
+         1tBviI25kw523HMhKO/0XJzrY/jX9b3agcbp/Kny2t+o6w7tMfxGObAlyWVCnTVeI7Fo
+         1eSfaQx1Co7xmdFiV7RZfeQAdoBJyTIDMtFxFUv05lbGngMisKoHC27YcUVILoTZhpll
+         ysDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779797822; x=1780402622;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=DtObxo9XE3EzIiwd27kjN9EEcOHxqFMVaH3d/+QZW9I=;
+        b=V4hy0Vn4dVCF0hd6GjWy5LBqOKKK+0Y35eVgiQtNZG4RIcYR50akztug+ZbUYfghpO
+         YKCl+TNzpT9F8oifXptAUS75TXQcqXB/0hfMmOCfu0RW5wC6Wj5kNDJU1+g4/Zozc8ri
+         sphG4fqRL4EN29L0k9KMGnWDoGQd1UzCrbyj+mukOANDoXlBC9/5ShbnXvAd3j8tn4ZZ
+         Gl5tiYtmW7mIbxDMvANS7wtKikfwf8R4ScCPJajwXPIq9MD1xnPgvetYTvaaAo/Mvq1c
+         R7ZPm3nyic7AnEQ7Aw1oo+KdoaeuBQiOHw3Yybs5viyVL5rVg7E2gEE79LZOZ4OvivYW
+         Inyw==
+X-Forwarded-Encrypted: i=1; AFNElJ+5S+xofyUCuUyvuDXDeQYQHuBis5Q/T1SeavixX7Lz/gfy8oe1iNZLKqw4pDhYTHb0rQVHRkqrwV7iZw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwIh5rFBFHYoplstAtkvioIWPCBnxTEfrSmTwZ9pjTY1vOkw+bK
+	f+MeEpdkm/pxJtLL0LpRLPmTOi56vtrbtjUPuumI1XWOj+5sqT+vXiSLM7ftqbuxbCUouxZdYkR
+	RmeMeOGfGyNsYk0GgbNt1puZEiWi1oFk7k0t8
+X-Gm-Gg: Acq92OHJrcNqd0vsXxCeHty/PpS/6RhBCt4yqUUn7tTjSYUHClK9zO2OqTzjvpFTBp6
+	gvm4mR3OTL5kDIEiECFMywh9kJiOcMypkvVzhMntSnABey+2jt6AMwZ0Yl8rgcT2jLVlZFxgdRH
+	NFeHbhkVLPVn6by6OPNowQBCCiSN3dbBgWxuDS+6tnmmIonm39Pudk0D2JOfkOG2aJIK4coOIrp
+	vNjnvhgqLw3JzCj7mXRyIbMh/lDSHi5X2eRbjeB6SUyOfJ64hXbVEUDghUOx44KNDVcKBwHpB0O
+	naKN3fzPk82Ok0vfuvxBzi4jGLpUCYvz72szVAXacgp7rEuhh6TK9LXwelCXFAYuckhZ/JyH
+X-Received: by 2002:a17:902:c948:b0:2bd:2de3:5181 with SMTP id
+ d9443c01a7336-2beb034603cmr207644055ad.9.1779797821644; Tue, 26 May 2026
+ 05:17:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 00/19] drm/atomic: Rework initial state allocation
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Simon Ser <contact@emersion.fr>, Harry Wentland <harry.wentland@amd.com>,
- Melissa Wen <mwen@igalia.com>, Sebastian Wick <sebastian.wick@redhat.com>,
- Alex Hung <alex.hung@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Chen-Yu Tsai <wens@kernel.org>,
- Samuel Holland <samuel@sholland.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-References: <20260519-drm-mode-config-init-v5-0-388b03321e38@kernel.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260519-drm-mode-config-init-v5-0-388b03321e38@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.01
-X-Rspamd-Queue-Id: E1A296B158
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[38];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,lwn.net,linuxfoundation.org,oss.qualcomm.com,iki.fi,ideasonboard.com,intel.com,linaro.org,kwiboo.se,emersion.fr,amd.com,igalia.com,redhat.com,ursulin.net,sholland.org,raspberrypi.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_TRACE(0.00)[suse.de:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	TAGGED_RCPT(0.00)[renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RL7gneoo7ydcsn9o76mxr5d8pb)];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:url,suse.de:dkim,suse.de:mid]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
+References: <20260522095401.72915-1-phucduc.bui@gmail.com> <20260522095401.72915-3-phucduc.bui@gmail.com>
+ <CAGb2v67UmMmM7bQOSf3VxsN9D8s3N8nMMX079_kiMcPU=VszFg@mail.gmail.com>
+ <CAABR9nEB8jizn+NrVgrjcOOJRtaU0u+TH705unMTh7HYO=8Wcg@mail.gmail.com> <CAGb2v65zK7iOce_UZ+_F=dWtKYFGZj-K4k45MewvDbhivXPH2A@mail.gmail.com>
+In-Reply-To: <CAGb2v65zK7iOce_UZ+_F=dWtKYFGZj-K4k45MewvDbhivXPH2A@mail.gmail.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Tue, 26 May 2026 19:16:50 +0700
+X-Gm-Features: AVHnY4L36KKu58qpYxsDJHrLwpA0fiNG3V0fNQatxdA3GV3-2n0FXUky_32u4G0
+Message-ID: <CAABR9nEsKjgErDB3jnHrx=dOUajvvN6GbP+6XUb5Ay3VYYjNJA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] ASoC: sunxi: sun4i-spdif: Resume device before
+ kcontrol register access
+To: wens@kernel.org
+Cc: broonie@kernel.org, codekipper@gmail.com, jernej.skrabec@gmail.com, 
+	lgirdwood@gmail.com, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, nichen@iscas.ac.cn, perex@perex.cz, 
+	samuel@sholland.org, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I only had comments on the writing. Looks good otherwise.
+Hi Chenyu,
 
-Best regards
-Thomas
+> When you submit a patch, it is expected that you already tested it.
+> If you only compile tested it, please remember to say so in the
+> footer (or mark the patch as RFT) so that others can test for you
+> and the maintainer knows the status.
+>
+> And if possible, provide a scheme to test it.
+>
 
-Am 19.05.26 um 11:01 schrieb Maxime Ripard:
-> Hi,
->
-> This series started from my work on the hardware state readout[1], and
-> more specifically a discussion with Thomas[2].
->
-> This series expands the work that has been merged recently to make
-> drm_private_obj and drm_private_state allocation a bit more consistent
-> and ended up creating a new atomic_create_state callback to allocate a
-> new state with no side effect.
->
-> The first patches document the existing behaviour and fix a few
-> cleanups and typos.
->
-> Then, __drm_*_state_reset() helpers are renamed to
-> __drm_*_state_init() to clarify that they initialize rather than
-> reset state, and we add the new atomic_create_state callback to
-> every other DRM object (planes, CRTCs, connectors, colorops).
->
-> Next, we leverage those new callbacks to create a new helper,
-> drm_mode_config_create_initial_state(), to create the initial state
-> for all the objects of a driver, and update the driver skeleton to
-> recommend it.
->
-> Finally, we convert the tidss driver and the bridge_connector to the
-> new pattern.
->
-> This was tested on a TI SK-AM62, with the tidss driver.
->
-> Let me know what you think,
-> Maxime
->
-> 1: https://lore.kernel.org/dri-devel/20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org/
-> 2: https://lore.kernel.org/dri-devel/5920ffe5-b6b1-484b-b320-332b9eb9db82@suse.de/
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
-> Changes in v5:
-> - Address sashiko reviews
-> - Improve the docs
-> - Fix drmm_connector_hdmi_init
-> - Drop drm/tidss: Switch to drm_mode_config_create_initial_state since
->    not all possible bridges would have been converted to create_state
-> - Link to v4: https://lore.kernel.org/r/20260512-drm-mode-config-init-v4-0-591dfdcc1bf9@kernel.org
->
-> Changes in v4:
-> - Rebased on current drm-misc-next
-> - Update drm_atomic_state to drm_atomic_commit
-> - Various doc impromvements
-> - Don't call drm_crtc_vblank_reset in create_state
-> - Prevent mem leak if states already have a state when
->    drm_mode_config_reset or _create_initial_state are called
-> - Link to v3: https://lore.kernel.org/r/20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org
->
-> Changes in v3:
-> - Reintroduce state documentation that was dropped by accident
-> - Change name to drm_mode_config_create_initial_state()
-> - Don't call drm_mode_config_create_initial_state() in drm_dev_register
->    anymore
-> - Drop __drm_atomic_helper_*_create_state
-> - Improve documentation and commit messages where necessary
-> - Collected tags
-> - Link to v2: https://lore.kernel.org/r/20260320-drm-mode-config-init-v2-0-c63f1134e76c@kernel.org
->
-> Changes in v2:
-> - Change the _state_reset function names to _state_init
-> - Change the colorop too
-> - Various doc improvements
-> - Link to v1: https://lore.kernel.org/r/20260310-drm-mode-config-init-v1-0-de7397c8e1cf@kernel.org
->
-> ---
-> Maxime Ripard (19):
->        drm/atomic: Document atomic commit lifetime
->        drm/colorop: Fix typos in the doc
->        drm/atomic: Drop drm_private_obj.state assignment from create_state
->        drm/atomic: Expand atomic_create_state expectations for drm_private_obj
->        drm/mode-config: Document drm_private_obj exclusion from drm_mode_config_reset()
->        drm/colorop: Rename __drm_colorop_state_reset()
->        drm/colorop: Create drm_atomic_helper_colorop_create_state()
->        drm/atomic-state-helper: Fix __drm_atomic_helper_plane_reset() doc typo
->        drm/atomic-state-helper: Rename __drm_atomic_helper_plane_state_reset()
->        drm/plane: Add new atomic_create_state callback
->        drm/atomic-state-helper: Rename __drm_atomic_helper_crtc_state_reset()
->        drm/crtc: Add new atomic_create_state callback
->        drm/atomic-state-helper: Rename __drm_atomic_helper_connector_state_reset()
->        drm/hdmi: Rename __drm_atomic_helper_connector_hdmi_reset()
->        drm/connector: Add new atomic_create_state callback
->        drm/mode-config: Create drm_mode_config_create_initial_state()
->        drm/drv: Switch skeleton to drm_mode_config_create_initial_state()
->        drm/tidss: Convert to atomic_create_state
->        drm/bridge_connector: Convert to atomic_create_state
->
->   Documentation/gpu/drm-kms.rst                      |   6 +
->   drivers/gpu/drm/display/drm_bridge_connector.c     |  17 +-
->   drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  15 +-
->   drivers/gpu/drm/drm_atomic.c                       |  67 ++++++++
->   drivers/gpu/drm/drm_atomic_state_helper.c          | 114 ++++++++++---
->   drivers/gpu/drm/drm_colorop.c                      |  41 ++++-
->   drivers/gpu/drm/drm_connector.c                    |  10 +-
->   drivers/gpu/drm/drm_drv.c                          |   4 +-
->   drivers/gpu/drm/drm_mode_config.c                  | 189 ++++++++++++++++++++-
->   drivers/gpu/drm/i915/display/intel_crtc.c          |   2 +-
->   drivers/gpu/drm/i915/display/intel_plane.c         |   2 +-
->   drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   2 +-
->   drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c |   2 +-
->   drivers/gpu/drm/tidss/tidss_crtc.c                 |  17 +-
->   drivers/gpu/drm/tidss/tidss_plane.c                |   2 +-
->   drivers/gpu/drm/vc4/vc4_hdmi.c                     |   2 +-
->   include/drm/display/drm_hdmi_state_helper.h        |   4 +-
->   include/drm/drm_atomic.h                           |   5 +-
->   include/drm/drm_atomic_state_helper.h              |  12 +-
->   include/drm/drm_colorop.h                          |   2 +
->   include/drm/drm_connector.h                        |  16 ++
->   include/drm/drm_crtc.h                             |  16 ++
->   include/drm/drm_mode_config.h                      |   1 +
->   include/drm/drm_plane.h                            |  16 ++
->   24 files changed, 496 insertions(+), 68 deletions(-)
-> ---
-> base-commit: 69c95e4c529297c25503e60acba757fba24fdc95
-> change-id: 20260310-drm-mode-config-init-1e1f52b745d0
->
-> Best regards,
+Thanks for the guidance.
+I=E2=80=99ll clearly mention the test status next time.
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+>
+> I can't say that it does. But since the only control that SPDIF gives
+> is the IEC958 status, and that doesn't appear in the standard mixer apps,
+> it's unlikely that a _user_ will trigger it. Plus the control was added
+> after the basic structure of the driver was done, so there is definitely
+> some possibility of a crash.
+>
+> But what you wrote in the commit message doesn't match the actual hardwar=
+e
+> behavior, like I wrote.
 
+Thanks for the clarification.
+I'll update the commit message to something like:
+"The kcontrols may access hardware registers while the
+device is runtime-suspended.
+Ensure the device is resumed before touching the registers."
 
+Best Regards,
+Phuc
