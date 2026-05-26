@@ -1,134 +1,189 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65EDF3F8701
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 May 2026 12:17:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779797823; cv=pass; b=hE0xIYbUM8lfVc1mPag1B+NmilHQkOtj4Tls0yHnp/IspeOqiPn1uNQnGU4eMlNxBS+unLkJropt9fEHosvyLZGlIbwR16l0cX3oAEgZ7/ybCY/XpfA+EovuiWE+WSITy7P3/BV9w1BCunG+hogxBELmwsaiAiG65Mb6mEqM8ug=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779797823; c=relaxed/simple;
-	bh=DtObxo9XE3EzIiwd27kjN9EEcOHxqFMVaH3d/+QZW9I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ahv0vzOHJK0g9Eh8wNRcI5mMmED6bgGE+JeV5MCP0Bfw3EXo4q81HNsK2IHCJ7k3CZB04D6dcqSa6/w2fgC7YMIAxSKVCiiShuNLjOkrkKWK8bRGWDbQ5qn1AhZ5yobgaL8FFznNR4yHu61Wduns0bBiTwUQBnmNUaxs0m0Ye4o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SmANo5I9; arc=pass smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SmANo5I9"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-36ab8816a35so1292610a91.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 26 May 2026 05:17:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779797822; cv=none;
-        d=google.com; s=arc-20240605;
-        b=lWK7uVmg2PkBxrCzRt8T6iMvuq12mHsRCCSN7uuyxMymkNG+BWP0mTsvQ8CLfwG+kp
-         IFUhB6jfuTa3n+9AxUW/zpzmRfqzDcKHz8nbXo63JzhiiDi+pFpQdVBuIlouuD7oZFDt
-         MDzFMk1PwG8a79J0/RfXKvyufX1Ui7KnY2BjOotC/X2Xz3M8xNbzxM9ocmTR0foa65Xm
-         IDYZQVrmZaFfM22IHpAJNl41AyRKKMjHwMhN1K+3fij3iShvsDwLM7AhmhkIE+o3Na0L
-         OSDa4/B7sJuSJdTWt2ImnmPrH3msHQsb4OyviST9Alz7EXy+bevDUrGwqZOGaSG/3m1b
-         EVPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=DtObxo9XE3EzIiwd27kjN9EEcOHxqFMVaH3d/+QZW9I=;
-        fh=riBl29El5b0c/bNIl1NRMqUwQBY4mSsWPTOWsz5vpaw=;
-        b=J6Y7olF7tnc72u7mjDqlgTEmmr1DGA09TkMNO0G3CAEwzHWfVYhuvu4eEAO7xMOY7N
-         JT5K1eAxEVdFn2OUkEj4THrlPunVl5duzVB52RfCxWL3MiHMY6czCFc3jpX6eEsEE6I4
-         vAzfY8j5YBN1IqZK4fQQAH/oviBw+gHK18By8l8az6llqzGtsLcT/2z9Chy/WXHebFen
-         N0qvs4wxMoC4Y1dtPon3xPFCalWaV5SPBnngX3VP2YMD06BTsWc7wafGZtxzBTRWJ+ig
-         sgXUmRNEkqO0ZIyN/2/rzum+mjOmsYjd3bW8YU7lkm9G+DfRIcgDpXAPZHz3p6z+6vNt
-         gnOg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779797822; x=1780402622; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DtObxo9XE3EzIiwd27kjN9EEcOHxqFMVaH3d/+QZW9I=;
-        b=SmANo5I96iw2c3FYu455By7fm6vtyPLANi51+rxYbUnHSYpAxVphRvJkpS2LkC2UWb
-         rxn12jimi2LiJREUDd12jWVIJfMjr+o//SQNUkTqI4MLLnwQAyKBQIf1Q0qfSGIj1ZDr
-         jPf7haBWFZ4il1ouG5BFQuLGBw/05HFqITAX4FiPYHtdA7Fp7BuHLo3gibb3RNM2Z515
-         1tBviI25kw523HMhKO/0XJzrY/jX9b3agcbp/Kny2t+o6w7tMfxGObAlyWVCnTVeI7Fo
-         1eSfaQx1Co7xmdFiV7RZfeQAdoBJyTIDMtFxFUv05lbGngMisKoHC27YcUVILoTZhpll
-         ysDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779797822; x=1780402622;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=DtObxo9XE3EzIiwd27kjN9EEcOHxqFMVaH3d/+QZW9I=;
-        b=V4hy0Vn4dVCF0hd6GjWy5LBqOKKK+0Y35eVgiQtNZG4RIcYR50akztug+ZbUYfghpO
-         YKCl+TNzpT9F8oifXptAUS75TXQcqXB/0hfMmOCfu0RW5wC6Wj5kNDJU1+g4/Zozc8ri
-         sphG4fqRL4EN29L0k9KMGnWDoGQd1UzCrbyj+mukOANDoXlBC9/5ShbnXvAd3j8tn4ZZ
-         Gl5tiYtmW7mIbxDMvANS7wtKikfwf8R4ScCPJajwXPIq9MD1xnPgvetYTvaaAo/Mvq1c
-         R7ZPm3nyic7AnEQ7Aw1oo+KdoaeuBQiOHw3Yybs5viyVL5rVg7E2gEE79LZOZ4OvivYW
-         Inyw==
-X-Forwarded-Encrypted: i=1; AFNElJ+5S+xofyUCuUyvuDXDeQYQHuBis5Q/T1SeavixX7Lz/gfy8oe1iNZLKqw4pDhYTHb0rQVHRkqrwV7iZw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwIh5rFBFHYoplstAtkvioIWPCBnxTEfrSmTwZ9pjTY1vOkw+bK
-	f+MeEpdkm/pxJtLL0LpRLPmTOi56vtrbtjUPuumI1XWOj+5sqT+vXiSLM7ftqbuxbCUouxZdYkR
-	RmeMeOGfGyNsYk0GgbNt1puZEiWi1oFk7k0t8
-X-Gm-Gg: Acq92OHJrcNqd0vsXxCeHty/PpS/6RhBCt4yqUUn7tTjSYUHClK9zO2OqTzjvpFTBp6
-	gvm4mR3OTL5kDIEiECFMywh9kJiOcMypkvVzhMntSnABey+2jt6AMwZ0Yl8rgcT2jLVlZFxgdRH
-	NFeHbhkVLPVn6by6OPNowQBCCiSN3dbBgWxuDS+6tnmmIonm39Pudk0D2JOfkOG2aJIK4coOIrp
-	vNjnvhgqLw3JzCj7mXRyIbMh/lDSHi5X2eRbjeB6SUyOfJ64hXbVEUDghUOx44KNDVcKBwHpB0O
-	naKN3fzPk82Ok0vfuvxBzi4jGLpUCYvz72szVAXacgp7rEuhh6TK9LXwelCXFAYuckhZ/JyH
-X-Received: by 2002:a17:902:c948:b0:2bd:2de3:5181 with SMTP id
- d9443c01a7336-2beb034603cmr207644055ad.9.1779797821644; Tue, 26 May 2026
- 05:17:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8038426B764;
+	Tue, 26 May 2026 14:13:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779804808; cv=none; b=T+TlOBqIqsJQFR6lLRaHbkDQOAyKZptgUku+eMH5+aTL3NiiDmk/2yi3xHCIX8ck1fDhpMZyDO+B5mcY0Tf0nU6iHH3MLnO9BbdXWyUIjTPsyrXlVR7b+fwKbzC5O//v049sija0f+sbk0aSv98o2Y6ssCYyi8Wzrpg+e2gcXBw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779804808; c=relaxed/simple;
+	bh=0ExaLqZz8H/scaF4ESGOgbBXyDPgoURUWi3f4cwnXos=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EoB1x81Zpj1A7PR57UaLu1R2UjLT1dSt1YCe+kgU199DAizYWxmBdDigQ70AfzmizVJiabHZiixxHnYaLwhSQVbkwa0f4tInblUxiKMNa//rO8t8q3katHzgGmX+JK+z9Ey3V856lNHlT3OqOfZi8Paq5+0sD9TKf2MjXIFeL8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 1A5F43700271;
+	Tue, 26 May 2026 14:13:17 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 2690FB408F5; Tue, 26 May 2026 14:13:16 +0000 (UTC)
+X-Spam-Level: 
+Received: from shepard (unknown [37.167.72.125])
+	by laika.paulk.fr (Postfix) with ESMTPSA id E42EAB408F4;
+	Tue, 26 May 2026 14:13:14 +0000 (UTC)
+Date: Tue, 26 May 2026 16:13:05 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: linux-sunxi@lists.linux.dev, conor+dt@kernel.org, robh@kernel.org,
+	devicetree@vger.kernel.org, sashiko-reviews@lists.linux.dev
+Subject: Re: [PATCH v9 5/9] ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2
+ support
+Message-ID: <ahWqcWy_6QuNIOi-@shepard>
+References: <20260518153339.619947-6-paulk@sys-base.io>
+ <20260518161130.F0A4CC2BCB7@smtp.kernel.org>
+ <CAGb2v65+JwwU2p5TQ6hrqonYNUgVgZQMPY6D=ROqWJu=xy=drQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260522095401.72915-1-phucduc.bui@gmail.com> <20260522095401.72915-3-phucduc.bui@gmail.com>
- <CAGb2v67UmMmM7bQOSf3VxsN9D8s3N8nMMX079_kiMcPU=VszFg@mail.gmail.com>
- <CAABR9nEB8jizn+NrVgrjcOOJRtaU0u+TH705unMTh7HYO=8Wcg@mail.gmail.com> <CAGb2v65zK7iOce_UZ+_F=dWtKYFGZj-K4k45MewvDbhivXPH2A@mail.gmail.com>
-In-Reply-To: <CAGb2v65zK7iOce_UZ+_F=dWtKYFGZj-K4k45MewvDbhivXPH2A@mail.gmail.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Tue, 26 May 2026 19:16:50 +0700
-X-Gm-Features: AVHnY4L36KKu58qpYxsDJHrLwpA0fiNG3V0fNQatxdA3GV3-2n0FXUky_32u4G0
-Message-ID: <CAABR9nEsKjgErDB3jnHrx=dOUajvvN6GbP+6XUb5Ay3VYYjNJA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] ASoC: sunxi: sun4i-spdif: Resume device before
- kcontrol register access
-To: wens@kernel.org
-Cc: broonie@kernel.org, codekipper@gmail.com, jernej.skrabec@gmail.com, 
-	lgirdwood@gmail.com, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, nichen@iscas.ac.cn, perex@perex.cz, 
-	samuel@sholland.org, tiwai@suse.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3/yyHngUfyzKNMrH"
+Content-Disposition: inline
+In-Reply-To: <CAGb2v65+JwwU2p5TQ6hrqonYNUgVgZQMPY6D=ROqWJu=xy=drQ@mail.gmail.com>
+
+
+--3/yyHngUfyzKNMrH
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Chenyu,
+Hi Chen-Yu,
 
-> When you submit a patch, it is expected that you already tested it.
-> If you only compile tested it, please remember to say so in the
-> footer (or mark the patch as RFT) so that others can test for you
-> and the maintainer knows the status.
->
-> And if possible, provide a scheme to test it.
->
+On Sun 24 May 26, 20:49, Chen-Yu Tsai wrote:
+> On Mon, May 18, 2026 at 6:12=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
+> >
+> > Thank you for your contribution! Sashiko AI review found 1 potential is=
+sue(s) to consider:
+> > - [Medium] The `dphy` node is missing the required `interrupts` propert=
+y and a SoC-specific compatible string.
+> > --
+> >
+> > commit ceae1b5da24380c4a30d9a8b480a23eaee3c0814
+> > Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> >
+> > ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2 support
+> >
+> > This commit adds MIPI CSI-2 support to the Allwinner V3s SoC. It introd=
+uces
+> > the device tree nodes for the CSI0 controller, the MIPI CSI-2 bridge, a=
+nd
+> > the D-PHY block.
+> >
+> > > diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi b/arch/arm/bo=
+ot/dts/allwinner/sun8i-v3s.dtsi
+> > > --- a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+> > > +++ b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+> > [ ... ]
+> > > +             dphy: d-phy@1cb2000 {
+> > > +                     compatible =3D "allwinner,sun6i-a31-mipi-dphy";
+> >
+> > Should a SoC-specific compatible string like "allwinner,sun8i-v3s-mipi-=
+dphy"
+> > be included here alongside the generic a31 fallback?
+>=20
+> Following our general guideline, I believe it should.
 
-Thanks for the guidance.
-I=E2=80=99ll clearly mention the test status next time.
+Yes I guess it makes sense. I don't think we've been doing that in every ca=
+se
+but it doesn't hurt.
 
->
-> I can't say that it does. But since the only control that SPDIF gives
-> is the IEC958 status, and that doesn't appear in the standard mixer apps,
-> it's unlikely that a _user_ will trigger it. Plus the control was added
-> after the basic structure of the driver was done, so there is definitely
-> some possibility of a crash.
->
-> But what you wrote in the commit message doesn't match the actual hardwar=
-e
-> behavior, like I wrote.
+> > > +                     reg =3D <0x01cb2000 0x1000>;
+> > > +                     clocks =3D <&ccu CLK_BUS_CSI>,
+> > > +                              <&ccu CLK_MIPI_CSI>;
+> > > +                     clock-names =3D "bus", "mod";
+> > > +                     resets =3D <&ccu RST_BUS_CSI>;
+> >
+> > Will this node fail dtbs_check schema validation? The existing device t=
+ree
+> > binding schema for "allwinner,sun6i-a31-mipi-dphy" requires an interrup=
+ts
+> > property, which appears to be missing here.
+>=20
+> Yeah, this is definitely going to fail validation.
 
-Thanks for the clarification.
-I'll update the commit message to something like:
-"The kcontrols may access hardware registers while the
-device is runtime-suspended.
-Ensure the device is resumed before touching the registers."
+To be very clear about this, the interrupt is absolutely not required for
+proper operation of the unit and there's a chance we might eventually see
+a SoC that doesn't have it wired.
 
-Best Regards,
-Phuc
+I could just hook the interrupt for now and we could make it optional if ev=
+er
+needed, but I could also mark is as optional now if you prefer.
+
+> > If the V3s hardware physically lacks a D-PHY interrupt, would it be bet=
+ter
+> > to add the V3s-specific compatible string and update the binding schema
+> > to make the interrupts property conditionally optional for the V3s?
+>=20
+> FWIW the vendor kernel has some code for the D-PHY's interrupt bits [1].
+> Could you add the interrupt (I'm guessing the MIPI-CSI interrupt?) and
+> give it a quick test?
+
+Thanks for digging this up! It really looks like it's just used for debug
+purposes.
+
+I have previously used the mipi csi-2 interrupt for the mipi csi-2 controll=
+er
+and never for the d-phy. There's a chance it's the same interrupt that is w=
+ired
+to both units (like it is for isp/csi).
+
+I'll give it a try when I get back home. If it doesn't trigger, it probbaly
+means it's not wired to the d-phy and should really be made optional.
+
+All the best,
+
+Paul
+
+>=20
+>=20
+> Thanks
+> ChenYu
+>=20
+> [1] https://github.com/gediz/v3s-linux-sdk/blob/master/linux-3.4/drivers/=
+media/video/sunxi-vfe/mipi_csi/dphy/dphy_reg.c
+>=20
+>=20
+> > > +                     allwinner,direction =3D "rx";
+> > > +                     status =3D "disabled";
+> > > +                     #phy-cells =3D <0>;
+> > > +             };
+> > > +
+> >
+> > --
+> > Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260518153339.=
+619947-1-paulk@sys-base.io?part=3D5
+> >
+
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--3/yyHngUfyzKNMrH
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmoVqnEACgkQhP3B6o/u
+lQyVBxAAkmBbJfWH/Zap2m4SELdLqBWc4TbBFrxkvapEAEVhEDEjPt43XnjnVTGB
+RlS4WMVVEdLi1WtYEYPA7VkcGsYZQsuwySF5q0DoNkUbumm7qu0c2oewxahvd8i4
+iC1xUQHV+tgcIOd3KzRWgb6r+PoEASdHP1ND+Nn5ifZtA4qQODLtIK92cQfx2qXR
+zKvub/V2rDx9U6wHaoDcDkY5WTDh27Yb95Pwv9EuublD1RovX4zhNyDRFSTol3pB
+APuNJoQZAEhL7YLOK+myTEnZgQTSsYCrALKJyIpj++9wtBUfaCQvzZVhTBQJrq0H
+v4WHw/vc0M0FcULjEU4kQhpqpkDKx44rhny8yXxiI+9DpNWrJ5o8neoVUiEn+Yzi
+omFq3SSeGGbw9r5A57Y6COhERx5IFkIJ0p+0oz5ANwFwKSADL7/JTk35Fu/cg6Hn
+zJ+SMjLHJJFl4P5AunKhxed1M4w1QGev8kkkmp5FXcdwNU/qDVKEqiBXTgCdr6mA
+f0JT8pmhSCp3esUbvYrNS+thKgR3s5B+YEUikO9pLhIMvBnfAsmp8RTbRmFyIK78
+Lw1Diz6iGKBR+6rsxZlTySZ5nAPEeKIXScdnJFsQPGCBudGhIUEIv82ev7uESu3x
+xKIO6SYIio+eUZgeA8QXVqGWVDCvJYUDC5yQ8nS4TqjfI8diJAs=
+=sw0R
+-----END PGP SIGNATURE-----
+
+--3/yyHngUfyzKNMrH--
