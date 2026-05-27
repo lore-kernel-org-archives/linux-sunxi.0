@@ -1,305 +1,264 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16493E317E
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 May 2026 08:53:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779871986; cv=none; b=rtPipR4+/70ILbUnMrxHRDXxHPHErDC3jHnFrUy4oDMwBga2R8P2eIGkMJFbpbXG37M3hoJzUW3j08uuCVAVXWy8VyXpfizMsGHf5gR025g3XKQS2+LVA7SqW6oY7I8n1B8qFeym9k/tlVDVbpPSgPwCr4CxYJi3+iVK5kCWpek=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779871986; c=relaxed/simple;
-	bh=U94aiqjQ1f+qRIQis73bZNKnXeMi6qOJuaQq+OyQzCM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cN5d+biOQ05sOiLWeChsb+4kfDvgSuqM1WqNhDTP/WZ2YJIbf3qwIHEH+5G7/2BoZl6s9Q78jowB/kXeplD42lrjTiTnP7yGQe5bY0km9b2DwVqa3KUSrZ28mDX0iNHzckIyhcXMhb47QVqvjy3ba8ABh3SAYl5Pa+BCWjf2w5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wrTu4DF1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LjJ2spsM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wrTu4DF1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LjJ2spsM; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B8543D6494
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 May 2026 11:54:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779882858; cv=pass; b=Gguqda0MpkAtp4SLqXZ4tRNSnMNDyxboBuO04sVHRwWb9lxOJU0DoVKqkdbKiq89BfOwqu2UfFUP/5kqd0TGY59XHs0uGfp2twiaa8RvfAASVhrkH/Swo4GdZedkNOy9Xqe9WTH5u6f126rbWQzVO4fGt7ilVShQHEPcs5WdDYI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779882858; c=relaxed/simple;
+	bh=r7JV4Qlc/632i94GYxXPKPWstQRLKr2HGMAhVUjmiKQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S8mEujiKbvPN8umfNqSBilCc8d2Gp/vDPElmEZv/R+AxIoDFv1ZsfEa7uZwm2myzenNuiQjSHNDyaX7KpcmkRrUKuNWNqwAQqmm1IEqJ6jqO2uCOtAFNJcsyiHdia0wCQ6XaEAsajZmoN9988rhAHWBafaUeGpwLPUrlXqmCjjk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KRqDf0Qv; arc=pass smtp.client-ip=209.85.210.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wrTu4DF1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LjJ2spsM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wrTu4DF1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LjJ2spsM"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C12FD6A806;
-	Wed, 27 May 2026 08:53:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779871981; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=fHr5XrSud6pNgAeA10u5f9+hSZqjuGHLz/WCO58vfJs=;
-	b=wrTu4DF1GXjglPhGleOwGYGEnxgqYF8TkJIOmSWNecFqF15B+8gaAZt5jF8vPmpacfGD8g
-	5CzeQl4lSdNYeHIKXLHBWm+YA8SBx9zQsftG/OoNdsDNKRfP36cAcn3EQ3FHS9iYB0YWTW
-	DbwSLUoCTGx1tiRl/sZCYjwl36caYls=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779871981;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=fHr5XrSud6pNgAeA10u5f9+hSZqjuGHLz/WCO58vfJs=;
-	b=LjJ2spsMrhtxXDiFCcdM23trVrGzubvJbyHSkmMVeRBlwZol82YzZnlRsea0XsOZaxgGyA
-	jVQmCfyci6GeWyCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779871981; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=fHr5XrSud6pNgAeA10u5f9+hSZqjuGHLz/WCO58vfJs=;
-	b=wrTu4DF1GXjglPhGleOwGYGEnxgqYF8TkJIOmSWNecFqF15B+8gaAZt5jF8vPmpacfGD8g
-	5CzeQl4lSdNYeHIKXLHBWm+YA8SBx9zQsftG/OoNdsDNKRfP36cAcn3EQ3FHS9iYB0YWTW
-	DbwSLUoCTGx1tiRl/sZCYjwl36caYls=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779871981;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=fHr5XrSud6pNgAeA10u5f9+hSZqjuGHLz/WCO58vfJs=;
-	b=LjJ2spsMrhtxXDiFCcdM23trVrGzubvJbyHSkmMVeRBlwZol82YzZnlRsea0XsOZaxgGyA
-	jVQmCfyci6GeWyCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BC7065A747;
-	Wed, 27 May 2026 08:53:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xXhJLOywFmqMDAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 27 May 2026 08:53:00 +0000
-Message-ID: <ec0fcc2e-b767-4509-b9ae-174c9941796e@suse.de>
-Date: Wed, 27 May 2026 10:53:00 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KRqDf0Qv"
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-7dcdaf06498so7507709a34.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 27 May 2026 04:54:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779882855; cv=none;
+        d=google.com; s=arc-20240605;
+        b=UqX6cjdi9+YNmO559EUlY8M8TgrYJGyrYZET2xKKhiU2hchDN7p2cnlSzldZNaiML5
+         +YvnKUeG9UOfLNkAqFGhi5ojEWSzG8O58dvhjTBv1OiSyNyyNZd11oy5Xq+ZRLIz4IdK
+         6xtumKbKA35ncS9fLNU2mgYWG/DbjlrJGk3sR+FGwBLsa2/Ke8vOLRItWazyKXiMKcZi
+         rizpdxHwvlBecIcpLWhm83QeEJihavBhOI7VZTpzeWGkTQGJafW4nXkPuR8g+/BuzDtu
+         zAGIInYhYW3rSoT01Pgnlxhb514+BO0oMJUD0590vMErFg9LGRS8/0iL4XxiPqsL4+iu
+         Jthg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=3vFoZj3BR3SklGgACKj9VkieCL7MJ3G4MrQ8F1FQu/s=;
+        fh=sDarSsxjIONkOBo6yIDo5nT8+neOx3erZ+sbdPZ4rfo=;
+        b=V/jAyTJ3+bqY5KTfRHUb7viXt2RSnGorqKX2LTSZN2uglI1VGN/k1xJ5vx1aVboEtg
+         I5QEiucPR7nUHdLdqm3lCZCHhuTysmuWsHjjESi2H5XtA1cPseDv4WZTaxSe74PH/8u7
+         vfU5oDN7UuuYATjpI5Ta2LoRr8NNYHuZGhhV35Wv0RVqjlGWITAf8fUUJLqyeyp3mt8C
+         2LiL2jvI2LAyz0LvGuMqZNcb7fvDOQ1G0vSIHslnbMC4EdRhhTmD2CRv/lKDSU4mtJQi
+         tQivM4ladZ5KXHeV82JA/nPk6ooLDewkJMBz009lo70NOFaXUbVtP5cKsLf3tYO9iWwu
+         6GGg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779882855; x=1780487655; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3vFoZj3BR3SklGgACKj9VkieCL7MJ3G4MrQ8F1FQu/s=;
+        b=KRqDf0Qvpdf3PwmJpkUv27kxqZ+B3LZqWj2TOm3gwt7xSFiNzfJmdNB0pKdV1iJpJ0
+         EHYPXZyk56/opN5aDpoqobh8XevvpHe1JYfO5JeohdUMZkerZfGb23AvmAZLzSK/wYfu
+         ZRE0BOPv2aACwFoEdcnTNOkL4vkmEJwY6zXuGdXJ7SbevMKCGgv+E1S+plnfCK2zN89c
+         K4YqtL8YWzP+H28u40yBPy/lUQt/RrYBjppdlBjbXMmQJQp81XkA040Blgm7aIqtmtFi
+         aCoJ4Nt0VD7n1/nKBsgROn36mPaGGVyaB00XapmkOQ1Mx8lriGCqn44IrZgkJj5roI4V
+         q9bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779882855; x=1780487655;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3vFoZj3BR3SklGgACKj9VkieCL7MJ3G4MrQ8F1FQu/s=;
+        b=qRuD4thkJRyLcaYzViodarI/dELLXtesQsFyY8yIhjsyTt0gF26EhjRKS9RMQDB4tq
+         fQmcwU5AFe8lfbhaEPLB2Rmjpo3VVeynOQXhw+h59w9MXNIsCDnrAffF+p/3ECiQvFPf
+         u8/QDL7qaQ7luVFSQmbxID1LawCu0Db1HR0hkIEiyyojTcCUbttfeZROdLXutpdiDINZ
+         iAbYXonoyzu8lEV0MdKfoWI6ZHhReCkO2qpN1JD2HOsRvDPHEI/q6VjvtBaf1Cu1UtT2
+         LdIDVAuOTLCnr5toUVkusW/Sd45jt2KHRSaRPZhuKodBVNNZim+RSWoFC5+h13CoOrpg
+         mnZw==
+X-Forwarded-Encrypted: i=1; AFNElJ/u948zZP5pxeb+3xCRd9Xqyd//i7rQJ+TcYt3i2ts0LvICS9EPr9gVd9r8/CCkM9NCbzee8x653jRq8Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy0QfL+K7DU1LB2ltG90fJyZXivDZXlL+DkGK65WrTsiDLqXthX
+	M7tVzcAygi9FDixpf6YzXyc4V2qp4nQeaZOisCbPC11PzgoP4bBhgwBD/YUvmA2ktwSFLWb/FZa
+	zwosKUj3dzOhQlGLH4D4HUKlJ09RFdyg=
+X-Gm-Gg: Acq92OGK4T81w5CWYfibuUxRisKdJvKrYz8JIay1MaYLsdJ4Ht4WN3iDnQVfZDqmgQD
+	zYIL4Pr5CT94FoUrV5Nh2ymYpFiyxJuWL94clOciqqSd30pNGaYBv0GX28bFNnRB+XpcE56Zx/Z
+	Dc0ZaVg4jnj4nmyLH/8cG9lV7eI8v0AgVQhAFMaUxHHxlS5Bd3fQIhRz2KqFeJobzhkIPDSUGZE
+	vHYF4CcUHu/+DI9EKlpnd67Ps0eWyUJkLwvuaurwFmBaY3hF5EXksHLwkSRcLM7s7GIH1ahLs2s
+	RwZ96BYros08X87cEGuPU5jCHso8kjC+HU4hdL6ve4GUOmtwark0wyf6lrijBFhWTTc=
+X-Received: by 2002:a05:6820:4dcc:b0:67e:251a:bd3e with SMTP id
+ 006d021491bc7-69d7eb50ef8mr12523541eaf.18.1779882855023; Wed, 27 May 2026
+ 04:54:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 01/19] drm/atomic: Document atomic commit lifetime
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Simon Ser <contact@emersion.fr>, Harry Wentland <harry.wentland@amd.com>,
- Melissa Wen <mwen@igalia.com>, Sebastian Wick <sebastian.wick@redhat.com>,
- Alex Hung <alex.hung@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Chen-Yu Tsai <wens@kernel.org>,
- Samuel Holland <samuel@sholland.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-References: <20260526-drm-mode-config-init-v6-0-852346394200@kernel.org>
- <20260526-drm-mode-config-init-v6-1-852346394200@kernel.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260526-drm-mode-config-init-v6-1-852346394200@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Score: -2.80
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[renesas];
-	RCPT_COUNT_TWELVE(0.00)[38];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,lwn.net,linuxfoundation.org,oss.qualcomm.com,iki.fi,ideasonboard.com,intel.com,linaro.org,kwiboo.se,emersion.fr,amd.com,igalia.com,redhat.com,ursulin.net,sholland.org,raspberrypi.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLyhjdboxbrjk5hnijtjs4kbm6)];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo,suse.com:url]
+References: <20260518102451.417971-1-paulk@sys-base.io> <20260518102451.417971-11-paulk@sys-base.io>
+ <CAMxPZkiKBFsPA5x6KpBajGqO5xqxD5AOd26j3uwqnQko1VzknQ@mail.gmail.com> <ahakVq7Fv78ODicG@shepard>
+In-Reply-To: <ahakVq7Fv78ODicG@shepard>
+From: arash golgol <arash.golgol@gmail.com>
+Date: Wed, 27 May 2026 15:23:44 +0330
+X-Gm-Features: AVHnY4IBJ2USZh9zewtK1mpREASscLC7umJs8sYSO8dfl7Vqb2mCAkjyaVX__p0
+Message-ID: <CAMxPZkjQGFxGeafUhCSn82PnWeRpW3YQ-5ZTZUwE1psTq2hJiw@mail.gmail.com>
+Subject: Re: [PATCH 10/16] media: sun6i-csi: Add support for MC-centric format enumeration
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Paul,
 
-
-Am 26.05.26 um 18:46 schrieb Maxime Ripard:
-> How drm_atomic_commit and the various entity structures are allocated
-> and freed isn't really trivial. Document it.
+On Wed, May 27, 2026 at 11:29=E2=80=AFAM Paul Kocialkowski <paulk@sys-base.=
+io> wrote:
 >
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-> ---
->   Documentation/gpu/drm-kms.rst |  6 ++++
->   drivers/gpu/drm/drm_atomic.c  | 72 +++++++++++++++++++++++++++++++++++++++++++
->   2 files changed, 78 insertions(+)
+> Hi Arash,
 >
-> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> index d22817fdf9aa..36d76e391074 100644
-> --- a/Documentation/gpu/drm-kms.rst
-> +++ b/Documentation/gpu/drm-kms.rst
-> @@ -282,10 +282,16 @@ structure, ordering of committing state changes to hardware is sequenced using
->   :c:type:`struct drm_crtc_commit <drm_crtc_commit>`.
->   
->   Read on in this chapter, and also in :ref:`drm_atomic_helper` for more detailed
->   coverage of specific topics.
->   
-> +Atomic State Lifetime
-> +---------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/drm_atomic.c
-> +   :doc: state lifetime
-> +
->   Handling Driver Private State
->   -----------------------------
->   
->   .. kernel-doc:: drivers/gpu/drm/drm_atomic.c
->      :doc: handling driver private state
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 170de30c28ae..3c5714481ad2 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -45,10 +45,82 @@
->   #include <drm/drm_colorop.h>
->   
->   #include "drm_crtc_internal.h"
->   #include "drm_internal.h"
->   
-> +/**
-> + * DOC: state lifetime
-> + *
-> + * &drm_atomic_commit represents an update to modeset pipeline state.
-> + * It's a transient object that holds a state update as a collection of
-> + * pointers to individual objects' states. &struct drm_atomic_commit has
-> + * a much shorter lifetime than the objects' states, since it's only
-> + * allocated while preparing, checking or committing the update, while
-> + * object states are allocated when preparing the update and kept alive
-> + * as long as they are active in the device.
-> + *
-> + * Their respective lifetimes are:
-> + *
-> + * - at reset time, the object reset implementation allocates a new
-> + *   default state and stores it in the object state pointer.
-> + *
-> + * - whenever a new update is needed:
-> + *
-> + *   + drm_atomic_commit_alloc() allocates a new &drm_atomic_commit
-> + *     instance.
-> + *
-> + *   + The code triggering the commit (ioctl, client modeset,
-> + *     drm_atomic_helper_reset_crtc(), etc.) copies the current active
-> + *     state of all entities affected by the update into this new
-> + *     &drm_atomic_commit using drm_atomic_get_plane_state(),
-> + *     drm_atomic_get_crtc_state(), drm_atomic_get_connector_state(), or
-> + *     drm_atomic_get_private_obj_state(). This new state can then be
-> + *     modified.
-> + *
-> + *     At that point, &drm_atomic_commit stores three state pointers for
-> + *     any affected entity: the "old" and "new" states, and
-> + *     state_to_destroy. The old state is the state currently active in
-> + *     the hardware, which is either the one initialized by reset() or a
-> + *     newer one if a commit has been made. The new state is the state
-> + *     we just allocated and we might eventually commit to the hardware.
-> + *     The state_to_destroy points to the state we'll eventually have to
-> + *     free when the drm_atomic_commit will be destroyed, and points to
-> + *     the new state for now since the old state is still the active
-> + *     state.
-> + *
-> + *   + After the calling code populated the commit with the entities
-> + *     states, it updates the new states with the new values we need to
-> + *     commit. The new commit instance is now ready.
-> + *
-> + *   + Then we have two branches depending on the calling code intent:
-> + *
-> + *     - If the calling code only wants to check that the commit would
-> + *       work (for example because of the DRM_MODE_ATOMIC_TEST_ONLY
-> + *       flag). It calls drm_atomic_check_only(), which in turn checks
-> + *       all these states by invoking atomic_check on all affected
-> + *       pipeline stages.
-> + *
-> + *     - If the calling code actually wants to trigger a commit, it
-> + *       calls drm_atomic_commit(). The first stage is the check
-> + *       mentioned above, and if the check is successful, it performs
-> + *       the commit. Part of the commit is a call to
-> + *       drm_atomic_helper_swap_state() which turns the new states into
-> + *       the active states. After swapping states, each object's state
-> + *       pointer now refers to the formerly new state. The
-> + *       state_to_destroy now refers to the formerly old state.
-> + *
-> + *   + Once done, and when the last refererence to our &struct
-> + *     drm_atomic_commit is given up through drm_atomic_commit_put(), it
-> + *     calls __drm_atomic_commit_free(). In turn,
-> + *     __drm_atomic_commit_free() calls drm_atomic_commit_clear() that
-> + *     will free all state_to_destroy (ie. old states), and it finally
-> + *     frees &drm_atomic_commit instance.
-> + *
-> + *   + Now, we don't have any active &drm_atomic_commit anymore, and
-> + *     only the entity active states remain allocated.
-> + */
-> +
->   void __drm_crtc_commit_free(struct kref *kref)
->   {
->   	struct drm_crtc_commit *commit =
->   		container_of(kref, struct drm_crtc_commit, ref);
->   
->
-
--- 
+> On Wed 27 May 26, 09:20, arash golgol wrote:
+> > On Mon, May 18, 2026 at 2:00=E2=80=AFPM Paul Kocialkowski <paulk@sys-ba=
+se.io> wrote:
+> > >
+> > > Use the dedicated helper to check possible pixelformats against the
+> > > provided mbus code in order to support MC-centric format enumeration.
+> > >
+> > > Note that multiple pixelformats may be returned for a given mbus code=
+.
+> > >
+> > > Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+> > > ---
+> > >  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 38 +++++++++++++++++=
 --
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+> > >  1 file changed, 34 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture=
+.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> > > index a836fa7f081a..409c28621093 100644
+> > > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> > > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> > > @@ -773,14 +773,43 @@ static int sun6i_csi_capture_querycap(struct fi=
+le *file, void *priv,
+> > >  static int sun6i_csi_capture_enum_fmt(struct file *file, void *priv,
+> > >                                       struct v4l2_fmtdesc *fmtdesc)
+> > >  {
+> > > +       const struct sun6i_csi_capture_format *capture_format;
+> > > +       const struct sun6i_csi_bridge_format *bridge_format;
+> > > +       u32 mbus_code =3D fmtdesc->mbus_code;
+> > >         u32 index =3D fmtdesc->index;
+> > > +       unsigned int index_valid =3D 0;
+> > > +       unsigned int i;
+> > > +
+> > > +       /* Video-node-centric enumeration. */
+> > > +       if (!mbus_code) {
+> > > +               if (index >=3D ARRAY_SIZE(sun6i_csi_capture_formats))
+> > > +                       return -EINVAL;
+> > > +
+> > > +               fmtdesc->pixelformat =3D
+> > > +                       sun6i_csi_capture_formats[index].pixelformat;
+> > > +               return 0;
+> > > +       }
+> > >
+> > > -       if (index >=3D ARRAY_SIZE(sun6i_csi_capture_formats))
+> > > +       bridge_format =3D sun6i_csi_bridge_format_find(mbus_code);
+> > > +       if (!bridge_format)
+> > >                 return -EINVAL;
+> > >
+> > > -       fmtdesc->pixelformat =3D sun6i_csi_capture_formats[index].pix=
+elformat;
+> > > +       for (i =3D 0; i < ARRAY_SIZE(sun6i_csi_capture_formats); i++)=
+ {
+> > > +               capture_format =3D &sun6i_csi_capture_formats[i];
+> > >
+> > > -       return 0;
+> > > +               if (!sun6i_csi_capture_format_check(capture_format,
+> > > +                                                   bridge_format))
+> > > +                       continue;
+> > > +
+> > > +               if (index_valid =3D=3D index) {
+> > > +                       fmtdesc->pixelformat =3D capture_format->pixe=
+lformat;
+> > > +                       return 0;
+> > > +               }
+> > > +
+> > > +               index_valid++;
+> > > +       }
+> > > +
+> > > +       return -EINVAL;
+> > >  }
+> > >
+> > >  static int sun6i_csi_capture_enum_framesize(struct file *file, void =
+*fh,
+> > > @@ -1076,7 +1105,8 @@ int sun6i_csi_capture_setup(struct sun6i_csi_de=
+vice *csi_dev)
+> > >
+> > >         strscpy(video_dev->name, SUN6I_CSI_CAPTURE_NAME,
+> > >                 sizeof(video_dev->name));
+> > > -       video_dev->device_caps =3D V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_=
+STREAMING;
+> > > +       video_dev->device_caps =3D V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_=
+STREAMING |
+> > > +                                V4L2_CAP_IO_MC;
+> > >         video_dev->vfl_dir =3D VFL_DIR_RX;
+> > >         video_dev->release =3D video_device_release_empty;
+> > >         video_dev->fops =3D &sun6i_csi_capture_fops;
+> > > --
+> > > 2.54.0
+> > >
+> >
+> > Tested on a LicheePi Zero Dock (V3s) with the following pipeline:
+> >
+> > ov7670 -> sun6i-csi-bridge -> sun6i-csi-capture
+> >
+> > I verified that mbus-code-based format enumeration works correctly
+> > from userspace and that the reported capture formats change according
+> > to the selected media bus format.
+> >
+> > I could also successfully start streaming with several of the
+> > enumerated capture formats (e.g. YUYV and BA81)
+>
+> Excellent, thank-you very much for testing this!
+>
 
+Happy to help.
 
+> > However, I could not fully validate actual format conversion behavior
+> > (e.g. MEDIA_BUS_FMT_YUYV8_2X8 to NV12) because my OV7670 setup
+> > currently has non-functional test patterns except for 'shifting-1'
+> > mode.
+>
+> That's fine. I don't think I have tested it recently either.
+>
+> > Tested-by: Arash Golgol <arash.golgol@gmail.com>
+> >
+> > PS:
+> >
+> > While testing this patch I also noticed that
+> > VIDIOC_SUBDEV_ENUM_MBUS_CODE reports duplicate entries for:
+> >  - MEDIA_BUS_FMT_UYVY8_2X8
+> >  - MEDIA_BUS_FMT_UYVY8_1X16
+> > on sun6i-csi-bridge.
+>
+> I just had a look and you are definitely right, the entries are clearly
+> duplicates and at the same time all the relevant formats are included, so=
+ they
+> are not taking the place of another format that was forgotten.
+>
+> You're welcome to submit a patch to remove these entries if you'd like,
+> or I could do it otherwise.
+>
+
+Thanks, I'll send a small patch to remove the duplicate mbus format entries=
+.
+
+> By the way would you be interested in testing the H.264 encoder support f=
+or
+> V3/V3s once I send a first version for it? I had written initial support =
+for
+> it a while ago (did not send it to the list) and now that my work on the =
+V4L2
+> stateless uAPI has reached a point of usability I will probably try to up=
+date
+> my rework of the cedrus driver to use it.
+>
+
+Yes, I would definitely be interested in testing the H.264 encoder
+support on V3s once you post it. I previously did some experiments
+with Cedrus on V3s (bootlin, cedrus/h264-encoding branch).
+
+Looking forward to it!
+
+--=20
+Regards,
+Arash Golgol
