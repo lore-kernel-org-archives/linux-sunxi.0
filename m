@@ -1,47 +1,40 @@
 Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8363CE4AD;
-	Wed, 27 May 2026 07:59:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24CB53CFF6C
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 May 2026 08:08:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779868783; cv=none; b=lcS+Nbgl9UgH/SlwhfO4qmSNO+1JSKEJyvgWDjeJCSy4fFf1+UHj2W2+7HRymIsq1I3Jzt/3IK/Qs81XpI56k0PD7s+Yq05ArxdXbqH/V6m6AEjl9iOh5GPSzSpcDlJWJ9m/qeS2AASTHsklPH2sQMe2PV6P04xz+ExG4uyQDrw=
+	t=1779869333; cv=none; b=aCpdPZf+DesbkXMHexKaf7W9Sx2CgXCSa2dA9iBS6h1JWHRpIyCxqNFJda8ovi67Piuns8uWCaQeD72gwvghOV7Z50maVUKQ7sCNGdRxJg06yugFScQSPDiAfAjo5TGKIaqI0Ln2sO1C8XCfFB32UT480tbippD88qEju8b0Zs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779868783; c=relaxed/simple;
-	bh=6ORNqX2NMd5fVTpHcNgCVdvQ6w0xBlVFFOjuVNOx+0E=;
+	s=arc-20240116; t=1779869333; c=relaxed/simple;
+	bh=sT6vr2tV7pQ3YriBWCUwxRT255L7NxnyNB2kjgm/too=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QIr3yM8r2tJwMtSXS6MpQdbvWk33LIc5R/LLoqvyf4gKL0OMAEigGvDGZzR8fnYG9SjZd/T0qx9bFbrDpeO7k7ZJjXoxf4tJZylvD/K9BiETB+3KZbuitSKWQalelFXkUCe66ovWR2xFNZDtKoPlDMoYv8xxm1xO7KBuh+FnDOk=
+	 Content-Type:Content-Disposition:In-Reply-To; b=qSAA0jhdOsm436PFbvvxOnQWxtSkb0y7YqPhRbFJCL5VFvRmZxbMBFFZFEYv9TO6iCPT6lVPvTnLPqyhXluStjK9vFWRciQJC9aVCYOJk8x4PzM2uQYK23bcbOvoMDneOFGw1r63JMMylpeORViklfVbJociy5bs+8wSTTQPnTo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
 Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 222BC37002DF;
-	Wed, 27 May 2026 07:59:34 +0000 (UTC)
+	by leonov.paulk.fr (Postfix) with ESMTPS id 5C67337002E0
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 May 2026 08:08:46 +0000 (UTC)
 Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 1943EB40914; Wed, 27 May 2026 07:59:32 +0000 (UTC)
+	id 0DD2BB40912; Wed, 27 May 2026 08:08:44 +0000 (UTC)
 X-Spam-Level: 
 Received: from shepard (unknown [37.167.96.158])
-	by laika.paulk.fr (Postfix) with ESMTPSA id A8A93B4090D;
-	Wed, 27 May 2026 07:59:29 +0000 (UTC)
-Date: Wed, 27 May 2026 09:59:18 +0200
+	by laika.paulk.fr (Postfix) with ESMTPSA id 4760AB4090E;
+	Wed, 27 May 2026 08:08:42 +0000 (UTC)
+Date: Wed, 27 May 2026 10:08:38 +0200
 From: Paul Kocialkowski <paulk@sys-base.io>
-To: arash golgol <arash.golgol@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
+	Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: Re: [PATCH 10/16] media: sun6i-csi: Add support for MC-centric
- format enumeration
-Message-ID: <ahakVq7Fv78ODicG@shepard>
-References: <20260518102451.417971-1-paulk@sys-base.io>
- <20260518102451.417971-11-paulk@sys-base.io>
- <CAMxPZkiKBFsPA5x6KpBajGqO5xqxD5AOd26j3uwqnQko1VzknQ@mail.gmail.com>
+	Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH] pinctrl: sunxi: Implement function_is_gpio
+Message-ID: <ahamhtes_HAh-fhr@shepard>
+References: <20260517171405.3697469-1-paulk@sys-base.io>
+ <20260525233808.20e75a21@ryzen.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -49,161 +42,107 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="VM0xxLJ6muTXhGz3"
+	protocol="application/pgp-signature"; boundary="xXnRIhy8Zq17CPb5"
 Content-Disposition: inline
-In-Reply-To: <CAMxPZkiKBFsPA5x6KpBajGqO5xqxD5AOd26j3uwqnQko1VzknQ@mail.gmail.com>
+In-Reply-To: <20260525233808.20e75a21@ryzen.lan>
 
 
---VM0xxLJ6muTXhGz3
+--xXnRIhy8Zq17CPb5
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Arash,
+Hi Andrew,
 
-On Wed 27 May 26, 09:20, arash golgol wrote:
-> On Mon, May 18, 2026 at 2:00=E2=80=AFPM Paul Kocialkowski <paulk@sys-base=
-=2Eio> wrote:
-> >
-> > Use the dedicated helper to check possible pixelformats against the
-> > provided mbus code in order to support MC-centric format enumeration.
-> >
-> > Note that multiple pixelformats may be returned for a given mbus code.
-> >
+On Mon 25 May 26, 23:38, Andre Przywara wrote:
+> On Sun, 17 May 2026 19:14:05 +0200
+> Paul Kocialkowski <paulk@sys-base.io> wrote:
+>=20
+> Hi Paul,
+>=20
+> > The function_is_gpio pinmux op allows the core to find out whether a
+> > GPIO can be safely requested from a pinctrl property and requested as a
+> > GPIO at the same time.
+> >=20
+> > This is especially useful to request a GPIO with a particular drive
+> > strength, which would otherwise not be possible.
+>=20
+> That looks a easy enough solution, but:
+>=20
 > > Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
 > > ---
-> >  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 38 +++++++++++++++++--
-> >  1 file changed, 34 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c=
- b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> > index a836fa7f081a..409c28621093 100644
-> > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> > @@ -773,14 +773,43 @@ static int sun6i_csi_capture_querycap(struct file=
- *file, void *priv,
-> >  static int sun6i_csi_capture_enum_fmt(struct file *file, void *priv,
-> >                                       struct v4l2_fmtdesc *fmtdesc)
-> >  {
-> > +       const struct sun6i_csi_capture_format *capture_format;
-> > +       const struct sun6i_csi_bridge_format *bridge_format;
-> > +       u32 mbus_code =3D fmtdesc->mbus_code;
-> >         u32 index =3D fmtdesc->index;
-> > +       unsigned int index_valid =3D 0;
-> > +       unsigned int i;
-> > +
-> > +       /* Video-node-centric enumeration. */
-> > +       if (!mbus_code) {
-> > +               if (index >=3D ARRAY_SIZE(sun6i_csi_capture_formats))
-> > +                       return -EINVAL;
-> > +
-> > +               fmtdesc->pixelformat =3D
-> > +                       sun6i_csi_capture_formats[index].pixelformat;
-> > +               return 0;
-> > +       }
-> >
-> > -       if (index >=3D ARRAY_SIZE(sun6i_csi_capture_formats))
-> > +       bridge_format =3D sun6i_csi_bridge_format_find(mbus_code);
-> > +       if (!bridge_format)
-> >                 return -EINVAL;
-> >
-> > -       fmtdesc->pixelformat =3D sun6i_csi_capture_formats[index].pixel=
-format;
-> > +       for (i =3D 0; i < ARRAY_SIZE(sun6i_csi_capture_formats); i++) {
-> > +               capture_format =3D &sun6i_csi_capture_formats[i];
-> >
-> > -       return 0;
-> > +               if (!sun6i_csi_capture_format_check(capture_format,
-> > +                                                   bridge_format))
-> > +                       continue;
-> > +
-> > +               if (index_valid =3D=3D index) {
-> > +                       fmtdesc->pixelformat =3D capture_format->pixelf=
-ormat;
-> > +                       return 0;
-> > +               }
-> > +
-> > +               index_valid++;
-> > +       }
-> > +
-> > +       return -EINVAL;
+> >  drivers/pinctrl/sunxi/pinctrl-sunxi.c | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+> >=20
+> > diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/su=
+nxi/pinctrl-sunxi.c
+> > index d3042e0c9712..6162f2d86723 100644
+> > --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> > +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> > @@ -821,6 +821,17 @@ static int sunxi_pmx_get_func_groups(struct pinctr=
+l_dev *pctldev,
+> >  	return 0;
 > >  }
-> >
-> >  static int sun6i_csi_capture_enum_framesize(struct file *file, void *f=
-h,
-> > @@ -1076,7 +1105,8 @@ int sun6i_csi_capture_setup(struct sun6i_csi_devi=
-ce *csi_dev)
-> >
-> >         strscpy(video_dev->name, SUN6I_CSI_CAPTURE_NAME,
-> >                 sizeof(video_dev->name));
-> > -       video_dev->device_caps =3D V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_ST=
-REAMING;
-> > +       video_dev->device_caps =3D V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_ST=
-REAMING |
-> > +                                V4L2_CAP_IO_MC;
-> >         video_dev->vfl_dir =3D VFL_DIR_RX;
-> >         video_dev->release =3D video_device_release_empty;
-> >         video_dev->fops =3D &sun6i_csi_capture_fops;
-> > --
-> > 2.54.0
-> >
+> > =20
+> > +static bool sunxi_pmx_function_is_gpio(struct pinctrl_dev *pctldev,
+> > +				       unsigned function)
+> > +{
+> > +	struct sunxi_pinctrl *pctl =3D pinctrl_dev_get_drvdata(pctldev);
+> > +
+> > +	if (!strncmp(pctl->functions[function].name, "gpio", 4))
 >=20
-> Tested on a LicheePi Zero Dock (V3s) with the following pipeline:
->=20
-> ov7670 -> sun6i-csi-bridge -> sun6i-csi-capture
->=20
-> I verified that mbus-code-based format enumeration works correctly
-> from userspace and that the reported capture formats change according
-> to the selected media bus format.
->=20
-> I could also successfully start streaming with several of the
-> enumerated capture formats (e.g. YUYV and BA81)
+> I wonder if this condition is a bit too relaxed? There could be
+> some (theoretical) function just starting with gpio, but not being mux
+> 0 or 1.
 
-Excellent, thank-you very much for testing this!
+Yes maybe this is a bit too relaxed.
 
-> However, I could not fully validate actual format conversion behavior
-> (e.g. MEDIA_BUS_FMT_YUYV8_2X8 to NV12) because my OV7670 setup
-> currently has non-functional test patterns except for 'shifting-1'
-> mode.
+> So should we check for gpio_in or gpio_out, explicitly? Or at
+> least use (strcmp(name, "gpio_", 5)? Or maybe even better for the mux
+> value directly? Is "function" an indicator of this, or does this rely
+> on the two GPIO functions being always listed first, at least so far?
 
-That's fine. I don't think I have tested it recently either.
+I considered mathcing the function to the mux index, but we can't really re=
+ly
+on Allwinner keeping GPIO to mux 0/1 either so I think the string comparison
+is still the best approach.
 
-> Tested-by: Arash Golgol <arash.golgol@gmail.com>
->=20
-> PS:
->=20
-> While testing this patch I also noticed that
-> VIDIOC_SUBDEV_ENUM_MBUS_CODE reports duplicate entries for:
->  - MEDIA_BUS_FMT_UYVY8_2X8
->  - MEDIA_BUS_FMT_UYVY8_1X16
-> on sun6i-csi-bridge.
+But I am totally fine with having an explicit check against
+"gpio_in" || "gpio_out".
 
-I just had a look and you are definitely right, the entries are clearly
-duplicates and at the same time all the relevant formats are included, so t=
-hey
-are not taking the place of another format that was forgotten.
-
-You're welcome to submit a patch to remove these entries if you'd like,
-or I could do it otherwise.
-
-By the way would you be interested in testing the H.264 encoder support for
-V3/V3s once I send a first version for it? I had written initial support for
-it a while ago (did not send it to the list) and now that my work on the V4=
-L2
-stateless uAPI has reached a point of usability I will probably try to upda=
-te
-my rework of the cedrus driver to use it.
+And to answer your question it's not safe to use the function as mux value,
+even though the values are the same in practice. The muxval field of
+struct sunxi_desc_function should be used instead and that can be looked up=
+ by
+sunxi_pinctrl_desc_find_function_by_name.
 
 All the best,
 
 Paul
 
-> This appears to come from duplicate format entries being exposed by
-> the bridge driver.
+> And what about the IRQ function? Isn't that some GPIO as well, or does
+> that not count for the purpose of the function_is_gpio() callback?
 >=20
-> --=20
-> Regards,
-> Arash Golgol
+> Cheers,
+> Andre
+>=20
+> > +		return true;
+> > +
+> > +	return false;
+> > +}
+> > +
+> >  static void sunxi_pmx_set(struct pinctrl_dev *pctldev,
+> >  				 unsigned pin,
+> >  				 u8 config)
+> > @@ -952,6 +963,7 @@ static const struct pinmux_ops sunxi_pmx_ops =3D {
+> >  	.get_functions_count	=3D sunxi_pmx_get_funcs_cnt,
+> >  	.get_function_name	=3D sunxi_pmx_get_func_name,
+> >  	.get_function_groups	=3D sunxi_pmx_get_func_groups,
+> > +	.function_is_gpio	=3D sunxi_pmx_function_is_gpio,
+> >  	.set_mux		=3D sunxi_pmx_set_mux,
+> >  	.gpio_set_direction	=3D sunxi_pmx_gpio_set_direction,
+> >  	.request		=3D sunxi_pmx_request,
+>=20
 
 --=20
 Paul Kocialkowski,
@@ -213,24 +152,24 @@ Free software developer - https://www.paulk.fr/
 
 Expert in multimedia, graphics and embedded hardware support with Linux.
 
---VM0xxLJ6muTXhGz3
+--xXnRIhy8Zq17CPb5
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmoWpFYACgkQhP3B6o/u
-lQxhLQ//UIWt6mBSslymh22RIUaC6Ssr3TIPM+Sa5Ik1yWHnmejqqtwsxJB+oAnr
-jY32nQFq3RCmrrYqTmPGnKT5GwzKfkLXpdmrCGfE5GWIMKUVGaDvUwGLs+NCdaHZ
-RR7Yye5eWXPnFuReDK94PJobjvM2SAfedOatfBdL9e4QWU3Oy2d43spUe1uvjtrY
-CbMsddSpG5CJt/QtfiaTf850AJIkzqIaSrRNhuspnNrVIGy6V/w+HUSODSJmivGt
-m1+s1MowdYEboSN1U6eFfT+Icg5pKtU81lNgY+YZBtZlmAQmumDnq1KZSj4RUhAI
-YHIuK8A+8nro002WFKuepuT7TTj6V49sNt6GG6Muko+BhSXMm9SRF43w6aTY7de0
-TW+JX5fzd0tDPMqV+DRiiRUEkIiKwb4FvX+601aTRlYTXcRbOdtL/jGoIVyvVmet
-B2tXadzbZ4bxhsSqfrLwLmwuMgoT7gZboI6kqk3ztei4v2ZTcE5j2iT7RU6HRRWl
-MHsq2GeRqpnH2Y/anQDRXIq0U5S1xkG4syfG+uA8PweftAqO/tusvUVRqODdPfAL
-X9wfdXCS0usJyCfNB4lTyiAJnEcs3/s35plcFIsQsAJDdqj2Gnb3N5bTMSMfgS9s
-FN5U8zy9gSslrokVVy6IsQ/+K5/K2PGuvqE0gVwDDMKeS0UQOs8=
-=Li0w
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmoWpoYACgkQhP3B6o/u
+lQxDYQ//RPAy0EjHEhhuvtJsBrWAL0jzTj3G1QNSUISrPzn58Ei3wMu0P4sYUUOH
+BY/qY5O6aShsgzwNRfI4iqJpS6Tcf7i6WMvErll+wksZGlO13XEwIshoOA5GNiD3
+qNiYjGxY9eXFgDeEZbWJOu/vNvC33H/bRkfsMzBcJHLhTEOOZYdS9P+m7HG3okTd
+Q3X4uFWoA5eUTxJqo0MbCuyBHYKFroBWFzE6ixtSxZhHRA4Mn7aMiOg0nkD92sPt
+y6mMKxaMakpWSnU30wwZwa6tUVxUS4pJgu+EZl0HQ/FZU1ORww2ApQ+QGdqD6ceF
+Ny2Ls0FAN9FpPdb2V/6L9HkWjn2VLl+3sLU7EIfLIEXThdXev+QeFbqorNKLV6rr
+k9J1Bbg83BBfDVs4kLVQDFxO0z9d8P9PgeZwcpbmJBW+L3tUyvrwrnZS9462o5WY
+ot5xC7o3sJWpVOdlfUxu0A9yeRMFtywauQXioz5SEdTVM0/kHIc7FYeicjjmgJiW
+hnBxwIsQtfYX0tkcl5b5MJpr2N/rrW0FqJnxWgxMacnSMIpv9zedsBhnFq5NtoPP
+R5JWZtV1xuJKReTIbjSRrW141OCqVjFly3LMZFUEY9INWtgSIxZlSZBe9rkyX2xQ
+iJZfGcvAG3LDVcbKOhzmbQs51wxl1T8LqY5QIleaeP0LMZKzJPw=
+=RJQy
 -----END PGP SIGNATURE-----
 
---VM0xxLJ6muTXhGz3--
+--xXnRIhy8Zq17CPb5--
