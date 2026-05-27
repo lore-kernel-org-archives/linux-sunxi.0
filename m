@@ -1,175 +1,305 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24CB53CFF6C
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 May 2026 08:08:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16493E317E
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 May 2026 08:53:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779869333; cv=none; b=aCpdPZf+DesbkXMHexKaf7W9Sx2CgXCSa2dA9iBS6h1JWHRpIyCxqNFJda8ovi67Piuns8uWCaQeD72gwvghOV7Z50maVUKQ7sCNGdRxJg06yugFScQSPDiAfAjo5TGKIaqI0Ln2sO1C8XCfFB32UT480tbippD88qEju8b0Zs0=
+	t=1779871986; cv=none; b=rtPipR4+/70ILbUnMrxHRDXxHPHErDC3jHnFrUy4oDMwBga2R8P2eIGkMJFbpbXG37M3hoJzUW3j08uuCVAVXWy8VyXpfizMsGHf5gR025g3XKQS2+LVA7SqW6oY7I8n1B8qFeym9k/tlVDVbpPSgPwCr4CxYJi3+iVK5kCWpek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779869333; c=relaxed/simple;
-	bh=sT6vr2tV7pQ3YriBWCUwxRT255L7NxnyNB2kjgm/too=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qSAA0jhdOsm436PFbvvxOnQWxtSkb0y7YqPhRbFJCL5VFvRmZxbMBFFZFEYv9TO6iCPT6lVPvTnLPqyhXluStjK9vFWRciQJC9aVCYOJk8x4PzM2uQYK23bcbOvoMDneOFGw1r63JMMylpeORViklfVbJociy5bs+8wSTTQPnTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 5C67337002E0
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 May 2026 08:08:46 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 0DD2BB40912; Wed, 27 May 2026 08:08:44 +0000 (UTC)
-X-Spam-Level: 
-Received: from shepard (unknown [37.167.96.158])
-	by laika.paulk.fr (Postfix) with ESMTPSA id 4760AB4090E;
-	Wed, 27 May 2026 08:08:42 +0000 (UTC)
-Date: Wed, 27 May 2026 10:08:38 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH] pinctrl: sunxi: Implement function_is_gpio
-Message-ID: <ahamhtes_HAh-fhr@shepard>
-References: <20260517171405.3697469-1-paulk@sys-base.io>
- <20260525233808.20e75a21@ryzen.lan>
+	s=arc-20240116; t=1779871986; c=relaxed/simple;
+	bh=U94aiqjQ1f+qRIQis73bZNKnXeMi6qOJuaQq+OyQzCM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cN5d+biOQ05sOiLWeChsb+4kfDvgSuqM1WqNhDTP/WZ2YJIbf3qwIHEH+5G7/2BoZl6s9Q78jowB/kXeplD42lrjTiTnP7yGQe5bY0km9b2DwVqa3KUSrZ28mDX0iNHzckIyhcXMhb47QVqvjy3ba8ABh3SAYl5Pa+BCWjf2w5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wrTu4DF1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LjJ2spsM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wrTu4DF1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LjJ2spsM; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wrTu4DF1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LjJ2spsM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wrTu4DF1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LjJ2spsM"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C12FD6A806;
+	Wed, 27 May 2026 08:53:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779871981; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=fHr5XrSud6pNgAeA10u5f9+hSZqjuGHLz/WCO58vfJs=;
+	b=wrTu4DF1GXjglPhGleOwGYGEnxgqYF8TkJIOmSWNecFqF15B+8gaAZt5jF8vPmpacfGD8g
+	5CzeQl4lSdNYeHIKXLHBWm+YA8SBx9zQsftG/OoNdsDNKRfP36cAcn3EQ3FHS9iYB0YWTW
+	DbwSLUoCTGx1tiRl/sZCYjwl36caYls=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779871981;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=fHr5XrSud6pNgAeA10u5f9+hSZqjuGHLz/WCO58vfJs=;
+	b=LjJ2spsMrhtxXDiFCcdM23trVrGzubvJbyHSkmMVeRBlwZol82YzZnlRsea0XsOZaxgGyA
+	jVQmCfyci6GeWyCg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779871981; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=fHr5XrSud6pNgAeA10u5f9+hSZqjuGHLz/WCO58vfJs=;
+	b=wrTu4DF1GXjglPhGleOwGYGEnxgqYF8TkJIOmSWNecFqF15B+8gaAZt5jF8vPmpacfGD8g
+	5CzeQl4lSdNYeHIKXLHBWm+YA8SBx9zQsftG/OoNdsDNKRfP36cAcn3EQ3FHS9iYB0YWTW
+	DbwSLUoCTGx1tiRl/sZCYjwl36caYls=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779871981;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=fHr5XrSud6pNgAeA10u5f9+hSZqjuGHLz/WCO58vfJs=;
+	b=LjJ2spsMrhtxXDiFCcdM23trVrGzubvJbyHSkmMVeRBlwZol82YzZnlRsea0XsOZaxgGyA
+	jVQmCfyci6GeWyCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BC7065A747;
+	Wed, 27 May 2026 08:53:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xXhJLOywFmqMDAAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Wed, 27 May 2026 08:53:00 +0000
+Message-ID: <ec0fcc2e-b767-4509-b9ae-174c9941796e@suse.de>
+Date: Wed, 27 May 2026 10:53:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xXnRIhy8Zq17CPb5"
-Content-Disposition: inline
-In-Reply-To: <20260525233808.20e75a21@ryzen.lan>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 01/19] drm/atomic: Document atomic commit lifetime
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Simon Ser <contact@emersion.fr>, Harry Wentland <harry.wentland@amd.com>,
+ Melissa Wen <mwen@igalia.com>, Sebastian Wick <sebastian.wick@redhat.com>,
+ Alex Hung <alex.hung@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Chen-Yu Tsai <wens@kernel.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+References: <20260526-drm-mode-config-init-v6-0-852346394200@kernel.org>
+ <20260526-drm-mode-config-init-v6-1-852346394200@kernel.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20260526-drm-mode-config-init-v6-1-852346394200@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[renesas];
+	RCPT_COUNT_TWELVE(0.00)[38];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,lwn.net,linuxfoundation.org,oss.qualcomm.com,iki.fi,ideasonboard.com,intel.com,linaro.org,kwiboo.se,emersion.fr,amd.com,igalia.com,redhat.com,ursulin.net,sholland.org,raspberrypi.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLyhjdboxbrjk5hnijtjs4kbm6)];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo,suse.com:url]
 
 
---xXnRIhy8Zq17CPb5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Andrew,
+Am 26.05.26 um 18:46 schrieb Maxime Ripard:
+> How drm_atomic_commit and the various entity structures are allocated
+> and freed isn't really trivial. Document it.
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-On Mon 25 May 26, 23:38, Andre Przywara wrote:
-> On Sun, 17 May 2026 19:14:05 +0200
-> Paul Kocialkowski <paulk@sys-base.io> wrote:
->=20
-> Hi Paul,
->=20
-> > The function_is_gpio pinmux op allows the core to find out whether a
-> > GPIO can be safely requested from a pinctrl property and requested as a
-> > GPIO at the same time.
-> >=20
-> > This is especially useful to request a GPIO with a particular drive
-> > strength, which would otherwise not be possible.
->=20
-> That looks a easy enough solution, but:
->=20
-> > Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
-> > ---
-> >  drivers/pinctrl/sunxi/pinctrl-sunxi.c | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> >=20
-> > diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/su=
-nxi/pinctrl-sunxi.c
-> > index d3042e0c9712..6162f2d86723 100644
-> > --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> > +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> > @@ -821,6 +821,17 @@ static int sunxi_pmx_get_func_groups(struct pinctr=
-l_dev *pctldev,
-> >  	return 0;
-> >  }
-> > =20
-> > +static bool sunxi_pmx_function_is_gpio(struct pinctrl_dev *pctldev,
-> > +				       unsigned function)
-> > +{
-> > +	struct sunxi_pinctrl *pctl =3D pinctrl_dev_get_drvdata(pctldev);
-> > +
-> > +	if (!strncmp(pctl->functions[function].name, "gpio", 4))
->=20
-> I wonder if this condition is a bit too relaxed? There could be
-> some (theoretical) function just starting with gpio, but not being mux
-> 0 or 1.
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Yes maybe this is a bit too relaxed.
+> ---
+>   Documentation/gpu/drm-kms.rst |  6 ++++
+>   drivers/gpu/drm/drm_atomic.c  | 72 +++++++++++++++++++++++++++++++++++++++++++
+>   2 files changed, 78 insertions(+)
+>
+> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+> index d22817fdf9aa..36d76e391074 100644
+> --- a/Documentation/gpu/drm-kms.rst
+> +++ b/Documentation/gpu/drm-kms.rst
+> @@ -282,10 +282,16 @@ structure, ordering of committing state changes to hardware is sequenced using
+>   :c:type:`struct drm_crtc_commit <drm_crtc_commit>`.
+>   
+>   Read on in this chapter, and also in :ref:`drm_atomic_helper` for more detailed
+>   coverage of specific topics.
+>   
+> +Atomic State Lifetime
+> +---------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/drm_atomic.c
+> +   :doc: state lifetime
+> +
+>   Handling Driver Private State
+>   -----------------------------
+>   
+>   .. kernel-doc:: drivers/gpu/drm/drm_atomic.c
+>      :doc: handling driver private state
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index 170de30c28ae..3c5714481ad2 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -45,10 +45,82 @@
+>   #include <drm/drm_colorop.h>
+>   
+>   #include "drm_crtc_internal.h"
+>   #include "drm_internal.h"
+>   
+> +/**
+> + * DOC: state lifetime
+> + *
+> + * &drm_atomic_commit represents an update to modeset pipeline state.
+> + * It's a transient object that holds a state update as a collection of
+> + * pointers to individual objects' states. &struct drm_atomic_commit has
+> + * a much shorter lifetime than the objects' states, since it's only
+> + * allocated while preparing, checking or committing the update, while
+> + * object states are allocated when preparing the update and kept alive
+> + * as long as they are active in the device.
+> + *
+> + * Their respective lifetimes are:
+> + *
+> + * - at reset time, the object reset implementation allocates a new
+> + *   default state and stores it in the object state pointer.
+> + *
+> + * - whenever a new update is needed:
+> + *
+> + *   + drm_atomic_commit_alloc() allocates a new &drm_atomic_commit
+> + *     instance.
+> + *
+> + *   + The code triggering the commit (ioctl, client modeset,
+> + *     drm_atomic_helper_reset_crtc(), etc.) copies the current active
+> + *     state of all entities affected by the update into this new
+> + *     &drm_atomic_commit using drm_atomic_get_plane_state(),
+> + *     drm_atomic_get_crtc_state(), drm_atomic_get_connector_state(), or
+> + *     drm_atomic_get_private_obj_state(). This new state can then be
+> + *     modified.
+> + *
+> + *     At that point, &drm_atomic_commit stores three state pointers for
+> + *     any affected entity: the "old" and "new" states, and
+> + *     state_to_destroy. The old state is the state currently active in
+> + *     the hardware, which is either the one initialized by reset() or a
+> + *     newer one if a commit has been made. The new state is the state
+> + *     we just allocated and we might eventually commit to the hardware.
+> + *     The state_to_destroy points to the state we'll eventually have to
+> + *     free when the drm_atomic_commit will be destroyed, and points to
+> + *     the new state for now since the old state is still the active
+> + *     state.
+> + *
+> + *   + After the calling code populated the commit with the entities
+> + *     states, it updates the new states with the new values we need to
+> + *     commit. The new commit instance is now ready.
+> + *
+> + *   + Then we have two branches depending on the calling code intent:
+> + *
+> + *     - If the calling code only wants to check that the commit would
+> + *       work (for example because of the DRM_MODE_ATOMIC_TEST_ONLY
+> + *       flag). It calls drm_atomic_check_only(), which in turn checks
+> + *       all these states by invoking atomic_check on all affected
+> + *       pipeline stages.
+> + *
+> + *     - If the calling code actually wants to trigger a commit, it
+> + *       calls drm_atomic_commit(). The first stage is the check
+> + *       mentioned above, and if the check is successful, it performs
+> + *       the commit. Part of the commit is a call to
+> + *       drm_atomic_helper_swap_state() which turns the new states into
+> + *       the active states. After swapping states, each object's state
+> + *       pointer now refers to the formerly new state. The
+> + *       state_to_destroy now refers to the formerly old state.
+> + *
+> + *   + Once done, and when the last refererence to our &struct
+> + *     drm_atomic_commit is given up through drm_atomic_commit_put(), it
+> + *     calls __drm_atomic_commit_free(). In turn,
+> + *     __drm_atomic_commit_free() calls drm_atomic_commit_clear() that
+> + *     will free all state_to_destroy (ie. old states), and it finally
+> + *     frees &drm_atomic_commit instance.
+> + *
+> + *   + Now, we don't have any active &drm_atomic_commit anymore, and
+> + *     only the entity active states remain allocated.
+> + */
+> +
+>   void __drm_crtc_commit_free(struct kref *kref)
+>   {
+>   	struct drm_crtc_commit *commit =
+>   		container_of(kref, struct drm_crtc_commit, ref);
+>   
+>
 
-> So should we check for gpio_in or gpio_out, explicitly? Or at
-> least use (strcmp(name, "gpio_", 5)? Or maybe even better for the mux
-> value directly? Is "function" an indicator of this, or does this rely
-> on the two GPIO functions being always listed first, at least so far?
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
 
-I considered mathcing the function to the mux index, but we can't really re=
-ly
-on Allwinner keeping GPIO to mux 0/1 either so I think the string comparison
-is still the best approach.
 
-But I am totally fine with having an explicit check against
-"gpio_in" || "gpio_out".
-
-And to answer your question it's not safe to use the function as mux value,
-even though the values are the same in practice. The muxval field of
-struct sunxi_desc_function should be used instead and that can be looked up=
- by
-sunxi_pinctrl_desc_find_function_by_name.
-
-All the best,
-
-Paul
-
-> And what about the IRQ function? Isn't that some GPIO as well, or does
-> that not count for the purpose of the function_is_gpio() callback?
->=20
-> Cheers,
-> Andre
->=20
-> > +		return true;
-> > +
-> > +	return false;
-> > +}
-> > +
-> >  static void sunxi_pmx_set(struct pinctrl_dev *pctldev,
-> >  				 unsigned pin,
-> >  				 u8 config)
-> > @@ -952,6 +963,7 @@ static const struct pinmux_ops sunxi_pmx_ops =3D {
-> >  	.get_functions_count	=3D sunxi_pmx_get_funcs_cnt,
-> >  	.get_function_name	=3D sunxi_pmx_get_func_name,
-> >  	.get_function_groups	=3D sunxi_pmx_get_func_groups,
-> > +	.function_is_gpio	=3D sunxi_pmx_function_is_gpio,
-> >  	.set_mux		=3D sunxi_pmx_set_mux,
-> >  	.gpio_set_direction	=3D sunxi_pmx_gpio_set_direction,
-> >  	.request		=3D sunxi_pmx_request,
->=20
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---xXnRIhy8Zq17CPb5
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmoWpoYACgkQhP3B6o/u
-lQxDYQ//RPAy0EjHEhhuvtJsBrWAL0jzTj3G1QNSUISrPzn58Ei3wMu0P4sYUUOH
-BY/qY5O6aShsgzwNRfI4iqJpS6Tcf7i6WMvErll+wksZGlO13XEwIshoOA5GNiD3
-qNiYjGxY9eXFgDeEZbWJOu/vNvC33H/bRkfsMzBcJHLhTEOOZYdS9P+m7HG3okTd
-Q3X4uFWoA5eUTxJqo0MbCuyBHYKFroBWFzE6ixtSxZhHRA4Mn7aMiOg0nkD92sPt
-y6mMKxaMakpWSnU30wwZwa6tUVxUS4pJgu+EZl0HQ/FZU1ORww2ApQ+QGdqD6ceF
-Ny2Ls0FAN9FpPdb2V/6L9HkWjn2VLl+3sLU7EIfLIEXThdXev+QeFbqorNKLV6rr
-k9J1Bbg83BBfDVs4kLVQDFxO0z9d8P9PgeZwcpbmJBW+L3tUyvrwrnZS9462o5WY
-ot5xC7o3sJWpVOdlfUxu0A9yeRMFtywauQXioz5SEdTVM0/kHIc7FYeicjjmgJiW
-hnBxwIsQtfYX0tkcl5b5MJpr2N/rrW0FqJnxWgxMacnSMIpv9zedsBhnFq5NtoPP
-R5JWZtV1xuJKReTIbjSRrW141OCqVjFly3LMZFUEY9INWtgSIxZlSZBe9rkyX2xQ
-iJZfGcvAG3LDVcbKOhzmbQs51wxl1T8LqY5QIleaeP0LMZKzJPw=
-=RJQy
------END PGP SIGNATURE-----
-
---xXnRIhy8Zq17CPb5--
