@@ -1,121 +1,73 @@
-Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
+Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4787223328
-	for <linux-sunxi@lists.linux.dev>; Fri, 29 May 2026 03:03:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4988E1DF72C;
+	Fri, 29 May 2026 06:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.181.231.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780023817; cv=none; b=K7taykAnqfQ160h1bgc+Mc8/ok5PlOlCERPIN+5deMq0DobVdc/vlKBnWYVemphcM6wqcB2jemXMM9AhgaLerPxCp0geDKcDVttwdHNhmpUIMzup6dujH8LO7+JXAJWkQBpP8x1FXn9rBWTBTZ3aewbAUSYFFZwthrLDPHEOx74=
+	t=1780035127; cv=none; b=kJSbTy51IsxTjPzofK150JnaVmKmK/Ccwz6GvOZ2rz0T1Bwm2WKc8HXJIqiGKwPMwTsnlbnzxCERUbmtcm81SDoC4Nx1DNwaaRbrwSHOVWLqGv8HwXD7e7cWlWTQSjeerzIHf4r3e6zYE+rmRVhrszSVaJIAw6ThAJabmBLJzMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780023817; c=relaxed/simple;
-	bh=ZyG3iarvfxDi19gDrVOpHiiV16WRr+S7b+solJm1jXc=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=jwbUGS0d340o2UBxaEXYa8H9HZVyUzSkZOL/f164Do0QE5eJhvbSUSLcgQegNQzhItzo94Int3O0nQ7WZxwzhfriIv3Wlb4NA89sXe10+XSolVJjyOz9728cK6H7fGAh+aA9fJjFmUQNJbZc9jmOxT5QoyKI9v/meiHYxgvi9Lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ohF37VDP; arc=none smtp.client-ip=95.215.58.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1780035127; c=relaxed/simple;
+	bh=5cq51ZvUmXttPL64hpXmKVU7eFwJlq9i7rnAZ58QdbQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G3QAu0gN3A1B+8t292FgdEZ4t3JiqkjuIvP1hwrUWerMbOS9/gxF+IKpVImPAbPUo1T2hnXfVYC8nRwInrQmvRO/OGPXUcYPC5Tl0oJaVG5RgTfpY/Lcq4YXiW6cSs84ioTQAzDTNSODqv5W3mmv7wlpuGMm70UQR37klyxHjHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b=cC0+4cRY; arc=none smtp.client-ip=180.181.231.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ohF37VDP"
+	dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b="cC0+4cRY"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=gondor.apana.org.au; s=h01; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:cc:to:subject:message-id:date:
+	from:content-type:reply-to; bh=PoVKhzzmIrNFG1UZP8NlLw5m4P+ZkY+UrKc384/A01c=; 
+	b=cC0+4cRYSBdg1Ia1D5a53vjxX/DCxbbNTWHu/uwdEPa+CZQB0l0vfFG8wgnJt6TaP5wdklXnfDM
+	3/uJPvxERoWwaueKdVheUVyCYWGJ7GqaswEGFr9Kdw47hCd8GaXRYeXHsOiYnA+OSV8ozV5FAM0TN
+	BYHTf9Le4XBPqEuJ9E/hu5oe+84evLWwkrncIxq+lc5J7ws7BLfb0b4Zr0CHwcdWppcj8XVo6y3Wt
+	vhe5jJ0V5xPGZfITJB7W9KmzdAU2/NQuZ1UUFfcpf8x/7TBcW5QgZPLdQJyyWz79qeGXx7vKyfOYA
+	O3fz/b1wY1ponZNHylgVvI4zbAGEpj/xpPKg==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1wSqRf-000dL1-1P;
+	Fri, 29 May 2026 14:11:48 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 29 May 2026 14:11:47 +0800
+Date: Fri, 29 May 2026 14:11:47 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Tianchu Chen <tianchu.chen@linux.dev>
+Cc: clabbe.montjoie@gmail.com, davem@davemloft.net, wens@kernel.org,
+	jernej.skrabec@gmail.com, samuel@sholland.org,
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] crypto: sun4i-ss: restrict PRNG seed length to prevent
+ heap overflow
+Message-ID: <ahkuI-Z2w0sea_ba@gondor.apana.org.au>
+References: <af749a8447bd7f0e9dd26ca6c87e9c6afecb09d9@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780023803;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=stXZw48zHRacyCnzcy8bp2JWC73MTFpkHjGYRFxJNjE=;
-	b=ohF37VDPSdfYzpR5uGiEvBMID+9imjxTh1zyu1cfJl24RB8TDl+t4E/GrSX/hGNcR/8lRt
-	RchVXf85mmI4oYVCZEcfv6vgf1BHuaaQKqrPa/Qi6wtUEPRsFFfocUJyUNehNfYyg6XJ43
-	bcWPEp7qmDyKtZwlpyFdV/5igJ104Uc=
-Date: Fri, 29 May 2026 03:03:21 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Tianchu Chen" <tianchu.chen@linux.dev>
-Message-ID: <bae676bd29a955ceb6b224190904bbbab8a23a3a@linux.dev>
-TLS-Required: No
-Subject: Re: [PATCH] crypto: sun4i-ss: restrict PRNG seed length to prevent
- heap overflow
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260528152939.0C45B1F000E9@smtp.kernel.org>
-References: <af749a8447bd7f0e9dd26ca6c87e9c6afecb09d9@linux.dev>
- <20260528152939.0C45B1F000E9@smtp.kernel.org>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <af749a8447bd7f0e9dd26ca6c87e9c6afecb09d9@linux.dev>
 
-May 28, 2026 at 11:29 PM, sashiko-bot@kernel.org mailto:sashiko-bot@kerne=
-l.org  wrote:
+On Thu, May 28, 2026 at 02:53:17PM +0000, Tianchu Chen wrote:
+>
+> diff --git a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
+> index 491fcb7b8..010fa891c 100644
+> --- a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
+> +++ b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
+> @@ -8,6 +8,8 @@ int sun4i_ss_prng_seed(struct crypto_rng *tfm, const u8 *seed,
+>  	struct rng_alg *alg = crypto_rng_alg(tfm);
+>  
+>  	algt = container_of(alg, struct sun4i_ss_alg_template, alg.rng);
+> +	if (slen > sizeof(algt->ss->seed))
+> +		return -EINVAL;
 
+This should simply ignore the extra data instead of failing.
 
->=20
->=20Thank you for your contribution! Sashiko AI review found 5 potential =
-issue(s) to consider:
->=20
->=20New issues:
-> - [Critical] The newly added bounds check unconditionally rejects valid=
- seeds and completely breaks PRNG initialization on 64-bit architectures.
->=20
->=20Pre-existing issues:
-> - [Critical] This problem wasn't introduced by this patch, but the PRNG=
- generation function silently truncates unaligned requested lengths, fail=
-ing to generate random bytes for the remainder of the buffer while still =
-returning success.
-> - [High] This problem wasn't introduced by this patch, but the patch si=
-lently permits undersized seeds, leading to partial seed updates.
-> - [High] This problem wasn't introduced by this patch, but the PRNG see=
-d is copied into the shared device state without any locking, creating a =
-data race with concurrent PRNG generations.
-> - [High] This problem wasn't introduced by this patch, but there is a b=
-lind read from TXFIFO in PRNG generation without checking if data is avai=
-lable.
-> --
->=20
->=20commit ce68b95827dcfbd778d1a5a3d2de5fd10e821954
-> Author: Tianchu Chen <flynnnchen@tencent.com>
-> crypto: sun4i-ss: restrict PRNG seed length to prevent heap overflow
->=20
->=20This commit restricts the PRNG seed length in sun4i_ss_prng_seed() to=
- prevent
-> a heap overflow. Without bounds checking, user-supplied seeds via AF_AL=
-G could
-> exceed the fixed-size buffer and corrupt adjacent memory.
->=20
->=20Fixes: 6298e948215f ("crypto: sunxi-ss - Add Allwinner Security Syste=
-m crypto accelerator")
-> Cc: stable@vger.kernel.org
->=20
->=20>=20
->=20> diff --git a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c b/dr=
-ivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
-> >  index 491fcb7b81b40..010fa891c1056 100644
-> >  --- a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
-> >  +++ b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
-> >  @@ -8,6 +8,8 @@ int sun4i_ss_prng_seed(struct crypto_rng *tfm, const=
- u8 *seed,
-> >  struct rng_alg *alg =3D crypto_rng_alg(tfm);
-> >=20=20
->=20>  algt =3D container_of(alg, struct sun4i_ss_alg_template, alg.rng);
-> >  + if (slen > sizeof(algt->ss->seed))
-> >  + return -EINVAL;
-> >=20
->=20[Severity: Critical]
-> Does sizeof(algt->ss->seed) unconditionally reject valid seeds?
->=20
->=20On 64-bit architectures, BITS_PER_LONG is 64, which makes the evaluat=
-ion of
-> SS_SEED_LEN / BITS_PER_LONG result in 3. The seed array becomes u32 see=
-d[3],
-> yielding a total size of 12 bytes. This would trigger the EINVAL branch=
- for
-> standard 24-byte seeds and completely break PRNG initialization.
->=20
-
-
-sun4i-ss=20is designed for 32-bit ARM only (A10/A13/A20/A33). It's behind
-ARCH_SUNXI in Kconfig so it never builds on 64-bit. On the real hardware
-sizeof(ss->seed) is always 24, same as .seedsize.
+Thanks,
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
