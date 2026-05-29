@@ -1,95 +1,135 @@
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0BD833F5B1
-	for <linux-sunxi@lists.linux.dev>; Fri, 29 May 2026 08:08:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91052FE074
+	for <linux-sunxi@lists.linux.dev>; Fri, 29 May 2026 08:42:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780042091; cv=none; b=JapiS2X0TVgjh/pBmeT7ecrdT56QQ7h1sptV048gseMLrs0iJ9do/soMW1+HJcNcYbFLwlEo4PQWtcRR5zG0+nChKQkEJGVVmmWmaxhRhvbx0V1XdC2+bgpLZtxuf66OQEVQykHP4l+c5Mxy9qEkh0u+pFfzeFj1Ain/78l5+iQ=
+	t=1780044172; cv=none; b=IgwLThvQYWABJNxg9Df7cXrI7OsOvQXFkv44V5fjjhkHFudadBl0ip3Ly7WsiCWJTCWMyaZWOVhx63ImoPtEC5Hf8mPUYsVjaBymtrcu2ph4DiPsBuwadB61hPE2csyMe+08Gq0xtBmxoemamjfal7F30k+Bq4zyqChYZeOVeyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780042091; c=relaxed/simple;
-	bh=pwbq1GQXPiFQwNmyslF6wkzZlnjwVzAbBnldA7Mxa1U=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=fzJR2TJ72icy3gQkiWTlqPO2SjcFQCY3s1n5/R4WDUwxEnwf3UyjQyc/h5m257OkwtWetGo6nhre1tQQ6C8luJ1FdnsJEOGgjojKMeMw9i9OBq6ImXGtlNM93oeHvTe6AxHS1QljgQdOSwxgWr9lHbzZYVpWe6wZ8kU/Lu3TpmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=IzCxCgfY; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1780044172; c=relaxed/simple;
+	bh=HFTJR2Xacst2SVq8TQ2oPfjpn4ZXMvTkY45PdTQhIzY=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=ZBm89V65gobRWvL8nT0wFFNph2MVTH9vH7Sh+8lnjx11BKhh8xbZrR1GUAgUwKLnvVCZTLbylOeDxVOEHS7ZL9bkS9Q82hcQCgMB+OMNYr/oPqoz2sKxY/ZQrLCgsJWYBgt4UYwoy2fj2B0D/hdKI3vSYQLKOyQc9TkE8xwoQEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MXuSvvQY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="IzCxCgfY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MXuSvvQY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 329531F00893;
+	Fri, 29 May 2026 08:42:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780044171;
+	bh=dDWj4xyywXTQ4EbBY1G/U3IBaI1nCSzvbGbtZLxYI2Q=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=MXuSvvQYtM50S9nrDZRQiRaT5blGrhDJsL+GQJ6U8oCdoAJHr+p9Kh4AFaBLyPXQo
+	 IX7CXzKZ4w0qA8I1ZGsUvV24E9CSWsB5TyOMe6gsEXsM3Mp2+xdEoSvkadjtfUV/CJ
+	 6VfVlT+9sVoiE8PVN+4HCI/9vhuCmWpJ3yxzUCetUIckRReeNQmPqE76JS2neFm7ZW
+	 YqXkg07YM3VGdRgZC8PIRsFfsM7QVcz9TDFRABJtIHKcfbTPwbr+h9GwXS36G8XY2Q
+	 pPU4pfNiNEelpqNG3y7zFYv+W/N6ewl4ok6u0B+rno//i+3Us7Ufx3AvwVPLAoY07v
+	 29vdIJjOwFNog==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] crypto: sun4i-ss - clamp PRNG seed length to prevent
+ heap overflow
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Tianchu Chen" <tianchu.chen@linux.dev>
+Cc: linux-sunxi@lists.linux.dev
+In-Reply-To: <4d4407c05835a50413fa1e974e3aa3f4abfe2d5b@linux.dev>
+References: <4d4407c05835a50413fa1e974e3aa3f4abfe2d5b@linux.dev>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 29 May 2026 08:42:50 +0000
+Message-Id: <20260529084251.329531F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780042087;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cn8RGbbWhMK+fmOfLvNDrpH9fQ9BHow0UZabfx8bzzE=;
-	b=IzCxCgfYrXXqAra8csjkLDYzBUaXEP1y+20GkUNHakvuHgvPcnDcVazIECq/qCx+KlXa51
-	z9zMh+/V02p5KPJoKO5ii3Pkefr2lloZdWh0UE1xSxUpDsPzd/rR0+qFVIIf51SCtyi4Aw
-	tnYQobxdi72BP9jrI96qSccPDLP3woI=
-Date: Fri, 29 May 2026 08:08:01 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Tianchu Chen" <tianchu.chen@linux.dev>
-Message-ID: <4d4407c05835a50413fa1e974e3aa3f4abfe2d5b@linux.dev>
-TLS-Required: No
-Subject: [PATCH v2] crypto: sun4i-ss - clamp PRNG seed length to prevent heap
- overflow
-To: clabbe.montjoie@gmail.com, herbert@gondor.apana.org.au,
- davem@davemloft.net
-Cc: wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
- linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <af749a8447bd7f0e9dd26ca6c87e9c6afecb09d9@linux.dev>
-References: <af749a8447bd7f0e9dd26ca6c87e9c6afecb09d9@linux.dev>
-X-Migadu-Flow: FLOW_OUT
 
-From: Tianchu Chen <flynnnchen@tencent.com>
+Thank you for your contribution! Sashiko AI review found 5 potential issue(=
+s) to consider:
 
-sun4i_ss_prng_seed() copies the user-supplied seed into ss->seed
-using the user-provided length with no bounds check. The crypto core
-does not enforce slen <=3D seedsize before calling into the driver, so a
-userspace caller via AF_ALG setsockopt(ALG_SET_KEY) can pass up to
-sysctl_optmem_max bytes, overflowing the fixed-size buffer and
-corrupting adjacent heap memory.
+Pre-existing issues:
+- [Critical] The PRNG hardware state is shared globally across all crypto A=
+PI instances, allowing unprivileged users to predictably control the RNG st=
+ate for others.
+- [High] The PRNG seed buffer size incorrectly depends on BITS_PER_LONG, ca=
+using seed truncation and halving entropy on 64-bit systems.
+- [High] sun4i_ss_prng_seed modifies the shared PRNG seed buffer without ta=
+king the required device spinlock.
+- [High] The driver fails to validate that the provided seed length is suff=
+icient before updating the PRNG seed state.
+- [High] sun4i_ss_prng_generate silently ignores trailing bytes when the re=
+quested length is not a multiple of 4, leaving parts of the caller's buffer=
+ uninitialized.
+--
 
-Clamp the copy length to the buffer size, matching the approach used by
-loongson-rng for oversized seeds.
+commit c4469644d7be8a19b75d7ee7a736e9f34531be57
+Author: Tianchu Chen <flynnnchen@tencent.com>
+crypto: sun4i-ss - clamp PRNG seed length to prevent heap overflow
 
-Discovered by Atuin - Automated Vulnerability Discovery Engine.
+This commit clamps the copy length in sun4i_ss_prng_seed() to prevent a
+heap overflow when a user supplies an oversized seed via AF_ALG. It uses
+min_t to restrict the length to the size of the destination seed buffer.
 
-Fixes: 6298e948215f ("crypto: sunxi-ss - Add Allwinner Security System cr=
-ypto accelerator")
-Cc: stable@vger.kernel.org
-Signed-off-by: Tianchu Chen <flynnnchen@tencent.com>
----
-v2: Silently clamp oversized seeds with min_t instead of returning
-    -EINVAL (Herbert Xu).
-
- drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c b/drivers/=
+> diff --git a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c b/drivers/=
 crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
-index 491fcb7b8..7f6a51dd8 100644
---- a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
-+++ b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
-@@ -8,7 +8,7 @@ int sun4i_ss_prng_seed(struct crypto_rng *tfm, const u8 *=
+> index 491fcb7b81b40..7f6a51dd8f923 100644
+> --- a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
+> +++ b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
+> @@ -8,7 +8,7 @@ int sun4i_ss_prng_seed(struct crypto_rng *tfm, const u8 *=
 seed,
- 	struct rng_alg *alg =3D crypto_rng_alg(tfm);
-=20
-=20	algt =3D container_of(alg, struct sun4i_ss_alg_template, alg.rng);
--	memcpy(algt->ss->seed, seed, slen);
-+	memcpy(algt->ss->seed, seed, min_t(unsigned int, slen, sizeof(algt->ss-=
+>  	struct rng_alg *alg =3D crypto_rng_alg(tfm);
+> =20
+>  	algt =3D container_of(alg, struct sun4i_ss_alg_template, alg.rng);
+
+[Severity: Critical]
+This is a pre-existing issue, but the PRNG hardware state is shared globally
+across all crypto API instances. Since there is no per-tfm context and the
+driver registers as stdrng with priority 300, can an unprivileged user open
+an AF_ALG socket and use setsockopt to inject a chosen seed here? This would
+allow them to predict the sequence of random numbers generated for other
+processes or kernel subsystems relying on the same RNG.
+
+> -	memcpy(algt->ss->seed, seed, slen);
+
+[Severity: High]
+This is a pre-existing issue, but does this function modify the shared PRNG
+seed buffer without taking the required device spinlock? In
+sun4i_ss_prng_generate(), the code acquires spin_lock_bh(&ss->slock) before
+accessing the buffer. Concurrent calls to sun4i_ss_prng_seed() and generate
+could cause a data race resulting in torn state.
+
+> +	memcpy(algt->ss->seed, seed, min_t(unsigned int, slen, sizeof(algt->ss-=
 >seed)));
-=20
-=20	return 0;
- }
+
+[Severity: High]
+This is a pre-existing issue, but does the seed buffer size incorrectly
+depend on BITS_PER_LONG? If the driver defines the seed array using
+SS_SEED_LEN / BITS_PER_LONG, on 64-bit systems this becomes an array of 3
+elements (12 bytes) instead of the expected 24 bytes. This would mean the
+sizeof() calculation silently truncates valid 24-byte seeds to 12 bytes and
+fails to initialize half of the PRNG hardware seed registers.
+
+> =20
+>  	return 0;
+
+[Severity: High]
+This is a pre-existing issue, but does this function fail to validate that
+the provided seed length is sufficient? If a caller provides an undersized
+seed, the memcpy will partially update the array, but the function will
+still unconditionally return 0. Should the code return an error when the
+seed is too small instead of signaling a successful reseeding?
+
+>  }
+
+[Severity: High]
+This is a pre-existing issue, but looking at sun4i_ss_prng_generate(), if
+the requested length is not a multiple of 4, the remaining bytes are
+silently ignored while still returning 0 (success). Does this leave portions
+of the caller's buffer completely uninitialized, potentially causing
+information disclosure or cryptographic vulnerabilities if predictable memo=
+ry
+is used as key material?
+
 --=20
-2.51.0
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/4d4407c05835a50413f=
+a1e974e3aa3f4abfe2d5b@linux.dev?part=3D1
