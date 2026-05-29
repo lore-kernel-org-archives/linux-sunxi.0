@@ -1,155 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D171722D7A1
-	for <linux-sunxi@lists.linux.dev>; Thu, 28 May 2026 15:29:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4787223328
+	for <linux-sunxi@lists.linux.dev>; Fri, 29 May 2026 03:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779982179; cv=none; b=f1Gz31dA1fhuGvrq5xs9g4ThDaYLtuo35hyIbL3mew9r8GckeP9Bny777NpNqe+2ob1VCyTRdSSNVO0Ms/r87WcYlXDNR2YZ5Yhr0pX5BU7ibMwnnawi4PYY9fnwQ73/EgjeKvA4xt3LkUjdQOskEW4gbJSzg7qhDijhwI1vVXw=
+	t=1780023817; cv=none; b=K7taykAnqfQ160h1bgc+Mc8/ok5PlOlCERPIN+5deMq0DobVdc/vlKBnWYVemphcM6wqcB2jemXMM9AhgaLerPxCp0geDKcDVttwdHNhmpUIMzup6dujH8LO7+JXAJWkQBpP8x1FXn9rBWTBTZ3aewbAUSYFFZwthrLDPHEOx74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779982179; c=relaxed/simple;
-	bh=AdzgBHADM9ADzU/+kg8M8W69VDL3Qp1zAbAqAvk67Ao=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=gJem64a8mAe04l/7hj+SBw060H+pQ2ALeVv69XhwvoAg//obSkyzO7HiGp4/Ck66gciXhGe+Y7JkCLGivbT43p7VL7Tc28mbHLuGQ4Sc5dyH4nGVVL8ygYaH1ZiYvuCGUj0oCuXZJVPIUvoL+NeMacZsU9OCkD+jtTqZ5o3nBmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VUL04Sfg; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780023817; c=relaxed/simple;
+	bh=ZyG3iarvfxDi19gDrVOpHiiV16WRr+S7b+solJm1jXc=;
+	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
+	 In-Reply-To:References; b=jwbUGS0d340o2UBxaEXYa8H9HZVyUzSkZOL/f164Do0QE5eJhvbSUSLcgQegNQzhItzo94Int3O0nQ7WZxwzhfriIv3Wlb4NA89sXe10+XSolVJjyOz9728cK6H7fGAh+aA9fJjFmUQNJbZc9jmOxT5QoyKI9v/meiHYxgvi9Lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ohF37VDP; arc=none smtp.client-ip=95.215.58.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VUL04Sfg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C45B1F000E9;
-	Thu, 28 May 2026 15:29:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779982179;
-	bh=Axq9iiq2KDZOPbCj7879USRVdcsc2IVHIVsNM7WrR6U=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=VUL04SfgVxGCHkfA02i1a4bPMFqF8kRraHzjLdgX44Y/O6vpP7sXFCKfBYL9U0459
-	 kqpndUA2GCiU00ctNkQIH/Pt58MCML6qpZP5a1YGc3fmY+no0Xx7u+IuU60/qiA99R
-	 sPa2mrd3m7aFkBkpRscGDFKDxlrP9dlaNt3oAVu2CIAt+ySFbLAQCntx1+szlvvUQx
-	 2dp6jf080y6ktkh24O/4QXsUwqHt6WE8uG0MU4HQw+kv2r3lcxgC/PmYzoReS9yLKy
-	 DKsYj0Rh/uxDaATrXuQU2pHeQ/6sdJdkL5DE2r0OWiYSOXNsUS16c9TlE507Fe86TB
-	 WPuQdufh9y/5A==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] crypto: sun4i-ss: restrict PRNG seed length to prevent
- heap overflow
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Tianchu Chen" <tianchu.chen@linux.dev>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <af749a8447bd7f0e9dd26ca6c87e9c6afecb09d9@linux.dev>
-References: <af749a8447bd7f0e9dd26ca6c87e9c6afecb09d9@linux.dev>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 28 May 2026 15:29:38 +0000
-Message-Id: <20260528152939.0C45B1F000E9@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ohF37VDP"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1780023803;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=stXZw48zHRacyCnzcy8bp2JWC73MTFpkHjGYRFxJNjE=;
+	b=ohF37VDPSdfYzpR5uGiEvBMID+9imjxTh1zyu1cfJl24RB8TDl+t4E/GrSX/hGNcR/8lRt
+	RchVXf85mmI4oYVCZEcfv6vgf1BHuaaQKqrPa/Qi6wtUEPRsFFfocUJyUNehNfYyg6XJ43
+	bcWPEp7qmDyKtZwlpyFdV/5igJ104Uc=
+Date: Fri, 29 May 2026 03:03:21 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Tianchu Chen" <tianchu.chen@linux.dev>
+Message-ID: <bae676bd29a955ceb6b224190904bbbab8a23a3a@linux.dev>
+TLS-Required: No
+Subject: Re: [PATCH] crypto: sun4i-ss: restrict PRNG seed length to prevent
+ heap overflow
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-sunxi@lists.linux.dev
+In-Reply-To: <20260528152939.0C45B1F000E9@smtp.kernel.org>
+References: <af749a8447bd7f0e9dd26ca6c87e9c6afecb09d9@linux.dev>
+ <20260528152939.0C45B1F000E9@smtp.kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
-Thank you for your contribution! Sashiko AI review found 5 potential issue(=
-s) to consider:
+May 28, 2026 at 11:29 PM, sashiko-bot@kernel.org mailto:sashiko-bot@kerne=
+l.org  wrote:
 
-New issues:
-- [Critical] The newly added bounds check unconditionally rejects valid see=
-ds and completely breaks PRNG initialization on 64-bit architectures.
 
-Pre-existing issues:
-- [Critical] This problem wasn't introduced by this patch, but the PRNG gen=
-eration function silently truncates unaligned requested lengths, failing to=
- generate random bytes for the remainder of the buffer while still returnin=
-g success.
-- [High] This problem wasn't introduced by this patch, but the patch silent=
-ly permits undersized seeds, leading to partial seed updates.
-- [High] This problem wasn't introduced by this patch, but the PRNG seed is=
- copied into the shared device state without any locking, creating a data r=
-ace with concurrent PRNG generations.
-- [High] This problem wasn't introduced by this patch, but there is a blind=
- read from TXFIFO in PRNG generation without checking if data is available.
---
+>=20
+>=20Thank you for your contribution! Sashiko AI review found 5 potential =
+issue(s) to consider:
+>=20
+>=20New issues:
+> - [Critical] The newly added bounds check unconditionally rejects valid=
+ seeds and completely breaks PRNG initialization on 64-bit architectures.
+>=20
+>=20Pre-existing issues:
+> - [Critical] This problem wasn't introduced by this patch, but the PRNG=
+ generation function silently truncates unaligned requested lengths, fail=
+ing to generate random bytes for the remainder of the buffer while still =
+returning success.
+> - [High] This problem wasn't introduced by this patch, but the patch si=
+lently permits undersized seeds, leading to partial seed updates.
+> - [High] This problem wasn't introduced by this patch, but the PRNG see=
+d is copied into the shared device state without any locking, creating a =
+data race with concurrent PRNG generations.
+> - [High] This problem wasn't introduced by this patch, but there is a b=
+lind read from TXFIFO in PRNG generation without checking if data is avai=
+lable.
+> --
+>=20
+>=20commit ce68b95827dcfbd778d1a5a3d2de5fd10e821954
+> Author: Tianchu Chen <flynnnchen@tencent.com>
+> crypto: sun4i-ss: restrict PRNG seed length to prevent heap overflow
+>=20
+>=20This commit restricts the PRNG seed length in sun4i_ss_prng_seed() to=
+ prevent
+> a heap overflow. Without bounds checking, user-supplied seeds via AF_AL=
+G could
+> exceed the fixed-size buffer and corrupt adjacent memory.
+>=20
+>=20Fixes: 6298e948215f ("crypto: sunxi-ss - Add Allwinner Security Syste=
+m crypto accelerator")
+> Cc: stable@vger.kernel.org
+>=20
+>=20>=20
+>=20> diff --git a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c b/dr=
+ivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
+> >  index 491fcb7b81b40..010fa891c1056 100644
+> >  --- a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
+> >  +++ b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
+> >  @@ -8,6 +8,8 @@ int sun4i_ss_prng_seed(struct crypto_rng *tfm, const=
+ u8 *seed,
+> >  struct rng_alg *alg =3D crypto_rng_alg(tfm);
+> >=20=20
+>=20>  algt =3D container_of(alg, struct sun4i_ss_alg_template, alg.rng);
+> >  + if (slen > sizeof(algt->ss->seed))
+> >  + return -EINVAL;
+> >=20
+>=20[Severity: Critical]
+> Does sizeof(algt->ss->seed) unconditionally reject valid seeds?
+>=20
+>=20On 64-bit architectures, BITS_PER_LONG is 64, which makes the evaluat=
+ion of
+> SS_SEED_LEN / BITS_PER_LONG result in 3. The seed array becomes u32 see=
+d[3],
+> yielding a total size of 12 bytes. This would trigger the EINVAL branch=
+ for
+> standard 24-byte seeds and completely break PRNG initialization.
+>=20
 
-commit ce68b95827dcfbd778d1a5a3d2de5fd10e821954
-Author: Tianchu Chen <flynnnchen@tencent.com>
-crypto: sun4i-ss: restrict PRNG seed length to prevent heap overflow
 
-This commit restricts the PRNG seed length in sun4i_ss_prng_seed() to preve=
-nt
-a heap overflow. Without bounds checking, user-supplied seeds via AF_ALG co=
-uld
-exceed the fixed-size buffer and corrupt adjacent memory.
-
-Fixes: 6298e948215f ("crypto: sunxi-ss - Add Allwinner Security System cryp=
-to accelerator")
-Cc: stable@vger.kernel.org
-
-> diff --git a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c b/drivers/=
-crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
-> index 491fcb7b81b40..010fa891c1056 100644
-> --- a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
-> +++ b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
-> @@ -8,6 +8,8 @@ int sun4i_ss_prng_seed(struct crypto_rng *tfm, const u8 *=
-seed,
->  	struct rng_alg *alg =3D crypto_rng_alg(tfm);
-> =20
->  	algt =3D container_of(alg, struct sun4i_ss_alg_template, alg.rng);
-> +	if (slen > sizeof(algt->ss->seed))
-> +		return -EINVAL;
-
-[Severity: Critical]
-Does sizeof(algt->ss->seed) unconditionally reject valid seeds?
-
-On 64-bit architectures, BITS_PER_LONG is 64, which makes the evaluation of
-SS_SEED_LEN / BITS_PER_LONG result in 3. The seed array becomes u32 seed[3],
-yielding a total size of 12 bytes. This would trigger the EINVAL branch for
-standard 24-byte seeds and completely break PRNG initialization.
-
-[Severity: High]
-This is a pre-existing issue, but does this check silently permit undersized
-seeds?
-
-Allowing slen < seedsize enables partial memcpy operations that mix stale
-memory with new entropy.
-
->  	memcpy(algt->ss->seed, seed, slen);
-
-[Severity: High]
-This isn't a bug introduced by this patch, but could this copy operation
-create a data race?
-
-The PRNG seed is copied into the shared device state without any locking,
-which could lead to torn reads or writes with concurrent PRNG generations.
-
-> =20
->  	return 0;
->  }
-
-[Severity: Critical]
-This problem wasn't introduced by this patch, but are unaligned requested
-lengths silently truncated by the generation function?
-
-Looking at sun4i_ss_prng_generate() in the same file:
-
-	unsigned int todo =3D (dlen / 4) * 4;
-	...
-	while (todo > 0) {
-		...
-	}
-
-The unaligned modulo truncation skips remainder bytes while still returning
-success. This fails to generate random bytes for the remainder of the buffer
-and could potentially leak uninitialized memory to userspace.
-
-[Severity: High]
-This is a pre-existing issue, but does the generator perform a blind read
-from the TXFIFO?
-
-Looking at sun4i_ss_prng_generate() in the same file:
-
-		/* Read the random data */
-		len =3D min_t(size_t, SS_DATA_LEN / BITS_PER_BYTE, todo);
-		readsl(ss->base + SS_TXFIFO, data, len / 4);
-
-This reads from the TXFIFO without checking if data is actually available,
-which could fetch unready values before hardware generation completes and
-result in predictable or garbage PRNG output.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/af749a8447bd7f0e9dd=
-26ca6c87e9c6afecb09d9@linux.dev?part=3D1
+sun4i-ss=20is designed for 32-bit ARM only (A10/A13/A20/A33). It's behind
+ARCH_SUNXI in Kconfig so it never builds on 64-bit. On the real hardware
+sizeof(ss->seed) is always 24, same as .seedsize.
