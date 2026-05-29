@@ -1,21 +1,21 @@
-Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CCAE3A9D9A
-	for <linux-sunxi@lists.linux.dev>; Fri, 29 May 2026 07:05:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0BD833F5B1
+	for <linux-sunxi@lists.linux.dev>; Fri, 29 May 2026 08:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780038338; cv=none; b=V4ose6Vx+aduAESYr5ktIfAXC0NHr6trCzzKDzWWJOxdN0vTru4TNDravo3xOplXEc3TEOnwsa9LeRo5kKuip5FmHXIFRohg+CPvqEX79J3XXUt42LhWEVwVXQvnwrHzN1eWMSWFVEDALtepesy1A2vFvPJOemq5pEt4+uI0eyM=
+	t=1780042091; cv=none; b=JapiS2X0TVgjh/pBmeT7ecrdT56QQ7h1sptV048gseMLrs0iJ9do/soMW1+HJcNcYbFLwlEo4PQWtcRR5zG0+nChKQkEJGVVmmWmaxhRhvbx0V1XdC2+bgpLZtxuf66OQEVQykHP4l+c5Mxy9qEkh0u+pFfzeFj1Ain/78l5+iQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780038338; c=relaxed/simple;
-	bh=yS1XlYDjTMgxwgN2DZGzDYeL5SarwMcWqXtVsPpG4iU=;
+	s=arc-20240116; t=1780042091; c=relaxed/simple;
+	bh=pwbq1GQXPiFQwNmyslF6wkzZlnjwVzAbBnldA7Mxa1U=;
 	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=sIjMk+kWKOV4KY7as96ga43j691w8iIqhypoKFYt8QfonpwvrvyDzeYLQJjwMpAU5Jka4IKLlHf5QlqG6IwerxHVo8NBIWhm8RCslAmV74cs6O39dzj233nKpQAqwtfiBH3/qygQhMzVbXXQQtL3ZxAyXPhJeqrMFoKdXCZo/3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=XnwYGh/o; arc=none smtp.client-ip=95.215.58.186
+	 In-Reply-To:References; b=fzJR2TJ72icy3gQkiWTlqPO2SjcFQCY3s1n5/R4WDUwxEnwf3UyjQyc/h5m257OkwtWetGo6nhre1tQQ6C8luJ1FdnsJEOGgjojKMeMw9i9OBq6ImXGtlNM93oeHvTe6AxHS1QljgQdOSwxgWr9lHbzZYVpWe6wZ8kU/Lu3TpmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=IzCxCgfY; arc=none smtp.client-ip=95.215.58.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="XnwYGh/o"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="IzCxCgfY"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -23,62 +23,73 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780038331;
+	t=1780042087;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=L1/AzmjwYbvz5ac6FUFa2AXbd/guUDNm7WSGUACd+fE=;
-	b=XnwYGh/o1rfZsynwCJXEx2rjmGjHm/owl7jHyuy0Vc0OrpofbU7dzYUkbSlAaUFJjPR4/p
-	xQPqAlKZN1UOhyKM3lEBNMxrtajO6d7x/ot20UyfuhDIhBX6uwlSjN5ReQvSMwk4DDxicw
-	KOVYDCuWjg7i/lyFRKx5guKlq+7jKBU=
-Date: Fri, 29 May 2026 07:05:24 +0000
+	bh=cn8RGbbWhMK+fmOfLvNDrpH9fQ9BHow0UZabfx8bzzE=;
+	b=IzCxCgfYrXXqAra8csjkLDYzBUaXEP1y+20GkUNHakvuHgvPcnDcVazIECq/qCx+KlXa51
+	z9zMh+/V02p5KPJoKO5ii3Pkefr2lloZdWh0UE1xSxUpDsPzd/rR0+qFVIIf51SCtyi4Aw
+	tnYQobxdi72BP9jrI96qSccPDLP3woI=
+Date: Fri, 29 May 2026 08:08:01 +0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: "Tianchu Chen" <tianchu.chen@linux.dev>
-Message-ID: <554bc5c03d16e7a76db35be4a1c0d23cda2d4df6@linux.dev>
+Message-ID: <4d4407c05835a50413fa1e974e3aa3f4abfe2d5b@linux.dev>
 TLS-Required: No
-Subject: Re: [PATCH] crypto: sun4i-ss: restrict PRNG seed length to prevent
- heap overflow
-To: "Herbert Xu" <herbert@gondor.apana.org.au>
-Cc: clabbe.montjoie@gmail.com, davem@davemloft.net, wens@kernel.org,
- jernej.skrabec@gmail.com, samuel@sholland.org,
+Subject: [PATCH v2] crypto: sun4i-ss - clamp PRNG seed length to prevent heap
+ overflow
+To: clabbe.montjoie@gmail.com, herbert@gondor.apana.org.au,
+ davem@davemloft.net
+Cc: wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
  linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <ahkuI-Z2w0sea_ba@gondor.apana.org.au>
+In-Reply-To: <af749a8447bd7f0e9dd26ca6c87e9c6afecb09d9@linux.dev>
 References: <af749a8447bd7f0e9dd26ca6c87e9c6afecb09d9@linux.dev>
- <ahkuI-Z2w0sea_ba@gondor.apana.org.au>
 X-Migadu-Flow: FLOW_OUT
 
-May 29, 2026 at 2:11 PM, "Herbert Xu" <herbert@gondor.apana.org.au mailto=
-:herbert@gondor.apana.org.au?to=3D%22Herbert%20Xu%22%20%3Cherbert%40gondo=
-r.apana.org.au%3E > wrote:
+From: Tianchu Chen <flynnnchen@tencent.com>
 
+sun4i_ss_prng_seed() copies the user-supplied seed into ss->seed
+using the user-provided length with no bounds check. The crypto core
+does not enforce slen <=3D seedsize before calling into the driver, so a
+userspace caller via AF_ALG setsockopt(ALG_SET_KEY) can pass up to
+sysctl_optmem_max bytes, overflowing the fixed-size buffer and
+corrupting adjacent heap memory.
 
->=20
->=20On Thu, May 28, 2026 at 02:53:17PM +0000, Tianchu Chen wrote:
->=20
->=20>=20
->=20> diff --git a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c b/dr=
-ivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
-> >  index 491fcb7b8..010fa891c 100644
-> >  --- a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
-> >  +++ b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
-> >  @@ -8,6 +8,8 @@ int sun4i_ss_prng_seed(struct crypto_rng *tfm, const=
- u8 *seed,
-> >  struct rng_alg *alg =3D crypto_rng_alg(tfm);
-> >=20=20
->=20>  algt =3D container_of(alg, struct sun4i_ss_alg_template, alg.rng);
-> >  + if (slen > sizeof(algt->ss->seed))
-> >  + return -EINVAL;
-> >=20
->=20This should simply ignore the extra data instead of failing.
+Clamp the copy length to the buffer size, matching the approach used by
+loongson-rng for oversized seeds.
 
+Discovered by Atuin - Automated Vulnerability Discovery Engine.
 
-Thanks for pointing out, silent truncation is more appropriate here.=20
+Fixes: 6298e948215f ("crypto: sunxi-ss - Add Allwinner Security System cr=
+ypto accelerator")
+Cc: stable@vger.kernel.org
+Signed-off-by: Tianchu Chen <flynnnchen@tencent.com>
+---
+v2: Silently clamp oversized seeds with min_t instead of returning
+    -EINVAL (Herbert Xu).
 
-I'll=20send a v2 patch with min_t soon.
+ drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Best regards,
-Tianchu Chen
+diff --git a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c b/drivers/=
+crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
+index 491fcb7b8..7f6a51dd8 100644
+--- a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
++++ b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
+@@ -8,7 +8,7 @@ int sun4i_ss_prng_seed(struct crypto_rng *tfm, const u8 *=
+seed,
+ 	struct rng_alg *alg =3D crypto_rng_alg(tfm);
+=20
+=20	algt =3D container_of(alg, struct sun4i_ss_alg_template, alg.rng);
+-	memcpy(algt->ss->seed, seed, slen);
++	memcpy(algt->ss->seed, seed, min_t(unsigned int, slen, sizeof(algt->ss-=
+>seed)));
+=20
+=20	return 0;
+ }
+--=20
+2.51.0
