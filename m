@@ -1,58 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A9C3375CB;
-	Fri, 29 May 2026 20:54:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A0D348C5E
+	for <linux-sunxi@lists.linux.dev>; Sat, 30 May 2026 16:43:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780088054; cv=none; b=DeN7Mc8O73guxfUV1PuOrs3h7kCXC6RzP3Cdpxffo2YdX9qy4RFdS+MtXVfsucE/8E0S5L24fYRFY0ufS6iB7xBOEoy2WjR++j9dty8Xwd04AUpkmeweAcsXkBudu3mapknSn5pGeio2p+1H9e46pHrpBUSXSV9ji+UDSKCuI7k=
+	t=1780159401; cv=none; b=RoI9VN/+phshZdSon7w3+3M+mOetYoO1zJ585hf0JDonwU8mBJLYA5BtLjSZTms+7JHyEeZqHK27yZemXd1d2bb3nSHeJjugS7h0rIvYeOXcW9Qg4DtR78ekOCK7lKu/KxzF0eHob9ucVDAqaxZi4mpsq8OjcOTwPDF3PuhS6no=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780088054; c=relaxed/simple;
-	bh=tkC3ro4w7oFJawBaRS+aO1CeTD6ibX0dP0oJpaIKY8k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JgEiRpirqJp8CxagyO5Nt5XFAHqRUHEUhZuy1kJ0XZc3TaTcgoNC+/Ab8XkiOp5QfCwQerVJ2nL+LQJU9jUkrscoe8xRclK6cHHPNyPbrjyxibfnztOvfQpM8Hj8JqbgMHbtjrt7gYYwW9agRd78qTjUbJFYqx6Pj6pSg19ngnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZObPMGrq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780159401; c=relaxed/simple;
+	bh=wXrTrHg7jThfvHpbPuI4wb8lylFg+0R9kOLuU7injEI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=K62TMRwTQ8lzBz3xhMT0rXffw6rnTih26rKsTq+C+GXnumn82pgKlntmeTOG6FBZehlMDT23tbKFsrQiNAyYbSI71/NchwnYn/yF4OzW6xc1S8QeN08Wt2A2k8WdFWjlnUqqHg0YSPu4uwbXPMH4s7VKcrGBcQIKtsCtn5x6WUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qtjxk4cT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZObPMGrq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 556EC1F00893;
-	Fri, 29 May 2026 20:54:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qtjxk4cT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A758B1F0089C
+	for <linux-sunxi@lists.linux.dev>; Sat, 30 May 2026 16:43:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780088053;
-	bh=SkBBYD/N4py2W5hIKTk1Rqq0JdxguQzYXWr8RYU+TUw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZObPMGrqv0L/N9SGyaeQLtWm9+Yoy+xJBYQ5QoUg0zPPtUqkHF9hcEUH2m0aNGvQs
-	 +Z+iJfosETxxOJi2HfMUyAi/uspEf1xmU8XJzjFyW+3YMs5b5jcWV+FqhMLYiLiaRX
-	 bYhwmrkQu2b3WVbpgKvvMbYFRVTlg2kSa4uOAE/6A2+rjWbouXosyQ4FfYrrExtmIO
-	 3ch7wNl23BGxF2LX089lWMUHzHa8B3xCt6W/sOMoAS2jzsg7DNwn4ukBLhaWI8whnz
-	 lOeS32HXOqFx6CDTS9edMNMr1HzXLH2Jw2i6WeP3yBY+jznOGLVpfa/qeCQN6tW71O
-	 3py40E2od4Dfg==
-Date: Fri, 29 May 2026 20:54:11 +0000
-From: Eric Biggers <ebiggers@kernel.org>
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-sunxi@lists.linux.dev, linux-crypto@vger.kernel.org,
-	Corentin Labbe <clabbe.montjoie@gmail.com>
-Subject: Re: [PATCH] crypto: sun4i-ss - Remove insecure and unused rng_alg
-Message-ID: <20260529205411.GA901806@google.com>
-References: <20260529193648.18172-1-ebiggers@kernel.org>
- <20260529195725.5C7B91F00898@smtp.kernel.org>
+	s=k20260515; t=1780159398;
+	bh=wXrTrHg7jThfvHpbPuI4wb8lylFg+0R9kOLuU7injEI=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=Qtjxk4cTmrxuyYwRg0Gn/54Zo7PflF3XoWSNhJqxxeEtgel+rF9QJydQjc/Gyy8/Y
+	 6UkFPGzspzkdMKLOBH/k1c0T5DyaW9JxWEkEeG7gUz2ctFS8oo2JwJJbEBMKl5n/pV
+	 JegRUzdxEElfST3kpdXdyi0/ZoPS3Zo1XmRmJBRoam1hX8ajz1BIiKKJA8SdSJ+PW0
+	 9rUUUvbLFl6l/hFnHSE7Ck5KMbsS5B9u94sAoU8T0dWR+CNGqovTthKJYdpbMNWO7O
+	 puSXtHwRa5FHLCUYaq7kj3TSIYssDZk1MBoo43FU6gCALFJPo5M5KFAX4Q4GLZvAqd
+	 /Ib1a1urHIM0w==
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-3967620ceabso774701fa.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 30 May 2026 09:43:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9thsMJuXAWu6mmkgJJMw10l1pOU/AJbv6GASeFYIF63pIpglCOXP+i1A/a2TeH/eiPfLjrcUVBJMLjjw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxwzcUonSvVuqIIbuUEp9K9KP1PqfWEMmR6YctqNNwbX6WmM64S
+	xul4eGwVpVNV813iyQsGBNfZqYvVmX8+rDAhPfq1GliLeFTBb+8el59VIShsA4aH3L/8TWXcAJW
+	HuMPNCAd/6nAu8xnkjTfGBzuedASeXWE=
+X-Received: by 2002:a05:651c:20dc:20b0:396:5731:db22 with SMTP id
+ 38308e7fff4ca-39664edbde0mr9068591fa.23.1780159397154; Sat, 30 May 2026
+ 09:43:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260529195725.5C7B91F00898@smtp.kernel.org>
+References: <20260505134812.408316-1-wens@kernel.org> <20260505134812.408316-5-wens@kernel.org>
+ <JyKk48uGRMGhs1Z-wzq5pA@gmail.com>
+In-Reply-To: <JyKk48uGRMGhs1Z-wzq5pA@gmail.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Sat, 30 May 2026 19:43:05 +0300
+X-Gmail-Original-Message-ID: <CAGb2v64wDvLMFn9DYs-kH1S2PpHJat-imxR5eJSQAUYjOp=Xdg@mail.gmail.com>
+X-Gm-Features: AVHnY4JPf-OCVxDr7xF6UmPyet8eqBpmFwZfdZsz7_1mZVTdUTpZyn83IUGk-ro
+Message-ID: <CAGb2v64wDvLMFn9DYs-kH1S2PpHJat-imxR5eJSQAUYjOp=Xdg@mail.gmail.com>
+Subject: Re: [PATCH 4/7] drivers: staging: media: sunxi: cedrus: add H616 variant
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Jernej Skrabec <jernej@kernel.org>, 
+	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 29, 2026 at 07:57:24PM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 3 potential issue(s) to consider:
-> 
-> Pre-existing issues:
-> - [High] The debugfs directory and files created during probe are never removed on driver unbind, module unload, or probe failure, leading to a resource leak and potential Use-After-Free or page fault.
-> - [High] The driver modifies a static global array (`ss_algs`) to store per-device context (`ss`), which breaks if multiple instances of the device are probed.
-> - [High] Missing check on `sg_miter_next` return value leads to an infinite loop (DoS) inside a `spin_lock_bh` critical section.
+On Tue, May 5, 2026 at 7:18=E2=80=AFPM Jernej =C5=A0krabec <jernej.skrabec@=
+gmail.com> wrote:
+>
+> Dne torek, 5. maj 2026 ob 15:48:08 Srednjeevropski poletni =C4=8Das je Ch=
+en-Yu Tsai napisal(a):
+> > The Allwinner H616 SoC has a video engine hardware block like the one
+> > found on previous generations such as the H6. In addition to the
+> > currently supported features of the H6, it is also supposed to include
+>
+> Remove "supposed".
 
-Just par for the course for drivers/crypto/.
+I can't actually verify that, so "supposed" is accurate from my point of
+view.
 
-- Eric
+ChenYu
+
+> > a VP9 decoder. However software support for this is currently missing
+> > and still needs to be reverse engineered from the vendor BSP.
+> >
+> > Add the compatible for the H616 variant, using the H6 variant data.
+> >
+> > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+>
+> With that:
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>
+> Best regards,
+> Jernej
+>
+>
