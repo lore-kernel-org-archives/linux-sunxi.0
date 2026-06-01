@@ -1,104 +1,86 @@
-Received: from d218-8.smtp-out.eu-west-2.amazonses.com (d218-8.smtp-out.eu-west-2.amazonses.com [23.249.218.8])
-	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5A8345CBC
-	for <linux-sunxi@lists.linux.dev>; Sun, 31 May 2026 10:18:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.249.218.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7FB03911BD
+	for <linux-sunxi@lists.linux.dev>; Mon,  1 Jun 2026 09:19:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780222683; cv=none; b=ugX8DbRAIDlH8ELnVAFGzNIEvtbzE8XOCXB17rqhP755unWD/OhlzRPeKvFG6RDtzFp5UdyvB7+pihWzAaYaslDoCfbQ6Mgq+w+5O8LE0IEmax2Ox6WUYV5HtShs4hd9uB35kNGaZnsYqkWyFLzgafE9Wb+Hju9T5BynUc+P0ig=
+	t=1780305576; cv=none; b=BvsWQKtswhwIo0jJ+LqbWQhhFl33xFMYdSPQhOOPFmPkOvRXV7Oqmx4i/R8dpnKIB/gYdCXmsN3QdF8WyTt45t4y3ZS11SlMLP0kvc/awdrtYRly41ioyP6IvRVIxf/KCphXE/nc2Yypk1SXbADPpVNZA7me4FP/u8A2wwiwi4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780222683; c=relaxed/simple;
-	bh=4xuv784QuJ7ur67NeDEqyjYS0Da3u+bMMggiLyupPQ8=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Qkpt4TTrSXRDrKD6MjigrNmVPA/xd5HpecL6L+y2T3lzrsE4zvjgQQbgr12ivssAmFyybxd6BGuuC97wNGwZHxQXVLuire/d6gmYUwAGVBFs1uxE7kdWSkjcxeD3f3hywQ3zQe7XhENsHrcD5E2y2d7avq4Lp5/rxmTSKYfeqiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=electricworry.net; spf=pass smtp.mailfrom=mail.electricworry.net; dkim=pass (2048-bit key) header.d=electricworry.net header.i=@electricworry.net header.b=YrdjZFlK; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=oYVsk+Rj; arc=none smtp.client-ip=23.249.218.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=electricworry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.electricworry.net
+	s=arc-20240116; t=1780305576; c=relaxed/simple;
+	bh=PPChPTR/glaiNHISsa+FGiwhtJkD2/oee5H5c/F4L5k=;
+	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc; b=VFMWiBIckUoPS+IVi/CiwiKc5Mb0pdphHXcBtV/yHj6gZQ0052tu9IlJdTV6hf3lA+KAp5iGzWoPcbJyEyK7Z7mGFAKRNMOrOsa/8qd6hItJYLKRKBgbby8gF5UXDk7Cy84xfFobY57EitzduELs2yx59SB4lBlbkKRM988M0H4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iKIKQJRy; arc=none smtp.client-ip=95.215.58.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=electricworry.net header.i=@electricworry.net header.b="YrdjZFlK";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="oYVsk+Rj"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=xxcsvipqs5hvfd7f74n2i5bueyncqkjk; d=electricworry.net;
-	t=1780222680;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	bh=4xuv784QuJ7ur67NeDEqyjYS0Da3u+bMMggiLyupPQ8=;
-	b=YrdjZFlKMNTtZfE3YvxInJGUIuqoZj2ibapJ2luZuTaEd/JdaH+cJzWet/ascRxS
-	6pW+TUuSQRqjDqAqs/XJlIV6PdSMQR+ySOYIyewiMzonTxPtyCzCHuny5LTp2yRWOLK
-	nwoABlONlUD2IzI2uYeLdn2Iz0aPi6dew42FkFqPcWwldyBYgphI4fQYHoPr076/8vm
-	G6aILf3RFRz683aUcgAy5w8b5awkB1FMQk7mHrTPfZTHd+0aDIdna5tfVgW6xUyqUbr
-	7SsNGRGj3UQnNp+1cqbpyw3+NmqxVkKLAikfRHsTcB2AxbV/pUVLVNYe6KOrOzNZ5fa
-	6o+XS2cH/A==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=smjs5bczbyxi6u2ua6eveuxqal7joyry; d=amazonses.com; t=1780222680;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:Feedback-ID;
-	bh=4xuv784QuJ7ur67NeDEqyjYS0Da3u+bMMggiLyupPQ8=;
-	b=oYVsk+RjwxML6m2H+f9kuBYF4jJfgEQF9OLVNy2qpYAgzj7FC/rOfP1fJwhks6Jf
-	z2eS6pasnxVZciVnBbAXhUgiLPozARgnMOIAflM0auK4eg/Jsb8lceg+TzJ5Zu2Rw/M
-	Z3KHBcuY0hRjv9O10vQCHGuZS46+jbAdxGkpN60c=
-Date: Sun, 31 May 2026 10:18:00 +0000
-From: Bob McChesney <bob@electricworry.net>
-To: linux-sunxi@lists.linux.dev
-Subject: H616: dw-hdmi and HDMI_FC_INVIDCONF_HDCP_KEEPOUT_ACTIVE
-Message-ID: <010b019e7d8a5d77-66007852-7f5f-4bff-be1d-6058f6ae98bb-000000@eu-west-2.amazonses.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iKIKQJRy"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Feedback-ID: ::1.eu-west-2.gfFyncE+PRqcG/qebM3Lg+wfopUKzk5aGDEiDVENH+o=:AmazonSES
-X-SES-Outgoing: 2026.05.31-23.249.218.8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1780305566;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=d5IyFKFbRT3IKZtpikCYlnIfXgvvgQ7v1CmhoyZgrLI=;
+	b=iKIKQJRyZO7nrywzvbDm3R6lAw+dIiZnj3xTdbymV1G11dNR4PzQ5gu3ZcC38ePos4UHZz
+	dbJexfJbtJKCAi6nLtpJ67BFXN0C1G54yyypw8GGbuCHn6f8LFZto5N85lKcz+6n5qKHH+
+	USlkhKTQOCl3Nbyu3whgXhpp4klhYEA=
+Date: Mon, 01 Jun 2026 09:19:23 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Tianchu Chen" <tianchu.chen@linux.dev>
+Message-ID: <d52449abfd8e1e46c8bfe9ebdc00d931fc0e4147@linux.dev>
+TLS-Required: No
+Subject: Re: [PATCH] crypto: sun4i-ss - Remove insecure and unused rng_alg
+To: ebiggers@kernel.org
+Cc: clabbe.montjoie@gmail.com, herbert@gondor.apana.org.au,
+ jernej.skrabec@gmail.com, linux-arm-kernel@lists.infradead.org,
+ linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, samuel@sholland.org, stable@vger.kernel.org,
+ wens@kernel.org
+X-Migadu-Flow: FLOW_OUT
 
-I'm trying to understand what the HDMI_FC_INVIDCONF_HDCP_KEEPOUT_ACTIVE
-bit of HDMI_FC_INVIDCONF does with respect of syncing with what might be
-a badly behaving HDMI sink.
+From: Tianchu Chen <flynnnchen@tencent.com>
+In-Reply-To: <20260529193648.18172-1-ebiggers@kernel.org>
+References: <20260529193648.18172-1-ebiggers@kernel.org>
 
-I've observed when an Orange Pi Zero 3 is connected to my Samsung TV
-that the TV does not recognise any video output in the first 15 seconds
-after the kernel has started. However if I force setting the HDCP
-Keepout register to Active then in repeated tests the TV displays the
-output after 3 seconds of the kernel starting. So I am trying to discern
-whether my TV is just a badly behaving one or if there are improvements
-to be made on the driver.
+On Fri, May 29, 2026 at 12:36:48PM -0700, Eric Biggers wrote:
+> Remove sun4i_ss_rng, as it is insecure and unused:
+>
+> - It has multiple vulnerabilities.  sun4i_ss_prng_seed() is missing
+>   locking and has a buffer overflow.
 
-In linux/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c:
-    inv_val = (hdmi->hdmi_data.hdcp_enable ||
-           (dw_hdmi_support_scdc(hdmi, display) &&
-            (vmode->mtmdsclock > HDMI14_MAX_TMDSCLK ||
-             hdmi_info->scdc.scrambling.low_rates)) ?
-        HDMI_FC_INVIDCONF_HDCP_KEEPOUT_ACTIVE :
-        HDMI_FC_INVIDCONF_HDCP_KEEPOUT_INACTIVE);
+Thanks for cleaning this up.
 
-This feature will be enabled if either of the following conditions are
-true:
+For the record, the sun4i_ss_prng_seed() buffer overflow you mention here
+is the same issue we reported earlier with a targeted fix:
+  https://lore.kernel.org/linux-crypto/20260529194152.GA3628@quark/
 
-1. hdmi->hdmi_data.hdcp_enable
-2. (HDMI IP version > 0x200a) && (DDC bus is present) &&
-   (sink supports SCDC) &&
-   (sink supports low scrambling rates ||
-     (sink max TMDS clock > 340000 && clock rate > 340000) )
+It is an unauthenticated, unbounded memcpy() into the 24-byte ss->seed[]
+buffer, reachable from any user via AF_ALG ALG_SET_KEY with no privileges
+on affected Allwinner sun4i hardware.
 
-2 is never true because my sink doesn't have the HDMIForum VSDB (and
-even if it did, the Max TMDS clock is 300MHz), meaning that according to
-HDMI Spec TMDS scrambling should not be enabled. Therefore, according to
-the driver, the only other valid reason to activate this feature is if
-hdcp_enable is true and nothing ever sets this to true.
+Please note that this should be treated as a security fix. For the earlie=
+r
+stable releases, keeping the rng_alg but adding a proper bounds check in
+sun4i_ss_prng_seed() might still be a preferable option to consider.
 
-Since support for HDCP is not indicated via EDID but via communicating
-with other addresses over E-DDC, I presume that by activating this
-feature the HDMI IP is discovering HDCP features over I2C and enabling
-HDCP. Unfortunately I do not have an HDMI Analyser and I do not have an
-I2C sniffer (though I am waiting on a Raspberry Pi Pico arriving so that
-I can sniff the I2C traffic).
+Given the above, would you mind adding the following trailers to the comm=
+it
+message?  Besides crediting the discovery and report, they would also mak=
+e
+this security issue easier to track and reference across the stable trees=
+:
 
-Do you think there's work I could be doing here to improve this driver
-or am I just dealing with a badly behaving TV that should be more
-graceful in its acceptance of legitimate unencrypted traffic? There have
-been no issues observed connecting to my HDMI monitor and a DVI test
-screen I use. Apologies for any incorrect statements I may have made;
-the DesignWare documentation I have is taciturn on this feature.
+  Discovered by Atuin - Automated Vulnerability Discovery Engine
+  Reported-by: Tianchu Chen <flynnnchen@tencent.com>
 
-Regards,
-Bob
+
+Thanks,
+Tianchu
