@@ -1,78 +1,135 @@
-Received: from d218-7.smtp-out.eu-west-2.amazonses.com (d218-7.smtp-out.eu-west-2.amazonses.com [23.249.218.7])
-	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 564DD3FD142
-	for <linux-sunxi@lists.linux.dev>; Wed,  3 Jun 2026 21:07:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.249.218.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7AD14A2E07;
+	Wed,  3 Jun 2026 21:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780520848; cv=none; b=Zrxx3xiuC5quOPV1t1c6DWr72HX2+Kejv0MFBpShIDQRTbdDQkqDWkL3VnmhZ2WjuN6KKD0im5/lVWn8YeM33hmKzbs2ANqmkgSsTWQhLyQ5wFoNUlIHC4IzIhJ7QAf9YX+926JtePQVxhMo0ReR2GlG6fs9djSe5e48iOjEV5E=
+	t=1780522774; cv=none; b=C5Ibx7KZSdSjPrRdNDwHEYUpk7E3YDWijoRddn4CwtGE1G6ZdW+9bs/sOO/nCg0Qe199ip/GL4pNZfS7uLutvDoRzPgztUHMLTPGbMBuHtC4c5eKCROdwgacJMIkJD9zDBeyLyq1MFjvcIHmRBzhQaceBxixEtsIsLDTC65LPFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780520848; c=relaxed/simple;
-	bh=isSWLwY4zDO68T/kGdvYNWm1DFcYaY4DMfMS76PAPiQ=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i+ULgAFM43worD0cODXuL18YNsBb99U00YN2rkZgcB+W86s/aSAsy5pXk+XKSfOdww4JHpky3u0SPuROpUUwMoKVYljMxUnW1E4/lbY40HlZPJK5Z2EzrIEsjJ/xqywQsmcSzzSs0Bfuj+DioseYmV55HoYicqLCjNX0puDLPHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=electricworry.net; spf=pass smtp.mailfrom=mail.electricworry.net; dkim=pass (2048-bit key) header.d=electricworry.net header.i=@electricworry.net header.b=I1thPwe3; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=JlJyQZOc; arc=none smtp.client-ip=23.249.218.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=electricworry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.electricworry.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=electricworry.net header.i=@electricworry.net header.b="I1thPwe3";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="JlJyQZOc"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=xxcsvipqs5hvfd7f74n2i5bueyncqkjk; d=electricworry.net;
-	t=1780520845;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To;
-	bh=isSWLwY4zDO68T/kGdvYNWm1DFcYaY4DMfMS76PAPiQ=;
-	b=I1thPwe3H49JuzZ0vjh08FnQDEsMp0hlA9fRSLJw7wf5stiJNsvwqrsmin3ejhYY
-	V9Ck6gcRA/rBuPYK+iY6emmpFm8HPe3FCQ+v9Iq9P95kTc6o+TIJN5cCThmtPNlfJdC
-	2G+9jx/CC0ZD7ZfDRIPDq4yDhPr/dVj0F0R1TYd9AFp79uJu08KmW2O+Af64c/R8JF6
-	sxnVAGEYz/P/7zhMd+Nnl8lfYsRCyu3x4gJzANyW2AEs3lkg60gcxr93cJeNq4QbYTg
-	i1LR+7FuQadPZ+QpHKXJQkTPcgJQE06tUP4OhHTTK1CiLpZMMx9XCSzbHAI64RJ0fOi
-	VQwQ5lqScg==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=smjs5bczbyxi6u2ua6eveuxqal7joyry; d=amazonses.com; t=1780520845;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Feedback-ID;
-	bh=isSWLwY4zDO68T/kGdvYNWm1DFcYaY4DMfMS76PAPiQ=;
-	b=JlJyQZOcE4778ku/x/0hvCBsSBb8huHWM38ztg8bf3AxscYvG0xrCnwI9qdUHE46
-	1MoGmsgM2UXTPQzD3gSiBWnrwHyuK5sTCHAbjJFDEalKoyANszvpZl2hpF1fbqNXpz/
-	yEweZbxMyvRE6ZSYyjqXLbRalyzyg+QFekprDHhA=
-Date: Wed, 3 Jun 2026 21:07:25 +0000
-From: Bob McChesney <bob@electricworry.net>
-To: linux-sunxi@lists.linux.dev
-Subject: Re: H616: dw-hdmi and HDMI_FC_INVIDCONF_HDCP_KEEPOUT_ACTIVE
-Message-ID: <010b019e8f50015d-bbf52d3d-3faa-4634-956c-b4aa7a8a5ac2-000000@eu-west-2.amazonses.com>
-Mail-Followup-To: linux-sunxi@lists.linux.dev
-References: <010b019e7d8a5d77-66007852-7f5f-4bff-be1d-6058f6ae98bb-000000@eu-west-2.amazonses.com>
+	s=arc-20240116; t=1780522774; c=relaxed/simple;
+	bh=4ixFSV/12Id5tf/md9aSMpcT24U/Cz8Zv3drM0rLg14=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=SFQB5u1wrQ6bk0OIbhMPSA427JzkCvRvmRzFA6kMc5oOBL7fPw63LEIsHjjTeDWb23rEfGliLS0hcJzKF110BIlEaQxb0tgFCQgH396gRGw8w7gvZCKKTFuTuqnwDKCssF03ccmH5bk5ANFlnwoCn6YQ/2EVmNa89GYwHM6Dc0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A3131F0089B;
+	Wed,  3 Jun 2026 21:39:31 +0000 (UTC)
+Received: by venus (Postfix, from userid 1000)
+	id 7F4B0181D83; Wed, 03 Jun 2026 23:39:29 +0200 (CEST)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: linux-phy@lists.infradead.org, 
+ Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: Vinod Koul <vkoul@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org, spacemit@lists.linux.dev, 
+ UNGLinuxDriver@microchip.com, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, 
+ =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Andy Yan <andy.yan@rock-chips.com>, 
+ Bart Van Assche <bvanassche@acm.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+ Can Guo <quic_cang@quicinc.com>, Chanho Park <chanho61.park@samsung.com>, 
+ Chen-Yu Tsai <wens@kernel.org>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Damien Le Moal <dlemoal@kernel.org>, 
+ Daniel Machon <daniel.machon@microchip.com>, 
+ David Airlie <airlied@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Eric Dumazet <edumazet@google.com>, 
+ Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ JC Kuo <jckuo@nvidia.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, Joe Perches <joe@perches.com>, 
+ Johan Hovold <johan+linaro@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Kevin Xie <kevin.xie@starfivetech.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Linus Walleij <linusw@kernel.org>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Manivannan Sadhasivam <mani@kernel.org>, 
+ Marc Kleine-Budde <mkl@pengutronix.de>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Markus Schneider-Pargmann <msp@baylibre.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ Mathias Nyman <mathias.nyman@intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Maxime Ripard <mripard@kernel.org>, Michael Dege <michael.dege@renesas.com>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Niklas Cassel <cassel@kernel.org>, Nitin Rawat <quic_nitirawa@quicinc.com>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Peter Chen <peter.chen@kernel.org>, 
+ Peter Griffin <peter.griffin@linaro.org>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, Robert Foss <rfoss@kernel.org>, 
+ Rob Herring <robh@kernel.org>, 
+ "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, 
+ Samuel Holland <samuel@sholland.org>, Sandy Huang <hjc@rock-chips.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Sean Paul <sean@poorly.run>, 
+ Sebastian Reichel <sre@kernel.org>, Shawn Guo <shawn.guo@linaro.org>, 
+ Shawn Lin <shawn.lin@rock-chips.com>, Simona Vetter <simona@ffwll.ch>, 
+ Steen Hegelund <Steen.Hegelund@microchip.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Tudor Ambarus <tudor.ambarus@linaro.org>, 
+ Vincent Mailhol <mailhol@kernel.org>, Xu Yang <xu.yang_2@nxp.com>, 
+ Yixun Lan <dlan@kernel.org>, 
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20260505100523.1922388-1-vladimir.oltean@nxp.com>
+References: <20260505100523.1922388-1-vladimir.oltean@nxp.com>
+Subject: Re: (subset) [PATCH v8 phy-next 00/31] Split Generic PHY consumer
+ and provider API
+Message-Id: <178052276949.2678508.3221123153750103034.b4-ty@collabora.com>
+Date: Wed, 03 Jun 2026 23:39:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <010b019e7d8a5d77-66007852-7f5f-4bff-be1d-6058f6ae98bb-000000@eu-west-2.amazonses.com>
-Feedback-ID: ::1.eu-west-2.gfFyncE+PRqcG/qebM3Lg+wfopUKzk5aGDEiDVENH+o=:AmazonSES
-X-SES-Outgoing: 2026.06.03-23.249.218.7
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 
-On Sun, May 31, 2026 at 10:18:00AM +0000, Bob McChesney wrote:
-> Since support for HDCP is not indicated via EDID but via communicating
-> with other addresses over E-DDC, I presume that by activating this
-> feature the HDMI IP is discovering HDCP features over I2C and enabling
-> HDCP. Unfortunately I do not have an HDMI Analyser and I do not have an
-> I2C sniffer (though I am waiting on a Raspberry Pi Pico arriving so that
-> I can sniff the I2C traffic).
 
-I got an I2C sniffer working and there was no real difference between
-HDCP_KEEPOUT being Active or Inactive in terms of messaging; the only
-messages I could see in either case were DDC (addr 0xA0/A1). This
-contrasts to my Blu-ray player which additionally had SCDC (0xA8/A9) and
-HDCP (0x74/75). The only differences I saw were an additional STOP being
-seen in the Inactive case, and this appeared just before the display
-finally appeared (after 14 seconds), and in the Inactive case the EDID
-was read 4 times but only 3 times in the Active case.
+On Tue, 05 May 2026 13:04:52 +0300, Vladimir Oltean wrote:
+> The biggest problem requiring this split is the fact that consumer
+> drivers poke around in struct phy, accessing fields which shouldn't be
+> visible to them. Follow the example of mux, gpio, iio, spi offload,
+> pwrsec, pinctrl and regulator, which each expose separate headers for
+> consumers and providers.
+> 
+> Some off-list discussions were had with Vinod Koul regarding the 3 PHY
+> providers outside the drivers/phy/ subsystem. It was agreed that it is
+> desirable to relocate them to drivers/phy/, rather than to publish
+> phy-provider.h to include/linux/phy/ for liberal use. Only phy.h and
+> (new) phy-props.h - consumer-facing headers - stay there.
+> 
+> [...]
 
-So I remain mystified about why this flag makes a difference. I may need
-to invest in a STIX HDMI Analyzer to learn a bit more.
+Applied, thanks!
 
-Regards,
-Bob
+[26/31] power: supply: cpcap-charger: include missing <linux/property.h>
+        commit: a9e36028b688d693d8aefbf84a9899f31a20fcf0
+
+Best regards,
+-- 
+Sebastian Reichel <sebastian.reichel@collabora.com>
+
