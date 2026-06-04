@@ -1,236 +1,107 @@
-Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mxd.seznam.cz (mxd.seznam.cz [77.75.76.210])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074D0425CF7
-	for <linux-sunxi@lists.linux.dev>; Thu,  4 Jun 2026 11:53:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60537407590
+	for <linux-sunxi@lists.linux.dev>; Thu,  4 Jun 2026 12:03:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.75.76.210
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780574010; cv=none; b=bdcAKAAi30jLyZb8t3ywMsb3laba/D6J7DCkyPWBKZnsZAUj/K4jK1conq3HAiTP5qLhnvcGvMT+OvRctbgPqwBoqK2yAbVetczPudAeS2VixXB3vsdxZhFKlsDFJvvfdSJOO+aaEa7571/ETBduqiACFCm8sNvUkTntNsHfwxQ=
+	t=1780574597; cv=none; b=L6z+1O9+KQ0zdueMLm3vLk6vJ4MdQRJ7z6AwRpwN+0rQjJC9isR50bdBu1zctWbnb74Ex6YO1XFm8GS6/7+KcsiP7CSNO8NZ4ZLr5LpVMbGBF0CyvpAE5qbJQmL6RoCkTiMTb53ZXofhHJCdWS8wTaTmkXmT7PQ5ODr8ziqs6OE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780574010; c=relaxed/simple;
-	bh=W1L7lM7ONfZVZduFgqKNqCLCyNE31WGvZ657G3Z6HQk=;
+	s=arc-20240116; t=1780574597; c=relaxed/simple;
+	bh=QFEQrU77b3rQqPpg15z8IOQJWoxfKOinMogreiAN7OU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nBk6moI60RlcH8BSBeV3AS/WEqQ0HBwjS6nFkhcJ9vmvIkuCtUWJ++Nnfq3ThWxp6J3kUPqucODHqrVOJq620JGmYB0F+XIY1UJdbFJIeCkK7XhcTwEdvzCyqcNoQTy87IS1sjqHAdOIr5j2Q/SOjzEDZJSTYEeYBvqhCg1P9Xo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=fcRZBKX+; arc=none smtp.client-ip=173.249.15.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
+	 MIME-Version:Content-Type; b=nJIa8xOVHNdeWKaeDYTU5VssIsrffZLt42Yv2I/pvT0H5j0Z0Gu1KClULhkHqfYBPn1XXzwqUh+tMt89LES+ZOcza7zLcwvinCDb34VEt2tfLuXhAXhkXrt343ln/+7WmB+sbsQZb+KYkPsnwtH0MYpOw4d9dHEnlvJs6DniPCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seznam.cz; spf=pass smtp.mailfrom=seznam.cz; dkim=pass (2048-bit key) header.d=seznam.cz header.i=@seznam.cz header.b=lIJ33aU4; arc=none smtp.client-ip=77.75.76.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seznam.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seznam.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="fcRZBKX+"
-dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
-	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Transfer-Encoding:In-Reply-To:References;
-	bh=PMXI3AsiaIZvGy6ZmQ2drOYiduPnjH0X2ReiBFm1rns=;
-	b=fcRZBKX+aHuUMs8bqNVVXdKJSg23d4Karw0mjYOyudzNYgMFb8rjj9zyZHB6pzOx+blIrUYt77hI100yF6CxbMsgHtpo8lLVutz7rk2PKXEVyB1cHqz3aL2beFYa5vnTD6OI3YX1b6UgWrnS/WsfXhij/Jo9giSghS0lIE43dDk=
-Received: from lukas-hpz440workstation.lan.sk100508.local (194-166-56-114.hdsl.highway.telekom.at [194.166.56.114])
-	by mail.netcube.li with ESMTPA
-	; Thu, 4 Jun 2026 13:53:12 +0200
-From: Lukas Schmid <lukas.schmid@netcube.li>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	dkim=pass (2048-bit key) header.d=seznam.cz header.i=@seznam.cz header.b="lIJ33aU4"
+Received: from email.seznam.cz
+	by smtpc-mxd-85fb448c55-l247v
+	(smtpc-mxd-85fb448c55-l247v [2a02:598:96:8a00::1200:706])
+	id 451ebd62fd7190ed47e027fe;
+	Thu, 04 Jun 2026 14:02:55 +0200 (CEST)
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed; d=seznam.cz; s=szn1;
+	t=1780574575; bh=yg44805tHXrZI2MFXh1k7JymAUPm/8cNpCDnOcYJ4LA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	b=lIJ33aU4RSOjH7pERYIWfnMajC6hGTYYVbtw9DXDvoibOvd72ilxSJFKi3GAr1OH/
+	 1iYloXtr5Bks67Wuq+auD63ep3apxdaOGN1tlQWl7iS/QoNz2K4ktdqt2vLWAbZjFk
+	 7bHoZtGla0z8rHZOIjGOjglkBkppT0yz1GoLubd0PKqw7kuMdUVESMkDu5hEaEnUHM
+	 Rkbwms5Mpn9+EZ5PBimuntCTvygE52AnVi72YyZ38+SQqM5VSZ8HSFzJeWXeWTuTcf
+	 R8IgBanROqPZB9hpP15ZDEKuw/u0BVfkQSIcbLP74gvk6T2Cg4opJlVmL/QqohkJMx
+	 fMLJPkfBijNGQ==
+Received: from archlinux (ezechiel.sdb.cz [185.100.196.77])
+	by smtpd-relay-b58bfc659-k9lmt (szn-email-smtpd/2.0.73) with ESMTPA
+	id a1f98a3b-d877-4d67-a75d-db9b2bd38245;
+	Thu, 04 Jun 2026 14:02:52 +0200
+From: =?UTF-8?q?Vojt=C4=9Bch=20Kr=C3=A1tk=C3=BD?= <vo.kratky@seznam.cz>
+To: linux-iio@vger.kernel.org
+Cc: =?UTF-8?q?Vojt=C4=9Bch=20Kr=C3=A1tk=C3=BD?= <vo.kratky@seznam.cz>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: Lukas Schmid <lukas.schmid@netcube.li>,
-	devicetree@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v1 3/3] ARM: dts: sunxi: add support for NetCube Systems OpenNMC (dobermann)
-Date: Thu,  4 Jun 2026 13:52:34 +0200
-Message-ID: <20260604115241.1358528-4-lukas.schmid@netcube.li>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260604115241.1358528-1-lukas.schmid@netcube.li>
-References: <20260604115241.1358528-1-lukas.schmid@netcube.li>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 02/11] iio: adc: change from %ld to %pe for PTR_ERR() printing
+Date: Thu,  4 Jun 2026 13:59:22 +0200
+Message-ID: <20260604120201.116925-3-vo.kratky@seznam.cz>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260604120201.116925-1-vo.kratky@seznam.cz>
+References: <20260604120201.116925-1-vo.kratky@seznam.cz>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-NetCube Systems OpenNMC is an open replacement for APC SmartSlot Management
-Cards. It is based on the Nagami System-on-Module. It breaks out the
-following interfaces:
+Replace numeric PTR_ERR() logging with the %pe format specifier
+so that error values are printed in a more readable form.
 
-- 10/100 Mbps Ethernet
-- USB Type-C OTG using a TUSB320 (usb0)
-- USB Type-C Console Port using a CH340 (uart3)
-- USB Type-A Host with internal CH334 USB-Hub (usb1)
-- MicroSD Slot with Card-Detect (mmc0)
-- WiFi/Bluetooth using the modules built-in ESP32
-- SmartSlot serial interface (uart4)
-- DS3232 RTC with CR1220 Battery Backup
-- Extension connector providing SPI,I2C,USB,CAN,UART for future use.
+This change was identified using a Coccinelle semantic patch.
 
-Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
+No functional change intended.
+
+Signed-off-by: Vojtěch Krátký <vo.kratky@seznam.cz>
 ---
- .../sun8i-t113s-netcube-dobermann.dts         | 149 ++++++++++++++++++
- 1 file changed, 149 insertions(+)
- create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-dobermann.dts
+ drivers/iio/adc/sun4i-gpadc-iio.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-dobermann.dts b/arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-dobermann.dts
-new file mode 100644
-index 000000000000..97dd4b950dd8
---- /dev/null
-+++ b/arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-dobermann.dts
-@@ -0,0 +1,149 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright (C) 2026 Lukas Schmid <lukas.schmid@netcube.li>
-+ */
-+
-+/dts-v1/;
-+#include "sun8i-t113s-netcube-nagami.dtsi"
-+
-+#include <dt-bindings/leds/common.h>
-+
-+/ {
-+	model = "NetCube Systems OpenNMC (dobermann)";
-+	compatible = "netcube,dobermann", "netcube,nagami",
-+		     "allwinner,sun8i-t113s";
-+
-+	aliases {
-+		serial2 = &uart4; // UART on SmartSlot
-+		rtc0 = &ds3232;
-+		rtc1 = &rtc; // not battery backed
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		led_heartbeat_green: led-heartbeat-green {
-+			gpios = <&pio 6 14 GPIO_ACTIVE_HIGH>; /* PG14 */
-+			linux,default-trigger = "heartbeat";
-+			color = <LED_COLOR_ID_GREEN>;
-+			function = LED_FUNCTION_HEARTBEAT;
-+		};
-+	};
-+};
-+
-+&ehci0 {
-+	status = "okay";
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
-+
-+&i2c2 {
-+	status = "okay";
-+
-+	tusb320: typec@60 {
-+		compatible = "ti,tusb320";
-+		reg = <0x60>;
-+		interrupts-extended = <&pio 3 22 IRQ_TYPE_LEVEL_LOW>;  /* PD22 */
-+	};
-+
-+	ds3232: rtc@68 {
-+		compatible = "dallas,ds3232";
-+		reg = <0x68>;
-+	};
-+};
-+
-+/* microSD Card Slot on the board */
-+&mmc0 {
-+	vmmc-supply = <&reg_vcc3v3>;
-+	disable-wp;
-+	bus-width = <4>;
-+	cd-gpios = <&pio 6 15 GPIO_ACTIVE_LOW>; /* PG15 */
-+	status = "okay";
-+};
-+
-+&ohci0 {
-+	status = "okay";
-+};
-+
-+&ohci1 {
-+	status = "okay";
-+};
-+
-+&pio {
-+	gpio-line-names = "", "", "", "", // PA
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "SMART_TX", "SMART_RX", // PB
-+			  "EXT_IO3", "EXT_IO2", "CONSOLE_TX", "CONSOLE_RX",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "eMMC_CLK", "eMMC_CMD", // PC
-+			  "eMMC_D2", "eMMC_D1", "eMMC_D0", "eMMC_D3",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "", // PD
-+			  "", "", "", "",
-+			  "", "USB_SEC_EN", "EXT_SPI_nCS", "EXT_SPI_SCK",
-+			  "EXT_SPI_MOSI", "EXT_SPI_MISO", "EXT_IO5", "EXT_IO4",
-+			  "SMART_SEL", "", "", "",
-+			  "I2C3_SCL", "I2C3_SDA", "TUSB320_nINT", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "ETH_CRSDV", "ETH_RXD0", "ETH_RXD1", "ETH_TXCK", // PE
-+			  "ETH_TXD0", "ETH_TXD1", "ETH_TXEN", "",
-+			  "ETH_MDC", "ETH_MDIO", "I2C3_nINT", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "uSD_D1", "uSD_D0", "uSD_CLK", "uSD_CLK", // PF
-+			  "uSD_D3", "uSD_D2", "TUSB320_ID", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "ESP_CLK", "ESP_CMD", "ESP_D0", "ESP_D1", // PG
-+			  "ESP_D2", "ESP_D3", "ESP_TXD", "ESP_RXD",
-+			  "ESP_nBOOT", "ESP_nRST", "I2C2_SCL", "I2C2_SDA",
-+			  "EXT_IO1", "EXT_IO0", "LED_HEARTBEAT", "SD_DETECT",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "",
-+			  "", "", "", "";
-+};
-+
-+/* SmartSlot serial */
-+&uart4 {
-+	pinctrl-0 = <&uart4_pb_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&usb_otg {
-+	extcon = <&tusb320 0>;
-+	dr_mode = "otg";
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	usb0_id_det-gpios = <&pio 5 6 GPIO_ACTIVE_HIGH>; /* PF6 */
-+	status = "okay";
-+};
+diff --git a/drivers/iio/adc/sun4i-gpadc-iio.c b/drivers/iio/adc/sun4i-gpadc-iio.c
+index 479115ea50bf..5d7a61abcaea 100644
+--- a/drivers/iio/adc/sun4i-gpadc-iio.c
++++ b/drivers/iio/adc/sun4i-gpadc-iio.c
+@@ -508,7 +508,7 @@ static int sun4i_gpadc_probe_dt(struct platform_device *pdev,
+ 					     &sun4i_gpadc_regmap_config);
+ 	if (IS_ERR(info->regmap)) {
+ 		ret = PTR_ERR(info->regmap);
+-		dev_err(&pdev->dev, "failed to init regmap: %d\n", ret);
++		dev_err(&pdev->dev, "failed to init regmap: %pe\n", info->regmap);
+ 		return ret;
+ 	}
+ 
+@@ -639,8 +639,8 @@ static int sun4i_gpadc_probe(struct platform_device *pdev)
+ 		 */
+ 		if (IS_ERR(info->tzd) && PTR_ERR(info->tzd) != -ENODEV) {
+ 			dev_err(&pdev->dev,
+-				"could not register thermal sensor: %ld\n",
+-				PTR_ERR(info->tzd));
++				"could not register thermal sensor: %pe\n",
++				info->tzd);
+ 			return PTR_ERR(info->tzd);
+ 		}
+ 	}
 -- 
-2.47.3
-
+2.54.0
 
