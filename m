@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED5D43DA35;
-	Thu,  4 Jun 2026 12:12:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2C0436356
+	for <linux-sunxi@lists.linux.dev>; Thu,  4 Jun 2026 12:12:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780575142; cv=none; b=WukiPjXxvvUyzvQOTSMVR0aDs0TeIVVtkFluLItcVe4NsIdwgNz1ybAYVjcnPq7g1LhZLFw3eItlHfpZHzHAcyCL67crimGgCflZ8BxAK82n5OdfKZOlckPufCA9qCsKexj7S7eRfI124iGKvP9/Tz0PQEZwUxpncqsaI+IdcI0=
+	t=1780575174; cv=none; b=UzuCQ2vVAwCtAQy4wgUBu9zhBfwWvvMWTTg7PVSBng6DlYwGLD2aDjPGncVNT7/SM1VVT6rI9R6XFo8lCfzRxixXhttQNpwCPzHU4IAllfHfXJuYocS9fyvz+C69WVMjsKdTZFh6yl589bLmbl/zfRWDX7mP4WiRDS6Ffdrdw2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780575142; c=relaxed/simple;
-	bh=PUEomZvsCkWoiTzSQa44qt5YvvMgNYQHmdtpSQLinvc=;
+	s=arc-20240116; t=1780575174; c=relaxed/simple;
+	bh=sLKwJlrPBfRNhtyFL6+xRuwDZVD+6kwEinP441stqoM=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=kJUTFD/icrLI2XvZq9Li36ltpemJSg6QSkap27oYHOPqscfe/uW1LD2AiTQ0h3dHsnDhxE1EL/wlNJearsK/EV5u9qYBaj+fRHBVEses15Z/NV/Dwup2VlCh1VfS0zi2dui8UQzzKyMa/Xez6LrT19F8dvgm2lED2217h5TxnEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KCbf2ykz; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=oTQEwGKQpKFIhixsPxXqW8R3C/j4JEIefkxQs2CKGGEDaK9bPrP98zy0xbwKshbu/eaTe7PvpvBFCShqw9WJ8RBMg85CsK7Y9GOTQq96NY3HCFi3lWqS66RfAOfgHj3RLN8L+iMfMgErxYkurq3A56nmFTkUhNijhD/MCOPZ67Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VYoqs9TZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KCbf2ykz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CBD01F00893;
-	Thu,  4 Jun 2026 12:12:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VYoqs9TZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BB881F00893;
+	Thu,  4 Jun 2026 12:12:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780575139;
-	bh=NhwR/kUVmnXG10zOM9nvX5ddyVHe7PYXm3c07vyDm4k=;
+	s=k20260515; t=1780575171;
+	bh=2qPn6UIlI9keWtYOEsXV+Cwts014pvDjMOgzai6oG20=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=KCbf2ykzmxPTC+zyaWwEPCYEUdWY/51vCkqHo8jYylzCex6+ECe2aIraG9dHggf+Q
-	 YWnMptecTOoxZuB61/ZJF/9lyExsPPP1hmmXXtnFPfSPClIQlXOHxThejL5AMw8nw9
-	 EsuJjhwFu4Xjx4C91/r4bns9Zi8rty8NPyHd2FP17U564SIQbxNTBR+tvlZUGWQ05w
-	 PZQiF8/gl6gKntIYYDgQ2FzBklOXUVvOvPpC73UTUpI/OmSvbA5G8hA5VSiWTZILRA
-	 ou0KdiN80QaP8g0WF628UNghGoeBBSdXxSBuhSLW8RUmRhqcqSSHH+gtwqiV2E+sRs
-	 T0g749bNewNOg==
+	b=VYoqs9TZsivfAXp4V/VYopB/xrBePCnwCUoGXeV6r/QPpCE8lpgdE9JkZAcedIuAy
+	 rKOP8lyqyVPDvHvV3FyaTrerHNOVHvXUSQgnmlwi3BOu3b+y/40rENME7xA7Iktwb6
+	 ceQDyMOwMCCZk2a906B173MFqz0hS7e+HmPDAacHbLbsFeSRBijqe8seYz0WLl9K4Y
+	 t9dDXrmWmc33hPraj/SvMnnWJ4F4OIuUyL/EEzBaJgnY49SNzeV6xcx5Mr3c3p+8Ju
+	 g1qAalwPKpydnO+YQdAhTFpgJYHzay6aXjnVEws7ePUtgUYdMF+IkGVj5D+6n3/X6F
+	 5W2m+xkXTLDjA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v1 3/3] ARM: dts: sunxi: add support for NetCube Systems
- OpenNMC (dobermann)
+Subject: Re: [PATCH v2 02/11] iio: adc: change from %ld to %pe for PTR_ERR()
+ printing
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Lukas Schmid" <lukas.schmid@netcube.li>
-Cc: conor+dt@kernel.org, linux-sunxi@lists.linux.dev, robh@kernel.org, devicetree@vger.kernel.org
-In-Reply-To: <20260604115241.1358528-4-lukas.schmid@netcube.li>
-References: <20260604115241.1358528-4-lukas.schmid@netcube.li>
+To: =?utf-8?b?Vm9qdMSbY2ggS3LDoXRrw70=?= <vo.kratky@seznam.cz>
+Cc: linux-sunxi@lists.linux.dev
+In-Reply-To: <20260604120201.116925-3-vo.kratky@seznam.cz>
+References: <20260604120201.116925-3-vo.kratky@seznam.cz>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 04 Jun 2026 12:12:18 +0000
-Message-Id: <20260604121219.3CBD01F00893@smtp.kernel.org>
+Date: Thu, 04 Jun 2026 12:12:50 +0000
+Message-Id: <20260604121251.2BB881F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -46,73 +46,99 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
 Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [Low] The `gpio-line-names` array incorrectly swaps the labels for the I2=
-C2 and I2C3 buses.
-- [Low] The `gpio-line-names` array duplicates the `uSD_CLK` label and is m=
-issing the `uSD_CMD` label.
+
+Pre-existing issues:
+- [High] Direct return on devm_thermal_of_zone_register failure skips criti=
+cal error cleanup (PM leak and Use-After-Free).
+- [High] Unbalanced disable_irq() on sun4i_prepare_for_irq() error path per=
+manently disables the IRQ.
 --
 
-commit 29f0ec8865f8acd19ab87f4cdc6247b24643400b
-Author: Lukas Schmid <lukas.schmid@netcube.li>
-Subject: ARM: dts: sunxi: add support for NetCube Systems OpenNMC (doberman=
-n)
+commit 4c81144898d1e91a3f1c0bfb6354a6f38c7251b4
+Author: Vojt=C4=9Bch Kr=C3=A1tk=C3=BD <vo.kratky@seznam.cz>
 
-This commit adds a new device tree for the NetCube Systems OpenNMC=20
-(dobermann), which is based on the Nagami System-on-Module. It defines=20
-hardware configurations for various interfaces including LEDs, USB, I2C,=20
-and sets up GPIO line names.
+iio: adc: change from %ld to %pe for PTR_ERR() printing
 
-> diff --git a/arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-dobermann.dt=
-s b/arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-dobermann.dts
-> new file mode 100644
-> index 0000000000000..97dd4b950dd8a
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-dobermann.dts
+This commit replaces numeric PTR_ERR() logging with the %pe format specifie=
+r.
+The goal is to print error values in a more readable form.
+
+> diff --git a/drivers/iio/adc/sun4i-gpadc-iio.c b/drivers/iio/adc/sun4i-gp=
+adc-iio.c
+> index 479115ea50bf9..5d7a61abcaeae 100644
+> --- a/drivers/iio/adc/sun4i-gpadc-iio.c
+> +++ b/drivers/iio/adc/sun4i-gpadc-iio.c
+
 [ ... ]
-> @@ -0,0 +1,149 @@
-[ ... ]
-> +&pio {
-> +	gpio-line-names =3D "", "", "", "", // PA
-[ ... ]
-> +			  "", "", "", "", // PD
-> +			  "", "", "", "",
-> +			  "", "USB_SEC_EN", "EXT_SPI_nCS", "EXT_SPI_SCK",
-> +			  "EXT_SPI_MOSI", "EXT_SPI_MISO", "EXT_IO5", "EXT_IO4",
-> +			  "SMART_SEL", "", "", "",
-> +			  "I2C3_SCL", "I2C3_SDA", "TUSB320_nINT", "",
-[Severity: Low]
-Are the labels for I2C2 and I2C3 swapped here?=20
 
-According to the sunxi-d1s-t113.dtsi pinctrl definitions, PD20 and PD21 are=
-=20
-typically associated with I2C2. However, the labels defined here indicate=20
-I2C3.
+> @@ -639,8 +639,8 @@ static int sun4i_gpadc_probe(struct platform_device *=
+pdev)
+>  		 */
+>  		if (IS_ERR(info->tzd) && PTR_ERR(info->tzd) !=3D -ENODEV) {
+>  			dev_err(&pdev->dev,
+> -				"could not register thermal sensor: %ld\n",
+> -				PTR_ERR(info->tzd));
+> +				"could not register thermal sensor: %pe\n",
+> +				info->tzd);
+>  			return PTR_ERR(info->tzd);
 
-> +			  "", "", "", "",
-> +			  "", "", "", "",
-> +			  "ETH_CRSDV", "ETH_RXD0", "ETH_RXD1", "ETH_TXCK", // PE
-[ ... ]
-> +			  "", "", "", "",
-> +			  "uSD_D1", "uSD_D0", "uSD_CLK", "uSD_CLK", // PF
-[Severity: Low]
-Is this missing the uSD_CMD label?=20
+[Severity: High]
+This isn't a bug introduced by this patch, but returning directly here
+skips the err_map cleanup label.
 
-Both PF2 and PF3 are identically labeled as uSD_CLK, which exposes a=20
-conflicting pin name to userspace utilities.
+If devm_thermal_of_zone_register() fails with an error other than -ENODEV,
+this code returns directly. Does this leave the device's runtime PM enabled
+because the pm_runtime_disable() call in the err_map block is skipped?
 
-> +			  "uSD_D3", "uSD_D2", "TUSB320_ID", "",
-[ ... ]
-> +			  "", "", "", "",
-> +			  "ESP_CLK", "ESP_CMD", "ESP_D0", "ESP_D1", // PG
-> +			  "ESP_D2", "ESP_D3", "ESP_TXD", "ESP_RXD",
-> +			  "ESP_nBOOT", "ESP_nRST", "I2C2_SCL", "I2C2_SDA",
-[Severity: Low]
-Similar to the PD pins above, should PG10 and PG11 be labeled as I2C3=20
-instead of I2C2?
+Also, if the device was probed via sun4i_gpadc_probe_mfd(),
+iio_map_array_register() was successfully called earlier:
 
-> +			  "EXT_IO1", "EXT_IO0", "LED_HEARTBEAT", "SD_DETECT",
-[ ... ]
+drivers/iio/adc/sun4i-gpadc-iio.c:sun4i_gpadc_probe_mfd() {
+    ...
+    ret =3D iio_map_array_register(indio_dev, sun4i_gpadc_hwmon_maps);
+    ...
+}
+
+By skipping iio_map_array_unregister() at the err_map label, does this
+leave a dangling pointer in the global IIO maps pointing to indio_dev?
+Since indio_dev is managed by devres (devm_iio_device_alloc), its memory
+will be freed immediately upon probe failure. Could this result in a
+use-after-free when another subsystem attempts to read from the map?
+
+>  		}
+>  	}
+
+While reviewing this file, I also noticed another pre-existing regression in
+sun4i_gpadc_read().
+
+[Severity: High]
+This is a pre-existing issue, but does the unbalanced disable_irq() on the
+sun4i_prepare_for_irq() error path permanently disable the IRQ?
+
+drivers/iio/adc/sun4i-gpadc-iio.c:sun4i_gpadc_read() {
+    ...
+    ret =3D sun4i_prepare_for_irq(indio_dev, channel, irq);
+    if (ret)
+        goto err;
+
+    enable_irq(irq);
+    ...
+err:
+    pm_runtime_put_autosuspend(indio_dev->dev.parent);
+    disable_irq(irq);
+    mutex_unlock(&info->mutex);
+}
+
+If sun4i_prepare_for_irq() fails, the code jumps to the err label and
+unconditionally executes disable_irq(irq). Because enable_irq(irq) was never
+reached, this increases the IRQ disable depth.=20
+
+Since the IRQs are initially requested with IRQF_NO_AUTOEN
+(initial depth =3D 1), the unbalanced disable_irq() bumps the depth to 2.
+On subsequent successful reads, enable_irq() will only decrement the depth
+back to 1. Does this leave the IRQ permanently masked, causing
+wait_for_completion_timeout() to continually time out?
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260604115241.1358=
-528-1-lukas.schmid@netcube.li?part=3D3
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260604120201.1169=
+25-1-vo.kratky@seznam.cz?part=3D2
