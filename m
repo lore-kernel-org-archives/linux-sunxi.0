@@ -1,28 +1,28 @@
 Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D0A92749DC
-	for <linux-sunxi@lists.linux.dev>; Thu,  4 Jun 2026 11:53:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074D0425CF7
+	for <linux-sunxi@lists.linux.dev>; Thu,  4 Jun 2026 11:53:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780574007; cv=none; b=qAaG7BgDq2q6WKSNAI7xMHyPEfYw2MLSuz08K7zackFeTLeZdZDzDMX9eBSbw5GHcDhOdkHEcHZQd60XG4MzWGyIblicMV1McjwadH9ea+Q3VtDNwhXIk1IyWuHf1vmf+IJVO/g/OSFNWL9K+PD2CSwMe7Pdc3ROMFwmjTpUiUg=
+	t=1780574010; cv=none; b=bdcAKAAi30jLyZb8t3ywMsb3laba/D6J7DCkyPWBKZnsZAUj/K4jK1conq3HAiTP5qLhnvcGvMT+OvRctbgPqwBoqK2yAbVetczPudAeS2VixXB3vsdxZhFKlsDFJvvfdSJOO+aaEa7571/ETBduqiACFCm8sNvUkTntNsHfwxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780574007; c=relaxed/simple;
-	bh=fxjxwfx7XvPeO/NbiTK9kR5HAqqnG8gD+SZpa0q6mc0=;
+	s=arc-20240116; t=1780574010; c=relaxed/simple;
+	bh=W1L7lM7ONfZVZduFgqKNqCLCyNE31WGvZ657G3Z6HQk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZcVeruHurM4uZWlf2qvnaOifhf4H6D+0w0Eki7NBhtBKsVcmVJuRvhQzg2a4aHkOae/sgaTgqL1pKzMAHtPbUhjUNMSvJAVlbqp6QCSyhOcDyLipvKbWK/rF70CJrxM2p5iKB7iG9dtaQ78hYRLqq0VPBQMaBZyIOCpzvGZM8fQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=qvZzV3UI; arc=none smtp.client-ip=173.249.15.149
+	 MIME-Version; b=nBk6moI60RlcH8BSBeV3AS/WEqQ0HBwjS6nFkhcJ9vmvIkuCtUWJ++Nnfq3ThWxp6J3kUPqucODHqrVOJq620JGmYB0F+XIY1UJdbFJIeCkK7XhcTwEdvzCyqcNoQTy87IS1sjqHAdOIr5j2Q/SOjzEDZJSTYEeYBvqhCg1P9Xo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=fcRZBKX+; arc=none smtp.client-ip=173.249.15.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="qvZzV3UI"
+	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="fcRZBKX+"
 dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
 	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Transfer-Encoding:In-Reply-To:References;
-	bh=gTs0cZaUUQQv4ViGpAM8i/wK3g92g6IK/a+nwJZu5P4=;
-	b=qvZzV3UICDOkFCgY7HLwcx+xedy4EswQyrOGkTbE6euAjZINm+iEalinxyciLZlrOqMBeJ36d2RQ1yCRBSj2i4FHGW6MqMvblQV2kWIPzeBqreLHarfy7Xns+vnG2B8VDni+XRGP7VL5RIcbR1ba5xwQkdLrsbOW3IQJWhkf51w=
+	bh=PMXI3AsiaIZvGy6ZmQ2drOYiduPnjH0X2ReiBFm1rns=;
+	b=fcRZBKX+aHuUMs8bqNVVXdKJSg23d4Karw0mjYOyudzNYgMFb8rjj9zyZHB6pzOx+blIrUYt77hI100yF6CxbMsgHtpo8lLVutz7rk2PKXEVyB1cHqz3aL2beFYa5vnTD6OI3YX1b6UgWrnS/WsfXhij/Jo9giSghS0lIE43dDk=
 Received: from lukas-hpz440workstation.lan.sk100508.local (194-166-56-114.hdsl.highway.telekom.at [194.166.56.114])
 	by mail.netcube.li with ESMTPA
-	; Thu, 4 Jun 2026 13:53:10 +0200
+	; Thu, 4 Jun 2026 13:53:12 +0200
 From: Lukas Schmid <lukas.schmid@netcube.li>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -41,9 +41,9 @@ Cc: Lukas Schmid <lukas.schmid@netcube.li>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-riscv@lists.infradead.org
-Subject: [PATCH v1 2/3] riscv: dts: allwinner: d1s-t113: Add uart4 pinctrl required by NetCube Systems OpenNMC
-Date: Thu,  4 Jun 2026 13:52:33 +0200
-Message-ID: <20260604115241.1358528-3-lukas.schmid@netcube.li>
+Subject: [PATCH v1 3/3] ARM: dts: sunxi: add support for NetCube Systems OpenNMC (dobermann)
+Date: Thu,  4 Jun 2026 13:52:34 +0200
+Message-ID: <20260604115241.1358528-4-lukas.schmid@netcube.li>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260604115241.1358528-1-lukas.schmid@netcube.li>
 References: <20260604115241.1358528-1-lukas.schmid@netcube.li>
@@ -55,30 +55,181 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Added the "uart4_pb_pins" pinctrl used by the OpenNMC
+NetCube Systems OpenNMC is an open replacement for APC SmartSlot Management
+Cards. It is based on the Nagami System-on-Module. It breaks out the
+following interfaces:
+
+- 10/100 Mbps Ethernet
+- USB Type-C OTG using a TUSB320 (usb0)
+- USB Type-C Console Port using a CH340 (uart3)
+- USB Type-A Host with internal CH334 USB-Hub (usb1)
+- MicroSD Slot with Card-Detect (mmc0)
+- WiFi/Bluetooth using the modules built-in ESP32
+- SmartSlot serial interface (uart4)
+- DS3232 RTC with CR1220 Battery Backup
+- Extension connector providing SPI,I2C,USB,CAN,UART for future use.
 
 Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
 ---
- arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../sun8i-t113s-netcube-dobermann.dts         | 149 ++++++++++++++++++
+ 1 file changed, 149 insertions(+)
+ create mode 100644 arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-dobermann.dts
 
-diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-index 82cc85acccb1..00fddedfa36f 100644
---- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-@@ -191,6 +191,12 @@ uart3_pb_pins: uart3-pb-pins {
- 				pins = "PB6", "PB7";
- 				function = "uart3";
- 			};
+diff --git a/arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-dobermann.dts b/arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-dobermann.dts
+new file mode 100644
+index 000000000000..97dd4b950dd8
+--- /dev/null
++++ b/arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-dobermann.dts
+@@ -0,0 +1,149 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++/*
++ * Copyright (C) 2026 Lukas Schmid <lukas.schmid@netcube.li>
++ */
 +
-+			/omit-if-no-ref/
-+			uart4_pb_pins: uart4-pb-pins {
-+				pins = "PB2", "PB3";
-+				function = "uart4";
-+			};
- 		};
- 
- 		ccu: clock-controller@2001000 {
++/dts-v1/;
++#include "sun8i-t113s-netcube-nagami.dtsi"
++
++#include <dt-bindings/leds/common.h>
++
++/ {
++	model = "NetCube Systems OpenNMC (dobermann)";
++	compatible = "netcube,dobermann", "netcube,nagami",
++		     "allwinner,sun8i-t113s";
++
++	aliases {
++		serial2 = &uart4; // UART on SmartSlot
++		rtc0 = &ds3232;
++		rtc1 = &rtc; // not battery backed
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		led_heartbeat_green: led-heartbeat-green {
++			gpios = <&pio 6 14 GPIO_ACTIVE_HIGH>; /* PG14 */
++			linux,default-trigger = "heartbeat";
++			color = <LED_COLOR_ID_GREEN>;
++			function = LED_FUNCTION_HEARTBEAT;
++		};
++	};
++};
++
++&ehci0 {
++	status = "okay";
++};
++
++&ehci1 {
++	status = "okay";
++};
++
++&i2c2 {
++	status = "okay";
++
++	tusb320: typec@60 {
++		compatible = "ti,tusb320";
++		reg = <0x60>;
++		interrupts-extended = <&pio 3 22 IRQ_TYPE_LEVEL_LOW>;  /* PD22 */
++	};
++
++	ds3232: rtc@68 {
++		compatible = "dallas,ds3232";
++		reg = <0x68>;
++	};
++};
++
++/* microSD Card Slot on the board */
++&mmc0 {
++	vmmc-supply = <&reg_vcc3v3>;
++	disable-wp;
++	bus-width = <4>;
++	cd-gpios = <&pio 6 15 GPIO_ACTIVE_LOW>; /* PG15 */
++	status = "okay";
++};
++
++&ohci0 {
++	status = "okay";
++};
++
++&ohci1 {
++	status = "okay";
++};
++
++&pio {
++	gpio-line-names = "", "", "", "", // PA
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "SMART_TX", "SMART_RX", // PB
++			  "EXT_IO3", "EXT_IO2", "CONSOLE_TX", "CONSOLE_RX",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "eMMC_CLK", "eMMC_CMD", // PC
++			  "eMMC_D2", "eMMC_D1", "eMMC_D0", "eMMC_D3",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "", // PD
++			  "", "", "", "",
++			  "", "USB_SEC_EN", "EXT_SPI_nCS", "EXT_SPI_SCK",
++			  "EXT_SPI_MOSI", "EXT_SPI_MISO", "EXT_IO5", "EXT_IO4",
++			  "SMART_SEL", "", "", "",
++			  "I2C3_SCL", "I2C3_SDA", "TUSB320_nINT", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "ETH_CRSDV", "ETH_RXD0", "ETH_RXD1", "ETH_TXCK", // PE
++			  "ETH_TXD0", "ETH_TXD1", "ETH_TXEN", "",
++			  "ETH_MDC", "ETH_MDIO", "I2C3_nINT", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "uSD_D1", "uSD_D0", "uSD_CLK", "uSD_CLK", // PF
++			  "uSD_D3", "uSD_D2", "TUSB320_ID", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "ESP_CLK", "ESP_CMD", "ESP_D0", "ESP_D1", // PG
++			  "ESP_D2", "ESP_D3", "ESP_TXD", "ESP_RXD",
++			  "ESP_nBOOT", "ESP_nRST", "I2C2_SCL", "I2C2_SDA",
++			  "EXT_IO1", "EXT_IO0", "LED_HEARTBEAT", "SD_DETECT",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "",
++			  "", "", "", "";
++};
++
++/* SmartSlot serial */
++&uart4 {
++	pinctrl-0 = <&uart4_pb_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++};
++
++&usb_otg {
++	extcon = <&tusb320 0>;
++	dr_mode = "otg";
++	status = "okay";
++};
++
++&usbphy {
++	usb0_id_det-gpios = <&pio 5 6 GPIO_ACTIVE_HIGH>; /* PF6 */
++	status = "okay";
++};
 -- 
 2.47.3
 
