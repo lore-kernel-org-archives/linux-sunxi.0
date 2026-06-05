@@ -1,64 +1,64 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68474451064
-	for <linux-sunxi@lists.linux.dev>; Fri,  5 Jun 2026 07:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA58C46AEFB
+	for <linux-sunxi@lists.linux.dev>; Fri,  5 Jun 2026 07:10:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780643402; cv=none; b=dGpuy0AmjCB7oc48NHKDRONZznU+iH1K1iz0d/eOeT7oREqwoj/jcGY9yEc/bZnkyxUfCDtcrN4v5b3ZdZgPMFsltA/SV4S3ugDF62JEn2gMwf/RUTq2mPoLLrbWMO1IEE0f6DZpO6I6YZgqVxeLNBQoIClB1MPKz73Wp3gdgbU=
+	t=1780643404; cv=none; b=tknv4s1b7iDCic7X0HT0QeFK6BnS+tpxi949JzGkvQXZvgs+B6NKxNhc9EtzSJ6qwjs0Hgt+9gbScYGWwJCan6K7dN1KolxxsSw1p7reOyVrVeB8O+ofBbLlMs6fmRJ3R0ch/TTjvMQsbNTuer2eLLn1VT0F9z7A6nTynFpHFZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780643402; c=relaxed/simple;
-	bh=81QWGp2xwz5I5iCFmW4tGpxlb1ZZCK6gGl11cl7Gxbo=;
+	s=arc-20240116; t=1780643404; c=relaxed/simple;
+	bh=7MDbaMfdfDFcEL1euNDkSuzapxJuUtssv4QW4CSalUc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=i9nutPPBEKHJKzQn9bpwpLjUEGfSMeHnhFbsmbFmFf0QSxw/CPnCqZ4lLZBWut3/N9cH0cvTZNh3xVXCIhnu9M1BUfrZ3BwVDycRqqs2/k2TfK2Zl+TfXpH127Kfn6NM+XZBHMI1JjgsAVzmS1TTDmv/XaNKZ+EkGlqRMa76H0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YQAR1EDS; arc=none smtp.client-ip=209.85.128.43
+	 MIME-Version; b=YNTO7esh4foMKDu8w1qG3QRri0Hra3DkCaF9HFpOj1YeTJeJsLz1IsW4XDNY+c8pdrE+Wfw91kcL21iF4XoqKEMTILpKqCWp04YUPQpNPEeuvwsyksyOpoWBDQor7aWjK+34Nmsr/B7rUifOI5NF+z5kUoa/N37uRhkixJun7vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rfxo5vgl; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YQAR1EDS"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490b4a8e28bso12885905e9.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 05 Jun 2026 00:10:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rfxo5vgl"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4600ddc4017so1191114f8f.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 05 Jun 2026 00:10:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780643400; x=1781248200; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1780643401; x=1781248201; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=//utTjSSQFS79aIABVKNXcplPpUF6UEdGauCN88OgVs=;
-        b=YQAR1EDSCA773IU/792ZqU9zaktAoosnx6JNOnpirSlEX4q0W+FHa/hclruy3DrPa+
-         PcJ+EVPHq2hFhuBmddkVSaaqawolDkBBaM0OTpHjo40a5aACaZnbtgp6R2UKpzp3tcxx
-         JIu/JLb47RQCKAEikn0MN4//c4O4l7t/GL63ICGBxrBrw7V/u/ffM9drPGFtV+wZRo3x
-         9XbNF58spMjig6FVLc1nejPdbbr4bfyYMB/KAxyGJ5BMOWu2h7qvamHb0FlpS3y4GH0N
-         qD4kmhYqOkr0/M1kqYvwBlvpYZmnf3HEhn1gD3uiZ5QNxcRSU38RAdNIXGmkNVlIcrJZ
-         l0Fw==
+        bh=oL4Y31r8dtXqoPXz/W9R/fk3pvn98vrw1YoAz+z4buw=;
+        b=Rfxo5vglsEOlhkjEfxRq6btMAckqEoM/jxHhB4n4lXi+tSVJKTECPAygdkA9psEmhQ
+         eN2CYYJnffklCVLLiHIj9qBIn8Sh2g/S/pvfr5I2GXmn7vAL43bollDej+J9k0JyOtU3
+         bgc9K61g5GmgPxjHNaDUTI0+79iHeoKOvO9FW+iGMGBsE9XoW1F8zEf8V1Sx/BFCONeU
+         M/GYJJ44/zkRnCL5sdradvhFiN/9+d4GX6C9dD9331nDx6dV8jxch+NtlvyUnVtkFXcf
+         vur6Qsj1W28aosk+XEXkvyDEDVYi7Tddg79rzmDZpsJ2ARboCBc4K7V8yqZrE7G2KKCw
+         iFQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780643400; x=1781248200;
+        d=1e100.net; s=20251104; t=1780643401; x=1781248201;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=//utTjSSQFS79aIABVKNXcplPpUF6UEdGauCN88OgVs=;
-        b=WooPXFnTUUx4FNB23pd5dIilUSBXQ8itKQHx6N9foXUX1apisZYuX7bepkcXwTtkxu
-         X5pqhJ3+lAO+b4RKmDnVibOdobAdYqkOTHTvHXQUyq1pSCJCz8jWlf4NxgdwE/PaZtAl
-         1pqggDHf6sdTAKnCqkyUNl7TXBGvwZ8mCJ1MjCto4xrBOCZZSFDUn2kOAwVTTRcJzec3
-         2hiOR4/IxCCWpo/HbvBgfjN033AvOBgwl4j/euXVJlY6XD76nxcmFBeMEPdO5S290Oer
-         +0srWkSJnDHBTMXegmFmUU3Mgw0qcWofzfA0NEReGJ7mrS9an7+nwWQSoJaVB20amaNK
-         WUOw==
-X-Forwarded-Encrypted: i=1; AFNElJ+6T/u+6HKj659qSxzHPmJf5yjWbUhoycjOWI56mhG56aDIo6+HnKJHdsHGe9c0spkkKjYI7ZBOmfqNRw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6vJz6MK6kgXWOrkEW/KMBf8LKFsZymtDHmzYTxeSa2qEnljgJ
-	onNEA5+nQPUTyO9l4it+KUJ+AbcwlxYb0zr22WlvHm/fzF/VaCk0i+Hm
-X-Gm-Gg: Acq92OEA0BzLB4qMV4lMuaJhz+Lp1E/iQ3J57h+dMS83n07ZMBEOJL1fBKeIAR0x1if
-	j6yawFkuYQpAJKdgZCp6DzHngACXZxvcGzwA4Puo7wQ92NI8CE9mOw48siNHrlyh9T5H8NSkSRW
-	/FNmC1U+504Ov7dvKM1KOHMShDTnc3NVkTuXz6eL86sszriiT/5qrjztPel+fnZ6E5TTfppGnEt
-	GLyo7udC9eddmk2IZI9JEa3eVcdekOLe0pZxwvEZU2VKWVLqjrJxDfM5haB0VYnwW9gvuwoFGmq
-	DPese2H84xJY/o2xc3OWymRaI/aCFtl0URFeia4f0LV5ZDOEy5UKoGLv7OB0tcyKwOWeZyDh6Jc
-	oGEmH/o0EV+656LYxMi18IE9q+vg70p5kv7Kw1NdNwQ78Pijlq0FtOwB5wvFCEvBrejfwq/94rC
-	t2lrwrWsJd1hLxeTatziXMro+qFjZ5Wz3YYBtrwhBw/wJE/MdSrDLs0Yz7Z6oCHwNrLibjLpjOF
-	K3E2hK5+FpLJPxafEEc2g==
-X-Received: by 2002:a05:600c:3f1b:b0:490:bcf6:46bf with SMTP id 5b1f17b1804b1-490c2599fecmr30837895e9.9.1780643399552;
-        Fri, 05 Jun 2026 00:09:59 -0700 (PDT)
+        bh=oL4Y31r8dtXqoPXz/W9R/fk3pvn98vrw1YoAz+z4buw=;
+        b=XVH/n5SxpSjN27k25bhvfddNDc8T4gp+U2/P8bZTQGwHkoCN8FzL/jYiaSC4FtHQrh
+         nAfZsMNHwalpP0NGnmXMBs0wyitecT2PpXzu1QQTZNcOMn1vmR3NszsvHbPriQoyvruB
+         bgFNzj+kqqy2dOP/SLx7E4/S2ppfTuFtOq3V3ap5WlzFSRsKXH/sai5EHaD/soTvI7IK
+         gKSa9AmnC4rgVn/ouyAEE/ymA+3iQfyipu1SEZ+F1H6cqlwc/25x7w4JmD5/r5ydP1AN
+         hMS1gkt8+jqvxHkmOL+nL59JAkbov8fFPQ+DT0jyOZ9MKIQmxMZMH2i+R+RhA2lx10BC
+         uMNA==
+X-Forwarded-Encrypted: i=1; AFNElJ+lXFGEwZ1LHmCeCnmDn8xcQ374+NhULMrHUw3k/IgvGJ68+K4eeezEVIn4j7uLGPJlWowDbHZjntNIcw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywp7IxmSV5Dqk0zyGDYlrzrFyhr68R+c931BlAAEC07sDvW4ko0
+	oLP20GDfmkzlUQW6Hg0ewpoet3A+iHNK2FWp++rtmQRN8pFDlvAfeb2x
+X-Gm-Gg: Acq92OHCjH3g4Tv/N+w8ePo7mT3EitkdJlrLAwVffaCg8Pe9/l5nUjxFeagFi/QDKfy
+	UHd4ZNI62yAXxuboPJ81xEGUOPrq5Sfqh+gppJdxqvgHhcwXa2GAH+zaLNT/lNCD2kt1u+XRdtC
+	flaqugG7NvcNDBkRor/u3eJ7vajDvi29+ohMTMN9TQUE0VGI97nKR9w81WOlC1XQtUidEzVdcVB
+	AX+X9IiPqBZB18x0SggI9JciGhlABONx1dE4D68u+V2RhbU81LUDrd+V+z8PuZUdykGeAdcqMmj
+	gJT2Xc9dZak7uyZkbKx/lsXLQVLr7eupHPg5lVynzxEMfwerqY19mCXcXT4uw0kfqRB7raT0ux6
+	dnd3JLtLr1LaypYOMqik/VxY6vtv+DMUxzFI0FB01ssisufvg2aGkFZFvk2lFMf2pvbZQ0o+TuY
+	EtSrTwj9ZNuU2DSJrdmxVwjnPOKeWM4QKtqDQ1QQO9nLM89YLij4TFcV29xANhoErZCPduvLrHf
+	RwCcZfijw29u6HWBGbAG6X5W95WvkAk
+X-Received: by 2002:a05:6000:178e:b0:460:3234:293d with SMTP id ffacd0b85a97d-46032342a62mr2372600f8f.40.1780643400949;
+        Fri, 05 Jun 2026 00:10:00 -0700 (PDT)
 Received: from localhost.localdomain (72.92.4.85.dynamic.cust.swisscom.net. [85.4.92.72])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2dcad5sm25132882f8f.5.2026.06.05.00.09.58
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2dcad5sm25132882f8f.5.2026.06.05.00.09.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2026 00:09:59 -0700 (PDT)
+        Fri, 05 Jun 2026 00:10:00 -0700 (PDT)
 From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
 To: linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
@@ -83,11 +83,10 @@ Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-input@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Paul Kocialkowski <paulk@sys-base.io>
-Subject: [PATCH v4 2/7] dt-bindings: vendor-prefixes: Add Shenzhen Baijie Technology Co., Ltd.
-Date: Fri,  5 Jun 2026 09:09:16 +0200
-Message-ID: <20260605070923.3045073-3-alexander.sverdlin@gmail.com>
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v4 3/7] dt-bindings: arm: sunxi: Add Baijie HelperBoard A133 compatible
+Date: Fri,  5 Jun 2026 09:09:17 +0200
+Message-ID: <20260605070923.3045073-4-alexander.sverdlin@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260605070923.3045073-1-alexander.sverdlin@gmail.com>
 References: <20260605070923.3045073-1-alexander.sverdlin@gmail.com>
@@ -99,30 +98,41 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Shenzhen Baijie Technology Co., Ltd. focuses on R&D and production of
-embedded products as well as customization of embedded solutions.
+Baijie HelperBoard A133 is a development board around their A133 Core
+board. Introduce a compatible for both the Core and the development
+boards.
 
-Link: https://szbaijie.com/
 Acked-by: Conor Dooley <conor.dooley@microchip.com>
-Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
 Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+Changelog:
+v4:
+- renamed "Baijie Helper A133" -> "Baijie A133 HelperBoard"
+- renamed "baijie,helper-a133" -> "baijie,helperboard-a133"
+v3:
+- no separate section for "core" .dtsi
+v2:
+- introduced baijie,helper-a133-core compatible for the Core (SoM) board
+ Documentation/devicetree/bindings/arm/sunxi.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 28784d66ae7b..095cf654787f 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -229,6 +229,8 @@ patternProperties:
-     description: Azoteq (Pty) Ltd
-   "^azw,.*":
-     description: Shenzhen AZW Technology Co., Ltd.
-+  "^baijie,.*":
-+    description: Shenzhen Baijie Technology Co., Ltd.
-   "^baikal,.*":
-     description: BAIKAL ELECTRONICS, JSC
-   "^bananapi,.*":
+diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+index e6443c266fa1..82dd58b95f8a 100644
+--- a/Documentation/devicetree/bindings/arm/sunxi.yaml
++++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+@@ -96,6 +96,12 @@ properties:
+           - const: allwinner,ba10-tvbox
+           - const: allwinner,sun4i-a10
+ 
++      - description: Baijie A133 HelperBoard
++        items:
++          - const: baijie,helperboard-a133
++          - const: baijie,helperboard-a133-core
++          - const: allwinner,sun50i-a100
++
+       - description: BananaPi
+         items:
+           - const: lemaker,bananapi
 -- 
 2.54.0
 
