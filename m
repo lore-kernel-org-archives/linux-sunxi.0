@@ -1,82 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE404071E9;
-	Fri,  5 Jun 2026 19:24:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01BE2D8DD0
+	for <linux-sunxi@lists.linux.dev>; Sat,  6 Jun 2026 19:17:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780687471; cv=none; b=btaD+bB1UB640+pXv50SfhOPe0xcACF3RXlU4ZeVeBF6koEbcInv0O6do71aWUdZNwTLFNhJzk5wAMGCW9ypkCtKYVEmdzzfXZ2fqb8oH65TtuVWVD3kUDmgyYprw3rP/hQ68tM+/G7zkwnN1Bz987VqI1Di7BBBHybKxm2u3zM=
+	t=1780773439; cv=none; b=ZkXLpzxMOskhAPcGTEOmGzqEbCLdKykKfwMsH8DzAXLV160/ERuVazo004QhrrudH6nvUlr1jA09iqhY3rUBOjkwQ/pm+I1l+2JODewXwoj+4LAMpm8al+XdzQ+DyGgDD9C56W451xGLO6c4TGZIiTGJSTloai7B9okDW9WhfRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780687471; c=relaxed/simple;
-	bh=ypeRvsYBr6OaQZkz/nyNqmaf/JAoyJ+P1lxhvoCp5Nc=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=PxALaIZBZhp6DUBHZSH3HXyW9Gj9975Q37ZHC8RFHyoeyhhPuM+qtXp9RZorMtF9DyNTNIhqIUFH9ffvtVu91KtAtH+jVmnaMLWKDsNcGMZlQif8Vm8bg4XldZX6hyHDXZeOYXxlGulXO3pD/80UwqvJa3KATRnSx2BaPjO8reo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lB6+UtPI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780773439; c=relaxed/simple;
+	bh=fxjxwfx7XvPeO/NbiTK9kR5HAqqnG8gD+SZpa0q6mc0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=h8OwZ/2AvGmIUN0pW+hshArFHPFmOlx1QzU7ki+u6mq/H/YrQdbPC73pPowr3aUL90mOEcXU2mnntb0M1fZrrc+Jn9nNEn95APan5Eja5sa93jjVNMcCcGWGDWDmBYhfvlNqnWqX+TJVaqyVez+t/oLsE/H6Tslg9j85/cca9VU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=YzTXiYFx; arc=none smtp.client-ip=173.249.15.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lB6+UtPI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAE861F00899;
-	Fri,  5 Jun 2026 19:24:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780687470;
-	bh=ypeRvsYBr6OaQZkz/nyNqmaf/JAoyJ+P1lxhvoCp5Nc=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=lB6+UtPI1gDdy/Q9wD/aF3eOgRGXJErddP6nbUoV5Az19/wmu2akv+Uv11fIQFBdP
-	 4NF6aIOYeulurrfIzhTK9wfp/lQp9D/VYkrSJIlbG0xwAC1RivPsoK+ldsTs4JRbMy
-	 bxdnPZFYu70mFQPEf/lVyNDH/mTXpekQE/Whybzcjqc0bZR1TkmXMgZB4LtOuvnReu
-	 iTni78MtMmV6nJxP+6pZ9FKOoVc43Xe2M8F29zS+j9elfHeIGY4yQj2uLXp7+fWUxh
-	 XUnX8fQ+b57ATBtwAq05ehmAFpMkrMY8i+CzF6mALLFvxV7XQwMiSvNdTjFFetKHpU
-	 nJIqEbgRRraQA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 3/3] ARM: dts: sunxi: add support for NetCube Systems
- OpenNMC (dobermann)
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Lukas Schmid" <lukas.schmid@netcube.li>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, linux-sunxi@lists.linux.dev, robh@kernel.org
-In-Reply-To: <20260605191322.1920944-4-lukas.schmid@netcube.li>
-References: <20260605191322.1920944-4-lukas.schmid@netcube.li>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 05 Jun 2026 19:24:29 +0000
-Message-Id: <20260605192429.CAE861F00899@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="YzTXiYFx"
+dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
+	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Transfer-Encoding:In-Reply-To:References;
+	bh=gTs0cZaUUQQv4ViGpAM8i/wK3g92g6IK/a+nwJZu5P4=;
+	b=YzTXiYFxyPJlipiSBs6WMacjC//y3aESKAjTWxTX3EqgITWEXsJWdcQqAXzMZgG+Tgqo3KQ1qRWEpzIrH31/Gs1HfnPtakk8KAF4l+oFZKhfqU7WLgyRSAPG5hFHgPxkTsu3LDxmOhuZR3EUk7mAT4Q/r4r7ERuFGiJ1xo8L3mA=
+Received: from lukas-hpz440workstation.lan.sk100508.local (194-166-56-114.hdsl.highway.telekom.at [194.166.56.114])
+	by mail.netcube.li with ESMTPA
+	; Sat, 6 Jun 2026 21:17:15 +0200
+From: Lukas Schmid <lukas.schmid@netcube.li>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: Lukas Schmid <lukas.schmid@netcube.li>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH v3 2/3] riscv: dts: allwinner: d1s-t113: Add uart4 pinctrl required by NetCube Systems OpenNMC
+Date: Sat,  6 Jun 2026 21:16:40 +0200
+Message-ID: <20260606191649.2347704-3-lukas.schmid@netcube.li>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260606191649.2347704-1-lukas.schmid@netcube.li>
+References: <20260606191649.2347704-1-lukas.schmid@netcube.li>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] The newly added device tree file `sun8i-t113s-netcube-dobermann.=
-dts` is missing from the `arch/arm/boot/dts/allwinner/Makefile`. As a resul=
-t, the DTB will not be compiled.
---
+Added the "uart4_pb_pins" pinctrl used by the OpenNMC
 
-commit 72bddd5a378aaecf47418f6e924b30fb31105d2f
-Author: Lukas Schmid <lukas.schmid@netcube.li>
+Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
+---
+ arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-ARM: dts: sunxi: add support for NetCube Systems OpenNMC (dobermann)
+diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+index 82cc85acccb1..00fddedfa36f 100644
+--- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
++++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+@@ -191,6 +191,12 @@ uart3_pb_pins: uart3-pb-pins {
+ 				pins = "PB6", "PB7";
+ 				function = "uart3";
+ 			};
++
++			/omit-if-no-ref/
++			uart4_pb_pins: uart4-pb-pins {
++				pins = "PB2", "PB3";
++				function = "uart4";
++			};
+ 		};
+ 
+ 		ccu: clock-controller@2001000 {
+-- 
+2.47.3
 
-This commit adds device tree support for the NetCube Systems OpenNMC
-(dobermann) board. It configures the various interfaces broken out by
-the Nagami SoM, including Ethernet, USB, SD card, and RTC.
 
-> diff --git a/arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-dobermann.dt=
-s b/arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-dobermann.dts
-> new file mode 100644
-> index 0000000000000..d7765caffe2a2
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-dobermann.dts
-
-[Severity: Medium]
-Should this new device tree file be registered in
-arch/arm/boot/dts/allwinner/Makefile?
-
-Without adding sun8i-t113s-netcube-dobermann.dtb to the
-dtb-$(CONFIG_MACH_SUN8I) list, will the kernel build system actually
-compile this new device tree?
-
-[ ... ]
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260605191322.1920=
-944-1-lukas.schmid@netcube.li?part=3D3
