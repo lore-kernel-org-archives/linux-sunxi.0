@@ -1,28 +1,28 @@
 Received: from mail.netcube.li (mail.netcube.li [173.249.15.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01BE2D8DD0
-	for <linux-sunxi@lists.linux.dev>; Sat,  6 Jun 2026 19:17:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24703C09FC
+	for <linux-sunxi@lists.linux.dev>; Sat,  6 Jun 2026 19:17:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.249.15.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780773439; cv=none; b=ZkXLpzxMOskhAPcGTEOmGzqEbCLdKykKfwMsH8DzAXLV160/ERuVazo004QhrrudH6nvUlr1jA09iqhY3rUBOjkwQ/pm+I1l+2JODewXwoj+4LAMpm8al+XdzQ+DyGgDD9C56W451xGLO6c4TGZIiTGJSTloai7B9okDW9WhfRk=
+	t=1780773442; cv=none; b=eLhqYfjXfi1SSS/x265YJP9Y7rLwNMeloE+pt/c/fc/RtpB3BBwJHn6MwDrV9LruWRk1hNNmJ/Rtn1hQ+896mhDZrlrKTmO5SqW5FiagQpoU7Bu2IuCwKFv0YGHwfZlTFpQIHe9ikZOgGkj1emJiYBoEG4+9FcIXk1ATqVfLft8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780773439; c=relaxed/simple;
-	bh=fxjxwfx7XvPeO/NbiTK9kR5HAqqnG8gD+SZpa0q6mc0=;
+	s=arc-20240116; t=1780773442; c=relaxed/simple;
+	bh=27FZggmFfooUbRXK18oUXNCON2FidPig+TucrvZfa70=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h8OwZ/2AvGmIUN0pW+hshArFHPFmOlx1QzU7ki+u6mq/H/YrQdbPC73pPowr3aUL90mOEcXU2mnntb0M1fZrrc+Jn9nNEn95APan5Eja5sa93jjVNMcCcGWGDWDmBYhfvlNqnWqX+TJVaqyVez+t/oLsE/H6Tslg9j85/cca9VU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=YzTXiYFx; arc=none smtp.client-ip=173.249.15.149
+	 MIME-Version; b=nH3R51hwX1IECuQDiM86sui2DAj9IPX1P9BIeUxd0qtIFeoXONr8Oaro2uON0FTU+birlRYOC4H41Ay5gvS5WPlxE1FQvb9URR9ueJ12lj/5TWw4C5mTl+M9PWWifM/JbLC/YmjJCCp3dfKYFetD+lhcRuIIBNy/2lRnrSb/dvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li; spf=pass smtp.mailfrom=netcube.li; dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b=RBRHVYP4; arc=none smtp.client-ip=173.249.15.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=netcube.li
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netcube.li
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="YzTXiYFx"
+	dkim=pass (1024-bit key) header.d=netcube.li header.i=@netcube.li header.b="RBRHVYP4"
 dkim-signature: v=1; a=rsa-sha256; d=netcube.li; s=s1;
 	c=relaxed/relaxed; q=dns/txt; h=From:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Transfer-Encoding:In-Reply-To:References;
-	bh=gTs0cZaUUQQv4ViGpAM8i/wK3g92g6IK/a+nwJZu5P4=;
-	b=YzTXiYFxyPJlipiSBs6WMacjC//y3aESKAjTWxTX3EqgITWEXsJWdcQqAXzMZgG+Tgqo3KQ1qRWEpzIrH31/Gs1HfnPtakk8KAF4l+oFZKhfqU7WLgyRSAPG5hFHgPxkTsu3LDxmOhuZR3EUk7mAT4Q/r4r7ERuFGiJ1xo8L3mA=
+	bh=xgNX3BfF0sHR956gYPtFqiQRwqATyVW0rwVI7QS8mHU=;
+	b=RBRHVYP4XyzunN15b//UgQuE6T7NVfWFFDRGeFa84u0ubocFJSulFmObdIUaTKHxf9FqYO28fzQPX9Ibf+byn5BEJvB4g+Uky4Xgc40dK1z31Wl3sRgjtesT0752j6DJ9XYR9lsi4vNHw69sAInEzSskfh9jzvqXrpc8ZxolLlE=
 Received: from lukas-hpz440workstation.lan.sk100508.local (194-166-56-114.hdsl.highway.telekom.at [194.166.56.114])
 	by mail.netcube.li with ESMTPA
-	; Sat, 6 Jun 2026 21:17:15 +0200
+	; Sat, 6 Jun 2026 21:17:12 +0200
 From: Lukas Schmid <lukas.schmid@netcube.li>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -41,9 +41,9 @@ Cc: Lukas Schmid <lukas.schmid@netcube.li>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-riscv@lists.infradead.org
-Subject: [PATCH v3 2/3] riscv: dts: allwinner: d1s-t113: Add uart4 pinctrl required by NetCube Systems OpenNMC
-Date: Sat,  6 Jun 2026 21:16:40 +0200
-Message-ID: <20260606191649.2347704-3-lukas.schmid@netcube.li>
+Subject: [PATCH v3 1/3] dt-bindings: arm: sunxi: Add NetCube Systems OpenNMC (dobermann)
+Date: Sat,  6 Jun 2026 21:16:39 +0200
+Message-ID: <20260606191649.2347704-2-lukas.schmid@netcube.li>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260606191649.2347704-1-lukas.schmid@netcube.li>
 References: <20260606191649.2347704-1-lukas.schmid@netcube.li>
@@ -55,30 +55,26 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Added the "uart4_pb_pins" pinctrl used by the OpenNMC
+The OpenNMC is an open replacement for APC SmartSlot management cards
+based on the Nagami System-on-Module.
 
 Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
 ---
- arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 6 ++++++
- 1 file changed, 6 insertions(+)
+ Documentation/devicetree/bindings/arm/sunxi.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-index 82cc85acccb1..00fddedfa36f 100644
---- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-@@ -191,6 +191,12 @@ uart3_pb_pins: uart3-pb-pins {
- 				pins = "PB6", "PB7";
- 				function = "uart3";
- 			};
-+
-+			/omit-if-no-ref/
-+			uart4_pb_pins: uart4-pb-pins {
-+				pins = "PB2", "PB3";
-+				function = "uart4";
-+			};
- 		};
- 
- 		ccu: clock-controller@2001000 {
+diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+index e6443c266fa1..077b65507645 100644
+--- a/Documentation/devicetree/bindings/arm/sunxi.yaml
++++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+@@ -598,6 +598,7 @@ properties:
+       - description: NetCube Systems Nagami SoM based boards
+         items:
+           - enum:
++              - netcube,dobermann
+               - netcube,nagami-basic-carrier
+               - netcube,nagami-keypad-carrier
+           - const: netcube,nagami
 -- 
 2.47.3
 
