@@ -1,162 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-18.smtpout.orange.fr [80.12.242.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DAD6282F29
-	for <linux-sunxi@lists.linux.dev>; Sun,  7 Jun 2026 03:16:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D17642222AA
+	for <linux-sunxi@lists.linux.dev>; Sun,  7 Jun 2026 06:32:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780802221; cv=none; b=OfqFNvQcMQANNtBiYfqewOw7Xz2n/Aq0K9HchMupFe64wMY0K9LN+PhFVGg1YJVSIBJWJh0404tkHKO2576LDM72S81ef/QRO+JvOTWnOnr1Acm69QnjYZ3M95qNyXEJqOliCc7iuK0kNIHkQAeS2SmmOT5Dl8ticdNbXix4TWI=
+	t=1780813967; cv=none; b=DiEtn0Qt43guXAZCT5aIEYmhgu6LvTJPtR0xwlV3NXSMTPpa/1zPw0ywX7SuGIAzBWmb39qV5+ObFxBbpvny5i0rI0J9QBS/CyGwKBbextvcoIyDBEu4uABYY+IQ5nUCSpWLCF4sfxsiOwIhvlt7Qs6cTr1EEbXAP5PlmxC+ORI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780802221; c=relaxed/simple;
-	bh=hGbQwN63UqdZSiq6NRP07np8RAa56oLL09Dzud3kxeM=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=m9D9ZgP1UI0khqIAVzXnWhP2R8Ts9vjkboAVBUBNMJTGYCGWEivH3yZgKdFX8oaIlSHzqzIcMq4kGvltoRIGCArMc55IRL9B/G3YmFzupg4YYTr5pnI9XozcVGPTT5FzRAUNvTMsoL1jFn8slc8uaoXAHKzyPtQOfrr/ZNmI9lA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fsHwgoPE; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780813967; c=relaxed/simple;
+	bh=QyQ6aU3mVa7BUSitYqw1JyeKMgsBwVZiirxjccob+go=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WzYvxXW4e/TmRK08uxRze+zi8d4j0RTiDnG93W+FfbHSmINp4LVnh41XI3V80H2EN1cAwPVA9y4TB/ZPLGK1HYUJye062X7URnNS+CpEkF0q8NiQ+A6KnPX52U/mrhibLAysWtdDXkdAshhLUItVBE8NCn4wSBGUmMnT45lUpZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=kOtcEY9y; arc=none smtp.client-ip=80.12.242.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fsHwgoPE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75AE41F00893;
-	Sun,  7 Jun 2026 03:16:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780802219;
-	bh=bY6vDxvG10977YRhrAOWRrWZUvwPRWsvPxykiEaDYDs=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=fsHwgoPEeT7OVIoehvRjt7c1XeGoWH8AUVGVAMsFnfgntsiYvdErj0QRdDHOk2bMN
-	 XHzaO2EioE5tNEJdmIkXnvnkAmc6zBEpS9hvjTlECtxkCnxRzUROWWKL4Iva8K+NUm
-	 FWj4UjEy2lX5x/T4t3lMshM/Dh39fw+nCpy3inlI31WC02slZeUoKhkVbwkDcCuCmE
-	 n1rVnN/EdyVMnXNsBgha+fWPBv+xKrthvaGnfP4tBQMmzRCDqzIkJnBZOGUSl0c5RH
-	 cir89rODDOH0+Y6kmYC43UyGSIl+BHu2LM75xXODD3DYWiWK31cj4F4+c++ir+KoqR
-	 BWatIfV62zDVA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] drm/sun4i: fix refcount leak in
- sun4i_backend_init_sat()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Wentao Liang" <vulab@iscas.ac.cn>
-Cc: linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org
-In-Reply-To: <20260607030950.83636-1-vulab@iscas.ac.cn>
-References: <20260607030950.83636-1-vulab@iscas.ac.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 07 Jun 2026 03:16:58 +0000
-Message-Id: <20260607031659.75AE41F00893@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="kOtcEY9y"
+Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
+ ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
+	by smtp.orange.fr with ESMTPSA
+	id W73dwnUfCJkT6W73dwFmhI; Sun, 07 Jun 2026 08:32:36 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1780813956;
+	bh=qnbMUaAUGWbhJ7kILtaMcBgwchhzxpm+oFvWPyiGaSk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=kOtcEY9yrMD2rh1xwEPTX/vzt1SW3y0/l8dFkhASECYsn0Nvar2NLusK5OuhRMv3h
+	 Z6ce9NujD5LDU77KDYjf7y9eP003GlCp8EMJLfqrvTAm8GH3/HsgjQNxNZ2TYFIRZ+
+	 14YmCrgonL2yL6TA9TNpxbqruf8tt5+MnHZ6E0Df+QgMTmx9dqNvM36XZ+gXyKANPr
+	 xPwJ86WLT87a7J8N3a+AEKh1NsuVwcn60pPxlTp1VND8Lr+fCG6zAuL3rDdqbfkpIA
+	 1P559zwHmZdEK4sJJGLjovz8XLHH0lIuq333T/4N5B7p0AQe4zIp5R6a9cnJyqzwQn
+	 70hkyT6x8KxpQ==
+X-ME-Helo: [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 07 Jun 2026 08:32:36 +0200
+X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
+Message-ID: <81cb20eb-a27a-45f4-98dc-7d529b3ac0b9@wanadoo.fr>
+Date: Sun, 7 Jun 2026 08:32:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sun4i: fix refcount leak in sun4i_backend_init_sat()
+To: Wentao Liang <vulab@iscas.ac.cn>, wens@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, jernej.skrabec@gmail.com,
+ samuel@sholland.org
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20260607030950.83636-1-vulab@iscas.ac.cn>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20260607030950.83636-1-vulab@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-
-Pre-existing issues:
-- [High] Missing cleanup for SAT resources in sun4i_backend_bind() if devm_=
-regmap_init_mmio() fails, leaking SAT clock and reset state.
-- [High] Return values of clk_prepare_enable() are completely ignored, pote=
-ntially causing imprecise external aborts on clock enablement failure.
-- [High] Use of devm_ managed allocations inside the component bind() callb=
-ack causes resource leaks on every rebind.
---
-
-commit bc39d4e776a1c47107cfd91202ce280e5f321f36
-Author: Wentao Liang <vulab@iscas.ac.cn>
-
-drm/sun4i: fix refcount leak in sun4i_backend_init_sat()
-
-When sun4i_backend_init_sat() calls reset_control_deassert() it
-increments the deassert_count of the reset controller, and must
-pair that with a reset_control_assert() call to decrement it.
-In the error path where clk_prepare_enable() fails, the function
-returns immediately without calling reset_control_assert(), leaking
-the reference count.  Other error paths, like the devm_clk_get()
-failure, correctly jump to the err_assert_reset label which performs
-the missing assert.
-
-Fix the leak by using the existing err_assert_reset label in the
-clk_prepare_enable error path instead of returning directly.
-
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4=
-i/sun4i_backend.c
-> index 03e46a2af6463..adf5b6e09ca64 100644
+Le 07/06/2026 à 05:09, Wentao Liang a écrit :
+> When sun4i_backend_init_sat() calls reset_control_deassert() it
+> increments the deassert_count of the reset controller, and must
+> pair that with a reset_control_assert() call to decrement it.
+> In the error path where clk_prepare_enable() fails, the function
+> returns immediately without calling reset_control_assert(), leaking
+> the reference count.  Other error paths, like the devm_clk_get()
+> failure, correctly jump to the err_assert_reset label which performs
+> the missing assert.
+> 
+> Fix the leak by using the existing err_assert_reset label in the
+> clk_prepare_enable error path instead of returning directly.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 440d2c7b127a ("drm/sun4i: backend: Handle the SAT")
+> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+> ---
+>   drivers/gpu/drm/sun4i/sun4i_backend.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
+> index bc35dad53b07..c9ec5fc26f7e 100644
 > --- a/drivers/gpu/drm/sun4i/sun4i_backend.c
 > +++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
-> @@ -686,7 +686,7 @@ static int sun4i_backend_init_sat(struct device *dev)=
- {
->  	ret =3D clk_prepare_enable(backend->sat_clk);
->  	if (ret) {
->  		dev_err(dev, "Couldn't enable the SAT clock\n");
+> @@ -686,7 +686,7 @@ static int sun4i_backend_init_sat(struct device *dev) {
+>   	ret = clk_prepare_enable(backend->sat_clk);
+>   	if (ret) {
+>   		dev_err(dev, "Couldn't enable the SAT clock\n");
 > -		return ret;
 > +		goto err_assert_reset;
->  	}
-> =20
->  	return 0;
+>   	}
+>   
+>   	return 0;
 
-[Severity: High]
-This isn't a bug introduced by this patch, but there is a pre-existing issue
-where SAT resources are not cleaned up in sun4i_backend_bind() if
-devm_regmap_init_mmio() fails.
+Hi,
 
-If the device is compatible with sun8i-a33-display-backend,
-sun4i_backend_init_sat() successfully enables sat_clk and deasserts sat_res=
-et.
+another way to fix it and simplify the code at the same time would be to 
+use devm_reset_control_get_exclusive_deasserted() and 
+devm_clk_get_enabled().
 
-If the subsequent call to devm_regmap_init_mmio() fails:
+just my 2c,
 
-drivers/gpu/drm/sun4i/sun4i_backend.c:sun4i_backend_bind() {
-    ...
-    backend->engine.regs =3D devm_regmap_init_mmio(dev, regs,
-                             &sun4i_backend_regmap_config);
-    if (IS_ERR(backend->engine.regs)) {
-        dev_err(dev, "Couldn't create the backend regmap\n");
-        ret =3D PTR_ERR(backend->engine.regs);
-        goto err_disable_ram_clk;
-    }
-    ...
-}
-
-Will jumping to err_disable_ram_clk skip calling sun4i_backend_free_sat() or
-otherwise clean up the SAT resources, permanently leaving the SAT clock ena=
-bled
-and the reset deasserted?
-
-[Severity: High]
-This is another pre-existing issue not introduced by this patch, but the
-return values of clk_prepare_enable() are ignored in sun4i_backend_bind(),
-which might cause imprecise external aborts.
-
-drivers/gpu/drm/sun4i/sun4i_backend.c:sun4i_backend_bind() {
-    ...
-    clk_prepare_enable(backend->bus_clk);
-    ...
-    clk_prepare_enable(backend->mod_clk);
-    ...
-    clk_prepare_enable(backend->ram_clk);
-    ...
-}
-
-If one of these clocks fails to enable, could the driver proceed to access
-hardware registers via regmap on an unclocked hardware block, leading to
-system hangs or crashes?
-
-[Severity: High]
-This is also a pre-existing issue not introduced by this patch, but using d=
-evm_
-managed allocations inside the component bind() callback can cause resource
-leaks on every rebind.
-
-drivers/gpu/drm/sun4i/sun4i_backend.c:sun4i_backend_bind() {
-    ...
-    backend =3D devm_kzalloc(dev, sizeof(*backend), GFP_KERNEL);
-    ...
-}
-
-Since a component's bind/unbind lifecycle can occur multiple times without =
-the
-underlying platform device being removed (for instance, when the master DRM
-device is manually unbound via sysfs), are these managed resources prevented
-from being freed upon unbind()?
-
-Can this cause a persistent memory and resource leak (including clocks,
-regmaps, and reset controls) on every unbind/rebind cycle?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260607030950.8363=
-6-1-vulab@iscas.ac.cn?part=3D1
+CJ
