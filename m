@@ -1,205 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB9E379C4F;
-	Thu, 11 Jun 2026 06:49:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19B932EF64F;
+	Thu, 11 Jun 2026 08:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.181.231.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781160583; cv=none; b=p0nPVA4EzjY0fxfJTcuE7JLMzfelwFXOZT2qt5+5+UL8Oj0By8qoWuRV8V6EpSXgOGXIifIGH3r8is1v+8r6lyNosyVVj/xH79OYXgDQzHeAVRcciwDW9kP60EW3ipkW0mnPH3/FyBkkzJF4BrUGAW3INVzFSNd6MDJ4HtxyjzA=
+	t=1781167823; cv=none; b=eVFjsg2NVE7OCKX+aA4OF2lNGGSdwNM6zyCehf2jzkoXD2eEkkrOuwrYcCLTN5wZzg84teYhw/eRuYN/LGujwb4sca4kr4CgS8lzSU5hZgs0wnD3l+O57CvL9PorJxu2vPRiUpZrZ9LHm9EyAgrR20SoFmOIi5u9WDitCTp88yM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781160583; c=relaxed/simple;
-	bh=cbTUbyOt2VY5HOf8pBk8+L3dfHLV4thvg1YIQgPPW7k=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=mHrIneJp8mCPXjGAUQ8sbs1guZb+Qt7ow5hK9PA0E6lvhLyRKWFmGD+Qj/WnQvfqpYbYnWZZg6i8ugQDlFCmKwEjO8v+OHBjRNlsucS9P8Succ6DqhuVI3pPjMYHMasbUoKG78MZG+V+e60AxA9JWKItZ4OGB1ddrNmVfQIfuX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UyWPDIB/; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781167823; c=relaxed/simple;
+	bh=pu0/COHPP5xjppQgRCQiJJw1A2H5VoRVve7LGDMGC7Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FOU7vIGk/xChLANaIlj4Kkm+I1lJ1kNmdeZTQLFqV62n4gbPTiA5ocKHB6ev+EgAFsq2sjI22M5BgDWd9vKg4fQqw2zz+1Ky1O3QoPMZsGKuJHuctXLGNwqK0lkZm/1vDfSJCr3kfM7j4ZcaR5dYX2TLGX1XanVUfOEhIXHG/XA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b=VIS8Haro; arc=none smtp.client-ip=180.181.231.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UyWPDIB/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67F2E1F00898;
-	Thu, 11 Jun 2026 06:49:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781160573;
-	bh=AK9hhcpPRx5nQQdM9IV3eqa75eWCLBUWxbBXyQEFRZA=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=UyWPDIB/mHFQTZWmZ4v+zln4w7Xt+EAu7VoNPMRMj3lZ4+XFrxPvrHL6DSNQc+hof
-	 XyjIN6zwz2XF5IaWtrgP0VAnaewbNjjTW7HqotVwmI3FwxOy05KN5BXqxhrC1J/253
-	 SUj5PuTPSaUzfD9keudN8tqIkl4cjnmwn0sWXlMsoGHEiRDT6v3Jx9Z/GWbtYCwqTH
-	 Q6iEkLIvmpaB1EnpqboHB9LPAO410u6TpA1N4SON941cyAPycu/yJvfJ1Ll9aY+7Ya
-	 BP48ZuhqtG05XCKyrnY3t8XrVWs3Zat6NdJSWiB1UNtzNTDHhh9DwD5AGsbftprG58
-	 YrEeH8FKtLABw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] dmaengine: sun6i-dma: Fix use-after-free in error
- handling paths
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Hongling Zeng" <zenghongling@kylinos.cn>
-Cc: linux-sunxi@lists.linux.dev, dmaengine@vger.kernel.org, Frank.Li@kernel.org, vkoul@kernel.org
-In-Reply-To: <20260611063631.96566-1-zenghongling@kylinos.cn>
-References: <20260611063631.96566-1-zenghongling@kylinos.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 11 Jun 2026 06:49:32 +0000
-Message-Id: <20260611064933.67F2E1F00898@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b="VIS8Haro"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=gondor.apana.org.au; s=h01; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:cc:to:subject:message-id:date:
+	from:content-type:reply-to; bh=PjjBDYZgAOLy519yfjF2xCKXOfk72HnUEqbs8BnxJS0=; 
+	b=VIS8HaroQpuYLrtH87PuT4FHco2zbtekpp4kSzsrnfHYWyT8Ci9BSSgvxUxV/ALZIZKQq/cGOrY
+	sSTTphh/Ck/N8Oh695PxTHGroaqJhPMn8an1Fg3AmJ1d8nO9Exm2CkBfaB0XIbA22ofKkE5mqD1XE
+	uAz5JCouT/DU14Sj+wCCx++mPBQT8xfWBKzdG8+NEHaE/N85jLvYOQf+ZiCYBKOkecjG116F5Eb/h
+	Mik51+FhdSbaBXAf6uso2ZQloU/vZl7cym4wXZBLCMn3zepmUdxd/pAmhlv4AioxKs/AsozX73o0Z
+	P8lT52kZCWM02wnUhahWs20Ywrpd92dOLdgA==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.98.2 #2 (Debian))
+	id 1wXb7B-00000004XW1-2BCk;
+	Thu, 11 Jun 2026 16:50:18 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Thu, 11 Jun 2026 16:50:17 +0800
+Date: Thu, 11 Jun 2026 16:50:17 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: linux-crypto@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Corentin Labbe <clabbe.montjoie@gmail.com>, stable@vger.kernel.org,
+	Tianchu Chen <flynnnchen@tencent.com>
+Subject: Re: [PATCH v2] crypto: sun4i-ss - Remove insecure and unused rng_alg
+Message-ID: <aip2yUWWUlUbdi8w@gondor.apana.org.au>
+References: <20260601160757.79645-1-ebiggers@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260601160757.79645-1-ebiggers@kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
-s) to consider:
+On Mon, Jun 01, 2026 at 04:07:57PM +0000, Eric Biggers wrote:
+> Remove sun4i_ss_rng, as it is insecure and unused:
+> 
+> - It has multiple vulnerabilities.  sun4i_ss_prng_seed() is missing
+>   locking and has a buffer overflow.  sun4i_ss_prng_generate() fails to
+>   fill the entire buffer with cryptographic random bytes, because it
+>   rounds the destination length down and also doesn't actually wait for
+>   the hardware to be ready before pulling bytes from it.
+> 
+> - No user of this code is known.  It's usable only theoretically via the
+>   "rng" algorithm type of AF_ALG.  But userspace actually just uses the
+>   actual Linux RNG (/dev/random etc) instead.  And rng_algs don't
+>   contribute entropy to the actual Linux RNG either.  (This may have
+>   been confused with hwrng, which does contribute entropy.)
+> 
+> The sun4i_ss_prng_seed() buffer overflow was reported by Tianchu Chen
+> and discovered by Atuin - Automated Vulnerability Discovery Engine
+> 
+> There's no point in fixing all these vulnerabilities individually when
+> this is unused code, so let's just remove it.
+> 
+> Fixes: b8ae5c7387ad ("crypto: sun4i-ss - support the Security System PRNG")
+> Cc: stable@vger.kernel.org
+> Reported-by: Tianchu Chen <flynnnchen@tencent.com>
+> Closes: https://lore.kernel.org/r/af749a8447bd7f0e9dd26ca6c87e9c6afecb09d9@linux.dev/
+> Acked-by: Corentin LABBE <clabbe.montjoie@gmail.com>
+> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+> ---
+> 
+> This patch is targeting crypto/master
+> 
+> v2: rebased onto crypto/master, and added Acked-by and Reported-by
+> 
+>  arch/arm/configs/sunxi_defconfig              |  1 -
+>  drivers/crypto/allwinner/Kconfig              |  8 ---
+>  drivers/crypto/allwinner/sun4i-ss/Makefile    |  1 -
+>  .../crypto/allwinner/sun4i-ss/sun4i-ss-core.c | 36 ----------
+>  .../crypto/allwinner/sun4i-ss/sun4i-ss-prng.c | 69 -------------------
+>  drivers/crypto/allwinner/sun4i-ss/sun4i-ss.h  | 20 ------
+>  6 files changed, 135 deletions(-)
+>  delete mode 100644 drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
 
-Pre-existing issues:
-- [High] Missing `sg_len` validation in `sun6i_dma_prep_slave_sg` leads to =
-NULL pointer dereference and hardware memory corruption.
-- [High] Missing bounds validation in `sun6i_dma_prep_dma_cyclic` causes a =
-kernel panic via division by zero or NULL pointer dereference.
-- [High] Deadlock risk due to incompatible lock contexts for `sdev->lock`.
-- [High] TOCTOU race condition in `sun6i_dma_interrupt` leads to NULL point=
-er dereference if raced against `sun6i_dma_terminate_all`.
---
-
-commit ca6b94283f2abd1205fd392ecfced542cac0978a
-Author: Hongling Zeng <zenghongling@kylinos.cn>
-
-    dmaengine: sun6i-dma: Fix use-after-free in error handling paths
-
-This commit fixes a use-after-free issue in the error handling paths of the
-DMA preparation functions. It saves the next physical and virtual pointers
-before freeing the current linked list node.
-
-> diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-> index a9a254dbf8cb9..eb9c4ae87ac8e 100644
-> --- a/drivers/dma/sun6i-dma.c
-> +++ b/drivers/dma/sun6i-dma.c
-> @@ -788,9 +788,15 @@ static struct dma_async_tx_descriptor *sun6i_dma_pre=
-p_slave_sg(
-
-[Severity: High]
-This isn't a bug introduced by this patch, but missing sg_len validation in
-sun6i_dma_prep_slave_sg() can lead to a NULL pointer dereference and
-hardware memory corruption.
-
-If a 0-length scatterlist is provided, the loop is completely bypassed:
-
-	for_each_sg(sgl, sg, sg_len, i) {
-		v_lli =3D dma_pool_alloc(sdev->pool, GFP_DMA32 | GFP_NOWAIT, &p_lli);
-
-This leaves txd->v_lli as NULL and txd->p_lli as 0. When this descriptor is
-later submitted in sun6i_dma_start_desc():
-
-	writel(pchan->desc->p_lli, pchan->base + DMA_CHAN_LLI_ADDR);
-	writel(DMA_CHAN_ENABLE_START, pchan->base + DMA_CHAN_ENABLE);
-
-The uninitialized physical address 0 is fed directly to the DMA hardware
-registers. Does this code need an explicit sg_len > 0 check to prevent
-invalid memory accesses?
-
->  	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
-> =20
->  err_lli_free:
-> -	for (p_lli =3D txd->p_lli, v_lli =3D txd->v_lli; v_lli;
-> -	     p_lli =3D v_lli->p_lli_next, v_lli =3D v_lli->v_lli_next)
-> +	p_lli =3D txd->p_lli;
-> +	v_lli =3D txd->v_lli;
-> +	while (v_lli) {
-> +		struct sun6i_dma_lli *next_v_lli =3D v_lli->v_lli_next;
-> +		dma_addr_t next_p_lli =3D v_lli->p_lli_next;
->  		dma_pool_free(sdev->pool, v_lli, p_lli);
-> +		v_lli =3D next_v_lli;
-> +		p_lli =3D next_p_lli;
-> +	}
->  	kfree(txd);
->  	return NULL;
->  }
-
-[ ... ]
-
-> @@ -869,9 +875,15 @@ static struct dma_async_tx_descriptor *sun6i_dma_pre=
-p_dma_cyclic(
-
-[Severity: High]
-This is a pre-existing issue, but missing bounds validation in
-sun6i_dma_prep_dma_cyclic() can cause a kernel panic via division by zero or
-a NULL pointer dereference.
-
-The function computes the number of periods without checking if period_len
-is zero:
-
-	unsigned int i, periods =3D buf_len / period_len;
-
-If buf_len is less than period_len, periods evaluates to 0, which skips the
-allocation loop and leaves prev as NULL, resulting in an immediate NULL
-pointer dereference here:
-
-	prev->p_lli_next =3D txd->p_lli;		/* cyclic list */
-
-Could this be triggered by a caller passing invalid lengths, and should we
-return an error early if period_len is zero or greater than buf_len?
-
->  	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
-> =20
->  err_lli_free:
-> -	for (p_lli =3D txd->p_lli, v_lli =3D txd->v_lli; v_lli;
-> -	     p_lli =3D v_lli->p_lli_next, v_lli =3D v_lli->v_lli_next)
-> +	p_lli =3D txd->p_lli;
-> +	v_lli =3D txd->v_lli;
-> +	while (v_lli) {
-> +		struct sun6i_dma_lli *next_v_lli =3D v_lli->v_lli_next;
-> +		dma_addr_t next_p_lli =3D v_lli->p_lli_next;
->  		dma_pool_free(sdev->pool, v_lli, p_lli);
-> +		v_lli =3D next_v_lli;
-> +		p_lli =3D next_p_lli;
-> +	}
->  	kfree(txd);
->  	return NULL;
->  }
-
-[Severity: High]
-This isn't a bug introduced by this patch, but is there a deadlock risk due
-to incompatible lock contexts for sdev->lock?
-
-The spinlock sdev->lock is taken by sun6i_dma_tasklet() in softirq context:
-
-	spin_lock_irq(&sdev->lock);
-
-However, sun6i_dma_pause() and sun6i_dma_terminate_all() acquire the lock
-without disabling softirqs:
-
-	spin_lock(&sdev->lock);
-	list_del_init(&vchan->node);
-	spin_unlock(&sdev->lock);
-
-If a process thread holds the lock and a hardware interrupt schedules the
-tasklet, could the tasklet execute on the same CPU, attempt to acquire
-sdev->lock with spin_lock_irq(), and spin forever because the preempted
-process still holds it?
-
-[Severity: High]
-This is a pre-existing issue, but does a TOCTOU race condition exist
-between sun6i_dma_interrupt() and sun6i_dma_terminate_all()?
-
-In sun6i_dma_terminate_all(), the channel is stopped and pchan->desc is set
-to NULL concurrently under vchan->vc.lock:
-
-		vchan->phy =3D NULL;
-		pchan->vchan =3D NULL;
-		pchan->desc =3D NULL;
-		pchan->done =3D NULL;
-
-Meanwhile, the interrupt handler sun6i_dma_interrupt() processes the
-completion:
-
-				if (vchan->cyclic) {
-					vchan_cyclic_callback(&pchan->desc->vd);
-				} else {
-					spin_lock(&vchan->vc.lock);
-					vchan_cookie_complete(&pchan->desc->vd);
-
-In the cyclic case, the handler dereferences pchan->desc->vd locklessly. In
-the non-cyclic case, it waits on vchan->vc.lock but doesn't re-validate
-pchan->desc after acquiring the lock. Could this lead to a NULL pointer
-dereference if the descriptor is cleared by sun6i_dma_terminate_all() on
-another CPU?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260611063631.9656=
-6-1-zenghongling@kylinos.cn?part=3D1
+Patch applied.  Thanks.
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
