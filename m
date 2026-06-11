@@ -1,77 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 099383AE1A3
-	for <linux-sunxi@lists.linux.dev>; Thu, 11 Jun 2026 11:49:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905A63DCD87;
+	Thu, 11 Jun 2026 13:56:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781178578; cv=none; b=LW65iz9W3twPvnR1PVBRUq/kAeDpLyV+XIJv7S0KRrnSDPGZ0x6XvmGdAGfjKyotigwPlHpFUudpsVgJdoNtgtkXZFD6YNWJNz9dyeMFfYPFAQ4NMEul5+E5Nwnn3m2rI6q1Xp3/ZV0aAYj6grIl8E0HdtiGtkiAZF1NlA31e50=
+	t=1781186200; cv=none; b=PpQI2wCqx81zMvoV8QxmaBh2+AzNCuvL9vrG8yVTyjRKHidF0W+EylOnXU/5x+U/9b5Dcf7c3F4iIhtmd32OqqBoBYJ5moKnR00sWJEJ0TkIOuFgkfhYso7E2ZRJEASVJocGhsslQoIKAiTkKSMnmjrCWvdGVsibUu0iTgc/fqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781178578; c=relaxed/simple;
-	bh=rKmlnp6soY2/E60kLoIUuxjPFvwpU7GxO46vKOmRRcE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tPYeFvDZhR6TWiVegIwBqcqPGUzd1CD5yGsbn0f/I1bzMmP7J+1YwWDuaxNsEmjDRBgpnnV5I+k/+hSAgv7ALS4DXSJB7a40t1005tCxsNVTAabtrFZa580h2+vUAoJ870jB5be+QgXNWJ/zHXnL5b8Xu6KVlfJiuAHNfkwMtyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iWoxSrf2; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781186200; c=relaxed/simple;
+	bh=JAE5ZVkLHEfGEU64Jj1x/kDtLKxcTsw5P5qF0V67EFk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=cLcrO9PbJcveBR8Qz7gGWvNY4loxqYSxtiGgf2yUj6ZXiTRq5gVuYNahDdPsmGtxKA/I9oGxczufUJb68wAlMZCGtYwXAmmM9+JkSwBRDNIVup3aSGF3BzycuShJQPfF1PfMdeQY+xMALqxRcSSXD8Cgo4NY+PxadaVWGC4De38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NwftpBK5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iWoxSrf2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF51B1F008A1
-	for <linux-sunxi@lists.linux.dev>; Thu, 11 Jun 2026 11:49:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NwftpBK5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 789761F00893;
+	Thu, 11 Jun 2026 13:56:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781178577;
-	bh=rKmlnp6soY2/E60kLoIUuxjPFvwpU7GxO46vKOmRRcE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=iWoxSrf2eJBxIUL1UC9eu2rCfEOYt2pmOr3+Wr9TXMOGuZd15Apaqr0KVzB7qEWLp
-	 mpWBVGoOa6w2vQ3nn2A62u9t9wunj7eluguHPjiHPNYGFWOLPOe4Cy+PqxRNG4saLr
-	 VqVgvZFqxqz83kJ0L+7YiCJ4W7ZbILryg59ck0zhbxrT4qqnlfJFPGopVdEyok09t3
-	 rufvsQKCeDb1rw/PVAD/ube97OYxH2e1OQ5xagFAVrKuy4A17J2amuInhxJtoKiOfw
-	 cdZQWR4QxGpzf+RxHFYfgDmwJAdYiSXua8YbO8VW/C5CXlxRvfC8GYKWz44Olcu8ui
-	 wl0+tXVbBIBVw==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5aa68cf9123so8359443e87.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 11 Jun 2026 04:49:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/ROCXt/ikGd2bJdkMffixwABpEtGZp0/+JRKRy96HXQa4Po9kYfNXWu8dKJDdl3tsThA9qbWJ8LtfqQw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyLwRtgOYSUyzIuyodfAGVbh4fsL7n7wYG3nJFhMXLRDSNEn5AQ
-	EK/GEAGWIYO6GhhMlYi4qnrvLfZTWovS690sUFhHYXvxkkfAx5/ZOYjcr3+WnNrHvOLzxAxKfQR
-	EUjho9gnQiuYlrdJ4a5av2hujUI1YV+I=
-X-Received: by 2002:a05:6512:3f07:b0:5aa:4bb4:1e9c with SMTP id
- 2adb3069b0e04-5ad27ab047cmr828882e87.18.1781178576530; Thu, 11 Jun 2026
- 04:49:36 -0700 (PDT)
+	s=k20260515; t=1781186199;
+	bh=Tm5i8T8VZHAsFgDZmgdDx63OEi2Pnzx5WTlvbhLyDEY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=NwftpBK5CQsrefCUB/T7Xk7OemkFlvqXsHpPq927dHUF7OJ0nwVGSlO9Gy8oeGDoj
+	 SaLxy8dEs/2skmWCirbLljexcSYRhqfr0IppnxanbAc2wXh7m4mpa1iUXJGjX7vaXU
+	 NjIbYIBD9W2bGxRdp+F2Ae2Y/Wn3Hh5xtftUGKrRcoiI9vGwHjNrkGV6Ymi9WZut8Z
+	 0dhBKq0Ws0g6bXU0yuCLWoiQm3nO0XpmSAAydBKihgiq2bXHLEtDBgeT7AKcTqR+OG
+	 I7z+wzMwZyV0EH+P3OW/fjBUGVAwdi50d7xJJQGP0N2B1CyjtTGbSlSd+2wBTrUzlF
+	 sAv/TuyPpayjw==
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Andre Przywara <andre.przywara@arm.com>
+Cc: linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260327113006.3135663-1-andre.przywara@arm.com>
+References: <20260327113006.3135663-1-andre.przywara@arm.com>
+Subject: Re: (subset) [PATCH v2 0/3] pinctrl: sunxi: a523: fix GPIO IRQ
+ operation
+Message-Id: <178118619718.1357770.10179454069567879597.b4-ty@kernel.org>
+Date: Thu, 11 Jun 2026 21:56:37 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260327113006.3135663-1-andre.przywara@arm.com>
-In-Reply-To: <20260327113006.3135663-1-andre.przywara@arm.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Thu, 11 Jun 2026 13:49:24 +0200
-X-Gmail-Original-Message-ID: <CAD++jLmok4GNZHT1_SVxRgOqQpH9d8FX4zgNpQbOdNjVka2Hew@mail.gmail.com>
-X-Gm-Features: AVVi8Cfo54uztqxkktk8YLcVPxtQEtZS2d7KQPPjjqOVBQf71Is6FBvmH-Q48FA
-Message-ID: <CAD++jLmok4GNZHT1_SVxRgOqQpH9d8FX4zgNpQbOdNjVka2Hew@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] pinctrl: sunxi: a523: fix GPIO IRQ operation
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Fri, Mar 27, 2026 at 12:30=E2=80=AFPM Andre Przywara <andre.przywara@arm=
-.com> wrote:
-
+On Fri, 27 Mar 2026 11:30:03 +0000, Andre Przywara wrote:
 > this is the minimal fix version for the GPIO IRQ operation on the
 > Allwinner A523/A527/T527 SoCs. SD card detection is broken as a result,
 > which is a major annoyance. Those patches here fix that problem, and
 > should go into v7.0 still, if possible.
+> I dropped the more involved fixes from v1, the risk for regressions is
+> now very low:
+> - The quirk flag is just dropped from the A523, not the other SoCs. I
+>   confirmed this again with an experiment, for both the primary and
+>   secondary pincontroller. This avoids fixing the workaround code for
+>   now, which is more involved, but for now unneeded.
+> - The DT patch just adds the missing interrupt. The IRQ association was
+>   always wrong and never worked, so this can't make it possibly worse.
+> Together those two patches (plus the required binding change) fix the
+> problem, I would appreciate if this could be taken ASAP, into v7.0 still.
+> The generic pinctrl code is now untouched, which makes this also much
+> easier to backport, and drops the dependencies on other v7.0-rc fixes.
+> 
+> [...]
 
-Patches 1 & 2 applied to the pinctrl tree, please send patch 3 to
-the SoC tree.
+Applied to sunxi/dt-for-7.2 in sunxi, thanks!
 
-Sorry for missing this, dunno what happened. Probably it got
-lost by me trying to use korgalore and screwing up.
+[3/3] arm64: dts: allwinner: a523: Add missing GPIO interrupt
+      https://git.kernel.org/sunxi/linux/c/6b81aa0c8a4f
 
-Yours,
-Linus Walleij
+Best regards,
+-- 
+Chen-Yu Tsai <wens@kernel.org>
+
