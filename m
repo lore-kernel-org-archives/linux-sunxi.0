@@ -1,124 +1,116 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99EB3331EC7
-	for <linux-sunxi@lists.linux.dev>; Wed, 10 Jun 2026 22:01:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781128891; cv=pass; b=YxTF2KMhm4Gu09FU+kj8nKZ87SScwoznPClVagKqY0IHKYhtgE19CoAXmUL5o7wfFvQMGpFO2Bgw5INvUSJVSNqxRsN/cb8lNwDvCxqH+AWhf51Sl4E31CjDkow9uYFuM4aqcE6gQDTeR18dK9/QFwj2r0ctWobzdaRHX3EpFlg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781128891; c=relaxed/simple;
-	bh=IsdSQKv7tgAjlb47q049+cE+VaLyC2eCAZsAHaGva50=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=kEx+ZVQsuET/nvOTvs3H/HySVLgMBQhft4Frw7aSOtQjpGHumtxsXkb3WGQOeCs3DYzzanaXYABWiyegjSl3JY1feBRcxW+/jSgDgjmAzb3wZ3DMyLZS5lvK33VC5cUw2puXX4CMcmLERcc4lB0FUZ0HaO+CZbYfparEryHbeyc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f4HUi5It; arc=pass smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f4HUi5It"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2c0c2d792c8so48828935ad.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 10 Jun 2026 15:01:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781128890; cv=none;
-        d=google.com; s=arc-20240605;
-        b=hB8PqMTS6LfQdJOXnPdGCFpYcfiL3hGIkWwPV9iRVWmZJrDWPHTkM9OXFQamg+wLof
-         i1AlDYDLUSG9fKKliGihGWizisCCOuMhgR71u3HBMXCCREBJrSfUZiVnGFZtbkunGB0g
-         JuhHJipJ5NU9qypkwF1ue2fLpPvKByGlYlqvLUUIV1M5Z4Di1TZI0bDKorYqF743XmWf
-         2R4gIxLRtXvA+zI4D83EcFUJoBtqCVXgq1zBRMsMdkMic5zPj83X40yH+fwzRcyjn398
-         pDRcJ/KZSk0rzM8TIBheIvhR+C9846xv1gAqKgwghTqjG8Q34SrI2wMCLcssQHHrV9h/
-         rVNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=h0Dmle5MeuP1yPXjVcDAVWMlS5lDrlFusVKexEqhKFY=;
-        fh=Zb42P79IRl9njn2LUGzzSd1r9UY1Y5RxIvTyRwmvZqI=;
-        b=LIL47hzIAnS3K4Y8qdWsgrkwjZTP5gNhYEPU6yM7cHf5lgQyJIBedxW23FXhc8IXGh
-         v8LuLZJDHIEudkZUewow1stqdNvg8x/mWqzrmVo2DXljF8hadz0bYONQopRaaLEXRup/
-         9x19nVusQz5QJ0bOUO2K90mSKsB2dMAtyJIklXpcVNI1+1TogzPumD/q9KcN85fRBCVK
-         Qo60Mc34gLbu8dq1SmiCShzP2j00McvR7Tn/qyDVVXZSA9GH7TOLmAkQZ0/tdsVLVE4L
-         YM0WLwFrJLjxEa7Kp9pxnU0YSjTC/c8YiXxVJQGjQi/XQb0/GuTfrMDu1bhp3au4tudw
-         +bfw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781128890; x=1781733690; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=h0Dmle5MeuP1yPXjVcDAVWMlS5lDrlFusVKexEqhKFY=;
-        b=f4HUi5Ityw5/O+/ruWBVbpkmHvI+Ecmw9cZMdVeUkEdcQ703MRRjT+vzwFiVPMFTwd
-         PWn+sxerlTz0JeCp+1WL9Qx53kFhTin4837/kdvV+5JiJeyu7WWyt6Vxijal+WlE6W9T
-         XdtutmBXMfrIjRQT0uzOLVAOCvaCZTjy5AG7+VYKReeQ3ciY2TV4bsIaTu3v3dJ8kxqi
-         qPlNYwIKpjwM78tDH4eyQTU6ljr4iOGJO5Gl2NNEKx6zPH2jPDTlY6r6rM5Vdvp3KHD2
-         AgAGkmxoWBmM001FP+x2YBePw7QJvQ7jKRUY39r5IrKb5/XXNnV4HVEUua/q6JeCZlDI
-         Lu0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781128890; x=1781733690;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=h0Dmle5MeuP1yPXjVcDAVWMlS5lDrlFusVKexEqhKFY=;
-        b=OvKipojZBhZpaRAUc/H5Cwg0c43Bku0pWJW+0Yn3RadxJ7d6ERxZRkSboHOu0u0bps
-         dMbp3xtQsjlQUOA0zQkdDMfB2LS+n8cfA4/rFOfgz+RGbtHCeQJ+/ZkV5dLrokg0ox/0
-         minL/+tga1IohjjpheTyRmoCU4hfZuMhMVIzJIfHC3ZR42ZGgChGv9Re0tBI6WIjPCfX
-         u+Bh2GFp2J7yE+heMv9pG3BEKjOpALLdxRbSB6AzsME8k4AsSPHsg0f/fF9+5KKUDdDF
-         LLD1wHg74snRhIgo9PevNbmmY+C1Ddg+SaFXdoH1ieeUsnr2smveEAxvXuVXXZUqhwhu
-         Imjw==
-X-Forwarded-Encrypted: i=1; AFNElJ+T9/FR4wR+BIiz1qis0/atdT0jNWLbvS8Urpvc/gRc4pxjP7+EbkB8ehfrAfiX5paa6PddLC85pJUbJA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxAt9+pU8Gw6KBNfzLJO5YobEgudwh3/Xu99SCxEwfRtg4xnBIG
-	lKDkVkkoeL/7cnkHSZumowqGQn5e6ryUFw30M3QAifXwC7j1vPrjn5k7H8LRf+zbuNMwX45+WrO
-	hB174dyrzL1rb5ukLOrlWZHiX2NjuQLc=
-X-Gm-Gg: Acq92OHr9WlNyyKUJY78in126Gs56IgygSI9iL3y5Jfks0VLGHSxq7PnCPCh2Ymky+y
-	rtxTxcYneGMsrBHFu6NLqyRv185E28aWUf2TYW/dfi2ew8uXnIAsbKbZ110VofTxf1211TgOEQI
-	Gn13PF2fiduY8qQYlWJGlhP8X5NIVbhQcfZ/gKP90VMyA8VDm5bG3tb4H9r7rMfqIHDZNRxzGB+
-	UfPrJj0OOPADBDyaZZvC1m9IWY87EQXlKTlqCQVQ3y/frO6LmZ53trn6M4aXBHscydzzvE6D7eD
-	7zPiQ32u1EKxS4Q=
-X-Received: by 2002:a17:903:138a:b0:2c0:a9b3:bdc6 with SMTP id
- d9443c01a7336-2c1e80f9214mr284349325ad.30.1781128887315; Wed, 10 Jun 2026
- 15:01:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483E92BEFE8
+	for <linux-sunxi@lists.linux.dev>; Thu, 11 Jun 2026 06:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781159810; cv=none; b=AOUdptP+CTLdrepH81AihiSudwhQcWh9YXN9cPXycxtvLxY20iHFiSqvp6NyfaXLK09xNof/6jdbjxsjvITHg5aEPlj0DiWubOWlx1mxfiZd1EmQQkfEDX59Ml/cQTLOrUZSSeMw5cdQJziOFjL9coKPSW1TCm2yPkDMoASFrGM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781159810; c=relaxed/simple;
+	bh=9dvBrkdJfrYfPXnBGL9jqbmpMFwrVe4wBgElwU/t46E=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=s2e3X4Btbr4Fn27X0nT+0FF0F5XbTrryDIEIXWu44TeSzo9Dj0IgK5+GpY5IpppesVk1aoh6Uc3FMNXZ2UVXvIbhA650QMvhVhDP0PGvAb7sV/fMCsNbOZg4KvUmgi7D3AOB0q0eLr7wKW9OjOwSvrcgVrtL24hkxvgx/O1QH20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: e4893022655f11f1aa26b74ffac11d73-20260611
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:dd46af78-ef48-42df-b0aa-f7aa64b8b7cc,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:e7bac3a,CLOUDID:01b8394cc7936b409385b5ef72af8116,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
+	DM:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:
+	0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: e4893022655f11f1aa26b74ffac11d73-20260611
+X-User: zenghongling@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zenghongling@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1353217616; Thu, 11 Jun 2026 14:36:35 +0800
+From: Hongling Zeng <zenghongling@kylinos.cn>
+To: vkoul@kernel.org,
+	Frank.Li@kernel.org,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	mripard@kernel.org,
+	arnd@arndb.de
+Cc: dmaengine@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	zhongling0719@126.com,
+	Hongling Zeng <zenghongling@kylinos.cn>
+Subject: [PATCH] dmaengine: sun6i-dma: Fix use-after-free in error handling paths
+Date: Thu, 11 Jun 2026 14:36:31 +0800
+Message-Id: <20260611063631.96566-1-zenghongling@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Enzo <enzo.adriano.code@gmail.com>
-Date: Wed, 10 Jun 2026 18:01:15 -0400
-X-Gm-Features: AVVi8CfxAHDyBqNO0Ys_rdLGOZmuKmThiL3y1SJyB19d0A7iTcl0mFxuFzIXLu0
-Message-ID: <CAHWUu5EzER1mEmMpOeMgQN_ynW0my-TM2UGt808mjEe4dY-vkg@mail.gmail.com>
-Subject: sunxi-mmc: A733 IDMAC stuck in descriptor rea
-To: Ulf Hansson <ulfh@kernel.org>
-Cc: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-mmc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi,
+In error handling paths, the for loop frees v_lli in the loop body,
+then accesses v_lli->v_lli_next and v_lli->p_lli_next in the
+increment expression, which is use-after-free.
 
-On A733/SUN60IW2, SDMMC0 works with PIO reads but normal IDMAC does not
-fetch the first descriptor.
+Fix by saving both the next virtual and physical pointers before
+freeing the current node.
 
-This is on a Radxa Cubie A7S, testing Linux v7.1-rc6-gabc8d07b0a63.
+Fixes: 555859308723 ("dmaengine: Add driver for Allwinner sun6i DMA")
+Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
+---
+ drivers/dma/sun6i-dma.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
-The failing transfer is a single 8-block CMD18.  After starting IDMAC:
+diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
+index a9a254dbf8cb..eb9c4ae87ac8 100644
+--- a/drivers/dma/sun6i-dma.c
++++ b/drivers/dma/sun6i-dma.c
+@@ -788,9 +788,15 @@ static struct dma_async_tx_descriptor *sun6i_dma_prep_slave_sg(
+ 	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
+ 
+ err_lli_free:
+-	for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
+-	     p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
++	p_lli = txd->p_lli;
++	v_lli = txd->v_lli;
++	while (v_lli) {
++		struct sun6i_dma_lli *next_v_lli = v_lli->v_lli_next;
++		dma_addr_t next_p_lli = v_lli->p_lli_next;
+ 		dma_pool_free(sdev->pool, v_lli, p_lli);
++		v_lli = next_v_lli;
++		p_lli = next_p_lli;
++	}
+ 	kfree(txd);
+ 	return NULL;
+ }
+@@ -869,9 +875,15 @@ static struct dma_async_tx_descriptor *sun6i_dma_prep_dma_cyclic(
+ 	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
+ 
+ err_lli_free:
+-	for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
+-	     p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
++	p_lli = txd->p_lli;
++	v_lli = txd->v_lli;
++	while (v_lli) {
++		struct sun6i_dma_lli *next_v_lli = v_lli->v_lli_next;
++		dma_addr_t next_p_lli = v_lli->p_lli_next;
+ 		dma_pool_free(sdev->pool, v_lli, p_lli);
++		v_lli = next_v_lli;
++		p_lli = next_p_lli;
++	}
+ 	kfree(txd);
+ 	return NULL;
+ }
+-- 
+2.25.1
 
-    IDST = 0x00004000
-    CHDA = DLBA
-    CBDA = 0
-    CBCR = 0x400
-    BBCR = 0
-    descriptor OWN is still set
-
-The descriptor memory is unchanged after syncing for CPU, so this looks
-like the controller never reads descriptor word 0.
-
-I have already checked the obvious descriptor/DMA cases: 4K descriptor
-size, shifted descriptor/data addresses, descriptor memory below 4G,
-coherent vs streaming descriptors, and the normal-IDMAC 64-bit DMA mask
-used by the vendor tree.
-
-Is there an A733-specific clock/reset, MBUS/NSI, firewall, or firmware
-handoff bit needed before SDMMC0 IDMAC can access memory?
-
-I can send the full boot log and instrumented dmesg if useful.
-
-Thanks for your time,
-
-Enzo Adriano
-enzo.adriano.code@gmail.com
