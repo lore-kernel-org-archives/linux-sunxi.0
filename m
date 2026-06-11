@@ -1,120 +1,77 @@
-Received: from d218-7.smtp-out.eu-west-2.amazonses.com (d218-7.smtp-out.eu-west-2.amazonses.com [23.249.218.7])
-	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B06286419;
-	Thu, 11 Jun 2026 10:17:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.249.218.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 099383AE1A3
+	for <linux-sunxi@lists.linux.dev>; Thu, 11 Jun 2026 11:49:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781173052; cv=none; b=pyQYzQQ01KJNYmItPHykp5Cs7XcjbJ10JUdWKi3ETulDRFBneDn52e5+rfRYUJ092Z/AGkZOi5+KPY6HAoKmm8FQroeKQ1Orz2FjGeQL6tgwNNDWq5gMa+3RjvbiKlJdQKKG5F4U+LWUHI1xt02ytUn4sOB1mhFnxPa2/EqIZAY=
+	t=1781178578; cv=none; b=LW65iz9W3twPvnR1PVBRUq/kAeDpLyV+XIJv7S0KRrnSDPGZ0x6XvmGdAGfjKyotigwPlHpFUudpsVgJdoNtgtkXZFD6YNWJNz9dyeMFfYPFAQ4NMEul5+E5Nwnn3m2rI6q1Xp3/ZV0aAYj6grIl8E0HdtiGtkiAZF1NlA31e50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781173052; c=relaxed/simple;
-	bh=tBJd3a9smvQtcySn9NIc9PhT29b+XntTkiv/O3RxqXE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t+nhLvvGlAOvgsiVTpPRZDx1yHj/OV2JuXRHMrcimS5lwKCzYJkHy/TWwGAOHtSXna4smvXIFisDZKgh6rsdLoXvuDl45+4Lic531fGTbP3SsjZaAUAUt9dChcIo/89qyhH6InZJaobnEpXbN5EqTvV0aq0KX5lS43OcQ4cyte8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=electricworry.net; spf=pass smtp.mailfrom=mail.electricworry.net; dkim=pass (2048-bit key) header.d=electricworry.net header.i=@electricworry.net header.b=Qb3z5Qhg; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=DcXKIQIZ; arc=none smtp.client-ip=23.249.218.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=electricworry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.electricworry.net
+	s=arc-20240116; t=1781178578; c=relaxed/simple;
+	bh=rKmlnp6soY2/E60kLoIUuxjPFvwpU7GxO46vKOmRRcE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tPYeFvDZhR6TWiVegIwBqcqPGUzd1CD5yGsbn0f/I1bzMmP7J+1YwWDuaxNsEmjDRBgpnnV5I+k/+hSAgv7ALS4DXSJB7a40t1005tCxsNVTAabtrFZa580h2+vUAoJ870jB5be+QgXNWJ/zHXnL5b8Xu6KVlfJiuAHNfkwMtyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iWoxSrf2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=electricworry.net header.i=@electricworry.net header.b="Qb3z5Qhg";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="DcXKIQIZ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=xxcsvipqs5hvfd7f74n2i5bueyncqkjk; d=electricworry.net;
-	t=1781173049;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To;
-	bh=tBJd3a9smvQtcySn9NIc9PhT29b+XntTkiv/O3RxqXE=;
-	b=Qb3z5Qhg67X/kFLbCygIWg3mcpKMfPPlPjU/az6ybXP+s1Q1EPaOUWqIbLruG3js
-	0l9lDLTfJfmCX5ndK5YiQpfo/Ft8xxc1/P74kgQp4XofI/5MfNfqyigmL1PPuZh3vfb
-	GhU33TCApyNQMAbgGFggr4mTQRAXjbnlikOlImmDLj5fKC9RDpy+uKHj4+yuEK9Ygag
-	PQyuyLmwHclBKCMn5wSlSVfq89O7CNNPTTDQITMgLBsRn/OvYKY962+C4fCv4ojIVnF
-	Exiu87Bt1truPs/wNVzqBYVSQfiVvolM4rivJB+8PDfU6qi5CEWbMFL/baUD2z6sU1e
-	7uD5Sjp5QA==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=smjs5bczbyxi6u2ua6eveuxqal7joyry; d=amazonses.com; t=1781173049;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Feedback-ID;
-	bh=tBJd3a9smvQtcySn9NIc9PhT29b+XntTkiv/O3RxqXE=;
-	b=DcXKIQIZAOub/VADAw2xAZwpXQPnpvWjXVAd6eZYPNmWzQ/DcCB5NZ04px2MKePe
-	W5XvAiyZJMd9E8enRsL95TpBwtIQ/ZxRDOCx7qIHH54GHB964l+lv5y2vy/UN9pKTgB
-	kOrEavWgDNw+v+h9MJQwc1qovrkVGo0khYxrShpY=
-Date: Thu, 11 Jun 2026 10:17:28 +0000
-From: Bob McChesney <bob@electricworry.net>
-To: Marco Elver <elver@google.com>
-Cc: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev, 
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
-	"Harry Yoo (Oracle)" <harry@kernel.org>, 
-	Vinod Koul <vkoul@kernel.org>, linux-sunxi@lists.linux.dev, 
-	Chen-Yu Tsai <wens@kernel.org>
-Subject: Re: [linux-next:master 4283/12670] drivers/dma/sun6i-dma.c:792
- sun6i_dma_prep_slave_sg() error: dereferencing freed memory 'v_lli' (line
- 793)
-Message-ID: <010b019eb62fd604-d3a75323-b446-46a0-b164-57cc0d1a75b4-000000@eu-west-2.amazonses.com>
-Mail-Followup-To: Marco Elver <elver@google.com>, 
-	Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
-	"Harry Yoo (Oracle)" <harry@kernel.org>, Vinod Koul <vkoul@kernel.org>, linux-sunxi@lists.linux.dev, 
-	Chen-Yu Tsai <wens@kernel.org>
-References: <202606110958.2CPRMnM0-lkp@intel.com>
- <CANpmjNOZ_11Ef0qYnagaDshHoYy4=cUOQBsd+0DPJyJt02pWnQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iWoxSrf2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF51B1F008A1
+	for <linux-sunxi@lists.linux.dev>; Thu, 11 Jun 2026 11:49:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781178577;
+	bh=rKmlnp6soY2/E60kLoIUuxjPFvwpU7GxO46vKOmRRcE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=iWoxSrf2eJBxIUL1UC9eu2rCfEOYt2pmOr3+Wr9TXMOGuZd15Apaqr0KVzB7qEWLp
+	 mpWBVGoOa6w2vQ3nn2A62u9t9wunj7eluguHPjiHPNYGFWOLPOe4Cy+PqxRNG4saLr
+	 VqVgvZFqxqz83kJ0L+7YiCJ4W7ZbILryg59ck0zhbxrT4qqnlfJFPGopVdEyok09t3
+	 rufvsQKCeDb1rw/PVAD/ube97OYxH2e1OQ5xagFAVrKuy4A17J2amuInhxJtoKiOfw
+	 cdZQWR4QxGpzf+RxHFYfgDmwJAdYiSXua8YbO8VW/C5CXlxRvfC8GYKWz44Olcu8ui
+	 wl0+tXVbBIBVw==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5aa68cf9123so8359443e87.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 11 Jun 2026 04:49:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/ROCXt/ikGd2bJdkMffixwABpEtGZp0/+JRKRy96HXQa4Po9kYfNXWu8dKJDdl3tsThA9qbWJ8LtfqQw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyLwRtgOYSUyzIuyodfAGVbh4fsL7n7wYG3nJFhMXLRDSNEn5AQ
+	EK/GEAGWIYO6GhhMlYi4qnrvLfZTWovS690sUFhHYXvxkkfAx5/ZOYjcr3+WnNrHvOLzxAxKfQR
+	EUjho9gnQiuYlrdJ4a5av2hujUI1YV+I=
+X-Received: by 2002:a05:6512:3f07:b0:5aa:4bb4:1e9c with SMTP id
+ 2adb3069b0e04-5ad27ab047cmr828882e87.18.1781178576530; Thu, 11 Jun 2026
+ 04:49:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANpmjNOZ_11Ef0qYnagaDshHoYy4=cUOQBsd+0DPJyJt02pWnQ@mail.gmail.com>
-Feedback-ID: ::1.eu-west-2.gfFyncE+PRqcG/qebM3Lg+wfopUKzk5aGDEiDVENH+o=:AmazonSES
-X-SES-Outgoing: 2026.06.11-23.249.218.7
+References: <20260327113006.3135663-1-andre.przywara@arm.com>
+In-Reply-To: <20260327113006.3135663-1-andre.przywara@arm.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Thu, 11 Jun 2026 13:49:24 +0200
+X-Gmail-Original-Message-ID: <CAD++jLmok4GNZHT1_SVxRgOqQpH9d8FX4zgNpQbOdNjVka2Hew@mail.gmail.com>
+X-Gm-Features: AVVi8Cfo54uztqxkktk8YLcVPxtQEtZS2d7KQPPjjqOVBQf71Is6FBvmH-Q48FA
+Message-ID: <CAD++jLmok4GNZHT1_SVxRgOqQpH9d8FX4zgNpQbOdNjVka2Hew@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] pinctrl: sunxi: a523: fix GPIO IRQ operation
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 11, 2026 at 11:24:09AM +0200, Marco Elver wrote:
-> +cc maintainers of this driver
-> 
-> On Thu, 11 Jun 2026 at 10:59, Dan Carpenter <error27@gmail.com> wrote:
-> > vim +/v_lli +792 drivers/dma/sun6i-dma.c
-> >
-> > 555859308723d8 Maxime Ripard       2014-07-17  783      dev_dbg(chan2dev(chan), "First: %pad\n", &txd->p_lli);
-> > 9aa48806edb8c3 Samuel Holland      2022-04-24  784      for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
-> > 9aa48806edb8c3 Samuel Holland      2022-04-24  785           p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
-> > 9aa48806edb8c3 Samuel Holland      2022-04-24  786              sun6i_dma_dump_lli(vchan, v_lli, p_lli);
-> > 555859308723d8 Maxime Ripard       2014-07-17  787
-> > 555859308723d8 Maxime Ripard       2014-07-17  788      return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
-> > 555859308723d8 Maxime Ripard       2014-07-17  789
-> > 4fbd804e009ae9 Maxime Ripard       2014-07-30  790  err_lli_free:
-> > 9aa48806edb8c3 Samuel Holland      2022-04-24  791      for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
-> > 9aa48806edb8c3 Samuel Holland      2022-04-24 @792           p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
-> >                                                                                                 ^^^^^^^^^^^^^^^^^
-> > 9aa48806edb8c3 Samuel Holland      2022-04-24 @793              dma_pool_free(sdev->pool, v_lli, p_lli);
-> >                                                                                           ^^^^^
-> > freed and then dereferenced to get the next block.
-> >
-> > 4fbd804e009ae9 Maxime Ripard       2014-07-30  794      kfree(txd);
-> > 555859308723d8 Maxime Ripard       2014-07-17  795      return NULL;
-> > 555859308723d8 Maxime Ripard       2014-07-17  796  }
-> > 555859308723d8 Maxime Ripard       2014-07-17  797
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  798  static struct dma_async_tx_descriptor *sun6i_dma_prep_dma_cyclic(
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  799                                      struct dma_chan *chan,
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  800                                      dma_addr_t buf_addr,
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  801                                      size_t buf_len,
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  802                                      size_t period_len,
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  803                                      enum dma_transfer_direction dir,
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  804                                      unsigned long flags)
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  805  {
-> >
-> > [ snip ]
-> >
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  868
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  869      return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  870
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  871  err_lli_free:
-> > 9aa48806edb8c3 Samuel Holland      2022-04-24  872      for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
-> > 9aa48806edb8c3 Samuel Holland      2022-04-24 @873           p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
-> >                                                                                                 ^^^^^^^^^^^^^^^^^
-> > Same.
-> 
-> Not sure what's going on here, but is this a latent bug in this
-> driver?  It appears some recent changes made Smatch see through this
-> better.
+On Fri, Mar 27, 2026 at 12:30=E2=80=AFPM Andre Przywara <andre.przywara@arm=
+.com> wrote:
 
-I remember seeing a proposed fix for this very issue:
-https://lore.kernel.org/linux-sunxi/20260611063631.96566-1-zenghongling@kylinos.cn/
+> this is the minimal fix version for the GPIO IRQ operation on the
+> Allwinner A523/A527/T527 SoCs. SD card detection is broken as a result,
+> which is a major annoyance. Those patches here fix that problem, and
+> should go into v7.0 still, if possible.
+
+Patches 1 & 2 applied to the pinctrl tree, please send patch 3 to
+the SoC tree.
+
+Sorry for missing this, dunno what happened. Probably it got
+lost by me trying to use korgalore and screwing up.
+
+Yours,
+Linus Walleij
