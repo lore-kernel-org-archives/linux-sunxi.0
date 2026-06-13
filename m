@@ -1,87 +1,82 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD493C278B
-	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 11:01:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB09135F191
+	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 11:04:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781348519; cv=none; b=bWUuQ2sXYpz0UU6ErBoeVseXPK6bTtLm2wsfUOYlMIUaYNdMtuRVDPzLxrkU8qxQM5ln0/oLbs1iwOCS71kDjU42L25heKtss7ggJhzv+nBPn3nMd9J6JokWYc030XK1AdiksUZI/fhVbfyaCAH9lk+cZpYacGkEt7h6EcvPIRE=
+	t=1781348699; cv=none; b=LvzPseKoU/K4RJzhqHQ/+7cut+K0SPew8dOdLm4y2yftp3EsiLqhgcJQcDmItrGzBUSRWgX8qweYiv48lZH2l3/tMy6qt7gkCIhYysPUB7WalDIYy10Sa5AOPvfVlQvP5A1+rn3IKlPbqOfbrNmhPCXCHkts+SIOsstSTDsNPq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781348519; c=relaxed/simple;
-	bh=pMcR10Zl9ktI8NftnKtGb1nGlHMkBHUqYLOsT6sT/4k=;
+	s=arc-20240116; t=1781348699; c=relaxed/simple;
+	bh=nBEHkzqVLw482vGdz5GT4uuKqoZ91h8lkYDukdrN6Gk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=olOb7lEpKpgrInu+fgtmfhp5JH5XJD20VT/IkM/La1IATkVg0r4NyX0I0CZwXDW6lP369ywC27C6GHHAxjsVuUcoFwDYBE8pOyeCUOYYbS4ZgbLo8l8IP/VXp+VrUSIu4MMva2XecR3N69hcM+zJ10PCJajPD/AlcwBYXwYf61E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HJyVGkvj; arc=none smtp.client-ip=209.85.221.48
+	 MIME-Version:Content-Type; b=iLm9zC7XB2zonxWMPIpTvq0HXsm3vR0FP7aHYMqQhdmQO8pJO8V9o0z2sga1Sr6N4kXOYIRdyMDEXmGfaSNfTX8iQukZl/9t8trzmDWcYkgI/JOSaBCj5zgS/wjfuuksGG1M2fxeODhGPysOhpQVlgZwY3CTVL8mQjqYBM2bYtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WfIXJilC; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HJyVGkvj"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-46066e640easo994959f8f.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 04:01:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WfIXJilC"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490acbb0f89so11693705e9.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 04:04:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781348516; x=1781953316; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781348696; x=1781953496; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pMcR10Zl9ktI8NftnKtGb1nGlHMkBHUqYLOsT6sT/4k=;
-        b=HJyVGkvjIj2SxefR9dRskpalIqHQSDtCMlov4Zo3OqX2vLHNsS4cb9RiGKCpaXpjW5
-         bhp3DdaQnjz9Lhqrf+xFCyDgiSQQy+CbmiuyuhkSrE9GO1RTgYyJMNkC4Iuda2oC0ziJ
-         zk4HwdbbXVfgHoA+wngstapkNxQY/F898jjU9tj/aBrJjndHtlKcgbqk3gTBWVVIDwkb
-         1ArWrzqzex8u+f649OgUy/D1vN/n6JN2IR1j7GJV3+IrnHFLXGpE3JOnRzUI7mzgkYxv
-         CjrDGKOuq29A/YR0eofEgYf6dI2++onlZdKpjnQv35qLrAvTE7y16302vwJ2bMoiZH4X
-         VIrA==
+        bh=nBEHkzqVLw482vGdz5GT4uuKqoZ91h8lkYDukdrN6Gk=;
+        b=WfIXJilCFnOb4yPM9frYBV1lZXCnw/1gnty1DkvfFVcPAA2geOnyc5Os9EflybPn2K
+         YrZI1j+9leDmJ8eU+F7JD+4NMPjM1R1choOOBT8MLvDJr3+8esmH8zo8r5WpsRSP+R3o
+         n5xqcLH9VOVmjHvHZG3Cn1Ue9ZdWAg+xQ7JuO+8nZmuREtAABg3NL0stfsDPoYCdFoXP
+         6hjfv1hvJYjQbvtMTTwR0Ux1bl9Yk15+UGmNL0Ps1iGeee7mYD17V4Awp+y/CmxtvNAI
+         3o5tFLS6BXFZz9gzmgfu0n2P7oqPp72z8VzENjkWeZNbnXe1279mlHY4IMiQ9u21kvU8
+         NmmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781348516; x=1781953316;
+        d=1e100.net; s=20251104; t=1781348696; x=1781953496;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=pMcR10Zl9ktI8NftnKtGb1nGlHMkBHUqYLOsT6sT/4k=;
-        b=p+e6jnyZwKAUWrO4nvemZglTFGMwHL1/tQGDmezfw+7fIwm+6jfbgjHfpLKILA6T1u
-         sV31vsWTPjW8Ulzozq2uuPiiIF2DTRqxgJTMX7A8a4AnvI/vEANTnglOwpmucqlDjXXU
-         Q+I+YJsn0atS6195F5N/21J0/6XFxWe/lj3UOTHSUJk/OmpJwaHxTmnoVGQLGlyH+QyL
-         RYUdgWZXumnDQhMq4t+v/yOGja0yUjGo8CmJTYIz4HPjt5ADuIPaIQWUx6VOBaJvcD/o
-         xrUeh+84EvqnZhEBLVonAd/GMkq7xDVwNVtMThmEsoY109TvDs+rrhT43LEV4Zj6kqxX
-         4aXg==
-X-Forwarded-Encrypted: i=1; AFNElJ9EKUi1VvE9Z+xeJuD1VECPaFZ30/TAb99UkjKO+kFawmjgenEDbxkDu6t+3WH74h+NZzl/JmjuM2H7mw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx1lTkYaPm792m6AYU4ELNkfkWKKOPkoIvQ61OpEVHBP9UU2gbc
-	tHRdOFIwMjQ/J1et4+ESSekFy7Cc1QnyA3wWqc8lk5a03kzS5an/1HeE
-X-Gm-Gg: Acq92OGiWRf6ru1u0w9C72ceojIXVZL7bHhw26o5MYHyBg5QWHAvtKiCBljDx4SzjX8
-	3lVFKoXzZdHp5lLD9EXQovAgdWRX3GKgCvtIZrrjtfQMHGFNhwcpt/BLe6uiweM1OwrB2laVbM+
-	p066lzHyMLpA9XKWYg8jvn/09M8yevRkFpZZSxsc0zV2MNFrR2GOk3QS6wTXTc1722XuAldL0jq
-	D0FK06CygmS8s+YzWXZ4o+kqMULm/y6Gr5rc/NO0go5v452kyRQD3G2YTjCW5dAY5aYEJJjY21y
-	f7lc+ujv3tv9bdI/2X+Cf5D2SC4K+o7m3LiqlpSEFeWW91Smzcxkpvm9TVbCkrKvUhXF45D66NV
-	sX4R85BV+u9goR5pppXbCg854CYst8hA4gwAZLXfLK6R4BJJTyVHUJ0WJwmtPw6p80yF3c4KtLm
-	KXRSWrAo6n7H5cqtAtSHTyuNPelvIagI7R1av+Zh9GzEvp
-X-Received: by 2002:a05:6000:188e:b0:45e:f271:5019 with SMTP id ffacd0b85a97d-4606db8c6fbmr9211591f8f.14.1781348516083;
-        Sat, 13 Jun 2026 04:01:56 -0700 (PDT)
+        bh=nBEHkzqVLw482vGdz5GT4uuKqoZ91h8lkYDukdrN6Gk=;
+        b=JEPYrKPj2cJ8JvxVjGY479Pkx1HVSU4AMvI0ADdmmSjVAcVEZTxthKW+vmyG0KIrg6
+         iMtGBI+CmZ4mjxFOjeZY3t/V8tRaGyCdOfI1KCqVOvNBTjQxW6xRwMMWLqpGjbigripH
+         iaR4MMKw8qir8P+6kSGcV0MHfqQjgiYjBGsm8+ugqKDjiD/VjXuhgQYb7kQZeqhpZxLv
+         5IwpsjLq1NOPufWgoqpJDMiAj0itcW6yY35vv7EMhgL7LNr3kIYtGNKpv5B9OFLdWe/h
+         szNOFcDE8Tz4wMQmy2NJTf7wiAH34hBFuFJE2Xuz5KiMmfBP8hHmv2V7YieVoU9mkSpQ
+         H5mQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+2ujYihme//vFNGQE1iVDpP1wE3XKDs00wQNsE9LkKGk7TOo2hIJAkdqXc8vdiAf0/kCjLmA9n0OW0Vw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwAMeLtugZ6Axma+NI9wKWm0njDGJjFmfauEI4zB5ML25Zg+7id
+	HsefMYDi6VSxFb3N9r678sGhLYupF///rkb51WnCCJ7bQv9RDNKiIra8
+X-Gm-Gg: Acq92OEA7RAzL0dOPIqycFNW8x4r74lkMi0vNPFuK7fqcNij0pw0joBiXvGS3mAm/6u
+	CJzcp7OlU+sUxVgHW/Qi//15IfhLKJB6E2oV6oFH71Jl0iAycSpKuubjoxd3HpJOjYfOP7jqK+m
+	xvbIYBaBHeV2lR1lb2O0sT6PbAfoFurSG6uGVv/FK/LE1jYp4aG/Gkul0MT8n9PxZ+L+POfnkCA
+	f9G0LPpgUX9QYd7Z+rwdnYX3S276Sodg3UW0UTTJQsH9yv8nkJ524fLWoiWVGIWYBoeOAn87CcH
+	LMQWV10L/JlTzM51es2LKX/UDOobz6XVOrcDGKEV3CGYD+wlEEMsA77Ti3POzfoWHe9TSBZYiFB
+	qGnxyPyr9yjBzJUS2BmavkwTosEFObXeQDw4YE43Lv9uGANkrQwNjE6QHPI0J1fu9MhuCa3o+dI
+	vu+wO6bROIWNoBghbdklWTJJKEudGQAsS/xEvl7KoPLCxB
+X-Received: by 2002:a7b:c8ca:0:b0:490:6237:521d with SMTP id 5b1f17b1804b1-49220092e7dmr27202205e9.13.1781348696232;
+        Sat, 13 Jun 2026 04:04:56 -0700 (PDT)
 Received: from jernej-laptop.localnet ([188.159.248.16])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f26434dsm14930828f8f.1.2026.06.13.04.01.53
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49220310a58sm75036335e9.4.2026.06.13.04.04.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jun 2026 04:01:55 -0700 (PDT)
+        Sat, 13 Jun 2026 04:04:55 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Hans de Goede <hansg@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Andre Przywara <andre.przywara@arm.com>, Jun Yan <jerrysteve1101@gmail.com>,
- Lukas Schmid <lukas.schmid@netcube.li>,
- =?UTF-8?B?Si4gTmV1c2Now6RmZXI=?= <j.ne@posteo.net>,
- Eric Biggers <ebiggers@kernel.org>, Michal Simek <michal.simek@amd.com>,
- Luca Weiss <luca@lucaweiss.eu>, Sven Peter <sven@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+ Samuel Holland <samuel@sholland.org>, Paul Walmsley <pjw@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Maxime Ripard <mripard@kernel.org>,
+ Lukas Schmid <lukas.schmid@netcube.li>
+Cc: Lukas Schmid <lukas.schmid@netcube.li>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
 Subject:
- Re: [PATCH v4 7/7] arm64: dts: allwinner: A133: add support for Baijie Helper
- A133 board
-Date: Sat, 13 Jun 2026 13:01:53 +0200
-Message-ID: <rVKu3PRHTqCaxGV5Fc8kHQ@gmail.com>
-In-Reply-To: <20260605070923.3045073-8-alexander.sverdlin@gmail.com>
+ Re: [PATCH v4 3/3] ARM: dts: sunxi: add support for NetCube Systems OpenNMC
+ (dobermann)
+Date: Sat, 13 Jun 2026 13:04:54 +0200
+Message-ID: <sTX6E5Y2SsWfe6WORpTiCA@gmail.com>
+In-Reply-To: <20260606205452.2386930-4-lukas.schmid@netcube.li>
 References:
- <20260605070923.3045073-1-alexander.sverdlin@gmail.com>
- <20260605070923.3045073-8-alexander.sverdlin@gmail.com>
+ <20260606205452.2386930-1-lukas.schmid@netcube.li>
+ <20260606205452.2386930-4-lukas.schmid@netcube.li>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -91,30 +86,26 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne petek, 5. junij 2026 ob 09:09:21 Srednjeevropski poletni =C4=8Das je Al=
-exander Sverdlin napisal(a):
-> Baijie Helper A133 board is a development board around Baijie A133 Core
-> SBC. Features:
+Dne sobota, 6. junij 2026 ob 22:54:43 Srednjeevropski poletni =C4=8Das je L=
+ukas Schmid napisal(a):
+> NetCube Systems OpenNMC is an open replacement for APC SmartSlot Manageme=
+nt
+> Cards. It is based on the Nagami System-on-Module. It breaks out the
+> following interfaces:
 >=20
-> - 1/2/4GiB LPDDR4 DRAM
-> - 8/16/32GiB eMMC
-> - AXP707 PMIC
-> - USB-C OTG port in peripheral mode (via onboard hub)
-> - 2 USB 2.0 ports
-> - MicroSD slot and on-board eMMC module
-> - Gigabit Ethernet
-> - Bluetooth
-> - WiFi
+> - 10/100 Mbps Ethernet
+> - USB Type-C OTG using a TUSB320 (usb0)
+> - USB Type-C Console Port using a CH340 (uart3)
+> - USB Type-A Host with internal CH334 USB-Hub (usb1)
+> - MicroSD Slot with Card-Detect (mmc0)
+> - WiFi/Bluetooth using the modules built-in ESP32
+> - SmartSlot serial interface (uart4)
+> - DS3232 RTC with CR1220 Battery Backup
+> - Extension connector providing SPI,I2C,USB,CAN,UART for future use.
 >=20
-> Add initial support for both the Helper and Core boards, including UART,
-> PMU, eMMC, USB, Ethernet, LRADC-connected buttons.
->=20
-> UART1 can only be used for Bluetooth module, but BT-WiFi combo Allwinner
-> AW869A chip has no mainline driver currently.
->=20
-> Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+> Signed-off-by: Lukas Schmid <lukas.schmid@netcube.li>
 
-Schema validation passes, so:
+DT Check passes, so:
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
