@@ -1,83 +1,85 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B77531F982
-	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 09:33:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 005A73ACA59
+	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 09:38:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781343190; cv=none; b=bVfosAP7czp4uRCO5iMnEfYys+2abdCsU76YddrIT9ZqrePh+AuCMZr6SIiOVqNaIqIKo15F+Wxe1vg//8ulL0aJtsekSk483mjDHaGB24dGnZ5j2PeNAwjxXLyAjipFLmP+9BvRzSoM7qJE1Xqoq7getvs/Vn9ZB5EMG1f0F9I=
+	t=1781343505; cv=none; b=jd3ADv5yIP1aE6lyEsEou+w6raiZb0RsCjxVSPkgV/f59dAG3ghnDw42a+Pt+XvmyzCb4NIlhWmqH14N8LLNWYujmMKLwl4hQGF8UJfhKZnTB67YULinA3ddvm4jCPLgwvmyCqE7QXScMoFTTo56fY/G4C3QaHqZ3vR2v0hHKe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781343190; c=relaxed/simple;
-	bh=8T+pkFF+lS+JDBAjF8JI0LZg2b8EwfaONvyE7Gy7O/8=;
+	s=arc-20240116; t=1781343505; c=relaxed/simple;
+	bh=1sX3QYXGeCW+Lv5W+F5sZN6MOeOyiU6kXOMbPlP1lIU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=f3/bg4DUUvr8AoaKBT8O7tkGpvJ47Imy3QzeD2vQlglDHzQZU4Ox3MbdoyXnu0rh855nrWPxdjN4tqr7dKo1CzMjToc6BG7IJfoyUEQAoNPP8TAxgFj1DJW8Nc4CWx5kQ7VR1ffQHae4dS6DdswjV8gBYfxe/s1UWFJzWbyyUK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BtkYUd6G; arc=none smtp.client-ip=209.85.128.49
+	 MIME-Version:Content-Type; b=AHdus8rstcCqhAmo0zw33NE731gfx0+2/vr4oRZ/HZdZd9RcnM35cIGsNbFuRIFWAsvPC/48Hw9PamEE9WRe6mRmhna65HgUlrLfwO/PClijfdZNTLSVKvdGHrEp8TAquq5otCr6lCDDTq9J+YLJWE06ikAp/yXnQk7o3k3Jr/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xmlkq4co; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BtkYUd6G"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4922244f7c7so3322565e9.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 02:33:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xmlkq4co"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-45eee266c6cso1528050f8f.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 02:38:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781343188; x=1781947988; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781343500; x=1781948300; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8T+pkFF+lS+JDBAjF8JI0LZg2b8EwfaONvyE7Gy7O/8=;
-        b=BtkYUd6GiqyA+wQs9cWwyc9Glg4r5Ysi4HLPyHCNQRqmRcF/f5vNpXq8c9NbzQzKR3
-         LJqyKO7LulmYAd+t6hLJ4Te+Rh8SOk+H6e21VffEtAbW4+DGh9qsu4RtCpyAcLz2aVTs
-         +SMXTicSw1qjB0wAvwJovr4TeU3698Dv15xJYwYzT/HlAz5FN1xTQa7i3wIxtUMngBLi
-         WOjW4DvUuVRacHGQUdlePNV2NZHzwvJzA6Xb7qeiLS+ZSy40PIMCtM50W9dckoNEOS0j
-         RQbJV1Pcn8fk/7mExytmJiVig5DLSsTZFQk37ezExi6B80toqCosILXs9JRKeIVkjGQG
-         bm2A==
+        bh=hSPcHOrJhwoZ6fKHrLRI2q23k/nKTvAXHvk0RF9YXD0=;
+        b=Xmlkq4co1Stk0csZ8ERxBxw9G+osSS8PG03ooKqDEKJh83oLR8Q9go+b6jXY/loVet
+         P8wLOFncSP35/EFwbyMvv9gmLdMvEbHZPnHLyDWp0m/y+Kj7CBO8moqouZ1Jf3eA2HPr
+         O1SUmtposl+ouCoGkmYtcjiK4pmj1MKm0+v+Muj46d5DJGo0JBZymx+90awp1PGisY4s
+         MxJT5N7FQC/Iv9WoHzSSgvIlyxcbBU6vC/D0KCGFGI+ZuvRohU3O9kl5XFu35uIS9ggd
+         DtQ1r4TMBTDlMa68zKilDtZDA6s5x4a92vJ5DjrLPlP/a4o7mZll2zZdjeXo193NGcMN
+         kMPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781343188; x=1781947988;
+        d=1e100.net; s=20251104; t=1781343500; x=1781948300;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=8T+pkFF+lS+JDBAjF8JI0LZg2b8EwfaONvyE7Gy7O/8=;
-        b=OFeQGcBumcIR/J6AiPAC1d+bxcpHNpqsewLA4PlVrXwsZy6H2gmdUlRrnogjntrs6E
-         UJZZQz6SLDuzI9d1QcEm4WQZ1sryf5lDnbTlqHEw7pG4IJczAIQa44lMfX9HDHwFQ4fj
-         Qbz4jtaWK7Qa/HPDq+zDhMlDqwv+0XIlzxkdGfXUsXHLkLFqylrrxkZjd/CgU6VmiNqy
-         clR2xI66Tu8Tz4RF/NEBUigKEK7APvSqJrF40sYzVvFR4koJZEHKD73I4tV4DOjYUB5O
-         UkZhLuD/Yca+mY9383/WhVymhhXGghjEe8OQ/RS75qrWiNnpJQrAIMUSbvq6uk/z0Tjv
-         dN7Q==
-X-Forwarded-Encrypted: i=1; AFNElJ8MOO9pJTa3nUH+v36CCnFH5L9QNrE/ZAaNu23MI8GcrcrVK+XfKiR1Le5tHtJsm/nLl8zPSpUidk5TAA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzHqYQGqIOwmyp9Mh7Y01UjP4Hy1L6Sa7M4t2g8LrHDQr1yaOHg
-	yKia3nzWIDBVm773QEJBJjSB11FLrPSH3V369ogHCeCskkgP1gLuGRba
-X-Gm-Gg: Acq92OG3GMkv+x4Tkv0n++wM+JUOUC2v6/1Q2Fp/Fxq6xcQeGnfez8SlvdeKNKR6dHD
-	Ofmn8mOmGnYBr+CsPUGuklAoyEk6oSOFe8ElhPNbH9L85dNpy1/5nWfeiwwQ3H7tUeLPzIjrH8+
-	eD7DUtVAks+Jj0q1mi78w3tqc3JfKISLErgxgitzbMmMct7wLES+dPzYr44439GJ+HeIRLg2DUC
-	5486RL0o2+ipVHWvzdKIY4RH2rGRcq1MTrnCjUDTdUNN3aIsDancxyqC3XCc4GjEbNRvjcrLrKy
-	UUulgR/1AZb7XJodTH+XEjU+32mAWqSPV3dFRQe5CDFpcSkRkB4jdXxbgY+y/4R5i8fGNX3vXqO
-	rxmpvPuRZJif2Ah7lTpsbVzTrxsyn27k+3wwmYmqvmfLaPfKhRzLTLBcMXPrGu3G3D0y59M2MSE
-	fOaV+jxAUh8tbMkDWednPxn0qlmmiEpOSo7wGkKjcjLGohnYyfDz/v3QY=
-X-Received: by 2002:a05:600c:1f8c:b0:488:d6eb:e63c with SMTP id 5b1f17b1804b1-492200768abmr37382835e9.15.1781343187661;
-        Sat, 13 Jun 2026 02:33:07 -0700 (PDT)
+        bh=hSPcHOrJhwoZ6fKHrLRI2q23k/nKTvAXHvk0RF9YXD0=;
+        b=eeulsJpXjMUYdpgcV/vBUMX+AXhKCwyEAqpNZUBsz4dLT+8nrYxY4RdYwCHR5s+FKB
+         nvEviLXF96aCln2cd3t49KqFyCVORhhWughxv3lSs560eEVS+oVg7DOLZiuHpkyomOqv
+         z4hp7vVzwHbEBf9cE7Z8OQQ87eb02pkZUjfnzb1DPSEFnlSTbm0OK2NuwzCNSI6rEvko
+         XIwSOppGdOCSnPNfIJyrzr53/GLjP080ZqcoZYGy/VEw+AVBcEzEwiwit7An4XJkJxaW
+         mRmE91++1i1oRDwZntMO+c/kZE40ZooBfWT/MLp304Kyo104qk3KerJxZUECzg55Th5r
+         OGNA==
+X-Forwarded-Encrypted: i=1; AFNElJ/ZWTB0Yq35tC6LuP2GMACb58qiRo0fuITPWuYJ+F6gFGD2QjE5OKlDbc0Rzi6pCEGPj+/cXiHxn0+7iA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyE+JRUBVzpNXbcAuRzgSwim7U5AHn73n2MHoVPKto4zqRUgI1r
+	nAua70xnPpzGMEK2LbiJSNJyGdIKi7baHiQBtmF5jxuzj/s0k0EV2TIB
+X-Gm-Gg: Acq92OFDdoLXfkWnO7z2JJrErjsKSNZdtJci9+ITZfFrkrtn8daKRbZETGgLn0aKuLu
+	U6R5uSIDd5Zwv9yHX+bcqyEd2y1+EfCzKXgqBy6ZY1dhz4fQtNzsjxqyghUY2Yrg1U0D0tQzAl4
+	jA1fpIB2aVUGJEii7WH0kpbb7AKtOY3WIV3z0DNtW0KrX9wRKoLn0l5BSXbEvijhJ/iCp7Ax2J1
+	HZlbXxRRB2l352y9u//k2StdL81cgD2X2oO8fIix06sA1WxwhvFahAjzP8tvQK4H4Zd5Sd49aWE
+	8jqFP7s1DhkkqWpqx7PyvtqZyP1mZfw7neHF0fxbKa40CemGBLO+x89G8xIwQ6sJU7FDpsSj5sJ
+	y+m+2rahkz6twmn8xv5PFl1oKFPGRlQN6f3qj7EThzZJjx4W7Sy7jjerA2ivlrG3xCg+P8itM3K
+	JXNa1EEExoy6o+21L/oS9wme37XwimhfBT4FTTWkKIgMpu
+X-Received: by 2002:a05:6000:2684:b0:45e:f228:830d with SMTP id ffacd0b85a97d-46077d40be6mr3398045f8f.23.1781343500099;
+        Sat, 13 Jun 2026 02:38:20 -0700 (PDT)
 Received: from jernej-laptop.localnet ([188.159.248.16])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f26392esm13886883f8f.3.2026.06.13.02.33.06
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2e592csm14464581f8f.36.2026.06.13.02.38.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jun 2026 02:33:07 -0700 (PDT)
+        Sat, 13 Jun 2026 02:38:19 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: wens@kernel.org
-Cc: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, devicetree@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH 4/7] drivers: staging: media: sunxi: cedrus: add H616 variant
-Date: Sat, 13 Jun 2026 11:33:05 +0200
-Message-ID: <L1ZJMTqKQbak6NcKbwFkDg@gmail.com>
-In-Reply-To:
- <CAGb2v64wDvLMFn9DYs-kH1S2PpHJat-imxR5eJSQAUYjOp=Xdg@mail.gmail.com>
+To: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ Alexander Sverdlin <alexander.sverdlin@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, Hans de Goede <hansg@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Andre Przywara <andre.przywara@arm.com>, Jun Yan <jerrysteve1101@gmail.com>,
+ Lukas Schmid <lukas.schmid@netcube.li>,
+ =?UTF-8?B?Si4gTmV1c2Now6RmZXI=?= <j.ne@posteo.net>,
+ Eric Biggers <ebiggers@kernel.org>, Michal Simek <michal.simek@amd.com>,
+ Luca Weiss <luca@lucaweiss.eu>, Sven Peter <sven@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH v4 6/7] arm64: dts: allwinner: a100: reserve RAM for ATF
+Date: Sat, 13 Jun 2026 11:38:17 +0200
+Message-ID: <FE7Vh4yfTmGMM24i18Wwwg@gmail.com>
+In-Reply-To: <b428d57ba5464f1226daf099877f4c25fa4fc191.camel@gmail.com>
 References:
- <20260505134812.408316-1-wens@kernel.org> <JyKk48uGRMGhs1Z-wzq5pA@gmail.com>
- <CAGb2v64wDvLMFn9DYs-kH1S2PpHJat-imxR5eJSQAUYjOp=Xdg@mail.gmail.com>
+ <20260605070923.3045073-1-alexander.sverdlin@gmail.com>
+ <_6NEZ78hR8a_3V2bhBAGoQ@gmail.com>
+ <b428d57ba5464f1226daf099877f4c25fa4fc191.camel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -87,47 +89,80 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne sobota, 30. maj 2026 ob 18:43:05 Srednjeevropski poletni =C4=8Das je Ch=
-en-Yu Tsai napisal(a):
-> On Tue, May 5, 2026 at 7:18=E2=80=AFPM Jernej =C5=A0krabec <jernej.skrabe=
-c@gmail.com> wrote:
-> >
-> > Dne torek, 5. maj 2026 ob 15:48:08 Srednjeevropski poletni =C4=8Das je =
-Chen-Yu Tsai napisal(a):
-> > > The Allwinner H616 SoC has a video engine hardware block like the one
-> > > found on previous generations such as the H6. In addition to the
-> > > currently supported features of the H6, it is also supposed to include
-> >
-> > Remove "supposed".
+Dne sobota, 13. junij 2026 ob 10:34:42 Srednjeevropski poletni =C4=8Das je =
+Alexander Sverdlin napisal(a):
+> Hi Jernej,
 >=20
-> I can't actually verify that, so "supposed" is accurate from my point of
-> view.
+> On Sat, 2026-06-13 at 10:22 +0200, Jernej =C5=A0krabec wrote:
+> > Dne petek, 5. junij 2026 ob 09:09:20 Srednjeevropski poletni =C4=8Das j=
+e Alexander Sverdlin napisal(a):
+> > > Add reserved-memory node carving out Trusted Firmware-A region spanni=
+ng
+> > > fixed 256K from physical address 0x40000000. Even though Allwinner ATF
+> > > itself passes the address range in the fdt to U-Boot, U-Boot currently
+> > > only reserves this memory internally, but doesn't carve out the region
+> > > in the fdt passed to Linux.
+> > >=20
+> > > Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+> >=20
+> > NAK. It is job of boot procedure to properly inject TF-A reserved node.
+> > Any issue should be fixed there.
+>=20
+>=20
+> like in commit 0d17c865118881609ea7e381c7cadbb7979cc596
+> ("arm64: dts: allwinner: Add Allwinner H616 .dtsi file")
+>     Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>=20
+> ? ;-)
 
-Isn't info from manual good enough?
+I was against that too.
 
-In the interest of unblocking this, I would be fine with "supposed" too,
-but manual and all my experiments show VP9 is supported.
+It's time to be fixed in bootloader.
 
 Best regards,
 Jernej
 
 >=20
-> ChenYu
->=20
-> > > a VP9 decoder. However software support for this is currently missing
-> > > and still needs to be reverse engineered from the vendor BSP.
-> > >
-> > > Add the compatible for the H616 variant, using the H6 variant data.
-> > >
-> > > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
-> >
-> > With that:
-> > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> >
 > > Best regards,
-> > Jernej
-> >
-> >
+> > Jernej Skrabec
+> >=20
+> > > ---
+> > > Changelog:
+> > > v4:
+> > > - new patch
+> > >=20
+> > >   arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi | 16 ++++++++++++++++
+> > >   1 file changed, 16 insertions(+)
+> > >=20
+> > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi b/arch/ar=
+m64/boot/dts/allwinner/sun50i-a100.dtsi
+> > > index 7cb06b19b5a5..d8391663fd1d 100644
+> > > --- a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
+> > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
+> > > @@ -87,6 +87,22 @@ osc32k: osc32k-clk {
+> > >   		#clock-cells =3D <0>;
+> > >   	};
+> > >  =20
+> > > +	reserved-memory {
+> > > +		#address-cells =3D <2>;
+> > > +		#size-cells =3D <2>;
+> > > +		ranges;
+> > > +
+> > > +		/*
+> > > +		 * 256 KiB reserved for Trusted Firmware-A (BL31).
+> > > +		 * This is added by BL31 itself, but some bootloaders fail
+> > > +		 * to propagate this into the DTB handed to kernels.
+> > > +		 */
+> > > +		secmon@40000000 {
+> > > +			reg =3D <0x0 0x40000000 0x0 0x40000>;
+> > > +			no-map;
+> > > +		};
+> > > +	};
+> > > +
+> > >   	timer {
+> > >   		compatible =3D "arm,armv8-timer";
+> > >   		interrupts =3D <GIC_PPI 13
+>=20
 >=20
 
 
