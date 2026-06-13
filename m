@@ -1,63 +1,63 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2736636F916
-	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 08:12:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60673CC33F
+	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 08:20:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781338380; cv=none; b=VJmzFyZP2RjDPW0K8uQ5iDhYJGVIguUO2L8TC1Y+rA/GSeZlZTOUEchAgnJ58haEBTSx5i8bxLFGoyDGfj9ytjlUks0iGmOn7cIanuxIjUxfebU3DqRq/v1+Eye7GMKUsDMWu0Yg+WqUvoZjrXLPEOTxP7gzagoVZmT4io9hc2M=
+	t=1781338840; cv=none; b=HsH+6QS+5YDQHwzHZc9POp8rsECXwfonS694CM+SD/gxLuS8i0N+M0gPCVKhh91bl8eXQsKjyL7pdUfGmRmWwHAr2WrNaUo3bKvUvbwpdHVetClj2gWtXHdYGMRvRWVIdJei0Njay3zrZrnvmiMaEvOv04Xyj/Z5jeqdWmPCom8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781338380; c=relaxed/simple;
-	bh=x+DHXyBduh8nW5mH/RwXPnUoFvsJilmF8kF51mFs5s0=;
+	s=arc-20240116; t=1781338840; c=relaxed/simple;
+	bh=sv6/e/ZTEkkgP8TdkpODVWO7G+8MZcZpFN0/dqmSQ2s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WcsSKb7u52JIJr7Sc+t/bvJVj+rtDSA3+OyKtsjJ9xVhVk7mTxnNuej7Yvh6PoeyIdPq+2thMPv6vPpCgSl2ysw103hvizpzZV0YgMLEKjdVcFstV9vg3ourPxBBpZFFdJR9az6DTLHJPf5uMlbbqxtfPFRpbefae2RhJK1TI1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Djir7w6l; arc=none smtp.client-ip=209.85.128.43
+	 MIME-Version:Content-Type; b=snrhwG39r58f+VRd4/RdWJqJtSMl2QeZsP6pthrAkZwRgt56+nD/7P2CoZ5B3jEAwOmPms/YCL7fFfLhSXBRXRTC3AX/uMrSZZWo94eFm+8qJUtXfOl9sQ9MQ1zE5HJ95ZIWafEJu4E7D75QsA9HEjncXyNAUWrnosjbnnDSIq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lnw6bz8j; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Djir7w6l"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490b64c8311so18071595e9.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 01:12:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lnw6bz8j"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-490cf3000f0so17536885e9.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 01:20:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781338376; x=1781943176; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781338837; x=1781943637; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=x+DHXyBduh8nW5mH/RwXPnUoFvsJilmF8kF51mFs5s0=;
-        b=Djir7w6lgqhwhyqcZix1H726ugSjdQspFq0+JJk7IxCOgJvdzdLmq7JUw5DOhu7Mg6
-         nz/T+BFcSbeXihJD7i4CWXjLzP+kf0Jq4bGsCXKqVjBgeSgSqBV/0oLw9glmChJW5tYV
-         JeuqJNtvSZToR8PscoPDpaO3aGgp1htAmNIp82IC5X1kXQWRq6b2q1QW3nskD+tzH8YL
-         MV90A2dZWWPRxMnP5Ly2S5mbVTxUdZ3pg/jXws801FF8XjqxhbDy7AWkiB8cuHsJOw1Q
-         Ze7MCOSLqbueBAKtycI8MaHCccfC6VopyRpSWSaak+s1Zw6UulXvDioLp09J5boxjqWD
-         AKcQ==
+        bh=ud8CqUMs31Lbag+rPY0L/C65qKiCj6gLmHREZB+Ipfw=;
+        b=Lnw6bz8jbhxTilkD6VEkhiEWILvb4VT4MSZOgBoSTnPAdpSFCdAmhloWPhvoTnvFFA
+         abrXFeUmWBuvw41EblN0asKv+AXLHTsviA/rJ/PnJExcYDws7Uc4360On6+lTYfVjmo9
+         2XRM5pN25Ril699Pr+MPvAsC9BvOwTO2K7u9bb1Y2FETmcRtMMosHLBXtFE5MoDtNYTo
+         UM3YXd46CMyl75OsGImO2oB2n2S2BinYi7E3lDVe3vAr0tDcEs5FaLSVA4qCXBDNgEee
+         fVSFpPP+dchRrA8CsYOTah2nVN5pbLh6oBJXWWw1F/B35AiJLKXfH7d9WMo3ax4+WUiv
+         JvGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781338376; x=1781943176;
+        d=1e100.net; s=20251104; t=1781338837; x=1781943637;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=x+DHXyBduh8nW5mH/RwXPnUoFvsJilmF8kF51mFs5s0=;
-        b=jI49jZY9rZve4pXNIuEUFNlVuKZHtCOjZF5FunfbqyJ64qG5RuLqelf/odlkz6WrUG
-         MINQUjZHlWTgzPPCyHEhXeIfFYYgAVVyawktfmF5UgyvNYAsjQnIRQak0OCOBdZ8eIcj
-         C0H8rT9utszSKCHgckDuKSltknxygOm4BJ9aRa+g27d9nRqiAqV2prVvZXp9gRqRfmgp
-         K89BAt+kB6GC3Z/DZO7+jmkPyR07DCFKbLbpex+wONA4hlxDucDbORiV/8Wsh3TgPaxL
-         vwEzY69iNc7FAQtjnAXtOv6Nfi9SOlAHIKhTeISvjcKdqa3Zs5CaP3hGGr7gl4oyc8T1
-         WtJg==
-X-Forwarded-Encrypted: i=1; AFNElJ/asuds14baT8DplD9qt1GUU81Ho3swypvY63H9snLG+905xB7DBfnb/J/Fb4abpaSgPCb6jdKri+56mw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzRIMq4qUvFdwXBJlGUfhTjt9+sjms2o8tBJebYFEqMAM0fSm7C
-	SNOs49QAsqD0sxgq4EvVI7uU232TJtryVtwq30jGqgLbIYL8IaarSQ4l
-X-Gm-Gg: Acq92OEVSigVMPeMJXrRSxr6JDADc0kfiKWscCaRVR6GWbnQIMo9nKqeSXlzOzBOJ1+
-	tX7jSwshPKYC4vSiUWeYDKgz+XMFzQiH88DMAF86xGQHkk3qaisCTzufrxn5Jiy3Afy2BxOHhHM
-	UEigHXdyC7foOLBs9aNifJdtpRUBgoGGyyfwNMGjMQUP6EyWIOSIsTtZZJ9a4l+AxGpoFkNlPm9
-	Yn0Scq6IQm8SmwWQ/kJcHPdmmrVDz+BIt5Tna/UtGRuCdfX85RgH3xX7eMLo+LfC4i6+MeJyG1/
-	99B0u0Z92rtyApZ2QYo0v3NYCGBxNLtbOA1fyO9xe4vigrngjX6grvpgTSbl4M9+avRqF8SJq8w
-	4MLTq59qQaouJQmEL5ZJ46g5I7qRLxzfC03BLJ7YwU5C19bq/yNPjaCjN6/ZhC5I6/hTZLoF8Hn
-	JE7uaANyMWpyDV1w8kQmvtN1Uoth8jomnYLmqeXLHIuO4h
-X-Received: by 2002:a05:600c:8b31:b0:490:e5c1:b8c6 with SMTP id 5b1f17b1804b1-490ec4b58ffmr75929755e9.8.1781338376446;
-        Sat, 13 Jun 2026 01:12:56 -0700 (PDT)
+        bh=ud8CqUMs31Lbag+rPY0L/C65qKiCj6gLmHREZB+Ipfw=;
+        b=a5EIdyfZIxVxrS/NIY+S0yZgVs7W616vAEhc9KZlUoB9IAQij4fyv9Kdca0nj5x9Sa
+         MeK30ulsswhL5ZoZwT423hnJZLsk7cID2zVzhDEpw5QxEUIjFdf0WxoZr0F+NhQTnIfg
+         Gb5TVpWkMYDrxWZcHmFKGvpV4LfPgF7IsM2AwqRtVvX1lYE1jpTI/kOWxSiqzQseibtf
+         ldCAonAC6LnU/nInPcOeh8LFEoy+dfxGOXwP7rf8125KdbeqQlvunw6JirXAss1ythC3
+         g0D34Nx78S7aflcqYOe3tHOHcUYnouCS9nDeZ91eBglvnNhqaj9aiGQHWkXJ20cgCLsa
+         sBLQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8XWSXcWZJqK1IUf9GHxmShd3UZUJglZPdKL6mM31Z0yy7J//sQ0DM9gbkyh7orBs2nGPNpHFqk1GllbQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy7WWUEHFywBn+CTxJhTVH7RDIYn0DuJQ75jqxSj8TJSTWXRjjG
+	0SGpcHKTuStXD0qvrHoLLKBFqtHf3jFN2w9B5vWm8e8tXZafzfzRy5YW
+X-Gm-Gg: Acq92OGOVKdJlCeuxx/yPacQHI1rmIH7RH4/6wM2xNa73AgOiMoRU+cGh/AS6uiT3Mc
+	sbI2fcwKccdQRRTSesVYbXcWjnHSBJo+46dUGfyQoqiUra5DXwJkEEAaWLqIZ9sv73399VCc/Rr
+	ulnEhysgIyoF2S4X27TaW87ZS2qqVziFoCk3XIC3vqDj2nXpnbpHOctvM//8Yadv6h8B24PYMf6
+	3xaWTnAE4xnXoWTvyFnBVuw48D2mv2owT3D76T0xnCNLL4sku4beIAy1FhLf6BWIfFLCA8IWT9f
+	UK5M3tM0hTih/8YSLgnf29+OPDZBM4MICfjg4WEROuCIDPircHTuhot+YNrtt1uSOIyupmAuCip
+	5IkuogLKp/+OiJTHexupnvv5YGQpjhkcab5FfGVrTHe3SkDmGpR11v4WQ3bznawVtCoHJO1iCvb
+	9ivHlF6h67YRe1k5iPdNKtF1J67SyZW15zfFt6dUp9yFdA
+X-Received: by 2002:a05:600c:c3cd:20b0:490:d3ef:fa4a with SMTP id 5b1f17b1804b1-490ec4ea4f1mr58033045e9.14.1781338837061;
+        Sat, 13 Jun 2026 01:20:37 -0700 (PDT)
 Received: from jernej-laptop.localnet ([188.159.248.16])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490ea4b39e9sm88333215e9.0.2026.06.13.01.12.54
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4922032ae56sm54483765e9.7.2026.06.13.01.20.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jun 2026 01:12:55 -0700 (PDT)
+        Sat, 13 Jun 2026 01:20:36 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  Alexander Sverdlin <alexander.sverdlin@gmail.com>
@@ -73,14 +73,13 @@ Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>,
  Luca Weiss <luca@lucaweiss.eu>, Sven Peter <sven@kernel.org>,
  Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject:
- Re: [PATCH v4 1/7] arm64: defconfig: Enable Allwinner LRADC input driver
-Date: Sat, 13 Jun 2026 10:12:54 +0200
-Message-ID: <sIT7xrHETBux3nDrv9ggVw@gmail.com>
-In-Reply-To: <20260605070923.3045073-2-alexander.sverdlin@gmail.com>
+Subject: Re: [PATCH v4 5/7] arm64: dts: allwinner: a100: Add LRADC node
+Date: Sat, 13 Jun 2026 10:20:35 +0200
+Message-ID: <5lITDd8mTsaQJaoJhGu1EA@gmail.com>
+In-Reply-To: <20260605070923.3045073-6-alexander.sverdlin@gmail.com>
 References:
  <20260605070923.3045073-1-alexander.sverdlin@gmail.com>
- <20260605070923.3045073-2-alexander.sverdlin@gmail.com>
+ <20260605070923.3045073-6-alexander.sverdlin@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -90,16 +89,61 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne petek, 5. junij 2026 ob 09:09:15 Srednjeevropski poletni =C4=8Das je Al=
+Dne petek, 5. junij 2026 ob 09:09:19 Srednjeevropski poletni =C4=8Das je Al=
 exander Sverdlin napisal(a):
-> Enable Allwinner LRADC input driver as module to support buttons on Baijie
-> HelperBoard A133.
+> A100/A133 SoCs feature a Low Rate ADC (LRADC) for Key application.
+>=20
+> Specs:
+> - Power supply voltage: 1.8 V
+> - Reference voltage: 1.35 V
+> - Interrupt support
+> - Support Hold Key and General Key
+> - Support normal, continue and single work mode
+> - 6-bits resolution, sample rate up to 2 kHz
+> - Voltage input range between 0 and 1.35 V
 >=20
 > Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+> ---
+> Changelog:
+> v4:
+> - added allwinner,sun50i-a100-lradc compatible
+> v3:
+> - new patch
+>=20
+>  arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>=20
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi b/arch/arm64/=
+boot/dts/allwinner/sun50i-a100.dtsi
+> index b3fb1e0ee796..7cb06b19b5a5 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
+> @@ -466,6 +466,15 @@ ths: thermal-sensor@5070400 {
+>  			#thermal-sensor-cells =3D <1>;
+>  		};
+> =20
+> +		lradc: lradc@5070800 {
+> +			compatible =3D "allwinner,sun50i-a100-lradc", "allwinner,sun50i-r329-=
+lradc";
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Break this into two lines, like usb_otg below. With that:
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej Skrabec
+
+> +			reg =3D <0x05070800 0x400>;
+> +			interrupts =3D <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks =3D <&ccu CLK_BUS_LRADC>;
+> +			resets =3D <&ccu RST_BUS_LRADC>;
+> +			status =3D "disabled";
+> +		};
+> +
+>  		usb_otg: usb@5100000 {
+>  			compatible =3D "allwinner,sun50i-a100-musb",
+>  				     "allwinner,sun8i-a33-musb";
+>=20
+
+
 
 
