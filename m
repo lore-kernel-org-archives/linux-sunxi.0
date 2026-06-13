@@ -1,109 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9D3374728;
-	Sat, 13 Jun 2026 11:50:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1266339E180
+	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 12:23:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781351420; cv=none; b=pT/HcSC7VjdV0IhqDdXBkHkEMrTQIRly0vffSprkzt6cIw1KP4ccenxyvHwPm0QMtbEorjzHpNJmEbLjXQ4hci18gJVqGd+KXukelJ16y99L1u9HkbGDNShdqu2ImYKWTrlSD2ieecLru8QHWjsUKPuhDgOVKjsm7NwD7mRyHxg=
+	t=1781353430; cv=none; b=qob2TSK3mfuBdamUGpaNUK7k9tqGTarmKjzcWVW6b0rfOykTTpUl+D4mbFYgQ3WM/9xejrsIA9WiUjW0hMmr8p/C9SesxXeFMR53tSjxBNn7G+XS1iCsYiA4jiTyXeH6AdsaidPYLRX+oBnVw7q74U/2bhroZqNMjY4RKVaXbG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781351420; c=relaxed/simple;
-	bh=gBPGsjsJJw8C6S1/99m7O7L1JU4dJJlui6HmSTzcJiY=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=KC/G1RWWVjAn4tvrndF7yI+T91/UibbrnvissCKHdGATbb8O3z5isvItBtpeOQ1hQB/Y67+tfUmm4CcoMavLeuxFnOAyAayCpsAfX08Za7FtU9aiRevJEMKFHQ188MUJtPI+5McjO+kcUfegFdaO8uVYOOQdy4pk4fEhfcuoXIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DJiTOny2; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781353430; c=relaxed/simple;
+	bh=UA2EXYJYCNN2s2fDBflhY/TwvwPeAThnGXq65LNlvwY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=HzQcZbo+nq3SFs0q82FdjZcWVbmfUmFEU4d+bdaNrh7/nPEUXSfIQKUsyRBVys7oAho2Zk898c8yxn6wDSrY/O8SIGxQq5w8VxJDhYYpeXCiE1e1jtDOi/0ZGKawgydiX5T5AuIyQFOsT73EIKfkc+ubRIBzigACgHFR7KxkPk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r3oyG6ya; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DJiTOny2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3A111F00A3F;
-	Sat, 13 Jun 2026 11:50:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781351419;
-	bh=erkZj5hqHW6bXkpo4dZEwW77jrkRwARJOKmvsY/EhT0=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=DJiTOny2/V6+izDu1dUMfbuCRx2se/NaZmdtbKhOXgy+uvS+Ww8lG/NLuGpiVv4cm
-	 AZsSJodMPaqowPitxJmiJcWx8wfGgMNZ8dUZdRj5ZdeOG6Rm6gu/G21rRlW0AUREeP
-	 iHEp4h5JSJq9PKsLxYs3oi+ENFjtM+NRi9mtf9d9lTb4C2qOxyRnCrPmnWoZ0XhncN
-	 2R4fWO/sA1z5WMC77XLX1x58gmIaMoEaWdbkVRL3zRUEpdgo/x6rdTW9iu1w89WXGW
-	 YGockjpuVJXz8jTWU8GUwstdX8WDx+T6uyX82HiIP4qVJZUstLe+Skx4RydK52HKi+
-	 du6i/3RYAP2dg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 3/4] arm64: dts: allwinner: add Allwinner A733 SoC
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Enzo Adriano via B4 Relay" <devnull+enzo.adriano.code.gmail.com@kernel.org>
-Cc: robh@kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20260613-a733-dts-v1-public-ready-v1-3-7787c94681db@gmail.com>
-References: <20260613-a733-dts-v1-public-ready-v1-3-7787c94681db@gmail.com>
-Content-Type: text/plain; charset=utf-8
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r3oyG6ya"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490bc6a7958so24121895e9.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 05:23:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781353427; x=1781958227; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=UA2EXYJYCNN2s2fDBflhY/TwvwPeAThnGXq65LNlvwY=;
+        b=r3oyG6yaalzvOVRWrrS5KO5eB40VasOlSmfNPFqmF1AxZK0MdRmAygiKKYj/2W6z8f
+         i8FwY2l4ykxf3h4WFDKD5qesSNEcyem4uyeODrG5m98kptK2idAK8Kg9LpxYMGNSBfXw
+         OUk8koNtRDCrNsFFOLL84MnCQCioqIa+tjaZqzVzxG1bsOs/LLcd4F1YXDtlq7ArTmRK
+         uq2qSrdA/JJ8xx0O3sUDd/9ExFAXo8il/PLc/YcPF2rNfxfCoOCTgPT5PJVMnn+pdpIA
+         6efURgCAKYThtqLzjOkTtO0KD5rH04nV2uWNIlB/6wnQrX/dXT+OWAgNcquoMDUiMS/R
+         YwAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781353427; x=1781958227;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UA2EXYJYCNN2s2fDBflhY/TwvwPeAThnGXq65LNlvwY=;
+        b=Uij3BAeV5PONmh8wsXhIBBFwgBAxq2axHcri2zjaDpeMOj+6Qaf3bI0H5GRss0Njf5
+         EXq1k5YGPRaHQ3eqr86hBWmxbYXDrD3FiKOrRqMlPgCv3jkQFja+SQGn7Du9t5vzbTD0
+         Braid2zDAxDPYgA1TGwmkkSiEDP6SMqA6xccFx8uURxrvkVXwhNsupsb2b8ycdRUxWJa
+         jj8/jB9qPZ8mO/LGSPVqp443+mKzdlW9vLaxzxNIFxOJs4MBzwNQLIdvnxjfEMBCq2h6
+         dV4P5LQmiSYkS9Zrfmz+fs43/4r2mNYLsXBjTBpPsw5Wa8jteISa5AsQ2aykucD6yhuj
+         SVuQ==
+X-Forwarded-Encrypted: i=1; AFNElJ81l8hLP5i+PPtpmWBAI4//7qPxmhJ5aa6q1tP4bAkQvMRKbflYGkcXXaXbrLAlYGePWIj19YgYYk8VBQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwS44YqQeInPpfm9iyF6l/T6xm3qvUgh7whDrMV362P4ojvC6vj
+	XL2DsR0a2EXY7aZ79KA+3tiL3BAfKs/p0D107dktjJVsDDiN70S5uxQ4
+X-Gm-Gg: Acq92OFGLbbzr6L8HI1MF6AAD1M03i/83DqXhdYZY2Y7hEWfnwas6D11ftFm6P5buo9
+	XB/QViBOzJM/BuudcTsXf9asNwsbOsLjeFa+V8XGDXxxLUvy5qYPZH7M5xStYjL5tv5CUqefpJm
+	WoeWWEUHpKrY4LVnXDD07uySyKSkacJ2keasGqnJTkfTFGiULHWL3U98PMHwZEVPQZlBwkvYVLF
+	0E7qmpgY5e+Psuh5yTavIdZ8pV8978tNXZHDWe+MQk5v8m0r5jW/wo2O0I5b6IJE5JqOwmmmu7X
+	WjJn8UJu3fUcY1mmS9MHahZktEmI+lxzndXUvPuRUBE/cJXUpBcJRML5nr54UC34edLjJb6/Vzz
+	4OC5IPHR6v+63zsvwzKbEAu7feIDFjafVAc4IiIf3U+0tLqrPd/XnwyuBuejuLPP8fD3PUGH91X
+	tDcwMk58DO+NyrJB9DtLYmm4GG1Z4sNfL4lrbUz3NMvNiv+qvc/qkLPQQV6db4YLg8A5m3RRHfJ
+	QL02Xg=
+X-Received: by 2002:a05:600d:8446:20b0:490:c1cb:48f4 with SMTP id 5b1f17b1804b1-490ec4d77afmr50099355e9.12.1781353427306;
+        Sat, 13 Jun 2026 05:23:47 -0700 (PDT)
+Received: from 0.1.2.1.2.0.a.2.dynamic.cust.swisscom.net ([2a02:1210:8642:2b00:82ee:73ff:feb8:99e3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490ea4b2e8esm101605395e9.0.2026.06.13.05.23.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Jun 2026 05:23:46 -0700 (PDT)
+Message-ID: <039295d3542deda8c56151252fe5e50c88c13deb.camel@gmail.com>
+Subject: Re: [PATCH v4 6/7] arm64: dts: allwinner: a100: reserve RAM for ATF
+From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+To: Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Samuel
+ Holland <samuel@sholland.org>,  Hans de Goede <hansg@kernel.org>, Dmitry
+ Torokhov <dmitry.torokhov@gmail.com>, Andre Przywara	
+ <andre.przywara@arm.com>, Jun Yan <jerrysteve1101@gmail.com>, Lukas Schmid	
+ <lukas.schmid@netcube.li>, "J." =?ISO-8859-1?Q?Neusch=E4fer?=
+ <j.ne@posteo.net>,  Eric Biggers <ebiggers@kernel.org>, Michal Simek
+ <michal.simek@amd.com>, Luca Weiss <luca@lucaweiss.eu>,  Sven Peter
+ <sven@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ devicetree@vger.kernel.org, 	linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org
+Date: Sat, 13 Jun 2026 14:23:46 +0200
+In-Reply-To: <FE7Vh4yfTmGMM24i18Wwwg@gmail.com>
+References: <20260605070923.3045073-1-alexander.sverdlin@gmail.com>
+	 <_6NEZ78hR8a_3V2bhBAGoQ@gmail.com>
+	 <b428d57ba5464f1226daf099877f4c25fa4fc191.camel@gmail.com>
+	 <FE7Vh4yfTmGMM24i18Wwwg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 13 Jun 2026 11:50:18 +0000
-Message-Id: <20260613115018.D3A111F00A3F@smtp.kernel.org>
+User-Agent: Evolution 3.60.1 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [Low] The patch references missing header files for CCU clock and reset b=
-indings, which will cause a build failure.
-- [Low] New compatible strings for the CCU and pinctrl are used without bei=
-ng documented in the YAML schemas.
---
+Hi Jernej,
 
-commit 08b3c222d5fc2b42b4c8ea3dd602ebcc113d5545
-Author: Enzo Adriano <enzo.adriano.code@gmail.com>
+On Sat, 2026-06-13 at 11:38 +0200, Jernej =C5=A0krabec wrote:
+> > > > Add reserved-memory node carving out Trusted Firmware-A region span=
+ning
+> > > > fixed 256K from physical address 0x40000000. Even though Allwinner =
+ATF
+> > > > itself passes the address range in the fdt to U-Boot, U-Boot curren=
+tly
+> > > > only reserves this memory internally, but doesn't carve out the reg=
+ion
+> > > > in the fdt passed to Linux.
+> > > >=20
+> > > > Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+> > >=20
+> > > NAK. It is job of boot procedure to properly inject TF-A reserved nod=
+e.
+> > > Any issue should be fixed there.
+> >=20
+> >=20
+> > like in commit 0d17c865118881609ea7e381c7cadbb7979cc596
+> > ("arm64: dts: allwinner: Add Allwinner H616 .dtsi file")
+> > =C2=A0=C2=A0=C2=A0=C2=A0 Signed-off-by: Jernej Skrabec <jernej.skrabec@=
+gmail.com>
+> >=20
+> > ? ;-)
+>=20
+> I was against that too.
+>=20
+> It's time to be fixed in bootloader.
 
-arm64: dts: allwinner: add Allwinner A733 SoC
-
-Add the initial A733 SoC description with CPUs, timers, interrupt
-controller, clocks, pinctrl, UART0, and MMC0.
-
-Keep peripherals disabled by default. Board DTS files can enable only the
-devices that are proven on their hardware.
-
-> diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi b/arch/arm64/=
-boot/dts/allwinner/sun60i-a733.dtsi
-> new file mode 100644
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
-> @@ -0,0 +1,198 @@
-> +// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
-> +
-> +#include <dt-bindings/interrupt-controller/arm-gic.h>
-> +#include <dt-bindings/clock/sun60i-a733-ccu.h>
-> +#include <dt-bindings/reset/sun60i-a733-ccu.h>
-
-[Severity: Low]
-Are these header files introduced in a different patch? Compiling this devi=
-ce
-tree will fail at the preprocessor stage because these headers are missing
-from the baseline tree and aren't added in this patch.
-
-[ ... ]
-
-> +		pio: pinctrl@2000000 {
-> +			compatible =3D "allwinner,sun60i-a733-pinctrl";
-
-[Severity: Low]
-Are these new compatible strings documented in the dt-binding YAML schemas?
-Adding new compatibles without their corresponding binding documentation wi=
-ll
-trigger make dtbs_check warnings.
-
-> +			reg =3D <0x02000000 0x600>;
-
-[ ... ]
-
-> +		ccu: clock-controller@2002000 {
-> +			compatible =3D "allwinner,sun60i-a733-ccu";
-
-[Severity: Low]
-Will this compatible string also need to be added to the YAML schemas to
-avoid validation warnings?
-
-> +			reg =3D <0x02002000 0x2000>;
+I agree, I was wondering about this shortcut as well... I'll implement
+some sort of generic reserved memory handling in U-Boot.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260613-a733-dts-v=
-1-public-ready-v1-0-7787c94681db@gmail.com?part=3D3
+Alexander Sverdlin.
