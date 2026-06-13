@@ -1,97 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1BB53264F1;
-	Sat, 13 Jun 2026 09:42:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF7F81D5160;
+	Sat, 13 Jun 2026 09:50:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781343733; cv=none; b=mkBEfIZhevJaUvwbL6qzPreVEEsyP7/vaShfMm4TBHhbA+sZx+0nR7VeH9LKA5lpHZA6ZdMaJZV9kEJdE61R8PeKhzaUnrg48O62mylM1JvQ3VvQos+WeP3iGEcMYibw7ls7WitoV9VNm4CqHZJ1c0or6PZ/n0ec+M5gMxOZHJ4=
+	t=1781344259; cv=none; b=fRP9pZ8rinWrPzcNIKuu8Dp86nFgPrn9JWHq+2m+VdIeScm9I5nlEyP41lHN3MScVIxZhKXNdjPbG6mbDTKty0F+LBLWNDqQMZjBQMIr8OoJ/i9TGRaejngv6dnmH4ZfqbcnewrOh6JbizzFe6lxFuNSPN21VtCaT56R0vpLlxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781343733; c=relaxed/simple;
-	bh=hP2JkIrZctPbTnRpe+Zy7+t9wd8M+gb11xmJHpExrYE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=iCIdGTQKaRzf/8ojJMO7A9GkUDNBxIMQDcOdLzKsci5v6kIGt9CGIDgHQ8zcxpws53NRFuT1/ptC6R37IOuj6/BXZhB1bDPNN6VfZej/EDQyr6a7sa+SWr3xMiojYyP7HeIfBSyOFDJTxDy73yu/4rNCdXn4MFkAJUGqVVI0Hrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aw6+l6Fp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1781344259; c=relaxed/simple;
+	bh=vwB0alkSIDYT3FLbg5ANhcXK4/IxOjKaKmJ6hY0cFpI=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=Jbg4V3EhWey88MffeBbtVe30Ul7jHLQFpxdVzrVGW8/zjjr9u0uEa0F7+aSr8LyYe27cAGVzEfwBkofRGDz3OarfFws3sXbft4ejhd2Ela6DaKMoMPrAylO02weu228g+E9OkSshY4mS+uic/CE+2dmHjvaDUwny2s+jWrEmq98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bZWzUcCc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aw6+l6Fp"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 574B5C2BCB7;
-	Sat, 13 Jun 2026 09:42:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1781343733;
-	bh=hP2JkIrZctPbTnRpe+Zy7+t9wd8M+gb11xmJHpExrYE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=aw6+l6FppVdYNcjSfW/E4tviNWPc6zVdUKDNs2KfRPTmoiEvr00UsbgRj9V6V+aut
-	 4w1CJR0+Va00Y+htR+5bQ1pBuh60tO6FP1yCSrujO2Dyo42V4OR6PK3NnzslAFc9gO
-	 Y9rXFOi4bO5vemqWHP8aDmFgrUbbK2Zt3EJVyc6+2Q5VMVvL2ZrE0Q2lKGL69W/rs7
-	 C2eT34pJ0VIsQPXhqxrx/HAdkY85m3ynm2TXRFVms2OmutLv9GsrRHiSbsvLzwz8Cv
-	 kV/x3uJM/yK7ILUEvlM+sv+3yIAO8/oUgor6SYQ0ERpRT56+gSs0uzBAzs4T1Nrk59
-	 t+cpvoUSYlQbA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44216CD8CA8;
-	Sat, 13 Jun 2026 09:42:13 +0000 (UTC)
-From: Enzo Adriano via B4 Relay <devnull+enzo.adriano.code.gmail.com@kernel.org>
-Date: Sat, 13 Jun 2026 05:42:13 -0400
-Subject: [PATCH 1/4] dt-bindings: arm: sunxi: add Radxa Cubie A7S
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bZWzUcCc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B0FE1F000E9;
+	Sat, 13 Jun 2026 09:50:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781344258;
+	bh=GwlHNxN2/24K0LF41glzYRU0V2y/owMcPA/IrzwXr7o=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=bZWzUcCcQwnrN0joeRFVDJWqCJVd5WPar/qKcali9K4YtT2ApPhVZu149kf7AD2a8
+	 9K7mUQe8cTamsn3PM1ztbvYEgY73KzPUhVlOI0/+7v1lqS13EpsLSf4yPHC0PFL+j5
+	 eOy2umB4NzIcEDTvafXZA0PY3Qsdq7t62L9GxW4DgF4u8f9Ih88HI38n0eJSlN3OYD
+	 Rrz/hl5v3dbcgRjb9LmbOPUSdhVs3ZI5hCGAaRALEg2ruRSs/k8/ph7g2lDAqgbO3r
+	 MQwpBqAg0gPh8OFYo88IABkZiHbJ4i3kEr1glC4SZqeskHSVdzpQGZtFKtm6sjxZ/5
+	 fy2qXBBpV/l8Q==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 4/4] arm64: dts: allwinner: add Radxa Cubie A7S
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Enzo Adriano via B4 Relay" <devnull+enzo.adriano.code.gmail.com@kernel.org>
+Cc: robh@kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20260613-a733-dts-v1-public-ready-v1-4-7787c94681db@gmail.com>
+References: <20260613-a733-dts-v1-public-ready-v1-4-7787c94681db@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 13 Jun 2026 09:50:57 +0000
+Message-Id: <20260613095058.2B0FE1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260613-a733-dts-v1-public-ready-v1-1-7787c94681db@gmail.com>
-References: <20260613-a733-dts-v1-public-ready-v1-0-7787c94681db@gmail.com>
-In-Reply-To: <20260613-a733-dts-v1-public-ready-v1-0-7787c94681db@gmail.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
- Ulf Hansson <ulfh@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-mmc@vger.kernel.org, Enzo Adriano <enzo.adriano.code@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1781343732; l=870;
- i=enzo.adriano.code@gmail.com; s=a733-cubie-a7s;
- h=from:subject:message-id;
- bh=i6WAYnG2+hwZK3Eb/pK94tZG5A16TibjSeWXfvrfG5Q=;
- b=5BARvAPMpbKPU18jBrRxIKm7WodlM6Gk6MSwlfRJ27A2ff7vIgRd1LEXPKA4Y2YrCF8MS/5C9
- EJzXnC/1/kBBJVnh2a/D4waItyqVfHitw2Wm55132Zfn98+LESXjRpj
-X-Developer-Key: i=enzo.adriano.code@gmail.com; a=ed25519;
- pk=5S3Wmdqa4XfCdeZF/HfeYqnQF8GN9JGt3SE1cxqSX8E=
-X-Endpoint-Received: by B4 Relay for
- enzo.adriano.code@gmail.com/a733-cubie-a7s with auth_id=820
-X-Original-From: Enzo Adriano <enzo.adriano.code@gmail.com>
-Reply-To: enzo.adriano.code@gmail.com
 
-From: Enzo Adriano <enzo.adriano.code@gmail.com>
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
+- [Medium] The `&mmc0` node is missing the `cd-gpios` property (or `broken-=
+cd` / `non-removable`), which may be necessary for proper SD card detection.
+- [Low] The new DTB entry in the Makefile breaks alphabetical ordering.
+- [Low] The fixed regulator node name does not match the required device tr=
+ee schema.
+--
 
-Document the Radxa Cubie A7S board compatible for the Allwinner A733 SoC.
+commit f3152d16f1d4c4fabab01c5ee230d7994c9a7898
+Author: Enzo Adriano <enzo.adriano.code@gmail.com>
 
-Signed-off-by: Enzo Adriano <enzo.adriano.code@gmail.com>
----
- Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
- 1 file changed, 5 insertions(+)
+arm64: dts: allwinner: add Radxa Cubie A7S
 
-diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
-index e6443c266fa1..9f603681c78e 100644
---- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-+++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-@@ -850,6 +850,11 @@ properties:
-           - const: radxa,cubie-a5e
-           - const: allwinner,sun55i-a527
- 
-+      - description: Radxa Cubie A7S
-+        items:
-+          - const: radxa,cubie-a7s
-+          - const: allwinner,sun60i-a733
-+
-       - description: Remix Mini PC
-         items:
-           - const: jide,remix-mini-pc
+Add the Radxa Cubie A7S board description with serial console and SD card
+boot support. Ethernet remains disabled until prerequisites are proven.
 
--- 
-2.53.0
+> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts=
+/allwinner/Makefile
+> index d116864b6c2b3..824cc35152db8 100644
+> --- a/arch/arm64/boot/dts/allwinner/Makefile
+> +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> @@ -56,6 +56,7 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h700-anbernic-rg35=
+xx-2024.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h700-anbernic-rg35xx-h.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h700-anbernic-rg35xx-plus.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h700-anbernic-rg35xx-sp.dtb
+> +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun60i-a733-cubie-a7s.dtb
 
+[Severity: Low]
+This isn't a bug, but should this entry be placed further down?
 
+Strict alphabetical sorting dictates that sun60i should appear after all
+the sun55i entries to avoid merge conflicts.
+
+>  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun55i-a527-cubie-a5e.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun55i-h728-x96qpro+.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun55i-t527-avaota-a1.dtb
+
+[ ... ]
+
+> diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts b/ar=
+ch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
+> new file mode 100644
+> index 0000000000000..453761a963237
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
+> @@ -0,0 +1,48 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
+> +
+> +/dts-v1/;
+> +
+> +#include "sun60i-a733.dtsi"
+> +
+> +/ {
+> +	model =3D "Radxa Cubie A7S";
+> +	compatible =3D "radxa,cubie-a7s", "allwinner,sun60i-a733";
+
+[ ... ]
+
+> +	chosen {
+> +		stdout-path =3D "serial0:115200n8";
+> +	};
+> +
+> +	reg_vcc3v3: vcc3v3 {
+> +		compatible =3D "regulator-fixed";
+
+[Severity: Low]
+This isn't a bug, but does this regulator name trigger a dtbs_check warning?
+
+The standard device tree binding expects the node name to match the pattern
+^regulator(-[0-9]+v[0-9]+|-[0-9a-z-]+)?$. A standard name like regulator-3v3
+or regulator-vcc-3v3 should be used instead.
+
+> +		regulator-name =3D "vcc-3v3";
+> +		regulator-min-microvolt =3D <3300000>;
+> +		regulator-max-microvolt =3D <3300000>;
+> +		regulator-always-on;
+> +	};
+> +};
+> +
+> +&mmc0 {
+> +	vmmc-supply =3D <&reg_vcc3v3>;
+> +	bus-width =3D <4>;
+> +	no-mmc;
+> +	no-sdio;
+> +	status =3D "okay";
+> +};
+
+[Severity: Medium]
+The commit message states this adds SD card boot support, but is the
+cd-gpios property missing from this node?
+
+Without cd-gpios or an explicit broken-cd fallback, the MMC core might fail
+to detect card presence. If the kernel assumes the slot is empty, it will
+not probe the SD card, causing root filesystem mounting to fail.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260613-a733-dts-v=
+1-public-ready-v1-0-7787c94681db@gmail.com?part=3D4
