@@ -1,28 +1,28 @@
 Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED082F9D98
-	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 15:27:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524DB33EB01
+	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 15:27:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781364454; cv=none; b=TT8JuGdmcgVn9Jfhg1xrUkFn2ROGPWemYBCHN9HR5jqWoedl26B2k6743uWf6FzFSFCGMZhXqhMKudMsaqybego1eBczP9ILR39a9+stNICNTtHuv11JlRNQUcQg2nbw9lYXNKuNMcBXYKFDPJAoUlbu71CnSe35f4SHV/sfGBw=
+	t=1781364460; cv=none; b=NfmuZczdlqfF5z/K0sieARHtUNFm1ymVCf/BJjCwirSzAgdWUg8rVF3BFxxgu/VpxQ/rUaLMj1xHxzNzWkaLqiNo1wHKeCTW/kQ/UShJAv7RjpYpEEEJUAtRT+EGbRfPv//kG2SzuM/DejC7uRUqxPh+RHDKALAmuc4KeFxEYO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781364454; c=relaxed/simple;
-	bh=/31T6WAMjIR7AN2S3ymAQtgatmirOtaIef3/rrgW8Cw=;
+	s=arc-20240116; t=1781364460; c=relaxed/simple;
+	bh=eBgXTDQqXUcLwMtmkeSXGHs4lmuVYm0cunSpPPBuHqs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=B0GnXIHDiREdC6fJcxSQ5eSfWJesSuc15EgyBAQ0KbdTIbqaI9wuSUmo3WZoGXfQOXQpWJuGdduLXdZVPUqnClEZ1W9OHMgbp+HcDBk5ZhauLXlNLlVK+FHeCdta7q6io9Qc5b2V8i3D5ttCHLef0uhadlWhkTx562/fIdeQUzU=
+	 MIME-Version; b=HSFkONt/8w/mbI2dJKzQrGNkzGy1bOhR0+zy98w+XP5XE0/QzGJdP2oJtGUS0EjdQ3UQs2P1vRRTNTWWmw6kb6MaEWcFjVzW1RsdPg5RVVwbkBihm4wg6XRbkUovtQAgbJozTQskz2Q8u6YXgl8L+gS7/ktCyqI32WFNhdTcF+U=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
 Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id BF13C370030C
-	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 15:27:17 +0000 (UTC)
+	by leonov.paulk.fr (Postfix) with ESMTPS id A17A637002DC
+	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 15:27:20 +0000 (UTC)
 Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 07726B4551A; Sat, 13 Jun 2026 15:27:15 +0000 (UTC)
+	id 08AA5B45524; Sat, 13 Jun 2026 15:27:17 +0000 (UTC)
 X-Spam-Level: **
 Received: from collins (unknown [192.168.1.64])
-	by laika.paulk.fr (Postfix) with ESMTP id 86935B45520;
-	Sat, 13 Jun 2026 15:26:58 +0000 (UTC)
+	by laika.paulk.fr (Postfix) with ESMTP id 14C7EB45525;
+	Sat, 13 Jun 2026 15:26:59 +0000 (UTC)
 From: Paul Kocialkowski <paulk@sys-base.io>
 To: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -41,11 +41,10 @@ Cc: Yong Deng <yong.deng@magewell.com>,
 	Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>,
 	Brian Masney <bmasney@redhat.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH v10 3/6] ARM: dts: sun8i: v3s: Add mbus node to represent the interconnect
-Date: Sat, 13 Jun 2026 17:26:52 +0200
-Message-ID: <20260613152655.212490-4-paulk@sys-base.io>
+	Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v10 4/6] dt-bindings: sun6i-a31-mipi-dphy: Add V3s SoC compatible entry
+Date: Sat, 13 Jun 2026 17:26:53 +0200
+Message-ID: <20260613152655.212490-5-paulk@sys-base.io>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260613152655.212490-1-paulk@sys-base.io>
 References: <20260613152655.212490-1-paulk@sys-base.io>
@@ -57,44 +56,30 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+The V3s/V3/S3 comes with a rx-only D-PHY paired with the MIPI CSI-2
+controller. It is compatible with the D-PHY found on the A31.
 
-The V3s uses the mbus interconnect to provide DRAM access for a
-number of blocks. The SoC can only map 2 GiB of DRAM, which is
-reflected in the dma-ranges property.
+Add an entry with a new compatible and the A31 compatible as fallback.
 
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Reviewed-by: Samuel Holland <samuel@sholland.org>
+Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
 ---
- arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ .../devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
-index fa54510319ac..02d6c62b3874 100644
---- a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
-+++ b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
-@@ -629,6 +629,21 @@ int_mii_phy: ethernet-phy@1 {
- 			};
- 		};
- 
-+		mbus: dram-controller@1c62000 {
-+			compatible = "allwinner,sun8i-v3s-mbus";
-+			reg = <0x01c62000 0x1000>,
-+			      <0x01c63000 0x1000>;
-+			reg-names = "mbus", "dram";
-+			clocks = <&ccu CLK_MBUS>,
-+				 <&ccu CLK_DRAM>,
-+				 <&ccu CLK_BUS_DRAM>;
-+			clock-names = "mbus", "dram", "bus";
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+			dma-ranges = <0x00000000 0x40000000 0x80000000>;
-+			#interconnect-cells = <1>;
-+		};
-+
- 		spi0: spi@1c68000 {
- 			compatible = "allwinner,sun8i-h3-spi";
- 			reg = <0x01c68000 0x1000>;
+diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
+index 6a4fd4929959..3ca1a1c47032 100644
+--- a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
++++ b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
+@@ -21,6 +21,9 @@ properties:
+       - items:
+           - const: allwinner,sun50i-a64-mipi-dphy
+           - const: allwinner,sun6i-a31-mipi-dphy
++      - items:
++          - const: allwinner,sun8i-v3s-mipi-dphy
++          - const: allwinner,sun6i-a31-mipi-dphy
+       - items:
+           - const: allwinner,sun20i-d1-mipi-dphy
+           - const: allwinner,sun50i-a100-mipi-dphy
 -- 
 2.54.0
 
