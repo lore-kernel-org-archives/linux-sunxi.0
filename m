@@ -1,129 +1,226 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1266339E180
-	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 12:23:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781353430; cv=none; b=qob2TSK3mfuBdamUGpaNUK7k9tqGTarmKjzcWVW6b0rfOykTTpUl+D4mbFYgQ3WM/9xejrsIA9WiUjW0hMmr8p/C9SesxXeFMR53tSjxBNn7G+XS1iCsYiA4jiTyXeH6AdsaidPYLRX+oBnVw7q74U/2bhroZqNMjY4RKVaXbG0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781353430; c=relaxed/simple;
-	bh=UA2EXYJYCNN2s2fDBflhY/TwvwPeAThnGXq65LNlvwY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=HzQcZbo+nq3SFs0q82FdjZcWVbmfUmFEU4d+bdaNrh7/nPEUXSfIQKUsyRBVys7oAho2Zk898c8yxn6wDSrY/O8SIGxQq5w8VxJDhYYpeXCiE1e1jtDOi/0ZGKawgydiX5T5AuIyQFOsT73EIKfkc+ubRIBzigACgHFR7KxkPk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r3oyG6ya; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59C73E4C7D
+	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 13:29:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781357377; cv=pass; b=jkaJV1g6z7qUozorukBD5obpWZQUvq043XQs15oMPc/6IWeI4V/fmQEf1kqaoJq0MKGwRgAV/VSHeUJ2B8jIjuRNf//qGQIqqAKKkSDBKssqlEb/LdQOyEqNgDY03Zrrb4pngjYevT/yAn35xzJIu+CZPMIriVmiVZDMB9SM9m4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781357377; c=relaxed/simple;
+	bh=wsQQihnWIaC9bVsScBSqsXKP42m3O6jphB6W8rtbIis=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CGQrlYN93VxKUdM8Q/v49Lrq3Yxu1ycWeIo36TMKSDlUahjaOrwYmZEuJuRmub8/JDFzKN9MSQTveYfCE7AB2LcYjcLc2x3G9NPeOFHU3oTJSIW+oZM22mHoTPV3HGolikOGmXcaKT3YJevZVxdF1RzikzxFFQcb0EkhXlVlKSM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kc6g/lh6; arc=pass smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r3oyG6ya"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490bc6a7958so24121895e9.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 05:23:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kc6g/lh6"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2c0c3543590so13065855ad.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 06:29:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781357374; cv=none;
+        d=google.com; s=arc-20240605;
+        b=NdIWsdNZiSDwdvlqiCVvPtCMw37UxS7LO8mkBnkcANgAiVa52LcgiQKC3M8rf71g/c
+         RWD68CYOdj26BG/BZeyqdaqW8MxbBh6kop11lSuNIPVWYcg0mAZ7TXxDNlrAlr/OAy+6
+         qbthRAjNjoEV4am44V5AAiBzj7fJI2NkVxXPcL6z9myg+mHDrZVSrGbByMt4I5b6ej0D
+         rERDmnSX1kt1f29S2drWBq3svF8Qi9+zYvk+YHYViW79po1Q4lJdu7rsfzfgtgJMhsyP
+         ld401YFlDM5mFhXO8ucg5fgEwgKr/gcU7LdjaUmx/0AhLAwhEdsA0yU5bI7JswKUeiy7
+         mxpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=kUReiSsThHaQ8ouVdRpvuZtdgMCKvSl0l2ZSq4rDSXY=;
+        fh=WOBIcyFPFKUcmwBrXpw9A9ndsZ1yalpQysT7ZXsBu+M=;
+        b=NWoHRQhsdSmi2o77qLObxdfs6Vkqt0OnOoF+WxaklsGJvfg3FGOI8pYzpbxcyLknAm
+         fNdRlRDb+Rc7esHgrblOSMb29xiE6Rfx+uRp3pJ6PQ5cHiqKvWksgrPYCGbBI7QFUadi
+         sWcyUDUSqb40tlIDTu7QMp6dj2jULyLWGpm0gLgeiI7+Ts9RQAYWwHj7wfVlkc7o/f7M
+         Cxrx01CvNFgAo38Vx9wt6pcKUVjjn0hijRZnLir4mPvAx0b5j3uzSth6KbLQaIb6GSFJ
+         QJr82wcZwwKRk5p1QwrEhhpImhFzVZGHYPtWHp6YC3DfYDbd33TwhKp3DPW+725Wk9As
+         xQNQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781353427; x=1781958227; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=UA2EXYJYCNN2s2fDBflhY/TwvwPeAThnGXq65LNlvwY=;
-        b=r3oyG6yaalzvOVRWrrS5KO5eB40VasOlSmfNPFqmF1AxZK0MdRmAygiKKYj/2W6z8f
-         i8FwY2l4ykxf3h4WFDKD5qesSNEcyem4uyeODrG5m98kptK2idAK8Kg9LpxYMGNSBfXw
-         OUk8koNtRDCrNsFFOLL84MnCQCioqIa+tjaZqzVzxG1bsOs/LLcd4F1YXDtlq7ArTmRK
-         uq2qSrdA/JJ8xx0O3sUDd/9ExFAXo8il/PLc/YcPF2rNfxfCoOCTgPT5PJVMnn+pdpIA
-         6efURgCAKYThtqLzjOkTtO0KD5rH04nV2uWNIlB/6wnQrX/dXT+OWAgNcquoMDUiMS/R
-         YwAA==
+        d=gmail.com; s=20251104; t=1781357374; x=1781962174; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kUReiSsThHaQ8ouVdRpvuZtdgMCKvSl0l2ZSq4rDSXY=;
+        b=Kc6g/lh6AxmQWI1TrDxv0ldWbkMcWwCsxM0/3HurUV3N4vMnRZ9J7AtePjZhjLdyTU
+         VhbMBR6RBCSdbK/OwkL2f9y3XZYsbSOWYeTo9RFgbKdbkwcDled4yY2X+WeR2v4tOBqv
+         9TSda5E/kotQIt6n1YcxNeRfVOjf7tV56xSK6swPY/SqWWmZ8VcOi0kCtmJ7tqgWHLyM
+         X5xKsJlBAyDXox6xF1zGFwzspnC+cZqcYOkrhsZ8rWHDeBGqbpx3L18yMWBVZhc3GtgF
+         fw/dclyjbw63QXiCohFNEvgHnB/Gv1QEIE3NOyB70dJHd3sUHZNXUs2rY3kHiMvVZPvQ
+         Fs/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781353427; x=1781958227;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UA2EXYJYCNN2s2fDBflhY/TwvwPeAThnGXq65LNlvwY=;
-        b=Uij3BAeV5PONmh8wsXhIBBFwgBAxq2axHcri2zjaDpeMOj+6Qaf3bI0H5GRss0Njf5
-         EXq1k5YGPRaHQ3eqr86hBWmxbYXDrD3FiKOrRqMlPgCv3jkQFja+SQGn7Du9t5vzbTD0
-         Braid2zDAxDPYgA1TGwmkkSiEDP6SMqA6xccFx8uURxrvkVXwhNsupsb2b8ycdRUxWJa
-         jj8/jB9qPZ8mO/LGSPVqp443+mKzdlW9vLaxzxNIFxOJs4MBzwNQLIdvnxjfEMBCq2h6
-         dV4P5LQmiSYkS9Zrfmz+fs43/4r2mNYLsXBjTBpPsw5Wa8jteISa5AsQ2aykucD6yhuj
-         SVuQ==
-X-Forwarded-Encrypted: i=1; AFNElJ81l8hLP5i+PPtpmWBAI4//7qPxmhJ5aa6q1tP4bAkQvMRKbflYGkcXXaXbrLAlYGePWIj19YgYYk8VBQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwS44YqQeInPpfm9iyF6l/T6xm3qvUgh7whDrMV362P4ojvC6vj
-	XL2DsR0a2EXY7aZ79KA+3tiL3BAfKs/p0D107dktjJVsDDiN70S5uxQ4
-X-Gm-Gg: Acq92OFGLbbzr6L8HI1MF6AAD1M03i/83DqXhdYZY2Y7hEWfnwas6D11ftFm6P5buo9
-	XB/QViBOzJM/BuudcTsXf9asNwsbOsLjeFa+V8XGDXxxLUvy5qYPZH7M5xStYjL5tv5CUqefpJm
-	WoeWWEUHpKrY4LVnXDD07uySyKSkacJ2keasGqnJTkfTFGiULHWL3U98PMHwZEVPQZlBwkvYVLF
-	0E7qmpgY5e+Psuh5yTavIdZ8pV8978tNXZHDWe+MQk5v8m0r5jW/wo2O0I5b6IJE5JqOwmmmu7X
-	WjJn8UJu3fUcY1mmS9MHahZktEmI+lxzndXUvPuRUBE/cJXUpBcJRML5nr54UC34edLjJb6/Vzz
-	4OC5IPHR6v+63zsvwzKbEAu7feIDFjafVAc4IiIf3U+0tLqrPd/XnwyuBuejuLPP8fD3PUGH91X
-	tDcwMk58DO+NyrJB9DtLYmm4GG1Z4sNfL4lrbUz3NMvNiv+qvc/qkLPQQV6db4YLg8A5m3RRHfJ
-	QL02Xg=
-X-Received: by 2002:a05:600d:8446:20b0:490:c1cb:48f4 with SMTP id 5b1f17b1804b1-490ec4d77afmr50099355e9.12.1781353427306;
-        Sat, 13 Jun 2026 05:23:47 -0700 (PDT)
-Received: from 0.1.2.1.2.0.a.2.dynamic.cust.swisscom.net ([2a02:1210:8642:2b00:82ee:73ff:feb8:99e3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490ea4b2e8esm101605395e9.0.2026.06.13.05.23.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jun 2026 05:23:46 -0700 (PDT)
-Message-ID: <039295d3542deda8c56151252fe5e50c88c13deb.camel@gmail.com>
-Subject: Re: [PATCH v4 6/7] arm64: dts: allwinner: a100: reserve RAM for ATF
-From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-To: Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Samuel
- Holland <samuel@sholland.org>,  Hans de Goede <hansg@kernel.org>, Dmitry
- Torokhov <dmitry.torokhov@gmail.com>, Andre Przywara	
- <andre.przywara@arm.com>, Jun Yan <jerrysteve1101@gmail.com>, Lukas Schmid	
- <lukas.schmid@netcube.li>, "J." =?ISO-8859-1?Q?Neusch=E4fer?=
- <j.ne@posteo.net>,  Eric Biggers <ebiggers@kernel.org>, Michal Simek
- <michal.simek@amd.com>, Luca Weiss <luca@lucaweiss.eu>,  Sven Peter
- <sven@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- devicetree@vger.kernel.org, 	linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org
-Date: Sat, 13 Jun 2026 14:23:46 +0200
-In-Reply-To: <FE7Vh4yfTmGMM24i18Wwwg@gmail.com>
-References: <20260605070923.3045073-1-alexander.sverdlin@gmail.com>
-	 <_6NEZ78hR8a_3V2bhBAGoQ@gmail.com>
-	 <b428d57ba5464f1226daf099877f4c25fa4fc191.camel@gmail.com>
-	 <FE7Vh4yfTmGMM24i18Wwwg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 
+        d=1e100.net; s=20251104; t=1781357374; x=1781962174;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=kUReiSsThHaQ8ouVdRpvuZtdgMCKvSl0l2ZSq4rDSXY=;
+        b=SVyN4oMcwWIeeP3wzQZaUfdGf1Oh4Nfs/uaSMhZXIFj7AuUrELNHQMCCuqS0OfpBr3
+         Pc6ImpgBt5SKOWit7v/61qVUPz3Vg4K5G8pTvHQkS66vAZ6w6cSlwXTy2aV4MtWjRf5d
+         +dwdkEXUvaSMbVpaONJ6IqFutY5uVSIHw8GZkoKRwMdCp/9KyYpOx5pZA6RwyQQ3cBHG
+         Lz/pl6s5uf0NsduMEQDg4RXcui7lXhpCMKsxbkirM2geYLQrEKIBS5cFl7JSMP71g1Tb
+         A0FOR3VyadZF9JPRdWgj3joiQwzTdsZHfMf6wj14/0USPFanMQtCRCUa+DrIF2kE3Ee9
+         wIYw==
+X-Forwarded-Encrypted: i=1; AFNElJ/1aStN9lAtGjGOWAK36BsjcdgGbcK/Ni/IgOZju3WRHJgXeCnvi0AJxqvO1OBHumsgvtHzmnjDehf83g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxmuunQVJmg/yiTYyZ3QWrUypDLl53mpNag+IOkcspbQGuFnzS4
+	dgPH3J3bk90BnCWaT8ikr75N0Iu3NvE0BhOUZCk9eHCJxIsQ2jX6HHE0PnrqJ/tgOnxsl0DmOtz
+	611bPzyMrmR2HV1UrBlT9QPDFsE7Uva0=
+X-Gm-Gg: Acq92OG/W7BjT46A+A7GQgkCWi/2OIcEhmIz08dGmv5rIUev+qNNEczLmXDAEDkIVc7
+	BOukyDuHHcQHMJSc+PGGgXAHq+pPcND71ze/wa0P8Ck9PreGIToQ9r5t9dyRgcpnRM695T7pdV5
+	49mvWSu5vNbnKTawi1nyqBO0M5sQg7UDpk9A92Ij6HAIxaBusgkPHE6F/v3ULHknL7OcquMFrWC
+	AYa4fA2mJUEBj08hD84pJOiDVA75NaSk+Q7KiRBiixef21SN0gW8b8ad04Vv54z2Tqez3/yw3eC
+	SkaZ
+X-Received: by 2002:a17:902:e80a:b0:2c3:bab9:4961 with SMTP id
+ d9443c01a7336-2c413eb775cmr83686445ad.34.1781357373928; Sat, 13 Jun 2026
+ 06:29:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20260613-a733-dts-v1-public-ready-v1-0-7787c94681db@gmail.com>
+ <20260613-a733-dts-v1-public-ready-v1-4-7787c94681db@gmail.com> <yDDIdJcZRCmL2YwI2Wv_ng@gmail.com>
+In-Reply-To: <yDDIdJcZRCmL2YwI2Wv_ng@gmail.com>
+From: Enzo <enzo.adriano.code@gmail.com>
+Date: Sat, 13 Jun 2026 09:29:22 -0400
+X-Gm-Features: AVVi8CdCVOnyKliNLOkMVxlnWD8AwCxre4GYBDVtf8SuvuvseqhhiKAPW8eLEzc
+Message-ID: <CAHWUu5HKy6g5aFbrriBz1cC7dQkss7x5pTBQ1qXe2NA=H2aejw@mail.gmail.com>
+Subject: Re: [PATCH 4/4] arm64: dts: allwinner: add Radxa Cubie A7S
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+	Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, Ulf Hansson <ulfh@kernel.org>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-mmc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
 Hi Jernej,
 
-On Sat, 2026-06-13 at 11:38 +0200, Jernej =C5=A0krabec wrote:
-> > > > Add reserved-memory node carving out Trusted Firmware-A region span=
-ning
-> > > > fixed 256K from physical address 0x40000000. Even though Allwinner =
-ATF
-> > > > itself passes the address range in the fdt to U-Boot, U-Boot curren=
-tly
-> > > > only reserves this memory internally, but doesn't carve out the reg=
-ion
-> > > > in the fdt passed to Linux.
-> > > >=20
-> > > > Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-> > >=20
-> > > NAK. It is job of boot procedure to properly inject TF-A reserved nod=
-e.
-> > > Any issue should be fixed there.
-> >=20
-> >=20
-> > like in commit 0d17c865118881609ea7e381c7cadbb7979cc596
-> > ("arm64: dts: allwinner: Add Allwinner H616 .dtsi file")
-> > =C2=A0=C2=A0=C2=A0=C2=A0 Signed-off-by: Jernej Skrabec <jernej.skrabec@=
-gmail.com>
-> >=20
-> > ? ;-)
->=20
-> I was against that too.
->=20
-> It's time to be fixed in bootloader.
+Thanks for taking a look.
 
-I agree, I was wondering about this shortcut as well... I'll implement
-some sort of generic reserved memory handling in U-Boot.
+> Besides sashiko bot comments, these pins should go to main A733 DTSI,
+> like it's done for other SoCs.
+>
+> In any case, it's a bit early for DT. At least clocks should land before.
 
---=20
-Alexander Sverdlin.
+Agreed on both points. I'll move the UART0 pin definition into the main
+A733 DTSI for the next revision, following the other Allwinner SoCs.
+
+I will also hold off on sending a v2 until the A733 clock prerequisites
+are in a better state, unless maintainers prefer a different ordering.
+For now I'll keep this series as a checkpoint and continue tracking/testing
+the RTC, clock and pinctrl prerequisite work.
+
+Best regards,
+Enzo
+
+On Sat, Jun 13, 2026 at 7:37=E2=80=AFAM Jernej =C5=A0krabec <jernej.skrabec=
+@gmail.com> wrote:
+>
+> Dne sobota, 13. junij 2026 ob 11:42:16 Srednjeevropski poletni =C4=8Das j=
+e Enzo Adriano via B4 Relay napisal(a):
+> > From: Enzo Adriano <enzo.adriano.code@gmail.com>
+> >
+> > Add the Radxa Cubie A7S board description with serial console and SD ca=
+rd
+> > boot support.
+> >
+> > Ethernet remains disabled until the GMAC210 wrapper, clocks, resets,
+> > MDIO, PHY reset, PHY power, and link behavior are proven.
+> >
+> > Signed-off-by: Enzo Adriano <enzo.adriano.code@gmail.com>
+> > ---
+> >  arch/arm64/boot/dts/allwinner/Makefile             |  1 +
+> >  .../boot/dts/allwinner/sun60i-a733-cubie-a7s.dts   | 48 ++++++++++++++=
+++++++++
+> >  2 files changed, 49 insertions(+)
+> >
+> > diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/d=
+ts/allwinner/Makefile
+> > index d116864b6c2b..824cc35152db 100644
+> > --- a/arch/arm64/boot/dts/allwinner/Makefile
+> > +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> > @@ -56,6 +56,7 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h700-anbernic-rg=
+35xx-2024.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h700-anbernic-rg35xx-h.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h700-anbernic-rg35xx-plus.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h700-anbernic-rg35xx-sp.dtb
+> > +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun60i-a733-cubie-a7s.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun55i-a527-cubie-a5e.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun55i-h728-x96qpro+.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun55i-t527-avaota-a1.dtb
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts b/=
+arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
+> > new file mode 100644
+> > index 000000000000..453761a96323
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
+> > @@ -0,0 +1,48 @@
+> > +// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
+> > +
+> > +/dts-v1/;
+> > +
+> > +#include "sun60i-a733.dtsi"
+> > +
+> > +/ {
+> > +     model =3D "Radxa Cubie A7S";
+> > +     compatible =3D "radxa,cubie-a7s", "allwinner,sun60i-a733";
+> > +
+> > +     aliases {
+> > +             serial0 =3D &uart0;
+> > +             mmc0 =3D &mmc0;
+> > +     };
+> > +
+> > +     chosen {
+> > +             stdout-path =3D "serial0:115200n8";
+> > +     };
+> > +
+> > +     reg_vcc3v3: vcc3v3 {
+> > +             compatible =3D "regulator-fixed";
+> > +             regulator-name =3D "vcc-3v3";
+> > +             regulator-min-microvolt =3D <3300000>;
+> > +             regulator-max-microvolt =3D <3300000>;
+> > +             regulator-always-on;
+> > +     };
+> > +};
+> > +
+> > +&mmc0 {
+> > +     vmmc-supply =3D <&reg_vcc3v3>;
+> > +     bus-width =3D <4>;
+> > +     no-mmc;
+> > +     no-sdio;
+> > +     status =3D "okay";
+> > +};
+> > +
+> > +&pio {
+> > +     uart0_pb9_pb10_pins: uart0-pb9-pb10-pins {
+> > +             pins =3D "PB9", "PB10";
+> > +             function =3D "uart0";
+> > +     };
+>
+> Besides sashiko bot comments, these pins should go to main A733 DTSI,
+> like it's done for other SoCs.
+>
+> In any case, it's a bit early for DT. At least clocks should land before.
+>
+> Best regards,
+> Jernej
+>
+> > +};
+> > +
+> > +&uart0 {
+> > +     pinctrl-names =3D "default";
+> > +     pinctrl-0 =3D <&uart0_pb9_pb10_pins>;
+> > +     status =3D "okay";
+> > +};
+> >
+> >
+>
+>
+>
+>
