@@ -1,145 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF7F81D5160;
-	Sat, 13 Jun 2026 09:50:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD493C278B
+	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 11:01:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781344259; cv=none; b=fRP9pZ8rinWrPzcNIKuu8Dp86nFgPrn9JWHq+2m+VdIeScm9I5nlEyP41lHN3MScVIxZhKXNdjPbG6mbDTKty0F+LBLWNDqQMZjBQMIr8OoJ/i9TGRaejngv6dnmH4ZfqbcnewrOh6JbizzFe6lxFuNSPN21VtCaT56R0vpLlxU=
+	t=1781348519; cv=none; b=bWUuQ2sXYpz0UU6ErBoeVseXPK6bTtLm2wsfUOYlMIUaYNdMtuRVDPzLxrkU8qxQM5ln0/oLbs1iwOCS71kDjU42L25heKtss7ggJhzv+nBPn3nMd9J6JokWYc030XK1AdiksUZI/fhVbfyaCAH9lk+cZpYacGkEt7h6EcvPIRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781344259; c=relaxed/simple;
-	bh=vwB0alkSIDYT3FLbg5ANhcXK4/IxOjKaKmJ6hY0cFpI=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=Jbg4V3EhWey88MffeBbtVe30Ul7jHLQFpxdVzrVGW8/zjjr9u0uEa0F7+aSr8LyYe27cAGVzEfwBkofRGDz3OarfFws3sXbft4ejhd2Ela6DaKMoMPrAylO02weu228g+E9OkSshY4mS+uic/CE+2dmHjvaDUwny2s+jWrEmq98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bZWzUcCc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781348519; c=relaxed/simple;
+	bh=pMcR10Zl9ktI8NftnKtGb1nGlHMkBHUqYLOsT6sT/4k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=olOb7lEpKpgrInu+fgtmfhp5JH5XJD20VT/IkM/La1IATkVg0r4NyX0I0CZwXDW6lP369ywC27C6GHHAxjsVuUcoFwDYBE8pOyeCUOYYbS4ZgbLo8l8IP/VXp+VrUSIu4MMva2XecR3N69hcM+zJ10PCJajPD/AlcwBYXwYf61E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HJyVGkvj; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bZWzUcCc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B0FE1F000E9;
-	Sat, 13 Jun 2026 09:50:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781344258;
-	bh=GwlHNxN2/24K0LF41glzYRU0V2y/owMcPA/IrzwXr7o=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=bZWzUcCcQwnrN0joeRFVDJWqCJVd5WPar/qKcali9K4YtT2ApPhVZu149kf7AD2a8
-	 9K7mUQe8cTamsn3PM1ztbvYEgY73KzPUhVlOI0/+7v1lqS13EpsLSf4yPHC0PFL+j5
-	 eOy2umB4NzIcEDTvafXZA0PY3Qsdq7t62L9GxW4DgF4u8f9Ih88HI38n0eJSlN3OYD
-	 Rrz/hl5v3dbcgRjb9LmbOPUSdhVs3ZI5hCGAaRALEg2ruRSs/k8/ph7g2lDAqgbO3r
-	 MQwpBqAg0gPh8OFYo88IABkZiHbJ4i3kEr1glC4SZqeskHSVdzpQGZtFKtm6sjxZ/5
-	 fy2qXBBpV/l8Q==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 4/4] arm64: dts: allwinner: add Radxa Cubie A7S
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Enzo Adriano via B4 Relay" <devnull+enzo.adriano.code.gmail.com@kernel.org>
-Cc: robh@kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20260613-a733-dts-v1-public-ready-v1-4-7787c94681db@gmail.com>
-References: <20260613-a733-dts-v1-public-ready-v1-4-7787c94681db@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 13 Jun 2026 09:50:57 +0000
-Message-Id: <20260613095058.2B0FE1F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HJyVGkvj"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-46066e640easo994959f8f.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 04:01:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781348516; x=1781953316; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pMcR10Zl9ktI8NftnKtGb1nGlHMkBHUqYLOsT6sT/4k=;
+        b=HJyVGkvjIj2SxefR9dRskpalIqHQSDtCMlov4Zo3OqX2vLHNsS4cb9RiGKCpaXpjW5
+         bhp3DdaQnjz9Lhqrf+xFCyDgiSQQy+CbmiuyuhkSrE9GO1RTgYyJMNkC4Iuda2oC0ziJ
+         zk4HwdbbXVfgHoA+wngstapkNxQY/F898jjU9tj/aBrJjndHtlKcgbqk3gTBWVVIDwkb
+         1ArWrzqzex8u+f649OgUy/D1vN/n6JN2IR1j7GJV3+IrnHFLXGpE3JOnRzUI7mzgkYxv
+         CjrDGKOuq29A/YR0eofEgYf6dI2++onlZdKpjnQv35qLrAvTE7y16302vwJ2bMoiZH4X
+         VIrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781348516; x=1781953316;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pMcR10Zl9ktI8NftnKtGb1nGlHMkBHUqYLOsT6sT/4k=;
+        b=p+e6jnyZwKAUWrO4nvemZglTFGMwHL1/tQGDmezfw+7fIwm+6jfbgjHfpLKILA6T1u
+         sV31vsWTPjW8Ulzozq2uuPiiIF2DTRqxgJTMX7A8a4AnvI/vEANTnglOwpmucqlDjXXU
+         Q+I+YJsn0atS6195F5N/21J0/6XFxWe/lj3UOTHSUJk/OmpJwaHxTmnoVGQLGlyH+QyL
+         RYUdgWZXumnDQhMq4t+v/yOGja0yUjGo8CmJTYIz4HPjt5ADuIPaIQWUx6VOBaJvcD/o
+         xrUeh+84EvqnZhEBLVonAd/GMkq7xDVwNVtMThmEsoY109TvDs+rrhT43LEV4Zj6kqxX
+         4aXg==
+X-Forwarded-Encrypted: i=1; AFNElJ9EKUi1VvE9Z+xeJuD1VECPaFZ30/TAb99UkjKO+kFawmjgenEDbxkDu6t+3WH74h+NZzl/JmjuM2H7mw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx1lTkYaPm792m6AYU4ELNkfkWKKOPkoIvQ61OpEVHBP9UU2gbc
+	tHRdOFIwMjQ/J1et4+ESSekFy7Cc1QnyA3wWqc8lk5a03kzS5an/1HeE
+X-Gm-Gg: Acq92OGiWRf6ru1u0w9C72ceojIXVZL7bHhw26o5MYHyBg5QWHAvtKiCBljDx4SzjX8
+	3lVFKoXzZdHp5lLD9EXQovAgdWRX3GKgCvtIZrrjtfQMHGFNhwcpt/BLe6uiweM1OwrB2laVbM+
+	p066lzHyMLpA9XKWYg8jvn/09M8yevRkFpZZSxsc0zV2MNFrR2GOk3QS6wTXTc1722XuAldL0jq
+	D0FK06CygmS8s+YzWXZ4o+kqMULm/y6Gr5rc/NO0go5v452kyRQD3G2YTjCW5dAY5aYEJJjY21y
+	f7lc+ujv3tv9bdI/2X+Cf5D2SC4K+o7m3LiqlpSEFeWW91Smzcxkpvm9TVbCkrKvUhXF45D66NV
+	sX4R85BV+u9goR5pppXbCg854CYst8hA4gwAZLXfLK6R4BJJTyVHUJ0WJwmtPw6p80yF3c4KtLm
+	KXRSWrAo6n7H5cqtAtSHTyuNPelvIagI7R1av+Zh9GzEvp
+X-Received: by 2002:a05:6000:188e:b0:45e:f271:5019 with SMTP id ffacd0b85a97d-4606db8c6fbmr9211591f8f.14.1781348516083;
+        Sat, 13 Jun 2026 04:01:56 -0700 (PDT)
+Received: from jernej-laptop.localnet ([188.159.248.16])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f26434dsm14930828f8f.1.2026.06.13.04.01.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Jun 2026 04:01:55 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ Alexander Sverdlin <alexander.sverdlin@gmail.com>
+Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, Hans de Goede <hansg@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Andre Przywara <andre.przywara@arm.com>, Jun Yan <jerrysteve1101@gmail.com>,
+ Lukas Schmid <lukas.schmid@netcube.li>,
+ =?UTF-8?B?Si4gTmV1c2Now6RmZXI=?= <j.ne@posteo.net>,
+ Eric Biggers <ebiggers@kernel.org>, Michal Simek <michal.simek@amd.com>,
+ Luca Weiss <luca@lucaweiss.eu>, Sven Peter <sven@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject:
+ Re: [PATCH v4 7/7] arm64: dts: allwinner: A133: add support for Baijie Helper
+ A133 board
+Date: Sat, 13 Jun 2026 13:01:53 +0200
+Message-ID: <rVKu3PRHTqCaxGV5Fc8kHQ@gmail.com>
+In-Reply-To: <20260605070923.3045073-8-alexander.sverdlin@gmail.com>
+References:
+ <20260605070923.3045073-1-alexander.sverdlin@gmail.com>
+ <20260605070923.3045073-8-alexander.sverdlin@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [Medium] The `&mmc0` node is missing the `cd-gpios` property (or `broken-=
-cd` / `non-removable`), which may be necessary for proper SD card detection.
-- [Low] The new DTB entry in the Makefile breaks alphabetical ordering.
-- [Low] The fixed regulator node name does not match the required device tr=
-ee schema.
---
+Dne petek, 5. junij 2026 ob 09:09:21 Srednjeevropski poletni =C4=8Das je Al=
+exander Sverdlin napisal(a):
+> Baijie Helper A133 board is a development board around Baijie A133 Core
+> SBC. Features:
+>=20
+> - 1/2/4GiB LPDDR4 DRAM
+> - 8/16/32GiB eMMC
+> - AXP707 PMIC
+> - USB-C OTG port in peripheral mode (via onboard hub)
+> - 2 USB 2.0 ports
+> - MicroSD slot and on-board eMMC module
+> - Gigabit Ethernet
+> - Bluetooth
+> - WiFi
+>=20
+> Add initial support for both the Helper and Core boards, including UART,
+> PMU, eMMC, USB, Ethernet, LRADC-connected buttons.
+>=20
+> UART1 can only be used for Bluetooth module, but BT-WiFi combo Allwinner
+> AW869A chip has no mainline driver currently.
+>=20
+> Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
 
-commit f3152d16f1d4c4fabab01c5ee230d7994c9a7898
-Author: Enzo Adriano <enzo.adriano.code@gmail.com>
+Schema validation passes, so:
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-arm64: dts: allwinner: add Radxa Cubie A7S
+Best regards,
+Jernej
 
-Add the Radxa Cubie A7S board description with serial console and SD card
-boot support. Ethernet remains disabled until prerequisites are proven.
 
-> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts=
-/allwinner/Makefile
-> index d116864b6c2b3..824cc35152db8 100644
-> --- a/arch/arm64/boot/dts/allwinner/Makefile
-> +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> @@ -56,6 +56,7 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h700-anbernic-rg35=
-xx-2024.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h700-anbernic-rg35xx-h.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h700-anbernic-rg35xx-plus.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h700-anbernic-rg35xx-sp.dtb
-> +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun60i-a733-cubie-a7s.dtb
-
-[Severity: Low]
-This isn't a bug, but should this entry be placed further down?
-
-Strict alphabetical sorting dictates that sun60i should appear after all
-the sun55i entries to avoid merge conflicts.
-
->  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun55i-a527-cubie-a5e.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun55i-h728-x96qpro+.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun55i-t527-avaota-a1.dtb
-
-[ ... ]
-
-> diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts b/ar=
-ch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
-> new file mode 100644
-> index 0000000000000..453761a963237
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
-> @@ -0,0 +1,48 @@
-> +// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
-> +
-> +/dts-v1/;
-> +
-> +#include "sun60i-a733.dtsi"
-> +
-> +/ {
-> +	model =3D "Radxa Cubie A7S";
-> +	compatible =3D "radxa,cubie-a7s", "allwinner,sun60i-a733";
-
-[ ... ]
-
-> +	chosen {
-> +		stdout-path =3D "serial0:115200n8";
-> +	};
-> +
-> +	reg_vcc3v3: vcc3v3 {
-> +		compatible =3D "regulator-fixed";
-
-[Severity: Low]
-This isn't a bug, but does this regulator name trigger a dtbs_check warning?
-
-The standard device tree binding expects the node name to match the pattern
-^regulator(-[0-9]+v[0-9]+|-[0-9a-z-]+)?$. A standard name like regulator-3v3
-or regulator-vcc-3v3 should be used instead.
-
-> +		regulator-name =3D "vcc-3v3";
-> +		regulator-min-microvolt =3D <3300000>;
-> +		regulator-max-microvolt =3D <3300000>;
-> +		regulator-always-on;
-> +	};
-> +};
-> +
-> +&mmc0 {
-> +	vmmc-supply =3D <&reg_vcc3v3>;
-> +	bus-width =3D <4>;
-> +	no-mmc;
-> +	no-sdio;
-> +	status =3D "okay";
-> +};
-
-[Severity: Medium]
-The commit message states this adds SD card boot support, but is the
-cd-gpios property missing from this node?
-
-Without cd-gpios or an explicit broken-cd fallback, the MMC core might fail
-to detect card presence. If the kernel assumes the slot is empty, it will
-not probe the SD card, causing root filesystem mounting to fail.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260613-a733-dts-v=
-1-public-ready-v1-0-7787c94681db@gmail.com?part=3D4
