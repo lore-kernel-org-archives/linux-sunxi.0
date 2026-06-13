@@ -1,28 +1,28 @@
 Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524DB33EB01
-	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 15:27:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB17315D40
+	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 15:27:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781364460; cv=none; b=NfmuZczdlqfF5z/K0sieARHtUNFm1ymVCf/BJjCwirSzAgdWUg8rVF3BFxxgu/VpxQ/rUaLMj1xHxzNzWkaLqiNo1wHKeCTW/kQ/UShJAv7RjpYpEEEJUAtRT+EGbRfPv//kG2SzuM/DejC7uRUqxPh+RHDKALAmuc4KeFxEYO0=
+	t=1781364469; cv=none; b=di1KxGVz/q/XiIyyBxsjHVgHMQDC7/Pi1O3sRa1jsmb4dOOLtEuF+n5N5xZeoizAEJ7KNwrb4pSeaWNBCzHjuWU5nTKQMR3tDuYmGPCWuFoC0rnpmZfgoE2xuBlnk5GPM7I+9xC0N7nmJqdYyBjR37mImzeoo3rCadDDkIlem3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781364460; c=relaxed/simple;
-	bh=eBgXTDQqXUcLwMtmkeSXGHs4lmuVYm0cunSpPPBuHqs=;
+	s=arc-20240116; t=1781364469; c=relaxed/simple;
+	bh=J7v1juxJKJfvsGnnX9itA5lQ2enDVV4ANG1zfgzRBg8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HSFkONt/8w/mbI2dJKzQrGNkzGy1bOhR0+zy98w+XP5XE0/QzGJdP2oJtGUS0EjdQ3UQs2P1vRRTNTWWmw6kb6MaEWcFjVzW1RsdPg5RVVwbkBihm4wg6XRbkUovtQAgbJozTQskz2Q8u6YXgl8L+gS7/ktCyqI32WFNhdTcF+U=
+	 MIME-Version; b=flV6/RAH9O6hyx+q8ggPcFdoq/OZQskBex1scHjqhIVI1nhYfbtlq9H+0fkUjtTGdi2xzATn8Y33n9LS4MlUSRYJKRVb7WV+beoRoFM1XwdAdudQlGPJSxcECwsp7bjLmpkdymaG8IW9ZFMr+0ktIiGienESqV2WMTqgFv5Qhz8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
 Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id A17A637002DC
-	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 15:27:20 +0000 (UTC)
+	by leonov.paulk.fr (Postfix) with ESMTPS id 7FCA93700312
+	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 15:27:28 +0000 (UTC)
 Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 08AA5B45524; Sat, 13 Jun 2026 15:27:17 +0000 (UTC)
+	id 97CAFB45525; Sat, 13 Jun 2026 15:27:27 +0000 (UTC)
 X-Spam-Level: **
 Received: from collins (unknown [192.168.1.64])
-	by laika.paulk.fr (Postfix) with ESMTP id 14C7EB45525;
-	Sat, 13 Jun 2026 15:26:59 +0000 (UTC)
+	by laika.paulk.fr (Postfix) with ESMTP id 85322B45521;
+	Sat, 13 Jun 2026 15:27:03 +0000 (UTC)
 From: Paul Kocialkowski <paulk@sys-base.io>
 To: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -41,10 +41,11 @@ Cc: Yong Deng <yong.deng@magewell.com>,
 	Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>,
 	Brian Masney <bmasney@redhat.com>,
-	Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v10 4/6] dt-bindings: sun6i-a31-mipi-dphy: Add V3s SoC compatible entry
-Date: Sat, 13 Jun 2026 17:26:53 +0200
-Message-ID: <20260613152655.212490-5-paulk@sys-base.io>
+	Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: [PATCH v10 5/6] ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2 support
+Date: Sat, 13 Jun 2026 17:26:54 +0200
+Message-ID: <20260613152655.212490-6-paulk@sys-base.io>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260613152655.212490-1-paulk@sys-base.io>
 References: <20260613152655.212490-1-paulk@sys-base.io>
@@ -56,30 +57,114 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The V3s/V3/S3 comes with a rx-only D-PHY paired with the MIPI CSI-2
-controller. It is compatible with the D-PHY found on the A31.
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-Add an entry with a new compatible and the A31 compatible as fallback.
+MIPI CSI-2 is supported on the V3s with an A31-based MIPI CSI-2 bridge
+controller. The controller uses a separate D-PHY, which is the same
+that is otherwise used for MIPI DSI, but used in Rx mode.
 
-Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+On the V3s, the CSI0 controller is dedicated to MIPI CSI-2 as it does
+not have access to any parallel interface pins.
+
+Add all the necessary nodes (CSI0, MIPI CSI-2 bridge and D-PHY) to
+support the MIPI CSI-2 interface.
+
+Note that a fwnode graph link is created between CSI0 and MIPI CSI-2
+even when no sensor is connected. This will result in a probe failure
+for the controller as long as no sensor is connected but this is fine
+since no other interface is available.
+
+The interconnects property is used to inherit the proper DMA offset.
+
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
- .../devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+ arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi | 73 ++++++++++++++++++++++
+ 1 file changed, 73 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
-index 6a4fd4929959..3ca1a1c47032 100644
---- a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
-+++ b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
-@@ -21,6 +21,9 @@ properties:
-       - items:
-           - const: allwinner,sun50i-a64-mipi-dphy
-           - const: allwinner,sun6i-a31-mipi-dphy
-+      - items:
-+          - const: allwinner,sun8i-v3s-mipi-dphy
-+          - const: allwinner,sun6i-a31-mipi-dphy
-       - items:
-           - const: allwinner,sun20i-d1-mipi-dphy
-           - const: allwinner,sun50i-a100-mipi-dphy
+diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+index 02d6c62b3874..03a1739683b1 100644
+--- a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
++++ b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+@@ -671,6 +671,79 @@ gic: interrupt-controller@1c81000 {
+ 			interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
+ 		};
+ 
++		csi0: camera@1cb0000 {
++			compatible = "allwinner,sun8i-v3s-csi";
++			reg = <0x01cb0000 0x1000>;
++			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_CSI>,
++				 <&ccu CLK_CSI_SCLK>,
++				 <&ccu CLK_DRAM_CSI>;
++			clock-names = "bus", "mod", "ram";
++			resets = <&ccu RST_BUS_CSI>;
++			interconnects = <&mbus 5>;
++			interconnect-names = "dma-mem";
++			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				port@1 {
++					reg = <1>;
++
++					csi0_in_mipi_csi2: endpoint {
++						remote-endpoint = <&mipi_csi2_out_csi0>;
++					};
++				};
++			};
++		};
++
++		mipi_csi2: csi@1cb1000 {
++			compatible = "allwinner,sun8i-v3s-mipi-csi2",
++				     "allwinner,sun6i-a31-mipi-csi2";
++			reg = <0x01cb1000 0x1000>;
++			interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_CSI>,
++				 <&ccu CLK_CSI_SCLK>;
++			clock-names = "bus", "mod";
++			resets = <&ccu RST_BUS_CSI>;
++			status = "disabled";
++
++			phys = <&dphy>;
++			phy-names = "dphy";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				mipi_csi2_in: port@0 {
++					reg = <0>;
++				};
++
++				mipi_csi2_out: port@1 {
++					reg = <1>;
++
++					mipi_csi2_out_csi0: endpoint {
++						remote-endpoint = <&csi0_in_mipi_csi2>;
++					};
++				};
++			};
++		};
++
++		dphy: d-phy@1cb2000 {
++			compatible = "allwinner,sun8i-v3s-mipi-dphy",
++				     "allwinner,sun6i-a31-mipi-dphy";
++			reg = <0x01cb2000 0x1000>;
++			interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_CSI>,
++				 <&ccu CLK_MIPI_CSI>;
++			clock-names = "bus", "mod";
++			resets = <&ccu RST_BUS_CSI>;
++			allwinner,direction = "rx";
++			status = "disabled";
++			#phy-cells = <0>;
++		};
++
+ 		csi1: camera@1cb4000 {
+ 			compatible = "allwinner,sun8i-v3s-csi";
+ 			reg = <0x01cb4000 0x3000>;
 -- 
 2.54.0
 
