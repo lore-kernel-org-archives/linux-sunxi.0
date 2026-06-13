@@ -1,75 +1,84 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051A82FD1AA
-	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 07:50:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EBEC343899
+	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 08:06:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781337046; cv=none; b=AQeJ4emkRjuPGL5E9iHZYZAvq+00LPuoYVv/r8lxGAqry633JT+x73wwTofbNh1qXLHnnZEoYWUs/vrA2PmC+QYP+s0Ph3Hm1wkHnXd/KidvimPgjf40TfHcftGvHwf570WMdSMwhXnJJ9in+EKdjJPYTd0quPgZ8+L0++YEwZA=
+	t=1781337974; cv=none; b=Bmekv5FymY887bwo6FMBTgkBNccuX62QXeQKS/FBdRHAqgY/Arxf7WbhkHOMN0wBpv/8Q8GJG5codvXWVoA+79aXu+7zMZ09UHMg5xth0jObgl1BuyOljahj0Br7LYoxnDR5DH9EyQG27B2m5Klg/OZZ7T+BZFz8iqge0NlcWLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781337046; c=relaxed/simple;
-	bh=nFJnphqUQG5wieQkJ7Kb9J+Gt5X/QP0brHiBPfCW6d4=;
+	s=arc-20240116; t=1781337974; c=relaxed/simple;
+	bh=DeVg0bi2qnwtneVj2BkteKgMLEFX64W6RwZtPGHh8tg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hWUti5ai9g0LtsbSl4ZrBU945nggy9vRC4eJBnncK9o7/cu+8sl0rRN5JUvrU16y7hTHMtmdOzBtrAmakfm+NmdhDJzfwLwm96vi/RQeAG26hcWtXJul0swAiPzYtYsYzP7AgTu0hH9kG9uRFygw6Tq8s+S3KrDpgB/Pc1Zc+7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lZOuxXre; arc=none smtp.client-ip=209.85.128.53
+	 MIME-Version:Content-Type; b=pQToslXGa3/vEilHsDBbx5F5SdJmuA1XK3p40PyoCJUZj8V9CI16+sR5SZ/zgdUyRh8rdrH6FsgCrBbKipPnwxN6bZTJ54E7s3quoA2qkw9vO/UctCVx/gxVHiGxRp2N6cNnql9FwxKJRR0iiVYYpqakpwt7+XSbUt40PbqPy58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OYout3aw; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lZOuxXre"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-490b64c8311so17951125e9.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 00:50:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OYout3aw"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490b915ded5so16706395e9.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 13 Jun 2026 01:06:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781337042; x=1781941842; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781337972; x=1781942772; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Mlm0YHGLM0VfFF/fXJEvgkWs1yTQHLEduURYTbkabJ8=;
-        b=lZOuxXreeyQokLF0a9uxd7DiuTCn0Smr9Ykt/lRH2ifbl3mkFB1gV6NJFsZs/7laa/
-         Fce+J4jBrKaqU4wsIR084FQcOYGKDNb3ap9ItHLS6isaxZynt5+fsTXQ559V5s6qmq7o
-         9BK/ZHQn0eMiYb/0xVpgWvagKTxAO62dw2+mGGxUxVQwJ+i8hKHcp4Xvn6KER+cC5PFj
-         dav3dKbsQ3Fnb6R1zsROByW3ME40XbVXLNkk04HB8CCXBoh1Y6n7lWz9Y39J1b3RcyOT
-         Sx5eRdXE9QYjCk45+bOjY1ikjg5I9JBVez3Tes9CV5qBySWAp5H8UGGqvEwvS4NWkk8C
-         vZsg==
+        bh=DeVg0bi2qnwtneVj2BkteKgMLEFX64W6RwZtPGHh8tg=;
+        b=OYout3awdT7ngUT5YKStXUbV4TBUi5nVeUTCcGdClbhlh473B6xjtI2sM4l3gZ+D7H
+         NMbH5BuP8PVwt9rerCL+MtzSodZSnKs5V7SFD9EVacj+0ttpuTOo3n06XJ1xMgRGh9yX
+         +ThVubnFSL9Rp+WrKQMJpn9W8CIpbpQUjZ3eqcettoaahl7rPZD5T6j1G7J1sUFyMVVA
+         YqLf3zYQbW0WCyV/HDLL9WmRvwTfdoiPiGXCwCBCH7Gcmxn/B5Gt07gKVh9K076Z2Lqz
+         3SdonVr1/cKCbVLJSB56EyH2BY8u2zWIgm1oVDvqeENt7cpEohoMCTn55FXhpbva4TU8
+         u7NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781337042; x=1781941842;
+        d=1e100.net; s=20251104; t=1781337972; x=1781942772;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Mlm0YHGLM0VfFF/fXJEvgkWs1yTQHLEduURYTbkabJ8=;
-        b=JUFMIItfMNJVY4wVXchfpnVSda+JEl6bBRSwKMlNYmnq57q8IXSRjHoYH3iVo5E/6g
-         d0gOrz5bHhU9MeF8jwA5mfUqNxnTgLLi9jsYJlIzQHXzFI5KOSc7mVwh71yruyZm5HxK
-         lzV6Xnm+a96yKFU6VEtCpdWb/pvtc9Yo6LAAl6OCHSqnUZsImtdxB76UBRls1xu37WIV
-         R9SWyuqjJZR8ybRxR1AtCNitc9YSGq65Y1Rx5E4lg9r+Q1zx97YrqvEVa9V4SrwlDpTc
-         9BgcY58Izw+9IzJiljKf+Z3wNNok1+ymfvaPmFxUIcMDzSaRrajPjAGWH9QcN1VCJk1X
-         bwYA==
-X-Forwarded-Encrypted: i=1; AFNElJ/tum4iAi6jZkdg4H31GNLOJQu6WELv4YAkdtJ/iPHNcIUUjM7lZzqCqEE1XW2BeX18M59t3HkFXcf+hg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyC4i6mGddhpX3DiC/Gkk3sCevJaVAN32H9rRGf5fvg55xSLz0K
-	ryhAqTNtWlW29eD6MOX7RTy2OpAa6+v0fGNXGLvMYnTgJFFI4gUXcrZq
-X-Gm-Gg: Acq92OFHUpJRobPOHmHkXdkEY0hvGem7S+WWRqfEkmMDhLw66y0D2UrxPehVnQwqOKm
-	pv1omNYbatE9Ao25P4i882sHpibws2nVjexw0BwZa0g+bAndJSWa09uLG6RVxDdn9n+1gdKptkb
-	OpIPyAEg9Yjx89a0maNZb4+2rwTIC+NKjCiq+bi3LrV3JzgKfmZtAuUNBv8gESjWjO4/fVb/gt9
-	uDdNFSv3H8mqhOYWhA/rawlJypxT5h6BW5ZhMgvHQ+WTUzpWejc23Dea/q5CDqcU4Jat/jw6cd+
-	+Ebj7RL6+EgGBv8e3ofBlwODRItPOWAV+EO/+RnM+VuhpWabGmMrtRD/3y6a/exrP3JGTW6CKuL
-	YUaddNo6xInupZRZudi5t3j7NK/fZvZfvkY2xjOczX7uSbWNwcTq4NkVnr0y6t61ZsC64Qekypl
-	zZ429svPb5HSwH5xw+MLTpld6waXiaf5yiE42d3lxmzB9y
-X-Received: by 2002:a05:600c:820c:b0:490:5cd8:d213 with SMTP id 5b1f17b1804b1-490ec4d3407mr76769065e9.15.1781337042183;
-        Sat, 13 Jun 2026 00:50:42 -0700 (PDT)
+        bh=DeVg0bi2qnwtneVj2BkteKgMLEFX64W6RwZtPGHh8tg=;
+        b=iGwW083f3InqDKx6QMlzgbifhnty0mWwLSGbcbvqN1AEi89z9+El24Kmnj/PiGH+vF
+         Kj2hzEv09mZMSj/gDJfvn2rFGU4HOcHjRApDYdnd7FlinwdCSXEZBYSS+IWochhRR0Ho
+         j/jTpdyB2k95+4HFnPFMfygOOhW9gKRgjDjkUCZfAEA/rJzQPRPSJ5CGNtVU3D9uLy8o
+         Kj1xv8SWOL99fGvZhJVlfrYtiFNpLGQ+zBlJB1dizH2KPbLczPzMuH12NNYkjv5/Q7yl
+         5SH7aRSUJ5imYvqOo+22CQ/Ri9POm5LAlz+boX6vPX9UHK2FOBY8V920KboeEdmGAAZP
+         YP8A==
+X-Forwarded-Encrypted: i=1; AFNElJ+qLIIREqw9WWH62o0fiCe8I1xhX7zjm6H/5Uf1a6TOr1baIsC3vDoKDThxzk4d4blMYX9M2+/M9GqCtw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywu54Ek7azDx/u3mwfqQzRBR+SOlRSV6jDNqNyuwXRcLD5KlP36
+	MKm6uW6WyNQCQVu3LBBgrTV3AjDTVZRoAUuXRsaTo7VCJ39H9u81bPmV
+X-Gm-Gg: Acq92OHspmanpKwAha7jmQHwpchGWhbVyWEhoRIJv/zGbWL5lbW3KQoFFMcwNla50Ir
+	NlC3O3lj94LTqIFNZZPDmEnYsJeHHbuHkhObzjJUvG6RxhJLVe2jEh8PCTQ4vdbFyXyC3gQorgZ
+	9pu28b55ehL/UJylM5vBX5RQV74Updp6h7fA8E5/arBiE8Oo0kcwRfJ45botlo4e6AyNVdycktP
+	+pIP0I1Oqq3qHysmK6Np5k9od7esyKgknI3qDupjAcCqkmYzitAlS9vIbGWafL/mpv5+UE8qo29
+	4lAhLBbZgxWxFvMFMRMav2TV0sn//RfuDix0PXWWghm8bDTK9DpfJkIRuwl3D6B3kovkwQzmMWC
+	A/4ohl0boL0Px9auf2xvdiognVNPpwVJrOU2Zi3elc8KU1qeL/VS2IeFWIaN2uHA1N3fiP9r5XX
+	slfTuK8mP4nd9NrWHaIbWz3yAiWbUX2OxjJhOCK80pnBvs
+X-Received: by 2002:a05:600c:a310:b0:490:b58b:a8cb with SMTP id 5b1f17b1804b1-490ec50b860mr58693755e9.26.1781337971635;
+        Sat, 13 Jun 2026 01:06:11 -0700 (PDT)
 Received: from jernej-laptop.localnet ([188.159.248.16])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490ea4a128csm145232805e9.0.2026.06.13.00.50.40
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49220304180sm53456435e9.4.2026.06.13.01.06.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jun 2026 00:50:41 -0700 (PDT)
+        Sat, 13 Jun 2026 01:06:11 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: wens@kernel.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org,
- Wentao Liang <vulab@iscas.ac.cn>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Wentao Liang <vulab@iscas.ac.cn>, stable@vger.kernel.org
-Subject: Re: [PATCH] drm/sun4i: fix refcount leak in sun4i_backend_init_sat()
-Date: Sat, 13 Jun 2026 09:50:40 +0200
-Message-ID: <p7BkDUOlT8udh62CkXD6NA@gmail.com>
-In-Reply-To: <20260607030950.83636-1-vulab@iscas.ac.cn>
-References: <20260607030950.83636-1-vulab@iscas.ac.cn>
+To: linux-iio@vger.kernel.org,
+ =?UTF-8?B?Vm9qdMSbY2ggS3LDoXRrw70=?= <vo.kratky@seznam.cz>
+Cc: =?UTF-8?B?Vm9qdMSbY2ggS3LDoXRrw70=?= <vo.kratky@seznam.cz>,
+ Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>,
+ Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Linus Walleij <linusw@kernel.org>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH v2 02/11] iio: adc: change from %ld to %pe for PTR_ERR() printing
+Date: Sat, 13 Jun 2026 10:06:09 +0200
+Message-ID: <rfot56KMT1aR8vVOIe5xxg@gmail.com>
+In-Reply-To: <20260604120201.116925-3-vo.kratky@seznam.cz>
+References:
+ <20260604120201.116925-1-vo.kratky@seznam.cz>
+ <20260604120201.116925-3-vo.kratky@seznam.cz>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -79,28 +88,20 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne nedelja, 7. junij 2026 ob 05:09:50 Srednjeevropski poletni =C4=8Das je =
-Wentao Liang napisal(a):
-> When sun4i_backend_init_sat() calls reset_control_deassert() it
-> increments the deassert_count of the reset controller, and must
-> pair that with a reset_control_assert() call to decrement it.
-> In the error path where clk_prepare_enable() fails, the function
-> returns immediately without calling reset_control_assert(), leaking
-> the reference count.  Other error paths, like the devm_clk_get()
-> failure, correctly jump to the err_assert_reset label which performs
-> the missing assert.
+Dne =C4=8Detrtek, 4. junij 2026 ob 13:59:22 Srednjeevropski poletni =C4=8Da=
+s je Vojt=C4=9Bch Kr=C3=A1tk=C3=BD napisal(a):
+> Replace numeric PTR_ERR() logging with the %pe format specifier
+> so that error values are printed in a more readable form.
 >=20
-> Fix the leak by using the existing err_assert_reset label in the
-> clk_prepare_enable error path instead of returning directly.
+> This change was identified using a Coccinelle semantic patch.
 >=20
-> Cc: stable@vger.kernel.org
-> Fixes: 440d2c7b127a ("drm/sun4i: backend: Handle the SAT")
-> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+> No functional change intended.
+>=20
+> Signed-off-by: Vojt=C4=9Bch Kr=C3=A1tk=C3=BD <vo.kratky@seznam.cz>
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
-
 
 
