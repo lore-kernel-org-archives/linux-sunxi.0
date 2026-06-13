@@ -1,142 +1,107 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34AB1282F1D;
-	Sat, 13 Jun 2026 16:11:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490521B85F8;
+	Sat, 13 Jun 2026 17:39:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781367120; cv=none; b=Uc5CunjAldH7iIuF1C7Buzj+mZcw4KtYwlSxJIdlpbFNkBjcmzGTsBe/UK8QtrEYYFGL8WQ9VPDyUs8qcKv1RfX6LbB+f51cueoApB/u3ri3jIuZRQ3ZCRpUYhFf27NtN0oRnpTFAF85oPIUJkXBQfOXCJgCirZZuTnpXRjv2Dw=
+	t=1781372360; cv=none; b=XXTKgJ8iFKuZNJ7Y9NQSeClld3FiuApFRtGkHv68nodVhEnMX8zcpTPrULELbyzXzxen8q+kiQT/gUyXFShc/72OoCa+/53j0oXXSext5gxcF7aEPiOgmWfXBOpCZZ9M9pfn2GTynx+2CTjYwJMRhRsqPD/1AMg/x/oy6chcPdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781367120; c=relaxed/simple;
-	bh=rK08wLNI77fa8ftWKk5658x5Fxv8woM3vweBw5iC/+4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z7oB9Rh2SWKu8P6E6SrfpHJz3PIXzYzIF6en5ZLwCBnDAW1RuykyU9eiY2toowgGXcljrtRjGFUz+4k98FHbDM3wL2vRggRvV0tyAQhPi67d5wXVP+7tt4MdMPaTW1+4Xpwo08JCuLAfe6KQxDswDc6zjle+wJLoiEHBQ1QaVA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 18D3B37002DC;
-	Sat, 13 Jun 2026 16:11:57 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 4374AB45549; Sat, 13 Jun 2026 16:11:56 +0000 (UTC)
-X-Spam-Level: 
-Received: from collins (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id BF63AB45548;
-	Sat, 13 Jun 2026 16:11:55 +0000 (UTC)
-Date: Sat, 13 Jun 2026 18:11:53 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: sashiko-reviews@lists.linux.dev
-Cc: conor+dt@kernel.org, devicetree@vger.kernel.org, robh@kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v10 4/6] dt-bindings: sun6i-a31-mipi-dphy: Add V3s SoC
- compatible entry
-Message-ID: <ai2BSWKkgeC7Rdfh@collins>
-References: <20260613152655.212490-5-paulk@sys-base.io>
- <20260613153532.EA04E1F000E9@smtp.kernel.org>
+	s=arc-20240116; t=1781372360; c=relaxed/simple;
+	bh=bsemIgA80QN1Net2rL2KliKucnd3bqSpPpy6z3xhHVU=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=ppWqzy9k8dTJ7eUhP5TmvUc5U6kyynrun8kMU1KEs8M1mvv7tQXSWEtd5+sc9y2/fXHQtjdO+ao3XlHvK28EGWsQaRM/T1SV8yEsn93kvvQeUZNxJLOl9s6wLTvU+gOqItLec46FwtO4mq5IHMHH+e0IrYAVTDaJFfCbbUh4tZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ogrgEV4+; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ogrgEV4+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4DBD1F000E9;
+	Sat, 13 Jun 2026 17:39:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781372359;
+	bh=8EzOUDMBGmw4x/8LM30psbSMzM7LJDnVG/eNTZr3kEM=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=ogrgEV4+X1XWWEeO3pukkUNTR9B77Vn4CuvFRmrEjzKaROns3SYDNnwS71D0cf1tJ
+	 HJ2SWobXTWqkQV8TI2lFsrDbUcHXIu3UdA8u5E64PfoY2Bapkeyf7SKRWA1/TV/yzt
+	 hI2oihbyb1y1mCAi4F57vxp/KN4nyWW7SdMErGmJ/QZin9CnVKwQPQsWOuUlDNjIib
+	 GImzti4SrihhPxtLTKsWHwvwqLHISpuWzWSgQW1VJ+o9z+vSkPpFr7uMUhVJPW4FTN
+	 PmPg2OdgsUlMefNNUFBUFkPULB6LeLamEX28N7W9YbJC/LLt8T0hwcN98RmW7vTppK
+	 oPyNJ2FEVJlFw==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v10 6/6] ARM: dts: sun8i: v3s: Add support for the ISP
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Paul Kocialkowski" <paulk@sys-base.io>
+Cc: conor+dt@kernel.org, devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, robh@kernel.org
+In-Reply-To: <20260613152655.212490-7-paulk@sys-base.io>
+References: <20260613152655.212490-7-paulk@sys-base.io>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 13 Jun 2026 17:39:18 +0000
+Message-Id: <20260613173918.E4DBD1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="U9BF0t4XzhxQmoDs"
-Content-Disposition: inline
-In-Reply-To: <20260613153532.EA04E1F000E9@smtp.kernel.org>
 
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Low] The device tree nodes `isp` and `csi0` include `interconnects` and =
+`interconnect-names` properties that are not documented in their respective=
+ YAML binding schemas (`Documentation/devicetree/bindings/media/allwinner,s=
+un6i-a31-isp.yaml` and `Documentation/devicetree/bindings/media/allwinner,s=
+un6i-a31-csi.yaml`). Because these schemas specify `additionalProperties: f=
+alse`, this causes schema validation failures during `make dtbs_check`.
+--
 
---U9BF0t4XzhxQmoDs
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+commit 299a0d91b22100c87010de21ec5908b8fed75e39
+Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-Hi,
+ARM: dts: sun8i: v3s: Add support for the ISP
+   =20
+This commit adds support for the ISP on V3s and related platforms by
+introducing a dedicated compatible string and device tree node. It links the
+ISP to the CSI bus, module and ram clocks, resets, and adds a port connecti=
+on
+to CSI0. The interconnects property is also used to inherit the proper DMA
+offset.
 
-Le Sat 13 Jun 26, 15:35, sashiko-bot@kernel.org a =C3=A9crit :
-> Thank you for your contribution! Sashiko AI review found 1 potential issu=
-e(s) to consider:
-> - [Medium] The newly added V3s compatible string is for an rx-only hardwa=
-re variant, but the binding schema allows it to incorrectly default to `tx`.
-> --
->=20
-> commit 2fd664ce10fb7edbf45c93a3bcbbd8adb0bad2ea
-> Author: Paul Kocialkowski <paulk@sys-base.io>
->=20
-> dt-bindings: sun6i-a31-mipi-dphy: Add V3s SoC compatible entry
->=20
-> The V3s/V3/S3 comes with a rx-only D-PHY paired with the MIPI CSI-2
-> controller. It is compatible with the D-PHY found on the A31.
-> Add an entry with a new compatible and the A31 compatible as fallback.
->=20
-> > diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-=
-mipi-dphy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-=
-mipi-dphy.yaml
-> > index 6a4fd49299590..3ca1a1c47032f 100644
-> > --- a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dp=
-hy.yaml
-> > +++ b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dp=
-hy.yaml
-> > @@ -21,6 +21,9 @@ properties:
-> >        - items:
-> >            - const: allwinner,sun50i-a64-mipi-dphy
-> >            - const: allwinner,sun6i-a31-mipi-dphy
-> > +      - items:
-> > +          - const: allwinner,sun8i-v3s-mipi-dphy
-> > +          - const: allwinner,sun6i-a31-mipi-dphy
->=20
-> [Severity: Medium]
-> Since the commit message indicates the V3s D-PHY is rx-only, should this
-> schema include an if-then block to enforce the rx direction?
->=20
-> The base binding defines allwinner,direction with a default of tx:
->=20
->   allwinner,direction:
->     ...
->     enum:
->       - tx
->       - rx
->     default: tx
->=20
-> Without an allOf if-then block constraining this property for the
-> allwinner,sun8i-v3s-mipi-dphy compatible string, a V3s device tree node
-> that omits the property will implicitly default to tx.
->=20
-> Would this allow an incomplete device tree node to pass schema validation
-> while misconfiguring the rx-only hardware?
+> diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi b/arch/arm/boot/d=
+ts/allwinner/sun8i-v3s.dtsi
+> --- a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+> +++ b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
 
-That is correct, but maybe a bit over the top. If someone thinks this
-should be done, feel free to let me know and I can respin.
+[ ... ]
 
-All the best,
+> @@ -755,5 +763,32 @@ csi1: camera@1cb4000 {
+>  			resets =3D <&ccu RST_BUS_CSI>;
+>  			status =3D "disabled";
+>  		};
+> +
+> +		isp: isp@1cb8000 {
+> +			compatible =3D "allwinner,sun8i-v3s-isp";
+> +			reg =3D <0x01cb8000 0x1000>;
 
-Paul
+[ ... ]
+
+> +			resets =3D <&ccu RST_BUS_CSI>;
+> +			interconnects =3D <&mbus 5>;
+> +			interconnect-names =3D "dma-mem";
+
+[Severity: Low]
+Are these interconnect properties documented in the corresponding YAML bind=
+ing
+schemas (like Documentation/devicetree/bindings/media/allwinner,sun6i-a31-i=
+sp.yaml
+and similarly for csi0)?
+
+Since device tree schemas typically specify additionalProperties: false,=20
+leaving interconnects and interconnect-names undocumented will cause=20
+make dtbs_check to report schema validation failures for these nodes.
+
+> +			status =3D "disabled";
+
+[ ... ]
 
 --=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---U9BF0t4XzhxQmoDs
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmotgUkACgkQhP3B6o/u
-lQxdmw//Z+Dx8/Pg/K0GJo5PU8TOtG9EhLN4W0o5qRZzc9356wX4fA3tIeLhVp0R
-DZjTF6EaNjSsz2d5tj1q5jYRo5JFWyCDrsm0vHoaiWlFdI9bIUMLtZ3AJpY+J00l
-a7IkShSE+EXSCnBJynD5q6BlcrgvlsPGxuJcwe30yfLNILXY2VnJm2FW/yqdTv1l
-8S9hPbUSaMkSXzX4BYg6Lp5FkOWceW9V5TjIQrc0BclA0uhkGNtZjOnkBhff85go
-mgpTPGUXLOi+L4bbj7leIwFopCKADVa8B3JI8EUbE7rzIbMGxmvJJ472D8yc2Duk
-Zz1Bg8nOj8AIHKsLw2o4JZd0mPFX1kZHPYI8pT4lOoTijw4SNEQbAv878LWGBAMi
-WIc1yPhUFX5PXzqjj/cHPiS2/iGKhyIm6QQ5IZmmBh6dZYwXTpSrp8nxA/rqeLBF
-P1zFpPz/SQxIGW+hLyn8CgUYLxVbyPNPps9gUGlrl8RqW6bunKEDAnxQpb74NwaO
-mW0WYmqyW5zdCcCvKU+4uVXveHxQckD4mgAp12BpOCyTGU04nwurIOM+a+9lPtR6
-+P1zEy6N/rbb0a6B4NLWmFwplnR+SbdDPlKD8OsIxFPUhk/fihQWtstOeaBCLcgP
-X5zGcBgBoQzIzJq13TDaUc057UYBUoJFP+d9O0rwzF9QvUw8J6A=
-=xeRG
------END PGP SIGNATURE-----
-
---U9BF0t4XzhxQmoDs--
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260613152655.2124=
+90-1-paulk@sys-base.io?part=3D6
