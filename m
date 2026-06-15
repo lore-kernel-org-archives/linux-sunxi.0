@@ -1,63 +1,63 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8EC2E7393
-	for <linux-sunxi@lists.linux.dev>; Mon, 15 Jun 2026 17:46:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A79EB30C169
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Jun 2026 17:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781545596; cv=none; b=F4V/6aJLXpENd2sBuYSQ9OdMTlGc5IoSSjB+2GRWz4fPIrn/CtztWqKqoyQz5BwkAc5mou9syViOk2WBlJVyNySeewME2HuxedeGssZvtYshSi7c7vRHle17w+0WmQbk8GwWx0VCwAruj7aGGPdpqY6ZOApZZGvxcYwQ5jGtfIo=
+	t=1781546195; cv=none; b=S4I76estqVTzYrwV5xJQ7dkg0hvlmk3Gps4wUNqcbI1toR1RS9juTOyqqMh5qlARVDkZXzndw/WObLUIUpGqoQe8yqdNrIgdJ8FMGJMp5WpEjDA3f3eZN9Tl/gw6jzM2Wh7aCKudsz6l0o9frLSbgZ5wMJcJTK/tBQMFknm8F6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781545596; c=relaxed/simple;
-	bh=6Kch48sojf7uiTigvd+1WdQSRnstLfhc2vvsNDPRh8g=;
+	s=arc-20240116; t=1781546195; c=relaxed/simple;
+	bh=Oj4RKJnXYk35hVFXcx5pzzIrZMT/oGdZI6oDIaOmPDM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=jUPAIjw699uRGrF/INW6PDQEbOaauCu6hUBMMPG26S9gjYrwu9zqSeJWf7HWLojbpH+k0yYcg7FmIoxc6pNFEy2Y4lbuoSJhmyNXligfqU6i1SNzQCUpMfR34qUBvR3Iu/In4gersM5mwWRXC3cEx5p6JdZ14CIe6VAVsesfJr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=SeAzANBj; arc=none smtp.client-ip=209.85.221.49
+	 MIME-Version:Content-Type; b=JyP7g0ERT6KxIrmTv0Y0CojBe1uKrGR9ELeYt0+uCW8tbeC76IvqsA7HcvEJImL73Vda2+U6hOYHejEu2a8HbmtgZz3mtM1X36IF4oonIdkmXKCS2J9pqW5QMLXq2DktPoO1T2KAStcfHWAOA/ScSr1G6JyHY0WJa1saESPKTRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=ZYgddcch; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="SeAzANBj"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4600ddc4017so2719612f8f.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 15 Jun 2026 10:46:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="ZYgddcch"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-45eee266c6cso3264886f8f.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 15 Jun 2026 10:56:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1781545591; x=1782150391; darn=lists.linux.dev;
+        d=baylibre.com; s=google; t=1781546192; x=1782150992; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:user-agent
          :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ksRwsZduIIB6SyG2nFNgDOhkTcDdI1Vxdkt4BX+vx3c=;
-        b=SeAzANBjDSAbFc5kzhJp9ETBlUUwLEi/I0Ont9uMiCXZwFcq/zwhAnnassPOLEwl6C
-         lhN7jS8bF+HQkNY4vYV5zXjLN4Q0/kYRctbELP77+JP4KGr0nbyXuL7HF72ktyoZzFGs
-         de9/yGqCvq4gCK4giEHyIEbl/eGubCP0PY3kHSo3ijKQUFFVSuRbMyLcR2yrgdkpIH3Q
-         KV0R4XXRjpZoXiM1e2CVJ4PEsg5la/1iP6orpsBGi+njS38Zltr2riKXnkjeCoE4Uc1R
-         5KvodTKA8sYXXWcBzcUddDCUV4oIjPtRVnJuyyusxVb87ajBJma3O9p24+1Hptygz3cO
-         oIjg==
+        bh=V/fOCYr89rjpFF0YHfilwdeTnNExJ5rFE4DuxmsIniE=;
+        b=ZYgddcchxVva+odMWtL5HnoE7HcMRW4Gv0dILBq6x/ZLYOZ5yaa4ampEsYM1QQstTf
+         q7GhOgflz8RcKMZFzK9jP+5iN2h1F/UQ5CBk5xCS9MBC1BVjjAAfYGcNbpWmwRNAMzD8
+         aNnKwhLUtjA9zEw4/Lb/hULedH/Q08/aaePp2YeY8fNkjzETnFWib1lRIMUby9MeJtnE
+         l+lThamPoSa9NIf2H6HH6jqjYHtfheAUTd8KiCT2ByzjLQPKSJj1HD+aEwco7BhzTBq9
+         xLg+TwI7G4FBpE5iDrvH8feQ0DAQl4cPix2TZ4PCVVb1SczwY2/CwVWtxM9JdRkI2Ksw
+         qABw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781545591; x=1782150391;
+        d=1e100.net; s=20251104; t=1781546192; x=1782150992;
         h=content-transfer-encoding:mime-version:message-id:date:user-agent
          :references:in-reply-to:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ksRwsZduIIB6SyG2nFNgDOhkTcDdI1Vxdkt4BX+vx3c=;
-        b=fgZ2GYK440sFUekS1jmxTtS+DN0hAMUq8uiZP0Q+sYSXtn9KOWZW6KrQZb/sBcQHXf
-         OI8eR4vV7jSRemvHE+RnzQds0JCI2ragw7vToO4FuSySXq749n5Vk/Zwxl1K8spdsrcq
-         WzzbdRxNHr6kNzw/rezYK+VRAKicfSuS675kTPojtSG91TXjcGWYGs1O/yTedh9cE9+J
-         h4ZjjinO66cQaadJxicEjeQfwScQ7gRa4d/M7ZJVBScL3PKmGV3rmu2taJPu1VmvS1SI
-         VJ3zpouFaag9YkbaDgHmup355TPHQcvE8LMgMh1jQl25qryubqbhhDgdAo+1JLd5Q5Tn
-         uMQw==
-X-Forwarded-Encrypted: i=1; AFNElJ9asrE/+3AB7Bz49hOjnSubPC5kXo+WuF0tCzydy9Iz2ZLaibAt1YmoKJ9wwXfVKthdm/Imfho8JYBaGg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwAPNjLRIxqafJZNdZTRhlWr+lVTVPh7rc7atcBVB9xSzIO8xXt
-	S5Y68fiuLEV4AxvU6Rx7q55BKQNGSSMhusa3dSPWwIe3ZBDCZ4y742jtg1b8n+OWPuQ=
-X-Gm-Gg: Acq92OGuCG5XC6DTsjzmLMZwqnmIAQtAwmX6Fkk//Du7U3LSpNMqRowXdZFl4TnmUpJ
-	wixXn1/P4MdmQPvd1JH1gpZBWqhs86rAPzSh+efdeklcrbkUBhOJT1MxqiZWE/PRGMy3O65koLL
-	7xGXXinQZ7fLdlMRzOY6/fzcG8XD0mj+nLtMU3v53ysD+j2ftuYgqbbNdEqYooeOK26diwgFFlj
-	9aPc+QPNCevlWC+HZc5BfbYDBqcpgEZvXXmiYDzCTOltry9xXtk819ot+jsRHn1R0K1sK6Dc0vI
-	jLKpQdW01MUH/at/cKpXsWidS9UBzPylQaqkmeq0PoRb1uehnc8M5/AKryx17xpOf5iRrSppgYf
-	iAEOruY2FrMXX3gkp2d4SNza3wVrbdeT/TXxjIRhWJyPz628yQw2TW3uQvYFEXTrzI9b8oSVEqW
-	yuvwOO7waYqh7aFZgR6bTshw==
-X-Received: by 2002:a05:600c:638f:b0:490:9df1:f0cf with SMTP id 5b1f17b1804b1-4922ff8eeaemr3741655e9.2.1781545591514;
-        Mon, 15 Jun 2026 10:46:31 -0700 (PDT)
+        bh=V/fOCYr89rjpFF0YHfilwdeTnNExJ5rFE4DuxmsIniE=;
+        b=PNI5JWd4wO5KJ4QMraudSwz+646By/C3b25haayqDE6lDRAupcVrKh5FASR8ABAttV
+         A08n9rpSIm0xbX6EQFc62fjc+pZtNI7l/bOJWQyseGfAROO14LPUJYKt8b1Z5E4TOGfR
+         2uCcMA8ex6FBEJKmWjTCLJ8J78UHVXiALNexUKCFDXOcnodoOxvHYek5tpKM+Y7cq8zq
+         ybDiuF5o98cM9NmRPDqPH6WvB1XzNWPAJCeOr5W41dx5HxyIxXwvAlVqh4jWtZgwStv6
+         XVzm//lXgjb9dfckQVwtN26+U/USPz7Bc9vGlxu6Q4XoYIi/OzvDdjq/h6FO+adYZeHv
+         FYvg==
+X-Forwarded-Encrypted: i=1; AFNElJ/rUo8AUuTCqeUt7g2hmrt5V6nRGkhHzW/8TeSJyhHa1hzyZyXCKz1sPMpdk48SO8nP2fFvxxpr88wG+g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwrnyOxgU3FamKvL4/eVNnZX/++7v3YsRzjoA+mlI9NcZeNx58b
+	igdSTtHq5qIYn71BVQ6DtCtxHrTkKeL3LCcmowBYa0rrEuMwpmIM4ItIcYcMp28Gxfo=
+X-Gm-Gg: Acq92OEH6YcpK++BLMZxGQaFR5AFkb74zuq6PPAN9vIiK/AGqh9DUP7L0D8qnDNjqJS
+	uv+yDSte2Sds+mQDyFGX76aML3nYplGrrJhNKU/PiQLEPuZthE0hlmNJ4SjXm6vRtFtbExCxTAh
+	XfH2IYw/nTqeRIJTAcpRV96KyfvTpus8KdevLOjMCzCjMSGM9nHSSudHdSTXYVK4JruYguED5yk
+	A2h0nWDHN6JKWAF0SkbgpYQ0rZytufVP6atXMsF+hKkc2Jc4SvX7XVfDqxRsVKgo4QVl8pHQ1v7
+	qTlgpjc3Brx+pBHN8IlO35yM+CtEtzyjtSGiaTr19I1Zfo4mFzX8c0koLc7e/kf4x6I8IXyxjj8
+	Wf4hAhm6MZgbXPtopsEdxqitij24oLhejFF4Mr7DNJIwUeuAox6zfZDwjNroAfQHdjz76brIkUH
+	0YL3eEvzFJ5wuL5LsrZJExYg==
+X-Received: by 2002:a05:6000:288f:b0:43d:50c:6f33 with SMTP id ffacd0b85a97d-46077f2a62dmr16205392f8f.26.1781546192039;
+        Mon, 15 Jun 2026 10:56:32 -0700 (PDT)
 Received: from localhost ([2a01:e0a:3c5:5fb1:5176:ebe3:853b:8fb0])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4922fa3a8e4sm12251795e9.3.2026.06.15.10.46.30
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4606f2e6a8fsm36837329f8f.37.2026.06.15.10.56.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 10:46:30 -0700 (PDT)
+        Mon, 15 Jun 2026 10:56:31 -0700 (PDT)
 From: Jerome Brunet <jbrunet@baylibre.com>
 To: Chen-Yu Tsai <wens@kernel.org>
 Cc: Junhui Liu <junhui.liu@pigmoral.tech>,  Michael Turquette
@@ -68,16 +68,18 @@ Cc: Junhui Liu <junhui.liu@pigmoral.tech>,  Michael Turquette
  Dooley <conor+dt@kernel.org>,  Maxime Ripard <mripard@kernel.org>,
   linux-clk@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
   linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org,
-  linux-rtc@vger.kernel.org,  devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/7] dt-bindings: rtc: sun6i: Add Allwinner A733 support
-In-Reply-To: <CAGb2v67844OPwE6VJ0PAs5LsmCa2h0FvXOBUomZ50dM5tZ0Zow@mail.gmail.com>
-	(Chen-Yu Tsai's message of "Sat, 28 Mar 2026 20:37:26 +0800")
+  linux-rtc@vger.kernel.org,  devicetree@vger.kernel.org,  =?utf-8?Q?Andr?=
+ =?utf-8?Q?=C3=A9?= Przywara
+ <andre.przywara@arm.com>
+Subject: Re: [PATCH 7/7] clk: sunxi-ng: Add Allwinner A733 RTC CCU support
+In-Reply-To: <CAGb2v64euL+QNXiJdTn0JygYLXg0WoguPSprKT4sKGZGVZbwug@mail.gmail.com>
+	(Chen-Yu Tsai's message of "Sat, 28 Mar 2026 22:41:20 +0800")
 References: <20260121-a733-rtc-v1-0-d359437f23a7@pigmoral.tech>
-	<20260121-a733-rtc-v1-1-d359437f23a7@pigmoral.tech>
-	<CAGb2v67844OPwE6VJ0PAs5LsmCa2h0FvXOBUomZ50dM5tZ0Zow@mail.gmail.com>
+	<20260121-a733-rtc-v1-7-d359437f23a7@pigmoral.tech>
+	<CAGb2v64euL+QNXiJdTn0JygYLXg0WoguPSprKT4sKGZGVZbwug@mail.gmail.com>
 User-Agent: mu4e 1.12.9; emacs 30.1
-Date: Mon, 15 Jun 2026 19:46:29 +0200
-Message-ID: <1j1pe7elxm.fsf@starbuckisacylon.baylibre.com>
+Date: Mon, 15 Jun 2026 19:56:29 +0200
+Message-ID: <1jv7bjd6wi.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -87,190 +89,105 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On sam. 28 mars 2026 at 20:37, Chen-Yu Tsai <wens@kernel.org> wrote:
+On sam. 28 mars 2026 at 22:41, Chen-Yu Tsai <wens@kernel.org> wrote:
 
-> On Wed, Jan 21, 2026 at 7:03=E2=80=AFPM Junhui Liu <junhui.liu@pigmoral.t=
+> On Wed, Jan 21, 2026 at 7:04=E2=80=AFPM Junhui Liu <junhui.liu@pigmoral.t=
 ech> wrote:
 >>
->> The RTC module in the Allwinner A733 SoC is functionally compatible with
->> the sun6i RTC, but its internal Clock Control Unit (CCU) has significant
->> changes.
+>> Add support for the internal CCU found in the RTC module of the Allwinner
+>> A733 SoC. While the basic 16MHz (IOSC) and 32kHz logic remains compatible
+>> with older SoCs like the sun6i, the A733 introduces several new features.
 >>
->> The A733 supports selecting the oscillator between three frequencies:
->> 19.2MHz, 24MHz, and 26MHz. The RTC CCU relies on hardware to detect
->> which frequency is actually used on the board. By defining all three
->> frequencies as fixed-clocks in the device tree, the driver can identify
->> the hardware-detected frequency and expose it to the rest of the system.
+>> The A733 RTC CCU supports choosing one of three external crystal
+>> frequencies: 19.2MHz, 24MHz, and 26MHz. It features hardware detection
+>> logic to automatically identify the frequency used on the board and
+>> exports this DCXO signal as the "hosc" clock.
+>>
+>> Furthermore, the driver implements logic to derive a 32kHz reference
+>> from the HOSC. This is achieved through a muxed clock path using fixed
+>> pre-dividers to normalize the different crystal frequencies to ~32kHz.
 >
-> No. The board device tree shall have the exact and correct frequency
-> defined in the external crystal device node. The operating system can
-> use the hardware-detected frequency to "fix" the in-system representation
-> if it is off.
+> Have you tested whether the actually normalizes the frequency, i.e.
+> selects a different divider based on the DCXO frequency? Otherwise
+> we're just lying about the frequency.
 >
->> Additionally, the A733 RTC CCU provides several new DCXO gate clocks for
->> specific modules, including SerDes, HDMI, and UFS.
+>> This path reuses the same hardware mux registers as the HOSC clock.
+>>
+>> Additionally, this CCU provides several gate clocks for specific
+>> peripherals, including SerDes, HDMI, and UFS. The driver is implemented
+>> as an auxiliary driver to be bound to the sun6i-rtc driver.
 >>
 >> Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
 >> ---
->>  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml      | 38 +++++++++++++++=
-+++++--
->>  include/dt-bindings/clock/sun60i-a733-rtc.h        | 16 +++++++++
->>  2 files changed, 52 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-r=
-tc.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
->> index 9df5cdb6f63f..b18431955783 100644
->> --- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
->> +++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
->> @@ -26,6 +26,7 @@ properties:
->>            - allwinner,sun50i-h6-rtc
->>            - allwinner,sun50i-h616-rtc
->>            - allwinner,sun50i-r329-rtc
->> +          - allwinner,sun60i-a733-rtc
->>        - items:
->>            - const: allwinner,sun50i-a64-rtc
->>            - const: allwinner,sun8i-h3-rtc
->> @@ -46,11 +47,11 @@ properties:
->>
->>    clocks:
->>      minItems: 1
->> -    maxItems: 4
->> +    maxItems: 6
->>
->>    clock-names:
->>      minItems: 1
->> -    maxItems: 4
->> +    maxItems: 6
->>
->>    clock-output-names:
->>      minItems: 1
->> @@ -156,6 +157,38 @@ allOf:
->>          - clocks
->>          - clock-names
->>
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            const: allwinner,sun60i-a733-rtc
+
+[...]
+
+>> +};
 >> +
->> +    then:
->> +      properties:
->> +        clocks:
->> +          minItems: 5
->> +          items:
->> +            - description: Bus clock for register access
+>> +static const struct clk_parent_data hosc_parents[] =3D {
+>> +       { .fw_name =3D "osc24M" },
+>> +       { .fw_name =3D "osc19M" },
+>> +       { .fw_name =3D "osc26M" },
+>> +       { .fw_name =3D "osc24M" },
+>> +};
 >
->> +            - description: 19.2 MHz oscillator
->> +            - description: 24 MHz oscillator
->> +            - description: 26 MHz oscillator
+> As mentioned in my reply to the binding, this is wrong. There is only
+> one input.
 >
-> No. There is only one input. As in there is only one set of pins for the
-> DCXO. The inputs are the same as on R329 / A523. Just use that list.
+> The most you can do is check the rate of the parent clock against the
+> detected one, and _scream_ that the DT is wrong. And maybe override
+> the reported frequency.
 >
->> +            - description: AHB parent for internal SPI clock
->> +            - description: External 32768 Hz oscillator
+> If you want to do the latter, you could add a new fixed rate gated
+> clock type to our library. You would fill in the rate before the
+> clocks get registered. I probably wouldn't go that far. We want people
+> to have correct hardware descriptions.
+>
+> Funnily enough Allwinner's BSP actually implements a fixed rate gate
+> for the next 24M-to-32k divider clock.
+
+What about implementing the register bellow as a read-only (and
+non-cached) divider using the factors provided by Junhui ? That would be
+an accurate description of the HW I think.
+
+The oscillator gets set in DT and if the output reported past the
+divider is not 32728Hz, you know you've got a problem (bad DT or HW gone
+bad)
+
+With a fixed-rate gate, you may actually end up lying about what
+actually happen, if the HW does not behave as expected.
+
+Do you prefer a fixed-rate gate still or should I try the RO divider
+approach ?
+
+>
 >> +
->> +        clock-names:
->> +          minItems: 5
->> +          items:
->> +            - const: bus
->> +            - const: osc19M
->> +            - const: osc24M
->> +            - const: osc26M
->> +            - const: ahb
->> +            - const: ext-osc32k
+>> +struct ccu_mux hosc_clk =3D {
+>> +       .enable =3D DCXO_CTRL_DCXO_EN,
+>> +       .mux    =3D _SUNXI_CCU_MUX(14, 2),
+>> +       .common =3D {
+>> +               .reg            =3D DCXO_CTRL_REG,
+>> +               .hw.init        =3D CLK_HW_INIT_PARENTS_DATA("hosc",
+>> +                                                          hosc_parents,
+>> +                                                          &ccu_mux_ro_o=
+ps,
+>> +                                                          0),
+>> +       },
+>> +};
+>
+> So this is wrong.
+>
 >> +
->> +      required:
->> +        - clocks
->> +        - clock-names
+>> +static const struct ccu_mux_fixed_prediv hosc_32k_predivs[] =3D {
+>> +       { .index =3D 0, .div =3D 732 },
+>
+> Why is it 732 instead of 750?
+>
+>> +       { .index =3D 1, .div =3D 586 },
+>> +       { .index =3D 2, .div =3D 793 },
+>> +       { .index =3D 3, .div =3D 732 },
+>> +};
 >> +
->>    - if:
->>        properties:
->>          compatible:
->> @@ -164,6 +197,7 @@ allOf:
->>                - allwinner,sun8i-r40-rtc
->>                - allwinner,sun50i-h616-rtc
->>                - allwinner,sun50i-r329-rtc
->> +              - allwinner,sun60i-a733-rtc
->>
->>      then:
->>        properties:
->> diff --git a/include/dt-bindings/clock/sun60i-a733-rtc.h b/include/dt-bi=
-ndings/clock/sun60i-a733-rtc.h
->> new file mode 100644
->> index 000000000000..8a2b5facad73
->> --- /dev/null
->> +++ b/include/dt-bindings/clock/sun60i-a733-rtc.h
->> @@ -0,0 +1,16 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
->> +
->> +#ifndef _DT_BINDINGS_CLK_SUN60I_A733_RTC_H_
->> +#define _DT_BINDINGS_CLK_SUN60I_A733_RTC_H_
->> +
->> +#define CLK_IOSC               0
->> +#define CLK_OSC32K             1
->> +#define CLK_HOSC               2
+>> +static struct ccu_mux hosc_32k_mux_clk =3D {
+>> +       .enable         =3D DCXO_CTRL_DCXO_EN,
 >
-> The DCXO enable control has been present since at least the H6. We just
-> never added it, as we would never disable it anyway.
->
-> If you compare the RTC clock trees of the A733 and A523, the only addition
-> besides the new gates seems to be the LOSC auto selection. But even that
-> is just an illusion, as the A523 has the same registers for that.
->
-> One could say the A733 RTC is almost backward compatible to the A523, if
-> not for the two fastboot registers the A523 has at 0x120 and 0x124.
->
-> So I ask that you try to integrate the differences into the existing
-> driver and bindings. You can tweak and export internal clks if you
-> need.
-
-I'd like to help with that. I think it is doable but I have a question
-regarding the binding of the existing driver, more precisely their usage
-here:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/dri=
-vers/clk/sunxi-ng/ccu-sun6i-rtc.c?h=3Dv7.1#n370
-
-Clock indexes are supposed to be stable in DT (AFAIK) but with the code
-linked the external 32k is at:
-
-* "ext-32k" - so index 3 - if "clock-names" is present
-* index 0 if clock names is not present
-
-... but index 0 is supposed to be the bus clock according the binding
-doc, whether "clock-names" is there or not :/
-
-So what are those old r329 bindings ? is there a documentation defining
-them somewhere ?
-
-Cleaning that part would help with A733 addition in the existing driver
-I think
-
->
->> +#define CLK_RTC_32K            3
->
-> AFAICT besides being an internal clock, this is also fed to GPIO for
-> debounce? We probably need to expose this on the A523 as well.
->
->
-> Thanks
-> ChenYu
->
->
->> +#define CLK_OSC32K_FANOUT      4
->> +#define CLK_HOSC_SERDES1       5
->> +#define CLK_HOSC_SERDES0       6
->> +#define CLK_HOSC_HDMI          7
->> +#define CLK_HOSC_UFS           8
->> +
->> +#endif /* _DT_BINDINGS_CLK_SUN60I_A733_RTC_H_ */
->>
->> --
->> 2.52.0
->>
->>
-
---=20
-Jerome
