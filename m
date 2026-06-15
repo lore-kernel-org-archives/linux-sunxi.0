@@ -1,141 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42392E7631
-	for <linux-sunxi@lists.linux.dev>; Mon, 15 Jun 2026 09:23:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF383400E1E
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Jun 2026 15:13:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781515431; cv=none; b=NZLmW5g8GhHDxJZ2NFs+sN/2voGu7pIxSaZtpicci6BqW1DERo6PS18BqDYArH2XL9FJ9gz+84sy5E4WWvJLxqbnXoROPo2N8Z131yGhaAuE18HntVS5nIut6kRHnrvgfVaZWaNw8B660jdkfpxJV3B+HM/Hrk/BTE1OvPaSzfI=
+	t=1781536435; cv=none; b=LVrWJTFS/HgywoxRjAK3WreJfb/uDA9YpgYE2GrxiUVbATDrRWNdlN/s+PxHqbMFS/QxF/Giwl2eEXUGiwg9oUcqp3QzIk4Xzz4iPxy701oXuGOtRIRCp1Q+8HuLC9JcGurWu6usQy71l4AhDWjqcjTHISjbFZQnFDDvvlUxLq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781515431; c=relaxed/simple;
-	bh=ILFZX824OLhFy5EveAgE1PdYsvEFp31jvai0F+qRXeI=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=FnnNY/p429/KthUWjThouelFmxC96TFwjvzbiDlB9+Bh/CI6dfw4UtIhCDaoAgzVYgkq6ZOzKp1dgGE22Hy21AG4dOTO55e/ZPyMVYtMJBNxzrCw3YtURj2hdgAbTy9MZ140BW3fw/oG2epTU0rhjGzEuNG1YlSQEVJNcxLhb/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lhny4cNA; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781536435; c=relaxed/simple;
+	bh=D4bpvPbdM+wRVQt1hbGIs82yUi2P+/2hMfI01v/vvlc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ixXlDhs/p7GDy1riiYSEwfxFLVK8BasmXV2drct9tCwCQB0AacSfcYk4xdt17DpEYl+Zu9JglPA9XPeE4Ml7QjguQLAnVXNt+2Dd4wYEONII1HBMs4PBdJ831+fqLUV0cEPGb76NG/WnnxtZodzPhQ+scZboZskLXHuzMHEz108=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Le1ueieK; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lhny4cNA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BFD31F000E9;
-	Mon, 15 Jun 2026 09:23:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781515430;
-	bh=+UwEJ+rUMXnhaCD/003k9UogpirX23aOomud7GYKgcc=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Lhny4cNAI1sMqLi2aKla/G4DngLqfBcKJ6srZF+/lb/n1AubeugGmGIwB4ubQKip6
-	 21OR40LZbPBUhbIyMgRfDjHAOisJV9hvEYLIn4tqjWi0LEkylkHbOtAj3kETGzL/2Z
-	 gNYlsCmGErhn+3a6DdEOtiVn28PvXWuAmoX0ABSiyn7WqKMx+ZB+5dWEtjpw4+tJ3t
-	 644Sbf5zx1iImGso6jVha/kV2fberu7iNfmKqUATZ0nRxB4VNVdEqM1ZcU7l2z/XAC
-	 5bvOUrmJF/O4pqiTqUXWTF4FIqZRaopit4LyGvg0FQHoGMdXwLrrIQbLUUSzroprUb
-	 yLkgBTfmRcVEQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] crypto: sun4i-ss: remove debugfs directory on teardown
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Pengpeng Hou" <pengpeng@iscas.ac.cn>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260615091114.97190-1-pengpeng@iscas.ac.cn>
-References: <20260615091114.97190-1-pengpeng@iscas.ac.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 15 Jun 2026 09:23:49 +0000
-Message-Id: <20260615092350.4BFD31F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Le1ueieK"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-490b8ac62baso34096865e9.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 15 Jun 2026 08:13:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781536432; x=1782141232; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XOu5uWEEG32depN6lamngfrPC9NH0+eC4cO0/sZPFE0=;
+        b=Le1ueieKeTNOu27nuCjJDaZ/5mZ9Otww31cMsO7ZtlPyJfgKo1dzUCeHRWPui46nvE
+         i0WaGTqhMyqDt/akA6KYvcIDX2iBy8tOKmedEJVrv+I3VeJa6uxLjZ3CyTXKOhuzTRKS
+         K8gMiNWyKn4FuLxCcc+2xIjDcKL4QmszkzIUsm5dLYFmMD4vmMEmZAsRRnN60m4VzAFp
+         TBfEVMJpRtQBlwFuibA4HAQyD3NiQ3eTFWgb+wCE3LYkdimcOprY9gwkkZ94nuqHqPse
+         sz8S69bNEYOCmnZSVOaK4AbTUf1hMvMpBKdVlB6EeOEfQgvqzEmbPicjA3eUtoxd6FPH
+         obBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781536432; x=1782141232;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=XOu5uWEEG32depN6lamngfrPC9NH0+eC4cO0/sZPFE0=;
+        b=Kz+bFSG43mERSuvHpZso+ZCy1VuYRF/4Fjptgej+oMUQifmX/9shA1x6KHz/1oi6aj
+         a8KXE+XBB9O9tla1Xsofg0XuVAMw4JBwrzoOhm4GtbL9OuXaHiyzVsqzon8blw/5O0Xu
+         BwM3lBD7MqNQu0FOnTRvCs47B93tdvuTgCoVrcvwSDYj6Lkx1+QwuU9cN3qN0UK/gLmU
+         rNcRKHFuJsZc8UdTCaqP0zwfWA7enumOL5X09SgxgG22qL2iVt0gkOxSlfi0cLaKWeuG
+         4+N61nbHOVzMFs7cYOiumcCO9Q36zY2snseLc+xF/jKJM329FYJ5hFGNQSullJZ6jZ0C
+         BhoA==
+X-Forwarded-Encrypted: i=1; AFNElJ+VKzMxlfzrp6MQ1IunFzirOdTr28VmD92n49Cfk9xBre7lwjjP9rMwLzxAawiFQ5yBbEmN6QZ+nzz2Aw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yza5guaAc+q7GE79l81Zx2ZXcGuSLtULy7A2Up4EW+BhAIEcwAd
+	gSzOtvMFZpDjnJv1ZpB2wiUMqH1mAgcVzzl2G1/Wezc1VATOXNu5tVGY
+X-Gm-Gg: Acq92OHCPZTpgb3g10GSPr9dTD7jN2xuKWmXUf43pZK9CaIYuxrI4lEo1TMTWrfVKoe
+	SPloPvaHZmcOz+te0JdkeYDJ1f9A7Swm24YtnFoGrYmufY4qWuLvk166xTGkQAZ9Haq00mIISCB
+	MTsnBNy4aUgNZRV6PPJvALTwHGzZHXEtC2JtOYi/X6g5I5TJGpFqG5P0NhPJzST+iBSBdoiNtPm
+	83Ax3vE58w0qw4hy3wOrY5YfN1SMxMOPTSkQ2uTJHECMvN4vjobr2oXuzobLFO9hzcDFV1OKWNz
+	QTkbU6H64fbKqBso5StGv8Bfcwh55yTsDmaQXMyapKrnxHIBroQANGDdoNKbSU2v0EVnzzbqARH
+	fONv/npi0yGG9aXtzWBvns82QybmCPZw8KKMXN508SnxI2yQ8ZyfNUM3kcmQPPIVZZ1YJOA3Fme
+	eqdyBZcuh3lM7vJRJDYgABmLPMNzmPqHYTS/IE6lMOYiTSLyoIhwIqzm+yyZYcnSP6Nxh8eGlBF
+	ywqOok9+3U2eNXRWEgOu47nCQ9OvXs0PhD5FQ==
+X-Received: by 2002:a7b:c5cb:0:b0:490:5429:1515 with SMTP id 5b1f17b1804b1-490ea9721c9mr127671085e9.0.1781536431914;
+        Mon, 15 Jun 2026 08:13:51 -0700 (PDT)
+Received: from jernej-laptop.localnet (92-53-159-70.dynamic.telemach.net. [92.53.159.70])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2b0d28sm36364453f8f.20.2026.06.15.08.13.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jun 2026 08:13:51 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: vkoul@kernel.org, Frank.Li@kernel.org, wens@kernel.org,
+ samuel@sholland.org, mripard@kernel.org, arnd@arndb.de,
+ Hongling Zeng <zenghongling@kylinos.cn>
+Cc: dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ zhongling0719@126.com, Hongling Zeng <zenghongling@kylinos.cn>
+Subject:
+ Re: [PATCH v2] dmaengine: sun6i-dma: Fix use-after-free in error handling
+ paths
+Date: Mon, 15 Jun 2026 17:13:49 +0200
+Message-ID: <m3OXKiXNQhuGBq_OoFe6nQ@gmail.com>
+In-Reply-To: <20260615022400.13454-1-zenghongling@kylinos.cn>
+References: <20260615022400.13454-1-zenghongling@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-
-Pre-existing issues:
-- [High] Device unbind frees the devm-managed driver context while active c=
-rypto TFMs remain, leading to a Use-After-Free.
-- [High] Global `ss_algs` array corruption upon multiple device probes or p=
-robe failures leaves dangling pointers, leading to a Use-After-Free.
---
-
-commit ca25dde45b1d1ec5234ada4c67bcfb9e055331e7
-Author: Pengpeng Hou <pengpeng@iscas.ac.cn>
-
-crypto: sun4i-ss: remove debugfs directory on teardown
-
-This commit addresses a cleanup omission in the sun4i-ss driver where the
-debugfs directory and stats file were left published after the driver
-was unbound. It adds a recursive debugfs removal during driver teardown.
-
-> diff --git a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c b/drivers/=
-crypto/allwinner/sun4i-ss/sun4i-ss-core.c
-> index 35ef0930e77f1..eadc5449b6807 100644
-> --- a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
-> +++ b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
-> @@ -479,6 +479,8 @@ static void sun4i_ss_remove(struct platform_device *p=
-dev)
->  	int i;
->  	struct sun4i_ss_ctx *ss =3D platform_get_drvdata(pdev);
+Dne ponedeljek, 15. junij 2026 ob 04:23:59 Srednjeevropski poletni =C4=8Das=
+ je Hongling Zeng napisal(a):
+> In error handling paths, the for loop frees v_lli in the loop body,
+> then accesses v_lli->v_lli_next and v_lli->p_lli_next in the
+> increment expression, which is use-after-free.
+>=20
+> Fix by saving both the next virtual and physical pointers before
+> freeing the current node.
+>=20
+> Fixes: 555859308723 ("dmaengine: Add driver for Allwinner sun6i DMA")
+> Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
+> Suggested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>=20
+> ---
+> Changes in v2:
+>  -Refactored the fix to avoid code duplication by creating a helper funct=
+ion
+>   sun6i_dma_free_lli_list() that handles LLI list cleanup
+>  -Add Suggested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  drivers/dma/sun6i-dma.c | 26 ++++++++++++++------------
+>  1 file changed, 14 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
+> index a9a254dbf8cb..02dd07001d5a 100644
+> --- a/drivers/dma/sun6i-dma.c
+> +++ b/drivers/dma/sun6i-dma.c
+> @@ -406,16 +406,12 @@ static inline void sun6i_dma_dump_lli(struct sun6i_=
+vchan *vchan,
+>  		v_lli->len, v_lli->para, v_lli->p_lli_next);
+>  }
 > =20
-> +	debugfs_remove_recursive(ss->dbgfs_dir);
+> -static void sun6i_dma_free_desc(struct virt_dma_desc *vd)
+> +static void sun6i_dma_free_lli_list(struct sun6i_dma_dev *sdev,
+> +					struct sun6i_desc *txd)
+>  {
+> -	struct sun6i_desc *txd =3D to_sun6i_desc(&vd->tx);
+> -	struct sun6i_dma_dev *sdev =3D to_sun6i_dma_dev(vd->tx.chan->device);
+>  	struct sun6i_dma_lli *v_lli, *v_next;
+>  	dma_addr_t p_lli, p_next;
+> =20
+> -	if (unlikely(!txd))
+> -		return;
+> -
+>  	p_lli =3D txd->p_lli;
+>  	v_lli =3D txd->v_lli;
+> =20
+> @@ -428,7 +424,17 @@ static void sun6i_dma_free_desc(struct virt_dma_desc=
+ *vd)
+>  		v_lli =3D v_next;
+>  		p_lli =3D p_next;
+>  	}
+> +}
+> =20
+> +static void sun6i_dma_free_desc(struct virt_dma_desc *vd)
+> +{
+> +	struct sun6i_desc *txd =3D to_sun6i_desc(&vd->tx);
+> +	struct sun6i_dma_dev *sdev =3D to_sun6i_dma_dev(vd->tx.chan->device);
 > +
+> +	if (unlikely(!txd))
+> +		return;
+> +
+> +	sun6i_dma_free_lli_list(sdev, txd);
+>  	kfree(txd);
 
-[Severity: High]
-This is a pre-existing issue, but does device unbind cause a use-after-free
-here?
+Why not also move txd handling? That way even more code can be put in one p=
+lace.
 
-When the device is unbound via sysfs, sun4i_ss_remove() completes and devres
-automatically frees the devm-managed ss context and unmaps ss->base.
+Best regards,
+Jernej
 
-However, unregistering the crypto algorithms only prevents new allocations.
-It does not destroy existing active TFMs. If an active TFM continues to
-operate, its context op->ss (which was copied from algt->ss during
-sun4i_ss_cipher_init()) becomes a dangling pointer.
+>  }
+> =20
+> @@ -788,9 +794,7 @@ static struct dma_async_tx_descriptor *sun6i_dma_prep=
+_slave_sg(
+>  	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
+> =20
+>  err_lli_free:
+> -	for (p_lli =3D txd->p_lli, v_lli =3D txd->v_lli; v_lli;
+> -	     p_lli =3D v_lli->p_lli_next, v_lli =3D v_lli->v_lli_next)
+> -		dma_pool_free(sdev->pool, v_lli, p_lli);
+> +	sun6i_dma_free_lli_list(sdev, txd);
+>  	kfree(txd);
+>  	return NULL;
+>  }
+> @@ -869,9 +873,7 @@ static struct dma_async_tx_descriptor *sun6i_dma_prep=
+_dma_cyclic(
+>  	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
+> =20
+>  err_lli_free:
+> -	for (p_lli =3D txd->p_lli, v_lli =3D txd->v_lli; v_lli;
+> -	     p_lli =3D v_lli->p_lli_next, v_lli =3D v_lli->v_lli_next)
+> -		dma_pool_free(sdev->pool, v_lli, p_lli);
+> +	sun6i_dma_free_lli_list(sdev, txd);
+>  	kfree(txd);
+>  	return NULL;
+>  }
+>=20
 
-For example, a subsequent sun4i_ss_cipher_poll() call accessing the hardwar=
-e:
 
-drivers/crypto/allwinner/sun4i-ss/sun4i-ss-cipher.c:sun4i_ss_cipher_poll()
-    ...
-    writesl(ss->base + SS_RXFIFO, mi.addr + oi, todo);
 
-will access unmapped memory and the freed ss context. Additionally, when the
-TFM is eventually freed:
 
-drivers/crypto/allwinner/sun4i-ss/sun4i-ss-cipher.c:sun4i_ss_cipher_exit()
-    ...
-    pm_runtime_put(op->ss->dev);
-
-it dereferences the already-freed op->ss. Can this be addressed by tracking
-active TFMs or ensuring they are quiesced before cleanup?
-
->  	for (i =3D 0; i < ARRAY_SIZE(ss_algs); i++) {
->  		switch (ss_algs[i].type) {
->  		case CRYPTO_ALG_TYPE_SKCIPHER:
-
-[ ... ]
-
-[Severity: High]
-This is also a pre-existing issue, but is the driver context safely managed
-if probe fails or if multiple devices are probed?
-
-In sun4i_ss_probe(), the driver stores its per-device context pointer in the
-statically allocated global array ss_algs:
-
-drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c:sun4i_ss_probe()
-    for (i =3D 0; i < ARRAY_SIZE(ss_algs); i++) {
-        ss_algs[i].ss =3D ss;
-
-If a second device instance is probed, it overwrites ss_algs[0].ss with its
-newly allocated ss context. The registration then fails with -EEXIST because
-the first device already registered it, causing the second probe to abort
-and devres to free its ss context.
-
-However, ss_algs[0].ss remains pointing to this freed memory. When a new TFM
-is created for the still-active first device:
-
-drivers/crypto/allwinner/sun4i-ss/sun4i-ss-cipher.c:sun4i_ss_cipher_init()
-    op->ss =3D algt->ss;
-
-it copies the dangling pointer to op->ss, leading to a use-after-free when
-accessing op->ss->dev. Could this global array be changed to avoid storing
-per-device state?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260615091114.9719=
-0-1-pengpeng@iscas.ac.cn?part=3D1
