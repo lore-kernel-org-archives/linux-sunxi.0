@@ -1,154 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282CB2F7F1F
-	for <linux-sunxi@lists.linux.dev>; Sun, 14 Jun 2026 17:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C832D1F4CB3
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Jun 2026 02:24:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781457068; cv=none; b=CU3BcMWmvMvxyo7DsI6ZiRQ84SRLZrKzTLsLnGJq+JqICVPFVF/O5BjGbp61dkxJ3ckOhGBAZZKGpLyc6ch/2l61j63E+UmmmbgAOtP/kibjNSuHJYMN1RZYvK1tXBXLU+mGqGZbTuTvRgOQRHimBtS9jnl920PGWmZx2T2YSAc=
+	t=1781490259; cv=none; b=hkzoJDeRn6nPpYOA2456qL5RA6RgvPv0tM0496cGuqVQmVsX55mDmp3CKDj3fqWt8ujaDp9GFXdPSaSQSHX9xlMT8Ef+Nqw5P0Axi8pEqWlW7HyLSB+L7a/BR4q2KLz45K2G1i2KuEwFFA1qPXdARodVME3MtC8JMAZHc5+ol84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781457068; c=relaxed/simple;
-	bh=ZeMtaqkwLGS+v63rqffTYGcDul49lVbaGIVJTsah69U=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=SkAKtyHMRiqMfPgaCdCqqzkJW8m9wJ2r+8jlUnVmpZWH0W7Lc0wRbKGZqiq1mRtFkSxg5IvUcJRQn0Eaa0xGhT3YnF/3tNj/Od43dHasOhxo35WiEdC+ph93094KR9CUXBNwlB1Xg4q9WouvgcFSTFt9Ui/CuGwVEqado11vn20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BHAkSPxF; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BHAkSPxF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FB851F000E9;
-	Sun, 14 Jun 2026 17:11:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781457066;
-	bh=z2RkMWNR2w0O3k1eNCraNClJ2KnkRnQK0roWdN+Gl0c=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=BHAkSPxFxPBE/3kQoJM01vEF2RycGWpUBJKZ9jVB0lFV4+tm9tTpbkMwaDfcYFwdc
-	 Sg3wzf+lChW3TGPC0WKl7sOBe/a/vDB5JCkGEkEwFd8JaB3eTISbbIg+fz1S/+vepE
-	 jQnRCHLE3bKBu1PD9YrH3ztvvrNwBNy1MHm90GnWtIcGmAdczuFY63AV09a9owSTFK
-	 puYeESejb/2TFo8hJzILx4SJ2v3L2taUKFzALiaTuQ+HOBJmmFhzC6MYg0hRw+YTHH
-	 dbVspdmAg4uHbqjJbQ/Xzq1v3QD8JkLX2GVp/j6A6Y0zpQ220AmUofd1PhNX3xWseq
-	 07ZIVgWN4B7IA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 07/22] media: platform: sun4i_csi: Add missing
- media_entity_cleanup()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Biren Pandya" <birenpandya@gmail.com>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260614165630.3896-8-birenpandya@gmail.com>
-References: <20260614165630.3896-8-birenpandya@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 14 Jun 2026 17:11:06 +0000
-Message-Id: <20260614171106.9FB851F000E9@smtp.kernel.org>
+	s=arc-20240116; t=1781490259; c=relaxed/simple;
+	bh=yiBsnmo/2DyeA1LvNR6lWcWSbs6r+q7dTqRrglwdk78=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bm0rteuLSUIvJiInwEX33tS6dTh81gtBg+J1laPtK11herA+ZJksK8NiQOSfvk3dukERbbaR/7vyFIpbncl88nrHzrLVlL9sYwDJHxu+MR8v7g2GPBZb6h1YxlNiEO7sw1TQ4Q1ZSUEQfVuPFN9BnLSXkXMeRADvPmcT0eMLNOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 47a1607c686111f1aa26b74ffac11d73-20260615
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:e1552935-6f59-4bcc-a7e4-99180aafc320,IP:0,U
+	RL:0,TC:0,Content:0,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:e7bac3a,CLOUDID:b1ba9f2ad82067ddd6b55510a336ea90,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
+	DM:2,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:
+	0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 47a1607c686111f1aa26b74ffac11d73-20260615
+X-User: zenghongling@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zenghongling@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 26860886; Mon, 15 Jun 2026 10:24:04 +0800
+From: Hongling Zeng <zenghongling@kylinos.cn>
+To: vkoul@kernel.org,
+	Frank.Li@kernel.org,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	mripard@kernel.org,
+	arnd@arndb.de
+Cc: dmaengine@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	zhongling0719@126.com,
+	Hongling Zeng <zenghongling@kylinos.cn>
+Subject: [PATCH v2] dmaengine: sun6i-dma: Fix use-after-free in error handling paths
+Date: Mon, 15 Jun 2026 10:23:59 +0800
+Message-Id: <20260615022400.13454-1-zenghongling@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
+In error handling paths, the for loop frees v_lli in the loop body,
+then accesses v_lli->v_lli_next and v_lli->p_lli_next in the
+increment expression, which is use-after-free.
 
-Pre-existing issues:
-- [High] The error path in `sun4i_csi_probe` fails to clean up the V4L2 asy=
-nc notifier, leaking the async connection memory and fwnode reference.
-- [High] If `sun4i_csi_notify_complete` fails after registering the video d=
-evice, the node is exposed to userspace but not cleaned up on probe abort, =
-leading to a Use-After-Free.
-- [Medium] Early error paths in `sun4i_csi_probe` fail to call `media_devic=
-e_cleanup()`, leaking IDA internal structures and mutexes initialized by `m=
-edia_device_init()`.
---
+Fix by saving both the next virtual and physical pointers before
+freeing the current node.
 
-commit 0bea5104c6b556049740c1a93c1ab60799f7c769
-Author: Biren Pandya <birenpandya@gmail.com>
+Fixes: 555859308723 ("dmaengine: Add driver for Allwinner sun6i DMA")
+Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
+Suggested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-media: platform: sun4i_csi: Add missing media_entity_cleanup()
-   =20
-This commit adds calls to media_entity_cleanup() in the sun4i_csi probe
-error paths and the remove function to properly release media entities.
+---
+Changes in v2:
+ -Refactored the fix to avoid code duplication by creating a helper function
+  sun6i_dma_free_lli_list() that handles LLI list cleanup
+ -Add Suggested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/dma/sun6i-dma.c | 26 ++++++++++++++------------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
 
-> diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c b/drivers=
-/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-> index e53a07b770b7e..f50d97ca795f8 100644
-> --- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-> +++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-> @@ -242,11 +242,11 @@ static int sun4i_csi_probe(struct platform_device *=
-pdev)
->  	vdev->entity.ops =3D &sun4i_csi_video_entity_ops;
->  	ret =3D media_entity_pads_init(&vdev->entity, 1, &csi->vdev_pad);
->  	if (ret < 0)
-> -		return ret;
-> +		goto err_clean_subdev_entity;
-> =20
->  	ret =3D sun4i_csi_dma_register(csi, irq);
->  	if (ret)
-> -		goto err_clean_pad;
-> +		goto err_clean_vdev_entity;
-> =20
->  	ret =3D sun4i_csi_notifier_init(csi);
->  	if (ret)
+diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
+index a9a254dbf8cb..02dd07001d5a 100644
+--- a/drivers/dma/sun6i-dma.c
++++ b/drivers/dma/sun6i-dma.c
+@@ -406,16 +406,12 @@ static inline void sun6i_dma_dump_lli(struct sun6i_vchan *vchan,
+ 		v_lli->len, v_lli->para, v_lli->p_lli_next);
+ }
+ 
+-static void sun6i_dma_free_desc(struct virt_dma_desc *vd)
++static void sun6i_dma_free_lli_list(struct sun6i_dma_dev *sdev,
++					struct sun6i_desc *txd)
+ {
+-	struct sun6i_desc *txd = to_sun6i_desc(&vd->tx);
+-	struct sun6i_dma_dev *sdev = to_sun6i_dma_dev(vd->tx.chan->device);
+ 	struct sun6i_dma_lli *v_lli, *v_next;
+ 	dma_addr_t p_lli, p_next;
+ 
+-	if (unlikely(!txd))
+-		return;
+-
+ 	p_lli = txd->p_lli;
+ 	v_lli = txd->v_lli;
+ 
+@@ -428,7 +424,17 @@ static void sun6i_dma_free_desc(struct virt_dma_desc *vd)
+ 		v_lli = v_next;
+ 		p_lli = p_next;
+ 	}
++}
+ 
++static void sun6i_dma_free_desc(struct virt_dma_desc *vd)
++{
++	struct sun6i_desc *txd = to_sun6i_desc(&vd->tx);
++	struct sun6i_dma_dev *sdev = to_sun6i_dma_dev(vd->tx.chan->device);
++
++	if (unlikely(!txd))
++		return;
++
++	sun6i_dma_free_lli_list(sdev, txd);
+ 	kfree(txd);
+ }
+ 
+@@ -788,9 +794,7 @@ static struct dma_async_tx_descriptor *sun6i_dma_prep_slave_sg(
+ 	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
+ 
+ err_lli_free:
+-	for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
+-	     p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
+-		dma_pool_free(sdev->pool, v_lli, p_lli);
++	sun6i_dma_free_lli_list(sdev, txd);
+ 	kfree(txd);
+ 	return NULL;
+ }
+@@ -869,9 +873,7 @@ static struct dma_async_tx_descriptor *sun6i_dma_prep_dma_cyclic(
+ 	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
+ 
+ err_lli_free:
+-	for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
+-	     p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
+-		dma_pool_free(sdev->pool, v_lli, p_lli);
++	sun6i_dma_free_lli_list(sdev, txd);
+ 	kfree(txd);
+ 	return NULL;
+ }
+-- 
+2.25.1
 
-[ ... ]
-
-> @@ -266,6 +266,10 @@ static int sun4i_csi_probe(struct platform_device *p=
-dev)
->  	media_device_unregister(&csi->mdev);
->  	sun4i_csi_dma_unregister(csi);
-
-[Severity: High]
-This isn't a bug introduced by this patch, but does the error path in
-sun4i_csi_probe() fail to clean up the V4L2 async notifier, leaking the
-async connection memory and fwnode reference?
-
-sun4i_csi_notifier_init() allocates memory for a v4l2_async_connection via
-v4l2_async_nf_add_fwnode_remote() and takes a reference to the fwnode. If
-v4l2_async_nf_register() subsequently fails, the error path jumps to
-err_unregister_media. However, neither this label nor the cascading error
-paths below it call v4l2_async_nf_cleanup(&csi->notifier).
-
-[Severity: High]
-This is a pre-existing issue, but could this error path lead to a
-use-after-free if sun4i_csi_notify_complete() fails after registering
-the video device?
-
-In sun4i_csi_notify_complete(), sun4i_csi_v4l2_register() successfully
-registers the /dev/videoX node. If a subsequent step (such as
-media_device_register() or media_create_pad_link()) fails, the function
-returns an error without rolling back and unregistering the video device.
-
-This failure bubbles up, causing v4l2_async_nf_register() in probe to fail.
-The probe error path here entirely omits vb2_video_unregister_device().
-Consequently, devres frees the csi memory (which embeds csi->vdev), but
-the /dev/videoX node remains active. If userspace opens the stranded video
-node, the kernel will dereference the freed csi struct via
-video_drvdata(file).
-
-> +err_clean_vdev_entity:
-> +	media_entity_cleanup(&vdev->entity);
-> +err_clean_subdev_entity:
-> +	media_entity_cleanup(&subdev->entity);
->  err_clean_pad:
->  	media_device_cleanup(&csi->mdev);
-
-[Severity: Medium]
-This is a pre-existing issue, but do early error paths in sun4i_csi_probe()
-leak IDA internal structures and mutexes initialized by media_device_init()?
-
-For example, if devm_platform_ioremap_resource() fails:
-
-drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c:sun4i_csi_probe() {
-    ...
-    media_device_init(&csi->mdev);
-    csi->v4l.mdev =3D &csi->mdev;
-
-    csi->regs =3D devm_platform_ioremap_resource(pdev, 0);
-    if (IS_ERR(csi->regs))
-        return PTR_ERR(csi->regs);
-    ...
-}
-
-It returns directly instead of jumping to the err_clean_pad cleanup label
-seen above, bypassing the necessary media_device_cleanup(&csi->mdev) call.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260614165630.3896=
--1-birenpandya@gmail.com?part=3D7
