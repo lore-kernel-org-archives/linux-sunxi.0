@@ -1,210 +1,167 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02EC62472B6;
-	Mon, 15 Jun 2026 02:35:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8DD2AD2C;
+	Mon, 15 Jun 2026 04:29:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781490941; cv=none; b=CPYavwmZGFfoldo94gxR/vR64t+3CDaBYoaUJhrP3xCgoByTGHiKrrSAHGLjjIFQTKyUQ+8aRqX4PX9WriO1CLJYDElnmAJl8Y9G8/bUodwzi+ddrfZpWug/3nU4Gdf2fQtFQNadj9/5n2Nt3y7P5eGqlGTTsS0PL8l+LdlAA+0=
+	t=1781497744; cv=none; b=fhYOkXifukdOakgGBySVTZ0040Qx1fL0UTN8585N9YmQ552rod7vkfNp0fhelor7a/Ably5oika4evtJM30Sd7XRmPwHWWrL9yxLrBwJvx3Trv6ulb8diYIQOOBafRFPsH5N++YcMPBN5bLrqq0VhTF8QLQRBUCktugvTMIhW7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781490941; c=relaxed/simple;
-	bh=V/g+P/fTydolpiKmdLIUeI/weZhzltUn+ycsw1YHt6Q=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=EkHpC+H89hfzmKAGWJCgHAzEudQSbcXBBrNo0UyBV9WJrzWNmm132OFrn0UeEU9S3ly8w1p5KgtVcLbHvsYkLZx3PhxABXrC0lELtQFHRd28eQkCEXO+3Tpbw5l78gkpx+7KRuN32ZcLlPz+aui5T7IC/4I6HfxSeIFe21/rKT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q7VCK1wm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781497744; c=relaxed/simple;
+	bh=ck7Prj6LUmNL2O0pu9DFDaFX27y5bdZ0cJMjkilSEh0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j91KiOXG2VIkKM7Opbed58OV2c/Nj16M0I7743UshQnZvWtOMdMEYa9SryJ7QYPtSvnSHAfqwLraHSYBoEyXpOr7kh7jHExhgCXk0sBLb0Jcp7Pxs7/pLqCcTWVbnS6MNIuVxbZYaIctGQ65YuFvIqYBtbE9MlAnYuWmptTxmmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gIBjQVoV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q7VCK1wm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FB211F000E9;
-	Mon, 15 Jun 2026 02:35:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gIBjQVoV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A50261F000E9;
+	Mon, 15 Jun 2026 04:28:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781490939;
-	bh=jk3EYKdsJqglnPEO4r0CaWOPlZC2zPDGQfGdzMvJc9Q=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Q7VCK1wmyEtV2HWQdnKMsk7c89tjPE7koPApbBTmX1xAcAPkrlW0BEq1vNuImZ4g1
-	 VPModRwDDC630M7RWQRP9+yN4dZpisfaCFEj7FFyyvE6uJ3OHDgpS2u2QPZeke2gd7
-	 Hmi+Oee1vTt4lt1u/riorWt4XPytvKNetZQXVmoncEJN8N4kO+MPdtuFGzCI07epel
-	 dKSY0Hmw21iFhNX6v9DA6Dc4cBrOL3trXfFchx/5KE6cAjlyZ+hTA0hs7AlI7r/CEO
-	 aVOafzc+D3DsEbeDypihBNCWs1CxEx+vnY7M3HQlR6L94sM5GjbWxWN+inuvVT+35Z
-	 jHzjWDwUiu0Og==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] dmaengine: sun6i-dma: Fix use-after-free in error
- handling paths
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Hongling Zeng" <zenghongling@kylinos.cn>
-Cc: linux-sunxi@lists.linux.dev, Frank.Li@kernel.org, dmaengine@vger.kernel.org, vkoul@kernel.org
-In-Reply-To: <20260615022400.13454-1-zenghongling@kylinos.cn>
-References: <20260615022400.13454-1-zenghongling@kylinos.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 15 Jun 2026 02:35:38 +0000
-Message-Id: <20260615023539.4FB211F000E9@smtp.kernel.org>
+	s=k20260515; t=1781497742;
+	bh=4zOF8ACcQnGINtLJ1j5EoUWcnRZyFCDbQM5I2mI8cJI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=gIBjQVoVnGaNXBlOLr/2kvjLqa0XSsytCf8icoDPAioCUFGNWQnfNXRXxu4NikDqv
+	 D0oOU+SqepW8a21COfHEblvn+oLteTPOrSQ0Drb8i+VwxagY1aFakmjhNDYf6qqpcs
+	 lmTDU1wkB1A9YSjy9fJcbbQw7HnkdfNSLjsZ4rPi3++mWCYn314MRTNMAFGdnpeZHg
+	 2r+tIu+CPbyOVJUrJuNQK5I/HYxYSuGqaapRKH6Vnb5ubmupjB6SSGzWDa3hF2aML0
+	 BkAm7uMysMiPkdAw09NttKj5XwD+g7ToWZixfZf0mMiL5934O0kX6b4Uvs1Sv1fefv
+	 WMXzXpB8kFWSQ==
+Message-ID: <86943057-f5b4-4fae-9172-45f13814494f@kernel.org>
+Date: Mon, 15 Jun 2026 06:28:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 7/8] dt-bindings: display: allwinner: Split H616 DE33
+ layer reg space
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+ wens@kernel.org
+Cc: samuel@sholland.org, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ mturquette@baylibre.com, sboyd@kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org
+References: <20260509190015.79086-1-jernej.skrabec@siol.net>
+ <ahNuuaVlDl0KvOSj@home.wens.tw>
+ <032c1099-40ab-470e-8cc3-af6d3cad22d4@kernel.org>
+ <nIKN_benRn2Bk8SDZrkMCA@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <nIKN_benRn2Bk8SDZrkMCA@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 5 potential issue(=
-s) to consider:
+On 14/06/2026 16:08, Jernej Škrabec wrote:
+> Dne ponedeljek, 25. maj 2026 ob 14:10:38 Srednjeevropski poletni čas je Krzysztof Kozlowski napisal(a):
+>> On 24/05/2026 23:33, Chen-Yu Tsai wrote:
+>>> Hi,
+>>>
+>>> (resent from new email)
+>>>
+>>> On Thu, May 14, 2026 at 2:04 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>>>
+>>>> On Sat, May 09, 2026 at 09:00:14PM +0200, Jernej Skrabec wrote:
+>>>>> From: Jernej Skrabec <jernej.skrabec@gmail.com>
+>>>>>
+>>>>> As it turns out, current H616 DE33 binding was written based on
+>>>>> incomplete understanding of DE33 design. Namely, planes are shared
+>>>>> resource and not tied to specific mixer, which was the case for previous
+>>>>> generations of Display Engine (DE3 and earlier).
+>>>>>
+>>>>> This means that current DE33 binding doesn't properly reflect HW and
+>>>>> using it would mean that second mixer (used for second display output)
+>>>>> can't be supported.
+>>>>>
+>>>>> Remove layer register space, which will be represented with additional
+>>>>> node, and replace it with phandle, which will point to that new, shared
+>>>>> node. That way, all mixers can share same layers.
+>>>>>
+>>>>> There is no user of this binding yet, so changes can be made safely,
+>>>>> without breaking any backward compatibility.
+>>>>
+>>>> There is user. git grep gives me:
+>>>> drivers/gpu/drm/sun4i/sun8i_mixer.c
+>>>>
+>>>> which means this is a released ABI. As I understood, the old code was
+>>>
+>>> We held off on merging the DT changes so that we could rework this.
+>>> I can't find the actual request though. It was probably over IRC.
+>>>
+>>>> working fine but just did not support all use cases. Why this cannot be
+>>>> kept backwards compatible?
+>>>
+>>> AFAIK the "planes" block is shared between two display mixers. As the
+>>> commit message explains, this prevents using the second mixer, since
+>>> only one of them can claim and map the register space. And on the H700
+>>> (which is the same die as the H616 discussed here but with more exposed
+>>> interfaces), there could actually be a use case for the second mixer.
+>>
+>> It explains why you want to make the changes but not why you cannot keep
+>> it backwards compatible.
+> 
+> I guess it can be backward compatible, but I don't think it makes sense.
+> Yes, original driver implemented original DT bindings, but there is no node
+> which uses that binding. If there is no user of that, why would driver
 
-Pre-existing issues:
-- [High] Missing validation for `sg_len =3D=3D 0` in `sun6i_dma_prep_slave_=
-sg()` allows the creation of an empty descriptor, leading to a NULL pointer=
- dereference or wild DMA execution.
-- [High] Missing parameter validation in `sun6i_dma_prep_dma_cyclic()` allo=
-ws division-by-zero exceptions and NULL pointer dereferences.
-- [High] Unprotected access to `pchan->desc` in the interrupt handler can r=
-ace with `sun6i_dma_terminate_all()`, causing a NULL pointer dereference.
-- [High] Process-context use of plain `spin_lock()` on a lock shared with a=
- tasklet causes softirq preemption deadlocks.
-- [Medium] Hardware race in `sun6i_get_chan_size()` inflates residue report=
-s due to unverified sequential register reads.
---
+Did you check all out of tree users of the ABI? All vendor kernels,
+forks and all of them for which the ABI was made for?
 
-commit d4e1b819645de3459092e86e1c23dd821c23cfce
-Author: Hongling Zeng <zenghongling@kylinos.cn>
+If there is no single downstream/out of tree kernel using this ABI, then
+of course you do not need to consider it. I don't know how would you
+prove that but I am open for suggestions.
 
-dmaengine: sun6i-dma: Fix use-after-free in error handling paths
-
-This commit addresses a use-after-free bug in the error handling paths of
-sun6i_dma_prep_slave_sg() and sun6i_dma_prep_dma_cyclic(). The variables
-v_lli and p_lli were accessed in the loop increment expression after the
-loop body freed them. A new helper function, sun6i_dma_free_lli_list(), is
-introduced to safely traverse and free the list.
-
-> diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-> index a9a254dbf8cb9..02dd07001d5a9 100644
-> --- a/drivers/dma/sun6i-dma.c
-> +++ b/drivers/dma/sun6i-dma.c
-
-[ ... ]
-
-> @@ -788,9 +794,7 @@ static struct dma_async_tx_descriptor *sun6i_dma_prep=
-_slave_sg(
->  	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
-> =20
->  err_lli_free:
-> -	for (p_lli =3D txd->p_lli, v_lli =3D txd->v_lli; v_lli;
-> -	     p_lli =3D v_lli->p_lli_next, v_lli =3D v_lli->v_lli_next)
-> -		dma_pool_free(sdev->pool, v_lli, p_lli);
-> +	sun6i_dma_free_lli_list(sdev, txd);
-
-[Severity: High]
-This is a pre-existing issue, but I noticed a potential problem earlier
-in sun6i_dma_prep_slave_sg(). If the function is called with sg_len
-equal to 0, the for_each_sg() loop is bypassed entirely:
-
-	for_each_sg(sgl, sg, sg_len, i) {
-
-This allows the creation of an empty descriptor where txd->v_lli is NULL
-and txd->p_lli is 0. Does this lead to a NULL pointer dereference or wild
-DMA execution when the DMA engine starts the transaction via
-sun6i_dma_start_desc()?
-
-drivers/dma/sun6i-dma.c:sun6i_dma_start_desc() {
-	writel(pchan->desc->p_lli, pchan->base + DMA_CHAN_LLI_ADDR);
-	writel(DMA_CHAN_ENABLE_START, pchan->base + DMA_CHAN_ENABLE);
-}
-
-Additionally, if dynamic debug is enabled, would sun6i_dma_dump_lli()
-unconditionally dereference the NULL v_lli pointer before the function
-returns?
-
->  	kfree(txd);
->  	return NULL;
->  }
-> @@ -869,9 +873,7 @@ static struct dma_async_tx_descriptor *sun6i_dma_prep=
-_dma_cyclic(
->  	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
-> =20
->  err_lli_free:
-> -	for (p_lli =3D txd->p_lli, v_lli =3D txd->v_lli; v_lli;
-> -	     p_lli =3D v_lli->p_lli_next, v_lli =3D v_lli->v_lli_next)
-> -		dma_pool_free(sdev->pool, v_lli, p_lli);
-> +	sun6i_dma_free_lli_list(sdev, txd);
-
-[Severity: High]
-This is a pre-existing issue, but I spotted a potential problem earlier in
-sun6i_dma_prep_dma_cyclic() where we calculate periods:
-
-	unsigned int i, periods =3D buf_len / period_len;
-
-Is validation missing for period_len here, potentially causing a
-division-by-zero exception if it is 0?
-
-Additionally, if buf_len < period_len, the calculated periods is 0,
-which bypasses the allocation loop. This leaves the prev pointer
-initialized as NULL, which then causes a NULL pointer dereference
-here:
-
-	prev->p_lli_next =3D txd->p_lli;		/* cyclic list */
-
->  	kfree(txd);
->  	return NULL;
->  }
-
-[Severity: High]
-This is a pre-existing issue, but I noticed unprotected access to
-pchan->desc in the interrupt handler which might race with
-sun6i_dma_terminate_all():
-
-drivers/dma/sun6i-dma.c:sun6i_dma_interrupt() {
-			pchan =3D sdev->pchans + j;
-			vchan =3D pchan->vchan;
-			if (vchan && (status & vchan->irq_type)) {
-				if (vchan->cyclic) {
-					vchan_cyclic_callback(&pchan->desc->vd);
-				} else {
-					spin_lock(&vchan->vc.lock);
-					vchan_cookie_complete(&pchan->desc->vd);
-}
-
-Could the lockless read of vchan followed by dereferencing pchan->desc
-allow a NULL pointer dereference if sun6i_dma_terminate_all()
-concurrently runs on another CPU?
-
-drivers/dma/sun6i-dma.c:sun6i_dma_terminate_all() {
-		vchan->phy =3D NULL;
-		pchan->vchan =3D NULL;
-		pchan->desc =3D NULL;
-}
-
-[Severity: High]
-This is a pre-existing issue, but process-context use of plain spin_lock()
-on a lock shared with a tasklet seems to cause softirq preemption deadlocks.
-
-drivers/dma/sun6i-dma.c:sun6i_dma_pause() {
-		spin_lock(&sdev->lock);
-		list_del_init(&vchan->node);
-		spin_unlock(&sdev->lock);
-}
-
-Since sun6i_dma_tasklet() runs in softirq context and acquires sdev->lock
-using spin_lock_irq():
-
-drivers/dma/sun6i-dma.c:sun6i_dma_tasklet() {
-	spin_lock_irq(&sdev->lock);
-}
-
-If a hardware interrupt fires while the lock is held in process context,
-would the interrupt exit path execute pending softirqs on the same CPU,
-causing the tasklet to attempt to acquire sdev->lock and spin indefinitely?
-
-[Severity: Medium]
-This is a pre-existing issue, but unverified sequential register reads
-in sun6i_get_chan_size() might create a race condition.
-
-drivers/dma/sun6i-dma.c:sun6i_get_chan_size() {
-	pos =3D readl(pchan->base + DMA_CHAN_LLI_ADDR);
-	bytes =3D readl(pchan->base + DMA_CHAN_CUR_CNT);
-}
-
-If the DMA hardware advances to the next Linked List Item (LLI) exactly
-between these reads, can pos hold the old LLI address but bytes hold the
-new LLI's remaining byte count? This might double-count the new LLI's bytes
-when iterating through the software list, reporting an artificially inflated
-residue.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260615022400.1345=
-4-1-zenghongling@kylinos.cn?part=3D1
+> need to support it nevertheless? Supporting only actually used DT binding
+> allows for better code architecture, as there is no need to support second,
+> unused path. It also simplifies testing, since developer doesn't need to
+> test both paths if code is changed in that area.
+> 
+Best regards,
+Krzysztof
