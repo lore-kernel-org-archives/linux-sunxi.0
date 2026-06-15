@@ -1,167 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8DD2AD2C;
-	Mon, 15 Jun 2026 04:29:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683A13D3D1C
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Jun 2026 09:11:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781497744; cv=none; b=fhYOkXifukdOakgGBySVTZ0040Qx1fL0UTN8585N9YmQ552rod7vkfNp0fhelor7a/Ably5oika4evtJM30Sd7XRmPwHWWrL9yxLrBwJvx3Trv6ulb8diYIQOOBafRFPsH5N++YcMPBN5bLrqq0VhTF8QLQRBUCktugvTMIhW7Q=
+	t=1781514687; cv=none; b=pB5yztAbCvIAXFasmyTe5E4dWVT0xgmsSc22M+j6Vc6IW8vVw/NwPIjdnEmyiHqgjpwEEsRh5qhduBlTk6eAbzse/CdyzX1ImlZdtuqn0lWQn9fjflFBhPFVzfs4JK02Q3DUaeg7MgPxYpBes//BF0moMAeoljle6LJ841Q5YnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781497744; c=relaxed/simple;
-	bh=ck7Prj6LUmNL2O0pu9DFDaFX27y5bdZ0cJMjkilSEh0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j91KiOXG2VIkKM7Opbed58OV2c/Nj16M0I7743UshQnZvWtOMdMEYa9SryJ7QYPtSvnSHAfqwLraHSYBoEyXpOr7kh7jHExhgCXk0sBLb0Jcp7Pxs7/pLqCcTWVbnS6MNIuVxbZYaIctGQ65YuFvIqYBtbE9MlAnYuWmptTxmmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gIBjQVoV; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gIBjQVoV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A50261F000E9;
-	Mon, 15 Jun 2026 04:28:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781497742;
-	bh=4zOF8ACcQnGINtLJ1j5EoUWcnRZyFCDbQM5I2mI8cJI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=gIBjQVoVnGaNXBlOLr/2kvjLqa0XSsytCf8icoDPAioCUFGNWQnfNXRXxu4NikDqv
-	 D0oOU+SqepW8a21COfHEblvn+oLteTPOrSQ0Drb8i+VwxagY1aFakmjhNDYf6qqpcs
-	 lmTDU1wkB1A9YSjy9fJcbbQw7HnkdfNSLjsZ4rPi3++mWCYn314MRTNMAFGdnpeZHg
-	 2r+tIu+CPbyOVJUrJuNQK5I/HYxYSuGqaapRKH6Vnb5ubmupjB6SSGzWDa3hF2aML0
-	 BkAm7uMysMiPkdAw09NttKj5XwD+g7ToWZixfZf0mMiL5934O0kX6b4Uvs1Sv1fefv
-	 WMXzXpB8kFWSQ==
-Message-ID: <86943057-f5b4-4fae-9172-45f13814494f@kernel.org>
-Date: Mon, 15 Jun 2026 06:28:54 +0200
+	s=arc-20240116; t=1781514687; c=relaxed/simple;
+	bh=NOZlCSEv3F8FwatBQ8BSA4difxWE5jFw5B7XM5Jh0/I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kxtkMcF+lTp6b5hNmSOHNKJZtF1bnEByLA95dtEQe2S00TXc0i1Fw1QfrpjewIWxqGBJqteKl1rigDAt+5VT0uq1/gUOkPAPnZTcUlWBYd/4BgghxJVcvbEM3GHuuvw1JG06M10AIzYExKGx14fr84PB7hoyeHOO/XGHb2Ozovc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [111.196.245.140])
+	by APP-03 (Coremail) with SMTP id rQCowACXt96zwS9qdl7LFA--.28827S2;
+	Mon, 15 Jun 2026 17:11:16 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: Corentin Labbe <clabbe.montjoie@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-crypto@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Subject: [PATCH] crypto: sun4i-ss: remove debugfs directory on teardown
+Date: Mon, 15 Jun 2026 17:11:13 +0800
+Message-ID: <20260615091114.97190-1-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/8] dt-bindings: display: allwinner: Split H616 DE33
- layer reg space
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
- wens@kernel.org
-Cc: samuel@sholland.org, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- mturquette@baylibre.com, sboyd@kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org
-References: <20260509190015.79086-1-jernej.skrabec@siol.net>
- <ahNuuaVlDl0KvOSj@home.wens.tw>
- <032c1099-40ab-470e-8cc3-af6d3cad22d4@kernel.org>
- <nIKN_benRn2Bk8SDZrkMCA@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <nIKN_benRn2Bk8SDZrkMCA@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowACXt96zwS9qdl7LFA--.28827S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Xw4xCFW3Kry5WFWUCw1xZrb_yoWkWrc_ur
+	WrWrn7JrW8Ar90va4fXry3ZFW0qrWrJry8u3WIvFW3ta47ZrWrWF1xur4ku345AF4DCF98
+	Z3yqvrsxZayj9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUb3kFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+	Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r106r15McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
+	n2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
+	AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
+	17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
+	IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
+	IxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIda
+	VFxhVjvjDU0xZFpf9x0JUQZ2fUUUUU=
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-On 14/06/2026 16:08, Jernej Škrabec wrote:
-> Dne ponedeljek, 25. maj 2026 ob 14:10:38 Srednjeevropski poletni čas je Krzysztof Kozlowski napisal(a):
->> On 24/05/2026 23:33, Chen-Yu Tsai wrote:
->>> Hi,
->>>
->>> (resent from new email)
->>>
->>> On Thu, May 14, 2026 at 2:04 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>>>
->>>> On Sat, May 09, 2026 at 09:00:14PM +0200, Jernej Skrabec wrote:
->>>>> From: Jernej Skrabec <jernej.skrabec@gmail.com>
->>>>>
->>>>> As it turns out, current H616 DE33 binding was written based on
->>>>> incomplete understanding of DE33 design. Namely, planes are shared
->>>>> resource and not tied to specific mixer, which was the case for previous
->>>>> generations of Display Engine (DE3 and earlier).
->>>>>
->>>>> This means that current DE33 binding doesn't properly reflect HW and
->>>>> using it would mean that second mixer (used for second display output)
->>>>> can't be supported.
->>>>>
->>>>> Remove layer register space, which will be represented with additional
->>>>> node, and replace it with phandle, which will point to that new, shared
->>>>> node. That way, all mixers can share same layers.
->>>>>
->>>>> There is no user of this binding yet, so changes can be made safely,
->>>>> without breaking any backward compatibility.
->>>>
->>>> There is user. git grep gives me:
->>>> drivers/gpu/drm/sun4i/sun8i_mixer.c
->>>>
->>>> which means this is a released ABI. As I understood, the old code was
->>>
->>> We held off on merging the DT changes so that we could rework this.
->>> I can't find the actual request though. It was probably over IRC.
->>>
->>>> working fine but just did not support all use cases. Why this cannot be
->>>> kept backwards compatible?
->>>
->>> AFAIK the "planes" block is shared between two display mixers. As the
->>> commit message explains, this prevents using the second mixer, since
->>> only one of them can claim and map the register space. And on the H700
->>> (which is the same die as the H616 discussed here but with more exposed
->>> interfaces), there could actually be a use case for the second mixer.
->>
->> It explains why you want to make the changes but not why you cannot keep
->> it backwards compatible.
-> 
-> I guess it can be backward compatible, but I don't think it makes sense.
-> Yes, original driver implemented original DT bindings, but there is no node
-> which uses that binding. If there is no user of that, why would driver
+sun4i_ss_probe() creates a debugfs directory and a stats file with struct
+sun4i_ss_ctx as private data. The remove path unregisters the crypto
+algorithms and tears down runtime PM but leaves the debugfs entries
+published.
 
-Did you check all out of tree users of the ABI? All vendor kernels,
-forks and all of them for which the ABI was made for?
+Remove the debugfs subtree before tearing down the driver state used by
+the stats show callback.
 
-If there is no single downstream/out of tree kernel using this ABI, then
-of course you do not need to consider it. I don't know how would you
-prove that but I am open for suggestions.
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+---
+ drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> need to support it nevertheless? Supporting only actually used DT binding
-> allows for better code architecture, as there is no need to support second,
-> unused path. It also simplifies testing, since developer doesn't need to
-> test both paths if code is changed in that area.
-> 
-Best regards,
-Krzysztof
+diff --git a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
+index 58a76e2ba64e..bcaddf1b83ca 100644
+--- a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
++++ b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
+@@ -512,6 +512,8 @@ static void sun4i_ss_remove(struct platform_device *pdev)
+ 	int i;
+ 	struct sun4i_ss_ctx *ss = platform_get_drvdata(pdev);
+ 
++	debugfs_remove_recursive(ss->dbgfs_dir);
++
+ 	for (i = 0; i < ARRAY_SIZE(ss_algs); i++) {
+ 		switch (ss_algs[i].type) {
+ 		case CRYPTO_ALG_TYPE_SKCIPHER:
+-- 
+2.50.1 (Apple Git-155)
+
