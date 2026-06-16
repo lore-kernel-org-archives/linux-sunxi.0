@@ -1,172 +1,204 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85B5E30C345
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Jun 2026 13:39:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D34EA40E8C1
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Jun 2026 16:54:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781617142; cv=none; b=i3z1Kcnl8x8Hk0GYVjj++t1rBSDXq7gEQUvHJlOg6dOT/VhPy2dHEHG2HSIj6UfXTo84XVwEDrVQw5YSruSFiFQ0qmkEMmXoLXTF0lQIBM0hxSQF65zUndeu/06do3EbQgYyOpLQx9D81s4OdgnD70/4pWj4uPKaZkaMVMKlQMw=
+	t=1781628881; cv=none; b=Ktp4HK3sFPEsevnIv4MmoGGR4TrcLCVe+FygZLGJyw6MmGRG9dqMhM/o8/qjST/qOBBIXULBsGQgGwrEdxhWqpYOTQnSHg65Gz5Pvx7RoqaPTIeQO6CfgzzAbe6TL0n2WKnnPmaDJGieI0bVyDk6tUDxq/VoImFHPfG2vUFTjYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781617142; c=relaxed/simple;
-	bh=vHgwqjPAnui1vFfI/U4dBN4GhtxUFMHf4/+uBSe6sDM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T6fyK5eIJvjA+h/G3gJLEcGxW1k6rl5VkA0C2nzuL/5Yuf6okr/0MpnRJM4Cpuj3Kw1U83i7rBNZvLh/N8DC5iDrgHeEManha5Z4Hy0Y+6oIGgqObHlZClYRiYJZ3UQ6YjLYUyVhkRBbL1BvTQCkSkWqreEM3RDqtcD6UKIYiFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=CoUrDeIq; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1781628881; c=relaxed/simple;
+	bh=Q3ogCEiEplFsajmHh+DrlKd0CFRslk5VBsvGzlR4oX8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nRJStPOecD/6Aw3Ed8keDb4EbvNkRZs/qfuYA1iDrwmXGgW50qFHT52E/v+vNG0nCR9O+/LKE2tZxrgDEVvcF22DKpLoOtT653orHRrSzuS7kxDPAxHpG87vanzmUFkJYkQA9BrbddfEismlbjV0nLuD/H+8+jMOHXbg3lP6bb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hf2A9sK7; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="CoUrDeIq"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3CFD135BD;
-	Tue, 16 Jun 2026 06:38:55 -0700 (PDT)
-Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E47083F763;
-	Tue, 16 Jun 2026 06:38:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1781617139; bh=vHgwqjPAnui1vFfI/U4dBN4GhtxUFMHf4/+uBSe6sDM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=CoUrDeIq57GBlIaQSiZ6IIZZXYYwvBjf9AtMwGTg8WTSlBAHp1guaKv17UCEaXsDV
-	 ih/mSnXhuuoKY/hByor37luu/fn8K8ojll/MhfByHhaIIN1aH20ou4PrVANWJJk40y
-	 3PfyZb/ddxw1qccXThjCpzVoJ83xZm1hA7B5sSdA=
-Message-ID: <4709b24a-f421-4c81-a023-c37ea66c88bd@arm.com>
-Date: Tue, 16 Jun 2026 15:38:51 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hf2A9sK7"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-490afc47455so21987395e9.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 16 Jun 2026 09:54:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781628878; x=1782233678; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=exFxm0hh9AfcFczlY3WuFGnTo6SOwxmm6hFx+zY5Z3Q=;
+        b=hf2A9sK7cpzfLK5IWjAaCnJwcqOM9cbmO9XGL+jUnp9h5nx0VysK/tqSPCkJlVcb3B
+         D6j2+sy8XwHtlmyjI1Y6j/9GxD+UpMFA7qi2K/KGDgZMryQwnR/ja4uQNt03Lu2EKS8C
+         tuA+Mh6fGRqk73ONAlLWN4rRTHPSIw6/c5GVtaxtr4/DKKf8vBPBlWoOocG/nE9umShp
+         UnFxAsNGWJfh/QZWpbFWN2AcJTzaE6MOGQrT+Kuw2yjXV38+G0I+fUbqMiwsrtlTaUfV
+         ODNxV01AYx07gZq3qefC8cZOMO4+3iKrbYJbuJXuWNkmTfWG1Lr1I/0AyqJdczSyYcqk
+         t5kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781628878; x=1782233678;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=exFxm0hh9AfcFczlY3WuFGnTo6SOwxmm6hFx+zY5Z3Q=;
+        b=DwEVO1zuDprIMXccFTQAUcceLaRx05dIW8OjF8Lw8ja+CYmw9JXYbr41bur3vOgMWR
+         CDu00nsL6mOZxlBOtZcg8pL9g3pfnJ1j9jAxr/RKnBC4N1EcP4x8aq2oX6DhdJhNhtRf
+         d7K/TJNn4XfUe1cwHdJd+YSooo/Hs8sEtG21sJqhbwX7Co+F6P/Qgxuq+WCa0gCzwlYZ
+         djW8DKuomf+YlOsNuW80ytYu/hXbgOxBVISdwgZaiwTTmd22y4JQeOcE3OICrrw3eikZ
+         HL5iuQMbtLjesihPQiwGxYWpRasaYVQkvRz4xYfC+4Zo2nwtBs26I/p8XMFkMFP6UbJY
+         Snng==
+X-Forwarded-Encrypted: i=1; AFNElJ/Ufew35DMawX/2swRvS5Vy614aUCAi3a/ng+SJp2yoLaNkqcdDOkDbHGWF0rd2yAP/bzY79MhdCFmvaw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywjgga4uRvWKSn+lTWU+HxJYy83bC4kkBwp+8mALre88QsVeLn7
+	hr8AERElDWE2ehw6YZAKTYUMcEF7Xu0b3cr9g12CrDXxwEufRpgOCcXX
+X-Gm-Gg: Acq92OFovVZEnX0QIWeVpGiY+0CRQvgfSiwkxOsOo+e9omcb+Ifq41sEkDlF//Fa8Zo
+	3KHG3RTwFio0Pk3Ms3qvlbv8wasFjB1rbUn3lhDvUkIdl4S6QhAQialXF0HS0VdE6L+MhGrmCFo
+	bD9Rh/v2SYFwWyLYDK0nHXb0nLo9uGksnwxarenGcUxb6WbO3OdVm/y6RRejkmYbXFVtpsZ1cOl
+	/vfGw5W+E1YepfGeaBxa0Umg/T679MT01oIQUKKCzx1hkiN6sFYyUDERclEQZPuTMY9VZXbvsqG
+	b7ScTWbU8h8hmSkag2OKdnKmm3UI8IE2yHhgJZ2LIlqH0iPm0gPYT6E90V+2MWf5Zb+GjcnEeqH
+	cZzPClBH2F7zmdeW52nlABTJeQNJD5w21m4j/DSIPSKB4iyYYgUs89brgQm4n9py8u9X2rYUqNi
+	2LogBg062veu/6W1s91iCoibGWgYFSttH+uQrtLCOAMC1lqUBzv7BBL5KOxfMGw1x+JXSSuvZFh
+	H50Shxtk61HvssM8HjqLiCtP3h9ISXLlPgGKwCodqt7s00=
+X-Received: by 2002:a05:600c:a111:b0:492:301e:3270 with SMTP id 5b1f17b1804b1-492333af267mr5549255e9.13.1781628878052;
+        Tue, 16 Jun 2026 09:54:38 -0700 (PDT)
+Received: from jernej-laptop.localnet (APN-122-99-120-gprs.simobil.net. [46.122.99.120])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4620b1083e3sm1842555f8f.20.2026.06.16.09.54.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jun 2026 09:54:37 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: vkoul@kernel.org, Frank.Li@kernel.org, wens@kernel.org,
+ samuel@sholland.org, mripard@kernel.org, arnd@arndb.de,
+ Hongling Zeng <zenghongling@kylinos.cn>
+Cc: dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ zhongling0719@126.com, Hongling Zeng <zenghongling@kylinos.cn>
+Subject:
+ Re: [PATCH v3] dmaengine: sun6i-dma: Fix use-after-free in error handling
+ paths
+Date: Tue, 16 Jun 2026 18:54:35 +0200
+Message-ID: <phINRqN0SQqjDvxjLw8DWg@gmail.com>
+In-Reply-To: <20260616023138.15904-1-zenghongling@kylinos.cn>
+References: <20260616023138.15904-1-zenghongling@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/8] dt-bindings: display: allwinner: Split H616 DE33
- layer reg space
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, wens@kernel.org
-Cc: samuel@sholland.org, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- mturquette@baylibre.com, sboyd@kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org
-References: <20260509190015.79086-1-jernej.skrabec@siol.net>
- <nIKN_benRn2Bk8SDZrkMCA@gmail.com>
- <86943057-f5b4-4fae-9172-45f13814494f@kernel.org>
- <0r4us4OeRRWtJhxvps-bZw@gmail.com>
- <b1f03d81-85db-4303-89ff-64440b6e1890@kernel.org>
-Content-Language: en-US
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <b1f03d81-85db-4303-89ff-64440b6e1890@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Hi,
+Dne torek, 16. junij 2026 ob 04:31:38 Srednjeevropski poletni =C4=8Das je H=
+ongling Zeng napisal(a):
+> In error handling paths, the for loop frees v_lli in the loop body,
+> then accesses v_lli->v_lli_next and v_lli->p_lli_next in the
+> increment expression, which is use-after-free.
+>=20
+> Fix by saving both the next virtual and physical pointers before
+> freeing the current node.
+>=20
+> Fixes: 555859308723 ("dmaengine: Add driver for Allwinner sun6i DMA")
+> Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
+> Suggested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>=20
+> ---
 
-On 6/16/26 05:51, Krzysztof Kozlowski wrote:
-> On 15/06/2026 17:47, Jernej Škrabec wrote:
->> Dne ponedeljek, 15. junij 2026 ob 06:28:54 Srednjeevropski poletni čas je Krzysztof Kozlowski napisal(a):
->>> On 14/06/2026 16:08, Jernej Škrabec wrote:
->>>> Dne ponedeljek, 25. maj 2026 ob 14:10:38 Srednjeevropski poletni čas je Krzysztof Kozlowski napisal(a):
->>>>> On 24/05/2026 23:33, Chen-Yu Tsai wrote:
->>>>>> Hi,
->>>>>>
->>>>>> (resent from new email)
->>>>>>
->>>>>> On Thu, May 14, 2026 at 2:04 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>>>>>>
->>>>>>> On Sat, May 09, 2026 at 09:00:14PM +0200, Jernej Skrabec wrote:
->>>>>>>> From: Jernej Skrabec <jernej.skrabec@gmail.com>
->>>>>>>>
->>>>>>>> As it turns out, current H616 DE33 binding was written based on
->>>>>>>> incomplete understanding of DE33 design. Namely, planes are shared
->>>>>>>> resource and not tied to specific mixer, which was the case for previous
->>>>>>>> generations of Display Engine (DE3 and earlier).
->>>>>>>>
->>>>>>>> This means that current DE33 binding doesn't properly reflect HW and
->>>>>>>> using it would mean that second mixer (used for second display output)
->>>>>>>> can't be supported.
->>>>>>>>
->>>>>>>> Remove layer register space, which will be represented with additional
->>>>>>>> node, and replace it with phandle, which will point to that new, shared
->>>>>>>> node. That way, all mixers can share same layers.
->>>>>>>>
->>>>>>>> There is no user of this binding yet, so changes can be made safely,
->>>>>>>> without breaking any backward compatibility.
->>>>>>>
->>>>>>> There is user. git grep gives me:
->>>>>>> drivers/gpu/drm/sun4i/sun8i_mixer.c
->>>>>>>
->>>>>>> which means this is a released ABI. As I understood, the old code was
->>>>>>
->>>>>> We held off on merging the DT changes so that we could rework this.
->>>>>> I can't find the actual request though. It was probably over IRC.
->>>>>>
->>>>>>> working fine but just did not support all use cases. Why this cannot be
->>>>>>> kept backwards compatible?
->>>>>>
->>>>>> AFAIK the "planes" block is shared between two display mixers. As the
->>>>>> commit message explains, this prevents using the second mixer, since
->>>>>> only one of them can claim and map the register space. And on the H700
->>>>>> (which is the same die as the H616 discussed here but with more exposed
->>>>>> interfaces), there could actually be a use case for the second mixer.
->>>>>
->>>>> It explains why you want to make the changes but not why you cannot keep
->>>>> it backwards compatible.
->>>>
->>>> I guess it can be backward compatible, but I don't think it makes sense.
->>>> Yes, original driver implemented original DT bindings, but there is no node
->>>> which uses that binding. If there is no user of that, why would driver
->>>
->>> Did you check all out of tree users of the ABI? All vendor kernels,
->>> forks and all of them for which the ABI was made for?
->>
->> Since when do we care about out of tree users? I understand that drivers
-> 
-> Since always? That is the meaning of ABI. Otherwise there is no point to
-> discuss ABI at all. Why would it exist if you had all DTS inside kernel
-> always matching the code?
+This looks great! Thank you for your patience.
 
-In general I would agree with Krzysztof, merged binding means we need to 
-stick to it, but in this case I think that would be over the top. As 
-Jernej said, there are no users, since we didn't commit on the DTs, and 
-the DE33 graphics support in the kernel (bindings and code) is 
-incomplete: it's really just the mixer, but no other components (TCON or 
-output PHYs) required. So it never worked as such.
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-In hindsight we could say that we should have never merged the bindings 
-without having fully working, reviewed and accepted driver code, for the 
-whole display chain. Which we need to do because we create those 
-bindings based on reverse engineering efforts, not by looking at 
-documentation or design documents (which we don't have).
+Best regards,
+Jernej
 
->> must support old device tree files. Once they work, compatibility must
->> be carried forward. But that's not the case here.
->>
->> In any case, vendor kernels have completely different DT structure. This
->> was developed independently from them. Take a look at [1] how BSP DT looks
->> like, specifically Display Engine node.
->>
->> Of course there are some distros which grab WIP patches from mailing lists
->> soon after they are available. For example, I know that Armbian carried old
->> WIP patches which used old ABI. However, such distros generally don't care
->> about exact solution and ditch patches as soon as proper solution is merged
->> upstream or even when better WIP patches come around. DT files in such
->> distros get updated alongside kernel, they are not hidden in firmware.
->>
-> 
-> I am not talking about BSP. I am talking about out of tree users for
-> which we defined the ABI and called it that way.
+> Changes in v2:
+>  -Refactored the fix to avoid code duplication by creating a helper funct=
+ion
+>   sun6i_dma_free_lli_list() that handles LLI list cleanup
+>  -Add Suggested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>=20
+> ---
+> Change in v3:
+>  -Further refactoring to move txd handling into the helper function
+>   as suggested by Jernej
+> ---
+>  drivers/dma/sun6i-dma.c | 31 ++++++++++++++++---------------
+>  1 file changed, 16 insertions(+), 15 deletions(-)
+>=20
+> diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
+> index a9a254dbf8cb..7a79f346250a 100644
+> --- a/drivers/dma/sun6i-dma.c
+> +++ b/drivers/dma/sun6i-dma.c
+> @@ -406,16 +406,12 @@ static inline void sun6i_dma_dump_lli(struct sun6i_=
+vchan *vchan,
+>  		v_lli->len, v_lli->para, v_lli->p_lli_next);
+>  }
+> =20
+> -static void sun6i_dma_free_desc(struct virt_dma_desc *vd)
+> +static void sun6i_dma_free_desc(struct sun6i_dma_dev *sdev,
+> +				struct sun6i_desc *txd)
+>  {
+> -	struct sun6i_desc *txd =3D to_sun6i_desc(&vd->tx);
+> -	struct sun6i_dma_dev *sdev =3D to_sun6i_dma_dev(vd->tx.chan->device);
+>  	struct sun6i_dma_lli *v_lli, *v_next;
+>  	dma_addr_t p_lli, p_next;
+> =20
+> -	if (unlikely(!txd))
+> -		return;
+> -
+>  	p_lli =3D txd->p_lli;
+>  	v_lli =3D txd->v_lli;
+> =20
+> @@ -432,6 +428,17 @@ static void sun6i_dma_free_desc(struct virt_dma_desc=
+ *vd)
+>  	kfree(txd);
+>  }
+> =20
+> +static void sun6i_dma_free_desc_virt(struct virt_dma_desc *vd)
+> +{
+> +	struct sun6i_desc *txd =3D to_sun6i_desc(&vd->tx);
+> +	struct sun6i_dma_dev *sdev =3D to_sun6i_dma_dev(vd->tx.chan->device);
+> +
+> +	if (unlikely(!txd))
+> +		return;
+> +
+> +	sun6i_dma_free_desc(sdev, txd);
+> +}
+> +
+>  static int sun6i_dma_start_desc(struct sun6i_vchan *vchan)
+>  {
+>  	struct sun6i_dma_dev *sdev =3D to_sun6i_dma_dev(vchan->vc.chan.device);
+> @@ -788,10 +795,7 @@ static struct dma_async_tx_descriptor *sun6i_dma_pre=
+p_slave_sg(
+>  	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
+> =20
+>  err_lli_free:
+> -	for (p_lli =3D txd->p_lli, v_lli =3D txd->v_lli; v_lli;
+> -	     p_lli =3D v_lli->p_lli_next, v_lli =3D v_lli->v_lli_next)
+> -		dma_pool_free(sdev->pool, v_lli, p_lli);
+> -	kfree(txd);
+> +	sun6i_dma_free_desc(sdev, txd);
+>  	return NULL;
+>  }
+> =20
+> @@ -869,10 +873,7 @@ static struct dma_async_tx_descriptor *sun6i_dma_pre=
+p_dma_cyclic(
+>  	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
+> =20
+>  err_lli_free:
+> -	for (p_lli =3D txd->p_lli, v_lli =3D txd->v_lli; v_lli;
+> -	     p_lli =3D v_lli->p_lli_next, v_lli =3D v_lli->v_lli_next)
+> -		dma_pool_free(sdev->pool, v_lli, p_lli);
+> -	kfree(txd);
+> +	sun6i_dma_free_desc(sdev, txd);
+>  	return NULL;
+>  }
+> =20
+> @@ -1431,7 +1432,7 @@ static int sun6i_dma_probe(struct platform_device *=
+pdev)
+>  		struct sun6i_vchan *vchan =3D &sdc->vchans[i];
+> =20
+>  		INIT_LIST_HEAD(&vchan->node);
+> -		vchan->vc.desc_free =3D sun6i_dma_free_desc;
+> +		vchan->vc.desc_free =3D sun6i_dma_free_desc_virt;
+>  		vchan_init(&vchan->vc, &sdc->slave);
+>  	}
+> =20
+>=20
 
-If you are looking for DT users outside of the Linux kernel, this is the 
-result of a quick check (list of users from ChatGPT, checks by myself 
-with git clone/git grep):
-Zephyr RTOS: no graphics support
-FreeBSD: no H616 support
-OpenBSD: no H616 graphics support
-NetBSD: no H616 support
-U-Boot: no H616 graphics support
-Barebox: no H616 support
-TF-A: no graphics support
-OP-TEE: no (Allwinner) graphics support
-EDK2: no Allwinner support
 
-Cheers,
-Andre
+
 
