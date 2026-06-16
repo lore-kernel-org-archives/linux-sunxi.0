@@ -1,64 +1,64 @@
 Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D34EA40E8C1
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Jun 2026 16:54:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD62466B5E
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Jun 2026 16:59:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781628881; cv=none; b=Ktp4HK3sFPEsevnIv4MmoGGR4TrcLCVe+FygZLGJyw6MmGRG9dqMhM/o8/qjST/qOBBIXULBsGQgGwrEdxhWqpYOTQnSHg65Gz5Pvx7RoqaPTIeQO6CfgzzAbe6TL0n2WKnnPmaDJGieI0bVyDk6tUDxq/VoImFHPfG2vUFTjYc=
+	t=1781629170; cv=none; b=qG83ciB28xjVIbQI571NgSyuGeo3p0kCTAFyrAto5FYyHFToguzDyTMVuEdlIKkdIYlSP4u9Xs/9b1XhfoWqiTvTSsIit3Ev+COR+brVY38tJq9Z7EIMeYrclzc+b3Y7ANUg2Ly5V+86HygBq0B25VkEd8ZL7V63eMiESHA3ojk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781628881; c=relaxed/simple;
-	bh=Q3ogCEiEplFsajmHh+DrlKd0CFRslk5VBsvGzlR4oX8=;
+	s=arc-20240116; t=1781629170; c=relaxed/simple;
+	bh=RmlQGoLfci9osWvKrydhp2LNMfnznzpLPtUIkwc+vAg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nRJStPOecD/6Aw3Ed8keDb4EbvNkRZs/qfuYA1iDrwmXGgW50qFHT52E/v+vNG0nCR9O+/LKE2tZxrgDEVvcF22DKpLoOtT653orHRrSzuS7kxDPAxHpG87vanzmUFkJYkQA9BrbddfEismlbjV0nLuD/H+8+jMOHXbg3lP6bb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hf2A9sK7; arc=none smtp.client-ip=209.85.128.54
+	 MIME-Version:Content-Type; b=LuFNGFa8mdMTzx0fv3B78HpzJX+bY9zkuOu8SAo94ESWZWZui1kaDUowvzoXLxeb91lNgusfGRYvkWn808wgFOrD4YpnqYInG/KtxsX+5PKgmTPNIa3oxIsPe4PomlR5yE6lmKacrU9T7XCguy4eFV7jDPortJKFKZ9Hz19qRmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ax96FEQa; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hf2A9sK7"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-490afc47455so21987395e9.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 16 Jun 2026 09:54:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ax96FEQa"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so33819415e9.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 16 Jun 2026 09:59:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781628878; x=1782233678; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781629168; x=1782233968; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=exFxm0hh9AfcFczlY3WuFGnTo6SOwxmm6hFx+zY5Z3Q=;
-        b=hf2A9sK7cpzfLK5IWjAaCnJwcqOM9cbmO9XGL+jUnp9h5nx0VysK/tqSPCkJlVcb3B
-         D6j2+sy8XwHtlmyjI1Y6j/9GxD+UpMFA7qi2K/KGDgZMryQwnR/ja4uQNt03Lu2EKS8C
-         tuA+Mh6fGRqk73ONAlLWN4rRTHPSIw6/c5GVtaxtr4/DKKf8vBPBlWoOocG/nE9umShp
-         UnFxAsNGWJfh/QZWpbFWN2AcJTzaE6MOGQrT+Kuw2yjXV38+G0I+fUbqMiwsrtlTaUfV
-         ODNxV01AYx07gZq3qefC8cZOMO4+3iKrbYJbuJXuWNkmTfWG1Lr1I/0AyqJdczSyYcqk
-         t5kA==
+        bh=F2MzvP3M/Lvdf+YQEoRrr/63qV3jwcTxyyvjTUVpfjs=;
+        b=ax96FEQaGsUlJkOH5uDctLnno6qFQouTJ5/8MGGOpQWzMAUFcKywqum7OgwshkQNT1
+         LP0A8w9J3Ab6RTNQ/wHUGRd9ISZc5Bdnvd5vCojv3rrsa3T9j6iWkkKvtlspCcU/fJhS
+         ekQnQjauvHkBTKoo7saj8mQsf/9b7zisvU25Wr2YiSJmqPC3Kvnu+sIz51RNylxZtvZ/
+         FbtFy2ZIf6WxihUJoJ23JordSSJoa+OZjfy02c/jdzUWVoRfK4I9izKeKUvoFWpikgyY
+         Aqsg1ul4qbxHd5Axc7xLocguPEUo26OVoJ7E5uyGjIb/3Xy/PYyp2afN9WcMC/SdUJkZ
+         hAcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781628878; x=1782233678;
+        d=1e100.net; s=20251104; t=1781629168; x=1782233968;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=exFxm0hh9AfcFczlY3WuFGnTo6SOwxmm6hFx+zY5Z3Q=;
-        b=DwEVO1zuDprIMXccFTQAUcceLaRx05dIW8OjF8Lw8ja+CYmw9JXYbr41bur3vOgMWR
-         CDu00nsL6mOZxlBOtZcg8pL9g3pfnJ1j9jAxr/RKnBC4N1EcP4x8aq2oX6DhdJhNhtRf
-         d7K/TJNn4XfUe1cwHdJd+YSooo/Hs8sEtG21sJqhbwX7Co+F6P/Qgxuq+WCa0gCzwlYZ
-         djW8DKuomf+YlOsNuW80ytYu/hXbgOxBVISdwgZaiwTTmd22y4JQeOcE3OICrrw3eikZ
-         HL5iuQMbtLjesihPQiwGxYWpRasaYVQkvRz4xYfC+4Zo2nwtBs26I/p8XMFkMFP6UbJY
-         Snng==
-X-Forwarded-Encrypted: i=1; AFNElJ/Ufew35DMawX/2swRvS5Vy614aUCAi3a/ng+SJp2yoLaNkqcdDOkDbHGWF0rd2yAP/bzY79MhdCFmvaw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywjgga4uRvWKSn+lTWU+HxJYy83bC4kkBwp+8mALre88QsVeLn7
-	hr8AERElDWE2ehw6YZAKTYUMcEF7Xu0b3cr9g12CrDXxwEufRpgOCcXX
-X-Gm-Gg: Acq92OFovVZEnX0QIWeVpGiY+0CRQvgfSiwkxOsOo+e9omcb+Ifq41sEkDlF//Fa8Zo
-	3KHG3RTwFio0Pk3Ms3qvlbv8wasFjB1rbUn3lhDvUkIdl4S6QhAQialXF0HS0VdE6L+MhGrmCFo
-	bD9Rh/v2SYFwWyLYDK0nHXb0nLo9uGksnwxarenGcUxb6WbO3OdVm/y6RRejkmYbXFVtpsZ1cOl
-	/vfGw5W+E1YepfGeaBxa0Umg/T679MT01oIQUKKCzx1hkiN6sFYyUDERclEQZPuTMY9VZXbvsqG
-	b7ScTWbU8h8hmSkag2OKdnKmm3UI8IE2yHhgJZ2LIlqH0iPm0gPYT6E90V+2MWf5Zb+GjcnEeqH
-	cZzPClBH2F7zmdeW52nlABTJeQNJD5w21m4j/DSIPSKB4iyYYgUs89brgQm4n9py8u9X2rYUqNi
-	2LogBg062veu/6W1s91iCoibGWgYFSttH+uQrtLCOAMC1lqUBzv7BBL5KOxfMGw1x+JXSSuvZFh
-	H50Shxtk61HvssM8HjqLiCtP3h9ISXLlPgGKwCodqt7s00=
-X-Received: by 2002:a05:600c:a111:b0:492:301e:3270 with SMTP id 5b1f17b1804b1-492333af267mr5549255e9.13.1781628878052;
-        Tue, 16 Jun 2026 09:54:38 -0700 (PDT)
+        bh=F2MzvP3M/Lvdf+YQEoRrr/63qV3jwcTxyyvjTUVpfjs=;
+        b=KxKXvpEyIo4XPK7gho5vktxgztO/dQdsfSHmikvDNn3u+A4rrzT+zBRwOgSftYGy5t
+         Fh9d8kNA1sq3yvHuzP4EQRmrTuB+UBCZ00P8+0meQrOoDoDkbWW0H9JEfvgnv0xw2oON
+         mDd7Y9lEcepnKl7GIPbg8FRHtXUzm82dgHLFHDOyBKjIp8wrLMMq0lW/GwWzFlV9V30l
+         5NQ34HuZ2NMxbe4AvY12Yyx16apfWM1/rlK2QlNH9skYiZ9+P+2QDJZ+AAEzNXKpVmPW
+         ia2wYsrIfHuuAp19K5tZ4iXAtLop+eKma9iB7BJld8I8yZMQ7JT6sWfOiwzTi7L5efVR
+         tWKg==
+X-Forwarded-Encrypted: i=1; AFNElJ9slP64QlmU+SrB8NkStXsQEnFWCBAJH4I0camTGFuR2/IYUOAE2AlfV82Xbq2Hp0xGEGhjL9wLdTYqoA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwN6HXTdq7GEXaQxGHaPmtkLj6SP8Xxih95S+Cc3uZ1DMEvOJyJ
+	S4uQqsr5IWCW3plT965gTKa6xX4XWaqxVYwTSexBg5+HdUDhGVt77lbvHUpBbA==
+X-Gm-Gg: Acq92OE23I+AaFk3ynqaegH6difSBQGRGV0AI40nq8aR3jRGcAAPf7tK7ftzG7UQ2mh
+	CAe1ohqEpWrM+TKRX1wbcUJznAk1XVqnR2XGF2VEDKb9DnEumfqxGM+Tv1pZdU481WEWRNAik1v
+	72lH/T/UMy3n9DDOOcqajaueEO6dU35wEAzBYBxI9i3V5eOaTXNQ/CBY+gPn6yFCpK9uSCUHfX9
+	5Ln8P6B3xnMXWFbE27R9z5qCApJ9OXelH2gP+Nf2qxpxNWcC0NwjcXjxdlFihoGgNcskjJn+6mA
+	vSF15BRb7xeiL9iyfzKzz1qWrQBZVNOD6wC40BRFSwYy5NE/biULrSQnc2n47A052cHbYtJXTTH
+	EJAaduQ710ENmW3+/ahwVh/0m0CudI/2UQJlaSNMW1lu0i7G01igxCWXmT/oUFl061lpRfVNIeO
+	fqhKXkaOIHsVNW4jge9m/yC7RJoAYkbX/ZWSiPqhj+rYblsg8WsXTUOUe/x4ZwRHGo47benXOlW
+	bq5bdpN5UWZl5vB74LPmJrRckMfX28ByPnD
+X-Received: by 2002:a05:600c:3b02:b0:490:6237:521d with SMTP id 5b1f17b1804b1-492333a8e2cmr6254255e9.13.1781629167571;
+        Tue, 16 Jun 2026 09:59:27 -0700 (PDT)
 Received: from jernej-laptop.localnet (APN-122-99-120-gprs.simobil.net. [46.122.99.120])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4620b1083e3sm1842555f8f.20.2026.06.16.09.54.36
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4922fa890d8sm103698875e9.10.2026.06.16.09.59.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 09:54:37 -0700 (PDT)
+        Tue, 16 Jun 2026 09:59:27 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: vkoul@kernel.org, Frank.Li@kernel.org, wens@kernel.org,
  samuel@sholland.org, mripard@kernel.org, arnd@arndb.de,
@@ -67,12 +67,12 @@ Cc: dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
  zhongling0719@126.com, Hongling Zeng <zenghongling@kylinos.cn>
 Subject:
- Re: [PATCH v3] dmaengine: sun6i-dma: Fix use-after-free in error handling
- paths
-Date: Tue, 16 Jun 2026 18:54:35 +0200
-Message-ID: <phINRqN0SQqjDvxjLw8DWg@gmail.com>
-In-Reply-To: <20260616023138.15904-1-zenghongling@kylinos.cn>
-References: <20260616023138.15904-1-zenghongling@kylinos.cn>
+ Re: [PATCH v2] dmaengine: sun6i-dma: Fix memory leak in
+ sun6i_dma_terminate_all
+Date: Tue, 16 Jun 2026 18:59:24 +0200
+Message-ID: <9Stif-p9RWiht_4RVVcSpg@gmail.com>
+In-Reply-To: <20260616060449.42225-1-zenghongling@kylinos.cn>
+References: <20260616060449.42225-1-zenghongling@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -82,121 +82,68 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne torek, 16. junij 2026 ob 04:31:38 Srednjeevropski poletni =C4=8Das je H=
+Dne torek, 16. junij 2026 ob 08:04:49 Srednjeevropski poletni =C4=8Das je H=
 ongling Zeng napisal(a):
-> In error handling paths, the for loop frees v_lli in the loop body,
-> then accesses v_lli->v_lli_next and v_lli->p_lli_next in the
-> increment expression, which is use-after-free.
+> When terminating a non-cyclic DMA transfer, the active descriptor
+> is not properly reclaimed. The descriptor is removed from the
+> desc_issued list in sun6i_dma_start_desc(), but in
+> sun6i_dma_terminate_all(), only cyclic transfer descriptors are
+> added to the desc_completed list before cleanup.
 >=20
-> Fix by saving both the next virtual and physical pointers before
-> freeing the current node.
+> For non-cyclic transfers, pchan->desc is set to NULL without first
+> adding the descriptor back to a list that vchan_get_all_descriptors()
+> can collect. This causes the descriptor and its associated LLI chain
+> to be permanently leaked.
 >=20
-> Fixes: 555859308723 ("dmaengine: Add driver for Allwinner sun6i DMA")
+> Fix by ensuring both cyclic and non-cyclic active descriptors are
+> added to the desc_completed list before setting pchan->desc to NULL.
+>=20
+> Fixes: 555859308723 ("dmaengine: sun6i: Add driver for the Allwinner A31 =
+DMA controller")
 > Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
-> Suggested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
->=20
-> ---
 
-This looks great! Thank you for your patience.
-
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
-> Changes in v2:
->  -Refactored the fix to avoid code duplication by creating a helper funct=
-ion
->   sun6i_dma_free_lli_list() that handles LLI list cleanup
->  -Add Suggested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 >=20
 > ---
-> Change in v3:
->  -Further refactoring to move txd handling into the helper function
->   as suggested by Jernej
+>  Change in v2;
+>  -Add pchan->desc !=3D pchan->done check to prevent race condition
+>   where completed descriptors could be double-added to desc_completed
+>   list, causing list corruption
 > ---
->  drivers/dma/sun6i-dma.c | 31 ++++++++++++++++---------------
->  1 file changed, 16 insertions(+), 15 deletions(-)
+>  drivers/dma/sun6i-dma.c | 12 +++++-------
+>  1 file changed, 5 insertions(+), 7 deletions(-)
 >=20
 > diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-> index a9a254dbf8cb..7a79f346250a 100644
+> index 7a79f346250a..12d038ef5f2e 100644
 > --- a/drivers/dma/sun6i-dma.c
 > +++ b/drivers/dma/sun6i-dma.c
-> @@ -406,16 +406,12 @@ static inline void sun6i_dma_dump_lli(struct sun6i_=
-vchan *vchan,
->  		v_lli->len, v_lli->para, v_lli->p_lli_next);
->  }
+> @@ -946,16 +946,14 @@ static int sun6i_dma_terminate_all(struct dma_chan =
+*chan)
 > =20
-> -static void sun6i_dma_free_desc(struct virt_dma_desc *vd)
-> +static void sun6i_dma_free_desc(struct sun6i_dma_dev *sdev,
-> +				struct sun6i_desc *txd)
->  {
-> -	struct sun6i_desc *txd =3D to_sun6i_desc(&vd->tx);
-> -	struct sun6i_dma_dev *sdev =3D to_sun6i_dma_dev(vd->tx.chan->device);
->  	struct sun6i_dma_lli *v_lli, *v_next;
->  	dma_addr_t p_lli, p_next;
+>  	spin_lock_irqsave(&vchan->vc.lock, flags);
 > =20
-> -	if (unlikely(!txd))
-> -		return;
-> -
->  	p_lli =3D txd->p_lli;
->  	v_lli =3D txd->v_lli;
+> -	if (vchan->cyclic) {
+> -		vchan->cyclic =3D false;
+> -		if (pchan && pchan->desc) {
+> -			struct virt_dma_desc *vd =3D &pchan->desc->vd;
+> -			struct virt_dma_chan *vc =3D &vchan->vc;
+> +	if (pchan && pchan->desc && pchan->desc !=3D pchan->done) {
+> +		struct virt_dma_desc *vd =3D &pchan->desc->vd;
+> +		struct virt_dma_chan *vc =3D &vchan->vc;
 > =20
-> @@ -432,6 +428,17 @@ static void sun6i_dma_free_desc(struct virt_dma_desc=
- *vd)
->  	kfree(txd);
->  }
-> =20
-> +static void sun6i_dma_free_desc_virt(struct virt_dma_desc *vd)
-> +{
-> +	struct sun6i_desc *txd =3D to_sun6i_desc(&vd->tx);
-> +	struct sun6i_dma_dev *sdev =3D to_sun6i_dma_dev(vd->tx.chan->device);
-> +
-> +	if (unlikely(!txd))
-> +		return;
-> +
-> +	sun6i_dma_free_desc(sdev, txd);
-> +}
-> +
->  static int sun6i_dma_start_desc(struct sun6i_vchan *vchan)
->  {
->  	struct sun6i_dma_dev *sdev =3D to_sun6i_dma_dev(vchan->vc.chan.device);
-> @@ -788,10 +795,7 @@ static struct dma_async_tx_descriptor *sun6i_dma_pre=
-p_slave_sg(
->  	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
-> =20
->  err_lli_free:
-> -	for (p_lli =3D txd->p_lli, v_lli =3D txd->v_lli; v_lli;
-> -	     p_lli =3D v_lli->p_lli_next, v_lli =3D v_lli->v_lli_next)
-> -		dma_pool_free(sdev->pool, v_lli, p_lli);
-> -	kfree(txd);
-> +	sun6i_dma_free_desc(sdev, txd);
->  	return NULL;
->  }
-> =20
-> @@ -869,10 +873,7 @@ static struct dma_async_tx_descriptor *sun6i_dma_pre=
-p_dma_cyclic(
->  	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
-> =20
->  err_lli_free:
-> -	for (p_lli =3D txd->p_lli, v_lli =3D txd->v_lli; v_lli;
-> -	     p_lli =3D v_lli->p_lli_next, v_lli =3D v_lli->v_lli_next)
-> -		dma_pool_free(sdev->pool, v_lli, p_lli);
-> -	kfree(txd);
-> +	sun6i_dma_free_desc(sdev, txd);
->  	return NULL;
->  }
-> =20
-> @@ -1431,7 +1432,7 @@ static int sun6i_dma_probe(struct platform_device *=
-pdev)
->  		struct sun6i_vchan *vchan =3D &sdc->vchans[i];
-> =20
->  		INIT_LIST_HEAD(&vchan->node);
-> -		vchan->vc.desc_free =3D sun6i_dma_free_desc;
-> +		vchan->vc.desc_free =3D sun6i_dma_free_desc_virt;
->  		vchan_init(&vchan->vc, &sdc->slave);
+> -			list_add_tail(&vd->node, &vc->desc_completed);
+> -		}
+> +		list_add_tail(&vd->node, &vc->desc_completed);
 >  	}
 > =20
+> +	vchan->cyclic =3D false;
+>  	vchan_get_all_descriptors(&vchan->vc, &head);
+> =20
+>  	if (pchan) {
 >=20
 
 
