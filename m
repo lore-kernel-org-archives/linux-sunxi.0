@@ -1,186 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC35123C512;
-	Tue, 16 Jun 2026 03:51:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8891A3093B5
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Jun 2026 06:04:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781581902; cv=none; b=VNYuPAP0V6nbOtnsjToQ0vSEG0N/3hDpcjNOlgKj4pGofQx5fAGE76JNrax1A644khk8i5BRfsfYaJYcq+/oKlw8Md1a4RFtF/spjeb0aKsL/fhcFHb6HbMozmmK78r3HxG2kjMJpODmTFq+C+yq33KDYfH7tq3Hke+FKcUqHus=
+	t=1781589903; cv=none; b=aANtOpZ55QX9bv16ezwrIPPdHGqOSM0NG9Z3NbbFL9y//ydSfMXgGxR+dcMiNpk/voRoLeI6+J0JtauDNbV9PMQ5Vk8vd0DgiRzlNXGi5Z3jFSHI2Xc7Yk9csD1qM4SRFepf84QxsMSRbcO7Fs808j4NKEiSk4NE+5YGuxb/z9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781581902; c=relaxed/simple;
-	bh=A1zaSC8/ttGVTC9vbcVYYzlxZTQy1+EstQ32TwbpofY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BEv9eq2aTq4GGN34p5NtV6AJn7EfnE8b9yYDQ/PPgGt23pZ4G6u9vGx3K7lvy+SWtMBZ0T86uEk1da/ZMIkNlqGMs/Zqf1+Zk0AzF9VCqrtdJjwy8epNucX/bE/k9EsC1vOiPmytmDxNQjCJ2Pbzmq596Tp9wZh6zgWO+77jIPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nVj5KS8d; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nVj5KS8d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4373D1F000E9;
-	Tue, 16 Jun 2026 03:51:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781581900;
-	bh=0LLj4LGa+CEorWsXFdkROPtAy/btizr8qptWeMPKmQ0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=nVj5KS8dmM6px34g0QjZi4/1Wq1JfYLMPwSqwR8qAPVxOE4KFryFGL/NPsr77lOE9
-	 S1ZZt+Ne0GT+XH5So8VkuxbjNrbV075vkRN4kCCWXWrIX9rCGAQI1aijwuW8fGCzMv
-	 ceHkk9RDMYlMkieIcfOQimcbbQaAHVRtQUyP9vFZcyyFZwx65+nJlgqbFl0EyJ94Ch
-	 RMzeO5zFPKfqnqxpOKmHXJtXrI+fRF2Cc08uEC7RLxpzo70wRLUPkT5YztQAp+8jdm
-	 hnuqPOEbDrKh6zT+92WHog+xjOfK+cT7RoQQcZGokdjGVKsGroAQl1b0iNSaVUSKqz
-	 DOIP2VrKhkHbA==
-Message-ID: <b1f03d81-85db-4303-89ff-64440b6e1890@kernel.org>
-Date: Tue, 16 Jun 2026 05:51:32 +0200
+	s=arc-20240116; t=1781589903; c=relaxed/simple;
+	bh=EJYxFV26UgIohNCX98r/zv4iSx9WwinKKVrDv7Loo7k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rerv/SjYYQVum+HcDAcY/3vEOMNt86QBKnjb4QJPoiWvpDbJhgqGvDiQG0pp4hpXgDpixXSSvU7V+mwQB3cXLocinfHZdZ6s4dafsMfc4r88pcYelxug0I2FyMCd1R5iTOr6xVw0E46Wy4psdHAcghUxjdLGyYgTSNmYsK+em90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 4b335554694911f1aa26b74ffac11d73-20260616
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:f8c07405-8f65-4cc3-93c2-90861c38714d,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACT
+	ION:release,TS:-50
+X-CID-META: VersionHash:e7bac3a,CLOUDID:8d830cddd8d0be4aff8ba95ffb23005c,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
+	DM:2,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:
+	0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 4b335554694911f1aa26b74ffac11d73-20260616
+X-User: zenghongling@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zenghongling@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1123411217; Tue, 16 Jun 2026 14:04:54 +0800
+From: Hongling Zeng <zenghongling@kylinos.cn>
+To: vkoul@kernel.org,
+	Frank.Li@kernel.org,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	mripard@kernel.org,
+	arnd@arndb.de
+Cc: dmaengine@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	zhongling0719@126.com,
+	Hongling Zeng <zenghongling@kylinos.cn>
+Subject: [PATCH v2] dmaengine: sun6i-dma: Fix memory leak in sun6i_dma_terminate_all
+Date: Tue, 16 Jun 2026 14:04:49 +0800
+Message-Id: <20260616060449.42225-1-zenghongling@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/8] dt-bindings: display: allwinner: Split H616 DE33
- layer reg space
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
- wens@kernel.org
-Cc: samuel@sholland.org, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- mturquette@baylibre.com, sboyd@kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org
-References: <20260509190015.79086-1-jernej.skrabec@siol.net>
- <nIKN_benRn2Bk8SDZrkMCA@gmail.com>
- <86943057-f5b4-4fae-9172-45f13814494f@kernel.org>
- <0r4us4OeRRWtJhxvps-bZw@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGPBBMBCgA5AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJp2mE8AAoJEBuTQ307QWKbeaIP
- /ihHTkTW4KsN/DQ945JJbyu5tI0J80Wue7QyyLPglyKfhgb5cLLNPpOC8cCIJsc7+W3i2P38
- s2c1cOH6CYGE7E9ur3Vfme8NW2S2I/Z8VC7bZnzyS23wT17LrsdS/qCpx4o8U+pt/xdXDKph
- EGRYrIEmMpUWvyYzyYKGIe25FtaayIIKpq8eZYyFcp2f/sG5IkOW5uZzHPMPdcm87jU7fyuQ
- rAU2vx9r+ulUfQ/q9Z2roC/ode3l7t2pN7BCBCsUDp6JCrUyZrtT1e7EbA0ZRP3aOBNk2P2E
- DQOgJGjGdO5Yx2Y9LFtltu6JbsBJHi1syGRX3AtQYOMc4Y1WGoeZJmMlvKj2ZqqXNkcWi2DS
- IQEWB0uW6CqFsBBIMGDa+6OzdaVO/uAVXWDWml02Men3CILdI1MbVjoh8ECqYUY7OQ+JJvNN
- vnliuq5WM3Ghd3jg/LZZrxXjdIginRHFQCjIJYLKpLZWm1/iDFedcfzqRNYmTtqscdCNHW41
- oT3Z7BmO9xwdjuwBS6nmS6JJwkbf5Ot2QR4pB/DRU7ZwjT1qHe+9r9gF32wXVQatHNGK/VVu
- sfwOnkdxCWkp/qb2gdQRmZh+SedStWshigH6sNfuHBloF/q+hjMRc8b2m326OZdrbSHwY1Sz
- vti8Hn7n8NjdHO9LKB7BIdjkA9DA5WsqOuVCzsFNBFVDXDQBEADNkrQYSREUL4D3Gws46JEo
- Z9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLueMNsWLJBv
- BaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6eiOMheesVS
- 5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wAGldWsRxb
- f3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA6z6lBZn0
- WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9YegxWKvX
- XHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt91pFzBSO
- IpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gUBLHFTg2h
- YnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/JoFzZ4B0
- p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu4vXVFBYI
- GmpyNPYzRm0QPwARAQABwsF2BBgBCgAgAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmna
- YUkACgkQG5NDfTtBYptX+BAApg32CkxwNucNEi8WfWA8oKkW0y8YDuY6ORMo9FWNGiT/OTy0
- vyJrLocrpn86zwfjVp+eCrssPYh8eqJfnWqmYv6ACQtHPYzPZQ3mSo8H97Z01oUxITzCxpXm
- ZkLgPIqtDPcC2E3dPM/fVxcyowM8XsaMA9wcsaUYrta8toOq2b9tKcjleKMfMrm0gQ9u7wUc
- QbLkwj6TCLOwucb07GXzLTNF9PZmaDUpKAZjMjmrW+le+SFvQbhamx0rxLWPR0NWntXpbCn+
- +ACch03p/JyTBVktxFsFyCt7pTPE1kEaeuXBTe/a2D9iQvRxRW19LvuO2e59/u1wYUiH/orz
- wbIC2S4dBsPAPihL3ztOU1yE86GPyQtSE0kU+/7snnLt4QGi6PChf3t5gnNjAzjUUovO8rgI
- c+5yN5heq5loYHgK6OQ9OlHzsPHO9e9MOQcKlFycs1pyijFGzDwdNUm/SchK8iWT2QApTx4A
- K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
- n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
- qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <0r4us4OeRRWtJhxvps-bZw@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 15/06/2026 17:47, Jernej Škrabec wrote:
-> Dne ponedeljek, 15. junij 2026 ob 06:28:54 Srednjeevropski poletni čas je Krzysztof Kozlowski napisal(a):
->> On 14/06/2026 16:08, Jernej Škrabec wrote:
->>> Dne ponedeljek, 25. maj 2026 ob 14:10:38 Srednjeevropski poletni čas je Krzysztof Kozlowski napisal(a):
->>>> On 24/05/2026 23:33, Chen-Yu Tsai wrote:
->>>>> Hi,
->>>>>
->>>>> (resent from new email)
->>>>>
->>>>> On Thu, May 14, 2026 at 2:04 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>>>>>
->>>>>> On Sat, May 09, 2026 at 09:00:14PM +0200, Jernej Skrabec wrote:
->>>>>>> From: Jernej Skrabec <jernej.skrabec@gmail.com>
->>>>>>>
->>>>>>> As it turns out, current H616 DE33 binding was written based on
->>>>>>> incomplete understanding of DE33 design. Namely, planes are shared
->>>>>>> resource and not tied to specific mixer, which was the case for previous
->>>>>>> generations of Display Engine (DE3 and earlier).
->>>>>>>
->>>>>>> This means that current DE33 binding doesn't properly reflect HW and
->>>>>>> using it would mean that second mixer (used for second display output)
->>>>>>> can't be supported.
->>>>>>>
->>>>>>> Remove layer register space, which will be represented with additional
->>>>>>> node, and replace it with phandle, which will point to that new, shared
->>>>>>> node. That way, all mixers can share same layers.
->>>>>>>
->>>>>>> There is no user of this binding yet, so changes can be made safely,
->>>>>>> without breaking any backward compatibility.
->>>>>>
->>>>>> There is user. git grep gives me:
->>>>>> drivers/gpu/drm/sun4i/sun8i_mixer.c
->>>>>>
->>>>>> which means this is a released ABI. As I understood, the old code was
->>>>>
->>>>> We held off on merging the DT changes so that we could rework this.
->>>>> I can't find the actual request though. It was probably over IRC.
->>>>>
->>>>>> working fine but just did not support all use cases. Why this cannot be
->>>>>> kept backwards compatible?
->>>>>
->>>>> AFAIK the "planes" block is shared between two display mixers. As the
->>>>> commit message explains, this prevents using the second mixer, since
->>>>> only one of them can claim and map the register space. And on the H700
->>>>> (which is the same die as the H616 discussed here but with more exposed
->>>>> interfaces), there could actually be a use case for the second mixer.
->>>>
->>>> It explains why you want to make the changes but not why you cannot keep
->>>> it backwards compatible.
->>>
->>> I guess it can be backward compatible, but I don't think it makes sense.
->>> Yes, original driver implemented original DT bindings, but there is no node
->>> which uses that binding. If there is no user of that, why would driver
->>
->> Did you check all out of tree users of the ABI? All vendor kernels,
->> forks and all of them for which the ABI was made for?
-> 
-> Since when do we care about out of tree users? I understand that drivers
+When terminating a non-cyclic DMA transfer, the active descriptor
+is not properly reclaimed. The descriptor is removed from the
+desc_issued list in sun6i_dma_start_desc(), but in
+sun6i_dma_terminate_all(), only cyclic transfer descriptors are
+added to the desc_completed list before cleanup.
 
-Since always? That is the meaning of ABI. Otherwise there is no point to
-discuss ABI at all. Why would it exist if you had all DTS inside kernel
-always matching the code?
+For non-cyclic transfers, pchan->desc is set to NULL without first
+adding the descriptor back to a list that vchan_get_all_descriptors()
+can collect. This causes the descriptor and its associated LLI chain
+to be permanently leaked.
 
+Fix by ensuring both cyclic and non-cyclic active descriptors are
+added to the desc_completed list before setting pchan->desc to NULL.
 
-> must support old device tree files. Once they work, compatibility must
-> be carried forward. But that's not the case here.
-> 
-> In any case, vendor kernels have completely different DT structure. This
-> was developed independently from them. Take a look at [1] how BSP DT looks
-> like, specifically Display Engine node.
-> 
-> Of course there are some distros which grab WIP patches from mailing lists
-> soon after they are available. For example, I know that Armbian carried old
-> WIP patches which used old ABI. However, such distros generally don't care
-> about exact solution and ditch patches as soon as proper solution is merged
-> upstream or even when better WIP patches come around. DT files in such
-> distros get updated alongside kernel, they are not hidden in firmware. 
-> 
+Fixes: 555859308723 ("dmaengine: sun6i: Add driver for the Allwinner A31 DMA controller")
+Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
 
-I am not talking about BSP. I am talking about out of tree users for
-which we defined the ABI and called it that way.
+---
+ Change in v2;
+ -Add pchan->desc != pchan->done check to prevent race condition
+  where completed descriptors could be double-added to desc_completed
+  list, causing list corruption
+---
+ drivers/dma/sun6i-dma.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
+diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
+index 7a79f346250a..12d038ef5f2e 100644
+--- a/drivers/dma/sun6i-dma.c
++++ b/drivers/dma/sun6i-dma.c
+@@ -946,16 +946,14 @@ static int sun6i_dma_terminate_all(struct dma_chan *chan)
+ 
+ 	spin_lock_irqsave(&vchan->vc.lock, flags);
+ 
+-	if (vchan->cyclic) {
+-		vchan->cyclic = false;
+-		if (pchan && pchan->desc) {
+-			struct virt_dma_desc *vd = &pchan->desc->vd;
+-			struct virt_dma_chan *vc = &vchan->vc;
++	if (pchan && pchan->desc && pchan->desc != pchan->done) {
++		struct virt_dma_desc *vd = &pchan->desc->vd;
++		struct virt_dma_chan *vc = &vchan->vc;
+ 
+-			list_add_tail(&vd->node, &vc->desc_completed);
+-		}
++		list_add_tail(&vd->node, &vc->desc_completed);
+ 	}
+ 
++	vchan->cyclic = false;
+ 	vchan_get_all_descriptors(&vchan->vc, &head);
+ 
+ 	if (pchan) {
+-- 
+2.25.1
 
-Best regards,
-Krzysztof
