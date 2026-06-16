@@ -1,173 +1,172 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 630A53C9EC3;
-	Tue, 16 Jun 2026 06:16:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85B5E30C345
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Jun 2026 13:39:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781590617; cv=none; b=uFZdeAu6euMqBFeOPQWLuO/kDx5w5Eftgb5NNP1z3lqMYLqHIjtQjb4HgeNIoC7UFZ7ivVXpoYGjK723/VEoMr5+Q2X7BAM22NiPXpBzCVo9X926BZ450l/FO0KEQgIORqhueFcoS7Yhs+RO09jGTcmjnnZ1Iv1KyBuBSg6V2Eo=
+	t=1781617142; cv=none; b=i3z1Kcnl8x8Hk0GYVjj++t1rBSDXq7gEQUvHJlOg6dOT/VhPy2dHEHG2HSIj6UfXTo84XVwEDrVQw5YSruSFiFQ0qmkEMmXoLXTF0lQIBM0hxSQF65zUndeu/06do3EbQgYyOpLQx9D81s4OdgnD70/4pWj4uPKaZkaMVMKlQMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781590617; c=relaxed/simple;
-	bh=/vmV2nqhbY3Vga9iBtrJv+GbUyrIVvrzHAldnyl402Y=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=m4l6C5SijwF1ftjiLlHA/dGu59r3ayK7FQX0h3nyJTul0L8xoQGHKVR0pJy7Xx/RtZEygs7s4JpVvYOvcBEEhuhM/R3vbP3LPXgApXX1P/0F5HTO3ZClCebkTbHh0bIbTFeiHdHAUhjwcJHyVLYuAPCsQSyLOtt4bPcIOihl0Nw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GcFA6XYQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781617142; c=relaxed/simple;
+	bh=vHgwqjPAnui1vFfI/U4dBN4GhtxUFMHf4/+uBSe6sDM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=T6fyK5eIJvjA+h/G3gJLEcGxW1k6rl5VkA0C2nzuL/5Yuf6okr/0MpnRJM4Cpuj3Kw1U83i7rBNZvLh/N8DC5iDrgHeEManha5Z4Hy0Y+6oIGgqObHlZClYRiYJZ3UQ6YjLYUyVhkRBbL1BvTQCkSkWqreEM3RDqtcD6UKIYiFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=CoUrDeIq; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GcFA6XYQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFD3B1F000E9;
-	Tue, 16 Jun 2026 06:16:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781590616;
-	bh=GkBd15AhsKLpfNu+SMogjUdc2j4O8fk7Pk5YeqjFtwk=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=GcFA6XYQaKXTtu9hUq03iHJtkYHzwN2DExKEdrBE+X1ZxBt+EWrNFlN1VRobatXFH
-	 qYSXp569vaZtlGUZdvn85SB/ErHAaDY42H4OjuZkFYhSpyKyL1i9HcYi6H221i85ty
-	 4BebqQZ1AtfKPybotliGFdkOP71oocStjvTsjBKhfyBru0CpuPu46Xb8ovOCCtq7+M
-	 BJ69xBJ4W65bFnhMYPoudwmT1uuMlbkIPgWY0UYnuBtXqHcfwCu5m+Gcq+Zz0jKp49
-	 w1vo3AR9CxfG73plTMeseUOJaMj9Xu+PihhZRRmm6fQCXg9CQRn0Xzpn7IgCwnKpW2
-	 fH2j0lC6+DOBQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] dmaengine: sun6i-dma: Fix memory leak in
- sun6i_dma_terminate_all
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Hongling Zeng" <zenghongling@kylinos.cn>
-Cc: Frank.Li@kernel.org, dmaengine@vger.kernel.org, vkoul@kernel.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20260616060449.42225-1-zenghongling@kylinos.cn>
-References: <20260616060449.42225-1-zenghongling@kylinos.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 16 Jun 2026 06:16:55 +0000
-Message-Id: <20260616061655.CFD3B1F000E9@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="CoUrDeIq"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3CFD135BD;
+	Tue, 16 Jun 2026 06:38:55 -0700 (PDT)
+Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E47083F763;
+	Tue, 16 Jun 2026 06:38:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1781617139; bh=vHgwqjPAnui1vFfI/U4dBN4GhtxUFMHf4/+uBSe6sDM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=CoUrDeIq57GBlIaQSiZ6IIZZXYYwvBjf9AtMwGTg8WTSlBAHp1guaKv17UCEaXsDV
+	 ih/mSnXhuuoKY/hByor37luu/fn8K8ojll/MhfByHhaIIN1aH20ou4PrVANWJJk40y
+	 3PfyZb/ddxw1qccXThjCpzVoJ83xZm1hA7B5sSdA=
+Message-ID: <4709b24a-f421-4c81-a023-c37ea66c88bd@arm.com>
+Date: Tue, 16 Jun 2026 15:38:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 7/8] dt-bindings: display: allwinner: Split H616 DE33
+ layer reg space
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, wens@kernel.org
+Cc: samuel@sholland.org, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ mturquette@baylibre.com, sboyd@kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org
+References: <20260509190015.79086-1-jernej.skrabec@siol.net>
+ <nIKN_benRn2Bk8SDZrkMCA@gmail.com>
+ <86943057-f5b4-4fae-9172-45f13814494f@kernel.org>
+ <0r4us4OeRRWtJhxvps-bZw@gmail.com>
+ <b1f03d81-85db-4303-89ff-64440b6e1890@kernel.org>
+Content-Language: en-US
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <b1f03d81-85db-4303-89ff-64440b6e1890@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
-s) to consider:
+Hi,
 
-Pre-existing issues:
-- [Critical] Lockless read of `vchan->phy` in `sun6i_dma_terminate_all` lea=
-ds to a TOCTOU race condition that can hijack and corrupt another channel's=
- physical state.
-- [High] Concurrent execution of `sun6i_dma_terminate_all` and `sun6i_dma_i=
-nterrupt` can lead to a fatal NULL pointer dereference.
-- [High] Terminating an active cyclic transfer frees the descriptor without=
- clearing the virt-dma cyclic pointer, leading to a Use-After-Free.
-- [High] Plain `spin_lock` on `sdev->lock` in process context deadlocks wit=
-h softirq tasklet.
---
+On 6/16/26 05:51, Krzysztof Kozlowski wrote:
+> On 15/06/2026 17:47, Jernej Škrabec wrote:
+>> Dne ponedeljek, 15. junij 2026 ob 06:28:54 Srednjeevropski poletni čas je Krzysztof Kozlowski napisal(a):
+>>> On 14/06/2026 16:08, Jernej Škrabec wrote:
+>>>> Dne ponedeljek, 25. maj 2026 ob 14:10:38 Srednjeevropski poletni čas je Krzysztof Kozlowski napisal(a):
+>>>>> On 24/05/2026 23:33, Chen-Yu Tsai wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> (resent from new email)
+>>>>>>
+>>>>>> On Thu, May 14, 2026 at 2:04 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>>>>>>
+>>>>>>> On Sat, May 09, 2026 at 09:00:14PM +0200, Jernej Skrabec wrote:
+>>>>>>>> From: Jernej Skrabec <jernej.skrabec@gmail.com>
+>>>>>>>>
+>>>>>>>> As it turns out, current H616 DE33 binding was written based on
+>>>>>>>> incomplete understanding of DE33 design. Namely, planes are shared
+>>>>>>>> resource and not tied to specific mixer, which was the case for previous
+>>>>>>>> generations of Display Engine (DE3 and earlier).
+>>>>>>>>
+>>>>>>>> This means that current DE33 binding doesn't properly reflect HW and
+>>>>>>>> using it would mean that second mixer (used for second display output)
+>>>>>>>> can't be supported.
+>>>>>>>>
+>>>>>>>> Remove layer register space, which will be represented with additional
+>>>>>>>> node, and replace it with phandle, which will point to that new, shared
+>>>>>>>> node. That way, all mixers can share same layers.
+>>>>>>>>
+>>>>>>>> There is no user of this binding yet, so changes can be made safely,
+>>>>>>>> without breaking any backward compatibility.
+>>>>>>>
+>>>>>>> There is user. git grep gives me:
+>>>>>>> drivers/gpu/drm/sun4i/sun8i_mixer.c
+>>>>>>>
+>>>>>>> which means this is a released ABI. As I understood, the old code was
+>>>>>>
+>>>>>> We held off on merging the DT changes so that we could rework this.
+>>>>>> I can't find the actual request though. It was probably over IRC.
+>>>>>>
+>>>>>>> working fine but just did not support all use cases. Why this cannot be
+>>>>>>> kept backwards compatible?
+>>>>>>
+>>>>>> AFAIK the "planes" block is shared between two display mixers. As the
+>>>>>> commit message explains, this prevents using the second mixer, since
+>>>>>> only one of them can claim and map the register space. And on the H700
+>>>>>> (which is the same die as the H616 discussed here but with more exposed
+>>>>>> interfaces), there could actually be a use case for the second mixer.
+>>>>>
+>>>>> It explains why you want to make the changes but not why you cannot keep
+>>>>> it backwards compatible.
+>>>>
+>>>> I guess it can be backward compatible, but I don't think it makes sense.
+>>>> Yes, original driver implemented original DT bindings, but there is no node
+>>>> which uses that binding. If there is no user of that, why would driver
+>>>
+>>> Did you check all out of tree users of the ABI? All vendor kernels,
+>>> forks and all of them for which the ABI was made for?
+>>
+>> Since when do we care about out of tree users? I understand that drivers
+> 
+> Since always? That is the meaning of ABI. Otherwise there is no point to
+> discuss ABI at all. Why would it exist if you had all DTS inside kernel
+> always matching the code?
 
-commit f08a1b576e146ed2d00cd844a90cf04a64b43397
-Author: Hongling Zeng <zenghongling@kylinos.cn>
+In general I would agree with Krzysztof, merged binding means we need to 
+stick to it, but in this case I think that would be over the top. As 
+Jernej said, there are no users, since we didn't commit on the DTs, and 
+the DE33 graphics support in the kernel (bindings and code) is 
+incomplete: it's really just the mixer, but no other components (TCON or 
+output PHYs) required. So it never worked as such.
 
-dmaengine: sun6i-dma: Fix memory leak in sun6i_dma_terminate_all
+In hindsight we could say that we should have never merged the bindings 
+without having fully working, reviewed and accepted driver code, for the 
+whole display chain. Which we need to do because we create those 
+bindings based on reverse engineering efforts, not by looking at 
+documentation or design documents (which we don't have).
 
-This commit addresses a memory leak for non-cyclic DMA transfers. It ensures
-both cyclic and non-cyclic active descriptors are added to the desc_complet=
-ed
-list before cleanup to prevent them from being permanently leaked.
+>> must support old device tree files. Once they work, compatibility must
+>> be carried forward. But that's not the case here.
+>>
+>> In any case, vendor kernels have completely different DT structure. This
+>> was developed independently from them. Take a look at [1] how BSP DT looks
+>> like, specifically Display Engine node.
+>>
+>> Of course there are some distros which grab WIP patches from mailing lists
+>> soon after they are available. For example, I know that Armbian carried old
+>> WIP patches which used old ABI. However, such distros generally don't care
+>> about exact solution and ditch patches as soon as proper solution is merged
+>> upstream or even when better WIP patches come around. DT files in such
+>> distros get updated alongside kernel, they are not hidden in firmware.
+>>
+> 
+> I am not talking about BSP. I am talking about out of tree users for
+> which we defined the ABI and called it that way.
 
-> diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-> index a9a254dbf8cb9..46c837e87e6e4 100644
-> --- a/drivers/dma/sun6i-dma.c
-> +++ b/drivers/dma/sun6i-dma.c
-> @@ -945,16 +945,14 @@ static int sun6i_dma_terminate_all(struct dma_chan =
-*chan)
-> =20
->  	spin_lock_irqsave(&vchan->vc.lock, flags);
+If you are looking for DT users outside of the Linux kernel, this is the 
+result of a quick check (list of users from ChatGPT, checks by myself 
+with git clone/git grep):
+Zephyr RTOS: no graphics support
+FreeBSD: no H616 support
+OpenBSD: no H616 graphics support
+NetBSD: no H616 support
+U-Boot: no H616 graphics support
+Barebox: no H616 support
+TF-A: no graphics support
+OP-TEE: no (Allwinner) graphics support
+EDK2: no Allwinner support
 
-[Severity: High]
-This is a pre-existing issue, but does acquiring sdev->lock earlier in this
-function create a deadlock risk?
+Cheers,
+Andre
 
-sun6i_dma_terminate_all() calls spin_lock(&sdev->lock) without disabling
-softirqs. If a hardware interrupt fires on the same CPU while the lock is
-held, the kernel processes pending softirqs upon returning from the interru=
-pt.
-
-This runs sun6i_dma_tasklet(), which attempts to acquire the lock using
-spin_lock_irq(&sdev->lock). Will this cause a self-deadlock since the
-interrupted process context already holds the lock?
-
-> =20
-> -	if (vchan->cyclic) {
-> -		vchan->cyclic =3D false;
-> -		if (pchan && pchan->desc) {
-> -			struct virt_dma_desc *vd =3D &pchan->desc->vd;
-> -			struct virt_dma_chan *vc =3D &vchan->vc;
-> +	if (pchan && pchan->desc && pchan->desc !=3D pchan->done) {
-
-[Severity: Critical]
-This isn't a bug introduced by this patch, but does this code have a race
-condition that can corrupt another channel?
-
-At the top of sun6i_dma_terminate_all(), the pchan pointer is cached
-locklessly from vchan->phy before taking any locks.
-
-Concurrently, sun6i_dma_tasklet() can complete a transfer, set
-vchan->phy =3D NULL, and reassign this exact pchan to a different virtual
-channel.
-
-When this code subsequently acquires vchan->vc.lock, wouldn't it use the
-stale pchan pointer to inappropriately access descriptors and halt hardware
-belonging to the newly assigned channel?
-
-> +		struct virt_dma_desc *vd =3D &pchan->desc->vd;
-> +		struct virt_dma_chan *vc =3D &vchan->vc;
-> =20
-> -			list_add_tail(&vd->node, &vc->desc_completed);
-> -		}
-> +		list_add_tail(&vd->node, &vc->desc_completed);
-
-[Severity: High]
-This is a pre-existing issue, but does terminating an active cyclic transfer
-leave a dangling pointer here?
-
-The active descriptor is added to desc_completed so it can be freed by
-vchan_dma_desc_free_list(), but the virt-dma pointer vc->cyclic is never
-cleared.
-
-If vchan_complete() runs asynchronously from the tasklet, couldn't it see a
-non-NULL vc->cyclic and dereference the freed descriptor? Standard virt-dma
-drivers typically use vchan_terminate_vdesc() to clear this.
-
->  	}
-> =20
-> +	vchan->cyclic =3D false;
->  	vchan_get_all_descriptors(&vchan->vc, &head);
-> =20
->  	if (pchan) {
-
-[ ... ]
-
->  		vchan->phy =3D NULL;
->  		pchan->vchan =3D NULL;
->  		pchan->desc =3D NULL;
-
-[Severity: High]
-This isn't a bug introduced by this patch, but can clearing pchan->desc here
-race with the interrupt handler and cause a NULL pointer dereference?
-
-In sun6i_dma_interrupt(), vchan->cyclic is read locklessly. If it evaluates
-to false, the handler blocks on spin_lock(&vchan->vc.lock):
-
-sun6i_dma_interrupt() {
-    ...
-    if (!vchan->cyclic) {
-        spin_lock(&vchan->vc.lock);
-        vchan_cookie_complete(&pchan->desc->vd);
-        ...
-}
-
-If sun6i_dma_terminate_all() concurrently acquires the lock and sets
-pchan->desc =3D NULL, when the interrupt handler unblocks, wouldn't
-evaluating &pchan->desc->vd crash the kernel?
-
->  		pchan->done =3D NULL;
->  	}
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260616060449.4222=
-5-1-zenghongling@kylinos.cn?part=3D1
