@@ -1,105 +1,99 @@
-Received: from out203-205-221-235.mail.qq.com (out203-205-221-235.mail.qq.com [203.205.221.235])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657A32E6CC7
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Jun 2026 03:16:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E774949FF
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Jun 2026 17:09:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781666203; cv=none; b=acl8jrBIY+w8OkAuD5iDgPqfOOyesNlX7kPAzRQ9vwVNrVk1Hufw9UnDj9cN2f36aDpe66CEM3VOiZYF97aALnBkezxhx5k3tKS2ccVn39yg8BEjssld12ZEqm1sMsIodm5pRi3zGAVaNRYjjVEmfGyQNO/oblcH9NgO05MxvT4=
+	t=1781716182; cv=none; b=ZmV2eXb/VV1ox5bRCVeRvrjvbEIJTrLQCtavFrwUBJ9Xwawca2w8zKcatXC4ECi3FR3IaG80yCE9iFojbpSmiLEf09UBhVcL6mkcn93aNUrYrDbp2MpOkUI5RaBY0gQqOGcgcQl6H4Jhw71IG6JS6e714B6G5bK+TG/xy7anDXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781666203; c=relaxed/simple;
-	bh=hmyoSJ0V5hqJwQu/GQal32d6H/e0Rw9UIAusrzx+Dzc=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=C66v61fT6tyS+Fm3KsEQ3qpFwnndSYGafu4B0e2V0OQBgWiZ+g3uFQlESCzqycKf4s9P0TUkeISisBBajlJqf8+O3S5cIsa0F+NeJfxk/NywEfrrEG0eKqS5qWo078WfAb73b2LpA8ilnGM5glcPBNweAQTiFDvIufN4D2Pua9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=HGK8RVqq; arc=none smtp.client-ip=203.205.221.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+	s=arc-20240116; t=1781716182; c=relaxed/simple;
+	bh=JUnSab4D4cmQCvYGqezRnjMRf9ULW+i5vXU/rQB8eJA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=s9/vm7hjG8w0Yi1cpgQDpLNVZX+mU4Apev7v4UeGlV5VmVAf+KPdiUsTdH8UotCLdhp1NfehtewQv0JQLA9QAgwLyJJkL+rBTX7nCUS0c6dBmbkosh4tBN4yV44jj/kc+b44zcymCKmLcnM1ELyqe3hK9qS9orosmy1iqYa9aDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WNv2cTlV; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="HGK8RVqq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1781666192;
-	bh=voPZZPDKGy96YcSfqQY+Ty+WqcoQ+pWgwDXXjhOpYBE=;
-	h=From:To:Cc:Subject:Date;
-	b=HGK8RVqqARfxHkNYgVn4edYgrlArjkwb0aGQ55p6wrOPjQtzgFIX7AW8yd3xrJju3
-	 si/WVtG9r7QfPldpTft7vHE410PBavrc0WRalFmN3PWHrdP+KPmcIm0C2tjUn1/0uS
-	 XDuZCtFBv7o/mVmtA5v5Ii6e+P0FJulteY7Gp9kQ=
-Received: from localhost.localdomain ([116.128.244.169])
-	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
-	id 41E2881F; Wed, 17 Jun 2026 11:16:30 +0800
-X-QQ-mid: xmsmtpt1781666190t35bmdde9
-Message-ID: <tencent_2C7697B076D53BBE62D99B7CD15E77A20C07@qq.com>
-X-QQ-XMAILINFO: OEUhVsHQax4MM32vS78aLX1UrID9s8H7mfImQLTf6Gz8suyH8C92nduvQJulM1
-	 F/2DBOw02nLzyGlwlFOg0igz/oMKwrdsOvgzGDLPbEcBl1cctzdMTLHQKqjyDnFLKX79fijodnJp
-	 nDPIE/y9Lk2TiPPtybD63TlrqZQwnf7aKkUoUQXKE9F15o7f+WkAdacDAxGl1ieq6rFHksqhhvcM
-	 6RWUBMtDovM/TNai9FFvL6ZJoGxmb9k/ZgxvuZlIfHHrddzoJaKfo+MRm0ZHtTBjS7ErTOCYEGlC
-	 GByYix4rSAYG7k/LnFyHXolb39n9s9WP9eMlXRdqgZ7j/9i944ceeKYVoWKk4ZOjD7jAhbwGnti4
-	 n9/aBQd/K5R2/r+4Nc/JunhO7/e56Xjn1nISanFMwguFS/wlMxFNtzm5AHSLGKx8AmaS8pI0T61O
-	 K7fxRcUzPeO6xDUXWxPI0rhdcyBi2GSeD4qSp4iGhTsni0gRL6SmL5qpQz/YX221gkIHmATByFcU
-	 UWgKoUoFiqqghjbqnIFFkqYy52p6az3IreeQNqJnmyzBVSAANJp8ibJlQnOJLJE8haLSGS0Y6nU1
-	 C38hQHyegDF9d0evGH4VLLlhVOzCQcPB+zrQitPlGXC8s4vodCYlorwpd6LXLdPvLWgMt6hVpy4q
-	 ZSpK2s+H55d2GOu97ZxcbTzi90gv7X8tNWc6bEZ6S0t9LmbgOLVZXepFVOQp1Ma1Qao856lPgcg9
-	 C34xF65oKSrjN4Rwfo5++qMTYpsHlcE2A/DghjGj9K4B98F6NMWakV68yjXimotFulX/Dy6PSAhY
-	 Hz1UgvMO0i698uXLqRioupfR4zdvmjoVsDLR83oqkHLttLQaHDvuAWrGYolBwhG8ucP+9xZZquBj
-	 vaWFZh9zIBq9q1eqkE0aW/pXP+mxY1Iva7OCJKDUTGrfqGmA2F8G0/zha5qI8loRTiMopId92/9q
-	 /lhx7Nu+kNpj69o/Na/d5rZbu3Guw2o75arPBpE8mIymk7mTl0Bfr33YgtuWmC7hiTuOPqtZlLfo
-	 h3HVji9g==
-X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
-From: Zhao Dongdong <winter91@foxmail.com>
-To: p.zabel@pengutronix.de,
-	wens@kernel.org,
-	jernej.skrabec@gmail.com
-Cc: linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Zhao Dongdong <zhaodongdong@kylinos.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] reset: sunxi: fix memory region leak on ioremap failure
-Date: Wed, 17 Jun 2026 11:16:27 +0800
-X-OQ-MSGID: <20260617031627.151885-1-winter91@foxmail.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WNv2cTlV"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-490b7866869so61445735e9.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 17 Jun 2026 10:09:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781716178; x=1782320978; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JUnSab4D4cmQCvYGqezRnjMRf9ULW+i5vXU/rQB8eJA=;
+        b=WNv2cTlVWjW8opWluHpgZRRZhAQhFcHrzM19iqcKBhvmVQJZ1FqENvJybH1hgzLgJW
+         5DjIWstTXyFr5dpfWoAnc58zFps6wQllys+PJqEHymVajPA5VY4B43hNOLygyFMGz789
+         tvEoniXjDQLh46BWCpWW9f/3b+y37M45rs5C79FWuP5G1zC85Ekw67vuBbxPeZg7mRzj
+         jJvl7R/2eU7s+sv81aPJKPA0f63jXaq7bF2Ut6bdX4nolLozziQudWvqZFi1iWcNtPLA
+         gc0MyX9wXnw7z3CvGd6EeZxKyVJrE3swNndP7xDxWtqHQdL+nNsXgF6MeYjhPDYhyiKo
+         Q/xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781716178; x=1782320978;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=JUnSab4D4cmQCvYGqezRnjMRf9ULW+i5vXU/rQB8eJA=;
+        b=il7ePiyyILiRMbbTTj9Gjh66jqmkex+XrdlvoVuBeY00Xv2mjnghGLNYbzkTM0Ztyt
+         4oibTdz0f5xCiCIYabZXaNAaaQFPzQ9SGwfaqmorzAuk7Xv6acUnjsFu88NianGN5Dyb
+         QqMgYF5MRVHA/gIhjHn4GlqBVqBrgRk1/eflSC4YZmwSq24E9Fz1dP0ClrHGrLyzR/BI
+         DjZxnMqXE3IvqybqoLCO1a0mks8N14LJ90nORcNgHxr+MWJ6VrMruveauK1/PEhp+lYx
+         2P3a7qrX7kAvP+ePEFQWk063VQpp6X22lHyFt1g1WELlaPeG1zyFLuJNLaBfgPaz1lJA
+         PwCQ==
+X-Gm-Message-State: AOJu0YwrwNSGnXiUeQjBvZoUbNJBX/gUrWSy8dVyFHXw9/3RhdoAB9Nl
+	iXX1Ju8zNhcb849svI+8Vp4uo1H9hLA23i9fNCWEL3+RBk8MGIeyI1o2
+X-Gm-Gg: Acq92OGuOHV4IREdvIQWlNxmWqCD36+adE88ZyxyAmihUk6kag2JAaRXEDwbU0l4Awj
+	2gp+kOx5Aea3kXRDuFYS6zadEcXt9Q7CFXPJkXNvC/OMgtx0bO/aAeNLyrtXUvXS8QrnG9lV9to
+	+sCe7EuMBGrkotCwP/k6boA++EAbJBbmLTEidGARUiKY6dtE20PENHW8y2jhyg3pW+eZUcpINDm
+	ZXOiYeuYLPjR8QvsU7qEHYg9gs/WVNr9nGAF0mlr3J9ZUZJvvalybYMenCmQH/n/kBljFQoWf2W
+	KvZu2g6XiBhU3T5qPVOIf+6rS1Vdo5G8WoPvGKSOpBYBN6wAhyZ1ZnQfNf05WEbgZM37UIseW+C
+	odzxIwAj8OfMHxOf/sVCZbM00Op6wG0DYUnD4D+OHuCXNtgh8lS96sewuhGmwDhCCMuhuy0QC9Z
+	kULDgB4hsNvbAPQBcrhB4Eb3+xiwO8dv6cMo87vtTbOafM4PWN/aLwVb8HfaMGSKsTg2hgYEgx8
+	Op+yig6KT3H2gaos4SiUqnAhw==
+X-Received: by 2002:a05:600c:3541:b0:48f:d5a0:284e with SMTP id 5b1f17b1804b1-49234132005mr69613935e9.28.1781716178292;
+        Wed, 17 Jun 2026 10:09:38 -0700 (PDT)
+Received: from jernej-laptop.localnet (APN-122-99-120-gprs.simobil.net. [46.122.99.120])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49236860482sm19462305e9.0.2026.06.17.10.09.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jun 2026 10:09:37 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: p.zabel@pengutronix.de, wens@kernel.org,
+ Zhao Dongdong <winter91@foxmail.com>
+Cc: linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Zhao Dongdong <zhaodongdong@kylinos.cn>, stable@vger.kernel.org
+Subject: Re: [PATCH] reset: sunxi: fix memory region leak on ioremap failure
+Date: Wed, 17 Jun 2026 19:09:34 +0200
+Message-ID: <BoFIpAKHR22rGns4zmN6vA@gmail.com>
+In-Reply-To: <tencent_2C7697B076D53BBE62D99B7CD15E77A20C07@qq.com>
+References: <tencent_2C7697B076D53BBE62D99B7CD15E77A20C07@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-From: Zhao Dongdong <zhaodongdong@kylinos.cn>
+Dne sreda, 17. junij 2026 ob 05:16:27 Srednjeevropski poletni =C4=8Das je Z=
+hao Dongdong napisal(a):
+> From: Zhao Dongdong <zhaodongdong@kylinos.cn>
+>=20
+> In sunxi_reset_init(), when ioremap() fails, the memory region obtained
+> via request_mem_region() is not released, leading to a resource leak.
+>=20
+> Add an err_mem_region label to properly release the memory region before
+> freeing the data structure.
+>=20
+> Fixes: 8f1ae77f4666 ("reset: Add Allwinner SoCs Reset Controller Driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Zhao Dongdong <zhaodongdong@kylinos.cn>
 
-In sunxi_reset_init(), when ioremap() fails, the memory region obtained
-via request_mem_region() is not released, leading to a resource leak.
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Add an err_mem_region label to properly release the memory region before
-freeing the data structure.
+Best regards,
+Jernej
 
-Fixes: 8f1ae77f4666 ("reset: Add Allwinner SoCs Reset Controller Driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Zhao Dongdong <zhaodongdong@kylinos.cn>
----
- drivers/reset/reset-sunxi.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/reset/reset-sunxi.c b/drivers/reset/reset-sunxi.c
-index 2544de6576e4..2f6df7707cad 100644
---- a/drivers/reset/reset-sunxi.c
-+++ b/drivers/reset/reset-sunxi.c
-@@ -44,7 +44,7 @@ static int sunxi_reset_init(struct device_node *np)
- 	data->membase = ioremap(res.start, size);
- 	if (!data->membase) {
- 		ret = -ENOMEM;
--		goto err_alloc;
-+		goto err_mem_region;
- 	}
- 
- 	spin_lock_init(&data->lock);
-@@ -57,6 +57,8 @@ static int sunxi_reset_init(struct device_node *np)
- 
- 	return reset_controller_register(&data->rcdev);
- 
-+err_mem_region:
-+	release_mem_region(res.start, size);
- err_alloc:
- 	kfree(data);
- 	return ret;
--- 
-2.25.1
 
