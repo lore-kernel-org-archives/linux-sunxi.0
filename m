@@ -1,67 +1,119 @@
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30E93DF009
-	for <linux-sunxi@lists.linux.dev>; Thu, 18 Jun 2026 09:49:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.200.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF73221540
+	for <linux-sunxi@lists.linux.dev>; Thu, 18 Jun 2026 13:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781776199; cv=none; b=chQFFI32xGCAEkUJMcmXBU6gs/AWozIVNsRuQ1nYn1RAMyRqMF+NkaXe4AI1xpVL7FGO2L1b+LyldD/WLD3cW6Hs5z9F/K1O5oiqq3LHPYE5FmCPSWtwbbSPHJQFtNGyb3bnPPnLYwmBdAKoU8Jxr8KZ6tWeOHFR7BOa0rfT/ic=
+	t=1781788545; cv=none; b=jF8uuQsLR89bsXZOIqMf0yS0f1Rq+gCDdYpVUhWu4luuoaCWq/gU3II/8glUsZpk4m5sdcPW54jRRFZEq2RKbw2T7FPOWMokIh2uY0LQ2gTT8JyGiy+P8np3LqWHZdWta5b9SFpYYm3swFgH+3UiS96coH8k7N5ut77TP4JL2ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781776199; c=relaxed/simple;
-	bh=1j6nLnLOVBePWf0/aAALwVLmoB3ZSMnuH+q4qiF6yGg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=qykrRz05RQtOaCETGV0V+GAswuxXg23qYEhvJj6Y//9fDh0E8LT9cSSEAMSDQJ40L+oGnjglMe3+jNEC5eg1uXxTm1IDYYQcz+3PeUzTh4GUAgiiXQq/EM0yIj5YCxweAgWN47e5X29qtnpEci6l6vFg1AqidQUXMgG+ooBhVM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.200.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de (drehscheibe.grey.stw.pengutronix.de [IPv6:2a0a:edc0:0:c01:1d::a2])
-	(Authenticated sender: relay-from-drehscheibe.grey.stw.pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id EF99F2002AA;
-	Thu, 18 Jun 2026 11:49:55 +0200 (CEST)
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1wa9Nj-003Psb-2o;
-	Thu, 18 Jun 2026 11:49:55 +0200
-Received: from pza by lupine with local (Exim 4.98.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1wa9Nj-000000005Vo-3N6X;
-	Thu, 18 Jun 2026 11:49:55 +0200
-Message-ID: <bda9fbc282d9be7d07605684c12447877663754a.camel@pengutronix.de>
-Subject: Re: [PATCH] reset: sunxi: fix memory region leak on ioremap failure
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Zhao Dongdong <winter91@foxmail.com>, wens@kernel.org, 
-	jernej.skrabec@gmail.com
-Cc: linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Zhao Dongdong
-	 <zhaodongdong@kylinos.cn>, stable@vger.kernel.org
-Date: Thu, 18 Jun 2026 11:49:55 +0200
-In-Reply-To: <tencent_2C7697B076D53BBE62D99B7CD15E77A20C07@qq.com>
-References: <tencent_2C7697B076D53BBE62D99B7CD15E77A20C07@qq.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	s=arc-20240116; t=1781788545; c=relaxed/simple;
+	bh=Y+XsArUPq8ODdNiyqMZyhNcaYe0u97N3N+XZcJCn/Vw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DpxLt3FEyLyn6jIuWtjdlSAptFWun15AnXDuLcwTWgtY5mlNJtJvwaMqID1cqHUCahWrM/f24N4eI4lSVSzsmVnqVPBZh6Hc9nUr7xRCpTJv5QQXuAMaSTWlZdNPAoP05D1cWVNRa3pUapnYn5wgQWvPKZ+ZbXW1e65EXq9d/iQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RvDj8lXa; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RvDj8lXa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F45F1F0155D
+	for <linux-sunxi@lists.linux.dev>; Thu, 18 Jun 2026 13:15:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781788544;
+	bh=FAAn/mWJuuN5gL4FlLtNSl6vPNBasbbg1AXB8rDwhzk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=RvDj8lXapXNOvDW2rf9wVnNlwHPrTLK4sqXVu5/UvcJCFMrFeluBRbB7SYTQM7zqe
+	 5j3fADVyCzPW/FMNcXuGyIJkNXAG2eY10J+sPgFludxHZhQliRr+xytCmBOmIqI6rM
+	 iP9qCUbW3Ss9yE+rTytVTiMA+bZXsdkNCjy5RuuotGpr2ErLHf6ktGcAr8fWt7G2hv
+	 lC6t4g9zYopVfoicscD/Sjs4NJmrkTL0RJF7ejLsBWhgOc6va+W3+fwcZyVeUFoMYY
+	 prrIDR80FHzeKc4CM6LUoP7IozLBBYb8Ap5PSDKu2EPiQhuFVVPS/ZL1YEL7Z3LhUC
+	 i1SfWrn9Y2F8Q==
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-3967726bc47so9326581fa.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 18 Jun 2026 06:15:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8YOOSHpjn/cjj7uZ8De9Us6uupLnKAzW1TvK7yVuAXDYfzbKrYTltmSVvK48wqqokheRleWvjVdc9hpg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxWj90xB415Nh4ICxL4lmsHKeAzW5IOFtdsAG44Cx80KcZSKgId
+	7VExLHMsiPmvGKxcoZvunWZNL9OZZF34pZ6W2PFxyxQmI/bqtEyhzAI6EYdghkRN3rhGPh9YVbK
+	mqAMInjMsZuPWJcKyku3bGaJyk/avEaw=
+X-Received: by 2002:ac2:4f0f:0:b0:5ad:51ac:21d8 with SMTP id
+ 2adb3069b0e04-5ad51ac22a4mr687097e87.14.1781788542680; Thu, 18 Jun 2026
+ 06:15:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20260618053650.4053352-1-runyu.xiao@seu.edu.cn>
+In-Reply-To: <20260618053650.4053352-1-runyu.xiao@seu.edu.cn>
+From: Linus Walleij <linusw@kernel.org>
+Date: Thu, 18 Jun 2026 15:15:30 +0200
+X-Gmail-Original-Message-ID: <CAD++jLmW3vgTFryRAL24x2TbgbR1tbhjw-nFFH3askoZfSibaQ@mail.gmail.com>
+X-Gm-Features: AVVi8Cd4ajb_jyilwrzYqFD2Tx2XDqLDSoVk9kbdtiibfu6CS572v2FjQevMhk4
+Message-ID: <CAD++jLmW3vgTFryRAL24x2TbgbR1tbhjw-nFFH3askoZfSibaQ@mail.gmail.com>
+Subject: Re: Question: pinctrl-backed GPIO set_config and gpio_chip::can_sleep
+To: Runyu Xiao <runyu.xiao@seu.edu.cn>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Ludovic Desroches <ludovic.desroches@microchip.com>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Antonio Borneo <antonio.borneo@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, jianhao.xu@seu.edu.cn
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mi, 2026-06-17 at 11:16 +0800, Zhao Dongdong wrote:
-> From: Zhao Dongdong <zhaodongdong@kylinos.cn>
->=20
-> In sunxi_reset_init(), when ioremap() fails, the memory region obtained
-> via request_mem_region() is not released, leading to a resource leak.
->=20
-> Add an err_mem_region label to properly release the memory region before
-> freeing the data structure.
->=20
-> Fixes: 8f1ae77f4666 ("reset: Add Allwinner SoCs Reset Controller Driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Zhao Dongdong <zhaodongdong@kylinos.cn>
+Hi Runyu,
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+thanks for your analysis!
 
-regards
-Philipp
+On Thu, Jun 18, 2026 at 7:42=E2=80=AFAM Runyu Xiao <runyu.xiao@seu.edu.cn> =
+wrote:
+
+> The path we are concerned about is:
+>
+>   gpiod_set_config()
+>     -> gpio_do_set_config()
+>        -> gpiochip_generic_config()
+>        -> pinctrl_gpio_set_config()
+>        -> pinctrl_get_device_gpio_range()
+>        -> mutex_lock(&pctldev->mutex)
+
+That would be mutex_lock(&pinctrldev_list_mutex); would it not?
+
+> If gpiod_cansleep() returns false, a GPIO forwarder or another consumer
+> can choose an atomic carrier and call gpiod_set_config() while holding a
+> spinlock.
+
+I see the problem.
+
+> The local draft I am considering marks only these controllers as
+> sleeping:
+>
+>   pinctrl: at91-pio4: mark the GPIO controller as sleeping
+>   pinctrl: stm32: mark the GPIO controller as sleeping
+>   pinctrl: sunxi: mark the GPIO controller as sleeping
+>
+> The reason is that all three expose gpiochip_generic_config() and can
+> therefore reach the pinctrl mutex from the GPIO set_config path, while
+> their current gpio_chip registration does not set can_sleep.
+
+But that's not the right solution is it? These controllers can probably
+just write a register and be done with it, they all look like they are
+memory-mapped? That means we introduce sleep where not needed.
+
+Can we simply replace pinctrldev_list_mutex with a spinlock?
+The list isn't gonna be huge and all in-memory anyway.
+If it takes too much time we need to think about putting the
+ranges in a better data structure such as the maple tree.
+
+mutex_lock(&pinctrldev_list_mutex); could then be turned
+into spinlock_irqsave() or even better
+guard(spinlock_irqsave)(&pinctrldev_list_lock) in
+pinctrl_get_device_gpio_range().
+
+This would mean we just take two different spinlocks in seqence
+and save state in each so it should work just fine.
+
+Yours,
+Linus Walleij
