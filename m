@@ -1,187 +1,117 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011012.outbound.protection.outlook.com [40.107.130.12])
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D70C524728F
-	for <linux-sunxi@lists.linux.dev>; Thu, 18 Jun 2026 03:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781752973; cv=fail; b=axVKlfP0zhpdxOJi4pOFbXkTntZx4p2evshYtzUhs8mpemeKWrjhI4A4dcwujzL9SOaVDs05WwR73Y5sAWnWgzny/dSLySBYKAJ/e6Xdfw/M5QAM54ZJ/NNVFqhL+b0sQJ1ildMchnAmki9WmHDs/YsMj9dNrDdcCLmvOh8Di/0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781752973; c=relaxed/simple;
-	bh=9mP4d0V57nM01/JLxZq/6YGUi6aZgZf1IsCrBUvWu5g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=DzUowj7Ba21GCHugv2r9BXZvIR0jLM7CUC80ZRgGVB76RMPdKQSId/nmfEthhJUdu+HydeKN2GPLS0vnIrWZ2THWDZL3dz4uZorRUS8IF0lzu/ZiP/Ps/3RYXvbZTJ6mYx/aI6eyffM6EzAY8Eqm/XBbGfsNV4F4NfREwgzPhjU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=ifor4bD+; arc=fail smtp.client-ip=40.107.130.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A57D19DF55
+	for <linux-sunxi@lists.linux.dev>; Thu, 18 Jun 2026 05:42:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781761345; cv=none; b=nCRES+AM/q7yn5PSIVtgnXj6M+CXm+cLN+YO+UWXIYfXt1WP+GXijNit6OAzZkVVtabyO3wJ/fskfLMunHJ1AugqL00L7gZVDbixfE/bwbMxL8GZzFL/RiPZFPmdOBglgN15YDME7KhjQR56KBEHUcLwsN9asTKxrlXAvID+VtE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781761345; c=relaxed/simple;
+	bh=5qOb9IWAaRBR5l+Va2I+ttKTJfL+J0FF/ljlGF0C384=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=m3SnJAJZZrK876TTI+Ick02bSaYwD2jF5hY4P9UXsPKQYeyzNASuOcrv8t4Hk358uDTNB3ed3ZhSF3k4xlECVbLtlMc3BBmbHqk1isi9DRTFe+oqkXUK4YThYlNG9ppCv2ixIdLKS8emTRbnMbasn78nXGEpo/ecyw++UVFbJL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=ZJU1b9W4; arc=none smtp.client-ip=101.71.155.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="ifor4bD+"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JFxqE/jUE+WdG03Dq96kIPZfyX6M91nxuT2yQC4H+RCBA7XZRB5yEtNW0HHaFhI+X12mihiV4hAl/h3TbDH/1vKOydVL7Qmj/F0zJxCgb8ESowF4LhlS45r1LVvsbKyPQAJsHd0SfbhwNHDGP1PvWutWAqgLAhjimlb04Ak1LnBBzwHtSpl5TkDSdFesC19db1Hk4MEtIBuHPeV3vPbh97uSbISP9yIyTflIHpOxgOfnOS1t4Q5vVQLjmwSh77AVL4TAYPiNr6PI1QCeU8hEYuRHVy79Lw6uM4qoDVFw6seN6O59P5LnIHIUIBEs3jFZMqD0LVFYuJtZ1seabSVogg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1o/5NRD0Zwl94jm5NT7HeVe+nq2xxPf8UxZzATaP5+4=;
- b=NDWdznfz7GD7+1VqZbf5nmI7BPBIJfIdPOYqv7M/ZDUn+VwqO9iPNb0AbzsEnnXdwSR+GsHC0+hcm2HpDwid+x5RxrfXuYfRAILtj0EeajtFBttvTsxmW4SD/quoTFALD4sHH1nulO2BHno5QfQXf9ycJBBK1VHTnNwsGVSgZCqf5z4vTDo3woCabybZfpLGb9mS2DxgUnWtOJrK29/KNcXQya2o1QEwRTnBtpRC66w3/n4ZcV9IkQPB+kh2ChhKpxys+6/FKez2Rbh8kQClyPnjOGNsD7DtguHQld9cWfe6oS8i/fO45alGOy/yqxd0p33lT4f0QFAJP78YFULdkg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1o/5NRD0Zwl94jm5NT7HeVe+nq2xxPf8UxZzATaP5+4=;
- b=ifor4bD+toeaf/avzIazdHglohpfrBqi/LxJF32gf+6LYJR8zyoJRRw6uPiYQqq5xZ9q64kFzcut9CjrNYY5v34Jur2B9/w2grsb8y6H/bIQ4J6WsVlMb38e7YqA0d3ESffbo/wqJg5eacNmuBvCr6ywVDdsJx0OuvJwDv5HOYIWdiYurs8YDGKzzasaPQX7H0YBZYUbDtM23Ibb7tV9VycIaqRcbfQIFAFKV2jgy+tVZLL4t3vSBUdOKhPw3b2W/ybTJmBtEYNKPLmL6jZj8SRtcBis9UDajEo+/SwVnyObTUO3d2mYxxLr1+X4tpEg0IfG+ZPOWScgxv+eRUW8eA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by AM8PR04MB7379.eurprd04.prod.outlook.com (2603:10a6:20b:1c4::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.11; Thu, 18 Jun
- 2026 03:22:48 +0000
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0113.015; Thu, 18 Jun 2026
- 03:22:48 +0000
-Date: Wed, 17 Jun 2026 22:22:39 -0500
-From: Frank Li <Frank.li@oss.nxp.com>
-To: Hongling Zeng <zenghongling@kylinos.cn>
-Cc: vkoul@kernel.org, Frank.Li@kernel.org, wens@kernel.org,
-	jernej.skrabec@gmail.com, samuel@sholland.org, mripard@kernel.org,
-	arnd@arndb.de, dmaengine@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, zhongling0719@126.com
-Subject: Re: [PATCH v4] dmaengine: sun6i-dma: Fix memory leak in
- sun6i_dma_terminate_all
-Message-ID: <ajNkfxiefKOgSdgV@SMW015318>
-References: <20260618020609.1155962-1-zenghongling@kylinos.cn>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260618020609.1155962-1-zenghongling@kylinos.cn>
-X-ClientProxiedBy: PH7PR17CA0056.namprd17.prod.outlook.com
- (2603:10b6:510:325::17) To GV2PR04MB11799.eurprd04.prod.outlook.com
- (2603:10a6:150:2cf::9)
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="ZJU1b9W4"
+Received: from PC-202605011814.localdomain (unknown [58.241.16.34])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 42dcad3f6;
+	Thu, 18 Jun 2026 13:36:53 +0800 (GMT+08:00)
+From: Runyu Xiao <runyu.xiao@seu.edu.cn>
+To: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@kernel.org>
+Cc: Ludovic Desroches <ludovic.desroches@microchip.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Antonio Borneo <antonio.borneo@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	jianhao.xu@seu.edu.cn,
+	runyu.xiao@seu.edu.cn
+Subject: Question: pinctrl-backed GPIO set_config and gpio_chip::can_sleep
+Date: Thu, 18 Jun 2026 13:36:50 +0800
+Message-Id: <20260618053650.4053352-1-runyu.xiao@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|AM8PR04MB7379:EE_
-X-MS-Office365-Filtering-Correlation-Id: 988cab15-d7fa-430a-c22e-08decce8df58
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|7416014|19092799006|11063799006|56012099006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	FnrAcuiqA0RnhiuC+Y0h94SLoC/AMubRiB2FREPHr7yavRspRj2Og3nHF8lOe5JO8Wq2BfFQ/lfWjh5rtqo8LBVSDU7EHYEtMrjhNprawTMtYcaYQOIrERnV2R5wbp+q7xxAQTB8KvZbhL95RjYUbsFgWneB4xr4LdiOv2Wbb8fJgWM73UTCFpw1Slv7J4ooRJh0FAY4K+og7TfMq5ogjzVF+4xVtw1l2CAB0QN7RrRcszQMRGRt9II6JQo1Xd5CaTYEFQ5Fq83+kWvSep9NvDPDW4teH8R88JJXcyXX5LiYbGOiyLSSO52gLEklCxaLed+lpHIMGJsUK4AtoE8tzYRoToa081N824xaxxXD+Cs+86B541Soq8DXAg9Lj8GwT20KfFcMLYCdT6UG/SilQySAaN4w4n4RbW5kc/CG4/rTJ2dkbUSyk8I/RLe/FqfwCZ6cl0Qd3l2mPj28eBB4iAyAFIXPDmr/uvFmS1kP6kcJc3r3pmbYiTlxij0oa1FNkK72PnwUXAaL9kb2zCMFEXLaNbAtd8KRm7LYvC5Ea/quPgOYRofcW+yBHwNZng7enHXiLLLTcecGZZy3pOSfuW5oRcUgFDHXTR4hpzxEGnnivyMmU23sSt85aDsYOYv7VqyKDfo/Zs2Zi87l+pg0/XFOWVdpgYGVY7eR09VlMDMDrBYKW7DEpDd81XLP5xIy
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(7416014)(19092799006)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?6T4cyzNgl0OR2Gse8lLUDJ8BJliLNDRPuN+p+TKhZXa4gjyiigWYG+AmkSTH?=
- =?us-ascii?Q?PDQrh1Y+KHESf5m/TFKIF4nhZRARBAnANjBfDMVdPp3zT7yRxFzxKtwvm49T?=
- =?us-ascii?Q?JVJvlSuNfUscJeBlclq4ALiH7UZhGsPAGYhtIaP4bkmBHrF087rpTVDpZ9Hd?=
- =?us-ascii?Q?0Bic3ezwci24RnPaVya7DF1PRtK8Ab8TUM7et7tmczIG2hY7Cn6gC4bIDIym?=
- =?us-ascii?Q?WGJjqK2Ck4f/wEdJuOUevp4xGcsvfciaJ+UZPFkMygIYGdrCz3f+tUJDj43V?=
- =?us-ascii?Q?+5zurmYIpiPyaKsf7kf34mRybve4KplILauxh2HsscUJkLDeW4QIRU9sS6d6?=
- =?us-ascii?Q?61qO7JUJVH+nXcx88XwH6Tm+0H0zK4UivRMkaDEs8+dWjB+6ZTrUjrNkdbB5?=
- =?us-ascii?Q?aZXctqu9gPDxFwDsXpfvgxBk/PD8Imi3lfluDSeeNTGQA1txNJxZkjznlh9Z?=
- =?us-ascii?Q?8VpJHfasZl6TC5ZUc9Ag4t1BYFEzM5IPLXTrIHYmZKKdQOT7uQAKYnNWNKHo?=
- =?us-ascii?Q?CAvUresYibEm1zN6lijaFAPVjes0xAsYkRP+O9ycCiJMhwgKQieuvaIOmWCk?=
- =?us-ascii?Q?hdboMbPIR7Rm6IT05vMmmc9Nwoyh9HrIhU8lzKQ87NKFgIIgiO+IcLUhDUYa?=
- =?us-ascii?Q?6jomf8X+DSNr28R3FWIbMY5rB4CrZbTTcOn49ddPs+NFctDerwi/FAM871UI?=
- =?us-ascii?Q?ErbzQOVmM1/EzLflZVPDqjeT/+YEjFvKtJlYPHMf1oozMRRZ4bOvBf/RV+mM?=
- =?us-ascii?Q?kzieN4/Q/QpuPH+Dwd16+zqHdd0VxZr+RKP0EdG9nu+8zdP/pPMG6b+Toh46?=
- =?us-ascii?Q?APBi4ouTySgfTwkBmrRa/dYa6dAuexNrECRRIDNIJb1/aGQhuVcfAYF/NKMp?=
- =?us-ascii?Q?0WjAhtEjCaAxljSc3VQPYBB2elqiZ2A4cPMJ+6XZEnDTWXzaX0xqkY0XWN0e?=
- =?us-ascii?Q?mhDGXITsOoWmg4lpBvNL7dy/aE9tXjMLh4tcNWsrIcntw0WjSgUBXGDzPWuK?=
- =?us-ascii?Q?Vkp3y02aaQROirhSLAMTAqaG6zku4kbggSh9AYl77QMM3gsTKsggpQ0LBkZ8?=
- =?us-ascii?Q?kA6GOHVl59ABKDpfLyxUZP5wLdlt+Cwgh0RyUSTnIuMuKQFqMWYRadPsVrsW?=
- =?us-ascii?Q?YuKv0WBSRANNhWxJBvZaeIyivplQX6/jB7OZg8QDf8IPUBjrSHkKoLfMyzvP?=
- =?us-ascii?Q?+bUQNJm5CkaA8PT/oM++8hQQslvIut6E9SclnsOKZ3EfCPl1xJaKT32qCEqD?=
- =?us-ascii?Q?p36QIq9I+zDeTs8mpmKgYC/8rzPqDvA/3GRu4OGLTYaqe9prt3T6ebLsCp7R?=
- =?us-ascii?Q?UJzBEfMX0ii4YO9s+GtIouM74V8Nxc4FBdOPQUxf7uSreC53CIHOWdNV2DF5?=
- =?us-ascii?Q?lk2crbRiKVmolsO/3G6pEUn0Beh/qePUy2sZfSV3d0mZslxtXXWSyb0tzGxp?=
- =?us-ascii?Q?f3QNoIUhTLsPO2Ji1k70ERHZFRw7IZt58oJxZpKJdabnpxmNfhbW0VGe3aTb?=
- =?us-ascii?Q?+cknUbi+aqF0aa1AcnLbJQ2K7h4kSiJsQFDl7RGk6oHN+cC40pkuOdLn5a2s?=
- =?us-ascii?Q?t5w5+C/uFUeVgn9Zwn57eMntr/3UAC06D5yBZHoiKEAnE/EtaC11AGG+/qlE?=
- =?us-ascii?Q?ZLuA9f/Aykz5Z/8A9RrXB8VkGrHshRW7iPsRZramhUiHW5HtVXNDMrV2zvW+?=
- =?us-ascii?Q?AKVKS1XW2iT7n5WOpdeF9l2pMPAD5CWwAKDdL8dnboHL3kk2OovEy2Hh7ALJ?=
- =?us-ascii?Q?s7DByoyX94BRjZRmOScOP46ua1ZOs63rJ7MsSTAfqn0foJakQd5P?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 988cab15-d7fa-430a-c22e-08decce8df58
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2026 03:22:48.7435
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yEEdOejGcaD5SvJo3eAXMhL7+qPC6w899j56IBI4PfPkB06OHp1wEfg1fllo+qaDhYFGaxsnLNE4/AWCyohLDbi5kst784ktTxw8QqN/HF3ee/9m9AFDGCWRbk1uBv3o
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7379
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9ed93b770303a1kunm888aadba902f5
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZSU1DVk1NTxkdHk9JS0hDHVYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlOQ1VJT0pVSk1VSE9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
+	xVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=ZJU1b9W4Jh98QqUhr1aQzw8XNGLQ4YZLglW1cb3o2xMn/gzwQhTHfDJQ7OHctmOMGtnvoF9o0cnjREuuH6PYHzw1f9E5w0EY0vBQ2mKCGWNepb0uGRZyoU13fa5S0ltRw+W51IGzgwKuWGgRY0QrC0I7+f+BcqxaDQ1um9KACK8=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=dri7msVJ02+jPQSBZnSYMVmIqcPBpOQbQ5XfzTRxPCY=;
+	h=date:mime-version:subject:message-id:from;
 
-On Thu, Jun 18, 2026 at 10:06:09AM +0800, Hongling Zeng wrote:
-> When terminating DMA transfers, active descriptors are not properly
-> reclaimed. Only cyclic descriptors were handled, leaving non-cyclic
-> descriptors and their LLI chains to be permanently leaked.
->
-> Fix by using vchan_terminate_vdesc() which handles both cyclic and
-> non-cyclic descriptors by adding them to desc_terminated queue for
-> proper cleanup.
->
-> Add pchan->desc != pchan->done check to prevent double-adding completed
-> descriptors, which would corrupt the list.
->
-> Fixes: 555859308723 ("dmaengine: sun6i: Add driver for the Allwinner A31 DMA controller")
-> Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Suggested-by: Frank Li <Frank.li@oss.nxp.com>
+Hi,
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
+While auditing pinctrl-backed GPIO chips, our static analysis tool
+flagged several controllers that expose gpiochip_generic_config() while
+still advertising a non-sleeping gpio_chip.  We then manually reviewed
+the findings against the current tree.
 
->
-> ---
->  Change in v2;
->  -Add pchan->desc != pchan->done check to prevent race condition
->   where completed descriptors could be double-added to desc_completed
->   list, causing list corruption
-> ---
->  Change in v3:
->  -Fix by using vchan_terminate_vdesc() as suggested by Frank Li
-> ---
->  Change in v4:
->  -Correct the commit message
-> ---
->  drivers/dma/sun6i-dma.c | 13 +++++--------
->  1 file changed, 5 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-> index 7a79f346250a..134ae840f176 100644
-> --- a/drivers/dma/sun6i-dma.c
-> +++ b/drivers/dma/sun6i-dma.c
-> @@ -946,16 +946,13 @@ static int sun6i_dma_terminate_all(struct dma_chan *chan)
->
->  	spin_lock_irqsave(&vchan->vc.lock, flags);
->
-> -	if (vchan->cyclic) {
-> -		vchan->cyclic = false;
-> -		if (pchan && pchan->desc) {
-> -			struct virt_dma_desc *vd = &pchan->desc->vd;
-> -			struct virt_dma_chan *vc = &vchan->vc;
-> -
-> -			list_add_tail(&vd->node, &vc->desc_completed);
-> -		}
-> +	if (pchan && pchan->desc && pchan->desc != pchan->done) {
-> +		struct virt_dma_desc *vd = &pchan->desc->vd;
-> +
-> +		vchan_terminate_vdesc(vd);
->  	}
->
-> +	vchan->cyclic = false;
->  	vchan_get_all_descriptors(&vchan->vc, &head);
->
->  	if (pchan) {
-> --
-> 2.25.1
->
+The path we are concerned about is:
+
+  gpiod_set_config()
+    -> gpio_do_set_config()
+       -> gpiochip_generic_config()
+       -> pinctrl_gpio_set_config()
+       -> pinctrl_get_device_gpio_range()
+       -> mutex_lock(&pctldev->mutex)
+
+If gpiod_cansleep() returns false, a GPIO forwarder or another consumer
+can choose an atomic carrier and call gpiod_set_config() while holding a
+spinlock.  A minimal Lockdep reproducer preserving this carrier reports:
+
+  BUG: sleeping function called from invalid context
+  #0: ... (&global_shared_desc.spinlock) ...
+  pinctrl_get_device_gpio_range
+  gpiochip_generic_config
+  [ BUG: Invalid wait context ]
+
+This looks similar to the Meson fix that marked the GPIO controller as
+sleeping when GPIO configuration is routed through the pinctrl-backed
+generic config path.
+
+The local draft I am considering marks only these controllers as
+sleeping:
+
+  pinctrl: at91-pio4: mark the GPIO controller as sleeping
+  pinctrl: stm32: mark the GPIO controller as sleeping
+  pinctrl: sunxi: mark the GPIO controller as sleeping
+
+The reason is that all three expose gpiochip_generic_config() and can
+therefore reach the pinctrl mutex from the GPIO set_config path, while
+their current gpio_chip registration does not set can_sleep.
+
+Two other candidates from the same audit, bcm2835 and keembay, are not
+part of this draft.  They use gpio_irq_chip::parent_handler, and gpiolib
+rejects chained interrupts on a GPIO chip that may sleep.  Setting
+can_sleep there would therefore break registration instead of fixing the
+contract; those cases need a separate irqchip design review.
+
+Does setting gpio_chip::can_sleep for the at91-pio4, stm32 and sunxi
+pinctrl-backed GPIO chips sound like the right fix for this set_config
+contract mismatch?  Or would you prefer this to be handled elsewhere in
+gpiolib/pinctrl so that set_config sleepability can be represented more
+narrowly than the whole gpio_chip?
+
+Thanks,
+Runyu
