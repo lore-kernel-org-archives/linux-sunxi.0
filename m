@@ -1,119 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF73221540
-	for <linux-sunxi@lists.linux.dev>; Thu, 18 Jun 2026 13:15:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 719EB3B14B7
+	for <linux-sunxi@lists.linux.dev>; Thu, 18 Jun 2026 13:21:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781788545; cv=none; b=jF8uuQsLR89bsXZOIqMf0yS0f1Rq+gCDdYpVUhWu4luuoaCWq/gU3II/8glUsZpk4m5sdcPW54jRRFZEq2RKbw2T7FPOWMokIh2uY0LQ2gTT8JyGiy+P8np3LqWHZdWta5b9SFpYYm3swFgH+3UiS96coH8k7N5ut77TP4JL2ao=
+	t=1781788917; cv=none; b=mqOOnwQqjBwWAQjmj7tLHhfudXpNlorfOG0hI0gQTPC//2he4dogLhMvXM7i6ntGbSc1NN4KyZQBhkw61H9RFKUpQkUZsAyChDLMGZDO2DZbsjyC8YB7egAA/jZ8klJa6zLaqebOG74FjOXAPKK8yDBlxdMZ6UCZAHEgjXJEwWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781788545; c=relaxed/simple;
-	bh=Y+XsArUPq8ODdNiyqMZyhNcaYe0u97N3N+XZcJCn/Vw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DpxLt3FEyLyn6jIuWtjdlSAptFWun15AnXDuLcwTWgtY5mlNJtJvwaMqID1cqHUCahWrM/f24N4eI4lSVSzsmVnqVPBZh6Hc9nUr7xRCpTJv5QQXuAMaSTWlZdNPAoP05D1cWVNRa3pUapnYn5wgQWvPKZ+ZbXW1e65EXq9d/iQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RvDj8lXa; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781788917; c=relaxed/simple;
+	bh=44O5xzVX89ZE0VHmF+rs/KTPfz/ziGKAGmb4RhPOxz0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lVIGRLHE2LZ//TkZjSWCXbCuY6ZGj8qpXwCEcAiK2V55o050O2gjAGjfYDBc7pHAUFFMFnUD2CgCQM7ESleMU+ilfNxlloiL1tkOYGq2PNYKO6/aVuIBWg9NUbpcUezbNTCSL4Q9u+GajoQRzEMaPiI32cyQeGXammD3dW8mQHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fWTC4Lvk; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RvDj8lXa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F45F1F0155D
-	for <linux-sunxi@lists.linux.dev>; Thu, 18 Jun 2026 13:15:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781788544;
-	bh=FAAn/mWJuuN5gL4FlLtNSl6vPNBasbbg1AXB8rDwhzk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=RvDj8lXapXNOvDW2rf9wVnNlwHPrTLK4sqXVu5/UvcJCFMrFeluBRbB7SYTQM7zqe
-	 5j3fADVyCzPW/FMNcXuGyIJkNXAG2eY10J+sPgFludxHZhQliRr+xytCmBOmIqI6rM
-	 iP9qCUbW3Ss9yE+rTytVTiMA+bZXsdkNCjy5RuuotGpr2ErLHf6ktGcAr8fWt7G2hv
-	 lC6t4g9zYopVfoicscD/Sjs4NJmrkTL0RJF7ejLsBWhgOc6va+W3+fwcZyVeUFoMYY
-	 prrIDR80FHzeKc4CM6LUoP7IozLBBYb8Ap5PSDKu2EPiQhuFVVPS/ZL1YEL7Z3LhUC
-	 i1SfWrn9Y2F8Q==
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-3967726bc47so9326581fa.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 18 Jun 2026 06:15:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8YOOSHpjn/cjj7uZ8De9Us6uupLnKAzW1TvK7yVuAXDYfzbKrYTltmSVvK48wqqokheRleWvjVdc9hpg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxWj90xB415Nh4ICxL4lmsHKeAzW5IOFtdsAG44Cx80KcZSKgId
-	7VExLHMsiPmvGKxcoZvunWZNL9OZZF34pZ6W2PFxyxQmI/bqtEyhzAI6EYdghkRN3rhGPh9YVbK
-	mqAMInjMsZuPWJcKyku3bGaJyk/avEaw=
-X-Received: by 2002:ac2:4f0f:0:b0:5ad:51ac:21d8 with SMTP id
- 2adb3069b0e04-5ad51ac22a4mr687097e87.14.1781788542680; Thu, 18 Jun 2026
- 06:15:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fWTC4Lvk"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c85b73ffb52so464870a12.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 18 Jun 2026 06:21:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781788908; x=1782393708; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tT13A6NAYZuTx/YyXo5jPcQ9raZMcUWUjalNNtxI2PQ=;
+        b=fWTC4Lvkp3aNuojvKwGqLJydKsoyypFk023qlSgnORKCDfMszbTn1Tlrk/nrATNsiD
+         CuB0wZJzVS3AfMWdIUJ0j0jYOJcqltQaK+y24Z+lzefrXJiQp2LvVtiTdzWAgco1hyOZ
+         vCdjfkkcm9art0wD5HFAUKp5QcUZ9EReHG2CK3pTDTvoTKtbV7Ea6pLlOheXvDoggqtJ
+         zDNMIPM5aO9HcvN7g7jZajBoRXBo7uG3/wyNC09abKbAUGOfHA1cPfFd+RjLrreQesKH
+         8qqrcy+GA3SXOtPfFQrN38wRXuEU/hL5YxZ+VSSwPkHhfY0zqIbkozrjNbcCxl/mI0zi
+         xjsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781788908; x=1782393708;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tT13A6NAYZuTx/YyXo5jPcQ9raZMcUWUjalNNtxI2PQ=;
+        b=PqEC0b1HfMNEtPc3371z2SH3VhkktkBRLnqZTLI5v15exQ16QP017vArTtiM13D/dv
+         KgUMm0MlHdqOYAKOcdoZeBgcQdyo9ylIJKFUP5Yo8D0Ff9v6N+s7n3G6t94YIrtb2grg
+         p88pjkTPcihpIKxtYP6WZJYwu/fsL4ZIOSaMqLTBV6G0JXdXjjz6Ic3i0r5pjCvxRizL
+         6fSt65kATaV1KcIaPEwRYUUn14G9kD7FWHYrNWQIsqblAms4NF5MTVHZNfDzBL+nvELE
+         6rkpP8c20oz4Bs1ho5oif+eL9eBUjK/NxqEASRtczkNHeV4sLsU59lG9P6L80VKnQzmq
+         JBIw==
+X-Forwarded-Encrypted: i=1; AFNElJ8Uw+bhaTsWDjX3iSZ3QMieqgL5R87Jlir4c1WHU040BNTQiiThlmjT9YZATe3bZegy4wz0X/bC/CK85w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyI7JQzzsb3MLhGjiCJDIBKkEo7NTDAgoEAgKt4Ph9gYMm4BWLc
+	XVLljHeWQrJwNr1zDpIvwDsOwYI85JyL3PTRcI0nU7rsumiHpH6Cm5fp
+X-Gm-Gg: AfdE7ck7/TmrIBdp3nZ8jpBBDb2yKGGrgygE9oRWUEYUdocOT/494TTj7akq2/RvslX
+	knES55xQiaYXyRZTYOx8aaoH5Ajsfob3CdHFDImQs1cboknUHmPIdU6ZmhzSn42i1xOGBmMmZM6
+	j9etiktrvHnKGzZtNmi/GXcmcEedGXZiAp7hXqaWkrlxx86qiUeeYffzx0mHyqplOckkLqS5BiO
+	vj4w84tiEozK7LSDihn9HQAVepu1Cs2EDGr4J9/XAFwHf7xIGqz81QnalGQ48QNwJVRDAeYMfbP
+	KP6/0Z7jnwGV2TqBRmtiG9iel4OppbXD50+M4zWbn/95ttKd2SxoJS2PAI7lpd067IEZC0Slvy+
+	q4AQqElz4hf8KI8+LZcXxiAjQOvrYc7PhI+HIiuEug8nJV6F3UuvAagtbFau4C0gnLiEN37j7OD
+	pnP0V1fezmIW4V/KHg/jGdypZ9CJ1aQIU0bIrJkuxC
+X-Received: by 2002:a05:6a21:a89:b0:3b4:6265:3788 with SMTP id adf61e73a8af0-3b9e7bdf93cmr5194540637.21.1781788908183;
+        Thu, 18 Jun 2026 06:21:48 -0700 (PDT)
+Received: from steellegend.taila75641.ts.net ([2401:4900:1c19:e45:6f99:fe25:8bbb:3a22])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8661b5ccafsm17676098a12.2.2026.06.18.06.21.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jun 2026 06:21:47 -0700 (PDT)
+From: Uday Khare <udaykhare77@gmail.com>
+To: andi.shyti@kernel.org,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org
+Cc: linux-i2c@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Uday Khare <udaykhare77@gmail.com>
+Subject: [PATCH 2/4] i2c: sun6i-p2wi: Fix device node reference leak in p2wi_probe
+Date: Thu, 18 Jun 2026 18:51:39 +0530
+Message-ID: <20260618132139.11114-1-udaykhare77@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260618053650.4053352-1-runyu.xiao@seu.edu.cn>
-In-Reply-To: <20260618053650.4053352-1-runyu.xiao@seu.edu.cn>
-From: Linus Walleij <linusw@kernel.org>
-Date: Thu, 18 Jun 2026 15:15:30 +0200
-X-Gmail-Original-Message-ID: <CAD++jLmW3vgTFryRAL24x2TbgbR1tbhjw-nFFH3askoZfSibaQ@mail.gmail.com>
-X-Gm-Features: AVVi8Cd4ajb_jyilwrzYqFD2Tx2XDqLDSoVk9kbdtiibfu6CS572v2FjQevMhk4
-Message-ID: <CAD++jLmW3vgTFryRAL24x2TbgbR1tbhjw-nFFH3askoZfSibaQ@mail.gmail.com>
-Subject: Re: Question: pinctrl-backed GPIO set_config and gpio_chip::can_sleep
-To: Runyu Xiao <runyu.xiao@seu.edu.cn>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Ludovic Desroches <ludovic.desroches@microchip.com>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Antonio Borneo <antonio.borneo@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, jianhao.xu@seu.edu.cn
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Runyu,
+In p2wi_probe(), the device node reference obtained via
+of_get_next_available_child() is stored in childnp. This reference is
+never released via of_node_put() - neither on the error path when
+of_property_read_u32() fails to read the 'reg' property, nor on the
+success path after the target address has been read.
 
-thanks for your analysis!
+Fix this by calling of_node_put(childnp) on both the error and success
+paths.
 
-On Thu, Jun 18, 2026 at 7:42=E2=80=AFAM Runyu Xiao <runyu.xiao@seu.edu.cn> =
-wrote:
+Fixes: 3e833490fae5 ("i2c: sunxi: add P2WI (Push/Pull 2 Wire Interface) controller support")
+Signed-off-by: Uday Khare <udaykhare77@gmail.com>
+---
+ drivers/i2c/busses/i2c-sun6i-p2wi.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-> The path we are concerned about is:
->
->   gpiod_set_config()
->     -> gpio_do_set_config()
->        -> gpiochip_generic_config()
->        -> pinctrl_gpio_set_config()
->        -> pinctrl_get_device_gpio_range()
->        -> mutex_lock(&pctldev->mutex)
+diff --git a/drivers/i2c/busses/i2c-sun6i-p2wi.c b/drivers/i2c/busses/i2c-sun6i-p2wi.c
+index dffbe776a195..1ef0e82eeb63 100644
+--- a/drivers/i2c/busses/i2c-sun6i-p2wi.c
++++ b/drivers/i2c/busses/i2c-sun6i-p2wi.c
+@@ -220,10 +220,13 @@ static int p2wi_probe(struct platform_device *pdev)
+ 	childnp = of_get_next_available_child(np, NULL);
+ 	if (childnp) {
+ 		ret = of_property_read_u32(childnp, "reg", &target_addr);
+-		if (ret)
+-			return dev_err_probe(dev, -EINVAL,
+-					     "invalid target address on node %pOF\n", childnp);
+-
++		if (ret) {
++			ret = dev_err_probe(dev, -EINVAL,
++					    "invalid target address on node %pOF\n", childnp);
++			of_node_put(childnp);
++			return ret;
++		}
++		of_node_put(childnp);
+ 		p2wi->target_addr = target_addr;
+ 	}
+ 
+-- 
+2.54.0
 
-That would be mutex_lock(&pinctrldev_list_mutex); would it not?
-
-> If gpiod_cansleep() returns false, a GPIO forwarder or another consumer
-> can choose an atomic carrier and call gpiod_set_config() while holding a
-> spinlock.
-
-I see the problem.
-
-> The local draft I am considering marks only these controllers as
-> sleeping:
->
->   pinctrl: at91-pio4: mark the GPIO controller as sleeping
->   pinctrl: stm32: mark the GPIO controller as sleeping
->   pinctrl: sunxi: mark the GPIO controller as sleeping
->
-> The reason is that all three expose gpiochip_generic_config() and can
-> therefore reach the pinctrl mutex from the GPIO set_config path, while
-> their current gpio_chip registration does not set can_sleep.
-
-But that's not the right solution is it? These controllers can probably
-just write a register and be done with it, they all look like they are
-memory-mapped? That means we introduce sleep where not needed.
-
-Can we simply replace pinctrldev_list_mutex with a spinlock?
-The list isn't gonna be huge and all in-memory anyway.
-If it takes too much time we need to think about putting the
-ranges in a better data structure such as the maple tree.
-
-mutex_lock(&pinctrldev_list_mutex); could then be turned
-into spinlock_irqsave() or even better
-guard(spinlock_irqsave)(&pinctrldev_list_lock) in
-pinctrl_get_device_gpio_range().
-
-This would mean we just take two different spinlocks in seqence
-and save state in each so it should work just fine.
-
-Yours,
-Linus Walleij
