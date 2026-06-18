@@ -1,167 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A74F43B2FC2
-	for <linux-sunxi@lists.linux.dev>; Thu, 18 Jun 2026 14:13:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F6742AA9
+	for <linux-sunxi@lists.linux.dev>; Thu, 18 Jun 2026 14:37:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781791998; cv=none; b=XfUYSmokeM5fv8xlvJJxKFWzg4M3q1VBXMVXX11NaHnZMInLgh5tQmSFUweCOV0vq2FxrZ9VfI7GSix9TgFIUxHErs9lmOBKmDwC2X97hHVaZyH8BP+WTRyoeQ0w1N5axDrEsrIwIgQG73vVb+3OCHUjr7sizqu5W7HQbJK99Iw=
+	t=1781793459; cv=none; b=TFY2xQvnoYsZweQEUFPWM/RQapxt89QQcYd2KqumbV9bQuWxiwpVW0eMTUOIP3Gw5Ix6uH1UhxGuheimQD4eYyklu1EOcgEdwgF0/SXOoPoaGPwhbWb2eEJeSqD0CMpSJDlH2CxDRCCu31YV5ArMywzJ7ABJdBRevihsPKxCvbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781791998; c=relaxed/simple;
-	bh=qQQ8HbpwgcH5pGuLi940mCfFJdR8vltV6hQ41AqNE9E=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=C1qmmbF/J87IrFcTOtE4w/0paHNq4rPUxSZopxbp/sjP2bP2860cRAr1Ne9UUpFyz1wuEL3EthtyScUPbzwEh24clm2xsN1i87b1qQa9hXG5MmmmyTPKwsplrpWy/AqOXdmFXusAlYC2UM4lFtUna6CXVy1YmY+1lvA7eF365yo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FhOV9qw1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781793459; c=relaxed/simple;
+	bh=3RrLXo8g5qNVx7ZmgCg1GjrH6fG8zBsnfo5ZLbth0eQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bqnfgk4pKZVd+P5cBjLNKzTAnsKkSZTLl1grswyuYiA4mpKUtlLnJNjeksoPPu6VgnGs1azvqlaqzql0YaS59aJoiR4kvlb5zRM4IyGQ+JJCWljTtSn9C3MOsjm/zbmAX52Ema3OwlFRgkBuaOkdMchN5CZFQoRKgCVT5SpAtoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qwWClK1S; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FhOV9qw1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2366B1F00ADF;
-	Thu, 18 Jun 2026 14:13:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781791997;
-	bh=BV7/hD3HQ/Tz8aGtlanGp4CmzgZV3ZHNnVCr4T8tILQ=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=FhOV9qw1spM9PqAlK+x+46zRDstyaA1e0wuwjCkdiRBySOg0FpeF0vA1dhnH/ejRP
-	 ROdO1jLic/MtA9cIVPd7Skj/yTxSLKkRDm1TWHYE157qB7geK5yclEDYAPK6NNrmKi
-	 w1Wg+DBh4AfTyQyHCMZjgnreC23FOWOQfqBGeB4PkaPMU8p0iQFJZheD+62uuMfXqL
-	 hWXtdGh+Kdkg8cXNT0gFtD9lR7JseSB87WwPFKCle2Q3mECXRcq/A7XrYpvaukHojN
-	 FuiSOgcgIGShHBXt4eku0sNX1ZZVnmwFCsFHbGNbVN+6+js8tU+EdvkURBkKhPHR8l
-	 qq2t4E5P+eRTA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] i2c: sun6i-p2wi: Fix device node reference leak in
- p2wi_probe
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Uday Khare" <udaykhare77@gmail.com>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260618140525.11526-1-udaykhare77@gmail.com>
-References: <20260617194522.114984-1-udaykhare77@gmail.com>
- <20260618140525.11526-1-udaykhare77@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 18 Jun 2026 14:13:16 +0000
-Message-Id: <20260618141317.2366B1F00ADF@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qwWClK1S"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2c0c3546924so9025375ad.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 18 Jun 2026 07:37:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781793457; x=1782398257; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eWNFSAoF1QlxpTcEDqHs6xokC99S7BGwHt6RGWcEFBE=;
+        b=qwWClK1Sn1jbo1Q5ctiGC2wk9t/+Mby4P2aO55tNPLDy9hjzqT2G1jNOwzi42myUd/
+         meQoXM5dKjUs7uXWPMMFaQ0zWeJNJq/CfYAbOkKI8QbyT3MWkrwS6El+xJ9y5MllfDPr
+         Jq4GI5nTNhIYGilKrfA8sSxkcCrTSW/snKm+ii2sxHn/Si2ydqOJ2yddbxR8Kif474pa
+         D9TsF9puWNP07zMlxSb57zjz8XKtCNX66Y0lrWo9SVwbc0DUfMvfNm/Aa+SCbSXwjxgx
+         8yB7heBz21ow72Bkp1Z8ubCRQ6NLXY1NQtEJr/hnFTWoC1RjW0TXnXNmKtED6BEB+KH7
+         o52g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781793457; x=1782398257;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eWNFSAoF1QlxpTcEDqHs6xokC99S7BGwHt6RGWcEFBE=;
+        b=EGsIa5J2eH3C1B+X9ivKBK/3d/AFdy6kAWtEtyeYztexCFQHdjNZo2TTIbmCVpgJ07
+         dnxkAdhG4pSeeDyyK31OBT0LYc7VB0sqGOIuIo8+C6+G98b5xFTe8+i9O5Y75L6Eh5FR
+         xI0ewP8+Yfwu27hOjDCyxLLahzwbHGTLb+9e3hjO8CB9fDOaUnXabrbNjLOq2+5UwbDY
+         iYFwf+wmPhXE8wWaSfrtLWK8HyETuZ43XxT2bzwPKMs4WvUKTtClZSztiDW7ezfgCO1Y
+         HC42/SRrvm9P74Gt173WFepgG9irGklwDXTXaFYHOtEFS3b8lWL62pB94lA8YqoBqfgX
+         rP3A==
+X-Forwarded-Encrypted: i=1; AFNElJ9kaK0SsikCib4J1hflrV4bOoXeuMjP/3rmT0WfmhcyD4tSwBcZY7Jjgit9IsWyn8SobxK0QRpTM50yFg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyMXlBrbqOuCEtTDDgfa+CgjfKhralEOCL59PQ+wauDLsD0pXs3
+	+d4ahEVr9zce60QzqBfEKfMFWMyjwuyWZlZhfM90zLeU17BMXZ8b41to
+X-Gm-Gg: AfdE7cl/nssrb3eLq09Bf5QrazathskaeFIzkk9qe17U8kYKl3SyBljFD9G6HYCvqwa
+	boVcE/0xdaUCPYnuvw1Fzr5Av6+hhMSblLztGbaxq+nXxrF4w5zlpQr4M1dgRc6XY+Qr35QYFFS
+	VFmMnWS6gAYPgxjPOwF6ebfIqYcibe1D7w/HchHFuNINXV/sF4YrrdZapbtcu7CcJ3ngeFsXMZd
+	8OWZR8upWLQcMmNYiE3j0qEhN+81arUA+duBRKB093T0HgknJ0mCpWV62ckIjPNk82XEDadrVIE
+	6yPL2HzkLEaOPWFrZWo75ljaaq63TQhq9gni0pQi845c0raaft0w+dumSPornMJqXstO9fTOTMJ
+	iOc1bdTmsWXzYd26FVYj7QgXZTolJVuPHE5EJCYeTnsWRIN+8YN+91v1SYt5LyZw3mTRjeSRS8S
+	tPp9ij5qplXt4tEAx3du6ivXTQA0aKF1ejhoXq7ZC8sA==
+X-Received: by 2002:a17:902:f64d:b0:2bf:1e59:d99 with SMTP id d9443c01a7336-2c6e47253b2mr49138885ad.8.1781793457447;
+        Thu, 18 Jun 2026 07:37:37 -0700 (PDT)
+Received: from steellegend.taila75641.ts.net ([2409:40c4:35e:20d7:2ccf:7534:4b88:ba43])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c6f9aec764sm22554115ad.2.2026.06.18.07.37.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jun 2026 07:37:36 -0700 (PDT)
+From: Uday Khare <udaykhare77@gmail.com>
+To: Andi Shyti <andi.shyti@kernel.org>
+Cc: Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Wolfram Sang <wsa@kernel.org>,
+	linux-i2c@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Uday Khare <udaykhare77@gmail.com>
+Subject: [PATCH v3] i2c: sun6i-p2wi: Fix device node reference leak in p2wi_probe
+Date: Thu, 18 Jun 2026 20:07:27 +0530
+Message-ID: <20260618143727.18534-1-udaykhare77@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-
-New issues:
-- [Medium] Mixing `goto`-based error handling with scope-based `__free()` c=
-leanup in the same function.
-
-Pre-existing issues:
-- [High] Hardware reset is asserted before unregistering the I2C adapter, r=
-isking bus faults during concurrent access.
-- [High] Indefinite sleep in `wait_for_completion()` can cause a permanent =
-bus deadlock if the hardware misses an interrupt.
---
-
-commit e9f19d117f2197dcc4d4457a0ba48848fb326e26
-Author: Uday Khare <udaykhare77@gmail.com>
-
-i2c: sun6i-p2wi: Fix device node reference leak in p2wi_probe
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
 In p2wi_probe(), the device node reference obtained via
 of_get_next_available_child() is stored in childnp. This reference is
 never released, causing a device node reference leak.
 
-Fix this by declaring childnp with the __free(device_node) cleanup
-attribute, which automatically releases the device node reference
-when childnp goes out of scope.
+Fix this by calling of_node_put(childnp) on both the error and success
+paths.
 
-> diff --git a/drivers/i2c/busses/i2c-sun6i-p2wi.c b/drivers/i2c/busses/i2c=
--sun6i-p2wi.c
-> index dffbe776a195d..8469a0ea98d7d 100644
-> --- a/drivers/i2c/busses/i2c-sun6i-p2wi.c
-> +++ b/drivers/i2c/busses/i2c-sun6i-p2wi.c
-[ ... ]
-> @@ -217,7 +217,9 @@ static int p2wi_probe(struct platform_device *pdev)
->  	 * In this case the target_addr is set to -1 and won't be checked when
->  	 * launching a P2WI transfer.
->  	 */
-> -	childnp =3D of_get_next_available_child(np, NULL);
-> +	struct device_node *childnp __free(device_node) =3D
-> +		of_get_next_available_child(np, NULL);
-> +
+Fixes: 3e833490fae5 ("i2c: sunxi: add P2WI (Push/Pull 2 Wire Interface) controller support")
+Signed-off-by: Uday Khare <udaykhare77@gmail.com>
+---
+v3:
+- Revert back to manual of_node_put() because the function uses goto-based
+  error handling, and mixing the two styles is discouraged (reported by
+  Sashiko-bot).
+v2:
+- Use __free(device_node) and include <linux/cleanup.h> to automate the device
+  node reference cleanup instead of manually calling of_node_put() on error and
+  success paths (suggested by Chen-Yu Tsai).
 
-[Severity: Medium]
-Does this mix scope-based cleanup with goto-based error handling?
+ drivers/i2c/busses/i2c-sun6i-p2wi.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-p2wi_probe() continues to use a goto label for manual cleanup of the reset
-controller further down:
+diff --git a/drivers/i2c/busses/i2c-sun6i-p2wi.c b/drivers/i2c/busses/i2c-sun6i-p2wi.c
+index dffbe776a195..7c0239f8937e 100644
+--- a/drivers/i2c/busses/i2c-sun6i-p2wi.c
++++ b/drivers/i2c/busses/i2c-sun6i-p2wi.c
+@@ -184,7 +184,6 @@ static int p2wi_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+ 	struct device_node *np = dev->of_node;
+-	struct device_node *childnp;
+ 	unsigned long parent_clk_freq;
+ 	u32 clk_freq = I2C_MAX_STANDARD_MODE_FREQ;
+ 	struct p2wi *p2wi;
+@@ -217,14 +216,19 @@ static int p2wi_probe(struct platform_device *pdev)
+ 	 * In this case the target_addr is set to -1 and won't be checked when
+ 	 * launching a P2WI transfer.
+ 	 */
++	struct device_node *childnp;
++
+ 	childnp = of_get_next_available_child(np, NULL);
+ 	if (childnp) {
+ 		ret = of_property_read_u32(childnp, "reg", &target_addr);
+-		if (ret)
++		if (ret) {
++			of_node_put(childnp);
+ 			return dev_err_probe(dev, -EINVAL,
+ 					     "invalid target address on node %pOF\n", childnp);
++		}
+ 
+ 		p2wi->target_addr = target_addr;
++		of_node_put(childnp);
+ 	}
+ 
+ 	p2wi->regs = devm_platform_ioremap_resource(pdev, 0);
+-- 
+2.54.0
 
-	ret =3D devm_request_irq(dev, irq, p2wi_interrupt, 0, pdev->name, p2wi);
-	if (ret) {
-		dev_err_probe(dev, ret, "can't register interrupt handler irq%d\n", irq);
-		goto err_reset_assert;
-	}
-	...
-err_reset_assert:
-	reset_control_assert(p2wi->rstc);
-
-Mixing goto-based error handling and __free() declarations in the same rout=
-ine
-is discouraged in include/linux/cleanup.h as it can create confusing owners=
-hip
-semantics and increases the risk of double-free bugs.
-
-Should the entire routine either be converted to use scope-based cleanups
-exclusively, or rely solely on goto with manual of_node_put()?
-
->  	if (childnp) {
->  		ret =3D of_property_read_u32(childnp, "reg", &target_addr);
->  		if (ret)
-
-[Severity: High]
-This is a pre-existing issue, but does p2wi_remove() tear down resources in
-the wrong order?
-
-p2wi_remove() asserts the hardware reset before unregistering the i2c adapt=
-er:
-
-static void p2wi_remove(struct platform_device *dev)
-{
-	struct p2wi *p2wi =3D platform_get_drvdata(dev);
-
-	reset_control_assert(p2wi->rstc);
-	i2c_del_adapter(&p2wi->adapter);
-}
-
-This places the underlying hardware into a reset state while the i2c adapter
-abstraction is still actively registered. If a concurrent i2c transfer
-(p2wi_smbus_xfer) is executing or initiates, the driver will perform i/o
-operations on hardware registers of a reset device, which could cause an
-unrecoverable system crash or hang.
-
-Should i2c_del_adapter() be called first to flush pending transfers and pre=
-vent
-new ones before shutting down hardware resources?
-
-[Severity: High]
-This is another pre-existing issue, but could p2wi_smbus_xfer() cause a
-permanent bus deadlock?
-
-The transfer function p2wi_smbus_xfer() calls wait_for_completion() without
-a timeout:
-
-	writel(P2WI_CTRL_START_TRANS | P2WI_CTRL_GLOBAL_INT_ENB,
-	       p2wi->regs + P2WI_CTRL);
-
-	wait_for_completion(&p2wi->complete);
-
-This function is invoked with the i2c bus lock held by the caller. If the
-hardware fails to generate an interrupt due to a bus glitch or hardware fau=
-lt,
-the task will block indefinitely in the uninterruptible state. This
-permanently deadlocks the entire i2c bus.
-
-Would it be safer to use wait_for_completion_timeout() to allow recovery fr=
-om
-hardware faults and propagate the error?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260618140525.1152=
-6-1-udaykhare77@gmail.com?part=3D1
