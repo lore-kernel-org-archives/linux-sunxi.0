@@ -1,201 +1,127 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BBB03B8D7E
-	for <linux-sunxi@lists.linux.dev>; Fri, 19 Jun 2026 16:25:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7277A17A2F6
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 Jun 2026 22:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781886306; cv=none; b=Ga1q+uIfIh+N1gt1vS0nZJyATIHequW0MP0gFpwQdnxWzC+FZPAhMhaQ1uXc5SQEhEl8NohRYRx9rvE5OgtvrBCwnJCUoShfF8hEYFW92ijZBhXZIl4tymqqCvUFcV74dZgkLFxoaBwOidiB6hj5yWIDHU6aTnjO0jHIv8Epxng=
+	t=1781908244; cv=none; b=iQutRebAOo7OWdFY3rlErNQ+pKFc0YxdigOPkHyYKVD23FOjbKie+A7T40guHVEfSGrrJZlGBPv1JWUcv0JO73qJJ51zoBDTikKOb1LdkNgKJq4N6h7BOx9TvGcRca5FJU3IJohf68vcqZNGA7KuQZkwQ6dYPr8vDLT72+DM8Bo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781886306; c=relaxed/simple;
-	bh=0R25ISdpc+AAKuQJQAHUFKomgtbaxc7SSl/fsBbkLEs=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=e+bu73OKR3umS5rETRYgoXyVEa/QNBmL5Y6caQJitpTQ2v6TAYxceb8KSEFQ/UrbKoH+Gfw1eszjVNM2R3GlAzX6AMYGo1v0bi003V/R6X9tBwMZEwcAZa2raeB99vbmjBiYyWjpnx4K8qlQqVFLtKN0xD8hPFekYB9zEcHTdg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jY8Egj58; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jY8Egj58"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id BFDE34E42FCF;
-	Fri, 19 Jun 2026 16:25:01 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 6D0F4601AD;
-	Fri, 19 Jun 2026 16:25:01 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 08E5B106C81BC;
-	Fri, 19 Jun 2026 18:24:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1781886299; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Xrx5VoO25eYm5EH6Wc6vNdgK+6vpuoEcmvN4eX6Cvok=;
-	b=jY8Egj58zUWOmsPwj9vynk2NQy9hCh/a+LGJvBDk3DqRfyL+FJQIuyDJQRRohvDhOBXcnW
-	//AvVJmy/V7tylN+21mDLl593BLUfcG3dz090WmD7UcN98JIRVRLQ/m5l7+EC2wkNUXoNu
-	OY3r/fPM8V0Ey5z04hzY+MHXR+FXcsckzsiV8jrezwluFXHT8MZBukmQNizYV+LllFdQFg
-	Nq8mjjsoK8DWc4IXuaLUWlBpL/WCM0pLIK5BmeG/ZousyZJb+/ny8SsYGoB3m1Nbz1HyNz
-	3bGNW8rAc8osqfVrmerKyh25ch/VkV9XZdD23tG58EnuIwQFtxnCNKSDDWhrYg==
+	s=arc-20240116; t=1781908244; c=relaxed/simple;
+	bh=2J5iteL++W9LFbLxKGQ7z7LRk+KYEFhM2vXDyldxDsw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cG/zetTqCMy7XQDWdUVPvEDjdlfR7c0Oz1uOXVKjr9WlDkvHPsMlKYelyjPxk9XZ1HrlNqld8sa5BY3oqm8+YMLRSsUbepUeoUnrpvURof2UHpeuyG1am/2IFzrD8GNvVwyTuud8isNR24YdLB40aaj1JesaQT+UWg2xJJhk/KI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Received: from localhost (unknown [116.232.124.22])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dlan)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 10CEA342EC1;
+	Fri, 19 Jun 2026 22:30:40 +0000 (UTC)
+Date: Fri, 19 Jun 2026 22:30:30 +0000
+From: Yixun Lan <dlan@gentoo.org>
+To: Denis Burkov <hitechshell@mail.ru>
+Cc: Andre Przywara <andre.przywara@arm.com>, u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] gpio: axp: Add support for devicetree
+Message-ID: <20260619223030-GYA3523907@gentoo.org>
+References: <20260121115437.31406-1-hitechshell@mail.ru>
+ <2e9b4819-de5c-49ca-a42a-241cf11ef62b@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 19 Jun 2026 18:24:46 +0200
-Message-Id: <DJD5YZ2K1047.3UJ5QMMLQO6UY@bootlin.com>
-Subject: Re: [PATCH v6 15/19] drm/connector: Add new atomic_create_state
- callback
-Cc: <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Daniel Stone" <daniels@collabora.com>,
- <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
- "Laurent Pinchart" <laurent.pinchart+renesas@ideasonboard.com>
-To: "Maxime Ripard" <mripard@kernel.org>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
- <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
- <skhan@linuxfoundation.org>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>, "Jyri Sarha" <jyri.sarha@iki.fi>,
- "Tomi Valkeinen" <tomi.valkeinen@ideasonboard.com>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Simon Ser"
- <contact@emersion.fr>, "Harry Wentland" <harry.wentland@amd.com>, "Melissa
- Wen" <mwen@igalia.com>, "Sebastian Wick" <sebastian.wick@redhat.com>, "Alex
- Hung" <alex.hung@amd.com>, "Jani Nikula" <jani.nikula@linux.intel.com>,
- "Rodrigo Vivi" <rodrigo.vivi@intel.com>, "Joonas Lahtinen"
- <joonas.lahtinen@linux.intel.com>, "Tvrtko Ursulin" <tursulin@ursulin.net>,
- "Chen-Yu Tsai" <wens@kernel.org>, "Samuel Holland" <samuel@sholland.org>,
- "Dave Stevenson" <dave.stevenson@raspberrypi.com>,
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, "Raspberry Pi Kernel
- Maintenance" <kernel-list@raspberrypi.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.21.0
-References: <20260526-drm-mode-config-init-v6-0-852346394200@kernel.org>
- <20260526-drm-mode-config-init-v6-15-852346394200@kernel.org>
-In-Reply-To: <20260526-drm-mode-config-init-v6-15-852346394200@kernel.org>
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <2e9b4819-de5c-49ca-a42a-241cf11ef62b@arm.com>
 
-Hello Maxime, Dmitry, all,
+Hi Denis,
 
-On Tue May 26, 2026 at 6:46 PM CEST, Maxime Ripard wrote:
-> Commit 47b5ac7daa46 ("drm/atomic: Add new atomic_create_state callback
-> to drm_private_obj") introduced a new pattern for allocating drm object
-> states.
->
-> Instead of relying on the reset() callback, it created a new
-> atomic_create_state hook. This is helpful because reset is a bit
-> overloaded: it's used to create the initial software state, reset it,
-> but also reset the hardware.
->
-> It can also be used either at probe time, to create the initial state
-> and possibly reset the hardware to an expected default, but also during
-> suspend/resume.
->
-> Both these cases come with different expectations too: during the
-> initialization, we want to initialize all states, but during
-> suspend/resume, drm_private_states for example are expected to be kept
-> around.
->
-> reset() also isn't fallible, which makes it harder to handle
-> initialization errors properly. This is only really relevant for some
-> drivers though, since all the helpers for reset only create a new
-> state, and don't touch the hardware at all.
->
-> It was thus decided to create a new hook that would allocate and
-> initialize a pristine state without any side effect:
-> atomic_create_state to untangle a bit some of it, and to separate the
-> initialization with the actual reset one might need during a
-> suspend/resume.
->
-> Continue the transition to the new pattern with connectors.
->
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+On 15:50 Fri 19 Jun     , Andre Przywara wrote:
+> Hi Denis,
+> 
+> thanks for sending this patch!
+> 
+> On 1/21/26 12:54, Denis Burkov wrote:
+> 
+> I am afraid you need to put some commit message in here. You can refer 
+> to the comment you are removing, so that there *is* now DT support for 
+> the AXP GPIOs. But also please mention what this fixes - why do we need 
+> this patch? If you can provide an example usage, it would be easier to 
+> take this patch.
+> 
+I agree, describe what's problem to solve.. mainly I think this patch
+coverting the driver into device tree aware, so it will probe axp-gpio
+based on if the target dts support it or not..
 
-As I'm rebasing another series on current drm-misc-next, which now includes
-this patch, I ran into troubles and I'm not sure what is the right thing to
-do. I hope you can help me clarify this. See below for my question.
+> > Signed-off-by: Denis Burkov <hitechshell@mail.ru>
+> > ---
+> >   board/sunxi/board.c     |  4 ----
+> >   drivers/gpio/axp_gpio.c | 28 +++++++++++-----------------
+> >   2 files changed, 11 insertions(+), 21 deletions(-)
+> > 
+> > diff --git a/board/sunxi/board.c b/board/sunxi/board.c
+> > index 2929bc17f08..3c61bfb8822 100644
+> > --- a/board/sunxi/board.c
+> > +++ b/board/sunxi/board.c
+> > @@ -226,10 +226,6 @@ int board_init(void)
+> >   	}
+> >   #endif /* !CONFIG_ARM64 && !CONFIG_MACH_SUNIV */
+> >   
+> > -	ret = axp_gpio_init();
+> > -	if (ret)
+> > -		return ret;
+> > -
+> >   	eth_init_board();
+> >   
+> >   	return 0;
+> > diff --git a/drivers/gpio/axp_gpio.c b/drivers/gpio/axp_gpio.c
+> > index 181c53bfe72..1c5882a25d4 100644
+> > --- a/drivers/gpio/axp_gpio.c
+> > +++ b/drivers/gpio/axp_gpio.c
+> > @@ -98,35 +98,29 @@ static const struct dm_gpio_ops gpio_axp_ops = {
+> >   
+> >   static int gpio_axp_probe(struct udevice *dev)
+> >   {
+> > +	int ret;
+> >   	struct gpio_dev_priv *uc_priv = dev_get_uclass_priv(dev);
+> >   
+> >   	/* Tell the uclass how many GPIOs we have */
+> >   	uc_priv->bank_name = AXP_GPIO_PREFIX;
+> >   	uc_priv->gpio_count = AXP_GPIO_COUNT;
+> >   
+> > +	ret = pmic_bus_init();
+> > +	if (ret)
+> > +		return ret;
+> > +
+> >   	return 0;
+> >   }
+> >   
+> > +static const struct udevice_id gpio_axp_match[] = {
+> > +	{ .compatible = "x-powers,axp209-gpio" },
+> 
+> Why is it only this compatible string? What about the others? I guess 
+> the driver was just not enabled on newer AXPs before?
+> Can you maybe look what it takes to support the other PMICs? If you look 
+> at the Linux driver, that's mostly about what pins each AXP supports.
+> 
+For Linux driver, I think Andre refer to the AXP209 GPIO driver [1]
+and two more compatibles "x-powers,axp221-gpio", "x-powers,axp813-gpio" are needed
 
-FTR the series I'm rebasing is "drm bridge hotplug", but the question is
-not specific to that series.
+Please also check the ".gpio_status_offset" which differ in device data
 
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -616,11 +616,19 @@ int drmm_connector_hdmi_init(struct drm_device *dev=
-,
->
->  	/*
->  	 * drm_connector_attach_max_bpc_property() requires the
->  	 * connector to have a state.
->  	 */
-> -	if (connector->funcs->reset)
-> +	if (connector->funcs->atomic_create_state) {
-> +		struct drm_connector_state *state;
-> +
-> +		state =3D connector->funcs->atomic_create_state(connector);
-> +		if (IS_ERR(state))
-> +			return PTR_ERR(state);
-> +
-> +		connector->state =3D state;
-> +	} else if (connector->funcs->reset)
->  		connector->funcs->reset(connector);
+Link: https://elixir.bootlin.com/linux/v7.1/source/drivers/pinctrl/pinctrl-axp209.c#L429 [1]
+> And peeking into the driver here, there are some #ifdef's in there 
+> (AXP_GPIO[23]_CTRL), I think now collides with the DT description, and 
+> whatever this was doing should be detected at runtime, potentially by 
+> supporting multiple compatible strings.
+> 
+Agree, should fold these info into compatible data with multiple compatible
 
-Here a state is added to connector->state, and that's fine.
-
-However non-HDMI connectors don't get a state created by default.
-
-I was hit by this with the drm_bridge_connector which it can add either an
-HDMI or a non-HDMI connector [0]. In the former case it calls
-drmm_connector_hdmi_init(), which creates the state (in the hunk quoted
-above). In the latter case, as I experienced at runtime and confirmed by
-code inspection, it does not create a state: no one calls
-connector->funcs->atomic_create_state.
-
-I suspect this is related to patch 19/19 which converted the
-drm_bridge_connector from drm_atomic_helper_connector_reset() to
-drm_atomic_helper_connector_create_state(), and only the former sets
-'connector->state =3D conn_state'.
-
-Generally speaking, looks like a state is created only for HDMI
-connectors.
-
-The hardware I have uses the drm_bridge_connector in the non-HDMI case, so
-the state is not created and this results in a NULL pointer deref later on,
-in my case it's in in drm_atomic_connector_get_property().
-
-Am I missing anything obvious?
-
-For now I've come up with a quick workaround, adding (roughly after
-connector init at [1]):
-
-        if (!connector->state)
-                connector->state =3D drm_bridge_connector_create_state(conn=
-ector);
-
-I'm not sure which would be the best solution. Maybe taking the whole
-atomic_create_state/reset state creation calls [2] from
-drmm_connector_hdmi_init() and hoist them up into
-drmm_connector_init(), so all connectors benefit?
-
-Let me know what you think.
-
-[0] https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/7a921d11181065267=
-2e02c392b35fdcefa4d5030/drivers/gpu/drm/display/drm_bridge_connector.c#L995=
--1029
-[1] https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/7a921d11181065267=
-2e02c392b35fdcefa4d5030/drivers/gpu/drm/display/drm_bridge_connector.c#L103=
-0
-[2] https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/7a921d11181065267=
-2e02c392b35fdcefa4d5030/drivers/gpu/drm/drm_connector.c#L617-631
-
-Kind regards,
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+-- 
+Yixun Lan (dlan)
