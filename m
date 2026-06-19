@@ -1,56 +1,59 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B9D35202C
-	for <linux-sunxi@lists.linux.dev>; Fri, 19 Jun 2026 07:44:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E3A32B134
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 Jun 2026 09:01:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781855053; cv=none; b=bSyPrSbY2bu0Uic5vp8xdmwqBTlfYWyj07QQBe3G+ewILcL96oEmpGpm49wFwXBmfOzKb6DQ6NfBM+EmISptcnaVQkkfvdUQHtlGsFO9KjtbBDvVGB53cdx8Q+tLZlshRP2FMiNUBjiDERo4DteDbybF1fPe+pkjfM+SMUpYyO4=
+	t=1781859709; cv=none; b=AtExxDuTC6ZbL4DJ38XpXHbZI4TYqWS0upNe9M6DAPAAVwu9tRSaPYtuV7/VV9URBwdU80WDmC4qVonFOss07R/6rPDw8teokyfJIjUcReQUB4yfToh1DOSxLcikSzZjDAAoH8L8O6KzzmETzzV4yP3On1VaBNG+/rf6baGmXdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781855053; c=relaxed/simple;
-	bh=LVUjyiZgA0ioOsTkCjLp4qkgyz2l8SR9tYVVwpMeBPk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KmuNx3evru+kzmHUnT0CtrCbcjqZi8ziABDSX3JlKwSmBt3uMICTn+KqHCVIU91qtPZBspes/H0VKXXtGa4VIDXwNnZpcdD+6Yotti96y3EQ9PssqMZdKxoHRbzLrpeekniwvkE9uwATMeFD9eJF0PWXZMHtcP3u89COkbEc73A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D4KlcMZW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781859709; c=relaxed/simple;
+	bh=zU4s142hiv5ZJGw/ISAGSflbdb5JqkT2RwmoTGOe2D8=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QQC8l4XksvtLI0seHVjwpRx4dIAo1jP8XbPLUAv/p92Z38bt0IILt1Ey0wtF+Uh4Ha4hK2XvwHvTjEcHxYmcnRS0ooxYdmhNKDhwuah9sN5Rno2ILw6RJYZ5hcOftEweOCC7s9XWEyzv0MbuI8FO4RXF/UMzGSGTS9Il46Thhik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cFZb9JqS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D4KlcMZW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D8961F0155C
-	for <linux-sunxi@lists.linux.dev>; Fri, 19 Jun 2026 07:44:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cFZb9JqS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19FF71F00AC4
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 Jun 2026 09:01:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781855052;
-	bh=b07NeBKHmWEsMBrslV3njAnQXC0YyuL7comfc7gkAqs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=D4KlcMZWcEbII5o06cTlozauqpbocsERRnGTgzKHEJV6aSKOMbSzUrQD8DbLTwfxG
-	 Otfrd9/730NY49a3WLOuASWRZ3BY72X28GrB/Oj7Uoat7XK4ZjxL14U2O6I5MQcu5m
-	 o0rXWYiK5SmKwhdEhPpkNoTjIIWH4LnIYCnZylfr4jI3mtcM3VWTWbtfoG3h6sMiuy
-	 mJC4x3k/YfXEayDyEdHsX4QIOM6DXAvU/Q8wABxoOq+GJpSM4pIKRrMIe7opmczwbL
-	 XKmvnbTspGK/ohhzgFixJVPkRqP2K3U63L7ZnBQp4QR0Kkze+NzPA+wMJ+pSo4vsrd
-	 8RtZm9mSbQqpw==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5ad4d262fc1so1513309e87.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 19 Jun 2026 00:44:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ98gwxTcDnj06xRyGXd1AxDxV6Mv/YcsaTd+ysTDbwMc2L5tzQdKvymquXkS+rljuWTJ47HsHPqRo/TIA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxUfSHluTLaRfjEa8UN3yhG/tl3CcwJjECuOwSXi4Zwl5kjJzdz
-	50IiVv/AIf2a7YDLtN6wa8bA36wuHMmEB5zg47Qj5JNK/V4LFQ2etatUgb8OH/b8719ailkk92e
-	ZfQlxYSPJ8+uNr9xrB/ikriGPuqe4bdU=
-X-Received: by 2002:ac2:51ce:0:b0:5aa:5f11:ddb9 with SMTP id
- 2adb3069b0e04-5ad562dbb2bmr842962e87.40.1781855050988; Fri, 19 Jun 2026
- 00:44:10 -0700 (PDT)
+	s=k20260515; t=1781859708;
+	bh=Y5VtAymxlLFEtb0U6jcGmlhzLhg//OIMtC8T2ioCYrc=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=cFZb9JqSPtnh8VwXU7oKlMKiSPgRJmzZnIAd1QeGARdtrTOXzyFwBw8CQeMAKb/mO
+	 IlRLx9yBLuddW8AgBZ1+jHzpLszyAp1IVF1qhFE4LghsaJ+Uj1VwzjXYaJNo+kh5Zf
+	 KwrUJc13uiSw19BaVUia2ZfmmJuSAPBeVHmrqPfuFI9XfZOBYbheQpi2tVFzNLz4Lm
+	 3nukAGpY4S488Gaxjjcq4nYc8JVlj/PtPvSsjP6HJ87/p13zr8/xTgBkJnj1W3dO0x
+	 Ub60SWVqtpNCO9W+l2i1MpAFEXa6NrSPAEwIwxIY8buLyQHmPvhtl/EzH803l9LtcT
+	 XzezWFVGTNrnQ==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5ad58fe9030so391383e87.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 19 Jun 2026 02:01:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9cnT1YfUT3KXx+pCLK3U3euIrwsekpskXPly+YDc6WL2kv1eCiY/vOCjTi/elF+t8KVmg4JoitWQWQpQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxkJse2IAigOcl4Pyy+PnYCqIEa7dyLDHB79DeRrZ97x+tiAi1h
+	cRc7ss+qWqE2CBBYkopHVMIQPG/q5rQJEpHa/GI/X9+Yh4kK0snqkTDwQf99JlqHm6f/QFXbPWz
+	GJGwFoOH4keon5z55uVD5tcfGbp37FmVr40XruYc0gw==
+X-Received: by 2002:a05:6512:32cd:b0:5ad:5454:ce36 with SMTP id
+ 2adb3069b0e04-5ad576e14f5mr699548e87.14.1781859706741; Fri, 19 Jun 2026
+ 02:01:46 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 19 Jun 2026 04:01:44 -0500
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 19 Jun 2026 04:01:44 -0500
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <CAD++jLmW3vgTFryRAL24x2TbgbR1tbhjw-nFFH3askoZfSibaQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAD++jLmW3vgTFryRAL24x2TbgbR1tbhjw-nFFH3askoZfSibaQ@mail.gmail.com>
- <20260618151052.3984665-1-runyu.xiao@seu.edu.cn>
-In-Reply-To: <20260618151052.3984665-1-runyu.xiao@seu.edu.cn>
-From: Linus Walleij <linusw@kernel.org>
-Date: Fri, 19 Jun 2026 09:43:56 +0200
-X-Gmail-Original-Message-ID: <CAD++jLk4eByc6A4ovjvvOEE83RPA7AUcL5Cyvs6KXezVWSj1Hg@mail.gmail.com>
-X-Gm-Features: AVVi8CfR2bmTpQpCbDzuwjR-h7T2akz1CHyf0xAarqe_ynmYniODNtWUzZ11GCQ
-Message-ID: <CAD++jLk4eByc6A4ovjvvOEE83RPA7AUcL5Cyvs6KXezVWSj1Hg@mail.gmail.com>
+References: <20260618053650.4053352-1-runyu.xiao@seu.edu.cn> <CAD++jLmW3vgTFryRAL24x2TbgbR1tbhjw-nFFH3askoZfSibaQ@mail.gmail.com>
+Date: Fri, 19 Jun 2026 04:01:44 -0500
+X-Gmail-Original-Message-ID: <CAMRc=McwAnoYXBB5hhTko5Om9=khOuxpVAvegSFQ7-VexNQMKw@mail.gmail.com>
+X-Gm-Features: AVVi8Cf8K9ux4cOtecot2S0VT6T3CGese0FIUj-6Z9fRYnLoXRYWJS40QkJmni8
+Message-ID: <CAMRc=McwAnoYXBB5hhTko5Om9=khOuxpVAvegSFQ7-VexNQMKw@mail.gmail.com>
 Subject: Re: Question: pinctrl-backed GPIO set_config and gpio_chip::can_sleep
-To: Runyu Xiao <runyu.xiao@seu.edu.cn>
+To: Linus Walleij <linusw@kernel.org>
 Cc: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@kernel.org>, 
 	Ludovic Desroches <ludovic.desroches@microchip.com>, 
 	Nicolas Ferre <nicolas.ferre@microchip.com>, 
@@ -60,34 +63,77 @@ Cc: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@kernel.o
 	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
 	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
 	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, jianhao.xu@seu.edu.cn
+	linux-kernel@vger.kernel.org, jianhao.xu@seu.edu.cn, 
+	Runyu Xiao <runyu.xiao@seu.edu.cn>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Runyu,
-
-On Thu, Jun 18, 2026 at 5:11=E2=80=AFPM Runyu Xiao <runyu.xiao@seu.edu.cn> =
-wrote:
-
-> I agree that marking these memory-mapped controllers as can_sleep is too
-> broad if the only sleepable part is the pinctrl range lookup.  That would
-> make consumers treat otherwise MMIO-backed get/set paths as sleepable,
-> which is not the contract I want to change.
+On Thu, 18 Jun 2026 15:15:30 +0200, Linus Walleij <linusw@kernel.org> said:
+> Hi Runyu,
 >
-> I will hold back the at91-pio4/stm32/sunxi can_sleep series and look at
-> the pinctrl core direction instead, specifically whether
-> pinctrldev_list_mutex can be replaced by a non-sleeping lock for
-> pinctrl_get_device_gpio_range().  That should also line up with the GPIO
-> direction callback case discussed in the other thread.
+> thanks for your analysis!
+>
+> On Thu, Jun 18, 2026 at 7:42=E2=80=AFAM Runyu Xiao <runyu.xiao@seu.edu.cn=
+> wrote:
+>
+>> The path we are concerned about is:
+>>
+>>   gpiod_set_config()
+>>     -> gpio_do_set_config()
+>>        -> gpiochip_generic_config()
+>>        -> pinctrl_gpio_set_config()
+>>        -> pinctrl_get_device_gpio_range()
+>>        -> mutex_lock(&pctldev->mutex)
+>
+> That would be mutex_lock(&pinctrldev_list_mutex); would it not?
+>
+>> If gpiod_cansleep() returns false, a GPIO forwarder or another consumer
+>> can choose an atomic carrier and call gpiod_set_config() while holding a
+>> spinlock.
+>
+> I see the problem.
+>
+>> The local draft I am considering marks only these controllers as
+>> sleeping:
+>>
+>>   pinctrl: at91-pio4: mark the GPIO controller as sleeping
+>>   pinctrl: stm32: mark the GPIO controller as sleeping
+>>   pinctrl: sunxi: mark the GPIO controller as sleeping
+>>
+>> The reason is that all three expose gpiochip_generic_config() and can
+>> therefore reach the pinctrl mutex from the GPIO set_config path, while
+>> their current gpio_chip registration does not set can_sleep.
+>
+> But that's not the right solution is it? These controllers can probably
+> just write a register and be done with it, they all look like they are
+> memory-mapped? That means we introduce sleep where not needed.
+>
+> Can we simply replace pinctrldev_list_mutex with a spinlock?
 
-Your replies look like those one would get from an AI agent,
-because they are repeating information (context) that I have just
-provided, just with other words.
+Oh I've tried, I've give it a few attempts in the past. It's not a "simply"
+case this one! :)
 
-If this is the case you need to instruct your agent to be terse in
-mailing list replies: it needs to quote what I just said with >
-markers in the margin and just add the word "Agreed" after
-it.
+> The list isn't gonna be huge and all in-memory anyway.
+> If it takes too much time we need to think about putting the
+> ranges in a better data structure such as the maple tree.
+>
 
-Yours,
-Linus Walleij
+FWIW radix tree provides some RCU synchronization IIRC.
+
+> mutex_lock(&pinctrldev_list_mutex); could then be turned
+> into spinlock_irqsave() or even better
+> guard(spinlock_irqsave)(&pinctrldev_list_lock) in
+> pinctrl_get_device_gpio_range().
+>
+
+I recall running into places where a mutex would be taken in atomic context
+in that case.
+
+Bart
+
+> This would mean we just take two different spinlocks in seqence
+> and save state in each so it should work just fine.
+>
+> Yours,
+> Linus Walleij
+>
