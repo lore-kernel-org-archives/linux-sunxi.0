@@ -1,158 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC0D2F8EA3;
-	Fri, 19 Jun 2026 07:12:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B9D35202C
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 Jun 2026 07:44:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781853143; cv=none; b=UhYal+wQlJHDXVkvHunFgDAux/AemG62wO+oP9XDlAsMqkMIF8CrGTMe94gyB/fpOSy7zMbXooP0lYtnVlbtZhp1pjnCaBv1w6PcefCqiFOw7uEUZgcDNBnPQo0AOgQ0Esj5p1zcZsPfAD6E4ooG+7yChK5h3sDbOV5v402GXjw=
+	t=1781855053; cv=none; b=bSyPrSbY2bu0Uic5vp8xdmwqBTlfYWyj07QQBe3G+ewILcL96oEmpGpm49wFwXBmfOzKb6DQ6NfBM+EmISptcnaVQkkfvdUQHtlGsFO9KjtbBDvVGB53cdx8Q+tLZlshRP2FMiNUBjiDERo4DteDbybF1fPe+pkjfM+SMUpYyO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781853143; c=relaxed/simple;
-	bh=+xgIhQgS5jClem40Sn47Wq7cf9FB4mPrfw/+hYyBNgQ=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=CrTzM4S3zSaNlH3Lm8MX3o48Ha1h+TqZz4luDaEBo9tzaF6mAMaeLnYbMP8we6c11EvCVeh1U1CnafDMLjdV+0DLrKKLk7r66BSuPs2e8YS0VFgSx8twhGvn/KZ24tq1xvOuUgbIAMJ0xpIjojhnvSb6Lw6r4jW8Q7fDKslrmJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F9JFhHCK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781855053; c=relaxed/simple;
+	bh=LVUjyiZgA0ioOsTkCjLp4qkgyz2l8SR9tYVVwpMeBPk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KmuNx3evru+kzmHUnT0CtrCbcjqZi8ziABDSX3JlKwSmBt3uMICTn+KqHCVIU91qtPZBspes/H0VKXXtGa4VIDXwNnZpcdD+6Yotti96y3EQ9PssqMZdKxoHRbzLrpeekniwvkE9uwATMeFD9eJF0PWXZMHtcP3u89COkbEc73A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D4KlcMZW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F9JFhHCK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 372521F000E9;
-	Fri, 19 Jun 2026 07:12:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D4KlcMZW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D8961F0155C
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 Jun 2026 07:44:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781853142;
-	bh=lYK9wjHe9fHOgFY3S1Rqgq4Nu3WeM9aWlkMyS8SfcP0=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=F9JFhHCKDIYbIuH5+jbEmQBwvpWUfjWI1Ujx+F1LkysLC0y6SK61PR3H2ly3n/JpZ
-	 YJ+/Q9ALCJv9/SzMPrxYX2KRqaeqg7F/GYl4xiXKlT4pPXnz7hqib1pjbcGJnVn9P4
-	 mT3upWLqgkW3P7p1jV1/ES/WRx5DZKtqfmBana7Zrq3c15jkR+ID8q7MWMeB8Fcs4Q
-	 b6xb290dLXvY7P+p11v+4Nuvvri8wo+xBMIYGhS81ofN2msJx6j/wEVop7ggyPte3A
-	 ebvCxQC5Bg8yXIlwNjT8QBk9RtlMRP0D3c8SDLf1NavzKSA0MhYmLihXOW/4T6n/ap
-	 wwgGydwxndqfw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 4/5] dmaengine: sun6i-dma: Implement support for
- Allwinner A733 DMA controller
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Yuanshen Cao" <alex.caoys@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, conor+dt@kernel.org, devicetree@vger.kernel.org, vkoul@kernel.org, dmaengine@vger.kernel.org, robh@kernel.org, Frank.Li@kernel.org
-In-Reply-To: <20260619-sun60i-a733-dma-v1-4-da4b649fc72a@gmail.com>
-References: <20260619-sun60i-a733-dma-v1-0-da4b649fc72a@gmail.com>
- <20260619-sun60i-a733-dma-v1-4-da4b649fc72a@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 19 Jun 2026 07:12:21 +0000
-Message-Id: <20260619071222.372521F000E9@smtp.kernel.org>
+	s=k20260515; t=1781855052;
+	bh=b07NeBKHmWEsMBrslV3njAnQXC0YyuL7comfc7gkAqs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=D4KlcMZWcEbII5o06cTlozauqpbocsERRnGTgzKHEJV6aSKOMbSzUrQD8DbLTwfxG
+	 Otfrd9/730NY49a3WLOuASWRZ3BY72X28GrB/Oj7Uoat7XK4ZjxL14U2O6I5MQcu5m
+	 o0rXWYiK5SmKwhdEhPpkNoTjIIWH4LnIYCnZylfr4jI3mtcM3VWTWbtfoG3h6sMiuy
+	 mJC4x3k/YfXEayDyEdHsX4QIOM6DXAvU/Q8wABxoOq+GJpSM4pIKRrMIe7opmczwbL
+	 XKmvnbTspGK/ohhzgFixJVPkRqP2K3U63L7ZnBQp4QR0Kkze+NzPA+wMJ+pSo4vsrd
+	 8RtZm9mSbQqpw==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5ad4d262fc1so1513309e87.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 19 Jun 2026 00:44:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ98gwxTcDnj06xRyGXd1AxDxV6Mv/YcsaTd+ysTDbwMc2L5tzQdKvymquXkS+rljuWTJ47HsHPqRo/TIA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxUfSHluTLaRfjEa8UN3yhG/tl3CcwJjECuOwSXi4Zwl5kjJzdz
+	50IiVv/AIf2a7YDLtN6wa8bA36wuHMmEB5zg47Qj5JNK/V4LFQ2etatUgb8OH/b8719ailkk92e
+	ZfQlxYSPJ8+uNr9xrB/ikriGPuqe4bdU=
+X-Received: by 2002:ac2:51ce:0:b0:5aa:5f11:ddb9 with SMTP id
+ 2adb3069b0e04-5ad562dbb2bmr842962e87.40.1781855050988; Fri, 19 Jun 2026
+ 00:44:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <CAD++jLmW3vgTFryRAL24x2TbgbR1tbhjw-nFFH3askoZfSibaQ@mail.gmail.com>
+ <20260618151052.3984665-1-runyu.xiao@seu.edu.cn>
+In-Reply-To: <20260618151052.3984665-1-runyu.xiao@seu.edu.cn>
+From: Linus Walleij <linusw@kernel.org>
+Date: Fri, 19 Jun 2026 09:43:56 +0200
+X-Gmail-Original-Message-ID: <CAD++jLk4eByc6A4ovjvvOEE83RPA7AUcL5Cyvs6KXezVWSj1Hg@mail.gmail.com>
+X-Gm-Features: AVVi8CfR2bmTpQpCbDzuwjR-h7T2akz1CHyf0xAarqe_ynmYniODNtWUzZ11GCQ
+Message-ID: <CAD++jLk4eByc6A4ovjvvOEE83RPA7AUcL5Cyvs6KXezVWSj1Hg@mail.gmail.com>
+Subject: Re: Question: pinctrl-backed GPIO set_config and gpio_chip::can_sleep
+To: Runyu Xiao <runyu.xiao@seu.edu.cn>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Ludovic Desroches <ludovic.desroches@microchip.com>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Antonio Borneo <antonio.borneo@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, jianhao.xu@seu.edu.cn
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
+Hi Runyu,
 
-Pre-existing issues:
-- [Critical] The DMA interrupt handler incorrectly resolves the physical ch=
-annel (`pchan`) from the interrupt status bit by ignoring the outer loop re=
-gister index `i`.
-- [High] Integer division truncation in loop bounds causes upper hardware c=
-hannels to be completely ignored, and introduces out-of-bounds MMIO accesse=
-s.
---
+On Thu, Jun 18, 2026 at 5:11=E2=80=AFPM Runyu Xiao <runyu.xiao@seu.edu.cn> =
+wrote:
 
-commit e328a2b422946f5a9b0337a1058273c7077c1ac4
-Author: Yuanshen Cao <alex.caoys@gmail.com>
+> I agree that marking these memory-mapped controllers as can_sleep is too
+> broad if the only sleepable part is the pinctrl range lookup.  That would
+> make consumers treat otherwise MMIO-backed get/set paths as sleepable,
+> which is not the contract I want to change.
+>
+> I will hold back the at91-pio4/stm32/sunxi can_sleep series and look at
+> the pinctrl core direction instead, specifically whether
+> pinctrldev_list_mutex can be replaced by a non-sleeping lock for
+> pinctrl_get_device_gpio_range().  That should also line up with the GPIO
+> direction callback case discussed in the other thread.
 
-dmaengine: sun6i-dma: Implement support for Allwinner A733 DMA controller
+Your replies look like those one would get from an AI agent,
+because they are repeating information (context) that I have just
+provided, just with other words.
 
-This patch implements the actual support for the Allwinner A733 DMA
-controller. It defines the new register offsets and bitfield mappings
-required for the A733, which slightly differs from the older sun6i
-series.
+If this is the case you need to instruct your agent to be terse in
+mailing list replies: it needs to quote what I just said with >
+markers in the margin and just add the word "Agreed" after
+it.
 
-> diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-> index fb1c1a28744bb..9585b4a9e00de 100644
-> --- a/drivers/dma/sun6i-dma.c
-> +++ b/drivers/dma/sun6i-dma.c
-
-[ ... ]
-
-> @@ -1352,6 +1412,33 @@ static struct sun6i_dma_config sun50i_h6_dma_cfg =
-=3D {
->  	.has_mbus_clk =3D true,
->  };
-> =20
-> +/*
-> + * The A733 binding uses the number of dma channels from the
-> + * device tree node.
-> + */
-> +static struct sun6i_dma_config sun60i_a733_dma_cfg =3D {
-> +	.clock_autogate_enable =3D sun6i_enable_clock_autogate_h3,
-> +	.set_burst_length =3D sun6i_set_burst_length_h3,
-> +	.set_drq          =3D sun6i_set_drq_h6,
-> +	.set_mode         =3D sun6i_set_mode_h6,
-> +	.set_addr         =3D sun6i_dma_set_addr_a733,
-> +	.dump_com_regs    =3D sun6i_dma_dump_com_regs_a733,
-> +	.read_irq_en      =3D sun6i_read_irq_en_a733,
-> +	.write_irq_en     =3D sun6i_write_irq_en_a733,
-> +	.read_irq_stat    =3D sun6i_read_irq_stat_a733,
-> +	.write_irq_stat   =3D sun6i_write_irq_stat_a733,
-> +	.src_burst_lengths =3D BIT(1) | BIT(4) | BIT(8) | BIT(16),
-> +	.dst_burst_lengths =3D BIT(1) | BIT(4) | BIT(8) | BIT(16),
-> +	.src_addr_widths   =3D BIT(DMA_SLAVE_BUSWIDTH_1_BYTE) |
-> +			     BIT(DMA_SLAVE_BUSWIDTH_2_BYTES) |
-> +			     BIT(DMA_SLAVE_BUSWIDTH_4_BYTES),
-> +	.dst_addr_widths   =3D BIT(DMA_SLAVE_BUSWIDTH_1_BYTE) |
-> +			     BIT(DMA_SLAVE_BUSWIDTH_2_BYTES) |
-> +			     BIT(DMA_SLAVE_BUSWIDTH_4_BYTES),
-> +	.num_channels_per_reg =3D DMA_IRQ_CHAN_NR_A733,
-
-[Severity: Critical]
-This is a pre-existing issue, but does setting num_channels_per_reg to 1
-(DMA_IRQ_CHAN_NR_A733) break interrupt handling for all A733 channels > 0?
-
-In sun6i_dma_interrupt(), the physical channel is calculated without the ou=
-ter
-loop index i:
-
-    for (i =3D 0; i < sdev->num_pchans / sdev->cfg->num_channels_per_reg; i=
-++) {
-        ...
-        for (j =3D 0; (j < sdev->cfg->num_channels_per_reg) && status; j++)=
- {
-            pchan =3D sdev->pchans + j;
-
-Since num_channels_per_reg is 1, j is always 0. As a result, every interrupt
-on every channel will incorrectly resolve to sdev->pchans[0]. Doesn't this
-completely break DMA functionality for all A733 channels except channel 0 by
-causing spurious completions on channel 0 and hanging all others?
-
-[Severity: High]
-This is a pre-existing issue, but does using integer division truncation for
-loop bounds ignore remainder channels and cause out-of-bounds MMIO accesses?
-
-In sun6i_dma_interrupt(), the loop bound is:
-
-    i < sdev->num_pchans / sdev->cfg->num_channels_per_reg
-
-For SoCs where the number of channels is not a perfect multiple of
-num_channels_per_reg (like H3 with 12 channels and 8 channels per register),
-this division truncates (12 / 8 =3D 1), causing the remainder channels to be
-entirely ignored so their interrupts are never serviced.
-
-Additionally, this patch series introduces a similar loop in
-sun6i_kill_tasklet():
-
-    for (i =3D 0; i < DMA_MAX_CHANNELS / sdev->cfg->num_channels_per_reg; i=
-++)
-
-Since DMA_MAX_CHANNELS is 16 and num_channels_per_reg is 1 for A733, the lo=
-op
-evaluates to 16. If the A733 hardware possesses fewer than 16 channels, won=
-'t
-this cause out-of-bounds MMIO writes which can trigger bus aborts?
-
-> +	.has_mbus_clk =3D true,
-> +};
-> +
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260619-sun60i-a73=
-3-dma-v1-0-da4b649fc72a@gmail.com?part=3D4
+Yours,
+Linus Walleij
