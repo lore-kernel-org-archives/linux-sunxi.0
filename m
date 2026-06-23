@@ -1,63 +1,63 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314413ACA77
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Jun 2026 20:48:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDCD3ACF14
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Jun 2026 20:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782247728; cv=none; b=KqwxP+AHw7TpqGwaHq6Na1ujvlDmzmXY1FmK8aUw3y3Q1IRfEZNopmHNYljrDbs/ZOgaigE6MNf1hdGCVMRqdBeKIimYBUhfW+a7RSAVfOG36uwNHS+1+RBPfPQD7USefwTv47PG34xy157XdVWDB3c2YHpq5zFuxMfAEZqRp+o=
+	t=1782247732; cv=none; b=PcahhF6z+UoEX/nq1GXidSnAVBcpWmezd1FXX/psmu8Iyq+bJbG2p0GDwCgHOHhKmiv6iukAxYR9J3DwRR1W4bW5EINe2Q75kGfGeZDMymsoZvrschbviqbWcBwCeMKgUcpbSLAPz7ijQO7yIWdRFoLPyzmNDh9yCWRFV5yB4r0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782247728; c=relaxed/simple;
-	bh=c/ZEvKrH8NyUFFYM1KdAFACpOhsENfDRqpjWjQ8d+Q0=;
+	s=arc-20240116; t=1782247732; c=relaxed/simple;
+	bh=kDr2xBEtgmjzuHMhUmmo8nMGXVZVg0h5DcPuluFIFns=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l0zx+AmbxIYSv4cpKZXnSt/yA0NqovEEISRL434A3TQcV4e3rTVYzRpCfcUjYKAgQ+r4hC9VS7OKZxo+9q8ix+zcm9iVOrXxZSthr0wfVM2hYzYd7U3+iwLbv6dS6AF/p07cQaoShffIYl566N4k60Iwb8U0mM0pzrh8TREb81E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=roAdjYsM; arc=none smtp.client-ip=209.85.221.51
+	 MIME-Version; b=XPAP8NzThQkETtFf84ek/dLttkTJKSr4anYuPDAqgoFtmQOJDwTIyL9bWltBW1678QupQOZ278zZD6HVRAHGGjG855GGnfNdFHRaUhJUCNCGCGo2o29xq5ytHia4VIqmAeSejBfQcjyO1D+IJP32ZGX9GDTdKFCxNpEdzA5Wd9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YfyYjo8x; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="roAdjYsM"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-462cdb88d01so251953f8f.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 23 Jun 2026 13:48:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YfyYjo8x"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-45ef189aa1cso245321f8f.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 23 Jun 2026 13:48:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782247722; x=1782852522; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1782247723; x=1782852523; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wchiVNh3rpBI2XZC92te0JGKBDBHe7YjoYm2rNU3USE=;
-        b=roAdjYsMQud+g1J5z8i7BohrB3eamFkC8gU0S3oa2nj07usZ6AFxAA9VWyM0Yp7iaZ
-         VVL52LTAFLLhCXy0CVFKr0uSlBrZBLG15xFXnKstgSqp6tUJxG3PEdWxz8CLopxN7vVE
-         IhFOB5Oypqftx39Kv/UAopx9qnkuYlHcuk8P8IeGUCGRhDLwCnjwOAsMw98DHdTtk9+R
-         X3aXz63F6dB1Xvfx9kWvT1bsG5XubWba/YE6v2LXDt6x+VHY7ZyAbAbuiVLitbRNucoO
-         9ZekTnofwL1ErLgrHR79hbcC3CSwGECjxjJml3t+siZ/n315hVOHs3RsZbvJ0LS/JCND
-         PPPg==
+        bh=3VmlgmQI7H4S8qo2yEQ+YQUSbvnieo421LNuRZ/c1mQ=;
+        b=YfyYjo8xWfDRVDMeuhi6S5sF2qX6YwWpuDfOiX1VDVFC/r7T9XO9Dre58fHKHNOFSU
+         itjTMLfTiJmKv4l9v/rZyGxHcHvjpIeFiYLKSVGKtbHmj8aao2cmwf6j63UeKV8g/yax
+         +yqIcc1r5mAG6hg/mLZmJP4aeo1uQuvkVfTPu2+XaKYJibQ0c5L7N1pw92ztYscrA8ZS
+         B38Key6bmwPhvkppz5wGSb52wzG+vUPo985FzyA2yLrZItJbU6gFtsoMlUfdS03zrrhV
+         f2o9dkD5UXExGoexFfv8noWfiPRtb4fr6/7tF4H4opHLiC7PP79KuKaP2jYjayn1zlJ/
+         M1hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782247722; x=1782852522;
+        d=1e100.net; s=20251104; t=1782247723; x=1782852523;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=wchiVNh3rpBI2XZC92te0JGKBDBHe7YjoYm2rNU3USE=;
-        b=b1bXw++goXNecLIlodCO+ZE08K9p+wmtPT5aqc4PrT2jzD9D4IyArIgjK6oJmw/axk
-         lVoJ9pTCVsonhhCrEQDS8xS5IGGRFYsFujAo+dnN9XLrJ+zvaf3nvn3seDQWs0eC8hbO
-         EwnGf1WU9hJcw/PS/VMWWQVFu/ew/A9ZrValS/QnhkrF/ny7XhnLqqOqU5vv0/hpWAKg
-         xqibV7Iz0Wj7P4fLAq+lugH9wruFYqspZ5q2DYEbRRCbQ9RwbIqqtFjlJKr3VkvJpsn7
-         MdVzTPhIELeP099eBfdEQg3cfhwXHQ18gJm/W1uUK8gnCQhRilsta0Dbt5XoJ7i7uycr
-         goQg==
-X-Forwarded-Encrypted: i=1; AHgh+RoNHpP2PFluW1zbSuFRD/Kg9fLX/kD9ldsOS5fXNvykNIvEc2uJkgjWTgPFowkyr582jTe/GaT2cX00cw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzcZr3f8Yx/MY+RkSINnzAxY9WSssyBmnCAn3hSnUVTy3Z+LkdN
-	lQaX/YJhaGhX1szIAwf6F8LFiTsA/muvaFX3eBM0NvhF8+7Ub5eK9A2R
-X-Gm-Gg: AfdE7cllg6SzVwh9ZADVhagpKfXl1HWb0Rh/tDFrdF2Fbswanbrm/UmRF+/E54deBws
-	114UIQZQlVc673oTS4WvzA5zJH/4O5Dj+O5p2b7zDmuL480zU3ClpSnK3VMB7ywULrgayP53KkO
-	6zSo0P8WiTIBwlBIQ1HFeanPnAXAmzGxr8UDu8xsUvr27qCoxGC/lYCJRKMyGZGnE5SQGzRpngm
-	u389Pw+yOx7cSR3JDIpOrIkRaDkJYx+rue98u45R49QKgOiwv8C6pQwwTmDQQ76Cjuvt5tfOo/b
-	6vWokFQagXt65dqsSIXjd6jD+3eIsAnaoTjTqbTpOlQbZMpvP7NF65im77rpCrWPpE3/Yij0xAB
-	GZvs3B3Traci9E1bg1fa+tTrQnWuwzy4MCRMauWi4nsGUe2bKnGZoRsZY7XLUvzQENmmvPhgme0
-	+jy4nzLuS2sO7+r1mxm4LaDHuTTY9eRNaFcaPiD9qGBw==
-X-Received: by 2002:a05:6000:4284:b0:464:fff6:489a with SMTP id ffacd0b85a97d-46a7e9f3eacmr9075904f8f.6.1782247721730;
-        Tue, 23 Jun 2026 13:48:41 -0700 (PDT)
+        bh=3VmlgmQI7H4S8qo2yEQ+YQUSbvnieo421LNuRZ/c1mQ=;
+        b=eZy9iajKbSoNvDAeG4PgBTi6t0m7BWNZMaHH2IFOuLvE3Llhixct9KMCkhiWWSqo19
+         Xj1tc+vcpXWPEH7MECD2Bj87JEy4rjoP+GnjaSl7t6+lBP30L2UOsBNTTKCCSQV1Ga0E
+         5ka2mN+1FgoLzVtbtNT6gXS3qCv2TD1i0BFXhQn6bGE8QwNuS5mnGO4c2iKvFQn+a1gh
+         S3p8nSB2gj3Vtv7EIvOOAzC22xPh1jkUuRblySHxfpsre0C6IdVK3ZJ9QqMeMIvW58lA
+         rc7nK+eSYdeh5tAhZlLLHE2USizYLWFY+pd/dPN4KA3eJXOiJ3/+Mx5bmOS8LCkwu/El
+         K+0g==
+X-Forwarded-Encrypted: i=1; AHgh+Rqp5znMmhDwETAtgGr4odCfvJby/ooBSHchT+Yth89lP/a1D4BInB/yYPL7wHyoIhcOeTnDK3UflDJHnw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzWGhEQX/Q5SElBR+L5MebOYzicKlet3l0JxjpRTPSJibQuV3hZ
+	HPos10Udu2DhB0khDcLFJcGOlese5bxAqf82A0lSpiqrmzA301VeYbTT
+X-Gm-Gg: AfdE7cnszNsPsdDRZ8PpRCNLEivGVHZl+fe++mZ9IQVrWoth6XF4ywcIhSGnLvWzfLC
+	/ZckLraBLzNgAnDaRuSwKcwQ3gDKSJCsF2vFax/k7O2e86wD/WoYaBrW6+9yNB6CffrsYEsdg0y
+	IdYmM8vNSQwm+QihV1J5mxA5785b3hQ0yATGDOwT1Bva3/Dn3XYdTaZBlbs/4uXMlrpiwkYhRWd
+	IoeRnNa/xKfxyEqipnll4NHwY+RHMlEzSoyMmOuj2qIGKtDpN1jVCEYYdcPi1rcpKDOK0VJwC79
+	6W5m/kdP8zXsiGoYI/KQoOjhSlJPCqMJ/PUC3DVhFjy9msyyNAbRr+sq88dYlZTcoWHBjBo1o2k
+	mLeGkaiL2YfoR+zIyGZmUGgBkgIqrE2WRLItUUFE+d1+W1qeQfRfM7O2hthxMh82jhz5Hpz75r0
+	Asb/KueQsuzUYWOs+71rBBgJxJ08OActjO+v8YQifL8g==
+X-Received: by 2002:a05:6000:298f:20b0:45e:ea46:ce13 with SMTP id ffacd0b85a97d-46c0990089bmr554253f8f.10.1782247722883;
+        Tue, 23 Jun 2026 13:48:42 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:1210:8642:2b00:82ee:73ff:feb8:99e3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c1e840f80sm351996f8f.6.2026.06.23.13.48.39
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c1e840f80sm351996f8f.6.2026.06.23.13.48.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 13:48:40 -0700 (PDT)
+        Tue, 23 Jun 2026 13:48:42 -0700 (PDT)
 From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
 To: linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
@@ -82,9 +82,9 @@ Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH v5 4/6] dt-bindings: input: sun4i-lradc-keys: Add A100/A133 compatible
-Date: Tue, 23 Jun 2026 22:48:16 +0200
-Message-ID: <20260623204824.691832-5-alexander.sverdlin@gmail.com>
+Subject: [PATCH v5 5/6] arm64: dts: allwinner: a100: Add LRADC node
+Date: Tue, 23 Jun 2026 22:48:17 +0200
+Message-ID: <20260623204824.691832-6-alexander.sverdlin@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260623204824.691832-1-alexander.sverdlin@gmail.com>
 References: <20260623204824.691832-1-alexander.sverdlin@gmail.com>
@@ -96,33 +96,52 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Allwinner A100/A133 SoCs have an LRADC which is compatible with the
-versions in existing SoCs. Add a compatible string for A100, with the R329
-fallback.
+A100/A133 SoCs feature a Low Rate ADC (LRADC) for Key application.
 
+Specs:
+- Power supply voltage: 1.8 V
+- Reference voltage: 1.35 V
+- Interrupt support
+- Support Hold Key and General Key
+- Support normal, continue and single work mode
+- 6-bits resolution, sample rate up to 2 kHz
+- Voltage input range between 0 and 1.35 V
+
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
 ---
 Changelog:
 v5:
-- no changes
+- reflowed "compatible" property of lradc node
 v4:
+- added allwinner,sun50i-a100-lradc compatible
+v3:
 - new patch
 
- .../bindings/input/allwinner,sun4i-a10-lradc-keys.yaml           | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
-index 6bdb8040be65..524c8b51f53f 100644
---- a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
-+++ b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
-@@ -23,6 +23,7 @@ properties:
-       - const: allwinner,sun50i-r329-lradc
-       - items:
-           - enum:
-+              - allwinner,sun50i-a100-lradc
-               - allwinner,sun50i-h616-lradc
-               - allwinner,sun20i-d1-lradc
-           - const: allwinner,sun50i-r329-lradc
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
+index b3fb1e0ee796..ba6020989ce9 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
+@@ -466,6 +466,16 @@ ths: thermal-sensor@5070400 {
+ 			#thermal-sensor-cells = <1>;
+ 		};
+ 
++		lradc: lradc@5070800 {
++			compatible = "allwinner,sun50i-a100-lradc",
++				     "allwinner,sun50i-r329-lradc";
++			reg = <0x05070800 0x400>;
++			interrupts = <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_LRADC>;
++			resets = <&ccu RST_BUS_LRADC>;
++			status = "disabled";
++		};
++
+ 		usb_otg: usb@5100000 {
+ 			compatible = "allwinner,sun50i-a100-musb",
+ 				     "allwinner,sun8i-a33-musb";
 -- 
 2.54.0
 
