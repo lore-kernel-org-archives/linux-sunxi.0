@@ -1,63 +1,63 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D42073955FD
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Jun 2026 20:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50FF63ACEEA
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Jun 2026 20:48:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782247720; cv=none; b=nHheKMS4HH9ENZw9a5ydRasvWbJrXIVONfgED6ia7QDO/cHkyqynn86fNL5kU5Dgjbu6VGpdt/XTn08lwy/edSXQTz7x9WKFLU/d7C+g7O/sqSkhR/EgcIIuPetK8xvWw/RAck5vBqPyYOe3SaT8o4BwabT1bPwO3EhtJcDS0QQ=
+	t=1782247721; cv=none; b=uKGfijrrZWwCdm0vhdPLAiR2ZIrC8nXP62yjVZgFEUYHNEYvQlrfVLYn2CZyKGwwvAIL9gmGJclJLW3KU7c3uKAO+c7JCOIhubtSDRzFFbuku5EOs9cb7vvcygH/i234k4VUNQ5iFJ7+zsieE7H8V0o7xYJkTNNk+eO6Mvmwh8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782247720; c=relaxed/simple;
-	bh=7BGgOMqfp64HcLM4LgYBtFJU9OxxhoCE6bY2vD84luI=;
+	s=arc-20240116; t=1782247721; c=relaxed/simple;
+	bh=keipto/oGSm9DO6JiPL+egMCOZdUpk6kCgz+ngJcUX4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WixjLP6rSdJlguc5XdOLPnJ2DtBXP6KD5cJ6O6HEQUTlchrGj/ZzyepHUOU0LZMrpP45sS1s41E47jjB729qa4vDIOz20rQeEReBwWznBfdWpNdPiroqwZymOQtLxHd8Tr/ZcsXr++ka16taWJGsvt8bcBAvk7a3UXCFYGVwLGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qo8N9Cuo; arc=none smtp.client-ip=209.85.221.51
+	 MIME-Version; b=ORhKam+Joi1ngSRR0H/9bPLN8vLaLCrR3sDEM4dzh7n2fsfmMx19Hl19K1E7hmj5XQKhTgEx3GjwpPYbGg+MY6jnCh3OoBLL8t5xRfsFOZIwaqNzQqzMNxo97+NZugfuiqFe6keiKcYbNQ72bs3a8LZh0g4T8iIkvjMroimV3jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cs1AXYFQ; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qo8N9Cuo"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-462bb734793so203232f8f.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 23 Jun 2026 13:48:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cs1AXYFQ"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so2434305e9.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 23 Jun 2026 13:48:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782247717; x=1782852517; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1782247719; x=1782852519; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=L+McTmOMLIPUuLLM47k3fHqRzuLTPsVSB+P6EOYjRpc=;
-        b=qo8N9CuoXP9/+0GQnU8xKk1BjZKuxjsM7ivvSyUB3ZRzl1hNaEX0pTzFIbChqKd8Cd
-         c9biN3hsGxThNhabwNmaZn1qV91RNiMOqeexSsKQ9aSceiqw1spcrvaTukEK0sr8M9x9
-         wOGmwmROZ/+7odLgAwKieg/ogR/ypuvEdsgpzCk+sxnyzAN0/no5u+AKxwNiBajPgFE6
-         hqJF27B87iGe5tb9goaWB/Is2Bba4ewuanVGQ3JT76zhblbuRl5CGgX574+rHUSAfAIE
-         LS8Bmsr8Jw0jG5CB82npdzcVl+8zntxDfeLRRebm8iUqCwghsr+jFcpVzc1j1p0+ieex
-         vzfg==
+        bh=mJ/LUwVD4cMnF3/D7za+W6saFQ2jiETM71jeGNmmf3I=;
+        b=Cs1AXYFQumNF+Il+FvLOLSZDgB5SF9CJq6gr1qnPpEbreQYhvUTkhlkJQKXDla30GR
+         ZH3cogCSex/4GCRY01ZKkW3UOeItqjbcN0tBrwQL9/DHsjQbtJ81YlMdsnGmRLa1X9JT
+         xwJcLAZbSDlMGOxJD1qZMcIf4Pem9dLekMDeHhDE2e98OQ9HoFg3OHjzHOC4z05cPq4J
+         YmW74f1jktD1znsI7MO/HRu1ApZ3gjFmgCJARsM5T+DgyFve3WWdvuKFveRqnOr7rqBR
+         W3x+L7YwpSaZ3jaRTxmqH2nM43H0q/7SOyQOTuwUFJKf6d0duBSe1LZRSyZje/E8tQbC
+         8+oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782247717; x=1782852517;
+        d=1e100.net; s=20251104; t=1782247719; x=1782852519;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=L+McTmOMLIPUuLLM47k3fHqRzuLTPsVSB+P6EOYjRpc=;
-        b=f6CY0lf92eI75dbVH0lnZXtdnXv99XyeFILCg5uvKpG8JoSKr2wiT3Zi6Dfq1GIe+z
-         +FKsAIQzdvCJ/muF0IDK14gnlR+arfNb61Txq+xBOV5lihvphkKbmJBAAKM1ESAZqZbe
-         4RyZw7i4S4pTqqXY7Pb7GOIDUVThwB60JWiMXmuG3PV0kQs4lFg+jHhUQf5UZMPy+tuH
-         CAAG8hXelvsi8+vylHSfioHgUNw8tCz6Yvevps3vwjfN38zSc1xPToTqKxliRCLhySyp
-         5CUxDwzUap/sPlbtAY5rA695EANtdN1v1AHtzaDvdOUKLeo+hcNP1ae37AEPqvf/la3L
-         oAcQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqVb2iVz3Dun++GnglQjrkb7F8FJLN2qrGYaCACs2U6MRNN+4t1e7qx8lBed/5n7wbZQiaotLHnlqyDQw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywi7Lc+3VSaLGSXxbtFT2fmpKB+2F4Y5fJT9mCn9HJfVRVuDUr8
-	zsqQbUgUewxLMoHOzKZbJOQMDDGlckkXlxC7eYYnhmHx3vb/QpM/F/Ai
-X-Gm-Gg: AfdE7cn6vo4TyK5e58rBs1mItZhRPRhJaVu0wRE8LlKN1EouNhe7Zghtnk5abFvPBzU
-	Wp0cPY2DQdFPnAh2nOfTqDK5cQV+7YflhbWPrpzG3rN4yeELreS0zdP9Fnu2kOkfRDF+MQzWLcJ
-	ZE1cgIHWFNBc+7AeFmv++gdwArYpnpmcT//vmOF0IBerDsnZnmoZQfj/b+qXo9Ze3/WfrslTl+p
-	2ByrnXrSerdex+sD/mGrbYflctj7Q4u23z+62h2d5GBmJ+/LOxGHShMgwuCBHRpcSlzfuI0HO4n
-	+o29KjRmpnYy2jzlZJ51A263M5fgwgYozlF5HSutf85Xs9i3RKecPqO1aj2H8QBsbquAnOGdXwI
-	Mp+rrc8fdOvvU8X/kAwoAxJQcVCBFOqC6auP4uI9s6Whd0OVlbX+VXizeig45Av2I8abi6qfo9B
-	f/LAsUok2zww8Y4voXOFUMBULZt2InCwIUPswYpApmgw==
-X-Received: by 2002:a05:6000:40e1:b0:460:3233:beee with SMTP id ffacd0b85a97d-4666358161amr26055694f8f.42.1782247717200;
-        Tue, 23 Jun 2026 13:48:37 -0700 (PDT)
+        bh=mJ/LUwVD4cMnF3/D7za+W6saFQ2jiETM71jeGNmmf3I=;
+        b=FYiTss4r7qh30UmWrVIZr+rcDYumWpuBsNlaZbCar7B8XGnRYPmK6Vty3Q8Mz3ixAL
+         g4jdvJZoxi6UZ7QYcK3wn8g4IHdicCf8GCcmtPmuzdK9BY74VFz9pQi2jtup6vuEUCy4
+         07X8X3jg0M7AWbR9jYwFrvH24V4oW4gPK3jlO8uzVk27JzRDrdJzFeOg3+gT5aLTtV0E
+         Jao//qA/diqTjFo4XOVuQACYKb/5JXqYcLGnnkD7vJWVu1aZY067JvMZ22BwOk0W0RSC
+         T96vYWtPjv+GeS/0WoHTr4MYeeLj0KUQ2+2GvuWk0ayBDo94vyomqKVQGC4XRhJ0Y69C
+         503g==
+X-Forwarded-Encrypted: i=1; AFNElJ8aNUtvr7Tyl5BkXGQXaaATj9Kn67IenSabYwYtQgo/M/v0EKXgFSvx2SzLch1O4VWnEsUbZzpZbON/DA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyozBVquRvBnrnfg4YVrniSJnLJWt3BMGBdeghfNgFk0wBKrC0X
+	dWY9w4qYnWQxz/zTgOr+HCYklUFJKgbIbv1FNHvLBFyHfPyWiQfjAhtq
+X-Gm-Gg: AfdE7cnH1p+m7jJwmjehc4kfepS8lO1TIkEdSoJTWXiFUqVF1qbhMyShFjTffHaSbVK
+	9SpX4ZeF48CLxOpbk+vTwT+2RcqtOKrwMr+HK6wPqm65fBiAaQbmNrW5ySW40tzWH9Wgeb/Hk8h
+	WRiThHnUdcu6gyEQcRujgqSaFbczNYwaHhg4e73CVYuNDhesVLWqwSgj6qaxbF2LMK5ZXRt+YM4
+	nab4idLUcNMcKNuHqfd7Mnr4i3QGahQdRcCe4YbY1GM67iv1lKW2u1XGE1FLTNGtEN7uGGbJiOJ
+	Sss/FM7DdcOZM/z16ha47x9xuSg9H9y5Ayb3RaSl/zmmBVesKHvdexfXr+6OMgRkSI7vP2A58UL
+	PHWVln6fLGqQgr5btbjNEGqop9vFlKx5moVfacVSMPVlbq3ETFYiWqItI6IqnXBaWYxTQFJc7/m
+	oZg/XyrCxvYO5vBQqUPcN5uDr7wMQC4Gb1dw4YTY9TkA==
+X-Received: by 2002:a05:600c:4453:b0:490:d32b:39d6 with SMTP id 5b1f17b1804b1-4925b37973bmr71981035e9.19.1782247718492;
+        Tue, 23 Jun 2026 13:48:38 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:1210:8642:2b00:82ee:73ff:feb8:99e3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c1e840f80sm351996f8f.6.2026.06.23.13.48.36
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c1e840f80sm351996f8f.6.2026.06.23.13.48.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 13:48:36 -0700 (PDT)
+        Tue, 23 Jun 2026 13:48:38 -0700 (PDT)
 From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
 To: linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
@@ -81,10 +81,12 @@ Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org
-Subject: [PATCH v5 1/6] arm64: defconfig: Enable Allwinner LRADC input driver
-Date: Tue, 23 Jun 2026 22:48:13 +0200
-Message-ID: <20260623204824.691832-2-alexander.sverdlin@gmail.com>
+	linux-input@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Paul Kocialkowski <paulk@sys-base.io>
+Subject: [PATCH v5 2/6] dt-bindings: vendor-prefixes: Add Shenzhen Baijie Technology Co., Ltd.
+Date: Tue, 23 Jun 2026 22:48:14 +0200
+Message-ID: <20260623204824.691832-3-alexander.sverdlin@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260623204824.691832-1-alexander.sverdlin@gmail.com>
 References: <20260623204824.691832-1-alexander.sverdlin@gmail.com>
@@ -96,33 +98,34 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Enable Allwinner LRADC input driver as module to support buttons on Baijie
-HelperBoard A133.
+Shenzhen Baijie Technology Co., Ltd. focuses on R&D and production of
+embedded products as well as customization of embedded solutions.
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Link: https://szbaijie.com/
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
 Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
 ---
 Changelog:
-v4-v5:
+v2-v5:
 - no changes
-v3:
-- new patch
 
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 654a102cb5bc..c267f0906460 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -527,6 +527,7 @@ CONFIG_KEYBOARD_GPIO=y
- CONFIG_KEYBOARD_GPIO_POLLED=m
- CONFIG_KEYBOARD_SNVS_PWRKEY=m
- CONFIG_KEYBOARD_IMX_SC_KEY=m
-+CONFIG_KEYBOARD_SUN4I_LRADC=m
- CONFIG_KEYBOARD_CROS_EC=y
- CONFIG_KEYBOARD_MTK_PMIC=m
- CONFIG_MOUSE_ELAN_I2C=m
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 6b9fb6a6bf0b..88225786e216 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -229,6 +229,8 @@ patternProperties:
+     description: Azoteq (Pty) Ltd
+   "^azw,.*":
+     description: Shenzhen AZW Technology Co., Ltd.
++  "^baijie,.*":
++    description: Shenzhen Baijie Technology Co., Ltd.
+   "^baikal,.*":
+     description: BAIKAL ELECTRONICS, JSC
+   "^bananapi,.*":
 -- 
 2.54.0
 
