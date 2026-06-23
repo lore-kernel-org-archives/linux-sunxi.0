@@ -1,102 +1,275 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A183ACF02
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Jun 2026 21:23:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CAB136E489
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Jun 2026 22:35:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782249818; cv=none; b=cjhhH2PXSH/A49EU8mGeNu3lKKaIntIwROKWnmVzVjj4x0A+r+wXe+vNBjtGDjB9NNPTtIsj1h1o1DnC9ibT5Nl7dZ7onXkkYlmcHXqFTpDiasLCPJAId6fMoHJDmflVQ8QtRgJrmU23X3Q8EmfjgBFfPo15OhxKOyv6uyH5RJI=
+	t=1782254115; cv=none; b=c4VfBl8JtnxyfC/cLPXoGkIkJlxSuEstRgzsNaszpLE8Cp676/TwAI4JAVTnlKGsWF/Sh7no2tM4FiBVEikJsGZ+HSwII2IrOkg8bloBMY1AYd38CCDj81HGV4IYW8UOi6uLtvajd+LkCB+O42RgLdlIAJP2QQRdQL8bym3GKa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782249818; c=relaxed/simple;
-	bh=ullt+oAQ3yGA+ITanNbFLJXALyyrZhysIh5/lqqNY1U=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=leAxAC5/LOqLyWzmcPJr896RBXM+wfP3o8cGZDrwOFQJBnuEBKbMx9ANxlDyQdjIDLilHNpm9RSgsg2wBpaL/uJLEwfvnaDuNiqTnMUmeRuvI/5aia6n/QkqHD6AHjuVileVRz6dw6EMfKNiLMyf1+W0q7HcsrqJjApg27ORCwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cGY6sfw5; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782254115; c=relaxed/simple;
+	bh=SRPt/Z1N9zfS5tVZtHc1Ym/DJpa09C6NIWLnEJarli8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=F4Qipwca9ZmnxqzdOW+uLdr+voyc/goxKbgjxViXVs54fOUpfkWhnu/owCPKiHPQpEaYfXvb0U4dMKbbpxAjV9FYBy6T19I4ispO31eiUKFXyrGa89eld7NnfhlRkSHsMKNiCAH7mhucaxPw/m8fWYb6jtUW5b61XvXt9jO+Jdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=G5flbO5J; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cGY6sfw5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E8551F000E9;
-	Tue, 23 Jun 2026 21:23:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782249817;
-	bh=Tvhg2kY0H+iKIFTYKV19SNvDFo+7/lgJR6skeW8oRK4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=cGY6sfw5o9iAGvBe+MnXJoN5hccuOcXfPspUXE5VQqtdeJfmLo5f/BXXAaDErAD1o
-	 uX1R+xloIorpKk+wSaDIc+0genUwC7smf/b2V9IZzLZlFSNbj2AizKG8IOZuwViqN7
-	 RcBZAH4vGTS9+nQJYIOmAo2ieY0JE5I9G58ExeelC+1UfAXB0/2md9D0u1D8mfmnPb
-	 jQug6gf2O4FP4duMgFqZlXOm/dtJhTNboS749uCipsCkSNgixs47vgQzsooUMPxQzr
-	 8OJsJE2FOhVErCKnK4mPq0GCpZqxsV+ew8JOIUVEd51xHEguRZ5AXRlY9HEUT44NwH
-	 HC5Z1seve1wHw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] drm/sun4i: Remove dependency on DRM simple helpers
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Diogo Silva" <diogompaissilva@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org
-In-Reply-To: <20260623-sun4i_simple-v1-1-fa6696df1fad@gmail.com>
-References: <20260623-sun4i_simple-v1-1-fa6696df1fad@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 23 Jun 2026 21:23:36 +0000
-Message-Id: <20260623212337.4E8551F000E9@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="G5flbO5J"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6B3EC1713;
+	Tue, 23 Jun 2026 15:35:07 -0700 (PDT)
+Received: from [10.43.8.246] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B3D423F632;
+	Tue, 23 Jun 2026 15:35:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1782254112; bh=SRPt/Z1N9zfS5tVZtHc1Ym/DJpa09C6NIWLnEJarli8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=G5flbO5JtjY2PHGG2ojKGXX8SqI+2MRfa+r6LYez6kIYWrMO5mYm3Z02byPITyVx5
+	 yIv7eGXrRte6UNWeKzB1Oryv66h5vXQEk1IcivwwfWgcjoIuMI/XRYk4euGrcbvraI
+	 pTYpub3JKKI8VTcq9p5Y59S2sQJTxCa6efj4jEfE=
+Message-ID: <138b5b54-7e2a-45fd-9c3f-eb4b4e04d954@arm.com>
+Date: Tue, 23 Jun 2026 23:35:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 5/8] clk: sunxi-ng: a733: Add bus clocks support
+To: Junhui Liu <junhui.liu@pigmoral.tech>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Paul Walmsley <pjw@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Richard Cochran <richardcochran@gmail.com>
+Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ netdev@vger.kernel.org
+References: <20260310-a733-clk-v1-0-36b4e9b24457@pigmoral.tech>
+ <20260310-a733-clk-v1-5-36b4e9b24457@pigmoral.tech>
+Content-Language: en-US
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20260310-a733-clk-v1-5-36b4e9b24457@pigmoral.tech>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
+Hi,
 
-Pre-existing issues:
-- [High] This problem wasn't introduced by this patch, but the return value=
- of `drm_encoder_init()` is ignored in `sun8i_dw_hdmi_bind()`, which leads =
-to a potential kernel panic on the error path.
---
+On 3/10/26 08:33, Junhui Liu wrote:
+> Add the essential bus clocks in the Allwinner A733 CCU, including AHB,
+> APB0, APB1, APB_UART, NSI, and MBUS. These buses are necessary for many
+> other functional modules. Additionally clocks such as trace, gic and
+> cpu_peri are also added as they fall within the register address range
+> of the bus clocks, even though they are not strictly bus clocks.
+> 
+> The MBUS clock is marked as critical to ensure the memory bus remains
+> operational at all times. For the NSI and MBUS clocks, the hardware
+> requires an update bit (bit 27) to be set so that the configuration
+> takes effect and the updated parameters can be correctly read back.
+> 
+> Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
+> ---
+>   drivers/clk/sunxi-ng/ccu-sun60i-a733.c | 131 +++++++++++++++++++++++++++++++++
+>   1 file changed, 131 insertions(+)
+> 
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+> index cf819504c51f..68457813dbbb 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+> @@ -19,6 +19,7 @@
+>   #include "ccu_common.h"
+>   
+>   #include "ccu_div.h"
+> +#include "ccu_mp.h"
+>   #include "ccu_mult.h"
+>   #include "ccu_nkmp.h"
+>   #include "ccu_nm.h"
+> @@ -65,6 +66,16 @@ static const struct clk_hw *pll_ref_hws[] = {
+>   	&pll_ref_clk.common.hw
+>   };
+>   
+> +/*
+> + * There is a non-software-configurable mux selecting between the DCXO and the
+> + * PLL_REF in hardware, whose output is fed to the sys-24M clock. Although both
+> + * sys-24M and pll-ref are fixed at 24 MHz, define a 1:1 fixed factor clock to
+> + * provide logical separation:
+> + * - pll-ref is dedicated to feeding other PLLs
+> + * - sys-24M serves as reference clock for downstream functional modules
+> + */
+> +static CLK_FIXED_FACTOR_HWS(sys_24M_clk, "sys-24M", pll_ref_hws, 1, 1, 0);
+> +
+>   #define SUN60I_A733_PLL_DDR_REG		0x020
+>   static struct ccu_nkmp pll_ddr_clk = {
+>   	.enable		= BIT(27),
+> @@ -371,6 +382,107 @@ static SUNXI_CCU_M_HWS(pll_de_4x_clk, "pll-de-4x", pll_de_hws,
+>   static SUNXI_CCU_M_HWS(pll_de_3x_clk, "pll-de-3x", pll_de_hws,
+>   		       SUN60I_A733_PLL_DE_REG, 16, 3, 0);
+>   
+> +/**************************************************************************
+> + *                           bus clocks                                   *
+> + **************************************************************************/
+> +
+> +static const struct clk_parent_data ahb_apb_parents[] = {
+> +	{ .hw = &sys_24M_clk.hw },
+> +	{ .fw_name = "losc" },
+> +	{ .fw_name = "iosc" },
+> +	{ .hw = &pll_periph0_600M_clk.hw },
+> +};
+> +
+> +static SUNXI_CCU_M_DATA_WITH_MUX(ahb_clk, "ahb", ahb_apb_parents, 0x500,
+> +				 0, 5,		/* M */
+> +				 24, 2,		/* mux */
+> +				 0);
+> +
+> +static SUNXI_CCU_M_DATA_WITH_MUX(apb0_clk, "apb0", ahb_apb_parents, 0x510,
+> +				 0, 5,		/* M */
+> +				 24, 2,		/* mux */
+> +				 0);
+> +
+> +static SUNXI_CCU_M_DATA_WITH_MUX(apb1_clk, "apb1", ahb_apb_parents, 0x518,
+> +				 0, 5,		/* M */
+> +				 24, 2,		/* mux */
+> +				 0);
+> +
+> +static const struct clk_parent_data apb_uart_parents[] = {
+> +	{ .hw = &sys_24M_clk.hw },
+> +	{ .fw_name = "losc" },
+> +	{ .fw_name = "iosc" },
+> +	{ .hw = &pll_periph0_600M_clk.hw },
+> +	{ .hw = &pll_periph0_480M_clk.common.hw },
+> +};
+> +static SUNXI_CCU_M_DATA_WITH_MUX(apb_uart_clk, "apb-uart", apb_uart_parents, 0x538,
+> +				 0, 5,		/* M */
+> +				 24, 3,		/* mux */
+> +				 0);
+> +
+> +static const struct clk_parent_data trace_parents[] = {
+> +	{ .hw = &sys_24M_clk.hw },
+> +	{ .fw_name = "losc" },
+> +	{ .fw_name = "iosc" },
+> +	{ .hw = &pll_periph0_300M_clk.hw },
+> +	{ .hw = &pll_periph0_400M_clk.hw },
+> +};
+> +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(trace_clk, "trace", trace_parents, 0x540,
+> +				 0, 5,		/* M */
+> +				 24, 3,		/* mux */
+> +				 BIT(31),	/* gate */
+> +				 0);
+> +
+> +static const struct clk_parent_data gic_cpu_peri_parents[] = {
+> +	{ .hw = &sys_24M_clk.hw },
+> +	{ .fw_name = "losc" },
+> +	{ .hw = &pll_periph0_600M_clk.hw },
+> +	{ .hw = &pll_periph0_480M_clk.common.hw },
+> +	{ .hw = &pll_periph0_400M_clk.hw },
+> +};
+> +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(gic_clk, "gic", gic_cpu_peri_parents, 0x560,
 
-commit 2d6b8f73fd3be1e78f02ca32197b62b5da0fb174
-Author: Diogo Silva <diogompaissilva@gmail.com>
+Do we really want to model the GIC clock? The A523 has one as well, as 
+we don't describe it there. And while the GICv3 binding describes a 
+clock property, the Linux driver completely ignores that.
+So if I see this correctly, this clock would become unused, and would be 
+turned off, killing the GIC? So we would at least need a CLK_IS_CRITICAL 
+flag?
 
-drm/sun4i: Remove dependency on DRM simple helpers
+But it's a good reminder to lift this clock to something PLL based, in 
+U-Boot's SPL, because I guess the 24MHz are rather slow.
 
-Simple KMS helper are deprecated since they only add an intermediate layer
-between drivers and the atomic modesetting. This patch removes the dependen=
-cy
-on drm simple helpers from sun4i DRM drivers.
+> +				      0, 5,	/* M */
+> +				      24, 3,	/* mux */
+> +				      BIT(31),	/* gate */
+> +				      0);
+> +
+> +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(cpu_peri_clk, "cpu-peri", gic_cpu_peri_parents, 0x568,
 
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4=
-i/sun8i_dw_hdmi.c
-> index 96532709c2a7e..9694ad142a7de 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-[ ... ]
-> @@ -180,7 +183,8 @@ static int sun8i_dw_hdmi_bind(struct device *dev, str=
-uct device *master,
->  		goto err_disable_clk_tmds;
-> =20
->  	drm_encoder_helper_add(encoder, &sun8i_dw_hdmi_encoder_helper_funcs);
-> -	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
-> +	drm_encoder_init(drm, encoder, &sun8i_dw_hdmi_encoder_funcs,
-> +			 DRM_MODE_ENCODER_TMDS, NULL);
+What is this clock about? I don't see it referenced by any peripheral in 
+the manual.
 
-[Severity: High]
-This isn't a bug introduced by this patch, but the return value of
-drm_encoder_init() is ignored here in sun8i_dw_hdmi_bind().
+> +				      0, 5,	/* M */
+> +				      24, 3,	/* mux */
+> +				      BIT(31),	/* gate */
+> +				      0);
+> +
+> +static const struct clk_parent_data nsi_parents[] = {
+> +	{ .hw = &sys_24M_clk.hw },
+> +	{ .hw = &pll_ddr_clk.common.hw },
+> +	{ .hw = &pll_periph0_800M_clk.common.hw },
+> +	{ .hw = &pll_periph0_600M_clk.hw },
+> +	{ .hw = &pll_periph0_480M_clk.common.hw },
+> +	{ .hw = &pll_de_3x_clk.common.hw },
+> +};
+> +static SUNXI_CCU_MP_DATA_WITH_MUX_GATE_FEAT(nsi_clk, "nsi", nsi_parents, 0x580,
 
-If drm_encoder_init() fails, the encoder remains uninitialized. If a
-subsequent initialization step like dw_hdmi_bind() then fails, the
-execution jumps to the cleanup_encoder error path:
+Similar question like for the GIC: do we need this in the kernel, and do 
+we need to prevent this from being turned off?
 
-    cleanup_encoder:
-            drm_encoder_cleanup(encoder);
+> +					    0, 5,	/* M */
+> +					    0, 0,	/* no P */
+> +					    24, 3,	/* mux */
+> +					    BIT(31),	/* gate */
+> +					    0, CCU_FEATURE_UPDATE_BIT);
+> +
+> +static const struct clk_parent_data mbus_parents[] = {
+> +	{ .hw = &sys_24M_clk.hw },
+> +	{ .hw = &pll_periph1_600M_clk.hw },
+> +	{ .hw = &pll_ddr_clk.common.hw },
+> +	{ .hw = &pll_periph1_480M_clk.common.hw },
+> +	{ .hw = &pll_periph1_400M_clk.hw },
+> +	{ .hw = &pll_npu_clk.common.hw },
+> +};
+> +static SUNXI_CCU_MP_DATA_WITH_MUX_GATE_FEAT(mbus_clk, "mbus", mbus_parents, 0x588,
+> +					    0, 5,	/* M */
+> +					    0, 0,	/* no P */
+> +					    24, 3,	/* mux */
+> +					    BIT(31),	/* gate */
+> +					    CLK_IS_CRITICAL,
+> +					    CCU_FEATURE_UPDATE_BIT);
+> +
+>   /*
+>    * Contains all clocks that are controlled by a hardware register. They
+>    * have a (sunxi) .common member, which needs to be initialised by the common
+> @@ -407,11 +519,21 @@ static struct ccu_common *sun60i_a733_ccu_clks[] = {
+>   	&pll_de_clk.common,
+>   	&pll_de_4x_clk.common,
+>   	&pll_de_3x_clk.common,
+> +	&ahb_clk.common,
+> +	&apb0_clk.common,
+> +	&apb1_clk.common,
+> +	&apb_uart_clk.common,
+> +	&trace_clk.common,
+> +	&gic_clk.common,
+> +	&cpu_peri_clk.common,
+> +	&nsi_clk.common,
+> +	&mbus_clk.common,
+>   };
+>   
+>   static struct clk_hw_onecell_data sun60i_a733_hw_clks = {
+>   	.hws	= {
+>   		[CLK_PLL_REF]		= &pll_ref_clk.common.hw,
+> +		[CLK_SYS_24M]		= &sys_24M_clk.hw,
+>   		[CLK_PLL_DDR]		= &pll_ddr_clk.common.hw,
+>   		[CLK_PLL_PERIPH0_4X]	= &pll_periph0_4x_clk.common.hw,
+>   		[CLK_PLL_PERIPH0_2X]	= &pll_periph0_2x_clk.common.hw,
+> @@ -453,6 +575,15 @@ static struct clk_hw_onecell_data sun60i_a733_hw_clks = {
+>   		[CLK_PLL_DE]		= &pll_de_clk.common.hw,
+>   		[CLK_PLL_DE_4X]		= &pll_de_4x_clk.common.hw,
+>   		[CLK_PLL_DE_3X]		= &pll_de_3x_clk.common.hw,
+> +		[CLK_AHB]		= &ahb_clk.common.hw,
+> +		[CLK_APB0]		= &apb0_clk.common.hw,
+> +		[CLK_APB1]		= &apb1_clk.common.hw,
+> +		[CLK_APB_UART]		= &apb_uart_clk.common.hw,
+> +		[CLK_TRACE]		= &trace_clk.common.hw,
+> +		[CLK_GIC]		= &gic_clk.common.hw,
+> +		[CLK_CPU_PERI]		= &cpu_peri_clk.common.hw,
+> +		[CLK_NSI]		= &nsi_clk.common.hw,
+> +		[CLK_MBUS]		= &mbus_clk.common.hw,
+>   	},
+>   	.num	= CLK_FANOUT3 + 1,
+>   };
+> 
 
-Could calling drm_encoder_cleanup() on an uninitialized encoder cause a
-kernel panic due to dereferencing NULL pointers (such as encoder->dev or a
-zero-initialized list_head)? Should the return code of drm_encoder_init()
-be checked and handled here?
-
-> =20
->  	plat_data->mode_valid =3D hdmi->quirks->mode_valid;
->  	plat_data->use_drm_infoframe =3D hdmi->quirks->use_drm_infoframe;
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260623-sun4i_simp=
-le-v1-1-fa6696df1fad@gmail.com?part=3D1
