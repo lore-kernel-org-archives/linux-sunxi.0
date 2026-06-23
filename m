@@ -1,333 +1,181 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638C93A6B8F
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Jun 2026 20:34:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33F230FC1D
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Jun 2026 20:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782246897; cv=none; b=sKpfv7EzVTKX/b7pczkJ+LpUnphB1FYW8LtD+efdgUD96gg2de2rLFlkWZV9bdoY+2rMPt+KrCcRTCBEY7/9d100KZTYUQ1SpWH8URiVuC7Ga5mnEGwkVwToKe2M42C9SU6Qa+LuXcjx3AAQjA3jV4+iU68mOa0Ll5BHFY8/IxY=
+	t=1782247719; cv=none; b=LbgLKsz+CNThK3nbBE2BUsZUrR9ZX9+HIcuY7s/OmHnfZuMlX5Fe7CuOIRojMYMgZ80jTomixRhTFpZjyiMRiKUpX8dwWcGRh39Cmbr+MBYWMEBmkbS69KBZZ2FDZy+V7XTO0RXgpHTfVxoUjam3qn2EYxo0ZhZ21WX+kBG5S4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782246897; c=relaxed/simple;
-	bh=VIVa48SIpA6zVOPSS8O6SLVXDjtd6I9Jk+9GWFqC30Y=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=FqYBvohj/80CkpZXX2H1sTH2ukiH7zpV3vDVydTY6SIRlJeR8iU8DgMpR24JUAmKMZvnukQwh6qDL6wfniEPgBSYuHN6ZIJuhJcQrWqlNIZG9bNtmVE/d7/og9K+2rkfRWzimMrANtYLOT+XjV9RU6DPBJHHMqURjODAcWLWlq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GnuMlThw; arc=none smtp.client-ip=209.85.128.46
+	s=arc-20240116; t=1782247719; c=relaxed/simple;
+	bh=JO+qHD5fj0WouneCV14Ifbg+BmtRQDIQUKCwXRyHI9U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NdddRzb+ZargcHJ6M3JvU/7H8sRgjlzKQqdX8vOtus1Dtc/niPrDLUS9flKfvzRvx9PxFapcL5O3VtdYjx0CqV1//mbyN7XDVUh7h01mrb9rLGfrW23t6RLhnGmxrNtDx3qyYEv9caTew8TnVwIaGDna7yk64LiVgn3cisPNC/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P25mJ/Ey; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GnuMlThw"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4903d730b1fso3222585e9.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 23 Jun 2026 13:34:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P25mJ/Ey"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-490b7866869so2707925e9.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 23 Jun 2026 13:48:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782246894; x=1782851694; darn=lists.linux.dev;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5t3Yym7TNcn23mBBw6H+IPIGFaMcwRdXEZmNa7/R0B4=;
-        b=GnuMlThwk7WLgUPeNTCM+Y1MhHQTI+IE/sO7dM1H9/SXY3T0xq++4qG9L/c6mte4ML
-         3Sw6bSKk94uwWaYENY5GKxVfOunXE5jGaLPwadkaWacRPMtNj72YWnWSV7yoLONvFuNg
-         KKIICcNKO+zoeME2l+HLnb9enBJ6gEeY+Q8XH6/dlXbqMm/EdR/LBaQ+ukI/cZUIYK6H
-         ifRmwjYGJnJ1r9GpzeVTVTRNn9Wi1PuEnCsGI+YaELPKnrwIS6ohiznkCmmE5zexvc3w
-         8Jq5U0AWDNncvpffPw30vHykwDsm3tr/zXgmibZ/mG/WqdTf/OQ9Vlsr7fsWRCVT13a9
-         ZmIA==
+        d=gmail.com; s=20251104; t=1782247716; x=1782852516; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IQf/A4ruU9gIb5FvsawDggEwo1Hergfzti0vWW30RV8=;
+        b=P25mJ/EysX25DcpwDaJtpazpLlaJi6Q28ljSkVKQ5F2kSyrZuSW8MrvgGpEswNwjdp
+         FNq9dEeqpM5e2oNp++MVbUxIlDBCndj0vyOd37zwumtJCpOlJOJ4rdrAGGqFQoWSpmIi
+         Ky2ktBUzGSxo95swtd3yqC5fVMflc1vKPRS4mOVnFCm+1mI3fUNlKsBodOoT+x/utvaT
+         aHnPCsop/mhBqtxxmY1uAsCkq67qFjhYNcfUpKYLDJXpsTSO1gV4BGtW7EuXijM8YxX1
+         px14bYni7HaK6JCVvi9vF0kSL7EE1uty30pf3IOxSVA7QaN0Up85mjYS8VidKNNsAIa6
+         L9hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782246894; x=1782851694;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1782247716; x=1782852516;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5t3Yym7TNcn23mBBw6H+IPIGFaMcwRdXEZmNa7/R0B4=;
-        b=gfdPTtTLWQ0ZVGXb6yPQip/nYgIWGEBte5LU2obk2RYOMVR6T3nH2G3jPTNCOOl8RB
-         Do4t91QK1YusL+sMAV2u+7r3HQksDm0q61I4xmpH+stAzhqWiZ8yYCKDQKNIcmAUD1NF
-         drJxlVsnWHQRzQRn0g+mvxiyfwJoxBJwUgFp4HrNWkIModHZPb4mwGa++T+q5UdT/E8y
-         P/sWmnQDluXgy8nXLm5AnwDpaKS0hCsCmUDx7hqkmeKALVHXuMBfv9AVcqPTaFtgf9DO
-         Cnn2l+Fvx2C4/zZ3HUbg14yijb4K37Kxz25AUmnDFrk5JCcDJqxiptUAIiMRna+2pfAA
-         Ewqg==
-X-Forwarded-Encrypted: i=1; AFNElJ9DkGzCUF0qm2nVPKbwRG9MzsQBOthHryP3nWEONOYSaWXd+tToiGROJUjQgNOmkNgrh2CKzmf/PUSOng==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxjACWPHH2Gk5h23pPbtKJBruEX7sUvetKRbQ8R5SiAdZRxwMsq
-	kTC8zSSh+XymDDQ0nretQko3i2aa0b6CbZ1X1d1agBHGUmiLY7aAzDMj
-X-Gm-Gg: AfdE7cm8VubLlONZZEccx7P2s4Aq8pH7LmetMKWDS1+EjDVQJ9lrK/TXQhjUSZ46pEf
-	REbOXB2ZPq3dPAgUHuoYNwXpEZOZJsmoKRhWRKb9T4VUu+9+PH2NH5Bi7k4ayo5cPEaborVdM6l
-	nP9XzqIf8TffQDTyJCuM2DM3zf5j06fzxJ8/6MEFMe98M4VvtxHfGjjb0lymICEQYEQmKF7ngsW
-	/wEKkk9bEiC5gw3ccw/Ng+IkuXFmmoe7M/C6PToh9Wg22Yp8g/9uXpHxnHr7A4GOZnDILpOkS/q
-	ayt11bZ6Y4awT/rIJVYWQ1hLwsH3q8w7g329GmhN7F38WP8i3mtGzPJUOYsCHHhgQGIireBh+r7
-	SlewBx8gXt0ruVwV7Y4mxxSyEetzYZ5Oi3m40DtefGU5FSe4ah99D6wu6nDi78A+q0j45SgaUg5
-	j9kwyj9kTV2ex6cfv7sz6O
-X-Received: by 2002:a05:600c:34c2:b0:492:465a:7e5b with SMTP id 5b1f17b1804b1-4926087371bmr2714075e9.22.1782246893690;
-        Tue, 23 Jun 2026 13:34:53 -0700 (PDT)
-Received: from [127.0.0.2] ([194.35.121.133])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923fd154fdsm374613865e9.1.2026.06.23.13.34.51
+        bh=IQf/A4ruU9gIb5FvsawDggEwo1Hergfzti0vWW30RV8=;
+        b=E4Tjh9aCfV2Un2U2/ErwsBcf2ubEI6T/2zFfwI6LskBo2EbPgmEA+/WS91QD3oZ3+C
+         UmiRo3Kkw/iBqfgnrb3AwgP7wXvW+XLX83h0GhEj08bQ6qLnuBt1em/di6WpG9y04aYI
+         OdSZiIyDvY7a9e9ygnd1Yd7RhFpC1hfzNwiQCpQWc7DSiD7iBKyoVcDOZhFiwWIKZYT9
+         DkY+hlgoFuBdUoeE2R5HaEJE9UDaZ9aKaw/uS29Dtn0qiOsfS1hrxvYPSrWxzhgrRAlA
+         vJhx7UnLAm3eZ9Hv2aoFZFiWU3lkkYiqn+eqAOCc6bEicvT98+9LOl2O2RbKUZdX5Hdh
+         4hVg==
+X-Forwarded-Encrypted: i=1; AFNElJ8kuJCfOULZTW/zVAGrsKe5/BhDlXRA/To4Hdm2bK8AKnzzbv97Nwm7TY+Y8fOTwxexxRHw3Df15OvBRA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzBMg8HEzXeG9hUBmawY+j1CeZ/w6s4X1zdQNd4hYJBYIuSLQDP
+	OK1n/zindk8nXd9KY1lf4e6j2W7gwC5ANvwgwNHC+zxu9OAhECrjs1J7
+X-Gm-Gg: AfdE7ckXSrNapBQA5tozL0xC1OqRYudwsn17Jw2O2b13PWd+nSRumItESrU34kXTQY9
+	SFKDEQ7E6GVDHNhsvmypWunVlNCsB2rZ5FYP4F4/qtTZHWG4snEAat+cZq+T37bv7w0a+3RtpM4
+	H0PoC9cXYEDY6MfCbEjzHHR+wo9xdfwh6EMfAHSBbGfubJKOTLi+Gw4Vrt9AonOzNVbtMwgrsBb
+	FD8YTGx3hNkN5u3BGHzzOurIiaAAypuIPNVz6Q1BfBAzJBZZNnOfVm6lm3TOF9VyJY5dfMIHu+2
+	xUMEfvcvscvxSlA8FRf8C+PMj0Fe5Ip1l2Aj7fTI+CUl45GOZSGStSqfViavJ+3TtpdF7m/L9I5
+	01BInuZNe4F0k39bNyVcg7TgN7x28tElxYtkcTAnwg4Sr3fHAlWYECg/rQqwLRFvZ6Vm3PYrXaG
+	Dx8/33xJD6V5y6BFuDaCUnwaPyDo0fX0fEPt9liXTqTQ==
+X-Received: by 2002:a05:600c:8208:b0:492:5030:5e7b with SMTP id 5b1f17b1804b1-4925b3533bemr68648165e9.10.1782247716007;
+        Tue, 23 Jun 2026 13:48:36 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:1210:8642:2b00:82ee:73ff:feb8:99e3])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c1e840f80sm351996f8f.6.2026.06.23.13.48.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 13:34:53 -0700 (PDT)
-From: Diogo Silva <diogompaissilva@gmail.com>
-Date: Tue, 23 Jun 2026 22:34:40 +0200
-Subject: [PATCH] drm/sun4i: Remove dependency on DRM simple helpers
+        Tue, 23 Jun 2026 13:48:34 -0700 (PDT)
+From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+To: linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Jun Yan <jerrysteve1101@gmail.com>,
+	Lukas Schmid <lukas.schmid@netcube.li>,
+	=?UTF-8?q?J=2E=20Neusch=C3=A4fer?= <j.ne@posteo.net>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Luca Weiss <luca@lucaweiss.eu>,
+	Sven Peter <sven@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org
+Subject: [PATCH v5 0/6] Add support for Baijie Helper A133 board
+Date: Tue, 23 Jun 2026 22:48:12 +0200
+Message-ID: <20260623204824.691832-1-alexander.sverdlin@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260623-sun4i_simple-v1-1-fa6696df1fad@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAN/tOmoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDMyNj3eLSPJPM+OLM3IKcVF0j02QzCwsL01RjU0sloJaCotS0zAqwcdG
- xtbUAyL0mhF4AAAA=
-X-Change-ID: 20260623-sun4i_simple-25c68885e359
-To: Chen-Yu Tsai <wens@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Diogo Silva <diogompaissilva@gmail.com>
-X-Mailer: b4 0.14.3
+Content-Transfer-Encoding: 8bit
 
-Simple KMS helper are deprecated since they only add an intermediate
-layer between drivers and the atomic modesetting.
-This patch removes the dependency on drm simple helpers from sun4i
-DRM drivers.
+Baijie Helper A133 board is a development board around Baijie A133 Core
+SBC. Features:
 
-Signed-off-by: Diogo Silva <diogompaissilva@gmail.com>
----
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c |  9 ++++++---
- drivers/gpu/drm/sun4i/sun4i_lvds.c     | 10 +++++++---
- drivers/gpu/drm/sun4i/sun4i_rgb.c      | 10 +++++++---
- drivers/gpu/drm/sun4i/sun4i_tv.c       | 10 +++++++---
- drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 10 +++++++---
- drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c  |  8 ++++++--
- 6 files changed, 40 insertions(+), 17 deletions(-)
+- 1/2/4GiB LPDDR4 DRAM
+- 8/16/32GiB eMMC
+- AXP707 PMIC
+- USB-C OTG port in peripheral mode (via onboard hub)
+- 2 USB 2.0 ports
+- MicroSD slot and on-board eMMC module
+- Gigabit Ethernet
+- Bluetooth
+- WiFi
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index 8f64464621c9..e99f52ebb26f 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -24,7 +24,6 @@
- #include <drm/drm_panel.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
--#include <drm/drm_simple_kms_helper.h>
- 
- #include <drm/display/drm_hdmi_helper.h>
- #include <drm/display/drm_hdmi_state_helper.h>
-@@ -172,6 +171,10 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- 	writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
- }
- 
-+static const struct drm_encoder_funcs sun4i_hdmi_funcs = {
-+	.destroy = drm_encoder_cleanup,
-+};
-+
- static const struct drm_encoder_helper_funcs sun4i_hdmi_helper_funcs = {
- 	.atomic_disable	= sun4i_hdmi_disable,
- 	.atomic_enable	= sun4i_hdmi_enable,
-@@ -624,8 +627,8 @@ static int sun4i_hdmi_bind(struct device *dev, struct device *master,
- 
- 	drm_encoder_helper_add(&hdmi->encoder,
- 			       &sun4i_hdmi_helper_funcs);
--	ret = drm_simple_encoder_init(drm, &hdmi->encoder,
--				      DRM_MODE_ENCODER_TMDS);
-+	ret = drm_encoder_init(drm, &hdmi->encoder, &sun4i_hdmi_funcs,
-+			       DRM_MODE_ENCODER_TMDS, NULL);
- 	if (ret) {
- 		dev_err(dev, "Couldn't initialise the HDMI encoder\n");
- 		goto err_put_ddc_i2c;
-diff --git a/drivers/gpu/drm/sun4i/sun4i_lvds.c b/drivers/gpu/drm/sun4i/sun4i_lvds.c
-index 6716e895ae8a..35a3f987c37a 100644
---- a/drivers/gpu/drm/sun4i/sun4i_lvds.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_lvds.c
-@@ -8,11 +8,11 @@
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_encoder.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
--#include <drm/drm_simple_kms_helper.h>
- 
- #include "sun4i_crtc.h"
- #include "sun4i_tcon.h"
-@@ -89,6 +89,10 @@ static void sun4i_lvds_encoder_disable(struct drm_encoder *encoder)
- 	}
- }
- 
-+static const struct drm_encoder_funcs sun4i_lvds_enc_funcs = {
-+	.destroy = drm_encoder_cleanup,
-+};
-+
- static const struct drm_encoder_helper_funcs sun4i_lvds_enc_helper_funcs = {
- 	.disable	= sun4i_lvds_encoder_disable,
- 	.enable		= sun4i_lvds_encoder_enable,
-@@ -115,8 +119,8 @@ int sun4i_lvds_init(struct drm_device *drm, struct sun4i_tcon *tcon)
- 
- 	drm_encoder_helper_add(&lvds->encoder,
- 			       &sun4i_lvds_enc_helper_funcs);
--	ret = drm_simple_encoder_init(drm, &lvds->encoder,
--				      DRM_MODE_ENCODER_LVDS);
-+	ret = drm_encoder_init(drm, &lvds->encoder, &sun4i_lvds_enc_funcs,
-+			       DRM_MODE_ENCODER_LVDS, NULL);
- 	if (ret) {
- 		dev_err(drm->dev, "Couldn't initialise the lvds encoder\n");
- 		goto err_out;
-diff --git a/drivers/gpu/drm/sun4i/sun4i_rgb.c b/drivers/gpu/drm/sun4i/sun4i_rgb.c
-index dfb6acc42f02..9c3fbf1b949e 100644
---- a/drivers/gpu/drm/sun4i/sun4i_rgb.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_rgb.c
-@@ -10,11 +10,11 @@
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_encoder.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
--#include <drm/drm_simple_kms_helper.h>
- 
- #include "sun4i_crtc.h"
- #include "sun4i_tcon.h"
-@@ -180,6 +180,10 @@ static void sun4i_rgb_encoder_disable(struct drm_encoder *encoder)
- 	}
- }
- 
-+static const struct drm_encoder_funcs sun4i_rgb_enc_funcs = {
-+	.destroy = drm_encoder_cleanup,
-+};
-+
- static const struct drm_encoder_helper_funcs sun4i_rgb_enc_helper_funcs = {
- 	.disable	= sun4i_rgb_encoder_disable,
- 	.enable		= sun4i_rgb_encoder_enable,
-@@ -207,8 +211,8 @@ int sun4i_rgb_init(struct drm_device *drm, struct sun4i_tcon *tcon)
- 
- 	drm_encoder_helper_add(&rgb->encoder,
- 			       &sun4i_rgb_enc_helper_funcs);
--	ret = drm_simple_encoder_init(drm, &rgb->encoder,
--				      DRM_MODE_ENCODER_NONE);
-+	ret = drm_encoder_init(drm, &rgb->encoder, &sun4i_rgb_enc_funcs,
-+			       DRM_MODE_ENCODER_NONE, NULL);
- 	if (ret) {
- 		dev_err(drm->dev, "Couldn't initialise the rgb encoder\n");
- 		goto err_out;
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tv.c b/drivers/gpu/drm/sun4i/sun4i_tv.c
-index 814b77f278f6..ce22f1662c0c 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tv.c
-@@ -16,11 +16,11 @@
- 
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_encoder.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
--#include <drm/drm_simple_kms_helper.h>
- 
- #include "sun4i_crtc.h"
- #include "sun4i_drv.h"
-@@ -391,6 +391,10 @@ static void sun4i_tv_enable(struct drm_encoder *encoder,
- 			   SUN4I_TVE_EN_ENABLE);
- }
- 
-+static const struct drm_encoder_funcs sun4i_tv_funcs = {
-+	.destroy = drm_encoder_cleanup,
-+};
-+
- static const struct drm_encoder_helper_funcs sun4i_tv_helper_funcs = {
- 	.atomic_disable	= sun4i_tv_disable,
- 	.atomic_enable	= sun4i_tv_enable,
-@@ -474,8 +478,8 @@ static int sun4i_tv_bind(struct device *dev, struct device *master,
- 
- 	drm_encoder_helper_add(&tv->encoder,
- 			       &sun4i_tv_helper_funcs);
--	ret = drm_simple_encoder_init(drm, &tv->encoder,
--				      DRM_MODE_ENCODER_TVDAC);
-+	ret = drm_encoder_init(drm, &tv->encoder, &sun4i_tv_funcs,
-+			       DRM_MODE_ENCODER_TVDAC, NULL);
- 	if (ret) {
- 		dev_err(dev, "Couldn't initialise the TV encoder\n");
- 		goto err_disable_clk;
-diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-index c35b70d83e53..f0c9f0e573d2 100644
---- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-+++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-@@ -20,11 +20,11 @@
- #include <linux/slab.h>
- 
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_encoder.h>
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
--#include <drm/drm_simple_kms_helper.h>
- 
- #include "sun4i_crtc.h"
- #include "sun4i_tcon.h"
-@@ -842,6 +842,10 @@ static const struct drm_connector_funcs sun6i_dsi_connector_funcs = {
- 	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
- };
- 
-+static const struct drm_encoder_funcs sun6i_dsi_enc_funcs = {
-+	.destroy = drm_encoder_cleanup,
-+};
-+
- static const struct drm_encoder_helper_funcs sun6i_dsi_enc_helper_funcs = {
- 	.disable	= sun6i_dsi_encoder_disable,
- 	.enable		= sun6i_dsi_encoder_enable,
-@@ -1056,8 +1060,8 @@ static int sun6i_dsi_bind(struct device *dev, struct device *master,
- 
- 	drm_encoder_helper_add(&dsi->encoder,
- 			       &sun6i_dsi_enc_helper_funcs);
--	ret = drm_simple_encoder_init(drm, &dsi->encoder,
--				      DRM_MODE_ENCODER_DSI);
-+	ret = drm_encoder_init(drm, &dsi->encoder, &sun6i_dsi_enc_funcs,
-+			       DRM_MODE_ENCODER_DSI, NULL);
- 	if (ret) {
- 		dev_err(dsi->dev, "Couldn't initialise the DSI encoder\n");
- 		return ret;
-diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-index 96532709c2a7..9694ad142a7d 100644
---- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-@@ -9,8 +9,8 @@
- #include <linux/platform_device.h>
- 
- #include <drm/drm_modeset_helper_vtables.h>
-+#include <drm/drm_encoder.h>
- #include <drm/drm_of.h>
--#include <drm/drm_simple_kms_helper.h>
- 
- #include "sun8i_dw_hdmi.h"
- #include "sun8i_tcon_top.h"
-@@ -23,6 +23,9 @@ static void sun8i_dw_hdmi_encoder_mode_set(struct drm_encoder *encoder,
- 
- 	clk_set_rate(hdmi->clk_tmds, mode->crtc_clock * 1000);
- }
-+static const struct drm_encoder_funcs sun8i_dw_hdmi_encoder_funcs = {
-+	.destroy = drm_encoder_cleanup,
-+};
- 
- static const struct drm_encoder_helper_funcs
- sun8i_dw_hdmi_encoder_helper_funcs = {
-@@ -180,7 +183,8 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
- 		goto err_disable_clk_tmds;
- 
- 	drm_encoder_helper_add(encoder, &sun8i_dw_hdmi_encoder_helper_funcs);
--	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
-+	drm_encoder_init(drm, encoder, &sun8i_dw_hdmi_encoder_funcs,
-+			 DRM_MODE_ENCODER_TMDS, NULL);
- 
- 	plat_data->mode_valid = hdmi->quirks->mode_valid;
- 	plat_data->use_drm_infoframe = hdmi->quirks->use_drm_infoframe;
+Add initial support for both the Helper and Core boards, including UART,
+PMU, eMMC, USB, Ethernet, LRADC-connected buttons.
 
----
-base-commit: e2a6e04d045a56c6dc61e1eb9e2a6d7cf86512cd
-change-id: 20260623-sun4i_simple-25c68885e359
+UART1 can only be used for Bluetooth module, but BT-WiFi combo Allwinner
+AW869A chip has not mainline driver currently.
 
-Best regards,
+Link: https://szbaijie.com/index/product/product_detail.html?product_id=23&language=en
+
+Changelog:
+v5:
+- sun50i-a100.dtsi: reflowed "compatible" property of lradc node
+- dropped "reserve RAM for ATF" patch [v4 6/7]
+v4:
+- reserve RAM for ATF
+- sun4i-lradc-keys: Add A100/A133 compatible
+- dt-bindings: renamed "Baijie Helper A133" -> "Baijie A133 HelperBoard"
+- dt-bindings: renamed "baijie,helper-a133" -> "baijie,helperboard-a133"
+- dt-bindings: introduced allwinner,sun50i-a100-lradc
+- reserve RAM for ATF
+- renamed "sun50i-a133-baijie-helper.dtb" -> "sun50i-a133-helperboard.dtb"
+- added "model" property into root of sun50i-a133-helperboard-core.dtsi
+- added "cap-mmc-highspeed" and "max-frequency" into &mmc2
+- added "x-powers,drive-vbus-en" and "*-supply" into &axp803
+- dropped all "regulator-enable-ramp-delay" properties
+- replaced &reg_dcdc3 with a "polyphased" comment
+- exact DRAM voltage in &reg_dcdc5
+- disabled &reg_dcdc6 to avoid "[   31.710641] dcdc6: disabling"
+- added &reg_vdd5v "root" regulator
+- added "disable-wp" into &mmc0
+- commented &usb_otg
+- assigned usb1_vbus-supply in &usbphy
+- https://lore.kernel.org/all/20260605070923.3045073-1-alexander.sverdlin@gmail.com/
+v3:
+- added lradc node to sun50i-a100.dtsi
+- enabled LRADC driver in arm64 defconfig
+- added my copyrights into the newly introduced DTs
+- all DT nodes sorted alphabetically
+- all always-on regulators commented/propetly named
+- all regulators got proper voltages (not default ranges)
+- ADC-sensed buttons K1..K5 added
+- re-labelled "eth_phy" -> "rgmii_phy"
+- usbphy 0 switched from host into peripheral mode (downstream from an
+  onboard hub)
+- typo sun50i-a133-baije-core.dtsi -> sun50i-a133-baijie-core.dtsi
+- https://lore.kernel.org/all/20260517234134.2737320-1-alexander.sverdlin@gmail.com/
+v2:
+- introduced baijie,helper-a133-core compatible for the Core (SoM) board
+- https://lore.kernel.org/all/20260510201644.4143710-1-alexander.sverdlin@gmail.com/
+v1:
+- https://lore.kernel.org/all/20260503191842.2736130-1-alexander.sverdlin@gmail.com/
+
+Alexander Sverdlin (6):
+  arm64: defconfig: Enable Allwinner LRADC input driver
+  dt-bindings: vendor-prefixes: Add Shenzhen Baijie Technology Co., Ltd.
+  dt-bindings: arm: sunxi: Add Baijie HelperBoard A133 compatible
+  dt-bindings: input: sun4i-lradc-keys: Add A100/A133 compatible
+  arm64: dts: allwinner: a100: Add LRADC node
+  arm64: dts: allwinner: A133: add support for Baijie Helper A133 board
+
+ .../devicetree/bindings/arm/sunxi.yaml        |   6 +
+ .../input/allwinner,sun4i-a10-lradc-keys.yaml |   1 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../arm64/boot/dts/allwinner/sun50i-a100.dtsi |  10 +
+ .../sun50i-a133-helperboard-core.dtsi         | 197 ++++++++++++++++++
+ .../dts/allwinner/sun50i-a133-helperboard.dts | 148 +++++++++++++
+ arch/arm64/configs/defconfig                  |   1 +
+ 8 files changed, 366 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-a133-helperboard-core.dtsi
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-a133-helperboard.dts
+
 -- 
-Diogo Silva <diogompaissilva@gmail.com>
+2.54.0
 
