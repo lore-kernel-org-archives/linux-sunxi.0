@@ -1,299 +1,333 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96172287510
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Jun 2026 15:42:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638C93A6B8F
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Jun 2026 20:34:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782229353; cv=none; b=tJaTQQvWnz6Tm41vpJ6JhbD2AIYYGYFjo86xZQNy0NW5SHyzRxk25nhpWWTvenb/sw6lg08sFcCmmY0D8s2gCt4opZdGmzXmXsM9bskVz4dHI/qWPUffbBS/KpxUPEY5t2YGlO7TSZ9b/JJgIB6LWbUTzboZ+GLnAXTiSbTbWMI=
+	t=1782246897; cv=none; b=sKpfv7EzVTKX/b7pczkJ+LpUnphB1FYW8LtD+efdgUD96gg2de2rLFlkWZV9bdoY+2rMPt+KrCcRTCBEY7/9d100KZTYUQ1SpWH8URiVuC7Ga5mnEGwkVwToKe2M42C9SU6Qa+LuXcjx3AAQjA3jV4+iU68mOa0Ll5BHFY8/IxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782229353; c=relaxed/simple;
-	bh=z6MKKtlC7LSYB5Sy3KeJxvJLPKB1dSyb1BRmdkMlOX0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Bde3Y6vME2CggT3eZWXL1TK7K4jmy59nXJakEmEPafR262x5Zzq2P9kY3O0v4GLdVzsoeLkzGmu00BJq4ZS1PIGyjmaHByYfjhemrfdYiUqE/lC6fJPY/ltfjM/CpiLFIpf7KOfdtR/iAn1pAw6rbkRLvF8b59WR5ojMP6mOHCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PLU/Xe7/; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782246897; c=relaxed/simple;
+	bh=VIVa48SIpA6zVOPSS8O6SLVXDjtd6I9Jk+9GWFqC30Y=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=FqYBvohj/80CkpZXX2H1sTH2ukiH7zpV3vDVydTY6SIRlJeR8iU8DgMpR24JUAmKMZvnukQwh6qDL6wfniEPgBSYuHN6ZIJuhJcQrWqlNIZG9bNtmVE/d7/og9K+2rkfRWzimMrANtYLOT+XjV9RU6DPBJHHMqURjODAcWLWlq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GnuMlThw; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PLU/Xe7/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 795D11F00A3E
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Jun 2026 15:42:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782229351;
-	bh=BSL3Ji4GUrL1JE/4JUwmqRt8VhO/nTrzRQrvkStmD+k=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=PLU/Xe7/8I4p6kQw9d+XwsJJIyv8ger5txXEWfC385pIIaf5tiX0F2wRW4uPOHh09
-	 Doh7GOS3oSSHklFWi0LWiWPRmm/Mpi2QPnvez/wBzDonyqGD5lns28H14WJe6Hb/om
-	 +6H+5S6d019xHkOLUewLOKj4v7uBXxcwuwt+PVNe8sgF4QDlGqBZXfONZjAblucZOP
-	 DFJuxPTEaxDypwhYZjhhqSPoYwstBVtrA+8K3jqEZtKpIb3/TlPvyh0M81I4G0amhs
-	 LNPCfm8UhYg1xQBiNwWcyLzDai9Ym8d05n3fGMYl4AJEwxnhpMAXNbiVkysPcaWrmT
-	 49OODXw+LAFgA==
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-3996f80800bso12296061fa.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 23 Jun 2026 08:42:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+iaBi1Lu6ay6LGeU+C50u1kZqpek2j3jSjqm0ciniup6HoTgpQZFEU4R1Mn1SFtYXxrCrFKuvQSKuRrA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxHGhXIxf6BWCULLwnU1dCxQtOAjdytpC3FYHc5dM0XAgFRkI2R
-	4FnBrPpd/QbsYyew5omFTx4XFYNw0FY0bOOdrvvoQKMpW3zSIwfr+OnQqaUhKtlEg7luntI0ZK5
-	e47TBZRubXCtJAa0A7Syps1VDGhDvRNc=
-X-Received: by 2002:a2e:ad12:0:b0:38a:5bf2:80d6 with SMTP id
- 38308e7fff4ca-399c537553emr12162361fa.5.1782229349894; Tue, 23 Jun 2026
- 08:42:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GnuMlThw"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4903d730b1fso3222585e9.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 23 Jun 2026 13:34:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782246894; x=1782851694; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5t3Yym7TNcn23mBBw6H+IPIGFaMcwRdXEZmNa7/R0B4=;
+        b=GnuMlThwk7WLgUPeNTCM+Y1MhHQTI+IE/sO7dM1H9/SXY3T0xq++4qG9L/c6mte4ML
+         3Sw6bSKk94uwWaYENY5GKxVfOunXE5jGaLPwadkaWacRPMtNj72YWnWSV7yoLONvFuNg
+         KKIICcNKO+zoeME2l+HLnb9enBJ6gEeY+Q8XH6/dlXbqMm/EdR/LBaQ+ukI/cZUIYK6H
+         ifRmwjYGJnJ1r9GpzeVTVTRNn9Wi1PuEnCsGI+YaELPKnrwIS6ohiznkCmmE5zexvc3w
+         8Jq5U0AWDNncvpffPw30vHykwDsm3tr/zXgmibZ/mG/WqdTf/OQ9Vlsr7fsWRCVT13a9
+         ZmIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782246894; x=1782851694;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5t3Yym7TNcn23mBBw6H+IPIGFaMcwRdXEZmNa7/R0B4=;
+        b=gfdPTtTLWQ0ZVGXb6yPQip/nYgIWGEBte5LU2obk2RYOMVR6T3nH2G3jPTNCOOl8RB
+         Do4t91QK1YusL+sMAV2u+7r3HQksDm0q61I4xmpH+stAzhqWiZ8yYCKDQKNIcmAUD1NF
+         drJxlVsnWHQRzQRn0g+mvxiyfwJoxBJwUgFp4HrNWkIModHZPb4mwGa++T+q5UdT/E8y
+         P/sWmnQDluXgy8nXLm5AnwDpaKS0hCsCmUDx7hqkmeKALVHXuMBfv9AVcqPTaFtgf9DO
+         Cnn2l+Fvx2C4/zZ3HUbg14yijb4K37Kxz25AUmnDFrk5JCcDJqxiptUAIiMRna+2pfAA
+         Ewqg==
+X-Forwarded-Encrypted: i=1; AFNElJ9DkGzCUF0qm2nVPKbwRG9MzsQBOthHryP3nWEONOYSaWXd+tToiGROJUjQgNOmkNgrh2CKzmf/PUSOng==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxjACWPHH2Gk5h23pPbtKJBruEX7sUvetKRbQ8R5SiAdZRxwMsq
+	kTC8zSSh+XymDDQ0nretQko3i2aa0b6CbZ1X1d1agBHGUmiLY7aAzDMj
+X-Gm-Gg: AfdE7cm8VubLlONZZEccx7P2s4Aq8pH7LmetMKWDS1+EjDVQJ9lrK/TXQhjUSZ46pEf
+	REbOXB2ZPq3dPAgUHuoYNwXpEZOZJsmoKRhWRKb9T4VUu+9+PH2NH5Bi7k4ayo5cPEaborVdM6l
+	nP9XzqIf8TffQDTyJCuM2DM3zf5j06fzxJ8/6MEFMe98M4VvtxHfGjjb0lymICEQYEQmKF7ngsW
+	/wEKkk9bEiC5gw3ccw/Ng+IkuXFmmoe7M/C6PToh9Wg22Yp8g/9uXpHxnHr7A4GOZnDILpOkS/q
+	ayt11bZ6Y4awT/rIJVYWQ1hLwsH3q8w7g329GmhN7F38WP8i3mtGzPJUOYsCHHhgQGIireBh+r7
+	SlewBx8gXt0ruVwV7Y4mxxSyEetzYZ5Oi3m40DtefGU5FSe4ah99D6wu6nDi78A+q0j45SgaUg5
+	j9kwyj9kTV2ex6cfv7sz6O
+X-Received: by 2002:a05:600c:34c2:b0:492:465a:7e5b with SMTP id 5b1f17b1804b1-4926087371bmr2714075e9.22.1782246893690;
+        Tue, 23 Jun 2026 13:34:53 -0700 (PDT)
+Received: from [127.0.0.2] ([194.35.121.133])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923fd154fdsm374613865e9.1.2026.06.23.13.34.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jun 2026 13:34:53 -0700 (PDT)
+From: Diogo Silva <diogompaissilva@gmail.com>
+Date: Tue, 23 Jun 2026 22:34:40 +0200
+Subject: [PATCH] drm/sun4i: Remove dependency on DRM simple helpers
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260121-a733-rtc-v1-0-d359437f23a7@pigmoral.tech>
- <20260121-a733-rtc-v1-1-d359437f23a7@pigmoral.tech> <CAGb2v67844OPwE6VJ0PAs5LsmCa2h0FvXOBUomZ50dM5tZ0Zow@mail.gmail.com>
- <1j1pe7elxm.fsf@starbuckisacylon.baylibre.com>
-In-Reply-To: <1j1pe7elxm.fsf@starbuckisacylon.baylibre.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 23 Jun 2026 23:42:15 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66dTvBmmtJs_9nScpmudpcnSeUvmUmMSkmBw9MoDc_N0w@mail.gmail.com>
-X-Gm-Features: AVVi8CcgLOtVmxPkjYo8ol2JpJAsomRkV2c2-YmPvchv8vYkQh8VbR5Oaj0YqvI
-Message-ID: <CAGb2v66dTvBmmtJs_9nScpmudpcnSeUvmUmMSkmBw9MoDc_N0w@mail.gmail.com>
-Subject: Re: [PATCH 1/7] dt-bindings: rtc: sun6i: Add Allwinner A733 support
-To: Jerome Brunet <jbrunet@baylibre.com>, Junhui Liu <junhui.liu@pigmoral.tech>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Maxime Ripard <mripard@kernel.org>, linux-clk@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260623-sun4i_simple-v1-1-fa6696df1fad@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAN/tOmoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDMyNj3eLSPJPM+OLM3IKcVF0j02QzCwsL01RjU0sloJaCotS0zAqwcdG
+ xtbUAyL0mhF4AAAA=
+X-Change-ID: 20260623-sun4i_simple-25c68885e359
+To: Chen-Yu Tsai <wens@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Diogo Silva <diogompaissilva@gmail.com>
+X-Mailer: b4 0.14.3
 
-On Tue, Jun 16, 2026 at 1:46=E2=80=AFAM Jerome Brunet <jbrunet@baylibre.com=
-> wrote:
->
-> On sam. 28 mars 2026 at 20:37, Chen-Yu Tsai <wens@kernel.org> wrote:
->
-> > On Wed, Jan 21, 2026 at 7:03=E2=80=AFPM Junhui Liu <junhui.liu@pigmoral=
-.tech> wrote:
-> >>
-> >> The RTC module in the Allwinner A733 SoC is functionally compatible wi=
-th
-> >> the sun6i RTC, but its internal Clock Control Unit (CCU) has significa=
-nt
-> >> changes.
-> >>
-> >> The A733 supports selecting the oscillator between three frequencies:
-> >> 19.2MHz, 24MHz, and 26MHz. The RTC CCU relies on hardware to detect
-> >> which frequency is actually used on the board. By defining all three
-> >> frequencies as fixed-clocks in the device tree, the driver can identif=
-y
-> >> the hardware-detected frequency and expose it to the rest of the syste=
-m.
-> >
-> > No. The board device tree shall have the exact and correct frequency
-> > defined in the external crystal device node. The operating system can
-> > use the hardware-detected frequency to "fix" the in-system representati=
-on
-> > if it is off.
-> >
-> >> Additionally, the A733 RTC CCU provides several new DCXO gate clocks f=
-or
-> >> specific modules, including SerDes, HDMI, and UFS.
-> >>
-> >> Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
-> >> ---
-> >>  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml      | 38 +++++++++++++=
-+++++++--
-> >>  include/dt-bindings/clock/sun60i-a733-rtc.h        | 16 +++++++++
-> >>  2 files changed, 52 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31=
--rtc.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.y=
-aml
-> >> index 9df5cdb6f63f..b18431955783 100644
-> >> --- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.ya=
-ml
-> >> +++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.ya=
-ml
-> >> @@ -26,6 +26,7 @@ properties:
-> >>            - allwinner,sun50i-h6-rtc
-> >>            - allwinner,sun50i-h616-rtc
-> >>            - allwinner,sun50i-r329-rtc
-> >> +          - allwinner,sun60i-a733-rtc
-> >>        - items:
-> >>            - const: allwinner,sun50i-a64-rtc
-> >>            - const: allwinner,sun8i-h3-rtc
-> >> @@ -46,11 +47,11 @@ properties:
-> >>
-> >>    clocks:
-> >>      minItems: 1
-> >> -    maxItems: 4
-> >> +    maxItems: 6
-> >>
-> >>    clock-names:
-> >>      minItems: 1
-> >> -    maxItems: 4
-> >> +    maxItems: 6
-> >>
-> >>    clock-output-names:
-> >>      minItems: 1
-> >> @@ -156,6 +157,38 @@ allOf:
-> >>          - clocks
-> >>          - clock-names
-> >>
-> >> +  - if:
-> >> +      properties:
-> >> +        compatible:
-> >> +          contains:
-> >> +            const: allwinner,sun60i-a733-rtc
-> >> +
-> >> +    then:
-> >> +      properties:
-> >> +        clocks:
-> >> +          minItems: 5
-> >> +          items:
-> >> +            - description: Bus clock for register access
-> >
-> >> +            - description: 19.2 MHz oscillator
-> >> +            - description: 24 MHz oscillator
-> >> +            - description: 26 MHz oscillator
-> >
-> > No. There is only one input. As in there is only one set of pins for th=
-e
-> > DCXO. The inputs are the same as on R329 / A523. Just use that list.
-> >
-> >> +            - description: AHB parent for internal SPI clock
-> >> +            - description: External 32768 Hz oscillator
-> >> +
-> >> +        clock-names:
-> >> +          minItems: 5
-> >> +          items:
-> >> +            - const: bus
-> >> +            - const: osc19M
-> >> +            - const: osc24M
-> >> +            - const: osc26M
-> >> +            - const: ahb
-> >> +            - const: ext-osc32k
-> >> +
-> >> +      required:
-> >> +        - clocks
-> >> +        - clock-names
-> >> +
-> >>    - if:
-> >>        properties:
-> >>          compatible:
-> >> @@ -164,6 +197,7 @@ allOf:
-> >>                - allwinner,sun8i-r40-rtc
-> >>                - allwinner,sun50i-h616-rtc
-> >>                - allwinner,sun50i-r329-rtc
-> >> +              - allwinner,sun60i-a733-rtc
-> >>
-> >>      then:
-> >>        properties:
-> >> diff --git a/include/dt-bindings/clock/sun60i-a733-rtc.h b/include/dt-=
-bindings/clock/sun60i-a733-rtc.h
-> >> new file mode 100644
-> >> index 000000000000..8a2b5facad73
-> >> --- /dev/null
-> >> +++ b/include/dt-bindings/clock/sun60i-a733-rtc.h
-> >> @@ -0,0 +1,16 @@
-> >> +/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
-> >> +
-> >> +#ifndef _DT_BINDINGS_CLK_SUN60I_A733_RTC_H_
-> >> +#define _DT_BINDINGS_CLK_SUN60I_A733_RTC_H_
-> >> +
-> >> +#define CLK_IOSC               0
-> >> +#define CLK_OSC32K             1
-> >> +#define CLK_HOSC               2
-> >
-> > The DCXO enable control has been present since at least the H6. We just
-> > never added it, as we would never disable it anyway.
-> >
-> > If you compare the RTC clock trees of the A733 and A523, the only addit=
-ion
-> > besides the new gates seems to be the LOSC auto selection. But even tha=
-t
-> > is just an illusion, as the A523 has the same registers for that.
-> >
-> > One could say the A733 RTC is almost backward compatible to the A523, i=
-f
-> > not for the two fastboot registers the A523 has at 0x120 and 0x124.
-> >
-> > So I ask that you try to integrate the differences into the existing
-> > driver and bindings. You can tweak and export internal clks if you
-> > need.
->
-> I'd like to help with that. I think it is doable but I have a question
-> regarding the binding of the existing driver, more precisely their usage
-> here:
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/d=
-rivers/clk/sunxi-ng/ccu-sun6i-rtc.c?h=3Dv7.1#n370
->
-> Clock indexes are supposed to be stable in DT (AFAIK) but with the code
-> linked the external 32k is at:
->
-> * "ext-32k" - so index 3 - if "clock-names" is present
-> * index 0 if clock names is not present
->
-> ... but index 0 is supposed to be the bus clock according the binding
-> doc, whether "clock-names" is there or not :/
->
-> So what are those old r329 bindings ? is there a documentation defining
-> them somewhere ?
+Simple KMS helper are deprecated since they only add an intermediate
+layer between drivers and the atomic modesetting.
+This patch removes the dependency on drm simple helpers from sun4i
+DRM drivers.
 
-You can look at
+Signed-off-by: Diogo Silva <diogompaissilva@gmail.com>
+---
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c |  9 ++++++---
+ drivers/gpu/drm/sun4i/sun4i_lvds.c     | 10 +++++++---
+ drivers/gpu/drm/sun4i/sun4i_rgb.c      | 10 +++++++---
+ drivers/gpu/drm/sun4i/sun4i_tv.c       | 10 +++++++---
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 10 +++++++---
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c  |  8 ++++++--
+ 6 files changed, 40 insertions(+), 17 deletions(-)
 
-    8487614a8a8a dt-bindings: rtc: sun6i: Add H616, R329, and D1 support
+diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+index 8f64464621c9..e99f52ebb26f 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
++++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+@@ -24,7 +24,6 @@
+ #include <drm/drm_panel.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+-#include <drm/drm_simple_kms_helper.h>
+ 
+ #include <drm/display/drm_hdmi_helper.h>
+ #include <drm/display/drm_hdmi_state_helper.h>
+@@ -172,6 +171,10 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
+ 	writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
+ }
+ 
++static const struct drm_encoder_funcs sun4i_hdmi_funcs = {
++	.destroy = drm_encoder_cleanup,
++};
++
+ static const struct drm_encoder_helper_funcs sun4i_hdmi_helper_funcs = {
+ 	.atomic_disable	= sun4i_hdmi_disable,
+ 	.atomic_enable	= sun4i_hdmi_enable,
+@@ -624,8 +627,8 @@ static int sun4i_hdmi_bind(struct device *dev, struct device *master,
+ 
+ 	drm_encoder_helper_add(&hdmi->encoder,
+ 			       &sun4i_hdmi_helper_funcs);
+-	ret = drm_simple_encoder_init(drm, &hdmi->encoder,
+-				      DRM_MODE_ENCODER_TMDS);
++	ret = drm_encoder_init(drm, &hdmi->encoder, &sun4i_hdmi_funcs,
++			       DRM_MODE_ENCODER_TMDS, NULL);
+ 	if (ret) {
+ 		dev_err(dev, "Couldn't initialise the HDMI encoder\n");
+ 		goto err_put_ddc_i2c;
+diff --git a/drivers/gpu/drm/sun4i/sun4i_lvds.c b/drivers/gpu/drm/sun4i/sun4i_lvds.c
+index 6716e895ae8a..35a3f987c37a 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_lvds.c
++++ b/drivers/gpu/drm/sun4i/sun4i_lvds.c
+@@ -8,11 +8,11 @@
+ 
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
++#include <drm/drm_encoder.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_panel.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+-#include <drm/drm_simple_kms_helper.h>
+ 
+ #include "sun4i_crtc.h"
+ #include "sun4i_tcon.h"
+@@ -89,6 +89,10 @@ static void sun4i_lvds_encoder_disable(struct drm_encoder *encoder)
+ 	}
+ }
+ 
++static const struct drm_encoder_funcs sun4i_lvds_enc_funcs = {
++	.destroy = drm_encoder_cleanup,
++};
++
+ static const struct drm_encoder_helper_funcs sun4i_lvds_enc_helper_funcs = {
+ 	.disable	= sun4i_lvds_encoder_disable,
+ 	.enable		= sun4i_lvds_encoder_enable,
+@@ -115,8 +119,8 @@ int sun4i_lvds_init(struct drm_device *drm, struct sun4i_tcon *tcon)
+ 
+ 	drm_encoder_helper_add(&lvds->encoder,
+ 			       &sun4i_lvds_enc_helper_funcs);
+-	ret = drm_simple_encoder_init(drm, &lvds->encoder,
+-				      DRM_MODE_ENCODER_LVDS);
++	ret = drm_encoder_init(drm, &lvds->encoder, &sun4i_lvds_enc_funcs,
++			       DRM_MODE_ENCODER_LVDS, NULL);
+ 	if (ret) {
+ 		dev_err(drm->dev, "Couldn't initialise the lvds encoder\n");
+ 		goto err_out;
+diff --git a/drivers/gpu/drm/sun4i/sun4i_rgb.c b/drivers/gpu/drm/sun4i/sun4i_rgb.c
+index dfb6acc42f02..9c3fbf1b949e 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_rgb.c
++++ b/drivers/gpu/drm/sun4i/sun4i_rgb.c
+@@ -10,11 +10,11 @@
+ 
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
++#include <drm/drm_encoder.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_panel.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+-#include <drm/drm_simple_kms_helper.h>
+ 
+ #include "sun4i_crtc.h"
+ #include "sun4i_tcon.h"
+@@ -180,6 +180,10 @@ static void sun4i_rgb_encoder_disable(struct drm_encoder *encoder)
+ 	}
+ }
+ 
++static const struct drm_encoder_funcs sun4i_rgb_enc_funcs = {
++	.destroy = drm_encoder_cleanup,
++};
++
+ static const struct drm_encoder_helper_funcs sun4i_rgb_enc_helper_funcs = {
+ 	.disable	= sun4i_rgb_encoder_disable,
+ 	.enable		= sun4i_rgb_encoder_enable,
+@@ -207,8 +211,8 @@ int sun4i_rgb_init(struct drm_device *drm, struct sun4i_tcon *tcon)
+ 
+ 	drm_encoder_helper_add(&rgb->encoder,
+ 			       &sun4i_rgb_enc_helper_funcs);
+-	ret = drm_simple_encoder_init(drm, &rgb->encoder,
+-				      DRM_MODE_ENCODER_NONE);
++	ret = drm_encoder_init(drm, &rgb->encoder, &sun4i_rgb_enc_funcs,
++			       DRM_MODE_ENCODER_NONE, NULL);
+ 	if (ret) {
+ 		dev_err(drm->dev, "Couldn't initialise the rgb encoder\n");
+ 		goto err_out;
+diff --git a/drivers/gpu/drm/sun4i/sun4i_tv.c b/drivers/gpu/drm/sun4i/sun4i_tv.c
+index 814b77f278f6..ce22f1662c0c 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_tv.c
++++ b/drivers/gpu/drm/sun4i/sun4i_tv.c
+@@ -16,11 +16,11 @@
+ 
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
++#include <drm/drm_encoder.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_panel.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+-#include <drm/drm_simple_kms_helper.h>
+ 
+ #include "sun4i_crtc.h"
+ #include "sun4i_drv.h"
+@@ -391,6 +391,10 @@ static void sun4i_tv_enable(struct drm_encoder *encoder,
+ 			   SUN4I_TVE_EN_ENABLE);
+ }
+ 
++static const struct drm_encoder_funcs sun4i_tv_funcs = {
++	.destroy = drm_encoder_cleanup,
++};
++
+ static const struct drm_encoder_helper_funcs sun4i_tv_helper_funcs = {
+ 	.atomic_disable	= sun4i_tv_disable,
+ 	.atomic_enable	= sun4i_tv_enable,
+@@ -474,8 +478,8 @@ static int sun4i_tv_bind(struct device *dev, struct device *master,
+ 
+ 	drm_encoder_helper_add(&tv->encoder,
+ 			       &sun4i_tv_helper_funcs);
+-	ret = drm_simple_encoder_init(drm, &tv->encoder,
+-				      DRM_MODE_ENCODER_TVDAC);
++	ret = drm_encoder_init(drm, &tv->encoder, &sun4i_tv_funcs,
++			       DRM_MODE_ENCODER_TVDAC, NULL);
+ 	if (ret) {
+ 		dev_err(dev, "Couldn't initialise the TV encoder\n");
+ 		goto err_disable_clk;
+diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+index c35b70d83e53..f0c9f0e573d2 100644
+--- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
++++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+@@ -20,11 +20,11 @@
+ #include <linux/slab.h>
+ 
+ #include <drm/drm_atomic_helper.h>
++#include <drm/drm_encoder.h>
+ #include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_panel.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+-#include <drm/drm_simple_kms_helper.h>
+ 
+ #include "sun4i_crtc.h"
+ #include "sun4i_tcon.h"
+@@ -842,6 +842,10 @@ static const struct drm_connector_funcs sun6i_dsi_connector_funcs = {
+ 	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
+ };
+ 
++static const struct drm_encoder_funcs sun6i_dsi_enc_funcs = {
++	.destroy = drm_encoder_cleanup,
++};
++
+ static const struct drm_encoder_helper_funcs sun6i_dsi_enc_helper_funcs = {
+ 	.disable	= sun6i_dsi_encoder_disable,
+ 	.enable		= sun6i_dsi_encoder_enable,
+@@ -1056,8 +1060,8 @@ static int sun6i_dsi_bind(struct device *dev, struct device *master,
+ 
+ 	drm_encoder_helper_add(&dsi->encoder,
+ 			       &sun6i_dsi_enc_helper_funcs);
+-	ret = drm_simple_encoder_init(drm, &dsi->encoder,
+-				      DRM_MODE_ENCODER_DSI);
++	ret = drm_encoder_init(drm, &dsi->encoder, &sun6i_dsi_enc_funcs,
++			       DRM_MODE_ENCODER_DSI, NULL);
+ 	if (ret) {
+ 		dev_err(dsi->dev, "Couldn't initialise the DSI encoder\n");
+ 		return ret;
+diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+index 96532709c2a7..9694ad142a7d 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
++++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+@@ -9,8 +9,8 @@
+ #include <linux/platform_device.h>
+ 
+ #include <drm/drm_modeset_helper_vtables.h>
++#include <drm/drm_encoder.h>
+ #include <drm/drm_of.h>
+-#include <drm/drm_simple_kms_helper.h>
+ 
+ #include "sun8i_dw_hdmi.h"
+ #include "sun8i_tcon_top.h"
+@@ -23,6 +23,9 @@ static void sun8i_dw_hdmi_encoder_mode_set(struct drm_encoder *encoder,
+ 
+ 	clk_set_rate(hdmi->clk_tmds, mode->crtc_clock * 1000);
+ }
++static const struct drm_encoder_funcs sun8i_dw_hdmi_encoder_funcs = {
++	.destroy = drm_encoder_cleanup,
++};
+ 
+ static const struct drm_encoder_helper_funcs
+ sun8i_dw_hdmi_encoder_helper_funcs = {
+@@ -180,7 +183,8 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
+ 		goto err_disable_clk_tmds;
+ 
+ 	drm_encoder_helper_add(encoder, &sun8i_dw_hdmi_encoder_helper_funcs);
+-	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
++	drm_encoder_init(drm, encoder, &sun8i_dw_hdmi_encoder_funcs,
++			 DRM_MODE_ENCODER_TMDS, NULL);
+ 
+ 	plat_data->mode_valid = hdmi->quirks->mode_valid;
+ 	plat_data->use_drm_infoframe = hdmi->quirks->use_drm_infoframe;
 
-In hindsight maybe the two bindings should be separate. The old SoCs
-did not have all these clock inputs from the main clock controller.
-The only input it could possibly take was the external 32k crystal.
+---
+base-commit: e2a6e04d045a56c6dc61e1eb9e2a6d7cf86512cd
+change-id: 20260623-sun4i_simple-25c68885e359
 
-> Cleaning that part would help with A733 addition in the existing driver
-> I think
+Best regards,
+-- 
+Diogo Silva <diogompaissilva@gmail.com>
 
-Yeah. Also, we can treat the bindings and drivers separately. We could
-have two bindings but one common driver, or vice versa. As you pointed
-out, the bindings are a bit messed up, so we could consider separating
-them.
-
-If we end up with separate binding header files, maybe we could use
-a different prefix for the new ones so they don't collide? That way
-the driver could maybe still be shared?
-
-As for whether to share the headers, I think they should be treated
-as part of the binding, so if the bindings are shared, then they can
-be shared as well; if the bindings are separate, then they should be
-completely separate files as well.
-
-
-And sorry for the late reply.
-
-
-Thanks
-ChenYu
-
-> >
-> >> +#define CLK_RTC_32K            3
-> >
-> > AFAICT besides being an internal clock, this is also fed to GPIO for
-> > debounce? We probably need to expose this on the A523 as well.
-> >
-> >
-> > Thanks
-> > ChenYu
-> >
-> >
-> >> +#define CLK_OSC32K_FANOUT      4
-> >> +#define CLK_HOSC_SERDES1       5
-> >> +#define CLK_HOSC_SERDES0       6
-> >> +#define CLK_HOSC_HDMI          7
-> >> +#define CLK_HOSC_UFS           8
-> >> +
-> >> +#endif /* _DT_BINDINGS_CLK_SUN60I_A733_RTC_H_ */
-> >>
-> >> --
-> >> 2.52.0
-> >>
-> >>
->
-> --
-> Jerome
->
