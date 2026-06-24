@@ -1,113 +1,114 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.archlinux.org (mail.archlinux.org [95.216.189.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B3B2DB79F
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 Jun 2026 11:50:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9A92AE7A
+	for <linux-sunxi@lists.linux.dev>; Wed, 24 Jun 2026 22:05:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.216.189.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782301840; cv=none; b=l1W+YMMMEcJyK538UlPmZq0uGmwsAGOnQWdBzwX7UbDmGj+Zbej3z71n3uF8oPn0RZvdf9xdGDxWlPwkhZka9Oex42LleRfCfl3fdx6W+ieulGKbv1eCVcfAmyMXOfw/E5Lnj7/PgHUs9Sx9v3bjLJWy4p3CkqRp1Jf5hCiZQ9w=
+	t=1782338706; cv=none; b=T9mLn6BCjh9v1Tq3cAjpVSq3riKVMetecn8aIwh+sjGi6K0di2AuGrYgIbutyTv349LCmYp7aIc2O2WPpniS0yj+rk71t/ZNr+iDK2fp5KWWDdrB6iPA9qLPdueQWuQkdsy3kkXANj53MmvPEKQfDeuA1MLJiTwPZcPyz1flh3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782301840; c=relaxed/simple;
-	bh=H9kzeArIrdtsSKoAfhoyLovvflrT2KaPvrL2Ox7o/8k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i9iJxBt3Dy+TSGXJZ9TkBP1CfSEOLTANjY/om/QULWW1D+jW/tIj5tHV1RDCgilN7ymvxxicfqjPdefkQpUvcG83rLWphL8D+hqHlayd+dWhYl8L859Gwn4St+KSxSAMSEIE3DxOrtQP2jYobWdIkFWdtuKmXx11rIKY+LZo1bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ERk/Cf9O; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782338706; c=relaxed/simple;
+	bh=DzsGDJlo0P6UfxfIIVwaI4Ge4r3irh7jrVqwbjP2kbE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ICp9L1DQimt/u7xBJ+YYFA2A1Us0ZXaOTGIE/pmQVhUF+g+G6PbUqjfIEu/cXD8FQCbvZtymOJinJ+on1wzBHbVFp4t3AS8PZLCCc0GO7YbYEllEFix0SffAu6HHj2N2jK2DSKV+jaLn+8DH95nMeAQkDeVRX1EJdCVRK4/I3SU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org; spf=pass smtp.mailfrom=archlinux.org; dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=G0Wxt0r2; dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=rHA48A4i; arc=none smtp.client-ip=95.216.189.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=archlinux.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ERk/Cf9O"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-bec49f7e35eso147902066b.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 24 Jun 2026 04:50:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782301837; x=1782906637; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eZbMotHgAD6jel0fNJNyUErzOCiB1TTJiURnxn+giCc=;
-        b=ERk/Cf9OJPebj9ChMwMbo55wO+P810ihJGtxrnZWFczoWOPTY7lYaOQtijtq3qlYVC
-         RetEV7W1d4VDCVrYuGNbGzheA9KkUrM4YyygjW8eXOox+rrfnjfiaUXuGwzShFFd9vUP
-         NH5JSI9+WBMvM3Ubpqs4ipGsFYTsytxaKFBwmDOwSc7CiXsOc0SKpHtfOJBuIPiroZrP
-         vJqEBUj2qojCkjuMD18O6pAjEQSBGSI04VkAIfPtgj+3GiFf8l8qtRyEHNUnrg2VluaA
-         TI8lXeNsHM7SDj4EMQeuu36XVOy617MFT4usnylIVHHhlPqfXoVZI0WoWZSrN3F9StOT
-         rJhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782301837; x=1782906637;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eZbMotHgAD6jel0fNJNyUErzOCiB1TTJiURnxn+giCc=;
-        b=b9UNg3C3XsMhgfgHgxmqtFdH/xeccGMJp9GNcmq2sUYV68Vl070TAsvwR2TgxJBA9G
-         U3hYsJ5/tdPXsBCrSb6AbjbGsuniL7P8zdqsHe8UFh1wTM3mUSKPmlafG5og3F+BVAX7
-         PdHFCNm99Vo4uwiY5RUVbhKEDSAsExdLfIXIWcHG1/qDUtpmvA8KuOo+fFoRc0nHklJp
-         bYwYBL4nqOcsHpwG8rdc4r2ZCmi2pxcUjhY+Exs01smpPLsgGjec0CBMilC4eJ64iIB6
-         BuiLyFDZMsY0vAlZq6Z434JGsCUUvWY+IrT11EYcljMj9wfCMKhSq6FMbiw6lcs5J8cZ
-         RPSA==
-X-Forwarded-Encrypted: i=1; AFNElJ9krdYXk+nnW9n4nSbeM7714fM+ZTjibLmX/R1b43+gUAL106BuSwXNyZegY6Embh3GDvqaN8vUmPDl9A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyS5t6+3G8cjL+/xqPfol/RwUJdcA5u6N5qphE+fNnQfbSVCnrz
-	eH34L4X/H0VKaFhFB1SWlucJhA9pFF9zrsNiFfiGOkLeD9tnBvrmzeBf
-X-Gm-Gg: AfdE7cmRuC5cNaoJsoPeK8TZT5ICT3+6QUb/SKBeV62fGptlSpxYUcW7T1tyUT3joa/
-	zbiVOnf7j0uN7VOHqfRMI4FAiQLzp2bfE7Bo3Qp+EL0aKHfxZPMMGcjwbuF43A9LToJ9i3gqj+1
-	WptpiG2cKX4N7/+cS3Gszw+NT6sFAgSn7iO8rlcrDIojJ/VUilouqM6vqqRABBDIAyFepoSe/ZN
-	mEVfk19GK9lIvasld4cyT8wYqex/g1KEfcvIIRrOMKM2MDfOtb/DFxjtnl+iWaFEp5Kfv1fDTNN
-	HhoCAQBHRvvgzFL0D1ZjZrYe9CpZfCDuhkHqdF9xLw02KxPdKM5cHYe83EZAS+tyKB2itsr77gM
-	GHJsmymlWKv/7Nag0qoVumqiZqoF1E4qCS/XBAMK4UqlhMoIyfHKUl53Cygn3F75u33trjXBkty
-	SzatIZyP9B
-X-Received: by 2002:a17:907:9719:b0:c0d:8c04:92d0 with SMTP id a640c23a62f3a-c119f6127cdmr148307466b.49.1782301836889;
-        Wed, 24 Jun 2026 04:50:36 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c0c6161f195sm656749866b.63.2026.06.24.04.50.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2026 04:50:36 -0700 (PDT)
-Date: Wed, 24 Jun 2026 14:50:32 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Dawei Feng <dawei.feng@seu.edu.cn>
-Cc: mripard@kernel.org, paulk@sys-base.io, mchehab@kernel.org,
-	gregkh@linuxfoundation.org, wens@kernel.org,
-	jernej.skrabec@gmail.com, samuel@sholland.org, hverkuil@kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, jianhao.xu@seu.edu.cn,
-	zilin@seu.edu.cn, stable@vger.kernel.org
-Subject: Re: [PATCH] media: cedrus: fix memory leak in cedrus_init_ctrls()
-Message-ID: <ajvEiDkI_CcXUz4_@stanley.mountain>
-References: <20260624085920.578446-1-dawei.feng@seu.edu.cn>
+	dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="G0Wxt0r2";
+	dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="rHA48A4i"
+From: Felix Yan <felixonmars@archlinux.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
+	s=dkim-rsa; t=1782338701;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CRHXdpLz3bOfMCjFuHufEqTdHRjLCSuPmqyaKfN5Y1s=;
+	b=G0Wxt0r20645tYPp6uRdYV4qaOMahAPpt9HIEZEhBJUZ9LvB0FRD4Nv7314wJIPfugc7Rf
+	tFNq6CPbfDbHkjRjlPBeOTgzl/RF/toPHCNmRuNpRK5bc4+dLqA+i3Sa+LD8vuj6F50xJz
+	KxHRme9PoF/TNfHzHYSJwaDjHSBTorQFY6txaMUiNd44grAIEIi32QqhL8Q8kA7yMVOUe1
+	QCdvInGQwnzKT53O6Up7CdMkhIvcTNXxoxMGAdOebFw9NAzWrcjO+0Y07WIkEt5QHLowV/
+	EUOZIWcXgdIDUYyvvtj1qxjwzEkBTIkTEshM4FxV5LrQ4qXoiOzIXvW9n0CK70SRcH6iRM
+	5e44m1drrrfIOPjiX0XH1HSn1OV3V+EZpIhMW/bjqQPcVpTnSyeXYKqrdGEFijVV+Se2EC
+	BvK/4ewxXjp0+yFE0VKd+nt4JEwRTwIY3FWFi7+egV80xo1+2bLUQ5qc+WoeGxSoOfT7pF
+	xthcPBheysDSoRCc/xMYBtzuSV1013HjhQA6eI4kyKP++nGvZJByScfOXs4J/EzLagyWHG
+	KuTSDY/GLnu8BHjF6a/57aVuKAllVv2H4EkdNlvp7qe58Neob0jB58xgbStpx6O9Kka3M0
+	jzAWsSGnIaV4y2D+HsdEzRrMP/DT80ZGQ5LQS/rfVxxslJVuwrHjE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
+	s=dkim-ed25519; t=1782338701;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CRHXdpLz3bOfMCjFuHufEqTdHRjLCSuPmqyaKfN5Y1s=;
+	b=rHA48A4ipOYEPx6vlpsau0zfNunJTQvt1uNml7YWW3bqQlSRwEr/AuO9AlLUWNVGXnt++S
+	P0IvDvf1UQDBKKAA==
+Authentication-Results: mail.archlinux.org;
+	auth=pass smtp.auth=felixonmars smtp.mailfrom=felixonmars@archlinux.org
+To: daniel.lezcano@kernel.org,
+	tglx@kernel.org
+Cc: wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	indrek.kruusa@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-riscv@lists.infradead.org,
+	Felix Yan <felixonmars@archlinux.org>,
+	stable@vger.kernel.org
+Subject: [PATCH] clocksource/drivers/timer-sun4i: Advertise a real minimum delta
+Date: Thu, 25 Jun 2026 06:04:34 +0800
+Message-ID: <20260624220434.4183732-1-felixonmars@archlinux.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <CA+fTLhgLmTY+exGujKf8OYYQvcEW5X5NJ_5sLq2AYL6zER2c0A@mail.gmail.com>
+References: <CA+fTLhgLmTY+exGujKf8OYYQvcEW5X5NJ_5sLq2AYL6zER2c0A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260624085920.578446-1-dawei.feng@seu.edu.cn>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 24, 2026 at 04:59:20PM +0800, Dawei Feng wrote:
-> In cedrus_init_ctrls(), the V4L2 control handler is initialized before
-> allocating memory for ctx->ctrls. If this allocation fails, the function
-> returns -ENOMEM without freeing the previously allocated handler
-> resources, leading to a memory leak.
-> 
-> Fix this by calling v4l2_ctrl_handler_free() on the ctx->ctrls allocation
-> failure path.
-> 
-> The bug was first flagged by an experimental analysis tool we are
-> developing for kernel memory-management bugs while analyzing
-> v6.13-rc1. The tool is still under development and is not yet publicly
-> available. Manual inspection confirms that the bug is still
-> present in v7.1.1.
-> 
-> An x86_64 allyesconfig build showed no new warnings. As we do not have an
-> Allwinner SoC or board with a Cedrus VPU available to test with, no
-> runtime testing was able to be performed.
-> 
-> Fixes: 50e761516f2b ("media: platform: Add Cedrus VPU decoder driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
-> ---
+sun4i_clkevt_next_event() compensates for the timer stop/start
+synchronization delay by programming evt - TIMER_SYNC_TICKS into the
+hardware interval register. The clockevent device currently advertises
+TIMER_SYNC_TICKS as min_delta_ticks, so the clockevents core is allowed
+to call set_next_event() with evt == TIMER_SYNC_TICKS.
 
-Looks good.
+That programs a zero-tick interval. With oneshot/highres/nohz timer
+operation this can leave the next event stuck, which was observed as a
+boot hang on Allwinner D1 after the clockevents core started reusing
+forced minimum-delta events.
 
-Reviewed-by: Dan Carpenter <error27@gmail.com>
+Advertise one extra tick instead, so the smallest event accepted by the
+core still programs at least one hardware tick after the synchronization
+compensation.
 
-regards,
-dan carpenter
+Fixes: 12e1480bcb49 ("clocksource: sun4i: Report the minimum tick that we can program")
+Cc: stable@vger.kernel.org
+Reported-by: Indrek Kruusa <indrek.kruusa@gmail.com>
+Closes: https://lore.kernel.org/linux-riscv/CA+fTLhgLmTY+exGujKf8OYYQvcEW5X5NJ_5sLq2AYL6zER2c0A@mail.gmail.com/
+Assisted-by: Codex:gpt-5.5
+Signed-off-by: Felix Yan <felixonmars@archlinux.org>
+---
+ drivers/clocksource/timer-sun4i.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/clocksource/timer-sun4i.c b/drivers/clocksource/timer-sun4i.c
+index 7bdcc60ad43c..c2d04ab7cf2d 100644
+--- a/drivers/clocksource/timer-sun4i.c
++++ b/drivers/clocksource/timer-sun4i.c
+@@ -208,7 +208,7 @@ static int __init sun4i_timer_init(struct device_node *node)
+ 	sun4i_timer_clear_interrupt(timer_of_base(&to));
+ 
+ 	clockevents_config_and_register(&to.clkevt, timer_of_rate(&to),
+-					TIMER_SYNC_TICKS, 0xffffffff);
++					TIMER_SYNC_TICKS + 1, 0xffffffff);
+ 
+ 	/* Enable timer0 interrupt */
+ 	val = readl(timer_of_base(&to) + TIMER_IRQ_EN_REG);
+-- 
+2.54.0
 
