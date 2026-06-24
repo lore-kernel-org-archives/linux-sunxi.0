@@ -1,104 +1,99 @@
-Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171EB39AD2A;
-	Wed, 24 Jun 2026 08:59:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB8B31E845
+	for <linux-sunxi@lists.linux.dev>; Wed, 24 Jun 2026 09:10:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782291567; cv=none; b=GNsp1eDHePfXyC/H6i6vFR+90mZgnSJczyFvLwCZ9ial4a12ptfsAy8hyp5LCvFLPvxyRz8Vc0Smu/NjPAG6s8YrQXmuCj3GqzedJ5jmNeNhN1NnU9LVbKDICQXCbTTC/0eMBAirfWltCT7pNFRYO77g+F9q5NlZlodAm09DrmI=
+	t=1782292244; cv=none; b=J6EcZq5xbe7Ze1F/ydDJ4DFAmqdoIUXTGeef1yIFAuAR/N76Ygdo2xUqcDz6KyIwhFRV7LN9VdrlnIBb2IATQVoFOZM7uquKwZ03jgLQf8wYSJJSUSwnC4DH2vSmnUBAu/XMRNSddzwzf27L16rygKabHhTePAW1ce1KwlOGnLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782291567; c=relaxed/simple;
-	bh=fC6w5B2nTnKPRsothCtVZ+qn5I3g0FjCgVdQ7JVzBlo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fCIEauxWao6IQ1nRuormU04jaqOOVbIPym9T/vJ/HYrUkb4Hdpwz1KLA7cKcEUPfaiigv3picLHo4ETyp7LKiZbxgZ+0ykfDecceVQTcQh7lqyKvP6B2orFNSfsabcF7Q17FrP5JBM7muhhhAOfzvNCSWgmMFR6aU3qgH3FVXJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=erdZEh2o; arc=none smtp.client-ip=101.71.155.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1782292244; c=relaxed/simple;
+	bh=An8wubXAYKaB02096hjwDIFg+oJSTjZ1O8atYO1W62Q=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=qxjn9tvm/l/6y3qq5AYdEaqMN39vwR4y/J4tf1s469C3UIfVpU801+fxABEoPb6fYpMEI5UHUXxWL4LWlFphN2k0T49AvH06rAGs/XJBiO0GtTLOaBpXDMtUipherutZh+VT/SZ/oJo8JVasa4B/FB97cVvkvT/zi/xbrVKiXcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PTZgNhd1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="erdZEh2o"
-Received: from DESKTOP-SUEFNF9.taila7e912.ts.net (unknown [58.241.16.34])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 439346cd7;
-	Wed, 24 Jun 2026 16:59:19 +0800 (GMT+08:00)
-From: Dawei Feng <dawei.feng@seu.edu.cn>
-To: mripard@kernel.org
-Cc: paulk@sys-base.io,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	hverkuil@kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	jianhao.xu@seu.edu.cn,
-	zilin@seu.edu.cn,
-	Dawei Feng <dawei.feng@seu.edu.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] media: cedrus: fix memory leak in cedrus_init_ctrls()
-Date: Wed, 24 Jun 2026 16:59:20 +0800
-Message-Id: <20260624085920.578446-1-dawei.feng@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PTZgNhd1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E85681F000E9;
+	Wed, 24 Jun 2026 09:10:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782292243;
+	bh=SFzyXwoJWXjDLZNhIuWG6BTr2TWrhq7nbsWAyQuAPHg=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=PTZgNhd1iPgIFwM6WcB3PcY0h/cli66jntqe3xy5N5k8N/s27+brE5w69XRxxQinY
+	 DZT5v5j919USFOBevYs1lJwLqbxo7EzwOgrwof/PPEb843Kj6BpP5aeNpYXwpLtXpZ
+	 7go6M1sjGhM1jun4XAt5HjL0tHM4xmX/opePNe1RA/AD75Mu8n9CAB57zOzFNK6EIK
+	 /WWh2+z8yvlU1VHM/g3XP3985VjlwOsTltnp0QMwMnGBpg6L+77TlsILQSTvMEk/L+
+	 d8sgFDcaXCrnY9isCEeLnwJkTZkGi2twbBdmAgn190ksKTeIY1AUHUe/KhvVpHGkyZ
+	 eHeuazLQQWmeg==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] media: cedrus: fix memory leak in cedrus_init_ctrls()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Dawei Feng" <dawei.feng@seu.edu.cn>
+Cc: linux-sunxi@lists.linux.dev
+In-Reply-To: <20260624085920.578446-1-dawei.feng@seu.edu.cn>
+References: <20260624085920.578446-1-dawei.feng@seu.edu.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 24 Jun 2026 09:10:42 +0000
+Message-Id: <20260624091042.E85681F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9ef8daf33f03a2kunmb50e020236f68
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDHRpLVkhOTx1LGR8fTkIaTlYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlOQ1VJT0pVSk1VSE9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
-	xVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=erdZEh2o+CuenN77cKHcsJJ1qdCHhHw85+ajbj6voIkvWHuPMI/l8WEyNmbHW+2oU/Z3oJcbTNeRdMPI3imx4Pw8pDeGvZO2CNXVCkcWIGktPUH/jyjplOoWdLREfWyp6j98Qb0ccJd6yNNEqA2w3CWrJYZaezLpnyzUFClFKb0=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
-	bh=nQ64irTn5cB91B6G4LunXFGhvflcWlZllUKpo3Q4WA0=;
-	h=date:mime-version:subject:message-id:from;
 
-In cedrus_init_ctrls(), the V4L2 control handler is initialized before
-allocating memory for ctx->ctrls. If this allocation fails, the function
-returns -ENOMEM without freeing the previously allocated handler
-resources, leading to a memory leak.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
 
-Fix this by calling v4l2_ctrl_handler_free() on the ctx->ctrls allocation
-failure path.
+Pre-existing issues:
+- [High] Incorrect array size calculation for `ctx->ctrls` allocates insuff=
+icient space for the NULL terminator, leading to a KASAN slab-out-of-bounds=
+ read and possible wild pointer dereference.
+--
 
-The bug was first flagged by an experimental analysis tool we are
-developing for kernel memory-management bugs while analyzing
-v6.13-rc1. The tool is still under development and is not yet publicly
-available. Manual inspection confirms that the bug is still
-present in v7.1.1.
+commit 6bc123052b636ba4d4950902c21d137fa64fd53c
+Author: Dawei Feng <dawei.feng@seu.edu.cn>
 
-An x86_64 allyesconfig build showed no new warnings. As we do not have an
-Allwinner SoC or board with a Cedrus VPU available to test with, no
-runtime testing was able to be performed.
+media: cedrus: fix memory leak in cedrus_init_ctrls()
 
-Fixes: 50e761516f2b ("media: platform: Add Cedrus VPU decoder driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
----
- drivers/staging/media/sunxi/cedrus/cedrus.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+This commit fixes a memory leak in cedrus_init_ctrls() by freeing the V4L2
+control handler resources if the memory allocation for the controls array
+fails.
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index bbd186b8035b..96acd52e380c 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -285,8 +285,10 @@ static int cedrus_init_ctrls(struct cedrus_dev *dev, struct cedrus_ctx *ctx)
- 	ctrl_size = sizeof(ctrl) * CEDRUS_CONTROLS_COUNT + 1;
- 
- 	ctx->ctrls = kzalloc(ctrl_size, GFP_KERNEL);
--	if (!ctx->ctrls)
-+	if (!ctx->ctrls) {
-+		v4l2_ctrl_handler_free(hdl);
- 		return -ENOMEM;
-+	}
- 
- 	j = 0;
- 	for (i = 0; i < CEDRUS_CONTROLS_COUNT; i++) {
--- 
-2.34.1
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
+g/media/sunxi/cedrus/cedrus.c
+> index bbd186b8035b2..96acd52e380c8 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> @@ -285,8 +285,10 @@ static int cedrus_init_ctrls(struct cedrus_dev *dev,=
+ struct cedrus_ctx *ctx)
+>  	ctrl_size =3D sizeof(ctrl) * CEDRUS_CONTROLS_COUNT + 1;
 
+[Severity: High]
+This isn't a bug introduced by this patch, but does this correctly allocate
+enough space for the NULL terminator?
+
+It appears to add 1 byte instead of sizeof(ctrl), allocating insufficient
+space. The remaining bytes of the terminator pointer could be left
+uninitialized.
+
+When checking the array bounds in cedrus_find_control_data():
+
+	for (i =3D 0; ctx->ctrls[i]; i++)
+		if (ctx->ctrls[i]->id =3D=3D id)
+
+Could this read the improperly sized terminator, leading to a KASAN
+slab-out-of-bounds read and a wild pointer dereference?
+
+> =20
+>  	ctx->ctrls =3D kzalloc(ctrl_size, GFP_KERNEL);
+> -	if (!ctx->ctrls)
+> +	if (!ctx->ctrls) {
+> +		v4l2_ctrl_handler_free(hdl);
+>  		return -ENOMEM;
+> +	}
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260624085920.5784=
+46-1-dawei.feng@seu.edu.cn?part=3D1
