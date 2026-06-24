@@ -1,114 +1,148 @@
-Received: from mail.archlinux.org (mail.archlinux.org [95.216.189.61])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9A92AE7A
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 Jun 2026 22:05:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.216.189.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F0A29E0E5
+	for <linux-sunxi@lists.linux.dev>; Wed, 24 Jun 2026 22:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782338706; cv=none; b=T9mLn6BCjh9v1Tq3cAjpVSq3riKVMetecn8aIwh+sjGi6K0di2AuGrYgIbutyTv349LCmYp7aIc2O2WPpniS0yj+rk71t/ZNr+iDK2fp5KWWDdrB6iPA9qLPdueQWuQkdsy3kkXANj53MmvPEKQfDeuA1MLJiTwPZcPyz1flh3g=
+	t=1782339303; cv=none; b=exSaZpeps/B3bCZB9u9a3nitqd3CWFE3jsiDoGLEzgf4aB3uVhtOXmsZaXHXFXhx5JbMFWkRDkrvLMb0I/hUorLrCGpvSLdrQAWoVZNg/LxOVAAA6PGDuKNyGgLzv2uS4Zw3OARr2y/doeo7WRaRdyqzZa4BZVuXjKd4BnaTAhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782338706; c=relaxed/simple;
-	bh=DzsGDJlo0P6UfxfIIVwaI4Ge4r3irh7jrVqwbjP2kbE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ICp9L1DQimt/u7xBJ+YYFA2A1Us0ZXaOTGIE/pmQVhUF+g+G6PbUqjfIEu/cXD8FQCbvZtymOJinJ+on1wzBHbVFp4t3AS8PZLCCc0GO7YbYEllEFix0SffAu6HHj2N2jK2DSKV+jaLn+8DH95nMeAQkDeVRX1EJdCVRK4/I3SU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org; spf=pass smtp.mailfrom=archlinux.org; dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=G0Wxt0r2; dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=rHA48A4i; arc=none smtp.client-ip=95.216.189.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=archlinux.org
+	s=arc-20240116; t=1782339303; c=relaxed/simple;
+	bh=pxEooHBuiouIbczQE2ronmu2uMx24d9wIwXX3gNKlNA=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=t5OFhbMYuojI1pW5lraoqAYb97D1LBzVjOg1fnJMDQhTZv1P6a5kV+ViGwPrTferZnrtMtmCq/ngBgrLApSdtWWDs6q4KZwsMq67PCpIBxTLVJVLcMweagiQ5N2v3Tx5Gm+mXv53mQ601WXcnU2e1Xxt0ltN9JzQWXtRzjcXEz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PSsVmMfl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="G0Wxt0r2";
-	dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="rHA48A4i"
-From: Felix Yan <felixonmars@archlinux.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-rsa; t=1782338701;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CRHXdpLz3bOfMCjFuHufEqTdHRjLCSuPmqyaKfN5Y1s=;
-	b=G0Wxt0r20645tYPp6uRdYV4qaOMahAPpt9HIEZEhBJUZ9LvB0FRD4Nv7314wJIPfugc7Rf
-	tFNq6CPbfDbHkjRjlPBeOTgzl/RF/toPHCNmRuNpRK5bc4+dLqA+i3Sa+LD8vuj6F50xJz
-	KxHRme9PoF/TNfHzHYSJwaDjHSBTorQFY6txaMUiNd44grAIEIi32QqhL8Q8kA7yMVOUe1
-	QCdvInGQwnzKT53O6Up7CdMkhIvcTNXxoxMGAdOebFw9NAzWrcjO+0Y07WIkEt5QHLowV/
-	EUOZIWcXgdIDUYyvvtj1qxjwzEkBTIkTEshM4FxV5LrQ4qXoiOzIXvW9n0CK70SRcH6iRM
-	5e44m1drrrfIOPjiX0XH1HSn1OV3V+EZpIhMW/bjqQPcVpTnSyeXYKqrdGEFijVV+Se2EC
-	BvK/4ewxXjp0+yFE0VKd+nt4JEwRTwIY3FWFi7+egV80xo1+2bLUQ5qc+WoeGxSoOfT7pF
-	xthcPBheysDSoRCc/xMYBtzuSV1013HjhQA6eI4kyKP++nGvZJByScfOXs4J/EzLagyWHG
-	KuTSDY/GLnu8BHjF6a/57aVuKAllVv2H4EkdNlvp7qe58Neob0jB58xgbStpx6O9Kka3M0
-	jzAWsSGnIaV4y2D+HsdEzRrMP/DT80ZGQ5LQS/rfVxxslJVuwrHjE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-ed25519; t=1782338701;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CRHXdpLz3bOfMCjFuHufEqTdHRjLCSuPmqyaKfN5Y1s=;
-	b=rHA48A4ipOYEPx6vlpsau0zfNunJTQvt1uNml7YWW3bqQlSRwEr/AuO9AlLUWNVGXnt++S
-	P0IvDvf1UQDBKKAA==
-Authentication-Results: mail.archlinux.org;
-	auth=pass smtp.auth=felixonmars smtp.mailfrom=felixonmars@archlinux.org
-To: daniel.lezcano@kernel.org,
-	tglx@kernel.org
-Cc: wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	indrek.kruusa@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-riscv@lists.infradead.org,
-	Felix Yan <felixonmars@archlinux.org>,
-	stable@vger.kernel.org
-Subject: [PATCH] clocksource/drivers/timer-sun4i: Advertise a real minimum delta
-Date: Thu, 25 Jun 2026 06:04:34 +0800
-Message-ID: <20260624220434.4183732-1-felixonmars@archlinux.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <CA+fTLhgLmTY+exGujKf8OYYQvcEW5X5NJ_5sLq2AYL6zER2c0A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PSsVmMfl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1355D1F00A3F;
+	Wed, 24 Jun 2026 22:15:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782339300;
+	bh=kC9XrQwXvE+AGf5pVhC3HDyT+Lw/EKciuZlz8JwgL2c=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=PSsVmMfluRp/rJA517gMz9DrGJUXMkCaF4lQDz1jHH6gJjdTPVaD6G6jSdBmOHCw/
+	 hcRLsrDJLZ9Xx7jLqcfV0cIErX+fZkg8DkgsCYmFqt63zLy+CsRwYDx2EpXwy1AIk+
+	 v0XhJMs4xgOJEGMW2mnKUkT9fo/ZvVfiTxYWV4b3hceNczJBGz333vYzaTqxfvBj/I
+	 fXRA9wjZPqxfCO6NVfN2KIh7z8midBufqabzYMTAAaJqOe8kTmP+FgidOpQFHER3qD
+	 Wqwry23ozFvCZwKLJUBJjsO8N2ga5woEgXZfaMT5R6CKbF6lui3wp31xxeubaoa+iH
+	 fWg9O0hjHt1zA==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] clocksource/drivers/timer-sun4i: Advertise a real
+ minimum delta
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Felix Yan" <felixonmars@archlinux.org>
+Cc: linux-sunxi@lists.linux.dev
+In-Reply-To: <20260624220434.4183732-1-felixonmars@archlinux.org>
 References: <CA+fTLhgLmTY+exGujKf8OYYQvcEW5X5NJ_5sLq2AYL6zER2c0A@mail.gmail.com>
+ <20260624220434.4183732-1-felixonmars@archlinux.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 24 Jun 2026 22:14:59 +0000
+Message-Id: <20260624221500.1355D1F00A3F@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-sun4i_clkevt_next_event() compensates for the timer stop/start
-synchronization delay by programming evt - TIMER_SYNC_TICKS into the
-hardware interval register. The clockevent device currently advertises
-TIMER_SYNC_TICKS as min_delta_ticks, so the clockevents core is allowed
-to call set_next_event() with evt == TIMER_SYNC_TICKS.
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
 
-That programs a zero-tick interval. With oneshot/highres/nohz timer
-operation this can leave the next event stuck, which was observed as a
-boot hang on Allwinner D1 after the clockevents core started reusing
-forced minimum-delta events.
+Pre-existing issues:
+- [High] The exact same zero-tick interval bug fixed in timer-sun4i.c is pr=
+esent and unfixed in the sibling driver timer-sun5i.c.
+- [High] The tick_resume callback can cause an infinite loop and hard locku=
+p if the timer IP loses state during suspend.
+- [High] sun4i_clkevt_set_oneshot() enables the hardware timer without prog=
+ramming a safe interval, which can cause a boot hang if the hardware interv=
+al register defaults to zero.
+--
 
-Advertise one extra tick instead, so the smallest event accepted by the
-core still programs at least one hardware tick after the synchronization
-compensation.
+commit 58b9ac36774c7659ade7328ca0fd561f9759e49e
+Author: Felix Yan <felixonmars@archlinux.org>
+Subject: clocksource/drivers/timer-sun4i: Advertise a real minimum delta
 
-Fixes: 12e1480bcb49 ("clocksource: sun4i: Report the minimum tick that we can program")
-Cc: stable@vger.kernel.org
-Reported-by: Indrek Kruusa <indrek.kruusa@gmail.com>
-Closes: https://lore.kernel.org/linux-riscv/CA+fTLhgLmTY+exGujKf8OYYQvcEW5X5NJ_5sLq2AYL6zER2c0A@mail.gmail.com/
-Assisted-by: Codex:gpt-5.5
-Signed-off-by: Felix Yan <felixonmars@archlinux.org>
----
- drivers/clocksource/timer-sun4i.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This commit modifies the sun4i timer driver to advertise one extra tick for
+the minimum delta. This prevents the clockevents core from requesting a
+next event of exactly TIMER_SYNC_TICKS, which would result in programming a
+zero-tick interval and hanging the hardware on Allwinner D1.
 
-diff --git a/drivers/clocksource/timer-sun4i.c b/drivers/clocksource/timer-sun4i.c
-index 7bdcc60ad43c..c2d04ab7cf2d 100644
---- a/drivers/clocksource/timer-sun4i.c
-+++ b/drivers/clocksource/timer-sun4i.c
-@@ -208,7 +208,7 @@ static int __init sun4i_timer_init(struct device_node *node)
- 	sun4i_timer_clear_interrupt(timer_of_base(&to));
- 
- 	clockevents_config_and_register(&to.clkevt, timer_of_rate(&to),
--					TIMER_SYNC_TICKS, 0xffffffff);
-+					TIMER_SYNC_TICKS + 1, 0xffffffff);
- 
- 	/* Enable timer0 interrupt */
- 	val = readl(timer_of_base(&to) + TIMER_IRQ_EN_REG);
--- 
-2.54.0
+Link: https://lore.kernel.org/linux-riscv/CA+fTLhgLmTY+exGujKf8OYYQvcEW5X5N=
+J_5sLq2AYL6zER2c0A@mail.gmail.com/
 
+> diff --git a/drivers/clocksource/timer-sun4i.c b/drivers/clocksource/time=
+r-sun4i.c
+> index 7bdcc60ad43cb..c2d04ab7cf2d3 100644
+> --- a/drivers/clocksource/timer-sun4i.c
+> +++ b/drivers/clocksource/timer-sun4i.c
+> @@ -208,7 +208,7 @@ static int __init sun4i_timer_init(struct device_node=
+ *node)
+>  	sun4i_timer_clear_interrupt(timer_of_base(&to));
+> =20
+>  	clockevents_config_and_register(&to.clkevt, timer_of_rate(&to),
+> -					TIMER_SYNC_TICKS, 0xffffffff);
+> +					TIMER_SYNC_TICKS + 1, 0xffffffff);
+
+[Severity: High]
+This is a pre-existing issue, but the exact same zero-tick interval bug
+appears to be present in the sibling driver timer-sun5i.c.
+
+In drivers/clocksource/timer-sun5i.c:sun5i_setup_clockevent(), the device
+is registered with a minimum delta of TIMER_SYNC_TICKS:
+
+    clockevents_config_and_register(&ce->clkevt, rate,
+                                    TIMER_SYNC_TICKS, 0xffffffff);
+
+When the clockevents core requests exactly this length,
+sun5i_clkevt_next_event() subtracts TIMER_SYNC_TICKS, resulting in 0:
+
+    sun5i_clkevt_time_setup(ce, 0, evt - TIMER_SYNC_TICKS);
+
+Should timer-sun5i.c be brought up to parity to prevent an identically
+triggered hang there?
+
+
+[Severity: High]
+This isn't a bug introduced by this patch, but could this zero-tick hardware
+hang also trigger via the oneshot configuration path in timer-sun4i.c?
+
+When the clockevents core switches the timer state,
+sun4i_clkevt_set_oneshot() calls:
+
+    sun4i_clkevt_time_start(timer_of_base(to), 0, false);
+
+This enables the timer without programming a valid non-zero interval, which
+reloads the current uninitialized value of TIMER_INTVAL_REG(0).
+
+If this defaults to 0 (the power-on reset default), does this risk the exact
+same hardware hang?
+
+
+[Severity: High]
+This is a pre-existing issue, but can the timer sync logic cause a hard
+lockup during system resume?
+
+In drivers/clocksource/timer-sun4i.c, the tick_resume callback is mapped to
+sun4i_clkevt_shutdown:
+
+    .tick_resume =3D sun4i_clkevt_shutdown,
+
+This calls sun4i_clkevt_time_stop() followed by sun4i_clkevt_sync(), which
+spins infinitely waiting for Timer 1 to advance:
+
+    while ((old - readl(base + TIMER_CNTVAL_REG(1))) < TIMER_SYNC_TICKS)
+            cpu_relax();
+
+If the timer block lost power during system suspend, Timer 1 will be
+disabled upon resume. Since there is no suspend/resume hook to restart
+Timer 1, the counter will never change.
+
+Will this result in a deadlock?
+
+> =20
+>  	/* Enable timer0 interrupt */
+>  	val =3D readl(timer_of_base(&to) + TIMER_IRQ_EN_REG);
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260624220434.4183=
+732-1-felixonmars@archlinux.org?part=3D1
