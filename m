@@ -1,148 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F0A29E0E5
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 Jun 2026 22:15:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001702F12AE
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Jun 2026 00:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782339303; cv=none; b=exSaZpeps/B3bCZB9u9a3nitqd3CWFE3jsiDoGLEzgf4aB3uVhtOXmsZaXHXFXhx5JbMFWkRDkrvLMb0I/hUorLrCGpvSLdrQAWoVZNg/LxOVAAA6PGDuKNyGgLzv2uS4Zw3OARr2y/doeo7WRaRdyqzZa4BZVuXjKd4BnaTAhM=
+	t=1782347670; cv=none; b=cVtHQzrrE13CzC3mRpCepIsr01jz9vR3U8l4KwtF5ffZAhYmA5lcjlPTUMAKmYBJd8lPKMT5AjZKlVMelvevBIZZ2W2Vew4SW6V7NkVH0S4ZUGYtNW/ZCD39kwRBIiysNfh0C+WLtu0pf29qRd7EFPiiL1mmn3V9X+IwBHehYzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782339303; c=relaxed/simple;
-	bh=pxEooHBuiouIbczQE2ronmu2uMx24d9wIwXX3gNKlNA=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=t5OFhbMYuojI1pW5lraoqAYb97D1LBzVjOg1fnJMDQhTZv1P6a5kV+ViGwPrTferZnrtMtmCq/ngBgrLApSdtWWDs6q4KZwsMq67PCpIBxTLVJVLcMweagiQ5N2v3Tx5Gm+mXv53mQ601WXcnU2e1Xxt0ltN9JzQWXtRzjcXEz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PSsVmMfl; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PSsVmMfl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1355D1F00A3F;
-	Wed, 24 Jun 2026 22:15:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782339300;
-	bh=kC9XrQwXvE+AGf5pVhC3HDyT+Lw/EKciuZlz8JwgL2c=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=PSsVmMfluRp/rJA517gMz9DrGJUXMkCaF4lQDz1jHH6gJjdTPVaD6G6jSdBmOHCw/
-	 hcRLsrDJLZ9Xx7jLqcfV0cIErX+fZkg8DkgsCYmFqt63zLy+CsRwYDx2EpXwy1AIk+
-	 v0XhJMs4xgOJEGMW2mnKUkT9fo/ZvVfiTxYWV4b3hceNczJBGz333vYzaTqxfvBj/I
-	 fXRA9wjZPqxfCO6NVfN2KIh7z8midBufqabzYMTAAaJqOe8kTmP+FgidOpQFHER3qD
-	 Wqwry23ozFvCZwKLJUBJjsO8N2ga5woEgXZfaMT5R6CKbF6lui3wp31xxeubaoa+iH
-	 fWg9O0hjHt1zA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] clocksource/drivers/timer-sun4i: Advertise a real
- minimum delta
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Felix Yan" <felixonmars@archlinux.org>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260624220434.4183732-1-felixonmars@archlinux.org>
-References: <CA+fTLhgLmTY+exGujKf8OYYQvcEW5X5NJ_5sLq2AYL6zER2c0A@mail.gmail.com>
- <20260624220434.4183732-1-felixonmars@archlinux.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 24 Jun 2026 22:14:59 +0000
-Message-Id: <20260624221500.1355D1F00A3F@smtp.kernel.org>
+	s=arc-20240116; t=1782347670; c=relaxed/simple;
+	bh=swyGRM5GlmdbbMMs2CuiPH4Z8MjFvASgzNQjRbMpx3w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f3mwcHc33kCg7822oCSmXJ4kAeIGMy4P/fBWzAic7UogMwRYDh6h34A2FQ/xS/PtJacdT9nFTNieqZOA6oE0ihNtK3cvyrF0ksp9qxn44RA8rWYYYwNJMc4tSDabStr1MT7cj8zIqE+Yx6Zk1mCzoIEhehL0xlWLyjGr6p0dWB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [111.196.245.140])
+	by APP-03 (Coremail) with SMTP id rQCowADXwaiJdzxqAdjCFQ--.4213S2;
+	Thu, 25 Jun 2026 08:34:18 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: pengpeng@iscas.ac.cn,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] bus: sunxi-rsb: fail hardware init on soft-reset timeout
+Date: Thu, 25 Jun 2026 08:34:16 +0800
+Message-ID: <20260625003416.15841-1-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowADXwaiJdzxqAdjCFQ--.4213S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cr4UCw43ZFWUWF18Xw4kXrb_yoW8Xr4kpa
+	naka47CrWqqF4FqF12yF1jvF15X3Z7KF98C3s8Cwn2vwnYgry8CFyrKFWFg3W5AF48uay5
+	ZFnFqa1UCF1q9w7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+	1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+	7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+	1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AK
+	xVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
+	0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
+	IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
+	AFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
+	6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUQo7
+	NUUUUU=
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
+sunxi_rsb_hw_init() issues a controller soft reset and waits for the reset
+bit to clear, but it ignores readl_poll_timeout()'s return value.
 
-Pre-existing issues:
-- [High] The exact same zero-tick interval bug fixed in timer-sun4i.c is pr=
-esent and unfixed in the sibling driver timer-sun5i.c.
-- [High] The tick_resume callback can cause an infinite loop and hard locku=
-p if the timer IP loses state during suspend.
-- [High] sun4i_clkevt_set_oneshot() enables the hardware timer without prog=
-ramming a safe interval, which can cause a boot hang if the hardware interv=
-al register defaults to zero.
---
+If the controller never leaves reset, probe can continue to publish child
+devices and system resume can report success without a usable RSB
+controller.
 
-commit 58b9ac36774c7659ade7328ca0fd561f9759e49e
-Author: Felix Yan <felixonmars@archlinux.org>
-Subject: clocksource/drivers/timer-sun4i: Advertise a real minimum delta
+Return the timeout error, assert reset again, and disable the clock before
+leaving the hardware-init path.
 
-This commit modifies the sun4i timer driver to advertise one extra tick for
-the minimum delta. This prevents the clockevents core from requesting a
-next event of exactly TIMER_SYNC_TICKS, which would result in programming a
-zero-tick interval and hanging the hardware on Allwinner D1.
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+---
+ drivers/bus/sunxi-rsb.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-Link: https://lore.kernel.org/linux-riscv/CA+fTLhgLmTY+exGujKf8OYYQvcEW5X5N=
-J_5sLq2AYL6zER2c0A@mail.gmail.com/
+diff --git a/drivers/bus/sunxi-rsb.c b/drivers/bus/sunxi-rsb.c
+index daf0ea563..f83224dea 100644
+--- a/drivers/bus/sunxi-rsb.c
++++ b/drivers/bus/sunxi-rsb.c
+@@ -669,8 +669,12 @@ static int sunxi_rsb_hw_init(struct sunxi_rsb *rsb)
+ 
+ 	/* reset the controller */
+ 	writel(RSB_CTRL_SOFT_RST, rsb->regs + RSB_CTRL);
+-	readl_poll_timeout(rsb->regs + RSB_CTRL, reg,
+-			   !(reg & RSB_CTRL_SOFT_RST), 1000, 100000);
++	ret = readl_poll_timeout(rsb->regs + RSB_CTRL, reg,
++				 !(reg & RSB_CTRL_SOFT_RST), 1000, 100000);
++	if (ret) {
++		dev_err(dev, "soft reset timed out\n");
++		goto err_reset_assert;
++	}
+ 
+ 	/*
+ 	 * Clock frequency and delay calculation code is from
+@@ -696,6 +700,8 @@ static int sunxi_rsb_hw_init(struct sunxi_rsb *rsb)
+ 
+ 	return 0;
+ 
++err_reset_assert:
++	reset_control_assert(rsb->rstc);
+ err_clk_disable:
+ 	clk_disable_unprepare(rsb->clk);
+ 
+-- 
+2.50.1 (Apple Git-155)
 
-> diff --git a/drivers/clocksource/timer-sun4i.c b/drivers/clocksource/time=
-r-sun4i.c
-> index 7bdcc60ad43cb..c2d04ab7cf2d3 100644
-> --- a/drivers/clocksource/timer-sun4i.c
-> +++ b/drivers/clocksource/timer-sun4i.c
-> @@ -208,7 +208,7 @@ static int __init sun4i_timer_init(struct device_node=
- *node)
->  	sun4i_timer_clear_interrupt(timer_of_base(&to));
-> =20
->  	clockevents_config_and_register(&to.clkevt, timer_of_rate(&to),
-> -					TIMER_SYNC_TICKS, 0xffffffff);
-> +					TIMER_SYNC_TICKS + 1, 0xffffffff);
-
-[Severity: High]
-This is a pre-existing issue, but the exact same zero-tick interval bug
-appears to be present in the sibling driver timer-sun5i.c.
-
-In drivers/clocksource/timer-sun5i.c:sun5i_setup_clockevent(), the device
-is registered with a minimum delta of TIMER_SYNC_TICKS:
-
-    clockevents_config_and_register(&ce->clkevt, rate,
-                                    TIMER_SYNC_TICKS, 0xffffffff);
-
-When the clockevents core requests exactly this length,
-sun5i_clkevt_next_event() subtracts TIMER_SYNC_TICKS, resulting in 0:
-
-    sun5i_clkevt_time_setup(ce, 0, evt - TIMER_SYNC_TICKS);
-
-Should timer-sun5i.c be brought up to parity to prevent an identically
-triggered hang there?
-
-
-[Severity: High]
-This isn't a bug introduced by this patch, but could this zero-tick hardware
-hang also trigger via the oneshot configuration path in timer-sun4i.c?
-
-When the clockevents core switches the timer state,
-sun4i_clkevt_set_oneshot() calls:
-
-    sun4i_clkevt_time_start(timer_of_base(to), 0, false);
-
-This enables the timer without programming a valid non-zero interval, which
-reloads the current uninitialized value of TIMER_INTVAL_REG(0).
-
-If this defaults to 0 (the power-on reset default), does this risk the exact
-same hardware hang?
-
-
-[Severity: High]
-This is a pre-existing issue, but can the timer sync logic cause a hard
-lockup during system resume?
-
-In drivers/clocksource/timer-sun4i.c, the tick_resume callback is mapped to
-sun4i_clkevt_shutdown:
-
-    .tick_resume =3D sun4i_clkevt_shutdown,
-
-This calls sun4i_clkevt_time_stop() followed by sun4i_clkevt_sync(), which
-spins infinitely waiting for Timer 1 to advance:
-
-    while ((old - readl(base + TIMER_CNTVAL_REG(1))) < TIMER_SYNC_TICKS)
-            cpu_relax();
-
-If the timer block lost power during system suspend, Timer 1 will be
-disabled upon resume. Since there is no suspend/resume hook to restart
-Timer 1, the counter will never change.
-
-Will this result in a deadlock?
-
-> =20
->  	/* Enable timer0 interrupt */
->  	val =3D readl(timer_of_base(&to) + TIMER_IRQ_EN_REG);
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260624220434.4183=
-732-1-felixonmars@archlinux.org?part=3D1
