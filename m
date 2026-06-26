@@ -1,139 +1,211 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1CD12FB969
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Jun 2026 20:01:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2073E3E172C
+	for <linux-sunxi@lists.linux.dev>; Fri, 26 Jun 2026 12:04:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782417688; cv=none; b=a+/HLkX41o1WXpvYyE77iJac2LQbjrm1PXqDxKLHKS+Z0zCPykOICurFHPGzpBkMyXjxxy/+pMuUWfUWbD/6UYONVf62Qz8Rkw+5n1BclqSpXc9zFak0Ikmt+6I+qty0FhFcJMups/ZlhIKBJTsTbuHVm7OGzZw0IQu17p5YCl8=
+	t=1782475448; cv=none; b=lSp/VPieFHm952KN+CsL6ubToWRf4vWds05lW4g8f6hvxHCFUon86Xpht4QAo0jeXDQ0Wf9HFt3LI2w/NjFIE50LascxmHh/xMpIFsq//mzEt6Xrr5DwzRV+01OlM5kJwTxTgUwo6VpaYLiGDL3CS+JVzigVrMte6esRreYS5M8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782417688; c=relaxed/simple;
-	bh=mWxYAZnNip39N7Pj7swAw9HVXL3RZX01cdyIL1etZbE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MjtQM4H9yrUrDB8CFsgRbfpGrQ9bvNwfefxHwAafZnWBkZ8bROMRNF9D6T3ZujoZqEeuNAUYYZVXYOmOQ/IYrbFFRNDOqAcxltTsdeVGC7URXwgPGUFFK1UxFDY0wXIx5i9/sH8w/4UmUjGXDYsytW4WJnR/hJaEGgzs64Ono/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LtCxUo6u; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782475448; c=relaxed/simple;
+	bh=3BTWjIQGw6v603+MK6ywCULt+2ytc2OqbIhP38SSlXQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:To:Cc:Content-Type; b=AHO2qFfZSlDPYES3zvgzVvzkWthRGHpiRZ7/hXz8GUfK7Q7t0cjnzlIsMEsh8BT2J6q06UjRUk/uU66dL47S26P1b+Ryf69AknJFjtGkW7OxfVOu0r3SKxbTKQthSS8c9UY6KTEUrlFdITQcmQCaD7iE+vVvKe3WKZ8lVLaCasM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TICQNzYS; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LtCxUo6u"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5ad53c8d4dfso129117e87.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 25 Jun 2026 13:01:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782417685; x=1783022485; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Oc0QJv7T+PDjjn884M5deHXdXQm6jHjFwABbEHE38VA=;
-        b=LtCxUo6uF7m+0hSe6/dAGR5f5XBZXR7IiEhFI8mjKPitovuAIiK8zO8FghdrxHR72V
-         SJOho8STqXoZCwPEoC0toQJHZWsJZVM0SHe+WK8uS4Oc86come/DdWa2gZZgWipyUpXb
-         XmhR46C26N0/rS6ta2GqEq0uH16A0eRQqBa7CjPgM/w5IWwLXpjlCmhsVcNR7u6ucOPY
-         014HRNmtYNfGlPTQfe63MSRDotBSLkFFRHB42FA2B2D/Kvzyn4YkYtsZUpnkHDlrGhlD
-         5nrT63D9XuuePFOAk18sbUOwE7DVJfduvXpaCtEauxL4JcTF2YH7xIKIQ7UN8faHVLgY
-         PAJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782417685; x=1783022485;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Oc0QJv7T+PDjjn884M5deHXdXQm6jHjFwABbEHE38VA=;
-        b=XvvQLWLIWqdz7QaxkmyjLAWe2VeTdJNuzeUKeT606g6AobyiqW5LutVfoPdCAczADB
-         ghOsCVsc5+nrv8F9XNJvRF7PZ5SmSDFS1vBbxsoc3t4o1fAn6/jbvRhr8d8cTW4BWQxB
-         b3jrMoalNBkwrrFJKet+7pdr1LPtTXSjWnVZra9KOaEFiBCFYiR0Kln+XRObmMAGbzhs
-         acHSwFN4FjKHFD9I3DbY8DTHqPPRj0n3yAetwkBMNcDf0mXk86C21lBUZu0l8BOpG2Bc
-         k7qw7KifZqqmQJeKP1xyum3sfiNCcQRedruwvisoq1KWfwKymEp44nV7bU7TjEL4aJ21
-         GC9w==
-X-Forwarded-Encrypted: i=1; AHgh+RpNxJVd2Cqib6jucCgjZo9R0A3RnK3ua5vJFuOpz0TRGAy/co1bW/NX/KuD5m0iO4PFBiBuPJ8n4Ch2aQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwNdBs4UeyHzvG5HRPxNvlHM9uKeSj6Pog9zsnw5S7XmZnYqzl2
-	G9wLuKnPO8bRNlTy1J9LZgwO4ySG8Pf8LmolqYJnMt/FNloqwzq3p4ay
-X-Gm-Gg: AfdE7cmj3hjM+5I3VkAL/bTFBoN/A5k3diRSdiP+4kNqEnMBhwhdpSxIFWf86fXN+rF
-	zT4K0/gfTRXd8cv3cnCuX/zIeKDkQKfM305ob9k3ZUzXf8vQh3mtSklvmNCgF07ITreMSG51Gql
-	GHX+n8D47hrzAtqmtrRO3zsdyoCQ0fHRNmjKwYeE3bDTCa98yQX7FB6VXUC1hOwtcjARYg4sZl1
-	2g/ny7hc78KGy9BD//VTBSuLDLF1nwZBUjcK6tSSHfEm2PN1Qlu0AJGXUkTqmT8ueH0ZYGkpYZt
-	W1KGrFhxGx5IfQenfCh8FAVhcUDLjqH/ui4cL7OmSdiHl0O05fPxujN7IBuEPsJmx68LclQ2rBJ
-	IrRjKxpcesGQiIj9Xy06e3/0GuFx3PtNn4E/B+aF/QNwuK+wk5Lrjo80ZInWj6Z7DDI/H0Ws8k+
-	RyDGF6a+PRn5VBm7Frql8J+4GfthZdckIV77M3Uqez8JbeVFZJRA==
-X-Received: by 2002:a05:6512:2251:b0:5aa:65a3:468c with SMTP id 2adb3069b0e04-5aea1e246f6mr1149630e87.7.1782417684632;
-        Thu, 25 Jun 2026 13:01:24 -0700 (PDT)
-Received: from ik5070.localdomain (85-253-35-150.ip.elisa.ee. [85.253.35.150])
-        by smtp.googlemail.com with ESMTPSA id 2adb3069b0e04-5ae9d8fb537sm1793554e87.21.2026.06.25.13.01.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2026 13:01:22 -0700 (PDT)
-From: Indrek Kruusa <indrek.kruusa@gmail.com>
-To: felixonmars@archlinux.org
-Cc: daniel.lezcano@kernel.org,
-	tglx@kernel.org,
-	wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-riscv@lists.infradead.org,
-	stable@vger.kernel.org,
-	Emil Renner Berthing <emil.renner.berthing@canonical.com>,
-	Indrek Kruusa <indrek.kruusa@gmail.com>
-Subject: Re: [PATCH] clocksource/drivers/timer-sun4i: Advertise a real minimum delta
-Date: Thu, 25 Jun 2026 22:58:37 +0300
-Message-ID: <20260625195837.882048-1-indrek.kruusa@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260624220434.4183732-1-felixonmars@archlinux.org>
-References: 
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TICQNzYS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1782475441;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=LfhkIZ+POWtPSh2+rwXD0iwa5BFBBS0Sxs/FAHKJy0U=;
+	b=TICQNzYSaH0ZyIJxp5y14XmEKxDuEv0cO2ccHewQENnFwzhJcSBLGcpHo5ceCfE8wkOodk
+	KjXCTg+FgTJi2iYLOA19XHANaUIkPSm0v20TlHj5tqoq1Os+KsAD6b7+7yHU+h+lC/WBAl
+	LVKlqzSincj3kdgG48vAU/VtedLY6mo=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-591-165MCCNRPxamt_a__LrLag-1; Fri,
+ 26 Jun 2026 08:03:58 -0400
+X-MC-Unique: 165MCCNRPxamt_a__LrLag-1
+X-Mimecast-MFC-AGG-ID: 165MCCNRPxamt_a__LrLag_1782475432
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 951F01956049;
+	Fri, 26 Jun 2026 12:03:49 +0000 (UTC)
+Received: from [192.168.1.153] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C2A7518005B1;
+	Fri, 26 Jun 2026 12:03:30 +0000 (UTC)
+From: Albert Esteve <aesteve@redhat.com>
+Subject: [PATCH 0/5] drm/panel: refcounting panel lookups and references
+Date: Fri, 26 Jun 2026 14:03:22 +0200
+Message-Id: <20260626-drm_refcount_wiring-v1-0-cca1a7b3bdef@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MWwqAIBAAryL7naCVSV0lIsK22o801l4Q3T3pc
+ 2BmHojIhBEa8QDjSZGCT6AzAW4Z/IySxsSQq7xSRhdy5LVnnFw4/N5fxORnWaJBayzWqrSQyi0
+ JdP/XtnvfD+CBweFlAAAA
+X-Change-ID: 20260513-drm_refcount_wiring-4e5e757e9047
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, Inki Dae <inki.dae@samsung.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, 
+ Lucas Stach <l.stach@pengutronix.de>, Frank Li <Frank.Li@nxp.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
+ Linus Walleij <linusw@kernel.org>, Marek Vasut <marex@denx.de>, 
+ Stefan Agner <stefan@agner.ch>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Yannick Fertre <yannick.fertre@foss.st.com>, 
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
+ Philippe Cornu <philippe.cornu@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+ Jyri Sarha <jyri.sarha@iki.fi>, Jingoo Han <jingoohan1@gmail.com>, 
+ Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Peter Griffin <peter.griffin@linaro.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, Alison Wang <alison.wang@nxp.com>, 
+ Paul Kocialkowski <paulk@sys-base.io>, 
+ Alain Volmat <alain.volmat@foss.st.com>, 
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+ linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ Albert Esteve <aesteve@redhat.com>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782475410; l=4786;
+ i=aesteve@redhat.com; s=20260303; h=from:subject:message-id;
+ bh=3BTWjIQGw6v603+MK6ywCULt+2ytc2OqbIhP38SSlXQ=;
+ b=vLL8Ben9S7G7GBfAV5/dY7850AeH1O/rgqMk5FTgeHqnK1BhJ7ibVh3+QUe2vagwJMCyn90Tw
+ qkWv9Fv/F5lBvW13X7zWOmhYBwLKK2ZIdvy06sPHln5E/gzS8WLH1Bj
+X-Developer-Key: i=aesteve@redhat.com; a=ed25519;
+ pk=YSFz6sOHd2L45+Fr8DIvHTi6lSIjhLZ5T+rkxspJt1s=
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: r95R1cmxb6HDhYKQWfSqLllOEPgEdDv6gkvd16oO6Ro_1782475432
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Felix,
+The drm_panel subsystem provides kref-based reference counting [1]
+(drm_panel_get/put) but almost nothing in the tree actually uses it.
+This results in a systemic use-after-free pattern throughout the codebase.
 
-On Thu, 25 Jun 2026 06:04:34 +0800, Felix Yan wrote:
-> sun4i_clkevt_next_event() compensates for the timer stop/start
-> synchronization delay by programming evt - TIMER_SYNC_TICKS into the
-> hardware interval register. The clockevent device currently advertises
-> TIMER_SYNC_TICKS as min_delta_ticks, so the clockevents core is allowed
-> to call set_next_event() with evt == TIMER_SYNC_TICKS.
->
-> That programs a zero-tick interval. With oneshot/highres/nohz timer
-> operation this can leave the next event stuck, which was observed as a
-> boot hang on Allwinner D1 after the clockevents core started reusing
-> forced minimum-delta events.
->
-> Advertise one extra tick instead, so the smallest event accepted by the
-> core still programs at least one hardware tick after the synchronization
-> compensation.
->
-> Fixes: 12e1480bcb49 ("clocksource: sun4i: Report the minimum tick that we can program")
-> Cc: stable@vger.kernel.org
-> Reported-by: Indrek Kruusa <indrek.kruusa@gmail.com>
-> Closes: https://lore.kernel.org/linux-riscv/CA+fTLhgLmTY+exGujKf8OYYQvcEW5X5NJ_5sLq2AYL6zER2c0A@mail.gmail.com/
-> Assisted-by: Codex:gpt-5.5
-> Signed-off-by: Felix Yan <felixonmars@archlinux.org>
-> ---
->  drivers/clocksource/timer-sun4i.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/clocksource/timer-sun4i.c b/drivers/clocksource/timer-sun4i.c
-> index 7bdcc60ad43c..c2d04ab7cf2d 100644
-> --- a/drivers/clocksource/timer-sun4i.c
-> +++ b/drivers/clocksource/timer-sun4i.c
-> @@ -208,7 +208,7 @@ static int __init sun4i_timer_init(struct device_node *node)
->  	sun4i_timer_clear_interrupt(timer_of_base(&to));
->  
->  	clockevents_config_and_register(&to.clkevt, timer_of_rate(&to),
-> -					TIMER_SYNC_TICKS, 0xffffffff);
-> +					TIMER_SYNC_TICKS + 1, 0xffffffff);
->  
->  	/* Enable timer0 interrupt */
->  	val = readl(timer_of_base(&to) + TIMER_IRQ_EN_REG);
-> -- 
-> 2.54.0
+This series aims to close all those issues.
 
-I can confirm that this patch makes my Allwinner D1 board boot
-again with v7.1-rc1 and newer kernels.
+Patches 1-2: fix the infrastructure. drm_panel_add/remove now keep
+a counted reference for the list entry. drm_panel_bridge_add_typed()
+now holds a counted reference for the lifetime of the panel_bridge.
 
-Tested-by: Indrek Kruusa <indrek.kruusa@gmail.com>
-Closes also: https://lore.kernel.org/regressions/20260531165138.2696250-1-indrek.kruusa@gmail.com/
+Patch 3: change the semantics of of_drm_find_panel() and
+find_panel_by_fwnode(). They now acquire a reference before returning,
+under panel_lock. Callers are responsible for calling drm_panel_put()
+when they no longer need the pointer.
 
-Thank you,
-Indrek
+Patches 4-5: update all in-tree callers of of_drm_find_panel() and
+drm_of_find_panel_or_bridge() to release the reference at the
+appropriate point. Two patterns are repeated in these fixes:
+
+- Bridge-wrapping: the panel is passed to devm_drm_panel_bridge_add()
+  or equivalent, which acquires its own reference. The caller (including
+  devm_drm_of_get_bridge() and drmm_of_get_bridge()) releases its lookup
+  reference immediately after.
+- Store-and-use: the panel pointer is kept in a driver struct and
+  used directly for the device lifetime. The reference is released in the
+  remove/unbind path, or via devm_add_action_or_reset() where no explicit
+  teardown function exists.
+
+In order to catch all places in the tree that required releasing the
+reference, the search was assisted by an AI model. Specifically, a
+Coccinelle script was designed to address the trivial changes (not
+included in the series). Although a few required manual fixes, with goto
+labels or bracket additions. Additionally, the model helped to discern implicit
+teardown paths that were addressed with devm_add_action_or_reset() calls.
+Thus, these commits have the Assisted-by label following the project guidelines.
+
+No functional change is intended for any driver. The reference
+counting only affects object lifetime; panel operations are unaffected.
+
+[1] https://lore.kernel.org/all/20250331-b4-panel-refcounting-v4-0-dad50c60c6c9@redhat.com/
+
+Signed-off-by: Albert Esteve <aesteve@redhat.com>
+---
+Albert Esteve (5):
+      drm/panel: have drm_panel_add/remove manage a list reference
+      drm/bridge/panel: hold a reference to the wrapped panel
+      drm/panel: make *find_panel*() return a counted reference
+      drm/bridge: release panel reference on all lookup exit paths
+      drm: release panel reference after panel bridge creation
+
+ drivers/gpu/drm/bridge/analogix/analogix-anx6345.c |  3 +++
+ drivers/gpu/drm/bridge/panel.c                     | 18 ++++++++++++----
+ drivers/gpu/drm/drm_panel.c                        | 24 +++++++++++++++++-----
+ drivers/gpu/drm/exynos/exynos_dp.c                 | 10 +++++++++
+ drivers/gpu/drm/exynos/exynos_drm_dpi.c            |  3 +++
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c          | 18 ++++++++++++++++
+ drivers/gpu/drm/imx/dcss/dcss-kms.c                |  3 +++
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |  4 +++-
+ drivers/gpu/drm/logicvc/logicvc_interface.c        | 12 +++++++++++
+ drivers/gpu/drm/mcde/mcde_drv.c                    |  1 +
+ drivers/gpu/drm/mcde/mcde_dsi.c                    |  1 +
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c                  |  1 +
+ drivers/gpu/drm/omapdrm/dss/output.c               |  1 +
+ drivers/gpu/drm/pl111/pl111_drv.c                  |  1 +
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c  |  1 +
+ drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c        |  1 +
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c   |  1 +
+ drivers/gpu/drm/rockchip/analogix_dp-rockchip.c    | 11 ++++++++++
+ drivers/gpu/drm/rockchip/rockchip_lvds.c           |  1 +
+ drivers/gpu/drm/rockchip/rockchip_rgb.c            |  1 +
+ drivers/gpu/drm/sti/sti_dvo.c                      |  3 +++
+ drivers/gpu/drm/stm/ltdc.c                         |  1 +
+ drivers/gpu/drm/stm/lvds.c                         |  3 +++
+ drivers/gpu/drm/sun4i/sun4i_lvds.c                 | 13 ++++++++++++
+ drivers/gpu/drm/sun4i/sun4i_rgb.c                  | 13 ++++++++++++
+ drivers/gpu/drm/sun4i/sun4i_tcon.c                 |  2 ++
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c             |  2 ++
+ drivers/gpu/drm/tegra/dsi.c                        |  1 +
+ drivers/gpu/drm/tegra/output.c                     |  3 +++
+ drivers/gpu/drm/tidss/tidss_kms.c                  | 16 ++++++++++-----
+ drivers/gpu/drm/tve200/tve200_drv.c                |  1 +
+ 31 files changed, 159 insertions(+), 15 deletions(-)
+---
+base-commit: 502d801f0ab03e4f32f9a33d203154ce84887921
+change-id: 20260513-drm_refcount_wiring-4e5e757e9047
+
+Best regards,
+-- 
+Albert Esteve <aesteve@redhat.com>
+
