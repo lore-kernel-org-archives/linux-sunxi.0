@@ -1,64 +1,64 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F303EBF3D
-	for <linux-sunxi@lists.linux.dev>; Fri, 26 Jun 2026 13:11:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167B737B020
+	for <linux-sunxi@lists.linux.dev>; Fri, 26 Jun 2026 15:05:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782479519; cv=none; b=nUoW71mHXKEgEMMc51NnwH9NpIE5LlrQNO3jvOSB2V4i7GbIQPma9S02qJbOp6Ln+3wvW4JqsRNi46qwJm00xMKumKwcM1sXaCW1+YPNzZz1AWfgsovhmuIKaBY0CX9DjttgULT8tYJNUwN1/3eflDNcr7MLz49FLepx8uImq2M=
+	t=1782486324; cv=none; b=j9a1a/ildFvhryLdQZHkT7q7/DYhzcutd+o4bEAKxXyDxBD/P4QutJAEir0PNX7wEt+Zwa70rQk6vdZ8FF2vmubc/Y3MZorAObzXbttCIT72VyUzhTvTIf02HuTUQ7AvV3QdISSQQt+uBXSaUzARSodbNIiKuftrzwaJGqcxCw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782479519; c=relaxed/simple;
-	bh=VKNTFsC75BNMcJnQI4eMzMtTvr9UpO3oOorJIEMb0vQ=;
+	s=arc-20240116; t=1782486324; c=relaxed/simple;
+	bh=dQWoBG3cdhdrXUGK8cjuSemvsRSH2KT/hQo0wNib96o=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OjOkWNnu9HX3VOAG9Q3QhfJllm/VsSNvk+vFwW3G4zmXuL3o/ckaqwbZ+av6VbO8hx0FMHkOWikE49eNI/MuONhxhcThY6tmqE34HeACXfeEbdZDqPvELusAN1w3314jVnKqLN7lzJ1imo3UnH6jkyUGgJCh2hy7yPz9GuZDGrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cLmglm0f; arc=none smtp.client-ip=170.10.129.124
+	 To:Cc:Content-Type; b=Tt5tS2w2zNHTqmHjjaJm6oQb85D+wUtAVSJ1I6O3TELcJt/FkAaT5BOAmNOoxoe5Q3Sfoo8FBuwhehAeNltI28QiW/vJMaIC7nWVSJaAXuWlXyisGdKYBEWKIpHL3ORuruRffSb4s6JGa1CdCqOFxSDQCINsnMlP4OynxvrWC0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dfU9ntf5; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cLmglm0f"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dfU9ntf5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782479515;
+	s=mimecast20190719; t=1782486316;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VKNTFsC75BNMcJnQI4eMzMtTvr9UpO3oOorJIEMb0vQ=;
-	b=cLmglm0fFtdT+tIAZb6uKVEXMr65V0gMWXMmZyYqtbeIF6nMdAu+bEKeh2VZ+R1JfpLlrc
-	pU7ZGeCtvqzRnHmVrQsaAAOCvrSNFIjeCgKSqIqGo84Yq7T70fQAU4eNrDSa/MAhN2vjmY
-	3rFzQKQT3MKDDLHfxYtEgTvV8Ku8MIo=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=dQWoBG3cdhdrXUGK8cjuSemvsRSH2KT/hQo0wNib96o=;
+	b=dfU9ntf5VCw2uQpEIlX3yxWsHBXKkdctYP9boMfsXSD7lUE4lRBGTqCeh2mBRwh0nxa1Rs
+	CxPrf1mw9fJDbFZAYsCrkZg4KrmeOu7oGZT9Oq3/m4anIwwWXyyubwdIAlGTcjDQAta7/D
+	De8D06nLkneZ27FcIo0PQoEA73TKDyg=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-271-Y_4tD9JUM2WVcaQNctulsQ-1; Fri, 26 Jun 2026 09:11:54 -0400
-X-MC-Unique: Y_4tD9JUM2WVcaQNctulsQ-1
-X-Mimecast-MFC-AGG-ID: Y_4tD9JUM2WVcaQNctulsQ_1782479513
-Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-7ff58c89959so21319997b3.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 26 Jun 2026 06:11:54 -0700 (PDT)
+ us-mta-88-NTkOz6zeNTGLuOm1yw_RIQ-1; Fri, 26 Jun 2026 11:05:14 -0400
+X-MC-Unique: NTkOz6zeNTGLuOm1yw_RIQ-1
+X-Mimecast-MFC-AGG-ID: NTkOz6zeNTGLuOm1yw_RIQ_1782486314
+Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-80af3844badso18863367b3.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 26 Jun 2026 08:05:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782479513; x=1783084313;
+        d=1e100.net; s=20251104; t=1782486314; x=1783091114;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=VKNTFsC75BNMcJnQI4eMzMtTvr9UpO3oOorJIEMb0vQ=;
-        b=pSaLJVE2CC53+N4xAkX8Vuey9lz9KdqcH+RS1sxRz1LJqV/D+Niiffq7IKjH7sJCXH
-         H2wapJT6+IIFTpJujxx27r29k/tfac2+42R8rX+FTC2A8kFToRpascpnuqAqWSlfi7S1
-         n7grNNvyBeRU0IpRWdlFHmj5rKh9AwlZsTuosSuxeH69KsSTsZOd4lg9KDZKSVhdH08b
-         kmIq3Xd0gkciQRdD2+rshqHU/fjMhZIvV71Cny+dxN9NlNwv3tn+fiCqwPZP+c0oG52M
-         IFc/nWkw4hCoQioFuH2jAC1ZJz68L8S2/xcr0eJuE/8p1xfmz547QgeYExeydkN2Qvp4
-         Xj1w==
-X-Forwarded-Encrypted: i=1; AHgh+RrmLc4LoZdB0bTFcpauYv0rCIz3VnGzt5fZ/8G0LZ34/N+4CtR2fnu9houjeHIy3XGq+8oYQmBNz6sZhQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy+/xfvhV9cQlWEr7uaFXQ3jgYurahFTZ+sR4Xk/PAcmmR57XdD
-	J0pWBKNyiMh9pdwatvGuhWsnECddjqpLhxD6ocnnKkhKCXqYVDTGxByMcRxnu+WNNa75foEvx/Y
-	yTHtXr8v6+ue2wTeVyHHdft2Fp8gkkPkp9gzE3WpIj1OVS3ddKptTQ+NdIuHpLyDfDeGYZW9SD9
-	m5MjPdSnlYZx5IKNtvXk/140U79+q4KkRyrZF3TRk=
-X-Gm-Gg: AfdE7ckZBYgi+9K874uLi0ShhXqRrsjipyVF3CvXEavUIm8UgHHFrr8bvDQ8g/1odHu
-	l4/RGQsO2yV7KlVJk2AImA+TRWweEWnxBFwaw6g1AwmkXjngcn7pgvXMbvv9CC5ZZxujt4C+gAM
-	5VYDGWhK/aXcqmXZA5tnSCCk5du4YQJXb7wZ16w3poGW8rIsM0YKPsyP9s3QXZOhMc
-X-Received: by 2002:a05:690c:2601:b0:80b:ef0a:7aad with SMTP id 00721157ae682-80bef0a8585mr15809667b3.31.1782479513429;
-        Fri, 26 Jun 2026 06:11:53 -0700 (PDT)
-X-Received: by 2002:a05:690c:2601:b0:80b:ef0a:7aad with SMTP id
- 00721157ae682-80bef0a8585mr15808937b3.31.1782479512984; Fri, 26 Jun 2026
- 06:11:52 -0700 (PDT)
+        bh=dQWoBG3cdhdrXUGK8cjuSemvsRSH2KT/hQo0wNib96o=;
+        b=PdAALlt0vR1qGY3he3VktdiPlBFiuPXx2S+HtQP9ZVUhIN6jUzAM+4SKiHCORn7nEl
+         LYUB4xqDa2EQF2ClKIyX+hJJpcqDa29z+zKrZpdOvH0CFzo2yl2inW4zScUO2INPdCIo
+         jFLw1uZaLK70PQt8aa/i0LVBgiRXYWEhLji0DVEjZqMQqFpBBT5ryDPQRgV0QlJEtsn2
+         2x0B/H4N1HlL5Z6nP8mJyS5ullgIywwGzwcoRctOt4B6sCDdQWi8v4IByxd9atvg191J
+         5zkO36KrO2pmgEHMXZpmFBMnAb7+oBV53dRby6W5sseDSprj/chwjoMAwd5lgpd3N+Ub
+         AoDQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rq06Zlsc6etv1MQVwhq9Q4eu08pQFe1q4ZJdyjKJ8f7W2x3JXSMkZTlGWaCiuMw8bCAPZoDe6j2nxHqmg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwRjMUSwRLP+WFd1cFXYwUILczN3inr3lgHVl+4ULDS/Z+fSZEm
+	GYzjZHH6XacLaV62K5X7fsOE1FsvV96FaiFOeQZXs7O6L+OpyC1It8J4pqx3fNmKvdX2WpFAm/4
+	36bogFNKS3fERHTCUF3PIq+HRWaMHF0LuMn/51qvlAYcMxoCzDg+VYrku8Hyq6m4feLPAxn+trs
+	bcMPU8GBATVD5aJgpJ6x8Mbj7fZkAE/1xYinNdcfo=
+X-Gm-Gg: AfdE7cmW5x+gM9SiVTqQPtU43QoBWoCd9r6iYsQWZNIE1z56wyPxBEGJsqLXEL9i6Cf
+	o4BwHBL4GyHHkmxs1q1MCnLA15q+we/wurj3jM+z7n64NIE1I2SXoMaI2NWZZtDnI3+IIk4t/6/
+	a4swW2NmnUHFJ8ABsh+8huNZXykD8BurGu0uOnx7tmdVQizuNpl5ccG9Zs0H/lyIKY
+X-Received: by 2002:a05:690c:4881:b0:80c:cad:c4e6 with SMTP id 00721157ae682-80c0cadc8fbmr18141557b3.32.1782486313705;
+        Fri, 26 Jun 2026 08:05:13 -0700 (PDT)
+X-Received: by 2002:a05:690c:4881:b0:80c:cad:c4e6 with SMTP id
+ 00721157ae682-80c0cadc8fbmr18140727b3.32.1782486313097; Fri, 26 Jun 2026
+ 08:05:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -66,14 +66,13 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260626-drm_refcount_wiring-v1-0-cca1a7b3bdef@redhat.com>
- <20260626-drm_refcount_wiring-v1-4-cca1a7b3bdef@redhat.com> <20260626-manipulative-rainbow-rhino-d73b65@houat>
-In-Reply-To: <20260626-manipulative-rainbow-rhino-d73b65@houat>
+ <20260626-drm_refcount_wiring-v1-5-cca1a7b3bdef@redhat.com> <20260626-ivory-tarantula-of-valor-af0e2a@houat>
+In-Reply-To: <20260626-ivory-tarantula-of-valor-af0e2a@houat>
 From: Albert Esteve <aesteve@redhat.com>
-Date: Fri, 26 Jun 2026 15:11:41 +0200
-X-Gm-Features: AVVi8CcW-L7vrM5Bm_e3_mA7DiL0CVsM1LDa8FwSzsOcNktoquvN-pr6tbwgp5U
-Message-ID: <CADSE00+1m1ASzJzefO2bLuMYAJa3kSmW4py7Qng70VnZSUv0sg@mail.gmail.com>
-Subject: Re: [PATCH 4/5] drm/bridge: release panel reference on all lookup
- exit paths
+Date: Fri, 26 Jun 2026 17:05:00 +0200
+X-Gm-Features: AVVi8CfUWw7MSpxfIbgb0qtM7cCP9XXdSgcc1xFYb1Fq3hJmdhiO9Zy5mZXSYcU
+Message-ID: <CADSE00Jy9-BR9e-Dg-S4_fiLnjWjXfTq3c6OO8PxTM=gQyA7xw@mail.gmail.com>
+Subject: Re: [PATCH 5/5] drm: release panel reference after panel bridge creation
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <jesszhan0024@gmail.com>, 
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
@@ -111,56 +110,52 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <jesszhan0024@gmai
 	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
 	linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: J3TELl4JxD-aE-KxV_4WXRysd2cH2ggXx06ChKoSxxk_1782479513
+X-Mimecast-MFC-PROC-ID: Iup1ylJn6upjs0IzdUWRm6Pmki0rVTzifKCXgAnJ3uM_1782486314
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 26, 2026 at 2:53=E2=80=AFPM Maxime Ripard <mripard@kernel.org> =
+On Fri, Jun 26, 2026 at 3:00=E2=80=AFPM Maxime Ripard <mripard@kernel.org> =
 wrote:
 >
-> On Fri, Jun 26, 2026 at 02:03:26PM +0200, Albert Esteve wrote:
+> On Fri, Jun 26, 2026 at 02:03:27PM +0200, Albert Esteve wrote:
 > > of_drm_find_panel() and drm_of_find_panel_or_bridge() now return a
-> > counted reference that the caller must release with drm_panel_put().
+> > counted reference. In drivers that immediately wrap the panel in a
+> > bridge via devm_drm_panel_bridge_add() or equivalent, the bridge
+> > acquires its own reference, so the caller's lookup reference must be
+> > released right afterwards.
 > >
-> > For bridge drivers that immediately wrap the panel in a panel_bridge
-> > (which acquires its own reference), release the lookup reference right
-> > after the bridge creation call.
-> >
-> > For analogix-anx6345, which stores the panel for direct use, release
-> > the reference in the i2c remove path.
-> >
-> > For platform drivers using analogix_dp_core with a component lifecycle
-> > (exynos_dp, rockchip analogix_dp), release the lookup reference in the
-> > platform remove() function. The panel_bridge created during bind() hold=
-s
-> > a separate reference that devm cleanup releases after remove() returns.
-> >
-> > Also fix devm_drm_of_get_bridge() and drmm_of_get_bridge() in
-> > bridge/panel.c itself: both call drm_of_find_panel_or_bridge() and
-> > then pass the panel to devm/drmm_panel_bridge_add(), which acquires
-> > its own reference via drm_panel_bridge_add_typed(). The lookup
-> > reference was never released; add drm_panel_put() after each bridge
-> > creation call.
+> > Also handle the cases where a panel is found but cannot be used,
+> > dropping the reference immediately in those paths.
 > >
 > > Assisted-by: Claude:claude-opus-4-6
 > > Signed-off-by: Albert Esteve <aesteve@redhat.com>
 >
-> I think this one should be either split into one patch per driver, or
-> merged with the of_drm_find_panel patch. I'm still not quite sure which
-> would be the best, maybe the latter?
+> drm_of_find_panel_or_bridge() does indeed return a refcounted pointer
+> now, but afaik the doc wasn't updated to reflect that.
 
-I have spent some time myself thinking about how to approach this.
-Initially I thought about doing one patch per driver as you suggested,
-but since there are many similar fixes that are mostly one-liners, In
-the end I decided that grouping them would make the review easier and
-result in a less inflated series. Maybe merging with of_drm_find_panel
-patch makes sense to avoid having one patch introducing a transient
-reference leak (even if it is fixed right after and is bisectable).
-But that will also create a giant patch (harder to review?). Another
-option could be to merge patches 4 and 5, which basically update all
-callers, and keep the API update separated. Either way, I am happy
-with whatever you decide is better. I will take note of this for v2.
+True, I'll fix that in the next version.
+
+>
+> More importantly, I feel like with both of_drm_find_panel and
+> drm_of_find_panel_or_bridge we update a path that is considered legacy
+> anyway now, and we should rather focus on providing a safe alternative.
+
+Oh, I missed that this code path is considered legacy.
+
+>
+> But none of the functions you updated are unsafe, so it won't be more
+> unsafe, or provide any illusion of safety to the caller. Idk.
+>
+> Either way, this should all be on its way out if Luca creates a bridge
+> for every panel, and we'll consolidate on bridges only, so maybe it's
+> not such a big deal to merge this patch.
+
+I see. Given what you wrote, I think it'd make sense to correct them
+while this code isn't completely dead.
+
+BR,
+Albert.
 
 >
 > Maxime
