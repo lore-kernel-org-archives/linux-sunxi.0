@@ -1,141 +1,252 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E70C4048A8
-	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 14:15:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8D4369D7C
+	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 14:24:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782742514; cv=none; b=KzpKc0zoiTOdQL6NxTQDgzPdFS/5rVrbjg9pfDmsQUTr/TN4hA0olsFp9+m45LVJatbtSnTOfH5xVrbKVqtbNIH6gv9VM2gjcklbJuo389F/HDLMjF37+iGLxUS1AzBJ5mVCDkw/QDXRTy05bE8AtzUoYuLweSgQcAgu7xe+gIo=
+	t=1782743094; cv=none; b=QRj6tIa3KwzxoXXM3n4CslIXw155vQvkk0T1+hZgLuoHYMU+iDTiuv0yUkkByMkdRt19Gl8jfVB1x0aYYE9R8Sdoy7V+8mtFtHB+C6hSXOMLgEKvMFu3h83/DcGe9Y7aulH66UPhRtPMkUuPwlIUB/WRJNVvEifKAEul+989Cp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782742514; c=relaxed/simple;
-	bh=5p/McKl0At+a6VAzKcOjx3RuZRzgCfxMKqmXtggVLuQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=fwrL6OBvrMeD3Qp4To1gMYFKlr8S0VSCq5KFHpZ0oZVFWIm7CAkA4jNEKWV8HYzmn6Jkxx4XId3CFm2CEmCcPTTkvNGxR1Qk7bqqZ/XEm8HJSXPW4yy5vmM+o4EzYIig+SIyALOVp+0Kd9w8DXhSKQDxFDQbtuKSZS0dVQKRhYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=NWvDB7mb; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1782743094; c=relaxed/simple;
+	bh=jKYy6z/LZavsIGCtCAO9WeqrOdZS55WfnuhWxAytq6A=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=rgkjrXa7zLKFSL5Anvr/7HTJUP3ep6/ZfW9FfGVbL971w9O8RzsANsZFhDykUr+zTTeWOWo4sX9zO+/UCj3RAhaBn4PlKbskZR2tBo72qF5WimzovhlRf/5Uape8Ak5l5d5PHrWFbHJWFV5dsOnv5mp6MER8zaEdKOPuW7/hDFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=QpqdxALB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eD8S00wy; arc=none smtp.client-ip=202.12.124.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="NWvDB7mb"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-493b27c7451so7440495e9.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 07:15:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1782742510; x=1783347310; darn=lists.linux.dev;
-        h=mime-version:message-id:date:user-agent:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RlSGFWS4+pKKIa8x4IUZ9wzt88PH868TUMMVsj+F2xg=;
-        b=NWvDB7mbefZDUODpLlgHdQ/qcGS/3pfhK9YJyIss8651ZpXWAGeQJkAtdaUPhj8Kt8
-         OOfDsw1CdJj1heL9uFBwk0/qZUjScUb1nxiYjG+saUZJAdVD81kB5Voz3STJwieO06I5
-         M45BwQvMosijJH1JDS6xXQPJt0m3LbZsmbJ39UZ/XJc0tbE58KuYz2MiDhqDsyzvsZ0x
-         HzqUQ4ulqyCOE3VTIoFg62W0CQUif/xeDNjO4UQKeVxYv1D1/m+I9IoFqAK4IfjCK1Gt
-         kEC1qHCpWDypHZrxmG7Ue3Z9KqWWNPHzoowkRW4rhjnqhYyi84czHEnaJHgzK26MoiMa
-         yCDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782742510; x=1783347310;
-        h=mime-version:message-id:date:user-agent:references:in-reply-to
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=RlSGFWS4+pKKIa8x4IUZ9wzt88PH868TUMMVsj+F2xg=;
-        b=F8UPnBefB5FnEhHaT2xc4bt5bkwexDERHzwipqg9Z3Zth+dtZS2TTUuwWWDHI6U0Xe
-         UrYZQipJSV71mbSLab7FOZrN/iqFlhjcNcdYYzcP33o2gt6wfNnZyoCNwXb0ioYuR7bp
-         Ond9/Q7YL90oRSPY02mx6bFwbkuX09jdL1DGpfEl4p7zDEeOTuLVhiFqnAI2mf1zKNS7
-         A8PyrHZZS/FH4EN07SsiaWIhAIc5mlRttjiTzTdq4ySv63cssSE1Xv3ioY/4nhXrj2pc
-         JtJpBsoY9nPG5XVtcOd79IVRl0w8FYuVPW6hmqgynT72xp7wp2PWfrQvme0qnaRr7M24
-         XVqA==
-X-Forwarded-Encrypted: i=1; AFNElJ90nxIv2ecRqV3cnH5cBqtL6bzn/nGudTZ3Ux+mADOtxg771/FTdaBRH5Cfi9iANph4oZgQlGrNI8kWPg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxBW++adgqwYch6idFtuNIJdj3aMTJZPYae9HHd0OWr1ItfD3Hs
-	LOgkV8frppXj/xEtwxJrH+8xLZgArO7HGLC4ZnAtvKyiMitSyC+a5y34KJfg9J+lQQn/GJkXtV6
-	i/6lF
-X-Gm-Gg: AfdE7cm3K+a+1hqr6dPqNPamLzW+6uaHgOaH7V06F10pph5C8xyXxD+f8+isOJuYmLr
-	5twF0GPJzhI7HP/qj7guybKD9zE8RmPCP6iki6+hk4lGYXECkwRIJuaqNPAv+S0QY5tRVXT9ztp
-	tW9kap7U1mQxHt3TxwlThsymQkM4QkWWgT4O8W21BruxVki1PEYwyNjZnT9BcuicWg3qaGgZ6G0
-	Jcuqd26akOiV3ECL8qwaekxdZ6crSZPAG0aydJkyy6s4hz5VzzuV6XjXI4CGAtihghv3ApnLNL8
-	nYgmkmdaG5pcO9rTLgXvmrHjns+3gEythZA63nSfRB2BAnarkSoblewSlLPAxOPKXZbAehdWrQc
-	+1aSYHKgR595GY1WIfOkGeKCTgF0r7cB479W+3GwqnZhhIxtIVLiG0G8m+1GArXZg0o+sZoNAkg
-	XoOv76/FzIl5xS4RVyEloZDQ==
-X-Received: by 2002:a7b:ce19:0:b0:490:ae36:4835 with SMTP id 5b1f17b1804b1-4925a208424mr287672525e9.17.1782742510488;
-        Mon, 29 Jun 2026 07:15:10 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:1d21:f5d5:2d3c:23a7])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-46f86c34d76sm25027622f8f.3.2026.06.29.07.15.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 07:15:09 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: sashiko-bot@kernel.org
-Cc: sashiko-reviews@lists.linux.dev,  linux-sunxi@lists.linux.dev,
-  conor+dt@kernel.org,  robh@kernel.org,  devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 5/6] clk: sunxi-ng: sun6i-rtc: split main oscillator
- div and gate.
-In-Reply-To: <20260629131254.7E34C1F00A3A@smtp.kernel.org>
-	(sashiko-bot@kernel.org's message of "Mon, 29 Jun 2026 13:12:54
-	+0000")
-References: <20260629-a733-rtc-v2-0-7b72112784f8@baylibre.com>
-	<20260629-a733-rtc-v2-5-7b72112784f8@baylibre.com>
-	<20260629131254.7E34C1F00A3A@smtp.kernel.org>
-User-Agent: mu4e 1.12.9; emacs 30.1
-Date: Mon, 29 Jun 2026 16:15:08 +0200
-Message-ID: <1j7bnha0wj.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="QpqdxALB";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eD8S00wy"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id 5DA241D0004C;
+	Mon, 29 Jun 2026 10:24:50 -0400 (EDT)
+Received: from phl-imap-05 ([10.202.2.95])
+  by phl-compute-04.internal (MEProxy); Mon, 29 Jun 2026 10:24:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1782743090;
+	 x=1782829490; bh=ST6f+Ye0p9/T3JscEZ5f79X56UQF/QbBzy9biCJtv04=; b=
+	QpqdxALBlVVbSg1RXbbjqLWGXcZOg6UqpE3Vp6LevI4Da066273Jj7jYVeGLX46X
+	LinpDyHOTAAY1ongsWzSZL+cCdadSKdT0xgB5OPkSaEwxh5/PislXxwdCzTIn1oC
+	REt8J2lpL+fvicpf35ivwedoOFMDa8U26a+Af0XNlCdSTmG3z5R12GILfzE6SmTw
+	FSZhN3jd43gzf68bIdGOSAU4nIKKt3MyN2QskGPZia8vNMzlX9e7VXzhu4kxYVYg
+	UDp5rYOlGWSODvbwl5w7pVhSokE3VL50QWNcbqiwsUhiYZ7tyEoxKDIwx448Lzze
+	gpc1InqfpdaZWMjyp3kd3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782743090; x=
+	1782829490; bh=ST6f+Ye0p9/T3JscEZ5f79X56UQF/QbBzy9biCJtv04=; b=e
+	D8S00wyxDWIHB4Vh6oD0X5VzqSqT3z4JotdW/BevQ/hvoQRvSJ4gTpnwUbUNiVvN
+	G8siwGcgZmVG/TiUnnHXTn1tsmN/subJSQHJswtPIGvID4LqW/bOCUf3i8XXJylD
+	WXFxcFkgAA51bD9rS9zR/PPIXlhSNlheEG9hBMoaX7lGzr2EPU8twS2qKcETnnQm
+	Qs5hEZixKNmtvZib/V3CaUcHSInjjz5LDs6JZn2Dya+ogiS20nIaSB/Wve0+l3vU
+	4lYeZ8peAB5opxA5w2Az8mr0V2i2rBQh06bw6SfOrM/yaqhg/PcE4nsPAcFWerV8
+	TtuULrK3Mxq74ikYvQblg==
+X-ME-Sender: <xms:MIBCaql7Lgd3sryMBTzkKROi9XQHyr-mPzl__i6jqTbD1qnnWKapeA>
+    <xme:MIBCaspQPzsdeixLixlgpZMYG5LAHo2BNmL19hPCnpr36VcfZX9X-UrFYGxcz-wzQ
+    FHMcFjDOH5GNavn-sKvTKphcbpDb8uMr6ot8UHnPkfiaw3UDeqj7rPH>
+X-ME-Proxy-Cause: dmFkZTFwMprh5ZTFo5dfY8jM7ZxjUWaH+6tuhRdcmlFtEOFs7CUeegyqf4KKEhiSUkhGfs
+    shXdXn9QyoPevOyt3wuw7W3b5VIqMtvVsBDfkCDz6NnAXXSMKMS5RqJu9AKvF7V/7Z/6Bi
+    o0wdMW9CiqJY/GgvBhOb0boUTG3wawZBpqPqCJpYSmm0ZUUPAxL/htVEpmvED9VgSAp9uO
+    zvahS1FdRiM/3V4XEQKoztXK7nRXCyS0PV0utsqTVPI12PA5tNhyvrCWLN5gRjPD2bHxU6
+    yOkzZKnYaHdZcjhI1InBzIpD6AI5/7LesBqxsjdlhlSFuvuQ25fjoVntskThnjOfxN+lZE
+    lFlNPLX+2itzUULLge6bWTtAB4gI3sI98mx95AMy7L7s3J2Lv71eLqppsCyvkKkEp2BD1K
+    X6EPcmiBSA1+8CjSwZ9bnZEcfmRccnhjlt2iNkvsKWyLj1/wdv94pbMwFcIJuz9wDCbxo9
+    iBNu3jQYL8WYsjMfsNE2vt4jeYv+M/ZCxcL9u0F0peViPJlj6wA+lX7v8n1XmcHqI61L+w
+    oLntPH/4/NI3qcbGTonJrQKLjbjbudgB6r41pCwHJNyhc1FcWRmp+vAdOlmUYuMVG7tHGh
+    6rD7rTPwVD+A8OzG+9MFeYdJfte1jipxt2d5zch6FCoqCZ/4EPVTxch9C7GQ
+X-ME-Proxy: <xmx:MIBCatSPI8gdpFe_jZGU980MEecKsgaD01fqwY3y0NFvfmGlqDlOxA>
+    <xmx:MIBCao34oOmlMnXycJ5rfPkhkaUAebnqg9lvHyA5mty5cHOJD-WBYA>
+    <xmx:MIBCag-Iqfk-FL1_oE5qTJym1-rZQx9v3Q9OVRepLRT0ApXpjHMnWA>
+    <xmx:MIBCap_cFbmtt8ZxWbtOgzQq15eYwtPWSzjtzUotI0VkfSQ6bHQfuw>
+    <xmx:MoBCasDybz41gqrB1Ue2uuwv7YF9L8UCJORz1VN9UqDok726_y_e3jKq>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 1B5D1182007E; Mon, 29 Jun 2026 10:24:48 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-ThreadId: AbUlhqeXux_w
+Date: Mon, 29 Jun 2026 16:24:27 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Andreas Schwab" <schwab@linux-m68k.org>,
+ "Arnd Bergmann" <arnd@kernel.org>
+Cc: "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ "Bartosz Golaszewski" <brgl@kernel.org>, "Andrew Lunn" <andrew@lunn.ch>,
+ "Sebastian Hesselbarth" <sebastian.hesselbarth@gmail.com>,
+ "Gregory Clement" <gregory.clement@bootlin.com>,
+ "Frank Li" <Frank.Li@nxp.com>, "Robert Jarzmik" <robert.jarzmik@free.fr>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>,
+ "Greg Ungerer" <gerg@linux-m68k.org>,
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+ "Hauke Mehrtens" <hauke@hauke-m.de>,
+ =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>,
+ "Yoshinori Sato" <ysato@users.sourceforge.jp>,
+ "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
+ "Linus Walleij" <linusw@kernel.org>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ "Jakub Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>,
+ "Dominik Brodowski" <linux@dominikbrodowski.net>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, patches@opensource.cirrus.com,
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
+ linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org
+Message-Id: <bb0e4e89-cefb-40e7-9373-f76ce6c0efa5@app.fastmail.com>
+In-Reply-To: <mvmik71win7.fsf@suse.de>
+References: <20260629132633.1300009-1-arnd@kernel.org>
+ <mvmik71win7.fsf@suse.de>
+Subject: Re: [PATCH 00/13] treewide: replace linux/gpio.h
 Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On lun. 29 juin 2026 at 13:12, sashiko-bot@kernel.org wrote:
+On Mon, Jun 29, 2026, at 16:01, Andreas Schwab wrote:
+> On Jun 29 2026, Arnd Bergmann wrote:
+>
+>> From: Arnd Bergmann <arnd@arndb.de>
+>>
+>> The linux/gpio.h header used to be the global definition for the gpio
+>> interfaces, with 1100 users back in linux-3.17. In linux-7.2, only about
+>> 130 of those remain, so this series cleans out the rest.
+>>
+>> In each subsystem, we can replace the header either with
+>> linux/gpio/consumer.h for users of the modern gpio descriptor interface,
+>
+> A few of them already used <linux/gpio/consumer.h>, and is duplicated
+> now.
 
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
->
-> Pre-existing issues:
-> - [High] This problem wasn't introduced by this patch, but the error path
-> in `sunxi_ccu_probe` unregisters clocks using the wrong loop limit, causing
-> either memory leaks or out-of-bounds array reads depending on the struct
-> array sizes of the specific CCU driver.
-> --
->
-> commit fe4850822f9e2e522aaac703e02ecb786fb47f26
-> Author: Jerome Brunet <jbrunet@baylibre.com>
->
-> clk: sunxi-ng: sun6i-rtc: split main oscillator div and gate.
->
-> This commit splits the oscillator divider and gate into two separate clock 
-> entities to support the A733 SoC. It introduces a new read-only divider 
-> based on the oscillator rate to replace the fixed 750 divider.
->
->> diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
->> index b24c8b196e664..25dd87e78eb7a 100644
->> --- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
->> +++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
->
-> [ ... ]
->
->> @@ -286,6 +287,7 @@ static struct clk_hw_onecell_data sun6i_rtc_ccu_hw_clks = {
->>  		[CLK_EXT_OSC32K_GATE]	= &ext_osc32k_gate_clk.common.hw,
->>  		[CLK_OSC24M_32K]	= &osc24M_32k_clk.common.hw,
->>  		[CLK_RTC_32K]		= &rtc_32k_clk.common.hw,
->> +		[CLK_OSC24M_32K_DIV]	= &osc24M_32k_div_clk.hw,
->>  	},
->>  };
->
-> [Severity: High]
-> This isn't a bug introduced by this patch, but does adding an extra clock
-> here expose an issue in the error handling path of sunxi_ccu_probe()?
->
-> In drivers/clk/sunxi-ng/ccu_common.c:sunxi_ccu_probe(), the err_clk_unreg
-> path unregisters clocks using a loop limit that appears incorrect:
->
-> err_clk_unreg:
-> 	while (--i >= 0) {
-> 		struct clk_hw *hw = desc->hw_clks->hws[i];
->
-> The variable 'i' incorrectly retains the value of 'desc->num_ccu_clks' from
-> the preceding loop, rather than using the correct bound 'desc->hw_clks->num'.
->
-> For drivers where num_ccu_clks < hw_clks->num (such as sun6i-rtc after this
-> patch), will this skip unregistering the extra clocks if probe fails? And for
-> drivers where num_ccu_clks > hw_clks->num, could this read past the end of
-> the hws array?
+Indeed, I have removed the extra ones now and folded those into
+the patches.
 
-Good catch, using a different iterator should fix the problem
+     Arnd
 
--- 
-Jerome
+diff --git a/drivers/gpib/gpio/gpib_bitbang.c b/drivers/gpib/gpio/gpib_bitbang.c
+index 2e8d895db06a..34d14b94a0b8 100644
+--- a/drivers/gpib/gpio/gpib_bitbang.c
++++ b/drivers/gpib/gpio/gpib_bitbang.c
+@@ -64,7 +64,6 @@
+ #include <linux/gpio/consumer.h>
+ #include <linux/gpio/driver.h>
+ #include <linux/gpio/machine.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/irq.h>
+ 
+ static int sn7516x_used = 1, sn7516x;
+diff --git a/drivers/input/keyboard/matrix_keypad.c b/drivers/input/keyboard/matrix_keypad.c
+index 98d0269a978f..8863b741d1a3 100644
+--- a/drivers/input/keyboard/matrix_keypad.c
++++ b/drivers/input/keyboard/matrix_keypad.c
+@@ -16,7 +16,6 @@
+ #include <linux/interrupt.h>
+ #include <linux/jiffies.h>
+ #include <linux/module.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/input/matrix_keypad.h>
+ #include <linux/slab.h>
+ #include <linux/of.h>
+diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
+index eb11bf2e9436..a6c984205123 100644
+--- a/drivers/input/misc/soc_button_array.c
++++ b/drivers/input/misc/soc_button_array.c
+@@ -15,7 +15,6 @@
+ #include <linux/dmi.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/gpio_keys.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/platform_device.h>
+ 
+ static bool use_low_level_irq;
+diff --git a/drivers/net/ethernet/oki-semi/pch_gbe/pch_gbe_main.c b/drivers/net/ethernet/oki-semi/pch_gbe/pch_gbe_main.c
+index 88c5c52e0e38..5f5adc9c9e83 100644
+--- a/drivers/net/ethernet/oki-semi/pch_gbe/pch_gbe_main.c
++++ b/drivers/net/ethernet/oki-semi/pch_gbe/pch_gbe_main.c
+@@ -16,7 +16,6 @@
+ #include <linux/net_tstamp.h>
+ #include <linux/ptp_classify.h>
+ #include <linux/ptp_pch.h>
+-#include <linux/gpio/consumer.h>
+ 
+ #define PCH_GBE_MAR_ENTRIES		16
+ #define PCH_GBE_SHORT_PKT		64
+diff --git a/drivers/net/phy/mdio_device.c b/drivers/net/phy/mdio_device.c
+index a18263d5bb02..06151f207134 100644
+--- a/drivers/net/phy/mdio_device.c
++++ b/drivers/net/phy/mdio_device.c
+@@ -9,7 +9,6 @@
+ #include <linux/delay.h>
+ #include <linux/errno.h>
+ #include <linux/gpio/consumer.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/init.h>
+ #include <linux/interrupt.h>
+ #include <linux/kernel.h>
+diff --git a/drivers/phy/broadcom/phy-bcm-ns2-usbdrd.c b/drivers/phy/broadcom/phy-bcm-ns2-usbdrd.c
+index d9c06129ed23..171bf097a8b8 100644
+--- a/drivers/phy/broadcom/phy-bcm-ns2-usbdrd.c
++++ b/drivers/phy/broadcom/phy-bcm-ns2-usbdrd.c
+@@ -4,7 +4,6 @@
+ #include <linux/delay.h>
+ #include <linux/extcon-provider.h>
+ #include <linux/gpio/consumer.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/init.h>
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+diff --git a/drivers/phy/ti/phy-j721e-wiz.c b/drivers/phy/ti/phy-j721e-wiz.c
+index 2233babc0078..1f5dba49ace4 100644
+--- a/drivers/phy/ti/phy-j721e-wiz.c
++++ b/drivers/phy/ti/phy-j721e-wiz.c
+@@ -12,7 +12,6 @@
+ #include <linux/clk.h>
+ #include <linux/clk-provider.h>
+ #include <linux/gpio/consumer.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
+ #include <linux/mfd/syscon.h>
+diff --git a/include/linux/mfd/ti-lmu.h b/include/linux/mfd/ti-lmu.h
+index 5040c7d1e1b9..2089ec5124e8 100644
+--- a/include/linux/mfd/ti-lmu.h
++++ b/include/linux/mfd/ti-lmu.h
+@@ -10,7 +10,6 @@
+ #ifndef __MFD_TI_LMU_H__
+ #define __MFD_TI_LMU_H__
+ 
+-#include <linux/gpio/consumer.h>
+ #include <linux/notifier.h>
+ #include <linux/regmap.h>
+ #include <linux/gpio/consumer.h>
+diff --git a/sound/soc/codecs/cs42l84.c b/sound/soc/codecs/cs42l84.c
+index 36c3abc21fed..f2448b4c11fc 100644
+--- a/sound/soc/codecs/cs42l84.c
++++ b/sound/soc/codecs/cs42l84.c
+@@ -16,7 +16,6 @@
+ #include <linux/init.h>
+ #include <linux/delay.h>
+ #include <linux/i2c.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/regmap.h>
+ #include <linux/slab.h>
+ #include <linux/acpi.h>
+diff --git a/sound/soc/codecs/dmic.c b/sound/soc/codecs/dmic.c
+index 8b05d6f9b429..cbed11136935 100644
+--- a/sound/soc/codecs/dmic.c
++++ b/sound/soc/codecs/dmic.c
+@@ -7,7 +7,6 @@
+ 
+ #include <linux/delay.h>
+ #include <linux/gpio/consumer.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/platform_device.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/slab.h>
