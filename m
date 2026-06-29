@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 696C2407CF1;
-	Mon, 29 Jun 2026 13:03:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7FA4028EB;
+	Mon, 29 Jun 2026 13:12:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782738224; cv=none; b=ROKybhReMNNqpJVyhM5XBAiC75ChDJZ8fqNzKQrlHSqr1UfxgGYQ3M3QLN+eeIL7IoeMHEp4Jl2r4MOoNKgpyPIPCptfeEfCXQMhgBRW9DIvKnlTFjGs7f8mPf+iol/bqrdXTD80ds+GAPfUtxlGFqaL7tfXebxIf6boh8usbnM=
+	t=1782738776; cv=none; b=Q0TVFEWY2lji1dYpgR4i3rhfwd3pMMtBnMUpXYOYPyhmBNwyMYPb7x990t80Y7LxqA2mvteEu7Hs0PIE7mjJFg+9kULPGVYzOtfcXn9ASNW8IoG8yKTl3uk5DHL3jL8NTwgMtG3y6cJp8ScZe2R3ZDFQXowG3tAcxcMg9N3NKXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782738224; c=relaxed/simple;
-	bh=UfUQVznN57MZwYdZIYJnNW5D3adS0b+BQ5UYf+PnrtY=;
+	s=arc-20240116; t=1782738776; c=relaxed/simple;
+	bh=74fa101d5VfzDR+NNQbEmtt6IXvUKUOywn4LlStebtQ=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=evkNINp+kZ0R13BhPvnJlDeZR0ipNJwZ4yR2db2FZGUa3/t3Dzt6LOBqOZxF90mDJjoCdwwHBe4n5i9RI8Iky2sJJKGvqsQRn97qiCLy8yuxOaCtnXqMlAMX4DRa8zGP6l/ij6DhTmdaCBencUhxjyVljHhfjB7kFFdVbOc7ZSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZXIKI0Jn; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=aL5y7waCvECv3vpq07CRE8HY9CmiffSUAWFnpNy67ZDgv/E+hGX+XhW4sTUWGsW+EpaeuzRXE4eLGvqvX3XuuCIKkshsBNf+XmhfCMGWgxJQBPwOQ8DMcLvok2hPzBoEktwAhlGnwf0qVFqazyoyCZuQ6kf2R8myExtBfi+yMBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QZ+gmekl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZXIKI0Jn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73C851F000E9;
-	Mon, 29 Jun 2026 13:03:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QZ+gmekl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E34C1F00A3A;
+	Mon, 29 Jun 2026 13:12:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782738223;
-	bh=kMShm4U6bpIHfB0blihITKvRHWK+oEBQknLVDHcwpKU=;
+	s=k20260515; t=1782738774;
+	bh=NWnmCOCCWpzNnnQvW+0GV3/Zmops9kF59qEyoy47a/w=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ZXIKI0Jnw4dAI+pORhw+j5lG22M9hyaCZwnYQhuFfwdRm+NIwbEswwNb4KwW25ezV
-	 p1e+oib67WWz5HNETrFogaL1dmy8jewAkkSKmO9anqg/OpLLwp1WKrOzfKWdkWagyM
-	 DA2o7TrEIAscM5pGKXCQ+LB0G4NGRyYzCcdLaV8k6AyLQHuvJWm/amrWI6OFyfUIvW
-	 0vKC1BhSaKeaRgRIt9duFuCGVOZlV7KFh1r7augJ6ALRWm3RBLU40I345+usnlvAuJ
-	 XFDhau6wk2oB7hTGnc6xm0/dpLX+TPfji3fyK1s2PuCCKGaYOMsS5IZ1nLYFeGRVQV
-	 WsWYwAlIUy2Mg==
+	b=QZ+gmeklcPL4C4J7w7sfGUYMRrYgr1+/2S+e4JRUQxx2l6sc+q0mLl1f46QSr+nmY
+	 vVcE4/qKx+BAuLycg4JT07JJYSo8lQuDilPcMokyLwtxB+M9iZtZNrUsP5YxYjsIad
+	 Alz20kN882IRU+AY0aVSQbDtZnWfCZlypagvKrd5MY/V3F878Gaz4BeubkcQZiJzPm
+	 f/3ANkUriEl3VMELMnr9MTx7jYssLJ4CqlPdim3YQGXnHVdSlYlmphYdDPQeXShIYq
+	 m4Mrt2rxs2NAXR5UBNgem+jt9Ug/zsu+H/EGPNtSu0yXjsEytyOqg6jvaMrlfORgRo
+	 V88EYTxLUpvPQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 4/6] clk: sunxi-ng: div: add read-only operation
- support
+Subject: Re: [PATCH v2 5/6] clk: sunxi-ng: sun6i-rtc: split main oscillator
+ div and gate.
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Jerome Brunet" <jbrunet@baylibre.com>
-Cc: linux-sunxi@lists.linux.dev, robh@kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org
-In-Reply-To: <20260629-a733-rtc-v2-4-7b72112784f8@baylibre.com>
+Cc: linux-sunxi@lists.linux.dev, conor+dt@kernel.org, robh@kernel.org, devicetree@vger.kernel.org
+In-Reply-To: <20260629-a733-rtc-v2-5-7b72112784f8@baylibre.com>
 References: <20260629-a733-rtc-v2-0-7b72112784f8@baylibre.com>
- <20260629-a733-rtc-v2-4-7b72112784f8@baylibre.com>
+ <20260629-a733-rtc-v2-5-7b72112784f8@baylibre.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 29 Jun 2026 13:03:41 +0000
-Message-Id: <20260629130342.73C851F000E9@smtp.kernel.org>
+Date: Mon, 29 Jun 2026 13:12:54 +0000
+Message-Id: <20260629131254.7E34C1F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -47,52 +47,62 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] `ccu_rodiv_ops` omits the `.determine_rate` callback, which brea=
-ks rate rounding, reparenting, and proper rate propagation for clocks using=
- `CLK_SET_RATE_PARENT`.
+
+Pre-existing issues:
+- [High] This problem wasn't introduced by this patch, but the error path i=
+n `sunxi_ccu_probe` unregisters clocks using the wrong loop limit, causing =
+either memory leaks or out-of-bounds array reads depending on the struct ar=
+ray sizes of the specific CCU driver.
 --
 
-commit 97a1d0e7adc68eb81524d76b0c667da1b5f1be50
+commit fe4850822f9e2e522aaac703e02ecb786fb47f26
 Author: Jerome Brunet <jbrunet@baylibre.com>
 
-clk: sunxi-ng: div: add read-only operation support
+clk: sunxi-ng: sun6i-rtc: split main oscillator div and gate.
 
-Add support for sunxi-ng read-only dividers to be used by the a733
-oscillator detection logic.
+This commit splits the oscillator divider and gate into two separate clock=
+=20
+entities to support the A733 SoC. It introduces a new read-only divider=20
+based on the oscillator rate to replace the fixed 750 divider.
 
-> diff --git a/drivers/clk/sunxi-ng/ccu_div.c b/drivers/clk/sunxi-ng/ccu_di=
-v.c
-> index 62d680ccb524b..0e3d9e6e30fb0 100644
-> --- a/drivers/clk/sunxi-ng/ccu_div.c
-> +++ b/drivers/clk/sunxi-ng/ccu_div.c
-> @@ -143,3 +143,14 @@ const struct clk_ops ccu_div_ops =3D {
->  	.set_rate	=3D ccu_div_set_rate,
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c b/drivers/clk/sunxi-ng/=
+ccu-sun6i-rtc.c
+> index b24c8b196e664..25dd87e78eb7a 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+
+[ ... ]
+
+> @@ -286,6 +287,7 @@ static struct clk_hw_onecell_data sun6i_rtc_ccu_hw_cl=
+ks =3D {
+>  		[CLK_EXT_OSC32K_GATE]	=3D &ext_osc32k_gate_clk.common.hw,
+>  		[CLK_OSC24M_32K]	=3D &osc24M_32k_clk.common.hw,
+>  		[CLK_RTC_32K]		=3D &rtc_32k_clk.common.hw,
+> +		[CLK_OSC24M_32K_DIV]	=3D &osc24M_32k_div_clk.hw,
+>  	},
 >  };
->  EXPORT_SYMBOL_NS_GPL(ccu_div_ops, "SUNXI_CCU");
-> +
-> +const struct clk_ops ccu_rodiv_ops =3D {
-> +	.disable	=3D ccu_div_disable,
-> +	.enable		=3D ccu_div_enable,
-> +	.is_enabled	=3D ccu_div_is_enabled,
-> +
-> +	.get_parent	=3D ccu_div_get_parent,
-> +
-> +	.recalc_rate	=3D ccu_div_recalc_rate,
 
-[Severity: Medium]
-Does this struct need a .determine_rate callback to prevent breaking rate
-rounding and parent rate propagation?
+[Severity: High]
+This isn't a bug introduced by this patch, but does adding an extra clock
+here expose an issue in the error handling path of sunxi_ccu_probe()?
 
-If a driver registers a clock using these exported operations and sets the
-CLK_SET_RATE_PARENT flag, the Common Clock Framework's
-clk_core_round_rate_nolock() falls back to a pass-through behavior when
-.determine_rate is missing. This causes it to forward the child's requested
-rate unmodified to the parent, ignoring the divider scaling, and also causes
-mux reparenting to fail.
+In drivers/clk/sunxi-ng/ccu_common.c:sunxi_ccu_probe(), the err_clk_unreg
+path unregisters clocks using a loop limit that appears incorrect:
 
-> +};
-> +EXPORT_SYMBOL_NS_GPL(ccu_rodiv_ops, "SUNXI_CCU");
+err_clk_unreg:
+	while (--i >=3D 0) {
+		struct clk_hw *hw =3D desc->hw_clks->hws[i];
+
+The variable 'i' incorrectly retains the value of 'desc->num_ccu_clks' from
+the preceding loop, rather than using the correct bound 'desc->hw_clks->num=
+'.
+
+For drivers where num_ccu_clks < hw_clks->num (such as sun6i-rtc after this
+patch), will this skip unregistering the extra clocks if probe fails? And f=
+or
+drivers where num_ccu_clks > hw_clks->num, could this read past the end of
+the hws array?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260629-a733-rtc-v=
-2-0-7b72112784f8@baylibre.com?part=3D4
+2-0-7b72112784f8@baylibre.com?part=3D5
