@@ -1,134 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 833173769F9
-	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 14:07:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E4336897E
+	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 14:09:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.18.0.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782742056; cv=none; b=isyka4v0c8HKOC7ea4GaIxXTPxruSe9+XWSPyinzvAqXF5KIvjDa27vxQJS3/Jip1xhlppkKFvj4MuNLkaasN5vsqUTgcNqvedbwvii9ub/wq/D+AVhhwOx9zvtfSShcaAXUTyJ2wjBc/VazLFU/aEsCA/Rfzvr/gSB8T5QEak4=
+	t=1782742148; cv=none; b=RqFRljdvPg4/Dg/vHqwbYpgyhIknafKEC3JFj1O/HxyKMrzz2LLoETNI7mZA1O22IWohF5NUlL26rtTmI0uip15AvL6i8aqh3jmq5eoLyyh8sBIyyNOTOaI9+utoFwfTGOjjaR3zLKSqEb2k1BkCEr84ics66KvASlP86k0UqVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782742056; c=relaxed/simple;
-	bh=dEBpbC87537LBBTTmXAr8CNI2ZwT6yEisCHDxbF5LnA=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=a55Ys4u9BMpvjJo10amq6btchqnFekAEWEdRMC7fU8M1XD0JnqsRs7WkqFnAgxVDjs2HMcZJTfDmar7WeuaSWagfv1Kum3cN9oxDi0bEw3LnxXZBy/2IW1Lc1YuTT23iwIBoXPSxc7aS+9LvO4jYp0pI9KeP1dI2Zfml+6NWfhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WdJgbGTu; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WdJgbGTu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 934A81F00AC4
-	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 14:07:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782742050;
-	bh=bbeOSfk9uz1Wrt6J5wAea4CxiJx++/6lvqEjtpLfRco=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=WdJgbGTuii88TFEbu6XpTlHIdAbM0xcN6YjUJQNtsS5QZsweE06dn2SWSTdr13D0g
-	 cDrsusjeeaUBCimeiqTSvi/JeSiW9AvQkX/i5ua3pgxXsZCwAFb3CIBmkFlcjrkZT3
-	 WxbCtvKerMUrNoL6ZT6mTGetEEJdTN52F+3OEcp6VUHr8oc/v6pd+DkzaqNbBXxBZA
-	 Ld517NmZ9/iIB3qfK/4FP1OCHdb2Rkgwddzfy6RLgP+atqTMDKqOOsDnjXz2TzmohL
-	 x3TvIUD56kSkRMRCMUlifT+c1/Ck/brCKHJOFU6gJ74LZtHxWG4NXK6rUQ23KkWcRX
-	 mGc+ywabfwJrA==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-39ae3c76e24so17951001fa.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 07:07:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RoXa3WT7DKyEY0bLuEQ7+SNFV+bqQyZ/IyEDbAmaYE15kYeLFllrFPbJODJkxi0ADhjNvsxYcZlBCP2Sw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzua6O1SbOO3EsZvN+jyIj0qdi7hvACSsswO+2BJCMOlUnq9QMf
-	T/O9F6649duNN2j9ahiIu7m0Y1HEFPcAQ8DmhjQnc1SB1wSqNRJ/sTWXqmhgv5qF9hBcWD9XUiu
-	JfPdIg3B0A022dvWX88jYwMj1IC1CZPDQSzX7J9tOcw==
-X-Received: by 2002:a05:651c:146c:b0:396:5d0a:765a with SMTP id
- 38308e7fff4ca-39acb8ffa66mr33873361fa.21.1782742048596; Mon, 29 Jun 2026
- 07:07:28 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 29 Jun 2026 07:07:24 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 29 Jun 2026 07:07:24 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <CAMuHMdXen+E-Ai51aWBa_KV9W8Fz2cQPpT-FG_kQ7akhrrYa_A@mail.gmail.com>
+	s=arc-20240116; t=1782742148; c=relaxed/simple;
+	bh=g9dFPNs9RCiJ30PbQ83xQiLIkKE/aoKc7Ch+A3Ps5Fg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=TvrUB2F1a0Loyn75Uzk3vj6vYHQKrvqWyIKwP235Jw++3lSyXwLrDCCSg9UwVG3hBQbNZD16T3vsby2ul4pynTudQT5a3C13Qa7wmR3Vi3stl/VAdZYPVYGWEdUtvoZify7K8VJWVZQR+KLHPdspVs2CAh2+zDnbLaoUN35Dh70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=212.18.0.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail-out.m-online.net (Postfix) with ESMTP id 4gpnxf56FLz1r5hc;
+	Mon, 29 Jun 2026 16:01:10 +0200 (CEST)
+Received: from frontend03.mail.m-online.net (unknown [192.168.6.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 4gpnxc5SYXz1r5hL;
+	Mon, 29 Jun 2026 16:01:08 +0200 (CEST)
+Received: from localhost (dynscan3.mnet-online.de [192.168.6.87])
+	by mail.m-online.net (Postfix) with ESMTP id 4gpnxb4V3wz1qqlS;
+	Mon, 29 Jun 2026 16:01:07 +0200 (CEST)
+X-Virus-Scanned: amavis at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.6.182])
+ by localhost (dynscan3.mail.m-online.net [192.168.6.87]) (amavis, port 10024)
+ with ESMTP id 0SnzNWDJyvXI; Mon, 29 Jun 2026 16:01:01 +0200 (CEST)
+X-Auth-Info: MEDGnkGkok4HHiiAHx6Yp9YpyEe4vG/D2GYhM3WXSTA4/H/l6K4jcFYiosjPmxQG
+Received: from hawking (unknown [80.255.5.134])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Mon, 29 Jun 2026 16:01:01 +0200 (CEST)
+From: Andreas Schwab <schwab@linux-m68k.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-gpio@vger.kernel.org,  Arnd Bergmann <arnd@arndb.de>,  Bartosz
+ Golaszewski <brgl@kernel.org>,  Andrew Lunn <andrew@lunn.ch>,  Sebastian
+ Hesselbarth <sebastian.hesselbarth@gmail.com>,  Gregory Clement
+ <gregory.clement@bootlin.com>,  Frank Li <Frank.Li@nxp.com>,  Robert
+ Jarzmik <robert.jarzmik@free.fr>,  Krzysztof Kozlowski <krzk@kernel.org>,
+  Greg Ungerer <gerg@linux-m68k.org>,  Thomas Bogendoerfer
+ <tsbogend@alpha.franken.de>,  Hauke Mehrtens <hauke@hauke-m.de>,
+  =?utf-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>,  Yoshinori Sato
+ <ysato@users.sourceforge.jp>,
+  John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,  Linus Walleij
+ <linusw@kernel.org>,  Dmitry Torokhov <dmitry.torokhov@gmail.com>,  Jakub
+ Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>,  Dominik
+ Brodowski <linux@dominikbrodowski.net>,  linux-kernel@vger.kernel.org,
+  linux-arm-kernel@lists.infradead.org,  linux-samsung-soc@vger.kernel.org,
+  patches@opensource.cirrus.com,  linux-m68k@lists.linux-m68k.org,
+  linux-mips@vger.kernel.org,  linux-sh@vger.kernel.org,
+  linux-input@vger.kernel.org,  linux-media@vger.kernel.org,
+  netdev@vger.kernel.org,  linux-sunxi@lists.linux.dev,
+  linux-phy@lists.infradead.org,  linux-rockchip@lists.infradead.org,
+  linux-sound@vger.kernel.org
+Subject: Re: [PATCH 00/13] treewide: replace linux/gpio.h
+In-Reply-To: <20260629132633.1300009-1-arnd@kernel.org> (Arnd Bergmann's
+	message of "Mon, 29 Jun 2026 15:26:20 +0200")
+References: <20260629132633.1300009-1-arnd@kernel.org>
+Date: Mon, 29 Jun 2026 16:01:00 +0200
+Message-ID: <mvmik71win7.fsf@suse.de>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260629-qcom-sa8255p-emac-v11-0-1b7fb95b51f9@oss.qualcomm.com>
- <20260629-qcom-sa8255p-emac-v11-1-1b7fb95b51f9@oss.qualcomm.com> <CAMuHMdXen+E-Ai51aWBa_KV9W8Fz2cQPpT-FG_kQ7akhrrYa_A@mail.gmail.com>
-Date: Mon, 29 Jun 2026 07:07:24 -0700
-X-Gmail-Original-Message-ID: <CAMRc=Me3jaZXiXa1sFXr=8Do4sCd+XN1pKTcWC8-0j78SjCkKA@mail.gmail.com>
-X-Gm-Features: AVVi8CfgGr0R3g5nrNxVwL-t6-jaKI4wsgAKUpj-c_HwbEC7_gerPUuikt96dHI
-Message-ID: <CAMRc=Me3jaZXiXa1sFXr=8Do4sCd+XN1pKTcWC8-0j78SjCkKA@mail.gmail.com>
-Subject: Re: [PATCH net-next v11 1/7] dt-bindings: phy: document the serdes
- PHY on sa8255p
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Vinod Koul <vkoul@kernel.org>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Fabio Estevam <festevam@gmail.com>, Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com, 
-	Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>, Romain Gantois <romain.gantois@bootlin.com>, 
-	Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
-	Christophe Roullier <christophe.roullier@foss.st.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Radu Rendec <rrendec@redhat.com>, linux-arm-msm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, Drew Fustini <dfustini@tenstorrent.com>, 
-	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org, 
-	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	sophgo@lists.linux.dev, linux-riscv@lists.infradead.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-On Mon, 29 Jun 2026 15:51:31 +0200, Geert Uytterhoeven
-<geert@linux-m68k.org> said:
-> Hi Bartosz,
->
-> Thanks for your patch!
->
-> On Mon, 29 Jun 2026 at 13:29, Bartosz Golaszewski
-> <bartosz.golaszewski@oss.qualcomm.com> wrote:
->> Describe the SGMII/SerDes PHY present on the Qualcomm sa8255p platforms.
->> This is essentially the same hardware as sa8775p rev3 but the PHY is
->> managed by firmware over SCMI.
->
-> So why can't it be reuse the DT bindings, and be compatible with
-> qcom,sa8775p-dwmac-sgmii-phy?
->
->> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
->
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/phy/qcom,sa8255p-dwmac-sgmii-phy.yaml
->
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +  power-domain-names:
->> +    items:
->> +      - const: serdes
->
->> +examples:
->> +  - |
->> +    phy@8901000 {
->> +        compatible = "qcom,sa8255p-dwmac-sgmii-phy";
->> +        reg = <0x08901000 0xe10>;
->> +        #phy-cells = <0>;
->> +        power-domains = <&scmi7_dvfs 0>;
->> +        power-domain-names = "serdes";
->
-> Ah, this uses power-domains, while the existing bindings for
-> qcom,sa8775p-dwmac-sgmii-phy use a clock.
-> I guess the clock is the correct hardware description?
->
-> Adding to my list of examples for backing a hardware-to-SCMI remapping
-> driver...
->
+On Jun 29 2026, Arnd Bergmann wrote:
 
-Russell King asked me to put the PHY logic for SCMI pm domains into the PHY
-driver instead of the MAC driver where it was previously. Instead of cramming
-both HLOS and firmware handling into the same driver, I figured it makes more
-sense to have a dedicated, cleaner driver as the two share very little code (if
-any).
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> The linux/gpio.h header used to be the global definition for the gpio
+> interfaces, with 1100 users back in linux-3.17. In linux-7.2, only about
+> 130 of those remain, so this series cleans out the rest.
+>
+> In each subsystem, we can replace the header either with
+> linux/gpio/consumer.h for users of the modern gpio descriptor interface,
 
-Bart
+A few of them already used <linux/gpio/consumer.h>, and is duplicated
+now.
+
+-- 
+Andreas Schwab, schwab@linux-m68k.org
+GPG Key fingerprint = 7578 EB47 D4E5 4D69 2510  2552 DF73 E780 A9DA AEC1
+"And now for something completely different."
