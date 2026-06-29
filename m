@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034AC3403EE;
-	Mon, 29 Jun 2026 15:51:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF30542B74B;
+	Mon, 29 Jun 2026 16:08:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782748318; cv=none; b=LRuBgg/foPSQtAfwMGBOHtgYX32Q+ynqqy3tHcqXIPtz21p4//jbeTdbsQYOXogZ0YYhiDWUcCBrcSxWPaOeu4uXNigmBJayGS7T59nqU4qkHMpnnFeaUrcYunm7Mxrl4QLkyh31Q2LJujXpMonoCAFctGZkcuDN0P889WI+3vg=
+	t=1782749317; cv=none; b=VQ/qmD7uceY7Sfnm/iYjZCQV3e9gLNqqj1IRxmp+jlviSthCDPEImLTUnMWqmkHP4FpIVuExmchTMSrxFcjODavXtAvQsVR4QC9tZsxZahwDfUj8h6/2ouDGYXk2Z1ExJJNEKrfeAGbyDpwHXq8APFCIt5bfqK3s7N0K1EwuXF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782748318; c=relaxed/simple;
-	bh=NkSqXsCjFelI+fw0m730nbL+Y68+r9Ov6+K4pl4qoaA=;
+	s=arc-20240116; t=1782749317; c=relaxed/simple;
+	bh=kKN+r0+IYhxuP7LbdslsAozFCufY+MpyzK6no63SVdc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=hCG/ihQELocbpvsmZDL68+jM+OO92yhdRbyi1RWvV2nJutTykI0SAIO3GHcegbbGGzKEGIWaJSsk6wtbCKXEVNvssuptrB3SVNboBpmU+yyPgrT8guVUqHo3SMjml4BSIMxqgaK2VqcaboDVclHF3LJHLLyyYejQIW8wtqz2stU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kPocfMEU; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=M2RZfQjx9/WUgRLNYxrcEinAF9wz0R2xQPNS27iQL2OA06qB5QHIP+clQAvI8AefIaWA1HxLBissU3pnT8HbOU2LhyCEGer9tL6dhz5WCOPhNZ2KISuIBiVEmRfJ4+HvMeVfcx68+jVHpHyalL4gUEEV2pCYT9w7244euVndO/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OQ3JsP62; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kPocfMEU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B6211F000E9;
-	Mon, 29 Jun 2026 15:51:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OQ3JsP62"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D6551F000E9;
+	Mon, 29 Jun 2026 16:08:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782748317;
-	bh=cMcHgc36aaJU0Nr7RRyNOjEsyz6bF5/W9plziuy9uws=;
+	s=k20260515; t=1782749316;
+	bh=FEfPPsM3jAKLcsijf/AG4TNyIA2dGpwBNq8rgEHqEis=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=kPocfMEUYuMNe84xZZDYWtfO4m0SOtx7s/Wp7ICcWWqoGN1zL9e+D+YdUSO/UDmwD
-	 PZzO4FMO2ScHMKS8p25Z65MJYD1ORoPTJD7nt4sGLBtxXRxW/bZQue9ECmf/HDI3iz
-	 lfnnY2V5SIv0HIb0q4NP/OPYwhG2OJai3WgC9k5JSZtsJZYVuwOU+amtlAI7xhLUBB
-	 vxwP+hpxCqI1M09qg/vVNt7mNjO3homFld20KjeBbaExljBFjfc2SC9Ssf5mysLUSn
-	 Uhb+TZZ53DLlorbdHpoUSUe0DvQCKRje6YvtsDnZKz2Kbsd64qr/57gWoTNUXnbMmO
-	 phfu3Yl2/CZwg==
+	b=OQ3JsP621KGe/TOc4kdvokUJw6kAgo20QUzkiEX1kd066aIXDElMGmCie7KItne4g
+	 qIo2Vl+qI3bWkQR4A8IUI5PSU9OoefyKUJIm+6erQBV74LG7ZPqvcrxc6aAg2Zaws6
+	 DtORRJQEY1q3YSu5m/4+DJgyg/7RjwJX7fx6fJNnpqs131GqGXLXau0IblZ0OU+Ow5
+	 Cfv7mvZxBIyrK0BcTv2CxCCxL2lMHnVmx2SuYzz9+B3nHHdGptuygCIqXGefNt+c4n
+	 Qr4T6//BZRikzNhijn44GWvSkHxO0nwTRx4LcTdvf3DP0A9NspA/WMJJK6nLKWUmJa
+	 LreGiTOC/9+0Q==
 From: Chen-Yu Tsai <wens@kernel.org>
 To: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
  Alexander Sverdlin <alex@sverdlin.org>
@@ -45,8 +45,8 @@ In-Reply-To: <20260623204824.691832-1-alexander.sverdlin@gmail.com>
 References: <20260623204824.691832-1-alexander.sverdlin@gmail.com>
 Subject: Re: (subset) [PATCH v5 0/6] Add support for Baijie Helper A133
  board
-Message-Id: <178274831392.2336627.18238595158174074345.b4-ty@kernel.org>
-Date: Mon, 29 Jun 2026 23:51:53 +0800
+Message-Id: <178274931239.2343857.3591668827233792429.b4-ty@kernel.org>
+Date: Tue, 30 Jun 2026 00:08:32 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -73,10 +73,18 @@ On Tue, 23 Jun 2026 22:48:12 +0200, Alexander Sverdlin wrote:
 > 
 > [...]
 
-Applied to sunxi/config-for-7.3 in local tree, thanks!
+Applied to sunxi/dt-for-7.3 in local tree, thanks!
 
-[1/6] arm64: defconfig: Enable Allwinner LRADC input driver
-      commit: b4158103c45386ab30ba7624bee17ebf33940baa
+[2/6] dt-bindings: vendor-prefixes: Add Shenzhen Baijie Technology Co., Ltd.
+      commit: c3600c97eb9c1a20a933a7fba08272955f7a7ccc
+[3/6] dt-bindings: arm: sunxi: Add Baijie HelperBoard A133 compatible
+      commit: 1d81cb06c30746448deb73b6ce9ceccc9fb6ca37
+[4/6] dt-bindings: input: sun4i-lradc-keys: Add A100/A133 compatible
+      commit: 5e5e8a2e5a5e31fbe8858f08ef7ac44dff9ee351
+[5/6] arm64: dts: allwinner: a100: Add LRADC node
+      commit: 8fa3a2bf77f0adb5440f25c3e2951543691e1536
+[6/6] arm64: dts: allwinner: A133: add support for Baijie Helper A133 board
+      commit: 7204944dcb8f1131b6303a5e9ca11128eb20ac21
 
 Best regards,
 -- 
