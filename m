@@ -1,157 +1,150 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A87423164
-	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 15:00:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B5A426EA0
+	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 15:05:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782745219; cv=none; b=LhdhBsy3blRX/+MhCugklCBwxD2LRDiFeIhl5OYbcDBRyMCjTWweeE3ka+aMyU9YfHvqbi6jnP49iIuJwx54Z5EAu0p+gfyFbF5UblyLUxPPgaLmapF2PrG6s1/LjYrI5HhIOSKpkj6c3n/FcKHn3mwyqaIWvnGWW+fLE/N8gQ0=
+	t=1782745557; cv=none; b=bwSrHr0w11m1zfxgOdRzoUp0gR7/rqjNcxk5cor4qJmZcgvFs9ozmPOI8XsS/CjK7nS1eTAD8wwFCD7AJWCrXdPqsZSgtpncJuN5X+QMckkLMCPqMrGAJKBhVFh3wdVPIF7xjkO6SGibt+7YL1EIfEsG0lxyP71eaOJltReXDzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782745219; c=relaxed/simple;
-	bh=LAoZJqVfdU9+V8F5hBZtY//uWnuQHis0eN8ii8DLed0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZWevI2TgjHrFJdELEvizf9HhEd0+01Az389riD4++j46UzEAMPmYASddd/75YuZBquhr5OaoFW6FhQhc4kO5oR3I/JLjWHIAQyiKcvSe0Vu0sTPshV/ShyuVgBeP8X1vZ3iaAaufKwJodNwO1oCKgPZa0CjVW3Bd1fn4xQXlN0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7e9b4f8ade0so1697746a34.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 08:00:17 -0700 (PDT)
+	s=arc-20240116; t=1782745557; c=relaxed/simple;
+	bh=NIbfOpAFlLlvaPWeifBrHOW03ZGaSqQUgrtJhDxVpjk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=CBD768CNTPkeZS/YobXxRrM5FQg4afjhmUzV9xVnuOPNWP3Oxd42HpX/qe+oN/CRwUEsk5sFSphT/7vgxnKLZJf5sJntlHEUNp4qSa+m8k9MhZX+2qV3qxHeCaTYBkLWrtc8BfiIJ49xg1FNnYE56DDBNBHCihaJd70en2+T/Hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=K47dHuDr; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="K47dHuDr"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4926bd21aa1so24510585e9.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 08:05:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1782745554; x=1783350354; darn=lists.linux.dev;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DAzrVW08LVfxI+Bn9EkRfmN0dtsivlXeptpZjuWvIi0=;
+        b=K47dHuDr8YnSleXWvX37HvOUQ27v9DtkJu3Ch/RPmncgT/rJEW/TU3pUD72FmQvFre
+         YFmYUBasj5OHE4TBory5H/yBEM6bnsft8/jcX/F/29pF5Ok2mmPA3AwW3py3qwvSDmmE
+         J9fbac6+5rKaNOYHP8locFqRFlkLJcyNEvbPa/pG0owAAVya0HGObCdl/OfW0fZymi5F
+         6Cd03WNxJ4mcMa/RVzreudwLDcPMWSZIM7xETXpMVB5zVXZPQjrNFe2RLr4+RydFLlG3
+         25g/ayRGF70HTVDqaCWY4Us7aQdyEnAsz7ChLHwRm1war8w4HOVCjfRV4YY4xK53uzdz
+         hbiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782745217; x=1783350017;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YrA9ccFaco9J2BZQ3eRpFjtGI3CKCK/xF2koXbFr26M=;
-        b=JD+SHc5axCVA2b0Q66M3NaOclLDAZmX80XsN0FH6deFroQ599+wFpmCSMDu1l9Bj+J
-         +EmNh0nGCBJkURlDkt9hbgPloQXcJIXlR6vJD3DKgMrp/iJXTfS/fpB0wP4sZwGSg3EH
-         gttn9/jaPJwGt3qNPDuqcdq0Qhj27O2Hvr6pjj6U6CL5d5iArjiqiZtMOgejk0kyfGyX
-         apjMwLj3Twfun5N75Glg2UCI34u70B9IqEQ4fpLh0W7oTbIqFPMXlMjLy4yq3QPna3CK
-         6HLpwcTz+zQfS41ekD3HkczbNlPZ4O2mOSMRfLqq+tWU2dhZC3eUYQuPEhnwhRibuEOp
-         R+lw==
-X-Forwarded-Encrypted: i=1; AFNElJ/kG0MOa2yKGFsdoCqkE37UsnuP5dk5z1CyCcLTG0v9GBsXKPMYA7noGAID5D/PoPakFq49VwvoqU7usA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw+rdG5Z5RoHTpj/0tJ9RYS9p7nscuXtnfuYhXhl15L81mxOhgx
-	w28liuiCJ5CuNXpHr9zuKSLOrFIzMyT/rMBCXVeMKqDrBt7DiyPVF1oWCCyao5l7
-X-Gm-Gg: AfdE7cksDqXDaTpgYbWsCWNwH7ScrQYVRAPHeqqozmtkGyIhXy1jpwP3pU1D87I8naV
-	s8uO3+4C1Ersh6xIIuB/6Gvi0UuLvAbKpx7RRhb0T2vjxufWgLEwJu0RR59CGFJSR5ZMafTWXrO
-	xGnQIzAiuLaZ72y8kMgUH4v72ZCjqwl0SjTG/7Kdapni2z9r5f8Z+lht+BNNeX0GwMNv+tXcJ5D
-	8YIMxoN3zeX1RaKVJACyp6rUT6gYNB5J8/VE0o1ZHIvaH5g2jU9rHkaqFMrwbO62LyFMGhhLBeL
-	PdX3MxxNmPazb6ayZnxU79dZnZKwco+7Yk5rIR0yY/okLbcJj0zvFSyA0m0IXBnQThsgynQFXap
-	fczKcxTc52uXWNpy2I3bPDnk/wq+c2iuH5jRdGxB0VY1u2PgiiQKuNUxpUojrl7ZpKWepMGsxyJ
-	LOItzPVILGYHWjIn3bEaPnZ900gMrzcPB48qogyflg1ev7Je8xWw==
-X-Received: by 2002:a05:6830:82fa:b0:7e6:f482:df36 with SMTP id 46e09a7af769-7e99c187428mr15457535a34.15.1782745216603;
-        Mon, 29 Jun 2026 08:00:16 -0700 (PDT)
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com. [209.85.160.49])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e9ebfd1c94sm12530a34.9.2026.06.29.08.00.16
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Jun 2026 08:00:16 -0700 (PDT)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-43fc82b52afso2019581fac.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 08:00:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Ro1OI2HlmjSNoTMsCmTJQsCxOE3hasp+AdnTAW4d9ax911BWx6pG65z99UxJ8z7WmkvrpshJnUDvN4B7w==@lists.linux.dev
-X-Received: by 2002:a05:6102:c86:b0:738:ecd7:198e with SMTP id
- ada2fe7eead31-738ecd71defmr1394925137.19.1782744721048; Mon, 29 Jun 2026
- 07:52:01 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782745554; x=1783350354;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=DAzrVW08LVfxI+Bn9EkRfmN0dtsivlXeptpZjuWvIi0=;
+        b=BORjPKTFbHcY8gW3PCX4OtMmjs9A5c2EjoDhmdGQb76q2WdxnGfxqGkWj4c9zSTKYj
+         y2XNG47fa5TrpNV9fuhQGaTZcuqju7xlIEHe6RTL8mXyzFzm86KLO/hAWV55g3sUuOrt
+         VS6ey87U20MIQvCF9093TQvIHlOB+yOIjGIPn2ydtL3SfgCegqg+XyMvg6VJxLdR3zN8
+         vaab65DBAmW+eFRdsHFfOpQfu5tJdY3xqFpjer/dnYr5tp8dhOj5AS8EjV/2bmtgEqln
+         H3YBnmKlfD1Kb0U9Pdu779fiPiQURp0t4eJhfyogl4cZOvyAiEngWw7s3ZFrHLwkRw2f
+         9CYg==
+X-Forwarded-Encrypted: i=1; AFNElJ/ETAAwqH7tlizmdv6clDAHTusC39aE04VKN9LewDlxoZ0vuckSfTGuLUAQcHJDcBhzYG5+czBtWLjKQg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwWJqnkNynmqFkuWKRwl/P6Hm1vIsN4kdenPygjOhYVYRZTdjGk
+	dj8XJvnMu9iIYfvBmp7bw8etIuIg1kB80rkAGCBDnmZ7FuKW5tHqyFoXbjmqoI1wX9E=
+X-Gm-Gg: AfdE7cmvf86UyRkCpXFl5NERrg1nPuUUFRaoq0Fle8YODyFrF1u7bnjGI8fe/PbhbB1
+	5QaGghNerSFe5RJr499u3CO5crwRAR1MHvEsg6dydjFcoDtTQqZssiWzVj8Weoj6s6q1p7nRfzw
+	pgNeLBQeeirfCv4of7NUOoXITRTBOH0LdIDFxgEUize1uqEBzBrhz9u3u5/exXcKKPo5ShDK6FR
+	xKPRk2OHvpYWa0PEXR3vMdtsodngsyeYwmYp/oOuqwfkyWHPDU1/N75n0aG5vdDAh9k7GYGdik1
+	y31m42DXmwPZKRo1xtdjTKahB89MaWa+x0iOZyaPluy5MDXj6HH9hXRrMRzAO6B+dJaCvkryc1L
+	WAt+Yyx4GgzkjsKihCkRoR6LGnq3l9FPKqhMKt3MykuucBUhmuFks8Xf6kPbEChVDG3Bm+88uuv
+	igl43LcZ61HLg=
+X-Received: by 2002:a05:600c:45c3:b0:493:9b02:484c with SMTP id 5b1f17b1804b1-493b82b9e7amr734905e9.29.1782745554300;
+        Mon, 29 Jun 2026 08:05:54 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:1d21:f5d5:2d3c:23a7])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4932f100e4asm220013365e9.1.2026.06.29.08.05.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 08:05:53 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: sashiko-bot@kernel.org
+Cc: sashiko-reviews@lists.linux.dev,  linux-sunxi@lists.linux.dev,
+  robh@kernel.org,  devicetree@vger.kernel.org,  conor+dt@kernel.org
+Subject: Re: [PATCH v2 1/6] dt-bindings: rtc: sun6i: add sun60i-a733 support
+In-Reply-To: <20260629125305.0DF981F000E9@smtp.kernel.org>
+	(sashiko-bot@kernel.org's message of "Mon, 29 Jun 2026 12:53:04
+	+0000")
+References: <20260629-a733-rtc-v2-0-7b72112784f8@baylibre.com>
+	<20260629-a733-rtc-v2-1-7b72112784f8@baylibre.com>
+	<20260629125305.0DF981F000E9@smtp.kernel.org>
+User-Agent: mu4e 1.12.9; emacs 30.1
+Date: Mon, 29 Jun 2026 17:05:51 +0200
+Message-ID: <1jpl198jzk.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260629-qcom-sa8255p-emac-v11-0-1b7fb95b51f9@oss.qualcomm.com>
- <20260629-qcom-sa8255p-emac-v11-1-1b7fb95b51f9@oss.qualcomm.com>
- <CAMuHMdXen+E-Ai51aWBa_KV9W8Fz2cQPpT-FG_kQ7akhrrYa_A@mail.gmail.com> <CAMRc=Me3jaZXiXa1sFXr=8Do4sCd+XN1pKTcWC8-0j78SjCkKA@mail.gmail.com>
-In-Reply-To: <CAMRc=Me3jaZXiXa1sFXr=8Do4sCd+XN1pKTcWC8-0j78SjCkKA@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 29 Jun 2026 16:51:49 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVUBgG0EFB16OxHisbxx-sBvDKvBPNZdpyDnmBrnX4ptQ@mail.gmail.com>
-X-Gm-Features: AVVi8CdkJoaQviVQ7ltoNYHwA2g-kW32TDsBBJn2QkEKdC-zwJrV4O3to75iJ6g
-Message-ID: <CAMuHMdVUBgG0EFB16OxHisbxx-sBvDKvBPNZdpyDnmBrnX4ptQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v11 1/7] dt-bindings: phy: document the serdes
- PHY on sa8255p
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Vinod Koul <vkoul@kernel.org>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Fabio Estevam <festevam@gmail.com>, Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com, 
-	Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>, Romain Gantois <romain.gantois@bootlin.com>, 
-	Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
-	Christophe Roullier <christophe.roullier@foss.st.com>, Radu Rendec <rrendec@redhat.com>, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, Drew Fustini <dfustini@tenstorrent.com>, 
-	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org, 
-	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	sophgo@lists.linux.dev, linux-riscv@lists.infradead.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-Hi Bartosz,
+On lun. 29 juin 2026 at 12:53, sashiko-bot@kernel.org wrote:
 
-On Mon, 29 Jun 2026 at 16:07, Bartosz Golaszewski <brgl@kernel.org> wrote:
-> On Mon, 29 Jun 2026 15:51:31 +0200, Geert Uytterhoeven
-> <geert@linux-m68k.org> said:
-> > On Mon, 29 Jun 2026 at 13:29, Bartosz Golaszewski
-> > <bartosz.golaszewski@oss.qualcomm.com> wrote:
-> >> Describe the SGMII/SerDes PHY present on the Qualcomm sa8255p platforms.
-> >> This is essentially the same hardware as sa8775p rev3 but the PHY is
-> >> managed by firmware over SCMI.
-> >
-> > So why can't it be reuse the DT bindings, and be compatible with
-> > qcom,sa8775p-dwmac-sgmii-phy?
-> >
-> >> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> >
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/phy/qcom,sa8255p-dwmac-sgmii-phy.yaml
-> >
-> >> +  power-domains:
-> >> +    maxItems: 1
-> >> +
-> >> +  power-domain-names:
-> >> +    items:
-> >> +      - const: serdes
-> >
-> >> +examples:
-> >> +  - |
-> >> +    phy@8901000 {
-> >> +        compatible = "qcom,sa8255p-dwmac-sgmii-phy";
-> >> +        reg = <0x08901000 0xe10>;
-> >> +        #phy-cells = <0>;
-> >> +        power-domains = <&scmi7_dvfs 0>;
-> >> +        power-domain-names = "serdes";
-> >
-> > Ah, this uses power-domains, while the existing bindings for
-> > qcom,sa8775p-dwmac-sgmii-phy use a clock.
-> > I guess the clock is the correct hardware description?
-> >
-> > Adding to my list of examples for backing a hardware-to-SCMI remapping
-> > driver...
-> >
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [Low] The `clock-output-names` property has a global `maxItems: 3`
+> constraint and a description limiting it to three clocks, which contradicts
+> the new clock outputs (IDs up to 11) added for the sun60i-a733-rtc.
+> --
 >
-> Russell King asked me to put the PHY logic for SCMI pm domains into the PHY
-> driver instead of the MAC driver where it was previously. Instead of cramming
-> both HLOS and firmware handling into the same driver, I figured it makes more
-> sense to have a dedicated, cleaner driver as the two share very little code (if
-> any).
+> commit a1565b632e372c724867216463a453c9d1600ad2
+> Author: Jerome Brunet <jbrunet@baylibre.com>
+>
+> dt-bindings: rtc: sun6i: add sun60i-a733 support
+>     
+> Adds a new rtc compatible for the sun60i-a733 SoC and new IDs for the
+> peripheral oscillator clock gates of this SoC.
+>
+>> diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+>> index 9df5cdb6f63f2..197a6f67b180a 100644
+>> --- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+>> +++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+>> @@ -33,6 +33,7 @@ properties:
+>>            - enum:
+>>                - allwinner,sun20i-d1-rtc
+>>                - allwinner,sun55i-a523-rtc
+>> +              - allwinner,sun60i-a733-rtc
+>>            - const: allwinner,sun50i-r329-rtc
+>
+> [ ... ]
+>
+>> diff --git a/include/dt-bindings/clock/sun6i-rtc.h b/include/dt-bindings/clock/sun6i-rtc.h
+>> index 3bd3aa3d57ce1..5132a393ca4b6 100644
+>> --- a/include/dt-bindings/clock/sun6i-rtc.h
+>> +++ b/include/dt-bindings/clock/sun6i-rtc.h
+>> @@ -6,5 +6,9 @@
+>>  #define CLK_OSC32K		0
+>>  #define CLK_OSC32K_FANOUT	1
+>>  #define CLK_IOSC		2
+>> +#define CLK_HOSC_UFS		8
+>> +#define CLK_HOSC_HDMI		9
+>> +#define CLK_HOSC_SERDES0	10
+>> +#define CLK_HOSC_SERDES1	11
+>
+> [Severity: Low]
+> Will adding clock IDs up to 11 conflict with the existing clock-output-names
+> constraint in allwinner,sun6i-a31-rtc.yaml?
+>
+> The clock-output-names property currently has a global maxItems constraint
+> alongside its description:
+>
+>   clock-output-names:
+>     minItems: 1
+>     maxItems: 3
+>     description:
+>       The RTC provides up to three clocks
+>
+> If a device tree author attempts to define an array of clock-output-names
+> to document all outputs for the allwinner,sun60i-a733-rtc node, won't it fail
+> dt_binding_check validation because it exceeds the maximum allowed items?
 
-I think you are mixing up DT bindings and driver implementation?
+Not quite sure what to do with that one.
 
-Gr{oetje,eeting}s,
+The h616 compatible devices all exposed more than 3 clock through the
+provider, even if the higher IDs did not have define.
 
-                        Geert
+The clock output names for the h616 compatible device are not really
+supposed to be defined through DT ... at least AFAIU ??
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Jerome
