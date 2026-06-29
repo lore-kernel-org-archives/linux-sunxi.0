@@ -1,252 +1,158 @@
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8D4369D7C
-	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 14:24:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFFB13B3C0A
+	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 14:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782743094; cv=none; b=QRj6tIa3KwzxoXXM3n4CslIXw155vQvkk0T1+hZgLuoHYMU+iDTiuv0yUkkByMkdRt19Gl8jfVB1x0aYYE9R8Sdoy7V+8mtFtHB+C6hSXOMLgEKvMFu3h83/DcGe9Y7aulH66UPhRtPMkUuPwlIUB/WRJNVvEifKAEul+989Cp0=
+	t=1782743103; cv=none; b=amYx4OuHE0v8c3VCJ1fIPoGabpkEW89SRz8Zl6fiMWs9nEHJ0tN6rKvkQsMUG3xza3FdLO2FysM9AZvtRQJxfV5X0lrPr++1/kbyV6bDuO7iZXN9wlm4HGSai17iBWD4yN8nPzNIJsXAlHN0dFnsq8ggeVz1OC3kUC5VWPWflSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782743094; c=relaxed/simple;
-	bh=jKYy6z/LZavsIGCtCAO9WeqrOdZS55WfnuhWxAytq6A=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=rgkjrXa7zLKFSL5Anvr/7HTJUP3ep6/ZfW9FfGVbL971w9O8RzsANsZFhDykUr+zTTeWOWo4sX9zO+/UCj3RAhaBn4PlKbskZR2tBo72qF5WimzovhlRf/5Uape8Ak5l5d5PHrWFbHJWFV5dsOnv5mp6MER8zaEdKOPuW7/hDFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=QpqdxALB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eD8S00wy; arc=none smtp.client-ip=202.12.124.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1782743103; c=relaxed/simple;
+	bh=Y6X5nprCbNTnjWSbHEhsXgYBJF1NoS2TUH6gHAd8Zbk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=gA0jXSbFSK9ZYRsXwSW4jiDEjg/xmvnsgAzXZoTttrNdbIHk8Wk4igFJMPXJF6eD2ym7QMcSKKYg6+slWyxB9IbPAIURdlrpWbtkq1TSlDMvHiKuQ0wK5I4NQ/skHublr/iWicjL32FC2ACfAv925nkYPNhMdnelpq5yjuHwo+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=VnagAkwg; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="QpqdxALB";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eD8S00wy"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id 5DA241D0004C;
-	Mon, 29 Jun 2026 10:24:50 -0400 (EDT)
-Received: from phl-imap-05 ([10.202.2.95])
-  by phl-compute-04.internal (MEProxy); Mon, 29 Jun 2026 10:24:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1782743090;
-	 x=1782829490; bh=ST6f+Ye0p9/T3JscEZ5f79X56UQF/QbBzy9biCJtv04=; b=
-	QpqdxALBlVVbSg1RXbbjqLWGXcZOg6UqpE3Vp6LevI4Da066273Jj7jYVeGLX46X
-	LinpDyHOTAAY1ongsWzSZL+cCdadSKdT0xgB5OPkSaEwxh5/PislXxwdCzTIn1oC
-	REt8J2lpL+fvicpf35ivwedoOFMDa8U26a+Af0XNlCdSTmG3z5R12GILfzE6SmTw
-	FSZhN3jd43gzf68bIdGOSAU4nIKKt3MyN2QskGPZia8vNMzlX9e7VXzhu4kxYVYg
-	UDp5rYOlGWSODvbwl5w7pVhSokE3VL50QWNcbqiwsUhiYZ7tyEoxKDIwx448Lzze
-	gpc1InqfpdaZWMjyp3kd3g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782743090; x=
-	1782829490; bh=ST6f+Ye0p9/T3JscEZ5f79X56UQF/QbBzy9biCJtv04=; b=e
-	D8S00wyxDWIHB4Vh6oD0X5VzqSqT3z4JotdW/BevQ/hvoQRvSJ4gTpnwUbUNiVvN
-	G8siwGcgZmVG/TiUnnHXTn1tsmN/subJSQHJswtPIGvID4LqW/bOCUf3i8XXJylD
-	WXFxcFkgAA51bD9rS9zR/PPIXlhSNlheEG9hBMoaX7lGzr2EPU8twS2qKcETnnQm
-	Qs5hEZixKNmtvZib/V3CaUcHSInjjz5LDs6JZn2Dya+ogiS20nIaSB/Wve0+l3vU
-	4lYeZ8peAB5opxA5w2Az8mr0V2i2rBQh06bw6SfOrM/yaqhg/PcE4nsPAcFWerV8
-	TtuULrK3Mxq74ikYvQblg==
-X-ME-Sender: <xms:MIBCaql7Lgd3sryMBTzkKROi9XQHyr-mPzl__i6jqTbD1qnnWKapeA>
-    <xme:MIBCaspQPzsdeixLixlgpZMYG5LAHo2BNmL19hPCnpr36VcfZX9X-UrFYGxcz-wzQ
-    FHMcFjDOH5GNavn-sKvTKphcbpDb8uMr6ot8UHnPkfiaw3UDeqj7rPH>
-X-ME-Proxy-Cause: dmFkZTFwMprh5ZTFo5dfY8jM7ZxjUWaH+6tuhRdcmlFtEOFs7CUeegyqf4KKEhiSUkhGfs
-    shXdXn9QyoPevOyt3wuw7W3b5VIqMtvVsBDfkCDz6NnAXXSMKMS5RqJu9AKvF7V/7Z/6Bi
-    o0wdMW9CiqJY/GgvBhOb0boUTG3wawZBpqPqCJpYSmm0ZUUPAxL/htVEpmvED9VgSAp9uO
-    zvahS1FdRiM/3V4XEQKoztXK7nRXCyS0PV0utsqTVPI12PA5tNhyvrCWLN5gRjPD2bHxU6
-    yOkzZKnYaHdZcjhI1InBzIpD6AI5/7LesBqxsjdlhlSFuvuQ25fjoVntskThnjOfxN+lZE
-    lFlNPLX+2itzUULLge6bWTtAB4gI3sI98mx95AMy7L7s3J2Lv71eLqppsCyvkKkEp2BD1K
-    X6EPcmiBSA1+8CjSwZ9bnZEcfmRccnhjlt2iNkvsKWyLj1/wdv94pbMwFcIJuz9wDCbxo9
-    iBNu3jQYL8WYsjMfsNE2vt4jeYv+M/ZCxcL9u0F0peViPJlj6wA+lX7v8n1XmcHqI61L+w
-    oLntPH/4/NI3qcbGTonJrQKLjbjbudgB6r41pCwHJNyhc1FcWRmp+vAdOlmUYuMVG7tHGh
-    6rD7rTPwVD+A8OzG+9MFeYdJfte1jipxt2d5zch6FCoqCZ/4EPVTxch9C7GQ
-X-ME-Proxy: <xmx:MIBCatSPI8gdpFe_jZGU980MEecKsgaD01fqwY3y0NFvfmGlqDlOxA>
-    <xmx:MIBCao34oOmlMnXycJ5rfPkhkaUAebnqg9lvHyA5mty5cHOJD-WBYA>
-    <xmx:MIBCag-Iqfk-FL1_oE5qTJym1-rZQx9v3Q9OVRepLRT0ApXpjHMnWA>
-    <xmx:MIBCap_cFbmtt8ZxWbtOgzQq15eYwtPWSzjtzUotI0VkfSQ6bHQfuw>
-    <xmx:MoBCasDybz41gqrB1Ue2uuwv7YF9L8UCJORz1VN9UqDok726_y_e3jKq>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 1B5D1182007E; Mon, 29 Jun 2026 10:24:48 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="VnagAkwg"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-493ad116e05so7129935e9.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 07:25:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1782743100; x=1783347900; darn=lists.linux.dev;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ui1fxLb1Ubcmz8N9yHAf4o5O41FLSttz4QjPD5o+8+4=;
+        b=VnagAkwglAjgRZuzkSbwfr0wqhP+EOa70dtvOO5juSdynVr4gGnPw+/+XKysIoIQOu
+         cXg3sbYugOYEFvBUrTfBLt+aBfFwujEnMS7z2/Gp0ykOZ+oulu+GAFUcwjqWkys1mRKu
+         M+Bu83zOXRr11Y9KAbZQoOMO8ZGScWNJn3++/9ROzMwl1M/Lf4aE6zjB/UebFUAp8bsF
+         QvfC3agOp9hLIXmTeAjuLh0+asciTUfW066wuoXmLxmhYCjnAeA7S2WZ3oWD9UoBJWoR
+         NAiyYZfxsB32SBdixvMnF7YVJ0ezGcOehH1wEDVGTJZ4bg+yhKOJ6NHyc6543Lsy6cSU
+         JaWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782743100; x=1783347900;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ui1fxLb1Ubcmz8N9yHAf4o5O41FLSttz4QjPD5o+8+4=;
+        b=Hq0si+8QGZIJrGTkG4vuDrFtEgCo0m21kUzFIQb0/3ctubnAC1+Uq5gQGyiMEoT3wH
+         WI7RCoSxgL/yYBekQInjsbKjJBLwjpES+VIk/HyA0QoC2wyTTZgjlnKXspJqMJu5ahnH
+         GFC5krrGr0nxq7VXuALXNL3Jbw6BpnwQvnF+cIfk5+2OIgJ28nXa/PkyOafCEQHfURVG
+         JLcpuHgOsmOPHfcOCPAPupcLxKhOn1tP4QDyXxhC2TsGetjQDlqmQcTLKHZgQIrxhFsk
+         pzz7MzttVKZVdTaMYpN9UxjuvAMC4ccOUrR8jPUsBOscvP+1skDXkKTNLjewwUI3zwhj
+         YLsw==
+X-Forwarded-Encrypted: i=1; AFNElJ/iQKT+aVEAfq0BYvZmIpn+rvrNxKWeKUqob8CU5pNZUKdPZ9tTN6HFyfe8EJTUo6LGcT7hJT8HZvpQcg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz62fuIVCyKXqFdSMJt9B5yrl13io8xtmoIHYuTl8h3C5xT/fQI
+	yZ1j6/mcQNkLnQJKHOeayMqr7R+chqWTwf/EIHkbQiVEpiG9VE7yIrehrliqD83YesQ=
+X-Gm-Gg: AfdE7ckrxZjLbzQzoEq6DGYMGLFFzj8HVks+ohhtLtv1UUzVZ5mlvaoLrZOILSgMzVj
+	3fM73k+aGmoJkTjImPbXZkKSozn15F/+2vddO1qoBbtd+VGnGHCr6XPFrbFFuo+XyMmV1HvJdi0
+	K4xjTQGRRefF+/lq3zropJACOekc5+gEB++YRl6o1HA7yXH9ueG3qBZsx8Ljmx0Ls1RaPjKWyb0
+	JlK17CIIvousza35KM82LZOt0ZznWJchudy3lfX/vlCCg8MJIjxvdnqAKyG/FepGa9GnbbnO8RC
+	lya4a5F/L8xHxkMRhGXjyJ+atW9w8LSlQLk+n19+StktHf7n5j1G5huNpTw/2GaiG6WSqJAOwUe
+	WsACij9YQpo9IUTnhyeuEbatAUGPkEXpa81N1u1cjnA5NcasK33mRMKL8Nbc8R9JgoBCBgz+ZE1
+	e+1gp37+jDXtE=
+X-Received: by 2002:a05:600c:8b33:b0:493:a5d0:d1a1 with SMTP id 5b1f17b1804b1-493a5d0d2e5mr98503625e9.31.1782743100204;
+        Mon, 29 Jun 2026 07:25:00 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:1d21:f5d5:2d3c:23a7])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-49268ff9f40sm294230185e9.6.2026.06.29.07.24.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 07:24:59 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: sashiko-bot@kernel.org
+Cc: sashiko-reviews@lists.linux.dev,  robh@kernel.org,
+  linux-sunxi@lists.linux.dev,  devicetree@vger.kernel.org,
+  conor+dt@kernel.org
+Subject: Re: [PATCH v2 6/6] clk: sunxi-ng: sun6i-rtc: add a733 support
+In-Reply-To: <20260629131546.8D0261F000E9@smtp.kernel.org>
+	(sashiko-bot@kernel.org's message of "Mon, 29 Jun 2026 13:15:46
+	+0000")
+References: <20260629-a733-rtc-v2-0-7b72112784f8@baylibre.com>
+	<20260629-a733-rtc-v2-6-7b72112784f8@baylibre.com>
+	<20260629131546.8D0261F000E9@smtp.kernel.org>
+User-Agent: mu4e 1.12.9; emacs 30.1
+Date: Mon, 29 Jun 2026 16:24:58 +0200
+Message-ID: <1jy0fx8lvp.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: AbUlhqeXux_w
-Date: Mon, 29 Jun 2026 16:24:27 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Andreas Schwab" <schwab@linux-m68k.org>,
- "Arnd Bergmann" <arnd@kernel.org>
-Cc: "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- "Bartosz Golaszewski" <brgl@kernel.org>, "Andrew Lunn" <andrew@lunn.ch>,
- "Sebastian Hesselbarth" <sebastian.hesselbarth@gmail.com>,
- "Gregory Clement" <gregory.clement@bootlin.com>,
- "Frank Li" <Frank.Li@nxp.com>, "Robert Jarzmik" <robert.jarzmik@free.fr>,
- "Krzysztof Kozlowski" <krzk@kernel.org>,
- "Greg Ungerer" <gerg@linux-m68k.org>,
- "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
- "Hauke Mehrtens" <hauke@hauke-m.de>,
- =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>,
- "Yoshinori Sato" <ysato@users.sourceforge.jp>,
- "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
- "Linus Walleij" <linusw@kernel.org>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
- "Jakub Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>,
- "Dominik Brodowski" <linux@dominikbrodowski.net>,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, patches@opensource.cirrus.com,
- linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
- linux-sh@vger.kernel.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
- linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org
-Message-Id: <bb0e4e89-cefb-40e7-9373-f76ce6c0efa5@app.fastmail.com>
-In-Reply-To: <mvmik71win7.fsf@suse.de>
-References: <20260629132633.1300009-1-arnd@kernel.org>
- <mvmik71win7.fsf@suse.de>
-Subject: Re: [PATCH 00/13] treewide: replace linux/gpio.h
 Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 29, 2026, at 16:01, Andreas Schwab wrote:
-> On Jun 29 2026, Arnd Bergmann wrote:
+On lun. 29 juin 2026 at 13:15, sashiko-bot@kernel.org wrote:
+
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [Critical] The master DCXO enable bit is incorrectly mapped as the
+> exclusive enable bit for the 32kHz divider. This will cause the clock
+> framework to inadvertently turn off the master oscillator, freezing the
+> system.
+> --
 >
->> From: Arnd Bergmann <arnd@arndb.de>
->>
->> The linux/gpio.h header used to be the global definition for the gpio
->> interfaces, with 1100 users back in linux-3.17. In linux-7.2, only about
->> 130 of those remain, so this series cleans out the rest.
->>
->> In each subsystem, we can replace the header either with
->> linux/gpio/consumer.h for users of the modern gpio descriptor interface,
+> commit 83ebb861eeea7934e5df335b0d1620cad0b733bf
+> Author: Jerome Brunet <jbrunet@baylibre.com>
 >
-> A few of them already used <linux/gpio/consumer.h>, and is duplicated
-> now.
+> clk: sunxi-ng: sun6i-rtc: add a733 support
+>
+> This commit adds support for the sun60i a733 CCU RTC. It introduces a
+> new auto-detecting oscillator divider and several phy reference clocks
+> with dedicated clock gates.
+>
+>> diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+>> index 25dd87e78eb7a..2ec09e3464724 100644
+>> --- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+>> +++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+>
+> [ ... ]
+>
+>> @@ -227,8 +237,28 @@ static struct clk_fixed_factor osc24M_32k_div_clk = {
+>>  					    0),
+>>  };
+>>  
+>> -static SUNXI_CCU_GATE_HW(osc24M_32k_clk, "osc24M-32k", &osc24M_32k_div_clk.hw,
+>> -			 LOSC_OUT_GATING_REG, BIT(16), 0);
+>> +static struct clk_div_table osc24M_32k_div_a733_table[] = {
+>> +	{ .val = 0, .div = 732 },
+>> +	{ .val = 1, .div = 586 },
+>> +	{ .val = 2, .div = 793 },
+>> +	{ .val = 3, .div = 732 },
+>> +	{ /* Sentinel */ },
+>> +};
+>> +
+>> +static struct ccu_div osc24M_32k_div_a733_clk = {
+>> +	.enable = BIT(1),
+>
+> [Severity: Critical]
+> This maps the master DCXO enable bit, BIT(1) defined earlier as
+> DCXO_CTRL_DCXO_EN, directly to the 32kHz divider's lifecycle.
 
-Indeed, I have removed the extra ones now and folded those into
-the patches.
+Forgot to remove that unused define
 
-     Arnd
+>
+> If a board uses an external 32kHz crystal, the rtc-32k clock mux is
+> reparented to osc32k_clk, leaving this internal osc24M-32k-div clock with
+> zero active consumers.
+>
+> During late boot, the clock framework's clk_disable_unused() routine walks
+> the clock tree and will disable this clock, clearing BIT(1) in DCXO_CTRL_REG.
+>
+> Could this cause a hard system freeze? Since this bit physically turns off
+> the shared master 24MHz crystal (DCXO), does it immediately stop the CPU,
+> PLLs, and all peripherals?
 
-diff --git a/drivers/gpib/gpio/gpib_bitbang.c b/drivers/gpib/gpio/gpib_bitbang.c
-index 2e8d895db06a..34d14b94a0b8 100644
---- a/drivers/gpib/gpio/gpib_bitbang.c
-+++ b/drivers/gpib/gpio/gpib_bitbang.c
-@@ -64,7 +64,6 @@
- #include <linux/gpio/consumer.h>
- #include <linux/gpio/driver.h>
- #include <linux/gpio/machine.h>
--#include <linux/gpio/consumer.h>
- #include <linux/irq.h>
- 
- static int sn7516x_used = 1, sn7516x;
-diff --git a/drivers/input/keyboard/matrix_keypad.c b/drivers/input/keyboard/matrix_keypad.c
-index 98d0269a978f..8863b741d1a3 100644
---- a/drivers/input/keyboard/matrix_keypad.c
-+++ b/drivers/input/keyboard/matrix_keypad.c
-@@ -16,7 +16,6 @@
- #include <linux/interrupt.h>
- #include <linux/jiffies.h>
- #include <linux/module.h>
--#include <linux/gpio/consumer.h>
- #include <linux/input/matrix_keypad.h>
- #include <linux/slab.h>
- #include <linux/of.h>
-diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
-index eb11bf2e9436..a6c984205123 100644
---- a/drivers/input/misc/soc_button_array.c
-+++ b/drivers/input/misc/soc_button_array.c
-@@ -15,7 +15,6 @@
- #include <linux/dmi.h>
- #include <linux/gpio/consumer.h>
- #include <linux/gpio_keys.h>
--#include <linux/gpio/consumer.h>
- #include <linux/platform_device.h>
- 
- static bool use_low_level_irq;
-diff --git a/drivers/net/ethernet/oki-semi/pch_gbe/pch_gbe_main.c b/drivers/net/ethernet/oki-semi/pch_gbe/pch_gbe_main.c
-index 88c5c52e0e38..5f5adc9c9e83 100644
---- a/drivers/net/ethernet/oki-semi/pch_gbe/pch_gbe_main.c
-+++ b/drivers/net/ethernet/oki-semi/pch_gbe/pch_gbe_main.c
-@@ -16,7 +16,6 @@
- #include <linux/net_tstamp.h>
- #include <linux/ptp_classify.h>
- #include <linux/ptp_pch.h>
--#include <linux/gpio/consumer.h>
- 
- #define PCH_GBE_MAR_ENTRIES		16
- #define PCH_GBE_SHORT_PKT		64
-diff --git a/drivers/net/phy/mdio_device.c b/drivers/net/phy/mdio_device.c
-index a18263d5bb02..06151f207134 100644
---- a/drivers/net/phy/mdio_device.c
-+++ b/drivers/net/phy/mdio_device.c
-@@ -9,7 +9,6 @@
- #include <linux/delay.h>
- #include <linux/errno.h>
- #include <linux/gpio/consumer.h>
--#include <linux/gpio/consumer.h>
- #include <linux/init.h>
- #include <linux/interrupt.h>
- #include <linux/kernel.h>
-diff --git a/drivers/phy/broadcom/phy-bcm-ns2-usbdrd.c b/drivers/phy/broadcom/phy-bcm-ns2-usbdrd.c
-index d9c06129ed23..171bf097a8b8 100644
---- a/drivers/phy/broadcom/phy-bcm-ns2-usbdrd.c
-+++ b/drivers/phy/broadcom/phy-bcm-ns2-usbdrd.c
-@@ -4,7 +4,6 @@
- #include <linux/delay.h>
- #include <linux/extcon-provider.h>
- #include <linux/gpio/consumer.h>
--#include <linux/gpio/consumer.h>
- #include <linux/init.h>
- #include <linux/interrupt.h>
- #include <linux/io.h>
-diff --git a/drivers/phy/ti/phy-j721e-wiz.c b/drivers/phy/ti/phy-j721e-wiz.c
-index 2233babc0078..1f5dba49ace4 100644
---- a/drivers/phy/ti/phy-j721e-wiz.c
-+++ b/drivers/phy/ti/phy-j721e-wiz.c
-@@ -12,7 +12,6 @@
- #include <linux/clk.h>
- #include <linux/clk-provider.h>
- #include <linux/gpio/consumer.h>
--#include <linux/gpio/consumer.h>
- #include <linux/io.h>
- #include <linux/module.h>
- #include <linux/mfd/syscon.h>
-diff --git a/include/linux/mfd/ti-lmu.h b/include/linux/mfd/ti-lmu.h
-index 5040c7d1e1b9..2089ec5124e8 100644
---- a/include/linux/mfd/ti-lmu.h
-+++ b/include/linux/mfd/ti-lmu.h
-@@ -10,7 +10,6 @@
- #ifndef __MFD_TI_LMU_H__
- #define __MFD_TI_LMU_H__
- 
--#include <linux/gpio/consumer.h>
- #include <linux/notifier.h>
- #include <linux/regmap.h>
- #include <linux/gpio/consumer.h>
-diff --git a/sound/soc/codecs/cs42l84.c b/sound/soc/codecs/cs42l84.c
-index 36c3abc21fed..f2448b4c11fc 100644
---- a/sound/soc/codecs/cs42l84.c
-+++ b/sound/soc/codecs/cs42l84.c
-@@ -16,7 +16,6 @@
- #include <linux/init.h>
- #include <linux/delay.h>
- #include <linux/i2c.h>
--#include <linux/gpio/consumer.h>
- #include <linux/regmap.h>
- #include <linux/slab.h>
- #include <linux/acpi.h>
-diff --git a/sound/soc/codecs/dmic.c b/sound/soc/codecs/dmic.c
-index 8b05d6f9b429..cbed11136935 100644
---- a/sound/soc/codecs/dmic.c
-+++ b/sound/soc/codecs/dmic.c
-@@ -7,7 +7,6 @@
- 
- #include <linux/delay.h>
- #include <linux/gpio/consumer.h>
--#include <linux/gpio/consumer.h>
- #include <linux/platform_device.h>
- #include <linux/regulator/consumer.h>
- #include <linux/slab.h>
+I don't quite get what the AI is trying to report here. If there are no
+user, the clock will be gated ... so ? Am I missing something ?
+
+>
+>> +	.div	= _SUNXI_CCU_DIV_TABLE(14, 2, osc24M_32k_div_a733_table),
+>> +	.common	= {
+>> +		.reg		= DCXO_CTRL_REG,
+>> +		.hw.init	= CLK_HW_INIT_PARENTS_DATA("osc24M-32k-div",
+>> +							   osc24M,
+>> +							   &ccu_rodiv_ops,
+>> +							   0),
+>> +	},
+>> +};
+
+-- 
+Jerome
