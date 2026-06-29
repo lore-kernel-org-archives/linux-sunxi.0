@@ -1,191 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB51636A366;
-	Mon, 29 Jun 2026 13:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C031C8604
+	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 13:35:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782739699; cv=none; b=iyWCDobA2jUBdSKBsRorK79k1ZKPfeL/ThmS7BRO/Dw/sx1gVq2mkZPZy2z2zuxNo9JFR6a4DsKm20Jp+pueHNFsFQxlJCx0auuBHE6OzbI6ZtGQebJvPhp+05HLy9rGhsv+BDgOm/8Dp6q3E/3fnR25kCsob6VAxAeP4XgKhyQ=
+	t=1782740161; cv=none; b=CXG8iWhEN30+SN801Md+DWs59pGw0rIlx0Xb4uVdnTFnOSbNHYJxL06zeKd69CeW6vPhicPe2TU4eSgf6xdDJtqd9XaOvx2DvwvpkqeA9uARU7nhHfGX1zr/vpwkx5j5XZnAEFbR7pXeSaiDqZ+jDzmiCDOnyzHXLKhl0UOfikg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782739699; c=relaxed/simple;
-	bh=j+Xq+qlf0aQy5fadHBX3DKpcoyWe26ABu8Ry5PWEXLM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gZOZCEenL6dg3lhJx2agmm9T5YkZrbI2l+dGpQaYVK4dAgpKDa2X7s9SEmLT+4Phx7hn6r21OVId2aJyNRlv6vPpxXUIlXsqPg7npL5DHuBomc2k/cEDhC3RXhF31Kaepsdl6BtKhXgyxspfd4iuK0cXbS9abptwJ3g+qElETdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h5AFqQi4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782740161; c=relaxed/simple;
+	bh=zqrAv4ptgcQDDabtUqrMSNTpUU2PxpRKSgX2iLRPyeM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WYjRs1G8v5jufXiXmO2gLZi84fahBDBdrgB8/9PASXUG/izhha2faBCcwkoWBfRSif7u9Glj2JW16+H8IfEKmwhgh8lwCF/moPs5PpXx6/bKuzitKMiD06NFfZCjCjIRmwo4riQM0nu7vyozWPKxfqlE2kEKvu/0H7f+szM1sjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rohGWZwx; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h5AFqQi4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 089BD1F00A3A;
-	Mon, 29 Jun 2026 13:28:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782739698;
-	bh=iYwaK59VeErRBhP0Q9iTMSGYiDgPnUNQAe6MLCdyQLw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=h5AFqQi4jStPxyTSP1+6Qa/JvBSIFtVgK0MNZzsiH6wjFRswa/RLrnQqFNHih/qjG
-	 EWv3fVYPKDKbBtHjWpFdO8cIy9X4E9hkJpPP6vBXA8/qsQylAAtt6v+NK73U7OXv92
-	 YB7mQNWAxRfG6dGtDgsPLk0YTrL8XMwVLZP0DiJLe31ovoUMss8UP/7D/l/j5xY8/E
-	 GWyr+Tst/J+V3i8q9C/i4YobqaQblCJhFZjTHY4YfQcFjDhwMaiBx0Ip4Lj1e9DE6L
-	 mM017Lryq9TQOfeRAPIp4At1UOUu2ZNtp0Xj6zezM1lXYTXWiO8CpisTNWLtJuCnOG
-	 JFsljvXoooevw==
-From: Arnd Bergmann <arnd@kernel.org>
-To: linux-gpio@vger.kernel.org
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Greg Ungerer <gerg@linux-m68k.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Hauke Mehrtens <hauke@hauke-m.de>,
-	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Linus Walleij <linusw@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Dominik Brodowski <linux@dominikbrodowski.net>,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-phy@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH 13/13] gpiolib: remove linux/gpio.h
-Date: Mon, 29 Jun 2026 15:26:33 +0200
-Message-Id: <20260629132633.1300009-14-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20260629132633.1300009-1-arnd@kernel.org>
-References: <20260629132633.1300009-1-arnd@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rohGWZwx"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4924593f45dso43704745e9.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 06:35:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782740158; x=1783344958; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=RBM+1nAZz4BwsUG4gfSKzLFy6PeoM2OFZ8wfEYkLDpg=;
+        b=rohGWZwxrWYYpDR9u1pxhEDp16zmJjtUk3bcAB0obxbIP0ymvSj319cO09s4gOeFTw
+         Ru8VzkvccjQsfUOQ6541WxVVnr3p6v8WgH+Lbz2BozAO/G0rC5Fbwo4sbsGQvxJrbHum
+         EpMqxW3k0MViw8GfyNqklVulgxpnthagvyot66AVI6S4SJfFqGI5rsRIxsL6kjQ6CRUz
+         2jl0xcajWz0QoiRZPr9XTQFMtUeLtK6LqxpOFWMlXAsOgQFWgDULUjypsj2QniAFhxAf
+         v35xT9UZdYXw2M2YoUEUmrmZy/iWrqAyL0rGrqc2oHfaHOJeJPdtl0g/B2MonbhVE2F/
+         4N+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782740158; x=1783344958;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RBM+1nAZz4BwsUG4gfSKzLFy6PeoM2OFZ8wfEYkLDpg=;
+        b=PNcWq067bVItxEQZZY9PFYs7OAnRKhg8LJI32VI70X8Q7QUUel7EweBs/YkeCTISG8
+         mSPHJ2FyoP5QUxU8vquzZGjVb4ynqE3V4rguh6DIu6HotMleS3Qkpw5tnY9qjmV4iW+W
+         Jx3wWT5jv2/MYk/nvgpwnwaaN1DnFGDos006IsSh5IgYp9pyZ4x1K01jW1Wobq3pA4l4
+         Dac8tv+VR/iBJzKrYXmj1S4GSvhCnzSQhLBCrEJtuAY892dxov/YSyVJ4nsx00w3uiia
+         zAvNwdPRUaV0GPJ/8JBOs7V7VslLdmx7MkGF0o+Krf9MBNsampFVveCogvoiXTLsSVLM
+         sQgQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8XWyDzwFPb1lbAP8Z6UDowVDmna47L2wxwHxnp6NwcwKdJACBWQWIiTnx462chpY4sxVgbNA5g4lj8Ag==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy/QOxto6jbomrMHFQjr91BUfwvnlh2N1+Dkt5gnNM7V+sGznUo
+	L+7r1f+9hRo3NbK6aJY3v9JshOCqxvOnUkv4CDfhoSpidI41QdUpyOP3
+X-Gm-Gg: AfdE7cln4kJHFeMvKJfUOBq/WkUXY9AnpqcHgPodxA9CzGQcn2FXy+ZxwDSe4Xe6Gvr
+	t10bYLyPKSETHuXhu7D+9f4ClOYdF/imo28U4+Z1/UI8SkubxabF8wOBFe+0awJG56beOjw5HZK
+	CuE4uq/Uoqgh4+LaCASbW2lonQkJA5V5rv1NJMSTCQjAo+okTLifHrtBoaJw/Hl8aXX7WFwxy6+
+	w3MAqA+kZ+PhGxydS++Sg09dq9wHXvSqCpTTE2xBxxpmfFg2KbmKZJVtFDZZR8P2TJbG2ac8SuM
+	fmlAVtkkxQ30Lqw+1hRraCOrbmrZ9EK0GqncqF0E12+PHy10Cp2Gdhg3jO35bzhE4IyYn5UPEPX
+	N6zHgiG9yQBDj6PA7o377YseR1WPBMdGKZrDjVaDT0RNtLDuPzR1sDQNbwOhkHL/LLCuH+3r8xp
+	xKACEIoU4Z3PR8ITBYEnjXgJWM2fE/A+1imQgregEieAAvBo/m+NP0tyUzixbsOXZbeKgpXkpml
+	Gk8AOzk
+X-Received: by 2002:a05:600c:524e:b0:493:b2c1:b302 with SMTP id 5b1f17b1804b1-493b2c1b445mr34652035e9.16.1782740157956;
+        Mon, 29 Jun 2026 06:35:57 -0700 (PDT)
+Received: from [10.128.11.240] (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47327c47122sm13954850f8f.34.2026.06.29.06.35.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jun 2026 06:35:57 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <2496717f-12b9-4d33-b6db-1db278aee8e2@gmail.com>
+Date: Mon, 29 Jun 2026 14:35:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v11 2/7] phy: qcom: add the SGMII SerDes PHY
+ driver for SCMI systems
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Vinod Koul <vkoul@kernel.org>, Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+ Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com,
+ Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>,
+ Romain Gantois <romain.gantois@bootlin.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Christophe Roullier <christophe.roullier@foss.st.com>,
+ Bartosz Golaszewski <brgl@kernel.org>, Radu Rendec <rrendec@redhat.com>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, Drew Fustini
+ <dfustini@tenstorrent.com>, linux-sunxi@lists.linux.dev,
+ linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org,
+ imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, sophgo@lists.linux.dev,
+ linux-riscv@lists.infradead.org,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+References: <20260629-qcom-sa8255p-emac-v11-0-1b7fb95b51f9@oss.qualcomm.com>
+ <20260629-qcom-sa8255p-emac-v11-2-1b7fb95b51f9@oss.qualcomm.com>
+Content-Language: en-US
+From: Julian Braha <julianbraha@gmail.com>
+In-Reply-To: <20260629-qcom-sa8255p-emac-v11-2-1b7fb95b51f9@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Arnd Bergmann <arnd@arndb.de>
+Hi Bartosz,
 
-After all other drivers have converted to linux/gpio/consumer.h
-or linux/gpio/legacy.h, remove the final leftover bits here.
+On 6/29/26 12:28, Bartosz Golaszewski wrote:
+> +config PHY_QCOM_SGMII_ETH_SCMI
+> +	tristate "Qualcomm DWMAC SGMII SerDes/PHY driver (firmware managed)"
+> +	depends on OF && (ARCH_QCOM || COMPILE_TEST)
+> +	select GENERIC_PHY
+> +	select PM_GENERIC_DOMAINS
+> +	help
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- MAINTAINERS                   |  1 -
- drivers/gpio/TODO             |  4 +---
- drivers/gpio/gpiolib-cdev.c   |  2 +-
- drivers/gpio/gpiolib-legacy.c |  3 +--
- drivers/gpio/gpiolib.c        |  2 +-
- include/linux/gpio.h          | 22 ----------------------
- 6 files changed, 4 insertions(+), 30 deletions(-)
- delete mode 100644 include/linux/gpio.h
+I think PHY_QCOM_SGMII_ETH_SCMI is missing a dependency on PM. I get a
+build error currently:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 15011f5752a9..7f3f386b1d8c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11175,7 +11175,6 @@ F:	Documentation/devicetree/bindings/gpio/
- F:	Documentation/driver-api/gpio/
- F:	drivers/gpio/
- F:	include/dt-bindings/gpio/
--F:	include/linux/gpio.h
- F:	include/linux/gpio/
- K:	(devm_)?gpio_(request|free|direction|get|set)
- K:	GPIOD_FLAGS_BIT_NONEXCLUSIVE
-diff --git a/drivers/gpio/TODO b/drivers/gpio/TODO
-index 7ce80fde1f17..894c7e1af252 100644
---- a/drivers/gpio/TODO
-+++ b/drivers/gpio/TODO
-@@ -52,9 +52,7 @@ Work items:
-   base can be made dynamic (set to -1) if CONFIG_GPIO_SYSFS is disabled.
- 
- - When this work is complete (will require some of the items in the
--  following ongoing work as well) we can delete the old global
--  numberspace accessors from <linux/gpio.h> and eventually delete
--  <linux/gpio.h> altogether.
-+  following ongoing work as well) we can delete <linux/gpio/lagacy.h>.
- 
- -------------------------------------------------------------------------------
- 
-diff --git a/drivers/gpio/gpiolib-cdev.c b/drivers/gpio/gpiolib-cdev.c
-index 82f27db0b230..9b6a28819371 100644
---- a/drivers/gpio/gpiolib-cdev.c
-+++ b/drivers/gpio/gpiolib-cdev.c
-@@ -11,7 +11,7 @@
- #include <linux/device.h>
- #include <linux/err.h>
- #include <linux/file.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/gpio/driver.h>
- #include <linux/hte.h>
- #include <linux/interrupt.h>
-diff --git a/drivers/gpio/gpiolib-legacy.c b/drivers/gpio/gpiolib-legacy.c
-index ef3f2ef30cf2..33e5a45e720b 100644
---- a/drivers/gpio/gpiolib-legacy.c
-+++ b/drivers/gpio/gpiolib-legacy.c
-@@ -7,8 +7,7 @@
- 
- #include <linux/gpio/consumer.h>
- #include <linux/gpio/driver.h>
--
--#include <linux/gpio.h>
-+#include <linux/gpio/legacy.h>
- 
- #include "gpiolib.h"
- 
-diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-index e5fb60111151..1f498d6c8c68 100644
---- a/drivers/gpio/gpiolib.c
-+++ b/drivers/gpio/gpiolib.c
-@@ -29,7 +29,7 @@
- #include <linux/string.h>
- #include <linux/string_choices.h>
- 
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/gpio/driver.h>
- #include <linux/gpio/machine.h>
- 
-diff --git a/include/linux/gpio.h b/include/linux/gpio.h
-deleted file mode 100644
-index b0d4942a65de..000000000000
---- a/include/linux/gpio.h
-+++ /dev/null
-@@ -1,22 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/*
-- * NOTE: This header *must not* be included.
-- *
-- * If you're implementing a GPIO driver, only include <linux/gpio/driver.h>
-- * If you're implementing a GPIO consumer, only include <linux/gpio/consumer.h>
-- * If you're using the legacy interfaces, include <linux/gpio/legacy.h>
-- */
--
--#ifndef __LINUX_GPIO_H
--#define __LINUX_GPIO_H
--
--#include <linux/types.h>
--#ifdef CONFIG_GPIOLIB
--#include <linux/gpio/consumer.h>
--#endif
--
--#ifdef CONFIG_GPIOLIB_LEGACY
--#include <linux/gpio/legacy.h>
--#endif /* CONFIG_GPIOLIB_LEGACY */
--
--#endif /* __LINUX_GPIO_H */
--- 
-2.39.5
+WARNING: unmet direct dependencies detected for PM_GENERIC_DOMAINS
+  Depends on [n]: PM [=n]
+  Selected by [y]:
+  - PHY_QCOM_SGMII_ETH_SCMI [=y] && OF [=y] && (ARCH_QCOM ||
+COMPILE_TEST [=y])
 
+drivers/pmdomain/core.c: In function ‘genpd_queue_power_off_work’:
+drivers/pmdomain/core.c:936:20: error: ‘pm_wq’ undeclared (first use in
+this function)
+  936 |         queue_work(pm_wq, &genpd->power_off_work);
+      |                    ^~~~~
+drivers/pmdomain/core.c:936:20: note: each undeclared identifier is
+reported only once for each function it appears in
+drivers/pmdomain/core.c: In function ‘genpd_dev_pm_qos_notifier’:
+drivers/pmdomain/core.c:1133:39: error: ‘struct dev_pm_info’ has no
+member named ‘ignore_children’
+ 1133 |                 if (!dev || dev->power.ignore_children)
+      |                                       ^
+  CC      mm/truncate.o
+
+- Julian Braha
