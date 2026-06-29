@@ -1,302 +1,199 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8DF8340414
-	for <linux-sunxi@lists.linux.dev>; Sun, 28 Jun 2026 22:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE743A960E
+	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 06:51:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782686200; cv=none; b=r4cBbSXtKJOGD0TTW81bPtJ2bTNvMcShIeKdhBzv8SGkgIdM0rzueiUFq0WW1ZV1uLNnD6vNglE5Y8IW9pk3ddUlFNRGLizUueSaDoAYJ1S8FK8FhOkLXPwPoquQOfhOG+2tL3+EYBRbPE+IkZp2N5b54f0shJBdPEiT2Jlkx+s=
+	t=1782715918; cv=none; b=choZa8iNo9QL2d2gnu6JsWeP15QaprtGKUw1EB4u0g3dk2jujUgLm91k0pqdD7L5AButGTabkMdQVSvhbZRB1g1970K55HlrvafX1NkOjnQchNX1h1dNcmzYaPECJml6gm7aeqn/fTCxZfduXykgKz/6UXAf4lvDBqcy6BQWPDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782686200; c=relaxed/simple;
-	bh=3EAEjMZAYVKXS5U6NlBIQHsW6fxxJrTWwM/ywyv/Oz0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Mzk/mf7P//CKIxnSpNeYjxPOkpr3w+3PKmshixbe3Pr5/5MQpVS4CliE17Sdvih2GbIHA0uoK2lK5Pl765lW/FHCv4LpDvQBFaC5XumGNc+85SiWeMto5yvm1ei9F0ApAvPla6SxN1SXiPFMbCkHmhyU1D6heIeRTsgK3agfG7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=XJ1E8+Pq; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1782715918; c=relaxed/simple;
+	bh=9oHDsdxRnQWEsp4uM8XvGJMKQJ+bD1xMw4s33ve16ok=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BjcXx+16E2HQ3wedxP1TYZo388ZHQGRkIznQ14TRlpO3ZCK3SVMYIHg8lW9y+I+DzqO4976G/K1eA3sDt5idF7HadH6v01IaGZIW/odyO7Gq1S5NoQ/QyIjJOzoAP+YlE1sdfmJROn6+1B3oGly3Q9q109EFLAGWuoibxBn1I0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WuR6iIrV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Kv24lKIy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WuR6iIrV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Kv24lKIy; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="XJ1E8+Pq"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 880941BB2;
-	Sun, 28 Jun 2026 15:36:26 -0700 (PDT)
-Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E9AC53F905;
-	Sun, 28 Jun 2026 15:36:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1782686191; bh=3EAEjMZAYVKXS5U6NlBIQHsW6fxxJrTWwM/ywyv/Oz0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=XJ1E8+PqcpU+O6RGcFveSMZoZlYEJ0OLd9ibnked9jm1zuH9G1JV4BTZMNdAW1ZbI
-	 FvdvsnwMDqb4a2jEor2sofpkf6GzZjlDCbO+W4ewVDijNiu5cbwQXO1OMODyV+pOVo
-	 TAXwJiAeEaE6vvojySxUKGxOKCIfBMe/zz3hjWZk=
-Date: Mon, 29 Jun 2026 00:35:05 +0200
-From: Andre Przywara <andre.przywara@arm.com>
-To: Yuanshen Cao <alex.caoys@gmail.com>
-Cc: conor+dt@kernel.org, mripard@kernel.org, krzk+dt@kernel.org,
- robh@kernel.org, samuel@sholland.org, wens@kernel.org,
- jernej.skrabec@gmail.com, Frank.Li@kernel.org, vkoul@kernel.org,
- dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH v3 1/5] dmaengine: sun6i-dma: Refactor to support A733
- interrupt and register handling
-Message-ID: <20260629003505.18f0053d@ryzen.lan>
-In-Reply-To: <20260622-sun60i-a733-dma-v3-1-f697ef296cbc@gmail.com>
-References: <20260622-sun60i-a733-dma-v3-0-f697ef296cbc@gmail.com>
-	<20260622-sun60i-a733-dma-v3-1-f697ef296cbc@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WuR6iIrV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Kv24lKIy";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WuR6iIrV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Kv24lKIy"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7400775D0F;
+	Mon, 29 Jun 2026 06:51:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782715913; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=4bx/9Zme8+P93Sk9hnuVh1AEC3EOcOFTpQjt9zAyQ9U=;
+	b=WuR6iIrVxW40HIiPjBb+EQCqInTYW5XztTvFyPFwSdqGAdd5n2ob2gwwcq1HxQz0rIsvpg
+	CDe6zr3pg0V5p0y0jlOAsWcUhIcV0ydLtzo1ME8juI6yUbdVdAbjh9Tzro+k/I0/yohfY8
+	EbEFtLP/pWuOd+WA/2xMMh9cVOeb8Lc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782715913;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=4bx/9Zme8+P93Sk9hnuVh1AEC3EOcOFTpQjt9zAyQ9U=;
+	b=Kv24lKIywIP3KmvkNpLlfMuJUFoxkAVkizthLhCwoB9iWQmEanlx9ExWFpeA67ra0xqiom
+	SJhRY8GlvWO9v9BA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=WuR6iIrV;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Kv24lKIy
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782715913; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=4bx/9Zme8+P93Sk9hnuVh1AEC3EOcOFTpQjt9zAyQ9U=;
+	b=WuR6iIrVxW40HIiPjBb+EQCqInTYW5XztTvFyPFwSdqGAdd5n2ob2gwwcq1HxQz0rIsvpg
+	CDe6zr3pg0V5p0y0jlOAsWcUhIcV0ydLtzo1ME8juI6yUbdVdAbjh9Tzro+k/I0/yohfY8
+	EbEFtLP/pWuOd+WA/2xMMh9cVOeb8Lc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782715913;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=4bx/9Zme8+P93Sk9hnuVh1AEC3EOcOFTpQjt9zAyQ9U=;
+	b=Kv24lKIywIP3KmvkNpLlfMuJUFoxkAVkizthLhCwoB9iWQmEanlx9ExWFpeA67ra0xqiom
+	SJhRY8GlvWO9v9BA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0D5C5779A8;
+	Mon, 29 Jun 2026 06:51:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id nwYmAQkWQmp/PQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Mon, 29 Jun 2026 06:51:53 +0000
+Message-ID: <f3f2320f-dfe7-4728-9cf4-c3eaab33d09e@suse.de>
+Date: Mon, 29 Jun 2026 08:51:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sun4i: Remove dependency on DRM simple helpers
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+ Chen-Yu Tsai <wens@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Samuel Holland <samuel@sholland.org>,
+ Diogo Silva <diogompaissilva@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20260623-sun4i_simple-v1-1-fa6696df1fad@gmail.com>
+ <PMdb9FVETQuPUnyh12NM2Q@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <PMdb9FVETQuPUnyh12NM2Q@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 7400775D0F
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,linux.intel.com,ffwll.ch,sholland.org];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim,suse.com:url]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-On Mon, 22 Jun 2026 01:36:23 +0000
-Yuanshen Cao <alex.caoys@gmail.com> wrote:
+Hi
 
-Hi,
+Am 27.06.26 um 08:55 schrieb Jernej Škrabec:
+> Dne torek, 23. junij 2026 ob 22:34:40 Srednjeevropski poletni čas je Diogo Silva napisal(a):
+>> Simple KMS helper are deprecated since they only add an intermediate
+>> layer between drivers and the atomic modesetting.
+>> This patch removes the dependency on drm simple helpers from sun4i
+>> DRM drivers.
+>>
+>> Signed-off-by: Diogo Silva <diogompaissilva@gmail.com>
+> This doesn't look as useful change. Is this tree-wide attempt? If so, it
+> should be done in one go in one patch series, coordinated with DRM
+> maintainers.
 
-first, many thanks for sending this, also for structuring the changes
-nicely, so that they remain reviewable!
+Yes, the interface is supposed to go away because it is fairly useless.  
+It's a low-effort task for beginners. Hence many people send out such 
+clean-up patches for the various drivers.  If the change is acceptable 
+to you, it would be appreciated if you could merge it into the driver.
 
-> Refactor to support the Allwinner A733 DMA controller. Currently, the
-> `sun6i-dma` driver has several functions related to interrupt handling
-> (reading/writing interrupt enable and status registers) and register
-> dumping that are hardcoded.
-> 
-> To support the A733, which has different register layouts and interrupt
-> handling logic, these functions are being moved into the
-> `sun6i_dma_config` structure as function pointers.
+Best regards
+Thomas
 
-So I see that this driver already makes use of per-device function
-pointer, though personally I don't like this approach very much, as it
-decreases the readability, and suggests significant differences between
-the SoC generations that are not really there: each function just reads
-or write an MMIO register, it's just the offset that differs.
+>
+> Best regards,
+> Jernej
+>
+>
 
-So I think it's better to express the differences through data
-entries in the config struct, for the IRQ enable/stat functions I think
-this should be something like this:
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
 
-struct sun6i_dma_config {
-	...
-	u32	irq_stride;
-	u32	irq_en_offset;
-	u32	irq_stat_offset;
-	...
-};
-
--	irq_val = readl(sdev->base + DMA_IRQ_EN(irq_reg));
-+	irq_val = readl(sdev->base + sdev->cfg->irq_en_offset + irq_reg * sdev->cfg->irq_stride);
-
-the existing configs set .stride to 0x04, and .en_offset to 0x0, the
-A733 later uses .stride = 0x40 and .en_offset = 0x134.
-Maybe we still move that now longish line into a helper function, but
-not a config specific one. 
-
-I think that's more readable, and avoids unnecessary redirections and
-potential pipeline stalls.
-
-dump_com_regs is a different story, since the two instances of that
-function are significantly different.
-
-What do you think?
-
-> This allows the
-> driver to use a polymorphic approach where the specific implementation
-> is determined by the hardware configuration assigned during device
-> probing.
-> 
-> Changes:
-> - Added function pointers to `struct sun6i_dma_config` for:
-
-By the way: the preferred style to list changes in commit messages in
-imperative mood [1], not in past tense. Think about you ask the
-code base what to change:
-
-Add function pointers to ...
-Implement generic functions ...
-
-Cheers,
-Andre
-
-[1]
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst#n94
-
->     - `dump_com_regs`
->     - `read_irq_en`
->     - `write_irq_en`
->     - `read_irq_stat`
->     - `write_irq_stat`
-> - Implemented generic `sun6i_read/write_irq_*` functions for existing
->   hardware.
-> - Added a macro and updated existing `sun6i_dma_config` instances (A31,
->   A23, H3, A64, A100, H6, V3S) to use these new function pointers.
-> 
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> Signed-off-by: Yuanshen Cao <alex.caoys@gmail.com>
-> ---
->  drivers/dma/sun6i-dma.c | 50 ++++++++++++++++++++++++++++++++++++++++++++-----
->  1 file changed, 45 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-> index a9a254dbf8cb..ef3052c4ab36 100644
-> --- a/drivers/dma/sun6i-dma.c
-> +++ b/drivers/dma/sun6i-dma.c
-> @@ -138,6 +138,11 @@ struct sun6i_dma_config {
->  	void (*set_burst_length)(u32 *p_cfg, s8 src_burst, s8 dst_burst);
->  	void (*set_drq)(u32 *p_cfg, s8 src_drq, s8 dst_drq);
->  	void (*set_mode)(u32 *p_cfg, s8 src_mode, s8 dst_mode);
-> +	void (*dump_com_regs)(struct sun6i_dma_dev *sdev);
-> +	u32 (*read_irq_en)(struct sun6i_dma_dev *sdev, u32 irq_reg);
-> +	void (*write_irq_en)(struct sun6i_dma_dev *sdev, u32 irq_reg, u32 irq_val);
-> +	u32 (*read_irq_stat)(struct sun6i_dma_dev *sdev, u32 irq_reg);
-> +	void (*write_irq_stat)(struct sun6i_dma_dev *sdev, u32 irq_reg, u32 status);
->  	u32 src_burst_lengths;
->  	u32 dst_burst_lengths;
->  	u32 src_addr_widths;
-> @@ -347,6 +352,26 @@ static void sun6i_set_mode_h6(u32 *p_cfg, s8 src_mode, s8 dst_mode)
->  		  DMA_CHAN_CFG_DST_MODE_H6(dst_mode);
->  }
->  
-> +static u32 sun6i_read_irq_en(struct sun6i_dma_dev *sdev, u32 irq_reg)
-> +{
-> +	return readl(sdev->base + DMA_IRQ_EN(irq_reg));
-> +}
-> +
-> +static void sun6i_write_irq_en(struct sun6i_dma_dev *sdev, u32 irq_reg, u32 irq_val)
-> +{
-> +	writel(irq_val, sdev->base + DMA_IRQ_EN(irq_reg));
-> +}
-> +
-> +static u32 sun6i_read_irq_stat(struct sun6i_dma_dev *sdev, u32 irq_reg)
-> +{
-> +	return readl(sdev->base + DMA_IRQ_STAT(irq_reg));
-> +}
-> +
-> +static void sun6i_write_irq_stat(struct sun6i_dma_dev *sdev, u32 irq_reg, u32 status)
-> +{
-> +	writel(status, sdev->base + DMA_IRQ_STAT(irq_reg));
-> +}
-> +
->  static size_t sun6i_get_chan_size(struct sun6i_pchan *pchan)
->  {
->  	struct sun6i_desc *txd = pchan->desc;
-> @@ -460,16 +485,16 @@ static int sun6i_dma_start_desc(struct sun6i_vchan *vchan)
->  
->  	vchan->irq_type = vchan->cyclic ? DMA_IRQ_PKG : DMA_IRQ_QUEUE;
->  
-> -	irq_val = readl(sdev->base + DMA_IRQ_EN(irq_reg));
-> +	irq_val = sdev->cfg->read_irq_en(sdev, irq_reg);
->  	irq_val &= ~((DMA_IRQ_HALF | DMA_IRQ_PKG | DMA_IRQ_QUEUE) <<
->  			(irq_offset * DMA_IRQ_CHAN_WIDTH));
->  	irq_val |= vchan->irq_type << (irq_offset * DMA_IRQ_CHAN_WIDTH);
-> -	writel(irq_val, sdev->base + DMA_IRQ_EN(irq_reg));
-> +	sdev->cfg->write_irq_en(sdev, irq_reg, irq_val);
->  
->  	writel(pchan->desc->p_lli, pchan->base + DMA_CHAN_LLI_ADDR);
->  	writel(DMA_CHAN_ENABLE_START, pchan->base + DMA_CHAN_ENABLE);
->  
-> -	sun6i_dma_dump_com_regs(sdev);
-> +	sdev->cfg->dump_com_regs(sdev);
->  	sun6i_dma_dump_chan_regs(sdev, pchan);
->  
->  	return 0;
-> @@ -549,14 +574,14 @@ static irqreturn_t sun6i_dma_interrupt(int irq, void *dev_id)
->  	u32 status;
->  
->  	for (i = 0; i < sdev->num_pchans / DMA_IRQ_CHAN_NR; i++) {
-> -		status = readl(sdev->base + DMA_IRQ_STAT(i));
-> +		status = sdev->cfg->read_irq_stat(sdev, i);
->  		if (!status)
->  			continue;
->  
->  		dev_dbg(sdev->slave.dev, "DMA irq status %s: 0x%x\n",
->  			str_high_low(i), status);
->  
-> -		writel(status, sdev->base + DMA_IRQ_STAT(i));
-> +		sdev->cfg->write_irq_stat(sdev, i, status);
->  
->  		for (j = 0; (j < DMA_IRQ_CHAN_NR) && status; j++) {
->  			pchan = sdev->pchans + j;
-> @@ -1101,6 +1126,13 @@ static inline void sun6i_dma_free(struct sun6i_dma_dev *sdev)
->  	}
->  }
->  
-> +#define SUN6I_DMA_IRQ_A31_COMMON_OPS	\
-> +	.dump_com_regs    = sun6i_dma_dump_com_regs,	\
-> +	.read_irq_en      = sun6i_read_irq_en,	\
-> +	.write_irq_en     = sun6i_write_irq_en,	\
-> +	.read_irq_stat    = sun6i_read_irq_stat,	\
-> +	.write_irq_stat   = sun6i_write_irq_stat,
-> +
->  /*
->   * For A31:
->   *
-> @@ -1132,6 +1164,7 @@ static struct sun6i_dma_config sun6i_a31_dma_cfg = {
->  	.dst_addr_widths   = BIT(DMA_SLAVE_BUSWIDTH_1_BYTE) |
->  			     BIT(DMA_SLAVE_BUSWIDTH_2_BYTES) |
->  			     BIT(DMA_SLAVE_BUSWIDTH_4_BYTES),
-> +	SUN6I_DMA_IRQ_A31_COMMON_OPS
->  };
->  
->  /*
-> @@ -1155,6 +1188,7 @@ static struct sun6i_dma_config sun8i_a23_dma_cfg = {
->  	.dst_addr_widths   = BIT(DMA_SLAVE_BUSWIDTH_1_BYTE) |
->  			     BIT(DMA_SLAVE_BUSWIDTH_2_BYTES) |
->  			     BIT(DMA_SLAVE_BUSWIDTH_4_BYTES),
-> +	SUN6I_DMA_IRQ_A31_COMMON_OPS
->  };
->  
->  static struct sun6i_dma_config sun8i_a83t_dma_cfg = {
-> @@ -1173,6 +1207,7 @@ static struct sun6i_dma_config sun8i_a83t_dma_cfg = {
->  	.dst_addr_widths   = BIT(DMA_SLAVE_BUSWIDTH_1_BYTE) |
->  			     BIT(DMA_SLAVE_BUSWIDTH_2_BYTES) |
->  			     BIT(DMA_SLAVE_BUSWIDTH_4_BYTES),
-> +	SUN6I_DMA_IRQ_A31_COMMON_OPS
->  };
->  
->  /*
-> @@ -1200,6 +1235,7 @@ static struct sun6i_dma_config sun8i_h3_dma_cfg = {
->  			     BIT(DMA_SLAVE_BUSWIDTH_2_BYTES) |
->  			     BIT(DMA_SLAVE_BUSWIDTH_4_BYTES) |
->  			     BIT(DMA_SLAVE_BUSWIDTH_8_BYTES),
-> +	SUN6I_DMA_IRQ_A31_COMMON_OPS
->  };
->  
->  /*
-> @@ -1221,6 +1257,7 @@ static struct sun6i_dma_config sun50i_a64_dma_cfg = {
->  			     BIT(DMA_SLAVE_BUSWIDTH_2_BYTES) |
->  			     BIT(DMA_SLAVE_BUSWIDTH_4_BYTES) |
->  			     BIT(DMA_SLAVE_BUSWIDTH_8_BYTES),
-> +	SUN6I_DMA_IRQ_A31_COMMON_OPS
->  };
->  
->  /*
-> @@ -1244,6 +1281,7 @@ static struct sun6i_dma_config sun50i_a100_dma_cfg = {
->  			     BIT(DMA_SLAVE_BUSWIDTH_8_BYTES),
->  	.has_high_addr = true,
->  	.has_mbus_clk = true,
-> +	SUN6I_DMA_IRQ_A31_COMMON_OPS
->  };
->  
->  /*
-> @@ -1266,6 +1304,7 @@ static struct sun6i_dma_config sun50i_h6_dma_cfg = {
->  			     BIT(DMA_SLAVE_BUSWIDTH_4_BYTES) |
->  			     BIT(DMA_SLAVE_BUSWIDTH_8_BYTES),
->  	.has_mbus_clk = true,
-> +	SUN6I_DMA_IRQ_A31_COMMON_OPS
->  };
->  
->  /*
-> @@ -1289,6 +1328,7 @@ static struct sun6i_dma_config sun8i_v3s_dma_cfg = {
->  	.dst_addr_widths   = BIT(DMA_SLAVE_BUSWIDTH_1_BYTE) |
->  			     BIT(DMA_SLAVE_BUSWIDTH_2_BYTES) |
->  			     BIT(DMA_SLAVE_BUSWIDTH_4_BYTES),
-> +	SUN6I_DMA_IRQ_A31_COMMON_OPS
->  };
->  
->  static const struct of_device_id sun6i_dma_match[] = {
-> 
 
