@@ -1,134 +1,134 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E00347FEC
-	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 13:58:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 833173769F9
+	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 14:07:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782741507; cv=none; b=uHgdiriWlyonx02ZBklY7KTFJ0bKC81JB9JLOUqRm5FLuJzJIb4QvEjztA+ByHoSBAgbtntAV66pl91MN9djyYkPkeNzmdl9jXN+jhXYPOlgFG/lzQHxqh1JJ/LPSMKjaVQgOWhXwI+l9IqWrMc0brqZVe52BUHekfIRCfmc7QI=
+	t=1782742056; cv=none; b=isyka4v0c8HKOC7ea4GaIxXTPxruSe9+XWSPyinzvAqXF5KIvjDa27vxQJS3/Jip1xhlppkKFvj4MuNLkaasN5vsqUTgcNqvedbwvii9ub/wq/D+AVhhwOx9zvtfSShcaAXUTyJ2wjBc/VazLFU/aEsCA/Rfzvr/gSB8T5QEak4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782741507; c=relaxed/simple;
-	bh=yOzbqmPiymX68IbIPL916O/Rd6K79n+KEjdHVuEkcE0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=qYSh2aLdHv7I19ugq2WCRNuK230ODtCX3TokMcFxhBJvH6jbBVf52wNItmiFn0SP3gdcuJscXhZPJ32uScMn90uGu0BsRu2ZRZpEOw0xpDSH3iql8vsdo0aqfO/TEDS+JSIaQ44o7JdUPpXufEL40q2ao2xmgzqC4tWUWog1i/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=QOK3Z+Js; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1782742056; c=relaxed/simple;
+	bh=dEBpbC87537LBBTTmXAr8CNI2ZwT6yEisCHDxbF5LnA=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=a55Ys4u9BMpvjJo10amq6btchqnFekAEWEdRMC7fU8M1XD0JnqsRs7WkqFnAgxVDjs2HMcZJTfDmar7WeuaSWagfv1Kum3cN9oxDi0bEw3LnxXZBy/2IW1Lc1YuTT23iwIBoXPSxc7aS+9LvO4jYp0pI9KeP1dI2Zfml+6NWfhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WdJgbGTu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="QOK3Z+Js"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-49395888c7bso27288275e9.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 06:58:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1782741504; x=1783346304; darn=lists.linux.dev;
-        h=mime-version:message-id:date:user-agent:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PATmqIJOT58g+w0bwm0EGEjm0V85SjTo4ZbuYUtUfhE=;
-        b=QOK3Z+JsuDmd7OyWwshlrCFWY8mdm9vWWlAddqnRarhCwZFL7fKGg21XbLL6uVdx0M
-         Nk7F/7rNYlzjoctrAcXqpv0Yhft3vIM0EqYm84ec0UAe47dK4ef3GU1O0jGxd6mNhZoZ
-         E5vbQUZmrej8b73fMZeOZaYPCyMM5QEXGepVhYmn6mSXR5Gth1AlT9jffHZR6Pd2b+zJ
-         5ACCggvVgqqqv4c8M5hkLXzoW9n06Fx4/Y3fV4UAp9fZV9AVjKi/gBuwKIvOLDLMvrb3
-         OyzeKaIhHthaYwZuNon0DQP4MXRJvpSzDCKIvFnjCiNeA1c2GZh7Rm0XXUHE+s3nUDQ0
-         ORFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782741504; x=1783346304;
-        h=mime-version:message-id:date:user-agent:references:in-reply-to
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=PATmqIJOT58g+w0bwm0EGEjm0V85SjTo4ZbuYUtUfhE=;
-        b=qT4vx0YH/VAN/AtG1qC1uskNKkELvXSp0CJdPTFr9YNbJI5K5vr28vDuvKRO3wpC6D
-         2i1WsUZtdfEP/wi3dGW0cxl1h1+fGltnCkKcbRty23kXS0cFMNsj5OgkGb2OVq4TX5Ku
-         baiGa8WsPOkvPCreDvN9+qtNPa/Qkzgag5Ed2toZjwgBLA0hN6dpC4RwUCQo74X/kno4
-         CdsQkBv1jaux05GlYnZcyhPTya0uDLOFL0VIkaUdYxUKeBPLfHfc1LAavAgDmXBscTtz
-         F8ctklqPmP/Zw/CWpaY3O2UfryMAOQBJVnkTJgT/yQOBS7nAc5NFaV83/f7FAu6YxcU8
-         2x7A==
-X-Forwarded-Encrypted: i=1; AFNElJ+VAM4Q9XUZJEyrkPvqqQlqHFqCv3YERFobs32sZPBzoZeGQm1EDxFgzfXIq9ePY1jrwKqPApWP5IuC7g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyS4+cTIS0Hw3Wf9EbgeAj8UHnltf5fV7dlvRCSrArn22lgZfRq
-	Iw4CG69h8bHW/qqmLZAdyf5M7CJ3IFCJXEOpM77qtj7eCmv1A9vOX+i+P4INARHo9Pw=
-X-Gm-Gg: AfdE7cnEg2l1IG+DFpine7I0nuvbu+yg3lfsx6vXdwXs7mf4qvGA7escH61V72NRvcQ
-	noeCq161/0xlNzxyL5Nam+vqIwzpcUP+kCYMG1WHtxy8Ox2fAjsArLycsvPNjesvlWaciZFkAIW
-	OlmQUlyfcIFZhY31aeu5cJXZRBht1WiSrRjvxKvOHiuRfcPJLziKhQaGA1uScAE1YMV6Lo6kzVU
-	P6EDuclG1mPpdmflgdhCpHq3DHss+DSdEALsYh4nFL+kcsX93VGBMmwJiIHiAnAYn1D4i1+POL9
-	b6N1eT7ngsMT5QIUsffXSUU5TDQa5vAVAv7RE7RGbt+JFJ1Zq12Sa3JyMrmP2pQLEHO6hRvg0ol
-	+PrXMpVcd/QmJEAFmXslW3vLjV3gbItzHMKQmkCWgBPt6XbJL1kkF56Ebj5NB08u5ChG7CWX4e6
-	fweBVsUAj5R4s=
-X-Received: by 2002:a05:600c:3b85:b0:490:50c5:8153 with SMTP id 5b1f17b1804b1-4926683231fmr259468755e9.2.1782741504468;
-        Mon, 29 Jun 2026 06:58:24 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:1d21:f5d5:2d3c:23a7])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-492690100c7sm351172685e9.12.2026.06.29.06.58.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 06:58:24 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: sashiko-bot@kernel.org
-Cc: sashiko-reviews@lists.linux.dev,  linux-sunxi@lists.linux.dev,
-  robh@kernel.org,  devicetree@vger.kernel.org,  conor+dt@kernel.org
-Subject: Re: [PATCH v2 4/6] clk: sunxi-ng: div: add read-only operation support
-In-Reply-To: <20260629130342.73C851F000E9@smtp.kernel.org>
-	(sashiko-bot@kernel.org's message of "Mon, 29 Jun 2026 13:03:41
-	+0000")
-References: <20260629-a733-rtc-v2-0-7b72112784f8@baylibre.com>
-	<20260629-a733-rtc-v2-4-7b72112784f8@baylibre.com>
-	<20260629130342.73C851F000E9@smtp.kernel.org>
-User-Agent: mu4e 1.12.9; emacs 30.1
-Date: Mon, 29 Jun 2026 15:58:22 +0200
-Message-ID: <1jcxx9a1oh.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WdJgbGTu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 934A81F00AC4
+	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 14:07:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782742050;
+	bh=bbeOSfk9uz1Wrt6J5wAea4CxiJx++/6lvqEjtpLfRco=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=WdJgbGTuii88TFEbu6XpTlHIdAbM0xcN6YjUJQNtsS5QZsweE06dn2SWSTdr13D0g
+	 cDrsusjeeaUBCimeiqTSvi/JeSiW9AvQkX/i5ua3pgxXsZCwAFb3CIBmkFlcjrkZT3
+	 WxbCtvKerMUrNoL6ZT6mTGetEEJdTN52F+3OEcp6VUHr8oc/v6pd+DkzaqNbBXxBZA
+	 Ld517NmZ9/iIB3qfK/4FP1OCHdb2Rkgwddzfy6RLgP+atqTMDKqOOsDnjXz2TzmohL
+	 x3TvIUD56kSkRMRCMUlifT+c1/Ck/brCKHJOFU6gJ74LZtHxWG4NXK6rUQ23KkWcRX
+	 mGc+ywabfwJrA==
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-39ae3c76e24so17951001fa.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 07:07:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoXa3WT7DKyEY0bLuEQ7+SNFV+bqQyZ/IyEDbAmaYE15kYeLFllrFPbJODJkxi0ADhjNvsxYcZlBCP2Sw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzua6O1SbOO3EsZvN+jyIj0qdi7hvACSsswO+2BJCMOlUnq9QMf
+	T/O9F6649duNN2j9ahiIu7m0Y1HEFPcAQ8DmhjQnc1SB1wSqNRJ/sTWXqmhgv5qF9hBcWD9XUiu
+	JfPdIg3B0A022dvWX88jYwMj1IC1CZPDQSzX7J9tOcw==
+X-Received: by 2002:a05:651c:146c:b0:396:5d0a:765a with SMTP id
+ 38308e7fff4ca-39acb8ffa66mr33873361fa.21.1782742048596; Mon, 29 Jun 2026
+ 07:07:28 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 29 Jun 2026 07:07:24 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 29 Jun 2026 07:07:24 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <CAMuHMdXen+E-Ai51aWBa_KV9W8Fz2cQPpT-FG_kQ7akhrrYa_A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20260629-qcom-sa8255p-emac-v11-0-1b7fb95b51f9@oss.qualcomm.com>
+ <20260629-qcom-sa8255p-emac-v11-1-1b7fb95b51f9@oss.qualcomm.com> <CAMuHMdXen+E-Ai51aWBa_KV9W8Fz2cQPpT-FG_kQ7akhrrYa_A@mail.gmail.com>
+Date: Mon, 29 Jun 2026 07:07:24 -0700
+X-Gmail-Original-Message-ID: <CAMRc=Me3jaZXiXa1sFXr=8Do4sCd+XN1pKTcWC8-0j78SjCkKA@mail.gmail.com>
+X-Gm-Features: AVVi8CfgGr0R3g5nrNxVwL-t6-jaKI4wsgAKUpj-c_HwbEC7_gerPUuikt96dHI
+Message-ID: <CAMRc=Me3jaZXiXa1sFXr=8Do4sCd+XN1pKTcWC8-0j78SjCkKA@mail.gmail.com>
+Subject: Re: [PATCH net-next v11 1/7] dt-bindings: phy: document the serdes
+ PHY on sa8255p
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Vinod Koul <vkoul@kernel.org>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Shawn Guo <shawnguo@kernel.org>, 
+	Fabio Estevam <festevam@gmail.com>, Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com, 
+	Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>, Romain Gantois <romain.gantois@bootlin.com>, 
+	Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
+	Christophe Roullier <christophe.roullier@foss.st.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Radu Rendec <rrendec@redhat.com>, linux-arm-msm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, Drew Fustini <dfustini@tenstorrent.com>, 
+	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org, 
+	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
+	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	sophgo@lists.linux.dev, linux-riscv@lists.infradead.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On lun. 29 juin 2026 at 13:03, sashiko-bot@kernel.org wrote:
-
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [Medium] `ccu_rodiv_ops` omits the `.determine_rate` callback, which breaks rate rounding, reparenting, and proper rate propagation for clocks using `CLK_SET_RATE_PARENT`.
-> --
+On Mon, 29 Jun 2026 15:51:31 +0200, Geert Uytterhoeven
+<geert@linux-m68k.org> said:
+> Hi Bartosz,
 >
-> commit 97a1d0e7adc68eb81524d76b0c667da1b5f1be50
-> Author: Jerome Brunet <jbrunet@baylibre.com>
+> Thanks for your patch!
 >
-> clk: sunxi-ng: div: add read-only operation support
+> On Mon, 29 Jun 2026 at 13:29, Bartosz Golaszewski
+> <bartosz.golaszewski@oss.qualcomm.com> wrote:
+>> Describe the SGMII/SerDes PHY present on the Qualcomm sa8255p platforms.
+>> This is essentially the same hardware as sa8775p rev3 but the PHY is
+>> managed by firmware over SCMI.
 >
-> Add support for sunxi-ng read-only dividers to be used by the a733
-> oscillator detection logic.
+> So why can't it be reuse the DT bindings, and be compatible with
+> qcom,sa8775p-dwmac-sgmii-phy?
 >
->> diff --git a/drivers/clk/sunxi-ng/ccu_div.c b/drivers/clk/sunxi-ng/ccu_div.c
->> index 62d680ccb524b..0e3d9e6e30fb0 100644
->> --- a/drivers/clk/sunxi-ng/ccu_div.c
->> +++ b/drivers/clk/sunxi-ng/ccu_div.c
->> @@ -143,3 +143,14 @@ const struct clk_ops ccu_div_ops = {
->>  	.set_rate	= ccu_div_set_rate,
->>  };
->>  EXPORT_SYMBOL_NS_GPL(ccu_div_ops, "SUNXI_CCU");
+>> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+>
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/phy/qcom,sa8255p-dwmac-sgmii-phy.yaml
+>
+>> +  power-domains:
+>> +    maxItems: 1
 >> +
->> +const struct clk_ops ccu_rodiv_ops = {
->> +	.disable	= ccu_div_disable,
->> +	.enable		= ccu_div_enable,
->> +	.is_enabled	= ccu_div_is_enabled,
->> +
->> +	.get_parent	= ccu_div_get_parent,
->> +
->> +	.recalc_rate	= ccu_div_recalc_rate,
+>> +  power-domain-names:
+>> +    items:
+>> +      - const: serdes
 >
-> [Severity: Medium]
-> Does this struct need a .determine_rate callback to prevent breaking rate
-> rounding and parent rate propagation?
-
-I don't think is a problem in the specific context of this series since
-not parent on the RO clock may adjust but it is indeed something to fix
-in the next revision
-
+>> +examples:
+>> +  - |
+>> +    phy@8901000 {
+>> +        compatible = "qcom,sa8255p-dwmac-sgmii-phy";
+>> +        reg = <0x08901000 0xe10>;
+>> +        #phy-cells = <0>;
+>> +        power-domains = <&scmi7_dvfs 0>;
+>> +        power-domain-names = "serdes";
 >
-> If a driver registers a clock using these exported operations and sets the
-> CLK_SET_RATE_PARENT flag, the Common Clock Framework's
-> clk_core_round_rate_nolock() falls back to a pass-through behavior when
-> .determine_rate is missing. This causes it to forward the child's requested
-> rate unmodified to the parent, ignoring the divider scaling, and also causes
-> mux reparenting to fail.
+> Ah, this uses power-domains, while the existing bindings for
+> qcom,sa8775p-dwmac-sgmii-phy use a clock.
+> I guess the clock is the correct hardware description?
 >
->> +};
->> +EXPORT_SYMBOL_NS_GPL(ccu_rodiv_ops, "SUNXI_CCU");
+> Adding to my list of examples for backing a hardware-to-SCMI remapping
+> driver...
+>
 
--- 
-Jerome
+Russell King asked me to put the PHY logic for SCMI pm domains into the PHY
+driver instead of the MAC driver where it was previously. Instead of cramming
+both HLOS and firmware handling into the same driver, I figured it makes more
+sense to have a dedicated, cleaner driver as the two share very little code (if
+any).
+
+Bart
