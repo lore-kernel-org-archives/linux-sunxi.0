@@ -1,155 +1,110 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1948402B96
-	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 12:52:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9CF836CE19;
+	Mon, 29 Jun 2026 12:53:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782737551; cv=none; b=GyDA2AbWEDLgp36XmxBXh9reWl9JVUR4JQt4WT03gnKCZx7Kul7B33nEFD9yCTmJdQT7TEoAlswYl5bF/9V7iOCDAWuniLW0ZAOU2qgcpjPojXnPlLk/i6y+ipZjBtIdAjnsTN7nggKnK5pcxlnWc8yDfNhhYd4lmODq1iFMB6E=
+	t=1782737586; cv=none; b=T2nbBjBinX19gs9JlbGZwQtEOmWZCgHvOWtGFqhZc3F7VCAwUXCp5qp4ul3nDs0ziGRxJUkeA3RwaIFtoLQlHoaQdMUx7+/rc7rul3ASt/0oaOJFgOifJ1Rl641ijFEk/vpGEI1134NCG21XsGtYcFljAV9JQKRVK/gqamU3t80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782737551; c=relaxed/simple;
-	bh=e4bFcTetKCUY0BiWFDdCjYfdtTZJIAxrLcBYwnPJ6cY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ARg7t6ycX1bc1+Pkj9iWAMFjbYFRq2e/8hSiXiHgrYajm6+j4pbXe/6IeoxJq1FteOX4fk4UrTU8Wh3pRgBSQ0GwO9u9ocIrqFmwocT0o4zsySYOAI1B4PF7/7ti6afi2gT2j0TCLqmoFX0gzIYNl8EHKSXqJZtk5yuVQmbpgoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=lS8OOIhD; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1782737586; c=relaxed/simple;
+	bh=nU6Y3w5yolp1tZccfMy8JvrFaF26v+81615Huj7uD2Q=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=b+rXaPyb4z+gqGdGf5FwKV+hkhgsAKWcLELdnkKs1FoM6v9nfTsT0O2bcL88n52mDbg2l9FYK4tS85cmFfg5kCxV3+kcSHlBTk2wIRu7Ld5sOD9fzQovwbRQbMjOgq0eWlhEMfuae+tR5m+t3kdOU32fG4f4mHpmGcDvvkillTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KZUnlIKv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="lS8OOIhD"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-493a5d32e8cso16456085e9.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 29 Jun 2026 05:52:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1782737548; x=1783342348; darn=lists.linux.dev;
-        h=mime-version:message-id:date:user-agent:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0G67qeINcThvr9unh9wEXsyMZVKpN32CweVhhELeDY0=;
-        b=lS8OOIhDb/WVhK9/1TjiA6Rm45lsOTMHJZerer+KZka3snzGJ5qq97eZIuNU9Yd2bh
-         HGjPxg0T2XZRJX8ojl4RMUf2O2mD61m4yKZrJEDYNFZxxWOSlFkYtUXWiizBrNViny7Q
-         UPJVxiIJoeJ6ybVC59PlS5/aZEYMd5zNwAf4ZknEpa+FShn2GUjp0OmFrUYHUpRxCWW2
-         LbV+0pMTxGGyHt1yUjGtU7VWv5psYXZSVk6YMWsevlSSdxJJ8dJLWcQEmw1G1/4xVDxT
-         Z/opis7U2uJIIITHK3YsOuzaHg7cERqk5mk/aqXFgR9wQpOtaXmw/FXUibsmH3Ls8la5
-         Pvjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782737548; x=1783342348;
-        h=mime-version:message-id:date:user-agent:references:in-reply-to
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=0G67qeINcThvr9unh9wEXsyMZVKpN32CweVhhELeDY0=;
-        b=f8Ij7M9i6T5HU0JC8eTK/8H0Hiv/4yKsCMs3ZhLvGPdB9YnnG6wBn7RkcnU04txFDj
-         pj5aKntXKaawGi6FrxHkrdY1imLpmwogIFQzHZuCCYBurmsFIX1ptCQ33EeGpHdLX4xx
-         WAtk6RTVy+3eJ9oMr6FX/e6VkOqSBtLP8LAhwGrvoH4CeafRWeMKoXJ8/2oRhMdbg7Fl
-         3Psvrlsna0gkS4k6piqZTKzWZaanERbjmvC4SH4+c7HsyWtVrLYMnNOY0c0dMYzOvQqw
-         3zCdcseJuQLBcUhSa1a33godBhgoWRFCVUZvUdbmVgEGvekF6MTPrK9TNUlrPeMXqNKW
-         f01Q==
-X-Forwarded-Encrypted: i=1; AFNElJ+XeKVpmkodz2RP4GxmLCaphujZkrVgLnUr8YpWgH8I4aIq/LIKKeRPH8YpmFv3tHCfBL3tnpBKGnKo3A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz+GVzyuxL6V4PzyzWT8SQmeLr1soiOQ3fTnBxVw9NycdnyokX1
-	eHjUptDGqD/guTvHG2YU4q6NsPYet9VTo+AKySRkTLAKey3Ckovx3lE1XmNbE5+mbIU=
-X-Gm-Gg: AfdE7cmNG0dSDD0gMlLfjrLABLrNE8BmHVm1RvNf6lCJrpZr77VEUds5kDlQbLFhOOI
-	tsBMJkKFYFF0uQz46wTtHi08CIY7J7fvsaBkLReCeHz9Gadhr/D6zeLoi8M8Ioe6fR4dxyFcQUf
-	dA7RBGAeRLryhqBPHFHS4RBw56yppgdpwzjLL/YQkBYm8BtVU645/smVlipg2xM1mPn+QNlDz1e
-	854st+J8+Ta1ahK+NlI1qc2tQc0Z1vrxWEEru5anoFMUDC33+70XC92q71XLACTEK869A+JZ1FO
-	oPOIJ/1inNJDwmfdy/Do6iERaT2keCeliUHdCVRuDghgBat/BlgWp1PxWm6PWwjREbJBLg5iWuu
-	1Qt8u3gdE1LZ8q66r+4NULofTPqwkcQ6Nq7JzSlHjB03N+jltwUWDcEJRCdv2HOt+Yv1vUwaew7
-	2mTBXO5d/2uuw=
-X-Received: by 2002:a05:600c:4f8f:b0:493:a75e:cf2e with SMTP id 5b1f17b1804b1-493a75ed171mr81258945e9.25.1782737548101;
-        Mon, 29 Jun 2026 05:52:28 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:1d21:f5d5:2d3c:23a7])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4926f94f213sm276984895e9.12.2026.06.29.05.52.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 05:52:27 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Junhui Liu <junhui.liu@pigmoral.tech>
-Cc: Michael Turquette <mturquette@baylibre.com>,  Stephen Boyd
- <sboyd@kernel.org>,  Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski
- <krzk+dt@kernel.org>,  Conor Dooley <conor+dt@kernel.org>,  Chen-Yu Tsai
- <wens@kernel.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>,  Samuel
- Holland <samuel@sholland.org>,  Philipp Zabel <p.zabel@pengutronix.de>,
-  Paul Walmsley <pjw@kernel.org>,  Palmer Dabbelt <palmer@dabbelt.com>,
-  Albert Ou <aou@eecs.berkeley.edu>,  Alexandre Ghiti <alex@ghiti.fr>,
-  Richard Cochran <richardcochran@gmail.com>,  linux-clk@vger.kernel.org,
-  devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
-  linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org,
-  linux-riscv@lists.infradead.org,  netdev@vger.kernel.org
-Subject: Re: [PATCH RFC 0/8] clk: sunxi-ng: Add support for Allwinner A733
- CCU and PRCM
-In-Reply-To: <20260310-a733-clk-v1-0-36b4e9b24457@pigmoral.tech> (Junhui Liu's
-	message of "Tue, 10 Mar 2026 16:33:53 +0800")
-References: <20260310-a733-clk-v1-0-36b4e9b24457@pigmoral.tech>
-User-Agent: mu4e 1.12.9; emacs 30.1
-Date: Mon, 29 Jun 2026 14:52:25 +0200
-Message-ID: <1jo6gta4qe.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KZUnlIKv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DF981F000E9;
+	Mon, 29 Jun 2026 12:53:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782737585;
+	bh=9Xw8i+yyhVlqVUz3VSTmocg5vpjTfcW/Y7E+yAfAoWU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=KZUnlIKvsUesJXJRON9atvmntmBGnbDx4aecjV8rCgvCrELpb9DF68MpfEveltNyN
+	 Hh6NJmNZCAT8b8wU8wBd71yFzGabPebXa7dsaX9oOFmBLvD2i8e5/NJZ/iMHS807G0
+	 7X4WnxF3xN1GiiFfW8TpjVOiQ5n7+S/6WjNwfWzl9ACTmym1hhHcJQ07uvi2mJScTO
+	 Icr4cTkWd5YZ7UErrrEmqMudNYNOIOoDFMg85peLt7r/wU6Aqu0E/106ASPkcaq3mj
+	 b0A4e6Xk5yinOr17+AxqQNWjz+Q0wLam+ZkP+S6olfNW2hu3+YjqCU63l/oa09iUE3
+	 CEWQobL5rEi7Q==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 1/6] dt-bindings: rtc: sun6i: add sun60i-a733 support
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Jerome Brunet" <jbrunet@baylibre.com>
+Cc: linux-sunxi@lists.linux.dev, robh@kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org
+In-Reply-To: <20260629-a733-rtc-v2-1-7b72112784f8@baylibre.com>
+References: <20260629-a733-rtc-v2-0-7b72112784f8@baylibre.com>
+ <20260629-a733-rtc-v2-1-7b72112784f8@baylibre.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 29 Jun 2026 12:53:04 +0000
+Message-Id: <20260629125305.0DF981F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain
 
-On mar. 10 mars 2026 at 16:33, Junhui Liu <junhui.liu@pigmoral.tech> wrote:
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Low] The `clock-output-names` property has a global `maxItems: 3` constr=
+aint and a description limiting it to three clocks, which contradicts the n=
+ew clock outputs (IDs up to 11) added for the sun60i-a733-rtc.
+--
 
-> Add support for the main CCU and the PRCM module (R-CCU) found in the
-> Allwinner A733 SoC. The clock architecture of the A733 is an evolution
-> of the previous A523 design but introduces several significant changes.
->
-> One of the key changes is the introduction of a "pll-ref" clock that
-> normalizes the physical oscillator frequency (which can be 19.2MHz,
-> 24MHz, or 26MHz) into a consistent 24MHz reference for the entire clock
-> tree. Additionally, while the A733 inherits many module clock structures
-> from the A523, the MCU_CCU has been removed, and the overall clock tree
-> has been expanded to support more new functional units.
->
-> Also update the sunxi-ng SDM (Sigma-Delta Modulation) helper to support
-> a new dual-pattern register design. On the A733, the SDM enable bit has
-> been moved from the main PLL register to a second pattern register
-> (PATTERN1). The driver is updated to handle this register layout to
-> ensure accurate frequency synthesis for "pll-audio0".
->
-> This is marked as RFC because the parent clocks for several instances in
-> the main CCU are difficult to determine as the user manual provides
-> limited information on their specific clock sources. In these cases, the
-> implementation follows vendor practices and previous SoC designs,
-> generally defaulting to "hosc" where documentation is lacking. In
-> contrast, the bus clock gates in the PRCM (R-CCU) are explicitly defined
-> based on the Memory Map in the manual, which clearly associates each
-> module with its respective bus. Feedback or insights on these specific
-> clock parents would be greatly appreciated.
->
-> This functionally relies on the RTC series for the A733 SoC [1].
->
-> Link: https://lore.kernel.org/all/20260121-a733-rtc-v1-0-d359437f23a7@pigmoral.tech/ [1]
->
+commit a1565b632e372c724867216463a453c9d1600ad2
+Author: Jerome Brunet <jbrunet@baylibre.com>
 
-Tested-by: Jerome Brunet <jbrunet@baylibre.com>
+dt-bindings: rtc: sun6i: add sun60i-a733 support
+   =20
+Adds a new rtc compatible for the sun60i-a733 SoC and new IDs for the
+peripheral oscillator clock gates of this SoC.
 
-> ---
-> Junhui Liu (8):
->       dt-bindings: clk: sun60i-a733-ccu: Add allwinner A733 support
->       clk: sunxi-ng: sdm: Add dual patterns support
->       clk: sunxi-ng: a733: Add PRCM CCU
->       clk: sunxi-ng: a733: Add PLL clocks support
->       clk: sunxi-ng: a733: Add bus clocks support
->       clk: sunxi-ng: a733: Add mod clocks support
->       clk: sunxi-ng: a733: Add bus clock gates
->       clk: sunxi-ng: a733: Add reset lines
->
->  .../bindings/clock/allwinner,sun60i-a733-ccu.yaml  |  107 +
->  drivers/clk/sunxi-ng/Kconfig                       |   10 +
->  drivers/clk/sunxi-ng/Makefile                      |    4 +
->  drivers/clk/sunxi-ng/ccu-sun60i-a733-r.c           |  276 +++
->  drivers/clk/sunxi-ng/ccu-sun60i-a733.c             | 2375 ++++++++++++++++++++
->  drivers/clk/sunxi-ng/ccu_sdm.c                     |   51 +-
->  drivers/clk/sunxi-ng/ccu_sdm.h                     |   32 +-
->  include/dt-bindings/clock/sun60i-a733-ccu.h        |  289 +++
->  include/dt-bindings/clock/sun60i-a733-r-ccu.h      |   39 +
->  include/dt-bindings/reset/sun60i-a733-ccu.h        |  131 ++
->  include/dt-bindings/reset/sun60i-a733-r-ccu.h      |   23 +
->  11 files changed, 3311 insertions(+), 26 deletions(-)
-> ---
-> base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
-> change-id: 20260202-a733-clk-0d4fc00a9f9c
->
-> Best regards,
+> diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rt=
+c.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+> index 9df5cdb6f63f2..197a6f67b180a 100644
+> --- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+> +++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+> @@ -33,6 +33,7 @@ properties:
+>            - enum:
+>                - allwinner,sun20i-d1-rtc
+>                - allwinner,sun55i-a523-rtc
+> +              - allwinner,sun60i-a733-rtc
+>            - const: allwinner,sun50i-r329-rtc
 
--- 
-Jerome
+[ ... ]
+
+> diff --git a/include/dt-bindings/clock/sun6i-rtc.h b/include/dt-bindings/=
+clock/sun6i-rtc.h
+> index 3bd3aa3d57ce1..5132a393ca4b6 100644
+> --- a/include/dt-bindings/clock/sun6i-rtc.h
+> +++ b/include/dt-bindings/clock/sun6i-rtc.h
+> @@ -6,5 +6,9 @@
+>  #define CLK_OSC32K		0
+>  #define CLK_OSC32K_FANOUT	1
+>  #define CLK_IOSC		2
+> +#define CLK_HOSC_UFS		8
+> +#define CLK_HOSC_HDMI		9
+> +#define CLK_HOSC_SERDES0	10
+> +#define CLK_HOSC_SERDES1	11
+
+[Severity: Low]
+Will adding clock IDs up to 11 conflict with the existing clock-output-names
+constraint in allwinner,sun6i-a31-rtc.yaml?
+
+The clock-output-names property currently has a global maxItems constraint
+alongside its description:
+
+  clock-output-names:
+    minItems: 1
+    maxItems: 3
+    description:
+      The RTC provides up to three clocks
+
+If a device tree author attempts to define an array of clock-output-names
+to document all outputs for the allwinner,sun60i-a733-rtc node, won't it fa=
+il
+dt_binding_check validation because it exceeds the maximum allowed items?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260629-a733-rtc-v=
+2-0-7b72112784f8@baylibre.com?part=3D1
