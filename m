@@ -1,191 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9EA819D07E;
-	Wed,  1 Jul 2026 05:10:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22633370AE5
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Jul 2026 05:47:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782882647; cv=none; b=naCVBn+dp5E3wRTc5AyOehXaHWRp+9QUgBjkMdTvuIZX7ikBeNNT6WuFFkC8AXPFySHJ/GRV0pksyO7QN5GP6497PkFdODW7n5QqVUiFrEVi5l3rZnDd+YXwXlPaDssoZc2J/Em90dQVxuRX8MplWNxWn1mi+2o9vdnLud+KAB0=
+	t=1782884866; cv=none; b=jp+uFE+SW/qM7ZQWvrzZyX9eEABWT/pIZfWnezo6lqgweH+jSXczPY7rQh4xUA2D78IF3WOILk17NL7Mzh1Uu1efqj3jnDKZ1/OzoJqV9lbXxcQDpGEDsxh8ruR7M6QPe37SF9XQs68ZG3M2aw/B8hJNhUIb9EEHCCg/ZDkGuqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782882647; c=relaxed/simple;
-	bh=fmVcC1KSc5v3+423moyB5Rrb1i5/arRehkvnhLwdVBw=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=CIDO4yahTF4SEZRiDitHaSHfNrN/e0kTH39ZwmLxBTAM+QLpDaFj8AHKpEvOIbcPUa+UWDmMsPlVrXeEa/SEbDfvjq98UleyJLmNNyGBXOJAzvol0a4HR6o4kbxItBi9Rk0Lg7dSI2JNb7+aDgA9aVbhqhY1cCwKwuq5SP2ADto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EsG4HZMW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782884866; c=relaxed/simple;
+	bh=7C10BvrXP330gVepTXYy6sfoFfKbPAmHgg+xOWMPMtY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=AN5/w5ZQF2p/V2vQW0yq2Ru2C7DpV7tXA+oQrZCxS2EuBDrYEWg+D+RTn7e+98E/7Ij+k21Rx43jF3WjcpOfGwXhEV+ctSI53LuN6ebocfG624iQp3a7yaNcsdKeBmeruGYbyol4vsn8Vqo4JnrI0CEFEMQ8NtO3GVTi8rq4afI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VeJ0uC2a; arc=none smtp.client-ip=74.125.224.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EsG4HZMW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BC4D1F000E9;
-	Wed,  1 Jul 2026 05:10:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782882645;
-	bh=5n3CCM2CuKZtgiHOu6GkBm9+I5RN7Var9z0aMoAmeXU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=EsG4HZMWx/o/hBY7tNBVDXuS/uv8m69aPqNsddnu5lmTUpuAUjB3ashmqq3Mm5NsQ
-	 Cv75AQRVl0aA2oybI00XfH/UEAWSxpez3h7fcuY/Flc8b83zPV35InV6+W9UMGy0dy
-	 wb5ObggUiqxWSjb4IiR5FL29oprmCKj5t5PBnVde+aMCgQPbLtTIXh1JluTqKTjRDL
-	 dBgRI5iPpRCeOegRqRl2LrQ8mInF4h5Rj+aed2PlbTjm4eUTVUsir531KNHECJGCD9
-	 hQSFC1frlRoXzfbH/7cPPIobb3VeBjMskD7NvEVwl2gydJso1dWbOI/vdc25rU7zj+
-	 3zHw2DNjns3HQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5] dmaengine: sun6i-dma: Fix reclaim descriptors while
- terminating DMA
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Hongling Zeng" <zenghongling@kylinos.cn>
-Cc: dmaengine@vger.kernel.org, linux-sunxi@lists.linux.dev, vkoul@kernel.org, Frank.Li@kernel.org
-In-Reply-To: <20260701045733.33654-1-zenghongling@kylinos.cn>
-References: <20260701045733.33654-1-zenghongling@kylinos.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 01 Jul 2026 05:10:44 +0000
-Message-Id: <20260701051045.3BC4D1F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VeJ0uC2a"
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-664eb8cb631so188994d50.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 30 Jun 2026 22:47:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782884864; x=1783489664; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A2dYl0OUyzZ06MfTi9YwzB+RT+fpto3AMtLt5rd0qn0=;
+        b=VeJ0uC2ahxXR+d0Zbkd7AAk2DgQLRujGGDHsjGvGh7SyI+Vyy1+yMtp4STCedI/Xfw
+         vCf8aabrBy7dDJpglOaN9Q8tV7ePdY/i2z+j0QIcrw2bcgrwH497Qb29NKASPN5UMyJ6
+         fL3H/PmSILT0b1ptKIYsRNoPEmIlNoHGp57XUzVdH8iEwtQtSeL7AvZtx3d1A5c7XHpe
+         urvEBHhHevSQhFB/q4J62D03H9negWM8x5JeGQYkE1ZDlkq1SQXth0+Y3HxwljRZNteZ
+         IATaTWi1WfCfr2L6sziWb5rh9JJnqlTeSa5SdbQsWqclqB0zDC0sy8Wvom4RClU+Q2uv
+         IeQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782884864; x=1783489664;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=A2dYl0OUyzZ06MfTi9YwzB+RT+fpto3AMtLt5rd0qn0=;
+        b=JZpeYtMiyjSsZ59Lp6FqFeefpC6zHwtLDosqZwGvC1Th5zTeB0LoNqlTflmopqUlEv
+         VVNOEeCwPd+hzlXHVCsHikBXN4Y0aUAGbyFxH2eokNNTGiVR2g7ihdGs8udIZmaUbfjC
+         ghhRgloKfrD3hif0EKL4Dw2NJAabLkuyOmTNeRiKcwZ/OICKsJpDLInI6yuMQyt8Uckv
+         SUsLxw7kYs/CF4R6sNOPvQsGlju8NkR0i+MMsExI9Kf7GJaJ+4PhCQoqrl44odrJpLXf
+         KBfiu0dxes/1xEzUkwqsbsAvyHN22ftU+750jzf1jmNOJKPstSn+dIi4iF6N1wy6B5rq
+         RIQA==
+X-Forwarded-Encrypted: i=1; AHgh+RoasYM2xCTWdPW78utCefjFEtutJCkM8DTSgftxGZ+tI93MlO8rFSGmrd1r49TYDNQLgUaT2R2dw7PZxA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzm9rkeTuA4VXtctPWFvG9yo/gvowT3tg6U6lPm0dxLnXiWaV0q
+	9hkhO92s1R+2DI1+Ibuw9I3q5JRzLvC8P0ZgrRGM5sUSvQTrlcDlZt5o
+X-Gm-Gg: AfdE7ckIH3C4YhO6CSLFKzwiss9rJIaYfDha2Xz/OpXQh6+3UZGZIil8PFwiLfHB+OB
+	yiTPzuHiXuoYbyMHeYQqSHFwuuq7T+pFNt2j13094+hbtfZdPqH+pHf4Pn//QmZyYnPKJgHfK8L
+	3t70aP8TFf41dKfP0uolt4dQQjEFk20Gc1zGFe3zTTdOql+dK1EYv0b+FhLwkGTW2njrmbAy7FP
+	V1kDGyA3TdlsIzfruBTgC3hhTTu+yoYy5VsqnqPQfb9oDEZCQaflOOhW45dzVPNYnX/v1laUMlq
+	3lduwuS5RMwZB2o1B9jilrhjIRKRT+YFOc5aJD5rsm6JqNnDKPJUjExKbut/pdLgEK5eqb5N7kF
+	0EVyWWmxDO1iyACANITwsJ0HH2Zejc4pieuIpzah4YLIie1Q/05x5GMADt30GHS35boAMKZG9uT
+	ilDKT5rFISVem+ouWKJOP+9ETlOu+jXusZbcG+HRAcsSCSTxveYASy4TwoIrXa
+X-Received: by 2002:a05:690e:bcd:b0:664:d899:e3a9 with SMTP id 956f58d0204a3-665219a787dmr223821d50.20.1782884864130;
+        Tue, 30 Jun 2026 22:47:44 -0700 (PDT)
+Received: from AMD.home.local (dhcp-9-244-8-156.gobrightspeed.net. [9.244.8.156])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6650163752bsm1836441d50.16.2026.06.30.22.47.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2026 22:47:43 -0700 (PDT)
+From: Enzo Adriano <enzo.adriano.code@gmail.com>
+To: Yuanshen Cao <alex.caoys@gmail.com>,
+	Andre Przywara <andre.przywara@arm.com>
+Cc: conor+dt@kernel.org,
+	mripard@kernel.org,
+	krzk+dt@kernel.org,
+	robh@kernel.org,
+	samuel@sholland.org,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	Frank.Li@kernel.org,
+	vkoul@kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH v3 1/5] dmaengine: sun6i-dma: Refactor to support A733 interrupt and register handling
+Date: Wed,  1 Jul 2026 01:47:01 -0400
+Message-ID: <20260701054701.3961908-1-enzo.adriano.code@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <akQuefaUpt6OPNSo@b82beb281c41>
+References: <20260622-sun60i-a733-dma-v3-0-f697ef296cbc@gmail.com> <20260622-sun60i-a733-dma-v3-1-f697ef296cbc@gmail.com> <20260629003505.18f0053d@ryzen.lan> <akQuefaUpt6OPNSo@b82beb281c41>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
-s) to consider:
+Hi Yuanshen, Andre,
 
-Pre-existing issues:
-- [High] Unprotected out-of-lock read of `vchan->phy` leads to a severe TOC=
-TOU race causing list corruption and wrong channel teardown.
-- [High] TOCTOU race in hardware interrupt handler leads to a fatal NULL po=
-inter dereference when terminating DMA.
-- [High] Missing IRQ masking when acquiring `sdev->lock` in process context=
- causes a deadlock with the softirq tasklet.
-- [High] Incorrect array indexing in `sun6i_dma_interrupt` incorrectly rout=
-es upper hardware channels to lower channel states.
---
+I applied the v3 series locally on top of dc59e4fea9d8. The
+series applied cleanly, the focused DMA binding check passed, and
+a focused drivers/dma/sun6i-dma.o build passed. I have not done a
+hardware DMA runtime test, so this is only static review plus
+build/schema validation.
 
-commit 494d0d1002ddd0015efbf5a3a6ef1f6894fb2914
-Author: Hongling Zeng <zenghongling@kylinos.cn>
+On the IRQ accessor shape, I think Andre's data-driven direction is
+a good fit for the enable/status register differences. The
+A733-specific values look like data: enable offset 0x134, status
+offset 0x138, stride 0x40. A small helper using cfg offsets/stride
+would keep the call sites readable without needing per-compatible
+read/write accessors. I would keep dump_com_regs separate unless
+there is a clean table-driven way to express the genuinely different
+dump layout.
 
-dmaengine: sun6i-dma: Fix reclaim descriptors while terminating DMA
+While comparing this with the public Sun60iw2 BSP, I think the same
+respin should also fix the interrupt channel decode path that Sashiko
+pointed out. The series encodes the interrupt register as:
 
-This commit updates sun6i_dma_terminate_all() to use vchan_terminate_vdesc(=
-)=20
-so that both cyclic and non-cyclic descriptors are properly reclaimed. It=20
-also adds a check to prevent double-adding completed descriptors to the lis=
-t.
+  irq_reg = pchan->idx / sdev->cfg->num_channels_per_reg;
+  irq_offset = pchan->idx % sdev->cfg->num_channels_per_reg;
 
-> diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-> index a9a254dbf8cb9..f47a326dd7ffa 100644
-> --- a/drivers/dma/sun6i-dma.c
-> +++ b/drivers/dma/sun6i-dma.c
-> @@ -945,16 +945,13 @@ static int sun6i_dma_terminate_all(struct dma_chan =
-*chan)
-> =20
+but the interrupt handler still decodes with:
 
-[Severity: High]
-This is a pre-existing issue, but just above this hunk, the function acquir=
-es
-sdev->lock using a plain spin_lock():
+  pchan = sdev->pchans + j;
 
-sun6i_dma_terminate_all() {
-        ...
-        spin_lock(&sdev->lock);
-        list_del_init(&vchan->node);
-        spin_unlock(&sdev->lock);
+For A733, num_channels_per_reg is 1, so j is always 0 and each IRQ
+status register would map back to pchans[0]. The public Sun60iw2 BSP
+uses the inverse mapping:
 
-Could this plain spin_lock cause a deadlock?
+  pchan = sdev->pchans + (i * sdev->cfg->channum_per_reg + j);
 
-Since this is called from process context, hardware interrupts remain
-enabled. If a DMA interrupt fires on this CPU while the lock is held,
-the softirq can execute sun6i_dma_tasklet() which attempts to acquire
-the same lock with spin_lock_irq():
-
-sun6i_dma_tasklet() {
-        spin_lock_irq(&sdev->lock);
-}
-
-Could this cause the tasklet to spin forever waiting for the interrupted
-process to release it? The same pattern appears in sun6i_dma_pause().
-
->  	spin_lock_irqsave(&vchan->vc.lock, flags);
-> =20
-> -	if (vchan->cyclic) {
-> -		vchan->cyclic =3D false;
-> -		if (pchan && pchan->desc) {
-> -			struct virt_dma_desc *vd =3D &pchan->desc->vd;
-> -			struct virt_dma_chan *vc =3D &vchan->vc;
-> +	if (pchan && pchan->desc && pchan->desc !=3D pchan->done) {
-> +		struct virt_dma_desc *vd =3D &pchan->desc->vd;
-> =20
-> -			list_add_tail(&vd->node, &vc->desc_completed);
-> -		}
-> +		vchan_terminate_vdesc(vd);
-
-[Severity: High]
-This is a pre-existing issue, but is it safe to trust the pchan pointer
-here?
-
-The pchan pointer is read locklessly at the start of the function
-(struct sun6i_pchan *pchan =3D vchan->phy;). If a tasklet runs concurrently
-before the locks are acquired, couldn't it complete the current descriptor,
-free this physical channel, and reallocate it to a different virtual
-channel?
-
-If that happens, this code would evaluate the stale pointer inside the
-critical section and mistakenly call vchan_terminate_vdesc() on another
-channel's descriptors.
-
->  	}
-> =20
-> +	vchan->cyclic =3D false;
->  	vchan_get_all_descriptors(&vchan->vc, &head);
-> =20
->  	if (pchan) {
-
-[Severity: High]
-This is a pre-existing issue, but inside this if block, the descriptor
-pointer is cleared:
-
-sun6i_dma_terminate_all() {
-        ...
-        if (pchan) {
-                ...
-                pchan->desc =3D NULL;
-        }
-}
-
-Could clearing the descriptor pointer here race with the interrupt handler?
-
-If another CPU is actively processing a hardware interrupt when this channel
-is terminated:
-
-CPU1: sun6i_dma_interrupt() validates vchan locklessly
-CPU2: sun6i_dma_terminate_all() sets pchan->desc =3D NULL;
-CPU1: sun6i_dma_interrupt() calls vchan_cyclic_callback(&pchan->desc->vd);
-
-Would this lead to a NULL pointer dereference when evaluating the
-descriptor on CPU1?
-
-
-While reviewing the driver, I noticed another pre-existing issue in
-sun6i_dma_interrupt():
-
-drivers/dma/sun6i-dma.c:sun6i_dma_interrupt() {
-        ...
-        for (i =3D 0; i < sdev->num_pchans / DMA_IRQ_CHAN_NR; i++) {
-                ...
-                for (j =3D 0; j < DMA_IRQ_CHAN_NR; j++) {
-                        ...
-                        pchan =3D sdev->pchans + j;
-
-[Severity: High]
-This is a pre-existing issue, but does this inner loop incorrectly route
-upper-bank interrupts to the lower physical channels?
-
-For SoCs with more than 8 DMA channels, the outer loop checks register
-banks (i =3D 0, 1). However, the physical channel lookup uses
-sdev->pchans + j instead of including the offset for the current bank
-(sdev->pchans + i * DMA_IRQ_CHAN_NR + j).
-
-Could an interrupt from physical channel 8 or above incorrectly process
-the virtual channel attached to physical channel 0, potentially causing
-descriptors to complete for the wrong channel?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260701045733.3365=
-4-1-zenghongling@kylinos.cn?part=3D1
+That matches the encode path and looks like the shape needed here as
+well. The register-loop bounds probably want the same treatment:
+derive the number of IRQ status registers from the real channel count,
+not from an implicitly exact division.
