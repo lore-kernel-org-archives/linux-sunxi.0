@@ -1,35 +1,57 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8EFF3368BA;
-	Wed,  1 Jul 2026 00:00:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B636381AEB
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Jul 2026 04:57:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782864031; cv=none; b=kAmhrsAfXa2uhnckYz5DNAchoVcC3xbZzLhkn6nxhmDPK6bBDWEXxfUFe0ZDA47Heq8kqNbOLRsdcUc7xTbVtpsJSkrIQ/06q+SfbotZ/FDDfkYp52qMRAYdU404cIIPotnJqgaDhpmxqbC07i8hpbnr7Ey1epy98vAZl6tegTI=
+	t=1782881874; cv=none; b=N8u76QAGtAhRGfx7TK+66mN5TuNs9LsCXCNPz48wHFbkrpx2DsZy3yMaPV2/3M+owodZRkTGH2rDCBIb4hkCe6qVXwI5F13yasOm9tx4nc3uTy3R6DfqYUjBbzOkil2x/dfOFLdZxLB1GNti6hYWBgAXRK1ccG5Nf27iiRhh/yA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782864031; c=relaxed/simple;
-	bh=aDd6xnbNXHwGM13+mfbTZqc1/QPJzS5RFcPsKU4bTP0=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=ON6lalgqWpigkeE+34eEtYwKoVpDjGEUwiMsQRde93WjmswqazBCrM1J4s+KxX+dd3BGVI0ohp0yBXBq93Bof4kdff6g57vS78uAfBt91dTUu0HIs3A7fCNN8d+LrSdz6mvMCeyUjLAAkOjm00+L39weykoIsAzKOversISGP0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D2aridIB; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D2aridIB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A0A91F000E9;
-	Wed,  1 Jul 2026 00:00:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782864029;
-	bh=/q/M4iftPwXwOXkuB442nTPnYH/p2eAZGJdhwDTouz8=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=D2aridIB3ZeNJJR3QUrliEur8twz15o6NHQ3r4VfEqZ4ETR7iR4Pcmpw5QOls9KWg
-	 ltdTxZYZRZUW7G04XshPf1tQrDKzMzGzkUSCpoRrq01HHBFl6KI1ZNg+A0EihUDQ85
-	 Nn9/j5cFtBd93A8542gMmvRvLNPhVlsZlGm/unA5oSqjRfx0Sssw6SyErZ08s5sS0r
-	 wdXiV9NryfEhhimef0etZQj0seb/z8TTI9ZjY0OFngTzUGWG5UiWq5EZlaVgH5tvzo
-	 7uagUhv9ei4cRcZc7VrB0c2q7hSjQx6n5p1nbz8XvvSHDY8gNuo7YLSf228yTJeONP
-	 M3PWol6eIbbXA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 939E5393A963;
-	Wed,  1 Jul 2026 00:00:14 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1782881874; c=relaxed/simple;
+	bh=mveOLRV9TX3+36ENzTwHzA3tDMfCci7eSqRRlrbJ0Kw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qLnTl9DKNVnRA4OxBsPn3mYHK1XpUmz3RIh6wLeSAP2tPxfXQB19qvrvPrhXN0aEDbDACb3DY64cZtg9JlNZaoZDybsuZgzuZQHYSUWT5AXJdBUwb25CK5rw2RMOPDSNbXpm6zQmc1GOJulnvkVcEproClFv/G4oK3IpIC3Xaxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 61711196750911f1aa26b74ffac11d73-20260701
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:0b727f38-f9ab-4716-96c7-ed9e6adbaf25,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACT
+	ION:release,TS:-50
+X-CID-META: VersionHash:e7bac3a,CLOUDID:31543b51669c0d188af52ef103980411,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
+	DM:2,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:
+	0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 61711196750911f1aa26b74ffac11d73-20260701
+X-User: zenghongling@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zenghongling@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 2047955673; Wed, 01 Jul 2026 12:57:37 +0800
+From: Hongling Zeng <zenghongling@kylinos.cn>
+To: vkoul@kernel.org,
+	Frank.Li@kernel.org,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	mripard@kernel.org,
+	arnd@arndb.de
+Cc: dmaengine@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	zhongling0719@126.com,
+	Hongling Zeng <zenghongling@kylinos.cn>,
+	Frank Li <Frank.li@oss.nxp.com>,
+	Frank Li <Frank.Li@nxp.com>
+Subject: [PATCH v5] dmaengine: sun6i-dma: Fix reclaim descriptors while terminating DMA
+Date: Wed,  1 Jul 2026 12:57:33 +0800
+Message-Id: <20260701045733.33654-1-zenghongling@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -37,79 +59,69 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 00/13] treewide: replace linux/gpio.h
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178286401313.341356.16335263979724856348.git-patchwork-notify@kernel.org>
-Date: Wed, 01 Jul 2026 00:00:13 +0000
-References: <20260629132633.1300009-1-arnd@kernel.org>
-In-Reply-To: <20260629132633.1300009-1-arnd@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: linux-gpio@vger.kernel.org, arnd@arndb.de, brgl@kernel.org,
- andrew@lunn.ch, sebastian.hesselbarth@gmail.com, gregory.clement@bootlin.com,
- Frank.Li@nxp.com, robert.jarzmik@free.fr, krzk@kernel.org,
- gerg@linux-m68k.org, tsbogend@alpha.franken.de, hauke@hauke-m.de,
- zajec5@gmail.com, ysato@users.sourceforge.jp, glaubitz@physik.fu-berlin.de,
- linusw@kernel.org, dmitry.torokhov@gmail.com, kuba@kernel.org,
- pabeni@redhat.com, linux@dominikbrodowski.net, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- patches@opensource.cirrus.com, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-input@vger.kernel.org, linux-media@vger.kernel.org,
- netdev@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-phy@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-sound@vger.kernel.org
 
-Hello:
+When terminating DMA transfers, active descriptors are not properly
+reclaimed. Only cyclic descriptors were handled, leaving non-cyclic
+descriptors and their LLI chains to be permanently leaked.
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Fix by using vchan_terminate_vdesc() which handles both cyclic and
+non-cyclic descriptors by adding them to desc_terminated queue for
+proper cleanup.
 
-On Mon, 29 Jun 2026 15:26:20 +0200 you wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The linux/gpio.h header used to be the global definition for the gpio
-> interfaces, with 1100 users back in linux-3.17. In linux-7.2, only about
-> 130 of those remain, so this series cleans out the rest.
-> 
-> In each subsystem, we can replace the header either with
-> linux/gpio/consumer.h for users of the modern gpio descriptor interface,
-> or linux/gpio/legacy.h for the few remaining users of the old number
-> based interface.
-> 
-> [...]
+Add pchan->desc != pchan->done check to prevent double-adding completed
+descriptors, which would corrupt the list.
 
-Here is the summary with links:
-  - [01/13] ARM: replace linux/gpio.h inclusions
-    (no matching commit)
-  - [02/13] m68k/coldfire: replace linux/gpio.h inclusions
-    (no matching commit)
-  - [03/13] mips: replace linux/gpio.h inclusions
-    (no matching commit)
-  - [04/13] sh: replace linux/gpio.h inclusions
-    (no matching commit)
-  - [05/13] mfd: replace linux/gpio.h inclusions
-    (no matching commit)
-  - [06/13,net-next] net: replace linux/gpio.h inclusions
-    https://git.kernel.org/netdev/net-next/c/a53d1872f2be
-  - [07/13] ASoC: replace linux/gpio.h inclusions
-    (no matching commit)
-  - [08/13] pcmcia: replace linux/gpio.h inclusions
-    (no matching commit)
-  - [09/13] phy: replace linux/gpio.h inclusions
-    (no matching commit)
-  - [10/13] media: replace linux/gpio.h inclusions
-    (no matching commit)
-  - [11/13] Input: matrix_keyboard - replace linux/gpio.h inclusion
-    (no matching commit)
-  - [12/13] gpib: gpio: replace linux/gpio.h inclusion
-    (no matching commit)
-  - [13/13] gpiolib: remove linux/gpio.h
-    (no matching commit)
+Fixes: 555859308723 ("dmaengine: sun6i: Add driver for the Allwinner A31 DMA controller")
+Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Suggested-by: Frank Li <Frank.li@oss.nxp.com>
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
 
-You are awesome, thank you!
+---
+ Change in v2;
+ -Add pchan->desc != pchan->done check to prevent race condition
+  where completed descriptors could be double-added to desc_completed
+  list, causing list corruption
+---
+ Change in v3:
+ -Fix by using vchan_terminate_vdesc() as suggested by Frank Li
+---
+ Change in v4:
+ -Correct the commit message
+---
+ Chaneg in v5:
+ -Correct the subject
+ -Add reviewed-by
+---
+ drivers/dma/sun6i-dma.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
+index 7a79f346250a..134ae840f176 100644
+--- a/drivers/dma/sun6i-dma.c
++++ b/drivers/dma/sun6i-dma.c
+@@ -946,16 +946,13 @@ static int sun6i_dma_terminate_all(struct dma_chan *chan)
+ 
+ 	spin_lock_irqsave(&vchan->vc.lock, flags);
+ 
+-	if (vchan->cyclic) {
+-		vchan->cyclic = false;
+-		if (pchan && pchan->desc) {
+-			struct virt_dma_desc *vd = &pchan->desc->vd;
+-			struct virt_dma_chan *vc = &vchan->vc;
+-
+-			list_add_tail(&vd->node, &vc->desc_completed);
+-		}
++	if (pchan && pchan->desc && pchan->desc != pchan->done) {
++		struct virt_dma_desc *vd = &pchan->desc->vd;
++		
++		vchan_terminate_vdesc(vd);
+ 	}
+ 
++	vchan->cyclic = false;
+ 	vchan_get_all_descriptors(&vchan->vc, &head);
+ 
+ 	if (pchan) {
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.25.1
 
