@@ -1,87 +1,88 @@
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
+Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22633370AE5
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Jul 2026 05:47:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447EA363082
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Jul 2026 05:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782884866; cv=none; b=jp+uFE+SW/qM7ZQWvrzZyX9eEABWT/pIZfWnezo6lqgweH+jSXczPY7rQh4xUA2D78IF3WOILk17NL7Mzh1Uu1efqj3jnDKZ1/OzoJqV9lbXxcQDpGEDsxh8ruR7M6QPe37SF9XQs68ZG3M2aw/B8hJNhUIb9EEHCCg/ZDkGuqY=
+	t=1782884931; cv=none; b=Mj7RvLoNv+JOWmREmy26+X+J71A7zAINSSTCjlpDI3bzxBflOCohI9eDBVVapNs4gKGlaEIpOgCPFlTj/7s0pblwkK6T8LEK8G2M5f3CErFzzeVF6vLC4ZBgdAGt7+/pV+NQiT1UxXq/vOMk7tWs79fWhhOSBR7JW3w/jB3fWlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782884866; c=relaxed/simple;
-	bh=7C10BvrXP330gVepTXYy6sfoFfKbPAmHgg+xOWMPMtY=;
+	s=arc-20240116; t=1782884931; c=relaxed/simple;
+	bh=O6xbzpfwgYUtwGh6OVTjg0pM5p2w7pTevIQ6kY/2ozs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AN5/w5ZQF2p/V2vQW0yq2Ru2C7DpV7tXA+oQrZCxS2EuBDrYEWg+D+RTn7e+98E/7Ij+k21Rx43jF3WjcpOfGwXhEV+ctSI53LuN6ebocfG624iQp3a7yaNcsdKeBmeruGYbyol4vsn8Vqo4JnrI0CEFEMQ8NtO3GVTi8rq4afI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VeJ0uC2a; arc=none smtp.client-ip=74.125.224.41
+	 MIME-Version; b=qC+KyMiFcKXvSbdQgAcKWVc5pnM6kTNEogw2Bkvc1toMR9UnGXD4saXng/F+4LUom93tqtqdkUVUIBJ70hcbguHf7i5qkitT9qEag0MLneXIg11RYjnLoSXOmqthnGZhxNB7tGESV1Lvww9sEQ2WuvKZnTWSJx1XO9oVYyuu1wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lgDFbPEj; arc=none smtp.client-ip=74.125.224.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VeJ0uC2a"
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-664eb8cb631so188994d50.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 30 Jun 2026 22:47:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lgDFbPEj"
+Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-664cb440f9eso288381d50.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 30 Jun 2026 22:48:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782884864; x=1783489664; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1782884929; x=1783489729; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=A2dYl0OUyzZ06MfTi9YwzB+RT+fpto3AMtLt5rd0qn0=;
-        b=VeJ0uC2ahxXR+d0Zbkd7AAk2DgQLRujGGDHsjGvGh7SyI+Vyy1+yMtp4STCedI/Xfw
-         vCf8aabrBy7dDJpglOaN9Q8tV7ePdY/i2z+j0QIcrw2bcgrwH497Qb29NKASPN5UMyJ6
-         fL3H/PmSILT0b1ptKIYsRNoPEmIlNoHGp57XUzVdH8iEwtQtSeL7AvZtx3d1A5c7XHpe
-         urvEBHhHevSQhFB/q4J62D03H9negWM8x5JeGQYkE1ZDlkq1SQXth0+Y3HxwljRZNteZ
-         IATaTWi1WfCfr2L6sziWb5rh9JJnqlTeSa5SdbQsWqclqB0zDC0sy8Wvom4RClU+Q2uv
-         IeQg==
+        bh=O6xbzpfwgYUtwGh6OVTjg0pM5p2w7pTevIQ6kY/2ozs=;
+        b=lgDFbPEjHbRg/xnJ2NBYpUzppvMBbifMCJbAq5qRyyrFL27cW0hy9r6DnA8YZV+zIg
+         ZUlNMBGvz8+B4ksjVB+beH4MyFmjJ786b/6+G2wIE+ARkNjmuzBUabGc2gCd6U7PXEGl
+         s/lcHzX3RydBTJKEMA6CStVHLZjYq78FXaVZbNDzE1xXImuoUKYgXCj2zMrxZlRG62PR
+         gWCp4i5hlUpvTskHa2zaTBs9nFUBY/mE+YRF+dTrjGeJlDH65BfD2f8vE2GAmDoemEy/
+         LGaXj9FU8p+fDhwnSEJnp4HvTGF51gWcjv/esYMPWOgw4rvhpTxttmYSFpWWnZbdiNQB
+         1xxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782884864; x=1783489664;
+        d=1e100.net; s=20251104; t=1782884929; x=1783489729;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=A2dYl0OUyzZ06MfTi9YwzB+RT+fpto3AMtLt5rd0qn0=;
-        b=JZpeYtMiyjSsZ59Lp6FqFeefpC6zHwtLDosqZwGvC1Th5zTeB0LoNqlTflmopqUlEv
-         VVNOEeCwPd+hzlXHVCsHikBXN4Y0aUAGbyFxH2eokNNTGiVR2g7ihdGs8udIZmaUbfjC
-         ghhRgloKfrD3hif0EKL4Dw2NJAabLkuyOmTNeRiKcwZ/OICKsJpDLInI6yuMQyt8Uckv
-         SUsLxw7kYs/CF4R6sNOPvQsGlju8NkR0i+MMsExI9Kf7GJaJ+4PhCQoqrl44odrJpLXf
-         KBfiu0dxes/1xEzUkwqsbsAvyHN22ftU+750jzf1jmNOJKPstSn+dIi4iF6N1wy6B5rq
-         RIQA==
-X-Forwarded-Encrypted: i=1; AHgh+RoasYM2xCTWdPW78utCefjFEtutJCkM8DTSgftxGZ+tI93MlO8rFSGmrd1r49TYDNQLgUaT2R2dw7PZxA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzm9rkeTuA4VXtctPWFvG9yo/gvowT3tg6U6lPm0dxLnXiWaV0q
-	9hkhO92s1R+2DI1+Ibuw9I3q5JRzLvC8P0ZgrRGM5sUSvQTrlcDlZt5o
-X-Gm-Gg: AfdE7ckIH3C4YhO6CSLFKzwiss9rJIaYfDha2Xz/OpXQh6+3UZGZIil8PFwiLfHB+OB
-	yiTPzuHiXuoYbyMHeYQqSHFwuuq7T+pFNt2j13094+hbtfZdPqH+pHf4Pn//QmZyYnPKJgHfK8L
-	3t70aP8TFf41dKfP0uolt4dQQjEFk20Gc1zGFe3zTTdOql+dK1EYv0b+FhLwkGTW2njrmbAy7FP
-	V1kDGyA3TdlsIzfruBTgC3hhTTu+yoYy5VsqnqPQfb9oDEZCQaflOOhW45dzVPNYnX/v1laUMlq
-	3lduwuS5RMwZB2o1B9jilrhjIRKRT+YFOc5aJD5rsm6JqNnDKPJUjExKbut/pdLgEK5eqb5N7kF
-	0EVyWWmxDO1iyACANITwsJ0HH2Zejc4pieuIpzah4YLIie1Q/05x5GMADt30GHS35boAMKZG9uT
-	ilDKT5rFISVem+ouWKJOP+9ETlOu+jXusZbcG+HRAcsSCSTxveYASy4TwoIrXa
-X-Received: by 2002:a05:690e:bcd:b0:664:d899:e3a9 with SMTP id 956f58d0204a3-665219a787dmr223821d50.20.1782884864130;
-        Tue, 30 Jun 2026 22:47:44 -0700 (PDT)
+        bh=O6xbzpfwgYUtwGh6OVTjg0pM5p2w7pTevIQ6kY/2ozs=;
+        b=INk/V/Z/cAPh25b7hCcK0Vqkw0isi+ABK2lVKJ8+ylcDaI2YaLX4DGFHVNVKavJU6b
+         2S4T6mlaFzLe+QbfQGCZtfaoNVvP0/I+97L5wb9JySYhSwnelVOS2bCapeDVlH06iM3Q
+         DGdcw6iOu6TxsC2ZgBr6/+KalFLZJ2rU79+7XXV0HioJo3x+S5ZGg1xly7LsB3pX/UCr
+         7+vYU0InmzBWoRqmvFSmjNg9Hs5ncYsQmtEb+ol4dlZEALxugk7IoI59acjKJ4tTeYcH
+         kTEMMsqTV9pzFyOwWr+qRM90DP2p794TNfvzjfXsNUKXbGd3yRXpjEH6UeqEiUN5/Ty6
+         0GLQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rp0B5tfX/NIqL99Xpz68oUyZcD2ul1IECNP1ZNwCZg9FwWBVn3muL6bNU8U0UmhcDh9k0cVKOwq3BeyOw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyY1J0tsfj4DNTjwFSkbEbn2YmYeESPl8mgf13bKVyw0OT6vj4R
+	u+o4LnZ1liyBmmD2i7LqoHL58tdhnXMga4M2Zvy6mgl9d4Qe7cdhdrTH
+X-Gm-Gg: AfdE7ckqqgXbs5OtFRki8i8U2G95YmveQZRRHzbllvZMFX4oxeEGrS01v8Pz5kPnzw6
+	MtDJsKn+2ygcrJk+HVDbvI63N+9WbxF+0ZJJBQHK/A9aTP7L5Yis/wixXWG40XERYbk3/biNxp0
+	JjGpnjIaB0cy3XzxAu/iESyJ4/ldxcLL7/w44Af994Axmb6WPi5Fz62Gj5y2F2NOJDhsuC+FMHY
+	M4oJpzNadulgiMeoiqCwQzB0bNEFVsK8LEYsQr8t0vR0ryL53s7fjMxDxdGHCE/Ue5KF/u2W8EA
+	MCbULwJYT75dXdkzFVUOnJZoMCKg4EHWVtS6nx9ZCMLRxwIxVZH4yNMKTU1a7F6xIlt0iXSQMtw
+	aIm78UBeDmNCIDRbF8LjoP7niKxSJHREOyCcHABL9DijzXrhaUZJ6qverpYdGTV/2/VkxLsEV3v
+	zgh3Bqx8oNNapr+9kDROD7nEps1BsZvbT3ycGkBBnFpF6rgYK0LmoRJ3tMteIO
+X-Received: by 2002:a05:690e:150f:b0:664:c7b0:f655 with SMTP id 956f58d0204a3-66521ae384fmr205145d50.53.1782884929334;
+        Tue, 30 Jun 2026 22:48:49 -0700 (PDT)
 Received: from AMD.home.local (dhcp-9-244-8-156.gobrightspeed.net. [9.244.8.156])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6650163752bsm1836441d50.16.2026.06.30.22.47.41
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-665000c8152sm1920856d50.0.2026.06.30.22.48.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 22:47:43 -0700 (PDT)
+        Tue, 30 Jun 2026 22:48:48 -0700 (PDT)
 From: Enzo Adriano <enzo.adriano.code@gmail.com>
-To: Yuanshen Cao <alex.caoys@gmail.com>,
-	Andre Przywara <andre.przywara@arm.com>
-Cc: conor+dt@kernel.org,
-	mripard@kernel.org,
-	krzk+dt@kernel.org,
-	robh@kernel.org,
-	samuel@sholland.org,
-	wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	Frank.Li@kernel.org,
-	vkoul@kernel.org,
-	dmaengine@vger.kernel.org,
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Junhui Liu <junhui.liu@pigmoral.tech>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	linux-rtc@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH v3 1/5] dmaengine: sun6i-dma: Refactor to support A733 interrupt and register handling
-Date: Wed,  1 Jul 2026 01:47:01 -0400
-Message-ID: <20260701054701.3961908-1-enzo.adriano.code@gmail.com>
+	linux-clk@vger.kernel.org
+Subject: Re: [PATCH v2 0/6] clk: sun6i-rtc: Add support for Allwinner A733 SoC
+Date: Wed,  1 Jul 2026 01:47:44 -0400
+Message-ID: <20260701054744.3962458-1-enzo.adriano.code@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <akQuefaUpt6OPNSo@b82beb281c41>
-References: <20260622-sun60i-a733-dma-v3-0-f697ef296cbc@gmail.com> <20260622-sun60i-a733-dma-v3-1-f697ef296cbc@gmail.com> <20260629003505.18f0053d@ryzen.lan> <akQuefaUpt6OPNSo@b82beb281c41>
+In-Reply-To: <20260629-a733-rtc-v2-0-7b72112784f8@baylibre.com>
+References: <20260629-a733-rtc-v2-0-7b72112784f8@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -90,41 +91,32 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Yuanshen, Andre,
+Hi Jerome,
 
-I applied the v3 series locally on top of dc59e4fea9d8. The
-series applied cleanly, the focused DMA binding check passed, and
-a focused drivers/dma/sun6i-dma.o build passed. I have not done a
-hardware DMA runtime test, so this is only static review plus
-build/schema validation.
+Thanks for reworking the A733 RTC support.
 
-On the IRQ accessor shape, I think Andre's data-driven direction is
-a good fit for the enable/status register differences. The
-A733-specific values look like data: enable offset 0x134, status
-offset 0x138, stride 0x40. A small helper using cfg offsets/stride
-would keep the call sites readable without needing per-compatible
-read/write accessors. I would keep dump_com_regs separate unless
-there is a clean table-driven way to express the genuinely different
-dump layout.
+I ran v2 on a Radxa Cubie A7S. This is local validation evidence
+only, not a hardware Tested-by.
 
-While comparing this with the public Sun60iw2 BSP, I think the same
-respin should also fix the interrupt channel decode path that Sashiko
-pointed out. The series encodes the interrupt register as:
+For the A7S integration test, I stacked the series with the currently
+visible public A733 CCU/PRCM v1 and pinctrl v1 prerequisites. Focused
+RTC binding validation, targeted RTC/clk builds, and a Cubie A7S DTB
+build all pass, and focused CHECK_DTBS=y shows no RTC, main CCU, or
+R-CCU findings. The remaining findings in that base are unrelated
+A733-wide schema gaps.
 
-  irq_reg = pchan->idx / sdev->cfg->num_channels_per_reg;
-  irq_offset = pchan->idx % sdev->cfg->num_channels_per_reg;
+On A7S hardware the artifact boots cleanly to shell and the RTC driver
+probes and registers as rtc0. While the board stays powered, RTC read,
+write, and a short readback all work correctly; the readback advances
+as expected.
 
-but the interrupt handler still decodes with:
+I am deliberately not adding a Tested-by. The RTC value does not
+survive a full power removal on this board: the published Cubie A7S
+V1.10 schematic exposes the PMIC BKUPBAT pin but does not show a
+connected backup battery or supercap path, and Radxa's A7S
+documentation describes no populated RTC backup battery interface. So
+I can confirm the driver is runtime-functional while powered, but I
+cannot honestly attest cold-power persistence on this board.
 
-  pchan = sdev->pchans + j;
-
-For A733, num_channels_per_reg is 1, so j is always 0 and each IRQ
-status register would map back to pchans[0]. The public Sun60iw2 BSP
-uses the inverse mapping:
-
-  pchan = sdev->pchans + (i * sdev->cfg->channum_per_reg + j);
-
-That matches the encode path and looks like the shape needed here as
-well. The register-loop bounds probably want the same treatment:
-derive the number of IRQ status registers from the real channel count,
-not from an implicitly exact division.
+Happy to rerun only the persistence phase if a valid VRTC/BKUPBAT
+backup supply is identified or fitted.
