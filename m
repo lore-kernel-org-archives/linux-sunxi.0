@@ -1,119 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF9B41B36D
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Jul 2026 10:39:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00B3492525
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Jul 2026 16:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782902349; cv=none; b=Ko9RNRAIm5c1IzUG7o7qd/IiSE+Vk0gKTXMd9da+s6qtl/5/NoZQVtKGacWAM9D1TPY8mA55ENMbSmkvK8RpVTV6WsanTRCe+KAVMzkzLDN+WnLNjxB2LIwbtfhD0lFLx6D2fRISEkeWFteKeppup0t4Yt81XKKb6FuX4YqvLqY=
+	t=1782922148; cv=none; b=POsafbN0Tpa5p6uVCq1AcY4wGQT+b0hoLGSPkBAIn1L4dvMG51nHr6egTOs4WP4dZUsDgPeZdF1/sqrxFD7XYTHhiO01ro58WZFBJzWTOkUvFiX1F1i5w3THLY/HzI+kOXws1FlKuDmRrh2LlJvDjObHe62IW1bDIeS5Y5SZ/NM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782902349; c=relaxed/simple;
-	bh=b9vuwMyD1HJfB1Gx1jfRWFDVOFEuo0lYXOfJPkGdUSI=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Fg9p+3OWA0YZVKLybw+urpYY2juXi6ZkbHqpipvpUzT8mc3eRd1mAxTCOJlpAapb+ajqBxRC41X+FB72qRrPyMYQ7SiNLKGzVJ9AyHxS0npPMvSOA6420mofk8H88lxPqgR0OG0XdfMcLxAyL0/IyFKJpGg3jEcgJTbeiEYM7Kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CvmIMQlp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782922148; c=relaxed/simple;
+	bh=QI6/1jl+FwxwLNBhZZLYlzz42SxxurAYoSgW8BhCBSU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sl3OlDzLRdMePqB6chfZqYfEwz3R533+lcjpQwZozK9+j8DYOTJJfGczjr7G0eZztNTcr9P1hhoFa8LCw8ezqbgWeBOC3xuIRleIpFTvm4k+lN85TaQSOK1lasFInK92JnI5ODU57upbk1bG51GN+LEr4UatAPuqGNSbOh399QY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cCMSTWN2; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CvmIMQlp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 504111F00A3F
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Jul 2026 10:39:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782902348;
-	bh=q4Mw1ewD/jb3yXkm243uxaRWKqoUXL01sdFnsTQHgvY=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=CvmIMQlpDPun8oKUF6snfTgD5R960tQ39+Ad7gri+Glzo8M3xcUmIR/X/ChVXo/NM
-	 LoBkt8GTKKxOJnKW8icgGzjR+KTlrxKeiu1OZOpzSQ9BahiOOvwcXZ6Uz2w8/KYIqt
-	 5VJj7HSvLi0ub+uEPGKsvoJQROh/cFbWhe+FazUqVutSc5DVw944YTwxbbd7aZB3z4
-	 2JWwgkQM538t/UZSdLP8CHDFRFmJw/hlH1T3TwFf1xJSvK8HsTtarZ2Y0umGA0QNZc
-	 v4REPnfaTuzUCQABmQV4nHd2lj6bZ8npdl9tiDVtlygmu9uuzv8Jy9bVpHCYrzBRSQ
-	 +5m7bRYHZ8lOA==
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5aebc8cb5bcso355312e87.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 01 Jul 2026 03:39:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RoukvQh9ucucfSg8KAlABqrSnFrZO+uIZXNscDIaw/xGeMdzWEFzicjRY81fKsFYRKYjhq4HlrUiXHb1w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxG3uecrfKZ5IeJmPdwqhGM0U1+xBoKOtjanwSFcb+8KLwAVfnB
-	JQpm4Ibk1x5BTsflYCIgH3niV/OKzOTPxzPyEg7R+8wBSQf2uS7RljAqH9WPEyi/VR134FzcN6w
-	vJuKpXTnA07fOh5NyF4Ac9I7y2DWq2SgE3XLl/hTDTw==
-X-Received: by 2002:ac2:568a:0:b0:5ae:9fb4:6740 with SMTP id
- 2adb3069b0e04-5aec742dcbemr246886e87.46.1782902347033; Wed, 01 Jul 2026
- 03:39:07 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 1 Jul 2026 05:39:04 -0500
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 1 Jul 2026 05:39:04 -0500
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <CAMRc=MfgAB8bc6PD-6jw_KR0uNBfH+PO2XtCeL1SUF2nCiT0xg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cCMSTWN2"
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-7ff05e5d009so9437937b3.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 01 Jul 2026 09:09:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782922141; x=1783526941; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QI6/1jl+FwxwLNBhZZLYlzz42SxxurAYoSgW8BhCBSU=;
+        b=cCMSTWN2Xdop3q0ozni7Xx9Ml52VZE40ZzVJ6CL0v75gdM75BHqNj0EwvqH80NXteH
+         Zf7VTIlgQUTmoUIgvJR4AuxT+fKYyssy2HdvlYuHH9NnWiJe7K+lP21VXVxuR0E6gnmc
+         q6hY7sBC8nojtteMSJWtq0ty6K0e+i3Oap24JqeTTSR5bi2huDFkZLnIsQeG5veeFNMA
+         KXKydBmU64bFYuUPYaolhpsgRMLBW//YfLQXl4wVxBEaDFil6Qh+0qZugT0Y9pQO3yKd
+         fqbAscZZlSJFE8Xmj6VSg+ysf4WwL8WDH10oj4AVk3HD5ztUCG+5N4qwVXpta4biotVC
+         eILQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782922141; x=1783526941;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=QI6/1jl+FwxwLNBhZZLYlzz42SxxurAYoSgW8BhCBSU=;
+        b=smnFN4ZSOyFbj66WiQIlv2I29k2KsmgPqgc7yrmIFM4t/kHyQE+/XdhBLsFzsKDzOo
+         9lnke5Jcn5OJ5GSSVhAjfhaTZzBi90Iikz2k3EUaehu9uulJxk93BSbiuJT7zeVuPevA
+         13IA24p0ggvZoDIRP+yeDYd6//s6J02BXPvlgwmvbZZynjBt3WJvJrV61RRGHQrX7t0w
+         83W+b7d60/medKqVupRpsSkyZ2T5y9RpvjDmSdwX6+XOGH5LkajxQW7oJitJPmCtol8f
+         mw/JwyF/blD8cFU+cxlnE6iIwq1dxC3xn5djwvfVY/AziCL8UfQr9uiPkJKfcnvoXbre
+         CuqQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqaeV0zRR9glnapNbsExeQmE3m32Cw7RnNNs5OO2Z/gNP1f8ywIehHyn87ww0B3ZorclQVFf8UOIY3fLg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyy/7Y/IWGQh12yg5j7xFxwnFGcn/O4zne9BAzf/iFQlS4CJcdk
+	hk+p7uHtLE0J8Yo+VuDQdPKQop1IXnXhdM4xZIh2XlLTM+TRROZF8uIN
+X-Gm-Gg: AfdE7clZ43Orhd6p4WUEb3Kp7mgk2y1f7WWdrUvnxOUKFtzQr+CPorERwD1TK9ZiGYh
+	s2qaPuE+0PQihUAEZptVgUV4A1upcX1fgoGzRSxn0/GogFEAnXjWjrNvG+7ywkN4ldFsYEaV3p9
+	HnAbYAyIcnBOv7Z1diiATjxr7pAWus9kbOQ696i2TdaiXPKJOEfyjAcx14pd52z/T4lOcKdeVjH
+	bE/nBtPgqRFsdjvwk8ZUbI3wq0oxeOBns07W0O/Hk6PQXrlYLs+UR5ZPcP/2JdM8oDAyA8yrZEj
+	mxeM86kJIBgpVD90sqZK8COEj0g2rS6NoH5LlC7BmERRiwcbX2fsuQjw4vNrp5n1tuh1EbgOCAI
+	aM5CKESnwMBCtEEdmOpHCpqfVXozZ0OqmN7IPDqyMcQFvEZsx4MohRqAAnfZmu2AKkGkp5tlfBn
+	kIpJ3rzNry83iFyl+IzjyJJ1ZQezlQWbTZf4zy+GSvsIFtuNvdFn5CfqHJlZ4R
+X-Received: by 2002:a05:690c:c506:b0:809:fd83:a88b with SMTP id 00721157ae682-812e8dfc9dcmr24185557b3.3.1782922140430;
+        Wed, 01 Jul 2026 09:09:00 -0700 (PDT)
+Received: from AMD.home.local (dhcp-9-244-8-156.gobrightspeed.net. [9.244.8.156])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8144af50fa5sm1682067b3.27.2026.07.01.09.08.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jul 2026 09:09:00 -0700 (PDT)
+From: Enzo Adriano <enzo.adriano.code@gmail.com>
+To: Junhui Liu <junhui.liu@pigmoral.tech>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney@redhat.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Richard Cochran <richardcochran@gmail.com>,
+	linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH RFC 0/8] clk: sunxi-ng: Add support for Allwinner A733 CCU and PRCM
+Date: Wed,  1 Jul 2026 12:07:44 -0400
+Message-ID: <20260701160055.320000-a733-ccu-status-enzo.adriano.code@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260310-a733-clk-v1-0-36b4e9b24457@pigmoral.tech>
+References: <20260310-a733-clk-v1-0-36b4e9b24457@pigmoral.tech>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260629-qcom-sa8255p-emac-v11-0-1b7fb95b51f9@oss.qualcomm.com>
- <20260629-qcom-sa8255p-emac-v11-1-1b7fb95b51f9@oss.qualcomm.com>
- <CAMuHMdXen+E-Ai51aWBa_KV9W8Fz2cQPpT-FG_kQ7akhrrYa_A@mail.gmail.com>
- <CAMRc=Me3jaZXiXa1sFXr=8Do4sCd+XN1pKTcWC8-0j78SjCkKA@mail.gmail.com>
- <CAMuHMdVUBgG0EFB16OxHisbxx-sBvDKvBPNZdpyDnmBrnX4ptQ@mail.gmail.com>
- <akOZFIowVvprnAMf@vaman> <CAMRc=MfgAB8bc6PD-6jw_KR0uNBfH+PO2XtCeL1SUF2nCiT0xg@mail.gmail.com>
-Date: Wed, 1 Jul 2026 05:39:04 -0500
-X-Gmail-Original-Message-ID: <CAMRc=MfA3OuuUUb063hAaN-0Byt=ToEf+uLtcR2DoqED6dZ+Nw@mail.gmail.com>
-X-Gm-Features: AVVi8CdM4YB1YNAKK21RhumfGngKAr8KUFWynreeOPd7b_5_r_J6FsxJ2sTmC58
-Message-ID: <CAMRc=MfA3OuuUUb063hAaN-0Byt=ToEf+uLtcR2DoqED6dZ+Nw@mail.gmail.com>
-Subject: Re: [PATCH net-next v11 1/7] dt-bindings: phy: document the serdes
- PHY on sa8255p
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>, 
-	Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com, 
-	Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>, Romain Gantois <romain.gantois@bootlin.com>, 
-	Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
-	Christophe Roullier <christophe.roullier@foss.st.com>, Radu Rendec <rrendec@redhat.com>, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, Drew Fustini <dfustini@tenstorrent.com>, 
-	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org, 
-	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	sophgo@lists.linux.dev, linux-riscv@lists.infradead.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Vinod Koul <vkoul@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 30 Jun 2026 15:44:16 +0200, Bartosz Golaszewski <brgl@kernel.org> said:
-> On Tue, 30 Jun 2026 12:23:16 +0200, Vinod Koul <vkoul@kernel.org> said:
->> On 29-06-26, 16:51, Geert Uytterhoeven wrote:
->>> > Russell King asked me to put the PHY logic for SCMI pm domains into the PHY
->>> > driver instead of the MAC driver where it was previously. Instead of cramming
->>> > both HLOS and firmware handling into the same driver, I figured it makes more
->>> > sense to have a dedicated, cleaner driver as the two share very little code (if
->>> > any).
->>>
->>> I think you are mixing up DT bindings and driver implementation?
->>
->> Should the bindings change if we have different driver and firmware
->> implementations? Isn't binding supposed to be agnostic of
->> implementations..?
->>
->
-> The way sa8255p implements SCMI is with SMC exclusively but - since even base
-> support is not yet upstream -  maybe it would be possible to expose SCMI clocks
-> like some platforms do and reuse the same binding.
->
-> Would it make sense?
->
-> Bart
->
+Hi Junhui,
 
-Scratch that. The firmware on sa8255p does not expose SCMI clock protocol, we
-can only use devfs with this PHY so it's either the same binding document with
-different properties depending on compatible or two separate bindings. I prefer
-the latter because it's cleaner.
+Thanks for the A733 CCU/PRCM RFC v1. I've been reading through the
+series and the review feedback, including the NSI clock/reset handling,
+the binding naming and ordering comments, the SDM macro cleanup, and the
+question around modeled but otherwise-unused clocks such as the GIC clock.
 
-Bartosz
+I do not see a v2 on the list yet, so I wanted to check in: are you still
+planning to take this series forward? No rush at all, and I am happy to
+leave it entirely with you if so.
+
+If you have moved on to other things, I would be glad to help carry the
+series forward and address the review comments, keeping your authorship
+and prior work intact. I have A733 hardware here and can help test the
+changes.
+
+Either way, please let me know what works best for you.
+
+Thanks,
+Enzo
