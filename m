@@ -1,66 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B0394189B2;
-	Thu,  2 Jul 2026 08:23:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA1242A793;
+	Thu,  2 Jul 2026 08:26:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782980635; cv=none; b=VlR9WCXlUIiM7YBLWpXyJ+1ebEJ90qPjScUBKlNTAdmoInNRiQSZR8JcSIHqj07010PWfNGwFRl7a2cOMpmX8W5iIwv02ubXantuA9mwsy0wZCDtxp6MtnZlXNUA5BHnZ0Pc8GOFqmCaanzH6nyiasFw13vEyJTr6RnK04mq65A=
+	t=1782980787; cv=none; b=eCiygI6lb26RhPCE4pVGHV+8xS2LXrYuP/c63AByX6XqiGH3HnPiXmZ5gLKnjIXTZekC6UnN3NxTgBC3DU3q+LnsabHtgwCPawW81+ZfkNt727MtWzNWiNIHZIAdqsP1w6ApdACen50s52MFx1IJr/jDZJVAtzYIMHXSgdGNEFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782980635; c=relaxed/simple;
-	bh=7bYHsUXG+FaYYZNg1wJs3IPn7MVk2vRmY/KLPB8trcY=;
+	s=arc-20240116; t=1782980787; c=relaxed/simple;
+	bh=cQRXf6ceBp0PQVF0NXLpsm76S87d1W1+E10MJf4GIaA=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=HroH4A1G2YlFEmRo9nJQ2FrmWATtvF7SZvtPXSfArHMztGBmNHA2DUjCtGbhzKCQOGmSyjKd2SkqPMCvjuypK6xIgx5J9xpUwzR3ALP2K3Nk6IE2XmFiyCOXx6ucd/LbeukRhb4VWixdBjXYnwsULdnRK+2nhFdbDcXmqJN6ahk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PiF4RbYa; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=LoMluk5CbH6dD7m6VuAxBncx31iAqggGoaaOulDGtQOhuXg2GHqJaa5SDbC73PcJSxB55iilkOWLgD8y3b9JjW8iJ1r9W1q17h2tqi4ShfC6kPmmCDZV77/3gCoBzfJDlRig8fzsMxABbRoTeoVVfi+z0pbpe/wGFcJq7Mh9d2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yv18ov77; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PiF4RbYa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 078A11F000E9;
-	Thu,  2 Jul 2026 08:23:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yv18ov77"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9FF81F000E9;
+	Thu,  2 Jul 2026 08:26:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782980634;
-	bh=7bYHsUXG+FaYYZNg1wJs3IPn7MVk2vRmY/KLPB8trcY=;
+	s=k20260515; t=1782980781;
+	bh=4oT17v1Ou6RaD6Z4K4iOm7mKLYuKxL7qii+MGUf6YTQ=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=PiF4RbYaDBoEA9LKU5NDa4mSGYKQw8TAf4bBZhdoSjLDLf0cUcyjN0jtquAOpARGQ
-	 D38YCShhtVQnm20HfBtsfUg/WvoCKFaZMVNb+LMG2ybt6T8H9vMe85iW5mc2AFa/i6
-	 cgX0WYlFkXDHmADed0UJlByxzEdduUPirsYcGq9vY8hzLEbXU+cBuOy23dlnlivrem
-	 hm7Dd9FyYhyfLazp2hJmnxgjvgu5ME2RgsBACBhC8zgZqeKIPaOsV1+Pj28eYzvZ65
-	 pEU7Oi6+qq0nZHwXklZdanPZLYju4Srp9Zli/EaPIA+hNZiKsjKFiQv7nXJdl9ktWt
-	 BpYck+SrXrARg==
+	b=Yv18ov77wofXSSC3MNogefT6nH9Ui17HXRxy1Ptqrr5DZLsU0xCdeF+UyTGNWz9lw
+	 7ZKC5089xaU6upLZT+uafke0Z5lMx7ceNZHAk+B0jdkrUCLXbvH/d97Vn5T/7JEJ0O
+	 aZSxUi2GOeFV1d2I0BSr5DWNmrDlZYWrQNTggByrkVIoFfvohCiDim2EMqLC/XrylD
+	 spS3P+VlkzvbZTcC4EHWN7/D4+sJJT44GQWdG2q3zIdI7mXKUOxdowcQQJq6dTpGRZ
+	 S07dcmP92yp8J/UMqYUBD7fnWJbEbX3cOVpDlwsnN44y/68WBRfN32kbJCZMRxAvrk
+	 bkD2ULvIRoWiQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 7/8] clk: sunxi-ng: sun6i-rtc: split main oscillator
- div and gate.
+Subject: Re: [PATCH v3 6/8] clk: sunxi-ng: div: add read-only operation
+ support
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Jerome Brunet" <jbrunet@baylibre.com>
-Cc: linux-rtc@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, linux-sunxi@lists.linux.dev, "Alexandre
- Belloni" <alexandre.belloni@bootlin.com>, conor+dt@kernel.org
-In-Reply-To: <20260702-a733-rtc-v3-7-eb2580374de6@baylibre.com>
+Cc: linux-rtc@vger.kernel.org, "Alexandre Belloni" <alexandre.belloni@bootlin.com>, conor+dt@kernel.org, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, robh@kernel.org
+In-Reply-To: <20260702-a733-rtc-v3-6-eb2580374de6@baylibre.com>
 References: <20260702-a733-rtc-v3-0-eb2580374de6@baylibre.com>
- <20260702-a733-rtc-v3-7-eb2580374de6@baylibre.com>
+ <20260702-a733-rtc-v3-6-eb2580374de6@baylibre.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 02 Jul 2026 08:23:53 +0000
-Message-Id: <20260702082354.078A11F000E9@smtp.kernel.org>
+Date: Thu, 02 Jul 2026 08:26:20 +0000
+Message-Id: <20260702082620.C9FF81F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-> On the a733 the "osc24M-32k" clock has the same gate bits as the previous=
-ly
-> supported SoC but a different divider implementation.
->=20
-> Instead of a fixed 750 divider, the divider is selected based on the
-> rate of the oscillator. It can be seen as a simple read-only divider.
->=20
-> To easily replace the divider part depending the SoC, split the divider
-> and gate into two separate clock entities.
->=20
-> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+Pre-existing issues:
+- [High] The existing ccu_div_determine_rate_helper incorrectly asks the ha=
+rdware parent for a non-predivided rate when CLK_SET_RATE_PARENT is set, re=
+sulting in unvalidated parent rate requests.
+--
+
+commit 20e3c89e1fcae37e3eaf3a9be6d0c4e28094d07d
+Author: Jerome Brunet <jbrunet@baylibre.com>
+
+clk: sunxi-ng: div: add read-only operation support
+
+This commit adds support for sunxi-ng read-only dividers to be used
+by the a733 oscillator detection logic.
+
+> diff --git a/drivers/clk/sunxi-ng/ccu_div.c b/drivers/clk/sunxi-ng/ccu_di=
+v.c
+> index 62d680ccb524b..d1c8c7baa12dc 100644
+> --- a/drivers/clk/sunxi-ng/ccu_div.c
+> +++ b/drivers/clk/sunxi-ng/ccu_div.c
+> @@ -84,6 +84,36 @@ static int ccu_div_determine_rate(struct clk_hw *hw,
+>  					     req, ccu_div_determine_rate_helper, cd);
+>  }
+
+[Severity: High]
+This is a pre-existing issue, but does ccu_div_determine_rate_helper
+incorrectly ask the hardware parent for a non-predivided rate when
+CLK_SET_RATE_PARENT is set?
+
+When ccu_div_determine_rate is called on a clock with a pre-divider, it
+delegates to ccu_mux_helper_determine_rate, which calls
+ccu_div_determine_rate_helper. That helper then directly invokes
+divider_determine_rate() which queries req->best_parent_hw for
+req->rate * div.
+
+Could this cause the clock core to query the upstream parent for a target
+rate without accounting for the pre-divider? If the core subsequently sets
+the parent rate to an unvalidated higher rate, it seems the parent PLL may
+fail or clamp because it was asked for an achievable rate that it cannot
+actually sustain when multiplied by the pre-divider.
+
+[ ... ]
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260702-a733-rtc-v=
-3-0-eb2580374de6@baylibre.com?part=3D7
-
+3-0-eb2580374de6@baylibre.com?part=3D6
