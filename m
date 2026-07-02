@@ -1,98 +1,115 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DCB936A01E
-	for <linux-sunxi@lists.linux.dev>; Thu,  2 Jul 2026 08:57:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA73E477E23
+	for <linux-sunxi@lists.linux.dev>; Thu,  2 Jul 2026 09:12:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782982657; cv=none; b=M9mOI+Vh3jyBfoqLTAcGWObXPsipv583Io1xSOnfuCU5neZTR1Ocl89SMPgyRUH1UAq/as2G2PxaZUxAqbwa/dmu3X+vZF4yx1sqyWz/7fd7i9DlO39tnPAglg4ZokU3mn0OYLxxf5x2uwxSBjx04m2i6r/9mbG1z8oIaFhEXVE=
+	t=1782983572; cv=none; b=k85cyYn9iTzNpNvYgjPZ9yeF4lX8pqrzJ17z/y/EhskRgMIrvQI8mYOzkYTUm+EuzZaZcDXWVVKhwsEEM5adruONZ3NTNbul+t5k+zCuyOzxwmKkI7qOa7aDx/LgWKiEPzjb5H9n8yuTGuJE+qs2GOFYDRdnNQ06meQRtFN7BFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782982657; c=relaxed/simple;
-	bh=MSbq6+W3UnipbgRe5OqNXC2h5o+vLMVg75Y2ERCCqF4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Iw7ZqxGMZLfPK+kLMhf5iFTIV6wRTx8OicfCsq/P4Xqg0dkXdLY5Gv+rfkjuYGP93ibmWkzYqFB0UfFzYivTxn2onGnJsVpkSh1qofex2eZnAmv6nJQsjuE8aOKd3YEJ/1ktG0MLAjwxqhVSGfyJWsgSFlIyC0HMaJzWSKobpvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=vxlIj29X; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1782983572; c=relaxed/simple;
+	bh=z3us1EYcPhA08D2V/YJ+nWiOnRiCmeZ4lZeMhncdG0g=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=unQRpnvCrF9PxrREZFJyu3ciZXjrxz385KhcrwI9iJd2R66eEMbHAF4zsGSvIfZnR6bAf7+LVaI3DRBF87kGOniDkhajZbIxOdBg9rPj79VoEAmZWxBOZRMOLr36K4bIRLQANGi4ujmN8hn+hjiKuEHNgHDrpubTFMYM0rxKVLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CkM0BKN2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="vxlIj29X"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4FF42288E;
-	Thu,  2 Jul 2026 01:57:25 -0700 (PDT)
-Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6EFFB3F905;
-	Thu,  2 Jul 2026 01:57:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1782982649; bh=MSbq6+W3UnipbgRe5OqNXC2h5o+vLMVg75Y2ERCCqF4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=vxlIj29X8SyZB1IgbyT7B2lCW/p+J0QTyfWT5aKusya9JNXJDD72C2MXt0nB1jJBq
-	 L6w4cZPCwWj8mcv6ihhP+P0n5CwUEWYj6xE0SdD0s6CHqhEAm7j1wIRANnMYUKvYbY
-	 gChO0ak5hCTtvm8wzYEpFjegAHoefiu3EimrD+Us=
-Message-ID: <17e411b5-f025-4c72-90a7-5bdd5971654c@arm.com>
-Date: Thu, 2 Jul 2026 10:57:23 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CkM0BKN2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A15D01F0155C
+	for <linux-sunxi@lists.linux.dev>; Thu,  2 Jul 2026 09:12:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782983571;
+	bh=z3us1EYcPhA08D2V/YJ+nWiOnRiCmeZ4lZeMhncdG0g=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=CkM0BKN24F+HnXi4WaE+4fAv5Vr7UTY8L9dUWejrdBJF/jPRDOuV//xYqUgtFJazT
+	 yKqnvPZ4Z6zQClmiWicl1ZQIjIBR7wR46f+31rNYfwqn4cQYLWsye7jQCr65Leb+/4
+	 zzgcGpZ2d3pKBzx7dY2dnHBNE29vOmxpqRR3npVJZTkScJEVgs6av6H8IvDPg+MH5r
+	 AVEKQgo74mXWKKBqPyyavnRneQqrcsFo/8XpA4lXns6tLezgzz4pvY5TFk4LEHT+Zv
+	 6K5/hLayKxOm9GehXu/SwzR0dzDugS3Gm9SE14B9ca6fEL8XWopQoPgbmTQhBCuH9a
+	 780RmwAwFHpVg==
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-39b38198496so8059901fa.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 02 Jul 2026 02:12:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RqiLs2pn+n+kqidwiCfzHKdbHx5S3dacZyeLWOBrlm8igatQSojaelKXst9sNTcUfMAGeJSnOgV9Nhh6g==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx/G8KDthPG32/e4yQcYLvwyBOlzEB97OUFIDC91wxxfpKwpwkD
+	wxAo7Sf1OiiWIz2IektHFMQD/k5RKzxaUWhLTPdu8kU/mY9fp8e1IbcRfASCyijDtU1OTuFdeFn
+	8cc3ktLOBmvfFZW2ZOjcrWlO+NeUaYSl94tKGGf1qPA==
+X-Received: by 2002:a2e:9c86:0:b0:39b:35bd:e705 with SMTP id
+ 38308e7fff4ca-39b35bdebfemr6340391fa.37.1782983570078; Thu, 02 Jul 2026
+ 02:12:50 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 2 Jul 2026 04:12:46 -0500
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 2 Jul 2026 04:12:46 -0500
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <akOZFIowVvprnAMf@vaman>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 0/8] clk: sunxi-ng: Add support for Allwinner A733 CCU
- and PRCM
-To: Enzo Adriano <enzo.adriano.code@gmail.com>,
- Junhui Liu <junhui.liu@pigmoral.tech>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>,
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jerome Brunet <jbrunet@baylibre.com>, Paul Walmsley <pjw@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Richard Cochran <richardcochran@gmail.com>,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- netdev@vger.kernel.org
-References: <20260310-a733-clk-v1-0-36b4e9b24457@pigmoral.tech>
- <20260701160055.320000-a733-ccu-status-enzo.adriano.code@gmail.com>
-Content-Language: en-US
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20260701160055.320000-a733-ccu-status-enzo.adriano.code@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260629-qcom-sa8255p-emac-v11-0-1b7fb95b51f9@oss.qualcomm.com>
+ <20260629-qcom-sa8255p-emac-v11-1-1b7fb95b51f9@oss.qualcomm.com>
+ <CAMuHMdXen+E-Ai51aWBa_KV9W8Fz2cQPpT-FG_kQ7akhrrYa_A@mail.gmail.com>
+ <CAMRc=Me3jaZXiXa1sFXr=8Do4sCd+XN1pKTcWC8-0j78SjCkKA@mail.gmail.com>
+ <CAMuHMdVUBgG0EFB16OxHisbxx-sBvDKvBPNZdpyDnmBrnX4ptQ@mail.gmail.com> <akOZFIowVvprnAMf@vaman>
+Date: Thu, 2 Jul 2026 04:12:46 -0500
+X-Gmail-Original-Message-ID: <CAMRc=MfBcOhbj=ETxy2Xz9o_nyzykrEhKAc3jYi6V5_jMZEE3Q@mail.gmail.com>
+X-Gm-Features: AVVi8Cc0cbGsvWIHn6Ltbm1wzcUWjyqAHy25YdAMNK19MIl0j9ziewcxopNMKrw
+Message-ID: <CAMRc=MfBcOhbj=ETxy2Xz9o_nyzykrEhKAc3jYi6V5_jMZEE3Q@mail.gmail.com>
+Subject: Re: [PATCH net-next v11 1/7] dt-bindings: phy: document the serdes
+ PHY on sa8255p
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>, 
+	Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com, 
+	Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>, Romain Gantois <romain.gantois@bootlin.com>, 
+	Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
+	Christophe Roullier <christophe.roullier@foss.st.com>, Radu Rendec <rrendec@redhat.com>, 
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, Drew Fustini <dfustini@tenstorrent.com>, 
+	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org, 
+	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
+	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	sophgo@lists.linux.dev, linux-riscv@lists.infradead.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Enzo,
+On Tue, 30 Jun 2026 12:23:16 +0200, Vinod Koul <vkoul@kernel.org> said:
+> On 29-06-26, 16:51, Geert Uytterhoeven wrote:
+>> > Russell King asked me to put the PHY logic for SCMI pm domains into the PHY
+>> > driver instead of the MAC driver where it was previously. Instead of cramming
+>> > both HLOS and firmware handling into the same driver, I figured it makes more
+>> > sense to have a dedicated, cleaner driver as the two share very little code (if
+>> > any).
+>>
+>> I think you are mixing up DT bindings and driver implementation?
+>
+> Should the bindings change if we have different driver and firmware
+> implementations? Isn't binding supposed to be agnostic of
+> implementations..?
+>
 
-On 7/1/26 18:07, Enzo Adriano wrote:
-> Hi Junhui,
-> 
-> Thanks for the A733 CCU/PRCM RFC v1. I've been reading through the
-> series and the review feedback, including the NSI clock/reset handling,
-> the binding naming and ordering comments, the SDM macro cleanup, and the
-> question around modeled but otherwise-unused clocks such as the GIC clock.
+I've thought about it some more and I believe this question is philosophical in
+nature.
 
-that's great, but please tell the list, by replying to the respective 
-patches. There are still a few patches left that haven't been checked 
-against the manual or otherwise reviewed. I will probably do this at 
-some point in time, but we could use any help here.
-You don't need to be an expert for this: just comparing the numbers in 
-the struct (register offsets and bit positions) against the manual is 
-already very helpful, and can be done by most people, just with some 
-endurance ;-)
+sa8775p and sa8255p are *the same* hardware. I can flash different firmware on
+the same Lemans Ride board and it becomes one or the other. Yet they are not
+described by the same DTS and the bindings differ as well. I don't see why we
+wouldn't allow the same approach for the this PHY.
 
-Thanks,
-Andre
+We treat it as different HW variant when it's managed by firmware - just like
+we do with the rest of the SoC.
 
-> I do not see a v2 on the list yet, so I wanted to check in: are you still
-> planning to take this series forward? No rush at all, and I am happy to
-> leave it entirely with you if so.
-> 
-> If you have moved on to other things, I would be glad to help carry the
-> series forward and address the review comments, keeping your authorship
-> and prior work intact. I have A733 hardware here and can help test the
-> changes.
-> 
-> Either way, please let me know what works best for you.
-> 
-> Thanks,
-> Enzo
-
+Bart
