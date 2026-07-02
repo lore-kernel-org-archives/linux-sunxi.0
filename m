@@ -1,120 +1,74 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248F82DC32A
-	for <linux-sunxi@lists.linux.dev>; Thu,  2 Jul 2026 14:39:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743D3381E89;
+	Thu,  2 Jul 2026 15:25:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783003167; cv=none; b=OaXYLSA2M0Vyz65QhbK48jlSVTDoGTsUKaH0Td93m9FrxWtx+bD45G1P19SenkZpF0J0FEYpSZOvwb5KNYT2LfNHn+uPFpy1YBG0M1PCU3rOzIfCzbVBDcn/T+id9AiXZIlh9WjxyejH0OF8Fjg96S8ewhLiuCxXD/Ff+xsJOAA=
+	t=1783005932; cv=none; b=FtDCvBOECzOAr7lZai1dtvhDUjVYFAJGBbaZTQ6TsXC+/X3Ky1Al5Eih26OTlvNmfgNJGRJyQTGG2/euMgQwje5Iqy/pdJ3/Ze+stEPXdWswoFib+kAWAsgqyXsbvV6rOzWfEhjRaR6ByGJrVIKbDCAIXeoiBalYNPt8Sqsgx98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783003167; c=relaxed/simple;
-	bh=Nd2z+RvhS60YAyDloX5EC/gaJYPXsds4ai1V+Qygeqk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MMlVWLsHQW5b9UY2ICz9sIv/nYmngy+D21UqDNNKv72bjn6eRkm3YTJLJrnQMH9pFJsjp5iIHOmelLlaktOc1fgngbFG1x45Rsy9J0fnGSij15L4z7TlmULApI/8/OjTNvJz3FHoKFPO+uudyqkyPSK2kp/ef2zIma5gGDiLvIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ej0yGmIg; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783005932; c=relaxed/simple;
+	bh=/XEr68Ab70OWUPgB/b4jZQF+7hBnpfA+l5X1ad/e+QI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=th4NhC48spC77Le2cg6aYwquqpv9LUD2Mn8QTHK8oS1C2PCXLhsfQXwNLvfne72l0cNviE6+9Z1+3bs0g9Rx8usAuqAPi3gmusdJQSU6tshVqG4EpmJprxsIwy4v5I8Ce8jffbZQqCXYypIITCwt/qQwcmRg4mLYGooy8gOQ8GE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mld9zIRz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ej0yGmIg"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-45fd464d51fso953681f8f.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 02 Jul 2026 07:39:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783003163; x=1783607963; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A/i+wfnz4csbIqOFspyRymSD9kSCFdpRJiOKiIAQ2eo=;
-        b=ej0yGmIgUA9Vodcny5tSr3PwJqr75llil+gEuNyCPUlf7jZUqw6t158AQVzPU2Ss5H
-         xtwVl7FZMBco4Sug8PDwA0/CRuZ9CLNPMy+g/VqQfnuaxCEG5LbX90o7adBmkJ5pqgdm
-         MZw3uT3yEQjnadBpK7zwo7eV/g0x1rIpHk4HL8HhNgCbU1EXBRE1JeOgJ849gtQQ+N9E
-         FtQhlR3rxPltFr3RXQfTqf4Kux0gY+ubWM2LT8QzAFqp3+FhRr5ILqwBnP35ZzROzFKB
-         n0XiWaTkHylYchqjeCmzv8BPqTC3rW6spIoy+weNhSaB7cqvjpVRgezMkD6VqFXdNX0b
-         Mz8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783003163; x=1783607963;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=A/i+wfnz4csbIqOFspyRymSD9kSCFdpRJiOKiIAQ2eo=;
-        b=FoXYoO1yR0xETIzfdOEW81AlDJW5CfghVuERVwsSSoYbutLJBRwS23ku75sJ9TjBWR
-         i/SxJMDk16OPWvNoCTSl9q3DIBkOuZ4D+siFWtjjXzUApwsHMXuMDdvc01ayKxTRAWDm
-         4IXKxQGqFjZc+0Nrq7VK++wtQUsDEjCCt3B81GoGhT70ny/sPNAq0VCiUf6SqYXRsj8r
-         tNpMkndDufSYEvUxq4SiVEB06dKXBdS8aFmpAFWntqp7ARrRmfKmQx+ALrO1RUmfh5xQ
-         ZgZe4PHsO/v5leI3lEXYS+H/RetljoKLPVEXMfe0YX4Kt+X8yrWEHlR8W5M9Gx2ennrM
-         6+QQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqGUot4oDVYlSpGWwFnI82VxPdK/anUI7gB1G4YpenQF8AwTiulsOxOd46/MUWo2SSExxAbnAEaBqP7ww==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwNabrCSbvjJC3v1RjozF5EvKmFtVprBDRlemuD/v6sQ0JkKboW
-	zNNha6gU1gAxBaUsCb3SmXN+luddN4Ykp/Ie2yAg63q+Fb5/3KAEAKVZ
-X-Gm-Gg: AfdE7cleuMz8+vk12jU/NCUMQjZqlfxs1RaLUPzgK/l9pSGdUG+sUpOJX5/xcbhtm2K
-	lxzITH6qEw6fM3eUh2ZCy79mWoLpani4cfkvlP3hirRFR2cZ0li0QSU7qo4n+CTPpX4xjSr+FWE
-	Pk94DB7WdhE8k7eWtOoIsaG9b1Kt/M1ULr8fxDPDBXEby8aHMXo5ox8lADZuW3XYONLks7XC8up
-	tSTzlzUQCZKTQfOVSBvUFxW/mXLr0TAMs8XsV4gAuw4kH/CvuayI3lywUQWLHeHpA7ht1E16Kpk
-	J/Wc/bZFKtep0uufh9sXj0U7lYj/vS2dGTkLex1TM+DD1523q7YUyWvD/TfI6uvJZxgoeEoylOd
-	yMwrzuRFfMsSksg/hdb7zOx8JuB5OtoyUoQJOaw2oPbNt26ry4YZtMVMVBnApZaegHSl/xBlxRw
-	Md5YjNefpLJ5VUpTr1Lv5k2nCoQygxMWj2zV2H40hDJ1fI6O61qa6IfZlLXrwVTvInVJWh9d9P3
-	FlSVI/67BVLmtpQOYlWYS6Y1jOkegjlj7K+9h4qi4R6d6kBqh6qlqA1baDvMRU61wuRrjTMYonH
-	q7/mTsb1N6qXkmqyhfBmrNun7EDslA/d00X2WW5XZb5UNIWA2Ac1O0tYHhgLdMnGc8afR1sMm/L
-	8yoWnm88qbPfHmxrVauAn8CpLLVcVHaIXXr28BDOlTqhuoghJvZ5mxd5013Tv
-X-Received: by 2002:a05:6000:200d:b0:475:5454:49f2 with SMTP id ffacd0b85a97d-47757e57dc4mr9598046f8f.24.1783003163301;
-        Thu, 02 Jul 2026 07:39:23 -0700 (PDT)
-Received: from jernej-laptop.localnet (92-53-159-70.dynamic.telemach.net. [92.53.159.70])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-477db3dbc75sm10135277f8f.5.2026.07.02.07.39.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 07:39:22 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Samuel Holland <samuel@sholland.org>,
- Diogo Silva <diogompaissilva@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sun4i: Remove dependency on DRM simple helpers
-Date: Thu, 02 Jul 2026 16:39:20 +0200
-Message-ID: <Tm9Bj9tsS_qxKmbhRnECBA@gmail.com>
-In-Reply-To: <f3f2320f-dfe7-4728-9cf4-c3eaab33d09e@suse.de>
-References:
- <20260623-sun4i_simple-v1-1-fa6696df1fad@gmail.com>
- <PMdb9FVETQuPUnyh12NM2Q@gmail.com>
- <f3f2320f-dfe7-4728-9cf4-c3eaab33d09e@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mld9zIRz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 756AF1F000E9;
+	Thu,  2 Jul 2026 15:25:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783005931;
+	bh=hh1GKcBgtMqoFUkB0LHwE/UJFOYQ6UKfpRoxk/RQ+SM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=Mld9zIRzBnjiFW5lin9TsanOqPeEQE/KwS0c4zVNixDNe9FKNlqenqFcbXoKAC5n/
+	 YFeVMaEY/nH0xqToUjpnejqS0Ru87jW9UkZmpHJJF4cW6FT5jiQ96MBEJnrSj4grbC
+	 d5DJmELYFnr9KcZdzQjBYq4Sz0LhEiqqTafLrAC6l8kfXgZIdRCt8GY4+YyIfK+n2G
+	 OKYxbHteRSxxXJSRqfOWB9FySj5aKkHuxsqGL2XOefEybA7XRYaGfKYFJcLOIbxqcZ
+	 HZDJoGt3I508Fb4WEkMcFdgm1AU8VBbyZR3Co99O3EQ1V13+qcYW2HKaSnT3WYFQ9A
+	 Urn/jSXMqhrHQ==
+From: Vinod Koul <vkoul@kernel.org>
+To: Frank.Li@kernel.org, wens@kernel.org, jernej.skrabec@gmail.com, 
+ samuel@sholland.org, mripard@kernel.org, arnd@arndb.de, 
+ Hongling Zeng <zenghongling@kylinos.cn>
+Cc: dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ zhongling0719@126.com, Frank Li <Frank.li@oss.nxp.com>, 
+ Frank Li <Frank.Li@nxp.com>
+In-Reply-To: <20260701045733.33654-1-zenghongling@kylinos.cn>
+References: <20260701045733.33654-1-zenghongling@kylinos.cn>
+Subject: Re: [PATCH v5] dmaengine: sun6i-dma: Fix reclaim descriptors while
+ terminating DMA
+Message-Id: <178300592710.726714.11534436321396496964.b4-ty@kernel.org>
+Date: Thu, 02 Jul 2026 20:55:27 +0530
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-Dne ponedeljek, 29. junij 2026 ob 08:51:52 Srednjeevropski poletni =C4=8Das=
- je Thomas Zimmermann napisal(a):
-> Hi
->=20
-> Am 27.06.26 um 08:55 schrieb Jernej =C5=A0krabec:
-> > Dne torek, 23. junij 2026 ob 22:34:40 Srednjeevropski poletni =C4=8Das =
-je Diogo Silva napisal(a):
-> >> Simple KMS helper are deprecated since they only add an intermediate
-> >> layer between drivers and the atomic modesetting.
-> >> This patch removes the dependency on drm simple helpers from sun4i
-> >> DRM drivers.
-> >>
-> >> Signed-off-by: Diogo Silva <diogompaissilva@gmail.com>
-> > This doesn't look as useful change. Is this tree-wide attempt? If so, it
-> > should be done in one go in one patch series, coordinated with DRM
-> > maintainers.
->=20
-> Yes, the interface is supposed to go away because it is fairly useless. =
-=20
-> It's a low-effort task for beginners. Hence many people send out such=20
-> clean-up patches for the various drivers.  If the change is acceptable=20
-> to you, it would be appreciated if you could merge it into the driver.
 
-Ok.
+On Wed, 01 Jul 2026 12:57:33 +0800, Hongling Zeng wrote:
+> When terminating DMA transfers, active descriptors are not properly
+> reclaimed. Only cyclic descriptors were handled, leaving non-cyclic
+> descriptors and their LLI chains to be permanently leaked.
+> 
+> Fix by using vchan_terminate_vdesc() which handles both cyclic and
+> non-cyclic descriptors by adding them to desc_terminated queue for
+> proper cleanup.
+> 
+> [...]
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Applied, thanks!
+
+[1/1] dmaengine: sun6i-dma: Fix reclaim descriptors while terminating DMA
+      commit: ab1150115e68a46b687eb38c1ab92782018c9f2c
 
 Best regards,
-Jernej
+-- 
+~Vinod
 
 
