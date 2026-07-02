@@ -1,63 +1,63 @@
-Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828A93446A7
-	for <linux-sunxi@lists.linux.dev>; Thu,  2 Jul 2026 17:10:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C48348C6C
+	for <linux-sunxi@lists.linux.dev>; Thu,  2 Jul 2026 17:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783012227; cv=none; b=uLM9fRMOPu64Pzb3glekA1tyAg4ca+zTmraP1mcobyosQge4B9HHQatEztV8ZQX6Sel6ZCrecr9J3YVGIZCe0/MMb/pzClB8aQa6ZpAOKhZAiA4K9d6EoUkK+sQh4LLC97rGezYsCNQH4b7wm1U8xb0hZ6wvFpaTJD4MR51aDKY=
+	t=1783013102; cv=none; b=nYwWO0nvYB5H5YNDpTdTQ9YpPtBs4azt1JClv2Gp22AcPp8stI3thX51fVtum15aJNjapIgY1un2QKCu3hpW1oS8aEoCXCtLaeOnzxE6vTabWxHfWqEhcwSQz7FFzh8KzI5Keuq80XwapbvYXfHFWWp8Bz4JqO0/5PKObeHhK5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783012227; c=relaxed/simple;
-	bh=ZACK+Wxf4gf4Bv0H2VF868lUB/6WpdvSpaEj4a+bI0k=;
+	s=arc-20240116; t=1783013102; c=relaxed/simple;
+	bh=wYofpd20/2MAY28qjdWeuTMS8chWG/vFjgq7i852FNw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F7xvXCtnHJ1nfs9MMzTWMD4xijdXADf0L5hlZkVnZf0l51EU81HvHbWF5zZR4qMvYwdA8SBgrQN9kNMS/OS1FsuW7ZoXg8KsNiccyKgeIAmRVM7OK3PDjBDd1lVcAQri5xK+OimZhvkPjwPuhHxVhwe7fgAFxnmdwG58hwZNjvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b+8kstM9; arc=none smtp.client-ip=74.125.224.48
+	 MIME-Version; b=fxswabM22MqsGEhedzMRUSSDx/daQB6RnqyYwtnAPHA5mYI5pqvwAi1AsB8q7Qpja4EAElp1Y1Qo2PkwzfZK2twQs+ifbQnZLrAQ9YO1xxejAh0TXOoZKmmMdVdlRknDv7Yz6SNYGr9h5kQmaGNDVSlvjRIOVVgwdX2Wz3IjvFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IPaMmeW3; arc=none smtp.client-ip=209.85.219.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b+8kstM9"
-Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-664ae993e4bso1673819d50.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 02 Jul 2026 10:10:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IPaMmeW3"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8ee88fce572so22253886d6.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 02 Jul 2026 10:25:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783012225; x=1783617025; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783013101; x=1783617901; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZACK+Wxf4gf4Bv0H2VF868lUB/6WpdvSpaEj4a+bI0k=;
-        b=b+8kstM9DgQovn9ckn1dMD2Sq/kt2GAlhxUWBbxbzJTO6HaBwi2/ntlLKHESA4nM4g
-         PwgBMxiVmB0c4+/v5za0Ffxf3xoJRMLeRKq4cXbyEmwA/T2bnmEHX+1uiRGIZhfdsOaV
-         ZHzh73kgHPvo7qSmuThI8dUtaOSclgF1JJA1SWpX7LCcCJD11gzGSWdGi7BdEKA17N49
-         QNlmB6sVj3UNEFUNwYQ7DTwMRlXeVysg9lMikGwi13OBv2p6KN8ShZQg0Bmcjdr0ou5h
-         HESGfCQdFiaSLSHcVNDHBa5w+9nuySi4KLIr6F2jOuSarP9P6FeQOsu/AJyfJMH3Ih9P
-         IUqw==
+         :message-id:reply-to:content-type;
+        bh=wYofpd20/2MAY28qjdWeuTMS8chWG/vFjgq7i852FNw=;
+        b=IPaMmeW3YfzzH9MIBjECwXjVq23SZUZXqlVtwMf+APqvSowt2zefxT8AC9lKzPVvEj
+         FM5OKMvRd967/813DdvlUpOLHH7S3Rnfbk2YqfR4c2+++tiHBXKHs0VRl3XxgbfzTCQS
+         j+KZXcBmPgvhjJ475C0I8UiSxOVdBB2q/VgYStgTTYwdRcDfQCgPTU66j6fn/h2qe6u4
+         OMaP9MPs6lK51tdaA824e9QcCTaWw51FL/SwOkUWwhxSBqryb7bHn1ckLVsHO4rSaruM
+         y126qI2nlxzdD6jATZSQWmog4rXKAk4f2EPjk/QPlLyFz0/x8H7QRRQwOCN3KzCHtkv4
+         FDgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783012225; x=1783617025;
+        d=1e100.net; s=20251104; t=1783013101; x=1783617901;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZACK+Wxf4gf4Bv0H2VF868lUB/6WpdvSpaEj4a+bI0k=;
-        b=J/9Bv03wv4A86oo9hEM1xsu/AZe/o9OsnPR9d78qHK6rb26lrBDCyrRYTxhcCpZn6Y
-         YKXce3UxIJIRoKXK9jvpby9EpNSdBPctSSKrc8ahPShjlJZ++vxDSfxIgDKEmlYyq39w
-         FLOplAywC5cLXcZ71xZLhEs27s0CVjWW5Jdf8LTOGtJ8ITgU98EIu4aqOuljPFkrsrvN
-         TRVb5Te0ev7Pd2VHTB2Nwv5Ye1HL7EASrMthnB6wTUfRQjmiOsRXEzKWvFcUDMtmeX+l
-         bkb/l/46IcasZKOgNnGeqWvDJX0EX1xDO9DeFzHRbQga2stonHUW7XVmebPUop3HumyG
-         9Wxg==
-X-Forwarded-Encrypted: i=1; AHgh+RqvA3i7Ad/DZ7MJ8se5Hi+VwX9Owv2xAJsK1nb9DWbf3p5lEA7cNZacPkrMMCKvPLZZFzwhv2GZdnALQQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzjFQGXd9gO5imeRJqF0pKP0yxmWyrR3AAOpVOdQirBJW+dyMOg
-	6fi3RCPcras6Xm908RHplVwTpd+AGM+6g0PyAkUR1p6uktid0l6Sqypq
-X-Gm-Gg: AfdE7cm+2wHfsFd0khD4vAIgSZvcXBkieLMVNmmHrhF732opzwEE8r8XyiLLXPCOxGm
-	bSNPCQfD8E4j2gfUMKJB0LaLjx0bfV52bB2qi8zQUYYgzQjzVSQjPcfvCyJ5b3UQ2B7Y+qZKPHs
-	cHEgWORmIvVWPVrxnUkA3mo8rzLkU0bc8JAY73Y5l758SMytXHo2ENJ7oILjHL33aVBTvwaW5GV
-	ka5cXbB5dze+kI6yvDKZM2Zz7ewurK0lzdtIrwyE+ulZzOv63+FRiTglv08m6/OUer0O28qaTFo
-	tBEzByfYDqLKKq2mvMpjimTV+uDS7TLj3E3NFCWRLcuyaon9EzlaYBlHOFuJewwXOzNijat8zrX
-	hAFWERMXPeEbV1qjIwx+E+JEnPVqqsosg1fB9UYOTXuv7j/1qdIWg2x+nbcpU/UDcx/tMB9cbLe
-	L05Ra97R/N1fZVqGruai5NwcSKq10MlVbXCyrw5Sn5WS+Gw1SAWeoD2gC5k8P2
-X-Received: by 2002:a05:690e:2447:b0:664:f562:1fa5 with SMTP id 956f58d0204a3-66636ba95e5mr448218d50.46.1783012223973;
-        Thu, 02 Jul 2026 10:10:23 -0700 (PDT)
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wYofpd20/2MAY28qjdWeuTMS8chWG/vFjgq7i852FNw=;
+        b=KXFu+RQGzOkX90Ur++3IMLceQ89gPOP0HHiJuT4jO+tQxYIKyb3SA9GgQfHRIvgWKz
+         +NuXXyeVCrHyTCaEN+yEEZydJV0y/5BgV41eg8YTKC+ANKUhi+oe2lYvo8eyFJiqeJUE
+         Kx8Ul7Dnst/h8ka52t5zKqp/vDlMaXr2ATB65Ipi2ZSkTbzbOxp6IN2X3yaL+xkWFjJ9
+         voCI1tQqMfmfck1Rb+7o5XLRcp8wL8b7dRSphBnW2VWiMzDtE1rzpC4XY/p14YBmLefy
+         NxebLEtusZmjM7pn997FleNKAjlEvU8qGcO1yBK8bOauAAUSngNwgotO7yIrV2Pd+fR9
+         QNmg==
+X-Forwarded-Encrypted: i=1; AFNElJ/JnY00Ba3pMi8WhGMkeM+4Gzd0ZTQ3nxOqAgsIIjsTSLsqovmYGnNAKsmUHdg1yZenfOtesddwxZhB2Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxK1ehZbhTGGgrSpsrQv5Jg/SsBIaaGKTTQaZc3ChUDnhW1JzKb
+	+XREffFDNvO6v+ff0ZdIN+cAz0pMsNjCQANvS0IxfIteQ6jlvTwCY6j1
+X-Gm-Gg: AfdE7clLGNH1DE45aWywOU7vciJGOZZ2U/HMBGmYF+EaRyj9Vwpx71YNAX7PQkduccG
+	R7aUEGdUq5MzBt3MFTLEcIbIPr4L3yPt/PwTP700+wDrdvxHB/2S2y7p8xurT/lTozbHY/UpmmX
+	xqrIixrVdzA3+7Sekz595Y6wCAWMxnAekra+BUfN7RbhwnGJJRI+DtfnXHt6a4EcH5HQT1MyWcW
+	VaS80uY6eAOYZVOZPDe9xV4P/xo5G5S2F41BGZbB45wNntTYa4COSQ4SoIVKPWN69DHWoqEY++N
+	DiOe+xhPR63Pn46iHBEqyZP47dJBf4lvjuDqc7Bkk0QAAThKgIHlGBC8cS66xcZSovVDx53hpEt
+	CYGLZHX4G8IQuoevCYB+puihzpLCJodsYDNmtHDsG3ChPI44JX777kpOy3/ldrBbMHOfafgH0W3
+	Gq4uquAxBi81qdvvhi6ND8WbmeCEKH1SeG7b7n/Ss6KvBI8PnV5BX4GxQhVzFiW2r7wH3t6bE=
+X-Received: by 2002:a05:620a:4555:b0:92e:44be:bbd2 with SMTP id af79cd13be357-92e7afb2399mr780848785a.9.1783013100344;
+        Thu, 02 Jul 2026 10:25:00 -0700 (PDT)
 Received: from AMD.home.local (dhcp-9-244-8-156.gobrightspeed.net. [9.244.8.156])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66624021a75sm1354880d50.11.2026.07.02.10.10.21
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e801948a8sm265545285a.35.2026.07.02.10.24.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 10:10:23 -0700 (PDT)
+        Thu, 02 Jul 2026 10:24:59 -0700 (PDT)
 From: Enzo Adriano <enzo.adriano.code@gmail.com>
 To: Junhui Liu <junhui.liu@pigmoral.tech>
 Cc: Andre Przywara <andre.przywara@arm.com>,
@@ -83,12 +83,12 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
 	devicetree@vger.kernel.org,
 	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 4/8] clk: sunxi-ng: a733: Add PLL clocks support
-Date: Thu,  2 Jul 2026 13:10:20 -0400
-Message-ID: <20260702171020.836546-1-enzo.adriano.code@gmail.com>
+Subject: Re: [PATCH RFC 6/8] clk: sunxi-ng: a733: Add mod clocks support
+Date: Thu,  2 Jul 2026 13:24:56 -0400
+Message-ID: <20260702172456.848487-1-enzo.adriano.code@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260310-a733-clk-v1-4-36b4e9b24457@pigmoral.tech>
-References: <20260310-a733-clk-v1-4-36b4e9b24457@pigmoral.tech>
+In-Reply-To: <20260310-a733-clk-v1-6-36b4e9b24457@pigmoral.tech>
+References: <20260310-a733-clk-v1-6-36b4e9b24457@pigmoral.tech>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -99,19 +99,14 @@ Content-Transfer-Encoding: 8bit
 
 Hi Junhui,
 
-Register check for the PLLs against the public A733 User Manual V0.92:
-13 of the 14 PLL control registers match the manual's offsets
-(PLL_DDR 0x0020 through PLL_DE 0x02E0, section 4.1.6.1 onwards).
-
-The one exception is pll-ref at 0x0000: the manual's CCU register list
-starts at 0x0020 (PLL_DDR), so the PLL_REF control register is not in
-the public V0.92 document. It does match the vendor kernel's CCU
-(SUN60IW2_PLL_REF_CTRL_REG 0x0000), so a short provenance note near the
-definition might help future readers, same as for the other
-vendor-sourced entries discussed in this thread. For what it's worth,
-on a Radxa Cubie A7S (26 MHz DCXO) we can confirm at runtime that
-pll-ref produces the normalized 24 MHz reference with the hosc-side
-clocks reading 26 MHz, so the modeling demonstrably works on hardware.
+Register check for the mod clocks in this patch against the public A733
+User Manual V0.92: 88 of the 94 mod/mux clock entries match the manual's
+register offsets, with the documented gating/mux/divider layout at each
+offset. The six that have no register in the public manual are the set
+already discussed in this thread for provenance notes - avs (0x0880),
+spi4 (0x0F28), sgpio (0x1060), lpc (0x1080), gmac1-phy (0x1420) - plus
+one more: tcon-lcd2 (0x1510); the manual only documents VO0_TCONLCD0
+(0x1500) and VO0_TCONLCD1 (0x1508).
 
 Thanks,
 Enzo
