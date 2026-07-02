@@ -1,118 +1,205 @@
-Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF4D3AEF51
-	for <linux-sunxi@lists.linux.dev>; Thu,  2 Jul 2026 21:48:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E793BB11B;
+	Thu,  2 Jul 2026 22:00:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783028889; cv=none; b=e2wAnr7iipfQ0vod/i2daJD3p7JXtnKhveyDdiOV3guFbA8myi1X1SBiLOP+UzsTzZBpcuX2Gj3dkOTAG55q/CqjRTSm5DYQWXvyrj5DMDgPZekI8WRNXZZjQPSZlDEAeCvJ+JfMDjFWy0ww8+klVKIBoU//jPUp9n8SbPiDp5M=
+	t=1783029621; cv=none; b=rTAQ1rmQOJi/FZKJcxHWyiGhMLknnNUAUV5B5iKcmeayueSLVmo5z2TR3aB7N6FUIbxopN8N9W4E/iY8RbH5ymc2FYIZUcBdZZcpyH15HfVzchK/o0hSeaZ2YRb4Z2bCu2XLV+qulvukR8WNaylCnkS5SKLmHLx9CBY+3JPHmmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783028889; c=relaxed/simple;
-	bh=+HAMBaZcdBrjRhj9S5KxkVE10MrfH1DGewIu3JXAVXE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r2JkUePnIT1FIbm4pqfpNyevM4KnguVhCaqO5Bt0Hb7b9PhBW1DNYM4qLV0F0kC9G1pYjked1qxdqm2oKOpjS8F0gls0iTXjCSzUytmVEsMvXyRL33hFe7ZeXvibegBdgVD/8aYhns/rbdm3Xqk1HFt+I4ZOXtoBlK+sPlkapoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SC47Sln6; arc=none smtp.client-ip=74.125.224.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783029621; c=relaxed/simple;
+	bh=4E3uPmJLTzLPGnGXylvlBTY1e4qEddtq/7fqpn07zyU=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=eJuI1778uLK9UyCbrWu2r6k6j8DrAHoMyCfV0l+yqGms2zrIZx69kmavtlPVHiqphxFaSv7YoEFLxWJv6L8AoXrM7dto2eOzLYpIY4Q6yn/Drxmyrmhk/E/cJXBrQwTgnMY8BfilY8vYG+6/rIdytobxFxpoiUCoo3a/a4w+r1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dKUMrAgV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SC47Sln6"
-Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-664c6304683so2584300d50.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 02 Jul 2026 14:48:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783028887; x=1783633687; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Tpj+MtbD1Voe05dyT9Fd9S36++WsVidg7tbKtFQLZbU=;
-        b=SC47Sln6P4mFekvwgSIjSRTfH2oSsuzUe+mVy2rSzp43tMqDjMlmG+JgYw3mC4nYzL
-         EvvOw5UYm6uAVIObvPRHIQ7zXPXrb/oPQGrBDauE1XMsZRDa6A9PjOx9jtBfGuD4+E5P
-         ocz+j/EU5pKExJD7ztTzlchUkk9PTtnN0vD3nEiVxON62klm30jGzoToSVks1YxT80vE
-         9PDtnxOq4+iZftNLXeXcilMmYVjfqshINdSZgZJlBdA3Wy1sG7h5pKJL8sP/yZO6Y3Cw
-         sELyYTzIif6nJ1LXcyVzmvn+3MKpABAQy+MW5BLHqn+i/2y1gsGRrE2xyudARRrvw7Ze
-         1mbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783028887; x=1783633687;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Tpj+MtbD1Voe05dyT9Fd9S36++WsVidg7tbKtFQLZbU=;
-        b=KuyfB2tNXaceuN7OvvCuknj5qq739ScgqNIKSw3pvm0JUW5zZs07/YMVRwmyqaG995
-         3tEy430O7Y4txiBykcgBMHuku7FLuhr2WfKwE5thZDl54U2HUUAGALJAFTXRZpsbIen+
-         lsf67K97+Xyjv10/V8kXPDvGv4/yLbZHuhTi/R+BSSVYqnZ/V7goxAFvcTAc7XHbd8gT
-         KL0OiYaUZahNfzuu+ddidC0U9T8hbuX9m4LAV5O+Ur1bEORXcFwdCw5TMkaYpUndnoQG
-         NnIe/e2jTEcr8ywYbprD9owkZn3gG8mYSk2ESZF/aX1+4oGGYj8OX3bwbRQuL1d5QsZF
-         s2og==
-X-Forwarded-Encrypted: i=1; AHgh+Rprwu8vxI3/pE80amUY0Ifg9HpKWRWK4DAbx9KzYpVVd0P7wZzG7rnz6mTk3WvjkpKCo+/A50om97KR7g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwLVVNUUeXIIJNo6AgTlPQXyNp0dYjo5jbtVpGJ2DEP9LRe8Zpj
-	G/rUeHsPkwOc1UYKy7vgck1iaLfPwCPfz3tDfAjBIMcleTIs3U+5sE5q
-X-Gm-Gg: AfdE7cm5g95TqaI9iJjL4tGaL9mTnhY62avGRX0sTQIac+EJHqb9oUoG/GswdMG/aY4
-	7QNCB/Nc7MoQT3IZgY3dEO5obaXRUD1u2guUqz4GG3k3J+y1Z6Ea6t+4J/DOz3ZEN3AbN+590wf
-	gxMoQhwYRdfXCJz6pjcdjwFyx5cRTp94EnEYOlcwGXPhSBiUaQUB2bKJI1vXJNJh811IASkbMyx
-	ORQCDy6trggqzR4tvX4KP49esZ56FrwvVWiXFztnxraHv9nXRva5lUHfaghWIlOn8VBheoL6X2q
-	VJ3+mN88zFJ4oJYccw4BGC3L7WNf6J+ueHPSDfz2L0gqjpHHYdqwE+bs/rQo+YCVTd9nMPxHNdP
-	SPKKeOu4XeNqA18v9biw0L3D4PjUkP63ABBry3BA1qo2FLJV1wrY/DZm316cZKjRRpughw/Ikbb
-	HgP0P9AYisJPGQDvCSySRRGrFv8IFx7kIAbDHldzobJBeEegg=
-X-Received: by 2002:a05:690e:440c:b0:664:a0c8:f956 with SMTP id 956f58d0204a3-665916762d3mr4471470d50.15.1783028886926;
-        Thu, 02 Jul 2026 14:48:06 -0700 (PDT)
-Received: from zenbox ([2600:1700:18fb:6011:169a:36bf:d0a4:1d7c])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66624021a75sm1631772d50.11.2026.07.02.14.48.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 14:48:06 -0700 (PDT)
-From: Justin Suess <utilityemal77@gmail.com>
-To: Sean Young <sean@mess.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	Sashiko <sashiko-bot@kernel.org>,
-	Justin Suess <utilityemal77@gmail.com>
-Subject: [PATCH 4/4] arm64: dts: allwinner: a523: enable IR receiver on the X96Q Pro+
-Date: Thu,  2 Jul 2026 17:47:50 -0400
-Message-ID: <20260702214750.3428694-5-utilityemal77@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260702214750.3428694-1-utilityemal77@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dKUMrAgV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2FBD1F000E9;
+	Thu,  2 Jul 2026 22:00:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783029620;
+	bh=oQIjLP9TVDNz4PvVPK5lkW7gtFo4dqmaY71KLP+cN6E=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=dKUMrAgVYTo9Za2RVN1i5hj7nHube0IIi/UzQ0+i/ic05Y5/qq/EtXVlPyDQCuS6M
+	 CI4sY0K6KulUmJAkDYL5aVsOPHP1istqeDvU5Wa1/xWlges7iqp3V4abfOe172tzOd
+	 xdOMnH86nZ/MNSSg9EY5eKlsgoTEpjqWBisYvcXoGKAhv5Mb5Nvczy7h+QnsZ84pQ8
+	 /MJzfPscERCEuoXA8ew1PcCNOXO/pYLDPoKsPExMITelI1NuPuH793KOaGWS81Yn0f
+	 wgBmT5lVPKgkncXhiyxS9cE1T0eIh6hUzw5jO1Xt0TeAAUtThDLZpnAH6lYBPrHDxZ
+	 lzFqbn7yBpeHA==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 2/4] media: rc: sunxi-cir: add support for the A523
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Justin Suess" <utilityemal77@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org
+In-Reply-To: <20260702214750.3428694-3-utilityemal77@gmail.com>
 References: <20260702214750.3428694-1-utilityemal77@gmail.com>
+ <20260702214750.3428694-3-utilityemal77@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 02 Jul 2026 22:00:18 +0000
+Message-Id: <20260702220019.E2FBD1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The X96Q Pro+ TV box has an IR receiver window on the front panel,
-wired to the SoC CIR input on PL11.
+Thank you for your contribution! Sashiko AI review found 4 potential issue(=
+s) to consider:
 
-Enable the CIR receiver.
+Pre-existing issues:
+- [High] Incorrect device registration order in probe and missing `rc_unreg=
+ister_device` on failure leads to race conditions and Use-After-Free.
+- [High] Rounding mismatch in timeout calculations causes the maximum timeo=
+ut to wrap around to 0, breaking IR reception.
+- [Medium] Malformed `clock-frequency` causes a division by zero kernel pan=
+ic during timeout calculations.
+- [Medium] Inconsistent use of DT-requested clock frequency versus actual c=
+lock rate introduces timing inaccuracies.
+--
 
-Signed-off-by: Justin Suess <utilityemal77@gmail.com>
----
- arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts | 4 ++++
- 1 file changed, 4 insertions(+)
+commit ca10429d8baf92c8b3413bded6e91ab88182edf2
+Author: Justin Suess <utilityemal77@gmail.com>
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts b/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
-index a96927fbdadd..de2bdc21c781 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
-@@ -266,6 +266,10 @@ reg_dcdc3_323: dcdc3 {
- 	};
- };
- 
-+&r_ir {
-+	status = "okay";
-+};
-+
- &r_pio {
- /*
-  * Specifying the supply would create a circular dependency.
--- 
-2.54.0
+media: rc: sunxi-cir: add support for the A523
 
+This patch adds support for the A523 (sun55i) SoC to the sunxi-cir
+driver. It introduces support for programming pulse polarities and a
+parameterized sample clock divider required by the newer IP revision.
+
+> diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
+> --- a/drivers/media/rc/sunxi-cir.c
+> +++ b/drivers/media/rc/sunxi-cir.c
+
+[ ... ]
+
+> @@ -140,17 +165,19 @@ static irqreturn_t sunxi_ir_irq(int irqno, void *de=
+v_id)
+> =20
+>  /* Convert idle threshold to usec */
+> -static unsigned int sunxi_ithr_to_usec(unsigned int base_clk, unsigned i=
+nt ithr)
+> +static unsigned int sunxi_ithr_to_usec(unsigned int base_clk, unsigned i=
+nt div,
+> +				       unsigned int ithr)
+>  {
+>  	return DIV_ROUND_CLOSEST(USEC_PER_SEC * (ithr + 1),
+> -				 base_clk / (128 * 64));
+> +				 base_clk / (128 * div));
+
+[Severity: Medium]
+This is a pre-existing issue, but does this calculation risk a division by
+zero panic during device probe?
+
+If the clock provider rate evaluates to a value smaller than 128 * div,
+base_clk / (128 * div) evaluates to 0. This resulting zero is then passed
+as the divisor to DIV_ROUND_CLOSEST(), which would cause a panic.
+
+>  }
+> =20
+>  /* Convert usec to idle threshold */
+> -static unsigned int sunxi_usec_to_ithr(unsigned int base_clk, unsigned i=
+nt usec)
+> +static unsigned int sunxi_usec_to_ithr(unsigned int base_clk, unsigned i=
+nt div,
+> +				       unsigned int usec)
+>  {
+>  	/* make sure we don't end up with a timeout less than requested */
+> -	return DIV_ROUND_UP((base_clk / (128 * 64)) * usec,  USEC_PER_SEC) - 1;
+> +	return DIV_ROUND_UP((base_clk / (128 * div)) * usec,  USEC_PER_SEC) - 1;
+>  }
+> =20
+>  static int sunxi_ir_set_timeout(struct rc_dev *rc_dev, unsigned int time=
+out)
+>  {
+>  	struct sunxi_ir *ir =3D rc_dev->priv;
+>  	unsigned int base_clk =3D clk_get_rate(ir->clk);
+> =20
+> -	unsigned int ithr =3D sunxi_usec_to_ithr(base_clk, timeout);
+> +	unsigned int ithr =3D sunxi_usec_to_ithr(base_clk, ir->sample_divisor,
+> +					       timeout);
+> =20
+>  	dev_dbg(rc_dev->dev.parent, "setting idle threshold to %u\n", ithr);
+> =20
+> -	/* Set noise threshold and idle threshold */
+> -	writel(REG_CIR_NTHR(SUNXI_IR_RXNOISE) | REG_CIR_ITHR(ithr),
+> +	/* Set sample clock divider, noise threshold and idle threshold */
+> +	writel(REG_CIR_SDIV(ir->sample_div_sel) |
+> +	       REG_CIR_NTHR(SUNXI_IR_RXNOISE) | REG_CIR_ITHR(ithr),
+>  	       ir->base + SUNXI_IR_CIR_REG);
+
+[Severity: High]
+This is a pre-existing issue, but does the rounding mismatch between
+sunxi_ithr_to_usec() and sunxi_usec_to_ithr() cause the maximum timeout
+to wrap around to 0?
+
+Because sunxi_ithr_to_usec() uses DIV_ROUND_CLOSEST, it can round the
+fractional value up when calculating the maximum timeout. If userspace
+requests this maximum timeout, sunxi_usec_to_ithr() uses DIV_ROUND_UP,
+which pushes the resulting threshold over the maximum of 255 to 256.
+
+Since REG_CIR_ITHR masks the value to 8 bits, passing 256 wraps it to 0
+when written to the hardware, which would immediately break IR reception.
+
+[ ... ]
+
+> @@ -325,10 +363,10 @@ static int sunxi_ir_probe(struct platform_device *p=
+dev)
+>  	ir->rc->dev.parent =3D dev;
+>  	ir->rc->allowed_protocols =3D RC_PROTO_BIT_ALL_IR_DECODER;
+>  	/* Frequency after IR internal divider with sample period in us */
+> -	ir->rc->rx_resolution =3D (USEC_PER_SEC / (b_clk_freq / 64));
+> +	ir->rc->rx_resolution =3D (USEC_PER_SEC / (b_clk_freq / ir->sample_divi=
+sor));
+
+[Severity: Medium]
+This is a pre-existing issue, but does this calculation introduce timing
+inaccuracies by using the DT-requested clock frequency instead of the
+actual clock rate?
+
+If the clock provider rounds the requested rate set earlier in
+sunxi_ir_probe(), using the raw b_clk_freq here instead of
+clk_get_rate(ir->clk) means the software's sample period drifts from the
+actual hardware timing.
+
+[Severity: High]
+This is a pre-existing issue, but does the registration order in
+sunxi_ir_probe() create a race condition and potential Use-After-Free?
+
+Looking later in sunxi_ir_probe(), rc_register_device() is called before
+sunxi_ir_hw_init() enables the hardware clocks:
+
+sunxi_ir_probe() {
+    ...
+    ret =3D rc_register_device(ir->rc);
+    ...
+    ret =3D sunxi_ir_hw_init(dev);
+    ...
+}
+
+If userspace accesses the device via ioctl before the hardware clocks are
+enabled, it will access clock-gated memory and cause a bus fault.
+
+Additionally, if probe fails during hardware initialization or IRQ request,
+it branches to the exit_free_dev label:
+
+exit_free_dev:
+    rc_free_device(ir->rc);
+
+This only calls rc_free_device() without calling rc_unregister_device()
+first. The device remains exposed to userspace while its backing driver
+data is freed, which could lead to a Use-After-Free memory corruption.
+
+>  	ir->rc->timeout =3D IR_DEFAULT_TIMEOUT;
+> -	ir->rc->min_timeout =3D sunxi_ithr_to_usec(b_clk_freq, 0);
+> -	ir->rc->max_timeout =3D sunxi_ithr_to_usec(b_clk_freq, 255);
+> +	ir->rc->min_timeout =3D sunxi_ithr_to_usec(b_clk_freq, ir->sample_divis=
+or, 0);
+> +	ir->rc->max_timeout =3D sunxi_ithr_to_usec(b_clk_freq, ir->sample_divis=
+or, 255);
+>  	ir->rc->s_timeout =3D sunxi_ir_set_timeout;
+>  	ir->rc->driver_name =3D SUNXI_IR_DEV;
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260702214750.3428=
+694-1-utilityemal77@gmail.com?part=3D2
