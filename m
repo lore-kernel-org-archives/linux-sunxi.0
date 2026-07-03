@@ -1,235 +1,435 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B4433C536
-	for <linux-sunxi@lists.linux.dev>; Fri,  3 Jul 2026 19:47:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92C630BF66
+	for <linux-sunxi@lists.linux.dev>; Fri,  3 Jul 2026 19:47:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783108028; cv=none; b=ueJV/4f0aXtzVgu25hRKi8rnPz8wBt6babDieNyUhk1L0oO0ZrkH/TSAGAuXm0h2nt0KRzz/BeT1zjxwWkv4S4GAjaWY5eL1H28bnb2Vz1RMTRPP6zjI9yygDIw+E9o/y0SL3jfROHbcht/XND+E9vHycLtrpLdI9q8eqSdUsC4=
+	t=1783108047; cv=none; b=dMsLY89e8ySi4eWRQ5In4amnUHjG+x+7Q89m4QRjwJT3EADske9PUFlczv0MWVemdxO01FVzI+lZCNXjXeqohCHqr309g1GU6RUuyBaoiqsCwN6e7kBUn+w+r9mLp9skDWQ61pXFJnqOXPrk1SxvaRNlzOWJfqjYtnOaOe3vNAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783108028; c=relaxed/simple;
-	bh=1ag8CKt4fCTEhLmKmRXCXehyNPJpiTr6k9RPpRFt92k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PUS7eCOVyVwm7KFM+i/IrbbNyF9pu05h81HmZpsZwXoGtkfKdLN7y2S8bZsHuTu/FhOGVz+uJlh8zoN6U09Nd7NLt6Vo9ifIpJhDggs9P1QvsQbeo1qYDxHhAksYvwg/SvhuleZVHxFguCaHzuqjJ+GSDx4dxxmnCzl0rIa/qxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=DY4QvfxB; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=WL18tgiY; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1783108047; c=relaxed/simple;
+	bh=JywPUznc3rh0JaFquAeszYTCK5IN1onVd5dhHGu0sC8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DORbzkz8cXT6C+RttaBjLH2K50PmATe0HQ7NUYqkBxEVEY8pkU63gTIKpuGSTQoIhWDSS/GV0ILQRr0G95+8O7BWSrmlLEfeWb1ObBryeTGVAF2m2WpB7UM8nxzwwg/CtUMZK7w0Wwzx02ghDbNc76iHzLCePKR5JASajJi78wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k4DOsd+f; arc=none smtp.client-ip=209.85.128.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="DY4QvfxB";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="WL18tgiY"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 663HjDUT496646
-	for <linux-sunxi@lists.linux.dev>; Fri, 3 Jul 2026 19:47:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=TQ2PuvPwxYk
-	Wt/yOA3YLy/RG2quNv49+20ByVVAjYo8=; b=DY4QvfxBiKqNUjE+FO+PvI+2fN/
-	tWkhy2AkYZlVHf5nAR/ui7uQa+iRBuLntvRwgE0dQFPkqzoLgEMw0zeqlayJ/Gel
-	onjx03ASz3rWePMh+qGM/a04eeA80fikGiR1H9p8mrt2w/n2sWBvv1DztzavFtXL
-	/XeeldILoOCBesxiNfgJ+C4BADjhG2L6FEbE1s+veZRH1J/q5MN7YvhlEZTBrt1i
-	tgodfKGbcSEh9Oqr/vvq610x+ieI1FDFMT4rZr2sB2q1M3/nEMAHspCXkJy5Qnpy
-	5vg2JXZqEzbKmYlRZWLE71DuByFP/kvnxPtKLGkBzFPdFWg8Hz/Jm6Zj7cQ==
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f68jytma8-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sunxi@lists.linux.dev>; Fri, 03 Jul 2026 19:47:06 +0000 (GMT)
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-38112fd8b48so980244a91.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 03 Jul 2026 12:47:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k4DOsd+f"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-8143d904b01so8681617b3.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 03 Jul 2026 12:47:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783108026; x=1783712826; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TQ2PuvPwxYkWt/yOA3YLy/RG2quNv49+20ByVVAjYo8=;
-        b=WL18tgiYa3zucF6JLKtHehLK0nCNl5rxjC5W7CvHWwJ1k7Ksab+NZXrPALK8kFV8nd
-         RdRwjRycwx5P0xC6BmfrpVLot54wQPgMQiytI5PtmRJLlO5yXU3aJMVqkLNktT4PUIye
-         UbEK609l4/CfDSMUBn+uc3S7KLT4Uh3/rpnq4fL6+Mnf4kevOHCJ1I5V/3Gd+D4R2eBW
-         dwtnDapk96deRRN7zEZQsJ3zWs9M5i8Fz2ld8aZg+FS0CHqs/0NWEjcB9qkXL5SqiDhB
-         wNkG9g+/WnogWfRmLo5NxWTWlzvLAOV8zuIX50Ab9uwVAD5DkcJ5Zutdx3xe6Ze15234
-         M9oA==
+        d=gmail.com; s=20251104; t=1783108044; x=1783712844; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=NcHQd/8XSBa7MNTS4wISQ1H39Zw3/ARkiAwQE2EKLP0=;
+        b=k4DOsd+fsi7k9rm1XIoI+qy6o+M4wpuIxvCzJyu1ykrB1SS+lsknnt9kFvileeIhpc
+         RlLei9CFVz8xQuRWYIXZoq3bdr3UcHlnM7VMt4bS0fpcFvwjOAP5vhNE18NxSlMtqBhI
+         WxPyMKNz2LjHOIRGxkcDudqNmgeiiG6iRP4CoRKI9R0d7UHZiRz2j4pS9ZoKFIbBtpyl
+         DXCxyWQu7ROTfUrj+R5wwz2AQb1zC6O5pcMYTCmkSiuHYdhginfbGR2tyk5f4gZHi0sT
+         WKGv0E0Ny23/M5mZeO+9Y9SX/KhCIBZcGml3d0N6jM6zr7RyfvH+yA/KwaZvggZaDdIl
+         3MgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783108026; x=1783712826;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TQ2PuvPwxYkWt/yOA3YLy/RG2quNv49+20ByVVAjYo8=;
-        b=q+JTHl+DMEOX6Yx4OjGBVkhqwRAtkes+AAmNQ18HjG8ki235s/NAamxMXNSnS5HYGX
-         emjY6vN9ZYGBI5ByBcFdGsCVOwX4clPVOq+BH97/6Ln4VAwByvagxUl+m+FjfwgvWHpG
-         EJfqltlWVOrlnYiLzXujhmbOqWJC8yT/UtWtFbD3OAd2XfUu3boEjd1YVHJVV3WoJwdj
-         WSlHFm5X7iBBVykVREhvWFiCyu5STguZYNVcRqo/MLhtEdGOsU6aa0rE8breY4s2xAF4
-         5MfetXbfzDIaa05Y+XT+pYWN0+47nqy3jnjdIAQ9u0MIvgmaNZN7qFyk25p6ZPg2eEzI
-         A08Q==
-X-Forwarded-Encrypted: i=1; AHgh+RpXyMh334m6hvigFsYv8yvdoqid9QJwhmWXwwB7zgW4+Z+cTrfNnA1wY22RmDYlpLvkBlMoKocP8ybW5Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwfpKk8X2+fjg1c03rM6xp2ih/TjizBHCyg4wvm+icmj8J28HHH
-	lVwJRaFk7qOxYAM/Fg2sbEZQ+nM1s+lzQjugVt8chfxhpLVI3/IM/rmttroz/HYvKubicxnMQe/
-	JFP6PPBOs56Ag7iM8dc1YrWF6tO0A1hZkKjj97+PxUBBd5U/sOpwoTAUWieePUEQVIg==
-X-Gm-Gg: AfdE7clyfPlk6m3SyI+KvQQbpowzRcWALaS3HOlaRsIbhZk0WmcPmfndMHpNFoPN2tB
-	HPPPNY5QVB/Bdb/EjxJhE+gO6S9aFk2gFKtaimHTVIyvfGDepQRE5+J3DI6OxB3ewpWVVYmOOGj
-	c58t8wvEsxTAcWtPjSME1IZzo8zlrxYUYot2n6AqCoaoX9PVQuThpCukcRk9bOoWQG7AmeBdh88
-	Lsc1NO2PZ9tc142+asdiONHG/kZvn0Dzez/gOgHdxfAIFtjGRSQhkraqA91w4sEv07jY2EQTVZZ
-	CRffLODyTirnEhItQPlvVF6O+NukHlVLs9MOzOuwl1iFG7c8qrg3rdepKL8jnWN/tbOSqvJoXKS
-	/e1r5/t7je+5HXncQIS/bfCcVb/89zNqFsTxANw==
-X-Received: by 2002:a17:90b:1e48:b0:37f:d262:1e0a with SMTP id 98e67ed59e1d1-38280d999c9mr747520a91.12.1783108025409;
-        Fri, 03 Jul 2026 12:47:05 -0700 (PDT)
-X-Received: by 2002:a17:90b:1e48:b0:37f:d262:1e0a with SMTP id 98e67ed59e1d1-38280d999c9mr747443a91.12.1783108024778;
-        Fri, 03 Jul 2026 12:47:04 -0700 (PDT)
-Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f290b6bc2sm10065845eec.27.2026.07.03.12.46.40
+        d=1e100.net; s=20251104; t=1783108044; x=1783712844;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=NcHQd/8XSBa7MNTS4wISQ1H39Zw3/ARkiAwQE2EKLP0=;
+        b=coDofIrqXajZWHAg6i69M6vwL4zRZWdMGIe0x9h58kkTblMuuokSIqGiz+GU1fuUwV
+         mTzlGPKuiI9dnrSQiqq/2NkLKqwrL9W0/f/OOJTBKSjxn4KUxAkMTSNmNSSWwrVS2Lr1
+         3gLRvtNmXYn7vPVJcnUUNb5Vo3BSjfu+hWBI9wOoWD1KK1/4Vz7Wp0PPfLCrMURwZ9/r
+         +JEKI23nMwiOrh1Im6T8EhM8Fj8FGSzJwZuc5FqsMqbf1O/ak8sQ26cMK7U3yrV1fN4S
+         kZfxBXgl13FFGnmYY2wYmSTriTMHyhR2jWfWce/ZTnxYHBaYVur0bz3ch8iQdtyPLMWy
+         KyMQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqaYATVNtUOQ0x0kxap8E7/GO36MYFN8rppY4b29upYa2EY+VRPjjGzJOP7oJN+xhrrIYfCK+aauc4IeA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyYEf8Y0sci3oDEvPTLZabuv5SqMn0Z7EBU/JVjIpiWBjzBwZqj
+	P2ul5cf/LI7rBsLpF94BJAEgDhbZ3cLx2sCtX3WxKoXXCmHXrHG9ra2h
+X-Gm-Gg: AfdE7cnvOm4BuvpZCqz4r4+Ef04wgR7VLFzfTuydpqNXf+sN2aySeCAVrIAL+ieiNgG
+	emS7wwAdwYSrjsMDlMbSNVDb+PyQkfQi3t58EilNSJDIQx/Vcu3Zbhu3hkQk8wTHe3paWSNv4Bk
+	RYzozsNkgRzzsTROeZn8KU0C8zg1OWHZ7Xp6AH6+SynYLqdd7oc0QVV76PtClqeeKGw+oGDriP2
+	KWbSQLRCaiyr99YWgVnKy/nUX8aTaUYzd3RsxJEIu3iEiEv78HQi7R2hn/isHga/9lLOu/o7tSa
+	36spiiz9pfXvK1CnVG54hF50M60qrHvSAl9A3g3M6hA3ImcAw9sSGATj674BFQznfwp6OfWiCJ/
+	UxnAkj5Eny6Kiw/CqwVRxx9VbDENxzKZxBVT5kUX85I3r7su89NWZcqmfrTCUavbTe1kbhNLEqX
+	LQGfeg3H6pw90z7g1wdMI1SpZTbeznCuUgh1GlehrEJtPCF8VylA==
+X-Received: by 2002:a05:690c:9c09:b0:80b:de5d:bfc7 with SMTP id 00721157ae682-8173a4dcf05mr6515877b3.54.1783108043369;
+        Fri, 03 Jul 2026 12:47:23 -0700 (PDT)
+Received: from suesslenovo ([24.176.128.175])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-817212bd978sm2590887b3.37.2026.07.03.12.47.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2026 12:47:04 -0700 (PDT)
-From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-To: Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@codeconstruct.com.au>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Paul Kocialkowski <paulk@sys-base.io>,
-        Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Alexey Brodkin <abrodkin@synopsys.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Michal Simek <michal.simek@amd.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Eddie James <eajames@linux.ibm.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>,
-        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Thierry Reding <thierry.reding@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Srinivas Kandagatla <srini@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ge Gordon <gordon.ge@bst.ai>, Adrian Hunter <adrian.hunter@intel.com>,
-        Ulf Hansson <ulfh@kernel.org>, Rob Herring <robh@kernel.org>,
-        Saravana Kannan <saravanak@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Shengjiu Wang <shengjiu.wang@gmail.com>,
-        Xiubo Li <Xiubo.Lee@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-        Bard Liao <yung-chuan.liao@linux.intel.com>,
-        Daniel Baluta <daniel.baluta@nxp.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Peter Chen <peter.chen@cixtech.com>,
-        Fugang Duan <fugang.duan@cixtech.com>
-Cc: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
-        BST Linux Kernel Upstream Group <bst-upstream@bstai.top>,
-        Fabio Estevam <festevam@gmail.com>,
-        Nicolin Chen <nicoleotsuka@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-        Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
-        openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
-        kernel@collabora.com, linux-tegra@vger.kernel.org,
-        linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        imx@lists.linux.dev, sound-open-firmware@alsa-project.org,
-        Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Subject: [PATCH 19/42] drm: sun4i: Use devm_of_reserved_mem_device_init()
-Date: Sat,  4 Jul 2026 01:08:32 +0530
-Message-ID: <20260703193855.110619-20-mukesh.ojha@oss.qualcomm.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
-References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
+        Fri, 03 Jul 2026 12:47:22 -0700 (PDT)
+Date: Fri, 3 Jul 2026 15:47:21 -0400
+From: Justin Suess <utilityemal77@gmail.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Sean Young <sean@mess.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Maxime Ripard <mripard@kernel.org>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Sashiko <sashiko-bot@kernel.org>
+Subject: Re: [PATCH 2/4] media: rc: sunxi-cir: add support for the A523
+Message-ID: <akgKeqUhWWThWKco@suesslenovo>
+References: <20260702214750.3428694-1-utilityemal77@gmail.com>
+ <20260702214750.3428694-3-utilityemal77@gmail.com>
+ <309f6601-2358-4a2d-9696-0849d69ade52@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAzMDE5OSBTYWx0ZWRfX9ACVGBpbeNSF
- pdcUgoJ3XcTajhW8qJRimnB7tbkcGv3LgODAWlKXH8Molf5jSkoNgo67P0XRTuHQKm7F+kgodAi
- jVVeZMRHk38Tv/pTmCZqGoNq9IM6pDaW3LM6PE4TP6QHhWgZaMBNg6CAIEiY2f6gZ9+AMRk1HRt
- 9tqIkCZxpvlPNHcdn9hqpQPpBfyxGALD6vGRiZt6s4e6BaFxIRyGUD5HY5RqSs3tWpwUTFasOKk
- vP9mUEQK4rCOS+P6sGFfFPVzSf6XQbNOhxDOb423yQ4iNe+MWE4475XLSgfEkLkhnwDUipoiKrx
- 6kNuQNAgH0iPgEGhDq1NvrbOliNO+M5f5/SG7aHEyFv48ykakFVJ1ZT7RoYj5Tb8ImcqYiXBubu
- 4pprQTz0mONAFeeROf2+B5RpvG1t4oknei1Gq7H91l4lprZHMTTwY9ymJgjrovJykvpzX/7dcjA
- bvzWwB4A2CmJxwWMfPA==
-X-Proofpoint-GUID: 4w4WB6C1HehyIthJ_RAHQq-X-R_UGUrb
-X-Authority-Analysis: v=2.4 cv=QbFWeMbv c=1 sm=1 tr=0 ts=6a4811ba cx=c_pps
- a=RP+M6JBNLl+fLTcSJhASfg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=EUspDBNiAAAA:8
- a=UuaWy5wPpgFSIu4BNl0A:9 a=iS9zxrgQBfv6-_F4QbHw:22
-X-Proofpoint-ORIG-GUID: 4w4WB6C1HehyIthJ_RAHQq-X-R_UGUrb
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAzMDE5OSBTYWx0ZWRfXx5HBVUHm1U6R
- ejzOgAg79L2vNLFMDIcBi1jwsNHwS4i9kMovpXwtfZdw4Eer8t1yp+ibapGzgU1oZnbFo5WPsxX
- bqqP16EGQVFcMcW4+sXZn9QIyYVEVTA=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-07-03_03,2026-07-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 phishscore=0 malwarescore=0 suspectscore=0 clxscore=1015
- bulkscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607030199
+In-Reply-To: <309f6601-2358-4a2d-9696-0849d69ade52@arm.com>
 
-Use the devres-managed devm_of_reserved_mem_device_init() instead of
-the manual of_reserved_mem_device_init()/of_reserved_mem_device_release()
-pair, letting the device resource manager handle cleanup automatically.
+On Fri, Jul 03, 2026 at 11:11:59AM +0200, Andre Przywara wrote:
+> On Thu,  2 Jul 2026 17:47:48 -0400
+> Justin Suess <utilityemal77@gmail.com> wrote:
+> 
+> Hi Justin,
+> 
+> many thanks for sending this!
+> 
+> > The A523 (sun55i) has a newer revision of the CIR receiver IP. Two
+> > register fields that do not exist on older SoCs must be programmed
+> > for reception to work:
+> > 
+> >  - CTL bits [7:6] select which pulse polarities are captured into the
+> >    RX FIFO. The reset value of 0 captures nothing, so program "both
+> >    pulse" mode, which captures regardless of header polarity.
+> 
+> Are you sure about that? The manual says that *both* the 0b00 (reset
+> default) and 0b01 values capture both edges, and actually the H6, A133
+> and H616 have the same bits, and it apparently works there.
+>
+No, actually. I literally just live dumped the registers on the vendor
+kernel, (my android tv came pre-rooted for some reason) and interpreted
+the purpose from the BSP source.
 
-Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
----
- drivers/gpu/drm/sun4i/sun4i_drv.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+I am actually unaware there was such a manual. If you could point me to
+it that'd be great.
+> I don't see those bits documented in the A64 (and earlier), but haven't
+> checked yet whether they exist there regardless or have an effect.
+> So I think we should force those bits either to 0 or to 1, depending on how
+> those bits behave on A64 and before, and how compatible this is with H6,
+> A133, H616. I will try to run some experiments on the weekend.
+>
+Appreciate it!
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-index 8a409eee1dca..5ca7b6f4764b 100644
---- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-@@ -80,7 +80,7 @@ static int sun4i_drv_bind(struct device *dev)
- 	INIT_LIST_HEAD(&drv->engine_list);
- 	INIT_LIST_HEAD(&drv->tcon_list);
- 
--	ret = of_reserved_mem_device_init(dev);
-+	ret = devm_of_reserved_mem_device_init(dev);
- 	if (ret && ret != -ENODEV) {
- 		dev_err(drm->dev, "Couldn't claim our memory region\n");
- 		goto free_drm;
-@@ -125,7 +125,6 @@ static int sun4i_drv_bind(struct device *dev)
- 	component_unbind_all(dev, NULL);
- cleanup_mode_config:
- 	drm_mode_config_cleanup(drm);
--	of_reserved_mem_device_release(dev);
- free_drm:
- 	drm_dev_put(drm);
- 	return ret;
-@@ -142,7 +141,6 @@ static void sun4i_drv_unbind(struct device *dev)
- 	drm_mode_config_cleanup(drm);
- 
- 	component_unbind_all(dev, NULL);
--	of_reserved_mem_device_release(dev);
- 
- 	drm_dev_put(drm);
- }
--- 
-2.53.0
+I'll wait for the results of that experiment, I don't feel confident
+enough that I wouldn't break things by even forcing the register to zero
+without hardware to test on. So I preserved the existing behavior for the non
+X98qpro+ board to be safe.
 
+> >  - SPLCFG (the sample configuration register) bits [1:0] select the
+> >    sample clock as a division of the module clock, replacing the
+> >    fixed module clock / 64 sample rate of the older IP.
+> 
+> That's not fully correct: even the A20(!) has these two bits, actually
+> there is a third bit, held in bit 24 (because reasons). All those bits
+> reset to 0, which is encoded as /64, so this is where the rate comes
+> from. And sunxi_ir_probe() sets the IR clock to 8MHz, which should end
+> up as 24MHz / 3, on all chips, including the A523.
+> 
+> So what is going on here? Is the manual wrong, about those bits, or the
+> clock sources?
+> Can you point to the BSP sources, if you used those?
+>
+
+Actually I relied on a script running sunxi-dump on the vendor
+kernel and dumping the registers for an initial implementation.
+
+It didn't work, and I was getting stuck. (probably my sampling script
+didn't dump the registers fast enough and didn't include all of the ones
+needed).
+
+Then I found https://github.com/chainsx/linux-sun55iw3-vendor
+
+And saw this
+
+  #define IR_SAMPLE_DEV		(0x2 << 0)	/* 24MHz/256 =93750Hz (~10.7us)*/
+
+for the clock rate.
+
+And then this one:
+
+  #define IR_BOTH_PULSE		(0x1 << 6)
+
+As and saw it being used as the pulse polarity.
+
+(above are in bsp/drivers/ir-rx/sunxi-ir-rx.c)
+
+And figured to give this one a try because everything I tried before
+messing with the existing constants in mainline failed, and this was
+the primary construct that didn't match up with mainline. 
+
+Those two things were enough to get it working perfectly on my hardware.
+
+So this is more based on "this is what worked on the hardware" + a
+cursory read of the vendor source than based on any hardware technical
+document or manual... I should have been more upfront about that.
+
+So please point me to this manual and I can revise and figure out WHY
+this works and improve this patch series. 
+
+> >    module clock / 256, which together with the 24 MHz module clock
+> 
+> Why is the A523 mod clock set to 24 MHz? You seem to do this in the DT,
+> overriding the 8MHz default? The driver clearly has a clk_set_rate() call
+> with that default 8MHz as an argument, and I don't think we should deviate
+> from that, unless there are good reasons. The sample clock should be more of
+> a driver/subsystem decision, not a a device one.
+> 
+
+See above. This is just what worked on the hardware, and what the vendor
+set. And it worked so I sent it. I didn't have access to the manual...
+
+but agreed this needs justification and not just a handwaving "works on
+my machine".
+
+> >    used on the A523 gives a 10.7 μs sample period, close to the 8 μs
+> >    of the previous 8 MHz / 64 configuration, and keeps the default
+> >    125 ms idle timeout representable in the 8-bit idle threshold
+> 
+> This is some good info that helps people understand the reasoning behind
+> those timing values. Please put this in a comment near the top of the file.
+> But actually: how does this compute? With an 8us sample clock period, the
+> 8-bit ATHR field only covers 2 ms. And I don't see us setting the ATHC bit
+> to bump this by 128.
+> 
+I'll include it and anything else I can glean from your testing, and if
+you can point me to the manual.
+
+Thanks for the swift review, sorry should have made more obvious up
+front this was a "tweaking until it works" implementation, not a ground
+up spec based implementation.
+
+> Cheers,
+> Andre
+> 
+> >    field.
+> > 
+> > Parameterize the sample divisor in the resolution/timeout
+> > calculations, which older SoCs keep at the fixed 64, and add the
+> > A523 quirks and compatible.
+> > 
+> > Signed-off-by: Justin Suess <utilityemal77@gmail.com>
+> > ---
+> >  drivers/media/rc/sunxi-cir.c | 76 ++++++++++++++++++++++++++++++------
+> >  1 file changed, 63 insertions(+), 13 deletions(-)
+> > 
+> > diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
+> > index cb4c56bf0752..82ada9dc0347 100644
+> > --- a/drivers/media/rc/sunxi-cir.c
+> > +++ b/drivers/media/rc/sunxi-cir.c
+> > @@ -31,6 +31,11 @@
+> >  /* CIR mode */
+> >  #define REG_CTL_MD			(BIT(4) | BIT(5))
+> > +/* Pulse mode selector (bits [7:6]) */
+> > +#define REG_CTL_PMD(m)			((m) << 6)
+> > +/* Capture both pulse polarities */
+> > +#define REG_CTL_PMD_BOTH		REG_CTL_PMD(1)
+> > +
+> >  /* Rx Config */
+> >  #define SUNXI_IR_RXCTL_REG    0x10
+> >  /* Pulse Polarity Invert flag */
+> > @@ -66,6 +71,13 @@
+> >  /* IR Sample Config */
+> >  #define SUNXI_IR_CIR_REG      0x34
+> > +/*
+> > + * Sample clock divider select (bits [1:0]), present on newer IP revisions
+> > + * (e.g. sun55i). Selects the sample clock as a fraction of the module clock;
+> > + * must be programmed for the sampler to run. Older SoCs lack the field and
+> > + * use a fixed module-clock/64 sample rate, so they leave it 0.
+> > + */
+> > +#define REG_CIR_SDIV(val)    ((val) & GENMASK(1, 0))
+> >  /* CIR_REG register noise threshold */
+> >  #define REG_CIR_NTHR(val)    (((val) << 2) & (GENMASK(7, 2)))
+> >  /* CIR_REG register idle threshold */
+> > @@ -73,6 +85,8 @@
+> >  /* Required frequency for IR0 or IR1 clock in CIR mode (default) */
+> >  #define SUNXI_IR_BASE_CLK     8000000
+> > +/* Default sample clock divisor: module clock / 64 (legacy fixed rate) */
+> > +#define SUNXI_IR_SAMPLE_DIV   64
+> >  /* Noise threshold in samples  */
+> >  #define SUNXI_IR_RXNOISE      1
+> > @@ -81,10 +95,18 @@
+> >   *
+> >   * @has_reset: SoC needs reset deasserted.
+> >   * @fifo_size: size of the fifo.
+> > + * @both_pulse: program the CTRL pulse-mode field (newer IP revisions).
+> 
+> As mentioned above, those bits exist in earlier IP as well. Typically
+> non-implemented bits in Allwinner IP as RES0, so I think we can program them
+> unconditionally (and should on H6/A133/H616) and don't need a quirks flag.
+> 
+Yeah, probably just setting them to zero is *fine* for the non-a523
+hardware, but I didn't want to send patches for hardware I can't test.
+
+Last thing I want to do is make someones TV remote stop working.
+
+If your experiments reveal forcing zero is OK, than I'll default to
+that.
+
+> > + * @sample_div_sel: value for the SPLCFG sample-clock divider field (0 on
+> > + *		    legacy SoCs that lack the field).
+> 
+> Same here: those bits exist back to the A20, even. And their meaning didn't
+> change, if I see this correctly. So no quirk needed, instead we should
+> program them explicitly to the value we want (probably 0).
+> 
+Sounds good
+> > + * @sample_divisor: module-clock divisor that yields the sample clock; matches
+> > + *		    @sample_div_sel on newer IP, or the fixed /64 on legacy SoCs.
+> 
+> That looks odd: why do we have that value in the first place? Following the
+> things I mention above, the divisor shouldn't be different on the A523. And
+> also, I think we should just do the math in the driver, and calculate the
+> divisor, based on some timing requirement. Which could be something like:
+> aim for a clock period of 8us. Though all the parameters seem to be stable:
+> the 24 MHz OSC input, the dividers in the mod clock, and the post dividers
+> in register 0x34. So there wouldn't be much of a calculation, really. But I
+> still think the driver can figure this out itself, and doesn't need explicit
+> telling of a divisor.
+> 
+This is just what worked for me; and what the vendor did. But you're
+right, we shouldn't trust it if the quality of the bsp code is anything
+to go off of.
+
+> So I think we would need a separate patch to fix up driver operation before
+> A523. Then the A523 bits should go on top of this. And maybe make this two
+> patches, one for the edge sample bits, one for the clock calculation.
+> 
+Easy enough. I'll wait on your experiments, please send whatever you
+found here while I prepare the seperate patches, and I'll adjust before
+resending (no rush on the results, all I'd need is you forcing the
+register to zero and verifying it works)
+
+(and please if you could drop me this manual, would have saved me a lot of time!
+I couldn't find it anywhere!)
+
+Justin
+> Cheers,
+> Andre
+> 
+> >   */
+> >  struct sunxi_ir_quirks {
+> >  	bool		has_reset;
+> >  	int		fifo_size;
+> > +	bool		both_pulse;
+> > +	u8		sample_div_sel;
+> > +	u32		sample_divisor;
+> >  };
+> >  struct sunxi_ir {
+> > @@ -92,6 +114,9 @@ struct sunxi_ir {
+> >  	void __iomem    *base;
+> >  	int             irq;
+> >  	int		fifo_size;
+> > +	bool		both_pulse;
+> > +	u8		sample_div_sel;
+> > +	u32		sample_divisor;
+> >  	struct clk      *clk;
+> >  	struct clk      *apb_clk;
+> >  	struct reset_control *rst;
+> > @@ -140,17 +165,19 @@ static irqreturn_t sunxi_ir_irq(int irqno, void *dev_id)
+> >  }
+> >  /* Convert idle threshold to usec */
+> > -static unsigned int sunxi_ithr_to_usec(unsigned int base_clk, unsigned int ithr)
+> > +static unsigned int sunxi_ithr_to_usec(unsigned int base_clk, unsigned int div,
+> > +				       unsigned int ithr)
+> >  {
+> >  	return DIV_ROUND_CLOSEST(USEC_PER_SEC * (ithr + 1),
+> > -				 base_clk / (128 * 64));
+> > +				 base_clk / (128 * div));
+> >  }
+> >  /* Convert usec to idle threshold */
+> > -static unsigned int sunxi_usec_to_ithr(unsigned int base_clk, unsigned int usec)
+> > +static unsigned int sunxi_usec_to_ithr(unsigned int base_clk, unsigned int div,
+> > +				       unsigned int usec)
+> >  {
+> >  	/* make sure we don't end up with a timeout less than requested */
+> > -	return DIV_ROUND_UP((base_clk / (128 * 64)) * usec,  USEC_PER_SEC) - 1;
+> > +	return DIV_ROUND_UP((base_clk / (128 * div)) * usec,  USEC_PER_SEC) - 1;
+> >  }
+> >  static int sunxi_ir_set_timeout(struct rc_dev *rc_dev, unsigned int timeout)
+> > @@ -158,15 +185,17 @@ static int sunxi_ir_set_timeout(struct rc_dev *rc_dev, unsigned int timeout)
+> >  	struct sunxi_ir *ir = rc_dev->priv;
+> >  	unsigned int base_clk = clk_get_rate(ir->clk);
+> > -	unsigned int ithr = sunxi_usec_to_ithr(base_clk, timeout);
+> > +	unsigned int ithr = sunxi_usec_to_ithr(base_clk, ir->sample_divisor,
+> > +					       timeout);
+> >  	dev_dbg(rc_dev->dev.parent, "setting idle threshold to %u\n", ithr);
+> > -	/* Set noise threshold and idle threshold */
+> > -	writel(REG_CIR_NTHR(SUNXI_IR_RXNOISE) | REG_CIR_ITHR(ithr),
+> > +	/* Set sample clock divider, noise threshold and idle threshold */
+> > +	writel(REG_CIR_SDIV(ir->sample_div_sel) |
+> > +	       REG_CIR_NTHR(SUNXI_IR_RXNOISE) | REG_CIR_ITHR(ithr),
+> >  	       ir->base + SUNXI_IR_CIR_REG);
+> > -	rc_dev->timeout = sunxi_ithr_to_usec(base_clk, ithr);
+> > +	rc_dev->timeout = sunxi_ithr_to_usec(base_clk, ir->sample_divisor, ithr);
+> >  	return 0;
+> >  }
+> > @@ -193,8 +222,14 @@ static int sunxi_ir_hw_init(struct device *dev)
+> >  		goto exit_disable_apb_clk;
+> >  	}
+> > -	/* Enable CIR Mode */
+> > -	writel(REG_CTL_MD, ir->base + SUNXI_IR_CTL_REG);
+> > +	/*
+> > +	 * Enable CIR Mode. On newer IP revisions the pulse-mode field must
+> > +	 * also be set, otherwise no pulses are captured into the RX FIFO.
+> > +	 */
+> > +	tmp = REG_CTL_MD;
+> > +	if (ir->both_pulse)
+> > +		tmp |= REG_CTL_PMD_BOTH;
+> > +	writel(tmp, ir->base + SUNXI_IR_CTL_REG);
+> >  	/* Set noise threshold and idle threshold */
+> >  	sunxi_ir_set_timeout(ir->rc, ir->rc->timeout);
+> > @@ -271,6 +306,9 @@ static int sunxi_ir_probe(struct platform_device *pdev)
+> >  	}
+> >  	ir->fifo_size = quirks->fifo_size;
+> > +	ir->both_pulse = quirks->both_pulse;
+> > +	ir->sample_div_sel = quirks->sample_div_sel;
+> > +	ir->sample_divisor = quirks->sample_divisor ?: SUNXI_IR_SAMPLE_DIV;
+> >  	/* Clock */
+> >  	ir->apb_clk = devm_clk_get(dev, "apb");
+> > @@ -325,10 +363,10 @@ static int sunxi_ir_probe(struct platform_device *pdev)
+> >  	ir->rc->dev.parent = dev;
+> >  	ir->rc->allowed_protocols = RC_PROTO_BIT_ALL_IR_DECODER;
+> >  	/* Frequency after IR internal divider with sample period in us */
+> > -	ir->rc->rx_resolution = (USEC_PER_SEC / (b_clk_freq / 64));
+> > +	ir->rc->rx_resolution = (USEC_PER_SEC / (b_clk_freq / ir->sample_divisor));
+> >  	ir->rc->timeout = IR_DEFAULT_TIMEOUT;
+> > -	ir->rc->min_timeout = sunxi_ithr_to_usec(b_clk_freq, 0);
+> > -	ir->rc->max_timeout = sunxi_ithr_to_usec(b_clk_freq, 255);
+> > +	ir->rc->min_timeout = sunxi_ithr_to_usec(b_clk_freq, ir->sample_divisor, 0);
+> > +	ir->rc->max_timeout = sunxi_ithr_to_usec(b_clk_freq, ir->sample_divisor, 255);
+> >  	ir->rc->s_timeout = sunxi_ir_set_timeout;
+> >  	ir->rc->driver_name = SUNXI_IR_DEV;
+> > @@ -395,6 +433,14 @@ static const struct sunxi_ir_quirks sun6i_a31_ir_quirks = {
+> >  	.fifo_size = 64,
+> >  };
+> > +static const struct sunxi_ir_quirks sun55i_a523_ir_quirks = {
+> > +	.has_reset = true,
+> > +	.fifo_size = 64,
+> > +	.both_pulse = true,
+> > +	.sample_div_sel = 2,	/* sample clock = module clock / 256 */
+> > +	.sample_divisor = 256,
+> > +};
+> > +
+> >  static const struct of_device_id sunxi_ir_match[] = {
+> >  	{
+> >  		.compatible = "allwinner,sun4i-a10-ir",
+> > @@ -408,6 +454,10 @@ static const struct of_device_id sunxi_ir_match[] = {
+> >  		.compatible = "allwinner,sun6i-a31-ir",
+> >  		.data = &sun6i_a31_ir_quirks,
+> >  	},
+> > +	{
+> > +		.compatible = "allwinner,sun55i-a523-ir",
+> > +		.data = &sun55i_a523_ir_quirks,
+> > +	},
+> >  	{}
+> >  };
+> >  MODULE_DEVICE_TABLE(of, sunxi_ir_match);
+> 
