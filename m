@@ -1,91 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D353BA244;
-	Fri,  3 Jul 2026 10:56:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4536E3B2FD6
+	for <linux-sunxi@lists.linux.dev>; Fri,  3 Jul 2026 13:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783076166; cv=none; b=Ky8UwBimyFo1fZu7d+LfPLN3VTGDzbTGXEhuEF5ySHLpPHOhHrxPSQctM0LSmIF4KpnabjTpIM13tbLV3PlqAPYfuW223iCYyayTHLVIQklKgWajwFd8aYCde5E76sgFa5yPcgAeXtzVkMTvNisDwH3IsZTiIoPKsDLU135Yodk=
+	t=1783086782; cv=none; b=WGcAeXzxEYaYyamLD9zFWBXCVfxzmDSDes9YU4ueeHd4Z5xABUNvaS3UJHPFhpvcRg8B0XLypVr+3QvtjKriLnDIUVtFFe2zinKsMakFIH5O5GTMukfBvS9mf9ohN3Pbej8ZXlDKbErINAcn9XFv+l6kRy335J30yKVXVSFdgLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783076166; c=relaxed/simple;
-	bh=UoDRAB99WvW2PEtIjdUayfbFXFOPEZ9eBEzLnzjtKOs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YSUaGcADaxApyBqkA60ZTx2BOvTNoYmTMvmYI702CVb2bP2KJDLVuEGwxKlkvVaGwUo8BALZgDTX5IJC/DT9BqvOS/zcpmCKVO0Q6mFlCk8sGX5dtJlSWZMXv3Wj0ORQXWJ9/WRqiorPGSI9Eyp6MxnRZSNCoyP+bQVJdDWuPIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MKi35CdV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783086782; c=relaxed/simple;
+	bh=Me6gmkaDjGZ/schb+RcR4K/Q/82u1DCsmp9vVOmmDmM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=phmS56bMPO3eGgEMPN/oWtbc5fW1Jnml/iOHkdk+/5frBmw8soEyrLwBVdaOwgXw+uAlCUOgG4L//Ni4DWDkTldrpRijH33jh/BQxozarU9GlOKki5BxfRBp3wL36UwgwIs5abGP4UAjQQ3Z5C/fMNvqD08QRMbgcxSsi9SN2Mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=fZrIn5Xf; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MKi35CdV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C577F1F00A3A;
-	Fri,  3 Jul 2026 10:56:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783076164;
-	bh=mhfiHCKdYvrlYZO8ujaC1v3Y0eErVrUk0qO97RPQE08=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MKi35CdVFHIEik2dQrgbSGfmmclJyVDVZtQeqE2EtxE5Am9uNMzvkasxkWaQRCA3D
-	 GJ8UqFKmrqtmumL7Ce+KkcRmnNnuQFh8+u20PcceWaghv91cxJgmPcO1CCmeaQD3T/
-	 1Ss869E2aDVXG3TxZu/3GO+GRUsQ+lQafRv0OGIsP+raTASS1UAVsm2M18cebtqJOw
-	 /Uc4M0wHquEWB4q6+QhaH1beWx1PJIy8tKWJ4aAiGGD2RNtnymPE/UcB0OfkZtdBLt
-	 ZE+QG9aa4S5/z1fD3mxghDvvprTnsRmk7T95D1apC44vXfpWW3UquSmWtrvw5lpR7l
-	 qcK9Y8+wpXP4Q==
-Date: Fri, 3 Jul 2026 12:56:00 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Justin Suess <utilityemal77@gmail.com>
-Cc: Sean Young <sean@mess.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Maxime Ripard <mripard@kernel.org>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Sashiko <sashiko-bot@kernel.org>
-Subject: Re: [PATCH 1/4] media: dt-bindings: allwinner,sun4i-a10-ir: add A523
- compatible
-Message-ID: <20260703-versed-locust-of-agility-d76fda@quoll>
-References: <20260702214750.3428694-1-utilityemal77@gmail.com>
- <20260702214750.3428694-2-utilityemal77@gmail.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="fZrIn5Xf"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6A3801570;
+	Fri,  3 Jul 2026 06:52:54 -0700 (PDT)
+Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C78843F85F;
+	Fri,  3 Jul 2026 06:52:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1783086778; bh=Me6gmkaDjGZ/schb+RcR4K/Q/82u1DCsmp9vVOmmDmM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fZrIn5XfQIvAcd0b69t8CmMai85U02ASBX0X/4as/KCW8Jodcldpa/pH5V10eQgHq
+	 9auHzyf8i2oM6zFGh8cV2I8qCTmcq5p4qHfBFzB7TbCG+cdRRlSNnjHTJTsDmbUhWf
+	 7RPvEds2OQQYqzxgTEbpq8Efep2fU3R2hTVIuI/k=
+Message-ID: <72ccedfb-742c-4af7-8439-0f37fff2853d@arm.com>
+Date: Fri, 3 Jul 2026 15:52:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260702214750.3428694-2-utilityemal77@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] pinctrl: sunxi: convert to GPIO_GENERIC
+To: Bartosz Golaszewski <brgl@kernel.org>, Linus Walleij <linusw@kernel.org>,
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Icenowy Zheng <uwu@icenowy.me>, Jerome Brunet <jbrunet@baylibre.com>
+References: <20260313000652.11470-1-andre.przywara@arm.com>
+ <a4cfb10e4701da0649ef648136496a962be5870d.camel@icenowy.me>
+ <20260315014205.471d6834@ryzen.lan>
+ <CAMRc=MeorQJvA8TBosjnDU+x-FD6GhkbXwXOjCD0nmCs16ERfQ@mail.gmail.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <CAMRc=MeorQJvA8TBosjnDU+x-FD6GhkbXwXOjCD0nmCs16ERfQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 02, 2026 at 05:47:47PM -0400, Justin Suess wrote:
-> The A523 (sun55i) contains a newer revision of the sunxi CIR receiver.
-> It is not backwards-compatible with the A31 programming model: the
-> control register has a pulse capture mode field (bits [7:6]) that
-> resets to a value which captures no pulses at all, and the sample
-> clock divider is now selectable via SPLCFG bits [1:0] instead of
-> being fixed at the old module clock / 64.
+Hi Bartosz, Linus,
+
+so I wanted to come back to this, posting a A733 v2, with this patch 
+included, and was wondering what the consensus on this matter would be?
+
+...
+
+On 3/16/26 09:57, Bartosz Golaszewski wrote:
+> On Sun, 15 Mar 2026 01:42:05 +0100, Andre Przywara
+> <andre.przywara@arm.com> said:
+>> On Sat, 14 Mar 2026 13:14:25 +0800
+>> Icenowy Zheng <uwu@icenowy.me> wrote:
+>>
+>>> 在 2026-03-13五的 01:06 +0100，Andre Przywara写道：
+>>>> Allwinner SoCs combine pinmuxing and GPIO control in one device/MMIO
+>>>> register frame. So far we were instantiating one GPIO chip per
+>>>> pinctrl
+>>>> device, which covers multiple banks of up to 32 GPIO pins per bank.
+>>>> The
+>>>> GPIO numbers were set to match the absolute pin numbers, even across
+>>>> the
+>>>> typically two instances of the pinctrl device.
+>>>>
+>>>> Convert the GPIO part of the sunxi pinctrl over to use the
+>>>> gpio_generic
+>>>> framework. This alone allows to remove some sunxi specific code,
+>>>> which
+>>>> is replaced with the existing generic code. This will become even
+>>>> more
+>>>> useful with the upcoming A733 support, which adds set and clear
+>>>> registers for the output.
+>>>> As a side effect this also changes the GPIO device and number
+>>>> allocation: Each bank is now represented by its own gpio_chip, with
+>>>> only
+>>>> as many pins as there are actually implemented. The numbering is left
+>>>> up
+>>>
+>>> Ah, is this a userspace API break?
+
+So to summarise: yes, the user visible number in /sys/class/gpio would 
+change. For a start, there would be up to a dozen gpiochip's now, 
+instead of the just two before. But at the moment they are somewhat 
+inconsistently named: the current labels are just <addr>.pinctrl, you 
+would need to know that 300b000 is the primary controller. This is of 
+course SoC specific, and DOES differ between generations of Allwinner 
+chips. With this patch we get the bank number appended to the label, so 
+it becomes something like: 300b000.pinctrl-PD, which is grep-able even.
+
+As for users being affected by this change: that's hard to say, there 
+seem to be a lot of silent users there (not being visible in mainline 
+discussions), also a lot of people using these boards in a very embedded 
+way. My hunch is that still quite some people use the sysfs interface, 
+because it's so convenient to use from the shell, and many compile their 
+own kernels. At the same time I am sure those people could adapt to any 
+new scheme.
+
+>> Was that ever a guaranteed user space API? Or just something
+>> that everyone relied on because it was always the same (until it
+>> wasn't)? Similar to /dev/mmcblk0 being the SD card?
+
+
+>> And ignoring the ill-fated old-style sysfs interface for now, how does
+>> this work with libgpiod? Would it still use the absolute pin numbers?
+>>
+>> I mean looking at that warning about the forced GPIO numbering we
+>> get, using base = -1 seems to be the recommended way?
+>>
 > 
-> Since a kernel driving it as an A31 CIR receives nothing, add the
-> compatible as a standalone entry rather than under the
-> allwinner,sun6i-a31-ir fallback.
+> My view is this: for libgpiod, there are no absolute GPIO numbers and the
+> ordering of GPIO chip character devices is not guaranteed.
 > 
-> Signed-off-by: Justin Suess <utilityemal77@gmail.com>
-> ---
->  .../devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml        | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml
-> index 42dfe22ad5f1..06656058ce91 100644
-> --- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml
-> +++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml
-> @@ -19,6 +19,7 @@ properties:
->        - const: allwinner,sun4i-a10-ir
->        - const: allwinner,sun5i-a13-ir
->        - const: allwinner,sun6i-a31-ir
-> +      - const: allwinner,sun55i-a523-ir
+> For sysfs: userspace may rightfully expect the global numbering to stay the
+> same. I don't like it but this is the kernel policy.
 
-I assume you are adding it in expected order that Allwinner is
-following, not just randomly at the end of any list.
+Does it matter anyhow that this interface is deprecated, and even hidden 
+behind CONFIG_EXPERT?
 
-Also, please change all above entries to one enum, can be the same
-commit.
+> Here however, there's another thing: the fact that a single GPIO chips is now
+> split into several. I don't mind it but if someone complains, it would have
+> to be reverted.
 
+Who would care, and are there other effects outside of the sysfs 
+numbering? I mean we always had two GPIO chips before (because of two 
+instances of pinctrl IP in most Allwinner SoCs), one with one or two 
+banks, one with up to 11. Now it's at least consistently one bank per 
+chip, without gaps.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+So personally I am leaning towards doing the change: most users can 
+typically adapt - or they don't care because they don't update their 
+kernels (beyond stable revisions). And to address the naming 
+ambiguities, we could push for more gpio-line-names. That would make 
+finding a GPIO much safer and easier, and works either way.
 
-Best regards,
-Krzysztof
+But if this patch's ABI breakage is a showstopper, I would need to know, 
+so that I can rebase the A733 pinctrl patches without this one being the 
+first patch in the series.
+
+Cheers,
+Andre
 
