@@ -1,154 +1,222 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4536E3B2FD6
-	for <linux-sunxi@lists.linux.dev>; Fri,  3 Jul 2026 13:53:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D39C414DEF
+	for <linux-sunxi@lists.linux.dev>; Fri,  3 Jul 2026 15:22:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783086782; cv=none; b=WGcAeXzxEYaYyamLD9zFWBXCVfxzmDSDes9YU4ueeHd4Z5xABUNvaS3UJHPFhpvcRg8B0XLypVr+3QvtjKriLnDIUVtFFe2zinKsMakFIH5O5GTMukfBvS9mf9ohN3Pbej8ZXlDKbErINAcn9XFv+l6kRy335J30yKVXVSFdgLI=
+	t=1783092154; cv=none; b=CQhA+EJu3VL3M9Y5IYMpwKpbSLD2J9mMwhgY4DwPwZk9/kteBg7VJkI4yOrle5IMfkkUKVLYjEJgmwXRXQqPqLmOgl4pkmCC3sHfNAAQzhif/CHxo6v4Ti6PpP4kUq5LMRv+F5qjvipWNbbwBZHOPCwJRXHKPAxXQCfO4+VQfIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783086782; c=relaxed/simple;
-	bh=Me6gmkaDjGZ/schb+RcR4K/Q/82u1DCsmp9vVOmmDmM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=phmS56bMPO3eGgEMPN/oWtbc5fW1Jnml/iOHkdk+/5frBmw8soEyrLwBVdaOwgXw+uAlCUOgG4L//Ni4DWDkTldrpRijH33jh/BQxozarU9GlOKki5BxfRBp3wL36UwgwIs5abGP4UAjQQ3Z5C/fMNvqD08QRMbgcxSsi9SN2Mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=fZrIn5Xf; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1783092154; c=relaxed/simple;
+	bh=o6qYyClYJFUhN8SqkfwWXv6Xh9TUxilTNZ7qbfwufLo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S3tVzjT24tvOUYnGN3/d79aO84+1o/tWAKOcnlWa3hFfAMu3E1hm/a/VHommCokYsS5vp+hta3ko78ubI8OOdDCVo3DxUIfX7mHalLV25/NOemy799w7BZnpeOkyZnYVUCs99ZioTj3d9HInPPgvwWYR1WVlJJkTOUtkTZZLkI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jP75NKZs; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="fZrIn5Xf"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6A3801570;
-	Fri,  3 Jul 2026 06:52:54 -0700 (PDT)
-Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C78843F85F;
-	Fri,  3 Jul 2026 06:52:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1783086778; bh=Me6gmkaDjGZ/schb+RcR4K/Q/82u1DCsmp9vVOmmDmM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fZrIn5XfQIvAcd0b69t8CmMai85U02ASBX0X/4as/KCW8Jodcldpa/pH5V10eQgHq
-	 9auHzyf8i2oM6zFGh8cV2I8qCTmcq5p4qHfBFzB7TbCG+cdRRlSNnjHTJTsDmbUhWf
-	 7RPvEds2OQQYqzxgTEbpq8Efep2fU3R2hTVIuI/k=
-Message-ID: <72ccedfb-742c-4af7-8439-0f37fff2853d@arm.com>
-Date: Fri, 3 Jul 2026 15:52:38 +0200
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jP75NKZs"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id C4D6DC49F57;
+	Fri,  3 Jul 2026 15:22:41 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id E338160300;
+	Fri,  3 Jul 2026 15:22:29 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 58C01104C952E;
+	Fri,  3 Jul 2026 17:22:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1783092148; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=GL/PEBpDRjNofqSclIW36EdkzsUZczRz8DzmZfGvPwM=;
+	b=jP75NKZsLJ/JammBfF5BPYS43hPWKLJPaZFkNZXjxuysm/XKJbVF/NG4ZawS74KU/FLxNz
+	/y+4SJAEkAS4RPaEXpq47pzFmQzdR6hjaShd0I9uyfiT9jq6LexziQ/ZoyPHPinBV0EufL
+	F4mDzo/w4VjAvWMkGlmopm2yk5XAwrSu7hT+J091pRkqiO8JtqkFJXT2S7kZ8UZhtw6i5y
+	nRXDdgqHLfGNnkVqXHPOHbTnh6d6fBvJkUF+XFI0l9D4A3jECqWgVJCSrWUZ6atyOx6hz9
+	50tEQidDdy2DZ8qiOmIyRxFj10xS7v3Xs04k3DGPxc1ug0DfuiW0iKHqKtrGng==
+From: Richard Genoud <richard.genoud@bootlin.com>
+To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney@redhat.com>
+Cc: Paul Kocialkowski <paulk@sys-base.io>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	John Stultz <jstultz@google.com>,
+	Joao Schim <joao@schimsalabim.eu>,
+	bigunclemax@gmail.com,
+	linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	Richard Genoud <richard.genoud@bootlin.com>
+Subject: [PATCH v7 0/4] Introduce Allwinner H616 PWM controller
+Date: Fri,  3 Jul 2026 17:22:11 +0200
+Message-ID: <20260703152215.192859-1-richard.genoud@bootlin.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] pinctrl: sunxi: convert to GPIO_GENERIC
-To: Bartosz Golaszewski <brgl@kernel.org>, Linus Walleij <linusw@kernel.org>,
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Icenowy Zheng <uwu@icenowy.me>, Jerome Brunet <jbrunet@baylibre.com>
-References: <20260313000652.11470-1-andre.przywara@arm.com>
- <a4cfb10e4701da0649ef648136496a962be5870d.camel@icenowy.me>
- <20260315014205.471d6834@ryzen.lan>
- <CAMRc=MeorQJvA8TBosjnDU+x-FD6GhkbXwXOjCD0nmCs16ERfQ@mail.gmail.com>
-Content-Language: en-GB
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <CAMRc=MeorQJvA8TBosjnDU+x-FD6GhkbXwXOjCD0nmCs16ERfQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Bartosz, Linus,
+Allwinner H616 PWM controller is quite different from the A10 one.
 
-so I wanted to come back to this, posting a A733 v2, with this patch 
-included, and was wondering what the consensus on this matter would be?
+It can drive 6 PWM channels, and like for the A10, each channel has a
+bypass that permits to output a clock, bypassing the PWM logic, when
+enabled.
 
-...
+But, the channels are paired 2 by 2, sharing a first set of
+MUX/prescaler/gate.
+Then, for each channel, there's another prescaler (that will be bypassed
+if the bypass is enabled for this channel).
 
-On 3/16/26 09:57, Bartosz Golaszewski wrote:
-> On Sun, 15 Mar 2026 01:42:05 +0100, Andre Przywara
-> <andre.przywara@arm.com> said:
->> On Sat, 14 Mar 2026 13:14:25 +0800
->> Icenowy Zheng <uwu@icenowy.me> wrote:
->>
->>> 在 2026-03-13五的 01:06 +0100，Andre Przywara写道：
->>>> Allwinner SoCs combine pinmuxing and GPIO control in one device/MMIO
->>>> register frame. So far we were instantiating one GPIO chip per
->>>> pinctrl
->>>> device, which covers multiple banks of up to 32 GPIO pins per bank.
->>>> The
->>>> GPIO numbers were set to match the absolute pin numbers, even across
->>>> the
->>>> typically two instances of the pinctrl device.
->>>>
->>>> Convert the GPIO part of the sunxi pinctrl over to use the
->>>> gpio_generic
->>>> framework. This alone allows to remove some sunxi specific code,
->>>> which
->>>> is replaced with the existing generic code. This will become even
->>>> more
->>>> useful with the upcoming A733 support, which adds set and clear
->>>> registers for the output.
->>>> As a side effect this also changes the GPIO device and number
->>>> allocation: Each bank is now represented by its own gpio_chip, with
->>>> only
->>>> as many pins as there are actually implemented. The numbering is left
->>>> up
->>>
->>> Ah, is this a userspace API break?
+It looks like that:
+            _____      ______      ________
+OSC24M --->|     |    |      |    |        |
+APB1 ----->| Mux |--->| Gate |--->| /div_m |-----> PWM_clock_src_xy
+           |_____|    |______|    |________|
+                          ________
+                         |        |
+                      +->| /div_k |---> PWM_clock_x
+                      |  |________|
+                      |    ______
+                      |   |      |
+                      +-->| Gate |----> PWM_bypass_clock_x
+                      |   |______|
+PWM_clock_src_xy -----+   ________
+                      |  |        |
+                      +->| /div_k |---> PWM_clock_y
+                      |  |________|
+                      |    ______
+                      |   |      |
+                      +-->| Gate |----> PWM_bypass_clock_y
+                          |______|
 
-So to summarise: yes, the user visible number in /sys/class/gpio would 
-change. For a start, there would be up to a dozen gpiochip's now, 
-instead of the just two before. But at the moment they are somewhat 
-inconsistently named: the current labels are just <addr>.pinctrl, you 
-would need to know that 300b000 is the primary controller. This is of 
-course SoC specific, and DOES differ between generations of Allwinner 
-chips. With this patch we get the bank number appended to the label, so 
-it becomes something like: 300b000.pinctrl-PD, which is grep-able even.
+Where xy can be 0/1, 2/3, 4/5
 
-As for users being affected by this change: that's hard to say, there 
-seem to be a lot of silent users there (not being visible in mainline 
-discussions), also a lot of people using these boards in a very embedded 
-way. My hunch is that still quite some people use the sysfs interface, 
-because it's so convenient to use from the shell, and many compile their 
-own kernels. At the same time I am sure those people could adapt to any 
-new scheme.
+As this is quite complex for a PWM, the Common Clock Framework is
+leverage to deal with that and not reinvent the wheel.
 
->> Was that ever a guaranteed user space API? Or just something
->> that everyone relied on because it was always the same (until it
->> wasn't)? Similar to /dev/mmcblk0 being the SD card?
+PWM_clock_x/y serve for the PWM purpose.
+PWM_bypass_clock_x/y serve for the clock-provider purpose.
+The common clock framework has been used to manage those clocks.
 
+This PWM driver serves as a clock-provider for PWM_bypass_clocks.
+This is needed for example by the embedded AC300 PHY which clock comes
+from PMW5 pin (PB12).
 
->> And ignoring the ill-fated old-style sysfs interface for now, how does
->> this work with libgpiod? Would it still use the absolute pin numbers?
->>
->> I mean looking at that warning about the forced GPIO numbering we
->> get, using base = -1 seems to be the recommended way?
->>
-> 
-> My view is this: for libgpiod, there are no absolute GPIO numbers and the
-> ordering of GPIO chip character devices is not guaranteed.
-> 
-> For sysfs: userspace may rightfully expect the global numbering to stay the
-> same. I don't like it but this is the kernel policy.
+Usually, to get a clock from a PWM driver, we use the pwm-clock driver
+so that the PWM driver doesn't need to be a clk-provider itself.
+While this works in most cases, here it just doesn't.
+That's because the pwm-clock request a period from the PWM driver,
+without any clue that it actually wants a clock at a specific frequency,
+and not a PWM signal with duty cycle capability.
+So, the PWM driver doesn't know if it can use the bypass or not, it
+doesn't even have the real accurate frequency information (23809524 Hz
+instead of 24MHz) because PWM drivers only deal with periods.
 
-Does it matter anyhow that this interface is deprecated, and even hidden 
-behind CONFIG_EXPERT?
+With pwm-clock, we loose a precious information along the way (that we
+actually want a clock and not a PWM signal).
+That's ok with simple PWM drivers that don't have multiple input clocks,
+but in this case, without this information, we can't know for sure which
+clock to use.
+And here, for instance, if we ask for a 24MHz clock, pwm-clock will
+requests 42ns (assigned-clocks doesn't help for that matter). The logic
+is to select the highest clock (100MHz) with no prescaler and a duty
+cycle value of 2/4 => we have 25MHz instead of 24MHz.
+And that's a perfectly fine choice for a PMW, because we still can
+change the duty cycle in the range [0-4]/4.
+But obviously for a clock, we don't care about the duty cycle, but more
+about the clock accuracy.
 
-> Here however, there's another thing: the fact that a single GPIO chips is now
-> split into several. I don't mind it but if someone complains, it would have
-> to be reverted.
+And actually, this PWM is really a PWM AND a real clock when the bypass
+is set.
 
-Who would care, and are there other effects outside of the sysfs 
-numbering? I mean we always had two GPIO chips before (because of two 
-instances of pinctrl IP in most Allwinner SoCs), one with one or two 
-banks, one with up to 11. Now it's at least consistently one bank per 
-chip, without gaps.
+This series is based onto v7.2-rc1
 
-So personally I am leaning towards doing the change: most users can 
-typically adapt - or they don't care because they don't update their 
-kernels (beyond stable revisions). And to address the naming 
-ambiguities, we could push for more gpio-line-names. That would make 
-finding a GPIO much safer and easier, and works either way.
+NB: checkpatch is not happy with patch 2, but it's a false positive.
+It doesn't detect that PWM_XY_SRC_MUX/GATE/DIV are structures, but as
+it's more readable like that, I prefer keeping it that way.
 
-But if this patch's ABI breakage is a showstopper, I would need to know, 
-so that I can rebase the A733 pinctrl patches without this one being the 
-first patch in the series.
+Changes since v6:
+- rebase on v7.2-rc1
+- Cc common clock framework maintainers, suggested by Uwe
+- add missing static before SUN8I_PWM_X_BYPASS_GATE
+- reorder code in probe to fix potential life cycle issues
+- set pwmcc_data[i].parent_names to NULL in sun8i_pwm_unregister_clk
 
-Cheers,
-Andre
+Changes since v5:
+- remove trailing junk after commit message in patch 4
+- remove Tested-by when it doesn't make sense.
+(sorry for the noise)
+
+Changes since v4:
+- Fix a bug on bypass for channels greater than 1
+- add colons to clarify 2 debug messages
+- switch from H616 to sun8i prefix (in code, filename, module name)
+- fix consistency issues in macro parameters
+- rename some macros with a confusing naming
+- rebase on v7.0
+
+Changes since v3:
+- gather Acked-by/Tested-by
+- fix cast from pointer to integer of different size (kernel test robot
+  with arc platform)
+- add devm_action for clk_hw_unregister_composite as suggested by Philipp
+- remove now unused pwm_remove as suggested by Philipp
+
+Changes since v2:
+- use U32_MAX instead of defining UINT32_MAX
+- add a comment on U32_MAX usage in clk_round_rate()
+- change clk_table_div_m (use macros)
+- fix formatting (double space, superfluous comma, extra line feed)
+- fix the parent clock order
+- simplify code by using scoped_guard()
+- add missing const in to_h616_pwm_chip() and rename to
+h616_pwm_from_chip()
+- add/remove missing/superfluous error messages
+- rename cnt->period_ticks, duty_cnt->duty_ticks
+- fix PWM_PERIOD_MAX
+- add .remove() callback
+- fix DIV_ROUND_CLOSEST_ULL->DIV_ROUND_UP_ULL
+- add H616_ prefix
+- protect _reg in macros
+- switch to waveforms instead of apply/get_state
+- shrink struct h616_pwm_channel
+- rebase on v6.19-rc4
+
+Changes since v1:
+- rebase onto v6.19-rc1
+- add missing headers
+- remove MODULE_ALIAS (suggested by Krzysztof)
+- use sun4i-pwm binding instead of creating a new one (suggested by Krzysztof)
+- retrieve the parent clocks from the devicetree
+- switch num_parents to unsigned int
+
+Richard Genoud (4):
+  dt-bindings: pwm: allwinner: add h616 pwm compatible
+  pwm: sun8i: Add H616 PWM support
+  arm64: dts: allwinner: h616: add PWM controller
+  MAINTAINERS: Add entry on Allwinner sun8i/H616 PWM driver
+
+ .../bindings/pwm/allwinner,sun4i-a10-pwm.yaml |  19 +-
+ MAINTAINERS                                   |   5 +
+ .../arm64/boot/dts/allwinner/sun50i-h616.dtsi |  47 +
+ drivers/pwm/Kconfig                           |  12 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-sun8i.c                       | 938 ++++++++++++++++++
+ 6 files changed, 1021 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/pwm/pwm-sun8i.c
+
+-- 
+2.47.3
 
