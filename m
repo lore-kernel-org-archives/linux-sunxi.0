@@ -1,208 +1,217 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C18E199385
-	for <linux-sunxi@lists.linux.dev>; Sat,  4 Jul 2026 08:25:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B8635F60E
+	for <linux-sunxi@lists.linux.dev>; Sat,  4 Jul 2026 17:14:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783153517; cv=none; b=o5GP8ygaws+gNmgrJLqiK6W+qlQGO9Hb8GK/pEj0oHMtqN0veh71rjYqQMe8dD4UpQR5GePWTtdoAegsSuKYymKuOvrFqrBzQ6Nluk/dL2OaIOuoNyNQwrD4vXJapZfpT8UrNSxIwR/BvPZsvToBYjjyR3r9qKSXM2bQzUYsJ3M=
+	t=1783185281; cv=none; b=tHxKDge/HFUN1SJ5E+bSUPrYODXyY1YXRRXFkTqdQhRKonKtzIl+hc7+w75DX8bhS9iZMHNfA5xPA2gptO6U1AyT/UA09bpjXg0NUIh6duZHMahzX+nSHFPqPuFLeQirZZVbE4ehtM6B4HwFUML0m8SSuvyMmboANJrxrx8K7/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783153517; c=relaxed/simple;
-	bh=kcg7KVCWy+NnC+VfCf9xytGdC2NFAJGaOzW5jvhcj1g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ae0Ldb4OY5lrI/OHizUXnJCSO56JCpIdSgcUXFaStfOiMfNZHymVXnYgimzGfiyltESmWXpIz4G6UvRbmjdBHLsRcRXoUUKmMD5zlv7pUM95MDorawLLf5StPKRoIpXWqDd7jreM/L+X571RxX7QJ6whqWSINV2hoPbvIB4Us8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AhmNjmDr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783185281; c=relaxed/simple;
+	bh=iiokSlZfLnf8dlWNcbww5/0TbRCZJN8q+3FsBY/mPN4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HFUj4qS/zEhzF+qP8/rjvy6E8dJQmN1XkxzTb9iYLbGN8qHnv+/qechYuXKx9AnX3iJTk2hFw99/IH0AOXIQRzsY9DZM/p64ZYGVpxO6gd+kKW8mMlyEvaHpDRVE7C7D3l7bJ0jKGq5koj5paL+AsR1yndTagwMVwWZrwsLnGt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p0ak6Idi; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AhmNjmDr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B4821F00A3E
-	for <linux-sunxi@lists.linux.dev>; Sat,  4 Jul 2026 08:25:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783153515;
-	bh=Fs2AiFoC/uXi7Y3GxLDQdbdL/aEwooLIt1/0w5YrmTY=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=AhmNjmDrvXUIm6qq1QCLqnCOerLJyDhayVscWRp+pfxFlPNRVhDN7FxAEBUNoNMvv
-	 fX29jiShaD+xLYEqR7ds9oASvt4gBXubcEqIEeeSZCjmi3wT9+gWWpA4MGRGG+Uvwt
-	 mvJWckTAhYPw6RWzQe0tmkPrR3mUDBDsmlKP77VOdcSvJMAX5+xPyr5ol32ly0rNVT
-	 LsT22Ht/ajL5O29l+rtTZjt3uzQXj++OBIe01iL26GOWmLzFWxhaPXrvtTvlF5Dlx7
-	 6inn3nzqPF18/AmMG8zg21CDbttnRU5OLYRAYvQg7oYedlXUqccE4GDPbIzz1LhTBE
-	 r3Ho1aegqR+Sg==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-39b293079d1so10945521fa.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 04 Jul 2026 01:25:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RpOy4ysTgzSBPjttXIvrh0BkOVAL4GTJJJuiokrGq8NGof9d8bJMghbZTKQLoSGpLI4FzdWOV7NGTKqeA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwSP0llmQhYpM2eIrets51OCZCRm4MXcXeplAsCxqQrslvDoE+3
-	qbKoRHcqs8JCMtF1X1F/46riUmG2W6Fy0fsc+TTnKhbfjhfSlQSKwIKHzgDFoABai4e46QYqPMD
-	M8Up31szCxH3M31O+Mwl48/FR4fKFuRs=
-X-Received: by 2002:a2e:bcc5:0:b0:39b:35bd:e704 with SMTP id
- 38308e7fff4ca-39b53c3ffd6mr4690261fa.7.1783153513431; Sat, 04 Jul 2026
- 01:25:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p0ak6Idi"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-845e363246aso1698782b3a.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 04 Jul 2026 10:14:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783185279; x=1783790079; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=W/CI0T+kn1yp9pQC8EXUf58GcP8gv1PF56nfEe5TT6E=;
+        b=p0ak6Idi0HigNfZQJcMam2RoT058a3O/+Jh35G7SKvhFBaAG5/MyVAk2WTxUFUHSbE
+         Ubwee89/AqR1+XH7gL7pUf4MeStYDR+FTiy91bFbz7Dj4MQBATXW19mrO8ya/RcUiHo1
+         PrbbTGtvuHpIw44PcCBXodrLqsPVORIZAmmLsXztHWSK9hppQrPAUMYWscS4Kx7ESSrN
+         XouqU5WFS8KO2pXCb6j54Mssj4wtmHh0Oev6gIENKX/D0ToDBHoqfi/P7bLuD27/BkR1
+         rXaMy6vCDfduAZS6QR0xlr9pzwWVCAmEBC3uW2LHplQ2XDynKmL4ayFKCx1vLDWruf32
+         3NkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783185279; x=1783790079;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W/CI0T+kn1yp9pQC8EXUf58GcP8gv1PF56nfEe5TT6E=;
+        b=IoMaFFMpD7hZtzOn2wlbTa7V+I72cb1H1reNCB/rsCmHIrKDJTfPuQh+QQiZk8Fdv0
+         KCgbtxOUInRnYymGaQOivNL5Jhl+gj0QD53EHsYU9Bkp4VnsIjXeaWNqqxsaKTD4nEul
+         vcpBLB8h9kd3ycSyXDHM+65ETXRBQx3iFDiRcEoZAkyhwM3qHwzWE/L4ELyPZuTD1ZnK
+         X1TvBifNV9F4tJjAL39aw2VnFwkkd5GYtXv912BFWffgrNcsr6rr18tB9gFAv2A5w03M
+         qerA8IZKlODVV0hdDLhmXa2Hp32pur3L5P3ia7FUWD84xelAnWzEXN/9tfdHQCYsIefi
+         ayPQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpxJaY/CBH9lB8WrR+L2+X72arD8nbH9YYkOS74huMY6E1RgCBzzWH1+WAgyRvPxM1Ro1aFBuKcQTzGAA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzL8qn7Biue1IqNc9F3x7AeaNcSkLrZL7SlBA8W8tOVAj/ItPrv
+	VfBuwxg6CM3MxG6FIpW6aXsOFotFmXuZMDHjr15C6cfb7UpR7a56tHFR
+X-Gm-Gg: AfdE7ckpz0czbJzaIbLB7ttFyyUQsdkwrLSXJyUYeU0zAjN+QkfiaxbwH9TR/hjvJ6q
+	4RixKQ8Q/dTflQa2h/L/ksmTAC5ZqpSYIGioGe2/j4otRgxbzdbLKujDA/iFIjXR8SmZ49NYuzI
+	3SQtuEGwLnSOCQCDcPX7uCxohs1WQCvpLl2URo4z+y/ptQ2h3Y7LtNH4qxp2G1Ltem6y+wWGPzq
+	kAFyejONu4Q+Hd1BCMP9VtsNPS95X4mFUyznaRU9ZKNzwUvDj46ZzhMXC+5JT9reOkdMtCDiVzq
+	28Gyznh/aIXuLz4rA0tDgm07WH25ApHNscojg9Sew5chAoZnx5ShSx9S1FIu5OAzZvfg96G5RCH
+	EeeABLPuFt/avpkGSCh1ht4jju/ooWJxUgJsSBDoFssc39qrjYIlsJ1+KPPILiJffXpfryB5Oj2
+	bxZtcpWVY9KicJK/E=
+X-Received: by 2002:a05:6a00:439a:b0:847:904c:8452 with SMTP id d2e1a72fcca58-847f6ef68b4mr3914684b3a.38.1783185279250;
+        Sat, 04 Jul 2026 10:14:39 -0700 (PDT)
+Received: from archlinux ([212.192.12.80])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6d498adsm1379101b3a.32.2026.07.04.10.14.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Jul 2026 10:14:38 -0700 (PDT)
+From: Mikhail Kalashnikov <iuncuim@gmail.com>
+To: Vasily Khoruzhick <anarsoul@gmail.com>,
+	Yangtao Li <tiny.windzz@gmail.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v5 0/5] Allwinner: A523: add support for A523 THS0/1 controllers
+Date: Sun,  5 Jul 2026 01:14:06 +0800
+Message-ID: <20260704171411.1413349-1-iuncuim@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260702-a733-rtc-v3-0-eb2580374de6@baylibre.com> <20260702-a733-rtc-v3-6-eb2580374de6@baylibre.com>
-In-Reply-To: <20260702-a733-rtc-v3-6-eb2580374de6@baylibre.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sat, 4 Jul 2026 16:25:07 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64C4Xn=V5NQcqZQa=v0KsemsVh+_6g7ed0kHz6C_bzmww@mail.gmail.com>
-X-Gm-Features: AVVi8Cco2rDKRY4RtRBz1e78QgPbRDMEhgem8aNt-eUIdWMg4uPicNKKdtWJM8A
-Message-ID: <CAGb2v64C4Xn=V5NQcqZQa=v0KsemsVh+_6g7ed0kHz6C_bzmww@mail.gmail.com>
-Subject: Re: [PATCH v3 6/8] clk: sunxi-ng: div: add read-only operation support
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Junhui Liu <junhui.liu@pigmoral.tech>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Maxime Ripard <mripard@kernel.org>, linux-rtc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 2, 2026 at 4:11=E2=80=AFPM Jerome Brunet <jbrunet@baylibre.com>=
- wrote:
->
-> Add support for sunxi-ng read-only dividers. This will be
-> useful to the a733 oscillator detection logic.
->
-> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
-> ---
->  drivers/clk/sunxi-ng/ccu_div.c | 42 ++++++++++++++++++++++++++++++++++++=
-++++++
->  drivers/clk/sunxi-ng/ccu_div.h |  1 +
->  drivers/clk/sunxi-ng/ccu_mux.c |  3 ++-
->  drivers/clk/sunxi-ng/ccu_mux.h |  4 ++++
->  4 files changed, 49 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/clk/sunxi-ng/ccu_div.c b/drivers/clk/sunxi-ng/ccu_di=
-v.c
-> index 62d680ccb524..d1c8c7baa12d 100644
-> --- a/drivers/clk/sunxi-ng/ccu_div.c
-> +++ b/drivers/clk/sunxi-ng/ccu_div.c
-> @@ -84,6 +84,36 @@ static int ccu_div_determine_rate(struct clk_hw *hw,
->                                              req, ccu_div_determine_rate_=
-helper, cd);
->  }
->
-> +static int ccu_rodiv_determine_rate(struct clk_hw *hw,
-> +                                   struct clk_rate_request *req)
-> +{
-> +       struct ccu_div *cd =3D hw_to_ccu_div(hw);
-> +       unsigned long val;
-> +       u32 reg;
-> +       int ret;
-> +
-> +       reg =3D readl(cd->common.base + cd->common.reg);
-> +       val =3D reg >> cd->div.shift;
-> +       val &=3D (1 << cd->div.width) - 1;
-> +
-> +       req->rate =3D ccu_mux_helper_unapply_prediv(&cd->common, &cd->mux=
-, -1,
-> +                                                 req->rate);
-> +
-> +       if (cd->common.features & CCU_FEATURE_FIXED_POSTDIV)
-> +               req->rate *=3D cd->fixed_post_div;
-> +
-> +       ret =3D divider_ro_determine_rate(hw, req, cd->div.table,
-> +                                       cd->div.width, cd->div.flags, val=
-);
-> +
-> +       if (cd->common.features & CCU_FEATURE_FIXED_POSTDIV)
-> +               req->rate /=3D cd->fixed_post_div;
-> +
-> +       req->rate =3D ccu_mux_helper_apply_prediv(&cd->common, &cd->mux, =
--1,
-> +                                               req->rate);
-> +
-> +       return ret;
-> +}
-> +
->  static int ccu_div_set_rate(struct clk_hw *hw, unsigned long rate,
->                            unsigned long parent_rate)
->  {
-> @@ -143,3 +173,15 @@ const struct clk_ops ccu_div_ops =3D {
->         .set_rate       =3D ccu_div_set_rate,
->  };
->  EXPORT_SYMBOL_NS_GPL(ccu_div_ops, "SUNXI_CCU");
-> +
-> +const struct clk_ops ccu_rodiv_ops =3D {
-> +       .disable        =3D ccu_div_disable,
-> +       .enable         =3D ccu_div_enable,
-> +       .is_enabled     =3D ccu_div_is_enabled,
-> +
-> +       .get_parent     =3D ccu_div_get_parent,
-> +
-> +       .determine_rate =3D ccu_rodiv_determine_rate,
-> +       .recalc_rate    =3D ccu_div_recalc_rate,
-> +};
-> +EXPORT_SYMBOL_NS_GPL(ccu_rodiv_ops, "SUNXI_CCU");
-> diff --git a/drivers/clk/sunxi-ng/ccu_div.h b/drivers/clk/sunxi-ng/ccu_di=
-v.h
-> index be00b3277e97..a30a92780a05 100644
-> --- a/drivers/clk/sunxi-ng/ccu_div.h
-> +++ b/drivers/clk/sunxi-ng/ccu_div.h
-> @@ -300,5 +300,6 @@ static inline struct ccu_div *hw_to_ccu_div(struct cl=
-k_hw *hw)
->  }
->
->  extern const struct clk_ops ccu_div_ops;
-> +extern const struct clk_ops ccu_rodiv_ops;
->
->  #endif /* _CCU_DIV_H_ */
-> diff --git a/drivers/clk/sunxi-ng/ccu_mux.c b/drivers/clk/sunxi-ng/ccu_mu=
-x.c
-> index 766f27cff748..e2d6833a6d33 100644
-> --- a/drivers/clk/sunxi-ng/ccu_mux.c
-> +++ b/drivers/clk/sunxi-ng/ccu_mux.c
-> @@ -68,13 +68,14 @@ unsigned long ccu_mux_helper_apply_prediv(struct ccu_=
-common *common,
->  }
->  EXPORT_SYMBOL_NS_GPL(ccu_mux_helper_apply_prediv, "SUNXI_CCU");
->
-> -static unsigned long ccu_mux_helper_unapply_prediv(struct ccu_common *co=
-mmon,
-> +unsigned long ccu_mux_helper_unapply_prediv(struct ccu_common *common,
->                                             struct ccu_mux_internal *cm,
->                                             int parent_index,
->                                             unsigned long parent_rate)
->  {
->         return parent_rate * ccu_mux_get_prediv(common, cm, parent_index)=
-;
->  }
-> +EXPORT_SYMBOL_NS_GPL(ccu_mux_helper_unapply_prediv, "SUNXI_CCU");
+This patch series adds temperature sensor support for the Allwinner A523
+family of processors (same die with H728/A527/T527)
 
-This does not need to be exported since all the base clocks build into
-one module. And maybe it shouldn't as we probably don't want individual
-clock drivers implementing ops.
+Based on 7.2-rc1.
 
+Changes v5~v4:
+1) dt-bindings: thermal: sun8i: Add A523 THS0/1 controllers
+ - added empty line between what and context
+ - clarified description
+ - added missing period
 
-Otherwise,
+2) thermal/drivers/sun8i: replace devm_reset_control_get to...
+ - updated Reviewed-by tag
 
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+3) thermal/drivers/sun8i: get calibration data from two nvmem cells
+ - removed dead IS_ERR(caldata) check
+ - replaced NULL/IS_ERR check with IS_ERR_OR_NULL()
 
->  int ccu_mux_helper_determine_rate(struct ccu_common *common,
->                                   struct ccu_mux_internal *cm,
-> diff --git a/drivers/clk/sunxi-ng/ccu_mux.h b/drivers/clk/sunxi-ng/ccu_mu=
-x.h
-> index c94a4bde5d01..272a2c36a8f2 100644
-> --- a/drivers/clk/sunxi-ng/ccu_mux.h
-> +++ b/drivers/clk/sunxi-ng/ccu_mux.h
-> @@ -134,6 +134,10 @@ unsigned long ccu_mux_helper_apply_prediv(struct ccu=
-_common *common,
->                                           struct ccu_mux_internal *cm,
->                                           int parent_index,
->                                           unsigned long parent_rate);
-> +unsigned long ccu_mux_helper_unapply_prediv(struct ccu_common *common,
-> +                                           struct ccu_mux_internal *cm,
-> +                                           int parent_index,
-> +                                           unsigned long parent_rate);
->  int ccu_mux_helper_determine_rate(struct ccu_common *common,
->                                   struct ccu_mux_internal *cm,
->                                   struct clk_rate_request *req,
->
-> --
-> 2.47.3
->
+4) thermal/drivers/sun8i: Add support for A523 THS0/1 controllers
+ - clarified description
+ - added Reviewed-by tag
+
+5) arm64: dts: allwinner: sun55i: add thermal sensors
+ - fixed patch subject prefix
+ - clarified description
+ - sorted thermal-sensor nodes by base address
+ - added empty lines between trip nodes (DT coding style)
+
+v4 https://lore.kernel.org/linux-sunxi/20260504050245.646078-1-iuncuim@gmail.com/
+Changes v4~v3:
+1) dt-bindings: thermal: sun8i: Add A523 THS0/1 controllers
+ - gpadc replaced to mod clock
+
+x) thermal/drivers/sun8i: add gpadc clock
+ - removed
+
+2) thermal/drivers/sun8i: replace devm_reset_control_get to
+ - no functional changes
+
+3) thermal/drivers/sun8i: get calibration data from two nvmem cells
+ - no functional changes
+
+4) thermal/drivers/sun8i: Add support for A523 THS0/1 controllers
+ - gpadc replaced to mod clock
+
+5) arm64: dts: allwinner: A523: Add thermal sensors and zones
+ - gpadc replaced to mod clock
+
+v3 https://lore.kernel.org/linux-sunxi/20251025043129.160454-1-iuncuim@gmail.com
+Changes v3~v2:
+x) dt-bindings: nvmem: SID: Add binding for A523 SID controller
+ - previously accepted, therefore removed from this version
+
+1) dt-bindings: thermal: sun8i: Add A523 THS0/1 controllers
+ - added changes as requested by Rob
+
+2) thermal/drivers/sun8i: add gpadc clock
+ - removed undescribed changes spaces to tabs
+
+3) thermal/drivers/sun8i: replace devm_reset_control_get to
+ - changed the commit description to the version suggested by wens
+ - added reviewed-by tag
+
+4) thermal/drivers/sun8i: get calibration data from two nvmem cells
+ - added spaces in the description block before "*"
+
+5) thermal/drivers/sun8i: Add support for A523 THS0/1 controllers
+ - added alignment of functions in compliance with open parenthesis
+
+x) arm64: dts: allwinner: A523: Add SID controller node
+ - previously accepted, therefore removed from this version
+
+6) arm64: dts: allwinner: A523: Add thermal sensors and zones
+ - no functional changes
+
+Changes v2~v1:
+1) dt-bindings: nvmem: SID: Add binding for A523 SID controller
+ - added new patch
+
+2) dt-bindings: thermal: sun8i: Add A523 THS0/1 controllers
+ - changed clock order
+ - added additional nvmem cell with calibration data
+ - added requirements for new controllers
+ - added description
+
+3) thermal/drivers/sun8i: add gpadc clock
+ - removed unnecessary call to clk_prepare_enable() since
+ devm_clk_get_enabled()includes this
+
+4) thermal/drivers/sun8i: replace devm_reset_control_get to
+ - original function replaced with devm_reset_control_get_shared_deasserted()
+ - removed some of the repetitive code executed by 
+ devm_reset_control_get_shared_deasserted()
+
+5) thermal/drivers/sun8i: get calibration data from two nvmem cells
+ - added possibility to get calibration data from two independent cells
+
+6) thermal/drivers/sun8i: Add support for A523 THS0/1 controllers
+ - removed magic digits
+ - changed description of calibration data procedure for A523
+ - changed numbers of array elements with calibration data
+
+7) arm64: dts: allwinner: A523: Add SID controller node
+ - fix typo (sun50i->sun55i)
+
+8) arm64: dts: allwinner: A523: Add thermal sensors and zones
+ - cell with calibration data divided into two
+ - added passive trips for gpu
+ - added information that information obtained from BSP
+
+v1: https://lore.kernel.org/linux-sunxi/20250411003827.782544-1-iuncuim@gmail.com
+
+Mikhail Kalashnikov (5):
+  dt-bindings: thermal: sun8i: Add A523 THS0/1 controllers
+  thermal/drivers/sun8i: replace devm_reset_control_get to
+    devm_reset_control_get_shared_deasserted
+  thermal/drivers/sun8i: get calibration data from two nvmem cells
+  thermal/drivers/sun8i: Add support for A523 THS0/1 controllers
+  arm64: dts: allwinner: sun55i: add thermal sensors
+
+ .../thermal/allwinner,sun8i-a83t-ths.yaml     |  54 ++++-
+ .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 160 ++++++++++++
+ drivers/thermal/sun8i_thermal.c               | 227 ++++++++++++++----
+ 3 files changed, 395 insertions(+), 46 deletions(-)
+
+-- 
+2.55.0
+
