@@ -1,141 +1,189 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F25125B099;
-	Sat,  4 Jul 2026 17:28:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE5433502A6;
+	Sat,  4 Jul 2026 17:29:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783186099; cv=none; b=oZ30tiyP/1oWdxbJBpuRZRpX1JcwVae9ys+NSm42en8WhhslYvfxesH0ZDzlaeMuyBrFzibeU7Pc7n+fwHIaWoncjYvBpUqHltM/RvMmOtXeUYhH1+vkdzYSK83s9DmqmWeMEb+tcS1VbNEcCwYrHA+HitMRijY49ZYBKkNrmGA=
+	t=1783186166; cv=none; b=Lg3VNgYRi5ktMWiG7Dddu7nBiakO22oYXkH1Goxg4MMnOLXmsKE0lBIie31AYSPHMCWzTLGtu0ktWYeYtPYRsOaXftHSCdi5Uc32XlF87OC4CCyy18nl2QkBpP7QGsr451LPN7BarsCG681pp/5z279LsWc14SZy+sAHY2L4Uc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783186099; c=relaxed/simple;
-	bh=i0q1YvEA27JtG9KC3amUzRBMaQkjb2z/v9vzPrwvpgY=;
+	s=arc-20240116; t=1783186166; c=relaxed/simple;
+	bh=5T7A4d2YaZPHMcb6dQBzmy9eowheXtARtObUoukwPs4=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=OZVvcpdbnNdxaksgOlz8Q7sajVArGo4sQdU2j9MM8DP+U5p28JK9EOMl3CMhjlgs8a20rqVLoKbE4NK2Un1ZeROg9Ox0JqkmZuUBNV0w4Bvwt5Qd3f46w92xK1KJM77UWT+tE1Y8EivOFgsspHyDt/x1wwTNwWI9OFUo/2Lkuug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NHuQbh8o; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=THBjkj9RzhMJMeG/2NQp9q1oKYuQzELbKrE7kVAIsWWSN5pWkwh4RG96yswYdKm1hxLG8/qMEwFvmTGy6TX4/WjJ1ny8YHHhnQd1SKJxKpM461NZVnC3askXDPWHT16x6EzWZDtLGUlcHVQrMKnLo+dXwBy6KVPnUOc2iAZUiCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oshOd3ZJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NHuQbh8o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B39321F00A3A;
-	Sat,  4 Jul 2026 17:28:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oshOd3ZJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 474C71F000E9;
+	Sat,  4 Jul 2026 17:29:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783186098;
-	bh=6jLj/QrSj5Ts/ysaTuFp9eUdXIbUNY4VTfgHwRWB+Pc=;
+	s=k20260515; t=1783186164;
+	bh=ZLObji7vKNpj+qigrJiSF/az+7555U8AS/8ZK96zicg=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=NHuQbh8oWIso44w2hC3pmve1SmSrrBPzXLg43NpUcpY9zeq01bQQEDt3Vi293pmdl
-	 +YWv8hqiE0BFKVDuDaWlXx6FtZ8DuPfHty6ZTpiEwU8kvxzLtM7n3KSUBCElCg2uUv
-	 3dBoCglGUt+begtbeaBtbWSvsT9+iu+2PpOmyLPPYXjyrJhp63ZegsF4j+smxkhzUp
-	 SFvRAi9yJG4AE8nanfd44ybdPMvNNQQIxSTrltvGxWX4DJhKdLtxI7NQx6jzSOu+EW
-	 66//ebTN1p7NjuHrsfZLpjo6/94/P65S3gqlLWXc9ioTUjA03nVkfA4gCU/VZfLs1+
-	 x9tHRuiG4dKZg==
+	b=oshOd3ZJlwtLJwjrYJqcJFtBJHnobgIDjkOexYnULmxWyxlY4z2NGT/i8Gh1zuxen
+	 2YNkwgyxTwnAfsvOpBNp9jiSdgy3Pe2dXX/n8PMOp3G11iCSOEw1JyO4FqXHQ1lNU2
+	 4dzkI/p43yxzsuDdaR1koZHOaYJ16LPr6jpcA7pmdrwAsfbQliryizj2+U42INPoHw
+	 82DiK2wCTUYn5k81zJ3hMnEurVZSxgF/1eAggFX3We8RxstsVEXCJ7Jn7MkOWgC7Fk
+	 CD9zT6BMwO2tDR2cCc9p/Fj7JSKUhEbobs/r51LzhMys0IoPnzHB4cpoXqQY2pxH9w
+	 390BkWUVUlmBA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 3/5] thermal/drivers/sun8i: get calibration data from
- two nvmem cells
+Subject: Re: [PATCH v5 4/5] thermal/drivers/sun8i: Add support for A523
+ THS0/1 controllers
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mikhail Kalashnikov" <iuncuim@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, conor+dt@kernel.org, robh@kernel.org
-In-Reply-To: <20260704171411.1413349-4-iuncuim@gmail.com>
+Cc: robh@kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20260704171411.1413349-5-iuncuim@gmail.com>
 References: <20260704171411.1413349-1-iuncuim@gmail.com>
- <20260704171411.1413349-4-iuncuim@gmail.com>
+ <20260704171411.1413349-5-iuncuim@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 04 Jul 2026 17:28:17 +0000
-Message-Id: <20260704172817.B39321F00A3A@smtp.kernel.org>
+Date: Sat, 04 Jul 2026 17:29:23 +0000
+Message-Id: <20260704172924.474C71F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 4 potential issue(=
 s) to consider:
-- [High] Missing or empty 'nvmem-cell-names' property causes an uncondition=
-al NULL pointer dereference in the calibration callback.
-- [Medium] The newly introduced A523 calibration function accesses fixed in=
-dices of the dynamically sized caldata array without validating callen.
+- [High] The calibration check `if (!caldata[0])` will always fail and abor=
+t calibration if bits 0-15 of the A523 eFuse are zero.
+- [High] NULL pointer dereference if the `nvmem-cell-names` property is mis=
+sing from the Device Tree.
+- [Medium] Out-of-bounds heap read due to missing `callen` validation in `s=
+un55i_a523_ths_calibrate`.
+- [Medium] Calibration logic incorrectly hardcodes `SUN55I_A523_SCALE_ABOVE=
+` to convert temperature error into a register offset.
 --
 
-commit 385d056a66304901aadb5675fbf878e2aae0cfc7
+commit ed04dff3819d46435d0d0c6fa95dfd782738eb1e
 Author: Mikhail Kalashnikov <iuncuim@gmail.com>
 
-thermal/drivers/sun8i: get calibration data from two nvmem cells
+thermal/drivers/sun8i: Add support for A523 THS0/1 controllers
 
-This commit updates the sun8i thermal driver to support reading calibration
-data from multiple nvmem cells by iterating over nvmem-cell-names. It appen=
-ds
-the data from each cell into a single dynamically allocated buffer which is
-passed to the calibration callbacks. This provides the ability to support t=
-he
-A523 processor which has calibration data split across two cells.
+The A523 processor has two temperature controllers, THS0 and THS1.
+THS0 has only one temperature sensor, which is located in the DRAM
+controller. THS1 does have 3 sensors:
+ths1_0 - "big" cores
+ths1_1 - "little" cores
+ths1_2 - gpu
+
+The datasheet mentions a fourth sensor in the NPU, but lacks any registers
+for operation other than calibration registers. The vendor code reads the
+value from ths1_2, but uses separate calibration data, so we get two
+different values from real one.
 
 > diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_ther=
 mal.c
-> index df0c269708ea7..3bdd62aa8bdf1 100644
+> index 3bdd62aa8bdf1..f48ed9eae6c4f 100644
 > --- a/drivers/thermal/sun8i_thermal.c
 > +++ b/drivers/thermal/sun8i_thermal.c
-> @@ -301,43 +301,65 @@ static int sun50i_h6_ths_calibrate(struct ths_devic=
-e *tmdev,
-> =20
->  static int sun8i_ths_calibrate(struct ths_device *tmdev)
->  {
-> -	struct nvmem_cell *calcell;
-> +	struct nvmem_cell *calcell =3D NULL;
->  	struct device *dev =3D tmdev->dev;
-> -	u16 *caldata;
-> -	size_t callen;
-> +	struct device_node *np =3D dev_of_node(dev);
-> +	struct property *prop;
-> +	const char *cellname;
-> +	u8 *caldata =3D NULL;
-> +	size_t callen =3D 0;
->  	int ret =3D 0;
-> =20
-> -	calcell =3D nvmem_cell_get(dev, "calibration");
-> -	if (IS_ERR(calcell)) {
 
 [ ... ]
 
-> +		memcpy(caldata + callen, caldatapart, len);
-> +		callen +=3D len;
-> +		kfree(caldatapart);
->  	}
-> =20
-> -	tmdev->chip->calibrate(tmdev, caldata, callen);
-> +	tmdev->chip->calibrate(tmdev, (u16 *)caldata, callen);
+> @@ -299,6 +314,97 @@ static int sun50i_h6_ths_calibrate(struct ths_device=
+ *tmdev,
+
+[ ... ]
+
+> +static int sun55i_a523_ths_calibrate(struct ths_device *tmdev,
+> +				     u16 *caldata, int callen)
+> +{
+> +	struct device *dev =3D tmdev->dev;
+> +	int i, ft_temp;
+> +
+> +	if (!caldata[0])
 
 [Severity: High]
-If the nvmem-cell-names property is missing from the device tree, the
-of_property_for_each_string() loop is bypassed entirely and caldata remains
-NULL.
+If the device tree lacks the nvmem-cell-names property, the loop inside
+sun8i_ths_calibrate() will be skipped entirely. This leaves caldata as
+NULL when it is passed to the chip-specific calibrate callback:
 
-Does this unconditionally pass a NULL pointer to the backend calibration
-callback?
+sun8i_ths_calibrate() {
+    ...
+    of_property_for_each_string(...) {
+        ...
+    }
+    tmdev->chip->calibrate(tmdev, (u16 *)caldata, callen);
+    ...
+}
 
-Backend callbacks like sun8i_h3_ths_calibrate() dereference the array direc=
-tly:
+Will checking !caldata[0] here cause a NULL pointer dereference in that
+scenario?
 
-	if (!caldata[0] || callen < 2 * tmdev->chip->sensor_num)
-		return -EINVAL;
+[Severity: High]
+According to the eFuse layout diagram in the comment block just above this
+function, bits 0-15 are empty/unused, while the actual factory temperature
+is stored in bits 24-35 (caldata[1] and caldata[2]).
 
-If the device tree does not contain calibration nvmem cells, this will caus=
-e a
-kernel panic on boot.
+If those unused eFuse bits are typically zero, will this check silently
+abort the calibration process on the A523?
 
+> +		return -EINVAL;
+> +
+> +	ft_temp =3D (((caldata[2] << 8) | (caldata[1] >> 8)) & FT_TEMP_MASK) * =
+100;
+> +
+> +	for (i =3D 0; i < tmdev->chip->sensor_num; i++) {
+> +		int sensor_reg, sensor_temp, cdata, offset;
+> +		/*
+> +		 * Chips ths0 and ths1 have common parameters for value
+> +		 * calibration. To separate them we can use the number of
+> +		 * temperature sensors on each chip.
+> +		 * For ths0 this value is 1.
+> +		 */
+> +		if (tmdev->chip->sensor_num =3D=3D 1) {
+> +			sensor_reg =3D ((caldata[5] >> 8) | (caldata[6] << 8)) & TEMP_CALIB_M=
+ASK;
 
 [Severity: Medium]
-For the A523 processor, does sun55i_a523_ths_calibrate() validate that call=
-en
-is large enough before accessing the array?
+Is there a chance we might read out of bounds here if the provided nvmem
+data is smaller than expected?
 
-Looking at sun55i_a523_ths_calibrate() which was recently introduced:
+If the device tree or nvmem cell provides fewer bytes than the 14 bytes
+required to access caldata[6], this could result in an out-of-bounds heap
+read.
 
-		if (tmdev->chip->sensor_num =3D=3D 1) {
-			sensor_reg =3D ((caldata[5] >> 8) | (caldata[6] << 8)) & TEMP_CALIB_MASK;
-		} else {
+Should we validate callen before accessing these offsets?
 
-It accesses elements up to caldata[6] without verifying that callen covers =
-it.
-If a device tree defines nvmem cells that yield less than 14 bytes of data,
-will these lookups read out of bounds?
+> +		} else {
+> +			switch (i) {
+> +			case 0:
+> +				sensor_reg =3D (caldata[2] >> 4) & TEMP_CALIB_MASK;
+> +				break;
+
+[ ... ]
+
+> +		sensor_temp =3D tmdev->chip->calc_temp(tmdev, i, sensor_reg);
+> +
+> +		/*
+> +		 * Calibration data is CALIBRATE_DEFAULT - (calculated
+> +		 * temperature from sensor reading at factory temperature
+> +		 * minus actual factory temperature) * X (scale from
+> +		 * temperature to register values)
+> +		 */
+> +		cdata =3D CALIBRATE_DEFAULT -
+> +			((sensor_temp - ft_temp) / SUN55I_A523_SCALE_ABOVE);
+
+[Severity: Medium]
+The sun55i_a523_calc_temp() function uses a piecewise formula depending
+on the register value, applying either SUN55I_A523_SCALE_ABOVE or
+SUN55I_A523_SCALE_BELOW.
+
+However, the calibration offset calculation here unconditionally divides
+the temperature error by SUN55I_A523_SCALE_ABOVE.
+
+If the factory temperature corresponds to a register value in the
+SUN55I_A523_SCALE_BELOW region, will dividing by the SCALE_ABOVE
+value result in an inaccurate calibration offset?
+
+> +
+> +		if (cdata & ~TEMP_CALIB_MASK) {
+> +			/*
+> +			 * Calibration value more than 12-bit, but calibration
+> +			 * register is 12-bit. In this case, ths hardware can
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260704171411.1413=
-349-1-iuncuim@gmail.com?part=3D3
+349-1-iuncuim@gmail.com?part=3D4
