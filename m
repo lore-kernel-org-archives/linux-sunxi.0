@@ -1,180 +1,130 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5063E8C6F;
-	Mon,  6 Jul 2026 09:01:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783328522; cv=fail; b=F0VbC0DTZb4v6ugxd5HZ/pmsN5N7RT18DWocHqyR9c7sbKcxhyRD1p4gFnR/MQhzL8K37eFyr6TdzOM9oHcXEXwQOo/jKSUBgyQO2vlqTIYO4IxrvJdp8jEGMwLIDwlzB1o7qI5FMcdasyuwtfiuDl/KEwiLXdzqzLf5jf4fpy8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783328522; c=relaxed/simple;
-	bh=dl4DWV+tUp6PIfVJTf0z8FPjr8X+v6XiOe+UFLx4PFQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iuHcgXBb6OohIpd0HpfR7itdExGBFPpqFTeBgWmqqEBP7ETArEgsaGrsmk9iE5+vwl8AlNp8BzswHHDpKWYBYyWmFjLYOjHa4Y28zIE2xdZxLUEOe0JGNCLlgmOCIVD7iaoOdWNIIiAYbclgIczAjP8V3sD6WxoFLW9MD+dv3Vs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=blVBZCCd; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=FhBHBkoo; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60DD39EF3F
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jul 2026 09:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783329408; cv=none; b=ICyS8EQK29datsa7OfjaxY07RIyk4Ksb18vOW2p0Z/R40hSgWzzXRu+X69YkNP02lz8u9nN/N4QwYSSyGfBsPyG7Ud1BsKYwpGAQLFGHBi85D9Yu9dz2OwEr0362AdxaaSz8s0s+Uqb0InbIR7/GWhMceQDAsXBVdUKFfwrjdlA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783329408; c=relaxed/simple;
+	bh=n9nR8Fg+JMZq1BaP4ahqBVtAOKem/sDG6ZYm02uG/jY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=EdSH58AMuEnygdJbfsS0NqTGg315GuiCOZFxPcKiKuZ408nYXMHMPZwU+CT3HgjLJpr1zJo1uksS1VYKOS4RgFP23Mh2XfVXfmx74KOeem4yuTp80D6Oy4jno/YHxdKGLlNuTo5V39NuoysgUyWM3a07ebbHa7R0bWfth1fRInw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=Au7QUCcG; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="blVBZCCd";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="FhBHBkoo"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6666TAOj1108462;
-	Mon, 6 Jul 2026 04:01:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=yXdWuYMihFfyM6n9U4
-	ZrutHAClkmiLeG9CAjyKKoBTM=; b=blVBZCCdRpkqzGFictHe3cAZzlDaSJUG/g
-	eKD3BNBjaTgmg6+cWriispq8BkJcaCQsXU7xYkdrJT098KjPOiXy6JRJ1MDwviCT
-	pQ5Ow+pPtMl7vwsgZp7wQM6F2mt7UjyfR8VEixfyMMGWYdyU5PijfnI/iMijCwJw
-	07+tmfSkrrQjzmAFYf2wS/CTY/Vn6CuVBZ1+rQYeBjAMaF17ELYvfFva4C+qgDZG
-	OWrOHWC6zu0NZPix3MNghhQKXAH7Ssac7Urq9lgmWyfO0dHqI2vUOJnZIR1lhl9k
-	jzVwU+OorrmYPujKG0RbDA9Ds67DXAX7iTW6h1CjBG1G+kAFS0jw==
-Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11020126.outbound.protection.outlook.com [52.101.61.126])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4f6xkjj34t-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 06 Jul 2026 04:01:34 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LQzjMS8y/hTCz0GjCmE/BtlOoSwvJ8oL8YxpgNfRgxMG+jChvd00/I9CRUcl7VzHAV+VMrjeNw/8KjnvUWF39ZVDh0wv4VSULgGZncywPzzrSWEoG+dC7/xWsvQJEstawjFKRjca4Bru28nPv7YI8sXql+TWJYvVNZnonjKEbZ6wLmTc2nmXr/2/6xfLnBoNCrIh8bENSw0DuN9gc2cfrvRXOlnhsNSrwejK//vEXfLlVYZfNZKpkgLMRpHrCsM6C7KZZcn1R3Juaut7mYxNOMpJrpxWlADVZ0lJi/Ay6Hp6PHT8SgEqX91ciDGgr3vvLCRivnlrq1yqpMAu5lqj+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yXdWuYMihFfyM6n9U4ZrutHAClkmiLeG9CAjyKKoBTM=;
- b=e4Pr5ukptq0sTI3AIYVJGU+wlzroJu2XUYb/LlGSX6KloZBiXKVvfxDL4NWcLv3U4Nj9wdwVHjd8R5VXQwja/syCOpVwA450fuqi5KjZwUAzVWfj1sf2DHw02Yzk/d9IVVHq9XewKCTTVp/1pT7/knQVFQa+CU/X/nGH9bs365H+CI665/LSGYhL9EoXElpRLrYXvKFs3+9pU+zirq+KhJImtOLx/6e5ZLpB+gnqhzbbLLE1aqBjppMmg/vk1JFFUfWFiv5gRunCbG75B7DZqfdpwpyfnlPc9oW687+PUVXW4MRD6BynkOrJgj1qY1Uqt8CCnxbZ1log2F/XgFtkOg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=alpha.franken.de
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="Au7QUCcG"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-493d1e8aa46so13737685e9.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 06 Jul 2026 02:16:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yXdWuYMihFfyM6n9U4ZrutHAClkmiLeG9CAjyKKoBTM=;
- b=FhBHBkoofEHKXrRLF3tXzRjKuqv7+xEzdY/EKQJoPONbzBYUVnnhczc8NhP/7DUjfIb9XgQCokLp+v1bY6sS8P0OMNviv4q08W8Zi+q4V1Pn/Ef6NRb1OrsSbsJ8J/akNTgI5AVtoa0BhXgI0RsjF+fpd/ybGB3VlTbByKRoMa8=
-Received: from SJ0PR13CA0193.namprd13.prod.outlook.com (2603:10b6:a03:2c3::18)
- by SA0PR19MB4523.namprd19.prod.outlook.com (2603:10b6:806:ba::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.13; Mon, 6 Jul
- 2026 09:01:31 +0000
-Received: from CO1PEPF00012E63.namprd05.prod.outlook.com
- (2603:10b6:a03:2c3:cafe::19) by SJ0PR13CA0193.outlook.office365.com
- (2603:10b6:a03:2c3::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.202.9 via Frontend Transport; Mon, 6
- Jul 2026 09:01:31 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- CO1PEPF00012E63.mail.protection.outlook.com (10.167.249.72) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.6
- via Frontend Transport; Mon, 6 Jul 2026 09:01:29 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id B1201406541;
-	Mon,  6 Jul 2026 09:01:27 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 9E024820244;
-	Mon,  6 Jul 2026 09:01:27 +0000 (UTC)
-Date: Mon, 6 Jul 2026 10:01:26 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: linux-gpio@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Bartosz Golaszewski <brgl@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Frank Li <Frank.Li@nxp.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Greg Ungerer <gerg@linux-m68k.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        Linus Walleij <linusw@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, patches@opensource.cirrus.com,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, netdev@vger.kernel.org,
-        linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 07/13] ASoC: replace linux/gpio.h inclusions
-Message-ID: <aktu5ldIypW8ldjW@opensource.cirrus.com>
-References: <20260629132633.1300009-1-arnd@kernel.org>
- <20260629132633.1300009-8-arnd@kernel.org>
+        d=baylibre.com; s=google; t=1783329400; x=1783934200; darn=lists.linux.dev;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FQyAj/mTcNP80GWpdq+ZAxNRRGcOVsB8iHT6S7Y5T98=;
+        b=Au7QUCcGbbXw8f/qJAgVGX7QzHfAr9Q8HqtsMQeAS89qkFRRfgMJFu9cyLxW4zQkv/
+         JNnO+3YxMMRY+t4q+3IL3Pl66E5soAyTrjYc8a72dPv3loZSIxHFz21Q+tU9LtMX5RQ+
+         pdm80l/doRkObRYMSY6rcoXSznWav5/ArgGvl14+dbdvEDV3aiKU68K3vb9MftXJiPaW
+         d3nQFXefUcyET/kj6Zzk2yxhkFqO40ePsLdR8u+COErOyih/bmC7HBQ/viwZC50AWEA2
+         AohbDUB9mRBvaMJxvcZ3Rjsmk1I+cAOzYyJFESt+RNbmLGw6Y6alvioA1dv+OkbEPFTj
+         d6Ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783329400; x=1783934200;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=FQyAj/mTcNP80GWpdq+ZAxNRRGcOVsB8iHT6S7Y5T98=;
+        b=baOAMyoP9HhBM4/StebAK1t323eYXl4v+h2m+szYvs//ZTJxDBm6JQU2VJn7kvvjw+
+         P1FnTqulfS0RjstZgMGK9uNNS06OTKEQLy1Qfc2/FAhwK6yFH3X4I4deEOPM35wB9RlA
+         BbqmgsDAqvUtyM47dPX56k1Tcn5wg+DVug45Kvt57AMrioHt0CRz06xvL8nnLV0icWLF
+         Bs9OOxZuvVxRFmSvyzlrb8qlUfFhqR9YRW4Z45qoLlK7MM0WxtkkgYtajH1nFasT3Z8o
+         R0gRso9RFSMvP/IpTW5FjhQ0AXWfo0iiGq5RRzITZ0Jx4VrqTH9gIo6+taxReM6Vspp1
+         9j1A==
+X-Forwarded-Encrypted: i=1; AHgh+Rp2ndfdmPOW52dgYDK2/K667SovA3csi/DMhUVRy+aCEqXvoIN6qsmO6eNV0CSCKmLeONxZ6lbDfyXu7Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YylhR36okH2+tgyLQNusikdY03abPDSxOm8myeXH8xlZs2h/oMl
+	OsBAkUPch7GKC78tJTB+6Gx+EyE+3h61YYpgn7uHxJm0Y8llP3V6LJI+Ytvc2cS8qLU=
+X-Gm-Gg: AfdE7ckoYQVwGzFLlr1TF2OPQXxIcK/rtFSJvFUt9juTT6VKqsB7D+LJMdAclXF5VMS
+	C7NQrEG8CZkIKomiqpZR7iRTVek6kKFpfJz24R2smAj0sV31ZmEp0Btu0lTRsMM5CvpepInt6jf
+	qk3bfhD5lObX6TgzF7w7hKDNVAWgSgsMWcEqYMne4R8EP8suiqkTofaByUUXp8MZE/mjRa48yd2
+	djSDDFZvOsPwN56aWB8PQN48BBEEW3fF/t9L0Su7uSx0B8UqKKvI63e74PndOnmOWTBQVWq7VgQ
+	X5O1uhX9/Blps+nJBGax251VccofWjk/fVD3R5ydg5aid8KujN5M5rifi72r6GfUgVftEs6AkYf
+	nFgKo6LnE8N0rLU7mbG+gDP2fQJwmvV8p7v7tU5rDUunF97/2kKuSI9UaEPiz3XHCzQc01h92oY
+	9XKh2SbKlaSnw=
+X-Received: by 2002:a05:600c:3551:b0:493:c453:6002 with SMTP id 5b1f17b1804b1-493d11fb8a4mr101976925e9.35.1783329399663;
+        Mon, 06 Jul 2026 02:16:39 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:1495:8c97:96f4:dff8])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-493c6381e4fsm412373525e9.8.2026.07.06.02.16.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jul 2026 02:16:39 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Junhui Liu <junhui.liu@pigmoral.tech>,  Alexandre Belloni
+ <alexandre.belloni@bootlin.com>,  Rob Herring <robh@kernel.org>,
+  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
+ <conor+dt@kernel.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>,  Samuel
+ Holland <samuel@sholland.org>,  Michael Turquette
+ <mturquette@baylibre.com>,  Stephen Boyd <sboyd@kernel.org>,  Maxime
+ Ripard <mripard@kernel.org>,  linux-rtc@vger.kernel.org,
+  devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+  linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org,
+  linux-clk@vger.kernel.org
+Subject: Re: [PATCH v3 6/8] clk: sunxi-ng: div: add read-only operation support
+In-Reply-To: <CAGb2v64C4Xn=V5NQcqZQa=v0KsemsVh+_6g7ed0kHz6C_bzmww@mail.gmail.com>
+	(Chen-Yu Tsai's message of "Sat, 4 Jul 2026 16:25:07 +0800")
+References: <20260702-a733-rtc-v3-0-eb2580374de6@baylibre.com>
+	<20260702-a733-rtc-v3-6-eb2580374de6@baylibre.com>
+	<CAGb2v64C4Xn=V5NQcqZQa=v0KsemsVh+_6g7ed0kHz6C_bzmww@mail.gmail.com>
+User-Agent: mu4e 1.12.9; emacs 30.1
+Date: Mon, 06 Jul 2026 11:16:37 +0200
+Message-ID: <1j1pdgiikq.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260629132633.1300009-8-arnd@kernel.org>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF00012E63:EE_|SA0PR19MB4523:EE_
-X-MS-Office365-Filtering-Correlation-Id: 19450c50-74fd-49f4-b6a3-08dedb3d2b57
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|82310400026|7416014|376014|61400799027|23010399003|16102099003|18002099003|22082099003|4143699003|56012099006|11063799006|41080700001;
-X-Microsoft-Antispam-Message-Info:
-	+QJ/HeqWI1Hsto+ZYw4jR1arr/TiIqFEB7FTWF1094fOwQYiYGco98DH+OSowWEZ21Y8vskq07KUu/3XFgy4KHPV+ucWiKdHu40LApHeD2+XHxSzPhIlLj5bL7a+RJZPi6amMenpUth2Fl4nCQc87Qlc4N25p4ygRpdHaNb9gR8vQQEUQER7x3eCRyEJz7ik12fd88YovOHakpqNFfbFI2SgxYdybWdstNgw+JwgdW22ePNx2p9OHjYHFwtcpau6Cm4kJwif2phF47IUQrIc9Vkl2urI20rYfDGoUjB5gvaV9+JvSJ1bgvbh/1deA9SYJ4cBiE2FpBk8T4YzPBXzNL284SUYWQYuLaY14MP9hZWvllpNc65AGzwfLRu63HkwFCQ5WfvcYOVTtw1hcIhtTnMYXSBIaJWN7M0pG2RPka7+3LcCXIPSH3QiEUsvywqj+xhrVJyTmxBEyLF8wSNgkaQIm2a5ENtGhHkVaneW9XkvfhLv7o3/Y3coFKuLxJo2tNYnUhIMU5hVf0Ia4pzXEmEj7Tl2nsmmavFouzemOSFT9B//2wtkhQ8TepBCauY4mc95lh6w/CZjWsQPmHT1INcYPRIVNYUDBdI5WSsysIB4YKe28GgCiVUn+HZP0Y2ejq+i7CuIA61Wh3mHB43fgmB9KEQPNkAdPctnMN7QB2Ju43NFFcGBXBG/v4Sf+8xadyI/jqKksjPX8gdskuaLgGA3/xeQYqRr9u09BhK5yVtsNpIILsHGsqFdUJp2U7rxOGm26O4jLJ+Q0JnMl9z2cQ==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(7416014)(376014)(61400799027)(23010399003)(16102099003)(18002099003)(22082099003)(4143699003)(56012099006)(11063799006)(41080700001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	NnpZXkxdGREsJOxqUZ63mDS+Qm6Kn1jV/RE9yURq8DnKdqCIjibyOs+ZXQh0l6o8As9sV5cEDUMJPZ6tTUjrwuO9/BB5l8gZZeNBvxhtPY+xHxd7axdIczwo5yiiXZr04gckBi/D/v6zDk3gn+q1qQFnDxNgydLMWdckLMSupDKsxGrGNmNJbY1PsMGx6a3s7khADCcUpx0X0nDXa5KDpK9Fx4PYLQDzAnLldgOGO+jPEyQ44KMJEyd2o737wcGcyCOlLxzg5wh/fiJAfKmhqkFtbfd1gNNtfQ3hz9NM6ePmkBkmr3K4mWU9ELDbmpa6nKMeXgM/VDa3rBHNQUTniLPaC3OmLQLtGN6y95I4oxhFh4rfqQIHdoyIzsU0sZbbm58bzSFy8ojC4OoXOPyEamPtUhm+tkmbmJm6OjKQlm20SCLFS8EheH8fC0xYjjVC
-X-Exchange-RoutingPolicyChecked:
-	EKnGnIo/30ilIDjSohtKwuElnRdClZI5txSxfNe3fibvfHtpIDXjZ268YH84pDrA4TxEnp/JIU0+4y27NT/DVurNFr6Xo5lpUm46WQczJKDqjdwWLbjpMgze/JA38D5ewbZSgxcUzI/oDsjJSqBZ3kEjoCNe6lYwwSllt6YJafqnYewDkzO7IiOBBltdoGvMp6AtYlF/TC0x+iBFPGtitjTNRNZWQWRrXRMAq3H/a4+s/oGZH0/jmDoTHsJ34OsPWcmtVogqAwHspoiLg2y7QrqUYCx8eCPtjQE4mIcj0nG/JnrIyhLwZu8ZcNDEWTcnLOVER8a7qr+JG7ihdFcYtw==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 09:01:29.6835
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 19450c50-74fd-49f4-b6a3-08dedb3d2b57
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CO1PEPF00012E63.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR19MB4523
-X-Proofpoint-ORIG-GUID: Xr6Ce48YtsZvvi9-ArXAlnrZLSIFHCXn
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDA5MCBTYWx0ZWRfXxewslzTEi6V7
- UnEUdN4Dh5Wuwsrz05hVAfKGSsHWptx/BnT3BrFxaGqhsMwKKb9BgpwXnSzj6OOc1JsGzly0XL5
- I5A/keuaM3TVnfl/gGKsRRTC9mHrRxk=
-X-Authority-Analysis: v=2.4 cv=YYiNIQRf c=1 sm=1 tr=0 ts=6a4b6eee cx=c_pps
- a=+K7kHGa/lm5mlhWRmKhmBg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=kj9zAlcOel0A:10 a=RAioF0-LDSMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
- a=w1d2syhTAAAA:8 a=laggWU-tNtq9GTYVk9QA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDA5MCBTYWx0ZWRfXzdGOTmleY1wa
- ImXEhP/xbR4J/lc6a3zmAr2okywqKonxJGGVXCMrr01xuuM+PpmcS4CHO0xW1LOA4B/PqF+PpuL
- 4leIFhrRAoBwvLb8G/1/EkJmXJ29P0vXSmRplPEp7LWVewVLKVgsxdwWS9zeZ9e2oY/rIjRGZD9
- k1UQb8Zr2S382lgOAZk/4F6VZSxwgMrk7tgGna9ABQ+LUHJ9S4BhdJMRdL8GQGclRexqv75ppOc
- FYwZuec3lhm/QQ5g7cp6Jn+Rp4JvxluU2P6RaG7gzo4V0xtE+mWW5pJJwJGkUJ0CBa/obbtoiBv
- 3/QsAFIIFTMAQh1X+6UldtwdHaHdZIDnAouuesZVn+vvyckmhG5+5MkMQuw/kk571BwaCFKaxzW
- NSp8Z11jVtJ1jUDwNKjt9ePalPBSi7wErIUvL6op9NCGxEGXw4/42ZTZ+d+Qtxed9A5VMRykOGr
- 81YM+LRRZ0joPN8gFkw==
-X-Proofpoint-GUID: Xr6Ce48YtsZvvi9-ArXAlnrZLSIFHCXn
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain
 
-On Mon, Jun 29, 2026 at 03:26:27PM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> linux/gpio.h is going away,s o use linux/gpio/consumer.h instead.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  sound/soc/codecs/cs42l84.c | 2 +-
->  sound/soc/codecs/cx2072x.c | 2 +-
+On sam. 04 juil. 2026 at 16:25, Chen-Yu Tsai <wens@kernel.org> wrote:
 
-For the Cirrus bits:
+>>
+>>  extern const struct clk_ops ccu_div_ops;
+>> +extern const struct clk_ops ccu_rodiv_ops;
+>>
+>>  #endif /* _CCU_DIV_H_ */
+>> diff --git a/drivers/clk/sunxi-ng/ccu_mux.c b/drivers/clk/sunxi-ng/ccu_mux.c
+>> index 766f27cff748..e2d6833a6d33 100644
+>> --- a/drivers/clk/sunxi-ng/ccu_mux.c
+>> +++ b/drivers/clk/sunxi-ng/ccu_mux.c
+>> @@ -68,13 +68,14 @@ unsigned long ccu_mux_helper_apply_prediv(struct ccu_common *common,
+>>  }
+>>  EXPORT_SYMBOL_NS_GPL(ccu_mux_helper_apply_prediv, "SUNXI_CCU");
+>>
+>> -static unsigned long ccu_mux_helper_unapply_prediv(struct ccu_common *common,
+>> +unsigned long ccu_mux_helper_unapply_prediv(struct ccu_common *common,
+>>                                             struct ccu_mux_internal *cm,
+>>                                             int parent_index,
+>>                                             unsigned long parent_rate)
+>>  {
+>>         return parent_rate * ccu_mux_get_prediv(common, cm, parent_index);
+>>  }
+>> +EXPORT_SYMBOL_NS_GPL(ccu_mux_helper_unapply_prediv, "SUNXI_CCU");
+>
+> This does not need to be exported since all the base clocks build into
+> one module. And maybe it shouldn't as we probably don't want individual
+> clock drivers implementing ops.
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Indeed, I'll add a patch to remove the export of
+ccu_mux_helper_apply_prediv() as well, for consistency. It does not
+appear to used out of that module either.
 
-Thanks,
-Charles
+>
+>
+> Otherwise,
+>
+> Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+>
+
+-- 
+Jerome
