@@ -1,68 +1,66 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4BC42643A
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jul 2026 09:32:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D4344BCBB
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jul 2026 09:32:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783330364; cv=none; b=cF3ThoNf1G4bychHkbfUFyq3I/yIQfUqLCcax5r3iufESABGoAkAj291VW49KsYx+1siowbuOVkhsrIKd4B6Y6LXyUrFoXekYfIo2o3+eoFvItiJ1y03bZOz5XnXRwIXY9vwyNsxKPAsmtDQT/1aSw/86eVCixZAaIo0kL3sk/Y=
+	t=1783330366; cv=none; b=mFON+T0GZT+lsZFnnOPw7bPZ3dPp5FJj1ftWhitzOzok+3UZQvuU1YJrhuJUnzCUm4yxmex57ahabhKTcQlQjLhjNlKSwDQlJRG/3651mVGll46/1Gmr2xtSkWC/BQrlaPVHVZdNWluLcHpSCQlWkVE6G64sh5cvoyLXKdZ6ais=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783330364; c=relaxed/simple;
-	bh=gRy0cN4LadJrCLwhwvNgyXM95hAtl0BkbsLdjuQgW6A=;
+	s=arc-20240116; t=1783330366; c=relaxed/simple;
+	bh=YM5ShWAEXTvmgI5Fwj/9iD61+1bTWSy4EWyE1bdkdA4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GUHOZ6OTs47F4rUOV9ApKywkaau3llAjWNqbHmwAfdGt5Sh0tAtoLrhQ7jJVxf8q1HdNQU4VzfqLf50cV/Dqrg4MggEerg33WE2hl6bW1SowUilJ2ASoKqoqJC5p2xPb+PXtLtjfxCyxLin9odXLjQxf3GldjJtFw+hlIqlaugM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=emCnHynz; arc=none smtp.client-ip=209.85.128.46
+	 In-Reply-To:To:Cc; b=dfnjZvIFAMAU6KH7UlTEsnDW7VGvIl87alBUUdY2XmDOV4FYfdWIQQetXyiUM2CEVutTWAjjGTHr48gNfG05b97OzGZu12VxACEsZnXVSd32l7wormhy3bURLXFJMyhnfK3ekfU0tcDeMMKN61xdt9zIGjqB1gdRwI9aIm0Bf38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=B+h9M4m9; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="emCnHynz"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-493b7612475so25492645e9.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 06 Jul 2026 02:32:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="B+h9M4m9"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-47db714766aso450068f8f.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 06 Jul 2026 02:32:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1783330357; x=1783935157; darn=lists.linux.dev;
+        d=baylibre.com; s=google; t=1783330359; x=1783935159; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gpZvamYw9AnVrZnk1GFQEFXSHxgLU3wS0Rp+AMjlVD0=;
-        b=emCnHynzGTqeCKCO+fYm13h+xAVv/Sl9eB0Kpd+F6ekVxilP56bu3ZMTXZNNRPRrT+
-         pS7Aj0uZGihyqeaY8rUOHxCIs9pNTKzZ5WdswEL8sBc9pqNYWL1zLPx00ITkEBueyCu8
-         /mRgby344UDgfka/YH+KomPgO4LR1prV6bbFA7itlpbzf/Cqm2T8WnFlroArPSWzp4+P
-         4Im/cO8xOvlmVk7y+gKdlS3GBV57sbnGKAYQhHgv5IZ5mHZkPr/sJ6DKQiyAsxE9WaRS
-         Mk5ZQySV+E+YeHIUBalQOGaEV8TzaHUtp9jMXENON2i7ro1ottyXn797fcps/MAgL+JM
-         Qjzg==
+        bh=8qaD3KpHXlXTlsicr8XbDQzikndK4UikxNXryf78w+g=;
+        b=B+h9M4m9LzhbnrHTcwwTUHuXfsPar+WYf+dM5yp0OAiNjxy/N8krPCaDOSIPbIAFNR
+         j23LTY01E/RXIZFkr8IuX3J5kyR2+Kj6XZrueXWSLTftA4vELfqfl9ktjS7YAw7n/acU
+         5QQ5un2aL+EwjTcmKu3UEkLvz7+b+h/Mf9KHc5aeT4gtNungDVWVNGQOSQneeNe9XvfH
+         Kry5h59ioNMndhI1O5kczx6BpdG66QAqGOotPLTIjJrShB8NopwUeZImx+P67FoFgMBI
+         WCxnyTwLuxs4dk5Ecmashu38HDU2G4ign5SFHFHxKmXwxidm+0m0mUUn2l9wCPIWRbPb
+         OtBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783330357; x=1783935157;
+        d=1e100.net; s=20251104; t=1783330359; x=1783935159;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=gpZvamYw9AnVrZnk1GFQEFXSHxgLU3wS0Rp+AMjlVD0=;
-        b=MCwmetaBcbACphYqsoTysZl9ADSci9S64khmArU9ujQPL92SY+PutLXN8CRsHxeklg
-         +MVudMDyygdVULmRNHTMq0E5Co9RAevZnMTjolcSnhQfz7E1GWHGfBCU0a6JM4PizB3A
-         GnuHlfRFMuplaR1vloHTENHD6Omzt5GDD8kg6a2tFpXA4/NUultSTOy+w3U7cxOkOLLi
-         LLgLCHWJJe2I5YpHJSkvsFGiDhP36UqbjZWPYiCb69YH7fFsbnFcX2QUY/wLiul+9JbO
-         n/ZxDzYiIzGEiu62UYcQiFp7qWFY05KiOoQBdKokSi0BnKegF0CMuti7bkvbZAjyHZUy
-         Pp1g==
-X-Forwarded-Encrypted: i=1; AHgh+RqxlGh4s7kkJmnpVSdZTgkalOFpu3Td9WgIFGMQ5ElYMMFp37VwWLNyqbjlRcp559a93Qpjo0gLeZjl6w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzQLiNbQK80L5ki1XAAOk6Yk66iJYsNPh0yZqV/C+3ezLETJmLj
-	nHwec4OlqnLk0/ad7OgHAJhpTbXNzMKkchODArJGL1trp6/GjCVHT00l6n4+LaYX8dAg5YBFzO2
-	h4yWT
-X-Gm-Gg: AfdE7cnkUn9Z9DgRGXC2peE2EEZ3NFEBWuhEGcvLFGgPOWzJIw1QZjxLj7JgtRQIzsV
-	jpdnV5i6ZyT1UH+bT7fUUpfxeGGle9ZWRNnS/cUS79mi3Zl75xr7w0cydF4suHgcDGHWv6by8PB
-	CGxjrWSb3XbYScqn9o0IFRtPHS56t86+LxWWD6/uAv7DLL7+a+qkjFZ6FJhyWuIKq+ToaXtuaTx
-	eQoD0oPzhFrj3I+g4bjn53Jc0WCYISM+Z4FOh+l6Mj4ravN+Zb3s9g0x4hTjBeRNt082e2OlM50
-	9MJlcDJGXzCbhzZJYKPFB1s9EZtBmaO4PaQyEXU/OsMFMxQObxaSiR70xcgHrBe28h497iFfk+M
-	4fft/H/Vnq14SnvyyqGbw6mK2s1lhwqwwb+r1XW6TWNdbsxuWQPUU085CVmFKKesijCMWy4E3yM
-	6NI0ssancx4Rs=
-X-Received: by 2002:a05:600c:c118:b0:492:3e66:6c84 with SMTP id 5b1f17b1804b1-493d11f918cmr92947785e9.30.1783330356762;
-        Mon, 06 Jul 2026 02:32:36 -0700 (PDT)
+        bh=8qaD3KpHXlXTlsicr8XbDQzikndK4UikxNXryf78w+g=;
+        b=bY+/HL40QHQUpSVhC8Oi557npXt2TUnZRQgak+cEis6PxoI55cUtErlVJdg7OnUt4c
+         gYuvMhYR+y+2XIUgDCSmEBIhnA5graRmTNSMuqvOX2cRQhv4tPtSggTRaXMmi2VZRjin
+         OOuisfx9xNRgLzT9i62x0l06ldxPbvlFu4RJ3T6b4H7KzFeCH5G47IOWzSWVe5rVZlu4
+         OVXZy36esy0fVcK07NapMhw4adZp35SmsHqPLVb6e5v6dWOexeZX34NVoF+HNOYtp1Wx
+         TmW3h/EAVpB+0HUQCx0O/TpZ7pZY6xBz6/orTxKK9wMdkGmSTMcpS+da9Urd3HLOZm3D
+         Jamw==
+X-Forwarded-Encrypted: i=1; AHgh+RrBwRVQs5czk6oFRqohCmWWA71Ztf0YItQsgwMqUnMWKhcFBTtsrOORykNXKQk+gv8KY2YJn1mu3U318Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzSFg1qaGIKBZoQ3qtx3z2milUE2/ttUDiPjKT83pZGfjK0L6U0
+	aZgx1Vr/jUvhdHDgZaD4N5BWBaRLhDH39uFtaPJXzh1SHJF+pdlfdGLmv4Eqvc6iCjE=
+X-Gm-Gg: AfdE7ckulcIZYHnd/F70XbvOA9v5TIDLRRsNC1DJSzNcERnU+KGvULvxgE+Del4mJ5E
+	iokAJwqUuBiJ6gKa1mB+ijbj/0nn3hi9ArQtt05Fln6H/XthwjTKTkBOJRvXxtherVeFkQzb1X5
+	ka234y0+N/tUbyXnyIxpYXgQ6L4q9W/B0WeUzgt0+0xHxaQamHr4wtJ/dV0OYn/C09IgSFlmHxr
+	yCPz/kQaQmaoN/cKwnmaOTFy4++zl4w170kc5Xbb9ctTb22Ge8o6etZOeuGnVoyYlEpKOmuf6v8
+	rlGhEFWZlnJ7X4rgmO2GZgc2wVHyGOhWoOWcwZELA3c6iLaD6I1go8zpHpIuMIWAUYSltX8iwTb
+	moY2vP8FlHzqxT4x/lTEz2VmJGW57iaRF8IDnWKVAh8H4W1WWlPJz+5WnOIkYNKT4vTC8pHt6S/
+	0MhlGxfeEsxdE=
+X-Received: by 2002:a05:6000:25e4:b0:473:41c6:f1b9 with SMTP id ffacd0b85a97d-47abad9f4e9mr10488782f8f.11.1783330358720;
+        Mon, 06 Jul 2026 02:32:38 -0700 (PDT)
 Received: from localhost ([2a01:e0a:3c5:5fb1:1495:8c97:96f4:dff8])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-493bef11338sm377772315e9.1.2026.07.06.02.32.36
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47a9e4d6da9sm22724967f8f.12.2026.07.06.02.32.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 02:32:36 -0700 (PDT)
+        Mon, 06 Jul 2026 02:32:38 -0700 (PDT)
 From: Jerome Brunet <jbrunet@baylibre.com>
-Date: Mon, 06 Jul 2026 11:32:13 +0200
-Subject: [PATCH v4 5/9] clk: sunxi-ng: sun6i-rtc: Add feature bit for IOSC
- calibration
+Date: Mon, 06 Jul 2026 11:32:14 +0200
+Subject: [PATCH v4 6/9] clk: sunxi-ng: div: add read-only operation support
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -71,7 +69,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260706-a733-rtc-v4-5-f330728db3d3@baylibre.com>
+Message-Id: <20260706-a733-rtc-v4-6-f330728db3d3@baylibre.com>
 References: <20260706-a733-rtc-v4-0-f330728db3d3@baylibre.com>
 In-Reply-To: <20260706-a733-rtc-v4-0-f330728db3d3@baylibre.com>
 To: Junhui Liu <junhui.liu@pigmoral.tech>, 
@@ -87,122 +85,131 @@ Cc: linux-rtc@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
  Jerome Brunet <jbrunet@baylibre.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3560; i=jbrunet@baylibre.com;
- h=from:subject:message-id; bh=LjKLqtELI/k5Bm86qG39EiNLmLLQg2pvRCFKcypyAtM=;
- b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBqS3Ykm1EkaDJ069gqM3tqzZUAo6EzOomoBvrrG
- TY60PbIiaqJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCakt2JAAKCRDm/A8cN/La
- hY6PEACcL49Jv+12kjoAQsDpUPA5V1xw9VbQsEtOPVlm9vqqWLHZwoaPT4wAlORrO3AdWbLsP99
- 3Va3GrObwSKZUgSScUTpAR9hNRd4uB9ay8wsEnI5doSKc0OxjECZvx5YIFWne9fn5wvJSY4dABo
- Nd1qkF+KcOd+L3w+z1WMzohuFIjRPeYo03b4QghplwZxrZrOO3erSNWE/6WdDYAVfiqCz8ozF7T
- sOBaTPh2Ya9YSPxG8OvqNnj8m1N/ozmgUCXMacKz6ZkiZUSWhwNSKytFZLrzlQHAV6d68XpK3Bd
- ztEjka3alClmehE5im7V14RfDcdAlcVDAIrxt2BCWmSHynOdEeykUKnkDaLBjC0VB3J9S0mK/Ea
- rfPUwIey53EGCzJWVafrOw20jOAmZYKXKC9jrmjmGIrrPI3kuQ9cb3jK+OlPdg2Dty7QiTX0Vnv
- smnFnurV6vL6UW4exhKbzae8TERopeRgMXTYpc1OYQuFqA7ayOUzRGbgj7eo/IIxrdfk1Am/LDz
- x9P69Vo0/ZnQUBQfQJD9pJPD30bDdiqSBFh4IGlArPzp/azMB7F7CxxS3rXjTlYfNTQAOOxYVQ4
- VUMsLMUDKkFUmjJH3j5UYg9xA0MhEEwbjcDiIPXoe9Lohy72G0WpUdGGtMMf45iETg/TYiK8S3/
- FwG9c4GpEzDcYfw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3945; i=jbrunet@baylibre.com;
+ h=from:subject:message-id; bh=YM5ShWAEXTvmgI5Fwj/9iD61+1bTWSy4EWyE1bdkdA4=;
+ b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBqS3Yl3dlm1jKmbVqsn7Rcc9HiTF6eoKTChjUWI
+ t1qYB/aI5OJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCakt2JQAKCRDm/A8cN/La
+ hbzyD/9+ecBIMkVBHC9SbhtGLh+1Wq/re/x8RaQWpRit6MC1z/qa3av70z1wyB2NcUDQkRWHeBA
+ SjFnA/G6Ba3ajJfE7fEzeqeoGCeApCTWt9js6jPSzMbQzQl8c2JBmRF1sRlxWzkTJl+L/Vp/yqb
+ mWCp4QZAFRq7xxeBYzuAeGYj0mObaO57Th7VCqYlTxQFrBtDURG5eXacWE46CA7qC1QYl9oDb95
+ gPPKegGUH40KsqiC7k+dQXklTL8bU61dR1CzYx4jzYIcQmTWCr2TCPy/sI1ft1uL1P0Du9TfXaf
+ AxPDUv98UFuUcAJXZlive0q8HiYhwUe39R9DhriwKXzGTt19Axex6TRBEIh0v6FZ/VNjmZEJEKq
+ 29p7D6jXKU06slB4XfVElIyW949dAdP5cNWjFtpdb6Y+HGh0EuxAIajiGTmcqgxCEt8SmHKk5DH
+ rPSIQKzA3HZwk6oIJficJ/t7RwAUo7VE6zTFQ0BY/skXgzwin0D48AfyAeTIJtyzGLRDdFaR18K
+ mQB1F47Ks5G89dWYJpsYOzcb6YYlCXKVN1BzsruSmYO0MIfFEt++ssSijsUzaUx3NPEZyR1JFYO
+ szCS45D5E4IJuFEZuwlcWr4GUUJQmxp+WwUX9SJ9kCul0K0log1R1X8qH1FWizjlI5Ov9Pv2Fym
+ 579DH1hjT/dZqKQ==
 X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
  fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
 
-From: Junhui Liu <junhui.liu@pigmoral.tech>
+Add support for sunxi-ng read-only dividers. This will be
+useful to the a733 oscillator detection logic.
 
-The sun6i-rtc CCU driver currently uses a global static variable to
-denote whether calibration is supported, which makes IOSC operations
-tightly coupled to this file.
-
-Convert this into a feature bit to decouple the logic. This allows the
-IOSC clock code to be moved into a shared module for reuse by other SoCs.
-
-Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
 Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
 Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 ---
- drivers/clk/sunxi-ng/ccu-sun6i-rtc.c | 17 +++++++++--------
- drivers/clk/sunxi-ng/ccu_common.h    |  1 +
- 2 files changed, 10 insertions(+), 8 deletions(-)
+ drivers/clk/sunxi-ng/ccu_div.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu_div.h |  1 +
+ drivers/clk/sunxi-ng/ccu_mux.c |  2 +-
+ drivers/clk/sunxi-ng/ccu_mux.h |  4 ++++
+ 4 files changed, 48 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-index 0f528bfaed00..b24c8b196e66 100644
---- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-@@ -52,8 +52,6 @@ struct sun6i_rtc_match_data {
- 	u8				osc32k_fanout_nparents;
+diff --git a/drivers/clk/sunxi-ng/ccu_div.c b/drivers/clk/sunxi-ng/ccu_div.c
+index 62d680ccb524..d1c8c7baa12d 100644
+--- a/drivers/clk/sunxi-ng/ccu_div.c
++++ b/drivers/clk/sunxi-ng/ccu_div.c
+@@ -84,6 +84,36 @@ static int ccu_div_determine_rate(struct clk_hw *hw,
+ 					     req, ccu_div_determine_rate_helper, cd);
+ }
+ 
++static int ccu_rodiv_determine_rate(struct clk_hw *hw,
++				    struct clk_rate_request *req)
++{
++	struct ccu_div *cd = hw_to_ccu_div(hw);
++	unsigned long val;
++	u32 reg;
++	int ret;
++
++	reg = readl(cd->common.base + cd->common.reg);
++	val = reg >> cd->div.shift;
++	val &= (1 << cd->div.width) - 1;
++
++	req->rate = ccu_mux_helper_unapply_prediv(&cd->common, &cd->mux, -1,
++						  req->rate);
++
++	if (cd->common.features & CCU_FEATURE_FIXED_POSTDIV)
++		req->rate *= cd->fixed_post_div;
++
++	ret = divider_ro_determine_rate(hw, req, cd->div.table,
++					cd->div.width, cd->div.flags, val);
++
++	if (cd->common.features & CCU_FEATURE_FIXED_POSTDIV)
++		req->rate /= cd->fixed_post_div;
++
++	req->rate = ccu_mux_helper_apply_prediv(&cd->common, &cd->mux, -1,
++						req->rate);
++
++	return ret;
++}
++
+ static int ccu_div_set_rate(struct clk_hw *hw, unsigned long rate,
+ 			   unsigned long parent_rate)
+ {
+@@ -143,3 +173,15 @@ const struct clk_ops ccu_div_ops = {
+ 	.set_rate	= ccu_div_set_rate,
  };
+ EXPORT_SYMBOL_NS_GPL(ccu_div_ops, "SUNXI_CCU");
++
++const struct clk_ops ccu_rodiv_ops = {
++	.disable	= ccu_div_disable,
++	.enable		= ccu_div_enable,
++	.is_enabled	= ccu_div_is_enabled,
++
++	.get_parent	= ccu_div_get_parent,
++
++	.determine_rate	= ccu_rodiv_determine_rate,
++	.recalc_rate	= ccu_div_recalc_rate,
++};
++EXPORT_SYMBOL_NS_GPL(ccu_rodiv_ops, "SUNXI_CCU");
+diff --git a/drivers/clk/sunxi-ng/ccu_div.h b/drivers/clk/sunxi-ng/ccu_div.h
+index be00b3277e97..a30a92780a05 100644
+--- a/drivers/clk/sunxi-ng/ccu_div.h
++++ b/drivers/clk/sunxi-ng/ccu_div.h
+@@ -300,5 +300,6 @@ static inline struct ccu_div *hw_to_ccu_div(struct clk_hw *hw)
+ }
  
--static bool have_iosc_calibration;
--
- static int ccu_iosc_enable(struct clk_hw *hw)
- {
- 	struct ccu_common *cm = hw_to_ccu_common(hw);
-@@ -80,7 +78,7 @@ static unsigned long ccu_iosc_recalc_rate(struct clk_hw *hw,
- {
- 	struct ccu_common *cm = hw_to_ccu_common(hw);
+ extern const struct clk_ops ccu_div_ops;
++extern const struct clk_ops ccu_rodiv_ops;
  
--	if (have_iosc_calibration) {
-+	if (cm->features & CCU_FEATURE_IOSC_CALIBRATION) {
- 		u32 reg = readl(cm->base + IOSC_CLK_CALI_REG);
+ #endif /* _CCU_DIV_H_ */
+diff --git a/drivers/clk/sunxi-ng/ccu_mux.c b/drivers/clk/sunxi-ng/ccu_mux.c
+index 766f27cff748..775d396ccf31 100644
+--- a/drivers/clk/sunxi-ng/ccu_mux.c
++++ b/drivers/clk/sunxi-ng/ccu_mux.c
+@@ -68,7 +68,7 @@ unsigned long ccu_mux_helper_apply_prediv(struct ccu_common *common,
+ }
+ EXPORT_SYMBOL_NS_GPL(ccu_mux_helper_apply_prediv, "SUNXI_CCU");
  
- 		/*
-@@ -119,7 +117,7 @@ static int ccu_iosc_32k_prepare(struct clk_hw *hw)
- 	struct ccu_common *cm = hw_to_ccu_common(hw);
- 	u32 val;
- 
--	if (!have_iosc_calibration)
-+	if (!(cm->features & CCU_FEATURE_IOSC_CALIBRATION))
- 		return 0;
- 
- 	val = readl(cm->base + IOSC_CLK_CALI_REG);
-@@ -134,7 +132,7 @@ static void ccu_iosc_32k_unprepare(struct clk_hw *hw)
- 	struct ccu_common *cm = hw_to_ccu_common(hw);
- 	u32 val;
- 
--	if (!have_iosc_calibration)
-+	if (!(cm->features & CCU_FEATURE_IOSC_CALIBRATION))
- 		return;
- 
- 	val = readl(cm->base + IOSC_CLK_CALI_REG);
-@@ -148,7 +146,7 @@ static unsigned long ccu_iosc_32k_recalc_rate(struct clk_hw *hw,
- 	struct ccu_common *cm = hw_to_ccu_common(hw);
- 	u32 val;
- 
--	if (have_iosc_calibration) {
-+	if (cm->features & CCU_FEATURE_IOSC_CALIBRATION) {
- 		val = readl(cm->base + IOSC_CLK_CALI_REG);
- 
- 		/* Assume the calibrated 32k clock is accurate. */
-@@ -167,7 +165,7 @@ static unsigned long ccu_iosc_32k_recalc_accuracy(struct clk_hw *hw,
- 	struct ccu_common *cm = hw_to_ccu_common(hw);
- 	u32 val;
- 
--	if (have_iosc_calibration) {
-+	if (cm->features & CCU_FEATURE_IOSC_CALIBRATION) {
- 		val = readl(cm->base + IOSC_CLK_CALI_REG);
- 
- 		/* Assume the calibrated 32k clock is accurate. */
-@@ -358,7 +356,10 @@ int sun6i_rtc_ccu_probe(struct device *dev, void __iomem *reg)
- 		return 0;
- 
- 	data = match->data;
--	have_iosc_calibration = data->have_iosc_calibration;
-+	if (data->have_iosc_calibration) {
-+		iosc_clk.features |= CCU_FEATURE_IOSC_CALIBRATION;
-+		iosc_32k_clk.features |= CCU_FEATURE_IOSC_CALIBRATION;
-+	}
- 
- 	if (!data->have_ext_osc32k) {
- 		/* ext-osc32k-gate is an orphan, so do not register it. */
-diff --git a/drivers/clk/sunxi-ng/ccu_common.h b/drivers/clk/sunxi-ng/ccu_common.h
-index bbec283b9d99..d9dc24ad5503 100644
---- a/drivers/clk/sunxi-ng/ccu_common.h
-+++ b/drivers/clk/sunxi-ng/ccu_common.h
-@@ -21,6 +21,7 @@
- #define CCU_FEATURE_CLOSEST_RATE	BIT(9)
- #define CCU_FEATURE_DUAL_DIV		BIT(10)
- #define CCU_FEATURE_UPDATE_BIT		BIT(11)
-+#define CCU_FEATURE_IOSC_CALIBRATION	BIT(12)
- 
- /* MMC timing mode switch bit */
- #define CCU_MMC_NEW_TIMING_MODE		BIT(30)
+-static unsigned long ccu_mux_helper_unapply_prediv(struct ccu_common *common,
++unsigned long ccu_mux_helper_unapply_prediv(struct ccu_common *common,
+ 					    struct ccu_mux_internal *cm,
+ 					    int parent_index,
+ 					    unsigned long parent_rate)
+diff --git a/drivers/clk/sunxi-ng/ccu_mux.h b/drivers/clk/sunxi-ng/ccu_mux.h
+index c94a4bde5d01..272a2c36a8f2 100644
+--- a/drivers/clk/sunxi-ng/ccu_mux.h
++++ b/drivers/clk/sunxi-ng/ccu_mux.h
+@@ -134,6 +134,10 @@ unsigned long ccu_mux_helper_apply_prediv(struct ccu_common *common,
+ 					  struct ccu_mux_internal *cm,
+ 					  int parent_index,
+ 					  unsigned long parent_rate);
++unsigned long ccu_mux_helper_unapply_prediv(struct ccu_common *common,
++					    struct ccu_mux_internal *cm,
++					    int parent_index,
++					    unsigned long parent_rate);
+ int ccu_mux_helper_determine_rate(struct ccu_common *common,
+ 				  struct ccu_mux_internal *cm,
+ 				  struct clk_rate_request *req,
 
 -- 
 2.47.3
