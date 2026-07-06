@@ -1,113 +1,66 @@
-Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40653EA949
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jul 2026 09:37:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B644E41DEDB;
+	Mon,  6 Jul 2026 09:39:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783330634; cv=none; b=HeLWc1RosgCrjZjLjnlIQEEzTL/EZ4mFr5G4+DZdFNB1rqb2B6Gys+ZgbtPFlMpWJn2jlwjpiatiDcgvUmpzj8XXOaFJTx/PIseEatK1hu5Z24q05GtDzgMMeKMvd5UiR9eRz4jsTfCVz02svDJbvEBMo4lsDjQMPdC8kpAesEI=
+	t=1783330771; cv=none; b=OZKgaZG0ASUozfQlL8faADvsAy+UColGEuC+sqwHKEt2290T3Zq/FBLmfYiujDblN369nTc9UgKaFt3YbnU2inHMo7Y1D3gT8qpC+vhXrSXdNUOToGAYDBNWD7errw0ptVafLnmClnhWE2I6BxtM8efSs+dE4P452td4/WFY5rQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783330634; c=relaxed/simple;
-	bh=GseKTWMJO/4quTtPS9+sq/JnbofiUkAesM/9FQ9NU5c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WabckRWpZYRdoEcDoNCYyyXmGwqqZwP8b9YTOSUAbufhmyHAbI5dnmXpv02nE+JtdlOyuL/DAaNMoag4LmxfIAUUG1D29oQ76xFnzigtHl9ONXxjpHXUUtB/6md54NjGsAQi/oWYMMy9IHQT70kpYu1vmlhyen3MNNm5opo8wUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Fy4QgNpw; arc=none smtp.client-ip=54.254.200.128
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1783330771; c=relaxed/simple;
+	bh=iYsx7glwWmFVPpmr2N2S1sIS9kTAuQDthpPNvZdAjV8=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=g2/Fcv0g16ARTLaLgoFLZyAZeNTz5wp1/qugxZRGF/7yaA0qRzIgXZX6TncsfD1ivPSD+89J5ZdU4sBPPI+OlZvqkG/DQGFoWz5pHZWxoeJrLPU5qrC/4kwBr+ZSEPXxyh3hW5G2ieJ3pID138SNRhWFH6KxkQUPEXcIw87Vn5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C5I9GFcn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="Fy4QgNpw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1783330576;
-	bh=9tIy0ICFI32mZuNmMcVPEQ43qstDY+Oaao9BkD0xJVQ=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=Fy4QgNpwpJYAjbCaQMQQLlYhgSiNB5utT8w+awwJFJt9wtfdbMQUOljiJ/2ztsXkn
-	 fdie5Cr0Zmg+tJr54o4le96ekNTKGDvatDl0QcEYQJsgcqDjv3oDNQzRYCkzz8/ex6
-	 FwmzLiXlXL4F9OXwTvUcX9IDS2DmFEY4kyinAQFU=
-X-QQ-mid: esmtpgz13t1783330553tb007279a
-X-QQ-Originating-IP: pFwwsK+bFgjr+sBuJ3tvvVI0IHeKzOu5y//TagiDwvs=
-Received: from PEN202512010004 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 06 Jul 2026 17:35:51 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 17558151343560022495
-EX-QQ-RecipientCnt: 12
-From: raoxu <raoxu@uniontech.com>
-To: vkoul@kernel.org
-Cc: wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	neil.armstrong@linaro.org,
-	andre.przywara@arm.com,
-	raoxu@uniontech.com,
-	marco.crivellari@suse.com,
-	linux-phy@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] phy: allwinner: sun4i-usb: disable the PHY2 PMU clock after SIDDQ setup
-Date: Mon,  6 Jul 2026 17:35:49 +0800
-Message-ID: <1368E4E3485E881C+20260706093549.867442-1-raoxu@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C5I9GFcn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F3021F00A3D;
+	Mon,  6 Jul 2026 09:39:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783330766;
+	bh=iYsx7glwWmFVPpmr2N2S1sIS9kTAuQDthpPNvZdAjV8=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=C5I9GFcncNt2LURnMrw3WXN/v4n4aQ8SxavMlF/aluQZUo8C8F6Dvegot5sgMjSeC
+	 ehZFntNdXd56ZQYR0ehisQM6/iQehyr0EdS+XZrZrn4XA8mieA65Wz6+SHKno5D3AD
+	 vfDm0oz7YmIzESIqBBzymNAXo210BoWKd4L74DgH9qbZNxJ531SLtTvbf4YxZDg95u
+	 IH9tXwecxv2Cpzc3Q03XYjxj5PDcK+A7OWGo6Gr2zk4UG6XlT9cRLjSigNMSZ6jPBL
+	 UcrehiifMWIusPyKiFjCG9H5G3+w0yWHFtjQqylStgEq+0wxoHu6Zhf6WJTEUANh/q
+	 2IHRoRBp8ulGw==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v4 1/9] dt-bindings: rtc: sun6i: no clock-output-names
+ on h616/r329
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Jerome Brunet" <jbrunet@baylibre.com>
+Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, "Alexandre
+ Belloni" <alexandre.belloni@bootlin.com>, linux-rtc@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20260706-a733-rtc-v4-1-f330728db3d3@baylibre.com>
+References: <20260706-a733-rtc-v4-0-f330728db3d3@baylibre.com>
+ <20260706-a733-rtc-v4-1-f330728db3d3@baylibre.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 06 Jul 2026 09:39:25 +0000
+Message-Id: <20260706093926.6F3021F00A3D@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: Nb41GHfx0X4XTL3TPXxkavFYJKt5wzl/hNPTEllmLgYKBmlRcdqjiCnQ
-	upfmTN9JiW9gplgKuq13SbpzVTX9Xf0lgo7QsUGdS1efsEqzT1cEaE5/W9o+8sGyqBcfluM
-	ESaZ3hOwcD5UW2zCC9HoKc8ZmPRiDJBtYhOv2rJkh28G4qi8DZT27F8blfrkhtjC/dDfdWV
-	a8mH5jD3Z2+KtrLzVpBSGLml6dDytyapcZ2v7gsqXoqHOc8B3JT4TwmBiTGuulFZdTtikt7
-	5n0GExWOObYUiMli5h3zUi2Ym/YhxZI4ElSSeYBXts2fxlspOEqGwLnjVR0eyrEgxKRO5+d
-	T56GlpHLmVJZwGvyV3vx8cD3Gig9jr5KBQ7rI8tWB/j/gqx1M8zaZUZqOPW4qZwQIRJmD3y
-	YiP2P7hLLLhtU9qFPZPTLi4DuXl2X6H0Ol2ZuZJHmCUoOVB/0sn0jZV08zBFlGBmIm8zOzO
-	8cwgJV4ZFLCg0Si06PYMlsLjo6BInvMTTbr9ZWxHMdgfwd2Vbw0dexvew8q67RHQoPXR9+1
-	JOEAeTyOH6+NJsnrfX3iMcO/HaQC/3+ml1SP88ZQPynsJ6UioS3jPsSTmYXpwErm1e/KU0t
-	7dBw/WYhSZMZkHIOx5Ue/ggdU6kFO1ehtijpsweDkDH7i55sgV072NhNBaSEUzEXaN/eg81
-	sIClMCX6DT9vpRBKz5RU9nP8fjcIopL2qYAmPmd8vWK2QR0C1kf2P7TteI8f+5Jyw3ZOryo
-	kpeL7Giz5vlHWDvNncrWmCsRpzaUwEluFq7pR70UFAcf5MjAS0+PCxwiyDSIIBQq2pBiOYU
-	7eFmp5FYySfHx2CXsgmWhvetzjqhJPRwzhYDhuAfTgh6yPEi8kZaD7vXCEE5cau6jGRzpbk
-	OugVx/vaMxleBMzqs6iaOnazWG9YxRZrYzpcBqB+eehhJwOsbdPtWdyNBh0Yn3wWGq5ddYQ
-	fDXDa8PiUThG+luanYwJq9eBJ1drP3HtHx8ZDdisP+pOWgUBzWN/PtgzhqRdvm7tMMRb/Md
-	Qk19aK5Y094ztLIrmL9cGPUFjkmrEhM3doxbmN6zrgShNBgfOnGfLD1rifijcHk2pQSdTuT
-	YSz7fXvJA0N
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-X-QQ-RECHKSPAM: 0
 
-From: Xu Rao <raoxu@uniontech.com>
+> On h616 and r329 chips, clock output names are never defined through DT a=
+nd
+> are not meant to be. Just disallow the property for those chips.
+>=20
+> Reported-by: Sashiko <sashiko-bot@kernel.org>
+> Closes: http://lore.kernel.org/r/20260629125305.0DF981F000E9@smtp.kernel.=
+org
+> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 
-sun4i_usb_phy_init() temporarily enables PHY2's clk2 when a SoC needs
-PHY2 SIDDQ setup while initializing another PHY. However, after updating
-PHY2's PMU register it disables the clk2 pointer from the PHY currently
-being initialized.
+Sashiko has reviewed this patch and found no issues. It looks great!
 
-This leaves PHY2's clk2 enabled and also drops an extra reference from
-the current PHY's clk2, causing the prepare/enable accounting to become
-unbalanced.
-
-Disable the same PHY2 clk2 that was enabled for the auxiliary PMU access.
-
-Signed-off-by: Xu Rao <raoxu@uniontech.com>
----
- drivers/phy/allwinner/phy-sun4i-usb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
-index e2fbf8ccf99e..839856c09e30 100644
---- a/drivers/phy/allwinner/phy-sun4i-usb.c
-+++ b/drivers/phy/allwinner/phy-sun4i-usb.c
-@@ -318,7 +318,7 @@ static int sun4i_usb_phy_init(struct phy *_phy)
- 			writel(val, phy2->pmu + REG_HCI_PHY_CTL);
- 		}
-
--		clk_disable_unprepare(phy->clk2);
-+		clk_disable_unprepare(phy2->clk2);
- 	}
-
- 	if (phy->pmu && data->cfg->hci_phy_ctl_clear) {
---
-2.50.1
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260706-a733-rtc-v=
+4-0-f330728db3d3@baylibre.com?part=3D1
 
