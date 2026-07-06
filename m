@@ -1,137 +1,154 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEEAE1ACED5
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jul 2026 00:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADA61A3029
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jul 2026 03:03:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783298074; cv=none; b=AxdLJ+lh//nsLzrB5/HeFiyC49WXDP7omAaOgp9zHf/eVYvm1uvEIeoUujBUUqq4gufCASwaH8SE37M2kd+PQS50qroPMjmXY5h0pUpguM+LqQhK3GYE2r1ykpK/0Y5kgVnKErPzXTQ7NQkkNg8Y4crzer/eQxNyOvPOR7Vo3RQ=
+	t=1783307040; cv=none; b=ugPNirj79jhy/9CdG/gt4aNwXFJ47Cfdf3bg4LGmU3/Ljd+rjqUkg81QkQKC5Sm4elDMM7a4/P41PKgJFzgyjpZWjfSFySSuUlSfc9Srw5tFNhtTAaqdrpy1oUPwyH1TyxUzODNCT1PZEhQK/VKtrwOYls14IWBwIrMjx4A9Vdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783298074; c=relaxed/simple;
-	bh=2PxUxZPMKUCuY9XPy73Y/KPmQ0r97rw0cg10OraDCjk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MniUEvLZE7TQUMdzBxO5g1ILB0hnnMm6y/btqyk9ETd4W0MbZ9QtySMBXk/EsKId4Zju1cL1g07EGmWZsrLchRYCXm2Osk6FnND68qn4Zx69KE5P6clPKuD7aVF/+keTm0dwA78vozKQA+ikaVAKQQ/efNrsRZl31QgTFVsVWQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mLsuUED9; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mLsuUED9"
-Message-ID: <973f3d6f-6ff4-4685-9c9f-b07987f74d98@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1783298059;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wYrjdzAhnc0P88BFwUH/b6uj52WFQfIRb2R1u4QFCds=;
-	b=mLsuUED9ENIp3ed3h8bdKFYcEwFgoRzOELLNc1jLIXF6taZ+WEztXLwd9/BAKQWvUz2Hs3
-	3EKLIatmB5Z+Df3dgdlCr8bmpTJQbWFj3Jp6WCvzaQnW40BXVB4LUsJRj7jQdhncagFIYu
-	oCbFYryMjDBm1fu5il4d+x3rl9gBRyM=
-Date: Mon, 6 Jul 2026 08:33:47 +0800
+	s=arc-20240116; t=1783307040; c=relaxed/simple;
+	bh=Y4L5hmoSOf+8VeYtGQ1HCOmRi9A3f3riRL86mRsle7Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=f8GzdZlIxRvw/0V/EmhMiOwb0Grduc/xwL9WI5CnjG4LDrrzZSJOgePZSbfZHkcLGqp55kOtX8Ixgch8Sa4abO14wXyookQkW5MuXUBVf4fxJ/oKz5j+AaKVJ1BBGHWo5o3Tfke/g0NV1BNEX980lUmz3sz+JdVUStELiH7e5YI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 5213dc4278e711f1aa26b74ffac11d73-20260706
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:9fc9bb35-8aa5-4db3-b7c1-9c1112277b5f,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:e7bac3a,CLOUDID:8be11dd4efe86fb9ab476a1e2276960f,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
+	DM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
+	:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 5213dc4278e711f1aa26b74ffac11d73-20260706
+X-User: zenghongling@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zenghongling@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 674881238; Mon, 06 Jul 2026 11:03:53 +0800
+From: Hongling Zeng <zenghongling@kylinos.cn>
+To: vkoul@kernel.org,
+	Frank.Li@kernel.org,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	mripard@kernel.org,
+	arnd@arndb.de
+Cc: dmaengine@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	zhongling0719@126.com,
+	Hongling Zeng <zenghongling@kylinos.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH v2] dmaengine: sun6i: Fix potential deadlock on sdev->lock
+Date: Mon,  6 Jul 2026 11:03:47 +0800
+Message-Id: <20260706030347.22730-1-zenghongling@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH v1 4/5] pwm: Unify coding style of of_device_id arrays
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?=
- <u.kleine-koenig@baylibre.com>, linux-pwm@vger.kernel.org
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>,
- Vladimir Zapolskiy <vz@mleia.com>,
- Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Peter Griffin <peter.griffin@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Paul Walmsley <pjw@kernel.org>,
- Samuel Holland <samuel.holland@sifive.com>, Michael Walle
- <mwalle@kernel.org>, Inochi Amaoto <inochiama@gmail.com>,
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Hammer Hsieh <hammerh0314@gmail.com>,
- Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>,
- Alexey Charkov <alchark@gmail.com>, Sean Anderson <sean.anderson@linux.dev>,
- Michal Simek <michal.simek@amd.com>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, chrome-platform@lists.linux.dev,
- imx@lists.linux.dev, linux-mips@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
- sophgo@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
- linux-sunxi@lists.linux.dev
-References: <cover.1783263835.git.ukleinek@kernel.org>
- <20de6cd60c2938aad2d21397b92742849418ab1b.1783263835.git.ukleinek@kernel.org>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Chen Wang <chen.wang@linux.dev>
-In-Reply-To: <20de6cd60c2938aad2d21397b92742849418ab1b.1783263835.git.ukleinek@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
+sun6i_dma_terminate_all() and sun6i_dma_pause() acquire sdev->lock
+with plain spin_lock() from process context. If a DMA interrupt fires
+on the same CPU while the lock is held, the interrupt handler schedules
+sun6i_dma_tasklet(), which runs in softirq context and attempts to
+acquire the same lock with spin_lock_irq(), causing a deadlock.
 
-On 7/5/2026 11:14 PM, Uwe Kleine-König (The Capable Hub) wrote:
->   - Use a single space in a of_device_id array terminator; A single space
->     after the opening { and before the closing } in non-empty
->     initializers;
->   - No comma after an array terminator;
->   - Also no trailing comma after a named initializer iff the
-iff -> if
->     closing } is on the same line;
->
-> Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
+Fix by using spin_lock_irq() to disable interrupts while holding
+sdev->lock, consistent with other call sites.
 
-[......]
+Fixes: ba489fd46ab6 ("dmaengine: sun6i: Add support for Allwinner A31 DMA controller")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
 
-> diff --git a/drivers/pwm/pwm-sophgo-sg2042.c b/drivers/pwm/pwm-sophgo-sg2042.c
-> index 7d07b0ca7d29..0b6461172e6a 100644
-> --- a/drivers/pwm/pwm-sophgo-sg2042.c
-> +++ b/drivers/pwm/pwm-sophgo-sg2042.c
-> @@ -225,11 +225,10 @@ static const struct sg2042_chip_data sg2044_chip_data = {
->   static const struct of_device_id sg2042_pwm_ids[] = {
->   	{
->   		.compatible = "sophgo,sg2042-pwm",
-> -		.data = &sg2042_chip_data
-> -	},
-> -	{
-> +		.data = &sg2042_chip_data,
-> +	}, {
->   		.compatible = "sophgo,sg2044-pwm",
-> -		.data = &sg2044_chip_data
-> +		.data = &sg2044_chip_data,
->   	},
->   	{ }
->   };
+---
+Change in v2:
+ -Fix by using spin_lock_irqsave() and spin_unlock_irqrestore() to
+  disable interrupts while holding sdev->lock and properly save/restore
+  interrupt state.
+ -Fix inconsistent locking pattern in sun6i_dma_resume() and
+  sun6i_dma_issue_pending().
+---
+ drivers/dma/sun6i-dma.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-Changes to sophgo related files：
-
-Reviewed-by: Chen Wang <chen.wang@linux.dev>
-
-Thanks,
-
-Chen
-
-[......]
-
+diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
+index a9a254dbf8cb..742a0822a8da 100644
+--- a/drivers/dma/sun6i-dma.c
++++ b/drivers/dma/sun6i-dma.c
+@@ -891,6 +891,7 @@ static int sun6i_dma_pause(struct dma_chan *chan)
+ 	struct sun6i_dma_dev *sdev = to_sun6i_dma_dev(chan->device);
+ 	struct sun6i_vchan *vchan = to_sun6i_vchan(chan);
+ 	struct sun6i_pchan *pchan = vchan->phy;
++	unsigned long flags;
+ 
+ 	dev_dbg(chan2dev(chan), "vchan %p: pause\n", &vchan->vc);
+ 
+@@ -898,9 +899,9 @@ static int sun6i_dma_pause(struct dma_chan *chan)
+ 		writel(DMA_CHAN_PAUSE_PAUSE,
+ 		       pchan->base + DMA_CHAN_PAUSE);
+ 	} else {
+-		spin_lock(&sdev->lock);
++		spin_lock_irqsave(&sdev->lock, flags);
+ 		list_del_init(&vchan->node);
+-		spin_unlock(&sdev->lock);
++		spin_unlock_irqrestore(&sdev->lock, flags);
+ 	}
+ 
+ 	return 0;
+@@ -921,9 +922,9 @@ static int sun6i_dma_resume(struct dma_chan *chan)
+ 		writel(DMA_CHAN_PAUSE_RESUME,
+ 		       pchan->base + DMA_CHAN_PAUSE);
+ 	} else if (!list_empty(&vchan->vc.desc_issued)) {
+-		spin_lock(&sdev->lock);
++		spin_lock_irq(&sdev->lock);
+ 		list_add_tail(&vchan->node, &sdev->pending);
+-		spin_unlock(&sdev->lock);
++		spin_unlock_irq(&sdev->lock);
+ 	}
+ 
+ 	spin_unlock_irqrestore(&vchan->vc.lock, flags);
+@@ -939,9 +940,9 @@ static int sun6i_dma_terminate_all(struct dma_chan *chan)
+ 	unsigned long flags;
+ 	LIST_HEAD(head);
+ 
+-	spin_lock(&sdev->lock);
++	spin_lock_irqsave(&sdev->lock, flags);
+ 	list_del_init(&vchan->node);
+-	spin_unlock(&sdev->lock);
++	spin_unlock_irqrestore(&sdev->lock, flags);
+ 
+ 	spin_lock_irqsave(&vchan->vc.lock, flags);
+ 
+@@ -1021,7 +1022,7 @@ static void sun6i_dma_issue_pending(struct dma_chan *chan)
+ 	spin_lock_irqsave(&vchan->vc.lock, flags);
+ 
+ 	if (vchan_issue_pending(&vchan->vc)) {
+-		spin_lock(&sdev->lock);
++		spin_lock_irq(&sdev->lock);
+ 
+ 		if (!vchan->phy && list_empty(&vchan->node)) {
+ 			list_add_tail(&vchan->node, &sdev->pending);
+@@ -1030,7 +1031,7 @@ static void sun6i_dma_issue_pending(struct dma_chan *chan)
+ 				&vchan->vc);
+ 		}
+ 
+-		spin_unlock(&sdev->lock);
++		spin_unlock_irq(&sdev->lock);
+ 	} else {
+ 		dev_dbg(chan2dev(chan), "vchan %p: nothing to issue\n",
+ 			&vchan->vc);
+-- 
+2.25.1
 
