@@ -1,78 +1,174 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4263376BEA
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jul 2026 14:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783347085; cv=none; b=Hl4uQAaW7Aauk7SzF9TwgYPiSUFboKMvFxfiI39Cuoo5j6gcvKPVu/AOyvPz1VDRq/oKyQkKsT+Eo/FdvfgGkdBFcaRuxjTBX7hgZZm9gK7uZa/lJx3g8kJ6RE/YNONIp9uNHks8bMBUoWG6kP+pdpNt8WihcLai7hUu2WxwU0M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783347085; c=relaxed/simple;
-	bh=37+4q7COOhXJEW+gXuemdFa5O7sFCIJzgfNUlkoW+l8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=jxO4M28lHbZQRvFk9WxY9TTzCmXl0kFrQFrcsesyAXVuEyF7EbP3rqpNMUn9ylJs2Jy5Gqng8JVGaV/vygsLSRqvsRRrjSKDsvaExE4RIyR2lO7lJ8S4vUVA8pcoTk0kovfh8g2Ood4njAXVRab1ot7mLHtb0mhDejSaEX+kuRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=LyHjOFnP; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE3A376A1E;
+	Mon,  6 Jul 2026 15:02:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783350173; cv=pass; b=Mc9fRp0GcYRHlV6A9UbvaKdblnJAauPdyddbxQ5MbLEsRjXi9iYvetLT2rCpimmmZx41lE/70wY++X1MUVuMDnfskR36ctBsf5KCbmCQsrYA8EHi8MJUax8+nDrWhatWVTPz3eQZg1JOzA781OgCyCi1xX5bgMQRLGCufLF/n8E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783350173; c=relaxed/simple;
+	bh=Lu9wLxVbs/Lk9+t6I1rSrNmYpbDMa4qMMSV45NFfKlI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dhSqMm+J88fCSJzsAc7xWVidGP5NYAJpFA2AEnwijdD0SO+HiQ+llNoaMh/Sh0SxIG78g4aQMEcN8x3eTHmMtlYnRPL39A+lQzHlJm3r6tMxHD6wJlu9ORS1tiNl2bky9JkKQDpD8kMdSgr1w3LeRQotx3EglPeJbXtB3py7Ugc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=ImgA1Hj8; arc=pass smtp.client-ip=136.143.188.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="LyHjOFnP"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 36B1E4E409FE;
-	Mon,  6 Jul 2026 14:11:22 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 093DD601A2;
-	Mon,  6 Jul 2026 14:11:22 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 702DA11BBA4EC;
-	Mon,  6 Jul 2026 16:11:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1783347081; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=37+4q7COOhXJEW+gXuemdFa5O7sFCIJzgfNUlkoW+l8=;
-	b=LyHjOFnP41JECW6ndU1QxZDuK/Xnq0yE+IfSIR9YL3JX3IkRw9d4z+Pf9+wWFBVVsBeZ89
-	izKa/IfvGTxTrfNd9HUnUHJH8oWQfpV6qngk44s59M+9KyFQddMyxL7DXhixY43HbN5bbp
-	PD9BatHpbG+b78I/ykLupTRjufQa4rSh3/W7KaPvQT+la+nqYxYHf8vzQlrYSb1aJeivBN
-	PUQBNJyVLf77rPN2ijoHe2NpQ5BS24Ug+u+Dy2p8w1DtAl8nbBTezc5a87TXPiYVjI7uoJ
-	MjjWmP+LKEbLM2VHl/N+6GmLq48cELxwckPzjqWI5aF4a7tuHmxNTSycFD/kUg==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-kernel@vger.kernel.org,  "Rafael J. Wysocki" <rafael@kernel.org>,
-  Daniel Lezcano <daniel.lezcano@kernel.org>,  Zhang Rui
- <rui.zhang@intel.com>,  Lukasz Luba <lukasz.luba@arm.com>,  Vasily
- Khoruzhick <anarsoul@gmail.com>,  Yangtao Li <tiny.windzz@gmail.com>,
-  Chen-Yu Tsai <wens@kernel.org>,  Jernej Skrabec
- <jernej.skrabec@gmail.com>,  Samuel Holland <samuel@sholland.org>,
-  linux-pm@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
-  linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] thermal: remove unneeded 'fast_io' parameter in
- regmap_config
-In-Reply-To: <20260705164311.2273-2-wsa+renesas@sang-engineering.com> (Wolfram
-	Sang's message of "Sun, 5 Jul 2026 18:43:12 +0200")
-References: <20260705164311.2273-2-wsa+renesas@sang-engineering.com>
-User-Agent: mu4e 1.12.7; emacs 30.2
-Date: Mon, 06 Jul 2026 16:11:18 +0200
-Message-ID: <87o6gkky2h.fsf@bootlin.com>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="ImgA1Hj8"
+ARC-Seal: i=1; a=rsa-sha256; t=1783350034; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=ShBwgIB9Tp0j2ieVFNXD2nNlBvkYSrZX6KL3AeDB+tfLOnE+7CHZu5rN/HP3/wiA65AfS2awNfBnLG6v3KttLERp5k37uX5cTjLkGlHu1epQC0tpKbiWTjw2bmWO4R3cJ9Bceq/UN4MGpiO+12hQk2boeKqRMVN9X9phSckbKF0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1783350034; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=3XwyWTIrA/V6J7edt1EVqOvQjuCfvvAm71aap9OvOCI=; 
+	b=aUIQNdoKYFXhqBqNhsY+F02CkGve6EXcuTScFbe5OHL/WHUKXk+LgtUumBUdfOodPJNOea5bCjHJ9ycCR0cPvohjbCewZV5P129fWS7uy+uA2tTiwdLdX3wI3zpXyvb7h2kq1Re2lQrUV6CFisZwObNuwW+4qzyVdb787O027/g=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783350034;
+	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=3XwyWTIrA/V6J7edt1EVqOvQjuCfvvAm71aap9OvOCI=;
+	b=ImgA1Hj80B9JHQg2Jp0iR3Hfkzuv+c1ZmjHHLY5vXEEHJlu3rx/mY5cc4HVAWJDf
+	QREjGnw/uNA5JcHG0nEUz0PUvTE/0uKgXtwmj8p0wIRVC2fcF+pZOIvPjdNL8NnCNrh
+	RgJCMxLw7XsRX8tO1eirdxvjf97IRGDZQzh4oCj8=
+Received: by mx.zohomail.com with SMTPS id 1783350031182921.1240379629376;
+	Mon, 6 Jul 2026 08:00:31 -0700 (PDT)
+Message-ID: <3541fb84-81ce-4415-8027-38aa611834ae@collabora.com>
+Date: Mon, 6 Jul 2026 18:00:09 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 06/42] media: synopsys: hdmirx: Use
+ devm_of_reserved_mem_device_init()
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Paul Kocialkowski <paulk@sys-base.io>, Linus Walleij <linusw@kernel.org>,
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Alexey Brodkin
+ <abrodkin@synopsys.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Michal Simek <michal.simek@amd.com>,
+ Daniel Scally <dan.scally@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Eddie James <eajames@linux.ibm.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+ Houlong Wei <houlong.wei@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Thierry Reding <thierry.reding@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Srinivas Kandagatla <srini@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ge Gordon
+ <gordon.ge@bst.ai>, Adrian Hunter <adrian.hunter@intel.com>,
+ Ulf Hansson <ulfh@kernel.org>, Rob Herring <robh@kernel.org>,
+ Saravana Kannan <saravanak@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Peter Chen <peter.chen@cixtech.com>, Fugang Duan <fugang.duan@cixtech.com>
+Cc: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+ BST Linux Kernel Upstream Group <bst-upstream@bstai.top>,
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>,
+ CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
+ openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+ kernel@collabora.com, linux-tegra@vger.kernel.org,
+ linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ imx@lists.linux.dev, sound-open-firmware@alsa-project.org
+References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
+ <20260703193855.110619-7-mukesh.ojha@oss.qualcomm.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20260703193855.110619-7-mukesh.ojha@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-Hello,
-
-On 05/07/2026 at 18:43:12 +02, Wolfram Sang <wsa+renesas@sang-engineering.c=
-om> wrote:
-
-> When using MMIO with regmap, fast_io is implied. No need to set it
-> again.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+On 7/3/26 22:38, Mukesh Ojha wrote:
+> Replace the hand-rolled devm_hdmirx_of_reserved_mem_device_release()
+> devres action with devm_of_reserved_mem_device_init(), which handles the
+> cleanup automatically. This removes both the wrapper function and the
+> devm_add_action_or_reset() call.
+> 
+> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
 > ---
+>  .../media/platform/synopsys/hdmirx/snps_hdmirx.c | 16 ++--------------
+>  1 file changed, 2 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+> index 25f8ca0d6d94..7c6acc6d7e88 100644
+> --- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+> +++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+> @@ -2265,11 +2265,6 @@ static const struct hdmirx_cec_ops hdmirx_cec_ops = {
+>  	.read = hdmirx_readl,
+>  };
+>  
+> -static void devm_hdmirx_of_reserved_mem_device_release(void *dev)
+> -{
+> -	of_reserved_mem_device_release(dev);
+> -}
+> -
+>  static int hdmirx_parse_dt(struct snps_hdmirx_dev *hdmirx_dev)
+>  {
+>  	struct device *dev = hdmirx_dev->dev;
+> @@ -2316,16 +2311,9 @@ static int hdmirx_parse_dt(struct snps_hdmirx_dev *hdmirx_dev)
+>  	if (!device_property_read_bool(dev, "hpd-is-active-low"))
+>  		hdmirx_dev->hpd_trigger_level_high = true;
+>  
+> -	ret = of_reserved_mem_device_init(dev);
+> -	if (ret) {
+> +	ret = devm_of_reserved_mem_device_init(dev);
+> +	if (ret)
+>  		dev_warn(dev, "no reserved memory for HDMIRX, use default CMA\n");
+> -	} else {
+> -		ret = devm_add_action_or_reset(dev,
+> -					       devm_hdmirx_of_reserved_mem_device_release,
+> -					       dev);
+> -		if (ret)
+> -			return ret;
+> -	}
+>  
+>  	return 0;
+>  }
 
-Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
+Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
-Thanks,
-Miqu=C3=A8l
+-- 
+Best regards,
+Dmitry
