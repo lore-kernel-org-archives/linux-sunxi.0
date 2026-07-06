@@ -1,59 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47B438E113;
-	Mon,  6 Jul 2026 09:41:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5D044D022;
+	Mon,  6 Jul 2026 09:43:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783330895; cv=none; b=KoPp/pJ828CLsveweiMnpQDplcpDegz9OhO+yK+18K0ThiNJFvnKA11/ONZtMAn2zf6Wtoo6Fkp2Ohpo+CWfsECip8XCbB88YW7bhpnkCjImL+zzGt5+nGsXrf1ABfqrAsA0rF143o5tlZzB1KRNyT6WqjUZhBFMt2zWJA6Pi/w=
+	t=1783331022; cv=none; b=UpiHFP/2G3LCsNq6TruZBTCFhGZZohwaGJkjRXCkbhinjt1KfZzbGqTCzJEyKfL9PBEpm+TSVfXb3cdkVKrJdhzC4c1dnKHlZsvwDUWz4o2DEZMUfPZFvdVSlxvrzjeayAFHvkeiXZZFHzqSLnMofM/V1zs9nMnJ8XwJ6Zz4a6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783330895; c=relaxed/simple;
-	bh=lJoV7mN+tOPWEEgWwlqKCMyeoG/BqxRd+4Ge//xmaVs=;
+	s=arc-20240116; t=1783331022; c=relaxed/simple;
+	bh=QUrNVelZjB6gfX6pLv5bcQ1wXb4sZSkUjHyYy5GNnO4=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=uKUPdRzDqv85bbIjGC5iLZ9mHNjzF6euVi1ff1Dl9slkca8NU07XfkurB2MpA9VYQ4Nm3tHqfB48soU+hzzj9PbDZWafz4ie25zmF+voiODgzRAIgC7bRfbRFmeRsJNP1VKdSt1aPdOk5hKvUWxgQaJ9Sipev+anmVOnsgxG1ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BZVtTVzw; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=tHlC/PDdcTsGeC2Y+Tvm8yISAb7TZxGMZWPWDT8oopxAPf5b3sCx4FgBIt3n20hZr+oKG3CyR7BzeLEyVy3qXmrYAQAv/Ia9bFHU4Vq8Hp3wOkrdbaT9RORJoKHGepGAuSuPD99IDE21SQRco/XRaS3nv+j5He4MUgsJ2zc3gb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rl2vJMiG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BZVtTVzw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9031B1F000E9;
-	Mon,  6 Jul 2026 09:41:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rl2vJMiG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78B031F000E9;
+	Mon,  6 Jul 2026 09:43:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783330890;
-	bh=lJoV7mN+tOPWEEgWwlqKCMyeoG/BqxRd+4Ge//xmaVs=;
+	s=k20260515; t=1783331014;
+	bh=QUrNVelZjB6gfX6pLv5bcQ1wXb4sZSkUjHyYy5GNnO4=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=BZVtTVzwE1PAH3YSHG5vVNL1nKUQ8KM6jZmgtw5TJpxVeRhT0D5D5uJiQFHBZG36x
-	 T7vMFpTGEgGiSLAibBgYeNV4xpnPgmFn3bFxOnvY/Ic42sJ9zEsoxgcSsWmJds8ORq
-	 K6atO6A/v5yc0c3uhDMHxaFAGmxcZQzgqcshap4KMwKTdj/qBLtNOKmMDTBgDeTCd7
-	 46BtdvGuHB5hFuDEJDa8U2bTZ13UD/RAHhZwl5Bc5zsQGaMWJ6Y/h9mViIQLfcocf5
-	 nRVbkLXbDzoNv2ttoKqwrxpmfy9Ia4nlBEMSFzBBAtvyC9mzyzhx31MOmEuWCNWcHg
-	 By8LhjCZXSMuQ==
+	b=Rl2vJMiG6jxO/opTDc75kFEe0BHFM9o38mHitIEG5ESTicnk9SwegZGDRQqeJcVzx
+	 mje3N6N3PthTulEarFrBYuj9w4PigV924LDE0jeU7X25Qd+HxeJGqdsCOtkM7sSNtJ
+	 9c7v1DK++afQkRBfxJMvE9SZ9/E8DpAm5VXDieXR+5v/Yj2RZwZu//FwV2V63t2k/r
+	 U6OcsVmE+xqsIazOnguj+weVoZP6pS+Kc5OeMsHyrJ1dqGrgo0oZ/DTqY1b/Q9kTwc
+	 sQ3H3IFg+WcsLqNbokZmH/MjBSQsqcvUyg0j5goaJCzxGFFZvotEWuAF/XiQ4XiOiN
+	 SRXindJDZb6wA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 2/9] dt-bindings: rtc: sun6i: add sun60i-a733 support
+Subject: Re: [PATCH v4 3/9] clk: sunxi-ng: fix ccu probe clock unregister on
+ error
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Jerome Brunet" <jbrunet@baylibre.com>
-Cc: conor+dt@kernel.org, "Alexandre Belloni" <alexandre.belloni@bootlin.com>, robh@kernel.org, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, linux-rtc@vger.kernel.org
-In-Reply-To: <20260706-a733-rtc-v4-2-f330728db3d3@baylibre.com>
+Cc: conor+dt@kernel.org, robh@kernel.org, devicetree@vger.kernel.org, "Alexandre
+ Belloni" <alexandre.belloni@bootlin.com>, linux-sunxi@lists.linux.dev, linux-rtc@vger.kernel.org
+In-Reply-To: <20260706-a733-rtc-v4-3-f330728db3d3@baylibre.com>
 References: <20260706-a733-rtc-v4-0-f330728db3d3@baylibre.com>
- <20260706-a733-rtc-v4-2-f330728db3d3@baylibre.com>
+ <20260706-a733-rtc-v4-3-f330728db3d3@baylibre.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 06 Jul 2026 09:41:29 +0000
-Message-Id: <20260706094129.9031B1F000E9@smtp.kernel.org>
+Date: Mon, 06 Jul 2026 09:43:33 +0000
+Message-Id: <20260706094334.78B031F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-> Add a new rtc compatible for the sun60i-a733 SoC and new IDs for the
-> peripheral oscillator clock gates of this SoC.
+> When registering clocks with sunxi_ccu_probe(), the number of ccu_clocks
+> and the number of hw clocks might be different, eventhough they usually a=
+re
+> the same.
 >=20
-> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> If they are different, it could lead to out-of-bound access or registered
+> clock left behind on error.
+>=20
+> Use a different variable when iterating on hw clocks so every registered
+> clock, and only those, gets unregistered on error.
+>=20
+> Reported-by: Sashiko <sashiko-bot@kernel.org>
+> Closes: https://lore.kernel.org/r/20260629131254.7E34C1F00A3A@smtp.kernel=
+.org
+> Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
 > Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 
 Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260706-a733-rtc-v=
-4-0-f330728db3d3@baylibre.com?part=3D2
+4-0-f330728db3d3@baylibre.com?part=3D3
 
