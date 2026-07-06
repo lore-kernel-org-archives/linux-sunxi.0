@@ -1,225 +1,177 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2924A4252A6;
-	Mon,  6 Jul 2026 12:20:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E7042A780
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jul 2026 12:36:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783340426; cv=none; b=FdAm/dt8t6D+v+hZxhPRkvqe+4T9ORp2LmGY0WydmBwI3qIPRj+pqoRfGUDjqsyv+kBiIVgu+Qoa5jokIEKKA25efD7aeyNZkyLWs7WALQ8nEjjVt9Aa4ahmRJ74RA7rA9NuZZM1MthyjI2a4KGHbm7KvnD6WuDXk7i1STXypZc=
+	t=1783341412; cv=none; b=i9vAhWCg9YZYbw72tuUztSiVAKmlHOhpkHGii4oHYHc294rk6rkXu44YYPfIJUJBL4gps9gUKtcYbXtrK/2BHYlD4qxu2fledLcwq8Vs7BLyeh476t64/1p2POZia3gJ/BFBaHg16rKo9r8H1CUwNrHpgKSovlTW5KTg2JNUQcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783340426; c=relaxed/simple;
-	bh=L9ZQiAG8v4+fZCVXxwejSDShgoX4JcG6q4TFIZYF5QM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=geTVIvzErf6LZLZ7hPIYvozd06oATCcPMT6AYQfyFQY/YsOoFlaIUg34OrTJnhfQ56tEwip66qhi4jl1vtroUNVQEwHFGGD8T/KuzQ1yWhyXhYdGCnxsfd7Lb/ROVa/UhXhweqJgChyJqqPe/RQ+zIYGhffj7rvpUNkrvrVgAV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C6ozwaBI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783341412; c=relaxed/simple;
+	bh=rra+HC6UW8ngg1M+w7ntsNH71CV+8l9s2Aq1rHgxNRs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=pUx6s3ym2yIeAKPe/lF7p2EST7WprYLRum+UMk3NZaZwRqRXTjD9cF4WqwB51p1DPI8mFmW5gE/AUwk5VieDUIChAqS9R5BnoZVt6LtTlLQin4dbmwDyAEkV48qey6EJHFSND7+gJUXt+jmUqc0jR4OxJ4f8DcsjqEH+KEOz4Xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=GZAqEqqt; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C6ozwaBI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 737921F000E9;
-	Mon,  6 Jul 2026 12:20:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783340424;
-	bh=L9ZQiAG8v4+fZCVXxwejSDShgoX4JcG6q4TFIZYF5QM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=C6ozwaBI/97xZxlb0kmr8PA9iMolOuyBfguWvZQClRq/46Zu2S9kvWx24//aF2X8n
-	 Nh791WaveY8mVYOKz5FsgRvfOJ4+cHgj772ChzSAqbzxXjZhY3tHcT8oAk7XVXCgCU
-	 tA10Z5hXZzaIq2nwfzaQP6f13+jV4kPeGYZFn85gRWiUGIva3eVDWgfZxKyBc8kWsU
-	 vJrmdRgZTahoKLsew4hkBkgxq2U13ymmTXrWD3Q6LDiUvUjVuIxt+GXqST4N1rV9gv
-	 jb054KB6P3mLVkhZnpXBPEUtAk5IIaBJ7V/8QGukeju2b8oWQgJov/9j9LrH2BgQ4P
-	 AG/ZuXIf/CJ1g==
-Date: Mon, 6 Jul 2026 13:20:05 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Alexey Brodkin <abrodkin@synopsys.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Eddie James <eajames@linux.ibm.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-	Houlong Wei <houlong.wei@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ge Gordon <gordon.ge@bst.ai>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Ulf Hansson <ulfh@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Peter Chen <peter.chen@cixtech.com>,
-	Fugang Duan <fugang.duan@cixtech.com>,
-	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
-	BST Linux Kernel Upstream Group <bst-upstream@bstai.top>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
-	openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
-	kernel@collabora.com, linux-tegra@vger.kernel.org,
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	imx@lists.linux.dev, sound-open-firmware@alsa-project.org
-Subject: Re: [PATCH 31/42] ASoC: cix-ipbloq: Use
- devm_of_reserved_mem_device_init()
-Message-ID: <016b46c2-a411-47ab-8b17-e679c9ca7583@sirena.org.uk>
-Mail-Followup-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Alexey Brodkin <abrodkin@synopsys.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Eddie James <eajames@linux.ibm.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-	Houlong Wei <houlong.wei@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ge Gordon <gordon.ge@bst.ai>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Ulf Hansson <ulfh@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Peter Chen <peter.chen@cixtech.com>,
-	Fugang Duan <fugang.duan@cixtech.com>,
-	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
-	BST Linux Kernel Upstream Group <bst-upstream@bstai.top>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
-	openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
-	kernel@collabora.com, linux-tegra@vger.kernel.org,
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	imx@lists.linux.dev, sound-open-firmware@alsa-project.org
-References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
- <20260703193855.110619-32-mukesh.ojha@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="GZAqEqqt"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-493b77b150aso28215195e9.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 06 Jul 2026 05:36:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1783341404; x=1783946204; darn=lists.linux.dev;
+        h=content-type:mime-version:message-id:date:user-agent:references
+         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=3nillUBzOVKmupjRSjEGs6YGga/o/TlBfybdbWa9Q6w=;
+        b=GZAqEqqtTRbNcXc4hMsTBcGHSVoaBAHe04MzeJ2Pzs4/XkTUwMC+oXU4SmU1h+W+sp
+         YnT2TihDz01Wr4QUy5YvQ8cUfzByhltMHoF9YreWYsbj8BVzUs7aYOw44zefUU5MjISG
+         xAaHWQnF6dzEXappOoBpvKjbhX3QME1gfjYaTuTSf6PljRYmAfFwiLIytQGWVR8RFyUX
+         CNXQDjm6uyVuUUfTTZHB5mqVz5siQKlFLf6nubBUv6YwA5t2FiscLCKdFjztjkLwlpDK
+         yJR8HCyo2bVjE/Dwm2PLlo8I3hhgwjCY9QpFHLGoug1ugoAMTdcQeD8vWCUsmGGziE0f
+         SfkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783341404; x=1783946204;
+        h=content-type:mime-version:message-id:date:user-agent:references
+         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=3nillUBzOVKmupjRSjEGs6YGga/o/TlBfybdbWa9Q6w=;
+        b=CQNUBKoI/l+u1HgHtB+gTA/2zn98RB0l11eS0gVn6fe32Ue/vqjO+6dBld2KKCKUl5
+         WQu1j6r81nn1u5v+/1WnhCbyO/AAOFQY49q15RLj85ACbZmtJ1OMhoyyLxaB0xHc7Q+x
+         /NfO3hAvxQPiaQRG+YVkV9yMaO7UhXq87P7TvfaPT5vW9oBpJzGDe/O4qoJVEPo83j6n
+         UbAo2oiWGSRCD0wCMrEofb27dJAtQb97GvxgoEXVffMixUptnwu73sFaqM0pWWFiv0lI
+         iaR5tZGued6kcz9S+MXOChu49r/0YWAnGigbjwO0dhYHChbUTAFeieHU2HTmVGzNt38n
+         FDoA==
+X-Forwarded-Encrypted: i=1; AHgh+RriBn4YAQVq5YblcBnUS77CpaENz1S3VLgrrtTjl3b6pMYTotyGNAXgTA4bdsnx9iwXEw2t8W9JV2QKZw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzJGQReB7pM8cGhfxjLRRbP2qg+YcO4Azhltj45SnPs2LeUGwEk
+	YBJ8pWhWuRIM2bIqlykFpXt/rhxt2Kw4qRDxMGxc929qvGnZapXk2AyuCQH0Cc9iQzA=
+X-Gm-Gg: AfdE7clG0BudNOin6emLbZ1KjDAPjxWNKamHhLXCcNOSdh/lD3BcZ8nR7DVN+4XLEih
+	8wTjg2By9W+qVob/Ya2mOwWjRT8Lv7MuEqpP1C/eavIFAtDUgmz+pPXpYgigKlTbkHnK9sb9tms
+	Oi7teOmT8oI9LBteFxwirZtREjwgtWYgsP7brPfjWly+drKZtlSLz7N7QuIkdgDuNGikud55xAN
+	GtWAJnm1VvMmR/Zflex45NRM+F9/lwrtp72RlGcEr+LmF+HqpCCQQmUCwlzBBsG7lo2zKKMzl3u
+	hqHog5J5jdZCaQTvUXfNW0KrSTLFG60FkSwfVQyHZDdOJRlhd/jrHy5RomLGdd0ExdFRNGWlryF
+	24GAaCQlKbdAWCYyA90lM2O+Pu1TF61Wiql18yDUo7gerAXWNhoxbUyWTsHjqk3LpBK82QnGQTm
+	VlCDJV4usjarM=
+X-Received: by 2002:a05:600c:828e:b0:493:b6d5:72df with SMTP id 5b1f17b1804b1-493df090d47mr3392275e9.35.1783341404120;
+        Mon, 06 Jul 2026 05:36:44 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:1495:8c97:96f4:dff8])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-493c637bc21sm660820945e9.7.2026.07.06.05.36.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jul 2026 05:36:43 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: sashiko-bot@kernel.org
+Cc: sashiko-reviews@lists.linux.dev,  conor+dt@kernel.org,  robh@kernel.org,
+  linux-rtc@vger.kernel.org,  "Alexandre Belloni"
+ <alexandre.belloni@bootlin.com>,  devicetree@vger.kernel.org,
+  linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v4 6/9] clk: sunxi-ng: div: add read-only operation support
+In-Reply-To: <20260706100635.E5DC61F000E9@smtp.kernel.org>
+	(sashiko-bot@kernel.org's message of "Mon, 06 Jul 2026 10:06:35
+	+0000")
+References: <20260706-a733-rtc-v4-0-f330728db3d3@baylibre.com>
+	<20260706-a733-rtc-v4-6-f330728db3d3@baylibre.com>
+	<20260706100635.E5DC61F000E9@smtp.kernel.org>
+User-Agent: mu4e 1.12.9; emacs 30.1
+Date: Mon, 06 Jul 2026 14:36:41 +0200
+Message-ID: <1jv7asguqu.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kLTrwa+nl9jSAPoJ"
-Content-Disposition: inline
-In-Reply-To: <20260703193855.110619-32-mukesh.ojha@oss.qualcomm.com>
-X-Cookie: Did I do an INCORRECT THING??
+Content-Type: text/plain
 
+On lun. 06 juil. 2026 at 10:06, sashiko-bot@kernel.org wrote:
 
---kLTrwa+nl9jSAPoJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [Medium] Inconsistent rate calculation between `determine_rate` and `recalc_rate` due to division order.
+> --
+>
+> commit 39f872462c04ad724c3624b152234160de56a47e
+> Author: Jerome Brunet <jbrunet@baylibre.com>
+>
+> clk: sunxi-ng: div: add read-only operation support
+>
+> Add support for sunxi-ng read-only dividers. This will be
+> useful to the a733 oscillator detection logic.
+>
+>> diff --git a/drivers/clk/sunxi-ng/ccu_div.c b/drivers/clk/sunxi-ng/ccu_div.c
+>> index 62d680ccb524b..d1c8c7baa12dc 100644
+>> --- a/drivers/clk/sunxi-ng/ccu_div.c
+>> +++ b/drivers/clk/sunxi-ng/ccu_div.c
+> [ ... ]
+>> @@ -84,6 +84,36 @@ static int ccu_div_determine_rate(struct clk_hw *hw,
+>>  					     req, ccu_div_determine_rate_helper, cd);
+>>  }
+>>  
+>> +static int ccu_rodiv_determine_rate(struct clk_hw *hw,
+>> +				    struct clk_rate_request *req)
+>> +{
+>> +	struct ccu_div *cd = hw_to_ccu_div(hw);
+>> +	unsigned long val;
+>> +	u32 reg;
+>> +	int ret;
+>> +
+>> +	reg = readl(cd->common.base + cd->common.reg);
+>> +	val = reg >> cd->div.shift;
+>> +	val &= (1 << cd->div.width) - 1;
+>> +
+>> +	req->rate = ccu_mux_helper_unapply_prediv(&cd->common, &cd->mux, -1,
+>> +						  req->rate);
+>> +
+>> +	if (cd->common.features & CCU_FEATURE_FIXED_POSTDIV)
+>> +		req->rate *= cd->fixed_post_div;
+>> +
+>> +	ret = divider_ro_determine_rate(hw, req, cd->div.table,
+>> +					cd->div.width, cd->div.flags, val);
+>> +
+>> +	if (cd->common.features & CCU_FEATURE_FIXED_POSTDIV)
+>> +		req->rate /= cd->fixed_post_div;
+>> +
+>> +	req->rate = ccu_mux_helper_apply_prediv(&cd->common, &cd->mux, -1,
+>> +						req->rate);
+>
+> [Severity: Medium]
+> Will this division order cause inconsistent rate calculations compared to
+> ccu_div_recalc_rate()?
+>
+> The divider_ro_determine_rate() helper applies DIV_ROUND_UP() to the unadjusted
+> parent rate, and then this function divides that result by fixed_post_div and
+> prediv.
+>
+> However, ccu_div_recalc_rate() applies prediv to the parent rate first, then
+> calculates the divider rate, and finally divides by fixed_post_div.
+>
+> Since the Common Clock Framework requires determine_rate and recalc_rate to be
+> mathematically consistent, could this discrepancy cause rate mismatches or
+> warnings for clocks using a pre-divider or fixed post-divider?
 
-On Sat, Jul 04, 2026 at 01:08:44AM +0530, Mukesh Ojha wrote:
-> Use the devres-managed devm_of_reserved_mem_device_init() to ensure
-> the reserved memory region is released on device removal, fixing a
-> missing cleanup in the original code.
+I think the RO side is correct and RW one is not.
 
-Acked-by: Mark Brown <broonie@kernel.org>
+The RO part correctly walk back the tree by un-applying the predivider
+so, whatever CCF does with the parent rate value will be correct.
 
---kLTrwa+nl9jSAPoJ
-Content-Type: application/pgp-signature; name="signature.asc"
+The RW part query the parent rate then applies the prediv. This
+will be thrown away when/if clk_divider_bestdiv() calls
+clk_hw_round_rate() on the parent. If that happens, the subsequent
+un-apply of the prediv would make the matter even worse. So (if I
+understand all this correctly) this case does not happen yet, otherwise
+we would have noticed, and it can be fixed separately.
 
------BEGIN PGP SIGNATURE-----
+Side Note: I've not followed the sunxi history behind all those
+prediv/postdiv but I find them a bit confusing. It seems like inserting
+some fixed factor clocks in the clock trees would accomplish the same
+thing while simplifying mux/divider quite a lot by droping these quirks ?
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpLnXUACgkQJNaLcl1U
-h9CXQAf8DO5Zk9xuOb8fTwRJIIud+GlrdJtvcprjSHWU5ymHQPkN42Prm3dW0Ut4
-OKEMbp1vbc5dzatR666ThvdBWJKtZsR+5FkQtiYSkrpbp2IZhStfEB1E1asPPN0X
-kthMlnGnLeb7Bu8qpxAn0s4xgLaycfsPXvbWJZ3xDEPrhrKWPmIv67jPR4mchEH8
-PjU+XLJw8I811PX1RbTELfbNgHWdvDFXZ6s1xPjODVw62PaGGDVBMlv5rAkEdYRg
-esYE2BAs1/qFt0OSfMgv+Sht1er7hryzp1Mnr3qgRs4uDsnEdIvyEdrWvsRnKq3Q
-TSiu7ZO3KFhVC8KoNZS7qFcHgW97rA==
-=DjQp
------END PGP SIGNATURE-----
+Side Note #2: I feel that while sashiko is pointing out valid things but we
+are slowly getting off topic and down the rabbit hole with it ...
 
---kLTrwa+nl9jSAPoJ--
+>
+>> +
+>> +	return ret;
+>> +}
+>> +
+
+-- 
+Jerome
