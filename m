@@ -1,137 +1,213 @@
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5011389100
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jul 2026 08:01:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF223939C2
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jul 2026 08:28:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783324871; cv=none; b=U3K+L5qECKxCPOVLHb8As+ZMtUMFKDeEyRwYb8FWhH+2jcK3AhBtQ6BIsBN7jy5nVjdETY/AjJfpaq4oIhyReXvosjurNqK8VTNaeyzQDUCq+bEgEOnC4bBr2J3BaeJHYC1GyBR58WLWUPqPoVA6vzteK/443xYCmzMUhNZ4BW8=
+	t=1783326514; cv=none; b=VLJP+PjaEKkKY60YXdruMY9/eNUwdsr8oVg19o+1nP5qDR8NfHDDkrurbKMxuKIK90ZDDTpw/ov8shLCbPAoGY4JTq89sR4L1wCxpY4kcrCGRxgSW97brm32Jv183mCAW17h7rh8m6AJDH0dSkVVbXb8T4Jxcke4ywtcT60NuqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783324871; c=relaxed/simple;
-	bh=6FRXXocn1lfRgJnxiPkpYYSBB5w4wnBEBhNnIuipX2o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BS843Lx/9+jRoEnrCICxKGYS8hvzLoleTm7oEPTQXc3W3mWpoHBH+25LaVutcBVVFW8oyThzGp5HEcux8aCOeE4E10xXeLtNSeS7yDkjs5UAJp2H4iwN/OuJwX99Y2UZqAPyto7u+MbEtgVuwST9iPbVvulyMmOcnDnLAtU94NE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-7383cdb7800so2039069137.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 06 Jul 2026 01:01:00 -0700 (PDT)
+	s=arc-20240116; t=1783326514; c=relaxed/simple;
+	bh=JJvjvXzlCcli26w+i5Hirhm7MyXZ6wjDQGioyQ2O3Fo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Cht4t4Ij4i0nQFz1Jr8WJJSaIoeqGLFkQahzKUut1NkgDO3lRQc3sI2zq8pq2qFWd4hYSH4WAeayqb50p8yqbGvbKQLsu4NcrA+4wmu4EKNBTyrTlC6Zk98HGdWwkEcTYlilsUJ3zMDZdS/YzQfWpRoObGOOmoeXKJlOTbRNiWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jm0Kg9lS; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=iinW8Qs6; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jm0Kg9lS";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="iinW8Qs6"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66641Tis3616924
+	for <linux-sunxi@lists.linux.dev>; Mon, 6 Jul 2026 08:28:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	XAhBIVcIgoBMwzdmQI01e6U2QYtMrrtbbOHKP8KiZ8E=; b=jm0Kg9lSibJvV8Yi
+	8hdJzAn4zgpP2byZ5O4vxPHA667bXVLXHofUt568kB49iHxnfwvFhctaInLtCjCZ
+	sjNHRodxgeyEI+K4Sh5SeEFuH+eYubHtMfiWH/bAUEFyu7LxqpBoChobn1qyHVpZ
+	1rLLI4FJJqj/Yk953HEONXVBT+N6ylBmW+SjTQeQEVhfTmxCK8O9BG8vaRt3Exir
+	JXmS8JQhSMmJuTk8SMinF8d+mY+jVTVBRkY8NqkZa2/Ot0bSxasJBedLFZ9P4/jy
+	oIqrv4PZJHfl9zhVgr7IHFht7qp40w3MPq61gyA4heu2IH0hVtB6bY7pBm7HdH1D
+	jKj/ig==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f6s64nd3k-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sunxi@lists.linux.dev>; Mon, 06 Jul 2026 08:28:22 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-92e66f9e2baso261213785a.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 06 Jul 2026 01:28:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1783326502; x=1783931302; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=XAhBIVcIgoBMwzdmQI01e6U2QYtMrrtbbOHKP8KiZ8E=;
+        b=iinW8Qs6y4j2oRo0Wg44Afnpd9hDTs8gBGGyPCmqlGUEjqwJF5XSCkbfswzckImp1j
+         2X1+ESMogzJkx8+EDESkddy7CqJ3q/ThQKoXxatKUpEW5iv5UyLU8btYjE8NGSGOyGVt
+         H/OiLT3aHaryfRJqppuTMIUy4MjMrDNSvKd5xmp6X0rzo7LI9N64dzsbbi36sWfsNH7I
+         B/DwZdhK7Vhebni/aCJV3Nb3UB/fkw9CTN0BUNz0If6snnkauCn4fIa8AjY4n6SMt7cW
+         p9DiUYgJzQkwWQjvYPpi/xdGxUphGDrxLRuxXuodO2gcz4wamS1qUG00AMcPTbIpzKsM
+         xeeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783324859; x=1783929659;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=xlcdnSGCAGaaD3Qtz41jPpd7wkV1TEYjW94sOKYd3zY=;
-        b=axgzNZQqWilwKZGnLVSKXKdXNo5iITr7U31kHKLKW2xhBpWxEDe49102JG/go3NB+C
-         e4TvcaxF9+pgx7myySnW8NavTVe0yLo5OqpJpA2P2NUJAE6/+WcqYakW0SOlQuQPrF8Z
-         8w1ondyTwzyu7Di/A8bREIbzpYCw2sGLKGmqp7ln9L+cU9WP7ZyWfrp8u5Oc/2ULyInj
-         KQe1kfoq+ZnKKP88Q1Xd8dHZMysgTIYvoqmOuAobi2sO/t5wLV7B2Wu0fHOEUZakm1FU
-         WZvIWiWM0XmSinDAOScYushFZ3nkyBPJ3staOpY3wRmn8GCcQiQTJEdjTpWg2tGOBDR0
-         A6MA==
-X-Forwarded-Encrypted: i=1; AHgh+RrpkgAsOWv1bFyAiwU05wqW8+ZN7ti38+S8bUGuuez7mEa6LRy/sWs+Ih46I4QO/erP8RMUnIeHNXkNTQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy7k51vbKv7cL+MhliBa945f3/xMpBbAXstqKPqnpP+neoJGuNd
-	NMF9/yefbBgmVn9dUrv+MfdkI4XM6HJJPlxrTbXB1iOyGmNpc1eqt2Ojpr/oN0Rn
-X-Gm-Gg: AfdE7ckfge82cMZA6mA4wbQiMbVOTZeWlA/AHEG2+/MqGscxOzkSVGM22f5OvqJwt7g
-	moMZ4Baq0Lt+W12D90PoQeP0n92vXfOG3ruI+AiRTKvk8Zfuh7t6SSJ2+Jsy+o+Onlr8O9cdj8X
-	AITZZA5MqMmSxdcSWfDw9Tn9s2AddUYiv4wXwQgtlkV4jN/Ods+ZGCISDKyU8tCRi/BOAEQ4pGH
-	hCjhvpi5s3tuibBbp+A8U/gbL+7CYWb87zhXQX47aSOeGoPfpz8yDSa2DZiAWsvT+8eLytn7hOV
-	LubHADA1Q2cSmLgKdOpn8mwX7YF0GgffyO+tNmAh5m7r2BY/WB2k4GZjMlfFFb81rYVnEHyXilG
-	L3xN02gMjeek+N1DTpIiXeGfoIs05B/JNqsgqYbFnkmxtlgV95hlFwBU7+nKuCAifqeY1seHQvn
-	N1+BmkurI2e6hGdFJcEXyYieTyeYOTJwq6IvBr9OEecXUAZsVyNg==
-X-Received: by 2002:a05:6102:3706:b0:73e:8694:c6da with SMTP id ada2fe7eead31-7427f4752a1mr3210460137.24.1783324859210;
-        Mon, 06 Jul 2026 01:00:59 -0700 (PDT)
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com. [209.85.217.42])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-969838bb88asm4704939241.4.2026.07.06.01.00.59
-        for <linux-sunxi@lists.linux.dev>
+        d=1e100.net; s=20251104; t=1783326502; x=1783931302;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=XAhBIVcIgoBMwzdmQI01e6U2QYtMrrtbbOHKP8KiZ8E=;
+        b=NAgCamX7hCUL/0eklR/F9uXCjB4jH12ik3cqDjReGe4nhiMrbBux83HsFSP5ePh3NW
+         NIGOZJrOun71hH7RHP4JOU8yChcpdbKYpJaiPXpfp07mf/KkkuA7SYVCORBPrMuccs1Q
+         MHqWUsyf2YFv1Zk5OjodZfyA2jTUYUhONCb2yzjYCDkLQJsXL2rjkYMm3/OQkSpltheN
+         pCnk5FfF1Jb887/c6umL13hVPgBzPGwI8jmyPkcjcSpXuljStPEb3OO4lBWxiElz6OqX
+         dc80ILlVPNDWhv/a4eQ0Q1l2PLo4kwGGmlLTckCYDetC180YVMymbDxOKJTySpqypFK6
+         YbLQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqUzkm81iJ2DbwlTZ6mgu/jr1OGu+TghbgkHIv/7Hkrf6DOvEUSHtzjvkPX4XfWCiet9krWHeGe5dskUw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxG+2w3AM4vaL2ak8tpJ28LerzF9cyHeADQuT9jveFwCTvOil1e
+	Nmh0OcwPMxL4cYOD0GQUMvFxHDW6v2L8oFwcYZogCbnEiLyFwzqdbWht1IYf+ljFAFaUs9MfXg0
+	GrIuFrxAyMZAIEuV5kdOpwMm8GAkYg+2fFi/XdE81szi4W4R0cK3SJhZeL44UNrzBkQ==
+X-Gm-Gg: AfdE7cmcCoCKau3+zpBCNHg8ojqWrjRUP5crkS/0ESqEN3fYw7Pj0xigfi0uhXEXvVS
+	fa4tzrdDvWO2aefKGleZHazcWzZ62IBfIsWXQHqcQieONOSP2EzTm4Pw9Pql2JA10E/NkEAJCv8
+	/dCw/w069hmefzofy2tRgozMbDCRyF5saKFIpspos7fCGkaJiGGOOKZPkh0sq3i3+OxUKYqb1fF
+	xPpDe+/CBrRJhEU7+yFdjxzH1ta9VN934r2ETKdMe9f5ybu9jngB+lQZ7rVA7UhH5j2Wdt2vjx7
+	CkN2ppaiKxXhtS7GQpafzWpcbaq46TWhwBj+3V1nEgJmA2LK0rsi/idyhk3i2+1gGZXD9F+95uY
+	UxPpTdWaJ8hO1B4AVOHnmQfzzD+Cl2jwCMCjS3esyQbFnbhPYbbB/omv55nmtnA==
+X-Received: by 2002:a05:620a:2b84:b0:92e:47d4:b485 with SMTP id af79cd13be357-92e9a4ed0e1mr1294191285a.62.1783326501612;
+        Mon, 06 Jul 2026 01:28:21 -0700 (PDT)
+X-Received: by 2002:a05:620a:2b84:b0:92e:47d4:b485 with SMTP id af79cd13be357-92e9a4ed0e1mr1294189385a.62.1783326501174;
+        Mon, 06 Jul 2026 01:28:21 -0700 (PDT)
+Received: from [192.168.69.219] (88-187-86-199.subs.proxad.net. [88.187.86.199])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c12b62907absm677939066b.33.2026.07.06.01.28.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jul 2026 01:00:59 -0700 (PDT)
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-735f73287e2so1582236137.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 06 Jul 2026 01:00:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rr26NiEoIdM9zdkHD8lZuaEyf9r2lYPZviLB0vjl3fnbXb+wlBVmAu6nOfVSdybkpB83zMYP3YZHpvhVw==@lists.linux.dev
-X-Received: by 2002:a05:6102:800d:b0:722:826e:1423 with SMTP id
- ada2fe7eead31-7427f0478a0mr3286706137.20.1783324855096; Mon, 06 Jul 2026
- 01:00:55 -0700 (PDT)
+        Mon, 06 Jul 2026 01:28:20 -0700 (PDT)
+Message-ID: <bc697542-b1e2-41c2-af36-b708ca4aad5c@oss.qualcomm.com>
+Date: Mon, 6 Jul 2026 10:28:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1783263835.git.ukleinek@kernel.org> <20de6cd60c2938aad2d21397b92742849418ab1b.1783263835.git.ukleinek@kernel.org>
-In-Reply-To: <20de6cd60c2938aad2d21397b92742849418ab1b.1783263835.git.ukleinek@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 6 Jul 2026 10:00:43 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXKyFJ20N6qKafvMZ_0sVj5+XTxcod_6wGkwTsokn7dvw@mail.gmail.com>
-X-Gm-Features: AVVi8CfQACxAMot5VlqKHI6FXvkOZpEWhTZp1dlkgWSruFHOk1f-I-dS5kVo31s
-Message-ID: <CAMuHMdXKyFJ20N6qKafvMZ_0sVj5+XTxcod_6wGkwTsokn7dvw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v1 4/5] pwm: Unify coding style of of_device_id arrays
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: linux-pwm@vger.kernel.org, Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
-	Neal Gompa <neal@gompa.dev>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Peter Griffin <peter.griffin@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Paul Walmsley <pjw@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, 
-	Michael Walle <mwalle@kernel.org>, Chen Wang <chen.wang@linux.dev>, 
-	Inochi Amaoto <inochiama@gmail.com>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Hammer Hsieh <hammerh0314@gmail.com>, 
-	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>, Alexey Charkov <alchark@gmail.com>, 
-	Sean Anderson <sean.anderson@linux.dev>, Michal Simek <michal.simek@amd.com>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-rpi-kernel@lists.infradead.org, chrome-platform@lists.linux.dev, 
-	imx@lists.linux.dev, linux-mips@vger.kernel.org, 
-	linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	sophgo@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?=
+ <u.kleine-koenig@baylibre.com>,
+        Chen Wang <chen.wang@linux.dev>
+Cc: linux-pwm@vger.kernel.org, Sven Peter <sven@kernel.org>,
+        Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@tuxon.dev>, Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>, Frank Li <Frank.Li@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Peter Griffin <peter.griffin@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>, Paul Walmsley <pjw@kernel.org>,
+        Samuel Holland <samuel.holland@sifive.com>,
+        Michael Walle
+ <mwalle@kernel.org>,
+        Inochi Amaoto <inochiama@gmail.com>, Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang
+ <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Chen-Yu Tsai <wens@kernel.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Hammer Hsieh <hammerh0314@gmail.com>,
+        Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>,
+        Alexey Charkov <alchark@gmail.com>,
+        Sean Anderson <sean.anderson@linux.dev>,
+        Michal Simek <michal.simek@amd.com>, asahi@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org, chrome-platform@lists.linux.dev,
+        imx@lists.linux.dev, linux-mips@vger.kernel.org,
+        linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        sophgo@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev
+References: <cover.1783263835.git.ukleinek@kernel.org>
+ <20de6cd60c2938aad2d21397b92742849418ab1b.1783263835.git.ukleinek@kernel.org>
+ <973f3d6f-6ff4-4685-9c9f-b07987f74d98@linux.dev> <aktWoIfY_DdO6gb4@monoceros>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@oss.qualcomm.com>
+In-Reply-To: <aktWoIfY_DdO6gb4@monoceros>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDA4MyBTYWx0ZWRfX0BKXLCJIqY9/
+ b5Jk06+6LVWjxaGOo35hd7IccOwlPYs9bMO7u9YoVg3CmsxAOH9N0SnyIk2UwOnn+BrzmzsBujq
+ QQ0R9Hc4GYd8Mpf+8Z8mULoe6fwhWdbUsl+KliErWcsqmiD2NF0ejCYDZ5r+xgpWGtBdVeaICeg
+ SK8y29JRKgR/mdtu+41U5GfH3/2aW6eOHaSpFH0zrdzTt7NaZXO2EPsZTSR+fDbecmf+W6E8fbW
+ dfJuWec4s2xn86nWqz6BPk9zLYh5vQqB0UXawDbwR/DGIvXzu8Gaxx0CPquIh0TXya9zBQwITt8
+ +vR3dYg2HDzJPDEt677WFE72fRA8Qps5vaxurEIiojfG7/4Cxu4yIdinwUhP/mms2zIL5aC77J2
+ u+EFPjqFiCoswnrQKFjSSLjawKqU4XnygYxtNhC2BfRitfc/YQFAjkYZDDxJInLZQibHl869T2t
+ ZfPFC2VZCm6isxU9pcg==
+X-Authority-Analysis: v=2.4 cv=VvITxe2n c=1 sm=1 tr=0 ts=6a4b6726 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=4s3hRJSeHn4rkQlkrse1kQ==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=M51BFTxLslgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=8pif782wAAAA:8 a=IpJZQVW2AAAA:8 a=TiEZW8bMWLlPbLH3YMsA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22 a=IawgGOuG5U0WyFbmm1f5:22
+X-Proofpoint-ORIG-GUID: F2Xla0repeL4eGePaTHOzfFPdHl7N1KM
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDA4MyBTYWx0ZWRfXyQDur01BqCdU
+ OIhH+8tR8QxnGhk2+ChI1R/w5XbEMAjMpPkEyoMwMQi6TgNfnT4q0aGt7ya8wMOe1BKeumEhroH
+ qbfy2WE571QHup0OGXEgFl2yWTQBj6E=
+X-Proofpoint-GUID: F2Xla0repeL4eGePaTHOzfFPdHl7N1KM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-07-05_02,2026-07-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0 adultscore=0
+ priorityscore=1501 lowpriorityscore=0 phishscore=0 clxscore=1015
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607060083
 
-On Sun, 5 Jul 2026 at 17:14, Uwe Kleine-K=C3=B6nig (The Capable Hub)
-<u.kleine-koenig@baylibre.com> wrote:
->  - Use a single space in a of_device_id array terminator; A single space
->    after the opening { and before the closing } in non-empty
->    initializers;
->  - No comma after an array terminator;
->  - Also no trailing comma after a named initializer iff the
->    closing } is on the same line;
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig (The Capable Hub) <u.kleine-koenig@b=
-aylibre.com>
+Hi Uwe,
 
->  drivers/pwm/pwm-rcar.c            |  4 ++--
->  drivers/pwm/pwm-renesas-tpu.c     | 10 +++++-----
->  drivers/pwm/pwm-rzg2l-gpt.c       |  2 +-
+On 6/7/26 09:19, Uwe Kleine-KÃ¶nig (The Capable Hub) wrote:
+> Hello Chen,
+> 
+> On Mon, Jul 06, 2026 at 08:33:47AM +0800, Chen Wang wrote:
+>> On 7/5/2026 11:14 PM, Uwe Kleine-König (The Capable Hub) wrote:
+>>>    - Use a single space in a of_device_id array terminator; A single space
+>>>      after the opening { and before the closing } in non-empty
+>>>      initializers;
+>>>    - No comma after an array terminator;
+>>>    - Also no trailing comma after a named initializer iff the
+>> iff -> if
+> 
+> This is actually intended. iff = "if and only if", see e.g.
+> https://en.wikipedia.org/wiki/If_and_only_if .
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
+I agree this scientific idiomatic expression is not well known
+by non-native English speakers, and using the expanded form is
+just simpler to review (thinking at non-native English speaker
+reading your commit in the future).
 
-Gr{oetje,eeting}s,
+> 
+>>>      closing } is on the same line;
+>>>
+>>> Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
+>>
+>> [......]
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
