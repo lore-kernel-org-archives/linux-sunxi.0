@@ -1,62 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC3C36F413;
-	Mon,  6 Jul 2026 10:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AAF544212C
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jul 2026 10:35:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.200.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783333593; cv=none; b=qfEfZS+DU5I1aJL2jJmSk0Pr6vqHF8zulo3e2ovCFhCRPi5DiqECekxh2mORJzjO0W3lIu6SPiP9XaoW5RpDl4/LhBDKdutYn9WQvfRbfMk5ligrmlRnT8a2AKyana5uU3hjR8R+LAPsAFC1Ooiw8y0pBIvw63fI6/Kw+2i7ROo=
+	t=1783334119; cv=none; b=oCLRtwFVFXWAu9Du2PCyydocDtofoeqUT6QsEQE7F9Mloqy+3bGLV+aKwxPNmQ2rSvsMEPF4fBamF19eDqod0QJayxBK7prZgtTMUMe5pmEw4P0fTm1octUeSKr5kEaQnJLUDkPZQwkwa6okg9sNHYy7guVVN5QBcmAvKZtOd70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783333593; c=relaxed/simple;
-	bh=gRQ8gsnSlcWApYxxAO3qwcQB75QOX0tVsb90yzPP1lI=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=d+S+hRqpSAEAqn3T00/Rz2o+k9nTe1ruEWWBgRTXGY33PzoF6b2gim9yaKe9ENSWio14v2nu+LudFF5jU13tMoxSbo2GzxJqSqF/DeVNJhEEd3Ob1eZl34l5++0P8rqkwlJLVJhSGh72O9n5rQDIo14ynNpGc+lhIvWgnebWVsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y+O60toa; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y+O60toa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49E521F000E9;
-	Mon,  6 Jul 2026 10:26:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783333591;
-	bh=gRQ8gsnSlcWApYxxAO3qwcQB75QOX0tVsb90yzPP1lI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Y+O60toaJHxHSOSBD2E+PQn0P5iMhH+KSvQL0OSZfhjxEd15vH0SbnYi36K30rVDU
-	 T9Y0sskUHnqnDWZu88GUqCWh/F3H2GDeB9HRQpDBZXUq9PEZAFjMDKCDuHdV08NtV0
-	 VAITwyFdVg4DbGX+jfTAXUSOWDeXsv4nT9nia/zlIXsIjnTYiwM1QG9Qp03+siDE5p
-	 kZza2uVHAskvZpICdhgrfDye2d9NtP+uvRx/gyZb9b93qDMidaNig/Saxq1OkcDWR9
-	 Uqzq96Ip0zGAc/uWtgR5Wz3THq6K9cH743ZTHH1Itxw8mBjAKtqTum20DbuxdMaj06
-	 Bw1yUBQGMsXvA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 9/9] clk: sunxi-ng: sun6i-rtc: add a733 support
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jerome Brunet" <jbrunet@baylibre.com>
-Cc: robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, linux-rtc@vger.kernel.org, "Alexandre
- Belloni" <alexandre.belloni@bootlin.com>, linux-sunxi@lists.linux.dev
-In-Reply-To: <20260706-a733-rtc-v4-9-f330728db3d3@baylibre.com>
-References: <20260706-a733-rtc-v4-0-f330728db3d3@baylibre.com>
- <20260706-a733-rtc-v4-9-f330728db3d3@baylibre.com>
-Content-Type: text/plain; charset=utf-8
+	s=arc-20240116; t=1783334119; c=relaxed/simple;
+	bh=sUHK124mufIKOHmMJggzku9b783c+lCeJzO6zBU9rPQ=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=mrV7he4qwrYyg2e+xxwOyzcwcTWir+Ku0ATfFR7Z/LqPwR/WRJhTWXQa6+jwvLqdLgiXfzE1ymPFlhkZC2D9IzqPiwfyUVI33H5rx0VxthCjq403tK4OCJS60VodQVnh5o0qqngzGTNLVb1BTrGesJ8csl+z2132xh/TZb1/rbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.200.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de (drehscheibe.grey.stw.pengutronix.de [IPv6:2a0a:edc0:0:c01:1d::a2])
+	(Authenticated sender: relay-from-drehscheibe.grey.stw.pengutronix.de)
+	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id DD5C0201544;
+	Mon, 06 Jul 2026 12:35:14 +0200 (CEST)
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1wggfS-000OQS-2e;
+	Mon, 06 Jul 2026 12:35:14 +0200
+Received: from pza by lupine with local (Exim 4.98.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1wggfS-00000000BL5-32JF;
+	Mon, 06 Jul 2026 12:35:14 +0200
+Message-ID: <4030fdf119191dfe38618b8057090c710a45880d.camel@pengutronix.de>
+Subject: Re: [PATCH v5 2/5] thermal/drivers/sun8i: replace
+ devm_reset_control_get to devm_reset_control_get_shared_deasserted
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Mikhail Kalashnikov <iuncuim@gmail.com>, Vasily Khoruzhick	
+ <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, "Rafael J .
+ Wysocki"	 <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>,
+ Zhang Rui	 <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Rob
+ Herring	 <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley	 <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Jernej
+ Skrabec	 <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
+Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Mon, 06 Jul 2026 12:35:14 +0200
+In-Reply-To: <20260704171411.1413349-3-iuncuim@gmail.com>
+References: <20260704171411.1413349-1-iuncuim@gmail.com>
+	 <20260704171411.1413349-3-iuncuim@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 06 Jul 2026 10:26:30 +0000
-Message-Id: <20260706102631.49E521F000E9@smtp.kernel.org>
+User-Agent: Evolution 3.56.2-0+deb13u1 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
 
-> Add support for the sun60i a733 CCU RTC.
+On So, 2026-07-05 at 01:14 +0800, Mikhail Kalashnikov wrote:
+> The A523 processor has two temperature controllers, but they share a
+> common reset line. Make it shared with the shared variant of
+> devm_reset_control_get(), and also simplify the driver by switching to
+> devm_reset_control_get_shared_deasserted().
 >=20
-> Compared to the a523, this SoC has a different input oscillator divider
-> which auto-detects the oscillator rate and select a divider to provide
-> a fixed 32768Hz clock. It also provides several phy reference clocks
-> with dedicated clock gates.
+> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+> Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+> ---
+>  drivers/thermal/sun8i_thermal.c | 16 +---------------
+>  1 file changed, 1 insertion(+), 15 deletions(-)
 >=20
-> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+> diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_ther=
+mal.c
+> index 226747906..df0c26970 100644
+> --- a/drivers/thermal/sun8i_thermal.c
+> +++ b/drivers/thermal/sun8i_thermal.c
+> @@ -342,11 +342,6 @@ static int sun8i_ths_calibrate(struct ths_device *tm=
+dev)
+>  	return ret;
+>  }
+> =20
+> -static void sun8i_ths_reset_control_assert(void *data)
+> -{
+> -	reset_control_assert(data);
+> -}
+> -
+>  static struct regmap *sun8i_ths_get_sram_regmap(struct device_node *node=
+)
+>  {
+>  	struct platform_device *sram_pdev;
+> @@ -389,19 +384,10 @@ static int sun8i_ths_resource_init(struct ths_devic=
+e *tmdev)
+>  		return PTR_ERR(tmdev->regmap);
+> =20
+>  	if (tmdev->chip->has_bus_clk_reset) {
+> -		tmdev->reset =3D devm_reset_control_get(dev, NULL);
+> +		tmdev->reset =3D devm_reset_control_get_shared_deasserted(dev, NULL);
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+Nothing wrong with your patch, but why is this stored on struct
+ths_device at all? It's never used. You could turn this into a local
+variable while you're at it. Either way,
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260706-a733-rtc-v=
-4-0-f330728db3d3@baylibre.com?part=3D9
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
+
+regards
+Philipp
