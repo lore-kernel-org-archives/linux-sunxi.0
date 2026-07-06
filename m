@@ -1,134 +1,97 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD9C2F6565
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jul 2026 17:10:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53083859FB
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jul 2026 17:18:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783357841; cv=none; b=fbSFtXLCw+stPGKFoUHtMZbe36QBnA3a9ox3M/GtCA/qKgZbczMu2jPhonIh5wuaGvRdL+QaQHwWm4S8btRTppAA5ZoI0Lob+Yrce35Kbq1xUAEsfDDgV8e+AMJqo9CKAKuM2Dl34Zg4tu3g/4GY8cZXRT1H1Q3xeJljz7TidVo=
+	t=1783358285; cv=none; b=jShcBlJVexuC67nTVrCB/LFQFzc2sd3cuVzRisBATEP2jRJhUagsKMEu99dRNQjt+UNJ3Zqq1L6srqHXkdhBVe8KWQf4pephJS3C3EMNslhM5ud5i/zF8n6lL08D7DP1q7nFVBQWdyuNYxgKhTA7BIjeqwvcfWBsyOZH4aM5V/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783357841; c=relaxed/simple;
-	bh=YwUdG1I8kJNunEWTpdhFYSiUn8LDq7cMo60LuGY0n18=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZQ69Fi/6+5YSsjDgy8WRUAMJgyo8yv+bIm335GKxGrrgp9vAhxhkkin8i+okmx1dBJPJ1aXynkC50o3SNANQozZY4S5GGUnbaekwJvNOSDcwV5W5nwHmTCI24+wNl3YllwHdcufL1X05FFAoiVvh5vFkUQlQedFl0UukPIAF1SI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=cRYzLN/y; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1783358285; c=relaxed/simple;
+	bh=xJHh4kII0FuIdbBEV27sTUUFaEn9y3aDIzBlueKyMYc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Q+Z9uXzmN/GcMx/Y+JM61t19MHun7tQHmvhzE4PhJUFD87Z+JT2MiE3TIkLCANn5OUaQk/3fP3r9R15yhjegrVLyFD85hXvQ2jqc+zsRzv2TEnjeMiBkZH/+cXa/wZJe0mZ+TjBvPSqeu3lnYPJQ9zBL50taN1WWZmt5hzG5y5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BwY1eDXK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="cRYzLN/y"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so22871755e9.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 06 Jul 2026 10:10:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1783357837; x=1783962637; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YwUdG1I8kJNunEWTpdhFYSiUn8LDq7cMo60LuGY0n18=;
-        b=cRYzLN/yntD+gRUbedxTtKdzyaRTvvd3SWBC38r8mQuKacuzU7sHtNt6WeaXTalTTU
-         vbTK4Y2EgnPGiTglYUCBhZYa/PvmSBwev7TbCDGFnajXA4603AsUouz5yyhmBeMM4VNf
-         BWILSnEblPfUo85cFJQlfkSBfwhDkMCjA+b1hik8/4KV9tMrQOfB9JavNDFPWHQ8gYFz
-         mNzFAw65InTExF4QVMfeqHW0dEogCA7WA5A3QQDC24gZO/mV06SYJ7gwrMFYhjOVe5yM
-         zBUXUVSTChMSp0scYtdiEXyhoMxh5AuPfeZzihnIkiz0UF31jQnK0b3+bfp37Ghvyr48
-         S2eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783357837; x=1783962637;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YwUdG1I8kJNunEWTpdhFYSiUn8LDq7cMo60LuGY0n18=;
-        b=g3tqMmiLZuRFIJW0WJEdyoz2H4kARzg/ik+vsw4u0paX9NodQwvq1kLXsqdXiHFi/W
-         2gTlR4ioyAzZ8ci/+MBYCHCzKb0qkOWe+R/N6uiO+9+Vl0hWsUTREi8jTFGCiEra+eF1
-         9HLHKlubHY8EcOpXm81aaJVHyb8tS5BaT6TkoE++G1Pix/qRjT9C5Dncm7u38ydEo9da
-         FMx9cgL+KE2fbgEPTTEUijLcraP6F1BZPEg+y9cvejt9uQAQyCXLO/hvNMVM1D9bLhoT
-         cxyJyGJKK3atkC/HwC5pfP4rZDgivBCsT235xUSLYcI5Budx6Jhv7lG3fV7m/PiYRzqt
-         PtYQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rr81aMwpsYAkGywSPTezQVzjJsuISd1P29mxSs7reGYwhIQSOtEPtMksxwRlWpbaO7OWdGoWBT6NJDwCw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzRCUbSo/DISVGpcQ9gi6CllcaLiicQWTF6bO1Gb/1y3zoHZJa2
-	cnT7CTdKz/dqXOWe5+uYJ70r1lEiryxKF8LXq/RoGnv+ZvsU7wUTGrnsoAAEyTI9tRY=
-X-Gm-Gg: AfdE7clxz0k9VRw3QT1hLIOdHNhOYtWIuB5oSEECs5jRkT/gqHfu7IAfd4WP7EBRKdG
-	AAOVx81wM4gEAJgBt12aS6cEsRhw+peApfwaph6022AQH7gcWB2u3n8VgIjWxEwHTpZh5cXYYC6
-	sGcIlO1Px7e4Z6WZ/IT77FYtajMD+SHIkdl3Ze4IOPK/t7XWrKVmumFMWh6dcyXQC4fgJarWdzV
-	DZc1F7YufmQgvwv0eZUghC0Ai1ZFz8yPPvpG3HYs4vAPtOn9lPbR19zKMk1ou+6/mQMVbowSb/s
-	X7t0Gk7s1FxuJD6R1rYndoshcj7y4IgpgolE3KJM5On7/qjSfMfsTkhjG2mIp/u1rTCbXMACIw2
-	dWe8MlH8FJZ3/UbmYeHrpBpFZhMF+NZhg14y1WX3xJcxbLMuH25zWZGDsKYfu0alPn4Hx4Ot2b9
-	uS7AgeeE38l9C2CjUb2s4Xa3EDweGFsxIgVYZUF8Jm9CxjzlhRgGs+0pVaLrTssb/oCPSN9SoGB
-	Uc=
-X-Received: by 2002:a05:600c:548d:b0:493:c478:8744 with SMTP id 5b1f17b1804b1-493df0644a7mr17176475e9.18.1783357837297;
-        Mon, 06 Jul 2026 10:10:37 -0700 (PDT)
-Received: from localhost (p200300f65f47db0404eb41111570ffdc.dip0.t-ipconnect.de. [2003:f6:5f47:db04:4eb:4111:1570:ffdc])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-493df703391sm6037585e9.0.2026.07.06.10.10.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 10:10:36 -0700 (PDT)
-Date: Mon, 6 Jul 2026 19:10:34 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Vinod Koul <vkoul@kernel.org>, 
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>, 
-	Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com, Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>, 
-	Romain Gantois <romain.gantois@bootlin.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
-	Christophe Roullier <christophe.roullier@foss.st.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Radu Rendec <rrendec@redhat.com>, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, Drew Fustini <dfustini@tenstorrent.com>, 
-	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org, 
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, sophgo@lists.linux.dev, linux-riscv@lists.infradead.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH net-next v12 2/7] phy: qcom: add the SGMII SerDes PHY
- driver for SCMI systems
-Message-ID: <akvhUwQ_FFSJYICA@monoceros>
-References: <20260706-qcom-sa8255p-emac-v12-0-e3ab1ecf2901@oss.qualcomm.com>
- <20260706-qcom-sa8255p-emac-v12-2-e3ab1ecf2901@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BwY1eDXK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73DAC1F00ADB
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jul 2026 17:18:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783358282;
+	bh=6SzTceFp/6u/0U2ZsHukaDCb4DvB8gNfQxW2S2HmJSM=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=BwY1eDXK2casDflWj7FpxvSTaOUpF6I6RaUtfHX7uDXoOmvURB5vkHOFZ3pHN4mYY
+	 YSGGZqwOvbbnTMbL4JbqmeosKm3zElo1oh74xaK2cuIPRsJrRkelv0KgiuijDYQDgk
+	 jgkYTEOpsGsJKokmMJTN1q62s5tlSsBGpk+W8KAwQb+UN/LjcAfyhblYIeGfZWFvTR
+	 sbwG67ET6OUBfimy9x3NQAU/oXqkl5hFQGoxEbLS3JhRqqidEAQlkCbmy/TtOZqqjw
+	 mkqCCDLRDVkIqJHK62uiDjZ+hSojZjY67Rp5rHGYmscPI7iUW7H3YtnulR/weGeQvB
+	 rh6bbe2+N/ipg==
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-39b293079d1so28058871fa.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 06 Jul 2026 10:18:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RqfK/OlDGOk0ifcnJeTsMnFMDymdgl/jnurlVZnvbF13HqJ8NQonEZMWcQaL+lHq18PvcxPgg/ATtMsiw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzYymdw7pdnFqTrAd9l2xwq2z4D4ZVnn5vfq1LfujIQObt9WA46
+	DB0HbH4FeCFwHtwBLVbxbvYWtEyeT5I+EgRPgflFGa9Dp5moKeaW2tkKn6RDyDZdkuB3h1xG1gf
+	SWUKDvQ2dItNCezCi15yFD8vY2kf2i78=
+X-Received: by 2002:a2e:a99d:0:b0:39a:fec6:efd0 with SMTP id
+ 38308e7fff4ca-39c5ffae1cfmr4021431fa.23.1783358280803; Mon, 06 Jul 2026
+ 10:18:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hya7dxqb4rmwvjro"
-Content-Disposition: inline
-In-Reply-To: <20260706-qcom-sa8255p-emac-v12-2-e3ab1ecf2901@oss.qualcomm.com>
+References: <20260606205452.2386930-1-lukas.schmid@netcube.li> <178335762241.4010120.15331558144606875972.b4-ty@kernel.org>
+In-Reply-To: <178335762241.4010120.15331558144606875972.b4-ty@kernel.org>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 7 Jul 2026 01:17:45 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66nsmz63tMUpkb_p6nXGCtvVSX4z8tJ0Ojg_6md0sY=KA@mail.gmail.com>
+X-Gm-Features: AVVi8Cfs5u3u3Le8rfmIs2akFxo6f5Cg5zKm8U8X3Ch8xkPrjuDD5gQk7w4gesM
+Message-ID: <CAGb2v66nsmz63tMUpkb_p6nXGCtvVSX4z8tJ0Ojg_6md0sY=KA@mail.gmail.com>
+Subject: Re: [PATCH v4 0/3] Add support for NetCube Systems OpenNMC (dobermann)
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, Maxime Ripard <mripard@kernel.org>, 
+	Lukas Schmid <lukas.schmid@netcube.li>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Jul 7, 2026 at 1:07=E2=80=AFAM Chen-Yu Tsai <wens@kernel.org> wrote=
+:
+>
+> On Sat, 06 Jun 2026 22:54:40 +0200, Lukas Schmid wrote:
+> > This series adds support for the NetCube Systems OpenNMC.
+> >
+> > Sorry for the quick resend. This v4 includes the corrected Makefile
+> > target name.
+> >
+> > Changes in v4:
+> >  - fix the ARM Makefile target name for the new board
+> >
+> > [...]
+>
+> Applied to sunxi/dt-for-7.3 in sunxi, thanks!
+>
+> [1/3] dt-bindings: arm: sunxi: Add NetCube Systems OpenNMC (dobermann)
+>       https://git.kernel.org/sunxi/linux/c/9995c8146bb9
+> [2/3] riscv: dts: allwinner: d1s-t113: Add uart4 pinctrl required by NetC=
+ube Systems OpenNMC
+>       https://git.kernel.org/sunxi/linux/c/5b0fd777eb34
+> [3/3] ARM: dts: sunxi: add support for NetCube Systems OpenNMC (dobermann=
+)
+>       https://git.kernel.org/sunxi/linux/c/9dc45b17fb85
 
---hya7dxqb4rmwvjro
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH net-next v12 2/7] phy: qcom: add the SGMII SerDes PHY
- driver for SCMI systems
-MIME-Version: 1.0
+Force pushed this one to change "sunxi" to "allwinner".
 
-On Mon, Jul 06, 2026 at 03:20:17PM +0200, Bartosz Golaszewski wrote:
-> +#include <linux/mod_devicetable.h>
-
-Please only include those <linux/device-id/*.h> that you actually need.
-I'm actively working on deprecating <linux/mod_devicetable.h>.
-
-Thanks
-Uwe
-
---hya7dxqb4rmwvjro
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpL4YcACgkQj4D7WH0S
-/k57CAf/UgOJNneAcYY3lQuZ+RhwSluKHlS9kU+LP6KfWURj/Pj78uMbougI/MWm
-NOPHFAV0gOZPyox4TK4XImoVNCHq9wWJVtMM0UMCguoEBhrqgoeV/Esik9YncvIc
-INlZjmDSd0r0OJd9oMZmIM7O1eIZxLQugbLTCT2WK9eW0OCT+20CmmtgHzGHZ7eU
-krIfDqpfq0wJOa70OZmh/lowgwbJIjabcxyyCGiY0Scvf4F31ClocQmot5e6gabR
-OcwHOulxqkUKBtOVZtPrt5lRsawYjY+ZslpAnnZvlrbrqmj2M9IuVyQGMqEW6kkC
-CFP1TQBoEVajey5oRSMzdQ2ZlvM/wA==
-=Sskc
------END PGP SIGNATURE-----
-
---hya7dxqb4rmwvjro--
+>
+> Best regards,
+> --
+> Chen-Yu Tsai <wens@kernel.org>
+>
+>
