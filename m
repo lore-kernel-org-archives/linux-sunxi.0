@@ -1,191 +1,229 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23AA83DDAE8
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jul 2026 13:09:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B71640A94D
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jul 2026 13:16:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783343384; cv=none; b=dO4iEDxXuAgJQ8HPWgk3JVN+0+zLLFFgqcGJUvi9+6Ff7RQ2GtNzEwdIUSSoI1Js16lQ+/1kzsj33vydioKtiIBVuFYZIgnDyQUEqOVKA93IyS7BVVHyWKF6KjdJ3ccLADLyu+Cp41yIdrIwKrkVNtyhOMTysHl2cDWF3kKzB4g=
+	t=1783343818; cv=none; b=cwBhoQxDxlUh7jK8ZnLckGBKqY9chZjwUiqlyFj1jDZE0oGNlZtdtWs/nKAfM+myGbGKAF4Ud9TomnCRySn15mlJgJH76N6nYiPcHT4ERdIeNNqdCbUs6ZHnSxmnGXfvbTJjPFG2N8Mml7a/YcLIAbxQPaq9Wigmo3zUhBkKV4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783343384; c=relaxed/simple;
-	bh=m6vNbfcTFMDJTCUe+imERKqcuZmnxBqvDavG7Tef+eM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Wx8RuDTKConfpGAaNQlCLbqq+UKkG5LgfnVer3XYDvbbrbJIXIigTyrWm3gTrrB4Zbo/fwUc01jKgKsfgihp/t0mTUXBTcTkZ1677SAUR17ePWCsUg4FwsEn6+GlMELwekIdyLSPRvQVK/LmVv6H/p2SvxSfPC0znZu2zILc78Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HuUNI0AC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783343818; c=relaxed/simple;
+	bh=osYfKtMdqTMsFlJUTP73i98DkAo9zxWqgwDdKf3SxAo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O7vE/crp0jXYF4PqKsHL6KOzMDyuQZkJaWue35TqK2DLaW7j/8o7FYeg2xRvn5YVyMN32/AK4/S3EY0lENxlKp/h0029k2Wf9LQHZnBhFl7KCcimiKYksoPVmlfrsq9BW1yefg/occIOXsmFHb7cBCJ+HEhydawH7VCIxcFVe5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gxURCHyC; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Nv5OpUGK; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HuUNI0AC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA2A51F00A3F
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jul 2026 13:09:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783343382;
-	bh=oSBhOhh94uibX703mDFvpSfIFzkXKtVz7iv2dM/6XNU=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=HuUNI0ACGV0hFdp9b5p71SvVJUhi5QvaIx0aoDsqt/lkBppKO9pgYOLNy3gW8+WNs
-	 7exgxFXSCKSbUgguasUelySxa2qGviIb7b0d6Se5Ck92Ved/AX1cNgdeJ3TlX7Z51+
-	 mruAPAcmjCBDIbXoYu8jIoFndCZGcRj1ri0bZxA66TOv7uW0TfzBkQP7eRfOlJ+Nfq
-	 kN7zALCWQ5r0yAghI0h1kzDs+lb3P1mTUOkUUy9Iwv1ZHp0ZPyGefUjO5rgAU55PWO
-	 uN3/fLRLse/ehFcKC64EpLPraydk78cci4cPSJGnUyrxpMFRnuOoabnz8YeQirDdmM
-	 CvnmyEUWqJAhQ==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5aebd77cbb4so2534771e87.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 06 Jul 2026 06:09:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rrf4FjUK5DCqSFXZ6gRJGccXP5sVWlgsvv7mh4pXi7KtuzuVJ5F2jlx/iQMiu7gEXDsz8qKm5mxt4BskA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxzHN9cvEXGU+k44gfkuc7Zfn27kQJ+2KJvNg5DA+eZfQa8mtK7
-	1cLairx1gkSML1j7JjngVW25oRQlqpz4qCUupRVdS3m1neeF8KZXzRgEh1wUJSDZXWUEZrldVl5
-	UTOYSuX5BXE0GGWN9uW7K/JlimcOc1+0=
-X-Received: by 2002:a05:6512:61a:b0:5ae:9b04:dbb0 with SMTP id
- 2adb3069b0e04-5b007bbcfffmr78794e87.0.1783343381196; Mon, 06 Jul 2026
- 06:09:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gxURCHyC";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Nv5OpUGK"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 666AxHJj391231
+	for <linux-sunxi@lists.linux.dev>; Mon, 6 Jul 2026 13:16:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=Vz86zd3go04za6BKCrEOJJ5A
+	QbsnL3kIqNm4xRq1ahk=; b=gxURCHyC5Uby2DEF/Sz+/5yNg3sVS5RYamD/XHiq
+	Oeg+y1LJwkhEFbOaeUT/NQGKPdVK2zZ8VlG3hv6H4S/me/nezIWTxoEm9In3Bs8g
+	ZvdBIq0+/gprmciBEXPztT6Da/pNCqKAPXP77qtywx46VRNq9dIbfHagzvAaAEIl
+	E6hG0pwACBSPp2ODRqZ5jgVnHaYTwWXW8Uuan0qZj5WO8InmLPD6We8EBKixryDx
+	iPil71OMzHER33szNYpl62CNRKnWkJ2P7UpjNxjXjQ3Ou5rCnNsvVYC1bhpBPa1w
+	4pcAqdWpoDmeLyJqbgihNBYMa0DBssjFzMUnNnE2Yj0Udg==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f89kgrw47-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sunxi@lists.linux.dev>; Mon, 06 Jul 2026 13:16:55 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-3812b0c6f23so2861103a91.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 06 Jul 2026 06:16:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1783343815; x=1783948615; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Vz86zd3go04za6BKCrEOJJ5AQbsnL3kIqNm4xRq1ahk=;
+        b=Nv5OpUGKTEaL5u7wlmTu/OHKPa8iI8U/R1hs8QlkYptq+aUKop+qbH+d1tXB60BDjr
+         X0v9tzN7nJbnOVsXJuOE8Ehef0a26liPua7brpLk2Et+G9IxW/ARVtEDDqdYFqu21EX1
+         thyEIyl8SvJZL1L9pYIAciNDwqT4PIGOjGAuUnx3JY8qHcJeG48K+W3FGcTyu1OEsx+D
+         NCpLRXXingzrxjnmNIQ/ui0h/5YWphKk5+T1Ulc/4LeGnCEJJYVp94hOuig/O3IBtdgu
+         zgfnTY1REQuGltQPkFMpQLzNlSQh38WmB/vGLbshcBevoOl83dyldoIFHnJT3uVL0uxw
+         WgCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783343815; x=1783948615;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Vz86zd3go04za6BKCrEOJJ5AQbsnL3kIqNm4xRq1ahk=;
+        b=bBbiV8AZ3PenfaMF6y82eXT0AQcCmZmyZH57zszeS1ziTzhASO3loay9jVb2AkYqdL
+         BRsfcnxB72dAbyiG8vZEPouEL74A/pyp2tMzEP+Zn4D2hSL2fTyeYgQ72y4bJ8SUYMEL
+         DpKdOgcvw3+Ikct64BRx64V1Az1Xf05+fAkDEncjqAh1WetD6v/r8PfkKhAG1DiJQc2G
+         1luUO3ePu8L8Ft8sjnnMyE5Hz+p0RjejmPc1vaIDo4hz1c83iWrYqgXcv7X3yNBXxHdj
+         q9QPeCz5sZi3Eca0q4Pel7ZMu80LVzr8BjmDheTHI3aOrNJNUmLt1SiRTv7QorbfQZK8
+         tWOg==
+X-Forwarded-Encrypted: i=1; AHgh+RqBzH+7hNTW/YB7NhqWXScgil62GmKTxWaAex5xFcZvQ4/kTLF9xWjJBU/HQBId0k8TRJGHljEjWUoTMQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxXOqwFvLmEvAJWTb/UL5mpcX0plDcPTKsC0E4N6tj/6k7P4F6b
+	8IynrdBCsMUSSj7mVjDJtncoWg0M4L/9GcVIdUcQx/mgU3fUFvgpGhjXB3I8gU4KZsT3Mp1kOh0
+	SmnghNnuEdEe+IW9pphEFsIQu99WvFu7OZT8e4co+PogZabbuWSyuNwImwP0ahWXh5A==
+X-Gm-Gg: AfdE7cmNMI+CCTBuJWMqsYlQs0tD7T/K+Dxbqnya8jqFvaM69i3DzzZ8PNFgucEJlI3
+	6hU2TWYEUE7RY+KAiARQma3RzR8ixicFyto7INRrKKd1snAf0skEgMyRmaRCDuPD4fWXV68zhyV
+	Uic/YDrJlDVZ08+PjEA/VZQhAgyoVZhb5U6O/poY002RNH46YKNit9j/8CZ+F0Mg1TXXJx41GcW
+	g5ynfIMjDPRGBfnCjrrFEB/APLiWQlv/qoxj0KAATkpySY0BvQEv4nUwx/2xOu1pr0l58USGOgW
+	ziAhVKyUE6PApiZb2czuoKsfsO5Mtesehi8E0Ad3dZ3NKZ2DCZSpqPuRyN5If2CvDoqHV/nFRmy
+	WigllJy6UpiEyCJgBy5mNAnE6YVLlXLI4ifkZMg==
+X-Received: by 2002:a17:90b:4ccc:b0:380:f389:447b with SMTP id 98e67ed59e1d1-38755769514mr376372a91.11.1783343814422;
+        Mon, 06 Jul 2026 06:16:54 -0700 (PDT)
+X-Received: by 2002:a17:90b:4ccc:b0:380:f389:447b with SMTP id 98e67ed59e1d1-38755769514mr376272a91.11.1783343813871;
+        Mon, 06 Jul 2026 06:16:53 -0700 (PDT)
+Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-311561dd3a1sm16176449eec.22.2026.07.06.06.16.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jul 2026 06:16:53 -0700 (PDT)
+Date: Mon, 6 Jul 2026 18:46:25 +0530
+From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@codeconstruct.com.au>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+        Paul Kocialkowski <paulk@sys-base.io>,
+        Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Alexey Brodkin <abrodkin@synopsys.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Michal Simek <michal.simek@amd.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Eddie James <eajames@linux.ibm.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>,
+        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Thierry Reding <thierry.reding@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Srinivas Kandagatla <srini@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ge Gordon <gordon.ge@bst.ai>, Adrian Hunter <adrian.hunter@intel.com>,
+        Ulf Hansson <ulfh@kernel.org>, Rob Herring <robh@kernel.org>,
+        Saravana Kannan <saravanak@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Shengjiu Wang <shengjiu.wang@gmail.com>,
+        Xiubo Li <Xiubo.Lee@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+        Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+        Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Daniel Baluta <daniel.baluta@nxp.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Peter Chen <peter.chen@cixtech.com>,
+        Fugang Duan <fugang.duan@cixtech.com>,
+        Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+        BST Linux Kernel Upstream Group <bst-upstream@bstai.top>,
+        Fabio Estevam <festevam@gmail.com>,
+        Nicolin Chen <nicoleotsuka@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
+        openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+        kernel@collabora.com, linux-tegra@vger.kernel.org,
+        linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        imx@lists.linux.dev, sound-open-firmware@alsa-project.org
+Subject: Re: [PATCH 00/42] of: reserved_mem: Introduce devres helpers and
+ convert drivers
+Message-ID: <20260706131625.nygqmu2usgifmias@hu-mojha-hyd.qualcomm.com>
+References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
+ <ceeca378-3c76-4b2c-81b4-0ff1bb1e99be@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260706-a733-rtc-v4-0-f330728db3d3@baylibre.com>
- <20260706-a733-rtc-v4-6-f330728db3d3@baylibre.com> <20260706100635.E5DC61F000E9@smtp.kernel.org>
- <1jv7asguqu.fsf@starbuckisacylon.baylibre.com>
-In-Reply-To: <1jv7asguqu.fsf@starbuckisacylon.baylibre.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Mon, 6 Jul 2026 21:09:29 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67zgADhe+PG4UJke0r-1eQrXKhZ9PbqWfY9JNZ8cBxMeA@mail.gmail.com>
-X-Gm-Features: AVVi8CfXtsQWXmbgCdreOulPhQzwv9AjubtuzL3ZucIy6oiHmmXq6hOpzzZI_Bk
-Message-ID: <CAGb2v67zgADhe+PG4UJke0r-1eQrXKhZ9PbqWfY9JNZ8cBxMeA@mail.gmail.com>
-Subject: Re: [PATCH v4 6/9] clk: sunxi-ng: div: add read-only operation support
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: sashiko-bot@kernel.org, sashiko-reviews@lists.linux.dev, 
-	conor+dt@kernel.org, robh@kernel.org, linux-rtc@vger.kernel.org, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, devicetree@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ceeca378-3c76-4b2c-81b4-0ff1bb1e99be@sirena.org.uk>
+X-Proofpoint-GUID: vUYpYZNLbpCBrX12BhqJsYoKxB3m4v1U
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDEzNSBTYWx0ZWRfX79p1i2hOAWyf
+ BXjZkg27YvhI1mqkO9TaDrFeU7HxWWAAPWrKNJj1xWaiHJbd0saceQsqpJjsKo7TF8vse+7fuRe
+ 3NlJn3VTa6Nw0ZKHKggGSBo+zjZpfV2WHiqqiR9EtGjAGuvi3aQbX9oTYbMNTtEE2lSQqNnXyHm
+ itqb5X1jL1fWJlTMB9gxlqeXD2Us6S7+yduIOUeuQVvYSbpdDv7pkGQ+JXml60ghjADa77P257n
+ csziUx9676bjz4CMU3aSv135MTLakEwoIUfKRcSx8cllJ42d5NFUAOAmpZlGwDduoZUWr48yjdT
+ k3CjGdGYgkW252H3EpI5yRF7SfOEjgQs0rX6qvHMa2LMbH8OxiwO9ESPNlO0OzZV+NmR3QK1ViH
+ 4Wd1kcN6Aq/GXCXwFsnZFcSx0T3IPFI28M5ZRVl/uXxSCybPio0aPM+w738JYCrYhtEhW7zzTLK
+ 9TnVTVl31iHrfqofeZA==
+X-Proofpoint-ORIG-GUID: vUYpYZNLbpCBrX12BhqJsYoKxB3m4v1U
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDEzNSBTYWx0ZWRfXwKcQ97Mpmzk4
+ I9gBYNYKezBlgx/a+KJipqS67kliGhTRJYmqw4BjosqmEGVKh01/MR625fDU6aeiTcQOBexMgzn
+ gwSboe+x5mNtX41x2FTAOXUXXuUlQSE=
+X-Authority-Analysis: v=2.4 cv=c6Sbhx9l c=1 sm=1 tr=0 ts=6a4baac7 cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=kj9zAlcOel0A:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=1XWaLZrsAAAA:8 a=sOACTKiIrrgCOb8DNPwA:9 a=CjuIK1q_8ugA:10
+ a=iS9zxrgQBfv6-_F4QbHw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-06_01,2026-07-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 clxscore=1015
+ adultscore=0 priorityscore=1501 lowpriorityscore=0 spamscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607060135
 
-On Mon, Jul 6, 2026 at 8:36=E2=80=AFPM Jerome Brunet <jbrunet@baylibre.com>=
- wrote:
->
-> On lun. 06 juil. 2026 at 10:06, sashiko-bot@kernel.org wrote:
->
-> > Thank you for your contribution! Sashiko AI review found 1 potential is=
-sue(s) to consider:
-> > - [Medium] Inconsistent rate calculation between `determine_rate` and `=
-recalc_rate` due to division order.
-> > --
-> >
-> > commit 39f872462c04ad724c3624b152234160de56a47e
-> > Author: Jerome Brunet <jbrunet@baylibre.com>
-> >
-> > clk: sunxi-ng: div: add read-only operation support
-> >
-> > Add support for sunxi-ng read-only dividers. This will be
-> > useful to the a733 oscillator detection logic.
-> >
-> >> diff --git a/drivers/clk/sunxi-ng/ccu_div.c b/drivers/clk/sunxi-ng/ccu=
-_div.c
-> >> index 62d680ccb524b..d1c8c7baa12dc 100644
-> >> --- a/drivers/clk/sunxi-ng/ccu_div.c
-> >> +++ b/drivers/clk/sunxi-ng/ccu_div.c
-> > [ ... ]
-> >> @@ -84,6 +84,36 @@ static int ccu_div_determine_rate(struct clk_hw *hw=
-,
-> >>                                           req, ccu_div_determine_rate_=
-helper, cd);
-> >>  }
-> >>
-> >> +static int ccu_rodiv_determine_rate(struct clk_hw *hw,
-> >> +                                struct clk_rate_request *req)
-> >> +{
-> >> +    struct ccu_div *cd =3D hw_to_ccu_div(hw);
-> >> +    unsigned long val;
-> >> +    u32 reg;
-> >> +    int ret;
-> >> +
-> >> +    reg =3D readl(cd->common.base + cd->common.reg);
-> >> +    val =3D reg >> cd->div.shift;
-> >> +    val &=3D (1 << cd->div.width) - 1;
-> >> +
-> >> +    req->rate =3D ccu_mux_helper_unapply_prediv(&cd->common, &cd->mux=
-, -1,
-> >> +                                              req->rate);
-> >> +
-> >> +    if (cd->common.features & CCU_FEATURE_FIXED_POSTDIV)
-> >> +            req->rate *=3D cd->fixed_post_div;
-> >> +
-> >> +    ret =3D divider_ro_determine_rate(hw, req, cd->div.table,
-> >> +                                    cd->div.width, cd->div.flags, val=
-);
-> >> +
-> >> +    if (cd->common.features & CCU_FEATURE_FIXED_POSTDIV)
-> >> +            req->rate /=3D cd->fixed_post_div;
-> >> +
-> >> +    req->rate =3D ccu_mux_helper_apply_prediv(&cd->common, &cd->mux, =
--1,
-> >> +                                            req->rate);
-> >
-> > [Severity: Medium]
-> > Will this division order cause inconsistent rate calculations compared =
-to
-> > ccu_div_recalc_rate()?
-> >
-> > The divider_ro_determine_rate() helper applies DIV_ROUND_UP() to the un=
-adjusted
-> > parent rate, and then this function divides that result by fixed_post_d=
-iv and
-> > prediv.
-> >
-> > However, ccu_div_recalc_rate() applies prediv to the parent rate first,=
- then
-> > calculates the divider rate, and finally divides by fixed_post_div.
-> >
-> > Since the Common Clock Framework requires determine_rate and recalc_rat=
-e to be
-> > mathematically consistent, could this discrepancy cause rate mismatches=
- or
-> > warnings for clocks using a pre-divider or fixed post-divider?
->
-> I think the RO side is correct and RW one is not.
->
-> The RO part correctly walk back the tree by un-applying the predivider
-> so, whatever CCF does with the parent rate value will be correct.
->
-> The RW part query the parent rate then applies the prediv. This
-> will be thrown away when/if clk_divider_bestdiv() calls
-> clk_hw_round_rate() on the parent. If that happens, the subsequent
-> un-apply of the prediv would make the matter even worse. So (if I
-> understand all this correctly) this case does not happen yet, otherwise
-> we would have noticed, and it can be fixed separately.
+On Mon, Jul 06, 2026 at 01:14:13PM +0100, Mark Brown wrote:
+> On Sat, Jul 04, 2026 at 01:08:13AM +0530, Mukesh Ojha wrote:
+> > Drivers using of_reserved_mem_device_init() and its variants must
+> > manually call of_reserved_mem_device_release() in their remove and
+> > error-unwind paths. This is repetitive boilerplate that is easy to
+> > get wrong, and several drivers have open-coded the teardown
+> > inconsistently or skipped it entirely, leading to dangling reserved
+> > memory references.
+> 
+> Just as a general thing, rather than sending a huge cross subsystem
+> series for something like this it's probably better to just send a
+> couple of examples, then once the new API is introduced and either has a
+> pullable tag or has made it to mainline go and do the conversion.  This
+> avoids clogging everyone's inbox with very big serieses.
 
-Looking at the history, ccu_div_determine_rate_helper() used to be
-ccu_div_round_rate(), so it wouldn't have tried all the parents. Looks
-like I missed this when looking at the conversion patches back in
-January.
+Apologies for this; this is my first series touching these many
+subsystems, and I also learned the hard way when the entire
+series was not sent in one shot due to the daily sending limit
+via git send-email[1], and I had to cut many cc lists for patches
+33/42 to 42/42.
 
-The fix is easy though: just reimplement divider_round_rate_parent().
-Somehow we did this already for the multiplier but not the divider.
-
-BTW, would it make sense to implement ccu_rodiv_determine_rate() using
-ccu_mux_helper_determine_rate() as well? That would make both RW and RW
-consistent, but it would mean another rewrite for you ...
-
-> Side Note: I've not followed the sunxi history behind all those
-> prediv/postdiv but I find them a bit confusing. It seems like inserting
-> some fixed factor clocks in the clock trees would accomplish the same
-> thing while simplifying mux/divider quite a lot by droping these quirks ?
-
-I think the whole idea was that we didn't want all those extra intermediate
-clocks. If you look at drivers/clk/sunxi/ you can see that we came from a
-one device node per clock design, which was messy and bloated. The second
-try ended up being the "one clock per useful hardware clock unit" design
-you see now..
-
-And we somehow tied the list of clks to the exported list of clks,
-which probably made it worse for adding intermediates.
-
-> Side Note #2: I feel that while sashiko is pointing out valid things but =
-we
-> are slowly getting off topic and down the rabbit hole with it ...
-
-Yeah. That's the downside of Sashiko.
+[1]
+4.5.3 Your message has too many recipients. For more information regarding
+  4.5.3 Google's sending limits, go to
+  4.5.3  https://support.google.com/mail/?p=TooManyRecipientsError 5a478bee46e88-30f0bbd2362sm49597158eec.20 - gsmtp
 
 
-Thanks
-ChenYu
+Thanks for the suggestion; point noted.
+
+-- 
+-Mukesh Ojha
