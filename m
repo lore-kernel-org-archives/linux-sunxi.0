@@ -1,116 +1,106 @@
-Received: from smtpbg151.qq.com (smtpbg151.qq.com [18.169.211.239])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2253C223DE9
-	for <linux-sunxi@lists.linux.dev>; Tue,  7 Jul 2026 03:22:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.169.211.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F25F272E56
+	for <linux-sunxi@lists.linux.dev>; Tue,  7 Jul 2026 07:48:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783394567; cv=none; b=Q3Ww+trv6fZLTIAQUIiGEwSvUWbUhx9ohSGVQI7PtFtLl4SjgA3GWy5+em3QWFCb9cbYXfgmeOKWF+2tQr+/HueW0KPsTTFHoe1sTQc9jKVJi++2xE7tLIHQMujUQ/K+wwYi3kZjGwxDrF+OOho/YQujR+kqyDVNeLrqeDJqmt4=
+	t=1783410484; cv=none; b=WTTTKrvaYxbKOsWZwA0oXWkcnmHCDC5fciE7RTMXZqWImc5LEkVq7oYXM8xj+Efw7S3S4tGIIepwOH6CtS53FyOwSOdNPw5YLqhMLmVI2PawermdDQoaM7hvH3/zcP7YcK2l4VqBydy88RYNMEtBaxl6aNjqbw+g9SiWnq8Bp2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783394567; c=relaxed/simple;
-	bh=Joa5f766kFQG+VDx1xi0qljvrOXZ8cpEpg2lZW0VgAE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jKGrWk9vFOrkT/E1xEG0mBZgJPoxFvyH7VLJnmHRGGRy5QpCMosLqsmvsW31+bCOhqipoToY64oCaLb3ecMV8P0UpG8/8rxt6M2X7re/pZTleXh6zi0dD4fIvK0zpUl21EpSGc+0d6BWks/m4gmgCRkLwtiyhi4+SWXWaV46hJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=RZs1rvn8; arc=none smtp.client-ip=18.169.211.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1783410484; c=relaxed/simple;
+	bh=fTELVgDPDDa/adOsZAcvFwbR5ckIe3CM0pZ25SuNlOs=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gXnn2aBhaej4LMwwWaL+MSqQpN7+inpRiymIrwlmnCWtySz3NxhtnvlehhiCmuVeZ7JNs8whGB7NcdME+MNfdyf6aEx8q0+WjZENsOiaufjQ+vxkaJulZyRJFzJmlRj4r6WXY1XWQQ9U0ZwisdXRohTeL7wVeQbunsmsr4AS5XQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qr8xIagy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="RZs1rvn8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1783394487;
-	bh=Joa5f766kFQG+VDx1xi0qljvrOXZ8cpEpg2lZW0VgAE=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=RZs1rvn8clkEsFajZvmc63LcCjz9VVvCwaHOadCLiKgz/67dVo77oQPM1rftTfYbH
-	 qCVqpQWygTrhuBCtkC+dydyeBl2HDT+SAwLVCgU2Or6LhtNnwMQTEeRlSvqxZaIeGS
-	 VdJhJRONyF2ThTqR14LWVLVfprKGBv1EaPs1d/bY=
-X-QQ-mid: esmtpsz18t1783394468ta66ff50c
-X-QQ-Originating-IP: OHa2ywK7nMDSursBl1DEWqW1dmcItOyUIsCyNfbG/H0=
-Received: from PEN202512010004 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 07 Jul 2026 11:21:06 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 12717493362023860116
-EX-QQ-RecipientCnt: 12
-From: Xu Rao <raoxu@uniontech.com>
-To: andre.przywara@arm.com
-Cc: jernej.skrabec@gmail.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	marco.crivellari@suse.com,
-	neil.armstrong@linaro.org,
-	raoxu@uniontech.com,
-	samuel@sholland.org,
-	vkoul@kernel.org,
-	wens@kernel.org
-Subject: Re: [PATCH] phy: allwinner: sun4i-usb: disable the PHY2 PMU clock after SIDDQ setup
-Date: Tue,  7 Jul 2026 11:21:06 +0800
-Message-ID: <8976A02CE2417DF2+20260707032106.985208-1-raoxu@uniontech.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <d8042dd2-303e-4f24-b7bf-74ae080f4ae6@arm.com>
-References: <d8042dd2-303e-4f24-b7bf-74ae080f4ae6@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qr8xIagy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35FC51F00A3D
+	for <linux-sunxi@lists.linux.dev>; Tue,  7 Jul 2026 07:48:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783410483;
+	bh=fTELVgDPDDa/adOsZAcvFwbR5ckIe3CM0pZ25SuNlOs=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=Qr8xIagyx3ZvdFRwQDOyaVjrunJxWrC6+trHzfCOrWDL4efKaTczCRhRnaWpZPL9w
+	 RlUUxoJX5bqH139t7TLcLBoqc2GKzxuzwhHJIEl09v/QjIpaAkmmmKdbFyETt/dHKA
+	 gvh3wZot9pWH++z5987HPaaFNzkZJ4lkd4JLq7TiSHOUUoirbXRrp7XXl2kVq6Lxpg
+	 JyBnnOCcxFfH296ICfguEed3znxsoqaQ5HS31bHn6YhmIJ5dPJkjTUSAbnssxnJ32I
+	 bELdOIGLBvKV3GRyM67aheIoorsOD0CvmP7Bu2cqvOeRWhaVIA8tz8a7HpKWZ9LECP
+	 CWIaVzf0v0JTA==
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-39b0c6488e6so42536271fa.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 07 Jul 2026 00:48:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Roup0q2bIUIG1bY3ukdREoPIQncw3WmcwAJnqs146tIQS1ahspZ9yIiT+7Cy2CO+SpmWqJtQL5dKrmTew==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwD1/R6ipbFxlEFfN0beIZt/V5I15KyuhA2xpzkrWbXRVPimMQu
+	9MZAUbY/ZZROgnMPdo/eeQ5mA+zJp4U/8wZ9Pg2tGWJ3D3Mboy8/pjXiR4UzOghMp0smOI+grHf
+	uvPuqjb2JcW6bDrnIconk0HlCbXAEgQeF5mwlEPD/nw==
+X-Received: by 2002:a2e:8a84:0:b0:399:7aad:889f with SMTP id
+ 38308e7fff4ca-39c60016efdmr6273461fa.27.1783410481786; Tue, 07 Jul 2026
+ 00:48:01 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 7 Jul 2026 00:48:00 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 7 Jul 2026 00:48:00 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260706-qcom-sa8255p-emac-v12-0-e3ab1ecf2901@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: OSjTqsWSa+11SUZPfN0haWXCoqWGFfmDFrPvqk7F+sObVw0C8KD7shA9
-	2ryURV4Oj7O0oYBhXXX4DgLzEaT7uaFejjtdFsigP7K0umDYnVtWf5J0stkaB2otGGx5j0t
-	aCEmkJ6Fj2TdTSLF/iOo6EMzYe1v996ZCZIZ3FNWpzgZaltRr9y7sa8u+mdqjYHggH4bL7w
-	QgmDbEOXWBsC3orv1UxIfTP7fqsw8d+2xYn5dD2y8z653zJ3DiVCKY1scMESUIXi9UgiMdQ
-	htzBRWfx8HbmMU+V4z3zPMDU3wASmE1nIgK0UJiHeNa88LBMJ+NLOirgONWBe/sFgpaqhc9
-	BHzdbMFgynPv8x3XuKcV5k5TVoF/NtVhnudlrgqtY0aWYEjzYNbt++LSfbaBnkEpOxAevVv
-	Oh2yZzKBPGCsF/DnecN3QPTlnk3LRdfaPdRs9ZOBz5IL+I4s+6GaOW2XSoZs3TZVbh+IhRU
-	bmcFwTB1aGLPXXrHHStyP/fz+bRkHl3sn7XbIDGTrv1ugx/iWDpwLu6OrpH8OQehvrSVn/O
-	3u38FOrf6m9uxqP8ZksRcS2p9WxEol+f1LpWZBj12gpbOSuTUcfSC9gODXPWk8FD8unaH6E
-	0UmFgUDSOYyA0SGPOClKdsPoimtCRBK2JJwHR28t4wuo/N85Js6HMj5VhrKEC1C4m0kHSCx
-	MktgWiaEes4BAUYkhT88pP/MNOMsZuVvtr5VmQ+VaRE9B19P2G3fvxoJ9E5d8lhs0lo7u8L
-	c1jRcVqqqO4nsHHL586LyqDf5AlBtwYZnCm4EXvom0YF3PCEEW4AiGPqP3Raimj1r1UXiHo
-	u1GezBox9L7b94sdrnW3PbF8paIBrTfjXdbYxbPehZME18wlgiVWUu5KY2R8ydtYCMKGebJ
-	aWBmUrnLHeZwM+GhmmOPqXOP9YSKWhKnmKpHR9cb5gNg5XJxAdsRzJ8UBF1CONTWu6yvzoQ
-	wCbycOuRPGGE95kUlOZsQCE8cfEv4ovK7dVoWGrkTpKll4XKYhBQB8pquX4a9FLFcIAd3Mh
-	hQM6LCKQeQI51FaTPO
-X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
-X-QQ-RECHKSPAM: 0
+References: <20260706-qcom-sa8255p-emac-v12-0-e3ab1ecf2901@oss.qualcomm.com>
+Date: Tue, 7 Jul 2026 00:48:00 -0700
+X-Gmail-Original-Message-ID: <CAMRc=MeZ=9Oy9rCfugiivuTWNeZc6o5RBm3T_8_Q70RsbVyjkg@mail.gmail.com>
+X-Gm-Features: AVVi8CdfTk0d0MBtBeXEYxHV0em1KoWufQbF_cpMl07Jy03GCTI7kHjFfQ2Uf_Y
+Message-ID: <CAMRc=MeZ=9Oy9rCfugiivuTWNeZc6o5RBm3T_8_Q70RsbVyjkg@mail.gmail.com>
+Subject: Re: [PATCH net-next v12 0/7] net: stmmac: qcom-ethqos: add support
+ for SCMI power domains
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, Drew Fustini <dfustini@tenstorrent.com>, 
+	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org, 
+	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
+	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	sophgo@lists.linux.dev, linux-riscv@lists.infradead.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Vinod Koul <vkoul@kernel.org>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Shawn Guo <shawnguo@kernel.org>, 
+	Fabio Estevam <festevam@gmail.com>, Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com, 
+	Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>, Romain Gantois <romain.gantois@bootlin.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Maxime Ripard <mripard@kernel.org>, Christophe Roullier <christophe.roullier@foss.st.com>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Radu Rendec <rrendec@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Andre,
-
-> > - clk_disable_unprepare(phy->clk2);
-> > + clk_disable_unprepare(phy2->clk2);
+On Mon, 6 Jul 2026 15:20:15 +0200, Bartosz Golaszewski
+<bartosz.golaszewski@oss.qualcomm.com> said:
+> Add support for the firmware-managed variant of the DesignWare MAC on
+> the sa8255p platform. This series contains new DT bindings and driver
+> changes required to support the MAC in the STMMAC driver.
 >
-> Interesting, this looks about right, and matches the comment above,
-> noting that phy2->clk2 is just temporarily needed. I don't remember
-> further details, only that this workaround was quite annoying and messy ;-)
+> It also reorganizes the ethqos code quite a bit to make the introduction
+> of power domains into the driver a bit easier on the eye.
 >
-> However I am wondering how this worked so far: This should sabotage the
-> access to the local REG_HCI_PHY_CTL access in the next few lines ...
-> Any idea why this worked nevertheless?
+> The DTS changes will go in separately.
+>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> ---
 
-Yes, the current code is wrong, but the visible effect is limited.
+There's one more comment to address by Uwe so there'll be a v13. For merging
+strategy: there are no build-time dependencies between the PHY and MAC parts.
+Vinod, Jakub: do you prefer me to split the series next time into its PHY and
+MAC parts for integration?
 
-In sun4i_usb_phy_init(), the auxiliary SIDDQ path explicitly enables
-phy2->clk2 and then accesses phy2->pmu + REG_HCI_PHY_CTL. So the clock
-that has to be disabled at the end of that block is phy2->clk2.
-
-The current code disables phy->clk2 instead, which is a different object.
-That does not undo the temporary phy2->clk2 enable.
-
-The reason this has not shown up as an obvious functional failure is that
-phy->clk2 is an optional PMU clock. On systems where the non-PHY2 PMU
-clock is not provided, the wrong clk_disable_unprepare(phy->clk2) does
-not actually disable a local PMU clock. In that case, the practical
-visible issue is simply that the temporary phy2->clk2 enable is not
-matched by a corresponding disable.
-
-So the failure is not that the following local REG_HCI_PHY_CTL access is
-known to break today. The concrete bug is that the auxiliary path enables
-one clock and disables another one.
-
-Thanks,
-Xu Rao
+Bart
