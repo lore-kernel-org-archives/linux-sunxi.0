@@ -1,36 +1,34 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 243773F8ED1
-	for <linux-sunxi@lists.linux.dev>; Tue,  7 Jul 2026 11:41:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00313246F4;
+	Tue,  7 Jul 2026 14:11:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783424500; cv=none; b=lR3fp6dL8n+EJ7z3DNvY4j0HZ1vPd0AljIeJFonSd3ZPpriPZe6iQVe+Uaags0G6J2OJZMJXv8wdTiVUozuRS5xUzBC8VfSyWxtCNOMpjzfX38cPdSK9dGeipHevXHla20NffR+u0yRqKuooStx4Zu1W6JfT7LEtHKZ9l1WI1hA=
+	t=1783433496; cv=none; b=ih5239ehR05M8z4W6B5TNJOJ/jQEO7t3qlG9A2EPcb73WqFBu0GbfK4I4qwnAOHLJKxT1nVwzf1kA8cXisvmlwgzDmDG2vHuYnprYqptJMTvZQJREkxn32FjAxxcZAfwYVyackXYhmRl/ZvHB2dJHDGcfmskZWH924u7ryeql+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783424500; c=relaxed/simple;
-	bh=AXimq/rtIFwP4aD04kh/5vfPSxje93mi8aUhDJB2eB0=;
+	s=arc-20240116; t=1783433496; c=relaxed/simple;
+	bh=Qw+DDNMPifPgLVRQbdGaymOOKrgVAVwhIDLS55Of8sY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NlTjG2XCPOqeCFXpZqL7kd/aPVF1VS1mXJ+0qrK96lKFFWyVtlq3MoIeKZK8dbeIu1g0eSHRdKho4oKIcpViex7LF0m1IgWk7w+qiBPLNWgZP6vsjX2haCQyjjL8XFUsc2AmLs2Nzp9RxhIn81EI87yaKL3fnCGZmw/hwLtWTkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=IY6oHJCi; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="IY6oHJCi"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A785271B
-	for <linux-sunxi@lists.linux.dev>; Tue,  7 Jul 2026 04:41:33 -0700 (PDT)
-Received: from [192.168.0.1] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 4AEB93F85F
-	for <linux-sunxi@lists.linux.dev>; Tue,  7 Jul 2026 04:41:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1783424497; bh=AXimq/rtIFwP4aD04kh/5vfPSxje93mi8aUhDJB2eB0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IY6oHJCi/tPOdvEAxrTe9WP4fVDNiG5IWEhMeiZLs6iOxjcU5GaQCHOFSrpIpgV1U
-	 JUTk6Ij7in8vNenGggxoep77i3k+JFq8+2lUf6ziPfNLrJ6SQGo6eILZU497r38FRO
-	 8VJVR5XprNwq7NZWUBlDhVD4PoLZ9FAjOE5rMAho=
-Date: Tue, 7 Jul 2026 12:39:54 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=i3MDRebvhUJTD2o0YhQ7/5e3cneM7nNTZQogBZQfWNITl0Q1g4gaR/18i9PXlbunJh1Qae9DC7OidZAPGFpXOFXsVjwDSBb7+m1iJhtKZGcGimF45AhlMIXItinetA739YEsNu4V/pJpIg2IcRwavgpcbbLqH8lZ3hSLHbASoLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 875773700331;
+	Tue,  7 Jul 2026 14:11:09 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 9BD9DAE5ECC; Tue,  7 Jul 2026 14:11:05 +0000 (UTC)
+X-Spam-Level: 
+Received: from shepard (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id 6816EAE5EBF;
+	Tue,  7 Jul 2026 14:10:55 +0000 (UTC)
+Date: Tue, 7 Jul 2026 16:10:52 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
 To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
 Cc: Bjorn Andersson <andersson@kernel.org>,
 	Konrad Dybcio <konradybcio@kernel.org>,
+	Liviu Dudau <liviu.dudau@arm.com>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
@@ -39,7 +37,6 @@ Cc: Bjorn Andersson <andersson@kernel.org>,
 	Andrew Jeffery <andrew@codeconstruct.com.au>,
 	Paul Cercueil <paul@crapouillou.net>,
 	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-	Paul Kocialkowski <paulk@sys-base.io>,
 	Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
@@ -103,148 +100,182 @@ Cc: Bjorn Andersson <andersson@kernel.org>,
 	linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
 	imx@lists.linux.dev, sound-open-firmware@alsa-project.org
-Subject: Re: [PATCH 00/42] of: reserved_mem: Introduce devres helpers and
- convert drivers
-Message-ID: <akzliqtjZVwNw594@e142607>
+Subject: Re: [PATCH 08/42] drm: logicvc: Use
+ devm_of_reserved_mem_device_init()
+Message-ID: <ak0I7AbfFITG1nyi@shepard>
 References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
+ <20260703193855.110619-9-mukesh.ojha@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ThTwSIZV2a2cCNSQ"
+Content-Disposition: inline
+In-Reply-To: <20260703193855.110619-9-mukesh.ojha@oss.qualcomm.com>
+
+--ThTwSIZV2a2cCNSQ
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jul 04, 2026 at 01:08:13AM +0530, Mukesh Ojha wrote:
-> Drivers using of_reserved_mem_device_init() and its variants must
-> manually call of_reserved_mem_device_release() in their remove and
-> error-unwind paths. This is repetitive boilerplate that is easy to
-> get wrong, and several drivers have open-coded the teardown
-> inconsistently or skipped it entirely, leading to dangling reserved
-> memory references.
-> 
-> This series introduces devres-managed wrappers —
-> devm_of_reserved_mem_device_init(), devm_of_reserved_mem_device_init_by_idx(),
-> and devm_of_reserved_mem_device_init_by_name() — that tie the reserved
-> memory region lifetime to the device, releasing it automatically on
-> unbind. The remaining 40 patches convert drivers across the drm, media,
-> ASoC, remoteproc, firmware, mmc, memory and misc subsystems to use these
-> helpers, yielding a net reduction of ~90 lines of boilerplate.
-> 
-> This series depends on  https://lore.kernel.org/lkml/20260703164457.4040457-1-mukesh.ojha@oss.qualcomm.com/
-> 
-> Konrad Dybcio (1):
->   of: reserved_mem: Introduce devres-managed initialization functions
-> 
-> Mukesh Ojha (41):
->   of: reserved_mem: Add devm_of_reserved_mem_device_init_by_name()
->   firmware: qcom: scm: Use devm_of_reserved_mem_device_init()
->   remoteproc: da8xx: Use devm_of_reserved_mem_device_init()
->   remoteproc: keystone: Use devm_of_reserved_mem_device_init()
->   media: synopsys: hdmirx: Use devm_of_reserved_mem_device_init()
->   remoteproc: omap: Use devm_of_reserved_mem_device_init()
->   drm: logicvc: Use devm_of_reserved_mem_device_init()
->   drm: hdlcd: Use devm_of_reserved_mem_device_init()
->   drm: pl111: Use devm_of_reserved_mem_device_init()
->   remoteproc: mtk_scp: Use devm_of_reserved_mem_device_init()
->   media: aspeed: Use devm_of_reserved_mem_device_init()
->   media: nuvoton: npcm-video: Use devm_of_reserved_mem_device_init()
->   memory: tegra210-emc: Use devm_of_reserved_mem_device_init_by_name()
->   drm: komeda: Use devm_of_reserved_mem_device_init()
->   drm: malidp: Use devm_of_reserved_mem_device_init()
+Hi Mukesh,
 
-For the hdlcd, komeda and malidp drivers:
+On Sat 04 Jul 26, 01:08, Mukesh Ojha wrote:
+> Switch to devm_of_reserved_mem_device_init() so the reserved memory
+> region is released automatically on probe failure or device unbind.
+> Replace all error paths that jumped to error_reserved_mem: with
+> error_early: since the manual cleanup label is no longer needed, and
+> remove the explicit of_reserved_mem_device_release() call in the remove
+> function.
+>=20
+> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+Looks good to me, thanks!
 
-Best regards,
-Liviu
+Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
+Acked-by: Paul Kocialkowski <paulk@sys-base.io>
 
->   drm: ingenic: Use devm_of_reserved_mem_device_init()
->   drm: kmb: Use devm_of_reserved_mem_device_init()
->   drm: sun4i: Use devm_of_reserved_mem_device_init()
->   drm: xlnx: zynqmp_dpsub: Use devm_of_reserved_mem_device_init()
->   media: arm: mali-c55: Use devm_of_reserved_mem_device_init()
->   media: mediatek: vpu: Use devm_of_reserved_mem_device_init()
->   mmc: sdhci-of-bst: Use devm_of_reserved_mem_device_init_by_idx()
->   remoteproc: ti_k3: Use devm_of_reserved_mem_device_init()
->   ASoC: mediatek: mt8192: Use devm_of_reserved_mem_device_init()
->   ASoC: mediatek: mt8196: Use devm_of_reserved_mem_device_init()
->   ASoC: mediatek: mt8183: Use devm_of_reserved_mem_device_init()
->   ASoC: mediatek: mt8189: Use devm_of_reserved_mem_device_init()
->   ASoC: SOF: imx: Use devm_of_reserved_mem_device_init_by_name()
->   staging: media: cedrus: Use devm_of_reserved_mem_device_init()
->   ASoC: cix-ipbloq: Use devm_of_reserved_mem_device_init()
->   drm: aspeed: Use devm_of_reserved_mem_device_init()
->   drm: arcpgu: Use devm_of_reserved_mem_device_init()
->   ASoC: mediatek: mt8173: Use devm_of_reserved_mem_device_init()
->   ASoC: mediatek: mt8186: Use devm_of_reserved_mem_device_init()
->   ASoC: mediatek: mt8188: Use devm_of_reserved_mem_device_init()
->   ASoC: mediatek: mt8195: Use devm_of_reserved_mem_device_init()
->   ASoC: SOF: mediatek: mt8186: Use devm_of_reserved_mem_device_init()
->   ASoC: SOF: mediatek: mt8195: Use devm_of_reserved_mem_device_init()
->   misc: fastrpc: Use devm_of_reserved_mem_device_init()
->   ASoC: fsl: imx-rpmsg: Use devm_of_reserved_mem_device_init_by_idx()
->   ASoC: sprd: Use devm_of_reserved_mem_device_init()
-> 
->  drivers/firmware/qcom/qcom_scm.c              | 22 +++------
->  .../gpu/drm/arm/display/komeda/komeda_dev.c   |  4 +-
->  drivers/gpu/drm/arm/hdlcd_drv.c               |  6 +--
->  drivers/gpu/drm/arm/malidp_drv.c              |  4 +-
->  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |  2 +-
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c     | 13 +-----
->  drivers/gpu/drm/kmb/kmb_drv.c                 | 12 +----
->  drivers/gpu/drm/logicvc/logicvc_drm.c         | 21 ++++-----
->  drivers/gpu/drm/pl111/pl111_drv.c             |  4 +-
->  drivers/gpu/drm/sun4i/sun4i_drv.c             |  4 +-
->  drivers/gpu/drm/tiny/arcpgu.c                 |  2 +-
->  drivers/gpu/drm/xlnx/zynqmp_dpsub.c           |  4 +-
->  .../platform/arm/mali-c55/mali-c55-core.c     | 12 ++---
->  drivers/media/platform/aspeed/aspeed-video.c  | 12 ++---
->  drivers/media/platform/mediatek/vpu/mtk_vpu.c |  3 +-
->  drivers/media/platform/nuvoton/npcm-video.c   |  9 +---
->  .../platform/synopsys/hdmirx/snps_hdmirx.c    | 16 +------
->  drivers/memory/tegra/tegra210-emc-core.c      | 21 ++++-----
->  drivers/misc/fastrpc.c                        |  2 +-
->  drivers/mmc/host/sdhci-of-bst.c               |  7 +--
->  drivers/of/of_reserved_mem.c                  | 41 +++++++++++++++++
->  drivers/remoteproc/da8xx_remoteproc.c         | 10 +---
->  drivers/remoteproc/keystone_remoteproc.c      | 16 +------
->  drivers/remoteproc/mtk_scp.c                  |  3 +-
->  drivers/remoteproc/omap_remoteproc.c          | 13 +-----
->  drivers/remoteproc/ti_k3_common.c             | 13 +-----
->  drivers/remoteproc/ti_k3_common.h             |  1 -
->  .../staging/media/sunxi/cedrus/cedrus_hw.c    |  6 +--
->  include/linux/of_reserved_mem.h               | 46 +++++++++++++++++++
->  sound/hda/controllers/cix-ipbloq.c            |  2 +-
->  sound/soc/fsl/imx-rpmsg.c                     |  2 +-
->  sound/soc/mediatek/mt8173/mt8173-afe-pcm.c    |  2 +-
->  sound/soc/mediatek/mt8183/mt8183-afe-pcm.c    | 13 +-----
->  sound/soc/mediatek/mt8186/mt8186-afe-pcm.c    |  2 +-
->  sound/soc/mediatek/mt8188/mt8188-afe-pcm.c    |  2 +-
->  sound/soc/mediatek/mt8189/mt8189-afe-pcm.c    | 16 +------
->  sound/soc/mediatek/mt8192/mt8192-afe-pcm.c    | 11 +----
->  sound/soc/mediatek/mt8195/mt8195-afe-pcm.c    |  2 +-
->  sound/soc/mediatek/mt8196/mt8196-afe-pcm.c    | 14 +-----
->  sound/soc/sof/imx/imx-common.c                |  9 ++--
->  sound/soc/sof/mediatek/mt8186/mt8186.c        |  2 +-
->  sound/soc/sof/mediatek/mt8195/mt8195.c        |  2 +-
->  sound/soc/sprd/sprd-pcm-dma.c                 |  3 +-
->  43 files changed, 162 insertions(+), 249 deletions(-)
-> 
-> -- 
+All the best,
+
+Paul
+
+> ---
+>  drivers/gpu/drm/logicvc/logicvc_drm.c | 21 ++++++++-------------
+>  1 file changed, 8 insertions(+), 13 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/logicvc/logicvc_drm.c b/drivers/gpu/drm/logi=
+cvc/logicvc_drm.c
+> index bbebf4fc7f51..d6dbe52ff0a9 100644
+> --- a/drivers/gpu/drm/logicvc/logicvc_drm.c
+> +++ b/drivers/gpu/drm/logicvc/logicvc_drm.c
+> @@ -306,7 +306,7 @@ static int logicvc_drm_probe(struct platform_device *=
+pdev)
+>  	int irq;
+>  	int ret;
+> =20
+> -	ret =3D of_reserved_mem_device_init(dev);
+> +	ret =3D devm_of_reserved_mem_device_init(dev);
+>  	if (ret && ret !=3D -ENODEV) {
+>  		dev_err(dev, "Failed to init memory region\n");
+>  		goto error_early;
+> @@ -327,14 +327,14 @@ static int logicvc_drm_probe(struct platform_device=
+ *pdev)
+>  		ret =3D of_address_to_resource(of_node, 0, &res);
+>  		if (ret) {
+>  			dev_err(dev, "Failed to get resource from address\n");
+> -			goto error_reserved_mem;
+> +			goto error_early;
+>  		}
+> =20
+>  		base =3D devm_ioremap_resource(dev, &res);
+>  		if (IS_ERR(base)) {
+>  			dev_err(dev, "Failed to map I/O base\n");
+>  			ret =3D PTR_ERR(base);
+> -			goto error_reserved_mem;
+> +			goto error_early;
+>  		}
+> =20
+>  		logicvc_drm_regmap_config.max_register =3D resource_size(&res) -
+> @@ -345,21 +345,21 @@ static int logicvc_drm_probe(struct platform_device=
+ *pdev)
+>  		if (IS_ERR(regmap)) {
+>  			dev_err(dev, "Failed to create regmap for I/O\n");
+>  			ret =3D PTR_ERR(regmap);
+> -			goto error_reserved_mem;
+> +			goto error_early;
+>  		}
+>  	}
+> =20
+>  	irq =3D platform_get_irq(pdev, 0);
+>  	if (irq < 0) {
+>  		ret =3D -ENODEV;
+> -		goto error_reserved_mem;
+> +		goto error_early;
+>  	}
+> =20
+>  	logicvc =3D devm_drm_dev_alloc(dev, &logicvc_drm_driver,
+>  				     struct logicvc_drm, drm_dev);
+>  	if (IS_ERR(logicvc)) {
+>  		ret =3D PTR_ERR(logicvc);
+> -		goto error_reserved_mem;
+> +		goto error_early;
+>  	}
+> =20
+>  	platform_set_drvdata(pdev, logicvc);
+> @@ -371,7 +371,7 @@ static int logicvc_drm_probe(struct platform_device *=
+pdev)
+>  	caps =3D logicvc_drm_caps_match(logicvc);
+>  	if (!caps) {
+>  		ret =3D -EINVAL;
+> -		goto error_reserved_mem;
+> +		goto error_early;
+>  	}
+> =20
+>  	logicvc->caps =3D caps;
+> @@ -382,7 +382,7 @@ static int logicvc_drm_probe(struct platform_device *=
+pdev)
+>  	ret =3D logicvc_clocks_prepare(logicvc);
+>  	if (ret) {
+>  		drm_err(drm_dev, "Failed to prepare clocks\n");
+> -		goto error_reserved_mem;
+> +		goto error_early;
+>  	}
+> =20
+>  	ret =3D devm_request_irq(dev, irq, logicvc_drm_irq_handler, 0,
+> @@ -450,9 +450,6 @@ static int logicvc_drm_probe(struct platform_device *=
+pdev)
+>  error_clocks:
+>  	logicvc_clocks_unprepare(logicvc);
+> =20
+> -error_reserved_mem:
+> -	of_reserved_mem_device_release(dev);
+> -
+>  error_early:
+>  	return ret;
+>  }
+> @@ -469,8 +466,6 @@ static void logicvc_drm_remove(struct platform_device=
+ *pdev)
+>  	logicvc_mode_fini(logicvc);
+> =20
+>  	logicvc_clocks_unprepare(logicvc);
+> -
+> -	of_reserved_mem_device_release(dev);
+>  }
+> =20
+>  static void logicvc_drm_shutdown(struct platform_device *pdev)
+> --=20
 > 2.53.0
-> 
+>=20
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--ThTwSIZV2a2cCNSQ
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmpNCOwACgkQhP3B6o/u
+lQyaPQ//f4pAYoEPe2VkBx5ziaC0VkGALJ8pMaCBZzEG6pnd2z1UBPK8Y2xJLlQP
+5bkyAxCQjpN0fwzwtB+kdA0jp2iokJqDThaLYoql9R0Qvj2DyOy7x+SwRqbRzdyJ
+npZtxXLCuF9oXL4YlUHBVPkgL9WsGf2cMpqkXAI/iPd0K+9zBfxT48xlRnuslCQF
+gwlVwkghlca2EFVG0f4q4HVkGRcFkAM9pYpKZD4B4iS89SwzHmJo44SZWV0CsWfe
+ysY5SERP+XL8EbiVlQxCWyqo9Yb//Ikc/EuIWFPMzPW7hp4ZTzjzYaRtVdWEM3Or
+GQ8uFNoXZfWHzfBpHk1Ewfdr7JBtXM0vPIh650GS2SCdGaCS0Ud2UUv7QZdSluel
+uGrsM82ZQ6ts4V8ct1O/dWG7TwYnc8BaFADG90JdKck+zb3fRnQ07aTNrF/bRDU1
+gcnN0yfM/zPIZAc7GA+4Stzok5c+bj2Sb849b5S5g6LNETsScU+WPK5pvEjjWq9E
+zsLawR41dclgUWujmQqflY1sbvVA3YsAADIxWAAsT1WDULfQ/c70/2rMIvNATzBN
+VxbCWSZtk77xMlu6aje7HIbEQa9PGm52xeqNOqfwv/t5kGZxU1fqyAULXAfSYQ2R
+jkjMhoWPkeb15z5Be0yQY0auFkEuIORZboIqn49NxQW0LVu7byA=
+=tX4X
+-----END PGP SIGNATURE-----
+
+--ThTwSIZV2a2cCNSQ--
