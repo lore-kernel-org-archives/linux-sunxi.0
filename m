@@ -1,236 +1,445 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011022.outbound.protection.outlook.com [52.101.65.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0287C3EFD07
-	for <linux-sunxi@lists.linux.dev>; Wed,  8 Jul 2026 21:03:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.22
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783544620; cv=fail; b=rDUScn0TvX9LLKNgs+MqNScEjBLa/BnFHi3XRXUO70JN1iXAd5aJg6gfOJSCK95BHl2yHm/tXevV/RbCgw5fXnNTtyRK3YPUuGH/xgTeAw98Y9hUEKFxpnJLmdzjB47esjVlRTGaF1gOteXBDah4TzuwbeawPaZmF9p6tFQFisc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783544620; c=relaxed/simple;
-	bh=YupVii2epDkW5MINLu8dDiWMrR0FFDfuHsnXnc6N7fY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=n4hTh6m9KR3C1BQtjVfMIXVZ7F+MN8CHw0pvbEp0AXiXWJDPITKW/VygFzw6PBg03agnkimZjnusa3kIjWLJlH+U4vC6pPU2LhDCGSKWsHhZBukRvgMg/DEeEOfV24fOZQa1BViDyR/3t1xC/TNX/6lmbrZD7ExcU9MPuhRBK/I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=t1JXUIC5; arc=fail smtp.client-ip=52.101.65.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BD503E16A9
+	for <linux-sunxi@lists.linux.dev>; Wed,  8 Jul 2026 21:31:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783546315; cv=none; b=DFiTWW/7Uv+CEzQ1+gH+FQHwNaTK+IQODh4gFS2/GUT8gstR6uUFmlOz/A/ioCXzzh3hIlXrfd3uniVfhB1iJPRYbl08QXiMO4npIr/S/+E2m0cGtqjlQP+Whr1/8ADu7rYKv7VwYbAAq5hFtnNLlPJWWw6vOBuzQ190/2HbDR8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783546315; c=relaxed/simple;
+	bh=+4gaZD2CDpjlyl0wK8WUbWgheN0F7E51RWUGwzhlNho=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Gq6rMn6nlonisgNAlnN0vMRAhB3c4IUYFn8mqrmUrSAo4GgaCjKTQ1Hs6D+yZcleNl/uQgFS66OikHvLy0eUXO+beYMzMBHeVLUE4yPmsyfYjaSWiZ9s88NPJtTtVska5pR09pUFSyWyUJLnkmeE5phPsmK9Nhyknxnkpmik4Jc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=vSo1/gwo; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="t1JXUIC5"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sioAiGUi2hsh9gLt/mM8h7RpD2Zn+ixNpcfz6W9r26EmabkhKMsBJCyWO22GFXQRvaxFoIVZqxt2ecWpFctY9feBCbJfKAksAA3HWPKHAU8STzq6/cBR+zincoHTpen3b61fHX+JBYbogYrcqAbSDUdmyyOy+atTJR5HDhSS7lWA5YuIzuRfzIl0qiwE5wA6WPwssTCOXjHS6WzKxcKqb2UiZbmbGXAKaqu0bKjoZHCzri6C/4hS1ZbFcRNE+wc5fuEgMORg/dlMdejRcKSV4w2W3iMIm1UzRbTkWHdfYatlhncgqx6XiagJ5gzizB/MXX5II0i8/vXjxjzhCidK5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Z1CB5IdWjzvBOUlE+iPQ9fW7uvQXz7VqFlbF5M+sM2w=;
- b=XnSug3VsCmjKFOgIKbiQ2ir3M9SkxRQUHYB/eAPA1vJMTD1ZHlHgbSjVyYlf1FHULqDCJjSxgBIjzneJsM8cjAJHzhXV175hRQKv+rA8vv3XD36QKZz/+PaXtaJMJjgh6ui7jtA18uxrKjEkqrj+Xhdewy5J8U2xRDzl+/Qsmdk0iDadRGL9+4dYMR3yCCk/Abmjvm350YzSn8LoAxHt1frNI/MH8PsQgPpXp7YD0z9SH7BIRSTEZxVpBKZTNhGufufSXjyddMHPqxrY9gj6PLt90O0uEJ8hB4/I66HmvVyexDXyy8Qxf1spzFgfg31UGYnqYVthwN5U8u/w5dAaXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z1CB5IdWjzvBOUlE+iPQ9fW7uvQXz7VqFlbF5M+sM2w=;
- b=t1JXUIC5gau1l9siwbUqFMn6WPED9qtOXXEXG4Nv2Of1vJB4g4MuwdNekMGzhzUDlyHly14ywX68X5ALurkGl5EHbUv8JwchL5ltLsIpvvoS2r6UENTjMDuJuJovrBjuwgpu2+UeoqDBAR/aIxke+P7V4xhxDuxmtdLN6d3X8cEDS0Kzr6/j2y8LWbk4kjptpscz0SedO4jh0P0di0yJ5aFgbj+NxiHgWtF7uv4rEe8Z/zlJt3HW5w4twnW3Ar4iGGif1nqplWhZEcVcI0oOHwyMw1/JDXM8scEdGeTlaMYiC9EJJd9sp2NZmn4NGeQXeecuepeytMtZdqFA5+iJuw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by PAXPR04MB8815.eurprd04.prod.outlook.com (2603:10a6:102:20e::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.14; Wed, 8 Jul
- 2026 21:03:33 +0000
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0159.007; Wed, 8 Jul 2026
- 21:03:32 +0000
-Date: Wed, 8 Jul 2026 16:03:22 -0500
-From: Frank Li <Frank.li@oss.nxp.com>
-To: Hongling Zeng <zenghongling@kylinos.cn>
-Cc: vkoul@kernel.org, Frank.Li@kernel.org, wens@kernel.org,
-	jernej.skrabec@gmail.com, samuel@sholland.org, mripard@kernel.org,
-	arnd@arndb.de, dmaengine@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, zhongling0719@126.com
-Subject: Re: [PATCH v4] dmaengine: sun6i-dma: Fix use-after-free in error
- handling paths
-Message-ID: <ak67GssLG5yliDe4@SMW015318>
-References: <20260708032518.50886-1-zenghongling@kylinos.cn>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260708032518.50886-1-zenghongling@kylinos.cn>
-X-ClientProxiedBy: SA1P222CA0065.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:2c1::16) To GV2PR04MB11799.eurprd04.prod.outlook.com
- (2603:10a6:150:2cf::9)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="vSo1/gwo"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E4D2B1A00;
+	Wed,  8 Jul 2026 14:31:47 -0700 (PDT)
+Received: from [10.20.1.47] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1A8CB3F905;
+	Wed,  8 Jul 2026 14:31:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1783546312; bh=+4gaZD2CDpjlyl0wK8WUbWgheN0F7E51RWUGwzhlNho=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=vSo1/gwoag9ds+EaTxKNDNyxJz1HbaB9WcTaIQrDMpce8hm0Bv5etX/ovU8IvR58U
+	 7uoP1N6954gCQhzHXndyxfoCrEE9SQNIrbM2TqQoldF9jrjuz1ZTxv/Og5974anjpK
+	 U7UrjfV5jOm49cRfOs/bUU/y7/fBHzzGqBk9DGpE=
+Message-ID: <55dda4c0-10c8-46d2-be90-4f6a5f609313@arm.com>
+Date: Wed, 8 Jul 2026 23:31:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|PAXPR04MB8815:EE_
-X-MS-Office365-Filtering-Correlation-Id: caf81cef-880f-47d0-5046-08dedd345e71
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|7416014|19092799006|56012099006|11063799006|22082099003|18002099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	I8K3wUbVe5vGY6qpzoAaYJr0xRMghgkUc4skEJSJuvOhb1CjB20dfrJyWVPFsUhr0oaXRX2KbecL2XFSNSdqFmCKYC1o8CVTztikyroLPTOMS4RBOUiVz7qlMmJFiqTxWp3SR58pr7wSJAXtGPrYhDPtv4NAFx+pALIp8cbjLQa+Z5jN7iUAXCkKeeMmiM9X4Xy4wfWOUaIcrC4PR8L6RkTzqCr72Ym/xXw0Gv5jlWTsUn6q2QgIhUZpvkNk8Z9YLo5U7IdrDMIJy31kKTJT8DkGwM9lt0bO0a+A1ZQo29cezIB07YP8xYIxx66x3LNtAAXhMRV2hnk1iQdY7yKNyG+Gv+sUChuLq0oQbReUy8dboHaPvxo+yquu+CDRr5aGNLlqohmOwWtKt230bUf4kUg49bf9XTGHgYpZuJtt6NF3IhV9Kbi4OQoJ6NwlXDlA42EHRwoWDNKuvFyCQDHIm5FnYqh/Ao+ZdyoZ+gjb9eS3H5ZwsnN9Usto7VkCLXg3UURXTQHhlGyLjLepwg53RlaK5BhkOSWWmxHMuFpHxAbkl5lRQ0f1/34TSD5NqyhVNhms6a/HSAIUwiRcV2wkhHtTRj+EC/zBQXbYhkfo5yBdQQiDmIwzSJNdUzGLzcrky5eBBx3yBdBXDhkyBexN/uJNu/2oCocyCth+E2kpJ3A=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(7416014)(19092799006)(56012099006)(11063799006)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ZV1zN0hLFbcwhqpHMJW3zF1d88gFIY1up0TEAc4myTPz/fW60RhcxFph56aV?=
- =?us-ascii?Q?Kej80P+Nhyx49Qhf0aiIdkBItYswMXsf6L8xek6s/B6yGTOTYdyDFwt9NAH9?=
- =?us-ascii?Q?95r7Rd+t8jTIbND+WbP+Lvpc7NQLr4MPGF4l69g5mV7/nxWt/ePIJ0pdVnOF?=
- =?us-ascii?Q?hSpNKsrm6BQRO0khE/pFYbhTmfATSw7C8lGWqvQsZHFhKmqBsjG511+8TY3O?=
- =?us-ascii?Q?QASEWbYCzr/5QUt4/jLMFeC6kNQRDe6k4M2oElXb1JxrFol81Gw1D2EGoeVn?=
- =?us-ascii?Q?lgMwWj0AcnkBjllLVD9WtNTpmpZ1M13bS7OCzzpD6aAI1Y+4eYDU7RHCza3j?=
- =?us-ascii?Q?7z/av5aRjFytkSPdAg39GBIkOzaMtbxkVs8y4UAGwOspIldhJ+8i0F//mH0c?=
- =?us-ascii?Q?hoNxHCwsxyyv7U8kQbWmeVztuONMtAX/Ka6v9i+uBPYSk/6eSznlan1zeYVA?=
- =?us-ascii?Q?VpGQN6sE5ZfVr72LelDqcCuX6rnNe+s/gjKiY2g4vRhI6P/xSXf2bwEqJZ6U?=
- =?us-ascii?Q?eLiwic9e+1ZSlFZds0HlXgMdLZbzpWR5anagZxmVKGfMRrgiOGugMleVgVZq?=
- =?us-ascii?Q?AxaZGOHXGz14umMfio8GTKUZrqwKI9VuP5JR3dGT554gz6+40gWWVnWOtVmg?=
- =?us-ascii?Q?nyp7pc7ZHhNVvzU5Aswdv8gb8hmjzn12gWTCNGgWFWeISoNXDmkiZBFVIdoZ?=
- =?us-ascii?Q?8U76GxlBf5NZqyOG6Zwnm+7ogrl7JjFyQKrA7w+RtUfvHjVCo6b0lP/IPK9b?=
- =?us-ascii?Q?DZ0oNzxurcz7bPyIRfuuUMkY04tG3WJMCcHRhONqCSmPH49ApS07YwhGATzw?=
- =?us-ascii?Q?DT5IOiMWEcVWsQw8FGF520sj70L2R+9VjiVm4V6uDVKlEC7CzBC2BMj+AEFY?=
- =?us-ascii?Q?PWqu77biwkMJFSxgfEUWUgWPZkglqweeD23UVgPdVegHKO0dtXpW6HHVTyi9?=
- =?us-ascii?Q?M2cjul0+9RhQ/w4aLgSPaxaSy5OyXf2hkO6H7E3thHFGZBQRHe0PCQ6S9cD4?=
- =?us-ascii?Q?THUpB1nkrPZQPa6fIZT+B9xGYBKRYj4V6sjcD8ivRpefmVzYjW79CjsMNECa?=
- =?us-ascii?Q?x1MPT1RBMvovPtF9vu0hsMzu6IghkDIKiBGBXIKTwlaKJGl6pA4W3mBivvIQ?=
- =?us-ascii?Q?87bzbX9ELHtbvR2/YkDLe1rrzp5Ias+sz1zOkxFwCR7hLK71h3+MJhsc+tNX?=
- =?us-ascii?Q?gwT5wuZGocUUiA8CyJP8QsUwDiVYOJereX/5F6tkCgzMyMqkU86b0BxnK119?=
- =?us-ascii?Q?FjdsHvUApmDNdtg/keR518JECZ3bi1zyVz+grK85UbyUqbUaMlPJyCqSHGWW?=
- =?us-ascii?Q?5r81IVKrr9RymNOCHd6ddmahqzoaqJd/0YDuK1E+P88PvpYJz8xB4Fx25mpm?=
- =?us-ascii?Q?CFyLeZkmL7L7MjEmdj1Bu3ZlGMa+2N9S3O+tLOUhR8N0hqdUdB0vsIW3628f?=
- =?us-ascii?Q?M9FJLFbRvXnO8+yv9qL6ZcvOB6JpA4xEyA5O63O7R0fozRjXspi0imYkmBNK?=
- =?us-ascii?Q?7bDnjDD4cTSyTnulKa3Ijr2Fwiy1K2FImyJovS31rW69eVR02rNtTEAWJJ1H?=
- =?us-ascii?Q?XUGk6Ww3KSocnKAuReHlPaQJuOmM+UpyR3OUxre0GYeUcYICP4kXdbtb7+VJ?=
- =?us-ascii?Q?OtOnoWa7AYFFx6I39d1V2N6gFOukdp+M0yQFgYrjhmzXAt254fYKISDcmwmG?=
- =?us-ascii?Q?Xv7RP2iSkkgR8C8GaN65hPvGPUqk4ZOV5u3zJIQHygKoDZv8f3j+1J9uIxiB?=
- =?us-ascii?Q?edgd5B3Uz7AYLGik/RFCv9gTwl2AGyqizHAFpSP19nVCh0PT/1Ai?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: caf81cef-880f-47d0-5046-08dedd345e71
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2026 21:03:32.9038
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ji25BfFDCJYq1pkLcyBvrrMkH/h719gUmKBKud0ug4SxbWH1JPlNJUgxLiA3lzc2/T00LrOaAnycL/OE0Baw7NaHn7WUkeyeOi9gc9J/tRxbBMBeKQBSKaanoFm6F9C1
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8815
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] pinctrl: sunxi: convert to GPIO_GENERIC
+To: wens@kernel.org
+Cc: Linus Walleij <linusw@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Bartosz Golaszewski <brgl@kernel.org>,
+ linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20260313000652.11470-1-andre.przywara@arm.com>
+ <CAGb2v66_S44PVae0D5a5Q8DSEAWuP-LxD6gtEpgrd=vVMvZedQ@mail.gmail.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <CAGb2v66_S44PVae0D5a5Q8DSEAWuP-LxD6gtEpgrd=vVMvZedQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 08, 2026 at 11:25:18AM +0800, Hongling Zeng wrote:
-> In error handling paths, the for loop frees v_lli in the loop body,
-> then accesses v_lli->v_lli_next and v_lli->p_lli_next in the
-> increment expression, which is use-after-free.
->
-> Fix by saving both the next virtual and physical pointers before
-> freeing the current node.
->
+Hi Chen-Yu,
 
-Is this statement out of date? You call sun6i_dma_free_desc_virt()
-where saving "both the next virtual and physical pointers..."?
+many thanks for the thorough review, finally found some time to reply:
 
-Frank
+On 3/14/26 10:59, Chen-Yu Tsai wrote:
+> On Fri, Mar 13, 2026 at 8:08 AM Andre Przywara <andre.przywara@arm.com> wrote:
+>>
+>> Allwinner SoCs combine pinmuxing and GPIO control in one device/MMIO
+>> register frame. So far we were instantiating one GPIO chip per pinctrl
+>> device, which covers multiple banks of up to 32 GPIO pins per bank. The
+>> GPIO numbers were set to match the absolute pin numbers, even across the
+>> typically two instances of the pinctrl device.
+>>
+>> Convert the GPIO part of the sunxi pinctrl over to use the gpio_generic
+>> framework. This alone allows to remove some sunxi specific code, which
+>> is replaced with the existing generic code. This will become even more
+>> useful with the upcoming A733 support, which adds set and clear
+>> registers for the output.
+>> As a side effect this also changes the GPIO device and number
+>> allocation: Each bank is now represented by its own gpio_chip, with only
+>> as many pins as there are actually implemented. The numbering is left up
+>> to the kernel (.base = -1).
+>>
+>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+>> ---
+>>   drivers/pinctrl/sunxi/Kconfig         |   1 +
+>>   drivers/pinctrl/sunxi/pinctrl-sunxi.c | 245 ++++++++++++--------------
+>>   drivers/pinctrl/sunxi/pinctrl-sunxi.h |  11 +-
+>>   3 files changed, 124 insertions(+), 133 deletions(-)
+>>
+>> diff --git a/drivers/pinctrl/sunxi/Kconfig b/drivers/pinctrl/sunxi/Kconfig
+>> index dc62eba96348e..5905810dbf398 100644
+>> --- a/drivers/pinctrl/sunxi/Kconfig
+>> +++ b/drivers/pinctrl/sunxi/Kconfig
+>> @@ -4,6 +4,7 @@ if ARCH_SUNXI
+>>   config PINCTRL_SUNXI
+>>          bool
+>>          select PINMUX
+>> +       select GPIO_GENERIC
+>>          select GENERIC_PINCONF
+>>          select GPIOLIB
+>>
+>> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+>> index 48434292a39b5..4235f9feff00d 100644
+>> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+>> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> 
+> [...]
+> 
+>>   static int sunxi_pinctrl_gpio_to_irq(struct gpio_chip *chip, unsigned offset)
+>>   {
+>>          struct sunxi_pinctrl *pctl = gpiochip_get_data(chip);
+>>          struct sunxi_desc_function *desc;
+>> -       unsigned pinnum = pctl->desc->pin_base + offset;
+>> -       unsigned irqnum;
+>> +       unsigned int pinnum, irqnum, i;
+>>
+>>          if (offset >= chip->ngpio)
+>>                  return -ENXIO;
+>>
+>> +       for (i = 0; i < SUNXI_PINCTRL_MAX_BANKS; i++)
+>> +               if (pctl->banks[i].chip.gc.base == chip->base)
+> 
+> Can't you simply compare the instance?
+> 
+>      if (&pctl->bankd[i].chip.gc == chip)
 
-> Fixes: 555859308723 ("dmaengine: Add driver for Allwinner sun6i DMA")
-> Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
-> Suggested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
->
-> ---
-> Changes in v2:
->  -Refactored the fix to avoid code duplication by creating a helper function
->   sun6i_dma_free_lli_list() that handles LLI list cleanup
->  -Add Suggested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
->
-> ---
-> Change in v3:
->  -Further refactoring to move txd handling into the helper function
->   as suggested by Jernej
-> ---
-> Change in v4:
->  -Add reviewed-by
-> ---
->  drivers/dma/sun6i-dma.c | 31 ++++++++++++++++---------------
->  1 file changed, 16 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-> index fcc88a74d821..e161fc298b86 100644
-> --- a/drivers/dma/sun6i-dma.c
-> +++ b/drivers/dma/sun6i-dma.c
-> @@ -406,16 +406,12 @@ static inline void sun6i_dma_dump_lli(struct sun6i_vchan *vchan,
->  		v_lli->len, v_lli->para, v_lli->p_lli_next);
->  }
->
-> -static void sun6i_dma_free_desc(struct virt_dma_desc *vd)
-> +static void sun6i_dma_free_desc(struct sun6i_dma_dev *sdev,
-> +				struct sun6i_desc *txd)
->  {
-> -	struct sun6i_desc *txd = to_sun6i_desc(&vd->tx);
-> -	struct sun6i_dma_dev *sdev = to_sun6i_dma_dev(vd->tx.chan->device);
->  	struct sun6i_dma_lli *v_lli, *v_next;
->  	dma_addr_t p_lli, p_next;
->
-> -	if (unlikely(!txd))
-> -		return;
-> -
->  	p_lli = txd->p_lli;
->  	v_lli = txd->v_lli;
->
-> @@ -432,6 +428,17 @@ static void sun6i_dma_free_desc(struct virt_dma_desc *vd)
->  	kfree(txd);
->  }
->
-> +static void sun6i_dma_free_desc_virt(struct virt_dma_desc *vd)
-> +{
-> +	struct sun6i_desc *txd = to_sun6i_desc(&vd->tx);
-> +	struct sun6i_dma_dev *sdev = to_sun6i_dma_dev(vd->tx.chan->device);
-> +
-> +	if (unlikely(!txd))
-> +		return;
-> +
-> +	sun6i_dma_free_desc(sdev, txd);
-> +}
-> +
->  static int sun6i_dma_start_desc(struct sun6i_vchan *vchan)
->  {
->  	struct sun6i_dma_dev *sdev = to_sun6i_dma_dev(vchan->vc.chan.device);
-> @@ -788,10 +795,7 @@ static struct dma_async_tx_descriptor *sun6i_dma_prep_slave_sg(
->  	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
->
->  err_lli_free:
-> -	for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
-> -	     p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
-> -		dma_pool_free(sdev->pool, v_lli, p_lli);
-> -	kfree(txd);
-> +	sun6i_dma_free_desc(sdev, txd);
->  	return NULL;
->  }
->
-> @@ -869,10 +873,7 @@ static struct dma_async_tx_descriptor *sun6i_dma_prep_dma_cyclic(
->  	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
->
->  err_lli_free:
-> -	for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
-> -	     p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
-> -		dma_pool_free(sdev->pool, v_lli, p_lli);
-> -	kfree(txd);
-> +	sun6i_dma_free_desc(sdev, txd);
->  	return NULL;
->  }
->
-> @@ -1432,7 +1433,7 @@ static int sun6i_dma_probe(struct platform_device *pdev)
->  		struct sun6i_vchan *vchan = &sdc->vchans[i];
->
->  		INIT_LIST_HEAD(&vchan->node);
-> -		vchan->vc.desc_free = sun6i_dma_free_desc;
-> +		vchan->vc.desc_free = sun6i_dma_free_desc_virt;
->  		vchan_init(&vchan->vc, &sdc->slave);
->  	}
->
-> --
-> 2.25.1
->
+Yes, I could, by I think comparing pointers is somewhat frowned upon, 
+and since base is considered a unique identifiers within all GPIO chips, 
+I found it cleaner to compare the base.
+Is comparing pointers commonly accepts in the kernel? Theoretically 
+there could be multiple VAs pointing to the same object.
+
+> 
+>> +                       break;
+>> +       if (i == SUNXI_PINCTRL_MAX_BANKS)
+>> +               return -EINVAL;
+>> +       pinnum = pctl->desc->pin_base + i * PINS_PER_BANK + offset;
+>> +
+>>          desc = sunxi_pinctrl_desc_find_function_by_pin(pctl, pinnum, "irq");
+>>          if (!desc)
+>>                  return -EINVAL;
+>> @@ -1039,18 +952,19 @@ static int sunxi_pinctrl_irq_request_resources(struct irq_data *d)
+>>   {
+>>          struct sunxi_pinctrl *pctl = irq_data_get_irq_chip_data(d);
+>>          struct sunxi_desc_function *func;
+>> -       int ret;
+>> +       int pinnum = pctl->irq_array[d->hwirq], ret;
+>> +       int bank = (pinnum - pctl->desc->pin_base) / PINS_PER_BANK;
+>>
+>> -       func = sunxi_pinctrl_desc_find_function_by_pin(pctl,
+>> -                                       pctl->irq_array[d->hwirq], "irq");
+>> +       func = sunxi_pinctrl_desc_find_function_by_pin(pctl, pinnum, "irq");
+>>          if (!func)
+>>                  return -EINVAL;
+>>
+>> -       ret = gpiochip_lock_as_irq(pctl->chip,
+>> -                       pctl->irq_array[d->hwirq] - pctl->desc->pin_base);
+>> +       ret = gpiochip_lock_as_irq(&pctl->banks[bank].chip.gc,
+>> +                                  d->hwirq % IRQ_PER_BANK);
+>>          if (ret) {
+>>                  dev_err(pctl->dev, "unable to lock HW IRQ %lu for IRQ\n",
+>>                          irqd_to_hwirq(d));
+>> +
+>>                  return ret;
+>>          }
+>>
+>> @@ -1063,9 +977,10 @@ static int sunxi_pinctrl_irq_request_resources(struct irq_data *d)
+>>   static void sunxi_pinctrl_irq_release_resources(struct irq_data *d)
+>>   {
+>>          struct sunxi_pinctrl *pctl = irq_data_get_irq_chip_data(d);
+>> +       int pinnum = pctl->irq_array[d->hwirq] - pctl->desc->pin_base;
+>> +       struct gpio_chip *gc = &pctl->banks[pinnum / PINS_PER_BANK].chip.gc;
+>>
+>> -       gpiochip_unlock_as_irq(pctl->chip,
+>> -                             pctl->irq_array[d->hwirq] - pctl->desc->pin_base);
+>> +       gpiochip_unlock_as_irq(gc, pinnum);
+>>   }
+>>
+>>   static int sunxi_pinctrl_irq_set_type(struct irq_data *d, unsigned int type)
+>> @@ -1493,6 +1408,84 @@ static int sunxi_pinctrl_setup_debounce(struct sunxi_pinctrl *pctl,
+>>          return 0;
+>>   }
+>>
+>> +static bool sunxi_of_node_instance_match(struct gpio_chip *chip, unsigned int i)
+>> +{
+>> +       struct sunxi_pinctrl *pctl = gpiochip_get_data(chip);
+>> +
+>> +       if (i >= SUNXI_PINCTRL_MAX_BANKS)
+>> +               return false;
+>> +
+>> +       return (chip->base == pctl->banks[i].chip.gc.base);
+> 
+> Same here.
+> 
+>> +}
+>> +
+>> +static int sunxi_num_pins_of_bank(struct sunxi_pinctrl *pctl, int bank)
+> 
+> IMHO num_pins_in_bank would be better.
+
+Ah yes, I agree.
+
+> 
+> And I think having a comment above saying this returns the *actual* number
+> of valid pins would help.
+
+That looks indeed useful, added that.
+
+> Or just call it sunxi_num_valid_pins_in_bank?
+
+Mmh, maybe not, see below ...
+
+> 
+>> +{
+>> +       int max = -1, i;
+>> +
+>> +       for (i = 0; i < pctl->desc->npins; i++) {
+>> +               int pinnum = pctl->desc->pins[i].pin.number - pctl->desc->pin_base;
+>> +
+>> +               if (pinnum / PINS_PER_BANK < bank)
+>> +                       continue;
+>> +               if (pinnum / PINS_PER_BANK > bank)
+>> +                       break;
+>> +               if (pinnum % PINS_PER_BANK > max)
+>> +                       max = pinnum % PINS_PER_BANK;
+> 
+> This doesn't work for existing sun5i platforms, which have pins non-existent
+> on some variants, so we end up with holes in each bank.
+> 
+> Instead we have to actually calculate the number of valid pins.
+
+Well, I think the function name promises too much, what we really need 
+is "the maximum pin index used + 1", to allocate an array holding pins, 
+indexed by their number. IIUC the GPIO code doesn't really support holes 
+in each gpiochip. And it doesn't really need to, we just have 
+potentially a few smaller gaps, compared to the bigger number of larger 
+gaps we have today. They wouldn't be referenced at all, so I don't think 
+it's a problem.
+I can rename the function to include "max" somewhere.
+
+> 
+>> +       }
+>> +
+>> +       return max + 1;
+>> +}
+>> +
+>> +static int sunxi_gpio_add_bank(struct sunxi_pinctrl *pctl, int index)
+>> +{
+>> +       char bank_name = 'A' + index + pctl->desc->pin_base / PINS_PER_BANK;
+>> +       struct sunxi_gpio_bank *bank = &pctl->banks[index];
+>> +       struct gpio_generic_chip_config config;
+>> +       struct gpio_chip *gc = &bank->chip.gc;
+>> +       int ngpio, ret;
+>> +
+>> +       ngpio = sunxi_num_pins_of_bank(pctl, index);
+>> +       bank->pctl = pctl;
+>> +       bank->base = pctl->membase + index * pctl->bank_mem_size;
+>> +       if (!ngpio) {
+>> +               gc->owner = THIS_MODULE;
+>> +               gc->ngpio = 0;
+>> +               gc->base = -1;
+>> +               gc->of_gpio_n_cells = 3;
+>> +
+>> +               return 0;
+>> +       }
+>> +
+>> +       config = (struct gpio_generic_chip_config) {
+>> +               .dev = pctl->dev,
+>> +               .sz = 4,
+>> +               .dat = bank->base + DATA_REGS_OFFSET,
+>> +               .set = bank->base + DATA_REGS_OFFSET,
+>> +               .clr = NULL,
+>> +               .flags = GPIO_GENERIC_READ_OUTPUT_REG_SET |
+>> +                        GPIO_GENERIC_PINCTRL_BACKEND,
+>> +       };
+>> +
+>> +       ret = gpio_generic_chip_init(&bank->chip, &config);
+>> +       if (ret)
+>> +               return dev_err_probe(pctl->dev, ret,
+>> +                                    "failed to init generic gpio chip\n");
+> 
+> Generic GPIO assumes that the GPIO pin range starts from 0, and is contiguous.
+> This breaks down with the sun5i and sun6i families. For example, on the A31s,
+> there is no PC16 ~ PC23, nor PH0 ~ PH8, just to show a few.
+
+But is this really a problem? We have much larger gaps today already, in 
+the existing driver. At the end of the day those pins just wouldn't be 
+referenced. Or am I missing something?
+
+>> +       gc->owner               = THIS_MODULE;
+>> +       gc->label               = devm_kasprintf(pctl->dev, GFP_KERNEL,
+>> +                                                "%s-P%c", gc->label,
+>> +                                                bank_name);
+>> +       gc->ngpio               = ngpio;
+> 
+> Also set gc->offset?
+
+Yes, I figured this myself when playing around with the gpio-line-names 
+property. Fixed.
+
+> 
+>> +       gc->base                = -1;
+>> +       gc->of_gpio_n_cells     = 3;
+>> +       gc->of_node_instance_match = sunxi_of_node_instance_match;
+>> +       gc->set_config          = gpiochip_generic_config;
+>> +       gc->to_irq              = sunxi_pinctrl_gpio_to_irq;
+>> +       gc->can_sleep           = false;
+>> +
+>> +       return gpiochip_add_data(gc, pctl);
+> 
+> Can we switch to devm_gpiochip_add_data() instead? It simplifies the
+> teardown as well.
+
+Sure, didn't know this existed.
+
+> 
+>> +}
+>> +
+>>   int sunxi_pinctrl_init_with_flags(struct platform_device *pdev,
+>>                                    const struct sunxi_pinctrl_desc *desc,
+>>                                    unsigned long flags)
+>> @@ -1503,6 +1496,7 @@ int sunxi_pinctrl_init_with_flags(struct platform_device *pdev,
+>>          struct sunxi_pinctrl *pctl;
+>>          struct pinmux_ops *pmxops;
+>>          int i, ret, last_pin, pin_idx;
+>> +       int gpio_banks;
+>>          struct clk *clk;
+>>
+>>          pctl = devm_kzalloc(&pdev->dev, sizeof(*pctl), GFP_KERNEL);
+>> @@ -1590,38 +1584,23 @@ int sunxi_pinctrl_init_with_flags(struct platform_device *pdev,
+>>                  return PTR_ERR(pctl->pctl_dev);
+>>          }
+>>
+>> -       pctl->chip = devm_kzalloc(&pdev->dev, sizeof(*pctl->chip), GFP_KERNEL);
+>> -       if (!pctl->chip)
+>> -               return -ENOMEM;
+>> -
+>> -       last_pin = pctl->desc->pins[pctl->desc->npins - 1].pin.number;
+>> -       pctl->chip->owner = THIS_MODULE;
+>> -       pctl->chip->request = gpiochip_generic_request;
+>> -       pctl->chip->free = gpiochip_generic_free;
+>> -       pctl->chip->set_config = gpiochip_generic_config;
+>> -       pctl->chip->direction_input = sunxi_pinctrl_gpio_direction_input;
+>> -       pctl->chip->direction_output = sunxi_pinctrl_gpio_direction_output;
+>> -       pctl->chip->get = sunxi_pinctrl_gpio_get;
+>> -       pctl->chip->set = sunxi_pinctrl_gpio_set;
+>> -       pctl->chip->of_xlate = sunxi_pinctrl_gpio_of_xlate;
+>> -       pctl->chip->to_irq = sunxi_pinctrl_gpio_to_irq;
+>> -       pctl->chip->of_gpio_n_cells = 3;
+>> -       pctl->chip->can_sleep = false;
+>> -       pctl->chip->ngpio = round_up(last_pin, PINS_PER_BANK) -
+>> -                           pctl->desc->pin_base;
+>> -       pctl->chip->label = dev_name(&pdev->dev);
+>> -       pctl->chip->parent = &pdev->dev;
+>> -       pctl->chip->base = pctl->desc->pin_base;
+>> -
+>> -       ret = gpiochip_add_data(pctl->chip, pctl);
+>> -       if (ret)
+>> -               return ret;
+>> +       last_pin = pctl->desc->pins[pctl->desc->npins - 1].pin.number -
+>> +                  pctl->desc->pin_base;
+>> +       for (gpio_banks = 0;
+> 
+> If you switch to devm_gpiochip_add_data() above, you won't need
+> gpiochip_remove() below, and you can declare |gpio_banks| inline here in
+> the for statement.
+
+Nice, will do this.
+
+
+>> +            gpio_banks <= last_pin / PINS_PER_BANK;
+>> +            gpio_banks++) {
+>> +               ret = sunxi_gpio_add_bank(pctl, gpio_banks);
+>> +               if (ret)
+>> +                       goto gpiochip_error;
+>> +       }
+>>
+>>          for (i = 0; i < pctl->desc->npins; i++) {
+>>                  const struct sunxi_desc_pin *pin = pctl->desc->pins + i;
+>> +               int bank = (pin->pin.number - pctl->desc->pin_base) / PINS_PER_BANK;
+>> +               struct gpio_chip *gc = &pctl->banks[bank].chip.gc;
+>>
+>> -               ret = gpiochip_add_pin_range(pctl->chip, dev_name(&pdev->dev),
+>> -                                            pin->pin.number - pctl->desc->pin_base,
+>> +               ret = gpiochip_add_pin_range(gc, dev_name(&pdev->dev),
+>> +                                            pin->pin.number % PINS_PER_BANK,
+>>                                               pin->pin.number, 1);
+>>                  if (ret)
+>>                          goto gpiochip_error;
+>> @@ -1690,6 +1669,8 @@ int sunxi_pinctrl_init_with_flags(struct platform_device *pdev,
+>>          return 0;
+>>
+>>   gpiochip_error:
+>> -       gpiochip_remove(pctl->chip);
+>> +       while (--gpio_banks >= 0)
+>> +               gpiochip_remove(&pctl->banks[gpio_banks].chip.gc);
+>> +
+>>          return ret;
+>>   }
+>> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.h b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
+>> index ad26e4de16a85..085131caa02fe 100644
+>> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.h
+>> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
+>> @@ -14,6 +14,7 @@
+>>   #define __PINCTRL_SUNXI_H
+>>
+>>   #include <linux/kernel.h>
+>> +#include <linux/gpio/generic.h>
+> 
+> gpio comes before kernel?
+
+Indeed.
+
+> And maybe we should try to stop including the massive kernel.h header.
+
+OK, will have a look what should be included instead.
+
+Cheers,
+Andre
+
+> 
+> 
+> Thanks
+> ChenYu
+> 
+>>   #include <linux/spinlock.h>
+>>
+>>   #define PA_BASE        0
+>> @@ -159,9 +160,17 @@ struct sunxi_pinctrl_regulator {
+>>          refcount_t              refcount;
+>>   };
+>>
+>> +struct sunxi_pinctrl;
+>> +
+>> +struct sunxi_gpio_bank {
+>> +       struct gpio_generic_chip chip;
+>> +       struct sunxi_pinctrl *pctl;
+>> +       void __iomem *base;
+>> +};
+>> +
+>>   struct sunxi_pinctrl {
+>>          void __iomem                    *membase;
+>> -       struct gpio_chip                *chip;
+>> +       struct sunxi_gpio_bank          banks[SUNXI_PINCTRL_MAX_BANKS];
+>>          const struct sunxi_pinctrl_desc *desc;
+>>          struct device                   *dev;
+>>          struct sunxi_pinctrl_regulator  regulators[11];
+>> --
+>> 2.46.4
+>>
+>>
+
