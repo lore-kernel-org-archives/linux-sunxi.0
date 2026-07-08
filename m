@@ -1,148 +1,386 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CD6631352D;
-	Wed,  8 Jul 2026 03:35:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D840E43C074
+	for <linux-sunxi@lists.linux.dev>; Wed,  8 Jul 2026 11:16:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783481708; cv=none; b=BMMDZFtUtRLZNz5fr2bTBXxMq+R2JwUJQvDcOM0/EH/dF+Ahlu0bS9WSWVw6TddUYDKmjYd5UwXaa3b+2VP8+RDLd2gewyN/gYRUEilRR1gVuU1qOXwRn9/E1nKeDRE78SyIAAsBIZ7lpEGh1i2SszWYVLXMzgs8P8+J+Beq8Hg=
+	t=1783509403; cv=none; b=IyrC8i20h1QF1n9ui10CYtE5kHxURPEQP3lDRMcegCgUGE2OfAvO5G0lztCb13CKnTHBnLCSy/vaFofgPPHVm/zfZylvnZdA/+5NAAwJt/4qh3qDnJGTmHJPC5uODnexUtwqgwIaNGT7Or621AQCPI4uf2h71F0MMWMI7Qi1r4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783481708; c=relaxed/simple;
-	bh=Bd8XlKUwTt3BUhsvLG69h3UIokTAfX+gwpcMi+PWjSM=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=lsY9wPiG6gjm2uAMK+1viIbxIzYtDc/3ZgFBW0240JXy1iD+EQbyHQWCjWiyIV+i8OhtqoxdnVukBGT1Piu0nRQ/X/3vKfIDHg8Jlvk9d/W1zBEgi07Xjeml0zeRghif9PO/2wzWOIZau6Pju9fwGwzkNFNriiS1zKqzq7l4+LA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NmOKfR8E; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783509403; c=relaxed/simple;
+	bh=E3FC72ljteUGOGcVpTGBp/YrOoyfgnbCfRcJyfB8Y/0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GsArax3sCNRtrLIaYh788AXeTzPzrVMJO1rZB32BO3mV5OsyGzQIvzz0oY4nN3kyh5qiivBS7/lhtip+QVwHPUgIOfdCX97ecevjm9cVTuhnRoO43lS0/brgngzPNvb6e2YqM0VvH7jZ3rfoiGEgw5+f+Dg0H61R7I1sgwiSjWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=Q5Y8C3CO; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NmOKfR8E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD02C1F000E9;
-	Wed,  8 Jul 2026 03:35:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783481707;
-	bh=iB7NhzEXBQXgyDgw0NREyuShHTwFJABRgSW/Abcweqk=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=NmOKfR8Eon4O/uEheMAc/JCdqvesZmxLWKjXY1+jOZG/KjQj1a6aUF8Epd5IH/nBg
-	 wwZC78bmVOYJwWoTGTsittI0VEiG0cFcUXMvFT4gEeOTXC4JII005TNEN4pJBVFwdz
-	 DTx7YTm7KAg1fv8TI7u71jWW6rNNZmSHT//CJJ13X7dUeuaXx48GvCTJiErLQcI+xA
-	 +QwI3UEOouegqzPjxVZpCU7tSA2MWfrO0CVf60sVZjZccb1xHaraTyFuiFIh6rSPlN
-	 CBNm4E3Q6syzz5zETjxwWj2tsXdrbvsoGv6REKrMZdKAoOvaNRR9Vt6wESZzwVWfT3
-	 A8gsBs9qFZ26Q==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4] dmaengine: sun6i-dma: Fix use-after-free in error
- handling paths
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Hongling Zeng" <zenghongling@kylinos.cn>
-Cc: vkoul@kernel.org, Frank.Li@kernel.org, linux-sunxi@lists.linux.dev, dmaengine@vger.kernel.org
-In-Reply-To: <20260708032518.50886-1-zenghongling@kylinos.cn>
-References: <20260708032518.50886-1-zenghongling@kylinos.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 08 Jul 2026 03:35:06 +0000
-Message-Id: <20260708033506.CD02C1F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="Q5Y8C3CO"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4728c12ba97so328795f8f.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 08 Jul 2026 04:16:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1783509396; x=1784114196; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=mrywEV0ctTdfJBRbqMucCmD8SIRnDB8S2VGVl/K2tlQ=;
+        b=Q5Y8C3CO5bZKTT/Zx5Z7sugfCbG6yhVTtHJA3lquUG7W3PwCK0aKEQxjhHj+6dxdr1
+         x1xRJbbgDESv/szz//oM9t2JSV7Bgp2KFZ6jbwq9vsIT2ztHPlBzFOXTB5akv8RBH1bE
+         h6AZPvtebJTTJWHsoIeH6pERPX2k52cYirmPMD44Hcl+QdsIzJ4eYfZnVHoUUqKOlXGh
+         ooSHS8ibFM1zNwjhs1u7aolusMyLg8KX7lNYvfrC211w6ZCxUqq1P2ZrAZlXYRfOsU8G
+         z0Xrna0RS7bD3UQN53M+KY4TOmveAlarUX65IJ+UX8JMscWNyZVuXWmTtN3i1BpARRr/
+         BsDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783509396; x=1784114196;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=mrywEV0ctTdfJBRbqMucCmD8SIRnDB8S2VGVl/K2tlQ=;
+        b=YYR6R0kK/cMOZmiovzUHmNZWjtw/d9WedvSWKgNWzJU6cJ5cXp5tSse9nh+yd5zx0P
+         jcST1n+wEL5qLi+3AW6oaALVDHY4HdaQzaLnUYT9vSlo5+17R1dDvHgbrDkrddaKggjp
+         RZKhKglCB+Gco3kEtcYlDGmgoW5R8pV9kgiT7Jr+DjptTSG7FiZs73OBf6PmrFfOJMbS
+         jD9xwgoMqOTeAc6x1zRefAHdbqHbIxJUfceBHyNecEBK0mCHF3XehDbnuwC278hVV13C
+         1A0J1YVyuObrOJS/hrcO4LqOX5Zt4S/ivkC6gUw5QaI+mtCayyl0LGsxxa2O292zW2iv
+         mcPw==
+X-Forwarded-Encrypted: i=1; AHgh+RrJsQZU3m7qmYKwJGqlI4v+T7sCCaVtOLUyf8kbJ+QD+10hH4RcxuON0+W8AZ4UwsiH5F5/5hwNRot7Wg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwmXlOIwk2RJN7xmHQM6zyIfN2+XcZXDswO3xWA7GwJPZNw7Ff/
+	RXydirCBtpwUxyGUxpsN0r1szyk+zi3gIHyhKOPioOciYXpzd1/Pvm7T+d9gR9ZJubE=
+X-Gm-Gg: AfdE7ckCvQyVLl6u7jdFa2J7XvmG22LKN47RJM5/fAfgBUY20CjnYiXrzMryNuOffWZ
+	X+tDQsUzedsCoB1N7akWt7ApxtJMOkkpK9FpBfm05G75SJEI5hFju5JKJHErMiSKIAHQ8ptl99m
+	vLNvC4UWyls7V3+PUztmjlswE6AECPt923lNdX5h7s2tx39/dzyRDAItfT1h+BCwqxb/bZNPlGR
+	jO0jP/5hOW2RUmaxyfKeH930Qgn+n/X/atFjA38VCeF+/cf0/bFSCZ5vvpLqGg4SoILqbgbV5AQ
+	bZyaMVluNR7iuiDhcrKP+bHzZUP3nnH2gQ6fHM8rSslrW8nnHVN3n4ecq3k5mNGd1Z8ihmIvinf
+	8p4XaJ8X+0YToYkA/1xreoN7cCErFyjJXSrkfely0QPDzsRq7x0tiSRTMQyV6b5QX/vCqfU2JgH
+	4KawSfMUUdzTIfgZGrL6Ni8aTSx8Uu2/xh+frZZuCUJkW84EOBpTVX4GoBrBONctse4vt+fCTEv
+	xZV
+X-Received: by 2002:a05:600c:3e07:b0:493:d0b2:bc46 with SMTP id 5b1f17b1804b1-493e6868818mr22405785e9.28.1783509395617;
+        Wed, 08 Jul 2026 04:16:35 -0700 (PDT)
+Received: from localhost (p200300f65f47db04930dc5bd4534e1e5.dip0.t-ipconnect.de. [2003:f6:5f47:db04:930d:c5bd:4534:e1e5])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47aa0f2186bsm40991012f8f.36.2026.07.08.04.16.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jul 2026 04:16:35 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Lee Jones <lee@kernel.org>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	mfd@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-mediatek@lists.infradead.org,
+	Qunqin Zhao <zhaoqunqin@loongson.cn>,
+	linux-crypto@vger.kernel.org,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	Colin Foster <colin.foster@in-advantage.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Zha Qipeng <qipeng.zha@intel.com>,
+	Thomas Richard <thomas.richard@bootlin.com>,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	Xu Yilun <yilun.xu@intel.com>,
+	Tom Rix <trix@redhat.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	James Ogletree <jogletre@opensource.cirrus.com>,
+	Fred Treven <fred.treven@cirrus.com>,
+	Ben Bright <ben.bright@cirrus.com>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	=?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
+	Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Roger Quadros <rogerq@kernel.org>,
+	Tony Lindgren <tony@atomide.com>,
+	Andreas Werner <andreas.werner@men.de>,
+	Samuel Kayode <samkay014@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Linus Walleij <linusw@kernel.org>,
+	linux@ew.tq-group.com,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Tim Harvey <tharvey@gateworks.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Saravanan Sekar <sravanhome@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	=?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-samsung-soc@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	asahi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Peter Tyser <ptyser@xes-inc.com>
+Subject: [PATCH v2 00/23] mfd: Use named initializers for arrays of *_device_data
+Date: Wed,  8 Jul 2026 13:15:07 +0200
+Message-ID: <cover.1783507945.git.u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.55.0.11.g153666a7d9bb
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=10455; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=E3FC72ljteUGOGcVpTGBp/YrOoyfgnbCfRcJyfB8Y/0=; b=owGbwMvMwMXY3/A7olbonx/jabUkhiw/Q5s+Y/k2o7lHpivyHIncWbh850X+jPRNklNv1OUu/ aWVzvewk9GYhYGRi0FWTJHFvnFNplWVXGTn2n+XYQaxMoFMYeDiFICJ6DzjYNhU8rM+z2p9eUKp X1D4b7MgQ+8ZqyOSv7Hly5nxhf09eenT9602CQJvrz87OONjYenZm5cfbCrentXdUvfpl1LULqm vCz+Y/NeomcT78CvDzuQarcm2nqbGuxt+nDQy9Fvl4jj12VypDMGQn2tfsjCqzT+Q8exTr5y7uW 1Mof0UwSWvw9kDPv6Sl/9QEb55R4O8Z50Na0JXpv3mojvlJ3IaPimrTq5j8NnI/GBy80pWY1425 8WWlXaaqq8Xd//uqxOqmf4rfH2+SPMx1jutu47e3ee2fXXW8kPuV/jsZF92d/2/JDI33HRW8VXe lcY/VdmSz/ZZ3L/rLG5q2aFRGFnzmTVxnUrCasvcTyvdAQ==
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
+Hello,
 
-Pre-existing issues:
-- [High] Race condition in IRQ handler leading to NULL pointer dereference
-- [High] Missing tasklet_schedule in sun6i_dma_resume causes stalled transf=
-ers
---
+this series superseeds my previous patch "[PATCH v1] mfd: Use named
+initializers for arrays of i2c_device_data"
+(https://lore.kernel.org/lkml/20260515095839.4005460-2-u.kleine-koenig@baylibre.com)
+that Lee asked me to rebase and also the series "[PATCH v1 0/3] mfd:
+Initialize spi_device_id arrays using member names"
+(https://lore.kernel.org/lkml/cover.1783003256.git.u.kleine-koenig@baylibre.com).
 
---- Patch [1]: [PATCH v4] dmaengine: sun6i-dma: Fix use-after-free in error=
- handling paths ---
-commit ece21d8f10ca9ff0dd6adbfa89c44eada4329522
-Author: Hongling Zeng <zenghongling@kylinos.cn>
+The objective for this series is to prepare mfd for changing
+of_device_id etc to make driver_data a union, see
+https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre.com/
+for the idea behind it.
 
-dmaengine: sun6i-dma: Fix use-after-free in error handling paths
+This series is based on yesterday's next/master and it does the
+restructuring not only for i2c and spi (as the two series mentioned
+above), but for all *_device_id structures that I intend to modify with
+a union that affect mfd. So (I hope) this is the only patch series
+affecting mfd for this quest.
 
-The commit refactors the error handling paths in the sun6i-dma driver by
-introducing the helper functions sun6i_dma_free_desc() and
-sun6i_dma_free_desc_virt(). This resolves a use-after-free issue when
-iterating and freeing a virtual LLI list in sun6i_dma_prep_slave_sg() and
-sun6i_dma_prep_dma_cyclic().
+I don't care much about the last few patches unifying the coding style.
+I think it's a good opportunity to do that, but if you don't like them,
+just don't apply these.
 
-> drivers/dma/sun6i-dma.c:sun6i_dma_interrupt() {
-> ...
-> 			if (vchan && (status & vchan->irq_type)) {
-> 				if (vchan->cyclic) {
-> 					vchan_cyclic_callback(&pchan->desc->vd);
-> 				} else {
-> 					spin_lock(&vchan->vc.lock);
-> 					vchan_cookie_complete(&pchan->desc->vd);
-> 					pchan->done =3D pchan->desc;
-> 					spin_unlock(&vchan->vc.lock);
-> 				}
-> 			}
-> ...
-> }
+Best regards
+Uwe
 
-[Severity: High]
-This is a pre-existing issue, but could this cause a NULL pointer dereferen=
-ce?
+Uwe Kleine-König (The Capable Hub) (23):
+  mfd: bcm2835-pm: Remove member of struct bcm2835_pm that is only used
+    locally
+  mfd: bcm2835-pm: Drop unused header
+  mfd: kempld: Simplify device abstraction
+  mfd: lp87565: Explicitly set driver data for the generic dt compatible
+  mfd: mt6360: Drop irrelevant __maybe_unused
+  mfd: rt4831: Drop irrelevant __maybe_unused
+  mfd: loongson-se: Drop unused assignment of acpi_device_id driver data
+  mfd: Drop unused assignment of i2c_device_id driver data
+  mfd: Drop unused assignment of platform_device_id driver data
+  mfd: Drop unused assignment of spi_device_id driver data
+  mfd: Use named initializers for acpi_device_id arrays
+  mfd: intel-m10-bmc-pmci: Use named initializers for dfl_device_id
+    array
+  mfd: Use named initializers for arrays of i2c_device_id
+  mfd: twl6030: Use named initializers for of_device_id
+  mfd: Use PCI_DEVICE* macros to initialize pci_device_id arrays
+  mfd: Use named initializers for platform_device_id array
+  mfd: Use named initializers for arrays of spi_device_id
+  mfd: Unify style of acpi_device_id arrays
+  mfd: Unify style of dmi_system_id arrays
+  mfd: Unify style of i2c_device_id arrays
+  mfd: Unify style of of_device_id arrays
+  mfd: Unify style of pci_device_id arrays
+  mfd: Unify style of spi_device_id arrays
 
-Looking at sun6i_dma_terminate_all(), it clears pchan->desc:
+ drivers/mfd/88pm800.c                 |  4 +-
+ drivers/mfd/88pm805.c                 |  4 +-
+ drivers/mfd/88pm860x-core.c           |  8 ++--
+ drivers/mfd/aat2870-core.c            |  2 +-
+ drivers/mfd/ab8500-core.c             |  8 ++--
+ drivers/mfd/ab8500-sysctrl.c          |  4 +-
+ drivers/mfd/ac100.c                   |  2 +-
+ drivers/mfd/act8945a.c                |  8 ++--
+ drivers/mfd/adp5520.c                 |  4 +-
+ drivers/mfd/altera-a10sr.c            |  4 +-
+ drivers/mfd/altera-sysmgr.c           |  2 +-
+ drivers/mfd/arizona-i2c.c             | 14 +++----
+ drivers/mfd/arizona-spi.c             | 14 +++----
+ drivers/mfd/as3711.c                  |  8 ++--
+ drivers/mfd/as3722.c                  |  8 ++--
+ drivers/mfd/atmel-hlcdc.c             |  2 +-
+ drivers/mfd/atmel-smc.c               |  2 +-
+ drivers/mfd/axp20x-i2c.c              | 26 ++++++------
+ drivers/mfd/axp20x-rsb.c              |  2 +-
+ drivers/mfd/bcm2835-pm.c              | 15 +++++--
+ drivers/mfd/bcm590xx.c                |  4 +-
+ drivers/mfd/bd9571mwv.c               |  6 +--
+ drivers/mfd/bq257xx.c                 |  8 ++--
+ drivers/mfd/cgbc-core.c               |  2 +-
+ drivers/mfd/cros_ec_dev.c             |  2 +-
+ drivers/mfd/cs40l50-i2c.c             |  6 +--
+ drivers/mfd/cs40l50-spi.c             |  6 +--
+ drivers/mfd/cs42l43-i2c.c             |  8 ++--
+ drivers/mfd/cs5535-mfd.c              |  2 +-
+ drivers/mfd/da903x.c                  |  6 +--
+ drivers/mfd/da9052-i2c.c              | 12 +++---
+ drivers/mfd/da9052-spi.c              | 12 +++---
+ drivers/mfd/da9055-i2c.c              |  2 +-
+ drivers/mfd/da9062-core.c             |  4 +-
+ drivers/mfd/da9063-i2c.c              | 11 ++---
+ drivers/mfd/da9150-core.c             |  4 +-
+ drivers/mfd/db8500-prcmu.c            |  4 +-
+ drivers/mfd/exynos-lpass.c            |  2 +-
+ drivers/mfd/gateworks-gsc.c           |  2 +-
+ drivers/mfd/hi6421-pmic-core.c        |  6 +--
+ drivers/mfd/hi655x-pmic.c             |  4 +-
+ drivers/mfd/intel-lpss-acpi.c         | 58 +++++++++++++--------------
+ drivers/mfd/intel-m10-bmc-pmci.c      |  2 +-
+ drivers/mfd/intel-m10-bmc-spi.c       |  6 +--
+ drivers/mfd/intel_pmc_bxt.c           |  2 +-
+ drivers/mfd/intel_quark_i2c_gpio.c    |  6 +--
+ drivers/mfd/intel_soc_pmic_bxtwc.c    |  2 +-
+ drivers/mfd/intel_soc_pmic_chtdc_ti.c |  4 +-
+ drivers/mfd/intel_soc_pmic_chtwc.c    |  2 +-
+ drivers/mfd/intel_soc_pmic_crc.c      |  6 +--
+ drivers/mfd/intel_soc_pmic_mrfld.c    |  4 +-
+ drivers/mfd/ioc3.c                    |  4 +-
+ drivers/mfd/janz-cmodio.c             | 14 +++----
+ drivers/mfd/kempld-core.c             | 29 ++++++--------
+ drivers/mfd/khadas-mcu.c              |  4 +-
+ drivers/mfd/lm3533-core.c             |  2 +-
+ drivers/mfd/lochnagar-i2c.c           |  2 +-
+ drivers/mfd/loongson-se.c             |  2 +-
+ drivers/mfd/lp3943.c                  |  4 +-
+ drivers/mfd/lp873x.c                  |  4 +-
+ drivers/mfd/lp87565.c                 |  9 +++--
+ drivers/mfd/lp8788.c                  |  2 +-
+ drivers/mfd/lpc_ich.c                 |  2 +-
+ drivers/mfd/macsmc.c                  |  2 +-
+ drivers/mfd/madera-core.c             |  2 +-
+ drivers/mfd/madera-i2c.c              | 18 ++++-----
+ drivers/mfd/madera-spi.c              | 18 ++++-----
+ drivers/mfd/max14577.c                |  4 +-
+ drivers/mfd/max7360.c                 |  2 +-
+ drivers/mfd/max77541.c                |  4 +-
+ drivers/mfd/max77620.c                |  8 ++--
+ drivers/mfd/max77686.c                |  2 +-
+ drivers/mfd/max77693.c                |  2 +-
+ drivers/mfd/max77714.c                |  2 +-
+ drivers/mfd/max77759.c                |  4 +-
+ drivers/mfd/max77843.c                |  8 ++--
+ drivers/mfd/max8907.c                 |  6 +--
+ drivers/mfd/max8925-i2c.c             |  4 +-
+ drivers/mfd/max8997.c                 |  6 +--
+ drivers/mfd/max8998.c                 |  6 +--
+ drivers/mfd/mc13xxx-spi.c             |  6 +--
+ drivers/mfd/menelaus.c                |  2 +-
+ drivers/mfd/menf21bmc.c               |  2 +-
+ drivers/mfd/motorola-cpcap.c          | 12 +++---
+ drivers/mfd/mp2629.c                  |  2 +-
+ drivers/mfd/mt6360-core.c             |  6 +--
+ drivers/mfd/mt6370.c                  |  2 +-
+ drivers/mfd/mt6397-core.c             |  4 +-
+ drivers/mfd/mxs-lradc.c               |  4 +-
+ drivers/mfd/ntxec.c                   |  4 +-
+ drivers/mfd/ocelot-spi.c              |  2 +-
+ drivers/mfd/omap-usb-host.c           |  4 +-
+ drivers/mfd/palmas.c                  |  8 ++--
+ drivers/mfd/pf1550.c                  |  2 +-
+ drivers/mfd/qcom-pm8008.c             |  4 +-
+ drivers/mfd/qcom-pm8xxx.c             |  6 +--
+ drivers/mfd/rc5t583.c                 |  4 +-
+ drivers/mfd/rdc321x-southbridge.c     |  2 +-
+ drivers/mfd/retu-mfd.c                |  4 +-
+ drivers/mfd/rk8xx-i2c.c               |  2 +-
+ drivers/mfd/rk8xx-spi.c               |  2 +-
+ drivers/mfd/rohm-bd71828.c            |  4 +-
+ drivers/mfd/rohm-bd9576.c             |  6 +--
+ drivers/mfd/rsmu_i2c.c                | 18 ++++-----
+ drivers/mfd/rsmu_spi.c                | 14 +++----
+ drivers/mfd/rt4831.c                  |  6 +--
+ drivers/mfd/rt5033.c                  |  4 +-
+ drivers/mfd/rz-mtu3.c                 |  2 +-
+ drivers/mfd/sec-acpm.c                |  6 +--
+ drivers/mfd/sec-i2c.c                 | 22 +++++-----
+ drivers/mfd/si476x-i2c.c              |  8 ++--
+ drivers/mfd/simple-mfd-i2c.c          |  2 +-
+ drivers/mfd/sky81452.c                |  4 +-
+ drivers/mfd/sm501.c                   |  4 +-
+ drivers/mfd/smpro-core.c              |  2 +-
+ drivers/mfd/sprd-sc27xx-spi.c         |  4 +-
+ drivers/mfd/ssbi.c                    |  2 +-
+ drivers/mfd/stm32-lptimer.c           |  4 +-
+ drivers/mfd/stm32-timers.c            |  4 +-
+ drivers/mfd/stmfx.c                   |  4 +-
+ drivers/mfd/stmpe-i2c.c               | 34 ++++++++--------
+ drivers/mfd/stmpe-spi.c               | 26 ++++++------
+ drivers/mfd/stw481x.c                 |  8 ++--
+ drivers/mfd/sun6i-prcm.c              |  2 +-
+ drivers/mfd/tc3589x.c                 | 14 +++----
+ drivers/mfd/ti-lmu.c                  | 10 ++---
+ drivers/mfd/timberdale.c              |  2 +-
+ drivers/mfd/tps6105x.c                |  6 +--
+ drivers/mfd/tps65010.c                | 10 ++---
+ drivers/mfd/tps6507x.c                |  6 +--
+ drivers/mfd/tps65086.c                |  4 +-
+ drivers/mfd/tps65090.c                |  6 +--
+ drivers/mfd/tps65217.c                |  6 +--
+ drivers/mfd/tps65218.c                |  8 ++--
+ drivers/mfd/tps65219.c                |  8 ++--
+ drivers/mfd/tps6586x.c                |  6 +--
+ drivers/mfd/tps65910.c                | 12 +++---
+ drivers/mfd/tps65912-i2c.c            |  4 +-
+ drivers/mfd/tps65912-spi.c            |  4 +-
+ drivers/mfd/tps6594-i2c.c             | 12 +++---
+ drivers/mfd/tps6594-spi.c             | 12 +++---
+ drivers/mfd/tqmx86.c                  |  2 +-
+ drivers/mfd/twl-core.c                | 22 +++++-----
+ drivers/mfd/twl4030-audio.c           |  4 +-
+ drivers/mfd/twl4030-power.c           |  2 +-
+ drivers/mfd/twl6030-irq.c             |  6 +--
+ drivers/mfd/twl6040.c                 |  4 +-
+ drivers/mfd/upboard-fpga.c            |  6 +--
+ drivers/mfd/vexpress-sysreg.c         |  4 +-
+ drivers/mfd/vx855.c                   |  2 +-
+ drivers/mfd/wm831x-core.c             |  2 +-
+ drivers/mfd/wm831x-i2c.c              | 14 +++----
+ drivers/mfd/wm831x-spi.c              | 16 ++++----
+ drivers/mfd/wm8350-i2c.c              |  6 +--
+ drivers/mfd/wm8400-core.c             |  4 +-
+ drivers/mfd/wm8994-core.c             |  8 ++--
+ include/linux/mfd/bcm2835-pm.h        |  9 -----
+ include/linux/mfd/kempld.h            |  2 -
+ 158 files changed, 518 insertions(+), 521 deletions(-)
 
-> drivers/dma/sun6i-dma.c:sun6i_dma_terminate_all() {
-> ...
-> 	if (pchan) {
-> 		writel(DMA_CHAN_ENABLE_STOP, pchan->base + DMA_CHAN_ENABLE);
-> 		writel(DMA_CHAN_PAUSE_RESUME, pchan->base + DMA_CHAN_PAUSE);
->=20
-> 		vchan->phy =3D NULL;
-> 		pchan->vchan =3D NULL;
-> 		pchan->desc =3D NULL;
-> 		pchan->done =3D NULL;
-> 	}
-> ...
-> }
 
-If sun6i_dma_terminate_all() runs concurrently with sun6i_dma_interrupt() on
-SMP systems, sun6i_dma_terminate_all() holds vchan->vc.lock, stops the
-hardware, and sets pchan->desc =3D NULL. Meanwhile, the IRQ handler reads
-pchan->vchan locklessly.
+base-commit: 8e9685d3c41c35dd1b37df70d854137abcb2fbac
+-- 
+2.55.0.11.g153666a7d9bb
 
-If the IRQ handler evaluates this before it is cleared, it will proceed. For
-non-cyclic transfers, the IRQ handler blocks on vchan->vc.lock. When
-sun6i_dma_terminate_all() releases the lock, the IRQ handler continues and
-evaluates &pchan->desc->vd. Since pchan->desc is NULL, could this pass a NU=
-LL
-pointer to vchan_cookie_complete() and cause a kernel panic? For cyclic
-transfers, the race appears even wider since the handler evaluates
-&pchan->desc->vd completely locklessly.
-
-> drivers/dma/sun6i-dma.c:sun6i_dma_resume() {
-> ...
-> 	} else if (!list_empty(&vchan->vc.desc_issued)) {
-> 		spin_lock(&sdev->lock);
-> 		list_add_tail(&vchan->node, &sdev->pending);
-> 		spin_unlock(&sdev->lock);
-> 	}
-> ...
-> }
-
-[Severity: High]
-This is a pre-existing issue, but does this code leave transfers stalled
-indefinitely?
-
-If a DMA channel is paused (sun6i_dma_pause) while it has pending descripto=
-rs
-but is not yet assigned to a physical hardware channel (pchan =3D=3D NULL),=
- it is
-removed from the sdev->pending list.
-
-When the channel is later resumed here in sun6i_dma_resume(), it is re-added
-to sdev->pending. However, sun6i_dma_resume() fails to call
-tasklet_schedule(&sdev->task). Since the tasklet is responsible for pulling
-virtual channels off the pending list and assigning them to physical channe=
-ls,
-will this channel sit in the pending queue indefinitely until an independent
-event schedules the tasklet?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260708032518.5088=
-6-1-zenghongling@kylinos.cn?part=3D1
