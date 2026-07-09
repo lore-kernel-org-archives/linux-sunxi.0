@@ -1,150 +1,220 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C044921E098
-	for <linux-sunxi@lists.linux.dev>; Thu,  9 Jul 2026 14:26:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A22A331EDB;
+	Thu,  9 Jul 2026 14:35:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783607199; cv=none; b=L8hpfLrLDKVOq3rbpi4c5JaVIp7lY4UmI1VIQ97Mw7mYZeFG+Ie9Gyo1+uU6ItaDaLBqtIvhQUO5ct4tj0UzAbspJIffBnh9fiBw1e9/8z/tbYVz4EjZfYOX1D3vfrliPNSKyhFaomam6FdWjXO4JFK47dqyFuHF7JEwZN+DT7U=
+	t=1783607712; cv=none; b=pPK+nFCLcNSVqzfZKG373wyeiCjNxSFOx/8ZZfx2FHB5dwu1EFP8otINJHe0DuywHd1pZ8y5Csf5iG2mWW/kV7eONmXG3Mc0nPToJ7KtgXt6N2T361mLc1VVlou2FhBJueTuV4eI07EPO5z4EZyfF+1TWymjMqMlgHkWYLuppAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783607199; c=relaxed/simple;
-	bh=h1ju3EVqaKp6EYSTzX8YR5qdeLvUidypMDyLlo7QjJc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l4ClPVaKtPR06Ff+ATUauV9bc6kYa48wmbkyLCcGNXTozFofP04FTKwFsQXig/CxSdO284H7IU2sNG/ZVHS5ObdJYdqYSGF5cneM/5pZLSA5qQjOs0Q38LO2yFHZRJC7tmRsKu7/kAEe1M4udUKswUjSmoe6kTuatEjAL3axayk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=PUzFH9mS; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1783607712; c=relaxed/simple;
+	bh=oRFC9pu2NxDmbXCh/isTQ0wlAkDALwgkurJCM+OY20E=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=bkXEezjRSqLhdbW7enRR01MjF+N8NoQTLkHzT6F/xklUYd6Ca/YtqrF+T6IFurZZEPdvrKSYArX+gTDeerd9glZBOjGQLaPVLRuJjndoIQkAKzGaDBMeIw8NbkTrsVXn7EjcRL/Xj8Rif5wE4mbODvu+IGySUe1w9Kn7lIlM3rA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RB8PBTLH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="PUzFH9mS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=ULW9
-	VBv4cRlM6iC85iVcPrTJ/RUoBanK7j5g1mX7o9s=; b=PUzFH9mSrFXR0BT7bcHZ
-	Edu7cwpTc+qJ+OrNpmfIGFDVhxIXkWvuhCfoFDFMwIRDsg61YTEhJsUS9CVKi6az
-	P6v9kZs22j7OxfFuONh4fL96A7/4aZXTeYEKXEFLvDnbaWjtQMvRU/sqEcZFKEHD
-	8CbLj3eD9wSCrMFlNxTu44NT6Nq72wdBYP4Zha/eGHVeKZZ2hJbbBLrepfix+5y8
-	wPbx7qBDvD10x4wZ1uvqlRfiKPJQNDeM6c9wbZwAjaetlqpPufip7tXqIrrtvEGv
-	yj/byiXXftAa0kvhgazHR8mM/mwB9T9fZRFwzl2sGHwDRyxeR+oELM4DKsYB1m8w
-	Vg==
-Received: (qmail 1163672 invoked from network); 9 Jul 2026 16:26:26 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Jul 2026 16:26:26 +0200
-X-UD-Smtp-Session: l3s3148p1@Of/AaC5WFLZQT+F6
-Date: Thu, 9 Jul 2026 16:26:25 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Pan Chuang <panchuang@vivo.com>
-Cc: Frank Li <Frank.Li@nxp.com>, Vinod Koul <vkoul@kernel.org>,
-	Keguang Zhang <keguang.zhang@gmail.com>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Paul Walmsley <pjw@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	=?utf-8?Q?Am=C3=A9lie?= Delaunay <amelie.delaunay@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Jon Hunter <jonathanh@nvidia.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Icenowy Zheng <zhengxingda@iscas.ac.cn>,
-	Kees Cook <kees@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
-	Miaoqian Lin <linmq006@gmail.com>,
-	Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
-	John Madieu <john.madieu.xa@bp.renesas.com>,
-	Thomas Andreatta <thomasandreatta2000@gmail.com>,
-	"open list:FREESCALE eDMA DRIVER" <imx@lists.linux.dev>,
-	"open list:FREESCALE eDMA DRIVER" <dmaengine@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:MIPS/LOONGSON1 ARCHITECTURE" <linux-mips@vger.kernel.org>,
-	"moderated list:MEDIATEK DMA DRIVER" <linux-arm-kernel@lists.infradead.org>,
-	"moderated list:MEDIATEK DMA DRIVER" <linux-mediatek@lists.infradead.org>,
-	"moderated list:ARM/ACTIONS SEMI ARCHITECTURE" <linux-actions@lists.infradead.org>,
-	"open list:ARM/QUALCOMM MAILING LIST" <linux-arm-msm@vger.kernel.org>,
-	"open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>,
-	"open list:ARM/RISC-V/RENESAS ARCHITECTURE" <linux-renesas-soc@vger.kernel.org>,
-	"moderated list:STM32 DMA DRIVERS" <linux-stm32@st-md-mailman.stormreply.com>,
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
-	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 00/26] dmaengine: Remove redundant error messages on IRQ
- request failure
-Message-ID: <ak-vkQ8g_ePdY15f@shikoro>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RB8PBTLH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5A241F000E9;
+	Thu,  9 Jul 2026 14:35:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783607711;
+	bh=JagGdoZ9syEEXetxGLY0LKmvc8TwoXpKnxQ4W4MEkys=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=RB8PBTLHgmnXnyqx3AFWb1YbAmc7Rt41PR2TfrwWX2HZmmRoDDFr2a+cWoY4XIy5Z
+	 xOxTYZ7bRh2LAOhtBDnJEttqj1LhABfhp3ibltSMjhOLp0B17Z9bC+VV8TAgH5U651
+	 2qCLi/0+8Y6uOsZSRVyQ4gNXG5+fF+6LdFYXoooW7Bp2+Lh5bjeIS1idrYPHBkJsww
+	 Ulrw+gzTK0wIOlhbze1oVQo0PgOgJjLTXuuyiUsLEWiU9MXCmf6NVKdn7vuHpAnI9X
+	 tld3SWdyIMXEicBJ8eEeUJQv6kobpO+diLyc7pOgDiNDh5FSOUhUIV/FZ0diobYguQ
+	 NHpxl5aETcdnA==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 21/26] dmaengine: sun4i-dma: Remove redundant
+ dev_err()/dev_err_probe()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Pan Chuang" <panchuang@vivo.com>
+Cc: linux-sunxi@lists.linux.dev, dmaengine@vger.kernel.org, vkoul@kernel.org, Frank.Li@kernel.org
+In-Reply-To: <20260709135846.97972-22-panchuang@vivo.com>
 References: <20260709135846.97972-1-panchuang@vivo.com>
+ <20260709135846.97972-22-panchuang@vivo.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 09 Jul 2026 14:35:10 +0000
+Message-Id: <20260709143510.A5A241F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260709135846.97972-1-panchuang@vivo.com>
 
-On Thu, Jul 09, 2026 at 09:58:04PM +0800, Pan Chuang wrote:
-> Commit 55b48e23f5c4b6f5ca9b7ab09599b17dcf501c10 ("genirq/devres: Add
-> error handling in devm_request_*_irq()") added automatic error logging
-> to devm_request_threaded_irq() and devm_request_any_context_irq() via
-> the new devm_request_result() helper. The helper prints device name,
-> IRQ number, handler functions, and error code on failure.
-> 
-> Since devm_request_irq() is a static inline wrapper around
-> devm_request_threaded_irq(), it also benefits from this automatic
-> logging.
-> 
-> This series removes the now-redundant dev_err() and dev_err_probe() calls
-> in dmaengine drivers that follow these devm_request_*_irq() functions,
-> as the core now provides more detailed diagnostic information on failure.
-> 
-> Pan Chuang (26):
->   dmaengine: fsl-edma-main: Remove redundant dev_err()/dev_err_probe()
->   dmaengine: fsl-qdma: Remove redundant dev_err()/dev_err_probe()
->   dmaengine: loongson-loongson1-apb-dma: Remove redundant
->     dev_err()/dev_err_probe()
->   dmaengine: mediatek-mtk-cqdma: Remove redundant
->     dev_err()/dev_err_probe()
->   dmaengine: mediatek-mtk-hsdma: Remove redundant
->     dev_err()/dev_err_probe()
->   dmaengine: mmp_pdma: Remove redundant dev_err()/dev_err_probe()
->   dmaengine: moxart-dma: Remove redundant dev_err()/dev_err_probe()
->   dmaengine: owl-dma: Remove redundant dev_err()/dev_err_probe()
->   dmaengine: pxa_dma: Remove redundant dev_err()/dev_err_probe()
->   dmaengine: qcom-gpi: Remove redundant dev_err()/dev_err_probe()
->   dmaengine: sf-pdma-sf-pdma: Remove redundant dev_err()/dev_err_probe()
->   dmaengine: sh-rcar-dmac: Remove redundant dev_err()/dev_err_probe()
->   dmaengine: sh-rz-dmac: Remove redundant dev_err()/dev_err_probe()
->   dmaengine: sh-shdmac: Remove redundant dev_err()/dev_err_probe()
->   dmaengine: sh-usb-dmac: Remove redundant dev_err()/dev_err_probe()
->   dmaengine: sprd-dma: Remove redundant dev_err()/dev_err_probe()
->   dmaengine: st_fdma: Remove redundant dev_err()/dev_err_probe()
->   dmaengine: stm32-stm32-dma: Remove redundant dev_err()/dev_err_probe()
->   dmaengine: stm32-stm32-dma3: Remove redundant
->     dev_err()/dev_err_probe()
->   dmaengine: stm32-stm32-mdma: Remove redundant
->     dev_err()/dev_err_probe()
->   dmaengine: sun4i-dma: Remove redundant dev_err()/dev_err_probe()
->   dmaengine: sun6i-dma: Remove redundant dev_err()/dev_err_probe()
->   dmaengine: tegra20-apb-dma: Remove redundant dev_err()/dev_err_probe()
->   dmaengine: ti-edma: Remove redundant dev_err()/dev_err_probe()
->   dmaengine: uniphier-xdmac: Remove redundant dev_err()/dev_err_probe()
->   dmaengine: xgene-dma: Remove redundant dev_err()/dev_err_probe()
+Thank you for your contribution! Sashiko AI review found 5 potential issue(=
+s) to consider:
 
-One patch per subsystem for such trivial changes, please.
+Pre-existing issues:
+- [High] Missing tasklet_kill() for virtual DMA channels in device teardown=
+ (remove and probe error paths) leads to Use-After-Free.
+- [High] Ongoing DMA hardware transfers are not gracefully stopped in sun4i=
+_dma_remove() before clock disable.
+- [High] Race condition between sun4i_dma_interrupt() and sun4i_dma_termina=
+te_all() leads to NULL pointer dereference and Use-After-Free.
+- [Medium] Incorrect DMA residue calculation in sun4i_dma_tx_status() for q=
+ueued (unstarted) contracts.
+- [Low] sun4i_dma_of_xlate() strictly validates against hardcoded max DRQ t=
+ype limits rather than the SoC-specific config.
+--
 
+--- Patch [21]: [PATCH 21/26] dmaengine: sun4i-dma: Remove redundant dev_er=
+r()/dev_err_probe() ---
+commit 0e16200d5dd839cadb8ffc88ed67f75051cff988
+Author: Pan Chuang <panchuang@vivo.com>
+
+dmaengine: sun4i-dma: Remove redundant dev_err()/dev_err_probe()
+
+The devm_request_irq() now automatically logs detailed error messages on
+failure. This eliminates the need for driver-specific dev_err() and
+dev_err_probe() calls that previously printed generic messages.
+
+> diff --git a/drivers/dma/sun4i-dma.c b/drivers/dma/sun4i-dma.c
+> index d2321f7287d20..303d71ba0ab61 100644
+> --- a/drivers/dma/sun4i-dma.c
+> +++ b/drivers/dma/sun4i-dma.c
+> @@ -1337,7 +1337,7 @@ static int sun4i_dma_probe(struct platform_device *=
+pdev)
+>  	ret =3D devm_request_irq(&pdev->dev, priv->irq, sun4i_dma_interrupt,
+>  			       0, dev_name(&pdev->dev), priv);
+>  	if (ret)
+> -		return dev_err_probe(&pdev->dev, ret, "Cannot request IRQ\n");
+> +		return ret;
+> =20
+>  	ret =3D dmaenginem_async_device_register(&priv->slave);
+>  	if (ret)
+
+[Severity: High]
+This is a pre-existing issue, but does driver unbind safely tear down
+the virtual channels?
+
+drivers/dma/sun4i-dma.c:sun4i_dma_remove() {
+    struct sun4i_dma_dev *priv =3D platform_get_drvdata(pdev);
+
+    /* Disable IRQ so no more work is scheduled */
+    disable_irq(priv->irq);
+
+    of_dma_controller_free(pdev->dev.of_node);
+}
+
+If the driver is unbound while an interrupt has scheduled a tasklet,
+dma_async_device_unregister() called by devres will free the DMA channels
+and the associated priv->vchans memory.
+
+Since there is no tasklet_kill(&vchan->vc.task) call to cancel pending
+tasklets, could the scheduled tasklet execute after the memory is freed
+and cause a use-after-free?
+
+
+[Severity: High]
+This is another pre-existing issue in the same function, but does this
+safely stop active DMA transfers?
+
+drivers/dma/sun4i-dma.c:sun4i_dma_remove() {
+    struct sun4i_dma_dev *priv =3D platform_get_drvdata(pdev);
+
+    /* Disable IRQ so no more work is scheduled */
+    disable_irq(priv->irq);
+
+    of_dma_controller_free(pdev->dev.of_node);
+}
+
+If the driver is unbound while a DMA transfer is actively executing, the
+hardware configuration registers are not cleared to halt the channels.
+
+When devres subsequently disables the DMA controller's clock mid-transactio=
+n,
+can this forcefully lock up the AXI/AHB bus or corrupt memory?
+
+
+[Severity: High]
+This is a pre-existing issue, but is there a race condition between the
+interrupt handler and channel termination?
+
+drivers/dma/sun4i-dma.c:sun4i_dma_interrupt() {
+    ...
+    contract =3D vchan->contract;
+
+    /*
+     * Disable the IRQ and free the pchan if it's an end
+     * interrupt (odd bit)
+     */
+    if (bit & 1) {
+        spin_lock(&vchan->vc.lock);
+
+        /*
+         * Move the promise into the completed list now that
+         * we're done with it
+         */
+        list_move_tail(&vchan->processing->list,
+                       &contract->completed_demands);
+    ...
+}
+
+The contract pointer is read before acquiring vchan->vc.lock. Concurrently,
+sun4i_dma_terminate_all() on another CPU could acquire the lock, set
+vchan->processing to NULL, free the active contract, and release the lock.
+
+When sun4i_dma_interrupt() subsequently acquires the lock, it performs a
+list_move_tail() using vchan->processing->list.
+
+Could this cause a guaranteed NULL pointer dereference since
+vchan->processing would be NULL, as well as a use-after-free when accessing
+the freed contract structure?
+
+
+[Severity: Medium]
+This is a pre-existing issue, but does this calculate the residue correctly
+for queued contracts?
+
+drivers/dma/sun4i-dma.c:sun4i_dma_tx_status() {
+    ...
+    promise =3D list_first_entry_or_null(&contract->demands,
+                                       struct sun4i_dma_promise, list);
+    if (promise && pchan) {
+        bytes -=3D promise->len;
+        if (pchan->is_dedicated)
+            bytes +=3D readl(pchan->base + SUN4I_DDMA_BYTE_COUNT_REG);
+        else
+            bytes +=3D readl(pchan->base + SUN4I_NDMA_BYTE_COUNT_REG);
+    }
+    ...
+}
+
+If vchan_find_desc() returns a pending, unstarted contract, and the virtual
+channel is currently executing a different contract on a physical channel,
+this code unconditionally assumes the hardware byte count belongs to the
+queried contract.
+
+By subtracting the queried contract's promise length and adding the executi=
+ng
+contract's hardware residue, can this return corrupted residue values for
+queued transfers?
+
+
+[Severity: Low]
+This is a pre-existing issue, but does the validation correctly restrict
+endpoints on all SoC variants?
+
+drivers/dma/sun4i-dma.c:sun4i_dma_of_xlate() {
+    ...
+    /* Make sure the endpoint looks sane */
+    if ((is_dedicated && endpoint >=3D SUN4I_DDMA_DRQ_TYPE_LIMIT) ||
+        (!is_dedicated && endpoint >=3D SUN4I_NDMA_DRQ_TYPE_LIMIT))
+        return NULL;
+    ...
+}
+
+The validation uses hardcoded limits like SUN4I_DDMA_DRQ_TYPE_LIMIT (32)
+regardless of the SoC variant.
+
+If a device tree requests an endpoint of 20 on a suniv_f1c100s device, which
+has a limit of 10, would this bypass the check and program out-of-bounds
+DRQ indices into the hardware?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260709135846.9797=
+2-1-panchuang@vivo.com?part=3D21
