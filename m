@@ -1,154 +1,150 @@
-Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11013001.outbound.protection.outlook.com [52.101.127.1])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D38438007
-	for <linux-sunxi@lists.linux.dev>; Thu,  9 Jul 2026 13:59:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.1
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783605591; cv=fail; b=Nhtkehn7O3HTatbuqMpbOoFubnJ931FnNRMeyAoExAcM6/GEi+4gEg3J20pqpkST0906DIspL0RdRtGsAqnV0NfcikGo3alRZ0OW9SxdPm+0AfxctK7I/2pDQqAEEgMUL9HCC0GR0oJ4Dp78r2hn8lFniC1wYWn5fNd5xsPvt4I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783605591; c=relaxed/simple;
-	bh=lw7ZNWm+BXZVMnJBdFzAtMrFzzCGpzQ2CB8gKeo/Xww=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=qbOWXdNZJoZvWUekE3cDqnLcfgO9cCI5kmCb1qPQOCZbdZgB0P+V4FGRz6+xN63LPO905T8izFlap8ZcrRAJuFlNxdB807nVC+UfjO55hDIjQ7BLF9v3F3z9u0g+Th2qos4v7Z7G6FogzGz9Vx5RFs8jWS8ZELm2GyXwukto3tY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=NMWhxQB0; arc=fail smtp.client-ip=52.101.127.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C044921E098
+	for <linux-sunxi@lists.linux.dev>; Thu,  9 Jul 2026 14:26:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783607199; cv=none; b=L8hpfLrLDKVOq3rbpi4c5JaVIp7lY4UmI1VIQ97Mw7mYZeFG+Ie9Gyo1+uU6ItaDaLBqtIvhQUO5ct4tj0UzAbspJIffBnh9fiBw1e9/8z/tbYVz4EjZfYOX1D3vfrliPNSKyhFaomam6FdWjXO4JFK47dqyFuHF7JEwZN+DT7U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783607199; c=relaxed/simple;
+	bh=h1ju3EVqaKp6EYSTzX8YR5qdeLvUidypMDyLlo7QjJc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l4ClPVaKtPR06Ff+ATUauV9bc6kYa48wmbkyLCcGNXTozFofP04FTKwFsQXig/CxSdO284H7IU2sNG/ZVHS5ObdJYdqYSGF5cneM/5pZLSA5qQjOs0Q38LO2yFHZRJC7tmRsKu7/kAEe1M4udUKswUjSmoe6kTuatEjAL3axayk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=PUzFH9mS; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="NMWhxQB0"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=H58WRaCnVobNw6KLG21hCmig52Nab8F0I3n3F56CVgs9UA+W2wFEynUlrRdJdBicXtOlHyAVVUmF0aciLrYw+OK1L79zjGM6Tgst6B5O7i47bPbceFYw7wSQUwAohsx4njYn6eRWDQ0zEnH4qoQC8ntlKvXrdR5czbMyg8IlZU7FABT3HEGyJEVjffmzb+KcfEeIuu8hN2AhAqLzA3onBckOUqLXkP9qWfkJ6NalOUmf4hHnEw37ofBexJKOqvBdjwHhUU2PSG9LJQ6j9AhUq/jXG2qCsK0N8VYsOr+gIVGw13+69YVjht3nuvNo5hCKs1pqQAtGzidcNLsy5IV6Tw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RsGDTwXefxXZ0QcDe1lVQHfvBCtfow5hwPf1wuIu4qw=;
- b=GPyOvTfh4vM2QzUb0S/j+Yuj3Am9I11NNd5ijzhLiSYG6Yqnlz5MMMSCiSyMkvt3zuKRfERowm7msTIyJcpfYRA2bFbpRe0ayNdsSgPAdga4NvGMLKeec0S/tUxZJS2JCdcZZaKqydPXfxzzycWT1RVBusvvWWDXCMt91gmo770kkrnPQeL9VejlDckaCJbKykK02bJzdVxfzArxu2PFZIo6WPX8CF8TcPU5SPPONEnBz3e5DKTPiwWlBWW6D5EPEFrd0rMF9XUa51twvODH76r/AzmlwUzrJKt2Yghr/RQwi/1wJNGavbgPYu2fiXHXrE8WyxYfIVWimxoEYYcY7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RsGDTwXefxXZ0QcDe1lVQHfvBCtfow5hwPf1wuIu4qw=;
- b=NMWhxQB0L3tyoN7aXBGB0XLdJizRWzwDssbiUuNfY+vwGu61/HER4FRv32SWg/TrW9/jUIQP5JpWL34/sR46Ypdu6kpGjW5EpUp734xuGVM2RMba3CC8IpOEqZZpkJw2p9IaLzrOhQeRHmtNz+yQLdRqnXnTQ+HAWDMQ9HicJdMYIwQNkTIX7p0eCpbGOkIGMw1B9AlViKA6uXPgZ9sPY8dZPbS9x2TSthuOzaYye8tSTXWhulXxp++W6PnHdlgNDSdC2inut5T9ZZ3P+Q7N5S70B25GUsVtM6MjOM/nUDQcZwISXDrgtY/u3+/tGAMhTbgX+OgoRCfkb2QE/85SpA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5832.apcprd06.prod.outlook.com (2603:1096:101:c8::12)
- by SE2PPF271E4F3E3.apcprd06.prod.outlook.com (2603:1096:108:1::7c8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.9; Thu, 9 Jul 2026
- 13:59:46 +0000
-Received: from SEZPR06MB5832.apcprd06.prod.outlook.com
- ([fe80::f98:5e32:4ccb:d07b]) by SEZPR06MB5832.apcprd06.prod.outlook.com
- ([fe80::f98:5e32:4ccb:d07b%6]) with mapi id 15.21.0181.014; Thu, 9 Jul 2026
- 13:59:46 +0000
-From: Pan Chuang <panchuang@vivo.com>
-To: Vinod Koul <vkoul@kernel.org>,
-	Frank Li <Frank.Li@kernel.org>,
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="PUzFH9mS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=ULW9
+	VBv4cRlM6iC85iVcPrTJ/RUoBanK7j5g1mX7o9s=; b=PUzFH9mSrFXR0BT7bcHZ
+	Edu7cwpTc+qJ+OrNpmfIGFDVhxIXkWvuhCfoFDFMwIRDsg61YTEhJsUS9CVKi6az
+	P6v9kZs22j7OxfFuONh4fL96A7/4aZXTeYEKXEFLvDnbaWjtQMvRU/sqEcZFKEHD
+	8CbLj3eD9wSCrMFlNxTu44NT6Nq72wdBYP4Zha/eGHVeKZZ2hJbbBLrepfix+5y8
+	wPbx7qBDvD10x4wZ1uvqlRfiKPJQNDeM6c9wbZwAjaetlqpPufip7tXqIrrtvEGv
+	yj/byiXXftAa0kvhgazHR8mM/mwB9T9fZRFwzl2sGHwDRyxeR+oELM4DKsYB1m8w
+	Vg==
+Received: (qmail 1163672 invoked from network); 9 Jul 2026 16:26:26 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Jul 2026 16:26:26 +0200
+X-UD-Smtp-Session: l3s3148p1@Of/AaC5WFLZQT+F6
+Date: Thu, 9 Jul 2026 16:26:25 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Pan Chuang <panchuang@vivo.com>
+Cc: Frank Li <Frank.Li@nxp.com>, Vinod Koul <vkoul@kernel.org>,
+	Keguang Zhang <keguang.zhang@gmail.com>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Paul Walmsley <pjw@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	=?utf-8?Q?Am=C3=A9lie?= Delaunay <amelie.delaunay@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	dmaengine@vger.kernel.org (open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
-	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Pan Chuang <panchuang@vivo.com>
-Subject: [PATCH 22/26] dmaengine: sun6i-dma: Remove redundant dev_err()/dev_err_probe()
-Date: Thu,  9 Jul 2026 21:58:26 +0800
-Message-Id: <20260709135846.97972-23-panchuang@vivo.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260709135846.97972-1-panchuang@vivo.com>
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Jon Hunter <jonathanh@nvidia.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Icenowy Zheng <zhengxingda@iscas.ac.cn>,
+	Kees Cook <kees@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+	Miaoqian Lin <linmq006@gmail.com>,
+	Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
+	John Madieu <john.madieu.xa@bp.renesas.com>,
+	Thomas Andreatta <thomasandreatta2000@gmail.com>,
+	"open list:FREESCALE eDMA DRIVER" <imx@lists.linux.dev>,
+	"open list:FREESCALE eDMA DRIVER" <dmaengine@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:MIPS/LOONGSON1 ARCHITECTURE" <linux-mips@vger.kernel.org>,
+	"moderated list:MEDIATEK DMA DRIVER" <linux-arm-kernel@lists.infradead.org>,
+	"moderated list:MEDIATEK DMA DRIVER" <linux-mediatek@lists.infradead.org>,
+	"moderated list:ARM/ACTIONS SEMI ARCHITECTURE" <linux-actions@lists.infradead.org>,
+	"open list:ARM/QUALCOMM MAILING LIST" <linux-arm-msm@vger.kernel.org>,
+	"open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>,
+	"open list:ARM/RISC-V/RENESAS ARCHITECTURE" <linux-renesas-soc@vger.kernel.org>,
+	"moderated list:STM32 DMA DRIVERS" <linux-stm32@st-md-mailman.stormreply.com>,
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
+	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 00/26] dmaengine: Remove redundant error messages on IRQ
+ request failure
+Message-ID: <ak-vkQ8g_ePdY15f@shikoro>
 References: <20260709135846.97972-1-panchuang@vivo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCP301CA0073.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:7d::11) To SEZPR06MB5832.apcprd06.prod.outlook.com
- (2603:1096:101:c8::12)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5832:EE_|SE2PPF271E4F3E3:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3c564b6d-bc21-44d9-b42c-08deddc2559e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|366016|1800799024|23010399003|52116014|38350700014|18002099003|11063799006|56012099006|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	1vQdlcQqwkR7S2i2EvgYDgTFQSeH1Stm/qxNMLagSeblbjXfrx5jjlCT2etzN8aNeZky3cVyzt/XyjTMPcgfl6BP5Azcs/r7in8JhM7zgcGqudKHmO5s7pfP3cuoCBPKLJkWBbP54dxlUFTfYE/gfKtZNERx0r23Pp4gE5HjO9pD/6Bw0eUZK6OacV3Jg+vYL5qB2up4lE6nN1CTub4fC7i+6oKCEnxcZiJveWNkXB9XI26exXps3js2eLmxpXIRvecd1ayfrKVHRNKWdEgOZ9wBcb9OSjYRAp6SOFvEmbkD+i3770k0hc2Pe0AWmLjq7KJ0DsnCqtl1OWwkO25zixTPb0N8j1D5mZ6iqd78D/8PGs0+UUj+2KfGI3JmV8qup1s0Gc3fIDGqKlw6As80XkdlKMqbAMlRTr//SyGbrqb2hGK+lZbB12U/Au1zpQugIiNsasVqEdhtPORkJWR+ndYzjArki/q5UegT6ZOI4JJuhH2ltHixvBoaPImj2WsPxxg2yUwhLJS8805ZhzaHoRZRHxHU235jzonVWAgAH/aSxZMfgQyC9NTsMraeKcKRFHZTZOjJg+8eEsmrMzgdF0fuR1IRaFef7BfO1SxZ1KxF2VFQsTd79zV3bP7TWoyvgGcJ1BebWoxUl8EJpsQ2aer4VifrVFcR4sPnB/RWVDsCPa2lkcVI50o08hsBWsRrre6Hvl7ZWy+WmqYbk2QtAH4ZjfOYGN8HqmOr+oeIyfA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5832.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(52116014)(38350700014)(18002099003)(11063799006)(56012099006)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?/+kSTp6Z90H54tffVvAZb+sP4WcQG/6wMim2b1tzk5p5CySt9bBLyRKQ4GUf?=
- =?us-ascii?Q?SeLKRIU/Ran1sK6LKC/Tm3VdTD/mEyBx446fO40JcsrTMrsCwBBSPpE5fD3e?=
- =?us-ascii?Q?V3TAT+2C7DfbsC6gYhubCKwpEs4b/+z4AHlzpygpyAfOEw+FoJijhQEOvlRX?=
- =?us-ascii?Q?Anchd4lR9mOUBEtxUYt+On/19dVDzm3dFV2oqpeoNgGMRhuHVJCXZpB6szyW?=
- =?us-ascii?Q?Wjwvt/hSaVVKRMDQdEgAyjCPJ0GiF/vJkrtj6TdJhgIDUqvYA10wI+3hXrF1?=
- =?us-ascii?Q?8Csxw8IAIYtKtaqDLGVJFaORnV7csuBeLG+vNFBZbu1qEoyPsJe+GslrgrrI?=
- =?us-ascii?Q?E2nY/3KCGCfAU05Yrfo6IFNhGggmo998LLAKSbdqjsbSyjDYsJC27qwlg01A?=
- =?us-ascii?Q?WYuPA/AT6J2+Uis/Xl6QiYbC1lkF/VCmu41vW0vD+21r7A3U+uSyGupEsHmE?=
- =?us-ascii?Q?sARVxIIi59osXoRAgBNrTTdIxgdsSK9QRDA/UN3AAxDWrgQKWO37N0p0IAd0?=
- =?us-ascii?Q?/9ROodBXcus9aRwH/sT8ofy1QTHAk8BffhExA4iDD1ODmZaNndZfVZslsQsm?=
- =?us-ascii?Q?EtMSwUsZXbxopBRk9j0IFLoWKz2re96n0n1y39VyqlBu/FuR0FX7TMGFBkVU?=
- =?us-ascii?Q?OqfPT4BJbuslIzWHpgY4sq+ijXtYNcwSHd79MVU+q/ARcHnTEbVXSlxXnVZg?=
- =?us-ascii?Q?wUoUteJ+EQ8yR2TeDGngd9vyzRb3tAaqdT67v0Vk7Cu/eCznOtDzl451yNcX?=
- =?us-ascii?Q?KkjDxQu47iGBwitsrRNuu6BhWooThMjTSAsZeGoGktE9hdf5qy/HuVi8XlI/?=
- =?us-ascii?Q?akma/J4ngjT/2I4lcURhBNDMJu4Sdn+M92qAzdyt4UBmSsxbBGS6QVn4TMnc?=
- =?us-ascii?Q?qy1Iy244lMDNeJ2kujPDJ+vp4nAAO0PDWEDYQT98f7aDh85dpn5y3Am7k00w?=
- =?us-ascii?Q?uH21uRpVHu3mRtIqLT2jrraH25kEnqOhD+OBjMWBhihLI36ifU4mx94wlY9T?=
- =?us-ascii?Q?prH/A7NIuxWZGHFDiQscwvAoPHmSeQU4wMia0MqFtGWIBZ46wCHFRdSp0c3f?=
- =?us-ascii?Q?RQ/ldT5BSNMPaEVDPUL17dhPAsXztUevhtqr+CXih8ujtdDCReZsX7R8Ic1g?=
- =?us-ascii?Q?+E24QExAU1MMn8cb9fmy1C8LYIuO8Hq6qeGj0AdJPOHhe7/KqQNOQAQgv1h+?=
- =?us-ascii?Q?HT2qtaq3t2rKaqnUv0coItuJaaN76HRa/gpkVNDrHoCFGz6ohzD3ZCbeu2RR?=
- =?us-ascii?Q?XkA4bsj0NixLn5fHVWwZzAxF99y+2J0p5ebbPDDfSKRz7PMPMpVAiZluWO2L?=
- =?us-ascii?Q?cTopkzksPMhyrPx4GpcAL2ytKI3rtBnjAtHG6rCrsL+vSP9ZdMuL3E1tzz2X?=
- =?us-ascii?Q?W1sZAJBDN7g/dUSvonQOV+k563WfE4Xb/vSL+93941mPtRH1iU26DQgVjDxm?=
- =?us-ascii?Q?Vkcgf8J/JnyBQ4ak69bEgagmxx4ux2WcsjIZrd7KFZL7xpjxVLkd+xLIPWdk?=
- =?us-ascii?Q?iJ9kg4f2+EUAwsHm16qMy7yKkFxjPHzYcinAq/aBy6OngEMBzjqxHyQjwvCU?=
- =?us-ascii?Q?8VVigfTRK77W+Pv15Z+o+4nycAVEImhEZyxTbKbQHFTliE1/8wmm/tYnf4Jp?=
- =?us-ascii?Q?HW/X77cwisUPmJmx+pNa7DujO+0Mq7VeITbw4BZkpREeD5pm/Ye1vZkRQLxR?=
- =?us-ascii?Q?ktaBcKqFIjU8HPukHcmQhGz0/Lye6jByE9tZ+yWxY1vHWiyxv+NR15Bcnzb4?=
- =?us-ascii?Q?DWY5+/5BOA=3D=3D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c564b6d-bc21-44d9-b42c-08deddc2559e
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5832.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2026 13:59:46.4534
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RGIYXTE9yi/gQw73UrxvpnVfoYEWZXbUlNzqZBKFtYKED6bZBOMT6et4i75cD25qREVHYjvgU4M1Q0HNYjfR6g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE2PPF271E4F3E3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260709135846.97972-1-panchuang@vivo.com>
 
-The devm_request_irq() now automatically logs detailed error messages on
-failure. This eliminates the need for driver-specific dev_err() and
-dev_err_probe() calls that previously printed generic messages.
+On Thu, Jul 09, 2026 at 09:58:04PM +0800, Pan Chuang wrote:
+> Commit 55b48e23f5c4b6f5ca9b7ab09599b17dcf501c10 ("genirq/devres: Add
+> error handling in devm_request_*_irq()") added automatic error logging
+> to devm_request_threaded_irq() and devm_request_any_context_irq() via
+> the new devm_request_result() helper. The helper prints device name,
+> IRQ number, handler functions, and error code on failure.
+> 
+> Since devm_request_irq() is a static inline wrapper around
+> devm_request_threaded_irq(), it also benefits from this automatic
+> logging.
+> 
+> This series removes the now-redundant dev_err() and dev_err_probe() calls
+> in dmaengine drivers that follow these devm_request_*_irq() functions,
+> as the core now provides more detailed diagnostic information on failure.
+> 
+> Pan Chuang (26):
+>   dmaengine: fsl-edma-main: Remove redundant dev_err()/dev_err_probe()
+>   dmaengine: fsl-qdma: Remove redundant dev_err()/dev_err_probe()
+>   dmaengine: loongson-loongson1-apb-dma: Remove redundant
+>     dev_err()/dev_err_probe()
+>   dmaengine: mediatek-mtk-cqdma: Remove redundant
+>     dev_err()/dev_err_probe()
+>   dmaengine: mediatek-mtk-hsdma: Remove redundant
+>     dev_err()/dev_err_probe()
+>   dmaengine: mmp_pdma: Remove redundant dev_err()/dev_err_probe()
+>   dmaengine: moxart-dma: Remove redundant dev_err()/dev_err_probe()
+>   dmaengine: owl-dma: Remove redundant dev_err()/dev_err_probe()
+>   dmaengine: pxa_dma: Remove redundant dev_err()/dev_err_probe()
+>   dmaengine: qcom-gpi: Remove redundant dev_err()/dev_err_probe()
+>   dmaengine: sf-pdma-sf-pdma: Remove redundant dev_err()/dev_err_probe()
+>   dmaengine: sh-rcar-dmac: Remove redundant dev_err()/dev_err_probe()
+>   dmaengine: sh-rz-dmac: Remove redundant dev_err()/dev_err_probe()
+>   dmaengine: sh-shdmac: Remove redundant dev_err()/dev_err_probe()
+>   dmaengine: sh-usb-dmac: Remove redundant dev_err()/dev_err_probe()
+>   dmaengine: sprd-dma: Remove redundant dev_err()/dev_err_probe()
+>   dmaengine: st_fdma: Remove redundant dev_err()/dev_err_probe()
+>   dmaengine: stm32-stm32-dma: Remove redundant dev_err()/dev_err_probe()
+>   dmaengine: stm32-stm32-dma3: Remove redundant
+>     dev_err()/dev_err_probe()
+>   dmaengine: stm32-stm32-mdma: Remove redundant
+>     dev_err()/dev_err_probe()
+>   dmaengine: sun4i-dma: Remove redundant dev_err()/dev_err_probe()
+>   dmaengine: sun6i-dma: Remove redundant dev_err()/dev_err_probe()
+>   dmaengine: tegra20-apb-dma: Remove redundant dev_err()/dev_err_probe()
+>   dmaengine: ti-edma: Remove redundant dev_err()/dev_err_probe()
+>   dmaengine: uniphier-xdmac: Remove redundant dev_err()/dev_err_probe()
+>   dmaengine: xgene-dma: Remove redundant dev_err()/dev_err_probe()
 
-Signed-off-by: Pan Chuang <panchuang@vivo.com>
----
- drivers/dma/sun6i-dma.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-index f47a326dd7ff..87ad7eae2069 100644
---- a/drivers/dma/sun6i-dma.c
-+++ b/drivers/dma/sun6i-dma.c
-@@ -1454,10 +1454,8 @@ static int sun6i_dma_probe(struct platform_device *pdev)
- 
- 	ret = devm_request_irq(&pdev->dev, sdc->irq, sun6i_dma_interrupt, 0,
- 			       dev_name(&pdev->dev), sdc);
--	if (ret) {
--		dev_err(&pdev->dev, "Cannot request IRQ\n");
-+	if (ret)
- 		goto err_mbus_clk_disable;
--	}
- 
- 	ret = dma_async_device_register(&sdc->slave);
- 	if (ret) {
--- 
-2.34.1
+One patch per subsystem for such trivial changes, please.
 
