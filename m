@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA433F12C8
-	for <linux-sunxi@lists.linux.dev>; Thu,  9 Jul 2026 11:52:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC9A32BF41
+	for <linux-sunxi@lists.linux.dev>; Thu,  9 Jul 2026 11:53:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783597940; cv=none; b=PCS8a/T4VGkBHWoJfQbnoVld45KnBGrOtv0I9PwUWXwViMcbUd8QkNbO2WFnjjKyoGYrl39NE3KIpSOrx9ARyCnOnO6IyZnvjb/vH+WJ9zDNaXX08DhlohWLeuIjfHzS6M9p6s4OeyLwPSvOjVh2/U44JVfCyjx816YqA+tkci0=
+	t=1783597993; cv=none; b=VOn0deOgE5XcHo0dYrHN0VoPWU51sWPWdZq45fMzANvsDELwzJOntDyRbg0/QYnqLv9ZJsboo4d4UqU4H/LO/Ooi5cM3xjGKrndweNdJ8Za/jtiLzGTvnBFHKv6LC7b6zbB5njG/c/W0G3zV5jvjJG0YU7G2wo8bXppER1I534Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783597940; c=relaxed/simple;
-	bh=8Id7dM/2KnZ6Tfk/Ny9+M2SKzl5T6pPOX7SJOSKKVk0=;
+	s=arc-20240116; t=1783597993; c=relaxed/simple;
+	bh=CvOlMzbUYqiNZ/OteRN5t1AzTP4s0QMUueqLDX9P4Ck=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VDD0+A8ss7bsKXhQzpfxik9mk9mf60LhgNl5YvvKDquU6q1nJ4sS0KuXJ8SA+P9ojf/8IF4XUNTbxK4wYCP9qp2uCwGQ081N/gfKUV7HIYS5yJ+D1NsxYnwh8FxgJ/qbd05Ij5mucMdG9LHM//ERO9UP2MyRDMGTdZnmIN+/hHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KVu5Q/sF; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=KTFSncZvYmMxrdg8rqgKgWQ+JcAnUaBCKmOrq5KHiRRKfODblXmByLNroQyXCSpW39foA1agXoSmktVipZhdN9VnMCdH74VG8Ad8IZ3FivEMs0a/gqObn0PwqN+4gKk9ok7tchFSAElOkicBFvCRnyJgnU3PRhlmRaFK9uzBIo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HLlxMCHj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KVu5Q/sF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D34D41F000E9;
-	Thu,  9 Jul 2026 11:52:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HLlxMCHj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0B1A1F000E9;
+	Thu,  9 Jul 2026 11:53:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783597939;
-	bh=aEbSIfFKsD1Cgd05PWvkeFUye2F1wOImysR1waaVNjU=;
+	s=k20260515; t=1783597992;
+	bh=MhPdC54lf/9BxMjCppiPHv12iWBUHZF8qC6mMWznFqg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=KVu5Q/sFMXtTibyDR4BW/o3TzU86aoEXA242FXTAF30FsPz/9FKn1loBAfZWhHCJk
-	 wlyNSA/hjuWimG1uoQ6KOcbJMP9glfzdptPCSVsz3IhvXERFIj4przy7PRbdGdvdO4
-	 fTkpqudEkvRXQhDjfKZeUFjzlNgnymLvIRWDrBnADp2NG8VCUlAnI1FQCDYuHpnrbI
-	 yVriYUw9Y2WuXHzSRo8XQP2NfXwx/jlxuQzg0uUWvWpWtHcXsOAOuH7b5+ib9EqrEj
-	 19K/+ysXF4kDNtvaSinKJ+RqDPxAaD7T8HCtr9rMOBNBPgQ0uJgsk4VkC9K8zhNoXG
-	 BAGF4ZdoSs6Pg==
+	b=HLlxMCHj1eK1ZwrGFqu2iCNlUZzyKQBENoAPkJmonxv2dgBfwNoUGYmAPqLQJQHm4
+	 QvklJEwXpjUTuSOMmB58szJNsBPyOdrTnWN4Xu4zbjija0gddawgYwppB1bqpuyrbA
+	 9h717fQ0xKK98AsXhu336lP11/rU643ep4DMmaxBmBNlTwq0ieehURR/PbsRs5KcDA
+	 1f8cDhtj1+i0N3supGLSYIxPhh21z1dw2VXV6B/vMQbbNMSYhu08x/myzsGdR0d6Wp
+	 HmP1drYHxrGx7cBucMvbhwRM0lOdZdxdp8zAdDrAobb0E0onT+xrlDYgFSuWYJmgl+
+	 MiiEfTsA90AYQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 09 Jul 2026 13:50:58 +0200
-Subject: [PATCH 32/60] drm/sun4i: sun8i: Convert to atomic_create_state
+Date: Thu, 09 Jul 2026 13:51:20 +0200
+Subject: [PATCH 54/60] drm/sun4i: layer: Convert to atomic_create_state
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260709-drm-no-more-plane-reset-v1-32-302d986fe5f0@kernel.org>
+Message-Id: <20260709-drm-no-more-plane-reset-v1-54-302d986fe5f0@kernel.org>
 References: <20260709-drm-no-more-plane-reset-v1-0-302d986fe5f0@kernel.org>
 In-Reply-To: <20260709-drm-no-more-plane-reset-v1-0-302d986fe5f0@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -46,18 +46,19 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
  linux-sunxi@lists.linux.dev, samuel@sholland.org, wens@kernel.org
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6932; i=mripard@kernel.org;
- h=from:subject:message-id; bh=8Id7dM/2KnZ6Tfk/Ny9+M2SKzl5T6pPOX7SJOSKKVk0=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFn+3eI1Gft2n/2U4Z3wqXePwEaF35F2M2Z/CRN4x7xrb
- 2+tc6BWx1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZiIuzZjfWCk3RT29WvZ5tTy
- 7mLeMcvXTXLxMmGXOR76kx/F6vkscvjwwbDrSN9njTlTjVxaM0SOMzb0za78w2+y8MW/nd/KDXe
- XRUpc9r344YtlL0v39LPndr2xWP+OU1T6cPphs7uJe89mFDoDAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6990; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=CvOlMzbUYqiNZ/OteRN5t1AzTP4s0QMUueqLDX9P4Ck=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFn+3Yp6ay98LFs6YaFKlujMOPHfYiWa9sFfzklqvC7La
+ +1Xd/rRMZWFQZiTQVZMkeWJTNjp5e2LqxzsV/6AmcPKBDKEgYtTACZyUZSxhnN9fVrcmnU756xf
+ vmmBwfxH3RGle1OFFWP2h/9K32LuxcfUfEDB29Gfe911vdS9XGUXGRtmnpz2lLHsyUMm/X6+hSl
+ rTNgZ9CzPmrRmfGCyS/4Sl2r4zPfLDtcJZsI+V/bN/agfYAIA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-The plane only initializes a pristine state in its reset hook
-using drm_atomic_helper_plane_reset(), which is equivalent to what
-atomic_create_state expects. Convert to it.
+The plane reset implementation creates a custom state
+subclass, but only initializes a pristine state without resetting any
+hardware. This is equivalent to what atomic_create_state expects.
+Convert to it.
 
 The conversion was done using the following Coccinelle semantic patch:
 
@@ -325,44 +326,58 @@ Cc: linux-sunxi@lists.linux.dev
 Cc: samuel@sholland.org
 Cc: wens@kernel.org
 ---
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 2 +-
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/sun4i/sun4i_layer.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-index 00756ab78b4e..bad102134726 100644
---- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-@@ -211,11 +211,11 @@ static const struct drm_plane_helper_funcs sun8i_ui_layer_helper_funcs = {
- static const struct drm_plane_funcs sun8i_ui_layer_funcs = {
- 	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
- 	.atomic_duplicate_state	= drm_atomic_helper_plane_duplicate_state,
+diff --git a/drivers/gpu/drm/sun4i/sun4i_layer.c b/drivers/gpu/drm/sun4i/sun4i_layer.c
+index d65587d96d9e..b165960ca8e5 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_layer.c
++++ b/drivers/gpu/drm/sun4i/sun4i_layer.c
+@@ -14,11 +14,11 @@
+ #include "sun4i_backend.h"
+ #include "sun4i_frontend.h"
+ #include "sun4i_layer.h"
+ #include "sunxi_engine.h"
+ 
+-static void sun4i_backend_layer_reset(struct drm_plane *plane)
++static struct drm_plane_state *sun4i_backend_layer_create_state(struct drm_plane *plane)
+ {
+ 	struct sun4i_layer_state *state;
+ 
+ 	if (plane->state) {
+ 		state = state_to_sun4i_layer_state(plane->state);
+@@ -28,12 +28,16 @@ static void sun4i_backend_layer_reset(struct drm_plane *plane)
+ 		kfree(state);
+ 		plane->state = NULL;
+ 	}
+ 
+ 	state = kzalloc_obj(*state);
+-	if (state)
+-		__drm_atomic_helper_plane_reset(plane, &state->state);
++	if (!state)
++		return ERR_PTR(-ENOMEM);
++
++	__drm_atomic_helper_plane_state_init(&state->state, plane);
++
++	return &state->state;
+ }
+ 
+ static struct drm_plane_state *
+ sun4i_backend_layer_duplicate_state(struct drm_plane *plane)
+ {
+@@ -131,11 +135,11 @@ static const struct drm_plane_helper_funcs sun4i_backend_layer_helper_funcs = {
+ static const struct drm_plane_funcs sun4i_backend_layer_funcs = {
+ 	.atomic_destroy_state	= sun4i_backend_layer_destroy_state,
+ 	.atomic_duplicate_state	= sun4i_backend_layer_duplicate_state,
  	.destroy		= drm_plane_cleanup,
  	.disable_plane		= drm_atomic_helper_disable_plane,
--	.reset			= drm_atomic_helper_plane_reset,
-+	.atomic_create_state = drm_atomic_helper_plane_create_state,
+-	.reset			= sun4i_backend_layer_reset,
++	.atomic_create_state = sun4i_backend_layer_create_state,
  	.update_plane		= drm_atomic_helper_update_plane,
+ 	.format_mod_supported	= sun4i_layer_format_mod_supported,
  };
  
- static const u32 sun8i_ui_layer_formats[] = {
- 	DRM_FORMAT_ABGR1555,
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-index 09f668c8af24..2e9cda45c04e 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-@@ -291,11 +291,11 @@ static const struct drm_plane_helper_funcs sun8i_vi_layer_helper_funcs = {
- static const struct drm_plane_funcs sun8i_vi_layer_funcs = {
- 	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
- 	.atomic_duplicate_state	= drm_atomic_helper_plane_duplicate_state,
- 	.destroy		= drm_plane_cleanup,
- 	.disable_plane		= drm_atomic_helper_disable_plane,
--	.reset			= drm_atomic_helper_plane_reset,
-+	.atomic_create_state = drm_atomic_helper_plane_create_state,
- 	.update_plane		= drm_atomic_helper_update_plane,
- };
- 
- /*
-  * While DE2 VI layer supports same RGB formats as UI layer, alpha
+ static const uint32_t sun4i_layer_formats[] = {
 
 -- 
 2.54.0
