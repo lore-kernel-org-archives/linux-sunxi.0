@@ -1,220 +1,203 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A22A331EDB;
-	Thu,  9 Jul 2026 14:35:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D2BF434410
+	for <linux-sunxi@lists.linux.dev>; Thu,  9 Jul 2026 16:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783607712; cv=none; b=pPK+nFCLcNSVqzfZKG373wyeiCjNxSFOx/8ZZfx2FHB5dwu1EFP8otINJHe0DuywHd1pZ8y5Csf5iG2mWW/kV7eONmXG3Mc0nPToJ7KtgXt6N2T361mLc1VVlou2FhBJueTuV4eI07EPO5z4EZyfF+1TWymjMqMlgHkWYLuppAo=
+	t=1783613329; cv=none; b=J5DXxNIk5n8TRRXMbdK+Xzf2+ShPeRrty2PSzkF8r4I/eGLBzNGbwK5AXRaJUdch2bahxhq3I2+sBS4KAVr4L30LbgrapIwDNePG76cNzeDB1dNaQUrFxKtJHqnAxTHYn+xlJFqMoNKYSZO55YSb1KysxhUIHsr5qUTUCmN4EME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783607712; c=relaxed/simple;
-	bh=oRFC9pu2NxDmbXCh/isTQ0wlAkDALwgkurJCM+OY20E=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=bkXEezjRSqLhdbW7enRR01MjF+N8NoQTLkHzT6F/xklUYd6Ca/YtqrF+T6IFurZZEPdvrKSYArX+gTDeerd9glZBOjGQLaPVLRuJjndoIQkAKzGaDBMeIw8NbkTrsVXn7EjcRL/Xj8Rif5wE4mbODvu+IGySUe1w9Kn7lIlM3rA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RB8PBTLH; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783613329; c=relaxed/simple;
+	bh=LdoEID+mftfieJuREjeHFGnl1pSH4i3KPMTl65rvBKc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UQo0k3Lp6uhvwJ9zQ9ZzSDsxFI31epXfYq4Cm6k7clDka3BCm97hsL1fpRWOhl5xvQf1i7hAMeFoC4vz2bZ2lQqwYTagJ2cMQxR88oJTnHd1y1zkhQg7wxZb7a1dSgIv1acOFn63Odty74pwkIpa90lpVm3Ns6HdRtXUfLDALqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=OlaXl+Dq; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RB8PBTLH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5A241F000E9;
-	Thu,  9 Jul 2026 14:35:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783607711;
-	bh=JagGdoZ9syEEXetxGLY0LKmvc8TwoXpKnxQ4W4MEkys=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=RB8PBTLHgmnXnyqx3AFWb1YbAmc7Rt41PR2TfrwWX2HZmmRoDDFr2a+cWoY4XIy5Z
-	 xOxTYZ7bRh2LAOhtBDnJEttqj1LhABfhp3ibltSMjhOLp0B17Z9bC+VV8TAgH5U651
-	 2qCLi/0+8Y6uOsZSRVyQ4gNXG5+fF+6LdFYXoooW7Bp2+Lh5bjeIS1idrYPHBkJsww
-	 Ulrw+gzTK0wIOlhbze1oVQo0PgOgJjLTXuuyiUsLEWiU9MXCmf6NVKdn7vuHpAnI9X
-	 tld3SWdyIMXEicBJ8eEeUJQv6kobpO+diLyc7pOgDiNDh5FSOUhUIV/FZ0diobYguQ
-	 NHpxl5aETcdnA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 21/26] dmaengine: sun4i-dma: Remove redundant
- dev_err()/dev_err_probe()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Pan Chuang" <panchuang@vivo.com>
-Cc: linux-sunxi@lists.linux.dev, dmaengine@vger.kernel.org, vkoul@kernel.org, Frank.Li@kernel.org
-In-Reply-To: <20260709135846.97972-22-panchuang@vivo.com>
-References: <20260709135846.97972-1-panchuang@vivo.com>
- <20260709135846.97972-22-panchuang@vivo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Jul 2026 14:35:10 +0000
-Message-Id: <20260709143510.A5A241F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="OlaXl+Dq"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4758bd3731bso23503f8f.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 09 Jul 2026 09:08:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1783613326; x=1784218126; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Gov176wXURlzSR3dUDxqqJ+JUc69jBkAANSG0MToDuM=;
+        b=OlaXl+DqVUYjmvG6NAStY4tSM729WeXdVYHYvehgyyNS3UFOcQe3Bkvmc+PAcJwJqy
+         3PH80vdK4EtH6FiMArgeFh9rUzwf+7eONeMESnzq3M80Qct28P52E+OvWkCUgWIDlPLa
+         Ek9B43PNYf493kNsgX8YdUQ+Y5rxd+clfUWoguE+7ctQEIC7bSUAJq19820VGpTtSj7X
+         gG3Nzptbl03Y4Q0uNAI2XlmzI5YLBIKSLbyiSkcKkV4+5B5eh129FAMsPAhbs+mwDA0Y
+         tZK/QhqHaAKiBfDprQUw9C3QT7PqIgRYJO7ANV+kQQ5fpKph9BegGEeabXMOD+AwLlnY
+         RpWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783613326; x=1784218126;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Gov176wXURlzSR3dUDxqqJ+JUc69jBkAANSG0MToDuM=;
+        b=Au48C5NIF1byx7/KGBZNMKifTDbziuuA/Su4JaF3lPD5WKZ2zUkToc1zcO3G5MjRfG
+         WHrUjLEoXj8Pz7b9ENgMBhwygzAMHJpW7Zzj9YOjJc/TMnpS47eip3TGhkwLV68QTXvX
+         icqoejRUYRNdP/rw6I8rhOL8quHDjGzqBtZPR8lrfuzuvUehhJRD2DhQaGG98LDDSHLG
+         1mF/GQIsoYGHYfh6m+FL+K0Xv4SBw+84bgcvLUnxJZQS63N8eXdqeOWlUS4623izVSCh
+         Q97hce1ljHuR4TIlETNHnuGP1MRY8W7Ax+FBr+uZv+2k2ypFspE4ka7RJqwSarX+th6f
+         2sQQ==
+X-Forwarded-Encrypted: i=1; AHgh+Ro9tVvldhkTNO3YH6ZRTXJCXqWN9R683GFryyBxWAAhNEzI/1fPvqmpJblXMnL5fRtQG//nr979Ki32Xg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyRoT357YfiY9nPCwcZ4WLd45L61OSwMo0e4LXYVGviRjHdLgr9
+	FFG3XqbJ1mZd8w/v+6z8+5dFFoitZVjTgHP3L9D4LItaiDCt+YN803ZjHlwDqaa/BjA=
+X-Gm-Gg: AfdE7ck794QrNYKxbx5ewfImTzgaKiEyylFpB43S/WGRhS9qBeLV1mgPoybu1rqZPGd
+	qXU41RL9F55JEFu4ueWzpBFEvQVoHfNGHcDd55VTkFqhlyi4nqF9xaUxigzgnke2WSgy2eF5fhm
+	fDK+v4kfnJp4RcWL9TDxQT6mKQiDCBPRAoVPvnAGy8Dr4O3vSHWNBiSk8kryO2unZnIJj47UWjl
+	Yl7qhE5o9K6PzuV6davhdwLx75rLSwUVGLe2F8QK6NFZZwk1KyInMr2HwLVFPJHSA2qyFn9U+E8
+	kApt5v2P9UopdhhBqUIh+XeuAMRI2ZGz5qWGF7CG+dJe1iI5IvhXA2qlOEf+5HMhknHvmLqNK89
+	bDHwemRU935+NfRvm0bJVkte0FwLqz0g7T5ar3LDhiYslSGUn4CeFH20gEZqgLJZcYWxX3BKmiS
+	wa2is26D6zciT1PmA9saYFbzP5wBZJ8EU7qYp4Kj03p/7bN9heCYyvN4fPRKgex4B+STmBpeIai
+	HBm
+X-Received: by 2002:a05:6000:230b:b0:46d:f979:1827 with SMTP id ffacd0b85a97d-47df757026bmr3824909f8f.23.1783613325532;
+        Thu, 09 Jul 2026 09:08:45 -0700 (PDT)
+Received: from localhost (p200300f65f47db043de98c19b374aa68.dip0.t-ipconnect.de. [2003:f6:5f47:db04:3de9:8c19:b374:aa68])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47aa0960816sm50486350f8f.29.2026.07.09.09.08.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2026 09:08:43 -0700 (PDT)
+Date: Thu, 9 Jul 2026 18:08:42 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Lee Jones <lee@kernel.org>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, mfd@lists.linux.dev, linux-rpi-kernel@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-mediatek@lists.infradead.org, 
+	Qunqin Zhao <zhaoqunqin@loongson.cn>, linux-crypto@vger.kernel.org, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, 
+	Colin Foster <colin.foster@in-advantage.com>, David Rhodes <david.rhodes@cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	Zha Qipeng <qipeng.zha@intel.com>, Thomas Richard <thomas.richard@bootlin.com>, 
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, Xu Yilun <yilun.xu@intel.com>, 
+	Tom Rix <trix@redhat.com>, Michael Hennerich <michael.hennerich@analog.com>, 
+	Chen-Yu Tsai <wens@kernel.org>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
+	James Ogletree <jogletre@opensource.cirrus.com>, Fred Treven <fred.treven@cirrus.com>, 
+	Ben Bright <ben.bright@cirrus.com>, Support Opensource <support.opensource@diasemi.com>, 
+	Andy Shevchenko <andy@kernel.org>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Chanwoo Choi <cw00.choi@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	=?utf-8?B?QW5kcsOp?= Draszik <andre.draszik@linaro.org>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
+	Andreas Kemnade <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>, 
+	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>, 
+	Samuel Kayode <samkay014@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, linux-renesas-soc@vger.kernel.org, linux-omap@vger.kernel.org, 
+	imx@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
+	Linus Walleij <linusw@kernel.org>, linux@ew.tq-group.com, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Peter Griffin <peter.griffin@linaro.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Tim Harvey <tharvey@gateworks.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+	Neal Gompa <neal@gompa.dev>, Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, Saravanan Sekar <sravanhome@gmail.com>, 
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, Matti Vaittinen <mazziesaccount@gmail.com>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-samsung-soc@vger.kernel.org, 
+	linux-amlogic@lists.infradead.org, asahi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, Peter Tyser <ptyser@xes-inc.com>
+Subject: Re: [PATCH v2 00/23] mfd: Use named initializers for arrays of
+ *_device_data
+Message-ID: <ak_DIUQI9MX5aB8e@monoceros>
+References: <cover.1783507945.git.u.kleine-koenig@baylibre.com>
+ <ak41yQp3x78s4Fmx@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-
-Thank you for your contribution! Sashiko AI review found 5 potential issue(=
-s) to consider:
-
-Pre-existing issues:
-- [High] Missing tasklet_kill() for virtual DMA channels in device teardown=
- (remove and probe error paths) leads to Use-After-Free.
-- [High] Ongoing DMA hardware transfers are not gracefully stopped in sun4i=
-_dma_remove() before clock disable.
-- [High] Race condition between sun4i_dma_interrupt() and sun4i_dma_termina=
-te_all() leads to NULL pointer dereference and Use-After-Free.
-- [Medium] Incorrect DMA residue calculation in sun4i_dma_tx_status() for q=
-ueued (unstarted) contracts.
-- [Low] sun4i_dma_of_xlate() strictly validates against hardcoded max DRQ t=
-ype limits rather than the SoC-specific config.
---
-
---- Patch [21]: [PATCH 21/26] dmaengine: sun4i-dma: Remove redundant dev_er=
-r()/dev_err_probe() ---
-commit 0e16200d5dd839cadb8ffc88ed67f75051cff988
-Author: Pan Chuang <panchuang@vivo.com>
-
-dmaengine: sun4i-dma: Remove redundant dev_err()/dev_err_probe()
-
-The devm_request_irq() now automatically logs detailed error messages on
-failure. This eliminates the need for driver-specific dev_err() and
-dev_err_probe() calls that previously printed generic messages.
-
-> diff --git a/drivers/dma/sun4i-dma.c b/drivers/dma/sun4i-dma.c
-> index d2321f7287d20..303d71ba0ab61 100644
-> --- a/drivers/dma/sun4i-dma.c
-> +++ b/drivers/dma/sun4i-dma.c
-> @@ -1337,7 +1337,7 @@ static int sun4i_dma_probe(struct platform_device *=
-pdev)
->  	ret =3D devm_request_irq(&pdev->dev, priv->irq, sun4i_dma_interrupt,
->  			       0, dev_name(&pdev->dev), priv);
->  	if (ret)
-> -		return dev_err_probe(&pdev->dev, ret, "Cannot request IRQ\n");
-> +		return ret;
-> =20
->  	ret =3D dmaenginem_async_device_register(&priv->slave);
->  	if (ret)
-
-[Severity: High]
-This is a pre-existing issue, but does driver unbind safely tear down
-the virtual channels?
-
-drivers/dma/sun4i-dma.c:sun4i_dma_remove() {
-    struct sun4i_dma_dev *priv =3D platform_get_drvdata(pdev);
-
-    /* Disable IRQ so no more work is scheduled */
-    disable_irq(priv->irq);
-
-    of_dma_controller_free(pdev->dev.of_node);
-}
-
-If the driver is unbound while an interrupt has scheduled a tasklet,
-dma_async_device_unregister() called by devres will free the DMA channels
-and the associated priv->vchans memory.
-
-Since there is no tasklet_kill(&vchan->vc.task) call to cancel pending
-tasklets, could the scheduled tasklet execute after the memory is freed
-and cause a use-after-free?
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ka4fpqo6ejmxfupn"
+Content-Disposition: inline
+In-Reply-To: <ak41yQp3x78s4Fmx@ashevche-desk.local>
 
 
-[Severity: High]
-This is another pre-existing issue in the same function, but does this
-safely stop active DMA transfers?
+--ka4fpqo6ejmxfupn
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 00/23] mfd: Use named initializers for arrays of
+ *_device_data
+MIME-Version: 1.0
 
-drivers/dma/sun4i-dma.c:sun4i_dma_remove() {
-    struct sun4i_dma_dev *priv =3D platform_get_drvdata(pdev);
+Hello,
 
-    /* Disable IRQ so no more work is scheduled */
-    disable_irq(priv->irq);
+On Wed, Jul 08, 2026 at 02:34:33PM +0300, Andy Shevchenko wrote:
+> On Wed, Jul 08, 2026 at 01:15:07PM +0200, Uwe Kleine-K=F6nig (The Capable=
+ Hub) wrote:
+> > Hello,
+> >=20
+> > this series superseeds my previous patch "[PATCH v1] mfd: Use named
+> > initializers for arrays of i2c_device_data"
+> > (https://lore.kernel.org/lkml/20260515095839.4005460-2-u.kleine-koenig@=
+baylibre.com)
+> > that Lee asked me to rebase and also the series "[PATCH v1 0/3] mfd:
+> > Initialize spi_device_id arrays using member names"
+> > (https://lore.kernel.org/lkml/cover.1783003256.git.u.kleine-koenig@bayl=
+ibre.com).
+> >=20
+> > The objective for this series is to prepare mfd for changing
+> > of_device_id etc to make driver_data a union, see
+> > https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylib=
+re.com/
+> > for the idea behind it.
+> >=20
+> > This series is based on yesterday's next/master and it does the
+> > restructuring not only for i2c and spi (as the two series mentioned
+> > above), but for all *_device_id structures that I intend to modify with
+> > a union that affect mfd. So (I hope) this is the only patch series
+> > affecting mfd for this quest.
+> >=20
+> > I don't care much about the last few patches unifying the coding style.
+> > I think it's a good opportunity to do that, but if you don't like them,
+> > just don't apply these.
+>=20
+> The patches bring inconsistency (or still leave it) with the terminator s=
+tyle
+> in both I=B2C and ACPI ID tables. Can you revisit that?
 
-    of_dma_controller_free(pdev->dev.of_node);
-}
+I found a few inconstencies for of_device_id, but not for acpi and i2c.
+I have a script for the acpi and i2c (and now also for the of) changes
+and don't spot inconsistencys in the terminator style for acpi and i2c
+devices apart from comments.
 
-If the driver is unbound while a DMA transfer is actively executing, the
-hardware configuration registers are not cleared to halt the channels.
+(I looked at the output of:
 
-When devres subsequently disables the DMA controller's clock mid-transactio=
-n,
-can this forcefully lock up the AXI/AHB bus or corrupt memory?
+	git grep -lE '(i2c|acpi)_device_id [a-z0-9_]*\[\]' drivers/mfd | xargs -r =
+sed -rn '/(i2c|acpi)_device_id [a-zA-Z0-9_]*\[/,/^};/p' | grep -B1 ^\} | so=
+rt | uniq -c
 
+)
 
-[Severity: High]
-This is a pre-existing issue, but is there a race condition between the
-interrupt handler and channel termination?
+Do you mean to unify the comments, too?
 
-drivers/dma/sun4i-dma.c:sun4i_dma_interrupt() {
-    ...
-    contract =3D vchan->contract;
+Best regards
+Uwe
 
-    /*
-     * Disable the IRQ and free the pchan if it's an end
-     * interrupt (odd bit)
-     */
-    if (bit & 1) {
-        spin_lock(&vchan->vc.lock);
+--ka4fpqo6ejmxfupn
+Content-Type: application/pgp-signature; name="signature.asc"
 
-        /*
-         * Move the promise into the completed list now that
-         * we're done with it
-         */
-        list_move_tail(&vchan->processing->list,
-                       &contract->completed_demands);
-    ...
-}
+-----BEGIN PGP SIGNATURE-----
 
-The contract pointer is read before acquiring vchan->vc.lock. Concurrently,
-sun4i_dma_terminate_all() on another CPU could acquire the lock, set
-vchan->processing to NULL, free the active contract, and release the lock.
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpPx4cACgkQj4D7WH0S
+/k624gf/dzy2q/+UDcko+3qRC/vjduntKV5JaImo1jv66pbGa0vVyVdYDHS/QwvV
+X+Jr6jTMyEZcw6O1onRP1ZIcKU6MTkl/wvtqeLkFJ4PXv/hKftTSkP/IHkLuekNm
+Cn37LNIalY7gpr1gfPvcL5Q/BN1qqXCUggmW0xXf+Gi9W5bwWuTaRsJ9ehVptA3+
+rMp5HAYJ1isaiiqfMZJ/TqtNWHN6aVh8ZS6YU5b2iDitwtnRCQD1pOcYCYaXgfrt
+fbXqb+xpQvMfRgK+MLErhmJUfHf2tKi1s5OKoG1T9fiLCmp0VzTkB4+o4AgpQgeE
+pUTRSN5jhrCLDAt7v6B6b4XHPcYmTQ==
+=tSBk
+-----END PGP SIGNATURE-----
 
-When sun4i_dma_interrupt() subsequently acquires the lock, it performs a
-list_move_tail() using vchan->processing->list.
-
-Could this cause a guaranteed NULL pointer dereference since
-vchan->processing would be NULL, as well as a use-after-free when accessing
-the freed contract structure?
-
-
-[Severity: Medium]
-This is a pre-existing issue, but does this calculate the residue correctly
-for queued contracts?
-
-drivers/dma/sun4i-dma.c:sun4i_dma_tx_status() {
-    ...
-    promise =3D list_first_entry_or_null(&contract->demands,
-                                       struct sun4i_dma_promise, list);
-    if (promise && pchan) {
-        bytes -=3D promise->len;
-        if (pchan->is_dedicated)
-            bytes +=3D readl(pchan->base + SUN4I_DDMA_BYTE_COUNT_REG);
-        else
-            bytes +=3D readl(pchan->base + SUN4I_NDMA_BYTE_COUNT_REG);
-    }
-    ...
-}
-
-If vchan_find_desc() returns a pending, unstarted contract, and the virtual
-channel is currently executing a different contract on a physical channel,
-this code unconditionally assumes the hardware byte count belongs to the
-queried contract.
-
-By subtracting the queried contract's promise length and adding the executi=
-ng
-contract's hardware residue, can this return corrupted residue values for
-queued transfers?
-
-
-[Severity: Low]
-This is a pre-existing issue, but does the validation correctly restrict
-endpoints on all SoC variants?
-
-drivers/dma/sun4i-dma.c:sun4i_dma_of_xlate() {
-    ...
-    /* Make sure the endpoint looks sane */
-    if ((is_dedicated && endpoint >=3D SUN4I_DDMA_DRQ_TYPE_LIMIT) ||
-        (!is_dedicated && endpoint >=3D SUN4I_NDMA_DRQ_TYPE_LIMIT))
-        return NULL;
-    ...
-}
-
-The validation uses hardcoded limits like SUN4I_DDMA_DRQ_TYPE_LIMIT (32)
-regardless of the SoC variant.
-
-If a device tree requests an endpoint of 20 on a suniv_f1c100s device, which
-has a limit of 10, would this bypass the check and program out-of-bounds
-DRQ indices into the hardware?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260709135846.9797=
-2-1-panchuang@vivo.com?part=3D21
+--ka4fpqo6ejmxfupn--
