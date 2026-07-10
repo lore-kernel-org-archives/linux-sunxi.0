@@ -1,301 +1,225 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5763B385D85;
-	Fri, 10 Jul 2026 20:44:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3993B6354;
+	Fri, 10 Jul 2026 21:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783716287; cv=none; b=nC87/XQy+OuavLKNwqICv4xRcihrKhftXpfwCnNSVokosDMjZ1s/JGKzCZraE1v/6xNthbrDSJYhPRmZwJ9Wh5j/e1aPTOD9Kand1BE4ZNontB/+tqLz11FiacPEFmF139cnZ2dfDPPAPMm3Y6gyTE32cDDy9dEkv1zFTFF64eY=
+	t=1783718408; cv=none; b=d1sFQreR7USbCv/n8umQD3xuO0hnCE6TE+OeZ83uxREoOiwtCsjd/MbSO48FgGGFjgBDEuJxU276dIqc+9fJXuN+CwF6hEP20Jj8S+X+bTNZXrEEyptQ9fs03rWdbJxoneqOuFH1I5kx5E8qZxGluiIAioTj3o5HsYq4iGSIqs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783716287; c=relaxed/simple;
-	bh=ltqMKCiaqQdjvTI+FF1Bbx8iaCWQ0kLFmcfGnyBTD70=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=tT+VfAtc5hw5hUpXbN9utdYqH/0gw3jBeHyg9g7i+CXrBhkvr0Vhj8m4NQmRuxOoESjXz1yIe/FV4s4cyK58GOnW0WjjZbEKuoJ2W4IkkC/W9fO000qIGRe7QLmmxGv6crgxKLfWX8cKSh9lQ6IrTCxCMDbXOmPJs/baWnzaBjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=CnVVOsUp; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1783718408; c=relaxed/simple;
+	bh=K7vDYpsWFtkBmyqXdPXV4EBKZsl5etuB65I+fJm4lQw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=TxMEKBOHvAb5Dph7a1/uKAfUU4yMDt1YL/zuWMjMnmh6SmZvg78sC6JOsPw1DR+9/TdIVGJjsS6AfOTDNwtfjVTit6H7taebiWSVHdkJy650RxNRF/z1XeKMKOz/nx/HVVA3/rSYHjf6FzcOatfKrPTkbc1jrDqp9zdImPvNPDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Je40zX7Q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="CnVVOsUp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1783716284;
-	bh=ltqMKCiaqQdjvTI+FF1Bbx8iaCWQ0kLFmcfGnyBTD70=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=CnVVOsUpmfXVpd5NASaGnZj2GulmbwGyMJKdSNXJPWhcrujOmjTkV+9t5n7689Nka
-	 8NUvv8FnT/G4c4p6720OQw0ksqjvI5Ey196DAZh7zw0wy87sYnBu+IoDNH0bIXEc+b
-	 l5etBxyFOZe3MEyw9Dp9N0GbUicFnd6UDjykD2a2qxpOeo0Pdbk2AMFCK5CL3O4+Al
-	 OkdfhZCO4CMeDHEQM1wew+ibxJRZIwHy0a72eK+k2Z5VXR9HBVh11SDBrvHohHr/5w
-	 gEkApOdH8jU0XlHa40XIHPWPz83KFrSZFXc+pYC0aTVC0oga/hXypRwe8GofYvErXd
-	 ZLrU4ofi8pQpQ==
-Received: from [100.64.0.214] (unknown [100.64.0.214])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 33BAE17E03CE;
-	Fri, 10 Jul 2026 22:44:43 +0200 (CEST)
-Message-ID: <88535b996b84fae201592da11847ce9f7735a7eb.camel@collabora.com>
-Subject: Re: [PATCH v2] media: cedrus: reject invalid active H.264 ref
- indices
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>, Maxime Ripard <mripard@kernel.org>
-Cc: Paul Kocialkowski <paulk@sys-base.io>, Mauro Carvalho Chehab	
- <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland	 <samuel@sholland.org>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Fri, 10 Jul 2026 16:44:41 -0400
-In-Reply-To: <273883f0479afb1037d9b4b815937267b6bd658d.camel@collabora.com>
-References: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
-		 <20260409223001.1-cedrus-h264-active-v2-pengpeng@iscas.ac.cn>
-	 <273883f0479afb1037d9b4b815937267b6bd658d.camel@collabora.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-o4MtyftxKrMMeCtHeUA0"
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Je40zX7Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59CA51F000E9;
+	Fri, 10 Jul 2026 21:20:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783718407;
+	bh=agk6Lq9Q7fhqJWnKZOxx+JzowUA5NVdPlMIz6yfgy2s=;
+	h=From:To:Cc:Subject:Date;
+	b=Je40zX7QlpMeFEPJVqCFBAV+vhEbKCArebze1sibQKk68QkYbo5IXzDFLjZN4MDFs
+	 yPiia0yZyhPOfiFyDjEpkb9DOy1lnXc7C3Y+Rc4B/0ujUEO3jQx8zUiDfhbEAlKgSM
+	 uYw89aNGq3fhRC845RxWxZ/uTPkbCLr1iHKz/xc1EOMmOIYOXY3xQi1koaOIsdG8GE
+	 yXxHisf8/ajQb0ZmXIcvR5U+Qw/WM9SA0WVx/uCpxtJPqIkyvTroDqFv4hRnRBlw1d
+	 mTSqK1nbv+SmOuXHkNM3hNrlDoZAT6gwt4MXVj8hkjGmGZ726g/u8FFWX/yCrF8RlU
+	 +7z7k2VTdnYYQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: linux-gpio@vger.kernel.org,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Greg Ungerer <gerg@linux-m68k.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Hauke Mehrtens <hauke@hauke-m.de>,
+	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-phy@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH v2 00/10] treewide: replace linux/gpio.h
+Date: Fri, 10 Jul 2026 23:19:45 +0200
+Message-Id: <20260710211954.1373336-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+From: Arnd Bergmann <arnd@arndb.de>
+
+The linux/gpio.h header used to be the global definition for the gpio
+interfaces, with 1100 users back in linux-3.17. In linux-7.2, only about
+130 of those remain, so this series cleans out the rest.
+
+In each subsystem, we can replace the header either with
+linux/gpio/consumer.h for users of the modern gpio descriptor interface,
+or linux/gpio/legacy.h for the few remaining users of the old number
+based interface.
+
+All patches in this series can get applied independently, so my
+preference would be for each subsystem maintainer to apply these
+directly, with the rest going into the gpio tree at some point.
+
+I've uploaded this to 
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/ config-gpio-legacy-for-7.3
+
+      Arnd
 
 
---=-o4MtyftxKrMMeCtHeUA0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+v2: dropped two already applied patches,
+    removed duplicate includes,
+    dropped final patch to remove linux/gpio.h as it now depends
+    on patches in linux-next
 
-Le vendredi 10 juillet 2026 =C3=A0 16:34 -0400, Nicolas Dufresne a =C3=A9cr=
-it=C2=A0:
-> Le jeudi 09 avril 2026 =C3=A0 21:30 +0800, Pengpeng Hou a =C3=A9crit=C2=
-=A0:
-> > Cedrus consumes the active ref_pic_list0/ref_pic_list1 entries and uses
-> > their indices to look up decode->dpb[] in _cedrus_write_ref_list().
-> >=20
-> > Those active portions are the first
-> > num_ref_idx_l0_active_minus1 + 1 / num_ref_idx_l1_active_minus1 + 1
-> > entries in the two reference lists.
-> >=20
-> > An out-of-range index in that active portion can therefore read past th=
-e
-> > fixed V4L2_H264_NUM_DPB_ENTRIES array.
-> >=20
-> > Checking this in cedrus_try_ctrl() is awkward because the request-local
-> > DPB state may not have been applied yet. Instead, validate the active
-> > entries at the actual Cedrus use site and fail setup with -EINVAL if on=
-e
-> > points past decode->dpb[].
-> >=20
-> > Entries beyond the active reference counts remain ignored as before, so
-> > this does not change how Cedrus treats unused tail data in the
-> > reference-list controls.
-> >=20
-> > Fixes: 6eb9b758e307 ("media: cedrus: Add H264 decoding support")
-> > Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
->=20
-> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->=20
-> > ---
-> > Changes since v1:
-> > - reject invalid indices in the active reference list entries instead o=
-f
-> > =C2=A0 silently skipping them
-> > - keep the validation at the Cedrus use site, but propagate -EINVAL bac=
-k
-> > =C2=A0 through setup
-> >=20
-> > =C2=A0drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 32 +++++++++++=
-+++--
-> > =C2=A01 file changed, 29 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers=
-/staging/media/sunxi/cedrus/cedrus_h264.c
-> > index 3e2843ef6cce..58c411c580f3 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > @@ -186,10 +186,10 @@ static int cedrus_write_frame_list(struct cedrus_=
-ctx *ctx,
-> > =C2=A0
-> > =C2=A0#define CEDRUS_MAX_REF_IDX	32
-> > =C2=A0
-> > -static void _cedrus_write_ref_list(struct cedrus_ctx *ctx,
-> > -				=C2=A0=C2=A0 struct cedrus_run *run,
-> > -				=C2=A0=C2=A0 const struct v4l2_h264_reference *ref_list,
-> > -				=C2=A0=C2=A0 u8 num_ref, enum cedrus_h264_sram_off sram)
-> > +static int _cedrus_write_ref_list(struct cedrus_ctx *ctx,
-> > +				=C2=A0 struct cedrus_run *run,
-> > +				=C2=A0 const struct v4l2_h264_reference *ref_list,
-> > +				=C2=A0 u8 num_ref, enum cedrus_h264_sram_off sram)
-> > =C2=A0{
-> > =C2=A0	const struct v4l2_ctrl_h264_decode_params *decode =3D run->h264.=
-decode_params;
-> > =C2=A0	struct vb2_queue *cap_q;
-> > @@ -210,6 +210,9 @@ static void _cedrus_write_ref_list(struct cedrus_ct=
-x *ctx,
-> > =C2=A0		u8 dpb_idx;
-> > =C2=A0
-> > =C2=A0		dpb_idx =3D ref_list[i].index;
-> > +		if (dpb_idx >=3D V4L2_H264_NUM_DPB_ENTRIES)
-> > +			return -EINVAL;
-> > +
+ arch/arm/mach-davinci/da850.c                       | 2 +-
+ arch/arm/mach-dove/mpp.c                            | 2 +-
+ arch/arm/mach-mv78xx0/buffalo-wxl-setup.c           | 2 +-
+ arch/arm/mach-mv78xx0/irq.c                         | 2 +-
+ arch/arm/mach-mv78xx0/mpp.c                         | 2 +-
+ arch/arm/mach-mvebu/pm.c                            | 2 +-
+ arch/arm/mach-mxs/mach-mxs.c                        | 2 +-
+ arch/arm/mach-orion5x/board-d2net.c                 | 2 +-
+ arch/arm/mach-orion5x/board-rd88f5182.c             | 2 +-
+ arch/arm/mach-orion5x/dns323-setup.c                | 2 +-
+ arch/arm/mach-orion5x/irq.c                         | 2 +-
+ arch/arm/mach-orion5x/kurobox_pro-setup.c           | 2 +-
+ arch/arm/mach-orion5x/mv2120-setup.c                | 2 +-
+ arch/arm/mach-orion5x/net2big-setup.c               | 2 +-
+ arch/arm/mach-orion5x/terastation_pro2-setup.c      | 2 +-
+ arch/arm/mach-orion5x/ts209-setup.c                 | 2 +-
+ arch/arm/mach-orion5x/ts409-setup.c                 | 2 +-
+ arch/arm/mach-pxa/am200epd.c                        | 2 +-
+ arch/arm/mach-pxa/am300epd.c                        | 2 +-
+ arch/arm/mach-pxa/generic.c                         | 2 +-
+ arch/arm/mach-pxa/gumstix.c                         | 2 +-
+ arch/arm/mach-pxa/mfp-pxa2xx.c                      | 2 +-
+ arch/arm/mach-pxa/pxa25x.c                          | 2 +-
+ arch/arm/mach-pxa/pxa27x.c                          | 2 +-
+ arch/arm/mach-pxa/reset.c                           | 2 +-
+ arch/arm/mach-pxa/sharpsl_pm.c                      | 2 +-
+ arch/arm/mach-pxa/spitz.c                           | 2 +-
+ arch/arm/mach-pxa/spitz_pm.c                        | 2 +-
+ arch/arm/mach-s3c/dev-audio-s3c64xx.c               | 2 +-
+ arch/arm/mach-s3c/devs.c                            | 2 +-
+ arch/arm/mach-s3c/mach-crag6410.c                   | 2 +-
+ arch/arm/mach-s3c/pm-gpio.c                         | 2 +-
+ arch/arm/mach-s3c/pm-s3c64xx.c                      | 2 +-
+ arch/arm/mach-s3c/setup-fb-24bpp-s3c64xx.c          | 2 +-
+ arch/arm/mach-s3c/setup-i2c0-s3c64xx.c              | 2 +-
+ arch/arm/mach-s3c/setup-i2c1-s3c64xx.c              | 2 +-
+ arch/arm/mach-s3c/setup-keypad-s3c64xx.c            | 2 +-
+ arch/arm/mach-s3c/setup-sdhci-gpio-s3c64xx.c        | 2 +-
+ arch/arm/mach-s3c/setup-spi-s3c64xx.c               | 2 +-
+ arch/arm/mach-sa1100/collie.c                       | 2 +-
+ arch/arm/mach-sa1100/generic.c                      | 2 +-
+ arch/arm/mach-sa1100/h3600.c                        | 2 +-
+ arch/arm/mach-sa1100/h3xxx.c                        | 2 +-
+ arch/arm/plat-orion/mpp.c                           | 2 +-
+ arch/m68k/coldfire/device.c                         | 2 +-
+ arch/m68k/include/asm/mcfgpio.h                     | 2 +-
+ arch/mips/alchemy/board-xxs1500.c                   | 2 +-
+ arch/mips/alchemy/devboards/db1000.c                | 2 +-
+ arch/mips/alchemy/devboards/db1200.c                | 2 +-
+ arch/mips/alchemy/devboards/db1550.c                | 2 +-
+ arch/mips/bcm47xx/workarounds.c                     | 2 +-
+ arch/mips/bcm63xx/boards/board_bcm963xx.c           | 1 +
+ arch/mips/include/asm/mach-bcm63xx/board_bcm963xx.h | 2 +-
+ arch/mips/txx9/rbtx4927/setup.c                     | 2 +-
+ arch/sh/boards/board-magicpanelr2.c                 | 2 +-
+ arch/sh/boards/board-sh7757lcr.c                    | 2 +-
+ arch/sh/boards/board-urquell.c                      | 2 +-
+ arch/sh/boards/mach-ap325rxa/setup.c                | 2 +-
+ arch/sh/boards/mach-ecovec24/setup.c                | 2 +-
+ arch/sh/boards/mach-highlander/pinmux-r7785rp.c     | 2 +-
+ arch/sh/boards/mach-kfr2r09/lcd_wqvga.c             | 2 +-
+ arch/sh/boards/mach-kfr2r09/setup.c                 | 2 +-
+ arch/sh/boards/mach-migor/lcd_qvga.c                | 2 +-
+ arch/sh/boards/mach-migor/setup.c                   | 2 +-
+ arch/sh/boards/mach-rsk/devices-rsk7203.c           | 2 +-
+ arch/sh/boards/mach-rsk/devices-rsk7269.c           | 1 -
+ arch/sh/boards/mach-se/7724/setup.c                 | 2 +-
+ arch/sh/include/mach-common/mach/magicpanelr2.h     | 2 --
+ arch/sh/kernel/cpu/sh4a/setup-shx3.c                | 2 +-
+ drivers/gpib/gpio/gpib_bitbang.c                    | 1 -
+ drivers/input/keyboard/matrix_keypad.c              | 1 -
+ drivers/mfd/aat2870-core.c                          | 2 +-
+ drivers/mfd/arizona-irq.c                           | 2 +-
+ drivers/mfd/lp3943.c                                | 2 +-
+ drivers/mfd/sm501.c                                 | 2 +-
+ drivers/mfd/tps6105x.c                              | 2 +-
+ drivers/mfd/tps65911-comparator.c                   | 2 +-
+ drivers/mfd/wm8994-irq.c                            | 2 +-
+ drivers/pcmcia/bcm63xx_pcmcia.c                     | 2 +-
+ drivers/pcmcia/db1xxx_ss.c                          | 2 +-
+ drivers/pcmcia/sa1100_h3600.c                       | 2 +-
+ drivers/pcmcia/soc_common.c                         | 2 +-
+ drivers/pcmcia/xxs1500_ss.c                         | 2 +-
+ drivers/phy/broadcom/phy-bcm-ns2-usbdrd.c           | 1 -
+ drivers/phy/rockchip/phy-rockchip-usbdp.c           | 2 +-
+ drivers/phy/ti/phy-j721e-wiz.c                      | 1 -
+ include/linux/mfd/lp3943.h                          | 2 +-
+ include/linux/mfd/ti-lmu.h                          | 1 -
+ include/linux/mfd/tps65910.h                        | 2 +-
+ include/linux/mfd/ucb1x00.h                         | 2 +-
+ sound/soc/codecs/cs42l84.c                          | 1 -
+ sound/soc/codecs/cx2072x.c                          | 2 +-
+ sound/soc/codecs/dmic.c                             | 1 -
+ 93 files changed, 84 insertions(+), 93 deletions(-)
 
-Ah, got confused in triaging, this one got actually replaced by what we alr=
-eady
-merged, which is just these two lines. Marking as obsolete, feel free to fo=
-llow-
-up.
+-- 
+2.39.5
 
-cheers,
-Nicolas
-
-> > =C2=A0		dpb =3D &decode->dpb[dpb_idx];
-> > =C2=A0
-> > =C2=A0		if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
-> > @@ -229,28 +232,30 @@ static void _cedrus_write_ref_list(struct cedrus_=
-ctx *ctx,
-> > =C2=A0
-> > =C2=A0	size =3D min_t(size_t, ALIGN(num_ref, 4), sizeof(sram_array));
-> > =C2=A0	cedrus_h264_write_sram(dev, sram, &sram_array, size);
-> > +
-> > +	return 0;
-> > =C2=A0}
-> > =C2=A0
-> > -static void cedrus_write_ref_list0(struct cedrus_ctx *ctx,
-> > -				=C2=A0=C2=A0 struct cedrus_run *run)
-> > +static int cedrus_write_ref_list0(struct cedrus_ctx *ctx,
-> > +				=C2=A0 struct cedrus_run *run)
-> > =C2=A0{
-> > =C2=A0	const struct v4l2_ctrl_h264_slice_params *slice =3D run->h264.sl=
-ice_params;
-> > =C2=A0
-> > -	_cedrus_write_ref_list(ctx, run,
-> > -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 slice->ref_pic_list0,
-> > -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 slice->num_ref_idx_l0_active_m=
-inus1 + 1,
-> > -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 CEDRUS_SRAM_H264_REF_LIST_0);
-> > +	return _cedrus_write_ref_list(ctx, run,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 slice->ref_pic_list0,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 slice->num_ref_idx_l0_active_minus1=
- + 1,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 CEDRUS_SRAM_H264_REF_LIST_0);
-> > =C2=A0}
-> > =C2=A0
-> > -static void cedrus_write_ref_list1(struct cedrus_ctx *ctx,
-> > -				=C2=A0=C2=A0 struct cedrus_run *run)
-> > +static int cedrus_write_ref_list1(struct cedrus_ctx *ctx,
-> > +				=C2=A0 struct cedrus_run *run)
-> > =C2=A0{
-> > =C2=A0	const struct v4l2_ctrl_h264_slice_params *slice =3D run->h264.sl=
-ice_params;
-> > =C2=A0
-> > -	_cedrus_write_ref_list(ctx, run,
-> > -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 slice->ref_pic_list1,
-> > -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 slice->num_ref_idx_l1_active_m=
-inus1 + 1,
-> > -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 CEDRUS_SRAM_H264_REF_LIST_1);
-> > +	return _cedrus_write_ref_list(ctx, run,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 slice->ref_pic_list1,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 slice->num_ref_idx_l1_active_minus1=
- + 1,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 CEDRUS_SRAM_H264_REF_LIST_1);
-> > =C2=A0}
-> > =C2=A0
-> > =C2=A0static void cedrus_write_scaling_lists(struct cedrus_ctx *ctx,
-> > @@ -338,8 +343,8 @@ static void cedrus_skip_bits(struct cedrus_dev *dev=
-, int num)
-> > =C2=A0	}
-> > =C2=A0}
-> > =C2=A0
-> > -static void cedrus_set_params(struct cedrus_ctx *ctx,
-> > -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct cedrus_run *run)
-> > +static int cedrus_set_params(struct cedrus_ctx *ctx,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0 struct cedrus_run *run)
-> > =C2=A0{
-> > =C2=A0	const struct v4l2_ctrl_h264_decode_params *decode =3D run->h264.=
-decode_params;
-> > =C2=A0	const struct v4l2_ctrl_h264_slice_params *slice =3D run->h264.sl=
-ice_params;
-> > @@ -351,6 +356,7 @@ static void cedrus_set_params(struct cedrus_ctx *ct=
-x,
-> > =C2=A0	size_t slice_bytes =3D vb2_get_plane_payload(src_buf, 0);
-> > =C2=A0	unsigned int pic_width_in_mbs;
-> > =C2=A0	bool mbaff_pic;
-> > +	int ret;
-> > =C2=A0	u32 reg;
-> > =C2=A0
-> > =C2=A0	cedrus_write(dev, VE_H264_VLD_LEN, slice_bytes * 8);
-> > @@ -393,11 +399,17 @@ static void cedrus_set_params(struct cedrus_ctx *=
-ctx,
-> > =C2=A0
-> > =C2=A0	if ((slice->slice_type =3D=3D V4L2_H264_SLICE_TYPE_P) ||
-> > =C2=A0	=C2=A0=C2=A0=C2=A0 (slice->slice_type =3D=3D V4L2_H264_SLICE_TYP=
-E_SP) ||
-> > -	=C2=A0=C2=A0=C2=A0 (slice->slice_type =3D=3D V4L2_H264_SLICE_TYPE_B))
-> > -		cedrus_write_ref_list0(ctx, run);
-> > +	=C2=A0=C2=A0=C2=A0 (slice->slice_type =3D=3D V4L2_H264_SLICE_TYPE_B))=
- {
-> > +		ret =3D cedrus_write_ref_list0(ctx, run);
-> > +		if (ret)
-> > +			return ret;
-> > +	}
-> > =C2=A0
-> > -	if (slice->slice_type =3D=3D V4L2_H264_SLICE_TYPE_B)
-> > -		cedrus_write_ref_list1(ctx, run);
-> > +	if (slice->slice_type =3D=3D V4L2_H264_SLICE_TYPE_B) {
-> > +		ret =3D cedrus_write_ref_list1(ctx, run);
-> > +		if (ret)
-> > +			return ret;
-> > +	}
-> > =C2=A0
-> > =C2=A0	// picture parameters
-> > =C2=A0	reg =3D 0;
-> > @@ -478,6 +490,8 @@ static void cedrus_set_params(struct cedrus_ctx *ct=
-x,
-> > =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0 VE_H264_CTRL_SLICE_DECODE_INT |
-> > =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0 VE_H264_CTRL_DECODE_ERR_INT |
-> > =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0 VE_H264_CTRL_VLD_DATA_REQ_INT);
-> > +
-> > +	return 0;
-> > =C2=A0}
-> > =C2=A0
-> > =C2=A0static enum cedrus_irq_status
-> > @@ -531,9 +545,7 @@ static int cedrus_h264_setup(struct cedrus_ctx *ctx=
-, struct cedrus_run *run)
-> > =C2=A0	if (ret)
-> > =C2=A0		return ret;
-> > =C2=A0
-> > -	cedrus_set_params(ctx, run);
-> > -
-> > -	return 0;
-> > +	return cedrus_set_params(ctx, run);
-> > =C2=A0}
-> > =C2=A0
-> > =C2=A0static int cedrus_h264_start(struct cedrus_ctx *ctx)
-
---=-o4MtyftxKrMMeCtHeUA0
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCalFZuQAKCRDZQZRRKWBy
-9E4gAP9IKReqizEjnQfn4ApLGat1bJ5U0qQKq3VhmdZ9lvsLyQEAlR9FERLUU97O
-YAYg5Flg0N0JR45jozsHFNE8RcF5JgE=
-=Ag+W
------END PGP SIGNATURE-----
-
---=-o4MtyftxKrMMeCtHeUA0--
+Cc: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Andrew Lunn <andrew@lunn.ch>
+Cc: Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
+Cc: Gregory Clement <gregory.clement@bootlin.com>
+Cc: Frank Li <Frank.Li@nxp.com>
+Cc: Robert Jarzmik <robert.jarzmik@free.fr>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Greg Ungerer <gerg@linux-m68k.org>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: Hauke Mehrtens <hauke@hauke-m.de>
+Cc: "Rafał Miłecki" <zajec5@gmail.com>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: Linus Walleij <linusw@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Dominik Brodowski <linux@dominikbrodowski.net>
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-samsung-soc@vger.kernel.org
+Cc: patches@opensource.cirrus.com
+Cc: linux-m68k@lists.linux-m68k.org
+Cc: linux-mips@vger.kernel.org
+Cc: linux-sh@vger.kernel.org
+Cc: linux-gpio@vger.kernel.org
+Cc: linux-input@vger.kernel.org
+Cc: linux-sunxi@lists.linux.dev
+Cc: linux-phy@lists.infradead.org
+Cc: linux-rockchip@lists.infradead.org
+Cc: linux-sound@vger.kernel.org
