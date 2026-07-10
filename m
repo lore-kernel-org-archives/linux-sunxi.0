@@ -1,156 +1,97 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from extorris.mess.org (extorris.mess.org [92.243.27.206])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0BF13E5A19
-	for <linux-sunxi@lists.linux.dev>; Fri, 10 Jul 2026 08:03:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4D23C8C43
+	for <linux-sunxi@lists.linux.dev>; Fri, 10 Jul 2026 08:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.243.27.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783670595; cv=none; b=jkLVIQmvlMBSS3r2IrxsH8G4biZVvVxa8uWlzrOIVxsAFDXi+bkEIP6w/slP3COp7Qcmw2coMOeQ+ZKqVZ13eYjnXtJcN/9VkJZtpEX9ivNCW28fzvYArrEdN5GudhWLIiZTzXjlp0y7I3g/Dx72kimCs+hKBPXQaSuqiaJWV+o=
+	t=1783673640; cv=none; b=ijmbmde4VhUvePvkVEtUCCt+vYYtsUklFcHPIm4M9infzgdNGRHJoaeoCoGRFcU8D552RMzPtQDjO8hGAGFOwJdjjIXL3hriGTgoU0w+pd5g6kU9HGAxU5BKtMlK9cF1WdEfVrYU6hVVJYWdpJwUseodSW4wp+Bk4LBaUQqJr2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783670595; c=relaxed/simple;
-	bh=DWdfXN3BNh6HNT+0goMzdBpTUvzgP37bXlBu5ybAYas=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eqW/bLxdBxKut3eWI09otM+UN3OncsyA8EBJo3d4UwVONLDVXUKiJMa/nRgWWsolqXXCwyyJaZcxjtjSdE1NNOrZFS1HGo1vzh4q+6MqKq5sXhtGO+S9bEI6a1tu6QmFIovLsb/OgTWurx9Qm8lVo9jlb3BbHqQle6Ui1KQUYBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=IljZosE6; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1783673640; c=relaxed/simple;
+	bh=PFYYQhVg4NRarAQ81g5gFeRQ3Pkd+XUXZYeUxj9P9Kk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=lvgdxHRNvGMAVbkw01qMqMPp0riHjQCn4Ys90grTRTEDXJmhNhZb0TTprZMnUne13tAb7FaWDaTUMOuGqoWA27ichEEDHYvNGInitburxsb9PJ8LNvH3DHwX9iyVn1ci1z2xSFzZzwN6efSoevlQgtPnKqV3YfZ6Z5ZxWsT2wTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=UT4zSjal; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=Q7tS2vmA; arc=none smtp.client-ip=92.243.27.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="IljZosE6"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-493f4638f4aso3201205e9.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 10 Jul 2026 01:03:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1783670591; x=1784275391; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=DWdfXN3BNh6HNT+0goMzdBpTUvzgP37bXlBu5ybAYas=;
-        b=IljZosE6QWRG5Wb6zWVuDa5ameLKZX0nKC4pnbAkoFHk+hBfnZ1zUxEDNqgLIlKvmZ
-         BS+/7Bs30OLBnKXLntvHmhvZeyAGXgpN9nr+0pJm+6gl/Qp5AVFtt+dlpwNQcd2XpFWM
-         R6VX2Zl3ZP96P/vokbQQE2BHDcinlac/Va3ZNebvhxuOuCmjfguRXgHnjA9TSACLqDF/
-         5QwtJxsxzF91ZJ6y6z2fvQAnNdZfHfD03GimcSypb525rsMn5JALpfc6bD5E8zxIZ5z2
-         MYqgXJJMPNYZqJnQazx92TZOtraPpQxDE4xCeEBI1SDN8uNZ6bJqyy8QFsCw/NVGa29P
-         dwAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783670591; x=1784275391;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DWdfXN3BNh6HNT+0goMzdBpTUvzgP37bXlBu5ybAYas=;
-        b=r+dSeuIFkfEGaffYXEOAoWyXLpSgd7W0rdUg8UkDdh1/puSIXfOTkTVnbbs4KL4QuM
-         hr8F31VZ3czxkDnUg5SvNFX0aCUfP84gRPVJdCxfCxlJ8G/igA0FnFa5kVjxiOa6V2Yr
-         UNZNxSxjBW6M5M+FUKc0QHY5p9C7Muf1VTsWVZLwFbXVHdA3jyRBuZ7eF09EfbxMu2ES
-         jEGPvEB+DMrbOd3k6RZLBlFuNwZ+pV7ha+IMRHzrny8dRYaqlicrCDc6u9yRJgfb+wAV
-         tmTMAZs5+a7daVFXf6jd2vC0peAILVnWDY8A/Lwe75wnHRZQqtuP2MvjEFCK6TvtrG6W
-         NdiQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrXwD0jgp97IUjsN2gY6urwghv7S0e5RvddsxeUWqHaFSH7jTWe1blR9pNeCeXICoa55k2JCfoUARMQiA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyg2AnpadpLUd2UkT47Y5L6x/4xehs0Oia0yyYOQroKPmGFLUlj
-	QFTKjeMXCJglhIlsgWKZPIzQ2Tvp95ohkz2mePLq5YKrJHQzX2SFKGG18dTQc/zxD7Q=
-X-Gm-Gg: AfdE7ckelRTS8HPDJlsnaFeSm9MPK0ebFNvzjbVdQb+lNI/J+DEv7QAfJNidabc/eAT
-	LcYbUmYc9SjAAdFIQGN2mESi3Bf1vTvc7iv/hmTBPIC4k+qTGqCT/HM4mnbQ31Uc6jUgPIcepxk
-	1iuEn9fubXfIs4Fj5PQYc4Er9Q7VzbBKnv9j9n3uWzo7RRWkaxqaU8BHlrkk0VNUpiJOycHx/Du
-	TxQFbKbgs1XFZGztvReMMr4j5P0LgretywcG3/Tpu76wec2A4fQ5/btCRTiok4QC2c3a30bh4xk
-	iJ8PposQz/VIEbWO4JCeYyMDeu1BtqcTel/qs/mBpB1SKPFt33JV7E0+JKXLFOaRxTiVYXQS2M8
-	lvKBeyFuuejK0l43NtPFQsGcOaJVXeNBaKjXN6QAhQ04rsx0UksYx9kXV1w1VQ05dMsDCpeah0x
-	wX1bXiQh4q8rEn6RZFyx5h10wA4oWxUPfIwcx5Il7HUyzhRuPYhs6BY2pDFlSik2rF9JyiB+Vym
-	HJv
-X-Received: by 2002:a05:600c:e557:20b0:493:c0ec:9a5f with SMTP id 5b1f17b1804b1-493e68ddd9bmr75755495e9.19.1783670590951;
-        Fri, 10 Jul 2026 01:03:10 -0700 (PDT)
-Received: from localhost (p200300f65f47db04fbea22a44ee9ba38.dip0.t-ipconnect.de. [2003:f6:5f47:db04:fbea:22a4:4ee9:ba38])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47a9e4d6e4csm55102028f8f.10.2026.07.10.01.03.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 01:03:10 -0700 (PDT)
-Date: Fri, 10 Jul 2026 10:03:09 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-To: linux-pwm@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Binbin Zhou <zhoubinbin@loongson.cn>, 
-	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Peter Griffin <peter.griffin@linaro.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Paul Walmsley <pjw@kernel.org>, 
-	Samuel Holland <samuel.holland@sifive.com>, Michael Walle <mwalle@kernel.org>, 
-	Chen Wang <chen.wang@linux.dev>, Inochi Amaoto <inochiama@gmail.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Hammer Hsieh <hammerh0314@gmail.com>, Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>, 
-	Alexey Charkov <alchark@gmail.com>, Sean Anderson <sean.anderson@linux.dev>, 
-	Michal Simek <michal.simek@amd.com>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-rpi-kernel@lists.infradead.org, chrome-platform@lists.linux.dev, imx@lists.linux.dev, 
-	linux-mips@vger.kernel.org, linux-amlogic@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, sophgo@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v1 0/5] pwm: Unify arrays of various *_device_id
-Message-ID: <alCm-J1wRBnhoH0C@monoceros>
-References: <cover.1783263835.git.ukleinek@kernel.org>
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="UT4zSjal";
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="Q7tS2vmA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1783673631; bh=PFYYQhVg4NRarAQ81g5gFeRQ3Pkd+XUXZYeUxj9P9Kk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=UT4zSjalRJqXyQhA/FSCEtu4h11D7ROz/3tcubYOueYKd4fy1BE6vBGljRiGu5dR7
+	 DyYiH+aCgVnl15gpEKIdzavkb98YvIBA0xDNT7MGqg8vCve6ZQnvAeRCRONkdrcNvc
+	 SxSMr6xrOze/6EomAamObvaS1asgJ1wJ7GZZ/SbYkGw++N+hCU6LMeK5jaDY1EDUML
+	 tm3hl8pNOXDop1WTfLI74QnHQ3V/yBlFNr9PmBAnQ9I2IlA0Q9xjFoJ9OJJwKF1pHp
+	 LP4NCPAfOHmFwYCIHS2RqJLNGrHmCS4ScflCXkgo8UUP9W9s+SmWZELJGmJ/yP470N
+	 592JPHiCEnxZw==
+Received: by extorris.mess.org (Postfix, from userid 1004)
+	id BF25C40194; Fri, 10 Jul 2026 09:53:51 +0100 (BST)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1783673629; bh=PFYYQhVg4NRarAQ81g5gFeRQ3Pkd+XUXZYeUxj9P9Kk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Q7tS2vmA86o248eMBvJZbYEhyUISrTe2nv47HVo3EBB7Wxrw/q2cjF2Q/s1a683pj
+	 BoBwF+MTN5v6MmQc7WN1g5SAoqY0NzP9lX+ggsZPVjvkpArpwCtP34JWz2KigVZg4e
+	 6L0xbtr9uexxKL+seFkxe6wfL9blzBpwgYSgfoEFoYy6gvzgZ3t9n0FXXuHercC8Gb
+	 ArHomzEUtOdrVqrjnuDjawTYJZawhFr+ZEK3GKuww4egj8dYWc46AUqlVpofx+Ap1z
+	 aJPjdLb7TV96CXOc2nFahvHojnRrNmcHsgaXzd50an5BycQdq1m405O6IWFL8/cCJK
+	 Z4M3GggQWecXA==
+Received: from maru.local (unknown [62.232.99.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by extorris.mess.org (Postfix) with ESMTPSA id B556540B4C;
+	Fri, 10 Jul 2026 09:53:49 +0100 (BST)
+From: Sean Young <sean@mess.org>
+To: linux-media@vger.kernel.org,
+	Sean Young <sean@mess.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Patrice Chotard <patrice.chotard@foss.st.com>
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 4/7] media: sunxi-cir: Ensure no more interrupts can occur before free
+Date: Fri, 10 Jul 2026 09:53:32 +0100
+Message-ID: <e74a0caf91aaefaf98476a191e6489c606632bf1.1783673420.git.sean@mess.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <cover.1783673420.git.sean@mess.org>
+References: <cover.1783673420.git.sean@mess.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iuf5svn2mmf3pdwc"
-Content-Disposition: inline
-In-Reply-To: <cover.1783263835.git.ukleinek@kernel.org>
+Content-Transfer-Encoding: 8bit
 
+Only call rc_free_device() once the hardware has been stopped.
 
---iuf5svn2mmf3pdwc
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v1 0/5] pwm: Unify arrays of various *_device_id
-MIME-Version: 1.0
+Fixes: dccc0c3ddf8f ("media: rc: fix race between unregister and urb/irq callbacks")
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ drivers/media/rc/sunxi-cir.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hello,
+diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
+index 28e840a7e5b8..af1ee08ffdbe 100644
+--- a/drivers/media/rc/sunxi-cir.c
++++ b/drivers/media/rc/sunxi-cir.c
+@@ -374,8 +374,8 @@ static void sunxi_ir_remove(struct platform_device *pdev)
+ 	struct sunxi_ir *ir = platform_get_drvdata(pdev);
+ 
+ 	rc_unregister_device(ir->rc);
+-	rc_free_device(ir->rc);
+ 	sunxi_ir_hw_exit(&pdev->dev);
++	rc_free_device(ir->rc);
+ }
+ 
+ static void sunxi_ir_shutdown(struct platform_device *pdev)
+-- 
+2.55.0
 
-On Sun, Jul 05, 2026 at 05:14:12PM +0200, Uwe Kleine-K=F6nig (The Capable H=
-ub) wrote:
-> this series is part of a preparation for changing .driver_data (and
-> similarily named members) of *_device_id to an anonymous union.
-> See e.g.
-> https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre=
-=2Ecom/
-> for the idea behind it. I also grabbed the opportunity to unify the
-> coding style for all these arrays while going through these.
->=20
-> The patch series is based on pwm/for-next + "pwm: pxa: Depend on OF and
-> simplify accordingly" [1].
-
-Applied the series with s/iff/if (and only if)/ in the of_device_id
-style patch.
-
-Best regards
-Uwe
-
---iuf5svn2mmf3pdwc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpQpzoACgkQj4D7WH0S
-/k4qdwgAk8w911oLsA5aqycP2AV5trJAC5zx53mJ8LxbKoImqWjYyvmd9Kb5YCt2
-LPeZPEPqg6LIhPMbDp91hBWArDL5UUUJ5OfgC8/i0zK1+zWS0B+UPtXUGxzQOkwk
-stkrTAN5eVW7rhVy1AtT4N+EJVm4Y8958RVsmNi75/idP+gmhs7RdJg8zMdhrVVy
-M7XB5Q1zxVcmhsx5TDStZ8tzeFMsDbMqz0s0xVECWSq50U70IwD0Scn0a1BN68kQ
-+fZQMwGT3KhdqqmLJV44puWQoDqj8OwGeAuWJQykzluefOFNtRHtRhurlZQAUOrv
-W4X++IXkqXbyyTO72ousttS/RpH5ig==
-=4YUW
------END PGP SIGNATURE-----
-
---iuf5svn2mmf3pdwc--
