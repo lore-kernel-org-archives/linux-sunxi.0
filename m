@@ -1,122 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF383C5823
-	for <linux-sunxi@lists.linux.dev>; Fri, 10 Jul 2026 09:03:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B15A407CFD
+	for <linux-sunxi@lists.linux.dev>; Fri, 10 Jul 2026 10:29:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783674202; cv=none; b=Kr93WX97H/ECRYVPBB+FZweexhIdSQKyykQPypOUssVcl83Em13TaJ+KMb1hU4cEblS8mTiG4QWwRbEC18xiyQHzV7glIJ7MSFUxe9aIXtAOMEyt+VHo1ku+Xrk3wydWC8ztAQK7PD5c6JkayAvTFyoGZg28nWh+0Ihj1aX4/OA=
+	t=1783679382; cv=none; b=s+VTSVp//LcaNqoKGY3AMVD4cj2Zd0xvkcZn1swwam2rsQRYyKo8D5I9EA4PwyNU06omqJkHIBG5b4VHpZVuhRJDjEBjJxshcbpVDsWkb+fP6/oWJNE564kKWLuZAEytQGfQzMfl7BA5odoCDnSSSP7f9ZrjhPafEz17UhsHvys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783674202; c=relaxed/simple;
-	bh=+NDha8slwu2mjQ+/5M4gz1q042LiXM2u77fFPHSbszM=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=pOk0h2cTsP9JlodmzpVyIsV9QkPq8s+DpkhUN5ppmHeQGvVy4q6soUC0qcS5cSOFNaZCy+yzj8Rn/PLAH3hJVSOHzeKcl/ENOhy+OyZ1SGM34ie4b2t89LeGOmBM640QmcEGRDPbxOWuZULUhEInThGARrXMhOm88GZAFXR0A9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PBYa5qOD; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PBYa5qOD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B85C1F000E9;
-	Fri, 10 Jul 2026 09:03:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783674199;
-	bh=tL8X/iE7ZQf1bvybRUg/7B3mKPU/c2No4kcG4X6gb3c=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=PBYa5qOD+VLlrXqy5NDYyfeP18VKmTRB4P5d0S2nCpKnEyVd1betwaZHhz9g3mfcK
-	 LKACI9TRo66HaQmDdCihsktQgs5+6w+UwJ5ZFKwlRRxpo7JGclwqndAdqYkkE5MFhE
-	 OYFyK/iSvhiK/gQh30a+7JfOj/UTzQxSt+89ZEsMelEXQ30G7XwnlbCkkRBMwUn18J
-	 mHayPjsrvqehNYtB4RwnW9HPm674Grp4ApWyaxqZU4iDyy652mMBL9QyF6ilrRNz6s
-	 U+KwRQqJgDusoUu17HE41jXy+iGywZeBiSpI7RRkrVfIsWkhfdIn21P8Uv28xjim7m
-	 HVc3DgS9GbJLA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 4/7] media: sunxi-cir: Ensure no more interrupts can
- occur before free
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Sean Young" <sean@mess.org>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <e74a0caf91aaefaf98476a191e6489c606632bf1.1783673420.git.sean@mess.org>
-References: <cover.1783673420.git.sean@mess.org>
- <e74a0caf91aaefaf98476a191e6489c606632bf1.1783673420.git.sean@mess.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 10 Jul 2026 09:03:19 +0000
-Message-Id: <20260710090319.8B85C1F000E9@smtp.kernel.org>
+	s=arc-20240116; t=1783679382; c=relaxed/simple;
+	bh=8Lu8OMpVPc16MxdZvSkmOEt9Lvt01fn1EVEQixIYHBA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=E/rtaIFDL21gvjCUdqjOF2rNRH0v01O+dV+I1rSeiYZbUefYqHLZPgI0UYFmKnZeUDNHKCa+Zxz1jAv4UO9w/HBRs6kYxDYZQMnZPOWEWhz6XIutoiugw2ZewdHLNQflh1Un3dBNjKHi34uo2XbX8vKn0wF7XQ2bOJIA8nqlq0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-80d33d13a23so9673947b3.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 10 Jul 2026 03:29:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783679380; x=1784284180;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HsVN2cPDw+/JUxMMLcOD68aRVLlq59TmevfTz9ChQ+g=;
+        b=m9QQkYeStrd6Koc8VsnrYZOJ4UipmVxFBQUcfah5RbBtTzJkbuGvWhigrfgIOcIw1W
+         zOTXP9LkJF+Z+oFoGPeuAEgyxtz/KoYlF8QvbmlJyLfAaTK8jaja5X/QxK7lE2kwPSQC
+         I2NbNXEt7swWvdXURDDvAaM3HH27CHOur7BTk3zeNoEmdizM7qJeZ297LwOA+x5687ph
+         xHnWpVK6osMXksi4iQTG5ErKgrIzDcCv0oKPpIlptT4aM/g90vuoK9jioWZZzjZ9BsYi
+         m1T5n/RHtM/xE3kbSXQ8WFQ0MJS4yyxemE+NS+kcaQcuoOFD4e+Hc2ou8n6ZJw+TOXif
+         O+0w==
+X-Forwarded-Encrypted: i=1; AHgh+RrKYkmQ5sTogsAOCLODVuA7rEK7EvZ84WoLT2tcX9D2PB3fpPMJ0hDeuUt2PRIl0qFQdMDy5GGdCaKkVA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywbbg8WNaNJWEK16A6GBmWAICDcJYAXu1UEjP0BZsKlJYQZAb5l
+	gBjLTWcze9XjM7jtIN+o9CYXNGRVzIawDWsot87jnzQfjGhALQ1xgSbO3TRSnCR0Nh8=
+X-Gm-Gg: AfdE7ckGfSON2aS63t6u3FZcgi+O7ClAPxSpvlgZzziNxe0FNcowbzKfZdVxzhU7Fw+
+	6kvDJZDAeZq2GTpKoogZbgn9Hb7d37mbkjMtXLnTam+a/nKPSYZ1xRaCtybgDEbg2PY9S6pTHsj
+	30WuiJodwppbtAQZyhbCi5Y5u8O+sv6G6JsSrzV6F6tdlj6+h+FirWUcbj3ayaBi9DCFerMH+kM
+	sF1SxLLXeTfAxHjerk5Og15uamfqMC4xq2tsESpCTwWgqPD6wakx2ZSjBfZYG/oxXCqKOiyIwIT
+	3HFOQU5jTAzv2NTlDKjwBVdTITGXytvXdJh50kOmYJF7fobL+grSefP8HET1r70H3AmalMatmPT
+	3njOBP+B8ug0gZ00drZ0kX9MD9Lkhq1mBkftbd1N5AwC3kZr7V1AWYIhLvvEne/BqtsZ7e75wJ/
+	61KcUfjN5kAOwkwN9hNBTe22nlNXjffjVSw6L0cVkSjZJGFf+uoU08PGKASo1O
+X-Received: by 2002:a05:690c:450e:b0:80c:fed7:9cab with SMTP id 00721157ae682-81dbbe3bde4mr83878507b3.10.1783679379916;
+        Fri, 10 Jul 2026 03:29:39 -0700 (PDT)
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com. [74.125.224.41])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e6c1ee7b3sm41664847b3.36.2026.07.10.03.29.39
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Jul 2026 03:29:39 -0700 (PDT)
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-66493875766so1313092d50.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 10 Jul 2026 03:29:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RqvRsahVKhdFMk05vkoYqhLaNFSxayEm02S7yS5lXoXXKnoGRIt7u1fZ69eLZGy18Q229O/cwtFAnLc/Q==@lists.linux.dev
+X-Received: by 2002:a05:6102:3911:b0:726:e608:6658 with SMTP id
+ ada2fe7eead31-744dff43a82mr6415934137.11.1783678885257; Fri, 10 Jul 2026
+ 03:21:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <cover.1783615311.git.u.kleine-koenig@baylibre.com> <e5cc82aa51da5f545f745b126923fdd6085a68a0.1783615311.git.u.kleine-koenig@baylibre.com>
+In-Reply-To: <e5cc82aa51da5f545f745b126923fdd6085a68a0.1783615311.git.u.kleine-koenig@baylibre.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 10 Jul 2026 12:21:14 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW4Thb0en6jeD23KhDp4pTe2F8o5GcBx4fnB+JAxPG-bQ@mail.gmail.com>
+X-Gm-Features: AUfX_mxlLApCIjqxIsg4l7Qhe6Rgf_3Xy6YCZC9GZlPPApUQFkmqIVPuBIh_jUI
+Message-ID: <CAMuHMdW4Thb0en6jeD23KhDp4pTe2F8o5GcBx4fnB+JAxPG-bQ@mail.gmail.com>
+Subject: Re: [PATCH v3 21/23] mfd: Unify style of of_device_id arrays
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+Cc: Lee Jones <lee@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Chen-Yu Tsai <wens@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
+	James Ogletree <jogletre@opensource.cirrus.com>, Fred Treven <fred.treven@cirrus.com>, 
+	Ben Bright <ben.bright@cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, 
+	Support Opensource <support.opensource@diasemi.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Peter Griffin <peter.griffin@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Tim Harvey <tharvey@gateworks.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, Sven Peter <sven@kernel.org>, 
+	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, Chanwoo Choi <cw00.choi@samsung.com>, 
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
+	Saravanan Sekar <sravanhome@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade <andreas@kemnade.info>, 
+	Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
+	Tony Lindgren <tony@atomide.com>, Matti Vaittinen <mazziesaccount@gmail.com>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	Heiko Stuebner <heiko@sntech.de>, mfd@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com, 
+	linux-rpi-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+	linux-amlogic@lists.infradead.org, asahi@lists.linux.dev, 
+	linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
+	linux-omap@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+	linux-rockchip@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
+On Thu, 9 Jul 2026 at 19:00, Uwe Kleine-K=C3=B6nig (The Capable Hub)
+<u.kleine-koenig@baylibre.com> wrote:
+> These arrays already mostly match the most used and generally
+> recommended coding style. That is:
+>
+>  - no comma after the list terminator;
+>  - a comma after an initializer if (and only if) the closing } is not
+>    directly following;
+>  - no explicit zeros in the list terminator;
+>  - a space after an opening { and before a closing }, a single space in
+>    the list terminator;
+>
+> Adapt the offenders accordingly.
+>
+> Reviewed-by: Andr=C3=A9 Draszik <andre.draszik@linaro.org> # for Maxim MA=
+X77759
+> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig (The Capable Hub) <u.kleine-koenig@b=
+aylibre.com>
 
-Pre-existing issues:
-- [High] The patch fails to fix the IRQ Use-After-Free race condition and e=
-xacerbates a bus fault vulnerability by disabling hardware clocks without s=
-ynchronizing the devm-managed interrupt.
-- [High] The interrupt is requested before the hardware is initialized in t=
-he probe function, leading to a possible bus fault on spurious interrupts a=
-nd a Use-After-Free in the error path.
---
+>  drivers/mfd/rz-mtu3.c          |  2 +-
 
---- Patch [4]: [PATCH 4/7] media: sunxi-cir: Ensure no more interrupts can =
-occur before free ---
-commit 8ac4bdb72847c70ea6f26a6012ec7552bc70de07
-Author: Sean Young <sean@mess.org>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
 
-media: sunxi-cir: Ensure no more interrupts can occur before free
+Gr{oetje,eeting}s,
 
-This commit reorders the device removal sequence to call rc_free_device()
-only after the hardware has been stopped via sunxi_ir_hw_exit(). The stated
-intent is to prevent interrupts from occurring after the device is freed.
-
-> diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
-> index 28e840a7e5b8c..af1ee08ffdbec 100644
-> --- a/drivers/media/rc/sunxi-cir.c
-> +++ b/drivers/media/rc/sunxi-cir.c
-> @@ -374,8 +374,8 @@ static void sunxi_ir_remove(struct platform_device *p=
-dev)
->  	struct sunxi_ir *ir =3D platform_get_drvdata(pdev);
-> =20
->  	rc_unregister_device(ir->rc);
-> -	rc_free_device(ir->rc);
->  	sunxi_ir_hw_exit(&pdev->dev);
-> +	rc_free_device(ir->rc);
-
-[Severity: High]
-This is a pre-existing issue, but does this sequence completely prevent
-interrupts from occurring before the free?
-
-Because the interrupt is managed by devm_request_irq(), it remains active
-until devres cleanup runs after sunxi_ir_remove() completes. Since
-sunxi_ir_hw_exit() only disables clocks, if a pending or spurious interrupt
-fires afterward, sunxi_ir_irq() will access unclocked memory-mapped registe=
-rs
-and trigger a bus fault.
-
-Additionally, if the interrupt handler runs concurrently on another process=
-or:
-
-sunxi_ir_irq()
-    ir_raw_event_overflow(ir->rc);
-
-could it access ir->rc after it is freed by rc_free_device() here, since
-there is no synchronize_irq() or disable_irq() in sunxi_ir_remove()?
-
-[Severity: High]
-This is also a pre-existing issue, but does sunxi_ir_probe() suffer from a
-similar race condition?
-
-In sunxi_ir_probe(), devm_request_irq() is called to unmask the interrupt
-before sunxi_ir_hw_init() enables the clock. If a pending interrupt from
-a previous boot or a spurious interrupt fires during this window,
-sunxi_ir_irq() will execute before the clock is enabled, potentially causing
-a bus fault.
-
-Also, if sunxi_ir_hw_init() fails, the error path eventually calls
-rc_free_device() without explicitly disabling the active interrupt, which
-leaves a window for a use-after-free on ir->rc.
-
->  }
+                        Geert
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1783673420.gi=
-t.sean@mess.org?part=3D4
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
