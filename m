@@ -1,169 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E79FEED8
-	for <linux-sunxi@lists.linux.dev>; Fri, 10 Jul 2026 11:19:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD0542B723
+	for <linux-sunxi@lists.linux.dev>; Fri, 10 Jul 2026 13:01:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783682374; cv=none; b=bLEL/x+GCFR4+bp3/uCpHxIfYUeG/CSzBm4pbprJ4WVdYKDItecV0FL9j60bb2vKMxoI1a008BpAdRXQJCHSZQizLOrwTxewdu8h0n7SDUoYMGkpxQ2ilHwNVlRChFp/bfFdY+S+49ufGUge9JJBdNS0Mdd/lB+qthCnFdeqBuI=
+	t=1783688469; cv=none; b=ojCfGwm5XpVRSnrgOAR3DK+UePiLBxdkmAwgW+3IAwuCTLnAIAkBi6JYpHCQJ67oLVmGtCsqOYm9WHmnx7t5tKPsJVaFKYDTqePZIMtJiYNPEaw1PQTlya4v1WtWQ6mP7QOAsjDkidkeApYINWcHxv2Q1cxp/HtvXVS1tgItdNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783682374; c=relaxed/simple;
-	bh=3Zu8aXcwHqIBgO4+yTMtQJAkQGbH03UlFCny3Bb4E60=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=IXS7BqHOgmHfoGYDMj6gVLBg1b2pQ7NcPwgXirn4wmTYJgvNEeYf03ObiO1qN9qbabQ4yoVKDD8c4w6S+Gdfg9fY53i/i8siEQTOZ7udu5E9Z0DeJwxR3h63g6YvEFhGv9FODuPqQB9aLMStrjsA4FQnc3qmZ2ceOPVj85ZDP0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OmthUv29; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783688469; c=relaxed/simple;
+	bh=M94SjjYhfG0qMo3AdWDmx7QCzOOMR1z6U/G7HOPFbC0=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Subject:Cc:From:
+	 References:In-Reply-To; b=I0DHFmz/gYymeb7cNllJ00DbcJMWmKy6VsIMfGb8LIYqUYE1EG+9mos5hOAhByhAHgPqZ/5vfkXoPtdM6pvb4p5TTDMMx4yIRhAklxLXHYEsO34OU0fpmxPbaRr8DBqOO/hhh+0MKlCq4GpLxXOrCEVFYmHbf2Ur23W3Ug6jZl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=wZEo0zVu; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OmthUv29"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A06F71F000E9;
-	Fri, 10 Jul 2026 11:19:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783682360;
-	bh=J8fq+fr1opYbocZX7ZFH/N7cPzl8QfB9Eacgl8kHuLw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=OmthUv29jSZ9G6v2Xiwo5+Mkp/3CjxxS4V/P0GcdvaXnbSb7SfWxAKN9sLk9TLa9n
-	 ehR2uiwSDmTJKej83QxkcEq9TGDAIYzk9KGMJ5mZ8ii2MOOWjggU6bR2zN11Aq+3rh
-	 a/a+ujNygGR09sBmDeDdD9Btsf8rCB/MmCU5ZEclMe7fEyvPLAz0ZLQoXw9JkjD5Eh
-	 pBNIGq+MU9XXmQ8/X76f7TgoAeYEeQztqnVLlsOP+SR+FHHdqzYNNVSxS+RUrjp8GK
-	 6AfGomu70lcjw16Pcuy6c74HzldLLHi7m1ZPpItdsLAhF0+OXP0QyyVcHTTBJQAGH8
-	 M2cMsrKSsHOdg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/2] bus: Remove redundant dev_err()/dev_err_probe()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Pan Chuang" <panchuang@vivo.com>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260710110930.462109-3-panchuang@vivo.com>
-References: <20260710110930.462109-1-panchuang@vivo.com>
- <20260710110930.462109-3-panchuang@vivo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 10 Jul 2026 11:19:20 +0000
-Message-Id: <20260710111920.A06F71F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="wZEo0zVu"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 1F6974E40D47;
+	Fri, 10 Jul 2026 13:01:06 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id CC97760345;
+	Fri, 10 Jul 2026 13:01:05 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9B95911BD0DEB;
+	Fri, 10 Jul 2026 15:00:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1783688461; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=OpR8EpUWoLVWD1U7hF0BGvXpeDpChn5vhtnYxeMgZ/M=;
+	b=wZEo0zVumBZvota9lj9ysImh10+E4+BbYYrgpWI8VBXNocIci+MYRA9CPFt7nqEwahCYw+
+	WGH/gbKanRQqklTcRaZlOdZcR2vWKZucFD13TXdAx/Gpc3+UIBLDDcSpYjyXTiFDp62YdU
+	/9/G1w78+Iq5ZxLNsh8doY94LRg4F6sBcLJh6gazI/BPBSS8plkEkDP90Iw3Jipm5LWHpd
+	t5JPw5/FOpeSvJgrAYi5ApGSR02OuWhrI719bSjbOdQQNoma1YvCMPW0BShr4FskJBpZKn
+	RT65XADHkqNtWjPe5eSMFoaw249fIMLHxmMPTQGGDMENM6BCXdXRMwQnlO+2yA==
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 10 Jul 2026 15:00:43 +0200
+Message-Id: <DJUWS6ZZUDS0.2ILHWRFQ1XD1S@bootlin.com>
+To: =?utf-8?b?VXdlIEtsZWluZS1Lw7ZuaWcgKFRoZSBDYXBhYmxlIEh1Yik=?=
+ <u.kleine-koenig@baylibre.com>, "Lee Jones" <lee@kernel.org>
+Subject: Re: [PATCH v3 21/23] mfd: Unify style of of_device_id arrays
+Cc: "Linus Walleij" <linusw@kernel.org>, "Nicolas Ferre"
+ <nicolas.ferre@microchip.com>, "Alexandre Belloni"
+ <alexandre.belloni@bootlin.com>, "Claudiu Beznea"
+ <claudiu.beznea@tuxon.dev>, "Chen-Yu Tsai" <wens@kernel.org>, "Florian
+ Fainelli" <florian.fainelli@broadcom.com>, "Broadcom internal kernel review
+ list" <bcm-kernel-feedback-list@broadcom.com>, "Ray Jui"
+ <rjui@broadcom.com>, "Scott Branden" <sbranden@broadcom.com>, "Marek Vasut"
+ <marek.vasut+renesas@gmail.com>, "James Ogletree"
+ <jogletre@opensource.cirrus.com>, "Fred Treven" <fred.treven@cirrus.com>,
+ "Ben Bright" <ben.bright@cirrus.com>, "David Rhodes"
+ <david.rhodes@cirrus.com>, "Richard Fitzgerald" <rf@opensource.cirrus.com>,
+ "Support Opensource" <support.opensource@diasemi.com>, "Krzysztof
+ Kozlowski" <krzk@kernel.org>, "Peter Griffin" <peter.griffin@linaro.org>,
+ "Alim Akhtar" <alim.akhtar@samsung.com>, "Tim Harvey"
+ <tharvey@gateworks.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Charles Keepax" <ckeepax@opensource.cirrus.com>, "Sven Peter"
+ <sven@kernel.org>, "Janne Grunau" <j@jannau.net>, "Neal Gompa"
+ <neal@gompa.dev>, "Chanwoo Choi" <cw00.choi@samsung.com>, "Luca Ceresoli"
+ <luca.ceresoli@bootlin.com>, =?utf-8?q?Andr=C3=A9_Draszik?=
+ <andre.draszik@linaro.org>, "Saravanan Sekar" <sravanhome@gmail.com>,
+ "Matthias Brugger" <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
+ <angelogioacchino.delregno@collabora.com>, "Frank Li" <Frank.Li@nxp.com>,
+ "Sascha Hauer" <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
+ <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>,
+ =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, "Aaro
+ Koskinen" <aaro.koskinen@iki.fi>, "Andreas Kemnade" <andreas@kemnade.info>,
+ "Kevin Hilman" <khilman@baylibre.com>, "Roger Quadros" <rogerq@kernel.org>,
+ "Tony Lindgren" <tony@atomide.com>, "Matti Vaittinen"
+ <mazziesaccount@gmail.com>, "Orson Zhai" <orsonzhai@gmail.com>, "Baolin
+ Wang" <baolin.wang@linux.alibaba.com>, "Chunyan Zhang"
+ <zhang.lyra@gmail.com>, "Fabrice Gasnier" <fabrice.gasnier@foss.st.com>,
+ "Maxime Coquelin" <mcoquelin.stm32@gmail.com>, "Alexandre Torgue"
+ <alexandre.torgue@foss.st.com>, "Jernej Skrabec"
+ <jernej.skrabec@gmail.com>, "Samuel Holland" <samuel@sholland.org>, "Liviu
+ Dudau" <liviu.dudau@arm.com>, "Sudeep Holla" <sudeep.holla@kernel.org>,
+ "Lorenzo Pieralisi" <lpieralisi@kernel.org>, "Geert Uytterhoeven"
+ <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Heiko
+ Stuebner" <heiko@sntech.de>, <mfd@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <patches@opensource.cirrus.com>, <linux-rpi-kernel@lists.infradead.org>,
+ <linux-renesas-soc@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+ <linux-samsung-soc@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
+ <asahi@lists.linux.dev>, <linux-mediatek@lists.infradead.org>,
+ <imx@lists.linux.dev>, <linux-omap@vger.kernel.org>,
+ <linux-arm-msm@vger.kernel.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>, <linux-sunxi@lists.linux.dev>,
+ <linux-rockchip@lists.infradead.org>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <cover.1783615311.git.u.kleine-koenig@baylibre.com>
+ <e5cc82aa51da5f545f745b126923fdd6085a68a0.1783615311.git.u.kleine-koenig@baylibre.com>
+In-Reply-To: <e5cc82aa51da5f545f745b126923fdd6085a68a0.1783615311.git.u.kleine-koenig@baylibre.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
-s) to consider:
+On Thu Jul 9, 2026 at 6:58 PM CEST, Uwe Kleine-K=C3=B6nig (The Capable Hub)=
+ wrote:
+> These arrays already mostly match the most used and generally
+> recommended coding style. That is:
+>
+>  - no comma after the list terminator;
+>  - a comma after an initializer if (and only if) the closing } is not
+>    directly following;
+>  - no explicit zeros in the list terminator;
+>  - a space after an opening { and before a closing }, a single space in
+>    the list terminator;
+>
+> Adapt the offenders accordingly.
+>
+> Reviewed-by: Andr=C3=A9 Draszik <andre.draszik@linaro.org> # for Maxim MA=
+X77759
+> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig (The Capable Hub) <u.kleine-koenig@b=
+aylibre.com>
+> ---
 
-Pre-existing issues:
-- [High] Unhandled negative error code from platform_get_irq() in omap_l3_n=
-oc is passed directly to devm_request_irq(), masking the original error and=
- breaking probe deferral.
-- [High] IRQ is requested and enabled before hardware clock and reset initi=
-alization in sunxi-rsb, risking synchronous bus aborts.
-- [High] The IRQ handler in sunxi-rsb remains registered after the device's=
- clock is disabled during driver removal, risking a fatal crash on spurious=
- interrupts.
-- [Medium] Use of a static struct pointer in the probe function of omap_l3_=
-noc leads to a race condition and data corruption on concurrent device prob=
-es.
---
+...
 
---- Patch [2]: [PATCH 2/2] bus: Remove redundant dev_err()/dev_err_probe() =
----
-commit 78c3bde11117dc0a88b0af99a88dd1bbb4e58713
-Author: Pan Chuang <panchuang@vivo.com>
-   =20
-bus: Remove redundant dev_err()/dev_err_probe()
-   =20
-Since commit 55b48e23f5c4 ("genirq/devres: Add error handling in
-devm_request_*_irq()"), devm_request_irq() automatically logs
-detailed error messages on failure. Remove the now-redundant
-driver-specific dev_err() and dev_err_probe() calls.
-   =20
-> diff --git a/drivers/bus/omap_l3_noc.c b/drivers/bus/omap_l3_noc.c
-> index eb1ba6319fdaf..45f3f793976c5 100644
-> --- a/drivers/bus/omap_l3_noc.c
-> +++ b/drivers/bus/omap_l3_noc.c
-> @@ -278,17 +278,12 @@ static int omap_l3_probe(struct platform_device *pd=
-ev)
->  	l3->debug_irq =3D platform_get_irq(pdev, 0);
->  	ret =3D devm_request_irq(l3->dev, l3->debug_irq, l3_interrupt_handler,
->  			       IRQF_NO_THREAD, "l3-dbg-irq", l3);
-
-[Severity: Medium]
-This isn't a bug introduced by this patch, but could the use of the l3 poin=
-ter
-here lead to cross-linked interrupts or data corruption on concurrent probe=
-s?
-
-Looking at omap_l3_probe(), the l3 pointer is declared as a static struct:
-
-static int omap_l3_probe(struct platform_device *pdev)
-{
-        ...
-        static struct omap_l3 *l3;
-        ...
-        l3 =3D devm_kzalloc(&pdev->dev, sizeof(*l3), GFP_KERNEL);
-
-If two instances are probed concurrently, one thread's allocation could
-overwrite the other's before it is passed to devm_request_irq().
-
-[Severity: High]
-This is also a pre-existing issue, but does passing an unhandled negative
-error code from platform_get_irq() directly into devm_request_irq() mask
-probe deferral errors?
-
-If platform_get_irq() returns -EPROBE_DEFER, passing it as an unsigned int
-to devm_request_irq() will result in a permanent -EINVAL failure. Since
-this patch causes devm_request_irq() to log the -EINVAL on failure, this
-could also unnecessarily log errors in the kernel during probe deferral.
-
-> -	if (ret) {
-> -		dev_err(l3->dev, "request_irq failed for %d\n",
-> -			l3->debug_irq);
-> +	if (ret)
->  		return ret;
-> -	}
 > =20
->  	l3->app_irq =3D platform_get_irq(pdev, 1);
->  	ret =3D devm_request_irq(l3->dev, l3->app_irq, l3_interrupt_handler,
->  			       IRQF_NO_THREAD, "l3-app-irq", l3);
-> -	if (ret)
-> -		dev_err(l3->dev, "request_irq failed for %d\n", l3->app_irq);
+> diff --git a/drivers/mfd/max7360.c b/drivers/mfd/max7360.c
+> index 52fffed0c0dd..dc744b40bb38 100644
+> --- a/drivers/mfd/max7360.c
+> +++ b/drivers/mfd/max7360.c
+> @@ -152,7 +152,7 @@ static int max7360_probe(struct i2c_client *client)
 > =20
->  	return ret;
->  }
-> diff --git a/drivers/bus/sunxi-rsb.c b/drivers/bus/sunxi-rsb.c
-> index daf0ea563e477..671c9b33e783a 100644
-> --- a/drivers/bus/sunxi-rsb.c
-> +++ b/drivers/bus/sunxi-rsb.c
-> @@ -787,8 +787,7 @@ static int sunxi_rsb_probe(struct platform_device *pd=
-ev)
+>  static const struct of_device_id max7360_dt_match[] =3D {
+>  	{ .compatible =3D "maxim,max7360" },
+> -	{}
+> +	{ }
+>  };
+>  MODULE_DEVICE_TABLE(of, max7360_dt_match);
 > =20
->  	ret =3D devm_request_irq(dev, irq, sunxi_rsb_irq, 0, RSB_CTRL_NAME, rsb=
-);
->  	if (ret)
-> -		return dev_err_probe(dev, ret,
-> -				     "can't register interrupt handler irq %d\n", irq);
-> +		return ret;
-> =20
->  	ret =3D sunxi_rsb_hw_init(rsb);
 
-[Severity: High]
-This is a pre-existing issue, but does registering the IRQ handler before
-sunxi_rsb_hw_init() enables the clock and clears the reset risk a
-synchronous external abort?
-
-If an interrupt is already pending from a previous boot stage, the
-sunxi_rsb_irq handler will execute immediately. Because the clocks are
-gated and the device is in reset, reading the device registers inside the
-handler could crash the system.
-
-[Severity: High]
-This is another pre-existing issue related to the devm_request_irq() usage.
-Does the IRQ handler remain registered after the device's clock is manually
-disabled during driver removal?
-
-Because sunxi_rsb_remove() manually disables the hardware by calling
-sunxi_rsb_hw_exit(), but relies on devres to free the interrupt handler
-afterward, a spurious interrupt firing in that window could cause a crash
-when the handler attempts to access gated device registers.
-
->  	if (ret)
+Reviewed-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com> # ma=
+x7360
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260710110930.4621=
-09-1-panchuang@vivo.com?part=3D2
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
