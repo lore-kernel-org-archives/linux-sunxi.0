@@ -1,111 +1,85 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 328DB374A07;
-	Sat, 11 Jul 2026 15:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2870A2D8364
+	for <linux-sunxi@lists.linux.dev>; Sat, 11 Jul 2026 15:56:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783782836; cv=none; b=obj66GRs2ztjJqcSekRXxyuofWol+JSHDO+7Co5frMaU1Tnwugoc03liLxp3x7hrz9hBpIFA24i/iEm+m7GU0T4H44v23wnMQTIo2bAP0PAL1lFtx4AxKQx3RAwnSR5hCJeNHhkGJHM0mgjWkfecDKHKrAckMVrgpJSIWhpI9d8=
+	t=1783785416; cv=none; b=WOZq3r+NxJV4YH1WVnMdZtr1wUSeiPdy3c4eCf6jDE4TpbjvP6uvcp8IUza7/ji0ygS5rDMU1gqxJ5hYJWt3wHocsAiFVLLb+SukVHMi/mEtUZvmLGqi/GcX0WoK2tTAD4nY3lBeYhfXXYnfuughbtJRGUhS96b3b8GxiurGzvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783782836; c=relaxed/simple;
-	bh=sDXWQS6dOHId7445+Y/ZGN5y9lFGKjA7sUnzyFygZdE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NlCeTeFiGXaEOXMpZawVEJIGEQY65Z9TVtRiujTW2bOMktI29KMoUh8/7VMXARFASLqAkJEMf+0QXvVMwfv72kavClJCNF9KtNz3Pmt9H26NpRVYOMgulBXq/gfN0ilTxNrs9tfCuUb9a/WS2HZjvuMKIXkuemrDBMdr+y557yM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=FFX7kGTD; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1783785416; c=relaxed/simple;
+	bh=SFRI5BFcprMUa3JpdsIZ3TCZEdjqCBcEU7UivobKvZw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OsbEH24tdIyVkPLjZ4AOJRRShcMihGlKoG0Q+1NrX5cLaUi+QEvBbPQ4Lm1BTradmN2I0HlB32Jm95nPT7SmyNqbHaCnIrUL8IpB3Dd6d9qIjLq1Y5qeBiXteabqqXCxgMHZB/3mZYLsJ9+PcTbEwFsSRGGYNVsLTqv6HU2C5Q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AJA2fa2X; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="FFX7kGTD"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E0B9A1477;
-	Sat, 11 Jul 2026 08:13:47 -0700 (PDT)
-Received: from [10.20.1.47] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3A7053F85F;
-	Sat, 11 Jul 2026 08:13:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1783782832; bh=sDXWQS6dOHId7445+Y/ZGN5y9lFGKjA7sUnzyFygZdE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FFX7kGTD7Dm5jT3f9oQBpF2GinvIozz2BLkJfOevHZOF93dKmhapKSP2oBd4ZVKKT
-	 ZNaed3qMVh0NXCsAclQ1gL3SyjgeomTEQYirlFPsIEb7dirRj2/bXiFYKpYPqkqTBU
-	 CBdySDNvnKzcgYTsdhpziU87bFo90FMy5BWgVBys=
-Message-ID: <da0f77df-80bc-4917-8892-e61da365454b@arm.com>
-Date: Sat, 11 Jul 2026 17:13:47 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AJA2fa2X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBC3A1F00A3F
+	for <linux-sunxi@lists.linux.dev>; Sat, 11 Jul 2026 15:56:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783785414;
+	bh=SFRI5BFcprMUa3JpdsIZ3TCZEdjqCBcEU7UivobKvZw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=AJA2fa2XIt434NnhQtOUHpW5u93mxDSYZjQS1GQiHI8vGTBqUv+tuNnlulzgqspvV
+	 uQ/dBmDpEYGgzQRtn+xUUShYbbtpfyOn/UMqEs20c7jD5D190bsM1VU+64eJ60ELjr
+	 ta2rogozIlyLO0lF0j1gTzapV1SvGxdlcOYwYG1NcArdwOlNqE/dJGcypy67/2P1K0
+	 iNYI21oRv9aaE+fkbrF1mA/ZMR/3Xe3Cb4lG0TM6t/C418VN7EOXbi8aPAL2KUs8TX
+	 +4qrBiUXTqK0oKMkXOlXmqQFCqMn5F9jeH3QMbS11TmWpnj7C+ZfOMifTUXwugSbHR
+	 WgSP0CA3G9P+w==
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5b015b2d792so2051952e87.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 11 Jul 2026 08:56:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoZutFiihlOZbZ+i+dfnu6YEDIC97bmJ7cpoIJRmFFFNOS7kcLGPS70aSvj9K45VgIzZEKn1MEkrR8VCg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwGZNJUWwRZW/z/zS9edTtkE3OyOXuF/h48XojCNnJmxD0z6KmB
+	A2qai3XWKcF9BGefUmW4Iju36dswU8XVxGFe7FoZqf/gzjgw5dmCHOM9bXH8DbFiP/o1VU9R+s0
+	QiK84bQrzAs69P/1yR0uT4qiL3mTJakg=
+X-Received: by 2002:a05:6512:118d:b0:5ae:b36c:81c7 with SMTP id
+ 2adb3069b0e04-5b02369b29bmr708700e87.35.1783785413596; Sat, 11 Jul 2026
+ 08:56:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/7] arm64: dts: allwinner: sun50i-h616: Add video
- engine
-To: Chen-Yu Tsai <wens@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Paul Kocialkowski <paulk@sys-base.io>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20260711135959.3616919-1-wens@kernel.org>
- <20260711135959.3616919-8-wens@kernel.org>
-Content-Language: en-GB
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20260711135959.3616919-8-wens@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260710211954.1373336-1-arnd@kernel.org>
+In-Reply-To: <20260710211954.1373336-1-arnd@kernel.org>
+From: Linus Walleij <linusw@kernel.org>
+Date: Sat, 11 Jul 2026 17:56:40 +0200
+X-Gmail-Original-Message-ID: <CAD++jLk7MWRccwuzXBLtdUk+k=Ykt_fJp-C6Sj0_2EMMEr3xxA@mail.gmail.com>
+X-Gm-Features: AUfX_mwg6yb6TVVJdXhaZOS6qdtgZlShwnqqpOMB7tnZklRdo8JRbXGnpCKCf4s
+Message-ID: <CAD++jLk7MWRccwuzXBLtdUk+k=Ykt_fJp-C6Sj0_2EMMEr3xxA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/10] treewide: replace linux/gpio.h
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-gpio@vger.kernel.org, Bartosz Golaszewski <brgl@kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Andrew Lunn <andrew@lunn.ch>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
+	Gregory Clement <gregory.clement@bootlin.com>, Frank Li <Frank.Li@nxp.com>, 
+	Robert Jarzmik <robert.jarzmik@free.fr>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Greg Ungerer <gerg@linux-m68k.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Hauke Mehrtens <hauke@hauke-m.de>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, 
+	Yoshinori Sato <ysato@users.sourceforge.jp>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Dominik Brodowski <linux@dominikbrodowski.net>, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-m68k@lists.linux-m68k.org, 
+	linux-mips@vger.kernel.org, linux-sh@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-phy@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Fri, Jul 10, 2026 at 11:20=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wr=
+ote:
 
-On 7/11/26 15:59, Chen-Yu Tsai wrote:
-> From: Jernej Skrabec <jernej.skrabec@gmail.com>
-> 
-> The H616 SoC has a video engine, and two SRAM regions needed by it.
-> 
-> Add the video engine to the dtsi file.
-> 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> [wens@kernel.org: Add VE SRAM region and commit message]
-> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> The linux/gpio.h header used to be the global definition for the gpio
+> interfaces, with 1100 users back in linux-3.17. In linux-7.2, only about
+> 130 of those remain, so this series cleans out the rest.
 
-Checked against the binding and the manual: clocks, regs, interrupts and 
-reset matches. Also test-built the DTB: that worked fine, not sure what 
-Sashiko was complaining about.
+The series:
+Reviewed-by: Linus Walleij <linusw@kernel.org>
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-Thanks,
-Andre
-
-> ---
-> Changes since v1:
-> - Corrected second IOMMU port
-> ---
->   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> index 1598e86259ab..c6b3a3f8359a 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> @@ -175,6 +175,18 @@ crypto: crypto@1904000 {
->   			resets = <&ccu RST_BUS_CE>;
->   		};
->   
-> +		video-codec@1c0e000 {
-> +			compatible = "allwinner,sun50i-h616-video-engine";
-> +			reg = <0x01c0e000 0x2000>;
-> +			clocks = <&ccu CLK_BUS_VE>, <&ccu CLK_VE>,
-> +				 <&ccu CLK_MBUS_VE>;
-> +			clock-names = "ahb", "mod", "ram";
-> +			resets = <&ccu RST_BUS_VE>;
-> +			interrupts = <GIC_SPI 93 IRQ_TYPE_LEVEL_HIGH>;
-> +			iommus = <&iommu 3>, <&iommu 2>;
-> +			allwinner,sram = <&ve_sram 1>, <&sram_c 1>;
-> +		};
-> +
->   		syscon: syscon@3000000 {
->   			compatible = "allwinner,sun50i-h616-system-control";
->   			reg = <0x03000000 0x1000>;
-
+Yours,
+Linus Walleij
