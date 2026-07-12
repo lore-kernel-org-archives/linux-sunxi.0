@@ -1,103 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6ED30EF80;
-	Sun, 12 Jul 2026 12:27:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783859250; cv=none; b=AGWuvvYStXo2pW+9qaPLRvcjq4nkQE5iYv5JVe12Il7OKts5gcYtl/M+QfI7RwvqFRbMsIAIOIqoHfObvfN4IedyZRF9q4BPfxeEaG0Ly8J4PhlPbsWVZTHpQqcSLhrf6eUSBxiNhkC3BDqY5IyV6fgvZ0AaTN9upGewcggpVIo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783859250; c=relaxed/simple;
-	bh=L/n4SezSWQATpwU6IRgOEvEHHHUBkOmPMdj879cIAIg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cUQMPxh0avTP81eeAkmrlBuBq5EAhX/pAR1Su3Xw1/C2rB2SvGKn9pUk6Y7x4ydWHbY3cHGfeLQ9xOtDIXXUEPgm2Bq3trfu7oebV6YCq5Kef9NuSQO+ChWLV41CIikbYXp2uPSZ30HcfDua6IA/pB17roL3ioJASf+b9VREZLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C37F81F000E9;
-	Sun, 12 Jul 2026 12:27:21 +0000 (UTC)
-Message-ID: <ec9e62c8-3c1d-4493-a876-82432575b381@linux-m68k.org>
-Date: Sun, 12 Jul 2026 22:27:19 +1000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF97423AE62
+	for <linux-sunxi@lists.linux.dev>; Sun, 12 Jul 2026 14:29:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783866596; cv=pass; b=mw8zFnjSg80OStpsXeNpCivuf/UMXnp981jVe27Xobz5V9OSQYo+GylX0aTbla2cSLgQdPVdw7kuUEoB0r3kCddRXUydc5b9rkZUc9XEzlIFb4v2Om+xSrFYDXV/H/EFLi0l9fQUDS1w6VPdX0pvL0GFabXZyZTdadregXW2LLs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783866596; c=relaxed/simple;
+	bh=kW0o9UPJNg9AiaH8DSDghz5FDDxObOe1q9wX485ILPE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=nzzDGRMpKX5gOAc2ftJs55ioAQplOQ0HlmgP1UlhTzysoM5RRwb+d3sqsaRfSinIvBU1Q399eozjNz6bFcViVGVXvdD4FYFU1HjyFVxq5+GPU2kVZZ7FF/g8NzynGP64FUc1b3qaCFV37rA37aQsABpHKZn89Oz0GRDKMu93hr4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech; spf=pass smtp.mailfrom=pigmoral.tech; dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b=lW/5oxaO; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pigmoral.tech
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b="lW/5oxaO"
+ARC-Seal: i=1; a=rsa-sha256; t=1783866572; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=CbSThQwVFKuvcUyMJAZMQMjEGfBe+S0u3AYavMf4uAL9cH8dhDMtYxTmTxcHMlX2Zpq846FJ1vHxLqz5czyzGw7u1B+xwqxZZppc8ZGqvOVWt+up/kboYR+82ZLmF4vPKlYsubWm7g82iNhicIQEfeQX67Srl7Wyh3rX+3OtoRQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1783866572; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=kW0o9UPJNg9AiaH8DSDghz5FDDxObOe1q9wX485ILPE=; 
+	b=b8lO66kWioDHgWFO9xDePdqvN4v+z/TTkf+KW6oLnVL3/7etC+D8wubfhR1qWqEADAPUAKJnnupOsQ+giMD8zR2BavWin+vb8if2doUVwYpgTQK7W6VktHlaG5hWx4ECUuHuM2zCjebWQpJOhnCkS57rM3FO/6ksD9FQLVLQgYg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=pigmoral.tech;
+	spf=pass  smtp.mailfrom=junhui.liu@pigmoral.tech;
+	dmarc=pass header.from=<junhui.liu@pigmoral.tech>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783866572;
+	s=zmail; d=pigmoral.tech; i=junhui.liu@pigmoral.tech;
+	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:From:From:To:To:Cc:Cc:Subject:Subject:References:In-Reply-To:Reply-To;
+	bh=kW0o9UPJNg9AiaH8DSDghz5FDDxObOe1q9wX485ILPE=;
+	b=lW/5oxaO/c02GuF4ZI5GwC/QM/JtLE8JZtR1q+1ScpoHN22vN/zPs8UsKpyF7oq9
+	HycEte8i9DKiSCV4Kc1Q6gwkXBWuEiqPMXS7D3Te3oS8KLrJ+YzjFyC0aVGOxsZ0BoP
+	33xO5kdx++JJ6JUekSpkIePLuwYTO5enKOGfbOGA=
+Received: by mx.zohomail.com with SMTPS id 1783866570656662.824676365365;
+	Sun, 12 Jul 2026 07:29:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/10] m68k/coldfire: replace linux/gpio.h inclusions
-To: Arnd Bergmann <arnd@kernel.org>, linux-gpio@vger.kernel.org,
- Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Andrew Lunn <andrew@lunn.ch>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Gregory Clement <gregory.clement@bootlin.com>, Frank Li <Frank.Li@nxp.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Hauke Mehrtens <hauke@hauke-m.de>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
- <zajec5@gmail.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, patches@opensource.cirrus.com,
- linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
- linux-sh@vger.kernel.org, linux-input@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
- Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-References: <20260710211954.1373336-1-arnd@kernel.org>
- <20260710211954.1373336-3-arnd@kernel.org>
-Content-Language: en-US
-From: Greg Ungerer <gerg@linux-m68k.org>
-In-Reply-To: <20260710211954.1373336-3-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 12 Jul 2026 22:29:16 +0800
+Message-Id: <DJWNX2QDTLFF.17I9ING28DUWM@pigmoral.tech>
+From: "Junhui Liu" <junhui.liu@pigmoral.tech>
+To: "Junhui Liu" <junhui.liu@pigmoral.tech>, "Michael Turquette"
+ <mturquette@baylibre.com>, "Stephen Boyd" <sboyd@kernel.org>, "Brian
+ Masney" <bmasney@redhat.com>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Chen-Yu Tsai" <wens@kernel.org>, "Jernej Skrabec"
+ <jernej.skrabec@gmail.com>, "Samuel Holland" <samuel@sholland.org>,
+ "Philipp Zabel" <p.zabel@pengutronix.de>, "Paul Walmsley" <pjw@kernel.org>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Alexandre Ghiti" <alex@ghiti.fr>, "Richard Cochran"
+ <richardcochran@gmail.com>
+Cc: <linux-clk@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+ <netdev@vger.kernel.org>, "Jerome Brunet" <jbrunet@baylibre.com>
+Subject: Re: [PATCH v2 7/8] clk: sunxi-ng: a733: Add bus clock gates
+X-Mailer: aerc 0.21.0
+References: <20260711-a733-clk-v2-0-974d188cbe0c@pigmoral.tech>
+ <20260711-a733-clk-v2-7-974d188cbe0c@pigmoral.tech>
+In-Reply-To: <20260711-a733-clk-v2-7-974d188cbe0c@pigmoral.tech>
+X-ZohoMailClient: External
 
-Hi Arnd,
+On Sat Jul 11, 2026 at 4:10 PM CST, Junhui Liu wrote:
 
-On 11/7/26 07:19, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> linux/gpio.h should no longer be used, convert these instead to
-> linux/gpio/legacy.h for coldfire.
-> 
-> Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+[...]
 
-I have applied this one to the for-next branch of the m68knommu git tree.
+> +
+> +static SUNXI_CCU_GATE_HWS(mbus_iommu1_sys_clk, "mbus-iommu1-sys", mbus_h=
+ws, 0x5b4, BIT(0), 0);
+> +static SUNXI_CCU_GATE_HWS(apb_iommu1_sys_clk, "apb_iommu1-sys", apb0_hws=
+, 0x5b4, BIT(1), 0);
+> +static SUNXI_CCU_GATE_HWS(ahb_iommu1_sys_clk, "ahb_iommu1-sys", ahb_hws,=
+ 0x5b4, BIT(2), 0);
 
-Thanks
-Greg
+The clock names here should be "apb-iommu1-sys" and "ahb-iommu1-sys". I
+will update them in next version.
 
-
-> ---
->   arch/m68k/coldfire/device.c     | 2 +-
->   arch/m68k/include/asm/mcfgpio.h | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/m68k/coldfire/device.c b/arch/m68k/coldfire/device.c
-> index 1420bae0964f..9a0258acd998 100644
-> --- a/arch/m68k/coldfire/device.c
-> +++ b/arch/m68k/coldfire/device.c
-> @@ -12,7 +12,7 @@
->   #include <linux/init.h>
->   #include <linux/io.h>
->   #include <linux/spi/spi.h>
-> -#include <linux/gpio.h>
-> +#include <linux/gpio/legacy.h>
->   #include <linux/fec.h>
->   #include <linux/dmaengine.h>
->   #include <asm/traps.h>
-> diff --git a/arch/m68k/include/asm/mcfgpio.h b/arch/m68k/include/asm/mcfgpio.h
-> index 7103cfa4edb6..29726aa40eb6 100644
-> --- a/arch/m68k/include/asm/mcfgpio.h
-> +++ b/arch/m68k/include/asm/mcfgpio.h
-> @@ -16,7 +16,7 @@ int __mcfgpio_request(unsigned gpio);
->   void __mcfgpio_free(unsigned gpio);
->   
->   #ifdef CONFIG_GPIOLIB
-> -#include <linux/gpio.h>
-> +#include <linux/gpio/legacy.h>
->   #else
->   
->   /* our alternate 'gpiolib' functions */
-
+--=20
+Best regards,
+Junhui Liu
