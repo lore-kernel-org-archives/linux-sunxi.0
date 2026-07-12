@@ -1,79 +1,127 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3403035A387
-	for <linux-sunxi@lists.linux.dev>; Sun, 12 Jul 2026 05:21:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A66C372EC6;
+	Sun, 12 Jul 2026 08:13:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783833678; cv=none; b=R74AWyHuv1FvHzQrAhAQFkt3qmt6steNfXOS/0GM3d7Yn1/DmsW8CUiTvBBGwZ9Bwfl5NrDRmXPghsNlEVLnCuAVyVlqnY2utazEBbaSTw/rTalyrlewv7tt8piPtSnet7YwsJd+Yg7tH9OXuoYfzx5EbU6tjITsyxfSbVJgooE=
+	t=1783844022; cv=none; b=j2nK5dZBHpnkX9y7aJ46iZWCfQ7pGw3cDvd83wdsqBXWjh+TanFTrfBCJ8bjmR39aO5jyh+xgnFYuGxy+1BB4Rr1Vl0lhXCCNqm1JbufOoqfGcyXCXa1DQ59vmOPCouUC+pmgrHpEeBFnAg3LKkoB5zSsha1jTabmK89eBO4Lc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783833678; c=relaxed/simple;
-	bh=gOChh1ohTaPrZ+Y1GE41WGbMTNjpPj91qb2GtVmX2R0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JcZ92NKgTGS5rO5yIy3r0aRuQbaK7KgHVTkF3QbKfVzZAuq3hrENuZjqetDWDdHHmFrc9T1KqtSVwDoltf6m7gEpIjy+31wh3XJFERc0o7gSb/prXAZ1Mw1meBQkB6nH9gjC1Jo7lleqEM5/41mJ2TMmbh5I2ZICAeTANThvqDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eZYjivwv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783844022; c=relaxed/simple;
+	bh=xL8ZkLwpFbIHEq7rulMS/vxiDwhLRyKMsOA3CCgn8RY=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=uq+Pic8jJ0JhHwUd3GOcQn5CzdT4BFQpaXCgavYWkgBosv8UWP3BC7fQSsDMjw8TbJsav/zFNF+wSidBM/Ggs3+CIksVIIWQ8NLo1dWfR1t5FtXr1wajkcQNxgsnuySVbqPWIt8Cl0jxXIFj8/GRG9oDvPwhlGdBB9DHAaH8WIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NTqa4Wt9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eZYjivwv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C95291F00ACA
-	for <linux-sunxi@lists.linux.dev>; Sun, 12 Jul 2026 05:21:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NTqa4Wt9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 438D21F00A3A;
+	Sun, 12 Jul 2026 08:13:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783833675;
-	bh=gOChh1ohTaPrZ+Y1GE41WGbMTNjpPj91qb2GtVmX2R0=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=eZYjivwv6VxAxWDT4CG10n7zgNfpl+yGBRHvlv+VwU8uXLyn1wc+PO5/iRDBxzHEp
-	 9KERussY+0ce6BWxHPRqoemDGX6IuPvUd3Ih2HNqrgMdj67+8sUdKVVRgav1JTa+YX
-	 EDha5Q+TqABhsIXaAEklbmTLoWflCd0PRwGn7XAgNUGeUV2YmVaiJQfvUrVeqVeohW
-	 A20033eiVAXlsMW6vDjhh0/N3CbLB/FZNnmhuIrERosMXXNFm4RzA3qbWS6TNrbrXk
-	 lHlxAfOC79bdb47Orlsx77kb6H1ka6RqU0CLyQL/lrSGy1acr7Dg2fnT6PVtc/DRk1
-	 bcnnV44Nt5zvA==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5aeae350e0aso2505733e87.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 11 Jul 2026 22:21:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrgAYzkaySk4g3EIURYtbFDFQqEfCV08WEa1U1qYy8n8qfX8UE4qf8DYT2Z/lrP8wPDs7VgkE+9G/dBlw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwcRdrc5Wp4RuN0vK7SnOyo18GH1cBdCsu1F6Fia4Fhe/lM7+6q
-	437s+DM1v3CUh8d8cI6sgL6c99gKKtSFYzt1H5IpkWFa2whyWsYaeKROkUy56iLeMsIYhh3vt+2
-	gTQrtOw2RT/EYxzLba5O4TsvozUfqOT4=
-X-Received: by 2002:a2e:a54a:0:b0:39b:1e0f:5805 with SMTP id
- 38308e7fff4ca-39caa80ec19mr9352491fa.24.1783833674238; Sat, 11 Jul 2026
- 22:21:14 -0700 (PDT)
+	s=k20260515; t=1783844020;
+	bh=50zwa1oeOXdgX6nEsMzdrWgkWtLpvFad32l4sMD3hTI=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=NTqa4Wt9LaBDGJLG8ZTX7Kq/Tm6GtTE17k4x7HR2dDYL+fapckiBHa2KE+/pRCzSR
+	 C/j9qjS6oMRU0xV2wdTuTE6oTTe88le4TYl0dp9zFpZaFZXgwL7iltr+hiFsLp22w1
+	 pqJcqLvZ15d5Hjfoe4E3Holajtn/y3MkVvmESKlQklmykIiEQmS/QBc4jTDzDb8cCi
+	 JJdugggvi/coNilG/tMHpVxZtCtvl72sHWlJwSOSH9hJD4pd/VSPuPSHpZIA0V5X48
+	 C0fUE5HvOeC9TU/s9+Kn++JZeplaFyizfQR1DPOBhvvh8EM46/K44s49SamzskH33U
+	 9IojgmQ1/eXfw==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 3/8] clk: sunxi-ng: a733: Add PRCM CCU
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Junhui Liu" <junhui.liu@pigmoral.tech>
+Cc: linux-sunxi@lists.linux.dev, robh@kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org
+In-Reply-To: <20260711-a733-clk-v2-3-974d188cbe0c@pigmoral.tech>
+References: <20260711-a733-clk-v2-0-974d188cbe0c@pigmoral.tech>
+ <20260711-a733-clk-v2-3-974d188cbe0c@pigmoral.tech>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 12 Jul 2026 08:13:39 +0000
+Message-Id: <20260712081340.438D21F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260704171411.1413349-1-iuncuim@gmail.com> <20260704171411.1413349-4-iuncuim@gmail.com>
-In-Reply-To: <20260704171411.1413349-4-iuncuim@gmail.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 12 Jul 2026 13:21:01 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64V9fXrEZD-mB8cLs0hwp6WbpKhhkDzBqLmnZe5DQBtUQ@mail.gmail.com>
-X-Gm-Features: AUfX_mw9aYjn22Umh3bpOaSqB39rYIPvYv_r-wBdphks-YmEqPaE5LTT0cIaXBI
-Message-ID: <CAGb2v64V9fXrEZD-mB8cLs0hwp6WbpKhhkDzBqLmnZe5DQBtUQ@mail.gmail.com>
-Subject: Re: [PATCH v5 3/5] thermal/drivers/sun8i: get calibration data from
- two nvmem cells
-To: Mikhail Kalashnikov <iuncuim@gmail.com>
-Cc: Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-pm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jul 5, 2026 at 1:15=E2=80=AFAM Mikhail Kalashnikov <iuncuim@gmail.c=
-om> wrote:
->
-> The A523 processor has calibration data in two nvmem cells. To be able to
-> add support, the ability to add data from two cells into one array must b=
-e
-> added.
->
-> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [Medium] Missing reset controls for hardware modules R-TWD, R-PPU, R-TZMA=
+, and R-CPU-BIST.
+- [Medium] The mux shift for `r_cpu_timer0..3` is incorrectly set to 4, whi=
+ch is anomalous for PRCM CCU clocks and likely a copy-paste error.
+--
 
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+--- Patch [3]: [PATCH v2 3/8] clk: sunxi-ng: a733: Add PRCM CCU ---
+commit 52650c9e3c767283edee5eb6338cdb409a63f50e
+Author: Junhui Liu <junhui.liu@pigmoral.tech>
 
-Some of the variables could be moved into the of_property_for_each_string()
-loop, but it works either way.
+clk: sunxi-ng: a733: Add PRCM CCU
+
+Add support for the Power Reset Clock Management (PRCM) module found in
+the Allwinner A733 SoC. This clock controller manages the clock control
+and reset functions for device modules within the CPUS domain.
+
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun60i-a733-r.c b/drivers/clk/sunxi=
+-ng/ccu-sun60i-a733-r.c
+> new file mode 100644
+> index 0000000000000..a56cd3edff5fe
+> --- /dev/null
+> +++ b/drivers/clk/sunxi-ng/ccu-sun60i-a733-r.c
+[ ... ]
+> +static SUNXI_CCU_P_DATA_WITH_MUX_GATE(r_cpu_timer0, "r-timer0", r_apb_pa=
+rents, 0x100,
+> +				      1, 3,	/* P */
+> +				      4, 3,	/* mux */
+> +				      BIT(0),	/* gate */
+> +				      0);
+> +static SUNXI_CCU_P_DATA_WITH_MUX_GATE(r_cpu_timer1, "r-timer1", r_apb_pa=
+rents, 0x104,
+> +				      1, 3,	/* P */
+> +				      4, 3,	/* mux */
+> +				      BIT(0),	/* gate */
+> +				      0);
+> +static SUNXI_CCU_P_DATA_WITH_MUX_GATE(r_cpu_timer2, "r-timer2", r_apb_pa=
+rents, 0x108,
+> +				      1, 3,	/* P */
+> +				      4, 3,	/* mux */
+> +				      BIT(0),	/* gate */
+> +				      0);
+> +static SUNXI_CCU_P_DATA_WITH_MUX_GATE(r_cpu_timer3, "r-timer3", r_apb_pa=
+rents, 0x10c,
+> +				      1, 3,	/* P */
+> +				      4, 3,	/* mux */
+> +				      BIT(0),	/* gate */
+> +				      0);
+
+[Severity: Medium]
+Are the mux shift values for r_cpu_timer0 through r_cpu_timer3 correct?
+
+Most of the other PRCM clocks in this driver use bit 24 for the mux shift.
+If the hardware actually expects the mux configuration at bit 24, writing
+to bits 4-6 might fail to select the correct parent clock and could
+accidentally overwrite other configuration bits, resulting in incorrect
+timer frequencies.
+
+[ ... ]
+> +static struct ccu_reset_map sun60i_a733_r_ccu_resets[] =3D {
+> +	[RST_BUS_R_TIMER]	=3D { 0x11c, BIT(16) },
+> +	[RST_BUS_R_PWM]		=3D { 0x13c, BIT(16) },
+
+[Severity: Medium]
+Should there be reset controls for the R-TWD, R-PPU, R-TZMA, and
+R-CPU-BIST modules mapped here?
+
+These modules have clock gate offsets defined (0x12c, 0x1ac, 0x1b0, 0x1bc)
+elsewhere in the driver, but are omitted from this reset list. If they do
+have corresponding reset lines, missing them could prevent their drivers
+from taking the hardware out of reset during initialization, potentially
+causing uninitialized states or bus hangs upon access.
+
+> +	[RST_BUS_R_SPI]		=3D { 0x15c, BIT(16) },
+> +	[RST_BUS_R_MSGBOX]	=3D { 0x17c, BIT(16) },
+[ ... ]
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260711-a733-clk-v=
+2-0-974d188cbe0c@pigmoral.tech?part=3D3
