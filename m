@@ -1,96 +1,103 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE835374E74;
-	Sun, 12 Jul 2026 08:13:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6ED30EF80;
+	Sun, 12 Jul 2026 12:27:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783844026; cv=none; b=mq/Vvr3lbq2GL3+GBUq8/u7eUYLs9GQD/KPbo7g42LXhE7vpAYYSPLreYi/Ga0zTsOsd7D2LbcsiRxP2H0ag+9F969GhEo/+MBwiqu2vYrMKFHjObK953qY4fp7lBmA1yucaJrsImCqOuFJY+urkuNmTH2p34KB4DH5mP5g5QnQ=
+	t=1783859250; cv=none; b=AGWuvvYStXo2pW+9qaPLRvcjq4nkQE5iYv5JVe12Il7OKts5gcYtl/M+QfI7RwvqFRbMsIAIOIqoHfObvfN4IedyZRF9q4BPfxeEaG0Ly8J4PhlPbsWVZTHpQqcSLhrf6eUSBxiNhkC3BDqY5IyV6fgvZ0AaTN9upGewcggpVIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783844026; c=relaxed/simple;
-	bh=5DU46VdZLpGnjfeYvbn0hDNYHhkgzgsf/Dehu/HAXW0=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=r8QLxXXFpYjrJkizHQNIg90Dl4FHROVAhvKU/Gmk7OcmO/+Kc1XwNuqHo0xn/Jtc6jEngdt6js/Qxtf6Qj4/62tyrsUKs8b29SRloZKHyA0vlTJ+A5EKdNHqA1if9t1A+Flk6sp1NcWz9siwvXNOUOGVHr0yisNrbwTE4ZLWku4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e8+zjsSC; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e8+zjsSC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7533A1F00A3A;
-	Sun, 12 Jul 2026 08:13:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783844024;
-	bh=TnJaVAAMP7e6GtzzDzJCm35DMXPxdXgOG3RpeUfryv4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=e8+zjsSC2XHSELDPwjv4lNHpOEp/oYOLIKIP8obAvxzE04D7+jC2HNHjUMrjyhEY/
-	 uCA3haWCe9MJX/JDh60kyP8TspTxdK8l5/THSZZ0zYLF2Ivd90QfWEkuJcWThOL8x+
-	 2QJOQtr2ty4QPNZfD5nSdwyVjqt/98BIsvOe0Z5/YeFS5hKU6cuaoEzROpkffxVTXu
-	 HQtBuO2JMAraYqeODkvesNSfDoEvuV84QoxwTBY9U0RfwcAQtIL7ql8Gw2FMUnKkAH
-	 h+MLwyI+0uA7LshAgIDN543RL0OfkdqoA1bssLizaZyVu0gATT1/sGug/d0N91ry0+
-	 qi4P0jPVKiD2w==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 8/8] clk: sunxi-ng: a733: Add reset lines
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Junhui Liu" <junhui.liu@pigmoral.tech>
-Cc: robh@kernel.org, conor+dt@kernel.org, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org
-In-Reply-To: <20260711-a733-clk-v2-8-974d188cbe0c@pigmoral.tech>
-References: <20260711-a733-clk-v2-0-974d188cbe0c@pigmoral.tech>
- <20260711-a733-clk-v2-8-974d188cbe0c@pigmoral.tech>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 12 Jul 2026 08:13:44 +0000
-Message-Id: <20260712081344.7533A1F00A3A@smtp.kernel.org>
+	s=arc-20240116; t=1783859250; c=relaxed/simple;
+	bh=L/n4SezSWQATpwU6IRgOEvEHHHUBkOmPMdj879cIAIg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cUQMPxh0avTP81eeAkmrlBuBq5EAhX/pAR1Su3Xw1/C2rB2SvGKn9pUk6Y7x4ydWHbY3cHGfeLQ9xOtDIXXUEPgm2Bq3trfu7oebV6YCq5Kef9NuSQO+ChWLV41CIikbYXp2uPSZ30HcfDua6IA/pB17roL3ioJASf+b9VREZLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C37F81F000E9;
+	Sun, 12 Jul 2026 12:27:21 +0000 (UTC)
+Message-ID: <ec9e62c8-3c1d-4493-a876-82432575b381@linux-m68k.org>
+Date: Sun, 12 Jul 2026 22:27:19 +1000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/10] m68k/coldfire: replace linux/gpio.h inclusions
+To: Arnd Bergmann <arnd@kernel.org>, linux-gpio@vger.kernel.org,
+ Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Andrew Lunn <andrew@lunn.ch>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+ Gregory Clement <gregory.clement@bootlin.com>, Frank Li <Frank.Li@nxp.com>,
+ Robert Jarzmik <robert.jarzmik@free.fr>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Hauke Mehrtens <hauke@hauke-m.de>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
+ <zajec5@gmail.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, patches@opensource.cirrus.com,
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+References: <20260710211954.1373336-1-arnd@kernel.org>
+ <20260710211954.1373336-3-arnd@kernel.org>
+Content-Language: en-US
+From: Greg Ungerer <gerg@linux-m68k.org>
+In-Reply-To: <20260710211954.1373336-3-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Low] The `sun60i_a733_ccu_resets` array is missing the `const` qualifier.
---
+Hi Arnd,
 
---- Patch [8]: [PATCH v2 8/8] clk: sunxi-ng: a733: Add reset lines ---
-commit 4ea86ec36599a9ad729bf576a38c2f6cad725b56
-Author: Junhui Liu <junhui.liu@pigmoral.tech>
+On 11/7/26 07:19, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> linux/gpio.h should no longer be used, convert these instead to
+> linux/gpio/legacy.h for coldfire.
+> 
+> Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-clk: sunxi-ng: a733: Add reset lines
+I have applied this one to the for-next branch of the m68knommu git tree.
 
-This patch adds the reset lines for the Allwinner A733 SoC. The reset contr=
-ol
-bits are integrated into the main CCU driver using the sunxi-ng ccu_reset
-framework, enabling the CCU to function as a reset controller.
+Thanks
+Greg
 
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c b/drivers/clk/sunxi-n=
-g/ccu-sun60i-a733.c
-> index 48d7c0395ae83..ff64c35206d2d 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
 
-[ ... ]
+> ---
+>   arch/m68k/coldfire/device.c     | 2 +-
+>   arch/m68k/include/asm/mcfgpio.h | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/m68k/coldfire/device.c b/arch/m68k/coldfire/device.c
+> index 1420bae0964f..9a0258acd998 100644
+> --- a/arch/m68k/coldfire/device.c
+> +++ b/arch/m68k/coldfire/device.c
+> @@ -12,7 +12,7 @@
+>   #include <linux/init.h>
+>   #include <linux/io.h>
+>   #include <linux/spi/spi.h>
+> -#include <linux/gpio.h>
+> +#include <linux/gpio/legacy.h>
+>   #include <linux/fec.h>
+>   #include <linux/dmaengine.h>
+>   #include <asm/traps.h>
+> diff --git a/arch/m68k/include/asm/mcfgpio.h b/arch/m68k/include/asm/mcfgpio.h
+> index 7103cfa4edb6..29726aa40eb6 100644
+> --- a/arch/m68k/include/asm/mcfgpio.h
+> +++ b/arch/m68k/include/asm/mcfgpio.h
+> @@ -16,7 +16,7 @@ int __mcfgpio_request(unsigned gpio);
+>   void __mcfgpio_free(unsigned gpio);
+>   
+>   #ifdef CONFIG_GPIOLIB
+> -#include <linux/gpio.h>
+> +#include <linux/gpio/legacy.h>
+>   #else
+>   
+>   /* our alternate 'gpiolib' functions */
 
-> @@ -2156,11 +2157,136 @@ static struct clk_hw_onecell_data sun60i_a733_hw=
-_clks =3D {
->  	.num	=3D CLK_FANOUT3 + 1,
->  };
-> =20
-> +static struct ccu_reset_map sun60i_a733_ccu_resets[] =3D {
-
-[Severity: Low]
-Is it possible to add the const qualifier to the sun60i_a733_ccu_resets arr=
-ay?
-
-Without the const qualifier, this reset map array is placed in the mutable
-.data section instead of the read-only .rodata section. Because it is later
-assigned to the .resets member of sunxi_ccu_desc which expects a const poin=
-ter,
-adding const here would save mutable memory and slightly improve security
-hardening.
-
-> +	[RST_BUS_ITS_PCIE0]		=3D { 0x574, BIT(16) },
-> +	[RST_BUS_IOMMU0_SYS]		=3D { 0x58c, BIT(16) },
-
-[ ... ]
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260711-a733-clk-v=
-2-0-974d188cbe0c@pigmoral.tech?part=3D8
