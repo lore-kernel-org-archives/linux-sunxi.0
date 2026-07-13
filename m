@@ -1,65 +1,67 @@
-Received: from mail-gw01.astralinux.ru (mail-gw01.astralinux.ru [37.230.196.243])
+Received: from extorris.mess.org (extorris.mess.org [92.243.27.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418A234CFA7
-	for <linux-sunxi@lists.linux.dev>; Mon, 13 Jul 2026 18:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.230.196.243
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51373624DB
+	for <linux-sunxi@lists.linux.dev>; Mon, 13 Jul 2026 21:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.243.27.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783965731; cv=none; b=iFBkCg8pNLe12JXNW6SI2y9IOxvDhNY4DTgEe5O5pxRBoWlcIZxQR42QSz0mAc6EiSUutShsqmcZQkuoDKp4hVArvJvBThtVYoVSLgwQgz6Q5N7zOtaQ7+R0PR2RsnUQZ6hXujmx4Tv5qB42CNXIPyAGcl1EvCAt1UsOtqh2sFU=
+	t=1783978295; cv=none; b=AMAHMm+tA1bucB61jWM+tEE35Sok3W3XZRUgXxHwxW1YuXlZyTprIWRJBvOdDLoOrvlGmW/vVe59u9EOVlbr8jKfMlW0xAK9dcqD2Y8xmQXN8eLo+0SbWYG3QJc8iHGzHCa1jtIUhqPmTJ0gV9sFihz305QX/kt65MYCz+qpNZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783965731; c=relaxed/simple;
-	bh=qTFbrJO1EIURj5coHE7P8jfs+T3R57WvmR8hoGJitbA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cVz6NRHxBBh//xKqVudj1Pf3AncsMnHp8i8UANZf2HgihICPwJMN1y4ABf+Lk16vD39K0wTG8XLt8Pmt5bcPJrGRXQxNau1BXLidj0y+aEECzk7M43IppFvkRMaoKsA8yUQS5lTl88McAXLc595ugO/z0L3MRx9HFma0xcR+a+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru; spf=pass smtp.mailfrom=astralinux.ru; dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b=ZstIlkRU; arc=none smtp.client-ip=37.230.196.243
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=astralinux.ru
+	s=arc-20240116; t=1783978295; c=relaxed/simple;
+	bh=PFYYQhVg4NRarAQ81g5gFeRQ3Pkd+XUXZYeUxj9P9Kk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=R5DpzjUCXdp2eWZstGmWPSnGHFeiob3X9hy5lvk39jJOfRHPq6YOnUWzc818I5WKrwbEAhtLVRfb/Uhpj0tqzqG0f5QCx4CNBANRZGR6hxOmHob4jw7OF5gDoK3h9aFalWsEpd/rye9thRya379hSLLTUhIRJdAQgSsnnrAG8Lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=tk+Uuiz7; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=tk+Uuiz7; arc=none smtp.client-ip=92.243.27.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b="ZstIlkRU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=astralinux.ru;
-	s=mail; t=1783965174;
-	bh=qTFbrJO1EIURj5coHE7P8jfs+T3R57WvmR8hoGJitbA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ZstIlkRUUKnGElVKoX+VXKqW/ZCcdaYL9K0C8NptQI04CCWLg6skHvRWVwN4hvVxw
-	 AtXlTUkZjwuPyrLHyraOorUqq5fARQKq/PnNvJt9zSsZK2M+/aXVEVPJ0XoK6BGmut
-	 fbx4LSUyDm1xYXVuiOwgrtbR+3RM9zt10s92N8R12vO9qGClVWHBk9uepx9ePWDhaF
-	 alyGrQOA8GiThkO9E8ejQqkrAiSU9wKy6C1QuicS/Okg682M3/HKtz3Dr9MUIHofQm
-	 tDbUAzMe3NvxBo+RJH3Vyn8SiCy/Hx9Y4GYahgQCrGeNCJAKXnBvqsQm8bQh0iqnBn
-	 k+LoE3rhl85Mw==
-Received: from gca-sc-a-srv-ksmg01.astralinux.ru (localhost [127.0.0.1])
-	by mail-gw01.astralinux.ru (Postfix) with ESMTP id 934B425596;
-	Mon, 13 Jul 2026 20:52:54 +0300 (MSK)
-Received: from new-mail.astralinux.ru (unknown [10.205.207.5])
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="tk+Uuiz7";
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="tk+Uuiz7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1783978284; bh=PFYYQhVg4NRarAQ81g5gFeRQ3Pkd+XUXZYeUxj9P9Kk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=tk+Uuiz7dx6b0K76rO+IqBr7UYSiJuIM3z/Nm1TLA1YJECFKTxPulnLmu6f3PWM98
+	 d38LYkaWefQXGkU15JYrHREz1+XE2OJYiqVzitLuI8qMJfvjxVsjK2+pPYAdbUTEFv
+	 oPSeMjTTtMUUs+xCkBRuQyAHP3d2gkuB/7/FWJPWxVmwyXX7qQf/XuZZjH7KW12ekS
+	 DXPghBtGhMJEPhtdp1xfU4nSaitT5urfWLpvwrLFB0F5ooN+aELeVveuJT29CdlLcn
+	 YOHuMYcSP/7L7ox8/ZAe4FVPJDpqae82Lgc+LzekMTunD0O33RAdYuBxGmep8cw3Jg
+	 W7VfVBwzgYrpA==
+Received: by extorris.mess.org (Postfix, from userid 1004)
+	id E7AF141E9D; Mon, 13 Jul 2026 22:31:24 +0100 (BST)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1783978284; bh=PFYYQhVg4NRarAQ81g5gFeRQ3Pkd+XUXZYeUxj9P9Kk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=tk+Uuiz7dx6b0K76rO+IqBr7UYSiJuIM3z/Nm1TLA1YJECFKTxPulnLmu6f3PWM98
+	 d38LYkaWefQXGkU15JYrHREz1+XE2OJYiqVzitLuI8qMJfvjxVsjK2+pPYAdbUTEFv
+	 oPSeMjTTtMUUs+xCkBRuQyAHP3d2gkuB/7/FWJPWxVmwyXX7qQf/XuZZjH7KW12ekS
+	 DXPghBtGhMJEPhtdp1xfU4nSaitT5urfWLpvwrLFB0F5ooN+aELeVveuJT29CdlLcn
+	 YOHuMYcSP/7L7ox8/ZAe4FVPJDpqae82Lgc+LzekMTunD0O33RAdYuBxGmep8cw3Jg
+	 W7VfVBwzgYrpA==
+Received: from maru.home (host86-148-148-68.range86-148.btcentralplus.com [86.148.148.68])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by mail-gw01.astralinux.ru (Postfix) with ESMTPS;
-	Mon, 13 Jul 2026 20:52:50 +0300 (MSK)
-Received: from rbta-spb-lt-115149.astralinux.ru (rbta-spb-lt-115149.astralinux.ru [10.198.24.8])
-	by new-mail.astralinux.ru (Postfix) with ESMTPA id 4gzVQT3vP9z4lNf;
-	Mon, 13 Jul 2026 20:52:49 +0300 (MSK)
-From: Elizaveta Tereshkina <etereshkina@astralinux.ru>
-To: stable@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Elizaveta Tereshkina <etereshkina@astralinux.ru>,
+	by extorris.mess.org (Postfix) with ESMTPSA id D531040155;
+	Mon, 13 Jul 2026 22:31:23 +0100 (BST)
+From: Sean Young <sean@mess.org>
+To: linux-media@vger.kernel.org,
+	Sean Young <sean@mess.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Chen-Yu Tsai <wens@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org,
-	Ethan Tidmore <ethantidmore06@gmail.com>
-Subject: [PATCH 5.10/5.15] drm/sun4i: backend: fix error pointer dereference
-Date: Mon, 13 Jul 2026 20:52:37 +0300
-Message-Id: <20260713175238.715526-1-etereshkina@astralinux.ru>
-X-Mailer: git-send-email 2.39.2
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 06/11] media: sunxi-cir: Ensure no more interrupts can occur before free
+Date: Mon, 13 Jul 2026 22:31:00 +0100
+Message-ID: <397628f5644f6488f111a3a3ee07d00ce01a13b0.1783977550.git.sean@mess.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <cover.1783977550.git.sean@mess.org>
+References: <cover.1783977550.git.sean@mess.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -67,58 +69,29 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-KSMG-AntiPhishing: NotDetected, bases: 2026/07/13 17:19:00
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Envelope-From: etereshkina@astralinux.ru
-X-KSMG-AntiSpam-Info: LuaCore: 112 0.3.112 7c8d497b0e572fbfa504a2ee62037c045a8cb4ec, {Tracking_ml_letters}, {Tracking_one_susp_tld}, {Tracking_uf_ne_domains}, {Tracking_internal2}, {Tracking_from_domain_doesnt_match_to}, patch.msgid.link:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;astralinux.ru:7.1.1;new-mail.astralinux.ru:7.1.1, FromAlignment: s
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiSpam-Lua-Profiles: 204404 [Jul 13 2026]
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Version: 6.1.1.22
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.0.7854, bases: 2026/07/13 15:36:00 #28439953
-X-KSMG-AntiVirus-Status: NotDetected, skipped
-X-KSMG-LinksScanning: NotDetected, bases: 2026/07/13 17:19:00
-X-KSMG-Message-Action: skipped
-X-KSMG-Rule-ID: 1
 
-From: Ethan Tidmore <ethantidmore06@gmail.com>
+Only call rc_free_device() once the hardware has been stopped.
 
-commit 06277983eca4a31d3c2114fa33d99a6e82484b11 upstream.
-
-The function drm_atomic_get_plane_state() can return an error pointer
-and is not checked for it. Add error pointer check.
-
-Detected by Smatch:
-drivers/gpu/drm/sun4i/sun4i_backend.c:496 sun4i_backend_atomic_check() error:
-'plane_state' dereferencing possible ERR_PTR()
-
-Fixes: 96180dde23b79 ("drm/sun4i: backend: Add a custom atomic_check for the frontend")
-Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
-Link: https://patch.msgid.link/20260217014801.60760-1-ethantidmore06@gmail.com
-Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
-Signed-off-by: Elizaveta Tereshkina <etereshkina@astralinux.ru>
+Fixes: dccc0c3ddf8f ("media: rc: fix race between unregister and urb/irq callbacks")
+Signed-off-by: Sean Young <sean@mess.org>
 ---
-Backport fix for CVE-2026-53066
- drivers/gpu/drm/sun4i/sun4i_backend.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/media/rc/sunxi-cir.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
-index d935f36a24dd..b3741827c6c3 100644
---- a/drivers/gpu/drm/sun4i/sun4i_backend.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
-@@ -507,6 +507,9 @@ static int sun4i_backend_atomic_check(struct sunxi_engine *engine,
- 	drm_for_each_plane_mask(plane, drm, crtc_state->plane_mask) {
- 		struct drm_plane_state *plane_state =
- 			drm_atomic_get_plane_state(state, plane);
-+		if (IS_ERR(plane_state))
-+			return PTR_ERR(plane_state);
-+
- 		struct sun4i_layer_state *layer_state =
- 			state_to_sun4i_layer_state(plane_state);
- 		struct drm_framebuffer *fb = plane_state->fb;
+diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
+index 28e840a7e5b8..af1ee08ffdbe 100644
+--- a/drivers/media/rc/sunxi-cir.c
++++ b/drivers/media/rc/sunxi-cir.c
+@@ -374,8 +374,8 @@ static void sunxi_ir_remove(struct platform_device *pdev)
+ 	struct sunxi_ir *ir = platform_get_drvdata(pdev);
+ 
+ 	rc_unregister_device(ir->rc);
+-	rc_free_device(ir->rc);
+ 	sunxi_ir_hw_exit(&pdev->dev);
++	rc_free_device(ir->rc);
+ }
+ 
+ static void sunxi_ir_shutdown(struct platform_device *pdev)
 -- 
-2.39.2
+2.55.0
 
