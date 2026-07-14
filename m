@@ -1,133 +1,91 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E643C3450
-	for <linux-sunxi@lists.linux.dev>; Wed, 15 Jul 2026 09:56:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27066449EA4;
+	Wed, 15 Jul 2026 11:35:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784109385; cv=none; b=qeb8bso4LDWWsQ/zbEgF9kGPZlx791uZ+N5Cq/vkBn8xeYBi1XtiBm3glHOrPI6QCk8YnhnuH4jM2yJJcl3YiIg42d6NorEKpRKWJ7Moh5xvDzfSwZfpBY1DfyLPCSSC59GYLL0C3RAkC3quS/S+gKYE58NkzUEwcPo8HXYhg5I=
+	t=1784115349; cv=none; b=ZRRNBVS9o77Mak5LrYoC1MEW+xgyKcOYcZMKccoM4fcikjiQ/AXWxILa+/AZotwiwCvKFpzTlemfesHvYNHZxlT+lkAQYlLrsFff6gw8rEbOGUm504Tf+LS629OjhxkwLSXBWaUQeGkqe8Ypo1oIAfXRu6SYPFZBWsEP1t63InQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784109385; c=relaxed/simple;
-	bh=RVMpE/2zJngbP2l7dUgGImsnDYyJOJke9NWacK4SwV8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bBxhNtaBU6mNT5Z6j1RT9el/oQ1VtvUiWLNWDo/gIjoPpu99ZsZAP3yHrEGoV5pr5ss5BHPNyjOuNVd7C61wegW1DqxkgBW9cXPljaIbjG6dpQUL+CkVP+RzpAQysAcy8lx0UIZjW8xlNynmSTvTNFXsO0bbcGnEgJuj6u2mt14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aL/1HYg9; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784115349; c=relaxed/simple;
+	bh=HO5zuBKp6sDeTeysZpQX81axcXdOTq3CppdZUkGVwvs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=kfTjT+ktsjU9Hq/bIKoSlQqniCbxt1LFv6WZJdfdtH3kRDIlith0nSkfoNXbs8LTPkY9CsPvfptET3k3YEb32Ifgp593pxZrvNQ4Lpgw4Oc24m5emCW3nUE6c+BA6gnwU7Cbt+ub2i39UAvqTYaPQvNl3bInvcKPYUDplNN7j7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CjtgL6Gz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aL/1HYg9"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c88a4d79ba5so3412506a12.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 15 Jul 2026 02:56:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784109384; x=1784714184; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hMaB8cZfcOw4iICxwreQT8955W297Mz8pA/NoRorvZg=;
-        b=aL/1HYg9QHiIEErPXG/6Do9k8k+xwjq6L6NPZELt/RbziJnhr24g7syfLr0IDGnA7z
-         bbb04Uwd7E9kznF06IigO0niznXIgP9ZXw8fODSEHPbg4+1qvlyOfIavyKe2Mvs3kjoX
-         K2/LzXhYf5Dq8irGhrgipk/evDwGopUDrh2o6Q+YLNuIW7Z34JUnN/zNA7aKNJ/l7LxE
-         l0cWtXA20R23ugmyZNArNafyGiVbthDg4grabYCYwV1No4tTcJBD+GyJsFS6c6PHfk3D
-         4quJ3wgncbg7quAkNZ13VuW/iU1eoGaE4aayWD0UoAksXlAPrhFEH0zWxdzQST7HHcwk
-         64iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784109384; x=1784714184;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hMaB8cZfcOw4iICxwreQT8955W297Mz8pA/NoRorvZg=;
-        b=bKUxDwRVie24Z/sMfI6bqCEhKaYclFhYuimFQXagiS+F+g72f9BNuwUG+h+qCOtVpe
-         IYpo1XZ5zsxaz33mUApKFhfSA9B4XiSTahMMVD9BFS8kQb8y8y3oDjEfeRd3Pi8sxLgx
-         9Uylx+vkL/oiHR4njNzF26h8xtueP78s8mjEI/qghXR97ysBkaGo712Ta86eXIv9aE8n
-         vSkfUXn1qsVHVqmMNQV9nUmKZxVEU+rZNbc+PbhmPvv21MpEbc6LiyGZEyzt1vj9fLtT
-         FvDEM2qt3ZHCQb0L+nu9DYnW7KrSvnSGvzmfIGST5I87IBgKl9sN6RadxDm1xLQvWo4t
-         xp9g==
-X-Forwarded-Encrypted: i=1; AHgh+Rqow7JZQaW4plELNMFFdJBLNEqy5HGCgU1GnNiMmDDy9LHLQZh8rXfXn4JOkXAyYDeqlZ/UcCbx3IMSaQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxkglx7ctNgoAHnOBHNn8r3FnXK7a2n9BTgFkVdBC0j2yUfiMVe
-	TRgajqP6Cytclk/sA8bqbKQugfSgIGY6d4geBngyY9+fO5hkTh1zTyZX
-X-Gm-Gg: AfdE7ck41AebPNrkYL46olt/ASCpQgmoJ3j/kzypYsZKGiF8jVL+wZEAVmQKAmcoBoT
-	yje0gwBwq5Vb25rR8l3FoJRN13Ewz9urYurAQZBTATly7ExF9SI6gFYLzbo7yaTlUb4NPTbBhAF
-	Bj95xakKhKrj9DSho3PVQoxYsy0XzUvWGJAXyJ0+W6PcaivFsR/hpiN5A84WC47JL8nMp9P7OyZ
-	1yfUQJrIcNsmaNttsmcyN7SwI6VtIhkpSiMefmilCegsHuIjCCMoSIXjFGtSBSAqzvnyHPG/zYq
-	GCAQJ5DDak+Ezeo7IPocioxv4lmwWatbjVuKluWLotEingZFihrWLhpX4zxVNHhP+gjsBRjLLvk
-	mjCOmuSE+3nAfdW5aX7rFbK8uTY6ZoqW5amm3RHRbvYeR3l9IP34+D1cn/5BnCP3H49j5/+rHKD
-	+ydC+/0RtLaBJEQ7AgmaP1yQYcbEh9NKxr39JJC0RW8bUrjtA=
-X-Received: by 2002:a05:6a20:2584:b0:3c3:2e2b:29ef with SMTP id adf61e73a8af0-3c3575df9dfmr6494504637.51.1784109383732;
-        Wed, 15 Jul 2026 02:56:23 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ca5b3643399sm11628908a12.22.2026.07.15.02.56.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 02:56:23 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Chen-Yu Tsai <wens@kernel.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Chen Ni <nichen@iscas.ac.cn>,
-	Marcus Cooper <codekipper@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	u.kleine-koenig@baylibre.com,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sound@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 6/6] ASoC: sunxi: sun8i-codec-analog: Improve probe error handling
-Date: Wed, 15 Jul 2026 16:55:25 +0700
-Message-ID: <20260715095525.40668-7-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260715095525.40668-1-phucduc.bui@gmail.com>
-References: <20260715095525.40668-1-phucduc.bui@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CjtgL6Gz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 441371F000E9;
+	Wed, 15 Jul 2026 11:35:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784115345;
+	bh=bLCKNaZkTvFdMYBszO5HwetTDpGyV874dp95e9MnOpA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=CjtgL6GzIAGmwaGGXzcQ+3M+ScIvY99QikOTsVP6jnN+tE75OcNKNyvzBUKojhnP3
+	 OQYSTcUuWvBPKoS+jIUp3Iwn9EnCGU1xTkSlf0kbA5NdxY3CS/tDCE7jwvn/a9hQMO
+	 vqHll/NT53qkJBS9Hj3FO6fFV5FFJdliclYFyrhmMVgzdF0nlwJuLkJMMtek5GrMlR
+	 199s85Jv39tye6BL8ViDy/49nQUyCDx9I9pcHin1u+/c+AMiN4uJ9GwfzyDfMcebQn
+	 fID2XS2R/bAc53yLuuUnMCBFT7+xlMWtU88qBrY4kTsz/kmmxHu2dfLhXs5H5vuH8u
+	 qPSbOoFiYFNDw==
+From: Mark Brown <broonie@kernel.org>
+To: Jernej Skrabec <jernej@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260714151950.316035-1-wens@kernel.org>
+References: <20260714151950.316035-1-wens@kernel.org>
+Subject: Re: [PATCH] ASoC: sun4i-codec: Sort sound related #include
+ statements
+Message-Id: <178406398767.7661.1702188321894054954.b4-ty@b4>
+Date: Tue, 14 Jul 2026 22:19:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1132; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=HO5zuBKp6sDeTeysZpQX81axcXdOTq3CppdZUkGVwvs=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqV3CPBThu9or9pVz5WuIa0CmmrVlHQ0HJGWKoP
+ FuXgzLhm2SJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaldwjwAKCRAk1otyXVSH
+ 0DbvB/4r3kcVlDghUv3Zxd/gvUn5SrhcLAL3Dgxug4JblzSbaQ3Jy16FWNPYB5qdx0yGCN6NO1T
+ HSvlzi2nSuRvrgC+Jc2qoSiNH6CKoLJM4liiXu6JL4okZozQQLRnHmAp962tPEWb/zlrq6BsIMc
+ A4dwNhGdlX61tuOLE4hMa2k0UmHnuwCxpmGdeOHr2twyO2pFHIk3a42ON1Z8grd25Zs4A+I0Rgn
+ e2MPCiPuCA80YLzPhcs1UHm0qJj6uW6HdkvSZty+zBwni5wJEKLf1f8WlRktSszx+8obCOFArBy
+ 3+gNH9NSOtu+/34aDXLRYDtSsJ9PMRXPflnkTZLhM8O/4AUm
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+On Tue, 14 Jul 2026 23:19:49 +0800, Chen-Yu Tsai wrote:
+> ASoC: sun4i-codec: Sort sound related #include statements
 
-Drop the redundant error message after devm_platform_ioremap_resource(),
-which already reports failures, and use dev_err_probe() for regmap
-initialization errors.
+Applied to
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/sunxi/sun8i-codec-analog.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-diff --git a/sound/soc/sunxi/sun8i-codec-analog.c b/sound/soc/sunxi/sun8i-codec-analog.c
-index 2024e2b2553e..3335855c6311 100644
---- a/sound/soc/sunxi/sun8i-codec-analog.c
-+++ b/sound/soc/sunxi/sun8i-codec-analog.c
-@@ -822,16 +822,13 @@ static int sun8i_codec_analog_probe(struct platform_device *pdev)
- 	void __iomem *base;
- 
- 	base = devm_platform_ioremap_resource(pdev, 0);
--	if (IS_ERR(base)) {
--		dev_err(&pdev->dev, "Failed to map the registers\n");
-+	if (IS_ERR(base))
- 		return PTR_ERR(base);
--	}
- 
- 	regmap = sun8i_adda_pr_regmap_init(&pdev->dev, base);
--	if (IS_ERR(regmap)) {
--		dev_err(&pdev->dev, "Failed to create regmap\n");
--		return PTR_ERR(regmap);
--	}
-+	if (IS_ERR(regmap))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(regmap),
-+				     "Failed to create regmap\n");
- 
- 	return devm_snd_soc_register_component(&pdev->dev,
- 					       &sun8i_codec_analog_cmpnt_drv,
--- 
-2.43.0
+Thanks!
+
+[1/1] ASoC: sun4i-codec: Sort sound related #include statements
+      https://git.kernel.org/broonie/sound/c/eceeb7a564f8
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
