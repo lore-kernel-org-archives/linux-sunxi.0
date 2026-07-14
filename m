@@ -1,79 +1,78 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1934A3414
-	for <linux-sunxi@lists.linux.dev>; Tue, 14 Jul 2026 16:09:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02A454A3414
+	for <linux-sunxi@lists.linux.dev>; Tue, 14 Jul 2026 16:09:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784045344; cv=none; b=WKs8DvHnckNI4Ff3Upjqw16LDX4qoUVN2af3W9Id+MGZp5bjY0NANiWVIC7kZB5fmTDin5oZ11YEz02LDyDoMuiGjMKNT4No6pVeaZagrriAz3Wl9TmGXvwNkHrnBh2/Qvv7Hm9kE2qlB9uPWS2ci4GZ7U2GvDkM8mZgPvfv718=
+	t=1784045367; cv=none; b=LH5QvgUxBoVkDkGOqdi7XbTzNgcYiGexIkk2DjrI2EpZhyUoHTID21FUC4c89zia2tR9Ono0/uiJyzAWaPvordj79PMfGXqRJcbtNGV98bu7GZAEFuhKtiJG5jKqMlmNH2Li2k2INXdNgEQ809aXv0OOJ2e9PzKIRztqueAVgYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784045344; c=relaxed/simple;
-	bh=WChOIXCXpcq0quURVEjiQP6ReSE7dcYzMBe/VviNclk=;
+	s=arc-20240116; t=1784045367; c=relaxed/simple;
+	bh=GXVI837g1ct10qWkXRLUJqSubRz9yvmaXF5e78qaF3k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OuBcLis4YSCrjKYHwiOKq2xZEeugEBOrK0+QFhjiEUNU4qYLuoz97kDSgsXM5uAg7YduLHqcu4qKxulnCn4O6FJOeJ5H7uSR4aI4GBF3qrcxT5Eq9DnJItZwU0QbuATLzTtqgrer3Mdpux4zWkCTvPLUP8b30STx2Yo9OywxcbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qp96uWC4; arc=none smtp.client-ip=209.85.128.54
+	 MIME-Version:Content-Type; b=ZpHLuBa9NM6jLW1ex//uADlYX7mJhufF30kYTka29Vj9WXKF2UP2dzKUoKp1tvrH40eCStk9bLFNX+6DIXEf6JOQ7gbol8qfF8NKlGFtD9f9galLIuH7Jcs7JkYnTpIL1KulZwb+LgImt6x3JeAU2yToe6jVuvGXf5OEsIBfkIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Frzmft0o; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qp96uWC4"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-493e4ccccc2so28867235e9.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 14 Jul 2026 09:09:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Frzmft0o"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-493ba701891so8962585e9.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 14 Jul 2026 09:09:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784045339; x=1784650139; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784045362; x=1784650162; darn=lists.linux.dev;
         h=content-type:content-transfer-encoding:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=WChOIXCXpcq0quURVEjiQP6ReSE7dcYzMBe/VviNclk=;
-        b=qp96uWC4SWfA8gX1XUI2q8i/IpBLlnHsfz4YNHU6i2t/sUoq8Jy3diF0Xk9fpXM5IO
-         aQRfURWGaqFMKOdQOrzY35UuOmIfOY+XKIaW514pjHaq/XszJwf+dXESh/x3ATGzcPV/
-         ALzi9JKdbTJMoRlzpmFt7/3QHERO1/wI2zY5oAIohCrn9r/ryAdS9lnpT2LbI6dKfmAM
-         2AaMDi6dV9iQKJXnA+BibceAM2Jjjey5Z6EWwAVqsH8t0tBEmD5Glt/RIXzDlv6tsXIl
-         LHadozba527LyHInYDBDIKZfn2MOp4slaibhRH9JTsPS0AtKHcnM5TEje/gQXeCgLRvq
-         sDIg==
+        bh=GXVI837g1ct10qWkXRLUJqSubRz9yvmaXF5e78qaF3k=;
+        b=Frzmft0o+v7gztLMyH/mgMeAFeTTtnQJWAACN7Ov8tJFcoF8zyNCe23kL5QEH1+Mal
+         drGkR+6Texxx66p3fMHx/vGomd3X+HtQ4eUF7Kmd/TJ4EUvVJ6m4RSRlK0BmGWKtlRpm
+         SS+qQ/Ke59Yp2k0yaDlqawetwzwCmEmdj0iCI6X/bOhvAlCfjcSp7vgXaLj/PRlpgoSQ
+         HQGaU3pV8/9Id6sHIIq3aQJcTW9Z4SJSvBI1tZwV5WQunQGAP0cL9zpZeuqg8RJv6Q5z
+         TSG1nh6PUfraAFeX0QKituWjC2IQxmwpX6REwc0bNblsQuupt0vQntNcLfO6xfjr0gxN
+         RnjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784045339; x=1784650139;
+        d=1e100.net; s=20251104; t=1784045362; x=1784650162;
         h=content-type:content-transfer-encoding:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=WChOIXCXpcq0quURVEjiQP6ReSE7dcYzMBe/VviNclk=;
-        b=QU82sEZ2i32W3DUV51rYOCmukBIwxvYPAdeR4if5CJmT4va5pwFh7sW7Lhzdp9WuW0
-         LC1E4oDPe5asUU1Qii16+zXo22jF5eGRwDNRnFiVB1how0bb4CdjSVFE21+3S+IqipGD
-         dynO3GFjl7YvGHvWUH4GtbCc9a56w4qEMSjYqdMLzCT8NltnfAuAvbQHkrXL2HpuMZQp
-         0UnjVkqYGH9PmtdgCxnm8p/cpXr1Sh/sBY9zJE/ApQk3yLFakoE8XbbfZwcvKFFQREHS
-         jDLOdTMVDiYE4cQbTJ9hdLcbZYU89WgdaTuGnS6VM0qKhaD0T5V1jYOEUazzEetewCw9
-         DNaQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrUcoWKk8F3Z980v4W3pHoFUcJ2KX05nN9hNW6LoLjKYkMbZmw4wYuF8D+uCVNE5jftdT4me2iCrW2EtQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzoTIF4LhnnpvdDX1F5woG998dlp2zRR8SL7AY2rXWyI0ib2u3p
-	Uw+krcs5DtXvuqpyGEfWL/3Ug2WiUQlNa+4Q1q2FUe6y69YvBg4zA4Z6
-X-Gm-Gg: AfdE7ckQO10wWVq8Wv0wyKZNWi8LdDjxU12WwHO8TxRcrKCOGX64LsxpBkK8V2OpYc3
-	+6oFknF5/DO4/cZSZN5XosZrfTVjwCFLseL76QSW1WFbegkb0kdrUw7UCCHJ1UOnsiRzyIQKB4l
-	icpXtik3LQ0rywWIedK2/Yf/B2jnuWoixfmWpKDYOAurb4gHudT5iz3oLS0YVUmP6vTjx3VYiV3
-	EZmrMxe8MuFx9/tJbmQCgvUydw22jvO2jnpcTPKJZjIawZcN5oTx3OBBrG1jmOrlFiMzlCa/JIq
-	ffJPULCAf+jd58tJpdCNP2YrgrpM/VvHxDXZnh4qwNFJWgfz9xsKXec1Gw7ygVztuG0/V5mG119
-	x+F6mk0HIbEyYc4CiN4TNVCFNA4S4RaoKBtZ8D7beXxeQwskHtcOza88ho9Y9MWwf2L1w6fhyk+
-	+E5j4ID6wwScOvv0HDnbzLt4+WGGLj0OmLKzfpZhesauipqfUppyETkjt9zFVVUWEEi9pbv11Hp
-	a9c0HldVAQIADjIyx1WiqjRV5Vi3SXDOPgvgjzs1/MSaaZwjCfbu70n8QbyZKs3mNiiiC+OUMAL
-	hUAuYI/TKSktrLe8/RCtHVfUvmeMVpIg/NComRIn1+pwkqGd33VEpZaPLHLp65vuSPIkVXqcidF
-	QY0vw4tUuouwZ693uHvyPWVmWDqcydwMvBfxwny1slzE=
-X-Received: by 2002:a05:600c:6303:b0:493:e4ce:acd0 with SMTP id 5b1f17b1804b1-49538992918mr33564445e9.1.1784045339225;
-        Tue, 14 Jul 2026 09:08:59 -0700 (PDT)
+        bh=GXVI837g1ct10qWkXRLUJqSubRz9yvmaXF5e78qaF3k=;
+        b=MnsBlG1BLsWbc+k9YWTPvZJZCnyyHxbPXG/dHIiY3bvqOUSbZ6DrOGNyyLMtmsuvN4
+         DjYwzciMEQ1QAJYb+m45pEKoP5QPOiHvJYUmMpirtVVAqy0rF62Yyv8i5gMf5gkYFI0e
+         ec9SDMDqAvrWnINGP3/18g1olSbpgAW2u7WCemwm/2QtVSOhQ3u61EbcbK8+fyLUPXCB
+         qJqQlR3+sE7IsfOV4reBfd1LGk7KjcXgmLWQp1pokBXj2Sz7iYfRB25yd9bfXEMZWJcd
+         1CDDlWwwfB14LZi51GBC78ApGVpEO6bF+WTVu3oJzq1Xn1fyAFk8K+5z3eM/3YyAf4yn
+         weGg==
+X-Forwarded-Encrypted: i=1; AHgh+Ro8avGra6cIqfVUZdAOkZHhtw9GVFz120qkud4G/RndpsVNo4U2F1sd6rkmUon+gs9ugFsgJGevkhpxug==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxtI9e4h8I07v6FnZn03mpic3pofWJ06DautjLJ8unA6C+m2yRT
+	6ai81teRz7QNk8qsc2ktFcchNhoPb7F5PvLwHEFtHBWgNgRJNphW+1U2
+X-Gm-Gg: AfdE7clWBaG5wMy6xkBUoPxtxF2JNPz6SVzUV8yltn0M9vEaTfnbycoyjDEdx3JWsn2
+	b6Cj6bZwwtTAUySUC2DEPwMags2UbNLZEkseRoz7FmWubQId3kTzsMe3NelzbUtSVTP2g1xauty
+	kqEM5BcARV7Jtw1Sit+7L7Job4OtnnChmhtE8vfJkOouy6H4KvNok28lOvwukJ4x5sEUTX6OPHG
+	G8gvKOyHtBxR6QDkFud6ayWrm8RkMrLvDz7zl7VkMe9ObT3lloGjPmq5e6QDFzPoH/8Jrp/A5Q1
+	JH2bqHKHCwoV6XhkDK25KlhSnOgc4LapIY1qeYeL35ZPI64kNViDjV3NrGjDiRd3Vxa9YwnwFC+
+	KFc8irlpudkFMAYJZjCysfJhP0E7JKWJjrawjhnAd8UA9uzGQoCyffzgvxlp6br6CviolRxH8hm
+	zpUqd7jpF+10dOfu2vf2MV3ehOxUk4T0j/gx3MBkdrRdOJkVM8pwNVGBoPs2IH27Bzqm1Pj52gm
+	bXAOuOtJF1UiAVJ48Kdn2BIy1K7umWWNA9hXz/1qW376SrBCvNrwWLK+UJTbXNAkM+YI7Auht/w
+	mJDtkdQvUku2ZTFhTbc3snZgDDa+F5XUfZpHWvwRaeA/RCsAF+o0Ic7az5xZFxRIt3xIfWV4nr4
+	gJ2NFGTml0joiGrTND9esHn/q5BwEGNcw9nCJrcvO8YE=
+X-Received: by 2002:a05:600c:3e19:b0:493:f28e:462a with SMTP id 5b1f17b1804b1-493f87e6ba2mr149120795e9.12.1784045361917;
+        Tue, 14 Jul 2026 09:09:21 -0700 (PDT)
 Received: from jernej-laptop.localnet (213-161-4-244.dynamic.telemach.net. [213.161.4.244])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4950a2f9402sm88923595e9.13.2026.07.14.09.08.58
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493f2dd8376sm228065035e9.2.2026.07.14.09.09.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 09:08:58 -0700 (PDT)
+        Tue, 14 Jul 2026 09:09:21 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Mark Brown <broonie@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
  Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>,
  Chen-Yu Tsai <wens@kernel.org>
 Cc: linux-sound@vger.kernel.org, linux-sunxi@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH] ASoC: sun4i-codec: Set quirks.playback_only for H616 codec
-Date: Tue, 14 Jul 2026 18:08:57 +0200
-Message-ID: <rIZ28csxRO67EN6Ja__8tQ@gmail.com>
-In-Reply-To: <20260714113304.270224-1-wens@kernel.org>
-References: <20260714113304.270224-1-wens@kernel.org>
+Subject: Re: [PATCH] ASoC: sun4i-codec: Sort sound related #include statements
+Date: Tue, 14 Jul 2026 18:09:20 +0200
+Message-ID: <ptJh_8TPQY2jXW7OWRlEFA@gmail.com>
+In-Reply-To: <20260714151950.316035-1-wens@kernel.org>
+References: <20260714151950.316035-1-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -83,15 +82,13 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne torek, 14. julij 2026 ob 13:33:03 Srednjeevropski poletni =C4=8Das je C=
+Dne torek, 14. julij 2026 ob 17:19:49 Srednjeevropski poletni =C4=8Das je C=
 hen-Yu Tsai napisal(a):
-> The H616 codec does not have capture capabilities. Set the
-> .playback_only quirks flag to denote this.
+> Some of the sound related #include statements are not ordered in
+> alphabetic order.
 >=20
-> This was somehow missing from the original driver patch, even though
-> the patch prior to it in the series added this quirk.
+> Sort them. This results in no functional change.
 >=20
-> Fixes: 9155c321a1d0 ("ASoC: sun4i-codec: support allwinner H616 codec")
 > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
