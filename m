@@ -1,97 +1,101 @@
-Received: from extorris.mess.org (extorris.mess.org [92.243.27.206])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51373624DB
-	for <linux-sunxi@lists.linux.dev>; Mon, 13 Jul 2026 21:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.243.27.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59FEC3F99F4
+	for <linux-sunxi@lists.linux.dev>; Tue, 14 Jul 2026 08:11:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.149.199.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783978295; cv=none; b=AMAHMm+tA1bucB61jWM+tEE35Sok3W3XZRUgXxHwxW1YuXlZyTprIWRJBvOdDLoOrvlGmW/vVe59u9EOVlbr8jKfMlW0xAK9dcqD2Y8xmQXN8eLo+0SbWYG3QJc8iHGzHCa1jtIUhqPmTJ0gV9sFihz305QX/kt65MYCz+qpNZU=
+	t=1784016710; cv=none; b=u/VZVpC9aqJRCsHskOZ2F46P/k8pgq9BoKuQRDKdqQjVwcfyUqzSRKZqax9T5i4gbxg0M2Kq3LwOdw6C5xkCC9dlRly82HMfblUvA5z20Vk85sN9aAMLD0vAJ+gzLDMwMDfdWnsy6Z8D1aD56v1RdNWcV6OhaR4a6OSQQvTwEdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783978295; c=relaxed/simple;
-	bh=PFYYQhVg4NRarAQ81g5gFeRQ3Pkd+XUXZYeUxj9P9Kk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=R5DpzjUCXdp2eWZstGmWPSnGHFeiob3X9hy5lvk39jJOfRHPq6YOnUWzc818I5WKrwbEAhtLVRfb/Uhpj0tqzqG0f5QCx4CNBANRZGR6hxOmHob4jw7OF5gDoK3h9aFalWsEpd/rye9thRya379hSLLTUhIRJdAQgSsnnrAG8Lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=tk+Uuiz7; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=tk+Uuiz7; arc=none smtp.client-ip=92.243.27.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+	s=arc-20240116; t=1784016710; c=relaxed/simple;
+	bh=dCLX2OZmnQHZfHD9kLc9OyNRWWK37l6DX3lTNoMemdI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uNIeQvdYVsM8kknaJSUiFmuZrNHKtQjCzAGLrXmLB3OXlWrCvsANoLX3zdVO3P+o168r3FVrB5RHpi13osyXkoaE0DpxZj3LfPIBHdXxjjlAAzyQMykOO+H+eYuBnAG6UUyyhSPpb/ty87z5vjPrj5GIAtP8qpxaV6qlpFuo/c8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru; spf=pass smtp.mailfrom=ispras.ru; dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b=U4lfxtlv; arc=none smtp.client-ip=83.149.199.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ispras.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="tk+Uuiz7";
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="tk+Uuiz7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1783978284; bh=PFYYQhVg4NRarAQ81g5gFeRQ3Pkd+XUXZYeUxj9P9Kk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tk+Uuiz7dx6b0K76rO+IqBr7UYSiJuIM3z/Nm1TLA1YJECFKTxPulnLmu6f3PWM98
-	 d38LYkaWefQXGkU15JYrHREz1+XE2OJYiqVzitLuI8qMJfvjxVsjK2+pPYAdbUTEFv
-	 oPSeMjTTtMUUs+xCkBRuQyAHP3d2gkuB/7/FWJPWxVmwyXX7qQf/XuZZjH7KW12ekS
-	 DXPghBtGhMJEPhtdp1xfU4nSaitT5urfWLpvwrLFB0F5ooN+aELeVveuJT29CdlLcn
-	 YOHuMYcSP/7L7ox8/ZAe4FVPJDpqae82Lgc+LzekMTunD0O33RAdYuBxGmep8cw3Jg
-	 W7VfVBwzgYrpA==
-Received: by extorris.mess.org (Postfix, from userid 1004)
-	id E7AF141E9D; Mon, 13 Jul 2026 22:31:24 +0100 (BST)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1783978284; bh=PFYYQhVg4NRarAQ81g5gFeRQ3Pkd+XUXZYeUxj9P9Kk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tk+Uuiz7dx6b0K76rO+IqBr7UYSiJuIM3z/Nm1TLA1YJECFKTxPulnLmu6f3PWM98
-	 d38LYkaWefQXGkU15JYrHREz1+XE2OJYiqVzitLuI8qMJfvjxVsjK2+pPYAdbUTEFv
-	 oPSeMjTTtMUUs+xCkBRuQyAHP3d2gkuB/7/FWJPWxVmwyXX7qQf/XuZZjH7KW12ekS
-	 DXPghBtGhMJEPhtdp1xfU4nSaitT5urfWLpvwrLFB0F5ooN+aELeVveuJT29CdlLcn
-	 YOHuMYcSP/7L7ox8/ZAe4FVPJDpqae82Lgc+LzekMTunD0O33RAdYuBxGmep8cw3Jg
-	 W7VfVBwzgYrpA==
-Received: from maru.home (host86-148-148-68.range86-148.btcentralplus.com [86.148.148.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by extorris.mess.org (Postfix) with ESMTPSA id D531040155;
-	Mon, 13 Jul 2026 22:31:23 +0100 (BST)
-From: Sean Young <sean@mess.org>
-To: linux-media@vger.kernel.org,
-	Sean Young <sean@mess.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 06/11] media: sunxi-cir: Ensure no more interrupts can occur before free
-Date: Mon, 13 Jul 2026 22:31:00 +0100
-Message-ID: <397628f5644f6488f111a3a3ee07d00ce01a13b0.1783977550.git.sean@mess.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <cover.1783977550.git.sean@mess.org>
-References: <cover.1783977550.git.sean@mess.org>
+	dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b="U4lfxtlv"
+Received: from localhost (unknown [95.24.34.24])
+	by mail.ispras.ru (Postfix) with ESMTPSA id 5A8654077925;
+	Tue, 14 Jul 2026 08:11:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 5A8654077925
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+	s=default; t=1784016696;
+	bh=VgVmW8xYosn9eiQExAeU/NJmJ4m2IB5bEc9w8himm7s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U4lfxtlvxBqvv4zXOJvCCqXRoI/MEwpNB1CjNePGU3E67/CoorkTnoxv1/H745dau
+	 tC9O8dXloA/RvxHG+EZn8G8B26BNtcjdsrq/abqTTv3i1b6YAq3QAcW/tKUpGMGzJo
+	 AkJi/MBCKrccOfzCB5pXZy8N0lIX2lC7Q0PCfqkQ=
+Date: Tue, 14 Jul 2026 11:11:36 +0300
+From: Fedor Pchelkin <pchelkin@ispras.ru>
+To: Elizaveta Tereshkina <etereshkina@astralinux.ru>
+Cc: stable@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Simona Vetter <simona@ffwll.ch>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, lvc-project@linuxtesting.org, 
+	Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Ethan Tidmore <ethantidmore06@gmail.com>, Chen-Yu Tsai <wens@kernel.org>, David Airlie <airlied@gmail.com>, 
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [lvc-project] [PATCH 5.10/5.15] drm/sun4i: backend: fix error
+ pointer dereference
+Message-ID: <20260714110040-3d9d1292810372916773a64a-pchelkin@ispras>
+References: <20260713175238.715526-1-etereshkina@astralinux.ru>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260713175238.715526-1-etereshkina@astralinux.ru>
 
-Only call rc_free_device() once the hardware has been stopped.
+On Mon, 13. Jul 20:52, Elizaveta Tereshkina wrote:
+> From: Ethan Tidmore <ethantidmore06@gmail.com>
+> 
+> commit 06277983eca4a31d3c2114fa33d99a6e82484b11 upstream.
+> 
+> The function drm_atomic_get_plane_state() can return an error pointer
+> and is not checked for it. Add error pointer check.
+> 
+> Detected by Smatch:
+> drivers/gpu/drm/sun4i/sun4i_backend.c:496 sun4i_backend_atomic_check() error:
+> 'plane_state' dereferencing possible ERR_PTR()
+> 
+> Fixes: 96180dde23b79 ("drm/sun4i: backend: Add a custom atomic_check for the frontend")
+> Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
+> Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+> Link: https://patch.msgid.link/20260217014801.60760-1-ethantidmore06@gmail.com
+> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+> Signed-off-by: Elizaveta Tereshkina <etereshkina@astralinux.ru>
+> ---
+> Backport fix for CVE-2026-53066
+>  drivers/gpu/drm/sun4i/sun4i_backend.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
+> index d935f36a24dd..b3741827c6c3 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_backend.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
+> @@ -507,6 +507,9 @@ static int sun4i_backend_atomic_check(struct sunxi_engine *engine,
+>  	drm_for_each_plane_mask(plane, drm, crtc_state->plane_mask) {
+>  		struct drm_plane_state *plane_state =
+>  			drm_atomic_get_plane_state(state, plane);
+> +		if (IS_ERR(plane_state))
+> +			return PTR_ERR(plane_state);
+> +
+>  		struct sun4i_layer_state *layer_state =
+>  			state_to_sun4i_layer_state(plane_state);
+>  		struct drm_framebuffer *fb = plane_state->fb;
 
-Fixes: dccc0c3ddf8f ("media: rc: fix race between unregister and urb/irq callbacks")
-Signed-off-by: Sean Young <sean@mess.org>
----
- drivers/media/rc/sunxi-cir.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This would trigger a really unnecessary build warning due to lack of
+commit b5ec6fd286df ("kbuild: Drop -Wdeclaration-after-statement") in
+5.10/5.15 kernels.
 
-diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
-index 28e840a7e5b8..af1ee08ffdbe 100644
---- a/drivers/media/rc/sunxi-cir.c
-+++ b/drivers/media/rc/sunxi-cir.c
-@@ -374,8 +374,8 @@ static void sunxi_ir_remove(struct platform_device *pdev)
- 	struct sunxi_ir *ir = platform_get_drvdata(pdev);
- 
- 	rc_unregister_device(ir->rc);
--	rc_free_device(ir->rc);
- 	sunxi_ir_hw_exit(&pdev->dev);
-+	rc_free_device(ir->rc);
- }
- 
- static void sunxi_ir_shutdown(struct platform_device *pdev)
--- 
-2.55.0
+I wonder if that commit can just be ported to 5.10/5.15.  You may consider
+it.
 
+Otherwise the current backport should be adapted to avoid declarations
+after statements.
