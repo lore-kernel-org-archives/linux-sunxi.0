@@ -1,81 +1,116 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+Received: from luna.linkmauve.fr (82-65-109-163.subs.proxad.net [82.65.109.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51150385D96
-	for <linux-sunxi@lists.linux.dev>; Wed, 15 Jul 2026 16:25:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCDA14A2E01;
+	Wed, 15 Jul 2026 17:52:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.65.109.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784132711; cv=none; b=sggAf8yWrzhlDeZWvo9TIUX5z9qDLD/XU+eTS0+mvAhGRFTaZpS0E72jiEByOgEhGXcfg26aLa95pTgc/riiOOddoPwCgImOyBUzmv7RisE4iSe8mw3klsEXWG9K2Ac/pjPUyNa9JDw8knH1dHqCvb36dUEt8HMh3+6lKTTvP+I=
+	t=1784137980; cv=none; b=P9sL+xZndEoo5Por/5G6uh7Ug6Tvw5TdixiDKaU5gbyEbYV5YbA9imx1gn78ksGiTRKWxMW26X2G/fQ90I2BjF+0xaQK6h/E9zmQp6U7ObAQ+xNsNzAUmdWhb5KVheVVi5xHOLyCbGShsecLmisttSDCFG6D0/nNMREXvUcjWNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784132711; c=relaxed/simple;
-	bh=USAM4Ga0MygeCysRq+E0XdtCeOkWf9ljqdPjJJMRvLQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k5nlqqXloMA1nGWqvTJNZ0Tbbu4MKDUGfGaFGkT4DNLFtJDWtYmwlOgMEIBn67/kHZLBGY//SU0KnBFZ2Xk/C1JRWoz3cLdezN/WCCMXbppASeKNqjQ8HNKPpbvTkC98eEPWvAZGxDM5iS5X+NUCikHKMI12eZchOA1wQaMIeQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GuSXh+zz; arc=none smtp.client-ip=209.85.210.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GuSXh+zz"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7e9eaf04bfaso2091576a34.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 15 Jul 2026 09:25:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784132709; x=1784737509; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9097m1/8Cd7swATAUXouQoSjo89AYWrjWVI5qB+z/6Q=;
-        b=GuSXh+zzd7kKQ69bRCz0kH0KSDwsM1OQ/dKTyHTzktNybX5ukiu+3I9H0FsxIi+B4s
-         t/NdvM41mF2qR3TX9zwi9XfaqGPrhrr/x+TG6tpgSQG87ZqfDIodh1gedj8q3du16UNb
-         YvhR2sC0evTAarU4vG+Y3AKNT2+SYR1M5UPzwHmmjL3Pe+oL55Jf0Acl7nKeLzEGc+NT
-         paR4eCC5D/4TuECdtUMs7MH+u+gVO0ubk/VnjW1w3cgzXcNDOSGnEc/AZt2RkQ39B+Yf
-         x+EVia1elnihZsy7/W8cYggJIK6QAFLzmOhtd/tEOfalZjPS44NuLPF1NhoMix843AcD
-         isfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784132709; x=1784737509;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=9097m1/8Cd7swATAUXouQoSjo89AYWrjWVI5qB+z/6Q=;
-        b=ChUGy5syjCgYDoXfokymBKmrV/Gr7XkzIQo2Ks24FAbrJEYNJ7dgxXgfYjDDYaAoyZ
-         4egACmEWnVBE1QSbLMrqOTnH/L4eNOfjpBmGOK58hCwwQBOG6HxD5O1g1n1xn10xZE+i
-         2yeK23OJoYwyC23BexfUKC+Hp6G6QbqsUd9rUTbAfI6A+OTaSmwbaS2KNdXOAzJD5dKk
-         4wQadI5NA6ZV39SIRSjlUK7E8TWRXW9ytH7ZBcpRfxCYKNwUAc6UP8OSrfOpN/YKZAL1
-         +kzmz3W/X15snLRsg7iSS3Aam51DEKK5qGWyLEB28SrhXAXnHV/ELfmoCrLW07HlNCAc
-         OPag==
-X-Forwarded-Encrypted: i=1; AHgh+RqZecFKqwuMtkF9FkWCu4kgGDNjMKiCwDBjgIZVN/j7sAS7Dx0k1HgBQAIkDSTFI6JKEA5wX7DjZ0YjVg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwREdaqecbkZO7HDyvV9j7mCicOLbtnkO8Eqzp8xO0PaDCSvUcE
-	00Rd+3K7j0UEAZIErkYyWVPR46BC0AUc5pqh9pB1FicvcDY2PGpspFUy
-X-Gm-Gg: AfdE7cmKMo4n2cBDdBPEcG3BLkLrPJv2ZOiE77fpJpOz/KQt6TDfuqtWbrixXqVmhKa
-	KW2p7hPuaUWFwCc96sxEFccnW0/VPeHYZt1MVQMI+KqrcDHg8i6U1YA2Qh+b0T4gYUpR6cTkhAv
-	W9woanQ6nnJ273wY4wp+CHVrG9XvBfgX03WN8xVfhnMAb0vDUqcaiW+tojp7QMpFATLcerIdG1v
-	CA5o/ng5L80rfTzKuwPD7sqNhOFWbjKvKTPy5KBukAhb1fvJ7e0FFIp71SUS2PXVGzocaTbdfWL
-	sX6+pvQe6ersPYq/x4N5wK4StKWbRHKyivifU7MpcSlp8IVaOiL6g8vRYYiBPHnVB8OWTFp0U5u
-	I+0sj/6Z1vsX8RCPOpscVFP95sjklqCHchqi1R0FtHlTdN9bNnR7gTQ1GqYKED3Fl9pkdx3sUYj
-	Qr5HkW+Bl8uEaJIK4D8fx7EkhDWrUl83LSVZcBrv3Jk11+6dO2yMBth4WF0R1+sqJiU1IKoxmAx
-	SZok438oS2QbMH7LA6u9jLDL+xOHK9NROJu7s2b1G6cAKCdu6hr4JTSWcOD2FUPZ44gF05fWIX3
-	uNzQ7YCo+g==
-X-Received: by 2002:a05:6830:82be:b0:7e6:cec2:a4a5 with SMTP id 46e09a7af769-7ec59d2077bmr1767328a34.20.1784132708902;
-        Wed, 15 Jul 2026 09:25:08 -0700 (PDT)
-Received: from james-x399.tailafd1a.ts.net (174-29-11-8.hlrn.qwest.net. [174.29.11.8])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ebcaf77ba4sm17606398a34.9.2026.07.15.09.25.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 09:25:07 -0700 (PDT)
-From: James Hilliard <james.hilliard1@gmail.com>
-To: linux-mtd@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Cc: James Hilliard <james.hilliard1@gmail.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
+	s=arc-20240116; t=1784137980; c=relaxed/simple;
+	bh=7FuVrxLlVZ79zrxiJeyoTlMtEeJsoZeEAs4xb+NIL9I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=P+LxxhnHOODBNmk2ryKIDmZLt3IUhZcWc+fj2Nwk327Y2GxdxbaP9kO/rM4rqmC7FVZqQelS95/ffJaq+GLlfRjqLvLBngdkAQXdDlE9S2pJg5/+X08/sutJ9zu8T8jxvwhRFgGUOiwbfUNEc21fQ3+/L8PkGN6uzr/DJf02Qso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr; spf=pass smtp.mailfrom=linkmauve.fr; arc=none smtp.client-ip=82.65.109.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linkmauve.fr
+Received: by luna.linkmauve.fr (Postfix, from userid 1000)
+	id 989A4F40ABC; Wed, 15 Jul 2026 19:52:35 +0200 (CEST)
+From: Link Mauve <linkmauve@linkmauve.fr>
+To: Srinivas Kandagatla <srini@kernel.org>
+Cc: Link Mauve <linkmauve@linkmauve.fr>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	Roger Quadros <rogerq@kernel.org>,
+	Tony Lindgren <tony@atomide.com>,
+	Lee Jones <lee@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	"Vaibhaav Ram T.L" <vaibhaavram.tl@microchip.com>,
+	Kumaravel Thiagarajan <kumaravel.thiagarajan@microchip.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	=?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@linaro.org>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Praveen Teja Kundanala <praveen.teja.kundanala@amd.com>,
+	Kalyani Akula <kalyani.akula@amd.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Joshua Kinard <linux@kumba.dev>,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Richard Genoud <richard.genoud@bootlin.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	Ronald Claveau <linux-kernel-dev@aliel.fr>,
+	Salah Triki <salah.triki@gmail.com>,
+	Yury Norov <ynorov@nvidia.com>,
+	David Carlier <devnexen@gmail.com>,
+	Achim Gratz <Achim.Gratz@Stromeko.DE>,
+	Alexander Sverdlin <alexander.sverdlin@siemens.com>,
+	Patrick Wicki <patrick.wicki@siemens.com>,
+	Markus Heidelberg <m.heidelberg@cab.de>,
+	Markus Perkins <markus@notsyncing.net>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Abd-Alrhman Masalkhi <abd.masalkhi@gmail.com>,
+	Chen Ni <nichen@iscas.ac.cn>,
+	Kees Cook <kees@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] mtd: rawnand: sunxi: add H616 MBUS DMA support
-Date: Wed, 15 Jul 2026 10:24:40 -0600
-Message-ID: <20260715162444.789303-1-james.hilliard1@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	linux-amlogic@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	mfd@lists.linux.dev,
+	linux-i2c@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-rtc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	rust-for-linux@vger.kernel.org
+Subject: [PATCH 1/8] nvmem: core: make reg_write() take a const void *
+Date: Wed, 15 Jul 2026 19:52:17 +0200
+Message-ID: <20260715175229.24672-2-linkmauve@linkmauve.fr>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260715175229.24672-1-linkmauve@linkmauve.fr>
+References: <20260715175229.24672-1-linkmauve@linkmauve.fr>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -84,277 +119,41 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The H616 NAND controller uses a descriptor-based internal MBUS DMA
-engine instead of the direct address and count registers used by the
-A23/A33 controller. Since the driver does not support these descriptors,
-it currently attempts to request an external rxtx DMA channel and falls
-back to PIO when none is provided.
+This callback used to take a mutable void * for no reason, this was
+found while drafting the Rust abstraction.
 
-Add a single-descriptor backend to the existing ECC page DMA paths.
-Allocate the descriptor coherently, constrain data mappings to the
-controller's 32-bit address range, program the H6-style data block mask,
-and request an interrupt for both command and DMA completion. Keep the
-existing external DMA and legacy MBUS DMA paths unchanged, and fall back
-to PIO if the descriptor cannot be allocated.
-
-Hardware testing on an H616 board with 2 KiB-page SLC NAND
-confirmed that the descriptor path improves sustained read throughput.
-
-Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+Signed-off-by: Link Mauve <linkmauve@linkmauve.fr>
 ---
- drivers/mtd/nand/raw/sunxi_nand.c | 110 ++++++++++++++++++++++++++----
- 1 file changed, 95 insertions(+), 15 deletions(-)
+ drivers/nvmem/core.c           | 2 +-
+ include/linux/nvmem-provider.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
-index 02647565c8ba..8a136b9fa7cc 100644
---- a/drivers/mtd/nand/raw/sunxi_nand.c
-+++ b/drivers/mtd/nand/raw/sunxi_nand.c
-@@ -79,6 +79,10 @@
- #define NFC_REG_H6_MDMA_BUF_ADDR 0x0210
- #define NFC_REG_H6_MDMA_CNT	0x0214
- 
-+#define NFC_MDMA_DESC_LAST	BIT(2)
-+#define NFC_MDMA_DESC_FIRST	BIT(3)
-+#define NFC_MDMA_DESC_SIZE_MASK	GENMASK(15, 0)
-+
- #define NFC_RAM0_BASE		0x0400
- #define NFC_RAM1_BASE		0x0800
- 
-@@ -267,12 +271,19 @@ static inline struct sunxi_nand_chip *to_sunxi_nand(struct nand_chip *nand)
- 	return container_of(nand, struct sunxi_nand_chip, nand);
+diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+index e871181751f3..202607013054 100644
+--- a/drivers/nvmem/core.c
++++ b/drivers/nvmem/core.c
+@@ -62,7 +62,7 @@ static int __nvmem_reg_read(struct nvmem_device *nvmem, unsigned int offset,
  }
  
-+struct sunxi_nfc_mdma_desc {
-+	__le32 config;
-+	__le32 size;
-+	__le32 buf;
-+	__le32 next;
-+};
-+
- /*
-  * NAND Controller capabilities structure: stores NAND controller capabilities
-  * for distinction between compatible strings.
-  *
-- * @has_mdma:		Use mbus dma mode, otherwise general dma
-- *			through MBUS on A23/A33 needs extra configuration.
-+ * @has_mdma:		Use A23/A33-style MBUS DMA registers
-+ * @has_mdma_desc:	MBUS DMA uses H6-style descriptors
-  * @has_ecc_block_512:	If the ECC can handle 512B or only 1024B chunks
-  * @has_ecc_clk:	If the controller needs an ECC clock.
-  * @has_mbus_clk:	If the controller needs a mbus clock.
-@@ -304,6 +315,7 @@ static inline struct sunxi_nand_chip *to_sunxi_nand(struct nand_chip *nand)
-  */
- struct sunxi_nfc_caps {
- 	bool has_mdma;
-+	bool has_mdma_desc;
- 	bool has_ecc_block_512;
- 	bool has_ecc_clk;
- 	bool has_mbus_clk;
-@@ -346,6 +358,8 @@ struct sunxi_nfc_caps {
-  *	   controller
-  * @complete: a completion object used to wait for NAND controller events
-  * @dmac: the DMA channel attached to the NAND controller
-+ * @mdma_desc: H6-style MBUS DMA descriptor
-+ * @mdma_desc_dma: DMA address of @mdma_desc
-  * @caps: NAND Controller capabilities
-  */
- struct sunxi_nfc {
-@@ -362,6 +376,8 @@ struct sunxi_nfc {
- 	struct list_head chips;
- 	struct completion complete;
- 	struct dma_chan *dmac;
-+	struct sunxi_nfc_mdma_desc *mdma_desc;
-+	dma_addr_t mdma_desc_dma;
- 	const struct sunxi_nfc_caps *caps;
- };
- 
-@@ -370,6 +386,11 @@ static inline struct sunxi_nfc *to_sunxi_nfc(struct nand_controller *ctrl)
- 	return container_of(ctrl, struct sunxi_nfc, controller);
- }
- 
-+static bool sunxi_nfc_uses_mdma(const struct sunxi_nfc *nfc)
-+{
-+	return nfc->caps->has_mdma || nfc->mdma_desc;
-+}
-+
- static irqreturn_t sunxi_nfc_interrupt(int irq, void *dev_id)
- {
- 	struct sunxi_nfc *nfc = dev_id;
-@@ -466,7 +487,9 @@ static int sunxi_nfc_dma_op_prepare(struct sunxi_nfc *nfc, const void *buf,
- {
- 	struct dma_async_tx_descriptor *dmad;
- 	enum dma_transfer_direction tdir;
-+	dma_addr_t buf_dma;
- 	dma_cookie_t dmat;
-+	int len = chunksize * nchunks;
- 	int ret;
- 
- 	if (ddir == DMA_FROM_DEVICE)
-@@ -474,12 +497,21 @@ static int sunxi_nfc_dma_op_prepare(struct sunxi_nfc *nfc, const void *buf,
- 	else
- 		tdir = DMA_MEM_TO_DEV;
- 
--	sg_init_one(sg, buf, nchunks * chunksize);
-+	sg_init_one(sg, buf, len);
- 	ret = dma_map_sg(nfc->dev, sg, 1, ddir);
- 	if (!ret)
- 		return -ENOMEM;
- 
--	if (!nfc->caps->has_mdma) {
-+	buf_dma = sg_dma_address(sg);
-+
-+	if (nfc->mdma_desc &&
-+	    (len > NFC_MDMA_DESC_SIZE_MASK || !IS_ALIGNED(len, 8) ||
-+	     !IS_ALIGNED(buf_dma, 4) || upper_32_bits(buf_dma))) {
-+		ret = -EINVAL;
-+		goto err_unmap_buf;
-+	}
-+
-+	if (!sunxi_nfc_uses_mdma(nfc)) {
- 		dmad = dmaengine_prep_slave_sg(nfc->dmac, sg, 1, tdir, DMA_CTRL_ACK);
- 		if (!dmad) {
- 			ret = -EINVAL;
-@@ -489,14 +521,30 @@ static int sunxi_nfc_dma_op_prepare(struct sunxi_nfc *nfc, const void *buf,
- 
- 	writel(readl(nfc->regs + NFC_REG_CTL) | NFC_RAM_METHOD,
- 	       nfc->regs + NFC_REG_CTL);
--	writel(nchunks, nfc->regs + NFC_REG_SECTOR_NUM);
-+	writel(nfc->mdma_desc ? GENMASK(nchunks - 1, 0) : nchunks,
-+	       nfc->regs + NFC_REG_SECTOR_NUM);
- 	writel(chunksize, nfc->regs + NFC_REG_CNT);
- 
--	if (nfc->caps->has_mdma) {
-+	if (sunxi_nfc_uses_mdma(nfc))
- 		writel(readl(nfc->regs + NFC_REG_CTL) & ~NFC_DMA_TYPE_NORMAL,
- 		       nfc->regs + NFC_REG_CTL);
--		writel(chunksize * nchunks, nfc->regs + NFC_REG_MDMA_CNT);
--		writel(sg_dma_address(sg), nfc->regs + NFC_REG_MDMA_ADDR);
-+
-+	if (nfc->mdma_desc) {
-+		struct sunxi_nfc_mdma_desc *desc = nfc->mdma_desc;
-+
-+		desc->config = cpu_to_le32(NFC_MDMA_DESC_FIRST |
-+					   NFC_MDMA_DESC_LAST);
-+		desc->size = cpu_to_le32(len);
-+		desc->buf = cpu_to_le32(lower_32_bits(buf_dma));
-+		desc->next = cpu_to_le32(lower_32_bits(nfc->mdma_desc_dma));
-+
-+		writel(BIT(0), nfc->regs + NFC_REG_H6_MDMA_STA);
-+		dma_wmb();
-+		writel(lower_32_bits(nfc->mdma_desc_dma),
-+		       nfc->regs + NFC_REG_H6_MDMA_DLBA_REG);
-+	} else if (nfc->caps->has_mdma) {
-+		writel(len, nfc->regs + NFC_REG_MDMA_CNT);
-+		writel(buf_dma, nfc->regs + NFC_REG_MDMA_ADDR);
- 	} else {
- 		dmat = dmaengine_submit(dmad);
- 
-@@ -525,6 +573,14 @@ static void sunxi_nfc_dma_op_cleanup(struct sunxi_nfc *nfc,
- 	       nfc->regs + NFC_REG_CTL);
- }
- 
-+static void sunxi_nfc_dma_op_abort(struct sunxi_nfc *nfc)
-+{
-+	if (nfc->mdma_desc)
-+		sunxi_nfc_rst(nfc);
-+	else if (!nfc->caps->has_mdma)
-+		dmaengine_terminate_all(nfc->dmac);
-+}
-+
- static void sunxi_nfc_select_chip(struct nand_chip *nand, unsigned int cs)
- {
- 	struct mtd_info *mtd = nand_to_mtd(nand);
-@@ -1202,7 +1258,7 @@ static int sunxi_nfc_hw_ecc_read_chunks_dma(struct nand_chip *nand, uint8_t *buf
- 
- 	wait = NFC_CMD_INT_FLAG;
- 
--	if (nfc->caps->has_mdma)
-+	if (sunxi_nfc_uses_mdma(nfc))
- 		wait |= NFC_DMA_INT_FLAG;
- 	else
- 		dma_async_issue_pending(nfc->dmac);
-@@ -1211,8 +1267,8 @@ static int sunxi_nfc_hw_ecc_read_chunks_dma(struct nand_chip *nand, uint8_t *buf
- 	       nfc->regs + NFC_REG_CMD);
- 
- 	ret = sunxi_nfc_wait_events(nfc, wait, false, 0);
--	if (ret && !nfc->caps->has_mdma)
--		dmaengine_terminate_all(nfc->dmac);
-+	if (ret)
-+		sunxi_nfc_dma_op_abort(nfc);
- 
- 	sunxi_nfc_randomizer_disable(nand);
- 	sunxi_nfc_hw_ecc_disable(nand);
-@@ -1613,7 +1669,7 @@ static int sunxi_nfc_hw_ecc_write_page_dma(struct nand_chip *nand,
- 
- 	wait = NFC_CMD_INT_FLAG;
- 
--	if (nfc->caps->has_mdma)
-+	if (sunxi_nfc_uses_mdma(nfc))
- 		wait |= NFC_DMA_INT_FLAG;
- 	else
- 		dma_async_issue_pending(nfc->dmac);
-@@ -1623,8 +1679,8 @@ static int sunxi_nfc_hw_ecc_write_page_dma(struct nand_chip *nand,
- 	       nfc->regs + NFC_REG_CMD);
- 
- 	ret = sunxi_nfc_wait_events(nfc, wait, false, 0);
--	if (ret && !nfc->caps->has_mdma)
--		dmaengine_terminate_all(nfc->dmac);
-+	if (ret)
-+		sunxi_nfc_dma_op_abort(nfc);
- 
- 	sunxi_nfc_randomizer_disable(nand);
- 	sunxi_nfc_hw_ecc_disable(nand);
-@@ -2073,11 +2129,13 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand_chip *nand,
- 	ecc->write_oob = sunxi_nfc_hw_ecc_write_oob;
- 	mtd_set_ooblayout(mtd, &sunxi_nand_ooblayout_ops);
- 
--	if (nfc->dmac || nfc->caps->has_mdma) {
-+	if (nfc->dmac || sunxi_nfc_uses_mdma(nfc)) {
- 		ecc->read_page = sunxi_nfc_hw_ecc_read_page_dma;
- 		ecc->read_subpage = sunxi_nfc_hw_ecc_read_subpage_dma;
- 		ecc->write_page = sunxi_nfc_hw_ecc_write_page_dma;
- 		nand->options |= NAND_USES_DMA;
-+		if (nfc->mdma_desc)
-+			nand->buf_align = 4;
- 	} else {
- 		ecc->read_page = sunxi_nfc_hw_ecc_read_page;
- 		ecc->read_subpage = sunxi_nfc_hw_ecc_read_subpage;
-@@ -2426,6 +2484,27 @@ static int sunxi_nfc_dma_init(struct sunxi_nfc *nfc, struct resource *r)
+ static int __nvmem_reg_write(struct nvmem_device *nvmem, unsigned int offset,
+-			     void *val, size_t bytes)
++			     const void *val, size_t bytes)
  {
  	int ret;
  
-+	if (nfc->caps->has_mdma_desc) {
-+		ret = dma_set_mask_and_coherent(nfc->dev, DMA_BIT_MASK(32));
-+		if (ret) {
-+			dev_warn(nfc->dev,
-+				 "failed to set MBUS DMA mask, using PIO: %d\n",
-+				 ret);
-+			return 0;
-+		}
-+
-+		nfc->mdma_desc =
-+			dmam_alloc_coherent(nfc->dev, sizeof(*nfc->mdma_desc),
-+					    &nfc->mdma_desc_dma, GFP_KERNEL);
-+		if (!nfc->mdma_desc) {
-+			dev_warn(nfc->dev,
-+				 "failed to allocate MBUS DMA descriptor, using PIO\n");
-+			return 0;
-+		}
-+
-+		return 0;
-+	}
-+
- 	if (nfc->caps->has_mdma)
- 		return 0;
- 
-@@ -2620,6 +2699,7 @@ static const struct sunxi_nfc_caps sunxi_nfc_a23_caps = {
- };
- 
- static const struct sunxi_nfc_caps sunxi_nfc_h616_caps = {
-+	.has_mdma_desc = true,
- 	.has_ecc_clk = true,
- 	.has_mbus_clk = true,
- 	.reg_io_data = NFC_REG_A23_IO_DATA,
+diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
+index f3b13da78aac..e62285836cbb 100644
+--- a/include/linux/nvmem-provider.h
++++ b/include/linux/nvmem-provider.h
+@@ -19,7 +19,7 @@ struct nvmem_device;
+ typedef int (*nvmem_reg_read_t)(void *priv, unsigned int offset,
+ 				void *val, size_t bytes);
+ typedef int (*nvmem_reg_write_t)(void *priv, unsigned int offset,
+-				 void *val, size_t bytes);
++				 const void *val, size_t bytes);
+ /* used for vendor specific post processing of cell data */
+ typedef int (*nvmem_cell_post_process_t)(void *priv, const char *id, int index,
+ 					 unsigned int offset, void *buf,
 -- 
-2.53.0
+2.55.0
 
