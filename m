@@ -1,55 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D6E438475
-	for <linux-sunxi@lists.linux.dev>; Wed, 15 Jul 2026 15:04:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88DB7432E62
+	for <linux-sunxi@lists.linux.dev>; Wed, 15 Jul 2026 15:05:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784127890; cv=none; b=EoQqD6aOoOjTBluQw5kW/ulZpRNtoAWx51KDAnUHjWVj1sXU3Q0bTPnMcZ08isii3IvaRWhIMJsV9Ro7/CXnd58cZX1h+mSj3UuWqX2S9VyplBMxV8fGh2zLPNfZcR7L6ZiqTdpVGOL34ZG5jSvFlhPKR/eOtRxD8WeMDAW+cvA=
+	t=1784127910; cv=none; b=rjfSXanfgPGIzZKEUT5RgGme1P9JT2r8OADKLb4EVgh4bEXnHNJLXrUGdYvINlyz5uhOlYpvj7297S8GIE/MedlwdExNEnHda6SwkYyJ/LsliuLqvnfWmOj5xTPY4QoSeBTirdrJFcdBSgwV/EUTSjKFJl+wSjhWBzoM4tK7CMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784127890; c=relaxed/simple;
+	s=arc-20240116; t=1784127910; c=relaxed/simple;
 	bh=1i7b3l9rJpq4HTYvS3RcBvBfTdofsIZ1RrmCSl+AOlc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NwJtseUbzb0lumYrDQpJbCJiulSWokrTIl/EMjNi0wie+9O0RYu6MhHwXUDr+UFDhpVdWTIPRnUbsnrVmWKvHLDuR4MrkCGghAdZWtyj1O26UVCZ8ysoBakpRazPMXSwA3FtzKM1gJ9tznn2ClE3/Ce63uLNUOev2n9yyhG9hYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ChP5ArcP; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=T3ZQ+ikX9H6rEX1v3Ir1RUBZwu/FZMLzw1DPiMV6LQiEYj4AnXZHjoAAroyifF0HSfRNuCbVEl4DULg/CJbp39jMy9QXrD5EJMB47FDuMRoG6Eifrci58/KLFCRhRsHjns2Q1eJt2nF2bR8pfim6wcMdlwjbqjfA9lFSdy66UIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NeR+IabX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ChP5ArcP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E1F11F00ACF
-	for <linux-sunxi@lists.linux.dev>; Wed, 15 Jul 2026 15:04:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NeR+IabX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B82E1F0155B
+	for <linux-sunxi@lists.linux.dev>; Wed, 15 Jul 2026 15:05:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784127889;
+	s=k20260515; t=1784127909;
 	bh=1i7b3l9rJpq4HTYvS3RcBvBfTdofsIZ1RrmCSl+AOlc=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=ChP5ArcPoyxAheJKZwTqCP9/h3JqTIJqA/OU/wRQw4NdxXhX9JDhVSSJ71YT+2orz
-	 GElVYG1wyTwKrzodbclVbvhlZVZOQQ1ssp3AMtWphJlxYqIbMmFiej1eD97kodNDxj
-	 tqf/l0KH0c93RLcwKe2hUwnWyox9DSOU0XZkb+vQPckNl+RRiMDHsarz+bbQgbYfDZ
-	 gfw0ZIzySpIoUVIgUWchzSZaAHijZxtpBNW0K7NVVVkLd6pe4pV1hvCL9NW+4vpgeZ
-	 AO+j/BgzmuYS8Xgue9nVzNqr3GzmKe0sm1AhSnOHD58HwEg6UeTT1FawjP/0hYDJQo
-	 F/KLII+HIbxvA==
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-447a81776e9so1964878fac.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 15 Jul 2026 08:04:49 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RpYGI3GkPtntFddg+xQY/JpLQIiPjOp6v8SlevuD98Uxj21sjKrTcmDyAPEdJMtMiV/4euStdIWCnTTEg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YysXxgnWlVoWuLsfBYImSjqAFoaClG49URzkapn8hMZRyFjLMZb
-	Gex2PoUhhRdqxctnmsANeFdNPxykzG3yP+6g6ohJYKdwuA1k2RuyoQUrWGTid219kD4UnOTVYWx
-	AySxm5hlIJLAqd6elrjd/+nFKBb5lhiE=
-X-Received: by 2002:a05:6808:4446:b0:49f:39c9:82bd with SMTP id
- 5614622812f47-4a47a7cebedmr4190612b6e.41.1784127888495; Wed, 15 Jul 2026
- 08:04:48 -0700 (PDT)
+	b=NeR+IabXQW17kUJfwecht8YQ/HkK/kLqSIGyZ08BtCEClA+DyIw7EhtiazEb72jUZ
+	 DQpRGCli7gqQwUnCVvuYa+FNmzEeJFJnRS5b0U0+jDv0ZnespLIDF+0uvb26hhvdAG
+	 YVvyMeplBbKRTNHL6qh6udg33CiElN8xT/5Cy7JYSFlTDpqOT+Aqv7HPeImw2SHyK8
+	 2kbtEqX3dYnpRxWHksZuikPpWeMEJtn9buY4GFU9FODT0ljKFabsiBz64G97U8d+UA
+	 j+YYL27lNaZqz79nVTunJS9Q9px22wYROhZ2K0jyITz9p+M3S3briPWmy1rSSu5nQx
+	 rswOxbLKqXKEQ==
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-4471b489240so1745072fac.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 15 Jul 2026 08:05:09 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoESww4Ue33ngxYJdyKssRYQGnyxsLJ0GRU/W+0fVjAoVZJl8Fx64OuXpcwkgv1bAGMK40vnGbUUPvzRg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzZ/2+qDvU8aqFViR1YFoI0RP1W1Kg317F+F/YCPEolfw5FNaTq
+	6onm0ph341GeoxFYZ8NYGa+JNpKEqOnVw+avanVNDRDNdnqFPMCNW6sxmKqIpBA0CUPCNW58NIb
+	1dQsZi6h7JG6EdPnmabcWGiAVITHEeOY=
+X-Received: by 2002:a05:6808:1b26:b0:495:f67c:d96a with SMTP id
+ 5614622812f47-4a495eab032mr1747679b6e.12.1784127908616; Wed, 15 Jul 2026
+ 08:05:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260715095525.40668-1-phucduc.bui@gmail.com> <20260715095525.40668-6-phucduc.bui@gmail.com>
-In-Reply-To: <20260715095525.40668-6-phucduc.bui@gmail.com>
+References: <20260715095525.40668-1-phucduc.bui@gmail.com> <20260715095525.40668-7-phucduc.bui@gmail.com>
+In-Reply-To: <20260715095525.40668-7-phucduc.bui@gmail.com>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Wed, 15 Jul 2026 23:04:32 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64CEH5qEgMJsPL9fdT9M6_2vVjgsnv3Ot3f-Y_iHPNpiw@mail.gmail.com>
-X-Gm-Features: AUfX_myUc_a5M0pk-6lAb-cYFOcmcs2R1m0ZhqM4rRtcSdSlCczjuxeu7vx0bfI
-Message-ID: <CAGb2v64CEH5qEgMJsPL9fdT9M6_2vVjgsnv3Ot3f-Y_iHPNpiw@mail.gmail.com>
-Subject: Re: [PATCH 5/6] ASoC: sunxi: sun50i-codec-analog: Improve probe error handling
+Date: Wed, 15 Jul 2026 23:04:50 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66EfrZLMB3fhpMtHJ=p6+JKr8xo4YoNcUZFbufT-Q7k-A@mail.gmail.com>
+X-Gm-Features: AUfX_myL8GPNUfHP8VLcNCxbPlwWk_yA0cgJ1EGx2St68obk-BOfwKmsXMj10Vw
+Message-ID: <CAGb2v66EfrZLMB3fhpMtHJ=p6+JKr8xo4YoNcUZFbufT-Q7k-A@mail.gmail.com>
+Subject: Re: [PATCH 6/6] ASoC: sunxi: sun8i-codec-analog: Improve probe error handling
 To: phucduc.bui@gmail.com
 Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
