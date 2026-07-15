@@ -1,63 +1,63 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5773CEBA6
-	for <linux-sunxi@lists.linux.dev>; Wed, 15 Jul 2026 09:56:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B8437E5F5
+	for <linux-sunxi@lists.linux.dev>; Wed, 15 Jul 2026 09:56:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784109373; cv=none; b=bkz5T1biAW/qwKzU9KuIgYMXCxaqakL/0DfZe0rwb9MF64inSkCqzhkK4p7KGVtGxCp/QhPTd2cRLUaKJGwDJttiJ3u6B4Z++CQOLudsua2SnajxTgeBOPG17HTU0lb7CdQmqvjBdrufQ43cntUp70E2uvztZxXtn9b2WxHexyQ=
+	t=1784109379; cv=none; b=YHrvHt62iDIG11tDxSOTKED0VhMY4bascrWzRCCGa6Dg7UTiIhlqYgIQ5qUm5QppfWqiPTdsacqp2SoR7+hj3ThkhL1n54sV8AkcC4FDGIsTpHBYXVvPgnFpdatkB4uJ6iR6OlDKsbIxSjuKfa53M+w+lHKCCbtQufKhXBMr5Vw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784109373; c=relaxed/simple;
-	bh=jXeHXz0sgTqbPCpgE0Ek4FYcDSoYTpRTfMU644+qSc8=;
+	s=arc-20240116; t=1784109379; c=relaxed/simple;
+	bh=rWAveW84L3R2k6Dr0kk7jzU9NyiQbaV6M5iGKNhBiKE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=liyyBVnoJpMjFv2U9LMQkAgKZOj5ZAyCU1L6Za/MbL6wJhJp4Yj7LThWmXrzjdz60s1iZG3WLqtWGKbGnFOs3qWQi6/WPj3Rdbm6Ut6ohHoG8TKmdQnNgT464SyK5hUI9lrasFtkTMoxjE73oVOOj1RwFeyj0lftW0/NdEvF0GY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fd+AkR8k; arc=none smtp.client-ip=209.85.210.169
+	 MIME-Version; b=beun6vS7cqLckoP0dkMF5tEziSmSW7tza/sRzTHbhhuGXDrjCcTSYHMn6JxTFEvmeGc6sOnUsbbe2eG88ppmxcoOEfIQ78wh/sMiPR4/0wuyFo+KE77mNxTpbDcJH6hwlYnOzkXfBCK1flDGvg1awW1lYAeS5/vMdK+E/lejkE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nKWpBnR1; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fd+AkR8k"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-84a4d8fd6ecso1873047b3a.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 15 Jul 2026 02:56:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nKWpBnR1"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8487b7b4066so5239851b3a.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 15 Jul 2026 02:56:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784109372; x=1784714172; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784109378; x=1784714178; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=IG9ROgmPkgpOSWt5kVvQ2eBpCUOMrMqYLeguMnD/GAI=;
-        b=Fd+AkR8kDFOYqv2LRsO5/ln7NYO4XhZIrx1EW3lu5nsKoAZJyc/R5MpFbWM+GvBwkw
-         GEhrCd0jAJ79g9pKKQPPnO02OeVWXEk1roIWD8fkWWqU/TT43/2aznaEmt6+HgIuvjVK
-         fmaNikhiR6rS/AiUu7J166nz2LuSGnbJH5YXy84e0gIsEH/GWRmrHuQo/ezxRfmxUGDK
-         iUwwtR+Ok8eLUrB39fXHa1Hp2sX55gPT0UC2BKRoLaT57/rd5UdZUIAH/I6CiXfGv+lu
-         9thz6dm02UwEVU4BBUyfvjtirqVHcRX3pCOTkXreYMJAdxR2DVup5Su8GeGqm+vnojyY
-         6Lig==
+        bh=oH3dvIiif6Ezut/x+NGlXGEkxyluaoU8qD8m7W6CWsI=;
+        b=nKWpBnR1y/Bi8pt0KPRyvqI9rekN+R94+sZ4numij7TZVez9RAutqrjVjMwntb9dkV
+         FXuEOIhvR1qUk5UHTunz07gFjgzF+Py+QKaMpx/76X5z6/yWdrWIPHjFTxJvYixYIjgX
+         ju4dr9CH7iEWbROQd4VVU78hM2gxsUssvAnMlor04ObYn8wxyjbk/PO9Sl7ZQhKxNBvJ
+         YRXkINX+//cD5GfRedNkNCTHSDTVu6Hy0rmI0Nx26cwXZ1SbNnGFMrSTEBT/bf2ofxhd
+         7yELgJg6xoUJiO5FNpfmY8RRI7tEhRmF/ONk7eZ5h0d4ArRqg9KkS3Wc8u29y9Pww+Ue
+         gqfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784109372; x=1784714172;
+        d=1e100.net; s=20251104; t=1784109378; x=1784714178;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IG9ROgmPkgpOSWt5kVvQ2eBpCUOMrMqYLeguMnD/GAI=;
-        b=Slbw4hrxeVfcXBaw9P2A3n5mj1UFqlWw++/rh13QIcXF8RlOxVgvDmE6iHXrQK+D5J
-         mKCbhM0ZR/ObG74z4qNK7VRj36PyFUKO7FEd6sbcWWTVr5We/H9TTLPzKt4fAynYO2vK
-         7S1WRqRfTDWXuRSN+4ARg8LwDTm4ivMbsZgwmFGraBBtZZ3O+z7FJkXjQHUZb7JwwC+w
-         aKKstS7luO1cqtLxx08/nlDM/shaY9vdJNuoNgtJs9Z4Utgglpa13/NGxC4ZX+iH1/1U
-         0H0siTvmvFo0Hih92MuZ0A+0YIwissxqfLpqP7uylJTM2HJwMno57BRaOYMJUQU/X2z8
-         TnYA==
-X-Forwarded-Encrypted: i=1; AHgh+RqA4gSPfR5W8fMzKGTD/i7nG31dGV3XNRVlz7chOykV7i4c+HsnHOFoztcOSeJm/btRG+tWfd7nPj326Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx4bsKy/s0vd1kIiWjlXuv6uhC+gACQalEgI5tUOVgJxWPApo7X
-	shvRWVIyCK8fk7OemfNhKMvUTvQNubaqa17YQWWnHmdNcz8Lby+yWg7q
-X-Gm-Gg: AfdE7cnzSMOfM+xxjB2R4zkaXJBwjpE+cckI/GAJJv8SX7p34JHKGVTrJAGFSEjybmc
-	xNNC0yfwBlCWCVmfvP1CgzPZHx2PYmeBXGtcbyoZc9HnKJgHSSPvQ5lZdDKHkRmSPW83oe+CQaN
-	Z2swv9X1kbruV7ElgXSIdWS69D5UxZM5c37EkuHc4kP4w3yk1GPqpPQAQOMjV+f57JQ3D+MMyRZ
-	o9gIQpUXzdvxUG4fc/EgmiWOTtCqluKa2Y4j8Lgb6AyeQO0nDqMrTaOL/30gNcDoeS3ZUBQLyyv
-	bzVzNVrfvCuzrSD46hY2zLKBndH92UMjGkgWu6Z8Y0coZ1Rda0WOszOTzeNAONwTVKhCFUBY6ox
-	CJ7gLEaMRZE7a28/ZB3rSiduHyBZG3vq5UR9bXEBKyUM7t2LRMQehsARdPO7Zr7eHoHR6lpSm2y
-	7Cv1OM5yFZFm1tvmc7Elp5WnhyoELGGoXxMWsJJ1VQWWmwkg8=
-X-Received: by 2002:a05:6a00:10c9:b0:847:86b0:888c with SMTP id d2e1a72fcca58-84a6733bf25mr1897232b3a.48.1784109372039;
-        Wed, 15 Jul 2026 02:56:12 -0700 (PDT)
+        bh=oH3dvIiif6Ezut/x+NGlXGEkxyluaoU8qD8m7W6CWsI=;
+        b=SEWVN4C/yr721hx8efqco/wVmTpQH2nOowd2iMGAxj0ij0oR1nccN9GU5TmiUV3PMI
+         I7heHHbzLqoOrTxuM7lGFD4acEZnCyj+8vYyO4UimnZ+ZRYIc/Uv+jg/83xgsWIue6vD
+         GHFM06bedSA+EHUfsdJMLZgj/O0HY2hhDuZ7KX5edeC1u1H4iKjtLDhe90L3cn7I7ANp
+         AKXN3ZQpbuTZ4v0jA3hFoNQXlQMlYY8rzwmUWT/xPk88z5f63Y1WxYWiQ28W4bzn7ikW
+         yjnju82KUQIRbCy7x2lcMWjNxUbKZiaXCRGoaPm+SG/u2+D5ZJ2JLjvUnpDSB76wF4qX
+         Bs8A==
+X-Forwarded-Encrypted: i=1; AHgh+RpsZzNoCcy618CW3OLhsN4TVRA3dhV7FPQq3NpcwnJfjWKor9W9Tzkkvg0wCb9TWW6t03Wqt756m7biGA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxlXsy2bkxAsAidgqQQHQKki0ZSnZnQibIrj6B+C13Ds7CkEROv
+	401yK1bRVTBj1usp6Ch8nvsAvxqActPdnnhje6CHVpjKf3BrtMpLolEp
+X-Gm-Gg: AfdE7clhrOtTfIk4M7J2YjOM1yk0AYFB7RzDlC9r8oOlIh59+h4ztd0aJ1ntCTSPVWL
+	6Ondka7n8mqlFqAct8NSGrg0BxLXjby1NzE1ympedvfr/U0UfrC+Xp73+T1P5nI7qiz5DBnc+Sr
+	oCu0TWhqTJliyo7XLO2Mb2DTrGE1x+/lW7uFO9J48Gr0cbT+2awmEuD4hb7ehtq+8tTp5oLU54+
+	G7v3Uif/qyot4pfEKVQj3ZvpNUBCzazBACRS8jAMV6j+Esi1iwUG/Cjrm3PgGWbPvIhyxtTkZ10
+	otzL60lVP9mZZHWiWVshA2/R07tReAGjW5AnOtQIhytdr8R1w4suhEDUXZ5UhbwTNydV6Zoac8m
+	94DqxGEBCYwsAZxzZMaJbZcDEwqN3nsvWDjBZ0AqkrfNUaGzEi3XutbDZAq7XGfHhasdqh28Z0a
+	KNQkWm4F/gQStgMnYZDARNLxVzbOSiRdINgO5i1VDbTTgGIjY=
+X-Received: by 2002:aa7:8891:0:b0:847:b2e4:9f68 with SMTP id d2e1a72fcca58-84a671da3aamr1648721b3a.9.1784109377872;
+        Wed, 15 Jul 2026 02:56:17 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ca5b3643399sm11628908a12.22.2026.07.15.02.56.07
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ca5b3643399sm11628908a12.22.2026.07.15.02.56.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 02:56:11 -0700 (PDT)
+        Wed, 15 Jul 2026 02:56:17 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -78,9 +78,9 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sound@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 4/6] ASoC: sunxi: sun4i-spdif: Use dev_err_probe() for probe error handling
-Date: Wed, 15 Jul 2026 16:55:23 +0700
-Message-ID: <20260715095525.40668-5-phucduc.bui@gmail.com>
+Subject: [PATCH 5/6] ASoC: sunxi: sun50i-codec-analog: Improve probe error handling
+Date: Wed, 15 Jul 2026 16:55:24 +0700
+Message-ID: <20260715095525.40668-6-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260715095525.40668-1-phucduc.bui@gmail.com>
 References: <20260715095525.40668-1-phucduc.bui@gmail.com>
@@ -94,55 +94,40 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Use dev_err_probe() for probe error handling to simplify the error paths
-and handle -EPROBE_DEFER correctly.
+Drop the redundant error message after devm_platform_ioremap_resource(),
+which already reports failures, and use dev_err_probe() for regmap
+initialization errors.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/sunxi/sun4i-spdif.c | 23 ++++++++++-------------
- 1 file changed, 10 insertions(+), 13 deletions(-)
+ sound/soc/sunxi/sun50i-codec-analog.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/sound/soc/sunxi/sun4i-spdif.c b/sound/soc/sunxi/sun4i-spdif.c
-index c2ec19437cd7..d979bb00312f 100644
---- a/sound/soc/sunxi/sun4i-spdif.c
-+++ b/sound/soc/sunxi/sun4i-spdif.c
-@@ -684,26 +684,23 @@ static int sun4i_spdif_probe(struct platform_device *pdev)
+diff --git a/sound/soc/sunxi/sun50i-codec-analog.c b/sound/soc/sunxi/sun50i-codec-analog.c
+index 9f5b067a8ccc..50c0dee8c433 100644
+--- a/sound/soc/sunxi/sun50i-codec-analog.c
++++ b/sound/soc/sunxi/sun50i-codec-analog.c
+@@ -551,16 +551,13 @@ static int sun50i_codec_analog_probe(struct platform_device *pdev)
+ 	bool enable;
  
- 	host->regmap = devm_regmap_init_mmio(&pdev->dev, base,
- 						&sun4i_spdif_regmap_config);
--	if (IS_ERR(host->regmap)) {
--		dev_err(&pdev->dev, "failed to initialise regmap.\n");
--		return PTR_ERR(host->regmap);
+ 	base = devm_platform_ioremap_resource(pdev, 0);
+-	if (IS_ERR(base)) {
+-		dev_err(&pdev->dev, "Failed to map the registers\n");
++	if (IS_ERR(base))
+ 		return PTR_ERR(base);
 -	}
-+	if (IS_ERR(host->regmap))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(host->regmap),
-+				     "failed to initialise regmap.\n");
  
- 	/* Clocks */
- 	host->apb_clk = devm_clk_get(&pdev->dev, "apb");
--	if (IS_ERR(host->apb_clk)) {
--		dev_err(&pdev->dev, "failed to get a apb clock.\n");
--		return PTR_ERR(host->apb_clk);
+ 	regmap = sun8i_adda_pr_regmap_init(&pdev->dev, base);
+-	if (IS_ERR(regmap)) {
+-		dev_err(&pdev->dev, "Failed to create regmap\n");
+-		return PTR_ERR(regmap);
 -	}
-+	if (IS_ERR(host->apb_clk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(host->apb_clk),
-+				     "failed to get a apb clock.\n");
++	if (IS_ERR(regmap))
++		return dev_err_probe(&pdev->dev, PTR_ERR(regmap),
++				     "Failed to create regmap\n");
  
- 	if (quirks->tx_clk_name)
- 		tx_clk_name = quirks->tx_clk_name;
- 	host->spdif_clk = devm_clk_get(&pdev->dev, tx_clk_name);
--	if (IS_ERR(host->spdif_clk)) {
--		dev_err(&pdev->dev, "failed to get the \"%s\" clock.\n",
--			tx_clk_name);
--		return PTR_ERR(host->spdif_clk);
--	}
-+	if (IS_ERR(host->spdif_clk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(host->spdif_clk),
-+				     "failed to get the \"%s\" clock.\n",
-+				     tx_clk_name);
- 
- 	host->dma_params_tx.addr = res->start + quirks->reg_dac_txdata;
- 	host->dma_params_tx.maxburst = 8;
+ 	enable = device_property_read_bool(&pdev->dev,
+ 					   "allwinner,internal-bias-resistor");
 -- 
 2.43.0
 
