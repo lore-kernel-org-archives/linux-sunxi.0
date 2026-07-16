@@ -1,132 +1,164 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A331DE8AD
-	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jul 2026 03:02:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784170943; cv=none; b=rtYrOKPsr3s69V+2goenU3RePw9xV89IjZ7RAeAqIkRzf0euJv5TpQL73ZFB/HDBp3GlO6YVPg+gIv4rN+RcyMHydstdgHHQhWpS3oWRcltwXiie4fheoHFECN6Q3ebNvpXF3Dne94msswupJxKQQXmy6VkGgWf835yy+Oj4c5U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784170943; c=relaxed/simple;
-	bh=YThyehaVj4Tq5Ku1n7Rx+M0eD/2BfWRN4/hUTIICItc=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=lv3dYyEkFWlpcUejgYgXpkovr77xje0o4QyiHuk8FWzzqo308XqhCZYSvKPrrXcDRL4w+cJqfUb2n8N8mnjW/sp62ucMPtXVgWEJLQpkRyPpyWfgWtH8NcAXNTJx3pz/6SqQDBm6411qHGZdPwsgp7dmkys0mfba7wLE+BWicPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NPJSwqSO; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249DF23BD17
+	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jul 2026 06:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784182795; cv=pass; b=dcQRRQc0Fm93OFVvWdfpUbq4aA+aj0JNvvjFH50WyXULW+ltFcpcquKBV/IsLtrK77Viy6/xjhnyZBOFbmgFjEx1nS4dodSNMhreiN67dZ4Y7tyzdfD1INXDmCmw4BfkItqoc5JZcLUXNxGvYeYCp+b9+IFZSKk2uhqKl/Vuaxk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784182795; c=relaxed/simple;
+	bh=Z1xYzaKFoC7KOhHV2wOjYI5julQTrdp2ki63LNelNrE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aIOY7QmYCaImsnwSFXeJagNaby3l9Qs0jZYQ9PHhkn/uej4U1W3qgSirvwq29dIEWbqjO1ZNXmAIX6/+qHXtmOaaqd3elZrcnPhzkVn/kiTI2RjuOCdxp+F6+e3Z5pG9MwCnlZHtUPoL8uM+/3MU6T4XTVuwmIo1/PW+A1P3vXM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BOQNVLjP; arc=pass smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NPJSwqSO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ADD51F000E9;
-	Thu, 16 Jul 2026 03:02:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784170939;
-	bh=1a2BY5FrNSNdyaOAVmSD8gq0RYwcmNZpTGMOxloPVNo=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=NPJSwqSOsHhbdSzlDWV+2G0b47ol0ypEaqhExF5/287OG0z7F/gMosF7Fh8VvqwDF
-	 i2onqJRTTra+soX1RbtJk2flwIkfv+F2jJJDaWZrYCwQCeimfS17YVEwvq+XjrEUQY
-	 7vxybmnjGXeQKkLyj8YMPNMQ5W53TCW+8jng8oqlq/yUKrx89gr092sZoOAYnr2nkT
-	 PI1GHqjrcZ4sYRL1RqhufvnYSYqoYigWFnUHqXsdZ60LkcgacI3JKNCVVCL0GwWvgR
-	 fseRooXifKjzDBIKDjfRcWpK9uUARCjlcZciBxWDWyXR0jtOXIYNrSgt2YX3xV306k
-	 oK+DE/24PLpEw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] mailbox: Remove redundant dev_err()/dev_err_probe()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Pan Chuang" <panchuang@vivo.com>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260716025215.33592-1-panchuang@vivo.com>
-References: <20260716025215.33592-1-panchuang@vivo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 16 Jul 2026 03:02:18 +0000
-Message-Id: <20260716030219.2ADD51F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BOQNVLjP"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-38e08baf860so3799401a91.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 15 Jul 2026 23:19:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784182793; cv=none;
+        d=google.com; s=arc-20260327;
+        b=KniIMyxAqqcQsdGp7Y2akWOiaJ0olpCfifx1FKvyJGc30HktqVdQcPxrM3ZdAMxBpZ
+         A9NAusn+TzDshX92d8o9+3QcCpGW/G8nmPgNL9fQQD7WdXbBMj8a0vR9294lVRe6+1P/
+         7VmOsy6AUV05GOO+fYwwpJKzf8zttFR/htUgqHwTuWB6MKjTxHapSeVoFOXF0J403Am5
+         od3uw6phIE284w0TB8DUlpmVVGL5fVM3mL9D44smCyxJYDWo0PeqRFfbE75pydTflRiU
+         CGq0a8ZsFOMNYCaO133X6/gostFy/DzoSXGc26WWl3c7O8i7Vi4vMDhS8VWsSmZ0vROB
+         DrVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=QgvkBWHWdR346IwLVQEHaZZsFXG1V1Qn4Ec2u3LFb+A=;
+        fh=cym+0fbsKA4YxOiGBiL5RAE7j+vqdGuJFvX97Ew9scA=;
+        b=LPp+h5tH7UrQcddBwswkP05b3LBpV3KbqM6VRrVrI+apsikIZbfnp0N4wwYCNY1/eh
+         zMfmNfZLMXLHvGByd0zUP0rYaqXZynB1M1iPLFfBhcoYn4+vQmaIklP0qGRHByghMfmA
+         pIYeuuDYCsNAxkWa8AqxgDtftCzsBOUpshhizTri3ZOwHUuKCzMf7pqcSg+p3/vQCQwk
+         I5tP5Y7dSehZQ2uy1rUM2IODSYpnuTHXKE+U/XGvXGG7KqbUKDseZfvddoh55/QU19ch
+         MDXpSVr9HI0Qn9zyBECnnR12WhbIoYBN//5N5bEB373RgTlEGQuB+8bkARon/8Wpp28f
+         Sn+Q==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784182793; x=1784787593; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=QgvkBWHWdR346IwLVQEHaZZsFXG1V1Qn4Ec2u3LFb+A=;
+        b=BOQNVLjPG1n5f5cbCoTWbx3MmaNDCe3TTPURD65Low9LOiP4XnABS2e6TMNn5NOaD5
+         fwCLnGyktp7XDlpGqsA57PpS1GhsuBw2U2Pc7H2iEiTGn+vxewUKLpwhtYrvrwSzw2Lb
+         V3Obnrnk2AV+1qVq7jbpA9GGW6UUDzmtVPISm1i4qKjDVmXWEfclFEjPzkTWTK5OWDxn
+         vB7izAcdgqq/ooIyUmWfh4420FpLpcYLM3d3IHpXI6LzBxjmW7ZVHTl4IWc2hngzpI0j
+         HlBVSL5lpZYZrzfvTSs+a/lym/75UGBZYEVmBimscyU3xC6N9CHWzsNHmysE2cdDaE3B
+         A7PA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784182793; x=1784787593;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=QgvkBWHWdR346IwLVQEHaZZsFXG1V1Qn4Ec2u3LFb+A=;
+        b=TkgqUIItGcPfXOUO3I+n8ju8n5js9Sxj8T5H5mpQp5ASXdTqm8VRazxvLUpsk13Bim
+         dPTWl2ODVceEPc1IIzhmwXPiwmPKSNOFZ6jKvblfbKkgmnrLMc38LIqhJNh3Ns59+jEU
+         +n4I+B2FhrzVq4KNyF+ctE8ZfchAso1y3BYpYhy7T+cHSiCa8s0bK4YdIn7388LDy/v7
+         gkd9tEXAvalBCU2aEMCKRv10gWveVktTwuO5+8RjoilOYbNdkIEueANCKSn3k/rcIK5l
+         1ZreOHbJuzipBy4mekklmnIHOuaqbxFLKKWFwHZuMF1/+xOtb0rrQKtc7zZepmvaLaBJ
+         7QUg==
+X-Forwarded-Encrypted: i=1; AHgh+RrGFL4b3IUDqN6VJVlk9zTXDnIGxVa3ZMnCqcmJm6Jqd5rPxzC93S2RFAeTXc6ei1NzKpq71E/lF0bFtQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxhboWTYFzuVCRweOy2n2ZKwByfbCrFiY+RJQGhJrg8vjnC4daB
+	L0b0ylqjJ6gVOtOjGTeKNGEirq+vB1lFS3CBgxBVYqu/UHRFnaPE0qVD2NX48vMsUrZmCsEfMvF
+	4KTJVUIGKll7e+bwqcpPivluNAMTubBY=
+X-Gm-Gg: AfdE7clpz6FhrygfVjwyi4pv1Kr1rJcpQ9Nsn7zSH7f0JG4pFfshCBW1WV9q1oHuXKT
+	vUHiPfazAskOUw7QG9UzVmYBpqV0mbWMce1zDBG9PJ7VC59RENfeeEg8a9ErRW5Vo9Y+/Pw7MEA
+	WGzcFfBQhZFQ6ruY5kzChyytcUWGhYz9ofBnODE7WTvBSaDZgyjOiBr/yKVIxIu2JcraPzHp1dj
+	7trcmh+25p/vho3PewXbypjnyIQddmqdHEWigbzM+9zasZy/uuKczjVMH/cibIABBA867BF2wU2
+	dS74iAKJAHrrTCqH
+X-Received: by 2002:a17:90b:2b43:b0:38d:eac8:2dbc with SMTP id
+ 98e67ed59e1d1-38e29f6c683mr4862337a91.9.1784182793361; Wed, 15 Jul 2026
+ 23:19:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20260715095525.40668-1-phucduc.bui@gmail.com> <20260715095525.40668-3-phucduc.bui@gmail.com>
+ <CAGb2v67tVzjZsPbA9oeCFjuRjrixxCut05P5zkw+sYq-gJPoJg@mail.gmail.com>
+In-Reply-To: <CAGb2v67tVzjZsPbA9oeCFjuRjrixxCut05P5zkw+sYq-gJPoJg@mail.gmail.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Thu, 16 Jul 2026 13:19:42 +0700
+X-Gm-Features: AUfX_mzLT5bgNmawwyrEk5EUD4UBu9qW-wp_xIJKTxIxw3V-_Jn5uIqdk4DToog
+Message-ID: <CAABR9nEk19N-hBm+QKv6U=7SBgkQwC2Ohb_NDz8OLEetavLLAQ@mail.gmail.com>
+Subject: Re: [PATCH 2/6] ASoC: sunxi: sun4i-codec: Drop redundant error messages
+To: wens@kernel.org
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Chen Ni <nichen@iscas.ac.cn>, 
+	Marcus Cooper <codekipper@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Danilo Krummrich <dakr@kernel.org>, u.kleine-koenig@baylibre.com, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
+Hi Chen-Yu Tsai,
 
-Pre-existing issues:
-- [High] Double unregister of the mailbox controller on the IRQ request err=
-or path due to mixing devres with manual cleanup.
---
+Thank you for your review.
 
---- Patch [1]: [PATCH] mailbox: Remove redundant dev_err()/dev_err_probe() =
----
-commit 4d3272d7b1e42964746554b2fa5d303d597704a7
-Author: Pan Chuang <panchuang@vivo.com>
 
-mailbox: Remove redundant dev_err()/dev_err_probe()
+> >         ret = devm_snd_dmaengine_pcm_register(&pdev->dev, NULL, 0);
+>
+> snd_dmaengine_pcm_register() doesn't seem to print an error when
+> dma_request_chan() fails.
+>
+> > -       if (ret) {
+> > -               dev_err(&pdev->dev, "Failed to register against DMAEngine\n");
+> > +       if (ret)
+> >                 return ret;
+> > -       }
+> >
 
-This commit removes redundant driver-specific dev_err() and dev_err_probe()
-calls after devm_request_irq() and devm_request_threaded_irq(), since those
-functions automatically log detailed error messages on failure now.
+You are right that dma_request_chan() itself has several code paths where
+it doesn't print any error logs when it fails.
+However, if we look at how the caller handles the return value of
+dma_request_chan():
 
-> diff --git a/drivers/mailbox/arm_mhu_db.c b/drivers/mailbox/arm_mhu_db.c
-> index 9e937b09c5fbc..a39239e38a479 100644
-> --- a/drivers/mailbox/arm_mhu_db.c
-> +++ b/drivers/mailbox/arm_mhu_db.c
-> @@ -318,7 +318,6 @@ static int mhu_db_probe(struct amba_device *adev, con=
-st struct amba_id *id)
->  						mhu_db_mbox_rx_handler,
->  						IRQF_ONESHOT, "mhu_db_link", mhu);
->  		if (err) {
-> -			dev_err(dev, "Can't claim IRQ %d\n", irq);
->  			mbox_controller_unregister(&mhu->mbox);
+---------------------------------
+chan = dma_request_chan(dev, name);
+if (IS_ERR(chan)) {
+                /*
+                * Only report probe deferral errors, channels
+                * might not be present for devices that
+                * support only TX or only RX.
+                */
+                if (PTR_ERR(chan) == -EPROBE_DEFER)
+                        return -EPROBE_DEFER;
+                pcm->chan[i] = NULL;
+} else {
+                pcm->chan[i] = chan;
+}
+---------------------------------------
 
-[Severity: High]
-This is a pre-existing issue, but since this patch touches the error handli=
-ng
-path, does calling mbox_controller_unregister() manually on a devm-managed
-controller cause list corruption?
+As shown here, the code only propagates a single error code, -EPROBE_DEFER
+regardless of whatever other errors might have occurred. The reasoning behind
+this is already well-documented in the comment block above.
 
-Looking at mhu_db_probe(), the mailbox controller is registered using
-devm_mbox_controller_register() earlier in the function. If
-devm_request_threaded_irq() fails, this explicit unregister is called.=20
-When the probe returns an error, the devres framework will automatically
-unregister it a second time.
+Therefore, keeping the following error log is not particularly useful:
 
-Since mbox_controller_unregister() calls list_del() on the mailbox node
-without re-initializing it, would a second call dereference poisoned pointe=
-rs
-and cause a kernel panic?
+----------------------
+ret = devm_snd_dmaengine_pcm_register(&pdev->dev, NULL, 0);
+if (ret) {
+        dev_err(&pdev->dev, "Failed to register against DMAEngine\n");
+        return ret;
+}
+-----------------------
 
->  			return err;
->  		}
+This logging statement does not make much sense here because if the returned
+error is -EPROBE_DEFER , we should definitely avoid printing error messages to
+the kernel log.
 
-[ ... ]
+Let me know if this makes sense to you, or if you'd still prefer to keep
+the log with a check to avoid printing on -EPROBE_DEFER.
 
-> diff --git a/drivers/mailbox/qcom-ipcc.c b/drivers/mailbox/qcom-ipcc.c
-> index d957d989c0cee..e5ebb4a237ffd 100644
-> --- a/drivers/mailbox/qcom-ipcc.c
-> +++ b/drivers/mailbox/qcom-ipcc.c
-> @@ -323,10 +323,8 @@ static int qcom_ipcc_probe(struct platform_device *p=
-dev)
->  	ret =3D devm_request_irq(&pdev->dev, ipcc->irq, qcom_ipcc_irq_fn,
->  			       IRQF_TRIGGER_HIGH | IRQF_NO_SUSPEND |
->  			       IRQF_NO_THREAD, name, ipcc);
-> -	if (ret < 0) {
-> -		dev_err(&pdev->dev, "Failed to register the irq: %d\n", ret);
-> +	if (ret < 0)
->  		goto err_req_irq;
-
-[Severity: High]
-This is also a pre-existing issue on the modified error path. When the
-devm_request_irq() call fails, the code jumps to the err_req_irq label:
-
-err_req_irq:
-	if (ipcc->num_chans)
-		mbox_controller_unregister(&ipcc->mbox);
-
-Since the controller was also registered with devm_mbox_controller_register=
-(),
-will devres unregister it again during cleanup, leading to the same double
-unregister list corruption mentioned above?
-
-> -	}
-> =20
->  	platform_set_drvdata(pdev, ipcc);
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260716025215.3359=
-2-1-panchuang@vivo.com?part=3D1
+Best regards,
+Phuc
