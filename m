@@ -1,60 +1,60 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB0F400987
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jul 2026 14:03:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BFB1CEAC2
+	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jul 2026 14:03:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784297030; cv=none; b=mmR6CxIhnyDTt8iU9E3AVWlZ1r8md1UECBgqBEHFqJAj1qWDjB2n+XNhqmsmGYPIyMLplx+5WYtMxRZdTLd91XBrSLY/8BkJMcld2I+dlwmHK6qKDbIoSfknsCslNOY/BaLhdDOS9zr1JWGVj058wZkvcKrbAInI55v1a2AFU4c=
+	t=1784297039; cv=none; b=rFRB+9I9cU4xc/mwxSYYeSdQ3QGJkriqf8DbiZ1UdzhysBKFr7S5hLY/10nuUc05hzVgSPrZF34CTq8705DqCFf1VjFqKN6KA56PIJxU/wf0WZML6tA9MheWVWRf5fWpf9K7KREHAXUQ23CSn1Jfqg0VRiOz8tc9rGk3G9WPzoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784297030; c=relaxed/simple;
-	bh=ex8HZdHS1q/bkU1HItgMEr14uQTiGY8DQ0yP+8KWPg4=;
-	h=From:Date:Subject:MIME-Version:Message-Id:References:In-Reply-To:
-	 To:Cc:Content-Type; b=XMZWFpsIPPVKx5nv05ll/cODy0phW5TN6ONbMpY+CCQEE1wWD5Ha4MCpQeWoJxOsK8baefmiXKQSx8W01vGAKwS98ylJoivPaj4m/OkLPRh5hcQYWa/+8lbhq63HCvXHf/h4LRNWgrfyVLh86xaYLCJ/H4Zll/0vNBzjSmzssTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iU0VwbYs; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1784297039; c=relaxed/simple;
+	bh=CBR1Ph2kUJjjkYaGrdkvqaa4iWlYMfiXDLEZXyTQZ1o=;
+	h=From:Subject:Date:Message-Id:MIME-Version:To:Cc:Content-Type; b=qGNbvSqNvjzCN4wt4C9zXGNcF8uE51V303bRAMY6GIbir0HxlZFkFsLTKBwBaaez+1OoUnODKXqeMYuH9Nq7sxP6gUph9KCq4rOreVNngyufvOJmqb7lDP1W3WTqEd893ePSmDTCuaNCYtG8nOgEvbZ4oOK+ZlEtHpoACQBiz78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XEChtGs0; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iU0VwbYs"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XEChtGs0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784297028;
+	s=mimecast20190719; t=1784297037;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SaIYeA/Jygw7ChE2lz/n+i9CMUk9dImhyfQVRWidUS0=;
-	b=iU0VwbYsJq4w9lQK0dsqu+D3puTglLczQ1a5XBJ7Thgbx2Ga0aQi+1/mPLFt5jx/0mpYdH
-	2YriL8GPKC5Jb/h8z5iWs6lkCkBnxJ56e5JiVl9v0AhIoIjFmui5PZY6lkPOUZSrqGMhHM
-	p1/eDEQPb85x+JoTIWloT7Itzfs3Uqk=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=KXAKRwDTnzEg9ZBBk/oAwaIuZZpboPYGh9kDsncZq0U=;
+	b=XEChtGs0gVhHVA4dZhDwiM5oNgLSAN+6QZKeYvb05RZfyRychjsySDdsUc4+ZQFRmgy1CB
+	0JBbeB9+DnPH4izZrGr6QpXr9g5/6Xskje/3m0hHQ6FRxduOh268bYi4Q4IPiAiigPE/8a
+	pTs0ycapj2FPIrc0270FhR5IF2xVGlc=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-561-6LE9oJsXOzKaae6rZxynlg-1; Fri,
- 17 Jul 2026 10:03:46 -0400
-X-MC-Unique: 6LE9oJsXOzKaae6rZxynlg-1
-X-Mimecast-MFC-AGG-ID: 6LE9oJsXOzKaae6rZxynlg_1784297018
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-270-B9LWD_NdMFydwywJpNzkwg-1; Fri,
+ 17 Jul 2026 10:02:47 -0400
+X-MC-Unique: B9LWD_NdMFydwywJpNzkwg-1
+X-Mimecast-MFC-AGG-ID: B9LWD_NdMFydwywJpNzkwg_1784296961
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id ACD101945CB2;
-	Fri, 17 Jul 2026 14:03:37 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B1AF018007F5;
+	Fri, 17 Jul 2026 14:02:38 +0000 (UTC)
 Received: from [192.168.1.153] (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5682B18005B3;
-	Fri, 17 Jul 2026 14:03:24 +0000 (UTC)
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 342F318005B3;
+	Fri, 17 Jul 2026 14:02:18 +0000 (UTC)
 From: Albert Esteve <aesteve@redhat.com>
-Date: Fri, 17 Jul 2026 16:02:07 +0200
-Subject: [PATCH v3 4/4] drm/panel: find_panel_by_fwnode() return a counted
- reference
+Subject: [PATCH v3 0/4] drm/panel: refcounting panel lookups and references
+Date: Fri, 17 Jul 2026 16:02:03 +0200
+Message-Id: <20260717-drm_refcount_wiring-v3-0-023900c32e01@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <20260717-drm_refcount_wiring-v3-4-023900c32e01@redhat.com>
-References: <20260717-drm_refcount_wiring-v3-0-023900c32e01@redhat.com>
-In-Reply-To: <20260717-drm_refcount_wiring-v3-0-023900c32e01@redhat.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3XOyw6CMBAF0F8hXVvTF2105X8YQ/oYoAuKabFqC
+ P9uwYUx0eWdzD0zM0oQPSR0rGYUIfvkx1AC31XI9jp0gL0rGTHCJKkpxy4OTYTWjrcwNXcffei
+ wgBpUreBAhEKleS0L/rGp50vJvU/TGJ/bkUzX6duTTP70MsUEW6upVoYbB+0pguv1tLfjgFYws
+ w+i/jyVWUEcN0bSVhgn3BeyLMsLlq5UcPwAAAA=
+X-Change-ID: 20260513-drm_refcount_wiring-4e5e757e9047
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <jesszhan0024@gmail.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -106,79 +106,131 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
  linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org, 
  Albert Esteve <aesteve@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784296938; l=2362;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784296938; l=6089;
  i=aesteve@redhat.com; s=20260303; h=from:subject:message-id;
- bh=ex8HZdHS1q/bkU1HItgMEr14uQTiGY8DQ0yP+8KWPg4=;
- b=Wcce0+dlDbxIuiF5oRxS8RYLj+33umEtxbC6TZM1cuTwUBliy7161daQ/+tCXoUYL4W3a37d/
- 0s6+jw8bH9ICEbkzQuS6NDHRpePGlnBJV0pWJFJJycLYHlBwtjWs2V+
+ bh=CBR1Ph2kUJjjkYaGrdkvqaa4iWlYMfiXDLEZXyTQZ1o=;
+ b=wkA63uP1ZKoAa4h64tde85ydj2YqROznD17VIE6GUQVqeRP94Romw2NP7XiRctsK48Czd8IKA
+ egJVcLgipY8AlirQeQbG5HkLYCJmhqolZb8CsYQG+KwOXgQPNcCRePK
 X-Developer-Key: i=aesteve@redhat.com; a=ed25519;
  pk=YSFz6sOHd2L45+Fr8DIvHTi6lSIjhLZ5T+rkxspJt1s=
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: VSHXH3-W85D0hzDpeJuyUZwc-6HMdm6z3qQiJqbr5_c_1784297018
+X-Mimecast-MFC-PROC-ID: 4u--eli7Qjq6NFCncvaUtz1Pc0iOV7mWjSszz7H9Fm0_1784296961
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-find_panel_by_fwnode() is the fwnode-based counterpart to
-of_drm_find_panel(), used internally by drm_panel_add_follower().
-Like of_drm_find_panel(), it returned an unrefcounted pointer,
-leaving a window where the panel could be freed between the lookup
-and first use.
+The drm_panel subsystem provides kref-based reference counting [1]
+(drm_panel_get/put) but almost nothing in the tree actually uses it.
+This results in a systemic use-after-free pattern throughout the codebase.
 
-drm_panel_add_follower() worked around the missing panel kref by
-calling get_device() on the panel's underlying struct device.
-However, get_device() only prevents the device kobject from being freed.
-It does not prevent the panel's kzalloc()'d container memory from being
-released when the kref reaches zero.
+This series aims to close all those issues.
 
-Apply the same fix: call drm_panel_get() under panel_lock before
-returning. Since find_panel_by_fwnode() now transfers a counted
-reference to drm_panel_add_follower(), drm_panel_remove_follower()
-must balance it with a matching drm_panel_put().
+Patches 1-2: fix the infrastructure. drm_panel_add/remove now keep
+a counted reference for the list entry. drm_panel_bridge_add_typed()
+now holds a counted reference for the lifetime of the panel_bridge.
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+Patch 3: change the semantics of of_drm_find_panel(). It now acquires
+a reference before returning, under panel_lock. All in-tree callers
+of of_drm_find_panel() and drm_of_find_panel_or_bridge() are updated.
+Two patterns are common in these fixes:
+
+- Bridge-wrapping: the panel is passed to devm_drm_panel_bridge_add()
+  or equivalent, which acquires its own reference. The caller (including
+  devm_drm_of_get_bridge() and drmm_of_get_bridge()) releases its lookup
+  reference immediately after.
+- Store-and-use: the panel pointer is kept in a driver struct and
+  used directly for the device lifetime. The reference is released in the
+  remove/unbind path, or via devm_add_action_or_reset() where no explicit
+  teardown function exists.
+
+Patch 4: extend the same fix to find_panel_by_fwnode(), a static helper
+used internally by drm_panel_add_follower(). Since it has no external
+callers, the fix is self-contained: drm_panel_remove_follower() is
+updated to call drm_panel_put() to balance the reference.
+
+In order to catch all places in the tree that required releasing the
+reference, the search was assisted by an AI model. Specifically, a
+Coccinelle script was designed by the agent to address the trivial changes
+(not included in the series). Although a few required manual fixes, with goto
+labels or bracket additions. Additionally, the model helped to discern implicit
+teardown paths that were addressed with devm_add_action_or_reset() calls.
+Thus, these commits have the Assisted-by label following the project guidelines.
+
+No functional change is intended for any driver. The reference
+counting only affects object lifetime; panel operations are unaffected.
+
+[1] https://lore.kernel.org/all/20250331-b4-panel-refcounting-v4-0-dad50c60c6c9@redhat.com/
+
 Signed-off-by: Albert Esteve <aesteve@redhat.com>
 ---
- drivers/gpu/drm/drm_panel.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+Changes in v3:
+- Squashed patches 3 and 5
+- Fix probe failure paths that leaked reference
+- Fix UAF and other smaller issues found by Sashiko
+- Add comment in tegra-dsi explaining why panel is always
+  NULL in that path and so no early drm_panel_put() is required
+- Link to v2: https://lore.kernel.org/r/20260713-drm_refcount_wiring-v2-0-d3bb61f4bd4d@redhat.com
 
-diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-index 72cf86253c0cd..a00ae98ed0956 100644
---- a/drivers/gpu/drm/drm_panel.c
-+++ b/drivers/gpu/drm/drm_panel.c
-@@ -542,7 +542,13 @@ int of_drm_get_panel_orientation(const struct device_node *np,
- EXPORT_SYMBOL(of_drm_get_panel_orientation);
- #endif
- 
--/* Find panel by fwnode. This should be identical to of_drm_find_panel(). */
-+/*
-+ * Find panel by fwnode, returning a counted reference.
-+ *
-+ * Behaves identically to of_drm_find_panel(). On success the returned
-+ * pointer has been passed through drm_panel_get(); the caller must call
-+ * drm_panel_put() when done with it.
-+ */
- static struct drm_panel *find_panel_by_fwnode(const struct fwnode_handle *fwnode)
- {
- 	struct drm_panel *panel;
-@@ -554,6 +560,7 @@ static struct drm_panel *find_panel_by_fwnode(const struct fwnode_handle *fwnode
- 
- 	list_for_each_entry(panel, &panel_list, list) {
- 		if (dev_fwnode(panel->dev) == fwnode) {
-+			drm_panel_get(panel);
- 			mutex_unlock(&panel_lock);
- 			return panel;
- 		}
-@@ -690,6 +697,7 @@ void drm_panel_remove_follower(struct drm_panel_follower *follower)
- 	mutex_unlock(&panel->follower_lock);
- 
- 	put_device(panel->dev);
-+	drm_panel_put(panel);
- }
- EXPORT_SYMBOL(drm_panel_remove_follower);
- 
+Changes in v2:
+- Squash of_drm_find_panel() API change with its caller fixes
+- Split find_panel_by_fwnode() into its own commit
+- Update kernel-doc for drm_of_find_panel_or_bridge()
+- Link to v1: https://lore.kernel.org/r/20260626-drm_refcount_wiring-v1-0-cca1a7b3bdef@redhat.com
 
+---
+Albert Esteve (4):
+      drm/panel: have drm_panel_add/remove manage a list reference
+      drm/bridge/panel: hold a reference to the wrapped panel
+      drm/panel: of_drm_find_panel() return a counted reference
+      drm/panel: find_panel_by_fwnode() return a counted reference
+
+ drivers/gpu/drm/bridge/analogix/analogix-anx6345.c | 12 +++++++++++
+ drivers/gpu/drm/bridge/fsl-ldb.c                   |  1 +
+ drivers/gpu/drm/bridge/lontium-lt9211.c            |  1 +
+ drivers/gpu/drm/bridge/lvds-codec.c                |  1 +
+ drivers/gpu/drm/bridge/panel.c                     | 20 ++++++++++++++----
+ drivers/gpu/drm/bridge/samsung-dsim.c              |  1 +
+ drivers/gpu/drm/bridge/ssd2825.c                   |  1 +
+ drivers/gpu/drm/bridge/tc358767.c                  |  2 ++
+ drivers/gpu/drm/bridge/tc358768.c                  |  1 +
+ drivers/gpu/drm/bridge/waveshare-dsi.c             |  1 +
+ drivers/gpu/drm/drm_of.c                           |  3 ++-
+ drivers/gpu/drm/drm_panel.c                        | 24 +++++++++++++++++-----
+ drivers/gpu/drm/exynos/exynos_dp.c                 | 19 ++++++++++++++++-
+ drivers/gpu/drm/exynos/exynos_drm_dpi.c            |  3 +++
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c          | 18 ++++++++++++++++
+ drivers/gpu/drm/imx/dcss/dcss-kms.c                |  3 +++
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |  4 +++-
+ drivers/gpu/drm/logicvc/logicvc_interface.c        | 12 +++++++++++
+ drivers/gpu/drm/mcde/mcde_drv.c                    |  1 +
+ drivers/gpu/drm/mcde/mcde_dsi.c                    |  1 +
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c                  |  1 +
+ drivers/gpu/drm/omapdrm/dss/output.c               |  1 +
+ drivers/gpu/drm/pl111/pl111_drv.c                  |  1 +
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c  |  1 +
+ drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c        |  1 +
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c   |  1 +
+ drivers/gpu/drm/rockchip/analogix_dp-rockchip.c    | 11 ++++++++++
+ drivers/gpu/drm/rockchip/rockchip_lvds.c           |  4 ++++
+ drivers/gpu/drm/rockchip/rockchip_rgb.c            |  3 +++
+ drivers/gpu/drm/sti/sti_dvo.c                      |  3 +++
+ drivers/gpu/drm/stm/ltdc.c                         |  1 +
+ drivers/gpu/drm/stm/lvds.c                         | 12 ++++++++---
+ drivers/gpu/drm/sun4i/sun4i_lvds.c                 | 13 ++++++++++++
+ drivers/gpu/drm/sun4i/sun4i_rgb.c                  | 13 ++++++++++++
+ drivers/gpu/drm/sun4i/sun4i_tcon.c                 |  2 ++
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c             |  6 +++++-
+ drivers/gpu/drm/tegra/dsi.c                        |  5 +++++
+ drivers/gpu/drm/tegra/output.c                     | 24 +++++++++++++++++++---
+ drivers/gpu/drm/tidss/tidss_kms.c                  | 16 ++++++++++-----
+ drivers/gpu/drm/tve200/tve200_drv.c                |  1 +
+ 40 files changed, 225 insertions(+), 24 deletions(-)
+---
+base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
+change-id: 20260513-drm_refcount_wiring-4e5e757e9047
+
+Best regards,
 -- 
-2.55.0
+Albert Esteve <aesteve@redhat.com>
 
