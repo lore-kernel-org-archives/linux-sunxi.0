@@ -1,118 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAB37374A17
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jul 2026 17:17:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9547E2D7DFE
+	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jul 2026 17:34:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784308672; cv=none; b=TQI+gTOIC4bGDChILB1aHMGGnIZ9gAqm3kNzEmxp3/nW4YPizuSFH6mUTn/nKmxER+0ZAdEiOS68WyVo/npqoTu1YCPIcaHiN4TnXgsLCfSbwC5GZlXv9U0E5WaIYiSVJxrflbUZQYCDpjLULlBfXeq2vk23QwwlhEAM3WSFXS4=
+	t=1784309668; cv=none; b=m8I0sjXzbAVP4xhj74/CWultWlTjlStt6T4aVG5GKTfYVpoVPUR5OJvkvcqCEqRkD7wFPeBpCC9M1WHFNgb1vn7LJxi5jrU5nRVb4zdTCR0GQOpJZuM9ng/LuCcT8bvFOSj2vHzYWOBSTTdC4H6Raugt8MX2cAQQIDrWpMxovt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784308672; c=relaxed/simple;
-	bh=o7zyPpphqbynpLnNqBT0m/XN2QWef8XD8VuTyi2NKkU=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=FEU1MdBm1znxAIgpE6FOWMEC4D63S7VKoX+/CKkSQDqdHUSEP//OTANHVuR1V1omfqkK09iBZJvU08MNqJTnADEUazsIp7e3B7A+ZlmptpkQOIcXMSjzxu23YYZoV5dl5twq3568Bg6sSQuoM2cB3d+MD73pTYe1u0sl8MzkYEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FFyD2Qqs; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784309668; c=relaxed/simple;
+	bh=8mTcF3LrBHm9pBuVinQPgEuDDUBku44k3jODpXxKvUU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ZmiQi9W+cjgCfpWBQnACP0BsnkAH+4k3HCcYX9YgDDF+aYGRVICM7LWzLC53/3CLPa83N0j94FQ5OY5zFc2+XwOxak86SUjHl0qzpUR10T4kUsHXU6QH4sq1oYpLPH6O/cyBGmtcrFFPisxBl7Xl3SU/bSYXZeEZ006p2Oxwh2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MgSwFGCU; arc=none smtp.client-ip=209.85.210.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FFyD2Qqs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8301C1F000E9;
-	Fri, 17 Jul 2026 17:17:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784308667;
-	bh=3P223FgbDQpIcyPChczJbiQXV2OyWOHwWpS5ikonNlc=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=FFyD2QqssDq+phgh4TWe7e112sc2IXfw6O6D2/APvbFohhsjmBcGytIB6i3bjmwEM
-	 39hHrh4qY4VuI+AxtWUeHWKMdjkgqPE5ALqLr2lxNiPwz0OWrPxyDZ0Dx28ZDrp3vI
-	 vX43INcJJ2lEe/+VfCpWV41D9Q8LzuhVQvbXD3FpPmm9FtPenB1oU8zwRX3CSp9qTB
-	 LODkC9hGrZtP3YfydDrQ/7ALsx5hjVjMZ52i2rbXFbU+rTdorqCaG6IPPMGhu8AJ89
-	 e2dRnU5PgvqQCbysyyXXq9W4YsIXOxvMvleNRVWL7Q4b3kqskXZ9nVpzeo3KdN0a3T
-	 kUsX7wnOiPYxA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 2/2] media: sun6i-csi: capture: Implement
- vidioc_enum_framesizes
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Arash Golgol" <arash.golgol@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, media-ci@linuxtv.org
-In-Reply-To: <20260717160547.44460-3-arash.golgol@gmail.com>
-References: <20260717160547.44460-1-arash.golgol@gmail.com>
- <20260717160547.44460-3-arash.golgol@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 17 Jul 2026 17:17:47 +0000
-Message-Id: <20260717171747.8301C1F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MgSwFGCU"
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-7eb1dc6bd53so4356159a34.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 17 Jul 2026 10:34:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784309665; x=1784914465; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=BLtDXAflMK2OGRvVokloY5BLx70bkl08IwDveQGG/q4=;
+        b=MgSwFGCUXJdPJ+sbumk9WWQvIdWuvOg2fL9Nnqcqn9X0Tl5RNZnoYGMgUjk7sco+bt
+         3RaMo7T59snkoVJUA/otWTfKI55dZtYSMoY/KavvtRupNUX2TN5Wup9u64GPXstN9INe
+         Wo98fGNXMbemPQo4/1wxp/SuPwy00AOuq6V/U3Ve03+gHZr1syY/MKmL2JNJ5CV6whMp
+         lLkRsPu9qhiiRloXDmcS4pxubaaXrAHR15XEroMBGykAFCn+BScCFnIyofQsxReVkQav
+         5vdhA470SdcUUFqtFOtlJuJyXnzQICFzjf39jtO0+d37UezXkO9qmceCxm79CMelYRka
+         67Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784309665; x=1784914465;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=BLtDXAflMK2OGRvVokloY5BLx70bkl08IwDveQGG/q4=;
+        b=NuCutuViLk9eqvRya8/gvJNFxFXiFA3vYXCbAwG5y+NEvAHFJNOPaEGuZ3agZPj4Of
+         K1JJMDhoxPlgPiQs2RAnJEWahqUrWN2hvtSo7+jZSOVXlp3xJ3u54dI1vDzE5T8+r73g
+         N/YzTs7MWKDwbe51jNEi/9drxEQkIELYPIajsXHUAPv+dMhBicbPfLj6a+R2cls6V57E
+         3blGUpFcrI3fXbLH6l6xe/cU0xfs51jAhGH2zaWkqOn+b5nxcBFnTAwU+KWINJY4HTgk
+         lSMUl1LjZGj90qXklSXQFVeVgsXqcRMMmUHDVcZG+N1F3QaSHh/OdStWvfQkf8S5WULD
+         FjCA==
+X-Forwarded-Encrypted: i=1; AHgh+RpBRnZ/NBtzl4UfV7ZAKSvnxDim2ZRQEXGjclFD7ops6zPiZnUbXAgkeZm2FMhabWA/769vfx0BmpoHOA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwvjYXm6m6nsJyxn8c+ylYF05bIHtFgoO2+/H7VdyLXaUAD5rF3
+	Jf84HgpfK0SsT4+YIjua+E1NRXb075dKbfqJNGFXdi2R+u9y0rbxbRW2
+X-Gm-Gg: AfdE7cmEmH9FAxGzmnOsYCjsajQ35WRDzE6+GduYXwquZkC42pNO3GpkCcAij2FpqYP
+	L+jLcDLkpfS8BUj5WEVBOFelXJlhXxyLVMqXqxPS+IqzxWG6Xwz6EPaHRixBwuxtgunx3aXkugW
+	/fkwRSjFeePS8tiqaXI3WJ1fzQYLbbyoYKmrRTNUm/Y1rDZcoKIDRg/OotiFg8GabLDtRnNhIdX
+	YzBFAfCbD8LgMflxUWJ2yaoFkMR0WQLVNRO0KulIXZWD9oSg7dDXwJilPPaWXEMUQg41tj5C2PQ
+	Y4ZqYx0ku4KVyw0tLna7tMGaKoI5Tv5qm5W1eYKbQOScP8EwiwUj0bd9Qqpr7gUspOCtY2XTHGU
+	YCgQLeOuHh3XYaXAqZHZtqJrEVh1Q06LCrDkbBcZN1veuvlulZ5EoNQHU1q5bYCeN2uqBLS/rYV
+	kjNV1DNEK9k2bmp2c2cYHHx1c7sXBt3tkq16lg6Q4HDTo9vMFCPG6L0UU6lFMKkluARsXWNL7oH
+	oEnar2PKODxCWwZcLIkqPEwm3urGlbSkl7pMgBBgLcucxniNQcK9w==
+X-Received: by 2002:a05:6830:2e02:b0:7e6:f7fb:9678 with SMTP id 46e09a7af769-7ed9aa576f9mr2021902a34.1.1784309665179;
+        Fri, 17 Jul 2026 10:34:25 -0700 (PDT)
+Received: from [127.0.1.1] (174-29-11-8.hlrn.qwest.net. [174.29.11.8])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7edad965130sm1677212a34.11.2026.07.17.10.34.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2026 10:34:24 -0700 (PDT)
+From: James Hilliard <james.hilliard1@gmail.com>
+Subject: [PATCH v2 0/3] mtd: rawnand: sunxi: fix H6/H616 controller timings
+Date: Fri, 17 Jul 2026 11:33:56 -0600
+Message-Id: <20260717-submit-sunxi-nand-h6-h616-timings-v2-0-225515107640@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWN0QqDMAxFf0XyvIAWael+Zeyhs5lmYDaaOgTx3
+ 40bXDicl3M3UCpMCtdmg0JfVn6Libs0MExJRkLO5uBa59vQBdTlMXM1yMooSTJO3tZ5rDyzjIo
+ h9snF2DsfMljnU+jJ6+/jdv+7RV401DMM+34AvMI2ZIUAAAA=
+X-Change-ID: 20260717-submit-sunxi-nand-h6-h616-timings-794a2994267d
+To: Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Richard Genoud <richard.genoud@bootlin.com>
+Cc: linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ James Hilliard <james.hilliard1@gmail.com>, stable@vger.kernel.org
+X-Mailer: b4 0.15.2
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] `vidioc_enum_framesizes` incorrectly advertises a 2-pixel step siz=
-e for `V4L2_PIX_FMT_NV12_16L16`, violating the format's strict 16-pixel ali=
-gnment requirement.
---
+The sunxi NAND timing solver currently applies the original A10 NDFC
+timing characteristics to every supported controller. The H6/H616 NDFC
+uses two internal cycles for several setup and hold intervals and has
+different delay-field encodings, so the resulting clock and timing
+register values do not match the hardware.
 
---- Patch [2]: [PATCH v4 2/2] media: sun6i-csi: capture: Implement vidioc_e=
-num_framesizes ---
-commit c1eb6dcf0f09ace0fcc277bb3e50e12e234dce7b
-Author: Arash Golgol <arash.golgol@gmail.com>
+Prepare for per-controller timing data in two behaviorally focused
+patches, then add and select the H616 characteristics in the final fix.
+Legacy controllers retain their existing setup-cycle behavior and delay
+encodings.
 
-media: sun6i-csi: capture: Implement vidioc_enum_framesizes
+Tested on an H616 board with Toshiba TC58NVG1S3H NAND.
 
-This commit implements vidioc_enum_framesizes to report the stepwise
-frame size range supported by the CSI capture hardware. It sets the
-supported dimensions with a uniform step width and height of 2.
+Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+---
+Changes v1 -> v2:
+  - Split legacy timing setup from the H616 fix  (suggested by Miquel)
+  - Move tADL/tWHR encodings to a separate patch  (suggested by Miquel)
+  - Keep the timing lookup helper unchanged  (suggested by Miquel)
+  - Drop the minimum-period helper  (suggested by Miquel)
+  - Align H616 timing-data and capability names  (suggested by Miquel)
+  - Add Cc: stable to all three patches  (suggested by Miquel)
 
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b=
-/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> index d90abba213098..f788b42346739 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-[ ... ]
-> @@ -738,6 +738,27 @@ static int sun6i_csi_capture_enum_fmt(struct file *f=
-ile, void *priv,
->  	return 0;
->  }
-> =20
-> +static int sun6i_csi_capture_enum_framesize(struct file *file, void *fh,
-> +					    struct v4l2_frmsizeenum *fsize)
-> +{
-> +	if (fsize->index)
-> +		return -EINVAL;
-> +
-> +	/* Only accept format in map table. */
-> +	if (!sun6i_csi_capture_format_find(fsize->pixel_format))
-> +		return -EINVAL;
-> +
-> +	fsize->type =3D V4L2_FRMSIZE_TYPE_STEPWISE;
-> +	fsize->stepwise.min_width =3D SUN6I_CSI_CAPTURE_WIDTH_MIN;
-> +	fsize->stepwise.max_width =3D SUN6I_CSI_CAPTURE_WIDTH_MAX;
-> +	fsize->stepwise.min_height =3D SUN6I_CSI_CAPTURE_HEIGHT_MIN;
-> +	fsize->stepwise.max_height =3D SUN6I_CSI_CAPTURE_HEIGHT_MAX;
-> +	fsize->stepwise.step_width =3D 2;
-> +	fsize->stepwise.step_height =3D 2;
+---
+James Hilliard (3):
+      mtd: rawnand: sunxi: group controller delay tables
+      mtd: rawnand: sunxi: describe tADL and tWHR delays
+      mtd: rawnand: sunxi: fix H6/H616 controller timings
 
-[Severity: High]
-Does this hardcoded step size properly handle V4L2_PIX_FMT_NV12_16L16?
+ drivers/mtd/nand/raw/sunxi_nand.c | 119 +++++++++++++++++++++++++++-----------
+ 1 file changed, 86 insertions(+), 33 deletions(-)
+---
+base-commit: 6f5156d7a31a8c3b0f34af4675c9299c8f877cbe
+change-id: 20260717-submit-sunxi-nand-h6-h616-timings-794a2994267d
 
-The V4L2 specification requires both the line stride and image height for
-V4L2_PIX_FMT_NV12_16L16 to be a multiple of 16, as it is a 16x16 tiled
-format. By setting step_width and step_height to 2 for all formats, this
-advertises that arbitrary even dimensions are valid for the tiled format.
+Best regards,
+--  
+James Hilliard <james.hilliard1@gmail.com>
 
-If userspace requests a non-16-aligned dimension, such as 18x18, the driver
-may calculate an undersized buffer. Because the hardware operates on
-complete 16x16 macroblocks, it will attempt to DMA at least a 32x32 block to
-cover the 18x18 image, resulting in an out-of-bounds DMA memory write.
-
-Should the step sizes be dynamically adjusted based on fsize->pixel_format
-to enforce 16-pixel block alignment when necessary?
-
-> +
-> +	return 0;
-> +}
-> +
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260717160547.4446=
-0-1-arash.golgol@gmail.com?part=3D2
