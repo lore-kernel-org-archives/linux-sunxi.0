@@ -1,123 +1,355 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF36332909
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jul 2026 02:43:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.179
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784256218; cv=pass; b=AIy62vEPpxB92qAf/ScvwWs0EgILsijfEAB37imoYJwApYhHk9zWMsUm39HqgpVSXBPqh4LRUh87eZkpWs5RRQ7XP07jQujeLfPZNbbCHap0MCrF16KE07zaylif1UfPrYK3EPxUb390BaE0GNDvoB2iAqRXjYqfWzPGoh+Xj5E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784256218; c=relaxed/simple;
-	bh=2Fzo3M7LuDytk0ZJbhSffN1E7aCbsqWRH2lDInDjLQ8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=osFGCvKfWADMZJ5e0K5aDb3lWRM7l7ZIXud3nuPGcddeNBHoaxCKTQS5ZfgeNpQ9ZmFsckQuShOkndLmnLq1cKAPuWV97LmPlLDeJwvXTNOCza5VNXjHlus3HTs5npemOB4GqpzRiyxFf2qxu/iLNd07jZGmeFOsgrhHal1LJbs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tEcIoRAy; arc=pass smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4643131AAA3;
+	Fri, 17 Jul 2026 03:53:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784260408; cv=none; b=TFBMEg7SfcyZHWmjEzTBdJkOqmyzDkwmcH707KDmxLzprBXDWg89YpBuUiwAaRoQfwPH/38xGK9EKTrdWoswbazGd2gq+p0UP0+9XUxuhPujLAuLmlNpzdrrHAHA5N4bXgXdDIP1lBuOuhQ/15a4lclwZSa3JLbUW/Pd5iCTSLk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784260408; c=relaxed/simple;
+	bh=kg8wTpyKJcycHALKQ28TnoUsjxMZPc5InWegFCNQNHA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rczr218ayy3gLawOf7lOnLdArnfKrdOjyRh1n85b8i3zBrEuTkod+DNO8sLVPo9GpmiOj2thMIO64TUDZBEoWeDzHLkvrE6RnwKawIa5l83VSmzz9ih2Z9fYTLPe5utxh1f2awqiU2yycUZmDlUNCzd/UIyyaXiixD40Awb9BDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a4TBJqu9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tEcIoRAy"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c966b9ee9cbso4328486a12.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 16 Jul 2026 19:43:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784256216; cv=none;
-        d=google.com; s=arc-20260327;
-        b=qCh5AHD0x6BI12VXQTDYCPWCzTLydHkWBkBPa53JHk0ZpOK/0dOHl5dhEGDiULtEOi
-         rlKE6qg8zuGUuNJDoTs7MC5f7g/4m+TqrzAnoTcvEbou6eN8nriNE2j0X4TYJ/U7JPLh
-         t2RGn6B7iIwifOpKIcJHftOA0B/dKG5IkqBguZdIGVxZwvRbL8tH4tfXHtUYpowPVC+E
-         Fds03do1EO1RpABm6K16S78R+inK9W7JWQgVo0bJAQp2R6mliJLf6BbPvc7w8r+Tm4xY
-         dp1iDeJTLwdTsa/cTC4erTUMFHZAS1fNF1KNWY58kqYyr/frkXFtJCk1CFXikM6zn4jt
-         PjAA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=a6ZTvlGa1jAX6x6nu+mWtSYvum03unbr5qRkIHCRmmA=;
-        fh=EOw+T+xu9Uusr1ZR9D80v01PCzHnTFY/Fbl25rhoRVk=;
-        b=VjunCKcPEqteKVIOkoj5W5ZmBkNTYUFPlkYG2bA+HryftS1WXHdJu83fQndxXkk6le
-         O5rSOpTl2R82vrHQQ+9wBxUDRN8ZFw7qMs7txWRSL4760bwWI6JMAjUvcTp1+3e6pLGy
-         Mjgj9Q5eaWRvy/8T+2YyChumVQxn5req5PiQPd3G0Q1j4fD68o+D2XFlUayv6OIObpYa
-         8u81DgKIfRqfppkn0s+IAZNDYY3enyXig/omIu/6S01rj4JjKCuT3rKi6WuMuWcgUkei
-         9ICpr2yjoxqWl5bvXeQhWuMXQsCjlSmM7OIRhQnpFM1xUtbablUpf6jQjty1gaVUfzfN
-         DAXg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784256216; x=1784861016; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=a6ZTvlGa1jAX6x6nu+mWtSYvum03unbr5qRkIHCRmmA=;
-        b=tEcIoRAy+fwxxVlUdcshj+hH2L3lTTQd252lV8cy+r5/axU3syjXZbOktSlBxnbEsg
-         BQ0CeIsX27Ps/Ie+dE5j3J+o0zEpfio/haw+wa/IMnGPRg/07GlKMXOhuivB0C7ZycyS
-         JTT4ADTku0VZ/7XNx4Ds8lMcitsXdmoJlhNlGTdcHIsuFvIv7qoKO+VMQ0Oj6Mt+md6s
-         ClM+DB2v7v/rn/4kWA3A4J5IFCeqG4ZCx8ivqGbaPTzULXosBG+CcC2qJN9GaFnEquuR
-         77NOCmmQuRqcoUBptST85BB7RNRS5Jk+pzqUxE6kukjomTuvsE5Ghel3LEjJLrvt73R5
-         WSHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784256216; x=1784861016;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=a6ZTvlGa1jAX6x6nu+mWtSYvum03unbr5qRkIHCRmmA=;
-        b=P5gVkwxcUEIYqsQJWHNtKy4MZBffC6galWMh5m+7Cn1HtkhG6AgO3r8RYbgd/jwbTO
-         UDImIUWX8cZkNISlmZQzFm7BIQ4AjPjTcGH4XlOfd6hVueUgKs6id6NkIBJWf+8lah1x
-         Xq1IivtKYGAVbE7FnbQDyr4+Rf5dqQJVt3m5qD/CilT5TiJTkpjrxAt7KtpeUT5QTu8o
-         YSt9YIgCFK6q403hiTh+/+vvAE/bg3nDTRIPkXCQUNnAd/bI+0wB9ldZfC9pfGmBkhnb
-         rDkbkYYUcNAIwtFUJ0YwhanUMaosraSwf4arDdChnHbE1QXkiMAsGSmIqtaiVlVRJ+y7
-         yv+Q==
-X-Forwarded-Encrypted: i=1; AHgh+RrvoIC+n3SOZKFZU0PBFfra9xKS61dL+dehqn22r47lMbGt2yhbpN1zAtAAm1kFTymBI8ANftbdTVGceA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxTbTY4YD/K5AT4DXQGQ7h3OxKjlg8sqsCk2FOFYKq/crYYvtd8
-	TOBSAs+lzDZD7OZOPhIkw/SKQDk1MRF+ocFTrVS1yqLUKOn+p00OdcdVeiIAkqPqM71YySMPC89
-	+/0esdnF8/ccGi3UcZVFmBPX+oGDh/pc=
-X-Gm-Gg: AfdE7clvL5HMt2ba0NFpFY0DlwehWnk+KceHqtDwckRIeRPm5hQr5JOoC47VoekW7Ws
-	srNLdtoqCMNrtv28ayHsO7KzkXMAnmp931JN5eQzyA2PBs/IBr2tB217F2HQJfswpk9IqSSijw4
-	8WYHKacVdjXDbohm+mLPFdZiroLzAq+bhps/FtPM/2FARkqWv3RErZrJPw4ngI9edfqga7WMIKK
-	4sJgPG8f0tNU2cVhb9wKVZsVzBON1uCEglfwgSDB6JieAoHCx5w+I1V9yc3EmHinY1tx+e3EKkg
-	qFBQgNTWL0l1R40qr8pXFgC9xAa2eQITassyZ4ugf7S8ibfwdtk=
-X-Received: by 2002:a05:6a00:8c2:b0:848:54e0:96c1 with SMTP id
- d2e1a72fcca58-84c29590547mr541291b3a.77.1784256216411; Thu, 16 Jul 2026
- 19:43:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a4TBJqu9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B39521F000E9;
+	Fri, 17 Jul 2026 03:53:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784260406;
+	bh=xeMBgFFZuSuHc7d5PQhWpxIImykXqEb+Xvzouxvl2k8=;
+	h=From:To:Cc:Subject:Date;
+	b=a4TBJqu9yuJUEHnlglb/VYl8j2SqK/g+3PZRWaKvZPg8TZmqxeJnu4vkeFVwEk1jy
+	 zcpOXrIl3kFYiyBrzP/bCXKbYZ1UoWGRPIj80PDIUoW/rZ+QFtws2neOdZsvABe9hy
+	 kVIPc9tEpuVJzTm8DGS6uELs5Ot8TZeuX/runweZUCcFifBsH3PFUG/82hVVIcxOBy
+	 D7imp0z21bE1PS66sDti4ELFI0MxzgH3cyZC5RxT/7wBiSscmfHiKV83+L80I760Q2
+	 XzsNUV56OlVjMclNz+lZA6H+20mq498KYKIBpbTg0BKhkoTBZrykbyBDX96hnVlqP2
+	 7UE6NpkfTWwYQ==
+From: Eric Biggers <ebiggers@kernel.org>
+To: stable@vger.kernel.org
+Cc: linux-crypto@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Eric Biggers <ebiggers@kernel.org>,
+	Tianchu Chen <flynnnchen@tencent.com>,
+	Corentin LABBE <clabbe.montjoie@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Subject: [PATCH 7.1,6.18,6.12,6.6,6.1] crypto: sun4i-ss - Remove insecure and unused rng_alg
+Date: Thu, 16 Jul 2026 20:50:58 -0700
+Message-ID: <20260717035058.352737-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260715095525.40668-1-phucduc.bui@gmail.com> <20260715095525.40668-3-phucduc.bui@gmail.com>
- <CAGb2v67tVzjZsPbA9oeCFjuRjrixxCut05P5zkw+sYq-gJPoJg@mail.gmail.com> <CAABR9nEk19N-hBm+QKv6U=7SBgkQwC2Ohb_NDz8OLEetavLLAQ@mail.gmail.com>
-In-Reply-To: <CAABR9nEk19N-hBm+QKv6U=7SBgkQwC2Ohb_NDz8OLEetavLLAQ@mail.gmail.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Fri, 17 Jul 2026 09:43:24 +0700
-X-Gm-Features: AUfX_my9M2Eo3gIu3CtbO4S8ow-xrYGE6kyiiiETHDgngv6Z4-cu_CPDtHYWoKs
-Message-ID: <CAABR9nG2vYKhMKeSxFstCRcHb8Z2FzDTBuQ3PY261Lipx7FfJw@mail.gmail.com>
-Subject: Re: [PATCH 2/6] ASoC: sunxi: sun4i-codec: Drop redundant error messages
-To: wens@kernel.org
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Chen Ni <nichen@iscas.ac.cn>, 
-	Marcus Cooper <codekipper@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Danilo Krummrich <dakr@kernel.org>, u.kleine-koenig@baylibre.com, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi all,
+commit b2c41fa9dd8fc740c489e060b199165771f268d1 upstream.
 
-Actually, following our discussion about dma_request_chan() not always
-printing error logs internally, I did some further investigation into
-the code paths and have submitted two patches to address the underlying
-issues more comprehensively:
+Remove sun4i_ss_rng, as it is insecure and unused:
 
-1. A patch for dma_request_chan() itself to prevent potential NULL pointer
-   dereferences on invalid arguments:
-   https://lore.kernel.org/all/20260716052758.23465-1-phucduc.bui@gmail.com/
+- It has multiple vulnerabilities.  sun4i_ss_prng_seed() is missing
+  locking and has a buffer overflow.  sun4i_ss_prng_generate() fails to
+  fill the entire buffer with cryptographic random bytes, because it
+  rounds the destination length down and also doesn't actually wait for
+  the hardware to be ready before pulling bytes from it.
 
-2. A patch to improve the error handling flow inside
-   dmaengine_pcm_request_chan_of() when calling dma_request_chan():
-   https://lore.kernel.org/all/20260716080428.57979-1-phucduc.bui@gmail.com/
+- No user of this code is known.  It's usable only theoretically via the
+  "rng" algorithm type of AF_ALG.  But userspace actually just uses the
+  actual Linux RNG (/dev/random etc) instead.  And rng_algs don't
+  contribute entropy to the actual Linux RNG either.  (This may have
+  been confused with hwrng, which does contribute entropy.)
 
-I wanted to share this here to provide more context on the proposed changes to
-these DMA engine error-handling flows.
+The sun4i_ss_prng_seed() buffer overflow was reported by Tianchu Chen
+and discovered by Atuin - Automated Vulnerability Discovery Engine
 
-Best regards,
-Phuc
+There's no point in fixing all these vulnerabilities individually when
+this is unused code, so let's just remove it.
+
+Fixes: b8ae5c7387ad ("crypto: sun4i-ss - support the Security System PRNG")
+Cc: stable@vger.kernel.org
+Reported-by: Tianchu Chen <flynnnchen@tencent.com>
+Closes: https://lore.kernel.org/r/af749a8447bd7f0e9dd26ca6c87e9c6afecb09d9@linux.dev/
+Acked-by: Corentin LABBE <clabbe.montjoie@gmail.com>
+Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
+---
+ arch/arm/configs/sunxi_defconfig              |  1 -
+ drivers/crypto/allwinner/Kconfig              |  8 ---
+ drivers/crypto/allwinner/sun4i-ss/Makefile    |  1 -
+ .../crypto/allwinner/sun4i-ss/sun4i-ss-core.c | 36 ----------
+ .../crypto/allwinner/sun4i-ss/sun4i-ss-prng.c | 69 -------------------
+ drivers/crypto/allwinner/sun4i-ss/sun4i-ss.h  | 20 ------
+ 6 files changed, 135 deletions(-)
+ delete mode 100644 drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
+
+diff --git a/arch/arm/configs/sunxi_defconfig b/arch/arm/configs/sunxi_defconfig
+index a83d29fed175..f4b8d8f7dbef 100644
+--- a/arch/arm/configs/sunxi_defconfig
++++ b/arch/arm/configs/sunxi_defconfig
+@@ -170,7 +170,6 @@ CONFIG_ROOT_NFS=y
+ CONFIG_NLS_CODEPAGE_437=y
+ CONFIG_NLS_ISO8859_1=y
+ CONFIG_CRYPTO_DEV_SUN4I_SS=y
+-CONFIG_CRYPTO_DEV_SUN4I_SS_PRNG=y
+ CONFIG_CRYPTO_DEV_SUN8I_CE=y
+ CONFIG_CRYPTO_DEV_SUN8I_SS=y
+ CONFIG_DMA_CMA=y
+diff --git a/drivers/crypto/allwinner/Kconfig b/drivers/crypto/allwinner/Kconfig
+index 7270e5fbc573..1048f8e95ba8 100644
+--- a/drivers/crypto/allwinner/Kconfig
++++ b/drivers/crypto/allwinner/Kconfig
+@@ -25,14 +25,6 @@ config CRYPTO_DEV_SUN4I_SS
+ 	  To compile this driver as a module, choose M here: the module
+ 	  will be called sun4i-ss.
+ 
+-config CRYPTO_DEV_SUN4I_SS_PRNG
+-	bool "Support for Allwinner Security System PRNG"
+-	depends on CRYPTO_DEV_SUN4I_SS
+-	select CRYPTO_RNG
+-	help
+-	  Select this option if you want to provide kernel-side support for
+-	  the Pseudo-Random Number Generator found in the Security System.
+-
+ config CRYPTO_DEV_SUN4I_SS_DEBUG
+ 	bool "Enable sun4i-ss stats"
+ 	depends on CRYPTO_DEV_SUN4I_SS
+diff --git a/drivers/crypto/allwinner/sun4i-ss/Makefile b/drivers/crypto/allwinner/sun4i-ss/Makefile
+index c0a2797d3168..06a9ae81f9f8 100644
+--- a/drivers/crypto/allwinner/sun4i-ss/Makefile
++++ b/drivers/crypto/allwinner/sun4i-ss/Makefile
+@@ -1,4 +1,3 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ obj-$(CONFIG_CRYPTO_DEV_SUN4I_SS) += sun4i-ss.o
+ sun4i-ss-y += sun4i-ss-core.o sun4i-ss-hash.o sun4i-ss-cipher.o
+-sun4i-ss-$(CONFIG_CRYPTO_DEV_SUN4I_SS_PRNG) += sun4i-ss-prng.o
+diff --git a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
+index 58a76e2ba64e..35ef0930e77f 100644
+--- a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
++++ b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
+@@ -213,23 +213,6 @@ static struct sun4i_ss_alg_template ss_algs[] = {
+ 		}
+ 	}
+ },
+-#ifdef CONFIG_CRYPTO_DEV_SUN4I_SS_PRNG
+-{
+-	.type = CRYPTO_ALG_TYPE_RNG,
+-	.alg.rng = {
+-		.base = {
+-			.cra_name		= "stdrng",
+-			.cra_driver_name	= "sun4i_ss_rng",
+-			.cra_priority		= 300,
+-			.cra_ctxsize		= 0,
+-			.cra_module		= THIS_MODULE,
+-		},
+-		.generate               = sun4i_ss_prng_generate,
+-		.seed                   = sun4i_ss_prng_seed,
+-		.seedsize               = SS_SEED_LEN / BITS_PER_BYTE,
+-	}
+-},
+-#endif
+ };
+ 
+ static int sun4i_ss_debugfs_show(struct seq_file *seq, void *v)
+@@ -247,12 +230,6 @@ static int sun4i_ss_debugfs_show(struct seq_file *seq, void *v)
+ 				   ss_algs[i].stat_req, ss_algs[i].stat_opti, ss_algs[i].stat_fb,
+ 				   ss_algs[i].stat_bytes);
+ 			break;
+-		case CRYPTO_ALG_TYPE_RNG:
+-			seq_printf(seq, "%s %s reqs=%lu tsize=%lu\n",
+-				   ss_algs[i].alg.rng.base.cra_driver_name,
+-				   ss_algs[i].alg.rng.base.cra_name,
+-				   ss_algs[i].stat_req, ss_algs[i].stat_bytes);
+-			break;
+ 		case CRYPTO_ALG_TYPE_AHASH:
+ 			seq_printf(seq, "%s %s reqs=%lu\n",
+ 				   ss_algs[i].alg.hash.halg.base.cra_driver_name,
+@@ -471,13 +448,6 @@ static int sun4i_ss_probe(struct platform_device *pdev)
+ 				goto error_alg;
+ 			}
+ 			break;
+-		case CRYPTO_ALG_TYPE_RNG:
+-			err = crypto_register_rng(&ss_algs[i].alg.rng);
+-			if (err) {
+-				dev_err(ss->dev, "Fail to register %s\n",
+-					ss_algs[i].alg.rng.base.cra_name);
+-			}
+-			break;
+ 		}
+ 	}
+ 
+@@ -497,9 +467,6 @@ static int sun4i_ss_probe(struct platform_device *pdev)
+ 		case CRYPTO_ALG_TYPE_AHASH:
+ 			crypto_unregister_ahash(&ss_algs[i].alg.hash);
+ 			break;
+-		case CRYPTO_ALG_TYPE_RNG:
+-			crypto_unregister_rng(&ss_algs[i].alg.rng);
+-			break;
+ 		}
+ 	}
+ error_pm:
+@@ -520,9 +487,6 @@ static void sun4i_ss_remove(struct platform_device *pdev)
+ 		case CRYPTO_ALG_TYPE_AHASH:
+ 			crypto_unregister_ahash(&ss_algs[i].alg.hash);
+ 			break;
+-		case CRYPTO_ALG_TYPE_RNG:
+-			crypto_unregister_rng(&ss_algs[i].alg.rng);
+-			break;
+ 		}
+ 	}
+ 
+diff --git a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
+deleted file mode 100644
+index 491fcb7b81b4..000000000000
+--- a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-prng.c
++++ /dev/null
+@@ -1,69 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-or-later
+-#include "sun4i-ss.h"
+-
+-int sun4i_ss_prng_seed(struct crypto_rng *tfm, const u8 *seed,
+-		       unsigned int slen)
+-{
+-	struct sun4i_ss_alg_template *algt;
+-	struct rng_alg *alg = crypto_rng_alg(tfm);
+-
+-	algt = container_of(alg, struct sun4i_ss_alg_template, alg.rng);
+-	memcpy(algt->ss->seed, seed, slen);
+-
+-	return 0;
+-}
+-
+-int sun4i_ss_prng_generate(struct crypto_rng *tfm, const u8 *src,
+-			   unsigned int slen, u8 *dst, unsigned int dlen)
+-{
+-	struct sun4i_ss_alg_template *algt;
+-	struct rng_alg *alg = crypto_rng_alg(tfm);
+-	int i, err;
+-	u32 v;
+-	u32 *data = (u32 *)dst;
+-	const u32 mode = SS_OP_PRNG | SS_PRNG_CONTINUE | SS_ENABLED;
+-	size_t len;
+-	struct sun4i_ss_ctx *ss;
+-	unsigned int todo = (dlen / 4) * 4;
+-
+-	algt = container_of(alg, struct sun4i_ss_alg_template, alg.rng);
+-	ss = algt->ss;
+-
+-	err = pm_runtime_resume_and_get(ss->dev);
+-	if (err < 0)
+-		return err;
+-
+-	if (IS_ENABLED(CONFIG_CRYPTO_DEV_SUN4I_SS_DEBUG)) {
+-		algt->stat_req++;
+-		algt->stat_bytes += todo;
+-	}
+-
+-	spin_lock_bh(&ss->slock);
+-
+-	writel(mode, ss->base + SS_CTL);
+-
+-	while (todo > 0) {
+-		/* write the seed */
+-		for (i = 0; i < SS_SEED_LEN / BITS_PER_LONG; i++)
+-			writel(ss->seed[i], ss->base + SS_KEY0 + i * 4);
+-
+-		/* Read the random data */
+-		len = min_t(size_t, SS_DATA_LEN / BITS_PER_BYTE, todo);
+-		readsl(ss->base + SS_TXFIFO, data, len / 4);
+-		data += len / 4;
+-		todo -= len;
+-
+-		/* Update the seed */
+-		for (i = 0; i < SS_SEED_LEN / BITS_PER_LONG; i++) {
+-			v = readl(ss->base + SS_KEY0 + i * 4);
+-			ss->seed[i] = v;
+-		}
+-	}
+-
+-	writel(0, ss->base + SS_CTL);
+-	spin_unlock_bh(&ss->slock);
+-
+-	pm_runtime_put(ss->dev);
+-
+-	return 0;
+-}
+diff --git a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss.h b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss.h
+index 6c5d4aa6453c..f7d1c79ac677 100644
+--- a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss.h
++++ b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss.h
+@@ -31,8 +31,6 @@
+ #include <crypto/internal/skcipher.h>
+ #include <crypto/aes.h>
+ #include <crypto/internal/des.h>
+-#include <crypto/internal/rng.h>
+-#include <crypto/rng.h>
+ 
+ #define SS_CTL            0x00
+ #define SS_KEY0           0x04
+@@ -62,10 +60,6 @@
+ 
+ /* SS_CTL configuration values */
+ 
+-/* PRNG generator mode - bit 15 */
+-#define SS_PRNG_ONESHOT		(0 << 15)
+-#define SS_PRNG_CONTINUE	(1 << 15)
+-
+ /* IV mode for hash */
+ #define SS_IV_ARBITRARY		(1 << 14)
+ 
+@@ -94,14 +88,10 @@
+ #define SS_OP_3DES		(2 << 4)
+ #define SS_OP_SHA1		(3 << 4)
+ #define SS_OP_MD5		(4 << 4)
+-#define SS_OP_PRNG		(5 << 4)
+ 
+ /* Data end bit - bit 2 */
+ #define SS_DATA_END		(1 << 2)
+ 
+-/* PRNG start bit - bit 1 */
+-#define SS_PRNG_START		(1 << 1)
+-
+ /* SS Enable bit - bit 0 */
+ #define SS_DISABLED		(0 << 0)
+ #define SS_ENABLED		(1 << 0)
+@@ -128,9 +118,6 @@
+ #define SS_RXFIFO_EMP_INT_ENABLE	(1 << 2)
+ #define SS_TXFIFO_AVA_INT_ENABLE	(1 << 0)
+ 
+-#define SS_SEED_LEN 192
+-#define SS_DATA_LEN 160
+-
+ /*
+  * struct ss_variant - Describe SS hardware variant
+  * @sha1_in_be:		The SHA1 digest is given by SS in BE, and so need to be inverted.
+@@ -151,9 +138,6 @@ struct sun4i_ss_ctx {
+ 	char buf[4 * SS_RX_MAX];/* buffer for linearize SG src */
+ 	char bufo[4 * SS_TX_MAX]; /* buffer for linearize SG dst */
+ 	spinlock_t slock; /* control the use of the device */
+-#ifdef CONFIG_CRYPTO_DEV_SUN4I_SS_PRNG
+-	u32 seed[SS_SEED_LEN / BITS_PER_LONG];
+-#endif
+ 	struct dentry *dbgfs_dir;
+ 	struct dentry *dbgfs_stats;
+ };
+@@ -164,7 +148,6 @@ struct sun4i_ss_alg_template {
+ 	union {
+ 		struct skcipher_alg crypto;
+ 		struct ahash_alg hash;
+-		struct rng_alg rng;
+ 	} alg;
+ 	struct sun4i_ss_ctx *ss;
+ 	unsigned long stat_req;
+@@ -231,6 +214,3 @@ int sun4i_ss_des_setkey(struct crypto_skcipher *tfm, const u8 *key,
+ 			unsigned int keylen);
+ int sun4i_ss_des3_setkey(struct crypto_skcipher *tfm, const u8 *key,
+ 			 unsigned int keylen);
+-int sun4i_ss_prng_generate(struct crypto_rng *tfm, const u8 *src,
+-			   unsigned int slen, u8 *dst, unsigned int dlen);
+-int sun4i_ss_prng_seed(struct crypto_rng *tfm, const u8 *seed, unsigned int slen);
+
+base-commit: 199c9959d3a9b53f346c221757fc7ac507fbac50
+-- 
+2.55.0
+
