@@ -1,38 +1,38 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BD83F7A82
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jul 2026 11:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C103F65EE
+	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jul 2026 13:09:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784289341; cv=none; b=gierRotAgfkVl+UYiCglMKbZEX4Bb3+xKZPBSUVT4edv6lcb90oaegOUUVgh79AXh9I8isaHaGXWWfauEpbcqDrTnWphl3JSve/UpcGjmWP8JWsin2xP0pqFtppAyabmWOxMAas6aBSXxBSwNy8AkJWDcgJYzym9g0yVcTGOmOQ=
+	t=1784293752; cv=none; b=k8F0bNP0XlqEBeSn4ytvEtt5RyNc/koGEkCdheSDb4h3d/nHeQcAUd3i48efdY1gaRLyRP81YTK20dq1MNPQ4lrerDlyu3USRKcM9uxQiEAdtZREZpY3o1p5M+6r1njqcRi2fL/Nmt+wUJJPuH3PhzNWO512Y6QTJzjmz+bo8Tw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784289341; c=relaxed/simple;
-	bh=9VNl3kwPKsiIRaWbFIJIf/bZWRu6H8ArKCkTG27eOHQ=;
+	s=arc-20240116; t=1784293752; c=relaxed/simple;
+	bh=OAs145MHyaaUWp5Ub+DV60H2JUvu45NPs84K0ul4Lzk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=hhgTNeSckv1Kg3KALxgX3sjpKzaZOYRSbqNUntwANPKlM/oqam6MLpBiJ1yLpdrEfCU+iph8BxvGGmrp9DOm4qvnbS2dlbuH0yjTdJXfdZoMBl9P1N1HvjfiPTD+TKJXj/5chgYIpGZWzv6xjTlUL+226qMAwukElrcN3nyLMnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=yXXP7Pva; arc=none smtp.client-ip=185.246.84.56
+	 MIME-Version:Content-Type; b=hFLuJlZ1tqpEVFexDqNj2xfEKTK5alHgTTy3ROcV+sTwEaJaE0m/xHPUiYX7YVJE2cBHgfZFjAHAXU3ZfwTK0GXhWuMTOUw7Am3GxFVRyUhLnrdki0Aq9nIEHAeP44jt4EyAQHqu7VjY+gmsWfRQJBpGOp+9FwXF/L1k8DnQC24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jWW7QdQ9; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="yXXP7Pva"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jWW7QdQ9"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id EA9BF1A1055;
-	Fri, 17 Jul 2026 11:55:33 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 950424E40E0E;
+	Fri, 17 Jul 2026 13:09:07 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id B542860361;
-	Fri, 17 Jul 2026 11:55:33 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D107811BD013E;
-	Fri, 17 Jul 2026 13:55:29 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 604E360361;
+	Fri, 17 Jul 2026 13:09:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 78D5A11BD0158;
+	Fri, 17 Jul 2026 15:09:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1784289332; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1784293746; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=olb07j+R4KRuYDDsVWwKXD1OEB5dTfTfM1jnrVire4o=;
-	b=yXXP7Pval4WDA/Rcwb+NuWA918Ql9SeQC53coAvcqFKI2q+nVCeCIPdGvZXsQK/cgmJwXu
-	rxnEETip2qaGBb3miTiLJf4GlRcxIEarrHbRcUe6Wg7JqOuvahWSb/9V5GpX/fUkgky0Mj
-	v49VDKAKy5ybZzFxAZTCgNTpj0kSz60ad2VmLEmVRMo+bN2pNuwl2RVKyLZ6QNfW9t3ZB7
-	OqAOjpLEkOCC+pE1qDa4MSZbEtOzaYyUutJQVVflfgOtkrDedwXov4HTmK70CLjiXbDRH7
-	llX5muQWl4ULLMzwqT/e0OaHceTR2WyHA2sd9kosxCUBYJi04OTD724YsF0LEQ==
+	bh=Cn1pFl0mrxmZ5O9Dm58NQlDdGx8NzY2f6Z+2/X5Kfqo=;
+	b=jWW7QdQ9WgtCFeBDx7anwxwxvIRt/ADCZj39QvGO/0PSwpXBSjOChomR3Dr5GmZiM+/BMZ
+	CoQUHGqv3tTqeUcpCL6AAMytPZMvKel27zuWzPgJnrOdzkT+PTN6dt0wExcDB1bXK21M5i
+	Ro11bNmhblT5MsF7zRzrpM5kNacc4trRWe7k3V7f9M72j81j5X26hxNDhD3CcJvRfJE6jF
+	ctUgVwn7ObdGvIgOy2b3oomyQd5dEAJ4oM+drStkfghEA6qAGsLeRzbFrA5gJZRysMffBa
+	ekOZx/SqXN6fQeO6Xm83cVO9SphTKN9QEfd+27thoqz5hfikpKZBBCmxeXrYBw==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
 To: James Hilliard <james.hilliard1@gmail.com>
 Cc: linux-mtd@lists.infradead.org,  linux-sunxi@lists.linux.dev,  Richard
@@ -42,13 +42,13 @@ Cc: linux-mtd@lists.infradead.org,  linux-sunxi@lists.linux.dev,  Richard
   Richard Genoud <richard.genoud@bootlin.com>,  Geert Uytterhoeven
  <geert+renesas@glider.be>,  linux-arm-kernel@lists.infradead.org,
   linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mtd: rawnand: sunxi: fix H6/H616 controller timings
-In-Reply-To: <20260715013142.640977-1-james.hilliard1@gmail.com> (James
-	Hilliard's message of "Tue, 14 Jul 2026 19:31:38 -0600")
-References: <20260715013142.640977-1-james.hilliard1@gmail.com>
+Subject: Re: [PATCH] mtd: rawnand: sunxi: add H616 MBUS DMA support
+In-Reply-To: <20260715162444.789303-1-james.hilliard1@gmail.com> (James
+	Hilliard's message of "Wed, 15 Jul 2026 10:24:40 -0600")
+References: <20260715162444.789303-1-james.hilliard1@gmail.com>
 User-Agent: mu4e 1.12.7; emacs 30.2
-Date: Fri, 17 Jul 2026 13:55:29 +0200
-Message-ID: <87a4rpkez2.fsf@bootlin.com>
+Date: Fri, 17 Jul 2026 15:09:02 +0200
+Message-ID: <87v7adix01.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -59,126 +59,248 @@ Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hello James,
+Hi James,
 
-On 14/07/2026 at 19:31:38 -06, James Hilliard <james.hilliard1@gmail.com> w=
+On 15/07/2026 at 10:24:40 -06, James Hilliard <james.hilliard1@gmail.com> w=
 rote:
 
-> The NAND timing calculation was written for the original A10 NDFC. It
-> assumes command and address setup and hold intervals T1-T4, T7 and T11
-> are one controller clock and uses the A10 timing-register encodings.
+> The H616 NAND controller uses a descriptor-based internal MBUS DMA
+> engine instead of the direct address and count registers used by the
+> A23/A33 controller. Since the driver does not support these descriptors,
+> it currently attempts to request an external rxtx DMA channel and falls
+> back to PIO when none is provided.
 >
-> The H6/H616 NDFC instead defines those intervals as two internal clock
-> cycles and uses different encodings for tWB, tADL, tWHR and tRHW, as
-> documented in the H616 User Manual.
+> Add a single-descriptor backend to the existing ECC page DMA paths.
+> Allocate the descriptor coherently, constrain data mappings to the
+> controller's 32-bit address range, program the H6-style data block mask,
+> and request an interrupt for both command and DMA completion. Keep the
+> existing external DMA and legacy MBUS DMA paths unchanged, and fall back
+> to PIO if the descriptor cannot be allocated.
 >
-> Describe the timing characteristics in the controller capability data
-> so the clock solver can select a rate permitted by the NAND SDR timings
-> and program valid delay fields. Keep the legacy A10 behavior unchanged.
->
-> Fixes: 88fd4e4deae8 ("mtd: rawnand: sunxi: Add support for H616 nand cont=
-roller")
+> Hardware testing on an H616 board with 2 KiB-page SLC NAND
+> confirmed that the descriptor path improves sustained read throughput.
 
-Cc: stable missing here
+I would be nice to show the output of a flash_speed -dc100 /dev/mtdX
+before and after.
 
 > Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-
-...
-
-> @@ -1667,16 +1681,35 @@ static int sunxi_nfc_hw_ecc_write_oob(struct nand=
-_chip *nand, int page)
->  	return nand_prog_page_end_op(nand);
+> ---
+>  drivers/mtd/nand/raw/sunxi_nand.c | 110 ++++++++++++++++++++++++++----
+>  1 file changed, 95 insertions(+), 15 deletions(-)
+>
+> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sun=
+xi_nand.c
+> index 02647565c8ba..8a136b9fa7cc 100644
+> --- a/drivers/mtd/nand/raw/sunxi_nand.c
+> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
+> @@ -79,6 +79,10 @@
+>  #define NFC_REG_H6_MDMA_BUF_ADDR 0x0210
+>  #define NFC_REG_H6_MDMA_CNT	0x0214
+>=20=20
+> +#define NFC_MDMA_DESC_LAST	BIT(2)
+> +#define NFC_MDMA_DESC_FIRST	BIT(3)
+> +#define NFC_MDMA_DESC_SIZE_MASK	GENMASK(15, 0)
+> +
+>  #define NFC_RAM0_BASE		0x0400
+>  #define NFC_RAM1_BASE		0x0800
+>=20=20
+> @@ -267,12 +271,19 @@ static inline struct sunxi_nand_chip *to_sunxi_nand=
+(struct nand_chip *nand)
+>  	return container_of(nand, struct sunxi_nand_chip, nand);
 >  }
 >=20=20
-> -static const s32 tWB_lut[] =3D {6, 12, 16, 20};
-> -static const s32 tRHW_lut[] =3D {4, 8, 12, 20};
-> +static const struct sunxi_nfc_timings sun4i_a10_nfc_timings =3D {
-> +	.setup_cycles =3D 1,
-> +	.tWB =3D { 6, 12, 16, 20 },
-> +	.tADL =3D { 7, 15, 23, 31 },
-> +	.tWHR =3D { 7, 15, 23, 31 },
-> +	.tRHW =3D { 4, 8, 12, 20 },
+> +struct sunxi_nfc_mdma_desc {
+> +	__le32 config;
+> +	__le32 size;
+> +	__le32 buf;
+> +	__le32 next;
 > +};
 
-This patch looks overall correct but must be split. For instance, the
-fact that you drop the LUT in favour of you own timing array shall be
-done in a preparation patch, without adding new timings, nor adding the
-new controller timings.
+Shouldn't this be declared __packed and possibly even __aligned?
 
-Then in a second time you could add tADL and tWHR support, etc.
+>  /*
+>   * NAND Controller capabilities structure: stores NAND controller capabi=
+lities
+>   * for distinction between compatible strings.
+>   *
+> - * @has_mdma:		Use mbus dma mode, otherwise general dma
+> - *			through MBUS on A23/A33 needs extra configuration.
+> + * @has_mdma:		Use A23/A33-style MBUS DMA registers
+> + * @has_mdma_desc:	MBUS DMA uses H6-style descriptors
+>   * @has_ecc_block_512:	If the ECC can handle 512B or only 1024B chunks
+>   * @has_ecc_clk:	If the controller needs an ECC clock.
+>   * @has_mbus_clk:	If the controller needs a mbus clock.
+> @@ -304,6 +315,7 @@ static inline struct sunxi_nand_chip *to_sunxi_nand(s=
+truct nand_chip *nand)
+>   */
+>  struct sunxi_nfc_caps {
+>  	bool has_mdma;
+> +	bool has_mdma_desc;
+>  	bool has_ecc_block_512;
+>  	bool has_ecc_clk;
+>  	bool has_mbus_clk;
+> @@ -346,6 +358,8 @@ struct sunxi_nfc_caps {
+>   *	   controller
+>   * @complete: a completion object used to wait for NAND controller events
+>   * @dmac: the DMA channel attached to the NAND controller
+> + * @mdma_desc: H6-style MBUS DMA descriptor
+> + * @mdma_desc_dma: DMA address of @mdma_desc
+>   * @caps: NAND Controller capabilities
+>   */
+>  struct sunxi_nfc {
+> @@ -362,6 +376,8 @@ struct sunxi_nfc {
+>  	struct list_head chips;
+>  	struct completion complete;
+>  	struct dma_chan *dmac;
+> +	struct sunxi_nfc_mdma_desc *mdma_desc;
+> +	dma_addr_t mdma_desc_dma;
+>  	const struct sunxi_nfc_caps *caps;
+>  };
+>=20=20
+> @@ -370,6 +386,11 @@ static inline struct sunxi_nfc *to_sunxi_nfc(struct =
+nand_controller *ctrl)
+>  	return container_of(ctrl, struct sunxi_nfc, controller);
+>  }
+>=20=20
+> +static bool sunxi_nfc_uses_mdma(const struct sunxi_nfc *nfc)
 
-> +
-> +static const struct sunxi_nfc_timings sun50i_h6_nfc_timings =3D {
-> +	.setup_cycles =3D 2,
-> +	.tWB =3D { 28, 44, 60, 76 },
-> +	.tADL =3D { 0, 12, 28, 44 },
-> +	.tWHR =3D { 0, 12, 28, 44 },
-> +	.tRHW =3D { 8, 24, 40, 56 },
-> +};
-> +
-> +static void sunxi_nand_update_min_period(u32 *min_period, u32 duration,
-> +					 unsigned int cycles)
+may I suggest sunxi_nfc_use_mdma?
+
 > +{
-> +	*min_period =3D max(*min_period, DIV_ROUND_UP(duration, cycles));
+> +	return nfc->caps->has_mdma || nfc->mdma_desc;
+
+I don't get the || there? What are you trying to check exactly?
+
 > +}
->=20=20
-> -static int _sunxi_nand_lookup_timing(const s32 *lut, int lut_size, u32 d=
-uration,
-> -		u32 clk_period)
-> +static int sunxi_nand_lookup_timing(const u8 *lut, u32 duration,
-> +				    u32 clk_period)
-
-This change is fine but likely also unrelated and should (maybe) be moved i=
-n its
-own commit.
-
+> +
+>  static irqreturn_t sunxi_nfc_interrupt(int irq, void *dev_id)
 >  {
->  	u32 clk_cycles =3D DIV_ROUND_UP(duration, clk_period);
->  	int i;
+>  	struct sunxi_nfc *nfc =3D dev_id;
+> @@ -466,7 +487,9 @@ static int sunxi_nfc_dma_op_prepare(struct sunxi_nfc =
+*nfc, const void *buf,
+>  {
+>  	struct dma_async_tx_descriptor *dmad;
+>  	enum dma_transfer_direction tdir;
+> +	dma_addr_t buf_dma;
+>  	dma_cookie_t dmat;
+> +	int len =3D chunksize * nchunks;
+>  	int ret;
 >=20=20
-> -	for (i =3D 0; i < lut_size; i++) {
-> +	for (i =3D 0; i < SUNXI_NFC_TIMING_STEPS; i++) {
->  		if (clk_cycles <=3D lut[i])
->  			return i;
->  	}
-
-...
-
-> @@ -1703,77 +1734,65 @@ static int sunxi_nfc_setup_interface(struct nand_=
-chip *nand, int csline,
->  		return -ENOTSUPP;
+>  	if (ddir =3D=3D DMA_FROM_DEVICE)
+> @@ -474,12 +497,21 @@ static int sunxi_nfc_dma_op_prepare(struct sunxi_nf=
+c *nfc, const void *buf,
+>  	else
+>  		tdir =3D DMA_MEM_TO_DEV;
 >=20=20
->  	/* T1 <=3D> tCLS */
-> -	if (timings->tCLS_min > min_clk_period)
-> -		min_clk_period =3D timings->tCLS_min;
-> +	sunxi_nand_update_min_period(&min_clk_period, timings->tCLS_min,
-> +				     nfc_timings->setup_cycles);
-
-I am not sure I get the added value of this helper?
-
+> -	sg_init_one(sg, buf, nchunks * chunksize);
+> +	sg_init_one(sg, buf, len);
+>  	ret =3D dma_map_sg(nfc->dev, sg, 1, ddir);
+>  	if (!ret)
+>  		return -ENOMEM;
 >=20=20
->  	/* T2 <=3D> tCLH */
-> -	if (timings->tCLH_min > min_clk_period)
-> -		min_clk_period =3D timings->tCLH_min;
-> +	sunxi_nand_update_min_period(&min_clk_period, timings->tCLH_min,
-> +				     nfc_timings->setup_cycles);
+> -	if (!nfc->caps->has_mdma) {
+> +	buf_dma =3D sg_dma_address(sg);
+> +
+> +	if (nfc->mdma_desc &&
+> +	    (len > NFC_MDMA_DESC_SIZE_MASK || !IS_ALIGNED(len, 8) ||
+> +	     !IS_ALIGNED(buf_dma, 4) || upper_32_bits(buf_dma))) {
+> +		ret =3D -EINVAL;
+> +		goto err_unmap_buf;
+> +	}
+> +
+> +	if (!sunxi_nfc_uses_mdma(nfc)) {
+>  		dmad =3D dmaengine_prep_slave_sg(nfc->dmac, sg, 1, tdir, DMA_CTRL_ACK);
+>  		if (!dmad) {
+>  			ret =3D -EINVAL;
+> @@ -489,14 +521,30 @@ static int sunxi_nfc_dma_op_prepare(struct sunxi_nf=
+c *nfc, const void *buf,
 >=20=20
+>  	writel(readl(nfc->regs + NFC_REG_CTL) | NFC_RAM_METHOD,
+>  	       nfc->regs + NFC_REG_CTL);
+> -	writel(nchunks, nfc->regs + NFC_REG_SECTOR_NUM);
+> +	writel(nfc->mdma_desc ? GENMASK(nchunks - 1, 0) : nchunks,
 
-...
+Very unclear, can this be simplified or at least explained?
 
+> +	       nfc->regs + NFC_REG_SECTOR_NUM);
+>  	writel(chunksize, nfc->regs + NFC_REG_CNT);
 >=20=20
->  static const struct sunxi_nfc_caps sunxi_nfc_h616_caps =3D {
-> @@ -2641,6 +2664,7 @@ static const struct sunxi_nfc_caps sunxi_nfc_h616_c=
-aps =3D {
->  	.nuser_data_tab =3D ARRAY_SIZE(sunxi_user_data_len_h6),
->  	.max_ecc_steps =3D 32,
->  	.sram_size =3D 8192,
-> +	.timings =3D &sun50i_h6_nfc_timings,
+> -	if (nfc->caps->has_mdma) {
+> +	if (sunxi_nfc_uses_mdma(nfc))
+>  		writel(readl(nfc->regs + NFC_REG_CTL) & ~NFC_DMA_TYPE_NORMAL,
+>  		       nfc->regs + NFC_REG_CTL);
+> -		writel(chunksize * nchunks, nfc->regs + NFC_REG_MDMA_CNT);
+> -		writel(sg_dma_address(sg), nfc->regs + NFC_REG_MDMA_ADDR);
+> +
+> +	if (nfc->mdma_desc) {
+> +		struct sunxi_nfc_mdma_desc *desc =3D nfc->mdma_desc;
+> +
+> +		desc->config =3D cpu_to_le32(NFC_MDMA_DESC_FIRST |
+> +					   NFC_MDMA_DESC_LAST);
+> +		desc->size =3D cpu_to_le32(len);
+> +		desc->buf =3D cpu_to_le32(lower_32_bits(buf_dma));
 
-And this should be the last change in your series.
+Does lower_32_bits() mean anything here since you already check for the
+upper bits before? This check may even be redundant given the fact that
+the addressing capability has already been set to 32 bits, so the
+dma_map* call would catch this anyway.
 
-BTW would it be relevant to align the various names ? (h6 timings in the
-h616 structure).
+> +		desc->next =3D cpu_to_le32(lower_32_bits(nfc->mdma_desc_dma));
+
+Ditto
+
+Plus, the endianness of the controller is little endian, so writel
+already does the endianness conversion if need be. cpu_to_le32() here
+seems irrelevant.
+
+> +
+> +		writel(BIT(0), nfc->regs + NFC_REG_H6_MDMA_STA);
+
+BIT(0) should be #define'd
+
+> +		dma_wmb();
+> +		writel(lower_32_bits(nfc->mdma_desc_dma),
+> +		       nfc->regs + NFC_REG_H6_MDMA_DLBA_REG);
+> +	} else if (nfc->caps->has_mdma) {
+> +		writel(len, nfc->regs + NFC_REG_MDMA_CNT);
+> +		writel(buf_dma, nfc->regs + NFC_REG_MDMA_ADDR);
+>  	} else {
+>  		dmat =3D dmaengine_submit(dmad);
+>=20=20
+> @@ -525,6 +573,14 @@ static void sunxi_nfc_dma_op_cleanup(struct sunxi_nf=
+c *nfc,
+>  	       nfc->regs + NFC_REG_CTL);
+>  }
+>=20=20
+> +static void sunxi_nfc_dma_op_abort(struct sunxi_nfc *nfc)
+> +{
+> +	if (nfc->mdma_desc)
+
+I would prefer to stick to the same condition all the time whether we
+are using peripheral dma (MDMA) or not.
+
+> +		sunxi_nfc_rst(nfc);
+> +	else if (!nfc->caps->has_mdma)
+
+Shouldn't this be a "else" here?
+
+> +		dmaengine_terminate_all(nfc->dmac);
+> +}
+> +
+>  static void sunxi_nfc_select_chip(struct nand_chip *nand, unsigned int c=
+s)
+>  {
+>  	struct mtd_info *mtd =3D nand_to_mtd(nand);
+> @@ -1202,7 +1258,7 @@ static int sunxi_nfc_hw_ecc_read_chunks_dma(struct =
+nand_chip *nand, uint8_t *buf
+>=20=20
+>  	wait =3D NFC_CMD_INT_FLAG;
+>=20=20
+> -	if (nfc->caps->has_mdma)
+> +	if (sunxi_nfc_uses_mdma(nfc))
+>  		wait |=3D NFC_DMA_INT_FLAG;
+>  	else
+>  		dma_async_issue_pending(nfc->dmac);
 
 Thanks,
 Miqu=C3=A8l
