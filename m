@@ -1,252 +1,143 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8BF2348C52
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jul 2026 15:38:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 049552F7F02;
+	Fri, 17 Jul 2026 15:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784302703; cv=none; b=UDIykbdtrwPWuzNWP3XDcXiuXU7G2qqvs88DoJV7SMw+OXP2XwIkqWTKyh0y6s/9iSlka8JNi2UStyyKhYN0QKUnsFZis/IXlWkUZNem7hHCxjxTZAuurZ8O9emmZ8WBUDC27CMN4LQ0dWDrrtGYuwKiIG7ZFiEabcX9tcsRpxU=
+	t=1784302807; cv=none; b=hTCfJvvB85O3RKJ0t4+d58UXQDrCJuNGeWCU9ldi5vGQXt44vcsxKVSh4WcF5XIj3eOZU5AfZgvU2PMrxlVyq9pibG99i/osXA0EwJUMX51eL2hC88XulkTw3nOnzRpk3Z2EyDRGaLTkoXYdRsK+KawG4ZCJU/1KHrhiJtA/G5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784302703; c=relaxed/simple;
-	bh=o05B1sznnG0EFm5f12G7gh70bDdeJZm8AZ8ddNvmIWk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=plUswcxJyaUlT3zclLeGk0o0y8v9F9W4vapUlU76V3MeaIuj5h9HiwI5VfNGLJabEX8FiOHxawMrfkHuwSwhZoCcUPk7wlf3DCfJ/+wEO1vGBhYvHD9u8llmSzNcIFNP8ivb0BZtKfqfhsum/YhWIqstDuJ11TB9QSpbTCSWdM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Ym4T26FG; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=AIikmyM/; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1784302807; c=relaxed/simple;
+	bh=vtK61xJMiEJMYpu7nNFrb6vw2/PWQ+Y0YGwGnBOhtsU=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=lU0xQDz3stiPyrr4TAYZo0zLSncRjolC7+hKx6rpEkwNBDJCnxVW7eUBqhVuBlPdgqgBHf5hkxqCTU8/xGZLOsGzkSN8BL9y0R0SnPBFh5D4AgtVGo2OasIW8RS13Ycvf5Y/gpsuNRtbPb5D3ljr2Rm9Ywnm0VBLpkorPLDVnfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WykY+3gH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ym4T26FG";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="AIikmyM/"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66HE9RMH2125393
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jul 2026 15:38:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=mU5plK4wOuXslrH5tzmT1Lzf
-	M6TA652cX7f9RNduBGg=; b=Ym4T26FGSboWTOc59JBr4POlPj3J+PuT82mbDSwY
-	XRzYDLR7OkRMjCjKvvmpRPZUEZNEZMcUJ1TZdM4i/OaecTGpd6cyft7WENJinH3I
-	tt+dg/pjeYGey+bAGfsUAHGHYuXb2P2XVE+y2CZlw+s3g6Hy/zxMT+dzsg7x9s5B
-	aEFFYNAT2NBk2//h4axm8Mdozm7fS+2wo7KaY/Zvpq078psWnAojwMnMNp90TaNv
-	f4rpRtOOsOiOi80JUSgnZflxbXIVULuHMQJnsoJ97l4BNPwX9SwsLB1iLasZBlsI
-	jxlOgKg2QlM/2l2jEprhcugzH/8XqpQggUULE2Sxb8hRsA==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ffe0utdmc-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jul 2026 15:38:15 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-38869800848so11959438a91.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 17 Jul 2026 08:38:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1784302695; x=1784907495; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=mU5plK4wOuXslrH5tzmT1LzfM6TA652cX7f9RNduBGg=;
-        b=AIikmyM/JPsdRgE8BzXgJ7Jgfj5l+XQKrlrX3J8AhIoFuy2Fly47LpbcD1q2Qk9WI3
-         JuDHgu2yopyy8mZwrLlM+GHyKe2TS2mxvY+67rR+wIc8TgyJkH+WSUPUr3/cH6P0KJKs
-         u7Rj3oBUdcEk4F3WMh7aHJrmQ2WPGlrerK6ciyC72DlUWHO4xobbZnD21Eu8ozAPNuvR
-         QkEI9LJUuOL8NyqrqTKPZSMUnDHhn7faOrpFgkOEGrg5RZkTQhuHo8YDXOKMsBw3I0Ck
-         p4HQEQOP98MXWWnAuPRrYp6CSzEUxAEJS16nyJ2NLqdp27Wm2dUrVHbdpyibS2gb+PhL
-         xvbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784302695; x=1784907495;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=mU5plK4wOuXslrH5tzmT1LzfM6TA652cX7f9RNduBGg=;
-        b=FjM79D2UQGRFRmElcgP+zT+mc0zco/eCLjnL8NesOl8kbEHmM+jyHjOyzA/w1HmZPi
-         pUpt/58/fVzgtnsi50cSAXFGIMgWGbTC6u37MrlrjrO9eOsiHAMvlQsjKSS1XFpFRSR7
-         ufRPidirJ3qTI9uKo4THKaStWVf+viwadu76/Aq+8Ksgk+vwc5f4Y157zpPCtnizmce7
-         VBTD+gwx5GAyX25MVvBigoL6u9R46HXVDKVYITlgh9Z+8g3zAV2Iy26slTa3E1AKQYr7
-         WeS8uGxJLR0Nts2FwnVg3zIcXLfrqy3M4CiD0mX0Gm8RBmRyvenVPVAIbQEH7snsljLC
-         CK0Q==
-X-Forwarded-Encrypted: i=1; AHgh+Rq3zUKNqoE/9VrU+be8/1//sxWblgdNZJxhnBveLfosNf0rzkZQmlISzyXEk1j7eXF11fH6FH8gcEdvhA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxb8IWnMwPjnSr29PZnQ3wszka+yk3IWs/EroRqfkNARGu3tA8B
-	9bROc0lS3q6+bpZhRLriX53LVcM5+3G2WRQEkRW9iLxQRXt4D16StOpy9Dy6o+cDepZ7oNLRnt8
-	G0xxQiByB2wtPYaPtifGGNe5cykWpq4JS8ze5MqCNqrOSptbp4e0gOPMFEIQRBUxuLg==
-X-Gm-Gg: AfdE7cno8o01dTaGrevfv9JJ3ITY9WwPzRkqgpzM7Z5khr7Yz5kYgxkz57ptiCs2p6N
-	k4IFePPZg7R3vHcLvT3AqBaJHyiTBgDChLe0EMrf4BNyhGXJDhIj7i0bwZ4SsQxoTS3myQgVrNr
-	ojgpX71OYw/OyqOQt8HAoKUZilCnds6UXPBRXQIRjGV9nyHjq6sijtA2svm2U0smrEbNRePapD8
-	PHj2XjafXrv0jnKUXakTi24AY4UGKoBjw+aP/BV4jly7odPWU92OPJep6I+s1n6i3GVajaSL/Rd
-	/46hjFiBr6tOiiAwZVaRBG7ZsgcC33JiHc9Zxssw4yUnOT7MqFLPrtoDbbOIKeKzieqSPNkWO3F
-	ibWy09N9Yb0jMGjmBtbTYwJclzT4=
-X-Received: by 2002:a17:90b:2684:b0:38d:f5bb:e0f4 with SMTP id 98e67ed59e1d1-38e4b3e1473mr3203797a91.1.1784302694235;
-        Fri, 17 Jul 2026 08:38:14 -0700 (PDT)
-X-Received: by 2002:a17:90b:2684:b0:38d:f5bb:e0f4 with SMTP id 98e67ed59e1d1-38e4b3e1473mr3203716a91.1.1784302693542;
-        Fri, 17 Jul 2026 08:38:13 -0700 (PDT)
-Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3142a1ddeb6sm10087302eec.20.2026.07.17.08.37.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2026 08:38:13 -0700 (PDT)
-Date: Fri, 17 Jul 2026 21:07:45 +0530
-From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@codeconstruct.com.au>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Paul Kocialkowski <paulk@sys-base.io>,
-        Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Alexey Brodkin <abrodkin@synopsys.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Michal Simek <michal.simek@amd.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Eddie James <eajames@linux.ibm.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>,
-        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Thierry Reding <thierry.reding@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Srinivas Kandagatla <srini@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ge Gordon <gordon.ge@bst.ai>, Adrian Hunter <adrian.hunter@intel.com>,
-        Ulf Hansson <ulfh@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Shengjiu Wang <shengjiu.wang@gmail.com>,
-        Xiubo Li <Xiubo.Lee@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-        Bard Liao <yung-chuan.liao@linux.intel.com>,
-        Daniel Baluta <daniel.baluta@nxp.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Peter Chen <peter.chen@cixtech.com>,
-        Fugang Duan <fugang.duan@cixtech.com>,
-        Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
-        BST Linux Kernel Upstream Group <bst-upstream@bstai.top>,
-        Fabio Estevam <festevam@gmail.com>,
-        Nicolin Chen <nicoleotsuka@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-        Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
-        openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
-        kernel@collabora.com, linux-tegra@vger.kernel.org,
-        linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        imx@lists.linux.dev, sound-open-firmware@alsa-project.org,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH 01/42] of: reserved_mem: Introduce devres-managed
- initialization functions
-Message-ID: <20260717153745.geqmmgm4o3j3vhom@hu-mojha-hyd.qualcomm.com>
-References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
- <20260703193855.110619-2-mukesh.ojha@oss.qualcomm.com>
- <20260716200048.GA1183026-robh@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WykY+3gH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 444E41F000E9;
+	Fri, 17 Jul 2026 15:40:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784302805;
+	bh=IYQbjKkcN5rEQRbPBCFllWyIyfp70MK4yhulBooLxg4=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=WykY+3gHfslwU5GtQrAMJOTSXnF10wxW2n6WXXNcIRNvl8whL6V8UPWLGgM156UGy
+	 pnTf3eZVH0F8Ci2WbI8xTz6JArKNK/d/iP8Uj/UzKNtKOnPsQ12qVaMs1uwraAEpXc
+	 BQO+NpSlF1Gw85lFZjXto9ZejKsXkyqYIfB1py1vOnRaCd3pUwlzZ241aK2IpFnlmQ
+	 jVofoh8jxZs0S/AFnTWQDWRoVecTxoJYP4k8dqlZJGn/FihqFACB0E/X59+ZaF9MYq
+	 OUgYBSsIKUSfrs3/Z3KaUrfksDyd8DveqwQdETZx1S4gc3owv2rAixolkzf3hvc0wt
+	 XW8VRkfHSEfpw==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v5 2/4] clk: sunxi-ng: div: add read-only operation
+ support
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Jerome Brunet" <jbrunet@baylibre.com>
+Cc: robh@kernel.org, linux-rtc@vger.kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, "Alexandre
+ Belloni" <alexandre.belloni@bootlin.com>
+In-Reply-To: <20260717-a733-rtc-v5-2-3874cc26abf7@baylibre.com>
+References: <20260717-a733-rtc-v5-0-3874cc26abf7@baylibre.com>
+ <20260717-a733-rtc-v5-2-3874cc26abf7@baylibre.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 17 Jul 2026 15:40:04 +0000
+Message-Id: <20260717154005.444E41F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260716200048.GA1183026-robh@kernel.org>
-X-Authority-Analysis: v=2.4 cv=deWwG3Xe c=1 sm=1 tr=0 ts=6a5a4c67 cx=c_pps
- a=vVfyC5vLCtgYJKYeQD43oA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=kj9zAlcOel0A:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=EUspDBNiAAAA:8 a=9JV1VVRos5_Q502CX78A:9 a=CjuIK1q_8ugA:10
- a=rl5im9kqc5Lf4LNbBjHf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE3MDE2MCBTYWx0ZWRfX3PPDE1UPWy3K
- 9xeC+7oyIgrGy7vhKHFI1W754ojQKAZr/5NILsfuqAw//VVEd+8OevBYJ1Km49yac2NfRgXNPKI
- t/M54Pu4mJHv1yRfg5PDDQa9uAGtl96qiK4x0K+wyST6xYhxotRVrb1iMD/+AS8ioMTqqgcQup4
- jl1EAUcyZ9Kw98lpLeD36WvxbFXwa4QASjbhOTsQIO3XBH6oHPJDsOxm79dqRLUU4ok1QHbcK7I
- SIXTNrKNJ6dxZW+AZiVsgbs/5KfmeG/iJFib8u/cIgNCb3ZmiOvlh5bPDxHib+OwiuYrgGPcoH4
- PmpoITsmxgxodH+iqIjP0qtVaKRHDqJ8Jn0AOPlRlr5Fh5OvyzFIDVL1MKf/EyG7f+lguMmEUKy
- f5jKPiMZdfIynctlNQ1I5UTM5ZEgT8wIwfRYAXqYMTRSbjKU7e6gDDBRLhbPdSL8wI9WC3faXTs
- 2KQdQ+c6ISjGQ4/y+LA==
-X-Proofpoint-ORIG-GUID: UNTCYX4Fz4jc-abz8i9R0PSv4oQAuJwJ
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE3MDE2MCBTYWx0ZWRfX1UwdesUEwosi
- +vZjxg2LD7qB04QNZz0l8u7vnH+5iT3lJW+cIGAcSZOP2O+1mmGfBT1KCWqgJXI8x8jmvigof/Y
- cxNQKwCAm2qt83JCTlHkTqHhgF7h1aY=
-X-Proofpoint-GUID: UNTCYX4Fz4jc-abz8i9R0PSv4oQAuJwJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-17_04,2026-07-17_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
- lowpriorityscore=0 adultscore=0 phishscore=0 impostorscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607170160
 
-On Thu, Jul 16, 2026 at 03:00:48PM -0500, Rob Herring wrote:
-> On Sat, Jul 04, 2026 at 01:08:14AM +0530, Mukesh Ojha wrote:
-> > From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> > 
-> > Introduce devres-based helpers for of_reserved_mem_device_init(_by_idx)
-> > to help fight dangling references and ever so slightly reduce the
-> > number of boilerplate deinitialization calls.
-> > 
-> > Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> > Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-> > ---
-> >  drivers/of/of_reserved_mem.c    | 41 +++++++++++++++++++++++++++++++++
-> >  include/linux/of_reserved_mem.h | 25 ++++++++++++++++++++
-> >  2 files changed, 66 insertions(+)
-> > 
-> > diff --git a/drivers/of/of_reserved_mem.c b/drivers/of/of_reserved_mem.c
-> > index 82222bd45ac6..b35541e9fbe8 100644
-> > --- a/drivers/of/of_reserved_mem.c
-> > +++ b/drivers/of/of_reserved_mem.c
-> > @@ -787,6 +787,47 @@ void of_reserved_mem_device_release(struct device *dev)
-> >  }
-> >  EXPORT_SYMBOL_GPL(of_reserved_mem_device_release);
-> >  
-> > +static void devm_of_reserved_mem_device_release(struct device *dev, void *res)
-> > +{
-> > +	of_reserved_mem_device_release(*(struct device **)res);
-> > +}
-> > +
-> > +/**
-> > + * devm_of_reserved_mem_device_init_by_idx() - Resource managed of_reserved_mem_device_init_by_idx()
-> > + * @dev: Pointer to the device to configure
-> > + * @np: Pointer to the device node with 'memory-region' property
-> > + * @idx: Index of selected region
-> > + *
-> > + * This is a resource managed version of of_reserved_mem_device_init_by_idx().
-> > + * The reserved memory region will be released automatically when the device
-> > + * is unbound.
-> > + *
-> > + * Returns: Negative errno on failure or zero on success.
-> > + */
-> > +int devm_of_reserved_mem_device_init_by_idx(struct device *dev,
-> > +					    struct device_node *np, int idx)
-> 
-> It looks to me like the only 2? users of this could be converted to 
-> devm_of_reserved_mem_device_init() instead. The mmc one obviously can. 
-> The imx one depends if np is dev->of_node. I'm not a fan of APIs with 
-> only a few users.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
 
-You are right, mmc can be but imx can't. I can make this static and drop
-the API usage from imx but fix the leak by release function.
+New issues:
+- [High] Missing `.set_parent` in `ccu_rodiv_ops` leads to silent software-=
+hardware clock tree desynchronization during reparenting.
 
--- 
--Mukesh Ojha
+Pre-existing issues:
+- [High] Unvalidated hardware register read passed to `divider_ro_determine=
+_rate()` can cause a divide-by-zero kernel panic.
+--
+
+--- Patch [2]: [PATCH v5 2/4] clk: sunxi-ng: div: add read-only operation s=
+upport ---
+commit d732b1bc291c593bb4873ef5f04edb2855137f30
+Author: Jerome Brunet <jbrunet@baylibre.com>
+
+clk: sunxi-ng: div: add read-only operation support
+
+This commit adds support for read-only dividers in the sunxi-ng clock
+driver. It introduces a new ccu_rodiv_ops structure and updates the rate
+determination helper to handle the read-only flag.
+
+> diff --git a/drivers/clk/sunxi-ng/ccu_div.c b/drivers/clk/sunxi-ng/ccu_di=
+v.c
+> index 62d680ccb524b..93cb4cb93abe8 100644
+> --- a/drivers/clk/sunxi-ng/ccu_div.c
+> +++ b/drivers/clk/sunxi-ng/ccu_div.c
+> @@ -20,8 +20,22 @@ static int ccu_div_determine_rate_helper(struct ccu_mu=
+x_internal *mux,
+>  	if (cd->common.features & CCU_FEATURE_FIXED_POSTDIV)
+>  		req->rate *=3D cd->fixed_post_div;
+> =20
+> -	ret =3D divider_determine_rate(&cd->common.hw, req, cd->div.table,
+> -				     cd->div.width, cd->div.flags);
+> +	if (cd->div.flags & CLK_DIVIDER_READ_ONLY) {
+> +		unsigned long val;
+> +		u32 reg;
+> +
+> +		reg =3D readl(cd->common.base + cd->common.reg);
+> +		val =3D reg >> cd->div.shift;
+> +		val &=3D (1 << cd->div.width) - 1;
+> +
+> +		ret =3D divider_ro_determine_rate(&cd->common.hw, req, cd->div.table,
+> +						cd->div.width, cd->div.flags, val);
+
+[Severity: High]
+This is a pre-existing issue, but could this unvalidated register read caus=
+e=20
+a divide-by-zero kernel panic?
+
+In ccu_div_determine_rate_helper(), the raw register value is read and
+passed as 'val' to divider_ro_determine_rate(). If the register contains
+an unexpected value from the bootloader (or 0 when CLK_DIVIDER_ONE_BASED
+is set) that _get_div() maps to 0, divider_ro_determine_rate() lacks a=20
+zero-check before calculating:
+
+    req->rate =3D DIV_ROUND_UP_ULL((u64)req->best_parent_rate, div);
+
+> +
+> +	} else {
+
+[ ... ]
+
+> @@ -143,3 +157,15 @@ const struct clk_ops ccu_div_ops =3D {
+>  	.set_rate	=3D ccu_div_set_rate,
+>  };
+>  EXPORT_SYMBOL_NS_GPL(ccu_div_ops, "SUNXI_CCU");
+> +
+> +const struct clk_ops ccu_rodiv_ops =3D {
+> +	.disable	=3D ccu_div_disable,
+> +	.enable		=3D ccu_div_enable,
+> +	.is_enabled	=3D ccu_div_is_enabled,
+> +
+> +	.get_parent	=3D ccu_div_get_parent,
+> +
+> +	.determine_rate	=3D ccu_div_determine_rate,
+> +	.recalc_rate	=3D ccu_div_recalc_rate,
+> +};
+
+[Severity: High]
+Could the missing .set_parent callback in ccu_rodiv_ops lead to a silent
+desynchronization between the software clock tree and the hardware?
+
+The struct provides reparenting capabilities via .get_parent and
+.determine_rate, but omits .set_parent. If a rate request causes
+ccu_mux_helper_determine_rate() to evaluate and select a new parent, the
+Common Clock Framework will apply this new parent in software but skip
+updating the hardware since .set_parent is NULL.=20
+
+This would leave all downstream clock rate calculations incorrect.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260717-a733-rtc-v=
+5-0-3874cc26abf7@baylibre.com?part=3D2
