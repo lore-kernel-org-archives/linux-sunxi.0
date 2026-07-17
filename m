@@ -1,198 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8453BD225
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jul 2026 08:13:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519872BE053;
+	Fri, 17 Jul 2026 08:49:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784276038; cv=none; b=TDO4yWcgMm73G5MLuxf61T6sNdFxcf0EWlfxKKICN06N4Y5nohn+ZyKFVOey8iSD0aSl27mS3T+dvVsCGuY8CtMb/lahWGT7lbxO3iHCB+bWcHL2JDWVv14Bp8hHAMifbS2sXXLLJa42yXvGDivTJuZqd2Tp7cm/lfKpaV7x/0U=
+	t=1784278191; cv=none; b=qCH4B4w6EdQb+KxfD7/CjV+UYKMs0usAnFTSxaxS3WIHu6thrarjVzGW/HgEzZazk8PO6xJhwV/+bxSNrbOm2Xd8XZkGHumt2NxT2hBHEtgSv29BEknlVpV55GttszYXWs1l+NlLHkolN8PqI+nZlNsebIxrx2BJgrrF+6rmfNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784276038; c=relaxed/simple;
-	bh=iT4wG1YB4blXGPex3Ukinm21Nz6x/DOnzgdDV8MPank=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=TzO9aFCT1vB492BFz6c+3bQAEeGjxAxKh05uTWZJY3cLiynRkZ8mggY6+IkznozMrn7xMV8aeDFfxGvpQqUo0ImBuvwjn0cheE/2R6iROxkRanhQhkOPH5EnZhhWzenHBRjUPdUkwoGYsxqJaxQbBO8Zon2nRxEqgTkRdJ1Fcgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jpfWpebi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784278191; c=relaxed/simple;
+	bh=M1qHWhMJ2vTUy5BaEKWWqgRYUs/aNH/eQfrqWMcPPLY=;
+	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=eH/L8fBv2DLKWO80w/y2Y006PiOyCg/qeObixFOGqUYS8OPH2xmX1RX4DSZMlCKSpVnea53tf7iRL72w77ZVKxXie/G8UfGzswgehnDr87VKJRw71LQKtAr13Ljo0nxI+Ul49YxSTWjukzp4ynZY+wsyjZ+b2QyRlrSomVXoNaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DgFeC5GL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jpfWpebi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30D281F000E9;
-	Fri, 17 Jul 2026 08:13:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DgFeC5GL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 114FB1F000E9;
+	Fri, 17 Jul 2026 08:49:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784276036;
-	bh=dQl6icEd3g9uZf+UF63+RohjrLLE9pZJX5KvA1F2StU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=jpfWpebiH6efenczdf2cIaJYWgiM2o1OfYAYVsOvy819HaiZ9BA4WtO2459tQWshH
-	 RcRPO274NXM2N4REUHBDCstw6Z7GPiQrhJa2FB+NdD0VoeAILO0ONukDF6lzv6NeAE
-	 7d3GBnGbX1NCw/YG8qyoZT0UrSDfYdRCQrd5tJhhxlD9IYkfLekl+GmYUXXyt56cqQ
-	 mKTJTUayrODKifhFKJd1NfLH5GVdedjOgLoGjnpCoKHiOkpaOOuTzgvvaUuHxfzpoU
-	 W+NYKLPjDkVrjrLWMubmvukY/Ti3mL/PpjZgkgYqk30p7k9tL6MN9V2zGyoa8kzNK9
-	 vM/y4iY2WR7KA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 01/12] crypto: allwinner - Remove redundant dev_err()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Pan Chuang" <panchuang@vivo.com>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260717080045.191538-2-panchuang@vivo.com>
-References: <20260717080045.191538-1-panchuang@vivo.com>
- <20260717080045.191538-2-panchuang@vivo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 17 Jul 2026 08:13:55 +0000
-Message-Id: <20260717081356.30D281F000E9@smtp.kernel.org>
+	s=k20260515; t=1784278189;
+	bh=cYuZ+CRFk03hiWJ0HC3KigHuxua0YjUKs+2Dja/OrBg=;
+	h=Date:From:To:Subject:In-Reply-To:References:Cc;
+	b=DgFeC5GLqSzOP+GCjhyeXf5hR/vY/98UPz4EyHLu+56RxHNeDjfoHFTij4I7lYsu+
+	 a6JlhCp2Q5K0vqIDiJ87VcMZqSobvY1akK3ZofSCKuk8Pi680uGfRIO9r2GtHepbn4
+	 KlTySY//ivAWf8NMV0pVuEWNG4M1GOTk3L+WEo9JaJ3k26eDKyUY3vl2uTk0L0PnIR
+	 CZvJjJXDCJjqHRtvo5pJPug5oG+hgcNp2R7Oww0gcS5n0etHt2gvNuAxHvrbBw1GOv
+	 p7FjL7idnh/4PoMwLgvJ+TOJ/+5fblnzGrSw2UXOgaM1hS2L5Rs5x2aaU8ODu5yMbU
+	 cKwvVjEbSxgpA==
+Message-ID: <505844fbd2c5c8ab07153348d20b708c@kernel.org>
+Date: Fri, 17 Jul 2026 08:49:45 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Albert Esteve" <aesteve@redhat.com>
+Subject: Re: [PATCH v2 3/5] drm/panel: of_drm_find_panel() return a counted
+ reference
+In-Reply-To: <20260713-drm_refcount_wiring-v2-3-d3bb61f4bd4d@redhat.com>
+References: <20260713-drm_refcount_wiring-v2-3-d3bb61f4bd4d@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, "Alain
+ Volmat" <alain.volmat@foss.st.com>, "Alexandre Torgue" <alexandre.torgue@foss.st.com>, "Alim
+ Akhtar" <alim.akhtar@samsung.com>, "Alison Wang" <alison.wang@nxp.com>, "Andrzej
+ Hajda" <andrzej.hajda@intel.com>, "Andy Yan" <andy.yan@rock-chips.com>, "Biju
+ Das" <biju.das.jz@bp.renesas.com>, "Chen-Yu Tsai" <wens@kernel.org>, "David
+ Airlie" <airlied@gmail.com>, "Fabio Estevam" <festevam@gmail.com>, "Frank
+ Li" <Frank.Li@nxp.com>, "Geert Uytterhoeven" <geert+renesas@glider.be>,
+ =?utf-8?b?SGVpa28gU3TDvGJuZXI=?= <heiko@sntech.de>, "Inki Dae" <inki.dae@samsung.com>, "Jagan
+ Teki" <jagan@amarulasolutions.com>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Jessica
+ Zhang" <jesszhan0024@gmail.com>, "Jingoo Han" <jingoohan1@gmail.com>, "Jonas
+ Karlman" <jonas@kwiboo.se>, "Jonathan Hunter" <jonathanh@nvidia.com>, "Jyri
+ Sarha" <jyri.sarha@iki.fi>, "Kieran Bingham" <kieran.bingham+renesas@ideasonboard.com>, "Krzysztof
+ Kozlowski" <krzk@kernel.org>, "Kyungmin Park" <kyungmin.park@samsung.com>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Laurent Pinchart" <laurent.pinchart+renesas@ideasonboard.com>, "Laurentiu
+ Palcu" <laurentiu.palcu@oss.nxp.com>, "Linus Walleij" <linusw@kernel.org>, "Luca
+ Ceresoli" <luca.ceresoli@bootlin.com>, "Lucas Stach" <l.stach@pengutronix.de>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Magnus Damm" <magnus.damm@gmail.com>, "Marek
+ Szyprowski" <m.szyprowski@samsung.com>, "Marek Vasut" <marex@denx.de>, "Maxime
+ Coquelin" <mcoquelin.stm32@gmail.com>, "Maxime Ripard" <mripard@kernel.org>, "Mikko
+ Perttunen" <mperttunen@nvidia.com>, "Neil Armstrong" <neil.armstrong@linaro.org>, "Paul
+ Cercueil" <paul@crapouillou.net>, "Paul Kocialkowski" <paulk@sys-base.io>, "Pengutronix
+ Kernel Team" <kernel@pengutronix.de>, "Peter Griffin" <peter.griffin@linaro.org>, "Philippe
+ Cornu" <philippe.cornu@foss.st.com>, "Raphael Gallais-Pou" <raphael.gallais-pou@foss.st.com>, "Raphael
+ Gallais-Pou" <rgallaispou@gmail.com>, "Robert Foss" <rfoss@kernel.org>, "Samuel
+ Holland" <samuel@sholland.org>, "Sandy Huang" <hjc@rock-chips.com>, "Sascha
+ Hauer" <s.hauer@pengutronix.de>, "Seung-Woo Kim" <sw0312.kim@samsung.com>, "Simona
+ Vetter" <simona@ffwll.ch>, "Stefan Agner" <stefan@agner.ch>, "Thierry
+ Reding" <thierry.reding@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "Tomi
+ Valkeinen" <tomi.valkeinen@ideasonboard.com>, "Yannick Fertre" <yannick.fertre@foss.st.com>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
+On Mon, 13 Jul 2026 13:53:06 +0200, Albert Esteve wrote:
+> Callers of of_drm_find_panel() receive a pointer with no reference
+> held, creating a window where the panel device can be unregistered
+> and freed between the lookup and first use (e.g., drm_panel_prepare()).
+> 
+> Fix the lookup function by acquiring a reference with drm_panel_get()
+> 
+> [ ... ]
 
-Pre-existing issues:
-- [High] Uninitialized list dereference (kernel panic) due to ignored TRNG =
-registration failure.
-- [High] List corruption and kernel panic due to dangling pointers in globa=
-l algorithm arrays during failed re-binds.
---
+Acked-by: Maxime Ripard <mripard@kernel.org>
 
---- Patch [1]: [PATCH 01/12] crypto: allwinner - Remove redundant dev_err()=
- ---
-commit 19d9808368b2fa17e987058da2afc72772963840
-Author: Pan Chuang <panchuang@vivo.com>
-Subject: crypto: allwinner - Remove redundant dev_err()
-
-This patch removes redundant driver-specific dev_err() messages after
-devm_request_irq() calls. Since commit 55b48e23f5c4, devm_request_irq()
-automatically logs detailed error messages on failure, making these
-additional prints unnecessary.
-
-> diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c b/drivers/=
-crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-> index f3b58ed6aed0d..a1cc59a2ce3f7 100644
-> --- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-> +++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-> @@ -1039,10 +1039,8 @@ static int sun8i_ce_probe(struct platform_device *=
-pdev)
-> =20
->  	err =3D devm_request_irq(&pdev->dev, irq, ce_irq_handler, 0,
->  			       "sun8i-ce-ns", ce);
-> -	if (err) {
-> -		dev_err(ce->dev, "Cannot request CryptoEngine Non-secure IRQ (err=3D%d=
-)\n", err);
-> +	if (err)
->  		goto error_pm;
-> -	}
-> =20
->  	err =3D sun8i_ce_register_algs(ce);
->  	if (err)
-
-[Severity: High]
-This is a pre-existing issue, but does probe proceed successfully even if
-hardware RNG registration fails?
-
-A bit further down in sun8i_ce_probe() in
-drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c, the return value of
-sun8i_ce_hwrng_register() is ignored:
-
-#ifdef CONFIG_CRYPTO_DEV_SUN8I_CE_TRNG
-	sun8i_ce_hwrng_register(ce);
-#endif
-
-If registration fails (e.g., due to a duplicate name via -EEXIST from a
-mock device, or sysfs unbind/bind races), probe proceeds. Later, upon
-unbinding or module removal, sun8i_ce_remove() unconditionally calls
-sun8i_ce_hwrng_unregister() which triggers:
-
-drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c:sun8i_ce_hwrng_unregister=
-() {
-    ...
-	if (ce->variant->trng =3D=3D CE_ID_NOTSUPP)
-		return;
-	hwrng_unregister(&ce->trng);
-    ...
-}
-
-Because the device was never successfully added to the core list, its
-list_head remains zero-initialized (from devm_kzalloc). Calling
-hwrng_unregister() executes list_del(), which attempts to dereference the
-NULL prev and next pointers, causing an immediate kernel oops.
-
-Could the return value of sun8i_ce_hwrng_register() be checked and handled
-appropriately?
-
-[Severity: High]
-This is another pre-existing issue, but does sun8i_ce_unregister_algs()
-leave dangling pointers in the global ce_algs array?
-
-When algorithms are unregistered, the device instance pointers are not
-cleared:
-
-drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c:sun8i_ce_unregister_algs(=
-) {
-    ...
-		case CRYPTO_ALG_TYPE_SKCIPHER:
-			dev_info(ce->dev, "Unregister %d %s\n", i,
-				 ce_algs[i].alg.skcipher.base.base.cra_name);
-			crypto_engine_unregister_skcipher(&ce_algs[i].alg.skcipher);
-			break;
-    ...
-}
-
-If a device is successfully bound and then unbound, these global arrays are
-left with dangling pointers to the freed device structure. On a subsequent
-probe of the device, if algorithm registration fails partway through (such
-as if sun8i_ce_register_algs() fails as seen in the diff context above),
-the error path calls the unregister function.
-
-The loop sees the dangling pointers from the previous successful bind and
-attempts to call crypto_engine_unregister_skcipher() on them again. This
-causes a double-unregister of the same algorithm template, resulting in
-list corruption.
-
-Could ce_algs[i].ce be set to NULL after unregistering each algorithm?
-
-> diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c b/drivers/=
-crypto/allwinner/sun8i-ss/sun8i-ss-core.c
-> index 59c9bc45ec0f2..c994e023afbc4 100644
-> --- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
-> +++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
-> @@ -869,10 +869,8 @@ static int sun8i_ss_probe(struct platform_device *pd=
-ev)
->  		goto error_pm;
-> =20
->  	err =3D devm_request_irq(&pdev->dev, irq, ss_irq_handler, 0, "sun8i-ss"=
-, ss);
-> -	if (err) {
-> -		dev_err(ss->dev, "Cannot request SecuritySystem IRQ (err=3D%d)\n", err=
-);
-> +	if (err)
->  		goto error_irq;
-> -	}
-> =20
->  	err =3D sun8i_ss_register_algs(ss);
->  	if (err)
-
-[Severity: High]
-This is a pre-existing issue, but similar to the sun8i-ce driver above,
-can sun8i_ss_unregister_algs() cause a double-free?
-
-drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c:sun8i_ss_unregister_algs(=
-) {
-    ...
-		case CRYPTO_ALG_TYPE_SKCIPHER:
-			dev_info(ss->dev, "Unregister %d %s\n", i,
-				 ss_algs[i].alg.skcipher.base.base.cra_name);
-			crypto_engine_unregister_skcipher(&ss_algs[i].alg.skcipher);
-			break;
-    ...
-}
-
-Failing to clear ss_algs[i].ss to NULL after unregistering the algorithm
-leaves a dangling pointer for future probes, which can lead to list
-corruption and a double-free in the crypto core during failed re-binds.
-
-Could ss_algs[i].ss be set to NULL after unregistering each algorithm here
-as well?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260717080045.1915=
-38-1-panchuang@vivo.com?part=3D1
+Thanks!
+Maxime
