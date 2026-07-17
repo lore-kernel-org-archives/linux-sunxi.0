@@ -1,145 +1,184 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65FE33F4102
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jul 2026 11:26:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BD83F7A82
+	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jul 2026 11:55:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784287593; cv=none; b=Is+ehQEMq0fyyc/QPhUYi0XKU+nRT8XfT4Id1F+d5y9StZctQMWoiei7+h2Lg0F0oBA7dnxlEke19gTvxi6RjPbFel9xmiFKZ1J8A/AiLHCML5LiiQ5BgJrpyDCOv3ZqIrlVCGAsbR2z/SOMvZFA0XEMohmuMLFumppZKV9Pxms=
+	t=1784289341; cv=none; b=gierRotAgfkVl+UYiCglMKbZEX4Bb3+xKZPBSUVT4edv6lcb90oaegOUUVgh79AXh9I8isaHaGXWWfauEpbcqDrTnWphl3JSve/UpcGjmWP8JWsin2xP0pqFtppAyabmWOxMAas6aBSXxBSwNy8AkJWDcgJYzym9g0yVcTGOmOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784287593; c=relaxed/simple;
-	bh=vXe76W/8pIhJ+QV+npP2Pr4GqXg7ylW2+hZyFUAZkxo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Zl1/8xZBnYA0LGd1aVROEWadVAp+4n4TNvHlgdLL5L5VHwTRuW0RiOAWw9RwbkV0gS0vKveT6IO/m64d7gZYikvUKiJFXXcomURX98rD0FLMCBgYylc2yZo24OOj+s4/VOLHAfDlkBOvKMQ31P4lMX8zfzuGbEWKvDPxV41Bf54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Tz9KiGH4; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1784289341; c=relaxed/simple;
+	bh=9VNl3kwPKsiIRaWbFIJIf/bZWRu6H8ArKCkTG27eOHQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=hhgTNeSckv1Kg3KALxgX3sjpKzaZOYRSbqNUntwANPKlM/oqam6MLpBiJ1yLpdrEfCU+iph8BxvGGmrp9DOm4qvnbS2dlbuH0yjTdJXfdZoMBl9P1N1HvjfiPTD+TKJXj/5chgYIpGZWzv6xjTlUL+226qMAwukElrcN3nyLMnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=yXXP7Pva; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Tz9KiGH4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784287580;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vXe76W/8pIhJ+QV+npP2Pr4GqXg7ylW2+hZyFUAZkxo=;
-	b=Tz9KiGH4CJ5ECbcCYm4nFLCj8efZERxj7BXNRFSfpbno92VhNRMXPMEQg7BwGL36dL9YYy
-	3AthkD1ewJ9M7cqus5Rx5tf5ElYXcXnBJvFz5TgL1nEfbZEWuBIQZKbI/eJogiWxz5d89M
-	SO0RiJe7uTolVO30jPs+uZEd6SDEfYM=
-Received: from mail-yx1-f70.google.com (mail-yx1-f70.google.com
- [74.125.224.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-557-aUhA17pzPr2KBTHB_fay2g-1; Fri, 17 Jul 2026 07:26:18 -0400
-X-MC-Unique: aUhA17pzPr2KBTHB_fay2g-1
-X-Mimecast-MFC-AGG-ID: aUhA17pzPr2KBTHB_fay2g_1784287578
-Received: by mail-yx1-f70.google.com with SMTP id 956f58d0204a3-66807ba1ce8so4228148d50.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 17 Jul 2026 04:26:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784287578; x=1784892378;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vXe76W/8pIhJ+QV+npP2Pr4GqXg7ylW2+hZyFUAZkxo=;
-        b=g6v9FNWFhU7cziPDoKy/DMD5IC1ybAeUpud6XFSLv+OTHW7LtiWEO1HwKHdXUaKcwb
-         mem1PWizPSpOg4N9AxlMGnJ2qaqgVXZmqu9QbaLrtwzwgsogvHaoWKM821mDSnxeMRJp
-         qcEPcFW4SGZaHPZDTHN60/yeia5MclhpqX8v93XBznJ7p+9qvsMMHi90ETOZ0/5TiCqd
-         DSCz3lpwfgXI/CniQyL20xCMufaJ/U94ZoRNQww2UpSnwPLqNDiXEr1LsofpEc/+t9zT
-         /EBZSf7uHEPBlPkjc+763VIO4/B6b8g+BDTHHXdwOFiER5TcgJh5gYq+88IpILFAI1Tj
-         1oxA==
-X-Forwarded-Encrypted: i=1; AHgh+RpJSYgEeUgCp7eAm/pW2lGqvvAqtFm7eSNdphD5aG4dBsaDMhF/EQQmrgxX0qH66+8eqwfGHWgIxc9+aA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyAW6MbvK9JjfMLwdExrVLyPq7iQ8yiiffx7Uiv/AGYgIv1vEoI
-	sv9rSdThrnl1R+wbXVZZsjymN0Ms1sP3q954jR7XI9Qg9+eBbCS35pvOjo+EKm71DLmVOpFkJt+
-	MZ9qnPE3zmL1lD+ZFnOyhOTcsvJHuf3Kt8LtelHrOJYHmzjer3nDPVP+zPxTHBtsUTUL3WCcXKY
-	GC4VaKuLEbhkOzXT/61i6utoLaxP+vSiwlRT/3RYQ=
-X-Gm-Gg: AfdE7cmmFGbxACvLJJNYkXcsJ4PdGSumtv8/i/eV+zKy65bQ2+ko/oG7jLmfmmcMOM+
-	1t+FR0KIJp5WqQi/E8M6s81OmNg5hnuSJLKVj0RlG0Bzyi5ucH5KO+oRebP0V+bTs+pLfUFTh7w
-	p2qKvVBia7ne6M8iI9eLCS64GiiMSpd7z/yv9GtfLQXZ419FpnIvHAijWM
-X-Received: by 2002:a05:690e:43cb:b0:668:43ce:50e4 with SMTP id 956f58d0204a3-66843ce511emr36179d50.53.1784287577987;
-        Fri, 17 Jul 2026 04:26:17 -0700 (PDT)
-X-Received: by 2002:a05:690e:43cb:b0:668:43ce:50e4 with SMTP id
- 956f58d0204a3-66843ce511emr36162d50.53.1784287577611; Fri, 17 Jul 2026
- 04:26:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="yXXP7Pva"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id EA9BF1A1055;
+	Fri, 17 Jul 2026 11:55:33 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B542860361;
+	Fri, 17 Jul 2026 11:55:33 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D107811BD013E;
+	Fri, 17 Jul 2026 13:55:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1784289332; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=olb07j+R4KRuYDDsVWwKXD1OEB5dTfTfM1jnrVire4o=;
+	b=yXXP7Pval4WDA/Rcwb+NuWA918Ql9SeQC53coAvcqFKI2q+nVCeCIPdGvZXsQK/cgmJwXu
+	rxnEETip2qaGBb3miTiLJf4GlRcxIEarrHbRcUe6Wg7JqOuvahWSb/9V5GpX/fUkgky0Mj
+	v49VDKAKy5ybZzFxAZTCgNTpj0kSz60ad2VmLEmVRMo+bN2pNuwl2RVKyLZ6QNfW9t3ZB7
+	OqAOjpLEkOCC+pE1qDa4MSZbEtOzaYyUutJQVVflfgOtkrDedwXov4HTmK70CLjiXbDRH7
+	llX5muQWl4ULLMzwqT/e0OaHceTR2WyHA2sd9kosxCUBYJi04OTD724YsF0LEQ==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: James Hilliard <james.hilliard1@gmail.com>
+Cc: linux-mtd@lists.infradead.org,  linux-sunxi@lists.linux.dev,  Richard
+ Weinberger <richard@nod.at>,  Vignesh Raghavendra <vigneshr@ti.com>,
+  Chen-Yu Tsai <wens@kernel.org>,  Jernej Skrabec
+ <jernej.skrabec@gmail.com>,  Samuel Holland <samuel@sholland.org>,
+  Richard Genoud <richard.genoud@bootlin.com>,  Geert Uytterhoeven
+ <geert+renesas@glider.be>,  linux-arm-kernel@lists.infradead.org,
+  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mtd: rawnand: sunxi: fix H6/H616 controller timings
+In-Reply-To: <20260715013142.640977-1-james.hilliard1@gmail.com> (James
+	Hilliard's message of "Tue, 14 Jul 2026 19:31:38 -0600")
+References: <20260715013142.640977-1-james.hilliard1@gmail.com>
+User-Agent: mu4e 1.12.7; emacs 30.2
+Date: Fri, 17 Jul 2026 13:55:29 +0200
+Message-ID: <87a4rpkez2.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260713-drm_refcount_wiring-v2-0-d3bb61f4bd4d@redhat.com>
- <20260713-drm_refcount_wiring-v2-5-d3bb61f4bd4d@redhat.com> <20260717-heavenly-peach-guan-82f0f1@houat>
-In-Reply-To: <20260717-heavenly-peach-guan-82f0f1@houat>
-From: Albert Esteve <aesteve@redhat.com>
-Date: Fri, 17 Jul 2026 13:26:06 +0200
-X-Gm-Features: AUfX_my0X2LQ6M_jKeRcxy0r6pG-sYFIFgqEmiZmXcdV57T8jjudIQuMMnSFyJg
-Message-ID: <CADSE00+7=2ph4kRQLc7_MFbp_SSt3eYz-bBxWcfCj6_oFPjwFA@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] drm: release panel reference after panel bridge creation
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <jesszhan0024@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, 
-	Lucas Stach <l.stach@pengutronix.de>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
-	Linus Walleij <linusw@kernel.org>, Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, Sandy Huang <hjc@rock-chips.com>, 
-	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
-	Andy Yan <andy.yan@rock-chips.com>, Yannick Fertre <yannick.fertre@foss.st.com>, 
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
-	Philippe Cornu <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Jyri Sarha <jyri.sarha@iki.fi>, 
-	Jingoo Han <jingoohan1@gmail.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
-	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Peter Griffin <peter.griffin@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Alison Wang <alison.wang@nxp.com>, Paul Kocialkowski <paulk@sys-base.io>, 
-	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
-	Thierry Reding <thierry.reding@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
-	linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Uujp25DLuHfcE9oGP8JXfyIKBejatZsQKF63kQv6ZJQ_1784287578
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Fri, Jul 17, 2026 at 10:56=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
- wrote:
+Hello James,
+
+On 14/07/2026 at 19:31:38 -06, James Hilliard <james.hilliard1@gmail.com> w=
+rote:
+
+> The NAND timing calculation was written for the original A10 NDFC. It
+> assumes command and address setup and hold intervals T1-T4, T7 and T11
+> are one controller clock and uses the A10 timing-register encodings.
 >
-> On Mon, Jul 13, 2026 at 01:53:08PM +0200, Albert Esteve wrote:
-> > Update a second batch of drivers calling of_drm_find_panel() or
-> > drm_of_find_panel_or_bridge() to release the lookup reference after
-> > wrapping the panel in a bridge.
+> The H6/H616 NDFC instead defines those intervals as two internal clock
+> cycles and uses different encodings for tWB, tADL, tWHR and tRHW, as
+> documented in the H616 User Manual.
 >
-> I would have expected this to be squashed of patch 3, any reason it's in
-> a separate patch?
-
-My intention was to make the series easier to review. Patch 3
-contained the initial set of callers mostly found via the Coccinelle
-script (simpler to address generally), and patch 5 includes the rest.
-Including all the changes plus the core API update in a single commit
-felt like too much.
-
-That said, I am happy to squash this for the next version (fewer
-patches to track).
-
-
-
-
+> Describe the timing characteristics in the controller capability data
+> so the clock solver can select a rate permitted by the NAND SDR timings
+> and program valid delay fields. Keep the legacy A10 behavior unchanged.
 >
-> > Also handle the cases where a panel is found but cannot be used,
-> > dropping the reference immediately in those paths.
+> Fixes: 88fd4e4deae8 ("mtd: rawnand: sunxi: Add support for H616 nand cont=
+roller")
 
+Cc: stable missing here
+
+> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+
+...
+
+> @@ -1667,16 +1681,35 @@ static int sunxi_nfc_hw_ecc_write_oob(struct nand=
+_chip *nand, int page)
+>  	return nand_prog_page_end_op(nand);
+>  }
+>=20=20
+> -static const s32 tWB_lut[] =3D {6, 12, 16, 20};
+> -static const s32 tRHW_lut[] =3D {4, 8, 12, 20};
+> +static const struct sunxi_nfc_timings sun4i_a10_nfc_timings =3D {
+> +	.setup_cycles =3D 1,
+> +	.tWB =3D { 6, 12, 16, 20 },
+> +	.tADL =3D { 7, 15, 23, 31 },
+> +	.tWHR =3D { 7, 15, 23, 31 },
+> +	.tRHW =3D { 4, 8, 12, 20 },
+> +};
+
+This patch looks overall correct but must be split. For instance, the
+fact that you drop the LUT in favour of you own timing array shall be
+done in a preparation patch, without adding new timings, nor adding the
+new controller timings.
+
+Then in a second time you could add tADL and tWHR support, etc.
+
+> +
+> +static const struct sunxi_nfc_timings sun50i_h6_nfc_timings =3D {
+> +	.setup_cycles =3D 2,
+> +	.tWB =3D { 28, 44, 60, 76 },
+> +	.tADL =3D { 0, 12, 28, 44 },
+> +	.tWHR =3D { 0, 12, 28, 44 },
+> +	.tRHW =3D { 8, 24, 40, 56 },
+> +};
+> +
+> +static void sunxi_nand_update_min_period(u32 *min_period, u32 duration,
+> +					 unsigned int cycles)
+> +{
+> +	*min_period =3D max(*min_period, DIV_ROUND_UP(duration, cycles));
+> +}
+>=20=20
+> -static int _sunxi_nand_lookup_timing(const s32 *lut, int lut_size, u32 d=
+uration,
+> -		u32 clk_period)
+> +static int sunxi_nand_lookup_timing(const u8 *lut, u32 duration,
+> +				    u32 clk_period)
+
+This change is fine but likely also unrelated and should (maybe) be moved i=
+n its
+own commit.
+
+>  {
+>  	u32 clk_cycles =3D DIV_ROUND_UP(duration, clk_period);
+>  	int i;
+>=20=20
+> -	for (i =3D 0; i < lut_size; i++) {
+> +	for (i =3D 0; i < SUNXI_NFC_TIMING_STEPS; i++) {
+>  		if (clk_cycles <=3D lut[i])
+>  			return i;
+>  	}
+
+...
+
+> @@ -1703,77 +1734,65 @@ static int sunxi_nfc_setup_interface(struct nand_=
+chip *nand, int csline,
+>  		return -ENOTSUPP;
+>=20=20
+>  	/* T1 <=3D> tCLS */
+> -	if (timings->tCLS_min > min_clk_period)
+> -		min_clk_period =3D timings->tCLS_min;
+> +	sunxi_nand_update_min_period(&min_clk_period, timings->tCLS_min,
+> +				     nfc_timings->setup_cycles);
+
+I am not sure I get the added value of this helper?
+
+>=20=20
+>  	/* T2 <=3D> tCLH */
+> -	if (timings->tCLH_min > min_clk_period)
+> -		min_clk_period =3D timings->tCLH_min;
+> +	sunxi_nand_update_min_period(&min_clk_period, timings->tCLH_min,
+> +				     nfc_timings->setup_cycles);
+>=20=20
+
+...
+
+>=20=20
+>  static const struct sunxi_nfc_caps sunxi_nfc_h616_caps =3D {
+> @@ -2641,6 +2664,7 @@ static const struct sunxi_nfc_caps sunxi_nfc_h616_c=
+aps =3D {
+>  	.nuser_data_tab =3D ARRAY_SIZE(sunxi_user_data_len_h6),
+>  	.max_ecc_steps =3D 32,
+>  	.sram_size =3D 8192,
+> +	.timings =3D &sun50i_h6_nfc_timings,
+
+And this should be the last change in your series.
+
+BTW would it be relevant to align the various names ? (h6 timings in the
+h616 structure).
+
+Thanks,
+Miqu=C3=A8l
