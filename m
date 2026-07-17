@@ -1,176 +1,198 @@
-Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11013022.outbound.protection.outlook.com [40.107.44.22])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD4F3DE447
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jul 2026 08:01:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.22
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784275309; cv=fail; b=ZkjCNN5Q+XjDVGwhWQJDT6qQyiEi1i+hg0/Sl+jke0aVgHT3T4qlzB2xE1qxIhx5aALsCSyXgF+/8K0103A/HrbS+GNnkA//Ix1+42iiTVsyM6hu5KMsvutQDYohAi7B/6TEDG0kKZYkHTHmM4g3vxlyCQRGus70qLW5bdSyqWY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784275309; c=relaxed/simple;
-	bh=VHGAZnZmWgWg/V8wog9wevwKesRZl5KAm4I+n+sr41c=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mrTKvpAPopM93c1qUt/Rl8RR6m2a3QeeR7iSPKBbbB2Dn1cDK85NcyHpTnC4d3pispndv35masitZONN41/FO7Id88VT2DkNb8YCDfsAA5UIr/tTZ5H/4sBiCS303jm3RICW2SRQcyyFNAnDf6sxLTvVg9r2g04Uj21CXlKxgzc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=IwtgQLl5; arc=fail smtp.client-ip=40.107.44.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8453BD225
+	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jul 2026 08:13:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784276038; cv=none; b=TDO4yWcgMm73G5MLuxf61T6sNdFxcf0EWlfxKKICN06N4Y5nohn+ZyKFVOey8iSD0aSl27mS3T+dvVsCGuY8CtMb/lahWGT7lbxO3iHCB+bWcHL2JDWVv14Bp8hHAMifbS2sXXLLJa42yXvGDivTJuZqd2Tp7cm/lfKpaV7x/0U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784276038; c=relaxed/simple;
+	bh=iT4wG1YB4blXGPex3Ukinm21Nz6x/DOnzgdDV8MPank=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=TzO9aFCT1vB492BFz6c+3bQAEeGjxAxKh05uTWZJY3cLiynRkZ8mggY6+IkznozMrn7xMV8aeDFfxGvpQqUo0ImBuvwjn0cheE/2R6iROxkRanhQhkOPH5EnZhhWzenHBRjUPdUkwoGYsxqJaxQbBO8Zon2nRxEqgTkRdJ1Fcgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jpfWpebi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="IwtgQLl5"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eMC6M0zoqvIgIDo9w96VOe3H8fPgAzmEuxlbP2ezcOIRocFQitfwdcvZOcDUP1wkRVzOzMxrW387be106go/n4bZ6uvkPzXCUBX5FLlOFUZYDpR1BO0XABD0oeqTIu4OVIwlpOqDyaBFPnBH3ylSI3uKgzY9uT6ysUP2QqzpzXa1dozODEGeLUeGlgj0DzhclXAuN+Ap/8CbCHc3NVWPVGMPPYGr8CtQBPsVfh15zsAYdx4Qc2Q1a5DYrXZPDhvajHIUniXSiotW+D3z6ThZcqrevnVH3oArds0moexGv8cd62zbwCW1aX3DSKYKGnN8S0EAlAJErEd2WP80E7Fxtw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yTzOXtvYwYjDyaMaHPrHloyzDCxfUsO1z92HLjAYQyA=;
- b=Yk+HIKt50wVbOyConZH+ePTFPiUzIh+h7h1Yio5FDWD6mKdIBOnFdWgdl4xrws9jCAoxS8aFbZ1WabpRj0MA/O720w5Vwg44ociIoQbDx001iuHMBQ5Zx/Aq2wF1dIxIn/TO45G5vc8quu7kcQhDQhyzSXlxmJbXxzLWhVrL5gtlEX4VF1EsYvPEIWo9CJ7K4S063LALMx70XpoiHKISK13w76e1ReRhy0Iv7kDTqO5s9m9muxkeeg9fA/VbtG7HIq6an5YDxYcjLEUTwAk9d7J0qcDZT6IZ9nZhT/GI4E/UZq4m4KBASsaugxxm9BBEWarO8Fcgtr+Dv9uNo+VMzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yTzOXtvYwYjDyaMaHPrHloyzDCxfUsO1z92HLjAYQyA=;
- b=IwtgQLl5mkGCdK0iWMTmgKiLJZHUwXHRnBk7fytPriKvo+2u1XT7cyS03wAb+1Mv0E39KqyTb2yfeDwLAlcOvI7vI1nqyy/xjziO4vIryH0Q50WHtSYo3D+D52FCT7A27g/DtFmathxALzoV3Mvpf+Sxo2gPSuNitQFYHqA8QfRjI/yCw0CgbVWcvYnUyofpaPB9DoXgwXaJwk1KqDU2FRoQ0iDz8Sg7mfME0UT3i/a5Kaz4DXZOcuHsJGvEAmOkbzUbSqTe1DisRjAnCeDyRnT+45HLXrKcHUImCnHyCXHXKzD8CUN33MMhYzOcQMST0Z+/NcSBF6wQMY+z2JCiTA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5832.apcprd06.prod.outlook.com (2603:1096:101:c8::12)
- by TY0PR06MB5104.apcprd06.prod.outlook.com (2603:1096:400:1b8::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.12; Fri, 17 Jul
- 2026 08:01:43 +0000
-Received: from SEZPR06MB5832.apcprd06.prod.outlook.com
- ([fe80::f98:5e32:4ccb:d07b]) by SEZPR06MB5832.apcprd06.prod.outlook.com
- ([fe80::f98:5e32:4ccb:d07b%6]) with mapi id 15.21.0223.011; Fri, 17 Jul 2026
- 08:01:43 +0000
-From: Pan Chuang <panchuang@vivo.com>
-To: Corentin Labbe <clabbe.montjoie@gmail.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Ovidiu Panait <ovidiu.panait.oss@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Pan Chuang <panchuang@vivo.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	linux-crypto@vger.kernel.org (open list:ALLWINNER CRYPTO DRIVERS),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
-	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 01/12] crypto: allwinner - Remove redundant dev_err()
-Date: Fri, 17 Jul 2026 16:00:15 +0800
-Message-Id: <20260717080045.191538-2-panchuang@vivo.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260717080045.191538-1-panchuang@vivo.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jpfWpebi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30D281F000E9;
+	Fri, 17 Jul 2026 08:13:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784276036;
+	bh=dQl6icEd3g9uZf+UF63+RohjrLLE9pZJX5KvA1F2StU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=jpfWpebiH6efenczdf2cIaJYWgiM2o1OfYAYVsOvy819HaiZ9BA4WtO2459tQWshH
+	 RcRPO274NXM2N4REUHBDCstw6Z7GPiQrhJa2FB+NdD0VoeAILO0ONukDF6lzv6NeAE
+	 7d3GBnGbX1NCw/YG8qyoZT0UrSDfYdRCQrd5tJhhxlD9IYkfLekl+GmYUXXyt56cqQ
+	 mKTJTUayrODKifhFKJd1NfLH5GVdedjOgLoGjnpCoKHiOkpaOOuTzgvvaUuHxfzpoU
+	 W+NYKLPjDkVrjrLWMubmvukY/Ti3mL/PpjZgkgYqk30p7k9tL6MN9V2zGyoa8kzNK9
+	 vM/y4iY2WR7KA==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 01/12] crypto: allwinner - Remove redundant dev_err()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Pan Chuang" <panchuang@vivo.com>
+Cc: linux-sunxi@lists.linux.dev
+In-Reply-To: <20260717080045.191538-2-panchuang@vivo.com>
 References: <20260717080045.191538-1-panchuang@vivo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TP0P295CA0054.TWNP295.PROD.OUTLOOK.COM
- (2603:1096:910:3::18) To SEZPR06MB5832.apcprd06.prod.outlook.com
- (2603:1096:101:c8::12)
+ <20260717080045.191538-2-panchuang@vivo.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 17 Jul 2026 08:13:55 +0000
+Message-Id: <20260717081356.30D281F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5832:EE_|TY0PR06MB5104:EE_
-X-MS-Office365-Filtering-Correlation-Id: c50849e0-bd22-4af0-65ea-08dee3d9a412
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|376014|7416014|52116014|1800799024|921020|6133799003|38350700014|18002099003|22082099003|56012099006|11063799006|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	ZnsdV3NSAAa8TugWVC0RDeCKVHGHR5pFK14LPWcYFAW9K3NjOn7XypBLHHxp+exEBv7DpraFPot9AjW2M2Vv0nmBN3faMeB5S4HlCgHHGShNpihuzAFA7tXD4MyQq+1/STBIELqbXT+v1cqZOl+DPX6viUDqqiKDR00338hDNo3KwISIA+7GCp3mfb3vfq09HA8myrtCyIMNpd1efVDa0NmanHkgsIJSnrUTCyPzAbZErd1CF/qE/2EYAnk+KOnXOTDzbwDpXUGrb/r9BLrCEjMTrlVeKqxv362K3PasFy+dvOHiZet51aD6drHbLzl2V9GbRA6VfMJKTBM/tXibVNMnLDr+Qhc3FflWJAgjpoey4cep8EdTnUV1Dbxpclr+QvtmYZx+OHlr3DTrRNY9GDU53pBUMXdKSQ2HX5TbevA0pKgKR7+/fP0myIbR2HEabqStvK8qCi3jRVe6muTqH+AiOYGRWvuP1MpQz8D1kY+XT2kRQK0s67tLwWR51XARPtyaYbiVLWDziXsDciO0fSR5EoQYxItyQyVUTWr0uwiYpqG4YIdNFw+XFx1ROG5FtVAy/1FCSyUTXY4AbKu2j4JVb6aiE7usbJ0PE+TdkCIzUftWu/bRoKwO0mvt9YECBxW+yeGfJOIBxG+o1hJUOETc6hZpP3m4tMxk/1prwX8TZI2ecufe12Xa3xTTfA7GvI6jKa3j+SVNLmJ6N2IBlcda31aL5EzApMWbz+Z1fzWAXqx4XHJ9GA0ySCOKP7rB
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5832.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(7416014)(52116014)(1800799024)(921020)(6133799003)(38350700014)(18002099003)(22082099003)(56012099006)(11063799006)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?0OtQjGgJ2j+qTI07d4RjQ8bfEZ1omPTCfk71nfL7GRurjZyXDR1QPf8JDWGo?=
- =?us-ascii?Q?1z1uTXYHVcSrRLifdgyUIt04+XZW1RnRLdMHteULLi5TfxcxbryvTayK+PMv?=
- =?us-ascii?Q?lCqzUTeVluNpzVkov+xkih8C/mJn38Kk2EDFtiXbIrJnoCBCbT6rpxyrAFlT?=
- =?us-ascii?Q?WZlqHe37xhKsTUGE+OujQ8arEqeXg+in71tCl/447lIIwNTpaBJ+jDRf6nzk?=
- =?us-ascii?Q?uD7OoeO+lcARRCZ2oJQuBfrk9+sSxBLa7xhPSpy2lloA5gkc8Js0tRSgrtNp?=
- =?us-ascii?Q?vPcg+3Qh0YeTmukYt3AfkZwLFSFv4ePnye0XCQzq8jxxm/ERNUwkvt+2v47s?=
- =?us-ascii?Q?/0c9A4HFwId1LazRCklNL55YyfYw2BPPfrSADKVG9epEpeGvoWQ3JNWqKMc9?=
- =?us-ascii?Q?o5On8poJGTQyRGCVcFaRjWME3yyCq/J39cgOgGZ3iel0sN+uFeg7cmJi7rBv?=
- =?us-ascii?Q?lRKAvFUaQWx+sGuDGRXO+2+mnzPZUQfi254dU+h8oYpi/R0wNnmp+thPnhuP?=
- =?us-ascii?Q?vyfsM9ZLxdZpyvVilgJsZ9En8v4rkC3gkf7F9Y2LfT8STKwyPhArlzCKggnT?=
- =?us-ascii?Q?/MrbPKxT/LQ+mS8ChHPRJwKxDguJwf7Ig2xrHHjlE6K0xnfGXb9EPfFWhGg9?=
- =?us-ascii?Q?/McrnOD96Pkx7ns6QjKtmsA4/5VxZqJCQSAKWx2PTKFniKelmnUCKsmqDnc3?=
- =?us-ascii?Q?yqY9yMd3Mj3hCYxmfnNpzLC1mWUqhiINTY3v8VJPzEiF9W6WzhMHs2qzmAut?=
- =?us-ascii?Q?CnlKeNmQlgXk4Ahxl2vwWStcbHALlFSAJFNPgsvjZ9B0vmo46ZAjqPeAUx0h?=
- =?us-ascii?Q?/gv6VR3Vjrge6sQM30QcXBbYRSyl/gxH22PGvwy4EorNFiaQlds1fpMnh+GP?=
- =?us-ascii?Q?jPXJNz7ngr0zzTJOFMSveiW029rmnN4utkmKQfEfsyrG7li5opbGOFsr5vjP?=
- =?us-ascii?Q?YkidIcYAGdCoK9u0bGKV1jCgmXDyIt1249YzlG1E0nInPAgS6wWjipqp9D4o?=
- =?us-ascii?Q?vD2GN4OmPpAM2BuuX/6SaIGsqk2Yt1lHfBpm46dykIGQrMEC67Q63DOeL4Uw?=
- =?us-ascii?Q?cw0sRkjrRBksYLCJqjALEUxJ/GpB82FYFZnFwGfmjR+vERB8WwfPpGo/NW8i?=
- =?us-ascii?Q?QhOsnM58iLFZM2bxbtB1KtnZVD+rAnFxKi4S2fLALDT9eLduBBWe00maInhF?=
- =?us-ascii?Q?1WjvWXFJAxi+hxWR7V01SZpim2oHh8MU8y/rvff9VFW+kVNzHUcGfrBJmsBY?=
- =?us-ascii?Q?8T/ZHH7sI60ImGhl65ITFm2MR370bE8L1zt9Bi17R9zM5Uzryu2uAoaDkefS?=
- =?us-ascii?Q?ViapDO9tqIUKHRwKNO/zzwX/EYhgk/uimYm3Ae+O3JvYm5Cc9mFvZNqEazwn?=
- =?us-ascii?Q?nMzbDvxUiL0TjpB51uzir21DBf6CGfZb8KnpbrjhuMZeVOETOD/PBXHLxtm3?=
- =?us-ascii?Q?g/ynW/Kj8e2NfBSr6FztwcCRqeaWWdZEkWm5ktLjtaj39NzbQYYTKTc4Jq7V?=
- =?us-ascii?Q?or7l2nI8XwvMLb9nSPn27KhXrgXSgaZU00i31BRUW1yeQngiIEWHUZhg25in?=
- =?us-ascii?Q?m+zqxT9VKg2wNydpu0IGF6hFEzpt6ys0e8sc81/zHFf8kwGnLSiudXr+Zz1x?=
- =?us-ascii?Q?nu8Ae62KkMW7E1nDe7fgvajw9GraiHTZoiA+Id6nqE8Lcfzq8DO3KDsPM5gQ?=
- =?us-ascii?Q?mZqaouc1VvwqiO72kZtk6rMiHSOCJgY/seF5XUfaercXp03ddVXI4lw1nXcb?=
- =?us-ascii?Q?NM8pImqM1w=3D=3D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c50849e0-bd22-4af0-65ea-08dee3d9a412
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5832.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2026 08:01:43.5075
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: J0mNuOD9KVRFi1XMagiYCYK3GZKsJckIQhYnsopfMfihtPhblE+6FwfSAW4DmxtXXPRnQKa+rylXKGVqDHoc0w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR06MB5104
 
-Since commit 55b48e23f5c4 ("genirq/devres: Add error handling in
-devm_request_*_irq()"), devm_request_irq() automatically logs
-detailed error messages on failure. Remove the now-redundant
-driver-specific dev_err() calls.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
 
-Signed-off-by: Pan Chuang <panchuang@vivo.com>
----
- drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c | 4 +---
- drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c | 4 +---
- 2 files changed, 2 insertions(+), 6 deletions(-)
+Pre-existing issues:
+- [High] Uninitialized list dereference (kernel panic) due to ignored TRNG =
+registration failure.
+- [High] List corruption and kernel panic due to dangling pointers in globa=
+l algorithm arrays during failed re-binds.
+--
 
-diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-index c6402e87f8a0..21762bd408e5 100644
---- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-+++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-@@ -976,10 +976,8 @@ static int sun8i_ce_probe(struct platform_device *pdev)
- 
- 	err = devm_request_irq(&pdev->dev, irq, ce_irq_handler, 0,
- 			       "sun8i-ce-ns", ce);
--	if (err) {
--		dev_err(ce->dev, "Cannot request CryptoEngine Non-secure IRQ (err=%d)\n", err);
-+	if (err)
- 		goto error_pm;
--	}
- 
- 	err = sun8i_ce_register_algs(ce);
- 	if (err)
-diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
-index 0b22fcddb882..2167dd9f44c7 100644
---- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
-+++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
-@@ -824,10 +824,8 @@ static int sun8i_ss_probe(struct platform_device *pdev)
- 		goto error_pm;
- 
- 	err = devm_request_irq(&pdev->dev, irq, ss_irq_handler, 0, "sun8i-ss", ss);
--	if (err) {
--		dev_err(ss->dev, "Cannot request SecuritySystem IRQ (err=%d)\n", err);
-+	if (err)
- 		goto error_irq;
--	}
- 
- 	err = sun8i_ss_register_algs(ss);
- 	if (err)
--- 
-2.34.1
+--- Patch [1]: [PATCH 01/12] crypto: allwinner - Remove redundant dev_err()=
+ ---
+commit 19d9808368b2fa17e987058da2afc72772963840
+Author: Pan Chuang <panchuang@vivo.com>
+Subject: crypto: allwinner - Remove redundant dev_err()
 
+This patch removes redundant driver-specific dev_err() messages after
+devm_request_irq() calls. Since commit 55b48e23f5c4, devm_request_irq()
+automatically logs detailed error messages on failure, making these
+additional prints unnecessary.
+
+> diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c b/drivers/=
+crypto/allwinner/sun8i-ce/sun8i-ce-core.c
+> index f3b58ed6aed0d..a1cc59a2ce3f7 100644
+> --- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
+> +++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
+> @@ -1039,10 +1039,8 @@ static int sun8i_ce_probe(struct platform_device *=
+pdev)
+> =20
+>  	err =3D devm_request_irq(&pdev->dev, irq, ce_irq_handler, 0,
+>  			       "sun8i-ce-ns", ce);
+> -	if (err) {
+> -		dev_err(ce->dev, "Cannot request CryptoEngine Non-secure IRQ (err=3D%d=
+)\n", err);
+> +	if (err)
+>  		goto error_pm;
+> -	}
+> =20
+>  	err =3D sun8i_ce_register_algs(ce);
+>  	if (err)
+
+[Severity: High]
+This is a pre-existing issue, but does probe proceed successfully even if
+hardware RNG registration fails?
+
+A bit further down in sun8i_ce_probe() in
+drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c, the return value of
+sun8i_ce_hwrng_register() is ignored:
+
+#ifdef CONFIG_CRYPTO_DEV_SUN8I_CE_TRNG
+	sun8i_ce_hwrng_register(ce);
+#endif
+
+If registration fails (e.g., due to a duplicate name via -EEXIST from a
+mock device, or sysfs unbind/bind races), probe proceeds. Later, upon
+unbinding or module removal, sun8i_ce_remove() unconditionally calls
+sun8i_ce_hwrng_unregister() which triggers:
+
+drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c:sun8i_ce_hwrng_unregister=
+() {
+    ...
+	if (ce->variant->trng =3D=3D CE_ID_NOTSUPP)
+		return;
+	hwrng_unregister(&ce->trng);
+    ...
+}
+
+Because the device was never successfully added to the core list, its
+list_head remains zero-initialized (from devm_kzalloc). Calling
+hwrng_unregister() executes list_del(), which attempts to dereference the
+NULL prev and next pointers, causing an immediate kernel oops.
+
+Could the return value of sun8i_ce_hwrng_register() be checked and handled
+appropriately?
+
+[Severity: High]
+This is another pre-existing issue, but does sun8i_ce_unregister_algs()
+leave dangling pointers in the global ce_algs array?
+
+When algorithms are unregistered, the device instance pointers are not
+cleared:
+
+drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c:sun8i_ce_unregister_algs(=
+) {
+    ...
+		case CRYPTO_ALG_TYPE_SKCIPHER:
+			dev_info(ce->dev, "Unregister %d %s\n", i,
+				 ce_algs[i].alg.skcipher.base.base.cra_name);
+			crypto_engine_unregister_skcipher(&ce_algs[i].alg.skcipher);
+			break;
+    ...
+}
+
+If a device is successfully bound and then unbound, these global arrays are
+left with dangling pointers to the freed device structure. On a subsequent
+probe of the device, if algorithm registration fails partway through (such
+as if sun8i_ce_register_algs() fails as seen in the diff context above),
+the error path calls the unregister function.
+
+The loop sees the dangling pointers from the previous successful bind and
+attempts to call crypto_engine_unregister_skcipher() on them again. This
+causes a double-unregister of the same algorithm template, resulting in
+list corruption.
+
+Could ce_algs[i].ce be set to NULL after unregistering each algorithm?
+
+> diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c b/drivers/=
+crypto/allwinner/sun8i-ss/sun8i-ss-core.c
+> index 59c9bc45ec0f2..c994e023afbc4 100644
+> --- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
+> +++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
+> @@ -869,10 +869,8 @@ static int sun8i_ss_probe(struct platform_device *pd=
+ev)
+>  		goto error_pm;
+> =20
+>  	err =3D devm_request_irq(&pdev->dev, irq, ss_irq_handler, 0, "sun8i-ss"=
+, ss);
+> -	if (err) {
+> -		dev_err(ss->dev, "Cannot request SecuritySystem IRQ (err=3D%d)\n", err=
+);
+> +	if (err)
+>  		goto error_irq;
+> -	}
+> =20
+>  	err =3D sun8i_ss_register_algs(ss);
+>  	if (err)
+
+[Severity: High]
+This is a pre-existing issue, but similar to the sun8i-ce driver above,
+can sun8i_ss_unregister_algs() cause a double-free?
+
+drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c:sun8i_ss_unregister_algs(=
+) {
+    ...
+		case CRYPTO_ALG_TYPE_SKCIPHER:
+			dev_info(ss->dev, "Unregister %d %s\n", i,
+				 ss_algs[i].alg.skcipher.base.base.cra_name);
+			crypto_engine_unregister_skcipher(&ss_algs[i].alg.skcipher);
+			break;
+    ...
+}
+
+Failing to clear ss_algs[i].ss to NULL after unregistering the algorithm
+leaves a dangling pointer for future probes, which can lead to list
+corruption and a double-free in the crypto core during failed re-binds.
+
+Could ss_algs[i].ss be set to NULL after unregistering each algorithm here
+as well?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260717080045.1915=
+38-1-panchuang@vivo.com?part=3D1
