@@ -1,165 +1,150 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A25C311946
-	for <linux-sunxi@lists.linux.dev>; Sun, 19 Jul 2026 21:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E8343F0BE;
+	Sun, 19 Jul 2026 21:24:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784495635; cv=none; b=iqFSY/vPgOHaXH+neYizuJpRfKWAecFWLTBUE129XMUES/3CPmmU1KJd5A638MBlCfEfQ5W01SG3YYObbY6DgUj6TevCRGgskoSE14CkDuHxmHNzoXIzYL2n0nt6eQOcBdhh19r+Xvvn+oTAoREWw4rJhZBxfbCZ88A/a2JbQfM=
+	t=1784496292; cv=none; b=QKhFrHhaB9PUX04r6RRnNZEYNK2eZrIHH+RRPC4mJBZoDGZibfzCzb5jvgRE1Wgs85kTVfFmUOCLK7RLie5eFr6TR1Qw2uwhygkPTPV8razFGp3X5IqfTi+eBBgJaUFC3ZmKnX0+dwFakylE6zg47xZrJ/h6jduquV4bnoE1aQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784495635; c=relaxed/simple;
-	bh=uZZtbCVhOKhzC2tpXj5NKZbfR/sFeNe4FarJkD89skY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aY2LZdnpyze+uLXDIBxQpAYpuLexf1ytkzFZl/Wnk45DKHjpMHXNdnDobcOZ416WmiopyD6AdIFCOmNPQcUC0FKAaF8in1wI6jsyYr3VHNdeRjiP+fEfQCAxB9ZiUSRsb8IgT336rwufCwx5aVDHmvh4nM8oS7pE0aC7Phh+n9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cLTgGJFm; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784496292; c=relaxed/simple;
+	bh=SroTm4qpWcRBKHmJ7r5PXwb+eOHxI6t+GZ/nBqHsjME=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=Sh9yeefs6AXWJ3aFPC1Roer9HWmtARRROdELwnulpY/aJmB1h0j5qxCXwJt4JvxB5/lPYnCRBcnJEcTam3gxr73TqsF2t6GpTegbv3F9YDT8u4lFKhhlZbFchoXXT+dXQ53DziVE68YXNPmMxk/LvIoVJWeQ6IYTA2ynRQmbN+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nGELbAJE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cLTgGJFm"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4955de8797cso1826845e9.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 19 Jul 2026 14:13:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784495632; x=1785100432; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=mSI4AxiakfLEoxCkbMXngSkCPIZ/Cb8g+GVzqOuksO8=;
-        b=cLTgGJFmGDNjuIpJ9NYrSoWUQl2sCy8kwTCCMabS3rPAA9hHCguG2mwF3OFxQpr5OY
-         3wB7X02HR6AO+AGZJD/upMJSrgLiZ7/Rdsokt0lVXmnVIgl0sYpGaCqx0MwzBohrAjtc
-         7GJYo2O07kLNanScbV9wm2jXPCVnSWNhJ3444mD++fFrkN+QRiTn7mbWZjoY8Pnw/g4x
-         ll2hVErktR0nQ5EVgtqI+XkSqGbM0i72H5Ar2jjYgOGo4rsKfq7wT391ig54Tez22w4c
-         oe8UnEOQqlLylEOFJhCa2M4i5j/FYeAmuNAZwJ1kOKMgf0Jct+1oPhQ6/dmj9yFeOIwp
-         v4lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784495632; x=1785100432;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=mSI4AxiakfLEoxCkbMXngSkCPIZ/Cb8g+GVzqOuksO8=;
-        b=B8Bt/iLkEShrlpqfNLXPywCjcoJsRXx3c0wGDM96IpW1X1t7StiGjkNwLZ15tocQTx
-         H7Qy18EFL24EVSFqpK1tENAmQKJHi8pG7HZCly1ihHYxrZvgdbMjXsSMk+Iryxqc1/Yl
-         Qlw0RtNllDkYsGUNpEVUg+w0XZDrK4L1I3wcyW7F/rBHuPZr5KTAaKu/oe5oXXTBBp/p
-         6k6go5S99SnuYa6FPvHqygnLYghPjksdVdBN3WNFsDrJ750P5PFO8N2vCDr/CahljZ3c
-         H427gt9TiEfZN0SJmsV2P7vdjwPMGG+h2QpRtcuBSxz/FAN/3glNTxOn+by/j9lIHH/S
-         yQOg==
-X-Forwarded-Encrypted: i=1; AHgh+RpMj0bGOZFVJfiYFddjxtyZZHnyXT/UuDc5UzukQul/ESllywWE8bp/4Y0D5brHMvRrnTJuRXhwif88TA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy1LsTSr4sX6Uakmth04JQOi8V/reZV9JKiB0GbPSsEqDOJT/dn
-	YmvmUbG+7ia/ePeRrV2Gt7D9bApFLN7XrZF1ZyDtwpzHa11MbbvnqNyo
-X-Gm-Gg: AfdE7cmsvlzJdg+aFiqIFHRlMjWYD2xtHgujo5BSRvSTO6Oe3vnUHt7MbVgeBh1/iLu
-	Yu/9Kc0Ws0/mYdtLjUoMrAupNLMYoupS4oZ2KYf04mecoUuwtBDd3lH0UqhoIAzV1hPZyag7ROY
-	kDCqUvP0uKRLzE/X7WGYqBpgVZoRHz0xbTEXFASvrRSIZoM6BHTHF1ARPCW1cI9vgYGGM2q8oUn
-	AxYdd4j1VqHNBCh9uv7wPJxcqYIFc3ctd6GYg+/Bm7WaA78DJ5O8IynBDrnkoX2EN0N2gLgwN2U
-	zr11mmFdtxe0pU2p2nAxgmJXSIW/1LwqQp2yk2ZI4fXxBo33bmfbEZYsdL5fVOcGI6Qf/giCmEF
-	GavvaO7iupw5QKMEsWinRRaz33h8b+P1P850FOpCJloDIi1AE6GgQZsGTPwlQeCToWfnWGiTVwR
-	u53VkVi7+UCQgZS3w2ng7WQSFbdg8GJUD9j/Ql
-X-Received: by 2002:a05:600d:8494:10b0:495:4056:2c6d with SMTP id 5b1f17b1804b1-4954a402f4fmr101550685e9.23.1784495631684;
-        Sun, 19 Jul 2026 14:13:51 -0700 (PDT)
-Received: from localhost.localdomain ([2a0d:3344:2841:7708:a101:2b8a:f76:a00f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49549a3e2a9sm224108815e9.4.2026.07.19.14.13.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jul 2026 14:13:51 -0700 (PDT)
-From: =?UTF-8?q?Juan=20Manuel=20L=C3=B3pez=20Carrillo?= <juanmanuellopezcarrillo@gmail.com>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Brian Masney <bmasney@redhat.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-clk@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Juan=20Manuel=20L=C3=B3pez=20Carrillo?= <juanmanuellopezcarrillo@gmail.com>
-Subject: [PATCH v1 4/4] arm64: dts: allwinner: t527-orangepi-4a: add GPU OPP table
-Date: Sun, 19 Jul 2026 23:13:19 +0200
-Message-ID: <20260719211319.982285-5-juanmanuellopezcarrillo@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260719211319.982285-1-juanmanuellopezcarrillo@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nGELbAJE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1B7F1F000E9;
+	Sun, 19 Jul 2026 21:24:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784496291;
+	bh=XyLPM2cunSI1SY8qFdpOOQaBWYiUSp+VgnhJXH4pe4w=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=nGELbAJE94MPbDMYqP0Q0gc9DjN52m0Iv+npLvogjpgGJrhnOebZ5aIEUdiSSwF9K
+	 06Js7+8lq7+dpLpuSSnTi4grTv/0a5g/ux543eguZ4Jhs1njexOEdLUaLehkeqrwa8
+	 yMtU/i5Uc83iums02yi3Myxp6uuU8c02fVxttI1LtddBMqdDRFFmreMdtEAASzcwsA
+	 Q3a3GWnzZ4H/VcvhX48B7bf1kdHKG84QXBwzdZiCm8LjfFqcrf+Fmp64WKO4NuFEod
+	 ueXl5iW5xtAKxjyPgQhvtPky+FEyU3J+8lJxflBNnTQWn0pQ/yTEXnRcmyuZRFFkM8
+	 Q4up8uSkIl3LA==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v1 1/4] clk: sunxi-ng: add cycle-masking divider
+ (maskdiv) clock type
+Reply-To: sashiko-reviews@lists.linux.dev
+To: =?utf-8?b?SnVhbiBNYW51ZWwgTMOzcGV6IENhcnJpbGxv?= <juanmanuellopezcarrillo@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org
+In-Reply-To: <20260719211319.982285-2-juanmanuellopezcarrillo@gmail.com>
 References: <20260719211319.982285-1-juanmanuellopezcarrillo@gmail.com>
+ <20260719211319.982285-2-juanmanuellopezcarrillo@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 19 Jul 2026 21:24:50 +0000
+Message-Id: <20260719212450.D1B7F1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Add the Mali-G57 operating points from the vendor BSP universal table
-(150/200/300/400/600 MHz) so panfrost devfreq can scale the GPU
-instead of running at the boot clock.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] ccu_maskdiv_determine_rate ignores the CLK_SET_RATE_PARENT flag, b=
+reaking rate propagation.
+- [Medium] ccu_maskdiv_set_rate fails to apply CCU_FEATURE_UPDATE_BIT and C=
+CU_FEATURE_KEY_FIELD, causing inconsistent state latching.
+--
 
-All operating points use 920 mV: the BSP table specifies 900 mV for
-every universal OPP, but on this board the GPU rail (AXP717 DCDC2,
-vdd-gpu-sys) is a fixed 920 mV supply, so the OPP voltage states the
-actual rail value and voltage transitions are no-ops.  The higher
-speed-bin points of the BSP (648-792 MHz) are not included: they are
-gated by a SID efuse bin and need pll-gpu as a live parent.
+--- Patch [1]: [PATCH v1 1/4] clk: sunxi-ng: add cycle-masking divider (mas=
+kdiv) clock type ---
+commit 07eec9d5dafd1fbf248e0e56bb3c42f8da46589d
+Author: Juan Manuel L=C3=B3pez Carrillo <juanmanuellopezcarrillo@gmail.com>
 
-Depends on the sun55i-a523 GPU clock divider fix (the OPP rates are
-only produced correctly with the cycle-masking divider model);
-validated on hardware with the Mali cycle counter: 149/199/300/399/597
-MHz measured under load, thermal-emulation throttling included.
+clk: sunxi-ng: add cycle-masking divider (maskdiv) clock type
 
-Signed-off-by: Juan Manuel López Carrillo <juanmanuellopezcarrillo@gmail.com>
----
- .../dts/allwinner/sun55i-t527-orangepi-4a.dts | 30 +++++++++++++++++++
- 1 file changed, 30 insertions(+)
+This commit introduces a cycle-masking divider clock type for sunxi-ng.
+Instead of a linear divider, it masks M pulses out of every 2^width parent
+cycles, which is used for hardware like the A523/T527 GPU clock.
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-index 055be86e5..0fd73a1bb 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-@@ -30,6 +30,35 @@ ext_osc32k: ext-osc32k-clk {
- 		clock-output-names = "ext_osc32k";
- 	};
- 
-+	gpu_opp_table: opp-table-gpu {
-+		compatible = "operating-points-v2";
-+
-+		opp-150000000 {
-+			opp-hz = /bits/ 64 <150000000>;
-+			opp-microvolt = <920000>;
-+		};
-+
-+		opp-200000000 {
-+			opp-hz = /bits/ 64 <200000000>;
-+			opp-microvolt = <920000>;
-+		};
-+
-+		opp-300000000 {
-+			opp-hz = /bits/ 64 <300000000>;
-+			opp-microvolt = <920000>;
-+		};
-+
-+		opp-400000000 {
-+			opp-hz = /bits/ 64 <400000000>;
-+			opp-microvolt = <920000>;
-+		};
-+
-+		opp-600000000 {
-+			opp-hz = /bits/ 64 <600000000>;
-+			opp-microvolt = <920000>;
-+		};
-+	};
-+
- 	leds {
- 		compatible = "gpio-leds";
- 
-@@ -116,6 +145,7 @@ &gmac1 {
- 
- &gpu {
- 	mali-supply = <&reg_dcdc2>;
-+	operating-points-v2 = <&gpu_opp_table>;
- 	status = "okay";
- };
- 
--- 
-2.47.3
+> diff --git a/drivers/clk/sunxi-ng/ccu_maskdiv.c b/drivers/clk/sunxi-ng/cc=
+u_maskdiv.c
+> new file mode 100644
+> index 0000000000000..2d3cccf081493
+> --- /dev/null
+> +++ b/drivers/clk/sunxi-ng/ccu_maskdiv.c
+> @@ -0,0 +1,199 @@
 
+[ ... ]
+
+> +static int ccu_maskdiv_determine_rate(struct clk_hw *hw,
+> +				      struct clk_rate_request *req)
+> +{
+> +	struct ccu_maskdiv *cmd =3D hw_to_ccu_maskdiv(hw);
+> +	unsigned long best_rate =3D 0, best_parent_rate =3D 0;
+> +	struct clk_hw *best_parent =3D NULL;
+> +	unsigned int best_m =3D UINT_MAX;
+> +	unsigned int i;
+> +
+> +	for (i =3D 0; i < clk_hw_get_num_parents(hw); i++) {
+> +		struct clk_hw *parent =3D clk_hw_get_parent_by_index(hw, i);
+> +		unsigned long parent_rate, new_rate;
+> +		unsigned int m;
+> +
+> +		if (!parent)
+> +			continue;
+> +
+> +		parent_rate =3D clk_hw_get_rate(parent);
+> +		m =3D ccu_maskdiv_find_m(parent_rate, req->rate, cmd->width);
+> +		new_rate =3D ccu_maskdiv_calc_rate(parent_rate, m, cmd->width);
+
+[Severity: High]
+Does this implementation ignore the CLK_SET_RATE_PARENT flag?
+
+By using clk_hw_get_rate(parent) instead of clk_hw_round_rate(), this loop
+only evaluates parents at their currently locked rates. It appears this
+prevents the framework from adjusting the parent's rate (such as the
+underlying pll-gpu).
+
+Could this silently break Dynamic Voltage and Frequency Scaling (DVFS) by
+locking the GPU to a masked fraction of the PLL's fixed boot rate?
+
+> +
+> +		if (new_rate > req->rate)
+> +			continue;
+
+[ ... ]
+
+> +static int ccu_maskdiv_set_rate(struct clk_hw *hw, unsigned long rate,
+> +				unsigned long parent_rate)
+> +{
+> +	struct ccu_maskdiv *cmd =3D hw_to_ccu_maskdiv(hw);
+> +	unsigned int m;
+> +	unsigned long flags;
+> +	u32 reg;
+> +
+> +	m =3D ccu_maskdiv_find_m(parent_rate, rate, cmd->width);
+> +
+> +	spin_lock_irqsave(cmd->common.lock, flags);
+> +
+> +	reg =3D readl(cmd->common.base + cmd->common.reg);
+> +	reg &=3D ~GENMASK(cmd->shift + cmd->width - 1, cmd->shift);
+> +	writel(reg | (m << cmd->shift), cmd->common.base + cmd->common.reg);
+
+[Severity: Medium]
+Will hardware register updates fail to latch here if the clock requires the
+CCU_SUNXI_UPDATE_BIT or CCU_FEATURE_KEY_FIELD?
+
+The standard ccu_common framework relies on these feature bits to
+synchronize hardware changes, which ccu_mux_helper_set_parent() applies
+automatically.
+
+Since this direct write ignores cmd->common.features, could rate changes
+silently fail to apply for clocks that require the update bit?
+
+> +
+> +	spin_unlock_irqrestore(cmd->common.lock, flags);
+> +
+> +	return 0;
+> +}
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260719211319.9822=
+85-1-juanmanuellopezcarrillo@gmail.com?part=3D1
