@@ -1,139 +1,184 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E1A380FD5
-	for <linux-sunxi@lists.linux.dev>; Sun, 19 Jul 2026 15:13:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7C443F08E
+	for <linux-sunxi@lists.linux.dev>; Sun, 19 Jul 2026 15:31:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784473990; cv=none; b=p5k52NgEDnlQlw9ZDJhNOnYuXgv6+4sTTqSD+4164XbZHoTzxOZ/K/u6H3kb2MHWmFWHx58InF9AmwqNVyHPLimdwcaojGO9aJo30bcbNxDUveXmSmrtf5HyO6UHLNxg4Mj4HJOenBoJ0DcPrwpQ10AQwuFAt5bMUt3E3lH13HQ=
+	t=1784475106; cv=none; b=hzojRRPWS4GqlM0jSmSRmpHy0/aoHRyBnSTVCVRxcqZmtEoeTq+qwYkv/do4YmKRE08xEFb53cFKyLN3AfjzbzSiI54WCaadI2bNf8cD4YBPfMRs6+4NXCOFdT3rmd0BNg9Y1H0vHTUqhbRpT6F6APEjnqpa/NRLqUrFy79u6vI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784473990; c=relaxed/simple;
-	bh=MD59CK3QQysWMnxCfGdnDSvMtuVD9pPnifDPBB5elbk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nw8uOLHlv7m2S/U01+J9hSyEHpzeZkIn5+aIe9x6ELtWX6CIw9EBxtcwheQaVn9Rl36OsM9rtZ5xfi/H+OQQ4Y+nyjosfqBlXq1jn6zbJke//9dJU+ypviN0R1DwirD+A8VroeWrlo/Xt1JbnJcPs+Scph6lZvMJXtSmw/cgmxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bTlJfbGC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784475106; c=relaxed/simple;
+	bh=7rKizl1VwNt3GDPCkBsLZAl45i1jv9HwynJC+jxYgbk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BIcb2zBezLw7om2iCET3bzJN8JMlFoaotijQFEWRsOcfSDxnh0T8RgbI5kw3MdJkxZmu5vE+gyS7ykI4acTSFV8fXcfcvCQAll9pTm5czn/UqS4xaLpA38wI3zbFWvx1fMwEr1o5631Ap1k9Nx3W8p3A4bwtjsVKrCW9oxYpiGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TMmuAFkg; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bTlJfbGC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B38F1F00ACF
-	for <linux-sunxi@lists.linux.dev>; Sun, 19 Jul 2026 15:13:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784473989;
-	bh=D+8MChE3E/8mzRAH16kW2uYtH8JUv/UhkhLZCdVeGV4=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=bTlJfbGClEKb/Q/6Ns6xA44USc+LTKlciAd6hfcI/hnpMcoVgjrjPvUKcZVPLE+zQ
-	 xDwUdzquvprqU4Y1n/Y45SXCbbOlXBH9YFIuYpv+3dL/22YmDZDjmBHpn80oUollqx
-	 hkKQdxksVVXnOLFE/ggH9LXU1UWdeLKBwyM4VTAGuqv+/2qLOB0JPvmOJOUAX0+V0R
-	 7bNDrTAnL02oVVh33RJwBEIaKFLlkpjFdjmsDpzFYoOSkmkr4nQ5WDzHX4v99bgqTw
-	 f+HJlrlzXzPdAbOHOJNuORUxXQKnXv4aFxuf/k2cDFeyDQfU7iWQQw3tY/dO+zQzMM
-	 9/vm+jylOG0Ow==
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-39d560a1dd4so43218541fa.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 19 Jul 2026 08:13:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RqGEG4ATGCIgZd1SUTR4J7l8e6Koro8CpheH1ml1TiPmz/RzZ4osEKEwkjssNvl7J4VqFQWmMIRcEiqjQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyAwhIUhTsTb/XdWey6E7pX9eR1fxl//vao0tH53iMFajDETGX8
-	TbTXZqXwc7qt6KfRu9zoiDPrkG7HvXomXQs/ABchJyst33Q/IK/YTnAOnbmbydPMJqh3voALckU
-	mfbOh9j4n9BMgjfOxCKOqSMf4+u2Wtjs=
-X-Received: by 2002:a05:651c:a11:b0:39c:7919:fcf1 with SMTP id
- 38308e7fff4ca-39eb28e00eamr23399521fa.33.1784473987401; Sun, 19 Jul 2026
- 08:13:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TMmuAFkg"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4953e04ef16so35629835e9.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 19 Jul 2026 08:31:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784475103; x=1785079903; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=RAIvFoHSot582y5nPwOQ/4JfZFN3JPm5c7b4D+Z0OhU=;
+        b=TMmuAFkgs8HL/v4NczMOfgJMR4bHEE7N3rtXdel3ccxSyqMaUUhIpDU8R1PriOCUci
+         vrXdXKuxWg0Lsjv0iUhydpxm9a7Ki9slqlmgRGR8ZRAwVst/h2lm1eQKlNwhJAzutmVC
+         f2Jjq+Dj0n2bJdZnvgg+/6AQuxchrTswYHLphGyKsdSyeAmshfJF3IbMDXSwFBH6LvIn
+         Qe0xHS6rdeKRDl1DejZ2pkKvDWWuY8cXYoO+5KlhItenFPyy9Hvh0sTBatlH+15cdwTt
+         MeWKgalbrnkIRAVJ7Iqzx0bsKnrzpE3Pe83DZSHvN5smzPKlbcSGo/pMCJLBLMNWn3cB
+         7lWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784475103; x=1785079903;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=RAIvFoHSot582y5nPwOQ/4JfZFN3JPm5c7b4D+Z0OhU=;
+        b=bqpmcDOezVvwBHfcpYh7oAWqegmiLLHMicwdPRnB/zBAO2mokuo9mUr0PlykQeAAVe
+         HZMUrmnYH6PiU3DRvbYs+xO1+N9yX+CFjPe2jxA5UvzOTplGxPoMLWq00a1or5ps0Ixh
+         OSuVTYoDadMypfk2nB0iLIZ6Prv2NSO3eUpqmSCY4TWXGn29VGGyzJNwKGuRS8PbD1DW
+         mVq/N7C4D5g2ntV0cStP0I/Aj65745WhmudbyFvnTr48wdbWdhO7MCrsCwhIF235l/iZ
+         daOt4n7QMbAHS6RAnj81pNKzX9u9M0BM5heZ2NftEMfEbp76szCVJ8oLgpyxa18w4E6Q
+         sz9Q==
+X-Forwarded-Encrypted: i=1; AHgh+Rqw/6GZjOzGOzbBuQGgey+TWlBqb5LRmbUO95hsB2QM5tGNOsZooN+xC6j/8Ev7lKvjcksrruGRD1aI2g==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzy8a6KGxFf1KVRbri+1GaWye9MHYGrJOyl/YJmd3OteaEo35P0
+	8VCQFmlAnDbPWEIH6EzflVQNTpb+XGBi08Mz4W2MO+bJKhSq68TjlSXm
+X-Gm-Gg: AfdE7cn21qGBYUi2ESAVjrzSmQ56MxN3cI4/g4NZWfF8eO3SDUwNPDhBqhVN4fRyD1s
+	hH9wnEp4zc0ecnXtvbatV/P9cjkT6hi4lJsQyDpvkbGE+AEjxVHZ8Nqd4BV6QO3XOGimbhxzDBd
+	SrzWCPgiLgERHe3K/e6OKJiqZzpBRAumT9vaUpTlQKIOyTX3ZnTJhLJUD/19dnJY+etk+aRDLhX
+	AJt5gvrZmpLd/RQXNxwv8IUWQ7osgTJswPKk7AUeT/c/F+XYMaaVfAznOGyMipOWrQTGJEsxu6L
+	Xyu3POnoYgTgSzLKfB0BPe5Z/N/vEAZa267UmQpshLtkBvprCpZ2/GwdTVl4T5NrxZB0b809wa3
+	isiyd1EOOPAw31izA0MGrlSgUWc93daA4OyrVjZFgLnql/3MgXqXk761gKnjlB0dGIWoeejwvYk
+	UyKpKAeLK+f+dduQJ71wp5lKZiNs7IuefB6Cv2
+X-Received: by 2002:a05:6000:4b11:b0:476:7036:f854 with SMTP id ffacd0b85a97d-47f622f83ccmr11899817f8f.21.1784475102735;
+        Sun, 19 Jul 2026 08:31:42 -0700 (PDT)
+Received: from localhost.localdomain ([2a0d:3344:2841:7708:a101:2b8a:f76:a00f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63edd7d3sm20420729f8f.25.2026.07.19.08.31.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Jul 2026 08:31:42 -0700 (PDT)
+From: Aureal <juanmanuellopezcarrillo@gmail.com>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Brian Masney <bmasney@redhat.com>,
+	linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Juan=20Manuel=20L=C3=B3pez=20Carrillo?= <juanmanuellopezcarrillo@gmail.com>
+Subject: [PATCH] clk: sunxi-ng: div: implement set_rate_and_parent
+Date: Sun, 19 Jul 2026 17:31:22 +0200
+Message-ID: <20260719153122.892013-1-juanmanuellopezcarrillo@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260717-a733-rtc-v5-0-3874cc26abf7@baylibre.com>
- <20260717-a733-rtc-v5-2-3874cc26abf7@baylibre.com> <20260717154005.444E41F000E9@smtp.kernel.org>
- <CAGb2v65PmMnm=gusbVRJqwHkMFAdKpFyk8coXK=pf0-dBgv8kw@mail.gmail.com> <1jqzkzds54.fsf@starbuckisacylon.baylibre.com>
-In-Reply-To: <1jqzkzds54.fsf@starbuckisacylon.baylibre.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 19 Jul 2026 23:12:54 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67n7=TtGtThhMvRY=0YwohAOCtvGUO_2A46SynK10axfQ@mail.gmail.com>
-X-Gm-Features: AUfX_myvVG7ADgJJXLtTSAVbNpOGFeUtBp63taMiVGNacocgHbMpjmjv0ND4nhU
-Message-ID: <CAGb2v67n7=TtGtThhMvRY=0YwohAOCtvGUO_2A46SynK10axfQ@mail.gmail.com>
-Subject: Re: [PATCH v5 2/4] clk: sunxi-ng: div: add read-only operation support
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: sashiko-reviews@lists.linux.dev, robh@kernel.org, 
-	linux-rtc@vger.kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-clk <linux-clk@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jul 19, 2026 at 9:29=E2=80=AFPM Jerome Brunet <jbrunet@baylibre.com=
-> wrote:
->
-> On dim. 19 juil. 2026 at 18:59, Chen-Yu Tsai <wens@kernel.org> wrote:
->
-> >
-> >> > +
-> >> > +     } else {
-> >>
-> >> [ ... ]
-> >>
-> >> > @@ -143,3 +157,15 @@ const struct clk_ops ccu_div_ops =3D {
-> >> >       .set_rate       =3D ccu_div_set_rate,
-> >> >  };
-> >> >  EXPORT_SYMBOL_NS_GPL(ccu_div_ops, "SUNXI_CCU");
-> >> > +
-> >> > +const struct clk_ops ccu_rodiv_ops =3D {
-> >> > +     .disable        =3D ccu_div_disable,
-> >> > +     .enable         =3D ccu_div_enable,
-> >> > +     .is_enabled     =3D ccu_div_is_enabled,
-> >> > +
-> >> > +     .get_parent     =3D ccu_div_get_parent,
-> >> > +
-> >> > +     .determine_rate =3D ccu_div_determine_rate,
-> >> > +     .recalc_rate    =3D ccu_div_recalc_rate,
-> >> > +};
-> >>
-> >> [Severity: High]
-> >> Could the missing .set_parent callback in ccu_rodiv_ops lead to a sile=
-nt
-> >> desynchronization between the software clock tree and the hardware?
-> >>
-> >> The struct provides reparenting capabilities via .get_parent and
-> >> .determine_rate, but omits .set_parent. If a rate request causes
-> >> ccu_mux_helper_determine_rate() to evaluate and select a new parent, t=
-he
-> >> Common Clock Framework will apply this new parent in software but skip
-> >> updating the hardware since .set_parent is NULL.
-> >
-> > This is an issue. I'm not sure if what Sashiko says actually happens.
->
-> I think it could. I've defenitely made a mistake here.
->
-> > But 1. this is "read-only divider", not "read-only mux & divider",
->
-> The correct way to choose between the 2 is CLK_SET_RATE_NO_REPARENT I thi=
-nk.
+From: Juan Manuel López Carrillo <juanmanuellopezcarrillo@gmail.com>
 
-For standard muxes, just dropping the .set_parent and .determine_rate
-callbacks works. The core will just pass the determine_rate request
-to the current parent. In fact that is what the basic clk-mux does.
-However we have to deal with the pre-dividers, so we need the
-.determine_rate callback.
+When a rate change on a ccu_div clock also switches its parent, the
+clk core, in the absence of a .set_rate_and_parent op, programs the
+parent first and the divider second.  If the new parent is faster than
+the old one, the clock transiently runs at new_parent_rate/old_divider
+between the two register writes, overshooting both the old and the
+requested rate and potentially violating the consumer's maximum
+allowed frequency.
 
-On the other hand CLK_SET_RATE_NO_REPARENT just says that the rate change
-cannot reparent the clock. And it requires the ops to actually check for
-it. (In the past we didn't always check ...). So we should still drop the
-.set_parent op for clarity.
+This is not theoretical.  On the Allwinner A523/T527 the GPU clock is
+a ccu_div muxing between pll-gpu and the fixed pll-periph0 outputs:
+going from 600 MHz (pll-periph0-600M, M=1) down to 400 or 200 MHz
+(both derived from pll-periph0-800M) makes the Mali G57 run at 800 MHz
+for the window between the two writes, 33% above the vendor's maximum
+operating point.  Observed and validated on an Orange Pi 4A (T527)
+with a downstream GPU devfreq setup; mainline does not yet describe
+GPU OPPs for this SoC, but any ccu_div consumer whose set_rate ends up
+crossing parents is affected.
 
-But I think the main thing is that the naming and your intention in
-this patch is that the divider is read-only, not the mux.
+Implement .set_rate_and_parent with the same ordering rule as
+clk_composite_set_rate_and_parent(): if keeping the current divider
+while switching the mux would overshoot the requested rate, program
+the divider first, otherwise switch the mux first.  The intermediate
+rate then never exceeds both the old and the new rate.
 
-> > so the .set_parent callback should be provided. And 2. this is using
-> > the ccu_mux_determine_rate_helper, so it's possible a clk_set_rate()
-> > call is going to cause a reparent.
-> >
-> > I can add it while applying if there are no other issues.
->
-> As you prefer, I don't mind sending another version in a few days
-> (giving some review time to patch #1)
+Clocks using a prediv feature keep the historical mux-then-divider
+order: the prediv helpers look the prediv up by the current parent,
+which is ambiguous while both are changing.
 
-That also works if you want to do it. It does help with preserving
-history.
+Fixes: e9b93213103f ("clk: sunxi-ng: Add divider")
+Signed-off-by: Juan Manuel López Carrillo <juanmanuellopezcarrillo@gmail.com>
+---
+Note: this touches the same area of ccu_div.c as patch 2/4 of the
+pending series "clk: sun6i-rtc: Add support for Allwinner A733 SoC" v5
+(<20260717-a733-rtc-v5-2-3874cc26abf7@baylibre.com>), which adds
+ccu_rodiv_ops right after ccu_div_ops.  The conflict is trivial
+(context only); happy to rebase on top of it if it lands first.
 
+ drivers/clk/sunxi-ng/ccu_div.c | 36 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-Thanks
-ChenYu
+diff --git a/drivers/clk/sunxi-ng/ccu_div.c b/drivers/clk/sunxi-ng/ccu_div.c
+index 62d680ccb..9024bcd8c 100644
+--- a/drivers/clk/sunxi-ng/ccu_div.c
++++ b/drivers/clk/sunxi-ng/ccu_div.c
+@@ -130,6 +130,41 @@ static int ccu_div_set_parent(struct clk_hw *hw, u8 index)
+ 	return ccu_mux_helper_set_parent(&cd->common, &cd->mux, index);
+ }
+ 
++static int ccu_div_set_rate_and_parent(struct clk_hw *hw, unsigned long rate,
++				       unsigned long parent_rate, u8 index)
++{
++	struct ccu_div *cd = hw_to_ccu_div(hw);
++
++	/*
++	 * The predivider helpers look it up through the current parent,
++	 * which is ambiguous while both the parent and the divider are
++	 * changing, so keep the mux-then-divider order the core would
++	 * have used for those clocks.
++	 */
++	if (cd->common.features & (CCU_FEATURE_VARIABLE_PREDIV |
++				   CCU_FEATURE_FIXED_PREDIV |
++				   CCU_FEATURE_ALL_PREDIV)) {
++		ccu_div_set_parent(hw, index);
++		return ccu_div_set_rate(hw, rate, parent_rate);
++	}
++
++	/*
++	 * Same ordering rule as clk_composite_set_rate_and_parent(): if
++	 * switching the mux with the current divider would overshoot the
++	 * requested rate, program the divider first, so the intermediate
++	 * rate never exceeds both the old and the new rate.
++	 */
++	if (ccu_div_recalc_rate(hw, parent_rate) > rate) {
++		ccu_div_set_rate(hw, rate, parent_rate);
++		ccu_div_set_parent(hw, index);
++	} else {
++		ccu_div_set_parent(hw, index);
++		ccu_div_set_rate(hw, rate, parent_rate);
++	}
++
++	return 0;
++}
++
+ const struct clk_ops ccu_div_ops = {
+ 	.disable	= ccu_div_disable,
+ 	.enable		= ccu_div_enable,
+@@ -141,5 +176,6 @@ const struct clk_ops ccu_div_ops = {
+ 	.determine_rate	= ccu_div_determine_rate,
+ 	.recalc_rate	= ccu_div_recalc_rate,
+ 	.set_rate	= ccu_div_set_rate,
++	.set_rate_and_parent = ccu_div_set_rate_and_parent,
+ };
+ EXPORT_SYMBOL_NS_GPL(ccu_div_ops, "SUNXI_CCU");
+
+base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
+-- 
+2.47.3
+
