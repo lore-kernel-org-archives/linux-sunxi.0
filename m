@@ -1,145 +1,155 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 183BC346ADC
-	for <linux-sunxi@lists.linux.dev>; Sun, 19 Jul 2026 07:57:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10705283142
+	for <linux-sunxi@lists.linux.dev>; Sun, 19 Jul 2026 08:07:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784447861; cv=none; b=qH/XhC0zynLd08xZYuhlAWmg37z+To4pvZDuA4bRwVf/zB+uGs//g9z7syHZZ2w6aWGG2DHUGq/fMdI7IfII4IhO7zlIhdqYMMDhfa6imKF6csCWPY6m6aBGdtunsO0mF8oPjlGH6f8+AmBU6lD+Gst1SaQgUi8p1/3SzxBU7VI=
+	t=1784448481; cv=none; b=KjSCdlsI7X3fGkURxwIzagjdLXa7kjhLFTtB+sw3EYeJhhDAjJ5E3hOGGR7UqcijQPJmT30YYH7um9+1b6iA26pmUBo1WPZbYETfvA+uPDHafK3AoWDce383Rj04PU+ahC6z5GfBLBqu3+0COy9eXPQ9CF6gBgF9QAObggdkKhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784447861; c=relaxed/simple;
-	bh=ZHRVZhPzlyp+x7ruhcCcGaCk7KkIkLpi8O5C2Fboo1M=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=eM3G3Gd8dpOgOajrCafujQqIJk+2+2x28lEndRjMwTs0WFN98chmrOFjc7qOYKBJVUYBeUP4amx+l8fKQMxGTt5jS7q3X/sENy4TUIiq0jijjbNOHDanGZlaJvyu8qqo/i3WWpx+kPTHZBpm9oLMAB6Vd8HgU0tT7kpoAv2+Nd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WydQgQUz; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784448481; c=relaxed/simple;
+	bh=ZnadcBjdm7eehoSg8IvCqxDUhXboUr4otE+USSD4jvE=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=ls8wjl0f1nPvzukUAfXq1FPj1PMrLrqhJWNhJFdVuIuYKhMc65Noul3GR9eG/GwmN4tVclQT+02o101Zt1Ol95r1+p/WGSNzt3FyksqxBBypHh/hd2ZvQ1X6+Whod4XWnI5WupGIEZgKgQGUi6g/+cVymWGUAb245F7j8rZMJaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CRTmeEqa; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WydQgQUz"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5b28c91fba5so3254348e87.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 19 Jul 2026 00:57:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784447858; x=1785052658; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=9QbUYJZtIOWTqXjFT0yqfZhtKIKPSa7W9f9Fx5FbY2Q=;
-        b=WydQgQUz3NT1qzl3flyewjJVdkNL2FUNnTiqrO0e/xmuXo0MkFIpRondplWJ2ehIYd
-         xsD4lw53+jU2SMrWdle9mrZWevcPbBZum2FLSi8B3MgE7NoqDmVAILAIx/CO+fucQktK
-         PCM1hYV57ZehFIZAEZvpE/D7alLqlx8LHpTqBosatcrScSpKKiGbgq1ssWVGNI+7Zoqk
-         l9Ro0M02iSGrJmv/3N+1c7ITcNAnuNmJtXmUWsTuhYuDEAs2ZIImhS5PUPTF52wi9CmT
-         YdXGFF++Ufdrc1knF4Gvk1hLtQNfoLclaD5ePjibB+76dDWJx0D3tFQlI5akOHFgBkBU
-         gKxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784447858; x=1785052658;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9QbUYJZtIOWTqXjFT0yqfZhtKIKPSa7W9f9Fx5FbY2Q=;
-        b=q7gDfSYLshptvvYO7nHJpnZm8RpbDdRSLioHR8B+iBFNM+YQDiXbwprvFYGJfmTja0
-         /x6253FKtQwXlBC1Vq6dyUxBAz2SB6VQe+Ab8OpfiwL5X5qmgtjAnmP0Kiy0Q+lBwlZQ
-         cwU78I4/oz6ZCVFSruxwCZ/YMx8CiHQx5K57Ux5ATESkY/9X/RdEbIsnVSvlKigMCcYs
-         DoxOFm1FJAnwVERWPc4yYZgI+lxNpR8cci0mhkFZ5CsJULZkpUdAs+R/B5YXp91wIaSo
-         pxFpnZmxQUrzfaMpLIN2ZNCBxSlb3Q76pD+GEIhSuvK9E1Ljf28t+qg73NykPz+MToO/
-         plZA==
-X-Forwarded-Encrypted: i=1; AHgh+RpRXwH+2hs85v1uT6DrSQ2kCCUhW85YgpqzLu8ORB+A2VAAINgfguU/hRAWX178hRCNMcxlSGZLzd/hGw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxMVJ1Th8IJhiD0y7dW4qDUWoutRThneSHuwoBKz2s3mkS1hjmT
-	sERGNeGxmOyjEOjPfF6V2vRi963E6Mvrv8EcA6win61SFXI7gjZKMkns
-X-Gm-Gg: AfdE7cmwwt34fS7jDAQv9WoScx8aSmNU0rX2VFeo7PeT9R1x0vaimqhMcIdw4m7kXyU
-	ooeoC4rCL47BtgTmZ0mt+g8dBipOTlVPDjKVCxaKyTOwDtyxlOGxr/z1VwxrSj2zDUAYsiyaX+5
-	pK5s3M8mq0f1jdtLC3VDZm96XwYQX0LPl6PQxwGFQ8Kds0W+RvQYx2JMjg1nmcpPeSNKZouvzlf
-	jblxEQDSjRB64+M7JKSj0rA75A4Wc8FYWSMDw9+6hGzBwjXPIhHJbFBjROg1JBZ51234juJngO4
-	Sq2UywDf3Rpdij89d0fwePGXlrkkDpimvohsz1C48ARA+Sazo+zLbESuiXxdA9OfItz5ly4O4FG
-	3sF3wKls63MTDQqqQBtJ/s808QdK7DM0tTxe+ghK4LTa9p77xTcWWONL7fSxWogcM2ROuFDCBdj
-	pScg4wLzPzMLqaAnGCGn3qHX9LSMZ4lL5sijqEig+/YTznik53R7NfhMvkFxg=
-X-Received: by 2002:a05:6512:6412:b0:5b1:5e19:c496 with SMTP id 2adb3069b0e04-5b28a17760bmr2314551e87.14.1784447857959;
-        Sun, 19 Jul 2026 00:57:37 -0700 (PDT)
-Received: from thinkpad ([5.212.61.200])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b291e0e926sm1604207e87.54.2026.07.19.00.57.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jul 2026 00:57:36 -0700 (PDT)
-From: Arash Golgol <arash.golgol@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: yong.deng@magewell.com,
-	paulk@sys-base.io,
-	mchehab@kernel.org,
-	wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	laurent.pinchart@ideasonboard.com,
-	linux-sunxi@lists.linux.dev,
-	Arash Golgol <arash.golgol@gmail.com>
-Subject: [PATCH v5 2/2] media: sun6i-csi: capture: Implement vidioc_enum_framesizes
-Date: Sun, 19 Jul 2026 14:57:14 +0330
-Message-Id: <20260719112714.72802-3-arash.golgol@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260719112714.72802-1-arash.golgol@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CRTmeEqa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BD221F000E9;
+	Sun, 19 Jul 2026 08:07:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784448479;
+	bh=LkwhkGQ3lB4eV/qP1APbXVZabGpCQW1mHcmX3dXZI/w=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=CRTmeEqaVcChpiZa0IwiK/4LnBfuD63g3kBrnsgdj2z3LzcFXSyrHY03BDS9itecQ
+	 DsFo+2Zjwqb84z6RJ3pNmVNwp5AioxAbOExUsGeNgrzN9MtzeKGF/A/kddtyDrI9Y0
+	 /PNIF8on1n/jdFzsW06SP89vBnYw5g/mVn6QG+sifORYx9ZrCIG4UTffqihWwOoJMF
+	 O99FTlMN6kZp9CRIbJnC5ag0NI85kNv29yjX2gAtN4gA9Lq2QiKfDc4drBhnsY3P/W
+	 eKHvpOiTfiaagioR6mtyy029d0i5g+/OrbdtGjyOjRNSViqzi9tG+GXCsk6hbJ/kYr
+	 JfHhRdLbAqIaw==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v5 2/2] media: sun6i-csi: capture: Implement
+ vidioc_enum_framesizes
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Arash Golgol" <arash.golgol@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, media-ci@linuxtv.org
+In-Reply-To: <20260719112714.72802-3-arash.golgol@gmail.com>
 References: <20260719112714.72802-1-arash.golgol@gmail.com>
+ <20260719112714.72802-3-arash.golgol@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 19 Jul 2026 08:07:59 +0000
+Message-Id: <20260719080759.7BD221F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Report the stepwise frame size range supported by the CSI capture
-hardware for the pixel formats exposed by the driver.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
 
-The hardware does not perform scaling and accepts any even width and
-height within the reported limits.
+New issues:
+- [Medium] Inconsistent frame size constraints between `VIDIOC_ENUM_FRAMESI=
+ZES` and `VIDIOC_TRY_FMT` / `VIDIOC_S_FMT` for `V4L2_PIX_FMT_NV12_16L16`.
 
-Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
----
- .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 28 +++++++++++++++++++
- 1 file changed, 28 insertions(+)
+Pre-existing issues:
+- [High] `TRY_FMT` calculates `sizeimage` incorrectly for `NV12_16L16` with=
+ unaligned dimensions, leading to potential DMA buffer overflows.
+--
 
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-index d90abba21309..e17c7f82ff47 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-@@ -738,6 +738,33 @@ static int sun6i_csi_capture_enum_fmt(struct file *file, void *priv,
- 	return 0;
- }
- 
-+static int sun6i_csi_capture_enum_framesize(struct file *file, void *fh,
-+					    struct v4l2_frmsizeenum *fsize)
-+{
-+	if (fsize->index)
-+		return -EINVAL;
-+
-+	/* Only accept format in map table. */
-+	if (!sun6i_csi_capture_format_find(fsize->pixel_format))
-+		return -EINVAL;
-+
-+	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
-+	fsize->stepwise.min_width = SUN6I_CSI_CAPTURE_WIDTH_MIN;
-+	fsize->stepwise.max_width = SUN6I_CSI_CAPTURE_WIDTH_MAX;
-+	fsize->stepwise.min_height = SUN6I_CSI_CAPTURE_HEIGHT_MIN;
-+	fsize->stepwise.max_height = SUN6I_CSI_CAPTURE_HEIGHT_MAX;
-+
-+	if (fsize->pixel_format == V4L2_PIX_FMT_NV12_16L16) {
-+		fsize->stepwise.step_width = 16;
-+		fsize->stepwise.step_height = 16;
-+	} else {
-+		fsize->stepwise.step_width = 2;
-+		fsize->stepwise.step_height = 2;
-+	}
-+
-+	return 0;
-+}
-+
- static int sun6i_csi_capture_g_fmt(struct file *file, void *priv,
- 				   struct v4l2_format *format)
- {
-@@ -805,6 +832,7 @@ static const struct v4l2_ioctl_ops sun6i_csi_capture_ioctl_ops = {
- 	.vidioc_querycap		= sun6i_csi_capture_querycap,
- 
- 	.vidioc_enum_fmt_vid_cap	= sun6i_csi_capture_enum_fmt,
-+	.vidioc_enum_framesizes		= sun6i_csi_capture_enum_framesize,
- 	.vidioc_g_fmt_vid_cap		= sun6i_csi_capture_g_fmt,
- 	.vidioc_s_fmt_vid_cap		= sun6i_csi_capture_s_fmt,
- 	.vidioc_try_fmt_vid_cap		= sun6i_csi_capture_try_fmt,
--- 
-2.34.1
+--- Patch [2]: [PATCH v5 2/2] media: sun6i-csi: capture: Implement vidioc_e=
+num_framesizes ---
+commit f5cc5843b18ce4fd2988ebb6c61247d1f5cd63a3
+Author: Arash Golgol <arash.golgol@gmail.com>
+media: sun6i-csi: capture: Implement vidioc_enum_framesizes
 
+This commit reports the stepwise frame size range supported by the CSI
+capture hardware for the pixel formats exposed by the driver.
+
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b=
+/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> index d90abba213098..e17c7f82ff478 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> @@ -738,6 +738,33 @@ static int sun6i_csi_capture_enum_fmt(struct file *f=
+ile, void *priv,
+>  	return 0;
+>  }
+> =20
+> +static int sun6i_csi_capture_enum_framesize(struct file *file, void *fh,
+> +					    struct v4l2_frmsizeenum *fsize)
+> +{
+> +	if (fsize->index)
+> +		return -EINVAL;
+> +
+> +	/* Only accept format in map table. */
+> +	if (!sun6i_csi_capture_format_find(fsize->pixel_format))
+> +		return -EINVAL;
+> +
+> +	fsize->type =3D V4L2_FRMSIZE_TYPE_STEPWISE;
+> +	fsize->stepwise.min_width =3D SUN6I_CSI_CAPTURE_WIDTH_MIN;
+> +	fsize->stepwise.max_width =3D SUN6I_CSI_CAPTURE_WIDTH_MAX;
+> +	fsize->stepwise.min_height =3D SUN6I_CSI_CAPTURE_HEIGHT_MIN;
+> +	fsize->stepwise.max_height =3D SUN6I_CSI_CAPTURE_HEIGHT_MAX;
+> +
+> +	if (fsize->pixel_format =3D=3D V4L2_PIX_FMT_NV12_16L16) {
+> +		fsize->stepwise.step_width =3D 16;
+> +		fsize->stepwise.step_height =3D 16;
+> +	} else {
+> +		fsize->stepwise.step_width =3D 2;
+> +		fsize->stepwise.step_height =3D 2;
+> +	}
+
+[Severity: Medium]
+Will this lead to inconsistent frame size constraints?
+
+While this reports a 16-pixel step width and height for
+V4L2_PIX_FMT_NV12_16L16 via ENUM_FRAMESIZES,
+drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c:sun6i_csi_captur=
+e_format_prepare()
+(used by TRY_FMT and S_FMT) unconditionally uses v4l_bound_align_image()
+with an alignment of 2:
+
+	v4l_bound_align_image(&pix_format->width, SUN6I_CSI_CAPTURE_WIDTH_MIN,
+			      SUN6I_CSI_CAPTURE_WIDTH_MAX, 1,
+			      &pix_format->height, SUN6I_CSI_CAPTURE_HEIGHT_MIN,
+			      SUN6I_CSI_CAPTURE_HEIGHT_MAX, 1, 0);
+
+Could this allow userspace to successfully request sizes via TRY_FMT that
+ENUM_FRAMESIZES claims are unsupported, potentially leading to
+v4l2-compliance test failures and contradictory format negotiation?
+
+[Severity: High]
+This isn't a bug introduced by this patch, but does TRY_FMT calculate
+sizeimage incorrectly for NV12_16L16 with unaligned dimensions?
+
+Since
+drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c:sun6i_csi_captur=
+e_format_prepare()
+allows width and height to be unaligned multiples of 2 and computes
+sizeimage purely linearly:
+
+	case V4L2_PIX_FMT_NV12_16L16:
+		pix_format->bytesperline =3D width * 12 / 8;
+		pix_format->sizeimage =3D pix_format->bytesperline * height;
+		break;
+
+Could this lead to a DMA buffer overflow?
+
+The CSI DMA hardware natively writes in 16x16 tiles. If a user requests an
+unaligned frame size (e.g., 34x34) for V4L2_PIX_FMT_NV12_16L16 via
+VIDIOC_TRY_FMT, the allocated vb2 buffer will be smaller than what the
+hardware DMA actually writes.
+
+For example, a 34x34 image will be written as 3x3 tiles (48x48 pixels),
+consuming 3456 bytes. However, the allocated buffer for 34x34 is only 1734
+bytes (34 * 1.5 * 34), which would cause a buffer overflow when the DMA
+writes the padded tiles past the end of the allocation.
+
+> +
+> +	return 0;
+> +}
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260719112714.7280=
+2-1-arash.golgol@gmail.com?part=3D2
