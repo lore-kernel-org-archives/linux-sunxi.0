@@ -1,107 +1,165 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6512A431E67
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jul 2026 14:54:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4954B261B9E
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jul 2026 15:00:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784559245; cv=none; b=QtXYDQBUuqpPTiPkjHVFvk7CHe4keutpEnKRjOUxXFfUxWN9SH1zSauT96XsjTykVsVVkURJnzEHaa5FIshoEJ1n19FKmNbPvyRsJjYlVWy69JH/T37UPTnkGZQTRv0M4WczHoUKXtsYy9YS1+e2XKREDobrKaGek4ojPqPBsMs=
+	t=1784559614; cv=none; b=u19ulpY8q5OrYLXjw2bSfVxp2QHbfjVX6+yudjTLLFxT2GwNOu9OdzgWnTdEXpFXGVj4ixLWpuxuR4LgqnA/dgskQKZDQVChBoywbB7Rq7vI5mv7gznpXYpVnn3AEA65crY8MmctTOUfoWv1IFYX0qxKIR2muGCw1tI2H7tFBjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784559245; c=relaxed/simple;
-	bh=IKo5eopQG2hiHW1ref5R02ODVFGQ4cjhI3EWRSKFDuY=;
+	s=arc-20240116; t=1784559614; c=relaxed/simple;
+	bh=LZfiYFdhqwkGWCj0/ELn1D+HQoUe4Bfi4tawgNhijGY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Be4bANbqq3dGjR+m/EuHGABrqEdo1hsgQ4Y3kkzJ8OYZ8CIi4tkjEn8IoaiC8WB/3cwCCWaSeO4whd2hQn9kLY3wD36d6Tk61iVPNk8bLi6X71i51gttvDNsTY6rC74FKjDRGGG3ndh6DANFthUFCRIi5mc3eTxi5xA4qtQQ22U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IYxPWK1r; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=pA0cwmTMByEugBiw80Q8IcIXvoUGeWwnjYzwIVrFBs+RpcotGyBGQBFQ+IePXb7bo8w6A8Ra6S6ODP4RPesVE1AcI5RGRLvByeQ3CGJd5Fhrgdbxy5rWAyJrTSoMYDJF8VwA2Z9vIZ1uYegVY+bYyKi4iJNIXQAu4gY0/OY5VEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jYNftuoY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IYxPWK1r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D3A51F01569
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jul 2026 14:54:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jYNftuoY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 105F41F00AC4
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jul 2026 15:00:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784559244;
-	bh=q88Fl0V/0lAk/+TEzcTUp/7qPfUq146zXnUT1jSEMMg=;
+	s=k20260515; t=1784559612;
+	bh=ycNBxklaVmmxA9p+FUkLQ7zBOctipBkWzL8+cRziObE=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=IYxPWK1rXxXdN5Fa0G5McnH/9BE30oH78m16049eaWAiGZ8KFbBDN/sHiRVE1A7Zv
-	 eFRGTduevMm6chvQmkSybIEz2N24pDqIi6vN29/+4Ja9MOALWqfDeAhRIHhc/SARFc
-	 WH4OIKCLUdaQZ5Kp724oR1HLazIfLgCtnIAki7qvaiZpwMv9uVyuvZtDBobdpVH/41
-	 /mg3Q8+PKK5dbkke3ea7NtAkjnECokiBTTKva0nHE20cTX2FLTLulBNtLoxTzYJzsi
-	 7qwK0tduSA9PqHlWZ/gxQ/0Cw9ujsL3VIWdBRdUmH2k2EOQrwPL0jm3F5nLJ0vjxeI
-	 9W36YSXCxjo4w==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-39c86ce9e29so65550921fa.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jul 2026 07:54:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RpCPXWU1h025cBoRBtIsnDPZPZuNuWjrA3rAwDBaUbLR1DKMljLTIFGp5Ca/KjNhCwMfw+Kv0nl2Qp73Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxSvJiT7GTEY/xPeT5Jdnr5fwgFmuSO8/g/DbMlwH0mnUiYrtMR
-	FRP/BsnlUzRwuoKA+B1hU0L7mDtvqZ1OeJQp2ZQCwZeAsY2bQZhh5B2QkAJDEk2NuZeD2tGRvk0
-	JoezjVfCPKU1GYocSfb3fXXyvR9ogcCk=
-X-Received: by 2002:a2e:a902:0:b0:39a:fd6e:cac6 with SMTP id
- 38308e7fff4ca-39eb2891a7emr29265181fa.25.1784559242360; Mon, 20 Jul 2026
- 07:54:02 -0700 (PDT)
+	b=jYNftuoYHLqhjKULKjfWm+F98NTgtaMuARSXROze+kppPuP211YIGPoUqvVGvBN1H
+	 AbSP3gzgNZ9l8CH75UmHp2t0LR+jbliLU9ZTysP8dWdWJsjQWUF+SZefpuFRokncMO
+	 TeRKdB3hFfRxZXPxtX9fvmd8vYa9e3BAzYna/P4b4Eb7kfkbrmbMK728lZX9r1VmS9
+	 AbU/vcar9X2gtc0VIqLA2st5pH8r5q2YxoX2uX5XMSvYhaP+OKtYLzNNRi7hpeSxkQ
+	 sFXB3+KEAtDG9aImwMmrqtkIuV5Y8wc/PabssfEYbD/eSxHXYtfcymuWnGdIRdandd
+	 /c63Fo1Da1DdQ==
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-39da69c5ba3so51856861fa.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jul 2026 08:00:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rq210MPq3RMz7ReEsacHc8kNZH6jICDVogFcp2JpLe7csbME5+UfSKUQDeld/RrktsFkSALM0Wk3xAThw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwFjfzS3t5bTUiVOC0TPAIPdNooxHApHznbbrWFyDFDoOe06tmd
+	yFru65Jm+ctCItZgea0yaMMSkEkjbt8QZT6iMfdyRMn+qNihyjf5GVKadF3eaaXBcx3G6TYotEt
+	9fy182QZPxDLxzByrCMjJnoZEk9u6Gl8=
+X-Received: by 2002:a2e:be85:0:b0:39d:4014:12cb with SMTP id
+ 38308e7fff4ca-39eb27158ddmr27207081fa.2.1784559610404; Mon, 20 Jul 2026
+ 08:00:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260716025215.33592-1-panchuang@vivo.com>
-In-Reply-To: <20260716025215.33592-1-panchuang@vivo.com>
+References: <20260719030927.2417-1-per@palvencia.se>
+In-Reply-To: <20260719030927.2417-1-per@palvencia.se>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Mon, 20 Jul 2026 22:53:49 +0800
-X-Gmail-Original-Message-ID: <CAGb2v658wUKEph0RaKmZQkOGZSpJTBx6YRW4uNg4-ijRmEqWZw@mail.gmail.com>
-X-Gm-Features: AUfX_myDUKvf94v6L6ujyRnopyyEs37-MefKzA-7jWlx7IViNmraOkkn3GoqGCQ
-Message-ID: <CAGb2v658wUKEph0RaKmZQkOGZSpJTBx6YRW4uNg4-ijRmEqWZw@mail.gmail.com>
-Subject: Re: [PATCH] mailbox: Remove redundant dev_err()/dev_err_probe()
-To: Pan Chuang <panchuang@vivo.com>
-Cc: Jassi Brar <jassisinghbrar@gmail.com>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	Tushar Khandelwal <Tushar.Khandelwal@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>, 
-	Cristian Marussi <cristian.marussi@arm.com>, =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, Conor Dooley <conor.dooley@microchip.com>, 
-	Daire McNamara <daire.mcnamara@microchip.com>, Sibi Sankar <sibi.sankar@oss.qualcomm.com>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Thierry Reding <thierry.reding@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	"open list:MAILBOX API" <linux-kernel@vger.kernel.org>, 
-	"moderated list:MAILBOX ARM MHUv3" <linux-arm-kernel@lists.infradead.org>, 
-	"moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" <linux-rpi-kernel@lists.infradead.org>, 
-	"open list:RISC-V MICROCHIP SUPPORT" <linux-riscv@lists.infradead.org>, 
-	"open list:QUALCOMM CPUCP MAILBOX DRIVER" <linux-arm-msm@vger.kernel.org>, 
-	"moderated list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>, 
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, 
-	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>
+Date: Mon, 20 Jul 2026 22:59:57 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64rRipC9VV5QyHC0nR4rAho8q=wX0ngVVxRND3xMOnofA@mail.gmail.com>
+X-Gm-Features: AUfX_mygD09zG0aqXA7P3nfYCY5wS_Gay0KUV-iNTQ-76viZAbc2kbcgr8hwOVI
+Message-ID: <CAGb2v64rRipC9VV5QyHC0nR4rAho8q=wX0ngVVxRND3xMOnofA@mail.gmail.com>
+Subject: Re: [PATCH RFC] arm64: dts: allwinner: a523: Add SPDIF to x96qproplus device
+To: Per Larsson <per@palvencia.se>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
+	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, 
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 16, 2026 at 10:52=E2=80=AFAM Pan Chuang <panchuang@vivo.com> wr=
-ote:
+On Sun, Jul 19, 2026 at 11:10=E2=80=AFAM Per Larsson <per@palvencia.se> wro=
+te:
 >
-> Since commit 55b48e23f5c4 ("genirq/devres: Add error handling in
-> devm_request_*_irq()"), devm_request_irq() and devm_request_threaded_irq(=
-)
-> automatically log detailed error messages on failure. Remove the
-> now-redundant driver-specific dev_err() and dev_err_probe() calls.
+> When spdif support was added for the Allwinner A523 family of SoCs, only
+> two of the three possible pins were added to the dtsi, since the third
+> would clash with the first ethernet port (emac0)
+> However, some devices don't use emac0 and instead use emac1 for the only
+> available ethernet port, leaving the pin free to use for spdif.
 >
-> Signed-off-by: Pan Chuang <panchuang@vivo.com>
+> Add it to the dtsi, and to such a device where this pin is used for spdif
+>
+> Signed-off-by: Per Larsson <per@palvencia.se>
 > ---
->  drivers/mailbox/arm_mhu_db.c               |  1 -
->  drivers/mailbox/arm_mhuv2.c                |  9 ++-------
->  drivers/mailbox/arm_mhuv3.c                |  5 ++---
->  drivers/mailbox/armada-37xx-rwtm-mailbox.c |  4 +---
->  drivers/mailbox/bcm-pdc-mailbox.c          |  5 +----
->  drivers/mailbox/bcm2835-mailbox.c          |  5 +----
->  drivers/mailbox/bcm74110-mailbox.c         |  2 +-
->  drivers/mailbox/cv1800-mailbox.c           |  2 +-
->  drivers/mailbox/hi6220-mailbox.c           |  5 +----
->  drivers/mailbox/mailbox-mpfs.c             |  2 --
->  drivers/mailbox/mailbox-sti.c              |  4 +---
->  drivers/mailbox/qcom-cpucp-mbox.c          |  2 +-
->  drivers/mailbox/qcom-ipcc.c                |  4 +---
->  drivers/mailbox/sprd-mailbox.c             | 12 +++---------
->  drivers/mailbox/stm32-ipcc.c               |  4 +---
+> Marking this as RFC for a few reasons
+> 1. This is my first submission, hoping everything is properly organized.
+
+This is pretty good. The commit message is also well written. I would
+like to see the patch split into two patches though. The first adds the
+pinmux (and you can mention in the commit message that a subsequent
+patch will reference it). The second patch enables SPDIF on the device
+you have.
+
+> 2. My testing setup is not the best: I get sound with this patch, but
+>    the pulseaudio daemon needs to be restarted far too often.
+>    Hopefully it's just something on this minirootfs. Testing welcome.
+> 3. Not sure where to get the hash for a fixes tag or if that's even OK
+
+This is a new addition, not a fix, so no fixes tag is warranted.
 
 
->  drivers/mailbox/sun6i-msgbox.c             |  4 +---
+Thanks
+ChenYu
 
-Acked-by: Chen-Yu Tsai <wens@kernel.org> # sun6i
+> ---
+>  .../arm64/boot/dts/allwinner/sun55i-a523.dtsi |  7 ++++++
+>  .../dts/allwinner/sun55i-h728-x96qpro+.dts    | 24 +++++++++++++++++++
+>  2 files changed, 31 insertions(+)
+>
+> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/=
+boot/dts/allwinner/sun55i-a523.dtsi
+> index ca6a16807049..7370e8ed24ec 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+> @@ -216,6 +216,13 @@ spdif_out_pb_pin: spdif-pb-pin {
+>                                 allwinner,pinmux =3D <2>;
+>                         };
+>
+> +                       /omit-if-no-ref/
+> +                       spdif_out_ph_pin: spdif-ph-pin {
+> +                               pins =3D "PH7";
+> +                               function =3D "spdif";
+> +                               allwinner,pinmux =3D <4>;
+> +                       };
+> +
+>                         /omit-if-no-ref/
+>                         spdif_out_pi_pin: spdif-pi-pin {
+>                                 pins =3D "PI10";
+> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts b/arc=
+h/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
+> index a96927fbdadd..b172985583f8 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
+> @@ -44,6 +44,24 @@ reg_vcc3v3: vcc3v3 {
+>                 vin-supply =3D <&reg_vcc5v>;
+>                 regulator-always-on;
+>         };
+> +
+> +       sound-spdif {
+> +               compatible =3D "simple-audio-card";
+> +               simple-audio-card,name =3D "spdif-out";
+> +
+> +               simple-audio-card,cpu {
+> +                       sound-dai =3D <&spdif>;
+> +               };
+> +
+> +               simple-audio-card,codec {
+> +                       sound-dai =3D <&spdif_out>;
+> +               };
+> +       };
+> +
+> +       spdif_out: spdif-out {
+> +               #sound-dai-cells =3D <0>;
+> +               compatible =3D "linux,spdif-dit";
+> +       };
+>  };
+>
+>  &ehci0 {
+> @@ -275,6 +293,12 @@ &r_pio {
+>         vcc-pm-supply =3D <&reg_aldo3>;
+>  };
+>
+> +&spdif {
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&spdif_out_ph_pin>;
+> +       status =3D "okay";
+> +};
+> +
+>  &uart0 {
+>         pinctrl-names =3D "default";
+>         pinctrl-0 =3D <&uart0_pb_pins>;
+> --
+> 2.48.1
+>
