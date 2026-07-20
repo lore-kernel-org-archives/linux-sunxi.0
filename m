@@ -1,152 +1,106 @@
-Received: from m101-out-mua-6.websupport.se (m101-out-mua-6.websupport.se [109.235.175.106])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5887D44C660
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jul 2026 17:43:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.235.175.106
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 251123C1F2B
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jul 2026 20:28:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784569437; cv=none; b=LV3RehjJg+4gAdwL0SmfTPBjX8d3uISnrEQqlq835hs76q6o5Md/cucfkKlpynM4x1b6ov07ZQwnPEaOjFX/r1rcOzY6s1hTWvpfmIgnutFIMOmb9MhZm2fu5JmNBf9N4daVeOAPvRE8e3UP9eLmRelZc4fVlXmcyra0otGKGxU=
+	t=1784579296; cv=none; b=FujW8TkzyaB7Xv1lB9p0XooXuhjlkpRKADH4qzqh2Lcsr9Pdl1O6vMjUS8rINg5W8GQjrNipH0ZppKrt7x9u9hPlzTTSCxmItQkwE6wS0rl+HsFKKXXfvHuxojXCEkOMcj2RlNO+dLco38/kwy/NeOvikubrC/291b70cFr3iaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784569437; c=relaxed/simple;
-	bh=QuORo6BNu6ikljo1K5M0WR5Xlkz4UgqYu+AlSLxO9As=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WrwbNb97UzcglFiNxn61/1rYZI5Wv2eN83hzwdbmC43FRiCqpcf7pxRBc6Sqg0RAPuvqCcuMzqeZWvZcZVOjZx1O3Rc6FPRtFAs6/2uQOZsiBH2sauj+dPuLrlvZoYxsLAEdZ4FM2vkY9tPw3EY4W8DSGz31lmbGnd2AeknC3fM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=palvencia.se; spf=pass smtp.mailfrom=palvencia.se; dkim=pass (2048-bit key) header.d=palvencia.se header.i=@palvencia.se header.b=uRE/tTHm; arc=none smtp.client-ip=109.235.175.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=palvencia.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=palvencia.se
+	s=arc-20240116; t=1784579296; c=relaxed/simple;
+	bh=nQJLmuZAjlXCvBDXMohcZ1j/B2+X5Z8O3RPYfkvXlB8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=R+uHP86dDPEO67TYaK4sQXvJHnMT/Bn6t5W5kHY19FLNmYodWkZEF+0aLLOWs1VrMyxNdBiXQXaEhaaLpCcvXzAtnuZ98+vIdoH19HZLZNqyeAJwP1FwCeasx9dV6J/ED39qpPhJfyelEKCdolLeW4sTy7006uJnsnwdj+CrAg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=FaCaGQdd; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=palvencia.se header.i=@palvencia.se header.b="uRE/tTHm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=palvencia.se;
-	s=mail; t=1784569430;
-	bh=a6K3JoQ/La7gglTSywyKmCSq3qYTAVbtDQfL9xWyo6M=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uRE/tTHmCL6OMXyzABtlR6iHJJluQr/DgUbHrnzemJ7dyb+eRnbFvUG2uA9/1y4UF
-	 zR7kn+0OSQgMzzPmwjQLZlXIjK5tDdX4Qvw6q7GqNauLf2SanNE/8XNYIMf4LxVG9B
-	 EHNPmqJuLvnhFjFeYU5w8fzdtaOjZXj6h8PcRBv7MaJb3iJllp5PFuH/JTP2NqF1V8
-	 zroBCHdhrvvPoXCJyd497KnuIY2OgDLSWhFlUsLnRMLlB5JhUDJC3Brq0ud3DRC6+M
-	 nsDtGeZpb3ReQ4kdyk0qePn5Jqv3X0W5X/4XWqP0R9GYrSfnx4FVsi/Oxw7YmetIJD
-	 4dubC8bFVQBkQ==
-Received: from m101-u5-ing.websupport.se (unknown [10.30.5.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	by m101-out-mua-6.websupport.se (Postfix) with ESMTPS id 4h3nts714szRD7;
-	Mon, 20 Jul 2026 19:43:49 +0200 (CEST)
-X-Authenticated-Sender: per@palvencia.se
-Authentication-Results: m101-u5-ing.websupport.se;
-	auth=pass smtp.auth=per@palvencia.se smtp.mailfrom=per@palvencia.se
-Received: from palvencia.se (unknown [193.180.91.63])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: per@palvencia.se)
-	by m101-u5-ing.websupport.se (Postfix) with ESMTPSA id 4h3ntr3rKVz2p3h;
-	Mon, 20 Jul 2026 19:43:48 +0200 (CEST)
-From: Per Larsson <per@palvencia.se>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
-	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Per Larsson <per@palvencia.se>
-Subject: [PATCH 2/2] arm64: dts: allwinner: a523: Add SPDIF to x96qpro+ device
-Date: Mon, 20 Jul 2026 19:42:43 +0200
-Message-ID: <20260720174253.7686-2-per@palvencia.se>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="FaCaGQdd"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 506A1143D;
+	Mon, 20 Jul 2026 13:28:04 -0700 (PDT)
+Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 573FB3F86F;
+	Mon, 20 Jul 2026 13:28:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1784579288; bh=nQJLmuZAjlXCvBDXMohcZ1j/B2+X5Z8O3RPYfkvXlB8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=FaCaGQddWXnChyga+RlhKYyLo8XEy4ewC/EDTFcDq5vXLzxixfQMBSTMF8zwQnRqL
+	 +1NBWJuZasrxbqVyEL3NC+PBLd2yrjmYBZBFYAhwijAtPkMtZWv9c1/fKrvX043IFr
+	 L+nKIgPQSzVdpSSODZxxWWXKRhcbX97KiFMtz4XM=
+Date: Mon, 20 Jul 2026 22:24:20 +0200
+From: Andre Przywara <andre.przywara@arm.com>
+To: Per Larsson <per@palvencia.se>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE
+ TREE BINDINGS), linux-arm-kernel@lists.infradead.org (moderated
+ list:ARM/Allwinner sunXi SoC support), linux-sunxi@lists.linux.dev (open
+ list:ARM/Allwinner sunXi SoC support), linux-kernel@vger.kernel.org (open
+ list)
+Subject: Re: [PATCH 1/2] arm64: dts: allwinner: a523: Add missing SPDIF pin
+Message-ID: <20260720222420.0c063b18@ryzen.lan>
 In-Reply-To: <20260720174253.7686-1-per@palvencia.se>
 References: <20260720174253.7686-1-per@palvencia.se>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Out-Rspamd-Queue-Id: 4h3ntr3rKVz2p3h
-X-Out-Rspamd-Server: m101-rspamd-out-6
-X-Rspamd-Action: no action
-X-Out-Spamd-Result: default: False [2.90 / 1000.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_COUNT_ZERO(0.00)[0];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,sholland.org,vger.kernel.org,lists.infradead.org,lists.linux.dev];
-	TAGGED_RCPT(0.00)[dt];
-	ASN(0.00)[asn:35790, ipnet:193.180.91.0/24, country:SE];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	HAS_X_AS(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	LOCAL_OUTBOUND(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-purgate-type: clean
-X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
-X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
-X-purgate: clean
-X-purgate-size: 1315
-X-purgate-ID: 155908::1784569429-3D7071C6-507E0540/2/76550713453
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The X96QPro+ TV box uses the PH7 pin for its SPDIF output
-Add the relevant bits to the dts now that the dtsi knows about the pin
+On Mon, 20 Jul 2026 19:42:42 +0200
+Per Larsson <per@palvencia.se> wrote:
 
-Signed-off-by: Per Larsson <per@palvencia.se>
----
- .../dts/allwinner/sun55i-h728-x96qpro+.dts    | 24 +++++++++++++++++++
- 1 file changed, 24 insertions(+)
+Hi,
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts b/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
-index a96927fbdadd..b172985583f8 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
-@@ -44,6 +44,24 @@ reg_vcc3v3: vcc3v3 {
- 		vin-supply = <&reg_vcc5v>;
- 		regulator-always-on;
- 	};
-+
-+	sound-spdif {
-+		compatible = "simple-audio-card";
-+		simple-audio-card,name = "spdif-out";
-+
-+		simple-audio-card,cpu {
-+			sound-dai = <&spdif>;
-+		};
-+
-+		simple-audio-card,codec {
-+			sound-dai = <&spdif_out>;
-+		};
-+	};
-+
-+	spdif_out: spdif-out {
-+		#sound-dai-cells = <0>;
-+		compatible = "linux,spdif-dit";
-+	};
- };
- 
- &ehci0 {
-@@ -275,6 +293,12 @@ &r_pio {
- 	vcc-pm-supply = <&reg_aldo3>;
- };
- 
-+&spdif {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&spdif_out_ph_pin>;
-+	status = "okay";
-+};
-+
- &uart0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&uart0_pb_pins>;
--- 
-2.48.1
+thanks for takign the time to send a patch!
+
+> When spdif support was added for the Allwinner A523 family of SoCs, only
+> two of the three possible pins were added to the dtsi, since the third
+> would clash with the first ethernet port (emac0)
+> However, some devices don't use emac0 and instead use emac1 for the only
+> available ethernet port, leaving the pin free to use for spdif.
+
+Not sure we need such an elaborate excuse to add a pinmux that is
+used on one device - you could just say *that* instead.
+But that's not a big issue, as the patch itself is correct.
+
+
+> Add the missing pin to the dtsi so such devices can (later) use it
+> 
+> Signed-off-by: Per Larsson <per@palvencia.se>
+
+Checked the details against the user manual: they match:
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+> ---
+>  arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+> index ca6a16807049..7370e8ed24ec 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+> @@ -216,6 +216,13 @@ spdif_out_pb_pin: spdif-pb-pin {
+>  				allwinner,pinmux = <2>;
+>  			};
+>  
+> +			/omit-if-no-ref/
+> +			spdif_out_ph_pin: spdif-ph-pin {
+> +				pins = "PH7";
+> +				function = "spdif";
+> +				allwinner,pinmux = <4>;
+> +			};
+> +
+>  			/omit-if-no-ref/
+>  			spdif_out_pi_pin: spdif-pi-pin {
+>  				pins = "PI10";
 
