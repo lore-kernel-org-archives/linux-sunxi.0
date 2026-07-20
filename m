@@ -1,174 +1,173 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5AD3F0ABC;
-	Mon, 20 Jul 2026 11:05:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80854422558
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jul 2026 13:09:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784545519; cv=none; b=JplNr59x6nKEdRBJTmSJTEDqj/UnvWXnDbKW4eKMUk97nQ3JHhYxRG7rbLuaPHRoMdqKr3DtvA6cb3u2oArEcyqtQIiP/eTgHi+CpkSZ9bvuyg4/AQRbmUx0wY8QMVQJP0RyOjJeQwB2oXsCz6+hkVZADVeeLy87jj8HWf34RZ8=
+	t=1784552990; cv=none; b=HNFjG8i6Ss0q4G3AjIGWGVx4H19hD4WvHTxsyP3gTUeUE+AftGPAoaDl6XVmBO9vyeXBnBaAFE04U6JjELvTQnxRZWePLhW2YJiVgGBwDw/j5w3ZiI3VMc4eaMIvWS9Tn9NrLQ4lR1t37o5FwH62KcJsXS3CvwcoikLQrd6jwJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784545519; c=relaxed/simple;
-	bh=cgrVbqvHirhm8/ft9p1L7cLcou2SKIvhDcqiCnRwQmo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eWU//lFhyQtrEzl4KDe8hC13jl1M5Vbku9Ar3NpJlyXPd5K3WxHucaql96QuGCss2OqCrMBVjI6rNkiItwTmXInZ+22lW4gqYQM419cBwtSj0Tfp2lmUHHNBYiCqS64DKuPoHrYoQ4E7VewrmX0PtTWc84JpHZMVoad5isNMKGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jvOtQpBq; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1784552990; c=relaxed/simple;
+	bh=NibdtCwpxrzNYlWG3qc/r04EtocLChhxPuanrYhvQf0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fW2kcJJ0831RP+Cga29jdzBEzHamslhtsSq0wIajK6NOMRnt7RRCalcGeNxxVvTSYCGhAy3F98v2nr8H6a4vUqlj49cpu7rwHo6lElrt4lPux1FVBqqKkX6mDeOWhrOmzwCb9Rdr3MKHEHGYjM+rMG7ppAB9uc158j8bPcbTDZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gG8G3HVi; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jvOtQpBq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784545513; x=1816081513;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cgrVbqvHirhm8/ft9p1L7cLcou2SKIvhDcqiCnRwQmo=;
-  b=jvOtQpBqPev0RqW686ijzWihxJ56VZ8NcAK4CeuLfQsl4GLL4jNn3xtl
-   i6/AsFyALBwnvKK9vQJNscHpCGIWOnXLqlSATA32MizgXMrL7JYhaVTbt
-   +TNI0QBqmzdopZhbXePxv+EJIxM6hz1eWa+inec8gWs9Q9+LfBNduGOXK
-   VWI8caHsXiLY3g73Hg+noVz3/yEvuBZBHVK6J7zSnGCkI4p9FaCSzi6Ne
-   vGQHa+0tExQjPs2fv7Su2mWyL2E2fPV/+jkyDm334cmy26RvhoMQNJmPX
-   POamLj4aCFIhPysPf02U4aE2DApqhpsyNjMSHfV7Xh5wTuqI6d2o6fItz
-   w==;
-X-CSE-ConnectionGUID: I+RyvlkvT/ymHSjBsMGXjQ==
-X-CSE-MsgGUID: +Y3jqVKdQ8iZ41wtxjme1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11851"; a="84106769"
-X-IronPort-AV: E=Sophos;i="6.25,174,1779174000"; 
-   d="scan'208";a="84106769"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2026 04:05:09 -0700
-X-CSE-ConnectionGUID: b65oAi9yQSiq7NfKO+hA7Q==
-X-CSE-MsgGUID: BER5zIsIRdezir+MK+zDWw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,174,1779174000"; 
-   d="scan'208";a="254815588"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.94])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2026 04:05:01 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id D5319121C2B;
-	Mon, 20 Jul 2026 14:05:03 +0300 (EEST)
-Date: Mon, 20 Jul 2026 14:05:03 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: johannes.goede@oss.qualcomm.com
-Cc: Link Mauve <linkmauve@linkmauve.fr>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Aaro Koskinen <aaro.koskinen@iki.fi>,
-	Andreas Kemnade <andreas@kemnade.info>,
-	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
-	Lee Jones <lee@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	"Vaibhaav Ram T.L" <vaibhaavram.tl@microchip.com>,
-	Kumaravel Thiagarajan <kumaravel.thiagarajan@microchip.com>,
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gG8G3HVi"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4728c12ba97so5028935f8f.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jul 2026 06:09:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1784552987; x=1785157787; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=E8mYPhXUmZpNbn2oVo3k+YKafzsgCsS1GE9LMv7AFBw=;
+        b=gG8G3HViOnrAYvYD3UpUiF9ZlysFPha1I2GI9X/70ftGcLBzvci67M2rGhLGh3DLZp
+         rj08/Oeo6EZ0eHfzR/Zw7XhC7k4wxEV9bZgoJPhwvVTTOnx/iuj+7tSVBeVyrtT8kHiG
+         tRzVgcdQzrk2hKyqqQukl8qpZWGI985SaH8LxHCx6q8oU51NbiGCf5RWiO3cpQZwGRfI
+         cCY6PHQ1FIdQ9z7rLIQcaM2EvQrUdULohN8tc1x9LQF7WqBmlZS3Jks90Va1etqU2S/5
+         FKQOkXPCriSEM4HiEZvw/U7BsqUldw5aEv+hyMJ+umIFxV+LAt0uZ2mQL5tIckLcrbD6
+         /8TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784552987; x=1785157787;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=E8mYPhXUmZpNbn2oVo3k+YKafzsgCsS1GE9LMv7AFBw=;
+        b=cbK0Qi0GpoFiAHcdMY5KJNE2QcVHn0Hf7nOiQjFroWgtWXBkIQllaoJ78yGTtIZNdn
+         3FCCIFfkZjlPGPSBZIGZo7U9uhbUQt7yYaH05V2QMZ0AiK+9YpO2cK3yUNUmGkoevcP/
+         WI+BpDJ5lTuP3fwn2Epcqjz9UN11cNsMXdRuXbj1PHDrLL7sAXz4e2NMy7diqc4pCSvg
+         wIAmpaWBmqlDzaWcsK6ncaGaATT+XYbER1zOzx9UF4cUzJRp2xq28CKdJwyYYYbd2n8A
+         pjCp44coka0QsPiLKi6+G4riXQ1/PTHrLjZimYAEDHBaNjbyzECwgx3B2+TDOuKyqMR9
+         39mQ==
+X-Forwarded-Encrypted: i=1; AHgh+Ro9Ogl+vC8vR0B+jJrlry3Lb1LiSPnPFJSK9kIyV7GSxMw90cY25jg9sHxYBV7o4+cUZ9wMLTXoMNeHVg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YybDYShLMF9akjNuoU/i3yCuqQ/EgGuqNx3Xh8khJFisAL0K/H7
+	m1+ODzZP2dOh5ytKMQZ3phOWvtZT7Mjmy+SpjBAZxFd70R9GOJFofr2pIaZg8hKU9IM=
+X-Gm-Gg: AR+sD12wz+2UR9ZkYn0qOe1K8oHhR2n150Q519Uom9L/RfOEPl/s+ELrLyilCV66yF/
+	CV9TmQ2R63YPYdd7vLne2svqSSpZhDHasmORkohbxMA+LiVurBolpFz+mjYCUPh8Mlzk57FPGnT
+	AGz155tpYmJKvVrdFWDB91+WzrmPW/E+0c/qr6k2yFMy6E0MdhwhDJGsuT7LzMz0eczDsC+bUgq
+	U1p9XLsdBgwZUCcck2eqNMDsFUh7XlNHDI5rCQB+h9qQbyc8oOAvFcQdrXluLYT2r/kyih/tVgc
+	WxWx+lNeTl4IzVPneJ6cDb/clS2o7QrT3Syq8X58+aKObAP8FC8SOSpHVxpNYfxfa3hgA66MuLy
+	SbpDWyiR9nqR+ZkShuNqgqGmfkKpgjYqE1LKK56kC09FcCa1QVmCBCd/Zi6D/9iygSvtJTfbq+S
+	ZtnASEDnMfs3oDNYvU52sw3R8=
+X-Received: by 2002:a05:6000:25fe:b0:46e:c978:7ddc with SMTP id ffacd0b85a97d-47f62316b85mr16082343f8f.24.1784552986541;
+        Mon, 20 Jul 2026 06:09:46 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:106d:1080:8261:5fff:fe11:bdda])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63ec7ea1sm30767434f8f.24.2026.07.20.06.09.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jul 2026 06:09:46 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Jessica Zhang <jesszhan0024@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Inki Dae <inki.dae@samsung.com>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>,
 	Fabio Estevam <festevam@gmail.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Linus Walleij <linusw@kernel.org>,
+	Marek Vasut <marex@denx.de>,
+	Stefan Agner <stefan@agner.ch>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Sandy Huang <hjc@rock-chips.com>,
+	=?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Yannick Fertre <yannick.fertre@foss.st.com>,
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+	Philippe Cornu <philippe.cornu@foss.st.com>,
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Praveen Teja Kundanala <praveen.teja.kundanala@amd.com>,
-	Kalyani Akula <kalyani.akula@amd.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Joshua Kinard <linux@kumba.dev>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
 	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Johan Hovold <johan@kernel.org>,
-	Ronald Claveau <linux-kernel-dev@aliel.fr>,
-	Salah Triki <salah.triki@gmail.com>, Yury Norov <ynorov@nvidia.com>,
-	David Carlier <devnexen@gmail.com>,
-	Achim Gratz <Achim.Gratz@stromeko.de>,
-	Alexander Sverdlin <alexander.sverdlin@siemens.com>,
-	Patrick Wicki <patrick.wicki@siemens.com>,
-	Markus Heidelberg <m.heidelberg@cab.de>,
-	Markus Perkins <markus@notsyncing.net>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Abd-Alrhman Masalkhi <abd.masalkhi@gmail.com>,
-	Chen Ni <nichen@iscas.ac.cn>, Kees Cook <kees@kernel.org>,
+	Jyri Sarha <jyri.sarha@iki.fi>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Alison Wang <alison.wang@nxp.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Raphael Gallais-Pou <rgallaispou@gmail.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Albert Esteve <aesteve@redhat.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-omap@vger.kernel.org, mfd@lists.linux.dev,
-	linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com, linux-rtc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 8/8] media: ov2740: remove NULL reg_write callback
-Message-ID: <al4A3wmBCrCy_HDs@kekkonen.localdomain>
-References: <20260715175229.24672-1-linkmauve@linkmauve.fr>
- <20260715175229.24672-9-linkmauve@linkmauve.fr>
- <al3sxMUgeK49dwNs@kekkonen.localdomain>
- <8d86ca46-d329-4e65-a7bf-2b79fccddf05@oss.qualcomm.com>
+	linux-mips@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	linux-samsung-soc@vger.kernel.org,
+	linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v3 0/4] drm/panel: refcounting panel lookups and references
+Date: Mon, 20 Jul 2026 15:09:38 +0200
+Message-Id: <178455228150.789946.15332957012612566281.b4-ty@b4>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260717-drm_refcount_wiring-v3-0-023900c32e01@redhat.com>
+References: <20260717-drm_refcount_wiring-v3-0-023900c32e01@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8d86ca46-d329-4e65-a7bf-2b79fccddf05@oss.qualcomm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Hans,
+Hi,
 
-On Mon, Jul 20, 2026 at 12:34:10PM +0200, johannes.goede@oss.qualcomm.com wrote:
-> Hi Sakari,
+On Fri, 17 Jul 2026 16:02:03 +0200, Albert Esteve wrote:
+> The drm_panel subsystem provides kref-based reference counting [1]
+> (drm_panel_get/put) but almost nothing in the tree actually uses it.
+> This results in a systemic use-after-free pattern throughout the codebase.
 > 
-> On 20-Jul-26 11:39, Sakari Ailus wrote:
-> > Hi,
-> > 
-> > On Wed, Jul 15, 2026 at 07:52:24PM +0200, Link Mauve wrote:
-> >> This field is already initialized to NULL, so there is no reason to
-> >> write it again.
-> >>
-> >> This prevents it from appearing while grepping for reg_write in the
-> >> future.
-> >>
-> >> Signed-off-by: Link Mauve <linkmauve@linkmauve.fr>
-> > 
-> > I believe we need a real name here.
+> This series aims to close all those issues.
 > 
-> We don't need a real name / official name here, just a "known identity",
-> IOW not "anonoymous1234" since Link has clearly is using Link Mauve as
-> their internet identity (given they went through the trouble of
-> registering it as a domain) I believe the S-o-b here is fine as is.
+> Patches 1-2: fix the infrastructure. drm_panel_add/remove now keep
+> a counted reference for the list entry. drm_panel_bridge_add_typed()
+> now holds a counted reference for the lifetime of the panel_bridge.
 > 
-> See: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d4563201f33a022fc0353033d9dfeb1606a88330
-> where the "real name" policy was weakened to "known identity".
+> [...]
 
-Ack, thanks for pointing that out!
+Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
+
+[1/4] drm/panel: have drm_panel_add/remove manage a list reference
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/b619d9d2af33db01ea237e3546e9d55595e94ea0
+[2/4] drm/bridge/panel: hold a reference to the wrapped panel
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/34069e04d338a333561b64a2da055bd16bfba39b
+[3/4] drm/panel: of_drm_find_panel() return a counted reference
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/738ff709f7cf82a41cbd9f6b8f9b1f236ce26610
+[4/4] drm/panel: find_panel_by_fwnode() return a counted reference
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/d857b8ce04a7ed4b36a11db16968ab1652ed702a
 
 -- 
-Regards,
-
-Sakari Ailus
+Neil
