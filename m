@@ -1,41 +1,41 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64E5143D4EA
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jul 2026 22:14:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 116513859F5;
+	Mon, 20 Jul 2026 23:16:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784585642; cv=none; b=t115fcnhqHN/VD1L0RTZHWYwOqdE+59tt8rVK+T16SGgHw+Oeula/oKQPFjbTsFyou7Ti3ruulEA1hVTGOlhPcVGhePDTxnSqbTDE877PX9FEq7URa29tRLDIhOAJGnLfkd8Qptvn+I2aAkX+Tx5mLRiFzlWZeAsqCl91Tgu3kk=
+	t=1784589416; cv=none; b=c8MbQPoYBJtezkjhPirsuj+T2f7yDh6qB+jQ9sutBh7JgD8Alnc7IYrTmHS1NbwE6ntrDkR2rVcg4Msgndk9CxTwaE9BSS8Wc5mtbCeE5QJAwfMUAAWfTcCInikupdSbitKWMhSBvTLwQndQZb+BU/c0tUHbWCLmIMvWOPMVWts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784585642; c=relaxed/simple;
-	bh=ugORXLPoCg7HxmDLv5zB9ba/JX4bsARykuJh+0iHx+k=;
+	s=arc-20240116; t=1784589416; c=relaxed/simple;
+	bh=9Yj9ZWRDrdzmRKYdoAn+kCtmpfgcX9zHdJicsV+ghV4=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=o+FpIqLVkPkz4m/DLmzCu8++1eqWXTXsyvZpqDvrVaSelS7kArutgOLk+ZPGVvRkfXTtTtvff6ibhNh7RbuMk5LXG+KPTf777mXETh6manR6HJajw5AHfcWp5Z9GIilWXx0UYRWi51hAFmCffLhOjCZLgoY9M2k/4CUqrQdg9Xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=I0CvJpkL; arc=none smtp.client-ip=217.140.110.172
+	 MIME-Version:Content-Type; b=DUa7i/vk9lkNn7oU+FhkTBujlcu4Gi7/isMb8XiymEWgwNhDLBgO6hdACqJV5aD93Q0AKC5j6fJ6ni8PcP1Nbzp8wCig8yOwMjliKHKs7/Syl/T1NZ3CA1pXMKSui1dybaBh7hLUgXMCfk8PHGVVBqlfOv4x329S0X9S+0yYCtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=hLxtapdA; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="I0CvJpkL"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="hLxtapdA"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 89EF8143D;
-	Mon, 20 Jul 2026 15:13:55 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C2939143D;
+	Mon, 20 Jul 2026 16:16:48 -0700 (PDT)
 Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B46D23F86F;
-	Mon, 20 Jul 2026 15:13:58 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8B4C73F66F;
+	Mon, 20 Jul 2026 16:16:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1784585639; bh=ugORXLPoCg7HxmDLv5zB9ba/JX4bsARykuJh+0iHx+k=;
+	t=1784589412; bh=9Yj9ZWRDrdzmRKYdoAn+kCtmpfgcX9zHdJicsV+ghV4=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=I0CvJpkL+csZaM6jcjviIRXPjndHba4uOFDPe5mZW+N8CZGx5gUx1Z+pU+EA/R1yk
-	 w2ZDzkjeieiG4IQiJzabIVGTdK3oz9WCCc+iLOPzz3EuY2+M9ca9MOLSnFQysXia56
-	 /MnTA8iqx+4PQBjt+2tCP4WmndON/IFKBtlamx0k=
-Date: Tue, 21 Jul 2026 00:10:12 +0200
+	b=hLxtapdAHP7mT+Bg5vDVV0WBmUf5Ux2fUMCgjeX//8C0DujVq8phw929NWTkvAbgC
+	 UPDE8GW+WX3FHUNAAQ26CVAnXvIwQEU4aaqL/6MIQa9O9FRJy5EGmKhfFVs4Vn0bpa
+	 WKCQ/a9TIGOWsjXayXNIuZ7DONGv1FPn3mHPgJ3g=
+Date: Tue, 21 Jul 2026 01:13:05 +0200
 From: Andre Przywara <andre.przywara@arm.com>
-To: Juan Manuel <juanmanuellopezcarrillo@gmail.com>
-Cc: linux-sunxi@lists.linux.dev
-Subject: Re: Orange Pi 4A (T527/A523) mainline bring-up on 6.18.38
- =?UTF-8?B?4oCU?= patch series for review
-Message-ID: <20260721001012.7bd0eb1a@ryzen.lan>
-In-Reply-To: <CA+c=wxX_iv4QtTQNBYYD1Ptmyp_vPgTazG05F-6bsZy0uoivHw@mail.gmail.com>
-References: <CA+c=wxW6t+dSgTOpmOoE=PHisV-fSCfFWtJdhxeNAvm-LX6eSg@mail.gmail.com>
- <CA+c=wxX_iv4QtTQNBYYD1Ptmyp_vPgTazG05F-6bsZy0uoivHw@mail.gmail.com>
+To: sashiko-bot@kernel.org
+Cc: sashiko-reviews@lists.linux.dev, conor+dt@kernel.org,
+ devicetree@vger.kernel.org, robh@kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] arm64: dts: allwinner: a523: x96qpro+: overvolting eMMC
+Message-ID: <20260721011305.5167d19e@ryzen.lan>
+In-Reply-To: <20260720215035.ED2D51F000E9@smtp.kernel.org>
+References: <20260720213832.3763-1-andre.przywara@arm.com>
+	<20260720215035.ED2D51F000E9@smtp.kernel.org>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
@@ -47,140 +47,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 15 Jul 2026 16:09:02 +0200
-Juan Manuel <juanmanuellopezcarrillo@gmail.com> wrote:
+On Mon, 20 Jul 2026 21:50:35 +0000
+sashiko-bot@kernel.org wrote:
 
-Hi Juan,
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [High] Bumping the eMMC IO regulator (`reg_cldo1`) to 1.9V inadvertently misconfigures the SoC's IO bank (Port C) into 3.3V power mode instead of 1.8V mode, creating a logic threshold mismatch.
 
-thanks for reaching out to the list - though I'd have been better to do
-this *before* you start all the work. Many things you did need some
-changes, and sometimes work in the wrong direction, so getting advice
-before you start avoids wasted efforts (or tokens).
-Also please consider joining the IRC channel #linux-sunxi on OFTC, this
-often allows much quicker problem solving or directions.
+Huh, that's interesting, but might actually point to the real root
+cause: it seems like the meaning of the bits in the withstand register
+is inverted on the A523: 0 encodes 1.8V, a 1 encodes 3.3V. But that's
+the opposite of the H6 definition, which we use in the kernel for the
+A523 as well. Which means they were wrongly programmed before, but now
+the wrong voltage selection turns out to trigger the really correct
+setting.
 
-> I've put together a mainline bring-up for the Orange Pi 4A (Allwinner T527,
-
-But the OrangePi 4A is already supported in mainline, as far as the SoC
-support goes. And typically specific *board* support is less of a
-problem: the vast majority of the work is on *SoC* drivers, getting a
-particular board to run is then mostly a matter of enabling peripherals
-in the specific DT. And we typically do this for all mainlines DTs, if
-applicable.
-So saying "mainline bring-up for for Orange Pi 4A" is at least
-confusing, you might "fix up Orange Pi 4A operation" or "improve A523
-support".
-
-> A523 family / sun55iw3) on top of vanilla 6.18.38, and I'd like to share the
-
-I guess it's 6.18.38 because it's an LTS kernel? Please note that
-this is a common misunderstanding: stable kernels are just for distros,
-where testing a kernel takes a long time, so they can't easily catch
-up in time. With this effort here you are a developer, and mainlining
-*always* happens on the very latest kernel tree, often even on
-"tomorrow's tree" (linux-next). So 6.18 is irrelevant for mainline,
-your patches must apply on 7.2-rc1 (at the moment), or more general on
-the latest -rc1.
-
-> patch series for review and feedback before I start splitting parts of it for
-> proper upstream submission.
-> 
-> Repo (git format-patch series + defconfig + board dts):
->   https://github.com/ut-slayer/orangepi-4a-mainline
-
-Please use a proper git tree, based on what you forked off, then have
-the normal patches in a branch. Those "patch files in a repo" are really
-twisted, and hard to review, adapt to and rebase.
-
-> Up front: I'm not a kernel developer by trade, and I leaned heavily on the
-> Allwinner 5.15 BSP as the hardware source of truth (register semantics,
-
-You probably know this, and I won't elaborate here, since the BSP makes
-me quite angry: Please be very careful with what you use from there: the
-Allwinner BSP is misguided in so many ways, and is quite far from
-containing mainline quality code. Looking up undocumented registers is
-fine, though.
-
-> calibration and DT values taken from it, not invented) and on AI coding
-> assistance. Everything in the "works" list is validated on real hardware, but
-> I would very much appreciate people who know these subsystems telling me what's
-> wrong or hacky before any of it goes to the lists.
-> 
-> Working on hardware: HDMI KMS (DE33/DE3.5 + TCON-TV + DW-HDMI 2.0 + Inno PHY),
-> Mali-G57 (Panfrost), HDMI audio, GMAC1 ethernet (YT8531), AP6256 WiFi
-> (brcmfmac/SDIO), the 4 USB 2.0 host ports, native HDMI HPD/hotplug, AFBC
-> scanout, reboot/poweroff, and A523 THS + CPU cpufreq (480 MHz-1.8 GHz) + GPU
-> devfreq (150-600 MHz) with thermal throttling.
-> 
-> The README groups the ~106 patches by intended destination. The parts most
-
-Sorry, but with 106 patches you will not make friends here: we already
-have a review bottleneck. So please try to group them into
-smaller, isolated parts. Try to group by subsystem, for instance
-(pinctrl, clocks, etc).
-
-> relevant to this list:
-> 
-> - Generic sunxi fixes I believe are upstreamable on their own: pinctrl (PIO
->   bank withstand, inverted POW_MOD_SEL polarity on A523/T527), watchdog restart
->   priority vs PSCI, AXP717 poweroff, a RESET_GPIO/mmc-pwrseq-simple bug that
->   breaks any sunxi board with SDIO WiFi when #gpio-cells=3, and a sunxi-ng
->   ccu_div set_rate_and_parent ordering fix.
-
-If you think that there are things which are wrong in the existing
-mainline A523 or OPi 4A support (in v7.2-rc and in
-linux-sunxi/for-next), please make proper patches, with English
-commit messages and your Signed-off-by: tag, then send them to the
-mailing lists suggested by scripts/get_maintainer.pl. We can help you
-with the details. Just be warned that the approach you chose to solve
-the problems might be not the right one ...
-
-> - A523 CPU CCU + THS (clk/thermal), ported/adapted from the BSP, with OPP
->   tables, cooling maps and asymmetric CPU topology.
-
-There are already THS patches on the list. Please have a look at them,
-and respond on the list (with issues you see, or with a confirmation):
-https://lore.kernel.org/linux-sunxi/20260704171411.1413349-1-iuncuim@gmail.com/
-
-> 
-> - The HDMI KMS display series is largely a port/adaptation of the minimyth2 /
->   Justin Suess H728 work to the A523; original authorship is preserved in the
->   patch headers (Justin Suess, Jernej Skrabec). On top of that, the A523
->   specifics: IOMMU (sun50i) PHYS_OFFSET/PTE fixes, DE v35x RCQ backend, VSU8,
->   the MBUS "wedge" fix, and AFBC decode.
-
-Anything display related is probably more complicated than you think,
-and the BSP deviates quite heavily from mainline here, so BSP derived
-patches are even less usable for upstreaming.
-
-I'd say focus on the fixes and support for simpler features, and get
-some experiences with the process. We would need to wait for the H616
-DE support to be merged first anyway, then A523 can follow, so it's not
-super urgent.
-
-> 
-> - A few patches are pure BSP-U-Boot workarounds (it doesn't fill /memory,
-
-The BSP U-Boot is often far worse than BSP Linux, even. It's mostly
-*severely* outdated, and general approaches are even more far from
-mainline than they are in the kernel.
-So please make it work with mainline U-Boot, and either fix things
-there or adjust your Linux changes to work with mainline U-Boot.
-We never did and probably never will support running mainline Linux
-kernels from Allwinner BSP U-Boot.
+So I will try playing around with those registers instead.
 
 Cheers,
-Andre
+Andre.
 
->   injects display nodes into the FDT). Those are explicitly NOT for upstream.
+
+> --
 > 
-> I'd be happy to break the generic fixes out as individual, properly-formatted
-> patches to the list if that's the most useful next step - tell me the order
-> you'd prefer. Also glad to open an armbian/build PR for the board integration.
+> --- Patch [1]: [PATCH] arm64: dts: allwinner: a523: x96qpro+: overvolting eMMC ---
+> commit e4c261c388d6e406babdf0d56ac61d104d537230
+> Author: Andre Przywara <andre.przywara@arm.com>
+> Date:   Mon Jul 20 21:38:32 2026 +0000
 > 
-> Credits: minimyth2 / Justin Suess for the H728 display groundwork, Jernej
-> Skrabec's H616 patches it builds on, and the linux-sunxi community's docs.
+> arm64: dts: allwinner: a523: x96qpro+: overvolting eMMC
 > 
-> Thanks for taking a look.
+> This commit changes the eMMC IO regulator voltage on PortC from 1.8V to 1.9V
+> for the X96QPro+ device. The goal is to improve eMMC stability and performance
+> without drastically limiting the clock frequency.
+> 
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts b/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
+> > --- a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
+> > +++ b/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
+> [ ... ]
+> > @@ -194,8 +194,8 @@ reg_bldo4: bldo4 {
+> >  
+> >  			reg_cldo1: cldo1 {
+> >  				regulator-always-on;
+> > -				regulator-min-microvolt = <1800000>;
+> > -				regulator-max-microvolt = <1800000>;
+> > +				regulator-min-microvolt = <1900000>;
+> > +				regulator-max-microvolt = <1900000>;
+> 
+> [Severity: High]
+> Does bumping this regulator to 1.9V inadvertently force the SoC's IO bank
+> (Port C) into 3.3V power mode?
+> 
+> Looking at sunxi_pinctrl_set_io_bias_cfg() in
+> drivers/pinctrl/sunxi/pinctrl-sunxi.c, the driver uses a strict check when
+> evaluating the voltage:
+> 
+>     case BIAS_VOLTAGE_PIO_POW_MODE_SEL:
+>         val = uV <= 1800000 ? 1 : 0;
+> 
+> Since 1900000 is greater than 1800000, this evaluates to 0 and clears the
+> PIO_POW_MOD_SEL register bit, incorrectly configuring the IO bank for 3.3V
+> mode while being powered at 1.9V.
+> 
+> Could this mismatch alter input receiver thresholds and drive strengths,
+> potentially causing signal integrity issues or long-term hardware
+> degradation?
+> 
+> >  				regulator-name = "vcc-codec-sd";
+> >  			};
 > 
 
