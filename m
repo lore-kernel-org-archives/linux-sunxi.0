@@ -1,172 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 268A113A3ED;
-	Sun, 19 Jul 2026 21:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575833A9624;
+	Mon, 20 Jul 2026 09:39:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784496933; cv=none; b=PFhEo7n4SzfPMQfNWvYRaqoxD9duPDgzaZeIfWEYJmxRaoMqSCPla4h1Z/vGKdAYOeXjp34o19CvFZpJYTlZ6xUzXsO0rkltCNuIO1o5aDkPTUJCeLu0b+N7Y1coJQTsUeKHqHc2EEiexpNwZdulr4AH9k/jrN/mOg/edBYIz+U=
+	t=1784540366; cv=none; b=G6sTuK8NvLczUcEVrC1fZa0yJAGTBY2no4lUPbhJqvVv35AASvNsHlBatYGDBfgQlxEJsFBSo7Rqb/eALsfnn6wmowtZ+sA+m6WCrmL9JkG5mW+VMFI+mXtEshqeueZGuhSfikKHayRYSHiHFOJgJ8C6OIBCJTHZvjyS9gtIKzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784496933; c=relaxed/simple;
-	bh=LOZAf4gzbHZAMF5+nb80HdCvN9xQpuayGHr4MIJ8L4M=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=qgPzm2l08SJ95vsMkOeW9Lyh6xDjtcYxAKTV14CXcusKDYkENrJEGMIx6URGbo2JGMmEd5wj10sgL7MleUmDPAKiNkaWQjoGR8oHU//REFIubpl/NaOMGGf4JtW27pR85oKeMJVChfzMx3MZNOH3XvMScEKmUs4x+P5vx/7U5sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oGdEYnXd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784540366; c=relaxed/simple;
+	bh=8yvWTYbYBGZHHcLjIbER34ILyGhNaja8leys0MdkVFQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GRqN56aBbFpcJ1Ly8v1GS3Vst3HkeR2PoRKaSJnosADW+jMKdreJOK4QWzEcn0iH6311RirkfvOcfG+fz4bG7WzZA8UCt+fFgIAYhtZpmV1FmsMj7NlSXTkIEQUPau19cxoWWUHqLxiXrcipAI4KPlLiKeb1kMiPdItLDDx8NoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KTS/WRn4; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oGdEYnXd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D12661F000E9;
-	Sun, 19 Jul 2026 21:35:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784496931;
-	bh=UTCI6KwmV4uy+DIYghH0ujWWhoionoXmbWvlUtDNWHE=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=oGdEYnXd02go/VA5CnV2AhmJYILBUsXxlBKIEMqnQvuMJwvJX8/cxcM3nm8/WZ36T
-	 Q1pd7fMehuh0iTWCAZUP/qRDprGTZQ8/7ReL88TIcozq41yv5Gvy97qMKxIS7iOJHl
-	 tm4ZVCw29IALKUGf96zZMrNChKeVJ7YJc57GiWSAyLrBAEV55x7asNgc0pfF20qfX6
-	 uaVz3zRj+5pkL8zw9bQ9iDoB+q5hJ9E0XJqQA5c+XAtAT7ZzVArsPYy/6ws5SXQxQd
-	 P9i458JKDeXey1rnnytXAniI84+r98KffM01ztJJtwxKsXO4EsY8jyIF69NU9E1Nph
-	 fdrXyuMz3/R7g==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v1 3/4] clk: sunxi-ng: sun55i-a523: reparent GPU while
- pll-gpu changes rate
-Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?SnVhbiBNYW51ZWwgTMOzcGV6IENhcnJpbGxv?= <juanmanuellopezcarrillo@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org
-In-Reply-To: <20260719211319.982285-4-juanmanuellopezcarrillo@gmail.com>
-References: <20260719211319.982285-1-juanmanuellopezcarrillo@gmail.com>
- <20260719211319.982285-4-juanmanuellopezcarrillo@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 19 Jul 2026 21:35:30 +0000
-Message-Id: <20260719213530.D12661F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KTS/WRn4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784540364; x=1816076364;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8yvWTYbYBGZHHcLjIbER34ILyGhNaja8leys0MdkVFQ=;
+  b=KTS/WRn4hC64SXomcj8OZDgv1c/75sr512hJ3ZZFOcn/Hz2j9Y9jUoL5
+   F2e+OqhVszGdUTiQ8gFa21IWsAwRL5NL4agOEdBKXNXj2/5XleLx2segL
+   Dk4x4iOBE2N/2Ois/Ww1kLHTyw2za1XN+80oavKfNGr+HKHwjVMBVuWAo
+   ieR3UZ5XBhpm7Zj7akq7FaZFCS9NSIbDOMwrO25uQDKI0WMShkt0G+f9M
+   25PvW79ouLpjIBPXpFkB88q1yZQVg2V/olRE0dNbotb9btcIBQM1VJEkm
+   ms64R1mv8sTuuOBGo4/IM41QgQy1HQET/Z3FsZmraa/F+L6x5Weqg2HY+
+   A==;
+X-CSE-ConnectionGUID: dHUsRHp3TceEVKddeQOEIQ==
+X-CSE-MsgGUID: g/z0cQV3SySR/zWDfGTqJw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11851"; a="107904614"
+X-IronPort-AV: E=Sophos;i="6.25,174,1779174000"; 
+   d="scan'208";a="107904614"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2026 02:39:23 -0700
+X-CSE-ConnectionGUID: nA9+Vz6sSKmkO0mDbOt0pw==
+X-CSE-MsgGUID: jJmd9OFtSVWnkAUWymXgRA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,174,1779174000"; 
+   d="scan'208";a="257477511"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.94])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2026 02:39:14 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 96736121C07;
+	Mon, 20 Jul 2026 12:39:16 +0300 (EEST)
+Date: Mon, 20 Jul 2026 12:39:16 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Link Mauve <linkmauve@linkmauve.fr>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
+	Lee Jones <lee@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	"Vaibhaav Ram T.L" <vaibhaavram.tl@microchip.com>,
+	Kumaravel Thiagarajan <kumaravel.thiagarajan@microchip.com>,
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Praveen Teja Kundanala <praveen.teja.kundanala@amd.com>,
+	Kalyani Akula <kalyani.akula@amd.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Joshua Kinard <linux@kumba.dev>,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	Ronald Claveau <linux-kernel-dev@aliel.fr>,
+	Salah Triki <salah.triki@gmail.com>, Yury Norov <ynorov@nvidia.com>,
+	David Carlier <devnexen@gmail.com>,
+	Achim Gratz <Achim.Gratz@stromeko.de>,
+	Alexander Sverdlin <alexander.sverdlin@siemens.com>,
+	Patrick Wicki <patrick.wicki@siemens.com>,
+	Markus Heidelberg <m.heidelberg@cab.de>,
+	Markus Perkins <markus@notsyncing.net>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Abd-Alrhman Masalkhi <abd.masalkhi@gmail.com>,
+	Chen Ni <nichen@iscas.ac.cn>, Kees Cook <kees@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-omap@vger.kernel.org, mfd@lists.linux.dev,
+	linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com, linux-rtc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH 8/8] media: ov2740: remove NULL reg_write callback
+Message-ID: <al3sxMUgeK49dwNs@kekkonen.localdomain>
+References: <20260715175229.24672-1-linkmauve@linkmauve.fr>
+ <20260715175229.24672-9-linkmauve@linkmauve.fr>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260715175229.24672-9-linkmauve@linkmauve.fr>
 
-Thank you for your contribution! Sashiko AI review found 5 potential issue(=
-s) to consider:
+Hi,
 
-New issues:
-- [High] The `pll_gpu_clk` retains the `CLK_SET_RATE_GATE` flag, which comp=
-letely prevents the intended dynamic rate changes while the GPU is active.
-- [High] Missing `clk_notifier_unregister()` on driver unbind/module unload=
- leads to a Use-After-Free.
-- [Medium] The return value of `ccu_mux_notifier_register()` is silently ig=
-nored.
+On Wed, Jul 15, 2026 at 07:52:24PM +0200, Link Mauve wrote:
+> This field is already initialized to NULL, so there is no reason to
+> write it again.
+> 
+> This prevents it from appearing while grepping for reg_write in the
+> future.
+> 
+> Signed-off-by: Link Mauve <linkmauve@linkmauve.fr>
 
-Pre-existing issues:
-- [High] Unhandled `ABORT_RATE_CHANGE` event in the mux notifier callback p=
-ermanently parks the GPU on the bypass clock.
-- [Medium] Out-of-bounds array read on `gpu_mux_table` via `ccu_mux_helper_=
-set_parent()`.
---
+I believe we need a real name here.
 
---- Patch [3]: [PATCH v1 3/4] clk: sunxi-ng: sun55i-a523: reparent GPU whil=
-e pll-gpu changes rate ---
-commit faed0fa03ac4f89885fa0cb42878fa743f6eb4a4
-Author: Juan Manuel L=C3=B3pez Carrillo <juanmanuellopezcarrillo@gmail.com>
+> ---
+>  drivers/media/i2c/ov2740.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
+> index fb590dfadda1..799eca4023da 100644
+> --- a/drivers/media/i2c/ov2740.c
+> +++ b/drivers/media/i2c/ov2740.c
+> @@ -1271,7 +1271,6 @@ static int ov2740_register_nvmem(struct i2c_client *client,
+>  	nvmem_config.compat = true;
+>  	nvmem_config.base_dev = dev;
+>  	nvmem_config.reg_read = ov2740_nvmem_read;
+> -	nvmem_config.reg_write = NULL;
+>  	nvmem_config.priv = nvm;
+>  	nvmem_config.stride = 1;
+>  	nvmem_config.word_size = 1;
 
-clk: sunxi-ng: sun55i-a523: reparent GPU while pll-gpu changes rate
+I think it'd be nicer to do the initialisation in variable declaration --
+all the information is available already there.
 
-This commit registers a mux notifier on pll-gpu to park the GPU mod clock
-on a fixed output while the PLL is being reprogrammed. This is intended to
-allow glitch-free rate changes for higher speed-bin operating points.
+-- 
+Regards,
 
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c b/drivers/clk/sunxi-n=
-g/ccu-sun55i-a523.c
-> index 979e53e635228..4341eb66c0b75 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-
-[ ... ]
-
-> @@ -1698,6 +1709,10 @@ static int sun55i_a523_ccu_probe(struct platform_d=
-evice *pdev)
->  	if (ret)
->  		return ret;
-> =20
-> +	/* Reparent the GPU during pll-gpu rate changes */
-> +	ccu_mux_notifier_register(pll_gpu_clk.common.hw.clk,
-> +				  &sun55i_a523_gpu_nb);
-> +
-
-[Severity: High]
-Does pll_gpu_clk still have the CLK_SET_RATE_GATE flag set?
-
-Looking at drivers/clk/sunxi-ng/ccu-sun55i-a523.c, pll_gpu_clk is defined
-with:
-
-    .hw.init =3D CLK_HW_INIT_PARENTS_DATA("pll-gpu", osc24M,
-                                        &ccu_nkmp_ops,
-                                        CLK_SET_RATE_GATE),
-
-The core clock framework enforces this in clk_core_set_rate_nolock():
-
-    if (clk_core_rate_is_protected(core))
-        return -EBUSY;
-
-If the GPU driver calls clk_set_rate() while the clock is active, will the
-core framework return -EBUSY and prevent the rate change from happening,
-rendering this new notifier unused?
-
-[Severity: Medium]
-What happens if ccu_mux_notifier_register fails and returns an error?
-
-If there is a low memory condition and clk_notifier_register returns
--ENOMEM, the registration will fail but the probe continues. Will this
-leave the GPU clock without the mandatory glitch-free bypass protection
-during rate changes?
-
-[Severity: High]
-Is it possible this introduces a use-after-free during module unload?
-
-sun55i_a523_ccu_driver does not appear to have a .remove callback to
-unregister this notifier.
-
-If the module is unloaded (e.g. via rmmod), the statically allocated
-sun55i_a523_gpu_nb is freed. If a clock rate change occurs on pll-gpu
-afterwards, or if the global clock notifier list is traversed, could this
-crash the system?
-
-[Severity: High]
-This is a pre-existing issue, but how does the notifier handle an aborted
-rate change?
-
-In drivers/clk/sunxi-ng/ccu_mux.c, ccu_mux_notifier_cb only handles
-PRE_RATE_CHANGE and POST_RATE_CHANGE:
-
-    if (event =3D=3D PRE_RATE_CHANGE) {
-        ...
-    } else if (event =3D=3D POST_RATE_CHANGE) {
-        ...
-
-If a clock rate change fails downstream after PRE_RATE_CHANGE, the core
-emits ABORT_RATE_CHANGE. Since this event is dropped, will the GPU clock
-remain permanently stuck at the bypass rate of 600MHz?
-
-[Severity: Medium]
-This is a pre-existing issue, but can ccu_mux_helper_set_parent read out of
-bounds during POST_RATE_CHANGE?
-
-If the bootloader leaves the hardware mux register with an unmapped value
-like 6 or 7, ccu_mux_helper_get_parent returns this raw index. Later,
-during the notifier callback, ccu_mux_helper_set_parent blindly uses it:
-
-    if (cm->table)
-        index =3D cm->table[index];
-
-Since gpu_mux_table only has 5 elements:
-
-    static const u8 gpu_mux_table[] =3D { 0, 2, 3, 4, 5 };
-
-Could this result in an out-of-bounds read and write junk back to the
-hardware register?
-
->  	return 0;
->  }
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260719211319.9822=
-85-1-juanmanuellopezcarrillo@gmail.com?part=3D3
+Sakari Ailus
