@@ -1,155 +1,123 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1653C3F65
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Jul 2026 09:11:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFC123EA84;
+	Tue, 21 Jul 2026 12:41:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784625118; cv=none; b=eO8x6OMgQtzfphk25ik/hCbEoRwGU0EWFoDkQcG6xycmvS+DnWde2HWYteJ9EYJJkLVSneIaLJ2NuCVq+yb6iR+WW5A2CznY5gziZ7MMKVSe5jvnEv0aGNGRtauPhLtrRkKyU11ogk4Hn+c4dZtD3eZ3oEnMdVX0Qg/CytIPHbk=
+	t=1784637706; cv=none; b=tJKzky/x3HlRp1bPsn+hKiNP0WhVSxY44sTaXqpkhLLttB6FC7J9T5wBwEJeTFn/OMAcxDpISroQQxId4QxHhaEE81lrj8kz37xHn77qJLIhNMxF9dLTeBvKBeNnlyEbJgQ0uO9f6FQ/Fkqu7/+R86xG54d/goDi/tHgjU33IVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784625118; c=relaxed/simple;
-	bh=n3ehXHgsi5vgYYiSv6fFGr4ZSWs+rbbwYbcLSDs32jg=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=rVvzbEuUMhcTdNE50oU10V+ojhVbX0RbMrPO++lzDg3ool0BJIbXwN89SVs/5M57hZ9Qas0Mewrh7BRMRRztAZB5xmj0eQ5Yrx9fR+nPI0sZmGYFRYIHgBUwbMTzPnhXzrwmO9yqKA/SY2mmpX5T4bZv6ovzRjzu5wWZOFxsHmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gb88dHWI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784637706; c=relaxed/simple;
+	bh=1vRAfqZ87PHMM09wv4aT3IhkpB2yT2fdEKU5OxzKOfc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r3XXP9Vkn0Zwgp61xiJgzY5oS9HxYv4euBkX+R9yY+TkuVxou27sJtanelegQPZB9nk9ftE0JOrKtAM1QUNk7L1BYNb1x10wRQtwr03H/eHqBCrDxHKUfCATkv2OSgAEfxcNkG5QBr3N/1FPhcO6G9oK/p5HyBC3izZY2VjBnSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O/UWNzA0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gb88dHWI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A4A91F000E9;
-	Tue, 21 Jul 2026 09:11:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O/UWNzA0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AC731F000E9;
+	Tue, 21 Jul 2026 12:41:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784625117;
-	bh=ZIvB2U9d7DzbT4ED+I9ELBWuWZXBE1KQOuJE1/abgMQ=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=gb88dHWICQ6lPzOP7AD0rrugiqo/uVTPL7AMAV3Y8RsHtKRbh1YYMj41xk4YT3+nl
-	 o4cKPkz6cSsdoaf28SnF+mPUdLVznrZ1sp5vm831kVVL2IxvosL0fW+57rdfZbaxEm
-	 Js5wQMB/GfyzEAqSMIR5mturf9tlh+4BtR/G+tFtpA7eWXQ6+SHiUnnjh9nDBL+h9l
-	 VKGcXi/J3roKiqMChOCdfGczmxDtecUxAelqo2hPQLn+sPwhr2opUPJg2OIifIT4du
-	 vuDqdX18D4OYOdi2vGNepyZzvL9W9pCg8ngrr1cjTO8YEPToXxFk1g9EIR6M8LiINu
-	 12x50+qJcP8VA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 5/5] drm/display: hdmi-state-helper: Init SCDC
- debugfs for HDMI
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Nicolas Frattaroli" <nicolas.frattaroli@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20260721-scdc-link-health-v7-5-92df1b6ad5fc@collabora.com>
+	s=k20260515; t=1784637705;
+	bh=1JHcUVKCdjggW2V84rHWH09x4Ps/8CZBsAwOVTuMPeE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=O/UWNzA0yWWlF9ZLanaiQNsP6Zm7yDKSGYmj48b5b+4g4LyvtFST9LlYVnYrtO6H+
+	 QRFeT1d7B7dmbTk2/g9Gy3PfH0D99jsdBlIhUO7+58g56hWRchl2PtZPwtTQODogjl
+	 kD84mcbdn9cwSDzVuNyYhtLCuOYRZJe+PXycP0wXVTKc4RHp+WQvVQD7hm9J8RdciI
+	 4OwD+fvjH5aX9k8YN6otXljbhQlgBCCIq4OAlSjnicIC+8Z/qWlB1S2ZWTV7o2634L
+	 VDfyRCdAvcr/QYBRURkhYpfw79fdcJNTlVItL1kzuLD6JUkOT8I1z0TuSjE1CQ2OI/
+	 X8ou5ameiWTMw==
+Date: Tue, 21 Jul 2026 14:41:42 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, Daniel Stone <daniel@fooishbar.org>, 
+	Hans Verkuil <hverkuil+cisco@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+	Samuel Holland <samuel@sholland.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, kernel@collabora.com, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v7 2/5] drm/scdc-helper: Add scdc_status debugfs entry
+Message-ID: <20260721-angelic-gay-caiman-26f7ab@houat>
 References: <20260721-scdc-link-health-v7-0-92df1b6ad5fc@collabora.com>
- <20260721-scdc-link-health-v7-5-92df1b6ad5fc@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 21 Jul 2026 09:11:56 +0000
-Message-Id: <20260721091157.4A4A91F000E9@smtp.kernel.org>
+ <20260721-scdc-link-health-v7-2-92df1b6ad5fc@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="ah7fjvzl6blaxfpq"
+Content-Disposition: inline
+In-Reply-To: <20260721-scdc-link-health-v7-2-92df1b6ad5fc@collabora.com>
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [High] Reading the `scdc_status` debugfs file causes a kernel panic if th=
-e HDMI connector lacks an I2C DDC adapter (`connector->ddc =3D=3D NULL`).
-- [Medium] Concurrent reads of the `scdc_status` debugfs file cause a data =
-race on the shared per-connector `priv->state` buffer.
-- [Low] SCDC debugfs initialization is incorrectly skipped if the creation =
-of the `infoframes` debugfs directory fails.
---
 
---- Patch [5]: [PATCH v7 5/5] drm/display: hdmi-state-helper: Init SCDC deb=
-ugfs for HDMI ---
-commit 4d2f5fcf6dba954346bc26d1af8d8e70d0cf5de0
-Author: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+--ah7fjvzl6blaxfpq
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH v7 2/5] drm/scdc-helper: Add scdc_status debugfs entry
+MIME-Version: 1.0
 
-drm/display: hdmi-state-helper: Init SCDC debugfs for HDMI
+On Tue, Jul 21, 2026 at 10:58:58AM +0200, Nicolas Frattaroli wrote:
+> SCDC provides status information on the current display link. At the
+> very least, it may be useful to expose this info through debugfs.
+>
+> Add a debugfs entry for it under the connector, which displays a few
+> more details parsed out of the SCDC registers. A new
+> drm_scdc_debugfs_init function can be called by the connector
+> implementation to initialise the debugfs file.
+>
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> ---
+>  drivers/gpu/drm/display/drm_scdc_helper.c | 184 ++++++++++++++++++++++++++++++
+>  include/drm/display/drm_scdc_helper.h     |  32 ++++++
+>  2 files changed, 216 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/display/drm_scdc_helper.c b/drivers/gpu/drm/display/drm_scdc_helper.c
+> +/**
+> + * drm_scdc_debugfs_init - Initialize scdc files in connector debugfs
+> + * @connector: pointer to &struct drm_connector to operate on
+> + * @root: debugfs &struct dentry for the debugfs root of @connector
+> + *
+> + * Creates SCDC-related debugfs files for @connector. Must be called after
+> + * @root is already created.
+> + */
+> +void drm_scdc_debugfs_init(struct drm_connector *connector, struct dentry *root)
+> +{
+> +	struct scdc_debugfs_priv *priv;
+> +
+> +	if (!root || !connector)
+> +		return;
+> +
+> +	priv = drmm_kzalloc(connector->dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return;
+> +
+> +	priv->connector = connector;
 
-Initialise the SCDC debugfs file for connectors that call the HDMI state
-helper's debugfs_init helper. This makes all connectors that use the
-helper expose the scdc_status file in their connector debugfs.
+You need to take a reference to the connector pointer here with
+drm_connector_get()
 
-> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gp=
-u/drm/display/drm_hdmi_state_helper.c
-> index 8d5ee10ceb874..709524b40c26f 100644
-> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-[ ... ]
-> @@ -1116,6 +1117,7 @@ void drm_hdmi_connector_debugfs_init(struct drm_con=
-nector *connector,
->  		return;
+With this fixed,
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
-[Severity: Low]
-Is it intended that drm_scdc_debugfs_init() is skipped if the infoframes
-directory creation fails?
+Maxime
 
-Right above this line, the code checks:
+--ah7fjvzl6blaxfpq
+Content-Type: application/pgp-signature; name="signature.asc"
 
-	dir =3D debugfs_create_dir("infoframes", root);
-	if (IS_ERR(dir))
-		return;
+-----BEGIN PGP SIGNATURE-----
 
-If debugfs_create_dir() fails, the early return skips the independent
-drm_scdc_debugfs_init() call entirely.
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCal9pBgAKCRAnX84Zoj2+
+duQAAX4m1SnGZZ8EMKaEFk9BhMZ/Xe875CrDjdHjh302duMOC5cuJpLPYvEQ9kqh
+q+HhmA0BgMrujQdJGYnLIZuz92Uq7vUm+TUXDnAv9rppoVkbLBtCiEhC4riDT7yL
+VYFcIdRPLw==
+=Vh4j
+-----END PGP SIGNATURE-----
 
-> =20
->  	create_hdmi_infoframe_files(connector, dir);
-> +	drm_scdc_debugfs_init(connector, root);
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-[Severity: High]
-Does exposing this to all HDMI connectors cause a regression with a NULL
-pointer dereference?
-
-If an HDMI connector lacks an I2C adapter (connector->ddc is NULL) but
-indicates SCDC support, reading the newly exposed scdc_status debugfs
-file leads to a panic:
-
-drivers/gpu/drm/display/drm_scdc_helper.c:scdc_status_show() {
-	if (scdc->supported) {
-		ret =3D drm_scdc_read_state(connector, st);
-...
-}
-
-drivers/gpu/drm/display/drm_scdc_helper.c:drm_scdc_read_state() {
-	ddc =3D connector->ddc;
-	if (!scdc->supported)
-		return -EOPNOTSUPP;
-	/* Read in 128-byte chunks, to work around DP<->HDMI converters with issue=
-s. */
-	ret =3D drm_scdc_read(ddc, 0, buf, 128);
-...
-}
-
-drm_scdc_read() unconditionally passes the NULL pointer to i2c_transfer(),
-causing a panic.
-
-[Severity: Medium]
-Could concurrent reads of the scdc_status debugfs file cause a regression
-due to a data race?
-
-drm_scdc_debugfs_init() allocates a single, shared struct scdc_debugfs_priv
-per connector:
-
-drivers/gpu/drm/display/drm_scdc_helper.c:drm_scdc_debugfs_init() {
-	priv =3D drmm_kzalloc(connector->dev, sizeof(*priv), GFP_KERNEL);
-...
-}
-
-When multiple processes concurrently read the debugfs file, they extract th=
-is
-shared pointer:
-
-drivers/gpu/drm/display/drm_scdc_helper.c:scdc_status_show() {
-	struct scdc_debugfs_priv *priv =3D m->private;
-	struct drm_scdc_state *st =3D &priv->state;
-...
-}
-
-Since there is no locking across the sequential I2C reads and data parsing
-in drm_scdc_read_state(), concurrent threads could overwrite priv->state
-simultaneously.
-
->  }
->  EXPORT_SYMBOL(drm_hdmi_connector_debugfs_init);
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260721-scdc-link-=
-health-v7-0-92df1b6ad5fc@collabora.com?part=3D5
+--ah7fjvzl6blaxfpq--
