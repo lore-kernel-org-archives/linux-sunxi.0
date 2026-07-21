@@ -1,107 +1,145 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CB363C1402
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Jul 2026 09:02:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784624534; cv=pass; b=Kl+mabq31Z+cS62403D8ndlss7bx7YfbMRZe4Dt+T1c2aBOqM+L+ym1cGBEqqcpAPyU71rSkXA/HNOksllFWBc0Wgncu8tAvmMcnme4wLO/3rv5kY0Syn4Qys8Y3cL9kGm1JzHrmJueHAGBjQLnx+NbcDm2o/6513Ef9LORYoFI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784624534; c=relaxed/simple;
-	bh=a6FeZr0whiDNNuo2I2TDGaWswjrPZmbEu/jGNWaPKvg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rUDKxXqaGTaFGltybL3fxiWT0dl6hlAZXrin5wPZjGizOBm5b6IG5q970AMzacxV3Ih/MpAncphL1lxUneSO0LqfWzJJVXPZbLahy2+a1BUNCrDqZDMkXhICD2+ZMr5blDcXeoYbs7z6Xmd94aLuao8eigdQqTZlP+faQZhaET8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=QvjU3XmR; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61FCE3C276E
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Jul 2026 09:10:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784625013; cv=none; b=touUoIy59YNHuZw3p179PI+OPv3kkTplDqyPISDgQA+fKJTBBR9VlphIFtwsxOpOYqL8m9koYcNp44ex2Ru6vAcL6DuesITCR0Q0OzOBZvddb5cKAIyJNOd6HfeTYVexDooG85YBNlHtHEk9AQcA2uMDgCJxaEsbkdaM0Gow/Tk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784625013; c=relaxed/simple;
+	bh=IA46bn06aPQP3+Cho49iFLaFbXTlWYUmrhpqhBkZ5LI=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=eb3S1E8R0ugTh7Flg9PsQY78r/V8LVbmVP4nx+xxzzcKy5T0XfBS/NHPuVshpwOukRS1W2q1jPi6JyYJnPTls1mOronLBzXwAafIeX6atFaP1vMW9mU6yxQjnKo8bdMpd4Bwe3+QdIS5bnXg7q0DgDFLxjfeeZG1p0ELBCxG4W0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PRvCKDU0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="QvjU3XmR"
-ARC-Seal: i=1; a=rsa-sha256; t=1784624390; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=AlU7C9LdltHDScoWwHC3X29nceXJykOp1oOepH0s87+6lXv7feVxAaEktUUhrDFRt7C5qu0RRqzCeGtqTPxCUbv3TXYmL5I5KG36hpUeOe2XIRpcvSAg6oyfYLZibKWUAd1xsPjD3CnWlSme5wqSgEgvJ5hIKurezdaYwXtA+qo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1784624390; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=zBRro5DpsPG3sefzb4EIOocwUtzmV8Fv8o5jqwZE2+k=; 
-	b=J856QT2c4kybeeFOHMQ1OX4V56MkFHJ4m5rtBe0RiP1LkQTXFcMxsH3mHrUK16Ui80aUztUMsvo/ysnreLqJPA7iLyMHfB+Nd37tn6W0SgttUBWCtWTAQ2C22GwXva8c1W9Ygr+mMEWCnRgLmFEyWaTTK9KWpTSMFZK1xAdDcRg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1784624390;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=zBRro5DpsPG3sefzb4EIOocwUtzmV8Fv8o5jqwZE2+k=;
-	b=QvjU3XmREttb3ymnkVCFdjT06w+BihipttIUINDEtaHrXThKIn8CXwj7kvaDH4DO
-	FExngn5ztIsoCl/7e/qxNP6tNZts7ZJOvuuWW8+2Uc+nIxFAf0wbGjRjQnom2hpwaJI
-	/Ww26Loy6BIbBzd+co6Fny4NNCQK54UAVevvujoA=
-Received: by mx.zohomail.com with SMTPS id 1784624389622433.39379483803657;
-	Tue, 21 Jul 2026 01:59:49 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Tue, 21 Jul 2026 10:59:01 +0200
-Subject: [PATCH v7 5/5] drm/display: hdmi-state-helper: Init SCDC debugfs
- for HDMI
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PRvCKDU0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B387A1F000E9;
+	Tue, 21 Jul 2026 09:10:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784625012;
+	bh=qWY53aVvClSZ7kOPkXL0T+NQpbUbqhuUc0KV4Rbz2jY=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=PRvCKDU0CbPwNQr9CZyr7Kkh7NKKS9BoBHlaVDiK/ojJOtab2Gcv3dBLTbQ91BiC/
+	 iPrwWrcVEa4IVhHfVNXuvONfMUHDM3quKWSS4nXwZ3reqb4lRksTEsCGvs5EXSgoDE
+	 JObtZ9xGuEoOBgjZE3+2vGD8ekGqxiB1kZEqotg2/ea52QR3Ric2l/zpA0MnTd1Yrw
+	 Q1BjaIKa3FQedcssrAzgVAWx1WJJf/pXCqea74RY+eHteACNJkTOeQfGP8OVRsPqV3
+	 o1UBk25u3AfMueiugtU9QcE2ywU/zz8SAW2Vj9XZko/PzXYauusMLp4rdcvTqb5jo3
+	 S6n3F62/uTIEw==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v7 2/5] drm/scdc-helper: Add scdc_status debugfs entry
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Nicolas Frattaroli" <nicolas.frattaroli@collabora.com>
+Cc: linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org
+In-Reply-To: <20260721-scdc-link-health-v7-2-92df1b6ad5fc@collabora.com>
+References: <20260721-scdc-link-health-v7-0-92df1b6ad5fc@collabora.com>
+ <20260721-scdc-link-health-v7-2-92df1b6ad5fc@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 21 Jul 2026 09:10:11 +0000
+Message-Id: <20260721091011.B387A1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260721-scdc-link-health-v7-5-92df1b6ad5fc@collabora.com>
-References: <20260721-scdc-link-health-v7-0-92df1b6ad5fc@collabora.com>
-In-Reply-To: <20260721-scdc-link-health-v7-0-92df1b6ad5fc@collabora.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Daniel Stone <daniel@fooishbar.org>, 
- Hans Verkuil <hverkuil+cisco@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- Samuel Holland <samuel@sholland.org>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- kernel@collabora.com, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.15.2
 
-Initialise the SCDC debugfs file for connectors that call the HDMI state
-helper's debugfs_init helper. This makes all connectors that use the
-helper expose the scdc_status file in their connector debugfs.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] Shared `scdc_debugfs_priv` state causes a data race on concurrent =
+debugfs reads and leaks memory for dynamic connectors.
+- [Medium] Connector `status` and `display_info` fields are accessed withou=
+t holding the required DRM mode config mutex.
+--
 
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- drivers/gpu/drm/display/drm_hdmi_state_helper.c | 2 ++
- 1 file changed, 2 insertions(+)
+--- Patch [2]: [PATCH v7 2/5] drm/scdc-helper: Add scdc_status debugfs entr=
+y ---
+commit 16b712ae50ae43d528857efe5b800f5abdef139f
+Author: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-index 8d5ee10ceb87..709524b40c26 100644
---- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-+++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-@@ -13,6 +13,7 @@
- #include <drm/display/drm_hdmi_cec_helper.h>
- #include <drm/display/drm_hdmi_helper.h>
- #include <drm/display/drm_hdmi_state_helper.h>
-+#include <drm/display/drm_scdc_helper.h>
- 
- /**
-  * DOC: hdmi helpers
-@@ -1116,6 +1117,7 @@ void drm_hdmi_connector_debugfs_init(struct drm_connector *connector,
- 		return;
- 
- 	create_hdmi_infoframe_files(connector, dir);
-+	drm_scdc_debugfs_init(connector, root);
- }
- EXPORT_SYMBOL(drm_hdmi_connector_debugfs_init);
- 
+drm/scdc-helper: Add scdc_status debugfs entry
 
--- 
-2.55.0
+This commit adds a debugfs entry under the DRM connector to expose SCDC link
+status information.
 
+> diff --git a/drivers/gpu/drm/display/drm_scdc_helper.c b/drivers/gpu/drm/=
+display/drm_scdc_helper.c
+> index 8403f2390ab6a..5871fc101815d 100644
+> --- a/drivers/gpu/drm/display/drm_scdc_helper.c
+> +++ b/drivers/gpu/drm/display/drm_scdc_helper.c
+[ ... ]
+> @@ -276,3 +284,179 @@ bool drm_scdc_set_high_tmds_clock_ratio(struct drm_=
+connector *connector,
+[ ... ]
+> +static int scdc_status_show(struct seq_file *m, void *data)
+> +{
+> +	struct scdc_debugfs_priv *priv =3D m->private;
+> +	struct drm_scdc_state *st =3D &priv->state;
+> +	struct drm_connector *connector =3D priv->connector;
+> +	struct drm_scdc *scdc =3D &connector->display_info.hdmi.scdc;
+> +	int i, ret;
+> +
+> +	drm_connector_get(connector);
+> +
+> +	if (connector->status !=3D connector_status_connected) {
+
+[Severity: Medium]
+Are we missing a lock here? Reading connector->status and=20
+connector->display_info (such as scdc->supported below) without holding the=
+=20
+required drm_mode_config.mutex might race with concurrent modeset or hotplu=
+g=20
+events, potentially leading to torn reads or an inconsistent state.
+
+> +		ret =3D -ENODEV;
+> +		goto err_conn_put;
+> +	}
+> +
+> +	if (scdc->supported) {
+> +		ret =3D drm_scdc_read_state(connector, st);
+
+[Severity: High]
+Can this cause a data race? Multiple processes reading this debugfs file
+concurrently will simultaneously mutate the shared priv->state buffer insid=
+e=20
+drm_scdc_read_state(), leading to corrupted state data being displayed.
+
+> +		if (ret)
+> +			goto err_conn_put;
+> +
+> +		for (i =3D 0; i < ARRAY_SIZE(st->scdc); i +=3D 16)
+> +			seq_printf(m, "%*ph\n", 16, &st->scdc[i]);
+> +
+> +		seq_puts(m, "\n----------------\n\n");
+> +	}
+[ ... ]
+> +void drm_scdc_debugfs_init(struct drm_connector *connector, struct dentr=
+y *root)
+> +{
+> +	struct scdc_debugfs_priv *priv;
+> +
+> +	if (!root || !connector)
+> +		return;
+> +
+> +	priv =3D drmm_kzalloc(connector->dev, sizeof(*priv), GFP_KERNEL);
+
+[Severity: High]
+Does this leak memory on hot-unplug? Allocating the priv structure using=20
+drmm_kzalloc() ties its lifetime to the DRM device rather than the connecto=
+r.=20
+For dynamic hotpluggable connectors (like DP MST), this memory might not be=
+=20
+freed when the connector is destroyed.
+
+> +	if (!priv)
+> +		return;
+> +
+> +	priv->connector =3D connector;
+> +
+> +	debugfs_create_file("scdc_status", 0444, root, priv, &scdc_status_fops);
+> +}
+> +EXPORT_SYMBOL(drm_scdc_debugfs_init);
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260721-scdc-link-=
+health-v7-0-92df1b6ad5fc@collabora.com?part=3D2
