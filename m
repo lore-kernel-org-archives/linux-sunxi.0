@@ -1,61 +1,63 @@
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72241433BCA
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jul 2026 20:17:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9FE8435EFA
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jul 2026 20:17:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784751450; cv=none; b=QP6m6aWj4komXqIhyw51K5P6p/YJ7MYgJTGJ0pAbdxOXuuJZMCiIxHOgQzLCOUCtifheSs33KeY0O4NLPSoDQpbJLe2BUtwJoX89vQsRQhAnB7RiajGuxpJF+olz3MTdS14hYqonigXh6mGKJ5bb3QOaHmBOqFrUlmpmFDkuSs4=
+	t=1784751454; cv=none; b=QPJaI5j7OCH0CiTCZI7k52I/kNG1hkNgWobQ1IwSA6f/nx8SdfPVIGIvAFfp9GHooY+KcxCg/tzoliK7f8TY0TzPwYFok0ckdrxVq24Bqph9qoneceBZ0yMnYIoSynap/WAmmtaIm0vIaBN6Dnk0bMsZf5d17mHnYB/q0esyirM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784751450; c=relaxed/simple;
-	bh=hWtIGjArErAjmGxAq8Qyi1JITa77ixSzYUKOMK4w6YI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JrU5hmrdqqzjNt3tRuhovMB0K8c9RyCbO3hdwLNBruoLSlpTp+L79dCok/MgzyqIiw/8eZ8f6JU5xQNEmiv1TfKzbgZG6sPsMlxtK1hZPujydEYWemfD3svpKWASFnLjIIWCkyU9lm8zKlK+td1DLnjy//zS/93KSfoYeJVYoFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tCfihTc/; arc=none smtp.client-ip=74.125.224.54
+	s=arc-20240116; t=1784751454; c=relaxed/simple;
+	bh=p2luxpgausQjIcXu34TXu0p86I0tMOO4Cg1dU7QLAbM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=H6FZolF4bxbOeDSFqgxfkn7ddqloOT1vnP3WgRQ2131Z1qOmkA3ASlKhPE1Zi1shT1cDMX+NfNgK2+8+Sk6qMoP40heVsFNsDogyrOlaZSpo14m4p7CtSx3h648mWqFZuYra61fmObEeXq1fK5hWwAeYnQWc/r3Dq3dF85OmkHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=snzSY07Q; arc=none smtp.client-ip=74.125.224.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tCfihTc/"
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-6688a2dceb8so1335630d50.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 22 Jul 2026 13:17:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="snzSY07Q"
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-667ef69424bso11116200d50.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 22 Jul 2026 13:17:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784751448; x=1785356248; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=62mD7eBH4bySVV9OXCWZ5h4brKSHdA8TNqCtitgdSko=;
-        b=tCfihTc/qwjB3N/0mjehaMh7JZkwuwZn6t4D4D2QoXD7onVQamENi4WQNwtQ7+BJwH
-         36AeD+2xkgqrNoOUms9fqnlXSyX2SODtK8VEy2Loh7cz/OAr/zMzjsqCVPVx1g8ndd3+
-         yHBf9kYWKpELwSlHirFxaVJmVoE5IXjNgZHYWZdVzEmxLqrOpzrEIL64E2JPQ+k6VWAQ
-         2Bbu8XeF0Ms8uKl9cy7tCK3U2zez6d/qrEPx0jbbikXk1NSliwmFSkDQ54ZKs1vPleJ8
-         oVxLxwfgidA6Fd70TudnL+qtHhETXR6EvoVeRiQ119xzQ/9gpWYMBqCjtdtjz/b09zbS
-         7WKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784751448; x=1785356248;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1784751452; x=1785356252; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=62mD7eBH4bySVV9OXCWZ5h4brKSHdA8TNqCtitgdSko=;
-        b=ot9XUfNPlwLvu8yJqBILORa0gbI8w4wzhPyjtkAGhbA8O3BZtSv6uo2Lyp+Er/FP3f
-         eSVOrQ9nvsaqhP3A6m4wt1s22I/EwaKk8SDl7JeY7J5LdGa9LOs4fatn578fFqO7izBw
-         2ltMAknf246Hmb/uh4dAMvwutHtLexolPB+c2VOEaC/AHS9CU3NMDnkvuIYvEMO4bnWg
-         7l3AYyxU4WNa/3L+zuuACVK63xXKn/jvIVC0j5PloBzYLU3xapcAWrHTGqBwXN1mKSZ4
-         uPz7LBYe6L7oVEvcCTxmugi1hcO2ix9EMmnPVIWqjztxbYKQPteqEeBLl+TQU+XwaqRR
-         BcuA==
-X-Forwarded-Encrypted: i=1; AHgh+RpyMftDKErX2egZRAlX605zEYHfNrNxnQvftOjfCWOchYRpYaRDK6xeqoxsTUR5TcSbdvefb+4un8zLRQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyFQLxEAe0rV5j5X9jn6Ddo7YTsNU7NcNKW8cKCp+fbSPj/hRJX
-	NRkhLK+btTxwMxUJRXEDVrZ6wG+KA5MducYS10DBBMmGiHFK0aVVrGQM
-X-Gm-Gg: AR+sD11lhflMC3e+/WtgAA0cRaEtRHtEr70xqICpuJaJB277qGNF2IaPlAipWx4mtAS
-	0DjI6YoVz0/P7ciMSW0SreY2FO+bHATMqcKRIDKRau9Qzw/mRxJevGhDQjLc5D56YGJu07ce8wd
-	gVbuosY4548wWQbPeUgLCp61dHQbYHh7rg+5SqUF/KC13bX+eueZkON6Po/YV/mDJrk/Ci3IFeT
-	uHsCDlJKzqwc3a+B7MYbVfEKWGCcDbRZu0cNUTFTxSWDAr/Ad52QMw8EV8NhLrp99Dml9pxMeu9
-	KiTDnmnfIj9nbVCQVRIHQBqK2btVMUc3d8JOuKw8sFl/6kutI7r1IDMu3nx9QoarEnX+VdOm5U5
-	mp2mfWtmxwXWK8z8qFPC0PQpZJZWDDJi8tqHtneBGDYhEKyZyeiCbDbU1Ajm1XJZ7T4bzUHNLvF
-	wOHxNEYDKgder9HrKhRgEy0Kt/CM3NNR1m9DbsLWrHLCIb44E=
-X-Received: by 2002:a53:b1a4:0:b0:666:515c:522d with SMTP id 956f58d0204a3-668a4c49e16mr24887d50.29.1784751448323;
-        Wed, 22 Jul 2026 13:17:28 -0700 (PDT)
+        bh=/fvg+6+1EtvjWR0RkLSp0ui0eU2DSRzRszmxxfr+HzU=;
+        b=snzSY07QFcHayIvFPXDGKXD47qpyNkBW+5xzUXUWxg/PeDqdEOD8t7ct1IP4oescXk
+         jTnMNmRnY9PFfKTgK5vofXKmp9E6//yPbuJovsJwoik4QW6EZYZBpumFpS5h7egt4vY7
+         vhYirmgeP4kMh4RZd0fwJbwfZ+wf7kFFL0Ep9Vw/nkThlI3mo1vazGjGUMuBcpelauJP
+         Rb/2JKTNg22nTxLEFHIBCM07IsHSmKbsLkfhyQKWic9hDwbP+L9jcy65q5yXX0SJ1TgY
+         MjkU6fvOXrI41WRYwhiOMxoR1Yk53s7unu+vbUQXd60OAH2FZwBcawJ8AkRiJpb2kLSM
+         ksLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784751452; x=1785356252;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/fvg+6+1EtvjWR0RkLSp0ui0eU2DSRzRszmxxfr+HzU=;
+        b=ee9pCzFS0RGsEVsp14q5yjkGz5rGh4j9EDGwVDGtFIgT8epT/9eBAgCr5oMnaQI60E
+         9K86+tDIFGLyaZPnRmyoGdb8VGkUiLnzTTPYhP1sUBcTr6dVNogPbGvEn3FJhorKHzUA
+         U+dh0Lbf0IlWF4eUyajK2IUOe6iJUyF4ekdZDxmafIeEHah41xQKXiuBGQZD4nJ04XLx
+         2mulE1XY7POa1XBWj5KhVmKlwJoLiPoVKTldWWEDd8Tj6OqomVj5JDZz6zttCtcBA8s5
+         lm5tJjaLI5VAeXtrl86amnxjMZ+m0mRenoWnVuu2xv24yc738AfW230i+HkRqdUQyR1f
+         Ij1w==
+X-Forwarded-Encrypted: i=1; AHgh+RoCfDp730s9AGYQSdIDb4gz5+3MbbmxVejM8/gPeV/oRqkL87RDZx9jeacjGUdxNz6FBpDHne6AWbin7A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzJxiMy2+exGUF0USCKUCQJnknDhOfmriZ74ES5mSCfyy+r9xzO
+	L3FxTB0Wf4fAV+hb2DotiDohBW9pDHdcWXKvMGyPP/2AIBX9XqOABIIe
+X-Gm-Gg: AR+sD11L1e+ecZnoB+yjusfZxXj+DRxWEN11PWtLchu7YvDX8GhgNLAsZHpfzmJURge
+	vdWFoanhosaWCO32dzleLPjVUYnH7LBf5bK8+9SsllIV+6rXKiMhCyjZ+qPUoncZUizL2wa3xt+
+	iDJYIiCayXZaZ+ivpCmt111U9gVIQAWI5lT0DmVXEPW6BE3NwdQ/e6L6Ha60iFg7xTKhDzC1c6g
+	1pieY7dOAEcKGmiWT+wdv0X/lfLHBVtPVoHhVPUt/XnH+EzHTrHLJpiNRiTpfACyTsAqymoQwYw
+	xacEjPpzz0TJtLTk7W2EnWiAWqPd8SD1nybIqTjPSyKC3NMQILdSo7TQd4gozgoIkJ7a9xdjVgp
+	RufMT6umguHRO/+hSBVfuuFQJ53aVqo7mL+zZB09mEQtl5Xhr+lDWuUiDbeuEGOWFjiMnn43pp6
+	7ZXnuoOPVibTeIN1o+WKVmLZAE13CFtV5w+twM
+X-Received: by 2002:a53:d987:0:b0:668:9230:e266 with SMTP id 956f58d0204a3-668a4cb0f6cmr27020d50.46.1784751451559;
+        Wed, 22 Jul 2026 13:17:31 -0700 (PDT)
 Received: from zenbox ([2600:1700:18fb:6011:4392:41cd:1ce2:e391])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6689056dfbasm1958866d50.9.2026.07.22.13.17.27
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6689056dfbasm1958866d50.9.2026.07.22.13.17.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 13:17:27 -0700 (PDT)
+        Wed, 22 Jul 2026 13:17:31 -0700 (PDT)
 From: Justin Suess <utilityemal77@gmail.com>
 To: Sean Young <sean@mess.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -71,11 +73,14 @@ Cc: linux-media@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	Sashiko <sashiko-bot@kernel.org>,
-	Justin Suess <utilityemal77@gmail.com>
-Subject: [PATCH v2 0/3] media: rc: sunxi-cir: support the A523/H728/T527 IR receiver
-Date: Wed, 22 Jul 2026 16:17:14 -0400
-Message-ID: <20260722201717.2205609-1-utilityemal77@gmail.com>
+	Justin Suess <utilityemal77@gmail.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH v2 1/3] media: dt-bindings: allwinner,sun4i-a10-ir: add A523 compatible
+Date: Wed, 22 Jul 2026 16:17:15 -0400
+Message-ID: <20260722201717.2205609-2-utilityemal77@gmail.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260722201717.2205609-1-utilityemal77@gmail.com>
+References: <20260722201717.2205609-1-utilityemal77@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -84,32 +89,47 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Sorry for the delay,
+The A523 (sun55i) contains a newer revision of the sunxi CIR receiver.
+The reset defaults match the fixed behaviour of the older IP, so the
+device works fine when driven as an A31 CIR receiver.
 
-This is v2 of the series that adds support for the CIR
-receiver found in the Allwinner A523/T527/H728 family (sun55i).
+Add the A523 compatible, with allwinner,sun6i-a31-ir as the fallback.
 
-Unlike the previous version of the series, this version has no driver changes,
-and just uses a fallback compatible and enables the receiver.
+While at it, merge the standalone compatible entries into a single
+enum.
 
-Tested again on my X96Q Pro+ (H728) TV box with the Google TV remote that
-came in the box (using NEC keymap). Was able to press buttons and
-get readings from lirc / ir-keytable again.
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Signed-off-by: Justin Suess <utilityemal77@gmail.com>
+---
+ .../devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-The series is (re)based on tag v7.2-rc4 on mainline.
-
-Justin Suess (3):
-  media: dt-bindings: allwinner,sun4i-a10-ir: add A523 compatible
-  arm64: dts: allwinner: a523: add IR receiver nodes
-  arm64: dts: allwinner: a523: enable IR receiver on the X96Q Pro+
-
- .../media/allwinner,sun4i-a10-ir.yaml         |  8 ++++--
- .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 28 +++++++++++++++++++
- .../dts/allwinner/sun55i-h728-x96qpro+.dts    |  6 ++++
- 3 files changed, 39 insertions(+), 3 deletions(-)
-
-
-base-commit: 1590cf0329716306e948a8fc29f1d3ee87d3989f
+diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml
+index 42dfe22ad5f1..18b28feacf83 100644
+--- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml
++++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml
+@@ -16,9 +16,10 @@ allOf:
+ properties:
+   compatible:
+     oneOf:
+-      - const: allwinner,sun4i-a10-ir
+-      - const: allwinner,sun5i-a13-ir
+-      - const: allwinner,sun6i-a31-ir
++      - enum:
++          - allwinner,sun4i-a10-ir
++          - allwinner,sun5i-a13-ir
++          - allwinner,sun6i-a31-ir
+       - items:
+           - enum:
+               - allwinner,suniv-f1c100s-ir
+@@ -27,6 +28,7 @@ properties:
+               - allwinner,sun50i-a64-ir
+               - allwinner,sun50i-h6-ir
+               - allwinner,sun50i-h616-ir
++              - allwinner,sun55i-a523-ir
+           - const: allwinner,sun6i-a31-ir
+ 
+   reg:
 -- 
 2.54.0
 
