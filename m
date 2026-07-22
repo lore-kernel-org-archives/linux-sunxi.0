@@ -1,95 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643CE2367DF;
-	Wed, 22 Jul 2026 22:36:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C2EC445AC8
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jul 2026 22:52:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784759804; cv=none; b=UPRxMiO7QassTz98G65IzWnnA58jgDXpL6IEY2aNEhGc0/6kuO8aRKJpnn1JZbRiOJgcXWveNiXD29mHYMBubhQutiotgy2RC5jZdHelbMHSPtg4mC734cGFK/ybRN7dQ/XT74klFC7VsayWK2Et6nudE46vXpGi/WYt242Cdbg=
+	t=1784760767; cv=none; b=ovkiBkJFrFHjrkzn94EvsMpsQH9x270jGfZYvs4r5pBEOkzzlxND6WLbveEYIGyJLOQSq127QEjvh1UrSArwwiKByaStYHtq6+TAhnuZzKFdiybY7pzo5Z67qLuiHgDF6rict0X9wigp6Hg6WVx1Pj18fdwzh3oL/rRnFwGL5JU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784759804; c=relaxed/simple;
-	bh=HFn9cZFwFXGfcT+gDREagdMwpRh82chodW0FJ6PWaHw=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=PT+2uTSKFewuwAulICP9t9h905N0EIIjKBWs7IdiQKymGdCcaYK/lEyor0leUa/91QCZ7/VPJzA7yZVZDL5G7uiD94HO1rJbUl26opFGg+CERQiB3PKZzAwPJYmx1D16SCDQ8o77CC/CqFPAIXBTK1GNP/9WWMXuh8bjmMWjlhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J90jE7ON; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784760767; c=relaxed/simple;
+	bh=QmneknWzS97mS/IfrDJ7YAopaBp1cn95q6dBpkiUOPg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gtY2eJg7NcT8W3nvks7pMMD5GkO3o4y71V/LqxqzrSzDW0r9SYkvE3PDWfincuZeO1PVPpmShqSi7uMuj1IgeNw79wpqRAYd9KJrZYYYHPcz+lONOL68S8vopnzZ+GBpT7zQ38dTsAa8ol8HyE6yOW8oDp2zHTrM2FRot1Bj2iE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=mdDaGaZn; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J90jE7ON"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2E951F000E9;
-	Wed, 22 Jul 2026 22:36:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784759803;
-	bh=0581rKYFV9xS3yIbjW4LJwKq8xJCLOGmOrOtO1YDUfc=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=J90jE7ONj+r8WnPXLfmlqwHHwVZTety7taHaBDuzv5dkWCdYMZ+Ae8X6iHNSrS6c6
-	 C/sK8CePiKjqMEv9DFU4eQEj6CiKC2+ZVT+Eq5MbgIHrqeJBkbVkqqCLgmb8/Kwhui
-	 GG02cMWdYDRVUsdqmlvnibuzjPYGlhhPHsxzh9HhYNi1bXtgW4WOvTx3YzY3zYLkcP
-	 tpUa9Xnw+P8PXpdIbtEyZZI3bhJtbB5QtXfyOMWpc7K+9R9Rqp+n2HF/lbnspOgSSe
-	 UD5jyERvj9FyEDn7CMLLEhM06opp56/pV+pmWU3Y/BFFWLwtnV/gf0kkJ9cUH7rDn2
-	 ALjqn3P7WL5aA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] arm64: dts: allwinner: a523: enable IR on the Avaota A1
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Andre Przywara" <andre.przywara@arm.com>
-Cc: linux-sunxi@lists.linux.dev, conor+dt@kernel.org, devicetree@vger.kernel.org, robh@kernel.org
-In-Reply-To: <20260722222627.14138-1-andre.przywara@arm.com>
-References: <20260722222627.14138-1-andre.przywara@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 22 Jul 2026 22:36:42 +0000
-Message-Id: <20260722223642.B2E951F000E9@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="mdDaGaZn"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D4A65168F;
+	Wed, 22 Jul 2026 15:52:41 -0700 (PDT)
+Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D99153F86F;
+	Wed, 22 Jul 2026 15:52:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1784760766; bh=QmneknWzS97mS/IfrDJ7YAopaBp1cn95q6dBpkiUOPg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=mdDaGaZnFAiUJx7LKS6ZbGO+gz2G39fzwP9q3Nn7FL/LDfb1CUZhHBFkMShVoiF9w
+	 g4Q9Gb7KhcQHtWSNXhd8ZW3o1kNZS04ExsaZf4+KcBZAjgmjkNjKGIltPhxaS3Te6A
+	 bH+JBHF+6gP6rt+RNW9cOu4TJmoAqkV6cTfWXOFU=
+Date: Thu, 23 Jul 2026 00:48:56 +0200
+From: Andre Przywara <andre.przywara@arm.com>
+To: Enzo Adriano <enzo.adriano.code@gmail.com>
+Cc: Chen-Yu Tsai <wens@kernel.org>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Brian Masney
+ <bmasney@redhat.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Junhui Liu <junhui.liu@pigmoral.tech>,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] clk: sunxi-ng: ccu_mp: fix clocks without P dividers
+Message-ID: <20260723004856.55158e84@ryzen.lan>
+In-Reply-To: <20260722173714.2394348-1-enzo.adriano.code@gmail.com>
+References: <20260722005643.1208942-1-enzo.adriano.code@gmail.com>
+	<CAGb2v67GDBTq8vdxNxBfNVSe=oStcgaJzm0ig2WAEXNQSkVa1g@mail.gmail.com>
+	<20260722173714.2394348-1-enzo.adriano.code@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Low] Device tree compilation fails due to an unresolved reference to the=
- `&ir` node label.
---
+On Wed, 22 Jul 2026 13:37:14 -0400
+Enzo Adriano <enzo.adriano.code@gmail.com> wrote:
 
---- Patch [1]: [PATCH] arm64: dts: allwinner: a523: enable IR on the Avaota=
- A1 ---
-commit 357c50b8a0f2e8f0f484a1872fb40899f5baa624
-Author: Andre Przywara <andre.przywara@arm.com>
+> Hi Andre, Chen-Yu,
+> 
+> Correct, this was not tested on hardware; it was build-tested only.
+> 
+> Thanks for the review. Chen-Yu's point is right: these one-divider clocks
+> should use the single-divider clock class, which already supports
+> CCU_FEATURE_UPDATE_BIT. I'll drop this generic ccu_mp patch; there will be
+> no v2.
 
-arm64: dts: allwinner: a523: enable IR on the Avaota A1
+But there clocks that use a _MP_ initialiser with width = 0, both for M
+and P. Which leads to GENMASK(-1, 0), as you mentioned. So we need
+patches to fix: to convert the HSTIMER clocks to use
+SUNXI_CCU_P_DATA_WITH_MUX_GATE, which is a pure div clock that doesn't
+have that problem. Same with the r-timer clocks in ccu-sun55i-a523-r.c.
+And there is mbus, iommu and dram that have no P.
 
-This commit adds the IR receiver pin description to the PIO DT node
-and enables the CIR receiver in the main power domain for the Avaota A1
-board.
+Are you going to make and post patches for these?
 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts b/ar=
-ch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
+Cheers,
+Andre
 
-[ ... ]
+> 
+> This analysis was done with AI assistance and each finding was checked
+> against the cited sources.
+> 
+> Regards,
+> Enzo
+> 
 
-> @@ -100,6 +100,12 @@ &gpu {
->  	status =3D "okay";
->  };
-> =20
-> +&ir {
-> +	pinctrl-names =3D "default";
-> +	pinctrl-0 =3D <&ir_rx_pin>;
-> +	status =3D "okay";
-> +};
-> +
-
-[Severity: Low]
-Does this node extension cause a build failure when compiling the device tr=
-ee?
-
-It looks like the &ir label is not defined in the base sun55i-a523.dtsi file
-or any of its dependencies, which would cause dtc to fail with an unresolved
-reference error.=20
-
-The commit message notes that this patch goes on top of another IR receiver
-series. Should that base dependency be merged first to ensure the build
-remains unbroken?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260722222627.1413=
-8-1-andre.przywara@arm.com?part=3D1
