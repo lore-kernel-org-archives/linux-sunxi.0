@@ -1,108 +1,123 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38FC735E1CE
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jul 2026 09:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784711584; cv=pass; b=Hae2ebAR6gwAjPMpY8Lt6Z4TS2XUM6veNW8xMMxEYdcsZhRHXX+RXVrkglVucSfTRwMGwpoOdZtxdT6ckDGGtuBIDA9QFCNyefmGQ3OTPsU+e6vXxJngQLEKJn99xv8Cc6727xOUA/UTiRaBpW2R/lfbNS1rhJ44lqXV+SwgGOs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784711584; c=relaxed/simple;
-	bh=uZWx+LNGsmz6mrWAnsy+obBgIY91BMfTN9kMd8FU5KY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eO6nmcBjlH5bBu7C4WodRy2k4r+j45pnLS2D1XFzQC7q7qD16gsiAthajQtSpMt1guMu7BS/B81aPJFNpW8ldZLzNZz8ZmPdB5pepPP7r+v+xxW9i2f3ucWwrKNjsTK1hHg1TQJ2+oQHzjTVGyskSvR8nthyHZPA7NJ8uHhAY9Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=G2tLvos0; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8CC8276038
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jul 2026 09:24:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784712249; cv=none; b=FAkktbt4PRPymBHUITI4ha64XuwcyLzm67IJFoxFw2kG6g6XtWgabhiMsawABy7YjVUqSSsJR/s5GRk9DBzYqjN+b3fLAdG6roIFqUj/extN435U8gyKl/bqFzieXLF0JUkPTrSVzFtrF8EK47Dw+DIOToBy+045T70rwlUrS0o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784712249; c=relaxed/simple;
+	bh=Ir3qXtFw2yXRB1E/JKi0unWOJWNYoTP6ML4V2JIJIaA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=K6fMScfdzQ7MJQ6I/XVGKMyXc4FILkiv+BB6/DRHp6Md0rNGuFBC2d9kZkQLGCQl9MVOFPQjtFsBOPbqp5rL2YdA67IoH3WwY3IlmAVDwIJlVoCISQuQLHoNxjDNgv0OAtwxynSMVdUSkZt2+pZMCcAiUMU+llKmcTdtsL7AmY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Tqvcku+r; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="G2tLvos0"
-ARC-Seal: i=1; a=rsa-sha256; t=1784711559; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Ed6g9APePcwCYn0JNNPA9ST+yflkjqVKOt4lnYZ9CPWdxc9dm5K+TyCjE2Oxcxsj0NktVh41rt4RsEnCjZvm8cLzX4pn9O83jfCX7xCYIpNNkhtCmjveLugNT+5xyD5nw9CzFA/GPEjjda/BbFLlv35FhyaV0/tqumdkqpB00Yg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1784711559; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=/Bz0kOVpQ5EYH3MZETJm5OMDFXRozPcW4LBmQ5++M2c=; 
-	b=Z4ydMRRRPPYPhi5FkSdiJuhECEht+JEU2+dO/RZAHKW1HHUudmb27Kmw9w8ffl5zVs8MA1acMxrU4ar27vYa3vcd4ka2xR5wdBb8Z52ODgk64qV+JuwKO0haXHu9R0Fc+CR2gudkYSREpWXfAnCPUn+fCQLiZqI/yHcE95EyYnc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1784711559;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=/Bz0kOVpQ5EYH3MZETJm5OMDFXRozPcW4LBmQ5++M2c=;
-	b=G2tLvos0NrUX4ZV2ofI20ACxDLLMeLjU3biRBHZfKDfSmHJlSDMLIdv82G3EB35S
-	1+et/b7s8RpgViNvrAR/IzIuMc1U2FBJgG8LYLyho1wIfh1Mn/3JLyTCMxDf4NgoDGy
-	70+3fOmP+xbE392Edlqo3CLKp5Svm4aBgBdSVwOE=
-Received: by mx.zohomail.com with SMTPS id 1784711558114144.08746265131617;
-	Wed, 22 Jul 2026 02:12:38 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Wed, 22 Jul 2026 11:11:51 +0200
-Subject: [PATCH v8 5/5] drm/display: hdmi-state-helper: Init SCDC debugfs
- for HDMI
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Tqvcku+r"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 004FB1595;
+	Wed, 22 Jul 2026 02:24:03 -0700 (PDT)
+Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 10C493F86F;
+	Wed, 22 Jul 2026 02:24:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1784712247; bh=Ir3qXtFw2yXRB1E/JKi0unWOJWNYoTP6ML4V2JIJIaA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Tqvcku+rEDdH0CB4HC5xFMrjhZhNWsZxkMIjFtcx8EU22CAv7gb8mL0b/6LIrwiZN
+	 ThueiryESniTGqsIn3aquM4p85nK0CTe8EnEgP8z4hufV98x2SV9IlLNLhExLOaMaq
+	 Tjh2cyznk6kzNQT5H2t5kEzZshgBr7O+knB418Ps=
+Message-ID: <2fa7bd81-0091-4001-856f-e21096023f0e@arm.com>
+Date: Wed, 22 Jul 2026 11:24:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] clk: sunxi-ng: ccu_mp: fix clocks without P dividers
+To: Enzo Adriano <enzo.adriano.code@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
+Cc: Brian Masney <bmasney@redhat.com>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Junhui Liu <junhui.liu@pigmoral.tech>,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20260722005643.1208942-1-enzo.adriano.code@gmail.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20260722005643.1208942-1-enzo.adriano.code@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260722-scdc-link-health-v8-5-cd1dacbb85d9@collabora.com>
-References: <20260722-scdc-link-health-v8-0-cd1dacbb85d9@collabora.com>
-In-Reply-To: <20260722-scdc-link-health-v8-0-cd1dacbb85d9@collabora.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Daniel Stone <daniel@fooishbar.org>, 
- Hans Verkuil <hverkuil+cisco@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- Samuel Holland <samuel@sholland.org>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- kernel@collabora.com, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.15.2
 
-Initialise the SCDC debugfs file for connectors that call the HDMI state
-helper's debugfs_init helper. This makes all connectors that use the
-helper expose the scdc_status file in their connector debugfs.
+Hi,
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- drivers/gpu/drm/display/drm_hdmi_state_helper.c | 2 ++
- 1 file changed, 2 insertions(+)
+On 7/22/26 02:56, Enzo Adriano wrote:
+> Some sunxi-ng MP clocks have an M divider but no P divider. The A523
+> MBUS, IOMMU and DRAM clocks use this layout and also require the update
+> bit when changing their rate.
+> 
+> ccu_mp_set_rate() unconditionally builds and applies a mask for the P
+> field. With a zero-width P field this produces an invalid GENMASK()
+> range and can clear bits outside a P divider, including the clock gate.
+> 
+> The callback also ignores CCU_FEATURE_UPDATE_BIT, so hardware that
+> requires the update bit may not latch the new divider value.
+> 
+> Only update the P field when it exists, and set CCU_SUNXI_UPDATE_BIT for
+> MP clocks carrying the feature. This matches the existing sunxi-ng div,
+> mux and gate helper behavior.
+> 
+> Reported-by: Sashiko <sashiko-bot@kernel.org>
+> Closes: https://lore.kernel.org/r/20260712081341.9D1431F00A3D@smtp.kernel.org
+> Fixes: 6702d17f54a8 ("clk: sunxi-ng: a523: add video mod clocks")
+> Assisted-by: Codex:gpt-5
+> Signed-off-by: Enzo Adriano <enzo.adriano.code@gmail.com>
+> ---
+> Based on clk-next 8cdeaa50eae8 (Linux 7.2-rc2).
+> Tested with strict checkpatch and an arm64 W=1 build of ccu_mp.o.
+> No hardware runtime claim is made.
 
-diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-index 8d5ee10ceb87..709524b40c26 100644
---- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-+++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-@@ -13,6 +13,7 @@
- #include <drm/display/drm_hdmi_cec_helper.h>
- #include <drm/display/drm_hdmi_helper.h>
- #include <drm/display/drm_hdmi_state_helper.h>
-+#include <drm/display/drm_scdc_helper.h>
- 
- /**
-  * DOC: hdmi helpers
-@@ -1116,6 +1117,7 @@ void drm_hdmi_connector_debugfs_init(struct drm_connector *connector,
- 		return;
- 
- 	create_hdmi_infoframe_files(connector, dir);
-+	drm_scdc_debugfs_init(connector, root);
- }
- EXPORT_SYMBOL(drm_hdmi_connector_debugfs_init);
- 
+Does that mean it's not tested on hardware?
 
--- 
-2.55.0
+> 
+>   drivers/clk/sunxi-ng/ccu_mp.c | 15 ++++++++++-----
+>   1 file changed, 10 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/clk/sunxi-ng/ccu_mp.c b/drivers/clk/sunxi-ng/ccu_mp.c
+> index 7cdb0eedc69b..aa6cb20447f1 100644
+> --- a/drivers/clk/sunxi-ng/ccu_mp.c
+> +++ b/drivers/clk/sunxi-ng/ccu_mp.c
+> @@ -237,12 +237,17 @@ static int ccu_mp_set_rate(struct clk_hw *hw, unsigned long rate,
+>   
+>   	reg = readl(cmp->common.base + cmp->common.reg);
+>   	reg &= ~GENMASK(cmp->m.width + cmp->m.shift - 1, cmp->m.shift);
+> -	reg &= ~GENMASK(cmp->p.width + cmp->p.shift - 1, cmp->p.shift);
+> +	if (cmp->p.width)
+> +		reg &= ~GENMASK(cmp->p.width + cmp->p.shift - 1, cmp->p.shift);
+> +	if (cmp->common.features & CCU_FEATURE_UPDATE_BIT)
+> +		reg |= CCU_SUNXI_UPDATE_BIT;
+>   	reg |= (m - cmp->m.offset) << cmp->m.shift;
+> -	if (shift)
+> -		reg |= ilog2(p) << cmp->p.shift;
+> -	else
+> -		reg |= (p - cmp->p.offset) << cmp->p.shift;
+> +	if (cmp->p.width) {
+
+Can you merge that into the upper conditional branch? So that it's just 
+one if statement?
+And then apply the same treatment to the M divider, which is set to 0 by 
+some A523 clocks (hstimer and r-timer).
+
+Cheers,
+Andre
+
+> +		if (shift)
+> +			reg |= ilog2(p) << cmp->p.shift;
+> +		else
+> +			reg |= (p - cmp->p.offset) << cmp->p.shift;
+> +	}
+>   
+>   	writel(reg, cmp->common.base + cmp->common.reg);
+>   
 
