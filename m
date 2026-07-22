@@ -1,112 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from extorris.mess.org (extorris.mess.org [92.243.27.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0435F3DD521
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jul 2026 09:50:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0464C77BF
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jul 2026 10:23:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.243.27.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784713837; cv=none; b=FNhA5x+YtiWr/cMLEAP5Ek6N2jF3n4R9iKvQV7gr+48wFiSqzhFGzW9sXEbuY2Zeww1YMZkQ13NGkm6TF1ZEHF1wFi1Qbd2W/ATJzDBUws2NEp7NetMMnm7FLiSt2eeBXV57XJvJGj6qrwLVSgIILVC92nKi8/i1GnO78DnFVVY=
+	t=1784715821; cv=none; b=ST2FUB2sHGNcr7jrrWlgFs+3gu6ioGBOax/HrUM4P7T8K/y1pwuvLReJyYJxDSFoMHlZnU6d52f8Dni3APqBA7YJTyRab/k36uHQNkEl1z7dCtWmlZZXVIrDI9cecnGZcu3HRnmn1Gafrr4JvHREgkA44Yn6AATK9RaAqVHv++g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784713837; c=relaxed/simple;
-	bh=GKxLhLt1irCP3sDTSIUkRbH6hBHxUxxSahsmRY+k2CE=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=p/RKZPm7Ueh3eGv/pXKIU+E9QJim0Kr/26aBT42pQAjRoxmlBTuK/db65FUgVeWalBydCc8yMReZllFIlrNtIwPpbd1fag7T0ws8RpTGM/eEmr6Uf0mxvbyFDdH90VQeZnMSoAT4Ee7qMggE9JCh0xJ/sbW4haYkIjIAlHQ+/A4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EAfKanLH; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784715821; c=relaxed/simple;
+	bh=PFYYQhVg4NRarAQ81g5gFeRQ3Pkd+XUXZYeUxj9P9Kk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ey6zIs7p0FubBHGSEL0IuVJUvrBusJCADXes14qzqvmQCDfjAPKtD1BzmkczVNNdT0RnrGnkXglkooLR6fXKuUJp6VyL3WgxEzREa2IK6wQoWqC+snD61DMKA0CkPwyQLIoA4rjy+TFJ9EQ1VgEGYGne1eVpi3pZZSxByLaw7Vw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=a+ppJtpy; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=Uv2FKRFT; arc=none smtp.client-ip=92.243.27.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EAfKanLH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E37E1F000E9;
-	Wed, 22 Jul 2026 09:50:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784713833;
-	bh=cGzKdDIq40NgsJAnJa5axHzzAzBU+82htX5o0TsEIUA=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=EAfKanLHba0hZWecVFcPHeMzDbHjmAnIBvO9WkYj8Dr6OkgT9Ig6mFuNHo5eu69+u
-	 g1ghJeFlOzqnVeGiIzdso1rUAl9nqnIm3Zq0foYc8u+a9LadlrnfhkEbrQaMKuXlhF
-	 xabicKFUusC2OEoYzvzeyJozCSxq6b4FTIFcFQ9KWTofbHt5jMuxHx/STpldGtC776
-	 a78YipHjLgLev/DWs3t4+j9SnbgLT154sL5G63PS9/9xvQ3VYEo4/6FfWi/0msJfx3
-	 E2p19kReaj07TjtfoXK11eFMc8jPuVcJpgO6sRwE+AdQpOCvOZGY5lP8jNfptV4l9y
-	 f03QIjGhJve0g==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v8 5/5] drm/display: hdmi-state-helper: Init SCDC
- debugfs for HDMI
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Nicolas Frattaroli" <nicolas.frattaroli@collabora.com>
-Cc: linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org
-In-Reply-To: <20260722-scdc-link-health-v8-5-cd1dacbb85d9@collabora.com>
-References: <20260722-scdc-link-health-v8-0-cd1dacbb85d9@collabora.com>
- <20260722-scdc-link-health-v8-5-cd1dacbb85d9@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 22 Jul 2026 09:50:32 +0000
-Message-Id: <20260722095033.3E37E1F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="a+ppJtpy";
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="Uv2FKRFT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1784715819; bh=PFYYQhVg4NRarAQ81g5gFeRQ3Pkd+XUXZYeUxj9P9Kk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=a+ppJtpyAATcCXU3G/xQl9DMxrcl1gkAlSh56EZ72Mol1bjLALaDa3jQSbG5XHons
+	 ZOLc65wXl2ksd58VogQ0DEv5Jhbs/DNAAgD5od+bCs4Z++hYekZTsvOOk6F3yR40V9
+	 184JLGyS5F7C6RigdI1ZNBrkpeBvHwLNIjRJ1TIqWVb49JcE2R8gHlFcAKWprNVsp6
+	 DUf5oXk+y0IptKnyjcGO6s3qcijjGX8eXtXCYa2D2lDKDp+zJvvz5lLFZxft+nswF2
+	 D8BSuHsh1vlFyo7WaeZICleToJbrpgY+UAXBD2/h5cYJZtn2egslW1LFlccwYZOu5N
+	 2JUeJeQJS/4MA==
+Received: by extorris.mess.org (Postfix, from userid 1004)
+	id 2DD9342540; Wed, 22 Jul 2026 11:23:39 +0100 (BST)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1784715818; bh=PFYYQhVg4NRarAQ81g5gFeRQ3Pkd+XUXZYeUxj9P9Kk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Uv2FKRFT84ykdKx7onLLSFTGseJbNEemYGtWO+rOyasrKPrnWmQMAdrYVvhXq0ZNx
+	 pQ85hOrm9R2FigNnlnekCma9uR1rl/MjaBsHQ7eDL7a4NXvE+At+/MhuCJIItC5hdX
+	 0HNuWSjKRxyGHc93YXKf/YZ2VIU4h5Ug0/f8t/r92u/kfXNjeW7StJztyptjttCzRx
+	 kP0iiW9C4oVsY5ub4bY3PykIaKMRa3BwrwcZ0G3ZafuTLMbo5i0JSvE1+LPA5ZBKq+
+	 vWb4JwcuhyekZ3rleVemrKwscQ0Y3wHBtAgngJ0Ol0qAi0+60AuNBYp1y7cvkQNR0U
+	 QsqmOC9ssDEcg==
+Received: from maru.local (unknown [62.232.99.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by extorris.mess.org (Postfix) with ESMTPSA id 6F0C042526;
+	Wed, 22 Jul 2026 11:23:38 +0100 (BST)
+From: Sean Young <sean@mess.org>
+To: linux-media@vger.kernel.org,
+	Sean Young <sean@mess.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 06/13] media: sunxi-cir: Ensure no more interrupts can occur before free
+Date: Wed, 22 Jul 2026 11:23:18 +0100
+Message-ID: <d16aa75a7f94678499b37e45a5215f231658e0b0.1784715737.git.sean@mess.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <cover.1784715737.git.sean@mess.org>
+References: <cover.1784715737.git.sean@mess.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] Missing `mutex_unlock()` in `scdc_status_show()` error path leads =
-to a permanent deadlock.
---
+Only call rc_free_device() once the hardware has been stopped.
 
---- Patch [5]: [PATCH v8 5/5] drm/display: hdmi-state-helper: Init SCDC deb=
-ugfs for HDMI ---
-commit a1a858eb6a63d66446abae1340fa115153801dc6
-Author: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Fixes: dccc0c3ddf8f ("media: rc: fix race between unregister and urb/irq callbacks")
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ drivers/media/rc/sunxi-cir.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-drm/display: hdmi-state-helper: Init SCDC debugfs for HDMI
+diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
+index 28e840a7e5b8..af1ee08ffdbe 100644
+--- a/drivers/media/rc/sunxi-cir.c
++++ b/drivers/media/rc/sunxi-cir.c
+@@ -374,8 +374,8 @@ static void sunxi_ir_remove(struct platform_device *pdev)
+ 	struct sunxi_ir *ir = platform_get_drvdata(pdev);
+ 
+ 	rc_unregister_device(ir->rc);
+-	rc_free_device(ir->rc);
+ 	sunxi_ir_hw_exit(&pdev->dev);
++	rc_free_device(ir->rc);
+ }
+ 
+ static void sunxi_ir_shutdown(struct platform_device *pdev)
+-- 
+2.55.0
 
-This commit initialises the SCDC debugfs file for connectors that call the
-HDMI state helper's debugfs_init helper, making the scdc_status file
-available in their connector debugfs.
-
-> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gp=
-u/drm/display/drm_hdmi_state_helper.c
-> index 8d5ee10ceb874..709524b40c26f 100644
-> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-[ ... ]
-> @@ -1116,6 +1117,7 @@ void drm_hdmi_connector_debugfs_init(struct drm_con=
-nector *connector,
->  		return;
-> =20
->  	create_hdmi_infoframe_files(connector, dir);
-> +	drm_scdc_debugfs_init(connector, root);
-
-[Severity: High]
-Does exposing this debugfs file introduce a deadlock if it is read while the
-display is disconnected?
-
-Looking at the file operations wired up here, if a user reads the scdc_stat=
-us
-file when the connector is disconnected:
-
-drivers/gpu/drm/display/drm_scdc_helper.c:scdc_status_show() {
-	...
-	mutex_lock(&connector->dev->mode_config.mutex);
-	...
-	if (connector->status !=3D connector_status_connected) {
-		ret =3D -ENODEV;
-		goto err_conn_put;
-	}
-	...
-err_unlock:
-	mutex_unlock(&connector->dev->mode_config.mutex);
-err_conn_put:
-	drm_connector_put(connector);
-	...
-}
-
-It appears the error path jumps to err_conn_put, bypassing the mutex_unlock=
-()=20
-at err_unlock. Could this permanently lock mode_config.mutex and cause=20
-subsequent DRM mode setting operations to hang?
-
->  }
->  EXPORT_SYMBOL(drm_hdmi_connector_debugfs_init);
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260722-scdc-link-=
-health-v8-0-cd1dacbb85d9@collabora.com?part=3D5
