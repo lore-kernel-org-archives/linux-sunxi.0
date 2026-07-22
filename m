@@ -1,71 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAAC9344DAC;
-	Wed, 22 Jul 2026 17:29:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5538540861C
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jul 2026 17:37:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784741343; cv=none; b=YRPK8lKy8xzhK45cpsmPK2joKH3ehmszjaS/GPpoz3dpEMlcR8ih+3CX8Ou3yO6dmPxcLcsPw53WXvQ0tPK6uXgzN6gH2m0BBiNncGfZzZVzjJajAEbf+0SWXy7PQ6R9wAIRkCbIdAV5Hk9Rh5dyRp3M4+lMNDFUKC20e3SFcyM=
+	t=1784741841; cv=none; b=OYuhFlFU14OR3lZtJ2VkS2rVzgriR/FcUuCBpG+tOIDRMrPuZiLeDefM2C9glNe/pfCD7nzyudpDsu6uP51ECa6Afo4LRa6C0euoLLFlk7zoz5HpRlVXpi/urkPrjdfuKYY5UGLgV6Bh7na22VWECCwG8K3+mySzs9OP41RV3UQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784741343; c=relaxed/simple;
-	bh=Rc7LMYJkes0O3HfSE+/1/YaTLUVzBZj6BmiSass1xM0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=I/0VZaKDsJ6dIotqUUJTrDjdY8x6zvepgjOwH08JZsh0GwOidVWN5v3eppfJVwei5wSb3KoLRN3LHw061Hxi2+O8fhHlcURXLGVpDyMhbuKglIe8aahmOU5iV2InRl5m0G5FFPGB9w+r1/D3NtNwRX7FVlKcOhEDDtUuu2LxnaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HenOrNzB; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784741841; c=relaxed/simple;
+	bh=AKDkWaghcNpmaNxqhAmOaHAKvqFX2oI6UORlFQsEgEA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=GomTIfS3pgWqqUobf8WBR1TVaIervzfcKNntnCLGSbiF1cUCUZuHsL9nKtwKcb/mUBOX0vX/k/KetLPyTSqtt9mXu9/DJdhu6jssZund2FFHuSzFccg2Zw00QTWJgTPT7x5Z/gMm+NE0pvwb/EjYtU2oSRr8mBmBx7r1qGR3VAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OioZaqVV; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HenOrNzB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0E101F000E9;
-	Wed, 22 Jul 2026 17:29:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784741342;
-	bh=R644bVMJpbI5wr8azKmQH+phgfEYQY/Mpi+UsoV/eo0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=HenOrNzBlkGjNT2ZGgzTj9JkaN/Pg+ClQJYBrhh5tFYzSTNHJhzz9i2tElewFjnaM
-	 VWIrU+KEoZDUzP93ZSRJwpFW9cXSX5UZCxPe1Z7uOjyLrDVrmeQNK3U7TMYxjM2r+g
-	 TLRQBNeimdXHkmHgb5jS3RbnxaSYKV+xJ+/zuWM5nQh4tw3TxwDEc4hcGHiO52FM4r
-	 vQ9x6eFir53ZzIfMOFPxYaiGCqx8MjGoYz65Baq/+URqcl2SWjc9NQ48EO01rV7mHg
-	 liJw8iXTDYpIo3dpd1D65QjTDLmHYk0eoGbg/tigQCPj013DeYWDimv6AnVLUW0iKi
-	 ba0ev+D7hXj+w==
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Andre Przywara <andre.przywara@arm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20260720215128.5761-1-andre.przywara@arm.com>
-References: <20260720215128.5761-1-andre.przywara@arm.com>
-Subject: Re: [PATCH] ARM: dts: allwinner: a10: Fix PMU interrupt
-Message-Id: <178474134045.3407214.16203991079219097416.b4-ty@kernel.org>
-Date: Thu, 23 Jul 2026 01:29:00 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OioZaqVV"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-8ee6912d86dso66370546d6.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 22 Jul 2026 10:37:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784741837; x=1785346637; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=AKDkWaghcNpmaNxqhAmOaHAKvqFX2oI6UORlFQsEgEA=;
+        b=OioZaqVV4jNE5S6I/ynDXFqBh7oOX1v6kp/lF3O5dlNwzvW3ETNz1moy59ornKQDaW
+         zw9j4wL2ndqXQ8D8LoOc3PdfqUtp2Ve6ufLFMWXHvB5PKIQ7WPhHgGPE3UQRF3eNXeIv
+         aQijg44YFDbtlQ1uT2kprn8xUBNNdhpAjktfwrByqGftD9Rp/oOqzS4xKuKb2oc2+KTy
+         RLh7pfcJYD3VoKMocOGeOSUIeLU5M6aiGUqXv+32MNIv1+aO2eUsZwxW7ni0YbKWQE2g
+         gWE2en0lbbaefV++W70i2+GFq/v/Oe6CdwXPFIDia58p6AZlz9vda82k86aWSc3W2p5O
+         JpiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784741837; x=1785346637;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=AKDkWaghcNpmaNxqhAmOaHAKvqFX2oI6UORlFQsEgEA=;
+        b=PQQtlb3QeVW6YbgRYbwcrFpfxiqh9qxwD5wF9yo5L2NTH4e3tnQT8y4rmqYjLXACvW
+         eIjGD9Nx1LCgQJABhXj4Zr/g3D9uOMADGtaDCENQNeuWamkK/1LZB7CX+Ospk+Y63Ihs
+         YZrzBb1/Pz5GYWGngz5dU6AyOEKu9wtSPVzRomvz4XqnhixFA5eaon20Nu6hTW3X6RNp
+         W2RYMa5p4s0Ttx17dSv4kceTikA3dPWkOBPEY8u5ZEODS6Eph+W2jQUeWehzHYmrp9GO
+         rvU2uSj5QQCBj4LTLak36037tEO11tHhta6Y3KI2lclAg1CuP2JPsPnPjldqhmusjUy3
+         MP7w==
+X-Forwarded-Encrypted: i=1; AHgh+RrEJMy8QSblNHpxX3QQwnvu8nxDDOMllo6jFxgEPf4hgSrM/vpo1XHhXGw4emmsC5TdNEaDm4Qlj+Dc0Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzcA/u7LJZXB+LBQf0Yed02xbGZm5JPDxz6Tc8HuIa6L5BONzZg
+	9LOUshrwFWr0lCDJouZR0wETSyZGjDmHj+wccjtLICVMbLjoxSGMwiDf
+X-Gm-Gg: AR+sD1278xddrQ4Hp+RCKDqPY5NxaIJtuE5R1iRt52L0BLiaEs+3CPHHrW/d4BJVQTJ
+	kcNEgK8ovJBZ9G/Fun8sp0RLqW1s6mwEleWgr/dBagoquReV+qHn6VBg3o2smS7FG0yurCnDNqt
+	BCoffGYQgCpToZ7FlCe5EaRsKE9VUzInwR2d2bQUGAVwwXUEXcpv6J5mAHM3oS2NfCufJJusYQv
+	NtZSlEQ9E88rLVK83qbw0l8wrBM3udZvnLik0Nu8JAt3DsQUI6lQiKlNv8zXE2k9VkFIrPBSiWR
+	AkWLeX29BDb2aJz4xqtxJhp6Z4qAU5tCB+gb0ABUupell0rlcvqQpXJTzDPZLlwd2nocDyfqY40
+	rKSeESsTo/Or8US3IpfCBZ97sWYqzaCBDGYbRWDi1tkz9WYEc8vo0i7lVSA5O/Z7NTTZLDYQ3gb
+	/1I6bA2DA1LYPaf0TcfmSygVP74Z819E6HoUSShHsDm/odx/ap6aM+4A==
+X-Received: by 2002:a05:6214:e81:b0:8f0:275e:8b3a with SMTP id 6a1803df08f44-907783cdb5fmr251226006d6.48.1784741836919;
+        Wed, 22 Jul 2026 10:37:16 -0700 (PDT)
+Received: from AMD.home.internal (dhcp-9-244-8-156.gobrightspeed.net. [9.244.8.156])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-907ba8b3e96sm26521476d6.1.2026.07.22.10.37.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2026 10:37:16 -0700 (PDT)
+From: Enzo Adriano <enzo.adriano.code@gmail.com>
+To: Chen-Yu Tsai <wens@kernel.org>,
+	Andre Przywara <andre.przywara@arm.com>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney@redhat.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Junhui Liu <junhui.liu@pigmoral.tech>,
+	linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] clk: sunxi-ng: ccu_mp: fix clocks without P dividers
+Date: Wed, 22 Jul 2026 13:37:14 -0400
+Message-ID: <20260722173714.2394348-1-enzo.adriano.code@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <CAGb2v67GDBTq8vdxNxBfNVSe=oStcgaJzm0ig2WAEXNQSkVa1g@mail.gmail.com>
+References: <20260722005643.1208942-1-enzo.adriano.code@gmail.com> <CAGb2v67GDBTq8vdxNxBfNVSe=oStcgaJzm0ig2WAEXNQSkVa1g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
 
-On Mon, 20 Jul 2026 23:51:28 +0200, Andre Przywara wrote:
-> The Performance Monitoring Unit of the Cortex-A8 cores in the Allwinner
-> A10 SoC is connected to interrupt line 66, not 3. This is shown in the
-> manual (where interrupt 3 is assigned to UART2, also in our .dtsi), but
-> has also been confirmed by triggering an PMU overflow interrupt and
-> inspecting the IRQ controller status registers (from U-Boot).
-> Please note that "perf stat" does not use interrupts, this might explain
-> why this evaded the initial testing.
-> 
-> [...]
+Hi Andre, Chen-Yu,
 
-Applied to sunxi/dt-for-7.3 in sunxi, thanks!
+Correct, this was not tested on hardware; it was build-tested only.
 
-[1/1] ARM: dts: allwinner: a10: Fix PMU interrupt
-      https://git.kernel.org/sunxi/linux/c/eb7051f75646
+Thanks for the review. Chen-Yu's point is right: these one-divider clocks
+should use the single-divider clock class, which already supports
+CCU_FEATURE_UPDATE_BIT. I'll drop this generic ccu_mp patch; there will be
+no v2.
 
-Best regards,
--- 
-Chen-Yu Tsai <wens@kernel.org>
+This analysis was done with AI assistance and each finding was checked
+against the cited sources.
 
+Regards,
+Enzo
