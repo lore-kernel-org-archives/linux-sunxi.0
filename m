@@ -1,115 +1,105 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDD09285CB9
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jul 2026 22:30:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DFAC40681A
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jul 2026 22:35:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784759420; cv=none; b=SEBh5iw6ZV5FbPmcgvlrHGndQEOUpYR9xXZm/iPGG8A2moy2IuPRlbMrZu0TQymFLElnGYvU5aidhA/S4mOPCbDxg4gyOQAsCBVvzEFqqw7NhhuArZkr022fTKSWl/pGU2nyQ4yNSKAaLChGIcOFyVYelxQE0+H+7MMcn7CHwjE=
+	t=1784759707; cv=none; b=ZzMxDwjk580AhRgZmNoAkMezgEujEybBFytJjyrOYX2y8Xk9liMfeDv9nd5mpd/3cKkUH5EUD70nIrfxKHrYpHRhd9fU/fJGdk92JaSqYbipi8CJBO9RVJ+EAQM2qmcRvFCX3sSvSFMofmmlNYX/85Ed3nxBhZLT1X/gD9X8UrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784759420; c=relaxed/simple;
-	bh=GEJgn95LVfTN0f7LCnR1Kb7DD6JzpxxaVqfo9augIsY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ttMEoZrJUox+4N+Er1iLLwtEIkpuYaKP119jS6OJXRUXfPbwn8iw4KgyYFg9OHIYsK9++0zkgd2zo1m7HYe2m7tFBTdcbDJJdXt4CV1rh1PEAE+6BDG7JPixyoVxWOZpPsymBUmXuUZlyw12itWi5qkhNZ2Yz/x9XAD0O/NbK78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=PFkuEqlb; arc=none smtp.client-ip=217.140.110.172
+	s=arc-20240116; t=1784759707; c=relaxed/simple;
+	bh=+zDJ7KLhhR+L+X9r/DA6AC2Lf372VvSm+QWFUxozOwA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OQyTfztuJGpQNsEEJMJpvK7wpGe/bI57EiL4wmd7/EJd+6VhqhF8apTOTZHj8uEWbpq7deMB9k3IG1ORTaUfRBxBvRE2CpDDqipls9c6/k8dSxG6LGJjt+BPufY5Q3rL9hktR7PBxoqNfihp+2uMDwBaJnMGkat3lTDDzSS/yMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=oiWFDpuF; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="PFkuEqlb"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="oiWFDpuF"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 240561595;
-	Wed, 22 Jul 2026 15:30:14 -0700 (PDT)
-Received: from ryzen.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DE0DD3F86F;
-	Wed, 22 Jul 2026 15:30:15 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AA9CF168F;
+	Wed, 22 Jul 2026 15:35:01 -0700 (PDT)
+Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 409FE3F86F;
+	Wed, 22 Jul 2026 15:35:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1784759418; bh=GEJgn95LVfTN0f7LCnR1Kb7DD6JzpxxaVqfo9augIsY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=PFkuEqlbZtbWide5d48YajwaebabyjfwC2wrnCMbpT+edBo6s8ZijZ+rSE5LgriMj
-	 tGBp3Qu+dG5Cc5ApROTcLIRmveaVFSZ7sM/TUQaJIOe8vd4Ea01v3OI4/Z0ejk+6ZD
-	 fS+T9fE+QV4CWm3heFcLh4NhBqfdmDxs2nMBUPYI=
+	t=1784759705; bh=+zDJ7KLhhR+L+X9r/DA6AC2Lf372VvSm+QWFUxozOwA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=oiWFDpuF5h9pwDpPeb15VijbnoV2ZHGWRK70PUU+bzkZdDpUv0IT+teFxshkBiS0+
+	 ZhY9Rq1AgzBRHKgAx9chfa1nRPQnjUlvuGsU8U31oNJcmNJ9MN+e+j1AM/J35tNy6u
+	 VXkTmR0cLi5bORUQVR5v56UVJHRsILMJgSCd+WtA=
+Date: Thu, 23 Jul 2026 00:31:15 +0200
 From: Andre Przywara <andre.przywara@arm.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Justin Suess <utilityemal77@gmail.com>
-Subject: [PATCH] arm64: dts: allwinner: a523: enable IR on the Avaota A1
-Date: Thu, 23 Jul 2026 00:26:27 +0200
-Message-ID: <20260722222627.14138-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.46.4
+To: Justin Suess <utilityemal77@gmail.com>
+Cc: Sean Young <sean@mess.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Sashiko
+ <sashiko-bot@kernel.org>
+Subject: Re: [PATCH v2 0/3] media: rc: sunxi-cir: support the A523/H728/T527
+ IR receiver
+Message-ID: <20260723003115.3087bf3e@ryzen.lan>
+In-Reply-To: <20260722201717.2205609-1-utilityemal77@gmail.com>
+References: <20260722201717.2205609-1-utilityemal77@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The Avaota A1 board has an IR receiver chip on the PCB (next to the
-Ethernet jacks), wired to the PI8 pin on the SoC.
+On Wed, 22 Jul 2026 16:17:14 -0400
+Justin Suess <utilityemal77@gmail.com> wrote:
 
-Add the pin description to the PIO DT node, and enable the CIR receiver
-in the main power domain.
+Hi Justin,
 
-Tested on the board with evtest and some random TV remote control.
+> Sorry for the delay,
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
-Hi,
+no worries, thanks for the update.
 
-this goes on top of Justin's A523/H728/T527 IR receiver series.
+> This is v2 of the series that adds support for the CIR
+> receiver found in the Allwinner A523/T527/H728 family (sun55i).
+> 
+> Unlike the previous version of the series, this version has no driver changes,
+> and just uses a fallback compatible and enables the receiver.
+> 
+> Tested again on my X96Q Pro+ (H728) TV box with the Google TV remote that
+> came in the box (using NEC keymap). Was able to press buttons and
+> get readings from lirc / ir-keytable again.
+
+this all looks good to me. As mentioned on the individual patches, I
+tested this on two boards here. I sent a patch [1] to enable IR on the
+Avaota board, which goes on top of this series.
+
+[1]
+https://lore.kernel.org/linux-sunxi/20260722222627.14138-1-andre.przywara@arm.com/T/#u
+ 
+> The series is (re)based on tag v7.2-rc4 on mainline.
+
+Please base your submissions on -rc1, that simplifies merging/rebasing
+for the maintainers, because then all new patches have the same base.
+Not a particular problem for this series, since everything still applies
+cleanly, but keep that in mind for future submissions.
 
 Cheers,
 Andre
 
- arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi          | 7 +++++++
- arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts | 6 ++++++
- 2 files changed, 13 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-index 19771aac68e53..770433b4f905b 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-@@ -155,6 +155,13 @@ i2s2_pi_pins: i2s2-pi-pins {
- 				bias-disable;
- 			};
- 
-+			/omit-if-no-ref/
-+			ir_rx_pin: ir-rx-pin {
-+				pins = "PI8";
-+				allwinner,pinmux = <3>;
-+				function = "cir_rx";
-+			};
-+
- 			/omit-if-no-ref/
- 			ledc_ph_pin: ledc-ph-pin {
- 				pins = "PH19";
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-index 474354fbfcec1..994f1e4f0ce7d 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-@@ -100,6 +100,12 @@ &gpu {
- 	status = "okay";
- };
- 
-+&ir {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&ir_rx_pin>;
-+	status = "okay";
-+};
-+
- &ledc {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&ledc_ph_pin>;
-
-base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-prerequisite-patch-id: 7deae1861f99fd36ada1af9c830c337374a74980
-prerequisite-patch-id: 0175281b3456fb2bfca8cc0e99238583682af0f1
-prerequisite-patch-id: 93ebe68eb0b466e360c6a02e5d936be910c85752
--- 
-2.46.4
+> 
+> Justin Suess (3):
+>   media: dt-bindings: allwinner,sun4i-a10-ir: add A523 compatible
+>   arm64: dts: allwinner: a523: add IR receiver nodes
+>   arm64: dts: allwinner: a523: enable IR receiver on the X96Q Pro+
+> 
+>  .../media/allwinner,sun4i-a10-ir.yaml         |  8 ++++--
+>  .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 28 +++++++++++++++++++
+>  .../dts/allwinner/sun55i-h728-x96qpro+.dts    |  6 ++++
+>  3 files changed, 39 insertions(+), 3 deletions(-)
+> 
+> 
+> base-commit: 1590cf0329716306e948a8fc29f1d3ee87d3989f
 
