@@ -1,223 +1,123 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5732A439F66
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jul 2026 16:28:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D91D345EDE
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jul 2026 17:24:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784737731; cv=none; b=KbkxoZufHhRjtluplMfg61MvRKdV9sTmzH5umGkP6IjWJf6s+tqcQPmuH9KhW56GoadO5DB5p/D5UGr3TCYj74ztyUSVstebpr88Qq/vSBW0wpM4Z/vttEWkflOCkDEzUQ1E/lZBvgK6VnAJULzyePhrK5i5TYacbW+QLeJxV2k=
+	t=1784741072; cv=none; b=XcCxbIlhx2Ihyz/VEs9/cvwrggogokhvvEwMX6d4in7a9CfA72zV9T1R20jsmJ5sbUP1cqwxDzZ3mGi08Zl+Hnvu75kFtkOtZjwlktO8hrmOYRSHNwpQ649Yf4i79JOWUz1J3wv7l7hXJRGIJJEqC8+EXQIbgFh/Pvss3rmaeWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784737731; c=relaxed/simple;
-	bh=SgrI06VkRvOUZZO0DVjTQu+oEWa6QEs25v+7RLbBZmk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=GjaL4XJVC1AgPpkdjmQrisvEgkr6bwC4HWe9KZO/fQFCXFrVz/06XbnQv2SjyQ6QyeCasNhqoE41YUK61OFAJ9nmUmEKEhAfuBsXvXYyeHjc8ZIvhvo4OtzenWMJwmLsKGht3EBkPN2RR7LxkR6sfxVwGyk+F0ISflxOoZKbfS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=A9dipS7B; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1784741072; c=relaxed/simple;
+	bh=YqaZmXNCJsa9hbmdcHJkPagq4EM1gKIfp7+IQsL2QJY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Fc+WurrXMgrYoq9rJ2kafHC2BhukGkLfo3mv8MgZ5s07c9rHRZtFzt/EpP5tKAkZrqZvx2F2xFkgAjLztZYomUatb2DA4+KOmR2GNOdawhHrTO911/oc3pZKlVZ685QRVag3xzTs9A0Up6RbtRcNZGtzh1EWjJpL1zcAPysT+l0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bJqlITEe; arc=none smtp.client-ip=74.125.224.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="A9dipS7B"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-47db714766aso3765247f8f.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 22 Jul 2026 09:28:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bJqlITEe"
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-6626b5ace23so6038792d50.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 22 Jul 2026 10:24:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1784737727; x=1785342527; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :user-agent:references:in-reply-to:subject:cc:to:from:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=0VgoN131mpCFDGVLEaTpJh9JaIowTJ3l5BSSOdIVGp0=;
-        b=A9dipS7BYlkFQ5C/xuKBCFmrY3IS9B209pazewgsbXjMqxm1aS16tmu+4f29u83086
-         Mqt8eyYsPLRa5YDZmRWS+IkripuOp89rmts7Sm1FRthWvrwjtrXgXypKFUL9lQOlvQpf
-         clDDc8VbDOu7UoeKpLND0q4xkbmijunRqXvzrsULhcKyfa7oFvizIH0fUyD+GTjEJR6n
-         uLq7ceEKvmduR9Ol0+TRrHC883hP68ivdz94cqBcoU2Lm21qCsUySCfN77vEXqCkATyG
-         96T1imdN1AfFYAblZn/XjZSUGwUhyMYuiTHjM+Dwqawd9e9zA9QHmz6THbBm7X8J6SSy
-         GwsA==
+        d=gmail.com; s=20251104; t=1784741070; x=1785345870; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=YqaZmXNCJsa9hbmdcHJkPagq4EM1gKIfp7+IQsL2QJY=;
+        b=bJqlITEepZ4RJzVkCfUrO+SxsFCHvnuBzkqj7TyNUvI/yAeUCOCK8X9BXSpNZjqxeK
+         ZrFLTbAyxGHNRPudfVPohA1HxP54tFc99nY4hkC5z2yjGmjlo/4OzLtAzeNq+X0NWL//
+         wYfSBMxMqhD8Gx5GuQrGjPhzrOzV/sTvKnbDttKvq9yp7ikAhfjSRVE4kIQzXBA2PZlz
+         EOsWBTBTdgtoHze51daN9NZC9iQ4jCtHkl4ahqYwI2i3ocJtQKuoYlnZBvxmhzul5edY
+         bdhBFeain0CGWBUkubh5pxoqpHxnv0JqcrELmt8yTMBv6l4LwKrIUbNlapeGysOwBEWT
+         kQwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784737727; x=1785342527;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :user-agent:references:in-reply-to:subject:cc:to:from:x-gm-gg
+        d=1e100.net; s=20251104; t=1784741070; x=1785345870;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=0VgoN131mpCFDGVLEaTpJh9JaIowTJ3l5BSSOdIVGp0=;
-        b=R4E/3oAuyjFkFbX8X62/yetltdAIea6+GFQrc01s+STEJmlZEyU2sJIJsD4X8c5Ikn
-         HNDy3VscLxMyZd08WBDW5NM2sgmnpC7QvXvjnHIuIxgf5HjN0yOJUBPFNg+on7F7d4Ia
-         D2ltBTisQjsKLyNaS90y42B0FhpcNBZy1LLw8jmvlQid/JVQIq60G1X1W+v7bb1OEIlZ
-         ptaNuINgiRwZ1AP6uA99T1z3IykZIchibJ3nN2OOiyoliwhiTHa0v/5Cn4uZkUod7PVW
-         5P8AUWmB3JfqJ8lLfxPAc+CZSCcO1h5AXkTuUOd9wV+rpI+/Nu1WmL733nvxVyKYJBvw
-         YY9g==
-X-Forwarded-Encrypted: i=1; AHgh+RoQqH0Ekkr7BffFTtkLlG9IWwdmbH4ryyLpmez+D7GdkEMb3QQQ/U/2P99mLN3g82BBNuYJ6+x31GwE6g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyxgfNYEV8U6PEn86DrPXW7/cFlIl9lWm+Nfc63NepEXm/LQVZm
-	rDiaOv2lijEmCJVmBqcvfj84VKjSeOMqd6WRjWTqTSKs0ayPdwJbDZFWpHtFo0cbpOI=
-X-Gm-Gg: AR+sD13jfTYIZUmxQeMas9W0odQx7rkm+miNZs5vgMMLMwxQqiR3cXloMdOT9u8J9Jw
-	DfoHaWDCKdNWT/iVprbO1i0JWd/TVQjdL0+7PJ8pktd8FouKWITz48TffdOgUSDHdrIvQeCzDSc
-	/RUI1r9FQcA/xoF6oPi6W0xLjkpsPjy7NRVhqJB1fIfy4/jPLuUCtKo6Q11m+N/eezTkhcoIQja
-	M1qGgK6eUdLTD1srx+eDV4h17+GgW+hwU2wDll8zNqY3ii7c3oE+2eStJrgJIfBRq50lmjQkA5E
-	AzxC1uKhI9kVIdu+P/D7RCiqL8nzAt8VdQRpKpQfhCqGNImnbP/SQyyKIGoUyYdGVNXJUjGIU8n
-	dB8yEwaDCqiOa0p9J+01SZP0Pbx6eSdxQfy2EOzzp/KSo8Iz4fqV59nzDI0IYyOzW9nzhxxr3sr
-	m/
-X-Received: by 2002:a05:6000:4383:b0:47f:8a78:e814 with SMTP id ffacd0b85a97d-47f8a78e864mr1966333f8f.9.1784737727656;
-        Wed, 22 Jul 2026 09:28:47 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:3382:6663:1606:b6ac])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47f85c6d277sm7563000f8f.32.2026.07.22.09.28.46
+        bh=YqaZmXNCJsa9hbmdcHJkPagq4EM1gKIfp7+IQsL2QJY=;
+        b=XvQfwv2qojdRmKAdVVEh2PoCEL99EDvb4Y/hPM+SdnO8q6NC6Si+BQDmMKNea8XoUp
+         TX9wrfjofBomEZYLNqlrM0beclQqd0zWdRCDWSz3507UkClQhgAsdN8QzqapA13yxZqB
+         T2Wujkq8UbnBmXspTwPaAJU/aVk2YxMMq50G25beXI3DsO9PU112VpBHg1Uh/qEaKTSy
+         7o2dQPeJSov6E+LEuil7c5vQ7YYIkcu8uSfml2WWPJGR3hZqmE6oY/y0HAjJod+JtlUK
+         o3Nj+7nYkBk03NCuzlT9OVNLjqxNdCMia0jA/K9RNLRvgMv/AM79AwhiXjnAr/YGemSC
+         U8tw==
+X-Forwarded-Encrypted: i=1; AHgh+Rr0vtfO+S/k3dCIgGTVowC5n80eySxsbwcKK96niSina1K0lzugrxwbyXDH6eQRg8bcwICC0i9aILhsNw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxtgr9ujhjcihgmxCo0+wI2tUuLUjIBp2DM9NCvGksuj4+Xa14k
+	NevqxYg/R6wzJmob5RC+rE67Yar8WxqD7KpNaiezb8AnAyPvEycm9R74
+X-Gm-Gg: AR+sD12Nrts5wFU3ga61H5CZYW8fbbmWR19Pk4m1zWbzMhP4x2uLqhuLrFnol+UcFJc
+	MkFk0y2aMCgjU36Ii73X9LIWpFKzD/e+EM+qLwwfH2qtGLQZX1NwhVyYySJzy7WRmr6r0MRWt1z
+	gWC13f3jUtzRmb/+2Vx0L9a017A9vJPNnGy3U3TSzYLoKbooZqnV1Agd+m8gk86NsK3gg33kqUp
+	LRRn56lEea5pwCwEMRd8I31+LwqM34wjzlsES8ttfqUvH3CYiEnEKfciaYs83PMQUoAbtP8Y8bo
+	KNP7U6A5xvdf4nf0+wwjfVbenEFfbdviNSrxLABson4XCxC/8RhDiuIWlKMcKWHIFPRjpY/u9jO
+	yXNHOEkg6mB5zvPWH4KWnARrQSm7XqilS+Oey+jT0C3jJ5BLDanYY7K5RPiqQYOunCpJ9lNLIOY
+	VAfAQyu17C64iLHdndWn4GHyBKMebxslvtroAW
+X-Received: by 2002:a05:690c:a99:b0:81e:66a0:136b with SMTP id 00721157ae682-81f33cb39cdmr14100257b3.31.1784741070165;
+        Wed, 22 Jul 2026 10:24:30 -0700 (PDT)
+Received: from localhost.localdomain ([2a0d:3344:2841:7708:a101:2b8a:f76:a00f])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81f33f35417sm16652167b3.47.2026.07.22.10.24.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 09:28:47 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Junhui Liu <junhui.liu@pigmoral.tech>,  Alexandre Belloni
- <alexandre.belloni@bootlin.com>,  Rob Herring <robh@kernel.org>,
-  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
- <conor+dt@kernel.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>,  Samuel
- Holland <samuel@sholland.org>,  Michael Turquette
- <mturquette@baylibre.com>,  Stephen Boyd <sboyd@kernel.org>,  Maxime
- Ripard <mripard@kernel.org>,  linux-rtc@vger.kernel.org,
-  devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
-  linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org,
-  linux-clk@vger.kernel.org
-Subject: Re: [PATCH v6 2/4] clk: sunxi-ng: div: add read-only operation support
-In-Reply-To: <CAGb2v64HjXygw76zaNi9KaG-zfc+hZoeyp4EHyz68fcdK-AXNw@mail.gmail.com>
-	(Chen-Yu Tsai's message of "Wed, 22 Jul 2026 23:40:07 +0800")
-References: <20260722-a733-rtc-v6-0-631cca28cc9a@baylibre.com>
-	<20260722-a733-rtc-v6-2-631cca28cc9a@baylibre.com>
-	<CAGb2v64HjXygw76zaNi9KaG-zfc+hZoeyp4EHyz68fcdK-AXNw@mail.gmail.com>
-User-Agent: mu4e 1.12.9; emacs 30.1
-Date: Wed, 22 Jul 2026 18:28:45 +0200
-Message-ID: <1jse5bc7k2.fsf@starbuckisacylon.baylibre.com>
+        Wed, 22 Jul 2026 10:24:29 -0700 (PDT)
+From: =?UTF-8?q?Juan=20Manuel=20L=C3=B3pez=20Carrillo?= <juanmanuellopezcarrillo@gmail.com>
+To: andre.przywara@arm.com,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: =?UTF-8?q?Juan=20Manuel=20L=C3=B3pez=20Carrillo?= <juanmanuellopezcarrillo@gmail.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] pinctrl: sunxi: A523: fix voltage withstand encoding
+Date: Wed, 22 Jul 2026 19:23:56 +0200
+Message-ID: <20260722172356.2509190-1-juanmanuellopezcarrillo@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260721223956.13665-1-andre.przywara@arm.com>
+References: <20260721223956.13665-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On mer. 22 juil. 2026 at 23:40, Chen-Yu Tsai <wens@kernel.org> wrote:
+Hi Andre,
 
-> On Wed, Jul 22, 2026 at 10:48=E2=80=AFPM Jerome Brunet <jbrunet@baylibre.=
-com> wrote:
->>
->> Add support for sunxi-ng read-only dividers. This will be
->> useful to the a733 oscillator detection logic.
->>
->> Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
->> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
->> ---
->>  drivers/clk/sunxi-ng/ccu_div.c | 31 +++++++++++++++++++++++++++++--
->>  drivers/clk/sunxi-ng/ccu_div.h |  1 +
->
->>  drivers/clk/sunxi-ng/ccu_mux.c |  2 +-
->>  drivers/clk/sunxi-ng/ccu_mux.h |  4 ++++
->
-> Left over stuff?
->
+Tested-by: Juan Manuel Lopez Carrillo <juanmanuellopezcarrillo@gmail.com>
 
-Argh indeed, that's no longer necessary=20
+I hit this exact bug on the Orange Pi 4A (T527) from the Ethernet side, so this
+confirms the "reportedly Ethernet" with a concrete hardware data point.
 
->
->>  4 files changed, 35 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/clk/sunxi-ng/ccu_div.c b/drivers/clk/sunxi-ng/ccu_d=
-iv.c
->> index 62d680ccb524..c385e0160f13 100644
->> --- a/drivers/clk/sunxi-ng/ccu_div.c
->> +++ b/drivers/clk/sunxi-ng/ccu_div.c
->> @@ -20,8 +20,22 @@ static int ccu_div_determine_rate_helper(struct ccu_m=
-ux_internal *mux,
->>         if (cd->common.features & CCU_FEATURE_FIXED_POSTDIV)
->>                 req->rate *=3D cd->fixed_post_div;
->>
->> -       ret =3D divider_determine_rate(&cd->common.hw, req, cd->div.tabl=
-e,
->> -                                    cd->div.width, cd->div.flags);
->> +       if (cd->div.flags & CLK_DIVIDER_READ_ONLY) {
->> +               unsigned long val;
->> +               u32 reg;
->> +
->> +               reg =3D readl(cd->common.base + cd->common.reg);
->> +               val =3D reg >> cd->div.shift;
->> +               val &=3D (1 << cd->div.width) - 1;
->> +
->> +               ret =3D divider_ro_determine_rate(&cd->common.hw, req, c=
-d->div.table,
->> +                                               cd->div.width, cd->div.f=
-lags, val);
->> +
->> +       } else {
->> +               ret =3D divider_determine_rate(&cd->common.hw, req, cd->=
-div.table,
->> +                                            cd->div.width, cd->div.flag=
-s);
->> +       }
->> +
->>         if (ret)
->>                 return ret;
->>
->> @@ -143,3 +157,16 @@ const struct clk_ops ccu_div_ops =3D {
->>         .set_rate       =3D ccu_div_set_rate,
->>  };
->>  EXPORT_SYMBOL_NS_GPL(ccu_div_ops, "SUNXI_CCU");
->> +
->> +const struct clk_ops ccu_rodiv_ops =3D {
->> +       .disable        =3D ccu_div_disable,
->> +       .enable         =3D ccu_div_enable,
->> +       .is_enabled     =3D ccu_div_is_enabled,
->> +
->> +       .get_parent     =3D ccu_div_get_parent,
->> +       .set_parent     =3D ccu_div_set_parent,
->> +
->> +       .determine_rate =3D ccu_div_determine_rate,
->> +       .recalc_rate    =3D ccu_div_recalc_rate,
->> +};
->> +EXPORT_SYMBOL_NS_GPL(ccu_rodiv_ops, "SUNXI_CCU");
->> diff --git a/drivers/clk/sunxi-ng/ccu_div.h b/drivers/clk/sunxi-ng/ccu_d=
-iv.h
->> index be00b3277e97..a30a92780a05 100644
->> --- a/drivers/clk/sunxi-ng/ccu_div.h
->> +++ b/drivers/clk/sunxi-ng/ccu_div.h
->> @@ -300,5 +300,6 @@ static inline struct ccu_div *hw_to_ccu_div(struct c=
-lk_hw *hw)
->>  }
->>
->>  extern const struct clk_ops ccu_div_ops;
->> +extern const struct clk_ops ccu_rodiv_ops;
->>
->>  #endif /* _CCU_DIV_H_ */
->> diff --git a/drivers/clk/sunxi-ng/ccu_mux.c b/drivers/clk/sunxi-ng/ccu_m=
-ux.c
->> index 4503c9780c39..12bfc99c9172 100644
->> --- a/drivers/clk/sunxi-ng/ccu_mux.c
->> +++ b/drivers/clk/sunxi-ng/ccu_mux.c
->> @@ -67,7 +67,7 @@ unsigned long ccu_mux_helper_apply_prediv(struct ccu_c=
-ommon *common,
->>         return parent_rate / ccu_mux_get_prediv(common, cm, parent_index=
-);
->>  }
->>
->> -static unsigned long ccu_mux_helper_unapply_prediv(struct ccu_common *c=
-ommon,
->> +unsigned long ccu_mux_helper_unapply_prediv(struct ccu_common *common,
->>                                             struct ccu_mux_internal *cm,
->>                                             int parent_index,
->>                                             unsigned long parent_rate)
->> diff --git a/drivers/clk/sunxi-ng/ccu_mux.h b/drivers/clk/sunxi-ng/ccu_m=
-ux.h
->> index c94a4bde5d01..272a2c36a8f2 100644
->> --- a/drivers/clk/sunxi-ng/ccu_mux.h
->> +++ b/drivers/clk/sunxi-ng/ccu_mux.h
->> @@ -134,6 +134,10 @@ unsigned long ccu_mux_helper_apply_prediv(struct cc=
-u_common *common,
->>                                           struct ccu_mux_internal *cm,
->>                                           int parent_index,
->>                                           unsigned long parent_rate);
->> +unsigned long ccu_mux_helper_unapply_prediv(struct ccu_common *common,
->> +                                           struct ccu_mux_internal *cm,
->> +                                           int parent_index,
->> +                                           unsigned long parent_rate);
->>  int ccu_mux_helper_determine_rate(struct ccu_common *common,
->>                                   struct ccu_mux_internal *cm,
->>                                   struct clk_rate_request *req,
->>
->> --
->> 2.47.3
->>
+Without the fix, GMAC1 (RGMII, YT8531 PHY) is RX-dead: the link comes up at
+1Gbps but rx_packets stays 0, so DHCP never completes and the board is
+unreachable. The PJ bank rail is 1.8V, but POW_MOD_SEL was left in 3.3V mode, so
+the RGMII input thresholds were wrong and the MAC never saw RXC/RXD.
 
---=20
-Jerome
+With your patch applied, RX comes back: the board gets a DHCP lease, and a 500 MB
+transfer lands with ~365k rx_packets and rx_crc_errors = 0. So the CTL_INV
+variant fixes it the right way, at the driver level.
+
+For transparency on what I actually tested: I applied it on top of current
+mainline (torvalds 248951ddc14d, v7.2-rc4 + a few). It didn't apply cleanly there
+— it looks based on a newer pinctrl-sunxi tree — so I rebased one hunk (the
+BIAS_VOLTAGE_PIO_POW_MODE_CTL_INV case in sunxi_pinctrl_set_io_bias_cfg()) onto
+that tree; the change itself is unchanged.
+
+FWIW I'd independently reverse-engineered the same inverted encoding (bit=1 ->
+3.3V mode on the A523, vs earlier SoCs; the BSP calls it "power_mode_reverse"),
+so this matches what I saw on hardware, and I'm glad it's handled generically now
+instead of my board-specific DT hack.
+
+One note from poking at this, in case it's useful for edge cases: on this board a
+few banks behave specially — PF is the SD UHS 1.8/3.3V switch (best left alone),
+and PB/PH take their voltage from VCCIO rather than a per-bank bit. Happy to test
+those paths on hardware if useful.
+
+Thanks,
+Juan Manuel
