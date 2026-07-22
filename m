@@ -1,120 +1,131 @@
-Received: from m101-out-mua-6.websupport.se (m101-out-mua-6.websupport.se [109.235.175.106])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F3E24BBF0
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jul 2026 12:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.235.175.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8C1267B89
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jul 2026 13:27:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784722647; cv=none; b=nVaz5mpfACjzHea/7YbV/zy/UcIsnN8Ao2cEtNs2CbPXamIYK3s5cxvEnyLxYXxWpIjFW9LMx3IB9W1V9Mhm5zSCSkuXx41IzQgmfmBl31MGTDvIiwrpPCkDR/sMSKLMtlto/eArwLOBrZHvlegsOO/T0hCL8a/TdiDY5CV3hlY=
+	t=1784726854; cv=none; b=TSHjIuxaODrs+pd33Dz7CScYhDwVq9ZBsmNBrsS6iDCJL+oCz1EEj2JQ+TP847VNKOn8LPnibc+9/unA5UmQVuZnvF/X1zxVFtWLH9i+NPVwm7xg3Qn8ghPqWEShX3PWMeZzxgyektDlCxeRnYL/7SDEaSWiY7ZdM0lq0BqahLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784722647; c=relaxed/simple;
-	bh=A5eSGIow4fx5QzKp7RQCuK7MK6VMGghXDlwz33QWfd8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ihibRkrThhRlMsoqdfjI5vvqGvet3pq/lh8e6esSMuFNVzNRhGrnbgdrfIjoFazzBNnAhKfGmmveoPNeW/AfSvONaVy6fS9Rp0Orc7NTKWXYVL/RpUF7RAbwHMf2BDlSfr8k/pmRDJ3EAeoj6SX7CcREiMX52oJO6EJEXA10iZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=palvencia.se; spf=pass smtp.mailfrom=palvencia.se; dkim=pass (2048-bit key) header.d=palvencia.se header.i=@palvencia.se header.b=PZGxsJNn; arc=none smtp.client-ip=109.235.175.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=palvencia.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=palvencia.se
+	s=arc-20240116; t=1784726854; c=relaxed/simple;
+	bh=Gzhn+4jg05TaBiDQywVXu4pa5hjhlJDT5AWtQu1FrLQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Rb1/qdzYGb+gHo0gFeSwv3sCznA1MgtDsY8UybPiJTJ/ww0Y8FSnUAcw6ZYq+kuis2m+ShW0nqS6sPa2d8ZMTGI06vGPnq9IBrNpJ202Z0pSN5UrZ87JgxQnECz7lse3yN2tTuFXmVq9R9UDIpBpy2SWvpdHiV6uOwW1AzslIU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SR3ASgFW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=palvencia.se header.i=@palvencia.se header.b="PZGxsJNn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=palvencia.se;
-	s=mail; t=1784722636;
-	bh=BW7OEygY66DEhI2gw8GlDcm88r50fl2ii7fNHg4fiQg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=PZGxsJNnB+OFXdwYg3vSq7H0PZ9wkf8d+wjSIewLXQec5tpvQFZZav/DKzKbQJOBJ
-	 yyWvCk6eIzphNAoON7RMUI/Hqka9xZ8MUfGOzCsqA46Xzw7H6s/mhotFsbrEFOixtR
-	 39veTDQzlVvjiFTbwFcYOjHyMQoaKykqKE9W1hlQK7GCX+Bla9xHOR81YZBawzXEad
-	 UvEEu5WVxt+ZqB2QoovzSydsb8nwalEEij+vthmwWPECLN/oiQZxBQHQF/HnwpIuSK
-	 r7+lxUhsZDZdD6l77nW8aIyt7NrCMQ2XvsN9cxQoIYtIzRcfZgERrErj+4GI60cF95
-	 Po0jzOFFPtQ4w==
-Received: from m101-u7-ing.websupport.se (unknown [10.30.7.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	by m101-out-mua-6.websupport.se (Postfix) with ESMTPS id 4h4tY85C6mz1qYv;
-	Wed, 22 Jul 2026 14:17:16 +0200 (CEST)
-X-Authenticated-Sender: per@palvencia.se
-Authentication-Results: m101-u7-ing.websupport.se;
-	auth=pass smtp.auth=per@palvencia.se smtp.mailfrom=per@palvencia.se
-Received: from rpi (unknown [193.180.91.63])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: per@palvencia.se)
-	by m101-u7-ing.websupport.se (Postfix) with ESMTPSA id 4h4tY621RkzqHv;
-	Wed, 22 Jul 2026 14:17:14 +0200 (CEST)
-Date: Wed, 22 Jul 2026 14:17:00 +0200
-From: Per Larsson <per@palvencia.se>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] pinctrl: sunxi: A523: fix voltage withstand encoding
-Message-ID: <20260722141700.7fe240f1@rpi>
-In-Reply-To: <20260721223956.13665-1-andre.przywara@arm.com>
-References: <20260721223956.13665-1-andre.przywara@arm.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SR3ASgFW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA0921F00ACF
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jul 2026 13:27:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784726852;
+	bh=ApJyUh3UbJCU7bYezlSCZRoniO4a+n5FZCqwiX7BHiA=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=SR3ASgFWKE/KdgtrekweY39je4RT7GbVcIE/5kF2hpxGoOlzumcpO2ejJqeMtvzuf
+	 eJjJmyKd2Poe5IiH1kiz0ZGmBj2H7Iue5v9q+IQLaD5oK+ELDgk3PlZZZHVAIMzTqA
+	 mOdR1hTAAykYtm053CdiZDrqikP+IqBQFzEH1uMDAEJzb9kxs/d+PxFy9JkQ/AVaj3
+	 jzfuCL/l03nM/ACkdl4cz0k7eZmDUYT2G46iJJzvQVw/yZpEARQhsvpAfFkzb6aw9b
+	 r+8sCUt4PUCTnCFn7A2angVujWjmZ3/6cmoVdohyo183qpyXFKWTSo6E9weLJ2emvY
+	 oRgmOpijin0Iw==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5aeb59d54b1so8124572e87.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 22 Jul 2026 06:27:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrizI1GHvZiiZe6oU0ZXDan8HYAzxRrTQw2pUgTgFtm2qAe3Er+KLy15PW5f2066Av1WPg2WSoF7WDZ/g==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw5aB5MXe4dHaFejcy1ee2Ht7ZW8el0CC24zbl1usM5z2FKgCkX
+	eDFLOk7YK6+jstkEioAaGfeB3WNKdTOkXO4Uth8ymkVi+sfMu90fxowU8UZrKqZw+by7mKrtsTQ
+	yvW7bfpkUoA1+1ZFE1kfi5rs9D9LriZU=
+X-Received: by 2002:a05:6512:3b8f:b0:5b0:1eed:f700 with SMTP id
+ 2adb3069b0e04-5b28f84a354mr5404025e87.13.1784726851335; Wed, 22 Jul 2026
+ 06:27:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Action: no action
-X-Out-Spamd-Result: default: False [1.90 / 1000.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TAGGED_RCPT(0.00)[dt];
-	RCVD_COUNT_ZERO(0.00)[0];
-	BAYES_HAM(0.00)[41.58%];
-	ASN(0.00)[asn:35790, ipnet:193.180.91.0/24, country:SE];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	HAS_X_AS(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	LOCAL_OUTBOUND(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,sholland.org,vger.kernel.org,lists.infradead.org,lists.linux.dev]
-X-Out-Rspamd-Queue-Id: 4h4tY621RkzqHv
-X-Out-Rspamd-Server: m101-rspamd-out-5
-X-purgate-type: clean
-X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
-X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
-X-purgate: clean
-X-purgate-size: 1114
-X-purgate-ID: 155908::1784722636-3C7051C6-336E3020/0/0
+References: <20260722005643.1208942-1-enzo.adriano.code@gmail.com>
+In-Reply-To: <20260722005643.1208942-1-enzo.adriano.code@gmail.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Wed, 22 Jul 2026 21:27:19 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67GDBTq8vdxNxBfNVSe=oStcgaJzm0ig2WAEXNQSkVa1g@mail.gmail.com>
+X-Gm-Features: AUfX_mzpEMNkvXDj_jwLU41n9C8mnaNfF_ommIlmxQC2pGV6dZOxfrP1tBmIfHo
+Message-ID: <CAGb2v67GDBTq8vdxNxBfNVSe=oStcgaJzm0ig2WAEXNQSkVa1g@mail.gmail.com>
+Subject: Re: [PATCH] clk: sunxi-ng: ccu_mp: fix clocks without P dividers
+To: Enzo Adriano <enzo.adriano.code@gmail.com>, Andre Przywara <andre.przywara@arm.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Brian Masney <bmasney@redhat.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Junhui Liu <junhui.liu@pigmoral.tech>, 
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 22 Jul 2026 00:39:56 +0200
-Andre Przywara <andre.przywara@arm.com> wrote:
+On Wed, Jul 22, 2026 at 8:56=E2=80=AFAM Enzo Adriano
+<enzo.adriano.code@gmail.com> wrote:
+>
+> Some sunxi-ng MP clocks have an M divider but no P divider. The A523
+> MBUS, IOMMU and DRAM clocks use this layout and also require the update
+> bit when changing their rate.
+>
+> ccu_mp_set_rate() unconditionally builds and applies a mask for the P
+> field. With a zero-width P field this produces an invalid GENMASK()
+> range and can clear bits outside a P divider, including the clock gate.
+>
+> The callback also ignores CCU_FEATURE_UPDATE_BIT, so hardware that
+> requires the update bit may not latch the new divider value.
+>
+> Only update the P field when it exists, and set CCU_SUNXI_UPDATE_BIT for
+> MP clocks carrying the feature. This matches the existing sunxi-ng div,
+> mux and gate helper behavior.
 
-> The Allwinner A523 uses the same GPIO voltage "withstand" programming
-> (setting the input level voltage thresholds) as the previous SoCs, but
-> for some odd reason inverts the encoding of 1.8V vs. 3.3V.
-> 
-> Add a new bias voltage type to note this difference, and select it for
-> the A523. At the same time also use the newer "CTL" version, which in
-> addition allows to turn off the withstand programming for I/O voltages
-> other than exact 1.8V or 3.3V (for instance for 2.5V sometimes used
-> for Ethernet PHYs). The A523 has that enable register, but didn't use
-> it so far.
-> 
-> This fixes eMMC and reportedly Ethernet operation on some A523 boards.
-> 
-> Fixes: 648be4cd9517 ("pinctrl: sunxi: Add support for the Allwinner
-> A523") Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+No. If the clock only has one divider, then it should use the single divide=
+r
+clk class. That one also supports CCU_FEATURE_UPDATE_BIT.
+
+ChenYu
+
+> Reported-by: Sashiko <sashiko-bot@kernel.org>
+> Closes: https://lore.kernel.org/r/20260712081341.9D1431F00A3D@smtp.kernel=
+.org
+> Fixes: 6702d17f54a8 ("clk: sunxi-ng: a523: add video mod clocks")
+> Assisted-by: Codex:gpt-5
+> Signed-off-by: Enzo Adriano <enzo.adriano.code@gmail.com>
 > ---
-
-I'd say this looks like the correct fix. With this (and removing
-the incorrect voltage bump "fix") the eMMC on my X96QPro+ works.
-Not seeing any regressions, so
-
-Tested-by: Per Larsson <per@palvencia.se>
+> Based on clk-next 8cdeaa50eae8 (Linux 7.2-rc2).
+> Tested with strict checkpatch and an arm64 W=3D1 build of ccu_mp.o.
+> No hardware runtime claim is made.
+>
+>  drivers/clk/sunxi-ng/ccu_mp.c | 15 ++++++++++-----
+>  1 file changed, 10 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/clk/sunxi-ng/ccu_mp.c b/drivers/clk/sunxi-ng/ccu_mp.=
+c
+> index 7cdb0eedc69b..aa6cb20447f1 100644
+> --- a/drivers/clk/sunxi-ng/ccu_mp.c
+> +++ b/drivers/clk/sunxi-ng/ccu_mp.c
+> @@ -237,12 +237,17 @@ static int ccu_mp_set_rate(struct clk_hw *hw, unsig=
+ned long rate,
+>
+>         reg =3D readl(cmp->common.base + cmp->common.reg);
+>         reg &=3D ~GENMASK(cmp->m.width + cmp->m.shift - 1, cmp->m.shift);
+> -       reg &=3D ~GENMASK(cmp->p.width + cmp->p.shift - 1, cmp->p.shift);
+> +       if (cmp->p.width)
+> +               reg &=3D ~GENMASK(cmp->p.width + cmp->p.shift - 1, cmp->p=
+.shift);
+> +       if (cmp->common.features & CCU_FEATURE_UPDATE_BIT)
+> +               reg |=3D CCU_SUNXI_UPDATE_BIT;
+>         reg |=3D (m - cmp->m.offset) << cmp->m.shift;
+> -       if (shift)
+> -               reg |=3D ilog2(p) << cmp->p.shift;
+> -       else
+> -               reg |=3D (p - cmp->p.offset) << cmp->p.shift;
+> +       if (cmp->p.width) {
+> +               if (shift)
+> +                       reg |=3D ilog2(p) << cmp->p.shift;
+> +               else
+> +                       reg |=3D (p - cmp->p.offset) << cmp->p.shift;
+> +       }
+>
+>         writel(reg, cmp->common.base + cmp->common.reg);
+>
+> --
+> 2.53.0
