@@ -1,42 +1,42 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D3D2FD694
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jul 2026 01:35:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82D330F92E
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jul 2026 01:35:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784770517; cv=none; b=QdPKavOA0Go/w+4Vp2Np5fYuCmXuLILa7O+/mpqaRL4ppo9zvLpIfXuFaLkXA+BlsyQ3pykXhkSs2WSmpsAhOuabHMrpLEvtUW2ygw8sXFXiDxLmjxaEqjkzNIh6MI0B1yAC3mhvyvDUSLdvfuYnLWzQ9WtE0KZCK6vzBpHt16s=
+	t=1784770518; cv=none; b=hLFMfQU/Hz7V91li+r3vWdMipd0SM/q1F5HkuklMBlZ/sQGbEShG703J2pTCRXFmAFplPrVgy3tpR4224sL1oCspKg0RwP3p9tH5RCtp+quBD2fQU1VkHAk6WtS3wUX/E3aGc0pUgRhljHS1HCi8TlCkckv+Dxv5bO7MjmGsi44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784770517; c=relaxed/simple;
-	bh=q7cBSlf+upKqhrzdvUOmPKZalLVFqUdAibNT8ES0Wh8=;
+	s=arc-20240116; t=1784770518; c=relaxed/simple;
+	bh=vkmohHBcUSuwS6ZyFCylIMegc4f1JtD3hk0obLRPOFI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cCaNcDZC+CUPdONWedyr6AKiwRg6xY15T1KNE6hu/08cOiARspGHinpzzgvZbd8fDKdO9CcNsFE78V/zlTZO2za33q1RSSVQ8Y8JGHmpE45Jy+tl0zYV3Ne2bZxZUdDWFnOKm4Np2XOXOVJlOCIH7dFGRivlBS82N9Hcpve8ATk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Xlm3nEiq; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=pqTcYVz/55o9OCyb6OIJf+/DBN6zt9SniOS8EqAJpuHj2vgTP1ReLbUw+pJU4TvoEHm6980w9txdDeQrOxTaxt3d++YLNW5Bpu3p3lfkNO+2NOSPe3PWtNwIDlkhRxGUb5Kx5jIdF6FxlnAZmoBBMNTzfee0UG4N2ZkNU8NYcX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=JZBYr7+C; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Xlm3nEiq"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JZBYr7+C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1784770512;
-	bh=q7cBSlf+upKqhrzdvUOmPKZalLVFqUdAibNT8ES0Wh8=;
+	s=mail; t=1784770514;
+	bh=vkmohHBcUSuwS6ZyFCylIMegc4f1JtD3hk0obLRPOFI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Xlm3nEiqPidMcbYeRy0tg5+GlmpdRMFQ15QBe1oqUwMUxBWlNpDq8QVl2fn6dDC/X
-	 K0cNlYAQqZYv3LuQ7oKwiL1RTF9dq8q93JvBC0VhRzqdtz6fB72o/sXBRrrNHjnMcq
-	 7zca/+JEF/yMUmf/r1Sn4w0EbYWfGc4Wu618tUdQGEN2Cl2yzOw75umFonjuBjZelC
-	 CnCK2kOYZsjvoGPoLUGHsBe/USAZeAouFPUC+u2yVBpr1tGumS7uhmc5qJOnbz1OhK
-	 8QyFVU1Vtkdk5wNCJnvlJNz1kA0YGkpQ2QrXxnOgVDfKt8IFeQY46L3Cs9cKbhUepv
-	 MDiSnpb1NGoIw==
+	b=JZBYr7+C00r1wL0e/BjKmWVhQ8Pi6A+THSPgl+/zp8kk99hx+dS4egmsocS1JLzS4
+	 9qjuKCEvxTXcNCgMRgwBBOCc1tdf5UjPaQihvz6BsAraa4UMlCcH4OJivmIwngKz5Y
+	 xSYGriIuRQNqHuI0eLim8jGkUI6enyKwjb6CUG2117DUbrUk/Lr5CQOGcrr7qQAOZP
+	 D1/uhFonnoT6QKT8RfD/JJtZTQxvYs+k2nFpVBKQJN8x9hPoG+5AzhHAao7gAhreyj
+	 aXyPLR4GXzbxCvtgRgtVb1WOID+vpfiDhYlwUJffI4+aZIJyAG87tvDAQx6rtDkeOm
+	 37adn59VBGxyw==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 880BD17E36D7;
-	Thu, 23 Jul 2026 03:35:12 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9F81117E1064;
+	Thu, 23 Jul 2026 03:35:14 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Thu, 23 Jul 2026 04:35:04 +0300
-Subject: [PATCH v9 15/61] drm/display: hdmi-state-helper: Add source TMDS
- rate validation
+Date: Thu, 23 Jul 2026 04:35:07 +0300
+Subject: [PATCH v9 18/61] drm/display: hdmi-state-helper: Set HDMI
+ scrambling requirement
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260723-dw-hdmi-qp-scramb-v9-15-4fb12ea22ac9@collabora.com>
+Message-Id: <20260723-dw-hdmi-qp-scramb-v9-18-4fb12ea22ac9@collabora.com>
 References: <20260723-dw-hdmi-qp-scramb-v9-0-4fb12ea22ac9@collabora.com>
 In-Reply-To: <20260723-dw-hdmi-qp-scramb-v9-0-4fb12ea22ac9@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -71,34 +71,33 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
  Maud Spierings <maud_spierings@hotmail.com>
 X-Mailer: b4 0.15.2
 
-Validate the computed TMDS character rate against
-connector->hdmi.max_tmds_char_rate, when provided by the driver/source.
+Set drm_connector_hdmi_state.scrambler_needed when the computed TMDS
+character rate exceeds the HDMI 1.3 maximum TMDS character rate.
 
-This gives HDMI connectors common support for rejecting modes whose TMDS
-character rate exceeds the source supported limit, while still allowing
-drivers with custom validation requirements to implement their own
-tmds_char_rate_valid() callback.
+HDMI 2.0 requires scrambling above 340 MHz.  Centralize that clock-based
+requirement in the HDMI state helper so drivers do not need to open-code
+the threshold check.
 
+Acked-by: Maxime Ripard <mripard@kernel.org>
 Tested-by: Maud Spierings <maud_spierings@hotmail.com>
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/display/drm_hdmi_state_helper.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-index ce17eeefc2da..92be6278ea44 100644
+index ad59318a3e85..d112c1555517 100644
 --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
 +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-@@ -560,6 +560,10 @@ hdmi_clock_valid(const struct drm_connector *connector,
- 	if (info->max_tmds_clock && clock > info->max_tmds_clock * 1000)
- 		return MODE_CLOCK_HIGH;
+@@ -594,6 +594,9 @@ hdmi_compute_clock(const struct drm_connector *connector,
  
-+	if (connector->hdmi.max_tmds_char_rate &&
-+	    clock > connector->hdmi.max_tmds_char_rate)
-+		return MODE_CLOCK_HIGH;
+ 	conn_state->hdmi.tmds_char_rate = clock;
+ 
++	/* TODO: also check drm_display_info.hdmi.scdc.scrambling.low_rates */
++	conn_state->hdmi.scrambler_needed = (clock > HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ);
 +
- 	if (funcs && funcs->tmds_char_rate_valid) {
- 		enum drm_mode_status status;
+ 	return 0;
+ }
  
 
 -- 
