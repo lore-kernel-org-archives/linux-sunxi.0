@@ -1,42 +1,41 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B32137B01A
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jul 2026 01:35:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 426EC37EFFC
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jul 2026 01:35:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784770546; cv=none; b=Ci930232LTmyswC6wHkRZwu+v5d9fZoRhemuLH44BAJSFGNer+vceDMZ1K6/xaaat4TOm68GgxhgBEpiFah4DLJC8aHhYBXPvBoFOGTDLzUgN4knS5Dqsx+cD6S1lSuyI36qK+lHtx/a/UVQcPWbpSkFTFwCwqNOKGUYbCyNEOs=
+	t=1784770546; cv=none; b=VGc8cFBbJhpUt8/FQ9hEtMoJVV0LAIspGr1ZUqZrJvE6vMjB4TW/d2flh8871r078tsMG1cgr5BRziZAsAmV9ATeL1UUltB0l/P9/rs1aYwANu4tQ1f1cTdnT4Xbx5PJJ8T0exZJQPbfPAJRNgyxyT0CFSpfxGsLIZn0tMC2sWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1784770546; c=relaxed/simple;
-	bh=nEHfiMafnBFlmq9OK6FuWXY863BnWSbh1ndHmtbcBso=;
+	bh=Vzp/F64fnw8CoCJzCh5PzH4mTKY3HeFosa5V4jydq3U=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=SdgPl2oxgWa1tyQQ1O6ocw3SUALDTCjNFwZLfyhCK3Q+o5YiuVgECg7v2C9D5l4qDzFPQ0K6q0ueqcoabR228HgPZy5MhFDAkZUY8JjlfJB0M/RmeYkxGcpLzqrR3IPO28d0DlpmHmYeE3tLejaQQCobnDk6PjI26N6e2Uehg88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=hsGmdzkk; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=eDzrHBSHQUIRXYI5uIpQoJ9TXoVPlVbqAh5tXZASdT6rv16/C6aTXmv4e9je6vNTUCXJCc8aOU6JSSJUNfI0pt/iDMlVMrduF1oncaf1h6p9eAoCX6JrF5O+EHkjM6h6AAY6Q9dLHjwU620Uvdc3DHRk3oOfsufSKqHPaE1JFQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=V9zXrI47; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="hsGmdzkk"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="V9zXrI47"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1784770540;
-	bh=nEHfiMafnBFlmq9OK6FuWXY863BnWSbh1ndHmtbcBso=;
+	s=mail; t=1784770542;
+	bh=Vzp/F64fnw8CoCJzCh5PzH4mTKY3HeFosa5V4jydq3U=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=hsGmdzkkWXHnmJTQH93R9f/gIMNwwDR1YYDW5jGD93dRNnQls/eawxmfkmqvKWuDK
-	 eqTHAJ6JkVMLhR8fan/pNNy0+Rnpjo2gDAzKkTMlT++o17bfcU/GINMTYzYmfG8PYh
-	 zfSdcwU4w0oVQ9j3tRDKFetINryurqJbya3qu3NclMj6fbTTs5bx8l+GzJ4BC6dub3
-	 aIbtzK5YtNomMgVDSLoS1KYtTh1CMkyKFX5VDP56gwRMcJso92F+z5iVVHzEJ60OaH
-	 fVK3INArm1loNgA7xEexSJ39ryX0Xp3yPlYMi8Fndvls9Jg7WQc2qufntLsie/uLRZ
-	 EHjPYmzHvLt5A==
+	b=V9zXrI47HQ20zWxnutO1JDlPbsbcFgwhWlZ9cjKrYh7jn/EIdBZLdA6fu/TKuA/Rm
+	 8Y3TjrM3oEu69RGH7tjIdX66HZMn8wPp4T5DNI9hw5MxzW1A6xS3fDROwVXTc/0mhL
+	 /xvO5lLBzigFi9hV3SPA1dD3/r7WY+HbU7/2MklPBsHzWqq9bjKZ4NUReQn+8S6Vv7
+	 tQAbRgF5J/CtZUWj6wa2ayKRcX0Xx4UnR43F8jQ67qGozoNViwpErxHlwwo5WZIWT1
+	 Y+munhl5hIPQ7DBhSUsf9UC6lUPpMPKAxxMhlwgkatG9nCnotNDV43WSh7gg5Dhnia
+	 Cj0oWgQhXcDGw==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5D3BB17E1064;
-	Thu, 23 Jul 2026 03:35:40 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7344117E374A;
+	Thu, 23 Jul 2026 03:35:42 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Thu, 23 Jul 2026 04:35:44 +0300
-Subject: [PATCH v9 55/61] drm/tests: hdmi_state_helper: Convert to
- drmm_connector_hdmi_init()
+Date: Thu, 23 Jul 2026 04:35:47 +0300
+Subject: [PATCH v9 58/61] drm/connector: Remove drmm_connector_hdmi_ini2()
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +44,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260723-dw-hdmi-qp-scramb-v9-55-4fb12ea22ac9@collabora.com>
+Message-Id: <20260723-dw-hdmi-qp-scramb-v9-58-4fb12ea22ac9@collabora.com>
 References: <20260723-dw-hdmi-qp-scramb-v9-0-4fb12ea22ac9@collabora.com>
 In-Reply-To: <20260723-dw-hdmi-qp-scramb-v9-0-4fb12ea22ac9@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -70,917 +69,151 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org
 X-Mailer: b4 0.15.2
 
-Switch tests over to the new drmm_connector_hdmi_init() signature, where
-the vendor, product, supported_formats and max_bpc values previously
-passed as arguments are now provided through struct
-drm_connector_hdmi_funcs.
+All callers have been converted to the new drmm_connector_hdmi_init()
+signature.  Remove the transitional drmm_connector_hdmi_ini2() function,
+its declaration, its EXPORT_SYMBOL() and its kernel-doc.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 330 ++++++++++-----------
- 1 file changed, 161 insertions(+), 169 deletions(-)
+ drivers/gpu/drm/drm_connector.c | 104 ----------------------------------------
+ include/drm/drm_connector.h     |   9 ----
+ 2 files changed, 113 deletions(-)
 
-diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-index 4c2a400bc15a..478c4b6c6207 100644
---- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-+++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-@@ -124,6 +124,11 @@ static int accept_infoframe_write_infoframe(struct drm_connector *connector,
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 96cca0ca64bd..d424d245ef71 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -694,110 +694,6 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
  }
- 
- static const struct drm_connector_hdmi_funcs dummy_connector_hdmi_funcs = {
-+	.vendor = "Vendor",
-+	.product = "Product",
-+	.supported_hdmi_ver = HDMI_VERSION_1_4,
-+	.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
-+	.max_bpc = 8,
- 	.avi = {
- 		.clear_infoframe = accept_infoframe_clear_infoframe,
- 		.write_infoframe = accept_infoframe_write_infoframe,
-@@ -143,6 +148,11 @@ reject_connector_tmds_char_rate_valid(const struct drm_connector *connector,
- }
- 
- static const struct drm_connector_hdmi_funcs reject_connector_hdmi_funcs = {
-+	.vendor = "Vendor",
-+	.product = "Product",
-+	.supported_hdmi_ver = HDMI_VERSION_1_4,
-+	.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
-+	.max_bpc = 8,
- 	.tmds_char_rate_valid	= reject_connector_tmds_char_rate_valid,
- 	.avi = {
- 		.clear_infoframe = accept_infoframe_clear_infoframe,
-@@ -163,6 +173,11 @@ reject_100mhz_connector_tmds_char_rate_valid(const struct drm_connector *connect
- }
- 
- static const struct drm_connector_hdmi_funcs reject_100mhz_connector_hdmi_funcs = {
-+	.vendor = "Vendor",
-+	.product = "Product",
-+	.supported_hdmi_ver = HDMI_VERSION_1_4,
-+	.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
-+	.max_bpc = 8,
- 	.tmds_char_rate_valid	= reject_100mhz_connector_tmds_char_rate_valid,
- 	.avi = {
- 		.clear_infoframe = accept_infoframe_clear_infoframe,
-@@ -231,8 +246,6 @@ static const struct drm_encoder_helper_funcs test_encoder_helper_funcs = {
- static
- struct drm_atomic_helper_connector_hdmi_priv *
- __connector_hdmi_init(struct kunit *test,
--		      unsigned int formats,
--		      unsigned int max_bpc,
- 		      const struct drm_connector_hdmi_funcs *hdmi_funcs,
- 		      const void *edid_data, size_t edid_len)
- {
-@@ -273,16 +286,14 @@ __connector_hdmi_init(struct kunit *test,
- 	enc->possible_crtcs = drm_crtc_mask(priv->crtc);
- 
- 	conn = &priv->connector;
--	conn->ycbcr_420_allowed = !!(formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420));
-+	conn->ycbcr_420_allowed = !!(hdmi_funcs->supported_formats &
-+				     BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420));
- 
--	ret = drmm_connector_hdmi_ini2(drm, conn,
--				       "Vendor", "Product",
-+	ret = drmm_connector_hdmi_init(drm, conn,
- 				       &dummy_connector_funcs,
- 				       hdmi_funcs,
- 				       DRM_MODE_CONNECTOR_HDMIA,
--				       NULL,
--				       formats,
--				       max_bpc);
-+				       NULL);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	drm_connector_helper_add(conn, &dummy_connector_helper_funcs);
-@@ -298,18 +309,14 @@ __connector_hdmi_init(struct kunit *test,
- 	return priv;
- }
- 
--#define drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test, formats, max_bpc, funcs, edid) \
--	__connector_hdmi_init(test, formats, max_bpc, funcs, edid, ARRAY_SIZE(edid))
-+#define drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test, funcs, edid)	\
-+	__connector_hdmi_init(test, funcs, edid, ARRAY_SIZE(edid))
- 
- static
- struct drm_atomic_helper_connector_hdmi_priv *
--drm_kunit_helper_connector_hdmi_init(struct kunit *test,
--				     unsigned int formats,
--				     unsigned int max_bpc)
-+drm_kunit_helper_connector_hdmi_init(struct kunit *test)
- {
- 	return drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				formats,
--				max_bpc,
- 				&dummy_connector_hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_max_200mhz);
- }
-@@ -333,9 +340,7 @@ static void drm_test_check_broadcast_rgb_crtc_mode_changed(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
- 
--	priv = drm_kunit_helper_connector_hdmi_init(test,
--						    BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--						    8);
-+	priv = drm_kunit_helper_connector_hdmi_init(test);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
- 	drm = &priv->drm;
-@@ -408,9 +413,7 @@ static void drm_test_check_broadcast_rgb_crtc_mode_not_changed(struct kunit *tes
- 	struct drm_crtc *crtc;
- 	int ret;
- 
--	priv = drm_kunit_helper_connector_hdmi_init(test,
--						    BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--						    8);
-+	priv = drm_kunit_helper_connector_hdmi_init(test);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
- 	drm = &priv->drm;
-@@ -483,9 +486,7 @@ static void drm_test_check_broadcast_rgb_auto_cea_mode(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
- 
--	priv = drm_kunit_helper_connector_hdmi_init(test,
--						    BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--						    8);
-+	priv = drm_kunit_helper_connector_hdmi_init(test);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
- 	drm = &priv->drm;
-@@ -550,9 +551,7 @@ static void drm_test_check_broadcast_rgb_auto_cea_mode_vic_1(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
- 
--	priv = drm_kunit_helper_connector_hdmi_init(test,
--						    BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--						    8);
-+	priv = drm_kunit_helper_connector_hdmi_init(test);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
- 	drm = &priv->drm;
-@@ -617,9 +616,7 @@ static void drm_test_check_broadcast_rgb_full_cea_mode(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
- 
--	priv = drm_kunit_helper_connector_hdmi_init(test,
--						    BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--						    8);
-+	priv = drm_kunit_helper_connector_hdmi_init(test);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
- 	drm = &priv->drm;
-@@ -686,9 +683,7 @@ static void drm_test_check_broadcast_rgb_full_cea_mode_vic_1(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
- 
--	priv = drm_kunit_helper_connector_hdmi_init(test,
--						    BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--						    8);
-+	priv = drm_kunit_helper_connector_hdmi_init(test);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
- 	drm = &priv->drm;
-@@ -755,9 +750,7 @@ static void drm_test_check_broadcast_rgb_limited_cea_mode(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
- 
--	priv = drm_kunit_helper_connector_hdmi_init(test,
--						    BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--						    8);
-+	priv = drm_kunit_helper_connector_hdmi_init(test);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
- 	drm = &priv->drm;
-@@ -824,9 +817,7 @@ static void drm_test_check_broadcast_rgb_limited_cea_mode_vic_1(struct kunit *te
- 	struct drm_crtc *crtc;
- 	int ret;
- 
--	priv = drm_kunit_helper_connector_hdmi_init(test,
--						    BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--						    8);
-+	priv = drm_kunit_helper_connector_hdmi_init(test);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
- 	drm = &priv->drm;
-@@ -883,6 +874,7 @@ static void drm_test_check_broadcast_rgb_limited_cea_mode_vic_1(struct kunit *te
-  */
- static void drm_test_check_broadcast_rgb_cea_mode_yuv420(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	enum drm_hdmi_broadcast_rgb broadcast_rgb;
- 	struct drm_modeset_acquire_ctx ctx;
-@@ -895,12 +887,11 @@ static void drm_test_check_broadcast_rgb_cea_mode_yuv420(struct kunit *test)
- 	int ret;
- 
- 	broadcast_rgb = *(enum drm_hdmi_broadcast_rgb *)test->param_value;
-+	hdmi_funcs.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420);
- 
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
--				BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420),
--				8,
--				&dummy_connector_hdmi_funcs,
-+				&hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_yuv_4k_yuv420_dc_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
-@@ -984,6 +975,7 @@ KUNIT_ARRAY_PARAM(check_broadcast_rgb_cea_mode_yuv420,
-  */
- static void drm_test_check_output_bpc_crtc_mode_changed(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *old_conn_state;
-@@ -996,10 +988,9 @@ static void drm_test_check_output_bpc_crtc_mode_changed(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
- 
-+	hdmi_funcs.max_bpc = 10;
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--				10,
--				&dummy_connector_hdmi_funcs,
-+				&hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
-@@ -1066,6 +1057,7 @@ static void drm_test_check_output_bpc_crtc_mode_changed(struct kunit *test)
-  */
- static void drm_test_check_output_bpc_crtc_mode_not_changed(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *old_conn_state;
-@@ -1078,10 +1070,9 @@ static void drm_test_check_output_bpc_crtc_mode_not_changed(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
- 
-+	hdmi_funcs.max_bpc = 10;
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--				10,
--				&dummy_connector_hdmi_funcs,
-+				&hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
-@@ -1145,6 +1136,7 @@ static void drm_test_check_output_bpc_crtc_mode_not_changed(struct kunit *test)
-  */
- static void drm_test_check_output_bpc_dvi(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
-@@ -1155,12 +1147,12 @@ static void drm_test_check_output_bpc_dvi(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
- 
-+	hdmi_funcs.max_bpc = 12;
-+	hdmi_funcs.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444);
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
--				BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) |
--				BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444),
--				12,
--				&dummy_connector_hdmi_funcs,
-+				&hdmi_funcs,
- 				test_edid_dvi_1080p);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
-@@ -1213,8 +1205,6 @@ static void drm_test_check_tmds_char_rate_rgb_8bpc(struct kunit *test)
- 	int ret;
- 
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--				8,
- 				&dummy_connector_hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -1258,6 +1248,7 @@ static void drm_test_check_tmds_char_rate_rgb_8bpc(struct kunit *test)
-  */
- static void drm_test_check_tmds_char_rate_rgb_10bpc(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
-@@ -1267,10 +1258,9 @@ static void drm_test_check_tmds_char_rate_rgb_10bpc(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
- 
-+	hdmi_funcs.max_bpc = 10;
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--				10,
--				&dummy_connector_hdmi_funcs,
-+				&hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
-@@ -1313,6 +1303,7 @@ static void drm_test_check_tmds_char_rate_rgb_10bpc(struct kunit *test)
-  */
- static void drm_test_check_tmds_char_rate_rgb_12bpc(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
-@@ -1322,10 +1313,9 @@ static void drm_test_check_tmds_char_rate_rgb_12bpc(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
- 
-+	hdmi_funcs.max_bpc = 12;
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--				12,
--				&dummy_connector_hdmi_funcs,
-+				&hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
-@@ -1381,9 +1371,7 @@ static void drm_test_check_hdmi_funcs_reject_rate(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
- 
--	priv = drm_kunit_helper_connector_hdmi_init(test,
--						    BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--						    8);
-+	priv = drm_kunit_helper_connector_hdmi_init(test);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
- 	drm = &priv->drm;
-@@ -1438,6 +1426,7 @@ static void drm_test_check_hdmi_funcs_reject_rate(struct kunit *test)
-  */
- static void drm_test_check_max_tmds_rate_bpc_fallback_rgb(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
-@@ -1449,10 +1438,9 @@ static void drm_test_check_max_tmds_rate_bpc_fallback_rgb(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
- 
-+	hdmi_funcs.max_bpc = 12;
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--				12,
--				&dummy_connector_hdmi_funcs,
-+				&hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
-@@ -1512,6 +1500,7 @@ static void drm_test_check_max_tmds_rate_bpc_fallback_rgb(struct kunit *test)
-  */
- static void drm_test_check_max_tmds_rate_bpc_fallback_yuv420(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
-@@ -1523,11 +1512,11 @@ static void drm_test_check_max_tmds_rate_bpc_fallback_yuv420(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
- 
-+	hdmi_funcs.max_bpc = 12;
-+	hdmi_funcs.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420);
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
--				BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420),
--				12,
--				&dummy_connector_hdmi_funcs,
-+				&hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_yuv_4k_yuv420_dc_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
-@@ -1588,6 +1577,7 @@ static void drm_test_check_max_tmds_rate_bpc_fallback_yuv420(struct kunit *test)
-  */
- static void drm_test_check_max_tmds_rate_bpc_fallback_ignore_yuv422(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
-@@ -1599,12 +1589,12 @@ static void drm_test_check_max_tmds_rate_bpc_fallback_ignore_yuv422(struct kunit
- 	struct drm_crtc *crtc;
- 	int ret;
- 
-+	hdmi_funcs.max_bpc = 12;
-+	hdmi_funcs.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444);
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
--				BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) |
--				BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444),
--				12,
--				&dummy_connector_hdmi_funcs,
-+				&hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
-@@ -1669,6 +1659,7 @@ static void drm_test_check_max_tmds_rate_bpc_fallback_ignore_yuv422(struct kunit
-  */
- static void drm_test_check_max_tmds_rate_bpc_fallback_ignore_yuv420(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
-@@ -1680,11 +1671,11 @@ static void drm_test_check_max_tmds_rate_bpc_fallback_ignore_yuv420(struct kunit
- 	struct drm_crtc *crtc;
- 	int ret;
- 
-+	hdmi_funcs.max_bpc = 12;
-+	hdmi_funcs.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420);
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
--				BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420),
--				12,
--				&dummy_connector_hdmi_funcs,
-+				&hdmi_funcs,
- 				test_edid_hdmi_4k_rgb_yuv420_dc_max_340mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
-@@ -1740,6 +1731,7 @@ static void drm_test_check_max_tmds_rate_bpc_fallback_ignore_yuv420(struct kunit
-  */
- static void drm_test_check_driver_unsupported_fallback_yuv420(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
-@@ -1752,10 +1744,9 @@ static void drm_test_check_driver_unsupported_fallback_yuv420(struct kunit *test
- 	struct drm_crtc *crtc;
- 	int ret;
- 
-+	hdmi_funcs.max_bpc = 12;
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--				12,
--				&dummy_connector_hdmi_funcs,
-+				&hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_yuv_4k_yuv420_dc_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
-@@ -1826,6 +1817,7 @@ static void drm_test_check_driver_unsupported_fallback_yuv420(struct kunit *test
-  */
- static void drm_test_check_output_bpc_format_vic_1(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
-@@ -1837,12 +1829,12 @@ static void drm_test_check_output_bpc_format_vic_1(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
- 
-+	hdmi_funcs.max_bpc = 12;
-+	hdmi_funcs.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444);
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
--				BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) |
--				BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444),
--				12,
--				&dummy_connector_hdmi_funcs,
-+				&hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
-@@ -1897,6 +1889,7 @@ static void drm_test_check_output_bpc_format_vic_1(struct kunit *test)
-  */
- static void drm_test_check_output_bpc_format_driver_rgb_only(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
-@@ -1908,10 +1901,9 @@ static void drm_test_check_output_bpc_format_driver_rgb_only(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
- 
-+	hdmi_funcs.max_bpc = 12;
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--				12,
--				&dummy_connector_hdmi_funcs,
-+				&hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
-@@ -1970,6 +1962,7 @@ static void drm_test_check_output_bpc_format_driver_rgb_only(struct kunit *test)
-  */
- static void drm_test_check_output_bpc_format_display_rgb_only(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
-@@ -1981,12 +1974,12 @@ static void drm_test_check_output_bpc_format_display_rgb_only(struct kunit *test
- 	struct drm_crtc *crtc;
- 	int ret;
- 
-+	hdmi_funcs.max_bpc = 12;
-+	hdmi_funcs.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444);
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
--				BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) |
--				BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444),
--				12,
--				&dummy_connector_hdmi_funcs,
-+				&hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
-@@ -2058,8 +2051,6 @@ static void drm_test_check_output_bpc_format_driver_8bpc_only(struct kunit *test
- 	int ret;
- 
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--				8,
- 				&dummy_connector_hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -2112,6 +2103,7 @@ static void drm_test_check_output_bpc_format_driver_8bpc_only(struct kunit *test
-  */
- static void drm_test_check_output_bpc_format_display_8bpc_only(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_connector_state *conn_state;
-@@ -2123,12 +2115,12 @@ static void drm_test_check_output_bpc_format_display_8bpc_only(struct kunit *tes
- 	struct drm_crtc *crtc;
- 	int ret;
- 
-+	hdmi_funcs.max_bpc = 12;
-+	hdmi_funcs.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444);
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
--				BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) |
--				BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444),
--				12,
--				&dummy_connector_hdmi_funcs,
-+				&hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_max_340mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
-@@ -2187,9 +2179,7 @@ static void drm_test_check_disable_connector(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
- 
--	priv = drm_kunit_helper_connector_hdmi_init(test,
--						    BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--						    8);
-+	priv = drm_kunit_helper_connector_hdmi_init(test);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
- 	drm_modeset_acquire_init(&ctx, 0);
-@@ -2256,6 +2246,7 @@ struct color_format_test_param {
-  */
- static void drm_test_check_hdmi_color_format(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	const struct color_format_test_param *param = test->param_value;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_connector_state *conn_state;
-@@ -2266,13 +2257,13 @@ static void drm_test_check_hdmi_color_format(struct kunit *test)
- 	struct drm_display_mode *preferred;
- 	int ret;
- 
-+	hdmi_funcs.max_bpc = 12;
-+	hdmi_funcs.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444);
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
--				BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) |
--				BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420) |
--				BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444),
--				12,
--				&dummy_connector_hdmi_funcs,
-+				&hdmi_funcs,
- 				test_edid_hdmi_4k_rgb_yuv420_dc_max_340mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
-@@ -2364,6 +2355,7 @@ KUNIT_ARRAY_PARAM_DESC(check_hdmi_color_format, hdmi_color_format_params, desc);
-  */
- static void drm_test_check_hdmi_color_format_420_only(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	const struct color_format_test_param *param = test->param_value;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_connector_state *conn_state;
-@@ -2373,13 +2365,13 @@ static void drm_test_check_hdmi_color_format_420_only(struct kunit *test)
- 	struct drm_display_mode *dank;
- 	int ret;
- 
-+	hdmi_funcs.max_bpc = 12;
-+	hdmi_funcs.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444);
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
--				BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) |
--				BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420) |
--				BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444),
--				12,
--				&dummy_connector_hdmi_funcs,
-+				&hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_yuv_4k_yuv420_dc_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
-@@ -2507,9 +2499,7 @@ static void drm_test_check_broadcast_rgb_value(struct kunit *test)
- 	struct drm_connector_state *conn_state;
- 	struct drm_connector *conn;
- 
--	priv = drm_kunit_helper_connector_hdmi_init(test,
--						    BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--						    8);
-+	priv = drm_kunit_helper_connector_hdmi_init(test);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
- 	conn = &priv->connector;
-@@ -2529,9 +2519,7 @@ static void drm_test_check_bpc_8_value(struct kunit *test)
- 	struct drm_connector_state *conn_state;
- 	struct drm_connector *conn;
- 
--	priv = drm_kunit_helper_connector_hdmi_init(test,
--						    BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--						    8);
-+	priv = drm_kunit_helper_connector_hdmi_init(test);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
- 	conn = &priv->connector;
-@@ -2549,13 +2537,15 @@ static void drm_test_check_bpc_8_value(struct kunit *test)
-  */
- static void drm_test_check_bpc_10_value(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_connector_state *conn_state;
- 	struct drm_connector *conn;
- 
--	priv = drm_kunit_helper_connector_hdmi_init(test,
--						    BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--						    10);
-+	hdmi_funcs.max_bpc = 10;
-+	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
-+				&hdmi_funcs,
-+				test_edid_hdmi_1080p_rgb_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
- 	conn = &priv->connector;
-@@ -2573,13 +2563,15 @@ static void drm_test_check_bpc_10_value(struct kunit *test)
-  */
- static void drm_test_check_bpc_12_value(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_connector_state *conn_state;
- 	struct drm_connector *conn;
- 
--	priv = drm_kunit_helper_connector_hdmi_init(test,
--						    BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--						    12);
-+	hdmi_funcs.max_bpc = 12;
-+	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
-+				&hdmi_funcs,
-+				test_edid_hdmi_1080p_rgb_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
- 	conn = &priv->connector;
-@@ -2595,15 +2587,17 @@ static void drm_test_check_bpc_12_value(struct kunit *test)
-  */
- static void drm_test_check_format_value(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_connector_state *conn_state;
- 	struct drm_connector *conn;
- 
--	priv = drm_kunit_helper_connector_hdmi_init(test,
--						    BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
--						    BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) |
--						    BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444),
--						    8);
-+	hdmi_funcs.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444);
-+	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
-+				&hdmi_funcs,
-+				test_edid_hdmi_1080p_rgb_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
- 	conn = &priv->connector;
-@@ -2617,15 +2611,18 @@ static void drm_test_check_format_value(struct kunit *test)
-  */
- static void drm_test_check_tmds_char_value(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_connector_state *conn_state;
- 	struct drm_connector *conn;
- 
--	priv = drm_kunit_helper_connector_hdmi_init(test,
--						    BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
--						    BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) |
--						    BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444),
--						    12);
-+	hdmi_funcs.max_bpc = 12;
-+	hdmi_funcs.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) |
-+				       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444);
-+	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
-+				&hdmi_funcs,
-+				test_edid_hdmi_1080p_rgb_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
- 	conn = &priv->connector;
-@@ -2659,9 +2656,7 @@ static void drm_test_check_mode_valid(struct kunit *test)
- 	struct drm_connector *conn;
- 	struct drm_display_mode *preferred;
- 
--	priv = drm_kunit_helper_connector_hdmi_init(test,
--						    BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--						    8);
-+	priv = drm_kunit_helper_connector_hdmi_init(test);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
- 	conn = &priv->connector;
-@@ -2684,8 +2679,6 @@ static void drm_test_check_mode_valid_reject_rate(struct kunit *test)
- 	struct drm_display_mode *preferred;
- 
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--					BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--					8,
- 					&reject_100mhz_connector_hdmi_funcs,
- 					test_edid_hdmi_1080p_rgb_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -2716,8 +2709,6 @@ static void drm_test_check_mode_valid_reject(struct kunit *test)
- 	int ret;
- 
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--					BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--					8,
- 					&reject_connector_hdmi_funcs,
- 					no_edid);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -2746,8 +2737,6 @@ static void drm_test_check_mode_valid_reject_max_clock(struct kunit *test)
- 	struct drm_display_mode *preferred;
- 
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--				8,
- 				&dummy_connector_hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_max_100mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -2769,15 +2758,15 @@ static void drm_test_check_mode_valid_reject_max_clock(struct kunit *test)
-  */
- static void drm_test_check_mode_valid_yuv420_only_max_clock(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_funcs;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_display_mode *dank;
- 	struct drm_connector *conn;
- 
-+	hdmi_funcs.supported_formats = BIT(HDMI_COLORSPACE_RGB) |
-+				       BIT(HDMI_COLORSPACE_YUV420);
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(HDMI_COLORSPACE_RGB) |
--				BIT(HDMI_COLORSPACE_YUV420),
--				8,
--				&dummy_connector_hdmi_funcs,
-+				&hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_yuv_4k_yuv420_dc_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
-@@ -2809,8 +2798,6 @@ drm_test_check_mode_valid_reject_yuv420_only_connector(struct kunit *test)
- 	struct drm_connector *conn;
- 
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(HDMI_COLORSPACE_RGB),
--				8,
- 				&dummy_connector_hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_yuv_4k_yuv420_dc_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -2835,8 +2822,6 @@ drm_test_check_mode_valid_accept_yuv420_also_connector_rgb(struct kunit *test)
- 	struct drm_connector *conn;
- 
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(HDMI_COLORSPACE_RGB),
--				8,
- 				&dummy_connector_hdmi_funcs,
- 				test_edid_hdmi_4k_rgb_yuv420_dc_max_340mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -2885,8 +2870,6 @@ static void drm_test_check_infoframes(struct kunit *test)
- 	int ret;
- 
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--				8,
- 				&dummy_connector_hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -2960,6 +2943,11 @@ static int reject_infoframe_write_infoframe(struct drm_connector *connector,
- }
- 
- static const struct drm_connector_hdmi_funcs reject_avi_infoframe_hdmi_funcs = {
-+	.vendor = "Vendor",
-+	.product = "Product",
-+	.supported_hdmi_ver = HDMI_VERSION_1_4,
-+	.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
-+	.max_bpc = 8,
- 	.avi = {
- 		.clear_infoframe = accept_infoframe_clear_infoframe,
- 		.write_infoframe = reject_infoframe_write_infoframe,
-@@ -2988,8 +2976,6 @@ static void drm_test_check_reject_avi_infoframe(struct kunit *test)
- 	int ret;
- 
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--				8,
- 				&reject_avi_infoframe_hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -3059,6 +3045,11 @@ static void drm_test_check_reject_avi_infoframe(struct kunit *test)
- }
- 
- static const struct drm_connector_hdmi_funcs reject_hdr_infoframe_hdmi_funcs = {
-+	.vendor = "Vendor",
-+	.product = "Product",
-+	.supported_hdmi_ver = HDMI_VERSION_1_4,
-+	.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
-+	.max_bpc = 8,
- 	.avi = {
- 		.clear_infoframe = accept_infoframe_clear_infoframe,
- 		.write_infoframe = accept_infoframe_write_infoframe,
-@@ -3092,8 +3083,6 @@ static void drm_test_check_reject_hdr_infoframe_bpc_8(struct kunit *test)
- 	int ret;
- 
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--				8,
- 				&reject_hdr_infoframe_hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_max_200mhz_hdr);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -3190,6 +3179,7 @@ static void drm_test_check_reject_hdr_infoframe_bpc_8(struct kunit *test)
-  */
- static void drm_test_check_reject_hdr_infoframe_bpc_10(struct kunit *test)
- {
-+	struct drm_connector_hdmi_funcs hdmi_funcs = reject_hdr_infoframe_hdmi_funcs;
- 	struct drm_atomic_helper_connector_hdmi_priv *priv;
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_atomic_commit *state;
-@@ -3205,10 +3195,9 @@ static void drm_test_check_reject_hdr_infoframe_bpc_10(struct kunit *test)
- 	bool replaced;
- 	int ret;
- 
-+	hdmi_funcs.max_bpc = 10;
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--				10,
--				&reject_hdr_infoframe_hdmi_funcs,
-+				&hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_max_200mhz_hdr);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
- 
-@@ -3307,6 +3296,11 @@ static void drm_test_check_reject_hdr_infoframe_bpc_10(struct kunit *test)
- }
- 
- static const struct drm_connector_hdmi_funcs reject_audio_infoframe_hdmi_funcs = {
-+	.vendor = "Vendor",
-+	.product = "Product",
-+	.supported_hdmi_ver = HDMI_VERSION_1_4,
-+	.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
-+	.max_bpc = 8,
- 	.avi = {
- 		.clear_infoframe = accept_infoframe_clear_infoframe,
- 		.write_infoframe = accept_infoframe_write_infoframe,
-@@ -3341,8 +3335,6 @@ static void drm_test_check_reject_audio_infoframe(struct kunit *test)
- 	int ret;
- 
- 	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
--				BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
--				8,
- 				&reject_audio_infoframe_hdmi_funcs,
- 				test_edid_hdmi_1080p_rgb_max_200mhz);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
+ EXPORT_SYMBOL(drmm_connector_hdmi_init);
+ 
+-/**
+- * drmm_connector_hdmi_ini2 - Init a preallocated HDMI connector
+- * @dev: DRM device
+- * @connector: A pointer to the HDMI connector to init
+- * @vendor: HDMI Controller Vendor name
+- * @product: HDMI Controller Product name
+- * @funcs: callbacks for this connector
+- * @hdmi_funcs: HDMI-related callbacks for this connector
+- * @connector_type: user visible type of the connector
+- * @ddc: optional pointer to the associated ddc adapter
+- * @supported_formats: Bitmask of @drm_output_color_format listing supported output formats
+- * @max_bpc: Maximum bits per char the HDMI connector supports
+- *
+- * Initialises a preallocated HDMI connector. Connectors can be
+- * subclassed as part of driver connector objects.
+- *
+- * Cleanup is automatically handled with a call to
+- * drm_connector_cleanup() in a DRM-managed action.
+- *
+- * The connector structure should be allocated with drmm_kzalloc().
+- *
+- * The @drm_connector_funcs.destroy hook must be NULL.
+- *
+- * Returns:
+- * Zero on success, error code on failure.
+- */
+-int drmm_connector_hdmi_ini2(struct drm_device *dev,
+-			     struct drm_connector *connector,
+-			     const char *vendor, const char *product,
+-			     const struct drm_connector_funcs *funcs,
+-			     const struct drm_connector_hdmi_funcs *hdmi_funcs,
+-			     int connector_type,
+-			     struct i2c_adapter *ddc,
+-			     unsigned long supported_formats,
+-			     unsigned int max_bpc)
+-{
+-	int ret;
+-
+-	if (!vendor || !product)
+-		return -EINVAL;
+-
+-	if ((strlen(vendor) > DRM_CONNECTOR_HDMI_VENDOR_LEN) ||
+-	    (strlen(product) > DRM_CONNECTOR_HDMI_PRODUCT_LEN))
+-		return -EINVAL;
+-
+-	if (!(connector_type == DRM_MODE_CONNECTOR_HDMIA ||
+-	      connector_type == DRM_MODE_CONNECTOR_HDMIB))
+-		return -EINVAL;
+-
+-	if (!supported_formats || !(supported_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444)))
+-		return -EINVAL;
+-
+-	if (connector->ycbcr_420_allowed != !!(supported_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420)))
+-		return -EINVAL;
+-
+-	if (!(max_bpc == 8 || max_bpc == 10 || max_bpc == 12))
+-		return -EINVAL;
+-
+-	if (!hdmi_funcs->avi.clear_infoframe ||
+-	    !hdmi_funcs->avi.write_infoframe ||
+-	    !hdmi_funcs->hdmi.clear_infoframe ||
+-	    !hdmi_funcs->hdmi.write_infoframe)
+-		return -EINVAL;
+-
+-	ret = drmm_connector_init(dev, connector, funcs, connector_type, ddc);
+-	if (ret)
+-		return ret;
+-
+-	connector->hdmi.supported_formats = supported_formats;
+-	strtomem_pad(connector->hdmi.vendor, vendor, 0);
+-	strtomem_pad(connector->hdmi.product, product, 0);
+-
+-	/*
+-	 * drm_connector_attach_max_bpc_property() requires the
+-	 * connector to have a state.
+-	 */
+-	if (connector->funcs->atomic_create_state) {
+-		struct drm_connector_state *state;
+-
+-		state = connector->funcs->atomic_create_state(connector);
+-		if (IS_ERR(state))
+-			return PTR_ERR(state);
+-
+-		connector->state = state;
+-	} else if (connector->funcs->reset) {
+-		connector->funcs->reset(connector);
+-	}
+-
+-	drm_connector_attach_max_bpc_property(connector, 8, max_bpc);
+-	connector->max_bpc = max_bpc;
+-
+-	if (max_bpc > 8)
+-		drm_connector_attach_hdr_output_metadata_property(connector);
+-
+-	ret = drm_connector_attach_color_format_property(connector, supported_formats);
+-	if (ret)
+-		return ret;
+-
+-	connector->hdmi.funcs = hdmi_funcs;
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL(drmm_connector_hdmi_ini2);
+-
+ /**
+  * drm_connector_attach_edid_property - attach edid property.
+  * @connector: the connector
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 61ba20296f6a..b80cc667604e 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -2670,15 +2670,6 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+ 			     const struct drm_connector_hdmi_funcs *hdmi_funcs,
+ 			     int connector_type,
+ 			     struct i2c_adapter *ddc);
+-int drmm_connector_hdmi_ini2(struct drm_device *dev,
+-			     struct drm_connector *connector,
+-			     const char *vendor, const char *product,
+-			     const struct drm_connector_funcs *funcs,
+-			     const struct drm_connector_hdmi_funcs *hdmi_funcs,
+-			     int connector_type,
+-			     struct i2c_adapter *ddc,
+-			     unsigned long supported_formats,
+-			     unsigned int max_bpc);
+ void drm_connector_attach_edid_property(struct drm_connector *connector);
+ int drm_connector_register(struct drm_connector *connector);
+ int drm_connector_dynamic_register(struct drm_connector *connector);
 
 -- 
 2.55.0
