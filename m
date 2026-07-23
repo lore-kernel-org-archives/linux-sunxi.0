@@ -1,42 +1,42 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82D330F92E
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jul 2026 01:35:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408C430C155
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jul 2026 01:35:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784770518; cv=none; b=hLFMfQU/Hz7V91li+r3vWdMipd0SM/q1F5HkuklMBlZ/sQGbEShG703J2pTCRXFmAFplPrVgy3tpR4224sL1oCspKg0RwP3p9tH5RCtp+quBD2fQU1VkHAk6WtS3wUX/E3aGc0pUgRhljHS1HCi8TlCkckv+Dxv5bO7MjmGsi44=
+	t=1784770519; cv=none; b=RQrcekGBC/T8pk8MsUSrHcN2hsnPVfmf2rOvQZBRfts3aLSNULDjfEHulH5H9QxqQBInqfc15CpPQviPx2UC5tVu9scsN6cj7v48hyeOiPSFInlAPEy32hCET1yvQbpiE49mcYyfdQJ+j4ipcRTKTE+fZlRPTISqtdexOg8g6Hs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784770518; c=relaxed/simple;
-	bh=vkmohHBcUSuwS6ZyFCylIMegc4f1JtD3hk0obLRPOFI=;
+	s=arc-20240116; t=1784770519; c=relaxed/simple;
+	bh=N85WYXIyp7svItL0OlXT1YwLpcigKtFADFHc3tqyBI8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pqTcYVz/55o9OCyb6OIJf+/DBN6zt9SniOS8EqAJpuHj2vgTP1ReLbUw+pJU4TvoEHm6980w9txdDeQrOxTaxt3d++YLNW5Bpu3p3lfkNO+2NOSPe3PWtNwIDlkhRxGUb5Kx5jIdF6FxlnAZmoBBMNTzfee0UG4N2ZkNU8NYcX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=JZBYr7+C; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=MN7zVGGUU6jksNW/AvNKJDZsEFvp3WJhVAW2RIgb0HmMK4jZW99pMXU3DHcK6eHYyJmqiLSypPJov0dEOn1lroWRbj3UIp4umezvxBSm/si/A9dEAdIbOMSzIBCHfLZfp81kLNSxDptFQVSOUqYcKht/8GfUWa4vZfUot4y3Usk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=HuozuEYQ; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JZBYr7+C"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="HuozuEYQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1784770514;
-	bh=vkmohHBcUSuwS6ZyFCylIMegc4f1JtD3hk0obLRPOFI=;
+	s=mail; t=1784770513;
+	bh=N85WYXIyp7svItL0OlXT1YwLpcigKtFADFHc3tqyBI8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=JZBYr7+C00r1wL0e/BjKmWVhQ8Pi6A+THSPgl+/zp8kk99hx+dS4egmsocS1JLzS4
-	 9qjuKCEvxTXcNCgMRgwBBOCc1tdf5UjPaQihvz6BsAraa4UMlCcH4OJivmIwngKz5Y
-	 xSYGriIuRQNqHuI0eLim8jGkUI6enyKwjb6CUG2117DUbrUk/Lr5CQOGcrr7qQAOZP
-	 D1/uhFonnoT6QKT8RfD/JJtZTQxvYs+k2nFpVBKQJN8x9hPoG+5AzhHAao7gAhreyj
-	 aXyPLR4GXzbxCvtgRgtVb1WOID+vpfiDhYlwUJffI4+aZIJyAG87tvDAQx6rtDkeOm
-	 37adn59VBGxyw==
+	b=HuozuEYQjDGrD+aO2hWV29yWSyjX86YxKJ8aWpwKBgt05Iz1o7cSAc7pi4t97DERl
+	 X5POZHdPocTfa2/pmhWlSVulADddNiomEWXuh0cESQktffvJ4OK8i5cAdyNpAc6xNt
+	 kPpyxAvnfz1zN1j6NV9uTYrkcJM8FzaMCWxkAxXnFTmNVu2PbZBePTNigpsUG/8+UV
+	 tTFLVgIUcr1A0JsWXhXI/2opENJD2BkEIf8xsHvX+7aqb3a5SsCGXpXoAsnxHF3feb
+	 dK976oti0QS8TjdIGVoHtiCgXLD7dIqEJ7nsf+1akY+nRIb9kXVooFV8qExxI0gZXd
+	 +xAVRkRlBlQdA==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9F81117E1064;
-	Thu, 23 Jul 2026 03:35:14 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3EF1717E1313;
+	Thu, 23 Jul 2026 03:35:13 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Thu, 23 Jul 2026 04:35:07 +0300
-Subject: [PATCH v9 18/61] drm/display: hdmi-state-helper: Set HDMI
- scrambling requirement
+Date: Thu, 23 Jul 2026 04:35:05 +0300
+Subject: [PATCH v9 16/61] drm/display: hdmi-state-helper: Pass acquire ctx
+ to hotplug helpers
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260723-dw-hdmi-qp-scramb-v9-18-4fb12ea22ac9@collabora.com>
+Message-Id: <20260723-dw-hdmi-qp-scramb-v9-16-4fb12ea22ac9@collabora.com>
 References: <20260723-dw-hdmi-qp-scramb-v9-0-4fb12ea22ac9@collabora.com>
 In-Reply-To: <20260723-dw-hdmi-qp-scramb-v9-0-4fb12ea22ac9@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -67,38 +67,170 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Phong LE <ple@baylibre.com>
 Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, 
- Maud Spierings <maud_spierings@hotmail.com>
+ linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org
 X-Mailer: b4 0.15.2
 
-Set drm_connector_hdmi_state.scrambler_needed when the computed TMDS
-character rate exceeds the HDMI 1.3 maximum TMDS character rate.
+In preparation for supporting SCDC status synchronization on hotplug
+events, extend drm_atomic_helper_connector_hdmi_hotplug() and
+drm_atomic_helper_connector_hdmi_update() to take a struct
+drm_modeset_acquire_ctx argument.  This will be used when a CRTC reset
+is required.
 
-HDMI 2.0 requires scrambling above 340 MHz.  Centralize that clock-based
-requirement in the HDMI state helper so drivers do not need to open-code
-the threshold check.
+Additionally, change their return type from void to int to allow
+propagation of errors such as -EDEADLK caused by lock contention.
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Tested-by: Maud Spierings <maud_spierings@hotmail.com>
+Update existing callers accordingly.  Note that in the VC4 case, the
+return code is ignored, as it cannot fail: being in the .detect_ctx()
+call path, the connection mutex is already held through ctx, and it
+bails out early because the driver relies on a local SCDC
+state-management implementation, and therefore does not yet expose the
+scrambler capability through the common helpers.
+
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/display/drm_hdmi_state_helper.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/display/drm_bridge_connector.c  |  8 ++++--
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c | 34 ++++++++++++++++++++-----
+ drivers/gpu/drm/vc4/vc4_hdmi.c                  |  2 +-
+ include/drm/display/drm_hdmi_state_helper.h     |  6 +++--
+ 4 files changed, 39 insertions(+), 11 deletions(-)
 
+diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
+index ed3b5b73a88a..1dcce4ab8035 100644
+--- a/drivers/gpu/drm/display/drm_bridge_connector.c
++++ b/drivers/gpu/drm/display/drm_bridge_connector.c
+@@ -297,12 +297,16 @@ static int drm_bridge_connector_detect_ctx(struct drm_connector *connector,
+ 	struct drm_bridge *detect = bridge_connector->bridge_detect;
+ 	struct drm_bridge *hdmi = bridge_connector->bridge_hdmi;
+ 	enum drm_connector_status status;
++	int ret;
+ 
+ 	if (detect) {
+ 		status = detect->funcs->detect(detect, connector);
+ 
+-		if (hdmi)
+-			drm_atomic_helper_connector_hdmi_hotplug(connector, status);
++		if (hdmi) {
++			ret = drm_atomic_helper_connector_hdmi_hotplug(connector, ctx, status);
++			if (ret == -EDEADLK)
++				return ret;
++		}
+ 
+ 		drm_bridge_connector_hpd_notify(connector, status);
+ 	} else {
 diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-index ad59318a3e85..d112c1555517 100644
+index 92be6278ea44..04d5196a2010 100644
 --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
 +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-@@ -594,6 +594,9 @@ hdmi_compute_clock(const struct drm_connector *connector,
+@@ -1199,8 +1199,9 @@ drm_atomic_helper_connector_hdmi_clear_audio_infoframe(struct drm_connector *con
+ }
+ EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_clear_audio_infoframe);
  
- 	conn_state->hdmi.tmds_char_rate = clock;
+-static void
++static int
+ drm_atomic_helper_connector_hdmi_update(struct drm_connector *connector,
++					struct drm_modeset_acquire_ctx *ctx,
+ 					enum drm_connector_status status)
+ {
+ 	const struct drm_edid *drm_edid;
+@@ -1210,7 +1211,7 @@ drm_atomic_helper_connector_hdmi_update(struct drm_connector *connector,
+ 		drm_connector_hdmi_audio_plugged_notify(connector, false);
+ 		drm_edid_connector_update(connector, NULL);
+ 		drm_connector_cec_phys_addr_invalidate(connector);
+-		return;
++		return 0;
+ 	}
  
-+	/* TODO: also check drm_display_info.hdmi.scdc.scrambling.low_rates */
-+	conn_state->hdmi.scrambler_needed = (clock > HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ);
+ 	if (connector->hdmi.funcs->read_edid)
+@@ -1227,20 +1228,28 @@ drm_atomic_helper_connector_hdmi_update(struct drm_connector *connector,
+ 		drm_connector_hdmi_audio_plugged_notify(connector, true);
+ 		drm_connector_cec_phys_addr_set(connector);
+ 	}
 +
- 	return 0;
++	return 0;
  }
  
+ /**
+  * drm_atomic_helper_connector_hdmi_hotplug - Handle the hotplug event for the HDMI connector
+  * @connector: A pointer to the HDMI connector
++ * @ctx: Lock acquisition context to be used for resetting CRTC
+  * @status: Connection status
+  *
+  * This function should be called as a part of the .detect() / .detect_ctx()
+  * callbacks for all status changes.
++ *
++ * Returns:
++ * Zero on success, error code on failure.
++ * If @ctx is set, it might also return -EDEADLK.
+  */
+-void drm_atomic_helper_connector_hdmi_hotplug(struct drm_connector *connector,
+-					      enum drm_connector_status status)
++int drm_atomic_helper_connector_hdmi_hotplug(struct drm_connector *connector,
++					     struct drm_modeset_acquire_ctx *ctx,
++					     enum drm_connector_status status)
+ {
+-	drm_atomic_helper_connector_hdmi_update(connector, status);
++	return drm_atomic_helper_connector_hdmi_update(connector, ctx, status);
+ }
+ EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_hotplug);
+ 
+@@ -1255,6 +1264,19 @@ EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_hotplug);
+  */
+ void drm_atomic_helper_connector_hdmi_force(struct drm_connector *connector)
+ {
+-	drm_atomic_helper_connector_hdmi_update(connector, connector->status);
++	struct drm_modeset_acquire_ctx ctx;
++	int ret;
++
++	drm_modeset_acquire_init(&ctx, 0);
++
++retry:
++	ret = drm_atomic_helper_connector_hdmi_update(connector, &ctx, connector->status);
++	if (ret == -EDEADLK) {
++		drm_modeset_backoff(&ctx);
++		goto retry;
++	}
++
++	drm_modeset_drop_locks(&ctx);
++	drm_modeset_acquire_fini(&ctx);
+ }
+ EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_force);
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 72ff95ca97de..7f613f912368 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -375,7 +375,7 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
+ 	 * the lock for now.
+ 	 */
+ 
+-	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
++	drm_atomic_helper_connector_hdmi_hotplug(connector, ctx, status);
+ 
+ 	if (status != connector_status_connected)
+ 		return;
+diff --git a/include/drm/display/drm_hdmi_state_helper.h b/include/drm/display/drm_hdmi_state_helper.h
+index 13375bd0f4ae..c26c6a87795e 100644
+--- a/include/drm/display/drm_hdmi_state_helper.h
++++ b/include/drm/display/drm_hdmi_state_helper.h
+@@ -7,6 +7,7 @@ struct drm_atomic_commit;
+ struct drm_connector;
+ struct drm_connector_state;
+ struct drm_display_mode;
++struct drm_modeset_acquire_ctx;
+ struct hdmi_audio_infoframe;
+ 
+ enum drm_connector_status;
+@@ -22,8 +23,9 @@ int drm_atomic_helper_connector_hdmi_update_audio_infoframe(struct drm_connector
+ int drm_atomic_helper_connector_hdmi_clear_audio_infoframe(struct drm_connector *connector);
+ int drm_atomic_helper_connector_hdmi_update_infoframes(struct drm_connector *connector,
+ 						       struct drm_atomic_commit *state);
+-void drm_atomic_helper_connector_hdmi_hotplug(struct drm_connector *connector,
+-					      enum drm_connector_status status);
++int drm_atomic_helper_connector_hdmi_hotplug(struct drm_connector *connector,
++					     struct drm_modeset_acquire_ctx *ctx,
++					     enum drm_connector_status status);
+ void drm_atomic_helper_connector_hdmi_force(struct drm_connector *connector);
+ 
+ enum drm_mode_status
 
 -- 
 2.55.0
