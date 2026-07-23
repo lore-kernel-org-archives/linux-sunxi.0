@@ -1,42 +1,42 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7E13644DB
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jul 2026 01:35:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB29436F8FE
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jul 2026 01:35:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784770538; cv=none; b=Poe3YhktAcG80KfsoLmdG8AS2AaQv++GtHavlc5RVWwGENDWnaplCAMue5TIJY6GvuIqdw2K5LqAwmIB2miUPVH6JsmKXh09dv91e0YTJs5POBwtB65rF6knWzubQylhhY/9CCiBK1kGpcTULV+DqQDbwYYwFUxP8WU8Me851wA=
+	t=1784770539; cv=none; b=V7vBteqdiqGX446JkXubfQqnL9LZs5cQSUXduyNxOZnCCssdKx12LAh7kg/A8LXeWUFqjPL7xS41RpSWAg9eQap6w4BKK4/IcoEpPSKptgmlQVNhrU0zDcmfh2k1Ze5u5PSPZjETinCNx5s2LMGEj6KhARcw1HeaeE8Vs3A9z/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784770538; c=relaxed/simple;
-	bh=+N+HPoympXucVGJN5bjlB23qkyWt7dTNEg/NHxiAtyQ=;
+	s=arc-20240116; t=1784770539; c=relaxed/simple;
+	bh=plxawnmT20w7v+1sTZz825WPXTqg1jAro3a9cOhXJdQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eSxSNS/T8aZRtaR/6xxyH+P8w6K65/bgRuYCfHiluluroiXCTQrTlBtgBO8tugQ42vXJPCJao1VXgisI3UfiU4R8LkXEbSKvsNrIcCkgSd7tc2LEKslbE7+nOUmv6S3QIyM860VeGNNUpOg308fKx9OlxW3kfcMVN/KXv2U05IY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=MOA1mJiA; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=YyfZ7SKIrUg9IYH5qIyjGq37q8igKkM9TWAW+o3JkmqiZJQS2Vx+kz+Tzft1lckWd4lQzx8TV7OWa/sdl2feQMEizmWQJCL6RlBu0zCj2L9SBjoS9G+j3XEtHwTLrXOUqNE9Rw7thH4mGVRt/N4BwKVz2Syh/Fv3E3fd+F53h10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Kwe+z6Iu; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="MOA1mJiA"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Kwe+z6Iu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1784770531;
-	bh=+N+HPoympXucVGJN5bjlB23qkyWt7dTNEg/NHxiAtyQ=;
+	s=mail; t=1784770534;
+	bh=plxawnmT20w7v+1sTZz825WPXTqg1jAro3a9cOhXJdQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=MOA1mJiApFe/v247aw6/PnM7W10VTQEjp4TkeH2w98s1tRAydI9POIRYSnn9autYV
-	 4PIEg+HJX3eyu+SqnQYWlzW6XwxLxPkzmZZCUlg9tjbRfEG8NxELzIzqT/x6E24GBU
-	 pSjGjT8Ctj/JQPlsZbAgR1wUO5ufPHmjQ5Osf3YfVq5cYcVWSrggTDgRviaDzV19eZ
-	 kakUUKxP+2/j/xcLU2YyV4Zy6WXLB57HJT7schXy1GU+8U8S8XLhQDifxg6gp9XKTP
-	 0njsw0t39tO5wdOi7rkZuB2RzSkTMl7DBI/lPxKgNRgZZ9ytseIP2VLNKWbjnMoBJk
-	 lRdOC8dIu6cZQ==
+	b=Kwe+z6IuS+40ZV6QNqMGn9FLh4+oa+2lhAesYm/qptI82q+rXxONIAKEBKMr1NXLl
+	 826jXqvzJ6quJxxfRPpHxrmPLvRAZeqMhC1hfvAjAfoyMysjJ4pyhH6XnSHJqgucu6
+	 FE1H+Buo29OmdYHtdwneBcJoIbwOrz5r2Sa2KNz2p8yIMK75tybnwQHNzZ0wIzP3Sq
+	 0wUyg3y8g/4MrHZ59JpKs8KLebeFhb5e32oydpqO+BtxPTGYkb2DL0hyZ7VMr2zyIP
+	 mEV4oL7RpzG1f1xXf2whLtRFaHkkNbF6N2jgOBgWp84FM+9Ebx165tu6uAyxU7nLBv
+	 Fmze70hGLKGJg==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 56B2217E36D7;
-	Thu, 23 Jul 2026 03:35:31 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id BE37817E1274;
+	Thu, 23 Jul 2026 03:35:34 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Thu, 23 Jul 2026 04:35:31 +0300
-Subject: [PATCH v9 42/61] drm/bridge: ite-it6263: Drop redundant
- .mode_valid hook
+Date: Thu, 23 Jul 2026 04:35:36 +0300
+Subject: [PATCH v9 47/61] drm/sun4i: hdmi: Convert to
+ drmm_connector_hdmi_init()
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260723-dw-hdmi-qp-scramb-v9-42-4fb12ea22ac9@collabora.com>
+Message-Id: <20260723-dw-hdmi-qp-scramb-v9-47-4fb12ea22ac9@collabora.com>
 References: <20260723-dw-hdmi-qp-scramb-v9-0-4fb12ea22ac9@collabora.com>
 In-Reply-To: <20260723-dw-hdmi-qp-scramb-v9-0-4fb12ea22ac9@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -70,68 +70,73 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org
 X-Mailer: b4 0.15.2
 
-Bridges using DRM_BRIDGE_OP_HDMI expect connectors to be created through
-drm_bridge_connector_init(), thereby relying on the bridge connector's
-.mode_valid hook to invoke drm_hdmi_connector_mode_valid().
+Switch driver over to the new drmm_connector_hdmi_init() signature and
+advertise HDMI 1.2 support.  The vendor, product, supported_formats and
+max_bpc values previously passed as arguments are now provided through
+struct drm_connector_hdmi_funcs, together with the new
+supported_hdmi_ver field.
 
-The generic helper computes the mode's TMDS character rate and forwards
-it to the bridge's .hdmi_tmds_char_rate_valid callback through the
-connector HDMI funcs.  This covers exactly what
-it6263_bridge_mode_valid() does for 8 bpc RGB444, but due to being
-output-format aware, it also handles the validation more thoroughly.
+The HDMI connector helpers infer the 165 MHz TMDS character rate ceiling
+from supported_hdmi_ver and reject modes exceeding it before invoking
+the driver's .tmds_char_rate_valid() hook.  This makes the explicit mode
+clock check in sun4i_hdmi_connector_clock_valid() redundant, so drop it.
 
-Both the connector and bridge .mode_valid hooks are invoked during
-mode validation through drm_mode_validate_pipeline(), so the custom
-bridge hook is redundant.  Drop it.
-
-While at it, remove the now-unused drm_hdmi_helper.h include.
+No functional change intended.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/bridge/ite-it6263.c | 16 ----------------
- 1 file changed, 16 deletions(-)
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6263.c b/drivers/gpu/drm/bridge/ite-it6263.c
-index 4c0b670806cc..f166bb38998c 100644
---- a/drivers/gpu/drm/bridge/ite-it6263.c
-+++ b/drivers/gpu/drm/bridge/ite-it6263.c
-@@ -15,7 +15,6 @@
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
+diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+index 96b2b597caa6..850a8fecf0b5 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
++++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+@@ -192,10 +192,6 @@ sun4i_hdmi_connector_clock_valid(const struct drm_connector *connector,
+ 	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
+ 		return MODE_BAD;
  
--#include <drm/display/drm_hdmi_helper.h>
- #include <drm/display/drm_hdmi_state_helper.h>
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
-@@ -669,20 +668,6 @@ static void it6263_bridge_atomic_enable(struct drm_bridge *bridge,
- 	regmap_write(regmap, HDMI_REG_PKT_GENERAL_CTRL, ENABLE_PKT | REPEAT_PKT);
+-	/* HDMI 1.0 max TMDS character rate */
+-	if (clock > HDMI_1_0_TMDS_CHAR_RATE_MAX_HZ)
+-		return MODE_CLOCK_HIGH;
+-
+ 	rounded_rate = clk_round_rate(hdmi->tmds_clk, clock);
+ 	if (rounded_rate > 0 &&
+ 	    max_t(unsigned long, rounded_rate, clock) -
+@@ -253,6 +249,11 @@ static struct i2c_adapter *sun4i_hdmi_get_ddc(struct device *dev)
  }
  
--static enum drm_mode_status
--it6263_bridge_mode_valid(struct drm_bridge *bridge,
--			 const struct drm_display_info *info,
--			 const struct drm_display_mode *mode)
--{
--	unsigned long long rate;
--
--	rate = drm_hdmi_compute_mode_clock(mode, 8, DRM_OUTPUT_COLOR_FORMAT_RGB444);
--	if (rate == 0)
--		return MODE_NOCLOCK;
--
--	return bridge->funcs->hdmi_tmds_char_rate_valid(bridge, mode, rate);
--}
--
- static int it6263_bridge_attach(struct drm_bridge *bridge,
- 				struct drm_encoder *encoder,
- 				enum drm_bridge_attach_flags flags)
-@@ -831,7 +816,6 @@ static const struct drm_bridge_funcs it6263_bridge_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
- 	.atomic_create_state = drm_atomic_helper_bridge_create_state,
- 	.attach = it6263_bridge_attach,
--	.mode_valid = it6263_bridge_mode_valid,
- 	.atomic_disable = it6263_bridge_atomic_disable,
- 	.atomic_enable = it6263_bridge_atomic_enable,
- 	.detect = it6263_bridge_detect,
+ static const struct drm_connector_hdmi_funcs sun4i_hdmi_hdmi_connector_funcs = {
++	.vendor = "AW",
++	.product = "HDMI",
++	.supported_hdmi_ver = HDMI_VERSION_1_2,
++	.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
++	.max_bpc = 8,
+ 	.tmds_char_rate_valid	= sun4i_hdmi_connector_clock_valid,
+ 	.avi = {
+ 		.clear_infoframe	= sun4i_hdmi_clear_avi_infoframe,
+@@ -653,19 +654,16 @@ static int sun4i_hdmi_bind(struct device *dev, struct device *master,
+ 
+ 	drm_connector_helper_add(&hdmi->connector,
+ 				 &sun4i_hdmi_connector_helper_funcs);
+-	ret = drmm_connector_hdmi_ini2(drm, &hdmi->connector,
++	ret = drmm_connector_hdmi_init(drm, &hdmi->connector,
+ 				       /*
+ 					* NOTE: Those are likely to be
+ 					* wrong, but I couldn't find the
+ 					* actual ones in the BSP.
+ 					*/
+-				       "AW", "HDMI",
+ 				       &sun4i_hdmi_connector_funcs,
+ 				       &sun4i_hdmi_hdmi_connector_funcs,
+ 				       DRM_MODE_CONNECTOR_HDMIA,
+-				       hdmi->ddc_i2c,
+-				       BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
+-				       8);
++				       hdmi->ddc_i2c);
+ 	if (ret) {
+ 		dev_err(dev,
+ 			"Couldn't initialise the HDMI connector\n");
 
 -- 
 2.55.0
