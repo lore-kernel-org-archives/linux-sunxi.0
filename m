@@ -1,42 +1,42 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32930305662
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jul 2026 01:35:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB942F8EB5
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jul 2026 01:35:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784770513; cv=none; b=ccq1zzy6etOGhh1rH4ikz1gYLndD9TDqfh/H45fKhKlHfKrzvYEL2TjE+ZtpwXGINLT60Nj4cuvGfCGkxbiTZeE6L1lIE9XGG5zWta/eT4Ju202URVX9VjHIx24RT7SwoTa1VJFjBVQqlVYRCg4tp7XapYHU9imF4hhQUIcJU9A=
+	t=1784770513; cv=none; b=bzX+z5mPccLTpOZoKxHzJ4e1dDV7XGaMdF5ukpsT3avFaVLpv1/eJgtm9VeoE9NQY2fHJqiAlEobtgm5AtXbf9poyGRG6MJiy/9JJ7ssfln0dpSiPXSnnmneWYopnWKL8If37lMqUvgSIzIpdBoHCqPpVK0H5qB9GiXQHsnvDqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1784770513; c=relaxed/simple;
-	bh=CJh8qr0reSiITiFxt1GFO/mGRX/C03+mDj0l5CF8lgc=;
+	bh=Pse1bTSm1Byr6z8ofKg6/5V6m8w5K69CIVMkbjjUiOE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=SUQNme/R1Bc+Ot0VcSGabGBcK1SdEDNAxYA1S83uGY5t5NQGKY11iLsare0FwqdKeJZduFG25eYlgZbg8nmw4xgbBfhr6TZdmF33W4xhhHEOYp2ZRfEdevNzYy3rvypDtU+lZ49wdMEfGFLI0Lh1nDjLhq8ICYreVBjQi/IMC0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=B8YcFDBj; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=JB0vV1aeYQ5c54Ux+KLMq1NquSorMbXCM5kqJjNsnOSA7eO9rlYN7zEYFvv4d7hs/YGxP/b0DAQvNUMzos5XV+c3Yu/1au77TqQEuR50J4KC7X9j+TeWHTcMon2yT5UsKBQ/BToDRDTErlbREY3SrNcNSWOgJlSk3y1TkFA1CFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=UEy9GKKK; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="B8YcFDBj"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="UEy9GKKK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1784770506;
-	bh=CJh8qr0reSiITiFxt1GFO/mGRX/C03+mDj0l5CF8lgc=;
+	s=mail; t=1784770509;
+	bh=Pse1bTSm1Byr6z8ofKg6/5V6m8w5K69CIVMkbjjUiOE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=B8YcFDBjKGf4ylEYcEjN7aOmxFQghEJGdgo3kIvKoXc5FMklKlOzPk9+o/cRsQ12B
-	 295/oAR5d1xOusXLCVnZQzuYAQvr4jx7q63xVcjCW4GjZzC336nLo2F3DsAXISsKq5
-	 jhf3pNFgf0AdiqiLXUnkXfFFhUaT921x2L4+1GyPAowaDFw4tDvIziwWmF1s84e92H
-	 bcWRLjaNS4aWaA+0X92sOlLgqQKDg21Xgt9enpsr6haWpdaBM47ketfz3vNN2AkJeJ
-	 rOUyT+vFLRt5g3p4P7xyJVMY67/bTDK5oq0YsCDSJpc2e3q72ueHt+4eoKBDtUDOwZ
-	 wpXcChQHkTXuA==
+	b=UEy9GKKKrYaQTIX0Th0B2Xj/1R+ryvugqGKcN5HIBbosQpBNf/NK0m6y+e+UY1g9X
+	 2muf0y0IoDjbiS6MDz/t4m6OGSQt9unI5qTectDbaPJ4YoNRD6JpuLbTE3jnw6sLOL
+	 8O88hF2uuAabMSqCikLuQbH74m/w0m4T8O+76ogVD+z2IJSivvEFqhS4vAfVeYTxHE
+	 cGU5noPz9p1rkmepum8dIrHo4nXD58bMuoXnQOP8l7wQlE/KUSLTuoTXVgMLDiZy6A
+	 2vvTfDUBUJs7gkEYNTPW3StNzAZccWoD63NkGD6PMca7P2IPobEyK1/AzOHdMJfWJ2
+	 p+5WTlj/owlMw==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 37AC817E0F76;
-	Thu, 23 Jul 2026 03:35:06 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 07E4017E36BC;
+	Thu, 23 Jul 2026 03:35:09 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Thu, 23 Jul 2026 04:34:55 +0300
-Subject: [PATCH v9 06/61] drm/display: scdc-helper: Add macro for
- connector-prefixed debug messages
+Date: Thu, 23 Jul 2026 04:34:59 +0300
+Subject: [PATCH v9 10/61] drm/bridge: Remove redundant error check in
+ drm_bridge_helper_reset_crtc()
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260723-dw-hdmi-qp-scramb-v9-6-4fb12ea22ac9@collabora.com>
+Message-Id: <20260723-dw-hdmi-qp-scramb-v9-10-4fb12ea22ac9@collabora.com>
 References: <20260723-dw-hdmi-qp-scramb-v9-0-4fb12ea22ac9@collabora.com>
 In-Reply-To: <20260723-dw-hdmi-qp-scramb-v9-0-4fb12ea22ac9@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -68,90 +68,34 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
 Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
  Maud Spierings <maud_spierings@hotmail.com>
 X-Mailer: b4 0.15.2
 
-Introduce the drm_scdc_dbg() wrapper over drm_dbg_kms() to help getting
-rid of the boilerplate around prefixing the debug messages with the
-connector information.
+Remove the no-op error check after drm_atomic_helper_reset_crtc() since
+the goto target is the immediately following label and the return value
+is already propagated correctly without it.
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Tested-by: Maud Spierings <maud_spierings@hotmail.com>
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/display/drm_scdc_helper.c | 24 +++++++++---------------
- 1 file changed, 9 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/drm_bridge_helper.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/drm_scdc_helper.c b/drivers/gpu/drm/display/drm_scdc_helper.c
-index df878aad4a36..cb6632346aad 100644
---- a/drivers/gpu/drm/display/drm_scdc_helper.c
-+++ b/drivers/gpu/drm/display/drm_scdc_helper.c
-@@ -55,6 +55,10 @@
+diff --git a/drivers/gpu/drm/drm_bridge_helper.c b/drivers/gpu/drm/drm_bridge_helper.c
+index 420f29cf3e54..0a3c8fee66b3 100644
+--- a/drivers/gpu/drm/drm_bridge_helper.c
++++ b/drivers/gpu/drm/drm_bridge_helper.c
+@@ -50,8 +50,6 @@ int drm_bridge_helper_reset_crtc(struct drm_bridge *bridge,
  
- #define SCDC_I2C_SLAVE_ADDRESS 0x54
+ 	crtc = connector->state->crtc;
+ 	ret = drm_atomic_helper_reset_crtc(crtc, ctx);
+-	if (ret)
+-		goto out;
  
-+#define drm_scdc_dbg(connector, fmt, ...)					\
-+	drm_dbg_kms((connector)->dev, "[CONNECTOR:%d:%s] " fmt,			\
-+		    (connector)->base.id, (connector)->name, ##__VA_ARGS__)
-+
- /**
-  * drm_scdc_read - read a block of data from SCDC
-  * @adapter: I2C controller
-@@ -158,9 +162,7 @@ bool drm_scdc_get_scrambling_status(struct drm_connector *connector)
- 
- 	ret = drm_scdc_readb(connector->ddc, SCDC_SCRAMBLER_STATUS, &status);
- 	if (ret < 0) {
--		drm_dbg_kms(connector->dev,
--			    "[CONNECTOR:%d:%s] Failed to read scrambling status: %d\n",
--			    connector->base.id, connector->name, ret);
-+		drm_scdc_dbg(connector, "Failed to read scrambling status: %d\n", ret);
- 		return false;
- 	}
- 
-@@ -188,9 +190,7 @@ bool drm_scdc_set_scrambling(struct drm_connector *connector,
- 
- 	ret = drm_scdc_readb(connector->ddc, SCDC_TMDS_CONFIG, &config);
- 	if (ret < 0) {
--		drm_dbg_kms(connector->dev,
--			    "[CONNECTOR:%d:%s] Failed to read TMDS config: %d\n",
--			    connector->base.id, connector->name, ret);
-+		drm_scdc_dbg(connector, "Failed to read TMDS config: %d\n", ret);
- 		return false;
- 	}
- 
-@@ -201,9 +201,7 @@ bool drm_scdc_set_scrambling(struct drm_connector *connector,
- 
- 	ret = drm_scdc_writeb(connector->ddc, SCDC_TMDS_CONFIG, config);
- 	if (ret < 0) {
--		drm_dbg_kms(connector->dev,
--			    "[CONNECTOR:%d:%s] Failed to enable scrambling: %d\n",
--			    connector->base.id, connector->name, ret);
-+		drm_scdc_dbg(connector, "Failed to enable scrambling: %d\n", ret);
- 		return false;
- 	}
- 
-@@ -248,9 +246,7 @@ bool drm_scdc_set_high_tmds_clock_ratio(struct drm_connector *connector,
- 
- 	ret = drm_scdc_readb(connector->ddc, SCDC_TMDS_CONFIG, &config);
- 	if (ret < 0) {
--		drm_dbg_kms(connector->dev,
--			    "[CONNECTOR:%d:%s] Failed to read TMDS config: %d\n",
--			    connector->base.id, connector->name, ret);
-+		drm_scdc_dbg(connector, "Failed to read TMDS config: %d\n", ret);
- 		return false;
- 	}
- 
-@@ -261,9 +257,7 @@ bool drm_scdc_set_high_tmds_clock_ratio(struct drm_connector *connector,
- 
- 	ret = drm_scdc_writeb(connector->ddc, SCDC_TMDS_CONFIG, config);
- 	if (ret < 0) {
--		drm_dbg_kms(connector->dev,
--			    "[CONNECTOR:%d:%s] Failed to set TMDS clock ratio: %d\n",
--			    connector->base.id, connector->name, ret);
-+		drm_scdc_dbg(connector, "Failed to set TMDS clock ratio: %d\n", ret);
- 		return false;
- 	}
- 
+ out:
+ 	drm_modeset_unlock(&dev->mode_config.connection_mutex);
 
 -- 
 2.55.0
