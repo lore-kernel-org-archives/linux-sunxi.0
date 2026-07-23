@@ -1,110 +1,190 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CB9A2FC876
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jul 2026 01:58:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A59282F1D
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jul 2026 01:58:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784771920; cv=none; b=STjhi/tuaDnSKQuDPCLLgTEuqIgpbbG0spla64IrlnI3p4msexJ7aHBQMO9gAVA8Yk0Pafk7C5n88EvVDwWLDU6rwMhsGAKFTB1Cc1sFsd7sM3WWhdkLzIxCFeRcXUOyQiiJgTy3oSMcQrDOHP1djwl+pPC9Q8bBoWubzqRN9d8=
+	t=1784771925; cv=none; b=p4MVN6tWAlNHyEU5Eh/A3uinQ+olS1FgV35W4XlkiTOrjIQHXa9QUGLMh9ThNgkhumrIAHEHxspOUTnwFL3rBF2z+a+xYZ6ZpZJ1+ZdOuOCSe2KtW5vy9BXevbUINxDfpfbNkefhdItrvne2lKECMUi2jH8oBwhnYRs3ZWwF9d0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784771920; c=relaxed/simple;
-	bh=FIspYNfvk5o/kMd9u6+TsKKA0PhAny1+C+/vxhQzHj4=;
+	s=arc-20240116; t=1784771925; c=relaxed/simple;
+	bh=gX3nuZG5ZvfmcJhwpjuVuZOBeu0R7FTcYG93IEtoJrI=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=ai1UpD1GxttYdVR0nMnCEXK+e5AKw7muxkNNLj9s8a1X4Ia+qgx3gDChtHYQ673mPo75HC4ma1i2A9ylDWOvib2U0FzskYT2f0wN6kMEv6pFx5UPTkM/1Ge6O9kD72u0dyUIaxZI+ueQNgnx89M0sTZ5lVhVUz+PgXeLMc2OHQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gUIkzgYE; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=BmLlfC7wMx7fgSQh7tIZ9jf2Pw2/3lMgeSxUuN0tI3o4h7g23tDmVsGSDJdPmaD1Tbi5ARsy4Gbbt4n83gzGLMXqSztMuHxb7uG63d2WIeRus6ldBf1yqmwK9KsuNxSZILMtC0/GisHqMhVJIjixL7qj/XZVf5PmdyBNKnU3nd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UFuvKzxq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gUIkzgYE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10D541F000E9;
-	Thu, 23 Jul 2026 01:58:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UFuvKzxq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C78D51F000E9;
+	Thu, 23 Jul 2026 01:58:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784771918;
-	bh=b4hPwrEfdjqt33NhvscHAHEAiVY4Da4Ocanupu0jb50=;
+	s=k20260515; t=1784771924;
+	bh=GgXMg56GjrYY3qH4J3xAvN5VDJVQK7m1XDTjfdQPhUk=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=gUIkzgYE8sxugAfSnpafARNTyQMYtL95LY4zAURSbxkN5pMi/F9uax2o1Q1rjFdh9
-	 EZKxysdJC4cH1jFdyJvGpaLEAKPfEfzjZSWJQtSqhUFoM9nKqX8N4SgWH4n6RnoqPW
-	 gG7mNy82n1Ra9gCFPoY8C/vniA1S+OLlcf7/g1Xnt9rGPj0bnGrHib1DOEJKV/VMsx
-	 XqXyfGaJI372j/4ule9p2rO2dsrlX1NjzH6Lr0eWvfMMvn7VY+v7yg7h/dyZbD9GAO
-	 749YCtd4GzXflQInqLSN0kfMIsNnR4B02Al4dDefaDspFNZu/r4gi3ocAjkB4sErbc
-	 9TG62CQJeeunQ==
+	b=UFuvKzxqskgWR4+6O8jmGOi5NKkrbgZ34nUZ80RDZDrH/8LK7gSb6U5S8dmasj6B/
+	 DnVqvxZ6wfcDs8FlA7AE32mb1mm8P1ufIrTg0winRG4V8PqrtpYV3/emGRyRglxAbh
+	 tEQU0TCKq7OsoAmgLK3ncrwFRjsUcAi09yzDVyTWiIZqWcfYrzs2pGUGp9BIbNuxYG
+	 U8zNsSQEExqwMJUYXHXl9rQxFz++MWGaw3wd2gUemFvsin8f0DehEaUD3HhRzeyA7W
+	 Tq3yklFEA4n1UcdhAQSAbXEGPAx839xsKv+qktGgqoobT9Y1cXVQTvVBJT+F81WK0c
+	 ppSe/tfdZszVQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v9 32/61] drm/rockchip: dw_hdmi_qp: Use
- dw_hdmi_qp_hpd_notify() for HPD reports
+Subject: Re: [PATCH v9 53/61] drm/tests: connector: Add HDMI
+ max_tmds_char_rate init coverage
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20260723-dw-hdmi-qp-scramb-v9-32-4fb12ea22ac9@collabora.com>
+Cc: linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org
+In-Reply-To: <20260723-dw-hdmi-qp-scramb-v9-53-4fb12ea22ac9@collabora.com>
 References: <20260723-dw-hdmi-qp-scramb-v9-0-4fb12ea22ac9@collabora.com>
- <20260723-dw-hdmi-qp-scramb-v9-32-4fb12ea22ac9@collabora.com>
+ <20260723-dw-hdmi-qp-scramb-v9-53-4fb12ea22ac9@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 23 Jul 2026 01:58:37 +0000
-Message-Id: <20260723015838.10D541F000E9@smtp.kernel.org>
+Date: Thu, 23 Jul 2026 01:58:43 +0000
+Message-Id: <20260723015843.C78D51F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-
-Pre-existing issues:
-- [High] The `hdmi` and `hdmi->hdmi` pointers become dangling after a faile=
-d `component_bind` or a `component_unbind`, leading to a Use-After-Free in =
-the platform suspend/resume callbacks.
+- [Medium] Flawed KUnit test logic causes TMDS character rate limit rejecti=
+on tests to pass for the wrong reason.
+- [Medium] Dangling pointer created by storing the address of a stack-alloc=
+ated structure into a persistent device-managed object.
 --
 
---- Patch [32]: [PATCH v9 32/61] drm/rockchip: dw_hdmi_qp: Use dw_hdmi_qp_h=
-pd_notify() for HPD reports ---
-commit 47b04090e96cbf8915a6ccec52dc144345e77f41
+--- Patch [53]: [PATCH v9 53/61] drm/tests: connector: Add HDMI max_tmds_ch=
+ar_rate init coverage ---
+commit 7359a144a698a961aa27ac0fd6a0ec01ec7928f5
 Author: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
-drm/rockchip: dw_hdmi_qp: Use dw_hdmi_qp_hpd_notify() for HPD reports
+drm/tests: connector: Add HDMI max_tmds_char_rate init coverage
 
-This commit notifies only the affected connector instead of polling all
-of them. It also ensures .detect_ctx() runs on reconnect to recover SCDC
-state.
+This commit adds KUnit tests for the new drmm_connector_hdmi_init()
+extension to infer and validate the connector's max_tmds_char_rate based
+on the advertised HDMI specification version.
 
-> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu=
-/drm/rockchip/dw_hdmi_qp-rockchip.c
-> index 534a2c8da2a0a..1311eb1cb4aa5 100644
-> --- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+> diff --git a/drivers/gpu/drm/tests/drm_connector_test.c b/drivers/gpu/drm=
+/tests/drm_connector_test.c
+> index 74342880b3015..f14cd741b05e4 100644
+> --- a/drivers/gpu/drm/tests/drm_connector_test.c
+> +++ b/drivers/gpu/drm/tests/drm_connector_test.c
+
 [ ... ]
-> @@ -768,11 +761,10 @@ static int __maybe_unused dw_hdmi_qp_rockchip_resum=
-e(struct device *dev)
->  	if (hdmi) {
->  		hdmi->ctrl_ops->io_init(hdmi);
-> =20
-> -		if (hdmi->hdmi)
-> +		if (hdmi->hdmi) {
->  			dw_hdmi_qp_resume(dev, hdmi->hdmi);
-> -
-> -		if (hdmi->encoder.encoder.dev)
-> -			drm_helper_hpd_irq_event(hdmi->encoder.encoder.dev);
-> +			dw_hdmi_qp_hpd_notify(hdmi->hdmi);
-> +		}
 
-[Severity: High]
-This is a pre-existing issue, but does this addition expose us to a=20
-use-after-free during system resume if the driver is unbound?
+> @@ -1236,6 +1264,154 @@ KUNIT_ARRAY_PARAM(drm_connector_hdmi_init_type_in=
+valid,
+> +static void drm_test_connector_hdmi_init_max_tmds_rate_inferred(struct k=
+unit *test)
+> +{
+> +	struct drm_connector_init_priv *priv =3D test->priv;
+> +	const struct drm_connector_hdmi_init_max_tmds_rate_inferred_case *param=
+s =3D
+> +		test->param_value;
+> +	struct drm_connector_hdmi_funcs hdmi_funcs;
+> +	int ret;
+> +
+> +	hdmi_funcs =3D params->ver < HDMI_VERSION_2_0 ?
+> +			dummy_hdmi_funcs : dummy_hdmi_funcs_scrambler;
+> +	hdmi_funcs.supported_hdmi_ver =3D params->ver;
+> +
+> +	ret =3D drmm_connector_hdmi_init(&priv->drm, &priv->connector,
+> +				       &dummy_funcs,
+> +				       &hdmi_funcs,
+> +				       DRM_MODE_CONNECTOR_HDMIA,
+> +				       &priv->ddc);
 
-If dw_hdmi_qp_rockchip_bind() fails late, such as at=20
-drm_bridge_connector_init(), or if dw_hdmi_qp_rockchip_unbind() is called,=
-=20
-devres and drmm cleanups will free hdmi->hdmi and the hdmi struct itself.
+[Severity: Medium]
+Does this create a dangling pointer?
 
-However, platform_set_drvdata() is never cleared, leaving a dangling pointer
-that dev_get_drvdata(dev) will retrieve in dw_hdmi_qp_rockchip_resume().=20
+drmm_connector_hdmi_init() stores the provided hdmi_funcs pointer in
+connector->hdmi.funcs.
 
-Since the patch adds a call to dw_hdmi_qp_hpd_notify(hdmi->hdmi) here,
-could a system resume following an unbind (or a failed bind) dereference=20
-these freed pointers?
+Since hdmi_funcs is allocated on the stack here (and in other new tests),
+connector->hdmi.funcs becomes a dangling pointer when the test function
+returns. Even if deferred device-managed cleanup doesn't dereference it
+today, is it safe to leave this pointing to destroyed stack frames?
 
->  	}
-> =20
->  	return 0;
+[ ... ]
+
+> +/*
+> + * Test that the registration of an HDMI connector providing a max TMDS
+> + * character rate that exceeds the limit inferred from the advertised HD=
+MI
+> + * specification version fails.
+> + */
+> +static void drm_test_connector_hdmi_init_max_tmds_rate_exceeds(struct ku=
+nit *test)
+> +{
+> +	struct drm_connector_init_priv *priv =3D test->priv;
+> +	struct drm_connector_hdmi_funcs hdmi_funcs =3D dummy_hdmi_funcs_scrambl=
+er;
+> +	int ret;
+> +
+> +	hdmi_funcs.supported_hdmi_ver =3D HDMI_VERSION_1_4;
+> +	hdmi_funcs.supported_tmds_char_rate =3D HDMI_2_0_TMDS_CHAR_RATE_MAX_HZ;
+> +
+> +	ret =3D drmm_connector_hdmi_init(&priv->drm, &priv->connector,
+> +				       &dummy_funcs,
+> +				       &hdmi_funcs,
+> +				       DRM_MODE_CONNECTOR_HDMIA,
+> +				       &priv->ddc);
+> +	KUNIT_EXPECT_LT(test, ret, 0);
+> +}
+
+[Severity: Medium]
+Are these tests passing for the wrong reason?
+
+Because dummy_hdmi_funcs_scrambler provides scrambler callbacks, setting
+hdmi_funcs.supported_hdmi_ver =3D HDMI_VERSION_1_4 causes
+drmm_connector_hdmi_init() to return -EINVAL early:
+
+	if (hdmi_funcs->scrambler_enable || hdmi_funcs->scrambler_disable) {
+		drm_err(dev, "Scrambler callbacks unexpected for HDMI 1.x\n");
+		return -EINVAL;
+	}
+
+This bypasses the TMDS rate logic completely, meaning the expectation
+KUNIT_EXPECT_LT(test, ret, 0) succeeds without actually testing the intended
+rate limit logic.
+
+[ ... ]
+
+> +/*
+> + * Test that the registration of an HDMI connector providing a non-zero =
+max
+> + * TMDS character rate without an HDMI specification version fails, as t=
+he
+> + * version-inferred limit defaults to zero and any positive override wou=
+ld
+> + * exceed it.
+> + */
+> +static void drm_test_connector_hdmi_init_max_tmds_rate_no_version(struct=
+ kunit *test)
+> +{
+> +	struct drm_connector_init_priv *priv =3D test->priv;
+> +	struct drm_connector_hdmi_funcs hdmi_funcs =3D dummy_hdmi_funcs_scrambl=
+er;
+> +	int ret;
+> +
+> +	hdmi_funcs.supported_hdmi_ver =3D HDMI_VERSION_UNKNOWN;
+> +	hdmi_funcs.supported_tmds_char_rate =3D HDMI_1_0_TMDS_CHAR_RATE_MAX_HZ;
+> +
+> +	ret =3D drmm_connector_hdmi_init(&priv->drm, &priv->connector,
+> +				       &dummy_funcs,
+> +				       &hdmi_funcs,
+> +				       DRM_MODE_CONNECTOR_HDMIA,
+> +				       &priv->ddc);
+> +	KUNIT_EXPECT_LT(test, ret, 0);
+> +}
+
+[Severity: Medium]
+Does this test have the exact same logic flaw as above?=20
+
+It uses dummy_hdmi_funcs_scrambler with HDMI_VERSION_UNKNOWN, causing early
+rejection due to the scrambler checks rather than testing the TMDS rate
+validation.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260723-dw-hdmi-qp=
--scramb-v9-0-4fb12ea22ac9@collabora.com?part=3D32
+-scramb-v9-0-4fb12ea22ac9@collabora.com?part=3D53
