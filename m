@@ -1,42 +1,42 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D45562FE056
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D45D33002B9
 	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jul 2026 01:35:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784770516; cv=none; b=sJJZYahv6YjVvyFG4WRk5/eBV5DaUDLuU7mCavVcWRArhJeTWR3j/yJ0XLmENu+V412JBtbJjufw7ajwaODnLGnTaEgq04mZYFXdVH87xu38s1U3FsVKwJ6Y9dGBKoChJ/4XJjqSYjgDvOz9QqlwWMv/XlIFwQyZfvRFROMKBzE=
+	t=1784770517; cv=none; b=jnEtvUAjqFCkeKj7n3QKpzaRktLOIYfhBVJwOQ0C9ihn3FrDr04gezvmTyZUhr0CDJGOI5lhbjPZHxlKhJ5ON4gnjNd+ByIkN/KhArkH57X38/Ouq6a1ht1djz5kQoXceAvnKmktuX9ng1MBBGaoyaUQudF/0C/UR32uozbbK9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784770516; c=relaxed/simple;
-	bh=qurORQ6igqDJlK3F/3fKY6xyx3u4PU6ljmbOomijTtA=;
+	s=arc-20240116; t=1784770517; c=relaxed/simple;
+	bh=mwL8ae49QUUkBlXkuups0sLux9R4GBOLTfkp54k4AbE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tAyrlrpTYAFEqy7mBhdCHoRion+0Oi1Ab9R38Xx3JltpzvbbSsoVQbgD4/nZkO7ef/0hL2fL6z/4khIvubRvDDfY1pvhS9VQ3ZdxDvecTS5625e0ZnIuc71l2Zqj1clR/W1iW1D7xfv5YnHD+E203yWU+L4C5DV37qYSvmdofBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=LAkZC9d2; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=O2ifoXCMjcuTYte+sMpprheUQMs4px3hWL53xttRXpKC/aw8yiuAICEmoNxigvxl+J4MOnue5x9hlKUrSaGhz3ltsMlzJijhmgH2nUebxH4lbiATxazFKDKDCYaqsb1Xq6yqXTJ+lXVS1b+B1dfUy1ZuKQnAwfqDJN0vQ3/tZGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=lfVLY6Sl; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="LAkZC9d2"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="lfVLY6Sl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1784770511;
-	bh=qurORQ6igqDJlK3F/3fKY6xyx3u4PU6ljmbOomijTtA=;
+	s=mail; t=1784770510;
+	bh=mwL8ae49QUUkBlXkuups0sLux9R4GBOLTfkp54k4AbE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=LAkZC9d2hEPRI9CEf8cALWSsMXzEoux3qpHktQdDZbXzXKRs+kufX1A4deGEgERAV
-	 KQVMqFmLm/LFCJx4+6CbFKNaKcgHpXzYnDqskZFsLszMrYBtra4MUIRQ4DH/v2WLg+
-	 hoGK24JTBZ8fIXacgbHT8EeYEJm1DYgjLo16CmNo8J5ElWYZqzkjCaGUw20f/98RCM
-	 Vc8Sz1/26tdkq1+PEsZxMR5y+CHM9jFG20phNua5A3kniJ9LLaJ4Q/zmbMDx+siGiy
-	 P+WK/DHUnAPK+mMwzVvF9N1pkwIG1c6NYSaXE6WBk7ULBLzprM28t377ItUkAptmvj
-	 LDtQyw4QQvFIw==
+	b=lfVLY6SlY1dooyxpL4mlnfadPeoYnAwABocro1kleW6gnVdzemmpIs8aJElZqSjxn
+	 wHBIDgu1pUbT+ZfR2TXXcj/rM52JRb2h36AHH9ey+mHX/HEmvS5jf1F46jbtA1u+f1
+	 StZloE7UPowaTVxSUUbQupf1Hq8MbFQstUG/HvS8WIvBa+IEvziHt9HVtfGI2exdL3
+	 HGihNIBF3+EOIX826ZPTJNzQdhA5zj2BOHT6mvFqOjDdqYvu9Sty70m1S3MESOXH84
+	 St8cDP8wHCgQv65ulpL4NEhRqEyNEL765d2IqR5V3WSG0C4cVjWV/BOhEtbnEOMa3R
+	 Is58NPZ4rV1FQ==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 25F2817E062C;
-	Thu, 23 Jul 2026 03:35:11 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 69C9C17E0857;
+	Thu, 23 Jul 2026 03:35:10 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Thu, 23 Jul 2026 04:35:02 +0300
-Subject: [PATCH v9 13/61] drm/display: bridge_connector: Switch to
- .detect_ctx() connector helper
+Date: Thu, 23 Jul 2026 04:35:01 +0300
+Subject: [PATCH v9 12/61] drm/display: bridge_connector: Use cached
+ connector status in .get_modes()
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260723-dw-hdmi-qp-scramb-v9-13-4fb12ea22ac9@collabora.com>
+Message-Id: <20260723-dw-hdmi-qp-scramb-v9-12-4fb12ea22ac9@collabora.com>
 References: <20260723-dw-hdmi-qp-scramb-v9-0-4fb12ea22ac9@collabora.com>
 In-Reply-To: <20260723-dw-hdmi-qp-scramb-v9-0-4fb12ea22ac9@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -68,128 +68,45 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
 Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, 
- Diederik de Haas <diederik@cknow-tech.com>, 
- Maud Spierings <maud_spierings@hotmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Maud Spierings <maud_spierings@hotmail.com>
 X-Mailer: b4 0.15.2
 
-Replace the .detect() connector_funcs callback with the atomic-aware
-.detect_ctx() connector_helper_funcs hook.
+Replace the active drm_bridge_connector_detect() call in get_modes()
+with a read of the already-cached connector->status.
 
-This is preparatory work to allow propagating the modeset acquire
-context through drm_atomic_helper_connector_hdmi_hotplug() to the HDMI
-connector framework, enabling SCDC state recovery via CRTC reset when
-the sink reconnects during an active display pipeline.
+The .get_modes() callback is only invoked from
+drm_helper_probe_single_connector_modes(), which has already retrieved
+the connector status.  Calling detect again is redundant and triggers a
+duplicate hotplug event.  This is also a prerequisite for switching to
+the .detect_ctx() hook, which requires a drm_modeset_acquire_ctx not
+available in the .get_modes() path.
 
-Tested-by: Diederik de Haas <diederik@cknow-tech.com>
-Tested-by: Maud Spierings <maud_spierings@hotmail.com>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Tested-by: Maud Spierings <maud_spierings@hotmail.com>
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/display/drm_bridge_connector.c | 69 +++++++++++++-------------
- 1 file changed, 35 insertions(+), 34 deletions(-)
+ drivers/gpu/drm/display/drm_bridge_connector.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-index 8a833c813101..0d44a270b636 100644
+index 9ad31e9df0ab..8a833c813101 100644
 --- a/drivers/gpu/drm/display/drm_bridge_connector.c
 +++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-@@ -208,39 +208,6 @@ static void drm_bridge_connector_disable_hpd(struct drm_connector *connector)
-  * Bridge Connector Functions
-  */
- 
--static enum drm_connector_status
--drm_bridge_connector_detect(struct drm_connector *connector, bool force)
--{
--	struct drm_bridge_connector *bridge_connector =
--		to_drm_bridge_connector(connector);
--	struct drm_bridge *detect = bridge_connector->bridge_detect;
--	struct drm_bridge *hdmi = bridge_connector->bridge_hdmi;
--	enum drm_connector_status status;
--
--	if (detect) {
--		status = detect->funcs->detect(detect, connector);
--
--		if (hdmi)
--			drm_atomic_helper_connector_hdmi_hotplug(connector, status);
--
--		drm_bridge_connector_hpd_notify(connector, status);
--	} else {
--		switch (connector->connector_type) {
--		case DRM_MODE_CONNECTOR_DPI:
--		case DRM_MODE_CONNECTOR_LVDS:
--		case DRM_MODE_CONNECTOR_DSI:
--		case DRM_MODE_CONNECTOR_eDP:
--			status = connector_status_connected;
--			break;
--		default:
--			status = connector_status_unknown;
--			break;
--		}
--	}
--
--	return status;
--}
--
- static void drm_bridge_connector_force(struct drm_connector *connector)
- {
- 	struct drm_bridge_connector *bridge_connector =
-@@ -307,7 +274,6 @@ drm_bridge_connector_color_format(const struct drm_connector_state *conn_state)
- }
- 
- static const struct drm_connector_funcs drm_bridge_connector_funcs = {
--	.detect = drm_bridge_connector_detect,
- 	.force = drm_bridge_connector_force,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.atomic_create_state = drm_bridge_connector_create_state,
-@@ -322,6 +288,40 @@ static const struct drm_connector_funcs drm_bridge_connector_funcs = {
-  * Bridge Connector Helper Functions
-  */
- 
-+static int drm_bridge_connector_detect_ctx(struct drm_connector *connector,
-+					   struct drm_modeset_acquire_ctx *ctx,
-+					   bool force)
-+{
-+	struct drm_bridge_connector *bridge_connector =
-+		to_drm_bridge_connector(connector);
-+	struct drm_bridge *detect = bridge_connector->bridge_detect;
-+	struct drm_bridge *hdmi = bridge_connector->bridge_hdmi;
-+	enum drm_connector_status status;
-+
-+	if (detect) {
-+		status = detect->funcs->detect(detect, connector);
-+
-+		if (hdmi)
-+			drm_atomic_helper_connector_hdmi_hotplug(connector, status);
-+
-+		drm_bridge_connector_hpd_notify(connector, status);
-+	} else {
-+		switch (connector->connector_type) {
-+		case DRM_MODE_CONNECTOR_DPI:
-+		case DRM_MODE_CONNECTOR_LVDS:
-+		case DRM_MODE_CONNECTOR_DSI:
-+		case DRM_MODE_CONNECTOR_eDP:
-+			status = connector_status_connected;
-+			break;
-+		default:
-+			status = connector_status_unknown;
-+			break;
-+		}
-+	}
-+
-+	return status;
-+}
-+
+@@ -325,12 +325,10 @@ static const struct drm_connector_funcs drm_bridge_connector_funcs = {
  static int drm_bridge_connector_get_modes_edid(struct drm_connector *connector,
  					       struct drm_bridge *bridge)
  {
-@@ -413,6 +413,7 @@ static int drm_bridge_connector_atomic_check(struct drm_connector *connector,
+-	enum drm_connector_status status;
+ 	const struct drm_edid *drm_edid;
+ 	int n;
  
- static const struct drm_connector_helper_funcs drm_bridge_connector_helper_funcs = {
- 	.get_modes = drm_bridge_connector_get_modes,
-+	.detect_ctx = drm_bridge_connector_detect_ctx,
- 	.mode_valid = drm_bridge_connector_mode_valid,
- 	.enable_hpd = drm_bridge_connector_enable_hpd,
- 	.disable_hpd = drm_bridge_connector_disable_hpd,
+-	status = drm_bridge_connector_detect(connector, false);
+-	if (status != connector_status_connected)
++	if (connector->status != connector_status_connected)
+ 		goto no_edid;
+ 
+ 	drm_edid = drm_bridge_edid_read(bridge, connector);
 
 -- 
 2.55.0
