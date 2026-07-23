@@ -1,42 +1,42 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D8E364044
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jul 2026 01:35:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61EC0370D7C
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jul 2026 01:35:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784770539; cv=none; b=I2T2j88A8z8ugLRXuiCTrZiYoTyFIBg0OZli6+427f97Zf75AmSgrZ3sEC0w6eUGASYdLUI9Ac17Qxv0zDGpsZMLpbWdv74TBHL1mmAiC6l94G2R7cT9d9Lv2o0pdduc1mjyWQgHL6a6HVQ1gf/kZfL6qEgm9jgj1ebVd8oPxjE=
+	t=1784770540; cv=none; b=Ppo0t0y69ZQPydwct93MX/5YBQ9rX7UBTQqEYZqH1NDsFVr2VcLzOO2KJCAInY6H5M6Ub+uPIq4rlZjQhgUv+X2rbROBTTBPOHZHAqmsnaNm87rsKo8/nrSdKn8nnz5uP11bMy/xvMQJrDFc93szexsRicy+8Tmes8UWqsaQ37Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784770539; c=relaxed/simple;
-	bh=YbnRWUHaaNNmXYHbatrhuYfehf+ug0GA9rCjnIvgz24=;
+	s=arc-20240116; t=1784770540; c=relaxed/simple;
+	bh=L/eUqdDm7UuQMmbOXx6a5bJ0OkNkDIn5Lw3Or7I74pU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OZ9BzVloBKWluB/TcglLGJ2tqtlZxqQn37GJqZSRkyC8az43/Li2SabSrDxhoMTH/kNOA1VmG7kdZENw6ozPV+aKTMRiUlFOQFuB/x7Yd4LD16qu1Q+Qw8lbXB2O+XoWwx1vSfg31wDb1jxp6rtJQYMMgSoBAlyudLCKSVKZ0Bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Bk9KnNSe; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=pi+drgpgDb8Bm7yDBwnCuxpShwjQVKNtvtkQAPipUbU2T+6VG+IuOyvRjfolRsZDoopNcohbio8nENEtWIsHkctvuURnxOL/v7DznYeq9hsUXBDQ3Q+Qpc2OoaN70Id+2hhxiPTIBoHB53bHoe3FB8NtdY6pNYn939fPzm/aU+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ETY2keM7; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Bk9KnNSe"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ETY2keM7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1784770534;
-	bh=YbnRWUHaaNNmXYHbatrhuYfehf+ug0GA9rCjnIvgz24=;
+	s=mail; t=1784770535;
+	bh=L/eUqdDm7UuQMmbOXx6a5bJ0OkNkDIn5Lw3Or7I74pU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Bk9KnNSexwShdbgYZvU5cxkTLlmgw3lH0r5OUQzSimCwg+je3Na7rde/EqRtVYUhh
-	 kI8AtYPWRgJkVQ7k0J2yDiC6TTcjrUZdGEV1ybxrBWrk+tlYm53v8NpEgfNvlJAe4Z
-	 1qsngymVmeuz+iGgV5LRfXfQNvG1SaHMJa6ZZZ1HwiOVhLTNDyaYO5Izm6NGBI5L/u
-	 omGkfhr2r4d4/Hkk6DW3dW8jDYlxzERdVVjKAAQnK7jFdulzURvNd0KqR3Au49+oig
-	 m+bn3GuV1ivTsfTls9mOxAoebwtDqYCIcIAl0P+WnL4IQfupFAqLdAW6chFSJkkzBM
-	 yGL4iSdnEzW5w==
+	b=ETY2keM78BBs+PTgwFNkNlJuWZB922yUsJWvBP1DyiR/k0fAyn7j6Zh3IJ47vAqmX
+	 xxK83QSiZNxYIVNbP0OSl5UjodrotXugZ2iXNpqMxV9QVBo4SGY1BOuQloNGwbKqd8
+	 2t7mAL/ZF60Ezlh5Co6yc6G5FivU58olArMGJ8hBbfgrMLyD1XSnHKLH8PGV4/a112
+	 97Vb0FWWJIrmXZi/WUTe/mgKuvKO6HYGFC7DLXcG4bHrsIplLwu9SndDVf6MbsKwo5
+	 UWYBTTTCSzX8JMTvW2VNSLTSkXeOvZZ4pRua3MBIwmgksrzBIcLvEEYtKmrtR97QTw
+	 vzoub/YV4/cng==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1632D17E1064;
-	Thu, 23 Jul 2026 03:35:34 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7322517E124A;
+	Thu, 23 Jul 2026 03:35:35 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Thu, 23 Jul 2026 04:35:35 +0300
-Subject: [PATCH v9 46/61] drm/rockchip: rk3066_hdmi: Advertise HDMI 1.4
- capabilities
+Date: Thu, 23 Jul 2026 04:35:37 +0300
+Subject: [PATCH v9 48/61] drm/tests: edid: Add 4K@60Hz EDID with 600MHz
+ TMDS
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260723-dw-hdmi-qp-scramb-v9-46-4fb12ea22ac9@collabora.com>
+Message-Id: <20260723-dw-hdmi-qp-scramb-v9-48-4fb12ea22ac9@collabora.com>
 References: <20260723-dw-hdmi-qp-scramb-v9-0-4fb12ea22ac9@collabora.com>
 In-Reply-To: <20260723-dw-hdmi-qp-scramb-v9-0-4fb12ea22ac9@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -70,45 +70,199 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org
 X-Mailer: b4 0.15.2
 
-Bridges using DRM_BRIDGE_OP_HDMI are now expected to also provide a
-supported HDMI version.  This is not yet enforced, but will become
-mandatory once the migration to the new caps-based HDMI connector
-initialization API is completed.
+Add a new test EDID advertising the following capabilities:
 
-The RK3066 HDMI TX supports HDMI 1.4a, as described in commit
-f84d3d37b7fb ("drm: rockchip: introduce rk3066 hdmi").  However, the
-driver does not currently enforce a maximum TMDS character rate, it only
-filters non-CEA modes and excludes VIC 1 (640x480) via the .mode_valid
-callback.
+Max resolution: 3840x2160@60Hz with RGB, YUV444, YUV422, YUV420
+Max BPC:        16
+Max TMDS clock: 600 MHz
 
-Advertise HDMI 1.4 support for now so that modes exceeding the 340 MHz
-TMDS limit are rejected by the core.
+This is needed to exercise the new HDMI infrastructure that decides
+whether scrambling needs to be enabled for a given display mode and
+to validate that high-rate modes are properly rejected/accepted
+depending on the source/sink scrambling capability.
+
+The EDID is derived from test_edid_hdmi_4k_rgb_yuv420_dc_max_340mhz
+with the following changes:
+
+- Upgraded the first DTD from 3840x2160@30 (297 MHz) to 3840x2160@60
+  (594 MHz).  The H/V totals (4400x2250) and porches already match the
+  HDMI 2.0 4K@60Hz standard timing, so only the pixel clock had to be
+  bumped.
+- Widened Display Range Limits descriptor to cover the new timing, i.e.
+  24-140 kHz H, max dotclock 600 MHz.
+- Updated CTA-861 Video Data Block to advertise VIC 97 (4K@60Hz) instead
+  of VIC 95 (4k30).
+- Bumped HF-VSDB Max TMDS Character Rate to 600 MHz, keeping
+  SCDC_Present set so that the sink advertises scrambling support.
+- Cleared HDMI VSDB Max TMDS clock byte, as required by HDMI 2.0 when
+  the HF-VSDB declares a Max TMDS Character Rate above 340 MHz.
+- Provided a Video Capability Data Block advertising selectable RGB and
+  YCC quantization range plus underscan for IT/CE formats; also set the
+  'IT Video Formats Underscanned' bit in the CTA-861 extension header to
+  match.
+- Aligned base block image size with the DTD (160x90 cm) and replaced
+  the bogus 'Week of Manufacture = 0xff' with the Model Year code, both
+  fixing inherited EDID conformity warnings.
+- Dropped the empty YCbCr 4:2:0 Video Data Block inherited from the
+  parent EDID, which is flagged as a failure by edid-decode v1.33.0
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/rockchip/rk3066_hdmi.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/tests/drm_kunit_edid.c | 129 +++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/tests/drm_kunit_edid.h |   1 +
+ 2 files changed, 130 insertions(+)
 
-diff --git a/drivers/gpu/drm/rockchip/rk3066_hdmi.c b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-index f28d6a883e09..c080abe676c4 100644
---- a/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-+++ b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-@@ -14,6 +14,7 @@
- #include <drm/drm_probe_helper.h>
+diff --git a/drivers/gpu/drm/tests/drm_kunit_edid.c b/drivers/gpu/drm/tests/drm_kunit_edid.c
+index c807ae0d9faa..673a0ea8c2ae 100644
+--- a/drivers/gpu/drm/tests/drm_kunit_edid.c
++++ b/drivers/gpu/drm/tests/drm_kunit_edid.c
+@@ -990,6 +990,135 @@ const unsigned char test_edid_hdmi_4k_rgb_yuv420_dc_max_340mhz[] = {
+ };
+ EXPORT_SYMBOL(test_edid_hdmi_4k_rgb_yuv420_dc_max_340mhz);
  
- #include <linux/clk.h>
-+#include <linux/hdmi.h>
- #include <linux/mfd/syscon.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-@@ -712,6 +713,7 @@ rk3066_hdmi_register(struct drm_device *drm, struct rk3066_hdmi *hdmi)
- 	hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
- 	hdmi->bridge.vendor = "Rockchip";
- 	hdmi->bridge.product = "RK3066 HDMI";
-+	hdmi->bridge.supported_hdmi_ver = HDMI_VERSION_1_3;
++/*
++ * Max resolution: 3840x2160@60Hz with RGB, YUV444, YUV422, YUV420
++ * Max BPC:        16 for all modes
++ * Max TMDS clock: 600 MHz
++ *
++ * edid-decode (hex):
++ *
++ * 00 ff ff ff ff ff ff 00 31 d8 34 00 00 00 00 00
++ * 00 23 01 03 80 a0 5a 78 0f ee 91 a3 54 4c 99 26
++ * 0f 50 54 20 00 00 01 01 01 01 01 01 01 01 01 01
++ * 01 01 01 01 01 01 08 e8 00 30 f2 70 5a 80 b0 58
++ * 8a 00 40 84 63 00 00 1e 00 00 00 fc 00 54 65 73
++ * 74 20 45 44 49 44 0a 20 20 20 00 00 00 fd 00 18
++ * 55 18 8c 3c 00 0a 20 20 20 20 20 20 00 00 00 10
++ * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 a9
++ *
++ * 02 03 28 b1 41 61 6c 03 0c 00 10 00 78 00 20 00
++ * 00 01 03 6d d8 5d c4 01 78 80 07 00 00 00 00 00
++ * 00 e2 00 ca e3 0f 01 00 00 00 00 00 00 00 00 00
++ * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
++ * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
++ * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
++ * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
++ * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 54
++ *
++ * ----------------
++ *
++ * Block 0, Base EDID:
++ *   EDID Structure Version & Revision: 1.3
++ *   Vendor & Product Identification:
++ *     Manufacturer: LNX
++ *     Model: 52
++ *     Made in: 2025
++ *   Basic Display Parameters & Features:
++ *     Digital display
++ *     Maximum image size: 160 cm x 90 cm
++ *     Gamma: 2.20
++ *     RGB color display
++ *     Default (sRGB) color space is primary color space
++ *     First detailed timing is the preferred timing
++ *     Supports GTF timings within operating range
++ *   Color Characteristics:
++ *     Red  : 0.6396, 0.3300
++ *     Green: 0.2998, 0.5996
++ *     Blue : 0.1503, 0.0595
++ *     White: 0.3125, 0.3291
++ *   Established Timings I & II:
++ *     DMT 0x04:   640x480    59.940476 Hz   4:3     31.469 kHz     25.175000 MHz
++ *   Standard Timings: none
++ *   Detailed Timing Descriptors:
++ *     DTD 1:  3840x2160   60.000000 Hz  16:9    135.000 kHz    594.000000 MHz (1600 mm x 900 mm)
++ *                  Hfront  176 Hsync  88 Hback  296 Hpol P
++ *                  Vfront    8 Vsync  10 Vback   72 Vpol P
++ *     Display Product Name: 'Test EDID'
++ *     Display Range Limits:
++ *       Monitor ranges (GTF): 24-85 Hz V, 24-140 kHz H, max dotclock 600 MHz
++ *     Dummy Descriptor:
++ *   Extension blocks: 1
++ * Checksum: 0xa9
++ *
++ * ----------------
++ *
++ * Block 1, CTA-861 Extension Block:
++ *   Revision: 3
++ *   Underscans IT Video Formats by default
++ *   Supports YCbCr 4:4:4
++ *   Supports YCbCr 4:2:2
++ *   Native detailed modes: 1
++ *   Video Data Block:
++ *     VIC  97:  3840x2160   60.000000 Hz  16:9    135.000 kHz    594.000000 MHz
++ *   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
++ *     Source physical address: 1.0.0.0
++ *     DC_48bit
++ *     DC_36bit
++ *     DC_30bit
++ *     DC_Y444
++ *     Maximum TMDS clock: 0 MHz
++ *     Extended HDMI video details:
++ *   Vendor-Specific Data Block (HDMI Forum), OUI C4-5D-D8:
++ *     Version: 1
++ *     Maximum TMDS Character Rate: 600 MHz
++ *     SCDC Present
++ *     Supports 16-bits/component Deep Color 4:2:0 Pixel Encoding
++ *     Supports 12-bits/component Deep Color 4:2:0 Pixel Encoding
++ *     Supports 10-bits/component Deep Color 4:2:0 Pixel Encoding
++ *     VRRmin: 0 Hz
++ *     VRRmax: 0 Hz
++ *   Video Capability Data Block:
++ *     YCbCr quantization: Selectable (via AVI YQ)
++ *     RGB quantization: Selectable (via AVI Q)
++ *     PT scan behavior: No Data
++ *     IT scan behavior: Always Underscanned
++ *     CE scan behavior: Always Underscanned
++ *   YCbCr 4:2:0 Capability Map Data Block:
++ *     VIC  97:  3840x2160   60.000000 Hz  16:9    135.000 kHz    594.000000 MHz
++ * Checksum: 0x54  Unused space in Extension Block: 87 bytes
++ *
++ * ----------------
++ *
++ * edid-decode 1.33.0
++ *
++ * EDID conformity: PASS
++ */
++const unsigned char test_edid_hdmi_4k_rgb_yuv420_dc_max_600mhz[] = {
++	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x34, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x23, 0x01, 0x03, 0x80, 0xa0, 0x5a, 0x78,
++	0x0f, 0xee, 0x91, 0xa3, 0x54, 0x4c, 0x99, 0x26, 0x0f, 0x50, 0x54, 0x20,
++	0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
++	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x08, 0xe8, 0x00, 0x30, 0xf2, 0x70,
++	0x5a, 0x80, 0xb0, 0x58, 0x8a, 0x00, 0x40, 0x84, 0x63, 0x00, 0x00, 0x1e,
++	0x00, 0x00, 0x00, 0xfc, 0x00, 0x54, 0x65, 0x73, 0x74, 0x20, 0x45, 0x44,
++	0x49, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x18,
++	0x55, 0x18, 0x8c, 0x3c, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
++	0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0xa9, 0x02, 0x03, 0x28, 0xb1,
++	0x41, 0x61, 0x6c, 0x03, 0x0c, 0x00, 0x10, 0x00, 0x78, 0x00, 0x20, 0x00,
++	0x00, 0x01, 0x03, 0x6d, 0xd8, 0x5d, 0xc4, 0x01, 0x78, 0x80, 0x07, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0xe2, 0x00, 0xca, 0xe3, 0x0f, 0x01, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x54,
++};
++EXPORT_SYMBOL(test_edid_hdmi_4k_rgb_yuv420_dc_max_600mhz);
++
+ MODULE_AUTHOR("Maxime Ripard <mripard@kernel.org>");
+ MODULE_DESCRIPTION("EDID Definitions for KUnit tests");
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/gpu/drm/tests/drm_kunit_edid.h b/drivers/gpu/drm/tests/drm_kunit_edid.h
+index 28b4df93a555..fb5b0295e35e 100644
+--- a/drivers/gpu/drm/tests/drm_kunit_edid.h
++++ b/drivers/gpu/drm/tests/drm_kunit_edid.h
+@@ -12,5 +12,6 @@ extern const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz[256];
+ extern const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz[256];
+ extern const unsigned char test_edid_hdmi_1080p_rgb_yuv_4k_yuv420_dc_max_200mhz[256];
+ extern const unsigned char test_edid_hdmi_4k_rgb_yuv420_dc_max_340mhz[256];
++extern const unsigned char test_edid_hdmi_4k_rgb_yuv420_dc_max_600mhz[256];
  
- 	hdmi->bridge.ddc = rk3066_hdmi_i2c_adapter(hdmi);
- 	if (IS_ERR(hdmi->bridge.ddc))
+ #endif // DRM_KUNIT_EDID_H_
 
 -- 
 2.55.0
