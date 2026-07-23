@@ -1,42 +1,42 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C989030E84D
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jul 2026 01:35:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E9A31960A
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jul 2026 01:35:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784770519; cv=none; b=EX8g1PsmClnyuXx5X0tgWOTdaE5XVoyJOIOzPZv0KYjU1EIv1G9OAiGQsVXf4ehiIIOwdFLWwj9FIasU/Ze8XLbq3K9RmIkvcxO359aiHgyteo2Zq/+eiLpQ30ZTefwCJa/PYF+VJiVOjjhlFgIhV67nPWznJKfptsTM2wZPHxk=
+	t=1784770520; cv=none; b=eZP28zgLm7JIQn+wy+D/vRJ/QQb95rgDiedO05/fLCIXTtKB5LqqDUvZiOeVH+Ns7Uk9l/YNyNFeQNP8cmEC87rd8ivoM1So1PU+tGxsj43+QlFVOiX41V7kY1QFXYKCKy7c4rouUkEBrxnjPRc0tfmuL1BkDTtIhqbZxfkdHc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784770519; c=relaxed/simple;
-	bh=C+qlzdbw0LrRZWJU2laNITp1UVPSNhb2R/WB9UGEDqc=;
+	s=arc-20240116; t=1784770520; c=relaxed/simple;
+	bh=2geCQNKhnwPXaJ/bHUlwxRKPeZYSVig3y46QWPBRk50=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=JQduRN5u9MPszsIJb2eNut7GKbE9K4OPgaWnX0W65oIGoq+MjGumH5jO4cPnOPxGYX0YYyMkHAM5xfQAwVLd3s6hmz+M4byXeV++TDT7Jmnad6goMHpKykIFTTk/nD5lt4PeV4I89YOqSl//mdFt33rWA+pO5wTk/Q5I7lHLSQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=UC7lq7Od; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=XO+rFYSf6F6r9qsr1vXAXhRzIxWxKg/wMe2TdZg93vRcom/HcfcT5JtpnJ963KiUhU8y7+5zMFfTuAriIr07EGQQwwxggjcVSffOhb5lYPJkDBlewugCSzw1H6sl8i3eKn51T/gEaNuMahBUc4fCW0he5/ZgLueOxSFiM8LKVDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=BZytFqV/; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="UC7lq7Od"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="BZytFqV/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1784770514;
-	bh=C+qlzdbw0LrRZWJU2laNITp1UVPSNhb2R/WB9UGEDqc=;
+	s=mail; t=1784770516;
+	bh=2geCQNKhnwPXaJ/bHUlwxRKPeZYSVig3y46QWPBRk50=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=UC7lq7OdUtFVuKSwcH5MXuHlxPYA2NGlvUY/IoHyWaF1r/rD116EUoPZ7jTtc5qGO
-	 swduMaxzRWuBuc2z8ejhM/bQXZkcpt77SG4ZQsb4eCF7CFB2V/S3MnpnDiiqm4oZHQ
-	 AoP1Lg5xyMB7JokhzTys3H2LHd6Ng+jaP5a/VdO/6p5rzxiWRo6KC6fO0h3GUiJ60C
-	 dn7tRz7ujAxuGO9E7Vj/oOeERMaPyZzX7/yQq4Dubo8HynAEdcqLEbfm+a7awNb0Nz
-	 VmZv0H4+VTVMNJbOAImM22YxCzABtFZnmMI7GoI80ufY22o6BAs3KmJfXu/ur34SHj
-	 f4QaOSTdcfmYw==
+	b=BZytFqV/0RBDH2izdzsIUK80Bjmokva2f8oiB8+Xpgs4+K/DcHTIcW6oXzxXc5J6b
+	 9hwzK7zt4mNcjPHSUy0gvb2f5/7MnekUmTqtAstA21oEun8FheRn78dAc6WiRCbZIu
+	 DqlXrygikif7kpMtm4uSUS2E9e66F/zLkypNth79eVGys+1ylnovXbkOoOBte3gpXl
+	 uF3K39Tg3szNuLeeAmx7Hp620ptljfv5go4jVt+uSxRH5EjO+yWxlbXwl8K9RBt9u5
+	 Hp/l9rznXkvGzTBlOOR5diS0m5GiRMu6bPdC3WzYe5PEBm12WbhmYX/3a2BBdy7K7i
+	 AHPHqkQNUkCiQ==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id EA04E17E371F;
-	Thu, 23 Jul 2026 03:35:13 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0913117E124A;
+	Thu, 23 Jul 2026 03:35:16 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Thu, 23 Jul 2026 04:35:06 +0300
-Subject: [PATCH v9 17/61] drm/display: hdmi-state-helper: Sync SCDC state
- on hotplug
+Date: Thu, 23 Jul 2026 04:35:09 +0300
+Subject: [PATCH v9 20/61] drm/bridge: dw-hdmi-qp: Provide
+ .{enable,disable}_hpd() PHY ops
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260723-dw-hdmi-qp-scramb-v9-17-4fb12ea22ac9@collabora.com>
+Message-Id: <20260723-dw-hdmi-qp-scramb-v9-20-4fb12ea22ac9@collabora.com>
 References: <20260723-dw-hdmi-qp-scramb-v9-0-4fb12ea22ac9@collabora.com>
 In-Reply-To: <20260723-dw-hdmi-qp-scramb-v9-0-4fb12ea22ac9@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -71,64 +71,70 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
  Maud Spierings <maud_spierings@hotmail.com>
 X-Mailer: b4 0.15.2
 
-drm_atomic_helper_connector_hdmi_hotplug() does not currently
-synchronize SCDC status on hotplug events, leaving the scrambler state
-potentially inconsistent after (re)connect.
+Implement the .hpd_enable() and .hpd_disable() bridge callbacks and
+extend dw_hdmi_qp_phy_ops with corresponding hooks.
 
-Hook drm_connector_hdmi_sync_scdc() into both the connect and disconnect
-paths, replacing the existing TODOs around missing scrambler handling.
+This enables the DRM core to control when HPD interrupts are armed,
+which is needed to prevent premature interrupt delivery before the
+connector is fully initialized, and to properly quiesce HPD during
+suspend.
 
 Tested-by: Maud Spierings <maud_spierings@hotmail.com>
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/display/drm_hdmi_state_helper.c | 23 ++++++++++++++---------
- 1 file changed, 14 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 18 ++++++++++++++++++
+ include/drm/bridge/dw_hdmi_qp.h              |  2 ++
+ 2 files changed, 20 insertions(+)
 
-diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-index 04d5196a2010..ad59318a3e85 100644
---- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-+++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-@@ -1205,13 +1205,16 @@ drm_atomic_helper_connector_hdmi_update(struct drm_connector *connector,
- 					enum drm_connector_status status)
- {
- 	const struct drm_edid *drm_edid;
-+	int ret = 0;
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+index 7475b6b71836..a0613f0d2ebc 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+@@ -1189,6 +1189,22 @@ static int dw_hdmi_qp_cec_transmit(struct drm_bridge *bridge, u8 attempts,
+ #define dw_hdmi_qp_cec_transmit NULL
+ #endif /* CONFIG_DRM_DW_HDMI_QP_CEC */
  
- 	if (status == connector_status_disconnected) {
--		// TODO: also handle scramber, HDMI sink disconnected.
--		drm_connector_hdmi_audio_plugged_notify(connector, false);
--		drm_edid_connector_update(connector, NULL);
--		drm_connector_cec_phys_addr_invalidate(connector);
--		return 0;
-+		ret = drm_connector_hdmi_sync_scdc(connector, false, ctx);
-+		if (ret != -EDEADLK) {
-+			drm_connector_hdmi_audio_plugged_notify(connector, false);
-+			drm_edid_connector_update(connector, NULL);
-+			drm_connector_cec_phys_addr_invalidate(connector);
-+		}
-+		return ret;
- 	}
++static void dw_hdmi_qp_bridge_hpd_enable(struct drm_bridge *bridge)
++{
++	struct dw_hdmi_qp *hdmi = bridge->driver_private;
++
++	if (hdmi->phy.ops->enable_hpd)
++		hdmi->phy.ops->enable_hpd(hdmi, hdmi->phy.data);
++}
++
++static void dw_hdmi_qp_bridge_hpd_disable(struct drm_bridge *bridge)
++{
++	struct dw_hdmi_qp *hdmi = bridge->driver_private;
++
++	if (hdmi->phy.ops->disable_hpd)
++		hdmi->phy.ops->disable_hpd(hdmi, hdmi->phy.data);
++}
++
+ static const struct drm_bridge_funcs dw_hdmi_qp_bridge_funcs = {
+ 	.atomic_get_output_bus_fmts = drm_atomic_helper_bridge_get_hdmi_output_bus_fmts,
+ 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+@@ -1197,6 +1213,8 @@ static const struct drm_bridge_funcs dw_hdmi_qp_bridge_funcs = {
+ 	.atomic_enable = dw_hdmi_qp_bridge_atomic_enable,
+ 	.atomic_disable = dw_hdmi_qp_bridge_atomic_disable,
+ 	.detect = dw_hdmi_qp_bridge_detect,
++	.hpd_enable = dw_hdmi_qp_bridge_hpd_enable,
++	.hpd_disable = dw_hdmi_qp_bridge_hpd_disable,
+ 	.edid_read = dw_hdmi_qp_bridge_edid_read,
+ 	.hdmi_tmds_char_rate_valid = dw_hdmi_qp_bridge_tmds_char_rate_valid,
+ 	.hdmi_clear_avi_infoframe = dw_hdmi_qp_bridge_clear_avi_infoframe,
+diff --git a/include/drm/bridge/dw_hdmi_qp.h b/include/drm/bridge/dw_hdmi_qp.h
+index 6ea9c561cfef..b80fceffc315 100644
+--- a/include/drm/bridge/dw_hdmi_qp.h
++++ b/include/drm/bridge/dw_hdmi_qp.h
+@@ -17,6 +17,8 @@ struct dw_hdmi_qp_phy_ops {
+ 	void (*disable)(struct dw_hdmi_qp *hdmi, void *data);
+ 	enum drm_connector_status (*read_hpd)(struct dw_hdmi_qp *hdmi, void *data);
+ 	void (*setup_hpd)(struct dw_hdmi_qp *hdmi, void *data);
++	void (*enable_hpd)(struct dw_hdmi_qp *hdmi, void *data);
++	void (*disable_hpd)(struct dw_hdmi_qp *hdmi, void *data);
+ };
  
- 	if (connector->hdmi.funcs->read_edid)
-@@ -1224,12 +1227,14 @@ drm_atomic_helper_connector_hdmi_update(struct drm_connector *connector,
- 	drm_edid_free(drm_edid);
- 
- 	if (status == connector_status_connected) {
--		// TODO: also handle scramber, HDMI sink is now connected.
--		drm_connector_hdmi_audio_plugged_notify(connector, true);
--		drm_connector_cec_phys_addr_set(connector);
-+		ret = drm_connector_hdmi_sync_scdc(connector, true, ctx);
-+		if (ret != -EDEADLK) {
-+			drm_connector_hdmi_audio_plugged_notify(connector, true);
-+			drm_connector_cec_phys_addr_set(connector);
-+		}
- 	}
- 
--	return 0;
-+	return ret;
- }
- 
- /**
+ struct dw_hdmi_qp_plat_data {
 
 -- 
 2.55.0
