@@ -1,126 +1,146 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8259F8634C
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jul 2026 01:48:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937D430675F
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jul 2026 01:48:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784771283; cv=none; b=ilmcsX03vWy6UKi3imuBTDH3R5Wal51tJYwA/8G1rmLEC8zrzq8ZFOdEtwaiXI6XHqAXiXGc/jkccDLwzKdRbAJDg39bNHJ1zmKoKo/fcrcGloKXFs5utxS/pYYp0GpqkknRAePHoym65ywKbmnzW4zShNBejozwkXzzGKa32ZE=
+	t=1784771292; cv=none; b=MA/VPNMLhBYfibOEIGe2Aogcv0wzddPHVrWoLJR93yD5hrBHjAcI5DKtXNAZyc+HmtDTQ54VLFOIbtbtY91Tm3oPjPFh0u+fjf+VoP9V/c9QYLyaJnOGTU7LTcKwD6K5D8p/QFdEmIMXrRW2wtn3yj1KBCXXjIQE4E7haD315Mo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784771283; c=relaxed/simple;
-	bh=LgAlAE26m5DLtVaLrctGZgP9ghB4nfFYioi6E1Thc68=;
+	s=arc-20240116; t=1784771292; c=relaxed/simple;
+	bh=IyS9R8QZHB18ZQPP7xmVVVjbIUcl85fcew2wUO+/GRg=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=VDwEpsOSYzV5OHCFlgiMjIbYIlmmz8h4h54yq/nVo3r7AQZQziF0x6exBdQVE16VrbXvCDclMA3G49Sbmsce6etLk11VeKBTSmjCoY9f3eAfZI1j8Zs3cLq4GZy80ksrE8Ex7r+dcKoKrtZgP+zS5vXvUyD9ztougtoQkZsh7Ck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hf+zBgzU; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=Zz/cunjuE7Pe9ME6iEcmGOqKvUtJHmTv7BWvCO6hkX4Rh5tFNMqKDU5lGEA19nj3GPwlc82SEKK9ncScNZWP3choYIeiKeHFqWzJNz3Ege5XZv531pavD/ejoYvSGR93uNWrGNjSM9twk30JVuAEdnxmgc4a2clYOCf0dlsFVZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cvi8ctWV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hf+zBgzU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FC961F00A3A;
-	Thu, 23 Jul 2026 01:48:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cvi8ctWV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F9F01F000E9;
+	Thu, 23 Jul 2026 01:48:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784771280;
-	bh=hI0i7efmL2lkyS6wC7kGyPgxPrJS9rT7B578hvJBxTk=;
+	s=k20260515; t=1784771291;
+	bh=Fw4Lagvlba1Ufjzo3WhxE1lQumG23VEHtg/nsGZIaG0=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=hf+zBgzUqkmrusuJiUA2U3YzJyTK3Go4MylS6X1L1TxkO4BV6FByT7x0EtkntOQct
-	 KAmSGu1VQh32G4qAZBFK6iZ0ulwS0O5hYozET3ucWm4uiOl9w6RamzMYpTDII+ehO5
-	 285RU7gMe276iQBXSncyvLuIovFt4rFRpKUTTuvoC6sWUjkGnPMa8OZxrMIMmGlxuS
-	 qr2KG8eIdE+QH4VQkF0AnTLpHxwmUCYOjkdk8ZyBFNdunCUfuzynFVnGHTeoUutUYx
-	 ZgGZDDYHv0RC26loWZtU7TglLTY2Uas8uwHrTbk9FhRaGnthCygETz5MiQHkDo3NWq
-	 7AaoPO+mn2KRg==
+	b=cvi8ctWVCqQ+cY1ckDa6/oZz6swPc368dRfwWmzqjhHN5XUl+fCSV9d/ShXJreMlE
+	 wYDFb1145Wd1gst09Dshwj84IWiTy3BonCq1p5U6WdaEocEZhiSvkZPQYs8YEXkaBU
+	 Qb9EKWzlUxU21Xb2O2K8IrTElPGR6ueG2rtV5FocuzitwLBt0ZfkquaFiYvuIY5aIQ
+	 NquHqtWqZsmYXNVCQGQYgWUriwQXqhyIMPGrowPigMOFBUUpzq46wNtqAFJqc2g7gO
+	 S2QTxqNw6GFDC+3Cr6jI7CbfhpGSEYfyt9y9Ik7f/+BzNr/iogJ89BnMd1p1iYfOAA
+	 NIlZwkVaXN7og==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v9 10/61] drm/bridge: Remove redundant error check in
- drm_bridge_helper_reset_crtc()
+Subject: Re: [PATCH v9 24/61] drm/rockchip: dw_hdmi_qp: Fix NULL deref in PM
+ ops on incomplete bind
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20260723-dw-hdmi-qp-scramb-v9-10-4fb12ea22ac9@collabora.com>
+Cc: linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org
+In-Reply-To: <20260723-dw-hdmi-qp-scramb-v9-24-4fb12ea22ac9@collabora.com>
 References: <20260723-dw-hdmi-qp-scramb-v9-0-4fb12ea22ac9@collabora.com>
- <20260723-dw-hdmi-qp-scramb-v9-10-4fb12ea22ac9@collabora.com>
+ <20260723-dw-hdmi-qp-scramb-v9-24-4fb12ea22ac9@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 23 Jul 2026 01:47:59 +0000
-Message-Id: <20260723014800.0FC961F00A3A@smtp.kernel.org>
+Date: Thu, 23 Jul 2026 01:48:10 +0000
+Message-Id: <20260723014811.1F9F01F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
 
 Pre-existing issues:
-- [High] Unconditional unlocking of a context-managed lock causes lock stri=
-pping and double unlocks.
-- [High] drm_atomic_get_connector_for_encoder() returns a connector without=
- holding a reference, leading to a Use-After-Free.
+- [Critical] Use-After-Free in system-sleep PM callbacks due to dangling dr=
+vdata pointer when component bind fails or unbinds.
 --
 
---- Patch [10]: [PATCH v9 10/61] drm/bridge: Remove redundant error check i=
-n drm_bridge_helper_reset_crtc() ---
-commit 9b5cf69b4268daeb09910d2aa6efb179fd6ada06
+--- Patch [24]: [PATCH v9 24/61] drm/rockchip: dw_hdmi_qp: Fix NULL deref i=
+n PM ops on incomplete bind ---
+commit bcecf290cbabd0264ffa7bbd8cb566bf124348f0
 Author: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
-drm/bridge: Remove redundant error check in drm_bridge_helper_reset_crtc()
+drm/rockchip: dw_hdmi_qp: Fix NULL deref in PM ops on incomplete bind
 
-This commit removes the no-op error check after
-drm_atomic_helper_reset_crtc() since the goto target is the immediately
-following label. The return value is already propagated correctly
-without it.
+The system-sleep PM callbacks fetch the driver state via
+dev_get_drvdata() and dereference it unconditionally. This patch adds
+NULL pointer checks for the drvdata pointer in the suspend and resume
+callbacks. It also sets the hdmi->hdmi pointer to NULL on bind failure.
 
-> diff --git a/drivers/gpu/drm/drm_bridge_helper.c b/drivers/gpu/drm/drm_br=
-idge_helper.c
-> index 420f29cf3e543..0a3c8fee66b32 100644
-> --- a/drivers/gpu/drm/drm_bridge_helper.c
-> +++ b/drivers/gpu/drm/drm_bridge_helper.c
-> @@ -50,8 +50,6 @@ int drm_bridge_helper_reset_crtc(struct drm_bridge *bri=
-dge,
+Closes: https://lore.kernel.org/all/20260702151550.8E14D1F000E9@smtp.kernel=
+.org/
+
+> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu=
+/drm/rockchip/dw_hdmi_qp-rockchip.c
+> index 9c4cf68d79d50..7c9d26d796642 100644
+> --- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+> +++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+> @@ -686,9 +686,12 @@ static int dw_hdmi_qp_rockchip_bind(struct device *d=
+ev, struct device *master,
+>  	platform_set_drvdata(pdev, hdmi);
 > =20
->  	crtc =3D connector->state->crtc;
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  	hdmi->hdmi =3D dw_hdmi_qp_bind(pdev, encoder, &plat_data);
+> -	if (IS_ERR(hdmi->hdmi))
+> -		return dev_err_probe(hdmi->dev, PTR_ERR(hdmi->hdmi),
+> +	if (IS_ERR(hdmi->hdmi)) {
+> +		ret =3D PTR_ERR(hdmi->hdmi);
+> +		hdmi->hdmi =3D NULL;
+> +		return dev_err_probe(hdmi->dev, ret,
+>  				     "Failed to bind dw-hdmi-qp");
+> +	}
 
-[Severity: High]
-This is a pre-existing issue, but can this dereference cause a Use-After-Fr=
-ee?
+[Severity: Critical]
+This is a pre-existing issue, but does this error path leave a dangling
+pointer in drvdata?
 
-Looking at drm_atomic_get_connector_for_encoder() called earlier in this
-function, it finds a matching connector and breaks out of the
-drm_for_each_connector_iter() loop. It then calls
-drm_connector_list_iter_end(), which drops the reference on the found
-connector.
+Since the hdmi structure is allocated using drmm_kzalloc(), its lifetime is
+tied to the DRM master device. If dw_hdmi_qp_bind() fails, this function
+returns an error and the DRM master tears down, which frees the hdmi pointe=
+r.
 
-The function then returns this connector without acquiring a new reference
-via drm_connector_get().
+However, since platform_set_drvdata(pdev, hdmi) was already called, this
+leaves a dangling pointer in drvdata.
 
-If a concurrent hotplug event (like an MST display unplug) unregisters and
-frees the connector before we dereference connector->state here, would it
-result in a Use-After-Free?
+Also, dw_hdmi_qp_rockchip_unbind() completes without clearing the drvdata
+pointer, which causes the same dangling pointer when the DRM master is
+destroyed.
 
->  	ret =3D drm_atomic_helper_reset_crtc(crtc, ctx);
-> -	if (ret)
-> -		goto out;
+[ ... ]
+
+> @@ -735,12 +739,15 @@ static int __maybe_unused dw_hdmi_qp_rockchip_resum=
+e(struct device *dev)
+>  {
+>  	struct rockchip_hdmi_qp *hdmi =3D dev_get_drvdata(dev);
 > =20
->  out:
->  	drm_modeset_unlock(&dev->mode_config.connection_mutex);
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> -	hdmi->ctrl_ops->io_init(hdmi);
+> +	if (hdmi) {
+> +		hdmi->ctrl_ops->io_init(hdmi);
 
-[Severity: High]
-This isn't a bug introduced by this patch, but can this unconditional unlock
-lead to a double-unlock?
+[Severity: Critical]
+This is a pre-existing issue, but does this lead to a Use-After-Free if
+drvdata holds a dangling pointer?
 
-Earlier in this function, drm_atomic_get_connector_for_encoder() is called
-and passed the acquire context ctx. Since connection_mutex was already lock=
-ed
-in ctx, the inner function's lock attempt returns -EALREADY (which is
-treated as success).
+Because the error path in dw_hdmi_qp_rockchip_bind() and the unbind function
+do not clear the drvdata pointer, dev_get_drvdata(dev) can return a non-NULL
+freed pointer.
 
-However, at the end of drm_atomic_get_connector_for_encoder(), it
-unconditionally calls drm_modeset_unlock(). This unlinks the lock from the
-context and fully unlocks the WW mutex, stripping the lock from
-drm_bridge_helper_reset_crtc().
+The if (hdmi) check succeeds on the invalid pointer, and
+hdmi->ctrl_ops->io_init(hdmi) will dereference a function pointer from freed
+memory. Could this lead to arbitrary code execution if the system is suspen=
+ded
+or resumed?
 
-When we reach this out label, does calling drm_modeset_unlock() again on the
-already unlocked mutex trigger a double-unlock warning or crash?
+> -	dw_hdmi_qp_resume(dev, hdmi->hdmi);
+> +		if (hdmi->hdmi)
+> +			dw_hdmi_qp_resume(dev, hdmi->hdmi);
+> =20
+> -	if (hdmi->encoder.encoder.dev)
+> -		drm_helper_hpd_irq_event(hdmi->encoder.encoder.dev);
+> +		if (hdmi->encoder.encoder.dev)
+> +			drm_helper_hpd_irq_event(hdmi->encoder.encoder.dev);
+> +	}
+> =20
+>  	return 0;
+>  }
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260723-dw-hdmi-qp=
--scramb-v9-0-4fb12ea22ac9@collabora.com?part=3D10
+-scramb-v9-0-4fb12ea22ac9@collabora.com?part=3D24
