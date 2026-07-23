@@ -1,42 +1,42 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB942F8EB5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167F93033DF
 	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jul 2026 01:35:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784770513; cv=none; b=bzX+z5mPccLTpOZoKxHzJ4e1dDV7XGaMdF5ukpsT3avFaVLpv1/eJgtm9VeoE9NQY2fHJqiAlEobtgm5AtXbf9poyGRG6MJiy/9JJ7ssfln0dpSiPXSnnmneWYopnWKL8If37lMqUvgSIzIpdBoHCqPpVK0H5qB9GiXQHsnvDqI=
+	t=1784770513; cv=none; b=OCH12C+cUes5+v5/jXYiKRZpSaZItT7Ue3G1Z4pMVf0FqP5cBag2YCYw+yKmeai5ns1NHCMvxHIo41vSPWOy3f0va9ptAHtGTtBThe1t2WOTiV30gmarDGwc6SNS/wNnPgw5CH9xOBKm3CuNcxB7wGKvvow/K0CB8hXiqWejCIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1784770513; c=relaxed/simple;
-	bh=Pse1bTSm1Byr6z8ofKg6/5V6m8w5K69CIVMkbjjUiOE=;
+	bh=0p335ODob3vf741ZjOZFVQVXgjwYRbsBqdw3GvcClIU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=JB0vV1aeYQ5c54Ux+KLMq1NquSorMbXCM5kqJjNsnOSA7eO9rlYN7zEYFvv4d7hs/YGxP/b0DAQvNUMzos5XV+c3Yu/1au77TqQEuR50J4KC7X9j+TeWHTcMon2yT5UsKBQ/BToDRDTErlbREY3SrNcNSWOgJlSk3y1TkFA1CFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=UEy9GKKK; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=GzmwTvt+K/XnTJ4AvlDSd8g/RhubUytrieC6yypyzOS9Njmz7hHdvkvQKLLura1JzB90nX5i+XELpNf5AW9oFipCrWIBKKFBn5vIR5ksKMzlW+nfrWY4bEeAj2K3MV0FQ3UnTjZccEwtuZlkqtlKXF9IMKEr/fhi1JXmjYfR1vQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=IAHPb+Pr; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="UEy9GKKK"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="IAHPb+Pr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1784770509;
-	bh=Pse1bTSm1Byr6z8ofKg6/5V6m8w5K69CIVMkbjjUiOE=;
+	s=mail; t=1784770508;
+	bh=0p335ODob3vf741ZjOZFVQVXgjwYRbsBqdw3GvcClIU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=UEy9GKKKrYaQTIX0Th0B2Xj/1R+ryvugqGKcN5HIBbosQpBNf/NK0m6y+e+UY1g9X
-	 2muf0y0IoDjbiS6MDz/t4m6OGSQt9unI5qTectDbaPJ4YoNRD6JpuLbTE3jnw6sLOL
-	 8O88hF2uuAabMSqCikLuQbH74m/w0m4T8O+76ogVD+z2IJSivvEFqhS4vAfVeYTxHE
-	 cGU5noPz9p1rkmepum8dIrHo4nXD58bMuoXnQOP8l7wQlE/KUSLTuoTXVgMLDiZy6A
-	 2vvTfDUBUJs7gkEYNTPW3StNzAZccWoD63NkGD6PMca7P2IPobEyK1/AzOHdMJfWJ2
-	 p+5WTlj/owlMw==
+	b=IAHPb+PrY/PB/aOrRfSnol8NHCytSzRyNZz3/9fQiLiLwlz1/0Wab5RC3LZN8JH9A
+	 iMEq61VUl9x4SmDlKfT5B1hwFPGdQVy+SMf16jgdcZAbXorA+UnKzom4Zq3hBphq1Q
+	 BvjxSa8mnvooGmDVUkB4VBX3Lu4Hvf+Tj581F2PjeB4AsLIwpRE987jkubYFtAB3JE
+	 5msn8+3Co05hTCOxJleU59gEkJ96u8gLMKSBqU0dNrzSAFpXWAXJFNytPE9HQbr3+8
+	 T7Wq5f865I26AYzmgLxK9efy7uB7KQ6NUvPOn/35357zziRX3fM5ptWtlihlU24CTm
+	 6Elfv9HlCFDjA==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 07E4017E36BC;
-	Thu, 23 Jul 2026 03:35:09 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4A40817E3686;
+	Thu, 23 Jul 2026 03:35:08 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Thu, 23 Jul 2026 04:34:59 +0300
-Subject: [PATCH v9 10/61] drm/bridge: Remove redundant error check in
- drm_bridge_helper_reset_crtc()
+Date: Thu, 23 Jul 2026 04:34:58 +0300
+Subject: [PATCH v9 09/61] drm/display: hdmi: Advertise SCDC source version
+ when scrambling
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260723-dw-hdmi-qp-scramb-v9-10-4fb12ea22ac9@collabora.com>
+Message-Id: <20260723-dw-hdmi-qp-scramb-v9-9-4fb12ea22ac9@collabora.com>
 References: <20260723-dw-hdmi-qp-scramb-v9-0-4fb12ea22ac9@collabora.com>
 In-Reply-To: <20260723-dw-hdmi-qp-scramb-v9-0-4fb12ea22ac9@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -68,34 +68,49 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
 Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
  Maud Spierings <maud_spierings@hotmail.com>
 X-Mailer: b4 0.15.2
 
-Remove the no-op error check after drm_atomic_helper_reset_crtc() since
-the goto target is the immediately following label and the return value
-is already propagated correctly without it.
+The HDMI 2.0 spec advises that compliant Source devices report their
+SCDC version in the Source Version register.  Do so when enabling
+scrambling by calling drm_scdc_set_source_version().
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Failures are non-fatal: SCDC version negotiation is purely informational
+and does not gate scrambling or any high-bitrate functionality, so a
+flaky DDC bus should not block scrambling setup.
+
+Acked-by: Maxime Ripard <mripard@kernel.org>
 Tested-by: Maud Spierings <maud_spierings@hotmail.com>
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/drm_bridge_helper.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/display/drm_hdmi_helper.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_bridge_helper.c b/drivers/gpu/drm/drm_bridge_helper.c
-index 420f29cf3e54..0a3c8fee66b3 100644
---- a/drivers/gpu/drm/drm_bridge_helper.c
-+++ b/drivers/gpu/drm/drm_bridge_helper.c
-@@ -50,8 +50,6 @@ int drm_bridge_helper_reset_crtc(struct drm_bridge *bridge,
+diff --git a/drivers/gpu/drm/display/drm_hdmi_helper.c b/drivers/gpu/drm/display/drm_hdmi_helper.c
+index b9be0a2e833a..e66ee8aa4ebc 100644
+--- a/drivers/gpu/drm/display/drm_hdmi_helper.c
++++ b/drivers/gpu/drm/display/drm_hdmi_helper.c
+@@ -16,6 +16,7 @@
+ #include <drm/drm_print.h>
+ #include <drm/drm_property.h>
  
- 	crtc = connector->state->crtc;
- 	ret = drm_atomic_helper_reset_crtc(crtc, ctx);
--	if (ret)
--		goto out;
++#define DRM_HDMI_SCDC_SOURCE_VERSION	1
+ #define DRM_HDMI_SCDC_POLL_DELAY_MS	1000
  
- out:
- 	drm_modeset_unlock(&dev->mode_config.connection_mutex);
+ static inline bool is_eotf_supported(u8 output_eotf, u8 sink_eotf)
+@@ -541,6 +542,12 @@ int drm_connector_hdmi_enable_scrambling(struct drm_connector *connector,
+ 	if (!connector->ddc)
+ 		return -EINVAL;
+ 
++	/*
++	 * Advertise our SCDC source version. This is purely informational and
++	 * does not gate scrambling, so failures are non-fatal.
++	 */
++	drm_scdc_set_source_version(connector, DRM_HDMI_SCDC_SOURCE_VERSION);
++
+ 	drm_dbg_kms(dev, "Enabling scrambling\n");
+ 
+ 	if (!hdmi->scdc_work_initialized) {
 
 -- 
 2.55.0
