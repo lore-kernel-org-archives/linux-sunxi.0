@@ -1,108 +1,169 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64567435AB2
-	for <linux-sunxi@lists.linux.dev>; Fri, 24 Jul 2026 14:24:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784903046; cv=pass; b=RnWug6U4P/XWjltbRhAoiObMOv6HAVa9ICvEIbhjr9phhaqKmBdBSSvZt+jLuKv2AOSqAUR8Xvre+wcBh+MAst6mCVDQoHR92pBAqTQbhEeah8sBjYdUfBoX836Kck2dcdjSo8whNIh9m/TsWWQ97AehGBA0BXuT8ETGFaxupL0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784903046; c=relaxed/simple;
-	bh=uZWx+LNGsmz6mrWAnsy+obBgIY91BMfTN9kMd8FU5KY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QYEUYZ0mVE2PfTJbrg8kKbnaVAI5Brjmq+7WCwbjoXSFUyj70s01fIiJghAeGPvvq5ozaGHPA5oDq1NYOSfl5gGYv9KiHAwLxfWMA5ZDc07kh5YB7kcOOpwobwOq4XdpJzFsx3Ut4fY0copOtXgRw4lvpFLQekzoIxBQSAOA/Eo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=MFrbv+D6; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E0143550D
+	for <linux-sunxi@lists.linux.dev>; Fri, 24 Jul 2026 14:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784903877; cv=none; b=PS5qu0CGRjmjts/8LwPf41mqEcSId84IyGWuQM9MnLhCEv/FHkEtTR+0mMl/UpqD/3Z5ad3gnmYrG3+ViMankqGIwJbbVrGEkMLRSDjpQ/qtE4s4Ob7GjsJnB2BUsX4xulgQJ3ZTh5QAMZ0LIyM7VfPzLmcKGmSKsFEizfsdh/Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784903877; c=relaxed/simple;
+	bh=/cGLugEU+pj6weLLlGER1og5Yg+0FROUlFn0hogGiBY=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=PcTTXapynyb1LwlASZzDSw9UatMZIaHVvaocKkVdI5ALC7NHjy74IU48btaoSZWjyq7t5jSG1U9nm5eqISZ0e9tlvw3+qwEbSn8BAm5EA4jmjC9rFcbqdBb38TiTQH1eP7xI3xaVW5/GCtA1lgfw1wZuFSaNkdmF81jXTF1gYd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nXYKgvS2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="MFrbv+D6"
-ARC-Seal: i=1; a=rsa-sha256; t=1784903017; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=V3UKGrt3xpiyRUXW8515DLWmIrPB/9wHhYjz/TIS9bkgScArpuoaPVdfb7re50LrsNO8gBH68QvIj2JwF1O7Bg3C4GPomErn4i50rJbuhudUGhUvx1rD8s+ewR4YcKd6xTK0Es6W41WzLcGcwlLLXeSEAtk/U4yjUn6nM3T8gV8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1784903017; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=/Bz0kOVpQ5EYH3MZETJm5OMDFXRozPcW4LBmQ5++M2c=; 
-	b=OtjtXHlpFPrwjBXHPiMJkalbu6/oXCMC0N4eL3FSMONZWTBXPiDIlm7rlQuv3RaBy6EMxtZASG5SFlZeexG794NTGjy9aFH9jWK9PyTRJU8bfpfRCYe2ItyrZXQeuMaV/UJly9r/XwFyfy4ufRxwUrTKuXNzeF7u/crgJ/zBV5c=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1784903017;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=/Bz0kOVpQ5EYH3MZETJm5OMDFXRozPcW4LBmQ5++M2c=;
-	b=MFrbv+D6bfHq5zAanEVxswT9vF4rGP8+4iR8N25117wJdeAiPygrEO7Flx8QKmQv
-	aeVMa7cCkV3T3+h6QfqSmNuBMKAvwti6wPbUeE8UZJbMAh7octC/alqLNbjTB31k3T0
-	kSn5V0705utbCDc07ORachjwD+Q4zkfiK8ZARVYU=
-Received: by mx.zohomail.com with SMTPS id 1784903014662276.19164388155514;
-	Fri, 24 Jul 2026 07:23:34 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Fri, 24 Jul 2026 16:22:40 +0200
-Subject: [PATCH v9 5/5] drm/display: hdmi-state-helper: Init SCDC debugfs
- for HDMI
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nXYKgvS2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D94C1F000E9;
+	Fri, 24 Jul 2026 14:37:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784903873;
+	bh=h+3m/a0+VAzpHEtakkcHAOVbiplofwcwQXhXAgAdmno=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=nXYKgvS29n+qIyQ1ME988QwxQ8W4AYOmUiAXjF6wWmgriUySe9f9z+bEiz4VOlFcl
+	 9tyew5S/SUKYx9LUDiZBO3H5ithhf7fR9lfmOxnANSGJQ3D7Iern+3y8dBXDBtEsSw
+	 kFuut+ifkY44FgSZPBYMNp1bfzDu2mbB3JHD27b2tMnlSZqRxQsIOq/3GXXAK6eDcr
+	 3DeJlHFIqfRQo/SB99KUjPo4d4HV8EeVRs5JdNksERlnEEFhrKQyuVQDlfXTsAep9G
+	 SRLDd84ecCpJJzUhoE92se/O6LWQL4XUi84+TPUfwlQvoiV27hSzpYF6UwnAtt5Tss
+	 Dvwn3LQFr3IUQ==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v9 3/5] drm/scdc-helper: Implement parsing and printing
+ HDMI 2.1 fields
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Nicolas Frattaroli" <nicolas.frattaroli@collabora.com>
+Cc: linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org
+In-Reply-To: <20260724-scdc-link-health-v9-3-bdda406d016d@collabora.com>
+References: <20260724-scdc-link-health-v9-0-bdda406d016d@collabora.com>
+ <20260724-scdc-link-health-v9-3-bdda406d016d@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 24 Jul 2026 14:37:53 +0000
+Message-Id: <20260724143753.8D94C1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260724-scdc-link-health-v9-5-bdda406d016d@collabora.com>
-References: <20260724-scdc-link-health-v9-0-bdda406d016d@collabora.com>
-In-Reply-To: <20260724-scdc-link-health-v9-0-bdda406d016d@collabora.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Daniel Stone <daniel@fooishbar.org>, 
- Hans Verkuil <hverkuil+cisco@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- Samuel Holland <samuel@sholland.org>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- kernel@collabora.com, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.15.2
 
-Initialise the SCDC debugfs file for connectors that call the HDMI state
-helper's debugfs_init helper. This makes all connectors that use the
-helper expose the scdc_status file in their connector debugfs.
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
+- [High] The SCDC error counter checksum validation incorrectly includes La=
+ne 3 error registers, unconditionally breaking SCDC reads when errors occur=
+ on 4-lane FRL connections.
+- [Medium] The `state->rs_corrections` field is not cleared when the Reed-S=
+olomon channel becomes invalid, leaking stale state.
+- [Medium] Encountering a reserved FRL rate causes `drm_scdc_read_state` to=
+ abort, breaking forward compatibility.
+--
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- drivers/gpu/drm/display/drm_hdmi_state_helper.c | 2 ++
- 1 file changed, 2 insertions(+)
+--- Patch [3]: [PATCH v9 3/5] drm/scdc-helper: Implement parsing and printi=
+ng HDMI 2.1 fields ---
+commit da086d3bc120a56452dfbe550079b981dd21770b
+Author: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-index 8d5ee10ceb87..709524b40c26 100644
---- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-+++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-@@ -13,6 +13,7 @@
- #include <drm/display/drm_hdmi_cec_helper.h>
- #include <drm/display/drm_hdmi_helper.h>
- #include <drm/display/drm_hdmi_state_helper.h>
-+#include <drm/display/drm_scdc_helper.h>
- 
- /**
-  * DOC: hdmi helpers
-@@ -1116,6 +1117,7 @@ void drm_hdmi_connector_debugfs_init(struct drm_connector *connector,
- 		return;
- 
- 	create_hdmi_infoframe_files(connector, dir);
-+	drm_scdc_debugfs_init(connector, root);
- }
- EXPORT_SYMBOL(drm_hdmi_connector_debugfs_init);
- 
+drm/scdc-helper: Implement parsing and printing HDMI 2.1 fields
 
--- 
-2.55.0
+This commit implements reading and parsing HDMI 2.1 FRL-specific
+fields over SCDC. It extracts FRL rate, FFE levels, Lane 3 error
+counters, and Reed-Solomon corrections to output via debugfs.
 
+> diff --git a/drivers/gpu/drm/display/drm_scdc_helper.c b/drivers/gpu/drm/=
+display/drm_scdc_helper.c
+> --- a/drivers/gpu/drm/display/drm_scdc_helper.c
+> +++ b/drivers/gpu/drm/display/drm_scdc_helper.c
+[ ... ]
+> @@ -286,14 +319,41 @@ drm_scdc_parse_status0_flags(u8 val, struct drm_scd=
+c_status_flags *flags)
+[ ... ]
+> -static int drm_scdc_parse_error_counters(const u8 scdc[256], u16 counter=
+[3])
+> +static int drm_scdc_parse_error_counters(const u8 scdc[256], u16 counter=
+[4],
+> +					 unsigned int num_lanes)
+>  {
+> +	u8 end_reg;
+>  	u8 sum =3D 0;
+>  	int i;
+> =20
+> -	for (i =3D SCDC_ERR_DET_0_L; i <=3D SCDC_ERR_DET_CHECKSUM ; i++)
+> +	switch (num_lanes) {
+> +	case 3:
+> +		end_reg =3D SCDC_ERR_DET_CHECKSUM;
+> +		break;
+> +	case 4:
+> +		end_reg =3D SCDC_ERR_DET_3_H;
+> +		break;
+
+[Severity: High]
+Does this inclusion of Lane 3 error registers break the checksum calculatio=
+n?
+
+The SCDC checksum byte (SCDC_ERR_DET_CHECKSUM) only covers bytes up to 0x56.
+By setting end_reg to SCDC_ERR_DET_3_H (0x58), the zero-sum calculation will
+include the Lane 3 error registers (0x57 and 0x58).=20
+
+If a 4-lane connection experiences any Lane 3 errors, the sum will be non-z=
+ero
+and cause drm_scdc_parse_error_counters() to abort with -EPROTO, breaking
+SCDC reads exactly when errors are present.
+
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	for (i =3D SCDC_ERR_DET_0_L; i <=3D end_reg; i++)
+>  		sum =3D wrapping_add(u8, sum, scdc[i]);
+[ ... ]
+> @@ -350,11 +417,26 @@ int drm_scdc_read_state(struct drm_connector *conne=
+ctor, struct drm_scdc_state *
+> =20
+>  	state->scrambling_detected =3D buf[SCDC_SCRAMBLER_STATUS] & SCDC_SCRAMB=
+LING_STATUS;
+> =20
+> +	state->rate =3D FIELD_GET(SCDC_FRL_RATE, buf[SCDC_CONFIG_1]);
+> +	num_lanes =3D drm_scdc_num_frl_lanes(state->rate);
+> +	if (num_lanes < 0)
+> +		return num_lanes;
+
+[Severity: Medium]
+Will this direct error return abort all SCDC parsing for future FRL rates?
+
+If a newer display uses a currently-reserved FRL rate (e.g., rates 7-15),
+drm_scdc_num_frl_lanes() will return -EINVAL.
+
+Propagating this error immediately prevents users from reading any SCDC sta=
+te
+(including TMDS and scrambling info) for displays with newer reserved rates.
+
+> +	if (!num_lanes)
+> +		num_lanes =3D 3;
+[ ... ]
+> +	ret =3D drm_scdc_parse_error_counters(buf, state->error_count, num_lane=
+s);
+>  	if (ret)
+>  		return ret;
+> =20
+> +	if (state->rate && (buf[SCDC_ERR_DET_RS_H] & SCDC_CHANNEL_VALID))
+> +		state->rs_corrections =3D (buf[SCDC_ERR_DET_RS_H] & ~SCDC_CHANNEL_VALI=
+D) << 8 |
+> +					buf[SCDC_ERR_DET_RS_L];
+
+[Severity: Medium]
+Should state->rs_corrections be explicitly cleared when the channel is inva=
+lid?
+
+Unlike the channel error counters which are explicitly zeroed out when
+SCDC_CHANNEL_VALID is not set, rs_corrections lacks an else branch.
+
+If the drm_scdc_state structure is reused by a caller instead of being fres=
+hly
+allocated, this could leak stale Reed-Solomon correction values from a
+previous read.
+
+> +
+>  	return 0;
+>  }
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260724-scdc-link-=
+health-v9-0-bdda406d016d@collabora.com?part=3D3
