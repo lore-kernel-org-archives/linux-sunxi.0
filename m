@@ -1,100 +1,190 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A521381EB2
-	for <linux-sunxi@lists.linux.dev>; Sat, 25 Jul 2026 11:43:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57DD1F3B85
+	for <linux-sunxi@lists.linux.dev>; Sat, 25 Jul 2026 12:26:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784979820; cv=none; b=prH29tn2lJKOX6gJEA+NucYM6JyJ3Wwk7nfabvm9qLNdNVUR5Ek6OD6A0QaByPcuPJTrIrMyJEK640YVaz9nkgNWHNthmGPICgGH8/IoLx8Fu/ql16rudW5S8Ma8Pbw3vGohP9BvpuMnaifehoFo276e/R9CePM8c2V1HoJrmAU=
+	t=1784982415; cv=none; b=pFZbgAQ/dOSkj6TxvX0DTwolY+XCm2ZMwSOACVP1uhPxgabxydlCgjHiuHF+JTF1eOt7I5atKCm0S/7RMdd9VcyWM+3Q9GxM8HLbCotuQtN6m1EA0pPCHV4IlIjI1OQgUA0L0DU0xtcV4PbpkWSr42JCr722BmuMRozcBcz25RU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784979820; c=relaxed/simple;
-	bh=4LESJuEvl3TJ3Y7Sd/vgiDgEGn8HHXHMLOf8l9JpPUw=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=IIKPnFAEZOWSgsEddwTHC2GdeNlUGvvQiLgOXUGYqnfncOwk75K8/zmuxjW9SH97lmFt9vakUSeb9tOJOuzozyRWvTUZrpIn+Yg37qPY8r4thkyf7QByzOkxDC7v9qyFDTR0jBKEuYvpOYXA8qChDZzVcBJjhQwhtRhqjxeKhEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RzMFL60o; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784982415; c=relaxed/simple;
+	bh=lq0/9gAd9eRbQQjoIj0OoViKUp6XNp12/ZfKPhVpr/g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Zc7145rc0kWyztq2/9JYkcCYICO4ThNH0Ny7xXNjbrYJGNVAF3XczxWEErfxkfRdk6Ba6CcT++5iysUXET0w01uIqiA9FHryY/7fgV3xhJ+gmQ7LKmqFRxuG3i8iL1GPd+tTuzuW2lBzZwCZygsY0C9XdySmV1JUx5/J3BXq5E0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=BFeGzKbF; arc=none smtp.client-ip=195.181.215.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RzMFL60o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9E801F000E9;
-	Sat, 25 Jul 2026 11:43:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784979819;
-	bh=/eT58PqTLuo4fGvRJo9I0yCs2bkKFJLC2yOY5muW0MQ=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=RzMFL60oqKDCgZaF0WvmEvO5GPZt/dVP4HjY4+IEBSYQCm5p/ygKe/W2ODo9+Ol/H
-	 IBuH/XPtFSPblpqGUNMX1mE6ctMxWiFFWaHuVzmkjAkFkpmCzfW5UU2m6hhctMA1Vr
-	 KrSb4t0FsCyoWv4xkkhlqSHTlDH7aNd13BFd4TWh5nzikryBconvwMhiYDsz6te0HM
-	 WAtXzvUFB+HUAjLTscSRLX5y2E7VE600mODU2OeD5fyAKqX21Oj0Pw/dtwDkdapmwN
-	 sHwBenP06JRgjUeKJ7FW07Y8wMptA+b2IPFdwdeSQdhq0Zm1EKy2dk85+yl4OTTDlQ
-	 UgGJN6yR6h3uA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] clocksource/drivers/sun4i: Wait for pending reload
- before CTRL write
-Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?T25kxZllaiBKaXJtYW4=?= <megi@xff.cz>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260725113341.2250687-1-megi@xff.cz>
-References: <20260725113341.2250687-1-megi@xff.cz>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 25 Jul 2026 11:43:38 +0000
-Message-Id: <20260725114338.D9E801F000E9@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="BFeGzKbF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+	t=1784982411; bh=lq0/9gAd9eRbQQjoIj0OoViKUp6XNp12/ZfKPhVpr/g=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BFeGzKbF1UbplnnnTo699cQJH3h2dyG2ENWDX4brn+HW5uZVLsbrwp0bLGwtCg14Q
+	 OwqeXG7AakE9T+DxzSqCci8nWqulZSiakEmwd87wWXyvtziu3Ola3JWqMvDnQCBFax
+	 27R2RmTr0qyczV5a0eG/uQWCThEdMoCjXXtLa+00=
+From: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
+To: linux-sunxi@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	Ondrej Jirman <megi@xff.cz>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney@redhat.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-clk@vger.kernel.org (open list:COMMON CLK FRAMEWORK),
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support)
+Subject: [PATCH] clk: sunxi-ng: Change NKMP algorithm for finding factors
+Date: Sat, 25 Jul 2026 14:26:40 +0200
+Message-ID: <20260725122645.2270876-1-megi@xff.cz>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
+From: Ondrej Jirman <megi@xff.cz>
 
-Pre-existing issues:
-- [High] This problem wasn't introduced by this patch, but the same hardwar=
-e limitation where writing to the control register while the RELOAD bit is =
-set causes the write to be dropped is unaddressed in `timer-sun5i.c`.
---
+Current algorithm is very slow. It searches inefficiently in a brute
+force manner through all possibilities all the time.
 
---- Patch [1]: [PATCH] clocksource/drivers/sun4i: Wait for pending reload b=
-efore CTRL write ---
-commit 936f66d7fd8614d6358ab1a1c7241c4675c9fff4
-Author: Ondrej Jirman <megi@xff.cz>
+Eg. it does >1500 iterations on every rate change twice, because
+ccu_nkmp_find_best() function is called multiple times per rate
+change.
 
-clocksource/drivers/sun4i: Wait for pending reload before CTRL write
+New algorithm determines correct NKMP factors typically in 1 to 3
+iterations if precise factors can be determined for M = 1, P = 1,
+which is a typical case. If CPU clock frequency can't be derived
+precisely this drops to average 8 iterations needed to determine
+the factors.
 
-This commit fixes a bug in the sun4i timer driver where writes to the
-control register are silently dropped if the RELOAD bit is set. It introduc=
-es
-a polling mechanism to wait for the reload bit to clear before modifying
-the register.
+The results are identical to the original algorithm, except in cases
+where the original algorithm does not try to satisfy SoC PLL clock
+constraints, like N*K range 10..88 or P factor being limited to output
+frequency < 240 MHz.
 
-> BTW, similar issue will likely be also in timer-sun5i.c but I don't have =
-any
-> device that would exercise it. And it's possible that this triggers more =
-easily
-> with CONFIG_HZ=3D1000 which I use.
+These restrictions are based on A64 SoC datasheet. Although they
+are sometimes not documented for other Allwinner SoC variants or are
+slightly different, this is still a significant improvement over
+not respecting any physical restrictions at all, as the previous
+algorithm did not. Hardcoding the values if fine, until someone
+finds some reason for not to.
 
-[Severity: High]
-This isn't a bug introduced by this patch, but as you suspected, the exact
-same hardware limitation is unaddressed in drivers/clocksource/timer-sun5i.=
-c.
+Motivation for this patch is that cpufreq schedutil scheduler thread
+manages to load one core to 70% all the time just doing these calculations
+while the core is running at just 24MHz during frequency changes.
+This helps improve the performance significantly.
 
-Looking at sun5i_clkevt_time_stop(), the unprotected read-modify-write of
-the control register occurs here:
+Signed-off-by: Ondrej Jirman <megi@xff.cz>
+---
+Sorry, I don't know how to avoid overlong lines here, other than
+maybe not indenting 3 toplevel for blocks and keeping all of them
+at the same level.
 
-drivers/clocksource/timer-sun5i.c:sun5i_clkevt_time_stop() {
-    ...
-    writel(val & ~TIMER_CTL_ENABLE,
-           ce->base + TIMER_CTL_REG(timer, offset));
-    ...
-}
+ drivers/clk/sunxi-ng/ccu_nkmp.c | 80 ++++++++++++++++++++++-----------
+ 1 file changed, 55 insertions(+), 25 deletions(-)
 
-If rapid back-to-back scheduling of high-resolution timers causes this to
-be called while the RELOAD bit from a prior time_start() is still set,
-wouldn't the write be dropped, failing to clear the ENABLE bit?=20
+diff --git a/drivers/clk/sunxi-ng/ccu_nkmp.c b/drivers/clk/sunxi-ng/ccu_nkmp.c
+index 25efb5b37607..c39b19891431 100644
+--- a/drivers/clk/sunxi-ng/ccu_nkmp.c
++++ b/drivers/clk/sunxi-ng/ccu_nkmp.c
+@@ -32,40 +32,70 @@ static unsigned long ccu_nkmp_calc_rate(unsigned long parent,
+ static unsigned long ccu_nkmp_find_best(unsigned long parent, unsigned long rate,
+ 					struct _ccu_nkmp *nkmp)
+ {
++	unsigned long _k, _m, _p;
++	unsigned long max_p = rate >= 240000000 ? 1 : nkmp->max_p;
++	unsigned approx;
+ 	unsigned long best_rate = 0;
+-	unsigned long best_n = 0, best_k = 0, best_m = 0, best_p = 0;
+-	unsigned long _n, _k, _m, _p;
+ 
+-	for (_k = nkmp->min_k; _k <= nkmp->max_k; _k++) {
+-		for (_n = nkmp->min_n; _n <= nkmp->max_n; _n++) {
++	for (approx = 0; approx <= 1; approx++) {
++		for (_p = nkmp->min_p; _p <= max_p; _p <<= 1) {
+ 			for (_m = nkmp->min_m; _m <= nkmp->max_m; _m++) {
+-				for (_p = nkmp->min_p; _p <= nkmp->max_p; _p <<= 1) {
+-					unsigned long tmp_rate;
+-
+-					tmp_rate = ccu_nkmp_calc_rate(parent,
+-								      _n, _k,
+-								      _m, _p);
+-
+-					if (tmp_rate > rate)
+-						continue;
+-
+-					if ((rate - tmp_rate) < (rate - best_rate)) {
+-						best_rate = tmp_rate;
+-						best_n = _n;
+-						best_k = _k;
+-						best_m = _m;
+-						best_p = _p;
++				u64 nk = (u64)rate * _m * _p;
++				unsigned long nk_rem = do_div(nk, parent);
++
++				if (nk_rem != 0 && !approx)
++					continue;
++
++				if (nk < 10 || nk > 88)
++					continue;
++
++				for (_k = nkmp->min_k; _k <= nkmp->max_k; _k++) {
++					if (approx) {
++						u64 _n = (u64)rate * _m * _p;
++						unsigned long tmp_rate;
++
++						do_div(_n, parent * _k);
++
++						if (_n < nkmp->min_n || _n > nkmp->max_n)
++							continue;
++
++						tmp_rate = ccu_nkmp_calc_rate(parent,
++									      _n, _k,
++									      _m, _p);
++						if (tmp_rate > rate)
++							continue;
++
++						if ((rate - tmp_rate) < (rate - best_rate)) {
++							best_rate = tmp_rate;
++							nkmp->n = _n;
++							nkmp->k = _k;
++							nkmp->m = _m;
++							nkmp->p = _p;
++						}
++					} else {
++						u64 _n = nk;
++						unsigned long _n_rem = do_div(_n, _k);
++
++						if (_n < nkmp->min_n || _n > nkmp->max_n)
++							continue;
++
++						if (_n_rem == 0) {
++							nkmp->n = _n;
++							nkmp->k = _k;
++							nkmp->m = _m;
++							nkmp->p = _p;
++							return ccu_nkmp_calc_rate(parent,
++										  nkmp->n,
++										  nkmp->k,
++										  nkmp->m,
++										  nkmp->p);
++						}
+ 					}
+ 				}
+ 			}
+ 		}
+ 	}
+ 
+-	nkmp->n = best_n;
+-	nkmp->k = best_k;
+-	nkmp->m = best_m;
+-	nkmp->p = best_p;
+-
+ 	return best_rate;
+ }
+ 
+-- 
+2.54.0
 
-Since this can permanently stop clock events and cause the system to freeze
-by halting process scheduling, should a similar wait mechanism be applied
-to the sun5i timer to protect devices that use it as a clockevent device?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260725113341.2250=
-687-1-megi@xff.cz?part=3D1
