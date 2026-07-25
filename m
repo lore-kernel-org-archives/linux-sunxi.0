@@ -1,28 +1,28 @@
 Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A540331EB9
-	for <linux-sunxi@lists.linux.dev>; Sat, 25 Jul 2026 11:20:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EEED36195A
+	for <linux-sunxi@lists.linux.dev>; Sat, 25 Jul 2026 11:26:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784978425; cv=none; b=frhRLWpMN4chhCErFdZs1P+rPHGwWq5AW6xyMlBLVCI8jgV5Za+sPwWNEK3H7dVmjfwkYpDcPknvbNjekSv9seyQAGWQz9s8TfRjZaANwRlSyDVQwcB5fFrhc8ZX5TNclPJ7iFUZLQWneE0gwXYZjZybeskWwccX5BuRPQRofDY=
+	t=1784978790; cv=none; b=meuwoLSIY6y96LMtKiWt0ZD+NknqBSDIoImARiKzmbcHfiUJ/wciqccVNnQmKHo/Xj+kDlfQyez1KkMvvQhI98LYe35p/V0ZD78ZV2hoQSfJXmOVcx0dGSEGHL6LkArJ2UdAUArR8p+PDrVxFS6l/myXKH9a0IMKvO2kK3doiyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784978425; c=relaxed/simple;
+	s=arc-20240116; t=1784978790; c=relaxed/simple;
 	bh=nORByVcuztvWSuATQGRl/ZUN9+Z8frojPCDBSo1YEf0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ds2kXICCvAAhHcXkOIFYffwu5jZgUbRGHXmVg/5tb+1YWqanJYkkZNbm2235NR3wTFBqN3n/RnJ0y/FY/4SbjJaa4usccIeAK63mDqRzBzyH7F0rSYDY/QFuU9AEyDHbmCcg93eaW0XW6zgFYAq8i0mJ7SOa888twsDbvhE5jFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=VULL/qCz; arc=none smtp.client-ip=195.181.215.36
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AykeQzuRKth2UEG1Jxro4X4efjtwA11VbE2oqfzbwdX1XZPVh8miU2tc/z6WVqkd/9+O2pdUvwZUi1iOy3P3u0ka5YMl8WBmsFOEujqwDrSt6J0tpWpXFGO0qWN4z+CM7TkNLIpmvirIGigskaLziTQygyw7P8tkXdK37eRzAYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=BBmXOeQr; arc=none smtp.client-ip=195.181.215.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="VULL/qCz"
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="BBmXOeQr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1784978419; bh=nORByVcuztvWSuATQGRl/ZUN9+Z8frojPCDBSo1YEf0=;
+	t=1784978359; bh=nORByVcuztvWSuATQGRl/ZUN9+Z8frojPCDBSo1YEf0=;
 	h=From:To:Cc:Subject:Date:From;
-	b=VULL/qCzPH/BYeZC4/MwvXZnuH0QM/zmDMIs2Jw4ljG8TMgIIDQHRytybuNgP09gf
-	 mD8+k9gqbN3WKoYWy287eRgfs7PNDxjJd4CDV1cbbLc4RSH2sUW0TIq2Kyyq9mvdQO
-	 loerdwP7OFRfQ6zOPrJfO4XNYxYD+5DK3U28szyA=
+	b=BBmXOeQrrJSNckm6ef2MoIsNiyP0+iwbmFnUEGR142y7YL9Q91LU5lHhPJCkv5Oyf
+	 TOJkleY6jitLWgP/HqbtWuTZGwG7lfxiYb5TBPZykmwB2+sCPELV1/YcG/FEQ56lkF
+	 HlAqVvNeafJyZYwkRsvVSTY60+s3Tzp3xturx49A=
 From: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
-To: linux-rockchip@lists.infradead.org
+To: linux-sunxi@lists.linux.dev
 Cc: linux-kernel@vger.kernel.org,
 	Ondrej Jirman <megi@xff.cz>,
 	Rob Herring <robh@kernel.org>,
@@ -31,14 +31,13 @@ Cc: linux-kernel@vger.kernel.org,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Andrey Skvortsov <andrej.skvortzov@gmail.com>,
 	Dragan Simic <dsimic@manjaro.org>,
+	Andrey Skvortsov <andrej.skvortzov@gmail.com>,
 	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
-	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support)
 Subject: [PATCH] arm64: dts: allwinner: sun50i-a64-pinephone: Fix mpu6050 mount matrix
-Date: Sat, 25 Jul 2026 13:19:34 +0200
-Message-ID: <20260725111936.2245041-1-megi@xff.cz>
+Date: Sat, 25 Jul 2026 13:19:07 +0200
+Message-ID: <20260725111909.2244868-1-megi@xff.cz>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
