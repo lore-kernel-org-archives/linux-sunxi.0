@@ -1,121 +1,100 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89BA3AA195
-	for <linux-sunxi@lists.linux.dev>; Sat, 25 Jul 2026 11:33:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A521381EB2
+	for <linux-sunxi@lists.linux.dev>; Sat, 25 Jul 2026 11:43:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784979231; cv=none; b=JxXB9E8gh3Gjw13T9imBN0v1e0RK2I6NLWNoA2l/LDb2nCVHJ8eLHz//hMQ1rnPmy8MVOmxqsMfm6FENPZvXCv9NqVdguh0gNAqTcPy+YvnMcnBv8mIg4HSI0y2Wd7A6nl0c9nvLdYj3/7zsCrerrcHkb9X8L5FByRZkZQakIdQ=
+	t=1784979820; cv=none; b=prH29tn2lJKOX6gJEA+NucYM6JyJ3Wwk7nfabvm9qLNdNVUR5Ek6OD6A0QaByPcuPJTrIrMyJEK640YVaz9nkgNWHNthmGPICgGH8/IoLx8Fu/ql16rudW5S8Ma8Pbw3vGohP9BvpuMnaifehoFo276e/R9CePM8c2V1HoJrmAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784979231; c=relaxed/simple;
-	bh=+cmBvCWySQzLhKfWmPtp9rjSjfEJGBKKXbEo16iheG8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fgK6R2TPbW+3NYjzHNAawhqgu+0JNs4aC6eZTJb3CVws5H8kp7Ilil1AQw7jMt5EG8fBFB89yijvXSvwXZ/K4fpz9rfxzoC7T3j+rV+9I/EUlK8HcEktBtcyER5W4f7rk1znbu7t3ap3tL7HTYJ11hoc9QzZklhtHcNxuqd4Ym4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=U2Y1AvV7; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
+	s=arc-20240116; t=1784979820; c=relaxed/simple;
+	bh=4LESJuEvl3TJ3Y7Sd/vgiDgEGn8HHXHMLOf8l9JpPUw=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=IIKPnFAEZOWSgsEddwTHC2GdeNlUGvvQiLgOXUGYqnfncOwk75K8/zmuxjW9SH97lmFt9vakUSeb9tOJOuzozyRWvTUZrpIn+Yg37qPY8r4thkyf7QByzOkxDC7v9qyFDTR0jBKEuYvpOYXA8qChDZzVcBJjhQwhtRhqjxeKhEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RzMFL60o; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="U2Y1AvV7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1784979227; bh=+cmBvCWySQzLhKfWmPtp9rjSjfEJGBKKXbEo16iheG8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=U2Y1AvV7YbCbbUt+dVubN2FyLQA95eRZFQ2bdWiY0KNB5ATJVio+r/M5w75IWAmSJ
-	 ISnLZ/6ld0vqzaKoEuGX5j8Qn+oFToq4mqsBKXrZzt8M3rM5i83C8NbWslZ/aZ0Elv
-	 ziO13yN44xDomfyUuLiPFzAb0iFNmjT2VgnoEuZ8=
-From: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
-To: linux-sunxi@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org,
-	Ondrej Jirman <megi@xff.cz>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support)
-Subject: [PATCH] clocksource/drivers/sun4i: Wait for pending reload before CTRL write
-Date: Sat, 25 Jul 2026 13:33:38 +0200
-Message-ID: <20260725113341.2250687-1-megi@xff.cz>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RzMFL60o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9E801F000E9;
+	Sat, 25 Jul 2026 11:43:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784979819;
+	bh=/eT58PqTLuo4fGvRJo9I0yCs2bkKFJLC2yOY5muW0MQ=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=RzMFL60oqKDCgZaF0WvmEvO5GPZt/dVP4HjY4+IEBSYQCm5p/ygKe/W2ODo9+Ol/H
+	 IBuH/XPtFSPblpqGUNMX1mE6ctMxWiFFWaHuVzmkjAkFkpmCzfW5UU2m6hhctMA1Vr
+	 KrSb4t0FsCyoWv4xkkhlqSHTlDH7aNd13BFd4TWh5nzikryBconvwMhiYDsz6te0HM
+	 WAtXzvUFB+HUAjLTscSRLX5y2E7VE600mODU2OeD5fyAKqX21Oj0Pw/dtwDkdapmwN
+	 sHwBenP06JRgjUeKJ7FW07Y8wMptA+b2IPFdwdeSQdhq0Zm1EKy2dk85+yl4OTTDlQ
+	 UgGJN6yR6h3uA==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] clocksource/drivers/sun4i: Wait for pending reload
+ before CTRL write
+Reply-To: sashiko-reviews@lists.linux.dev
+To: =?utf-8?b?T25kxZllaiBKaXJtYW4=?= <megi@xff.cz>
+Cc: linux-sunxi@lists.linux.dev
+In-Reply-To: <20260725113341.2250687-1-megi@xff.cz>
+References: <20260725113341.2250687-1-megi@xff.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 25 Jul 2026 11:43:38 +0000
+Message-Id: <20260725114338.D9E801F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Ondrej Jirman <megi@xff.cz>
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
 
-The A13 manual says of TMR0_RELOAD: "After the bit is set, it can not be
-written again before it's cleared automatically."  Both time_stop() and
-time_start() read-modify-write the control register, so a reload still in
-flight gets rewritten and the write can be dropped, leaving the timer
-unarmed.  In oneshot mode this happens on every tick, and the tick
-eventually stops for good.
+Pre-existing issues:
+- [High] This problem wasn't introduced by this patch, but the same hardwar=
+e limitation where writing to the control register while the RELOAD bit is =
+set causes the write to be dropped is unaddressed in `timer-sun5i.c`.
+--
 
-Wait for the reload to clear first.  All control register updates go
-through sun4i_clkevt_time_stop().
+--- Patch [1]: [PATCH] clocksource/drivers/sun4i: Wait for pending reload b=
+efore CTRL write ---
+commit 936f66d7fd8614d6358ab1a1c7241c4675c9fff4
+Author: Ondrej Jirman <megi@xff.cz>
 
-Without this my Allwinner A13 based Pocketbook Touch Lux 3 stops
-scheduling processes during boot or within a few seconds of executing
-userspace. Only sysrq+t over serial port works at this stage, which is
-how I discovered the root cause.
+clocksource/drivers/sun4i: Wait for pending reload before CTRL write
 
-Fixes: 7e14183469d8 ("clocksource: sun4i: Fix bug when switching from periodic to oneshot modes")
-Signed-off-by: Ondrej Jirman <megi@xff.cz>
----
-BTW, similar issue will likely be also in timer-sun5i.c but I don't have any
-device that would exercise it. And it's possible that this triggers more easily
-with CONFIG_HZ=1000 which I use.
+This commit fixes a bug in the sun4i timer driver where writes to the
+control register are silently dropped if the RELOAD bit is set. It introduc=
+es
+a polling mechanism to wait for the reload bit to clear before modifying
+the register.
 
- drivers/clocksource/timer-sun4i.c | 26 +++++++++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
+> BTW, similar issue will likely be also in timer-sun5i.c but I don't have =
+any
+> device that would exercise it. And it's possible that this triggers more =
+easily
+> with CONFIG_HZ=3D1000 which I use.
 
-diff --git a/drivers/clocksource/timer-sun4i.c b/drivers/clocksource/timer-sun4i.c
-index 7bdcc60ad43c..2e7457f671c4 100644
---- a/drivers/clocksource/timer-sun4i.c
-+++ b/drivers/clocksource/timer-sun4i.c
-@@ -39,6 +39,9 @@
- 
- #define TIMER_SYNC_TICKS	3
- 
-+/* The reload bit clears a couple of source clock cycles after it is set. */
-+#define TIMER_RELOAD_MAX_POLL	100
-+
- /*
-  * When we disable a timer, we need to wait at least for 2 cycles of
-  * the timer source clock. We will use for that the clocksource timer
-@@ -53,9 +56,30 @@ static void sun4i_clkevt_sync(void __iomem *base)
- 		cpu_relax();
- }
- 
-+/*
-+ * The control register must not be written while a reload is still in
-+ * flight, or the write can be dropped.
-+ */
-+static int sun4i_clkevt_wait_reload(void __iomem *base, u8 timer)
-+{
-+	int i;
-+
-+	for (i = 0; i < TIMER_RELOAD_MAX_POLL; i++) {
-+		if (!(readl(base + TIMER_CTL_REG(timer)) & TIMER_CTL_RELOAD))
-+			return 0;
-+		cpu_relax();
-+	}
-+
-+	return -ETIME;
-+}
-+
- static void sun4i_clkevt_time_stop(void __iomem *base, u8 timer)
- {
--	u32 val = readl(base + TIMER_CTL_REG(timer));
-+	u32 val;
-+
-+	sun4i_clkevt_wait_reload(base, timer);
-+
-+	val = readl(base + TIMER_CTL_REG(timer));
- 	writel(val & ~TIMER_CTL_ENABLE, base + TIMER_CTL_REG(timer));
- 	sun4i_clkevt_sync(base);
- }
--- 
-2.54.0
+[Severity: High]
+This isn't a bug introduced by this patch, but as you suspected, the exact
+same hardware limitation is unaddressed in drivers/clocksource/timer-sun5i.=
+c.
 
+Looking at sun5i_clkevt_time_stop(), the unprotected read-modify-write of
+the control register occurs here:
+
+drivers/clocksource/timer-sun5i.c:sun5i_clkevt_time_stop() {
+    ...
+    writel(val & ~TIMER_CTL_ENABLE,
+           ce->base + TIMER_CTL_REG(timer, offset));
+    ...
+}
+
+If rapid back-to-back scheduling of high-resolution timers causes this to
+be called while the RELOAD bit from a prior time_start() is still set,
+wouldn't the write be dropped, failing to clear the ENABLE bit?=20
+
+Since this can permanently stop clock events and cause the system to freeze
+by halting process scheduling, should a similar wait mechanism be applied
+to the sun5i timer to protect devices that use it as a clockevent device?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260725113341.2250=
+687-1-megi@xff.cz?part=3D1
