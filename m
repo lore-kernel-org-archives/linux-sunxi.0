@@ -1,158 +1,169 @@
-Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0993126AC5;
-	Mon, 27 Jul 2026 00:35:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.181.231.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BEA6175A8F
+	for <linux-sunxi@lists.linux.dev>; Mon, 27 Jul 2026 06:11:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785112546; cv=none; b=d3iVgczgKIcg2F/s3OP4k6y9GO16nTbXJ+Kxyk/YEThhDBncCYIifgzgodXruVelopJMmwDL93tdeTkMvV36cooc/aEN9koaEbELNQhXfRMyt4tjIVlfDjzfXgk1u3kgmR+Xopy7nvGk65V3LtNpn0aWziDhCliBKQexLte8KPg=
+	t=1785132719; cv=none; b=AUv8+YlX10xzVcohAEO7txg3R1TjgCDrE1QnAjiopJ9oIqU93/Xu7FCnlGyRV3jIvjhFuOztB6QX7SoH9swCDUDjF0OBybZvJSgzQfZssmGiiyPKrEDfNeARW8UgO2C9o4HdqZ8IM3HYVy8L0DCNgKBQB0s4DxncnhzSCcvE81w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785112546; c=relaxed/simple;
-	bh=eVb8nGG4/wGsIe6tyVj4fTwW+mn7Hx/45L+rdm4ANxs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tvnh6DTB5anoVaIXdO+JdkbeFGX+XER95KP7UYxznkLYwNVDKq82eE9AuMECMVNn6Kv3m3BS2rILEskp8xMwZSEcmwSzdgkxIoKPzXC+C/vQ/5uqkEaHBy2zDx+bk1lPNjvY5TioN7YuLrXdwzdq9iYLHwWq+1lKRownMobP6MY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b=rb9lAWnl; arc=none smtp.client-ip=180.181.231.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b="rb9lAWnl"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=gondor.apana.org.au; s=h01; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:cc:to:subject:message-id:date:
-	from:content-type:reply-to; bh=7A3LFRZ61WV2Y8KMKIOzkO8WcMNetvJNv/MmH+S50Fg=; 
-	b=rb9lAWnlFuVHGfjZrw5RIvREO+1IsmUu1niONXWgUM8KCSkTgmtU8hfH1+1t+Qtb4msWXiLnKrj
-	cMWuLucHDCMSmoKPJMTmlm7BIgmH49UOS73r8LhYCw9cBlRWwYJKNiVdus1O3JL/DiAPk5wBI8kpe
-	XhAiQ9D7jOhqmixltxiXr1qvziPK+amMPN3LXJKBZBXKFfrxQcqo6do5JmwBIyt37ngtZE4eh3RVD
-	uORX81jQE/+c5UFRSogVHQkeIJ2TwJFl/ZQGx8aYLOKvXnyDZbCDD9Bu9jyO6jhSSdJaB+WwL6IU3
-	Lq/6pF/SB3lxUkiTVtXCwggoReXRXx4mYGrw==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.98.2 #2 (Debian))
-	id 1wo9JA-0000000Gz1z-1dOl;
-	Mon, 27 Jul 2026 08:35:05 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Mon, 27 Jul 2026 10:35:04 +1000
-Date: Mon, 27 Jul 2026 10:35:04 +1000
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Pan Chuang <panchuang@vivo.com>
-Cc: Corentin Labbe <clabbe.montjoie@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Neal Liu <neal_liu@aspeedtech.com>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
-	Pankaj Gupta <pankaj.gupta@nxp.com>,
-	Gaurav Jain <gaurav.jain@nxp.com>,
-	Gilad Ben-Yossef <gilad@benyossef.com>,
-	Hans Ulli Kroll <ulli.kroll@googlemail.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Antoine Tenart <atenart@kernel.org>,
-	Prabhjot Khurana <prabhjot.khurana@intel.com>,
-	Declan Murphy <declan.murphy@intel.com>,
-	Srujana Challa <schalla@marvell.com>,
-	Bharat Bhushan <bbhushan2@marvell.com>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Ovidiu Panait <ovidiu.panait.oss@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Eric Biggers <ebiggers@kernel.org>,
-	Myeonghun Pak <mhun512@gmail.com>, Ijae Kim <ae878000@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	Kees Cook <kees@kernel.org>,
-	Thorsten Blum <thorsten.blum@linux.dev>,
-	Colin Ian King <colin.i.king@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	"open list:ALLWINNER CRYPTO DRIVERS" <linux-crypto@vger.kernel.org>,
-	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>,
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:ARM/Amlogic Meson SoC Crypto Drivers" <linux-amlogic@lists.infradead.org>,
-	"moderated list:ASPEED CRYPTO DRIVER" <linux-aspeed@lists.ozlabs.org>,
-	"open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <imx@lists.linux.dev>,
-	"open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>,
-	"moderated list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>
-Subject: Re: [PATCH 00/12] crypto: Remove redundant error messages on IRQ
- request failure
-Message-ID: <amanuOXfLwXXDuBk@gondor.apana.org.au>
-References: <20260717080045.191538-1-panchuang@vivo.com>
+	s=arc-20240116; t=1785132719; c=relaxed/simple;
+	bh=oM1YdBYHQBBcXU4U6HB1tVjcnUkqNYouIHpxNqnwIXs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=H9QDLkaLc/0eEtPK0b5tBaylJgogsI5/oPgoWaGE/y0gt9Ep82cQUFKPdzEAMGqRgpd8utKgm3Ei20lui0yMM4AgQYletbII74Sf+ExFtHA7f+K8XTS/ko8fHXj+Fpftt7ins3VWY+1LMFCzH8HDSlawn0OXniWSto/iLM1XS7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 0c8f5362898211f1aa26b74ffac11d73-20260727
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:b2fab21e-8201-4830-84ab-05946c68663c,IP:0,U
+	RL:0,TC:0,Content:0,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:e7bac3a,CLOUDID:b6db45c23c498ef7a76030e0656d38ed,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
+	DM:2,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:
+	0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 0c8f5362898211f1aa26b74ffac11d73-20260727
+X-User: zenghongling@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zenghongling@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1484039790; Mon, 27 Jul 2026 14:11:47 +0800
+From: Hongling Zeng <zenghongling@kylinos.cn>
+To: vkoul@kernel.org,
+	Frank.Li@kernel.org,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	mripard@kernel.org,
+	arnd@arndb.de
+Cc: dmaengine@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	zhongling0719@126.com,
+	Hongling Zeng <zenghongling@kylinos.cn>
+Subject: [PATCH RESEND v5] dmaengine: sun6i-dma: Fix use-after-free in error handling  paths
+Date: Mon, 27 Jul 2026 14:11:42 +0800
+Message-Id: <20260727061142.44195-1-zenghongling@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260717080045.191538-1-panchuang@vivo.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 17, 2026 at 04:00:14PM +0800, Pan Chuang wrote:
-> Commit 55b48e23f5c4 ("genirq/devres: Add error handling in
-> devm_request_*_irq()") added automatic error logging to
-> devm_request_threaded_irq() and devm_request_any_context_irq()
-> via the new devm_request_result() helper, which prints device
-> name, IRQ number, handler functions, and error code on failure.
-> 
-> Since devm_request_irq() is a static inline wrapper around
-> devm_request_threaded_irq(), it also benefits from this
-> automatic logging.
-> 
-> Remove the now-redundant dev_err() and dev_err_probe() calls
-> in crypto drivers that follow these devm_request_*_irq()
-> functions, as the core now provides more detailed diagnostic
-> information on failure.
-> 
-> Pan Chuang (12):
->   crypto: allwinner - Remove redundant dev_err()
->   crypto: amlogic - Remove redundant dev_err()
->   crypto: aspeed - Remove redundant dev_err()
->   crypto: Remove redundant dev_err()/dev_err_probe()
->   crypto: caam - Remove redundant dev_err()
->   crypto: ccree - Remove redundant dev_err()
->   crypto: sl3516 - Remove redundant dev_err()
->   crypto: safexcel - Remove redundant dev_err()
->   crypto: keembay - Remove redundant dev_err()
->   crypto: octeontx2 - Remove redundant dev_err()
->   crypto: rockchip - Remove redundant dev_err()
->   crypto: stm32 - Remove redundant dev_err()
-> 
->  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c   | 4 +---
->  drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c   | 4 +---
->  drivers/crypto/amlogic/amlogic-gxl-core.c           | 4 +---
->  drivers/crypto/aspeed/aspeed-acry.c                 | 4 +---
->  drivers/crypto/aspeed/aspeed-hace.c                 | 4 +---
->  drivers/crypto/atmel-aes.c                          | 4 +---
->  drivers/crypto/atmel-sha.c                          | 4 +---
->  drivers/crypto/atmel-tdes.c                         | 4 +---
->  drivers/crypto/caam/jr.c                            | 2 --
->  drivers/crypto/ccree/cc_driver.c                    | 4 +---
->  drivers/crypto/gemini/sl3516-ce-core.c              | 4 +---
->  drivers/crypto/img-hash.c                           | 4 +---
->  drivers/crypto/inside-secure/safexcel.c             | 4 +---
->  drivers/crypto/intel/keembay/keembay-ocs-aes-core.c | 4 +---
->  drivers/crypto/intel/keembay/keembay-ocs-ecc.c      | 4 +---
->  drivers/crypto/intel/keembay/keembay-ocs-hcu-core.c | 4 +---
->  drivers/crypto/marvell/octeontx2/otx2_cptpf_main.c  | 5 +----
->  drivers/crypto/mxs-dcp.c                            | 8 ++------
->  drivers/crypto/omap-aes.c                           | 4 +---
->  drivers/crypto/omap-des.c                           | 4 +---
->  drivers/crypto/omap-sham.c                          | 5 +----
->  drivers/crypto/rockchip/rk3288_crypto.c             | 4 +---
->  drivers/crypto/sahara.c                             | 3 +--
->  drivers/crypto/stm32/stm32-cryp.c                   | 4 +---
->  drivers/crypto/stm32/stm32-hash.c                   | 4 +---
->  25 files changed, 25 insertions(+), 78 deletions(-)
-> 
-> -- 
-> 2.34.1
+In error handling paths, the for loop frees v_lli in the loop body,
+then accesses v_lli->v_lli_next and v_lli->p_lli_next in the
+increment expression, which is use-after-free.
 
-All applied.  Thanks.
+Fix by refactoring the cleanup into a helper function sun6i_dma_free_desc()
+that saves both the next virtual and physical pointers before freeing the
+current node, preventing the use-after-free.
+
+Fixes: 555859308723 ("dmaengine: Add driver for Allwinner sun6i DMA")
+Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
+Suggested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+---
+Changes in v2:
+ -Refactored the fix to avoid code duplication by creating a helper function
+  sun6i_dma_free_lli_list() that handles LLI list cleanup
+ -Add Suggested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+Change in v3:
+ -Further refactoring to move txd handling into the helper function
+  as suggested by Jernej
+---
+Change in v4:
+ -Add reviewed-by
+---
+Change in v5:
+ -Correct the commit message.
+---
+ drivers/dma/sun6i-dma.c | 31 ++++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
+index fcc88a74d821..e161fc298b86 100644
+--- a/drivers/dma/sun6i-dma.c
++++ b/drivers/dma/sun6i-dma.c
+@@ -406,16 +406,12 @@ static inline void sun6i_dma_dump_lli(struct sun6i_vchan *vchan,
+ 		v_lli->len, v_lli->para, v_lli->p_lli_next);
+ }
+ 
+-static void sun6i_dma_free_desc(struct virt_dma_desc *vd)
++static void sun6i_dma_free_desc(struct sun6i_dma_dev *sdev,
++				struct sun6i_desc *txd)
+ {
+-	struct sun6i_desc *txd = to_sun6i_desc(&vd->tx);
+-	struct sun6i_dma_dev *sdev = to_sun6i_dma_dev(vd->tx.chan->device);
+ 	struct sun6i_dma_lli *v_lli, *v_next;
+ 	dma_addr_t p_lli, p_next;
+ 
+-	if (unlikely(!txd))
+-		return;
+-
+ 	p_lli = txd->p_lli;
+ 	v_lli = txd->v_lli;
+ 
+@@ -432,6 +428,17 @@ static void sun6i_dma_free_desc(struct virt_dma_desc *vd)
+ 	kfree(txd);
+ }
+ 
++static void sun6i_dma_free_desc_virt(struct virt_dma_desc *vd)
++{
++	struct sun6i_desc *txd = to_sun6i_desc(&vd->tx);
++	struct sun6i_dma_dev *sdev = to_sun6i_dma_dev(vd->tx.chan->device);
++
++	if (unlikely(!txd))
++		return;
++
++	sun6i_dma_free_desc(sdev, txd);
++}
++
+ static int sun6i_dma_start_desc(struct sun6i_vchan *vchan)
+ {
+ 	struct sun6i_dma_dev *sdev = to_sun6i_dma_dev(vchan->vc.chan.device);
+@@ -788,10 +795,7 @@ static struct dma_async_tx_descriptor *sun6i_dma_prep_slave_sg(
+ 	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
+ 
+ err_lli_free:
+-	for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
+-	     p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
+-		dma_pool_free(sdev->pool, v_lli, p_lli);
+-	kfree(txd);
++	sun6i_dma_free_desc(sdev, txd);
+ 	return NULL;
+ }
+ 
+@@ -869,10 +873,7 @@ static struct dma_async_tx_descriptor *sun6i_dma_prep_dma_cyclic(
+ 	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
+ 
+ err_lli_free:
+-	for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
+-	     p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
+-		dma_pool_free(sdev->pool, v_lli, p_lli);
+-	kfree(txd);
++	sun6i_dma_free_desc(sdev, txd);
+ 	return NULL;
+ }
+ 
+@@ -1432,7 +1433,7 @@ static int sun6i_dma_probe(struct platform_device *pdev)
+ 		struct sun6i_vchan *vchan = &sdc->vchans[i];
+ 
+ 		INIT_LIST_HEAD(&vchan->node);
+-		vchan->vc.desc_free = sun6i_dma_free_desc;
++		vchan->vc.desc_free = sun6i_dma_free_desc_virt;
+ 		vchan_init(&vchan->vc, &sdc->slave);
+ 	}
+ 
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+2.25.1
+
