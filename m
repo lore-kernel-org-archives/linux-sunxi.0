@@ -1,113 +1,128 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8F773191CE
-	for <linux-sunxi@lists.linux.dev>; Mon, 27 Jul 2026 17:48:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34EBE3596E1
+	for <linux-sunxi@lists.linux.dev>; Mon, 27 Jul 2026 18:46:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785174503; cv=none; b=Qs/fKd2J4cVhb1zrPTyAXSoasslMSgknWGkVxhAB+/gDAaExwJJwAGyuFVRlHy9AzHB0ZxQukeEn+rU44gPfvHStBEWii96TAKlZ6lmNnoaD5Cg7H2hhkziCgqXFwixNmR6Di5PmyaydaMYVsJA1FTlTpU2zvHm+oF4P0EIIt/s=
+	t=1785177981; cv=none; b=oECixnuewXY7RgC2/IUPCB7qY2WvQGF34t8cdbVHn3DuuDj/+U0SNMos/PNEVXCryvWcbIl7Q24Ub7C4phNXO5OFyvqHVjKGsppc2STOUKEKwFNBO4uAD48FrBuLUNTTC+uo31/3VLbkvteZvbWxTHm7tGoWfXG4dD6i81renk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785174503; c=relaxed/simple;
-	bh=EH6izdmRU6juO6PplM7nIJkFuZyzHgPoahx5WL/2rhM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ud0B19dBlRqMVaAJ7N4DoXfA8rdMdjwX+quLHnllrvpEH8DjJ6p2Ee1/Tw1BKRTo8YMilD5r2Eko2Wj3f0P1ME7NxWQQrqLCQxigDoNMSNs5Q4NzR30IDSLKdgbuFb8ten+OkV5XupoHIn6qLjkg2llaGg0oCCM09XfG80Os+hw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=VoCJ+8F5; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1785177981; c=relaxed/simple;
+	bh=Z/5pwo4klH/G5J4/WGhzTofwYGUJUpFmG7OVLRoY6CY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=qwwc35sBObY2o7BC6QbQtBOsU7CVv/k7UO7mOhCV12SDczD+ciAMR1yj7+njVeWO5GUxHbIVmGC6hk14j/Jxc7B0J49JX7wp0Pwk7lulNPjNxn9rO89470UPQYcpDotoRZ/K9Gan5Hdx4qoI7oI44vx/h2IuxgcjOO/TNKyJ58o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com; spf=pass smtp.mailfrom=cknow-tech.com; dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b=Pstfw6IK; arc=none smtp.client-ip=91.218.175.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow-tech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="VoCJ+8F5"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 481CE1682;
-	Mon, 27 Jul 2026 10:48:07 -0700 (PDT)
-Received: from ryzen.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 35CED3F763;
-	Mon, 27 Jul 2026 10:48:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1785174491; bh=EH6izdmRU6juO6PplM7nIJkFuZyzHgPoahx5WL/2rhM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=VoCJ+8F5LZxqXTwemiuJezLBSXxVjjjVBzlGmOZHz+3UVbRco6xiC4htqskoR4kii
-	 or/MWHeD1eprSt+aWI6dwJ/e0nSZitYo5yd5vcYL3ptNzbMI9WFZrEO3ps4VhNZGSV
-	 7o4yDfF1tvtQQYfm31EbZ0Vbh5IezZ2XwgIqJSA0=
-From: Andre Przywara <andre.przywara@arm.com>
-To: Tom Rini <trini@konsulko.com>
-Cc: u-boot@lists.u-boot-project.org,
-	Omar Ivan Fardjoume <ivan.fardjoume@gmail.com>,
-	Junhui Liu <junhui.liu@pigmoral.tech>,
-	linux-sunxi@lists.linux.dev
-Subject: Pull request: u-boot-sunxi/main for 2026.10
-Date: Mon, 27 Jul 2026 19:44:14 +0200
-Message-ID: <20260727174414.22152-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.46.4
+	dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b="Pstfw6IK"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow-tech.com;
+	s=key1; t=1785177974;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s0wH+ySFfCBVmnBojBZaXIoCALe+k/ClNs6fjt/QIh0=;
+	b=Pstfw6IK644jlNnRGZZRzPiUJEWtkwg3bh22GraX3/i7mt3gP1kE9IC1GsrEiZtN9HwtV0
+	MbmNO1kYDW2KbxEiOr9P49jzr3JFdam9Nv4GjjD4EnyoxMaeGntAA6aDHk6vcsi6R0udzB
+	+qL9WEAdvH37Xa/JrZBO5IRJVCi2wuT6cT0F3vO1i/01J0QVy6duT66k2KWM33tHsZvYjQ
+	IdWTyvdQr7nYV4CBGvN1dS+L/UTx/sY/MqpIXlJweYMZ4jPVhCOdsVHOTVktRuhWKjSlzx
+	xk9gIo5Z9YB9UXA4kdjs/bbuTUWyR74sGlTMCREYyq4Bzestgaw3iD+MdtjkZw==
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 27 Jul 2026 20:45:58 +0200
+Message-Id: <DK9KRSOWRHY0.H7SC0R3BIIUZ@cknow-tech.com>
+To: "Neil Armstrong" <neil.armstrong@linaro.org>, "Jessica Zhang"
+ <jesszhan0024@gmail.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Andrzej Hajda"
+ <andrzej.hajda@intel.com>, "Robert Foss" <rfoss@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Luca
+ Ceresoli" <luca.ceresoli@bootlin.com>, "Inki Dae" <inki.dae@samsung.com>,
+ "Jagan Teki" <jagan@amarulasolutions.com>, "Marek Szyprowski"
+ <m.szyprowski@samsung.com>, "Laurentiu Palcu"
+ <laurentiu.palcu@oss.nxp.com>, "Lucas Stach" <l.stach@pengutronix.de>,
+ "Frank Li" <Frank.Li@nxp.com>, "Sascha Hauer" <s.hauer@pengutronix.de>,
+ "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Fabio Estevam"
+ <festevam@gmail.com>, "Paul Cercueil" <paul@crapouillou.net>, "Linus
+ Walleij" <linusw@kernel.org>, "Marek Vasut" <marex@denx.de>, "Stefan Agner"
+ <stefan@agner.ch>, "Tomi Valkeinen" <tomi.valkeinen@ideasonboard.com>,
+ "Laurent Pinchart" <laurent.pinchart+renesas@ideasonboard.com>, "Kieran
+ Bingham" <kieran.bingham+renesas@ideasonboard.com>, "Geert Uytterhoeven"
+ <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Biju
+ Das" <biju.das.jz@bp.renesas.com>, "Sandy Huang" <hjc@rock-chips.com>,
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, "Andy Yan"
+ <andy.yan@rock-chips.com>, "Yannick Fertre" <yannick.fertre@foss.st.com>,
+ "Raphael Gallais-Pou" <raphael.gallais-pou@foss.st.com>, "Philippe Cornu"
+ <philippe.cornu@foss.st.com>, "Maxime Coquelin"
+ <mcoquelin.stm32@gmail.com>, "Alexandre Torgue"
+ <alexandre.torgue@foss.st.com>, "Chen-Yu Tsai" <wens@kernel.org>, "Samuel
+ Holland" <samuel@sholland.org>, "Jyri Sarha" <jyri.sarha@iki.fi>, "Jingoo
+ Han" <jingoohan1@gmail.com>, "Seung-Woo Kim" <sw0312.kim@samsung.com>,
+ "Kyungmin Park" <kyungmin.park@samsung.com>, "Krzysztof Kozlowski"
+ <krzk@kernel.org>, "Peter Griffin" <peter.griffin@linaro.org>, "Alim
+ Akhtar" <alim.akhtar@samsung.com>, "Alison Wang" <alison.wang@nxp.com>,
+ "Paul Kocialkowski" <paulk@sys-base.io>, "Alain Volmat"
+ <alain.volmat@foss.st.com>, "Raphael Gallais-Pou" <rgallaispou@gmail.com>,
+ "Thierry Reding" <thierry.reding@kernel.org>, "Mikko Perttunen"
+ <mperttunen@nvidia.com>, "Jonathan Hunter" <jonathanh@nvidia.com>, "Albert
+ Esteve" <aesteve@redhat.com>
+Cc: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-mips@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+ <linux-rockchip@lists.infradead.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>, <linux-sunxi@lists.linux.dev>,
+ <linux-samsung-soc@vger.kernel.org>, <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH v3 0/4] drm/panel: refcounting panel lookups and
+ references
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Diederik de Haas" <diederik@cknow-tech.com>
+References: <20260717-drm_refcount_wiring-v3-0-023900c32e01@redhat.com>
+ <178472247762.1745070.2847290153778032256.b4-ty@b4>
+In-Reply-To: <178472247762.1745070.2847290153778032256.b4-ty@b4>
+X-Migadu-Flow: FLOW_OUT
 
-Hi Tom,
+On Wed Jul 22, 2026 at 2:15 PM CEST, Neil Armstrong wrote:
+> On Fri, 17 Jul 2026 16:02:03 +0200, Albert Esteve wrote:
+>> The drm_panel subsystem provides kref-based reference counting [1]
+>> (drm_panel_get/put) but almost nothing in the tree actually uses it.
+>> This results in a systemic use-after-free pattern throughout the codebas=
+e.
+>>=20
+>> This series aims to close all those issues.
+>>=20
+>> Patches 1-2: fix the infrastructure. drm_panel_add/remove now keep
+>> a counted reference for the list entry. drm_panel_bridge_add_typed()
+>> now holds a counted reference for the lifetime of the panel_bridge.
+>>=20
+>> [...]
+>
+> Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (dr=
+m-misc-next)
+>
+> [1/4] drm/panel: have drm_panel_add/remove manage a list reference
+>       https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/61aebeadff4=
+0cded27168e53406e0120ad66e114
+> [2/4] drm/bridge/panel: hold a reference to the wrapped panel
+>       https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/8f79d34ea89=
+50fd825e0d6ecd713705a42f06417
+> [3/4] drm/panel: of_drm_find_panel() return a counted reference
+>       https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/b71a623598d=
+319cae2acd9df1b297cc948c58bc7
+> [4/4] drm/panel: find_panel_by_fwnode() return a counted reference
+>       https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/ac3baea883d=
+ab989178dd4186090d6bcf52b8d55
 
-please pull these sunxi changes into main:
+That last commit resulted in an extra ``drm_panel.c.orig`` file which=20
+wasn't part of the patch and seems incorrect?
 
-Beside a fix for a long standing bug in the A80 eMMC code, this adds
-SPI booting support for the Allwinner A523/A527/T527 class of boards.
-The second major feature is support for the secondary Ethernet controller
-on that same SoC. This might not be as important as for the kernel (I
-doubt that U-Boot acts as a router), but for once some boards only connect
-the secondary EMAC, and on others people might have the boot server only
-reachable via this port.
-There are some smaller fixes and improvements still queued up, but they
-need some more testing and are minor, so can land a bit later.
-
-The world build timed out, but the rest passed, and I booted that briefly
-on an A523 board with two Ethernet ports.
-
-Thanks,
-Andre
-===========================================================
-The following changes since commit b635d43bca429500cb8ef20aa151cb5773b9a8a5:
-
-  Merge patch series "fs/squashfs: fix symlink load failure on large images" (2026-07-25 07:55:35 -0600)
-
-are available in the Git repository at:
-
-  https://git.u-boot-project.org/u-boot/custodians/u-boot-sunxi.git main
-
-for you to fetch changes up to 59edf9a3427c13f05d450fe84f42ef00dc7096c9:
-
-  configs: radxa-cubie-a5e: enable the gmac1 controller (2026-07-27 01:18:35 +0200)
-
-----------------------------------------------------------------
-Andre Przywara (5):
-      spi: sunxi: add support for A523 SPI controller
-      sunxi: spl: spi: Clean up SPI0 pinmux setting
-      sunxi: spl: spi: Add support for Allwinner A523
-      sunxi: configs: Radxa Cubie A5E: enable SPI
-      sunxi: configs: OrangePi 4A: enable SPI
-
-Junhui Liu (5):
-      pinctrl: sunxi: a523: add gmac1 support
-      clk: sunxi: a523: add MBUS_EMAC1 clock gate
-      arm: mach-sunxi: add syscon driver for system-control nodes
-      net: dwc_eth_qos: add support for sun55i platform
-      configs: radxa-cubie-a5e: enable the gmac1 controller
-
-Omar Ivan Fardjoume (1):
-      mmc: sunxi: fix MACH_SUN9I typo in get_mclk_offset()
-
- arch/arm/mach-sunxi/Kconfig           |   7 +
- arch/arm/mach-sunxi/Makefile          |   1 +
- arch/arm/mach-sunxi/spl_spi_sunxi.c   |  48 +++----
- arch/arm/mach-sunxi/syscon.c          |  28 ++++
- configs/orangepi_4a_defconfig         |   4 +
- configs/radxa-cubie-a5e_defconfig     |   9 ++
- drivers/clk/sunxi/clk_a523.c          |   1 +
- drivers/mmc/sunxi_mmc.c               |   6 +-
- drivers/net/Kconfig                   |   9 ++
- drivers/net/Makefile                  |   1 +
- drivers/net/dwc_eth_qos.c             |   6 +
- drivers/net/dwc_eth_qos.h             |   1 +
- drivers/net/dwc_eth_qos_sunxi.c       | 254 ++++++++++++++++++++++++++++++++++
- drivers/pinctrl/sunxi/pinctrl-sunxi.c |   3 +-
- drivers/spi/spi-sunxi.c               |   4 +
- 15 files changed, 352 insertions(+), 30 deletions(-)
- create mode 100644 arch/arm/mach-sunxi/syscon.c
- create mode 100644 drivers/net/dwc_eth_qos_sunxi.c
+Cheers,
+  Diederik
