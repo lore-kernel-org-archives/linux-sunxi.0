@@ -1,128 +1,220 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34EBE3596E1
-	for <linux-sunxi@lists.linux.dev>; Mon, 27 Jul 2026 18:46:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4DD53C1403
+	for <linux-sunxi@lists.linux.dev>; Mon, 27 Jul 2026 19:42:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785177981; cv=none; b=oECixnuewXY7RgC2/IUPCB7qY2WvQGF34t8cdbVHn3DuuDj/+U0SNMos/PNEVXCryvWcbIl7Q24Ub7C4phNXO5OFyvqHVjKGsppc2STOUKEKwFNBO4uAD48FrBuLUNTTC+uo31/3VLbkvteZvbWxTHm7tGoWfXG4dD6i81renk4=
+	t=1785181334; cv=none; b=VLM4G+xJOlN+I3DFi83Gvq6xOYeGSx8sktcVU5vstFk185vRoizEG0dgh2a88sCY+Nf0Ds/IUA9naEQL1nT6+IHuNQvSY4VWQX1putfTYSkdkVyYuCtg4aTYxXnmgZy2KSAPfcoor2YZcbAUmKvM7pvyNgEiqLGNJs+z/JbeHus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785177981; c=relaxed/simple;
-	bh=Z/5pwo4klH/G5J4/WGhzTofwYGUJUpFmG7OVLRoY6CY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=qwwc35sBObY2o7BC6QbQtBOsU7CVv/k7UO7mOhCV12SDczD+ciAMR1yj7+njVeWO5GUxHbIVmGC6hk14j/Jxc7B0J49JX7wp0Pwk7lulNPjNxn9rO89470UPQYcpDotoRZ/K9Gan5Hdx4qoI7oI44vx/h2IuxgcjOO/TNKyJ58o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com; spf=pass smtp.mailfrom=cknow-tech.com; dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b=Pstfw6IK; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow-tech.com
+	s=arc-20240116; t=1785181334; c=relaxed/simple;
+	bh=MKS/sBRev8jNfgKABI4CtILB5FqYVqpdhuw+INuhcWo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XRDC/LmomA4b+yLrURM2HRhRVpQs1oe0/DUl4hCo2sTrzDWaCBciTTa6Uc58X+IPH22etVaankC/WA7IJJ9K/IjXtLu88fZejuTKoGekp8+XxX8g2T9PwFrsLIdij8r3jUj6YNgOe0E80RRw/oFeE8M/Em3mxtotTRBqNuxrGig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=loi3xOHA; arc=none smtp.client-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b="Pstfw6IK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="loi3xOHA"
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-92ed3993c1eso176073985a.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 27 Jul 2026 12:42:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785181332; x=1785786132; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ikqwbkqF0vWWk5NitpyxsfTFJUUcd2sIYvu6B+uZKIw=;
+        b=loi3xOHApDv5PcNBvnKu77fM+YPv47mKIXq50DxP7z0UKpyocX2nlw4YcWey5djhHr
+         nn3vEaYZDb1LfnxwvXILzIJBGyKJJAfp+ViOF0SYeTjEwiyYJA6ENl0VZxRv8B5VgdD7
+         Pc4y1LuxBzf+yploM91XZzwc1fl0tmm0FuutM8Xvn1oS4anHCfobVEBAiDUYiD5D4gWe
+         HCWUoPoGmyAOAMA2dRZopFbk5VyVtqDNkIWjQAeoI5WaD1m8DT+NFyjAknUKPvr7JbWR
+         bpEW0hTb7IELLyH+bH0+t7l7Mi331BUtKNjIFqCgfwyKKpzaVKOh3nz/fD7V7feTMASm
+         5vgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785181332; x=1785786132;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ikqwbkqF0vWWk5NitpyxsfTFJUUcd2sIYvu6B+uZKIw=;
+        b=BknA+Nhpus06mQ6iCcLLWgfuVRLz8tEdovDx7JG6nGB+A9Gl+2UAAA2ueAOGPLDDkV
+         4uVceY94rzVual41Tslspsl3jZNqfzqXpLV3Ft1MGqNnPrHShDYapeBsvd9xpcjtnVr3
+         1xn4UQZGLgxC/qV7ITwxYfPVD7lP0Cu3yDPAroQjpBYZq9AgvPyf4ZsshirK8aoq6DUD
+         aMleyp7fid8CIjmLGDt0lpnkqYH4gl1QRfNYJ+3yxxLcQgbRN9kwXavB/2/mAwEmZPpO
+         imDOEKvVgFl844U+z+YfssVSRGlL+VK7p5n4hoNx6IGOz3SGZkdXCdW4PxUMDxJF51lj
+         DOxQ==
+X-Gm-Message-State: AOJu0Yx0oKHayD8r2W/vrYxgYQR9WPdepOQWR30/RvAvjQu7mzxAP9Ih
+	O4aflEdGIln5lK0qhaoffHip/WxRHTPtOFM3z7sKfiiBh+nGaivc3XIqijnUyw==
+X-Gm-Gg: AR+sD13qyJnw2VbTZ5/WVk49heaf5yhb2ZYl9Xn+v3sTO8LX+VEyjFyZEWF/LISkZWw
+	sotPtGc9ORG5ZEjM/vbHEWfAOEV7cEnodk1IaKSz931XUmEECTW85U6qUjx001XJsS5FjOpqpHH
+	6QTGnMkG6cAeeoU/WpWVLcqTarYLV5sfHHB1ve0NJHX0Ec6C6ZpWOzggpsq9Tlt1f2mYZTbsO3U
+	3TmlOr1/4PgHql2O28WETeegCHW1o9pPjXEkrgo1Rn0xXzIdEJwvwBMWpB+MuaUdMA8V5eYCWUo
+	qJm+eOyZn8cBvxDLnzWRTyf2gOev1YtLg+Ej0lQcfcfBzaFZez95t24+T1m8U16Waa1Tpg0dJ9l
+	55HuX7BJTdIL9tFOLORVdAZ2Nf/HjcfnN/pAdNoTDrv5c5gJ3+NW2jByfPLi+coa7YloS6o5NIF
+	YARLMj3iOlQxzrUhjSuFQjh8aJEMdCwwr0ye7n5Evc71MEHPMNg7bSrWviNr285GllUcADd6bRP
+	GIk/hQGkSc7cUWn+noMW65gXYnXwr0L3siaR2hDqgJHsNaWviUP0xo=
+X-Received: by 2002:a05:620a:a197:20b0:92e:6dc0:7b13 with SMTP id af79cd13be357-932df6ea2cemr755870585a.53.1785181331671;
+        Mon, 27 Jul 2026 12:42:11 -0700 (PDT)
+Received: from ryzen.lan ([2601:644:8000:7a86::e34])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-932de66b2b4sm681276485a.41.2026.07.27.12.42.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jul 2026 12:42:11 -0700 (PDT)
+From: Rosen Penev <rosenp@gmail.com>
+To: linux-sunxi@lists.linux.dev
+Cc: Jassi Brar <jassisinghbrar@gmail.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-kernel@vger.kernel.org (open list:MAILBOX API),
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support)
+Subject: [PATCH] mailbox: sun6i: modernize probe and convert to fully managed
+Date: Mon, 27 Jul 2026 12:42:08 -0700
+Message-ID: <20260727194208.10082-1-rosenp@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow-tech.com;
-	s=key1; t=1785177974;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s0wH+ySFfCBVmnBojBZaXIoCALe+k/ClNs6fjt/QIh0=;
-	b=Pstfw6IK644jlNnRGZZRzPiUJEWtkwg3bh22GraX3/i7mt3gP1kE9IC1GsrEiZtN9HwtV0
-	MbmNO1kYDW2KbxEiOr9P49jzr3JFdam9Nv4GjjD4EnyoxMaeGntAA6aDHk6vcsi6R0udzB
-	+qL9WEAdvH37Xa/JrZBO5IRJVCi2wuT6cT0F3vO1i/01J0QVy6duT66k2KWM33tHsZvYjQ
-	IdWTyvdQr7nYV4CBGvN1dS+L/UTx/sY/MqpIXlJweYMZ4jPVhCOdsVHOTVktRuhWKjSlzx
-	xk9gIo5Z9YB9UXA4kdjs/bbuTUWyR74sGlTMCREYyq4Bzestgaw3iD+MdtjkZw==
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 27 Jul 2026 20:45:58 +0200
-Message-Id: <DK9KRSOWRHY0.H7SC0R3BIIUZ@cknow-tech.com>
-To: "Neil Armstrong" <neil.armstrong@linaro.org>, "Jessica Zhang"
- <jesszhan0024@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Robert Foss" <rfoss@kernel.org>, "Laurent
- Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
- <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Luca
- Ceresoli" <luca.ceresoli@bootlin.com>, "Inki Dae" <inki.dae@samsung.com>,
- "Jagan Teki" <jagan@amarulasolutions.com>, "Marek Szyprowski"
- <m.szyprowski@samsung.com>, "Laurentiu Palcu"
- <laurentiu.palcu@oss.nxp.com>, "Lucas Stach" <l.stach@pengutronix.de>,
- "Frank Li" <Frank.Li@nxp.com>, "Sascha Hauer" <s.hauer@pengutronix.de>,
- "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Fabio Estevam"
- <festevam@gmail.com>, "Paul Cercueil" <paul@crapouillou.net>, "Linus
- Walleij" <linusw@kernel.org>, "Marek Vasut" <marex@denx.de>, "Stefan Agner"
- <stefan@agner.ch>, "Tomi Valkeinen" <tomi.valkeinen@ideasonboard.com>,
- "Laurent Pinchart" <laurent.pinchart+renesas@ideasonboard.com>, "Kieran
- Bingham" <kieran.bingham+renesas@ideasonboard.com>, "Geert Uytterhoeven"
- <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Biju
- Das" <biju.das.jz@bp.renesas.com>, "Sandy Huang" <hjc@rock-chips.com>,
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, "Andy Yan"
- <andy.yan@rock-chips.com>, "Yannick Fertre" <yannick.fertre@foss.st.com>,
- "Raphael Gallais-Pou" <raphael.gallais-pou@foss.st.com>, "Philippe Cornu"
- <philippe.cornu@foss.st.com>, "Maxime Coquelin"
- <mcoquelin.stm32@gmail.com>, "Alexandre Torgue"
- <alexandre.torgue@foss.st.com>, "Chen-Yu Tsai" <wens@kernel.org>, "Samuel
- Holland" <samuel@sholland.org>, "Jyri Sarha" <jyri.sarha@iki.fi>, "Jingoo
- Han" <jingoohan1@gmail.com>, "Seung-Woo Kim" <sw0312.kim@samsung.com>,
- "Kyungmin Park" <kyungmin.park@samsung.com>, "Krzysztof Kozlowski"
- <krzk@kernel.org>, "Peter Griffin" <peter.griffin@linaro.org>, "Alim
- Akhtar" <alim.akhtar@samsung.com>, "Alison Wang" <alison.wang@nxp.com>,
- "Paul Kocialkowski" <paulk@sys-base.io>, "Alain Volmat"
- <alain.volmat@foss.st.com>, "Raphael Gallais-Pou" <rgallaispou@gmail.com>,
- "Thierry Reding" <thierry.reding@kernel.org>, "Mikko Perttunen"
- <mperttunen@nvidia.com>, "Jonathan Hunter" <jonathanh@nvidia.com>, "Albert
- Esteve" <aesteve@redhat.com>
-Cc: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
- <linux-mips@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
- <linux-rockchip@lists.infradead.org>,
- <linux-stm32@st-md-mailman.stormreply.com>, <linux-sunxi@lists.linux.dev>,
- <linux-samsung-soc@vger.kernel.org>, <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH v3 0/4] drm/panel: refcounting panel lookups and
- references
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Diederik de Haas" <diederik@cknow-tech.com>
-References: <20260717-drm_refcount_wiring-v3-0-023900c32e01@redhat.com>
- <178472247762.1745070.2847290153778032256.b4-ty@b4>
-In-Reply-To: <178472247762.1745070.2847290153778032256.b4-ty@b4>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed Jul 22, 2026 at 2:15 PM CEST, Neil Armstrong wrote:
-> On Fri, 17 Jul 2026 16:02:03 +0200, Albert Esteve wrote:
->> The drm_panel subsystem provides kref-based reference counting [1]
->> (drm_panel_get/put) but almost nothing in the tree actually uses it.
->> This results in a systemic use-after-free pattern throughout the codebas=
-e.
->>=20
->> This series aims to close all those issues.
->>=20
->> Patches 1-2: fix the infrastructure. drm_panel_add/remove now keep
->> a counted reference for the list entry. drm_panel_bridge_add_typed()
->> now holds a counted reference for the lifetime of the panel_bridge.
->>=20
->> [...]
->
-> Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (dr=
-m-misc-next)
->
-> [1/4] drm/panel: have drm_panel_add/remove manage a list reference
->       https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/61aebeadff4=
-0cded27168e53406e0120ad66e114
-> [2/4] drm/bridge/panel: hold a reference to the wrapped panel
->       https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/8f79d34ea89=
-50fd825e0d6ecd713705a42f06417
-> [3/4] drm/panel: of_drm_find_panel() return a counted reference
->       https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/b71a623598d=
-319cae2acd9df1b297cc948c58bc7
-> [4/4] drm/panel: find_panel_by_fwnode() return a counted reference
->       https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/ac3baea883d=
-ab989178dd4186090d6bcf52b8d55
+Replace irq_of_parse_and_map() with platform_get_irq() and move both
+IRQ and MMIO resource acquisition to the top of probe, before any
+allocations, for early error exit.
 
-That last commit resulted in an extra ``drm_panel.c.orig`` file which=20
-wasn't part of the patch and seems incorrect?
+Switch from devm_clk_get() + clk_prepare_enable() to
+devm_clk_get_enabled(), which combines both operations and registers
+devres callbacks for automatic disable/unprepare on unbind. This
+eliminates the manual err_disable_unprepare error path and the
+remove callback entirely.
 
-Cheers,
-  Diederik
+Use devm_mbox_controller_register() for devres-managed controller
+registration, and drop the remove callback and platform_set_drvdata()
+which are no longer needed.
+
+Assisted-by: Opencode:Big-Pickle
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
+---
+ drivers/mailbox/sun6i-msgbox.c | 62 ++++++++++------------------------
+ 1 file changed, 18 insertions(+), 44 deletions(-)
+
+diff --git a/drivers/mailbox/sun6i-msgbox.c b/drivers/mailbox/sun6i-msgbox.c
+index 6ba6920f4645..28d8636afad2 100644
+--- a/drivers/mailbox/sun6i-msgbox.c
++++ b/drivers/mailbox/sun6i-msgbox.c
+@@ -198,7 +198,17 @@ static int sun6i_msgbox_probe(struct platform_device *pdev)
+ 	struct mbox_chan *chans;
+ 	struct reset_control *reset;
+ 	struct sun6i_msgbox *mbox;
++	void __iomem *regs;
+ 	int i, ret;
++	int irq;
++
++	irq = platform_get_irq(pdev, 0);
++	if (irq < 0)
++		return irq;
++
++	regs = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(regs))
++		return PTR_ERR(regs);
+ 
+ 	mbox = devm_kzalloc(dev, sizeof(*mbox), GFP_KERNEL);
+ 	if (!mbox)
+@@ -211,24 +221,18 @@ static int sun6i_msgbox_probe(struct platform_device *pdev)
+ 	for (i = 0; i < NUM_CHANS; ++i)
+ 		chans[i].con_priv = mbox;
+ 
+-	mbox->clk = devm_clk_get(dev, NULL);
++	mbox->clk = devm_clk_get_enabled(dev, NULL);
+ 	if (IS_ERR(mbox->clk)) {
+ 		ret = PTR_ERR(mbox->clk);
+ 		dev_err(dev, "Failed to get clock: %d\n", ret);
+ 		return ret;
+ 	}
+ 
+-	ret = clk_prepare_enable(mbox->clk);
+-	if (ret) {
+-		dev_err(dev, "Failed to enable clock: %d\n", ret);
+-		return ret;
+-	}
+-
+ 	reset = devm_reset_control_get_exclusive(dev, NULL);
+ 	if (IS_ERR(reset)) {
+ 		ret = PTR_ERR(reset);
+ 		dev_err(dev, "Failed to get reset control: %d\n", ret);
+-		goto err_disable_unprepare;
++		return ret;
+ 	}
+ 
+ 	/*
+@@ -242,25 +246,17 @@ static int sun6i_msgbox_probe(struct platform_device *pdev)
+ 	ret = reset_control_deassert(reset);
+ 	if (ret) {
+ 		dev_err(dev, "Failed to deassert reset: %d\n", ret);
+-		goto err_disable_unprepare;
++		return ret;
+ 	}
+ 
+-	mbox->regs = devm_platform_ioremap_resource(pdev, 0);
+-	if (IS_ERR(mbox->regs)) {
+-		ret = PTR_ERR(mbox->regs);
+-		dev_err(dev, "Failed to map MMIO resource: %d\n", ret);
+-		goto err_disable_unprepare;
+-	}
++	mbox->regs = regs;
+ 
+ 	/* Disable all IRQs for this end of the msgbox. */
+ 	writel(0, mbox->regs + LOCAL_IRQ_EN_REG);
+ 
+-	ret = devm_request_irq(dev, irq_of_parse_and_map(dev->of_node, 0),
+-			       sun6i_msgbox_irq, 0, dev_name(dev), mbox);
+-	if (ret) {
+-		dev_err(dev, "Failed to register IRQ handler: %d\n", ret);
+-		goto err_disable_unprepare;
+-	}
++	ret = devm_request_irq(dev, irq, sun6i_msgbox_irq, 0, dev_name(dev), mbox);
++	if (ret)
++		return ret;
+ 
+ 	mbox->controller.dev           = dev;
+ 	mbox->controller.ops           = &sun6i_msgbox_chan_ops;
+@@ -271,29 +267,8 @@ static int sun6i_msgbox_probe(struct platform_device *pdev)
+ 	mbox->controller.txpoll_period = 5;
+ 
+ 	spin_lock_init(&mbox->lock);
+-	platform_set_drvdata(pdev, mbox);
+-
+-	ret = mbox_controller_register(&mbox->controller);
+-	if (ret) {
+-		dev_err(dev, "Failed to register controller: %d\n", ret);
+-		goto err_disable_unprepare;
+-	}
+-
+-	return 0;
+-
+-err_disable_unprepare:
+-	clk_disable_unprepare(mbox->clk);
+-
+-	return ret;
+-}
+-
+-static void sun6i_msgbox_remove(struct platform_device *pdev)
+-{
+-	struct sun6i_msgbox *mbox = platform_get_drvdata(pdev);
+ 
+-	mbox_controller_unregister(&mbox->controller);
+-	/* See the comment in sun6i_msgbox_probe about the reset line. */
+-	clk_disable_unprepare(mbox->clk);
++	return devm_mbox_controller_register(&mbox->controller);
+ }
+ 
+ static const struct of_device_id sun6i_msgbox_of_match[] = {
+@@ -308,7 +283,6 @@ static struct platform_driver sun6i_msgbox_driver = {
+ 		.of_match_table = sun6i_msgbox_of_match,
+ 	},
+ 	.probe = sun6i_msgbox_probe,
+-	.remove = sun6i_msgbox_remove,
+ };
+ module_platform_driver(sun6i_msgbox_driver);
+ 
+-- 
+2.55.0
+
