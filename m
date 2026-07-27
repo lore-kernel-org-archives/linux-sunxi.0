@@ -1,100 +1,158 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E70341E492D;
-	Sat, 25 Jul 2026 12:40:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0993126AC5;
+	Mon, 27 Jul 2026 00:35:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.181.231.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784983227; cv=none; b=LWsh5LqUwQY45ZbweNpvlbZ96EyU1mBF243JIaYlnhr+fYkSD1hHl4xeJeFFvjAhTtF9e1obUz6gLhmKdj/0JV8SFri2fyOeHNq6XO6xaZHaBzHz4d/DZkP7TsaorXRubYEvqI+CbU9G28n+a4TVTyvdpgANbS3ofRdzbnQ+SEs=
+	t=1785112546; cv=none; b=d3iVgczgKIcg2F/s3OP4k6y9GO16nTbXJ+Kxyk/YEThhDBncCYIifgzgodXruVelopJMmwDL93tdeTkMvV36cooc/aEN9koaEbELNQhXfRMyt4tjIVlfDjzfXgk1u3kgmR+Xopy7nvGk65V3LtNpn0aWziDhCliBKQexLte8KPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784983227; c=relaxed/simple;
-	bh=3m5Lq59NeHnwgoq8AYeCNVOz+jLB7H7BJqJCotZVcjc=;
+	s=arc-20240116; t=1785112546; c=relaxed/simple;
+	bh=eVb8nGG4/wGsIe6tyVj4fTwW+mn7Hx/45L+rdm4ANxs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pYeL7MMwlPEWTOpFjCf8jxmVLPmaUn8CilQNoJ70f/I70ptMjeVVo8S9dFmMZUCByzcj6A13B8bSOh3nr2b/HWCUQK3wY+OaCoeKbn2LwmU/SILhI6g1tY3s9pdAOcoXkb4o2zwrjKseFfmCiIu1Wi0GuGeWFZgfTkYBofOyCAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=aDcGS0Qr; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=tvnh6DTB5anoVaIXdO+JdkbeFGX+XER95KP7UYxznkLYwNVDKq82eE9AuMECMVNn6Kv3m3BS2rILEskp8xMwZSEcmwSzdgkxIoKPzXC+C/vQ/5uqkEaHBy2zDx+bk1lPNjvY5TioN7YuLrXdwzdq9iYLHwWq+1lKRownMobP6MY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b=rb9lAWnl; arc=none smtp.client-ip=180.181.231.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="aDcGS0Qr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1784983222; bh=3m5Lq59NeHnwgoq8AYeCNVOz+jLB7H7BJqJCotZVcjc=;
-	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-	b=aDcGS0Qr5EAI0vjkgdOjQvRC1woFkCelVfor5vog1X0nQOwAOohMrcJnpNaz+k5Dd
-	 9Dl4yqPi2E0gN8p9t/60/Bfo0cm42LX7poOc5e81LdPKeIyduEn8GJeqGdATIcFOi5
-	 Oz9LIbHj0S+v95O2dpsvae7WP8rnjOe46yaI1vaU=
-Date: Sat, 25 Jul 2026 14:40:22 +0200
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] clocksource/drivers/sun4i: Wait for pending reload
- before CTRL write
-Message-ID: <hx6r6lc3lmry3qzfvuiflsxc5oogbhkyfsvsxpt4ygfmoqfgk3@6ssdp3vthsam>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20260725113341.2250687-1-megi@xff.cz>
- <20260725114338.D9E801F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b="rb9lAWnl"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=gondor.apana.org.au; s=h01; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:cc:to:subject:message-id:date:
+	from:content-type:reply-to; bh=7A3LFRZ61WV2Y8KMKIOzkO8WcMNetvJNv/MmH+S50Fg=; 
+	b=rb9lAWnlFuVHGfjZrw5RIvREO+1IsmUu1niONXWgUM8KCSkTgmtU8hfH1+1t+Qtb4msWXiLnKrj
+	cMWuLucHDCMSmoKPJMTmlm7BIgmH49UOS73r8LhYCw9cBlRWwYJKNiVdus1O3JL/DiAPk5wBI8kpe
+	XhAiQ9D7jOhqmixltxiXr1qvziPK+amMPN3LXJKBZBXKFfrxQcqo6do5JmwBIyt37ngtZE4eh3RVD
+	uORX81jQE/+c5UFRSogVHQkeIJ2TwJFl/ZQGx8aYLOKvXnyDZbCDD9Bu9jyO6jhSSdJaB+WwL6IU3
+	Lq/6pF/SB3lxUkiTVtXCwggoReXRXx4mYGrw==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.98.2 #2 (Debian))
+	id 1wo9JA-0000000Gz1z-1dOl;
+	Mon, 27 Jul 2026 08:35:05 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Mon, 27 Jul 2026 10:35:04 +1000
+Date: Mon, 27 Jul 2026 10:35:04 +1000
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Pan Chuang <panchuang@vivo.com>
+Cc: Corentin Labbe <clabbe.montjoie@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Neal Liu <neal_liu@aspeedtech.com>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
+	Pankaj Gupta <pankaj.gupta@nxp.com>,
+	Gaurav Jain <gaurav.jain@nxp.com>,
+	Gilad Ben-Yossef <gilad@benyossef.com>,
+	Hans Ulli Kroll <ulli.kroll@googlemail.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Antoine Tenart <atenart@kernel.org>,
+	Prabhjot Khurana <prabhjot.khurana@intel.com>,
+	Declan Murphy <declan.murphy@intel.com>,
+	Srujana Challa <schalla@marvell.com>,
+	Bharat Bhushan <bbhushan2@marvell.com>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Ovidiu Panait <ovidiu.panait.oss@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>, Eric Biggers <ebiggers@kernel.org>,
+	Myeonghun Pak <mhun512@gmail.com>, Ijae Kim <ae878000@gmail.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+	Kees Cook <kees@kernel.org>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Colin Ian King <colin.i.king@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	"open list:ALLWINNER CRYPTO DRIVERS" <linux-crypto@vger.kernel.org>,
+	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>,
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:ARM/Amlogic Meson SoC Crypto Drivers" <linux-amlogic@lists.infradead.org>,
+	"moderated list:ASPEED CRYPTO DRIVER" <linux-aspeed@lists.ozlabs.org>,
+	"open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <imx@lists.linux.dev>,
+	"open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>,
+	"moderated list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>
+Subject: Re: [PATCH 00/12] crypto: Remove redundant error messages on IRQ
+ request failure
+Message-ID: <amanuOXfLwXXDuBk@gondor.apana.org.au>
+References: <20260717080045.191538-1-panchuang@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260725114338.D9E801F000E9@smtp.kernel.org>
+In-Reply-To: <20260717080045.191538-1-panchuang@vivo.com>
 
-Well, that's what I stated in the original patch comment. I don't have the HW
-to test. I can send a blind fix, or whoever cares and has SoC that uses the
-other timer driver that may have the same issue, can do it.
-
-I'll do whatever the real maintainers suggest. ;)
-
-	.o
-
-On Sat, Jul 25, 2026 at 11:43:38AM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+On Fri, Jul 17, 2026 at 04:00:14PM +0800, Pan Chuang wrote:
+> Commit 55b48e23f5c4 ("genirq/devres: Add error handling in
+> devm_request_*_irq()") added automatic error logging to
+> devm_request_threaded_irq() and devm_request_any_context_irq()
+> via the new devm_request_result() helper, which prints device
+> name, IRQ number, handler functions, and error code on failure.
 > 
-> Pre-existing issues:
-> - [High] This problem wasn't introduced by this patch, but the same hardware limitation where writing to the control register while the RELOAD bit is set causes the write to be dropped is unaddressed in `timer-sun5i.c`.
-> --
+> Since devm_request_irq() is a static inline wrapper around
+> devm_request_threaded_irq(), it also benefits from this
+> automatic logging.
 > 
-> --- Patch [1]: [PATCH] clocksource/drivers/sun4i: Wait for pending reload before CTRL write ---
-> commit 936f66d7fd8614d6358ab1a1c7241c4675c9fff4
-> Author: Ondrej Jirman <megi@xff.cz>
+> Remove the now-redundant dev_err() and dev_err_probe() calls
+> in crypto drivers that follow these devm_request_*_irq()
+> functions, as the core now provides more detailed diagnostic
+> information on failure.
 > 
-> clocksource/drivers/sun4i: Wait for pending reload before CTRL write
+> Pan Chuang (12):
+>   crypto: allwinner - Remove redundant dev_err()
+>   crypto: amlogic - Remove redundant dev_err()
+>   crypto: aspeed - Remove redundant dev_err()
+>   crypto: Remove redundant dev_err()/dev_err_probe()
+>   crypto: caam - Remove redundant dev_err()
+>   crypto: ccree - Remove redundant dev_err()
+>   crypto: sl3516 - Remove redundant dev_err()
+>   crypto: safexcel - Remove redundant dev_err()
+>   crypto: keembay - Remove redundant dev_err()
+>   crypto: octeontx2 - Remove redundant dev_err()
+>   crypto: rockchip - Remove redundant dev_err()
+>   crypto: stm32 - Remove redundant dev_err()
 > 
-> This commit fixes a bug in the sun4i timer driver where writes to the
-> control register are silently dropped if the RELOAD bit is set. It introduces
-> a polling mechanism to wait for the reload bit to clear before modifying
-> the register.
-> 
-> > BTW, similar issue will likely be also in timer-sun5i.c but I don't have any
-> > device that would exercise it. And it's possible that this triggers more easily
-> > with CONFIG_HZ=1000 which I use.
-> 
-> [Severity: High]
-> This isn't a bug introduced by this patch, but as you suspected, the exact
-> same hardware limitation is unaddressed in drivers/clocksource/timer-sun5i.c.
-> 
-> Looking at sun5i_clkevt_time_stop(), the unprotected read-modify-write of
-> the control register occurs here:
-> 
-> drivers/clocksource/timer-sun5i.c:sun5i_clkevt_time_stop() {
->     ...
->     writel(val & ~TIMER_CTL_ENABLE,
->            ce->base + TIMER_CTL_REG(timer, offset));
->     ...
-> }
-> 
-> If rapid back-to-back scheduling of high-resolution timers causes this to
-> be called while the RELOAD bit from a prior time_start() is still set,
-> wouldn't the write be dropped, failing to clear the ENABLE bit? 
-> 
-> Since this can permanently stop clock events and cause the system to freeze
-> by halting process scheduling, should a similar wait mechanism be applied
-> to the sun5i timer to protect devices that use it as a clockevent device?
+>  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c   | 4 +---
+>  drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c   | 4 +---
+>  drivers/crypto/amlogic/amlogic-gxl-core.c           | 4 +---
+>  drivers/crypto/aspeed/aspeed-acry.c                 | 4 +---
+>  drivers/crypto/aspeed/aspeed-hace.c                 | 4 +---
+>  drivers/crypto/atmel-aes.c                          | 4 +---
+>  drivers/crypto/atmel-sha.c                          | 4 +---
+>  drivers/crypto/atmel-tdes.c                         | 4 +---
+>  drivers/crypto/caam/jr.c                            | 2 --
+>  drivers/crypto/ccree/cc_driver.c                    | 4 +---
+>  drivers/crypto/gemini/sl3516-ce-core.c              | 4 +---
+>  drivers/crypto/img-hash.c                           | 4 +---
+>  drivers/crypto/inside-secure/safexcel.c             | 4 +---
+>  drivers/crypto/intel/keembay/keembay-ocs-aes-core.c | 4 +---
+>  drivers/crypto/intel/keembay/keembay-ocs-ecc.c      | 4 +---
+>  drivers/crypto/intel/keembay/keembay-ocs-hcu-core.c | 4 +---
+>  drivers/crypto/marvell/octeontx2/otx2_cptpf_main.c  | 5 +----
+>  drivers/crypto/mxs-dcp.c                            | 8 ++------
+>  drivers/crypto/omap-aes.c                           | 4 +---
+>  drivers/crypto/omap-des.c                           | 4 +---
+>  drivers/crypto/omap-sham.c                          | 5 +----
+>  drivers/crypto/rockchip/rk3288_crypto.c             | 4 +---
+>  drivers/crypto/sahara.c                             | 3 +--
+>  drivers/crypto/stm32/stm32-cryp.c                   | 4 +---
+>  drivers/crypto/stm32/stm32-hash.c                   | 4 +---
+>  25 files changed, 25 insertions(+), 78 deletions(-)
 > 
 > -- 
-> Sashiko AI review · https://sashiko.dev/#/patchset/20260725113341.2250687-1-megi@xff.cz?part=1
+> 2.34.1
+
+All applied.  Thanks.
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
