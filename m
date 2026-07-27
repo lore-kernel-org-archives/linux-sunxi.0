@@ -1,160 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BC841B373
-	for <linux-sunxi@lists.linux.dev>; Mon, 27 Jul 2026 14:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8F773191CE
+	for <linux-sunxi@lists.linux.dev>; Mon, 27 Jul 2026 17:48:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785163215; cv=none; b=G/3oYbKDzFXdZ3iCRWDtY16KaNyQrZpesfxBFHWjXmlasjvfIDN4mOTg7mLfHHMF9oN9MFg4K62McEUKjujrNXSg1diA6pHS/BUtCbqC21B+Ezf1A47hhTw4cux3/JcR2WR+1ov4m7juaOJ90tjHCb0zs0k5PWXBSKQ0zrd4vy8=
+	t=1785174503; cv=none; b=Qs/fKd2J4cVhb1zrPTyAXSoasslMSgknWGkVxhAB+/gDAaExwJJwAGyuFVRlHy9AzHB0ZxQukeEn+rU44gPfvHStBEWii96TAKlZ6lmNnoaD5Cg7H2hhkziCgqXFwixNmR6Di5PmyaydaMYVsJA1FTlTpU2zvHm+oF4P0EIIt/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785163215; c=relaxed/simple;
-	bh=wNR4bOaCKXzfy2PMlSEJUahf4u47n5BT07pnHLfwqdQ=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=eWUYVTgggs1uHg53c1bQmB+KJXKSlRJZh10e8tNtHX5wyM85cIDYzQ3EJoP4i10fyTnMfj9gAO817mTkUNteA/u7pazyVpqOrxzipApgmofoWKr5iJUy71RqFouP4+mo4kP6ZhY7wMkuSuO7cRtGJ3U6F5MmSXwWAB777CeeRY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hl01rTN/; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785174503; c=relaxed/simple;
+	bh=EH6izdmRU6juO6PplM7nIJkFuZyzHgPoahx5WL/2rhM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ud0B19dBlRqMVaAJ7N4DoXfA8rdMdjwX+quLHnllrvpEH8DjJ6p2Ee1/Tw1BKRTo8YMilD5r2Eko2Wj3f0P1ME7NxWQQrqLCQxigDoNMSNs5Q4NzR30IDSLKdgbuFb8ten+OkV5XupoHIn6qLjkg2llaGg0oCCM09XfG80Os+hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=VoCJ+8F5; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hl01rTN/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC7D01F000E9;
-	Mon, 27 Jul 2026 14:40:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785163214;
-	bh=uW4Uxt8H7psYHbtpwfy4zMCnESHxDBrBaVBW5LoTgvg=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=hl01rTN/Av1jdnkOCrINblYIidKPWCVkXrCywIOpvwbS6EXgWThKv4DNzAuJ33bI5
-	 g09p5tYSwtqMUcoR6Bu0+4vzCKn3XLsUV8BTIpmnZR1CmG9b6L842FRU5quqTDLpZ7
-	 4PGH7B5YLvx6Wz4Yp7MZhgFFeMh8FIPTzOvSyZOJZmZ0ZNJ6OdHrtyWm9FXTh85gvq
-	 AiAOi3XPnxtrV6l80NuuuzuXu7tgZnynaXFuDM9saOHnfbg5URxApMKxtliCGaKtG/
-	 eE+/nduT5TGlc6b1Wzc2trKqwaqfGSisq4cPIvQMSqvxsNBbmdrle3F8OnXBVXHG38
-	 GNkNDVh+UOzug==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 06/15] media: sunxi-cir: Ensure no more interrupts
- can occur before free
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Sean Young" <sean@mess.org>
-Cc: linux-sunxi@lists.linux.dev, media-ci@linuxtv.org
-In-Reply-To: <9c73eb433ce34de243d5be7a5e81e38fe26d39c5.1785158244.git.sean@mess.org>
-References: <cover.1785158244.git.sean@mess.org>
- <9c73eb433ce34de243d5be7a5e81e38fe26d39c5.1785158244.git.sean@mess.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 27 Jul 2026 14:40:13 +0000
-Message-Id: <20260727144013.BC7D01F000E9@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="VoCJ+8F5"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 481CE1682;
+	Mon, 27 Jul 2026 10:48:07 -0700 (PDT)
+Received: from ryzen.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 35CED3F763;
+	Mon, 27 Jul 2026 10:48:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1785174491; bh=EH6izdmRU6juO6PplM7nIJkFuZyzHgPoahx5WL/2rhM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=VoCJ+8F5LZxqXTwemiuJezLBSXxVjjjVBzlGmOZHz+3UVbRco6xiC4htqskoR4kii
+	 or/MWHeD1eprSt+aWI6dwJ/e0nSZitYo5yd5vcYL3ptNzbMI9WFZrEO3ps4VhNZGSV
+	 7o4yDfF1tvtQQYfm31EbZ0Vbh5IezZ2XwgIqJSA0=
+From: Andre Przywara <andre.przywara@arm.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: u-boot@lists.u-boot-project.org,
+	Omar Ivan Fardjoume <ivan.fardjoume@gmail.com>,
+	Junhui Liu <junhui.liu@pigmoral.tech>,
+	linux-sunxi@lists.linux.dev
+Subject: Pull request: u-boot-sunxi/main for 2026.10
+Date: Mon, 27 Jul 2026 19:44:14 +0200
+Message-ID: <20260727174414.22152-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.46.4
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
+Hi Tom,
 
-Pre-existing issues:
-- [High] The patch attempts to fix a use-after-free by delaying `rc_free_de=
-vice()` until after `sunxi_ir_hw_exit()`. However, `sunxi_ir_hw_exit()` onl=
-y disables the hardware clocks and asserts reset; it does not mask the devm=
--managed IRQ or wait for in-flight interrupt handlers to complete via `sync=
-hronize_irq()`. This leaves the driver vulnerable to two fatal issues: 1) I=
-f an IRQ handler is executing concurrently, disabling the APB clock while i=
-t accesses memory-mapped registers will cause a synchronous external abort =
-(bus hang). 2) If the handler continues executing after `sunxi_ir_hw_exit()=
-` returns, it will access `ir->rc` while it is being freed by `rc_free_devi=
-ce()`, resulting in a use-after-free.
-- [High] The IRQ is requested via `devm_request_irq()` before the hardware =
-clocks are initialized by `sunxi_ir_hw_init()`, risking a synchronous exter=
-nal abort (bus hang) on spurious or pending interrupts during probe.
-- [High] The devm-managed IRQ handler can execute and access a freed RC dev=
-ice if `sunxi_ir_hw_init()` fails in `sunxi_ir_probe()`.
---
+please pull these sunxi changes into main:
 
---- Patch [6]: [PATCH v4 06/15] media: sunxi-cir: Ensure no more interrupts=
- can occur before free ---
-commit 6e49e6c93b7dee54eb10aca37f27b9448afeb67a
-Author: Sean Young <sean@mess.org>
+Beside a fix for a long standing bug in the A80 eMMC code, this adds
+SPI booting support for the Allwinner A523/A527/T527 class of boards.
+The second major feature is support for the secondary Ethernet controller
+on that same SoC. This might not be as important as for the kernel (I
+doubt that U-Boot acts as a router), but for once some boards only connect
+the secondary EMAC, and on others people might have the boot server only
+reachable via this port.
+There are some smaller fixes and improvements still queued up, but they
+need some more testing and are minor, so can land a bit later.
 
-media: sunxi-cir: Ensure no more interrupts can occur before free
+The world build timed out, but the rest passed, and I booted that briefly
+on an A523 board with two Ethernet ports.
 
-Only call rc_free_device() once the hardware has been stopped.
+Thanks,
+Andre
+===========================================================
+The following changes since commit b635d43bca429500cb8ef20aa151cb5773b9a8a5:
 
-Fixes: dccc0c3ddf8f ("media: rc: fix race between unregister and urb/irq ca=
-llbacks")
-Cc: stable@vger.kernel.org
+  Merge patch series "fs/squashfs: fix symlink load failure on large images" (2026-07-25 07:55:35 -0600)
 
-> diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
-> index 28e840a7e5b8c..af1ee08ffdbec 100644
-> --- a/drivers/media/rc/sunxi-cir.c
-> +++ b/drivers/media/rc/sunxi-cir.c
-> @@ -374,8 +374,8 @@ static void sunxi_ir_remove(struct platform_device *p=
-dev)
->  	struct sunxi_ir *ir =3D platform_get_drvdata(pdev);
-> =20
->  	rc_unregister_device(ir->rc);
-> -	rc_free_device(ir->rc);
->  	sunxi_ir_hw_exit(&pdev->dev);
-> +	rc_free_device(ir->rc);
+are available in the Git repository at:
 
-[Severity: High]
-This is a pre-existing issue, but does sunxi_ir_hw_exit() adequately prevent
-further interrupts from executing?
+  https://git.u-boot-project.org/u-boot/custodians/u-boot-sunxi.git main
 
-sunxi_ir_hw_exit() disables clocks and asserts reset, but it doesn't appear
-to mask the devm-managed IRQ or wait for in-flight handlers to finish via
-synchronize_irq().
+for you to fetch changes up to 59edf9a3427c13f05d450fe84f42ef00dc7096c9:
 
-If an interrupt fires concurrently or an IRQ handler is already running:
+  configs: radxa-cubie-a5e: enable the gmac1 controller (2026-07-27 01:18:35 +0200)
 
-drivers/media/rc/sunxi-cir.c:sunxi_ir_irq() {
-    ...
-    status =3D readl(ir->base + SUNXI_IR_RXSTA_REG);
-    ...
-}
+----------------------------------------------------------------
+Andre Przywara (5):
+      spi: sunxi: add support for A523 SPI controller
+      sunxi: spl: spi: Clean up SPI0 pinmux setting
+      sunxi: spl: spi: Add support for Allwinner A523
+      sunxi: configs: Radxa Cubie A5E: enable SPI
+      sunxi: configs: OrangePi 4A: enable SPI
 
-Could disabling the APB clock while this handler is accessing memory-mapped
-registers cause a synchronous external abort? Furthermore, if the handler
-continues executing after sunxi_ir_hw_exit() returns, could it access the
-freed ir->rc device pointer?
+Junhui Liu (5):
+      pinctrl: sunxi: a523: add gmac1 support
+      clk: sunxi: a523: add MBUS_EMAC1 clock gate
+      arm: mach-sunxi: add syscon driver for system-control nodes
+      net: dwc_eth_qos: add support for sun55i platform
+      configs: radxa-cubie-a5e: enable the gmac1 controller
 
->  }
+Omar Ivan Fardjoume (1):
+      mmc: sunxi: fix MACH_SUN9I typo in get_mclk_offset()
 
-Looking at the probe function in the same file:
-
-drivers/media/rc/sunxi-cir.c:sunxi_ir_probe() {
-    ...
-    ret =3D devm_request_irq(dev, ir->irq, sunxi_ir_irq, 0, SUNXI_IR_DEV, i=
-r);
-    if (ret) {
-        dev_err(dev, "failed request irq\n");
-        goto exit_unregister_dev;
-    }
-
-    ret =3D sunxi_ir_hw_init(dev);
-    if (ret)
-        goto exit_unregister_dev;
-    ...
-exit_unregister_dev:
-    rc_unregister_device(ir->rc);
-
-exit_free_dev:
-    rc_free_device(ir->rc);
-}
-
-[Severity: High]
-This is a pre-existing issue, but is it safe to request the IRQ before the
-hardware clocks are initialized?
-
-If a pending interrupt from the bootloader or a spurious IRQ triggers
-sunxi_ir_irq() before sunxi_ir_hw_init() enables the clock, could this lead
-to a synchronous external abort when the handler reads ir->base?
-
-[Severity: High]
-This is another pre-existing issue, but does the error path for a failed
-sunxi_ir_hw_init() leave the devm-managed IRQ active until the probe functi=
-on
-returns?
-
-If an interrupt fires during this window, could the handler dereference
-ir->rc after it has been freed by rc_free_device() at the exit_free_dev
-label?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1785158244.gi=
-t.sean@mess.org?part=3D6
+ arch/arm/mach-sunxi/Kconfig           |   7 +
+ arch/arm/mach-sunxi/Makefile          |   1 +
+ arch/arm/mach-sunxi/spl_spi_sunxi.c   |  48 +++----
+ arch/arm/mach-sunxi/syscon.c          |  28 ++++
+ configs/orangepi_4a_defconfig         |   4 +
+ configs/radxa-cubie-a5e_defconfig     |   9 ++
+ drivers/clk/sunxi/clk_a523.c          |   1 +
+ drivers/mmc/sunxi_mmc.c               |   6 +-
+ drivers/net/Kconfig                   |   9 ++
+ drivers/net/Makefile                  |   1 +
+ drivers/net/dwc_eth_qos.c             |   6 +
+ drivers/net/dwc_eth_qos.h             |   1 +
+ drivers/net/dwc_eth_qos_sunxi.c       | 254 ++++++++++++++++++++++++++++++++++
+ drivers/pinctrl/sunxi/pinctrl-sunxi.c |   3 +-
+ drivers/spi/spi-sunxi.c               |   4 +
+ 15 files changed, 352 insertions(+), 30 deletions(-)
+ create mode 100644 arch/arm/mach-sunxi/syscon.c
+ create mode 100644 drivers/net/dwc_eth_qos_sunxi.c
