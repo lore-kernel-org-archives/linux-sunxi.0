@@ -1,134 +1,279 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727342F8EB1
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Jul 2026 02:49:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD6C3C4B91
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Jul 2026 07:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785206968; cv=none; b=miSPLMZPn6YE5E9O6T6iW2KqO2fixRgk15w1JdgF+w209IbL9kcryExCIt80TedpQb/dXjZpF/URt9J6CQJnVw33b+FEUHrh3LkaAvHO18EFkFjwemkrD4uxdMz+jOiGqe+HmqmNsxW/aeq8SpC1ljlHJSqNJ4tiomXZq4v6o6U=
+	t=1785224750; cv=none; b=GcLb6ypBVH+UAaxId/ywsydYIttZqILTEoBCCFERKuI2W6HG5N+0V1DMfmg1xu95RSPHQkYDZ9G/E+uRvAcir5RB5+kQLdnUxjwITZnBRzTvIHWdd11FiZTFhl3nUIc2miknh+6RfkM1qVPDk8HXyv+OLo/hYMWbRq38+2j9kUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785206968; c=relaxed/simple;
-	bh=eMDL6R7A88J0Kxgo7GwZVeOD6SjDV3c9R/PY3h9YVK4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kD5UdxJIxausWbP2qYroUgzQ99TXpnLAv2d+zQ1lW+N1rrNx9C9W7T7DUF++m+5HRbgVCgxalSHveO9BMfujdI3BoPOCtYxwUTfEmnVw+KINABCmPF1qrzIaXlWSMWagDr+08w3BqJCyqrk0BUKfPXfu3qaWdEOI7qDlHhBwuKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OhReW7PN; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785224750; c=relaxed/simple;
+	bh=Qwwo+RjO5/E+/gdt7oUP1BpkpYefVSpeX8tj12d2Y98=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=PFWQkCcRQheLcmZ9qAk7boCe55+ssnTK+BMS8NQ9efWZPiXsjhxYI4RAH1fS4hMb2sBiGxHIjyZZMLG1/NiKLoZoec0Vnmlz7p2hjorkqDARwcuSluKhIr1bAPARs3pJJcjNeqcfGKFdhEoO/T0+4QUiBybHcWxp0Gb6sw5zfyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h0fJFTBR; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OhReW7PN"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-81eff3ddba4so43355687b3.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 27 Jul 2026 19:49:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785206966; x=1785811766; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=oMrIwKP808Rw4T3v4dtu26EGLZbL2Ysq//n5nDtGcIw=;
-        b=OhReW7PNF+rYbeflaV1RYrW9OA1M3fS/w8TW8BJ5vCIJWnmdw5URFwLsAFWX4puUPF
-         6tng3vz+6xMVJMWHKybXeZAixcdxsQMro0KgNqIkXQ9/0xJdbt9Bq1teSPIvgu8RECM7
-         4VUhAyDWADeXidupwqBXt+aQ3G9tv7QT1rkI1eVrFy0lEYDReiud3t0d7lLKcPm6/1fB
-         VPtZxyEmyJlKjnB2REnll1C9HokkvDdU+kMt+OvE+KjmPkz8bxVJUe7yKIQO+GMI9fjr
-         OnYqeDOfu30Oq28uXY4FysR897IB9DCzXKJFHgN5yv4FWFJVd+QQ5p5v0wQB/RVOARVh
-         +C8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785206966; x=1785811766;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=oMrIwKP808Rw4T3v4dtu26EGLZbL2Ysq//n5nDtGcIw=;
-        b=RWpYuu3P5sbNX8GhCiGe0E2EfZ/ZaRs3+vWPLWOuLW2tvC0BUJqPWOql7qEoogx1MG
-         Xq22LhBsEMQ+wDmw0F9qJytQrEbj8aZ7NGHNQJpipplAVwZq6cAqNTspNa4OGoKHeNIa
-         ILsq5LG9CcqL+1AXrhl08NQuvZS3q9j7QCNan+zB71OHzWfBryhqXE1CAY8osrKBzHqI
-         /ftyiUQ6p+0IXzgz25K1mEO3PcZQJ9hs4VdH9JVbFSuSioPVbRHcH6SIOSS3/Dq5DkXf
-         5SrCAySUZMDywvanvmxihn3bY992+X7NdWE/z65pc9FKhNPrh6er8OPs5s+XrB6+9lnO
-         weKw==
-X-Forwarded-Encrypted: i=1; AHgh+Roc2TdvnOF98aZeLoQImgfp7w5ow/4kozpMrNMpz/cEkTu0OAvXAcEnPZFVDFRXhyhkAtjJOqrw1dGppQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyQPT+9sjDKKwwXzOhNLOPMGP7VCjoCyVmzFy0Lx7BNUIfa30J2
-	K4X+RaWoaS/BOmDfukw6oyqFOXZFBGdrzk1rED7HCzqmcHom2tP2d6e/
-X-Gm-Gg: AR+sD13rkQPYukAnodUuF9gDwuv0w11aMwbOQrFG0wOf0ry9FIPoC85EUxSTZk84wfL
-	rRwfbZf+s7DmkqKcFA7A4IFoRlvoFQ21IE0nMKoI4zicy8GBud3vL1mj+EmA+6G4IldWmCSJsEm
-	42RyiFLgfzn6DWdiML2pmw+tK2W0kSwg41r7MTURkR2OIcYAbY1ZZbb2fqlKUJwQew2oZjLuYBh
-	StuUa7GR6ZJwsfnEnfTAa9cEzqGWpOxzWRLtzWNm1TgrVgXhvl5KVat1PJjA1NEIPIjXUw9aR89
-	i0v6dub/NYuJcTfUTNOOzA0SvhrwyCrr24Foe2ampyP9dyAfc6XAyP+qGoIUsMrQwr27gabis0+
-	FnqYszkSWVrVkRN29lp14pxrZVYh8IMWsgTMleVyGZFyIgRt4BNfrmWUJ5DX7QujZ3fOjjoQNyj
-	gMB+KHbHTyK4eajqHLwJwj5JeZ7NxPn6PbwYDR
-X-Received: by 2002:a05:690c:9b0c:b0:81e:695b:585c with SMTP id 00721157ae682-81f990e2287mr1923257b3.4.1785206966382;
-        Mon, 27 Jul 2026 19:49:26 -0700 (PDT)
-Received: from zenbox ([2600:1700:18fb:6011:722a:22a9:308b:2c35])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81f6579f462sm40974847b3.11.2026.07.27.19.49.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 19:49:25 -0700 (PDT)
-From: Justin Suess <utilityemal77@gmail.com>
-To: Sean Young <sean@mess.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	Sashiko <sashiko-bot@kernel.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Justin Suess <utilityemal77@gmail.com>
-Subject: [PATCH v4 4/4] arm64: dts: allwinner: a523: enable IR on the Avaota A1
-Date: Mon, 27 Jul 2026 22:49:16 -0400
-Message-ID: <20260728024916.993224-5-utilityemal77@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260728024916.993224-1-utilityemal77@gmail.com>
-References: <20260728024916.993224-1-utilityemal77@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h0fJFTBR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785224747; x=1816760747;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version:content-transfer-encoding;
+  bh=Qwwo+RjO5/E+/gdt7oUP1BpkpYefVSpeX8tj12d2Y98=;
+  b=h0fJFTBRwNMCprOp3SdVZ3I1behbyCI5Tef6v+AsucG3euTnu8wPj2Ti
+   TrPsZ82WA9yQ0zBRzsqHWaSnJzVANoyXy0GYbWFjLfG33x/kphaayKPb/
+   KzFMZ1v9NMkAZeHdxiebICJqjONz+ODzAO22MZSfnmA1hUBqAsDOj7GQi
+   24hs2K4mZyYwUKn1WwlnNj479cSR8nm5c3nCSB1qv1EcbVE3lazIQwSTf
+   KXyAEak2jGmMHJL8RdBgVCBMzX8nfZLUH5AZAfvIJV3tfS0GegydZuOEp
+   viJg05o9eEXUrAQMTn2pxMxxviFrEWObn55Ok4AbIBzheIlTMv/KGBr3a
+   g==;
+X-CSE-ConnectionGUID: MoW/gIp+TgOoy+jGgvaIhA==
+X-CSE-MsgGUID: s7TYHejXSGW+k/DnxUcbXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="85670791"
+X-IronPort-AV: E=Sophos;i="6.25,190,1779174000"; 
+   d="scan'208";a="85670791"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 00:45:45 -0700
+X-CSE-ConnectionGUID: CzO3WoOrS4OdZoKto+PKIQ==
+X-CSE-MsgGUID: c46EBBmlTvuz1ZaGKmwAYQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,190,1779174000"; 
+   d="scan'208";a="256292800"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.76])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 00:45:39 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss
+ <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Daniel Stone <daniel@fooishbar.org>, Hans Verkuil
+ <hverkuil+cisco@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Samuel
+ Holland <samuel@sholland.org>, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>, =?utf-8?Q?Ma=C3=ADra?= Canal
+ <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, Dmitry Baryshkov
+ <dmitry.baryshkov@oss.qualcomm.com>
+Subject: Re: [PATCH v9 0/5] Add SCDC information to connector debugfs
+In-Reply-To: <EDiHBw8XQg-RsxQIQVIjig@collabora.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20260724-scdc-link-health-v9-0-bdda406d016d@collabora.com>
+ <1c9d3a50341129188242b1b2758fcee5eab243db@intel.com>
+ <EDiHBw8XQg-RsxQIQVIjig@collabora.com>
+Date: Tue, 28 Jul 2026 10:45:37 +0300
+Message-ID: <f18b084c3b6372da4c9e5a779696edc599a9f0a6@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Andre Przywara <andre.przywara@arm.com>
+On Mon, 27 Jul 2026, Nicolas Frattaroli <nicolas.frattaroli@collabora.com> =
+wrote:
+> On Monday, 27 July 2026 10:35:15 Central European Summer Time Jani Nikula=
+ wrote:
+>> On Fri, 24 Jul 2026, Nicolas Frattaroli <nicolas.frattaroli@collabora.co=
+m> wrote:
+>> > HDMI uses the DDC I2C bus for communicating various bits of link status
+>> > out of band with the actual HDMI video signal. This information can be
+>> > useful for debugging issues like questionable cables sabotaged by feli=
+ne
+>> > teeth, Enthusiast Grade cables made of cow fencing wire, and other such
+>> > problems that ruin one's media viewing plans.
+>> >
+>> > Consequently, this series exposes various bits of pertinent information
+>> > from the SCDC protocol in an HDMI connector's debugfs. To continually
+>> > poll the link status, userspace can poll the debugfs file.
+>>=20
+>> Is there a reason we can't add a character device node for this similar
+>> to DP AUX? See config DRM_DISPLAY_DP_AUX_CHARDEV.
+>
+> You already can just point tools at the ddc symlink to the i2c dev.
+>
+> The idea here is to be able to read this out of debugfs without
+> any additional external tooling needed.
 
-The Avaota A1 board has an IR receiver chip on the PCB (next to the
-Ethernet jacks), wired to the PI8 pin on the SoC.
+Fair enough, thanks.
 
-Enable the CIR receiver in the main power domain.
+BR,
+Jani.
 
-Tested on the board with evtest and some random TV remote control.
+>
+>> It's ultimately more generic than deciphering everything in kernel.
+>
+> The kernel will need to decipher this in the future anyway for HDMI 2.x
+> support, including so that it can set link status to bad when there's a
+> glut of errors.
+>
+>>=20
+>>=20
+>> BR,
+>> Jani.
+>>=20
+>>=20
+>>=20
+>>=20
+>>=20
+>> >
+>> > ---
+>> > Changes in v9:
+>> > - Unlock mode_config.mutex on disconnected connector early exit
+>> > - Calculate and print Reed-Solomon error corrections counter on !=3D 4
+>> >   lane FRL as well. Technically a functional change to an already
+>> >   reviewed patch, but I kept the R-b because it's so minor.
+>> > - Link to v8: https://patch.msgid.link/20260722-scdc-link-health-v8-0-=
+cd1dacbb85d9@collabora.com
+>> >
+>> > Changes in v8:
+>> > - Acquire mode_config mutex in an interruptible way during
+>> >   scdc_status_show to avoid racing connector state
+>> > - Remove scdc_debugfs_priv, use connector as debugfs entry priv instead
+>> > - Allocate and free state in scdc_status_show, since it doesn't need to
+>> >   persist across debugfs reads
+>> > - Check for NULL ddc in drm_scdc_read_state in the unlikely event an
+>> >   EDID with the SCDC flag was forced on a connector with no DDC
+>> > - Note: drm_connector_get() is omitted from drm_scdc_debugfs_init
+>> >   because drm_scdc_debugfs_init is called on connector construction and
+>> >   the debugfs is removed on connector destruction. Adding a redundant
+>> >   reference increase here would necessitate introducing a destruction
+>> >   callback to mirror the debugfs_init connector op for the sole purpose
+>> >   of decreasing the counter again.
+>> > - Link to v7: https://patch.msgid.link/20260721-scdc-link-health-v7-0-=
+92df1b6ad5fc@collabora.com
+>> >
+>> > Changes in v7:
+>> > - Move HDMI debugfs registration to new state helper, fix up all users
+>> >   (sun4i, vc4, bridge)
+>> > - Register scdc debugfs in new hdmi debugfs helper
+>> > - Link to v6: https://patch.msgid.link/20260611-scdc-link-health-v6-0-=
+6307875a6b5e@collabora.com
+>> >
+>> > Changes in v6:
+>> > - Fix off-by-one error in drm_scdc_read_state
+>> > - Link to v5: https://patch.msgid.link/20260604-scdc-link-health-v5-0-=
+11173b0ac3de@collabora.com
+>> >
+>> > Changes in v5:
+>> > - Read all SCDC data regardless of update flags
+>> > - Dump SCDC data as hex before the human-readable output. It's separat=
+ed
+>> >   with "\n----------------\n\n".
+>> > - No longer write 0 to read-only registers
+>> > - Add Reed-Solomon Corrections counter parsing
+>> > - Parsing has been kept. A desire was expressed to get this data witho=
+ut
+>> >   any external userspace tooling, and the kernel will need to parse it
+>> >   eventually anyway to set the link status.
+>> > - Functions have been made static as of right now, since external users
+>> >   may do another pass over the function signatures anyway.
+>> > - Link to v4: https://patch.msgid.link/20260527-scdc-link-health-v4-0-=
+622ea40a1f59@collabora.com
+>> >
+>> > Changes in v4:
+>> > - Don't use C struct bitfields for parsing status flags. Switch to
+>> >   bitwise AND for boolean flags, and FIELD_GET for multi-bit values.
+>> > - Drop the superfluous !! and parens
+>> > - Drop the __pure attributes on static functions
+>> > - Initialise stack local arrays with {}, not { 0 }.
+>> > - I've kept the print macros and %-30s format. Reason being that I don=
+'t
+>> >   want to repeat the format specifier and str_yes_no(foo) a bunch, and=
+ I
+>> >   like the %-30s format because it means all values are aligned with t=
+he
+>> >   value of the longest field, which is 30 chars long.
+>> > - Link to v3: https://patch.msgid.link/20260526-scdc-link-health-v3-0-=
+59e4a4aaead1@collabora.com
+>> >
+>> > Changes in v3:
+>> > - Add patch to change return type of drm_scdc_read/write.
+>> > - Rework error counter reading to duplicate less code.
+>> > - Also check lane 3 counter valid flag when reading its error counter.
+>> > - Use memset to clear buf for error counters, rather than doing it in
+>> >   the loop.
+>> > - Make read_error_counters not accept 0 as num_lanes; fix it up in the
+>> >   caller instead.
+>> > - Link to v2: https://patch.msgid.link/20260520-scdc-link-health-v2-0-=
+511af18cd64b@collabora.com
+>> >
+>> > Changes in v2:
+>> > - Add HDMI 2.1 SCDC status reporting
+>> > - Link to v1: https://patch.msgid.link/20260415-scdc-link-health-v1-0-=
+8e731e88eaf0@collabora.com
+>> >
+>> > To: Jani Nikula <jani.nikula@linux.intel.com>
+>> > To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> > To: Maxime Ripard <mripard@kernel.org>
+>> > To: Thomas Zimmermann <tzimmermann@suse.de>
+>> > To: David Airlie <airlied@gmail.com>
+>> > To: Simona Vetter <simona@ffwll.ch>
+>> > To: Andrzej Hajda <andrzej.hajda@intel.com>
+>> > To: Neil Armstrong <neil.armstrong@linaro.org>
+>> > To: Robert Foss <rfoss@kernel.org>
+>> > To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+>> > To: Jonas Karlman <jonas@kwiboo.se>
+>> > To: Jernej Skrabec <jernej.skrabec@gmail.com>
+>> > To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+>> > To: Daniel Stone <daniel@fooishbar.org>
+>> > To: Hans Verkuil <hverkuil+cisco@kernel.org>
+>> > To: Chen-Yu Tsai <wens@kernel.org>
+>> > To: Samuel Holland <samuel@sholland.org>
+>> > To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>> > To: Ma=C3=ADra Canal <mcanal@igalia.com>
+>> > To: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+>> > Cc: dri-devel@lists.freedesktop.org
+>> > Cc: linux-kernel@vger.kernel.org
+>> > Cc: kernel@collabora.com
+>> > Cc: linux-arm-kernel@lists.infradead.org
+>> > Cc: linux-sunxi@lists.linux.dev
+>> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+>> >
+>> > ---
+>> > Nicolas Frattaroli (5):
+>> >       drm/scdc-helper: Don't use ssize_t return type for scdc_read/wri=
+te
+>> >       drm/scdc-helper: Add scdc_status debugfs entry
+>> >       drm/scdc-helper: Implement parsing and printing HDMI 2.1 fields
+>> >       drm/debugfs: Move HDMI debugfs registration to state helper
+>> >       drm/display: hdmi-state-helper: Init SCDC debugfs for HDMI
+>> >
+>> >  drivers/gpu/drm/display/drm_bridge_connector.c  |   3 +
+>> >  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 156 +++++++++++++
+>> >  drivers/gpu/drm/display/drm_scdc_helper.c       | 289 +++++++++++++++=
+++++++++-
+>> >  drivers/gpu/drm/drm_debugfs.c                   | 157 -------------
+>> >  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c          |   1 +
+>> >  drivers/gpu/drm/vc4/vc4_hdmi.c                  |   1 +
+>> >  include/drm/display/drm_hdmi_state_helper.h     |   3 +
+>> >  include/drm/display/drm_scdc.h                  |  21 +-
+>> >  include/drm/display/drm_scdc_helper.h           | 103 ++++++++-
+>> >  9 files changed, 568 insertions(+), 166 deletions(-)
+>> > ---
+>> > base-commit: b747a63003130bef1a3d5d6ba97c94d0cee36f55
+>> > change-id: 20260413-scdc-link-health-89326013d96c
+>> >
+>> > Best regards,
+>> > --=20=20
+>> > Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+>> >
+>>=20
+>>=20
+>
+>
+>
+>
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-[justin: move the PI8 pinmux node into the dtsi patch]
-Signed-off-by: Justin Suess <utilityemal77@gmail.com>
----
-
-Notes:
-
-v4:
-    - move the PI8 pinmux node into the dtsi patch (Chen-Yu)
-    - add my Signed-off-by (Chen-Yu, Andre)
-
- arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-index 474354fbfcec..994f1e4f0ce7 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-@@ -100,6 +100,12 @@ &gpu {
- 	status = "okay";
- };
- 
-+&ir {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&ir_rx_pin>;
-+	status = "okay";
-+};
-+
- &ledc {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&ledc_ph_pin>;
--- 
-2.54.0
-
+--=20
+Jani Nikula, Intel
