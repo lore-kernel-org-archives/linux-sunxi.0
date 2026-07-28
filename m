@@ -1,234 +1,159 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FBE732AAAB
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Jul 2026 15:56:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C788239A05C
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Jul 2026 17:02:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785254216; cv=none; b=KktF+cmImiO6bGoYB4IB2W8WzVA7XeugANYyGpWcFaE7w8KEKsda2yRYaJmJ5CXubRkA3jsgvRRPWBuE7AhdIbO9fmMh1Bl3TtizFcmNjVnifuVd4y3KF1kvz8bVSOlWhzCrT6OLrBZF5SCFRWJl7j4SgHvaj/xSsnyJzSwiZV0=
+	t=1785258152; cv=none; b=SOBWAb8gyWB4g/+6+bL9q1ExG4MQx/SPDfHGjMBXE9H7XaYCmihwRL3Kidpy7qjoPnYNiw+dbi0iJgr2CbTVhk1tGy7s/t7RZmkyCDQ8Yk3jV3IFTAIVMIJsqU4YB2kS0eH0XCLd9h8Zr6MXIVphV+GRwmxD+Xb7NoG6CzEoSmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785254216; c=relaxed/simple;
-	bh=0Yiit7bJCmGRMJuEdSkjG6tqfkrlaoL4RnSP0amAV5c=;
+	s=arc-20240116; t=1785258152; c=relaxed/simple;
+	bh=bxFyUwwzs7IjS6nJSP45CpJDbZptu7ycVzrkumfnro4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UfCeq7pHrKapgA0qk8XAZE0mk/DKn6MsFmchjKJlBkhesJ7xfzDp1JempEAQ0v6cT+dZ41sbfpIzmAJVCB8Q/RIqLaCUq8YlMy/dOV/zK/wAQL3lIbVc1IWtjyoeLBe5FYrouHgpHzVVgca0z/DF6e4Wya3KjKuSWIXK6rE6KNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X9Yg5r8V; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=BdrifaKh6P8rW0RtZr70+F1V8dbyV2JiXSI2oNm531pOjrj/3jGKKNdVCZGJJYeHc5rMc1QgF75dguVt9+E24lZ0pHv4e04hnhmf4eWtZ15+Mc3bvNFyFjyXILsp9S0f3JvbyWWXQelgGjK1hrvya4m50zVfU63gGO+NPSR7xjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b82WnSCr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X9Yg5r8V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 420DD1F00A3A
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Jul 2026 15:56:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b82WnSCr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEA3C1F000E9
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Jul 2026 17:02:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785254215;
-	bh=OnE+b0dufgmuTUYVj4V+PdswXaAJ7opl2QehGSoGDuk=;
+	s=k20260515; t=1785258150;
+	bh=9oe9UV20xRbrU+lzvVnG9jZANXjcjtMpLhecIgsxtCo=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=X9Yg5r8VHZU27YmZjz/p20xLSnwQ1Ctjug8iPWHroQV+CshsSMnBC4N/YZ0ln7HUF
-	 z65JfqcmIh+DT9FMjlnltu7rAUNPuwVoEiqCDz6vIGHnOX+4QUBN3gjliQJZZ2hWKu
-	 +0dTI3nMe9PVlMH2synM5U2FWoYSSIQsYZLgM/TZBy2UVEWKUtEWJu8EdllQvEmyIs
-	 tn/SF/5uJ+m8KTDjscZCdHgkg6Z6Un99QTycDkgtRyuVS2/nXH9oDFrlTDxquzWMTU
-	 ldjQmtycXoJSvsy3qtnnkRa+BMMJ34mVZ+hpCTy7NucwGqvzxX8AteRMACFkijweWo
-	 Ab54T5qOj0qvw==
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-39c86ce9e29so36948451fa.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 Jul 2026 08:56:55 -0700 (PDT)
-X-Gm-Message-State: AOJu0YzlcdqJvcjL33+V2iREvaKuUUW/13+3j1r/zigDZzP2zBXobDjr
-	Rm/2ApidIIFF7UYZXtAsgs7bSaBL9bMsKbFxGYRm0ZBbz84V+vJv4bxrs39CepoiOY5piNWu1BK
-	/RsOQyUbCONv+i60v945cnKrtvO7hjW0=
-X-Received: by 2002:a2e:a9a5:0:b0:39b:35bd:e708 with SMTP id
- 38308e7fff4ca-39f51cdef30mr5872591fa.1.1785254213689; Tue, 28 Jul 2026
- 08:56:53 -0700 (PDT)
+	b=b82WnSCrWCjiiRXWQJ4BHNCDM9WM11Q5bzIpvuitixDRsOOf1B7FPKsDBcU0VdAd5
+	 TNiFDU/KSlDAXVW6gvISaXu3kH0Vx5NECZHXyxUxarrtY6UNnIQI6Q4sgEsq3JSywu
+	 ZsD+Ll1k5N52fgTMdiPOZIKAZzdI//FDAYmNvZWByV9jEUWq7GlPkW7gK3MucckXme
+	 3VY4SI8yceU6m9fkMhogBCeEz91BxJZAy7g7SCzBjw7WxbAzxqrsClkUEjrBq/f/DV
+	 T1/tIwLr3SfGEEooRAODTmQnVy6kLkBnxXW8PnMNsUxXHnDUNa59TWAIWoM40VW1H5
+	 mhH4NRgl56wKw==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-39f00ce92d5so25804091fa.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 28 Jul 2026 10:02:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RroV0cXnxIqi9bJWQobwJAwVlnLVMCbFj5G6t/OLGgIM2UGXIRYVG4iLcbqksa8G4Jj+7Zbbgyc8FlDAg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxF4N/3Bq9FaL8O1fciSJkZvwa3R3FwnW1agEfn6B9FxeOrBGFp
+	TCVK/NO/Vba50f2gMS4rLGR1mhS0ZMYqlWLB+payrb6M94Znjz2PuqIJUmz2ehBvrS6dAjM/zAH
+	crUywfCbYHEzW3WumTJPCLCjkcgPqfFY=
+X-Received: by 2002:a05:651c:b09:b0:39e:e995:1685 with SMTP id
+ 38308e7fff4ca-39f51e523a5mr6555341fa.38.1785258149154; Tue, 28 Jul 2026
+ 10:02:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260727194208.10082-1-rosenp@gmail.com>
-In-Reply-To: <20260727194208.10082-1-rosenp@gmail.com>
+References: <20260719211319.982285-1-juanmanuellopezcarrillo@gmail.com> <20260719211319.982285-5-juanmanuellopezcarrillo@gmail.com>
+In-Reply-To: <20260719211319.982285-5-juanmanuellopezcarrillo@gmail.com>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 28 Jul 2026 23:56:38 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66=kgwUSNtkCVLROxCfbDuf_g70Y0qZ9ucfXsTD+f2NnA@mail.gmail.com>
-X-Gm-Features: AUfX_mz7aI0nbIJpfKBate6Q0TeFbJm95gK2ISGivDgpxVudCD5tFbKP4Fr98_k
-Message-ID: <CAGb2v66=kgwUSNtkCVLROxCfbDuf_g70Y0qZ9ucfXsTD+f2NnA@mail.gmail.com>
-Subject: Re: [PATCH] mailbox: sun6i: modernize probe and convert to fully managed
-To: Rosen Penev <rosenp@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, Jassi Brar <jassisinghbrar@gmail.com>, 
+Date: Wed, 29 Jul 2026 01:02:16 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65gfLhY3qipJrcuE51CJ2WV=oNSbFDu7QP-6VFKF3v_WA@mail.gmail.com>
+X-Gm-Features: AUfX_mxwEoOQfPBDHt1Bhhdm8fNwHOj6ohky5Q9xhsCCChtpmB1_uNVjxEEhUG4
+Message-ID: <CAGb2v65gfLhY3qipJrcuE51CJ2WV=oNSbFDu7QP-6VFKF3v_WA@mail.gmail.com>
+Subject: Re: [PATCH v1 4/4] arm64: dts: allwinner: t527-orangepi-4a: add GPU
+ OPP table
+To: =?UTF-8?Q?Juan_Manuel_L=C3=B3pez_Carrillo?= <juanmanuellopezcarrillo@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
 	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	"open list:MAILBOX API" <linux-kernel@vger.kernel.org>, 
-	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>
+	Brian Masney <bmasney@redhat.com>, Andre Przywara <andre.przywara@arm.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 28, 2026 at 3:42=E2=80=AFAM Rosen Penev <rosenp@gmail.com> wrot=
-e:
+On Mon, Jul 20, 2026 at 5:13=E2=80=AFAM Juan Manuel L=C3=B3pez Carrillo
+<juanmanuellopezcarrillo@gmail.com> wrote:
 >
-> Replace irq_of_parse_and_map() with platform_get_irq() and move both
-> IRQ and MMIO resource acquisition to the top of probe, before any
-> allocations, for early error exit.
-
-There's no real reason for the code movement. It's going to fail once
-or maybe twice at the most. And the ones you moved are the least likely
-to fail.
-
-Now I could see replacing irq_of_parse_and_map() with the more standard
-platform_get_irq(), but you haven't given a reasonable reason. And it
-should be a separate patch since it has nothing to do with streamlining
-the error handling and dropping the remove function.
-
-> Switch from devm_clk_get() + clk_prepare_enable() to
-> devm_clk_get_enabled(), which combines both operations and registers
-> devres callbacks for automatic disable/unprepare on unbind. This
-> eliminates the manual err_disable_unprepare error path and the
-> remove callback entirely.
+> Add the Mali-G57 operating points from the vendor BSP universal table
+> (150/200/300/400/600 MHz) so panfrost devfreq can scale the GPU
+> instead of running at the boot clock.
 >
-> Use devm_mbox_controller_register() for devres-managed controller
-> registration, and drop the remove callback and platform_set_drvdata()
-> which are no longer needed.
-
-These two are what are important.
-
-> Assisted-by: Opencode:Big-Pickle
-> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> All operating points use 920 mV: the BSP table specifies 900 mV for
+> every universal OPP, but on this board the GPU rail (AXP717 DCDC2,
+> vdd-gpu-sys) is a fixed 920 mV supply, so the OPP voltage states the
+> actual rail value and voltage transitions are no-ops.  The higher
+> speed-bin points of the BSP (648-792 MHz) are not included: they are
+> gated by a SID efuse bin and need pll-gpu as a live parent.
+>
+> Depends on the sun55i-a523 GPU clock divider fix (the OPP rates are
+> only produced correctly with the cycle-masking divider model);
+> validated on hardware with the Mali cycle counter: 149/199/300/399/597
+> MHz measured under load, thermal-emulation throttling included.
+>
+> Signed-off-by: Juan Manuel L=C3=B3pez Carrillo <juanmanuellopezcarrillo@g=
+mail.com>
 > ---
->  drivers/mailbox/sun6i-msgbox.c | 62 ++++++++++------------------------
->  1 file changed, 18 insertions(+), 44 deletions(-)
+>  .../dts/allwinner/sun55i-t527-orangepi-4a.dts | 30 +++++++++++++++++++
+>  1 file changed, 30 insertions(+)
 >
-> diff --git a/drivers/mailbox/sun6i-msgbox.c b/drivers/mailbox/sun6i-msgbo=
-x.c
-> index 6ba6920f4645..28d8636afad2 100644
-> --- a/drivers/mailbox/sun6i-msgbox.c
-> +++ b/drivers/mailbox/sun6i-msgbox.c
-> @@ -198,7 +198,17 @@ static int sun6i_msgbox_probe(struct platform_device=
- *pdev)
->         struct mbox_chan *chans;
->         struct reset_control *reset;
->         struct sun6i_msgbox *mbox;
-> +       void __iomem *regs;
->         int i, ret;
-> +       int irq;
+> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts b/=
+arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
+> index 055be86e5..0fd73a1bb 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
+> @@ -30,6 +30,35 @@ ext_osc32k: ext-osc32k-clk {
+>                 clock-output-names =3D "ext_osc32k";
+>         };
+>
+> +       gpu_opp_table: opp-table-gpu {
+
+The table should be in the .dtsi file. The OPP table reflects the
+requirements of the SoC, not the board. Any board specific adjustments
+are done later.
+
+> +               compatible =3D "operating-points-v2";
 > +
-> +       irq =3D platform_get_irq(pdev, 0);
-> +       if (irq < 0)
-> +               return irq;
+> +               opp-150000000 {
+> +                       opp-hz =3D /bits/ 64 <150000000>;
+> +                       opp-microvolt =3D <920000>;
+
+Please use the <min nominal max> variant to specify a voltage range.
+The minimum and nominal voltages should be the one from the BSP table.
+You can set the maximum arbitrarily, but 920 mV should be fine to cover
+this board.
+
+> +               };
 > +
-> +       regs =3D devm_platform_ioremap_resource(pdev, 0);
-> +       if (IS_ERR(regs))
-> +               return PTR_ERR(regs);
+> +               opp-200000000 {
+> +                       opp-hz =3D /bits/ 64 <200000000>;
+> +                       opp-microvolt =3D <920000>;
+> +               };
+> +
+> +               opp-300000000 {
+> +                       opp-hz =3D /bits/ 64 <300000000>;
+> +                       opp-microvolt =3D <920000>;
+> +               };
+> +
+> +               opp-400000000 {
+> +                       opp-hz =3D /bits/ 64 <400000000>;
+> +                       opp-microvolt =3D <920000>;
+> +               };
+> +
+> +               opp-600000000 {
+> +                       opp-hz =3D /bits/ 64 <600000000>;
+> +                       opp-microvolt =3D <920000>;
+> +               };
+> +       };
+> +
+>         leds {
+>                 compatible =3D "gpio-leds";
 >
->         mbox =3D devm_kzalloc(dev, sizeof(*mbox), GFP_KERNEL);
->         if (!mbox)
-> @@ -211,24 +221,18 @@ static int sun6i_msgbox_probe(struct platform_devic=
-e *pdev)
->         for (i =3D 0; i < NUM_CHANS; ++i)
->                 chans[i].con_priv =3D mbox;
+> @@ -116,6 +145,7 @@ &gmac1 {
 >
-> -       mbox->clk =3D devm_clk_get(dev, NULL);
-> +       mbox->clk =3D devm_clk_get_enabled(dev, NULL);
->         if (IS_ERR(mbox->clk)) {
->                 ret =3D PTR_ERR(mbox->clk);
->                 dev_err(dev, "Failed to get clock: %d\n", ret);
->                 return ret;
->         }
->
-> -       ret =3D clk_prepare_enable(mbox->clk);
-> -       if (ret) {
-> -               dev_err(dev, "Failed to enable clock: %d\n", ret);
-> -               return ret;
-> -       }
-> -
->         reset =3D devm_reset_control_get_exclusive(dev, NULL);
->         if (IS_ERR(reset)) {
->                 ret =3D PTR_ERR(reset);
->                 dev_err(dev, "Failed to get reset control: %d\n", ret);
-> -               goto err_disable_unprepare;
-> +               return ret;
->         }
->
->         /*
-> @@ -242,25 +246,17 @@ static int sun6i_msgbox_probe(struct platform_devic=
-e *pdev)
->         ret =3D reset_control_deassert(reset);
->         if (ret) {
->                 dev_err(dev, "Failed to deassert reset: %d\n", ret);
-> -               goto err_disable_unprepare;
-> +               return ret;
->         }
->
-> -       mbox->regs =3D devm_platform_ioremap_resource(pdev, 0);
-> -       if (IS_ERR(mbox->regs)) {
-> -               ret =3D PTR_ERR(mbox->regs);
-> -               dev_err(dev, "Failed to map MMIO resource: %d\n", ret);
-> -               goto err_disable_unprepare;
-> -       }
-> +       mbox->regs =3D regs;
->
->         /* Disable all IRQs for this end of the msgbox. */
->         writel(0, mbox->regs + LOCAL_IRQ_EN_REG);
->
-> -       ret =3D devm_request_irq(dev, irq_of_parse_and_map(dev->of_node, =
-0),
-> -                              sun6i_msgbox_irq, 0, dev_name(dev), mbox);
-> -       if (ret) {
-> -               dev_err(dev, "Failed to register IRQ handler: %d\n", ret)=
-;
-> -               goto err_disable_unprepare;
-> -       }
-> +       ret =3D devm_request_irq(dev, irq, sun6i_msgbox_irq, 0, dev_name(=
-dev), mbox);
-> +       if (ret)
-> +               return ret;
->
->         mbox->controller.dev           =3D dev;
->         mbox->controller.ops           =3D &sun6i_msgbox_chan_ops;
-> @@ -271,29 +267,8 @@ static int sun6i_msgbox_probe(struct platform_device=
- *pdev)
->         mbox->controller.txpoll_period =3D 5;
->
->         spin_lock_init(&mbox->lock);
-> -       platform_set_drvdata(pdev, mbox);
-> -
-> -       ret =3D mbox_controller_register(&mbox->controller);
-> -       if (ret) {
-> -               dev_err(dev, "Failed to register controller: %d\n", ret);
-> -               goto err_disable_unprepare;
-> -       }
-> -
-> -       return 0;
-> -
-> -err_disable_unprepare:
-> -       clk_disable_unprepare(mbox->clk);
-> -
-> -       return ret;
-> -}
-> -
-> -static void sun6i_msgbox_remove(struct platform_device *pdev)
-> -{
-> -       struct sun6i_msgbox *mbox =3D platform_get_drvdata(pdev);
->
-> -       mbox_controller_unregister(&mbox->controller);
-> -       /* See the comment in sun6i_msgbox_probe about the reset line. */
-> -       clk_disable_unprepare(mbox->clk);
-> +       return devm_mbox_controller_register(&mbox->controller);
+>  &gpu {
+>         mali-supply =3D <&reg_dcdc2>;
+> +       operating-points-v2 =3D <&gpu_opp_table>;
 
-Like Sashiko said, this doesn't compile. All devm_*() functions require
-a |struct device *| parameter.
-
-
-Build testing your patch before sending it is a must.
+Same here. This should be in the .dtsi file. It should be fine to add it
+right now since all boards have the supply added.
 
 
 ChenYu
 
->  }
->
->  static const struct of_device_id sun6i_msgbox_of_match[] =3D {
-> @@ -308,7 +283,6 @@ static struct platform_driver sun6i_msgbox_driver =3D=
- {
->                 .of_match_table =3D sun6i_msgbox_of_match,
->         },
->         .probe =3D sun6i_msgbox_probe,
-> -       .remove =3D sun6i_msgbox_remove,
+>         status =3D "okay";
 >  };
->  module_platform_driver(sun6i_msgbox_driver);
 >
 > --
-> 2.55.0
+> 2.47.3
 >
