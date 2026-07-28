@@ -1,102 +1,134 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07CE43C3F73
-	for <linux-sunxi@lists.linux.dev>; Mon, 27 Jul 2026 22:51:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4702F39B8
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Jul 2026 02:49:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785192664; cv=none; b=EIKYFzsBSDAbv4fIfORt2HdGXlpP2G5H/2MPOVaYpM/LD1DesnyxGRiXpKgiwFz71C3NL6rSw45lMa0AJosf1PGyLTtsTXyp7Mwoxvxy10BYFhtBplEjGa7ESffLXkApjSCkmMKglVgNVK9KmnO9JI2BNWmCumml+KiYkgF6LKM=
+	t=1785206961; cv=none; b=uLXMgkGkfu6JbEC1OjLQ1C0uGJyZAxABdFt9y8EbK8iggim9fZywgR/tAbOwCv2TYw4GffzvxbBujgDaLBp4BBZ9Wfu/XcH9ZuHmox6jmhOCbyPYkDEmK3/SpnQFpVmUMI/LPxoAeQQ1UUDY1MoRQZnn3mBlzKN1k6kPB2zMTbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785192664; c=relaxed/simple;
-	bh=cYqZSULAPjbv8lPLutjNmV+dvBB/Kh3kQ804r0L7f0M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=HX0T9i6cO8f2F6XaaH/p5MQCRh3876e9v10rnb1ysOvKi/t7UHCO9fkJ2yfSfatETIFLtjSoLjf5DTQGMVZHUf5UApnIku9f4xOUKyR56gm1pOixT01Rva//txq/BHox7YJrhkR9O5rlVyx7lJ3vTKCz/ndS3JsDFYyzvmUL+PY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com; spf=pass smtp.mailfrom=konsulko.com; dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b=MwF7jTYU; arc=none smtp.client-ip=209.85.210.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=konsulko.com
+	s=arc-20240116; t=1785206961; c=relaxed/simple;
+	bh=4s/5NQ0BfIjDLx6nsMQcUo1NGNPJIEOAUaykakbWfHw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g0kUwiaVQxy9CBAVml5tbFQ0UFDGa3FEWXwE27gEWzw8hz0rp9avoiRA1QkZZMbandh5QwFuCotNR9Mia2NiNPgOa8HPNzKuribzEeMxXChR+42aP5UrF/xnIkc6WGvO2VZF8aVS9K/971d5NoDXxzfZn0Do870ZG1cv+wJkZCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ftaQDMmr; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b="MwF7jTYU"
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7e9ef94c0e2so1895907a34.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 27 Jul 2026 15:51:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ftaQDMmr"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-80bb41f7f3cso32915017b3.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 27 Jul 2026 19:49:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1785192662; x=1785797462; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:date:message-id
-         :subject:references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8x1DgypBuY0YPLbZiAr6RWEjKFGv+xt31+qV/LCUtHQ=;
-        b=MwF7jTYUHcPb/i79huyhCsjOKRqSYe7aQ7Lk/CIQ4hd/NQAvZK2SKEkcDoP6CRp0fA
-         kBeJXh0iU+9fg8/lEoKX7qoGmCuSz7Js0o8Nl60npI85Gc/emzhBc0u6uIW9AHcL5Ub+
-         Kpwet6G6GBdOADEFfDzobKkzxxEcjAgDWFuTs=
+        d=gmail.com; s=20251104; t=1785206959; x=1785811759; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=quHt3IGaKOPL78wv/QDtYvLCereMlp/accQxjxBXbGU=;
+        b=ftaQDMmrDV4lqpiNUkac+Xn0Kh86CyJPQgTtFKDeFCCH9eme7YPHGRzkBCLv0AucTL
+         0aTdKXSO45cLZ+t9HSO6nf2vv/0Y5lemi47CHB8SOQMOG9a2ehH/FkI53WhBCiUSc/86
+         vCnhdlM6CA3B/mnc2wEtjGiJ9/XkQ2HVHVfiWKqOPNn3HUNLNqhaF1mfZlAiehgAEYOQ
+         B5dUc6qCxUO4KKU/VNlBiki3KRb3T6mkfw2PJkbuhJkkLepCiIxycMVfDURmEtZdNGBS
+         GSazDxnL3VMgdCXSKLbfvu+OEV2dTRjl3DTh0C0rlvzuwdSpUNnEUou1uU7CeMtIL3Dr
+         /WEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785192662; x=1785797462;
-        h=content-transfer-encoding:content-type:mime-version:date:message-id
-         :subject:references:in-reply-to:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8x1DgypBuY0YPLbZiAr6RWEjKFGv+xt31+qV/LCUtHQ=;
-        b=YDjaeBxAj/C+4psn+qMgpRJEqz4izb9L24EpFxupQ/G/0t8jaYHtZ6MwYlHkDsM/VI
-         EiXttgp2LHDhIWNGrBKMUuGVBk/qYtfymPrfewJJVNr+Ao03zkuMwJGcyV7hzv/eD/cU
-         DADoae+DoEHntoSGwDfjCxMgdIImMOUobQ649O3KhyT1HppchAOH2aNUzGdKC+E9+744
-         ArLPUmune2sENtkn7KjgQ5quPJlEvMek5fH9Lmf7LwgFg1Y1zqR07+rMDWuTLJ0bE7n2
-         GHTS+QS/p4yl03cVBRymPfSX88hZOICW0P+oVrOczViYLYxHFR+2KyM57i0I/iriQZ/A
-         2l/Q==
-X-Forwarded-Encrypted: i=1; AHgh+RrNHKYrk7AgyIzAaMa3/rFwklWQI6AcwGV5GIht8M446xgCZhhV0NLhpkcJKARLLscOiIntuu2Sr06D/A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyPsVW73v0AI1rKAojoVGBWbdldOpmqahqCdkUZyizKzmojbJXS
-	ibL6Zdr0A6TojZDDPY7Br31P6X7mLWnlDwPEThNrKKD0eJwXnetFO/eQXHrEw32YlZN5P9LtyIq
-	7eeeq4LY=
-X-Gm-Gg: AR+sD105UhrVeu7yiYWW6cz7YK2v0zhlzNFMxITBGZjxTZvvEIzDsKopDN9dcayOReq
-	i14VmDP4VDkDPsr7xDhTcL2cLGvt6hf5KjpIXdI3Y+3vH8JPKX+cfophf35YaUjUe8OcNEGTmb7
-	W94APV5D/W5d/y7HIYPQlPuQ/T41We3ldwQUDR+3u8UZEuOwbvtvPsmUIu8N8U0jcsTPCrm5ily
-	8lpPNSvOpLXh4PY3XG0UBGeQ88iJCN6c4wx3MqDgnsZ7sjS/Zia8BhWmGV0wivt5N8IcrOpY5SR
-	WHO7a7Gg8Q8o4sDGUOENf2EH0xsfhz0z1VHOTYQ6PmSjcUb95NatY8ZF1Rqas7TZimffpyLLBCm
-	Mv4C6bQWNsvVm4LIowwcM2OoGRmhxG1w61VWrb0j6WJ22nc/BqWwCRVMEUpW0BexJZFEqe4K6Ne
-	/uYAZm5lDd75g1P9VBDvg8ozG4fERlyv5SkGuULX6fzNf2kxMKY7LOD+8B2S7Ehn2UOu9KSDrtz
-	Dbdy8FR2hG+QhJgVxd93DIWTQ==
-X-Received: by 2002:a05:6830:2906:b0:7dc:e37b:b5d3 with SMTP id 46e09a7af769-7ee78a6b8d6mr9349623a34.7.1785192661851;
-        Mon, 27 Jul 2026 15:51:01 -0700 (PDT)
-Received: from [127.0.1.1] (fixed-189-203-100-56.totalplay.net. [189.203.100.56])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ee29e2643fsm13154190a34.9.2026.07.27.15.51.00
+        d=1e100.net; s=20251104; t=1785206959; x=1785811759;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=quHt3IGaKOPL78wv/QDtYvLCereMlp/accQxjxBXbGU=;
+        b=nxXAauUMQuvvRk3Hc+Pcs3Ua25wyppw5CfUbxiUSQdYvjjAfrt0fi7IyD/atA5Fhep
+         +k2EDR/0fLT5/J0O44s/28h/GWMxi+CHkMnz4FWFoEc0RzNbj5lkb1Daf/xoWqW+oDNN
+         Rjz4EgTKUEyib/UXo32bKwSfu+9nnOfikxPQb1tHPzl8h8Q7YYRjue01S0tSPe0YJVCW
+         Ng/xUIwNkZdQjg825G5UCcizESOHlttH33hMxtrWdyDMlsS8//30C3XTjkhh0j+HffaA
+         wQJ2cKqu+QABxRIb3JxowF9EpCNJ+6zIPInZ+mVarP5vN9HBvJYzloS+75hQuMrnYHb0
+         uujA==
+X-Forwarded-Encrypted: i=1; AHgh+Ro20gt9bEsYJkViK7baXVHFpjIoia72atnlbZobi2qHZGvMVwkUCH6a9+sFKOWIz2DGdomsr6Xp5cvq/Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxfj3+Be3gcRpbA9EutC8LiT68CbGYbPtZ8jUJVUUj+F3/ZP7Sa
+	CEilvseieOdC7M8qZZBXQ8BWeBW5M/2htL8e4t3f9bTMqU13KExR5PbT
+X-Gm-Gg: AR+sD11Z935y/lsTK5MNmMzUlCDXt7y8nt0bJnKnhDhG7UXQxLOuLvU/SyWivC3R6gK
+	GLxSm1FNJQwEZKD3FiUFi22JyItRiLRvdsDob5t0So74c85fD89b3NSUB9PPA7nTt942ZSvnXCw
+	9O1oyUGRuZ9SeN9VLY1sy8y7vJEtf9L0868CNMHrY6JIjcF4JOr3r5Bbra9wsCH84cZf2nUXkoj
+	cWx8qXr5QaP3rnUaJxkfO9j42/qsIoLi/7jZ5OC5uSlLlWjXeqhoH3PRNGuIEwBfzZv8BuBJe5f
+	4Si2OzSovaAHe5yyoTp543ryfyXAw51bWTZXZoC6gsrbAGGSj7+XpGc3vW1uHeN00kemYwco7ko
+	DezgBEeP+3a709LUVSdjgFJy6iH1C4xJ0KwIJTkZD+Xd8Q5qIFL4mHsHZMUAb/6QtKXysu+7fru
+	qPCUz6oOKrlRo1IN3U4pCmlbGg7x/ue2RGgZLz
+X-Received: by 2002:a05:690c:7244:b0:81e:d009:1956 with SMTP id 00721157ae682-81f991fa998mr2277897b3.12.1785206958757;
+        Mon, 27 Jul 2026 19:49:18 -0700 (PDT)
+Received: from zenbox ([2600:1700:18fb:6011:722a:22a9:308b:2c35])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81f6579f462sm40974847b3.11.2026.07.27.19.49.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 15:51:01 -0700 (PDT)
-From: Tom Rini <trini@konsulko.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: u-boot@lists.u-boot-project.org, 
- Omar Ivan Fardjoume <ivan.fardjoume@gmail.com>, 
- Junhui Liu <junhui.liu@pigmoral.tech>, linux-sunxi@lists.linux.dev
-In-Reply-To: <20260727174414.22152-1-andre.przywara@arm.com>
-References: <20260727174414.22152-1-andre.przywara@arm.com>
-Subject: Re: Pull request: u-boot-sunxi/main for 2026.10
-Message-Id: <178519266094.74116.10650678499402530532.b4-ty@konsulko.com>
-Date: Mon, 27 Jul 2026 16:51:00 -0600
+        Mon, 27 Jul 2026 19:49:18 -0700 (PDT)
+From: Justin Suess <utilityemal77@gmail.com>
+To: Sean Young <sean@mess.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	Sashiko <sashiko-bot@kernel.org>,
+	Justin Suess <utilityemal77@gmail.com>
+Subject: [PATCH v4 0/4] media: rc: sunxi-cir: support the A523/H728/T527 IR receiver
+Date: Mon, 27 Jul 2026 22:49:12 -0400
+Message-ID: <20260728024916.993224-1-utilityemal77@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
+Content-Transfer-Encoding: 8bit
 
-On Mon, 27 Jul 2026 19:44:14 +0200, Andre Przywara wrote:
+Hi,
 
-> please pull these sunxi changes into main:
-> 
-> Beside a fix for a long standing bug in the A80 eMMC code, this adds
-> SPI booting support for the Allwinner A523/A527/T527 class of boards.
-> The second major feature is support for the secondary Ethernet controller
-> on that same SoC. This might not be as important as for the kernel (I
-> doubt that U-Boot acts as a router), but for once some boards only connect
-> the secondary EMAC, and on others people might have the boot server only
-> reachable via this port.
-> There are some smaller fixes and improvements still queued up, but they
-> need some more testing and are minor, so can land a bit later.
-> 
-> [...]
+This series adds support for the CIR receiver on the Allwinner
+A523/T527/H728 family (sun55i).
 
-Merged into u-boot/main, thanks!
+Apologies for the hasty v3 respin.
 
+Tested again on my X96Q Pro+ (H728) TV box with the Google TV remote that
+came in the box (using NEC keymap). Was able to press buttons and
+get readings from lirc / ir-keytable again.
+
+Changes since v3:
+- 1/4: picked up Krzysztof's Acked-by, no other changes
+- 2/4: add /omit-if-no-ref/ and rename the PL11 node to
+  r-ir-rx-pl-pin (Chen-Yu)
+- 2/4: take the PI8 pinmux node from Andre's Avaota patch, named
+  ir-rx-pi-pin (Chen-Yu). Added Co-developed-by for Andre, and
+  his Reviewed-by is dropped, as the patch gained a hunk and a
+  node rename.
+- 4/4: drop the moved hunk. Andre stays the author, with a
+  bracketed note for the move and my Signed-off-by added
+  (Chen-Yu, Andre)
+
+Based on v7.2-rc1.
+
+v3: https://lore.kernel.org/linux-sunxi/20260722233604.3001063-1-utilityemal77@gmail.com/
+v2: https://lore.kernel.org/linux-sunxi/20260722201717.2205609-1-utilityemal77@gmail.com/
+v1: https://lore.kernel.org/linux-sunxi/20260702214750.3428694-1-utilityemal77@gmail.com/
+
+Andre Przywara (1):
+  arm64: dts: allwinner: a523: enable IR on the Avaota A1
+
+Justin Suess (3):
+  media: dt-bindings: allwinner,sun4i-a10-ir: add A523 compatible
+  arm64: dts: allwinner: a523: add IR receiver nodes
+  arm64: dts: allwinner: a523: enable IR receiver on the X96Q Pro+
+
+ .../media/allwinner,sun4i-a10-ir.yaml         |  8 +++--
+ .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 36 +++++++++++++++++++
+ .../dts/allwinner/sun55i-h728-x96qpro+.dts    |  6 ++++
+ .../dts/allwinner/sun55i-t527-avaota-a1.dts   |  6 ++++
+ 4 files changed, 53 insertions(+), 3 deletions(-)
+
+
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
 -- 
-Tom
-
+2.54.0
 
