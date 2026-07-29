@@ -1,159 +1,208 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C788239A05C
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Jul 2026 17:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B02842255C
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Jul 2026 08:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785258152; cv=none; b=SOBWAb8gyWB4g/+6+bL9q1ExG4MQx/SPDfHGjMBXE9H7XaYCmihwRL3Kidpy7qjoPnYNiw+dbi0iJgr2CbTVhk1tGy7s/t7RZmkyCDQ8Yk3jV3IFTAIVMIJsqU4YB2kS0eH0XCLd9h8Zr6MXIVphV+GRwmxD+Xb7NoG6CzEoSmo=
+	t=1785314317; cv=none; b=JYj78pCLSNItpuyTOKCO8omO4E00IAnrBFFMfVCYNx+Zh8ydJ6+AGK51u0RUZqXQept8lzehocTJhMiUl4Y7Wyfskf2FAW+DtHVlbvviQqrvvkg+RPlBFztX6/W/Z4Zhg0GsE6RCLuRQ/BFp9UuKVKbt3JOUjCA8Bk+JJ1hevvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785258152; c=relaxed/simple;
-	bh=bxFyUwwzs7IjS6nJSP45CpJDbZptu7ycVzrkumfnro4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BdrifaKh6P8rW0RtZr70+F1V8dbyV2JiXSI2oNm531pOjrj/3jGKKNdVCZGJJYeHc5rMc1QgF75dguVt9+E24lZ0pHv4e04hnhmf4eWtZ15+Mc3bvNFyFjyXILsp9S0f3JvbyWWXQelgGjK1hrvya4m50zVfU63gGO+NPSR7xjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b82WnSCr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785314317; c=relaxed/simple;
+	bh=mQusrFz3OyuSWO9NxPU1k1JP8a64bekTduq9i8UdhqI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DyAWIgvzBmDG9tkdU1MPkHhnAstaTYVII5w2vvRpmsRdsXQWVWWNj5OGlNjShQnCQfmqWUTVXw8BY/vhRN4RKiRO7tuyVyg8ZabANCnoWuqgHivGC1T0PId+ApVW7dpbDiwjDKNuNRY7lHlppGxHAOAEp3F2gJBrebGOnBJZGZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=kSyrsvfu; arc=none smtp.client-ip=195.181.215.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b82WnSCr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEA3C1F000E9
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Jul 2026 17:02:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785258150;
-	bh=9oe9UV20xRbrU+lzvVnG9jZANXjcjtMpLhecIgsxtCo=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=b82WnSCrWCjiiRXWQJ4BHNCDM9WM11Q5bzIpvuitixDRsOOf1B7FPKsDBcU0VdAd5
-	 TNiFDU/KSlDAXVW6gvISaXu3kH0Vx5NECZHXyxUxarrtY6UNnIQI6Q4sgEsq3JSywu
-	 ZsD+Ll1k5N52fgTMdiPOZIKAZzdI//FDAYmNvZWByV9jEUWq7GlPkW7gK3MucckXme
-	 3VY4SI8yceU6m9fkMhogBCeEz91BxJZAy7g7SCzBjw7WxbAzxqrsClkUEjrBq/f/DV
-	 T1/tIwLr3SfGEEooRAODTmQnVy6kLkBnxXW8PnMNsUxXHnDUNa59TWAIWoM40VW1H5
-	 mhH4NRgl56wKw==
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-39f00ce92d5so25804091fa.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 Jul 2026 10:02:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RroV0cXnxIqi9bJWQobwJAwVlnLVMCbFj5G6t/OLGgIM2UGXIRYVG4iLcbqksa8G4Jj+7Zbbgyc8FlDAg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxF4N/3Bq9FaL8O1fciSJkZvwa3R3FwnW1agEfn6B9FxeOrBGFp
-	TCVK/NO/Vba50f2gMS4rLGR1mhS0ZMYqlWLB+payrb6M94Znjz2PuqIJUmz2ehBvrS6dAjM/zAH
-	crUywfCbYHEzW3WumTJPCLCjkcgPqfFY=
-X-Received: by 2002:a05:651c:b09:b0:39e:e995:1685 with SMTP id
- 38308e7fff4ca-39f51e523a5mr6555341fa.38.1785258149154; Tue, 28 Jul 2026
- 10:02:29 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="kSyrsvfu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+	t=1785314305; bh=mQusrFz3OyuSWO9NxPU1k1JP8a64bekTduq9i8UdhqI=;
+	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
+	b=kSyrsvfuzVPAK6yMZO0m5K31ueXpTo7gtNJxYlQylag4AfA5cOH950+70TbTrTzSw
+	 nIZKttmaEXTZJYVowZJ1hekfUEdbYtSJzfUft3h9YwOtdLQpVg7ZCmmkEMfg51eO+Y
+	 yuFSZ1XJpBJS185dcwb0Et+oY2GIlggLFI78KiLw=
+Date: Wed, 29 Jul 2026 10:38:25 +0200
+From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+To: linux-sunxi@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Brian Masney <bmasney@redhat.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	"open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>, 
+	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH] clk: sunxi-ng: Change NKMP algorithm for finding factors
+Message-ID: <5r4fxm7e2ooagq55nst2hblyeixrk7p3hijqra4sehzbfionvu@fwkwxhrjcfue>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Brian Masney <bmasney@redhat.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	"open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>, 
+	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
+References: <20260725122645.2270876-1-megi@xff.cz>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260719211319.982285-1-juanmanuellopezcarrillo@gmail.com> <20260719211319.982285-5-juanmanuellopezcarrillo@gmail.com>
-In-Reply-To: <20260719211319.982285-5-juanmanuellopezcarrillo@gmail.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Wed, 29 Jul 2026 01:02:16 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65gfLhY3qipJrcuE51CJ2WV=oNSbFDu7QP-6VFKF3v_WA@mail.gmail.com>
-X-Gm-Features: AUfX_mxwEoOQfPBDHt1Bhhdm8fNwHOj6ohky5Q9xhsCCChtpmB1_uNVjxEEhUG4
-Message-ID: <CAGb2v65gfLhY3qipJrcuE51CJ2WV=oNSbFDu7QP-6VFKF3v_WA@mail.gmail.com>
-Subject: Re: [PATCH v1 4/4] arm64: dts: allwinner: t527-orangepi-4a: add GPU
- OPP table
-To: =?UTF-8?Q?Juan_Manuel_L=C3=B3pez_Carrillo?= <juanmanuellopezcarrillo@gmail.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Brian Masney <bmasney@redhat.com>, Andre Przywara <andre.przywara@arm.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260725122645.2270876-1-megi@xff.cz>
 
-On Mon, Jul 20, 2026 at 5:13=E2=80=AFAM Juan Manuel L=C3=B3pez Carrillo
-<juanmanuellopezcarrillo@gmail.com> wrote:
+On Sat, Jul 25, 2026 at 02:26:40PM +0200, megi xff wrote:
+> From: Ondrej Jirman <megi@xff.cz>
+> 
+> Current algorithm is very slow. It searches inefficiently in a brute
+> force manner through all possibilities all the time.
+> 
+> Eg. it does >1500 iterations on every rate change twice, because
+> ccu_nkmp_find_best() function is called multiple times per rate
+> change.
+> 
+> New algorithm determines correct NKMP factors typically in 1 to 3
+> iterations if precise factors can be determined for M = 1, P = 1,
+> which is a typical case. If CPU clock frequency can't be derived
+> precisely this drops to average 8 iterations needed to determine
+> the factors.
+> 
+> The results are identical to the original algorithm, except in cases
+> where the original algorithm does not try to satisfy SoC PLL clock
+> constraints, like N*K range 10..88 or P factor being limited to output
+> frequency < 240 MHz.
+> 
+> These restrictions are based on A64 SoC datasheet. Although they
+> are sometimes not documented for other Allwinner SoC variants or are
+> slightly different, this is still a significant improvement over
+> not respecting any physical restrictions at all, as the previous
+> algorithm did not. Hardcoding the values if fine, until someone
+> finds some reason for not to.
+
+I withdraw this patch. I reworked it with clock specific settings for these PLL
+specific constraints (instead of hardcoding) and I'll run the new version for
+a while before submitting again.
+
+Best regards,
+	o.
+
+> 
+> Motivation for this patch is that cpufreq schedutil scheduler thread
+> manages to load one core to 70% all the time just doing these calculations
+> while the core is running at just 24MHz during frequency changes.
+> This helps improve the performance significantly.
 >
-> Add the Mali-G57 operating points from the vendor BSP universal table
-> (150/200/300/400/600 MHz) so panfrost devfreq can scale the GPU
-> instead of running at the boot clock.
->
-> All operating points use 920 mV: the BSP table specifies 900 mV for
-> every universal OPP, but on this board the GPU rail (AXP717 DCDC2,
-> vdd-gpu-sys) is a fixed 920 mV supply, so the OPP voltage states the
-> actual rail value and voltage transitions are no-ops.  The higher
-> speed-bin points of the BSP (648-792 MHz) are not included: they are
-> gated by a SID efuse bin and need pll-gpu as a live parent.
->
-> Depends on the sun55i-a523 GPU clock divider fix (the OPP rates are
-> only produced correctly with the cycle-masking divider model);
-> validated on hardware with the Mali cycle counter: 149/199/300/399/597
-> MHz measured under load, thermal-emulation throttling included.
->
-> Signed-off-by: Juan Manuel L=C3=B3pez Carrillo <juanmanuellopezcarrillo@g=
-mail.com>
+> Signed-off-by: Ondrej Jirman <megi@xff.cz>
 > ---
->  .../dts/allwinner/sun55i-t527-orangepi-4a.dts | 30 +++++++++++++++++++
->  1 file changed, 30 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts b/=
-arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-> index 055be86e5..0fd73a1bb 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-> @@ -30,6 +30,35 @@ ext_osc32k: ext-osc32k-clk {
->                 clock-output-names =3D "ext_osc32k";
->         };
->
-> +       gpu_opp_table: opp-table-gpu {
-
-The table should be in the .dtsi file. The OPP table reflects the
-requirements of the SoC, not the board. Any board specific adjustments
-are done later.
-
-> +               compatible =3D "operating-points-v2";
+> Sorry, I don't know how to avoid overlong lines here, other than
+> maybe not indenting 3 toplevel for blocks and keeping all of them
+> at the same level.
+> 
+>  drivers/clk/sunxi-ng/ccu_nkmp.c | 80 ++++++++++++++++++++++-----------
+>  1 file changed, 55 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/clk/sunxi-ng/ccu_nkmp.c b/drivers/clk/sunxi-ng/ccu_nkmp.c
+> index 25efb5b37607..c39b19891431 100644
+> --- a/drivers/clk/sunxi-ng/ccu_nkmp.c
+> +++ b/drivers/clk/sunxi-ng/ccu_nkmp.c
+> @@ -32,40 +32,70 @@ static unsigned long ccu_nkmp_calc_rate(unsigned long parent,
+>  static unsigned long ccu_nkmp_find_best(unsigned long parent, unsigned long rate,
+>  					struct _ccu_nkmp *nkmp)
+>  {
+> +	unsigned long _k, _m, _p;
+> +	unsigned long max_p = rate >= 240000000 ? 1 : nkmp->max_p;
+> +	unsigned approx;
+>  	unsigned long best_rate = 0;
+> -	unsigned long best_n = 0, best_k = 0, best_m = 0, best_p = 0;
+> -	unsigned long _n, _k, _m, _p;
+>  
+> -	for (_k = nkmp->min_k; _k <= nkmp->max_k; _k++) {
+> -		for (_n = nkmp->min_n; _n <= nkmp->max_n; _n++) {
+> +	for (approx = 0; approx <= 1; approx++) {
+> +		for (_p = nkmp->min_p; _p <= max_p; _p <<= 1) {
+>  			for (_m = nkmp->min_m; _m <= nkmp->max_m; _m++) {
+> -				for (_p = nkmp->min_p; _p <= nkmp->max_p; _p <<= 1) {
+> -					unsigned long tmp_rate;
+> -
+> -					tmp_rate = ccu_nkmp_calc_rate(parent,
+> -								      _n, _k,
+> -								      _m, _p);
+> -
+> -					if (tmp_rate > rate)
+> -						continue;
+> -
+> -					if ((rate - tmp_rate) < (rate - best_rate)) {
+> -						best_rate = tmp_rate;
+> -						best_n = _n;
+> -						best_k = _k;
+> -						best_m = _m;
+> -						best_p = _p;
+> +				u64 nk = (u64)rate * _m * _p;
+> +				unsigned long nk_rem = do_div(nk, parent);
 > +
-> +               opp-150000000 {
-> +                       opp-hz =3D /bits/ 64 <150000000>;
-> +                       opp-microvolt =3D <920000>;
-
-Please use the <min nominal max> variant to specify a voltage range.
-The minimum and nominal voltages should be the one from the BSP table.
-You can set the maximum arbitrarily, but 920 mV should be fine to cover
-this board.
-
-> +               };
+> +				if (nk_rem != 0 && !approx)
+> +					continue;
 > +
-> +               opp-200000000 {
-> +                       opp-hz =3D /bits/ 64 <200000000>;
-> +                       opp-microvolt =3D <920000>;
-> +               };
+> +				if (nk < 10 || nk > 88)
+> +					continue;
 > +
-> +               opp-300000000 {
-> +                       opp-hz =3D /bits/ 64 <300000000>;
-> +                       opp-microvolt =3D <920000>;
-> +               };
+> +				for (_k = nkmp->min_k; _k <= nkmp->max_k; _k++) {
+> +					if (approx) {
+> +						u64 _n = (u64)rate * _m * _p;
+> +						unsigned long tmp_rate;
 > +
-> +               opp-400000000 {
-> +                       opp-hz =3D /bits/ 64 <400000000>;
-> +                       opp-microvolt =3D <920000>;
-> +               };
+> +						do_div(_n, parent * _k);
 > +
-> +               opp-600000000 {
-> +                       opp-hz =3D /bits/ 64 <600000000>;
-> +                       opp-microvolt =3D <920000>;
-> +               };
-> +       };
+> +						if (_n < nkmp->min_n || _n > nkmp->max_n)
+> +							continue;
 > +
->         leds {
->                 compatible =3D "gpio-leds";
->
-> @@ -116,6 +145,7 @@ &gmac1 {
->
->  &gpu {
->         mali-supply =3D <&reg_dcdc2>;
-> +       operating-points-v2 =3D <&gpu_opp_table>;
-
-Same here. This should be in the .dtsi file. It should be fine to add it
-right now since all boards have the supply added.
-
-
-ChenYu
-
->         status =3D "okay";
->  };
->
-> --
-> 2.47.3
->
+> +						tmp_rate = ccu_nkmp_calc_rate(parent,
+> +									      _n, _k,
+> +									      _m, _p);
+> +						if (tmp_rate > rate)
+> +							continue;
+> +
+> +						if ((rate - tmp_rate) < (rate - best_rate)) {
+> +							best_rate = tmp_rate;
+> +							nkmp->n = _n;
+> +							nkmp->k = _k;
+> +							nkmp->m = _m;
+> +							nkmp->p = _p;
+> +						}
+> +					} else {
+> +						u64 _n = nk;
+> +						unsigned long _n_rem = do_div(_n, _k);
+> +
+> +						if (_n < nkmp->min_n || _n > nkmp->max_n)
+> +							continue;
+> +
+> +						if (_n_rem == 0) {
+> +							nkmp->n = _n;
+> +							nkmp->k = _k;
+> +							nkmp->m = _m;
+> +							nkmp->p = _p;
+> +							return ccu_nkmp_calc_rate(parent,
+> +										  nkmp->n,
+> +										  nkmp->k,
+> +										  nkmp->m,
+> +										  nkmp->p);
+> +						}
+>  					}
+>  				}
+>  			}
+>  		}
+>  	}
+>  
+> -	nkmp->n = best_n;
+> -	nkmp->k = best_k;
+> -	nkmp->m = best_m;
+> -	nkmp->p = best_p;
+> -
+>  	return best_rate;
+>  }
+>  
+> -- 
+> 2.54.0
+> 
