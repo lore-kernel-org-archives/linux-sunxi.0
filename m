@@ -1,208 +1,99 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from extorris.mess.org (extorris.mess.org [92.243.27.206])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B02842255C
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Jul 2026 08:38:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80CC74B8DF2
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Jul 2026 15:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.243.27.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785314317; cv=none; b=JYj78pCLSNItpuyTOKCO8omO4E00IAnrBFFMfVCYNx+Zh8ydJ6+AGK51u0RUZqXQept8lzehocTJhMiUl4Y7Wyfskf2FAW+DtHVlbvviQqrvvkg+RPlBFztX6/W/Z4Zhg0GsE6RCLuRQ/BFp9UuKVKbt3JOUjCA8Bk+JJ1hevvU=
+	t=1785338596; cv=none; b=QJ/Jp/9bcaGVmM109Aal+wJJYaS7H1Luqq6eD17FGTTcnu2jbeWaKbn2CbYQMQP+YDJojpsSCI90fNsPYRDBuHd8KZcV7DNHKIYaWAByc51bsxD7cgVOhQ0Xucw3ZdrPZqPNPVneC4+SL48S4+NjHAbyVaxEisickJm9Ds0Y6/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785314317; c=relaxed/simple;
-	bh=mQusrFz3OyuSWO9NxPU1k1JP8a64bekTduq9i8UdhqI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DyAWIgvzBmDG9tkdU1MPkHhnAstaTYVII5w2vvRpmsRdsXQWVWWNj5OGlNjShQnCQfmqWUTVXw8BY/vhRN4RKiRO7tuyVyg8ZabANCnoWuqgHivGC1T0PId+ApVW7dpbDiwjDKNuNRY7lHlppGxHAOAEp3F2gJBrebGOnBJZGZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=kSyrsvfu; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
+	s=arc-20240116; t=1785338596; c=relaxed/simple;
+	bh=jyAFNCAff7ONHFxb/FIrT3odoLHFfMrGUvGh9kBzBcY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qOctMJpUfQOGw4xC5euD2SgftB17M4HhenwpK8JQ9sKQZXCvrcwxYuCfTUXyyigtTAiDCnraSL7gUV6e7ZorYNUKsJajXgymdw9I6jx2/PxYjRoV7b1FRUvLpimKADDC6ldSw8u5Rme0ZcHUBa+UZh4N4EZRuAd4J/PiWpuqonI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=W0o2E3Ic; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=m0l850kX; arc=none smtp.client-ip=92.243.27.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="kSyrsvfu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1785314305; bh=mQusrFz3OyuSWO9NxPU1k1JP8a64bekTduq9i8UdhqI=;
-	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-	b=kSyrsvfuzVPAK6yMZO0m5K31ueXpTo7gtNJxYlQylag4AfA5cOH950+70TbTrTzSw
-	 nIZKttmaEXTZJYVowZJ1hekfUEdbYtSJzfUft3h9YwOtdLQpVg7ZCmmkEMfg51eO+Y
-	 yuFSZ1XJpBJS185dcwb0Et+oY2GIlggLFI78KiLw=
-Date: Wed, 29 Jul 2026 10:38:25 +0200
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: linux-sunxi@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Brian Masney <bmasney@redhat.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	"open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>, 
-	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH] clk: sunxi-ng: Change NKMP algorithm for finding factors
-Message-ID: <5r4fxm7e2ooagq55nst2hblyeixrk7p3hijqra4sehzbfionvu@fwkwxhrjcfue>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Brian Masney <bmasney@redhat.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	"open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>, 
-	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20260725122645.2270876-1-megi@xff.cz>
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="W0o2E3Ic";
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="m0l850kX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1785338593; bh=jyAFNCAff7ONHFxb/FIrT3odoLHFfMrGUvGh9kBzBcY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=W0o2E3IcHUPcqjHRulLpkwmEad+b0z+jEKoSlYZ0KUVRCzb7ZgA6dkP6b3X2wqKo1
+	 L3a3qBGUlBCIEMlkAFksukQZnYzQ0Xn6TjFH01SWkbKPKNcTf0KPK+neIvpCuA68nx
+	 hFO87IOOc78Y0bynDu6l2jcmJlmwPJmRyLJBORtBNYw3vwk1d5xw4/h2vdaTKsu0Wi
+	 Y89lm1YIB2ZoG0tyP0tXK77ARbKyLWsu13LjiTOlcmqN81iSXqXjKRwLC1hW/WZVmQ
+	 Q55XEu9H5ZdbOTbZ+uOXlF2zjlVmegmm2pLEFVZYUXcZqmT8AQRavGjjvuE3extGru
+	 2BDUnhCy5F0oA==
+Received: by extorris.mess.org (Postfix, from userid 1004)
+	id 0F13542548; Wed, 29 Jul 2026 16:23:13 +0100 (BST)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1785338592; bh=jyAFNCAff7ONHFxb/FIrT3odoLHFfMrGUvGh9kBzBcY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=m0l850kXaZmCw8zaVg9tUIrPXj7WRgopm7tAw+Iam+5Pzh/vt5z94AM5i/EvBzYp2
+	 I7ccCtN1ZTXiGFFYp9sKIls9+YkwU/+aHvDbnR9K1gk71m04rsV/LLi/qF5+936AD5
+	 9KS7Z61nA9mOHdDIuLtPOCV+LPR5XSk50d49lBCfOXZ4efjaw3HMI3B0YACYfTc19U
+	 bL0tAMcEIeCxvlgkapt6RvZdSKokA1W3xc6WkhccEHe1FhRIwpDmHCT13q+bjVz4ix
+	 9bxf+WxC7LSipQf4k8Ew5oriQPyvLLEAqn07hCXTXOJtXDXsdl4gkurGPt6gWmbRqF
+	 09pGN+gl53mWQ==
+Received: from maru.local (unknown [62.232.99.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by extorris.mess.org (Postfix) with ESMTPSA id 619344017A;
+	Wed, 29 Jul 2026 16:23:12 +0100 (BST)
+From: Sean Young <sean@mess.org>
+To: linux-media@vger.kernel.org,
+	Sean Young <sean@mess.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: stable@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v5 06/15] media: sunxi-cir: Ensure no more interrupts can occur before free
+Date: Wed, 29 Jul 2026 16:22:44 +0100
+Message-ID: <ca5cac44353fdae4d664b22de709cc45837414ee.1785338381.git.sean@mess.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <cover.1785338381.git.sean@mess.org>
+References: <cover.1785338381.git.sean@mess.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260725122645.2270876-1-megi@xff.cz>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jul 25, 2026 at 02:26:40PM +0200, megi xff wrote:
-> From: Ondrej Jirman <megi@xff.cz>
-> 
-> Current algorithm is very slow. It searches inefficiently in a brute
-> force manner through all possibilities all the time.
-> 
-> Eg. it does >1500 iterations on every rate change twice, because
-> ccu_nkmp_find_best() function is called multiple times per rate
-> change.
-> 
-> New algorithm determines correct NKMP factors typically in 1 to 3
-> iterations if precise factors can be determined for M = 1, P = 1,
-> which is a typical case. If CPU clock frequency can't be derived
-> precisely this drops to average 8 iterations needed to determine
-> the factors.
-> 
-> The results are identical to the original algorithm, except in cases
-> where the original algorithm does not try to satisfy SoC PLL clock
-> constraints, like N*K range 10..88 or P factor being limited to output
-> frequency < 240 MHz.
-> 
-> These restrictions are based on A64 SoC datasheet. Although they
-> are sometimes not documented for other Allwinner SoC variants or are
-> slightly different, this is still a significant improvement over
-> not respecting any physical restrictions at all, as the previous
-> algorithm did not. Hardcoding the values if fine, until someone
-> finds some reason for not to.
+Only call rc_free_device() once the hardware has been stopped.
 
-I withdraw this patch. I reworked it with clock specific settings for these PLL
-specific constraints (instead of hardcoding) and I'll run the new version for
-a while before submitting again.
+Fixes: dccc0c3ddf8f ("media: rc: fix race between unregister and urb/irq callbacks")
+Signed-off-by: Sean Young <sean@mess.org>
+Cc: stable@vger.kernel.org
+---
+ drivers/media/rc/sunxi-cir.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Best regards,
-	o.
+diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
+index 28e840a7e5b8..af1ee08ffdbe 100644
+--- a/drivers/media/rc/sunxi-cir.c
++++ b/drivers/media/rc/sunxi-cir.c
+@@ -374,8 +374,8 @@ static void sunxi_ir_remove(struct platform_device *pdev)
+ 	struct sunxi_ir *ir = platform_get_drvdata(pdev);
+ 
+ 	rc_unregister_device(ir->rc);
+-	rc_free_device(ir->rc);
+ 	sunxi_ir_hw_exit(&pdev->dev);
++	rc_free_device(ir->rc);
+ }
+ 
+ static void sunxi_ir_shutdown(struct platform_device *pdev)
+-- 
+2.55.0
 
-> 
-> Motivation for this patch is that cpufreq schedutil scheduler thread
-> manages to load one core to 70% all the time just doing these calculations
-> while the core is running at just 24MHz during frequency changes.
-> This helps improve the performance significantly.
->
-> Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> ---
-> Sorry, I don't know how to avoid overlong lines here, other than
-> maybe not indenting 3 toplevel for blocks and keeping all of them
-> at the same level.
-> 
->  drivers/clk/sunxi-ng/ccu_nkmp.c | 80 ++++++++++++++++++++++-----------
->  1 file changed, 55 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/clk/sunxi-ng/ccu_nkmp.c b/drivers/clk/sunxi-ng/ccu_nkmp.c
-> index 25efb5b37607..c39b19891431 100644
-> --- a/drivers/clk/sunxi-ng/ccu_nkmp.c
-> +++ b/drivers/clk/sunxi-ng/ccu_nkmp.c
-> @@ -32,40 +32,70 @@ static unsigned long ccu_nkmp_calc_rate(unsigned long parent,
->  static unsigned long ccu_nkmp_find_best(unsigned long parent, unsigned long rate,
->  					struct _ccu_nkmp *nkmp)
->  {
-> +	unsigned long _k, _m, _p;
-> +	unsigned long max_p = rate >= 240000000 ? 1 : nkmp->max_p;
-> +	unsigned approx;
->  	unsigned long best_rate = 0;
-> -	unsigned long best_n = 0, best_k = 0, best_m = 0, best_p = 0;
-> -	unsigned long _n, _k, _m, _p;
->  
-> -	for (_k = nkmp->min_k; _k <= nkmp->max_k; _k++) {
-> -		for (_n = nkmp->min_n; _n <= nkmp->max_n; _n++) {
-> +	for (approx = 0; approx <= 1; approx++) {
-> +		for (_p = nkmp->min_p; _p <= max_p; _p <<= 1) {
->  			for (_m = nkmp->min_m; _m <= nkmp->max_m; _m++) {
-> -				for (_p = nkmp->min_p; _p <= nkmp->max_p; _p <<= 1) {
-> -					unsigned long tmp_rate;
-> -
-> -					tmp_rate = ccu_nkmp_calc_rate(parent,
-> -								      _n, _k,
-> -								      _m, _p);
-> -
-> -					if (tmp_rate > rate)
-> -						continue;
-> -
-> -					if ((rate - tmp_rate) < (rate - best_rate)) {
-> -						best_rate = tmp_rate;
-> -						best_n = _n;
-> -						best_k = _k;
-> -						best_m = _m;
-> -						best_p = _p;
-> +				u64 nk = (u64)rate * _m * _p;
-> +				unsigned long nk_rem = do_div(nk, parent);
-> +
-> +				if (nk_rem != 0 && !approx)
-> +					continue;
-> +
-> +				if (nk < 10 || nk > 88)
-> +					continue;
-> +
-> +				for (_k = nkmp->min_k; _k <= nkmp->max_k; _k++) {
-> +					if (approx) {
-> +						u64 _n = (u64)rate * _m * _p;
-> +						unsigned long tmp_rate;
-> +
-> +						do_div(_n, parent * _k);
-> +
-> +						if (_n < nkmp->min_n || _n > nkmp->max_n)
-> +							continue;
-> +
-> +						tmp_rate = ccu_nkmp_calc_rate(parent,
-> +									      _n, _k,
-> +									      _m, _p);
-> +						if (tmp_rate > rate)
-> +							continue;
-> +
-> +						if ((rate - tmp_rate) < (rate - best_rate)) {
-> +							best_rate = tmp_rate;
-> +							nkmp->n = _n;
-> +							nkmp->k = _k;
-> +							nkmp->m = _m;
-> +							nkmp->p = _p;
-> +						}
-> +					} else {
-> +						u64 _n = nk;
-> +						unsigned long _n_rem = do_div(_n, _k);
-> +
-> +						if (_n < nkmp->min_n || _n > nkmp->max_n)
-> +							continue;
-> +
-> +						if (_n_rem == 0) {
-> +							nkmp->n = _n;
-> +							nkmp->k = _k;
-> +							nkmp->m = _m;
-> +							nkmp->p = _p;
-> +							return ccu_nkmp_calc_rate(parent,
-> +										  nkmp->n,
-> +										  nkmp->k,
-> +										  nkmp->m,
-> +										  nkmp->p);
-> +						}
->  					}
->  				}
->  			}
->  		}
->  	}
->  
-> -	nkmp->n = best_n;
-> -	nkmp->k = best_k;
-> -	nkmp->m = best_m;
-> -	nkmp->p = best_p;
-> -
->  	return best_rate;
->  }
->  
-> -- 
-> 2.54.0
-> 
