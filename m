@@ -1,131 +1,109 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C929B4052A9
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Jul 2026 15:31:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0DD4052D7;
+	Wed, 29 Jul 2026 16:37:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785339066; cv=none; b=QvZGlzUYLWZ8g2EN4z2ixtS1EgX2zSuhL3vU2Se3qBfqppY0aprLb90P16fs9R+jS5OzrTZyXPfQb3PSGOf+LskVabK7Xi0R+c6i8Kae7bl0v91paYyvKPKZzqkzr6lmjRH0FmsmrwkDb9/Cs796VZ5QqPRVgOqaPS2DhDbasTk=
+	t=1785343054; cv=none; b=e2dWc2DlSM0pkWiQQMRC0sSwe6yY7VatlMYr9UmrVhQh38UX6/aCfA0BExNmJajkRpWbNNqa/lXerebjQ3Xk98lIPBmLk0RDKWlFae8vAGv1tSb/ZS6z85y39tBYEOVRVvgNN2YAUt/qFigwAJIKlZWtxURgnvHptTjqXOHcBh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785339066; c=relaxed/simple;
-	bh=e0hzv6Qr489YzxBASWiNvYy+vYJcBhCfIDw4hfkxje8=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=oVnGZDdSgFhWJKvJzsHyY/nYz6WCTj7lRJMtfCqCKp/77bq13yS8ersrk4JSGZ7c80uK+fYsdxhBrF+Hjwoy/QE+OSbgXaICsIYGP5/LEX4c8pcols8Q4I4RGzpqnUEuwcxmjAFlHZj0w2RyIaLhVqXhG8zNhMk2clvJRLdFYP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V7Y/sYjg; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785343054; c=relaxed/simple;
+	bh=aSuOPXzJQ56G8k3sth1czQJJm4/utQakt15/0Fh/C2M=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=oSRCZ/JWSsXZBDvv5Y1nEoruqjFsUDmalmCIbL3fvJMY70W/qQRHZmGaJsay2O7rGOd4iz/gOyo9SG3rptNi7KGh3yHpYZu8daY25qUUOc2uFmKKWCzPjWEIpjGeYqCb/POG2K9hEW8+ULXirA4cKJNAY63eTvayiLgFC/bsDUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aVXP+5Tc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V7Y/sYjg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F6641F00AC4;
-	Wed, 29 Jul 2026 15:31:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aVXP+5Tc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6E0F1F000E9;
+	Wed, 29 Jul 2026 16:37:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785339064;
-	bh=fFngezCcl0eeCWHhwJfWja+A6jHkJlSX9/qjeyR2P/c=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=V7Y/sYjgdvhmII4XtkaZd4GvOkP3v31+BYMPP7EikEFvv4rIdLESNw9OpL3yDD3SO
-	 Xp6OEWkizyqhO+j6Fuq0PQgh9PS3gWD6NzxNxuErlDHKb5VwGVvTMi69V9m4LN2nJA
-	 rpeIv82k2KL2A3q205YNkxJemIB8mAWuLTtnYr+nn0WJypHbVwQSGun8yamAmFN3yv
-	 JXavl4hrfzsg9iOZ9sOposNS5vDI9qIxsj8FAJWNctNmPZi2u+LthFOdi+e3AleFD0
-	 o1hxY5L6nq9TBsii1W7Q/6bqlKd1SLmVMYEwwA1FBglwE8RI+R8JPKwRJJh1QG+eEP
-	 ZfwDHjD09rs3g==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 06/15] media: sunxi-cir: Ensure no more interrupts
- can occur before free
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Sean Young" <sean@mess.org>
-Cc: linux-sunxi@lists.linux.dev, media-ci@linuxtv.org
-In-Reply-To: <ca5cac44353fdae4d664b22de709cc45837414ee.1785338381.git.sean@mess.org>
-References: <cover.1785338381.git.sean@mess.org>
- <ca5cac44353fdae4d664b22de709cc45837414ee.1785338381.git.sean@mess.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 29 Jul 2026 15:31:03 +0000
-Message-Id: <20260729153104.3F6641F00AC4@smtp.kernel.org>
+	s=k20260515; t=1785343053;
+	bh=bdm/4il38IN1nKJeSh1Dv315qQqaUsufDNjASuCwRh8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=aVXP+5TcRctt7b5DFU1VxU7S+stOIg8c/uRTbzt72HJm+K5+veaMpNDXeAnl8YVJu
+	 3gcz77/440+7/AP2ZeqZcxyAQDMT/lU598vkVZaHo3awWYmbykde7c6xhd3esaOnJ4
+	 NDPATFOCVbaiQH6Lud3wn4p11kLceT/Lj76KN4P1Uvtzf4OFmi7MVakLymCoYzUi8g
+	 GF7gcSy0GSe5rNsdGy8UGeju8W/c49fvuHZKfBwiGLKO4jav4/KMPfwAPBRh1ZETQA
+	 Ap1YqJ3M72XU7MZNiFKnvx2sOzbWj6r4j8Qw0pk+IFEJh01eLMsEnsEntjceuQ7FhU
+	 U0MNttEJLd//A==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@kernel.org>, 
+ phucduc.bui@gmail.com
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Chen Ni <nichen@iscas.ac.cn>, Marcus Cooper <codekipper@gmail.com>, 
+ Bjorn Helgaas <bhelgaas@google.com>, Danilo Krummrich <dakr@kernel.org>, 
+ u.kleine-koenig@baylibre.com, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20260715095525.40668-1-phucduc.bui@gmail.com>
+References: <20260715095525.40668-1-phucduc.bui@gmail.com>
+Subject: Re: [PATCH 0/6] ASoC: sunxi: Simplify error handling
+Message-Id: <178533547523.172652.1817134697531789671.b4-ty@b4>
+Date: Wed, 29 Jul 2026 15:31:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
+On Wed, 15 Jul 2026 16:55:19 +0700, phucduc.bui@gmail.com wrote:
+> ASoC: sunxi: Simplify error handling
+> 
+> From: bui duc phuc <phucduc.bui@gmail.com>
+> 
+> Hi all,
+> 
+> This series improves probe error handling in the sunxi ASoC drivers.
+> It replaces suitable probe error paths with dev_err_probe() to
+> simplify the code and handle deferred probe errors consistently.
+> It also removes redundant error messages where the called helpers
+> already report failures, avoiding duplicate log messages.
+> 
+> [...]
 
-Pre-existing issues:
-- [High] The teardown race between `sunxi_ir_remove()` and `sunxi_ir_irq()`=
- is not resolved by the patch. The interrupt remains active and unsynchroni=
-zed while clocks are disabled and memory is freed, leading to synchronous e=
-xternal aborts and use-after-free vulnerabilities. A similar issue exists i=
-n `probe()` where the IRQ is requested before clocks are enabled.
---
+Applied to
 
---- Patch [6]: [PATCH v5 06/15] media: sunxi-cir: Ensure no more interrupts=
- can occur before free ---
-commit 485344025b667511dbe1afe16a5fb9cab1f312f6
-Author: Sean Young <sean@mess.org>
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-media: sunxi-cir: Ensure no more interrupts can occur before free
+Thanks!
 
-This commit delays rc_free_device() until after sunxi_ir_hw_exit() in the
-remove path. It attempts to ensure the hardware is stopped and no further
-interrupts can occur before the device memory is freed.
+[1/6] ASoC: sunxi: sun4i-codec: Use dev_err_probe() for probe error handling
+      https://git.kernel.org/broonie/sound/c/a8023598f3ae
+[2/6] ASoC: sunxi: sun4i-codec: Drop redundant error messages
+      https://git.kernel.org/broonie/sound/c/de6bda2088e4
+[3/6] ASoC: sunxi: sun4i-i2s: Use dev_err_probe() for probe error handling
+      https://git.kernel.org/broonie/sound/c/3e2262df8460
+[4/6] ASoC: sunxi: sun4i-spdif: Use dev_err_probe() for probe error handling
+      https://git.kernel.org/broonie/sound/c/ac95bdb98246
+[5/6] ASoC: sunxi: sun50i-codec-analog: Improve probe error handling
+      https://git.kernel.org/broonie/sound/c/76a770c30bcd
+[6/6] ASoC: sunxi: sun8i-codec-analog: Improve probe error handling
+      https://git.kernel.org/broonie/sound/c/bb0d825c8ad9
 
-Cc: stable@vger.kernel.org
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-> diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
-> index 28e840a7e5b8c..af1ee08ffdbec 100644
-> --- a/drivers/media/rc/sunxi-cir.c
-> +++ b/drivers/media/rc/sunxi-cir.c
-> @@ -374,8 +374,8 @@ static void sunxi_ir_remove(struct platform_device *p=
-dev)
->  	struct sunxi_ir *ir =3D platform_get_drvdata(pdev);
-> =20
->  	rc_unregister_device(ir->rc);
-> -	rc_free_device(ir->rc);
->  	sunxi_ir_hw_exit(&pdev->dev);
-> +	rc_free_device(ir->rc);
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-[Severity: High]
-This is a pre-existing issue, but does this actually prevent interrupts from
-occurring before the free?
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-The driver requests the IRQ via devm_request_irq() in sunxi_ir_probe(), whi=
-ch
-means the IRQ is not freed or synchronized until devres cleanup runs after
-sunxi_ir_remove() returns.
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-While sunxi_ir_hw_exit() disables the APB clock, it does not explicitly dis=
-able
-or synchronize the IRQ handler. If an interrupt executes concurrently, can =
-it
-fault when reading unclocked MMIO registers?
+Thanks,
+Mark
 
-drivers/media/rc/sunxi-cir.c:sunxi_ir_irq() {
-	...
-	status =3D readl(ir->base + SUNXI_IR_RXSTA_REG);
-	...
-	ir_raw_event_store_with_filter(ir->rc, &rawir);
-}
-
-Because the IRQ handler is unsynchronized, could it also dereference the fr=
-eed
-ir->rc if it races with or runs after rc_free_device()?
-
-Additionally, is there a similar window in sunxi_ir_probe()?
-
-drivers/media/rc/sunxi-cir.c:sunxi_ir_probe() {
-	...
-	ret =3D devm_request_irq(dev, ir->irq, sunxi_ir_irq, 0, SUNXI_IR_DEV, ir);
-	...
-	ret =3D sunxi_ir_hw_init(dev);
-	...
-}
-
-The IRQ handler is requested and enabled before sunxi_ir_hw_init() enables
-the APB clock. Could a pending interrupt trigger the handler and access
-unclocked registers during boot?
-
->  }
-> =20
->  static void sunxi_ir_shutdown(struct platform_device *pdev)
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1785338381.gi=
-t.sean@mess.org?part=3D6
