@@ -1,42 +1,42 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE38E459ADE
-	for <linux-sunxi@lists.linux.dev>; Fri, 31 Jul 2026 16:19:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB0EF45C710
+	for <linux-sunxi@lists.linux.dev>; Fri, 31 Jul 2026 16:19:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785514805; cv=none; b=QfS2QexELzPYQOTQN9HV4JeQD8gLKPu3tXvxgMjITzIqaBVB666tQvi1vcyLlm4Uy9zKr3GTS2Lk4XhCP8MrvGcl7DzsPBmVzZAwog6reX69kOGuwsnvzSQHs6gND9VrBriOOCAwrzsumGPNXoJGuJo0wWIMugMhjFFY8Mgb1C8=
+	t=1785514803; cv=none; b=b7ArfMdxN5a3EQMYB6S3neuyUrS+PleNiDcVTzKsx56yJWHSWK5n8LAD4hZYhN3V97/ojh74xofpiBrC31JC01MttSs+grelr0taA64jEfe70ftnYAEEP78gpAoizFwiQEIWC7i/JyMhLFl4Tfn2KSRQcDtm4gkNtN8ApmYgZA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785514805; c=relaxed/simple;
-	bh=0pZoBcYKk9FCtfu5YMrWLdOS0g+RVxG5yRMx6m6fO08=;
+	s=arc-20240116; t=1785514803; c=relaxed/simple;
+	bh=FjNG/FbAfUxNWdfXcasZdzMERNWbRLC78jj086GTy6I=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fHoYLgYk7BdEhT2JRAKKtQxmu8GzNv6C1vNQWX2hlcJFen5qCG6yFiBOTg3LXlXHZqBuTIKzBCvB9Fhb+NFg7DtkoS7oBNTx+PyLzC2xCK3qnmPq7p6UFhmMyKOfOdlBSMAWoc2H//i4SGhW+DuB6KVuoFqNWzc6XJqDHTk9CKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=PDesiiMF; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=JJZ4PPs/5feRlG4HXmysH+P5Eo+8SZNaUu4bosYI93Q71KhpUUQyIoPlhy3B0BPwgHqO3gRDlnlgjPqrJk8fQFWnDJTZ+dCm617u8kbBcjvSpXenI5IZilBG+cNj2YW1BI0nxo6SfQ+/sIbT0D+W0v+sBXPSKfZFpTLVdRrgrQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Hyrr0XvA; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="PDesiiMF"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Hyrr0XvA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1785514776;
-	bh=0pZoBcYKk9FCtfu5YMrWLdOS0g+RVxG5yRMx6m6fO08=;
+	s=mail; t=1785514790;
+	bh=FjNG/FbAfUxNWdfXcasZdzMERNWbRLC78jj086GTy6I=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=PDesiiMFzhrIC3SQmtU7Uv3nG5etQEfAH60Q+CqI1bZF3Evcf38/pASAMxL0d3GPK
-	 PzYTw0P48xWvKsFw5tbKs88fiJtaXjA0aJLGOWL6Os97F7/P7XGEKmGQbfr/aDwUL5
-	 iG1letnz+t4pL6a4YtH5ySwpmW1qTIxCiOmCfF21ha6Z3UrOWN/tc2fXDSRrMzzb8T
-	 RjWwWHjA9SzEwt4qwlgd7SkkA5216KitaYPoZtdSBd9JIZ6/DYwDu4DLKQiEXZYDEV
-	 gb44JlZ5FXsdVRDdZChUZfpUEJSR/rFrkIOrdWNTfUKBZadpKw7TKQDeJxSnZWsnl/
-	 C3IrFnqUevXtg==
+	b=Hyrr0XvAvuzJDNa4V3fiG10eP9Etlr1hu5kpnKfXp3XP900r4GhIrAS8DlBN0bjqK
+	 SNAd5iaIPQ97UyS6C8qMrkvdZtYOjJvjNqmnY3uKU7NDWa+/NlAjk2h3hIVRqgKATX
+	 jztlOrxBM8CfmbKFxaZlP9824yanMlGxW911NyDjsuEosqtU8besE0lw9Bf7MkZhF+
+	 0A/1gmYzATtn7uNC+8uquq9pCKWh5CtTad+QxWE8vIYPxruer/e/bnebHK6Kk2G13A
+	 zxgVz8G2mpFHm99QAReBetdo9n4IkSh4RpOlEqK99sla344hDoIbYxzhUft3tegrOg
+	 LXd3FTojNwsHA==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 606FE17E0700;
-	Fri, 31 Jul 2026 18:19:36 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 6709017E093D;
+	Fri, 31 Jul 2026 18:19:50 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Fri, 31 Jul 2026 19:19:37 +0300
-Subject: [PATCH v10 30/69] drm/rockchip: dw_hdmi_qp: Cancel pending HPD
- work on suspend
+Date: Fri, 31 Jul 2026 19:19:57 +0300
+Subject: [PATCH v10 50/69] drm/bridge: ite-it6263: Drop redundant
+ .mode_valid hook
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260731-dw-hdmi-qp-scramb-v10-30-294364b2cf15@collabora.com>
+Message-Id: <20260731-dw-hdmi-qp-scramb-v10-50-294364b2cf15@collabora.com>
 References: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
 In-Reply-To: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -67,55 +67,71 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Phong LE <ple@baylibre.com>
 Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, 
- Sashiko <sashiko-bot@kernel.org>
+ linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org
 X-Mailer: b4 0.15.2
 
-The HPD threaded handler debounces hotplug events by delaying
-hdmi->hpd_work for 150 ms.  Nothing discards that work when the system
-goes to sleep: drm_kms_helper_poll_disable() only disables the HPD IRQ
-line via the bridge .hpd_disable() op, and disable_irq() merely waits
-for the threaded handler, which has already returned after arming the
-timer.
+Bridges using DRM_BRIDGE_OP_HDMI expect connectors to be created through
+drm_bridge_connector_init(), thereby relying on the bridge connector's
+.mode_valid hook to invoke drm_hdmi_connector_mode_valid().
 
-If the debounce expires during suspend, its non-freezable work may probe
-the connector and read the EDID over DDC.  Since genpd powers off the
-HDMI controller's power domain in ->suspend_noirq(), this access may
-hit unpowered hardware and hang the system.
+The generic helper computes the mode's TMDS character rate and forwards
+it to the bridge's .hdmi_tmds_char_rate_valid callback through the
+connector HDMI funcs.  This covers exactly what
+it6263_bridge_mode_valid() does for 8 bpc RGB444, but due to being
+output-format aware, it also handles the validation more thoroughly.
 
-Cancel the work in the suspend callback.  The DRM device is registered
-as a consumer of the HDMI device, so it always suspends first and the
-HPD IRQ is already disabled by that point, meaning nothing can re-arm
-the work behind our back.  No counterpart is needed on resume, as the
-work gets scheduled again on the next hotplug interrupt.
+Both the connector and bridge .mode_valid hooks are invoked during
+mode validation through drm_mode_validate_pipeline(), so the custom
+bridge hook is redundant.  Drop it.
 
-Fixes: 128a9bf8ace2 ("drm/rockchip: Add basic RK3588 HDMI output support")
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://lore.kernel.org/all/20260723015909.7F79A1F000E9@smtp.kernel.org/
+While at it, remove the now-unused drm_hdmi_helper.h include.
+
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/bridge/ite-it6263.c | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-index 646a4cb96830..e9fda67b8ca9 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-@@ -728,8 +728,12 @@ static int __maybe_unused dw_hdmi_qp_rockchip_suspend(struct device *dev)
- {
- 	struct rockchip_hdmi_qp *hdmi = dev_get_drvdata(dev);
+diff --git a/drivers/gpu/drm/bridge/ite-it6263.c b/drivers/gpu/drm/bridge/ite-it6263.c
+index 21ac8e58b9d2..550999491086 100644
+--- a/drivers/gpu/drm/bridge/ite-it6263.c
++++ b/drivers/gpu/drm/bridge/ite-it6263.c
+@@ -15,7 +15,6 @@
+ #include <linux/regmap.h>
+ #include <linux/regulator/consumer.h>
  
--	if (hdmi)
--		dw_hdmi_qp_suspend(dev, hdmi->hdmi);
-+	if (!hdmi)
-+		return 0;
-+
-+	dw_hdmi_qp_suspend(dev, hdmi->hdmi);
-+
-+	cancel_delayed_work_sync(&hdmi->hpd_work);
- 
- 	return 0;
+-#include <drm/display/drm_hdmi_helper.h>
+ #include <drm/display/drm_hdmi_state_helper.h>
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+@@ -669,20 +668,6 @@ static void it6263_bridge_atomic_enable(struct drm_bridge *bridge,
+ 	regmap_write(regmap, HDMI_REG_PKT_GENERAL_CTRL, ENABLE_PKT | REPEAT_PKT);
  }
+ 
+-static enum drm_mode_status
+-it6263_bridge_mode_valid(struct drm_bridge *bridge,
+-			 const struct drm_display_info *info,
+-			 const struct drm_display_mode *mode)
+-{
+-	unsigned long long rate;
+-
+-	rate = drm_hdmi_compute_mode_clock(mode, 8, DRM_OUTPUT_COLOR_FORMAT_RGB444);
+-	if (rate == 0)
+-		return MODE_NOCLOCK;
+-
+-	return bridge->funcs->hdmi_tmds_char_rate_valid(bridge, mode, rate);
+-}
+-
+ static int it6263_bridge_attach(struct drm_bridge *bridge,
+ 				struct drm_encoder *encoder,
+ 				enum drm_bridge_attach_flags flags)
+@@ -831,7 +816,6 @@ static const struct drm_bridge_funcs it6263_bridge_funcs = {
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+ 	.atomic_create_state = drm_atomic_helper_bridge_create_state,
+ 	.attach = it6263_bridge_attach,
+-	.mode_valid = it6263_bridge_mode_valid,
+ 	.atomic_disable = it6263_bridge_atomic_disable,
+ 	.atomic_enable = it6263_bridge_atomic_enable,
+ 	.detect = it6263_bridge_detect,
 
 -- 
 2.55.0
