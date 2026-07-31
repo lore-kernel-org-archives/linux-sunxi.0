@@ -1,42 +1,42 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB93045DF5F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB8B845D5F3
 	for <linux-sunxi@lists.linux.dev>; Fri, 31 Jul 2026 16:19:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785514797; cv=none; b=QutouPfWADETkHsqToL/6ZoEdszYzSkHTfqkAhoJKFCOIHN/1CC576HH5S9f+xHdYQejV/3FpcT2+IhOxxKu1FsHtrz6S+8tmD8zRMQr27A+NEHY/vKGQQJTaPMueUX+Y3fc9tX20YDmZ5nQI5Hwjd/cL9cUDHy43tHFEY0HLr4=
+	t=1785514797; cv=none; b=aPZcPYApMNu+aNnRtzVMmKvDZNd6n+HZNdYcYXiIGLuA0HbMlx5bN8sNXz9ic147U5AhUFK+uryhpM7ZsrABPdzNXuHxITjQbYLa6ofRcTkxR8I9qyo38ofn/C628tZMjaE8dGhhaKkXYxKwKYh/XTIu+nZN96hU6oO7eXAw8UQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1785514797; c=relaxed/simple;
-	bh=axyEhyrbSPDLEngu1fOLPydAjE3efHkcs4SL0mWR/K8=;
+	bh=DeZtw3F7yKEtM3L+V9bSKt+8ejdCYffKo0KzIQCU4VA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bhq08PteGKYvtoLCtwoh/jKZcLFi1rlv7VL9PTGkrCbdfs/XN9X+IgzRUUP8cXRphtigCBivYAzwtN76vtTG61zTjBKEBSrpwJR0NIVnkk6eLkwhOrjDjLbJtlMSNixvrqT/0Mnis29br4s8LVlUtPwMecLQgoGb2SsADG13+Io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=iTU4mu4H; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=jKq6WS25ZvX/Pi4J+U5TiL/7kAMP8XWASu0t5pZ4Y8V+/b08HEBp89/cso7deEf8ULFLCAZxDfjeei/MSVOK3czEFtFVAbmZJGWQ8zzk3YXdYKT7mK4w9UU8w6Auz4O9rZhCrEgThe0jJEj+UJCkcRkdnFidDhdJeWmlrPl80Xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=IATk21M/; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="iTU4mu4H"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="IATk21M/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1785514778;
-	bh=axyEhyrbSPDLEngu1fOLPydAjE3efHkcs4SL0mWR/K8=;
+	s=mail; t=1785514782;
+	bh=DeZtw3F7yKEtM3L+V9bSKt+8ejdCYffKo0KzIQCU4VA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=iTU4mu4HCxz8/kki3Ce1wvFpDV44wWMPfHhvI4WBYwQNsvlGi7J+hmG4d5rVTX1Iq
-	 e4woVfXzJIusrwXjSzOuTZLEBlm+HiFEMGiymthSaDtJdgr3HGlTuA6QL5nSFZwhkf
-	 imneXj8k6vrAf9dvXR6JYN83/pTMUaVpkFk8Ls/6w5mz7/3Ag65t6G2qoOI7j7Y/A/
-	 Vz2LBG2c7iySgUzchfPjSWoGRFflIfnjAIYwDIUp7JIdtTRpdzH5boNJP3SNcMkD7Q
-	 +CBlAJo9zYfsvEmkDGvJkfbyoq3wA+1EA0QpEaD9ODeI0EJrylauaSO530p1lIFfap
-	 iiBPpHD6w8aRw==
+	b=IATk21M/72a2R4cXCbUZVF3ePeVq81iTArMzkz7ChPS0RMlzJJH6k9ypb6UJd+bmy
+	 G46sERS2xR/HGIsOqWL8hT7cOfMUqAFSAV+WnZaC3nkgBaAX0amQz69o0xPdcJ/r1O
+	 GqzIkJryyE/AD1Jo/qyYXw2A/CnAMewuAx/cn5SToCilEfMWrZpIeqAySNADG2clDs
+	 Uojg0GB2plD0gF+8UIVxwzxDLkc5sWmM3Pf9ZCSYWnSMJBf/XaD2LxkJa++968r3u9
+	 4jrsghrIAdt5t0wz+4+gc1b5Xc0MBnzjQZLl1Qrv6u83qZhpDq+FO2cQHmdtnxwSrc
+	 UFva8zGFVqLDg==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 77D3E17E0967;
-	Fri, 31 Jul 2026 18:19:38 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 03E1F17E0984;
+	Fri, 31 Jul 2026 18:19:42 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Fri, 31 Jul 2026 19:19:40 +0300
-Subject: [PATCH v10 33/69] drm/rockchip: dw_hdmi_qp: Avoid spurious HPD IRQ
- thread wakeups
+Date: Fri, 31 Jul 2026 19:19:45 +0300
+Subject: [PATCH v10 38/69] drm/rockchip: dw_hdmi_qp: Use
+ dw_hdmi_qp_hpd_notify() for HPD reports
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260731-dw-hdmi-qp-scramb-v10-33-294364b2cf15@collabora.com>
+Message-Id: <20260731-dw-hdmi-qp-scramb-v10-38-294364b2cf15@collabora.com>
 References: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
 In-Reply-To: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -68,71 +68,58 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
 Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, 
- Sashiko <sashiko-bot@kernel.org>, 
+ Maud Spierings <maud_spierings@hotmail.com>, 
  Diederik de Haas <diederik@cknow-tech.com>
 X-Mailer: b4 0.15.2
 
-The RK3576 and RK3588 HPD hardirq handlers read shared status registers
-and currently wake the threaded handler whenever any bit in those
-registers is set.  This can wake the HDMI IRQ thread for unrelated
-status bits, and on RK3588 can also wake the thread for the other HDMI
-port.
+Notify only the affected connector instead of polling all of them, and
+ensure .detect_ctx() runs on reconnect to recover SCDC state.
 
-Mask the status value with the SoC-specific HPD interrupt bit before
-deciding whether to wake the threaded handler.  On RK3588, select the
-HDMI0 or HDMI1 HPD bit according to the instance port id.
-
-No stable backport is needed.  The issue may only cause spurious IRQ
-thread wakeups and does not cause functional breakage.
-
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://lore.kernel.org/all/20260702151346.5A4EC1F000E9@smtp.kernel.org/
+Tested-by: Maud Spierings <maud_spierings@hotmail.com>
 Tested-by: Diederik de Haas <diederik@cknow-tech.com>  # NanoPC-T6 LTS, Rock 5B
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-index 36043bf82273..f5342c5f457b 100644
+index 253da2162ce6..bbdd47d4f381 100644
 --- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
 +++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-@@ -34,6 +34,7 @@
+@@ -24,7 +24,6 @@
+ #include <drm/drm_bridge_connector.h>
+ #include <drm/drm_managed.h>
+ #include <drm/drm_of.h>
+-#include <drm/drm_probe_helper.h>
  
- #define RK3576_IOC_HDMI_HPD_STATUS	0xa440
- #define RK3576_HDMI_LEVEL_INT		BIT(3)
-+#define RK3576_HDMI_OHPD_INT		BIT(4)
+ #include "rockchip_drm_drv.h"
  
- #define RK3576_VO0_GRF_SOC_CON1		0x0004
- #define RK3576_HDMI_FRL_MOD		BIT(0)
-@@ -64,7 +65,9 @@
- #define RK3588_HPD_HDMI1_IO_EN_MASK	BIT(13)
- #define RK3588_GRF_SOC_STATUS1		0x0384
- #define RK3588_HDMI0_LEVEL_INT		BIT(16)
-+#define RK3588_HDMI0_OHPD_INT		BIT(17)
- #define RK3588_HDMI1_LEVEL_INT		BIT(24)
-+#define RK3588_HDMI1_OHPD_INT		BIT(25)
- #define RK3588_GRF_VO1_CON3		0x000c
- #define RK3588_GRF_VO1_CON6		0x0018
- #define RK3588_COLOR_DEPTH_MASK		GENMASK(7, 4)
-@@ -348,7 +351,7 @@ static irqreturn_t dw_hdmi_qp_rk3576_hardirq(int irq, void *dev_id)
- 	u32 intr_stat, val;
+@@ -382,14 +381,8 @@ static void dw_hdmi_qp_rk3588_hpd_work(struct work_struct *work)
+ 	struct rockchip_hdmi_qp *hdmi = container_of(work,
+ 						     struct rockchip_hdmi_qp,
+ 						     hpd_work.work);
+-	struct drm_device *drm = hdmi->encoder.encoder.dev;
+-	bool changed;
  
- 	regmap_read(hdmi->regmap, RK3576_IOC_HDMI_HPD_STATUS, &intr_stat);
--	if (intr_stat) {
-+	if (intr_stat & RK3576_HDMI_OHPD_INT) {
- 		val = FIELD_PREP_WM16(RK3576_HDMI_HPD_INT_MSK, 1);
+-	if (drm) {
+-		changed = drm_helper_hpd_irq_event(drm);
+-		if (changed)
+-			dev_dbg(hdmi->dev, "connector status changed\n");
+-	}
++	dw_hdmi_qp_hpd_notify(hdmi->hdmi);
+ }
  
- 		regmap_write(hdmi->regmap, RK3576_IOC_MISC_CON0, val);
-@@ -381,6 +384,8 @@ static irqreturn_t dw_hdmi_qp_rk3588_hardirq(int irq, void *dev_id)
+ static irqreturn_t dw_hdmi_qp_rk3576_hardirq(int irq, void *dev_id)
+@@ -776,8 +769,7 @@ static int __maybe_unused dw_hdmi_qp_rockchip_resume(struct device *dev)
  
- 	regmap_read(hdmi->regmap, RK3588_GRF_SOC_STATUS1, &intr_stat);
+ 	dw_hdmi_qp_resume(dev, hdmi->hdmi);
  
-+	intr_stat &= hdmi->port_id ? RK3588_HDMI1_OHPD_INT : RK3588_HDMI0_OHPD_INT;
-+
- 	if (intr_stat) {
- 		if (hdmi->port_id)
- 			val = FIELD_PREP_WM16(RK3588_HDMI1_HPD_INT_MSK, 1);
+-	if (hdmi->encoder.encoder.dev)
+-		drm_helper_hpd_irq_event(hdmi->encoder.encoder.dev);
++	dw_hdmi_qp_hpd_notify(hdmi->hdmi);
+ 
+ 	return 0;
+ }
 
 -- 
 2.55.0
