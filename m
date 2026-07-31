@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD85489896
-	for <linux-sunxi@lists.linux.dev>; Fri, 31 Jul 2026 22:44:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912F5352003
+	for <linux-sunxi@lists.linux.dev>; Fri, 31 Jul 2026 23:10:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785537846; cv=none; b=enfo2EhSArt8riVMkIlyUS3vVax3wcgKJre5MeFxusW8a6fJkoGm5sJAjv+smsH2RNapcX5cPJnKAkEgXBXeWpwh6YC5XJoycbYmttKNOrB/9w1EelDu4gf/GLdNBjzwVgavdZBnhCxPTFaxkoPk0gLHR2jzJcnpnc/di724ZzM=
+	t=1785539431; cv=none; b=NRR56VugLOcnefw8od+g+rWefhyEKr/7/ma12PVMskycdn0TTkxtlH11UwCVmDN82Q7lEqXwcB49b87rU41KgMm9/piVXSnxHviX4mrUb734mopLKqMxmPkal8r6kMuAKEk2Dvw5a5elWJQAE6CRfY1M5UqgrqwWZOtfXtmomS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785537846; c=relaxed/simple;
-	bh=XA9c7mVULCu3jCELzS4m9O5FEqHtFPkjjF2Q/nvMMKs=;
+	s=arc-20240116; t=1785539431; c=relaxed/simple;
+	bh=8wqm7kt4rUg2HPMk89qf4WYpzhL9KWrCinXLYPeWkZs=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=ZzKh/e6YdHlm3x3Vh9D6pFO/CCSbj+qBSmkILDNqkKaFSvhoZ7iSh5iJ0C1jqOF7ihrSJ/QGNxhK5XPkRLdvnUMZ3MqbvvJyPK71/B9Z84tcMTMkmRymNc+PHDwRUpW1ZRg5Nfc9DFzuafH7zrUV5p9dFdr8skt/2IHBtDp2st8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wk5DSJDj; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=RI4uX1eXX9ySyvdnBRDV8fQsIjaQu/QMTbRxMDAOLBshYwJCxNFGKDcdYm0KV38WnQtNa9o61TNVs505LXMDS6aKdNGkhACkpgNDqe22DfwRPQSHDx7xCyyUT7ufJjufEj6zWQFCPYRKDOqY0m0/SRqy7fJUAk6EvgGIdAXFDCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TMPeKzxY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wk5DSJDj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F99F1F00AC4;
-	Fri, 31 Jul 2026 22:44:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TMPeKzxY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D48D91F00AC4;
+	Fri, 31 Jul 2026 23:10:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785537845;
-	bh=PYj5RSrA82FadPcJOA5SkkisXBt5WHsg/tOlTodLmQk=;
+	s=k20260515; t=1785539430;
+	bh=oCfdB9hYafhgoEcwQoI2YHadEIE09pnI1XVWbUmBxGk=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Wk5DSJDjBwxk4jUGRarcGWU0/kf3KwP/fljij2cV5r80r0bi0eS+jKQ3aXb6tBxzv
-	 R8h1foxn/O23XqHC3B3JMb9FShM2SdB/Rg/glL8m0zXplURXf9oRsp5JJDXLUSC8a7
-	 dYidqCya/sfgOt2z6na4oQpHDJUZqmlpkVDrqMwVjTU+doTU3S0NoL9Fj4sXSfXtyZ
-	 PE92HBmX0Hphur9TU/O+HvVM2aTgkoLiLyDhQsiaQisP7s5Uf8t95xtXCBT7v5OYPR
-	 xvWlaf6C/UnKoImHkaquuS9w5z8/CojFxn0AQFVUAqEC4t8kpACu7gg2TNe8kd8kik
-	 jb6B0IbuUthqw==
+	b=TMPeKzxYzaEoZn3J+AVCfdCRcwpCQwlB2PugXIgs0tj1zgfPTGNtelqiMxJLcalVe
+	 +quTXXzh2aYrAOpLKdb+NCyGeuJ/idNZLH80o2fTPd8CJMj2qkSHjeSQT4SDfZuDDI
+	 dYqBrlIDumsBh9eTb9i3s3FlpZuSEhSoE3qmb9Z7VLwmKD6bKOxOUYCR6rOkrUaHnT
+	 uq/MLXdo7asr8U6jpIGVBD6PVwV+wv+AFttVrhbWBnixN3QeTWFXBIMlqa3+nReJVp
+	 yJ/18ARo6k6AuyVqds2mDWWkMw7/5/XJ3ajpU3aDN0i2bN2eGdRBW7ARTqwseOBLh9
+	 4D4IuHSGamFZg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v10 45/69] drm/vc4: hdmi: Convert to common HDMI 2.0
- scrambling infrastructure
+Subject: Re: [PATCH v10 49/69] drm/bridge: inno-hdmi: Advertise HDMI 1.2
+ capabilities
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
-Cc: linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org
-In-Reply-To: <20260731-dw-hdmi-qp-scramb-v10-45-294364b2cf15@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20260731-dw-hdmi-qp-scramb-v10-49-294364b2cf15@collabora.com>
 References: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
- <20260731-dw-hdmi-qp-scramb-v10-45-294364b2cf15@collabora.com>
+ <20260731-dw-hdmi-qp-scramb-v10-49-294364b2cf15@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 31 Jul 2026 22:44:04 +0000
-Message-Id: <20260731224405.3F99F1F00AC4@smtp.kernel.org>
+Date: Fri, 31 Jul 2026 23:10:29 +0000
+Message-Id: <20260731231029.D48D91F00AC4@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -48,101 +48,79 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
 
-New issues:
-- [Medium] Spurious CRTC reset at boot breaking fastboot / seamless display=
- takeover.
-
 Pre-existing issues:
-- [High] Atomic Context Violation due to sleeping functions in encoder call=
-backs.
+- [High] The I2C adapter is registered and exposed before `hdmi->i2c` is as=
+signed, creating a race window where an I2C transfer can trigger a NULL poi=
+nter dereference.
+- [High] The threaded IRQ is requested before the DRM bridge is fully initi=
+alized and attached, causing a NULL pointer dereference if an early interru=
+pt fires.
 --
 
---- Patch [45]: [PATCH v10 45/69] drm/vc4: hdmi: Convert to common HDMI 2.0=
- scrambling infrastructure ---
-commit 1688ee272699db4262a5b9b8449734034531bbd5
+--- Patch [49]: [PATCH v10 49/69] drm/bridge: inno-hdmi: Advertise HDMI 1.2=
+ capabilities ---
+commit edc5142ea37d19616540dca30f30fcf265c228eb
 Author: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
-drm/vc4: hdmi: Convert to common HDMI 2.0 scrambling infrastructure
+drm/bridge: inno-hdmi: Advertise HDMI 1.2 capabilities
 
-Replace driver local scrambling logic with the newly introduced common
-HDMI 2.0 scrambling support.
+Bridges using DRM_BRIDGE_OP_HDMI are now expected to also provide a
+supported HDMI version.  This is not yet enforced, but will become
+mandatory once the migration to the new caps-based HDMI connector
+initialization API is completed.
 
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdm=
-i.c
-> index d599957fee3ac..ec0c1f4224d75 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+Since inno_hdmi_phy_config.pixelclock does not exceed 165 MHz for any of
+the chip variants handled by the driver, advertise HDMI 1.2 as the
+supported version.
 
-[ ... ]
-
-> @@ -534,6 +409,14 @@ static int vc4_hdmi_connector_init(struct drm_device=
- *dev,
-> =20
->  	drm_connector_helper_add(connector, &vc4_hdmi_connector_helper_funcs);
-> =20
-> +	/*
-> +	 * Since we don't know the state of the controller and its
-> +	 * display (if any), let's assume it's always enabled.
-> +	 * drm_connector_hdmi_disable_scrambling() will thus run at boot,
-> +	 * make sure it's disabled, and avoid any inconsistency.
-> +	 */
-> +	connector->hdmi.scrambler_enabled =3D drm_connector_hdmi_scrambler_supp=
-orted(connector);
-
-[Severity: Medium]
-Will this cause an unnecessary full modeset and visual flicker at boot,
-breaking fastboot seamless display takeover?
-
-By unconditionally forcing the scrambler_enabled state to true here, when
-vc4_hdmi_connector_detect_ctx() handles the initial detection, it calls
-drm_atomic_helper_connector_hdmi_hotplug() which in turn invokes
-drm_connector_hdmi_sync_scdc().
-
-If the sink does not have scrambling currently active (for example, because
-the bootloader set a 1080p mode that does not require it), the sync_scdc
-helper will detect a mismatch between this spoofed driver state and the
-actual sink state, forcing a CRTC reset.
-
-[ ... ]
-
-> @@ -890,7 +724,7 @@ static void vc4_hdmi_encoder_post_crtc_disable(struct=
- drm_encoder *encoder,
->  		spin_unlock_irqrestore(&vc4_hdmi->hw_lock, flags);
->  	}
-> =20
-> -	vc4_hdmi_disable_scrambling(encoder);
-> +	drm_connector_hdmi_disable_scrambling(&vc4_hdmi->connector);
+> diff --git a/drivers/gpu/drm/bridge/inno-hdmi.c b/drivers/gpu/drm/bridge/=
+inno-hdmi.c
+> index dd35f5a875d3d..ea3447d4f285b 100644
+> --- a/drivers/gpu/drm/bridge/inno-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/inno-hdmi.c
+> @@ -1119,6 +1119,7 @@ struct inno_hdmi *inno_hdmi_bind(struct device *dev,
+>  	hdmi->bridge.type =3D DRM_MODE_CONNECTOR_HDMIA;
+>  	hdmi->bridge.vendor =3D "Inno";
+>  	hdmi->bridge.product =3D "Inno HDMI";
 
 [Severity: High]
-This isn't a bug introduced by this patch, but can this cause scheduling
-while atomic warnings and potential deadlocks?
+This is a pre-existing issue, but is it possible for an early interrupt to
+cause a NULL pointer dereference here?
 
-The encoder post_crtc_disable callback executes in atomic context during
-display commits where sleeping is forbidden. However, this calls
-drm_connector_hdmi_disable_scrambling(), which performs blocking operations
-such as cancel_delayed_work_sync() and I2C transfers.
+Earlier in inno_hdmi_bind(), devm_request_threaded_irq() is called, which
+can enable the IRQ and trigger inno_hdmi_irq() before the bridge is fully
+initialized. If that happens, inno_hdmi_irq() calls:
+drm_helper_hpd_irq_event(hdmi->bridge.dev).
 
-[ ... ]
+However, hdmi->bridge.dev is not initialized until drm_bridge_attach() is
+called later in the inno_hdmi_bind() sequence. Will this lead to
+drm_helper_hpd_irq_event() dereferencing a NULL pointer?
 
-> @@ -1666,7 +1501,9 @@ static void vc4_hdmi_encoder_post_crtc_enable(struc=
-t drm_encoder *encoder,
->  	}
+> +	hdmi->bridge.supported_hdmi_ver =3D HDMI_VERSION_1_2;
 > =20
->  	vc4_hdmi_recenter_fifo(vc4_hdmi);
-> -	vc4_hdmi_enable_scrambling(encoder);
-> +
-> +	conn_state =3D drm_atomic_get_new_connector_state(state, connector);
-> +	drm_connector_hdmi_enable_scrambling(connector, conn_state);
+>  	hdmi->bridge.ddc =3D inno_hdmi_i2c_adapter(hdmi);
 
 [Severity: High]
-This is a pre-existing issue, but similar to the disable path above, does
-calling drm_connector_hdmi_enable_scrambling() here violate the atomic
-context of the post_crtc_enable callback?
+This isn't a bug introduced by this patch, but does registering the I2C
+adapter before assigning the internal data structure pointer create a race
+condition?
 
-The generic scrambler setup performs blocking I2C operations, which can lead
-to system instability or scheduling while atomic warnings when called from
-this context.
+Inside inno_hdmi_i2c_adapter(), devm_i2c_add_adapter(hdmi->dev, adap) is
+called before hdmi->i2c =3D i2c is set.
+
+If a concurrent I2C transfer is initiated (for example, from userspace via
+i2c-dev) immediately after registration, the transfer callback
+inno_hdmi_i2c_xfer() will execute.
+
+When inno_hdmi_i2c_xfer() runs, it does:
+
+struct inno_hdmi_i2c *i2c =3D hdmi->i2c;
+mutex_lock(&i2c->lock);
+
+Could this dereference the uninitialized hdmi->i2c pointer, causing a crash?
+
+>  	if (IS_ERR(hdmi->bridge.ddc))
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260731-dw-hdmi-qp=
--scramb-v10-0-294364b2cf15@collabora.com?part=3D45
+-scramb-v10-0-294364b2cf15@collabora.com?part=3D49
