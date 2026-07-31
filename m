@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F90B43849B
-	for <linux-sunxi@lists.linux.dev>; Fri, 31 Jul 2026 18:01:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A24544606C
+	for <linux-sunxi@lists.linux.dev>; Fri, 31 Jul 2026 18:09:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785520878; cv=none; b=UN81Z6bljdHoIwtabO4phP8He0I3sQTEq3J9aNrSahzvuxO238m3tjHMJ+4pcpzrF4LHxr8PI3V3cpUHg+55AXbQaG2HoG3/UkByUEaEJUVN5MhYrIzrI6tg+TqlqUGNfdLhjQRD847x+0dF2S5l7W3EX8vP52vZ9giBM7KoOrM=
+	t=1785521387; cv=none; b=afLdKuvq7I29xvrD6QXL/cbYwoTYtErfDXXx+zHQcc/19xfHdXdJ7vVYs8iYJpfLThBHxShQ3OutO1XsW3d8c3g/FSF3KWdm7nZBUMfuJxVSHmskBb5GRwIaW4zz20/q1+N5QPq33kK0iYwaqWZ6K4vLGDeJWdkXJfPIC2T2aNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785520878; c=relaxed/simple;
-	bh=EwjhSjTgXQ6hdEna74y0g89pNdXc9eF/pi3hdP57xik=;
+	s=arc-20240116; t=1785521387; c=relaxed/simple;
+	bh=Aqu/60dwxoTp/5uxwX+tuw/uYl4dapLwSiZq+LDo3UU=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=uBxwQ2GETiTW/hsfcPkx4Yzsu3OZQE3rIs3hQ5PIqL7hI3zsNiQlGSO9fvIyEqUF4Vg3Nxrm3EELINfZ5uSOgymSVFfq8P/Xvl8EfpW3C5JgPXjW5bARrkLvWyfZIMmWcUZ3Wrf1xGGv2PUqsN9XRP85lDVxZgc8BayaiZWeZYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UKJ/sCev; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=UBbcXCDfyGpPdqh5oS4vypZrZkkdAw6t/eM1m+xjoFgRWYsl5lZg4vKiMLjNr1OkT47/oxaNDBLtHO5hwZR6XbdtWl2P2AErTapMo/DKcpmadlNhUMxwAQn785Kh57BOhwOc6P1y11DcFXKoFu6ooquhJ+t1JoJTvHmvkVQ7yCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T1KeE601; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UKJ/sCev"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FDF61F00AC4;
-	Fri, 31 Jul 2026 18:01:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T1KeE601"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DD9C1F00AC4;
+	Fri, 31 Jul 2026 18:09:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785520877;
-	bh=KAqD0yPsTaRgj4uV/hiNxUzYDnryZJwq4NKvceFi1WE=;
+	s=k20260515; t=1785521385;
+	bh=eIKarEuyOY8dzXdFlVkd6J592fiC7ID6E9bBmVQlRPQ=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=UKJ/sCevOijtduInBdSUaxJj31lCYWEraY8MsRw+0fJG+cGDEZki4m9MjQ+NO2NUA
-	 YLzJkS1WYR8sbBlW8tUuxtcgpAfWVrg3fNlknEcXn15H3eePJGf+a1uCgoeR51ZYfI
-	 AthYgUIg65vnNrjqEOT26YTXhg+uZO7EQ9aQAVpo3cyINJEsuFg3ZLlfZfj1tCRrGV
-	 QGgL4mYGJ++qozwMRMe1qdJmxSdue5RbjOClCJR3eNemafDHgw0ZsXaIkqUELJ9Pwc
-	 MORVChm+DTfuQG2xbfWyLC/gTa/A4BwOLJhVW6jLV3O02GfToMmfK2NWTAHER4TEjs
-	 LgHsGz+cHHbDg==
+	b=T1KeE601riSC5Vy+e5KwEeig8YokWTmJGIWPMzw6FC4VCp4Pud89a3Xn4bLYyndFy
+	 xi6VYgSQtzybGaI2QF+0QjwHwQ+x1fK/EXZe9Nuut1o+yvQKGjkA8w9jGJf880BLPT
+	 2bwJhownVm/SDPj4wwK+xsFoZY6KtT72aZX0XJHPIuY8BGmSH0ps7lo/caubGw3QHj
+	 OFlgBVS6aXHad918Xk2L8YjKdFjXA+EXFV7jhVOAnL2VJJonwEQdYWBPabbifG3LHc
+	 wsOWpn9qP2HHv7o/2ziWR0g9FkyAFtmVnxXFU50EAa97RPmNCHISmmF9afoC90bwiU
+	 04bUNnsx4f38w==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v10 14/69] drm/bridge: Remove redundant error check in
- drm_bridge_helper_reset_crtc()
+Subject: Re: [PATCH v10 15/69] drm/bridge: Add bridge ops for source-side
+ HDMI 2.0 scrambling
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20260731-dw-hdmi-qp-scramb-v10-14-294364b2cf15@collabora.com>
+Cc: linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org
+In-Reply-To: <20260731-dw-hdmi-qp-scramb-v10-15-294364b2cf15@collabora.com>
 References: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
- <20260731-dw-hdmi-qp-scramb-v10-14-294364b2cf15@collabora.com>
+ <20260731-dw-hdmi-qp-scramb-v10-15-294364b2cf15@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 31 Jul 2026 18:01:16 +0000
-Message-Id: <20260731180117.1FDF61F00AC4@smtp.kernel.org>
+Date: Fri, 31 Jul 2026 18:09:45 +0000
+Message-Id: <20260731180945.8DD9C1F00AC4@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -47,68 +47,66 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-
-Pre-existing issues:
-- [High] Double unlock of connection_mutex and unprotected state access due=
- to nested lock handling flaw in drm_atomic_get_connector_for_encoder.
+- [Medium] Missing API implementation for bridge HDMI 2.0 scrambler callbac=
+ks causes unconditional probe failure.
 --
 
---- Patch [14]: [PATCH v10 14/69] drm/bridge: Remove redundant error check =
-in drm_bridge_helper_reset_crtc() ---
-commit 3469d1c48eb06940af7b278f9266400f3b5ea3dc
+--- Patch [15]: [PATCH v10 15/69] drm/bridge: Add bridge ops for source-sid=
+e HDMI 2.0 scrambling ---
+commit 5577332c0f45e627e54f1e2997be97e38fdecf40
 Author: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
-drm/bridge: Remove redundant error check in drm_bridge_helper_reset_crtc()
+drm/bridge: Add bridge ops for source-side HDMI 2.0 scrambling
 
-This commit removes a no-op error check after drm_atomic_helper_reset_crtc(=
-),
-as the return value is already propagated correctly by the fall-through to
-the out label.
+This commit adds hdmi_scrambler_enable() and hdmi_scrambler_disable()
+callbacks to struct drm_bridge_funcs. These allow bridges to enable or
+disable source-side scrambling and high TMDS clock ratios for modes
+exceeding 340 MHz.
 
-> diff --git a/drivers/gpu/drm/drm_bridge_helper.c b/drivers/gpu/drm/drm_br=
-idge_helper.c
-> index 420f29cf3e543..0a3c8fee66b32 100644
-> --- a/drivers/gpu/drm/drm_bridge_helper.c
-> +++ b/drivers/gpu/drm/drm_bridge_helper.c
-> @@ -50,8 +50,6 @@ int drm_bridge_helper_reset_crtc(struct drm_bridge *bri=
-dge,
-> =20
->  	crtc =3D connector->state->crtc;
->  	ret =3D drm_atomic_helper_reset_crtc(crtc, ctx);
-> -	if (ret)
-> -		goto out;
-> =20
->  out:
->  	drm_modeset_unlock(&dev->mode_config.connection_mutex);
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index 5a5a25995471c..77b3ffe692304 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+[ ... ]
+> +	/**
+> +	 * @hdmi_scrambler_enable:
+> +	 *
+> +	 * Enable source-side scrambling and the high TMDS clock ratio for the
+> +	 * mode currently being applied.
+[ ... ]
+> +	 * Returns:
+> +	 * 0 on success, a negative error code otherwise.
+> +	 */
+> +	int (*hdmi_scrambler_enable)(struct drm_bridge *bridge);
+> +
+> +	/**
+> +	 * @hdmi_scrambler_disable:
+> +	 *
+> +	 * Disable source-side scrambling and the high TMDS clock ratio.
+[ ... ]
+> +	 * Returns:
+> +	 * 0 on success, a negative error code otherwise.
+> +	 */
+> +	int (*hdmi_scrambler_disable)(struct drm_bridge *bridge);
 
-[Severity: High]
-This is a pre-existing issue, but does this result in a double-unlock of
-connection_mutex?
+[Severity: Medium]
+Are these newly added callbacks being hooked up to the DRM connector
+infrastructure?
 
-Earlier in this function, the lock is acquired before calling
-drm_atomic_get_connector_for_encoder():
+Looking at drm_bridge_connector_init() in drm_bridge_connector.c, it
+initializes hdmi_funcs but doesn't seem to map these new bridge callbacks:
 
-drm_bridge_helper_reset_crtc() {
-    ...
-    ret =3D drm_modeset_lock(&dev->mode_config.connection_mutex, ctx);
-    if (ret)
-        return ret;
+		bridge_connector->hdmi_funcs =3D drm_bridge_connector_hdmi_funcs;
 
-    connector =3D drm_atomic_get_connector_for_encoder(encoder, ctx);
-    ...
-}
+		bridge_connector->hdmi_funcs.vendor =3D bridge_connector->bridge_hdmi->ve=
+ndor;
+		bridge_connector->hdmi_funcs.product =3D bridge_connector->bridge_hdmi->p=
+roduct;
 
-However, drm_atomic_get_connector_for_encoder() unconditionally unlocks
-the mutex on exit. Because drm_modeset_unlock() lacks a nesting counter, it
-fully drops the ww_mutex.
-
-Consequently, connector->state is accessed locklessly, and reaching this out
-label calls drm_modeset_unlock() a second time, which could corrupt the
-kernel lock state.
-
->  	return ret;
->  }
+If a bridge advertises HDMI_VERSION_2_0, will drmm_connector_hdmi_init()
+fail with -EINVAL during probe because the connector's hdmi_funcs are
+missing these required scrambler callbacks?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260731-dw-hdmi-qp=
--scramb-v10-0-294364b2cf15@collabora.com?part=3D14
+-scramb-v10-0-294364b2cf15@collabora.com?part=3D15
