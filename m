@@ -1,42 +1,42 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DAC0468C03
-	for <linux-sunxi@lists.linux.dev>; Fri, 31 Jul 2026 16:19:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE38E459ADE
+	for <linux-sunxi@lists.linux.dev>; Fri, 31 Jul 2026 16:19:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785514803; cv=none; b=RC8IzaRC/TyAhg0E0ULRtvJIWTiNdYPasVXRbNL3yNbVR8XJGS4JY45yxstyf5QXVfqzviioRu/WppTgYYVqZTO7UHkYw+vIvFv2TXawZFmr9AMvB7gYomgbOmNIcTkbDWHjUvK6qYZK9QSoKXs+J5bK3B+UmTzHBGU1P82Z9hg=
+	t=1785514805; cv=none; b=QfS2QexELzPYQOTQN9HV4JeQD8gLKPu3tXvxgMjITzIqaBVB666tQvi1vcyLlm4Uy9zKr3GTS2Lk4XhCP8MrvGcl7DzsPBmVzZAwog6reX69kOGuwsnvzSQHs6gND9VrBriOOCAwrzsumGPNXoJGuJo0wWIMugMhjFFY8Mgb1C8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785514803; c=relaxed/simple;
-	bh=KwjregJEK1zHltpBaTSfhes6ErUtOgc/LRhZ6h3oFOI=;
+	s=arc-20240116; t=1785514805; c=relaxed/simple;
+	bh=0pZoBcYKk9FCtfu5YMrWLdOS0g+RVxG5yRMx6m6fO08=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CSbfV7EnaUA2Hz3/5Qel5OCs8i8LgIBk3WSSbgSEEH5tRyBrtpgWgZtU0RWcIQZEpz2tShtGXYNWkYOvWBCeHTAP8dGmsD1N+1pAu3ZBKjffo3OBFbNOQkJNnBaXtMgRyLhbKZkohDe8xAYVwiov4+ha4hL+x9ral31c3FirvtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=NtmcqgNS; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=fHoYLgYk7BdEhT2JRAKKtQxmu8GzNv6C1vNQWX2hlcJFen5qCG6yFiBOTg3LXlXHZqBuTIKzBCvB9Fhb+NFg7DtkoS7oBNTx+PyLzC2xCK3qnmPq7p6UFhmMyKOfOdlBSMAWoc2H//i4SGhW+DuB6KVuoFqNWzc6XJqDHTk9CKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=PDesiiMF; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="NtmcqgNS"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="PDesiiMF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1785514785;
-	bh=KwjregJEK1zHltpBaTSfhes6ErUtOgc/LRhZ6h3oFOI=;
+	s=mail; t=1785514776;
+	bh=0pZoBcYKk9FCtfu5YMrWLdOS0g+RVxG5yRMx6m6fO08=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=NtmcqgNSXRllEqlJW21sZx46nixZ5YWJzFqDA0DLvVWk07hwsd9sms+ahhduBVtGz
-	 QWOadKsy596BtM/7jAO9ZFaIwS94m8HitODlKf8zG0MtYyHt09pvaLfgVGspcBojma
-	 qu1u0hi3IpVyBxCS9MlyhhdsoEoR7ZJ0B7FHgBe/5nyHeI/xkUus4mzmAoaHV2GGWD
-	 FCzk7tbZXpad4UEyACbzX6bSVBqggvYnKtufy/ePUWMtjPqmuUMtsI4Cit2vucjM9O
-	 c4BTVRyyfOMjdE1Pg1LRBc6v7lz9IcCa0SPrbVA/ls5xqIma+YSWxOIvJ51Ex0O8o7
-	 YM9rVA/DRRMIw==
+	b=PDesiiMFzhrIC3SQmtU7Uv3nG5etQEfAH60Q+CqI1bZF3Evcf38/pASAMxL0d3GPK
+	 PzYTw0P48xWvKsFw5tbKs88fiJtaXjA0aJLGOWL6Os97F7/P7XGEKmGQbfr/aDwUL5
+	 iG1letnz+t4pL6a4YtH5ySwpmW1qTIxCiOmCfF21ha6Z3UrOWN/tc2fXDSRrMzzb8T
+	 RjWwWHjA9SzEwt4qwlgd7SkkA5216KitaYPoZtdSBd9JIZ6/DYwDu4DLKQiEXZYDEV
+	 gb44JlZ5FXsdVRDdZChUZfpUEJSR/rFrkIOrdWNTfUKBZadpKw7TKQDeJxSnZWsnl/
+	 C3IrFnqUevXtg==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7B05517E092C;
-	Fri, 31 Jul 2026 18:19:45 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 606FE17E0700;
+	Fri, 31 Jul 2026 18:19:36 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Fri, 31 Jul 2026 19:19:50 +0300
-Subject: [PATCH v10 43/69] drm/vc4: hdmi: Propagate -EDEADLK to the top
- level
+Date: Fri, 31 Jul 2026 19:19:37 +0300
+Subject: [PATCH v10 30/69] drm/rockchip: dw_hdmi_qp: Cancel pending HPD
+ work on suspend
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260731-dw-hdmi-qp-scramb-v10-43-294364b2cf15@collabora.com>
+Message-Id: <20260731-dw-hdmi-qp-scramb-v10-30-294364b2cf15@collabora.com>
 References: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
 In-Reply-To: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -67,78 +67,55 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Phong LE <ple@baylibre.com>
 Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org
+ linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, 
+ Sashiko <sashiko-bot@kernel.org>
 X-Mailer: b4 0.15.2
 
-drm_connector_helper_funcs.detect_ctx() is expected to propagate
--EDEADLK so that context owners, e.g. drm_helper_probe_detect_ctx(), can
-perform the required backoff and retry.
+The HPD threaded handler debounces hotplug events by delaying
+hdmi->hpd_work for 150 ms.  Nothing discards that work when the system
+goes to sleep: drm_kms_helper_poll_disable() only disables the HPD IRQ
+line via the bridge .hpd_disable() op, and disable_irq() merely waits
+for the threaded handler, which has already returned after arming the
+timer.
 
-vc4_hdmi_handle_hotplug() instead runs its own retry loop and calls
-drm_modeset_backoff() on an acquire context it does not own.  This drops
-all locks in the context, including connection_mutex held by the core.
+If the debounce expires during suspend, its non-freezable work may probe
+the connector and read the EDID over DDC.  Since genpd powers off the
+HDMI controller's power domain in ->suspend_noirq(), this access may
+hit unpowered hardware and hang the system.
 
-Drop the local retry logic and propagate -EDEADLK to the caller instead.
-This aligns VC4 with the expected detect_ctx() semantics.
+Cancel the work in the suspend callback.  The DRM device is registered
+as a consumer of the HDMI device, so it always suspends first and the
+HPD IRQ is already disabled by that point, meaning nothing can re-arm
+the work behind our back.  No counterpart is needed on resume, as the
+work gets scheduled again on the next hotplug interrupt.
 
+Fixes: 128a9bf8ace2 ("drm/rockchip: Add basic RK3588 HDMI output support")
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Closes: https://lore.kernel.org/all/20260723015909.7F79A1F000E9@smtp.kernel.org/
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 23 +++++++----------------
- 1 file changed, 7 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index ba16e7944cf3..72042fad04c5 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -344,12 +344,11 @@ static int vc4_hdmi_reset_link(struct drm_connector *connector,
- 	return drm_atomic_helper_reset_crtc(crtc, ctx);
- }
- 
--static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
--				    struct drm_modeset_acquire_ctx *ctx,
--				    enum drm_connector_status status)
-+static int vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
-+				   struct drm_modeset_acquire_ctx *ctx,
-+				   enum drm_connector_status status)
+diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+index 646a4cb96830..e9fda67b8ca9 100644
+--- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+@@ -728,8 +728,12 @@ static int __maybe_unused dw_hdmi_qp_rockchip_suspend(struct device *dev)
  {
- 	struct drm_connector *connector = &vc4_hdmi->connector;
--	int ret;
+ 	struct rockchip_hdmi_qp *hdmi = dev_get_drvdata(dev);
  
- 	/*
- 	 * NOTE: This function should really be called with vc4_hdmi->mutex
-@@ -368,17 +367,9 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
- 	drm_atomic_helper_connector_hdmi_hotplug(connector, ctx, status);
- 
- 	if (status != connector_status_connected)
--		return;
+-	if (hdmi)
+-		dw_hdmi_qp_suspend(dev, hdmi->hdmi);
++	if (!hdmi)
 +		return 0;
++
++	dw_hdmi_qp_suspend(dev, hdmi->hdmi);
++
++	cancel_delayed_work_sync(&hdmi->hpd_work);
  
--	for (;;) {
--		ret = vc4_hdmi_reset_link(connector, ctx);
--		if (ret == -EDEADLK) {
--			drm_modeset_backoff(ctx);
--			continue;
--		}
--
--		break;
--	}
-+	return vc4_hdmi_reset_link(connector, ctx);
+ 	return 0;
  }
- 
- static int vc4_hdmi_connector_detect_ctx(struct drm_connector *connector,
-@@ -416,10 +407,10 @@ static int vc4_hdmi_connector_detect_ctx(struct drm_connector *connector,
- 			status = connector_status_connected;
- 	}
- 
--	vc4_hdmi_handle_hotplug(vc4_hdmi, ctx, status);
-+	ret = vc4_hdmi_handle_hotplug(vc4_hdmi, ctx, status);
- 	pm_runtime_put(&vc4_hdmi->pdev->dev);
- 
--	return status;
-+	return ret == -EDEADLK ? ret : status;
- }
- 
- static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
 
 -- 
 2.55.0
