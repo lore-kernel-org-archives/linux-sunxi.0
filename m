@@ -1,42 +1,42 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC94A44C66F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E8A44582E2
 	for <linux-sunxi@lists.linux.dev>; Fri, 31 Jul 2026 16:19:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785514789; cv=none; b=TXd968CN4vaJmMnLSd6KmqhvJQ/RF5IDhR/3HzmZisHpxhek/1YUgK9FjvI76PkNCFiIEAJWg0Ge5IRH7dBEc4bALwcCASvySiHRb0vzoRDo2owK0h0vObjN+r3wB62ZjuJeeWQTdEX4mFfHt5n86GA/iGSLJYJE5ejK7Zwbnag=
+	t=1785514788; cv=none; b=QAz1wxWvN/xB4a9birK0CjDFptRxeudeOhtg2XXFmOM7mCnCdIOjk6TzHvHoDbwbGX3uJhHZKeaCIhYRD9itLGLj0UZ1fo7GEKktt+OOLd78YWyOWHILj8389we132k9gEIxwCd0y43t3FHF+Hp0MDvjF2z1HMXaAUIwDIPgzaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785514789; c=relaxed/simple;
-	bh=b87VQOa3xlfBpCsbJozJkyeYCHqO1zOr7tVUdQC4OLo=;
+	s=arc-20240116; t=1785514788; c=relaxed/simple;
+	bh=7R9BhZhCyLUbve7Hk5/UX4wcbViLo6DsTEiegFJ7c0M=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QU95A2SCzbs4/YuJxryck//luIqMpH43hZqs1ec84PTOSIYsGVXy9w7Ks5F5pVzBUYraGufeMj3lH2heEgAM7XFM/uajD+fhDdXfULbBI25HwODV4JB4blry4b1W07cnkkXfc48HqPFSVkAuYfUpQvHaMPALpo/rs1W0+I4fRNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=q3MxyLXS; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=rnKK820MahI5TzAGjRjG/UwQy9zT2g4ZOGnG6izaYcxA4BLwXqXoWOMb8s72kfUwPaOieTRrersTo/Knxm4ECC9i7jb6f8dO5QYfAxshbRcuRjkf3qVLHGeupWHTm3UymlSyo2jKE2wbJodK3U/EkqiDK5b8ttDA02rqOtJFpCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Cmp1zkJe; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="q3MxyLXS"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Cmp1zkJe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1785514758;
-	bh=b87VQOa3xlfBpCsbJozJkyeYCHqO1zOr7tVUdQC4OLo=;
+	s=mail; t=1785514761;
+	bh=7R9BhZhCyLUbve7Hk5/UX4wcbViLo6DsTEiegFJ7c0M=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=q3MxyLXSw4l/vRfJeVtaxn7zH1/95dwVW3+m5C293AK4b7XXNJ2eFWFQScvUwa6Q3
-	 RseusnCqqMBJUFYfiQAbw/eek8YpzWjzGR2gr7Ll7DJZfrYih/JI9SwDk0h0mfh6it
-	 5KSyDRBXC5r7/dEe4xV5GcYh49m02+JMsIXKrqy+ARFvX+/7nrbTdBPTOSqYLTU9OD
-	 OUW/B9fQEBM/hTBZItUehy6sc9nO/aRo1eOfhI4Jq8AT01IKHcxC9CFsN7NSzQe/A5
-	 ZgCq0nwcyzzlWCcsc5ROwJpemlPbmRriViN4tElOjdvdrwBZ37AQkKzzoFAcDHkt5Y
-	 kQWheZqPYCz+w==
+	b=Cmp1zkJeb75hdD0GB2WOsrT3TzHWyFI65GOyYes9D0MDgCSGmnXg491UhlnZuXe8P
+	 X1limW0xZudgcxX0gCcfi0iRkDl9yA4RiaVBYrrK2ZHYgPRHsZ85NaeDioQ9T6PC1H
+	 GmtkrNOXVV2HY24VnRtMQAo8seUvBTqYV+0pBx66zKuFFq4med9bK8njFCMpFItMJz
+	 AzcnuAshyvrgSgEsbIJWeCuVeQmMzu6ibF8i0WWp9Uw5VLU+z4ywF6NfX9kKAUIXH8
+	 SIVPO9//8AkJSWTz6OUvddWZXDSEKLpxm06R5Ir55hnxAZ9Ausq6TXyV9j3l14LT+o
+	 h9fVekEGF8r3Q==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5A18A17E08E9;
-	Fri, 31 Jul 2026 18:19:18 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3440717E090B;
+	Fri, 31 Jul 2026 18:19:21 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Fri, 31 Jul 2026 19:19:12 +0300
-Subject: [PATCH v10 05/69] drm/display: bridge_connector: Convert to
- drmm_connector_hdmi_init()
+Date: Fri, 31 Jul 2026 19:19:16 +0300
+Subject: [PATCH v10 09/69] drm/display: scdc-helper: Add helper to set SCDC
+ version information
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260731-dw-hdmi-qp-scramb-v10-5-294364b2cf15@collabora.com>
+Message-Id: <20260731-dw-hdmi-qp-scramb-v10-9-294364b2cf15@collabora.com>
 References: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
 In-Reply-To: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -68,173 +68,117 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
 Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
  Maud Spierings <maud_spierings@hotmail.com>, 
  Diederik de Haas <diederik@cknow-tech.com>
 X-Mailer: b4 0.15.2
 
-Switch drm_bridge_connector to the new drmm_connector_hdmi_init()
-signature.  The vendor, product, supported_formats and max_bpc values
-now live in struct drm_connector_hdmi_funcs instead of being passed as
-separate arguments.  This allows future HDMI 2.x capabilities to be
-plumbed without growing the function's argument list.
+The HDMI 2.x specs mandate that compliant Sink devices report their SCDC
+version in the Sink Version register, which reads as 1 on any
+SCDC-capable sink.
 
-Introduce the supported_hdmi_ver field in struct drm_bridge to let
-bridges declare the HDMI specification version they comply with,
-as well as max_tmds_char_rate to allow them to override the limit
-inferred from that version.  This is particularly useful when handling
-chip variants with different capabilities.
+There is also a dedicated Source Version register.  Writing it is not
+compulsory, but the spec advises that compliant Source devices do so, in
+which case the value must be 1.
 
-Additionally, add a warning in drm_bridge_add() if an HDMI bridge leaves
-supported_hdmi_ver unset.  This alerts bridge drivers setting the
-DRM_BRIDGE_OP_HDMI flag that they must also declare their supported HDMI
-version.
+Add drm_scdc_set_source_version() to follow this recommendation.  The
+Sink Version register is read first, both to log the advertised SCDC
+version and to guard against non-conformant devices: a sink reporting
+version 0 is either not SCDC-version-aware or broken, so writing the
+source version gains nothing and risks upsetting such hardware.  In that
+case the write is skipped.
 
+The source version is passed as a parameter rather than hardcoded, as
+future spec revisions may define additional rules for the allowable
+version values.  The written value is additionally clamped to the sink's
+reported version so the source never advertises a version the sink does
+not understand.
+
+Acked-by: Maxime Ripard <mripard@kernel.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Tested-by: Maud Spierings <maud_spierings@hotmail.com>
 Tested-by: Diederik de Haas <diederik@cknow-tech.com>  # NanoPC-T6 LTS, Rock 5B
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/display/drm_bridge_connector.c | 43 ++++++++++++++++----------
- drivers/gpu/drm/drm_bridge.c                   |  6 +++-
- include/drm/drm_bridge.h                       | 14 +++++++++
- 3 files changed, 46 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/display/drm_scdc_helper.c | 46 ++++++++++++++++++++++++++++++-
+ include/drm/display/drm_scdc_helper.h     |  2 ++
+ 2 files changed, 47 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-index f75ce47a6350..9ad31e9df0ab 100644
---- a/drivers/gpu/drm/display/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-@@ -590,6 +590,8 @@ drm_bridge_connector_read_edid(struct drm_connector *connector)
+diff --git a/drivers/gpu/drm/display/drm_scdc_helper.c b/drivers/gpu/drm/display/drm_scdc_helper.c
+index cb6632346aad..6d804ee19420 100644
+--- a/drivers/gpu/drm/display/drm_scdc_helper.c
++++ b/drivers/gpu/drm/display/drm_scdc_helper.c
+@@ -21,10 +21,11 @@
+  * DEALINGS IN THE SOFTWARE.
+  */
+ 
++#include <linux/delay.h>
+ #include <linux/export.h>
+ #include <linux/i2c.h>
++#include <linux/minmax.h>
+ #include <linux/slab.h>
+-#include <linux/delay.h>
+ 
+ #include <drm/display/drm_scdc_helper.h>
+ #include <drm/drm_connector.h>
+@@ -270,3 +271,46 @@ bool drm_scdc_set_high_tmds_clock_ratio(struct drm_connector *connector,
+ 	return true;
  }
- 
- static const struct drm_connector_hdmi_funcs drm_bridge_connector_hdmi_funcs = {
-+	.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
-+	.max_bpc = 8,
- 	.tmds_char_rate_valid = drm_bridge_connector_tmds_char_rate_valid,
- 	.read_edid = drm_bridge_connector_read_edid,
- 	.avi = {
-@@ -823,8 +825,6 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 	struct drm_connector *connector;
- 	struct i2c_adapter *ddc = NULL;
- 	struct drm_bridge *panel_bridge __free(drm_bridge_put) = NULL;
--	unsigned int supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444);
--	unsigned int max_bpc = 8;
- 	bool support_hdcp = false;
- 	int connector_type;
- 	int ret;
-@@ -907,11 +907,6 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 				return ERR_PTR(-EINVAL);
- 
- 			bridge_connector->bridge_hdmi = drm_bridge_get(bridge);
--
--			if (bridge->supported_formats)
--				supported_formats = bridge->supported_formats;
--			if (bridge->max_bpc)
--				max_bpc = bridge->max_bpc;
- 		}
- 
- 		if (bridge->ops & DRM_BRIDGE_OP_HDMI_AUDIO) {
-@@ -993,11 +988,31 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 		return ERR_PTR(-EINVAL);
- 
- 	if (bridge_connector->bridge_hdmi) {
--		if (!connector->ycbcr_420_allowed)
--			supported_formats &= ~BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420);
--
- 		bridge_connector->hdmi_funcs = drm_bridge_connector_hdmi_funcs;
- 
-+		bridge_connector->hdmi_funcs.vendor = bridge_connector->bridge_hdmi->vendor;
-+		bridge_connector->hdmi_funcs.product = bridge_connector->bridge_hdmi->product;
+ EXPORT_SYMBOL(drm_scdc_set_high_tmds_clock_ratio);
 +
-+		if (bridge_connector->bridge_hdmi->supported_hdmi_ver)
-+			bridge_connector->hdmi_funcs.supported_hdmi_ver =
-+				bridge_connector->bridge_hdmi->supported_hdmi_ver;
++/**
++ * drm_scdc_set_source_version - set SCDC source version on the sink
++ * @connector: connector
++ * @ver: source version to advertise (per spec, 1)
++ *
++ * Reads the sink version for diagnostics and as a guard, then writes
++ * the source version unless the sink reports version 0.
++ *
++ * Returns:
++ * 0 on success or when skipped; a negative error code when either
++ * the read or the write failed.
++ */
++int drm_scdc_set_source_version(struct drm_connector *connector, u8 ver)
++{
++	u8 sink_ver;
++	int ret;
 +
-+		if (bridge_connector->bridge_hdmi->supported_formats)
-+			bridge_connector->hdmi_funcs.supported_formats =
-+				bridge_connector->bridge_hdmi->supported_formats;
-+
-+		if (!connector->ycbcr_420_allowed)
-+			bridge_connector->hdmi_funcs.supported_formats &=
-+				~BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420);
-+
-+		if (bridge_connector->bridge_hdmi->max_tmds_char_rate)
-+			bridge_connector->hdmi_funcs.supported_tmds_char_rate =
-+				bridge_connector->bridge_hdmi->max_tmds_char_rate;
-+
-+		if (bridge_connector->bridge_hdmi->max_bpc)
-+			bridge_connector->hdmi_funcs.max_bpc =
-+				bridge_connector->bridge_hdmi->max_bpc;
-+
- 		if (bridge_connector->bridge_hdmi->ops & DRM_BRIDGE_OP_HDMI_AUDIO)
- 			bridge_connector->hdmi_funcs.audio =
- 				drm_bridge_connector_hdmi_audio_infoframe;
-@@ -1010,14 +1025,10 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 			bridge_connector->hdmi_funcs.spd =
- 				drm_bridge_connector_hdmi_spd_infoframe;
- 
--		ret = drmm_connector_hdmi_ini2(drm, connector,
--					       bridge_connector->bridge_hdmi->vendor,
--					       bridge_connector->bridge_hdmi->product,
-+		ret = drmm_connector_hdmi_init(drm, connector,
- 					       &drm_bridge_connector_funcs,
- 					       &bridge_connector->hdmi_funcs,
--					       connector_type, ddc,
--					       supported_formats,
--					       max_bpc);
-+					       connector_type, ddc);
- 		if (ret)
- 			return ERR_PTR(ret);
- 	} else {
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 83f1809a5d37..afaae272347c 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -460,9 +460,13 @@ void drm_bridge_add(struct drm_bridge *bridge)
- 	mutex_init(&bridge->hpd_state_mutex);
- 	mutex_init(&bridge->hpd_mutex);
- 
--	if (bridge->ops & DRM_BRIDGE_OP_HDMI)
-+	if (bridge->ops & DRM_BRIDGE_OP_HDMI) {
-+		if (bridge->supported_hdmi_ver == HDMI_VERSION_UNKNOWN)
-+			DRM_WARN("HDMI bridge misses supported HDMI version\n");
-+
- 		bridge->ycbcr_420_allowed = !!(bridge->supported_formats &
- 					       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420));
++	ret = drm_scdc_readb(connector->ddc, SCDC_SINK_VERSION, &sink_ver);
++	if (ret) {
++		drm_scdc_dbg(connector, "Failed to read SCDC_SINK_VERSION: %d\n", ret);
++		return ret;
 +	}
- 
- 	mutex_lock(&bridge_lock);
- 	list_add_tail(&bridge->list, &bridge_list);
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 58fff047f43b..5a5a25995471 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -1081,6 +1081,12 @@ struct drm_bridge {
- 	 */
- 	const char *product;
- 
-+	/**
-+	 * @supported_hdmi_ver: HDMI version the bridge is conformant with.
-+	 * This is only relevant if @DRM_BRIDGE_OP_HDMI is set.
-+	 */
-+	enum hdmi_version supported_hdmi_ver;
 +
- 	/**
- 	 * @supported_formats: Bitmask of @drm_output_color_format listing
- 	 * supported output formats. This is only relevant if
-@@ -1088,6 +1094,14 @@ struct drm_bridge {
- 	 */
- 	unsigned int supported_formats;
- 
-+	/**
-+	 * @max_tmds_char_rate: Maximum TMDS character rate, in Hz, the HDMI
-+	 * bridge supports. A value of 0 means the core should use the default
-+	 * limit implied by @supported_hdmi_ver. This is only relevant if
-+	 * @DRM_BRIDGE_OP_HDMI is set.
-+	 */
-+	unsigned long long max_tmds_char_rate;
++	drm_scdc_dbg(connector, "Sink reported SCDC ver. %u\n", sink_ver);
 +
- 	/**
- 	 * @max_bpc: Maximum bits per char the HDMI bridge supports. Allowed
- 	 * values are 8, 10 and 12. This is only relevant if
++	/*
++	 * Only advertise our source version to sinks that report a
++	 * non-zero sink version.  A sink reporting version 0 is either
++	 * not SCDC-version-aware or non-conformant; writing the source
++	 * version gains nothing and may upset broken hardware.
++	 */
++	if (sink_ver) {
++		ret = drm_scdc_writeb(connector->ddc, SCDC_SOURCE_VERSION,
++				      min_t(u8, sink_ver, ver));
++		if (ret)
++			drm_scdc_dbg(connector,
++				     "Failed to write SCDC_SOURCE_VERSION: %d\n", ret);
++	}
++
++	return ret;
++}
++EXPORT_SYMBOL(drm_scdc_set_source_version);
+diff --git a/include/drm/display/drm_scdc_helper.h b/include/drm/display/drm_scdc_helper.h
+index 34600476a1b9..90b0828364c2 100644
+--- a/include/drm/display/drm_scdc_helper.h
++++ b/include/drm/display/drm_scdc_helper.h
+@@ -77,4 +77,6 @@ bool drm_scdc_get_scrambling_status(struct drm_connector *connector);
+ bool drm_scdc_set_scrambling(struct drm_connector *connector, bool enable);
+ bool drm_scdc_set_high_tmds_clock_ratio(struct drm_connector *connector, bool set);
+ 
++int drm_scdc_set_source_version(struct drm_connector *connector, u8 ver);
++
+ #endif
 
 -- 
 2.55.0
