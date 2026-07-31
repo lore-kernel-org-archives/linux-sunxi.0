@@ -1,125 +1,158 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0805369D55
-	for <linux-sunxi@lists.linux.dev>; Fri, 31 Jul 2026 20:38:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F430489880
+	for <linux-sunxi@lists.linux.dev>; Fri, 31 Jul 2026 20:47:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785530320; cv=none; b=W3F+nsQxla4fP64EwApXcnDv5JlnXrT9GZG8M2dDfDWV+8DyeMegKnw/ImH0pfdxaIof3NBU5S0/lPSoJ/wkl08/RgfbVDplnW+GNvXmXCTVTpvKq421Qa69bb9c929P9Jkx3Jojs8IxMSSEWXJdco/Sid1h1ploJ2WPSAsRhfU=
+	t=1785530877; cv=none; b=On09aJTDmGQ9/5jQ6ox7DpaP3jASG36aaBxGgX/A7YAtjpRuY7U1ktEKD0IscIVbKbLKKAWxLS8OkUBszCXgFY0hSkTdNzKadSQ+uLXPsmYzCGmzh+J5167Os4oGmlbe/YivQVkCyjtZXS1zJJImIjDH+JTP/bAQCIBQrykgsYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785530320; c=relaxed/simple;
-	bh=dpN83SnLbjVQXqe+VbzN2XEMHN821FX9Avwcz24O7bo=;
+	s=arc-20240116; t=1785530877; c=relaxed/simple;
+	bh=idayNqI/EYD4/90KZIQdGW0aigfoidBb2LcVyAG4SXA=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=DocbwzKY0ZdMB8HcOX5Nvh9vCjk9Iw6LbDRiHHBIzo3KhVDu5KB2PU+T0jb2uRNbNvk9RT8oSGkq7qVWomJVxGqabjeVkrd9SZ0DqTkzGmxQzY4R5uQfgLZNMdX1yvSnEia/eknWYlOG9NegB3PG78M3DQCUKW29DXX0uH7jvB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RnJ3OSYw; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=DANgkK3Mguq57kXMkqD+76XxNWsagaCRv71Pfa6djO+4t4B4/wGRnVvK2UM11r28xtAZ8LTFmaMwQYSzV39GWJNGiQV5uCF70GDHasKzWTXqulUBy273DJ3JlcZpPzy7GgxCYkNAGT/5ZJ5S9fU5Ejkd7c7hbvk/HgvTZTkcnag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NKyTkzeK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RnJ3OSYw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 368561F00AC4;
-	Fri, 31 Jul 2026 20:38:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NKyTkzeK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A9631F00AC4;
+	Fri, 31 Jul 2026 20:47:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785530319;
-	bh=FcHTgj0FjiiqQNxBUceCySXuTKLdfxQa4oLhA1pqPcA=;
+	s=k20260515; t=1785530875;
+	bh=1PWoVFKN/j9vlqmtQHQzZaa8PW26d4prfhdEjMYRxCY=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=RnJ3OSYwdK6evyt/7IBnYxWLUUtYEvCUdY2OT+QyNqJB99iJN4Vmlm581ph5rhnxW
-	 /OhDjvaD6XpO75+WzMXr05JG6ICww3Cqc92qMEnSmBSIYfO53GHga4+1HgkxIgL2wJ
-	 qwqWl18AumWLlElB509pz6v/GJjwh45mZhKjq/lrqNwMlaTwaXgf6R5SulDPP60dXa
-	 5bgmwO98ZLBeOysBbkV3H7vJr9klij8ce8FoAtGOdVWQh1Md+auMC6yFuFFHxtK8WS
-	 TqwXgHL+oSqPr4fExJ8fWCPSkTjqIRRMfAx4VWreg55jTNz8OecE4MenfiCJn+5b7V
-	 rkPSWapQV1hSQ==
+	b=NKyTkzeKQZJ5e5U3DCoONwa0OvCT/fvNYSFFayfJPj8GgyXhqxol11WxkH1k7ni8C
+	 C8AhUKI0BngrRw13MWzPZ+Lj09a6uhibvNWn9b9QxC+WQbTuxEr/XemRcXmj5Bqh6d
+	 1z0gn/Rr4S9nU12JfnS+nsJjVsmYH2mCTRUoXIxdM35ah/hUgUQZCwtH9AFol9S3Fq
+	 qdoVwLMBhphjtN/o+6lJ7W24nsKEVxJCuSsIb0rtVRFCiFnXTFaR7gzSHDOuNtrjn/
+	 Bg0QkyH6RUlkgvC2L1px1Uck1Pe0QC1xvVyc6jTiQj1NY80srbf3V1dnNgZBtm3m5I
+	 E9n4w81vQXsYA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v10 31/69] drm/rockchip: dw_hdmi_qp: Add missing
- newlines in dev_err_probe() messages
+Subject: Re: [PATCH v10 32/69] drm/rockchip: dw_hdmi_qp: Use local dev
+ variable consistently in bind()
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
-Cc: linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org
-In-Reply-To: <20260731-dw-hdmi-qp-scramb-v10-31-294364b2cf15@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20260731-dw-hdmi-qp-scramb-v10-32-294364b2cf15@collabora.com>
 References: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
- <20260731-dw-hdmi-qp-scramb-v10-31-294364b2cf15@collabora.com>
+ <20260731-dw-hdmi-qp-scramb-v10-32-294364b2cf15@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 31 Jul 2026 20:38:38 +0000
-Message-Id: <20260731203839.368561F00AC4@smtp.kernel.org>
+Date: Fri, 31 Jul 2026 20:47:55 +0000
+Message-Id: <20260731204755.8A9631F00AC4@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
 s) to consider:
 
 Pre-existing issues:
-- [High] Using devm_ APIs on the component device in the bind callback caus=
-es resource leaks and a use-after-free on unbind/rebind.
-- [High] The dw_hdmi_qp library lacks an unbind function, causing permanent=
- resource leaks when componentized drivers unbind.
+- [High] Use-After-Free and resource leaks due to devm_ allocations in comp=
+onent bind callback.
+- [High] Pending delayed work is not canceled on error paths, leading to Us=
+e-After-Free.
+- [High] Missing cleanup for dw_hdmi_qp_bind() on the error path leads to r=
+esource and bridge leaks.
 --
 
---- Patch [31]: [PATCH v10 31/69] drm/rockchip: dw_hdmi_qp: Add missing new=
-lines in dev_err_probe() messages ---
-commit 5dd7ce4a56ed7d72cce118d1d9700cdba6b578d8
+--- Patch [32]: [PATCH v10 32/69] drm/rockchip: dw_hdmi_qp: Use local dev v=
+ariable consistently in bind() ---
+commit 43fdb5eca012528d707389ce53b62eb4132b9532
 Author: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
-drm/rockchip: dw_hdmi_qp: Add missing newlines in dev_err_probe() messages
+drm/rockchip: dw_hdmi_qp: Use local dev variable consistently in bind()
 
-This commit adds missing trailing newlines to a couple of dev_err_probe()
-calls in dw_hdmi_qp_rockchip_bind().
+Replace indirect struct device accesses via hdmi->dev and pdev->dev with
+the local dev parameter already available in dw_hdmi_qp_rockchip_bind(),
+for consistency and readability.
 
 > diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu=
 /drm/rockchip/dw_hdmi_qp-rockchip.c
-> index e9fda67b8ca94..8b48558deb3e7 100644
+> index 8b48558deb3e7..36043bf82273c 100644
 > --- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
 > +++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-> @@ -681,12 +681,12 @@ static int dw_hdmi_qp_rockchip_bind(struct device *=
-dev, struct device *master,
+
+[ ... ]
+
+> @@ -670,7 +669,7 @@ static int dw_hdmi_qp_rockchip_bind(struct device *de=
+v, struct device *master,
+>  	if (irq < 0)
+>  		return irq;
+> =20
+> -	ret =3D devm_request_threaded_irq(hdmi->dev, irq,
+> +	ret =3D devm_request_threaded_irq(dev, irq,
+>  					cfg->ctrl_ops->hardirq_callback,
+>  					cfg->ctrl_ops->irq_callback,
+>  					IRQF_SHARED, "dw-hdmi-qp-hpd",
+>  					hdmi);
+
+[Severity: High]
+This isn't a bug introduced by this patch, but does the use of devm_ here
+cause a use-after-free and resource leak on component unbind?
+
+The hdmi context is allocated via drmm_kzalloc, tying its lifetime to the
+DRM master device. However, devm_request_threaded_irq ties the HPD IRQ
+handler to the platform device's lifecycle, not the component bind/unbind
+lifecycle.
+
+If the component is unbound (e.g. the DRM master is removed), drmm will free
+the hdmi context, but the IRQ remains active. A subsequent HPD interrupt
+will trigger the handler, which dereferences the freed hdmi pointer. Also,
+every bind retry leaks devm resources like clocks and GPIOs since they
+aren't tied to the bind lifecycle.
+
+>  	if (ret)
+>  		return ret;
+> =20
 >  	drm_encoder_helper_add(encoder, &dw_hdmi_qp_rockchip_encoder_helper_fun=
 cs);
 >  	ret =3D drmm_encoder_init(drm, encoder, NULL, DRM_MODE_ENCODER_TMDS, NU=
 LL);
 >  	if (ret)
-> -		return dev_err_probe(hdmi->dev, ret, "Failed to init encoder");
-> +		return dev_err_probe(hdmi->dev, ret, "Failed to init encoder\n");
+> -		return dev_err_probe(hdmi->dev, ret, "Failed to init encoder\n");
+> +		return dev_err_probe(dev, ret, "Failed to init encoder\n");
+
+[Severity: High]
+This is a pre-existing issue, but does this error path lead to a
+use-after-free?
+
+The HPD IRQ is requested earlier and can fire immediately, scheduling
+hdmi->hpd_work. If drmm_encoder_init() fails here, we return directly
+without calling cancel_delayed_work_sync().
+
+The DRM core handles the component bind failure by tearing down the DRM
+device, causing drmm to free the hdmi structure. The pending delayed work
+will then execute and dereference the freed hdmi pointer.
+
 > =20
 >  	hdmi->hdmi =3D dw_hdmi_qp_bind(pdev, encoder, &plat_data);
-
-[Severity: High]
-This isn't a bug introduced by this patch, but does dw_hdmi_qp_bind() leak
-resources on component unbind?
-
-dw_hdmi_qp_bind() allocates multiple devm_ resources on the component device
-such as memory, regmaps, shared IRQs, and bridges. Since the dw_hdmi_qp
-library lacks an unbind function, these resources are never freed when the
-DRM device unbinds.
-
-On rebind, new duplicate resources will be appended to the component device=
-'s
-devres list, leading to unbounded memory growth and multiple shared IRQ
-handlers firing concurrently.
-
-[Severity: High]
-This is a pre-existing issue, but does mixing drmm_ and devm_ allocations in
-this component bind callback create a lifecycle mismatch?
-
-Earlier in this function, the hdmi structure is allocated with
-drmm_kzalloc(), but devm_request_threaded_irq() is called on the component
-dev (which hasn't unbound).
-
-When the user unbinds the main DRM device via sysfs, component unbind
-destroys the DRM device and frees the hdmi structure. However, the IRQ
-remains registered on the component device. If an interrupt fires, the
-handler will access the freed hdmi pointer.
-
-Additionally, dw_hdmi_qp_rockchip_unbind() only calls
-cancel_delayed_work_sync(), leaving devm_ resources accumulated on rebind.
-
 >  	if (IS_ERR(hdmi->hdmi))
->  		return dev_err_probe(hdmi->dev, PTR_ERR(hdmi->hdmi),
-> -				     "Failed to bind dw-hdmi-qp");
-> +				     "Failed to bind dw-hdmi-qp\n");
+> -		return dev_err_probe(hdmi->dev, PTR_ERR(hdmi->hdmi),
+> +		return dev_err_probe(dev, PTR_ERR(hdmi->hdmi),
+>  				     "Failed to bind dw-hdmi-qp\n");
 > =20
 >  	connector =3D drm_bridge_connector_init(drm, encoder);
 >  	if (IS_ERR(connector))
+> -		return dev_err_probe(hdmi->dev, PTR_ERR(connector),
+> +		return dev_err_probe(dev, PTR_ERR(connector),
+>  				     "Failed to init bridge connector\n");
+
+[Severity: High]
+This isn't a bug introduced by this patch, but does this error path
+permanently leak devm-managed bridges?
+
+dw_hdmi_qp_bind() allocates state and registers a DRM bridge using devm_
+functions tied to the platform device. If drm_bridge_connector_init() fails,
+we return directly without calling dw_hdmi_qp_unbind() or cleaning up the
+bridge.
+
+Because the resources are managed by devm_ tied to the platform device, they
+won't be freed when the component bind fails. Every retry of the component
+bind will allocate new memory and register duplicate DRM bridges in the
+global list.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260731-dw-hdmi-qp=
--scramb-v10-0-294364b2cf15@collabora.com?part=3D31
+-scramb-v10-0-294364b2cf15@collabora.com?part=3D32
