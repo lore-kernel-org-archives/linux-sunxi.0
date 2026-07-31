@@ -1,41 +1,42 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6608E46C851
-	for <linux-sunxi@lists.linux.dev>; Fri, 31 Jul 2026 16:20:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A01846D083
+	for <linux-sunxi@lists.linux.dev>; Fri, 31 Jul 2026 16:20:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785514820; cv=none; b=EnE8ubN/8mGbbA+oGT/45mhPWm17S+CC0l2mfEXl/QxrvrYpDFkj7zudT4qAp7qKdkYsQ7H6VA8PcmwyCqWRZRmYbQZ1GNG92cGbqKsfu4gDDYsNLRGnryjBMN/kMcrs83xcLFkBxbgZ3RKZGz2Y0yXYKRvfQBETgKCxdAg2mLY=
+	t=1785514820; cv=none; b=tQJzvAJSgf48cl8eGmYzKcIuXWn22LMuZQnbXMfEyISQt/a0rSpPZohgiwLmOwdjU7IfB732FAuznjR6Cza4yeLeWqDo2CzIFnpIwQKoWDQsnBIhMn/ukaO28w2De/6HYyjP5ZirBAZ5XxwR0MFK7w7FDekcRDEFFhuC50TJqHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1785514820; c=relaxed/simple;
-	bh=anZYZ7yEJJr+RFy3nqLwYzOV6L9Uj+UtOgmMLRpsr3o=;
+	bh=MH/ZHTbxAU/pfRYI8iynv05E3beofFeSEJS/oxNVJv8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nDdj3igrbfenyZruKq+CmDRfr3SzODmQqxe/oHOMsVp1S4Y2hOWMDb7uaWRMzxihS9z82yajx1gyQDAfMJAlRo/wNnKG2AIqqoFTMZvuXMpB8wyHw9+BXiabMigbnhcaKcGHgmMkj8HJV9QfgYuRjzB0SJ4NumpPMju4EiYYuXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=qzzSuHhH; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=r5kqxlF3FPhXWROV6Z//i0I2ovKA4fHayx0AUoNA/OJma8ph5V2VU2vdBR0Je7JzYKz2dnMIohuufhpjMMEbbEhjvVEKO4KD59rT4MYYXPc1zDLFjGVlxrSafL1KK/B4P2mOqxue6f34s7+CE1dhUsSRV91cXOuX50OnlXGKE5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=mvemhppV; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="qzzSuHhH"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="mvemhppV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1785514803;
-	bh=anZYZ7yEJJr+RFy3nqLwYzOV6L9Uj+UtOgmMLRpsr3o=;
+	s=mail; t=1785514802;
+	bh=MH/ZHTbxAU/pfRYI8iynv05E3beofFeSEJS/oxNVJv8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=qzzSuHhHTqHAYGCtiCISlU2GIZoJ6K8YPdWC668t77q5yGwOqy2LPXCULADOvM2LT
-	 1EcbZpdSklzdzf88BLSp9Hy/3bYP4T7dEwUVMNTsAJ/WfofHkz1tAj7AxTnx2iO4tz
-	 aJBuWxmPH1O+QzUQEraPCMmsKnKUX2GE8arrFuXHHnoMKu6VPcIhkXM9m4pofdBGMl
-	 1lQCXcMgWbd/EZ63mcr0qcfxzF1fUStLfwiOKl87ZGuZXwjtYe8x8W81hs5QkIhw/B
-	 Ee6Suurozk8QakEpf6Ba2AyC5qJ4PTki3E/LLTPPmeTk8fAj1kRHe5UW7sCqy5anOW
-	 AJ2QvC9Od/waw==
+	b=mvemhppV2VEH18QNjNAF2n+Rb8qZb/hZ7IifFbqEYd3cOKS2FcPuVuiVvkJRc8wRR
+	 XWjhjyqirGUOrGcETm247YpEvOfrAJze3yAq2i3oQaumGrJu4QV+G805e8kbXGPcoz
+	 WFUh/YWkI2WyF0nP7lBMJZNmhZz0LWbnTCrw4c8My4N8KER5ce/LJV6/883XijFnKn
+	 SrWYiar2HkrnTRLW+Ycowr2vLoDNarPAHaAtDGdhy+stM7kZZNsZ0wjrowtG/do8dq
+	 G1D/ceVGXENgDDIyWnEFWugjSr1cGCDq/BQiieFoCzZwdl8rNMg/nJsJ5Ubr9TupI1
+	 DUX9U0D/qHsag==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id A72A117E0B89;
-	Fri, 31 Jul 2026 18:20:03 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 441B917E0B79;
+	Fri, 31 Jul 2026 18:20:02 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Fri, 31 Jul 2026 19:20:16 +0300
-Subject: [PATCH v10 69/69] drm/connector: Drop redundant max_bpc field
+Date: Fri, 31 Jul 2026 19:20:14 +0300
+Subject: [PATCH v10 67/69] drm/connector: Drop redundant hdmi
+ vendor/product fields
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -44,7 +45,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260731-dw-hdmi-qp-scramb-v10-69-294364b2cf15@collabora.com>
+Message-Id: <20260731-dw-hdmi-qp-scramb-v10-67-294364b2cf15@collabora.com>
 References: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
 In-Reply-To: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -71,80 +72,203 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
 X-Mailer: b4 0.15.2
 
 Now that all users migrated to the new drmm_connector_hdmi_init()
-signature, max_bpc is provided through struct drm_connector_hdmi_funcs,
-a reference to which is already stored in drm_connector_hdmi.
+signature, vendor and product are provided through struct
+drm_connector_hdmi_funcs, a reference to which is already stored in
+drm_connector_hdmi.
 
-Drop the redundant connector->max_bpc field and point its users to
-hdmi.funcs->max_bpc instead.
+Drop the redundant fields from drm_connector_hdmi and point its users to
+hdmi.funcs->vendor and hdmi.funcs->product instead.
+
+This allows simplifying the related connector registration tests by
+getting rid of the now unnecessary KUNIT_EXPECT_MEMEQ() checks.
 
 Tested-by: Diederik de Haas <diederik@cknow-tech.com>  # NanoPC-T6 LTS, Rock 5B
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/display/drm_hdmi_state_helper.c | 6 +++---
- drivers/gpu/drm/drm_connector.c                 | 2 --
- include/drm/drm_connector.h                     | 5 -----
- 3 files changed, 3 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c |  4 +--
+ drivers/gpu/drm/drm_connector.c                 |  4 ---
+ drivers/gpu/drm/tests/drm_connector_test.c      | 41 +++----------------------
+ include/drm/drm_connector.h                     | 14 ++-------
+ 4 files changed, 8 insertions(+), 55 deletions(-)
 
 diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-index c5496641a2f3..53057ef80e45 100644
+index 04c9e06b9dc1..83a8fcb41343 100644
 --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
 +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-@@ -319,7 +319,7 @@
- void __drm_atomic_helper_connector_hdmi_state_init(struct drm_connector *connector,
- 						   struct drm_connector_state *new_conn_state)
- {
--	unsigned int max_bpc = connector->max_bpc;
-+	unsigned int max_bpc = connector->hdmi.funcs ? connector->hdmi.funcs->max_bpc : 0;
- 
- 	new_conn_state->max_bpc = max_bpc;
- 	new_conn_state->max_requested_bpc = max_bpc;
-@@ -678,7 +678,7 @@ hdmi_compute_config(const struct drm_connector *connector,
- {
- 	unsigned int max_bpc = clamp_t(unsigned int,
- 				       conn_state->max_bpc,
--				       8, connector->max_bpc);
-+				       8, connector->hdmi.funcs->max_bpc);
- 	enum drm_output_color_format fmt;
- 	int ret;
- 
-@@ -811,7 +811,7 @@ static int hdmi_generate_hdr_infoframe(const struct drm_connector *connector,
- 	if (!connector->hdmi.funcs->hdr_drm.write_infoframe)
+@@ -784,8 +784,8 @@ static int hdmi_generate_spd_infoframe(const struct drm_connector *connector,
  		return 0;
  
--	if (connector->max_bpc < 10)
-+	if (connector->hdmi.funcs->max_bpc < 10)
- 		return 0;
+ 	ret = hdmi_spd_infoframe_init(frame,
+-				      connector->hdmi.vendor,
+-				      connector->hdmi.product);
++				      connector->hdmi.funcs->vendor,
++				      connector->hdmi.funcs->product);
+ 	if (ret)
+ 		return ret;
  
- 	if (!conn_state->hdr_output_metadata)
 diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 293b2823475d..38d9f977338c 100644
+index b2e8d99c0e9a..f5f38dc4bfa6 100644
 --- a/drivers/gpu/drm/drm_connector.c
 +++ b/drivers/gpu/drm/drm_connector.c
-@@ -672,8 +672,6 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+@@ -656,10 +656,6 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+ 		connector->hdmi.max_tmds_char_rate = hdmi_funcs->supported_tmds_char_rate;
  	}
  
- 	drm_connector_attach_max_bpc_property(connector, 8, hdmi_funcs->max_bpc);
 -	/* TODO: remove after conversion to new drmm_connector_hdmi_init() */
--	connector->max_bpc = hdmi_funcs->max_bpc;
+-	strtomem_pad(connector->hdmi.vendor, hdmi_funcs->vendor, 0);
+-	strtomem_pad(connector->hdmi.product, hdmi_funcs->product, 0);
+-
+ 	/*
+ 	 * drm_connector_attach_max_bpc_property() requires the
+ 	 * connector to have a state.
+diff --git a/drivers/gpu/drm/tests/drm_connector_test.c b/drivers/gpu/drm/tests/drm_connector_test.c
+index 3d8500ad8be9..42f804500de6 100644
+--- a/drivers/gpu/drm/tests/drm_connector_test.c
++++ b/drivers/gpu/drm/tests/drm_connector_test.c
+@@ -771,14 +771,11 @@ static void drm_test_connector_hdmi_init_null_product(struct kunit *test)
  
- 	if (hdmi_funcs->max_bpc > 8)
- 		drm_connector_attach_hdr_output_metadata_property(connector);
+ /*
+  * Test that the registration of a connector with a valid, shorter than
+- * the max length, product name succeeds, and is stored padded with 0.
++ * the max length, product name succeeds.
+  */
+ static void drm_test_connector_hdmi_init_product_valid(struct kunit *test)
+ {
+ 	struct drm_connector_init_priv *priv = test->priv;
+-	const unsigned char expected_product[DRM_CONNECTOR_HDMI_PRODUCT_LEN] = {
+-		'P', 'r', 'o', 'd',
+-	};
+ 	int ret;
+ 
+ 	priv->hdmi_funcs = dummy_hdmi_funcs;
+@@ -793,25 +790,15 @@ static void drm_test_connector_hdmi_init_product_valid(struct kunit *test)
+ 				       DRM_MODE_CONNECTOR_HDMIA,
+ 				       &priv->ddc);
+ 	KUNIT_EXPECT_EQ(test, ret, 0);
+-	KUNIT_EXPECT_MEMEQ(test,
+-			   priv->connector.hdmi.product,
+-			   expected_product,
+-			   sizeof(priv->connector.hdmi.product));
+ }
+ 
+ /*
+  * Test that the registration of a connector with a valid, at max
+- * length, product name succeeds, and is stored padded without any
+- * trailing \0.
++ * length, product name succeeds.
+  */
+ static void drm_test_connector_hdmi_init_product_length_exact(struct kunit *test)
+ {
+ 	struct drm_connector_init_priv *priv = test->priv;
+-	const unsigned char expected_product[DRM_CONNECTOR_HDMI_PRODUCT_LEN] = {
+-		'P', 'r', 'o', 'd', 'u', 'c', 't',
+-		'P', 'r', 'o', 'd', 'u', 'c', 't',
+-		'P', 'r',
+-	};
+ 	int ret;
+ 
+ 	priv->hdmi_funcs = dummy_hdmi_funcs;
+@@ -826,10 +813,6 @@ static void drm_test_connector_hdmi_init_product_length_exact(struct kunit *test
+ 				       DRM_MODE_CONNECTOR_HDMIA,
+ 				       &priv->ddc);
+ 	KUNIT_EXPECT_EQ(test, ret, 0);
+-	KUNIT_EXPECT_MEMEQ(test,
+-			   priv->connector.hdmi.product,
+-			   expected_product,
+-			   sizeof(priv->connector.hdmi.product));
+ }
+ 
+ /*
+@@ -857,14 +840,11 @@ static void drm_test_connector_hdmi_init_product_length_too_long(struct kunit *t
+ 
+ /*
+  * Test that the registration of a connector with a vendor name smaller
+- * than the maximum length succeeds, and is stored padded with zeros.
++ * than the maximum length succeeds.
+  */
+ static void drm_test_connector_hdmi_init_vendor_valid(struct kunit *test)
+ {
+ 	struct drm_connector_init_priv *priv = test->priv;
+-	const char expected_vendor[DRM_CONNECTOR_HDMI_VENDOR_LEN] = {
+-		'V', 'e', 'n', 'd',
+-	};
+ 	int ret;
+ 
+ 	priv->hdmi_funcs = dummy_hdmi_funcs;
+@@ -879,24 +859,15 @@ static void drm_test_connector_hdmi_init_vendor_valid(struct kunit *test)
+ 				       DRM_MODE_CONNECTOR_HDMIA,
+ 				       &priv->ddc);
+ 	KUNIT_EXPECT_EQ(test, ret, 0);
+-	KUNIT_EXPECT_MEMEQ(test,
+-			   priv->connector.hdmi.vendor,
+-			   expected_vendor,
+-			   sizeof(priv->connector.hdmi.vendor));
+ }
+ 
+ /*
+  * Test that the registration of a connector with a vendor name at the
+- * maximum length succeeds, and is stored padded without the trailing
+- * zero.
++ * maximum length succeeds.
+  */
+ static void drm_test_connector_hdmi_init_vendor_length_exact(struct kunit *test)
+ {
+ 	struct drm_connector_init_priv *priv = test->priv;
+-	const char expected_vendor[DRM_CONNECTOR_HDMI_VENDOR_LEN] = {
+-		'V', 'e', 'n', 'd', 'o', 'r',
+-		'V', 'e',
+-	};
+ 	int ret;
+ 
+ 	priv->hdmi_funcs = dummy_hdmi_funcs;
+@@ -911,10 +882,6 @@ static void drm_test_connector_hdmi_init_vendor_length_exact(struct kunit *test)
+ 				       DRM_MODE_CONNECTOR_HDMIA,
+ 				       &priv->ddc);
+ 	KUNIT_EXPECT_EQ(test, ret, 0);
+-	KUNIT_EXPECT_MEMEQ(test,
+-			   priv->connector.hdmi.vendor,
+-			   expected_vendor,
+-			   sizeof(priv->connector.hdmi.vendor));
+ }
+ 
+ /*
 diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 75bd9ac03571..5e0d65adb244 100644
+index 2ad8d1611e84..f7627de624de 100644
 --- a/include/drm/drm_connector.h
 +++ b/include/drm/drm_connector.h
-@@ -2391,11 +2391,6 @@ struct drm_connector {
+@@ -1418,11 +1418,13 @@ struct drm_connector_infoframe_funcs {
+  * and controller capabilities
+  */
+ struct drm_connector_hdmi_funcs {
++#define DRM_CONNECTOR_HDMI_VENDOR_LEN	8
+ 	/**
+ 	 * @vendor: HDMI Controller Vendor name.
  	 */
- 	struct drm_property_blob *path_blob_ptr;
+ 	const char *vendor;
  
++#define DRM_CONNECTOR_HDMI_PRODUCT_LEN	16
+ 	/**
+ 	 * @product: HDMI Controller Product name
+ 	 */
+@@ -2123,18 +2125,6 @@ struct drm_connector_hdmi_audio {
+  * struct drm_connector_hdmi - DRM Connector HDMI-related structure
+  */
+ struct drm_connector_hdmi {
+-#define DRM_CONNECTOR_HDMI_VENDOR_LEN	8
 -	/**
--	 * @max_bpc: Maximum bits per color channel the connector supports.
+-	 * @vendor: HDMI Controller Vendor Name
 -	 */
--	unsigned int max_bpc;
+-	unsigned char vendor[DRM_CONNECTOR_HDMI_VENDOR_LEN] __nonstring;
+-
+-#define DRM_CONNECTOR_HDMI_PRODUCT_LEN	16
+-	/**
+-	 * @product: HDMI Controller Product Name
+-	 */
+-	unsigned char product[DRM_CONNECTOR_HDMI_PRODUCT_LEN] __nonstring;
 -
  	/**
- 	 * @max_bpc_property: Default connector property for the max bpc to be
- 	 * driven out of the connector.
+ 	 * @supported_formats: Bitmask of @drm_output_color_format
+ 	 * supported by the controller.
 
 -- 
 2.55.0
