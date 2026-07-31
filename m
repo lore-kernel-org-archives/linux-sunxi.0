@@ -1,42 +1,42 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF9E468C1B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E115D466B75
 	for <linux-sunxi@lists.linux.dev>; Fri, 31 Jul 2026 16:19:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785514803; cv=none; b=axKDy9iZJrup3NniyOgPtjbpkgdn0XPTqXCpBcY7G5FiyWIOt9jHe7EEvIcSfxAJU+F/KujmjvYaJDFvzcCmhkn49ytDw3FGrxyxEOdCyYJ97BriBtrbA2hHkLnouYvZpkxs2+TB1nvE/EPsET9f2wW2ZDPkd9oCxOWisCx9TzI=
+	t=1785514803; cv=none; b=ZtidfrjADtOSILtFwQ7quSvdBQ3Rm8ZHUVwAw+VRRAnekOZzOzKEdh+URpvWHdxu4cim8gPaQkeBPG/kg2xR1PVjx/zi0XBrgXbFKaW9fpigS6l9cdCqt95L29B+xRXuYhvB5cPdzgrycGHdDdWdWgUyZdFBJJlfDsYwy6mPtFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1785514803; c=relaxed/simple;
-	bh=0cXQh/wi9mNTTITbxgaDB3yHqtiGn5+Qa+cNMfRk9UA=;
+	bh=AJ/omjN/lK86toWZGrUtZiZmvSWbYljt1UsCr8wPgmY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=W9Az5ATjr+GvDIAQk3XQrHy5lkwKgteVT5FD40+XP976S4ZIk69CyRJ4zHXMGqmk/q+IdGsTwLacgijpVpzEr5CaryOeeIBGeVf5HtEyNANQBwOHHCkTAyZCzDP6aw9tXC4liV1CBlOAH3M9XEdYqHaPbIAas+njAeXrZUR3Vp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=QokOt9JT; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=Xx1tvNtlDMiiWNwisYtgEPeriTucZtIpkuu/KAgb6DBKsrDL08rYNgJ4mWjoJv/AuAJpvWulP/NB8JIrm3wF78xEhXljyxlVes/RCWMUAboJkUojJNSBTxYJMNnLb4B6Ko9wDyWnY8k9R4BVrwhlxIIUmkktFTtS2YdVLqXbMX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=dVnch+0k; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="QokOt9JT"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="dVnch+0k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1785514789;
-	bh=0cXQh/wi9mNTTITbxgaDB3yHqtiGn5+Qa+cNMfRk9UA=;
+	s=mail; t=1785514788;
+	bh=AJ/omjN/lK86toWZGrUtZiZmvSWbYljt1UsCr8wPgmY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=QokOt9JTCghHQqgaFmv7YW2OfQO804zPDPvd0V9NEdkZNb0xGkFT++WwjQBLlrLlN
-	 I+faxIFULRQi6QJbBp22hUwuvNbcJJJ3kDNIA5bo4Qpk1Zr9VHCMczhHQ9L2o27ox/
-	 9u1MC0KH+4f9esQu4xVGTkAWlG3LuyFk/MfgQDpNrr/3wZ5EvT2CcLN8bWHOs5Pjsl
-	 I1Zdo8+C1n8ootnUPk3AFXvqAlRxFZXybo3KdaBNjRywMd2aeTTVA/j8mIs6Cw0j07
-	 /QlMfkCxRzkRLtelo0r4eOo1sXGP7EaA7CLXKnKm3+8uo1NPiwv8F0E3XI8WlC2Ahh
-	 ZSzW/ZsO9/rDw==
+	b=dVnch+0kNLmLhfj41SPiKFwqYpfM0HL/9gmQ8VhVgah7IsW8juZUXcdYRLva1LXuF
+	 rGeizyZs4dqtJyweYyYRLtpyAZEF5hII0tfaDn+l6wvaqZMkW6RPfCk1rsXrwXg5z9
+	 BHI0BE6+KUZIIUICEFa6q7UjezPL4PE7qBfkInxKWDOIFRANBX4z/852NSMgasMcDB
+	 Bt0Ibsa7ESFWkDrDrSSHxRxT4qdlte9swm7kdVDrpk/lTa50ASYk0jmAOkIXxlDl0w
+	 jQOYXzoBj6mssyyNQRpSMFjx01iE8ljm1YOc9jUivTkJ3C3IjqddFhw2jopUD1nqcG
+	 KWtmIBJ3EIzQg==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id EA51D17E092F;
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 444E017E091F;
 	Fri, 31 Jul 2026 18:19:48 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Fri, 31 Jul 2026 19:19:55 +0300
-Subject: [PATCH v10 48/69] drm/bridge: adv7511: Advertise HDMI 1.2
- capabilities
+Date: Fri, 31 Jul 2026 19:19:54 +0300
+Subject: [PATCH v10 47/69] drm/display: hdmi-state-helper: Drop
+ drm_atomic_helper_connector_hdmi_force()
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260731-dw-hdmi-qp-scramb-v10-48-294364b2cf15@collabora.com>
+Message-Id: <20260731-dw-hdmi-qp-scramb-v10-47-294364b2cf15@collabora.com>
 References: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
 In-Reply-To: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -70,89 +70,53 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org
 X-Mailer: b4 0.15.2
 
-Bridges using DRM_BRIDGE_OP_HDMI are now expected to also provide a
-supported HDMI version.  This is not yet enforced, but will become
-mandatory once the migration to the new caps-based HDMI connector
-initialization API is completed.
-
-Since max_mode_clock_khz does not exceed 165 MHz for any of the chip
-variants handled by the driver, advertise HDMI 1.2 as the supported
-version and set the bridge's max_tmds_char_rate so the connector limit
-inferred from supported_hdmi_ver is overridden by the chip-specific
-hardware constraints.
-
-drm_bridge_connector_atomic_check() runs
-drm_atomic_helper_connector_hdmi_check(), which rejects modes whose
-computed TMDS character rate exceeds the connector limit before invoking
-the driver's .tmds_char_rate_valid() hook, making
-adv7511_bridge_hdmi_tmds_char_rate_valid() redundant. Drop it.
+With all callers converted to the .force_ctx() connector helper, this
+function has no users left.  Remove it.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 22 +++-------------------
- 1 file changed, 3 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c | 15 ---------------
+ include/drm/display/drm_hdmi_state_helper.h     |  1 -
+ 2 files changed, 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 038b852405b5..c3ef44074477 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -8,6 +8,7 @@
- #include <linux/clk.h>
- #include <linux/device.h>
- #include <linux/gpio/consumer.h>
-+#include <linux/hdmi.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/slab.h>
-@@ -775,11 +776,6 @@ static int adv7511_connector_init(struct adv7511 *adv)
-  * DRM Bridge Operations
-  */
- 
--static const struct adv7511 *bridge_to_adv7511_const(const struct drm_bridge *bridge)
--{
--	return container_of(bridge, struct adv7511, bridge);
--}
--
- static void adv7511_bridge_atomic_enable(struct drm_bridge *bridge,
- 					 struct drm_atomic_commit *state)
- {
-@@ -817,19 +813,6 @@ static void adv7511_bridge_atomic_disable(struct drm_bridge *bridge,
- 	adv7511_power_off(adv);
+diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+index 9544eb8659aa..04c9e06b9dc1 100644
+--- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
++++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+@@ -1261,21 +1261,6 @@ int drm_atomic_helper_connector_hdmi_hotplug(struct drm_connector *connector,
  }
+ EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_hotplug);
  
--static enum drm_mode_status
--adv7511_bridge_hdmi_tmds_char_rate_valid(const struct drm_bridge *bridge,
--					 const struct drm_display_mode *mode,
--					 unsigned long long tmds_rate)
+-/**
+- * drm_atomic_helper_connector_hdmi_force - HDMI Connector implementation of the force callback
+- * @connector: A pointer to the HDMI connector
+- *
+- * This function implements the .force() callback for the HDMI connectors. It
+- * can either be used directly as the callback or should be called from within
+- * the .force() callback implementation to maintain the HDMI-specific
+- * connector's data.
+- */
+-void drm_atomic_helper_connector_hdmi_force(struct drm_connector *connector)
 -{
--	const struct adv7511 *adv = bridge_to_adv7511_const(bridge);
--
--	if (tmds_rate > 1000ULL * adv->info->max_mode_clock_khz)
--		return MODE_CLOCK_HIGH;
--
--	return MODE_OK;
+-	drm_atomic_helper_connector_hdmi_update(connector, NULL, connector->status);
 -}
+-EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_force);
 -
- static enum drm_mode_status adv7511_bridge_mode_valid(struct drm_bridge *bridge,
- 						      const struct drm_display_info *info,
- 		const struct drm_display_mode *mode)
-@@ -1006,7 +989,6 @@ static const struct drm_bridge_funcs adv7511_bridge_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
- 	.atomic_create_state = drm_atomic_helper_bridge_create_state,
+ /**
+  * drm_atomic_helper_connector_hdmi_force_ctx - HDMI Connector implementation
+  * of the force_ctx callback
+diff --git a/include/drm/display/drm_hdmi_state_helper.h b/include/drm/display/drm_hdmi_state_helper.h
+index ae4fff82c3fb..81c85b4dce56 100644
+--- a/include/drm/display/drm_hdmi_state_helper.h
++++ b/include/drm/display/drm_hdmi_state_helper.h
+@@ -26,7 +26,6 @@ int drm_atomic_helper_connector_hdmi_update_infoframes(struct drm_connector *con
+ int drm_atomic_helper_connector_hdmi_hotplug(struct drm_connector *connector,
+ 					     struct drm_modeset_acquire_ctx *ctx,
+ 					     enum drm_connector_status status);
+-void drm_atomic_helper_connector_hdmi_force(struct drm_connector *connector);
+ int drm_atomic_helper_connector_hdmi_force_ctx(struct drm_connector *connector,
+ 					       struct drm_modeset_acquire_ctx *ctx);
  
--	.hdmi_tmds_char_rate_valid = adv7511_bridge_hdmi_tmds_char_rate_valid,
- 	.hdmi_clear_audio_infoframe = adv7511_bridge_hdmi_clear_audio_infoframe,
- 	.hdmi_write_audio_infoframe = adv7511_bridge_hdmi_write_audio_infoframe,
- 	.hdmi_clear_avi_infoframe = adv7511_bridge_hdmi_clear_avi_infoframe,
-@@ -1359,6 +1341,8 @@ static int adv7511_probe(struct i2c_client *i2c)
- 
- 	adv7511->bridge.vendor = "Analog";
- 	adv7511->bridge.product = adv7511->info->name;
-+	adv7511->bridge.supported_hdmi_ver = HDMI_VERSION_1_2;
-+	adv7511->bridge.max_tmds_char_rate = 1000ULL * adv7511->info->max_mode_clock_khz;
- 
- #ifdef CONFIG_DRM_I2C_ADV7511_AUDIO
- 	adv7511->bridge.ops |= DRM_BRIDGE_OP_HDMI_AUDIO;
 
 -- 
 2.55.0
