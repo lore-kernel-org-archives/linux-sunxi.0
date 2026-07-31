@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F38912F83A2
-	for <linux-sunxi@lists.linux.dev>; Fri, 31 Jul 2026 18:31:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1910147A0B7
+	for <linux-sunxi@lists.linux.dev>; Fri, 31 Jul 2026 19:02:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785522703; cv=none; b=GeLnCN9QKwB/06cL+Gz+rMiJmkeeihS4Eh0i2NFG+blyE+4z5fBuFK9+tW9m/A/TQJQEhT36F0J46AVhBjfk+BYIlao/LGZD9+/u9g2qHEMyae5lJhHQiM+2iTwiFZNi9AZTyk+fbcGhY8AypV6LYPTfwqnxw83D8bNS+vCOePo=
+	t=1785524580; cv=none; b=aIdmZK0PlLJ9OsNfOy+7DE0jUBiB8Tbq63e/xVh2vcoLKy1T+dceGwutxl54sixTDjOsluqrZluiHU3VQwVVdOxtH2reecFw6hpgY5AsAcxOBVTDi/FTQn0OmBixCBIBtAX1nBZNdLDURVEOQsPX2BPTeqrU9g3HCv3ZOyzLphY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785522703; c=relaxed/simple;
-	bh=lZWd+7HgHThrU2YdD66QMyUyjTkzGApbYivOq9Fbn0A=;
+	s=arc-20240116; t=1785524580; c=relaxed/simple;
+	bh=V52l48PvFgr+RmTYXqdmJ0FiUD9zrKcPzbZaaQbD8xM=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=AW/rtnSDPlpBuBWbUhewAezz8+aD+tkYCfKIl2pJlasjHHQNmbtG70vgnUUQtz+y6a/ElwyYnsx+CDNUIyq8je3aJIsJYFjT7WJawTwxJlLutPhwjmv65wl5k5IKOOyf+gvrSZ40DUFRea0A2hrhArp5hCr8vYsAx1SerfdCFnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S669h1iW; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=XRXZxUAd1e7XgTCtUp6NCsZuWWVC2Dfk3YSO3EIyT+FIQ/xmcKJhQ9ofuuWUIsyYbk10HJb+JgY97IaKd0LEem6K2noAgwHwWKuO49tTKWuPiTlk7IZFDYIg09F+W2pu6qvLZ7rX2gbnBHA70CHp48vEvS4L7fCI/caSIX4AH+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ay0A5eLa; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S669h1iW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 695A81F00AC4;
-	Fri, 31 Jul 2026 18:31:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ay0A5eLa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E5E91F00ACA;
+	Fri, 31 Jul 2026 19:02:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785522701;
-	bh=vkl4mNUOmfBTL0RLtoKzHBw73Pl5gzZLcFculT6MCkc=;
+	s=k20260515; t=1785524578;
+	bh=E88JEGx69E4FBYr7wu0mC8tzEvmo6Bvv6M04Ci1tcsw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=S669h1iWmnBBTVF1vRff3jzyATBudFbYvFSdjS8b6kbqWFo1JQfI+PHj47VoZOQiT
-	 vrfXjNYMA/uwBPiPb8mRd9irPW6byTZZrD4BxMaKWVdikEeo0NLFc/f2CE4987Q/EF
-	 Jinugi2M/5x5PkVQhY7rOpPJc5Mxur4F/W3TpLtJXYSdrOTtmuwv++DEhY3OSDL9AN
-	 lXFi1MJmU3KwsZ4YBjoOOY2CQCNyJ4raPtXohWcfGR1jbbj3ByaoqWtTymKsZHrAu8
-	 vHtPj/bQ0K6rnvqY3JLkv/vVuPH+5dBgfz/mBMWMrtU2/+VvUa1baSs1SCMF0C5m2o
-	 PA8yYAV7yot3g==
+	b=ay0A5eLa+j9zUyJHzaNFSj7UTsKN1ORSMzyEYMMZSmCEID4lhAogF4kI92Z1HPHb+
+	 ZIJyxQ9JscYfT9Ne54P37ZxlLL0hPrrOR4NkKrMTXd4EpWkyiaku5wU90hfVFrJdZh
+	 +NeYIeQEllwYofV2UqCsWYu10PywOcDoZ2kUFglx9UYV0phhgrDfmkwgFKiK6QPklN
+	 GtXhxKCfSbwosq6e6YtQoLLys4tMBND5gJT7tg1HkkDjIN0ai8qkvhWvU0eRwPt+6U
+	 UWXgYxE5dEuIr+CgGsuQ4DgVcnw9ZjbE9RQVomY51+OJUHXdl/Bt49niZRLUWO3jGj
+	 fF8SCNulTbIfQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v10 18/69] drm/display: bridge_connector: Switch to
- .force_ctx() connector helper
+Subject: Re: [PATCH v10 22/69] drm/display: hdmi-state-helper: Sync SCDC
+ state on hotplug
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20260731-dw-hdmi-qp-scramb-v10-18-294364b2cf15@collabora.com>
+Cc: linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org
+In-Reply-To: <20260731-dw-hdmi-qp-scramb-v10-22-294364b2cf15@collabora.com>
 References: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
- <20260731-dw-hdmi-qp-scramb-v10-18-294364b2cf15@collabora.com>
+ <20260731-dw-hdmi-qp-scramb-v10-22-294364b2cf15@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 31 Jul 2026 18:31:41 +0000
-Message-Id: <20260731183141.695A81F00AC4@smtp.kernel.org>
+Date: Fri, 31 Jul 2026 19:02:58 +0000
+Message-Id: <20260731190258.8E5E91F00ACA@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -47,62 +47,82 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Low] The patch replaces `drm_bridge_connector_force()` with `drm_bridge_=
-connector_force_ctx()` and calls `drm_atomic_helper_connector_hdmi_force_ct=
-x()`. However, `drm_atomic_helper_connector_hdmi_force_ctx()` is neither de=
-fined nor declared anywhere in the kernel tree. This results in an implicit=
- function declaration error and undefined reference during linking.
+- [High] SCDC sync fails to handle scrambler teardown on disconnect, leavin=
+g the source scrambler active when swapping to a non-scrambling sink.
 --
 
---- Patch [18]: [PATCH v10 18/69] drm/display: bridge_connector: Switch to =
-.force_ctx() connector helper ---
-commit 01a7e2cca1b495d499fd78712842111769ad4146
+--- Patch [22]: [PATCH v10 22/69] drm/display: hdmi-state-helper: Sync SCDC=
+ state on hotplug ---
+commit 7cc2ce705b4793d8696717d86562fbd6c0bde231
 Author: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-drm/display: bridge_connector: Switch to .force_ctx() connector helper
 
-This commit replaces the drm_bridge_connector_force() function with a
-.force_ctx() implementation. It hands the acquire context over to
-drm_atomic_helper_connector_hdmi_force_ctx() for HDMI connectors.
+drm/display: hdmi-state-helper: Sync SCDC state on hotplug
 
-> diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu=
-/drm/display/drm_bridge_connector.c
-> --- a/drivers/gpu/drm/display/drm_bridge_connector.c
-> +++ b/drivers/gpu/drm/display/drm_bridge_connector.c
+This commit hooks drm_connector_hdmi_sync_scdc() into the connect and
+disconnect paths in drm_atomic_helper_connector_hdmi_update() to synchronize
+the SCDC status on hotplug events.
 
-[ ... ]
-
-> @@ -322,6 +311,19 @@ static int drm_bridge_connector_detect_ctx(struct dr=
+> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gp=
+u/drm/display/drm_hdmi_state_helper.c
+> index 4a93c279c9a76..3377ea9361209 100644
+> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> @@ -1205,13 +1205,16 @@ drm_atomic_helper_connector_hdmi_update(struct dr=
 m_connector *connector,
->  	return status;
->  }
+>  					enum drm_connector_status status)
+>  {
+>  	const struct drm_edid *drm_edid;
+> +	int ret =3D 0;
 > =20
-> +static int drm_bridge_connector_force_ctx(struct drm_connector *connecto=
-r,
-> +					  struct drm_modeset_acquire_ctx *ctx)
-> +{
-> +	struct drm_bridge_connector *bridge_connector =3D
-> +		to_drm_bridge_connector(connector);
-> +	struct drm_bridge *hdmi =3D bridge_connector->bridge_hdmi;
-> +
-> +	if (hdmi)
-> +		return drm_atomic_helper_connector_hdmi_force_ctx(connector, ctx);
+>  	if (status =3D=3D connector_status_disconnected) {
+> -		// TODO: also handle scramber, HDMI sink disconnected.
+> -		drm_connector_hdmi_audio_plugged_notify(connector, false);
+> -		drm_edid_connector_update(connector, NULL);
+> -		drm_connector_cec_phys_addr_invalidate(connector);
+> -		return 0;
+> +		ret =3D drm_connector_hdmi_sync_scdc(connector, false, ctx);
 
-[Severity: Low]
-It appears drm_atomic_helper_connector_hdmi_force_ctx() is not declared=20
-anywhere in the kernel tree prior to being used here.
+[Severity: High]
+Does this call successfully tear down the scrambler on disconnect?
 
-Could this result in an implicit function declaration error and an undefined
-reference during linking when building with DRM display bridge connector=20
-support enabled? Is it possible a prerequisite patch introducing this=20
-helper was omitted from the series?
+Looking at drm_connector_hdmi_sync_scdc() in drm_hdmi_helper.c, it seems
+to return immediately if the plugged parameter is false:
 
-> +
-> +	return 0;
-> +}
-> +
+int drm_connector_hdmi_sync_scdc(struct drm_connector *connector, bool plug=
+ged,
+                                 struct drm_modeset_acquire_ctx *ctx)
+{
+        ...
+        if (!connector || !plugged || !ctx)
+                return 0;
+
+This would make the disconnect call a no-op, failing to disable the source
+scrambler.
+
+Additionally, if a non-scrambling sink is subsequently plugged in, the
+connect path will call drm_connector_hdmi_sync_scdc() with plugged set to
+true, which also bails out early:
+
+        if (!connector->ddc || !drm_scdc_sink_supports_scrambling(connector=
+))
+                return 0;
+
+Could this leave the source scrambler incorrectly enabled if a user swaps f=
+rom
+an HDMI 2.0 monitor to an older HDMI 1.4 monitor, resulting in broken displ=
+ay
+output due to mismatched hardware state?
+
+> +		if (ret !=3D -EDEADLK) {
+> +			drm_connector_hdmi_audio_plugged_notify(connector, false);
+> +			drm_edid_connector_update(connector, NULL);
+> +			drm_connector_cec_phys_addr_invalidate(connector);
+> +		}
+> +		return ret;
+>  	}
 
 [ ... ]
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260731-dw-hdmi-qp=
--scramb-v10-0-294364b2cf15@collabora.com?part=3D18
+-scramb-v10-0-294364b2cf15@collabora.com?part=3D22
