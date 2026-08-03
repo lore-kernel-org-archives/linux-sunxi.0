@@ -1,33 +1,33 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BACA330644;
-	Mon,  3 Aug 2026 13:14:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 800B02D7DC6;
+	Mon,  3 Aug 2026 13:18:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785762906; cv=none; b=sQVNHvdOPFmxneztLLD4zqIy+o+b7xlVEZ+PgBqIG9E7b6ewVSvZtuVGejzDtzvmSiXRsgerPcR60ZOwJPathsG6dZOzMymnmKEFvUbKUhqmclBINQkdVioyIY1Mz4JBU6zZ01mNBPkU6K7Oi9nV65BV9Bc+I7jPgYsAGaC2vzM=
+	t=1785763120; cv=none; b=vD2TVyGH14g/2gPNxae8Uyn0IMJdwAmHxlS0gsuRaD6GCXOadNSECQ2YZZNaLo8MsOmTrV+DHDw4j21DyB6YLy0iyyW/e1UhTKxK+Y7ovm1nMtRGxiroX63S+pZEEejDWOK81MYAyQTInIQ+YKzRcvzMq7PObnk+7cKOvZIwQEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785762906; c=relaxed/simple;
-	bh=SjCYjATvRQ8vLkiNIWtKeOW8qz1wSzTU7uGxyq27uN8=;
+	s=arc-20240116; t=1785763120; c=relaxed/simple;
+	bh=0NBQ6OmnVkshijDTag1ptbCbxjUJCZAznkh7+PNqoAY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rbC12aW/Ss0yCE66WhTagZ7ANBxssUWGF0yJhAk0FOz3iqjhNOmAf1SjzBQjUdmTiAGugx++RQDu9Rj1DzBfizt26Z4vEl6+6QULCWlErWbqx6uNp86UO0HJsyk3i7STQyI6SZFZ2sLzMV9Mj8ptZgjQ3SmYl7qTx/S2lO5c07E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=uzs0YsEl; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZBY1DYo3paRaPQ8LnG/hVagswbIL2OFpR4EUPhzXjEdBlwLZnd6A18ODJbPAzbdJI1ib71yxAsjEy4Wm4gR3fA5w1Q7IOvkA2q+pY5IV339fvXtzn3GEI0z5zU/vAiFFdDez4h5Z9T9zF5BZ6MysooeR5XOJgUrBPn9Htt0xWyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=kQJttqGZ; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="uzs0YsEl"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="kQJttqGZ"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=8sNolu05p2stbRh8O9i9DhDkrV8/wacJ3u8HFpmRd9c=; b=uzs0YsEl/wyjSUeJIGAh44pup2
-	clSj5ky5vnYE1dv+Y3Q8VJcH+ZvefXHy3Z04HonSEMux5+T7uRkw+geiIY6GfdnrC3fVgL6VxjjVi
-	nl7VXpxEfoSNZIC9jQfRX+MDjRQ09znKfT8Rc1GsKGVh552ZksIsFxrL4wd9TkFcizBg=;
+	bh=sGCA27J1RZvjUlK3E9SH2P4D/KVWpuWhx1p43t3600U=; b=kQJttqGZ+ACvj+vhsflTd3u+V7
+	ICoA1kjQYe4VGN9nEJm+zwywXrmrTv2//34ng4VEOdHX5Ba5Ml2+IxkTBDfMCPUZCJVEAdmDWnw17
+	5kKZgsSVqE7AhkTsl3IxdZeNF/wcV/3qquqR3+cJpbA9MqmcEp7mnpMCpOLMzYoBCgg8=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1wqsV2-00Fj7p-CJ; Mon, 03 Aug 2026 15:14:36 +0200
-Date: Mon, 3 Aug 2026 15:14:36 +0200
+	id 1wqsYU-00Fj9P-5h; Mon, 03 Aug 2026 15:18:10 +0200
+Date: Mon, 3 Aug 2026 15:18:10 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: James Hilliard <james.hilliard1@gmail.com>
 Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -55,9 +55,10 @@ Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-stm32@st-md-mailman.stormreply.com, mfd@lists.linux.dev,
 	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 00/21] net: phy: add X-Powers AC200/AC300 EPHY support
-Message-ID: <4b5fd8a3-3bfd-426c-8711-6aee45fceaa9@lunn.ch>
+Subject: Re: [PATCH 08/21] dt-bindings: mfd: x-powers: add AC200
+Message-ID: <2c0210b3-2c68-41f1-aa33-3f1693454849@lunn.ch>
 References: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
+ <20260802-submit-acx00-of-dynamic-v1-v1-8-0a53cd9e21cc@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -66,17 +67,18 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
+In-Reply-To: <20260802-submit-acx00-of-dynamic-v1-v1-8-0a53cd9e21cc@gmail.com>
 
-On Sun, Aug 02, 2026 at 11:14:10PM -0600, James Hilliard wrote:
-> The Allwinner H616/H618 secondary EMAC is commonly connected to a Fast
-> Ethernet PHY in an X-Powers AC200 or AC300 companion package.  The two
-> packages expose the same link PHY ID and
+> +            ethernet-phy-control {
+> +                compatible = "x-powers,ac200-ephy-ctl";
+> +                nvmem-cells = <&ephy_calibration>;
+> +                nvmem-cell-names = "calibration";
+> +                phy-mode = "rmii";
+> +            };
 
-I have a couple of terminology questions, one here, anther later
+What do you mean by an ethernet PHY control?
 
-What do you mean by link PHY ID? Especially the link part?
+I assume this is not an actual Ethernet PHY, but some control logic
+around it? Where is the ethernet PHY itself?
 
-Are you talking about 802.3 Clause 22 registers 2 and 3?
-
-	Andrew
+       Andrew
