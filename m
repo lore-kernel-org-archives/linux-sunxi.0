@@ -1,70 +1,71 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B647D39DBC5
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 05:15:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F05739FCD8
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 05:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785734147; cv=none; b=C75Mwc1+2NH+m0RY7ZLxpaZo5Sq4VqasQrvK653CIsoTUVK5oknop7m4dEFcmKNVZE0y5V/JDcj2IeiqR8q75+lxoPARjqTl+mKErVcGmoSIJsaz/nt+6FrB1SABcf6Lcu/yeBDki3ObHEzLZz5q6FDlGglHC8lTgx5tnFBam58=
+	t=1785734148; cv=none; b=bhKqX4GlGskwmxVYfvR88yEg8mgTEuo7CC4uKBbaD0UQrjerm71gd1HbtSoDSP8ozQ4URzLh8fVW8CcD6EJgkanMJXsKHtPwSeL4oH68BMD6PDU5bncgqmiLj/cBqcSqjid05r3n9kxdMzHwWREypw3vWTk+m/q2zAQPEPlmWzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785734147; c=relaxed/simple;
-	bh=z1D09xijThRsRnsDX/ozKwmhi7sR7kyQDCuYiAXqUqg=;
+	s=arc-20240116; t=1785734148; c=relaxed/simple;
+	bh=okw70boujGKEoFWervTiqut+PCDZlczcehiMArR7er0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YGkVLxubUw2TqM2Cw+wlHNTYFcYjI3zNxxXn97NG5AEvbzV64rntS+mAIc6HESnnf5f3e4hwSRcN+1HiKrJh9Au9wwGBGKk0Yj/ZVN7nY5+Svvr6T45JOLNor59A8VPscm7Bjlgm3+X7z1u49NIhYAMRGIeCD7/ZCerzEnfpJu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nueuBIvO; arc=none smtp.client-ip=209.85.210.49
+	 In-Reply-To:To:Cc; b=M/709UOQPlpD5HCu6Ik7XROiZd9+ilfbuSpYzukRfw+mtAL0J5wzo52QoExp2K+fCXMlRkviOJWmq52OlvEr5Uk7PFCQBqHvGCxhC9trBXO954gbK5ZUaYQmi1UUnQYwO/WbC+SKuzKHhMy0U7Hn+Z96p5WbRyiF2GXwEcwq1Iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gAWIJngv; arc=none smtp.client-ip=209.85.210.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nueuBIvO"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7eb61bbeb25so2152011a34.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 02 Aug 2026 22:15:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gAWIJngv"
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7e9fc3de7ceso1363076a34.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 02 Aug 2026 22:15:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785734143; x=1786338943; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785734145; x=1786338945; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=S/5/uq1wl03WMsz5ualIqMKCury9OUeuYtebMNsXO2w=;
-        b=nueuBIvOgLEPeqQ3Vt0Q6TBxQfOd4bZQGdc7ZKku/U9WOmMRW5ZFTwC2/CeyYDUArV
-         BfLgfw6oiwMUNaHyUMV8tMsLZV9FWKJpjcVOi9FwRA9OJ4gNbVFDCpKmPFoG806NN9zF
-         yW1LECQqC3MN3feRj9Nees/AhCFXwug0PVz3Xy4Q5MC2oYCQ0Iqgt2JMvkSA1kMzQa2h
-         bvDrLJ5Rpl8lWGlcco32H9srHsiz4rKccm8xQ3V2q6O6oDfVfCkNJ6025GymuCimtAjS
-         LLcg1j/7qnRFSBP2j9ZVpp/bQbiGim58yoNY5qY7zP5Mlrh5XqkEhnU64JfjhsLpH1Dg
-         NnlA==
+        bh=GBn8+Hx956XQS2N8rfelEGrUn9IDXjKs/rR491vlUQk=;
+        b=gAWIJngvah2ho6bMT011F9CQ6T6fBgWr5ua8qRv1Fzz+wtujkRD1j4L6iw1ayMyxa1
+         uN2+XH4LGsPbEIVoNeVe/A5ioCd6ffKMx4A23XEVx2WymVzE3AcdqZSytCbdNPjJAn0V
+         W96W0TL9tHTz5cwFhggNrFviMlbjSFHC649MP5CYspbGppnO1yeHIoIavs7KXOMTOfHG
+         ulYkc1Og58Pvqt+klF94drZtas7Kbkq7FjI10JTPISZQNIkja8cHxMje8zjV0zn+xsch
+         GWDiAcyL21xus7a03JeRfsl9nVXF1S4voHicGdXW9zcFSk//zSMuJfK/Ao52PtxjhsRG
+         aisQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785734143; x=1786338943;
+        d=1e100.net; s=20251104; t=1785734145; x=1786338945;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=S/5/uq1wl03WMsz5ualIqMKCury9OUeuYtebMNsXO2w=;
-        b=gkYmRrsvMJk/0zQNJ/eUkVKFuTewPqilRc/DTdsL09EyD75YUmeFXw0xkpMaCJQTap
-         NXkH1wQuTnBHqPmzl2wrTYfTvczUswsDDZ1idZp8rRAU+MkyJUsukhx86VGaKNqPXDem
-         YTnBkcyfDaG0ONU8O6NyqBIpn3lRcqrIkWkY9hTNTWNAZs9Eq3NdMSBEI5SDu1lnmIxI
-         Go0A+5+7HsPWRTUw/wW/9YN3skZzm+KndnxAROJYDgnDQGIavHAatotQAyiJJRCKOHfy
-         iehev6En9xraReUZssyaOi4ppx1nmZjbT/2P0xS1IuvcEyXIAoBuecb+2JIwWZomQQHi
-         PpMw==
-X-Forwarded-Encrypted: i=1; AHgh+Rqy3D4BbcZCNo76ojioY4wLf7jtzpHHHm8S6JegMSSN4u7wXuqai03Pw2T5XYhawPPKeYTnFxhFityCKg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywp1MuxIZIAH0/YcZQbMjTcdpF0oOkAWzOefXeqWq5xbCvYleEa
-	X2HoY08vNLiqgCqA7aj1xnNfVq8j3DXZzmgmKCXmDmkk0/ptX2XXZTbU
-X-Gm-Gg: AR+sD10tFn+InCE9e0aOButJg9ua3HkB3/xXWQ9fqAVcHIvO0DLuoqoDBVeGzb3tdfS
-	yhLN9BqBZb99YuS1oxh+9ALDDc71zOAw85IYeFyFLbfWe53Nr7qX4TJmq033U6yaBmc7eV5YK4k
-	vxf0MzMLIskWKaaqiJspWjL0c7f34H6+WQtFTbB8WGt3wLXMx7fRdHOngNWM7o7/Z7PuSQ0qtvu
-	rs4T2WH7CCeNJUiW1NvSOTEM1ARDNXayhANkZwYEUZWt7OWZ402MZxbJyY5FVm0uExfu3A0AMMp
-	Tn50bG2EmgfqosJdqv7M4zClf0nJgF0N5FHaulZxiV1n5v/5xVhBUFM4tAkRp/r9enV9JrWEage
-	KpooqZ9PCcX8OiTMe5RsUfWDC5mMVzB3a3rlkI//iFPBrAhh73sOgj+UGufsLQ3yN4zRc0VATEf
-	El+xThTpbXaRX54i8DY3FZDfAoxuQOR+w0/DpKRJl1qf7M/jSAekiDRtG19LFgMK1xYcLxil7+X
-	S+5PLPekoEh868r6VZpitq09eoSbCLtN/9nzEEbpWtXbcsBgvOuupoBnbfBsw4Yu0UYh9W6V55R
-	J9v+UaFnete4S0GCJcjmoYE1nLQCDc52Luip8r9cNNJhG8osJ22g0J/MVwspclEQ8hixLX7iHyJ
-	b2SSYrz/lk0D0I1EV
-X-Received: by 2002:a05:6830:4114:b0:7e9:bd00:c6ad with SMTP id 46e09a7af769-7f196f29291mr14805744a34.16.1785734143562;
-        Sun, 02 Aug 2026 22:15:43 -0700 (PDT)
+        bh=GBn8+Hx956XQS2N8rfelEGrUn9IDXjKs/rR491vlUQk=;
+        b=tJwecJsas3tPCaRmKA4ctiJg/b11CQDPQ4qHxJYVrJ9MXCx4HGsTJNTLEHl6tgKUfq
+         7fSaMEnv3KnJBKBn5sF/DWMCVND7s+Cd/zXQTgQCC/vY+t4wo2BBHYdbDcn2hTfpQnVT
+         twA2Vgj5nnMYHtE0mIPg81mwcVaooVarjWQQib1xr5xhBN6j7RWfZ7ORAj9Kd/HsfzC4
+         gSrizR8+fkBPMmnysfi40/LyzSugDRXSAajoRjanBwaBt94fP9Le6cCHqMimbPL4M66t
+         Guewf8upFsh9fbyNOespy+zykOPhb5hr40BqYc60EHZ0rWlRMPf2PvmqZDylG2+mtROc
+         /Lkg==
+X-Forwarded-Encrypted: i=1; AHgh+RqvZcoPNK9H6BImuDT2/EcIjKygYKNl1SWDQPpSK4fKKTFgkCgrhcYICKl16C8eF3w4lNQs5pINU0RjfA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyA+bdjMYuw+FY2D88Q6FsPjr5VGGXgRpORoYAqSZV3Fc8oaO4V
+	X/82g9LpQC6HBzQUTOH0auFmlpaZRFg3vf6uWMaIGA647ke3ki6ueQL5
+X-Gm-Gg: AR+sD107ZmyYjV+OvMAL7m29tygtxr0y9KuI/DoA2NXLrwflrDPKwOVTkrCO9+liVD6
+	XwsApmwA7i2xF4a0GwWjIYAUglq+J+/hV8ppT8+teXdaIo25g9b4USVUKi+wLKMRlPDDmB/O0fQ
+	AX1Ow8SxCTfaVRpTvekf/Sduyn6uIoxNAasfFeJWES/rst+KN94rVaSoZHOerojbTSoEIpCRAFe
+	ZUWx5WGq+7tYdl3a0awSTL/xGgvLs3IDkoVD5IMeNtPLptS26PrBMS483W+7kYW5TrXLoJrbCHK
+	RbD1uow4qU8PFm++p9hDnogRPhfgtu5KTTF36YewRgBaMWVFsXaaRbNjMh+FCB0l28NMvBkpYpo
+	3BRgEbAzqlXmhKl76CyKkbjOcbAZaKf6GVS68Kh0PpiLTnT4MTgiB4XxDsfZXaCFitM71XqIsq2
+	ZbsXtNMRYO9pAZMFel9ymaIdeenAcFVyhZoIowxtbgKv2VxgPKGrMkSO1FB84MGtQ/pCyBJjGOs
+	nwgiR19YbYw6G5mANaHOrzQCwToLbxTUB+zOCmvIbMenmrWCehR0yLn3sFV8Xv1sUJrQk9TX5iR
+	2OJODGSjtB0z4d60/OlKfaiG7H7gtpXl0MhYlXcz4zfmtJDz7VgjV4oR6/02u1sb56YoQUOAt3T
+	5aANneULzrTo8Ub8whg==
+X-Received: by 2002:a05:6830:f95:b0:7dc:4947:36a1 with SMTP id 46e09a7af769-7f19714f993mr12573380a34.12.1785734145466;
+        Sun, 02 Aug 2026 22:15:45 -0700 (PDT)
 Received: from [127.0.1.1] (184-96-154-59.hlrn.qwest.net. [184.96.154.59])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f18f07a5e3sm6787108a34.15.2026.08.02.22.15.41
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f18f07a5e3sm6787108a34.15.2026.08.02.22.15.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Aug 2026 22:15:42 -0700 (PDT)
+        Sun, 02 Aug 2026 22:15:44 -0700 (PDT)
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Sun, 02 Aug 2026 23:14:24 -0600
-Subject: [PATCH 14/21] net: phy: support configuring PHY-autonomous Tx LPI
+Date: Sun, 02 Aug 2026 23:14:25 -0600
+Subject: [PATCH 15/21] net: phylink: allow PHY-autonomous EEE without MAC
+ LPI
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -73,7 +74,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260802-submit-acx00-of-dynamic-v1-v1-14-0a53cd9e21cc@gmail.com>
+Message-Id: <20260802-submit-acx00-of-dynamic-v1-v1-15-0a53cd9e21cc@gmail.com>
 References: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
 In-Reply-To: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
 To: Andrew Lunn <andrew+netdev@lunn.ch>, 
@@ -102,168 +103,134 @@ Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org,
  James Hilliard <james.hilliard1@gmail.com>
 X-Mailer: b4 0.15.2
 
-The ethtool Tx LPI fields currently update phylib software state and
-notify an attached MAC, but they do not configure PHYs which generate LPI
-autonomously. This can make a successful ethtool request leave the PHY
-hardware unchanged.
+Phylink treats a MAC which implements its LPI operations but advertises no
+LPI capability as incapable of EEE. It disables PHY EEE during attach and
+rejects ethtool EEE requests. The same problem occurs when the MAC supports
+LPI on another interface but not on the interface currently connected to
+the PHY. Both cases are incorrect when the attached PHY can generate LPI
+autonomously without help from the MAC.
 
-Add a PHY driver callback for applying the Tx LPI enable state and timer.
-Call it before updating EEE advertisement, and attempt to restore the old
-hardware state if either the callback itself or the advertisement update
-fails. Use the callback to disable autonomous LPI when phy_support_eee()
-hands LPI control to the MAC, and reapply that state after PHY reset.
-
-Drivers without the new callback retain the existing behavior in which
-the Tx LPI fields configure phylib and the attached MAC. Existing drivers
-which only implement disable_autonomous_eee() therefore need no changes.
+Recognize the PHY autonomous-EEE capability, preserve its EEE
+advertisement, and allow ethtool EEE requests in that configuration.
+Evaluate MAC LPI support for the active interface, and restrict EEE modes
+to the MAC capability mask only when the MAC actually manages LPI.
 
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- drivers/net/phy/phy.c        | 35 +++++++++++++++++++++++++++++++++--
- drivers/net/phy/phy_device.c | 25 ++++++++++++++++++++-----
- include/linux/phy.h          | 18 ++++++++++++++++++
- 3 files changed, 71 insertions(+), 7 deletions(-)
+ drivers/net/phy/phylink.c | 35 ++++++++++++++++++++++++++++-------
+ 1 file changed, 28 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
-index fce9bc7be330..c76d5baa1f84 100644
---- a/drivers/net/phy/phy.c
-+++ b/drivers/net/phy/phy.c
-@@ -1996,6 +1996,8 @@ static void phy_ethtool_set_eee_noneg(struct phy_device *phydev,
- int phy_ethtool_set_eee(struct phy_device *phydev, struct ethtool_keee *data)
- {
- 	struct eee_config old_cfg;
-+	bool tx_lpi_cfg_attempted = false;
-+	bool tx_lpi_cfg_changed;
- 	int ret;
- 
- 	if (!phydev->drv)
-@@ -2005,16 +2007,45 @@ int phy_ethtool_set_eee(struct phy_device *phydev, struct ethtool_keee *data)
- 
- 	old_cfg = phydev->eee_cfg;
- 	eee_to_eeecfg(&phydev->eee_cfg, data);
-+	tx_lpi_cfg_changed = phydev->eee_cfg.tx_lpi_enabled !=
-+			     old_cfg.tx_lpi_enabled ||
-+			     phydev->eee_cfg.tx_lpi_timer !=
-+			     old_cfg.tx_lpi_timer;
-+
-+	if (tx_lpi_cfg_changed && !phydev->autonomous_eee_disabled &&
-+	    phydev->drv->set_tx_lpi) {
-+		ret = phydev->drv->set_tx_lpi(phydev, &phydev->eee_cfg);
-+		tx_lpi_cfg_attempted = true;
-+		if (ret)
-+			goto restore_tx_lpi;
-+	}
- 
- 	ret = genphy_c45_ethtool_set_eee(phydev, data);
- 	if (ret == 0)
- 		phy_ethtool_set_eee_noneg(phydev, &old_cfg);
- 	else if (ret < 0)
--		phydev->eee_cfg = old_cfg;
-+		goto restore_tx_lpi;
- 
- 	mutex_unlock(&phydev->lock);
- 
--	return ret < 0 ? ret : 0;
-+	return 0;
-+
-+restore_tx_lpi:
-+	if (tx_lpi_cfg_attempted) {
-+		int rollback_ret;
-+
-+		rollback_ret = phydev->drv->set_tx_lpi(phydev, &old_cfg);
-+		if (rollback_ret)
-+			phydev_warn(phydev,
-+				    "Failed to restore autonomous Tx LPI: %pe\n",
-+				    ERR_PTR(rollback_ret));
-+	}
-+
-+	phydev->eee_cfg = old_cfg;
-+
-+	mutex_unlock(&phydev->lock);
-+
-+	return ret;
- }
- EXPORT_SYMBOL(phy_ethtool_set_eee);
- 
-diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
-index f7472a743185..30929b0354b6 100644
---- a/drivers/net/phy/phy_device.c
-+++ b/drivers/net/phy/phy_device.c
-@@ -1357,6 +1357,21 @@ static int phy_poll_reset(struct phy_device *phydev)
- 	return 0;
+diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
+index 18d2ead97aa5..e64f72793aa0 100644
+--- a/drivers/net/phy/phylink.c
++++ b/drivers/net/phy/phylink.c
+@@ -1512,6 +1512,19 @@ static void phylink_deactivate_lpi(struct phylink *pl)
+ 	}
  }
  
-+static int phy_disable_autonomous_tx_lpi(struct phy_device *phydev)
++static bool phylink_phy_supports_autonomous_eee(struct phy_device *phy)
 +{
-+	struct eee_config config = phydev->eee_cfg;
-+
-+	if (phydev->drv->set_tx_lpi) {
-+		config.tx_lpi_enabled = false;
-+		return phydev->drv->set_tx_lpi(phydev, &config);
-+	}
-+
-+	if (phydev->drv->disable_autonomous_eee)
-+		return phydev->drv->disable_autonomous_eee(phydev);
-+
-+	return 0;
++	return phy && phy->drv && phy->drv->set_tx_lpi;
 +}
 +
- int phy_init_hw(struct phy_device *phydev)
- {
- 	int ret = 0;
-@@ -1395,9 +1410,8 @@ int phy_init_hw(struct phy_device *phydev)
- 	}
- 
- 	/* Re-apply autonomous EEE disable after soft reset */
--	if (phydev->autonomous_eee_disabled &&
--	    phydev->drv->disable_autonomous_eee) {
--		ret = phydev->drv->disable_autonomous_eee(phydev);
-+	if (phydev->autonomous_eee_disabled) {
-+		ret = phy_disable_autonomous_tx_lpi(phydev);
- 		if (ret)
- 			return ret;
- 	}
-@@ -2973,8 +2987,9 @@ void phy_support_eee(struct phy_device *phydev)
- 	 * manage LPI signaling instead. The flag is stored so it can be
- 	 * re-applied after a PHY soft reset (e.g. suspend/resume).
- 	 */
--	if (phydev->drv && phydev->drv->disable_autonomous_eee) {
--		int ret = phydev->drv->disable_autonomous_eee(phydev);
-+	if (phydev->drv && (phydev->drv->set_tx_lpi ||
-+			    phydev->drv->disable_autonomous_eee)) {
-+		int ret = phy_disable_autonomous_tx_lpi(phydev);
- 
- 		if (ret)
- 			phydev_warn(phydev, "Failed to disable autonomous EEE: %pe\n",
-diff --git a/include/linux/phy.h b/include/linux/phy.h
-index 2eba54e068f6..55053b914144 100644
---- a/include/linux/phy.h
-+++ b/include/linux/phy.h
-@@ -1391,6 +1391,24 @@ struct phy_driver {
- 	 */
- 	int (*disable_autonomous_eee)(struct phy_device *dev);
- 
-+	/**
-+	 * @set_tx_lpi: Configure PHY-autonomous Tx LPI
-+	 * @dev: PHY device to configure
-+	 * @config: Requested Tx LPI enable state and idle timer
-+	 *
-+	 * The presence of this callback advertises that the driver supports
-+	 * configuring PHY-autonomous LPI through the ethtool EEE Tx LPI fields.
-+	 * It is not used for userspace configuration after phylib has handed LPI
-+	 * control to the MAC. Drivers without this callback retain the legacy
-+	 * behavior in which those fields only configure phylib and the attached
-+	 * MAC. A request with Tx LPI disabled must be accepted regardless of the
-+	 * timer, since the timer has no meaning while the transmitter is disabled.
-+	 *
-+	 * Return: 0 on success, negative errno on failure.
-+	 */
-+	int (*set_tx_lpi)(struct phy_device *dev,
-+			  const struct eee_config *config);
++static bool
++phylink_mac_supports_eee_interface(struct phylink *pl,
++				   phy_interface_t interface)
++{
++	return pl->mac_supports_eee &&
++	       test_bit(interface, pl->config->lpi_interfaces);
++}
 +
- 	/* Get and Set PHY tunables */
- 	/** @get_tunable: Return the value of a tunable */
- 	int (*get_tunable)(struct phy_device *dev,
+ static void phylink_activate_lpi(struct phylink *pl)
+ {
+ 	int err;
+@@ -2090,6 +2103,7 @@ static int phylink_bringup_phy(struct phylink *pl, struct phy_device *phy,
+ {
+ 	struct phylink_link_state config;
+ 	__ETHTOOL_DECLARE_LINK_MODE_MASK(supported);
++	bool mac_eee;
+ 	char *irq_str;
+ 	int ret;
+ 
+@@ -2106,6 +2120,7 @@ static int phylink_bringup_phy(struct phylink *pl, struct phy_device *phy,
+ 	linkmode_copy(supported, phy->supported);
+ 	linkmode_copy(config.advertising, phy->advertising);
+ 	config.interface = interface;
++	mac_eee = phylink_mac_supports_eee_interface(pl, interface);
+ 
+ 	ret = phylink_validate_phy(pl, phy, supported, &config);
+ 	if (ret) {
+@@ -2144,7 +2159,7 @@ static int phylink_bringup_phy(struct phylink *pl, struct phy_device *phy,
+ 	/* If the MAC supports phylink managed EEE, restrict the EEE
+ 	 * advertisement according to the MAC's LPI capabilities.
+ 	 */
+-	if (pl->mac_supports_eee) {
++	if (mac_eee) {
+ 		/* If EEE is enabled, then we need to call phy_support_eee()
+ 		 * to ensure that the advertising mask is appropriately set.
+ 		 * This also enables EEE at the PHY.
+@@ -2165,7 +2180,8 @@ static int phylink_bringup_phy(struct phylink *pl, struct phy_device *phy,
+ 		 */
+ 		linkmode_and(phy->advertising_eee, phy->advertising_eee,
+ 			     pl->supported_lpi);
+-	} else if (pl->mac_supports_eee_ops) {
++	} else if (pl->mac_supports_eee_ops &&
++		   !phylink_phy_supports_autonomous_eee(phy)) {
+ 		/* MAC supports phylink EEE, but wants EEE always disabled. */
+ 		phy_disable_eee(phy);
+ 	}
+@@ -3300,17 +3316,20 @@ EXPORT_SYMBOL_GPL(phylink_get_eee_err);
+  */
+ int phylink_ethtool_get_eee(struct phylink *pl, struct ethtool_keee *eee)
+ {
++	bool mac_eee;
+ 	int ret = -EOPNOTSUPP;
+ 
+ 	ASSERT_RTNL();
++	mac_eee = phylink_mac_supports_eee_interface(pl, pl->cur_interface);
+ 
+-	if (pl->mac_supports_eee_ops && !pl->mac_supports_eee)
++	if (pl->mac_supports_eee_ops && !mac_eee &&
++	    !phylink_phy_supports_autonomous_eee(pl->phydev))
+ 		return ret;
+ 
+ 	if (pl->phydev) {
+ 		ret = phy_ethtool_get_eee(pl->phydev, eee);
+ 		/* Restrict supported linkmode mask */
+-		if (ret == 0 && pl->mac_supports_eee_ops)
++		if (ret == 0 && mac_eee)
+ 			linkmode_and(eee->supported, eee->supported,
+ 				     pl->supported_lpi);
+ 	}
+@@ -3326,10 +3345,11 @@ EXPORT_SYMBOL_GPL(phylink_ethtool_get_eee);
+  */
+ int phylink_ethtool_set_eee(struct phylink *pl, struct ethtool_keee *eee)
+ {
+-	bool mac_eee = pl->mac_supports_eee;
++	bool mac_eee;
+ 	int ret = -EOPNOTSUPP;
+ 
+ 	ASSERT_RTNL();
++	mac_eee = phylink_mac_supports_eee_interface(pl, pl->cur_interface);
+ 
+ 	phylink_dbg(pl, "mac %s phylink EEE%s, adv %*pbl, LPI%s timer %uus\n",
+ 		    mac_eee ? "supports" : "does not support",
+@@ -3337,12 +3357,13 @@ int phylink_ethtool_set_eee(struct phylink *pl, struct ethtool_keee *eee)
+ 		    __ETHTOOL_LINK_MODE_MASK_NBITS, eee->advertised,
+ 		    eee->tx_lpi_enabled ? " enabled" : "", eee->tx_lpi_timer);
+ 
+-	if (pl->mac_supports_eee_ops && !mac_eee)
++	if (pl->mac_supports_eee_ops && !mac_eee &&
++	    !phylink_phy_supports_autonomous_eee(pl->phydev))
+ 		return ret;
+ 
+ 	if (pl->phydev) {
+ 		/* Restrict advertisement mask */
+-		if (pl->mac_supports_eee_ops)
++		if (mac_eee)
+ 			linkmode_and(eee->advertised, eee->advertised,
+ 				     pl->supported_lpi);
+ 		ret = phy_ethtool_set_eee(pl->phydev, eee);
 
 -- 
 2.53.0
