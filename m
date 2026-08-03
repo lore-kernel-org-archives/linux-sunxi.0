@@ -1,67 +1,67 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1770419FBB
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 16:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B74641CB54
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 16:11:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785773498; cv=none; b=WOA8fKmGQntg5FOEkPEntSUzeCzO33Y2lu2chx+OJiScIqu9teEPdtJtl3/+FfboL7qEp8M2Sa7RSxwYfUpLrcXxqPy9von7j275UrbZhKKcACZW0g07nJnocu9fimw/+MFkTdT8NBnwILM6xIGwewJ8zSBDPMFeEUsZrspHghA=
+	t=1785773503; cv=none; b=YjDRFo1zBhdIuCh9G/u74r81YBjNbGBWzbvkxOorWR5GjrqdwkF1mPZ0kXADGfXEq5VPmPjM/7obxreL2I3Fugq36o6tUNZsmYl+amBWwdEYpu8uZrXyjcAsK7xhqnPjznY/sTYIqVYvHy2Tz22LEttOIb6t5um4dBvtyoMkk+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785773498; c=relaxed/simple;
-	bh=E/V2va673I5SwbBWXJYlP+dI9gNQdHSoB8iXM8ofRmo=;
+	s=arc-20240116; t=1785773503; c=relaxed/simple;
+	bh=gvyoux8vKAY8xTz8Xgc+NXDdABzVbfVGAT7Su4RCXP0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NCuPw2afEErVcTDGjvimsc8Qb6Q0RobHt+mvq58ksLaf1tLRjISWt+m+kfWkFWrJQGTnIEgrRwmHF4BBTg6TGGI+NpPIyGLv/1zioc+4JEQQeyv1o0cTEkVz60lYRxWgzPJolVkdc9iPLiicW5tXhn0V+PoscsdOPohFxVgOJzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yt4DuGba; arc=none smtp.client-ip=209.85.128.46
+	 MIME-Version; b=mFMqz1NtA9ynvExfThzKvc2qKZWv9wn5P1f1nimEetlMm6jliPO6Qv284mzP+6L01BZGy15dHgR2oTBcvHRSE7kYLEusJcrBvgQO/w4VFw/vJboltJiiuVouAyRJAbq3qFcevOTKcghtX+QlrVz4xq3BD0bbqQZh3i1/XMMmd64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p25rom45; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yt4DuGba"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4954afac04bso27145545e9.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 03 Aug 2026 09:11:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p25rom45"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4954afac04bso27145845e9.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 03 Aug 2026 09:11:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785773495; x=1786378295; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785773496; x=1786378296; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=dQSiWGawSQuy9JjtPPgjfFND1Bm19QyKn7xZ0H2UpZ0=;
-        b=Yt4DuGbayzU/dHNt1SA4DK8+vtXTS2WIYZGDDNrflWbKzUs7cTy8704ZMj0a9DIavZ
-         QW6ViMHbP/XhZdtg0aDpe4Uoi3HdMp9U6QrWRlYjsub1NCvRv0HURSNGgnuAzkT0CxOm
-         gL8jg4C8RK5h2Cgdd7oFVSwV5NrRmD8lPPqJfG3/jVAxvirH0G6uJaP1D3LiBIrppLtD
-         sd/i9Bj1AZPNtcHZJmOxbgJCNvawzApHkuwuQOjxrOKyRUh31IqSeOz3ZFcog+KMMDGd
-         92q1ZC+Kezh4FK5QJ0lR3S3CeYsg7+jKhhXlmpd2lqlO4ckx1GNh4zoUnwlUj/nhXZY1
-         boSQ==
+        bh=B5EYEilaxvTpzeLrRhoCx5eknHZ5V8aHsBlGVEU3TBs=;
+        b=p25rom45vpdxbdbSCv5YS0lzp/IoE1KZXNDx/eAOhHDYR1KC6NglFFGp2Oc3CUP53e
+         xneQB4sXnz1hnR9RnlFmRco2fu1RX6b9DFOP6UFoe6Zaevr8DwtMpNPum6V4gtJ0T3i5
+         GPfNIs2VVXUEN0olRAxQhvlMf6n8hxmQswncjTA/p/rmMZdr/OcUfNCp7sx2LSv86aYm
+         aVin9bpRyE+c8eBVEuifUdghF0MToMeWeD/BG12hFNp+AbvBu0XqUGZOet3idKUxLJN9
+         SkZiKVDESQm5+/68VBTsl1dFqIJkGBC8i0RPL/Dz4eZRNrVbCJmyZVC0JyUJtVQY+BhX
+         Q/Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785773495; x=1786378295;
+        d=1e100.net; s=20251104; t=1785773496; x=1786378296;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dQSiWGawSQuy9JjtPPgjfFND1Bm19QyKn7xZ0H2UpZ0=;
-        b=h12WCL+OxLP4oaQrObQfyyxQD5c6oKzD7WtX2zcEGF0YXTFB4atY+WVJLr3NLEDy52
-         TNptnpz4FiuEHSM47a/B/GLpGM+H5NMBxTbTU8vY33sgbCBhADlQi4RVYEJM35Ft5oot
-         Yix1WVBL4Xpty1+hHnTEEIKAf1Ix4Zn15a4LFgUKgIQMI2IFDv5AgP2hKQTBHV7OPQse
-         WasJK0ae5UmCn1Vx819pM2oPGsBJ0ai+Xw069cpmMxUWQ+aGLeJ6ysq+FSUog53GwHvE
-         +0OCLWOOsToCoIQdyp23QlgTMfzAso0aZo99+VNtYWbQ0TTdYmkpa0gHK3Z3r004tKl4
-         JlVw==
-X-Forwarded-Encrypted: i=1; AHgh+Rq4HyAHpABCb8YbmFEqmbk4Yc4k6z8NRoNMLu0ltwxjkbByC89dTMtYYVevufHeuolqjWacFqzJsQqy8g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzt7unNem1JCiAGyu3+JyFgxwdf7NCrUogN3YgNe+tqLhCTiK2g
-	zeG5s6kf70UG4h8OmCWnjMr0ixJwmKP/A0/T6DjEtkNJ1XuNFN0TrUCu
-X-Gm-Gg: AR+sD11/JTTTiYDtySRI/JGaAMUCbmVvCGtD3j/RdbimKH5OWRdmIzKjt6Pp5o/wrqP
-	+cSv74CLaTnmYQt2VGwgn7Mgtmg3bmjG2qJbCm/kF5JgS3FTARaS3/t3rRgjG/BNijldwtdrUB9
-	i/vLtFPjnluRJk5NeifkzocIlw/6FGnaqkKe2uESWHcCCk6JCb09lgQPJ4la+RZUpnkH+xFfELl
-	mmHFks/202gu6Of7dB4kHOQyn8Ep0S3oxW9RdH+AuMBhoiUMVXQoFCdWx2fwKW6Cwb3zeSTRZ8S
-	Pl94iAh49M9x/rAtRR7BWbGSbGqwNjSyDHZin25/fBUXxeNLMeL0JWkQ4XuGBaZHt8NZq6chdqh
-	XDLluIUr0vjBqLtyW3v9w0ub9CsA6nTfLTFgeZyOCsEps+zwwKeoozRyKaaTWLYbEqLBJzTH6xT
-	04eDDrbOeDDGNxMX7p1nuC2gB8p9FJsCY27PZmBOSOVa1a/Aexe2IeXbKHmLpMiDmoZ631d+JDL
-	2ujFCkYSU4bFur3wZQG3f9XZnazdCrlr3A6tRDQC2cYIkFSGqzS4bqqkFdrdiRNpdpsgxaIYor4
-	NnhtTbvqLRooNXBe5ybR2+DwtY4QHlnCR4KX4mWo5RInqQ6bzthzU+lNCcqwW5NnEz/CIJlVAc2
-	DKy5ZnTuYnBW1bGUwg3IVsC5IqZY5wRnMdpkwInxUUEXLj1rTRSOWqf28OCp85oG0u8soBF0jXS
-	CPiw==
-X-Received: by 2002:a05:600c:354a:b0:495:4e89:3f30 with SMTP id 5b1f17b1804b1-4980c673874mr224712255e9.15.1785773494475;
-        Mon, 03 Aug 2026 09:11:34 -0700 (PDT)
+        bh=B5EYEilaxvTpzeLrRhoCx5eknHZ5V8aHsBlGVEU3TBs=;
+        b=aXhuYnWE1kA9IPSqlC6+fk+0wKVOGy6Fn8GRMfk/10FkLHwBhiqpGzJ1OlhHawWT7P
+         GoRlvKZVQfZVqJ14DQ8Rhj+A2T0WbWrUeq+KjIMPu14ArOqVpoga/NBg8VqFmCT8+Ccy
+         0fzVFRR3gQbVZ/Z8E16fYXvQindH1WhF9q1wLdgoTSCeJMaWyOKl6VLuOAoJQcgQekF+
+         XQMJY1GrTbCgWWIoc3PbtmU0I31Bj+/ygWQq4Ci+LMyRvDvrMkKhnDLwJvJd4EDgnr1p
+         u7y1O5sy3IID9M1cakgSuxDuy4bBR+Ouq1TPXC/J4sO4sSqR/Qik8Y+nKKJUPewt7Zdw
+         6/oQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpTYdRETGxbU0IIh30LnjgMAGB9LHH/37/SeBJoBmik19bpcXwbnr68/JK5u1KTdVISs+JDLwEMX+EYQQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxslud4mKvd1PXSdmR/sjA3urf14PfkSLueg5joxYjp/woP1reN
+	UOBg0aPfiEMDWjDunOeKRA2y7QSHeC00yoKcNZEpROAcH3VZfGk8ps+V
+X-Gm-Gg: AR+sD10C5L8VWQB5uo4zZAaNRkGpoXHxM9PToxwkskX4jiVqUqyX5EhYcIFNSvFEOk0
+	SKrhTUOZqdH0px6+yuqnsJ3ulO1dMg5U5QRohuvs+Mgt5mh503d9ImAEyYYrlBkkjTRgWAnM2S0
+	FW4JoRCWE6w8i4Uvw0CH/lbsnuklsAGjb6nBvWXHUK81VYKACUi6AFM5+A0fdwLjWEQDXpW/jAR
+	OPe6x8YviLyc5xmWWr8Re9R9HqZO5Nn1rK4WFgaz+cqkMz/AJ6vLZ0ZHo0hNu0SXmQo2BHHgV15
+	+zkwxgX2x+p9vgf3Op6Niwx2dJRbwW9jWGwrL0Bt/d6sHnfAg5VHzHyl9FkSQp46awaecXpWwUW
+	eGwq1Y3AlBMQ2Wb9j1LidCGgTGSV80Mf4Me/4IY80uw3/J3y/JlwJA33p1eG6PnsP0f/l+Mdo8q
+	ZpEH0zJi4ZR6z7zPsTHqs3BmxuVK/c0P+TRQrqgh+Iv+w1IiLXav3XziqlvSlZCDUAj48GO7Bp1
+	usznIoOySsaxNT/n1fPIBxmygfA6cAeOokT5n7lfSm58mYx1PtQrqqinQ8zYFGBtgeqQ7bDaG9w
+	0+OC8Kv8PpDuaTgy4fiy37U+abQ7wWTNqA4nj0YhDZWI3tVVPr6ZVWUeLzgr6xrwYpAC0vChJqk
+	LY0dkd8ub8yvUeLofbMSvkiAHpYW5Z6AUDYZRuhU18bveiFJ+/g7+PS3WSG3PJkZxQ99UVROrJx
+	zyXYkVQfcjfDSx
+X-Received: by 2002:a05:600c:470d:b0:498:490:3bbe with SMTP id 5b1f17b1804b1-4980c679d1fmr255703765e9.16.1785773496293;
+        Mon, 03 Aug 2026 09:11:36 -0700 (PDT)
 Received: from jernej-laptop (APN-122-100-117-gprs.simobil.net. [46.122.100.117])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49949fc2da2sm3363735e9.3.2026.08.03.09.11.32
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49949fc2da2sm3363735e9.3.2026.08.03.09.11.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 09:11:34 -0700 (PDT)
+        Mon, 03 Aug 2026 09:11:35 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: wens@kernel.org
 Cc: maarten.lankhorst@linux.intel.com,
@@ -75,9 +75,9 @@ Cc: maarten.lankhorst@linux.intel.com,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 09/13] drm/sun4i: tcon: Drop remote endpoint reference
-Date: Mon,  3 Aug 2026 18:10:47 +0200
-Message-ID: <3f5ec952ad80cb51efebf2fe230df50259041a23.1785772659.git.jernej.skrabec@gmail.com>
+Subject: [PATCH 10/13] drm/sun4i: dw-hdmi: Drop TCON TOP port reference
+Date: Mon,  3 Aug 2026 18:10:48 +0200
+Message-ID: <43ffcc17f7c3f94c1d7bd1ee89134c766e84df35.1785772659.git.jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1785772659.git.jernej.skrabec@gmail.com>
 References: <cover.1785772659.git.jernej.skrabec@gmail.com>
@@ -89,29 +89,28 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-sun4i_tcon_of_get_id_from_port() never drops the reference taken by
-of_graph_get_remote_endpoint(). The function is not only called during
-bind, but also on every mode set through sun8i_r40_tcon_tv_set_mux(),
-so the leak accumulates.
+When the HDMI controller is fed by TCON TOP, the port node used to
+enumerate the possible CRTCs is never released.
 
-Fixes: e8d5bbf7f4c4 ("drm/sun4i: tcon: get TCON ID and matching engine with remote endpoint ID")
+Fixes: 57e23de02f48 ("drm/sun4i: DW HDMI: Expand algorithm for possible crtcs")
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index de2d66623f7a..67047e3b657f 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -972,6 +972,7 @@ static int sun4i_tcon_of_get_id_from_port(struct device_node *port)
- 			continue;
- 
- 		ret = of_property_read_u32(remote, "reg", &reg);
-+		of_node_put(remote);
- 		if (ret)
- 			continue;
- 
+diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+index 96532709c2a7..51cdfa1ae3bf 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
++++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+@@ -83,6 +83,8 @@ static u32 sun8i_dw_hdmi_find_possible_crtcs(struct drm_device *drm,
+ 				of_node_put(remote_port);
+ 			}
+ 		}
++
++		of_node_put(port);
+ 	} else {
+ 		crtcs = drm_of_find_possible_crtcs(drm, node);
+ 	}
 -- 
 2.43.0
 
