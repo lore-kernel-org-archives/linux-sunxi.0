@@ -1,149 +1,174 @@
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E7F2F7445
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 18:03:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785780221; cv=pass; b=L4Z8t1cgZwelJHy4GIomcFUFky6dUgWRl7mfmO1AYpWep5SNTUJG42KZcFQ8ni0tjbbVzfx7YnWI1fA0KdJ9EkPMD0vXHSEshkMerDyZudu0O/nyA3+ult+RdRb542y/DwTurUe/tGkOm/G9DIVzfY7YExfgTFDRCg++rnE2rtY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785780221; c=relaxed/simple;
-	bh=ACfuI3AX9kRQ1+CBBBf5za/2rVC3FsYXI8omco7jK4w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=a/K16t8cykR6VXhIhckYQIrxiqNyvPvKjltdyYivEkp6gBcR9KqWtcCbpJ9b+22bFaEmEq338AtY+S5uzDq23Rt80U/x3TzOrrAGXhST6Et2Na3zLVrGpC0Eg33nzkM/zfFo+QEaL7Eh17u12B6Lq5di+jX1Duz79P+QsbzjGoc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VCp/Bzwl; arc=pass smtp.client-ip=209.85.217.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6510A43231D
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 18:08:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785780483; cv=none; b=XDAhzGWbuMUQDtaqEd4qavLEPdKHEJwA7K7GpCo2IN7cPSde2x0VN2WCb+48MdrZcYMuvebkiVr6o4J5lMxS+W1Awd45oaYIT+XNxQXV72aUgBbMUvnz7wdTNw/+xubTBLmupQFGSlXNSRExvPOOrQJmZqMr3jcqOO4F35nsoL8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785780483; c=relaxed/simple;
+	bh=BSB4UnGDRrRR4Js+ooR6Net/lkxWGmujNaDgBq+f7LQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YLAb5KpzwPWZdiBb7DZ6+i33Z4WuxRkaXYQFbz4JDp7Oi/5AiUwELSmYPYKtDtfWZGsIvn8/V99PBRwDaOkgUZGTkebm5DVovhF2NSUpz9ikN+YbH/oMCTMhPHunScs7rhXMsxxKWFQaCTr1ZJz8EckmAknZH5DNVz8MexWMmtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P6856Tji; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VCp/Bzwl"
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-74ab99038afso2287142137.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 03 Aug 2026 11:03:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785780218; cv=none;
-        d=google.com; s=arc-20260327;
-        b=nmNwSqHDg2mteDCmbuaQQI/lELKDetxOFECrrMQuTZ5prvUwpfa3X/o9MitN/gdW10
-         e5mdyWSh12G5TuBGHHJM4wUTECBK3e+8qwIIOQ0vndH4uvCmt/2lpcApG2nyznFwFWyb
-         zPrJI0dR5zYul4JbdVskDXjhE4p80T9Za8SWhY6O/u3xkdTDISd5+D0dmCZ8QAz6sCn8
-         X+Q3yHHw7KVg022NaEqswg9FcOH+213gPJxt5dqTSEhFdQtgxfUsogeZNQ72a60FglPd
-         0v90ZKiIp5Y96taRMqyIuyCa0tubeYbpId263cYMeteM6NftC/z9esaY7bEUIwt3nRxm
-         wtXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=2r8t0fZLO1G1B7jNQrzEMX2EdERqWbCFEmueS3AzIlQ=;
-        fh=FwbM3tGVAO8fw4a3lfP/HGDV0mIHNbqP/Jksjc0Pjfk=;
-        b=Bc5K2eiQiz8fzLCm+i0czJ/RqTAGoY9EeWggq2UYLXwsIJ1xeMB0jDcul/J2F1WLSX
-         Y1ggGhRQiMlMW/IqNSIxA3VR8Z/x9mb11hxv1tjoqyn4GhU41vBoLP3aamseGoOx9bsw
-         Xk7CyNhUVVz8kxIzQFhsrudfeHgQdECfZhSoo1HF3N+ZPMRSjtzIagYIO9gJKW/BxbpJ
-         PSd63HfuW6GmTHW2XUunyKRQ1HommqwsYetcorVlYJqprpHsW2KsGt/m/bj3YW1L59vW
-         wO/3JvQ1ghqPeQtzDVEwkhADwcLdr7sKPYvIb9TSwTv/CkvDP4StMPIgMGB40V/WjLmh
-         +6Sg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P6856Tji"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4954a2e73a9so14439405e9.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 03 Aug 2026 11:08:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785780218; x=1786385018; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=2r8t0fZLO1G1B7jNQrzEMX2EdERqWbCFEmueS3AzIlQ=;
-        b=VCp/BzwlGln4VGDvZpnsQSPp9/OiY9dy5zhxeVjUtPSfOF9+fGXnUYaenCGyEXf8Wq
-         XArLCoFO6vl0R8xT7BQYbiON5GPFI3UjkgcJ3xOaXNCEbWclv6CWgeOugkfERO9ffeF0
-         9rtVGrTOHb9OjJVbQxy5A3BNdbQ17FHq6gtaMEFiaW9gRbo4iHDmTmz5j+PsLi6p/cy1
-         e3beH56Q3yOEbZACBYUha/B1bgCQrsJWDwjqaYmxs9EiaXUIJWyOHm0cfoc6PxPFRgwv
-         L6XaJedGbrx0okJNRqOT0lMNqSGTQMgZHOm5LvKi/50hfe96xFIzXRxeppMPSX0lU6Ji
-         L0Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785780218; x=1786385018;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1785780480; x=1786385280; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=2r8t0fZLO1G1B7jNQrzEMX2EdERqWbCFEmueS3AzIlQ=;
-        b=lNaS91lrX9eJbZnNXsEjPhPFYBFiIkBdpAihUJlAmSGPlIXlBI/vTw1PaYCZvwxvwR
-         zKvEr+YHDvvGeBqm4AnKWI/wn6N59oKCE73eDy0ufEshfokzz2/X0mPGlbDodby08Kfb
-         R49qOAHIHkVshi1PBPB7EkspG+TkeFdzOeCzkP0h7bqIplUDhPbG0UfbLHt4DAOfIJwD
-         pjgexnu9mD71mZcWtl8sKDh53YGRZtBQeVeMrekQ0UWMLdCBL6BNspRd6irvWTfTuqSh
-         /aZrGLPETUiRzXt4HvbVvF/ZfS9h7vtKSZIf+6HQ8cxQkUiOam+grq7XV2somSS/Ko/k
-         54PQ==
-X-Forwarded-Encrypted: i=1; AHgh+RozbknNADbs9J3Wt4NbM9L1Pnk+nve+pd7A8J1jEXH4+ZfIrlxmhbLsizWOZ36YqeSH8tY+yMGVNsv6zg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyfTrnMB20Wsg0zzL+nfQSK9lr/6Xh+FT/jK0SqL30AbWQq1bei
-	KpoVUpa6EKdsbKA/W3cEQ1kNculTI9QoGrQLK6JEJKn8Mnw8rnDx5QmQ6wevQjSOHOgF8KeiM0k
-	dpQzKGbdav1s6PsUIn/q1nPUtQXZH48c=
-X-Gm-Gg: AR+sD12XUQL1CTRQBIodX2o/BmZPQ8gezUvpwjf7WnuqCVCZ3gWfMjQvHtjIYXdjlfD
-	cmE/3JV6LvRXflqF53n84roY9QqTmLxBOfqCZc0Gkbx8pzBXZrI3mYGqr/YHDdP4z8H/FWbN3Di
-	Wd3vfCL/q5eBGYjUKJCpzSi6RvuNqNmcUvFMkTcnKefCAALH3dzIlghQ9z9pt4AVEfAfgiX5wW7
-	ruiUSuIG4+Bf11xcdKI4RvUA2Tf21M/kZ9JPTim3bIIEQYWlG5nKbdWtMQwijCCTPuu7HQ/EYan
-	c9BVRmn2jSAlnbzXk+n7qONm4GoE+XL/EPXEOIwCJMp8ousD3FSdVHsn41Ow9uA94LBid+yRBvW
-	e5dtTYx+YENsF7D65zasd22QOYdioXZc1yp26DnfG6kktWRy3ZzAnYZUXFPYXglzSo9SRWuBZ7y
-	gf31lmZb1Bi+DJVh4DMmWdf5ub3Ly+E3nM5teyBvB/8yMclqoY
-X-Received: by 2002:a05:6102:6899:b0:726:8813:2085 with SMTP id
- ada2fe7eead31-75b23d6e2d3mr8230898137.13.1785780218392; Mon, 03 Aug 2026
- 11:03:38 -0700 (PDT)
+        bh=0FlevvmCUo3pvNfguYi3e7oT4YWOah6gzuJqciMeBMs=;
+        b=P6856TjiXc37kbu2OaFESunXQ2hJM+5DG2wVz78Kgt8sYwTQ1zX6P3TDsiAde6tCVF
+         h+ppsUGEOJa+n2ZZ9lKWETt3+47LXdlNHnMf9I1vzeFmmeg7/XaPAoeAWj15rB3BpaE0
+         AuVKbi1lKOFiyGbtdb1PSZ00lKk2SK/yngP5N27PA+Z44DDBKe4FRpxV8qsOSh0nG02/
+         bKRRSIgwCdGT3SyO0YtzNhxePTsHlMQiaUYfcI6RAjL8cakJ1W49yNd5MoVfP4no7Nfu
+         929Y/YqkYvFwMXnejZVupqd+/7WoBhPSrf30htKr+2TfhnXmDVwsCMxFluYj0LAWJ5JL
+         +YSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785780480; x=1786385280;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0FlevvmCUo3pvNfguYi3e7oT4YWOah6gzuJqciMeBMs=;
+        b=RSMVZ7lpF819Ul63EMM5/wCOtPxbrLrdIrCu+iRykY+NQakw6z70GMgciPA673eOfO
+         uQ/TBkzqVHHAt3xo21dBZ9c55l5NQr4DEr1wSk2gmn3PtFPEJM+mEjXhaOvbqjXRhH2r
+         UJ7Q6AI9k2Q4P4fcnqFJKLSryC3LFTWQo5sC3Xge+Gwmc9ihAZZmuzXvEuPpxaKirjWS
+         3GbH58jtczQcgep+JtJJ1I7XF7dAyk80T5pRJJfRUelVROR+xHeg2g7R/o8Su/jVvrKU
+         qy8h2pw2KSu32OjdCRv8yjH3RgXmDJ+jqUIKBJs4zcplK8rz/rBkzjPotmlls73ooCGd
+         yT2Q==
+X-Forwarded-Encrypted: i=1; AHgh+Rp5bJ2TGZKu5gTwX1nVwe1l34xmIp8XRgvQfr9YDt+oQ68ydWVDWZmeHHBm9/obytQLF4WpVRl2AYMz2A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzG7aEVPJOT+gNqN0GgToNG321JzsAiupyokEncmE7Mf8ntXWNl
+	2pizz3L1MLPcCdG1VX86uML6yqLSBNp0vMhFcWrAHOgzWnYPlV7R2e8t
+X-Gm-Gg: AR+sD11Y9P0Nm0WE3buR4SqQ76XQCdI5EC6o/FOhAJgtBUGwcaRJlEMg/O5/xb9XYy7
+	B1gCvyNM3lNBAH6Qmp3QpoJ2tSxHEYcUxlsuZHBhsjew/CN9XAeI0K3o/GIMmFtF8rUK0BmumZH
+	6qyOZNl30vkJWSwng4Ur1qfG8NAonS9OHebF+U1zkYMAVEfGGU/38RM7bWuZvKyrx90PXinEZ2y
+	IxFu0W9rJFslYLWq3yPRbJ75HkhafZ92BdrZtPzG3WnPdmZJ8pmlHUfn/mhBLrQEkOxEbijAJGm
+	D6352Fov5WdChnBIN/Ocv268n553SycOUtBUGV9stkBZID7K8ggaHqC6dZPDelZ4YySLrSO/BnQ
+	Ma0kLeiSigNWSCzJiFPM+JIyCQA6iLxy5kQUx/tEvW5A32PvSxIf18LroUtn/6dpzx2Sq6pZaSZ
+	ZlPnmAqVgTEE1U1cumYuJtEPD4OJ3UeyOhWoFYAhM/f3BIpflaCBAntMXQc/8mjzcJ5DEb9mvW4
+	dzLx6TrI1XlHoI6b2S5ovI=
+X-Received: by 2002:a05:600c:6209:b0:495:6396:8b67 with SMTP id 5b1f17b1804b1-4980c649f67mr273458325e9.4.1785780479424;
+        Mon, 03 Aug 2026 11:07:59 -0700 (PDT)
+Received: from localhost.localdomain ([2a0d:3344:2841:7708:a101:2b8a:f76:a00f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd42d91b3sm37950955f8f.14.2026.08.03.11.07.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Aug 2026 11:07:58 -0700 (PDT)
+From: =?UTF-8?q?Juan=20Manuel=20L=C3=B3pez=20Carrillo?= <juanmanuellopezcarrillo@gmail.com>
+To: mturquette@baylibre.com,
+	sboyd@kernel.org,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: andre.przywara@arm.com,
+	bmasney@redhat.com,
+	linux-clk@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Juan=20Manuel=20L=C3=B3pez=20Carrillo?= <juanmanuellopezcarrillo@gmail.com>
+Subject: [PATCH v2 0/3] clk: sunxi-ng: fix the A523/T527 GPU clock model, enable GPU DVFS
+Date: Mon,  3 Aug 2026 20:07:52 +0200
+Message-ID: <20260803180755.288793-1-juanmanuellopezcarrillo@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
- <20260802-submit-acx00-of-dynamic-v1-v1-7-0a53cd9e21cc@gmail.com> <2979768f-4f83-4f28-ace3-826f4b4c6844@lunn.ch>
-In-Reply-To: <2979768f-4f83-4f28-ace3-826f4b4c6844@lunn.ch>
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Mon, 3 Aug 2026 12:03:27 -0600
-X-Gm-Features: AUfX_mybO2gp37G6C7TCuAPmk0gNUYqtWf9KEEokxzjK6lix8AMcIQeuj4MOO0w
-Message-ID: <CADvTj4prV688JDR-QAuNd+jTVFyE9aicRaciqq0M6sB0V2GiXQ@mail.gmail.com>
-Subject: Re: [PATCH 07/21] dt-bindings: net: x-powers: add AC200 EPHY control
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>, 
-	Richard Genoud <richard.genoud@bootlin.com>, Maxime Ripard <mripard@kernel.org>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, Maxime Chevallier <maxime.chevallier@bootlin.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Heiner Kallweit <hkallweit1@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, Saravana Kannan <saravanak@kernel.org>, Lee Jones <lee@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>, netdev@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	mfd@lists.linux.dev, linux-rockchip@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 3, 2026 at 7:40=E2=80=AFAM Andrew Lunn <andrew@lunn.ch> wrote:
->
-> > +  phy-mode:
-> > +    enum:
-> > +      - mii
-> > +      - rmii
->
-> Despite the phy- bit, phy-mode is a MAC property, it defines the MII
-> the MAC uses. I would not expect to see this anywhere else.
->
-> The PHY driver is told what MII to use, phydev->interface, which takes
-> the values PHY_INTERFACE_MODE_RMII, PHY_INTERFACE_MODE_MII etc.
->
-> Please explain why you need this here, why is the MAC nodes phy-mode
-> property not sufficient.
+Hi,
 
-I have reworked this for v2. The phy-mode properties will be removed from
-both control bindings and their DT nodes, leaving the MAC node as the sole
-source of the interface mode. The PHY driver instead passes
-phydev->interface to the selected control provider.
+v2 of the A523/T527 GPU clock series.  v1 is here:
+https://lore.kernel.org/linux-sunxi/20260719211319.982285-1-juanmanuellopezcarrillo@gmail.com/
 
-There is one ordering complication: the control block must be powered befor=
-e
-the Clause 22 PHY identification registers become accessible, which happens
-before a MAC has attached. Early discovery therefore uses the hardware's
-reset-default MII mode.
+The GPU mod clock is not a linear M+1 divider: the M factor masks M pulses
+out of every 16 parent cycles, so rate = parent * (16 - M) / 16 (T527 user
+manual v0.92, section 2.7.6.58).  Modelling it with ccu_div programs a faster
+clock than requested for every M > 0, which is what mainline does today.
 
-For v2, I split the provider interface into separate power_on() and
-set_interface() operations. Once the MAC has supplied phydev->interface, th=
-e
-PHY reset path calls set_interface(). If the provider is already powered,
-this changes only the RMII_SEL bit; the normal phylib soft reset then
-completes the handoff. It does not repeat the full control-block power and
-reset sequence.
+Measured on an Orange Pi 4A with the Mali cycle counter, the OPPs labelled
+150/200/300/400 MHz were really running at 487/648/560/750 MHz, and thermal
+throttling to "400" actually raised the clock to 750.  With this series the
+same measurement gives 149/199/300/399/597 MHz.
 
->
->     Andrew
+Changes since v1:
+
+ - Dropped the pll-gpu reparenting notifier (patch 3/4 in v1).  I wrote it
+   when the plan for the higher speed-bin points was to retune pll-gpu at
+   runtime: it parked the GPU on the fixed pll-periph0-600M output while the
+   PLL was being reprogrammed, so the GPU would never see it relocking.  That
+   plan has been superseded.  The maskdiv in patch 1 can divide any parent
+   down, and the speed-bin work on top of it (first follow-up below) pins
+   pll-gpu once via assigned-clock-rates and reaches every operating point by
+   moving only the mux and the divider.  The PLL therefore never changes rate
+   at runtime, the notifier can never fire, and gpu_clk deliberately does not
+   set CLK_SET_RATE_PARENT either.  That is how the 696 MHz point runs here
+   today, with no notifier.  It would only be needed again if a future series
+   reprograms the PLL instead of pinning it.  Chen-Yu, you asked for this
+   notifier in the v1 discussion: tell me if you would rather have it now
+   anyway and I will put it back.
+
+ - maskdiv: honour CCU_FEATURE_UPDATE_BIT and CCU_FEATURE_KEY_FIELD in
+   set_rate, clamp determine_rate() to the request bounds, and document that
+   CLK_SET_RATE_PARENT is not supported.  These were folded into patch 1 so
+   the new type is correct as introduced, rather than introduced and then
+   fixed.  They also address the two issues the CI bot reported on v1.
+
+ - The GPU OPP table moved from the board .dts to sun55i-a523.dtsi, and the
+   operating-points-v2 reference now lives in the SoC's GPU node (Chen-Yu).
+
+ - opp-microvolt now uses the <target min max> form, <900000 900000 920000>:
+   900 mV is what the BSP universal table specifies, and the 920 mV ceiling
+   covers boards whose GPU rail is a fixed 920 mV supply (Chen-Yu).
+
+ - Rebased from v7.2-rc4 onto sunxi/for-next.
+
+Tested on an Orange Pi 4A (T527, 2 GB): rates verified with the Mali cycle
+counter under load, thermal-emulation throttling exercised, no job faults.
+
+Two follow-ups are already working on the board and I can send them next.
+Tell me which one is more useful to you first, or if you would rather they
+waited:
+
+ - GPU operating points above 600 MHz, gated on the SoC speed bin read from
+   the SID.  This chip is bin 1, where the vendor table sanctions 696 MHz at
+   the same 900 mV; it has been running games here without job faults.
+
+ - The A523/T527 CPU clock unit (ccu-sun55i-a523-cpu.c) and the generic
+   sunxi-ng fix it depends on, which is what cpufreq needs on this SoC.  The
+   DSU/L3 clock lives in the same unit.
+
+Juan Manuel López Carrillo (3):
+  clk: sunxi-ng: add cycle-masking divider (maskdiv) clock type
+  clk: sunxi-ng: sun55i-a523: GPU clock divider is fractional, not
+    linear
+  arm64: dts: allwinner: a523: add GPU OPP table
+
+ .../arm64/boot/dts/allwinner/sun55i-a523.dtsi |  30 +++
+ drivers/clk/sunxi-ng/Makefile                 |   1 +
+ drivers/clk/sunxi-ng/ccu-sun55i-a523.c        |  32 ++-
+ drivers/clk/sunxi-ng/ccu_common.h             |   3 +
+ drivers/clk/sunxi-ng/ccu_maskdiv.c            | 213 ++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu_maskdiv.h            |  76 +++++++
+ drivers/clk/sunxi-ng/ccu_mux.c                |   2 -
+ 7 files changed, 349 insertions(+), 8 deletions(-)
+ create mode 100644 drivers/clk/sunxi-ng/ccu_maskdiv.c
+ create mode 100644 drivers/clk/sunxi-ng/ccu_maskdiv.h
+
+
+base-commit: 859c0e1925332d413ca8f9159c8ca5d04eea32a2
+-- 
+2.47.3
+
