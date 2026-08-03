@@ -1,33 +1,33 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 800B02D7DC6;
-	Mon,  3 Aug 2026 13:18:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051763D7A01;
+	Mon,  3 Aug 2026 13:24:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785763120; cv=none; b=vD2TVyGH14g/2gPNxae8Uyn0IMJdwAmHxlS0gsuRaD6GCXOadNSECQ2YZZNaLo8MsOmTrV+DHDw4j21DyB6YLy0iyyW/e1UhTKxK+Y7ovm1nMtRGxiroX63S+pZEEejDWOK81MYAyQTInIQ+YKzRcvzMq7PObnk+7cKOvZIwQEk=
+	t=1785763450; cv=none; b=avPWIZ/96nVhtsohQydS2hJGyWQYBnikPjcwXtvfqGWyNVelzGQw7OCTD0Olfkp5EerYwh4uz0rnOpqax4F3tct54F7dvt8s3GVZuONmRvDbRH88Yz55sR7q+l57gOL9dJ8SFd5Gg1Jra7e7Ja9tYWQEHsZM58+TtCxlrcMLlJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785763120; c=relaxed/simple;
-	bh=0NBQ6OmnVkshijDTag1ptbCbxjUJCZAznkh7+PNqoAY=;
+	s=arc-20240116; t=1785763450; c=relaxed/simple;
+	bh=TXFLwSNt6M79oc5jS24gCdlgRS8754Ewq8o+NL/PxEk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZBY1DYo3paRaPQ8LnG/hVagswbIL2OFpR4EUPhzXjEdBlwLZnd6A18ODJbPAzbdJI1ib71yxAsjEy4Wm4gR3fA5w1Q7IOvkA2q+pY5IV339fvXtzn3GEI0z5zU/vAiFFdDez4h5Z9T9zF5BZ6MysooeR5XOJgUrBPn9Htt0xWyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=kQJttqGZ; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sk2DRcgY+uzCkho4zqDDdKHtfua/SgL/2+BYwI16D/9VJXg1LGfCBErK+hWf7rqSIRsbUBNRehdIZ1FxmSN5PJwsjTptAnbDfJ6hKOizcR2gsbiQrkdmxnQMIC/BiPH6gAKgbkUnrquylCLBUznAtU2HeSf7M5xJJNXPtlRSqh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=hTNo4kYp; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="kQJttqGZ"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="hTNo4kYp"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=sGCA27J1RZvjUlK3E9SH2P4D/KVWpuWhx1p43t3600U=; b=kQJttqGZ+ACvj+vhsflTd3u+V7
-	ICoA1kjQYe4VGN9nEJm+zwywXrmrTv2//34ng4VEOdHX5Ba5Ml2+IxkTBDfMCPUZCJVEAdmDWnw17
-	5kKZgsSVqE7AhkTsl3IxdZeNF/wcV/3qquqR3+cJpbA9MqmcEp7mnpMCpOLMzYoBCgg8=;
+	bh=BjGnRhqiS2zR9pg/cS0bmUcMR7HXnniURrzPMgHT88o=; b=hTNo4kYpDqH3mP4IY1TuWvaCxA
+	vg3na+Y9lhkpy4DSwX9ezau9vRGNVL4ghFQVMpBlW33l6CEeJ+C3mUY/pjGZdiSbH8ccinWMZYuyt
+	gSjwEHXBcG2GxicNPWqF2C6Z1AY7di6zKVxx4gG/CzKeVdaCDpNpUWYINVRuX1lx8gAg=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1wqsYU-00Fj9P-5h; Mon, 03 Aug 2026 15:18:10 +0200
-Date: Mon, 3 Aug 2026 15:18:10 +0200
+	id 1wqsdu-00FjCh-44; Mon, 03 Aug 2026 15:23:46 +0200
+Date: Mon, 3 Aug 2026 15:23:46 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: James Hilliard <james.hilliard1@gmail.com>
 Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -55,10 +55,11 @@ Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-stm32@st-md-mailman.stormreply.com, mfd@lists.linux.dev,
 	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 08/21] dt-bindings: mfd: x-powers: add AC200
-Message-ID: <2c0210b3-2c68-41f1-aa33-3f1693454849@lunn.ch>
+Subject: Re: [PATCH 15/21] net: phylink: allow PHY-autonomous EEE without MAC
+ LPI
+Message-ID: <ad954550-9dec-4e0d-8636-0b6cb379421e@lunn.ch>
 References: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
- <20260802-submit-acx00-of-dynamic-v1-v1-8-0a53cd9e21cc@gmail.com>
+ <20260802-submit-acx00-of-dynamic-v1-v1-15-0a53cd9e21cc@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -67,18 +68,22 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260802-submit-acx00-of-dynamic-v1-v1-8-0a53cd9e21cc@gmail.com>
+In-Reply-To: <20260802-submit-acx00-of-dynamic-v1-v1-15-0a53cd9e21cc@gmail.com>
 
-> +            ethernet-phy-control {
-> +                compatible = "x-powers,ac200-ephy-ctl";
-> +                nvmem-cells = <&ephy_calibration>;
-> +                nvmem-cell-names = "calibration";
-> +                phy-mode = "rmii";
-> +            };
+On Sun, Aug 02, 2026 at 11:14:25PM -0600, James Hilliard wrote:
+> Phylink treats a MAC which implements its LPI operations but advertises no
+> LPI capability as incapable of EEE. It disables PHY EEE during attach and
+> rejects ethtool EEE requests. The same problem occurs when the MAC supports
+> LPI on another interface but not on the interface currently connected to
+> the PHY. Both cases are incorrect when the attached PHY can generate LPI
+> autonomously without help from the MAC.
 
-What do you mean by an ethernet PHY control?
+What you are talking about is SmartEEE, or other such names. It is not
+part of 802.3, so there is no agreed upon name for it.
 
-I assume this is not an actual Ethernet PHY, but some control logic
-around it? Where is the ethernet PHY itself?
+You are correct, phylink does not support it. It also needs a lot of
+thought and careful design, which is why it has not been implemented
+yet. Please search back through the netdev archive and find the
+discussion.
 
-       Andrew
+	Andrew
