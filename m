@@ -1,31 +1,31 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0D2037BE83
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 10:15:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5785D35E1A4
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 10:15:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785752121; cv=none; b=pykvhk83Dngb7dtb0qXhiMkaoxAjZBD2ATqvuqvTgOKCFTNUq94LfweRLnc+LWJx6NyqeBRo1X2O5Dw7+ek/r09DOoChkoKKROnQ/i32P3Sf1VymTLqqljcHW2pMCwUt0XEpMTEaB+ganPDuVgtkMGpz3Zf+SROXD16D2I689aw=
+	t=1785752123; cv=none; b=dpZooAlU3vxzfgGjVSIeaZEJW10fz7XsutiEtMJLxzoly6jOGDYslCtKrHOu7NhS5wglwh80O5231+Lh0tQcLiyJz4S+hqa1oJv1UEI5kblw1FZ+GSy82FxZPB9PzxFwi+ucMVtsCgO3kFDIS0tFetbB/ekZI37fYmzm6qAPgrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785752121; c=relaxed/simple;
-	bh=QOzvt9t/MIRWZBLs3wy9qmzt+LKR/lt21R4C8HB6byU=;
+	s=arc-20240116; t=1785752123; c=relaxed/simple;
+	bh=7wKHyfp4niHGBBx0/iWDlvVSkvWtxK1CYYaYiNUVvDU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CRIE32uln6n12W5rcPUXgsGR7Mca/KBrX/XTSh8v26NZZI7WUqV26j9JyCXUVs2cAeB8lBJ13UIhi6cKRooW4YrbuDuPUs2IREw0b40A7XKW2LMtdBSzVdbPdhA0DNPN9CrigQ5qNQvaNeDL6Z/Esvp3wNN/5Pl81YWZrK/IXl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=GOmfoRQb; arc=none smtp.client-ip=217.140.110.172
+	 MIME-Version; b=do1raE+8FbuPVCvYcENp9c7JXOZxFb+fOrOY6qEHojEgo639xuhTlbq2U8526m6zBCAdcljqQiWFLEdvpTOdD2bnDWdpV92wGCObLWP0uDhBJTtU5myHLWL867EAZ3S1FXi8TnAUkbA1vPkI73kFYOKg19EQ1OMaGcPYPF5SJac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=XDWWD/OJ; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="GOmfoRQb"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="XDWWD/OJ"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0A2A115A1;
-	Mon,  3 Aug 2026 03:15:14 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DDEE11655;
+	Mon,  3 Aug 2026 03:15:17 -0700 (PDT)
 Received: from e142021.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 901A83F632;
-	Mon,  3 Aug 2026 03:15:14 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 751373F632;
+	Mon,  3 Aug 2026 03:15:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1785752118; bh=QOzvt9t/MIRWZBLs3wy9qmzt+LKR/lt21R4C8HB6byU=;
+	t=1785752121; bh=7wKHyfp4niHGBBx0/iWDlvVSkvWtxK1CYYaYiNUVvDU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GOmfoRQbY+zr8SjY5r3n9rMeI5Q7MMm+HUliKJZf5pZmLr4Si9fDOV/myP9Dvmiit
-	 YmNcfVuGzl4znJ63ZvzGg+XzMuWnT7Vne6VZRhmWaUusehotNYa4ncOyfV2IUuqdXm
-	 Bo/dsIJSuQq0t9nGHmFc8+7CJON0vCNpN8o5FUDE=
+	b=XDWWD/OJndvPR8SzBLqtBJSfQWqYWHAxOTSwNBeMSeavGzEJqsl7s+PzFZtwarv9l
+	 InZ866CijNYmiuH8ktqG3li09BXIwWHlVuOOdG8Jt6NsGheDlNsfjNerQ2YkviUQby
+	 7d18+vROmKDOiGSrdSxECO3d5+cfx3I7netYF9Ck=
 From: Andre Przywara <andre.przywara@arm.com>
 To: Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S . Miller" <davem@davemloft.net>,
@@ -45,9 +45,9 @@ Cc: Liu Changjie <liucj1228@outlook.com>,
 	devicetree@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 4/6] net: phy: maxio: extend PHY ID matching
-Date: Mon,  3 Aug 2026 12:14:50 +0200
-Message-ID: <20260803101452.2993721-5-andre.przywara@arm.com>
+Subject: [PATCH 5/6] arm64: dts: allwinner: a523: add EPHY 25MHz clock fanout pins
+Date: Mon,  3 Aug 2026 12:14:51 +0200
+Message-ID: <20260803101452.2993721-6-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260803101452.2993721-1-andre.przywara@arm.com>
 References: <20260803101452.2993721-1-andre.przywara@arm.com>
@@ -59,42 +59,45 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently the maxio Ethernet PHY driver expects a PHY matching exactly the
-one ID provided: 0x7b744412. The Maxio MAE0621A-Q3C model used on
-the Allwinner based X96QPro+ TV box uses a slightly different PHY ID:
-0x7b744411.
+The Allwinner A523 SoC family provides two clock fanout pins, which are
+backed by gated clocks fixed to 25 MHz, divided down from the main
+peripheral PLL. Those are meant to clock an Ethernet PHY, and allow to
+save an external crystal oscillator typically employed for that purpose.
 
-Replace the "exact match" requirement with the more relaxed "model
-match" version, which ignores the lowest 4 bits of the PHY ID. Both
-PHYs should now be recognised by the driver.
+Add the pin descriptions of the two pins for those clocks, one is within
+the RGMII0 pins, the other within the RGMII1 pins, although the clock
+fanout works completely independently from the two MACs.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- drivers/net/phy/maxio.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/drivers/net/phy/maxio.c b/drivers/net/phy/maxio.c
-index 5fabf99fb90f..d97fb50cdbe1 100644
---- a/drivers/net/phy/maxio.c
-+++ b/drivers/net/phy/maxio.c
-@@ -87,7 +87,7 @@ static int maxio_mae0621a_config_init(struct phy_device *phydev)
+diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+index ca6a16807049..1a95c0a21509 100644
+--- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+@@ -147,6 +147,20 @@ pio: pinctrl@2000000 {
+ 			interrupt-controller;
+ 			#interrupt-cells = <3>;
  
- static struct phy_driver maxio_drivers[] = {
- 	{
--		PHY_ID_MATCH_EXACT(MAXIO_MAE0621A_PHY_ID),
-+		PHY_ID_MATCH_MODEL(MAXIO_MAE0621A_PHY_ID),
- 		.name		= "Maxio MAE0621A",
- 		.probe		= maxio_mae0621a_probe,
- 		.config_init	= maxio_mae0621a_config_init,
-@@ -100,7 +100,7 @@ static struct phy_driver maxio_drivers[] = {
- module_phy_driver(maxio_drivers);
- 
- static const struct mdio_device_id __maybe_unused maxio_tbl[] = {
--	{ PHY_ID_MATCH_EXACT(MAXIO_MAE0621A_PHY_ID) },
-+	{ PHY_ID_MATCH_MODEL(MAXIO_MAE0621A_PHY_ID) },
- 	{ }
- };
- MODULE_DEVICE_TABLE(mdio, maxio_tbl);
++			/omit-if-no-ref/
++			ephy0_25m_pin: ephy0-25m-pin {
++				pins = "PH13";
++				allwinner,pinmux = <5>;
++				function = "ephy_25m";
++			};
++
++			/omit-if-no-ref/
++			ephy1_25m_pin: ephy1-25m-pin {
++				pins = "PJ10";
++				allwinner,pinmux = <5>;
++				function = "ephy_25m";
++			};
++
+ 			/omit-if-no-ref/
+ 			i2s2_pi_pins: i2s2-pi-pins {
+ 				pins = "PI2", "PI3", "PI4", "PI5";
 -- 
 2.43.0
 
