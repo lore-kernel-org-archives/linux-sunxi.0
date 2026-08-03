@@ -1,56 +1,75 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 563EE37AA65
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 10:15:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32BA03783C1
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 11:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785752127; cv=none; b=ZCSU1pmw/JSVH6xORP02tOK0x96bZiN6B9o8PUeTki+zwpkQCYDcSzvgIJtskWm5j24FY5O2gn0A3a0f5HjzA6TOt7AQwXpnWmFLAURkeIZ+sLj2ZzFxCOr1ziQieGtkCgL39ky5PNnBUuNSNRfSulh0bcPfP75H8Fasmgbo6tQ=
+	t=1785755614; cv=none; b=uagg5HlchAK2dMdr6wb1mwJpHNnReYtpAKm9X7R3M1BjsX/SlW6Xz35197UZg4QglaMjQrS3LYq6+GVHJOVNRMJkQIhYBSC/TDAoeSfdBD13KqSI/e2vJjdyuRki+CDefqoSkqn2sAgIL223AX8FdbSgNe/VaBEKbZOYyEScuZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785752127; c=relaxed/simple;
-	bh=VqSq/RFgnYRFkrdByzSG0050K4hOTZSeg3klIsefLjs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qy33c9G1KEQx1XoMUsdNMvsY/h5Y10vPw6RLPPjj8m9UxUKM8djru+xpv+GZ8+CA1My+oZARoLSsCLBKeO3L12xKwVfl4Lckkogsdga8CepP+PNVmDF+DvJAQ4pl+LQgH0pV6ngEibQe3AhYjHq+4AyGYTNUB/vsBIlic20KdCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=k8rZGnfZ; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1785755614; c=relaxed/simple;
+	bh=ngR4pF8ZR4otDzXCtBy7fHvpHy+h0I18lkR5iYFkB5k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZP402OfjFPksiDZUIJXeInMmbCAYoy+B2bFbpZ1sbCI7c8s6LBC6SxGgDN+4FaXTdfvqWLk8kgCJhfOMUtP4UqoapYQwRg/ab85Bj4duA3k2oVOrdVi2ILDQ9+164mW5Nez9njAW3F5auIQ8IdRCe548DjeK2kmVbNB1Neqs/i4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=lMzX2f5s; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="k8rZGnfZ"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BC4F7165C;
-	Mon,  3 Aug 2026 03:15:21 -0700 (PDT)
-Received: from e142021.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 55AC93F632;
-	Mon,  3 Aug 2026 03:15:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1785752125; bh=VqSq/RFgnYRFkrdByzSG0050K4hOTZSeg3klIsefLjs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=k8rZGnfZxZfbkexDhrnLAo1lZg5wso/9INZUYurtRxpRj7B8bPg6xTk8nzMWCBSaF
-	 9Zw1t9V4MSO7PN7u5CcloZo0nKDfp54uLwByTmOZWJ/SUqdGzWx2BoFWbjlCBc/6hr
-	 uGWf8cAnHL7Hfb+DTP6ePo02wG0GlE7l/0lOOqRo=
-From: Andre Przywara <andre.przywara@arm.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lMzX2f5s"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2cc97653887so34139905ad.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 03 Aug 2026 04:13:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1785755611; x=1786360411; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=I6Kz68yYAXo6+FxgCcZ8xt2d27kzI8ELfLUFCtIDH5c=;
+        b=lMzX2f5saepmCAwWAa1IdueEOFVcVvJxfnr77QXRyQWyZzxejm3Hgvlm+xZTfSZWrT
+         KOl9bkg1fJr6aPlmJh5M9iP4Jc+Oc7Dq8M+lbspQ5Us4ODNznAEThDNcuzMFBTziDeWx
+         pl6jeH7TX0msU/ODtoTkHWY4NmywwC449cwR0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785755611; x=1786360411;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=I6Kz68yYAXo6+FxgCcZ8xt2d27kzI8ELfLUFCtIDH5c=;
+        b=dPTH9UH5ChLlJbw8HrAytNc8Cs26YiseFNN3TdJJCShxuly/H1JgSf6skNPapFM6Ko
+         JTVQrIi9d2MUtURSlGD7ODMdQKBGlcfVVSwomBIq7IxiVcCDoStVRETxvRlRK44ArNs9
+         OpfQJZ2XHafbGC7XhI/dkRFgBS139L5R8yTG0C3ylpXZ8SqSI8Cs+6SCwd9cIkWJEpF0
+         bWeMPl374DzVqSy9iKz6+immENOCwKD33SUflBpLfiI868isXpJVhoDpqs5a/Hscs5Sr
+         1bgjwcOlTdOIHNj3aPSzTfHtTQJLxWwVEgKxsr2UevvpsWvqUJTV1MFQf6+IcHAp3SsV
+         iMdA==
+X-Forwarded-Encrypted: i=1; AHgh+Rob6I4PA/wDEW8PkC4cDgYAjw/c4goQ/FqE7n4JWlXWjj8++vgUcSle/yIRe0UhP1WrTDMvgF99XmK2Vg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwasPLprRHZUeqXpQpiWiflycTAbD06ERJM/gcvN35DXPUNLL09
+	ucK0PCmICu6n8XXaP99DjGRKeJpzd1BOBvQg7q82ky7i3cCOBn4HLicJzJ8lvUQ2Fg==
+X-Gm-Gg: AR+sD13tEBw/uQmRibcakB2pYmHopxMLdHOaEh9JD8H+m6ZBmGnkjlkFgUGCJt/6QOD
+	/crlHEpLNqHDng/y/+9y13Vj7fULwrozGi5Q3b7m0MS8TjnGk1Vv8rCPMDOvGmG9aT/fxYslaGI
+	WeViA5Z0zj/tTve08pxQczjiIq59p6Qpt/x3My7WlMDOEK8eto4SwnkLVPSCTmFgYMdNCQAKKir
+	tLhSkFJkWZhZXPkTj6UgHuRcyLwyij5zCqndX4erlMRIhRwHZpz8QMEBNdosJ0CRpKAQfwX7B80
+	FHYVUeohdFZkwn+Shia6GH32L9QBLajRfbUFjjWMEUC6rKNHf9XOh+Fs04f0PMGqRcc0nzDQuu4
+	TJdLd9HVZVFr4MTJ7kIZtSSC+VMce1xXbCinC6nQb0UCfIre5hBy/gtEY3nXedRmz0c5QocqSRe
+	hsa89D26/g8lNVS6GTq1kux+d94ASswZ+0wFLlbszSqKcGNII+zCO/lVIKKo/LAwUjggWojOIlq
+	txpBvK/pY/3WgeGiIM4Qw0amQAHosZ1fO6XQXGL5k8TMg==
+X-Received: by 2002:a17:903:1b50:b0:2ca:17e2:2acc with SMTP id d9443c01a7336-2d052297a68mr94429995ad.21.1785755611549;
+        Mon, 03 Aug 2026 04:13:31 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:1c0b:57ba:92e2:e178])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d04b11e69asm36171805ad.56.2026.08.03.04.13.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Aug 2026 04:13:30 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej@kernel.org>,
 	Samuel Holland <samuel@sholland.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>
-Cc: Liu Changjie <liucj1228@outlook.com>,
-	netdev@vger.kernel.org,
-	devicetree@vger.kernel.org,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
 	linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 6/6] arm64: dts: allwinner: a523: x96qpro+: enable Ethernet support
-Date: Mon,  3 Aug 2026 12:14:52 +0200
-Message-ID: <20260803101452.2993721-7-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260803101452.2993721-1-andre.przywara@arm.com>
-References: <20260803101452.2993721-1-andre.przywara@arm.com>
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/sun4i: framebuffer: Set mode_config.normalize_zpos
+Date: Mon,  3 Aug 2026 19:13:18 +0800
+Message-ID: <20260803111319.2836240-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.55.0.571.g244d577d93-goog
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -59,74 +78,63 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The X96QPro+ TV Box features a Gigabit Ethernet capable port, which is
-driven by the secondary EMAC, and supported by a Maxio MAE0621A PHY.
+Back when support for zpos was added in commit 47a05f4a68f9 ("drm/sun4i:
+backend: Add support for zpos"), a custom atomic_check callback was also
+added in commit b8f1230dd3bf ("drm/sun4i: framebuffer: Add a custom
+atomic_check") to have a place to call drm_atomic_normalize_zpos().
 
-Add the required devicetree nodes to enable that port.
+Commit 49efffc7fbd4 ("drm: Add drm_mode_config->normalize_zpos boolean")
+added drm_atomic_normalize_zpos() to the standard atomic_check function.
 
-The PHY is not clocked by an external crystal oscillator, but relies on a
-SoC-provided clock fanout pin for its 25 MHz reference input clock. The
-clock is referenced in the PHY DT node, which not all systems might enable
-before scanning the MDIO bus. To help with that problem, the PHY compatible
-string is using the PHY ID, which means the MDIO bus scanning can be
-skipped.
+Set mode_config.normalize_zpos and drop the custom atomic_check
+implementation, which at this point is just a simplified copy of the
+standard one. The standard one also checks whether async updates are
+valid and updates the self refresh state, but neither feature is
+supported by this driver.
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
- .../dts/allwinner/sun55i-h728-x96qpro+.dts    | 28 +++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ drivers/gpu/drm/sun4i/sun4i_framebuffer.c | 19 ++-----------------
+ 1 file changed, 2 insertions(+), 17 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts b/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
-index a96927fbdadd..568a4fae84df 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
-@@ -13,6 +13,7 @@ / {
+diff --git a/drivers/gpu/drm/sun4i/sun4i_framebuffer.c b/drivers/gpu/drm/sun4i/sun4i_framebuffer.c
+index 9c8ef927d929..fc822bc2c62b 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_framebuffer.c
++++ b/drivers/gpu/drm/sun4i/sun4i_framebuffer.c
+@@ -14,24 +14,8 @@
+ #include "sun4i_drv.h"
+ #include "sun4i_framebuffer.h"
  
- 	aliases {
- 		serial0 = &uart0;
-+		ethernet0 = &gmac1;
- 	};
- 
- 	chosen {
-@@ -54,11 +55,38 @@ &ehci1 {
- 	status = "okay";
+-static int sun4i_de_atomic_check(struct drm_device *dev,
+-				 struct drm_atomic_commit *state)
+-{
+-	int ret;
+-
+-	ret = drm_atomic_helper_check_modeset(dev, state);
+-	if (ret)
+-		return ret;
+-
+-	ret = drm_atomic_normalize_zpos(dev, state);
+-	if (ret)
+-		return ret;
+-
+-	return drm_atomic_helper_check_planes(dev, state);
+-}
+-
+ static const struct drm_mode_config_funcs sun4i_de_mode_config_funcs = {
+-	.atomic_check		= sun4i_de_atomic_check,
++	.atomic_check		= drm_atomic_helper_check,
+ 	.atomic_commit		= drm_atomic_helper_commit,
+ 	.fb_create		= drm_gem_fb_create,
  };
+@@ -46,6 +30,7 @@ void sun4i_framebuffer_init(struct drm_device *drm)
  
-+&gmac1 {
-+	clocks = <&ccu CLK_BUS_EMAC1>, <&ccu CLK_MBUS_EMAC1>;
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&rgmii1_pins>;
-+	phy-mode = "rgmii-id";
-+	phy-handle = <&ext_rgmii_phy>;
-+	phy-supply = <&reg_cldo3>;
-+
-+	tx-internal-delay-ps = <200>;
-+	rx-internal-delay-ps = <500>;
-+
-+	status = "okay";
-+};
-+
- &gpu {
- 	mali-supply = <&reg_dcdc2>;
- 	status = "okay";
- };
+ 	drm->mode_config.max_width = 8192;
+ 	drm->mode_config.max_height = 8192;
++	drm->mode_config.normalize_zpos = true;
  
-+&mdio1 {
-+	ext_rgmii_phy: ethernet-phy@1 {
-+		compatible = "ethernet-phy-id7b74.4411";
-+		reg = <1>;
-+		clocks = <&ccu CLK_EMAC1_25M>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&ephy_25m_pin>;
-+		reset-gpios = <&pio 9 16 GPIO_ACTIVE_LOW>;
-+		reset-assert-us = <10000>;
-+		reset-deassert-us = <150000>;
-+	};
-+};
-+
- &mmc0 {
- 	vmmc-supply = <&reg_vcc3v3>;
- 	cd-gpios = <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF6 */
+ 	drm->mode_config.funcs = &sun4i_de_mode_config_funcs;
+ 	drm->mode_config.helper_private = &sun4i_de_mode_config_helpers;
 -- 
-2.43.0
+2.55.0.571.g244d577d93-goog
 
