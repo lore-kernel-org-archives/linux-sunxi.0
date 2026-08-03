@@ -1,70 +1,70 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6840D3911DC
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584DF3909B8
 	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 05:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785734131; cv=none; b=l2WRHc9R3uW77MuRrdIBCgD337ErmgUMwsQq4kiJHGztef1C+bxPHKRo0PM2XQpXyMX5rVFblC10zogO/yd7ObUMrX17CUDSutjagoA073vjUEiLZJB32qt83FkMNvxH9vwHnBd884xWpSfg51lWx/NE4ZbqSH1kgPpSABKTmnI=
+	t=1785734134; cv=none; b=nEjxQ8YJj6ptTZM/VyV8CS0TFK+L2wI8IQVLWTUJq5awEzfNegUS5/5lQqvwGxvccHy+gwiyfJs1NlCSy8c9ae26/b/hFBfJaYWVMYrcb1HWNM/YnlgdWhddqT/uk6tU/fTzdiFK16fG+3iEYsCMZ2tX4UwKHjSuONvLkIxso5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785734131; c=relaxed/simple;
-	bh=zKmrq4Io78YBlcSoFkA6zgzyWtU0hC2kx2tv6Vt1nvQ=;
+	s=arc-20240116; t=1785734134; c=relaxed/simple;
+	bh=06Ndjp2qmfFDz4dq/1g4wiH9y+i9NX4WqoGE7f9jRYQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jjs4/lOhf3tydn5i2y5TTQmyoPDt26VtEC3eYfI03uleQuEsC672TtnLzWzr7gzrZJ55Rh2ajT1UtDuM11d0D9h6lmbEDH90/zre17OxB0tWy8gk1A8MyvicGWbxU2qg75tBosJpcdZAGgrJeUZd6wAJzl4nSrAJ4+Tq0IWUfYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RA2ajKuw; arc=none smtp.client-ip=209.85.210.47
+	 In-Reply-To:To:Cc; b=ajbxW/DH4tD4qk+Vyp3CUDq7S9w6cAp+elZjs52o/DRKSPBWmZwzTiEJPQcR17iWIS939wuY1CIAbO6dsb0w6SkR6Cy49e2g1QmuLqN6c6Rw2Trzt8NfFzxQ3+6NYktD40wzZN//i/DlktzMCXgbbBTST2913yaKMNgy1r5CL8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FFvLnoIZ; arc=none smtp.client-ip=209.85.210.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RA2ajKuw"
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7eb63dbd229so2049680a34.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FFvLnoIZ"
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-7eb1dc6bd53so1828524a34.2
         for <linux-sunxi@lists.linux.dev>; Sun, 02 Aug 2026 22:15:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20251104; t=1785734127; x=1786338927; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=gb4LPnphqc1DtduXOsyl640sXOpfiOxS2LbjD6EtoY4=;
-        b=RA2ajKuwCcH90pFFfHEK7pivdJi65/A6Rxxpq/616sgmB7+keK/X0top/ZzcWl9ng5
-         uCKXAZFH7RPrHdtod3JSpqmX0ZwdBXDkbAoPLN2nArOPXkwB/K/4zcvcZvaFbV6Vi8Io
-         1Qc4hXNCc76j7bDEKIur1minFAV9eH1mPP4bQ6BMZsnwYqFSVDlFs3wEEQsBxQKBiHAh
-         0nN5WodKcmn4xINFPekYysmHq2uZtnLZa98zZqC3m9ZG9Nvf1Pxs//Ss/A4nycX+oNIN
-         nLHdDkxm6haC4QGR1XFjDMUUd+NOtJ6ZiDVbWD0uHtnXbqFCIP+Tspz8ir6yAWFhOHcI
-         x9Bg==
+        bh=wwVnovEquKlLXg/zw4hAH7SWHSDxoW5mo3oFAsopbqY=;
+        b=FFvLnoIZTIWKFUX7H2h8PJXEeFN8NLJzAU4MSm1H4aXK4Ix6eAfBQv4onQ7T364ZuA
+         C4gPSXJJMPbGQXbi//PhyeL72kUApFjsGuMhcBqElq38V967cfYx8XUWgtLJjrf3Cr5z
+         bembDjEf3vt/ekt77Zo2WfgBRCL70yd7n+2GcxG0NUWThtYjXw44u5nR6oVgeBrQOvEc
+         3Z4ZwlkiGF05XLkikAuluKi/Ap7yjkw1KTvzToz3APeRP9A1PZMaycDE5upWnc4NdmN2
+         cLSMfdpVbcRyt5/b324JH5AWqUaAVdBKsECh+FNTo4m3WyocukFmGA840hRA1jHVQus5
+         OpSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1785734127; x=1786338927;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=gb4LPnphqc1DtduXOsyl640sXOpfiOxS2LbjD6EtoY4=;
-        b=DQUSYvVhoVF4RNQpz+hG0I6BWTHP7SdxvrWc/9DCPMmcZ9b3Qs5UIO16GbDn5T7L7R
-         nqyQGbI8XzP5oM/PKjoT3ut9q2Q3XdR0tpp3jrGecO0WPR4ZbsXYXUBdg2PtVS4Zhvcq
-         D8njhbUzdh/y0oY8Ktgd/rnUa49fPBqkxsNSXQrrXncwgx1rxwerjivWID3sQRoCPlAs
-         NHVrKJKQNyFb62NJ8sn3kDPj5UW2VTl7mFfrHT6LjIQJR5hGcV4fVC4VFAmhtfbMZBQZ
-         zHPHafyX5TzVAzcmZ8kISQOomgLkqCFgPz2Xudt/+DA+aNWAtSabyIPbfUIIpZjlvRzS
-         EMzw==
-X-Forwarded-Encrypted: i=1; AHgh+RpnGgTL297eiklQHiR3MIUjDWCk+DD7ygWv9vnNeBqiLQPxmYc3tRh0kNAu3rK2fnAg7zyqvE3qqtNTuA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzzEUO+nOwZxnfTDXFy51F+HK/ORP3WMXSC7ZHr5GJnI/YmNo+4
-	jHJLnJTTtVzRKHr4RMXvhaGBea79zvSeF+A5GpH84vAKdKoQRVPkrgwR
-X-Gm-Gg: AR+sD10C69FPtG5Jf+rwGsnvE0GJFMoUsF9b2iSfKkYXm27Z86mbc62U5VrlsDLkKFK
-	zlQ3BNumFmir2Mu1GYxizB9ZcXTuLmIUxR2AtjGA/jOBX6iRt/K5SX9yzi4WTqwioLGXyo8LJc8
-	0hsmr9MpngpHOxL8ls3fG84NV5yCqmyTKH1VDWiqDTc19AW1akyL4TntlzFvuD3+/OUcaTuArIv
-	oGrB4U2QGE8fawa1En5Q7BNTTisY34RgzHHZgQapJNQTVlRFY4sxMeYr1rY2pmLJP7tHyXZu/+c
-	rungOxEhJibHwdAa2vcJiYMtdiXPalIgjjD5r/VamzeUo791g4FuhliLO0BJ4SOr62ASgymf9uh
-	oSbqI9i+Li6At9sHoGXrIbCAyZNkf3UUdjWzuaKLHqFyU5FWOt8CyVjxNZASomneAWHgC7DPHGo
-	l/klUIj9qeW0jAYhBrks+LVHY/uDfGIuByZNyOqNZA0SfOM8QzaZfp3Ap4T2xwT4nBTYZDZrz+j
-	NzFng+/RBxh+YifbREtZ85M1kTr6L+Hc2idwyZs4y6aP34tiepH9+V6CPu0O32pB8aTcp2fgdD9
-	oGG3q3wKMxhzaRqtLPOYYat6uzuE8+ECx+w9YmvPeKo6mu33bJ+CwAvqcJrouKT6IlRht4KJVMe
-	QYuH+www5VG5D5bOdETO1C/epIQ==
-X-Received: by 2002:a05:6830:7086:10b0:7db:a297:9e62 with SMTP id 46e09a7af769-7f1892c8017mr4283606a34.8.1785734124209;
-        Sun, 02 Aug 2026 22:15:24 -0700 (PDT)
+        bh=wwVnovEquKlLXg/zw4hAH7SWHSDxoW5mo3oFAsopbqY=;
+        b=Tt/xD0B86/zBuA2IKd8SuwSOYkG9i0VGP6VNLv7SWqD+HpQ7IDME4VnovDVqEhj9U4
+         LfPHq0QTzJoumh0byQRy/F7NqSiOMEK8qo7RPLED93WeSCp3req77OT79B+pVUQkQizE
+         f8PqM+yYuADr6OSLOoxawC7DFpd83X5chKhPsCUCPNYGWi5otPfA+0W9hNkGvcKaq1Vt
+         0fxxdZH+sJrUfHVZvGLBVCfVcGmziWjdm8G4XRn90LX9RbGZY/j/eG+io0FufFyvXX7W
+         wM8hXR5bu104y65+GAE7gCkjwqbwXPcLOf6s0vbSKXv++ho+l+yN4HaZwwfpVKWbxjJf
+         If/w==
+X-Forwarded-Encrypted: i=1; AHgh+RpmMP9boQrfx/aYfKoKLB1uGYq4hNDKh1zhEi8mxNkfX4YbS6l6eRxUrTn5TsHt7dylu9Hby5RaEWbHBA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw3Rv4X72oW15Eq6tEe9b0Qe3nk5hEANaU0f9ua9YZCU3GH18vF
+	uBT2lI4/96CHuwE6ewRH/AN1Tie7fknm6jCWFM6QP3o21z9KkdHCljT2
+X-Gm-Gg: AR+sD106u8wkUXNNKa9bLJnouDjZD8iykkS84jeeWbS9Ht9RO/0hBp10IGZnsRSKl6w
+	gGNZ/CTxpgikIkdTP/C+GrZfDni9h+jj3ljQ+3Bmg1NwSPAsKaWi+/nLKU0mIVNSHW3uaaYRioP
+	uXSXGjxMLy97O9Gw8/YFlySfzeUa/n4hxKTgjG9g54GWdAv2hU1NoxT0zH2VVO0Yo79NfEUpm5Z
+	AuYFb9vwKkKQMYm2sApNGgR2fjW48Tdl4W+nHAy1z4FK6cEHJup2hPEvJV1EDhEUrZJvnWVEspl
+	bXI3rTKE99GUVo+sO0zunM0JPOaoBreK1qnjWkGVefr/qUc/t/mvy7/BUrNMXGqRsGrUrcGopmV
+	LwVxmRu5LlgoXi4sEJKiM6J4Jfmw9pvPQ0BiWYtRG0NXvN1iqb71fiH5tW/uS6K1rtw3hiRP7rX
+	/eI7QHqxmBZI+GKD3AKhbd5LgyOE7ekb+2szACdNuZrbKz5s7zvuMsDmnBZILdmYiDyifPM/AKM
+	lb73DL9sOkZXwWPS02X6FHkrF386b8nEJEQP7/a2DxkGpxAoQyWVsWz25unHSTvbCeFXEmkjCDT
+	VDbkVGyJ0FR99Xj4MYz4IhCMfaYvZhzGVtx5X7t0CWnnGxyS2ebAfLnmTk1hZLQvRA32vC99CUI
+	vllQFQCatwYamidgEa9QYIoHwZ88=
+X-Received: by 2002:a05:6830:601b:b0:7e9:c72e:e5d6 with SMTP id 46e09a7af769-7f197075663mr13841824a34.14.1785734126952;
+        Sun, 02 Aug 2026 22:15:26 -0700 (PDT)
 Received: from [127.0.1.1] (184-96-154-59.hlrn.qwest.net. [184.96.154.59])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f18f07a5e3sm6787108a34.15.2026.08.02.22.15.22
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f18f07a5e3sm6787108a34.15.2026.08.02.22.15.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Aug 2026 22:15:23 -0700 (PDT)
+        Sun, 02 Aug 2026 22:15:26 -0700 (PDT)
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Sun, 02 Aug 2026 23:14:13 -0600
-Subject: [PATCH 03/21] arm64: dts: allwinner: h616: add EMAC1 controller
+Date: Sun, 02 Aug 2026 23:14:15 -0600
+Subject: [PATCH 05/21] net: mdio: make device map changes hotplug-safe
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -73,7 +73,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260802-submit-acx00-of-dynamic-v1-v1-3-0a53cd9e21cc@gmail.com>
+Message-Id: <20260802-submit-acx00-of-dynamic-v1-v1-5-0a53cd9e21cc@gmail.com>
 References: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
 In-Reply-To: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
 To: Andrew Lunn <andrew+netdev@lunn.ch>, 
@@ -102,70 +102,996 @@ Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org,
  James Hilliard <james.hilliard1@gmail.com>
 X-Mailer: b4 0.15.2
 
-From: Richard Genoud <richard.genoud@bootlin.com>
+MDIO device registration currently publishes directly into mdio_map
+without serializing address ownership, and removal frees the object
+immediately. That is sufficient while bus population is static, but
+dynamic firmware changes can race registration, PHY attachment and bus
+teardown. It also cannot safely preserve mdiobus_get_phy()'s
+borrowed-pointer convention.
 
-The H616 has a secondary EMAC controller that supports only RMII at
-10/100 Mbps. It connects through PA0-PA9 to an EPHY in a companion
-AC200 or AC300 package.
+Serialize device-map state and reserve addresses while registration is
+in progress. Track active scans, registrations and firmware changes so
+bus teardown first blocks new work and waits for existing work before
+consuming the final map. Block new registrations and PHY attachment while
+a firmware removal owns the map.
 
-Add the EMAC1 controller and RMII pin group. Leave the controller
-disabled for boards to enable when the companion Ethernet hardware
-is present.
+Publish initialized devices with release ordering and make PHY attachment
+atomic with map removal, including standalone PHY users. Have address
+scans atomically claim a matching OF node as well, so explicit OF
+population cannot instantiate the same device concurrently.
 
-Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+Keep dynamically removed devices pinned until the MDIO bus is torn down
+so existing borrowed pointers cannot become use-after-free references.
+Drop their firmware-node reference after device_del() so this does not
+keep an overlay node alive. Normal MDIO removal and driver APIs remain
+unchanged, and consumers do not need to adopt a new refcounting API.
+
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 30 ++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ drivers/net/phy/mdio_bus.c          |  14 ++-
+ drivers/net/phy/mdio_bus_provider.c | 140 +++++++++++++++------
+ drivers/net/phy/mdio_device.c       | 235 ++++++++++++++++++++++++++++++++----
+ drivers/net/phy/phy_device.c        | 102 ++++++++++++----
+ drivers/net/phy/phylib-internal.h   |   4 +-
+ include/linux/mdio.h                |   6 +
+ include/linux/phy.h                 |  18 +++
+ 7 files changed, 434 insertions(+), 85 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-index 90fe56a1d3cd..6879f27c2b2b 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-@@ -432,6 +432,14 @@ pwm5_pin: pwm5-pin {
- 				function = "pwm5";
- 			};
+diff --git a/drivers/net/phy/mdio_bus.c b/drivers/net/phy/mdio_bus.c
+index 00d0e4159e9b..f45c936fe5aa 100644
+--- a/drivers/net/phy/mdio_bus.c
++++ b/drivers/net/phy/mdio_bus.c
+@@ -34,7 +34,8 @@ static struct mdio_device *mdiobus_find_device(struct mii_bus *bus, int addr)
+ 	if (WARN_ONCE(!addr_valid, "addr %d out of range\n", addr))
+ 		return NULL;
  
-+			/omit-if-no-ref/
-+			rmii_emac1_pins: rmii-emac1-pins {
-+				pins = "PA0", "PA1", "PA2", "PA3", "PA4",
-+					"PA5", "PA6", "PA7", "PA8", "PA9";
-+				function = "emac1";
-+				drive-strength = <40>;
-+			};
-+
- 			/omit-if-no-ref/
- 			spi0_pins: spi0-pins {
- 				pins = "PC0", "PC2", "PC4";
-@@ -789,6 +797,28 @@ mdio0: mdio {
- 			};
- 		};
+-	return bus->mdio_map[addr];
++	/* Pair with map publication in mdiobus_register_device(). */
++	return smp_load_acquire(&bus->mdio_map[addr]);
+ }
  
-+		emac1: ethernet@5030000 {
-+			compatible = "allwinner,sun50i-h616-emac1";
-+			reg = <0x05030000 0x10000>;
-+			interrupts = <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "macirq";
-+			clocks = <&ccu CLK_BUS_EMAC1>;
-+			clock-names = "stmmaceth";
-+			resets = <&ccu RST_BUS_EMAC1>;
-+			reset-names = "stmmaceth";
-+			syscon = <&syscon>;
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&rmii_emac1_pins>;
-+			phy-mode = "rmii";
-+			status = "disabled";
+ struct phy_device *mdiobus_get_phy(struct mii_bus *bus, int addr)
+@@ -54,7 +55,16 @@ EXPORT_SYMBOL(mdiobus_get_phy);
+ 
+ bool mdiobus_is_registered_device(struct mii_bus *bus, int addr)
+ {
+-	return mdiobus_find_device(bus, addr) != NULL;
++	bool addr_valid = addr >= 0 && addr < ARRAY_SIZE(bus->mdio_map);
++	bool registered;
 +
-+			mdio1: mdio {
-+				compatible = "snps,dwmac-mdio";
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+			};
-+		};
++	if (WARN_ONCE(!addr_valid, "addr %d out of range\n", addr))
++		return false;
 +
- 		gpadc: adc@5070000 {
- 			compatible = "allwinner,sun50i-h616-gpadc",
- 				     "allwinner,sun20i-d1-gpadc";
++	registered = READ_ONCE(bus->mdio_map[addr]) ||
++		     (READ_ONCE(bus->mdio_map_pending) & BIT(addr));
++
++	return registered;
+ }
+ EXPORT_SYMBOL(mdiobus_is_registered_device);
+ 
+diff --git a/drivers/net/phy/mdio_bus_provider.c b/drivers/net/phy/mdio_bus_provider.c
+index ce3a607a40cb..b83a0a7a4235 100644
+--- a/drivers/net/phy/mdio_bus_provider.c
++++ b/drivers/net/phy/mdio_bus_provider.c
+@@ -330,6 +330,9 @@ struct mii_bus *mdiobus_alloc_size(size_t size)
+ 		return NULL;
+ 
+ 	bus->state = MDIOBUS_ALLOCATED;
++	mutex_init(&bus->mdio_map_lock);
++	init_waitqueue_head(&bus->mdio_map_wait);
++	INIT_LIST_HEAD(&bus->mdio_map_retired);
+ 	if (size)
+ 		bus->priv = (void *)bus + aligned_size;
+ 
+@@ -360,18 +363,21 @@ static int of_mdiobus_find_phy(struct device *dev, struct mdio_device *mdiodev,
+ 		int addr;
+ 
+ 		if (of_node_name_eq(child, "ethernet-phy-package")) {
++			int ret;
++
+ 			/* Validate PHY package reg presence */
+ 			if (!of_property_present(child, "reg")) {
+ 				of_node_put(child);
+ 				return -EINVAL;
+ 			}
+ 
+-			if (!of_mdiobus_find_phy(dev, mdiodev, child)) {
++			ret = of_mdiobus_find_phy(dev, mdiodev, child);
++			if (ret != -ENODEV) {
+ 				/* The refcount for the PHY package will be
+ 				 * incremented later when PHY join the Package.
+ 				 */
+ 				of_node_put(child);
+-				return 0;
++				return ret;
+ 			}
+ 
+ 			continue;
+@@ -382,6 +388,11 @@ static int of_mdiobus_find_phy(struct device *dev, struct mdio_device *mdiodev,
+ 			continue;
+ 
+ 		if (addr == mdiodev->addr) {
++			if (of_node_test_and_set_flag(child, OF_POPULATED)) {
++				of_node_put(child);
++				return -EBUSY;
++			}
++
+ 			device_set_node(dev, of_fwnode_handle(child));
+ 			/* The refcount on "child" is passed to the mdio
+ 			 * device. Do _not_ use of_node_put(child) here.
+@@ -393,22 +404,26 @@ static int of_mdiobus_find_phy(struct device *dev, struct mdio_device *mdiodev,
+ 	return -ENODEV;
+ }
+ 
+-static void of_mdiobus_link_mdiodev(struct mii_bus *bus,
+-				    struct mdio_device *mdiodev)
++static int of_mdiobus_link_mdiodev(struct mii_bus *bus,
++				   struct mdio_device *mdiodev)
+ {
+ 	struct device *dev = &mdiodev->dev;
+ 
+ 	if (dev->of_node || !bus->dev.of_node)
+-		return;
++		return 0;
+ 
+-	of_mdiobus_find_phy(dev, mdiodev, bus->dev.of_node);
++	return of_mdiobus_find_phy(dev, mdiodev, bus->dev.of_node);
+ }
+ #endif
+ 
+-static struct phy_device *mdiobus_scan(struct mii_bus *bus, int addr, bool c45)
++static struct phy_device *__mdiobus_scan(struct mii_bus *bus, int addr,
++					 bool c45)
+ {
+ 	struct phy_device *phydev = ERR_PTR(-ENODEV);
+ 	struct fwnode_handle *fwnode;
++#if IS_ENABLED(CONFIG_OF_MDIO)
++	bool of_node_populated = false;
++#endif
+ 	char node_name[16];
+ 	int err;
+ 
+@@ -420,7 +435,12 @@ static struct phy_device *mdiobus_scan(struct mii_bus *bus, int addr, bool c45)
+ 	/* For DT, see if the auto-probed phy has a corresponding child
+ 	 * in the bus node, and set the of_node pointer in this case.
+ 	 */
+-	of_mdiobus_link_mdiodev(bus, &phydev->mdio);
++	err = of_mdiobus_link_mdiodev(bus, &phydev->mdio);
++	if (err == -EBUSY) {
++		phy_device_free(phydev);
++		return ERR_PTR(-ENODEV);
++	}
++	of_node_populated = !!phydev->mdio.dev.of_node;
+ #endif
+ 
+ 	/* Search for a swnode for the phy in the swnode hierarchy of the bus.
+@@ -437,6 +457,11 @@ static struct phy_device *mdiobus_scan(struct mii_bus *bus, int addr, bool c45)
+ 
+ 	err = phy_device_register(phydev);
+ 	if (err) {
++#if IS_ENABLED(CONFIG_OF_MDIO)
++		if (of_node_populated)
++			of_node_clear_flag(phydev->mdio.dev.of_node,
++					   OF_POPULATED);
++#endif
+ 		phy_device_free(phydev);
+ 		return ERR_PTR(-ENODEV);
+ 	}
+@@ -458,7 +483,17 @@ static struct phy_device *mdiobus_scan(struct mii_bus *bus, int addr, bool c45)
+  */
+ struct phy_device *mdiobus_scan_c22(struct mii_bus *bus, int addr)
+ {
+-	return mdiobus_scan(bus, addr, false);
++	struct phy_device *phydev;
++	int err;
++
++	err = mdiobus_device_change_begin(bus, false);
++	if (err)
++		return ERR_PTR(err);
++
++	phydev = __mdiobus_scan(bus, addr, false);
++	mdiobus_device_change_end(bus, false);
++
++	return phydev;
+ }
+ EXPORT_SYMBOL(mdiobus_scan_c22);
+ 
+@@ -476,7 +511,7 @@ EXPORT_SYMBOL(mdiobus_scan_c22);
+  */
+ static struct phy_device *mdiobus_scan_c45(struct mii_bus *bus, int addr)
+ {
+-	return mdiobus_scan(bus, addr, true);
++	return __mdiobus_scan(bus, addr, true);
+ }
+ 
+ static int mdiobus_scan_bus_c22(struct mii_bus *bus)
+@@ -487,7 +522,7 @@ static int mdiobus_scan_bus_c22(struct mii_bus *bus)
+ 		if ((bus->phy_mask & BIT(i)) == 0) {
+ 			struct phy_device *phydev;
+ 
+-			phydev = mdiobus_scan_c22(bus, i);
++			phydev = __mdiobus_scan(bus, i, false);
+ 			if (IS_ERR(phydev) && (PTR_ERR(phydev) != -ENODEV))
+ 				return PTR_ERR(phydev);
+ 		}
+@@ -504,7 +539,7 @@ static int mdiobus_scan_bus_c45(struct mii_bus *bus)
+ 			struct phy_device *phydev;
+ 
+ 			/* Don't scan C45 if we already have a C22 device */
+-			if (bus->mdio_map[i])
++			if (mdiobus_is_registered_device(bus, i))
+ 				continue;
+ 
+ 			phydev = mdiobus_scan_c45(bus, i);
+@@ -536,6 +571,44 @@ static bool mdiobus_prevent_c45_scan(struct mii_bus *bus)
+ 	return false;
+ }
+ 
++static void mdiobus_stop_device_changes(struct mii_bus *bus)
++{
++	mutex_lock(&bus->mdio_map_lock);
++	bus->state = MDIOBUS_UNREGISTERING;
++	mutex_unlock(&bus->mdio_map_lock);
++
++	wait_event(bus->mdio_map_wait, !READ_ONCE(bus->mdio_map_ops));
++}
++
++static void mdiobus_remove_devices(struct mii_bus *bus)
++{
++	LIST_HEAD(removed);
++	struct mdio_device *mdiodev, *next;
++	int i;
++
++	for (i = 0; i < PHY_MAX_ADDR; i++) {
++		mdiodev = bus->mdio_map[i];
++		if (!mdiodev)
++			continue;
++
++		mdiodev->device_remove(mdiodev);
++		mdiodev->device_free(mdiodev);
++	}
++
++	mutex_lock(&bus->mdio_map_lock);
++	list_splice_init(&bus->mdio_map_retired, &removed);
++	mutex_unlock(&bus->mdio_map_lock);
++
++	list_for_each_entry_safe(mdiodev, next, &removed, retired_node) {
++		list_del_init(&mdiodev->retired_node);
++		mdio_device_put(mdiodev);
++	}
++
++	mutex_lock(&bus->mdio_map_lock);
++	bus->state = MDIOBUS_UNREGISTERED;
++	mutex_unlock(&bus->mdio_map_lock);
++}
++
+ /**
+  * __mdiobus_register - bring up all the PHYs on a given bus and attach them to bus
+  * @bus: target mii_bus
+@@ -552,10 +625,9 @@ static bool mdiobus_prevent_c45_scan(struct mii_bus *bus)
+  */
+ int __mdiobus_register(struct mii_bus *bus, struct module *owner)
+ {
+-	struct mdio_device *mdiodev;
+ 	struct gpio_desc *gpiod;
+ 	bool prevent_c45_scan;
+-	int i, err;
++	int err;
+ 
+ 	if (!bus || !bus->name)
+ 		return -EINVAL;
+@@ -596,7 +668,9 @@ int __mdiobus_register(struct mii_bus *bus, struct module *owner)
+ 	 *
+ 	 * State will be updated later in this function in case of success
+ 	 */
++	mutex_lock(&bus->mdio_map_lock);
+ 	bus->state = MDIOBUS_UNREGISTERED;
++	mutex_unlock(&bus->mdio_map_lock);
+ 
+ 	err = device_register(&bus->dev);
+ 	if (err) {
+@@ -613,8 +687,7 @@ int __mdiobus_register(struct mii_bus *bus, struct module *owner)
+ 		err = dev_err_probe(&bus->dev, PTR_ERR(gpiod),
+ 				    "mii_bus %s couldn't get reset GPIO\n",
+ 				    bus->id);
+-		device_del(&bus->dev);
+-		return err;
++		goto error_reset_gpiod;
+ 	} else	if (gpiod) {
+ 		bus->reset_gpiod = gpiod;
+ 		fsleep(bus->reset_delay_us);
+@@ -629,6 +702,10 @@ int __mdiobus_register(struct mii_bus *bus, struct module *owner)
+ 			goto error_reset_gpiod;
+ 	}
+ 
++	mutex_lock(&bus->mdio_map_lock);
++	bus->state = MDIOBUS_REGISTERING;
++	mutex_unlock(&bus->mdio_map_lock);
++
+ 	if (bus->read) {
+ 		err = mdiobus_scan_bus_c22(bus);
+ 		if (err)
+@@ -643,20 +720,17 @@ int __mdiobus_register(struct mii_bus *bus, struct module *owner)
+ 			goto error;
+ 	}
+ 
++	mutex_lock(&bus->mdio_map_lock);
+ 	bus->state = MDIOBUS_REGISTERED;
++	mutex_unlock(&bus->mdio_map_lock);
+ 	dev_dbg(&bus->dev, "probed\n");
+ 	return 0;
+ 
+ error:
+-	for (i = 0; i < PHY_MAX_ADDR; i++) {
+-		mdiodev = bus->mdio_map[i];
+-		if (!mdiodev)
+-			continue;
+-
+-		mdiodev->device_remove(mdiodev);
+-		mdiodev->device_free(mdiodev);
+-	}
+ error_reset_gpiod:
++	mdiobus_stop_device_changes(bus);
++	mdiobus_remove_devices(bus);
++
+ 	/* Put PHYs in RESET to save power */
+ 	if (bus->reset_gpiod)
+ 		gpiod_set_value_cansleep(bus->reset_gpiod, 1);
+@@ -668,21 +742,11 @@ EXPORT_SYMBOL(__mdiobus_register);
+ 
+ void mdiobus_unregister(struct mii_bus *bus)
+ {
+-	struct mdio_device *mdiodev;
+-	int i;
+-
+ 	if (WARN_ON_ONCE(bus->state != MDIOBUS_REGISTERED))
+ 		return;
+-	bus->state = MDIOBUS_UNREGISTERED;
+-
+-	for (i = 0; i < PHY_MAX_ADDR; i++) {
+-		mdiodev = bus->mdio_map[i];
+-		if (!mdiodev)
+-			continue;
+ 
+-		mdiodev->device_remove(mdiodev);
+-		mdiodev->device_free(mdiodev);
+-	}
++	mdiobus_stop_device_changes(bus);
++	mdiobus_remove_devices(bus);
+ 
+ 	/* Put PHYs in RESET to save power */
+ 	if (bus->reset_gpiod)
+@@ -702,8 +766,11 @@ EXPORT_SYMBOL(mdiobus_unregister);
+  */
+ void mdiobus_free(struct mii_bus *bus)
+ {
++	mutex_lock(&bus->mdio_map_lock);
++
+ 	/* For compatibility with error handling in drivers. */
+ 	if (bus->state == MDIOBUS_ALLOCATED) {
++		mutex_unlock(&bus->mdio_map_lock);
+ 		kfree(bus);
+ 		return;
+ 	}
+@@ -711,6 +778,7 @@ void mdiobus_free(struct mii_bus *bus)
+ 	WARN(bus->state != MDIOBUS_UNREGISTERED,
+ 	     "%s: not in UNREGISTERED state\n", bus->id);
+ 	bus->state = MDIOBUS_RELEASED;
++	mutex_unlock(&bus->mdio_map_lock);
+ 
+ 	put_device(&bus->dev);
+ }
+diff --git a/drivers/net/phy/mdio_device.c b/drivers/net/phy/mdio_device.c
+index 56080d3d2d25..49092045831f 100644
+--- a/drivers/net/phy/mdio_device.c
++++ b/drivers/net/phy/mdio_device.c
+@@ -16,6 +16,7 @@
+ #include <linux/mdio.h>
+ #include <linux/mii.h>
+ #include <linux/module.h>
++#include <linux/of.h>
+ #include <linux/phy.h>
+ #include <linux/reset.h>
+ #include <linux/slab.h>
+@@ -38,8 +39,12 @@ static int mdio_device_register_reset(struct mdio_device *mdiodev)
+ 	/* Deassert the optional reset signal */
+ 	mdiodev->reset_gpio = gpiod_get_optional(&mdiodev->dev,
+ 						 "reset", GPIOD_OUT_LOW);
+-	if (IS_ERR(mdiodev->reset_gpio))
+-		return PTR_ERR(mdiodev->reset_gpio);
++	if (IS_ERR(mdiodev->reset_gpio)) {
++		int err = PTR_ERR(mdiodev->reset_gpio);
++
++		mdiodev->reset_gpio = NULL;
++		return err;
++	}
+ 
+ 	if (mdiodev->reset_gpio)
+ 		gpiod_set_consumer_name(mdiodev->reset_gpio, "PHY reset");
+@@ -117,6 +122,13 @@ static void mdio_device_release(struct device *dev)
+ 	kfree(to_mdio_device(dev));
+ }
+ 
++static int __mdio_device_remove(struct mdio_device *mdiodev, bool dynamic);
++
++static int mdio_device_remove_dynamic(struct mdio_device *mdiodev)
++{
++	return __mdio_device_remove(mdiodev, true);
++}
++
+ struct mdio_device *mdio_device_create(struct mii_bus *bus, int addr)
+ {
+ 	struct mdio_device *mdiodev;
+@@ -131,9 +143,11 @@ struct mdio_device *mdio_device_create(struct mii_bus *bus, int addr)
+ 	mdiodev->dev.bus = &mdio_bus_type;
+ 	mdiodev->device_free = mdio_device_free;
+ 	mdiodev->device_remove = mdio_device_remove;
++	mdiodev->device_remove_dynamic = mdio_device_remove_dynamic;
+ 	mdiodev->bus = bus;
+ 	mdiodev->addr = addr;
+ 	mdiodev->reset_state = -1;
++	INIT_LIST_HEAD(&mdiodev->retired_node);
+ 
+ 	dev_set_name(&mdiodev->dev, PHY_ID_FMT, bus->id, addr);
+ 
+@@ -160,19 +174,27 @@ int mdio_device_register(struct mdio_device *mdiodev)
+ 		return err;
+ 
+ 	err = device_add(&mdiodev->dev);
+-	if (err) {
++	if (err)
+ 		pr_err("MDIO %d failed to add\n", mdiodev->addr);
+-		goto out;
+-	}
+-
+-	return 0;
+ 
+- out:
+-	mdiobus_unregister_device(mdiodev);
+-	return err;
++	return mdiobus_registration_done(mdiodev, err);
+ }
+ EXPORT_SYMBOL(mdio_device_register);
+ 
++static int __mdio_device_remove(struct mdio_device *mdiodev, bool dynamic)
++{
++	int err;
++
++	err = mdiobus_begin_remove(mdiodev, dynamic);
++	if (err)
++		return err;
++
++	device_del(&mdiodev->dev);
++	mdiobus_finish_remove(mdiodev, dynamic);
++
++	return 0;
++}
++
+ /**
+  * mdio_device_remove - Remove a previously registered mdio device from the
+  *			MDIO bus
+@@ -184,42 +206,211 @@ EXPORT_SYMBOL(mdio_device_register);
+  */
+ void mdio_device_remove(struct mdio_device *mdiodev)
+ {
+-	device_del(&mdiodev->dev);
+-	mdiobus_unregister_device(mdiodev);
++	__mdio_device_remove(mdiodev, false);
+ }
+ EXPORT_SYMBOL(mdio_device_remove);
+ 
+ int mdiobus_register_device(struct mdio_device *mdiodev)
+ {
++	struct mii_bus *bus = mdiodev->bus;
+ 	int err;
+ 
+-	if (mdiodev->bus->mdio_map[mdiodev->addr])
+-		return -EBUSY;
++	mutex_lock(&bus->mdio_map_lock);
++	if (bus->state != MDIOBUS_REGISTERING &&
++	    bus->state != MDIOBUS_REGISTERED) {
++		err = -ENODEV;
++		goto out_unlock;
++	}
++	if (bus->mdio_map_removals) {
++		err = -EBUSY;
++		goto out_unlock;
++	}
++
++	if (bus->mdio_map[mdiodev->addr] ||
++	    bus->mdio_map_pending & BIT(mdiodev->addr)) {
++		err = -EBUSY;
++		goto out_unlock;
++	}
++
++	bus->mdio_map_pending |= BIT(mdiodev->addr);
++	bus->mdio_map_ops++;
++	mutex_unlock(&bus->mdio_map_lock);
+ 
+ 	if (mdiodev->flags & MDIO_DEVICE_FLAG_PHY) {
+ 		err = mdio_device_register_reset(mdiodev);
+-		if (err)
++		if (err) {
++			mdiobus_registration_done(mdiodev, err);
+ 			return err;
++		}
+ 
+ 		/* Assert the reset signal */
+ 		mdio_device_reset(mdiodev, 1);
+ 	}
+ 
+-	mdiodev->bus->mdio_map[mdiodev->addr] = mdiodev;
++	mutex_lock(&bus->mdio_map_lock);
++	/* Teardown waits for this registration before consuming the map. */
++	smp_store_release(&bus->mdio_map[mdiodev->addr], mdiodev);
++	mutex_unlock(&bus->mdio_map_lock);
+ 
+ 	return 0;
++
++out_unlock:
++	mutex_unlock(&bus->mdio_map_lock);
++	return err;
+ }
+ 
+-int mdiobus_unregister_device(struct mdio_device *mdiodev)
++/**
++ * mdiobus_device_change_begin - start changing devices on a registered bus
++ * @bus: MDIO bus that will be scanned or changed
++ * @removing: whether PHY attachment must be blocked during the change
++ *
++ * Return: zero on success or a negative error code when the bus is unavailable
++ */
++int mdiobus_device_change_begin(struct mii_bus *bus, bool removing)
+ {
+-	if (mdiodev->bus->mdio_map[mdiodev->addr] != mdiodev)
+-		return -EINVAL;
++	int err = 0;
++
++	mutex_lock(&bus->mdio_map_lock);
++	if (bus->state != MDIOBUS_REGISTERED) {
++		err = -ENODEV;
++	} else {
++		bus->mdio_map_ops++;
++		if (removing)
++			bus->mdio_map_removals++;
++	}
++	mutex_unlock(&bus->mdio_map_lock);
++
++	return err;
++}
++EXPORT_SYMBOL_GPL(mdiobus_device_change_begin);
+ 
+-	mdio_device_unregister_reset(mdiodev);
++static void mdiobus_operation_done_locked(struct mii_bus *bus)
++{
++	lockdep_assert_held(&bus->mdio_map_lock);
+ 
+-	mdiodev->bus->mdio_map[mdiodev->addr] = NULL;
++	if (WARN_ON_ONCE(!bus->mdio_map_ops))
++		return;
++	bus->mdio_map_ops--;
++	if (!bus->mdio_map_ops)
++		wake_up_all(&bus->mdio_map_wait);
++}
+ 
+-	return 0;
++/**
++ * mdiobus_device_change_end - finish changing devices on an MDIO bus
++ * @bus: MDIO bus previously passed to mdiobus_device_change_begin()
++ * @removing: value passed to mdiobus_device_change_begin()
++ */
++void mdiobus_device_change_end(struct mii_bus *bus, bool removing)
++{
++	mutex_lock(&bus->mdio_map_lock);
++	if (removing) {
++		if (!WARN_ON_ONCE(!bus->mdio_map_removals))
++			bus->mdio_map_removals--;
++	}
++	mdiobus_operation_done_locked(bus);
++	mutex_unlock(&bus->mdio_map_lock);
++}
++EXPORT_SYMBOL_GPL(mdiobus_device_change_end);
++
++static void mdiobus_operation_done(struct mii_bus *bus)
++{
++	mutex_lock(&bus->mdio_map_lock);
++	mdiobus_operation_done_locked(bus);
++	mutex_unlock(&bus->mdio_map_lock);
++}
++
++static void mdiobus_unpublish_device(struct mdio_device *mdiodev)
++{
++	struct mii_bus *bus = mdiodev->bus;
++
++	lockdep_assert_held(&bus->mdio_map_lock);
++
++	if (bus->mdio_map[mdiodev->addr] == mdiodev)
++		WRITE_ONCE(bus->mdio_map[mdiodev->addr], NULL);
++	if (mdiodev->dev.of_node)
++		of_node_clear_flag(mdiodev->dev.of_node, OF_POPULATED);
++}
++
++int mdiobus_registration_done(struct mdio_device *mdiodev, int err)
++{
++	struct mii_bus *bus = mdiodev->bus;
++
++	mutex_lock(&bus->mdio_map_lock);
++	if (WARN_ON_ONCE(!(bus->mdio_map_pending & BIT(mdiodev->addr))))
++		goto out_unlock;
++
++	if (err)
++		mdiobus_unpublish_device(mdiodev);
++	else
++		WARN_ON_ONCE(bus->mdio_map[mdiodev->addr] != mdiodev);
++
++	bus->mdio_map_pending &= ~BIT(mdiodev->addr);
++
++out_unlock:
++	mutex_unlock(&bus->mdio_map_lock);
++	if (err) {
++		if (mdiodev->flags & MDIO_DEVICE_FLAG_PHY) {
++			mdio_device_reset(mdiodev, 1);
++			mdio_device_unregister_reset(mdiodev);
++		}
++	}
++	mdiobus_operation_done(bus);
++
++	return err;
++}
++
++int mdiobus_begin_remove(struct mdio_device *mdiodev, bool dynamic)
++{
++	struct mii_bus *bus = mdiodev->bus;
++	int err = 0;
++
++	mutex_lock(&bus->mdio_map_lock);
++	if (dynamic && (bus->state == MDIOBUS_UNREGISTERED ||
++			bus->state == MDIOBUS_RELEASED)) {
++		err = -ENODEV;
++		goto out_unlock;
++	}
++	if (bus->mdio_map_pending & BIT(mdiodev->addr)) {
++		err = -EBUSY;
++		goto out_unlock;
++	}
++
++	if (bus->mdio_map[mdiodev->addr] != mdiodev) {
++		err = -ENODEV;
++		goto out_unlock;
++	}
++
++	if (dynamic && mdiodev->flags & MDIO_DEVICE_FLAG_PHY &&
++	    to_phy_device(&mdiodev->dev)->attached) {
++		err = -EBUSY;
++		goto out_unlock;
++	}
++
++	mdiobus_unpublish_device(mdiodev);
++
++	if (dynamic) {
++		mdio_device_get(mdiodev);
++		list_add_tail(&mdiodev->retired_node, &bus->mdio_map_retired);
++	}
++
++out_unlock:
++	mutex_unlock(&bus->mdio_map_lock);
++	return err;
++}
++
++void mdiobus_finish_remove(struct mdio_device *mdiodev, bool dynamic)
++{
++	struct fwnode_handle *fwnode;
++
++	if (mdiodev->flags & MDIO_DEVICE_FLAG_PHY)
++		mdio_device_unregister_reset(mdiodev);
++
++	/* Do not keep an overlay node alive with the retired device. */
++	if (dynamic) {
++		fwnode = dev_fwnode(&mdiodev->dev);
++		device_set_node(&mdiodev->dev, NULL);
++		fwnode_handle_put(fwnode);
++	}
+ }
+ 
+ /**
+diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+index 0615228459ef..f7472a743185 100644
+--- a/drivers/net/phy/phy_device.c
++++ b/drivers/net/phy/phy_device.c
+@@ -227,6 +227,8 @@ static void phy_device_release(struct device *dev)
+ 	kfree(to_phy_device(dev));
+ }
+ 
++static int __phy_device_remove(struct phy_device *phydev, bool dynamic);
++
+ static void phy_mdio_device_remove(struct mdio_device *mdiodev)
+ {
+ 	struct phy_device *phydev;
+@@ -235,6 +237,14 @@ static void phy_mdio_device_remove(struct mdio_device *mdiodev)
+ 	phy_device_remove(phydev);
+ }
+ 
++static int phy_mdio_device_remove_dynamic(struct mdio_device *mdiodev)
++{
++	struct phy_device *phydev;
++
++	phydev = container_of(mdiodev, struct phy_device, mdio);
++	return __phy_device_remove(phydev, true);
++}
++
+ static struct phy_driver genphy_driver;
+ 
+ static LIST_HEAD(phy_fixup_list);
+@@ -768,7 +778,9 @@ struct phy_device *phy_device_create(struct mii_bus *bus, int addr, u32 phy_id,
+ 	mdiodev->flags = MDIO_DEVICE_FLAG_PHY;
+ 	mdiodev->device_free = phy_mdio_device_free;
+ 	mdiodev->device_remove = phy_mdio_device_remove;
++	mdiodev->device_remove_dynamic = phy_mdio_device_remove_dynamic;
+ 	mdiodev->reset_state = -1;
++	INIT_LIST_HEAD(&mdiodev->retired_node);
+ 
+ 	dev->speed = SPEED_UNKNOWN;
+ 	dev->duplex = DUPLEX_UNKNOWN;
+@@ -1121,25 +1133,40 @@ int phy_device_register(struct phy_device *phydev)
+ 	err = phy_scan_fixups(phydev);
+ 	if (err) {
+ 		phydev_err(phydev, "failed to initialize\n");
+-		goto out;
++		return mdiobus_registration_done(&phydev->mdio, err);
+ 	}
+ 
+ 	err = device_add(&phydev->mdio.dev);
+-	if (err) {
++	if (err)
+ 		phydev_err(phydev, "failed to add\n");
+-		goto out;
+-	}
+ 
+-	return 0;
++	return mdiobus_registration_done(&phydev->mdio, err);
++}
++EXPORT_SYMBOL(phy_device_register);
++
++static int __phy_device_remove(struct phy_device *phydev, bool dynamic)
++{
++	int err;
++
++	err = mdiobus_begin_remove(&phydev->mdio, dynamic);
++	if (dynamic && err == -EBUSY)
++		dev_warn(&phydev->mdio.dev,
++			 "cannot remove a PHY while it is attached or being registered\n");
++	if (err)
++		return err;
++
++	unregister_mii_timestamper(phydev->mii_ts);
++	pse_control_put(phydev->psec);
++
++	device_del(&phydev->mdio.dev);
+ 
+- out:
+ 	/* Assert the reset signal */
+ 	phy_device_reset(phydev, 1);
+ 
+-	mdiobus_unregister_device(&phydev->mdio);
+-	return err;
++	mdiobus_finish_remove(&phydev->mdio, dynamic);
++
++	return 0;
+ }
+-EXPORT_SYMBOL(phy_device_register);
+ 
+ /**
+  * phy_device_remove - Remove a previously registered phy device from the MDIO bus
+@@ -1151,15 +1178,7 @@ EXPORT_SYMBOL(phy_device_register);
+  */
+ void phy_device_remove(struct phy_device *phydev)
+ {
+-	unregister_mii_timestamper(phydev->mii_ts);
+-	pse_control_put(phydev->psec);
+-
+-	device_del(&phydev->mdio.dev);
+-
+-	/* Assert the reset signal */
+-	phy_device_reset(phydev, 1);
+-
+-	mdiobus_unregister_device(&phydev->mdio);
++	__phy_device_remove(phydev, false);
+ }
+ EXPORT_SYMBOL(phy_device_remove);
+ 
+@@ -1734,6 +1753,36 @@ static bool phy_drv_supports_irq(const struct phy_driver *phydrv)
+ 	return phydrv->config_intr && phydrv->handle_interrupt;
+ }
+ 
++static int phy_claim(struct phy_device *phydev)
++{
++	struct mdio_device *mdiodev = &phydev->mdio;
++	struct mii_bus *bus = mdiodev->bus;
++	int err = 0;
++
++	mutex_lock(&bus->mdio_map_lock);
++	if (bus->state != MDIOBUS_REGISTERED ||
++	    bus->mdio_map_removals ||
++	    bus->mdio_map[mdiodev->addr] != mdiodev ||
++	    (bus->mdio_map_pending & BIT(mdiodev->addr)))
++		err = -ENODEV;
++	else if (phydev->attached)
++		err = -EBUSY;
++	else
++		phydev->attached = true;
++	mutex_unlock(&bus->mdio_map_lock);
++
++	return err;
++}
++
++static void phy_release(struct phy_device *phydev)
++{
++	struct mii_bus *bus = phydev->mdio.bus;
++
++	mutex_lock(&bus->mdio_map_lock);
++	phydev->attached = false;
++	mutex_unlock(&bus->mdio_map_lock);
++}
++
+ /**
+  * phy_attach_direct - attach a network device to a given PHY device pointer
+  * @dev: network device to attach
+@@ -1755,6 +1804,7 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
+ 	struct mii_bus *bus = phydev->mdio.bus;
+ 	struct device *d = &phydev->mdio.dev;
+ 	struct module *ndev_owner = NULL;
++	bool claimed = false;
+ 	int err;
+ 
+ 	/* For Ethernet device drivers that register their own MDIO bus, we
+@@ -1770,6 +1820,13 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
+ 	}
+ 
+ 	get_device(d);
++	err = phy_claim(phydev);
++	if (err == -EBUSY)
++		phydev_err(phydev, "PHY already attached\n");
++	if (!err)
++		claimed = true;
++	if (err)
++		goto error_put_device;
+ 
+ 	/* Assume that if there is no driver, that it doesn't
+ 	 * exist, and we should use the genphy driver.
+@@ -1798,12 +1855,6 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
+ 			goto error_module_put;
+ 	}
+ 
+-	if (phydev->attached_dev) {
+-		dev_err(&dev->dev, "PHY already attached\n");
+-		err = -EBUSY;
+-		goto error;
+-	}
+-
+ 	phydev->phy_link_change = phy_link_change;
+ 	if (dev) {
+ 		phydev->attached_dev = dev;
+@@ -1899,6 +1950,8 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
+ 	phydev->is_genphy_driven = 0;
+ 	d->driver = NULL;
+ error_put_device:
++	if (claimed)
++		phy_release(phydev);
+ 	put_device(d);
+ 	if (ndev_owner != bus->owner)
+ 		module_put(bus->owner);
+@@ -1977,6 +2030,7 @@ void phy_detach(struct phy_device *phydev)
+ 	 * a use-after-free bug by reading the underlying bus first.
+ 	 */
+ 	bus = phydev->mdio.bus;
++	phy_release(phydev);
+ 
+ 	put_device(&phydev->mdio.dev);
+ 	if (dev)
+diff --git a/drivers/net/phy/phylib-internal.h b/drivers/net/phy/phylib-internal.h
+index 664ed7faa518..7e9161fcdd90 100644
+--- a/drivers/net/phy/phylib-internal.h
++++ b/drivers/net/phy/phylib-internal.h
+@@ -25,7 +25,9 @@ int phy_speed_down_core(struct phy_device *phydev);
+ void phy_check_downshift(struct phy_device *phydev);
+ 
+ int mdiobus_register_device(struct mdio_device *mdiodev);
+-int mdiobus_unregister_device(struct mdio_device *mdiodev);
++int mdiobus_registration_done(struct mdio_device *mdiodev, int err);
++int mdiobus_begin_remove(struct mdio_device *mdiodev, bool dynamic);
++void mdiobus_finish_remove(struct mdio_device *mdiodev, bool dynamic);
+ 
+ int genphy_c45_read_eee_adv(struct phy_device *phydev, unsigned long *adv);
+ 
+diff --git a/include/linux/mdio.h b/include/linux/mdio.h
+index f4f9d9609448..41c60798fa0e 100644
+--- a/include/linux/mdio.h
++++ b/include/linux/mdio.h
+@@ -8,6 +8,7 @@
+ 
+ #include <uapi/linux/mdio.h>
+ #include <linux/bitfield.h>
++#include <linux/list.h>
+ #include <linux/mod_devicetable.h>
+ 
+ struct gpio_desc;
+@@ -33,6 +34,9 @@ struct mdio_device {
+ 	int (*bus_match)(struct device *dev, const struct device_driver *drv);
+ 	void (*device_free)(struct mdio_device *mdiodev);
+ 	void (*device_remove)(struct mdio_device *mdiodev);
++	int (*device_remove_dynamic)(struct mdio_device *mdiodev);
++	/* Entry in mii_bus::mdio_map_retired. */
++	struct list_head retired_node;
+ 
+ 	/* Bus address of the MDIO device (0-31) */
+ 	int addr;
+@@ -690,6 +694,8 @@ static inline int mdiodev_c45_write(struct mdio_device *mdiodev, u32 devad,
+ 
+ bool mdiobus_is_registered_device(struct mii_bus *bus, int addr);
+ struct phy_device *mdiobus_get_phy(struct mii_bus *bus, int addr);
++int mdiobus_device_change_begin(struct mii_bus *bus, bool removing);
++void mdiobus_device_change_end(struct mii_bus *bus, bool removing);
+ 
+ /**
+  * mdio_module_driver() - Helper macro for registering mdio drivers
+diff --git a/include/linux/phy.h b/include/linux/phy.h
+index fc680901275b..2eba54e068f6 100644
+--- a/include/linux/phy.h
++++ b/include/linux/phy.h
+@@ -22,6 +22,7 @@
+ #include <linux/mii_timestamper.h>
+ #include <linux/module.h>
+ #include <linux/timer.h>
++#include <linux/wait.h>
+ #include <linux/workqueue.h>
+ #include <linux/device-id/mdio.h>
+ #include <linux/u64_stats_sync.h>
+@@ -391,7 +392,9 @@ struct mii_bus {
+ 	/** @state: State of bus structure */
+ 	enum {
+ 		MDIOBUS_ALLOCATED = 1,
++		MDIOBUS_REGISTERING,
+ 		MDIOBUS_REGISTERED,
++		MDIOBUS_UNREGISTERING,
+ 		MDIOBUS_UNREGISTERED,
+ 		MDIOBUS_RELEASED,
+ 	} state;
+@@ -401,6 +404,18 @@ struct mii_bus {
+ 
+ 	/** @mdio_map: list of all MDIO devices on bus */
+ 	struct mdio_device *mdio_map[PHY_MAX_ADDR];
++	/** @mdio_map_pending: addresses with registration in progress */
++	u32 mdio_map_pending;
++	/** @mdio_map_lock: protects the MDIO device map and bus state */
++	struct mutex mdio_map_lock;
++	/** @mdio_map_wait: wait for active map operations during teardown */
++	wait_queue_head_t mdio_map_wait;
++	/** @mdio_map_ops: active registrations and firmware changes */
++	unsigned int mdio_map_ops;
++	/** @mdio_map_removals: firmware removals blocking PHY attachment */
++	unsigned int mdio_map_removals;
++	/** @mdio_map_retired: removed devices pinned until bus teardown */
++	struct list_head mdio_map_retired;
+ 
+ 	/** @phy_mask: PHY addresses to be ignored when probing */
+ 	u32 phy_mask;
+@@ -652,6 +667,8 @@ struct phy_oatc14_sqi_capability {
+  * @n_ports: Number of ports currently attached to the PHY
+  * @max_n_ports: Max number of ports this PHY can expose
+  * @lock:  Mutex for serialization access to PHY
++ * @attached: Whether a network device or standalone user attached the PHY;
++ *	protected by the MDIO bus map lock
+  * @state_queue: Work queue for state machine
+  * @link_down_events: Number of times link was lost
+  * @shared: Pointer to private data shared by phys in one package
+@@ -781,6 +798,7 @@ struct phy_device {
+ 	struct delayed_work state_queue;
+ 
+ 	struct mutex lock;
++	bool attached;
+ 
+ 	/* This may be modified under the rtnl lock */
+ 	bool sfp_bus_attached;
 
 -- 
 2.53.0
