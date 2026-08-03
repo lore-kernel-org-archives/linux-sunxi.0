@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8CC32EEE80;
-	Mon,  3 Aug 2026 07:02:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D4E39479B;
+	Mon,  3 Aug 2026 07:07:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785740521; cv=none; b=cJdHh9kd7GYnnSAuT1dNQyPvb/+6VSXvBJxAdMevabmjeMI1FHN+5B5lyWoZBwBvBynLhB4EcCuSnuDYruWTWF1Xag3G8T4H9vi73m1inXxP7XctMKiw1FSDKjEiLyfhZ0qZivSZ5iqldbyNK84DVUkRNchUytCsiIS6YnENwTU=
+	t=1785740852; cv=none; b=YTZENG7lOIXgH0n67uOJC/tsv2ACKJf3fXNCtwVvB6pXPyUJOv6N7EusADpkvOosULOEe0YK2plC5B5W/kvLmYGlrFW5ybQfKrdadcebgGlG+QxeE1h6ehmwaXOamG/iQbw+jT8CsWqR016xh1J6ABWb+TSwPxYPz73cNyewvQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785740521; c=relaxed/simple;
-	bh=IIp6nv6hircunG/DWiSc4Wx0oZf2WsoI0ofMg0TQDlU=;
+	s=arc-20240116; t=1785740852; c=relaxed/simple;
+	bh=fT96Vm5ZuQZE0nYWI2Z4sAsL76nJCkNJcI/OIzhENfY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TFVYuc2OmCDFTbdwJsPVx6iqRKLUYRGEedQD0w8CLi8ikDU0c1tkH2qoqwWIhBUitiUL4CWVIHCYM10B7hbBsYqRC6Rt6l51vH44FHLmrOKEJqh0NYCLdbE1Gr1+l8MD0W9hdAdjqA6aX3Om7CiXqAo4Q4QQy/ukGT+cjyFkrtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h3lJwpv3; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=EMTG2jhkBDmsvKtkQQ2PKrElkcn8gTVlyaIiBtquHTXMuWcZeW1LYkU5JzdIcBzEbczXjmbQR6PTyPhlJkbxECeSYOP/Vj8jkRPIs1hbr9wduy+5YkwlQw2dfXGHBqbo9gs3CfRFVO6NorxkI7VPnrGfb2EZv5kqHQCrvBPFAxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fSk4kBSv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h3lJwpv3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 180691F000E9;
-	Mon,  3 Aug 2026 07:01:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fSk4kBSv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04ADD1F000E9;
+	Mon,  3 Aug 2026 07:07:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785740520;
-	bh=mXNkCmOUo1oKrupKXDyg7SQqpOCYFMJaA9C9xGO5N/0=;
+	s=k20260515; t=1785740851;
+	bh=ypK3jGgUKK3dY6+nlQbF3+GlhwH+CAiV8k4/9ULVqiU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=h3lJwpv3br2UpB/4mMn2G4DE3xFXYtrZj4Wgw+WpJZJYSpWkkZUxX3HVi2TQUZdC9
-	 3b7tenh8+5g2f3RSFteeCXagHz9EqL1re/bXc33MNEmyQpxAMFDf/ZZ8IY8VVBKOXe
-	 HtiMsxA6aH/R6qXl3mvIaDI8JaBF5biqTjvncEv/d8lmSMtmLKLAFhGf0am701h6ud
-	 m8eZYnaKfN/qjVaLOdxI3Qvy7qHPaVZhc2Vjzq0eGF/BER2HQa/h6R9WJB3v6IMEro
-	 4TVLYhPyogV8POeobe02Vdww3e8QqnTQPIc2oWJGilSjYEaFJZJC2lqXcSWJphxU1V
-	 4W7CUG88WDO2Q==
-Message-ID: <fe4572df-98d2-44a6-818c-1c2d6ca2bba7@kernel.org>
-Date: Mon, 3 Aug 2026 09:01:48 +0200
+	b=fSk4kBSvaHyUrEitakkNQHlGnB82L4TJT+1rk9vp34NQQZ0qMp9B89gDSj8OJvEtb
+	 dCO3xbE9eecQiQ7+TSo/UdR7nQA0EKT0UCQSfUNYnpsEemtUQpJd4Li+6T82ngHPXh
+	 umf8HtssFG8L6qf5IA0jxHqYwSZErY+bvigzSPT+ChqxwQy61yd4rn7pcypFd3m7ik
+	 M+MDUJRrVNrGVnJvSDtc8+WL3oGoQ/RRTfchN38yz9Gj5bm6RylARGPrlGnoXUcwuG
+	 G8Lucm+OT9ai+k4SEEyIWwZpz2z3oJqCyVYsXfjsmOlN3iOJn11gkXDRKAF8og4/dZ
+	 hKFzNiUQWe5iA==
+Message-ID: <f2cc3c90-060f-40c1-a55e-e2ed91e65487@kernel.org>
+Date: Mon, 3 Aug 2026 09:07:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -35,7 +35,7 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/21] arm64: dts: allwinner: h616: add EMAC1 controller
+Subject: Re: [PATCH 08/21] dt-bindings: mfd: x-powers: add AC200
 To: James Hilliard <james.hilliard1@gmail.com>,
  Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
  <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
@@ -59,7 +59,7 @@ Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
  mfd@lists.linux.dev, linux-rockchip@lists.infradead.org
 References: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
- <20260802-submit-acx00-of-dynamic-v1-v1-3-0a53cd9e21cc@gmail.com>
+ <20260802-submit-acx00-of-dynamic-v1-v1-8-0a53cd9e21cc@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -105,31 +105,88 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20260802-submit-acx00-of-dynamic-v1-v1-3-0a53cd9e21cc@gmail.com>
+In-Reply-To: <20260802-submit-acx00-of-dynamic-v1-v1-8-0a53cd9e21cc@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 03/08/2026 07:14, James Hilliard wrote:
-> From: Richard Genoud <richard.genoud@bootlin.com>
-> 
-> The H616 has a secondary EMAC controller that supports only RMII at
-> 10/100 Mbps. It connects through PA0-PA9 to an EPHY in a companion
-> AC200 or AC300 package.
-> 
-> Add the EMAC1 controller and RMII pin group. Leave the controller
-> disabled for boards to enable when the companion Ethernet hardware
-> is present.
-> 
-> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
-> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-> ---
+> The AC200 is an I2C-controlled mixed-signal companion IC containing
+> audio, video, RTC and Fast Ethernet PHY functions.
 
-You order patches quite odd. DTS cannot be in the middle of drivers,
-because it suggests dependency.
+This fails when applied, because you did not explain the
+dependencies/merging of this patchset.
 
-You cannot have such dependency.
+This is THE MOST important information of cover letter. The first thing
+to explain.
 
-Please read submitting patches in DT dir.
+> 
+> Describe the parent device, its input clock, required function supplies,
+> the optional SID bandgap calibration cell used by the vendor initialization
+> sequence, and its optional Ethernet PHY control child. Document the 24 and
+> 27 MHz rates encoded by the public EPHY clock selector.
+> 
+
+...
+
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - ac-ldoin-supply
+> +  - ephy-vcc-supply
+> +  - rtc-vcc-supply
+> +  - tv-vcc-supply
+> +
+> +dependencies:
+> +  interrupts: [ interrupt-controller ]
+> +  interrupt-controller: [ '#interrupt-cells', interrupts ]
+> +  '#interrupt-cells': [ interrupt-controller ]
+> +  nvmem-cells: [ nvmem-cell-names ]
+> +  nvmem-cell-names: [ nvmem-cells ]
+
+Why do you need all these dependencies? What are you trying to express?
+
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        mixed-signal@10 {
+
+...
+
+> +...
+> diff --git a/include/dt-bindings/mfd/x-powers,ac200.h b/include/dt-bindings/mfd/x-powers,ac200.h
+> new file mode 100644
+> index 000000000000..cc59e2ab4912
+> --- /dev/null
+> +++ b/include/dt-bindings/mfd/x-powers,ac200.h
+> @@ -0,0 +1,13 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
+> +/*
+> + * Interrupt numbers of the X-Powers AC200 interrupt controller.
+> + */
+> +
+> +#ifndef _DT_BINDINGS_MFD_X_POWERS_AC200_H
+> +#define _DT_BINDINGS_MFD_X_POWERS_AC200_H
+> +
+> +#define AC200_IRQ_TVE			0
+> +#define AC200_IRQ_EPHY			1
+> +#define AC200_IRQ_RTC			2
+
+Hardware constants are not really bindings, even though you use them in
+the driver.
+
+> +
+> +#endif /* _DT_BINDINGS_MFD_X_POWERS_AC200_H */
+> 
+
 
 Best regards,
 Krzysztof
