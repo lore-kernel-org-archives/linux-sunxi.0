@@ -1,33 +1,33 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E35D84039;
-	Mon,  3 Aug 2026 13:40:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62439376A08;
+	Mon,  3 Aug 2026 13:51:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785764438; cv=none; b=SQaVGTNNWqT1eScQonC6rhWdOYaj7Rdco1lZtPN4AGdH7dp8ZSULJRD1qRt4lY/JIAVa+I5r5/b0l2JtqBjaykCH5N14T+KFH6T0kpY5tTEhkAbfaX0zqRZVRFa6ejeqQxNsgrDDJlswWVNMX3F5zvKiqdheMkwaBToRlvXUaaI=
+	t=1785765076; cv=none; b=KHg5LzqiMl3tST8Ksu+biBtNPFQi/zrbb6gPy7rI2ecx39FXBPUg24X+F3/F++J1yWpPoazWFWk1/+kDB0rFXLND5p/JXPedSx3WOAOQeFiefDCV1Ju2DhJd8zvQnpJvsjvxiQ6IaT8htxDc5qkipQkguUcwbCbQUSmkQqxho9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785764438; c=relaxed/simple;
-	bh=fK/b9MXniraU1nr8yy4WmwL/xpBjpHF1fruxTUviijc=;
+	s=arc-20240116; t=1785765076; c=relaxed/simple;
+	bh=inaStIkU+iRlGjgIk7MdyPxRRaE/xD71ClVr2QxRYYk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u6mC2NJ9ZSNKgt2pjM73byqorfdWGCoNyBIgjjp3MRIYC39N3cbKeVrhxdAGqMXgKePPWGO6GbPW2LIXD4wsOoEHinqMgdUl6lc0Uarv7M2KRjVgYS47cGJpwoOmVZNgnF4nwgfKnoFDQOWHUgRWztcBCNMHQWH+6wQNhsuybDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=Bd+qoP4i; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=K0U4ZqsPqfpR+Vba8vrqfQ4FR4NfFJsQK887uEH8bBz/SO+7lq8P3bVnaOJ8IZHhDdW9mUMNtMalXkGPFQtcqFjZPcfQqq6oUwYofohJJvd4Xnzdota2hF+punsdF6B62wASerfrp2T8L1qDfluEx1YiqDZ6DgSfXkpYNmkwDWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=M1H1iu/p; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="Bd+qoP4i"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="M1H1iu/p"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=yZ42Be3CAijIs1MNORT4K5KkOylX/+uxMp3PqspuDn4=; b=Bd+qoP4il5TLPBh6QS/4b9X0nU
-	HnNfIDbxqVMYSSvKsJHB/wilXUpTzT6MId6khGbs6GirY44D6Qjk9++TBwKdtRzMvb7AQW7BKn6n/
-	0W7y7583P09MTfuHmqsXdBgidD14JrlWZ8EeJhIq/OjcdrBdD67k0INqZLW+jjj5cbcY=;
+	bh=uqpuCmGbDC7MQgqg4rNwLa59ffLN5tM7+k6xoxCEPxg=; b=M1H1iu/pjR8kYw7PfRwEcrhdUG
+	Mmpf5DE9eGVvhtIB6rk06xkB1BWps31tCUziHtFIcdGiQHcjdPICgwrIDeT7j82klQNqStFTs3Khx
+	gokx13xO1aev3e48O2pDastt4vTy37tA5ANceoV4o3b7dHqudb6h8H6N8brmXzWgq65o=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1wqstf-00FjM3-02; Mon, 03 Aug 2026 15:40:03 +0200
-Date: Mon, 3 Aug 2026 15:40:02 +0200
+	id 1wqt46-00FjZz-CF; Mon, 03 Aug 2026 15:50:50 +0200
+Date: Mon, 3 Aug 2026 15:50:50 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: James Hilliard <james.hilliard1@gmail.com>
 Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -55,10 +55,10 @@ Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-stm32@st-md-mailman.stormreply.com, mfd@lists.linux.dev,
 	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 07/21] dt-bindings: net: x-powers: add AC200 EPHY control
-Message-ID: <2979768f-4f83-4f28-ace3-826f4b4c6844@lunn.ch>
+Subject: Re: [PATCH 10/21] net: phy: add X-Powers AC200 EPHY control driver
+Message-ID: <05b1e6a2-725e-4b8e-8629-249637bbcb81@lunn.ch>
 References: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
- <20260802-submit-acx00-of-dynamic-v1-v1-7-0a53cd9e21cc@gmail.com>
+ <20260802-submit-acx00-of-dynamic-v1-v1-10-0a53cd9e21cc@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -67,20 +67,44 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260802-submit-acx00-of-dynamic-v1-v1-7-0a53cd9e21cc@gmail.com>
+In-Reply-To: <20260802-submit-acx00-of-dynamic-v1-v1-10-0a53cd9e21cc@gmail.com>
 
-> +  phy-mode:
-> +    enum:
-> +      - mii
-> +      - rmii
+> +static int
+> +ac200_ephy_ctl_set_led_outputs(struct acx00_ephy_control *control,
+> +			       unsigned long outputs)
+> +{
+> +}
 
-Despite the phy- bit, phy-mode is a MAC property, it defines the MII
-the MAC uses. I would not expect to see this anywhere else.
+> +static int
+> +ac200_ephy_ctl_set_led_polarity(struct acx00_ephy_control *control,
+> +				bool active_low)
+> +{
+> +}
 
-The PHY driver is told what MII to use, phydev->interface, which takes
-the values PHY_INTERFACE_MODE_RMII, PHY_INTERFACE_MODE_MII etc.
+I've not looked into the details, but these look like pinmux. Does
+this I2C device have a GPIO controller? Can these pins be used for
+other things than LEDs? Maybe you should be implementing a GPIO and
+pinmux driver. The Ethernet PHY driver can then just select the
+correct pinmux configuration.
 
-Please explain why you need this here, why is the MAC nodes phy-mode
-property not sufficient.
+> +static int ac200_ephy_ctl_power_off_locked(struct ac200_ephy_ctl *priv)
+> +{
+> +}
+> +
+> +static int ac200_ephy_ctl_power_off(struct acx00_ephy_control *control)
+> +{
 
-    Andrew
+> +}
+> +
+> +static int ac200_ephy_ctl_power_on(struct acx00_ephy_control *control,
+> +				   unsigned int phy_addr)
+> +{
+> +}
+
+These look like a regulator? The phylib core has support for
+regulators.
+
+Maybe take a step back and look at the overall architecture, and how
+Linux can represent these blocks.
+
+	Andrew
