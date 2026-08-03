@@ -1,115 +1,102 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A841361948
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 16:52:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8853C395240
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 17:02:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785775934; cv=none; b=G+3QNUD2zKCj2JDOqE0G9TWrwpcWmsqDQ8j0he3kbA1hgaFLzipv+X43DVwcn+ntlsSsvKSCJL+aj0gXOLPQfkOfBiZJudSVczFXujbICPOMnbOQ4q8aeMfuqsNgIL9KkL232rH14hnwpRIfW9qQHvT1rGK0EhgC2matPka72x4=
+	t=1785776581; cv=none; b=U0I64sK9Js2/Cf995jU65DVCFfLVxIthHK4hAUUpcUleJZu+660TG819/zJqz2EBeRZWjisJABqErgdSthvrwyfAXPECXiM5mC7oFySonIPyjpipjfPeu9w8Q8NgyYqw1TYJhuLlwig3ylZDktxOhYkTPv9gUMtrfOB6Urqjxs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785775934; c=relaxed/simple;
-	bh=9hFWHpMr6667KTRSWMmWOov01VOWplUFcHlU43Po8Bo=;
+	s=arc-20240116; t=1785776581; c=relaxed/simple;
+	bh=LOSO4bEUKQ7c2LrV472oUEJlXNxJX1Sx7D8QFgw2WY4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l/pFDKteN9oVsuV9zf4pltrJMFIEdmR5qmz5PRdX8S+BqNrMY8poecWGGUL7as6caf/Y/Gt/O0Q7g22FC5CiTOOhdD3RnrgLlztvSqOx2Q3mpRGnuyXgRMW4+wmhSBa5SoLdPb5CypM6PVzyFHmZijfCO+8LlZMu7up+1+aDmk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W4ObqZm1; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=JFIqkpCC3lsT/FcCXQ34lYjXMJDaRo4hdy4XLW067sjKUnwLaSw3t5ciaAsNEAolVGxgc+UCd2ukeaouFtfAMMh352tv4TeXKCmE5K7BkjZRjO2Qsz6MTxPXzV3ZsD0iQRAhAHVClVT6fV/9A9PeSFusRWP+Wii0qn08S6qCGxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FTdXnF8G; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W4ObqZm1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E40E91F00ACA
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 16:52:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FTdXnF8G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1CD21F00A3D
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 17:02:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785775932;
-	bh=ktJ1TUfqLx16vP/MAvZ075WUJwVncZtbcK2MP7W0fJA=;
+	s=k20260515; t=1785776573;
+	bh=1IenpiuM5JsmgqLGPzCFWXP8UT6+FeKulhYM9DPJHH0=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=W4ObqZm1721yih5Cc72KTg1SNORcLauLEAeTR/pQvfulljFV1MY786WAqOG+xn40r
-	 Nm6krj9Zt3xk+1UjcfnwqMXNgD5eKdkTOopLe6stmk4hDhhDo+pnbC9woAg+LNhCEU
-	 rfOXG8bFLRNqvzlg52wWAsCZKeZXzzsFdGKuftIB4RdoErFBA6IpAs8GvfEfVtD0yT
-	 DhNz6Rmwo19vJ3v461khXi2B3D+UUxZ8Sr0FXMUTiYY9fXY8So5/RbjYmIoC3rlDmt
-	 zeYYhcpO9uCkfPhrdg0r6h8cpqA0QbjEIp0DoSaTgZbDBaLOxjRM7OGX/eWpQiklrP
-	 fO7+/JOLtU5hA==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5b0148201fbso3696615e87.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 03 Aug 2026 09:52:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RqMch1P73hfY1s8/QAlsJmepdxRgS1lIh+V/3FxrxH2VKzP45hFILLNxAVE0FR+zNs/ZsCwJD0MH9E3lw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzI0VhZg21PRbzjpH3TFaStEzdIlkt0kT3E4u39SoWo+FSGhiCE
-	EyUz5Hx+soCeXvddB3yqSVZaO0lDgVc3OuufaT0oMhWDpqzXekugSyOW4cSKjCvTxm/bgx3EkIw
-	f8UVNikcgCIGrGoGRj8oPZHV6MulFG0w=
-X-Received: by 2002:ac2:5218:0:b0:5b2:9c0e:a2d9 with SMTP id
- 2adb3069b0e04-5b2e4f9dd16mr1400790e87.65.1785775931139; Mon, 03 Aug 2026
- 09:52:11 -0700 (PDT)
+	b=FTdXnF8GFLny3L584AQMMgX2xFs2nxONoFzoXYXqVfCFkjBOgeX8Mr/iTQ9uusC3r
+	 Zgj3u3iA940U7/5dptUgEJR63P/Yb+TVqM0phvTk3cTLIEbBs8bljGub28r+RCUbwV
+	 EkLQsjUHId9GqE8Ku9EU/+GjtYNYBPmPynBYLHs6WTRfmevunezT+XRbZ3MebOQf4D
+	 A1opir9RT91tIzWOrZQK3fkhpuO0gNdIyUr0JBq/dYWEi3HFFM6TFM6/OwO4DVKTz3
+	 mLsIEks8ez6oRODt/3GYbQ7+hrOxNVzwB6uV85OQDVjhcYsXBLauovRXM7ewba5Wcz
+	 qmp169nCj/83Q==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-39ca0a30148so32446281fa.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 03 Aug 2026 10:02:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoZMMBllA6pWaRuzcnAZkaja1KxIYtLir4BW1W3/PJ4g+rlGh0PP9BKtZy1v+iZsqbrFAPfXy7L8gg/vw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx0AksD1+3adeDdJ/Jw9oUbdvprVfrZQDEV5v2aCFFzfZvbhlvf
+	ZUjNjXfvKAxRBWPnBpmzIlfF/rfFkiLjEiHcY7NwYiVajqbAgmTPyTV0zjCbFq1h/Kg55JqCH+p
+	04v1OhfBRF7BUiZB8f+ovUXZuKXqgwFU=
+X-Received: by 2002:a05:651c:a110:10b0:39d:9eac:8ec with SMTP id
+ 38308e7fff4ca-39f863feedamr15152501fa.25.1785776572170; Mon, 03 Aug 2026
+ 10:02:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
- <20260802-submit-acx00-of-dynamic-v1-v1-8-0a53cd9e21cc@gmail.com>
- <2c0210b3-2c68-41f1-aa33-3f1693454849@lunn.ch> <CADvTj4pfNFVGrQV86T7X+nZQYUamxEYLLWuxVXk=av0da_XocQ@mail.gmail.com>
-In-Reply-To: <CADvTj4pfNFVGrQV86T7X+nZQYUamxEYLLWuxVXk=av0da_XocQ@mail.gmail.com>
+References: <cover.1785772659.git.jernej.skrabec@gmail.com> <b26a0d427d9dfae9c82e3ca90a67d24d8ece5a28.1785772659.git.jernej.skrabec@gmail.com>
+In-Reply-To: <b26a0d427d9dfae9c82e3ca90a67d24d8ece5a28.1785772659.git.jernej.skrabec@gmail.com>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 4 Aug 2026 00:51:57 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67Wo+WG47jF_vBUOwv0Vw1SDygXMdBgpsy3R1AQ_LLfHw@mail.gmail.com>
-X-Gm-Features: AUfX_my4aoD19Jk3-8CcfeDfaoI0T_9zWEBW-1SE8UXOLwMz9Yfo_iLW9hIPcwI
-Message-ID: <CAGb2v67Wo+WG47jF_vBUOwv0Vw1SDygXMdBgpsy3R1AQ_LLfHw@mail.gmail.com>
-Subject: Re: [PATCH 08/21] dt-bindings: mfd: x-powers: add AC200
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Andre Przywara <andre.przywara@arm.com>, Richard Genoud <richard.genoud@bootlin.com>, 
-	Maxime Ripard <mripard@kernel.org>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>, Jose Abreu <joabreu@synopsys.com>, 
-	Maxime Chevallier <maxime.chevallier@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Saravana Kannan <saravanak@kernel.org>, Lee Jones <lee@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
-	netdev@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	mfd@lists.linux.dev, linux-rockchip@lists.infradead.org
+Date: Tue, 4 Aug 2026 01:02:39 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66yVbzTSu6sb4ryuD-djcH+vaCtamuhtY=xnq93_ZvKog@mail.gmail.com>
+X-Gm-Features: AUfX_mxnJXn_HowfQijlCXTBUd6N7zXjEPoDoAqA1n9Cl_6r3aRntgABVyXhcqU
+Message-ID: <CAGb2v66yVbzTSu6sb4ryuD-djcH+vaCtamuhtY=xnq93_ZvKog@mail.gmail.com>
+Subject: Re: [PATCH 08/13] drm/sun4i: crtc: Propagate layer initialization error
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+	airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 4, 2026 at 12:45=E2=80=AFAM James Hilliard
-<james.hilliard1@gmail.com> wrote:
+On Tue, Aug 4, 2026 at 12:11=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
+l.com> wrote:
 >
-> On Mon, Aug 3, 2026 at 7:18=E2=80=AFAM Andrew Lunn <andrew@lunn.ch> wrote=
-:
-> >
-> > > +            ethernet-phy-control {
-> > > +                compatible =3D "x-powers,ac200-ephy-ctl";
-> > > +                nvmem-cells =3D <&ephy_calibration>;
-> > > +                nvmem-cell-names =3D "calibration";
-> > > +                phy-mode =3D "rmii";
-> > > +            };
-> >
-> > What do you mean by an ethernet PHY control?
-> >
-> > I assume this is not an actual Ethernet PHY, but some control logic
-> > around it? Where is the ethernet PHY itself?
+> sun4i_crtc_init() returns plain NULL when layer initialization fails,
+> while all its other error paths return an error pointer. The only
+> caller, sun4i_tcon_bind(), checks the result with IS_ERR() and happily
+> continues with tcon->crtc set to NULL. sun4i_rgb_init() and
+> sun4i_lvds_init() then dereference it in drm_crtc_mask(), which
+> oopses.
 >
-> Correct, this is not the Ethernet PHY itself. It is the package-specific
-> sideband control block that must be configured before the normal Clause 2=
-2
-> PHY registers become usable. For AC200, this control block is accessed
-> through the parent AC200 I2C regmap. For AC300, the equivalent control bl=
-ock
-> is accessed through a separate non-PHY Clause 22 address.
+> Return the error pointer instead.
+>
+> Fixes: dcd215801b02 ("drm/sun4i: Drop primary layer pointer from sun4i_dr=
+v")
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Basically, all the PHY behavior that is normally configured using strapping
-pins on a discrete PHY is done over this I2C channel.
+Acked-by: Chen-Yu Tsai <wens@kernel.org>
 
-> The actual Ethernet PHY is a separate device on the MAC's MDIO bus. The
-> shared PHY driver for that device is added in patch 16:
+> ---
+>  drivers/gpu/drm/sun4i/sun4i_crtc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> https://lore.kernel.org/linux-sunxi/20260802-submit-acx00-of-dynamic-v1-v=
-1-16-0a53cd9e21cc@gmail.com/
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_crtc.c b/drivers/gpu/drm/sun4i/s=
+un4i_crtc.c
+> index c2f7f69baf75..3fa1f4fda0f0 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_crtc.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_crtc.c
+> @@ -208,7 +208,7 @@ struct sun4i_crtc *sun4i_crtc_init(struct drm_device =
+*drm,
+>         planes =3D sunxi_engine_layers_init(drm, engine);
+>         if (IS_ERR(planes)) {
+>                 dev_err(drm->dev, "Couldn't create the planes\n");
+> -               return NULL;
+> +               return ERR_CAST(planes);
+>         }
 >
-> The later board DTS patches instantiate it as an ethernet-phy node beneat=
-h
-> the MAC's MDIO bus and reference the appropriate sideband control provide=
-r.
+>         /* find primary and cursor planes for drm_crtc_init_with_planes *=
+/
+> --
+> 2.43.0
 >
-> >
-> >        Andrew
+>
