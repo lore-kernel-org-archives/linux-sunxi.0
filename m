@@ -1,144 +1,100 @@
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35D538B7D4
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 16:45:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785775538; cv=pass; b=JE9EIs1RiUeKGiPKF1OPKfdQdjMsecp6PEFq4gBNtLdkhHlpMZBKQzmtc1LsOEH2wM4Rt3QzsnONYTUgtTejW6M8A6YmJzmkdsXL5Ehx4Yn9htkMdMcZIbB7tFmwPv4xoklZ/Nd9xzET3NSzZvIwRsR6IQjdccLXSa8QBjTleXg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785775538; c=relaxed/simple;
-	bh=pVJ/u9SrHtpIYcpsDllTKqpayBtCBNOqrDA3wdvqLR4=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0707A34A79D
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 16:45:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785775551; cv=none; b=M5bAPY2hOY/5LsffuZIIpBsCvTjJqD/6I3f//oUMUAp9ksoResxx/oEGRTaAF4HUcN+YG2I/C5ZGO2JaH1oN12lZDOmN1g6F46UaFeR1izv645rrsLXutMIJ4gH//eCAejhqhzvHhRHx00hKcwrRbp18cZps8BFYy6qFU8naw7o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785775551; c=relaxed/simple;
+	bh=INV4uyC91IEYZhiJM1/wH5ksag8VacqXlu7y2ZR56BI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HZtsogAo2dTnpnTxvM5+LaJbSUjN3kC7RvmcksJdT3x+yscsNIJO0Q/4VlILIABlAsQM576xu2dbiri41HfJbvwLVqdvWnc4l8Z5t2bivMVxxV1HqYv6pupja8RYU3AKhH1p+d+VUuX587dxCZNc7dXbOmgVDeBKqmARqbb4rAc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fKmda6lI; arc=pass smtp.client-ip=209.85.222.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=Zr1J9d5ycxf6S1OOzRolNo0q1qEb1g2nG3Cssjppxk9zC+J/acBk8gMTMMMUg6UOTTtOhZvfWqCzyGZ3fagvLeQ6pol/Om10baERldC6q/jwvq5nY5MCvae7xKImKAYUAKS2AQl6725b3LffxVs1HhN1KkqXz5L1Tfszoe7yO7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P7Y32Wwu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fKmda6lI"
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-977bc1cfc6fso889552241.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 03 Aug 2026 09:45:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785775535; cv=none;
-        d=google.com; s=arc-20260327;
-        b=B/Nu7C5AvuUvwYbEQjgKdC2x41wnK/fbwSkFjZr9VET7YD+s259e0XhiXYOKDSg7Fi
-         ARYBuGAcZz5+b3gp+EQcVHGrC5iQqeAeh9jYolSjZ0v4em4ooEfFnKNreH8MVKoNYF4m
-         lzDyiWpLKIHI/nSeAZVaw+m3ardQaB2nzoLTrEHUw0ub/QwcsYDHUv2zDh9kwdEQsU2x
-         b0T9ZguVyW5qq3xSUFLDI3qBg0epvR7w7Rz3vLPRFjwGXwAD19A1CMUA7yWRHcM4cg/6
-         X38/xcoUxEk8pemJQvdLadR+1x/YGFzF0AvJjeJcDzDhF1NhXIIqZ2UqyLEwAyOtAc4f
-         QxLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=niqvePJlDSQd28Qyc7y5gE/vwAYMmaOcsvRZCG9PwY8=;
-        fh=dcwOP2HX33dW4l8q0571felKOAV4GNbkDAzAA4/r6tk=;
-        b=FoFNaA/NOrI/w0kGWovI5+Udgd4N4TmW6L0mooSBt4MbkP9xjFBAkduU7j33feNATY
-         rV6CKT+HWddv1OOwV3u4npXPcWBTGVFrt2MyB/rvI1dg5Kj31RIHCmW6poR+AsnNq7p2
-         usm/Noe34o3AzBjPrBTMVjRnE2GAWUKu7fN2DSyvEF59JoT/YxhY9CV+4QatAf1XDVig
-         qvoinO1HgSsMGsyOnCZqsW+WirDaS+Lw5n09zrECBbVqmAn+9qA1RtYXsl45jRJmfwrI
-         yoLbI2K7pbxLkWpj3q8Uwz9adR0sjOP/xk2pI2tYI28zKD7O26tmanvKkHwdfk+PFGVb
-         JWMg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785775535; x=1786380335; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=niqvePJlDSQd28Qyc7y5gE/vwAYMmaOcsvRZCG9PwY8=;
-        b=fKmda6lImSp0FCSy1CHg9tk8w1tieUXduSW7uRKmi6vNWKbMJPkg0li8BBydJxV8+Q
-         D8WBWNOYV+mKI1/9aqfYF9JPcjIqkkGNzWsQq7NjZCPMDQ18bvniHkA+WFhMyZYclpSi
-         VEeUbHu0yqJf6Z/5UWK7ndgiMvV76oRmSqCPCJJOpNtu0TP9UwrM1pf2JA6ouErcV0Hx
-         CCmLwqzFJD6qAwZl6S/vGhCcB51QcpO1nOG9CsBn6ZCeX/fK0AQBys2YNqr/ku213sCM
-         2Tfb/rSXYNwE8PMaNgQVj4BP90FViYDcTed1QH9x8tV3iVW7uBulpBxvDWhwH9hJH6Ed
-         SmPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785775535; x=1786380335;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=niqvePJlDSQd28Qyc7y5gE/vwAYMmaOcsvRZCG9PwY8=;
-        b=Wb+wInow7cRmdCcc9c55/MBubvvM6tqK8IGgduPOrRRYPYOTl5OCpfsxaevTTfM1eE
-         0dgOpto+1DT5MdO94CjcRQIExj/Yoa0YJ67FjXLzpCqEp6kBslCJhNJbfna1/zk5L7Kh
-         ANWHIU7bv6TfsTnF0Ebh7+gsGCFPnkTpZyjvhvIrMCK0rL0fY5OyAcfq5VKG4GEhUCCx
-         tj0ETTpvsjZcjx9y5nCqaW+qpTwRXLVgWanZt888/PaPRma6uxxAuO/H71x6TjrjkCHK
-         NsdtJgmNynAzAofQdKXSEs+t82kpbryI6HTNIK8AqLc/0o+Wb4hGn37J7rzVtcdeq4ZB
-         ck4Q==
-X-Forwarded-Encrypted: i=1; AHgh+RqA8i29TSL708l2g7vsQTJSTRr8DQxg7bfIMzT1/ewom1ysVDtykkw/uzAUsZAkMB8xIbmR2hvoGtWS1w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwlMnPLyThXxHw+AU95+5xEy82Fjjv1Ct2MzRLLwlRffCAHRzlE
-	VBj74eqXPGolAVMEWpQ10PNdrtjYDzujXqSdH1vEikZqXJNjaI8qvbS6wvYO0+ESGfNHF6z/z6x
-	KL5X+/F1wucx2mxvqQkw/iA55omomY0o=
-X-Gm-Gg: AR+sD13GY9V4qYTd1DMMdXZd8TKIG7kTleOvuZ5gHp0oVTRcm5FRnL2EC/LYUOYkqrV
-	FdhqnBMFQjKl6p4yXDYdqdP6qcl11mNLVeq3HDO8laTkrUIx5pN5hDOIaL3Jjs122+U9cifEbEK
-	/t/+m1b6ZvPk4yB89myJSO/B6yKWQdJghmSv5DUJX7H3t79N8En+OwZ2XGpJIn031Psycey+WAg
-	O4C7372l3Djglkv8oZWuwbyTrKK/HkAfEVwPpCmn4MOXZvy77H+LaOjZYfx1ufBvhouYGsVPMnN
-	P7wkXeUuoO4dmOc/FWgeFBl8FMNQgECdPVo4Lk9qIxmmz359Xu3GPIC/OPU+70AMnPocveUmsdL
-	OI+pJVtlPSN/RBnBGLCFDwIZZJTv4pG2bYzSMYMgCUlJJ98Uw95jjRO+PvIJCuzSH7hDH9vFCa7
-	qBAbMNtyODODplWTUsZ2Pm6dwt5b5xKFFjfp99
-X-Received: by 2002:a05:6102:5e82:b0:73a:128c:4e3d with SMTP id
- ada2fe7eead31-75b22b6375cmr7983333137.8.1785775535469; Mon, 03 Aug 2026
- 09:45:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P7Y32Wwu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B06D21F00ACF
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 16:45:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785775549;
+	bh=SXxFPuDCxz3Aji6z4V5I94Ca9I9A0J3OETny9fcwk9g=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=P7Y32Wwu5CLcyaG4uHJwQw/yPwMDH8PRwLZoe8YqxPZjHQ52LTeR9XnqX2Iv407og
+	 1E0m0JDC58qFlh/g78Yq5DDM4PFeUOA8eF8JybeQq/jxx4Tj4PdQAfCrLQmnfHO/oM
+	 RiY1HbG00m7mBpr12/n0JgS5UFeln7WWtH1tXC2uFlZ78GqbJzkJfb7Ba573dJBm0q
+	 uAIfwKNoYyvQ+rteuURYqIIzkBzh2cRpJJDD/PBE5pd15CdJvVqXhGtWdePk7bwhP6
+	 PuHK+gn2EnFx6jxIOT5eFGNtb8QE5Zs0l6ET60LWCvQpfy0j8x1/ufcLewW1QJXmcM
+	 M/UT+WZ7zzo7g==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-39c83acb86eso32321031fa.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 03 Aug 2026 09:45:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RqZlcCaSRZNfSQmpRgh7EzPtm7OK0pYY8v/d0xkmNFxYHaGSYgiza4yskCIdLZh67kkCQLhlR0vJAxupA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxUG6V6lJfwIBIRvaqwab7aAdwzYgJXxDZqnL46EVGGj/QFSu7F
+	ZU1rX1y/U5zDoizy/xrJptsFWpvmMIlcVupkVkBSs8Ow9N//YdyrfnUgg2wkV4mycaiT4PQOuoF
+	4lWGuV0jdgvSsNpAiWI8Ge5gQEofSZN8=
+X-Received: by 2002:a2e:bcc6:0:b0:39f:fbd:69e4 with SMTP id
+ 38308e7fff4ca-39f8647da2emr21946901fa.41.1785775548162; Mon, 03 Aug 2026
+ 09:45:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
- <20260802-submit-acx00-of-dynamic-v1-v1-8-0a53cd9e21cc@gmail.com> <2c0210b3-2c68-41f1-aa33-3f1693454849@lunn.ch>
-In-Reply-To: <2c0210b3-2c68-41f1-aa33-3f1693454849@lunn.ch>
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Mon, 3 Aug 2026 10:45:23 -0600
-X-Gm-Features: AUfX_myHhqSCOlS18NU3-rnIJB_yJDCs5Z0LNUdIv6o7tNasY8YkhUjPJd2Ilvs
-Message-ID: <CADvTj4pfNFVGrQV86T7X+nZQYUamxEYLLWuxVXk=av0da_XocQ@mail.gmail.com>
-Subject: Re: [PATCH 08/21] dt-bindings: mfd: x-powers: add AC200
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>, 
-	Richard Genoud <richard.genoud@bootlin.com>, Maxime Ripard <mripard@kernel.org>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, Maxime Chevallier <maxime.chevallier@bootlin.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Heiner Kallweit <hkallweit1@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, Saravana Kannan <saravanak@kernel.org>, Lee Jones <lee@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>, netdev@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	mfd@lists.linux.dev, linux-rockchip@lists.infradead.org
+References: <cover.1785772659.git.jernej.skrabec@gmail.com> <7e9dad9eed2e91a79c4e1202caa8fed7c2427531.1785772659.git.jernej.skrabec@gmail.com>
+In-Reply-To: <7e9dad9eed2e91a79c4e1202caa8fed7c2427531.1785772659.git.jernej.skrabec@gmail.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 4 Aug 2026 00:45:33 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64MMcUQW-6X3Hb=ifO87VhEDicjXtpHvq+pBYczyLECrA@mail.gmail.com>
+X-Gm-Features: AUfX_mwZCPbOCHuxVBeBJfg0hkv1k_HMStH-Sat9nWvpFIL9sOzUuH6ZR1uJGfk
+Message-ID: <CAGb2v64MMcUQW-6X3Hb=ifO87VhEDicjXtpHvq+pBYczyLECrA@mail.gmail.com>
+Subject: Re: [PATCH 05/13] drm/sun4i: tcon: Set output mux for DSI and LVDS
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+	airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 3, 2026 at 7:18=E2=80=AFAM Andrew Lunn <andrew@lunn.ch> wrote:
+On Tue, Aug 4, 2026 at 12:11=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
+l.com> wrote:
 >
-> > +            ethernet-phy-control {
-> > +                compatible =3D "x-powers,ac200-ephy-ctl";
-> > +                nvmem-cells =3D <&ephy_calibration>;
-> > +                nvmem-cell-names =3D "calibration";
-> > +                phy-mode =3D "rmii";
-> > +            };
+> DSI and LVDS skip output mux setup, so TCON TOP cannot route the selected
+> mixer. Configure them like other channel 0 outputs.
 >
-> What do you mean by an ethernet PHY control?
+> In practice this matters for D1, where channel 0 TCONs are fed through
+> TCON TOP. The remaining set_mux implementations only handle TMDS and
+> return an error for other encoder types, as before.
 >
-> I assume this is not an actual Ethernet PHY, but some control logic
-> around it? Where is the ethernet PHY itself?
+> Fixes: b9b52d2f4aaf ("drm/sun4i: Add support for D1 TCONs")
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Correct, this is not the Ethernet PHY itself. It is the package-specific
-sideband control block that must be configured before the normal Clause 22
-PHY registers become usable. For AC200, this control block is accessed
-through the parent AC200 I2C regmap. For AC300, the equivalent control bloc=
-k
-is accessed through a separate non-PHY Clause 22 address.
+Acked-by: Chen-Yu Tsai <wens@kernel.org>
 
-The actual Ethernet PHY is a separate device on the MAC's MDIO bus. The
-shared PHY driver for that device is added in patch 16:
-
-https://lore.kernel.org/linux-sunxi/20260802-submit-acx00-of-dynamic-v1-v1-=
-16-0a53cd9e21cc@gmail.com/
-
-The later board DTS patches instantiate it as an ethernet-phy node beneath
-the MAC's MDIO bus and reference the appropriate sideband control provider.
-
+> ---
+>  drivers/gpu/drm/sun4i/sun4i_tcon.c | 2 ++
+>  1 file changed, 2 insertions(+)
 >
->        Andrew
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/s=
+un4i_tcon.c
+> index 960e83c8291d..ea7c90fef316 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> @@ -717,9 +717,11 @@ void sun4i_tcon_mode_set(struct sun4i_tcon *tcon,
+>         case DRM_MODE_ENCODER_DSI:
+>                 /* DSI is tied to special case of CPU interface */
+>                 sun4i_tcon0_mode_set_cpu(tcon, encoder, mode);
+> +               sun4i_tcon_set_mux(tcon, 0, encoder);
+>                 break;
+>         case DRM_MODE_ENCODER_LVDS:
+>                 sun4i_tcon0_mode_set_lvds(tcon, encoder, mode);
+> +               sun4i_tcon_set_mux(tcon, 0, encoder);
+>                 break;
+>         case DRM_MODE_ENCODER_NONE:
+>                 sun4i_tcon0_mode_set_rgb(tcon, encoder, mode);
+> --
+> 2.43.0
+>
+>
