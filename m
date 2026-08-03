@@ -1,153 +1,143 @@
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E165838333F
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 16:36:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785775016; cv=pass; b=OeRAg02lhMQcUO6HizIVSnROjh6xjKcrmjHxRSkXI4C1KYcBvmwHLE73cA6CY4THHfHKRCB9rwh3n0YpZ3FfqeHhLDtfVaQUwHkyeIEeQ6PKXMXA3b0NyQcEqb26LIqFZk5Ir+ob3MexfWV3cu+2wqfrzLsldLAyK0cJPet9f2w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785775016; c=relaxed/simple;
-	bh=K7WSdWoRnNatXjyT6a0V545KuC7+pJeUxQF1yR9byhQ=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F056F2DF128
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 16:45:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785775512; cv=none; b=Zm02fWNjUE96ZbSTKjEZ5VVXkgqTg7n7OOKZD93GlHvt/e8MKWrWXkTH1GHMgskJCyfnZB95h4HH5oVfh9AvSRpLAvlx8xHSZ9lWKS/t2tyDakcXmu4CqqHcerIDd30geVkRDo0ZUffKuJ/cq9L8TqejbXNGohDgc+iA87ShjVs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785775512; c=relaxed/simple;
+	bh=88pRP2t9YXWiEjcJFOTdLm8hsyP4KBTh9b3qc3fGiI4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k3/Sy785jTV+V5JHN5vbtindkc5YE4QQXxNdKGGY8OFix4n1+mWL98Udff/HVBlBhQCbj3EZb028lm6Bw6bO5VXOjhLD/wtZ0f/6p8aOzmPAaZ6tETq6DBxnJIClmkEQq25EprusyBLjLiC2XXbb5fzdpypb1aF9SY6l4s8FzPU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=haDJU66C; arc=pass smtp.client-ip=209.85.222.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=MQ0TIPKfbrxVQ2jVtQZSsRJ7OaxZWYpeVO24UjRtSjmLmVySnKJ/d+TcDiRBg9sXcIFET93nYMfvuNHk+ZhZNjy8GXonbkyOGrdouiYgVXwwQwwYYLGz2cD8Bseo9wioAgmxmvvYokkMJE4OMSDNcXZt9Ea0zObGTLa6Ik3GPuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f9cmzoa/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="haDJU66C"
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-9693bbb962eso2172187241.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 03 Aug 2026 09:36:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785775014; cv=none;
-        d=google.com; s=arc-20260327;
-        b=KPaPrLm9Tbzoy0cvGBdJM5XsYuVQBpUmXVjsJoaiyF9ZLZcW2uUJj/jnh7OElU4/v3
-         AMe/bv9bGScL0YxEVDVwW4rb2JnCJYZQq6fta2i0kvWR9z5wcIkZHJmn6veH0I981ydq
-         UYtMO+zXJ71XqYleDpX0bnz+qC/ZQ3Zz+hqQyrnrgeXL+CO8sS520Vm4Imz12+NPbgJZ
-         0hTHEUN7q7kf3oJQJw9kl5ByqFFmd7OWGp917H9ZpJ762rl5Wu9ThG5YG/8+CJskNjFB
-         v4KmdzW8AvrnkAph9DpWV2LpFXYpyHrxo462o2yqeVo7YZI7cMQd+jLymoRekbZOnQMh
-         TuoA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=y2mO7QnlyPovrqJ9WwdH4iPAu4v/YWoM0OB9E5eGsqI=;
-        fh=Toqzw0OJiiyNPlhqOmooO9bOaDcWqXW6qcjED31xjzA=;
-        b=KPyA2HbX/mGX/MezGzgXdHud4th+mfNXHQhY+Vi1T7hMRNHf3vTur480x25BSgmYIh
-         CbmPXrsZKvpq4qC5z8sRmfAaU7rtuEpnYFanZOuutMYGGUd6KqcJZNA4GWCads/zjSho
-         9QmAsY/Y0ENwFVnuk9p4fPXV72l5SEnWtI8dPs5JtoBM+Kgy/5odS4SLml07oa6ziYly
-         BHaQTJLcqNjMgAjh8mQO23cz9DJou1s3DdoQybwtsw+Ww1B63N57beOzYOTmX2vDMCEj
-         yGw6woggulUW37skaGhQEWsJswJ2ZLQfngtufEQWeH4qladVWkWkYy/6cRuntS1EdmrM
-         FJ2Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785775014; x=1786379814; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=y2mO7QnlyPovrqJ9WwdH4iPAu4v/YWoM0OB9E5eGsqI=;
-        b=haDJU66CT5tfqbYkvyIWJ9jmGA7MeUsLOCB6nDSRPSLFEg+CCzTXvbjnpeGCUZvaQg
-         jz0SbBHbQu8y7MFSVdnLGyJPvKcYxRX6RwORy5TVf1G1/+u+5hGP5N4xlUvDD/u2Phfz
-         lrqjLivI8/pv1XMzXR/M/d61sZvQalPRk4s8VlcWOZ4HmRTdtmnRBuZFlxKvuqSYNTA1
-         QMxG/GRlRcsQnBwArduagDP+3T46Xv6LVg2RC4tnm6oUVIU4j72V/9RzzZCtNpmYK1SI
-         wMJoFJZGoTN0Ds9SZVxaeIzA/KFXnfIH16xTA3gwQiqijviKcf9juCJgXAMsJ3fiNVgr
-         5qwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785775014; x=1786379814;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=y2mO7QnlyPovrqJ9WwdH4iPAu4v/YWoM0OB9E5eGsqI=;
-        b=P8JuOksEiCEkFifkWOgg7LU7CmlluT4U2eP/xJSSHO2I43+jI99E56+uHiBi33bDYV
-         qcny/bqEjXCbwApVXGp+FXL8VR/o8iIHb61gZPRHEuV4Kqqu07b3L869debFvG45ul2+
-         NW5zYzMSfrjvVyiAsorPFfw0J5n0LGsrJsoRvOTsDV7RRQ49OIuqirxDTTqyGz1nBj0V
-         TW6qJIagX7BA+j8C2mB5wwczBO5wtqwT2PYWDjd1UCu4bz2TIr1qANfQloPZhvyi1Nbg
-         vTgT0tnpG5y2l9O79msuF6JUqWOqFRvK5hAXHy2wYo0bzxELPMMJqqdO2bQ+C8wWlBjr
-         Y82w==
-X-Forwarded-Encrypted: i=1; AHgh+Rr8xYSOhT1aK1DEBnvPGAGiev3p9LSV8jfLGLAonQApx+oZvLh5p2kEt+eM3NMNKpY8+RjhG+BXfksyBA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YweKewD5goe+HygB7PsbB27LpxJRNoTmModwKrK+M1GPTBuOEFq
-	pNK7ovC+btvbpTlXebTzFGaE6SuNbm16WOijY1Ij/+vMqTxuWLb+HSTEfVYDyigrElXRxKzGzbc
-	JBA0ml0RMKr7gaYUb1E32ywx0nCX1oNo=
-X-Gm-Gg: AR+sD13zOo9OwXST1hFSk1e3KtDjqXriCRSEtAHJiJMhPtdrLTcnH2pbGGqHkZDbi0O
-	1INHuYBNJ6Dy8LnPzMKcKbmPB73Pavcf/HhlS4Hie9AQK5L4P301WCHm4vHZpZsfB1HIlFZ1/Gf
-	xxq470K9g/wZIAVMjQKRUK87lKeSbA0tv2GWkDWgu7UeJgNQkjrSdG8l6W8IJHmn3xSTxNBO9gE
-	by7ZOLm6VRr2qP/WCCeX8IHPks02MSF5AH+pzmzffPr6thOjgepw6yUSK9hDXmonz428qhiY8xk
-	U7cEYSAc32KWbMYUflG3lvFINF6bkcDiyK4QrxgsgkkzEtf08gOPQrsy+YT3ohmTxLsqmPUqVRh
-	lsKLuHUflElbl7Uu9nojM0VtF0LQr4xb4uAsAj3rT10eFtJSfVddjXNfNu0vydBQcf/6mJGvafF
-	WDGC9uJSFWiBPj8KoYYu4/B9GytSUvx4ajhEoRrk89JjwAHY4=
-X-Received: by 2002:a05:6102:41a9:b0:740:2bcd:24d2 with SMTP id
- ada2fe7eead31-75b2245a880mr8777953137.5.1785775013743; Mon, 03 Aug 2026
- 09:36:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f9cmzoa/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6ABB1F00A3A
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 16:45:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785775510;
+	bh=wXOfikKqyccWdJOmPTIyOaKQPXwqCCx6SW5ye3VQI60=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=f9cmzoa/OwV6WSEg37RcrMKDx5ZcWFT33ygO3Xj0h3Ye1aj4j0k3fP1VPsF6J+nKy
+	 pJLoiMLJD2pmYw+bb2kEVDttnYb8ZGm9AxBtj6A1npnP3x4sPi55IrQ1BRBVgh4Z1H
+	 HnKTG1V/Gb72vEuAXNFto1Yu+rxTjIJup98L38pZf3e7ekRnLeZJYYnxNIe4LvxBMl
+	 /vzIZiX7h+I6WNA1OtTCMDpLMHxpW6qKy+tF/KWh4IJdABsBD+Oojda1RArd93Wo8k
+	 q6tJWOCzzedR11n6ktRCJTiJNtJBcMLs9makFr5pWsVrQ6Em+dkKowt26F2RTvdELW
+	 /bq4DaHd2Nicg==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5b0117d49dcso4103418e87.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 03 Aug 2026 09:45:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rql6jQhlN0ufcjZ+qOnN6YggXEsMPgXxjXpZoSYn5F6Fbm/sIMCH+84grrtcMkLAc0hbToq+HBNhqIN9w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxEIqwSGjR1BtxTAQvpqzBNLssbFMq73ZHYGOJhh1AOqYsNHjP6
+	/aiDeC2BD/zqOiqOfgdyHPz+jfgJOxsA/r8unbibrmnNPK4MBvfHhoiJfcqQ9+D2y5G9l6E1Lj2
+	LWBIxNHnQh3vDpak92glTp+NqoZhj3RQ=
+X-Received: by 2002:ac2:442d:0:b0:5b0:21e3:672a with SMTP id
+ 2adb3069b0e04-5b2e4f936cemr1411737e87.56.1785775509359; Mon, 03 Aug 2026
+ 09:45:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
- <20260802-submit-acx00-of-dynamic-v1-v1-8-0a53cd9e21cc@gmail.com>
- <f2cc3c90-060f-40c1-a55e-e2ed91e65487@kernel.org> <CADvTj4q7HnOYJZE-M070-1npEdne__Ct5D9FeUNVVXa8Bsm7qQ@mail.gmail.com>
- <e198e8fa-6c5e-4c8d-a4de-d8bb25aab0bd@kernel.org> <cd177647-827c-481a-9ac6-5f5a1882f14e@kernel.org>
-In-Reply-To: <cd177647-827c-481a-9ac6-5f5a1882f14e@kernel.org>
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Mon, 3 Aug 2026 10:36:39 -0600
-X-Gm-Features: AUfX_mxf143l7ltuwFHdM8jtybu0jFAqTogB47kH9lIVgz-FaKgqQGV-oPrZGYA
-Message-ID: <CADvTj4qby5jow6BkvumZFK6cF8aLCTeQZz39VKEdm59jEtRp8w@mail.gmail.com>
-Subject: Re: [PATCH 08/21] dt-bindings: mfd: x-powers: add AC200
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>, 
-	Richard Genoud <richard.genoud@bootlin.com>, Maxime Ripard <mripard@kernel.org>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, Maxime Chevallier <maxime.chevallier@bootlin.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Saravana Kannan <saravanak@kernel.org>, Lee Jones <lee@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
-	netdev@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	mfd@lists.linux.dev, linux-rockchip@lists.infradead.org
+References: <cover.1785772659.git.jernej.skrabec@gmail.com> <52eb247169b268054302afa71e598add0b04748d.1785772659.git.jernej.skrabec@gmail.com>
+In-Reply-To: <52eb247169b268054302afa71e598add0b04748d.1785772659.git.jernej.skrabec@gmail.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 4 Aug 2026 00:44:55 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67+AR+UDSM6tJSDtJw_zje164F8CmjUJaFegDr=txmUaw@mail.gmail.com>
+X-Gm-Features: AUfX_mwkv5wRgU6YrCVP-n9_AeYgFr7hs0G3AjcJP388guGB69s2xIov8DPXNPg
+Message-ID: <CAGb2v67+AR+UDSM6tJSDtJw_zje164F8CmjUJaFegDr=txmUaw@mail.gmail.com>
+Subject: Re: [PATCH 04/13] drm/sun4i: tcon-top: Keep mixer routes distinct
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+	airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 3, 2026 at 2:21=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.org=
-> wrote:
+On Tue, Aug 4, 2026 at 12:11=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
+l.com> wrote:
 >
-> On 03/08/2026 10:20, Krzysztof Kozlowski wrote:
-> >>>> --- /dev/null
-> >>>> +++ b/include/dt-bindings/mfd/x-powers,ac200.h
-> >>>> @@ -0,0 +1,13 @@
-> >>>> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
-> >>>> +/*
-> >>>> + * Interrupt numbers of the X-Powers AC200 interrupt controller.
-> >>>> + */
-> >>>> +
-> >>>> +#ifndef _DT_BINDINGS_MFD_X_POWERS_AC200_H
-> >>>> +#define _DT_BINDINGS_MFD_X_POWERS_AC200_H
-> >>>> +
-> >>>> +#define AC200_IRQ_TVE                        0
-> >>>> +#define AC200_IRQ_EPHY                       1
-> >>>> +#define AC200_IRQ_RTC                        2
-> >>>
-> >>> Hardware constants are not really bindings, even though you use them =
-in
-> >>> the driver.
-> >>
-> >> Should I do something different for this?
-> >
-> > I would just drop the defines and the header, because these are fixed
-> > hardware numbers.
-> >
+> Both mixer selectors reset to TCON 0. Selecting the same TCON for both
+> mixers causes black or corrupted output.
 >
-> Hm, unless they are not and you added abstract ID numbers for both DTS
-> and drivers? Then this would be fine.
+> When a route would collide, park the other mixer on another described
+> TCON, or an unused selector if none exists.
+>
+> Since the TCON index is now used as a shift, also reject negative
+> values.
+>
+> Tested on Orange Pi 3 with TCON_LCD0 and TCON_TV0.
+>
+> Link: https://lore.kernel.org/linux-sunxi/Zn8GVkpwXwhaUFno@titan/
+> Link: https://lore.kernel.org/linux-sunxi/20241108-tcon_fix-v1-1-616218cc=
+0d5f@jookia.org/
+> Fixes: 05db311a792d ("drm/sun4i: tcon-top: Add helpers for mux switching"=
+)
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Yeah, these are more abstract ID numbers, they aren't really hardware
-constants as the driver translates them.
+Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
 
+Though I have a couple nits.
+> ---
+>  drivers/gpu/drm/sun4i/sun8i_tcon_top.c | 71 +++++++++++++++++++++-----
+>  drivers/gpu/drm/sun4i/sun8i_tcon_top.h |  6 +++
+>  2 files changed, 65 insertions(+), 12 deletions(-)
 >
-> Best regards,
-> Krzysztof
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_tcon_top.c b/drivers/gpu/drm/sun=
+4i/sun8i_tcon_top.c
+> index 8adda578c51b..9cbd655518b2 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
+> @@ -25,6 +25,49 @@ static bool sun8i_tcon_top_node_is_tcon_top(struct dev=
+ice_node *node)
+>         return !!of_match_node(sun8i_tcon_top_of_table, node);
+>  }
+>
+> +static unsigned int sun8i_tcon_top_get_tcon_map(struct device_node *node=
+)
+> +{
+> +       static const u32 out_ports[] =3D {
+> +               TCON_TOP_MIXER0_OUT_PORT,
+> +               TCON_TOP_MIXER1_OUT_PORT,
+> +       };
+> +       unsigned int i, map =3D 0;
+> +
+> +       for (i =3D 0; i < ARRAY_SIZE(out_ports); i++) {
+
+You can declare `i` directly in the for statement.
+
+> +               struct device_node *port;
+> +
+> +               port =3D of_graph_get_port_by_id(node, out_ports[i]);
+
+You could probably use the __free() cleanup macro and make `port`
+scoped and put the reference automatically.
+
+> +               if (!port)
+> +                       continue;
+> +
+> +               for_each_of_graph_port_endpoint(port, ep) {
+> +                       struct of_endpoint endpoint;
+> +
+> +                       if (of_graph_parse_endpoint(ep, &endpoint))
+> +                               continue;
+> +
+> +                       if (endpoint.id < TCON_TOP_PORT_TCON_NUM)
+> +                               map |=3D BIT(endpoint.id);
+> +               }
+> +
+> +               of_node_put(port);
+
+And this line wouldn't be needed.
+
+> +       }
+> +
+> +       return map;
+> +}
+> +
+
+[...]
