@@ -1,104 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1146840DB2D
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 17:26:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EEF23955D8;
+	Mon,  3 Aug 2026 17:48:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785777989; cv=none; b=m67WYMmFr0q9VMZrXyCe+Rnh04piacTiyTYNEG1gTNydUI6lLgKqaqu8rF71Wpopn19RPkS/cSU+MJnFb5JN9hlJYFdabejN7gFxJftGGtZPld7K1wkldtmXzeKGre9x9uuLdj+UolqlGYc8yjMxiycfWqXj7zWSP8XzqGbFUSg=
+	t=1785779307; cv=none; b=QB4Ia2mxElafoTfDh4eVVw+EwpCZrctHURt6oqr4dP//Y1lEUhpOygLOHwlWYXmjCGFDaj8nU8OBNf8o/g6GyRrfp4BNVVOI9+bCsuitspByZM+gel/17kVOB5qzmnvqSBzzuqQu6bUHjdTedvemIIHHoTaL/ALjo3BvhLQ6RVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785777989; c=relaxed/simple;
-	bh=7rCXV3dm9cmknR8p6mHSCf1NkHk/4mhUiXpI7NICCUI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JCaZ7QZnN8Mv2Y0VvuThgCfM4xnLwRqlgqDxGV5fYssM29Ue3tFxkjLPSEk9r2/a5kf2aGqJhY4CMfXSwlk81xQSvf+F7NU2MsAMjs0LdRAvymAmvjHbRirhZv53vHcuf/NHfznLeZOfjNdA3JjY9CYHHAxrIBw9B4AjJmSwEAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TOdmjbZ2; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785779307; c=relaxed/simple;
+	bh=65cb7UEHUvs9af0Ej+kL97qAT27LpOyQMo8mrY/QLik=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uO2kGNc8vHV1ucw58dFTTopdo0OO7+N9InqvqsBoC6OH7zAZAVkcuBN8k6OusrQ7WF0XZhKucuUyBcW42Yl26MvcIAatKvXFpd9XMja4ShLLeJPvByg/ZlVpwIIl8HUKLsmVtf5DxYUB570KyqcSu8fGOVgAuOJP1FKnzJgtTMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=u1kXI2+R; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TOdmjbZ2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8EDD1F00A3E
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 17:26:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785777986;
-	bh=2BOhkhN+nD6eTFoBG4yVgCP6CfGcQEWxk1diIr5TtuM=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=TOdmjbZ2iH/jgLMW0euKcOBac7p7mK/rCN9x9HW4PIcef93PUhmSxnheRPA3JFkOL
-	 9RqriVpqHlLfXJn/2feJu8WCCg6FwIzTHTm3w0ASuRlh5pPmyy63f326l4+2WMJ7dC
-	 P2BeNZuCEcB7di6VqJ9X7rOIeS1v5oJDFqw5mmSrLlo1RjYm7DyPvsQAsey6kX9BnB
-	 5JVuSrMtiLRAyHNuTuaFG8nl8cjjCdil//IPqwCARyciuaXdNbDoN0pUammbZOFZGd
-	 lPiezk4Q0QoYjQ8WH4b8KCJwtSFoP9gvwWILXaFGgaXIwngqo+6HiSnDYgHf4sSs+Q
-	 pMrduqxSp+/Dg==
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-39c8dbf4f38so33164961fa.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 03 Aug 2026 10:26:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rp9KL7F13gXw+pXbqqnZD2dp4lQN1jncbPE00DHxgEiWnVYT8JpQIhxpada0SkbruWdjAOIzcbwCgLbdA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy+qs4YmdhUPyK1U7ZoaiB+NsVXG/xSuxV4VS7LBeaxsiJ8K+RS
-	cDhNI2VuvG662LDt2Cx4X8kcQVonYQidp8Xe2WBken5a+kgTvSFQOa864xV3Vo6eXo0LmLA+vWd
-	iuHcHKqEeps7OIcJuGh/a8CtYF1D31JY=
-X-Received: by 2002:a2e:be05:0:b0:39c:6fad:2bc4 with SMTP id
- 38308e7fff4ca-39f861a8b58mr22384021fa.16.1785777985252; Mon, 03 Aug 2026
- 10:26:25 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="u1kXI2+R"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=cSyyM7BUXIDF3kJhgyCmgOwoW98OlpC1I9i3DPZMz2s=; b=u1
+	kXI2+R12w43beaPSCbM1HCJtvorD9d3Ebq53sQZR3ik4voCij2lPlW5oXM+0wRshrRMCr87mcUHo7
+	XN23BeKdWZNVXSS4v3jExOreZBR9tOxH6d4xKQfMcUyCUx/18N/JTdJBnEYVUqcMnpK/q5TYssUsX
+	zXFXTFEDjez0ehA=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wqwlg-00Fn1q-LQ; Mon, 03 Aug 2026 19:48:04 +0200
+Date: Mon, 3 Aug 2026 19:48:04 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: James Hilliard <james.hilliard1@gmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Richard Genoud <richard.genoud@bootlin.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Saravana Kannan <saravanak@kernel.org>, Lee Jones <lee@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com, mfd@lists.linux.dev,
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 10/21] net: phy: add X-Powers AC200 EPHY control driver
+Message-ID: <9b8be475-1fde-409c-a82e-be4b2e402650@lunn.ch>
+References: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
+ <20260802-submit-acx00-of-dynamic-v1-v1-10-0a53cd9e21cc@gmail.com>
+ <05b1e6a2-725e-4b8e-8629-249637bbcb81@lunn.ch>
+ <CADvTj4o0JdjoO+FC4pO=qnjEQ8MRyzQdKp2Hxy9NsPU-gym5OQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1785772659.git.jernej.skrabec@gmail.com> <51ba0918ce016a4b45313d5df1b6ce31b8c8731e.1785772659.git.jernej.skrabec@gmail.com>
-In-Reply-To: <51ba0918ce016a4b45313d5df1b6ce31b8c8731e.1785772659.git.jernej.skrabec@gmail.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 4 Aug 2026 01:26:12 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67j7nGbnCCG_2XCuFOzYkBJzyqu-YJ-w6QgLY2idndhwA@mail.gmail.com>
-X-Gm-Features: AUfX_mwuI2xct4yNs35NtVK4bvQPSjfvQWC7fMdYbuzLo9QKn0Un44VUoQL0gtU
-Message-ID: <CAGb2v67j7nGbnCCG_2XCuFOzYkBJzyqu-YJ-w6QgLY2idndhwA@mail.gmail.com>
-Subject: Re: [PATCH 07/13] drm/sun4i: hdmi: Don't leak sync polarity bits into
- packet control
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
-	airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADvTj4o0JdjoO+FC4pO=qnjEQ8MRyzQdKp2Hxy9NsPU-gym5OQ@mail.gmail.com>
 
-On Tue, Aug 4, 2026 at 12:11=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
-l.com> wrote:
->
-> sun4i_hdmi_enable() keeps using the same variable after it programmed
-> the video timing polarity register with it. The leftover TX_CLK, HSYNC
-> and VSYNC bits are then ORed into the packet control register, where
-> each nibble selects the packet type sent in one slot.
->
-> As a result, slot 0 selects packet type 3 instead of the AVI infoframe
-> whenever the mode has positive HSYNC polarity, and the TX_CLK bits set
-> nibbles which the driver never programs.
->
-> Assign the packet types instead of ORing them into the stale value.
->
-> Fixes: 9ca6bc246035 ("drm/sun4i: hdmi: Move mode_set into enable")
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+On Mon, Aug 03, 2026 at 10:09:01AM -0600, James Hilliard wrote:
+> On Mon, Aug 3, 2026 at 7:51 AM Andrew Lunn <andrew@lunn.ch> wrote:
+> >
+> > > +static int
+> > > +ac200_ephy_ctl_set_led_outputs(struct acx00_ephy_control *control,
+> > > +                            unsigned long outputs)
+> > > +{
+> > > +}
+> >
+> > > +static int
+> > > +ac200_ephy_ctl_set_led_polarity(struct acx00_ephy_control *control,
+> > > +                             bool active_low)
+> > > +{
+> > > +}
+> >
+> > I've not looked into the details, but these look like pinmux. Does
+> > this I2C device have a GPIO controller? Can these pins be used for
+> > other things than LEDs? Maybe you should be implementing a GPIO and
+> > pinmux driver. The Ethernet PHY driver can then just select the
+> > correct pinmux configuration.
+> 
+> These do not appear to be GPIO or muxable pins. The AC200
+> documentation describes them as three dedicated EPHY LED
+> outputs: link/activity, speed, and duplex. The bits in SYS_EPHY_CTL1
+> enable those output pads, while EPHY_CTL provides their shared
+> polarity setting. I have not found any documented GPIO data
+> registers or alternative functions for these pins.
 
-Acked-by: Chen-Yu Tsai <wens@kernel.org>
+So what i'm trying to do with both of these is make it look more like
+standard Linux building blocks.
 
-> ---
->  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun=
-4i/sun4i_hdmi_enc.c
-> index 74c7c3720ba8..a27d394d0570 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-> @@ -161,7 +161,7 @@ static void sun4i_hdmi_enable(struct drm_encoder *enc=
-oder,
->
->         drm_atomic_helper_connector_hdmi_update_infoframes(connector, sta=
-te);
->
-> -       val |=3D SUN4I_HDMI_PKT_CTRL_TYPE(0, SUN4I_HDMI_PKT_AVI);
-> +       val =3D SUN4I_HDMI_PKT_CTRL_TYPE(0, SUN4I_HDMI_PKT_AVI);
->         val |=3D SUN4I_HDMI_PKT_CTRL_TYPE(1, SUN4I_HDMI_PKT_END);
->         writel(val, hdmi->base + SUN4I_HDMI_PKT_CTRL_REG(0));
->
-> --
-> 2.43.0
->
->
+If that is not possible, i would actually put all this code into the
+PHY driver. You then have a regmap property to gain access to the I2C
+registers.
+
+       Andrew
+
