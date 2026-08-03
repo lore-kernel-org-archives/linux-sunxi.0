@@ -1,70 +1,71 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70743AAF6C
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 05:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864F23ACA4C
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 05:16:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785734160; cv=none; b=X9JFKdEifq0zH6/OkleqadnaQJIidcUizXnCrhTW2PdqOHJn6exLI+068dvZJ88nDY8MUFaMjwm0kX5g1ijJmNVH4TfxlY9T7EbIEj+7+rywaN6KpJ8COyRbwd6la2X+ouQfhU42bBxPW7rFrwsq2LmtJ4MC4yOnkTTCdANgyCY=
+	t=1785734162; cv=none; b=nwl2XspceTh5JgLuG87ebsnSZCGbe1UiMuZYRmEOKfpPi2qm2hr3BP7eWNERLktGpSZu0ETl/U1sBXNxKd9bGVfVwoRNq6uWOtqzV6Am4JdxrTMwRQqgP+1F9haJKFJft4ppYkMe9KXkx7wcmh2+LbrY9oj48s753QKxpC+duSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785734160; c=relaxed/simple;
-	bh=gC2dTirWRvmFzKHVs4SyB39x7wyh/gb+c26PdnYQrvQ=;
+	s=arc-20240116; t=1785734162; c=relaxed/simple;
+	bh=GJHoT3sGNBaHJutusjqByQrs0uUzgfDmspxJwWo+2Fw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OIm4hapPBXi7VD1h7qnce0KCnhT5ympjDBkxtPn+rrU+8TnTqR9mGi/r0hk/8voBlUvzH8dt3DuhlqnAgfHFo/Pwe6Q0cbBGfJsgrzYMrj6Mjsys0LvZMFevUZ9KXvvCkDz/ISeF0deeAMNKaRwfF70AJjsedJtD0O25cJVkeM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X5Vd9DxV; arc=none smtp.client-ip=209.85.210.48
+	 In-Reply-To:To:Cc; b=JYwXv+XQN9YU98ShtHxw6xxovk29AQO4j736z6etIuhGUojCDS0Iwm/APFtmLO1x3rH/fp/A+9YKT9o8q1vourHkIUiRnH2PimzGiXRPrR73VbZkQJ5Dv5ehcDusygOvwuD1eS6NAzuFG85F+eDI0fc7dvygnDF1qCDV3bOvDmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r0B5R/1j; arc=none smtp.client-ip=209.85.210.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X5Vd9DxV"
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7e6b554044fso2627424a34.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 02 Aug 2026 22:15:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r0B5R/1j"
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-7eb6573bd52so2068286a34.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 02 Aug 2026 22:16:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785734157; x=1786338957; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785734159; x=1786338959; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=1CvTLJea6zWTpGRaWOgZzRKuhjdqcAVM/Zr8VD5aTmI=;
-        b=X5Vd9DxVAT65LmnKa+N5KTKCD3vS2IyxYuXxMGz5aeMnoEVlerxQefNDFs84D+4SH1
-         SrJ1ciJdvvO+84/GKeXeFWEdbbbCudbeE61kraMFhUA2AFYlUKGEk1Z7c7V1Sx1wrusz
-         dlaocWILE+Ck/kqhyQKxYlGpAwu6/u3Twjpzb6qzyGtL47EfZCQ15Y44r1DoHohHsF16
-         XyQ4lwD6k0HnZbc0sjsWEGWEzYe0Uhfig81yZxxfAPDkbBCETN86Uyd8gSd2fKjxxayf
-         9S+pDejxt9nU801uheXLAraMDdStNokknHfJcn7Ok/3G4/yof370B4lP0I5Lk5iMnhWr
-         5H2A==
+        bh=V3THAfFmoIZwxbw2uyAABLxKH+fs/K6w42J64CA1198=;
+        b=r0B5R/1jRND4rSMHZwMlN749RtmPM2mh03SpUigttDhvTz8FHqcT26QBE2UsAXPmwR
+         a2WuttEnYCYvR+z7Zt+6V84OyGNIkl/+8THr6groX579IH+3fmO32FB+Pz5kSPoR46Yo
+         RwbdmNgKDnHAxlntpvkba/8BqteTWPhopjpPbwb0gToi/3Da54BuEkTztM3I0RoJpzDF
+         9m2FKpl253EZA7dYn9+IoCexp4bjjByC/iscf1y8v9CuNZCpHtnXQTlt+0616xy6lsAx
+         2dVYoLZNqOyts0KFvonvT9Y5TiHCDup35lmc3ujfBs1AniRbYA1uo1+j1z/QEhJdZuJE
+         r+jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785734157; x=1786338957;
+        d=1e100.net; s=20251104; t=1785734159; x=1786338959;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=1CvTLJea6zWTpGRaWOgZzRKuhjdqcAVM/Zr8VD5aTmI=;
-        b=Rlw/6lyfkNez2pcartmVGrSyBdmikYWXtUjdpZHkZswCMUzPUdEd9c6cu+yGKcDAbi
-         Vpfvq86fOvCklQMTDBOEWEr12h4xbIlolwCn0MOETKodq1IEH9G+ghxLLuEmICXoFy8E
-         4LL+3Wgj6qQ6WPYwvwYz7rhrDqvQCPSj4wLyO3Lptm4TJURjEFzk2nEWfRBNLpMJju/G
-         FdMq5SBfoq+9ijlsN7idE4p9QX92djQyPAhs0bDyZE2ZrW3XP8SJBSxOjp8woS5Od80o
-         sSuv/EmNreLjs+4xAFBq8do8mCV/d3nqKlUa6uB1X1PyCeVzcID8Q7qg+hzh6/WluQDe
-         cHRA==
-X-Forwarded-Encrypted: i=1; AHgh+RqhrJUlz9/MvflC2TvcVaugYDCHkAjc+L+LjngrFW9LZTH2cbSqxYwf0f+aA7L73RUvn2iJgOnZPXUBqA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwZY4fTNMJG/HyHLbuBe1iwLV3ch+pMNqxOhNOQqEYVLyQxsKCB
-	ZnmVpf0GALz7qTyiK0OHvZuvyRn6Ni1tMGpq6xH+8dvi3YWF57KJv3i+
-X-Gm-Gg: AR+sD10850Ks3CPEtewWaOy207vBM4Op0+hLgOhFsYxJLVN3oBqmVMEkyQL2q0vjyVs
-	HRo6S+bxbv2XVPzL7IOTS5UFna/QaGmLDW+YwULllHHfLU70aZP6F8J6MeWkntLkUrc2aRyC0ZW
-	FEankWqbnXOl4Il9izkk/F5SPU/IrU8fbY3hbpmeT32uIPheC/nsYuVsMV5/HYOBlbucH8y137u
-	np33pTEH47IHQdC52pbCfxy3o7ycB9sSSRO45KD/wXaGiVCw18CpraVFRpIzMN3j3CZ37nVbpAz
-	TPY5DiPxOwVpA53hS2pwQfVgtg0kasqLZF2IxP5oJ7gcwWbw9QqW1PXD9l3Z+BbeGHL6nDNiCbJ
-	H026sQCJFcL023AxaGjThkwdA7VymkYcElVs+GTr1jjvfqXBor3HGz6OmiPIu5RKeJHwygryf9B
-	zCJGIwIo9P8tsZdV38OiKO9NqDAGXKqgxGgOv5J2NW5CwvS/qy9azgqTI9Ifkt8WriItDjP7KmL
-	iZNAXHFVaCvIYz3D2e+CkX3nKbzw7u64+Q/AfQQv+Q6L+4xixTZ/9hzDuKvuJ9skIJGbCZ8mVNK
-	GgIyFKdOATvwwu7pZcG+jNNHr85gt15xIdUNFPnzZyGCdDCfKVOQup400391X6aGffqeU68dYVq
-	RBGZa4HPdSWKTnFcO
-X-Received: by 2002:a05:6830:398d:b0:7dc:e090:68a with SMTP id 46e09a7af769-7f1969181f7mr14873339a34.0.1785734152850;
-        Sun, 02 Aug 2026 22:15:52 -0700 (PDT)
+        bh=V3THAfFmoIZwxbw2uyAABLxKH+fs/K6w42J64CA1198=;
+        b=S9HlI2EI0HDzvFCb4pCmZBXUcnpLjfN64ryyK+MD+N3qVMOpymXrQZ1yJQyWmoDSX2
+         /9tNdKqqmfNYE1JSgDjR6K2qO+hGQkRWZIKOB2hlUClqe8iAlrGXKyjKoyrUDLSCvQ4W
+         SS6JJcmWBZVz2uU3N8q7bcrjXqQVZ9bZ8+ZgHurlpS9t/s8bmVnfy+deJWuwpMnePBX1
+         hpR8ObHMGtBk1zMp5Zu9xsR2l1xpgFW2R8iHiCvn9BUomSjP/R7XvKAQGiwFiiRWpE2C
+         mNAUxOcllab5sc3jnG1I4TdV3QC6WyR+v3foLyEccWgbowPA3T1VzBYn5knq908L7B0S
+         s+SA==
+X-Forwarded-Encrypted: i=1; AHgh+RqjJoyMQQ0/4HLyu/giuQRMpQbiZR8X0IFVvXHLZ2SXiBpeKI3Q5sYs3mJuYgdy3FPhXZoP4mztix91FA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwH9R+JMQrjC9PR1oB1nD89+qnjJBd8H623xVFJ6889wf7TSmC8
+	BNq6tk31gzBdQENTvy9KGrZBLcpadEg1vkyq8M2D6gddelLHiJYF31lU
+X-Gm-Gg: AR+sD10zno5sCDF96Otr85r3oI3RCR4hrA3ByYSn8trPnbnBO4umGp64DY9OZIqLwTg
+	f/HwQQ+TNKfedIfk/bW6DpS4+QBnL0tSjHJeXwilICGVdbg9s6U3r0NR+++H124Mt+RHn6yfkDW
+	e0+pDVMP2u4NFbE/R/Qx8OOzhNJ4AhCRkb38cGccu6Mea5hl1UJMXeVZF+ZD8Bbn5/IGVGSK8yV
+	oL9dg7SNhCKBIC7a/Vh8CMoetOb0noVEJpCEhI0xwBiFR8rs1HY6l9iNcJu3JsSPieSKdns2md3
+	3KrE7qUzv6OUrotCd3BRabtV6DWZwIctiYOAUtfsKCIDvKnHnE7aUCEUeif8frXBL66uxjnGDre
+	GeyULRiM7YCMEJea5KYlDvxpUBe6ZKDIljM+4JqwRe9F3ZgtGSzCkO+jsZReppDppuSszA9ovtJ
+	NVlWEHgvtJgZCB58Ki4LISH/nNkmOhifsz82gt7YzpMgfhqFM6vm43+rGryHFNqKwM2eN4s9kqj
+	mWKtYdBvtj4KPxYAubwcL1ZUkyMjewBHFuK1jsJWsios94S8BjAzgd/01prQC0Em8TsXkshRLjx
+	4n7wbSpDVgjSq1mZ57Edzw8f5yQr+9h7BakuAYbVntDQHzYTuKUnwZlNsp6bRBLdRzI3NwcJgLT
+	i52+Ed078JWp7Fn+dzoUw0ljTizKLs29+bqdK
+X-Received: by 2002:a05:6830:2a8b:b0:7e6:f7fb:9678 with SMTP id 46e09a7af769-7f196cb65a7mr14526881a34.1.1785734154482;
+        Sun, 02 Aug 2026 22:15:54 -0700 (PDT)
 Received: from [127.0.1.1] (184-96-154-59.hlrn.qwest.net. [184.96.154.59])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f18f07a5e3sm6787108a34.15.2026.08.02.22.15.51
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f18f07a5e3sm6787108a34.15.2026.08.02.22.15.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Aug 2026 22:15:52 -0700 (PDT)
+        Sun, 02 Aug 2026 22:15:54 -0700 (PDT)
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Sun, 02 Aug 2026 23:14:30 -0600
-Subject: [PATCH 20/21] arm64: dts: allwinner: h6: tanix: enable AC200 EPHY
+Date: Sun, 02 Aug 2026 23:14:31 -0600
+Subject: [PATCH 21/21] arm64: defconfig: enable X-Powers ACx00 Ethernet
+ support
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -73,7 +74,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260802-submit-acx00-of-dynamic-v1-v1-20-0a53cd9e21cc@gmail.com>
+Message-Id: <20260802-submit-acx00-of-dynamic-v1-v1-21-0a53cd9e21cc@gmail.com>
 References: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
 In-Reply-To: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
 To: Andrew Lunn <andrew+netdev@lunn.ch>, 
@@ -102,104 +103,54 @@ Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org,
  James Hilliard <james.hilliard1@gmail.com>
 X-Mailer: b4 0.15.2
 
-Enable the AC200 control path and RMII Ethernet link on the Tanix TX6
-family, and provide the board's 3.3 V rail to the AC200 function supplies.
-
-Route the PHY interrupt through the AC200 interrupt controller and mark
-it as a wakeup source for link interrupts and magic-packet wake.
+Build the H616 PWM clock provider, AC200 MFD, both variant-specific
+EPHY control drivers and the shared link-PHY driver as modules. Enable the
+netdev LED trigger as a module so DT-described PHY LEDs can use hardware
+offload.
 
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi | 45 ++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+ arch/arm64/configs/defconfig | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi
-index bb7de37c0d58..6cd75961e3cc 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi
-@@ -7,9 +7,11 @@
- #include "sun50i-h6-cpu-opp.dtsi"
- 
- #include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/mfd/x-powers,ac200.h>
- 
- / {
- 	aliases {
-+		ethernet0 = &emac;
- 		serial0 = &uart0;
- 	};
- 
-@@ -84,6 +86,22 @@ wifi_pwrseq: wifi-pwrseq {
- 	};
- };
- 
-+&ac200 {
-+	ac-ldoin-supply = <&reg_vcc3v3>;
-+	ephy-vcc-supply = <&reg_vcc3v3>;
-+	rtc-vcc-supply = <&reg_vcc3v3>;
-+	tv-vcc-supply = <&reg_vcc3v3>;
-+	status = "okay";
-+};
-+
-+&ac200_ephy_ctl {
-+	status = "okay";
-+};
-+
-+&ac200_pwm_clk {
-+	status = "okay";
-+};
-+
- &cpu0 {
- 	cpu-supply = <&reg_vdd_cpu_gpu>;
- };
-@@ -104,6 +122,14 @@ &ehci3 {
- 	status = "okay";
- };
- 
-+&emac {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&ext_rmii_pins>;
-+	phy-mode = "rmii";
-+	phy-handle = <&ac200_ephy>;
-+	status = "okay";
-+};
-+
- &gpu {
- 	mali-supply = <&reg_vdd_cpu_gpu>;
- 	status = "okay";
-@@ -119,6 +145,21 @@ hdmi_out_con: endpoint {
- 	};
- };
- 
-+&i2c3 {
-+	status = "okay";
-+};
-+
-+&mdio {
-+	ac200_ephy: ethernet-phy@1 {
-+		compatible = "ethernet-phy-id0044.1400";
-+		reg = <1>;
-+		interrupts-extended = <&ac200 AC200_IRQ_EPHY>;
-+		wakeup-source;
-+		x-powers,ac200-control = <&ac200_ephy_ctl>;
-+		x-powers,xmii-rx-clock-inverted;
-+	};
-+};
-+
- &mmc0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&mmc0_pins>;
-@@ -162,6 +203,10 @@ &pio {
- 	vcc-pg-supply = <&reg_vcc1v8>;
- };
- 
-+&pwm {
-+	status = "okay";
-+};
-+
- &r_ir {
- 	status = "okay";
- };
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index 654a102cb5bc..53f6b8edaf33 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -475,6 +475,9 @@ CONFIG_DP83869_PHY=m
+ CONFIG_DP83TD510_PHY=y
+ CONFIG_DP83TG720_PHY=m
+ CONFIG_VITESSE_PHY=y
++CONFIG_XPOWERS_AC200_PHY_CTL=m
++CONFIG_XPOWERS_AC300_PHY_CTL=m
++CONFIG_XPOWERS_ACX00_PHY=m
+ CONFIG_XILINX_GMII2RGMII=m
+ CONFIG_CAN_FLEXCAN=m
+ CONFIG_CAN_XILINXCAN=m
+@@ -828,6 +831,7 @@ CONFIG_BCM7038_WDT=m
+ CONFIG_MFD_ADP5585=m
+ CONFIG_MFD_ALTERA_SYSMGR=y
+ CONFIG_MFD_BD9571MWV=y
++CONFIG_MFD_AC200=m
+ CONFIG_MFD_AXP20X_I2C=y
+ CONFIG_MFD_AXP20X_RSB=y
+ CONFIG_MFD_MACSMC=m
+@@ -1325,6 +1329,7 @@ CONFIG_LEDS_TRIGGER_HEARTBEAT=y
+ CONFIG_LEDS_TRIGGER_CPU=y
+ CONFIG_LEDS_TRIGGER_DEFAULT_ON=y
+ CONFIG_LEDS_TRIGGER_PANIC=y
++CONFIG_LEDS_TRIGGER_NETDEV=m
+ CONFIG_EDAC=y
+ CONFIG_EDAC_GHES=y
+ CONFIG_EDAC_LAYERSCAPE=m
+@@ -1726,6 +1731,7 @@ CONFIG_PWM_SAMSUNG=y
+ CONFIG_PWM_SL28CPLD=m
+ CONFIG_PWM_STM32=m
+ CONFIG_PWM_SUN4I=m
++CONFIG_PWM_SUN8I=m
+ CONFIG_PWM_TEGRA=m
+ CONFIG_PWM_TIECAP=m
+ CONFIG_PWM_TIEHRPWM=m
 
 -- 
 2.53.0
