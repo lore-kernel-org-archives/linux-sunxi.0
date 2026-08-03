@@ -1,65 +1,67 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188023502A5
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 16:11:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9049C380FEB
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Aug 2026 16:11:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785773477; cv=none; b=hiOZPJtpdGFDdAdkr9LpwvkLW3RbEDcCdHvHIkTZ+Yz3XyU97DCQajZi/deRUclSbMWGSRyReGAW/nKAFY4ReafRQwJdWzPQwCrK2fvT+c9SKP9gQP54czw7AZen7mxDlvRUS0rfrGSAnSY/LgLaSKI7HgqDeoO0lP9dKCq35rI=
+	t=1785773479; cv=none; b=NdjY6IVvFV8EaOwCyBC6sQ+2KUhyFFaSiSQeLzxXiczF0xFhaNtYAyMlcXYusSbsXx2vPpnKuLy5+4jTIxed6/Tu6d0jenm3stQcDhl9L87KNXC/ft9ysAGo7kle+RvcTdY3mkKwZMTchZ0dEn2ZRpDAG6eBXDir+rBg4u18NW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785773477; c=relaxed/simple;
-	bh=aQxO8CqYWIJBy/ebvnHErzyN0uZRNICXhzvqqUiRwII=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ch0CIUwa/8hzz1uiLPHmf7pVRzUQfjjcC8yVPawxWzw6PvPFrnzoD6l2xYBvajMGCEX4sZMF5UqozlwItBd6Dor8BssjXxGLM9ql3qgjJWRa8FdSXDNirggrYi8/INCpn/ps4+Go5x/KpYCYh6USpVJAR+odvaW4ehQhOOX5inc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o9dhhJ8O; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1785773479; c=relaxed/simple;
+	bh=PWwlgog84rReNxIXHZ44trRlgx66npQPNSF2KxN5bIs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=T12uUWYEg0YtJGsazc7yvVbPLwXhVU7El2nKE/mcrGdlWaq7mJ7SWPvV+sJS+gx42CZi0xsv3crn+YBAWUN+eQ5AcDmN2f3N0Q0iaZIk0q8uv5I4O60MVn31KTG1SOI5uGFHm408ug+hZKjJrX4eZaH/Tf7CcDzgojIpmlR/52Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s0NxufR8; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o9dhhJ8O"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so12614145e9.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 03 Aug 2026 09:11:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s0NxufR8"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-49545ba3d4eso10750535e9.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 03 Aug 2026 09:11:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785773470; x=1786378270; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TkgRTuLVuCLYpIvdltmqBCjRKT4GYVnjKziTrqAUoEE=;
-        b=o9dhhJ8OWAGDCswRYBwdQFEPfcnWHJ0LhvkBxcLFiyQQgG660sxQpvOurCTztWz2ie
-         zp5Wda7ur1boOAiQZKvugnkB4FeO0oYDMUA2sYBgkIxVcfyCKwOjFq5Rn58ZE3KMw6cY
-         ca/4mExkonc8zMxmQ9tQVc4psD7sTgPa55T6DV952BsH1uoP2PHk1qa2egSIaJO33GR7
-         fLnBIyYjD++RioRvpguoeki9ZfV+xQmIl7vO9S0uyrNNrnF2rmnZYgeSDfmgHSFVzmEI
-         Bbb9VV5a94YDSMNvP73awm0mOSQ1sQYeWesVveJLHP4yQhCjyqHMe3jkcDzb7Cymgg2p
-         yHjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785773470; x=1786378270;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1785773476; x=1786378276; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=TkgRTuLVuCLYpIvdltmqBCjRKT4GYVnjKziTrqAUoEE=;
-        b=d953zT6zA4/LABLFFgbjryO+iZXhcW+ISldZpQZe2xUYqaci479CIUFzMIwXYBhu8e
-         5vZeWbYZ3sNFoI+Ns/W1RvFULXwZI8a177Jp2MC9YfgJEt24BP5gVm/zKHk91ASV64KI
-         WgE717Nha9qWa9E59M7zJF80T3EBl5bvaKD4VhY3sZ+EfOHXWlWL8IzNU/OZDlttyiU1
-         6uKvbWTKN0Q2mSywRTlhvYTzgAMsmdutsW68cFXbXtuScGVBw7vHWjCVdI8EDtq8zeSw
-         +osjKxmp19EH0qgfSM30uiel31nXRfBuilKxmH25W7oKd95hVD+1w0woCGhRNewnuejo
-         KBuA==
-X-Forwarded-Encrypted: i=1; AHgh+RpjuwGla26InnYjmbmInFdWPjVIFHh4puQamXZ9+Otin80BIiPAog72Y1dwMlgtyA5+jb1QrK0b7jFnzQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw1K8xcpM5bfBz10p7/ukP8xkIWcvLg4pTzgwoDMOHsBpWf5rj3
-	qfYyl3zXq1RgMfJz7ERWbVK+jW+OTyAc8OGChXd+O57a8fo9aOHjHQwI
-X-Gm-Gg: AR+sD13q/omRPQo4nTionHahG0oKwCylO+nG6unnNiZWZc/riVUFB0qsFOwsHnwfKCF
-	AAiK37+RqT/dK6xvRqhD4DQBISMQNI3BchFtTerVQU64b+EPSXz7b55QnLHI6AqIa0XNFkuQmos
-	ioWsQyZhC1odydtYcj2QZI8SiZS5rrAdpY47uoxL/bo/n9JVXw3gK6LZfbg46FZsVaYarGFS3ML
-	hTXZHiaBhcfdztEFHhca5I0rSZWSiICMtevx26ny6cyYdWdzVRNx8nqF2RlFybZzYUyJkV2V+6C
-	QJeVE3k2fjXJeFHl1UatJQ2I98EXEoX37zUocsShtZLNkRCooJSvRw2aerLdvOq4Oqgy/AX+HM8
-	8QT8fzZuuLvuEUM+wbfRKM8tUsLn64F/qcm1F7nA4ccPlgWl+/xXm7Dwq8i91DurhaIz3aCNYlM
-	lIQ3NzZBCIiWF/d6Ztm8TQjLBLtPa8TCtx2qFNcC2BKV0parCI0gwUtCvClK3exGAGgh31votWA
-	afh9ikuKPz3Vg3RyNGrmbsTP10KNHC5NTPoutkMoh4SEQ3QUyhUtpAMhJxDDTpeBo5S3EL8k0AP
-	pumORXPJFYoZW6GZGoOPwY73t/KwBPnPRzmmp43RwZPmoC9+3nIbIQ9NJh0GnQGGzGWlZcu/B6w
-	FO1l0J3xUDwWfkzxRXJ0Z4WCQ45APl7RSyqJCBN4CtJl9/A1ozbm1/Lz5iM1ha7IrMT4dPDgUWk
-	5LUg==
-X-Received: by 2002:a05:600c:468e:b0:495:4b42:8677 with SMTP id 5b1f17b1804b1-4980c6a2268mr222728085e9.18.1785773469919;
-        Mon, 03 Aug 2026 09:11:09 -0700 (PDT)
+        bh=O7t2IG/bjYzTOtWYdkDb/FYlzP9IlRZpnBpyzw8LyRI=;
+        b=s0NxufR8L5JB0aDaaNqFoJILgQ3soQDSP4FjAf7ROm0wQJHvOHum2xa5OZBiWCflH1
+         1h+PzRB5pGfyf55AC7RfXQQyujTRsC6Zg8BO2XbDsT8NZW/8qpfDqL1ipS22Ff9XzXHI
+         OMsp8sOv2ZKcrf43/C8vm4i8dlIY6fmDnt28IFOfX8JzUJO0VIndh6VeEW9KRybsoQrE
+         bGfE7T6ZRdZqd5GQw7Di2fgslwlfPFYTPT0eWQ4AzaDgyrhtxqnkRo2nW1cV8VvDHpOw
+         yf3BPAErdjhY0Vf2hxuUMeur31Eh18dYaIniW1sqqfXvfTwmgq5KJM0DjE/va5zq/Ls+
+         t7Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785773476; x=1786378276;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=O7t2IG/bjYzTOtWYdkDb/FYlzP9IlRZpnBpyzw8LyRI=;
+        b=ACJphu82Ygvj+vStgJHhiairZa1Gskmk3i2vSsRtQWk0vM+3x+sp1yiXElyNIIyuBg
+         VoyCfe2TliGbEEsowaZVxawUq2S20S53Fzg4x5U3eIdgDD+pkEMN/33/Y5Co2s6eVZ1L
+         u8IMZi7BDb352nASCvU2rBiyiwIz/5za0HaUhuurMRFuiEz2Yw+S8MA7fpaAu86UyM+0
+         Yg0cxAniVicrxqpC39aqpV+B2c7jNzl+TB/yv05bMDXsAN/liYEb/40+Uy0pSl9/KSGt
+         PI66b8mxb8R21Nes7031w5XdlJel/65F3QnaS0Sww5DX9wYUR1zdhddtn+ua4KTWvVo+
+         Dg7w==
+X-Forwarded-Encrypted: i=1; AHgh+RqZV45YiQ/dV7AC4C4vFSYG4qhWBvZFF4qDOtO6bfTODrBevD54ZZKRI/PgeK5e4U91LV+KZsQDWZc8gg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyuLDibvv8RMhnpkaaYlJpp7o9YonvvKLeOnVjxOwupynsLEMvq
+	FfoK07UsWhUixiMDwVBErlgwmQdQ+EtedCQbEdGdZsuDvwJM8IMVFHhl
+X-Gm-Gg: AR+sD10r8FolG1/TIRhOuq3j2q0z7uDepWqqcyPxlcejR2bipjyLEWLN+i200EZ76HB
+	NM75+hJaGl1+99JtWNh/WA0kCaHIKAbcDlUc4kITcBWTxxxQgAx2FOlNT+EcRpqtVV31Qk8fxwX
+	3MPd+p8vBkABQa/pamfUa0bQw+DZIccoSY0tArY7egWv+FGFNedt5jD1WUjta25DztINk2BjNoy
+	V77nZsjOG0nR+lIJU5qKwmtny782zN9Hm6xQECVUUl2oQ0QmJTxdMf+lSD8YL8t2U997z+XS6R5
+	Fk/gmBh1sR3LFTJ85w7NrNsaSLXGHxs6L7Gi9AHQcdQP3Gq8h5QKnJTLZiHfGTaAjPQtqqWptAR
+	L6GTPhPKjlKTjPJ82ptPV+pLsevcQCXHH80G3bcsGRHd0f7WGQtPgJzyD+6AETJ0Ugr20ukBTty
+	NYQrr37Lr8ZGy46UOQfxjsL2+AfSUzSRfkRrvU6zZoA+dI7pDhW/f9hVuaQKnlIhfss1k8I59v3
+	MCmhTQ9g1Uiv2CW4c3gR4aFpR8DJpmtaIlvTNBdyQHl1NLF0lkOvNdxaGgaqxydgdLN3z83sgEo
+	PBFRxEd4nbhFLhFtuiyHzD+vaxjMO4I/+1zeRjEM9TYIJVmnGmSf1l7emZRvKLCLx1wUsGWS9zY
+	fUC+LW3USJIqb47AA9wNHzAjrzr5ZgVrNLAyu+a+1en1Op6sRKikOska7Zpae6VJTPVakF3ng6B
+	LxNw==
+X-Received: by 2002:a05:600c:6d03:b0:495:7a23:1eee with SMTP id 5b1f17b1804b1-4980c674f32mr180465495e9.12.1785773475697;
+        Mon, 03 Aug 2026 09:11:15 -0700 (PDT)
 Received: from jernej-laptop (APN-122-100-117-gprs.simobil.net. [46.122.100.117])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49949fc2da2sm3363735e9.3.2026.08.03.09.11.06
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49949fc2da2sm3363735e9.3.2026.08.03.09.11.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 09:11:08 -0700 (PDT)
+        Mon, 03 Aug 2026 09:11:15 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: wens@kernel.org
 Cc: maarten.lankhorst@linux.intel.com,
@@ -73,10 +75,12 @@ Cc: maarten.lankhorst@linux.intel.com,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 00/13] drm/sun4i: Assorted display fixes
-Date: Mon,  3 Aug 2026 18:10:38 +0200
-Message-ID: <cover.1785770165.git.jernej.skrabec@gmail.com>
+Subject: [PATCH 02/13] drm/sun4i: vi scaler: Fix coefficient selection
+Date: Mon,  3 Aug 2026 18:10:40 +0200
+Message-ID: <263a4a41442a3c8b072b170256b72658f1b90802.1785772659.git.jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <cover.1785772659.git.jernej.skrabec@gmail.com>
+References: <cover.1785772659.git.jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -85,82 +89,55 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series contains fixes for issues found while working on the DE3
-and DE33 functionalities, used on H6 and H616 SoCs.
+Currently, vertical coefficients are selected based on horizontal
+scaling, which is wrong. Additionally, chroma coefficients should be
+selected based on format subsampling.
 
-VI scaler and VI layer:
+Fix all that.
 
-- V3s advertises a 2048 pixel YUV line buffer, while it only has half
-  of that, so wide YUV layers end up corrupted.
-- Vertical scaler coefficients were picked based on the horizontal
-  scaling factor and chroma coefficients ignored subsampling.
-- DE3 mixer initialization clears the whole register space, which also
-  clears the scaler global alpha. Since video mode takes alpha from
-  that register, subsampled YUV layers are fully transparent.
-- Since the conversion to drm_fb_dma_get_gem_addr(), luma and chroma
-  plane addresses no longer describe the same pixel for odd source
-  offsets, which the scaler can't handle.
+Fixes: b862a648de3b ("drm/sun4i: Add support for HW scaling to DE2")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/gpu/drm/sun4i/sun8i_vi_scaler.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-TCON TOP and TCON:
-
-- Both mixer selectors reset to TCON 0. If both mixers end up selecting
-  the same TCON, output is black or corrupted, so park the other mixer
-  elsewhere.
-- DSI and LVDS never called the output mux setup, so on D1 the mixer is
-  not routed to the TCON driving the panel.
-
-HDMI:
-
-- sun4i_hdmi_enable() ORs stale video timing polarity bits into the
-  packet control register, so the AVI infoframe is not sent for modes
-  with positive HSYNC polarity.
-- The 594 MHz 8-bit MPLL entry doesn't lock on H6, so 4K@60 8-bit
-  doesn't come up.
-
-The rest are an error propagation fix in sun4i_crtc_init(), which
-otherwise oopses later on, and four patches fixing OF node and device
-reference leaks, two of which accumulate on every mode set.
-
-Tested on Tanix TX6 (H6, HDMI up to 4K@60) and Orange Pi 3 (H6,
-TCON_LCD0 and TCON_TV0).
-
-Some of the issues were found and/or fixed with Claude and GPT.
-
-It would be nice if anyone could test V3s fix before and after. Testing
-other fixes would be nice as well.
-
-Best regards,
-Jernej
-
-Jernej Skrabec (13):
-  drm/sun4i: Fix V3s YUV scanline size
-  drm/sun4i: vi scaler: Fix coefficient selection
-  drm/sun4i: vi scaler: Restore opaque alpha in video modes
-  drm/sun4i: tcon-top: Keep mixer routes distinct
-  drm/sun4i: tcon: Set output mux for DSI and LVDS
-  drm/sun4i: tcon: Drop TCON TOP device reference
-  drm/sun4i: hdmi: Don't leak sync polarity bits into packet control
-  drm/sun4i: crtc: Propagate layer initialization error
-  drm/sun4i: tcon: Drop remote endpoint reference
-  drm/sun4i: dw-hdmi: Drop TCON TOP port reference
-  drm/sun4i: Drop node references while building component list
-  drm/sun4i: hdmi-phy: Fix H6 8-bit MPLL config at 594 MHz
-  drm/sun4i: Align VI buffer addresses for subsampled formats
-
- drivers/gpu/drm/sun4i/sun4i_crtc.c      |  2 +-
- drivers/gpu/drm/sun4i/sun4i_drv.c       |  3 ++
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c  |  2 +-
- drivers/gpu/drm/sun4i/sun4i_tcon.c      | 22 ++++----
- drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c   |  2 +
- drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c  |  2 +-
- drivers/gpu/drm/sun4i/sun8i_mixer.c     |  2 +-
- drivers/gpu/drm/sun4i/sun8i_tcon_top.c  | 71 ++++++++++++++++++++-----
- drivers/gpu/drm/sun4i/sun8i_tcon_top.h  |  6 +++
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c  | 20 ++++++-
- drivers/gpu/drm/sun4i/sun8i_vi_scaler.c | 20 ++++---
- drivers/gpu/drm/sun4i/sun8i_vi_scaler.h |  1 +
- 12 files changed, 119 insertions(+), 34 deletions(-)
-
+diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c b/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c
+index 3dec4eeb1ba2..d4412a62c2f0 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c
++++ b/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c
+@@ -894,20 +894,26 @@ static void sun8i_vi_scaler_set_coeff(struct regmap *map, u32 base,
+ 			     lan3coefftab32_left[offset + i]);
+ 		regmap_write(map, SUN8I_SCALER_VSU_YHCOEFF1(base, i),
+ 			     lan3coefftab32_right[offset + i]);
++	}
++	offset = sun8i_vi_scaler_coef_index(vstep) *
++			SUN8I_VI_SCALER_COEFF_COUNT;
++	for (i = 0; i < SUN8I_VI_SCALER_COEFF_COUNT; i++)
++		regmap_write(map, SUN8I_SCALER_VSU_YVCOEFF(base, i),
++			     lan2coefftab32[offset + i]);
++
++	offset = sun8i_vi_scaler_coef_index(hstep / format->hsub) *
++			SUN8I_VI_SCALER_COEFF_COUNT;
++	for (i = 0; i < SUN8I_VI_SCALER_COEFF_COUNT; i++) {
+ 		regmap_write(map, SUN8I_SCALER_VSU_CHCOEFF0(base, i),
+ 			     ch_left[offset + i]);
+ 		regmap_write(map, SUN8I_SCALER_VSU_CHCOEFF1(base, i),
+ 			     ch_right[offset + i]);
+ 	}
+-
+-	offset = sun8i_vi_scaler_coef_index(hstep) *
++	offset = sun8i_vi_scaler_coef_index(vstep / format->vsub) *
+ 			SUN8I_VI_SCALER_COEFF_COUNT;
+-	for (i = 0; i < SUN8I_VI_SCALER_COEFF_COUNT; i++) {
+-		regmap_write(map, SUN8I_SCALER_VSU_YVCOEFF(base, i),
+-			     lan2coefftab32[offset + i]);
++	for (i = 0; i < SUN8I_VI_SCALER_COEFF_COUNT; i++)
+ 		regmap_write(map, SUN8I_SCALER_VSU_CVCOEFF(base, i),
+ 			     cy[offset + i]);
+-	}
+ }
+ 
+ void sun8i_vi_scaler_enable(struct sun8i_layer *layer, bool enable)
 -- 
 2.43.0
 
