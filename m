@@ -1,102 +1,157 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D793F39FB;
-	Tue,  4 Aug 2026 18:04:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E6243F098
+	for <linux-sunxi@lists.linux.dev>; Tue,  4 Aug 2026 18:11:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785866678; cv=none; b=TXXYh74cskFnxTJK38SAZlgU6bnQfhiz8lKRYa1bwlKYbE8oA1vQMYPqMcMVGN6H0wGsIkJ8phS3Bw4XhzBZGD4zSUpCFwI4CKXMfHqnW8cOHS4z6ab5Bf2bQqtZsVE0PSVkDNQ2b8zhj6Ue05Ws6iv5JcELJc4lz8a9yszDFTo=
+	t=1785867082; cv=none; b=CmDzzaLHy3MPw29ZBLrgwdt/RJmLWkVkPnYXDqXaXgHwMXbcDPUl04Fpfl+vrkluut7htAVingIYu62cThD8jHsl9wZgqiHFhjc+Ferf6JdJXfQJSOfn89XztoID2zDRQJpOGvb9J4yiPBY+RLW61gWwM2x4CxCXMFDW7djplGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785866678; c=relaxed/simple;
-	bh=oSbzrf2gZXQ5aIHUZP5l+a3hnfIEAA025EIH9RhNH1E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BRkSH2sGIsuqGYcdSo40+hqRLb4yz1XoojUkipejLgLd0gOTLnfPXit9Yk3rCV3wkPN3OnbIFBls0Vp44dVct20WbYCL8u07NFhSmqaMmmHf/rW+4xRAg2VAWgUnrGI3U12vi8Azh51UeFBjALCO0xZNNeQ8H5djynRdblVuAuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=rDpIfwRl; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1785867082; c=relaxed/simple;
+	bh=VoUdY2wbXfgYmIGQ6+DYjO7uNq2p2ALCzG59zvHqoq8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MtZQa+fx72PEIzLPswgPTqv3tEJHlkhNXWDWimP5ZxgQjteuuGyHHc5qSKmW/ph0JPwsRGq3JX/1ARWNHLao+I2hwY0hwOdhjLUjossA/wGvcrBhoeUJVo8vULpQZ8j3EEw5MGrm/tSGThWpWRdeVBGdU4ZxvaYW1iXnu8pbKm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MkcdQD2X; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="rDpIfwRl"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=6ln+CAvuRtS5oR8LHPuiaJ0WpvoDOfRfT/ABchjoNpM=; b=rDpIfwRla/EZd1ILBlwJNco4l4
-	WfJIK/HAgFAq5aphrTk40f+vvHDbygWv7o6Z7/8p18JwxCsd4QtQBJZVg+Rnl0bNsCpPhaUSIko+w
-	PNJecubs0awQArL1qJnq1JoKDLrt4q0JC6qril3QrQLMaSHRvwF9enPKiJ6onGEd4yYU=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wrJUz-00G286-VC; Tue, 04 Aug 2026 20:04:21 +0200
-Date: Tue, 4 Aug 2026 20:04:21 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Richard Genoud <richard.genoud@bootlin.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Saravana Kannan <saravanak@kernel.org>, Lee Jones <lee@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com, mfd@lists.linux.dev,
-	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 10/21] net: phy: add X-Powers AC200 EPHY control driver
-Message-ID: <fb6f8065-a655-4d53-acfb-8171b2e003dc@lunn.ch>
-References: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
- <20260802-submit-acx00-of-dynamic-v1-v1-10-0a53cd9e21cc@gmail.com>
- <05b1e6a2-725e-4b8e-8629-249637bbcb81@lunn.ch>
- <CADvTj4o0JdjoO+FC4pO=qnjEQ8MRyzQdKp2Hxy9NsPU-gym5OQ@mail.gmail.com>
- <9b8be475-1fde-409c-a82e-be4b2e402650@lunn.ch>
- <CADvTj4pBovti19MXgQjFpxm=7aRm0sYQz9jxfo8bu3txH94THQ@mail.gmail.com>
- <a9ce53dd-0873-41c0-ad6a-fb42e6cc7aaa@lunn.ch>
- <CADvTj4qpHU3F0DrEmc0vFi+JiwTNERniiMHKo1LmBd8sg58wJA@mail.gmail.com>
- <205e9051-8e43-44bb-a4b5-4ec69a192fa3@lunn.ch>
- <CADvTj4qmXWbDsc-vigcSrF1N=zpxmZWGp3YaZ9PFcWK551h3mg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MkcdQD2X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FA181F00AC4
+	for <linux-sunxi@lists.linux.dev>; Tue,  4 Aug 2026 18:11:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785867081;
+	bh=FikSavZljZZOAC3I+kpHBOLIYadBEAPg6f3CrNkkcDc=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=MkcdQD2XTs2CHy1GrmSqZx33oVJSb9cBzXys9Br0JLtRXiOv+hCGQti21OQLIP1yA
+	 kZK4EpG9ErpttoY0LXf5/NfIuAI7Yjm6fCsD+8oD6lIXs63mVyR0HwGMGkgon58vX6
+	 NxGp5ze1hy1vlV1DWOosSrFM+5jbLBdFCNAwRxJQo3klcIUFMt94JlQHa5VNYRLNTN
+	 AYD6w2yIP+rl3YsvzIlQQ0astb3SkjMQ94dK5LtZSfsGushbvL38pDhFzvlsR3irJI
+	 XIU6NoZ7Pm7X9re0Mgbu/NXKovXlxgA4KeeT8tovdq3kiIMGzl/el+CQtapVl+noOi
+	 G0UZCENVFJPYQ==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-39c74722e27so2730261fa.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 04 Aug 2026 11:11:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Ro1AiSu92geKdIbqj1RjvgPWYtpxSx4BNtew5gzvDp6JKB1izFbxx9fzYlfdQmb6tkzbsAb5fvcckHoPA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy1LRDflHn+qWiZTNPhDdLLJHSSlrBGjTIDeVKGTMjP70gx1eTM
+	TkWl2ojTfCWHen+09IkAKVoTGBRyWxAaUYbovMgUfl/B6BrJV5y8/tBwlC/gSOVZFC7bk63wQno
+	xgcRWrvrh/DIOk34BsidC24VMpb2BL1Q=
+X-Received: by 2002:a05:651c:b08:b0:38e:8357:c5ae with SMTP id
+ 38308e7fff4ca-39fba35d196mr1683601fa.9.1785867079728; Tue, 04 Aug 2026
+ 11:11:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CADvTj4qmXWbDsc-vigcSrF1N=zpxmZWGp3YaZ9PFcWK551h3mg@mail.gmail.com>
+References: <20260721223956.13665-1-andre.przywara@arm.com>
+ <c539e5c4-f21e-49a1-b0e3-d35f42893fc4@arm.com> <CAGb2v67CGcaQmSz_tTbSTQ7dzfCV2+7i5t_34iHKmyU05h-yRQ@mail.gmail.com>
+ <20260803153519.262827-1-juanmanuellopezcarrillo@gmail.com> <CAGb2v64Ty3HkBbb5A=ZL6QUAVD6bugG0hcYykCmh-KUsVwzwRw@mail.gmail.com>
+In-Reply-To: <CAGb2v64Ty3HkBbb5A=ZL6QUAVD6bugG0hcYykCmh-KUsVwzwRw@mail.gmail.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Wed, 5 Aug 2026 02:11:08 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64bTO-uG=QrtVDfHF=qnGtF5LMitagD1zfNEYSAqOzvXQ@mail.gmail.com>
+X-Gm-Features: AUfX_mwiL0nkLH-Wm-w7-N2txYVunL-uAPwAUoIXkwVJGRbj_F5IqUZJ_VioieY
+Message-ID: <CAGb2v64bTO-uG=QrtVDfHF=qnGtF5LMitagD1zfNEYSAqOzvXQ@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: sunxi: A523: fix voltage withstand encoding
+To: =?UTF-8?Q?Juan_Manuel_L=C3=B3pez_Carrillo?= <juanmanuellopezcarrillo@gmail.com>
+Cc: andre.przywara@arm.com, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> > No they don't. There are extra registers in different address domains.
-> 
-> The block diagrams make the distinction clearer. Both diagrams depict
-> an EPHY block with the same internal organization: MII/RMII, auto
-> negotiation, auto-MDIX, 10/100 TX and RX PCS/PMA blocks, LED logic,
-> clock/reset, PLL and EPHY AFE.
+On Mon, Aug 3, 2026 at 11:51=E2=80=AFPM Chen-Yu Tsai <wens@kernel.org> wrot=
+e:
+>
+> On Mon, Aug 3, 2026 at 11:37=E2=80=AFPM Juan Manuel L=C3=B3pez Carrillo
+> <juanmanuellopezcarrillo@gmail.com> wrote:
+> >
+> > Hi Andre, Chen-Yu,
+> >
+> > > So can you please double check this?
+> >
+> > Checked on my Orange Pi 4A (T527, GMAC1, Motorcomm YT8531 PHY). You are=
+ right:
+> > PJ10 is not needed on this board.
+> >
+> > PJ10 function 5 is RGMII1-EPHY-25M, "25 MHz Output for GMAC PHY" in the=
+ A523
+> > manual v1.4. The RGMII1 bus itself is the other 15 pins (PJ0-PJ9, PJ11-=
+PJ15),
+> > which mainline already has. My claim came from a stale comment in my tr=
+ee, from
+> > when I was chasing the dead RX. It is gone now and my rgmii1 group matc=
+hes
+> > sunxi/for-next. The Tested-by I sent on 22 July was already measured on=
+ plain
+> > mainline without PJ10, so what revived RX here was your withstand fix a=
+lone.
+> >
+> > > Those settings differ from what's in mainline. What are the results w=
+ith
+> > > those delays?
+> >
+> > Measured on the same board, DTB-only changes, TCP for 10 s per directio=
+n:
+> >
+> >   A  mine (rgmii-rxid, MAC tx 100 / rx 0, PHY rx 1900 ps)
+> >         TX 0.938-0.940   RX 0.929-0.930 Gbit/s
+> >   B  mainline delays (rgmii-id, MAC tx 0 / rx 300, none on the PHY)
+> >         TX 0.941   RX 0.929 Gbit/s
+> >   C  the Ethernet path exactly as mainline has it
+> >      (B, minus motorcomm,auto-sleep-disabled, minus PJ10)
+> >         TX 0.941   RX 0.929 Gbit/s
+> >
+> > All three saturate the link, with rx_errs, rx_drop, tx_errs and tx_drop=
+ at 0
+> > over roughly 1.6 million packets each. So mine are just other values th=
+at
+> > work, and I am dropping them in favour of mainline's.
+> >
+> > > ethernet on the A523 has other problems. The performance is really ba=
+d
+> > > (even RX), and there are errors or packet drops.
+> >
+> > I do not see that on this board, not even with C, which is mainline's E=
+thernet
+> > DT unmodified. I also checked the YT8531 auto-sleep: the first packet a=
+fter 5,
+> > 10, 20, 30 and 45 s of silence came back in 0.21-0.24 ms, no losses.
+> >
+> > The kernel is my own 6.18-based tree, although stmmac and motorcomm.c a=
+re
+> > stock, and this is one board with one PHY. Chen-Yu, which board and whi=
+ch MAC
+> > are you seeing it on, and how do you measure it? If it is another board=
+ or
+> > GMAC0, I can try to reproduce it here.
+>
+> On my Orange Pi 4A, running iperf3 between it and another Orange Pi 5 Plu=
+s
+> (which has Intel PCIe NICs) as the server:
 
-The block diagram is a vendor diagram, the vendor can draw whatever
-diagram they want. What does the Mainline Linux networking block
-diagram look like?
+Correction, the Orange Pi 5 Plus has Realtek 2.5G NICs, not Intel.
 
-O.K. I've somewhat had enough of this discussion.
-
-For the Networking parts: NACK
-
-To get that revoked, make the PHY driver drive the PHY.
-
-Hide away as much of this bad networking design in the bootloader.
-
-You are free to continue working on the MFD and other parts which are
-not networking, because i'm not a Maintainer there.
-
-    Andrew
+>
+>   - 4A as client: ~180 Mbps
+>   - 4A as client but with reverse transfer (-R): ~520 Mbps
+>
+> Now if I do the same test between the Orange Pi 5 Plus and my virtual mac=
+hine
+> on an AMD AI 370 Pro based NAS, I can saturate the link up close to 2.5 G=
+bps.
+>
+> If I use a H618-based Orange Pi Zero 3 as the client and the Orange Pi 5 =
+Plus
+> as the server:
+>
+>   - Zero 3: ~920 Mbps
+>   - Zero 3 with reverse: ~280 Mbps
+>
+> And I think my Cubie A5E and Avaota A1 fared even worse.
+>
+>
+> Something is definitely off. I don't know what though.
+>
+>
+> ChenYu
