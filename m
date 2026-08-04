@@ -1,37 +1,37 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155C313D891;
-	Tue,  4 Aug 2026 02:22:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FACB35838E;
+	Tue,  4 Aug 2026 02:43:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785810181; cv=none; b=bptwe1/V7ZE8Q9e9QeiRlghN6RcVKsyuwzGR9VD26Jawirw8dmLzsUa6zOo3K/sidjESGCr0tM0om5o9jAJTSCgvu9KfqLqMVFX4dhIZNu2Y7YxK7NvyFdkdEo9NdwIDvOfgVmMBsbxFl7uxEnrdzn27I9gLFlZJWyOLBhK/vZg=
+	t=1785811396; cv=none; b=aqo/vQbgcdGPMJsYkeQ0Yuo0SjOxDSAq8UhwTQ6Fw+wDhZQTOo+BUyw8jrpTVy/kCDd7UrHJL4TGQt6lt1MXXDLkKTxW7tv++g2s6JzojvEWE1oS6JUwypswXW0VwtP9Ggwa2TW5xVFZ4YCW9mzUvGJ8OtJq9E1dkeW/Ut36gCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785810181; c=relaxed/simple;
-	bh=SX13vEZQJkXZJt2UHR/f4IBlJrPFgf+XlGj5qM4/Nr4=;
+	s=arc-20240116; t=1785811396; c=relaxed/simple;
+	bh=9KUWNQpzkICGiZIz6RpeJzq6ZNfaxUzX/eYjQny1Brw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o8jKT5KRzymkWTcF9Z+FatLVG5EjwmAA1KC6uw5gHhDt5X2zpbwf8/vokjYDkdU0Gr8ahjjOwbIlKscy/z2FGa4HimazCkgM3/UOPQ1G6xW6LAE8vlhyqWMsXZzoisqYMOCZuQDvIG2FIJIWEHHE/xZA2FUi8tmFVpCcO75CblE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=cfJHnsPS; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=Uo/b2jUWIP1Pa9eIj5EFyrHwkNDQkkcsDhTFwtczcR0rWlgD7GYF0csVUASlklkvGpjzP73ANCKOGNgPfNjyQM/wckPwyxBhRyCjl4GQGYncKOxpNmCFo7ShNpIVa70BB4I7fPdcN1YVeWUHmrGyj9za5Q3pJMmhn3pAZ05BwwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=HkvcuGbT; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="cfJHnsPS"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="HkvcuGbT"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=KBCTp/Dj4hax8K4vdk++/al4/OPtT9I69ZVO8QctjQ8=; b=cfJHnsPS8+lt50R34OIpYaoLFK
-	3lvFwqf1TuEaHrQJmULImiw3DzOwrg5RFpQF9v0Ipby2paypRM5+7jvqmZmujLgRwKkFh9J/juiLJ
-	X1Qz8nuJE34gNeAFfnoL6029h1zKwlN23cRHzSHI+DEAFprImoSaATxAc7NSwMLiGJKw=;
+	bh=5xd/A/k5scoEkiSfkxEsnxNSvX+fTeIItseFvpU0+3U=; b=HkvcuGbT7wWBfvr6qcREZl62zE
+	gPFazdXpsM7+ig4sGAA+An7X07pznvVmjoOpIHcMCugq+/KBJjD6aa7xbG/itZNNKWYObTMUxA/QF
+	VZtic05EpfJy4txj+JVSHDxN7lX60fBPDZCzbtF1RLynmG4gUTj2KGThGOQ4hCLTSg8c=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1wr4nj-00FtTG-BR; Tue, 04 Aug 2026 04:22:43 +0200
-Date: Tue, 4 Aug 2026 04:22:43 +0200
+	id 1wr57I-00FtfC-Ic; Tue, 04 Aug 2026 04:42:56 +0200
+Date: Tue, 4 Aug 2026 04:42:56 +0200
 From: Andrew Lunn <andrew@lunn.ch>
-To: James Hilliard <james.hilliard1@gmail.com>
+To: Andre Przywara <andre.przywara@arm.com>
 Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
+	"David S . Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Rob Herring <robh@kernel.org>,
@@ -39,30 +39,15 @@ Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
 	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Richard Genoud <richard.genoud@bootlin.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
 	Heiner Kallweit <hkallweit1@gmail.com>,
 	Russell King <linux@armlinux.org.uk>,
-	Saravana Kannan <saravanak@kernel.org>, Lee Jones <lee@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com, mfd@lists.linux.dev,
-	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 10/21] net: phy: add X-Powers AC200 EPHY control driver
-Message-ID: <a9ce53dd-0873-41c0-ad6a-fb42e6cc7aaa@lunn.ch>
-References: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
- <20260802-submit-acx00-of-dynamic-v1-v1-10-0a53cd9e21cc@gmail.com>
- <05b1e6a2-725e-4b8e-8629-249637bbcb81@lunn.ch>
- <CADvTj4o0JdjoO+FC4pO=qnjEQ8MRyzQdKp2Hxy9NsPU-gym5OQ@mail.gmail.com>
- <9b8be475-1fde-409c-a82e-be4b2e402650@lunn.ch>
- <CADvTj4pBovti19MXgQjFpxm=7aRm0sYQz9jxfo8bu3txH94THQ@mail.gmail.com>
+	Liu Changjie <liucj1228@outlook.com>, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/6] net: phy: maxio: prepare for more DT properties
+Message-ID: <4d855daa-a426-4f46-985c-181e3b0eb7f1@lunn.ch>
+References: <20260803101452.2993721-1-andre.przywara@arm.com>
+ <20260803101452.2993721-2-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -71,36 +56,60 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CADvTj4pBovti19MXgQjFpxm=7aRm0sYQz9jxfo8bu3txH94THQ@mail.gmail.com>
+In-Reply-To: <20260803101452.2993721-2-andre.przywara@arm.com>
 
-> > So what i'm trying to do with both of these is make it look more like
-> > standard Linux building blocks.
-> >
-> > If that is not possible, i would actually put all this code into the
-> > PHY driver. You then have a regmap property to gain access to the I2C
-> > registers.
+On Mon, Aug 03, 2026 at 12:14:47PM +0200, Andre Przywara wrote:
+> The probe routine for the Maxio PHY returns early if the optional
+> maxio,clk-out-frequency-hz property is not found. That prevents looking
+> for other properties.
 > 
-> I understand the goal of using standard Linux building blocks where they
-> fit, but I do not think folding these control paths into the common PHY
-> driver gives the right device model here.
+> Refactor the routine to handle the property in an if-clause, to allow
+> more actions in the probe routine later.
 > 
-> The AC200 and AC300 expose the same Clause 22 PHY interface, but their
-> control functions are separate devices with different transports and
-> lifetimes. The AC200 control function is an MFD child accessed through
-> the parent I2C regmap. The AC300 control function is a separately
-> addressed non-PHY MDIO device. A regmap reference only describes the
-> AC200 transport; it does not represent the AC300 control device.
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  drivers/net/phy/maxio.c | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
 > 
-> Folding both implementations into the common PHY driver would make that
-> driver manage AC200 MFD registers and resources as well as an AC300 MDIO
-> control endpoint. That would mix the package-specific control transports
-> with the otherwise common Clause 22 implementation.
+> diff --git a/drivers/net/phy/maxio.c b/drivers/net/phy/maxio.c
+> index d2cb23895646..95a2169f25df 100644
+> --- a/drivers/net/phy/maxio.c
+> +++ b/drivers/net/phy/maxio.c
+> @@ -43,18 +43,18 @@ static int maxio_mae0621a_probe(struct phy_device *phydev)
+>  
+>  	ret = device_property_read_u32(dev, "maxio,clk-out-frequency-hz",
+>  				       &frequency);
+> -	if (ret == -EINVAL)
+> -		return 0;
+> -	if (ret)
+> +	if (!ret) {
+> +		if (frequency != 125000000) {
+> +			phydev_err(phydev, "invalid CLKOUT frequency %u\n",
+> +				   frequency);
+> +			return -EINVAL;
+> +		}
+> +
+> +		priv->clk_out_125m = true;
+> +	} else if (ret != -EINVAL) {
+>  		return ret;
 
-Given how messy this hardware is, i doubt it is discoverable. We have
-been pushing back on hacks to enable various things before probe in
-order to make it discoverable. So you are going to end up putting IDs
-in DT so that the driver probes without it being discovered. That
-means you can put any ID you want in DT, and the driver. So you have
-two different phy driver structs, two different probe functions, etc.
+The normal pattern is to check for errors and return them. So i would
+do this test first.
+
+ 	ret = device_property_read_u32(dev, "maxio,clk-out-frequency-hz",
+  				       &frequency);
+        if (ret) {
+	   if (ret != -EINVAL)
+	        return ret;
+	} else {
+		if (frequency != 125000000) {
+			phydev_err(phydev, "invalid CLKOUT frequency %u\n",
+				   frequency);
+			return -EINVAL;
+		}
+
+		priv->clk_out_125m = true;
+        }
+
 
 	Andrew
