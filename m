@@ -1,172 +1,124 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C464A38887D
-	for <linux-sunxi@lists.linux.dev>; Tue,  4 Aug 2026 02:07:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A4C3F4DE2
+	for <linux-sunxi@lists.linux.dev>; Tue,  4 Aug 2026 02:13:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785809275; cv=none; b=rZMBLAwB6v/pnT4U3jzWoep9HqixEmLqel9FbLMdWAJSKmk1nMKSo9PlyVVOR5abr2NbPWpGvco3oNfVjrXV9qb1/PFOgijuK6eBFodPedTYMTmmw7IFUhM7FPGRPh49uPFQXDbhdWEift7ahkGD1oNQZAsAoZN5DpmSkSwrilA=
+	t=1785809629; cv=none; b=uTwLj+uWMSVwjH+Xx8GKgtG2Eh/1T5f2xtINl+ezZ2rgJAKCREmN+fXomy49KIzS97swz4PnAACk8snOx2TP++Sa4aUxSMBm3ukRotMGYIwyPTPl+5zMld7zgLUnFmQDtqHNNl9CrD2AIkX1Tbw3tcEdBrsKLbpyAZzBk0j7mbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785809275; c=relaxed/simple;
-	bh=Gwm9t4RXpl+fHzy0Th3Jy27NVDr19uPXEPuQmLJwTuc=;
+	s=arc-20240116; t=1785809629; c=relaxed/simple;
+	bh=ghueuy9E2dN74CMYyvcSEEq6VJOz6njdy7gCAvbj0uw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Tm/8uLn0ps01pXjMcm+eLSxj6pKZmDXfjWsv9cun12WW1xOg4bfbXYVvlkF2zs1u7bUM/7glGe8Qsl5MvQFts6kl7tlxYkpXh1cim7vG0KPsYhAhcifilsxP+sD2BXb6Kh1dFy0zswFAuAMKdPfD56bwctSy8wqiaJmGZhrCrgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cx7wUUfH; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=famK/iu86QNNzvCCB8G81jhGpSKUXfilW30P6eTkfq10m18L9GRU/e5HI9Io/0EjHyfLsY+WE3Z8h/Cd2TZXYAurPGoRT5yUWKhm+8U/H++RFfWQKSsZ2NrMZwbQyDGgOzqAiyS06ollI1zI6RscHl8xfYy4Nn66LVjeKQmPdlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HNOUURBf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cx7wUUfH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1B871F01558
-	for <linux-sunxi@lists.linux.dev>; Tue,  4 Aug 2026 02:07:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HNOUURBf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A9F51F00A3F
+	for <linux-sunxi@lists.linux.dev>; Tue,  4 Aug 2026 02:13:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785809271;
-	bh=mhqh3Nz3FO5T9fLfc4e6l+Yx57i8XvSVRlL8MU9+QdA=;
+	s=k20260515; t=1785809625;
+	bh=HaH2PNL0DzB1AiDFqofOUl87+ejDXdlDada/f8nrt/U=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=Cx7wUUfHVRADJdcIF8T2bigYWlXI/Zc/UQHm5GmWGgSxRtt2zpUnDmcmebziCtJr1
-	 nQ8NFdC9JRupzaJKLrqTJraMgRLbG+0p75uRF5evu6jCQP3424p7KXjXcxuNLcWq+q
-	 XuEp/IGJeDRlCdweGaNqlzthvrxPO6Yu4Oj3Tsq/DNPRadGXw+4B6ynS/1OB7+bKZD
-	 vSfIdypByxFMSU1K8Pu+0GMfH+S1FU9iHYZEVF110wTz521xpVHnbSONIO8D0WibmS
-	 E9+UpABBSkirAVIwRlKfAeiWf8RV1CJPBvfVwMxw0pWxot3dBTMkH7OXgRPIRqiU3K
-	 ns7avqhWxR3ng==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5b2a4359d16so3696219e87.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 03 Aug 2026 19:07:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrY8fya6FaYcYpt8cWU6pYO8FE3mOG/8GuJr8GeOW5qHTTSs4S0iSfdkSZ/cpnYA9vADqUnnYHUzQaWgQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YznM4O+ijB1YDtOaW6yCz/cy2QEen1QDazjzU/2OfOw/NxrctcI
-	ZRBBQsuJ0JeXVNqsztfYgLYSTXG3a6rfrSpNu3cws/IseBVPQSD1M1R/iJGoG1EgrJzI2fsBpKB
-	p0rKwcprK3mh9JP+Z0w4KQTfiDrBOcjw=
-X-Received: by 2002:a2e:9fc6:0:b0:39b:14ba:a5da with SMTP id
- 38308e7fff4ca-39f86175217mr27582561fa.13.1785809270230; Mon, 03 Aug 2026
- 19:07:50 -0700 (PDT)
+	b=HNOUURBfRpELrfysdDPrxP6ldTC/Pmj5hsD//FMTGVE8qL8Ok8aXoX3/DitE/MbkH
+	 FDliIANBc+buY4D3BZib4lsM1x0tDFgk+5HVNBzteaOQb2tipdpolhXZqtefef572p
+	 Xj8Y4iMvx8NsptAFwSKkBHuW+3awkDTLRWD22axs6FZe+PaKf5IKjj3wU6gszjzh/l
+	 SDW4h0EiQXGBexBoFdLfCtKQv6UAJey+uo1USjuQE5ir1wbnGnQwax+pIN5JWlkBQE
+	 hfN5GfCKAcvTmUvC0LgIs4jGly9w+bYK+QddvyL3M1AHtlyMhU6gTLV3OidAGk/3g9
+	 9C8opPJr8PlyA==
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-39c74722e27so6751191fa.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 03 Aug 2026 19:13:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoJ7bAVHgWDL4Y4TlqRBohVPBhCWBuwkgYU5MaUcD01pwm0Op7DCy6N4A7AwzgOM2eWci5rorqno8P4pw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzFRFYIrODq7wXYlU56Et0TZdi9zkBypaPgoZ/CIrk7QqNDAzs6
+	KVCRfmDrHsQiDZAp6E64V0u1bcPN3oMhQxkFAx0go2e5jxUTZqf6/IQCkNmxHGMnaM1LNuGhzkK
+	H+88DPFWIaF9FTbCISQYYf8i4FnHiTWg=
+X-Received: by 2002:a05:651c:198f:b0:39c:797e:bc8a with SMTP id
+ 38308e7fff4ca-39fb3308f32mr609461fa.16.1785809623988; Mon, 03 Aug 2026
+ 19:13:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
- <20260802-submit-acx00-of-dynamic-v1-v1-10-0a53cd9e21cc@gmail.com>
- <05b1e6a2-725e-4b8e-8629-249637bbcb81@lunn.ch> <CADvTj4o0JdjoO+FC4pO=qnjEQ8MRyzQdKp2Hxy9NsPU-gym5OQ@mail.gmail.com>
- <9b8be475-1fde-409c-a82e-be4b2e402650@lunn.ch> <CADvTj4pBovti19MXgQjFpxm=7aRm0sYQz9jxfo8bu3txH94THQ@mail.gmail.com>
-In-Reply-To: <CADvTj4pBovti19MXgQjFpxm=7aRm0sYQz9jxfo8bu3txH94THQ@mail.gmail.com>
+References: <cover.1785772659.git.jernej.skrabec@gmail.com> <263a4a41442a3c8b072b170256b72658f1b90802.1785772659.git.jernej.skrabec@gmail.com>
+In-Reply-To: <263a4a41442a3c8b072b170256b72658f1b90802.1785772659.git.jernej.skrabec@gmail.com>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 4 Aug 2026 10:07:38 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64U9ZQxfb7M3VfoGH60iMHL01XDy6tjs8VbFPLfyaJWgw@mail.gmail.com>
-X-Gm-Features: AUfX_mwGp_0m2GBis6TyXtQmz_W7xdVls2yXgA2h06qYGgsxLQfwj2BxAwZBVtk
-Message-ID: <CAGb2v64U9ZQxfb7M3VfoGH60iMHL01XDy6tjs8VbFPLfyaJWgw@mail.gmail.com>
-Subject: Re: [PATCH 10/21] net: phy: add X-Powers AC200 EPHY control driver
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Andre Przywara <andre.przywara@arm.com>, Richard Genoud <richard.genoud@bootlin.com>, 
-	Maxime Ripard <mripard@kernel.org>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>, Jose Abreu <joabreu@synopsys.com>, 
-	Maxime Chevallier <maxime.chevallier@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Saravana Kannan <saravanak@kernel.org>, Lee Jones <lee@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
-	netdev@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	mfd@lists.linux.dev, linux-rockchip@lists.infradead.org
+Date: Tue, 4 Aug 2026 10:13:29 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66x0gt665ZKGTvi37j5quYLpn1YMhrRcd-naD4j83tZ4Q@mail.gmail.com>
+X-Gm-Features: AUfX_mymhMOdQmpPOxedWcFtrz_hfHN0-KPCg_ZnLW8-t4yrJhRM5wzU5pS1ZNk
+Message-ID: <CAGb2v66x0gt665ZKGTvi37j5quYLpn1YMhrRcd-naD4j83tZ4Q@mail.gmail.com>
+Subject: Re: [PATCH 02/13] drm/sun4i: vi scaler: Fix coefficient selection
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+	airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 4, 2026 at 2:45=E2=80=AFAM James Hilliard <james.hilliard1@gmai=
+On Tue, Aug 4, 2026 at 12:11=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
 l.com> wrote:
 >
-> On Mon, Aug 3, 2026 at 11:57=E2=80=AFAM Andrew Lunn <andrew@lunn.ch> wrot=
-e:
-> >
-> > On Mon, Aug 03, 2026 at 10:09:01AM -0600, James Hilliard wrote:
-> > > On Mon, Aug 3, 2026 at 7:51=E2=80=AFAM Andrew Lunn <andrew@lunn.ch> w=
-rote:
-> > > >
-> > > > > +static int
-> > > > > +ac200_ephy_ctl_set_led_outputs(struct acx00_ephy_control *contro=
-l,
-> > > > > +                            unsigned long outputs)
-> > > > > +{
-> > > > > +}
-> > > >
-> > > > > +static int
-> > > > > +ac200_ephy_ctl_set_led_polarity(struct acx00_ephy_control *contr=
-ol,
-> > > > > +                             bool active_low)
-> > > > > +{
-> > > > > +}
-> > > >
-> > > > I've not looked into the details, but these look like pinmux. Does
-> > > > this I2C device have a GPIO controller? Can these pins be used for
-> > > > other things than LEDs? Maybe you should be implementing a GPIO and
-> > > > pinmux driver. The Ethernet PHY driver can then just select the
-> > > > correct pinmux configuration.
-> > >
-> > > These do not appear to be GPIO or muxable pins. The AC200
-> > > documentation describes them as three dedicated EPHY LED
-> > > outputs: link/activity, speed, and duplex. The bits in SYS_EPHY_CTL1
-> > > enable those output pads, while EPHY_CTL provides their shared
-> > > polarity setting. I have not found any documented GPIO data
-> > > registers or alternative functions for these pins.
-> >
-> > So what i'm trying to do with both of these is make it look more like
-> > standard Linux building blocks.
-> >
-> > If that is not possible, i would actually put all this code into the
-> > PHY driver. You then have a regmap property to gain access to the I2C
-> > registers.
+> Currently, vertical coefficients are selected based on horizontal
+> scaling, which is wrong. Additionally, chroma coefficients should be
+> selected based on format subsampling.
 >
-> I understand the goal of using standard Linux building blocks where they
-> fit, but I do not think folding these control paths into the common PHY
-> driver gives the right device model here.
+> Fix all that.
 >
-> The AC200 and AC300 expose the same Clause 22 PHY interface, but their
-> control functions are separate devices with different transports and
-> lifetimes. The AC200 control function is an MFD child accessed through
-> the parent I2C regmap. The AC300 control function is a separately
-> addressed non-PHY MDIO device. A regmap reference only describes the
-> AC200 transport; it does not represent the AC300 control device.
->
-> Folding both implementations into the common PHY driver would make that
-> driver manage AC200 MFD registers and resources as well as an AC300 MDIO
-> control endpoint. That would mix the package-specific control transports
-> with the otherwise common Clause 22 implementation.
->
-> The current split uses standard subsystems wherever they provide a
-> matching abstraction: MFD, regmap, MDIO devices, clocks, regulators,
-> NVMEM, device links, and the PHY LED framework. The narrow private
-> interface covers only the compound operation which those frameworks
-> cannot express: calibrating, addressing, configuring, and sequencing the
-> package control block before the Clause 22 interface becomes usable.
->
-> The link address is an important example. It is defined once by
-> phydev->mdio.addr. AC200 must program that value through its I2C control
-> interface, while AC300 must validate it against the address of its MDIO
-> control endpoint. Generic PHY operations do not carry a consumer MDIO
-> address. Encoding it in a phys specifier or control-node property would
-> duplicate the PHY node's reg value. Giving the common PHY driver a raw
-> regmap avoids passing the address only by moving the provider-specific
-> implementation across the driver boundary.
->
-> The LED pad-enable and polarity bits are similarly part of the package
-> control function. They control dedicated EPHY outputs rather than GPIOs
-> or muxable pins. The common PHY driver still owns the PHY LED semantics,
-> while the selected control driver performs the package-specific register
-> access.
->
-> For those reasons, I think keeping the transport-specific control drivers
-> and the common Clause 22 PHY driver separate is the cleaner division.
+> Fixes: b862a648de3b ("drm/sun4i: Add support for HW scaling to DE2")
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-I think what Andrew is saying is that you can expose the regmap from the
-MFD node, which you then reference from the PHY node with a custom phandle.
-
-In the PHY driver, the first thing to do is retrieve the syscon, and if it
-is not available yet, return -EPROBE_DEFER. Then you program all the bits
-you currently do, just without going through a layer of redirection.
-You can fetch the PHY address to program from the device tree. The downside
-to doing all the setup in the PHY driver is that the PHY node has to have
-the PHY ID in the compatible, as it is no longer generic. But you already
-have that.
+Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
 
 
-ChenYu
+Somehow having the two fixes together made the diff much harder for me
+to understand.
+
+> ---
+>  drivers/gpu/drm/sun4i/sun8i_vi_scaler.c | 18 ++++++++++++------
+>  1 file changed, 12 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c b/drivers/gpu/drm/su=
+n4i/sun8i_vi_scaler.c
+> index 3dec4eeb1ba2..d4412a62c2f0 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c
+> @@ -894,20 +894,26 @@ static void sun8i_vi_scaler_set_coeff(struct regmap=
+ *map, u32 base,
+>                              lan3coefftab32_left[offset + i]);
+>                 regmap_write(map, SUN8I_SCALER_VSU_YHCOEFF1(base, i),
+>                              lan3coefftab32_right[offset + i]);
+> +       }
+> +       offset =3D sun8i_vi_scaler_coef_index(vstep) *
+> +                       SUN8I_VI_SCALER_COEFF_COUNT;
+> +       for (i =3D 0; i < SUN8I_VI_SCALER_COEFF_COUNT; i++)
+> +               regmap_write(map, SUN8I_SCALER_VSU_YVCOEFF(base, i),
+> +                            lan2coefftab32[offset + i]);
+> +
+> +       offset =3D sun8i_vi_scaler_coef_index(hstep / format->hsub) *
+> +                       SUN8I_VI_SCALER_COEFF_COUNT;
+> +       for (i =3D 0; i < SUN8I_VI_SCALER_COEFF_COUNT; i++) {
+>                 regmap_write(map, SUN8I_SCALER_VSU_CHCOEFF0(base, i),
+>                              ch_left[offset + i]);
+>                 regmap_write(map, SUN8I_SCALER_VSU_CHCOEFF1(base, i),
+>                              ch_right[offset + i]);
+>         }
+> -
+> -       offset =3D sun8i_vi_scaler_coef_index(hstep) *
+> +       offset =3D sun8i_vi_scaler_coef_index(vstep / format->vsub) *
+>                         SUN8I_VI_SCALER_COEFF_COUNT;
+> -       for (i =3D 0; i < SUN8I_VI_SCALER_COEFF_COUNT; i++) {
+> -               regmap_write(map, SUN8I_SCALER_VSU_YVCOEFF(base, i),
+> -                            lan2coefftab32[offset + i]);
+> +       for (i =3D 0; i < SUN8I_VI_SCALER_COEFF_COUNT; i++)
+>                 regmap_write(map, SUN8I_SCALER_VSU_CVCOEFF(base, i),
+>                              cy[offset + i]);
+> -       }
+>  }
+>
+>  void sun8i_vi_scaler_enable(struct sun8i_layer *layer, bool enable)
+> --
+> 2.43.0
+>
