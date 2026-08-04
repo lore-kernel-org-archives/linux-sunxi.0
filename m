@@ -1,208 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6B541DE06
-	for <linux-sunxi@lists.linux.dev>; Tue,  4 Aug 2026 17:04:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA044949E8;
+	Tue,  4 Aug 2026 17:39:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785863097; cv=none; b=qZFlFTfIMNp7rJ25P8173+r8egIcvn2KeBvIOdESLVcvlIU7kcJq0YFHrh8XZ1Elu2CFV3RbDcwssn+KvgOwi6UoJq/ijg5D2VO5F/cFZcA/aiv1cPDvIjSuq77loz5XmvlRGpxehBhRXv9qWnBpX9tWuc4J472mo5SXkQIBTmw=
+	t=1785865147; cv=none; b=YFpQ6PKn4ElhwqeFLACohfKjvZ351v9PqhRouxUP4IxBnxUgoMszvhfC24hRMSTTCysBJlGF8ZbiELJxNIdzuU+pPLb+iVCOKDtQlCPaNxzgP7fv+DjRoCUu4w7VSM6226Yl/RO2LWsRVNIrbtwqsIWL2ZZfQJPya8KGsBEWwMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785863097; c=relaxed/simple;
-	bh=d30zVtGCbkqf84iuqOxXAT5Mnv/na0VTtuO+KQoBuTE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d2p3zhAPM17XyFl93/X7Wlsy77hbeqZ9SBob320iPz+IC8V+bqlH974dJBIlt/kE2F4mCn8mQBq1NYYnowvbhfmZnKExCArL5nt2sYwgojx+xJu7KWq5/WV51rKhwZpz+1cYScUwl9BjNS0ygocPHriPlnJgfWUPkBt3tPox2XY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bg7OoWzi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785865147; c=relaxed/simple;
+	bh=n9k+STtkLseuWk2U/CPOHJLHCuyJ8LwrTKpV0GGni7s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lvMecZ3enbnbsuX0QgW+XUSDK40vWCcbhLvzKooLB00uod9antQ85bxkyywDQ6uACfhDUwfwOP6hwABakL0Wl33I9gXULd2x99La/kr7uupZr9o23SY3X+3DWXPlBElIAVHaVwR17FYN54eIxFl2n9w78fe2dvk3RmNuMgyaRDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=yoyLWprD; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bg7OoWzi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76C661F00A3D
-	for <linux-sunxi@lists.linux.dev>; Tue,  4 Aug 2026 17:04:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785863064;
-	bh=Mdy5BwKP2BUlXSPT818fsnoO/+gx2VkeYa1S7BhDg0A=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=bg7OoWziEtDRjqC4NPN8cKVmWJ+CKhiKvG1BGvdcP8l6UqkD9OeZLO5Wey3SL5Hk4
-	 jz7H4wWr/Pp3bw1Tcexu2Pz4RS4LQwY0H0I4bObe/+iZjVyg7eiADFsDZg62Q5Dsqn
-	 fqBAOobykxBmMQtpohVjEBoRFR0ZdM0zMByMDjAqEE1pLGJbqDrnxIgET4X+8/neHe
-	 VAg+2kLTMbXE2WuqcFliF1HZ+35BK5IN+H0AvEDSXY65anSU2FhsmKeUTqOLfSZf3w
-	 RKPdKKSySk1OpPWPT7f1V3c0SwPypmfVC96Swv0o77F4kicbFogvzM7/BH7MUSXNE8
-	 dIIqekk+50UQQ==
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-39c95395230so846421fa.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 04 Aug 2026 10:04:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rpk5aeUiFwWoUvTdZWWES/timZUYNbHuRAaCI+ILKpxG3jvN8SxMjGhY8hwbZPGrfQfiqC2eSEaDquzwg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzFo/MBdYe781qFmsyFEaTB1D6EiTzutizwIZQ9/+fTWyTZQ9Z7
-	05XdMjdBYeo/DT/OZOfL3qzUoZmLgkIrwQCPy31s1VdLMs+8CdzrhIlHVThhntj61Ky7jfNOCO/
-	LVfqt/1e/m2RicbJuscS65R1luqIABFA=
-X-Received: by 2002:a05:651c:b21:b0:39e:b257:e878 with SMTP id
- 38308e7fff4ca-39fbae384e5mr15601fa.8.1785863062769; Tue, 04 Aug 2026 10:04:22
- -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="yoyLWprD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=iEI0tsAN27gcGUyJPUFdfbIkSDOcl8zJRY+yO6IjA8E=; b=yoyLWprDwgxFu5mYAEn0SWOsHd
+	Oi46csV9zN33JyPIvHApKBtCDW42AQUUUlGXzFn6E7Dze5qPN7pVQwVvCWC4K1hG93ghBJ021aTf0
+	ySxCwlGTz8UX6CmusMreZx/UoBOyZxDReyZBxhEut4FvMZpxKWFxCBhafQuqyXb/cWCc=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wrJ63-00G1hx-Un; Tue, 04 Aug 2026 19:38:35 +0200
+Date: Tue, 4 Aug 2026 19:38:35 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: James Hilliard <james.hilliard1@gmail.com>
+Cc: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Richard Genoud <richard.genoud@bootlin.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Saravana Kannan <saravanak@kernel.org>, Lee Jones <lee@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com, mfd@lists.linux.dev,
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 00/21] net: phy: add X-Powers AC200/AC300 EPHY support
+Message-ID: <9dd29610-d9e4-48f2-9638-2c92863626f8@lunn.ch>
+References: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
+ <aaec8809-8218-4412-a60d-931406dbf287@arm.com>
+ <CADvTj4qCYjQHOQn1jRTHNNL=xeX6z3Dgc-PLwOBUvX34AU6cuA@mail.gmail.com>
+ <AGtA6uUwR9yJMX3xYVDz6g@gmail.com>
+ <CADvTj4qBhiPczrP9YC2uTW3xss3W7ghoBzbctM45yUROfsgPhw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1785772659.git.jernej.skrabec@gmail.com>
- <CAGb2v66E95PwYhdPC4mkX1htF2VXECiGwUHfzLHV2ydOMiwxrg@mail.gmail.com>
- <CAGb2v67ugarRQAB=yDiyGti4E_r=dF0G08-TiGgphQSefHs8zQ@mail.gmail.com> <ugAWjG4QTtSgFVIbk0BoGg@gmail.com>
-In-Reply-To: <ugAWjG4QTtSgFVIbk0BoGg@gmail.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Wed, 5 Aug 2026 01:04:10 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67mTzB+R7XDasSNhpmdzu5ikdoO0QwiHR432pdt_v7A_Q@mail.gmail.com>
-X-Gm-Features: AUfX_mxqXe7yankErUPBEOhM0CS9DLRlpwPXjUeNfllWGs8vBgMDWFkZlhW-0lE
-Message-ID: <CAGb2v67mTzB+R7XDasSNhpmdzu5ikdoO0QwiHR432pdt_v7A_Q@mail.gmail.com>
-Subject: Re: [PATCH 13/13] drm/sun4i: Align VI buffer addresses for subsampled formats
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
-	airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CADvTj4qBhiPczrP9YC2uTW3xss3W7ghoBzbctM45yUROfsgPhw@mail.gmail.com>
 
-On Wed, Aug 5, 2026 at 12:25=E2=80=AFAM Jernej =C5=A0krabec <jernej.skrabec=
-@gmail.com> wrote:
->
-> Dne torek, 4. avgust 2026 ob 13:14:38 Srednjeevropski poletni =C4=8Das je=
- Chen-Yu Tsai napisal(a):
-> > On Tue, Aug 4, 2026 at 1:25=E2=80=AFAM Chen-Yu Tsai <wens@kernel.org> w=
-rote:
-> > >
-> > > On Tue, Aug 4, 2026 at 12:11=E2=80=AFAM Jernej Skrabec <jernej.skrabe=
-c@gmail.com> wrote:
-> > > >
-> > > > This is a partial revert of commit 79ac1c945ab8 ("drm/sun4i: layers=
-:
-> > > > Use drm_fb_dma_get_gem_addr() to get display memory").
-> > > >
-> > > > Chroma must start at the beginning of a subsampling block, for exam=
-ple
-> > > > chroma start address for NV12 must be aligned to 2 pixels.
-> > > > drm_fb_dma_get_gem_addr() offsets luma by the exact source coordina=
-tes
-> > > > and chroma by the coordinates divided by the subsampling factor, so=
- for
-> > > > odd offsets both planes no longer describe the same pixel, which th=
-e
-> > > > Display Engine scaler can't handle.
-> > > >
-> > > > Align source coordinates down for all planes instead. Remaining shi=
-ft
-> > > > of one pixel is already compensated with scaler phase shift in
-> > > > sun8i_vi_layer_update_coord().
-> > >
-> > > Well I think this applies to the format in general, and probably shou=
-ld
-> > > be fixed in drm_fb_dma_get_gem_addr() instead?
-> > >
-> > > > Fixes: 79ac1c945ab8 ("drm/sun4i: layers: Use drm_fb_dma_get_gem_add=
-r() to get display memory")
-> > > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > > ---
-> > > >  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 20 ++++++++++++++++++--
-> > > >  1 file changed, 18 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/d=
-rm/sun4i/sun8i_vi_layer.c
-> > > > index 09f668c8af24..ad036cb9d88e 100644
-> > > > --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> > > > +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> > > > @@ -197,15 +197,31 @@ static void sun8i_vi_layer_update_buffer(stru=
-ct sun8i_layer *layer,
-> > > >         struct drm_plane_state *state =3D plane->state;
-> > > >         struct drm_framebuffer *fb =3D state->fb;
-> > > >         const struct drm_format_info *format =3D fb->format;
-> > > > +       struct drm_gem_dma_object *gem;
-> > > > +       u32 dx, dy, src_x, src_y;
-> > > >         dma_addr_t dma_addr;
-> > > >         u32 ch_base;
-> > > >         int i;
-> > > >
-> > > >         ch_base =3D sun8i_channel_base(layer);
-> > > >
-> > > > +       /* Adjust x and y to be divisible by subsampling factor */
-> > > > +       src_x =3D (state->src.x1 >> 16) & ~(format->hsub - 1);
-> > > > +       src_y =3D (state->src.y1 >> 16) & ~(format->vsub - 1);
-> > >
-> > > AFAICT the only difference compared to drm_fb_dma_get_gem_addr()
-> > > is the masking here, i.e. round_down().
-> > >
-> > > > +
-> > > >         for (i =3D 0; i < format->num_planes; i++) {
-> > > > -               /* Get the start of the displayed memory */
-> > > > -               dma_addr =3D drm_fb_dma_get_gem_addr(fb, state, i);
-> > > > +               gem =3D drm_fb_dma_get_gem_obj(fb, i);
-> > > > +               dma_addr =3D gem->dma_addr + fb->offsets[i];
-> > > > +
-> > > > +               dx =3D src_x;
-> > > > +               dy =3D src_y;
-> > > > +               if (i > 0) {
-> > > > +                       dx /=3D format->hsub;
-> > > > +                       dy /=3D format->vsub;
-> > > > +               }
-> > > > +
-> > > > +               dma_addr +=3D dx * format->cpp[i];
-> > > > +               dma_addr +=3D dy * fb->pitches[i];
-> > >
-> > >
-> > > Where as the helper has (or used to have before the blocksize stuff):
-> > >
-> > >     paddr +=3D (format->cpp[plane] * (state->src_x >> 16)) / fb->form=
-at->hsub;
-> > >     paddr +=3D (fb->pitches[plane] * (state->src_y >> 16)) / fb->form=
-at->vsub;
-> > >
-> > > Am I missing something?
-> >
-> > After some headbanging on my end I see that the offset for the Y plane
-> > needs to be rounded down.
-> >
-> > But instead of reverting the whole thing and open-coding the helper
-> > again, could you adjust the address returned by the helper for odd
-> > offsets?
->
-> Yes, that's also an option. I'll do it in v2.
->
-> >
-> > And just a heads up, this also needs a clipped version of
-> > drm_fb_dma_get_gem_addr() as sun8i_ui_layer_update_coord() uses the
-> > clipped dimensions. I am currently working on this part.
->
-> Can you explain a bit more? I don't see why it needs any adjustement.
+> The AC200 Datasheet V1.1 and AC300 User Manual V1.0 block diagrams show
+> effectively the same EPHY organization: MII/RMII, auto-negotiation,
+> Auto-MDIX, 10/100 transmit and receive PCS/PMA blocks, LED and
+> clock/reset logic, a PLL, and the EPHY analog front end. Both variants
+> also report PHY ID 0x00441400, and testing shows compatible link-side
+> paged registers and behavior.
+> 
+> What differs is the surrounding control path.
 
-My understanding is that drm_atomic_helper_check_plane_state() calculates
-the "clipped" rectangles for the plane using values from userspace in
-state->src_[xywh] and state->crtc_[xywh] and puts them in state->src
-and state->dst, respectively. If the overlay is moved partially outside
-the screen, the overlay is "clipped".
+Which is still part of the PHY, needs driver code, and so should be
+part of the PHY driver. 
 
+> AC200 is configured
+> through its RSB/TWI-backed MFD registers, while AC300 has a separate
+> non-PHY MDIO control endpoint.
 
-Say we have a screen of 1920x1080, with an overlay buffer that is 1280x720.
-Say state->src_x and state->src_y are (-50, 0), given by userspace.
-drm_atomic_helper_check_plane_state() will calculate the clipped & scaled
-rectangles and put them in state->src. This latter rectangle is what is
-used sun8i_ui_layer_update_coord().
+Which is an implementation detail.
 
-So we would have:
+> I do not think the control-provider reference is artificial. It
+> describes a real functional dependency: the Clause 22 endpoint cannot
+> be accessed until the selected package-specific control block has
+> powered, calibrated and configured it.
 
-    (src_x, src_y) =3D (-50, 0), (src_w, src_h) =3D (1280, 720)
+Nothing too special here. There are PHYs which do this, in the PHY
+driver.
 
-The clipped numbers are
+> I also do not think a bootloader fixup should be the only supported
+> selection mechanism. Boards using the same compatible have shipped with
+> either package, and the SID field provides an authoritative package
+> selector which Linux can read directly. Handling that selector in Linux
+> avoids making support depend on a particular bootloader implementation.
 
-    (src.x1, src.y1) =3D (0, 0), (src.x2, src.y2) =3D (1230, 720)
+There is a trade off here. If the hardware design is just ugly, badly
+thought out, poorly executed, not following the industries norms, we
+want to push back on the hardware vendor to make the next version
+better. Until that improved version comes out, either the vendor crap
+driver should be used, not Mainline, or we try to hide away the issues
+in the bootloader. A vendor which actually cares will improve, they
+know what Mainline means. And for vendors which don't care, why should
+Mainline care, especially if the issues can be pushed to the
+bootloader.
 
-src, not src_[xywh], is what sun8i layers uses to program the coordinates,
-and prior to the drm_fb_dma_get_gem_addr() conversion, also to calculate
-the buffer start address. drm_fb_dma_get_gem_addr() however uses src_[xy]
-to calculate the address.
+We don't want to mess up core Linux code to handle one broken device,
+that just makes ongoing Maintenance more expensive for everybody.
 
+> A bootloader fixup remains compatible with this design. If firmware
+> enables only the correct provider, the fixed-description path is used
+> and Linux does not need to change the tree. Runtime selection is used
+> when firmware leaves the package variant unresolved.
 
-Essentially, when overlaying a clipped plane, the start address needs to
-be adjusted if the source (top left) offset is outside the screen.
-clipping =3D=3D automatic cropping to fit the screen.
+So i would not try to fix up the unresolved situation, just do a
+dev_error(dev, "Please upgrade your bootloader"); and return -ENODEV.
 
-I don't know if userspace applications routinely do this, but I think this
-needs to be restored to the prior behavior.
-
-
-ChenYu
+	Andrew
