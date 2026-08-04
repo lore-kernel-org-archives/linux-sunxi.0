@@ -1,124 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A4C3F4DE2
-	for <linux-sunxi@lists.linux.dev>; Tue,  4 Aug 2026 02:13:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D363CB57D;
+	Tue,  4 Aug 2026 02:14:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785809629; cv=none; b=uTwLj+uWMSVwjH+Xx8GKgtG2Eh/1T5f2xtINl+ezZ2rgJAKCREmN+fXomy49KIzS97swz4PnAACk8snOx2TP++Sa4aUxSMBm3ukRotMGYIwyPTPl+5zMld7zgLUnFmQDtqHNNl9CrD2AIkX1Tbw3tcEdBrsKLbpyAZzBk0j7mbk=
+	t=1785809694; cv=none; b=SSknZgFRJxYKI6Ay8peme4xPwdT/I3xRJCGPtaQSSP1E64qjN42qDoGrtxDm3DWl27VNn7NevR1LYp5LT8Ahsak0FhjbR3yF5FVi2FWqsYmwnXmFePgiD375q/8OHlwt/LYgDmfLUEsFvOkxBrMtwnW9udg0lLMaqZkRNiZm7D4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785809629; c=relaxed/simple;
-	bh=ghueuy9E2dN74CMYyvcSEEq6VJOz6njdy7gCAvbj0uw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=famK/iu86QNNzvCCB8G81jhGpSKUXfilW30P6eTkfq10m18L9GRU/e5HI9Io/0EjHyfLsY+WE3Z8h/Cd2TZXYAurPGoRT5yUWKhm+8U/H++RFfWQKSsZ2NrMZwbQyDGgOzqAiyS06ollI1zI6RscHl8xfYy4Nn66LVjeKQmPdlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HNOUURBf; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785809694; c=relaxed/simple;
+	bh=Y5JZSp+ix4qHbZ7GCC0VqnV4NZLgImWXiB5VmcXvnlY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UZ1SqwAKr4oqNSLIC+JP9K2y9hMXwqxX6F0U+d6TtwDitAvAYQWRb3oAlBdhLYmrYzGMDSpaDjB/73GwuDjoYgG6NKf2WsycPMfakkQKinu9AKHBkCoMmT6hbiXs+JrHyM8B5q3fOqbphbefIqRNShZtDcss2BhXs3d+FGf2Oj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=1BzwMrQX; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HNOUURBf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A9F51F00A3F
-	for <linux-sunxi@lists.linux.dev>; Tue,  4 Aug 2026 02:13:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785809625;
-	bh=HaH2PNL0DzB1AiDFqofOUl87+ejDXdlDada/f8nrt/U=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=HNOUURBfRpELrfysdDPrxP6ldTC/Pmj5hsD//FMTGVE8qL8Ok8aXoX3/DitE/MbkH
-	 FDliIANBc+buY4D3BZib4lsM1x0tDFgk+5HVNBzteaOQb2tipdpolhXZqtefef572p
-	 Xj8Y4iMvx8NsptAFwSKkBHuW+3awkDTLRWD22axs6FZe+PaKf5IKjj3wU6gszjzh/l
-	 SDW4h0EiQXGBexBoFdLfCtKQv6UAJey+uo1USjuQE5ir1wbnGnQwax+pIN5JWlkBQE
-	 hfN5GfCKAcvTmUvC0LgIs4jGly9w+bYK+QddvyL3M1AHtlyMhU6gTLV3OidAGk/3g9
-	 9C8opPJr8PlyA==
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-39c74722e27so6751191fa.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 03 Aug 2026 19:13:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RoJ7bAVHgWDL4Y4TlqRBohVPBhCWBuwkgYU5MaUcD01pwm0Op7DCy6N4A7AwzgOM2eWci5rorqno8P4pw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzFRFYIrODq7wXYlU56Et0TZdi9zkBypaPgoZ/CIrk7QqNDAzs6
-	KVCRfmDrHsQiDZAp6E64V0u1bcPN3oMhQxkFAx0go2e5jxUTZqf6/IQCkNmxHGMnaM1LNuGhzkK
-	H+88DPFWIaF9FTbCISQYYf8i4FnHiTWg=
-X-Received: by 2002:a05:651c:198f:b0:39c:797e:bc8a with SMTP id
- 38308e7fff4ca-39fb3308f32mr609461fa.16.1785809623988; Mon, 03 Aug 2026
- 19:13:43 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="1BzwMrQX"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=T/VCzwTsflXecE/LA8NyIZCc4wUo9vJUkRVnEi64uVk=; b=1B
+	zwMrQXY2R+8GeQDMzsLBwl6+lx+XH0qy31zRwG5Txtcd53Z/UlGiB6G+y5UhWYsL9szKklFS2hqpJ
+	E36k88HZ7acZi6srmdwxRvrAT02FdtDrUWOIB+f7FBXIept5AilXRMX/CG37Nz9GwNDvmWkBfub4S
+	UeDNHgYSFUZp1r4=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wr4fn-00FtNy-Ck; Tue, 04 Aug 2026 04:14:31 +0200
+Date: Tue, 4 Aug 2026 04:14:31 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: James Hilliard <james.hilliard1@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Richard Genoud <richard.genoud@bootlin.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Saravana Kannan <saravanak@kernel.org>, Lee Jones <lee@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com, mfd@lists.linux.dev,
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 08/21] dt-bindings: mfd: x-powers: add AC200
+Message-ID: <fa80d6f8-8ddf-48e1-a879-a70f228c79f9@lunn.ch>
+References: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
+ <20260802-submit-acx00-of-dynamic-v1-v1-8-0a53cd9e21cc@gmail.com>
+ <2c0210b3-2c68-41f1-aa33-3f1693454849@lunn.ch>
+ <CADvTj4pfNFVGrQV86T7X+nZQYUamxEYLLWuxVXk=av0da_XocQ@mail.gmail.com>
+ <CAGb2v67Wo+WG47jF_vBUOwv0Vw1SDygXMdBgpsy3R1AQ_LLfHw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1785772659.git.jernej.skrabec@gmail.com> <263a4a41442a3c8b072b170256b72658f1b90802.1785772659.git.jernej.skrabec@gmail.com>
-In-Reply-To: <263a4a41442a3c8b072b170256b72658f1b90802.1785772659.git.jernej.skrabec@gmail.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 4 Aug 2026 10:13:29 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66x0gt665ZKGTvi37j5quYLpn1YMhrRcd-naD4j83tZ4Q@mail.gmail.com>
-X-Gm-Features: AUfX_mymhMOdQmpPOxedWcFtrz_hfHN0-KPCg_ZnLW8-t4yrJhRM5wzU5pS1ZNk
-Message-ID: <CAGb2v66x0gt665ZKGTvi37j5quYLpn1YMhrRcd-naD4j83tZ4Q@mail.gmail.com>
-Subject: Re: [PATCH 02/13] drm/sun4i: vi scaler: Fix coefficient selection
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
-	airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGb2v67Wo+WG47jF_vBUOwv0Vw1SDygXMdBgpsy3R1AQ_LLfHw@mail.gmail.com>
 
-On Tue, Aug 4, 2026 at 12:11=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
-l.com> wrote:
->
-> Currently, vertical coefficients are selected based on horizontal
-> scaling, which is wrong. Additionally, chroma coefficients should be
-> selected based on format subsampling.
->
-> Fix all that.
->
-> Fixes: b862a648de3b ("drm/sun4i: Add support for HW scaling to DE2")
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+On Tue, Aug 04, 2026 at 12:51:57AM +0800, Chen-Yu Tsai wrote:
+> On Tue, Aug 4, 2026 at 12:45 AM James Hilliard
+> <james.hilliard1@gmail.com> wrote:
+> >
+> > On Mon, Aug 3, 2026 at 7:18 AM Andrew Lunn <andrew@lunn.ch> wrote:
+> > >
+> > > > +            ethernet-phy-control {
+> > > > +                compatible = "x-powers,ac200-ephy-ctl";
+> > > > +                nvmem-cells = <&ephy_calibration>;
+> > > > +                nvmem-cell-names = "calibration";
+> > > > +                phy-mode = "rmii";
+> > > > +            };
+> > >
+> > > What do you mean by an ethernet PHY control?
+> > >
+> > > I assume this is not an actual Ethernet PHY, but some control logic
+> > > around it? Where is the ethernet PHY itself?
+> >
+> > Correct, this is not the Ethernet PHY itself. It is the package-specific
+> > sideband control block that must be configured before the normal Clause 22
+> > PHY registers become usable. For AC200, this control block is accessed
+> > through the parent AC200 I2C regmap. For AC300, the equivalent control block
+> > is accessed through a separate non-PHY Clause 22 address.
+> 
+> Basically, all the PHY behavior that is normally configured using strapping
+> pins on a discrete PHY is done over this I2C channel.
 
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+To me this should still be part of the PHY driver, not a separate
+driver. The driver drives the hardware, it should drive all of it, all
+in one place.
 
-
-Somehow having the two fixes together made the diff much harder for me
-to understand.
-
-> ---
->  drivers/gpu/drm/sun4i/sun8i_vi_scaler.c | 18 ++++++++++++------
->  1 file changed, 12 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c b/drivers/gpu/drm/su=
-n4i/sun8i_vi_scaler.c
-> index 3dec4eeb1ba2..d4412a62c2f0 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c
-> @@ -894,20 +894,26 @@ static void sun8i_vi_scaler_set_coeff(struct regmap=
- *map, u32 base,
->                              lan3coefftab32_left[offset + i]);
->                 regmap_write(map, SUN8I_SCALER_VSU_YHCOEFF1(base, i),
->                              lan3coefftab32_right[offset + i]);
-> +       }
-> +       offset =3D sun8i_vi_scaler_coef_index(vstep) *
-> +                       SUN8I_VI_SCALER_COEFF_COUNT;
-> +       for (i =3D 0; i < SUN8I_VI_SCALER_COEFF_COUNT; i++)
-> +               regmap_write(map, SUN8I_SCALER_VSU_YVCOEFF(base, i),
-> +                            lan2coefftab32[offset + i]);
-> +
-> +       offset =3D sun8i_vi_scaler_coef_index(hstep / format->hsub) *
-> +                       SUN8I_VI_SCALER_COEFF_COUNT;
-> +       for (i =3D 0; i < SUN8I_VI_SCALER_COEFF_COUNT; i++) {
->                 regmap_write(map, SUN8I_SCALER_VSU_CHCOEFF0(base, i),
->                              ch_left[offset + i]);
->                 regmap_write(map, SUN8I_SCALER_VSU_CHCOEFF1(base, i),
->                              ch_right[offset + i]);
->         }
-> -
-> -       offset =3D sun8i_vi_scaler_coef_index(hstep) *
-> +       offset =3D sun8i_vi_scaler_coef_index(vstep / format->vsub) *
->                         SUN8I_VI_SCALER_COEFF_COUNT;
-> -       for (i =3D 0; i < SUN8I_VI_SCALER_COEFF_COUNT; i++) {
-> -               regmap_write(map, SUN8I_SCALER_VSU_YVCOEFF(base, i),
-> -                            lan2coefftab32[offset + i]);
-> +       for (i =3D 0; i < SUN8I_VI_SCALER_COEFF_COUNT; i++)
->                 regmap_write(map, SUN8I_SCALER_VSU_CVCOEFF(base, i),
->                              cy[offset + i]);
-> -       }
->  }
->
->  void sun8i_vi_scaler_enable(struct sun8i_layer *layer, bool enable)
-> --
-> 2.43.0
->
+	Andrew
