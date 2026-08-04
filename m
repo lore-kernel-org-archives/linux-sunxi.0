@@ -1,76 +1,86 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F66C1A6809;
-	Tue,  4 Aug 2026 02:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A03C41CB5A
+	for <linux-sunxi@lists.linux.dev>; Tue,  4 Aug 2026 03:11:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785812030; cv=none; b=EFsx//O9moHcihdcaJ+b/nGjXjSGbMejPsDcngURv0lASAKplUhzyrFJ2bAOE9VgX1M3WOG0tvHCGyxgVYWLNm3CHCy8gk7Efkk9j6Gr0l3veDC66uS6xzGYULoj5/QpDJz8JRnDDQFjG/7z7VlGL0Wlvh3cqD64j8Ht/FrZ3UU=
+	t=1785813090; cv=none; b=Nx6XjC4lJj0lPEnik5C0d6U3bRT7q4C8cJgYuRDWWhlZ5BpPc07Q6XsQSLPK0QhlDQwZrK3kSUDZWYrI/EfOSOJz7UKXL3ZoJtnJLztQ0d29CPe3R6TQpKSBXqIvs2gfsVF+RtFaXApCNeRy+3YdhJ4A5MYlf8yMqgkFl0B5Oao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785812030; c=relaxed/simple;
-	bh=kK5Tx8FFFQ47mP05ikhEX2IFhrZ7+GdR9l4nZl29jiE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ap8tXkOYTw7VWlIeekpqcUf2XV02EACYElmCQ46BemLGHfY7SwXuoFJWQbiAh89Wr19Nh1D3EW7bbnqxZFQrCea6bcIOs1dGs9DmQXPs1nvXuoiXcoeudBZG2wguy/myHWlwRd1BxtLYvjde1hzJiKZEnbalqg2nWaRiH5GcJ4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=lFwn2scV; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1785813090; c=relaxed/simple;
+	bh=j0mufMSuKnhX2/ovchw6+aaDzAm1BL+aWMDZ0rsyfoU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PpHKaT/oSjFJ28it//U4YuWHXxJKvOOR4YnMSmPV3kx4al2Y41p+Lmr9sXVEw8zjNV+da3jjxmq56gah6Mg7gxEW1+hDtzQtX/OEgicjgtw0I59UKR1jkntTU4bm5VwM3PnBhbI4ge7VJkgXmx6ZGEhbCcEoOSRb5aDz+yLfk/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S22WY6nt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="lFwn2scV"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=IsQlcnApQ5yTWyBgwu7AHLGT/eRyiK29Qhu3u+8huV4=; b=lFwn2scVNrt3frs61Y32q/dVdQ
-	/Ay4Nl2OSJFbIYdlwGBFlnZUFGT6DhGTu3i0EIZVxMmk8oBJFrzoMLox/mXYrwl+l8PRQ8Ab5bxp2
-	IAdHGSUeXArMVxHWQaPLiWeF4zNCi+iK9tm84N2Vo04Wn4xjFbcLFI7PZrczeXsy61QY=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wr5Hd-00Fto4-KL; Tue, 04 Aug 2026 04:53:37 +0200
-Date: Tue, 4 Aug 2026 04:53:37 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Liu Changjie <liucj1228@outlook.com>, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 6/6] arm64: dts: allwinner: a523: x96qpro+: enable
- Ethernet support
-Message-ID: <ad2e46d5-53db-49b2-a128-7c54883e18eb@lunn.ch>
-References: <20260803101452.2993721-1-andre.przywara@arm.com>
- <20260803101452.2993721-7-andre.przywara@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S22WY6nt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C1751F00ACA
+	for <linux-sunxi@lists.linux.dev>; Tue,  4 Aug 2026 03:11:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785813077;
+	bh=3kgaZqDQUIAJeM0ISENNIK8m7boslYUgftvdD1PiZw0=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=S22WY6ntoQfkDL8DZvdChixVpgJU7Q4dD8F06+1bG8Co2P6nvIFYg+DxCTjD1cRll
+	 onZNWNruCOYw4RZq7mn9zhsscrdMd9NyTI/sytz4zvrfP3A9mWfuzmTnXGsPVbJ/8K
+	 aJKeRRR55yqubNjXs4InIYUE1AXcAL066FnQFEfF9oluIX20HCg10BTnGhj36Yyb3L
+	 oHYhm+BWBkWtNo9EFdlKzG9dY9vjNz9ka/b+E1mEm80xezmbnPHzgTwf09Tdjj0knN
+	 wNspKFuczGA4PqtM3CINb1aegZECoHRXPfXt7axUn81mA/J0XIf8h8cHavagb1VbNx
+	 NGLNz/NDq0pIQ==
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-39c74c469e8so28623431fa.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 03 Aug 2026 20:11:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoIrgQCsa1qp5v1/LF/yeKhrwo0XvNahRqkokqwIJ66a6uP/ifCg24K9ifU4rPIiKx5Ysh3ftA/F/ChrA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwP3nGnTsrfPrPsvHtrQEgfKJkkVArmc7xln4Fj2W3o3C+6np0w
+	nSZ2B2x00W1FABrGSwqk/4t4p15b6wJFrSo1p5k9rrdL63m/omTtUJopZFTBLkgzNhL1yPpPsmA
+	C0YafIQ41eooqjofKZA9egIumLSpVuVc=
+X-Received: by 2002:a05:651c:43c7:20b0:394:184:f7a7 with SMTP id
+ 38308e7fff4ca-39f8610a7bcmr16699651fa.6.1785813075746; Mon, 03 Aug 2026
+ 20:11:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260803101452.2993721-7-andre.przywara@arm.com>
+References: <20260803101452.2993721-1-andre.przywara@arm.com>
+ <20260803101452.2993721-7-andre.przywara@arm.com> <ad2e46d5-53db-49b2-a128-7c54883e18eb@lunn.ch>
+In-Reply-To: <ad2e46d5-53db-49b2-a128-7c54883e18eb@lunn.ch>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 4 Aug 2026 11:11:04 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64yH+grXMbxg1te6XHt1PxhUc4Jzch_OdUW50tq2Eg1cw@mail.gmail.com>
+X-Gm-Features: AUfX_mzJ30C6xeyppFwdQIE9h-X2BZ86M3EAAzUkPSMo3bVFKVcmKT8a2L5ByFI
+Message-ID: <CAGb2v64yH+grXMbxg1te6XHt1PxhUc4Jzch_OdUW50tq2Eg1cw@mail.gmail.com>
+Subject: Re: [PATCH 6/6] arm64: dts: allwinner: a523: x96qpro+: enable
+ Ethernet support
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Andre Przywara <andre.przywara@arm.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	Liu Changjie <liucj1228@outlook.com>, netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> +&gmac1 {
-> +	clocks = <&ccu CLK_BUS_EMAC1>, <&ccu CLK_MBUS_EMAC1>;
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&rgmii1_pins>;
-> +	phy-mode = "rgmii-id";
-> +	phy-handle = <&ext_rgmii_phy>;
-> +	phy-supply = <&reg_cldo3>;
-> +
-> +	tx-internal-delay-ps = <200>;
-> +	rx-internal-delay-ps = <500>;
+On Tue, Aug 4, 2026 at 10:53=E2=80=AFAM Andrew Lunn <andrew@lunn.ch> wrote:
+>
+> > +&gmac1 {
+> > +     clocks =3D <&ccu CLK_BUS_EMAC1>, <&ccu CLK_MBUS_EMAC1>;
+> > +     pinctrl-names =3D "default";
+> > +     pinctrl-0 =3D <&rgmii1_pins>;
+> > +     phy-mode =3D "rgmii-id";
+> > +     phy-handle =3D <&ext_rgmii_phy>;
+> > +     phy-supply =3D <&reg_cldo3>;
+> > +
+> > +     tx-internal-delay-ps =3D <200>;
+> > +     rx-internal-delay-ps =3D <500>;
+>
+> 500ns is quite big. How did you come to this value? Do you have the
+> schematic & gerber files? Does the lines look unbalanced?
 
-500ns is quite big. How did you come to this value? Do you have the
-schematic & gerber files? Does the lines look unbalanced?
+Unit is ps, not ns.
 
-	Andrew
+
+ChenYu
