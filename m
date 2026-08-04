@@ -1,83 +1,83 @@
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5AC381B1D
-	for <linux-sunxi@lists.linux.dev>; Tue,  4 Aug 2026 18:19:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87A9403AF0
+	for <linux-sunxi@lists.linux.dev>; Tue,  4 Aug 2026 18:30:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.47
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785867546; cv=pass; b=Nhcb0VTopGCvD5PDB4H1g/AWJ91HzLVtsJV7E49JBXOJs/GC1terOzdHRQp4yQAUEqkWpD3gQgZTaSHwr4tyOPZAKVbzOSpzFAIFOLNiQiSjy2HG1flDpfQd7886L2U+8j51GVwFKKhbn9EyKDgne/rjKcIeukkN3doBcTAGk/Q=
+	t=1785868204; cv=pass; b=t1CNXI/waK9m4UzKPIfyyQh+CbtwNTtTOwsPgMtqTnAjenISfSfJvZ7aN9pIxPiaqVrOW33EH/OkdMZIq55447PgA7wjoU+cxcZeBkFCHpj6L3IHuGSPOf2JuuiX+MZogo5t/zWvnwA7zYS0Y3SYd8tgveRlwFS1zcBRXyAvQlQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785867546; c=relaxed/simple;
-	bh=VMtqXL1u/poIsOpl4Ypuo8toy3O5Sm+q1plElgkX+5M=;
+	s=arc-20240116; t=1785868204; c=relaxed/simple;
+	bh=cC0/SUwgh/iM/U989GK5z2lIE7AM6Rp75gg0MnZRECY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Doh5tyEQIFOWoYABj3a8Ak7IdhvKRDr9qWKuOImRx1JOqj/rGP1Fa4Rerby5igcO6nNucD6Fn3Y4SNe7j5nIZutN/dQ0rMRnSRr1ePSeF6cUv7jCV6g1qOjD0b3zm/F55YGWJMcz93L5S9+aXJBq5xCbrjj6f3h9dV6hrHhvkI0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=STNKTfyy; arc=pass smtp.client-ip=209.85.217.52
+	 To:Cc:Content-Type; b=eysZroxWpOuFr37Db0230DTuCX+AMZXlVpsJ3XVOUlQq7GFzhMauITN4qGhRLH6YdQpaFImiOmNnGs1+mco0TXBwzU6tqhvaaVE/f8a3pkB5JsVYAisNqOWiAJXHQeTSl6cCInsgDAzwwumZufxx5v29bD4io4nQgoSUln4WNC0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=liaEIPa/; arc=pass smtp.client-ip=209.85.217.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="STNKTfyy"
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-74ab99038afso33878137.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 04 Aug 2026 11:19:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785867543; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="liaEIPa/"
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-74d55dac06dso20922137.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 04 Aug 2026 11:30:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785868201; cv=none;
         d=google.com; s=arc-20260327;
-        b=AlE+KoFn8SmzsdXIKaUavD9j2D9qzBR14RsZUL0fmxqInU6xxPsPE8sireHCqmWAV+
-         qE7ki0ZnvpLyIWYAVfmp7imkdSsqNKmrPCBCsoXdpPCzgmNE0EYPYoze/yXrHpeP/mY3
-         iP2VH9KJiO/IWRC/BCtUgx6b+gNVj2MYQR8J0yBkZOt/V9q6x+O7eEjIxl+OH2q07XvO
-         ZPKf51mExN+AFxhNPBZXZW+DFGdP8Yqy9nYJfOjj5nXChyb/lswqIUFiZw+8c5mhcbzK
-         WbCIGxxED10pe5fSwNido41vxKEwoN/ZH4qk4xOtCi34fddRZ1eQ5aUNhm6LZpokrhvH
-         UrDA==
+        b=NOJgOV6/mxbLvrk6bFGYLWe/+lNBYtiB4aj+CzLU34p7l1UfWOnIwiczpt3k79gifM
+         67o1ox7o+92F+Tlj6pAfWGZCkiJ9d0DxQ8Aqo2iY8qTTWfqbOGzXvIf0UEd1URsNny7x
+         ibzW6DM2tvNsrF19PqKcDDgoth4pnR+tN14NWUMc3p8R6+fBY1ftP3DbFWx87l4KQnr7
+         LNm3xISUTWczuv9Vk6kos/SoMdi09a7YJv84fK2sMu/1AHrv6/24yhKoyJ+piDhTvv6z
+         1zXot0jcBh2nE3AWrEgWX0krlQ7xZscnh/ctGprRwzJ50RiF57X2R2ewvKZbg/p4ud1T
+         f0Ew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=VMtqXL1u/poIsOpl4Ypuo8toy3O5Sm+q1plElgkX+5M=;
-        fh=Bqw281CenNnIQSXu77G1P2Aq8e4SRIVfiuZ9HhcPykA=;
-        b=DIilyUv1w8rdBE+PA0PyQ2vXhCgjmoE60LnaAxbcE9NbH1HaQIeNaAINK2TuxewyUV
-         EHKGzZwJxUQXXEG9MV+MstfFjU/Mxxs3kmmjZnS23mHPb6cIdYyZewGIcnVE3l72GaIY
-         ECTFL3VKsUilCCs5xtl0Ly58pF3xH0MG4iFbacXJ8jRhCqAStsE+7u/lPPFpThgclNgV
-         /es06OJYSuPPp/s180AwkVj4sVLnLZDKcA5knxzMC2AbM7qPQfrYrizOqW80dfHMqt7n
-         FHQFkMmF8lrB3fLO7ME4Ui423b7CMvUNaFbPFyR7MMn2Zxvipk3+oG0qXTKIdTIB42wn
-         X8aw==;
+        bh=6Eo5XMI33rsANiXMc677tWslAYQ4Uqg6+HGv1+1GEcY=;
+        fh=cXfPJHmrsEi0T3m+4BadYt8odeU3RkBuNwC34OI7ct8=;
+        b=ljisMeRu4HXCt28T24kS4nrvASuIHfld73lpZiciP6YqBESC2DtB+RrSQ0xshzvpnQ
+         enio93Y7pMPvwGxhgn8Dnb8wS+Ga0T0u9KCNhhWWWkv6QLjZb4EyxKbLCYuOHMxIyfl3
+         4w5tK6td3DjR4IPM3a0AnCeEYJNCUHLmxfeUs6DqT9PVmpKMoA2SrrRDN00Dawbo83JM
+         qwfZA08U4HW2FwzeoB7abvoYxRquKimVQc8x+UYiSm6YhS5QnQreBPMNC/8kSTktovKJ
+         VNxQHyVhOBIY7/sxZkKBSbQejb2aEAHkpL4pwpbHWFkzIjvXd0y5KnJYkUVfMJeNJmxE
+         pJHQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785867543; x=1786472343; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785868201; x=1786473001; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=VMtqXL1u/poIsOpl4Ypuo8toy3O5Sm+q1plElgkX+5M=;
-        b=STNKTfyyRdGaNJzjNBeErDN/VYoQLGOmMerG7W1UgTVhD8Texz5xhlAgsn8MAUboaZ
-         kizdsNB0Pl9xEIf0K1RkAUtshU/YL3MJfugr6cTC6Ml7ATTh8oJ4XTKcGcENgPm1WMfs
-         osI6h8ihx8JM59gectsPaA2AyRPlgPhLjNiJ78qr4zDfE/sYX30Eysok4KMV9/ZLrglK
-         DzNeTMjZ7tMrQKtSIZc10nBGvkqMVstI6CCdusRsXEmQe6yGaoHJbKyJiL6AZDbtamVL
-         XWUvLNgO5x4C2E1dTEUqaXhbrTYbmiPHb6qy26hTbe2JEQOnF6IjJqy5JFpBZOgpjGtA
-         8uJg==
+        bh=6Eo5XMI33rsANiXMc677tWslAYQ4Uqg6+HGv1+1GEcY=;
+        b=liaEIPa/1fkofAj4+CZFQYrjgcWfL9EinO3u4h1rbt+YHc/Xc26gAb/OEszSH3i5hO
+         diwluuL+jyEWe81QHfybVu9WFLsFkoKs+kyK4Io6ANKrnwfiHNe41ADDExRJMLrEk2mu
+         UqCk7F2fdZguTjJhbX8GDVVY5kWr1CqzA4HHPIIx4C9UyCBujiAgDcbROIXsK6P7iZlE
+         HvVAhilQ45yoYI/RcEND6CK5e/mcYokm0ofc9/lMXxWfzc6AXVRzB3MiQ6b2xT14IKTV
+         iF2Km5aKI7VqHsl1e7uFcPW8DcD+UQYqXGbvPVQylZeZUEX4TU9zMrFWifgYg7PKB7rX
+         ioHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785867543; x=1786472343;
+        d=1e100.net; s=20251104; t=1785868201; x=1786473001;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=VMtqXL1u/poIsOpl4Ypuo8toy3O5Sm+q1plElgkX+5M=;
-        b=sjCjEuS6S6CNd7hm/gkJJpzFQEVFY74dTgbwdFGnjkxfH51IvtCeeu7MI4v/o++hNK
-         OMMAjRFxkKNEhkScV64k/pr7zGSoTcB+ZMZcAiiuYlnF1K3PlnWsuUFlcb0ND/R71iOU
-         222/SEZHqhPfubzv9tTtI2JjVgU3rm1earE65+flOMBo4yoqvHgQ1Jcb0xwOlaSUEn65
-         im/hKHvqeLTJAykY2eCBOxyDROAU03njws96c2Hi7R9fCxiD/laVuGCu33MjLXpBq+/i
-         tU29Zn0lswRF4Uq2bwgl2Pf+jiraP9fYZgxYSbRiHlC9AbNAYnZqRfTkFI1QIl5PM40b
-         aJgQ==
-X-Forwarded-Encrypted: i=1; AHgh+Ro61tfcG93IvvTEz5P7sVz5ds3KX7uqyfeM6Rfmi7Zo7xLAINgvzRJTCEk6qnM4ZV9eWjrzd22p4ETUQg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxrIIgroDsm7vRJ9bjN+j8J0EgNMvZTGYNyryh00DLUf0UOHcdE
-	TluUl7cjSjJf2WgapJPEQDnGss3fB8y8OtaE4e/sUP2Z8qd5wLQ0UcLlB05OhwzOqX+lLeu7Nmq
-	15VTGo9hTXaPMBSUCRxs1yMO4aL/WE1k=
-X-Gm-Gg: AR+sD1150Fj4BQnALzSs7szuOTcPBJGzJ3YpYRnfCoz+DR20bTlQAdO+UNJndNXAi5k
-	uBeeU4uDxsqQzRvwVizURhfg9cMKLX3beyweAH+S4pvnKpFZZVFRo3jx66P7YclfW7OiIy8RbcD
-	uUP00TSwd1QwtCmtVr37xt7uxwyDS0CFyI7ZXamcTB1X0Re7t1bk7SpnLrUANMMt927oO9X0dRB
-	2c7mMUviNrAUlNjygqmi0luLqvRLlIdRVM1Be/6adPE+8S6si0UsqVW72CMGZWanvDlO4qfSE0Y
-	9Uxs7RlCYTZpXRoYnHgj2p4aCYUM1MJqTdaSFq7lw+lS9mcZ8/ct9ylczeLsnqe73oS126phWjh
-	Q9AricT+DOZ3l9xcRV0D1kyIXS09GnWdWQudRvZk/VMJA6C4NaLCF3tZ0cpiFHpADKQ7HQzbZbC
-	IS4dcCGqCvyhCGkIVysnyUKSUHOgb3hNvWt742
-X-Received: by 2002:a05:6102:5045:b0:74d:ce64:efa9 with SMTP id
- ada2fe7eead31-760e9951613mr248343137.12.1785867542499; Tue, 04 Aug 2026
- 11:19:02 -0700 (PDT)
+        bh=6Eo5XMI33rsANiXMc677tWslAYQ4Uqg6+HGv1+1GEcY=;
+        b=SEvVE0WwTUondXkrOokeUY9YRjHD4cxvhxr/fQGC8GaoHA6RPOzGs49ZQnK1ss7VpK
+         f8LSxp68PhC0bhk3UI9/+NCgvMXxYBM+I1ZCyIoDzoFSfkSKH6OdZ7ensnYBHqujsHsi
+         XKG261zvdyWTvJhx3DQjUmNfGVXIxdyjB8M4LLVtgrtAMtEInXJSbul/VUgHHcBwNa7L
+         tGFlpiD4FFJS16beUKSTaNZi9HfyFZiHX7DuFFMtucfvtCn0GpKKzp9k7O+4jJ1pOTcF
+         dI+NEf/PRfJzmjyUzFDITgX2Ttdzq59cCqbUY8ogeMUyNge1GawxZFOO76Tu+qKzgMdI
+         cLdQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpftZusHCUHirTgf9mOswML4MQ5Xsb59EoosSnZ3KRmPBBD8tfxd6MqVjg+fjUUhNoo7E9ABrbvqVgB6w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwT1FFMLaZHIPOee4d7hIZrj/NckfRchbBEV2he2yZsvqidXzVV
+	ZL9hMWu5V2qviizxHYQL251dlmuT/2O8wHenhz2rYUGj8t9t56exsraOU/v+C+Ibh6mgHFnXHWK
+	Ik2FHdK2t/GK7ZvhsMJXNd5JGUz2gCjY=
+X-Gm-Gg: AR+sD11FMjSCYxB18yTtNZxA2Kca6BNSMZ08nX0eA1DVpW4rvttEWq93H7P6+rMkG5W
+	hpzdw714R+V8Y58/t3RGpCRIW61T1F7hz+ETAF2PfxMIUUBdC0sP5Oexs4YMxXzfuy5Wxvd4Tpg
+	XYBXBt6D68OHZ/72sHN2+kSpsHz++OLvGU7Cc+kuglkq7HDYjkJTCgrnADezdoyBnO6ykjyNA0Z
+	vRb9YV4waByR5nVL+3BdoC7wqVFH7f8jMgrO9PrT2O8pEsz5SRo/LP8V6wxFhOPPL+AcfS+TrtZ
+	UWsnYXsvDnGpUsnBZD3Ve978iQVRs27WiqOzbBW9lWlhHO87BatMfquHI8foeD2JUpWkI2BOwuv
+	gJrAqNTXruJ2xiNKSauPkMmaowg3cAy5DYKp41cbskw88IbsAmref0+PTfm7cC+/iVHO02HkO+F
+	iOLYfIlqiDNIHp3rMtk0IEkRf4RKn64bIHKQQj
+X-Received: by 2002:a05:6102:6892:b0:740:2974:1b19 with SMTP id
+ ada2fe7eead31-760e81ffa54mr232158137.4.1785868200546; Tue, 04 Aug 2026
+ 11:30:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -85,264 +85,204 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
- <aaec8809-8218-4412-a60d-931406dbf287@arm.com> <CADvTj4qCYjQHOQn1jRTHNNL=xeX6z3Dgc-PLwOBUvX34AU6cuA@mail.gmail.com>
- <AGtA6uUwR9yJMX3xYVDz6g@gmail.com> <CADvTj4qBhiPczrP9YC2uTW3xss3W7ghoBzbctM45yUROfsgPhw@mail.gmail.com>
- <9dd29610-d9e4-48f2-9638-2c92863626f8@lunn.ch>
-In-Reply-To: <9dd29610-d9e4-48f2-9638-2c92863626f8@lunn.ch>
+ <20260802-submit-acx00-of-dynamic-v1-v1-10-0a53cd9e21cc@gmail.com>
+ <05b1e6a2-725e-4b8e-8629-249637bbcb81@lunn.ch> <CADvTj4o0JdjoO+FC4pO=qnjEQ8MRyzQdKp2Hxy9NsPU-gym5OQ@mail.gmail.com>
+ <9b8be475-1fde-409c-a82e-be4b2e402650@lunn.ch> <CADvTj4pBovti19MXgQjFpxm=7aRm0sYQz9jxfo8bu3txH94THQ@mail.gmail.com>
+ <a9ce53dd-0873-41c0-ad6a-fb42e6cc7aaa@lunn.ch> <CADvTj4qpHU3F0DrEmc0vFi+JiwTNERniiMHKo1LmBd8sg58wJA@mail.gmail.com>
+ <205e9051-8e43-44bb-a4b5-4ec69a192fa3@lunn.ch> <CADvTj4qmXWbDsc-vigcSrF1N=zpxmZWGp3YaZ9PFcWK551h3mg@mail.gmail.com>
+ <fb6f8065-a655-4d53-acfb-8171b2e003dc@lunn.ch>
+In-Reply-To: <fb6f8065-a655-4d53-acfb-8171b2e003dc@lunn.ch>
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Tue, 4 Aug 2026 12:18:50 -0600
-X-Gm-Features: AUfX_mz3g4QTcPY454fO0IFbyzeMUZwp-7hNsyVehWuEMEZKpHqKrBiqjbTDjEY
-Message-ID: <CADvTj4phzmD4otOSkVDaKOWH1nf1aCku37RUncqWeDBcwzjMJw@mail.gmail.com>
-Subject: Re: [PATCH 00/21] net: phy: add X-Powers AC200/AC300 EPHY support
+Date: Tue, 4 Aug 2026 12:29:48 -0600
+X-Gm-Features: AUfX_myhAv4fr3OX-v7_1toN9rBz9cnAh8mnRXYrH0R-kOg3uw2jZVSUuGWjruc
+Message-ID: <CADvTj4pdZN4Jmx0D4Yh0KDPkh_-zJ5iXCM=vUybGn0aFAAqAgg@mail.gmail.com>
+Subject: Re: [PATCH 10/21] net: phy: add X-Powers AC200 EPHY control driver
 To: Andrew Lunn <andrew@lunn.ch>
-Cc: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
-	Andre Przywara <andre.przywara@arm.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Richard Genoud <richard.genoud@bootlin.com>, 
-	Maxime Ripard <mripard@kernel.org>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>, Jose Abreu <joabreu@synopsys.com>, 
-	Maxime Chevallier <maxime.chevallier@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Saravana Kannan <saravanak@kernel.org>, Lee Jones <lee@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
-	netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>, 
+	Richard Genoud <richard.genoud@bootlin.com>, Maxime Ripard <mripard@kernel.org>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
+	Jose Abreu <joabreu@synopsys.com>, Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Heiner Kallweit <hkallweit1@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, Saravana Kannan <saravanak@kernel.org>, Lee Jones <lee@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, netdev@vger.kernel.org, devicetree@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
 	linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
 	mfd@lists.linux.dev, linux-rockchip@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 4, 2026 at 11:38=E2=80=AFAM Andrew Lunn <andrew@lunn.ch> wrote:
+On Tue, Aug 4, 2026 at 12:04=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wrote:
 >
-> > The AC200 Datasheet V1.1 and AC300 User Manual V1.0 block diagrams show
-> > effectively the same EPHY organization: MII/RMII, auto-negotiation,
-> > Auto-MDIX, 10/100 transmit and receive PCS/PMA blocks, LED and
-> > clock/reset logic, a PLL, and the EPHY analog front end. Both variants
-> > also report PHY ID 0x00441400, and testing shows compatible link-side
-> > paged registers and behavior.
+> > > No they don't. There are extra registers in different address domains=
+.
 > >
-> > What differs is the surrounding control path.
+> > The block diagrams make the distinction clearer. Both diagrams depict
+> > an EPHY block with the same internal organization: MII/RMII, auto
+> > negotiation, auto-MDIX, 10/100 TX and RX PCS/PMA blocks, LED logic,
+> > clock/reset, PLL and EPHY AFE.
 >
-> Which is still part of the PHY, needs driver code, and so should be
-> part of the PHY driver.
+> The block diagram is a vendor diagram, the vendor can draw whatever
+> diagram they want. What does the Mainline Linux networking block
+> diagram look like?
 
-I agree that the EPHY-specific control registers are functionally part
-of the Ethernet function. I do not agree that this implies every device
-containing or exposing those registers must be owned by one
-struct phy_driver.
+I agree that a vendor block diagram is not normative for the Linux
+device model. I cited it as corroborating evidence, not as the sole
+basis for the design.
 
-There are two orthogonal parts to this design. The control-driver split
-models the actual hardware devices and is used by fixed AC200, fixed
-AC300 and bootloader-selected systems. CONFIG_OF_DYNAMIC is only one
-optional mechanism for resolving which provider exists on a
-dual-source system. Removing that mechanism would change variant
-selection, not the device boundaries or the justification for sharing
-the link-PHY code.
+The stronger evidence is the observable interface: after the required
+control sequence, both link endpoints report PHY ID 0x00441400 and
+provide the same link-side paged registers and behavior. The additional
+registers are not extra registers at that Clause 22 endpoint. AC200
+exposes the corresponding package controls through its MFD regmap,
+whereas AC300 exposes them through a separately addressed non-PHY MDIO
+device.
 
-AC200 in particular is not an Ethernet PHY. It is an MFD containing
-audio, RTC, TV encoder and Ethernet functions, with a shared parent
-regmap, input clock, supplies and interrupt controller. The EPHY
-control registers are associated with its Ethernet function, but that
-does not make the whole AC200 an MDIO PHY device or make its parent
-resources belong to a struct phy_driver.
+The Linux device model follows those addressable devices and their
+dependencies rather than treating a physical package as one indivisible
+driver. I think the relevant Linux diagram is:
 
-Mainline MFDs normally keep the shared device and regmap in the MFD
-core and bind child drivers to the individual functions. The existing
-X-Powers AC100 and AXP20x drivers follow that model. This distinction
-also matters once multiple AC200 functions are active: the Ethernet
-driver must not assume exclusive ownership of the parent or reset and
-disable resources which may be used by the audio, RTC or TV encoder
-children.
+                         MAC / phylink
+                               |
+                               | MDIO
+                               v
+                    +-----------------------+
+                    | link phy_device       |
+                    | common ACx00 PHY      |
+                    | driver                |
+                    +-----------+-----------+
+                                |
+                                | required control provider
+                                |
+                         one of:
+                    +-----------+-----------+
+                    |                       |
+          +---------v----------+  +---------v----------+
+          | AC200 MFD child    |  | AC300 mdio_device |
+          | TWI/RSB regmap     |  | control address   |
+          +--------------------+  +--------------------+
 
-There are also Ethernet precedents for keeping such controls outside
-the link-PHY driver. In
-drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c, the H3/V3s EPHY
-clock, reset, power sequencing, mux selection and MDIO address
-programming are handled outside the PHY driver. The link endpoint is
-still managed through phylib. The Rockchip stmmac glue similarly
-handles integrated EPHY power-up and power-down outside its PHY
+For AC200, the surrounding MFD topology is additionally:
+
+                    +----------------------+
+          TWI/RSB ->| AC200 MFD core       |
+                    +----------+-----------+
+                               |
+                 +-------------+-------------+----------+
+                 |             |             |          |
+              EPHY ctl       audio          RTC        TVE
+
+Only the selected EPHY control provider is connected to the link
+phy_device. With a fixed AC200 or AC300 description, that topology is
+entirely static and does not require CONFIG_OF_DYNAMIC.
+
+The common PHY driver already drives the PHY in the phylib sense: it
+owns the link-side reset and initialization, auto-negotiation, link
+status, MDI/MDI-X, analog tuning, interrupts, statistics, EEE, LEDs,
+Wake-on-LAN and suspend/resume behavior. The provider owns only the
+package-specific operation needed to make that MDIO endpoint usable
+through the bus which actually exposes the relevant registers.
+
+This is similar to other places in mainline where EPHY clocks, resets,
+power and address selection are outside the link-PHY driver, including
+dwmac-sun8i and dwmac-rk. It is also consistent with the general MFD
+model, where a function driver accesses its portion of a parent regmap
+without taking ownership of the entire multifunction device.
+
+CONFIG_OF_DYNAMIC is not what motivates this split. It is only an
+optional way to select which of the two provider devices exists on a
+dual-source system. If runtime selection were removed and the
+bootloader always selected the package, the Linux diagram above would
+remain the same.
+
+> O.K. I've somewhat had enough of this discussion.
+>
+> For the Networking parts: NACK
+>
+> To get that revoked, make the PHY driver drive the PHY.
+
+I am not clear which concrete ownership problem in the diagram above
+is resolved by moving the provider implementations into the link-PHY
 driver.
 
-Those examples are not identical to ACx00, but they show that mainline
-does not impose a rule that every register affecting a PHY must reside
-in its phylib driver. The appropriate boundary depends on how the
-devices are addressed and owned.
+The link-PHY driver already drives all common link-PHY functionality.
+Making it directly access the other control devices would instead make
+one driver bound to one MDIO address also operate:
 
-The MDIO PHY node and the AC200 control child represent devices on
-different buses. The phandle between them describes that the MDIO
-endpoint depends on the Ethernet function of the AC200 MFD; it does
-not claim that the whole AC200 is part of the link PHY.
+- an AC200 MFD child and its parent regmap on fixed AC200 systems; or
+- another mdio_device at a different address on fixed AC300 systems.
 
-AC300 has a different topology, but its control interface is likewise
-a separately addressed MDIO device. Folding everything into the
-link-PHY driver would not eliminate either cross-device dependency. It
-would make the driver reach through an MFD parent in one case and
-operate a second MDIO device in the other case.
+That does not remove either device. It bypasses their normal bus
+ownership and combines different device lifetimes inside the driver
+bound to the link endpoint.
 
-This remains true with CONFIG_OF_DYNAMIC disabled. A fixed AC200
-system still consists of an AC200 MFD function and an MDIO PHY, while
-a fixed AC300 system still has a control endpoint and link endpoint at
-different MDIO addresses. Both then use the same link-side PHY
-implementation.
+It is especially problematic for AC200 because the AC200 is an MFD, not
+an Ethernet PHY. Its parent clock, supplies, interrupt controller,
+regmap and global state can be shared by audio, RTC and TVE children.
+The link-PHY driver should not assume ownership of that parent or
+perform operations which may affect its sibling functions.
 
-> > AC200 is configured
-> > through its RSB/TWI-backed MFD registers, while AC300 has a separate
-> > non-PHY MDIO control endpoint.
->
-> Which is an implementation detail.
+If the objection is specifically to the private provider interface, I
+am open to discussing whether some operations can instead use existing
+clock, reset, power-sequencing or generic-PHY abstractions. That would
+still leave the AC200 MFD child and AC300 MDIO control device as
+separately owned devices, however.
 
-It is an implementation detail of the common power and configuration
-operations, but it is not an implementation detail of the Linux device
-model. It determines which bus enumerates the device, which driver owns
-its registers, how accesses are serialized, and how its resources,
-power-management lifetime and removal are handled.
+Likewise, if the objection is specifically to the MDIO OF_DYNAMIC
+changes, those can be reviewed or narrowed independently. Rejecting
+runtime DT selection would mean that firmware must resolve dual-source
+systems. It would not remove the justification for separate AC200 and
+AC300 control drivers on fixed systems or justify duplicating their
+common link-PHY implementation.
 
-Mainline commonly separates shared functionality from
-transport-specific frontends. For example, the AXP20x MFD has common
-code with separate I2C and RSB frontends, and the Microchip KSZ switch
-drivers share ksz_common.c while retaining separate I2C and SPI
-frontends. MDIO mux drivers likewise model access-path control
-separately from the PHY devices behind the mux.
+> Hide away as much of this bad networking design in the bootloader.
 
-The ACx00 provider operations serve the same purpose. They keep the
-common link-side PHY behavior independent of whether its prerequisite
-control device is an AC200 MFD child or an AC300 MDIO device, without
-pretending those devices have the same bus semantics.
+The bootloader can identify the package, perform the initial power-up
+sequence and enable the selected provider node. That is fully compatible
+with this model, but it cannot replace the Linux control path.
 
-These bus, ownership and lifetime differences exist in a completely
-static DT. They are not introduced by CONFIG_OF_DYNAMIC or by runtime
-node selection.
+Linux still needs to reapply the package configuration after PHY reset,
+system suspend, provider power loss or driver reprobe. It also needs to
+coordinate Wake-on-LAN, interrupts, LEDs and power management with the
+selected control device. Relying on undocumented bootloader state for
+those operations would make the driver less self-contained and more
+fragile.
 
-> > I do not think the control-provider reference is artificial. It
-> > describes a real functional dependency: the Clause 22 endpoint cannot
-> > be accessed until the selected package-specific control block has
-> > powered, calibrated and configured it.
->
-> Nothing too special here. There are PHYs which do this, in the PHY
-> driver.
+Even when the bootloader resolves the variant, Linux still sees either
+an AC200 MFD control function or an AC300 MDIO control endpoint plus the
+common link PHY. The bootloader can select the left or right branch in
+the diagram; it cannot make those devices become registers of the link
+phy_device.
 
-The individual reset and calibration operations are not unusual. The
-relevant difference is ordering: the real PHY ID cannot be read, and a
-normal PHY driver therefore cannot be matched, until another device on
-another control bus has completed the sequence.
+Again, this remains true with CONFIG_OF_DYNAMIC disabled. Dynamic OF
+handling only allows Linux to make the same deterministic selection
+from SID when firmware has not already done so.
 
-Mainline already handles some pre-identification prerequisites outside
-PHY drivers. Phylib handles generic reset and supply resources before
-driver binding, MDIO mux drivers establish access paths, and the sun8i
-stmmac driver powers its internal EPHY before MDIO enumeration.
+> You are free to continue working on the MFD and other parts which are
+> not networking, because i'm not a Maintainer there.
 
-Using a forced compatible can arrange for the link driver to bind
-without reading the ID, but it does not make the prerequisite control
-device part of the link MDIO device. In particular, AC300 still occupies
-a separate MDIO address and should have normal MDIO-device ownership
-rather than being accessed behind the MDIO core's back by a driver bound
-to another address.
+I can separate the MFD, fixed AC200 networking, fixed AC300 networking
+and optional runtime-selection work so that each part can be reviewed
+on its own merits.
 
-The same cross-device prerequisite exists on fixed AC200 and fixed
-AC300 systems with CONFIG_OF_DYNAMIC disabled. Runtime selection only
-decides which prerequisite device exists on a dual-source system; it
-does not create the dependency or motivate the control-driver split.
+However, the MFD and networking portions necessarily meet at the AC200
+EPHY function. I do not think the correct way to avoid that
+cross-subsystem dependency is to make a driver bound to an MDIO
+phy_device take ownership of registers and resources belonging to an
+MFD device.
 
-> > I also do not think a bootloader fixup should be the only supported
-> > selection mechanism. Boards using the same compatible have shipped with
-> > either package, and the SID field provides an authoritative package
-> > selector which Linux can read directly. Handling that selector in Linux
-> > avoids making support depend on a particular bootloader implementation.
->
-> There is a trade off here. If the hardware design is just ugly, badly
-> thought out, poorly executed, not following the industries norms, we
-> want to push back on the hardware vendor to make the next version
-> better. Until that improved version comes out, either the vendor crap
-> driver should be used, not Mainline, or we try to hide away the issues
-> in the bootloader. A vendor which actually cares will improve, they
-> know what Mainline means. And for vendors which don't care, why should
-> Mainline care, especially if the issues can be pushed to the
-> bootloader.
+I would therefore like clarification on whether the NACK is against:
 
-I agree that mainline should not absorb an unbounded vendor workaround.
-I do not think this is such a case, however. The package choice and SID
-selector are documented hardware configuration, not a heuristic for
-guessing around an unknown silicon failure. Supporting second-source
-components under one board identity is also not unique to this
-hardware.
+- the common link-PHY implementation;
+- the existence of separately bound control devices;
+- the private interface between the PHY and those devices; or
+- only the optional CONFIG_OF_DYNAMIC selection mechanism.
 
-Mainline's drivers/i2c/i2c-core-of-prober.c exists specifically for
-systems such as the Google Hana Chromebooks which were produced with
-alternative components. Their candidate nodes are marked
-"fail-needs-probe", and Linux determines which component exists and
-enables exactly that node so the candidates do not fight over shared
-resources.
+Those are independent design choices. In particular, removing
+CONFIG_OF_DYNAMIC does not collapse the fixed AC200 MFD child or fixed
+AC300 MDIO control endpoint into the link phy_device.
 
-That helper only covers alternatives on one I2C bus, so it cannot be
-used directly for the AC200-I2C versus AC300-MDIO topology. It does,
-however, establish that selecting a documented second-source component
-in Linux is an accepted model and not inherently bootloader policy.
-
-Whether a future component should be redesigned also does not resolve
-how to model already shipped systems. I think the relevant mainline
-questions are whether the description matches the hardware, whether
-the implementation is bounded and maintainable, and whether it has
-real users and testing. Here the selection is deterministic, comes
-from an authoritative SID field, and has been tested on both package
-variants.
-
-A bootloader fixup can resolve the package variant, but it does not
-change the driver architecture. Once the bootloader has enabled the
-correct provider, Linux still has an AC200 MFD child or an AC300 MDIO
-control device plus the common link PHY. The bootloader chooses which
-provider is instantiated; it does not merge that device into the link
-PHY.
-
-This is another point which is independent of CONFIG_OF_DYNAMIC. Fixed
-descriptions and bootloader-resolved descriptions still use the
-control-provider split. Dynamic OF handling only adds Linux-side
-selection when firmware leaves both candidates unresolved.
-
-> We don't want to mess up core Linux code to handle one broken device,
-> that just makes ongoing Maintenance more expensive for everybody.
-
-I agree that core changes require separate justification. The proposed
-MDIO OF reconfiguration support is generic rather than containing
-ACx00-specific checks, but it should be reviewed independently on its
-own API, concurrency and lifetime merits.
-
-However, rejecting or narrowing the CONFIG_OF_DYNAMIC and MDIO-core
-portion would only mean that unresolved dual-source systems require
-firmware selection. It would not make a fixed AC200 cease to be an MFD,
-make the AC300 control endpoint cease to be a separate MDIO device, or
-justify duplicating the common link-PHY implementation.
-
-Fixed AC200 and fixed AC300 descriptions do not require dynamic OF
-handling at all. The control-provider model therefore does not impose
-this core cost on systems whose package variant is already known.
-
-> > A bootloader fixup remains compatible with this design. If firmware
-> > enables only the correct provider, the fixed-description path is used
-> > and Linux does not need to change the tree. Runtime selection is used
-> > when firmware leaves the package variant unresolved.
->
-> So i would not try to fix up the unresolved situation, just do a
-> dev_error(dev, "Please upgrade your bootloader"); and return -ENODEV.
-
-I do not think -ENODEV is appropriate when the configuration is not
-actually ambiguous. Linux has the authoritative SID selector and all
-the resources needed to instantiate the selected provider safely.
-
-A bootloader fixup remains useful and takes precedence naturally: when
-firmware has already enabled one provider, Linux follows that fixed
-description. Runtime selection only handles the otherwise unresolved
-description, just as the mainline I2C component prober handles
-unresolved second-source components.
-
-If the SID cell is absent, invalid, or selects a provider not described
-by firmware, then failing with an actionable error is appropriate. When
-the SID value and both candidate descriptions are valid, requiring a
-bootloader upgrade would reject a configuration Linux can identify
-without guessing.
-
-This proposed error path concerns only the optional unresolved-selection
-case. It is not an argument for folding the AC200 MFD function and AC300
-MDIO control endpoint into the common link-PHY driver. With
-CONFIG_OF_DYNAMIC disabled, fixed and bootloader-selected systems still
-retain exactly the same provider and common-PHY division.
+>     Andrew
