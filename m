@@ -1,175 +1,209 @@
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A2046AED1
-	for <linux-sunxi@lists.linux.dev>; Tue,  4 Aug 2026 15:26:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785857210; cv=pass; b=L7o+fWxTi8vcWqprekXxKsvR+gh9tyXf1jHwXzMVD9LhNXTdKGPNhdFBuOsD370YPLItVlSPe3x6qunXJzVV1leHGhCUaTx5xB1v+YVh7lxAiGCpFHDoX0S/ZX3zwWoH7TdlLfAX5Hi7u6GtRejLSwfzs/GBTWv7jZrcZ5/BCD8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785857210; c=relaxed/simple;
-	bh=XUmOi/B6laQ6eMCxOrhzePhtH6HxroybD30jr5qhuKU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hrnpRG14pQ+8Q8QhoGzWroz2ayZU1KobItp/pLNCzN2lgAgzrw+ANJFmjpqs/jRi4Jk9U9oZvqy1WyZk9sfo5+Uz9JG0QBLc6KVKNBRKpsnuaiGMBOEhzRSn7Z9U7r7Qm+7gKgzM33slJfEuOAnNueMTfp81AhyrOhXfp1YdGq4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BUtl7USk; arc=pass smtp.client-ip=209.85.222.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60874756B9
+	for <linux-sunxi@lists.linux.dev>; Tue,  4 Aug 2026 16:25:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785860720; cv=none; b=VbTUSsU2sRrwJW4i2VlPhEwBmTJ5jlNh16/tTXvOiUnEszKncULbrsrYrZcJr3ttXvo/9MP6tOuSoL67OHyFbORDLHOesqXWSX639a0Q/5YLlsok5dYIXqr7R8z/8/rXgyQev0zbhb6NTeXwkWKmDARgIh7axYTWnLGZstTcGHY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785860720; c=relaxed/simple;
+	bh=NAlE9xuWd+CbhPN4mDk9UF/4pM/OLyUdtNaqoUxbFuo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=K/ksm8v5oNOiBrgXe6q87pcb0JmAVS4IE2Mf0SpkXDYwAu6tbtB9YUmaMgf0LWDOwcJTgedADnGL7+zYO5be6N7FOAwMyEDdTaG0VV0HICryJsu28diT+3U88ESz1CPwnbW8UhwY+XSWKu/EQFKSHCAxu9bjGUDbk+7XKl8a0SU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MebbBoCM; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BUtl7USk"
-Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-97723f98735so2767953241.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 04 Aug 2026 08:26:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785857207; cv=none;
-        d=google.com; s=arc-20260327;
-        b=nInVAdU/n+rY99Me3iEWLMGnk7AahJwBu3J8BafHTfla37vRFEqaYwxwqcNGAkHvN5
-         mostGXy0o3PLaYODRaL32Et44CEAQZlGq+gtVjbynHGqzG6r6BDJRht5y+pGBV8XgcT/
-         Tw9QRXKLusQgJA3E3dGSd97nK2Bd7djkAxX8iEFN19CiZ/ptzUZz9rKCGVmlCJtygEkz
-         jRAM6hfFRnV6+T0yog2jf90KjKD1vDDTR2q+ylsK3Syp750OE0n7Ia3i9Lzu4HR+tMWb
-         95eYtesmlRvbBhgLW6O1udhaZF/dIgvKOcWgekc2WMRSSKxGeHqn325XJi2INv2e3HYV
-         6inQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=DIzf+HYojrQvIG1FuzM4Jdr3lr/d2D1NXMxs/JfDycE=;
-        fh=VajR+tYjKH+815jAqYAfjl/LFyNbYtONTDfDA4ltXXc=;
-        b=JOX4p7xHTcdzkQU4YLZqxinb8kKgPoI3LywbIPGO+YHQTv0tTtoz8pxylX9kLXbg3f
-         Pe1hhFHpqtQCtJoVlUoWIwdzqs0WGLORYJn821LLSnXGpEfPYTjkJWFs5+/M9qmk6ART
-         UI1dgLJw49T0aiBsbYayhfYEVxnohskxuuXxe8ojXNm/rxNjx6LEcrUZB2B+QYjPCzma
-         qZ+u7l4w/Y23/oi8SYwvZsRVEJa3D5abzx361+lqWJtYy2wdBhom0BGUqlz0OJDEcaO1
-         GOjwpYadnM4SCnoWRMniOEXgEQW2nwG5e6tIi0P+h2K1l6ZeWQCxSlTOSTSZq8oGupkD
-         3TxQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MebbBoCM"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4955de8797cso21449455e9.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 04 Aug 2026 09:25:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785857207; x=1786462007; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1785860709; x=1786465509; darn=lists.linux.dev;
+        h=content-type:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=DIzf+HYojrQvIG1FuzM4Jdr3lr/d2D1NXMxs/JfDycE=;
-        b=BUtl7USkVLtaGP8chTA9Ss6Cd1KlaUPPKuLlzK3mvlD259L8XbL3mvBCdc86FnFtw7
-         vqxccJ61+grL5H3BfMIphVJqiUTnwBrQupl0sfyintc+qXzcFoIkYMQITMO/ipNGncz8
-         DkKpfbshrSbP24ORIg6yp8uaCBmcD5med71aHOlgejqhJwYRE9WkTl3ef6tHk/hFNwtW
-         CZLKLiYIDXXIA6bRY0ynS5YlSntnprjUicrJjbUqtsyvQHxNkTGaz0PwMBRW6niwSojQ
-         1vr8+zwfqU58la+M4lFZ8pQdI1xC9FVxDB2GbIzgXuer9HxKifxdXB0hEn89WvqvSiWH
-         RQwQ==
+        bh=9gYefvAyqnzn8QAHjERbxmBW19GFjgq4+owbZqEl8b0=;
+        b=MebbBoCMSh9+t33zj56NGkbsLzF/CYdA5Qp9DrXGpu1oiVdn/Wb3e4kFrEU5W4iC74
+         6mI8ppfzLdHrJGQahJ1Ypsvi+IAGA/ubEtixi/fLxD6Ne5+ELoHB5PMx0rQ9tusblQST
+         sfi3h55Elw01aahzlraRwMAVSQQaONRcpPfyAbTqm6wyOMkRr5IgdB9ccD3Ru1ZctFLa
+         8jtcuIzaUCEFPwajJDHfuVoM6HZfI9Vlzrv06YrqXQ4TzYDMISSPhsPvgEUhl/K2xAj5
+         ygmb5jU0yTHu+8LU2LzZmsBDtx3POOT1l7r7LKEjFR8NyAe7x/yhf3mAFHsDiFYkq8bp
+         oeaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785857207; x=1786462007;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1785860709; x=1786465509;
+        h=content-type:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=DIzf+HYojrQvIG1FuzM4Jdr3lr/d2D1NXMxs/JfDycE=;
-        b=iOloF65ChvFWhMYDE8lKIT8/jcO2kTuEZY19g05pVP7uoiCJ2+I/vCvMjr3LKqTO1Y
-         xKWpz60WCPO4U69n3u7DTfaBMEvVW+soVNXXn8Z/FlIGnqH6ixNcIeN9kre6kBp13RrD
-         e9F/JR1Y8GzTgXdzbY6W2QxP+lCnBXftZYXMvCIdOeedvMju501HaQlLIr/cpa2yt1hM
-         JgtFRTHDwOjabebB2lpENNFqLDM9+Jkyu4l/tC+sHkxdgZ3EP4FpWL0OaE8sfsoFHPuT
-         nYBUXhDbYhthl0o+J9StPw1daq9FjTDc1GjbfOab5B1nUtoG20RH0noQXWvW9UGBlfkx
-         nZEA==
-X-Forwarded-Encrypted: i=1; AHgh+RpXVzx6nCEVTbispK6n74xDq2J3qbW33VYD8IcZg/6CKFdVKSZm8D+jg6uUTZMQRmPIuGf+TsD5ALt5Aw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzyq0twQO8YvtpHmsUt/hqWJlcfMmcfimQ8JGCTvHaIPHnl9NM/
-	yw1FkEpsemZRyMinOzbVMsP43GVz2zGSx7cMa5xrsbqLvEFr5wq5adqzDsDvFmKywP8xdZNEa/P
-	PCDNooyvL1qzhDs+NL81g+uyy+Gd0U4o=
-X-Gm-Gg: AR+sD11u8r5yTIqxTVUUy0fxiBYjCFVylUm3Pnjdld5Egobaj3kDO3/V9R+37Qrgdzu
-	E+o4WFcNMG5ygLYpkGnb2X4E6UvN+DVxHedp4oCrQLRPRgfpEDJMhdwPZCJX4rx0md2FJ6iB4V0
-	vhDfou8eZzBEBmE5jy5OjKGRSu+dOzD33Ra1k2IPvYAGSgrBFScPhQK0vEkk9SmMb5Mp7H5OSXv
-	bC+QcWS4zom2hd9e/kWzJN6det2nturqcjJC8KGz7kn7sRwoWHjkW2wmUU5TZ6jph4n6RuiPkYd
-	BVeqy3gv/Qal88YYoG0qWzs1kUn2riOqyBYWLHlH5GosXJym98oO2/2Q4XaftwLSV7hPbA/tVqv
-	5M4vbPBgHhknjNfVM9QTBSPKnvkeEPkAdPBi3eR0bDv8waYIqwyPCnttw33YYUL0Y/D7IfFk7HA
-	KKGlp2Ogcz5/NvdKk0UjCcUaIQuQGW8B8pdQU1
-X-Received: by 2002:a05:6102:5093:b0:740:2717:a1b2 with SMTP id
- ada2fe7eead31-75b21a600f9mr11149553137.1.1785857207439; Tue, 04 Aug 2026
- 08:26:47 -0700 (PDT)
+        bh=9gYefvAyqnzn8QAHjERbxmBW19GFjgq4+owbZqEl8b0=;
+        b=TShsF4QnsI+n8GKpkuH9GdPZfeHt01xQ9eUauDd/eQ4NBW17IStlKXpyxSQNl68zuJ
+         o6sMvN3toBUI6PMqeWEigbVmIJrbVkNY2QTcOZrUT9Cw6A7qNJrRN9BfkKkQi0oSC7pj
+         9Rsvl/WkvH0CW0EJT+J8haNl/1HYYhsMwhwK5AywsDCnp7uPI8bJSbo4h3kRAyaGkPm0
+         ofXjW6oTvm5YTKkR63Mr1TERi1EN/TbIIA+rO5a6X8bc7ZYd6ilVHUpmj/0SLhtOoGzX
+         OOknYSE+UHnaKc41MrXQn8lDxT3JtcydNuX+GcVp1c5xk81roDESs2N2UEToRqrIwv1I
+         nHNA==
+X-Forwarded-Encrypted: i=1; AHgh+RoqcIMHYabBh8u45LafqRlIo6QLD1JYEca1CYtqEBv99SxACLph6DShQHTztMObOoEoDdq4t+A0I30LMw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzSO5lk0BDEyqpdTYLMwYlw9PwGocz0H9n9klGOW9057+bI+e9t
+	GUMSbYM53OSyCPD7mXYt70Hwv8P3WAczSkiDH2udM/pQBxCWHzD2dQta
+X-Gm-Gg: AR+sD13yEc8awP3+wr9ZUg0gMIs5PYrv61EFP0jNotcJup4dJsNrp5iPxhZ8x8ZBDZB
+	rkd8o/KYwfZzV+na0pwXWMLSvH+Gp3uTAvabpodlJn8SF5JvL8XB5zME7MAo+ZCKsGEtvK0X0+j
+	yPVTYe5IG8fgiH1GwcKb4kf2A7XkxZ6g3dfm6jJgJRdrpvapjMRMuBwpM1Kj6lT/G0BOplVGvJ3
+	3r1mAwk7CeovZ7iGbOuTPXE3O7ddz8UiuefVOc1q+Oea7+yEMrxofJddHDwRUnvwq1Z1BqJqCLg
+	9r+JGUOLvJKtUUQnKHbkiamlplWQqd4rORwaaL6pvBKX0Mt6VwRXuWmH4qEaLPO0m6afzhz+vxO
+	5Exq10BT094+2+4ll2YGeSecEgb38cGsLzvf7S0AjqPxg1xckpjR4PD3KELMOaVZgTkoPqjDFet
+	xX56Sz7TEcmkk1FmMzoMDLwhQ41P7d/AX4yzS5H+EsN0uv+hpiCp00MxPx62bmUEhGCJi3pgBvV
+	TMR5vqPqr+NDzWBRBS3pyxzhgXZz9MDEccPOTJhfoOscjdSsWEokojb77LQnc5prDPbOS0mhrOa
+	U2m9vQ/MT0vpl+jxXfq7QP6q/l95WqdIqQi3+pnFFHHPhesMkbzp9bakHXh7Ojclh8bN/nt3wI0
+	BBe/Mov3yh/9AMnK/f6+Xl6A6GbVv8X8qNdXFcFKhJUzoZR7G2eSVsbeJ37Fq70wRuHinndf/AA
+	/CG4Q0jPD8M1Fymg==
+X-Received: by 2002:a05:600d:8492:b0:496:c9cd:e7ab with SMTP id 5b1f17b1804b1-4980c64b873mr280626065e9.5.1785860708981;
+        Tue, 04 Aug 2026 09:25:08 -0700 (PDT)
+Received: from jernej-laptop.localnet (APN-122-102-118-gprs.simobil.net. [46.122.102.118])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fec249a5fsm897076f8f.33.2026.08.04.09.25.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Aug 2026 09:25:08 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: wens@kernel.org
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH 13/13] drm/sun4i: Align VI buffer addresses for subsampled formats
+Date: Tue, 04 Aug 2026 18:25:06 +0200
+Message-ID: <ugAWjG4QTtSgFVIbk0BoGg@gmail.com>
+In-Reply-To:
+ <CAGb2v67ugarRQAB=yDiyGti4E_r=dF0G08-TiGgphQSefHs8zQ@mail.gmail.com>
+References:
+ <cover.1785772659.git.jernej.skrabec@gmail.com>
+ <CAGb2v66E95PwYhdPC4mkX1htF2VXECiGwUHfzLHV2ydOMiwxrg@mail.gmail.com>
+ <CAGb2v67ugarRQAB=yDiyGti4E_r=dF0G08-TiGgphQSefHs8zQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
- <20260802-submit-acx00-of-dynamic-v1-v1-10-0a53cd9e21cc@gmail.com>
- <05b1e6a2-725e-4b8e-8629-249637bbcb81@lunn.ch> <CADvTj4o0JdjoO+FC4pO=qnjEQ8MRyzQdKp2Hxy9NsPU-gym5OQ@mail.gmail.com>
- <9b8be475-1fde-409c-a82e-be4b2e402650@lunn.ch> <CADvTj4pBovti19MXgQjFpxm=7aRm0sYQz9jxfo8bu3txH94THQ@mail.gmail.com>
- <a9ce53dd-0873-41c0-ad6a-fb42e6cc7aaa@lunn.ch> <CADvTj4qpHU3F0DrEmc0vFi+JiwTNERniiMHKo1LmBd8sg58wJA@mail.gmail.com>
- <205e9051-8e43-44bb-a4b5-4ec69a192fa3@lunn.ch>
-In-Reply-To: <205e9051-8e43-44bb-a4b5-4ec69a192fa3@lunn.ch>
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Tue, 4 Aug 2026 09:26:35 -0600
-X-Gm-Features: AUfX_mxUgphmHVN2nVqeDHtOoQ4DhYlfN2EUsZlGA6OuEq-kXlUnQLFlQtbWoRc
-Message-ID: <CADvTj4qmXWbDsc-vigcSrF1N=zpxmZWGp3YaZ9PFcWK551h3mg@mail.gmail.com>
-Subject: Re: [PATCH 10/21] net: phy: add X-Powers AC200 EPHY control driver
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>, 
-	Richard Genoud <richard.genoud@bootlin.com>, Maxime Ripard <mripard@kernel.org>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, Maxime Chevallier <maxime.chevallier@bootlin.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Heiner Kallweit <hkallweit1@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, Saravana Kannan <saravanak@kernel.org>, Lee Jones <lee@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>, netdev@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	mfd@lists.linux.dev, linux-rockchip@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Tue, Aug 4, 2026 at 8:54=E2=80=AFAM Andrew Lunn <andrew@lunn.ch> wrote:
->
-> > I agree that the link PHY cannot be identified by reading its
-> > registers before the package control sequence has run. I do not agree
-> > that this means an arbitrary ID should be placed in DT, though.
->
-> The ability to put the ID in DT is there for two reasons:
->
-> 1) You cannot enumerate the PHY because of missing clocks etc.
-> 2) The vendor messed up, and did not put a valid ID in registers 2 and 3.
->
-> 2 does not happen very often, but this is one example. They are
-> different PHYs, they need different driver code, when you consider the
-> PHY as a whole.
->
-> I also wound not put in an arbitrary ID, pick an unused ID in the
-> vendors range.
+Dne torek, 4. avgust 2026 ob 13:14:38 Srednjeevropski poletni =C4=8Das je C=
+hen-Yu Tsai napisal(a):
+> On Tue, Aug 4, 2026 at 1:25=E2=80=AFAM Chen-Yu Tsai <wens@kernel.org> wro=
+te:
+> >
+> > On Tue, Aug 4, 2026 at 12:11=E2=80=AFAM Jernej Skrabec <jernej.skrabec@=
+gmail.com> wrote:
+> > >
+> > > This is a partial revert of commit 79ac1c945ab8 ("drm/sun4i: layers:
+> > > Use drm_fb_dma_get_gem_addr() to get display memory").
+> > >
+> > > Chroma must start at the beginning of a subsampling block, for example
+> > > chroma start address for NV12 must be aligned to 2 pixels.
+> > > drm_fb_dma_get_gem_addr() offsets luma by the exact source coordinates
+> > > and chroma by the coordinates divided by the subsampling factor, so f=
+or
+> > > odd offsets both planes no longer describe the same pixel, which the
+> > > Display Engine scaler can't handle.
+> > >
+> > > Align source coordinates down for all planes instead. Remaining shift
+> > > of one pixel is already compensated with scaler phase shift in
+> > > sun8i_vi_layer_update_coord().
+> >
+> > Well I think this applies to the format in general, and probably should
+> > be fixed in drm_fb_dma_get_gem_addr() instead?
+> >
+> > > Fixes: 79ac1c945ab8 ("drm/sun4i: layers: Use drm_fb_dma_get_gem_addr(=
+) to get display memory")
+> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > ---
+> > >  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 20 ++++++++++++++++++--
+> > >  1 file changed, 18 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm=
+/sun4i/sun8i_vi_layer.c
+> > > index 09f668c8af24..ad036cb9d88e 100644
+> > > --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> > > +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> > > @@ -197,15 +197,31 @@ static void sun8i_vi_layer_update_buffer(struct=
+ sun8i_layer *layer,
+> > >         struct drm_plane_state *state =3D plane->state;
+> > >         struct drm_framebuffer *fb =3D state->fb;
+> > >         const struct drm_format_info *format =3D fb->format;
+> > > +       struct drm_gem_dma_object *gem;
+> > > +       u32 dx, dy, src_x, src_y;
+> > >         dma_addr_t dma_addr;
+> > >         u32 ch_base;
+> > >         int i;
+> > >
+> > >         ch_base =3D sun8i_channel_base(layer);
+> > >
+> > > +       /* Adjust x and y to be divisible by subsampling factor */
+> > > +       src_x =3D (state->src.x1 >> 16) & ~(format->hsub - 1);
+> > > +       src_y =3D (state->src.y1 >> 16) & ~(format->vsub - 1);
+> >
+> > AFAICT the only difference compared to drm_fb_dma_get_gem_addr()
+> > is the masking here, i.e. round_down().
+> >
+> > > +
+> > >         for (i =3D 0; i < format->num_planes; i++) {
+> > > -               /* Get the start of the displayed memory */
+> > > -               dma_addr =3D drm_fb_dma_get_gem_addr(fb, state, i);
+> > > +               gem =3D drm_fb_dma_get_gem_obj(fb, i);
+> > > +               dma_addr =3D gem->dma_addr + fb->offsets[i];
+> > > +
+> > > +               dx =3D src_x;
+> > > +               dy =3D src_y;
+> > > +               if (i > 0) {
+> > > +                       dx /=3D format->hsub;
+> > > +                       dy /=3D format->vsub;
+> > > +               }
+> > > +
+> > > +               dma_addr +=3D dx * format->cpp[i];
+> > > +               dma_addr +=3D dy * fb->pitches[i];
+> >
+> >
+> > Where as the helper has (or used to have before the blocksize stuff):
+> >
+> >     paddr +=3D (format->cpp[plane] * (state->src_x >> 16)) / fb->format=
+=2D>hsub;
+> >     paddr +=3D (fb->pitches[plane] * (state->src_y >> 16)) / fb->format=
+=2D>vsub;
+> >
+> > Am I missing something?
+>=20
+> After some headbanging on my end I see that the offset for the Y plane
+> needs to be rounded down.
+>=20
+> But instead of reverting the whole thing and open-coding the helper
+> again, could you adjust the address returned by the helper for odd
+> offsets?
 
-The value currently used in DT is not arbitrary: 0x00441400 is exactly
-what both link-side Clause 22 endpoints report from registers 2 and 3
-after the corresponding package control sequence has run. This is case
-(1), rather than case (2): the ID cannot initially be read because the
-EPHY has not yet been clocked, configured and released from reset.
+Yes, that's also an option. I'll do it in v2.
 
-The reported ID does not distinguish the two packages, but replacing it
-with a synthetic unused ID would make an ethernet-phy-idAAAA.BBBB
-compatible disagree with the value actually reported by registers 2 and
-3. If separate AC200 and AC300 PHY driver entries are needed to identify
-the complete package variants, they can use package-specific match data
-while sharing the common link-PHY implementation.
+>=20
+> And just a heads up, this also needs a clipped version of
+> drm_fb_dma_get_gem_addr() as sun8i_ui_layer_update_coord() uses the
+> clipped dimensions. I am currently working on this part.
 
->
-> > Both AC200 and AC300 expose the same link-side PHY ID and register
-> > layout.
->
-> No they don't. There are extra registers in different address domains.
+Can you explain a bit more? I don't see why it needs any adjustement.
 
-The block diagrams make the distinction clearer. Both diagrams depict
-an EPHY block with the same internal organization: MII/RMII, auto
-negotiation, auto-MDIX, 10/100 TX and RX PCS/PMA blocks, LED logic,
-clock/reset, PLL and EPHY AFE.
+Best regards,
+Jernej
 
-What differs is the surrounding top-level control path. In AC200,
-E_MDC/E_MDIO connect directly to the EPHY, while the package control
-logic and registers are reached separately through RSB/TWI. In AC300,
-the external MDC/MDIO pins first enter a top-level MDIO slave and
-register block, which then provides internal MDC/MDIO connections to
-the EPHY. That top-level block also contains the AC300-specific reset,
-clock, I/O and eFuse controls.
+>=20
+>=20
+> ChenYu
+>=20
+> > >
+> > >                 /* Set the line width */
+> > >                 DRM_DEBUG_DRIVER("Layer %d. line width: %d bytes\n",
+> > > --
+> > > 2.43.0
+> > >
+>=20
 
-Therefore, I agree that saying the complete register layouts are the
-same was too broad. The packages have different top-level control
-registers in different address domains, but the diagrams indicate that
-they contain the same link-facing EPHY implementation. That maps
-naturally to shared link-PHY code with separate AC200 and AC300 control
-backends, rather than two copies of the common EPHY implementation.
 
->
->         Andrew
+
+
