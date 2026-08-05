@@ -1,66 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412B838237A;
-	Wed,  5 Aug 2026 14:22:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D21A3DDAE0
+	for <linux-sunxi@lists.linux.dev>; Wed,  5 Aug 2026 19:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785939784; cv=none; b=i9mc4bOglSHgIYTWqb7Qkmoc40QC0/eK9frhfKu1PTewKGPGDZcpjYWQaYF4WUkkAr5mp6FIRNmbrAVcospG5jfXFDQl8ChmS6Pkdljhzfa0Yfcgq55YDZaW8v12vsSfw7a6EgIaC1GM25+BRBf4PMpApi6O1TU/F/wjgH6Jhcc=
+	t=1785957167; cv=none; b=VihGFV/DSLLnzgraJg4AJJGegNZ+4bT/amM2tCMt1VECixTM6eFWScbUd2wuhSR8H9mlOrpKLGL+dgaM2mD9VjUZ0l9VnxSstp8SU4FvpEtajrZ17oVcri8gEYcPSGUZHdd/f+wvhiW194Er8desYbofe+Nx2mYz9ZF/S4nVxbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785939784; c=relaxed/simple;
-	bh=kET92rdROOrNoeoMWHdr75LJECr0hlQMqvvvuPZLpu8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lF/+TAaSp27CLI1EOiyCR8V8dO0jHoh9TS+QPv0TdiHHyuGC3Aho7L6TTQ4GI7P1JgQpm0eYmgXXBSyOX8Be8sBLhVzxDRMbTSNgbokT0+geRlp0wfRJOILERDTgI9aXGiEsYKjHvYJp4xVHFeZCSeHQmv+WejjCUJzRlP/INPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IlbWjj7+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785957167; c=relaxed/simple;
+	bh=lDT7FdGY2Nawl9QrfcHfV2XAF+4ejy8Hdvw2oQGXBP0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sGIgRHVDGtDXUxPudt55ae/uEqqiLkvQg+ijEjEtTWBUo8sbCxObgw8LLxaVaM8qUatfyaciTxtn15q+4shDabn5cCPSlRH5baqZFjr4/s90fvv1cxbRbFKbV4M1NacoYkbqPEznDOTNFpyfq4H4kIEUPeQPNJrOMmfctU3Hywg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=HckXOgkC; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IlbWjj7+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCE4F1F00A3A;
-	Wed,  5 Aug 2026 14:22:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785939774;
-	bh=vtFogd9Yw/S+y2ZZkzMQdnH2xhJ3MBW6Yho0E6kCH+g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IlbWjj7+sINUO1Vw7fwnR0Cx5BAwf8PlFf5lX9PNVakRSfI32KlCDwEexX5uuoXVT
-	 MnrBciX8ueqmC7Mw4+SlQ73lWMr6xgzOkOukG7jeTmeSaovYh5m1w7FJyZcNiIdjC4
-	 eTV3UgeB1TUWlWmPnoH4GWLDPgAy2//IDMCU8vXSMj55Ubmnh9qOuTfw5zVoWwV/Ip
-	 ln5k5fMEjGiVZ+XKTt5xh2+rd5yQBz/ZzOE9Ns2z5DXGRvs4kLrZX3wW/QXUS9ywK2
-	 KdwN3zbnQsNb0kIOEx9UkCxxWol4+0cozvECvFUzHd+wEQd6B3OvsJx3LnRXxLElZf
-	 EB1HxzkWn5vAw==
-Date: Wed, 5 Aug 2026 09:22:53 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="HckXOgkC"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BBCC6153B;
+	Wed,  5 Aug 2026 12:12:38 -0700 (PDT)
+Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 00CF63F86F;
+	Wed,  5 Aug 2026 12:12:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1785957162; bh=lDT7FdGY2Nawl9QrfcHfV2XAF+4ejy8Hdvw2oQGXBP0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=HckXOgkCfhf4HJOjzr50vRBkFepF0fqCy7W8Cy1Xuyzh6BEJCKnCJd18jEG6P8iVg
+	 on9QhTJR4q9FfxRhUsYjYhW2ibAPQUO/ofs+rUND/Nm8jgJglz9WBp1gaBnpYTRi4h
+	 dyuwAhk/7F3BaO4gJJvDgHOLEkLOoGxGCfBYGSa8=
+Date: Wed, 5 Aug 2026 21:08:27 +0200
+From: Andre Przywara <andre.przywara@arm.com>
 To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Thomas Gleixner <tglx@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	Maxime Ripard <mripard@kernel.org>, linux-sunxi@lists.linux.dev,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: Re: [PATCH] dt-bindings: irq: sun7i-nmi: Document the Allwinner A733
- NMI controller
-Message-ID: <178593977246.792405.15302040660276543988.robh@kernel.org>
-References: <20260731-allwinner-a733-nmi-support-v1-1-61e4a0825b20@baylibre.com>
+Cc: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Maxime
+ Ripard <mripard@kernel.org>, linux-spi@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] spi: dt-bindings: sun6i: Add compatibles for A733's SPI
+ controllers
+Message-ID: <20260805210739.6da82d16@ryzen.lan>
+In-Reply-To: <20260805-allwinner-a733-spi-support-v1-1-7bfd1141ebc9@baylibre.com>
+References: <20260805-allwinner-a733-spi-support-v1-1-7bfd1141ebc9@baylibre.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260731-allwinner-a733-nmi-support-v1-1-61e4a0825b20@baylibre.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+
+On Wed, 05 Aug 2026 15:53:26 +0200
+Jerome Brunet <jbrunet@baylibre.com> wrote:
+
+> The A733 has six SPI controllers with the same IP as the A523.
+> Like the A523, one of them (spi1) also supports DBI mode.
+> 
+> Add SoC specific compatible strings, falling back to the A523 ones.
+
+Has this been tested? Can someone confirm? We should avoid adding
+bindings prematurely, not that it bites us again as it did for the H616
+DE bindings, for instance.
+
+Cheers,
+Andre
 
 
-On Fri, 31 Jul 2026 18:09:52 +0200, Jerome Brunet wrote:
-> The A733 NMI controller is compatible with the A523 one. Add an
-> A733-specific compatible string, with the A523 as fallback.
 > 
 > Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 > ---
->  .../bindings/interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml      | 3 +++
->  1 file changed, 3 insertions(+)
+>  Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
-
-Applied, thanks!
+> diff --git a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
+> index 6af4ff233158..be47c6e00409 100644
+> --- a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
+> +++ b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
+> @@ -36,6 +36,13 @@ properties:
+>        - items:
+>            - const: allwinner,sun55i-a523-spi-dbi
+>            - const: allwinner,sun55i-a523-spi
+> +      - items:
+> +          - const: allwinner,sun60i-a733-spi
+> +          - const: allwinner,sun55i-a523-spi
+> +      - items:
+> +          - const: allwinner,sun60i-a733-spi-dbi
+> +          - const: allwinner,sun55i-a523-spi-dbi
+> +          - const: allwinner,sun55i-a523-spi
+>  
+>    reg:
+>      maxItems: 1
+> 
+> ---
+> base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+> change-id: 20260805-allwinner-a733-spi-support-e30a9ac057a3
+> 
+> Best regards,
+> --  
+> Jerome
+> 
+> 
 
