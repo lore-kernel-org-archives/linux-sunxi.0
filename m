@@ -1,200 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CF721ABBB;
-	Fri,  7 Aug 2026 04:42:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C871C84D0
+	for <linux-sunxi@lists.linux.dev>; Fri,  7 Aug 2026 13:55:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786077771; cv=none; b=hP+TEswfXDDvM96NHpssIX6bnPhky346ar+hg9S0GGP1pTE1dWLxzozS8+UIJtIZCNnZDEG7ceOKP34yA9rMc3pSurPynsKGVretR8cAowdeGnre8bb3+gm0d0/WN/vSIpRaP3LpJAXJ/yFv2oc1RKuf2Z4Dgk906j5S9amftk0=
+	t=1786110951; cv=none; b=Ic6EOv0d7mKqv1WgwIh4TkBaqHC1baDDCjzcKqlE1A5oOjCC/CTmVOLbjUbvfE/5sA+zzMqLqfksbo7SntM+bzfsHwwnFUQExrKbzIuAGtWO8gHyG5EyVCHa0i41b4eEuT00toFqYAhEve+KhyRlfVvp0bH3aaT2f2wQ5FaN5tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786077771; c=relaxed/simple;
-	bh=WQzgyFExui/jji4SlbsaMUg9A00OnHYeCZD0NqBP5nc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JtHGsxAz/I3Ei39uu/p8fv+S7yZddsO38PmVLu12nysPSo28bhM08F2eLnBBJlgJCZ/LwNNBWRKauoBSReL5IjjU9Qgp2bmBT3QA8vuPPNYSSYD8GQTnySEn5LqxzEep7aKv1OH6ppw1cr5j5zJQfD791KNT+0ewG9yYsXVj0yk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e3jXNhV6; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1786110951; c=relaxed/simple;
+	bh=lKWRllofbX4RsVmArqp04XosqhHwxg3ePgxPypGQGJw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=niuXLIAZlNPEWYcZ/0V08hW1cUFGpMa4QPW5APqFMu8Ocx69QbcFAio36HDk7eBiRVcAXidTIkE5snVYlYvdi+6kj+2wroXa9eYD02XUbm6G5hf85ILQ7vVqZKW1Mw2ZNTdY873isI3Ccf6PawG/40yL888S/obQCSinYBvEkRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=nlNd8SWw; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e3jXNhV6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786077769; x=1817613769;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WQzgyFExui/jji4SlbsaMUg9A00OnHYeCZD0NqBP5nc=;
-  b=e3jXNhV6bVDVXvV4xEU+Fr/lVv9tveqSM13EXGGWXAE8DQ2c9kFzqW3T
-   E5QM1H3aW7ky89D0PJIqGwX9z5b0kCHxEAIWLyh6tCO2Ol5UzoL9Foreq
-   R9DaRrSNoeQ93U4ZKt6MwjZiNhMjH+OUx8v6Y8ypmp1akQsdDWsVnQYjK
-   FRl/VlAqW+/y/6D8YKFHbWtbpAtImqropCHFQI/PcPJwpvFjVtmMElzpu
-   CQilIgSUCIz9D7FA0J1eJyxBRbWDNSydo6gOH8FalFMSeWlJG+qdBBmSp
-   o5Q7gLgO3OEu8aXRzIKCEsRPvvZ/SQFCzziy8rna4cb6ZIQPPPj5PQN4y
-   w==;
-X-CSE-ConnectionGUID: NKT/swblTAixZkgB0l5FBg==
-X-CSE-MsgGUID: KkUVZvm+T+S4I2yEhbIWRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="86794598"
-X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
-   d="scan'208";a="86794598"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 21:42:48 -0700
-X-CSE-ConnectionGUID: C8Oo+PWATSOLkLQ4UNeMLA==
-X-CSE-MsgGUID: zPNwphfGThm3JHhGC1O09w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
-   d="scan'208";a="262351727"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 06 Aug 2026 21:42:46 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wsCPr-00000000HBR-11Pz;
-	Fri, 07 Aug 2026 04:42:43 +0000
-Date: Fri, 7 Aug 2026 12:41:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>, linux-sunxi@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, Jassi Brar <jassisinghbrar@gmail.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] mailbox: sun6i: modernize probe and convert to fully
- managed
-Message-ID: <202608071227.vRfy33Rr-lkp@intel.com>
-References: <20260727194208.10082-1-rosenp@gmail.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nlNd8SWw"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 5468A1A14AF;
+	Fri,  7 Aug 2026 13:55:45 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 1CDA8603F0;
+	Fri,  7 Aug 2026 13:55:45 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 77B3411C37940;
+	Fri,  7 Aug 2026 15:55:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1786110944; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=8Z9zSxLfnk7YiVlIisYk8KT7P1MGEF3qpYsTg5YEnEk=;
+	b=nlNd8SWwUAven5A2D+JdB964IEJxFekkIs00rvccp2m4ShINygrjg5jELkdc9PIe+RCin3
+	+rLDGFD1GhyNRoREH/YpRbKPzDkwNoYQKUn86dwDU0L3k8TFZMY6rrcZIsSA328SOvOzOe
+	9J7aE94wqutVPNpitsyqWtjmu/DaAe0U36u6qv1j3MdhgWRL9BOZGxkPZavVh0Pfak1IGT
+	XQeSmRH4n+FjCIArWgHTQuM33N/0xevGlSPQxcaU6CgW78Mx8kW7CTYk091Lza3t+Vdq5S
+	PLCGfpWbd+HBe05P6dqKYs95LC9YV+FD9J7wLObmBaZtgi0uaby42e+XoSWAuA==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: James Hilliard <james.hilliard1@gmail.com>
+Cc: linux-mtd@lists.infradead.org,  linux-sunxi@lists.linux.dev,  Richard
+ Weinberger <richard@nod.at>,  Vignesh Raghavendra <vigneshr@ti.com>,
+  Chen-Yu Tsai <wens@kernel.org>,  Jernej Skrabec
+ <jernej.skrabec@gmail.com>,  Samuel Holland <samuel@sholland.org>,
+  Richard Genoud <richard.genoud@bootlin.com>,  Geert Uytterhoeven
+ <geert+renesas@glider.be>,  linux-arm-kernel@lists.infradead.org,
+  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] mtd: rawnand: sunxi: add H616 MBUS DMA support
+In-Reply-To: <20260717164202.3099982-1-james.hilliard1@gmail.com> (James
+	Hilliard's message of "Fri, 17 Jul 2026 10:41:58 -0600")
+References: <20260717164202.3099982-1-james.hilliard1@gmail.com>
+User-Agent: mu4e 1.12.12; emacs 30.2
+Date: Fri, 07 Aug 2026 15:55:41 +0200
+Message-ID: <87tsp6avc2.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260727194208.10082-1-rosenp@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Rosen,
+Hi James,
 
-kernel test robot noticed the following build errors:
+On 17/07/2026 at 10:41:58 -06, James Hilliard <james.hilliard1@gmail.com> w=
+rote:
 
-[auto build test ERROR on sunxi/sunxi/for-next]
-[also build test ERROR on linus/master v7.2-rc6 next-20260806]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> The H616 NAND controller uses a descriptor-based internal MBUS DMA
+> engine instead of the direct address and count registers used by the
+> A23/A33 controller. Since the driver does not support these descriptors,
+> it currently attempts to request an external rxtx DMA channel and falls
+> back to PIO when none is provided.
+>
+> Add a single-descriptor backend to the existing ECC page DMA paths.
+> Allocate the descriptor coherently, constrain data mappings to the
+> controller's 32-bit address range, program the H6-style data block mask,
+> and request an interrupt for both command and DMA completion. Keep the
+> existing external DMA and legacy MBUS DMA paths unchanged, and fall back
+> to PIO if the descriptor cannot be allocated.
+>
+> With identical kernels except for this patch, running
+> flash_speed -d -b 1906 -c 100 /dev/mtd6 on an H616 board with 2 KiB-page
+> SLC NAND reported:
+>
+>                          PIO          descriptor DMA
+> eraseblock write        3365 KiB/s       4192 KiB/s
+> eraseblock read         6454 KiB/s      16040 KiB/s
+> page write              3254 KiB/s       4021 KiB/s
+> page read               6419 KiB/s      15686 KiB/s
+>
+> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/mailbox-sun6i-modernize-probe-and-convert-to-fully-managed/20260807-054041
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
-patch link:    https://lore.kernel.org/r/20260727194208.10082-1-rosenp%40gmail.com
-patch subject: [PATCH] mailbox: sun6i: modernize probe and convert to fully managed
-config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260807/202608071227.vRfy33Rr-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260807/202608071227.vRfy33Rr-lkp@intel.com/reproduce)
+This patch does not apply (linux-mtd repository, nand/next branch). You
+need to rebase and send a new iteration.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608071227.vRfy33Rr-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/mailbox/sun6i-msgbox.c: In function 'sun6i_msgbox_probe':
->> drivers/mailbox/sun6i-msgbox.c:271:46: error: passing argument 1 of 'devm_mbox_controller_register' from incompatible pointer type [-Wincompatible-pointer-types]
-     271 |         return devm_mbox_controller_register(&mbox->controller);
-         |                                              ^~~~~~~~~~~~~~~~~
-         |                                              |
-         |                                              struct mbox_controller *
-   In file included from drivers/mailbox/sun6i-msgbox.c:12:
-   include/linux/mailbox_controller.h:149:50: note: expected 'struct device *' but argument is of type 'struct mbox_controller *'
-     149 | int devm_mbox_controller_register(struct device *dev,
-         |                                   ~~~~~~~~~~~~~~~^~~
->> drivers/mailbox/sun6i-msgbox.c:271:16: error: too few arguments to function 'devm_mbox_controller_register'; expected 2, have 1
-     271 |         return devm_mbox_controller_register(&mbox->controller);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mailbox_controller.h:149:5: note: declared here
-     149 | int devm_mbox_controller_register(struct device *dev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/devm_mbox_controller_register +271 drivers/mailbox/sun6i-msgbox.c
-
-   194	
-   195	static int sun6i_msgbox_probe(struct platform_device *pdev)
-   196	{
-   197		struct device *dev = &pdev->dev;
-   198		struct mbox_chan *chans;
-   199		struct reset_control *reset;
-   200		struct sun6i_msgbox *mbox;
-   201		void __iomem *regs;
-   202		int i, ret;
-   203		int irq;
-   204	
-   205		irq = platform_get_irq(pdev, 0);
-   206		if (irq < 0)
-   207			return irq;
-   208	
-   209		regs = devm_platform_ioremap_resource(pdev, 0);
-   210		if (IS_ERR(regs))
-   211			return PTR_ERR(regs);
-   212	
-   213		mbox = devm_kzalloc(dev, sizeof(*mbox), GFP_KERNEL);
-   214		if (!mbox)
-   215			return -ENOMEM;
-   216	
-   217		chans = devm_kcalloc(dev, NUM_CHANS, sizeof(*chans), GFP_KERNEL);
-   218		if (!chans)
-   219			return -ENOMEM;
-   220	
-   221		for (i = 0; i < NUM_CHANS; ++i)
-   222			chans[i].con_priv = mbox;
-   223	
-   224		mbox->clk = devm_clk_get_enabled(dev, NULL);
-   225		if (IS_ERR(mbox->clk)) {
-   226			ret = PTR_ERR(mbox->clk);
-   227			dev_err(dev, "Failed to get clock: %d\n", ret);
-   228			return ret;
-   229		}
-   230	
-   231		reset = devm_reset_control_get_exclusive(dev, NULL);
-   232		if (IS_ERR(reset)) {
-   233			ret = PTR_ERR(reset);
-   234			dev_err(dev, "Failed to get reset control: %d\n", ret);
-   235			return ret;
-   236		}
-   237	
-   238		/*
-   239		 * NOTE: We rely on platform firmware to preconfigure the channel
-   240		 * directions, and we share this hardware block with other firmware
-   241		 * that runs concurrently with Linux (e.g. a trusted monitor).
-   242		 *
-   243		 * Therefore, we do *not* assert the reset line if probing fails or
-   244		 * when removing the device.
-   245		 */
-   246		ret = reset_control_deassert(reset);
-   247		if (ret) {
-   248			dev_err(dev, "Failed to deassert reset: %d\n", ret);
-   249			return ret;
-   250		}
-   251	
-   252		mbox->regs = regs;
-   253	
-   254		/* Disable all IRQs for this end of the msgbox. */
-   255		writel(0, mbox->regs + LOCAL_IRQ_EN_REG);
-   256	
-   257		ret = devm_request_irq(dev, irq, sun6i_msgbox_irq, 0, dev_name(dev), mbox);
-   258		if (ret)
-   259			return ret;
-   260	
-   261		mbox->controller.dev           = dev;
-   262		mbox->controller.ops           = &sun6i_msgbox_chan_ops;
-   263		mbox->controller.chans         = chans;
-   264		mbox->controller.num_chans     = NUM_CHANS;
-   265		mbox->controller.txdone_irq    = false;
-   266		mbox->controller.txdone_poll   = true;
-   267		mbox->controller.txpoll_period = 5;
-   268	
-   269		spin_lock_init(&mbox->lock);
-   270	
- > 271		return devm_mbox_controller_register(&mbox->controller);
-   272	}
-   273	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thansk,
+Miqu=C3=A8l
