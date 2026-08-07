@@ -1,87 +1,88 @@
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AFC38B158
-	for <linux-sunxi@lists.linux.dev>; Fri,  7 Aug 2026 13:58:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8294231328E
+	for <linux-sunxi@lists.linux.dev>; Fri,  7 Aug 2026 14:00:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786111139; cv=none; b=K7h9fHwZEwQW0mmkJG3oaOgVoq1icPqB6autpda6FmP1s8O8fm6Vb6eHU15gL29Z9Eqj+02KFNTEEpIIa0JwTjbesXPHYiWSJW7fKdxwhTiDrT0iai5JlTKJxu2LHO73NpKt/G3XH15zc6vyAqUG9eixExZ0n/hTPu1UDtuuQ5A=
+	t=1786111212; cv=none; b=Aayzyby6X8/x4RTnNUsDdBQjtwjdqtkSZCcAUxDZIKRWI8jyifVnJnlmkf7jHuIBlnlVGcENmv38QcxzkcSV35bWgZ8Aw5GKJuBPxGMjj/OpbxKwamP6g0I4QScGFCfiGWVFdcx4fxUON8gB5cXXO4NghM0aXLIpUlFMs2W8jF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786111139; c=relaxed/simple;
-	bh=ga9YwrOPByLdYiHYo8H6DvEk34V4v2367x//laxUrRs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=SqVQd8WnWz77yqKnI+GskovTkyDW0ZScMwyvKa9t7FeVXKcNlYJSc124Zce/8IF4UwW84mILXVGnC7Uw2Lq9fWJ6263gP6srDtCGTxT6V2w4NQD33VdBUJwcRvPqr3Kyt2Mp0pDzDniG6Y70eCUwPRZzCSKsC5MYZ4hTjT6saCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ScjCdzgX; arc=none smtp.client-ip=185.246.84.56
+	s=arc-20240116; t=1786111212; c=relaxed/simple;
+	bh=7QtfUicSq0CJoH8LPBIKm+eEYQYxOwPdOAG9183BB8k=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=hyo2QKu8RcNCZ1UHMIkXKSv6t0qQKhjaQdQGAOZKDw1ofl4FYgQmPeQ9uOnJSHvJ6uBLVsZaJSZfElGaV0p5fJeIkW6dmxT4whJHwUCBVaWOTLy12sVWEKjRoj/MXl6vpXL2yEtldgahbUciQEhsbHqJQPVNKq0OaZ1NJx8Ry0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=epXFGuAf; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ScjCdzgX"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="epXFGuAf"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id AECDA1A14AF;
-	Fri,  7 Aug 2026 13:58:53 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id B68CD1A14AF;
+	Fri,  7 Aug 2026 14:00:06 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 7C544603F0;
-	Fri,  7 Aug 2026 13:58:53 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1A28C11C37949;
-	Fri,  7 Aug 2026 15:58:47 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8416C603F0;
+	Fri,  7 Aug 2026 14:00:06 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6099811C37961;
+	Fri,  7 Aug 2026 16:00:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1786111128; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1786111205; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=ga9YwrOPByLdYiHYo8H6DvEk34V4v2367x//laxUrRs=;
-	b=ScjCdzgXo+20f1TJ6yi9Y/gKNAsJXE1WMAzB6zofImyQULjEyDv5RGjTT33PlmgCknlKbS
-	VJSaztZ959rp0Y7HWX9dRfOBnoycM+h5mLttSH99O4Vv5pymAx8bXhTBppiznhFVqOvQyF
-	YzaOojK9GvGdrS+wNZEmdWMausOaHCKSaVsTsUC9udre0NzV5UMqu4NyqmFt6Cngzb0JYq
-	06vrCjL1Wp4j/LwTVG/wwMtxZmQXRgKbrzpKdNFC9Wh2fj+On6LT39EgskXzsYwQu5m8Ax
-	nuRQ1dDgw5P2o60WVuWk6wasqhQa9V9IKYH2LBTIfRFDfupQVAzfR3uDMSfjHA==
+	bh=sB9VxuqALQwrBeXPwHmokBPdEY6c1fmoxnp6wovATlE=;
+	b=epXFGuAfuU0GRB3UwM6B0HSdKC1jG/MpIUHuwmS511qPTiBwC5t+4XD/q6aDyEw9U/xxTw
+	wJ4wN4QsECOaOC+u2ojQaQV8W2mPBpOwXVAwRKexYZKuOKxvwlcy5Y88vaI9vkzW8CH2J7
+	RYcsnjbraQ2jQcaR9Xq8Fk7qblNEYxLBXdayPoasy3oupgYmqgUN1eK1yZtuc9hlvnPTlS
+	4vdIQnNqTdYx3P1SljCfmgLrrY7OFL0tbf3cefSZNlOm/S9na4euFCs44oNCGB6GvPyeVK
+	hr7SNHLFtzggk7tYOB1vbxM4jhaD/Zplhs3/00+xadU8Fw85WrZCkIiObqMcqQ==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Richard Weinberger <richard@nod.at>,  Vignesh Raghavendra
- <vigneshr@ti.com>,  Chen-Yu Tsai <wens@kernel.org>,  Jernej Skrabec
- <jernej.skrabec@gmail.com>,  Samuel Holland <samuel@sholland.org>,
-  Richard Genoud <richard.genoud@bootlin.com>,
-  linux-mtd@lists.infradead.org,  linux-arm-kernel@lists.infradead.org,
-  linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org,
-  stable@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] mtd: rawnand: sunxi: fix H6/H616 controller timings
-In-Reply-To: <20260717-submit-sunxi-nand-h6-h616-timings-v2-0-225515107640@gmail.com>
-	(James Hilliard's message of "Fri, 17 Jul 2026 11:33:56 -0600")
-References: <20260717-submit-sunxi-nand-h6-h616-timings-v2-0-225515107640@gmail.com>
-User-Agent: mu4e 1.12.12; emacs 30.2
-Date: Fri, 07 Aug 2026 15:58:46 +0200
-Message-ID: <87ik5mav6x.fsf@bootlin.com>
+To: linux-mtd@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ James Hilliard <james.hilliard1@gmail.com>
+Cc: Richard Weinberger <richard@nod.at>, 
+ Vignesh Raghavendra <vigneshr@ti.com>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Richard Genoud <richard.genoud@bootlin.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260717164202.3099982-1-james.hilliard1@gmail.com>
+References: <20260717164202.3099982-1-james.hilliard1@gmail.com>
+Subject: Re: [PATCH v2] mtd: rawnand: sunxi: add H616 MBUS DMA support
+Message-Id: <178611120394.758547.12981488112151990618.b4-ty@bootlin.com>
+Date: Fri, 07 Aug 2026 16:00:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.14.3
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi James,
+On Fri, 17 Jul 2026 10:41:58 -0600, James Hilliard wrote:
+> The H616 NAND controller uses a descriptor-based internal MBUS DMA
+> engine instead of the direct address and count registers used by the
+> A23/A33 controller. Since the driver does not support these descriptors,
+> it currently attempts to request an external rxtx DMA channel and falls
+> back to PIO when none is provided.
+> 
+> Add a single-descriptor backend to the existing ECC page DMA paths.
+> Allocate the descriptor coherently, constrain data mappings to the
+> controller's 32-bit address range, program the H6-style data block mask,
+> and request an interrupt for both command and DMA completion. Keep the
+> existing external DMA and legacy MBUS DMA paths unchanged, and fall back
+> to PIO if the descriptor cannot be allocated.
+> 
+> [...]
 
-On 17/07/2026 at 11:33:56 -06, James Hilliard <james.hilliard1@gmail.com> w=
-rote:
+Applied to nand/next, thanks!
 
-> The sunxi NAND timing solver currently applies the original A10 NDFC
-> timing characteristics to every supported controller. The H6/H616 NDFC
-> uses two internal cycles for several setup and hold intervals and has
-> different delay-field encodings, so the resulting clock and timing
-> register values do not match the hardware.
->
-> Prepare for per-controller timing data in two behaviorally focused
-> patches, then add and select the H616 characteristics in the final fix.
-> Legacy controllers retain their existing setup-cycle behavior and delay
-> encodings.
->
-> Tested on an H616 board with Toshiba TC58NVG1S3H NAND.
->
-> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+[1/1] mtd: rawnand: sunxi: add H616 MBUS DMA support
+      commit: 5ee37db34637ca6e33ce01d7062cb31275484404
 
-There are a number of checkpatch issue. Can you please fix them? (except
-the camelcase one which is fine with timing names coming from the ONFI
-spec).
+Patche(s) should be available on mtd/linux.git and will be
+part of the next PR (provided that no robot complains by then).
 
-Thanks,
-Miqu=C3=A8l
+Kind regards,
+Miquèl
+
