@@ -1,55 +1,54 @@
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 603E439182E
-	for <linux-sunxi@lists.linux.dev>; Fri,  7 Aug 2026 13:56:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AFC38B158
+	for <linux-sunxi@lists.linux.dev>; Fri,  7 Aug 2026 13:58:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786111020; cv=none; b=WI0SMThYy6LY/RqD9c/u0Z7SK3ufdxrcPTqkR5zfcbXsJagLHyhei7oSxyaJ0Bs75BfhBme8DwmfIBsdyBCBhCHhAfVEbgJ+qGFPRTQj9m1yYb1HU/N14F46ZnPqVVjQcvcybIw5eGyNMcdZSvTanYmIkPeMcqhQiZD5rRzKlm8=
+	t=1786111139; cv=none; b=K7h9fHwZEwQW0mmkJG3oaOgVoq1icPqB6autpda6FmP1s8O8fm6Vb6eHU15gL29Z9Eqj+02KFNTEEpIIa0JwTjbesXPHYiWSJW7fKdxwhTiDrT0iai5JlTKJxu2LHO73NpKt/G3XH15zc6vyAqUG9eixExZ0n/hTPu1UDtuuQ5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786111020; c=relaxed/simple;
-	bh=U20/yY8yeUPz0vFOmPve6+pxju/thQDS8zZ9i8plDZI=;
+	s=arc-20240116; t=1786111139; c=relaxed/simple;
+	bh=ga9YwrOPByLdYiHYo8H6DvEk34V4v2367x//laxUrRs=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=D/k+dlqLHU0uJGNH//gQrvUpu6lHhKZaJf3DG2PvAlsub+RH5wRqOPaedX28PqYsee44k0zp9jt6fua2CFCABv1oRqNL3i5xSwYLmOkik/bDOR/6pV4dSVIS1sdkxDuUE5PyGVlZbuFy0/EnD0Rn9bMGtoJUcMkk1qhulvfqO6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=m4ld7mcJ; arc=none smtp.client-ip=185.246.84.56
+	 MIME-Version:Content-Type; b=SqVQd8WnWz77yqKnI+GskovTkyDW0ZScMwyvKa9t7FeVXKcNlYJSc124Zce/8IF4UwW84mILXVGnC7Uw2Lq9fWJ6263gP6srDtCGTxT6V2w4NQD33VdBUJwcRvPqr3Kyt2Mp0pDzDniG6Y70eCUwPRZzCSKsC5MYZ4hTjT6saCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ScjCdzgX; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="m4ld7mcJ"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ScjCdzgX"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 3D3DB1A14AF;
-	Fri,  7 Aug 2026 13:56:51 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id AECDA1A14AF;
+	Fri,  7 Aug 2026 13:58:53 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 10E1C603F0;
-	Fri,  7 Aug 2026 13:56:51 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A8BB511C37957;
-	Fri,  7 Aug 2026 15:56:47 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 7C544603F0;
+	Fri,  7 Aug 2026 13:58:53 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1A28C11C37949;
+	Fri,  7 Aug 2026 15:58:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1786111010; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1786111128; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=U20/yY8yeUPz0vFOmPve6+pxju/thQDS8zZ9i8plDZI=;
-	b=m4ld7mcJ/8EvQhONDlGD3pR38SbYmnCTvxubioEBqPAUzm7bhBULx9dbfKH4lL2azlkpou
-	oG8OxnurCtS0pdyRJYK2yw1yUU0Z6gFVe82+ZaKQkF5VfoKtNQ3jNRpNH7PTZcAWowhun1
-	Qddkl9fFmIuhmAaYFEOtMBOPxAddmV65ZOtMZkuYKagr4vtnNf7qkpK5+K8Su9p76WpiMp
-	/Cz8hdkWoTSpxBhfavWt1Y7+J6TLrdXfiPfDk6XTbwPhU6C5tg/1oe6saZzyPqBSMEY+l4
-	xtPM2vU5RZ5cX81gsTD5BmeZFQRcaddA/BPhMX6WNulAZF75ktOkA8SgTlsPBw==
+	bh=ga9YwrOPByLdYiHYo8H6DvEk34V4v2367x//laxUrRs=;
+	b=ScjCdzgXo+20f1TJ6yi9Y/gKNAsJXE1WMAzB6zofImyQULjEyDv5RGjTT33PlmgCknlKbS
+	VJSaztZ959rp0Y7HWX9dRfOBnoycM+h5mLttSH99O4Vv5pymAx8bXhTBppiznhFVqOvQyF
+	YzaOojK9GvGdrS+wNZEmdWMausOaHCKSaVsTsUC9udre0NzV5UMqu4NyqmFt6Cngzb0JYq
+	06vrCjL1Wp4j/LwTVG/wwMtxZmQXRgKbrzpKdNFC9Wh2fj+On6LT39EgskXzsYwQu5m8Ax
+	nuRQ1dDgw5P2o60WVuWk6wasqhQa9V9IKYH2LBTIfRFDfupQVAzfR3uDMSfjHA==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
 To: James Hilliard <james.hilliard1@gmail.com>
-Cc: linux-mtd@lists.infradead.org,  linux-sunxi@lists.linux.dev,  Richard
- Weinberger <richard@nod.at>,  Vignesh Raghavendra <vigneshr@ti.com>,
-  Chen-Yu Tsai <wens@kernel.org>,  Jernej Skrabec
+Cc: Richard Weinberger <richard@nod.at>,  Vignesh Raghavendra
+ <vigneshr@ti.com>,  Chen-Yu Tsai <wens@kernel.org>,  Jernej Skrabec
  <jernej.skrabec@gmail.com>,  Samuel Holland <samuel@sholland.org>,
-  Richard Genoud <richard.genoud@bootlin.com>,  Geert Uytterhoeven
- <geert+renesas@glider.be>,  linux-arm-kernel@lists.infradead.org,
-  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] mtd: rawnand: sunxi: add H616 MBUS DMA support
-In-Reply-To: <87tsp6avc2.fsf@bootlin.com> (Miquel Raynal's message of "Fri, 07
-	Aug 2026 15:55:41 +0200")
-References: <20260717164202.3099982-1-james.hilliard1@gmail.com>
-	<87tsp6avc2.fsf@bootlin.com>
+  Richard Genoud <richard.genoud@bootlin.com>,
+  linux-mtd@lists.infradead.org,  linux-arm-kernel@lists.infradead.org,
+  linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org,
+  stable@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] mtd: rawnand: sunxi: fix H6/H616 controller timings
+In-Reply-To: <20260717-submit-sunxi-nand-h6-h616-timings-v2-0-225515107640@gmail.com>
+	(James Hilliard's message of "Fri, 17 Jul 2026 11:33:56 -0600")
+References: <20260717-submit-sunxi-nand-h6-h616-timings-v2-0-225515107640@gmail.com>
 User-Agent: mu4e 1.12.12; emacs 30.2
-Date: Fri, 07 Aug 2026 15:56:47 +0200
-Message-ID: <87o6feava8.fsf@bootlin.com>
+Date: Fri, 07 Aug 2026 15:58:46 +0200
+Message-ID: <87ik5mav6x.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -60,11 +59,29 @@ Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-Last-TLS-Session-Version: TLSv1.3
 
+Hi James,
 
-> This patch does not apply (linux-mtd repository, nand/next branch). You
-> need to rebase and send a new iteration.
+On 17/07/2026 at 11:33:56 -06, James Hilliard <james.hilliard1@gmail.com> w=
+rote:
 
-Nevermind, I got it applied twice and the error was of course due to the
-second try, my bad, no need to resend.
+> The sunxi NAND timing solver currently applies the original A10 NDFC
+> timing characteristics to every supported controller. The H6/H616 NDFC
+> uses two internal cycles for several setup and hold intervals and has
+> different delay-field encodings, so the resulting clock and timing
+> register values do not match the hardware.
+>
+> Prepare for per-controller timing data in two behaviorally focused
+> patches, then add and select the H616 characteristics in the final fix.
+> Legacy controllers retain their existing setup-cycle behavior and delay
+> encodings.
+>
+> Tested on an H616 board with Toshiba TC58NVG1S3H NAND.
+>
+> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 
+There are a number of checkpatch issue. Can you please fix them? (except
+the camelcase one which is fine with timing names coming from the ONFI
+spec).
+
+Thanks,
 Miqu=C3=A8l
