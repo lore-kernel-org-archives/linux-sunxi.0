@@ -1,207 +1,134 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 280094B0486
-	for <linux-sunxi@lists.linux.dev>; Sat,  8 Aug 2026 11:30:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 174D32E737E
+	for <linux-sunxi@lists.linux.dev>; Sat,  8 Aug 2026 11:37:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786188638; cv=none; b=sacCvBVYq2ku5xE/ggGC8wF/uk5t0fKhvD4jTg3LWX4H6XHtmHgysp54MUcbMqfGrFwjU9IdZPuE/LXtR2LgS+Qgdab+vecF4r2McDZajnrwKbdPg2Ay2H7vJEaSTD6Uz+Xe3/NgPLEce4DRe1sRuCdvJZVjy5NYI9Z8vWvc+zQ=
+	t=1786189039; cv=none; b=cKEbr6iE7FTKcYsgBhDvF6X52RP+fUvujJauESbdbh/NX/iv0Xdo/rR02I5a7S2D3flK9E2rjVUoV/t7weyIW2MMYXlPoPodt604CU84W9drjxZe54Twzl9M5eQMJBOfK6AqmtGATvzpx7zw/f6zUSMUXtoh7iEDWNUqrPYQFGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786188638; c=relaxed/simple;
-	bh=ZshMVdd3LcDq3bzkVOpSVL0A0qPL2BHfLeZWtCPg7Z8=;
+	s=arc-20240116; t=1786189039; c=relaxed/simple;
+	bh=WqXBSPUxGd0qLmsjrnoA4ccDcqdUdR72jWmp10yG1R8=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=S0oMhzMAL4uqgCUv06i7MmEtlxI4jqbAnz9iKzQ+p/1E3+lq/agjU+AH9x5gmXXmOa/mhRX3TUJ6eVl3hYHbOCtPfmmKjLx2nIWUEPiu4w2eNFD7WZSTtx9wgXR+Jhvp7c3I+y4UJRVa+K1ReIX7OYwWSe/A/dXwOr/Yl7a5Tvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F3WBRWE+; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=mq+WMtTCJ9EKZlE1eWKwwVXUETE5srIUunDcM/n2C4NvhzZn/4WRaDrUUloBlhhQzcpqIArFKF38gtJVZKlTPCYADrFmCacXVt70sPnykx3QiM//tuE1rSO/MyYnmfvUU0r0iOJaubqPMnp/CsIu1sCgKLQ41tNtODhJiCtYYzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BVKzfdTv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F3WBRWE+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CE0C1F000E9;
-	Sat,  8 Aug 2026 11:30:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BVKzfdTv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F8CA1F000E9;
+	Sat,  8 Aug 2026 11:37:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786188636;
-	bh=8SI8H7G/naghe8F+zdj36GmDg6Afkm3/TgPi9alGVLE=;
+	s=k20260515; t=1786189037;
+	bh=EfUDqw8xOSqJtJiZbwEVAhGcCClyQNt6BFSdU9Dts1s=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=F3WBRWE+kqc2KGBFxcBCT7EnsYdBQRkc6V58mv26yG5Ur2MTFTz4oYyoq++NnSZTh
-	 X6MuNEm3wLUMyf6KsvCaHb6p+T93zJYHI/amkIx9fp6DgTNXXTaHfIla2TOHJVbX9k
-	 Jx+53NbZUc1XQdNMns63++6nFoW8v10UHU/BAsdCi1DO5ikvqVTCBZ/UgwZfSTU0/5
-	 7s4RaSsK0OF6B7A0GGzfYd42QrxbuYE7wsOGqAJW/9JvASaQCP9+xVIGIrdVq9D56p
-	 IxSHI8F0GB+zoq79OExpWYnypRGLw1Tf++uieGWjUoGqzSDgRQJ+vcXmotHmGxZ5Ba
-	 8RX2ivKXu2Org==
+	b=BVKzfdTvHZWRBlm3fxgbcg8jZaxsZTG5ySEkLgGCtj+5yRMWzbBla2CEwK8XZwzuG
+	 SDEUsONvzSEM0Bo5T/NLV/qEg4Vvg2wJNC7qy049lW8bWqLQi5q87z7y37CvLaU+zP
+	 j0Ofotqt1B1SzAaNmpD6VU6R2mU9vsIi0V/FXb6lkx77qt+JYQNLpmIYomZ4B1tUz6
+	 Mn3MnA0Ij9H7iC1IkQsZCLvH3GWN61P+bzX+RGZQteuPTGN/chzzZzIh/sxDVktx0e
+	 mP7CxR44k9wOhmDzVwkhnHijgvbPAD9GyVlAfatO5FFrd9RSMRQ8GIjfxaZ2r80jIr
+	 ltF9nBREQOGQA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v1 2/3] media: sun4i-csi: disable interrupts when
- stopping streaming
+Subject: Re: [PATCH v1 1/3] media: sun4i-csi: fix video device and subdev
+ leak in notify_complete()
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Cong Nguyen" <congnt264@gmail.com>
 Cc: linux-sunxi@lists.linux.dev, media-ci@linuxtv.org
-In-Reply-To: <f0f044148ec5c160d76e6e38d1f53393ec56578a.1786184456.git.congnt264@gmail.com>
+In-Reply-To: <7804a3c87beefde14e0358fa2a11e63005525890.1786184456.git.congnt264@gmail.com>
 References: <cover.1786184456.git.congnt264@gmail.com>
- <f0f044148ec5c160d76e6e38d1f53393ec56578a.1786184456.git.congnt264@gmail.com>
+ <7804a3c87beefde14e0358fa2a11e63005525890.1786184456.git.congnt264@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 08 Aug 2026 11:30:36 +0000
-Message-Id: <20260808113036.8CE0C1F000E9@smtp.kernel.org>
+Date: Sat, 08 Aug 2026 11:37:16 +0000
+Message-Id: <20260808113717.3F8CA1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
 
-New issues:
-- [High] Missing read-back to flush the posted write before `synchronize_ir=
-q()`.
-
 Pre-existing issues:
-- [High] The error path in `sun4i_csi_start_streaming()` fails to disable t=
-he frame-done interrupt and synchronize the IRQ, causing DMA use-after-free=
- and system crashes.
-- [High] The `sun4i_csi` structure is subjected to a Use-After-Free because=
- its embedded `video_device` uses an empty release callback.
-- [High] The driver frees DMA buffers while the hardware may still be activ=
-ely writing to them.
+- [High] The driver embeds `struct video_device` inside a `devm`-managed st=
+ructure and uses `video_device_release_empty`, causing a Use-After-Free (UA=
+F) vulnerability. This problem wasn't introduced by this patch, but the pat=
+ch fails to resolve the underlying race condition when unwinding registrati=
+ons.
+- [Medium] Missing `v4l2_async_nf_cleanup()` in the `sun4i_csi_probe()` err=
+or path causes a memory and fwnode reference leak of async connections. Thi=
+s problem wasn't introduced by this patch.
 --
 
---- Patch [2]: [PATCH v1 2/3] media: sun4i-csi: disable interrupts when sto=
-pping streaming ---
-commit dbface35706640e625b0b1ec0a6ec2b6918d0fc4
+--- Patch [1]: [PATCH v1 1/3] media: sun4i-csi: fix video device and subdev=
+ leak in notify_complete() ---
+commit 1bfbebedd93671de734cc0e7671a5f4e99b9ff15
 Author: Cong Nguyen <congnt264@gmail.com>
 
-media: sun4i-csi: disable interrupts when stopping streaming
+media: sun4i-csi: fix video device and subdev leak in notify_complete()
 
-sun4i_csi_start_streaming() enables the frame-done interrupt in
-CSI_INT_EN_REG, but sun4i_csi_stop_streaming() only stops the capture
-engine (CSI_CPT_CTRL_REG) via sun4i_csi_capture_stop().
+This patch fixes an issue in sun4i_csi_notify_complete() where the video
+device and bridge subdev were left registered if later initialization steps
+failed. It unwinds the registrations in reverse order to avoid leaving the
+driver in a half-registered state.
 
-Clear CSI_INT_EN_REG and call synchronize_irq() in stop_streaming(), before
-returning the active buffers and freeing the scratch buffer, so no handler
-can run past this point.
-
-Fixes: 577bbf23b758 ("media: sunxi: Add A10 CSI driver")
-Cc: stable@vger.kernel.org
-
-> diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h b/drivers=
-/media/platform/sunxi/sun4i-csi/sun4i_csi.h
-> index 4e0c2df45d4d2..51173faea8719 100644
-> --- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h
-> +++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h
-> @@ -112,6 +112,7 @@ struct sun4i_csi {
->  	const struct sun4i_csi_traits	*traits;
-> =20
->  	void __iomem			*regs;
-> +	int				irq;
->  	struct clk			*bus_clk;
->  	struct clk			*isp_clk;
->  	struct clk			*ram_clk;
-
-[Severity: High]
-This isn't a regression introduced by this patch, but since the struct is
-modified here, is it possible this structure suffers from a use-after-free?
-
-The sun4i_csi structure is allocated using devm_kzalloc() in sun4i_csi_prob=
-e():
-
-    csi =3D devm_kzalloc(&pdev->dev, sizeof(*csi), GFP_KERNEL);
-
-However, the embedded video_device struct sets its release callback to
-video_device_release_empty in sun4i_csi_v4l2_register():
-
-    vdev->release =3D video_device_release_empty;
-
-This breaks the V4L2 reference counting model. If the device is unbound whi=
-le
-a userspace application holds the video device file descriptor open,
-devm_kzalloc frees the csi structure. A subsequent close of the file
-descriptor or ioctl will access the freed csi structure, leading to a
-use-after-free.
+> diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c b/drivers=
+/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+> index e53a07b770b7e..a8711336a7540 100644
+> --- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+> +++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
 
 [ ... ]
 
-> diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c b/drivers=
-/media/platform/sunxi/sun4i-csi/sun4i_dma.c
-> index 4781db21c2055..8804189a6e38c 100644
-> --- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
-> +++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
-> @@ -356,6 +356,16 @@ static void sun4i_csi_stop_streaming(struct vb2_queu=
-e *vq)
->  	v4l2_subdev_call(csi->src_subdev, video, s_stream, 0);
->  	sun4i_csi_capture_stop(csi);
+> @@ -114,6 +114,10 @@ static int sun4i_csi_notify_complete(struct v4l2_asy=
+nc_notifier *notifier)
 > =20
-> +	/*
-> +	 * Disable the frame done interrupt and wait for the handler to
-> +	 * finish. A frame may complete right as capture is stopped, so an
-> +	 * interrupt can still be pending here; without this the handler could
-> +	 * run after the device is powered down (pm_runtime_put() on release)
-> +	 * and access registers on a gated block.
-> +	 */
-> +	writel(0, csi->regs + CSI_INT_EN_REG);
-> +	synchronize_irq(csi->irq);
+>  err_clean_media:
+>  	media_device_unregister(&csi->mdev);
+> +err_unregister_video:
+> +	vb2_video_unregister_device(&csi->vdev);
 
 [Severity: High]
-Does this regression need a read back to flush the posted write before call=
-ing
-synchronize_irq()?
+This is a pre-existing issue, but could this error handling path lead to a
+use-after-free regression if userspace races to open the device?
 
-writel() performs a posted write on the memory bus, meaning it is buffered
-and may not reach the interrupt controller immediately. Without a dummy
-readl() to the same register to flush the write buffer, synchronize_irq()
-may execute and return before the hardware actually disables the interrupt.
+Because the csi structure is allocated with devm_kzalloc() in
+sun4i_csi_probe(), it will be automatically freed when probe fails.
+Meanwhile, sun4i_csi_v4l2_register() sets vdev->release to
+video_device_release_empty.
 
-This could leave a race window where the device could raise a new interrupt
-just after synchronize_irq() finishes, leading to a handler running after
-the device is powered down or buffers are freed.
+If media_device_register() fails, this new error path calls
+vb2_video_unregister_device(), which unregisters the sysfs node but cannot
+revoke file descriptors if userspace has already opened /dev/videoX.
 
-> +
->  	/* Release all active buffers */
->  	spin_lock_irqsave(&csi->qlock, flags);
->  	return_all_buffers(csi, VB2_BUF_STATE_ERROR);
+When the file descriptor is eventually closed, could this lead to a
+dereference of the freed csi structure in sun4i_csi_release() and when
+the V4L2 core attempts to put the device?
 
-[Severity: High]
-This isn't a regression introduced by this patch, but could this code free =
-DMA
-buffers while the hardware may still be actively writing to them?
+> +err_unregister_subdev:
+> +	v4l2_device_unregister_subdev(subdev);
+> =20
+>  	return ret;
+>  }
 
-As noted in the commit message, stopping the capture engine via
-sun4i_csi_capture_stop() only stops it at the end of the current frame.
-However, sun4i_csi_stop_streaming() immediately frees the DMA scratch buffer
-and returns all active buffers to the core without waiting for the hardware
-to become idle.
+[Severity: Medium]
+This isn't a bug introduced by this patch, but does the error path in
+sun4i_csi_probe() cause a memory leak regression for async connection
+structures and fwnode references?
 
-Although the interrupt is disabled, the hardware DMA engine remains active
-and will continue writing the remainder of the frame into the freed scratch
-memory or into buffers that userspace might have already reclaimed.
+When sun4i_csi_notifier_init() succeeds, it allocates an async connection
+and grabs a fwnode reference. If the subsequent v4l2_async_nf_register()
+call fails, the error path exits without calling v4l2_async_nf_cleanup():
 
-Additionally, would the error path in sun4i_csi_start_streaming() also suff=
-er
-from the same problem?
-
-drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c:sun4i_csi_start_streamin=
-g() {
+drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c:sun4i_csi_probe() {
     ...
-    ret =3D v4l2_subdev_call(csi->src_subdev, video, s_stream, 1);
-    if (ret < 0 && ret !=3D -ENOIOCTLCMD)
-        goto err_disable_device;
-
-    return 0;
-
-err_disable_device:
-    sun4i_csi_capture_stop(csi);
-    ...
-err_free_scratch_buffer:
-    dma_free_coherent(csi->dev, csi->scratch.size, csi->scratch.vaddr,
-                      csi->scratch.paddr);
-
-err_clear_dma_queue:
-    spin_lock_irqsave(&csi->qlock, flags);
-    return_all_buffers(csi, VB2_BUF_STATE_QUEUED);
-    spin_unlock_irqrestore(&csi->qlock, flags);
+err_unregister_media:
+	media_device_unregister(&csi->mdev);
     ...
 }
 
-The err_disable_device path stops capture but does not disable the interrupt
-or wait for the hardware to finish before freeing the scratch buffer and
-returning all queued buffers.
+Could this result in abandoning those allocations and leaking fwnode
+references since the cleanup isn't performed?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1786184456.gi=
-t.congnt264@gmail.com?part=3D2
+t.congnt264@gmail.com?part=3D1
