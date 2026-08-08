@@ -1,143 +1,289 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5CE37AA7D
-	for <linux-sunxi@lists.linux.dev>; Sat,  8 Aug 2026 11:17:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786187859; cv=none; b=hJ40E8Z5aGiVJTHczEXYL/jrr/X2/vKU5Zb2ZVoHS6iE35MeQEw6iSTzfzgNefsWavPnMfaMB4H1JjY9u/pFobLVqt+8ZV3ez8rjlZfYLTF1bvKSaEg+vP5nrF8SnEGlrGLZnZ/4J8qGYsu/lv1s1L01ciJXG75lXh8m6yKu4qY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786187859; c=relaxed/simple;
-	bh=ON1kS1no0SPn9XlGXhFU53i+x3fCGvAcs6uB4rd1MZ8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=U8b2/1ls/50ala7y1k1Uc1KBwTFHFh3F8787zd5tVTFcFj+p2Ou43tmD9Ef+zIWz/vb7Yfh6X9I/VKEI8nnu7g9jEelzBKMR1pW0r/uc9CrYzGD5z9LeK/+Jz0CNkSEgG5d3m3sCh6x5Ee5ZjPMhub0a2oKzPUg0umdNtdlf+5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SM1ES7tQ; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B9FF3009F6
+	for <linux-sunxi@lists.linux.dev>; Sat,  8 Aug 2026 11:20:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786188030; cv=pass; b=oe2o2Pivjsa9qf3zM1X55RHYgqo3ThpY90bOUam4Gxymj/laVC813otR5k7JLnAJuT6jKHo7ulsxBu5CChAMTmBKArM3r2mB4kWZ+u3JCtBDJsROdg1eXnv+LiM74JJaPfq5Wnawp6x1MvAAgRIff90Qn3oLCkw0MUu+mNymGyw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786188030; c=relaxed/simple;
+	bh=TWLphmIi2kimQzCJscprLxq2t1Tk6kjAiP54AgHPs9o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BVcCTVVxDCtQYP+boCHbgU36kcoQ8WKJ5Lac2DuvpdXk2qRRUrGppJu+EmDA0RxTLGxmMYva8qGB8CBizDVvxrMEZmGAjJADaYfluWH20wXGqKTCYLGws6yuCJqbgXVLq5vxaCFWUzQRd7a3Asx3VLMjrbKTyQvHMHeS0rMgueg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pWG3vIMz; arc=pass smtp.client-ip=209.85.128.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SM1ES7tQ"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2cc7e86e7aeso3855585ad.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 08 Aug 2026 04:17:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pWG3vIMz"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-8143daf89c7so3200017b3.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 08 Aug 2026 04:20:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786188028; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ESqzzuUHoFplwwp5o2KnFw2hq7/G1PVB9kFhJyqJRy0+we50ipb0lf5iWv835x1Cga
+         f8wapHC/LKnV1cBhxV0Z+szmXO9+oYhF0zJLhyZJ8MpONVEW7nt8W4r0Sxf4ERMNAXTP
+         ISOf0DB4fGRsrzCKyizeDz6Mpo4S6iAEGPbF431LpMGijQ/r2aE08JYkvVuwVatO3MC+
+         lLvnYKH9icKdyM+Jc9sjah/3+aWpuuDT27mKUjLtjcmRoBMtYG3fTiw/OI7pvfoY/Ljz
+         e9QLHI8cOKF3LlJ11jeyD9PhPe4bAIv/Tc3d9FZmY3qAA+gedrJa/Oiz6lQF0r+Wd4AR
+         6jNQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=3lMTBDnwIBEolYLfeXzMCEeMWNrHRiWHBpgIPWsoSmI=;
+        fh=8hFTKKh49ZEqWkxWTfPlyKoHujrchEIhafrfeqw6880=;
+        b=Z2+NnXy2hWn6xlzWS/iuZmB3LaJ3wMY9DbUAAhSTOhaM3tQeqwpQS7OpQ1DTaKMFx+
+         v6eg9yO8EEl7RI4LnhCi6X72CVaJA3Jw8x6dwi/IlZBLGJI5aQEQaw2IcTi6iouQdGrt
+         ZINg7T6s/jr0x0VMDJvfyJMEPQP5TG5bYlUDqQcOBX8wreiwmO9PlNrOGY23t37rf8eE
+         FvvMH6GNpCgp2IWvnGq17ZPkQ8AjUIAUG0i6L8hZsBw+GzmMypR8KRZGf9Dan6/xbmF3
+         PNmkekCKehwo8CkGkTuxU54YN23yt1dDNtPy/8tFxN7rDQ8sNw7bISrZZstgu1zftCA3
+         OiyQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786187857; x=1786792657; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=3Vav1/IZDRyi5TmIe+ztFcmW7gzOkBU4RfYMZP3HSBU=;
-        b=SM1ES7tQ6h0rfeNhsLqGZuaLNGuVPpXPbESvH7r3quQMGXym/RGL/WPBrUI4yDRnl2
-         9wVH3uoFsXwAwHIcP2PKtSo4cliVlU9N6so2VrGOxiZ4jpIdU/7UZ/+LIEeM0gVYEpss
-         t3yVvnxURkic26+8bU6OQw22SjeMKproYIHYuJosVRbIkNQ54UktwXgNRdZt15soVNdD
-         EDTGKR8RibOm8CKGAKijdFYBdeddlEAU5n4+UyL1zffWYPzXmre/2+F2jRyZ8HFSqdpP
-         SxrGynT4VkyqZEijyJj7zLzu5i/GBz6nUxF5ES9xgbxlYDRnvqZm5KGCLDWwazrsJ2bP
-         WGig==
+        d=gmail.com; s=20251104; t=1786188028; x=1786792828; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=3lMTBDnwIBEolYLfeXzMCEeMWNrHRiWHBpgIPWsoSmI=;
+        b=pWG3vIMzlHD+8NdVTbULHuSXub+k5aLwgyP5hs4GpAOCzya8TBU83NIV1ved9byt3G
+         xKWmn/VdyAVguHFtmDbk/16lwm5Kize5tf7LOQ4kSNjeCfzBmqY5p53z4GTfeO7ayaX/
+         kFQ9eSwMAY+tIxy97ph7XFXgkFIF2TEmFNBBmnqaSDlS2bnL32m0gSMARxY5wdL6Z7y1
+         +jYbSJ2NwAOY/6U28PlJlLwIGJFVooWxmWosymDhz9jAHlcu2QUPR/sKNfbDdlmTSsDk
+         GP8Dh6Sir4TXXAOv7Ho9yz0Nnza1URAXZaSog7+OTIrsaFo+FnhrqVaVZ5SFeL9I99Hv
+         Smtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786187857; x=1786792657;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3Vav1/IZDRyi5TmIe+ztFcmW7gzOkBU4RfYMZP3HSBU=;
-        b=NekH3giiG0MM3xlAtnJ0J5DR5WNZFraU0yL07SHIXvM6LMpE+o26glQ/LBPit+q6c8
-         Vy7oND31f0etBESB1ohSGScjzfyJHAiUX2cXwXH3rauHON/VzKxjtPZbY4rX6OIcBYaT
-         WQQTHZXWIFVx/uW+WoxIJ8hzaRsFVv+MpdoZHsmEhvRoxW56H46H98laCtaAaS4fijaU
-         z7Ri1W0Mzh1J/LaonuplAtSGWmM/wewiw1Z9nfy2mcpAvmxkfsP6B0yet5ZWKcna3NWq
-         TK1R+rGMDj8Q7F5rwPOCj9O0XYeCcuuOo39zzAXsJI3wu5k/jSdvSXp94TnOzlq6pnaw
-         nfIQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoCAuSW7HRIciZiTSPrqXb6a3mfHnionvvZlW+J8Gb5pud2/DwCkN+wdBbw7U3potDUjNbKj3gXz3H4Hw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy/VHC7YNcjE48fBknGV9TU/K9dbhn3zGzJsO06+LlTjdwQE3+e
-	ghvzDdEdQbL07ldJIJ/l3Kvi/lBEOUdB3LC1yV74FK+8I0rqXMCBkQfI
-X-Gm-Gg: AR+sD13ES3gL6JF9hoTa1qx/Na2q945sIk52lbCJM5aOaltjSA0UXjn+zbLcC6jB3fA
-	UlsP34y2ZmR3i9hEuuJfF3Bpd0/cF62gIzlYYxCNDKjudFey+chiW4vdEg6VD/LSqZNAFxI7R9X
-	dufjGszQpd5Tg4zLvZ0Sp8kqbCKfMCJop65rYSSVYCcHW/h3TjbqRsQQuxhOUNkSRtlXl4jINnp
-	0gsWAj921I6eg8YFZjYT7N8abpQtJaTo2h3iK74uEo6d3BhBN4Pmb7rvAkPElp3NBu0gVDVeS9X
-	J1vpAdqQ3R8hW2KS8u2PRjvwGg7EJNJABMdhWUlTWtQrMuy4QzwcydKF+5hpf5OyVNS7l5QwNUD
-	M5CJqkB+b14eDn4TPQL0mV/W4uNZCydis+8epY3hSUQSA2JS8Ak37g8VWwgE1pU5mbNPLh0v3QT
-	BkjMGxtMExaA/aytQJWA0f2uohc4MZJDjsOg/l1NpDPVhs77TMxo2K4MjmvErNYse7+MsRTRyxl
-	m4+KA==
-X-Received: by 2002:a17:90b:448b:b0:38e:524:8797 with SMTP id 98e67ed59e1d1-3909d8c3b9cmr13238521a91.13.1786187857487;
-        Sat, 08 Aug 2026 04:17:37 -0700 (PDT)
-Received: from SGN-LDSENG.tasernet.com ([2405:4800:5cc3:11a:1ac0:4dff:fe8b:4a69])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315bebde308sm18356313eec.20.2026.08.08.04.17.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Aug 2026 04:17:37 -0700 (PDT)
-From: Cong Nguyen <congnt264@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Cc: Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Cong Nguyen <congnt264@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v1 3/3] media: sun4i-csi: add notifier unbind callback to drop the source subdev
-Date: Sat,  8 Aug 2026 18:17:28 +0700
-Message-Id: <61d4901af20a4d2d0f9484328c173bbdfc52ec05.1786184456.git.congnt264@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1786184456.git.congnt264@gmail.com>
-References: <cover.1786184456.git.congnt264@gmail.com>
+        d=1e100.net; s=20251104; t=1786188028; x=1786792828;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3lMTBDnwIBEolYLfeXzMCEeMWNrHRiWHBpgIPWsoSmI=;
+        b=UnHSqxwEC91qMQUDpfu9MGSbpvkOIwpdMYliS+fc3j9aIsVXsfyQsJmrOcQtc9lUFd
+         qOpLe5PnmSSXRYHP6/BtvgqUy8yt1gJrG1VXmtbE2WLI3Hjo97UuQc0XuRbBf9gvVWr+
+         ge2wnqIQw3YJ1njrM2PsB/4mKYFuiasVXgMNGZLm/FiQ+p7j0cwAtZ6mTdj8GEOWW2n3
+         Hny/fLi9FlRCDH0fM5AI+e0GoB0Ik7rrAjXr1NaR5B+FQAkBueLGDhGMMiIxrKJctnE/
+         ceYrj8G017QAepFvTRNixvLlz1yOiX2bmV9MuKzLPozE3bb9CzwxBLywYqBBQnZyCH/M
+         R6Vg==
+X-Forwarded-Encrypted: i=1; AHgh+RqTcO4A9cszCE+avdg6uwwCK4SxkOJQ44bsdxJLplnnfo3TzmjhZImGCODkg0hf2auirltH01Qs1vqKxQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzvUzeDbFEeahKu3WhXqVJTtU8wXYQs+JJQYSfondx3AtMoRZY+
+	gGA/pCBRDJkBW23ziEtj5xeSAeXaGKgMLN0dgb1M+d50U3kB6IhQ6THRF/+xO6+9IFK9X6QQIU5
+	MdmAXWRJP9/xJ64syi203hCUzxWv4ap0=
+X-Gm-Gg: AR+sD12FwNjeCqnMSACkQh/JqsqVxIJoHo/hV8CwOzey2WpLTv+XKLgyQYlfW8GMQYA
+	o1XTyDQANP3pO6dRm7Qnm91hSgOZVXgBs8YzTgG3qUe8S2u1IGCxFw0VcjTCN7AQJrypYTq7rTa
+	SbS741ooeqCi6lwO8EMa5rIGwIcr6JnK2xEMmpWQt1kyoFqMgJTr6sCpEdwdRGA1NlbdgO99qWs
+	U2rsL/mo6hXJ+WGBxTZmb728DAM2Jog9IRaiGQw2gA6S2O0bolFwLk8Prx3W01i0LQdcpkXCB2D
+	0Tj76E+LIJo4iaiDULxRdQLHAFMCkzFOtIeqcKD8YwG8
+X-Received: by 2002:a05:690c:4587:b0:81e:6c2e:f114 with SMTP id
+ 00721157ae682-8225d08d51bmr92640247b3.30.1786188027924; Sat, 08 Aug 2026
+ 04:20:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260808091151.2691482-1-congnt264@gmail.com> <20260808092336.B72451F000E9@smtp.kernel.org>
+In-Reply-To: <20260808092336.B72451F000E9@smtp.kernel.org>
+From: =?UTF-8?B?Tmd1eeG7hW4gQ8O0bmc=?= <congnt264@gmail.com>
+Date: Sat, 8 Aug 2026 18:20:17 +0700
+X-Gm-Features: AUfX_mwL9hQFTg60PgMNaG31rZwxLVbY7r_wH_4Q0kmBiIMOXsojo4RGbteIBU8
+Message-ID: <CAJpJ=GuZhiU7NurhLqVgLzRd-pc2hD2OR4zP_gycMJ81KXrRcA@mail.gmail.com>
+Subject: Re: [PATCH] media: sun4i-csi: fix async connection leak when notifier
+ registration fails
+To: sashiko-reviews@lists.linux.dev
+Cc: media-ci@linuxtv.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-sun4i_csi_notify_ops only implements .bound and .complete. When the remote
-sensor's subdevice goes away (e.g. its module is unloaded), the V4L2 async
-core unbinds and frees it, but the driver keeps the stale pointer in
-csi->src_subdev and leaves the video node registered.
+On Sat, Aug 8, 2026 at 4:23=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
+>
+> Thank you for your contribution! Sashiko AI review found 3 potential issu=
+e(s) to consider:
+>
+> Pre-existing issues:
+> - [High] Missing cleanup of registered video and subdev devices in `sun4i=
+_csi_notify_complete()` error paths leads to device leaks and potential Use=
+-After-Free.
+> - [High] The driver does not disable hardware interrupts or synchronize t=
+he IRQ handler when stopping capture, allowing an interrupt to crash the sy=
+stem after device suspension.
+> - [High] Missing `.unbind` callback allows the video device to retain and=
+ access a freed subdevice pointer (`csi->src_subdev`).
+> --
+>
+> --- Patch [1]: [PATCH] media: sun4i-csi: fix async connection leak when n=
+otifier registration fails ---
+> commit d13febea573e64b9e585c2c1f9b472e41737683c
+> Author: Cong Nguyen <congnt264@gmail.com>
+>
+> media: sun4i-csi: fix async connection leak when notifier registration fa=
+ils
+>
+> sun4i_csi_notifier_init() adds a v4l2_async_connection to the notifier's
+> waiting list with v4l2_async_nf_add_fwnode_remote(). If the subsequent
+> v4l2_async_nf_register() then fails, probe jumps to err_unregister_media,
+> which never calls v4l2_async_nf_cleanup(). The core does not free the
+> waiting list on a failed registration, so the async connection is leaked.
+>
+> Add an err_clean_notifier label that cleans up the notifier on the
+> registration-failure path, matching the teardown done in
+> sun4i_csi_remove(). The notifier-init failure path adds nothing to the
+> notifier and continues to skip the cleanup.
+>
+> > diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c b/drive=
+rs/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+> > index e53a07b770b7e..a8db851ab5a59 100644
+> > --- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+> > +++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+> > @@ -255,13 +255,15 @@ static int sun4i_csi_probe(struct platform_device=
+ *pdev)
+> >       ret =3D v4l2_async_nf_register(&csi->notifier);
+> >       if (ret) {
+> >               dev_err(csi->dev, "Couldn't register our notifier.\n");
+> > -             goto err_unregister_media;
+> > +             goto err_clean_notifier;
+> >       }
+> >
+> >       pm_runtime_enable(&pdev->dev);
+> >
+> >       return 0;
+> >
+> > +err_clean_notifier:
+> > +     v4l2_async_nf_cleanup(&csi->notifier);
+> >  err_unregister_media:
+> >       media_device_unregister(&csi->mdev);
+> >       sun4i_csi_dma_unregister(csi);
+>
+> [Severity: High]
+> This is a pre-existing issue, but does sun4i_csi_notify_complete() leak
+> registered video and subdev devices in its error paths?
+>
+> If media_create_pad_link() or other subsequent operations fail, the error
+> path err_clean_media only unregisters the media device:
+>
+> drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c:sun4i_csi_notify_compl=
+ete() {
+>     ...
+> err_clean_media:
+>         media_device_unregister(&csi->mdev);
+>
+>         return ret;
+> }
+>
+> It doesn't seem to unregister the video device or the subdev. Because thi=
+s
+> failure propagates back to v4l2_async_nf_register(), the probe will fail
+> and the driver's devm-managed memory is freed.
+>
+> Since the /dev/videoX node remains active but points to freed memory,
+> could userspace access trigger a use-after-free?
+>
+> [Severity: High]
+> This isn't a bug introduced by this patch, but is the driver leaving
+> hardware interrupts enabled when stopping capture?
+>
+> In sun4i_csi_stop_streaming(), the hardware capture is stopped, but the
+> interrupt enable register doesn't appear to be cleared and there is no
+> call to synchronize_irq():
+>
+> drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c:sun4i_csi_stop_streami=
+ng() {
+>     ...
+>         v4l2_subdev_call(csi->src_subdev, video, s_stream, 0);
+>         sun4i_csi_capture_stop(csi);
+>
+>         /* Release all active buffers */
+>     ...
+> }
+>
+> Because capture stops at the end of the current frame, a frame-done
+> interrupt could fire shortly after this function returns. If userspace
+> closes the device, sun4i_csi_release() invokes pm_runtime_put(), powering
+> down the hardware block.
+>
+> When the delayed interrupt fires, could the interrupt handler attempt to =
+read
+> registers on powered-down hardware and cause a system crash?
+>
+> drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c:sun4i_csi_irq() {
+>     ...
+>         reg =3D readl(csi->regs + CSI_INT_STA_REG);
+>
+>         /* Acknowledge the interrupts */
+>         writel(reg, csi->regs + CSI_INT_STA_REG);
+>     ...
+> }
+>
+> [Severity: High]
+> This is a pre-existing issue, but is sun4i_csi_notify_ops missing an
+> .unbind callback?
+>
+> drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c:
+>     ...
+> static const struct v4l2_async_notifier_operations sun4i_csi_notify_ops =
+=3D {
+>         .bound          =3D sun4i_csi_notify_bound,
+>         .complete       =3D sun4i_csi_notify_complete,
+> };
+>     ...
+>
+> If the remote sensor module is unloaded, the V4L2 async core unbinds
+> and frees the subdevice, but it appears csi->src_subdev is never cleared
+> and the video node is never unregistered.
+>
+> If userspace calls VIDIOC_STREAMON afterward, does sun4i_csi_start_stream=
+ing()
+> dereference the freed csi->src_subdev pointer here?
+>
+> drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c:sun4i_csi_start_stream=
+ing() {
+>     ...
+>         ret =3D v4l2_subdev_call(csi->src_subdev, video, s_stream, 1);
+>         if (ret < 0 && ret !=3D -ENOIOCTLCMD)
+>                 goto err_disable_device;
+>     ...
+> }
+>
+> --
+> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260808091151.26=
+91482-1-congnt264@gmail.com?part=3D1
 
-A subsequent VIDIOC_STREAMON reaches sun4i_csi_start_streaming(), which
-calls v4l2_subdev_call(csi->src_subdev, video, s_stream, 1) on the freed
-subdev, resulting in a use-after-free.
+Thanks for the review. I checked all three against the code =E2=80=94 they =
+are
+all real pre-existing bugs, independent of this async-notifier cleanup
+patch. I've prepared a separate 3-patch series to address them:
 
-Add an .unbind callback that unregisters the video device so userspace can
-no longer start streaming, and clears csi->src_subdev. Unregistering the
-already-unregistered video device again in sun4i_csi_remove() is harmless
-(vb2_video_unregister_device() is a no-op when it is not registered).
+1. Missing cleanup in sun4i_csi_notify_complete() error paths
 
-Fixes: 577bbf23b758 ("media: sunxi: Add A10 CSI driver")
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-opus-4
-Signed-off-by: Cong Nguyen <congnt264@gmail.com>
----
- .../media/platform/sunxi/sun4i-csi/sun4i_csi.c  | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+   Confirmed. sun4i_csi_v4l2_register() calls video_register_device(), so
+   /dev/videoX is live before the pad links and subdev nodes are set up.
+   On failure err_clean_media only unregisters the media device, leaving
+   the video device (and the bridge subdev) registered. Since the failure
+   aborts probe, the devm-managed sun4i_csi (which embeds the video_device)
+   is freed while the node is still registered -> UAF on open(). Fixed by
+   unwinding the registrations in reverse order, matching sun4i_csi_remove(=
+).
 
-diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-index a8711336a754..6610ada1c06d 100644
---- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-+++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-@@ -122,8 +122,25 @@ static int sun4i_csi_notify_complete(struct v4l2_async_notifier *notifier)
- 	return ret;
- }
- 
-+static void sun4i_csi_notify_unbind(struct v4l2_async_notifier *notifier,
-+				    struct v4l2_subdev *subdev,
-+				    struct v4l2_async_connection *asd)
-+{
-+	struct sun4i_csi *csi = container_of(notifier, struct sun4i_csi,
-+					     notifier);
-+
-+	/*
-+	 * The remote subdev is being freed. Tear down the video node so
-+	 * userspace can no longer reach sun4i_csi_start_streaming() and
-+	 * dereference the now dangling source subdev, and drop the pointer.
-+	 */
-+	vb2_video_unregister_device(&csi->vdev);
-+	csi->src_subdev = NULL;
-+}
-+
- static const struct v4l2_async_notifier_operations sun4i_csi_notify_ops = {
- 	.bound		= sun4i_csi_notify_bound,
-+	.unbind		= sun4i_csi_notify_unbind,
- 	.complete	= sun4i_csi_notify_complete,
- };
- 
--- 
-2.25.1
+2. Interrupts left enabled in sun4i_csi_stop_streaming()
 
+   Confirmed. start_streaming() enables CSI_INT_FRM_DONE in CSI_INT_EN_REG,
+   but capture_stop() only clears CSI_CPT_CTRL_REG and stop_streaming() has
+   no synchronize_irq(). A frame-done IRQ can fire after streaming stops;
+   if userspace then closes the device, pm_runtime_put() gates the clocks
+   and asserts reset, and a late handler touches registers on a dead block.
+   Fixed by clearing CSI_INT_EN_REG and calling synchronize_irq() in
+   stop_streaming() before the buffers/scratch are released.
+
+3. Missing .unbind callback in sun4i_csi_notify_ops
+
+   Confirmed. Without .unbind, csi->src_subdev is left dangling when the
+   remote sensor is unbound/freed, and a later VIDIOC_STREAMON dereferences
+   it in sun4i_csi_start_streaming() -> UAF. Fixed by adding an .unbind tha=
+t
+   unregisters the video device and clears csi->src_subdev.
+
+I'll send these as a follow-up series ("media: sun4i-csi: fixes"). This
+patch stands on its own; the series can be applied on top.
+
+Thanks,
+Cong
