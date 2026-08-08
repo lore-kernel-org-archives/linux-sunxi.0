@@ -1,64 +1,64 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E566326CE05
-	for <linux-sunxi@lists.linux.dev>; Sat,  8 Aug 2026 11:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BAA73CDBB7
+	for <linux-sunxi@lists.linux.dev>; Sat,  8 Aug 2026 11:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786187188; cv=none; b=hhydt/SAwPyWYHt7dd51EfUp7Sp7AdIwUqE5w1rIUilWjrAW4a/kzR0i1zsPM/ixyggqqeL2DQF7HMydSDJjlsCv28Uo9eEUUzdRTYO/fj1kz0rlUb7cT0L34i2xKe7zRyXglX6MYvikoMvt9PGPU2sQvba2+lmfN8M28i83KGk=
+	t=1786187842; cv=none; b=Qhqr7ba8HSbvF2++waRzC8tBUsXXfLLcEvULXOyqCOmjK0jvkmLLqhehSpFcibD6bavjQAt3mPajDhO9BpzeNpQmtIn7aBZxkywPcVoGmLctQveY91PP0+wd4DbapvRPKe7YIy2UMguc2iiRmTm95YNWT8YC6JCKt/VXZTEy8J4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786187188; c=relaxed/simple;
-	bh=tDsFj4Lh9ROCK1QL6OxCscLJBiWTpO7vMwF1199NUaA=;
+	s=arc-20240116; t=1786187842; c=relaxed/simple;
+	bh=/o1udNNLV+FNe1R9p8BzEoEJfIqD9mThtLK2mmEohxQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=WEt+tk6wywrqMwChPCkS0Szc5Te6SDKndKOz6y2Jo00j6PD3DX2jtx48NcwQ/uBDK9j38dLF2jObZBQKcPNaE5lSBnKnvDapUu5aIUwYxGONS/TvqEYgqZuIWlzMYmPAqDyJRsYGxrmvmUc0QInkazp/thjvIeV+OGgLz4tDeoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r98i6F0Z; arc=none smtp.client-ip=209.85.214.175
+	 MIME-Version; b=b/58C2bg5mi5oIUfsKfj7tpGLI/bgvt79Rhe26FCVeWayTQCLS1SdtSNLtY8udGEPsQl6l2g3dW6X1pH93oI8CT5V4vzz02M9ZZvdl+FYCuHYhddOVNqNamOyuzrpKlbhQ8O0sW6ipPMS8Hi1PhQ7b7AhzwsZwJs21TqoW1Ox7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BNc3geVA; arc=none smtp.client-ip=209.85.215.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r98i6F0Z"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2ceab75934dso4556435ad.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 08 Aug 2026 04:06:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BNc3geVA"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c9c26a5fb98so249179a12.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 08 Aug 2026 04:17:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786187185; x=1786791985; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1786187840; x=1786792640; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=hTWsfLJS/81iyczYbFu23mRRJqJRdNk8TSWy7ODIao4=;
-        b=r98i6F0ZlKSSovUxxfPCvXS6qJHARND6bJJB/daTompIXXAbc2t/5ZD7myg6zxbKLv
-         TluQOVFzNYcfcWd7ke0iPkYHKs1tiS3cRxLKB3y+9wsBzMmDv/Xz4SkSWWS+a4qICBl0
-         yl27qevapfsFyqFwBRZi3BrJWPe1HZAB5Kg5YOD1FOd1SIU9pa1jh94tZQGcyYxwccll
-         b6Bymo7JRvK4CSUAMJcyQ5qaNucek9HvaTMKfAKHC+eHJ7X+n1txXfUFtzD9PINisQCh
-         njHu5y88ehHglaot7ybg83LNdDeLlJiyFTzQjYZdpX0aCsGy+l8ZMISo7SZ09dPdRIqX
-         +R5Q==
+        bh=VegdV0CGVtEAsdoGYq2fWs6TLBlXPmk2Egy9/veY9KE=;
+        b=BNc3geVAZg0/uU3Gb4BQXR/Ow72hVYU4XrxIpvsmNNpqn2ecTFPY24jn+ppqaXtxs8
+         QBCg/FKCSBnwZjR+yLMJft3oBhKSZalOgbFts7OhX0UwoOJip2sJ+d4kfbMTBhpUHZgi
+         nKDMozU1dwC7C4CCoD69mnUemPa5M4mm85IyoDD5mzX/nNLdoUPgo+nsqwTgIwkBLtgO
+         F6+hrYo378/euMHYqIv0bqCQYUkxERrBl6xzvge2rZimm6cJiiCOjCmGcwa7TpunsfMe
+         tmJYBjMl2HNQ/r8PN3d7apc/+apX1tFwTWUFEKIBoglGjulnQlyQkJLOE+P0HfctAObv
+         nx8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786187185; x=1786791985;
+        d=1e100.net; s=20251104; t=1786187840; x=1786792640;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hTWsfLJS/81iyczYbFu23mRRJqJRdNk8TSWy7ODIao4=;
-        b=bcH1jXd5z3sYqXYd9UJck4AOQYOiqAD/JMckIvDA5g7Br3DkC89Ln51pkjSGBiWCaX
-         lVgghU1XsFqI1eewU0eFL7vNsHYL/eMKEa4tWAeEqrAF3esb5IzuqIJ8bqv7E+9aUB84
-         GMUxBkZfEnYosmNK32j5NQ4rKexlz2M1JLcikA9DGwuo5mB7JnkYCd5q0t3zaVRT9CJu
-         GV2n7aVJz0Z7/h7A4Svu0RazHUUrt3R3XfweLQfbGcuhzryTxpL5siVCUdKARTov96gh
-         8b5Avbex/6sijTO08j9CWXgJ/zgznToHz0OpawQJoQiG45Ken782s31aZqUpJQu2wYTq
-         G/fQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpUKL7cXdLKOo6gyOxa9waONl98gq/l3cSBua7ZieaRrbLDdBxLfiAhVPOyVZq4nQkQWFhW0iEZfGJ45Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyt3YGAia+xm6E8nHoWWbVqipG1T8hoidSp8oR0+IeFDd/+OQst
-	7vhCZDpNPSO80drXolQ//1I+0ohzCTZthUNE7JinmUqXR2k+OUauHFxJ
-X-Gm-Gg: AR+sD11hW9x5n3c4RTubQYFlf1zI8Vvnu4XE+0wOYht05UA4JC8hJCCq/JLbz1XhYj2
-	yEeyPS6Ul8ZVs8a9xKKNw9Tap7AeqNd9l7LpOHpDrPXMbpfeLATwTIb4yu2lZH9jFtDSsANDlr/
-	8THFyOT2fj4QeiGExvKTIHayWnbxyo+jMHFiNY+zgsDGOzDiLo7KmTewUCLawKRjFXEOD0MPQwS
-	l1sAJspOxiT+L5hH0pPWZzQVnfC16XJ4TnIOmMJRoYYrVJ9fSXIDK/oNVYj5IxBvkp9xSn9YpG6
-	qunmixNe5Q2b3K4YUkRY2J3wF/z50H3cUrxKGl+38NlaOmK+pTpc6E1O5nlZbTyntlmPIleLLP8
-	z1O3PvLHqf+2aor5mAIDWpC+aQFa/RcAsooBjAuv674pwT6joObdM7fYCziUM8hqP3yFXC8NTH3
-	oudMMMIS40IiTBYSVAMiuaTphGGn5jWknkdxRo2+hSxs1XWjXak9WFVbn8An5+SqcFGiHjUpOM6
-	kSlMw==
-X-Received: by 2002:a17:90b:2dc1:b0:38f:de97:b06 with SMTP id 98e67ed59e1d1-3903c535d79mr33954628a91.5.1786187185202;
-        Sat, 08 Aug 2026 04:06:25 -0700 (PDT)
+        bh=VegdV0CGVtEAsdoGYq2fWs6TLBlXPmk2Egy9/veY9KE=;
+        b=B/YUg+tgadLcRmNnRitCMc+xkjq0UWWr3iy1snXDle0Tr15EKWMvFYS3ADvQoEkKQ1
+         uGcBQ193FW6o597ZrKcg1ErjrDtJJREYAsBj+VQEmKcnLFtcc1LhPd5XOqvvPT/m6s9j
+         TcdGX2Z1Nk6lym56/mpI8dYGy2VI3m/vIAitTIDXOXr9fEQ5Kkd+kAAOA0PhSPvgEMeQ
+         YdtUKgLU5uWpQHHocCFmOgjQuE6PrM8SLCSESFK5Cl/ZHTeu9FPao04eBI3K8PK7Q+3m
+         NB9EEkAX8V8HibLpMXvBa3Tcwh1juKIyjdf7/Ufl7LO+Rq19dxdAS6QTRedULkf3JsOA
+         LLMQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rp4uZhif0A4X6WqJJK12zWYcirI5IFq08JqV6O3hKGNb8k3ZbQSl9TGgl99ZkZ3hKd8iL7sIe7AxGeiig==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz9IbwflLgIbZABAqhgeciswljoSXtM76bftQhbwLavRDg5XjSv
+	zGRY6duUBaejUkzzbQeF3wQSUnyDACBNXzlcYXriyeqdX6//sDqnjWMg
+X-Gm-Gg: AR+sD11ZKr9CFnOAQa80z0sUBkz+kSrHXjDGpDHTRdVReYsmqRWeTpxSG2vrGln+lzO
+	bV9SR3AYi30eLM/T4iC80clAQv1IS+11smVFDtPSvcpNJ9C1Fwfh5rxiKsh1tS0MgCZVyEMrtP6
+	xBLwdoqHKMmDUdnD9jxT1YNKU6FtxMC2eBsu/9iF60JoUwCBnWsZbSxO24Wz1QQBDwUfpZ3aOVv
+	ZN4ibG3HF/Ivdb7vQSN6r7Q/jW2iqKUcUbissKj/ACVUeu8+2xsEf0DZZD0f9rvN+Yz3oEOQzTu
+	LIXhV1Iwr+X+Xy4jVJF76jJ/SEwFF9il0rgJ9lXR/KBb3SRZC9kGWNfehHweh31bfRes8MuU1rs
+	VXi0uk3+rRLGjSrEhlUdvU5yLI+cc8QKUfuAWiO2853VG14wYG6DWpxFHTBLrlLZTBP0G31icGU
+	dznggCSIE17fU5rf1E8qCmbGyqKRgkCMrx4AfB2rbIM4V77R2mYdb3alycOYM32DWN0rgRJclI/
+	Sqmqw==
+X-Received: by 2002:a05:6300:141:b0:3c3:750f:3cf9 with SMTP id adf61e73a8af0-3cbd3ac3fbemr6024104637.11.1786187840297;
+        Sat, 08 Aug 2026 04:17:20 -0700 (PDT)
 Received: from SGN-LDSENG.tasernet.com ([2405:4800:5cc3:11a:1ac0:4dff:fe8b:4a69])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-141019b4eabsm15243343c88.6.2026.08.08.04.06.21
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315bebdf796sm17179976eec.22.2026.08.08.04.17.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Aug 2026 04:06:24 -0700 (PDT)
+        Sat, 08 Aug 2026 04:17:19 -0700 (PDT)
 From: Cong Nguyen <congnt264@gmail.com>
 To: Maxime Ripard <mripard@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -72,9 +72,9 @@ Cc: Chen-Yu Tsai <wens@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	Cong Nguyen <congnt264@gmail.com>,
 	stable@vger.kernel.org
-Subject: [PATCH v1 1/3] media: sun4i-csi: fix video device and subdev leak in notify_complete()
-Date: Sat,  8 Aug 2026 18:06:15 +0700
-Message-Id: <7804a3c87beefde14e0358fa2a11e63005525890.1786184456.git.congnt264@gmail.com>
+Subject: [PATCH v1 2/3] media: sun4i-csi: disable interrupts when stopping streaming
+Date: Sat,  8 Aug 2026 18:17:09 +0700
+Message-Id: <f0f044148ec5c160d76e6e38d1f53393ec56578a.1786184456.git.congnt264@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1786184456.git.congnt264@gmail.com>
 References: <cover.1786184456.git.congnt264@gmail.com>
@@ -86,65 +86,73 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-sun4i_csi_notify_complete() registers the bridge subdev with
-v4l2_device_register_subdev() and the video device with
-sun4i_csi_v4l2_register() (which calls video_register_device()) before it
-creates the media pad links and registers the subdev nodes. If any of the
-later steps fail, the error path only unregistered the media device:
+sun4i_csi_start_streaming() enables the frame-done interrupt in
+CSI_INT_EN_REG, but sun4i_csi_stop_streaming() only stops the capture
+engine (CSI_CPT_CTRL_REG) via sun4i_csi_capture_stop(). It never disables
+the interrupt source nor synchronizes with the handler.
 
-	err_clean_media:
-		media_device_unregister(&csi->mdev);
-		return ret;
+Capture stops at the end of the current frame, so a frame-done interrupt
+can still fire shortly after stop_streaming() returns. If userspace then
+closes the device, sun4i_csi_release() calls pm_runtime_put() and the CSI
+block is powered down (clocks gated, reset asserted). A delayed interrupt
+handler would then read/write CSI registers on the gated block, which can
+hang or crash the system.
 
-The already registered video device and bridge subdev were left behind.
-Because this failure propagates back through v4l2_async_nf_register() and
-aborts probe, the driver's devm-managed struct sun4i_csi (which embeds the
-video_device) is freed while /dev/videoX is still registered, so a
-subsequent open() from userspace dereferences freed memory.
-
-Unwind the registrations in reverse order on error, mirroring the teardown
-in sun4i_csi_remove(): unregister the video device with
-vb2_video_unregister_device() and the bridge subdev with
-v4l2_device_unregister_subdev(). Also unwind the intermediate v4l2/media
-registration steps so every early return leaves no half-registered state.
+Clear CSI_INT_EN_REG and call synchronize_irq() in stop_streaming(), before
+returning the active buffers and freeing the scratch buffer, so no handler
+can run past this point. Store the IRQ number in struct sun4i_csi so it is
+available here.
 
 Fixes: 577bbf23b758 ("media: sunxi: Add A10 CSI driver")
 Cc: stable@vger.kernel.org
 Assisted-by: Claude:claude-opus-4
 Signed-off-by: Cong Nguyen <congnt264@gmail.com>
 ---
- drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h |  1 +
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c | 11 +++++++++++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-index e53a07b770b7..a8711336a754 100644
---- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-+++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-@@ -85,11 +85,11 @@ static int sun4i_csi_notify_complete(struct v4l2_async_notifier *notifier)
+diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h
+index 4e0c2df45d4d..51173faea871 100644
+--- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h
++++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h
+@@ -112,6 +112,7 @@ struct sun4i_csi {
+ 	const struct sun4i_csi_traits	*traits;
  
- 	ret = sun4i_csi_v4l2_register(csi);
- 	if (ret < 0)
--		return ret;
-+		goto err_unregister_subdev;
+ 	void __iomem			*regs;
++	int				irq;
+ 	struct clk			*bus_clk;
+ 	struct clk			*isp_clk;
+ 	struct clk			*ram_clk;
+diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
+index e911c7f7acc5..da697f39f2bc 100644
+--- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
++++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
+@@ -354,6 +354,16 @@ static void sun4i_csi_stop_streaming(struct vb2_queue *vq)
+ 	v4l2_subdev_call(csi->src_subdev, video, s_stream, 0);
+ 	sun4i_csi_capture_stop(csi);
  
- 	ret = media_device_register(&csi->mdev);
- 	if (ret)
--		return ret;
-+		goto err_unregister_video;
++	/*
++	 * Disable the frame done interrupt and wait for the handler to
++	 * finish. A frame may complete right as capture is stopped, so an
++	 * interrupt can still be pending here; without this the handler could
++	 * run after the device is powered down (pm_runtime_put() on release)
++	 * and access registers on a gated block.
++	 */
++	writel(0, csi->regs + CSI_INT_EN_REG);
++	synchronize_irq(csi->irq);
++
+ 	/* Release all active buffers */
+ 	spin_lock_irqsave(&csi->qlock, flags);
+ 	return_all_buffers(csi, VB2_BUF_STATE_ERROR);
+@@ -438,6 +448,7 @@ int sun4i_csi_dma_register(struct sun4i_csi *csi, int irq)
+ 		dev_err(csi->dev, "Couldn't register our interrupt\n");
+ 		goto err_unregister_device;
+ 	}
++	csi->irq = irq;
  
- 	/* Create link from subdev to main device */
- 	ret = media_create_pad_link(&subdev->entity, CSI_SUBDEV_SOURCE,
-@@ -114,6 +114,10 @@ static int sun4i_csi_notify_complete(struct v4l2_async_notifier *notifier)
+ 	return 0;
  
- err_clean_media:
- 	media_device_unregister(&csi->mdev);
-+err_unregister_video:
-+	vb2_video_unregister_device(&csi->vdev);
-+err_unregister_subdev:
-+	v4l2_device_unregister_subdev(subdev);
- 
- 	return ret;
- }
 -- 
 2.25.1
 
