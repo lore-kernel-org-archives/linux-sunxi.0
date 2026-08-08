@@ -1,167 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6657734CDD
-	for <linux-sunxi@lists.linux.dev>; Sat,  8 Aug 2026 09:11:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA6934CDD
+	for <linux-sunxi@lists.linux.dev>; Sat,  8 Aug 2026 09:11:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786180308; cv=none; b=k7MUfg4NvNYWNYpB/9+RnyF6BLE/cdi5UoVLup8Re876VX1vwdU5PnVqkUH/vnWnTMwVpcLaLvRs7N3qdr/bXePpf6i44ZVnCOQrFVk+l2bYZRhtDDjpHspFh5A93MzvSkR+XE2nC9sdGERBlnOl9Z5MeNbXc/5zn26JapbI410=
+	t=1786180320; cv=none; b=mHZ3w2eXMMv+lI9zhS3R0BGwggDD1ReyK4Rny7atWDF9kzwleIiJvqTH+ftmtbqXlpLoJ0MWa82bap2Rb1T1MzqLWuUdIZB+CINvUK4vFMKOLWgUsPi7Zr6bpanK6YzZQH4087sM2y3sIFOc/CWDx8unTfbX6KOd4GAVV0tFv04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786180308; c=relaxed/simple;
-	bh=5yuQUr1Wk7aV+qJ2fywNBTpKtiXizKPYAo+THc/os4A=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=qxgfhkE+fIqutUhnMOPjF0daOcKhbsflHef4bB+hpinTILS3drr1nD7Uv8GyIjeJweSkDI18ZUhTO+CjCAXQjObm5TqynKblxpFirGQ21h6zCjzlnE8rjGHyAZLAdG+siiRN91n2lOh7qk3yCfKdCssi/No3h4969wEG3anbOmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GbKj3ZgE; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786180320; c=relaxed/simple;
+	bh=oJ42448NVLVzg/Jd4WQT7WZLZMZvxVSOD0A/N+s45qY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RAxG6EvU3zo0ymSzz2ifV1bTlNWCDS2rCiMSYd1mzNjGOFKyVUspPRGGfh5bzE/sdToUaRz0M9ho1d2BVWYDqc/F/WLxmOigBEXgvVjrQFbG/v992fUo6pdCLeLIJBkkPa1IB9xA/0BCBSPFGMlj/VTebOLYFphByMCncAFG+CU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qju57IRI; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GbKj3ZgE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C52F81F000E9;
-	Sat,  8 Aug 2026 09:11:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786180306;
-	bh=vXmv6kK5AbneqyCLIBqvNa2najsgtmJG8qHAj5G/aNU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=GbKj3ZgE4F0AjulN1+S0dPl7YOOKH2MjRMW8TvuyQ/3s/jMHUNq+G4I2+ZxfQNdLU
-	 oIuj/GC/oGBe/qUTIjlo8YgoA79U/gthT5Usa/rU14zk6+2G981soovyosJWqLVbOq
-	 NdLXa0CT+g7z/5ktD1EfremdNLtXs+GZQhNZxi3c2LyJ6Lk9wyK8nIdMvTdeGQiSuc
-	 4smAyauWM5UyWb3TLPDR71Kt3md3qlXby0luTjrHrd0EzM/dtodEUIl9JsxKjUHlgV
-	 8NTPUVAuZIA+vcatP09GKGi+hKJFbFH2CRKqWXt63L9KJm/kHeMaBNjJRaNCQiJmxD
-	 S8F7a7g2wjOzQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] crypto: sun4i-ss: fix autosuspend cleanup during
- teardown
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Guangshuo Li" <lgs201920130244@gmail.com>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260808085337.2715506-1-lgs201920130244@gmail.com>
-References: <20260808085337.2715506-1-lgs201920130244@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 08 Aug 2026 09:11:46 +0000
-Message-Id: <20260808091146.C52F81F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qju57IRI"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2cacb8416a1so3414555ad.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 08 Aug 2026 02:11:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786180319; x=1786785119; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=BveM5cMWSJ3TieKfU41UkYe+p2SvuBRd6rFqa8L96gE=;
+        b=qju57IRIjp5Sv6Mc9I9L5KgigsX6Hd0dLhQwpfhDNGDkxdryIyc0PCCIsb4oiJpqBB
+         QdQjnsVQv+902VLMKcFCdX9HfKszSP3gcfao2r8SgphFYWJGMSlGGEeb2S2fFqS13eic
+         AqQG8C2xS9Z5qGQyMqdq4Qd7ahCkRLJtyXwTfkWrirmtSU26XQWPpaNqcuxabFBpyA69
+         0kLbq3t0pjbTYho50IQl/ElB2OZViUV9YFkWlirl07NzL0BdejEfwRfgsq5GSDuXzd09
+         sr16I8b7Eg++ilp6MyWQo14WbSm6P0tUXZE7QH/nbaQsoV6Hzf1dvH3bD8fjLdvfBOsz
+         o2gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786180319; x=1786785119;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=BveM5cMWSJ3TieKfU41UkYe+p2SvuBRd6rFqa8L96gE=;
+        b=Hlbluo5ObBSPczClvgdmwuxgIh9em9NLXkg8Moy4fPE70mxsgbUqX+oS2QmZtpyNVW
+         4+e+EHSH1YMJamiEvup5VW59D6GBNu76WQcjG+sjjb/ZSZrE+vvM8DBC3+YheqvbbvSa
+         QMQ8e6eNuKOkJEK5XwxkuyozXxtDDwisUA8cVK5oM4O+gTjRh2fbm7zkYPQRb5IU/Vnl
+         2MEytRvaJLcDyCGNADlnw8yC9G+1B7+xbm9MuhJpQ/mer6KHugGbj81icpaClu+hj9wb
+         v6ZmvxysQx+G1u4IbAjkfdutuS8Ky/2rvW7AvOHZPc6PfdiQhoqg56W/pN2k/59Qtlrz
+         Vc4w==
+X-Forwarded-Encrypted: i=1; AHgh+Rrp9OrLI1J7Oj1vUzvAp5qok5j6QAD+Lxw+6yGVg0VTNGcISd/BWEjSnprn8NlTFBD03HrbE1iFAIuZ8A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyojqqRwVj8XW/iTzpgZj9oszZsj0IwjYGXac17ugW75JNwUFsv
+	1q0MwRHntK8L9q6Wosaab4393cUC/wYMNIluZOAxF/oV25MI51jMoRcA
+X-Gm-Gg: AR+sD13vreIuWN/r2N/VIa41k4edCmvPa9JtqSxj5hCGinROTtEYPGWp6N7efEX828B
+	6/btcv8UXCJ+iAEt5s7UkHU7F+77tgrG9r9CTDE5BcmC15WhCUQ3fZRGbLcnRJK1XH9qZoLDHpv
+	siY6qoh2rJRa7jVhlSLQCfMPkQahRjMZWdBEUm6w3LzRN+TqPtz5sXEzG73coUs4yU3I4FE3D+Z
+	I0M5uW0C+lCxVrexMZM/XTEd74AFL3jCD93RHN4z7e1VN+HYVeLlEmH5MvcWSfEDgWMHzzRA/Br
+	f3gbpwgBIXCFCufspZXHaTxZDKKsYfMhZqhf9Q35c6eWgqMaozj1iyhJ/QBJEtWuFJ0BeOPidLe
+	t50N3zXtpaCHuIM5qj8UW7DmzzUTGaBSiIBKXgeMP9jOeGhrgQF09s6CGlh/B1G8GAcqXQTUKyG
+	euuwsUdxNrrMELcRP+bY0ubr6t/4/C4f2tPZJJOT14ttSKAUHEwZ4LX/xocU+SMB1kn1zWw/jgR
+	mDXag==
+X-Received: by 2002:a17:902:f709:b0:2ca:1b97:70c5 with SMTP id d9443c01a7336-2d2a8458b93mr88228315ad.4.1786180318914;
+        Sat, 08 Aug 2026 02:11:58 -0700 (PDT)
+Received: from SGN-LDSENG.tasernet.com ([2405:4800:5cc3:11a:1ac0:4dff:fe8b:4a69])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315bebde308sm17126060eec.20.2026.08.08.02.11.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 Aug 2026 02:11:58 -0700 (PDT)
+From: Cong Nguyen <congnt264@gmail.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: sun4i-csi: fix async connection leak when notifier registration fails
+Date: Sat,  8 Aug 2026 16:11:51 +0700
+Message-Id: <20260808091151.2691482-1-congnt264@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
+sun4i_csi_notifier_init() adds a v4l2_async_connection to the notifier's
+waiting list with v4l2_async_nf_add_fwnode_remote(). If the subsequent
+v4l2_async_nf_register() then fails, probe jumps to err_unregister_media,
+which never calls v4l2_async_nf_cleanup(). The core does not free the
+waiting list on a failed registration, so the async connection is leaked.
 
-Pre-existing issues:
-- [High] Unbalanced clock cleanup in the runtime PM resume error path
-- [High] Memory leak and Use-After-Free of debugfs entries during device re=
-moval
-- [High] Use-After-Free of device context when unbinding the device via sys=
-fs with active TFMs
---
+Add an err_clean_notifier label that cleans up the notifier on the
+registration-failure path, matching the teardown done in
+sun4i_csi_remove(). The notifier-init failure path adds nothing to the
+notifier and continues to skip the cleanup.
 
---- Patch [1]: [PATCH] crypto: sun4i-ss: fix autosuspend cleanup during tea=
-rdown ---
-commit 498a2e7e81cded38e9654e9d63d7f5c6261e2d92
-Author: Guangshuo Li <lgs201920130244@gmail.com>
-
-crypto: sun4i-ss: fix autosuspend cleanup during teardown
-
-sun4i_ss_pm_init() calls pm_runtime_use_autosuspend(), but the
-autosuspend setting is not undone if pm_runtime_set_suspended() fails
-or when runtime PM is later torn down by sun4i_ss_pm_exit().
-
-If the autosuspend delay is set to a negative value while autosuspend
-is enabled, the runtime PM core increments usage_count to prevent
-runtime suspend. Without calling pm_runtime_dont_use_autosuspend()
-during cleanup, this reference is not dropped and usage_count remains
-unbalanced.
-
-Undo the autosuspend setting when pm_runtime_set_suspended() fails and
-in sun4i_ss_pm_exit() before disabling runtime PM.
-
-Fixes: 554c42b4efd4 ("crypto: sun4i-ss - enable pm_runtime")
+Fixes: 577bbf23b758 ("media: sunxi: Add A10 CSI driver")
 Cc: stable@vger.kernel.org
+Assisted-by: Claude:claude-opus-4
+Signed-off-by: Cong Nguyen <congnt264@gmail.com>
+---
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> diff --git a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c b/drivers/=
-crypto/allwinner/sun4i-ss/sun4i-ss-core.c
-> index 35ef0930e77f1..10c0f05994ed8 100644
-> --- a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
-> +++ b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
-> @@ -304,14 +304,17 @@ static int sun4i_ss_pm_init(struct sun4i_ss_ctx *ss)
->  	pm_runtime_set_autosuspend_delay(ss->dev, 2000);
-> =20
->  	err =3D pm_runtime_set_suspended(ss->dev);
-> -	if (err)
-> +	if (err) {
-> +		pm_runtime_dont_use_autosuspend(ss->dev);
->  		return err;
-> +	}
->  	pm_runtime_enable(ss->dev);
->  	return err;
->  }
-> =20
->  static void sun4i_ss_pm_exit(struct sun4i_ss_ctx *ss)
->  {
-> +	pm_runtime_dont_use_autosuspend(ss->dev);
->  	pm_runtime_disable(ss->dev);
->  }
+diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+index e53a07b770b7..a8db851ab5a5 100644
+--- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
++++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+@@ -255,13 +255,15 @@ static int sun4i_csi_probe(struct platform_device *pdev)
+ 	ret = v4l2_async_nf_register(&csi->notifier);
+ 	if (ret) {
+ 		dev_err(csi->dev, "Couldn't register our notifier.\n");
+-		goto err_unregister_media;
++		goto err_clean_notifier;
+ 	}
+ 
+ 	pm_runtime_enable(&pdev->dev);
+ 
+ 	return 0;
+ 
++err_clean_notifier:
++	v4l2_async_nf_cleanup(&csi->notifier);
+ err_unregister_media:
+ 	media_device_unregister(&csi->mdev);
+ 	sun4i_csi_dma_unregister(csi);
+-- 
+2.25.1
 
-[Severity: High]
-This is a pre-existing issue, but does the error path in sun4i_ss_pm_resume=
-()
-corrupt the clock framework's reference counting?
-
-If clk_prepare_enable(ss->busclk) fails, the code jumps to err_enable:
-
-err_enable:
-    sun4i_ss_pm_suspend(dev);
-    return err;
-
-sun4i_ss_pm_suspend() then unconditionally disables both clocks:
-
-    clk_disable_unprepare(ss->ssclk);
-    clk_disable_unprepare(ss->busclk);
-
-Since busclk failed to enable and ssclk wasn't attempted yet, does calling
-clk_disable_unprepare() on them drop the prepare_count and enable_count bel=
-ow
-zero?
-
-[Severity: High]
-This isn't a bug introduced by this patch, but does the driver leak debugfs
-entries during device removal?
-
-In sun4i_ss_probe(), the debugfs entries are created:
-
-    ss->dbgfs_dir =3D debugfs_create_dir("sun4i-ss", NULL);
-    ss->dbgfs_stats =3D debugfs_create_file("stats", 0444, ss->dbgfs_dir, s=
-s,
-                                          &sun4i_ss_debugfs_fops);
-
-The device removal path in sun4i_ss_remove() lacks a corresponding
-debugfs_remove_recursive() call.
-
-Could this leak the debugfs dentries, and potentially lead to a use-after-f=
-ree
-if a user reads the leaked stats file after devres has freed the ss context?
-
-[Severity: High]
-This is a pre-existing issue, but is there a use-after-free risk when unbin=
-ding
-the device with active TFMs?
-
-In sun4i_ss_remove(), algorithms are unregistered:
-
-    crypto_unregister_skcipher(&ss_algs[i].alg.crypto);
-
-This merely removes the algorithms from the active list without waiting for
-active TFMs to close. Since the context is managed by devm_kzalloc, devres
-will free it immediately after remove completes.
-
-If an unprivileged user keeps a TFM open, could callbacks like
-sun4i_ss_cipher_poll() access freed memory when dereferencing op->ss?
-
-sun4i_ss_cipher_poll()
-    struct crypto_skcipher *tfm =3D crypto_skcipher_reqtfm(areq);
-    struct sun4i_tfm_ctx *op =3D crypto_skcipher_ctx(tfm);
-    // op->ss is accessed here
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260808085337.2715=
-506-1-lgs201920130244@gmail.com?part=3D1
