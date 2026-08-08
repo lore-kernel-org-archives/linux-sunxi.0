@@ -1,211 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E030030FC27
-	for <linux-sunxi@lists.linux.dev>; Sat,  8 Aug 2026 06:38:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4233130C14C
+	for <linux-sunxi@lists.linux.dev>; Sat,  8 Aug 2026 08:59:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786171115; cv=none; b=s581jJ5E8FJlcvNO9pqFEf27sAcGd2HGtfwPXAI5nqR7E7iCMxT+p+NNhRMTvqHILTcNhos0G/XvNj+6XHkx3VSnDzddlhoBsrCLjzehab6jDhg0PAr03PHb5tSvLoL/WQ08T2ZfzWYgNVajkezvESP0WmUJhWZSo+YxSSJGbqI=
+	t=1786179576; cv=none; b=RdBwyHy85nGtXVcUQwTmUsy5RGf4SjKEmWqJvIt4gilt8REa/EzJdNPa4dpHYSzMo6OarXc7L0+D/MkoUsS998QQskfTzuXmXqEoY7ncDvuJYlN0CfebdLOlSrPuSaslo3gqNJOdBuFT4k9A8UWl2R073+yVf7dRcOl48xQqu+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786171115; c=relaxed/simple;
-	bh=SBC/64Hw8zpoY2wFMqsN85Ybof7QOdVo07Zxav3Hsg8=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=iHVBWvL0jNYqIRnaG4K/n9jZTYLVZegmd6DGAjYDazpf4mDC+L4uX+H/Hx9LDcXf7CtgmpDHNVS/Ux+i2iJqD8wymvC0nKSDJ1IJSbn5c78oekWVFPshICoONHK8JM3UBYjz3eECCWiShheyY4lbmU1yLuI+6Ssc4Hp2rhBTxCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BRKJxV4u; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786179576; c=relaxed/simple;
+	bh=k1jte4S6kmlNkWiF/TPSrh2PJp0JqoJa7csBL3XZxhw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FYs87s8uvKd8/Oz0qHQ4BDBFVcwoCbAlgXMFfcssuF828ewhaFXQnYmuJQBgEGPQ6UxoCEFkgwN2IrdoLotmu8CBLvnwTUZgyeDLgfrnv6rbCpGaQjD51xHWB2gl+zYFiqVfo1WvUtE/miWZ7V5LiEtW9KE2yWCAEvMJT3aeyf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TVZg8/P2; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BRKJxV4u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F5321F000E9;
-	Sat,  8 Aug 2026 06:38:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786171113;
-	bh=LjPRghXdPcx0mWq+xnyP4GK5nkc6JSO7tXKfcmLrVgM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=BRKJxV4ur58xO5hF3N1pBglMP2Q0hPHlu7XPnZit86uWssWN2mtuk+iORN7XXcH3P
-	 GGDIzZoOvc2dHLoZxjSUYgHb9bbRXqMrMJ53QOmMUozgSl7G1DnVkRqL+WVifIwjX7
-	 Wfv4Qk0gg94nhjOQf2sQ0RYW2dDCfpYHTj4Q+yHPoGvvXnhZIwQgeuyToeM+FFjXSd
-	 8RrBuJVXCi1rbiIu0M/BbEHbeNhFN9jzfANvLTFXQndSmPqwkRmWPjuR5uaZMzEDP2
-	 bgMt04Qc3SYFHZIeP2XKzylDnK1mXMDaT+euELbKzZIvEBvkSVvBRvxgyDUWTeydAQ
-	 jDt2xv++BP9+A==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] bus: sunxi-rsb: fix usage_count leak when
- autosuspend_delay is negative
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Guangshuo Li" <lgs201920130244@gmail.com>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260808062029.2597581-1-lgs201920130244@gmail.com>
-References: <20260808062029.2597581-1-lgs201920130244@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 08 Aug 2026 06:38:33 +0000
-Message-Id: <20260808063833.4F5321F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TVZg8/P2"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2cacf197759so6219005ad.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 08 Aug 2026 01:59:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786179574; x=1786784374; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=n/y7c/4lG8eevhNAw7vtPbWQQOLv7HTFTCbAr3jVwm4=;
+        b=TVZg8/P2cVuH+6qHFjSl2qTSGGuh5uLnv+5eB/OM5hdkb5Yea7ktO5sQa2KIyI0Wlv
+         dewqyz1lhAK3D6VpjAHwN2MM18oqeGCXa2j8Wl79J1GgBqJH69wOHmjp9sLlSyXcoIN4
+         gNqyo3dXIB24IA6yFbBn4mmqLE3yeXb3n77xXKZxmsKkcWHL2s+hKagwHUb/1ogBrurk
+         OLL2e2/u9xcoCkBSR53cIQpHZC5CNTXeyUPQIwoOGkMQTRFaNZrJZVCvTD50Trp5JEZK
+         bg0eh/MDJXRqLfAabHI/LCtPlnY8WZ5LiEhh7ihUkLzEfNqPl4gAaslCypb0IX+5TZnt
+         V5qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786179574; x=1786784374;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=n/y7c/4lG8eevhNAw7vtPbWQQOLv7HTFTCbAr3jVwm4=;
+        b=Yzfo492XOZFQ89jgF4EDvFvajZUkRAh3ql0s/RqJgzKuiEIE7oOkOhQ5RHcIg4sAhA
+         aAPGgcTuplwmGclINkHCG3Ede/Xb9RsPnRmlBxcLvaKrXNvXSJM5Jlx39/BwSpCybQ0N
+         ow4R5e2X8CAT7q7YoMF0c/i5R/560ki5+WdXJirmjqMcEeZmw4IkLei8mZiRAAdWBHA3
+         /u5wsNvOpsoi3k/CJqmV6dkFk6RV+DQAhJVaOAP8QPE7B55bDUYxljt1gq6FEQOCj1M+
+         eX2FQi/IgkqdX98glc0SP9P0ardrDQsHWKxeYJ7C4+DC009Uves+cFO0gHurN6GoAJQ/
+         vjSw==
+X-Forwarded-Encrypted: i=1; AHgh+RpY+ADI75JqM99ZZKarSNNXc/BMIE/y5rElL+M2Qz7MNbqoGu6Js4YPBQYfeHlxTemwlUcUiM3nnxgEQg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx/Hxnnm4I4Hgu7gulMJeBgWzYU5r14kShffJnijbfY7cSas6Yo
+	V4wbi6LLJ1wEmV+z4TcqAq3HocdESnz5+7U5G5DCPDvrG70fhRqOyjzT
+X-Gm-Gg: AR+sD12A/U5QDY+gb2kS4vbAPkI5RvxRSNbkV7IdUO/ZNWOGlkMMhvKPWWb42lql6sT
+	JAXvvYs6zvrEIMBnQZ97gzMEVfFXdeoQ1XtDj1K9amQo4WDu8Um26+pKwpcXTP7NlUDdOuUN2TP
+	mBlmjy0jR2z27JThBqc8UpTPPBdHKhSANnobuW00lKCMfONPw6MRXUMWQt93fvy2mJWRrUW5RwW
+	U0II7yvNuhflkdFxhdgsyz+XTlEaJCEcChRN+/6tJDt+RiZf6YheycStTyGal0/XJZTnea9jsF6
+	NgH4cUProyj+lMfszC6iH5zp7k9GVZlWkm5DumeTzOXC8r9I7p/BM8gUHaPPimyzUkWkalKI3Dl
+	L+5a5Xl+KQeMwNMwdZH8zc4R5GYSRGcB8fgGbBb6V2t4o2I/dXWbUsNcGmTXSZMS7Sw/CgyEX2G
+	kOEgSOtVNqN1EAmvYqfflsds+QIqgfIpFHrIdiFCA9F1k=
+X-Received: by 2002:a17:903:37cd:b0:2ca:d9b3:715e with SMTP id d9443c01a7336-2d294b4b5b1mr126407935ad.9.1786179574331;
+        Sat, 08 Aug 2026 01:59:34 -0700 (PDT)
+Received: from lgs.. ([2001:250:5800:1000::f280])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d16c4a6db2sm17431155ad.64.2026.08.08.01.59.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 Aug 2026 01:59:33 -0700 (PDT)
+From: Guangshuo Li <lgs201920130244@gmail.com>
+To: Corentin Labbe <clabbe.montjoie@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Guangshuo Li <lgs201920130244@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Maxime Ripard <mripard@kernel.org>,
+	linux-crypto@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org
+Subject: [PATCH] crypto: sun4i-ss: fix autosuspend cleanup during teardown
+Date: Sat,  8 Aug 2026 16:53:37 +0800
+Message-ID: <20260808085337.2715506-1-lgs201920130244@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 5 potential issue(=
-s) to consider:
+sun4i_ss_pm_init() calls pm_runtime_use_autosuspend(), but the
+autosuspend setting is not undone if pm_runtime_set_suspended() fails
+or when runtime PM is later torn down by sun4i_ss_pm_exit().
 
-Pre-existing issues:
-- [High] Clock enable count leak during system resume if the device was run=
-time-suspended.
-- [High] Division by zero if clock-frequency property is 0.
-- [High] Unclocked hardware access due to IRQ registration before clock ena=
-blement.
-- [High] Use-After-Free of child device `of_node` due to missing `of_node_g=
-et()`.
-- [High] Sleeping in atomic context within `.resume_noirq`.
---
+If the autosuspend delay is set to a negative value while autosuspend
+is enabled, the runtime PM core increments usage_count to prevent
+runtime suspend. Without calling pm_runtime_dont_use_autosuspend()
+during cleanup, this reference is not dropped and usage_count remains
+unbalanced.
 
---- Patch [1]: [PATCH] bus: sunxi-rsb: fix usage_count leak when autosuspen=
-d_delay is negative ---
-commit 353b6956f11193cdddcc23fba6f083e34c249931
-Author: Guangshuo Li <lgs201920130244@gmail.com>
+Undo the autosuspend setting when pm_runtime_set_suspended() fails and
+in sun4i_ss_pm_exit() before disabling runtime PM.
 
-bus: sunxi-rsb: fix usage_count leak when autosuspend_delay is negative
+This issue was found by manual code inspection.
 
-The patch adds pm_runtime_dont_use_autosuspend() in sunxi_rsb_remove()
-to fix a usage count leak when autosuspend delay is negative.
+Fixes: 554c42b4efd4 ("crypto: sun4i-ss - enable pm_runtime")
+Cc: stable@vger.kernel.org
+Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+---
+ drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-> diff --git a/drivers/bus/sunxi-rsb.c b/drivers/bus/sunxi-rsb.c
-> index daf0ea563e477..cd4c857756cfa 100644
-> --- a/drivers/bus/sunxi-rsb.c
-> +++ b/drivers/bus/sunxi-rsb.c
-[ ... ]
-> static struct sunxi_rsb_device *sunxi_rsb_device_create(struct sunxi_rsb =
-*rsb,
-> 		struct device_node *node, u16 hwaddr, u8 rtaddr)
-> {
-[ ... ]
-> 	rdev->dev.bus =3D &sunxi_rsb_bus;
-> 	rdev->dev.parent =3D rsb->dev;
-> 	rdev->dev.of_node =3D node;
-> 	rdev->dev.release =3D sunxi_rsb_dev_release;
-[ ... ]
-> static int of_rsb_register_devices(struct sunxi_rsb *rsb)
-> {
-[ ... ]
-> 	for_each_available_child_of_node(np, child) {
-> 		struct sunxi_rsb_device *rdev;
-[ ... ]
-> 		rdev =3D sunxi_rsb_device_create(rsb, child, hwaddr, rtaddr);
+diff --git a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
+index 35ef0930e77f..10c0f05994ed 100644
+--- a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
++++ b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
+@@ -304,14 +304,17 @@ static int sun4i_ss_pm_init(struct sun4i_ss_ctx *ss)
+ 	pm_runtime_set_autosuspend_delay(ss->dev, 2000);
+ 
+ 	err = pm_runtime_set_suspended(ss->dev);
+-	if (err)
++	if (err) {
++		pm_runtime_dont_use_autosuspend(ss->dev);
+ 		return err;
++	}
+ 	pm_runtime_enable(ss->dev);
+ 	return err;
+ }
+ 
+ static void sun4i_ss_pm_exit(struct sun4i_ss_ctx *ss)
+ {
++	pm_runtime_dont_use_autosuspend(ss->dev);
+ 	pm_runtime_disable(ss->dev);
+ }
+ 
+-- 
+2.43.0
 
-[Severity: High]
-This isn't a bug introduced by this patch, but does this cause a
-use-after-free of the child device node?
-
-for_each_available_child_of_node() automatically drops the reference to the
-previous node on each iteration. Since sunxi_rsb_device_create() assigns it
-to rdev->dev.of_node without taking an extra reference via of_node_get(),
-the node could be freed when the loop advances.
-
-[ ... ]
-> static int sunxi_rsb_hw_init(struct sunxi_rsb *rsb)
-> {
-[ ... ]
-> 	/* reset the controller */
-> 	writel(RSB_CTRL_SOFT_RST, rsb->regs + RSB_CTRL);
-> 	readl_poll_timeout(rsb->regs + RSB_CTRL, reg,
-> 			   !(reg & RSB_CTRL_SOFT_RST), 1000, 100000);
-[ ... ]
-> static const struct dev_pm_ops sunxi_rsb_dev_pm_ops =3D {
-> 	SET_RUNTIME_PM_OPS(sunxi_rsb_runtime_suspend,
-> 			   sunxi_rsb_runtime_resume, NULL)
-> 	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(sunxi_rsb_suspend, sunxi_rsb_resume)
-> };
-
-[Severity: High]
-This is a pre-existing issue, but does this sleep in an atomic context?
-
-sunxi_rsb_resume() is registered to run in the _noirq context via
-SET_NOIRQ_SYSTEM_SLEEP_PM_OPS, which executes with local interrupts
-disabled. However, it calls sunxi_rsb_hw_init(), which uses
-readl_poll_timeout() with a 1000us delay. This causes the macro to invoke
-usleep_range() and attempt to sleep in an atomic context, which will
-trigger a kernel panic during system resume.
-
-[ ... ]
-> static int sunxi_rsb_hw_init(struct sunxi_rsb *rsb)
-> {
-[ ... ]
-> 	p_clk_freq =3D clk_get_rate(rsb->clk);
-> 	clk_div =3D p_clk_freq / rsb->clk_freq / 2;
-
-[Severity: High]
-This is a pre-existing issue, but can this cause a division by zero
-exception?
-
-In sunxi_rsb_probe(), the clock-frequency from the device tree is checked
-against RSB_MAX_FREQ, but it's not checked for 0.
-
-If it is 0, the division p_clk_freq / rsb->clk_freq / 2 will trigger a
-division by zero panic.
-
-[ ... ]
-> static int __maybe_unused sunxi_rsb_runtime_resume(struct device *dev)
-> {
-> 	struct sunxi_rsb *rsb =3D dev_get_drvdata(dev);
->=20
-> 	return clk_prepare_enable(rsb->clk);
-> }
-[ ... ]
-> static int __maybe_unused sunxi_rsb_resume(struct device *dev)
-> {
-> 	struct sunxi_rsb *rsb =3D dev_get_drvdata(dev);
->=20
-> 	return sunxi_rsb_hw_init(rsb);
-> }
-
-[Severity: High]
-This isn't a bug introduced by this patch, but does this leak the clock
-enable count during system resume?
-
-If the device is runtime-suspended before a system suspend,
-sunxi_rsb_resume() calls sunxi_rsb_hw_init() which calls
-clk_prepare_enable().
-
-Since it was runtime-suspended, a subsequent pm_runtime_resume_and_get()
-would call sunxi_rsb_runtime_resume() which enables the clock a second
-time, leaving the clock permanently enabled.
-
-[ ... ]
-> static int sunxi_rsb_probe(struct platform_device *pdev)
-> {
-[ ... ]
-> 	ret =3D devm_request_irq(dev, irq, sunxi_rsb_irq, 0, RSB_CTRL_NAME, rsb);
-> 	if (ret)
-> 		return dev_err_probe(dev, ret,
-> 				     "can't register interrupt handler irq %d\n", irq);
->=20
-> 	ret =3D sunxi_rsb_hw_init(rsb);
-> 	if (ret)
-> 		return ret;
-[ ... ]
-> @@ -815,6 +815,7 @@ static void sunxi_rsb_remove(struct platform_device *=
-pdev)
->  	struct sunxi_rsb *rsb =3D platform_get_drvdata(pdev);
-> =20
->  	device_for_each_child(rsb->dev, NULL, sunxi_rsb_remove_devices);
-> +	pm_runtime_dont_use_autosuspend(&pdev->dev);
->  	pm_runtime_disable(&pdev->dev);
->  	sunxi_rsb_hw_exit(rsb);
->  }
-
-[Severity: High]
-This isn't a bug introduced by this patch, but can this lead to an
-unclocked hardware access?
-
-In sunxi_rsb_probe(), the IRQ handler is registered before
-sunxi_rsb_hw_init() enables the clock. If a pending interrupt triggers
-immediately upon request, sunxi_rsb_irq() could read memory-mapped
-registers while the clock is disabled.
-
-Similarly, in sunxi_rsb_remove() shown in the diff here, the hardware clock
-is disabled by sunxi_rsb_hw_exit(), but the devm-managed IRQ is still
-registered and active, creating another window where sunxi_rsb_irq() could
-execute after the clock is off.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260808062029.2597=
-581-1-lgs201920130244@gmail.com?part=3D1
