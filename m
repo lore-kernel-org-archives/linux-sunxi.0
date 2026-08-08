@@ -1,124 +1,192 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA6934CDD
-	for <linux-sunxi@lists.linux.dev>; Sat,  8 Aug 2026 09:11:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B8936212E
+	for <linux-sunxi@lists.linux.dev>; Sat,  8 Aug 2026 09:18:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786180320; cv=none; b=mHZ3w2eXMMv+lI9zhS3R0BGwggDD1ReyK4Rny7atWDF9kzwleIiJvqTH+ftmtbqXlpLoJ0MWa82bap2Rb1T1MzqLWuUdIZB+CINvUK4vFMKOLWgUsPi7Zr6bpanK6YzZQH4087sM2y3sIFOc/CWDx8unTfbX6KOd4GAVV0tFv04=
+	t=1786180739; cv=none; b=uuRBLZ3MQ5cygXI2+YMOwCwv8Rya4eEn60mH9piTL+HW4/wexsSaODSe/Sy5jdJCEkz489IfOcsdy4zF9IZvoFRUbwuZfUKFzIg2IAM3suzTCLXw6qlS/WnnV3xjYdjRyAN0llOLhhAOKs2OynY2SecIPiE1jL+iUgfX6WbVYkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786180320; c=relaxed/simple;
-	bh=oJ42448NVLVzg/Jd4WQT7WZLZMZvxVSOD0A/N+s45qY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RAxG6EvU3zo0ymSzz2ifV1bTlNWCDS2rCiMSYd1mzNjGOFKyVUspPRGGfh5bzE/sdToUaRz0M9ho1d2BVWYDqc/F/WLxmOigBEXgvVjrQFbG/v992fUo6pdCLeLIJBkkPa1IB9xA/0BCBSPFGMlj/VTebOLYFphByMCncAFG+CU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qju57IRI; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786180739; c=relaxed/simple;
+	bh=VbAAy98TJbuqzglayWT6YZm0NiqTYw5WxARmZPcHOGU=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=tdWIUW0WYjeIpro6aOGuoglTuhZgNdugik0ybMC0KSKJn2sCV3dXCCXSXvWD47zYbKZd+orQi4u39qqJ6+XyIh5HcY0c0BJkPx0Af/a4pO8T9uQ7FCK83wzHocR0FbUjUpdXNolSKiqxfVqlEcoQVkBXI7zuB56uZJ5rDA6XvLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ah9tnbr6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qju57IRI"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2cacb8416a1so3414555ad.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 08 Aug 2026 02:11:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786180319; x=1786785119; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=BveM5cMWSJ3TieKfU41UkYe+p2SvuBRd6rFqa8L96gE=;
-        b=qju57IRIjp5Sv6Mc9I9L5KgigsX6Hd0dLhQwpfhDNGDkxdryIyc0PCCIsb4oiJpqBB
-         QdQjnsVQv+902VLMKcFCdX9HfKszSP3gcfao2r8SgphFYWJGMSlGGEeb2S2fFqS13eic
-         AqQG8C2xS9Z5qGQyMqdq4Qd7ahCkRLJtyXwTfkWrirmtSU26XQWPpaNqcuxabFBpyA69
-         0kLbq3t0pjbTYho50IQl/ElB2OZViUV9YFkWlirl07NzL0BdejEfwRfgsq5GSDuXzd09
-         sr16I8b7Eg++ilp6MyWQo14WbSm6P0tUXZE7QH/nbaQsoV6Hzf1dvH3bD8fjLdvfBOsz
-         o2gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786180319; x=1786785119;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=BveM5cMWSJ3TieKfU41UkYe+p2SvuBRd6rFqa8L96gE=;
-        b=Hlbluo5ObBSPczClvgdmwuxgIh9em9NLXkg8Moy4fPE70mxsgbUqX+oS2QmZtpyNVW
-         4+e+EHSH1YMJamiEvup5VW59D6GBNu76WQcjG+sjjb/ZSZrE+vvM8DBC3+YheqvbbvSa
-         QMQ8e6eNuKOkJEK5XwxkuyozXxtDDwisUA8cVK5oM4O+gTjRh2fbm7zkYPQRb5IU/Vnl
-         2MEytRvaJLcDyCGNADlnw8yC9G+1B7+xbm9MuhJpQ/mer6KHugGbj81icpaClu+hj9wb
-         v6ZmvxysQx+G1u4IbAjkfdutuS8Ky/2rvW7AvOHZPc6PfdiQhoqg56W/pN2k/59Qtlrz
-         Vc4w==
-X-Forwarded-Encrypted: i=1; AHgh+Rrp9OrLI1J7Oj1vUzvAp5qok5j6QAD+Lxw+6yGVg0VTNGcISd/BWEjSnprn8NlTFBD03HrbE1iFAIuZ8A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyojqqRwVj8XW/iTzpgZj9oszZsj0IwjYGXac17ugW75JNwUFsv
-	1q0MwRHntK8L9q6Wosaab4393cUC/wYMNIluZOAxF/oV25MI51jMoRcA
-X-Gm-Gg: AR+sD13vreIuWN/r2N/VIa41k4edCmvPa9JtqSxj5hCGinROTtEYPGWp6N7efEX828B
-	6/btcv8UXCJ+iAEt5s7UkHU7F+77tgrG9r9CTDE5BcmC15WhCUQ3fZRGbLcnRJK1XH9qZoLDHpv
-	siY6qoh2rJRa7jVhlSLQCfMPkQahRjMZWdBEUm6w3LzRN+TqPtz5sXEzG73coUs4yU3I4FE3D+Z
-	I0M5uW0C+lCxVrexMZM/XTEd74AFL3jCD93RHN4z7e1VN+HYVeLlEmH5MvcWSfEDgWMHzzRA/Br
-	f3gbpwgBIXCFCufspZXHaTxZDKKsYfMhZqhf9Q35c6eWgqMaozj1iyhJ/QBJEtWuFJ0BeOPidLe
-	t50N3zXtpaCHuIM5qj8UW7DmzzUTGaBSiIBKXgeMP9jOeGhrgQF09s6CGlh/B1G8GAcqXQTUKyG
-	euuwsUdxNrrMELcRP+bY0ubr6t/4/C4f2tPZJJOT14ttSKAUHEwZ4LX/xocU+SMB1kn1zWw/jgR
-	mDXag==
-X-Received: by 2002:a17:902:f709:b0:2ca:1b97:70c5 with SMTP id d9443c01a7336-2d2a8458b93mr88228315ad.4.1786180318914;
-        Sat, 08 Aug 2026 02:11:58 -0700 (PDT)
-Received: from SGN-LDSENG.tasernet.com ([2405:4800:5cc3:11a:1ac0:4dff:fe8b:4a69])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315bebde308sm17126060eec.20.2026.08.08.02.11.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Aug 2026 02:11:58 -0700 (PDT)
-From: Cong Nguyen <congnt264@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: sun4i-csi: fix async connection leak when notifier registration fails
-Date: Sat,  8 Aug 2026 16:11:51 +0700
-Message-Id: <20260808091151.2691482-1-congnt264@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ah9tnbr6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 920AE1F000E9;
+	Sat,  8 Aug 2026 09:18:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786180737;
+	bh=KNahgiTPd9TnIv9MfxZkGH+Nuqcr+iwN0UhE6kyKS+s=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=ah9tnbr6oVkyhEnfk18H7uHns39QntvTTOppfRVEnuSsCmo8fWr3TeLi7ki0u8Gzr
+	 FQPbX0xnJJfzun5b1pnjyprg/HquNqw2I2Vc+69rYmZYCGid/vjm7Xc8V1RVrIYgLE
+	 A+LRaZuyj4C4xgwmeUX9RQlh36bpRd9B19PpZPPg1grGDRhUjEia55bAnrzPwsmkI7
+	 J9S3U83Iy0AEbrbgqh/a35k9nq0naXIpCt/aByTKu0wVtnGF5tKKSBxJ8lJpHdLkeu
+	 zojY0GsjOj4L3bdsY4LG89KXQvEhNa1ONVdf7fZXqV0fRPosp+ES91ESYN8Qv+ndwJ
+	 BMZxIgV+7iG/g==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] crypto: sun8i-ss: fix autosuspend cleanup during
+ teardown
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Guangshuo Li" <lgs201920130244@gmail.com>
+Cc: linux-sunxi@lists.linux.dev
+In-Reply-To: <20260808090121.2718855-1-lgs201920130244@gmail.com>
+References: <20260808090121.2718855-1-lgs201920130244@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 08 Aug 2026 09:18:56 +0000
+Message-Id: <20260808091857.920AE1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-sun4i_csi_notifier_init() adds a v4l2_async_connection to the notifier's
-waiting list with v4l2_async_nf_add_fwnode_remote(). If the subsequent
-v4l2_async_nf_register() then fails, probe jumps to err_unregister_media,
-which never calls v4l2_async_nf_cleanup(). The core does not free the
-waiting list on a failed registration, so the async connection is leaked.
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
 
-Add an err_clean_notifier label that cleans up the notifier on the
-registration-failure path, matching the teardown done in
-sun4i_csi_remove(). The notifier-init failure path adds nothing to the
-notifier and continues to skip the cleanup.
+Pre-existing issues:
+- [High] This problem wasn't introduced by this patch, but a kernel panic o=
+ccurs due to a NULL pointer dereference when tearing down uninitialized flo=
+ws on memory allocation failure.
+- [High] This problem wasn't introduced by this patch, but a Use-After-Free=
+ of the device struct occurs on asynchronous sysfs device unbind when TFMs =
+remain active.
+- [High] This problem wasn't introduced by this patch, but the interrupt ha=
+ndler reads hardware registers without checking if the device is active, vi=
+olating PM subsystem guidelines and risking a bus fault.
+--
 
-Fixes: 577bbf23b758 ("media: sunxi: Add A10 CSI driver")
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-opus-4
-Signed-off-by: Cong Nguyen <congnt264@gmail.com>
----
- drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+--- Patch [1]: [PATCH] crypto: sun8i-ss: fix autosuspend cleanup during tea=
+rdown ---
+commit 75226cf213617a07b13c36d7aa3f2f0e09bc4f0f
+Author: Guangshuo Li <lgs201920130244@gmail.com>
 
-diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-index e53a07b770b7..a8db851ab5a5 100644
---- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-+++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-@@ -255,13 +255,15 @@ static int sun4i_csi_probe(struct platform_device *pdev)
- 	ret = v4l2_async_nf_register(&csi->notifier);
- 	if (ret) {
- 		dev_err(csi->dev, "Couldn't register our notifier.\n");
--		goto err_unregister_media;
-+		goto err_clean_notifier;
- 	}
- 
- 	pm_runtime_enable(&pdev->dev);
- 
- 	return 0;
- 
-+err_clean_notifier:
-+	v4l2_async_nf_cleanup(&csi->notifier);
- err_unregister_media:
- 	media_device_unregister(&csi->mdev);
- 	sun4i_csi_dma_unregister(csi);
--- 
-2.25.1
+crypto: sun8i-ss: fix autosuspend cleanup during teardown
 
+sun8i_ss_pm_init() calls pm_runtime_use_autosuspend(), but the autosuspend
+setting is not undone if pm_runtime_set_suspended() fails or when runtime PM
+is later torn down by sun8i_ss_pm_exit(). This patch ensures the autosuspend
+setting is correctly cleaned up by calling pm_runtime_dont_use_autosuspend(=
+).
+
+> diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c b/drivers/=
+crypto/allwinner/sun8i-ss/sun8i-ss-core.c
+> index 59c9bc45ec0f2..775355ac9f9e2 100644
+> --- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
+> +++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
+> @@ -664,14 +664,18 @@ static int sun8i_ss_pm_init(struct sun8i_ss_dev *ss)
+>  	pm_runtime_set_autosuspend_delay(ss->dev, 2000);
+> =20
+>  	err =3D pm_runtime_set_suspended(ss->dev);
+> -	if (err)
+> +	if (err) {
+> +		pm_runtime_dont_use_autosuspend(ss->dev);
+>  		return err;
+> +	}
+> +
+>  	pm_runtime_enable(ss->dev);
+>  	return err;
+>  }
+> =20
+>  static void sun8i_ss_pm_exit(struct sun8i_ss_dev *ss)
+>  {
+> +	pm_runtime_dont_use_autosuspend(ss->dev);
+>  	pm_runtime_disable(ss->dev);
+>  }
+
+[Severity: High]
+This isn't a bug introduced by this patch, but a kernel panic occurs due to
+a NULL pointer dereference when tearing down uninitialized flows on memory
+allocation failure.
+
+If a memory allocation fails inside allocate_flows(), the code jumps to
+error_engine without decrementing the loop index i:
+
+drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c:allocate_flows() {
+    ...
+		ss->flows[i].biv =3D devm_kmalloc(ss->dev, AES_BLOCK_SIZE,
+						GFP_KERNEL);
+		if (!ss->flows[i].biv) {
+			err =3D -ENOMEM;
+			goto error_engine;
+		}
+    ...
+}
+
+It then executes sun8i_ss_free_flows(ss, i). Because ss->flows was allocated
+with devm_kcalloc (zero-initialized), ss->flows[i].engine is still NULL:
+
+drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c:sun8i_ss_free_flows() {
+static void sun8i_ss_free_flows(struct sun8i_ss_dev *ss, int i)
+{
+	while (i >=3D 0) {
+		crypto_engine_exit(ss->flows[i].engine);
+		i--;
+	}
+}
+
+Will this pass the NULL engine pointer to crypto_engine_exit() and cause a
+crash when it is dereferenced?
+
+[Severity: High]
+This isn't a bug introduced by this patch, but a use-after-free of the
+device struct occurs on asynchronous sysfs device unbind when TFMs remain
+active.
+
+During device unbind, sun8i_ss_remove() initiates the teardown without wait=
+ing
+for active TFMs to be released, allowing devres to free the device structure
+early:
+
+drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c:sun8i_ss_remove() {
+static void sun8i_ss_remove(struct platform_device *pdev)
+{
+	struct sun8i_ss_dev *ss =3D platform_get_drvdata(pdev);
+
+	sun8i_ss_unregister_algs(ss);
+    ...
+}
+
+When the user process later closes its socket, does sun8i_ss_cipher_exit()
+dereference the already freed op->ss structure?
+
+drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c:sun8i_ss_cipher_exit() {
+void sun8i_ss_cipher_exit(struct crypto_tfm *tfm)
+{
+	struct sun8i_cipher_tfm_ctx *op =3D crypto_tfm_ctx(tfm);
+
+	kfree_sensitive(op->key);
+	crypto_free_skcipher(op->fallback_tfm);
+	pm_runtime_put_sync(op->ss->dev);
+}
+
+[Severity: High]
+This isn't a bug introduced by this patch, but the interrupt handler reads
+hardware registers without checking if the device is active, violating PM
+subsystem guidelines and risking a bus fault.
+
+The interrupt handler immediately reads SS_INT_STA_REG upon entry:
+
+drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c:ss_irq_handler() {
+static irqreturn_t ss_irq_handler(int irq, void *data)
+{
+	struct sun8i_ss_dev *ss =3D (struct sun8i_ss_dev *)data;
+	int flow =3D 0;
+	u32 p;
+
+	p =3D readl(ss->base + SS_INT_STA_REG);
+    ...
+}
+
+If a late or spurious interrupt fires while the device is in the RPM_SUSPEN=
+DED
+state (with hardware clocks disabled), will this register read fault? Could
+pm_runtime_get_if_active() be used before accessing hardware registers to
+guarantee power is applied?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260808090121.2718=
+855-1-lgs201920130244@gmail.com?part=3D1
