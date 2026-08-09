@@ -1,117 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m101-out-mua-6.websupport.se (m101-out-mua-6.websupport.se [109.235.175.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A267322126C;
-	Sun,  9 Aug 2026 11:27:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D33C282F26
+	for <linux-sunxi@lists.linux.dev>; Sun,  9 Aug 2026 11:46:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.235.175.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786274874; cv=none; b=j40HcuhO2lhl8MAzjWAzV/n9LVLmFRaIdnuOBtO/0ro/UzpAGwFf58yPwt1duCwZjjBQZrJTVW3gKwCqTnS5U5PmXMNnUTvfUJcidVCryYFS9GiV4sisi6UIIzV4Tf/HabcWOaEXlUtX2aD5783XwcYsWqWaicqz3WRDFLjEU+E=
+	t=1786275995; cv=none; b=FfAplGMxVghs4tKCpid9C2CokJ7MWWaH8tWHuWkHn9aOn+ULKVpA55CyM0I3X0oxHqTD9608d9JK71LQ4ebROy7eripaEb6U11fAsXF/xdMl1/Fxlmso3o6a9+Yqp8X5ug1n4g4n3/oNRFbt8hyO/lsKe8xqlo/PtTR2ST8hzjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786274874; c=relaxed/simple;
-	bh=T5YZNVeAvh8alVjsen7BhNT5IzsU1vrtp4+MxwKuzvs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EghsLNbT1Zd8Twbq3qB8rEjAmF+eimcjB7276B9Z1nn2L58afMaRIsU8ElNTdEn5CD5C3vjEfwQzGvD38zjoFzYjc2Pj+ldUwRwPGm+9w/5hurYiuqmlGg7IMnnF/A/AUBC5y+lqTZ3swCHj/OBr5077saf5+BjtUuSyFes8lEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eP9C/3y6; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786275995; c=relaxed/simple;
+	bh=jZ/WieJvBgGTLDA53hrBTiwwMZpkQl/Y9Fr8ZYtB0L0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=V79Ly1S70sneamA3Dl8Xo4oePFfmNzUbuBSinvmukX3ZGsKUp1nUPpxEPaXwRwNirFXGIcrqAEKgXxrrW480QxVJnB8kBDvN52qLLKj0GKwo2p0H2ox56B5c8nrFPZjbzMD4dL2W40XtRDFolfV64h+cadaRt9i781fnEM2vS4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=palvencia.se; spf=pass smtp.mailfrom=palvencia.se; dkim=pass (2048-bit key) header.d=palvencia.se header.i=@palvencia.se header.b=jtEcCMM8; arc=none smtp.client-ip=109.235.175.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=palvencia.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=palvencia.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eP9C/3y6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78F671F000E9;
-	Sun,  9 Aug 2026 11:27:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786274873;
-	bh=76OBlRllQukl2KGsIFbL9M0f00XohXpr6dJeM2RToIU=;
-	h=Date:From:To:Cc:Subject;
-	b=eP9C/3y6y24WOmJTrwREp2bGdkQsVCDXU9zaHcS3ctuvP+2Few3IExLP7Xj03rdge
-	 8u4coxr45PMVFBhQNKMLJAWxJD9eJJSLRch0vYBO7g19aQWVh+A53U8XTdqIDdj/9z
-	 ggQDMhV9OJCRH27bQmKHeXkKrn38cA1Jjx3idtulwel6s2vq0kHyQxX/l5FTOdnIDT
-	 GSA34qrY7lM5h74CDeAYWpqZsMiXEaMmEqMbUWBOYyvGWRueCqSBF4eGkIPfeVaIhi
-	 Rc4pKpwkyj6aXRQkIQzRT6XnOdBGYTnmDOcvBoOe2BofHC7shygHv6xT1EsFu1lIas
-	 DcJD1N87h57tQ==
-Date: Sun, 9 Aug 2026 19:27:48 +0800
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>,
-	Jerome Brunet <jbrunet@baylibre.com>
-Cc: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org
-Subject: [GIT PULL] Allwinner Clock Changes for 7.3
-Message-ID: <anhkNLxcGaC41mgN@home.wens.tw>
+	dkim=pass (2048-bit key) header.d=palvencia.se header.i=@palvencia.se header.b="jtEcCMM8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=palvencia.se;
+	s=mail; t=1786275984;
+	bh=Cko3zHK3AZ44CP9iv+bawq/dcdWlNtCNj2kBh7j6SUc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=jtEcCMM8dze1O2lHaItcxTfsrT3zJ50rtcdIQPjgCHN0yx10+VdlMvSuZayxbOTUq
+	 bFebBddWlbbVp6MERktEFtiU6L2muwqRqLEa0feAg5mWdxlq3ovorobf6/SJqAjvsw
+	 h4ZFP3blh8gHCV6+CM2jcRj5xvLUqgK12KZ4/7upyXtpWaorMMlN0fKjWdrws+2seL
+	 pwl+pOJrbZKcOBoVrpF0ri5o1U6CjO2J3LB0ecnTorxJCywxho3BtsX9g71rmIDOYk
+	 aON7B4BljLnfPWGXe3W/xJs/VG34WS1yZDnm4Ubv6WxJxBxVhWjAXzBvmu8sSRZMY9
+	 naxwCBxkD9R/g==
+Received: from m101-u6-ing.websupport.se (unknown [10.30.6.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	by m101-out-mua-6.websupport.se (Postfix) with ESMTPS id 4hHx1D4s79z1pGK;
+	Sun,  9 Aug 2026 13:46:24 +0200 (CEST)
+X-Authenticated-Sender: per@palvencia.se
+Authentication-Results: m101-u6-ing.websupport.se;
+	auth=pass smtp.auth=per@palvencia.se smtp.mailfrom=per@palvencia.se
+Received: from rpi (unknown [193.180.91.180])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: per@palvencia.se)
+	by m101-u6-ing.websupport.se (Postfix) with ESMTPSA id 4hHx182yG3z39Jw;
+	Sun,  9 Aug 2026 13:46:20 +0200 (CEST)
+Date: Sun, 9 Aug 2026 13:46:07 +0200
+From: Per Larsson <per@palvencia.se>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Heiner
+ Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Liu
+ Changjie <liucj1228@outlook.com>, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 6/6] arm64: dts: allwinner: a523: x96qpro+: enable
+ Ethernet support
+Message-ID: <20260809134607.65d66069@rpi>
+In-Reply-To: <20260803101452.2993721-7-andre.przywara@arm.com>
+References: <20260803101452.2993721-1-andre.przywara@arm.com>
+	<20260803101452.2993721-7-andre.przywara@arm.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="UlXJQYnsTt8nLmxn"
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Action: no action
+X-Out-Spamd-Result: default: False [1.90 / 1000.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_RHS_NOT_FQDN(0.50)[];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,outlook.com];
+	TAGGED_RCPT(0.00)[netdev,dt];
+	RCVD_COUNT_ZERO(0.00)[0];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:35790, ipnet:193.180.91.0/24, country:SE];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	BAYES_HAM(0.00)[50.10%];
+	HAS_X_AS(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	LOCAL_OUTBOUND(0.00)[];
+	FREEMAIL_CC(0.00)[lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,gmail.com,sholland.org,armlinux.org.uk,outlook.com,vger.kernel.org,lists.linux.dev,lists.infradead.org]
+X-Out-Rspamd-Queue-Id: 4hHx182yG3z39Jw
+X-Out-Rspamd-Server: m101-rspamd-out-5
+X-purgate-type: clean
+X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
+X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
+X-purgate: clean
+X-purgate-size: 613
+X-purgate-ID: 155908::1786275984-BC6051C6-6F571976/0/0
 
+On Mon,  3 Aug 2026 12:14:52 +0200
+Andre Przywara <andre.przywara@arm.com> wrote:
 
---UlXJQYnsTt8nLmxn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+>  
+> +&mdio1 {
+> +	ext_rgmii_phy: ethernet-phy@1 {
+> +		compatible = "ethernet-phy-id7b74.4411";
+> +		reg = <1>;
+> +		clocks = <&ccu CLK_EMAC1_25M>;
+> +		pinctrl-names = "default";
+> +		pinctrl-0 = <&ephy_25m_pin>;
 
-The following changes since commit dc59e4fea9d83f03bad6bddf3fa2e52491777482:
+This should be &ephy1_25m_pin, right?
 
-  Linux 7.2-rc1 (2026-06-28 12:01:31 -0700)
+> +		reset-gpios = <&pio 9 16 GPIO_ACTIVE_LOW>;
+> +		reset-assert-us = <10000>;
+> +		reset-deassert-us = <150000>;
+> +	};
+> +};
+> +
+>  &mmc0 {
+>  	vmmc-supply = <&reg_vcc3v3>;
+>  	cd-gpios = <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /*
+> PF6 */
 
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-clk-for-7.3
-
-for you to fetch changes up to 0a136efc0fc2d53b1b1389b3c3fb0f76edca38bf:
-
-  clk: sunxi-ng: sun6i-rtc: add a733 support (2026-07-24 00:02:02 +0800)
-
-----------------------------------------------------------------
-Allwinner clock changes for 7.3
-
-Some cleanups to the Allwinner clock driver library and support for the
-Allwinner A733 RTC clocks added.
-
-----------------------------------------------------------------
-Jerome Brunet (9):
-      dt-bindings: rtc: sun6i: no clock-output-names on h616/r329
-      dt-bindings: rtc: sun6i: add sun60i-a733 support
-      clk: sunxi-ng: fix ccu probe clock unregister on error
-      clk: sunxi-ng: sun6i-rtc: clean up DT usage
-      clk: sunxi-ng: mux: remove unneeded export
-      clk: sunxi-ng: mux: fix determine helper rate propagation
-      clk: sunxi-ng: div: add read-only operation support
-      clk: sunxi-ng: sun6i-rtc: split main oscillator div and gate
-      clk: sunxi-ng: sun6i-rtc: add a733 support
-
-Junhui Liu (1):
-      clk: sunxi-ng: sun6i-rtc: Add feature bit for IOSC calibration
-
- .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml      |  13 +++
- drivers/clk/sunxi-ng/ccu-sun6i-rtc.c               | 127 +++++++++++++++------
- drivers/clk/sunxi-ng/ccu-sun6i-rtc.h               |   3 +-
- drivers/clk/sunxi-ng/ccu_common.c                  |  12 +-
- drivers/clk/sunxi-ng/ccu_common.h                  |   1 +
- drivers/clk/sunxi-ng/ccu_div.c                     |  31 ++++-
- drivers/clk/sunxi-ng/ccu_div.h                     |   1 +
- drivers/clk/sunxi-ng/ccu_mux.c                     |  58 +++++-----
- include/dt-bindings/clock/sun6i-rtc.h              |   4 +
- 9 files changed, 176 insertions(+), 74 deletions(-)
-
---UlXJQYnsTt8nLmxn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmp4ZDQACgkQOJpUIZwP
-JDBw0RAAqBX1aclBYmeOIN1wSL1Gx5Q/jCJVMsB8Ig3bmWxieYklkiNprHiRY8Fc
-UyWZbTCcAjFj1hOj5OrMHUlojLys2dBFyWORlRn2MmlXN8AH+n4U7pwN9d6J8aW6
-j+4AUMY2D8S3B7Y57qq3Swr5f/oBYdILCBSzEz3B8tIux3nJUWHCSUzBIFl/Zv01
-GVUJBpNdC77d5/a6n4ZwEx2EyaznGdD7bF0ETPpSGMuOyhwyVUt1JggYAyRaA1++
-FpvBiXoF0DqkBxYQg8tL94UfnQkebsL+CNy+3C+8rJGr4M5dmVpCQMGwIS03JBiJ
-YqbFRofPiuOABgHgiGkMe20gVrcV/fBLvr1HyeTbo4XyrzXciIODPfoNKERv15I0
-Pdk4deUcZRP+jDM8UK23CpPpDE0Yx/waPUKMh3efw8okXpXACVj4Yiov+B+f81u6
-2bsKn8O3KPrn7VEScedbsMzQU+K9RudMl2+MXdsRG6Hn3jbWegDIHvFZkkEgFS9H
-7NU/1V2zRJ9XN/lqUmmTd34i7paHMOKOLkFXPf/bTgvi7FwZcG/Szo4XmqLREHAW
-qu4owZ3cl5GzLAGTB6oacE3mKx01mmpODW2Bv2xTtbekqhzZ4CN5tm8EyboTD5nO
-8+2JVsJ1WOhEVLXg/bBsVdeRYWqBvsTZu0RhvcJL7IshZfjOspM=
-=IhP9
------END PGP SIGNATURE-----
-
---UlXJQYnsTt8nLmxn--
