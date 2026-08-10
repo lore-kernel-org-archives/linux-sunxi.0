@@ -1,171 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0DA53AFD1E;
-	Mon, 10 Aug 2026 10:32:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC30A3F8223
+	for <linux-sunxi@lists.linux.dev>; Mon, 10 Aug 2026 14:26:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786357937; cv=none; b=hca4Q7TePIbKdXB1C+iUNAkOPuT85JNlzyLoIMeHTMHY/8QVcuXahOAg5V42MDfNXW5ZH8rjC93xxVRb9P6dt056uBQCAKJs1q3UNqS49ndASJSBQiFj+adsCtIMTxDs/BNCQIV0HYEZFjT8Fe0ej63txP2Hv7iyfaxG8Z8JHg4=
+	t=1786371963; cv=none; b=nvf/DWz+/l3Wg2qsdvygs5iLFCtkirr+VZFuIDGJ8dZZf7bX78zzjXGzfPZTKkaAuwXJX6rAb6tNNrAZiGdNLfKs8nGXXOa/8Y9OwsPXVFGRQ5LBCQlL+eo+XeJj6VLpvQpY3nFg8WB1ic/Cp1GkOEOL60lnIZOoOXeT+6RSde4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786357937; c=relaxed/simple;
-	bh=gcVZYAVVRjiIxWsmvgOz4mjgywzDJGf7DmIfyhj6DV4=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=kvstnbu2Xa71fFZd0mu4Hv6ySgek8ZdONzJ4EFnykS5aWtJarmkrIPZmE/na0dK8bN8BqEgF5g5AZjXqVzbtQh7h8NsMvdU27MGNMEGS3HoeiQb1X4cGycDQJNNugxDXUUow8klfA2MySzqjAhhvouSx5I79zZvdouxYWaBtu7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BS35+SBm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786371963; c=relaxed/simple;
+	bh=y0J+0ZyftE6P5Fjptu4SbAryEPH6TuLoCOfn+OZ0s+w=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=fiaAtGsusLWZTZRzlIYXrb2MsSPJTqSPQwsASkiycraQwQIGWs8A/6FrimFXHXmO2LlToBwen3/jcwn+Vz0vPFmUMU8/8ZxwogvZ03Si2bQwd3laH2libPBn+NCFhxjMxA7f7O/FbaeZqepX47SrwRmBlDuPOGdF55eZKxIrzKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=0Hv6b62v; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BS35+SBm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 510241F000E9;
-	Mon, 10 Aug 2026 10:32:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786357935;
-	bh=4XLakNdnA12f/Bj9EvdWHTKIxnrNcRr2+AAu2bcS+mg=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=BS35+SBme0naIFryJgDhbyV3lwJiuTma70abK+c17E0CbhYgb5PWf/WJ0Amna3xO0
-	 MYZjFD7T6Rj/W69CUpcSg0CuvqiLT/lCP/WixKHyoRQDh3hy7j3leld9h8ss+7buFs
-	 QFb3R31OXPDJi7stxBYjqkaRdJQoZlJeje5XpzQHAqU7kUZ3ZAddozkkKFRw4n6noW
-	 /vrQU/xk4OWCijpPs1qO4cxKNNZ93asypgvMT60oOWbA9bHRLCUOjI1R8/BRcEnmd9
-	 rx5bmQesZyjt80SL43Wa4Ojn99zVnpY/ko6R7kkE3fKzDFrr4hlH5JINv2iS2pMTpQ
-	 RgyejymG7E8xg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] dmaengine: sun6i: fix use-after-free in descriptor
- error path
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Chaithanya Lagisetty" <nagachaithanya9911@gmail.com>
-Cc: vkoul@kernel.org, dmaengine@vger.kernel.org, linux-sunxi@lists.linux.dev, Frank.Li@kernel.org
-In-Reply-To: <20260810102044.1725649-1-nagachaithanya9911@gmail.com>
-References: <20260810102044.1725649-1-nagachaithanya9911@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 Aug 2026 10:32:14 +0000
-Message-Id: <20260810103215.510241F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="0Hv6b62v"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 3FB444E411AA;
+	Mon, 10 Aug 2026 14:26:00 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 113176033B;
+	Mon, 10 Aug 2026 14:26:00 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3546011C4A8B9;
+	Mon, 10 Aug 2026 16:25:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1786371955; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=wO+cXkZt+topJfy8NdQFR79mWwPl4kfgdmUuuL3DDzA=;
+	b=0Hv6b62vBOPQbozjljwug2VfT0fSg943Beu1OT2NhDbVVnhDhIkUY9PBI2m6S5t6cOg/pa
+	WH97Ch6PZaAtdOwW5bS0xdGxazCL9apKC63/y3MysUwKJbyI6PhST+lF2db45YAyP3oubg
+	pVDuwQzW4czhB8640hKUOmTL4lqckHMefpnSCoCOGi53qz4vgXi2LtQae2gxFlp5xj+6fC
+	s07S9J0QepWqPDA1tSQs7N/LOq+6DSUEMPVAjwhmfWfQn9BdYcBt+DgUayegJa2isuFS+d
+	KTGErDZ/axKgn1aLlixEADItLpzNVpiDNrlxr9o5uumfcDKvzdYi6tI+0l7ncw==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Richard Weinberger <richard@nod.at>, 
+ Vignesh Raghavendra <vigneshr@ti.com>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Richard Genoud <richard.genoud@bootlin.com>, 
+ James Hilliard <james.hilliard1@gmail.com>
+Cc: linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org
+In-Reply-To: <20260807-submit-sunxi-nand-h6-h616-timings-v3-0-91287b543f41@gmail.com>
+References: <20260807-submit-sunxi-nand-h6-h616-timings-v3-0-91287b543f41@gmail.com>
+Subject: Re: [PATCH v3 0/3] mtd: rawnand: sunxi: fix H6/H616 controller
+ timings
+Message-Id: <178637195198.1098769.15933415840493831349.b4-ty@bootlin.com>
+Date: Mon, 10 Aug 2026 16:25:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.14.3
+X-Last-TLS-Session-Version: TLSv1.3
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
+On Fri, 07 Aug 2026 09:38:58 -0600, James Hilliard wrote:
+> The sunxi NAND timing solver currently applies the original A10 NDFC
+> timing characteristics to every supported controller. The H6/H616 NDFC
+> uses two internal cycles for several setup and hold intervals and has
+> different delay-field encodings, so the resulting clock and timing
+> register values do not match the hardware.
+> 
+> Prepare for per-controller timing data in two behaviorally focused
+> patches, then add and select the H616 characteristics in the final fix.
+> Legacy controllers retain their existing setup-cycle behavior and delay
+> encodings.
+> 
+> [...]
 
-Pre-existing issues:
-- [High] Missing validation for `period_len` and `buf_len` in `sun6i_dma_pr=
-ep_dma_cyclic` leads to a division by zero or a NULL pointer dereference.
-- [High] Missing validation for `sg_len =3D=3D 0` in `sun6i_dma_prep_slave_=
-sg` leads to hardware being programmed with physical address 0x0.
-- [High] Integer truncation in the interrupt handler loop bound causes inte=
-rrupts from channels >=3D 8 to be permanently ignored on SoCs with non-mult=
-iple-of-8 channels (e.g., sun8i-h3).
---
+Applied to nand/next, thanks!
 
---- Patch [1]: [PATCH] dmaengine: sun6i: fix use-after-free in descriptor e=
-rror path ---
-commit 815343fddc5f554759b857f782dbda4a7c8b1a7a
-Author: Chaithanya Lagisetty <nagachaithanya9911@gmail.com>
+[1/3] mtd: rawnand: sunxi: group controller delay tables
+      commit: 9f2e033754c6c023150f184b4e72bbcc5d6eea13
+[2/3] mtd: rawnand: sunxi: describe tADL and tWHR delays
+      commit: 147f2a5743f8864bfc265654b1856af11c8c0031
+[3/3] mtd: rawnand: sunxi: fix H6/H616 controller timings
+      commit: 15a3cbce32994141252bb4ecfe3ff3a5d22d0b4f
 
-dmaengine: sun6i: fix use-after-free in descriptor error path
+Patche(s) should be available on mtd/linux.git and will be
+part of the next PR (provided that no robot complains by then).
 
-The err_lli_free cleanup loops in sun6i_dma_prep_slave_sg() and
-sun6i_dma_prep_dma_cyclic() free each LLI node with dma_pool_free()
-and then dereference the freed node to obtain v_lli_next and
-p_lli_next for the next loop iteration.
+Kind regards,
+Miquèl
 
-> diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-> index a9a254dbf8cb9..2c163ab22af5c 100644
-> --- a/drivers/dma/sun6i-dma.c
-> +++ b/drivers/dma/sun6i-dma.c
-> @@ -720,10 +720,10 @@ static struct dma_async_tx_descriptor *sun6i_dma_pr=
-ep_slave_sg(
->  	struct sun6i_dma_dev *sdev =3D to_sun6i_dma_dev(chan->device);
->  	struct sun6i_vchan *vchan =3D to_sun6i_vchan(chan);
->  	struct dma_slave_config *sconfig =3D &vchan->cfg;
-> -	struct sun6i_dma_lli *v_lli, *prev =3D NULL;
-> +	struct sun6i_dma_lli *v_lli, *v_next, *prev =3D NULL;
->  	struct sun6i_desc *txd;
->  	struct scatterlist *sg;
-> -	dma_addr_t p_lli;
-> +	dma_addr_t p_lli, p_next;
->  	u32 lli_cfg;
->  	int i, ret;
-> =20
-
-[Severity: High]
-This is a pre-existing issue, but I noticed there is no validation for
-sg_len =3D=3D 0.
-
-If a caller provides an empty scatterlist, the txd is allocated but the
-for_each_sg() loop is skipped:
-
-drivers/dma/sun6i-dma.c:sun6i_dma_prep_slave_sg() {
-    ...
-    for_each_sg(sgl, sg, sg_len, i) {
-        ...
-    }
-    ...
-}
-
-This leaves txd->p_lli as 0 and txd->v_lli as NULL. When this descriptor is
-executed via sun6i_dma_start_desc(), the hardware is programmed with physic=
-al
-address 0x0.
-
-Could this lead to the hardware accessing physical address 0x0?
-
-[ ... ]
-
-> @@ -806,9 +809,9 @@ static struct dma_async_tx_descriptor *sun6i_dma_prep=
-_dma_cyclic(
->  	struct sun6i_dma_dev *sdev =3D to_sun6i_dma_dev(chan->device);
->  	struct sun6i_vchan *vchan =3D to_sun6i_vchan(chan);
->  	struct dma_slave_config *sconfig =3D &vchan->cfg;
-> -	struct sun6i_dma_lli *v_lli, *prev =3D NULL;
-> +	struct sun6i_dma_lli *v_lli, *v_next, *prev =3D NULL;
->  	struct sun6i_desc *txd;
-> -	dma_addr_t p_lli;
-> +	dma_addr_t p_lli, p_next;
->  	u32 lli_cfg;
->  	unsigned int i, periods =3D buf_len / period_len;
-
-[Severity: High]
-This is a pre-existing issue, but is it possible for period_len to be 0 her=
-e,
-leading to a division by zero?
-
-Additionally, if buf_len < period_len, periods evaluates to 0, which skips
-the allocation loop. This leaves prev as NULL, and causes a NULL pointer
-dereference later in the function:
-
-drivers/dma/sun6i-dma.c:sun6i_dma_prep_dma_cyclic() {
-    ...
-    prev->p_lli_next =3D txd->p_lli;      /* cyclic list */
-    ...
-}
-
-Should we validate period_len and buf_len before performing this division?
-
-[ ... ]
-
-While reviewing this code, I also noticed another pre-existing issue in the
-interrupt handler.
-
-[Severity: High]
-This is a pre-existing issue, but I noticed a potential truncation in the
-channel group calculation for the interrupt handler.
-
-drivers/dma/sun6i-dma.c:sun6i_dma_interrupt() {
-    ...
-    for (i =3D 0; i < sdev->num_pchans / DMA_IRQ_CHAN_NR; i++) {
-        ...
-    }
-    ...
-}
-
-For SoCs with non-multiple-of-8 channel counts (like sun8i-h3 with 12
-channels), 12 / 8 evaluates to 1. This causes the handler to only process
-channels 0-7 and completely skip channels 8-11.
-
-Could this result in unhandled interrupts and system hard lockups if a DMA
-transfer completes on channels 8-11?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260810102044.1725=
-649-1-nagachaithanya9911@gmail.com?part=3D1
