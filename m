@@ -1,152 +1,211 @@
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B06B37C903
-	for <linux-sunxi@lists.linux.dev>; Tue, 11 Aug 2026 06:07:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2533F484B;
+	Tue, 11 Aug 2026 06:44:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786428433; cv=none; b=WBh8mGx9aTB4RaHrikoSZ/J8nBOnmqXPmMu7/a3I653ZpvCstBdOf1h4zJRSRX5Cl2mRMAETnj0M/JZJ0J0Njx/H9amSG4QLNWL6HQBJ7PIqI2Tl4dnn9XITg2bIV1DaQ0NSKNxYzqU+m4uh7w+sj2EbaAenVBBVK2jh5YuQXBM=
+	t=1786430680; cv=none; b=VXKFYWdBw8a0MfTPHX5ze/0usTA30vsCN6K8iq1io4JORD2kqKF+/PrCoOT8XHz0+7zn6Jmoiy5Tv8YaNBu5OmlFTyDjNqdi599IHWsNjxXEQL0IdTS8r49inFyJzKa1HQn4Ag9GiH+beEGDiUFeWf4aO1xdjeFDlkrlnQGWZ28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786428433; c=relaxed/simple;
-	bh=cO0EPT1bPIG49AtzxircCgFULQ+dKdZXtNn1BWqEQV0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IVVDUx3NaVHzx/SXrTLg39RgKZkEu+3YvUAF6zJgMxm0yGD/n5ZudrnYvCXtF2NUWCllCtJd8gRHOdh8KNJV1iCpOmvptWKBl7687Wd0UJDHZRAPA7d6teeWYuS5D9w2Hkgb1GmXRuPywGePVS5inJTkzJ5dNjWjagg8RnwqWb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cftlmv3R; arc=none smtp.client-ip=209.85.160.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786430680; c=relaxed/simple;
+	bh=3pwlVHKIPqk6SCzteaszQxOjt2kEqJJsvltoaHjSoeU=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=W+l8nVH0WAAVMe8GQz8Xj3JXATYCKjPMj8ATPbaQuNq2oc1noQzDUrJ68djsy+tuhFuPpFW78KcXxrbWJntsbqoMKS9edSM/66O9aICciDKz44IkYfGdBkPt/Yy8bAtGzGzNZhWOQkNLRGMjCZGqbapsUgVm8P4/BVLUs5qz5kI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XCAvdIU6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cftlmv3R"
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-4472500e25fso1167025fac.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 10 Aug 2026 23:07:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786428430; x=1787033230; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=PQogJxVcWHF2/s1gpFEzMjsDacnUmvO1LDzMrn00kZM=;
-        b=cftlmv3R0RX/fFX73P2loSBIFUZcJTKhelx+S6SAQVEeQfNfnJpoXoU+buCWnYy1sb
-         atJNvOxRdFG6vvEyImH4k/49avjLjy3KPS7K7k7bq6jFyoIrkP0eUq07e5FO+Kaswfzr
-         lDWwSMjL1BOkjZrAQHN6KNNi6Q7dQmY/m3idPp7UL3aOxJC4GfYaXSQyTnG6ywnaEWkn
-         /fjEFIHir5hA53iUNQb7mbKebuFUe8UoeFKfxk6+v6iT/Zn7itfCKRBr9uIowk4nCk2g
-         VB+dQZEpdOUpyFthP6To8CcGEEzGVkIqX75NnKmroSp5t2CCj6vBjIiITNyHjaWQBpwn
-         4pVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786428430; x=1787033230;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=PQogJxVcWHF2/s1gpFEzMjsDacnUmvO1LDzMrn00kZM=;
-        b=MbClYBkkGrzFZfTCBfndGCjF2Ymc54nqD9sQd8sKUjYEbA/wKhuvUxanVc42OXWlJ7
-         EWQM4q2axTKMIGbBDAajOl0tL26+baI87m5JMMJWrMsaYOGwCrRyBvDEQwQIRD1h2xxk
-         9Ahc7FB2aH39irOY6TVLptvv2I4DDFUJ+7UxeZlatwqbJv4tzfeLJpGRP6vNJ25swzc2
-         zlnY7v7ElfKWmYjG1c3Mg/9JeVKTrtYXAfdu7XnZsK5QP5WT9ozfgPm/cqAOujVBU8eP
-         yKZtycShaoJ39WRMDE+3/okflDjlsaC15j/Q5cqRv06GlNbE+rG27Pbu6NagLVTWHLlz
-         wdwA==
-X-Forwarded-Encrypted: i=1; AHgh+RoQgMzTotpHwLy42E224iQajCSkGSuXZGiYpSZEW2CRgwVIg3CbhfgS4FSgHCFE+kHvNAyGONlR67smUw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyxdcpFGDozLbM8QqLJ78rTgBzHezL125NoeFcQLI9lT+N30941
-	y0tbAMj/Qj8TY/2xr0UK4+b1/jpolFIWkkmgeF/o3NA2cqQqJqFqAJcj
-X-Gm-Gg: AR+sD114zyXGIpmO1Byqr+YL7o0C8K5LDGjygG1X+imNWBeV7AN2x1eXo/XhYIOb4U9
-	QU30WcqNJ0Ef0Ty4G0g3DDGcTJE+runtsDmbrAKV8vBcvzRYa5Az3m5q4WtYDYhCYUfrM4XjLk7
-	MZcmaDjNh1UPHT1GNZ4+yBbOenkTx1mndQwvts7PYVsdZs1/nXd5K0CPtX3CBt7CcZ9AG6968ld
-	iF3Z011zVxM2ZaESnt6gwTcUXGpCUwDV6r52DbW/3J1fbX5fdk7LoNMCBGcVGMxH6QmfwVE3+HB
-	NlJZTy5Aa4l+TJnR+C3qIVxnF0/orU6Yk/FQ0J59bfF+r8LPID4XELeYyWCJ2EIksznBWa0VF9/
-	6OQjQryVSRffpAoz0NQx/luj2uUFMsEM+yLW3pKvAMBpkMYk39iUl5mnhJOS0aBTa7W/PNwd1DH
-	IVI2O6dB37wyZuQQY09C0lo4ckrwuIt67B4GE7XGcgUyItnbuWm/4sDWPwOFUPZ8v2soikfLL3Q
-	EAXCEG7aPhCFNQgufCZF8mgNzbUyYOxMkG9Pl0O4gE6xMHs0OFELtssttfGPVtG6YNjgXCdmDWf
-	pS7jFMxJ6cqHFMGXy7sDLNW1/DTmEErQ1A5x7KLwF33kWipdrF6uCrGZpXv+KUBW9yRyj6WmmBm
-	1G+11K8hgSFcXNq0UNIg8X6TB30gFrYo0cG1Exg==
-X-Received: by 2002:a05:6808:f01:b0:496:2b3:ae71 with SMTP id 5614622812f47-4b1fd9d2e1amr577795b6e.18.1786428430385;
-        Mon, 10 Aug 2026 23:07:10 -0700 (PDT)
-Received: from james-x399.tailafd1a.ts.net (184-96-154-59.hlrn.qwest.net. [184.96.154.59])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4b2001331d2sm98211b6e.11.2026.08.10.23.07.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Aug 2026 23:07:08 -0700 (PDT)
-From: James Hilliard <james.hilliard1@gmail.com>
-To: linux-mtd@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Cc: James Hilliard <james.hilliard1@gmail.com>,
-	stable@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Richard Genoud <richard.genoud@bootlin.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] mtd: rawnand: sunxi: reject invalid ECC step sizes
-Date: Tue, 11 Aug 2026 00:06:48 -0600
-Message-ID: <20260811060651.227431-1-james.hilliard1@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XCAvdIU6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9948A1F000E9;
+	Tue, 11 Aug 2026 06:44:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786430660;
+	bh=8CV9C0fteJuw/LuwvISkkiA3Pz1oEu9xaIlcJm9yiDM=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To;
+	b=XCAvdIU6359mhm5OSz0Qo6JbtwOuioQB4k9xxkVrjGyVMdlRefefIH3rmPS4arkay
+	 XuK1vyki3FVvFTXYpo1RxyUyVhkx5v2S7CD9PAfeNfFpFo1LVSmIfJQX1L17OPtB2G
+	 tfiPqRBLuMsEXUTBmA1nkqRX42CjC98Lwto2kJb6fED0BY6Kn9rP3B3WZxnstIfC81
+	 7UEiXlIxOfcx2WOcD6/5m+HmW+2Spd5wCs0f/riNZLGYfdEDLnh8/ipJ8hf2Cs9DQO
+	 533TaxnmKR546UDh9WH0mHYdoeJC0xQTZ1Ht6Sck8uMTPE2qc1Rwb0hKP0WJRQZP5A
+	 jMcU2BXtubH/g==
+Message-ID: <70373503-71e2-4646-9246-d3b5d8360cec@kernel.org>
+Date: Tue, 11 Aug 2026 08:44:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH v9 0/5] Add SCDC information to connector debugfs
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Daniel Stone <daniel@fooishbar.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+References: <20260724-scdc-link-health-v9-0-bdda406d016d@collabora.com>
+Content-Language: en-US, nl
+In-Reply-To: <20260724-scdc-link-health-v9-0-bdda406d016d@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-ECC maximization forces a 1024-byte ECC step and divides the
-available OOB bytes by the number of steps. A NAND with a smaller
-page therefore produces zero steps and a division by zero.
+On 24/07/2026 16:22, Nicolas Frattaroli wrote:
+> HDMI uses the DDC I2C bus for communicating various bits of link status
+> out of band with the actual HDMI video signal. This information can be
+> useful for debugging issues like questionable cables sabotaged by feline
+> teeth, Enthusiast Grade cables made of cow fencing wire, and other such
+> problems that ruin one's media viewing plans.
+> 
+> Consequently, this series exposes various bits of pertinent information
+> from the SCDC protocol in an HDMI connector's debugfs. To continually
+> poll the link status, userspace can poll the debugfs file.
 
-An explicitly configured ECC step which is larger than, or does not
-divide, the page also produces an unusable step count before the NAND
-core can diagnose the configuration.
+Tested-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 
-Validate the step size at both points where the driver derives the
-number of sectors and reject invalid geometries.
+The contents of scdc_status is parsed correctly by edid-decode, so I'm happy :-)
 
-Fixes: 4796d8655915 ("mtd: nand: sunxi: Support ECC maximization")
-Cc: stable@vger.kernel.org
-Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
----
- drivers/mtd/nand/raw/sunxi_nand.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+Regards,
 
-diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
-index 45ccbce91551..ad314c0e30b2 100644
---- a/drivers/mtd/nand/raw/sunxi_nand.c
-+++ b/drivers/mtd/nand/raw/sunxi_nand.c
-@@ -2032,6 +2032,15 @@ static void sunxi_nand_detach_chip(struct nand_chip *nand)
- 	sunxi_nand->user_data_bytes = NULL;
- }
- 
-+static int sunxi_nfc_ecc_steps(struct mtd_info *mtd, unsigned int step_size)
-+{
-+	if (!step_size || mtd->writesize < step_size ||
-+	    mtd->writesize % step_size)
-+		return -EINVAL;
-+
-+	return mtd->writesize / step_size;
-+}
-+
- static int sunxi_nfc_maximize_user_data(struct nand_chip *nand, uint32_t oobsize,
- 					int ecc_bytes, int nsectors)
- {
-@@ -2078,7 +2087,9 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand_chip *nand,
- 		int bytes = mtd->oobsize;
- 
- 		ecc->size = 1024;
--		nsectors = mtd->writesize / ecc->size;
-+		nsectors = sunxi_nfc_ecc_steps(mtd, ecc->size);
-+		if (nsectors < 0)
-+			return nsectors;
- 
- 		if (!nfc->caps->reg_user_data_len) {
- 			/*
-@@ -2163,7 +2174,9 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand_chip *nand,
- 	/* HW ECC always work with even numbers of ECC bytes */
- 	ecc->bytes = ALIGN(ecc->bytes, 2);
- 
--	nsectors = mtd->writesize / ecc->size;
-+	nsectors = sunxi_nfc_ecc_steps(mtd, ecc->size);
-+	if (nsectors < 0)
-+		return nsectors;
- 
- 	/*
- 	 * The rationale for variable data length is to prioritize maximum ECC
--- 
-2.53.0
+	Hans
+
+> 
+> ---
+> Changes in v9:
+> - Unlock mode_config.mutex on disconnected connector early exit
+> - Calculate and print Reed-Solomon error corrections counter on != 4
+>   lane FRL as well. Technically a functional change to an already
+>   reviewed patch, but I kept the R-b because it's so minor.
+> - Link to v8: https://patch.msgid.link/20260722-scdc-link-health-v8-0-cd1dacbb85d9@collabora.com
+> 
+> Changes in v8:
+> - Acquire mode_config mutex in an interruptible way during
+>   scdc_status_show to avoid racing connector state
+> - Remove scdc_debugfs_priv, use connector as debugfs entry priv instead
+> - Allocate and free state in scdc_status_show, since it doesn't need to
+>   persist across debugfs reads
+> - Check for NULL ddc in drm_scdc_read_state in the unlikely event an
+>   EDID with the SCDC flag was forced on a connector with no DDC
+> - Note: drm_connector_get() is omitted from drm_scdc_debugfs_init
+>   because drm_scdc_debugfs_init is called on connector construction and
+>   the debugfs is removed on connector destruction. Adding a redundant
+>   reference increase here would necessitate introducing a destruction
+>   callback to mirror the debugfs_init connector op for the sole purpose
+>   of decreasing the counter again.
+> - Link to v7: https://patch.msgid.link/20260721-scdc-link-health-v7-0-92df1b6ad5fc@collabora.com
+> 
+> Changes in v7:
+> - Move HDMI debugfs registration to new state helper, fix up all users
+>   (sun4i, vc4, bridge)
+> - Register scdc debugfs in new hdmi debugfs helper
+> - Link to v6: https://patch.msgid.link/20260611-scdc-link-health-v6-0-6307875a6b5e@collabora.com
+> 
+> Changes in v6:
+> - Fix off-by-one error in drm_scdc_read_state
+> - Link to v5: https://patch.msgid.link/20260604-scdc-link-health-v5-0-11173b0ac3de@collabora.com
+> 
+> Changes in v5:
+> - Read all SCDC data regardless of update flags
+> - Dump SCDC data as hex before the human-readable output. It's separated
+>   with "\n----------------\n\n".
+> - No longer write 0 to read-only registers
+> - Add Reed-Solomon Corrections counter parsing
+> - Parsing has been kept. A desire was expressed to get this data without
+>   any external userspace tooling, and the kernel will need to parse it
+>   eventually anyway to set the link status.
+> - Functions have been made static as of right now, since external users
+>   may do another pass over the function signatures anyway.
+> - Link to v4: https://patch.msgid.link/20260527-scdc-link-health-v4-0-622ea40a1f59@collabora.com
+> 
+> Changes in v4:
+> - Don't use C struct bitfields for parsing status flags. Switch to
+>   bitwise AND for boolean flags, and FIELD_GET for multi-bit values.
+> - Drop the superfluous !! and parens
+> - Drop the __pure attributes on static functions
+> - Initialise stack local arrays with {}, not { 0 }.
+> - I've kept the print macros and %-30s format. Reason being that I don't
+>   want to repeat the format specifier and str_yes_no(foo) a bunch, and I
+>   like the %-30s format because it means all values are aligned with the
+>   value of the longest field, which is 30 chars long.
+> - Link to v3: https://patch.msgid.link/20260526-scdc-link-health-v3-0-59e4a4aaead1@collabora.com
+> 
+> Changes in v3:
+> - Add patch to change return type of drm_scdc_read/write.
+> - Rework error counter reading to duplicate less code.
+> - Also check lane 3 counter valid flag when reading its error counter.
+> - Use memset to clear buf for error counters, rather than doing it in
+>   the loop.
+> - Make read_error_counters not accept 0 as num_lanes; fix it up in the
+>   caller instead.
+> - Link to v2: https://patch.msgid.link/20260520-scdc-link-health-v2-0-511af18cd64b@collabora.com
+> 
+> Changes in v2:
+> - Add HDMI 2.1 SCDC status reporting
+> - Link to v1: https://patch.msgid.link/20260415-scdc-link-health-v1-0-8e731e88eaf0@collabora.com
+> 
+> To: Jani Nikula <jani.nikula@linux.intel.com>
+> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> To: Maxime Ripard <mripard@kernel.org>
+> To: Thomas Zimmermann <tzimmermann@suse.de>
+> To: David Airlie <airlied@gmail.com>
+> To: Simona Vetter <simona@ffwll.ch>
+> To: Andrzej Hajda <andrzej.hajda@intel.com>
+> To: Neil Armstrong <neil.armstrong@linaro.org>
+> To: Robert Foss <rfoss@kernel.org>
+> To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> To: Jonas Karlman <jonas@kwiboo.se>
+> To: Jernej Skrabec <jernej.skrabec@gmail.com>
+> To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> To: Daniel Stone <daniel@fooishbar.org>
+> To: Hans Verkuil <hverkuil+cisco@kernel.org>
+> To: Chen-Yu Tsai <wens@kernel.org>
+> To: Samuel Holland <samuel@sholland.org>
+> To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> To: Maíra Canal <mcanal@igalia.com>
+> To: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: kernel@collabora.com
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-sunxi@lists.linux.dev
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> 
+> ---
+> Nicolas Frattaroli (5):
+>       drm/scdc-helper: Don't use ssize_t return type for scdc_read/write
+>       drm/scdc-helper: Add scdc_status debugfs entry
+>       drm/scdc-helper: Implement parsing and printing HDMI 2.1 fields
+>       drm/debugfs: Move HDMI debugfs registration to state helper
+>       drm/display: hdmi-state-helper: Init SCDC debugfs for HDMI
+> 
+>  drivers/gpu/drm/display/drm_bridge_connector.c  |   3 +
+>  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 156 +++++++++++++
+>  drivers/gpu/drm/display/drm_scdc_helper.c       | 289 +++++++++++++++++++++++-
+>  drivers/gpu/drm/drm_debugfs.c                   | 157 -------------
+>  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c          |   1 +
+>  drivers/gpu/drm/vc4/vc4_hdmi.c                  |   1 +
+>  include/drm/display/drm_hdmi_state_helper.h     |   3 +
+>  include/drm/display/drm_scdc.h                  |  21 +-
+>  include/drm/display/drm_scdc_helper.h           | 103 ++++++++-
+>  9 files changed, 568 insertions(+), 166 deletions(-)
+> ---
+> base-commit: b747a63003130bef1a3d5d6ba97c94d0cee36f55
+> change-id: 20260413-scdc-link-health-89326013d96c
+> 
+> Best regards,
+> --  
+> Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> 
 
