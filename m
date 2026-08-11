@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2533F484B;
-	Tue, 11 Aug 2026 06:44:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29FC733439A;
+	Tue, 11 Aug 2026 07:04:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786430680; cv=none; b=VXKFYWdBw8a0MfTPHX5ze/0usTA30vsCN6K8iq1io4JORD2kqKF+/PrCoOT8XHz0+7zn6Jmoiy5Tv8YaNBu5OmlFTyDjNqdi599IHWsNjxXEQL0IdTS8r49inFyJzKa1HQn4Ag9GiH+beEGDiUFeWf4aO1xdjeFDlkrlnQGWZ28=
+	t=1786431893; cv=none; b=JMnabADEFZR3d+qFMib/KbO77lWY1t5DmJGOKV2Xz7dl7Cicaq6FtUp7gvu3jNgZRnqnSQ4vhv8w3vWnoGaApvEBelQrxXRObPoca5QSlwz+jcZ0WgEHNtNL1c88TKugmTmSRD02f/30pmteTmNYTvXogDiOlgIR27PErFheUuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786430680; c=relaxed/simple;
-	bh=3pwlVHKIPqk6SCzteaszQxOjt2kEqJJsvltoaHjSoeU=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=W+l8nVH0WAAVMe8GQz8Xj3JXATYCKjPMj8ATPbaQuNq2oc1noQzDUrJ68djsy+tuhFuPpFW78KcXxrbWJntsbqoMKS9edSM/66O9aICciDKz44IkYfGdBkPt/Yy8bAtGzGzNZhWOQkNLRGMjCZGqbapsUgVm8P4/BVLUs5qz5kI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XCAvdIU6; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786431893; c=relaxed/simple;
+	bh=gLddvf9F2GtgR/+FQqLEraAIQQkxJqkonnDZ1NTUJgU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rsFJLWvY15LNSP2T871YkaJjNvsra2gLPbMPtZLZkLNDTHdCX8LqA+UrbgtIlKQGBzG4f1+ugRpsN3ZOhXRyqQo6LTk6tAk333p1zd7q4x5h24+V/o0zNnG8ecWPoADRAgdMFTWQlpMflC4doTbCZF1TkOVULKkodqTs1zOFtEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bzM3maFu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XCAvdIU6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9948A1F000E9;
-	Tue, 11 Aug 2026 06:44:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bzM3maFu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69FEA1F000E9;
+	Tue, 11 Aug 2026 07:04:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786430660;
-	bh=8CV9C0fteJuw/LuwvISkkiA3Pz1oEu9xaIlcJm9yiDM=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To;
-	b=XCAvdIU6359mhm5OSz0Qo6JbtwOuioQB4k9xxkVrjGyVMdlRefefIH3rmPS4arkay
-	 XuK1vyki3FVvFTXYpo1RxyUyVhkx5v2S7CD9PAfeNfFpFo1LVSmIfJQX1L17OPtB2G
-	 tfiPqRBLuMsEXUTBmA1nkqRX42CjC98Lwto2kJb6fED0BY6Kn9rP3B3WZxnstIfC81
-	 7UEiXlIxOfcx2WOcD6/5m+HmW+2Spd5wCs0f/riNZLGYfdEDLnh8/ipJ8hf2Cs9DQO
-	 533TaxnmKR546UDh9WH0mHYdoeJC0xQTZ1Ht6Sck8uMTPE2qc1Rwb0hKP0WJRQZP5A
-	 jMcU2BXtubH/g==
-Message-ID: <70373503-71e2-4646-9246-d3b5d8360cec@kernel.org>
-Date: Tue, 11 Aug 2026 08:44:13 +0200
+	s=k20260515; t=1786431885;
+	bh=RRxJD7uS+nO+wGMuqirv86ZjQLFUxpRUTbD/rtVYb3w=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=bzM3maFu7p+zTWeUoxvY9teEXaDWe8lw0WRDptVBYW/MXrliJO4Ek+Z5WiZWnTukC
+	 n4MVGOMlpRcFWJGuVNzIHXETHBlnYpsarCfPKFy6aZTC5nkg8geRaMa3jznn6veH7o
+	 92Ttscn5ftruZdhdJZVlWN9+FTaCcHv0VV+35AxqURXvaATR0WfEtqlgq/dJZYSjrc
+	 fbkbXm7hulbuXntCtqGA6tUv4Re7klrQBECAQCJnraVUjWvhBwO4omxc/FgQjxGKBO
+	 4Gof++MhdlvM5HmxssQSTPNz0xrhXJz7Im/e2eiUXitkXagBnavVml09ZG/pXjC0k7
+	 rNpANOWbDGysA==
+Message-ID: <71458ac6-d85b-409c-a48f-ff9fbd0615dc@kernel.org>
+Date: Tue, 11 Aug 2026 09:04:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -35,177 +35,112 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v9 0/5] Add SCDC information to connector debugfs
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Daniel Stone <daniel@fooishbar.org>, Chen-Yu Tsai <wens@kernel.org>,
- Samuel Holland <samuel@sholland.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20260724-scdc-link-health-v9-0-bdda406d016d@collabora.com>
-Content-Language: en-US, nl
-In-Reply-To: <20260724-scdc-link-health-v9-0-bdda406d016d@collabora.com>
+Subject: Re: [PATCH 08/21] dt-bindings: mfd: x-powers: add AC200
+To: James Hilliard <james.hilliard1@gmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Andre Przywara
+ <andre.przywara@arm.com>, Richard Genoud <richard.genoud@bootlin.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+ Jose Abreu <joabreu@synopsys.com>,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, Saravana Kannan <saravanak@kernel.org>,
+ Lee Jones <lee@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ mfd@lists.linux.dev, linux-rockchip@lists.infradead.org
+References: <20260802-submit-acx00-of-dynamic-v1-v1-0-0a53cd9e21cc@gmail.com>
+ <20260802-submit-acx00-of-dynamic-v1-v1-8-0a53cd9e21cc@gmail.com>
+ <f2cc3c90-060f-40c1-a55e-e2ed91e65487@kernel.org>
+ <CADvTj4q7HnOYJZE-M070-1npEdne__Ct5D9FeUNVVXa8Bsm7qQ@mail.gmail.com>
+ <e198e8fa-6c5e-4c8d-a4de-d8bb25aab0bd@kernel.org>
+ <CADvTj4rjXGgF2d9Xm6TmeS2LwaM+O2wFFH=rGLA32y+aMk2KOg@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <CADvTj4rjXGgF2d9Xm6TmeS2LwaM+O2wFFH=rGLA32y+aMk2KOg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 24/07/2026 16:22, Nicolas Frattaroli wrote:
-> HDMI uses the DDC I2C bus for communicating various bits of link status
-> out of band with the actual HDMI video signal. This information can be
-> useful for debugging issues like questionable cables sabotaged by feline
-> teeth, Enthusiast Grade cables made of cow fencing wire, and other such
-> problems that ruin one's media viewing plans.
+On 03/08/2026 23:34, James Hilliard wrote:
+> On Mon, Aug 3, 2026 at 2:20 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>
+>> On 03/08/2026 09:54, James Hilliard wrote:
+>>> On Mon, Aug 3, 2026 at 1:07 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>>>
+>>>> On 03/08/2026 07:14, James Hilliard wrote:
+>>>>> The AC200 is an I2C-controlled mixed-signal companion IC containing
+>>>>> audio, video, RTC and Fast Ethernet PHY functions.
+>>>>
+>>>> This fails when applied, because you did not explain the
+>>>> dependencies/merging of this patchset.
+>>>>
+>>>> This is THE MOST important information of cover letter. The first thing
+>>>> to explain.
+>>>
+>>> I did mention in the cover letter that the pwm series is a dependency:
+>>> https://lore.kernel.org/all/20260703152215.192859-1-richard.genoud@bootlin.com/
+>>
+>> Apply this patch and test.
+>>
 > 
-> Consequently, this series exposes various bits of pertinent information
-> from the SCDC protocol in an HDMI connector's debugfs. To continually
-> poll the link status, userspace can poll the debugfs file.
+> How were you applying the series?
 
-Tested-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+b4. But it does not matter, your patchset simply fails for maintainer.
 
-The contents of scdc_status is parsed correctly by edid-decode, so I'm happy :-)
+AGAIN: apply this one and test.
 
-Regards,
 
-	Hans
-
-> 
-> ---
-> Changes in v9:
-> - Unlock mode_config.mutex on disconnected connector early exit
-> - Calculate and print Reed-Solomon error corrections counter on != 4
->   lane FRL as well. Technically a functional change to an already
->   reviewed patch, but I kept the R-b because it's so minor.
-> - Link to v8: https://patch.msgid.link/20260722-scdc-link-health-v8-0-cd1dacbb85d9@collabora.com
-> 
-> Changes in v8:
-> - Acquire mode_config mutex in an interruptible way during
->   scdc_status_show to avoid racing connector state
-> - Remove scdc_debugfs_priv, use connector as debugfs entry priv instead
-> - Allocate and free state in scdc_status_show, since it doesn't need to
->   persist across debugfs reads
-> - Check for NULL ddc in drm_scdc_read_state in the unlikely event an
->   EDID with the SCDC flag was forced on a connector with no DDC
-> - Note: drm_connector_get() is omitted from drm_scdc_debugfs_init
->   because drm_scdc_debugfs_init is called on connector construction and
->   the debugfs is removed on connector destruction. Adding a redundant
->   reference increase here would necessitate introducing a destruction
->   callback to mirror the debugfs_init connector op for the sole purpose
->   of decreasing the counter again.
-> - Link to v7: https://patch.msgid.link/20260721-scdc-link-health-v7-0-92df1b6ad5fc@collabora.com
-> 
-> Changes in v7:
-> - Move HDMI debugfs registration to new state helper, fix up all users
->   (sun4i, vc4, bridge)
-> - Register scdc debugfs in new hdmi debugfs helper
-> - Link to v6: https://patch.msgid.link/20260611-scdc-link-health-v6-0-6307875a6b5e@collabora.com
-> 
-> Changes in v6:
-> - Fix off-by-one error in drm_scdc_read_state
-> - Link to v5: https://patch.msgid.link/20260604-scdc-link-health-v5-0-11173b0ac3de@collabora.com
-> 
-> Changes in v5:
-> - Read all SCDC data regardless of update flags
-> - Dump SCDC data as hex before the human-readable output. It's separated
->   with "\n----------------\n\n".
-> - No longer write 0 to read-only registers
-> - Add Reed-Solomon Corrections counter parsing
-> - Parsing has been kept. A desire was expressed to get this data without
->   any external userspace tooling, and the kernel will need to parse it
->   eventually anyway to set the link status.
-> - Functions have been made static as of right now, since external users
->   may do another pass over the function signatures anyway.
-> - Link to v4: https://patch.msgid.link/20260527-scdc-link-health-v4-0-622ea40a1f59@collabora.com
-> 
-> Changes in v4:
-> - Don't use C struct bitfields for parsing status flags. Switch to
->   bitwise AND for boolean flags, and FIELD_GET for multi-bit values.
-> - Drop the superfluous !! and parens
-> - Drop the __pure attributes on static functions
-> - Initialise stack local arrays with {}, not { 0 }.
-> - I've kept the print macros and %-30s format. Reason being that I don't
->   want to repeat the format specifier and str_yes_no(foo) a bunch, and I
->   like the %-30s format because it means all values are aligned with the
->   value of the longest field, which is 30 chars long.
-> - Link to v3: https://patch.msgid.link/20260526-scdc-link-health-v3-0-59e4a4aaead1@collabora.com
-> 
-> Changes in v3:
-> - Add patch to change return type of drm_scdc_read/write.
-> - Rework error counter reading to duplicate less code.
-> - Also check lane 3 counter valid flag when reading its error counter.
-> - Use memset to clear buf for error counters, rather than doing it in
->   the loop.
-> - Make read_error_counters not accept 0 as num_lanes; fix it up in the
->   caller instead.
-> - Link to v2: https://patch.msgid.link/20260520-scdc-link-health-v2-0-511af18cd64b@collabora.com
-> 
-> Changes in v2:
-> - Add HDMI 2.1 SCDC status reporting
-> - Link to v1: https://patch.msgid.link/20260415-scdc-link-health-v1-0-8e731e88eaf0@collabora.com
-> 
-> To: Jani Nikula <jani.nikula@linux.intel.com>
-> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> To: Maxime Ripard <mripard@kernel.org>
-> To: Thomas Zimmermann <tzimmermann@suse.de>
-> To: David Airlie <airlied@gmail.com>
-> To: Simona Vetter <simona@ffwll.ch>
-> To: Andrzej Hajda <andrzej.hajda@intel.com>
-> To: Neil Armstrong <neil.armstrong@linaro.org>
-> To: Robert Foss <rfoss@kernel.org>
-> To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> To: Jonas Karlman <jonas@kwiboo.se>
-> To: Jernej Skrabec <jernej.skrabec@gmail.com>
-> To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> To: Daniel Stone <daniel@fooishbar.org>
-> To: Hans Verkuil <hverkuil+cisco@kernel.org>
-> To: Chen-Yu Tsai <wens@kernel.org>
-> To: Samuel Holland <samuel@sholland.org>
-> To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> To: Maíra Canal <mcanal@igalia.com>
-> To: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: kernel@collabora.com
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-sunxi@lists.linux.dev
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> 
-> ---
-> Nicolas Frattaroli (5):
->       drm/scdc-helper: Don't use ssize_t return type for scdc_read/write
->       drm/scdc-helper: Add scdc_status debugfs entry
->       drm/scdc-helper: Implement parsing and printing HDMI 2.1 fields
->       drm/debugfs: Move HDMI debugfs registration to state helper
->       drm/display: hdmi-state-helper: Init SCDC debugfs for HDMI
-> 
->  drivers/gpu/drm/display/drm_bridge_connector.c  |   3 +
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 156 +++++++++++++
->  drivers/gpu/drm/display/drm_scdc_helper.c       | 289 +++++++++++++++++++++++-
->  drivers/gpu/drm/drm_debugfs.c                   | 157 -------------
->  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c          |   1 +
->  drivers/gpu/drm/vc4/vc4_hdmi.c                  |   1 +
->  include/drm/display/drm_hdmi_state_helper.h     |   3 +
->  include/drm/display/drm_scdc.h                  |  21 +-
->  include/drm/display/drm_scdc_helper.h           | 103 ++++++++-
->  9 files changed, 568 insertions(+), 166 deletions(-)
-> ---
-> base-commit: b747a63003130bef1a3d5d6ba97c94d0cee36f55
-> change-id: 20260413-scdc-link-health-89326013d96c
-> 
-> Best regards,
-> --  
-> Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> 
-
+Best regards,
+Krzysztof
