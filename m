@@ -1,347 +1,143 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1FF538552C
-	for <linux-sunxi@lists.linux.dev>; Wed, 12 Aug 2026 20:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97487470433
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Aug 2026 21:02:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786565712; cv=none; b=msIEcg9fOfSzJzP0l7r8gCTplQhhI+lsjfe+0bqj7+cMIc6vvB0lj1KmWM2bozxzVFzMh1VSjjc6U+41nj+fjy8EmP3Qk0cZmqM0U4U/o7w/e92hIiJVY6XUpiv2wCb+QJl/kAQJgwVHh184dRIQPT5FttBs/EoO+9gtmFrUzDs=
+	t=1786568536; cv=none; b=ZkIQ+GIudOtC8kMkolfiUJ7zYBjlG45lyNXy6abKrNInfdjz76FI6oUXMULLdug7EctyejGQtaxEQZkB0dY0bO3maSPlfotFroMyw4/fC5Mrh9tHRA6oar0/dKcFQMX9GOleHsEbCNXXbsOwmdNT8mfFQxJBQPNFcwc9XIlmX4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786565712; c=relaxed/simple;
-	bh=ECX11tFxOWG0FJjizgFuQNlSMkvWsuHAKzRE+ORui6s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Vk8bugDRI/gvsSvfcOCtRBldKpYW7QhwReFdad3cVIdPT4Rnko0152t0vODeDRjD8etQkWOkQ8VqBxG6iUA7nIf/qRp0yKx/yRaZYeyVB8LYvmEQ37iCP99Jkn+QI9KMBjj5v1aG9LiNnRe3oKxu+dQLNLXw+b3bY6QRWGSVTUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OP44vbu4; arc=none smtp.client-ip=209.85.210.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786568536; c=relaxed/simple;
+	bh=0CBhCBU2Ye60x8lfkWT28rE3Pec6oVMCAnjppoXmg0A=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Uqnb6e2DeHxze2+ZAQMPfI45Hd/2/FumoQWqnGqiPwhh4ewy/ODpbHfCkfVPfk+cDhMoAvXkSGX+kLEgoAyTG4ney7MU5MQ+HTBZLmltoFXIAXd6fA+iqpU2tyTDyrTtKtcegLaBIZrQOOS0MrZS1MTxNp7qPe2mB/4h3esvYWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=E/EjB+Vp; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OP44vbu4"
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-7eb63dbd229so205618a34.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 12 Aug 2026 13:15:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="E/EjB+Vp"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-47f93b2fe4cso7726f8f.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 12 Aug 2026 14:02:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786565709; x=1787170509; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=2yss421pOFQ9jL8McJw1jGVeZX3JUo3yrK+bhiRFPy4=;
-        b=OP44vbu4IoOJWJAcIg52MnT8yA1DkgNzs94sEsPxhZSWzF0YnMVEClpu4cc7rFoY1t
-         HQbpexbdfnDJNWLn2R0mk1GRdEd4bX5DVtyOATmG9B+WvHOxcu7/3N/Vq1Lnn3w17TQw
-         A3zo6XBO1MgHS7PpNUYBf46lpHovGcR/AveyX+Av8arDj8nw/k0u7mmJ5MjxU7YoJP4m
-         a3MYjp0VFi39kZFuX9h5ffcolNo78hipRG1EoNvv9v0ld8Qw8oq+Flg+KT5G8vkqiq0f
-         nArUH7yr6las1rKGn9tByyxtMzDadPrSGS7UdqB+w8XXTzNXkfUDc6pNK0W0TEJk1BC6
-         k+TQ==
+        d=baylibre.com; s=google; t=1786568533; x=1787173333; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=eS0igH6p3phd0yMFsnOQZ+4mmHdJrMcSmVlciJfLpEE=;
+        b=E/EjB+VpaHMxcQTUGkQpOPgmGhQkNRdgPA/ajN9TadKbY0YUSSGo/vwyFJF+BVRxXC
+         0y3Pt9gCDAWUVAILu3XUtUKmBDLwI1r4cS4YujoGiaAmGmMwLin9u/KGQnxriRuUiq/H
+         A+KhH6p3js//sUn1Bzw46anYozDcy+a8ZQrDhNlJs0kZL6zLb2dz3+b3lhn17257Qnh7
+         Q4xSoVn2oLfDObIrvIxczOc2W/oRUTXBCzRZRE8rS77AS4ch4U1P/YQqGJJrPAsB/baj
+         4NWYSb7/mPwLKW4nMDPizyI/hd/uUK52VkmObRh2/0KWVW0W9MPeeUDwC/EgzXf0s5I7
+         kcBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786565710; x=1787170510;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2yss421pOFQ9jL8McJw1jGVeZX3JUo3yrK+bhiRFPy4=;
-        b=fpZlfBbLVgIhtohlG5YLFr0C6fe2DHjfOh8u01I6B7mOz6GTv1Yw8p/J+HR81UNxZP
-         4GgmoPMsFbqGLhFhWfqC/jwiOY7msne1qBHXgIQgZg865B8tIj0fEHcQ1IfGoeLLYmO0
-         c5kx6QCJteB6c5qmLO/yGCqSNHw3Aq2jzjwxae2b7Em6l+BMTQkFw5L0cKy4DwiJFFNJ
-         0dcoVA0r1nRRUiXG5K2im6JTXzC5PhCEy0ShtgOXgWNg3TQkdtIod6IXk6Xg0sIHoX+B
-         qaHgsQQw5NKB5TB2jpnNsIbSRK8QQ3EQMQeK0z+DlOYXhrHn4vQ0wuBorrxqN1dvc8+5
-         BWBw==
-X-Forwarded-Encrypted: i=1; AHgh+RqE7vSrjMDi1FtyHSlFqG0X7GQhySJvi2G/p4Ar/TKtUpiDXUGOMBw56FNZkQ0rYn9IoIMJ7z7fGfVs3w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyek1GUSaXLi2xfN4k6bdaMe4gEoEkBkoIGNcki7Ompxb2n1asN
-	mFZQXPl+DyZvoMHQDLdKCPWQrTIuFx7bShkceoBPFzRgwql81k0RGmOO
-X-Gm-Gg: AR+sD10UpYDEGLqJmfDwIqP+OlWQOjbksl0EPn6IpUp2vw35AX+CxvsBUIuKD8niskE
-	cypM8ybo2HUNs5UH8SavHMQwgQFPfwCznpHYj7leb9sBxVQiM2ZkcKyXbswGj9stFC9jhKh+rUC
-	M3ZIjupn84M4mANeRdHRTYGQ/U7/jXBtBYvJSa5ZkO6C8EBCg18fPZFq9Mys6E371+3qIN4/5sP
-	GoK27X8Uqdia3BY1LYnzVT3My8YZkQDNb39hvZiTXHX35zhak+DwXxRPjx5x8gaL7U4XV2ReBKb
-	/xZaVqBeh/8yyEd2hd+yTim9falWd1qnhjejZAhHrb39bR5ANrgzrB2npXY2NfKd4wbnfCI7yGr
-	B4oylqPialQnNPY48rCzoLyvRTGsU1bqPxWSzXq9Mmep2sbjGKAqOr19admJ4Txp4ZWlp4UXNLY
-	wEUAZpneJIvLs2P5LSTAxIWV16SfOeCAow+jD48uzOAERaKSs/3iO1DZvmn+1Dh9OZjSDfE+8N2
-	IC8qaeuMMv4Bb8ab6ZiXCi5aH+cyodgowSG8ywc
-X-Received: by 2002:a05:6830:82f9:b0:7f3:9729:a9e3 with SMTP id 46e09a7af769-7f3cad7c2f8mr70427a34.7.1786565709452;
-        Wed, 12 Aug 2026 13:15:09 -0700 (PDT)
-Received: from AMD.home.internal (dhcp-9-244-8-156.gobrightspeed.net. [9.244.8.156])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f3c9cf3b0csm256006a34.21.2026.08.12.13.15.07
+        d=1e100.net; s=20251104; t=1786568533; x=1787173333;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=eS0igH6p3phd0yMFsnOQZ+4mmHdJrMcSmVlciJfLpEE=;
+        b=CFecUFk+8zXbKMmswdWknpb9MyvCmgjCG/8TaKFnTZn1kNDvMIluSylw5wFTUYU+HZ
+         9SfCTBU/zol+lCgZI3Id5/JQO/J8FCO1V1qGkemZUeJl/IPsLDIPedL27A7lLSrYu5e9
+         c7GXGepx1gY4YTlc0fDPiJZQRuVTKzM2+35DEH0jcEyAK/ksfnlDq6NlLmINxeQ74wfM
+         3hwvSK66iuJqWNXhyTbwdkNa6UaPWHjondIHF6ppmEvTNeD09pdstVuG9/KQUuaPJp+O
+         BIpS+83uxs83W8TtWUKjmwKwXjoNi28OBnrM8Gy1q8YmsU8dZLH5KzyQj5FFUiDsMzYD
+         KEiQ==
+X-Forwarded-Encrypted: i=1; AHgh+RovGn6g9jAA9wCE8QceOPBaZJGZdINSza3u3+wi0DWUAY470sKrBZWssZ9RWDFUTkaFV+3oMMwagxA1Wg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxQ/gQH0C2B6AKuj3z9dsUy1DZJzFB7rIu0syoki8l4HAj2weZX
+	LpC7KOAjqWGT+pNJZmCDrq8aMKR8/E51EUxDGxH8iYCyp0jVRu8/2c8wmxvjoLMe7LI=
+X-Gm-Gg: AR+sD11YoNhMWqACjAsmqPjbHhEE14fq5wRq6hXI4bGfJNnqB0IvoMLlFQj4k0wB/zo
+	nu0KzN+mkL9XI6jPRSx2F4Fgz0hnn7uQCXNNZTC7UQBDoOwfTt+ibYPhX898o02Qs88soM5u0ex
+	mzTjgRZAbfBv+I0xI0i7UO9NMFLTan7MT9SwDIkaFu7iMFZYpjvSnIP9reU9fDf6pKp9+iPiH9y
+	S2vwnzTPy6SIADsHmcRvIuR64FBobiM3zbEKTMypj/MSzIJuoixLVraqT0yZ06arzJp0ErFxfx1
+	xwJCgF1UV/LlQO+t2Txu1Qcxz1m5OkH2cMqIrmxcyYwRkojYza7eLOhoJPEaFrryMZWvYD9cPac
+	UZF8yBf1ZvbyyNZJwiJeMkckXxCF8mqiSU8mGquhxJZJa/na6NK511Zn4bcg1u5uDk2AwasFFFB
+	iOLfQ9AvJcdgPCk6FcyeyzVQqkUtZI/djhNCgQofk0RCSzd67FumN6O3yzk0w=
+X-Received: by 2002:a05:6000:2a89:b0:47f:776f:3838 with SMTP id ffacd0b85a97d-48159ca6049mr1024076f8f.6.1786568532369;
+        Wed, 12 Aug 2026 14:02:12 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:282d:879b:d1fe:f977])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4815a5c2769sm426055f8f.36.2026.08.12.14.02.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 13:15:08 -0700 (PDT)
-From: Enzo Adriano <enzo.adriano.code@gmail.com>
-To: Andre Przywara <andre.przywara@arm.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>
-Cc: Brian Masney <bmasney@redhat.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Enzo Adriano <enzo.adriano.code@gmail.com>,
-	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH RFT 2/2] clk: sunxi-ng: a523: use single-divider clock helpers
-Date: Wed, 12 Aug 2026 16:15:02 -0400
-Message-ID: <20260812201502.264919-3-enzo.adriano.code@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260812201502.264919-1-enzo.adriano.code@gmail.com>
-References: <20260723004856.55158e84@ryzen.lan>
- <20260812201502.264919-1-enzo.adriano.code@gmail.com>
+        Wed, 12 Aug 2026 14:02:11 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+Date: Wed, 12 Aug 2026 23:02:02 +0200
+Subject: [PATCH v2] spi: dt-bindings: sun6i: Add compatibles for A733's SPI
+ controllers
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260812-allwinner-a733-spi-support-v2-1-937bff0fa78e@baylibre.com>
+X-B4-Tracking: v=1; b=H4sIAEnffGoC/42NSw6CMBQAr0K69pl+RMSV9zAs2vKQZ7BtWkAJ4
+ e4CXsDlJJOZmSWMhIlds5lFHCmRdyvIQ8Zsq90DgeqVmeTyzC88B911b3IOI+hCKUiBIA0h+Ng
+ DKq5LbXleaMXWQIjY0GeP36sfp8E80fZbcTNaSr2P034fxeb9NRoFCChMUwtxEmhseTN66shEP
+ Fr/YtWyLF+qmJyj2QAAAA==
+X-Change-ID: 20260805-allwinner-a733-spi-support-e30a9ac057a3
+To: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
+Cc: linux-spi@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1539; i=jbrunet@baylibre.com;
+ h=from:subject:message-id; bh=0CBhCBU2Ye60x8lfkWT28rE3Pec6oVMCAnjppoXmg0A=;
+ b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBqfN9Q+u0hwY5bmCREf8SoJGx0s9FOJ2i+Jt28L
+ XwaflMwzwuJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCanzfUAAKCRDm/A8cN/La
+ hadkEACsSQx6tBKrNKoNPl56rW05ntzcDV4ES4lN835wpmXCzKW5YfclSB1Hw3//6dDLcCm+Wzs
+ SMFe4WKJsIrxRA4wEPiP4qPgbmG4Didsxhp2jc/A2i0Z0LeIDz++zLcvBNiqqYHDE53HyhqDANn
+ QGkAootOt0gQXUrp6jB2BkVoNQFjjN6vGJd/5ciuZUmzFZ+YiK4KtBcCXQOB1ylzuI+/LzewAae
+ xNpfs5uJ5OOLVeHDcpVRfVoN6t/uFLg15IKlRlCb4pqjl6X39UZXdpYhAyTRl59bdIzNcrI+3Ln
+ sX2xVa69TcxRFX9PWs36m1XaWeVPT39/1gvadDYPop0UT4NBAC9hQ+gYFKx2Os5dCbNjofo0UXI
+ ZuXD28tFriBHAtukty38MySAlJ/nYz23qImyc0obgyHDnzGBfH99+cZGX7LiD4ACLbHZ29OladY
+ NfSavowucJuOI44ngpXIMBgtXq7TbBDoi3gXFz2ulpM4F4yNbESQfP31e2p7goeR1Szq07jr6jw
+ LKk7CF/sTnqzJfJj5qYPpekMDgJoXlC+Ol+Ht4O0wvQ7CsrwXRAsUAjOoGJ5arFpaBVEvpt1saR
+ fef9Tvm7vJDQVtnc3zVTtzN8QVYFtx21ZncuvU7vXTzQVI78dM1/2v5i5HPdz2bjtaLhy+2JRaA
+ l9uFYaAreYhPgQw==
+X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
+ fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
 
-The A523 MBUS, IOMMU, and DRAM clocks have an M divider but no P
-divider, while HSTIMER0-5 and R-TIMER0-2 have a P divider but no M
-divider. They currently use the two-divider ccu_mp class by declaring
-the missing field with width zero.
+The A733 has six SPI controllers with the same IP as the A523.
+Like the A523, one of them (spi1) also supports DBI mode.
 
-ccu_mp_set_rate() unconditionally masks both divider fields, so a zero
-width forms an invalid GENMASK() range and can clear unrelated register
-bits. The M-only clocks also require the hardware update bit, which
-ccu_mp operations do not handle.
+Add SoC specific compatible strings, falling back to the A523 ones.
 
-Use the single-divider M helper for MBUS, IOMMU, and DRAM, and the
-power-of-two P helper for the timer clocks. Preserve the parents,
-registers, real divider fields, muxes, gates, clock flags, and
-update-bit features.
-
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Link: https://lore.kernel.org/r/20260722010926.0A8B01F000E9@smtp.kernel.org
-Link: https://lore.kernel.org/r/20260712081341.9D1431F00A3D@smtp.kernel.org
-Suggested-by: Chen-Yu Tsai <wens@kernel.org>
-Fixes: 6702d17f54a8 ("clk: sunxi-ng: a523: add video mod clocks")
-Fixes: 74b0443a0d0a ("clk: sunxi-ng: a523: add system mod clocks")
-Fixes: 8cea339cfb81 ("clk: sunxi-ng: add support for the A523/T527 PRCM CCU")
-Link: https://lore.kernel.org/r/CAGb2v67GDBTq8vdxNxBfNVSe=oStcgaJzm0ig2WAEXNQSkVa1g@mail.gmail.com
-Link: https://lore.kernel.org/r/20260723004856.55158e84@ryzen.lan
-Assisted-by: Codex:gpt-5
-Signed-off-by: Enzo Adriano <enzo.adriano.code@gmail.com>
+Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 ---
-not tested on A523/T527 hardware; testing on actual hardware is needed.
+Changes in v2:
+- Combined allwinner,sun60i-a733-spi with allwinner,sun55i-a523-spi-dbi
+- Link to v1: https://patch.msgid.link/20260805-allwinner-a733-spi-support-v1-1-7bfd1141ebc9@baylibre.com
+---
+ Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
- drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c |  37 +++---
- drivers/clk/sunxi-ng/ccu-sun55i-a523.c   | 136 +++++++++++------------
- 2 files changed, 82 insertions(+), 91 deletions(-)
+diff --git a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
+index 6af4ff233158..14c2f318dd04 100644
+--- a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
++++ b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
+@@ -34,6 +34,12 @@ properties:
+           - const: allwinner,sun50i-r329-spi-dbi
+           - const: allwinner,sun50i-r329-spi
+       - items:
++          - enum:
++              - allwinner,sun55i-a523-spi-dbi
++              - allwinner,sun60i-a733-spi
++          - const: allwinner,sun55i-a523-spi
++      - items:
++          - const: allwinner,sun60i-a733-spi-dbi
+           - const: allwinner,sun55i-a523-spi-dbi
+           - const: allwinner,sun55i-a523-spi
+ 
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c b/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
-index db0e36d8838e74..349230e28c1c3a 100644
---- a/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
-@@ -43,27 +43,24 @@ static SUNXI_CCU_M_DATA_WITH_MUX(r_apb1_clk, "r-apb1",
- 				 24, 3,	/* mux */
- 				 0);
- 
--static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(r_cpu_timer0, "r-timer0",
--				       r_ahb_apb_parents, 0x100,
--				       0, 0,	/* no M */
--				       1, 3,	/* P */
--				       4, 3,	/* mux */
--				       BIT(0),
-+static SUNXI_CCU_P_DATA_WITH_MUX_GATE(r_cpu_timer0, "r-timer0",
-+				      r_ahb_apb_parents, 0x100,
-+				      1, 3,	/* P */
-+				      4, 3,	/* mux */
-+				      BIT(0),
-+				      0);
-+static SUNXI_CCU_P_DATA_WITH_MUX_GATE(r_cpu_timer1, "r-timer1",
-+				      r_ahb_apb_parents, 0x104,
-+				      1, 3,	/* P */
-+				      4, 3,	/* mux */
-+				      BIT(0),
-+				      0);
-+static SUNXI_CCU_P_DATA_WITH_MUX_GATE(r_cpu_timer2, "r-timer2",
-+				      r_ahb_apb_parents, 0x108,
-+				      1, 3,	/* P */
-+				      4, 3,	/* mux */
-+				      BIT(0),
- 				      0);
--static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(r_cpu_timer1, "r-timer1",
--				       r_ahb_apb_parents, 0x104,
--				       0, 0,	/* no M */
--				       1, 3,	/* P */
--				       4, 3,	/* mux */
--				       BIT(0),
--				       0);
--static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(r_cpu_timer2, "r-timer2",
--				       r_ahb_apb_parents, 0x108,
--				       0, 0,	/* no M */
--				       1, 3,	/* P */
--				       4, 3,	/* mux */
--				       BIT(0),
--				       0);
- 
- static SUNXI_CCU_GATE_HW(bus_r_timer_clk, "bus-r-timer", &r_ahb_clk.common.hw,
- 			 0x11c, BIT(0), 0);
-diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-index 20dad06b37ca31..5c632e475aaa04 100644
---- a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-@@ -380,14 +380,14 @@ static const struct clk_parent_data mbus_parents[] = {
- 	{ .hw = &pll_periph1_150M_clk.hw },
- 	{ .fw_name = "hosc" },
- };
--static SUNXI_CCU_MP_DATA_WITH_MUX_GATE_FEAT(mbus_clk, "mbus", mbus_parents,
--					    0x540,
--					    0, 5,		/* M */
--					    0, 0,		/* no P */
--					    24, 3,	/* mux */
--					    BIT(31),	/* gate */
--					    CLK_IS_CRITICAL,
--					    CCU_FEATURE_UPDATE_BIT);
-+
-+static SUNXI_CCU_M_DATA_WITH_MUX_GATE_FEAT(mbus_clk, "mbus", mbus_parents,
-+					   0x540,
-+					   0, 5,	/* M */
-+					   24, 3,	/* mux */
-+					   BIT(31),	/* gate */
-+					   CLK_IS_CRITICAL,
-+					   CCU_FEATURE_UPDATE_BIT);
- 
- static const struct clk_hw *mbus_hws[] = { &mbus_clk.common.hw };
- 
-@@ -513,58 +513,53 @@ static const struct clk_parent_data hstimer_parents[] = {
- 	{ .fw_name = "losc" },
- 	{ .hw = &pll_periph0_200M_clk.hw },
- };
--static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(hstimer0_clk, "hstimer0",
--				       hstimer_parents, 0x730,
--				       0, 0,	/* M */
--				       0, 3,	/* P */
--				       24, 3,	/* mux */
--				       BIT(31),	/* gate */
--				       0);
- 
--static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(hstimer1_clk, "hstimer1",
--				       hstimer_parents,
--				       0x734,
--				       0, 0,	/* M */
--				       0, 3,	/* P */
--				       24, 3,	/* mux */
--				       BIT(31),	/* gate */
--				       0);
-+static SUNXI_CCU_P_DATA_WITH_MUX_GATE(hstimer0_clk, "hstimer0",
-+				      hstimer_parents, 0x730,
-+				      0, 3,	/* P */
-+				      24, 3,	/* mux */
-+				      BIT(31),	/* gate */
-+				      0);
- 
--static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(hstimer2_clk, "hstimer2",
--				       hstimer_parents,
--				       0x738,
--				       0, 0,	/* M */
--				       0, 3,	/* P */
--				       24, 3,	/* mux */
--				       BIT(31),	/* gate */
--				       0);
-+static SUNXI_CCU_P_DATA_WITH_MUX_GATE(hstimer1_clk, "hstimer1",
-+				      hstimer_parents,
-+				      0x734,
-+				      0, 3,	/* P */
-+				      24, 3,	/* mux */
-+				      BIT(31),	/* gate */
-+				      0);
- 
--static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(hstimer3_clk, "hstimer3",
--				       hstimer_parents,
--				       0x73c,
--				       0, 0,	/* M */
--				       0, 3,	/* P */
--				       24, 3,	/* mux */
--				       BIT(31),	/* gate */
--				       0);
-+static SUNXI_CCU_P_DATA_WITH_MUX_GATE(hstimer2_clk, "hstimer2",
-+				      hstimer_parents,
-+				      0x738,
-+				      0, 3,	/* P */
-+				      24, 3,	/* mux */
-+				      BIT(31),	/* gate */
-+				      0);
- 
--static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(hstimer4_clk, "hstimer4",
--				       hstimer_parents,
--				       0x740,
--				       0, 0,	/* M */
--				       0, 3,	/* P */
--				       24, 3,	/* mux */
--				       BIT(31),	/* gate */
--				       0);
-+static SUNXI_CCU_P_DATA_WITH_MUX_GATE(hstimer3_clk, "hstimer3",
-+				      hstimer_parents,
-+				      0x73c,
-+				      0, 3,	/* P */
-+				      24, 3,	/* mux */
-+				      BIT(31),	/* gate */
-+				      0);
- 
--static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(hstimer5_clk, "hstimer5",
--				       hstimer_parents,
--				       0x744,
--				       0, 0,	/* M */
--				       0, 3,	/* P */
--				       24, 3,	/* mux */
--				       BIT(31),	/* gate */
--				       0);
-+static SUNXI_CCU_P_DATA_WITH_MUX_GATE(hstimer4_clk, "hstimer4",
-+				      hstimer_parents,
-+				      0x740,
-+				      0, 3,	/* P */
-+				      24, 3,	/* mux */
-+				      BIT(31),	/* gate */
-+				      0);
-+
-+static SUNXI_CCU_P_DATA_WITH_MUX_GATE(hstimer5_clk, "hstimer5",
-+				      hstimer_parents,
-+				      0x744,
-+				      0, 3,	/* P */
-+				      24, 3,	/* mux */
-+				      BIT(31),	/* gate */
-+				      0);
- 
- static SUNXI_CCU_GATE_HWS(bus_hstimer_clk, "bus-hstimer", ahb_hws, 0x74c,
- 			  BIT(0), 0);
-@@ -584,14 +579,13 @@ static const struct clk_parent_data iommu_parents[] = {
- 	{ .fw_name = "hosc" },
- };
- 
--static SUNXI_CCU_MP_DATA_WITH_MUX_GATE_FEAT(iommu_clk, "iommu", iommu_parents,
--					    0x7b0,
--					    0, 5,	/* M */
--					    0, 0,	/* no P */
--					    24, 3,	/* mux */
--					    BIT(31),	/* gate */
--					    CLK_SET_RATE_PARENT,
--					    CCU_FEATURE_UPDATE_BIT);
-+static SUNXI_CCU_M_DATA_WITH_MUX_GATE_FEAT(iommu_clk, "iommu", iommu_parents,
-+					   0x7b0,
-+					   0, 5,	/* M */
-+					   24, 3,	/* mux */
-+					   BIT(31),	/* gate */
-+					   CLK_SET_RATE_PARENT,
-+					   CCU_FEATURE_UPDATE_BIT);
- 
- static SUNXI_CCU_GATE_HWS(bus_iommu_clk, "bus-iommu", apb0_hws, 0x7bc,
- 			  BIT(0), 0);
-@@ -603,14 +597,14 @@ static const struct clk_parent_data dram_parents[] = {
- 	{ .hw = &pll_periph0_400M_clk.hw },
- 	{ .hw = &pll_periph0_150M_clk.hw },
- };
--static SUNXI_CCU_MP_DATA_WITH_MUX_GATE_FEAT(dram_clk, "dram", dram_parents,
--					    0x800,
--					    0, 5,	/* M */
--					    0, 0,	/* no P */
--					    24, 3,	/* mux */
--					    BIT(31),	/* gate */
--					    CLK_IS_CRITICAL,
--					    CCU_FEATURE_UPDATE_BIT);
-+
-+static SUNXI_CCU_M_DATA_WITH_MUX_GATE_FEAT(dram_clk, "dram", dram_parents,
-+					   0x800,
-+					   0, 5,	/* M */
-+					   24, 3,	/* mux */
-+					   BIT(31),	/* gate */
-+					   CLK_IS_CRITICAL,
-+					   CCU_FEATURE_UPDATE_BIT);
- 
- static SUNXI_CCU_GATE_HWS(mbus_dma_clk, "mbus-dma", mbus_hws,
- 			  0x804, BIT(0), 0);
--- 
-2.53.0
+---
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+change-id: 20260805-allwinner-a733-spi-support-e30a9ac057a3
+
+Best regards,
+--  
+Jerome
+
