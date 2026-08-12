@@ -1,173 +1,124 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBAE2369D5D
-	for <linux-sunxi@lists.linux.dev>; Wed, 12 Aug 2026 19:17:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE04383C66
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Aug 2026 20:15:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786562233; cv=none; b=WbRg28010BJjCLaoIAyVQ+LbTraolPLSkwb8V8rdv7avJQtHsScxknifz6PSJhKYaLoWJg6UqRytvYe7j597r0YlSLGqnwShomBMlhB4pEEYOJo26Linja+nzA8rxh/A5KazBBfK1tHxDTKhYdtl7xYm7oUsvo5bgcC4ChI+IXc=
+	t=1786565708; cv=none; b=reVdExHgGNOJypSmN0n7z/LPk6GmhoEWEGAmHI0JqhtdrnuxEkPiPEoV5HfbSa1geKJpX6N560JNHVCKS7zvRqgMGwXXug2pL2qN4WT+0jzwyCvAx8GKU9zk/MKIjUlzFZ2Z/2P+3xzEz0PLx/wvERonmbW55dI+z6Q+hIwnbo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786562233; c=relaxed/simple;
-	bh=eOKwlFn0rXXGqLQ3iyvphePz/D2yEesjxJGTD0yph7U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M928J4XJ15iKdDXREzGvrBVOwiIsaTIqocfoTERl+kgJ4t5Y0GJvNvXNcPIFbvZ7RmsqoPE4/YmA7VfTQYACU77Bf3+zEBfTBoGFMnoa0VeEAaD81qDb7LvwXm7RcPnAyGAF5x5tCtBhiJS8c4dAKkgvwp8GzKtfmPSZHRPS+R4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=p11HCuf2; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
+	s=arc-20240116; t=1786565708; c=relaxed/simple;
+	bh=ZzzMUPtD2agEDVD+V4pqZV+58Sk+VvWYf9jduKlg61M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=oITCifQUxjek5jljW1e6++LRehR38RO45Tls9WMdl20NxT1M2I9GMPselYUx4Dsz+awkN1Tu1uIOCTRb3kpXzqCAUM9PUPu00BagTEzS5AdaXYT9DKF2Ok4PlFPEHVWbbtgTA1VNfmsALDiR3sh51RSmrUyBEVzUJjxzL/wcSrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sJnMg8W4; arc=none smtp.client-ip=209.85.210.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="p11HCuf2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1786562221; bh=eOKwlFn0rXXGqLQ3iyvphePz/D2yEesjxJGTD0yph7U=;
-	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-	b=p11HCuf2WV2OYVA7npp2oQWMfsiCxSCdXZ7A7XBZtCYexKyprYR58TbKDM+2/iuMX
-	 YSf0g3ck6aRLFlrltsdL7GOPM5EQ2/5LkT35Mf0lu4Mff+pFCCne1X++X58IGt7xY6
-	 dFTkzJnjMTs2omZzDtAXw4V7oa30ECa1ZsrIg04Y=
-Date: Wed, 12 Aug 2026 21:17:01 +0200
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
-Cc: linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
-	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH] clocksource/drivers/sun4i: Wait for pending reload
- before CTRL write
-Message-ID: <p3aovubrngwpep25xdsxdklvopkqtg3cyeu5qai3iiv53u25sz@3ozm2vejnf4a>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
-	Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
-	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20260725113341.2250687-1-megi@xff.cz>
- <9e9003b7-0331-4b37-9b06-5e9de887199e@oss.qualcomm.com>
- <hrm7ymjfylkhaijaxjvornxakhoss5tea6pfmt2y2jpn436lhu@2cchvasiv4mr>
- <9fb18d37-0406-46e6-8552-fb925dc14fad@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sJnMg8W4"
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7eb1dc6bd53so845972a34.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 12 Aug 2026 13:15:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786565706; x=1787170506; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+us5LkeXEHXP7Bo8YO3vnlZ8f5jwklcgg3vudwCzrL8=;
+        b=sJnMg8W4QLwKNonXER873iXnioYNSiAB/y7tEOwOPfyBjEe7UXGeCv8vLrXvPTrbN7
+         Xmn6xRWMIalY8W69/6+SplYmfDZE3dhIxGNdAVDZCpK0lj0jsAg56vlsFhOFxKxl8s21
+         wfWLEOgpiqfd3pmKKQJbEJjw2oR2qx69GLYsIHyr/61TzEyQFOn95uE/ekXyhLpGVnNE
+         +iISAjgk3x5ax9z5nWwvo1zRZ+oWx2GDk/DlvDzcKfYPHqrn4uvb78BfHAQinu/kdpf2
+         ljxyK8zvtFFNnwf+hdRM8GOTmfUbSuf1mo2H7ppajP3Px2I2HxP0xvLWzouKLnXRLct9
+         ocOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786565706; x=1787170506;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+us5LkeXEHXP7Bo8YO3vnlZ8f5jwklcgg3vudwCzrL8=;
+        b=j3pKKLPfwM1QQ145Lnv4XkGZ+riF6q/NdbLsMgCzSPJnhZIn8LQk5jmW2iDWhSv36B
+         QLM3x/0uKa8rxfw5nR7RwaETL6mYnKhrhzfnZnTY25LOL0ga87W7ygg4F2mL1lVMb54y
+         OCyvMGDGgyfn4qbWzM9n5a1me/Q0FcOLKU5yBTcojHs7w7P/9hZWiieMaFD0nuX/X0+D
+         zsuH3oZf465SqwzFfErstrDs/DGQOoFVMMAGhQsE0Hx2w2Ien/7uAhX6Nn61ZmxdZfkw
+         K31Pg/nrCsBN4aVVYWIRe4H8u9jWF1mHQfYvvMiDHdEYOtTtKMmRfJDll+PW+fY0Mffd
+         p6yA==
+X-Forwarded-Encrypted: i=1; AHgh+Rrxm14gHOg4cloHYG1SpBq+159Wi4Yi8o6M3oQVC/wGmb2ZruSQla20N7ffAxfImdi8evIMjNlrbdovBQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxJc8GL6tOA8FQq88XcpQ1fmByrLxFJxZt3bJwiObfwxs/ib4t1
+	4t8P3aEPenPID6aoP16IlV2gUNgoe16Gm2cRKINoz4iEyyrTHLmh6PnJ
+X-Gm-Gg: AR+sD106mkRKGBUtLUCwSVwYrhryWWsc+DqniwlsjTiIxibl9/DqVO3DYAWlSILWwMC
+	UIk5sQbGzlCGT0ABvkbUUwNR7vaEGmX4FF54SIckkFTKLCjFJPltL9z4NQbAbUjngrL5Jn9Ai3G
+	AjGGlUAVjpL5IscOGhTBp3WtC2Sx3ReBzAw4mooNwyEdBA4V6ie5m7CjuDzWeLyVb07wN51qDsQ
+	7aJUwv+/lzwitbB2+prjCOyHuWCe3dQy3nyagatjsr739f3OdQ+f/aS0KnKKhCJKnZKcA3Dk0VP
+	GqohgIW3Ln0IbCVKZj5t43qoehbVYMA0SVWBaThwRP/iz1Ykhqm/JjW02YJ0tm22xLiMLd5jovU
+	ZpGJyzH4ZrVXqmAGzfPJ+dAUxPYfCDSch3nGB6EdLlmx1YT9nlT7Ykpb6S/owe41kPiPkGalucy
+	g65zYp/ExXRRHKKQczyUkty46rRr1a32T0cMEOz30mp5QWWdxmbsJleUH6r5qO14D/8DM5eryA2
+	JibJpqcUDHTt3tgEOOzfA0OeW327rrS37nJIEBQ
+X-Received: by 2002:a05:6830:828a:b0:7e9:c102:333d with SMTP id 46e09a7af769-7f3ca8b718amr328737a34.9.1786565705503;
+        Wed, 12 Aug 2026 13:15:05 -0700 (PDT)
+Received: from AMD.home.internal (dhcp-9-244-8-156.gobrightspeed.net. [9.244.8.156])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f3c9cf3b0csm256006a34.21.2026.08.12.13.15.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Aug 2026 13:15:04 -0700 (PDT)
+From: Enzo Adriano <enzo.adriano.code@gmail.com>
+To: Andre Przywara <andre.przywara@arm.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>
+Cc: Brian Masney <bmasney@redhat.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Enzo Adriano <enzo.adriano.code@gmail.com>
+Subject: [PATCH RFT 0/2] clk: sunxi-ng: fix A523/T527 single-divider clocks
+Date: Wed, 12 Aug 2026 16:15:00 -0400
+Message-ID: <20260812201502.264919-1-enzo.adriano.code@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260723004856.55158e84@ryzen.lan>
+References: <20260723004856.55158e84@ryzen.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9fb18d37-0406-46e6-8552-fb925dc14fad@oss.qualcomm.com>
 
-On Wed, Aug 12, 2026 at 01:49:18PM +0200, Daniel Lezcano wrote:
-> On 8/12/26 13:09, Ondřej Jirman wrote:
-> > Hello Daniel,
-> > 
-> > On Wed, Aug 12, 2026 at 11:56:03AM +0200, Daniel Lezcano wrote:
-> > > On 7/25/26 13:33, Ondřej Jirman wrote:
-> > > > From: Ondrej Jirman <megi@xff.cz>
-> > > > 
-> > > > The A13 manual says of TMR0_RELOAD: "After the bit is set, it can not be
-> > > > written again before it's cleared automatically."  Both time_stop() and
-> > > > time_start() read-modify-write the control register, so a reload still in
-> > > > flight gets rewritten and the write can be dropped, leaving the timer
-> > > > unarmed.  In oneshot mode this happens on every tick, and the tick
-> > > > eventually stops for good.
-> > > > 
-> > > > Wait for the reload to clear first.  All control register updates go
-> > > > through sun4i_clkevt_time_stop().
-> > > > 
-> > > > Without this my Allwinner A13 based Pocketbook Touch Lux 3 stops
-> > > > scheduling processes during boot or within a few seconds of executing
-> > > > userspace. Only sysrq+t over serial port works at this stage, which is
-> > > > how I discovered the root cause.
-> > > > 
-> > > > Fixes: 7e14183469d8 ("clocksource: sun4i: Fix bug when switching from periodic to oneshot modes")
-> > > > Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> > > > ---
-> > > > BTW, similar issue will likely be also in timer-sun5i.c but I don't have any
-> > > > device that would exercise it. And it's possible that this triggers more easily
-> > > > with CONFIG_HZ=1000 which I use.
-> > > > 
-> > > >    drivers/clocksource/timer-sun4i.c | 26 +++++++++++++++++++++++++-
-> > > >    1 file changed, 25 insertions(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/drivers/clocksource/timer-sun4i.c b/drivers/clocksource/timer-sun4i.c
-> > > > index 7bdcc60ad43c..2e7457f671c4 100644
-> > > > --- a/drivers/clocksource/timer-sun4i.c
-> > > > +++ b/drivers/clocksource/timer-sun4i.c
-> > > > @@ -39,6 +39,9 @@
-> > > >    #define TIMER_SYNC_TICKS	3
-> > > > +/* The reload bit clears a couple of source clock cycles after it is set. */
-> > > > +#define TIMER_RELOAD_MAX_POLL	100
-> > > > +
-> > > >    /*
-> > > >     * When we disable a timer, we need to wait at least for 2 cycles of
-> > > >     * the timer source clock. We will use for that the clocksource timer
-> > > > @@ -53,9 +56,30 @@ static void sun4i_clkevt_sync(void __iomem *base)
-> > > >    		cpu_relax();
-> > > >    }
-> > > > +/*
-> > > > + * The control register must not be written while a reload is still in
-> > > > + * flight, or the write can be dropped.
-> > > > + */
-> > > > +static int sun4i_clkevt_wait_reload(void __iomem *base, u8 timer)
-> > > > +{
-> > > > +	int i;
-> > > > +
-> > > > +	for (i = 0; i < TIMER_RELOAD_MAX_POLL; i++) {
-> > > > +		if (!(readl(base + TIMER_CTL_REG(timer)) & TIMER_CTL_RELOAD))
-> > > > +			return 0;
-> > > > +		cpu_relax();
-> > > > +	}
-> > > 
-> > > The loop looks correct but I'm wondering why not use the helper:
-> > > 
-> > > ret = readl_poll_timeout_atomic(base + TIMER_CTL_REG(timer), val,
-> > > 				!(val & TIMER_CTL_RELOAD), 0, timeout);
-> > > 
-> > 
-> > I can. The only difference would be that this would loop up to 1000 * timeout
-> > times, instead of 100 times in case reload bit never returns to 0. But that
-> > never happens anyway.
-> 
-> Sorry I don't get the 1000 * timeout
+Andre asked whether we would post the A523/T527 conversions for the clocks
+whose ccu_mp descriptors declare one divider field with width zero. This
+series implements those conversions.
 
-If you look at implementation of readl_poll_timeout_atomic() the timeout
-parameter means that readl_poll_timeout_atomic() will do at most timeout * 1000
-thight loops, so minimum timeout is 1000 loops.
+Patch 1 adds a feature-aware M-divider helper so M-only clocks can retain
+the CCU update-bit handling. Patch 2 converts MBUS, IOMMU, and DRAM to that
+M-only class and converts HSTIMER0-5 and R-TIMER0-2 to the existing P-only
+class.
 
-> Does the documentation says anything about the duration before the register
-> is cleared ?
+I do not have matching A523/T527 hardware, so this is deliberately an RFT
+series and carries no Tested-by claim. The series has passed semantic and
+register-bit preservation models, KUnit tests, strict checkpatch, sparse,
+GCC and Clang builds, full arm64 Image/modules/DTB builds, reproducibility
+checks, and hostile review. It also applies and builds cleanly together
+with the current A523/T527 GPU clock-model v2 series.
 
-Not directly, but for start after stop, manual says to wait at least 2 Tcycles
-(input clock cycles to the timer).
+not tested on A523/T527 hardware; testing on actual hardware is needed.
 
-Regards,
-	o.
+In particular, testing of clock rate changes and affected users of MBUS,
+IOMMU, DRAM, HSTIMER0-5, and R-TIMER0-2 would be appreciated.
 
-> > > > +	return -ETIME;
-> > > > +}
-> > > > +
-> > > >    static void sun4i_clkevt_time_stop(void __iomem *base, u8 timer)
-> > > >    {
-> > > > -	u32 val = readl(base + TIMER_CTL_REG(timer));
-> > > > +	u32 val;
-> > > > +
-> > > > +	sun4i_clkevt_wait_reload(base, timer);
-> > > 
-> > > If it fails ?
-> > 
-> > There's not much to do, since sun4i_clkevt_time_stop() does not return anything
-> > anyway and it's used across the file quite extensively. Well, the file is small,
-> > but sun4i_clkevt_time_stop is called in every function exported via timer_of
-> > struct... :)
-> > 
-> > I can rewrite all these functions to report all errors to timer core, but in
-> > practice reload always resets very quickly, and a condition where the loop even
-> > loops happens once every few seconds or so. I doubt anything but return 0
-> > would ever happen anyway. I'd certainly notice, because it would again cause
-> > instant lockup of my e-reader. Maybe I can just return void from
-> > sun4i_clkevt_wait_reload() and not pretend there are errors to report,
-> > instead?
-> IMO, returning void is fine along with a message, may be a WARN as it is
-> really, AFAIU, not supposed to happen. It will be easy for anyone to find
-> out where the issue is coming from
-> 
+---
+
+Enzo Adriano (2):
+  clk: sunxi-ng: add feature-aware M divider helper
+  clk: sunxi-ng: a523: use single-divider clock helpers
+
+ drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c |  37 +++---
+ drivers/clk/sunxi-ng/ccu-sun55i-a523.c   | 136 +++++++++++------------
+ drivers/clk/sunxi-ng/ccu_div.h           |  18 ++-
+ 3 files changed, 96 insertions(+), 95 deletions(-)
+
+
+base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
+-- 
+2.53.0
