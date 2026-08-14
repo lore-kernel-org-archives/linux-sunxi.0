@@ -1,143 +1,166 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B50145FFA6
-	for <linux-sunxi@lists.linux.dev>; Fri, 14 Aug 2026 14:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E337F371885;
+	Fri, 14 Aug 2026 14:46:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786717670; cv=none; b=ZYBAVEnTpXyuYl6I/owOk03R6X+Vm+fb2uB+g+lISBFFJDkXgF2NvFkP8/fb91hkXHhSlwRs4/l+yA9A3vdIim9fQdrUQ27XdhRkfrlLJm0oHNfkYf8lUCZ3FzWrVmYVBy41x0IqEvOTwjeMfGYKXPproKfYC4WM7SLKYU7tX4U=
+	t=1786718773; cv=none; b=leyxDq96K4/cu2RZjpD+Dj0d6bCPjiU961RATBL/5GPZzFpNTe+q6Yroa8Wa/bR0+0rtQn/JjGsO7EIMkCfuqmhqWSqoysHlw5/vcTkL+l4neLMd71mqGq4Z57syDcq0TXDS0exWT+O0IRGzV+jQJ5U0jdisP8SNvG0U77QWuRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786717670; c=relaxed/simple;
-	bh=k0KzLk/Py5MfNs6v0LG2pawI7nCHX5oUhShrr2VzixE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WL2WVppBn1tVr2SBbX67Y4Y53ig0ztHnaT5xQybuBH9CfPZnE+wZKU40ur/SyREr30Q/ZowWW2IcstKhxrfbI42+yjviixbTRVAHo59wpPSx07Eq2y//DccyiKZ66UxF8jtPLMtMuY57q7M9sb6ORgiIRq7YLQoGXEVtz5eX7S8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=soundtrack.io; spf=pass smtp.mailfrom=soundtrack.io; dkim=pass (2048-bit key) header.d=soundtrack.io header.i=@soundtrack.io header.b=z83gj5Vt; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=soundtrack.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soundtrack.io
+	s=arc-20240116; t=1786718773; c=relaxed/simple;
+	bh=I0WFvX8RTZdATBN2gb4+xitiGIlR3y6IIRZ4faYlcXo=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=BrK4HewSntahI/PcsmayTZEWmQ+4NBkXdpMrCv0O/GrQRYjHq8MziPBALZSFAH1dkTQmejAtyKukB65CCs7Mfe0yUqsy77NgEOE4201XJFKDzeOhOdtZMJHOjwBnl88m+8+IHv+uGh7yFQL4SEpDnVD/9vpTigpCU0Wy1L+V0qU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O8xYHKeR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soundtrack.io header.i=@soundtrack.io header.b="z83gj5Vt"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6a18ef236ecso205922a12.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 14 Aug 2026 07:27:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soundtrack.io; s=google; t=1786717660; x=1787322460; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=t8f5UJCABHvmBw6dzoHdGzw6KbaLnhVEoCCS6jqmRT4=;
-        b=z83gj5VtFjkAiHbaP5tllsEnm5g9avTVjaG5f7qhRBe7QeTkgLAMXa8L5IODOCGWwY
-         FNJTUFyKfYRXw4e7ndcV0UKA8fYPd30PgkA8Ul/LMgTgJiTu/J5grXB23zoozmB2GX6i
-         TzxvTaxqASG1xSmMv89lgs58YD55hY30LDRI5OsjY92L6ZYKDWeIDYHqq9wcHI+4Pa+2
-         69NjUBcBfdrilU5m8NIpZfyv3f0JUzUEA+gVKfq2idxb74hm1EjH6e/n8Onc/XE5RlpB
-         QVD8Rb9lXweFZbjXgy63BYjIMrevNkwnnrmnd/TbmPxeW2m0sSiLtoZg6BkLOvfGrKJt
-         E5kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786717660; x=1787322460;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=t8f5UJCABHvmBw6dzoHdGzw6KbaLnhVEoCCS6jqmRT4=;
-        b=PFRvvdUwuph1yJf0rf0Bh5+Mh5kGP0p8VhFSPeCkEYq53CxRixyjuFDKljQ99yvqmV
-         NpgtIHWLQvcLTnIS3m6yJPWY8E+FtVx/gSqfG7ziR6G/NpNjPTGlYCwAWM9HTyJf2yPU
-         ecohuNmSXJxy7gX6Db6OyA12+szC3JbPioSUvDeiHy/poyjVCkB1+Z6O6SoShSqde9+z
-         sWuoOmJdH+4YxW+csiP/O7JTEWiMfqrlI/exRP72PAV8N4VQ6c4GZXDTsOB4IiW7vaRc
-         VD+L0OaOYcGMlJovmY4ARW9KMJDUQxsYo/JGZGhEvR4YFS35/INPFpePyAqPmHJo2ERi
-         44Jg==
-X-Forwarded-Encrypted: i=1; AHgh+RrTS+PAMp+GF4+XucdeeAIbL/ldMFoI6hto3DQvfpYcrwok9Lm4pheDf+CsousVXTrjIiQHaasihqeMBA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxft9eTBciGlas6QoZr0yvXRyQMIkl9u1flJDk/58yA9lYDPg45
-	EnH5OOohdDBwEePjnsazMTVFYFsXDkb8+D/QhWIhJn2J+ebVO62TXk+CAMaAUyddEpY=
-X-Gm-Gg: AR+sD101v1OWbPfrFSpnuVDN0BTCIh3SdyeYZY/nvmrv2h3AQX7PvkW8QNFTQhEnr2G
-	3PsqHemaz/UAzf8BZj1GMpG5jCgBmOJnCcrKDT/a2Rs1WYMyd8x6NwXz4J8r1zx0u+ERK5JD28q
-	i3UQ1WYZJl/8mboW9gcvw9utw5+O+rWcuJcK08K10XMAzltQTITpFsVEscgQv8KxlLwaEYdIj54
-	2ZLsuKsz5HIYZJ2x1USfTrSVqHxdkkAieWcAtXQNXW/Iz3yiQSrZtEvJLJZXaPs35tvEFGYvkJ+
-	z5W4YL7PHPUSF6HAOuVqbgORuNKDFvOFn6oM9vNhm9iYAz3I3S3OJ8aMpggL1BYqD/X7EB9keXE
-	nQR8QMJA8nCVj79l4Svs833+IrreQSHLGFFqx6XvBDfurnEKaiE5r4bLVt0F4nS97q5wO+Vp4kZ
-	ha7m4/s05z/X7QQvW1mFD5DvFLGrwDIacsDNuwg0MJ665dh5kOo9/88dhZQ08esvHeTN3SnJVX6
-	3onhNRgLrLYhz+YSjmDaon9UKURTli5Nzz69TdpNvkLyFNA3T96r8Xhow==
-X-Received: by 2002:a17:907:9403:b0:c1c:4ae9:b935 with SMTP id a640c23a62f3a-c212a22e029mr175852366b.3.1786717659858;
-        Fri, 14 Aug 2026 07:27:39 -0700 (PDT)
-Received: from Christians-MBP (31-209-40-223.cust.bredband2.com. [31.209.40.223])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c21234c45ffsm106308866b.19.2026.08.14.07.27.38
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 14 Aug 2026 07:27:39 -0700 (PDT)
-From: Christian Lugnberg <christian.lugnberg@soundtrack.io>
-To: vkoul@kernel.org
-Cc: Frank.Li@kernel.org,
-	wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	dmaengine@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Christian Lugnberg <christian.lugnberg@soundtrack.io>,
-	stable@vger.kernel.org
-Subject: [PATCH v2 2/2] dmaengine: sun6i: fix undefined behaviour in sun6i_dma_tx_status
-Date: Fri, 14 Aug 2026 16:21:11 +0200
-Message-ID: <20260814142708.79120-3-christian.lugnberg@soundtrack.io>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260814142708.79120-1-christian.lugnberg@soundtrack.io>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O8xYHKeR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84BF81F000E9;
+	Fri, 14 Aug 2026 14:46:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786718771;
+	bh=pAPSdXnw6hjPlsx26GYqX83B7oNE2wdnLFQUOydAFG0=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=O8xYHKeRhvANlDV7O3H0KK/goiCyTus2bAVe/90a3pyJGs+60lEbKqRUx5MQgET0D
+	 4f/kZswOc+LfmzmhvMVjl/qamlNEzHKUmrpqyqAwISCMMKMHqZQdFF0fCPDmJuY34A
+	 CM9+qTaFAer7fI0or5g8M18XHLXN7npzA1Sgp3x+/SMajuJFC2+OutpcHU9Evmrzn+
+	 bkqWgwHrHZ+S2of7mRMf3SkSGHMTwq8ittus29bkdzZKvV/8rcQ3HlLY1X1/clwNRj
+	 JJkilC/e+BorZQlXvoz1TsfFqthlrI7MBCHnfGPfKEoPO+vTUQq8hxtFZpTOYTsrYp
+	 sAKHhPHFXOcRg==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 2/2] dmaengine: sun6i: fix undefined behaviour in
+ sun6i_dma_tx_status
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Christian Lugnberg" <christian.lugnberg@soundtrack.io>
+Cc: linux-sunxi@lists.linux.dev, vkoul@kernel.org, Frank.Li@kernel.org, dmaengine@vger.kernel.org
+In-Reply-To: <20260814142708.79120-3-christian.lugnberg@soundtrack.io>
 References: <20260814142708.79120-1-christian.lugnberg@soundtrack.io>
+ <20260814142708.79120-3-christian.lugnberg@soundtrack.io>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 14 Aug 2026 14:46:11 +0000
+Message-Id: <20260814144611.84BF81F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+
+Thank you for your contribution! Sashiko AI review found 4 potential issue(=
+s) to consider:
+
+Pre-existing issues:
+- [Critical] Lockless read of `vchan->phy` leads to Time-of-Check to Time-o=
+f-Use (TOCTOU) Use-After-Free and state corruption.
+- [Critical] Interrupt handler races with terminate_all, causing a NULL poi=
+nter dereference.
+- [High] sun6i_dma_tx_status incorrectly reports the residue of the active =
+descriptor for unissued descriptors due to missing cookie validation.
+- [High] Deadlock risk due to plain spin_lock() usage on sdev->lock which i=
+s shared with a softirq context.
+--
+
+--- Patch [2]: [PATCH v2 2/2] dmaengine: sun6i: fix undefined behaviour in =
+sun6i_dma_tx_status ---
+commit fc20cb9c5238894b0536bcd9408e43b44dedb04e
+Author: Christian Lugnberg <christian.lugnberg@soundtrack.io>
+
+dmaengine: sun6i: fix undefined behaviour in sun6i_dma_tx_status
 
 sun6i_dma_tx_status() calls vchan_find_desc() to look up the virtual
 descriptor for a given cookie, before checking whether the pointer
-vd is NULL:
+vd is NULL. This patch moves the check inside the guard to ensure it is
+only reached with a valid pointer.
 
-    vd = vchan_find_desc(&vchan->vc, cookie);
-    txd = to_sun6i_desc(&vd->tx);   /* vd may be NULL here */
+> diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
+> index eb060ba2d4738..070101c109a3f 100644
+> --- a/drivers/dma/sun6i-dma.c
+> +++ b/drivers/dma/sun6i-dma.c
+> @@ -984,7 +984,6 @@ static enum dma_status sun6i_dma_tx_status(struct dma=
+_chan *chan,
+>  	struct sun6i_pchan *pchan =3D vchan->phy;
 
-    if (vd) {
-        for (lli = txd->v_lli; ...)
+[Severity: Critical]
+This is a pre-existing issue, but does this lockless read of vchan->phy
+introduce a time-of-check to time-of-use (TOCTOU) use-after-free risk?
 
-vchan_find_desc() returns NULL when the descriptor has already been
-completed or is in-flight on a physical channel and no longer present
-in the virtual channel's descriptor list. When vd is NULL,
-to_sun6i_desc() is called unconditionally on &vd->tx before the NULL
-check, which is undefined behaviour. Move the call inside the if (vd)
-guard to ensure it is only reached with a valid pointer.
+If sun6i_dma_tasklet concurrently frees this physical channel and allocates
+it to a different stream, by the time sun6i_dma_tx_status() acquires the lo=
+ck
+below and calls sun6i_get_chan_size(pchan), the descriptor might belong to
+another channel and could be concurrently freed. Could this cause a
+use-after-free when iterating txd->v_lli?
 
-    vd = vchan_find_desc(&vchan->vc, cookie);
-    if (vd) {
-        struct sun6i_desc *txd = to_sun6i_desc(&vd->tx);
-        for (lli = txd->v_lli; ...)
+>  	struct sun6i_dma_lli *lli;
+>  	struct virt_dma_desc *vd;
+[ ... ]
+> @@ -996,9 +995,9 @@ static enum dma_status sun6i_dma_tx_status(struct dma=
+_chan *chan,
+>  	spin_lock_irqsave(&vchan->vc.lock, flags);
+> =20
+>  	vd =3D vchan_find_desc(&vchan->vc, cookie);
+> -	txd =3D to_sun6i_desc(&vd->tx);
+> =20
+>  	if (vd) {
+> +		struct sun6i_desc *txd =3D to_sun6i_desc(&vd->tx);
+>  		for (lli =3D txd->v_lli; lli !=3D NULL; lli =3D lli->v_lli_next)
+>  			bytes +=3D lli->len;
+>  	} else if (!pchan || !pchan->desc) {
 
-Fixes: 555859308723 ("dmaengine: sun6i: Add driver for the Allwinner A31 DMA controller")
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-sonnet-4-6
-Signed-off-by: Christian Lugnberg <christian.lugnberg@soundtrack.io>
----
- drivers/dma/sun6i-dma.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+[Severity: High]
+This is a pre-existing issue, but does this fallback logic incorrectly repo=
+rt
+the residue of the active descriptor for unissued descriptors?
 
-diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-index 04fe1f5042e9..7704b016aed8 100644
---- a/drivers/dma/sun6i-dma.c
-+++ b/drivers/dma/sun6i-dma.c
-@@ -981,7 +981,6 @@ static enum dma_status sun6i_dma_tx_status(struct dma_chan *chan,
- 	struct sun6i_pchan *pchan = vchan->phy;
- 	struct sun6i_dma_lli *lli;
- 	struct virt_dma_desc *vd;
--	struct sun6i_desc *txd;
- 	enum dma_status ret;
- 	unsigned long flags;
- 	size_t bytes = 0;
-@@ -993,9 +992,9 @@ static enum dma_status sun6i_dma_tx_status(struct dma_chan *chan,
- 	spin_lock_irqsave(&vchan->vc.lock, flags);
- 
- 	vd = vchan_find_desc(&vchan->vc, cookie);
--	txd = to_sun6i_desc(&vd->tx);
- 
- 	if (vd) {
-+		struct sun6i_desc *txd = to_sun6i_desc(&vd->tx);
- 		for (lli = txd->v_lli; lli != NULL; lli = lli->v_lli_next)
- 			bytes += lli->len;
- 	} else if (!pchan || !pchan->desc) {
--- 
-2.54.0 (Apple Git-156)
+When queried for a submitted but unissued descriptor, vchan_find_desc() ret=
+urns
+NULL because the descriptor is in desc_submitted instead of desc_issued. The
+code then falls back to calculating residue for the currently running trans=
+fer
+using pchan->desc in the else block, without verifying if
+pchan->desc->vd.tx.cookie matches the requested cookie.
 
+While reviewing the file, I noticed a couple of other pre-existing issues:
+
+[Severity: Critical]
+This is a pre-existing issue, but is there a race condition between the
+interrupt handler and sun6i_dma_terminate_all() that can lead to a NULL
+pointer dereference?
+
+If sun6i_dma_interrupt() reads vchan locklessly and proceeds to handle it,
+while sun6i_dma_terminate_all() concurrently runs on another CPU, acquires
+vchan->vc.lock, and clears pchan->desc to NULL:
+
+drivers/dma/sun6i-dma.c:sun6i_dma_interrupt() {
+    ...
+    vchan_cyclic_callback(&pchan->desc->vd);
+    ...
+    vchan_cookie_complete(&pchan->desc->vd);
+    ...
+}
+
+Will the lockless call to vchan_cyclic_callback() or the subsequent call to
+vchan_cookie_complete() dereference a NULL pointer since the descriptor cou=
+ld
+have just been cleared?
+
+[Severity: High]
+This is a pre-existing issue, but is there a deadlock risk due to plain
+spin_lock() usage on sdev->lock?
+
+In sun6i_dma_terminate_all() and sun6i_dma_pause():
+
+drivers/dma/sun6i-dma.c:sun6i_dma_pause() {
+    ...
+    spin_lock(&sdev->lock);
+    ...
+}
+
+These functions acquire sdev->lock using a plain spin_lock() from process
+context, leaving softirqs enabled. If a softirq interrupts the CPU while the
+lock is held, and sun6i_dma_tasklet (running in softirq context) attempts to
+acquire the same lock via spin_lock_irq(&sdev->lock), might this result in a
+deadlock?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260814142708.7912=
+0-1-christian.lugnberg@soundtrack.io?part=3D2
