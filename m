@@ -1,127 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384E041B362;
-	Fri, 14 Aug 2026 08:04:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC1E43F8C9
+	for <linux-sunxi@lists.linux.dev>; Fri, 14 Aug 2026 13:29:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786694643; cv=none; b=BQ0S5ihz21yUblWTH0YXKPTWieYUkHdLdiifqviT2FwQvuMRGZX7lg+JU2AQ/cueSSXBkpsvGd6TBznsgJNAh7tye3x96iC4zNI4DbBoZ5CyHl9W6MxsGvlleDyL8yskqaELgNKY2YABHNvRFwfORCA3hXk5COR31/x/ReIAXao=
+	t=1786714168; cv=none; b=lgxPFjO3BujipG4tTVOeSyCSqcZ3j34RiECD/T2E7ZTNv6K7hLuSUI85mJvdAp5VCLxXb+hZAZS2Fb7DsVqDKOnGeHTbypJ7eLkqFnz9dSrGaHnUU3XQE8aQ7MeC65PFfmh2yrh8cgZFrVf6qIZfsHaa2hg5lwmZQpWR9sucm2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786694643; c=relaxed/simple;
-	bh=f/gV5vYFiyp1v8tbidEy1y5VhvcAHpOxhT/ORtc2H+I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lycpGs0g0Ov0mzjT/Wr4RR54VZUT8/4YT2+BTgq0X73NgWBVfzd8rkmyYRflOwtbfvbCXChqtgIVQcSo5M/wCkBipLugszSbpE/KfR7bs5+q8YrjqJcQdLBYmxrb45rkGF0JAFbZGxUute3vw0TDdOO7C12xoy69PmZl4T06VuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cTcNcRrX; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1786714168; c=relaxed/simple;
+	bh=cByUVjkJel3B1ybJsMmIYMaJI3DegLh80XKJ7Li8vFk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ln332oi1GYq0pC2DrEyUpQv8bhKMdHLigSZcocmaseEIt7NOENrPrsKliC12ow6PZqd9KkHBn1UVMRzjRk7br34/hmsfbEb5JEhMPjnhZUdnkqw+QxxVqu8pG0PphAfQJYSkQEyZyNUY3mjaBbF5sFvJtmU3BZsR+Vd6z0zwjAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=soundtrack.io; spf=pass smtp.mailfrom=soundtrack.io; dkim=pass (2048-bit key) header.d=soundtrack.io header.i=@soundtrack.io header.b=ScGaNym/; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=soundtrack.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soundtrack.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cTcNcRrX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786694641; x=1818230641;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=f/gV5vYFiyp1v8tbidEy1y5VhvcAHpOxhT/ORtc2H+I=;
-  b=cTcNcRrXUbQ9hOi3YD1CGV5POETSr5xaawdLedvsK1MBoXJuY+Xv3tqe
-   yRWxZxT+oIsr+30AdUnALEY6laweC0txgxIzFG3gR5inbLpPlRuNZrz0Z
-   kb7ktZFRDDOyMFxJb+kAUbnIAQhvflQJdpwpxOjfbVW2lm8LiUKqQgJTl
-   Edc/yQEkNxv62K2zWyXOT2XBLVYQ00U3sk7EFwMPliMt7+Gxe0WupN48Z
-   ue3+25FpHTP33agne25DEbistskhO6AgDANqUjLcjZ7gKKdc6nvmxg6FR
-   7Hm0sl7Lt0qvN25indkNcISB08HVIi7cl/MfU8iECtuAceG7hBH8USGU9
-   w==;
-X-CSE-ConnectionGUID: Xg7Ecn9SS+GcaiW8uRKmdQ==
-X-CSE-MsgGUID: 66BRygTJRcqIx7vR8p5ZeQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="112817491"
-X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="112817491"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 01:04:00 -0700
-X-CSE-ConnectionGUID: uZWHJQ8jQdKFP7Q1mWiRNg==
-X-CSE-MsgGUID: 8lhQsporQJ2V5PiZN1hVjw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="262411537"
-Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.134])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 01:03:51 -0700
-Date: Fri, 14 Aug 2026 11:03:48 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Frank.Li@oss.nxp.com
-Cc: Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>,
-	Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Binbin Zhou <zhoubinbin@loongson.cn>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	=?iso-8859-1?Q?Am=E9lie?= Delaunay <amelie.delaunay@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Ludovic Desroches <ludovic.desroches@microchip.com>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Keguang Zhang <keguang.zhang@gmail.com>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Kelvin Cao <kelvin.cao@microchip.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	linux-arm-kernel@lists.infradead.org, dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-trace-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-actions@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	imx@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH 1/2] dmaengine: use dma_chan_name() helper to get
- per-channel device name
-Message-ID: <an7L5D_9aGMkLiEw@ashevche-desk.local>
-References: <20260812-dma-chan_dev-rename-v1-0-a67131f7d5c2@nxp.com>
- <20260812-dma-chan_dev-rename-v1-1-a67131f7d5c2@nxp.com>
+	dkim=pass (2048-bit key) header.d=soundtrack.io header.i=@soundtrack.io header.b="ScGaNym/"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6a09571dd5cso134814a12.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 14 Aug 2026 06:29:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soundtrack.io; s=google; t=1786714164; x=1787318964; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PU9G4zdXRl0NI31/rfDwJrFlwhd8fgXP9fxLHMqe2k8=;
+        b=ScGaNym/EmaDglrJ3p74TdoHncvo/0WnfKjGNN6szVILKBp2pEVg3rE8T/++fUyn4r
+         JfIwJJUD6EJ3/kDurAYHt/zL486ZRkClUEM5/4Cq+wPtqTcMTtTzutplF+AiGgdOeBdn
+         xuykvAY1pH2Eb1lsjcioNlEpCNxe6+4VFSDW0Vn8YPwZa9q9YrbhMY8RRYadXQJAYvWG
+         jYa6Au6C1sFR2BNvtMPeReChWSnCsUIMtb11J2fEHljuXa9jDNdyT3xSUdpiYqusslIo
+         jpnVtw524JTMO/eFt0eqA31Dp7iCgFLH8/CqMCki/aAzxFlG6KAfTQ2037X5UVmKJKpj
+         6HEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786714164; x=1787318964;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=PU9G4zdXRl0NI31/rfDwJrFlwhd8fgXP9fxLHMqe2k8=;
+        b=EpoK42mvS3wVgSl8bHwjt19agBjzGmrIvhEFQYmgveWhX47Ozr8eBXg+ETZhnCyNWz
+         KYdAvzbF/kj3BL+kgEiKdRDRzhpEzrLyVHX4Y54rC5DhkbTF11AJiE1Qn6n90grHyIsl
+         zj6bNcMOZY7OD22o579KozbujzXX2FYFEZeBoDPWR38oLFf9+sed7KyhiJ7r4vGxXDce
+         5TSmQrpJAaU9NxPpUo78J/TV0IfYEpvNb9v5YeyPd/JMFhacsZyXJSOq96cmsnSxPGF4
+         m0joNZZUA/EtOb0/XW3U8pQK4BSvejmyirmCaV3ZmLdxO4QOLFPMNoX6INiJwS4vBbDd
+         fjKQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrnuRQ3dkiMh0HA23nFpjwuD318HkBmVWsWl92OER0n3bAwZqjX7MQUJdYxHGj2UinUlHMwamxIkFGkbA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw/HbWK2tLMzTyzFF4DqTeIlx+Fl/XykFpCpYtOuuu+NAK09OYx
+	4I38QLyq+ed7GRGh+GLNUAO1kAjVYH0+T7HXFeeMe3yqFZPUXmXY7pPOoDx/We2JgnU=
+X-Gm-Gg: AR+sD10VXWr3KixGAPCzeNMCE2gEmYwYy8p3T7Y/rnLVhgDUP3t4D5oLanTtKof8ofO
+	30dCi/Z0cvG9C+ybi7wSpjpv/XscaISNSanusKIx4OudlTOuUXqdfuE7CRx+alX552LGlFI4tlW
+	fBCvimSav/ZQi33/VHkl95qzirLumbfkAlpN7/s4FCoAd9Mog/hF3PR+yqRE5UP1V/i6r99iwqw
+	gGZS3uyeh5pUbnpHNIhSd59gXplGe4QRAumbsasjYjee2p2fIYjaWCH1r7YVQn+3tVfs1mhk8Sn
+	y1PjPgrrf983jaxay1hO71YDdYewhF3tBi5Jg4hJ75QgaSKFR5b+WpocGAnYErFNScbjIAzAk4b
+	Xh4XiFI5gle5fllN3JiQghlu+lSosNCN2kMWGj0lCBK60S1V33wNo93hwlMiIqK9NJGfCOGbnn/
+	zn9ZrWPJr5CLsAUCMW6DF+11DrC4a3ox3MQC0H1SG98VJ65PkudYogIQK6CqX8E2kYJkdwW0qVD
+	w4q9grFQgIrxLN30LQgGGS4zV6XSZVdTHj2ZQ6xLSflNW6H2sWGxDyaog==
+X-Received: by 2002:a05:6402:3509:b0:6a3:72bc:7bca with SMTP id 4fb4d7f45d1cf-6a38a98619emr1635185a12.3.1786714164235;
+        Fri, 14 Aug 2026 06:29:24 -0700 (PDT)
+Received: from Christians-MBP (31-209-40-223.cust.bredband2.com. [31.209.40.223])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a38c9d5eb2sm841941a12.5.2026.08.14.06.29.21
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Fri, 14 Aug 2026 06:29:23 -0700 (PDT)
+From: Christian Lugnberg <christian.lugnberg@soundtrack.io>
+To: vkoul@kernel.org
+Cc: Frank.Li@kernel.org,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	dmaengine@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Christian Lugnberg <christian.lugnberg@soundtrack.io>
+Subject: [PATCH 0/2] dmaengine: sun6i: Fix two bugs in the DMA status path
+Date: Fri, 14 Aug 2026 15:28:28 +0200
+Message-ID: <20260814132906.70322-1-christian.lugnberg@soundtrack.io>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260812-dma-chan_dev-rename-v1-1-a67131f7d5c2@nxp.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 12, 2026 at 05:24:08PM -0400, Frank.Li@oss.nxp.com wrote:
+This series fixes two bugs in the sun6i DMA driver's tx_status path.
 
-> Use the existing dma_chan_name() helper to obtain the per-channel device
-> name instead of open-coding: dev_name(chan->dev->device) /
-> dev_name(chan2dev())
-> 
-> Simplify the code and improve consistency.
-> 
-> No functional change intended.
+The first patch fixes a non-atomic read of DMA_CHAN_LLI_ADDR and
+DMA_CHAN_CUR_CNT in sun6i_get_chan_size(), introduced when cyclic DMA
+support was added. The race causes spurious ALSA xruns on Allwinner H3
+(Barix IPAM400), confirmed by observation on kernel 6.12.
 
-...
+The second patch fixes a null pointer dereference in sun6i_dma_tx_status()
+where to_sun6i_desc() was called unconditionally on the return value of
+vchan_find_desc() before the NULL check, present since the driver was
+first introduced.
 
->  		ret = devm_request_irq(dev, lchan->irq, loongson2_cmc_dma_chan_irq, IRQF_SHARED,
-> -				       dev_name(chan2dev(lchan)), lchan);
-> +				       dma_chan_name(&lchan->vchan.chan), lchan);
+Both patches are candidates for stable backport.
 
-Depending on the amount of users (and I expect there is a number), I would
-expect specific API for virt-dma case.
+Christian Lugnberg (2):
+  dmaengine: sun6i: fix non-atomic read of DMA position registers
+  dmaengine: sun6i: fix null pointer dereference in sun6i_dma_tx_status
 
->  		if (ret)
->  			return ret;
+ drivers/dma/sun6i-dma.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.54.0 (Apple Git-156)
 
