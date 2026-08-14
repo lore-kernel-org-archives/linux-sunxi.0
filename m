@@ -1,283 +1,236 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010058.outbound.protection.outlook.com [52.101.69.58])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E5DB17745
-	for <linux-sunxi@lists.linux.dev>; Fri, 14 Aug 2026 20:58:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24423DD86C
+	for <linux-sunxi@lists.linux.dev>; Fri, 14 Aug 2026 20:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.58
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786741089; cv=pass; b=Hv6+vul08siTcvZdrk6RtqtJPgJK4hY97ftrvlX0dXejOiVQsqWeHuLtuWllSccqZ8kUGy0BUQ6WdblY1dygtZO4T0BW3q+A4QaaeLkvOCbbwIsg4kSCufsbpWcZzPRRQqiqRBJkPbuN3GhE89ZQKah711AjM2SraRa1pwhu/kQ=
+	t=1786741105; cv=fail; b=pPBq2rAs9rhAxhAJGHgR/HN/7rvQkOND9qE0feJvlm6JvuQGPWgp7+wBmHtGjktFgoYb23acO2rw4K+2DNt+vVIIEkQ99+hmtrTTJAZLgR3Rm4/iys5IpfD3fTxxGpPBVN7GriKh650vJbJMBKx7c437QF0V+avaTGvimxX4gxs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786741089; c=relaxed/simple;
-	bh=fzkudrNXMvsqhxo9t7njpcJ4l34TsL42TxTBUCeRaJQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KZJqWccq0ks1Qe7VjXraDv1iyP/RaRlrbPuUa+INb2nH77AyUAk6ymB3x1Yh7FpyN7DknDrUSAyu8a/Qq7AY8qEvGOXSlMt2GzDZCYoUfwJswYoNW5r3Z0xG/50slWr5mzDyRngAu0wPvByHZyz2xFGWDCw9mwre87HpYBPv1dE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KBniH4Pf; arc=pass smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786741105; c=relaxed/simple;
+	bh=LYbZVuMGV4sSqzPKxxhqTAqT2JiI4TGltfCMENidzww=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=l+Z3wfzSG+KJ9UQBfAnaBwuIEqmDURlFfZzq1+AFqhrHegjVKq9v7fj+QaO/P98J0mHA+pOzilPgXYe/0yP5VMXRhuEkCLUV1G3gNRhWQi9dcWxSDDLpoo6bk4siVpxA58iPdLSyo1YZUugbeXNLbUrdKw5Lic1yjDqPtASv85w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=hQlYuOi9; arc=fail smtp.client-ip=52.101.69.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KBniH4Pf"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6a0794669a6so2363910a12.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 14 Aug 2026 13:58:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786741086; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ZmePErZzEVo87QDfjiJJVFviJU5IKpb646R5hiHRQlcnHKFzU+kmT+RbJVOXPwDOwJ
-         lX+rJXBTHk1D4QdERLxp9CY5OPLatyGQr/r8M5nqzQhUxxo+WTmhPFxHReK2U8LtxfoM
-         s/rTnC6BIRdoiKH+lPoOMyVc4nomWmbk6b+mV00P+t4XilYXjh0nTJSIlJNb0fjvp4BK
-         F3b3fU+7W1JyDoxKn2jjoXEatfqbWS/JRVH8fBHJ7k3NN1qGrS/jpfS+y1GZOZa+evO0
-         MCsnzx9hk7VGOAq9CGqTgn+Qm4iS3ebxWfzbd0pTD5ieKGRuKdipJkgPeiMcgx4Dltcc
-         JXLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=LOSc/4c9SbQQBCe93XY6xPCkzEFokZXSPeuKf38HAZs=;
-        fh=tKBcE2mLdrAeSZZvWwVaZhcOot5o5rsf6H+FC2wWik0=;
-        b=J6H5blaKe1qjh04h+kSC436xFN+n4dHNTKoVPrensGgC6RPYhp30E1x0Mvoe7dka9h
-         vU+2w+MHpBYZoaQrCGVZSmKw4eGBVJ6JBCyT6LyhP2IUximCGRKaeEMxCD2aLCwhA4Yr
-         848pHSI9jvvLZMOfaLeVAmum5QKkFqg9seoLVzCJJodNYN3eGGv9fdEjntFvfxag2ZVI
-         TgkZQCQixIbow1NDchmEcZRgbF+4ZSu7DxLqf/43BHrlTw76mXv/A/s9mBmdJyF0l07/
-         Ap8ZJq9pQQ+MkujSCXgx7TmNMWtpT5CL/erR3dj3Yqp7dymhwz8NIF04GPy6m1QnIsoL
-         QaSg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786741086; x=1787345886; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=LOSc/4c9SbQQBCe93XY6xPCkzEFokZXSPeuKf38HAZs=;
-        b=KBniH4PfsiGE0Z91LLpOKJcoRL/+V0z/eR3a2UZzl8laHBQkVzW5edtWdXUdSrSufu
-         v93hW7udhRyb+w2xN2yIKNf5VtcAPUgh3axUwLdm8nOULLRHR9OtQ1AFBLcgLX+J3aBo
-         NDDBVkp6rjXdpz4acfCJJf9ap3xx3ritSUvc85iLmcaOC0e9H2SzjWBkTV2ynXlgQU44
-         2qzGmSJeQFXbA9Shvl4NCgMghe+5LYC0y50NuHl5EbajXTsmKz0gTjpFWLPkjvA0xA09
-         2E4HjcjiQ00GOoJT4kCBdgiT2zg0TEhP8GK7P4LIvJcJyaBU9kEfJLv0h+xHhse0Iz7/
-         5gzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786741086; x=1787345886;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LOSc/4c9SbQQBCe93XY6xPCkzEFokZXSPeuKf38HAZs=;
-        b=CdScIvYDiwzMQr4V6ru5PmVeHPUlv58elGGcGp8bzw2W6Bp27XyIAdNYCrgiFNYjqk
-         x/HuoafQttqtKZGiLxob5gczNJkC8+FWimEVcE8+vpN5AWyd3I/A8kuepT14FgTahikB
-         lEw9A0FKyeSecxzQ+F6ygWNyuZLigcW1Q8Yr8hIcuG96arDuT+YQfgnfreSLlUpx3s0n
-         M2UHI+Ea4ouaOmPIpwptqaD4JfvB7g0VG+quqlboLcxdPsK6XRq5FEgFqP1maoOwN1/Q
-         k+aoa5Z5OWfzFRLb9MwSuEbDujrrLP/cwp/QyUak9MyvzdJdPYh8bk2WfwrWW2UADAbX
-         J+LA==
-X-Gm-Message-State: AOJu0YwQJlRu37hxKlt6pOLMWAPxTBCRX3e/AUiNMmxUEHQm/sFtrO1T
-	y+8E4GesqRr7GH/0MYLTFxinrVOYXbaLC/6ucQ+x46Tj+nFomm5HkixEArIBh+KB8eFJx5Aa/T6
-	7PLfhtKIvjy11DKNPg2v1FU87GqJ/1Po=
-X-Gm-Gg: AR+sD11loM76kjho67EObz763oyHsERYJ7RWtm5f51miG8JJ8B5w1I/Em/B2/uTqndW
-	A3FT7lEURJJJGNnQEDOI5trsqePnWTxIXQcPPDECuEhcgnVTshO7fERkYA0wTIw0kBMNuJVPbdY
-	qVkufBZfbf//bBcFZvNla1kmTGxfGZOrEm+UGdfXpg2XhlgsGrzHZWkOgepwxheqgz/v/zjMCz9
-	DAZnrEe9ekJShMvt2ZJHiHM1wnh+2brhnE3gDYgbJmzQwij92f4GaeUGKPH71d2b1/BSXkD/eBo
-	voG5+zddn3ufNFUAYBQ61FiDh5UD2q2qwKU3hgKkou94E6Px4mcmqoy061nN0NROTejk29P+RvA
-	4uauNmrTBijjudv1XUk/pfShysZRnVT6nZnbYnZuCRN8YvMqVkLWUNwTQNggU7AKL1HNr+YZUuq
-	c4dTek+1hY7h0/ZZUSz+5SJVobkrATGxxCKWtwtMRzzfdfoQkPgmTULH0=
-X-Received: by 2002:a05:6402:914:b0:6a3:691a:9d71 with SMTP id
- 4fb4d7f45d1cf-6a38a957c26mr4430136a12.11.1786741085853; Fri, 14 Aug 2026
- 13:58:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="hQlYuOi9"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VPS02JIvOdwKBJxFvTXdDVipLmHfdBQ+Vojtay5cyJJH8iM8iYn/VX+NGKqZqtCZsw+w6wu/kgJbxn/njteX1ah4QeCzKoJMOLNAcHZWQBDAHXJE7sV0MWiDN0dgSj988aPiIpGapN3Ycv3kz6fsHn2eh/qyMN+MhkoRix2zk6ZP5n5w07MlPtac0aSjXYVZ22W9gOQj13UgsgJMztSw22aEcGK2Wg+xcy6GmLf0nk334jCaR3bKkVKr2e5J5EEVQYzgC6ZJYoOuClCs5SkJKnwwHToXTMbdbEjwGzL6pQCezlaclsJHZNz5jLr+Dl1GEeZgq27obSPzp0pSeheg9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2nejWJJSwgUn5FuKocqMlb1muH15P4D83SnnahQ5L1E=;
+ b=SF8xVnLIFIGhn3EP6bMjD5REK1KIu5xl5dUODgx0oEEyidVB0N+GttEAFFYLjdMe/01/PLiUoiKlIBrR5V/4s1Hk0TwA1mekGmt+UbOkQIl7w/8d3VxQA39b8eN+a1FbM+GAOWoXjxmYyFDfvD3+inB6wNZDkXOBadOXj+sDhYPa2HVK39ooCTD+ysqBcnMdtpeBli3JH20DSYe/yUXDqFI7snJVMXshe+XoJch+3lYZiepRkF4eK64r6D0KL0bERW6z+9DuErivQ/+jF7es69+nAlpqjRMD29SD1pH2hudsgYMlEB9Lm5/9DWb93aixcSno0YsgllxhLgHrSTfXZg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2nejWJJSwgUn5FuKocqMlb1muH15P4D83SnnahQ5L1E=;
+ b=hQlYuOi9Y4ih/rgquE12eXaW+ncmcZZ37M+c4lVNGqjdrwfhPCx8p2MbzgvqDau49KRD61uOAHn/vr3m9/jTXgfl/WopB6BvBzqKsunlhnMOXfQCgndi/hMqfvFTJIMUP6Yec0JIJ2e1NG9F5mYNZpLQtbUt2fboyq+AzITpF99DwhCk3qi9od4KByxeb59Q4IoO1u6kE+rcF7AaZuNGnK8bs+gRnPe5Tsm1snj9xoCjSjDzAmALKBOyb11aOP42cx0bbnZeecRE11t1B89Ul14+x+KzOGQG43ePL9o3Q2OStoSQ0ckoEVoqkiq5s+SkSohWVkkGjCb3n1KwPAmGUQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by PAWPR04MB9936.eurprd04.prod.outlook.com (2603:10a6:102:38b::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.15; Fri, 14 Aug
+ 2026 20:58:18 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%7]) with mapi id 15.21.0315.014; Fri, 14 Aug 2026
+ 20:58:18 +0000
+Date: Fri, 14 Aug 2026 16:58:10 -0400
+From: Frank Li <Frank.li@oss.nxp.com>
+To: Hongling Zeng <zenghongling@kylinos.cn>
+Cc: vkoul@kernel.org, Frank.Li@kernel.org, wens@kernel.org,
+	jernej.skrabec@gmail.com, samuel@sholland.org, mripard@kernel.org,
+	arnd@arndb.de, dmaengine@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, zhongling0719@126.com
+Subject: Re: [PATCH RESEND v5] dmaengine: sun6i-dma: Fix use-after-free in
+ error handling  paths
+Message-ID: <an-BYtReSbWBGvcH@lizhi-Precision-Tower-5810>
+References: <20260727061142.44195-1-zenghongling@kylinos.cn>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260727061142.44195-1-zenghongling@kylinos.cn>
+X-ClientProxiedBy: PH8P221CA0029.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:510:2d8::34) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260727194208.10082-1-rosenp@gmail.com> <CAGb2v66=kgwUSNtkCVLROxCfbDuf_g70Y0qZ9ucfXsTD+f2NnA@mail.gmail.com>
-In-Reply-To: <CAGb2v66=kgwUSNtkCVLROxCfbDuf_g70Y0qZ9ucfXsTD+f2NnA@mail.gmail.com>
-From: Rosen Penev <rosenp@gmail.com>
-Date: Fri, 14 Aug 2026 13:57:54 -0700
-X-Gm-Features: AcwNN1X2VjIXLPSnb7iCG-Vzo6JnErx51Wj3qJ1nwrzVQVCAOL_rU0eaB-XX0V4
-Message-ID: <CAKxU2N9MDwrEpVZ3Wm11K=kf2Q4Dq=nOTd20eux3iw4_fQy3JQ@mail.gmail.com>
-Subject: Re: [PATCH] mailbox: sun6i: modernize probe and convert to fully managed
-To: wens@kernel.org
-Cc: linux-sunxi@lists.linux.dev, Jassi Brar <jassisinghbrar@gmail.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	"open list:MAILBOX API" <linux-kernel@vger.kernel.org>, 
-	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|PAWPR04MB9936:EE_
+X-MS-Office365-Filtering-Correlation-Id: 37710516-81e8-4bea-e684-08defa46c463
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|23010399003|7416014|376014|366016|19092799006|10067099003|56012099006|6133799003|11063799006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	Tu2LLuZshF+VYb9qFYmseSnQEirYMAwDGn/38s9WJ33kN1LDKsLU0+oroF4DAHnP9+VCxVTUYo+hFiWrMMSEvLaKIXpuT/nfp0xwJrJbhykqLthQqhnWJ2Mj3kpYCg6E/c65pBJnbYRpzl78oSvUCsX45vNGB2EGHlopzAgwqYY8VOtlmODlLdi0/V4XUu245Q0406VglL1oL6CzFxYabJya/hNOx2XFoD7vZWmI5h5LnmoPNqV87O6ujFfpvsb+akkOWky74eeOpRtoGh9dJp9U6llpNLhc9B6cKByEaOHxN+D72C5OF9fi9mQLrU03p3dc/4dHPiLKlxixrYwnFNxjErJb7f35juIBR5RUdM+kZ8hU8LbRva2YUhUiLLz9KPYHvGyUjTnjFkkQ7jv+Iou22BertpKmbGUizcwxYH2Ut3wviPYc+6IijKZQrFYO6K6rMXwtvMcbyf4QKU1lLrd7EODaB3kNaVO5WdUCpvxVfj9C7auzX2prHUABGjKA6D3iZJwEqV1r/7xQAKx7bMicxhYfKWSJTMH8AqEBbC0ZnQPE69PnacuCErIC2XwpNuI50NsSKN/g7pKZwIGJAVNKPdpi6G3AZPy1tpT0cAzIXW2tGTTTVR3VfdY7h8vY4caknB4uPOWjfqhhe3uTcil0TN/ZnoWRDrCW05pGfdo=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(7416014)(376014)(366016)(19092799006)(10067099003)(56012099006)(6133799003)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?5GIUP8o3q/1RDN7nNQ6DgArkG81p24fKzkW8QFrAhSqiWFkv1SA26XXrBc7T?=
+ =?us-ascii?Q?eF/D9KJesRQI6bRJBkkZLqPKUW5xTxOcb60EPpZwbxtylUEXg6dVbjWGvtZF?=
+ =?us-ascii?Q?X4VsgLWFfDmKdbBTgf19pZXALhlUwdjZ1moynNNLLZ2VauTlJOpWY/H76CSL?=
+ =?us-ascii?Q?vSG2bGoFoaYu1JHvyD68DrTkbG6LahL1GBRrRngBh3eYfQ7ZOQ/AX2LI23GU?=
+ =?us-ascii?Q?HoxBifW7+yIxYc7UTCJMRz8yOMqXsjncFnl6i3f625452W01fsmRAHEittaC?=
+ =?us-ascii?Q?sO6AMSLFQSrg/k/FfP1Op7RB7Rq7doRO5BYK2lZVKfzHyXf4/HCXWNDIS7gf?=
+ =?us-ascii?Q?vBqGYus1BaAEaAkowbfRMdtbAO9zzgCQka90YTg2TU2fqYOTmm/JTY2ll3vX?=
+ =?us-ascii?Q?AaJmx7SxpJT4BKc+wv1qHv883Qi974ae/erkyFkj5hfa7XlwovOPUzYFH07m?=
+ =?us-ascii?Q?xoTS5K86siEHHjSaPONMHzSxC+gFbY/5xae5KMhZj5At2bN/GQUYKwVW9ccO?=
+ =?us-ascii?Q?2YCTuU2W+2tUhlxo6F5uWkFadHs71pKpN1kQKidjuGX2jHWLCzWa7QS+cZbC?=
+ =?us-ascii?Q?R0FD0+KC9bYJdql+zyi4Ry7l1edAftKhdXOOYC3S2Tww3bGzzJpxHGneR5na?=
+ =?us-ascii?Q?/bwzrrsTBuKHl4haSkzRxoRltU2Ah+p+woyBgI5tene6qAnMwzN52GkiFcXS?=
+ =?us-ascii?Q?l6GJioB3U0Xy8f0hZ3yjzHtCxzzXzRg50zTMfUq+LZiPRzOaK0tjGmloRrxX?=
+ =?us-ascii?Q?0afPaNPKiO5U2ujWsP0OF6mOKWl/T/68O0Xb0FlxJB+geS1xNTD2p7Pu+3bE?=
+ =?us-ascii?Q?SuMPylXx9N49d+U7hHIuewSQRb5p54y6/pMj8A5CXTCFeh8bVs8do1ml6lOZ?=
+ =?us-ascii?Q?+acVGa6lLmlx9/lyN0CYR17zh1xCwuynVqhmaGwGwLlIVw0wAj3ZeqrN+l/B?=
+ =?us-ascii?Q?3Ni9TnSbPdxaWFwkH4ko0MgiFJdOMF2fMbOI/hpMoCUlf5TqxzdSEWicRKri?=
+ =?us-ascii?Q?2NgrfkLAwiID0MNsbw2slYaKHR9PwuHEh7uO1l69XywOoYOWZxJ9kN2A8UZe?=
+ =?us-ascii?Q?LYF4zL9XB9pfn6Tox1egoy+Otlkahe95x40hkMT3/e/geNIYRBpgJlqNG7ZC?=
+ =?us-ascii?Q?cZyf+D3/PHLzi0/7N0ECyEjoPAGKRFNguE+HkLYXQsh+nyVnB4TcqtzmFL/f?=
+ =?us-ascii?Q?Diwuj3PSficQJqfI31N1eFZXnKq8IwB1BQiM5KT8SH2GYOZLVnKMhmrGGoEm?=
+ =?us-ascii?Q?BwxBL4nQhahZHLw0C/2NX5MuW5JKRXVSCtMND3u8D9BqNJwqpou3PjXy8RDW?=
+ =?us-ascii?Q?ZK3221mMv/b6DBZdOjkpZDqn9K76tzstyEHlb4od2bUoLdloTTEi1WtYGK8m?=
+ =?us-ascii?Q?4AUxwdwsY7mxDwQQpt53pHPJJpvjpYiuyNdHg1Jjlq+VNxuIV8iBgc3m/Chs?=
+ =?us-ascii?Q?OmHZrKVakccJcsQhD6tBqcWm8y8QInj7Dz9OlLjt4wdzoD2GipW6zpNHYutQ?=
+ =?us-ascii?Q?5bHpbwflLo9IN2e7FkTTtlJdsGy0vZvGlIcOU3wFKoOoxjX2QbqO96WoIknW?=
+ =?us-ascii?Q?vag2Q+ZDvgKsMsoCcDaqlm2LZeMz9GMvnd53COb6kOCNscX960gDHrdG93nn?=
+ =?us-ascii?Q?60x95U/vvfvGKCmLLjJ99UxCC/c3uONdMr3cbakYbPrcBEZz5gayMptXRzYL?=
+ =?us-ascii?Q?ySTHmbemdoh/fD455Y4Q4A6DJcrPp4dp+YAA47CPQtMfh26tScSW0irmgyY7?=
+ =?us-ascii?Q?9dHz6BiwMVAnuJa122jQsWTc8/ks+vXAuBA42XGjmIYTsrSB1vaf?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37710516-81e8-4bea-e684-08defa46c463
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2026 20:58:18.4282
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uMlbLV6yJXglVHyUrVf/aVDEps4E4q2XTWOFYnYB28lf09iZOFLZPWaMY5oje873bW8U5ROXUoOAKwLwjG/Tvsud8K9/RoC9nnY2XTS2g0GoAk5uFOairCnHFA9uY3mj
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR04MB9936
 
-On Tue, Jul 28, 2026 at 8:56=E2=80=AFAM Chen-Yu Tsai <wens@kernel.org> wrot=
-e:
+On Mon, Jul 27, 2026 at 02:11:42PM +0800, Hongling Zeng wrote:
+> In error handling paths, the for loop frees v_lli in the loop body,
+> then accesses v_lli->v_lli_next and v_lli->p_lli_next in the
+> increment expression, which is use-after-free.
 >
-> On Tue, Jul 28, 2026 at 3:42=E2=80=AFAM Rosen Penev <rosenp@gmail.com> wr=
-ote:
-> >
-> > Replace irq_of_parse_and_map() with platform_get_irq() and move both
-> > IRQ and MMIO resource acquisition to the top of probe, before any
-> > allocations, for early error exit.
+> Fix by refactoring the cleanup into a helper function sun6i_dma_free_desc()
+> that saves both the next virtual and physical pointers before freeing the
+> current node, preventing the use-after-free.
 >
-> There's no real reason for the code movement. It's going to fail once
-> or maybe twice at the most. And the ones you moved are the least likely
-> to fail.
-Not my experience. They can and do return -EPROBE_DEFER with some
-drivers. No idea about this one in particular.
+> Fixes: 555859308723 ("dmaengine: Add driver for Allwinner sun6i DMA")
+> Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
+> Suggested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+
 >
-> Now I could see replacing irq_of_parse_and_map() with the more standard
-> platform_get_irq(), but you haven't given a reasonable reason. And it
-> should be a separate patch since it has nothing to do with streamlining
-> the error handling and dropping the remove function.
+> ---
+> Changes in v2:
+>  -Refactored the fix to avoid code duplication by creating a helper function
+>   sun6i_dma_free_lli_list() that handles LLI list cleanup
+>  -Add Suggested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+> Change in v3:
+>  -Further refactoring to move txd handling into the helper function
+>   as suggested by Jernej
+> ---
+> Change in v4:
+>  -Add reviewed-by
+> ---
+> Change in v5:
+>  -Correct the commit message.
+> ---
+>  drivers/dma/sun6i-dma.c | 31 ++++++++++++++++---------------
+>  1 file changed, 16 insertions(+), 15 deletions(-)
 >
-> > Switch from devm_clk_get() + clk_prepare_enable() to
-> > devm_clk_get_enabled(), which combines both operations and registers
-> > devres callbacks for automatic disable/unprepare on unbind. This
-> > eliminates the manual err_disable_unprepare error path and the
-> > remove callback entirely.
-> >
-> > Use devm_mbox_controller_register() for devres-managed controller
-> > registration, and drop the remove callback and platform_set_drvdata()
-> > which are no longer needed.
+> diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
+> index fcc88a74d821..e161fc298b86 100644
+> --- a/drivers/dma/sun6i-dma.c
+> +++ b/drivers/dma/sun6i-dma.c
+> @@ -406,16 +406,12 @@ static inline void sun6i_dma_dump_lli(struct sun6i_vchan *vchan,
+>  		v_lli->len, v_lli->para, v_lli->p_lli_next);
+>  }
 >
-> These two are what are important.
+> -static void sun6i_dma_free_desc(struct virt_dma_desc *vd)
+> +static void sun6i_dma_free_desc(struct sun6i_dma_dev *sdev,
+> +				struct sun6i_desc *txd)
+>  {
+> -	struct sun6i_desc *txd = to_sun6i_desc(&vd->tx);
+> -	struct sun6i_dma_dev *sdev = to_sun6i_dma_dev(vd->tx.chan->device);
+>  	struct sun6i_dma_lli *v_lli, *v_next;
+>  	dma_addr_t p_lli, p_next;
 >
-> > Assisted-by: Opencode:Big-Pickle
-> > Signed-off-by: Rosen Penev <rosenp@gmail.com>
-> > ---
-> >  drivers/mailbox/sun6i-msgbox.c | 62 ++++++++++------------------------
-> >  1 file changed, 18 insertions(+), 44 deletions(-)
-> >
-> > diff --git a/drivers/mailbox/sun6i-msgbox.c b/drivers/mailbox/sun6i-msg=
-box.c
-> > index 6ba6920f4645..28d8636afad2 100644
-> > --- a/drivers/mailbox/sun6i-msgbox.c
-> > +++ b/drivers/mailbox/sun6i-msgbox.c
-> > @@ -198,7 +198,17 @@ static int sun6i_msgbox_probe(struct platform_devi=
-ce *pdev)
-> >         struct mbox_chan *chans;
-> >         struct reset_control *reset;
-> >         struct sun6i_msgbox *mbox;
-> > +       void __iomem *regs;
-> >         int i, ret;
-> > +       int irq;
-> > +
-> > +       irq =3D platform_get_irq(pdev, 0);
-> > +       if (irq < 0)
-> > +               return irq;
-> > +
-> > +       regs =3D devm_platform_ioremap_resource(pdev, 0);
-> > +       if (IS_ERR(regs))
-> > +               return PTR_ERR(regs);
-> >
-> >         mbox =3D devm_kzalloc(dev, sizeof(*mbox), GFP_KERNEL);
-> >         if (!mbox)
-> > @@ -211,24 +221,18 @@ static int sun6i_msgbox_probe(struct platform_dev=
-ice *pdev)
-> >         for (i =3D 0; i < NUM_CHANS; ++i)
-> >                 chans[i].con_priv =3D mbox;
-> >
-> > -       mbox->clk =3D devm_clk_get(dev, NULL);
-> > +       mbox->clk =3D devm_clk_get_enabled(dev, NULL);
-> >         if (IS_ERR(mbox->clk)) {
-> >                 ret =3D PTR_ERR(mbox->clk);
-> >                 dev_err(dev, "Failed to get clock: %d\n", ret);
-> >                 return ret;
-> >         }
-> >
-> > -       ret =3D clk_prepare_enable(mbox->clk);
-> > -       if (ret) {
-> > -               dev_err(dev, "Failed to enable clock: %d\n", ret);
-> > -               return ret;
-> > -       }
-> > -
-> >         reset =3D devm_reset_control_get_exclusive(dev, NULL);
-> >         if (IS_ERR(reset)) {
-> >                 ret =3D PTR_ERR(reset);
-> >                 dev_err(dev, "Failed to get reset control: %d\n", ret);
-> > -               goto err_disable_unprepare;
-> > +               return ret;
-> >         }
-> >
-> >         /*
-> > @@ -242,25 +246,17 @@ static int sun6i_msgbox_probe(struct platform_dev=
-ice *pdev)
-> >         ret =3D reset_control_deassert(reset);
-> >         if (ret) {
-> >                 dev_err(dev, "Failed to deassert reset: %d\n", ret);
-> > -               goto err_disable_unprepare;
-> > +               return ret;
-> >         }
-> >
-> > -       mbox->regs =3D devm_platform_ioremap_resource(pdev, 0);
-> > -       if (IS_ERR(mbox->regs)) {
-> > -               ret =3D PTR_ERR(mbox->regs);
-> > -               dev_err(dev, "Failed to map MMIO resource: %d\n", ret);
-> > -               goto err_disable_unprepare;
-> > -       }
-> > +       mbox->regs =3D regs;
-> >
-> >         /* Disable all IRQs for this end of the msgbox. */
-> >         writel(0, mbox->regs + LOCAL_IRQ_EN_REG);
-> >
-> > -       ret =3D devm_request_irq(dev, irq_of_parse_and_map(dev->of_node=
-, 0),
-> > -                              sun6i_msgbox_irq, 0, dev_name(dev), mbox=
-);
-> > -       if (ret) {
-> > -               dev_err(dev, "Failed to register IRQ handler: %d\n", re=
-t);
-> > -               goto err_disable_unprepare;
-> > -       }
-> > +       ret =3D devm_request_irq(dev, irq, sun6i_msgbox_irq, 0, dev_nam=
-e(dev), mbox);
-> > +       if (ret)
-> > +               return ret;
-> >
-> >         mbox->controller.dev           =3D dev;
-> >         mbox->controller.ops           =3D &sun6i_msgbox_chan_ops;
-> > @@ -271,29 +267,8 @@ static int sun6i_msgbox_probe(struct platform_devi=
-ce *pdev)
-> >         mbox->controller.txpoll_period =3D 5;
-> >
-> >         spin_lock_init(&mbox->lock);
-> > -       platform_set_drvdata(pdev, mbox);
-> > -
-> > -       ret =3D mbox_controller_register(&mbox->controller);
-> > -       if (ret) {
-> > -               dev_err(dev, "Failed to register controller: %d\n", ret=
-);
-> > -               goto err_disable_unprepare;
-> > -       }
-> > -
-> > -       return 0;
-> > -
-> > -err_disable_unprepare:
-> > -       clk_disable_unprepare(mbox->clk);
-> > -
-> > -       return ret;
-> > -}
-> > -
-> > -static void sun6i_msgbox_remove(struct platform_device *pdev)
-> > -{
-> > -       struct sun6i_msgbox *mbox =3D platform_get_drvdata(pdev);
-> >
-> > -       mbox_controller_unregister(&mbox->controller);
-> > -       /* See the comment in sun6i_msgbox_probe about the reset line. =
-*/
-> > -       clk_disable_unprepare(mbox->clk);
-> > +       return devm_mbox_controller_register(&mbox->controller);
+> -	if (unlikely(!txd))
+> -		return;
+> -
+>  	p_lli = txd->p_lli;
+>  	v_lli = txd->v_lli;
 >
-> Like Sashiko said, this doesn't compile. All devm_*() functions require
-> a |struct device *| parameter.
+> @@ -432,6 +428,17 @@ static void sun6i_dma_free_desc(struct virt_dma_desc *vd)
+>  	kfree(txd);
+>  }
 >
+> +static void sun6i_dma_free_desc_virt(struct virt_dma_desc *vd)
+> +{
+> +	struct sun6i_desc *txd = to_sun6i_desc(&vd->tx);
+> +	struct sun6i_dma_dev *sdev = to_sun6i_dma_dev(vd->tx.chan->device);
+> +
+> +	if (unlikely(!txd))
+> +		return;
+> +
+> +	sun6i_dma_free_desc(sdev, txd);
+> +}
+> +
+>  static int sun6i_dma_start_desc(struct sun6i_vchan *vchan)
+>  {
+>  	struct sun6i_dma_dev *sdev = to_sun6i_dma_dev(vchan->vc.chan.device);
+> @@ -788,10 +795,7 @@ static struct dma_async_tx_descriptor *sun6i_dma_prep_slave_sg(
+>  	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
 >
-> Build testing your patch before sending it is a must.
+>  err_lli_free:
+> -	for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
+> -	     p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
+> -		dma_pool_free(sdev->pool, v_lli, p_lli);
+> -	kfree(txd);
+> +	sun6i_dma_free_desc(sdev, txd);
+>  	return NULL;
+>  }
 >
+> @@ -869,10 +873,7 @@ static struct dma_async_tx_descriptor *sun6i_dma_prep_dma_cyclic(
+>  	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
 >
-> ChenYu
+>  err_lli_free:
+> -	for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
+> -	     p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
+> -		dma_pool_free(sdev->pool, v_lli, p_lli);
+> -	kfree(txd);
+> +	sun6i_dma_free_desc(sdev, txd);
+>  	return NULL;
+>  }
 >
-> >  }
-> >
-> >  static const struct of_device_id sun6i_msgbox_of_match[] =3D {
-> > @@ -308,7 +283,6 @@ static struct platform_driver sun6i_msgbox_driver =
-=3D {
-> >                 .of_match_table =3D sun6i_msgbox_of_match,
-> >         },
-> >         .probe =3D sun6i_msgbox_probe,
-> > -       .remove =3D sun6i_msgbox_remove,
-> >  };
-> >  module_platform_driver(sun6i_msgbox_driver);
-> >
-> > --
-> > 2.55.0
-> >
+> @@ -1432,7 +1433,7 @@ static int sun6i_dma_probe(struct platform_device *pdev)
+>  		struct sun6i_vchan *vchan = &sdc->vchans[i];
+>
+>  		INIT_LIST_HEAD(&vchan->node);
+> -		vchan->vc.desc_free = sun6i_dma_free_desc;
+> +		vchan->vc.desc_free = sun6i_dma_free_desc_virt;
+>  		vchan_init(&vchan->vc, &sdc->slave);
+>  	}
+>
+> --
+> 2.25.1
+>
