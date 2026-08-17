@@ -1,104 +1,192 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122283A1A23
-	for <linux-sunxi@lists.linux.dev>; Sun, 16 Aug 2026 19:00:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF7241D118;
+	Mon, 17 Aug 2026 12:41:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786906803; cv=none; b=LsjkV8S59OtprOfCXQgumX/ZxlEDaU4WGYrwEIDFTqjeK8iwADWC+IYugEPW/s7ay6MWufhERByE5dl9d1LnkvZpCwicN3Ao9wY1dz+0Q3LTGTDOxPtTG3SKifJHHbUj/DFOCgjrAt2tQoKgaenlSrGVgVw9qrRNLjdxOGQtR7Y=
+	t=1786970473; cv=none; b=Kh5ms9B9QmJ0dh0/12SclLH9WRu0S5cIksd/zkoEhIDo9+A4HiaTTxeNFPYL10/EZB3+OjuPJx54jHzM7+uQMYBDXEfnO8NOeKk4J2r/XIYViPoCKP81YR02jQlJkGuW8YXApenzgNgWuOhgdTLjWbE/TYp/1rZ+U624NJNrRZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786906803; c=relaxed/simple;
-	bh=nNF0ZohFHrdNjPFvzMMf9M0Qx1wQqpUmQ72xm+Xx+Js=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BZHbNT4nXirSRln2HWQhLQWlqEJJJQPnnH3lJAyYN2OIqsKxy6O0fDr8QpVjGWIbrIEzdCRI5e4Cqq3cPIL5C/MiAj4vzNgLr0BZl8tA7kfz9cYNLobPXsPcY9SFFWakB5di7Esu/6wTAci51PTI4xxNgwn23N0vXUt04QGzfuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bXG8+kV8; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786970473; c=relaxed/simple;
+	bh=7X4st2dfy1l8lT+fjQAQC0tAfIF/QQdIXAwtTks4e/k=;
+	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Oq/cxNtUWQIk/EYgwOfGg4MlzPD3zlONbqebSvs8Jg1fd28dg11pZLW2cQqHXfDd82I4ris2SE411m2r9tFcEKhP+pXBjwWL9dnx/NBYZv6uru2wiinYRv77qx21JTAs4k+2h0gyVFi/EmMOmmFX6mzShjqvaTctEQtZbY9m8+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aoCANBg2; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bXG8+kV8"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4954f5e8020so13536735e9.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 16 Aug 2026 12:00:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786906800; x=1787511600; darn=lists.linux.dev;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=nNF0ZohFHrdNjPFvzMMf9M0Qx1wQqpUmQ72xm+Xx+Js=;
-        b=bXG8+kV8U+zaZqoDTHE4gKfoF1E+YjtlhQ94IWza4eAS7S0T5/O0RCse/sry0k4aqP
-         Gsrt8SeyVoDGR6QCwW/usZjq3FOEH1aVBnk4YLbbW/wPSUCLqVGZ75FWuaOUgXpuiPwU
-         uY4rn8RXYN9f3tcOVbCaOnF7ynlnHtbtwwrF2j9s6SESav3mVYK//5xND0IdrWoXcq4R
-         35Fx2sevvLRnCTadgfxXEBVUX72sVJGyzwP0gH6k3qDwzTbJLdmXpGj96WM8/3UdN31i
-         uKZP7ZtOfE7MYz49Mn3XNS5zvg+tpvG707N6LCCND0Jv9sb8FXeQ3HyLIJQoiygqjkBA
-         5j+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786906800; x=1787511600;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=nNF0ZohFHrdNjPFvzMMf9M0Qx1wQqpUmQ72xm+Xx+Js=;
-        b=pOnMJHqi/jXjun4BcSLPtfQ7Y25u6WJ8VUl3jTes4x8aP6uqMVrFFPDhQBHZNd8RV3
-         5mWJIC9jvSfcpL2nykHh4V0EdVHK5XxBrhT10xoYemsFzxmCyzW69Ow/AW0S4qe9glzQ
-         rEBtkr8phOgt4cr7OhpZ74Osm+rI8mirE1vkNMbukibgoRLGKK5cGLkaBbTDZBLGvKs8
-         5He5z1QmbPCSGR3h9pauzdGHBvh+NLJH/K9gl00L5OlWfTyRs4ngQLSnW6MdiZNMqx+F
-         kP4bvu9psRtjXgqO2wAtDdZw5s5ofM3x5eW7ZNBmAr0tDlJrJWOOBLQkj0ppzEHlmwIt
-         bUjg==
-X-Forwarded-Encrypted: i=1; AHgh+RpZ/d5WIOCdprK0lDpqnCCLjF5QgBiOaL5IqVPcHeSGs/Wt8tx3IMDneNj3jucTClQSoVlQyJL8SndJbQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz9R5CHDQpzFRdOhdQjCxwfoXW+qDNgS/3yx/Xa5khHbpGJwav5
-	C47YF24hYBp6tCNonveIEm2x2MNrtuqJAF6QyV4oLJsNt0xFtO2FRxLa
-X-Gm-Gg: AR+sD13EZwPjNOxWpoLgWApW0LZkmgAb0Tq/XxjV6Fv9OcOmFd1CovnP/vY2OtEplzZ
-	dryeqeT82imlf0jTVTxKsJmp4tQPdPiucxgs3OGiRi5Sfs7MewHvn9tAPIFxQklRcA8dxNOj2Mh
-	/8yCheJRQ6fH9YmEXfQiGAgKgPAZrQJvtrlAvj4+bnlDcL+wZ9b4ejQEDFDGUBZji+6g2QpX59K
-	Jski88pyepBAv4AFrpkNuoSfecF1lxQI8SkEIFxoxayFrHiYIFvsezMZic8MTxB1T1IFKbo3yAJ
-	h93+4agkugi9zy88OTXEiSaqxoquerNwK1IWkuvbHPhPgQljOuo0ATfgNg5vkknTQk3c6Ur12Kw
-	p8cHnSGtltmQD9SyTp3wWumLQUY9k/gyTgVBnYzOmFhMh0gW/jZVyPAFZbYUzeCHGbOAm5c6Klu
-	+uaawPSrY1NCGDeRje6B6kUWPzqqnoAfYJjwFf+UYrPRcOOGpmnuDBV+Isp1WJ4iM/U8b9OaTmh
-	Ux/WcxJ1P4d432rNYHjvYl34pA3hxQkCDlAQBd5p02iCWv4u5zcewJcpQkAlGuMx++GhTsEnwfR
-	G74pszvUlkaWO9678xMZ+kWaxnckrF7ACU5pVR3AwKaeQMi1AbFJnjItqpgZt6/N6s6vuwvfme3
-	lAAgFT+gm4lc8A4okj3sWOaR8jQqo7NV7xcIN624VZ/Z3Z7ptNXZSZ7hFN/04LIhc8K+Isgm9P/
-	DBo7pQAyF/4w43kHe0KF2lAsk=
-X-Received: by 2002:a05:600c:1c21:b0:499:90f3:13b8 with SMTP id 5b1f17b1804b1-49990f315e9mr145661775e9.12.1786906800076;
-        Sun, 16 Aug 2026 12:00:00 -0700 (PDT)
-Received: from jernej-laptop.localnet (APN-122-100-59-gprs.simobil.net. [46.122.100.59])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49996100184sm105325425e9.1.2026.08.16.11.59.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Aug 2026 11:59:59 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: wens@kernel.org, samuel@sholland.org, Roman Riabenko <roman@riabenko.com>
-Cc: andre.przywara@arm.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Roman Riabenko <roman@riabenko.com>
-Subject: Re: [PATCH] arm64: dts: allwinner: sun50i-a64-olinuxino: Add RX delay
-Date: Sun, 16 Aug 2026 20:59:57 +0200
-Message-ID: <n0N02vZgTVK3duHBgrvA0w@gmail.com>
-In-Reply-To: <20260815005316.28998-1-roman@riabenko.com>
-References: <20260815005316.28998-1-roman@riabenko.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aoCANBg2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786970471; x=1818506471;
+  h=from:to:subject:in-reply-to:references:date:message-id:
+   mime-version;
+  bh=7X4st2dfy1l8lT+fjQAQC0tAfIF/QQdIXAwtTks4e/k=;
+  b=aoCANBg23f6hM++EUWX5525byy5v5c6zWGrwg/KiAVFSp/WghxX3Ar3m
+   /6zwcHjA/VxbxfPx6xfEoGl3eis8ImmuA7sz7utu+t6IpCOXy8InG0CSM
+   T0yqDPiqXnCnC9nLrr0cBEA/RTaiVY3IaPbr+FUpghBU+ZYyUvP+RgkQV
+   4f/ei+2e4YH7ftlpbzZyPf5UyU7PYOiwv8OmQB8sWtKxDOw8auU2eWZi5
+   6k9ow65XPdSkFxNrWZWEGerJkJjZC1VxXb2x3V2wRpN9VzK6hqYS+uzoz
+   UpG0wwIKwRWP9tDRzfv1i+flskA5/w0Pm/gjeLH8rxGStuKtc/dZnLe9f
+   Q==;
+X-CSE-ConnectionGUID: kxeCS2mRQNyCHnVF6Wx7lQ==
+X-CSE-MsgGUID: E5D6+d0GSDS3R9aBzKGghQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="98598087"
+X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
+   d="scan'208";a="98598087"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 05:41:10 -0700
+X-CSE-ConnectionGUID: kO9/n7EERguTo2l7wfOCtw==
+X-CSE-MsgGUID: 7ox5dl61Tw6To4e/rrOiGw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
+   d="scan'208";a="266887598"
+Received: from abityuts-desk1.ger.corp.intel.com (HELO localhost) ([10.245.245.110])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 05:41:05 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, nouveau@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, asahi@lists.linux.dev,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-samsung-soc@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, intel-gfx@lists.freedesktop.org,
+ linux-aspeed@lists.ozlabs.org, linux-rockchip@lists.infradead.org,
+ linux-tegra@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-mips@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ spice-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ imx@lists.linux.dev
+Subject: Re: [PATCH 0/5] drm/vblank: Enforce all-or-nothing vblank support
+In-Reply-To: <20260814203542.1405135-1-lyude@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20260814203542.1405135-1-lyude@redhat.com>
+Date: Mon, 17 Aug 2026 15:41:02 +0300
+Message-ID: <5f06e91a5ff0e5bb887b72e4ff9077c45cd9216e@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain
 
-Dne sobota, 15. avgust 2026 ob 02:53:16 Srednjeevropski poletni =C4=8Das je=
- Roman Riabenko napisal(a):
-> The Ethernet on Olimex A64-OlinuXino computers requires an RX delay
-> greater than 0. If the value is not set or is 0, packet loss in the
-> downlink direction is severe enough to interfere with downloads and
-> disrupt software installation.
->=20
-> The range of acceptable values is wide. The vendor has been applying
-> 200 ps in its downstream DTs since 2021. This patch matches that
-> common practice.
->=20
-> Signed-off-by: Roman Riabenko <roman@riabenko.com>
+On Fri, 14 Aug 2026, Lyude Paul <lyude@redhat.com> wrote:
+> One of the oddities with DRM that is leftover from the old days is how
+> vblank support is implemented by drivers. This has caused some minor
+> issues for the rust bindings for KMS which could be worked around.
+> However, it seems like a much better idea to fix this on the C side.
+> Those oddities are mainly:
+>
+> * There's nothing in the vblank core that actually ensures that all
+>   CRTCs implement vblank support if one of them do. On Rust's side, we
+>   can't have this and have to ensure either the whole device has vblank
+>   support or not - otherwise it would be quite painful ensuring we don't
+>   expose vblank methods to drivers that can't use them.
+>   This additionally means such a situation would lead to UB.
+> * There is a second variable for keeping track of the number of CRTCs
+>   and it's kind of broken and confusing. Even worse, we currently allow
+>   the vblank API to allow a driver to specify a different number of
+>   CRTCs then it actually has.
+>
+> So, let's just go ahead and fix this across the whole tree, and enforce
+> that a driver must either implement hardware vblank support for all
+> CRTCs or no CRTCs.
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+For i915, the relevant init order is currently:
 
-Best regards,
-Jernej
+- drm_vblank_init()
+- drm_mode_config_init()
+- drm_crtc_init_with_planes() for each CRTC
+
+For the patch series to work, drm_vblank_init() would have to happen
+after mode config and CRTC init. Off-hand, I couldn't say if there are
+dependencies that make this change difficult.
+
+I'd be surprised if i915 were the only driver like this.
 
 
+BR,
+Jani.
+
+>
+> Lyude Paul (5):
+>   drm/vblank: Add drm_device.has_hw_vblank
+>   drm/vblank: Remove drm->num_crtcs
+>   drm/vblank: Remove num_crtcs argument from drm_vblank_init()
+>   drm/vblank: Use drm_for_each_crtc() in drm_vblank_init()
+>   drm/vblank: Require all CRTCs implement vblank support in
+>     drm_vblank_init()
+>
+>  drivers/gpu/drm/adp/adp_drv.c                 |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c      |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |  2 +-
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  2 +-
+>  .../gpu/drm/arm/display/komeda/komeda_kms.c   |  2 +-
+>  drivers/gpu/drm/arm/hdlcd_drv.c               |  2 +-
+>  drivers/gpu/drm/arm/malidp_drv.c              |  2 +-
+>  drivers/gpu/drm/armada/armada_drv.c           |  2 +-
+>  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |  2 +-
+>  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |  2 +-
+>  drivers/gpu/drm/drm_vblank.c                  | 60 ++++++++++++-------
+>  drivers/gpu/drm/exynos/exynos_drm_drv.c       |  2 +-
+>  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c     |  2 +-
+>  drivers/gpu/drm/gma500/psb_drv.c              |  2 +-
+>  drivers/gpu/drm/gma500/psb_irq.c              |  4 +-
+>  .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  2 +-
+>  .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  2 +-
+>  drivers/gpu/drm/hyperv/hyperv_drm_modeset.c   |  2 +-
+>  .../drm/i915/display/intel_display_driver.c   |  3 +-
+>  drivers/gpu/drm/imx/dc/dc-kms.c               |  2 +-
+>  drivers/gpu/drm/imx/dcss/dcss-kms.c           |  2 +-
+>  drivers/gpu/drm/imx/ipuv3/imx-drm-core.c      |  2 +-
+>  drivers/gpu/drm/imx/lcdc/imx-lcdc.c           |  2 +-
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  2 +-
+>  drivers/gpu/drm/kmb/kmb_drv.c                 |  2 +-
+>  drivers/gpu/drm/logicvc/logicvc_mode.c        |  2 +-
+>  drivers/gpu/drm/loongson/lsdc_drv.c           |  2 +-
+>  drivers/gpu/drm/mcde/mcde_drv.c               |  2 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  2 +-
+>  drivers/gpu/drm/meson/meson_drv.c             |  2 +-
+>  drivers/gpu/drm/msm/msm_kms.c                 |  2 +-
+>  drivers/gpu/drm/mxsfb/lcdif_drv.c             |  2 +-
+>  drivers/gpu/drm/mxsfb/mxsfb_drv.c             |  2 +-
+>  drivers/gpu/drm/nouveau/nouveau_display.c     |  2 +-
+>  drivers/gpu/drm/omapdrm/omap_drv.c            |  2 +-
+>  drivers/gpu/drm/pl111/pl111_drv.c             |  2 +-
+>  drivers/gpu/drm/qxl/qxl_display.c             |  2 +-
+>  drivers/gpu/drm/radeon/atombios_crtc.c        |  4 +-
+>  drivers/gpu/drm/radeon/radeon_irq_kms.c       |  2 +-
+>  drivers/gpu/drm/radeon/radeon_legacy_crtc.c   |  4 +-
+>  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c |  2 +-
+>  drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c  |  2 +-
+>  .../gpu/drm/renesas/shmobile/shmob_drm_drv.c  |  2 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |  2 +-
+>  drivers/gpu/drm/sprd/sprd_drm.c               |  2 +-
+>  drivers/gpu/drm/sti/sti_compositor.c          |  2 +-
+>  drivers/gpu/drm/stm/ltdc.c                    |  2 +-
+>  drivers/gpu/drm/sun4i/sun4i_drv.c             |  2 +-
+>  drivers/gpu/drm/tegra/drm.c                   |  2 +-
+>  drivers/gpu/drm/tidss/tidss_kms.c             |  2 +-
+>  drivers/gpu/drm/tilcdc/tilcdc_drv.c           |  2 +-
+>  drivers/gpu/drm/tiny/bochs.c                  |  2 +-
+>  drivers/gpu/drm/tiny/cirrus-qemu.c            |  2 +-
+>  drivers/gpu/drm/tve200/tve200_drv.c           |  2 +-
+>  drivers/gpu/drm/vc4/vc4_kms.c                 |  6 +-
+>  drivers/gpu/drm/verisilicon/vs_drm.c          |  2 +-
+>  drivers/gpu/drm/virtio/virtgpu_display.c      |  2 +-
+>  drivers/gpu/drm/vkms/vkms_drv.c               |  3 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c          |  2 +-
+>  drivers/gpu/drm/xlnx/zynqmp_kms.c             |  2 +-
+>  include/drm/drm_device.h                      | 10 +++-
+>  include/drm/drm_vblank.h                      |  2 +-
+>  64 files changed, 114 insertions(+), 92 deletions(-)
+>
+>
+> base-commit: 568d4cb5dcc5ec4e22975699b6ea67a30806884c
+
+-- 
+Jani Nikula, Intel
