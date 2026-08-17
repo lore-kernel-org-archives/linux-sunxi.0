@@ -1,62 +1,65 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F92A43B3CA
-	for <linux-sunxi@lists.linux.dev>; Mon, 17 Aug 2026 13:57:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6AF944236B
+	for <linux-sunxi@lists.linux.dev>; Mon, 17 Aug 2026 13:57:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786975056; cv=none; b=KRbPL/8ZESJaj+RVjsBuP+lU1lAQWKilk802wbJsccUCqH7GbwVoH0mbyZnCdyTIZcEgINmOl6bD/FztO6V0UQuLFMIluPe45tnZ3Hoop+YvSS+ej14KG1bPMXZMjZiNcBrOmLjhJaCadongwn1Yp+Gd4b35X6W8J/IrzzteICo=
+	t=1786975057; cv=none; b=e+N4rHLM4QFaOSilPDJhfX7gpvjKRQRRzHx6WWJCSWzwpI3hoTkJI7/rMYPGr9wl5D0qjGV27V0/GfMuTNyCEbt7380CD4izYbvPJyf165qQ6JCFn1KdQO5TKz8KmwArcgP0vWqZDIrn8yfMNKBH4Y8/omIOXHJSEGabxQo2qC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786975056; c=relaxed/simple;
-	bh=RGN10SVXvm3i++Bfg+6kRY/5FXtYBlYmz8CMVkacggg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=d02+UDGZ36B0p+//WaJdhVNJYSWHTUdSiV/CM9PMsuNE74y2lbHXZIJjjwyKgSV28SG47yfe4L7sqGBaJxe8yVSFN7DqsZA3C4/ucixFSHg4aKvsC2f43tJZClsNyThNq8V6kAPwXb0PHQRTeOERLtIaByh8ofA8uKGsLC+fJXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=soundtrack.io; spf=pass smtp.mailfrom=soundtrack.io; dkim=pass (2048-bit key) header.d=soundtrack.io header.i=@soundtrack.io header.b=fhwh73tW; arc=none smtp.client-ip=209.85.208.45
+	s=arc-20240116; t=1786975057; c=relaxed/simple;
+	bh=PZI7MMxmJVNzbmV5bnrz48F2Q3n5UxIGaRjcpiHxuHk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=SmLgN4f7pzybew1P0xgeuMAk5bA4WNZLyGHoz6qA2SaMCyEzUUPZjuP3M8++ISVSg925uQADcONqQx3ENQK1L5ekKrycwysiHjUkfWqq629SqUcPy3YAI1ujmRnRpphR075BOlRb96+WMQQyhsR3Xo2fNGgCNDxayAldMavpN+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=soundtrack.io; spf=pass smtp.mailfrom=soundtrack.io; dkim=pass (2048-bit key) header.d=soundtrack.io header.i=@soundtrack.io header.b=MVnR707J; arc=none smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=soundtrack.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soundtrack.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soundtrack.io header.i=@soundtrack.io header.b="fhwh73tW"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6a10d6f455dso499878a12.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 17 Aug 2026 06:57:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soundtrack.io header.i=@soundtrack.io header.b="MVnR707J"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6a09571dd5cso445568a12.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 17 Aug 2026 06:57:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soundtrack.io; s=google; t=1786975052; x=1787579852; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=p4sFYLrF8YcFxl1e2AvAjI7qSfV6fkkSPS8k5RbbIFQ=;
-        b=fhwh73tWLw6PzvPAusGsTbWdQrZMm1cgWfL1IOU/AEm8/o5AVqsFFtwNuLmbrX5BCx
-         /FlTdwNIHLxyQgXc0Pj5pcD756k6qqBt/vtGtmMG4FP84PN2Em2380KZhNLSXOx8gptI
-         0CmGB9jlpu/feoMULUBL5aiUCDLYk40+SCJaPQngC2jBMwp3qc+qbmKUIwoZbapDfjSF
-         D9iCCjNzL8Dipfn7qAraTTDhmq8ayRxQ0NT+/R2wB68a1E2ba7Z4tnG9HtdfLXgfVr9C
-         8NH00iIdKOQk4Zqi8CxVMcUWAIH3wGK9wp/pQVvNEGvRPs8vlehNi8r5HJej4SO0cuzs
-         7+9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786975052; x=1787579852;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=soundtrack.io; s=google; t=1786975054; x=1787579854; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=p4sFYLrF8YcFxl1e2AvAjI7qSfV6fkkSPS8k5RbbIFQ=;
-        b=mtkGfB6wx5W/tUqLp3R34NJ2l2vqKrCpRjTYjtKGOuGNKnEJA81SSbcArcd6dlnGsF
-         zRnVGqg+7jXZMUAS8HfbquV7WIMU6ouHB39O7WJRSrwd5ZafpfJ/vlCzoFCDEdapu+83
-         uK/67RBw4aCNOE+DHgVah4mqHtWoLa9I8y9po8r7KwVYNrxyqmSOyhFhkT0k8IdLNg0H
-         rli33LhlA0sVFlTZrz9PPtLGWgBdh/TuWJZgDYH62K+l3aR58UpJDb6VJ3RTR1saF92a
-         n+xgUnx5uhY+QFlw23gcvRjrzudBh4iPByE6YxXMQFuWLT4iTAdwfXViRyQ2do2UQEwG
-         IGOw==
-X-Forwarded-Encrypted: i=1; AHgh+Rr0dh/M2sWIlYFaeDSsasKw1e2P5/9Qkrzj5myeJ+9GetICYU8yisVJ3PfWZHpLrFh3En/r9uQirzFnHg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxBJgyLARYRD6lf8v8ETbFUIwy/eOOMaW5r3Eg7MQZtcswNArGn
-	gAhMiMWcLOoDuEqwkQPiedp6CIyQrnCfX0D1OiRfqeqKZGZInL4Q/CQX2n/sVqYaZ4s=
-X-Gm-Gg: AR+sD1087mVUw9KzFhg/QoIb//9knTn8AL3f1iQP8x/Em/ca7B+WqBNuNw5DF8xmmE3
-	aNJpEnwg/a+p1L7nEQTeSW79VJZqyQa/pB/THsyDCcjsIXAiW5BxxOai6CyKjnGZvRSGR0WtzHA
-	KS/76YCyIsp6l1aOSyHMcBKZLgLy22Vf9fefuYxfBJcEVQ7koPEGcvTk/zG56PowZBqZHc52fWs
-	VxVtFZGz/fGB3+bcG2z+rCPjYRyhz43fwdSxDKhc1p0nrudSkwSzbQ23AqaxL7+Ng6cXejmhE3R
-	NkC1/Nok8sB753nvnpSwejC71PxhCbVPTJcx723q1eXjxcqaELf2KhS/zpCZW5txtDHd6rXEHB6
-	pxdvM+8pc56W6kV18XxQsIzDY5b7sbtkD+2apH69szKA1jPACjGtg0WO0NXTEHF5qHtV1IZyVg2
-	v4/31y9my1F8DfAYD0vGX76kB03+jkN9tfiTGpDpLcNtR4/COtRcsmEzldgNUluA8aLDQd8uElY
-	O4edPDHldDr1hCWBSLWzeWMXTMwMjr7hDOZM82OB3zbmFHqypASc/pGE8w=
-X-Received: by 2002:a05:6402:3888:b0:6a1:8d3e:ee77 with SMTP id 4fb4d7f45d1cf-6a38a8b7c62mr6178631a12.1.1786975051651;
-        Mon, 17 Aug 2026 06:57:31 -0700 (PDT)
+        bh=WLmqosVfHRUnCpTXG/vmgJdRPIFeEEdEr21ji49UgUg=;
+        b=MVnR707J1aV3fWedcS/xpbQlw8YfPcFKjKBChCWdk3W3eiYUkxXgQ6454Yrdog0orV
+         dotANgFsgiQT3PXOunUoyu+2Ji2MuThIVouVMyHvU8O2ftV/q1saD7WDu8uKrz7f4zz5
+         4Gfi0ykQCtBzt6GGNBtKpLF39xfQYmpgpgSsWeaOLEsZc8OyXxDIj/WU6HXKxvynUM9O
+         oSpu57mW5/hwjufKjXEWGi+dn1XeOXYxihAoY7XGuV0hTmhje+vcfRQ0AZw0G4Yg6U3/
+         LPF2FkRo8HLnn8UlZG9DZ7GHgJ3/Z6PHToQEqkkPrw+kJ0Dq2PF/8u6/ez6IMMjvO4PP
+         ST4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786975054; x=1787579854;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=WLmqosVfHRUnCpTXG/vmgJdRPIFeEEdEr21ji49UgUg=;
+        b=eTMdhWvMdbQAa/+YQi+Pa7/Or0e5YvrjL5X/4pziX6iswzb6ph2fneJP+I4OZE6oSW
+         i3MnwRvWRO+WF9zEICkdBcFH9yFdIb5VasoG8gFlKscWVTqPrmk7S/EOZMdHJ+fqngsf
+         MPwaILOV0jgWo2PsIy4iBcTmnDFS88+cKA0uZnnloPPA9FsMa3Y2dY5E1qj03fIT4hB8
+         SCLdMbt+3vW9JUmvMNCIf7tsT3w5lOVJ7de2X76g1m+p49b09CkIatLtd2eO7n1/OktE
+         /yqyfrtnnnqSrB7V3XDPi5gYRAZ40Q4OwV/K70V1VXb3V41Hp3vQRPVIivqFX0Hr5wis
+         bskg==
+X-Forwarded-Encrypted: i=1; AHgh+RrKLKLKZBkuy68oIHxNybSZ0Ag4ytMRMYWzwRqorxc33lghCsTpHbknbwSnSMHFeMYb3hH/nvj5E0n/eQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxiLsnbzjoSkjFhJpFqK0iu2pY/lbbruY3m1JFzMhgJEl+DlGt9
+	jVZXUs7sWsW1r8ugJzRm/mvSyPGvGbx8ridakITe9zBZefDhtlGF/Ja7L6nEIZjHnin5RQMWz7+
+	3KpWU5Pw=
+X-Gm-Gg: AR+sD13PqZbJw5uvi1uk0AhY8kDbMoKUzXwt7IpR8wiUkwaRZdDOCSAiwclyB0cMfRf
+	7pNhgzf2LY5nZRCgnCrV1UPweJ0irx8dZ+QOBxtJ5sZMsH0tHYn1wMFZqGs7lkyjufOR5g1hf+i
+	ar+XNNlZoHtGxqk60ZC128xm3dENF6W1tefjOXbzMm9EDgTYE7NuuneLKrLBmNTyA4OWhM+h5Mc
+	yrJeH1Entd3GtF9atFQRTCiRNjHk3v3Waqn8Orpq3SVO00y33CPi3ZrEF9kSj/jJdyUQeZN9RFn
+	mYRXfSU9cI8zxI9K//vQ0pdRH0yIPK25glGzlo+djdQ6xsI1Ypnlg4H2SnOPPTduWBBYXavKzcX
+	t9if4Tk8spSGiLOSf6H189u7i9ump2Dx5UUODPsaF24Tm4Wdc6a0gIpEhhTds+4fp196Hq44kjv
+	qTjMzSor+NaTI92MqfIQ8fE6JD3gA+Xy2g5zedNBhXwgy8N6C9WhDfSxWyeh0c63I6UxL9kK/kl
+	daeCR3lwluCZy2FhY6+30F2uDKFV4OqoJctVGxd0M6ncGUmUbLJvGHNSY8=
+X-Received: by 2002:a05:6402:234b:b0:6a3:68c2:9a9e with SMTP id 4fb4d7f45d1cf-6a38a845a42mr7135042a12.0.1786975054047;
+        Mon, 17 Aug 2026 06:57:34 -0700 (PDT)
 Received: from Mac.localdomain (31-209-40-223.cust.bredband2.com. [31.209.40.223])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3d85319b1sm810238a12.13.2026.08.17.06.57.30
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3d85319b1sm810238a12.13.2026.08.17.06.57.32
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 17 Aug 2026 06:57:31 -0700 (PDT)
+        Mon, 17 Aug 2026 06:57:33 -0700 (PDT)
 From: Christian Lugnberg <christian.lugnberg@soundtrack.io>
 To: vkoul@kernel.org
 Cc: Frank.Li@kernel.org,
@@ -67,11 +70,14 @@ Cc: Frank.Li@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Christian Lugnberg <christian.lugnberg@soundtrack.io>
-Subject: [PATCH v3 0/2] dmaengine: sun6i: Fix two bugs in the DMA status path
-Date: Mon, 17 Aug 2026 15:51:21 +0200
-Message-ID: <20260817135723.12807-1-christian.lugnberg@soundtrack.io>
+	Christian Lugnberg <christian.lugnberg@soundtrack.io>,
+	stable@vger.kernel.org
+Subject: [PATCH v3 1/2] dmaengine: sun6i: fix non-atomic read of DMA position registers
+Date: Mon, 17 Aug 2026 15:51:22 +0200
+Message-ID: <20260817135723.12807-2-christian.lugnberg@soundtrack.io>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260817135723.12807-1-christian.lugnberg@soundtrack.io>
+References: <20260817135723.12807-1-christian.lugnberg@soundtrack.io>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -80,20 +86,53 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Thank you for the review, Frank.
+sun6i_get_chan_size() reads DMA_CHAN_LLI_ADDR and DMA_CHAN_CUR_CNT in two
+separate readl() calls with no synchronisation between them:
 
-Changes in v3:
-  - Patch 1: trim commit message to the root-cause explanation and fix
-    description, dropping the debug/reproduction part per feedback
-  - Patch 2: unchanged since v2
+    pos   = readl(pchan->base + DMA_CHAN_LLI_ADDR);
+    bytes = readl(pchan->base + DMA_CHAN_CUR_CNT);
 
-Christian Lugnberg (2):
-  dmaengine: sun6i: fix non-atomic read of DMA position registers
-  dmaengine: sun6i: fix undefined behaviour in sun6i_dma_tx_status
+DMA_CHAN_LLI_ADDR holds the physical address of the *next* descriptor the
+engine will load once the current one completes. DMA_CHAN_CUR_CNT holds the
+remaining byte count for the *current* descriptor. If the DMA engine
+advances to the next LLI entry between the two reads, pos becomes stale: it
+still points to what was the next descriptor at the time of the first read,
+but that descriptor is now the current one and CUR_CNT reflects its initial
+(full) byte count. The subsequent virtual-chain walk starts one entry too
+early and accumulates an extra full period's worth of bytes into the
+residue estimate.
 
- drivers/dma/sun6i-dma.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+Fix this by re-reading DMA_CHAN_LLI_ADDR after DMA_CHAN_CUR_CNT and
+retrying if the value changed. This double-read pattern guarantees that
+both registers were sampled during the same descriptor interval. The cost
+is at most one extra readl() pair per call in the racy case, which occurs
+only at descriptor boundaries (~every 2 ms) and is negligible.
 
+Fixes: a90e173f3faf ("dmaengine: sun6i: Add cyclic capability")
+Cc: stable@vger.kernel.org
+Assisted-by: Claude:claude-sonnet-4-6
+Signed-off-by: Christian Lugnberg <christian.lugnberg@soundtrack.io>
+---
+ drivers/dma/sun6i-dma.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
+index f47a326dd7ff..04fe1f5042e9 100644
+--- a/drivers/dma/sun6i-dma.c
++++ b/drivers/dma/sun6i-dma.c
+@@ -354,8 +354,10 @@ static size_t sun6i_get_chan_size(struct sun6i_pchan *pchan)
+ 	size_t bytes;
+ 	dma_addr_t pos;
+ 
+-	pos = readl(pchan->base + DMA_CHAN_LLI_ADDR);
+-	bytes = readl(pchan->base + DMA_CHAN_CUR_CNT);
++	do {
++		pos = readl(pchan->base + DMA_CHAN_LLI_ADDR);
++		bytes = readl(pchan->base + DMA_CHAN_CUR_CNT);
++	} while (pos != readl(pchan->base + DMA_CHAN_LLI_ADDR));
+ 
+ 	if (pos == LLI_LAST_ITEM)
+ 		return bytes;
 -- 
 2.54.0 (Apple Git-156)
 
