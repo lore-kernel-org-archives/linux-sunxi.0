@@ -1,184 +1,204 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013034.outbound.protection.outlook.com [52.101.83.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF69A43CE46
-	for <linux-sunxi@lists.linux.dev>; Mon, 17 Aug 2026 14:32:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.34
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786977146; cv=fail; b=sEC6jmDMF8EyDn3B9gATb3WyOHTmDUl0SV56pXaukW8jM1EVhy4QGkSblYsSU6k0n3YYMdydgXJSv9vL/n976E9awhSII0lVlwdktkpHZGD4oRENzX/Xcir1faEkLuo7iJYnOsP72aMj7guhLdiuvXsOiUgWNYTgGXhccj6yiiw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786977146; c=relaxed/simple;
-	bh=3xH2J+5kYlWz8l/bkcCmc7vyvhS/VT16z0nTStA/oiw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ZYMevWVJLunAqj6eNTlwVT6U86MqYumVDcrL5e0DBrVjnGgYCDVo/uEgFXbWbLuGBBT6rVLymgZaHDJqSi/mTm7lP345F4z3NObMfAAOkC5lPAnUlx3Uxr+DCLo7Wiy0ba/j/phHsu0QRwLNaDZRFiUpevbjm8ZKf7YzlTxezmQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=p/HfsrpD; arc=fail smtp.client-ip=52.101.83.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60F12EDD58;
+	Tue, 18 Aug 2026 01:24:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787016262; cv=none; b=g0H3/GgWRpwwU/AOWs+MPwFVh82xN5lxbfC13wd+RrVd1UellQF3UZZUkgsyMoVhhpAzyUgmbTbhNLwZLMgmAlrZr5DxWuzmOYLNpiD/rTRrDRdjqrvWXIzm2lEOydSYyPJIBycIlj7pu581jhfQIzetLr4PWmu/vMH7kfegbhw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787016262; c=relaxed/simple;
+	bh=I/mr6Xnb9Ry80iD3NZjnITjMhapPOE95OMvrGk4Epoc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EknsJLBQrjA54NO7zoBpKRFG6iYDHVpCamTY4GfsgTFMMEQ2N3SrsmZSf8JkIG63itW8WJxpVAfBw85ivkqhdQcoXLIJ5elP3GxFBqTDhKlp6YE3QSEx8CSoJYk3g3akBWDVYOUZGrGpALvKNNTlHljcTmj1RG6+zK+FrSJlJC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GOQFJqBK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="p/HfsrpD"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=o2t59hTTX21lL/hrhRKLo08K8Sf165aQEUhcUc+C/Q/vy16Y3DSLpKTlW5pmkb4mQdvsBChyQ9XnHzjeiZzj/YP2fy0TkFs8dq7I8T6ayAqOhYxVA5uMRVj4BbiN9cP8qWprNF7NbT4r+A6akxPyWj7wsEgalKm2JABxjvoFtJyM/4NURv5XKjQowq0gfDl0LNxeHcKEZp5Zkuon3dUwjcrzea5jHLeMP30lf5W3qMsWDUHO7blmN6DpYYesSPEw/BvSoXxKlAQDJQ8sf29nnZG4kX5dVPuNVIIGS4WI1S0swXTtVBJLOKlfdvQG9TqEUq65L3MGt2G8yZXheV2SGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D42Ojai7SvRA6BHXsFYvi5v5Vq3oomHgQunJyacFpKI=;
- b=hhm6cNwiwwXHIj4aBxTl9mwK4kpFkRMsdYQR64Kcw51OFbBCznH93T2nbwlBRdV+7wPX+iV14+Cth/mSvMC+nifst9/LReD3el8drVRC8kLk2xZAFpws4Skh+Nhhlr87RtPFcnFiqwtwF8p56IOvKRvFNS/xFytuZo81gk+fm2+ecGzMD2jX1EZorfLPCU911438wZwlQH1ZRiEp4YfkQWn51zBOe5U/KndKkhWOmG63IcqZ6ZBTva5qHI01acfil2ukO47rOd2GehbCkcNTNeqFqhAV8ElzYec/JXgaic8ldzGy67ghMe7/oqm5Bm3nzIQBPX7XWSGcqPXAqWhf9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D42Ojai7SvRA6BHXsFYvi5v5Vq3oomHgQunJyacFpKI=;
- b=p/HfsrpD9eSzHWSqJTitNcXs0C/omhZ1am7QBFJuvGASNc1h3vBzQuTy6vztqd2oZUx7t1/GrkAaOeAb1cn8+sma9dkSnscMuK03NFJvChmcJxcc7NDIujY6KFYuEyz0VcRJFhjJ+T9BHe1OmFTg5dFpH9sdBHXycctUpxjCNCIsg9//TD3oSR1oks78azRXXxHb5Iw8LT2lrsZJNZRzbM00lR/V4+YRu5nOiuumF0ln5o+FM40y8uwjw1uJ6/jYmIcCuoNCsao/0ERc/BZkpsjgPCt8kpfBphZcbqZXvwz/z9g51+xpy93FVAH0qdMgxqrhjmt88H0/IpIIyVnKLg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by DU4PR04MB12028.eurprd04.prod.outlook.com (2603:10a6:10:63d::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.12; Mon, 17 Aug
- 2026 14:32:21 +0000
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c%7]) with mapi id 15.21.0315.016; Mon, 17 Aug 2026
- 14:32:21 +0000
-Date: Mon, 17 Aug 2026 09:32:11 -0500
-From: Frank Li <Frank.li@oss.nxp.com>
-To: Christian Lugnberg <christian.lugnberg@soundtrack.io>
-Cc: vkoul@kernel.org, Frank.Li@kernel.org, wens@kernel.org,
-	jernej.skrabec@gmail.com, samuel@sholland.org,
-	dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] dmaengine: sun6i: fix undefined behaviour in
- sun6i_dma_tx_status
-Message-ID: <aoMba8ERfJh4jG4t@SMW015318>
-References: <20260817135723.12807-1-christian.lugnberg@soundtrack.io>
- <20260817135723.12807-3-christian.lugnberg@soundtrack.io>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260817135723.12807-3-christian.lugnberg@soundtrack.io>
-X-ClientProxiedBy: PH7P220CA0180.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:510:33b::30) To GV2PR04MB11799.eurprd04.prod.outlook.com
- (2603:10a6:150:2cf::9)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GOQFJqBK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3EDB1F000E9;
+	Tue, 18 Aug 2026 01:24:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787016258;
+	bh=aNLHpkYafhg2PTCALR2xOtxs2aJBDez3cvEe7f0AVZA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=GOQFJqBKpbip1koS0seGYL/6tHEHlP+KQ0eDDsMj3zTf1rLA4KKkwZdLVq2DPEHP1
+	 ScnVdlv4bq45Cw7fAN7rQp4XPjWwFCKhBBV7LlxuGNjQMWgLkFybJEIqAHFH4Ze3tF
+	 Gm/bD6+9dYEN9pyw1nb3P89lHwcGoe3ZigJ8PcDnK3Z+fKstHRWpQoPD8iV9CFk+df
+	 MOzA9AQKGyMaAVTCw1Uwv7dRFsdHX2ulrPuteUmjj5hy2Ida6RvY8kp93x/HMfbg57
+	 3A7FGL36ylkjOqWByGaHV8I/JiSjs2D98PUrCO9pLlfZw3dsXrWBMAPRNegT9+aXAH
+	 Ze6E5bfFXOX0A==
+From: Jakub Kicinski <kuba@kernel.org>
+To: james.hilliard1@gmail.com
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	andrew@lunn.ch,
+	hkallweit1@gmail.com,
+	linux@armlinux.org.uk,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	arnd@arndb.de,
+	jedrzej.jagielski@intel.com,
+	andre.przywara@arm.com,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	maxime.chevallier@bootlin.com,
+	linux-sunxi@lists.linux.dev,
+	netdev@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v8 1/2] dt-bindings: net: x-powers: add AC200/AC300 EPHY packages
+Date: Mon, 17 Aug 2026 18:24:16 -0700
+Message-ID: <20260818012416.3826448-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260813-submit-acx00-of-dynamic-v1-v8-1-d2f1c52e87b4@gmail.com>
+References: <20260813-submit-acx00-of-dynamic-v1-v8-1-d2f1c52e87b4@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|DU4PR04MB12028:EE_
-X-MS-Office365-Filtering-Correlation-Id: d5e111b8-4ff4-4b16-f675-08defc6c5923
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|19092799006|376014|366016|7416014|23010399003|10067099003|4143699003|11063799006|22082099003|18002099003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	w+ZOlhOcJ9KdVNlJVSuJdhLqX0Xsz+RJIeXhUsdMslGULJkamLDFVdqc+FXuT2KUbIPW95RlychkxKsaWoWus2tOyTex2mXQ3VuFZw4MfTr1wK2SFPWX8cGWb/suY44PEMIXMl+g/EXupc79F1MMYdGsfrlD4EHUnLc4ZyJiDanf7NmbKGTqmuWk/ZbExkGISicMzDCaUMMKICRvIsfT7Xzlg9cHxQjjsZBSZKSc4wV/QGnZuFmPxlpcRjfAZBUiQLaaPGSyE8WJpYp4V4fNtuzp37SOpbZaB3iQ6NydLpATzwIK12MEdi57t1CocK/bKPMkXKqoRRw5szy2OWjOGdIcaT7ySk5Y4rEAFV7RMEaV8B/iSjegnkF+Pt1dT/klT/tK8d/yFa8VjHyRky1LWYOw3iu5goUeyz3zrBnNnmV5JCQcGMXV27y200Y4Lwu100fbSfknzwMkUv3aNgtJUjL3y/dJGcwiXDLS1plKn71ToKIA4Nh8rObIZaDBZ3tnYnAtUPFp+4ZbRTfBjK9e8DHw226O/qtnACvaVgU/Bqyn8J2fOXD4HVfEdYz39vkzC8aOL4lqGz04GjlqBTSMTXhWQDsiA/QN9pv1EFSEjYF7mqxmr4CCZ3xqFDa/RVMetWNKzqhOoMh3DnrjTr5FjcXj5VS7w/zps4QfdWwHdok=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(376014)(366016)(7416014)(23010399003)(10067099003)(4143699003)(11063799006)(22082099003)(18002099003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?hl7Ecx4/RMZWhrsd9cmIcZaMlDSYJD3zbKGgdnAwrWFQfb72LVe8J5Xfueof?=
- =?us-ascii?Q?lS0vj4NRqG3tLUg+FxFxOqqd/7s6F/y8dNAFX3ew2mljG+bA1aU+jdJgXoYn?=
- =?us-ascii?Q?GNSR0l2kRIPMqmBAYdXTttWh0mhSLu971HoQi4li3yDWTUIrYJiax/MPviQm?=
- =?us-ascii?Q?SzZVZL5i/8CpWj2Lf8TEkRaTm7I+k/fCJtldw7ntYRZCrFb+ZtgCES9ITRNC?=
- =?us-ascii?Q?2bnnLlCa17p6AWyKbfOAaa/qHXz4+1/4fdJCSB8rllWpUnCrJpY06NapoZzr?=
- =?us-ascii?Q?pqUwBUKqRnPEq1ogtd5C7C2fbGylb7oqvak0E3hYsmNrTI5PhXoE7+G6qezW?=
- =?us-ascii?Q?lUZqoYimW9i2lg7z25pKJ9KzMeYY8lFIoACG2HDbsEdQBaxXmIpSwRa7GAPY?=
- =?us-ascii?Q?sd3/paDGJGrErAPEFmdRaejl9B7LuysH3XnTknFO0sNVhhNLip0uPVR+D005?=
- =?us-ascii?Q?jqxesdHcJBGZ3dkh7WVc9P8MI69k7Oy2g5QU4FLji2+rLhcNxKigz4zDfld7?=
- =?us-ascii?Q?3It9M4gvDYf+2nZxVjGaGICIQKbxuOHapDnuy/dDrW7tH9A6pGSaKj4lMxLe?=
- =?us-ascii?Q?Z+vMG/bdTRFNbiWdLCYHkFmbHi7p8asJ/cxVowBQWoaQTLmAVX7InpO8R7KQ?=
- =?us-ascii?Q?/PgmflS5hI1XNuB7Yk2ZBnEPoFsx5HZut1BeysHfEHCf4Qw2DB79IRYsHthg?=
- =?us-ascii?Q?fwV1QLkF8n/GxTW0+/+Psfl1Kv39cLUW5fviSDMr8aIs4HIq7U3jCfPfznSP?=
- =?us-ascii?Q?rGhTCPx1umlCcFt/ktVf2NdNDiIdEKyvLf0BtshltOWnTBPePQWHG5hKwiZj?=
- =?us-ascii?Q?7Ea0TLqbBixgVUzr0uE/c+r5uNdVPLaFuwZ1NpYphqhj8Uuk2wzI+d4SzIeT?=
- =?us-ascii?Q?bDQK79fhDKzqYt3Hx1VHHuKmAws75aw7egkXjC5uvz2QieQtCnt9dfA1lYtj?=
- =?us-ascii?Q?0Ql89Y36sMoiBA+IoVNKbAGsvLQJe8mLi5wlS+zr1SFXYUPzqOMkNJmTfEDS?=
- =?us-ascii?Q?HsEg6iPEBkDlg+MwCx1Ptoa80Wz6L1rzf08zdg/gAZQsFjuUu0KaJAIWXwXi?=
- =?us-ascii?Q?KQcJQ65aS9601jqR2+qLgJlwPTKFAV0qSOaLFgwkirEZ+I32bLXp5Cy1JkoC?=
- =?us-ascii?Q?Oy5fJXSn6ebgb9Kt/TgRhzi2mxPaunm5ALQgzahU8gi2A6ZnNz6pd4kDzv+a?=
- =?us-ascii?Q?ZzwV5TrX2ZSdekDcSYug73ix2xDdEJBTvkfAcJpaXgccOs++Kxja5KTXJjkw?=
- =?us-ascii?Q?lEtaazDodh6gjq0goAV26MSz0qFajICC6QbVUpQOyG8QjkihHzfPZP8Od5mi?=
- =?us-ascii?Q?yJM+pzPNYt6EbTY5B78hOGTsC341RvOEukZfAE9kVulwmrkgyAaguyTHNSL3?=
- =?us-ascii?Q?4KSJFnfZFR6d/874nVQjlBxXslqDRovII9mgHw6LmFGDOxQnvU9d8niikNeR?=
- =?us-ascii?Q?xM3pF3zhbvQclObdYlrVbBapZZj/3GbW2Y14JIXl0fVYY+pmuJ61J2yGF70h?=
- =?us-ascii?Q?LbG6bpKfE+acSqXAz6a/lGeXuFwWKglkWFirUCE5Q73ormbZA8kepdfBSrt9?=
- =?us-ascii?Q?9g0ftJcsY9qUgSZJ4RzfNlipEbOylynyYHAXX9L9vuwIb4qLDPwCT/2j2C/O?=
- =?us-ascii?Q?Mi5irEwIt9YWm5Z/GfFvr43hT17iDHMMpX0tBhdpxkLf6TrBlaSvnLJJaUvE?=
- =?us-ascii?Q?blyJePE6TpwFjdItfxrP8DlUOwSapr80yjKyUnhDZlvf2+R8nS5VJlMXNGSk?=
- =?us-ascii?Q?nJ7+5LPngsEoiLQHDu1ILV8pSOo6odpYXffD5YqhlvVH19HIlPsX?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5e111b8-4ff4-4b16-f675-08defc6c5923
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2026 14:32:21.8368
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QseKwO5xd2+aZDindNUF7pYr902s3XbSickaU/Nu4c1wrm5OIE4nPJoWCfKsC78wm4Cao3HOXTbZC8VqPj6LcK1i6ZlqzwgUnPTLiqB6sdyjstNKM/NgJjYiONWvrM3U
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB12028
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 17, 2026 at 03:51:23PM +0200, Christian Lugnberg wrote:
-> sun6i_dma_tx_status() calls vchan_find_desc() to look up the virtual
-> descriptor for a given cookie, before checking whether the pointer
-> vd is NULL:
->
->     vd = vchan_find_desc(&vchan->vc, cookie);
->     txd = to_sun6i_desc(&vd->tx);   /* vd may be NULL here */
->
->     if (vd) {
->         for (lli = txd->v_lli; ...)
->
-> vchan_find_desc() returns NULL when the descriptor has already been
-> completed or is in-flight on a physical channel and no longer present
-> in the virtual channel's descriptor list. When vd is NULL,
-> to_sun6i_desc() is called unconditionally on &vd->tx before the NULL
-> check, which is undefined behaviour. Move the call inside the if (vd)
-> guard to ensure it is only reached with a valid pointer.
->
->     vd = vchan_find_desc(&vchan->vc, cookie);
->     if (vd) {
->         struct sun6i_desc *txd = to_sun6i_desc(&vd->tx);
->         for (lli = txd->v_lli; ...)
->
-> Fixes: 555859308723 ("dmaengine: sun6i: Add driver for the Allwinner A31 DMA controller")
-> Cc: stable@vger.kernel.org
-> Assisted-by: Claude:claude-sonnet-4-6
-> Signed-off-by: Christian Lugnberg <christian.lugnberg@soundtrack.io>
-> ---
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+---
+dt-bindings: net: x-powers: add AC200/AC300 EPHY packages
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
+This adds a new binding describing the X-Powers AC200 and AC300 Ethernet
+PHY packages, with separate compatibles for each fixed variant plus an
+ACx00 compatible for boards that can carry either part. It documents the
+package clock, supply, packed NVMEM configuration field and the phandle
+used to reach the AC200 companion IC.
 
->  drivers/dma/sun6i-dma.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-> index 04fe1f5042e9..7704b016aed8 100644
-> --- a/drivers/dma/sun6i-dma.c
-> +++ b/drivers/dma/sun6i-dma.c
-> @@ -981,7 +981,6 @@ static enum dma_status sun6i_dma_tx_status(struct dma_chan *chan,
->  	struct sun6i_pchan *pchan = vchan->phy;
->  	struct sun6i_dma_lli *lli;
->  	struct virt_dma_desc *vd;
-> -	struct sun6i_desc *txd;
->  	enum dma_status ret;
->  	unsigned long flags;
->  	size_t bytes = 0;
-> @@ -993,9 +992,9 @@ static enum dma_status sun6i_dma_tx_status(struct dma_chan *chan,
->  	spin_lock_irqsave(&vchan->vc.lock, flags);
->
->  	vd = vchan_find_desc(&vchan->vc, cookie);
-> -	txd = to_sun6i_desc(&vd->tx);
->
->  	if (vd) {
-> +		struct sun6i_desc *txd = to_sun6i_desc(&vd->tx);
->  		for (lli = txd->v_lli; lli != NULL; lli = lli->v_lli_next)
->  			bytes += lli->len;
->  	} else if (!pchan || !pchan->desc) {
-> --
-> 2.54.0 (Apple Git-156)
->
+> diff --git a/Documentation/devicetree/bindings/net/x-powers,acx00-ephy-package.yaml b/Documentation/devicetree/bindings/net/x-powers,acx00-ephy-package.yaml
+> new file mode 100644
+> index 0000000000000..afe57bd163dd7
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/net/x-powers,acx00-ephy-package.yaml
+> @@ -0,0 +1,154 @@
+
+[ ... ]
+
+> +  x-powers,ac200:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      Phandle to the AC200 companion IC providing I2C access to the package
+> +      control registers used to power and configure the Ethernet PHY.
+
+[Severity: Low]
+Is there a binding for the node this phandle is supposed to point at?
+
+A case-insensitive grep for ac200 under Documentation/devicetree/bindings at
+the end of this series matches only this new file; the x-powers mfd directory
+contains just x-powers,ac100.yaml and x-powers,axp152.yaml. So the
+compatible, bus position (I2C child) and properties of the phandle target
+appear to be undocumented, and any device tree using the ac200 or acx00
+compatibles would carry a node that dtbs_check reports as undocumented.
+
+The same gap seems to exist on the driver side. ac200_ephy_ctl_create() in
+drivers/net/phy/xpowers/ac200.c resolves the phandle and then needs a bound
+I2C client with a regmap and a clock:
+
+  client = of_find_i2c_device_by_node(ac200_node);
+  ...
+  device_lock(&client->dev);
+  if (device_is_bound(&client->dev))
+          priv->regmap = dev_get_regmap(&client->dev, NULL);
+  device_unlock(&client->dev);
+  if (!priv->regmap) {
+          ret = dev_err_probe(dev, -EPROBE_DEFER, "AC200 driver is not ready\n");
+
+A grep for ac200 in drivers/mfd returns nothing at the end of this series,
+so is there any in-tree driver that can bind such an I2C device and provide
+that regmap and clock? If not, this path can only ever return -EPROBE_DEFER,
+and the AC200/ACx00 half of the new ABI, including the packed NVMEM bit
+layout consumed only through that path, cannot be exercised or validated by
+a conforming device tree.
+
+Could the companion IC binding be added (or referenced) alongside this file?
+
+> +
+> +  x-powers,xmii-rx-clock-inverted:
+> +    type: boolean
+> +    description:
+> +      Invert the xMII receive clock inside the PHY. This is required by some
+> +      SoC integrations, including the Allwinner H6 AC200 connection.
+> +
+> +patternProperties:
+> +  ^ethernet-phy@[a-f0-9]+$:
+> +    $ref: ethernet-phy.yaml#
+> +    properties:
+> +      compatible:
+> +        const: ethernet-phy-id0044.1400
+> +    required:
+> +      - compatible
+> +    unevaluatedProperties: false
+
+[Severity: Low]
+This isn't a bug, but should the child node's reg be constrained here too?
+
+The child schema overrides only compatible, so the link PHY's reg keeps
+ethernet-phy.yaml's 0..31 range. The description in this same file says "The
+package and child use the same base address", and the ac300/acx00
+conditionals below limit the package reg to 7, but neither constraint reaches
+the child. A tree like:
+
+  ethernet-phy-package@0 {
+          reg = <0>;
+          ethernet-phy@1f {
+                  reg = <0x1f>;
+          };
+  };
+
+passes dt_binding_check, as does an AC300 child above address 7.
+
+Nothing is misprogrammed at runtime: acx00_ephy_init_package() in
+drivers/net/phy/xpowers/acx00.c rejects the mismatch before joining the
+package,
+
+  ret = of_property_read_u32(package_node, "reg", &base_addr);
+  if (ret || base_addr != phydev->mdio.addr) {
+          ret = dev_err_probe(dev, -EINVAL,
+                              "package and link PHY addresses differ\n");
+
+and ac300_ephy_ctl_create() in drivers/net/phy/xpowers/ac300.c rejects
+addresses above 7 before any control-range access:
+
+  if (phydev->mdio.addr > FIELD_MAX(AC300_PACKAGE_PHY_ADDR_MASK))
+          return ERR_PTR(dev_err_probe(dev, -EINVAL,
+                                       "link address is outside the package range\n"));
+
+So the only effect is that an invalid tree fails PHY probe instead of failing
+schema validation. Bounding the child reg per variant in the added
+patternProperties block would move that detection to dt_binding_check. Note
+the existing package binding qcom,qca807x.yaml adds no child-address
+constraints either, so the omission matches current convention.
+
+> +
+> +required:
+> +  - compatible
+> +  - vcc-supply
+
+[ ... ]
+
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          const: x-powers,acx00-ephy-package
+> +    then:
+> +      properties:
+> +        reg:
+> +          maximum: 7
+> +      required:
+> +        - clocks
+> +        - nvmem-cells
+> +        - nvmem-cell-names
+> +        - x-powers,ac200
+
+[ ... ]
+-- 
+pw-bot: cr
