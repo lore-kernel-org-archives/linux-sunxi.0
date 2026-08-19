@@ -1,86 +1,69 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2664B3B531D;
-	Wed, 19 Aug 2026 10:37:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EAC928506F;
+	Wed, 19 Aug 2026 12:37:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787135839; cv=none; b=ass+Cea/Ag+8ukQ6m0USVU1aOWM71MI/u+9Ahls97Oksdg44o7HM16XlpITG5/4QSFGSSuIWUt36Vn1495U1+oDEKeRY6xgPFPNXkRj8VgryznBKTLjlq7OtccDh+sOdWlRI0Tm1Cb7WkzjvhUGpGPzqmN/ivFtGTI6rpic2NMc=
+	t=1787143073; cv=none; b=qoiexk2IHqF8abF9z0e3EvJ2lgA2IBym9zLCFl+82GqB4EGdWYRTjfH4nudmTrRAm8jKdGHnADUbUtpb/seWfhsBaUNsdrmSGB2Ada3Q1TjJk4hgMAZ7rNUEFg8sMsxSMNQTCAF0lRGsibjEwGY6YTRlnt0RRaEsK9wGuHuIlUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787135839; c=relaxed/simple;
-	bh=pEqF6dxQfEtkXBDai/8c4VpmkMPA6lPVcMG4DrOGa5o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BLzk0GGjaMxb7dHuR1ekNdXWf6Ie2kBuLtUOYnbU2k5WoL85ONxvS6Ytx77DJvmkPZounlZckx+dSt21GHMzS8AMNYRbBQIedQ+F2meoUynqOCW4zxL5mkCX6H6X68rQwFXdSZI6wJhOnEaz8EcO4o76p/dbCIEiJe2puZi4S8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=rEWYxZDQ; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+	s=arc-20240116; t=1787143073; c=relaxed/simple;
+	bh=vZZlE0kBXZJ+tK/kPYiQIhjTuvQ+ZjnPkPMrvyRk8Cw=;
+	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=XxtS7qcyGSY7m2TzFpsBbpZPudakxM0V0ni9+g0dC1pgLPGM/XUhJyl6PbR8CRCQbehZYlypKwdtYI8LTxQFVzYMV5x9h5LwnzrA7UhhqxE0Bq9PdWqEt6KPUMOKKE0fHQ2KNUT/sTUCdiWD9JsDQ6v5HFRA33KXwHeFjz+ZQvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O6INs1Qf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="rEWYxZDQ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
-	bh=ofn2ZZ6XPlR/lPmYUjXtJeQNkxi/butXlRsGauSrOlc=; b=rEWYxZDQRF3HvBIMiv+yoXDvJo
-	cQALU3IXk3TYG8G+ih0Tt76d5TTQOvmtu2WqEuJ8glTMKwAKs9Yn1Q0rGE1efzNrn9S3pPeIKvDx9
-	eygs1DIwW4lqO0geAU4dtPljbEXOvpXk03UPEjBKlqBkvG2SeE1xlTUjwrVKI9vhR4DUtajlaT3gd
-	CYw//BQiWamdbW56G4+EqzgIRnDFvUZHcsItJsgEql0DvDm8rEA06c8rdAnAoC6LM+rsT+IBfTWop
-	6WPIDz+kU3uvly6U8OWDfRqaZkkIwCkyaPj/OpfyMDVh9QWYl53PFI+zFHPeEeM5gFaI8Fos1pXrg
-	W+ZxJJLw==;
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
- Algea Cao <algea.cao@rock-chips.com>, Daniel Stone <daniels@collabora.com>,
- Liu Ying <victor.liu@nxp.com>, Phong LE <ple@baylibre.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org
-Subject:
- Re: [PATCH v10 54/69] drm/rockchip: rk3066_hdmi: Advertise HDMI 1.4
- capabilities
-Date: Wed, 19 Aug 2026 12:36:29 +0200
-Message-ID: <7956767.Wku2Vz74k6@diego>
-In-Reply-To: <20260731-dw-hdmi-qp-scramb-v10-54-294364b2cf15@collabora.com>
-References:
- <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
- <20260731-dw-hdmi-qp-scramb-v10-54-294364b2cf15@collabora.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O6INs1Qf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EEB81F000E9;
+	Wed, 19 Aug 2026 12:37:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787143071;
+	bh=Y0tJoZ7ZFXTl/tMoaD1TEZl2H8Uq6kgMx3rbwieyM5U=;
+	h=Date:From:To:Subject:In-Reply-To:References:Cc;
+	b=O6INs1QfspOL+mcZFjses1Bw6NTnyn30eBjytQOVUnC3lv8KvPFc1f5RgXJX5fhd6
+	 U5dTPQUIBGTJshfMXxDQbhx7sdJ0mV3ou6FFBjinfJzZ6gorg3XP9211PcPoXp8xik
+	 reYg8mlQEm8tq44N5if+hlCEEDPmICIeKuyk8wNPQFJ/ibf4oAdbxke1zVFhJTn00q
+	 bC6A9odn2W9OSbmdN0j3Yp2kGQTjp+9LNyCLqby2AQc6X2KYEIH7OJ3+adOQzlljUG
+	 wF2Pi65c8BLpqb7Ty+ibH4vBL6w7pH9QEN65JWzFm/n5dAJPufr/8hjR30X3Pm/y7d
+	 oQhTczfskp9bA==
+Message-ID: <f2765a490c501ccc6e410b94b5497ec8@kernel.org>
+Date: Wed, 19 Aug 2026 12:37:49 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
+Subject: Re: [PATCH v10 10/69] drm/display: hdmi: Add HDMI 2.0 scrambling
+ management helpers
+In-Reply-To: <20260731-dw-hdmi-qp-scramb-v10-10-294364b2cf15@collabora.com>
+References: <20260731-dw-hdmi-qp-scramb-v10-10-294364b2cf15@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, "Algea
+ Cao" <algea.cao@rock-chips.com>, "Andrzej Hajda" <andrzej.hajda@intel.com>, "Andy
+ Yan" <andy.yan@rock-chips.com>, "Chen-Yu Tsai" <wens@kernel.org>, "Daniel
+ Stone" <daniels@collabora.com>, "Dave Stevenson" <dave.stevenson@raspberrypi.com>, "David
+ Airlie" <airlied@gmail.com>, "Diederik de Haas" <diederik@cknow-tech.com>,
+ =?utf-8?b?SGVpa28gU3TDvGJuZXI=?= <heiko@sntech.de>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Jonas
+ Karlman" <jonas@kwiboo.se>, "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Liu
+ Ying" <victor.liu@nxp.com>, "Luca Ceresoli" <luca.ceresoli@bootlin.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maud Spierings" <maud_spierings@hotmail.com>, "Maxime
+ Ripard" <mripard@kernel.org>, =?utf-8?b?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>, "Phong LE" <ple@baylibre.com>, "Raspberry
+ Pi Kernel Maintenance" <kernel-list@raspberrypi.com>, "Robert Foss" <rfoss@kernel.org>, "Samuel
+ Holland" <samuel@sholland.org>, "Sandy Huang" <hjc@rock-chips.com>, "Simona
+ Vetter" <simona@ffwll.ch>, "Thomas Zimmermann" <tzimmermann@suse.de>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-Am Freitag, 31. Juli 2026, 18:20:01 Mitteleurop=C3=A4ische Sommerzeit schri=
-eb Cristian Ciocaltea:
-> Bridges using DRM_BRIDGE_OP_HDMI are now expected to also provide a
-> supported HDMI version.  This is not yet enforced, but will become
-> mandatory once the migration to the new caps-based HDMI connector
-> initialization API is completed.
->=20
-> The RK3066 HDMI TX supports HDMI 1.4a, as described in commit
-> f84d3d37b7fb ("drm: rockchip: introduce rk3066 hdmi").  However, the
-> driver does not currently enforce a maximum TMDS character rate, it only
-> filters non-CEA modes and excludes VIC 1 (640x480) via the .mode_valid
-> callback.
->=20
-> Advertise HDMI 1.4 support for now so that modes exceeding the 340 MHz
-> TMDS limit are rejected by the core.
->=20
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+On Fri, 31 Jul 2026 19:19:17 +0300, Cristian Ciocaltea wrote:
+> Add helpers to manage the full lifecycle of HDMI 2.0 SCDC scrambling on
+> both source and sink sides:
+> 
+> - drm_hdmi_mode_needs_scrambling(): checks whether a mode, bits per
+>   component and output format combination requires scrambling, which is
+> 
+> [ ... ]
 
-Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
-
+Thanks!
+Maxime
