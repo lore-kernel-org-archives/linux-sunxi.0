@@ -1,277 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E7E342F704;
-	Wed, 19 Aug 2026 10:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2664B3B531D;
+	Wed, 19 Aug 2026 10:37:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787134335; cv=none; b=sZ4H7jeYUxGCgQXPZtyp5Ua/fK57l69TXiPeFxNJML7FR9n5UowhTq06XpvjcfyvKU/tt27H3g6Y+cSnKgivOyQm9mwWAHGsyrrr46znqtAPuSwAfGDQR9Tjy1mewjkr2UCM0QjVWE0BU3SOSkrDFylNbwjosezXQky5mgRvRv4=
+	t=1787135839; cv=none; b=ass+Cea/Ag+8ukQ6m0USVU1aOWM71MI/u+9Ahls97Oksdg44o7HM16XlpITG5/4QSFGSSuIWUt36Vn1495U1+oDEKeRY6xgPFPNXkRj8VgryznBKTLjlq7OtccDh+sOdWlRI0Tm1Cb7WkzjvhUGpGPzqmN/ivFtGTI6rpic2NMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787134335; c=relaxed/simple;
-	bh=Mel8Puv28kzYPSNIZ+Bow2BgEKiExyeNuq9OkZKyK6k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mbKj1LV5GaMYlv1vmhYEVIUqj1Wrech4Mbz1lv1foCjLZT7bJKvlfuHeay42EbIG77B19BfHixWQkMgqPwVJkmtfQxm9IOe+W6x/4r9I54lAFPRsfwASlYEpSwMJFF85oAYInk9m3bIWzXZu/sojygfQTlIs3Iw2ccliI0Pv3wU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GvfDx4DA; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787135839; c=relaxed/simple;
+	bh=pEqF6dxQfEtkXBDai/8c4VpmkMPA6lPVcMG4DrOGa5o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BLzk0GGjaMxb7dHuR1ekNdXWf6Ie2kBuLtUOYnbU2k5WoL85ONxvS6Ytx77DJvmkPZounlZckx+dSt21GHMzS8AMNYRbBQIedQ+F2meoUynqOCW4zxL5mkCX6H6X68rQwFXdSZI6wJhOnEaz8EcO4o76p/dbCIEiJe2puZi4S8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=rEWYxZDQ; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GvfDx4DA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DA4D1F000E9;
-	Wed, 19 Aug 2026 10:12:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787134334;
-	bh=HArTLlziJfHqgApqqIgI5nBKk8GeLPGlxXt8OWMKOd4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GvfDx4DAOQvd8bogz0kkJJo+qJAySQ5aqGcDIWWVzmVVDYx4OE/6O/ddKEXfRmJuw
-	 Gi2oiReElte5k5GXhUAvolXTbtWq+h4oaut4rG7A/1KsJ8SXENDs4FSYHUTO/3o5Lo
-	 GaJ81HoOtB5ophCkR9ekNWB3tzzkw4JhKucc/MwAIQdAru8/4yfsikBTuHVN63EtvA
-	 hOAqXeXFPbegjPXKKlNLV82sANwNtwPSi1ZB6ePm50rk0kAOc2R1lfez06zjop6RbP
-	 r4I2fRySGviG4IrjT30tbab/NQ0fC8wRYLsHNjNzRBDMJmRFMIzxFCnMkqfmnEab6d
-	 oEYefk7u99tcw==
-Date: Wed, 19 Aug 2026 12:12:11 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Andy Yan <andy.yan@rock-chips.com>, Algea Cao <algea.cao@rock-chips.com>, 
-	Daniel Stone <daniels@collabora.com>, Liu Ying <victor.liu@nxp.com>, Phong LE <ple@baylibre.com>, 
-	kernel@collabora.com, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, 
-	Maud Spierings <maud_spierings@hotmail.com>, Diederik de Haas <diederik@cknow-tech.com>
-Subject: Re: [PATCH v10 07/69] drm/connector: Add HDMI 2.0 scrambler
- infrastructure
-Message-ID: <20260819-amigurumi-lorikeet-of-infinity-fd8c2d@houat>
-References: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
- <20260731-dw-hdmi-qp-scramb-v10-7-294364b2cf15@collabora.com>
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="rEWYxZDQ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=ofn2ZZ6XPlR/lPmYUjXtJeQNkxi/butXlRsGauSrOlc=; b=rEWYxZDQRF3HvBIMiv+yoXDvJo
+	cQALU3IXk3TYG8G+ih0Tt76d5TTQOvmtu2WqEuJ8glTMKwAKs9Yn1Q0rGE1efzNrn9S3pPeIKvDx9
+	eygs1DIwW4lqO0geAU4dtPljbEXOvpXk03UPEjBKlqBkvG2SeE1xlTUjwrVKI9vhR4DUtajlaT3gd
+	CYw//BQiWamdbW56G4+EqzgIRnDFvUZHcsItJsgEql0DvDm8rEA06c8rdAnAoC6LM+rsT+IBfTWop
+	6WPIDz+kU3uvly6U8OWDfRqaZkkIwCkyaPj/OpfyMDVh9QWYl53PFI+zFHPeEeM5gFaI8Fos1pXrg
+	W+ZxJJLw==;
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
+ Algea Cao <algea.cao@rock-chips.com>, Daniel Stone <daniels@collabora.com>,
+ Liu Ying <victor.liu@nxp.com>, Phong LE <ple@baylibre.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org
+Subject:
+ Re: [PATCH v10 54/69] drm/rockchip: rk3066_hdmi: Advertise HDMI 1.4
+ capabilities
+Date: Wed, 19 Aug 2026 12:36:29 +0200
+Message-ID: <7956767.Wku2Vz74k6@diego>
+In-Reply-To: <20260731-dw-hdmi-qp-scramb-v10-54-294364b2cf15@collabora.com>
+References:
+ <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
+ <20260731-dw-hdmi-qp-scramb-v10-54-294364b2cf15@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="syuvxrauwe4ibjcq"
-Content-Disposition: inline
-In-Reply-To: <20260731-dw-hdmi-qp-scramb-v10-7-294364b2cf15@collabora.com>
-
-
---syuvxrauwe4ibjcq
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v10 07/69] drm/connector: Add HDMI 2.0 scrambler
- infrastructure
-MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 
-On Fri, Jul 31, 2026 at 07:19:14PM +0300, Cristian Ciocaltea wrote:
-> Add the connector-level infrastructure to support HDMI 2.0 scrambling:
+Am Freitag, 31. Juli 2026, 18:20:01 Mitteleurop=C3=A4ische Sommerzeit schri=
+eb Cristian Ciocaltea:
+> Bridges using DRM_BRIDGE_OP_HDMI are now expected to also provide a
+> supported HDMI version.  This is not yet enforced, but will become
+> mandatory once the migration to the new caps-based HDMI connector
+> initialization API is completed.
 >=20
-> - A drm_connector_hdmi_scrambler_supported() helper to report whether
->   the source supports the scrambling capability, based on the presence
->   of the newly introduced .scrambler_{enable|disable}() callbacks in
->   drm_connector_hdmi_funcs are mandatory
-> - A scrambler_needed flag to be managed by the hdmi state helpers based
->   on the negotiated TMDS character rate and the source/sink scrambling
->   capabilities
-> - A scrambler_enabled flag to track whether scrambling is currently
->   active
-> - A delayed work item (scdc_work) to monitor sink-side scrambling status
->   and retry the setup if the sink resets it
-> - A scdc_work_initialized flag to support lazy initialization of the
->   work item on the first scrambling enable and guard the teardown paths
+> The RK3066 HDMI TX supports HDMI 1.4a, as described in commit
+> f84d3d37b7fb ("drm: rockchip: introduce rk3066 hdmi").  However, the
+> driver does not currently enforce a maximum TMDS character rate, it only
+> filters non-CEA modes and excludes VIC 1 (640x480) via the .mode_valid
+> callback.
 >=20
-> These are intended to be used by SCDC scrambling helpers to coordinate
-> scrambling setup and teardown between the source driver and the DRM
-> core.
+> Advertise HDMI 1.4 support for now so that modes exceeding the 340 MHz
+> TMDS limit are rejected by the core.
 >=20
-> Tested-by: Maud Spierings <maud_spierings@hotmail.com>
-> Tested-by: Diederik de Haas <diederik@cknow-tech.com>  # NanoPC-T6 LTS, R=
-ock 5B
 > Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> ---
->  drivers/gpu/drm/drm_connector.c | 31 ++++++++++++---
->  include/drm/drm_connector.h     | 83 +++++++++++++++++++++++++++++++++++=
-++++++
->  2 files changed, 109 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
-tor.c
-> index 4721cdeafc84..a18410faf040 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -622,12 +622,29 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
->  	 * default with the actual controller capability. A value of zero keeps
->  	 * the limit inferred from supported_hdmi_ver.
->  	 */
-> -	if (hdmi_funcs->supported_hdmi_ver >=3D HDMI_VERSION_2_0)
-> +	if (hdmi_funcs->supported_hdmi_ver >=3D HDMI_VERSION_2_0) {
-> +		if (!hdmi_funcs->scrambler_enable || !hdmi_funcs->scrambler_disable) {
-> +			drm_err(dev, "Scrambler callbacks missing for HDMI 2.x\n");
-> +			return -EINVAL;
-> +		}
-> +
->  		connector->hdmi.max_tmds_char_rate =3D HDMI_2_0_TMDS_CHAR_RATE_MAX_HZ;
-> -	else if (hdmi_funcs->supported_hdmi_ver >=3D HDMI_VERSION_1_3)
-> -		connector->hdmi.max_tmds_char_rate =3D HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ;
-> -	else if (hdmi_funcs->supported_hdmi_ver >=3D HDMI_VERSION_1_0)
-> -		connector->hdmi.max_tmds_char_rate =3D HDMI_1_0_TMDS_CHAR_RATE_MAX_HZ;
-> +	} else {
-> +		/*
-> +		 * Scrambler callbacks are only valid for connectors advertising
-> +		 * HDMI 2.0 capability. drm_connector_hdmi_scrambler_supported()
-> +		 * relies on their presence to report scrambling support.
-> +		 */
-> +		if (hdmi_funcs->scrambler_enable || hdmi_funcs->scrambler_disable) {
-> +			drm_err(dev, "Scrambler callbacks unexpected for HDMI 1.x\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (hdmi_funcs->supported_hdmi_ver >=3D HDMI_VERSION_1_3)
-> +			connector->hdmi.max_tmds_char_rate =3D HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ;
-> +		else if (hdmi_funcs->supported_hdmi_ver >=3D HDMI_VERSION_1_0)
-> +			connector->hdmi.max_tmds_char_rate =3D HDMI_1_0_TMDS_CHAR_RATE_MAX_HZ;
-> +	}
 
-I'd put it into a separate test (possibly earlier). Merging both the
-tmds rate default and the scrambler callbacks check makes it messier
-than it would be if we had two separate tests.
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 
->  	if (hdmi_funcs->supported_tmds_char_rate) {
->  		if (hdmi_funcs->supported_tmds_char_rate > connector->hdmi.max_tmds_ch=
-ar_rate) {
-> @@ -635,6 +652,7 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
->  				connector->hdmi.max_tmds_char_rate);
->  			return -EINVAL;
->  		}
-> +
->  		connector->hdmi.max_tmds_char_rate =3D hdmi_funcs->supported_tmds_char=
-_rate;
->  	}
-> =20
-> @@ -918,6 +936,9 @@ void drm_connector_cleanup(struct drm_connector *conn=
-ector)
->  		    DRM_CONNECTOR_REGISTERED))
->  		drm_connector_unregister(connector);
-> =20
-> +	if (connector->hdmi.scdc_work_initialized)
-> +		cancel_delayed_work_sync(&connector->hdmi.scdc_work);
-> +
->  	platform_device_unregister(connector->hdmi_audio.codec_pdev);
-> =20
->  	if (connector->privacy_screen) {
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index a6de3e63b462..89a140d6f064 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -28,6 +28,7 @@
->  #include <linux/ctype.h>
->  #include <linux/hdmi.h>
->  #include <linux/notifier.h>
-> +#include <linux/workqueue.h>
->  #include <drm/drm_mode_object.h>
->  #include <drm/drm_util.h>
->  #include <drm/drm_property.h>
-> @@ -1131,6 +1132,17 @@ struct drm_connector_hdmi_state {
->  	 * @tmds_char_rate: TMDS Character Rate, in Hz.
->  	 */
->  	unsigned long long tmds_char_rate;
-> +
-> +	/**
-> +	 * @scrambler_needed: Whether HDMI 2.0 SCDC scrambling is required
-> +	 * for the negotiated mode/bpc/format.
-> +	 *
-> +	 * Computed by drm_atomic_helper_connector_hdmi_check() according to
-> +	 * the HDMI 2.0 specification: scrambling is mandatory above a 340 MHz
-> +	 * TMDS character rate. Optional scrambling at lower rates is
-> +	 * deliberately not requested by the helper.
-> +	 */
-> +	bool scrambler_needed;
->  };
-> =20
->  /**
-> @@ -1481,6 +1493,36 @@ struct drm_connector_hdmi_funcs {
->  	 */
->  	const struct drm_edid *(*read_edid)(struct drm_connector *connector);
-> =20
-> +	/**
-> +	 * @scrambler_enable:
-> +	 *
-> +	 * The callback is invoked via @drm_connector_hdmi_enable_scrambling
-> +	 * during commit to setup SCDC scrambling and high TMDS clock ratio on
-> +	 * the source side.
-> +	 *
-> +	 * The @scrambler_enable callback is mandatory if HDMI 2.0 is to be
-> +	 * supported.
-> +	 *
-> +	 * Returns:
-> +	 * 0 on success, a negative error code otherwise
-> +	 */
-> +	int (*scrambler_enable)(struct drm_connector *connector);
-> +
-> +	/**
-> +	 * @scrambler_disable:
-> +	 *
-> +	 * The callback is invoked via @drm_connector_hdmi_disable_scrambling
-> +	 * during commit to tear down SCDC scrambling and high TMDS clock ratio
-> +	 * on the source side.
-> +	 *
-> +	 * The @scrambler_disable callback is mandatory if HDMI 2.0 is to be
-> +	 * supported.
-> +	 *
-> +	 * Returns:
-> +	 * 0 on success, a negative error code otherwise
-> +	 */
-> +	int (*scrambler_disable)(struct drm_connector *connector);
-> +
->  	/**
->  	 * @avi:
->  	 *
-> @@ -2111,6 +2153,25 @@ struct drm_connector_hdmi {
->  	 */
->  	unsigned long long max_tmds_char_rate;
-> =20
-> +	/**
-> +	 * @scrambler_enabled: Tracks whether HDMI 2.0 scrambler is currently e=
-nabled.
-> +	 */
-> +	bool scrambler_enabled;
-> +
-> +	/**
-> +	 * @scdc_work: Work item currently used to monitor sink-side scrambling
-> +	 * status and retry setup if the sink resets it.
-> +	 */
-> +	struct delayed_work scdc_work;
-> +
-> +	/**
-> +	 * @scdc_work_initialized: Tracks whether @scdc_work has been set up via
-> +	 * INIT_DELAYED_WORK(). The work item is initialized lazily on the first
-> +	 * scrambling enable, so this guards the teardown paths against touching
-> +	 * an uninitialized work item.
-> +	 */
-> +	bool scdc_work_initialized;
-> +
 
-Why should we track whether it's initialized or not? I'd always
-initialize it, but only ever schedule something if we're using the
-scrambler.
-
-Maxime
-
---syuvxrauwe4ibjcq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaoWBbwAKCRAnX84Zoj2+
-dlhmAX97RqIPyEXaFYpYG3l7TZ7Us8mqlWL1MjtrGnTqAM40X0uT+VOsdVcLawCQ
-NS8yiHwBegO4ZITksuu0ciIrn6hDl8gqAvu/jj1nD+9BLfD0FYKvYonhxbmknMuw
-4ggX/lyOBw==
-=E2Mz
------END PGP SIGNATURE-----
-
---syuvxrauwe4ibjcq--
